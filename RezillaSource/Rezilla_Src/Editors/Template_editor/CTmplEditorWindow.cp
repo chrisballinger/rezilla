@@ -19,6 +19,8 @@
 #include "CTmplListButton.h"
 #include "CTmplBevelButton.h"
 #include "CTemplatesController.h"
+#include "CRezMapTable.h"
+#include "CRezMap.h"
 #include "CRezObj.h"
 #include "CRezillaApp.h"
 #include "CRezillaPrefs.h"
@@ -494,7 +496,17 @@ OSErr
 CTmplEditorWindow::CreateTemplateStream()
 {
 	OSErr		error = noErr;
-	Handle theHandle = CTemplatesController::GetTemplateHandle( mOwnerDoc->GetSubstType() );
+	Handle		theHandle;
+	ResType		theType = mOwnerDoc->GetSubstType();
+
+	if ( CTemplatesController::GetTemplateKind() == tmpl_local) {
+		Str255	theName;
+		UMiscUtils::OSTypeToPString(theType, theName);	
+		mOwnerDoc->GetRezMapTable()->GetRezMap()->GetWithName('TMPL', theName, theHandle, true);
+	} else {
+		theHandle = CTemplatesController::GetTemplateHandle(theType);
+	}
+	
 	if (theHandle == NULL) {
 		UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("CouldNotGetTemplateData"), rPPob_SimpleMessage);
 // 		UMessageDialogs::AlertWithType(CFSTR("CouldNotGetTemplateDataForType"), mOwnerDoc->GetSubstType());

@@ -497,7 +497,7 @@ CRezMapDoc::TryEdit(CRezObjItem * inRezObjItem, CommandT inCommand, int & outCou
 		} // else fall through to template editing...
 						
 		case cmd_TmplEditRez:
-		if ( CTemplatesController::HasTemplateForType(theType, &substType, this) ) {
+		if ( CTemplatesController::HasTemplateForType(theType, &substType, mRezMap) ) {
 			new CTmplEditorDoc(this, mRezMapWindow->GetRezMapTable(), inRezObjItem->GetRezObj(), substType, mReadOnly);
 			break;
 		} else {
