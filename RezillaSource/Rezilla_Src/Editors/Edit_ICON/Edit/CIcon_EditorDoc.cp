@@ -161,16 +161,7 @@ CIcon_EditorDoc::Initialize()
 	
 	// Add the window to the window menu.
 	gWindowMenu->InsertWindow( mIconEditWindow );
-		
-// 	// Install the contents
-// 	if (mRezObj != nil) {
-// 		Handle rezData = mRezObj->GetData();
-// 		
-// 		if (rezData != nil) {
-// 			mIconEditWindow->InstallBitmap(rezData);			
-// 		} 
-// 	} 
-		
+			
 	// Make the window visible.
 	mIconEditWindow->Show();
 }
