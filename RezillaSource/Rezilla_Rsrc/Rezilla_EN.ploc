@@ -53,7 +53,7 @@ localize "English" as "Localizable.strings"
 	key "ThisResourceEditedInOtherMode" value string "This resource is already edited in another editing mode. Close the corresponding editing window first and try again."
 	key "TypeFieldIsEmpty" value string "Type can't be empty: it is a four-chars code."
 	key "UnknownTemplateTag" value string "Unknown template tag '%s'."
-	key "WritePermissionError" value string "File '%s': write permission error. Try to open it read-only."
+	key "WritePermissionError" value string "Couldn't open file with write permission. Do you want to try in read-only access?"
 	key "WrongIdForSelectedTemplate" value string "Given the selected template, the ID for this resource should be '%d'. Please fix it otherwise the template editor will fail to open the resource."
 }
 
