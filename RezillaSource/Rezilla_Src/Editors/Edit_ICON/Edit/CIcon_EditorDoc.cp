@@ -2,7 +2,7 @@
 // CIcon_EditorDoc.cp
 // 
 //                       Created: 2004-12-11 23:33:03
-//             Last modification: 2004-12-27 22:01:45
+//             Last modification: 2004-12-28 16:15:05
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -27,7 +27,7 @@ PP_Begin_Namespace_PowerPlant
 #include "CWindow_Picture.h"
 #include "CWindow_Pattern.h"
 #include "CWindow_Cursor.h"
-#include "CWindow_Family.h"
+#include "CWindow_IconFamily.h"
 #include "CWindow_ColorIcon.h"
 #include "CRezMap.h"
 #include "CRezMapTable.h"
@@ -38,9 +38,6 @@ PP_Begin_Namespace_PowerPlant
 #include "UCodeTranslator.h"
 #include "UDialogBoxHandler.h"
 #include "UMessageDialogs.h"
-// #include "UIconMisc.h"
-// #include "CRezFile.h"
-// #include "CRezillaApp.h"
 
 #include <LWindow.h>
 #include <LFile.h>
@@ -52,9 +49,6 @@ PP_Begin_Namespace_PowerPlant
 
 #include <LString.h>
 #include <PP_Messages.h>
-
-// // Standard headers
-// #include <string.h>
 
 
 extern CWindowMenu * gWindowMenu;
@@ -102,7 +96,7 @@ CIcon_EditorDoc::Initialize()
 	switch (mSubstType) {
 		// 'ICON'
 		case ImgType_LargeIcon:
-			theWindow = CWindow_Family::OpenPaintWindow( PPob_ICONEditor, 
+			theWindow = CWindow_IconFamily::OpenPaintWindow( PPob_ICONEditor, 
 									  mRezMapTable->GetRezMap(), mRezObj->GetID() );
 			break;
 
@@ -116,7 +110,7 @@ CIcon_EditorDoc::Initialize()
 		case ImgType_MiniIconWithMask:
 		case ImgType_Mini4BitIcon:
 		case ImgType_Mini8BitIcon:
-			theWindow = CWindow_Family::OpenPaintWindow( PPob_IconSuiteEditor,
+			theWindow = CWindow_IconFamily::OpenPaintWindow( PPob_IconSuiteEditor,
 										mRezMapTable->GetRezMap(), mRezObj->GetID() );
 			break;
 			
@@ -161,7 +155,6 @@ CIcon_EditorDoc::Initialize()
 			break;
 	}
 	
-// 	mIconEditWindow = dynamic_cast<CIcon_EditorWindow *>(LWindow::CreateWindow( PPob_IconEditorWindow, this ));
 	mIconEditWindow = dynamic_cast<CIcon_EditorWindow *>( theWindow );
 	Assert_( mIconEditWindow != nil );
 	
@@ -175,29 +168,18 @@ CIcon_EditorDoc::Initialize()
 	// Add the window to the window menu.
 	gWindowMenu->InsertWindow( mIconEditWindow );
 		
-	// Install the contents according to the TMPL
-	if (mRezObj != nil) {
-		Handle rezData = mRezObj->GetData();
-		
-		if (rezData != nil) {
-			mIconEditWindow->InstallBitmap(rezData);			
-		} 
-	} 
+// 	// Install the contents according to the TMPL
+// 	if (mRezObj != nil) {
+// 		Handle rezData = mRezObj->GetData();
+// 		
+// 		if (rezData != nil) {
+// 			mIconEditWindow->InstallBitmap(rezData);			
+// 		} 
+// 	} 
 		
 	// Make the window visible.
 	mIconEditWindow->Show();
 }
-
-
-// // ---------------------------------------------------------------------------
-// //	¥ CreateIconWindow													  [public]
-// // ---------------------------------------------------------------------------
-// 
-// CIcon_EditorWindow *
-// CIcon_EditorDoc::CreateIconWindow()
-// {
-// 	
-// }
 
 
 // ---------------------------------------------------------------------------

@@ -23,7 +23,6 @@
 #include "CRezObj.h"
 #include "CIconActions.h"
 #include "CRezillaPrefs.h"
-#include "UPaneResizer.h"
 #include "UColorUtils.h"
 #include "UIconMisc.h"
 #include "UResourceMgr.h"
@@ -570,7 +569,6 @@ CIcon_EditorView::GetInsideDrawingRect( Rect *outRect )
 }
 
 
-
 // ---------------------------------------------------------------------------
 // 	ItemIsAcceptable
 // ---------------------------------------------------------------------------
@@ -688,16 +686,18 @@ CIcon_EditorView::Reinitialize( COffscreen *	inOffscreen,
 		SInt16	dv = neededHeight - currentHeight;
 		if ( (dh != 0) || (dv != 0) )
 		{
-			this->ResizeFrameBy( dh, dv, inRedraw == redraw_Later );
+			LView * super = GetSuperView();
+			if ( super ) {
+				super->ResizeFrameBy( dh, dv, inRedraw == redraw_Later );
+			}
+// 			this->ResizeFrameBy( dh, dv, inRedraw == redraw_Later );
 
-			if ( inResize & resize_MoveSampleBox )
+			if ( inResize & resize_MoveSamples )
 				this->MoveSamplePanes( dh, dv, inRedraw == redraw_Later );
 
 			if ( inResize & resize_Window )
 			{
-				LWindow *theWindow = dynamic_cast< LWindow * >( UIconMisc::GetTopView( this ) );
-				if ( theWindow )
-					UPaneResizer::ResizeWindowIfNeeded( theWindow, kPaintMarginHeight, kPaintMarginWidth );
+				mOwnerWindow->ResizeWindowIfNeeded();
 			}
 			
 			CalcLocalFrameRect( localFrame );			// this may have been changed
@@ -730,22 +730,22 @@ CIcon_EditorView::Reinitialize( COffscreen *	inOffscreen,
 }
 
 
-// ---------------------------------------------------------------------------
-// 	ResizeFrameBy
-// ---------------------------------------------------------------------------
-
-void 
-CIcon_EditorView::ResizeFrameBy( SInt16 dh, SInt16 dv, Boolean inRedraw )
-{
-	// Call our parent class to resize the frame
-	LView::ResizeFrameBy( dh, dv, inRedraw );
-
-// 	// Resize the GBox surrounding us
-// 	LPane *theBox = UIconMisc::FindSiblingPaneByID( this, item_BoxAroundCanvas );
-// 	if ( theBox )
-// 		theBox->ResizeFrameBy( dh, dv, inRedraw );
-}
-
+// // ---------------------------------------------------------------------------
+// // 	ResizeFrameBy
+// // ---------------------------------------------------------------------------
+// 
+// void 
+// CIcon_EditorView::ResizeFrameBy( SInt16 dh, SInt16 dv, Boolean inRedraw )
+// {
+// 	// Call our parent class to resize the frame
+// 	LView::ResizeFrameBy( dh, dv, inRedraw );
+// 	
+// // 	// Resize the Box surrounding us
+// // 	LPane *theBox = UIconMisc::FindSiblingPaneByID( this, item_BoxAroundCanvas );
+// // 	if ( theBox )
+// // 		theBox->ResizeFrameBy( dh, dv, inRedraw );
+// }
+// 
 
 // ---------------------------------------------------------------------------
 // 	MoveSamplePanes
@@ -757,14 +757,6 @@ CIcon_EditorView::MoveSamplePanes( SInt16 dh, SInt16 /*dv*/, Boolean inRedraw )
 	LPane *samplePane = UIconMisc::FindSiblingPaneByID( this, item_IconSampleWell );
 	if ( samplePane )
 		samplePane->MoveBy( dh, 0, inRedraw );
-
-// 	#ifdef NOW_DONE_ABOVE
-// 	// Our window is probably too small now, so resize it
-// 	LWindow *ourWindow = dynamic_cast< LWindow * >( UIconMisc::GetTopView( this ) );
-// 	if ( ourWindow )
-// 		UPaneResizer::ResizeWindowIfNeeded( ourWindow, kPaintMarginHeight, kPaintMarginWidth );
-	
-	
 }
 
 
