@@ -225,13 +225,6 @@ CEditorDoc::CanSaveChanges()
 		answer = UMessageDialogs::AskYesNoFromLocalizable(CFSTR("AskRemoveProtectedBit"), rPPob_AskYesNoMessage);
 		if (answer == answer_Do) {
 			mRezObj->ToggleOneAttribute(resProtected);
-			// Update the Inspector if it contains info about this RezObj
-			if (CRezillaApp::sInspectorWindow != nil &&
-				CRezillaApp::sInspectorWindow->GetRezObjItem() != nil &&
-				CRezillaApp::sInspectorWindow->GetRezObjItem()->GetRezObj() == mRezObj
-			) {
-				CRezillaApp::sInspectorWindow->SetValueForAttribute(resProtected, false);
-			} 
 		} else if (answer == answer_Cancel) {
 			canSave = false;
 		} 
@@ -350,10 +343,10 @@ CEditorDoc::DoSaveChanges()
 	if (theHandle != NULL) {
 		// Copy to resource's data handle
 		mRezObj->SetData(theHandle);
-
+		
 		// Mark the resource as modified in the rez map
 		mRezObj->Changed();
-
+		
 		// Tell the rezmap doc that there has been a modification
 		mRezMapTable->GetOwnerDoc()->SetModified(true);
 		
@@ -364,6 +357,13 @@ CEditorDoc::DoSaveChanges()
 		// Refresh the view
 		mRezObj->SetSize( ::GetHandleSize(theHandle) );
 		mRezMapTable->Refresh();
+		
+		// Update the inspector if its info concerns the RezObj
+		if (CRezillaApp::sInspectorWindow != nil
+			&& CRezillaApp::sInspectorWindow->GetRezObjItem() != nil 
+			&& CRezillaApp::sInspectorWindow->GetRezObjItem()->GetRezObj() == mRezObj) {
+			CRezillaApp::sInspectorWindow->InstallValues(mRezObj);
+		} 		
 	} 
 }
 
