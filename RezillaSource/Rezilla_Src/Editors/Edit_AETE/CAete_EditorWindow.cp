@@ -2,7 +2,7 @@
 // CAete_EditorWindow.cp
 // 
 //                       Created: 2004-07-01 08:42:37
-//             Last modification: 2005-01-30 09:03:42
+//             Last modification: 2005-01-31 08:58:20
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -559,149 +559,113 @@ CAete_EditorWindow::ObeyCommand(
 		InstallPanelValues();
 		RebuildSuitePopup();
 	} else {
-		CAeteSuite *	theSuite = static_cast<CAeteSuite *>( FindCurrentObject( kind_AeteSuite ) );
-		LSlider *		theSlider;
-		ArrayIndexT		index;
-		
-		if (!theSuite) { return cmdHandled; }
+		SInt32			count;
 		
 		switch (inCommand) {
 			
 			case cmd_AeteAddItem:
-			switch (mCurrentPanel) {
-				case mpv_AeteEvent:
-				theSuite->AddEvent();
-				index = theSuite->CountEvents();
+			case cmd_AeteRemoveItem: {
+				CAeteSuite *	theSuite = static_cast<CAeteSuite *>( FindCurrentObject( kind_AeteSuite ) );
+				if (!theSuite) { return cmdHandled; }
+				if (inCommand == cmd_AeteAddItem) {
+					count = theSuite->NewItem(mCurrentPanel);	
+					UpdateSlider(item_AeteItemSlider, count, count);
+				} else {
+					count = theSuite->DeleteItem(mCurrentPanel);	
+					InstallPanelValues();
+					UpdateSlider(item_AeteItemSlider, (count > 0), count);
+				}
 				break;
-				
-				case mpv_AeteClass:
-				theSuite->AddClass();
-				index = theSuite->CountClasses();
-				break;
-				
-				case mpv_AeteCompOp:
-				theSuite->AddCompOp();
-				index = theSuite->CountCompOps();
-				break;
-				
-				case mpv_AeteEnum:
-				theSuite->AddEnumeration();
-				index = theSuite->CountEnumerations();
-				break;
-			}	
-			UpdateSlider(item_AeteItemSlider, index, index);
-			break;
-
+			}
 			
-			case cmd_AeteRemoveItem:
-			switch (mCurrentPanel) {
-				case mpv_AeteEvent:
-				index = theSuite->GetEventIndex();
-				theSuite->RemoveEvent(index);
-				theSuite->SetEventIndex( (theSuite->CountEvents() > 0) );	
-				break;
-				
-				case mpv_AeteClass:
-				index = theSuite->GetClassIndex();
-				theSuite->RemoveClass(index);
-				theSuite->SetClassIndex( (theSuite->CountClasses() > 0) );	
-				break;
-				
-				case mpv_AeteCompOp:
-				index = theSuite->GetCompOpIndex();
-				theSuite->RemoveCompOp(index);
-				theSuite->SetCompOpIndex( (theSuite->CountCompOps() > 0) );	
-				break;
-				
-				case mpv_AeteEnum:
-				index = theSuite->GetEnumerationIndex();
-				theSuite->RemoveEnumeration(index);
-				theSuite->SetEnumerationIndex( (theSuite->CountEnumerations() > 0) );	
-				break;
-			}	
-			theSlider = dynamic_cast<LSlider *>(this->FindPaneByID( item_AeteItemSlider ));
-			theSlider->SetMaxValue(--index);
-			theSlider->SetValue(1);
-			break;
-
 			
-			case cmd_AeteAddParameter: {
+			case cmd_AeteAddParameter:
+			case cmd_AeteRemoveParameter: {
 				CAeteEvent * theEvent = static_cast<CAeteEvent *>( FindCurrentObject( kind_AeteEvent ) );
 				if (!theEvent) { return cmdHandled; }
-				theEvent->AddParameter();
-				index = theEvent->CountParameters();
-				theEvent->SetParameterIndex(index);
-				UpdateSlider(item_AeteParamSlider, index, index);
+				if (inCommand == cmd_AeteAddParameter) {
+					count = theEvent->NewParameter();
+					UpdateSlider(item_AeteParamSlider, count, count);
+				} else {
+					count = theEvent->DeleteParameter();
+					UpdateSlider(item_AeteParamSlider, (count > 0), count);
+					CAeteParameter * theParameter = static_cast<CAeteParameter *>( FindCurrentObject( kind_AeteParameter ) );
+					InstallParameterValues(theParameter);
+				}
 				break;
 			}
-
 			
-			case cmd_AeteRemoveParameter:
-			break;
-
 			
-			case cmd_AeteAddProperty: {
+			case cmd_AeteAddProperty:
+			case cmd_AeteRemoveProperty: {
 				CAeteClass * theClass = static_cast<CAeteClass *>( FindCurrentObject( kind_AeteClass ) );
 				if (!theClass) { return cmdHandled; }
-				theClass->AddProperty();
-				index = theClass->CountProperties();
-				theClass->SetPropertyIndex(index);
-				UpdateSlider(item_AetePropertySlider, index, index);
+				if (inCommand == cmd_AeteAddProperty) {
+					count = theClass->NewProperty();
+					UpdateSlider(item_AeteParamSlider, count, count);
+				} else {
+					count = theClass->DeleteProperty();
+					UpdateSlider(item_AetePropertySlider, (count > 0), count);
+					CAeteProperty * theProperty = static_cast<CAeteProperty *>( FindCurrentObject( kind_AeteProperty ) );
+					InstallPropertyValues(theProperty);
+				}
 				break;
 			}
-
 			
-			case cmd_AeteRemoveProperty:
-			break;
-
 			
-			case cmd_AeteAddElement: {
+			case cmd_AeteAddElement:
+			case cmd_AeteRemoveElement: {
 				CAeteClass * theClass = static_cast<CAeteClass *>( FindCurrentObject( kind_AeteClass ) );
 				if (!theClass) { return cmdHandled; }
-				theClass->AddElement();
-				index = theClass->CountElements();
-				theClass->SetElementIndex(index);
-				UpdateSlider(item_AeteElementSlider, index, index);
+				if (inCommand == cmd_AeteAddElement) {
+					count = theClass->NewElement();
+					UpdateSlider(item_AeteParamSlider, count, count);
+				} else {
+					count = theClass->DeleteElement();
+					UpdateSlider(item_AeteElementSlider, (count > 0), count);
+					CAeteElement * theElement = static_cast<CAeteElement *>( FindCurrentObject( kind_AeteElement ) );
+					InstallElementValues(theElement);
+				}
 				break;
 			}
-
 			
-			case cmd_AeteRemoveElement:
-			break;
-
 			
 			case cmd_AeteAddKeyForm:
-			CAeteElement * theElement = static_cast<CAeteElement *>( FindCurrentObject( kind_AeteElement ) );
-			if (!theElement) { return cmdHandled; }
-			theElement->AddKeyForm();
-			theElement->SetKeyFormIndex( theElement->CountKeyForms() );
-			break;
-
+			case cmd_AeteRemoveKeyForm: {
+				CAeteElement * theElement = static_cast<CAeteElement *>( FindCurrentObject( kind_AeteElement ) );
+				if (!theElement) { return cmdHandled; }
+				if (inCommand == cmd_AeteAddKeyForm) {
+					theElement->NewKeyForm();
+				} else {
+					theElement->DeleteKeyForm();
+				}
+				break;
+			}
 			
-			case cmd_AeteRemoveKeyForm:
-			break;
-
 			
 			case cmd_AeteAddEnumerator:
-			CAeteEnumeration * theEnum = static_cast<CAeteEnumeration *>( FindCurrentObject( kind_AeteEnum ) );
-			if (!theEnum) { return cmdHandled; }
-			theEnum->AddEnumerator();
-			index = theEnum->CountEnumerators();
-			theEnum->SetEnumeratorIndex(index);
-			UpdateSlider(item_AeteEnumSlider, index, index);
-			break;
-
+			case cmd_AeteRemoveEnumerator: {
+				CAeteEnumeration * theEnum = static_cast<CAeteEnumeration *>( FindCurrentObject( kind_AeteEnum ) );
+				if (!theEnum) { return cmdHandled; }
+				if (inCommand == cmd_AeteAddEnumerator) {
+					count = theEnum->NewEnumerator();
+					UpdateSlider(item_AeteEnumSlider, count, count);
+				} else {
+					AeteEnumerator		enumerator;
+					count = theEnum->DeleteEnumerator();
+					UpdateSlider(item_AeteEnumSlider, (count > 0), count);
+					theEnum->GetEnumerator(count, enumerator);
+					InstallEnumeratorValues(enumerator);
+				}
+				break;
+			}
 			
-			case cmd_AeteRemoveEnumerator:
-			break;
-
 			
 			default:
 			cmdHandled = CEditorWindow::ObeyCommand(inCommand, ioParam);
 			break;
 		}
 	}
-	
 	
 	return cmdHandled;
 }
