@@ -48,7 +48,7 @@ public:
 
 	virtual void	DoClose();
 
-// 	virtual void	InstallContentsFromLine(SInt32 inFromLine);
+// 	virtual SInt32	InstallContentsFromLine(SInt32 inFromLine);
 	
 	Boolean			IsDirty();
 	
