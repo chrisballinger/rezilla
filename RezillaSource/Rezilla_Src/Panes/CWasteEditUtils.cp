@@ -330,12 +330,12 @@ CWasteEditView::DisplaySelectionRange(
 
 
 // ---------------------------------------------------------------------------
-//	¥ IsSelection													  [public]
+//	¥ HasSelection													  [public]
 // ---------------------------------------------------------------------------
 // Check if selection is empty (0) or not (1).
 
 Boolean
-CWasteEditView::IsSelection() {
+CWasteEditView::HasSelection() {
 	SInt32  selStart;
 	SInt32  selEnd;
 	
@@ -463,7 +463,7 @@ CWasteEditView::SavePlace(
 
 
 // ---------------------------------------------------------------------------
-//	¥ RestorePlace								[public, virtual]
+//	¥ RestorePlace										[public, virtual]
 // ---------------------------------------------------------------------------
 // Override function in LView class
 
@@ -484,7 +484,7 @@ CWasteEditView::RestorePlace(
 
 
 // ---------------------------------------------------------------------------
-//	¥ SaveStateForUndo						[protected, virtual]
+//	¥ SaveStateForUndo									[protected, virtual]
 // ---------------------------------------------------------------------------
 
 SWasteEditUndoH
@@ -506,6 +506,89 @@ CWasteEditView::SaveStateForUndo()
 
 	return theUndoH;
 }
+
+
+// ---------------------------------------------------------------------------
+//	¥ FlagsFromAttributes											  [public]
+// ---------------------------------------------------------------------------
+// Build the WE flags from the mTextAttributes variable.
+
+UInt32
+CWasteEditView::FlagsFromAttributes() {
+	UInt32  theFlags = 0 ;
+	
+	theFlags |= HasAttribute(weAttr_AutoScroll) ?		weDoAutoScroll : 0 ;
+	theFlags |= HasAttribute(weAttr_OutlineHilite) ?	weDoOutlineHilite : 0 ;
+	theFlags |= HasAttribute(weAttr_MonoStyled) ?		weDoMonoStyled : 0 ;
+	theFlags |= HasAttribute(weAttr_ReadOnly) ?			weDoReadOnly : 0 ;
+	theFlags |= HasAttribute(weAttr_DragAndDrop) ?		weDoDragAndDrop : 0 ;
+	theFlags |= HasAttribute(weAttr_Undo) ?				weDoUndo : 0 ;
+	theFlags |= HasAttribute(weAttr_MultipleUndo) ?		weDoMultipleUndo : 0 ;
+	theFlags |= HasAttribute(weAttr_IntCutAndPaste) ?	weDoIntCutAndPaste : 0 ;
+	theFlags |= HasAttribute(weAttr_DrawOffscreen) ?	weDoDrawOffscreen : 0 ;
+	theFlags |= HasAttribute(weAttr_InhibitRecal) ?		weDoInhibitRecal : 0 ;
+	theFlags |= HasAttribute(weAttr_InhibitRedraw) ?	weDoInhibitRedraw : 0 ;
+	theFlags |= HasAttribute(weAttr_InhibitICSupport) ?	weDoInhibitICSupport : 0 ;
+	theFlags |= HasAttribute(weAttr_InhibitColor) ?		weDoInhibitColor : 0 ;
+	theFlags |= HasAttribute(weAttr_UseTempMem) ?		weDoUseTempMem : 0 ;
+	theFlags |= HasAttribute(weAttr_NoKeyboardSync) ?	weDoNoKeyboardSync : 0 ;
+	
+	return theFlags;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ SetAttributesFromProperties									  [public]
+// ---------------------------------------------------------------------------
+// Initialize mTextAttributes from the individual property values.
+
+void
+CWasteEditView::SetAttributesFromProperties()
+{
+	mTextAttributes = 0 ;
+	mTextAttributes |= mAutoScroll ?		weAttr_AutoScroll : 0;
+	mTextAttributes |= mOutlineHilite ?		weAttr_OutlineHilite : 0;
+	mTextAttributes |= mMonoStyled ?		weAttr_MonoStyled : 0;
+	mTextAttributes |= mReadOnly ?			weAttr_ReadOnly : 0;
+	mTextAttributes |= mDragAndDrop ?		weAttr_DragAndDrop : 0;
+	mTextAttributes |= mUndo ?				weAttr_Undo : 0;
+	mTextAttributes |= mMultipleUndo ?		weAttr_MultipleUndo : 0;
+	mTextAttributes |= mIntCutAndPaste ?	weAttr_IntCutAndPaste : 0;
+	mTextAttributes |= mDrawOffscreen ?		weAttr_DrawOffscreen : 0;
+	mTextAttributes |= mInhibitRecal ?		weAttr_InhibitRecal : 0;
+	mTextAttributes |= mInhibitRedraw ?		weAttr_InhibitRedraw : 0;
+	mTextAttributes |= mInhibitICSupport ?	weAttr_InhibitICSupport : 0;
+	mTextAttributes |= mInhibitColor ?		weAttr_InhibitColor : 0;
+	mTextAttributes |= mUseTempMem ?		weAttr_UseTempMem : 0;
+	mTextAttributes |= mNoKeyboardSync ?	weAttr_NoKeyboardSync : 0;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ SetPropertiesFromAttributes								  [public]
+// ---------------------------------------------------------------------------
+// Initialize the individual property values from mTextAttributes.
+
+void
+CWasteEditView::SetPropertiesFromAttributes()
+{
+	mAutoScroll			|= mTextAttributes & weDoAutoScroll;
+	mOutlineHilite		|= mTextAttributes & weDoOutlineHilite;
+	mMonoStyled			|= mTextAttributes & weDoMonoStyled;
+	mReadOnly			|= mTextAttributes & weDoReadOnly;
+	mDragAndDrop		|= mTextAttributes & weDoDragAndDrop;
+	mUndo				|= mTextAttributes & weDoUndo;
+	mMultipleUndo		|= mTextAttributes & weDoMultipleUndo;
+	mIntCutAndPaste		|= mTextAttributes & weDoIntCutAndPaste;
+	mDrawOffscreen		|= mTextAttributes & weDoDrawOffscreen;
+	mInhibitRecal		|= mTextAttributes & weDoInhibitRecal;
+	mInhibitRedraw		|= mTextAttributes & weDoInhibitRedraw;
+	mInhibitICSupport	|= mTextAttributes & weDoInhibitICSupport;
+	mInhibitColor		|= mTextAttributes & weDoInhibitColor;
+	mUseTempMem			|= mTextAttributes & weDoUseTempMem;
+	mNoKeyboardSync		|= mTextAttributes & weDoNoKeyboardSync;
+}
+ 
 
 
 PP_End_Namespace_PowerPlant
