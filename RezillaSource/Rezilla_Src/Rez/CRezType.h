@@ -2,11 +2,11 @@
 // CRezType.h					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2004-11-29 06:24:47
+//             Last modification: 2005-02-11 16:27:54
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003-2004
+// (c) Copyright : Bernard Desgraupes, 2003-2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -43,7 +43,9 @@ public:
 	ResType			GetType() { return mType;}
 	void			SetType(ResType theType) {mType = theType;}
 
-	OSErr			GetResourceAtIndex(short inIdx, Handle & outHandle);
+	OSErr			GetResourceAtIndex(short inIdx, 
+									   Handle & outHandle, 
+									   Boolean loadIt = false);
 	OSErr			GetNameAtIndex(short inIdx, Str255 & outName);
 	
 protected:

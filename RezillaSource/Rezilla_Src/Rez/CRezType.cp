@@ -196,10 +196,18 @@ CRezType::GetAllRezIDs( TArray<short>* & outArray )
 // ---------------------------------------------------------------------------
 
 OSErr
-CRezType::GetResourceAtIndex(short inIdx, Handle & outHandle)
+CRezType::GetResourceAtIndex(short inIdx, 
+							 Handle & outHandle, 
+							 Boolean loadIt)
 {
     StRezRefSaver saver(GetOwnerMap()->GetRefnum());
+	if (!loadIt) {
+		::SetResLoad(false);
+	} 
     outHandle = ::Get1IndResource( mType, inIdx );
+	if (!loadIt) {
+		::SetResLoad(true);
+	} 
 	return ::ResError();
 }
 
