@@ -1,11 +1,11 @@
 // ===========================================================================
 // UMiscUtils.cp					
 //                       Created: 2003-05-13 20:06:23
-//             Last modification: 2005-01-02 15:24:00
+//             Last modification: 2005-02-01 15:03:14
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003-2004, 2005
+// © Copyright: Bernard Desgraupes 2003-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -44,10 +44,11 @@ PP_Begin_Namespace_PowerPlant
 void
 UMiscUtils::PStringToOSType(Str255 inString, OSType & outType)
 {
-	char * theStr = new char[5];
+	char theStr[5];
 	UInt8 len = inString[0];
 	if (len > 4) {
 		len = 4;
+		inString[0] = 4;
 	} 
 	CopyPascalStringToC(inString, theStr);
 	for (SInt8 i = 4; i >= len; i--) {
@@ -64,7 +65,7 @@ UMiscUtils::PStringToOSType(Str255 inString, OSType & outType)
 void
 UMiscUtils::OSTypeToPString(OSType inType, Str255 & outString)
 {
-	char * theType = new char[5];
+	char theType[5];
 	theType[4] = 0;
 	*(OSType*)theType = inType;
 	CopyCStringToPascal(theType, outString);	
@@ -375,38 +376,42 @@ UMiscUtils::ParseDateString(Str255 inString, SInt32 * outAbsTime)
 	// Get the contents of the edit field
 	dataSize = inString[0] ;
 	char * theBuffer = new char[dataSize+1];
-	theBuffer[dataSize] = 0;
-	::CopyPascalStringToC( inString, theBuffer );			
 	
-	// Compile the regexp
-	memset(&regex, '\0', sizeof(regex));
-	regs.start = regs.end = NULL;
-	regs.num_regs = 0;
-	
-	::re_set_syntax(RE_SYNTAX_POSIX_EXTENDED);
-	
-	s = ::re_compile_pattern( thepattern, strlen(thepattern), &regex);
-	// Error if re_compile_pattern returned non-NULL value
-	ThrowIfNot_(s == NULL);
-	
-	if ( ::re_search(&regex, theBuffer, dataSize, startpos, dataSize, &regs) >= 0 ) {
-		LongDateRec		dateTimeRec;
-		LongDateTime	longDate;
-		DateCacheRecord	cache;
+	if (theBuffer != nil) {
+		theBuffer[dataSize] = 0;
+		::CopyPascalStringToC( inString, theBuffer );			
 		
-		error = ::InitDateCache(&cache);
+		// Compile the regexp
+		memset(&regex, '\0', sizeof(regex));
+		regs.start = regs.end = NULL;
+		regs.num_regs = 0;
 		
-		// Convert date to num
-		dateStatus = ::StringToDate(theBuffer + regs.start[1], regs.end[1] - regs.start[1], &cache, &lengthUsed, &dateTimeRec);
-		// Convert time to num
-		timeStatus = ::StringToTime(theBuffer + regs.start[2], regs.end[2] - regs.start[2], &cache, &lengthUsed, &dateTimeRec);
-		result = ( dateStatus <= longDateFound && timeStatus <= longDateFound );
+		::re_set_syntax(RE_SYNTAX_POSIX_EXTENDED);
 		
-		::LongDateToSeconds(&dateTimeRec, &longDate);
-		*outAbsTime = (SInt32) longDate;
+		s = ::re_compile_pattern( thepattern, strlen(thepattern), &regex);
+		// Error if re_compile_pattern returned non-NULL value
+		ThrowIfNot_(s == NULL);
 		
-	}
-	regfree(&regex);
+		if ( ::re_search(&regex, theBuffer, dataSize, startpos, dataSize, &regs) >= 0 ) {
+			LongDateRec		dateTimeRec;
+			LongDateTime	longDate;
+			DateCacheRecord	cache;
+			
+			error = ::InitDateCache(&cache);
+			
+			// Convert date to num
+			dateStatus = ::StringToDate(theBuffer + regs.start[1], regs.end[1] - regs.start[1], &cache, &lengthUsed, &dateTimeRec);
+			// Convert time to num
+			timeStatus = ::StringToTime(theBuffer + regs.start[2], regs.end[2] - regs.start[2], &cache, &lengthUsed, &dateTimeRec);
+			result = ( dateStatus <= longDateFound && timeStatus <= longDateFound );
+			
+			::LongDateToSeconds(&dateTimeRec, &longDate);
+			*outAbsTime = (SInt32) longDate;
+			
+		}
+		regfree(&regex);
+		delete theBuffer;
+	} 
 	
 #endif
 	
