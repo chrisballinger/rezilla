@@ -2,7 +2,7 @@
 // CAeteEnumeration.cp
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-02-04 06:06:13
+//             Last modification: 2005-02-07 08:05:27
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -99,7 +99,13 @@ CAeteEnumeration::RemoveEnumerator( ArrayIndexT inAtIndex )
 Boolean
 CAeteEnumeration::GetEnumerator(ArrayIndexT inAtIndex, AeteEnumerator & outEnumerator)
 {
-	return mEnumerators.FetchItemAt(inAtIndex, outEnumerator);
+	Boolean hasEnumerator = mEnumerators.FetchItemAt(inAtIndex, outEnumerator);
+	if (!hasEnumerator) {
+		outEnumerator.type = 0;
+		outEnumerator.name[0] = 0;
+		outEnumerator.description[0] = 0;
+	} 
+	return hasEnumerator;
 }
 
 
