@@ -1,12 +1,12 @@
 <!-- This is a preliminary draft version! -->
 <!--
  |                          Created : 2002-01-02 18:04:05
- |                Last modification : 2005-01-20 10:23:54
+ |                Last modification : 2005-02-19 16:39:03
  | Author : Bernard Desgraupes
  | e-mail : bdesgraupes@easyconnect.fr
  | web : http://webperso.easyconnect.fr/bdesgraupes/
- | Description : DTD to formalize the  structure  of  an  aete  (Apple  Events
- | Terminology) resource. The format for  'aete'  resources  is  described  in
+ | Description : DTD to formalize the structure of an aete (Apple Events
+ | Terminology) resource. The format for 'aete' resources is described in
  | "Apple Event Terminology Resources".
  | See
  | /Technical Publications/mac/pdf/Interapplication_Communication/AE_Term_Resources.pdf
@@ -27,7 +27,8 @@
 >
 
 <!ELEMENT ArraySuites (Suite)+>
-<!ELEMENT Suite (ArrayEvents, ArrayClasses, ArrayComparisonOps, ArrayEnumerations)>
+<!ELEMENT Suite (SuiteName, SuiteDescription, SuiteID, SuiteLevel, SuiteVersion, 
+		ArrayEvents, ArrayClasses, ArrayComparisonOps, ArrayEnumerations)>
 <!ELEMENT ArrayEvents (Event*)>
 <!ELEMENT ArrayClasses (Class*)>
 <!ELEMENT ArrayComparisonOps (ComparisonOp*)>
@@ -36,7 +37,8 @@
 <!ELEMENT Event (
 		    EventName, 
 		    EventDescription, 
-		    EventClass, EventClass, 
+		    EventClass, 
+		    EventID, 
 		    ReplyType, 
 		    ReplyDescription,
 		    ReplyFlags,
@@ -161,7 +163,7 @@
 
 <!ELEMENT ArrayElements (Element*)>
 <!ELEMENT Element (
-		    ElementID,
+		    ElementClass,
 		    ArrayKeyForms
 		    )
 >
@@ -193,38 +195,29 @@
 <!--                       Atomic elements                                -->
 <!-- ==================================================================== -->
 <!--Boolean-->
-<!ELEMENT EnumIsExclusive (enumListCanRepeat|enumListIsExclusive)>
 <!ELEMENT ChangeState (doesntChangeState|changesState)>
 <!ELEMENT DirectParamIsReference (directParamIsValue|directParamIsReference)>
-<!ELEMENT EnumsAre (enumsAreConstants|enumsAreTypes)>
-<!ELEMENT TightBindingFunction (notTightBindingFunction|tightBindingFunction)>
+<!ELEMENT EnumIsExclusive (enumListCanRepeat|enumListIsExclusive)>
+<!ELEMENT EnumsAreTypes (enumsAreConstants|enumsAreTypes)>
 <!ELEMENT IsApostrophe (noApostrophe|apostrophe)>
 <!ELEMENT IsEnumerated (notEnumerated|enumerated)>
-<!ELEMENT IsListOfItems (singleItem|listOfItems)>
-<!ELEMENT IsOptional (directParamRequired|directParamOptional)>
-<!ELEMENT NotDirectParamIsTarget (directParamIsTarget|notDirectParamIsTarget)>
 <!ELEMENT IsFeminine (notFeminine|feminine)>
+<!ELEMENT IsListOfItems (singleItem|listOfItems)>
 <!ELEMENT IsMasculine (notMasculine|masculine)>
-<!ELEMENT IsEnumerated (notEnumerated|enumerated)>
-<!ELEMENT IsListOfItems (singleItem|listOfItems)>
-<!ELEMENT IsOptional (required|optional)>
-<!ELEMENT ParamIsTarget (notParamIsTarget|paramIsTarget)>
-<!ELEMENT IsEnumerated (notEnumerated|enumerated)>
-<!ELEMENT IsListOfItems (singleItem|listOfItems)>
+<!ELEMENT IsOptional (directParamRequired|directParamOptional)>
 <!ELEMENT IsReadWrite (readOnly|readWrite)>
-<!ELEMENT IsEnumerated (notEnumerated|enumerated)>
-<!ELEMENT IsListOfItems (singleItem|listOfItems)>
-<!ELEMENT IsOptional (replyRequired|replyOptional)>
-<!ELEMENT NonVerbEvent (verbEvent|nonVerbEvent)>
-<!ELEMENT ParamIsReference (paramIsValue|paramIsReference)>
 <!ELEMENT LabeledParam (prepositionParam|labeledParam)>
+<!ELEMENT NonVerbEvent (verbEvent|nonVerbEvent)>
+<!ELEMENT NotDirectParamIsTarget (directParamIsTarget|notDirectParamIsTarget)>
+<!ELEMENT ParamIsReference (paramIsValue|paramIsReference)>
+<!ELEMENT ParamIsTarget (notParamIsTarget|paramIsTarget)>
+<!ELEMENT Plural (singular|plural)>
 <!ELEMENT PropertyIsReference (propertyIsValue|propertyIsReference)>
 <!ELEMENT ReplyIsReference (replyIsValue|replyIsReference)>
-<!ELEMENT Plural (singular|plural)>
+<!ELEMENT TightBindingFunction (notTightBindingFunction|tightBindingFunction)>
 
 
 <!--String-->
-<!ELEMENT AeteResTitle (#PCDATA)>
 <!ELEMENT ClassDescription (#PCDATA)>
 <!ELEMENT CompOpDescription (#PCDATA)>
 <!ELEMENT CompOpName (#PCDATA)>
@@ -244,7 +237,7 @@
 
 <!--Four char codes-->
 <!ELEMENT ClassID (#PCDATA)>
-<!ELEMENT ElementID (#PCDATA)>
+<!ELEMENT ElementClass (#PCDATA)>
 <!ELEMENT CompOpID (#PCDATA)>
 <!ELEMENT DirectParamType (#PCDATA)>
 <!ELEMENT EnumerationID (#PCDATA)>
@@ -260,7 +253,6 @@
 <!ELEMENT SuiteID (#PCDATA)>
 
 <!--integer-->
-<!ELEMENT AeteResID (integer)>
 <!ELEMENT LanguageCode (integer)>
 <!ELEMENT ScriptCode (integer)>
 <!ELEMENT SuiteLevel (integer)>
@@ -277,6 +269,7 @@
 <!ELEMENT bool (true|false) >
 <!ELEMENT integer (#PCDATA)>
 
+<!--Flag values-->
 <!ELEMENT enumListCanRepeat (false)>
 <!ELEMENT doesntChangeState (false)>
 <!ELEMENT directParamIsValue (false)>
