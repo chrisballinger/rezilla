@@ -548,15 +548,20 @@ CTmplEditorWindow::HandleKeyPress(
 	} else {
 		theKeyStatus = UKeyFilters::PrintingCharField(inKeyEvent);
 	}
-	
+
 	switch (theKeyStatus) {
-		
 		case keyStatus_TEDelete: 
 		if (mSelectedListItem != NULL) {
 			// The Delete key deletes the currently selected list item, if 
 			// no field has the focus. Pass the data via a message to
 			// simulate a click on the Minus button. 
 			ListenToMessage(msg_TmplMinusButton, (void *) mSelectedListItem->mMinusButton);
+		} 
+		break;
+		
+		default: 
+		if (theKey == char_Return) {
+			mOwnerDoc->ListenToMessage(msg_OK, NULL);
 		} 
 		break;
 	}
@@ -581,7 +586,10 @@ CTmplEditorWindow::CreateTemplateStream()
 	if ( CTemplatesController::GetTemplateKind() == tmpl_local) {
 		Str255	theName;
 		UMiscUtils::OSTypeToPString(theType, theName);	
-		mOwnerDoc->GetRezMapTable()->GetRezMap()->GetWithName('TMPL', theName, theHandle, true);
+		error = mOwnerDoc->GetRezMapTable()->GetRezMap()->GetWithName('TMPL', theName, theHandle, true);
+		if (error == noErr) {
+			::DetachResource(theHandle);
+		}
 	} else {
 		theHandle = CTemplatesController::GetTemplateHandle(theType);
 	}
