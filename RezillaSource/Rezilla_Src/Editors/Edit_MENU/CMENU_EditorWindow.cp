@@ -17,13 +17,9 @@
 #include "CMENU_EditorTable.h"
 #include "CMenuObject.h"
 #include "CRezillaApp.h"
-#include "CRezMap.h"
-#include "CRezillaPrefs.h"
+#include "CMenuItem.h"
 #include "RezillaConstants.h"
-#include "UMiscUtils.h"
 #include "UMessageDialogs.h"
-#include "UHexFilters.h"
-#include "UCodeTranslator.h"
 
 #include <LScrollBar.h>
 #include <LStaticText.h>
@@ -182,16 +178,16 @@ CMENU_EditorWindow::ObeyCommand(
 OSErr
 CMENU_EditorWindow::InstallMenuData(Handle inMenuHandle, Handle inXmnuHandle)
 {
-	OSErr		error = noErr;
+	OSErr		error = noErr, ignoreErr = noErr;
 	StHandleLocker	menulock(inMenuHandle);
 
 	LHandleStream * theStream = new LHandleStream(inMenuHandle);
 	
 	if ( theStream->GetLength() == 0 ) {
 		// We are creating a new resource
-		mMenu = new CMenuObject();
+		mMenuObj = new CMenuObject();
 	} else {
-		mMenu = new CMenuObject(theStream);
+		mMenuObj = new CMenuObject(theStream);
 	}
 	
 	// Check that all the data have been parsed
@@ -199,12 +195,37 @@ CMENU_EditorWindow::InstallMenuData(Handle inMenuHandle, Handle inXmnuHandle)
 		error = err_MoreDataThanExpected;
 	} 
 	delete theStream;
+	theStream = nil;
+	
+	try {
+		if (inXmnuHandle != nil) {
+			StHandleLocker	xmnulock(inXmnuHandle);
+			theStream = new LHandleStream(inXmnuHandle);
+			
+			TArrayIterator<CMenuItem*> iterator( *(mMenuObj->GetItems()) );
+			CMenuItem *	theItem;
+			
+			while (iterator.Next(theItem)) {
+				ignoreErr = theItem->InstallExtendedData(theStream);
+			}
+			
+			delete theStream;
+		} 	
+	}
+	catch (...) {
+		if (theStream != nil) {delete theStream;} 
+		if (ignoreErr) {
+			
+		} 
+		UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("ParseXmnuRezFailed"), PPob_SimpleMessage);
+	}
+	
 	
 	if (error == noErr) {
-// 		mItemsTable->InstallValues();
+// 		mItemsTable->InstallValues();  // mMenuObj->GetItemIndex()
+		SetDirty(false);
 	} 
 
-	SetDirty(false);
 	return error;
 }
 

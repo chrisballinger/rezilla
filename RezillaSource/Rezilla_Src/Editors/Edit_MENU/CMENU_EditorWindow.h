@@ -58,16 +58,15 @@ public:
 
 	CMENU_EditorTable *		GetContentsView() const { return mItemsTable;}
 
+	CMenuObject*			GetMenuObj() { return mMenuObj;}
+
 
 protected:
-	CMenuObject *		mMenu;
+	CMenuObject *		mMenuObj;
 	CMENU_EditorTable *	mItemsTable;
 	LStaticText *		mLengthField;
 						
 	virtual void	FinishCreateSelf();
-// 	virtual void	PutOnDuty(LCommander *inNewTarget);
-// 	virtual void	TakeOffDuty();
-// 	virtual void	RemoveTextMenus();
 
 private:
 	Handle			RetrieveMenuData();
