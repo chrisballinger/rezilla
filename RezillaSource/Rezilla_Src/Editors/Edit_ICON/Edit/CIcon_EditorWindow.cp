@@ -456,7 +456,7 @@ CIcon_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			break;
 	
 		case msg_DoubleClick:
-			this->HandleControlDoubleClick( (LPane*) ioParam );
+			this->HandleToolDoubleClick(inMessage);
 			break;
 			
 		case tool_Pattern:
@@ -1153,18 +1153,22 @@ CIcon_EditorWindow::HandleToolClick(PaneIDT inPaneID)
 			case tool_Lasso:		case tool_Selection:	case tool_HotSpot:
 			case tool_Text:
 			
-			LBevelButton * theButton = dynamic_cast<LBevelButton *>(this->FindPaneByID( mPreviousTool ));;
+			// Release the button corresponding to the current tool
+			LBevelButton * theButton = dynamic_cast<LBevelButton *>(this->FindPaneByID( mCurrentTool ));;
 			ThrowIfNil_( theButton );
 			theButton->SetValue(Button_Off);
 
+			// Cancel the selection if any
 			this->SelectNone();	
-				
-			mCurrentTool = inPaneID;
 			
-			// Keep track of previous tool - double-click on eraser reverts to orig tool
+			// Update the current tool to the newly clicked one
+			mCurrentTool = inPaneID;
+			// Keep track of previous tool: double-clicking on eraser
+			// erases all and reverts to previous tool
 			if ( inPaneID != tool_Eraser ) {
 				mPreviousTool = inPaneID;
 			}
+
 			break;
 		}
 	}
@@ -1172,16 +1176,15 @@ CIcon_EditorWindow::HandleToolClick(PaneIDT inPaneID)
 
 
 // ---------------------------------------------------------------------------
-// 	HandleControlDoubleClick
+// 	HandleToolDoubleClick
 // ---------------------------------------------------------------------------
 
 void
-CIcon_EditorWindow::HandleControlDoubleClick( LPane *thePane )
+CIcon_EditorWindow::HandleToolDoubleClick(PaneIDT inPaneID)
 {
-	ThrowIfNil_( thePane );
 	if ( !mCurrentImage ) return;
 	
-	switch( thePane->GetPaneID() )
+	switch(inPaneID)
 	{
 		case tool_Eraser:
 			this->EraseAll();
@@ -1239,7 +1242,8 @@ CIcon_EditorWindow::ChangeTool( OSType toWhat )
 		
 		mCurrentTool = toWhat;
 
-		// Keep track of previous tool - double-click on eraser reverts to orig tool
+		// Keep track of previous tool: double-clicking on eraser erases 
+		// all and reverts to previous tool
 		if ( toWhat != tool_Eraser )
 			mPreviousTool = toWhat;
 	}

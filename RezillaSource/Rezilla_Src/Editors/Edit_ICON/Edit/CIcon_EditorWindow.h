@@ -204,7 +204,7 @@ protected:
 
 	// Event handling		
 	virtual void				HandleToolClick(PaneIDT inPaneID);
-	virtual void				HandleControlDoubleClick( LPane * );
+	virtual void				HandleToolDoubleClick(PaneIDT inPaneID);
 	virtual void				ForceBlackAndWhite();
 	virtual void				SwapColors();
 	
