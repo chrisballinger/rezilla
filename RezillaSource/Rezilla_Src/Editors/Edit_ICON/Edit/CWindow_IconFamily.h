@@ -1,7 +1,7 @@
 // ===========================================================================
 // CWindow_IconFamily.h
 //                       Created: 2004-12-11 18:56:28
-//             Last modification: 2004-12-23 15:19:19
+//             Last modification: 2004-12-30 09:44:38
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -52,19 +52,19 @@ typedef struct
 	PaintFamilyMember	members[1];	
 } PaintFamilyList, **PaintFamilyListH;
 
-
 // ----------------------------------------------------------------------------
+
 
 class CWindow_IconFamily : public CIcon_EditorWindow {
 	public:
 		enum { class_ID = FOUR_CHAR_CODE('FamV') };
 
-		static CWindow_IconFamily*	OpenPaintWindow( ResIDT inPPobID, CRezMap *inMap, ResIDT );
-		
-		static CWindow_IconFamily*	CreateFromStream( LStream *inStream );
 								CWindow_IconFamily( LStream * );
 		virtual					~CWindow_IconFamily();
 		
+		static CWindow_IconFamily *	OpenPaintWindow( ResIDT inPPobID, CRezMap *inMap, ResIDT );
+		static CWindow_IconFamily *	CreateFromStream( LStream *inStream );
+
 		virtual void			FinishCreateSelf();
 		
 		virtual void			InitializeFromResource( CRezMap *inMap, ResIDT );

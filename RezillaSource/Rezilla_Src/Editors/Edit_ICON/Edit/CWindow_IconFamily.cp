@@ -1,7 +1,7 @@
 // ===========================================================================
 // CWindow_IconFamily.cp
 //                       Created: 2004-12-11 18:50:16
-//             Last modification: 2004-12-28 11:53:21
+//             Last modification: 2004-12-30 09:44:23
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -11,8 +11,9 @@
 // $Revision$
 // ===========================================================================
 
-#include "CDraggableTargetView.h"
 #include "CWindow_IconFamily.h"
+#include "CDraggableTargetView.h"
+#include "CIcon_EditorWindow.h"
 #include "COffscreen.h"
 #include "CRezMap.h"
 #include "CRezObj.h"
@@ -30,20 +31,20 @@
 CWindow_IconFamily*
 CWindow_IconFamily::OpenPaintWindow( ResIDT inPPobID, CRezMap *inMap, ResIDT inResID )
 {
-	CWindow_IconFamily		*theView = nil;
+	CWindow_IconFamily *	theWindow = nil;
 
 	try
 	{
-		theView = (CWindow_IconFamily*) CWindow_IconFamily::CreatePaintWindow( inPPobID );
-		theView->InitializeFromResource( inMap, inResID );
+		theWindow = (CWindow_IconFamily*) CIcon_EditorWindow::CreatePaintWindow( inPPobID );
+		theWindow->InitializeFromResource( inMap, inResID );
 	}
 	catch( ... )
 	{
-		delete theView;
+		delete theWindow;
 		throw;
 	}
 	
-	return( theView );
+	return( theWindow );
 }
 
 

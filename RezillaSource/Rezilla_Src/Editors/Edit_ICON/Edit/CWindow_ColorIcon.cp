@@ -1,7 +1,7 @@
 // ===========================================================================
 // CWindow_ColorIcon.cp
 //                       Created: 2004-12-11 18:50:11
-//             Last modification: 2004-12-27 22:00:24
+//             Last modification: 2004-12-30 09:45:13
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -11,9 +11,10 @@
 // $Revision$
 // ===========================================================================
 
-#include "CColorTableBuilder.h"
-#include "CDraggableTargetView.h"
 #include "CWindow_ColorIcon.h"
+#include "CColorTableBuilder.h"
+#include "CIcon_EditorWindow.h"
+#include "CDraggableTargetView.h"
 #include "CRezillaPrefs.h"
 #include "CRezObj.h"
 #include "CRezMap.h"
@@ -30,20 +31,20 @@
 CWindow_ColorIcon*
 CWindow_ColorIcon::OpenPaintWindow( ResIDT inPPobID, CRezMap *inMap, ResIDT inResID )
 {
-	CWindow_ColorIcon		*theView = nil;
+	CWindow_ColorIcon *	theWindow = nil;
 
 	try
 	{
-		theView = (CWindow_ColorIcon*) CWindow_ColorIcon::CreatePaintWindow( inPPobID );
-		theView->InitializeFromResource( inMap, inResID );
+		theWindow = (CWindow_ColorIcon*) CIcon_EditorWindow::CreatePaintWindow( inPPobID );
+		theWindow->InitializeFromResource( inMap, inResID );
 	}
 	catch( ... )
 	{
-		delete theView;
+		delete theWindow;
 		throw;
 	}
 	
-	return( theView );
+	return( theWindow );
 }
 
 
@@ -109,7 +110,7 @@ CWindow_ColorIcon::FinishCreateSelf()
 
 
 // ---------------------------------------------------------------------------
-// 	Initialize
+// 	InitializeFromResource
 // ---------------------------------------------------------------------------
 void
 CWindow_ColorIcon::InitializeFromResource( CRezMap *inMap, ResIDT inResID )

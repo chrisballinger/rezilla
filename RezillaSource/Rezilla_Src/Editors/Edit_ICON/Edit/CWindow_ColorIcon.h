@@ -1,7 +1,7 @@
 // ===========================================================================
 // CWindow_ColorIcon.h
 //                       Created: 2004-12-11 18:56:23
-//             Last modification: 2004-12-18 00:04:24
+//             Last modification: 2004-12-30 09:45:27
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -26,8 +26,8 @@ class CWindow_ColorIcon : public CIcon_EditorWindow {
 	public:
 		enum { class_ID = FOUR_CHAR_CODE('IcnV') };
 
-		static CWindow_ColorIcon*			OpenPaintWindow( ResIDT inPPobID, CRezMap *, ResIDT );
-		static CWindow_ColorIcon*			CreatePaintCIconStream( LStream *inStream );
+		static CWindow_ColorIcon *	OpenPaintWindow( ResIDT inPPobID, CRezMap *, ResIDT );
+		static CWindow_ColorIcon *	CreatePaintCIconStream( LStream *inStream );
 		
 									CWindow_ColorIcon( LStream * );
 		virtual						~CWindow_ColorIcon();

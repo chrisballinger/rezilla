@@ -1,7 +1,7 @@
 // ===========================================================================
 // CWindow_Picture.h
 //                       Created: 2004-12-11 18:56:32
-//             Last modification: 2004-12-18 00:09:15
+//             Last modification: 2004-12-30 09:38:50
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -24,11 +24,11 @@ class CWindow_Picture : public CIcon_EditorWindow {
 	public:
 		enum { class_ID = FOUR_CHAR_CODE('PicV') };
 
-		static CWindow_Picture*		OpenPaintWindow( ResIDT inPPobID, CRezMap *, ResIDT );
-		static CWindow_Picture*		CreateFromStream( LStream *inStream );
-		
 									CWindow_Picture( LStream * );
 		virtual						~CWindow_Picture();
+		
+		static CWindow_Picture *	OpenPaintWindow( ResIDT inPPobID, CRezMap *, ResIDT );
+		static CWindow_Picture *	CreateFromStream( LStream *inStream );
 		
 		virtual void				InitializeFromResource( CRezMap *, ResIDT );
 		virtual void				InitializeFromBuffer( COffscreen * );

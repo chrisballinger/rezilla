@@ -26,11 +26,12 @@ class CWindow_Pattern : public CIcon_EditorWindow {
 	public:
 		enum { class_ID = FOUR_CHAR_CODE('PatV') };
 
-		static CWindow_Pattern*		OpenPaintWindow( ResIDT inPPobID, CRezMap *, ResType, ResIDT );
-		static CWindow_Pattern*		CreateFromStream( LStream *inStream );
-		
 									CWindow_Pattern( LStream * );
 		virtual						~CWindow_Pattern();
+
+		static CWindow_Pattern *	OpenPaintWindow( ResIDT inPPobID, CRezMap *, ResType, ResIDT );
+		static CWindow_Pattern *	CreateFromStream( LStream *inStream );
+		
 		virtual void				FinishCreateSelf();
 		
 		virtual void				InitializeFromResource( CRezMap *, ResType, ResIDT );

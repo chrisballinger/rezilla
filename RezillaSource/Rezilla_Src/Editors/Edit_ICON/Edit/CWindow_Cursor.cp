@@ -1,7 +1,7 @@
 // ===========================================================================
 // CWindow_Cursor.cp
 //                       Created: 2004-12-11 18:50:15
-//             Last modification: 2004-12-27 22:01:23
+//             Last modification: 2004-12-30 09:44:07
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -22,11 +22,12 @@
 // 		Color Table Data
 // ===========================================================================
 
+#include "CWindow_Cursor.h"
 #include "CColorTableBuilder.h"
 #include "CDraggableTargetView.h"
 #include "CIconActions.h"
-#include "CWindow_Cursor.h"
 #include "CIcon_EditorView.h"
+#include "CIcon_EditorWindow.h"
 #include "CRezObj.h"
 #include "CRezMap.h"
 #include "COffscreen.h"
@@ -42,20 +43,20 @@
 CWindow_Cursor*
 CWindow_Cursor::OpenPaintWindow( ResIDT inPPobID, CRezMap *inMap, ResType inResType, ResIDT inResID )
 {
-	CWindow_Cursor		*theView = nil;
+	CWindow_Cursor *	theWindow = nil;
 
 	try
 	{
-		theView = (CWindow_Cursor*) CWindow_Cursor::CreatePaintWindow( inPPobID );
-		theView->InitializeFromResource( inMap, inResType, inResID );
+		theWindow = (CWindow_Cursor*) CIcon_EditorWindow::CreatePaintWindow( inPPobID );
+		theWindow->InitializeFromResource( inMap, inResType, inResID );
 	}
 	catch( ... )
 	{
-		delete theView;
+		delete theWindow;
 		throw;
 	}
 	
-	return( theView );
+	return( theWindow );
 }
 
 

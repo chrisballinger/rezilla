@@ -1,7 +1,7 @@
 // ===========================================================================
 // CWindow_Cursor.h
 //                       Created: 2004-12-11 18:56:26
-//             Last modification: 2004-12-18 00:03:48
+//             Last modification: 2004-12-30 09:44:00
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>

@@ -12,8 +12,8 @@
 // ===========================================================================
 
 
-#include "CRezMap.h"
 #include "CWindow_Picture.h"
+#include "CIcon_EditorWindow.h"
 #include "UGraphicConversion.h"
 #include "COffscreen.h"
 #include "CRezObj.h"
@@ -30,20 +30,20 @@
 CWindow_Picture*
 CWindow_Picture::OpenPaintWindow( ResIDT inPPobID, CRezMap *inMap, ResIDT inResID )
 {
-	CWindow_Picture		*theView = nil;
+	CWindow_Picture *	theWindow = nil;
 	
 	try
 	{
-		theView = (CWindow_Picture*) CWindow_Picture::CreatePaintWindow( inPPobID );
-		theView->InitializeFromResource( inMap, inResID );
+		theWindow = (CWindow_Picture*) CIcon_EditorWindow::CreatePaintWindow( inPPobID );
+		theWindow->InitializeFromResource( inMap, inResID );
 	}
 	catch( ... )
 	{
-		delete theView;
+		delete theWindow;
 		throw;
 	}
 	
-	return( theView );
+	return( theWindow );
 }
 
 
