@@ -1,7 +1,7 @@
 // ===========================================================================
 // File: "Rezilla_empty_icons.r"
 //                        Created: 2005-02-14 09:10:24
-//              Last modification: 2005-02-16 08:11:53
+//              Last modification: 2005-02-16 18:25:21
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -25,8 +25,163 @@
 
 #include "Types.r" 
 
+// Icons
+// -----
+resource 'ICON' (9200, "Default ICON") {
+	$""
+};
 
-resource 'ICN#' (9200, "Default Icon Suite") {
+resource 'SICN' (9200, "Default SICN") {
+	{	
+		$""
+	}
+};
+
+resource 'cicn' (9200, "Default cicn") {
+	4,
+	{0, 0, 32, 32},
+	1,
+	$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
+	$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
+	$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
+	$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
+	$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
+	$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
+	$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
+	$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF",
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000",
+	{	/* array ColorSpec */
+		65535, 65535, 65535
+	},
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+};
+
+
+// Patterns
+// --------
+resource 'PAT ' (9200, "Default PAT ") {
+	$""
+};
+
+resource 'PAT#' (9200, "Default PAT#") {
+	{	/* PatArray */
+		$""
+	}
+};
+
+resource 'ppat' (9200, "Default ppat") {
+	newPattern,
+	$"",
+	1,
+	{0, 0, 8, 8},
+	0,
+	unpacked,
+	0,
+	0x480000,
+	0x480000,
+	chunky,
+	1,
+	1,
+	1,
+	0,
+	$"0000 0000 0000 0000",
+	0x0,
+	0,
+	{	/* array ColorSpec */
+		0, 65535, 65535, 65535
+	}
+};
+
+
+// Cursors
+// -------
+resource 'CURS' (9200, "Default CURS") {
+	$"",
+	$"",
+	{0, 0}
+};
+
+resource 'crsr' (9200, "Default crsr") {
+	colorCursor,
+	$"",
+	$"",
+	{0, 0},
+	2,
+	{0, 0, 16, 16},
+	0,
+	unpacked,
+	0,
+	0x480000,
+	0x480000,
+	chunky,
+	1,
+	1,
+	1,
+	0,
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000",
+	0x0,
+	0,
+	{	/* array ColorSpec */
+		0, 65535, 65535, 65535,
+		1, 0, 0, 0
+	}
+};
+
+
+// Icon family
+// -----------
+resource 'ics#' (9200, "Default ics#") {
+	{	
+		/* [1] */
+		$"",
+		/* [2] */
+		$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
+		$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
+	}
+};
+
+resource 'ics8' (9200, "Default ics8") {
+	$""
+};
+
+resource 'ics4' (9200, "Default ics4") {
+	$""
+};
+
+resource 'icm#' (9200, "Default icm#") {
+	{	
+		/* [1] */
+		$"",
+		/* [2] */
+		$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
+		$"FFFF FFFF FFFF FFFF"
+	}
+};
+
+resource 'icm4' (9200, "Default icm4") {
+	$""
+};
+
+resource 'icm8' (9200, "Default icm8") {
+	$""
+};
+
+resource 'ICN#' (9200, "Default ICN#") {
 	{	
 		/* [1] */
 		$"",
@@ -42,26 +197,17 @@ resource 'ICN#' (9200, "Default Icon Suite") {
 	}
 };
 
-resource 'ICON' (9200, "Default ICON") {
+resource 'icl4' (9200, "Default icl4") {
 	$""
 };
 
-resource 'SICN' (9200, "Default SICN") {
-	{	
-		$""
-	}
-};
-
-resource 'PAT ' (9200, "Default PAT ") {
+resource 'icl8' (9200, "Default icl8") {
 	$""
 };
 
-resource 'PAT#' (9200, "Default PAT#") {
-	{	/* PatArray */
-		$""
-	}
-};
 
+// Picture
+// -------
 resource 'PICT' (9200, "Default PICT") {
 	773,
 	{0, 0, 240, 320},
@@ -114,122 +260,4 @@ resource 'PICT' (9200, "Default PICT") {
 	$"D900 02D9 0002 D900 02D9 0002 D900 02D9"
 	$"0002 D900 02D9 0002 D900 FF"
 };
-
-resource 'cicn' (9200, "Default cicn") {
-	4,
-	{0, 0, 32, 32},
-	1,
-	$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
-	$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
-	$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
-	$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
-	$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
-	$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
-	$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
-	$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF",
-	$"0000 0000 0000 0000 0000 0000 0000 0000"
-	$"0000 0000 0000 0000 0000 0000 0000 0000"
-	$"0000 0000 0000 0000 0000 0000 0000 0000"
-	$"0000 0000 0000 0000 0000 0000 0000 0000"
-	$"0000 0000 0000 0000 0000 0000 0000 0000"
-	$"0000 0000 0000 0000 0000 0000 0000 0000"
-	$"0000 0000 0000 0000 0000 0000 0000 0000"
-	$"0000 0000 0000 0000 0000 0000 0000 0000",
-	{	/* array ColorSpec */
-		65535, 65535, 65535
-	},
-	$"0000 0000 0000 0000 0000 0000 0000 0000"
-	$"0000 0000 0000 0000 0000 0000 0000 0000"
-	$"0000 0000 0000 0000 0000 0000 0000 0000"
-	$"0000 0000 0000 0000 0000 0000 0000 0000"
-	$"0000 0000 0000 0000 0000 0000 0000 0000"
-	$"0000 0000 0000 0000 0000 0000 0000 0000"
-	$"0000 0000 0000 0000 0000 0000 0000 0000"
-	$"0000 0000 0000 0000 0000 0000 0000 0000"
-};
-
-resource 'CURS' (9200, "Default CURS") {
-	$"",
-	$"",
-	{0, 0}
-};
-
-resource 'crsr' (9200, "Default crsr") {
-	colorCursor,
-	$"",
-	$"",
-	{0, 0},
-	2,
-	{0, 0, 16, 16},
-	0,
-	unpacked,
-	0,
-	0x480000,
-	0x480000,
-	chunky,
-	1,
-	1,
-	1,
-	0,
-	$"0000 0000 0000 0000 0000 0000 0000 0000"
-	$"0000 0000 0000 0000 0000 0000 0000 0000",
-	0x0,
-	0,
-	{	/* array ColorSpec */
-		0, 65535, 65535, 65535,
-		1, 0, 0, 0
-	}
-};
-
-resource 'ppat' (9200, "Default ppat") {
-	newPattern,
-	$"",
-	1,
-	{0, 0, 8, 8},
-	0,
-	unpacked,
-	0,
-	0x480000,
-	0x480000,
-	chunky,
-	1,
-	1,
-	1,
-	0,
-	$"0000 0000 0000 0000",
-	0x0,
-	0,
-	{	/* array ColorSpec */
-		0, 65535, 65535, 65535
-	}
-};
-
-
-// Hexadecimal definition of the two above
-// ---------------------------------------
-// data 'crsr' (9200, "Default crsr") {
-// 	$"8001 0000 0060 0000 0092 0000 0000 0000"            /* €....`...’...... */
-// 	$"0000 0000 0000 0000 0000 0000 0000 0000"            /* ................ */
-// 	$"0000 0000 0000 0000 0000 0000 0000 0000"            /* ................ */
-// 	$"0000 0000 0000 0000 0000 0000 0000 0000"            /* ................ */
-// 	$"0000 0000 0000 0000 0000 0000 0000 0000"            /* ................ */
-// 	$"0000 0000 0000 0000 0000 0000 0000 0000"            /* ................ */
-// 	$"0000 0000 8002 0000 0000 0010 0010 0000"            /* ....€........... */
-// 	$"0000 0000 0000 0048 0000 0048 0000 0000"            /* .......H...H.... */
-// 	$"0001 0001 0001 0000 0000 0000 00B2 0000"            /* .............².. */
-// 	$"0000 0000 0000 0000 0000 0000 0000 0000"            /* ................ */
-// 	$"0000 0000 0000 0000 0000 0000 0000 0000"            /* ................ */
-// 	$"0000 0000 0000 0000 0001 0000 FFFF FFFF"            /* ............ÿÿÿÿ */
-// 	$"FFFF 0001 0000 0000 0000"                           /* ÿÿ........ */
-// };
-// 
-// data 'ppat' (9200, "Default ppat") {
-// 	$"0001 0000 001C 0000 004E 0000 0000 FFFF"            /* .........N....ÿÿ */
-// 	$"0000 0000 0000 0000 0000 0000 0000 0000"            /* ................ */
-// 	$"8001 0000 0000 0008 0008 0000 0000 0000"            /* €............... */
-// 	$"0000 0048 0000 0048 0000 0000 0001 0001"            /* ...H...H........ */
-// 	$"0001 0000 0000 0000 0056 0000 0000 0000"            /* .........V...... */
-// 	$"0000 0000 0000 0000 0000 0000 0000 0000"            /* ................ */
-// 	$"FFFF FFFF FFFF"                                     /* ÿÿÿÿÿÿ */
-// };
 
