@@ -109,6 +109,7 @@ protected:
 	SInt32				mSkipOffset;
 	short				mItemsCount;
 	Boolean				mIsDirty;
+	Boolean				mFixedCount;
 	LHandleStream *		mTemplateStream;
 	LHandleStream *		mRezStream;
 	LHandleStream *		mOutStream;
@@ -163,6 +164,14 @@ private:
 	void			AddHexDumpField(OSType inType, 
 									LView * inContainer);
 	
+	void			AddPointField(SInt16 inX, 
+									SInt16 inY, 
+									OSType inType,
+									SInt16 inMaxChars, 
+									UInt8 inAttributes,
+									TEKeyFilterFunc inKeyFilter,
+									LView * inContainer);
+
 	void			AddRectField(SInt16 inTop, 
 									SInt16 inLeft, 
 									SInt16 inBottom, 
@@ -174,9 +183,11 @@ private:
 								 	LView * inContainer);
 
 	void			AddListHeaderField(OSType inType, 
-								  Str255 inLabel, 
-								  short inCount, 
-								  Str255 inCountLabel, LView * inContainer);
+								   Str255 inLabel, 
+								   short inCount, 
+								   Str255 inCountLabel, 
+								   LView * inContainer,
+								   Boolean isFixedCount);
 	
 	CTmplListItemView *	AddListItemView(CTmplListItemView * inPrevListItemView, LView * inContainer);
 	

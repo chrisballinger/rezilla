@@ -877,12 +877,13 @@ CTmplEditorWindow::DoParseWithTemplate(SInt32 inRecursionMark, Boolean inDrawCon
 		*mTemplateStream >> theString;
 		*mTemplateStream >> theType;
 		
-		if (theType == 'OCNT' || theType == 'ZCNT') {
+		if (theType == 'OCNT' || theType == 'WCNT' || theType == 'ZCNT' || theType == 'FCNT') {
 			LString::CopyPStr(theString, countLabel);
+			mFixedCount = (theType == 'FCNT');
 			ParseDataForType(theType, theString, inContainer);
 		} else if (theType == 'LSTB' || theType == 'LSTC' || theType == 'LSTZ') {
 			if (inDrawControls) {
-				AddListHeaderField(theType, theString, mItemsCount, countLabel, inContainer);
+				AddListHeaderField(theType, theString, mItemsCount, countLabel, inContainer, mFixedCount);
 			}
 			ParseList(mTemplateStream->GetMarker(), theType, mItemsCount, inContainer);
 		} else if (theType == 'LSTE') {
@@ -1028,6 +1029,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 	UInt8	theUInt8 = 0;
 	UInt16	theUInt16 = 0;
 	UInt32	theUInt32 = 0;
+	long	theLong;
 	Boolean	theBool = 0;
 	OSType	theOSType;
 	SInt8	i;
@@ -1253,6 +1255,24 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		AddHexDumpField(inType, inContainer);
 		break;
 
+		case 'FCNT': {
+			// Fixed count of list items (0 bytes). The count should be the
+			// beginning of the label string
+			register UInt8 *	p;
+			p = inLabelString + 1;
+			while ((*p >= '0') && (*p <= '9')) {
+				p++;
+			}
+			if (p != inLabelString + 1 ) {
+				inLabelString[0] = p - inLabelString - 1;
+				::StringToNum( theString, &theLong);
+				mItemsCount = theLong;
+			} else {
+				error = paramErr;
+			}
+			break;
+		}
+
 		case 'FLNG':
 		case 'HLNG':
 		// Hex long word
@@ -1386,6 +1406,21 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		AddEditField(theString, inType, 255, 0, 
 					 UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar), inContainer);
 		break;
+
+		case 'PNT ': {
+			// An 4-byte point
+			SInt16 theX = 0, theY = 0;
+			if (mRezStream->GetMarker() < mRezStream->GetLength() - 3) {
+				*mRezStream >> theX;
+				*mRezStream >> theY;
+			} 
+			mYCoord += kTmplRectVertSkip;
+			AddStaticField(inType, inLabelString, inContainer);
+			mYCoord -= kTmplRectVertSkip;
+			AddPointField(theX, theY, inType, 6, 0, 
+						 UKeyFilters::SelectTEKeyFilter(keyFilter_NegativeInteger), inContainer);
+			break;
+		}
 
 		case 'PPST':
 		// Pascal string padded to even length (needed for MPSR 1007 resources)
@@ -2056,9 +2091,71 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 
 
 // ---------------------------------------------------------------------------
+//	¥ AddPointField													[public]
+// ---------------------------------------------------------------------------
+
+void
+CTmplEditorWindow::AddPointField(SInt16 inX, 
+								SInt16 inY, 
+								OSType inType,
+								SInt16 inMaxChars, 
+								UInt8 inAttributes,
+								TEKeyFilterFunc inKeyFilter,
+								LView * inContainer)
+{
+	Str255	numStr;
+	LEditText * theEditText;
+	LStaticText * theStaticText;
+	SViewInfo	theViewInfo;
+	theViewInfo.imageSize.width		= theViewInfo.imageSize.height	= 0 ;
+	theViewInfo.scrollPos.h			= theViewInfo.scrollPos.v		= 0;
+	theViewInfo.scrollUnit.h		= theViewInfo.scrollUnit.v		= 1;
+	theViewInfo.reconcileOverhang	= false;
+
+	sRectLabelInfo.top			= mYCoord;
+	sRectLabelInfo.left 		= kTmplLeftMargin + kTmplLabelWidth + kTmplHorizSep;
+	sRectLabelInfo.superView	= inContainer;
+
+	sRectPaneInfo.top		= mYCoord + kTmplRectHeight;
+	sRectPaneInfo.left		= sRectLabelInfo.left;
+	sRectPaneInfo.superView	= inContainer;
+
+	// X coord
+	theStaticText = new LStaticText(sRectLabelInfo, "\pHoriz", sEditTraitsID);
+	ThrowIfNil_(theStaticText);
+	sRectPaneInfo.paneID = mCurrentID;
+	::NumToString( (long) inX, numStr);
+	theEditText = new LEditText(sRectPaneInfo, this, numStr, sEditTraitsID, 
+								msg_TmplModifiedItem, inMaxChars, inAttributes, inKeyFilter);
+	ThrowIfNil_(theEditText);
+	theEditText->SetUserCon(inType);
+	// Let the window listen to this field
+	theEditText->AddListener(this);
+	mCurrentID++;
+
+	// Y coord
+	sRectLabelInfo.left += kTmplRectWidth + kTmplHorizSep;
+	theStaticText = new LStaticText(sRectLabelInfo, "\pVert", sEditTraitsID);
+	ThrowIfNil_(theStaticText);
+	sRectPaneInfo.left += kTmplRectWidth + kTmplHorizSep;
+	sRectPaneInfo.paneID = mCurrentID;
+	::NumToString( (long) inY, numStr);
+	theEditText = new LEditText(sRectPaneInfo, this, numStr, sEditTraitsID, 
+								msg_TmplModifiedItem, inMaxChars, inAttributes, inKeyFilter);
+	ThrowIfNil_(theEditText);
+	theEditText->SetUserCon(inType);
+	// Let the window listen to this field
+	theEditText->AddListener(this);
+	mCurrentID++;
+
+	// Advance the counters
+	mYCoord += (kTmplRectHeight * 2) + kTmplVertSep + kTmplVertSep;
+}
+
+
+// ---------------------------------------------------------------------------
 //	¥ AddRectField													[public]
 // ---------------------------------------------------------------------------
-// Rectangle text group box basic values
 
 void
 CTmplEditorWindow::AddRectField(SInt16 inTop, 
@@ -2156,7 +2253,12 @@ CTmplEditorWindow::AddRectField(SInt16 inTop,
 // ---------------------------------------------------------------------------
 
 void
-CTmplEditorWindow::AddListHeaderField(OSType inType, Str255 inLabel, short inCount, Str255 inCountLabel, LView * inContainer)
+CTmplEditorWindow::AddListHeaderField(OSType inType, 
+									  Str255 inLabel, 
+									  short inCount, 
+									  Str255 inCountLabel, 
+									  LView * inContainer, 
+									  Boolean isFixedCount)
 {
 	Str255			numStr;
 	LStaticText *	theStaticText;
@@ -2173,14 +2275,13 @@ CTmplEditorWindow::AddListHeaderField(OSType inType, Str255 inLabel, short inCou
 
 	if (inType == 'LSTC') {
 		mYCoord += kTmplEditHeight;
-		// This is the label of the OCNT or ZCNT count
-// 		sStaticPaneInfo.left 	= mIndent;
+		// This is the label of the OCNT, ZCNT or FCNT counts
 		sStaticPaneInfo.top		= mYCoord;
 		sStaticPaneInfo.width	= kTmplLabelWidth;
 		theStaticText = new LStaticText(sStaticPaneInfo, inCountLabel, sRightLabelTraitsID);
 		ThrowIfNil_(theStaticText);
 		
-		// This is the value of the OCNT or ZCNT count
+		// This is the value of the OCNT, ZCNT or FCNT counts
 		sStaticPaneInfo.left 	+= sStaticPaneInfo.width + kTmplHorizSep;
 		sStaticPaneInfo.width	= kTmplCountWidth;
 		sStaticPaneInfo.paneID 	= mCurrentID;
@@ -2203,7 +2304,9 @@ CTmplEditorWindow::AddListHeaderField(OSType inType, Str255 inLabel, short inCou
 	thePushButton->SetUserCon( mTemplateStream->GetMarker());
 	// Let the window listen to this button
 	thePushButton->AddListener(this);
-
+	if (isFixedCount) {
+		thePushButton->Disable();
+	} 
 	mCurrentID++;
 	
 	sPushPaneInfo.left		+= kTmplCountWidth + kTmplHorizSep;
@@ -2214,6 +2317,9 @@ CTmplEditorWindow::AddListHeaderField(OSType inType, Str255 inLabel, short inCou
 	thePushButton->SetUserCon(nil);
 	// Let the window listen to this button
 	thePushButton->AddListener(this);
+	if (isFixedCount) {
+		thePushButton->Disable();
+	} 
 
 	mCurrentID++;
 
@@ -2524,7 +2630,7 @@ CTmplEditorWindow::DoRetrieveWithTemplate(SInt32 inRecursionMark)
 		*mTemplateStream >> theString;
 		*mTemplateStream >> theType;
 		
-		if (theType == 'OCNT' || theType == 'ZCNT') {
+		if (theType == 'OCNT' || theType == 'WCNT' || theType == 'ZCNT' || theType == 'FCNT') {
 			RetrieveDataForType(theType);
 		} else if (theType == 'LSTB' || theType == 'LSTC' || theType == 'LSTZ') {
 			// Skip the Plus and Minus buttons
@@ -2902,6 +3008,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		break;
 		
 		case 'OCNT':
+		case 'FCNT':
 		case 'WCNT':
 		// One-based count for LSTC lists
 		theStaticText = dynamic_cast<LStaticText *>(this->FindPaneByID(mCurrentID));
@@ -2939,6 +3046,17 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 			*mOutStream << (UInt8) 0x00;
 		} 
 		mCurrentID++;
+		break;
+
+		case 'PNT ':
+		// An 4-byte point
+		for (i = 0; i < 2; i++) {
+			theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
+			theEditText->GetDescriptor(numStr);	
+			::StringToNum( numStr, &theLong);
+			*mOutStream << (SInt16) theLong;
+			mCurrentID++;
+		}
 		break;
 
 		case 'PPST': 
