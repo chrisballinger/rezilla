@@ -131,7 +131,7 @@ CRezCompare::RunRezCompareDialog()
 {
 	Boolean			isIgnoreNames = false;
 	Boolean 		inRezCompLoop = true;
-	OSErr			error;
+	OSErr			error = noErr;
 	SInt16			theFork;
 	short			oldRefNum, newRefNum;
 	FSSpec			theFSSpec;
