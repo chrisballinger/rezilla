@@ -181,8 +181,6 @@ void
 CCompResultWindow::ListenToMessage( MessageT inMessage, void *ioParam ) 
 {
 #pragma unused(ioParam)
-// 	SInt32 theRangeStart, theRangeEnd;
-// 	SInt32 lineStart, lineEnd;
 	
 	switch (inMessage) {
 		
@@ -190,9 +188,15 @@ CCompResultWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		Hide();
 		break;
 		
-		case msg_CompResultScroller:
+		case msg_CompResultScroller: 
+		InsertHexContentsFromLine(mScroller->GetValue() + 1);
 		break;
 		
+		case msg_CompResultOnlyOldTbl: 
+		case msg_CompResultOnlyNewTbl: 
+		EraseHexPanes();
+		break;
+				
 	  case msg_CompResultDifferingTbl: {
 		Handle	oldHandle, newHandle;
 	    CRezTypId * theTypid;
@@ -203,6 +207,8 @@ CCompResultWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		mRezCompare->GetOldMap()->GetWithID(theTypid->mType, theTypid->mID, oldHandle, false);
 		mRezCompare->GetNewMap()->GetWithID(theTypid->mType, theTypid->mID, newHandle, false);
 		
+		EraseHexPanes();
+
 		mOldHexDataWE->InsertHexContents( *oldHandle, ::GetHandleSize(oldHandle));
 		mNewHexDataWE->InsertHexContents( *newHandle, ::GetHandleSize(newHandle));
 		
@@ -438,3 +444,43 @@ CCompResultWindow::HexLineCount()
 	} 
 	return ((oldLineCount > newLineCount) ? oldLineCount:newLineCount );
 }
+
+
+// ---------------------------------------------------------------------------
+//	¥ InsertHexContentsFromLine										[protected]
+// ---------------------------------------------------------------------------
+
+void
+CCompResultWindow::InsertHexContentsFromLine(SInt32 inFromLine)
+{
+	SInt32 oldByteCount = mOldHexDataWE->GetTextLength();
+	SInt32 newByteCount = mNewHexDataWE->GetTextLength();
+	SInt32 skipChars = 	(inFromLine - 1) * kRzilHexCompCharsPerLine;
+	
+	EraseHexPanes();
+	
+	if (oldByteCount > skipChars) {
+		mOldHexDataWE->InsertHexContents( *(mOldHexDataWE->GetTextHandle()) + skipChars, oldByteCount - skipChars);
+	} 
+	
+	if (newByteCount > skipChars) {
+		mNewHexDataWE->InsertHexContents( *(mNewHexDataWE->GetTextHandle()) + skipChars, newByteCount - skipChars);
+	} 
+	// Adjust the scrollbar
+	mScroller->SetValue(inFromLine-1);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ EraseHexPanes										[protected]
+// ---------------------------------------------------------------------------
+
+void
+CCompResultWindow::EraseHexPanes()
+{
+	mOldHexDataWE->DeleteAll();
+	mNewHexDataWE->DeleteAll();
+
+	mScroller->SetMaxValue(0);
+}
+

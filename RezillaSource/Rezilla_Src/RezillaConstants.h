@@ -256,7 +256,6 @@ const PaneIDT	item_CompResultOldStatic	= 2;
 const PaneIDT	item_CompResultNewStatic	= 3;
 const PaneIDT	item_CompResultOldHex		= 4;
 const PaneIDT	item_CompResultNewHex		= 5;
-const PaneIDT	item_CompResultStatus		= 6;
 const PaneIDT	item_CompResultOnlyOldTbl	= 11;
 const PaneIDT	item_CompResultDifferingTbl	= 13;
 const PaneIDT	item_CompResultOnlyNewTbl	= 15;

@@ -118,7 +118,7 @@ CRezMapWindow::FinishCreateSelf()
 	mOwnerDoc->GetRezMap()->CountAllResources(theCount);
 	InstallCountRezValue(theCount);
 		
-	UReanimator::LinkListenerToControls( this, this, rRidL_RezMapWindow );
+	UReanimator::LinkListenerToControls(this, this, rRidL_RezMapWindow);
 }
 
 
@@ -291,7 +291,6 @@ CRezMapWindow::InstallWhichForkField()
 		theField->SetDescriptor("\pDF");
 	}
 }
-
 
 
 

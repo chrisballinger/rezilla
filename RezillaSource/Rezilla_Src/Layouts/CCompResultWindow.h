@@ -59,12 +59,10 @@ public:
 							CommandT			inCommand,
 							void*				ioParam);
 
-
 	Boolean			IsDirty();
 	
 	void			FillTableView( TArray<CRezTypId *> inList, SInt16 inWhichList);
 	
-		
 protected:
 	CRezCompare *			mRezCompare;
 	CHexDataWE *			mOldHexDataWE;
@@ -74,10 +72,11 @@ protected:
 	CBroadcasterTableView *	mOnlyNewTable;
 	CBroadcasterTableView *	mDifferTable;
 	
-	
 	virtual void		SetMaxScrollerValue();
 	SInt32				HexLineCount();
 	virtual void		FinishCreateSelf();
+	void				InsertHexContentsFromLine(SInt32 inFromLine);
+	void				EraseHexPanes();
 };
 
 
