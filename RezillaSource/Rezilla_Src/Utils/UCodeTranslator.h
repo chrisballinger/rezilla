@@ -1,13 +1,13 @@
 // ===========================================================================
 // UCodeTranslator.h					
 // 
-// Â© 2002, Bernard Desgraupes, All rights reserved.
+// © 2002, Bernard Desgraupes, All rights reserved.
 //                       Created: 2003-05-04 16:40:47
 //             Last modification: 2004-02-22 19:49:55
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// Â© Copyright: Bernard Desgraupes 2003, 2004
+// © Copyright: Bernard Desgraupes 2003, 2004
 // All rights reserved.
 // $Date$
 // $Revision$

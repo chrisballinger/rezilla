@@ -1,13 +1,13 @@
 // ===========================================================================
 // UCodeTranslator.cp					
 // 
-// Â© 2002, Bernard Desgraupes, All rights reserved.
+// © 2002, Bernard Desgraupes, All rights reserved.
 //                       Created: 2003-05-04 16:40:47
 //             Last modification: 2004-02-22 19:50:17
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// Â© Copyright: Bernard Desgraupes 2003, 2004
+// © Copyright: Bernard Desgraupes 2003, 2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -33,8 +33,8 @@ PP_Begin_Namespace_PowerPlant
 // ---------------------------------------------------------------------------
 //	¥ ConvertAsciiToReadable											[public]
 // ---------------------------------------------------------------------------
-// 0xF6 (246) is Ã¶ and 0xFF (255) is Ã¿.
-// 0x5E (94) is Ã¶ too.
+// 0xF6 (246) is ö and 0xFF (255) is ÿ.
+// 0x5E (94) is ö too.
 
 void
 UCodeTranslator::ConvertAsciiToReadable( LDataStream* srcDataStream, LDataStream* trgtDataStream )

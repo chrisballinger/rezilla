@@ -22,16 +22,19 @@ class CRezMap;
 class CRezCompare {
 
 public:
-				CRezCompare();
-				CRezCompare(CRezMap * inOldMap, 
-						 CRezMap * inNewMap);
-				CRezCompare(FSSpec& inOldFileSpec, 
-						 FSSpec& inNewFileSpec);
+				CRezCompare(LCommander* inSuper);
+				CRezCompare(LCommander* inSuper,
+							CRezMap * inOldMap, 
+							CRezMap * inNewMap);
+				CRezCompare(LCommander* inSuper,
+							FSSpec& inOldFileSpec, 
+							FSSpec& inNewFileSpec);
 				~CRezCompare();
 
 		void				RunRezCompareDialog();
 
 protected:
+		LCommander* mSuperCommander;
 		Boolean		mIgnoreNames;
 		Boolean		mIgnoreAttrs;
 		CRezMap * 	mOldMap;
@@ -41,3 +44,4 @@ protected:
 
 
 #endif
+

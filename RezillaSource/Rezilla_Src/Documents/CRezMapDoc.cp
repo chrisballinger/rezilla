@@ -72,7 +72,8 @@ extern CWindowMenu * gWindowMenu;
 
 extern const Str255 Rzil_NavExportItems[] = {
 	"\pXML",
-	"\pText"
+	"\pTEXT",
+	"\pHTML"
 };
 
 
@@ -824,9 +825,9 @@ CRezMapDoc::DesignateExportFile( FSSpec& outFileSpec, bool & outReplacing)
 	NavMenuItemSpecHandle	theMenuItemHandle ;
 	NavMenuItemSpecPtr		theNavMenuItemSpecPtr;
 	
-	theMenuItemHandle = (NavMenuItemSpec**) NewHandleClear( 2 * sizeof(NavMenuItemSpec) );
+	theMenuItemHandle = (NavMenuItemSpec**) NewHandleClear( 3 * sizeof(NavMenuItemSpec) );
 	if (theMenuItemHandle != NULL) {
-		for (SInt16 theIndex = 0; theIndex < 2; theIndex++) {
+		for (SInt16 theIndex = 0; theIndex < 3; theIndex++) {
 			theNavMenuItemSpecPtr = *theMenuItemHandle + theIndex;
 			(*theNavMenuItemSpecPtr).version = kNavMenuItemSpecVersion;
 			(*theNavMenuItemSpecPtr).menuCreator = FOUR_CHAR_CODE('Rzil');
@@ -1413,7 +1414,7 @@ CRezMapDoc::DuplicateResource(CRezObj* inRezObj)
 // calling RemoveResource. You should  dispose  the  handle  if  you  want  to
 // release the memory before updating or closing the resource fork.
 // 
-// If youÃ•ve removed a  resource,  the  Resource  Manager  writes  the  entire
+// If youÕve removed a  resource,  the  Resource  Manager  writes  the  entire
 // resource map when it updates the resource fork, and all changes made to the
 // resource map become permanent. If  you  want  any  of  the  changes  to  be
 // temporary, you should restore the original information before the  Resource

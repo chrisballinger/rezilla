@@ -5,7 +5,7 @@
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// Â© Copyright: Bernard Desgraupes 2003-2004
+// © Copyright: Bernard Desgraupes 2003-2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -350,7 +350,7 @@ CRezillaApp::ObeyCommand(
 		}
 		
 		case cmd_RezCompare: {
-			CRezCompare * theComparator = new CRezCompare();
+			CRezCompare * theComparator = new CRezCompare(this);
 			ThrowIfNil_(theComparator);
 			theComparator->RunRezCompareDialog();
 			delete theComparator;
@@ -620,7 +620,7 @@ CRezillaApp::VersionFromResource()
 	return  theString;
 }
 // 01014000000007312e302e3161312752657a696c6c6120312e302e31613120a9203230303420627920422e2044657367726175706573
-// Ã¿Ã¿@Ã¿Ã¿Ã¿Ã¿1.0.1a1'Rezilla.1.0.1a1.Ã¶.2004.by.B..Desgraupes
+// ÿÿ@ÿÿÿÿ1.0.1a1'Rezilla.1.0.1a1.ö.2004.by.B..Desgraupes
 
 // ---------------------------------------------------------------------------
 //	¥ ChooseAFile								[public static]

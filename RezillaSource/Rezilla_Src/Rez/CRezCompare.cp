@@ -27,8 +27,9 @@
 //  ¥ CRezCompare														[public]
 // ---------------------------------------------------------------------------
 
-CRezCompare::CRezCompare()
+CRezCompare::CRezCompare(LCommander* inSuper)
 {
+	mSuperCommander = inSuper;
     mIgnoreNames = false;
     mIgnoreAttrs = true;
 	mOldMap = nil;
@@ -40,9 +41,11 @@ CRezCompare::CRezCompare()
 //  ¥ CRezCompare														[public]
 // ---------------------------------------------------------------------------
 
-CRezCompare::CRezCompare(CRezMap * inOldMap, 
+CRezCompare::CRezCompare(LCommander* inSuper, 
+						 CRezMap * inOldMap, 
 						 CRezMap * inNewMap)
 {
+	mSuperCommander = inSuper;
     mIgnoreNames = false;
     mIgnoreAttrs = true;
 	mOldMap = inOldMap;
@@ -54,13 +57,15 @@ CRezCompare::CRezCompare(CRezMap * inOldMap,
 //  ¥ CRezCompare														[public]
 // ---------------------------------------------------------------------------
 
-CRezCompare::CRezCompare(FSSpec& inOldFileSpec, 
+CRezCompare::CRezCompare(LCommander* inSuper, 
+						 FSSpec& inOldFileSpec, 
 						 FSSpec& inNewFileSpec)
 {
 	SInt16 oldFork, newFork;
 	short oldRefnum, newRefnum;
 	OSErr error;
 	
+	mSuperCommander = inSuper;
     mIgnoreNames = false;
     mIgnoreAttrs = true;
 	error = CRezillaApp::PreOpen(inOldFileSpec, oldFork, oldRefnum);
@@ -92,7 +97,7 @@ CRezCompare::RunRezCompareDialog()
 	Boolean			isIgnoreNames = false;
 	Boolean 		inRezCompLoop = true;
 	
-	StDialogBoxHandler	theHandler(rPPob_RezCompDialog, nil);
+	StDialogBoxHandler	theHandler(rPPob_RezCompDialog, mSuperCommander);
 	LDialogBox *		theDialog = theHandler.GetDialog();
 	Assert_(theDialog != nil);
 	
@@ -163,6 +168,7 @@ CRezCompare::RunRezCompareDialog()
 		}
 	}
 }
+
 
 
 

@@ -146,8 +146,9 @@ const SInt16	index_NoExt					= 1;
 const SInt16	index_ExtRsrc				= 2;
 const SInt16	index_ExtXml				= 3;
 const SInt16	index_ExtText				= 4;
-const SInt16	index_ExtR					= 5;
-const SInt16	index_ExtIcns				= 6;
+const SInt16	index_ExtHtml				= 5;
+const SInt16	index_ExtR					= 6;
+const SInt16	index_ExtIcns				= 7;
 
 
 // Menu commands
