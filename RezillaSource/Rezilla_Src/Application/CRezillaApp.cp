@@ -248,9 +248,10 @@ CRezillaApp::Initialize()
 	theAttachment = new CWindowMenuAttachment( gWindowMenu );
 	AddAttachment( theAttachment, nil, true );
 	
-	sRecentItemsAttachment = new CRecentItemsMenu(rMENU_RecentItems, kRzilMaxRecentItems, CFSTR(kRezillaIdentifier));
+	sRecentItemsAttachment = new CRecentItemsMenu(rMENU_RecentItems, 
+												  sPrefs->GetPrefValue(kPref_general_maxRecent), 
+												  CFSTR(kRezillaIdentifier));
 	AddAttachment( sRecentItemsAttachment, nil, true );
-	sRecentItemsAttachment->SetMaxRecentItems( sPrefs->GetPrefValue(kPref_general_maxRecent) );
 
 // 	// Help tags settings
 // 	ABalloonBase::EnableControlKeyPop();
