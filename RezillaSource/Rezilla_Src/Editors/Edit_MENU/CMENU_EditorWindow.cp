@@ -2,7 +2,7 @@
 // CMENU_EditorWindow.cp					
 // 
 //                       Created: 2005-03-09 17:16:53
-//             Last modification: 2005-03-11 22:17:36
+//             Last modification: 2005-03-15 17:25:26
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -106,7 +106,7 @@ CMENU_EditorWindow::FinishCreateSelf()
 // 	SwitchTarget(mItemsTable);
 		
 	// Link the broadcasters
-	UReanimator::LinkListenerToControls( this, this, PPob_TextEditorWindow );
+	UReanimator::LinkListenerToControls( this, this, PPob_MenuEditorWindow );
 	
 	// Listen to the glyph popup
 	CPopupEditField * theEditText = dynamic_cast<CPopupEditField *>(this->FindPaneByID( item_MenuEditGlyphField ));
@@ -129,20 +129,23 @@ CMENU_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 	switch (inMessage) {
 		case msg_MenuEditGlyphPopup: 
 		Str255		theString;
-		SInt32 		theValue;
+		SInt32 		theValue = 0;
 		
 		LEditText * theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(item_MenuEditGlyphField));
 		ThrowIfNil_( theEditText );
 		theEditText->GetDescriptor(theString);
-		::StringToNum( theString, &theValue);		
-		CKeyboardGlyphBox * theGlyphBox = dynamic_cast<CKeyboardGlyphBox *>(this->FindPaneByID(item_MenuEditGlyphBox));
-		ThrowIfNil_( theGlyphBox );
-		theString[0] = 1;
-		theString[1] = theValue;
-		theGlyphBox->SetString(theString);
-		theGlyphBox->Draw(nil);
+		::StringToNum( theString, &theValue);
+		InstallGlyphValue( (UInt8) theValue);
 		break;
-		
+				
+		case msg_MenuEditGlyphField: 
+		if (ioParam == NULL) {
+			InstallGlyphValue(0);
+		} else {
+			ListenToMessage(msg_MenuEditGlyphPopup, ioParam);
+		}
+		break;
+				
 		default:
 		dynamic_cast<CMENU_EditorDoc *>(mOwnerDoc)->ListenToMessage(inMessage, ioParam);
 		break;
@@ -480,6 +483,24 @@ CMENU_EditorWindow::InstallItemValuesAtIndex( ArrayIndexT inAtIndex )
 			
 		} 
 	} 
+}
+
+
+// ---------------------------------------------------------------------------
+//	 InstallTableValues
+// ---------------------------------------------------------------------------
+
+void
+CMENU_EditorWindow::InstallGlyphValue(UInt8 inValue)
+{
+	Str255		theString;
+	
+	CKeyboardGlyphBox * theGlyphBox = dynamic_cast<CKeyboardGlyphBox *>(this->FindPaneByID(item_MenuEditGlyphBox));
+	ThrowIfNil_( theGlyphBox );
+	theString[0] = 1;
+	theString[1] = inValue;
+	theGlyphBox->SetString(theString);
+	theGlyphBox->Draw(nil);		
 }
 
 

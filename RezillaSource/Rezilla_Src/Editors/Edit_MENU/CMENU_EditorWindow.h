@@ -2,7 +2,7 @@
 // CMENU_EditorWindow.h
 // 
 //                       Created: 2005-03-09 17:16:53
-//             Last modification: 2005-03-11 22:17:56
+//             Last modification: 2005-03-15 17:25:14
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -79,6 +79,7 @@ private:
 	void			InstallItemValuesAtIndex( ArrayIndexT inAtIndex );
 	void			InstallMenuValues();
 	void			InstallTableValues();
+	void			InstallGlyphValue(UInt8 inValue);
 
 };
 
