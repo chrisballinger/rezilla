@@ -731,6 +731,19 @@ const DescType rzil_pPreload		= 'pPRE';		// resPreload
 const DescType rzil_pSize			= 'pSIZ';		// Size
 const DescType rzil_pData			= pContents;	// Data ('pcnt', was 'pDAT')
 
+//    Specifier
+const DescType rzil_cTypeID			= 'TyId';	// Resource specifier (type, ID)
+
+//    Maps Comparison
+const DescType rzil_cMapComparison	= 'COMP';	// Maps Comparison 
+const DescType rzil_pIgnoreName		= 'IgnN';	// IgnoreNameDiff
+const DescType rzil_pIgnoreAttr		= 'IgnA';	// IgnoreAttrDiff
+const DescType rzil_pIgnoreData		= 'IgnD';	// IgnoreDataDiff
+const DescType rzil_pOnlyInOld		= 'OldR';	// Only in old map resources (list)
+const DescType rzil_pOnlyInNew		= 'NewR';	// Only in new map resources (list)
+const DescType rzil_pDiffering		= 'Diff';	// In both but different (list)
+const DescType rzil_pIdentical		= 'Iden';	// In both and identical (list)
+
 //    HexPane/TxtPane
 const DescType rzil_pContents		= pContents;	// Contents ('pcnt')
 
@@ -739,16 +752,6 @@ const DescType rzil_pKind			= 'pKND';	// Kind
 
 //    Tmpl editor document
 const DescType rzil_pTemplate		= 'pTMP';	// Template
-
-//    Compare document
-const DescType rzil_pIgnoreName		= 'IgnN';	// IgnoreNameDiff
-const DescType rzil_pIgnoreAttr		= 'IgnA';	// IgnoreAttrDiff
-const DescType rzil_pIgnoreData		= 'IgnD';	// IgnoreDataDiff
-const DescType rzil_pOnlyInOld		= 'OOld';	// Only in old (list)
-const DescType rzil_pDiffering		= 'Diff';	// In both but differing (list)
-const DescType rzil_pIdentical		= 'Iden';	// In both and identical (list)
-const DescType rzil_pOnlyInNew		= 'ONew';	// Only in new (list)
-
 
 
 
