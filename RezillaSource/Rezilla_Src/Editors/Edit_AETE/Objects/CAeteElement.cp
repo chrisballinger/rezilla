@@ -140,17 +140,7 @@ CAeteElement::DeleteKeyForm()
 	mKeyFormIndex = -1;
 	return CountKeyForms();
 }
- 
-// SInt32
-// CAeteElement::DeleteKeyForm()
-// {
-// 	SInt32	count;
-// 	RemoveKeyForm(mKeyFormIndex);
-// 	count = CountKeyForms();
-// 	mKeyFormIndex = (count > 0);
-// 	return count;
-// }
- 
+
 
 // ---------------------------------------------------------------------------
 // GetCurrentKeyForm 												[public]
