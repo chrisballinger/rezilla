@@ -46,11 +46,17 @@ struct SInterfacePrefs {
 	TextTraitsRecord	traitsRecord;
 };
 
+//     Editors Prefs
+struct SEditorsPrefs {
+	SInt32			labelWidth;
+};
+
 struct SRezillaPrefs {
 	SGeneralPrefs		general;
 	SExportPrefs		exporting;
 	SComparePrefs		compare;
 	SInterfacePrefs		interface;
+	SEditorsPrefs		editors;
 };
 
 enum {
@@ -58,6 +64,7 @@ enum {
 	kPref_compare_ignoreAttributes,
 	kPref_compare_ignoreData,
 	kPref_compare_ignoreName,
+	kPref_editors_labelWidth,
 	kPref_export_dataEncoding,
 	kPref_export_formatDtd,
 	kPref_export_includeBinary,

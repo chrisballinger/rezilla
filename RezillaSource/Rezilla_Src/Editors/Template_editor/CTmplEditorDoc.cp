@@ -119,6 +119,8 @@ CTmplEditorDoc::Initialize()
 	
 	// Make the window visible.
 	mTmplEditWindow->Show();
+	
+// 	mTmplEditWindow->GetContentsView()->Activate();
 }
 
 

@@ -2,11 +2,11 @@
 // CTmplEditorWindow.cp					
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-06-14 12:17:02
+//             Last modification: 2004-06-15 10:20:00
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003-2004
+// (c) Copyright : Bernard Desgraupes, 2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -34,7 +34,7 @@
 #include <UAppleEventsMgr.h>
 #include <UCursor.h>
 
-#include <AppleHelp.h>
+#include <stdio.h>
 
 
 // ---------------------------------------------------------------------------
@@ -114,9 +114,13 @@ CTmplEditorWindow::FinishCreateSelf()
 	mTemplateStream		= nil;
 	mRezStream			= nil;
 	
-	// Waste edit subviews
+	// The main view containing the labels and editing panes
 	mContentsView = dynamic_cast<LView *>(this->FindPaneByID(item_TmplEditContents));
 	ThrowIfNil_( mContentsView );
+		
+	// The scroller controlling the contents view
+	mContentsScroller = dynamic_cast<LActiveScroller *>(this->FindPaneByID(item_TmplEditScroller));
+	ThrowIfNil_( mContentsScroller );
 		
 	// Install the name of the resource if it has one
 	LStaticText * theStaticText = dynamic_cast<LStaticText *>(this->FindPaneByID( item_NameStaticText ));
@@ -126,22 +130,11 @@ CTmplEditorWindow::FinishCreateSelf()
 	
 	// Make the window a listener to the prefs object
 	CRezillaApp::sPrefs->AddListener(this);
-	
-	mEditPaneInfo.paneID			= mCurrentID;
-	mEditPaneInfo.width				= kTmplEditWidth;
-	mEditPaneInfo.height			= kTmplEditHeight;
-	mEditPaneInfo.visible			= true;
-	mEditPaneInfo.enabled			= true;
-	mEditPaneInfo.bindings.left		= true;
-	mEditPaneInfo.bindings.top		= true;
-	mEditPaneInfo.bindings.right	= false;
-	mEditPaneInfo.bindings.bottom	= false;
-	mEditPaneInfo.userCon			= 0;
-	mEditPaneInfo.superView			= mContentsView;
 
+	// Label fields basic values
 	mStaticPaneInfo.paneID			= 0;
-	mStaticPaneInfo.width			= kTmplStaticWidth;
-	mStaticPaneInfo.height			= kTmplStaticHeight;
+	mStaticPaneInfo.width			= kTmplLabelWidth;
+	mStaticPaneInfo.height			= kTmplLabelHeight;
 	mStaticPaneInfo.visible			= true;
 	mStaticPaneInfo.enabled			= true;
 	mStaticPaneInfo.bindings.left	= true;
@@ -150,6 +143,43 @@ CTmplEditorWindow::FinishCreateSelf()
 	mStaticPaneInfo.bindings.bottom = false;
 	mStaticPaneInfo.userCon			= 0;
 	mStaticPaneInfo.superView		= mContentsView;
+	
+	// Edit fields basic values
+	mEditPaneInfo.paneID			= mCurrentID;
+	mEditPaneInfo.width				= kTmplEditWidth;
+	mEditPaneInfo.height			= kTmplEditHeight;
+	mEditPaneInfo.visible			= true;
+	mEditPaneInfo.enabled			= true;
+	mEditPaneInfo.bindings.left		= true;
+	mEditPaneInfo.bindings.top		= true;
+	mEditPaneInfo.bindings.right	= true;
+	mEditPaneInfo.bindings.bottom	= false;
+	mEditPaneInfo.userCon			= 0;
+	mEditPaneInfo.superView			= mContentsView;
+
+	// Radio group view basic values
+	mRgvPaneInfo.paneID				= 0;
+	mRgvPaneInfo.width				= kTmplRgvWidth;
+	mRgvPaneInfo.height				= kTmplRgvHeight;
+	mRgvPaneInfo.visible			= true;
+	mRgvPaneInfo.enabled			= true;
+	mRgvPaneInfo.bindings.left		= true;
+	mRgvPaneInfo.bindings.top		= true;
+	mRgvPaneInfo.bindings.right		= false;
+	mRgvPaneInfo.bindings.bottom	= false;
+	mRgvPaneInfo.userCon			= 0;
+	
+	// Radio buttons basic values
+	mRadioPaneInfo.paneID			= 0;
+	mRadioPaneInfo.width			= kTmplRadioWidth;
+	mRadioPaneInfo.height			= kTmplRadioHeight;
+	mRadioPaneInfo.visible			= true;
+	mRadioPaneInfo.enabled			= true;
+	mRadioPaneInfo.bindings.left	= true;
+	mRadioPaneInfo.bindings.top		= true;
+	mRadioPaneInfo.bindings.right	= false;
+	mRadioPaneInfo.bindings.bottom	= false;
+	mRadioPaneInfo.userCon			= 0;
 
 // 	// Attach an LUndoer to each of the subpanes
 // 	mHexDataWE->AddAttachment( new LUndoer );
@@ -275,7 +305,7 @@ void
 CTmplEditorWindow::CreateTemplateStream()
 {
 	Handle theHandle = CRezEditor::GetTemplateHandle( mOwnerDoc->GetRezObj()->GetType() );
-	mTemplateStream = LHandleStream(theHandle);	
+	mTemplateStream = new LHandleStream(theHandle);	
 }
  
 
@@ -293,12 +323,12 @@ CTmplEditorWindow::ParseWithTemplate(Handle inHandle)
 	CreateTemplateStream();
 	
 	// Create a stream to parse the data
-	mRezStream = LHandleStream(inHandle);	
+	mRezStream = new LHandleStream(inHandle);	
 
-	while (mTemplateStream.GetMarker() < mTemplateStream.GetLength() ) {
-		mTemplateStream >> theString;
-		mTemplateStream >> theType;
-
+	while (mTemplateStream->GetMarker() < mTemplateStream->GetLength() ) {
+		*mTemplateStream >> theString;
+		*mTemplateStream >> theType;
+		// Create controls according to the type declared in the template
 		ParseDataForType(theType, theString);
 	}
 }
@@ -340,9 +370,12 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 	char *	theCString;
 	short	theShort;
 	Str255	numStr, theString;
+	SInt8	theSInt8;
+	SInt16	theSInt16;
 	SInt32	theSInt32, theRest, theLength, oldYCoord;
 	UInt16	theUInt16;
 	UInt32	theUInt32;
+	Boolean	theBool;
 	OSType	theOSType;
 	
 	// Store the type in the userCon field
@@ -361,18 +394,25 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 
 		case 'BBIT':
 		// 
+		*mRezStream >> theChar;
+		
+		AddStaticField(inLabelString);
+// 		AddBooleanControls();
 		
 		break;
 
 		case 'BOOL':
-		// 
-		// // BOOL is two bytes long, false == 0x0000, true == 0x0100
-		
+		// Boolean (two bytes: 0x0100 for true, 0x0000 for false)
+		*mRezStream >> theBool;
+		AddStaticField(inLabelString);
+		AddBooleanControls( (Boolean) theSInt16, inType, tmpl_titleYesNo);		
+		// BOOL is two bytes long, so let's consume one more byte
+		*mRezStream >> theBool;
 		break;
 
 		case 'CHAR':
 		// A single character
-		mRezStream >> theChar;
+		*mRezStream >> theChar;
 		theString[0] = 1;
 		theString[1] = theChar;
 		AddStaticField(inLabelString);
@@ -382,7 +422,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 
 		case 'CSTR':
 		// C string (characters followed by a null)
-		mRezStream >> theCString;
+		*mRezStream >> theCString;
 		CopyCStringToPascal(theCString, theString);
 		AddStaticField(inLabelString);
 		AddEditField(theString, inType, rPPob_TmplEditorWindow + mCurrentID, 255, 0, NULL);
@@ -390,8 +430,8 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 
 		case 'DBYT':
 		// Decimal byte
-		mRezStream >> theChar;
-		::NumToString( (long) theChar, numStr);
+		*mRezStream >> theSInt8;
+		::NumToString( (long) theSInt8, numStr);
 		AddStaticField(inLabelString);
 		AddEditField(numStr, inType, rPPob_TmplEditorWindow + mCurrentID, 3, 0, 
 					 UKeyFilters::SelectTEKeyFilter(keyFilter_Integer));
@@ -399,8 +439,8 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 
 		case 'DLNG':
 		// Decimal long word
-		mRezStream >> theUInt32;
-		::NumToString( (long) theUInt32, numStr);
+		*mRezStream >> theSInt32;
+		::NumToString( (long) theSInt32, numStr);
 		AddStaticField(inLabelString);
 		AddEditField(numStr, inType, rPPob_TmplEditorWindow + mCurrentID, 5, 0, 
 					 UKeyFilters::SelectTEKeyFilter(keyFilter_Integer));
@@ -408,8 +448,8 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 
 		case 'DWRD':
 		// Decimal word
-		mRezStream >> theUInt16;
-		::NumToString( (long) theUInt16, numStr);
+		*mRezStream >> theSInt16;
+		::NumToString( (long) theSInt16, numStr);
 		AddStaticField(inLabelString);
 		AddEditField(numStr, inType, rPPob_TmplEditorWindow + mCurrentID, 10, 0, 
 					 UKeyFilters::SelectTEKeyFilter(keyFilter_Integer));
@@ -422,7 +462,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 
 		case 'ESTR':
 		// Pascal string padded to even length (needed for DITL resources)
-		mRezStream >> theString;
+		*mRezStream >> theString;
 		theLength = theString[0];
 		if ((theLength % 2 == 0) && (theString[theLength] == 0)) {
 			// if the length is even and the last char is a null, it means the string has 
@@ -437,27 +477,26 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 
 		case 'FBYT':
 		// Byte fill (with 0)
-		mTemplateStream.SetMarker(1, streamFrom_Marker);
+		mTemplateStream->SetMarker(1, streamFrom_Marker);
 		break;
 
 		case 'FLNG':
 		// Long fill (with 0)
-		mTemplateStream.SetMarker(4, streamFrom_Marker);
+		mTemplateStream->SetMarker(4, streamFrom_Marker);
 		break;
 
 		case 'FWRD':
 		// Word fill (with 0)
-		mTemplateStream.SetMarker(2, streamFrom_Marker);
+		mTemplateStream->SetMarker(2, streamFrom_Marker);
 		break;
 
 		case 'HBYT':
 		// Hex byte
-		mRezStream >> theChar;
-// 		sprintf();
-		
-		::NumToString( (long) theChar, numStr);
+		*mRezStream >> theChar;
+		sprintf(charString, "$%.2x%c", theChar, NULL);
+		CopyCStringToPascal(charString, theString);
 		AddStaticField(inLabelString);
-		AddEditField(numStr, inType, rPPob_TmplEditorWindow + mCurrentID, 2, 0, 
+		AddEditField(theString, inType, rPPob_TmplEditorWindow + mCurrentID, 2, 0, 
 					 &UHexFilters::HexadecimalField);
 		break;
 
@@ -468,19 +507,21 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 
 		case 'HLNG':
 		// Hex long word
-		mRezStream >> theSInt32;
-		::NumToString( (long) theSInt32, numStr);
+		*mRezStream >> theSInt32;
+		sprintf(charString, "$%.8x%c", theSInt32, NULL);
+		CopyCStringToPascal(charString, theString);
 		AddStaticField(inLabelString);
-		AddEditField(numStr, inType, rPPob_TmplEditorWindow + mCurrentID, 8, 0, 
+		AddEditField(theString, inType, rPPob_TmplEditorWindow + mCurrentID, 8, 0, 
 					 &UHexFilters::HexadecimalField);
 		break;
 
 		case 'HWRD':
 		// Hex word
-		mRezStream >> theShort;
-		::NumToString( (long) theShort, numStr);
+		*mRezStream >> theShort;
+		sprintf(charString, "$%.4x%c", theShort, NULL);
+		CopyCStringToPascal(charString, theString);
 		AddStaticField(inLabelString);
-		AddEditField(numStr, inType, rPPob_TmplEditorWindow + mCurrentID, 4, 0, 
+		AddEditField(theString, inType, rPPob_TmplEditorWindow + mCurrentID, 4, 0, 
 					 &UHexFilters::HexadecimalField);
 		break;
 
@@ -526,7 +567,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 
 		case 'OSTR':
 		// Pascal string padded to odd length (needed for DITL resources)
-		mRezStream >> theString;
+		*mRezStream >> theString;
 		theLength = theString[0];
 		if ((theLength % 2) && (theString[theLength] == 0)) {
 			// if the length is odd and the last char is a null, it means the string has 
@@ -540,7 +581,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 
 		case 'PSTR':
 		// Pascal string
-		mRezStream >> theString;
+		*mRezStream >> theString;
 		AddStaticField(inLabelString);
 		AddEditField(theString, inType, rPPob_TmplEditorWindow + mCurrentID, 255, 0, 
 					 UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar));
@@ -549,10 +590,10 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 		case 'RECT': {
 		// An 8-byte rectangle
 		SInt16 theTop, theLeft, theBottom, theRight;
-		mRezStream >> theTop;
-		mRezStream >> theLeft;
-		mRezStream >> theBottom;
-		mRezStream >> theRight;
+		*mRezStream >> theTop;
+		*mRezStream >> theLeft;
+		*mRezStream >> theBottom;
+		*mRezStream >> theRight;
 		AddStaticField(inLabelString);
 		AddRectField(theTop, theLeft, theBottom, theRight, inType, rPPob_TmplEditorWindow + mCurrentID, 255, 0, 
 					 UKeyFilters::SelectTEKeyFilter(keyFilter_Integer));
@@ -561,7 +602,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 
 		case 'TNAM':
 		// Type name (four characters, like OSType and ResType)
-		mRezStream >> theOSType;
+		*mRezStream >> theOSType;
 		UMiscUtils::OSTypeToPString(theOSType, theString);
 		AddStaticField(inLabelString);
 		AddEditField(theString, inType, rPPob_TmplEditorWindow + mCurrentID, 4, 0, 
@@ -586,6 +627,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 	}
 
 	mContentsView->ResizeImageBy(0, mYCoord - oldYCoord, true);
+	mContentsScroller->AdjustScrollBars();
 
 	return error;
 }
@@ -629,8 +671,8 @@ CTmplEditorWindow::AddEditField(Str255 inValue,
 								UInt8 inAttributes,
 								TEKeyFilterFunc inKeyFilter)
 {
-	mEditPaneInfo.left = kTmplLeftMargin + kTmplStaticWidth + kTmplHorizSep + mIndent;
-	mEditPaneInfo.top = mYCoord;
+	mEditPaneInfo.left = kTmplLeftMargin + kTmplLabelWidth + kTmplHorizSep + mIndent;
+	mEditPaneInfo.top = mYCoord - 2;
 	mEditPaneInfo.paneID = mCurrentID;
 
 	LEditText * theEditText = new LEditText(mEditPaneInfo, this, inValue, mEditTraitsID, 
@@ -640,9 +682,85 @@ CTmplEditorWindow::AddEditField(Str255 inValue,
 	// Store the template's type in the userCon field
 	theEditText->SetUserCon(inType);
 	
+// 	SetLatentSub(theEditText);
+// 	SuperActivate();
+
 	// Advance the counters
 	mYCoord += mEditPaneInfo.height + kTmplVertSkip;
-	mCurrentID += 1;
+	mCurrentID++;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ AddBooleanControls											[public]
+// ---------------------------------------------------------------------------
+
+// 		enum {
+// 	editAttr_Box			= 0x80,
+// 	editAttr_WordWrap		= 0x40,
+// 	editAttr_AutoScroll		= 0x20,
+// 	editAttr_TextBuffer		= 0x10,
+// 	editAttr_OutlineHilite	= 0x08,
+// 	editAttr_InlineInput	= 0x04,
+// 	editAttr_TextServices	= 0x02
+// };
+// 		attributes |= editAttr_WordWrap;
+// typedef struct	SViewInfo {
+// 	SDimension32	imageSize;
+// 	SPoint32		scrollPos;
+// 	SPoint32		scrollUnit;
+// 	SInt16			reconcileOverhang;
+// } SViewInfo;
+
+// theBool, inType, rPPob_TmplEditorWindow + mCurrentID, 0, 
+// 					 UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar)
+void
+CTmplEditorWindow::AddBooleanControls(Boolean inValue,
+									  OSType inType,
+									  SInt16 inTitleType)
+{
+	LStdRadioButton * theRadio;
+	SViewInfo	theViewInfo;
+	theViewInfo.imageSize.width = theViewInfo.imageSize.height = 0 ;
+	theViewInfo.scrollPos.h = theViewInfo.scrollPos.v = 0;
+	theViewInfo.scrollUnit.h = theViewInfo.scrollUnit.v = 1;
+	theViewInfo.reconcileOverhang = false;
+	
+	mRgvPaneInfo.left = kTmplLeftMargin + kTmplLabelWidth + kTmplHorizSep + mIndent;
+	mRgvPaneInfo.top = mYCoord - 2;
+	mRgvPaneInfo.paneID = mCurrentID;
+
+	LRadioGroupView * theRGV = new LRadioGroupView(mEditPaneInfo, theViewInfo);
+	ThrowIfNil_(theRGV);
+
+	// Store the template's type in the userCon field
+	theRGV->SetUserCon(inType);
+	
+	mCurrentID++;
+
+	// Create two radiobuttons in this group
+	mRadioPaneInfo.left = 2;
+	mRadioPaneInfo.top = 2;
+	mRadioPaneInfo.paneID = mCurrentID;
+	mRadioPaneInfo.superView = theRGV;
+
+	theRadio = new LStdRadioButton(mRadioPaneInfo, rPPob_TmplEditorWindow + mCurrentID, 
+								   inValue, mLabelTraitsID, (UInt8 *)(inTitleType ? "\pOn":"\pYes"));
+	ThrowIfNil_(theRadio);
+	
+	mCurrentID++;
+	mRadioPaneInfo.left += kTmplRadioWidth + kTmplHorizSep;
+	mRadioPaneInfo.paneID = mCurrentID;
+
+	theRadio = new LStdRadioButton(mRadioPaneInfo, rPPob_TmplEditorWindow + mCurrentID, 
+								   inValue, mLabelTraitsID, (UInt8 *)(inTitleType ? "\pOff":"\pNo"));
+	ThrowIfNil_(theRadio);
+	
+	theRGV->SetCurrentRadioID( inValue ?  mCurrentID - 1 : mCurrentID );
+	
+	// Advance the counters
+	mYCoord += mRgvPaneInfo.height + kTmplVertSkip;
+	mCurrentID++;
 }
 
 
@@ -696,7 +814,7 @@ CTmplEditorWindow::AddWasteField(OSType inType)
 	
 	// Advance the counters
 	mYCoord += mEditPaneInfo.top + kTmplVertSkip;
-	mCurrentID += 1;
+	mCurrentID++;
 }
 
 
@@ -736,14 +854,14 @@ CTmplEditorWindow::AlignBytes(UInt8 inStep)
 {
 	ExceptionCode	err = noErr;
 	
-	SInt32 theSInt32 = mTemplateStream.GetMarker();
+	SInt32 theSInt32 = mRezStream->GetMarker();
 	SInt32 theRest = theSInt32 % inStep;
 
 	if (theRest != 0) {
-		if (theSInt32 + theRest > mTemplateStream.GetLength()) {
+		if (theSInt32 + theRest > mRezStream->GetLength()) {
 			err = writErr;
 		} else {
-			mTemplateStream.SetMarker(theRest, streamFrom_Marker);
+			mRezStream->SetMarker(theRest, streamFrom_Marker);
 		}
 	}
 	

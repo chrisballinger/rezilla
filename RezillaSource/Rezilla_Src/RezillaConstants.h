@@ -359,6 +359,12 @@ const PaneIDT	item_CompPrefsTxtDisplay	= 7;
 //     --------------------
 const PaneIDT	item_UIPrefsFontsMenu		= 2;
 const PaneIDT	item_UIPrefsSizeMenu		= 3;
+//     Editors Prefs Pane
+//     ------------------
+const PaneIDT	item_EditPrefsLabelWidth	= 2;
+const PaneIDT	item_EditPrefsHexSymRgbx	= 3;
+const PaneIDT	item_EditPrefsHexSym0x		= 4;
+const PaneIDT	item_EditPrefsHexSymDollar	= 5;
 // Tmpl Editor Window
 // ------------------
 const PaneIDT   item_TmplEditContents	= FOUR_CHAR_CODE('Cnts') ;
@@ -489,6 +495,9 @@ const MessageT	msg_CompPrefsTxtDisplay		= rPPob_PrefsComparePane + item_CompPref
 //     --------------------
 const MessageT	msg_UIPrefsFontsMenu		= rPPob_PrefsInterfacePane + item_UIPrefsFontsMenu;
 const MessageT	msg_UIPrefsSizeMenu			= rPPob_PrefsInterfacePane + item_UIPrefsSizeMenu;
+//     Editors Prefs Pane
+//     ------------------
+const MessageT	msg_EditPrefsLableWidth		= rPPob_PrefsEditorsPane + item_EditPrefsLabelWidth;
 // Tmpl Editor Window
 // ------------------
 const MessageT	msg_TmplEditValidate		= msg_OK;
@@ -592,9 +601,13 @@ const SInt16	kTmplLeftMargin			= 10;
 const SInt16	kTmplVertSkip			= 10;
 const SInt16	kTmplHorizSep			= 10;
 const SInt16	kTmplEditHeight			= 22;
-const SInt16	kTmplEditWidth			= 200;
-const SInt16	kTmplStaticHeight		= 22;
-const SInt16	kTmplStaticWidth		= 100;
+const SInt16	kTmplEditWidth			= 250;
+const SInt16	kTmplLabelHeight		= 22;
+const SInt16	kTmplLabelWidth			= 150;
+const SInt16	kTmplRgvHeight			= 22;
+const SInt16	kTmplRgvWidth			= 150;
+const SInt16	kTmplRadioHeight		= 16;
+const SInt16	kTmplRadioWidth			= 50;
 const SInt16	kTmplWasteHeight		= 200;
 const SInt16	kTmplWasteWidth			= 300;
 

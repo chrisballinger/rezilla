@@ -129,17 +129,23 @@ CRezillaPrefs::SetDefaultPreferences()
 	// General pane
 	mCurrPrefs.general.maxRecent		= 10;
 	mCurrPrefs.general.newFork			= fork_datafork;
+	
 	// Exporting pane
 	mCurrPrefs.exporting.includeBinary	= true;
 	mCurrPrefs.exporting.formatDtd		= export_KeyDtd;
 	mCurrPrefs.exporting.binaryEncoding	= export_Base64Enc;
+	
 	// Comparison pane
 	mCurrPrefs.compare.ignoreName		= false;
 	mCurrPrefs.compare.ignoreAttributes	= true;
 	mCurrPrefs.compare.ignoreData		= false;
 	mCurrPrefs.compare.displayAs		= compare_displayAsHex;
+
 	// Interface pane: default text trait loaded if necessary while
 	// retreiving preferences
+
+	// Editors pane
+	mCurrPrefs.editors.labelWidth		= 150;
 }
 
 
@@ -162,6 +168,11 @@ CRezillaPrefs::StorePreferences()
 	theNumber = GetPrefValue( kPref_general_newFork );
 	theValue = CFNumberCreate(NULL, kCFNumberIntType, &theNumber); 
 	CFPreferencesSetAppValue(CFSTR("pref_general_newFork"), theValue, kCFPreferencesCurrentApplication);
+	if (theValue) CFRelease(theValue);
+
+	theNumber = GetPrefValue( kPref_editors_labelWidth );
+	theValue = CFNumberCreate(NULL, kCFNumberIntType, &theNumber); 
+	CFPreferencesSetAppValue( CFSTR("pref_editors_labelWidth"), theValue, kCFPreferencesCurrentApplication);
 	if (theValue) CFRelease(theValue);
 
 	theNumber = GetPrefValue( kPref_export_formatDtd );
@@ -228,6 +239,10 @@ CRezillaPrefs::RetrievePreferences()
 	if (valueValid) {
 		SetPrefValue( result, kPref_general_newFork);
 	}
+	result = CFPreferencesGetAppIntegerValue(CFSTR("pref_editors_labelWidth"), CFSTR(kRezillaIdentifier), &valueValid);
+	if (valueValid) {
+		SetPrefValue( result, kPref_editors_labelWidth);
+	}
 	result = CFPreferencesGetAppIntegerValue(CFSTR("pref_export_formatDtd"), CFSTR(kRezillaIdentifier), &valueValid);
 	if (valueValid) {
 		SetPrefValue( result, kPref_export_formatDtd);
@@ -282,7 +297,7 @@ CRezillaPrefs::SetPrefValue(SInt32 inPrefValue, SInt32 inConstant, SInt32 inPref
 {
 	switch (inConstant) {
 		
-	  case kPref_general_maxRecent:
+		case kPref_general_maxRecent:
 		if (inPrefType == prefsType_Temp) {
 			mTempPrefs.general.maxRecent = inPrefValue ;
 		} else {
@@ -290,7 +305,7 @@ CRezillaPrefs::SetPrefValue(SInt32 inPrefValue, SInt32 inConstant, SInt32 inPref
 		}	
 		break;
 		
-	  case kPref_general_newFork:
+		case kPref_general_newFork:
 		if (inPrefType == prefsType_Temp) {
 			mTempPrefs.general.newFork = inPrefValue ;
 		} else {
@@ -298,7 +313,15 @@ CRezillaPrefs::SetPrefValue(SInt32 inPrefValue, SInt32 inConstant, SInt32 inPref
 		}	
 		break;
 		
-	  case kPref_export_formatDtd:
+		case kPref_editors_labelWidth:
+		if (inPrefType == prefsType_Temp) {
+			mTempPrefs.editors.labelWidth = inPrefValue ;
+		} else {
+			mCurrPrefs.editors.labelWidth = inPrefValue ;
+		}	
+		break;
+		
+		case kPref_export_formatDtd:
 		if (inPrefType == prefsType_Temp) {
 			mTempPrefs.exporting.formatDtd = inPrefValue ;
 		} else {
@@ -306,7 +329,7 @@ CRezillaPrefs::SetPrefValue(SInt32 inPrefValue, SInt32 inConstant, SInt32 inPref
 		}	
 		break;
 		
-	  case kPref_export_includeBinary:
+		case kPref_export_includeBinary:
 		if (inPrefType == prefsType_Temp) {
 			mTempPrefs.exporting.includeBinary = inPrefValue ;
 		} else {
@@ -314,7 +337,7 @@ CRezillaPrefs::SetPrefValue(SInt32 inPrefValue, SInt32 inConstant, SInt32 inPref
 		}	
 		break;
 		
-	  case kPref_export_dataEncoding:
+		case kPref_export_dataEncoding:
 		if (inPrefType == prefsType_Temp) {
 			mTempPrefs.exporting.binaryEncoding = inPrefValue ;
 		} else {
@@ -322,7 +345,7 @@ CRezillaPrefs::SetPrefValue(SInt32 inPrefValue, SInt32 inConstant, SInt32 inPref
 		}	
 		break;
 		
-	  case kPref_compare_ignoreName:
+		case kPref_compare_ignoreName:
 		if (inPrefType == prefsType_Temp) {
 			mTempPrefs.compare.ignoreName = inPrefValue ;
 		} else {
@@ -330,7 +353,7 @@ CRezillaPrefs::SetPrefValue(SInt32 inPrefValue, SInt32 inConstant, SInt32 inPref
 		}	
 		break;
 		
-	  case kPref_compare_ignoreAttributes:
+		case kPref_compare_ignoreAttributes:
 		if (inPrefType == prefsType_Temp) {
 			mTempPrefs.compare.ignoreAttributes = inPrefValue ;
 		} else {
@@ -338,7 +361,7 @@ CRezillaPrefs::SetPrefValue(SInt32 inPrefValue, SInt32 inConstant, SInt32 inPref
 		}	
 		break;
 		
-	  case kPref_compare_ignoreData:
+		case kPref_compare_ignoreData:
 		if (inPrefType == prefsType_Temp) {
 			mTempPrefs.compare.ignoreData = inPrefValue ;
 		} else {
@@ -346,7 +369,7 @@ CRezillaPrefs::SetPrefValue(SInt32 inPrefValue, SInt32 inConstant, SInt32 inPref
 		}	
 		break;
 		
-	  case kPref_compare_dataDisplayAs:
+		case kPref_compare_dataDisplayAs:
 		if (inPrefType == prefsType_Temp) {
 			mTempPrefs.compare.displayAs = inPrefValue ;
 		} else {
@@ -368,7 +391,7 @@ CRezillaPrefs::GetPrefValue(SInt32 inConstant, SInt32 inPrefType)
 	
 	switch (inConstant) {
 		
-	  case kPref_general_maxRecent:
+		case kPref_general_maxRecent:
 		if (inPrefType == prefsType_Temp) {
 			theValue = mTempPrefs.general.maxRecent;
 		} else {
@@ -376,7 +399,7 @@ CRezillaPrefs::GetPrefValue(SInt32 inConstant, SInt32 inPrefType)
 		}	
 		break;
 		
-	  case kPref_general_newFork:
+		case kPref_general_newFork:
 		if (inPrefType == prefsType_Temp) {
 			theValue = mTempPrefs.general.newFork;
 		} else {
@@ -384,7 +407,15 @@ CRezillaPrefs::GetPrefValue(SInt32 inConstant, SInt32 inPrefType)
 		}	
 		break;
 		
-	  case kPref_export_formatDtd:
+		case kPref_editors_labelWidth:
+		if (inPrefType == prefsType_Temp) {
+			theValue = mTempPrefs.editors.labelWidth;
+		} else {
+			theValue = mCurrPrefs.editors.labelWidth;
+		}	
+		break;
+		
+		case kPref_export_formatDtd:
 		if (inPrefType == prefsType_Temp) {
 			theValue = mTempPrefs.exporting.formatDtd;
 		} else {
@@ -392,7 +423,7 @@ CRezillaPrefs::GetPrefValue(SInt32 inConstant, SInt32 inPrefType)
 		}	
 		break;
 		
-	  case kPref_export_includeBinary:
+		case kPref_export_includeBinary:
 		if (inPrefType == prefsType_Temp) {
 			theValue = mTempPrefs.exporting.includeBinary;
 		} else {
@@ -400,7 +431,7 @@ CRezillaPrefs::GetPrefValue(SInt32 inConstant, SInt32 inPrefType)
 		}	
 		break;
 		
-	  case kPref_export_dataEncoding:
+		case kPref_export_dataEncoding:
 		if (inPrefType == prefsType_Temp) {
 			theValue = mTempPrefs.exporting.binaryEncoding;
 		} else {
@@ -408,7 +439,7 @@ CRezillaPrefs::GetPrefValue(SInt32 inConstant, SInt32 inPrefType)
 		}	
 		break;
 		
-	  case kPref_compare_ignoreName:
+		case kPref_compare_ignoreName:
 		if (inPrefType == prefsType_Temp) {
 			theValue = mTempPrefs.compare.ignoreName;
 		} else {
@@ -416,7 +447,7 @@ CRezillaPrefs::GetPrefValue(SInt32 inConstant, SInt32 inPrefType)
 		}	
 		break;
 		
-	  case kPref_compare_ignoreAttributes:
+		case kPref_compare_ignoreAttributes:
 		if (inPrefType == prefsType_Temp) {
 			theValue = mTempPrefs.compare.ignoreAttributes;
 		} else {
@@ -424,7 +455,7 @@ CRezillaPrefs::GetPrefValue(SInt32 inConstant, SInt32 inPrefType)
 		}	
 		break;
 		
-	  case kPref_compare_ignoreData:
+		case kPref_compare_ignoreData:
 		if (inPrefType == prefsType_Temp) {
 			theValue = mTempPrefs.compare.ignoreData;
 		} else {
@@ -432,7 +463,7 @@ CRezillaPrefs::GetPrefValue(SInt32 inConstant, SInt32 inPrefType)
 		}	
 		break;
 		
-	  case kPref_compare_dataDisplayAs:
+		case kPref_compare_dataDisplayAs:
 		if (inPrefType == prefsType_Temp) {
 			theValue = mTempPrefs.compare.displayAs;
 		} else {
