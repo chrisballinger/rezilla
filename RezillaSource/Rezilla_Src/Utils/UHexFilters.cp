@@ -1,11 +1,11 @@
 // ===========================================================================
 // UHexFilters.cp					
 //                       Created: 2003-05-07 18:35:01
-//             Last modification: 2003-05-08 08:07:13
+//             Last modification: 2004-08-16 14:10:48
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// ¬© Copyright: Bernard Desgraupes 2003
+// © Copyright: Bernard Desgraupes 2003-2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -27,7 +27,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//  ¬€ HexadecimalField
+//  ¥ HexadecimalField
 // ---------------------------------------------------------------------------
 //	Key Filter for Hexadecimal Integer characters
 //
@@ -67,12 +67,8 @@ UHexFilters::HexadecimalField(
 }
 
 
-
-#pragma mark -
-
-
 // ---------------------------------------------------------------------------
-//  ¬€ HexadecimalField
+//  ¥ HexadecimalField
 // ---------------------------------------------------------------------------
 //	Key Filter for Hexadecimal Integer characters
 //
@@ -112,8 +108,94 @@ UHexFilters::HexadecimalField(
 	return theKeyStatus;
 }
 
+
 // ---------------------------------------------------------------------------
-//  ¬€ IntegerRangeField
+//  ¥ HexTemplateField
+// ---------------------------------------------------------------------------
+//	Key Filter for Hexadecimal Integer characters
+//
+//		> Identify delete and cursor keys
+//		> Accept hexadecimal numbers (0 to 9, a to f and A to F)
+//		> Accept letters x and $
+//		> Reject all other printing characters
+//		> PassUp all other characters
+
+EKeyStatus
+UHexFilters::HexTemplateField(
+	const EventRecord&	inKeyEvent)
+{
+	EKeyStatus	theKeyStatus = keyStatus_PassUp;
+	UInt16		theKey		 = (UInt16) inKeyEvent.message;
+	UInt16		theChar		 = (UInt16) (theKey & charCodeMask);
+
+	if (UKeyFilters::IsTEDeleteKey(theKey)) {
+		theKeyStatus = keyStatus_TEDelete;
+
+	} else if (UKeyFilters::IsTECursorKey(theKey)) {
+		theKeyStatus = keyStatus_TECursor;
+
+	} else if (UKeyFilters::IsExtraEditKey(theKey)) {
+		theKeyStatus = keyStatus_ExtraEdit;
+
+	} else if (UKeyFilters::IsPrintingChar(theChar)) {
+
+		if (IsHexTemplateChar(theChar)) {
+			theKeyStatus = keyStatus_Input;
+
+		} else {
+			theKeyStatus = keyStatus_Reject;
+		}
+	}
+
+	return theKeyStatus;
+}
+
+
+// ---------------------------------------------------------------------------
+//  ¥ HexTemplateField
+// ---------------------------------------------------------------------------
+//	Key Filter for Hexadecimal Integer characters
+//
+//		> Identify delete and cursor keys
+//		> Accept hexadecimal numbers (0 to 9, a to f and A to F)
+//		> Accept letters x and $
+//		> Reject all other printing characters
+//		> PassUp all other characters
+
+EKeyStatus
+UHexFilters::HexTemplateField(
+	TEHandle		/* inMacTEH */,
+	UInt16			inKeyCode,
+	UInt16&			ioCharCode,
+	EventModifiers	/* inModifiers */)
+{
+	EKeyStatus	theKeyStatus = keyStatus_PassUp;
+
+	if (UKeyFilters::IsTEDeleteKey(inKeyCode)) {
+		theKeyStatus = keyStatus_TEDelete;
+
+	} else if (UKeyFilters::IsTECursorKey(inKeyCode)) {
+		theKeyStatus = keyStatus_TECursor;
+
+	} else if (UKeyFilters::IsExtraEditKey(inKeyCode)) {
+		theKeyStatus = keyStatus_ExtraEdit;
+
+	} else if (UKeyFilters::IsPrintingChar(ioCharCode)) {
+
+		if (IsHexTemplateChar(ioCharCode)) {
+			theKeyStatus = keyStatus_Input;
+
+		} else {
+			theKeyStatus = keyStatus_Reject;
+		}
+	}
+
+	return theKeyStatus;
+}
+
+
+// ---------------------------------------------------------------------------
+//  ¥ IntegerRangeField
 // ---------------------------------------------------------------------------
 //	Key Filter for Hexadecimal Integer characters
 //
@@ -153,12 +235,8 @@ UHexFilters::IntegerRangeField(
 }
 
 
-
-#pragma mark -
-
-
 // ---------------------------------------------------------------------------
-//  ¬€ IntegerRangeField
+//  ¥ IntegerRangeField
 // ---------------------------------------------------------------------------
 //	Key Filter for Hexadecimal Integer characters
 //
@@ -199,8 +277,11 @@ UHexFilters::IntegerRangeField(
 }
 
 
+#pragma mark -
+
+
 // ---------------------------------------------------------------------------
-//  ¬€ IsLeftRightArrowKey
+//  ¥ IsLeftRightArrowKey
 // ---------------------------------------------------------------------------
 
 bool
@@ -222,7 +303,7 @@ UHexFilters::IsLeftRightArrowKey(
 
 
 // ---------------------------------------------------------------------------
-//  ¬€ IsUpDownArrowKey
+//  ¥ IsUpDownArrowKey
 // ---------------------------------------------------------------------------
 // 		case char_Home:
 // 		case char_End:
@@ -248,29 +329,40 @@ UHexFilters::IsUpDownArrowKey(
 
 
 // ---------------------------------------------------------------------------
-//  ¬€ IsHexadecimalChar
+//  ¥ IsHexadecimalChar
 // ---------------------------------------------------------------------------
 
 bool
 UHexFilters::IsHexadecimalChar(UInt16 inChar)
 {
-	return  ((inChar >= '0') && (inChar <= '9'))  ||	
+	return  (((inChar >= '0') && (inChar <= '9'))  ||	
 			((inChar >= 'a') && (inChar <= 'f'))  ||
-		    ((inChar >= 'A') && (inChar <= 'F'));
+		    ((inChar >= 'A') && (inChar <= 'F')));
 }
 
 
 // ---------------------------------------------------------------------------
-//  ¬€ IsIntegerRangeChar
+//  ¥ IsHexTemplateChar
+// ---------------------------------------------------------------------------
+
+bool
+UHexFilters::IsHexTemplateChar(UInt16 inChar)
+{
+	return  (IsHexadecimalChar(inChar) ||
+			(inChar == 'x') || (inChar == '$'));
+}
+
+
+// ---------------------------------------------------------------------------
+//  ¥ IsIntegerRangeChar
 // ---------------------------------------------------------------------------
 
 bool
 UHexFilters::IsIntegerRangeChar(UInt16 inChar)
 {
-	return  ((inChar >= '0') && (inChar <= '9'))  ||	
-			(inChar >= '-');
+	return  (((inChar >= '0') && (inChar <= '9'))  ||	
+			(inChar >= '-'));
 }
 
 
 PP_End_Namespace_PowerPlant
-

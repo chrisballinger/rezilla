@@ -1,11 +1,11 @@
 // ===========================================================================
 // UHexFilters.h					
 //                       Created: 2003-05-07 18:35:01
-//             Last modification: 2003-05-08 08:10:12
+//             Last modification: 2004-08-16 14:10:58
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// ¬© Copyright: Bernard Desgraupes 2003
+// © Copyright: Bernard Desgraupes 2003-2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -39,6 +39,14 @@ public:
 								UInt16			&ioCharCode,
 								EventModifiers	inModifiers);
 
+	static EKeyStatus	HexTemplateField(const EventRecord	&inKeyEvent);
+
+	static EKeyStatus	HexTemplateField(
+								TEHandle		inMacTEH,
+								UInt16			inKeyCode,
+								UInt16			&ioCharCode,
+								EventModifiers	inModifiers);
+
 	static EKeyStatus	IntegerRangeField(const EventRecord	&inKeyEvent);
 
 	static EKeyStatus	IntegerRangeField(
@@ -52,6 +60,8 @@ public:
 
 	static bool			IsHexadecimalChar(UInt16 inChar);
 
+	static bool			IsHexTemplateChar(UInt16 inChar);
+
 	static bool			IsIntegerRangeChar(UInt16 inChar);
 };
 
@@ -63,4 +73,3 @@ PP_End_Namespace_PowerPlant
 #endif
 
 #endif
-
