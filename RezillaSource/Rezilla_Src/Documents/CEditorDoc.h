@@ -2,7 +2,7 @@
 // CEditorDoc.h				
 // 
 //                       Created: 2004-02-23 17:57:59
-//             Last modification: 2004-11-08 07:27:52
+//             Last modification: 2004-11-21 21:25:35
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -50,6 +50,8 @@ public:
 	virtual SInt16	AskSaveChanges( bool inQuitting );
 
 	virtual void	AttemptClose( Boolean inRecordIt );
+	
+	Boolean			AskSaveBeforeClose();
 	
 	Boolean			CanSaveChanges();
 	

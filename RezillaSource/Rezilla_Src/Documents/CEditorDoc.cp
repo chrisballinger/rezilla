@@ -293,6 +293,42 @@ CEditorDoc::AttemptClose(
 
 
 // ---------------------------------------------------------------------------
+//	¥ AskSaveBeforeClose										  [public]
+// ---------------------------------------------------------------------------
+// This is called when doing a SaveAs in the RezMapDoc: ask to save changes
+// and close anyway. If the user wants to save but it fails (resProtected
+// resource), then return false to abort
+// the operation.
+
+Boolean
+CEditorDoc::AskSaveBeforeClose()
+{
+	Boolean success = true;
+	
+	if (IsModified()) {
+		SInt16 		answer;
+		
+		SelectMainWindow();
+		answer = AskSaveChanges(SaveWhen_Closing);
+		
+		if (answer == answer_Save) {
+			if ( CanSaveChanges() ) {
+				DoSaveChanges();
+			} else {
+				success = false;
+			}
+		} 
+	}
+
+	if (success) {
+		Close();
+	} 
+	
+	return success;
+}
+
+
+// ---------------------------------------------------------------------------
 //  ¥ DoSaveChanges													[public]
 // ---------------------------------------------------------------------------
 
