@@ -1,28 +1,23 @@
 <HTML>
 <HEAD>
-<TITLE>Drag and Drop</TITLE>
+<TITLE>Interface EditorsInterface editors are editing modes which provide a graphical user</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="7.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="9.html">Next</A><HR><P>&nbsp;</P>
-<H2>Drag and Drop</H2>
-Rezilla provides various aspects of Drag and Drop capacity. You can
-drag a selection of resources from a resource map table to another to have
-them copied to the destination resource map. If the destination resource
-map is the same as the original one, the resources are simply duplicated.<P><P> If you drag a selection of resources from a resource map table to the trash
-in the Finder, these resources are deleted from the resource map.<P><P> If you drag a piece of text from an external text editor to a  resource
-map table, a new resource of type TEXT containing this text is created.
-More generally speaking, if you drag a  selection  of  some  "flavor"  to  a
-resource map table in Rezilla, resources of the same type as the flavor are
-created. For instance, if you drag an image selected in a program such as
-<A HREF="http://www.lemkesoft.de/en/graphcon.htm">GraphicConverter</A> 
-to Rezilla, two resources are created: one resource of type Rect will  contain
-the dimensions of the image, another resource of type PICT will  contain  a
-pict representation of the image.<P><P> In the Resource Maps Comparison dialog, one can drag and drop a file
-from the Finder onto one of the file fields to select it rather than using
-the <I>Set</I> button.<P>
+<H2>Interface Editors</H2><P>Interface editors are editing modes which provide a graphical user
+interface specifically dedicated to a particular type (or family of types).
+An interface editor is different from the template editor because it does
+not rely on the existence of a descriptive template. It is generally
+more powerful than a template: for instance, you can edit the contents of a
+'TEXT' resource using a template but this won't take account of style info,
+whereas the Text editor will support this. There are types which can not be
+described easily by a template anyway.<P>As of version 1.0.4, Rezilla provides a text editor which lets you edit
+'TEXT' and 'styl' resources and can handle styled text (i-e text using
+various fonts, sizes, styles).<P>Future versions of Rezilla will have additional interface editors, in
+particular to edit icon resources. <P>
 
 </BODY>
 </HTML>

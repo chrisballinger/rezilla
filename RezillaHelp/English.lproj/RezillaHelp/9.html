@@ -1,91 +1,39 @@
 <HTML>
 <HEAD>
-<TITLE>Exporting</TITLE>
+<TITLE>Copy, Cut and Paste</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="8.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="10.html">Next</A><HR><P>&nbsp;</P>
-<H2>Exporting</H2>
-The exporting functionality lets you generate a file containing all
-the data of the resource map (all resources of all types, with their ID,
-name, attributes etc.) in various formats. Available formats are:
+<H2>Copy, Cut and Paste</H2>
+The Copy, Cut and Paste commands can have different meanings according to
+the context. 
 <UL>
-	<LI> Text
-	<LI> HTML 
-	<LI> XML 
-	<LI> DeRez
-</UL>
-<P> In Text and XML formats, it is possible to decide to include the
-binary data for each resource or not: see the <I>Preferences</I> section.
-The binary code for each resource is encoded either in Base64 encoding
-(which is the format used on MacOSX for many other types of binary data
-stored in XML files, like for instance preferences files, property lists
-etc.), or in hexadecimal representation. This is a choice which can be
-specified in the <I>Preferences</I> too.
-<P> For XML export, there are two ways of representing the data, based on
-two different DTDs (Document Type Definitions). There is an elements-based
-DTD in which all the properties are represented by a specific key and an
-attributes-based DTD in which most of the properties are represented as
-attributes for the basic <I>type</I> and <I>resource</I> elements. 
-<P> Here are two examples of the XML output produced by the <I>Export</I>
-command:
-<UL>
-	<LI> using the elements-based DTD and Base4 encoding
-<PRE>
-    &lt;Type&gt;
-    	&lt;TypeCode&gt;ALRT&lt;/TypeCode&gt;
-    	&lt;ResourcesArray&gt;
-    		&lt;Resource&gt;
-    			&lt;ResourceID&gt;204&lt;/ResourceID&gt;
-    			&lt;ResourceName&gt;Low Memory Warning&lt;/ResourceName&gt;
-    			&lt;ResourceFlags&gt;20&lt;/ResourceFlags&gt;
-    			&lt;ResourceSize&gt;14&lt;/ResourceSize&gt;
-    			&lt;ResourceData&gt;
-    			AGgAggDNAegAzEREMAo=
-    			&lt;/ResourceData&gt;
-    		&lt;/Resource&gt;
-    	&lt;/ResourcesArray&gt;
-    &lt;/Type&gt;
-    &lt;Type&gt;
-    	&lt;TypeCode&gt;DITL&lt;/TypeCode&gt;
-    	&lt;ResourcesArray&gt;
-    		&lt;Resource&gt;
-    			&lt;ResourceID&gt;204&lt;/ResourceID&gt;
-    			&lt;ResourceName&gt;&lt;/ResourceName&gt;
-    			&lt;ResourceFlags&gt;20&lt;/ResourceFlags&gt;
-    			&lt;ResourceSize&gt;120&lt;/ResourceSize&gt;
-    			&lt;ResourceData&gt;
-    			AAEAAAAAAEcBIABbAVwEAk9LAAAAAAAKAEsAOgFciFdNZW1v
-    			cnkgaXMgZ2V0dGluZyBmdWxsLiBQbGVhc2UgdHJ5IHRvIGFs
-    			bGV2aWF0ZSB0aGUgcHJvYmxlbSBieSBjbG9zaW5nIHNvbWUg
-    			ZG9jdW1lbnRzLiDl
-    			&lt;/ResourceData&gt;
-    		&lt;/Resource&gt;
-    	&lt;/ResourcesArray&gt;
-    &lt;/Type&gt;
-</PRE>
-	<LI> using the attributes-based DTD and hexadecimal representation<P><PRE>
-	&lt;Type code="ALRT"&gt;
-		&lt;Resource id="204" name="Low Memory Warning" flags="20"&gt;
-			&lt;ResourceSize&gt;14&lt;/ResourceSize&gt;
-			&lt;ResourceData&gt;
-				0068008200cd01e800cc4444300a
-			&lt;/ResourceData&gt;
-		&lt;/Resource&gt;
-	&lt;/Type&gt;<P>	&lt;Type code="DITL"&gt;
-		&lt;Resource id="204" name="" flags="20"&gt;
-			&lt;ResourceSize&gt;120&lt;/ResourceSize&gt;
-			&lt;ResourceData&gt;
-				00010000000000470120005b015c04024f4b00000000000a004b003a015c
-				88574d656d6f72792069732067657474696e672066756c6c2e20506c6561
-				73652074727920746f20616c6c657669617465207468652070726f626c65
-				6d20627920636c6f73696e6720736f6d6520646f63756d656e74732e20e5
-			&lt;/ResourceData&gt;
-		&lt;/Resource&gt;
-	&lt;/Type&gt;
-</PRE><P></UL><P>
+	<LI> In the resource map table, you copy entire resources.  If you copy inside
+the application, you can copy as many resources at a time as you wish, not
+necessarily of the same type.  If you switch to another application on the
+contrary, only one resource for each type will be copied to the clipboard:
+each type corresponds to one flavor on the clipboard.  If you paste in a
+resource map document in Rezilla some data copied from an external application, a
+resource will be created for each flavour found on the clipboard: the
+flavour is used as the type of the created resource. 
+<P> For instance, if you copy an
+image in a program like 
+<A HREF="http://www.lemkesoft.de/en/graphcon.htm">GraphicConverter</A> and paste
+it in Rezilla, a PICT and a Rect resources are created: the PICT resource
+contains the data for the image and the Rect resource contains its
+dimensions. This is because <I>GraphicConverter</I> puts these two
+informations on the clipboard when it performs the copy. This all depends
+on how applications store data in the clipboard. The other way round, you
+can for instance select a TEXT resource in a resource map table in Rezilla
+and paste it into a text editor: the contents of the resource will be
+inserted in the editor.<P>	<LI> In the hexadecimal editor, you copy selections from one of the panes.
+To paste data from the clipboard into the left pane, it must be valid
+hexadecimal data. Any data pasted in one of the panes is also pasted
+accordingly in the other pane: for instance, any data pasted in the right
+pane is converted to its hexadecimal values and inserted in the left one.<P></UL><P>
 
 </BODY>
 </HTML>

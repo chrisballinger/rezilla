@@ -1,19 +1,51 @@
 <HTML>
 <HEAD>
-<TITLE>Known problems</TITLE>
+<TITLE>Preferences </TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="10.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="12.html">Next</A><HR><P>&nbsp;</P>
-<H2>Known problems</H2>
-<P> Please e-mail any problem or bug you encounter:
-<P> <A HREF="mailto:bdesgraupes@users.sourceforge.net">bdesgraupes@users.sourceforge.net</A>
-<P> Visit my Web page for updates and other recent builds:
-<P> <A HREF="http://webperso.easyconnect.fr/bdesgraupes/rezilla.html">http://webperso.easyconnect.fr/bdesgraupes/rezilla.html</A>
-<P> Visit the Rezilla project area on the SourceForge site:
-<P> <A HREF="http://sourceforge.net/projects/rezilla">http://sourceforge.net/projects/rezilla</A><P>
+<H2>Preferences </H2>
+Rezilla allows you to set various preferences. The preferences can be
+accessed via the <I>Preferences</I> command in the application's menu or with
+the <I>Command-,</I> keyboard shortcut (hit the colon key while holding the
+command key down). This brings up a multipage dialog containing several
+panels:
+<UL>
+	<LI> the General panel
+	<LI> the Export panel
+	<LI> the Compare panel
+	<LI> the Interface panel
+</UL>
+<P><IMG SRC="../../Images/rzil_preferences.gif" ALT="Preferences window" ALIGN=bottom></P><P><P> In the <I>General</I> panel, one can set the maximum number of items contained in 
+the <I>Recent Items</I> menu (by default, this is 10). A <I>Reset</I> button lets you
+clear the list of recent items. One can also set the default fork in which 
+a new resource map should be created (this corresponds to the radio buttons
+displayed in the <I>New Map</I> dialog: the default choice can be changed in this 
+dialog).
+<P> In the <I>Export</I> panel, one can choose the DTD used to create XML
+exports (see explanations in the <I>Exporting</I> section of the help).
+One can also choose the encoding used to store the binary data: Base64
+encoding or hexadecimal encoding. The <I>Include binary data in output</I>
+checkbox lets specify whether the data for each resource should be included
+in the export file: this currently applies only to Text and XML exports, not HTML. 
+<P> In the <I>Compare</I> panel, one can set default values for the
+comparison criteria appearing in the <I>Compare Maps</I> dialog: these values can
+be modified later when the dialog is displayed. One can also set a default
+for the radio buttons appearing at the bottom of a <I>Compare Results</I> window
+and indicating the format in which resource data should be displayed
+(hexadecimal or text): these values can be modified too when the
+window is displayed.
+<P> In the <I>Interface</I> panel, one can set the font and size used to 
+display the hexadecimal and textual representations of the data resources
+in windows such as the hexadecimal editor windows or the comparison results
+windows. Note that only monospaced fonts (like <I>Monaco</I>, <I>Courier</I> etc.) will
+guarantee a nice display with a correct vertical alignment.
+<P> The preferences are written on disk in the user's preferences file only
+when the application quits. They are stored in a file named 
+<I>net.sourceforge.rezilla.plist</I> located in the user's Preferences folder.<P>
 
 </BODY>
 </HTML>

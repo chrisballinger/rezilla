@@ -99,17 +99,29 @@ Create a new resource in the current resource map.  A dialog window lets
 you specify the type, ID, name and attributes of the new resource.  A 
 resource is then created with empty data: the resource is created in 
 memory and you will have to save your file to make it permanent.</DL><P><DT><B>Edit</B><DL><DT>
-Calls the <I>Hexadecimal Editor</I> for all the selected resources in the resource
-map table. This is equivalent to double-clicking on a resource in a 
-resource map.</DL><P><DT><B>Get Info</B><DL><DT>
-Calls the <I>Inspector window</I> for the first selected resource in the  resource
-map table. This is equivalent to option-clicking on a resource in a 
-resource map.</DL><P><DT><B>Duplicate</B><DL><DT>
+Calls an editor for all the resources selected in the resource map table.
+This is equivalent to double-clicking on the resources in the table. If no
+Interface editor is available for a particular resource, Rezilla will look
+for a template corresponding to the resource's type and invoke the <I>Template Editor</I> instead. It no template is found, the last resort will
+be to call the <I>Hexadecimal Editor</I>.</DL><P><DT><B>Template Editor</B><DL><DT>
+Calls the <I>Template Editor</I> for all the resources selected in the
+resource map table. This is equivalent to double-clicking on the resources
+with the shift key down. It no template is found, Rezilla will
+invoke the <I>Hexadecimal Editor</I>.</DL><P><DT><B>Hexadecimal Editor</B><DL><DT>
+Calls the <I>Hexadecimal Editor</I> directly for all the resources
+selected in the resource map table. This is equivalent to double-clicking
+on the resources with the option key down.</DL><P><DT><B>Edit as Type...</B><DL><DT>
+Forces Rezilla to edit a particular resource using another type. A 
+dialog is displayed in which one can select the type to use instead 
+of the original type of the resource.</DL><P><DT><B>Remove</B><DL><DT>
+Removes all the selected resources from the resource map table. Note that
+this action won't be definitive until you save explicitely the file.</DL><P><DT><B>Duplicate</B><DL><DT>
 Duplicates all the selected resources  in  the  resource  map  table.  This
 command attributes an unique ID for the duplicated resources. You can change
-these values later with the <I>Inspector window</I>.</DL><P><DT><B>Remove</B><DL><DT>
-Removes all the selected resources from the resource map table. Note that
-this action won't be definitive until you save explicitely the file.</DL><P></DL>
+these values later with the <I>Inspector window</I>.</DL><P><DT><B>Get Info</B><DL><DT>
+Calls the <I>Inspector window</I> for the first selected resource in the  resource
+map table. This is equivalent to option-clicking on a resource in a 
+resource map.</DL><P></DL>
 </UL><P><H3>Window menu</H3>
 <P> This menu lists the windows currently opened in Rezilla (resource
 maps, editing windows etc.). Selecting an item in this menu brings the

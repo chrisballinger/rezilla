@@ -1,52 +1,47 @@
 <HTML>
 <HEAD>
-<TITLE>Preferences </TITLE>
+<TITLE>Error Codes</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
-<A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="13.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<HR><P>&nbsp;</P>
-<H2>Preferences </H2>
-Rezilla allows you to set various preferences. The preferences can be
-accessed via the <I>Preferences</I> command in the application's menu or with
-the <I>Command-,</I> keyboard shortcut (hit the colon key while holding the
-command key down). This brings up a multipage dialog containing several
-panels:
-<UL>
-	<LI> the General panel
-	<LI> the Export panel
-	<LI> the Compare panel
-	<LI> the Interface panel
-</UL>
-<P><IMG SRC="../../Images/rzil_preferences.gif" ALT="Preferences window" ALIGN=bottom></P><P><P> In the <I>General</I> panel, one can set the maximum number of items contained in 
-the <I>Recent Items</I> menu (by default, this is 10). A <I>Reset</I> button lets you
-clear the list of recent items. One can also set the default fork in which 
-a new resource map should be created (this corresponds to the radio buttons
-displayed in the <I>New Map</I> dialog: the default choice can be changed in this 
-dialog).
-<P> In the <I>Export</I> panel, one can choose the DTD used to create XML
-exports (see explanations in the <I>Exporting</I> section of the help).
-One can also choose the encoding used to store the binary data: Base64
-encoding or hexadecimal encoding. The <I>Include binary data in output</I>
-checkbox lets specify whether the data for each resource should be included
-in the export file: this currently applies only to Text and XML exports, not HTML. 
-<P> In the <I>Compare</I> panel, one can set default values for the
-comparison criteria appearing in the <I>Compare Maps</I> dialog: these values can
-be modified later when the dialog is displayed. One can also set a default
-for the radio buttons appearing at the bottom of a <I>Compare Results</I> window
-and indicating the format in which resource data should be displayed
-(hexadecimal or text): these values can be modified too when the
-window is displayed.
-<P> In the <I>Interface</I> panel, one can set the font and size used to 
-display the hexadecimal and textual representations of the data resources
-in windows such as the hexadecimal editor windows or the comparison results
-windows. Note that only monospaced fonts (like <I>Monaco</I>, <I>Courier</I> etc.) will
-guarantee a nice display with a correct vertical alignment.
-<P> The preferences are written on disk in the user's preferences file only
-when the application quits. They are stored in a file named 
-<I>net.sourceforge.rezilla.plist</I> located in the user's Preferences folder.<P><HR>
-<P> Last updated 2004-06-09 16:30:50<P>
+<A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="13.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="15.html">Next</A><HR><P>&nbsp;</P>
+<H2>Error Codes</H2>
+Here is a list of the error codes specifically defined by Rezilla (it 
+does not contain codes emitted by the System).<P><P><TABLE BORDER=1 CELLPADDING=1>
+<TR><TD>1001</TD><TD>No Rez In Data Fork</TD></TR>
+<TR><TD>1002</TD><TD>No Rez In Rez Fork</TD></TR>
+<TR><TD>1003</TD><TD>No Rez In Any Fork</TD></TR>
+<TR><TD>1004</TD><TD>No Open Permission</TD></TR>
+<TR><TD>1005</TD><TD>Open Fork Error</TD></TR>
+<TR><TD>1006</TD><TD>Under Version Control</TD></TR>
+<TR><TD>2000</TD><TD>Tmpl Error</TD></TR>
+<TR><TD>2001</TD><TD>Tmpl Get Data Stream Failed</TD></TR>
+<TR><TD>2002</TD><TD>Tmpl Unrecognized Tag</TD></TR>
+<TR><TD>2003</TD><TD>Tmpl Parsing Aborted</TD></TR>
+<TR><TD>2004</TD><TD>Tmpl Value Too Large In Bits Field</TD></TR>
+<TR><TD>2005</TD><TD>Tmpl Text Overflow</TD></TR>
+<TR><TD>2006</TD><TD>Tmpl Wrong Fixed Count</TD></TR>
+<TR><TD>2007</TD><TD>Tmpl Zero List Not Terminated</TD></TR>
+<TR><TD>2008</TD><TD>Tmpl Zero List Ending With Non Null</TD></TR>
+<TR><TD>2009</TD><TD>Tmpl List Count Too Big</TD></TR>
+<TR><TD>2010</TD><TD>Tmpl Expected Even Length String</TD></TR>
+<TR><TD>2011</TD><TD>Tmpl Unexpected Tag</TD></TR>
+<TR><TD>2012</TD><TD>Tmpl Malformed Hex Value</TD></TR>
+<TR><TD>2013</TD><TD>Tmpl Malformed Date Value</TD></TR>
+<TR><TD>2014</TD><TD>Tmpl Cant Get Date Format</TD></TR>
+<TR><TD>2015</TD><TD>Tmpl Parse Date Failed</TD></TR>
+<TR><TD>2016</TD><TD>Tmpl Not Expected Size</TD></TR>
+<TR><TD>2017</TD><TD>Tmpl Create Empty New Aborted</TD></TR>
+<TR><TD>2018</TD><TD>Tmpl No Case In Key Section</TD></TR>
+<TR><TD>2019</TD><TD>Tmpl Malformed Case Section</TD></TR>
+<TR><TD>2020</TD><TD>Tmpl Malformed Key Section</TD></TR>
+<TR><TD>2021</TD><TD>Tmpl Cant Find Keyed Section Start</TD></TR>
+<TR><TD>2022</TD><TD>Tmpl Cant Find Key Start For Value</TD></TR>
+<TR><TD>2023</TD><TD>Tmpl Unsupported Resource Id</TD></TR>
+<TR><TD>2024</TD><TD>Tmpl Cant Find Matching Key End</TD></TR>
+</TABLE></P><P>
 
 </BODY>
 </HTML>
