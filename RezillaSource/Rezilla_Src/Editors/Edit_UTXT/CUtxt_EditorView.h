@@ -2,7 +2,7 @@
 // CUtxt_EditorView.h
 // 
 //                       Created: 2004-12-08 18:21:21
-//             Last modification: 2004-12-09 07:10:07
+//             Last modification: 2004-12-09 23:10:54
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -47,6 +47,8 @@ public:
 									void*				ioParam);
 	
 // 	virtual void			UserChangedText();
+	virtual void			ActivateSelf();
+	virtual void			DeactivateSelf();
 
 	CUtxt_EditorWindow*		GetOwnerWindow() { return mOwnerWindow;}
 	void					SetOwnerWindow(CUtxt_EditorWindow* inOwnerWindow) {mOwnerWindow = inOwnerWindow;}
@@ -55,10 +57,6 @@ public:
 
 protected:
 		CUtxt_EditorWindow *	mOwnerWindow;
-
-// 	virtual void			ClickSelf(
-// 									const SMouseDownEvent&	inMouseDown);
-									
 
 };
 
