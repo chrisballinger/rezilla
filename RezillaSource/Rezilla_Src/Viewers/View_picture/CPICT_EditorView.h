@@ -2,7 +2,7 @@
 // CPICT_EditorView.h
 // 
 //                       Created: 2004-12-06 14:54:09
-//             Last modification: 2004-12-06 23:24:08
+//             Last modification: 2004-12-07 14:38:09
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -53,6 +53,7 @@ protected:
 	virtual void		DrawSelf();
 
 private:
+	void				ErasePicture();
 	void				AdaptPicture();
 };
 

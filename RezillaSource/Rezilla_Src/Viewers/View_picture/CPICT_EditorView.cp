@@ -2,7 +2,7 @@
 // CPICT_EditorView.h
 // 
 //                       Created: 2004-12-06 14:54:09
-//             Last modification: 2004-12-06 23:24:13
+//             Last modification: 2004-12-07 14:38:16
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -75,12 +75,28 @@ void
 CPICT_EditorView::AdaptPicture()
 {
 	mRefreshAllWhenResized = false;
-
+	ErasePicture();
+	
 	if (mPictureH != nil) {
 		Rect	picFrame = (**mPictureH).picFrame;
 		ResizeImageTo(picFrame.right - picFrame.left,
 					  picFrame.bottom - picFrame.top, false);
-	}
+	} 
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ ErasePicture													 [private]
+// ---------------------------------------------------------------------------
+
+void
+CPICT_EditorView::ErasePicture()
+{
+	Rect	theFrame;
+	CalcLocalFrameRect(theFrame);
+	ApplyForeAndBackColors();
+	::EraseRect(&theFrame);
+	Refresh();
 }
 
 
@@ -90,6 +106,9 @@ CPICT_EditorView::AdaptPicture()
 void
 CPICT_EditorView::SetPictureH(PicHandle inPictureH) 
 {
+	if (mPictureH != nil) {
+		::DisposeHandle( (Handle) mPictureH);	
+	}
 	mPictureH = inPictureH;
 	AdaptPicture();
 }
