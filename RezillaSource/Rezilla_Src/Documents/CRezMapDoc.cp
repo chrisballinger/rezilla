@@ -1504,7 +1504,7 @@ CRezMapDoc::CreateNewRes(ResType inType, short inID, Str255* inName, short inAtt
 	newRezObjItem->GetRezObj()->Add();
 	
 	// Set the attributes
-	newRezObjItem->GetRezObj()->SetAttributes(inAttrs);
+	newRezObjItem->GetRezObj()->SetAttributesInMap(inAttrs);
 
 	// Install the item in the table
 	mRezMapWindow->GetRezMapTable()->InsertRezObjItem( newRezObjItem, theRezTypeItem );
@@ -1577,7 +1577,7 @@ CRezMapDoc::DuplicateResource(CRezObj* inRezObj)
 	theRezObjItem->GetRezObj()->Add();
 	
 	// Copy the attributes of the duplicated resource
-	theRezObjItem->GetRezObj()->SetAttributes(theAttrs);
+	theRezObjItem->GetRezObj()->SetAttributesInMap(theAttrs);
 	
 	// Copy the data handle
 	Handle srcHandle = inRezObj->GetData();
@@ -1644,7 +1644,7 @@ CRezMapDoc::RemoveResource(CRezObjItem* inRezObjItem)
 	// Remove the resource from the rez map: if the resProtected flag is on, 
 	// turn it off (otherwise error rmvResFailed)
 	if (theRezObj->HasAttribute(resProtected)) {
-		theRezObj->ToggleAttribute(resProtected);
+		theRezObj->ToggleOneAttribute(resProtected);
 	}
 	theRezObj->Remove();
 	
@@ -1796,7 +1796,7 @@ CRezMapDoc::PasteResource(ResType inType, short inID, Handle inHandle,
 	theRezObjItem->GetRezObj()->Add();
 	
 	// Copy the attributes of the duplicated resource
-	theRezObjItem->GetRezObj()->SetAttributes(inAttrs);
+	theRezObjItem->GetRezObj()->SetAttributesInMap(inAttrs);
 	
 	// Mark the resource as modified in the rez map
 	theRezObjItem->GetRezObj()->Changed();
