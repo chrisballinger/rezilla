@@ -272,7 +272,10 @@ CAete::GetDataFromXml(CFXMLTreeRef inTreeNode)
 					}
 					AdjustSuiteIndex();
 				} else {
-					error = err_ImportUnknownAeteResourceTag;	
+					CFShow(CFXMLNodeGetString(xmlNode));
+					// At this level, ignore unknown tags. This allows to 
+					// insert AeteResID and AeteResTitle extraneous tags.
+// 					error = err_ImportUnknownAeteResourceTag;	
 				} 
 
 				if (error != noErr) { break; } 
