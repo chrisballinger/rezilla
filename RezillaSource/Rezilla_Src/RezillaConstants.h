@@ -663,7 +663,10 @@ enum
 	err_TmplWrongFixedCount,
 	err_TmplListCountTooBig,
 	err_TmplWrongEvenValue,
-	err_TmplMalformedHexValue
+	err_TmplMalformedHexValue,
+	err_TmplMalformedDateValue,
+	err_TmplCantGetDateFormat,
+	err_TmplParseDateFailed
 };
 
 
