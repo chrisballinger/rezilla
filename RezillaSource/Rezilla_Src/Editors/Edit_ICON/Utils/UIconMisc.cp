@@ -1,20 +1,58 @@
 // ===========================================================================
 // UIconMisc.cp
 //                       Created: 2004-12-11 18:52:00
-//             Last modification: 2005-01-02 15:40:05
+//             Last modification: 2005-02-14 08:45:11
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes 2004, 2005
+// (c) Copyright: Bernard Desgraupes 2004-2005
 // All rights reserved.
 // $Date$
 // $Revision$
 // ===========================================================================
 
+#include "RezillaConstants.h"
+#include "CRezillaApp.h"
+#include "CRezObj.h"
+#include "CRezMap.h"
 #include "UIconMisc.h"
 #include "UResourceMgr.h"
+#include "UResources.h"
 
 #include <stdio.h>
+
+
+// ---------------------------------------------------------------------------
+// 	FindBitmapResource
+// ---------------------------------------------------------------------------
+// This will try to find a bitmap resource in a rez map. It the resource 
+// has no data (null data size), it means that is it a newly created bitmap: 
+// in that case, return an empty default (blank icon).
+
+CRezObj *
+UIconMisc::FindBitmapResource(CRezMap *inMap, ResType inType, short inID, 
+							  Boolean loadIt)
+{
+	CRezObj *	theRes = NULL;
+	
+	theRes = inMap->FindResource( inType, inID, loadIt );
+	if ( theRes ) {
+		if ( theRes->GetSize() == 0 )
+		{
+			OSErr	error;
+			Handle	theHandle = NULL;
+			
+			error = UResources::GetResourceInMap( CRezillaApp::GetOwnRefNum(), inType, IconEditor_EmptyDefaults, theHandle, true );
+
+			if (error == noErr &&theHandle != NULL) {
+				::DetachResource(theHandle);
+				theRes->SetData(theHandle);
+			} 
+		}
+	}
+	
+	return theRes;
+}
 
 
 // ---------------------------------------------------------------------------

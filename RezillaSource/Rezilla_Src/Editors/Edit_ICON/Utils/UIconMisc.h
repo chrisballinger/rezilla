@@ -1,11 +1,11 @@
 // ===========================================================================
 // UIconMisc.h
 //                       Created: 2004-12-11 18:52:00
-//             Last modification: 2005-01-02 15:35:39
+//             Last modification: 2005-02-14 08:54:16
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes 2004, 2005
+// (c) Copyright: Bernard Desgraupes 2004-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -17,9 +17,16 @@
 
 #include "RezillaConstants.h"
 
+class CRezMap;
+class CRezObj;
 
 class UIconMisc {
 	public:
+
+		static CRezObj *	FindBitmapResource(CRezMap * inMap, 
+											   ResType inType, 
+											   short inID, 
+											   Boolean loadIt);
 
 		static void			GetWindowGlobalBounds( WindowPtr inWindow, Rect & );
 		
