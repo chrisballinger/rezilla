@@ -718,15 +718,16 @@ CMENU_EditorTable::RemoveSelectedRow()
 {
 	TableCellT theCell;
 	TableIndexT	theRow;
-	
+
 	GetSelectedCell(theCell);
-	RemoveRows(1, theCell.row);
-	if (theCell.row > mRows) {
+	theRow = theCell.row;
+	RemoveRows(1, theRow);
+	if (theRow > mRows) {
 		// We removed the last row
 		theRow = mRows;
 	} 
 	
-	mSelectedCell.row = mRows;
+	mSelectedCell.row = theRow;
 }
 
 
