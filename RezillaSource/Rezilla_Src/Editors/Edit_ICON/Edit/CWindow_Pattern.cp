@@ -139,7 +139,7 @@ CWindow_Pattern::InitializeFromResource( CRezMap *inMap, ResType inResType, ResI
 		mResourceType = inResType;
 	
 		// Get the raw resource handle
-		CRezObj * theRes = inMap->FindResource( inResType, inResID, false );
+		CRezObj * theRes = inMap->FindResource( inResType, inResID, true );
 		ThrowIfNil_( theRes );
 		h = theRes->GetData();
 		ThrowIfNil_( h );
@@ -281,7 +281,7 @@ CWindow_Pattern::SaveAsResource( CRezMap *inMap, ResIDT inResID  )
 				throw( err_IconInvalidImageFormat );
 		}
 
-		CRezObj * theResource = inMap->FindResource( mResourceType, inResID, true );
+		CRezObj * theResource = inMap->FindResource( mResourceType, inResID, false );
 		ThrowIfNil_( theResource );
 		theResource->SetData( h );
 	}

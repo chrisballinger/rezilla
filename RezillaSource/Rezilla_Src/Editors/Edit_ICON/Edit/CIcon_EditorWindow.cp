@@ -416,8 +416,6 @@ CIcon_EditorWindow::FinishCreateSelf()
 	
 	// Make the window a listener to the prefs object
 	CRezillaApp::sPrefs->AddListener(this);
-
-	DebugPortSelf();
 }
 
 

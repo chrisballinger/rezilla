@@ -193,8 +193,8 @@ CWindow_ColorIcon::ParseColorIcon( CRezMap *inMap, ResIDT inResID,
 	
 	try
 	{
-		// Get the raw resource handle (this isn't the usual way of loading color icons)
-		CRezObj * theRes = inMap->FindResource( ImgType_ColorIcon, inResID, false );
+		// Get the raw resource handle
+		CRezObj * theRes = inMap->FindResource( ImgType_ColorIcon, inResID, true );
 		ThrowIfNil_( theRes );
 		h = theRes->GetData();
 		ThrowIfNil_( h );
@@ -308,7 +308,7 @@ CWindow_ColorIcon::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 	
 	try
 	{
-		CRezObj * theResource = inMap->FindResource( ImgType_ColorIcon, inResID, true );
+		CRezObj * theResource = inMap->FindResource( ImgType_ColorIcon, inResID, false );
 		ThrowIfNil_( theResource );
 		theResource->SetData( h );
 	}

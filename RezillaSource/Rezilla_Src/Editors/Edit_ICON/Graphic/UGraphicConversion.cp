@@ -283,7 +283,7 @@ void UGraphicConversion::SaveOffscreenAsResource(
 			inMask->CopyToRawData( *h + maskOffset, maskRowBytes );
 
 		// Write out the resource
-		CRezObj * theResource = inMap->FindResource( inResType, inResID, true );
+		CRezObj * theResource = inMap->FindResource( inResType, inResID, false );
 		ThrowIfNil_( theResource );
 		
 		theResource->SetData( (Handle) h );

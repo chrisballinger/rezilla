@@ -91,7 +91,7 @@ CWindow_Picture::InitializeFromResource( CRezMap * /*inMap */, ResIDT /* inResID
 // #if 0
 // 	try
 // 	{
-// 		RFResource *theRes = inMap->FindResource( ImgType_Picture, inResID, false );
+// 		RFResource *theRes = inMap->FindResource( ImgType_Picture, inResID, true );
 // 		if ( !theRes ) throw( resNotFound );
 // 		thePict = (PicHandle) theRes->GetResData();
 // 		if ( !thePict ) throw( resNotFound );
@@ -136,7 +136,7 @@ CWindow_Picture::SaveAsResource( CRezMap * /* inMap */, ResIDT /* inResID */ )
 // 	try
 // 	{
 // 		h = (Handle) UGraphicConversion::OffscreenToPicture( theBuffer );
-// 		RFResource *theResource = inMap->FindResource( ImgType_Picture, inResID, true );
+// 		RFResource *theResource = inMap->FindResource( ImgType_Picture, inResID, false );
 // 		ThrowIfNil_( theResource );
 // 		theResource->SetResData( h );
 // 	}

@@ -218,7 +218,7 @@ CWindow_Cursor::ParseBWCursor( CRezMap *inMap, ResIDT inResID,
 	try
 	{
 		// Get the raw resource handle
-		CRezObj * theRes = inMap->FindResource( ImgType_Cursor, inResID, false );
+		CRezObj * theRes = inMap->FindResource( ImgType_Cursor, inResID, true );
 		ThrowIfNil_( theRes );
 		h = (CursHandle) theRes->GetData();
 		ThrowIfNil_( h );
@@ -279,7 +279,7 @@ CWindow_Cursor::ParseColorCursor( CRezMap *inMap, ResIDT inResID,
 		// Get the raw resource handle. This isn't the usual way of loading
 		// color cursors, so the fields will be raw and not filled in (as
 		// when GetCCursor is used).
-		CRezObj * theRes = inMap->FindResource( ImgType_ColorCursor, inResID, false );
+		CRezObj * theRes = inMap->FindResource( ImgType_ColorCursor, inResID, true );
 		ThrowIfNil_( theRes );
 		h = (CCrsrHandle) theRes->GetData();
 		ThrowIfNil_( h );
@@ -390,7 +390,7 @@ CWindow_Cursor::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 				throw( err_IconInvalidImageFormat );
 		}
 
-		CRezObj * theResource = inMap->FindResource( mResourceType, inResID, true );
+		CRezObj * theResource = inMap->FindResource( mResourceType, inResID, false );
 		ThrowIfNil_( theResource );
 		theResource->SetData( h );
 	}
