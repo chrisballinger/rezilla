@@ -25,6 +25,7 @@ PP_Begin_Namespace_PowerPlant
 #include "RezillaConstants.h"
 #include "CRezFile.h"
 #include "CRezMap.h"
+#include "CRezMapTable.h"
 #include "CRezMapDoc.h"
 #include "CRezObj.h"
 #include "CRezillaApp.h"
@@ -113,8 +114,20 @@ CTEXT_EditorDoc::Initialize()
 	// Install the contents according to the TMPL
 	if (mRezObj != nil) {
 		Handle rezData = mRezObj->GetData();
+		
 		if (rezData != nil) {
-			mTextEditWindow->InstallText(rezData);						
+			StScrpHandle	theScrapHandle = NULL;
+			StResource		initialStyleRes;
+			CRezMap *		theRezMap = mRezMapTable->GetRezMap();
+
+			// Look for a 'styl' resource with same ID
+			Boolean hasStyle = theRezMap->HasResourceWithTypeAndId( ResType_TextStyle, mRezObj->GetID()) ;
+			if (hasStyle) {
+				initialStyleRes.GetResource(ResType_TextStyle, mRezObj->GetID(), false, true);
+				theScrapHandle = (StScrpHandle) initialStyleRes.mResourceH;
+			}
+						
+			mTextEditWindow->InstallText(rezData, theScrapHandle);						
 		} 
 	} 
 	

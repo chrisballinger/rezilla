@@ -118,7 +118,7 @@ CEditorWindow::FindCommandStatus(
 	switch (inCommand) {
 		
 		default:
-			LCommander::FindCommandStatus(inCommand, outEnabled,
+		mOwnerDoc->FindCommandStatus(inCommand, outEnabled,
 									outUsesMark, outMark, outName);
 			break;
 	}

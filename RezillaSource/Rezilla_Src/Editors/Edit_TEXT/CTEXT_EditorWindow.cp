@@ -170,6 +170,7 @@ CTEXT_EditorWindow::InstallDefaults()
 	mFontPopup->SetValue( UMiscUtils::FontIndexFromFontNum(mFontPopup, theTraits.fontNumber) );
 	mSizePopup->SetValue( UMiscUtils::SizeIndexFromSizeValue(mSizePopup, theTraits.size) );
 	
+	// Check the 'plain' style item
 	::MacCheckMenuItem(mStylePopup->GetMacMenuH(), 2, 1);
 }
  
@@ -278,7 +279,7 @@ CTEXT_EditorWindow::FindCommandStatus(
 		break;		
 		
 		default:
-		LCommander::FindCommandStatus(inCommand, outEnabled,
+		CEditorWindow::FindCommandStatus(inCommand, outEnabled,
 									  outUsesMark, outMark, outName);
 		break;
 	}
@@ -365,19 +366,10 @@ CTEXT_EditorWindow::IsDirty()
 // ---------------------------------------------------------------------------
 
 void
-CTEXT_EditorWindow::InstallText(Handle inHandle)
+CTEXT_EditorWindow::InstallText(Handle inTextHandle, StScrpHandle inScrapHandle)
 {
-	StResource		initialStyleRes;
-	CRezMap *		theRezMap = new CRezMap(  GetOwnerDoc()->GetRezObj()->GetOwnerRefnum() );
-	
-	// Look for a 'styl' resource with same ID
-	
-	if ( theRezMap->HasResourceWithTypeAndId( ResType_TextStyle, GetOwnerDoc()->GetRezObj()->GetID()) ) {
-		initialStyleRes.GetResource(ResType_TextStyle, GetOwnerDoc()->GetRezObj()->GetID(), false);
-	}
-	
-	StHandleLocker	lock(inHandle);
-	mContentsView->Insert(*inHandle, ::GetHandleSize(inHandle), (StScrpHandle) initialStyleRes.mResourceH, true);
+	StHandleLocker	lock(inTextHandle);
+	mContentsView->Insert(*inTextHandle, ::GetHandleSize(inTextHandle), inScrapHandle, true);
 	
 }
 
@@ -392,11 +384,10 @@ void
 CTEXT_EditorWindow::AdjustMenusToSelection()
 {
 	SInt16	theFontNum, theSize;
-	SInt32	theIndex, theLong;
+	SInt32	theIndex;
 	UInt8	i;
 	Style	theStyle;
 	Boolean	result;
-	Str255	theString;
 	LStr255	theLine( "\p" );
 	SInt16	theStart = (**(mContentsView->GetMacTEH())).selStart;
 	SInt16	theEnd   = (**(mContentsView->GetMacTEH())).selEnd;

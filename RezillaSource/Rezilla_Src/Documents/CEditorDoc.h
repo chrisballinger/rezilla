@@ -2,7 +2,7 @@
 // CEditorDoc.h				
 // 
 //                       Created: 2004-02-23 17:57:59
-//             Last modification: 2004-06-17 12:10:23
+//             Last modification: 2004-06-19 20:04:54
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -54,15 +54,14 @@ public:
 
 	CRezObj *		GetRezObj() { return mRezObj; }
 	
-	CRezMapTable*	GetOwnerRezMapTable() { return mOwnerRezMapTable;}
+	CRezMapTable*	GetOwnerRezMapTable() { return mRezMapTable;}
 	
 	Boolean			IsReadOnly() { return mReadOnly;}
 	void			SetReadOnly(Boolean inReadOnlyDoc) {mReadOnly = inReadOnlyDoc;}
 
 protected:
 	CRezObj *				mRezObj;
-	CRezMapTable *			mOwnerRezMapTable;
-	short					mRefNum;
+	CRezMapTable *			mRezMapTable;
 	Boolean					mReadOnly;
 
 	virtual Handle	GetModifiedResource();

@@ -53,7 +53,7 @@ public:
 							CommandT			inCommand,
 							void*				ioParam);
 
-	void			InstallText(Handle inHandle);
+	void			InstallText(Handle inTextHandle, StScrpHandle inScrapHandle);
 	Handle			ReadValues();
 	void			SetLengthField();
 	

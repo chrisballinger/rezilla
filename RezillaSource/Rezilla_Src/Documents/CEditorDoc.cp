@@ -2,7 +2,7 @@
 // CEditorDoc.cp
 // 
 //                       Created: 2003-05-04 19:16:00
-//             Last modification: 2004-06-17 12:10:30
+//             Last modification: 2004-06-19 20:05:02
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -47,8 +47,7 @@ CEditorDoc::CEditorDoc(LCommander* inSuper,
  	: LDocument(inSuper)
 {
 	mRezObj = inRezObj;
-	mOwnerRezMapTable = inSuperMap;
-	mRefNum = mOwnerRezMapTable->GetOwnerRefnum();
+	mRezMapTable = inSuperMap;
 	mReadOnly = inReadOnly;
 	Register();
 }
@@ -72,7 +71,7 @@ void
 CEditorDoc::BuildDocumentTitle(Str255 & outTitle, SInt16 whichString)
 {
 	FSSpec	theFileSpec;
-	mOwnerRezMapTable->GetOwnerDoc()->GetRezFile()->GetSpecifier(theFileSpec);
+	mRezMapTable->GetOwnerDoc()->GetRezFile()->GetSpecifier(theFileSpec);
 	LStr255 theTitle(theFileSpec.name);
 	theTitle.Append("\p Ñ '");
 	
@@ -152,9 +151,13 @@ CEditorDoc::FindCommandStatus(
 	
 		case cmd_Save:
 		case cmd_SaveAs:
-		case cmd_Find:
 		case cmd_FindNext:
 			outEnabled = false;
+		break;
+
+		case cmd_Find:
+		LString::CopyPStr( "\pFindÉ", outName);
+		outEnabled = false;
 		break;
 
 		case cmd_Close : 
@@ -277,10 +280,10 @@ CEditorDoc::DoSaveChanges()
 	mRezObj->Changed();
 
 	// Tell the rezmap doc that there has been a modification
-	mOwnerRezMapTable->GetOwnerDoc()->SetModified(true);
+	mRezMapTable->GetOwnerDoc()->SetModified(true);
 	// Refresh the view
 	mRezObj->SetSize( ::GetHandleSize(theHandle) );
-	mOwnerRezMapTable->Refresh();
+	mRezMapTable->Refresh();
 }
 
 
@@ -302,7 +305,7 @@ CEditorDoc::GetModifiedResource()
 void
 CEditorDoc::Register()
 {
-	mOwnerRezMapTable->GetOwnerDoc()->GetOpenedEditors()->AddItem(this);
+	mRezMapTable->GetOwnerDoc()->GetOpenedEditors()->AddItem(this);
 }
 
 
@@ -313,7 +316,7 @@ CEditorDoc::Register()
 void
 CEditorDoc::Unregister()
 {
-	mOwnerRezMapTable->GetOwnerDoc()->GetOpenedEditors()->Remove(this);
+	mRezMapTable->GetOwnerDoc()->GetOpenedEditors()->Remove(this);
 }
 
 
