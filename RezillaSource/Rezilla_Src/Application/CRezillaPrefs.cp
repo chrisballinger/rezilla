@@ -926,7 +926,7 @@ CRezillaPrefs::RunPrefsDialog()
 	thePageCtrl->AddListener(theMPV);
 	thePageCtrl->AddListener(&theHandler);
 	
-	// Note : the rRidL_PrefsWindow resource does not contain the controls of
+	// Note : the RidL resource does not contain the controls of
 	// the various MPV's subpanels. We have to do that explicitly.
 	UReanimator::LinkListenerToBroadcasters( &theHandler, theGeneralPane, rPPob_PrefsGeneralPane );
 	UReanimator::LinkListenerToBroadcasters( &theHandler, theExportPane, rPPob_PrefsExportPane );

@@ -187,7 +187,7 @@ CTmplEditorWindow::FinishCreateSelf()
 	theStaticText->SetDescriptor(*strPtr);	
 	
 	// Link the broadcasters
-	UReanimator::LinkListenerToControls( this, this, rRidL_TmplEditorWindow );
+	UReanimator::LinkListenerToControls( this, this, rPPob_TmplEditorWindow );
 	
 	// Make the window a listener to the prefs object
 	CRezillaApp::sPrefs->AddListener(this);

@@ -612,7 +612,7 @@ CRezillaApp::MakeAboutWindow()
 		theUrlCaption->SetUrlString(theString);
 	}
 	
-	UReanimator::LinkListenerToControls( this, mAboutWindow, rRidL_AboutWindow );
+	UReanimator::LinkListenerToControls( this, mAboutWindow, rPPob_AboutWindow );
 }
 
 

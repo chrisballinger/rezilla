@@ -124,7 +124,7 @@ CTEXT_EditorWindow::FinishCreateSelf()
 	ThrowIfNil_( mLengthField );
 	
 	// Link the broadcasters
-	UReanimator::LinkListenerToControls( this, this, rRidL_TextEditorWindow );
+	UReanimator::LinkListenerToControls( this, this, rPPob_TextEditorWindow );
 	
 	// Make the window a listener to the prefs object
 	CRezillaApp::sPrefs->AddListener(this);
@@ -192,7 +192,8 @@ CTEXT_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		case msg_TextEditStyleMenu:
 		// Get the values of all the items
 		theIndex = mStylePopup->GetValue();
-		mContentsView->ProcessCommand(cmd_Plain + theIndex - 2, NULL);
+// 		mContentsView->ProcessCommand(cmd_Plain + theIndex - 2, NULL);
+		ObeyCommand(cmd_Plain + theIndex - 2, NULL);
 		break;
 		
 			

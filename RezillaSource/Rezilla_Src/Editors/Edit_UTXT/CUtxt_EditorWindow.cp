@@ -117,7 +117,7 @@ CUtxt_EditorWindow::FinishCreateSelf()
 	ThrowIfNil_( mLengthField );
 	
 	// Link the broadcasters
-	UReanimator::LinkListenerToControls( this, this, rRidL_TextEditorWindow );
+	UReanimator::LinkListenerToControls(this, this, rPPob_UtxtEditorWindow );
 	
 	// Make the window a listener to the prefs object
 	CRezillaApp::sPrefs->AddListener(this);
@@ -137,13 +137,6 @@ CUtxt_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 	LStr255			theLine( "\p" );
 
 	switch (inMessage) {
-		case msg_UtxtEditFontMenu:
-// 		// Get the name of the font.
-// 		::GetMenuItemText( mFontPopup->GetMacMenuH(), mFontPopup->GetValue(), theString );
-// 		mContentsView->SetFontName(theString);
-		break;
-
-		
 		case msg_UtxtEditSizeMenu:
 		// Get the value of the item.
 		theIndex = mSizePopup->GetValue();
@@ -152,13 +145,11 @@ CUtxt_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		mContentsView->SetFontSize(theSize);
 		break;
 		
-		
 		case msg_UtxtEditStyleMenu:
 		// Get the values of all the items
 		theIndex = mStylePopup->GetValue();
-		mContentsView->ProcessCommand(cmd_Plain + theIndex - 2, NULL);
+		ObeyCommand(cmd_Plain + theIndex - 2, NULL);
 		break;
-		
 			
 		default:
 		dynamic_cast<CUtxt_EditorDoc *>(mOwnerDoc)->ListenToMessage(inMessage, ioParam);
@@ -203,11 +194,11 @@ CUtxt_EditorWindow::ObeyCommand(
 	
 	switch (inCommand) {
 		case cmd_Plain:
-			mContentsView->SetFontStyle(normal);
-			for (UInt8 i = 0; i < 7; i++) {
-				::MacCheckMenuItem(mStylePopup->GetMacMenuH(), i+3, 0);
-			}
-			break;
+		mContentsView->SetFontStyle(normal);
+		for (UInt8 i = 0; i < 7; i++) {
+			::MacCheckMenuItem(mStylePopup->GetMacMenuH(), i+3, 0);
+		}
+		break;
 		
 		case cmd_Bold:
 		case cmd_Italic:

@@ -183,6 +183,7 @@ CUtxt_EditorView::DeactivateSelf()
 // ---------------------------------------------------------------------------
 //  ¥ GetModifiedText										[public]
 // ---------------------------------------------------------------------------
+// kTXNTextData or kTXNUnicodeTextData
 
 Handle
 CUtxt_EditorView::GetModifiedText() 
