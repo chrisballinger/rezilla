@@ -2,7 +2,7 @@
 // CMenuObject.cp
 // 
 //                       Created: 2005-03-10 09:12:57
-//             Last modification: 2005-03-10 09:48:01
+//             Last modification: 2005-03-10 18:56:44
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -28,7 +28,7 @@ CMenuObject::CMenuObject()
 	mTitle[0] = 0;
 	mID = 0;
 	mMDEF = 0;
-	mEnabled = false;
+	mEnableFlag = false;
 }
 
 
@@ -36,12 +36,12 @@ CMenuObject::CMenuObject()
 //  CMenuObject												[public]
 // ---------------------------------------------------------------------------
 
-CMenuObject::CMenuObject(Str255	inTitle,
-					   ResIDT	inID,
-					   ResIDT	inMDEF,
-					   Boolean	inEnabled)
+CMenuObject::CMenuObject(ResIDT	inID,
+						ResIDT	inMDEF,
+						UInt32	inEnableFlag,
+						Str255	inTitle)
 {
-	SetValues(inTitle, inID, inMDEF, inEnabled);
+	SetValues(inID, inMDEF, inEnableFlag, inTitle);
 	mItemIndex = 0;	
 }
 
@@ -98,14 +98,14 @@ CMenuObject::AddItem(CMenuItem * inItem)
 // ---------------------------------------------------------------------------
 
 void
-CMenuObject::AddItem(Str255	inName,
-					OSType	inKeyword, 
-					OSType	inType, 
-					Str255	inDescription, 
-					UInt16	inFlags)
+CMenuObject::AddItem(Str255 inTitle, 
+						UInt8 inIconID, 
+						UInt8 inShortcut, 
+						UInt8 inMark, 
+						Style inStyle)
 {
-	mItems.AddItem( new CMenuItem( inName, inKeyword, inType,
-											inDescription, inFlags) );
+	mItems.AddItem( new CMenuItem( inTitle, inIconID, inShortcut,
+								  inMark, inStyle) );
 }
 
 
@@ -133,19 +133,22 @@ CMenuObject::RemoveItem( ArrayIndexT inAtIndex )
 void
 CMenuObject::InstallDataStream(LHandleStream * inStream)
 {
-	UInt16		theCount, i;
+	UInt16		theUInt16, theCount = 0;
 	CMenuItem *	theItem;
 	
-	*inStream >> mTitle;
 	*inStream >> mID;
+	*inStream >> theUInt16;  // Placeholder for width
+	*inStream >> theUInt16;  // Placeholder for height
 	*inStream >> mMDEF;
-	*inStream >> mEnabled;
+	*inStream >> theUInt16;  // Filler
+	*inStream >> mEnableFlag;
+	*inStream >> mTitle;
 
-	// Get the count of Items
-	*inStream >> theCount;
-	for (i = 0 ; i < theCount; i++) {
+	// Get the count of Items. Each item record is at least 5 bytes long.
+	while (inStream->GetMarker() < inStream->GetLength() - 4) {
 		theItem = new CMenuItem(inStream);
 		AddItem(theItem);
+		theCount++;
 	}
 
 	// Initialize to 1 if there are Items, 0 otherwise
@@ -160,20 +163,24 @@ CMenuObject::InstallDataStream(LHandleStream * inStream)
 void
 CMenuObject::SendDataToStream(LHandleStream * outStream)
 {
-	*outStream << mTitle;
 	*outStream << mID;
+	*outStream << (UInt16) 0;
+	*outStream << (UInt16) 0;
 	*outStream << mMDEF;
-	*outStream << mEnabled;
-	
-	// Items data
-// 	*outStream << (UInt16) mItems.GetCount();
+	*outStream << (UInt16) 0;
+	*outStream << mEnableFlag;
+	*outStream << mTitle;
 
+	// Items data
 	TArrayIterator<CMenuItem*> iterator( mItems );
 	CMenuItem *	theItem;
 	
 	while (iterator.Next(theItem)) {
 		theItem->SendDataToStream(outStream);
 	}
+	
+	// Ending NULL byte (LSTZ list)
+	*outStream << (UInt8) 0;
 }
 
 
@@ -182,13 +189,13 @@ CMenuObject::SendDataToStream(LHandleStream * outStream)
 // ---------------------------------------------------------------------------
 
 void
-CMenuObject::GetValues(Str255 & outTitle, ResIDT & outID,
-					   ResIDT & outMDEF, Boolean & outEnabled)
+CMenuObject::GetValues( ResIDT & outID, ResIDT & outMDEF, 
+					   UInt32 & outEnableFlag, Str255 & outTitle)
 {
-	LString::CopyPStr(mTitle, outTitle);
 	outID = mID;
 	outMDEF = mMDEF;
-	outEnabled = mEnabled;
+	outEnableFlag = mEnableFlag;
+	LString::CopyPStr(mTitle, outTitle);
 }
  
 
@@ -197,13 +204,13 @@ CMenuObject::GetValues(Str255 & outTitle, ResIDT & outID,
 // ---------------------------------------------------------------------------
 
 void
-CMenuObject::SetValues(Str255 inTitle, ResIDT inID,
-					   ResIDT inMDEF, Boolean inEnabled)
+CMenuObject::SetValues(ResIDT inID, ResIDT inMDEF, 
+					   UInt32 inEnableFlag, Str255 inTitle)
 {
-	LString::CopyPStr(inTitle, mTitle);
 	mID = inID;
 	mMDEF = inMDEF;
-	mEnabled = inEnabled;
+	mEnableFlag = inEnableFlag;
+	LString::CopyPStr(inTitle, mTitle);
 }
 
 

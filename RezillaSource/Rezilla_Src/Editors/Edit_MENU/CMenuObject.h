@@ -2,7 +2,7 @@
 // CMenuObject.h
 // 
 //                       Created: 2005-03-10 09:12:57
-//             Last modification: 2005-03-10 09:48:08
+//             Last modification: 2005-03-10 19:10:30
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -25,20 +25,20 @@ class CMenuObject {
 public:
 					CMenuObject();
 					CMenuObject(
-							   Str255	inTitle,
-							   ResIDT	inID,
-							   ResIDT	inMDEF,
-							   Boolean	inEnabled);
+								ResIDT	inID,
+								ResIDT	inMDEF,
+								UInt32	inEnableFlag,
+								Str255	inTitle);
 					CMenuObject(LHandleStream * inStream);
 					~CMenuObject();
 
 		void	AddItem();
 		void	AddItem(CMenuItem * inItem);
-		void	AddItem(Str255	inName,
-							OSType	inKeyword, 
-							OSType	inType, 
-							Str255	inDescription, 
-							UInt16	inFlags);
+		void	AddItem(Str255 inTitle,
+						UInt8 inIconID,
+						UInt8 inShortcut,
+						UInt8 inMark,
+						Style inStyle);
 		void	RemoveItem( ArrayIndexT inAtIndex );
 		
 		SInt32	NewItem();
@@ -47,13 +47,13 @@ public:
 		void	InstallDataStream(LHandleStream * inStream);
 		void	SendDataToStream(LHandleStream * outStream);
 		
-		void	GetValues(
-					   Str255 & outTitle, ResIDT & outID,
-					   ResIDT & outMDEF, Boolean & outEnabled);
+		void	GetValues( 
+						  ResIDT & outID, ResIDT & outMDEF, 
+						  UInt32 & outEnableFlag, Str255 & outTitle);
 		
 		void	SetValues(
-					   Str255 inTitle, ResIDT inID,
-					   ResIDT inMDEF, Boolean inEnabled);
+						  ResIDT inID, ResIDT inMDEF, 
+						  UInt32 inEnableFlag, Str255 inTitle);
 
 		ArrayIndexT		GetItemIndex() { return mItemIndex;}
 		void			SetItemIndex(ArrayIndexT inItemIndex) {mItemIndex = inItemIndex;}
@@ -63,10 +63,10 @@ public:
 		TArray<CMenuItem*> *	GetItems() { return &mItems;}
 
 protected:
-		Str255					mTitle;
 		ResIDT					mID;
 		ResIDT					mMDEF;
-		Boolean					mEnabled;
+		UInt32					mEnableFlag;
+		Str255					mTitle;
 		ArrayIndexT				mItemIndex;		
 		TArray<CMenuItem*>		mItems;
 
