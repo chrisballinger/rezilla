@@ -2,7 +2,7 @@
 // CAete_EditorWindow.h
 // 
 //                       Created: 2004-07-01 08:42:37
-//             Last modification: 2005-01-24 14:48:38
+//             Last modification: 2005-01-25 09:24:38
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -84,8 +84,8 @@ protected:
 private:
 	void				SetIndicator(LStaticText * inIndicator, SInt32 inValue, SInt32 inTotal);
 	void				UpdateSlider(SInt32 inSliderID, SInt32 inValue, SInt32 inTotal);
-	SInt32				GetCurrentIndex(SInt32 inType);
-	void				SetCurrentIndex(SInt32 inType, SInt32 inIndex);
+	SInt32				GetCurrentIndex(SInt8 inKind);
+	void				SetCurrentIndex(SInt8 inKind, SInt32 inIndex);
 	void				MakeListeners();
 	
 	void *				FindCurrentObject(SInt8 inKind);
@@ -106,12 +106,16 @@ private:
 	void				InstallFlags(SInt32 inKind, UInt16 inFlags);
 	
 	void				RetrieveResourceInfo();
-	void				RetrieveSuiteInfo();
+	void				RetrieveSuiteValues();
 	void				RetrievePanelValues();
-	void				RetrieveEventValues();
-	void				RetrieveClassValues();
-	void				RetrieveCompOpValues();
-	void				RetrieveEnumerationValues();
+	void				RetrieveEventValues(CAeteEvent * inEvent);
+	void				RetrieveParameterValues(CAeteParameter* inParameter);
+	void				RetrieveClassValues(CAeteClass * inClass);
+	void				RetrievePropertyValues(CAeteProperty * inProperty);
+	void				RetrieveElementValues(CAeteElement * inElement);
+	void				RetrieveCompOpValues(CAeteCompOp * inCompOp);
+	void				RetrieveEnumerationValues(CAeteEnumeration * inEnum);
+	void				RetrieveEnumeratorValues(AeteEnumerator & outEnumerator);
 	UInt16				RetrieveFlags(SInt32 inKind);
 
 };
