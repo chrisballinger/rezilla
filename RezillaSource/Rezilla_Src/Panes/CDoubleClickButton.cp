@@ -34,7 +34,9 @@ CDoubleClickButton::CDoubleClickButton(
 	ClassIDT	inImpID)
 
 	: LBevelButton(inStream, inImpID)
-{}
+{
+	*inStream >> mDoubleClickMessage;
+}
 
 
 // ---------------------------------------------------------------------------
