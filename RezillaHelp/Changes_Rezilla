@@ -36,8 +36,9 @@ $Date$
 ¥ Modified saving edited resources scheme.
 ¥ Streamlined the GUI between the various interface editors (resource name 
   field in the window header).
-¥ Added a pattern suite ('PAT#') editor.
-¥  
+¥ Added pattern suite ('PAT#') support in the bitmap editor.
+¥ Added icon suite ('SICN') support in the bitmap editor (Clarus is back!).
+¥ 
 
 ================================================================================
 = 1.0.5a2	                             last update: 2005-01-08 12:10:31
