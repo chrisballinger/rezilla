@@ -36,6 +36,8 @@ enum Hextype {
 	hextype__incoherent
 };
 
+const char kFillChar = '=';
+
 
 
 // ---------------------------------------------------------------------------
@@ -55,17 +57,27 @@ public:
 
 	static void		ConvertByteToHex( char* srcString, char* trgtString );
 
-	static void		ConvertHexToByte(LDataStream* srcDataStream, LDataStream* trgtDataStream );
+	static void		ConvertHexToByte( LDataStream* srcDataStream, LDataStream* trgtDataStream );
 
 	static void		ConvertHexToByte( char* srcString, char* trgtString );
 
-	static SInt32	StripBlanks(LDataStream* srcDataStream, LDataStream* trgtDataStream );
+	static void		ConvertByteToBase64( LDataStream* srcDataStream, LDataStream* trgtDataStream );
+
+	static void		ConvertByteToBase64( char* srcString, char* trgtString );
+
+	static void		ConvertBase64ToByte( LDataStream* srcDataStream, LDataStream* trgtDataStream );
+
+	static void		ConvertBase64ToByte( char* srcString, char* trgtString );
+
+	static SInt32	StripBlanks( LDataStream* srcDataStream, LDataStream* trgtDataStream );
 
 	static SInt32	StripBlanks( char* srcString, char* trgtString );
 
 	static SInt32	StripPeriodical( LDataStream* srcDataStream, LDataStream* trgtDataStream, UInt16 inPeriod);
 	
 	static UInt8	ConvertHexToValue(UInt8 inHex);
+	
+	static int		ConvertToNumber(UInt8 inByte);
 
 };
 
@@ -83,7 +95,7 @@ public:
 						StSepHexTranslator(const void * inPtr, SInt32 inByteCount);
 						~StSepHexTranslator();
 
-	void			ConvertToHex();
+	void			Convert();
 
 	virtual Handle	GetOutHandle() { return mOutHandle;}
 
@@ -107,7 +119,7 @@ public:
 						StByteToHexTranslator(const void * inPtr, SInt32 inByteCount);
 						~StByteToHexTranslator();
 
-	void			ConvertToHex();
+	void			Convert();
 
 	virtual Handle	GetOutHandle() { return mOutHandle;}
 
@@ -130,7 +142,55 @@ public:
 						StHexToByteTranslator( Handle	inHandle );
 						~StHexToByteTranslator();
 
-	void			HexToByte();
+	void			Convert();
+
+	virtual Handle	GetOutHandle() { return mOutHandle;}
+
+	virtual Size	GetOutSize() { return mOutSize;}
+
+private:
+	Handle	mInHandle;
+	Handle	mOutHandle;
+	Size	mInSize;
+	Size	mOutSize;
+
+};
+
+
+// ---------------------------------------------------------------------------
+//  ¥ class StByteToBase64Translator
+// ---------------------------------------------------------------------------
+class StByteToBase64Translator {
+public:
+						StByteToBase64Translator( Handle	inHandle );
+						StByteToBase64Translator(const void * inPtr, SInt32 inByteCount);
+						~StByteToBase64Translator();
+
+	void			Convert();
+
+	virtual Handle	GetOutHandle() { return mOutHandle;}
+
+	virtual Size	GetOutSize() { return mOutSize;}
+
+private:
+	Handle	mInHandle;
+	Handle	mOutHandle;
+	Size	mInSize;
+	Size	mOutSize;
+
+};
+
+
+// ---------------------------------------------------------------------------
+//  ¥ class StBase64ToByteTranslator
+// ---------------------------------------------------------------------------
+class StBase64ToByteTranslator {
+public:
+						StBase64ToByteTranslator( Handle	inHandle );
+						StBase64ToByteTranslator(const void * inPtr, SInt32 inByteCount);
+						~StBase64ToByteTranslator();
+
+	void			Convert();
 
 	virtual Handle	GetOutHandle() { return mOutHandle;}
 
@@ -154,7 +214,7 @@ public:
 						StReadableTranslator(const void * inPtr, SInt32 inByteCount);
 						~StReadableTranslator();
 
-	void				FilterReadable();
+	void				Convert();
 
 	virtual Handle		GetOutHandle() { return mOutHandle;}
 

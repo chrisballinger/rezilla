@@ -377,7 +377,7 @@ CHexDataSubView::SyncContentsWithMemory(SInt32 inStartPos,
 		blankstripper.FilterOutPeriodical();
 		// Convert ascii code to hex code
 		StHexToByteTranslator translator(blankstripper.GetOutHandle());
-		translator.HexToByte();
+		translator.Convert();
 		WEInsert(*translator.GetOutHandle(), translator.GetOutSize(), nil, nil, we);
 	
 		if (txtData != nil) {

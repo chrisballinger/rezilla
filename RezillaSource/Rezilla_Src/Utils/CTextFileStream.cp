@@ -2,7 +2,7 @@
 // CTextFileStream.cp					
 // 
 //                       Created : 2002-06-09 19:38:34
-//             Last modification : 2004-02-29 11:00:55
+//             Last modification : 2004-03-23 09:05:40
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -271,7 +271,8 @@ CTextFileStream::WriteByChunks(
 		WriteBlock(inString + bytesOffset, inChunkSize);
 		bytesOffset += inChunkSize;
 	}
-	if (bytesOffset > inLen) {
+	if (bytesOffset < inLen) {
+		bytesToWrite += WritePString(inSeparator);
 		WriteBlock(inString + bytesOffset, inLen - bytesOffset);
 	} 
 

@@ -287,7 +287,7 @@ CBiDataWE::InsertContents(Handle inHandle)
 	switch (mDataType) {
 		case bidata_hexType: {
 			StSepHexTranslator translator(inHandle);
-			translator.ConvertToHex();
+			translator.Convert();
 			
 			// Empty the Waste edit
 			DeleteAll();
@@ -299,7 +299,7 @@ CBiDataWE::InsertContents(Handle inHandle)
 		
 		case bidata_txtType: {
 			StReadableTranslator translator(inHandle);
-			translator.FilterReadable();
+			translator.Convert();
 			
 			// Empty the Waste edit
 			DeleteAll();
@@ -322,7 +322,7 @@ CBiDataWE::InsertContents(const void * inPtr, SInt32 inByteCount)
 	switch (mDataType) {
 		case bidata_hexType: {
 			StSepHexTranslator translator(inPtr, inByteCount);
-			translator.ConvertToHex();
+			translator.Convert();
 			
 			// Empty the Waste edit
 			DeleteAll();
@@ -334,7 +334,7 @@ CBiDataWE::InsertContents(const void * inPtr, SInt32 inByteCount)
 		
 		case bidata_txtType: {
 			StReadableTranslator translator(inPtr, inByteCount);
-			translator.FilterReadable();
+			translator.Convert();
 			
 			// Empty the Waste edit
 			DeleteAll();

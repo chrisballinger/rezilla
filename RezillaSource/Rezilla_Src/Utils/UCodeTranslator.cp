@@ -3,7 +3,7 @@
 // 
 // © 2002, Bernard Desgraupes, All rights reserved.
 //                       Created: 2003-05-04 16:40:47
-//             Last modification: 2004-03-22 16:52:36
+//             Last modification: 2004-03-23 06:52:44
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -23,9 +23,14 @@
 #include <LString.h>
 #include <UMemoryMgr.h>
 
-// #include <regex.h>
 #include <string.h>
 #include <stdio.h>
+
+// String used for conversion to Base64 encoding (lxvi = 64)
+                   // 0000000000111111111122222222223333333333444444444455555555556666
+                   // 0123456789012345678901234567890123456789012345678901234567890123
+static char * lxvi = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+
 
 PP_Begin_Namespace_PowerPlant
 
@@ -65,6 +70,7 @@ UCodeTranslator::ConvertAsciiToReadable( LDataStream* srcDataStream, LDataStream
 void
 UCodeTranslator::ConvertAsciiToReadable(char* srcString, char* trgtString )
 {
+	// todo...
 }
 
 
@@ -295,6 +301,178 @@ UCodeTranslator::StripPeriodical( LDataStream* srcDataStream, LDataStream* trgtD
 }
 
 
+// ---------------------------------------------------------------------------
+//	¥ ConvertByteToBase64												[public]
+// ---------------------------------------------------------------------------
+// This function supposes that the src and trgt streams are properly allocated. 
+// The size of trgtDataStream should be 4/3 the size of srcDataStream + 4 
+// if srcDataStream'length is not divisible by 3.
+// 	0xfc	11111100
+// 	0x03	00000011
+// 	0x0f	00001111
+// 	0x3f	00111111
+
+void
+UCodeTranslator::ConvertByteToBase64(LDataStream* srcDataStream, LDataStream* trgtDataStream )
+{
+	UInt8 * buffer = new UInt8[3];
+	SInt32 length = srcDataStream->GetLength();
+	SInt32 triadCount = length / 3;
+	UInt8 theChar;
+	
+	for (UInt32 i = 1; i <= triadCount; i++) {
+		*srcDataStream >> buffer[0];
+		*srcDataStream >> buffer[1];
+		*srcDataStream >> buffer[2];
+		
+		theChar = (buffer[0] & 0xfc) >> 2;
+		*trgtDataStream << lxvi[theChar];
+		
+		theChar = ((buffer[0] & 0x03) << 4) | (buffer[1] >> 4);
+		*trgtDataStream << lxvi[theChar];
+		
+		theChar = ((buffer[1] & 0x0f) << 2) | (buffer[2] >> 6);
+		*trgtDataStream << lxvi[theChar];
+		
+		theChar=buffer[2] & 0x3f;
+		*trgtDataStream << lxvi[theChar];
+	}
+	// Now handle the rest
+	switch (length % 3) {
+		case 1:
+		*srcDataStream >> buffer[0];
+		buffer[1] = 0;
+		buffer[2] = 0;
+		theChar = (buffer[0] & 0xfc) >> 2;
+		*trgtDataStream << lxvi[theChar];
+		
+		theChar = ((buffer[0] & 0x03) << 4) | (buffer[1] >> 4);
+		*trgtDataStream << lxvi[theChar];
+		
+		*trgtDataStream << kFillChar;
+		*trgtDataStream << kFillChar;
+		break;
+		
+		case 2:
+		*srcDataStream >> buffer[0];
+		*srcDataStream >> buffer[1];
+		buffer[2] = 0;
+		theChar = (buffer[0] & 0xfc) >> 2;
+		*trgtDataStream << lxvi[theChar];
+		
+		theChar = ((buffer[0] & 0x03) << 4) | (buffer[1] >> 4);
+		*trgtDataStream << lxvi[theChar];
+		
+		theChar = ((buffer[1] & 0x0f) << 2) | (buffer[2] >> 6);
+		*trgtDataStream << lxvi[theChar];
+		
+		*trgtDataStream << kFillChar;
+		break;
+	}
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ ConvertByteToBase64												[public]
+// ---------------------------------------------------------------------------
+// This function supposes that the src and trgt strings are properly allocated. 
+// The size of trgtString should be twice the size of srcString.
+
+
+// 	SInt32	theLength = strlen(srcString);
+// 
+// 	LDataStream inStream(srcString, theLength);
+// 	LDataStream outStream(trgtString, theLength/2);
+// 	ConvertHexToByte(&inStream, &outStream);
+// 	trgtString[theLength/2] = 0;
+void
+UCodeTranslator::ConvertByteToBase64(char* srcString, char* trgtString )
+{
+	// todo...
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ ConvertBase64ToByte												[public]
+// ---------------------------------------------------------------------------
+// This function supposes that the src and trgt streams are properly allocated. 
+// The size of srcDataStream should be a multiple of 4.
+// The size of trgtDataStream should be 3/4 the size of srcDataStream.
+// 	0x03	00000011
+// 	0x0f	00001111
+// 	0xf0	11110000
+// 	0xc0	11000000
+
+void
+UCodeTranslator::ConvertBase64ToByte(LDataStream* srcDataStream, LDataStream* trgtDataStream )
+{
+	UInt8 * buffer = new UInt8[4];
+	SInt32 length = srcDataStream->GetLength();
+	SInt32 quadrupleCount = length / 3;
+	UInt8 theChar;
+	
+	for (UInt32 i = 1; i <= quadrupleCount; i++) {
+		*srcDataStream >> buffer[0];
+		*srcDataStream >> buffer[1];
+		*srcDataStream >> buffer[2];
+		*srcDataStream >> buffer[3];
+		
+// 		theChar = (buffer[0] & 0xfc) >> 2;
+// 		*trgtDataStream << lxvi[theChar];
+// 		
+// 		theChar = ((buffer[0] & 0x03) << 4) | (buffer[1] >> 4);
+// 		*trgtDataStream << lxvi[theChar];
+// 		
+// 		theChar = ((buffer[1] & 0x0f) << 2) | (buffer[2] >> 6);
+// 		*trgtDataStream << lxvi[theChar];
+// 		
+// 		theChar=buffer[2] & 0x3f;
+// 		*trgtDataStream << lxvi[theChar];
+	}
+	// Excedentary chars are ignored
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ ConvertBase64ToByte												[public]
+// ---------------------------------------------------------------------------
+// This function supposes that the src and trgt strings are properly allocated. 
+// The size of srcString should be a multiple of 4.
+// The size of trgtString should be 3/4 the size of srcDataStream.
+
+void
+UCodeTranslator::ConvertBase64ToByte(char* srcString, char* trgtString )
+{
+	// todo...
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ ConvertToNumber												[public]
+// ---------------------------------------------------------------------------
+
+int
+UCodeTranslator::ConvertToNumber(UInt8 inByte)
+{
+	if (inByte >= 'A' && inByte <= 'Z')
+		return (inByte - 'A');
+
+	if (inByte >= 'a' && inByte <= 'z')
+		return (inByte - 'a' + 26);
+
+	if (inByte >= '0' && inByte <= '9')
+		return (inByte - '0' + 52);
+
+	if (inByte == '+')
+		return (62);
+
+	if (inByte == '/')
+		return (63);
+
+	return (-1);
+}
+
+
 
 // ===========================================================================
 //	¥ Stack-based classes
@@ -347,11 +525,11 @@ StSepHexTranslator::~StSepHexTranslator()
 
 
 // ---------------------------------------------------------------------------
-//	 ConvertToHex													[public]
+//	¥ Convert													[public]
 // ---------------------------------------------------------------------------
 
 void
-StSepHexTranslator::ConvertToHex()
+StSepHexTranslator::Convert()
 {
 	StHandleLocker locker(mInHandle);
 	
@@ -409,11 +587,11 @@ StByteToHexTranslator::~StByteToHexTranslator()
 
 
 // ---------------------------------------------------------------------------
-//	 ConvertToHex													[public]
+//	¥ Convert													[public]
 // ---------------------------------------------------------------------------
 
 void
-StByteToHexTranslator::ConvertToHex()
+StByteToHexTranslator::Convert()
 {
 	StHandleLocker locker(mInHandle);
 	
@@ -456,11 +634,11 @@ StHexToByteTranslator::~StHexToByteTranslator()
 
 
 // ---------------------------------------------------------------------------
-//	 HexToCode														[public]
+//	¥ Convert														[public]
 // ---------------------------------------------------------------------------
 
 void
-StHexToByteTranslator::HexToByte()
+StHexToByteTranslator::Convert()
 {
 	StHandleLocker locker(mInHandle);
 	
@@ -469,6 +647,132 @@ StHexToByteTranslator::HexToByte()
 // 	inStream.SetMarker(0L,streamFrom_Start);
 	
 	UCodeTranslator::ConvertHexToByte(&inStream, &outStream);
+}
+
+
+// =====================================
+//  CLASS StByteToBase64Translator
+// =====================================
+
+// ---------------------------------------------------------------------------
+//	¥ StByteToBase64Translator					Constructor			  [public]
+// ---------------------------------------------------------------------------
+
+StByteToBase64Translator::StByteToBase64Translator(Handle inHandle)
+{
+	mInHandle = inHandle;
+	mInSize = ::GetHandleSize(inHandle);
+	mOutSize = (mInSize / 3) * 4;
+	mOutSize += ((mInSize % 3) > 0) ? 4:0;
+	mOutHandle = ::NewHandle(mOutSize);
+	ThrowIfNil_(mOutHandle);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ StByteToBase64Translator					Constructor			  [public]
+// ---------------------------------------------------------------------------
+
+StByteToBase64Translator::StByteToBase64Translator(const void * inPtr, SInt32 inByteCount)
+{
+	mInHandle = ::NewHandle(inByteCount);
+	mInSize = inByteCount;
+	BlockMoveData(inPtr, *mInHandle, inByteCount);
+	mOutSize = (mInSize / 3) * 4;
+	mOutSize += ((mInSize % 3) > 0) ? 4:0;
+	mOutHandle = ::NewHandle(mOutSize);
+	ThrowIfNil_(mOutHandle);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ ~StByteToBase64Translator				Destructor				  [public]
+// ---------------------------------------------------------------------------
+
+StByteToBase64Translator::~StByteToBase64Translator()
+{
+	// It should not be nil, but who knows...
+	if (mOutHandle != nil) {
+		::DisposeHandle(mOutHandle);
+	} 
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ Convert													[public]
+// ---------------------------------------------------------------------------
+
+void
+StByteToBase64Translator::Convert()
+{
+	StHandleLocker locker(mInHandle);
+	
+	LDataStream inStream(*mInHandle, mInSize);
+	LDataStream outStream(*mOutHandle, mOutSize);
+	
+	UCodeTranslator::ConvertByteToBase64(&inStream, &outStream);
+}
+
+
+// =====================================
+//  CLASS StBase64ToByteTranslator
+// =====================================
+
+// ---------------------------------------------------------------------------
+//	¥ StBase64ToByteTranslator					Constructor			  [public]
+// ---------------------------------------------------------------------------
+
+StBase64ToByteTranslator::StBase64ToByteTranslator(Handle inHandle)
+{
+	mInHandle = inHandle;
+	mInSize = ::GetHandleSize(inHandle);
+	mOutSize = (mInSize / 4) * 3;
+	mOutHandle = ::NewHandle(mOutSize);
+	ThrowIfNil_(mOutHandle);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ StBase64ToByteTranslator					Constructor			  [public]
+// ---------------------------------------------------------------------------
+
+StBase64ToByteTranslator::StBase64ToByteTranslator(const void * inPtr, SInt32 inByteCount)
+{
+	mInHandle = ::NewHandle(inByteCount);
+	mInSize = inByteCount;
+	BlockMoveData(inPtr, *mInHandle, inByteCount);
+	mOutSize = (mInSize / 4) * 3;
+	mOutHandle = ::NewHandle(mOutSize);
+	ThrowIfNil_(mOutHandle);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ ~StBase64ToByteTranslator				Destructor				  [public]
+// ---------------------------------------------------------------------------
+
+StBase64ToByteTranslator::~StBase64ToByteTranslator()
+{
+	// It should not be nil, but who knows...
+	if (mOutHandle != nil) {
+		::DisposeHandle(mOutHandle);
+	} 
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ Convert													[public]
+// ---------------------------------------------------------------------------
+
+void
+StBase64ToByteTranslator::Convert()
+{
+	StHandleLocker locker(mInHandle);
+	
+	LDataStream inStream(*mInHandle, mInSize);
+	LDataStream outStream(*mOutHandle, mOutSize);
+	
+	UCodeTranslator::ConvertBase64ToByte(&inStream, &outStream);
 }
 
 
@@ -519,11 +823,11 @@ StReadableTranslator::~StReadableTranslator()
 
 
 // ---------------------------------------------------------------------------
-//	¥ FilterReadable													[public]
+//	¥ Convert													[public]
 // ---------------------------------------------------------------------------
 
 void
-StReadableTranslator::FilterReadable()
+StReadableTranslator::Convert()
 {
 	StHandleLocker locker(mInHandle);
 	

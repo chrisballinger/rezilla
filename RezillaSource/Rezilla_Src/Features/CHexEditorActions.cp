@@ -99,7 +99,7 @@ CHexEditorPasteAction::CHexEditorPasteAction(
 	switch (thePaneID) {
 	  case item_HexDataWE:
 	StSepHexTranslator translator(mPastedTextH);
-	translator.ConvertToHex();
+	translator.Convert();
 	mPastedTextH = translator.GetOutHandle();
 	  
 		break;
