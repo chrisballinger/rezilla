@@ -58,8 +58,6 @@ public:
 							CommandT			inCommand,
 							void*				ioParam = nil);	
 
-	virtual Boolean		HandleKeyPress( const EventRecord& inKeyEvent );
-
 	virtual void		ListenToMessage(
 							MessageT		inMessage,
 							void*			ioParam);
