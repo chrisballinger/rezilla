@@ -372,7 +372,7 @@ CAete_EditorDoc::DoExport(FSSpec & inFileSpec, SInt16 inFormat)
 	if (theStream != nil) {
 		mAeteEditWindow->GetAete()->SendDataToStream(theStream);	
 
-		StAeteExporter exporter(theStream, inFileSpec, inFormat);
+		StAeteExporter exporter(theStream, mAeteEditWindow->GetAete(), inFileSpec, inFormat);
 		
 		exporter.SetRezObj(mRezObj);
 		exporter.WriteOut();
