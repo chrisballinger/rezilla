@@ -18,6 +18,7 @@
 #include "CSuite_Window.h"
 
 class CRezMap;
+class CPatternTargetView;
 
 
 class CWindow_PatternSuite : public CSuite_Window {
@@ -34,18 +35,21 @@ class CWindow_PatternSuite : public CSuite_Window {
 	
 		SInt32				GetZoomFactor( SInt32, SInt32, Boolean *outShowGrid );
 			
-		void				SwitchToNthBitmap( SInt32 inPatternIndex );
+		void				SwitchToNthBitmap( SInt32 inBitmapIndex );
 		
 	protected:
 		TArray<Pattern>			mPatternsArray;
-		
-		void				ParseBitmapSuite( Handle inHandle, COffscreen **outBW  );
+		CPatternTargetView *	mSample;
 
-		ArrayIndexT			AddNewBitmap();
-		ArrayIndexT			AddNewBitmap( SInt32 inAfterIndex );
-		void				RemoveBitmap( SInt32 inPatternIndex );
-		void				SetNthBitmap( SInt32 inPatternIndex );
-		void				BitmapToNthPattern( SInt32 inPatternIndex );
+		virtual void		FinishCreateSelf();
+				
+		virtual void		ParseBitmapSuite( Handle inHandle, COffscreen **outBW  );
+
+		virtual ArrayIndexT	AddNewBitmap();
+		virtual ArrayIndexT	AddNewBitmap( SInt32 inAfterIndex );
+		virtual void		RemoveBitmap( SInt32 inBitmapIndex );
+		virtual void		SetNthBitmap( SInt32 inBitmapIndex );
+		virtual void		ImageToNthBitmap( SInt32 inBitmapIndex );
 
 };
 

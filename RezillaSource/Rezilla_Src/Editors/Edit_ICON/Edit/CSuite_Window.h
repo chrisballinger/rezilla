@@ -1,7 +1,7 @@
 // ===========================================================================
 // CSuite_Window.h
 //                       Created: 2005-01-10 21:23:57
-//             Last modification: 2005-01-10 21:24:09
+//             Last modification: 2005-01-11 13:30:46
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -46,7 +46,6 @@ class CSuite_Window : public CIcon_EditorWindow {
 	protected:
 		UInt16					mCurrentIndex;
 		UInt16					mTotalCount;
-		CPatternTargetView *	mSample;
 		CSuiteSlider *			mSlider;
 		LStaticText *			mCountField;
 		LPushButton *			mPlusButton;
@@ -54,16 +53,16 @@ class CSuite_Window : public CIcon_EditorWindow {
 		
 		virtual void		FinishCreateSelf();
 				
-		void				ParseBitmapSuite( Handle inHandle, COffscreen **outBW  );
+		virtual void		ParseBitmapSuite( Handle inHandle, COffscreen **outBW  );
 
 		void				SetCountField( SInt32 inCurrIndex, SInt32 inTotalCount );
 		void				AdjustSlider();
 		
-		ArrayIndexT			AddNewBitmap();
-		ArrayIndexT			AddNewBitmap( SInt32 inAfterIndex );
-		void				RemoveBitmap( SInt32 inBitmapIndex );
-		void				SetNthBitmap( SInt32 inBitmapIndex );
-		void				ImageToNthBitmap( SInt32 inBitmapIndex );
+		virtual ArrayIndexT	AddNewBitmap();
+		virtual ArrayIndexT	AddNewBitmap( SInt32 inAfterIndex );
+		virtual void		RemoveBitmap( SInt32 inBitmapIndex );
+		virtual void		SetNthBitmap( SInt32 inBitmapIndex );
+		virtual void		ImageToNthBitmap( SInt32 inBitmapIndex );
 
 };
 

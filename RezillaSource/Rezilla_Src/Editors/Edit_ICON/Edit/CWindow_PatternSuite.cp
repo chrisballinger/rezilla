@@ -1,7 +1,7 @@
 // ===========================================================================
 // CWindow_PatternSuite.cp
 //                       Created: 2005-01-09 10:38:27
-//             Last modification: 2005-01-11 08:46:03
+//             Last modification: 2005-01-11 13:46:40
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -12,7 +12,6 @@
 // ===========================================================================
 
 #include "CWindow_PatternSuite.h"
-#include "CDraggableTargetView.h"
 #include "CIcon_EditorDoc.h"
 #include "CIcon_EditorWindow.h"
 #include "CSuiteSlider.h"
@@ -82,6 +81,24 @@ CWindow_PatternSuite::CreateFromStream( LStream *inStream )
 
 
 // ---------------------------------------------------------------------------
+// 	FinishCreateSelf
+// ---------------------------------------------------------------------------
+
+void
+CWindow_PatternSuite::FinishCreateSelf()
+{
+	CSuite_Window::FinishCreateSelf();
+
+	mSample = (CPatternTargetView *) this->FindPaneByID( item_IconEditBWSample );
+	ThrowIfNil_( mSample );
+	mSamplePaneList[ mNumSamplePanes++ ] = mSample;
+	
+	// We need to listen to the sample pane (click and/or drop operations)
+	this->BecomeListenerTo( mNumSamplePanes, mSamplePaneList );
+}
+
+
+// ---------------------------------------------------------------------------
 // 	SaveAsResource
 // ---------------------------------------------------------------------------
 
@@ -89,7 +106,7 @@ void
 CWindow_PatternSuite::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 {
 	// Store the current pattern's data.
-	BitmapToNthPattern(mCurrentIndex);
+	ImageToNthBitmap(mCurrentIndex);
 	
 	Size totalSize = mTotalCount * sizeof(Pattern);
 	Handle	srcHandle = mPatternsArray.GetItemsHandle();
@@ -165,11 +182,11 @@ CWindow_PatternSuite::ParseBitmapSuite( Handle inHandle, COffscreen **outBW  )
 // ---------------------------------------------------------------------------
 
 void
-CWindow_PatternSuite::SetNthBitmap( SInt32 inPatternIndex )
+CWindow_PatternSuite::SetNthBitmap( SInt32 inBitmapIndex )
 {
 	Pattern pat;
 
-	if ( mPatternsArray.FetchItemAt(inPatternIndex, pat) ) {
+	if ( mPatternsArray.FetchItemAt(inBitmapIndex, pat) ) {
 		COffscreen * bwImage = CWindow_Pattern::BWPatternToOffscreen(pat);
 		this->SetImage( bwImage, resize_None, redraw_Later );
 		mCurrentSamplePane = mSample;	
@@ -179,7 +196,7 @@ CWindow_PatternSuite::SetNthBitmap( SInt32 inPatternIndex )
 		// It belongs to the sample pane now
 		bwImage = nil;	
 
-		mCurrentIndex = inPatternIndex;
+		mCurrentIndex = inBitmapIndex;
 	}
 }
 
@@ -223,12 +240,12 @@ CWindow_PatternSuite::AddNewBitmap( SInt32 inAtIndex )
 // ---------------------------------------------------------------------------
 
 void
-CWindow_PatternSuite::RemoveBitmap( SInt32 inPatternIndex )
+CWindow_PatternSuite::RemoveBitmap( SInt32 inBitmapIndex )
 {
 	Pattern	pat;
 	
-	if ( mPatternsArray.FetchItemAt(inPatternIndex, pat) ) {
-		mPatternsArray.RemoveItemsAt(1, inPatternIndex);
+	if ( mPatternsArray.FetchItemAt(inBitmapIndex, pat) ) {
+		mPatternsArray.RemoveItemsAt(1, inBitmapIndex);
 		mTotalCount--;
 		mSlider->SetMaxValue(mTotalCount);
 	}
@@ -243,7 +260,7 @@ CWindow_PatternSuite::RemoveBitmap( SInt32 inPatternIndex )
 // ---------------------------------------------------------------------------
 
 void
-CWindow_PatternSuite::BitmapToNthPattern( SInt32 inPatternIndex )
+CWindow_PatternSuite::ImageToNthBitmap( SInt32 inBitmapIndex )
 {
 	if (mCurrentIndex <= 0 || mCurrentIndex > mTotalCount) {
 		return;
@@ -255,7 +272,7 @@ CWindow_PatternSuite::BitmapToNthPattern( SInt32 inPatternIndex )
 
 	bwBuffer->CopyToRawData( (UInt8*) &pat, kBWPatternRowBytes );
 
-	mPatternsArray.AssignItemsAt(1, inPatternIndex, pat);	
+	mPatternsArray.AssignItemsAt(1, inBitmapIndex, pat);	
 }
 
 

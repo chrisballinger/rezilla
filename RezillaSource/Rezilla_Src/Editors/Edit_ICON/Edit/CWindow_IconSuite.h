@@ -18,6 +18,7 @@
 #include "CSuite_Window.h"
 
 class CRezMap;
+class CDraggableTargetView;
 
 typedef short		SICN[16];
 typedef SICN *		SICN_Ptr;
@@ -40,14 +41,17 @@ class CWindow_IconSuite : public CSuite_Window {
 			
 	protected:
 		TArray<SICN>			mBitmapsArray;
-						
-		void				ParseBitmapSuite( Handle inHandle, COffscreen **outBW  );
+		CDraggableTargetView *	mSample;
+					
+		virtual void		FinishCreateSelf();
+				
+		virtual void		ParseBitmapSuite( Handle inHandle, COffscreen **outBW  );
 
-		ArrayIndexT			AddNewBitmap();
-		ArrayIndexT			AddNewBitmap( SInt32 inAfterIndex );
-		void				RemoveBitmap( SInt32 inBitmapIndex );
-		void				SetNthBitmap( SInt32 inBitmapIndex );
-		void				ImageToNthBitmap( SInt32 inBitmapIndex );
+		virtual ArrayIndexT	AddNewBitmap();
+		virtual ArrayIndexT	AddNewBitmap( SInt32 inAfterIndex );
+		virtual void		RemoveBitmap( SInt32 inBitmapIndex );
+		virtual void		SetNthBitmap( SInt32 inBitmapIndex );
+		virtual void		ImageToNthBitmap( SInt32 inBitmapIndex );
 		
 		COffscreen *		IconToOffscreen( const SICN * inIcon );
 		

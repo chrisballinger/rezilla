@@ -1,7 +1,7 @@
 // ===========================================================================
 // CWindow_IconSuite.cp
 //                       Created: 2005-01-10 21:23:57
-//             Last modification: 2005-01-11 08:46:48
+//             Last modification: 2005-01-11 14:28:05
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -17,7 +17,6 @@
 #include "CIcon_EditorWindow.h"
 #include "CSuiteSlider.h"
 #include "CWindow_Pattern.h"
-#include "CPatternTargetView.h"
 #include "COffscreen.h"
 #include "CRezMap.h"
 #include "CRezObj.h"
@@ -79,6 +78,24 @@ CWindow_IconSuite *
 CWindow_IconSuite::CreateFromStream( LStream *inStream )
 {
 	return new CWindow_IconSuite( inStream );
+}
+
+
+// ---------------------------------------------------------------------------
+// 	FinishCreateSelf
+// ---------------------------------------------------------------------------
+
+void
+CWindow_IconSuite::FinishCreateSelf()
+{
+	CSuite_Window::FinishCreateSelf();
+
+	mSample = (CDraggableTargetView *) this->FindPaneByID( ImgType_IconSuite );
+	ThrowIfNil_( mSample );
+	mSamplePaneList[ mNumSamplePanes++ ] = mSample;
+	
+	// We need to listen to the sample pane (click and/or drop operations)
+	this->BecomeListenerTo( mNumSamplePanes, mSamplePaneList );
 }
 
 

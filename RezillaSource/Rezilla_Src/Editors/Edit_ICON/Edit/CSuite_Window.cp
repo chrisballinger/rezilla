@@ -102,7 +102,7 @@ CSuite_Window::InitializeFromResource( CRezMap *inMap, ResType inResType, ResIDT
 		ThrowIfNil_( h );
 		
 		// Parse the resource to build the patterns array
-		this->ParseBitmapSuite( h, &bwImage );
+		ParseBitmapSuite( h, &bwImage );
 		
 		SetNthBitmap(1);
 
@@ -145,10 +145,6 @@ CSuite_Window::FinishCreateSelf()
 
 	mSlider->SetOwnerWindow(this);
 	
-	mSample = (CPatternTargetView *) this->FindPaneByID( item_IconEditBWSample );
-	ThrowIfNil_( mSample );
-	mSamplePaneList[ mNumSamplePanes++ ] = mSample;
-	
 	mCountField = (LStaticText *) this->FindPaneByID( item_IconCountField );
 	ThrowIfNil_( mCountField );
 
@@ -161,9 +157,7 @@ CSuite_Window::FinishCreateSelf()
 	mSlider->AddListener(this);
 	mPlusButton->AddListener(this);
 	mMinusButton->AddListener(this);
-	
-	// We need to listen to the sample pane (click and/or drop operations)
-	this->BecomeListenerTo( mNumSamplePanes, mSamplePaneList );
+
 }
 
 
@@ -371,12 +365,7 @@ CSuite_Window::AddNewBitmap( SInt32 /* inAtIndex */ )
 void
 CSuite_Window::RemoveBitmap( SInt32 /* inBitmapIndex */ )
 {
-	
 // Subclasses must override
-	
-	if (mCurrentIndex > mTotalCount) {
-		mCurrentIndex = mTotalCount;
-	} 
 }
 
 // ---------------------------------------------------------------------------
@@ -386,12 +375,7 @@ CSuite_Window::RemoveBitmap( SInt32 /* inBitmapIndex */ )
 void
 CSuite_Window::ImageToNthBitmap( SInt32 /* inBitmapIndex */ )
 {
-	if (mCurrentIndex <= 0 || mCurrentIndex > mTotalCount) {
-		return;
-	} 
-	
 // Subclasses must override
-
 }
 
 
