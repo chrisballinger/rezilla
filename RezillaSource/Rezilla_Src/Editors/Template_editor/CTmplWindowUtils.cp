@@ -950,7 +950,7 @@ CTmplEditorWindow::RecalcTextBoxHeight(SInt32 inTextSize, CWasteEditView * inWEV
 	
 	if (inTextSize || isFixed) {
 		inWEView->GetFrameSize(theSize);
-		if (inTextSize) {
+		if (inTextSize && !isFixed) {
 			linesCount = inWEView->CountLines() ;
 		} else {
 			bytesPerLine = theSize.width / CRezillaApp::sBasics.charWidth;
