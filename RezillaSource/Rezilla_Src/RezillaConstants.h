@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2004-11-07 22:00:37
+//             Last modification : 2004-11-08 07:46:54
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -38,13 +38,8 @@ enum
 	idxIcnsDefaultName
 };
 
-// Reference numbers
-// Use kResFileNotOpened and kSystemResFile instead (defined in Resources.h)
-// enum
-// {	
-// 	refnum_undefined = -1,
-// 	refnum_system = 0
-// };
+// Refnum constants
+// Use kResFileNotOpened and kSystemResFile (defined in Resources.h)
 
 // Export formats
 enum
@@ -625,9 +620,9 @@ const MessageT	msg_MiscPrefsSetSigOnCreate	= rPPob_PrefsMiscPane + item_MiscPref
 const MessageT	msg_MiscPrefsOnlyRsrcExt	= rPPob_PrefsMiscPane + item_MiscPrefsOnlyRsrcExt;
 // Tmpl Editor Window
 // ------------------
-const MessageT	msg_TmplEditValidate		= msg_OK;
-const MessageT	msg_TmplEditCancel			= msg_Cancel;
-const MessageT	msg_TmplEditRevert			= cmd_Revert;
+const MessageT	msg_EditorValidate			= msg_OK;
+const MessageT	msg_EditorCancel			= msg_Cancel;
+const MessageT	msg_EditorRevert			= cmd_Revert;
 // Text Editor Window
 // ------------------
 const MessageT	msg_TextEditScroller		= FOUR_CHAR_CODE('Scrl');
