@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2004-11-15 22:49:41
+//             Last modification : 2004-11-28 18:11:17
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -646,7 +646,7 @@ const MessageT	msg_TmplModifiedItem		= 	FOUR_CHAR_CODE('TmMd');
 
 
 
-// AE constants
+// AE CONSTANTS
 // ============
 // AE suites
 enum
@@ -741,14 +741,18 @@ const DescType rzil_pKind			= 'pKND';	// Kind
 const DescType rzil_pTemplate		= 'pTMP';	// Template
 
 //    Compare document
-const DescType rzil_pIgnoreName		= 'pINm';	// IgnoreNameDiff
-const DescType rzil_pIgnoreAttr		= 'pIAt';	// IgnoreAttrDiff
-const DescType rzil_pIgnoreData		= 'pIDa';	// IgnoreDataDiff
+const DescType rzil_pIgnoreName		= 'IgnN';	// IgnoreNameDiff
+const DescType rzil_pIgnoreAttr		= 'IgnA';	// IgnoreAttrDiff
+const DescType rzil_pIgnoreData		= 'IgnD';	// IgnoreDataDiff
+const DescType rzil_pOnlyInOld		= 'OOld';	// Only in old (list)
+const DescType rzil_pDiffering		= 'Diff';	// In both but differing (list)
+const DescType rzil_pIdentical		= 'Iden';	// In both and identical (list)
+const DescType rzil_pOnlyInNew		= 'ONew';	// Only in new (list)
 
 
 
 
-// Error constants
+// ERROR CONSTANTS
 // ===============
 enum RezillaErrors
 {
