@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2004-06-16 11:08:58
+//             Last modification : 2004-06-17 11:51:15
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -191,6 +191,8 @@ const SInt16	index_HexEditUntitled		= 3;
 const SInt16	index_HexEditUntitledX		= 4;
 const SInt16	index_CompWinUntitled		= 5;
 const SInt16	index_CompWinUntitledX		= 6;
+const SInt16	index_TmplEditUntitled		= 7;
+const SInt16	index_TmplEditUntitledX		= 8;
 // Indices of STR# 1501: windows menu items
 const SInt16	index_WinMenuInspector		= 1;
 const SInt16	index_WinMenuTypeInspector	= 2;
@@ -604,7 +606,7 @@ const SInt16	kTmplVertSep			= 10;
 const SInt16	kTmplHorizSep			= 10;
 const SInt16	kTmplEditHeight			= 22;
 const SInt16	kTmplEditWidth			= 250;
-const SInt16	kTmplLabelHeight		= 24;
+const SInt16	kTmplLabelHeight		= 26;
 const SInt16	kTmplLabelWidth			= 150;
 const SInt16	kTmplRgvHeight			= 22;
 const SInt16	kTmplRgvWidth			= 150;

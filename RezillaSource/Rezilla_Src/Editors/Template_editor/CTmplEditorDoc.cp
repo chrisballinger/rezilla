@@ -260,6 +260,22 @@ CTmplEditorDoc::GetModifiedResource()
 }
 
 
+// ---------------------------------------------------------------------------------
+//  ¥ NameNewEditorDoc
+// ---------------------------------------------------------------------------------
+
+void
+CTmplEditorDoc::NameNewEditorDoc()
+{
+	Str255 theTitle;
+	
+	// Build the title
+	BuildDocumentTitle(theTitle, index_TmplEditUntitled);
+	// Set window title
+	mTmplEditWindow->SetDescriptor(theTitle);
+}
+
+
 // // ---------------------------------------------------------------------------
 // //  ¥ ListenToMessage													[public]
 // // ---------------------------------------------------------------------------

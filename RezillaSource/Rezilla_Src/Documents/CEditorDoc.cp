@@ -2,7 +2,7 @@
 // CEditorDoc.cp
 // 
 //                       Created: 2003-05-04 19:16:00
-//             Last modification: 2004-06-12 16:11:10
+//             Last modification: 2004-06-17 12:10:30
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -29,6 +29,7 @@ PP_Begin_Namespace_PowerPlant
 #include "UMiscUtils.h"
 
 
+#include <LString.h>
 #include <UStandardDialogs.h>
 
 // // Standard headers
@@ -67,11 +68,11 @@ CEditorDoc::~CEditorDoc()
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ NameNewEditorDoc
+//  ¥ BuildDocumentTitle
 // ---------------------------------------------------------------------------------
 
 void
-CEditorDoc::NameNewEditorDoc()
+CEditorDoc::BuildDocumentTitle(Str255 & outTitle, SInt16 whichString)
 {
 	FSSpec	theFileSpec;
 	mOwnerRezMapTable->GetOwnerDoc()->GetRezFile()->GetSpecifier(theFileSpec);
@@ -88,20 +89,19 @@ CEditorDoc::NameNewEditorDoc()
 		theTitle.Append(theString);
 	} else {
 		// Start with the default name ("untitled rez [1]")
-		theTitle.Assign(STRx_DefaultDocTitles, index_HexEditUntitled);
+		theTitle.Assign(STRx_DefaultDocTitles, whichString);
 		// If an existing window has this name, append a count and
 		// keep incrementing the count until we find a unique name.
 		long	num = 1;
 		while (UWindows::FindNamedWindow(theTitle) != nil) {
-			theTitle.Assign(STRx_DefaultDocTitles, index_HexEditUntitledX);
+			theTitle.Assign(STRx_DefaultDocTitles, whichString + 1);
 			++num;
 			theTitle += "\p [";
 			theTitle += num;
 			theTitle += "\p]";
 		}		
 	}
-	// Finally, set window title
-// 	mHexEditWindow->SetDescriptor(theTitle);
+	LString::CopyPStr(theTitle, outTitle);
 }
 
 

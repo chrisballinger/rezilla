@@ -69,7 +69,7 @@ protected:
 
 private:
 	void				Initialize();
-	
+	void				NameNewEditorDoc();
 };
 
 

@@ -117,8 +117,6 @@ CDualDataView::FinishCreateSelf()
 	mCurrFirstLine = 1;
 	mCurrentSubView = hex_nopane;
 	mSelectingAll = false;
-	
-	DeclareListeners();
 }
 
 
