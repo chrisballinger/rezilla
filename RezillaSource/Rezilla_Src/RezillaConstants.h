@@ -196,22 +196,6 @@ const ResIDT	rPPob_AeteEditorWindow		= 10300;
 const ResIDT	rPPob_PictEditorWindow		= 10400;
 const ResIDT	rPPob_UtxtEditorWindow		= 10500;
 const ResIDT	rPPob_IconEditorWindow		= 10600;
-const ResIDT	rRidL_RezMapWindow			= rPPob_RezMapWindow;
-const ResIDT	rRidL_InspectorWindow		= rPPob_InspectorWindow;
-const ResIDT	rRidL_NewRezDialog			= rPPob_NewRezDialog;
-const ResIDT	rRidL_HexEditorWindow		= rPPob_HexEditorWindow;
-const ResIDT	rRidL_TmplEditorWindow		= rPPob_TmplEditorWindow;
-const ResIDT	rRidL_TextEditorWindow		= rPPob_TextEditorWindow;
-const ResIDT	rRidL_AeteEditorWindow		= rPPob_AeteEditorWindow;
-const ResIDT	rRidL_UtxtEditorWindow		= rPPob_UtxtEditorWindow;
-const ResIDT	rRidL_IconEditorWindow		= rPPob_IconEditorWindow;
-const ResIDT	rRidL_AboutWindow			= rPPob_AboutWindow;
-const ResIDT	rRidL_FindDialog			= rPPob_FindDialog;
-const ResIDT	rRidL_RezCompDialog			= rPPob_RezCompDialog;
-const ResIDT	rRidL_RezCompWindow			= rPPob_RezCompWindow;
-const ResIDT	rRidL_AskUniqueID			= rPPob_AskUniqueID;
-const ResIDT	rRidL_RezTypePicker			= rPPob_RezTypePicker;
-const ResIDT	rRidL_TmplKeyPickerPicker	= rPPob_TmplKeyPicker;
 
 const ResIDT	ics8_Unlocked				= 1500;
 const ResIDT	ics8_Locked					= 1501;
@@ -530,40 +514,44 @@ const PaneIDT   item_UtxtEditLength		= 4;
 // ------------------
 // Same values are used for the pane ID and 
 // for the message it broadcasts.
-const PaneIDT	tool_None				= 0;
-const PaneIDT	tool_Lasso				= FOUR_CHAR_CODE('tLAS');
-const PaneIDT	tool_Selection			= FOUR_CHAR_CODE('tSEL');
-const PaneIDT	tool_Text				= FOUR_CHAR_CODE('tTXT');
-const PaneIDT	tool_Pencil				= FOUR_CHAR_CODE('tPEN');
-const PaneIDT	tool_Eraser				= FOUR_CHAR_CODE('tERA');
-const PaneIDT	tool_Bucket				= FOUR_CHAR_CODE('tBUC');
-const PaneIDT	tool_Dropper			= FOUR_CHAR_CODE('tDRO');
-const PaneIDT	tool_Line				= FOUR_CHAR_CODE('tLIN');
-const PaneIDT	tool_Rect				= FOUR_CHAR_CODE('tREC');
-const PaneIDT	tool_FilledRect			= FOUR_CHAR_CODE('tFRC');
-const PaneIDT	tool_RoundRect			= FOUR_CHAR_CODE('tRRC');
-const PaneIDT	tool_FilledRoundRect	= FOUR_CHAR_CODE('tFRR');
-const PaneIDT	tool_Oval				= FOUR_CHAR_CODE('tOVL');
-const PaneIDT	tool_FilledOval			= FOUR_CHAR_CODE('tFOV');
-const PaneIDT	tool_HotSpot			= FOUR_CHAR_CODE('tHOT');
-const PaneIDT	tool_BlackAndWhite		= FOUR_CHAR_CODE('tBnW');
-const PaneIDT	tool_Rotate				= FOUR_CHAR_CODE('tROT');
-const PaneIDT	tool_SwapColors			= FOUR_CHAR_CODE('tSWA');
-const PaneIDT	item_Pattern			= FOUR_CHAR_CODE('PATT');
-const PaneIDT	item_ForeColor			= FOUR_CHAR_CODE('FCOL');
-const PaneIDT	item_BackColor			= FOUR_CHAR_CODE('BCOL');		
-const PaneIDT	item_IconPreview		= FOUR_CHAR_CODE('IPRV');		
+const PaneIDT	tool_None					= 0;
+const PaneIDT	tool_Lasso					= FOUR_CHAR_CODE('tLAS');
+const PaneIDT	tool_Selection				= FOUR_CHAR_CODE('tSEL');
+const PaneIDT	tool_Text					= FOUR_CHAR_CODE('tTXT');
+const PaneIDT	tool_Pencil					= FOUR_CHAR_CODE('tPEN');
+const PaneIDT	tool_Eraser					= FOUR_CHAR_CODE('tERA');
+const PaneIDT	tool_Bucket					= FOUR_CHAR_CODE('tBUC');
+const PaneIDT	tool_Dropper				= FOUR_CHAR_CODE('tDRO');
+const PaneIDT	tool_Line					= FOUR_CHAR_CODE('tLIN');
+const PaneIDT	tool_Rect					= FOUR_CHAR_CODE('tREC');
+const PaneIDT	tool_FilledRect				= FOUR_CHAR_CODE('tFRC');
+const PaneIDT	tool_RoundRect				= FOUR_CHAR_CODE('tRRC');
+const PaneIDT	tool_FilledRoundRect		= FOUR_CHAR_CODE('tFRR');
+const PaneIDT	tool_Oval					= FOUR_CHAR_CODE('tOVL');
+const PaneIDT	tool_FilledOval				= FOUR_CHAR_CODE('tFOV');
+const PaneIDT	tool_HotSpot				= FOUR_CHAR_CODE('tHOT');
+const PaneIDT	tool_BlackAndWhite			= FOUR_CHAR_CODE('tBnW');
+const PaneIDT	tool_Rotate					= FOUR_CHAR_CODE('tROT');
+const PaneIDT	tool_SwapColors				= FOUR_CHAR_CODE('tSWA');
+const PaneIDT	item_IconEditTypeRgbx		= 4;
+const PaneIDT	item_IconEditTypeBitmap		= 5;
+const PaneIDT	item_IconEditTypeMask		= 6;
+const PaneIDT	item_IconEditPreview		= 7;		
+const PaneIDT   item_IconEditCoords			= 8;
+const PaneIDT	item_IconEditPattern		= 10;
+const PaneIDT	item_IconEditForeColor		= 11;
+const PaneIDT	item_IconEditBackColor		= 12;		
 
 
 // Common elements for Editor Windows
 // ----------------------------------
-const PaneIDT   item_EditorContents		= FOUR_CHAR_CODE('Cnts');
-const PaneIDT   item_EditorScroller		= FOUR_CHAR_CODE('Scrl');
-const PaneIDT   item_EditorValidate		= FOUR_CHAR_CODE('Vlid');
-const PaneIDT   item_EditorCancel		= FOUR_CHAR_CODE('Cncl');
-const PaneIDT   item_EditorRevert		= FOUR_CHAR_CODE('Rvrt');
-const PaneIDT	item_NameStaticText		= FOUR_CHAR_CODE('Name');
-const PaneIDT	item_ReadOnlyIcon		= FOUR_CHAR_CODE('Lock');
+const PaneIDT   item_EditorContents			= FOUR_CHAR_CODE('Cnts');
+const PaneIDT   item_EditorScroller			= FOUR_CHAR_CODE('Scrl');
+const PaneIDT   item_EditorValidate			= FOUR_CHAR_CODE('Vlid');
+const PaneIDT   item_EditorCancel			= FOUR_CHAR_CODE('Cncl');
+const PaneIDT   item_EditorRevert			= FOUR_CHAR_CODE('Rvrt');
+const PaneIDT	item_NameStaticText			= FOUR_CHAR_CODE('Name');
+const PaneIDT	item_ReadOnlyIcon			= FOUR_CHAR_CODE('Lock');
 
 // 'Other size' dialog
 // -------------------
@@ -718,6 +706,14 @@ const MessageT	msg_AeteTermsTable			= rPPob_AeteEditorWindow + item_AeteTermsTab
 const MessageT	msg_UtxtEditFontMenu		= rPPob_UtxtEditorWindow + item_UtxtEditFontMenu;
 const MessageT	msg_UtxtEditSizeMenu		= rPPob_UtxtEditorWindow + item_UtxtEditSizeMenu;
 const MessageT	msg_UtxtEditStyleMenu		= rPPob_UtxtEditorWindow + item_UtxtEditStyleMenu;
+// Icon Editor Window
+// ------------------
+const MessageT	msg_IconEditPattern			= rPPob_IconEditorWindow + item_IconEditPattern;
+const MessageT	msg_IconEditForeColor		= rPPob_IconEditorWindow + item_IconEditForeColor;
+const MessageT	msg_IconEditBackColor		= rPPob_IconEditorWindow + item_IconEditBackColor;		
+const MessageT	msg_IconEditTypeRgbx		= rPPob_IconEditorWindow + item_IconEditTypeRgbx;
+const MessageT	msg_IconEditTypeBitmap		= rPPob_IconEditorWindow + item_IconEditTypeBitmap;
+const MessageT	msg_IconEditTypeMask		= rPPob_IconEditorWindow + item_IconEditTypeMask;
 
 // Other general purpose messages
 // ------------------------------
