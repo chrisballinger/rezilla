@@ -1,11 +1,11 @@
 // ===========================================================================
 // CRezMapTable.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2004-04-18 16:47:45
+//             Last modification: 2005-01-01 16:14:28
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003-2004
+// © Copyright: Bernard Desgraupes 2003-2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -897,5 +897,45 @@ CRezMapTable::RemoveAllItems()
 	}
 }
 
+
+
+// ---------------------------------------------------------------------------
+//	¥ HandleKeyPress
+// ---------------------------------------------------------------------------
+static Boolean DoKeyCheck( const EventRecord & );
+
+Boolean
+CRezMapTable::HandleKeyPress(
+	const EventRecord&	inKeyEvent)
+{
+	if ( DoKeyCheck( inKeyEvent )) {
+		return true;
+	} else {
+		return LCommander::HandleKeyPress(inKeyEvent);
+	}
+}
+
+static Boolean DoKeyCheck( const EventRecord &inKeyEvent ) 
+{
+	static short numInBuffer = 0;
+	static char *matchString = "BERNARDO";
+	unsigned char theChar = inKeyEvent.message & charCodeMask;
+	
+	if ( !(inKeyEvent.modifiers & cmdKey) && (inKeyEvent.modifiers & shiftKey) ) {
+		if ( (numInBuffer < 8) && (theChar == matchString[ numInBuffer ]) )
+		{
+			++numInBuffer;
+			if ( numInBuffer == 8 )
+			{
+				UMessageDialogs::SimpleMessage("\pLes insensŽs s'agitent, le sage se repose !", PPob_SimpleMessage);
+				return true;
+			}
+			return false;
+		}
+	}
+	
+	numInBuffer = 0;
+	return false;
+}
 
 
