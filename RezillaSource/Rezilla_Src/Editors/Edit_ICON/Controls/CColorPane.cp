@@ -104,10 +104,14 @@ CColorPane::CalcClipRegionForOverlap()
 		
 		LArrayIterator	anIterator( parentView->GetSubPanes() );
 		
-		// Loop until we're done with the list or (more likely) we hit
-		// ourselves since we draw on top of everything after us
-		while( anIterator.Next( &peerItem ) && (peerItem != this) )
+		// Loop until we're done with the list.
+		// Beware of the invisible control pane with ID PaneIDT_Unspecified
+		// if the superview is an LControlView.
+		while( anIterator.Next( &peerItem ) )
 		{
+			if ((peerItem == this) || (peerItem->GetPaneID() == PaneIDT_Unspecified)) {
+				continue;
+			} 
 			peerItem->CalcPortFrameRect( peerRect );
 			if ( ::SectRect( &ourRect, &peerRect, &dummyRect ) ) {
 				::RectRgn( peerRgn, &peerRect );
@@ -225,13 +229,12 @@ void
 CColorPane::DrawSelf()
 {
 	Rect	localR, swatchR;
+	StClipRgnState		aClipObject( mClippedRgn );
 	
 	// Call inherited
 	LBevelButton::DrawSelf();
 	
 	// Don't draw on overlapped popup, so clip us
-// 	StClipRgnState		aClipObject( mClippedRgn );
-	
 	CalcLocalFrameRect( localR );
 	UPopupDrawing::DrawPopupArrow( localR, false /* not hilited */, IsEnabled() );
 	
@@ -333,10 +336,10 @@ CColorPane::DrawPopup( Boolean inHilited, Boolean inEnabled )
 	this->FocusDraw();
 	this->CalcLocalFrameRect( localR );
 	
+	StClipRgnState	aClip( mClippedRgn );		// don't draw on overlapped popup
+	
 	// Call inherited
 	LBevelButton::DrawSelf();
-	
-// 	StClipRgnState	aClip( mClippedRgn );		// don't draw on overlapped popup
 	
 	UPopupDrawing::DrawPopupArrow( localR, inHilited, inEnabled );
 	
