@@ -627,6 +627,7 @@ const MessageT	msg_DualViewEdited			= 	FOUR_CHAR_CODE('DuEd');
 const MessageT	msg_TmplMinusButton			= 	FOUR_CHAR_CODE('Mins');
 const MessageT	msg_TmplPlusButton			= 	FOUR_CHAR_CODE('Plus');
 const MessageT	msg_TmplCasePopup			= 	FOUR_CHAR_CODE('Case');
+const MessageT	msg_TmplPopupField			= 	FOUR_CHAR_CODE('PopF');
 const MessageT	msg_TmplModifiedItem		= 	FOUR_CHAR_CODE('TmMd');
 
 
@@ -728,6 +729,7 @@ const SInt16	kTmplCheckHeight		= 18;
 const SInt16	kTmplCheckWidth			= 18;
 const SInt16	kTmplEditHeight			= 22;
 const SInt16	kTmplEditWidth			= 250;
+const SInt16	kTmplPopupFieldWidth	= 75;
 const SInt16	kTmplHexPaneWidth		= 288;
 const SInt16	kTmplLabelHeight		= 26;
 const SInt16	kTmplLabelWidth			= 150;
