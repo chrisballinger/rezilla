@@ -49,6 +49,7 @@ public:
 		void	SendData(LHandleStream * outStream);
 		
 		Style	GetStyleAtIndex( ArrayIndexT inAtIndex );
+		void	SetStyleAtIndex(Style theStyle, ArrayIndexT inAtIndex );
 		
 		void	GetValues( 
 						  ResIDT & outID, ResIDT & outMDEF, 

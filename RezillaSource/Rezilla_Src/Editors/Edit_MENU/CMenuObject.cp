@@ -290,4 +290,18 @@ CMenuObject::GetStyleAtIndex( ArrayIndexT inAtIndex )
 }
  
 
+// ---------------------------------------------------------------------------
+//  SetStyleAtIndex												[public]
+// ---------------------------------------------------------------------------
+
+void
+CMenuObject::SetStyleAtIndex(Style theStyle, ArrayIndexT inAtIndex )
+{
+	CMenuItem *	theItem;
+	if ( mItems.FetchItemAt( inAtIndex, theItem) ) {
+		theItem->SetStyle(theStyle);
+	} 
+}
+ 
+
 
