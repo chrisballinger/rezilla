@@ -2,7 +2,7 @@
 // CTmplEditorWindow.h
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-06-15 15:41:00
+//             Last modification: 2004-06-15 20:44:07
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -26,7 +26,9 @@ class CRezObj;
 
 enum {
 	tmpl_titleYesNo = 0,
-	tmpl_titleOnOff
+	tmpl_titleOnOff,
+	tmpl_flushRight = 0,
+	tmpl_flushLeft
 };
 
 class CTmplEditorWindow : public CEditorWindow {
@@ -83,11 +85,15 @@ protected:
 	SPaneInfo			mStaticPaneInfo;
 	SPaneInfo			mRgvPaneInfo;
 	SPaneInfo			mRadioPaneInfo;
+	SPaneInfo			mRectLabelInfo;
 	SPaneInfo			mRectPaneInfo;
+	SPaneInfo			mScrollPaneInfo;
+	SPaneInfo			mTgbPaneInfo;
 	SPaneInfo			mWastePaneInfo;
 	LHandleStream *		mTemplateStream;
 	LHandleStream *		mRezStream;
-	ResIDT				mLabelTraitsID;
+	ResIDT				mLeftLabelTraitsID;
+	ResIDT				mRightLabelTraitsID;
 	ResIDT				mEditTraitsID;
 
 	virtual void	FinishCreateSelf();
@@ -95,7 +101,8 @@ protected:
 private:
 	OSErr			ParseDataForType(ResType inType, Str255 inString);
 	
-	void			AddStaticField(Str255 inLabel);
+	void			AddStaticField(Str255 inLabel, 
+								   SInt16 inJustification = tmpl_flushRight);
 	
 	void			AddEditField(Str255 inValue, 
 								OSType inType,
@@ -109,6 +116,8 @@ private:
 									  SInt16 inTitleType);
 	
 	void			AddWasteField(OSType inType);
+	
+	void			AddHexDumpField(OSType inType);
 	
 	void			AddRectField(SInt16 inTop, 
 									SInt16 inLeft, 

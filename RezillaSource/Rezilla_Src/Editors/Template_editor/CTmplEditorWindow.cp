@@ -24,15 +24,14 @@
 #include "UMiscUtils.h"
 #include "UMessageDialogs.h"
 #include "UHexFilters.h"
+#include "UCodeTranslator.h"
 
 #include <LScrollBar.h>
 #include <LStaticText.h>
 #include <LIconPane.h>
 #include <LEditText.h>
 #include <LTextGroupBox.h>
-#include <UExtractFromAEDesc.h>
-#include <UAppleEventsMgr.h>
-#include <UCursor.h>
+#include <LScrollerView.h>
 
 #include <stdio.h>
 
@@ -109,10 +108,11 @@ CTmplEditorWindow::FinishCreateSelf()
 	mCurrentID			= mCurrFirstID;
 	mItemsCount			= 0;
 	mIndent				= 0;
-	mLabelTraitsID		= Txtr_GenevaTenBoldUlRight;
+	mLeftLabelTraitsID	= Txtr_GenevaTenBoldUlLeft;
+	mRightLabelTraitsID	= Txtr_GenevaTenBoldUlRight;
 	mEditTraitsID		= Txtr_GenevaTen;
 	mXCoord				= kTmplLeftMargin;
-	mYCoord				= kTmplVertSkip;
+	mYCoord				= kTmplVertSep;
 	mTemplateStream		= nil;
 	mRezStream			= nil;
 	
@@ -186,10 +186,22 @@ CTmplEditorWindow::FinishCreateSelf()
 	mRadioPaneInfo.bindings.bottom	= false;
 	mRadioPaneInfo.userCon			= 0;
 
-	// Rectangle basic values
-	mRectPaneInfo.paneID			= 0;
+	// Rectangle boxes basic values
+	mRectLabelInfo.paneID			= 0;
+	mRectLabelInfo.width			= kTmplRectWidth;
+	mRectLabelInfo.height			= kTmplRectHeight;
+	mRectLabelInfo.visible			= true;
+	mRectLabelInfo.enabled			= true;
+	mRectLabelInfo.bindings.left	= true;
+	mRectLabelInfo.bindings.top		= true;
+	mRectLabelInfo.bindings.right	= false;
+	mRectLabelInfo.bindings.bottom	= false;
+	mRectLabelInfo.userCon			= 0;
+	mRectLabelInfo.superView		= mContentsView;
+
+	// Rectangle edit basic values
 	mRectPaneInfo.width				= kTmplRectWidth;
-	mRectPaneInfo.height			= kTmplRectHeight;
+	mRectPaneInfo.height			= kTmplEditHeight;
 	mRectPaneInfo.visible			= true;
 	mRectPaneInfo.enabled			= true;
 	mRectPaneInfo.bindings.left		= true;
@@ -198,11 +210,32 @@ CTmplEditorWindow::FinishCreateSelf()
 	mRectPaneInfo.bindings.bottom	= false;
 	mRectPaneInfo.userCon			= 0;
 	mRectPaneInfo.superView			= mContentsView;
+	
+	// Active scrollers basic values
+	mScrollPaneInfo.paneID			= 0;
+	mScrollPaneInfo.visible			= true;
+	mScrollPaneInfo.enabled			= true;
+	mScrollPaneInfo.bindings.left	= true;
+	mScrollPaneInfo.bindings.top	= true;
+	mScrollPaneInfo.bindings.right	= true;
+	mScrollPaneInfo.bindings.bottom	= false;
+	mScrollPaneInfo.userCon			= 0;
 
-	// C string fields basic values
+	// Text group box for text views basic values
+	mTgbPaneInfo.paneID				= 0;
+	mTgbPaneInfo.width				= theFrame.width - kTmplTextMargin * 2;
+	mTgbPaneInfo.height				= kTmplTextHeight;
+	mTgbPaneInfo.visible			= true;
+	mTgbPaneInfo.enabled			= true;
+	mTgbPaneInfo.bindings.left		= true;
+	mTgbPaneInfo.bindings.top		= true;
+	mTgbPaneInfo.bindings.right		= true;
+	mTgbPaneInfo.bindings.bottom	= false;
+	mTgbPaneInfo.userCon			= 0;
+	mTgbPaneInfo.superView			= mContentsView;
+
+	// Text views basic values
 	mWastePaneInfo.paneID			= 0;
-	mWastePaneInfo.width			= theFrame.width - kTmplLeftMargin - kTmplLabelWidth - kTmplHorizSep - 10;
-	mWastePaneInfo.height			= kTmplWasteHeight;
 	mWastePaneInfo.visible			= true;
 	mWastePaneInfo.enabled			= true;
 	mWastePaneInfo.bindings.left	= true;
@@ -210,7 +243,6 @@ CTmplEditorWindow::FinishCreateSelf()
 	mWastePaneInfo.bindings.right	= true;
 	mWastePaneInfo.bindings.bottom	= false;
 	mWastePaneInfo.userCon			= 0;
-	mWastePaneInfo.superView		= mContentsView;
 
 // 	// Attach an LUndoer to each of the subpanes
 // 	mHexDataWE->AddAttachment( new LUndoer );
@@ -372,7 +404,6 @@ CTmplEditorWindow::ParseWithTemplate(Handle inHandle)
 // ---------------------------------------------------------------------------
 
 // TODO:
-// - CSTR should not use an editfield limited to 255 chars
 // - add more error checking: insufficient data, required null bytes
 // - insert in try block and catch exceptions
 
@@ -464,10 +495,10 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 		case 'CSTR':
 		// C string. This should be either characters followed by a null or all
 		// the chars until the end of the stream if there is no null byte.
-		AddStaticField(inLabelString);
+		AddStaticField(inLabelString, tmpl_flushLeft);
 		mYCoord += kTmplLabelHeight + kTmplVertSkip;
 		AddWasteField(inType);
-		break;
+ 		break;
 
 		case 'DBYT':
 		// Decimal byte
@@ -543,7 +574,9 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 
 		case 'HEXD':
 		// Hex dump of remaining bytes in resource (this can only be the last type in a resource)
-		
+		AddStaticField(inLabelString, tmpl_flushLeft);
+		mYCoord += kTmplLabelHeight + kTmplVertSkip;
+		AddHexDumpField(inType);
 		break;
 
 		case 'HLNG':
@@ -585,9 +618,10 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 
 		case 'LSTR':
 		// Long string (length long followed by the characters)
-		// // one to 4,294,967,296 bytes
-		
-		break;
+		AddStaticField(inLabelString, tmpl_flushLeft);
+		mYCoord += kTmplLabelHeight + kTmplVertSkip;
+		AddWasteField(inType);
+ 		break;
 
 		case 'LSTZ':
 		// List Zero. Terminated by a 0 byte (as in 'MENU' resources).
@@ -639,7 +673,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 			mYCoord += kTmplRectVertSkip;
 			AddStaticField(inLabelString);
 			mYCoord -= kTmplRectVertSkip;
-			AddRectField(theTop, theLeft, theBottom, theRight, inType, rPPob_TmplEditorWindow + mCurrentID, 255, 0, 
+			AddRectField(theTop, theLeft, theBottom, theRight, inType, rPPob_TmplEditorWindow + mCurrentID, 5, 0, 
 						 UKeyFilters::SelectTEKeyFilter(keyFilter_Integer));
 			break;
 		}
@@ -655,9 +689,10 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 
 		case 'WSTR':
 		// Same as LSTR, but a word rather than a long word
-		// // one to 65,536 bytes
-		
-		break;
+		AddStaticField(inLabelString, tmpl_flushLeft);
+		mYCoord += kTmplLabelHeight + kTmplVertSkip;
+		AddWasteField(inType);
+ 		break;
 
 		case 'ZCNT':
 		// Zero Count. Terminated by a zero-based word count that starts 
@@ -686,12 +721,13 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 // ---------------------------------------------------------------------------
 
 void
-CTmplEditorWindow::AddStaticField(Str255 inLabel)
+CTmplEditorWindow::AddStaticField(Str255 inLabel, SInt16 inJustification)
 {
 	mStaticPaneInfo.left = kTmplLeftMargin + mIndent;
 	mStaticPaneInfo.top = mYCoord;
 	
-	LStaticText * theStaticText = new LStaticText(mStaticPaneInfo, inLabel, mLabelTraitsID);
+	LStaticText * theStaticText = new LStaticText(mStaticPaneInfo, inLabel, 
+												  inJustification ? mLeftLabelTraitsID : mRightLabelTraitsID);
 	ThrowIfNil_(theStaticText);
 }
 
@@ -699,17 +735,6 @@ CTmplEditorWindow::AddStaticField(Str255 inLabel)
 // ---------------------------------------------------------------------------
 //	¥ AddEditField														[public]
 // ---------------------------------------------------------------------------
-
-// 		enum {
-// 	editAttr_Box			= 0x80,
-// 	editAttr_WordWrap		= 0x40,
-// 	editAttr_AutoScroll		= 0x20,
-// 	editAttr_TextBuffer		= 0x10,
-// 	editAttr_OutlineHilite	= 0x08,
-// 	editAttr_InlineInput	= 0x04,
-// 	editAttr_TextServices	= 0x02
-// };
-// 		attributes |= editAttr_WordWrap;
 
 void
 CTmplEditorWindow::AddEditField(Str255 inValue, 
@@ -734,7 +759,7 @@ CTmplEditorWindow::AddEditField(Str255 inValue,
 // 	SuperActivate();
 
 	// Advance the counters
-	mYCoord += mEditPaneInfo.height + kTmplVertSkip;
+	mYCoord += mEditPaneInfo.height + kTmplVertSep;
 	mCurrentID++;
 }
 
@@ -750,10 +775,10 @@ CTmplEditorWindow::AddBooleanControls(Boolean inValue,
 {
 	LStdRadioButton * theRadio;
 	SViewInfo	theViewInfo;
-	theViewInfo.imageSize.width = theViewInfo.imageSize.height = 0 ;
-	theViewInfo.scrollPos.h = theViewInfo.scrollPos.v = 0;
-	theViewInfo.scrollUnit.h = theViewInfo.scrollUnit.v = 1;
-	theViewInfo.reconcileOverhang = false;
+	theViewInfo.imageSize.width		= theViewInfo.imageSize.height = 0 ;
+	theViewInfo.scrollPos.h			= theViewInfo.scrollPos.v = 0;
+	theViewInfo.scrollUnit.h		= theViewInfo.scrollUnit.v = 1;
+	theViewInfo.reconcileOverhang	= false;
 	
 	mRgvPaneInfo.left = kTmplLeftMargin + kTmplLabelWidth + kTmplHorizSep + mIndent;
 	mRgvPaneInfo.top = mYCoord - 2;
@@ -775,7 +800,7 @@ CTmplEditorWindow::AddBooleanControls(Boolean inValue,
 	mRadioPaneInfo.superView = mContentsView;
 
 	theRadio = new LStdRadioButton(mRadioPaneInfo, rPPob_TmplEditorWindow + mCurrentID, 
-								   inValue, mLabelTraitsID, (UInt8 *)(inTitleType ? "\pOn":"\pYes"));
+								   inValue, mLeftLabelTraitsID, (UInt8 *)(inTitleType ? "\pOn":"\pYes"));
 	ThrowIfNil_(theRadio);
 	
 	mCurrentID++;
@@ -785,13 +810,13 @@ CTmplEditorWindow::AddBooleanControls(Boolean inValue,
 	mRadioPaneInfo.paneID = mCurrentID;
 
 	theRadio = new LStdRadioButton(mRadioPaneInfo, rPPob_TmplEditorWindow + mCurrentID, 
-								   1 - inValue, mLabelTraitsID, (UInt8 *)(inTitleType ? "\pOff":"\pNo"));
+								   1 - inValue, mLeftLabelTraitsID, (UInt8 *)(inTitleType ? "\pOff":"\pNo"));
 	ThrowIfNil_(theRadio);
 	
 // 	theRGV->SetCurrentRadioID( inValue ?  mCurrentID - 1 : mCurrentID );
 	
 	// Advance the counters
-	mYCoord += mRgvPaneInfo.height + kTmplVertSkip;
+	mYCoord += mRgvPaneInfo.height + kTmplVertSep;
 	mCurrentID++;
 }
 
@@ -801,66 +826,182 @@ CTmplEditorWindow::AddBooleanControls(Boolean inValue,
 // ---------------------------------------------------------------------------
 // C string. This should be either characters followed by a null or all
 // the chars until the end of the stream if there is no null byte.
-
-// LActiveScroller(
-// 		const SPaneInfo&	inPaneInfo,
-// 		const SViewInfo&	inViewInfo,
-// 		SInt16				inHorizBarLeftIndent,
-// 		SInt16				inHorizBarRightIndent,
-// 		SInt16				inVertBarTopIndent,
-// 		SInt16				inVertBarBottomIndent,
-// 		LView*				inScrollingView);
-// SInt16	leftIndent		= -1;			// Flag for no horizontal bar
-// SInt16	rightIndent		= 0;
-// SInt16	topIndent		= -1;			// Flag for no vertical bar
-// SInt16	bottomIndent	= 0;
+// LTextGroupBox::LTextGroupBox(
+// 	const SPaneInfo&	inPaneInfo,
+// 	const SViewInfo&	inViewInfo,
+// 	Boolean				inPrimary,
+// 	ResIDT				inTextTraitsID,
+// 	ConstStringPtr		inTitle,
+// 	ClassIDT			inImpID)
 
 void
 CTmplEditorWindow::AddWasteField(OSType inType)
 {
 	SInt32		oldPos, newPos;
+	Handle		theHandle;
 	char 		theChar;
 	SViewInfo	theViewInfo;
-	Handle		theHandle;
-		
-	theViewInfo.imageSize.width = theViewInfo.imageSize.height = 0 ;
-	theViewInfo.scrollPos.h = theViewInfo.scrollPos.v = 0;
-	theViewInfo.scrollUnit.h = theViewInfo.scrollUnit.v = 1;
-	theViewInfo.reconcileOverhang = false;
+
+	theViewInfo.imageSize.width		= theViewInfo.imageSize.height = 0 ;
+	theViewInfo.scrollPos.h			= theViewInfo.scrollPos.v = 0;
+	theViewInfo.scrollUnit.h		= theViewInfo.scrollUnit.v = 1;
+	theViewInfo.reconcileOverhang	= false;
 	
-	mWastePaneInfo.left = kTmplLabelWidth + mIndent;
-	mWastePaneInfo.top = mYCoord;
-	mWastePaneInfo.paneID = mCurrentID;
+	mTgbPaneInfo.top = mYCoord;
+	mTgbPaneInfo.left = kTmplTextMargin + mIndent;
+	LTextGroupBox * theTGB = new LTextGroupBox(mTgbPaneInfo, theViewInfo, false);
+	ThrowIfNil_(theTGB);
+
+	mScrollPaneInfo.left = kTmplTextInset;
+	mScrollPaneInfo.top = kTmplTextInset;
+	mScrollPaneInfo.width = mTgbPaneInfo.width - kTmplTextInset * 2;
+	mScrollPaneInfo.height = mTgbPaneInfo.height - kTmplTextInset * 2;
+	mScrollPaneInfo.bindings.bottom	= false;
+	mScrollPaneInfo.paneID = mCurrentID;
+	mScrollPaneInfo.superView = theTGB;
+
+	LScrollerView * theScroller = new LScrollerView(mScrollPaneInfo, theViewInfo, 0, 15, 0, 15, 16, NULL, true);
 	
-	
-	
-// 	mWastePaneInfo.superView = theScroller;
-	
-	// Is there a NULL byte marking the end of the string?
-	oldPos = mRezStream->GetMarker();
-	newPos = mRezStream->GetLength();
-	while (mRezStream->GetMarker() < mRezStream->GetLength() ) {
-		*mRezStream >> theChar;
-		if (theChar == 0) {
-			newPos = mRezStream->GetMarker();
-			break;
-		} 
-	}
-	// Last argument is word wrapping
-	CWasteEditView * theWasteEdit = new CWasteEditView(mWastePaneInfo, theViewInfo, 0, mEditTraitsID, false);
+	mWastePaneInfo.left = 0;
+	mWastePaneInfo.top = 0;
+	mWastePaneInfo.width = mScrollPaneInfo.width - 15;
+	mWastePaneInfo.height = mScrollPaneInfo.height - 15;
+	mWastePaneInfo.paneID = 0;
+	mWastePaneInfo.superView = theScroller;
+
+	// Make the Waste edit writable, not wrapping, selectable
+	CWasteEditView * theWasteEdit = new CWasteEditView(mWastePaneInfo, theViewInfo, 0, mEditTraitsID);
 	ThrowIfNil_(theWasteEdit);
 
+	theScroller->InstallView(theWasteEdit);
+	
 	// Store the template's type in the userCon field
 	theWasteEdit->SetUserCon(inType);
 	
 	// Insert the text
+	switch (inType) {
+		case 'CSTR':
+			// Is there a NULL byte marking the end of the string?
+			oldPos = mRezStream->GetMarker();
+			newPos = mRezStream->GetLength();
+			while (mRezStream->GetMarker() < mRezStream->GetLength() ) {
+				*mRezStream >> theChar;
+				if (theChar == 0) {
+					newPos = mRezStream->GetMarker();
+					break;
+				} 
+			}
+		break;
+
+		case 'LSTR': {
+			UInt32		theUInt32;
+			// Long string (length long followed by the characters)
+			*mRezStream >> theUInt32;
+			oldPos = mRezStream->GetMarker();;
+			newPos = theUInt32;
+			break;
+		}
+		
+		case 'WSTR': {
+			UInt16		theUInt16;
+			// Same as LSTR, but a word rather than a long word
+			*mRezStream >> theUInt16;
+			oldPos = mRezStream->GetMarker();;
+			newPos = theUInt16;
+			break;
+		}
+	}
+
 	theHandle = mRezStream->GetDataHandle();
 	HLock(theHandle);
 	theWasteEdit->Insert( (*theHandle) + oldPos , newPos - oldPos, NULL, true);
 	HUnlock(theHandle);
-
+	
 	// Advance the counters
-	mYCoord += mWastePaneInfo.top + kTmplVertSkip;
+	mYCoord += mScrollPaneInfo.height + kTmplVertSep;
+	mCurrentID++;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ AddHexDumpField													[public]
+// ---------------------------------------------------------------------------
+
+void
+CTmplEditorWindow::AddHexDumpField(OSType inType)
+{
+	SInt32		oldPos, newPos;
+	Handle		theHandle;
+	char 		theChar;
+	SViewInfo	theViewInfo;
+
+	theViewInfo.imageSize.width		= theViewInfo.imageSize.height = 0 ;
+	theViewInfo.scrollPos.h			= theViewInfo.scrollPos.v = 0;
+	theViewInfo.scrollUnit.h		= theViewInfo.scrollUnit.v = 1;
+	theViewInfo.reconcileOverhang	= false;
+	
+	mTgbPaneInfo.top = mYCoord;
+	mTgbPaneInfo.left = kTmplTextMargin + mIndent;
+	mTgbPaneInfo.paneID = mCurrentID;
+	LTextGroupBox * theTGB = new LTextGroupBox(mTgbPaneInfo, theViewInfo, false);
+	ThrowIfNil_(theTGB);
+
+	mScrollPaneInfo.left = kTmplTextInset;
+	mScrollPaneInfo.top = kTmplTextInset;
+	mScrollPaneInfo.width = mTgbPaneInfo.width - kTmplTextInset * 2;
+	mScrollPaneInfo.height = mTgbPaneInfo.height - kTmplTextInset * 2;
+	mScrollPaneInfo.bindings.bottom	= true;
+	mScrollPaneInfo.paneID = 0;
+	mScrollPaneInfo.superView = theTGB;
+
+	LScrollerView * theScroller = new LScrollerView(mScrollPaneInfo, theViewInfo, 0, 15, 0, 15, 16, NULL, true);
+	
+	mWastePaneInfo.left = 0;
+	mWastePaneInfo.top = 0;
+	mWastePaneInfo.width = mScrollPaneInfo.width - 15;
+	mWastePaneInfo.height = mScrollPaneInfo.height - 15;
+	mWastePaneInfo.paneID = 0;
+	mWastePaneInfo.superView = theScroller;
+
+	// Make the Waste edit writable, not wrapping, selectable
+	CWasteEditView * theWasteEdit = new CWasteEditView(mWastePaneInfo, theViewInfo, 0, mEditTraitsID);
+	ThrowIfNil_(theWasteEdit);
+
+	theScroller->InstallView(theWasteEdit);
+	
+	// Store the template's type in the userCon field
+	theWasteEdit->SetUserCon(inType);
+	
+	// Insert the text
+	oldPos = mRezStream->GetMarker();
+	newPos = mRezStream->GetLength();
+
+	
+	
+	
+	
+	
+	theHandle = mRezStream->GetDataHandle();
+	HLock(theHandle);
+	
+	
+	StSegmHexTranslator translator((*theHandle) + oldPos , newPos - oldPos, 8);
+	translator.Convert();
+	
+	// Put the contents in the hex view and clear the dirty flag.
+	theWasteEdit->SetTextHandle( translator.GetOutHandle() );
+// 	WESetSelection(0, 0, mWasteEditRef);
+	
+	
+	
+	
+	
+	
+// 	theWasteEdit->Insert( (*theHandle) + oldPos , newPos - oldPos, NULL, true);
+	HUnlock(theHandle);
+	
+	// Advance the counters
+	mYCoord += mScrollPaneInfo.height + kTmplVertSep;
 	mCurrentID++;
 }
 
@@ -868,6 +1009,11 @@ CTmplEditorWindow::AddWasteField(OSType inType)
 // ---------------------------------------------------------------------------
 //	¥ AddRectField													[public]
 // ---------------------------------------------------------------------------
+// Rectangle text group box basic values
+// // // thePaneInfo.paneID				= mCurrentID;
+// // // thePaneInfo.width				= kTmplRectWidth;
+// // // thePaneInfo.height				= kTmplRectHeight;
+// // // thePaneInfo.superView			= mContentsView;
 
 void
 CTmplEditorWindow::AddRectField(SInt16 inTop, 
@@ -880,51 +1026,72 @@ CTmplEditorWindow::AddRectField(SInt16 inTop,
 								UInt8 inAttributes,
 								TEKeyFilterFunc inKeyFilter)
 {
-	LTextGroupBox * theTGB;
+	Str255	numStr;
+	LEditText * theEditText;
+	LStaticText * theStaticText;
 	SViewInfo	theViewInfo;
-	theViewInfo.imageSize.width = theViewInfo.imageSize.height = 0 ;
-	theViewInfo.scrollPos.h = theViewInfo.scrollPos.v = 0;
-	theViewInfo.scrollUnit.h = theViewInfo.scrollUnit.v = 1;
-	theViewInfo.reconcileOverhang = false;
+	theViewInfo.imageSize.width		= theViewInfo.imageSize.height = 0 ;
+	theViewInfo.scrollPos.h			= theViewInfo.scrollPos.v = 0;
+	theViewInfo.scrollUnit.h		= theViewInfo.scrollUnit.v = 1;
+	theViewInfo.reconcileOverhang	= false;
 
-	mRectPaneInfo.top = mYCoord;
+	mRectLabelInfo.top = mYCoord;
+	mRectPaneInfo.top = mYCoord + kTmplRectHeight;
+	mRectLabelInfo.left = kTmplLeftMargin + kTmplLabelWidth + kTmplHorizSep + mIndent;
+	mRectPaneInfo.left = mRectLabelInfo.left;
 
 	// Top
-	mRectPaneInfo.left = kTmplLeftMargin + kTmplLabelWidth + kTmplHorizSep + mIndent;
+	theStaticText = new LStaticText(mRectLabelInfo, "\pTop", mEditTraitsID);
+	ThrowIfNil_(theStaticText);
 	mRectPaneInfo.paneID = mCurrentID;
-	theTGB = new LTextGroupBox(mRectPaneInfo, theViewInfo, true, mEditTraitsID, "\pTop");
-	ThrowIfNil_(theTGB);
-	theTGB->SetUserCon(inType);
+	::NumToString( (long) inTop, numStr);
+	theEditText = new LEditText(mRectPaneInfo, this, numStr, mEditTraitsID, 
+											inMessage, inMaxChars, inAttributes, inKeyFilter);
+	ThrowIfNil_(theEditText);
+	theEditText->SetUserCon(inType);
 	mCurrentID++;
 
 	// Left
+	mRectLabelInfo.left += kTmplRectWidth + kTmplHorizSep + mIndent;
+	theStaticText = new LStaticText(mRectLabelInfo, "\pLeft", mEditTraitsID);
+	ThrowIfNil_(theStaticText);
 	mRectPaneInfo.left += kTmplRectWidth + kTmplHorizSep + mIndent;
 	mRectPaneInfo.paneID = mCurrentID;
-	theTGB = new LTextGroupBox(mRectPaneInfo, theViewInfo, true, mEditTraitsID, "\pLeft");
-	ThrowIfNil_(theTGB);
-	theTGB->SetUserCon(inType);
+	::NumToString( (long) inLeft, numStr);
+	theEditText = new LEditText(mRectPaneInfo, this, numStr, mEditTraitsID, 
+											inMessage, inMaxChars, inAttributes, inKeyFilter);
+	ThrowIfNil_(theEditText);
+	theEditText->SetUserCon(inType);
 	mCurrentID++;
-
 
 	// Bottom
+	mRectLabelInfo.left += kTmplRectWidth + kTmplHorizSep + mIndent;
+	theStaticText = new LStaticText(mRectLabelInfo, "\pBottom", mEditTraitsID);
+	ThrowIfNil_(theStaticText);
 	mRectPaneInfo.left += kTmplRectWidth + kTmplHorizSep + mIndent;
 	mRectPaneInfo.paneID = mCurrentID;
-	theTGB = new LTextGroupBox(mRectPaneInfo, theViewInfo, true, mEditTraitsID, "\pBottom");
-	ThrowIfNil_(theTGB);
-	theTGB->SetUserCon(inType);
+	::NumToString( (long) inBottom, numStr);
+	theEditText = new LEditText(mRectPaneInfo, this, numStr, mEditTraitsID, 
+											inMessage, inMaxChars, inAttributes, inKeyFilter);
+	ThrowIfNil_(theEditText);
+	theEditText->SetUserCon(inType);
 	mCurrentID++;
 
-
 	// Right
+	mRectLabelInfo.left += kTmplRectWidth + kTmplHorizSep + mIndent;
+	theStaticText = new LStaticText(mRectLabelInfo, "\pRight", mEditTraitsID);
+	ThrowIfNil_(theStaticText);
 	mRectPaneInfo.left += kTmplRectWidth + kTmplHorizSep + mIndent;
 	mRectPaneInfo.paneID = mCurrentID;
-	theTGB = new LTextGroupBox(mRectPaneInfo, theViewInfo, true, mEditTraitsID, "\pRight");
-	ThrowIfNil_(theTGB);
-	theTGB->SetUserCon(inType);
+	::NumToString( (long) inRight, numStr);
+	theEditText = new LEditText(mRectPaneInfo, this, numStr, mEditTraitsID, 
+											inMessage, inMaxChars, inAttributes, inKeyFilter);
+	ThrowIfNil_(theEditText);
+	theEditText->SetUserCon(inType);
 	mCurrentID++;
 
 	// Advance the counters
-	mYCoord += mRectPaneInfo.height + kTmplVertSkip;
+	mYCoord += (kTmplRectHeight * 2) + kTmplVertSep + kTmplVertSep;
 }
 
 

@@ -111,7 +111,6 @@ CTmplEditorDoc::Initialize()
 	// Install the contents according to the TMPL
 	if (mRezObj != nil) {
 		Handle rezData = mRezObj->GetData();
-		
 		if (rezData != nil) {
 			mTmplEditWindow->ParseWithTemplate(rezData);						
 		} 
@@ -119,8 +118,8 @@ CTmplEditorDoc::Initialize()
 	
 	// Make the window visible.
 	mTmplEditWindow->Show();
-	
-// 	mTmplEditWindow->GetContentsView()->Activate();
+	// Enable all the subpanes
+	mTmplEditWindow->GetContentsView()->Enable();
 }
 
 

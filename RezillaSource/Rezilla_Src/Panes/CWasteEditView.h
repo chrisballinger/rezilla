@@ -126,7 +126,9 @@ public:
 									const SViewInfo&	inViewInfo,
 									UInt16				inTextAttributes,
 									ResIDT				inTextTraitsID,
-									Boolean				inWordWrap = false);
+									Boolean				inReadOnly = false,
+									Boolean				inWordWrap = false,
+									Boolean				inSelectable = true);
 							CWasteEditView(
 									LStream*			inStream );
 	virtual					~CWasteEditView();

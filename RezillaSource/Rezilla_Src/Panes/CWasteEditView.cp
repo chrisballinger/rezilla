@@ -97,11 +97,15 @@ CWasteEditView::CWasteEditView(
 	const SViewInfo&	inViewInfo,
 	UInt16				inTextAttributes,
 	ResIDT				inTextTraitsID,
-	Boolean				inWordWrap)
+	Boolean				inReadOnly,
+	Boolean				inWordWrap,
+	Boolean				inSelectable)
 
 	: LView(inPaneInfo, inViewInfo)
 {
+	mReadOnly = inReadOnly;
 	mWordWrap = inWordWrap;
+	mSelectable = inSelectable;
 	mTextAttributes = inTextAttributes;
 	InitWasteEditView(inTextTraitsID);
 }

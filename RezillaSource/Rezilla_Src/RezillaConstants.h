@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2004-06-14 12:58:31
+//             Last modification : 2004-06-16 11:08:58
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -165,7 +165,8 @@ const ResIDT	Txtr_MonacoNineDefault		= 139;
 const ResIDT	Txtr_MonacoNineGray			= 133;
 const ResIDT	Txtr_GenevaTen				= 140;
 const ResIDT	Txtr_GenevaTenBold			= 131;
-const ResIDT	Txtr_GenevaTenBoldUlRight	= 144;
+const ResIDT	Txtr_GenevaTenBoldUlLeft	= 144;
+const ResIDT	Txtr_GenevaTenBoldUlRight	= 145;
 
 // Menu resources
 	// rMENU_Window is not a resource. It is built  
@@ -598,7 +599,8 @@ const ResType	ResType_DITL = FOUR_CHAR_CODE('DITL');
 
 // Constants used by the template editor
 const SInt16	kTmplLeftMargin			= 10;
-const SInt16	kTmplVertSkip			= 10;
+const SInt16	kTmplVertSkip			= 4;
+const SInt16	kTmplVertSep			= 10;
 const SInt16	kTmplHorizSep			= 10;
 const SInt16	kTmplEditHeight			= 22;
 const SInt16	kTmplEditWidth			= 250;
@@ -608,9 +610,10 @@ const SInt16	kTmplRgvHeight			= 22;
 const SInt16	kTmplRgvWidth			= 150;
 const SInt16	kTmplRadioHeight		= 16;
 const SInt16	kTmplRadioWidth			= 50;
-const SInt16	kTmplRectHeight			= 40;
+const SInt16	kTmplRectHeight			= 16;
 const SInt16	kTmplRectWidth			= 60;
-const SInt16	kTmplRectVertSkip		= 18;
-const SInt16	kTmplWasteHeight		= 200;
-const SInt16	kTmplWasteWidth			= 300;
+const SInt16	kTmplRectVertSkip		= 22;
+const SInt16	kTmplTextHeight			= 200;
+const SInt16	kTmplTextMargin			= 20;
+const SInt16	kTmplTextInset			= 4;
 
