@@ -2,7 +2,7 @@
 // CTmplEditorWindow.h
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-06-18 08:17:54
+//             Last modification: 2004-06-21 21:58:42
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -15,6 +15,7 @@
 #pragma once
 
 #include "CEditorWindow.h"
+#include "RezillaConstants.h"
 #include "UResources.h"
 
 #include <LPane.h>
@@ -27,9 +28,7 @@ class CTmplList;
 
 enum {
 	tmpl_titleYesNo = 0,
-	tmpl_titleOnOff,
-	tmpl_flushRight = 0,
-	tmpl_flushLeft
+	tmpl_titleOnOff
 };
 
 
@@ -101,8 +100,10 @@ protected:
 	SPaneInfo			mHeaderPaneInfo;
 	LHandleStream *		mTemplateStream;
 	LHandleStream *		mRezStream;
+	LHandleStream *		mOutStream;
 	ResIDT				mLeftLabelTraitsID;
 	ResIDT				mRightLabelTraitsID;
+	ResIDT				mHeaderTraitsID;
 	ResIDT				mEditTraitsID;
 
 	virtual void	FinishCreateSelf();
@@ -117,8 +118,7 @@ private:
 
 	Boolean			EndOfList(ResType inType);
 	
-	void			AddStaticField(Str255 inLabel, 
-								   SInt16 inJustification = tmpl_flushRight);
+	void			AddStaticField(Str255 inLabel, ResIDT inTextTraitsID = Txtr_GenevaTenBoldUlRight);
 	
 	void			AddEditField(Str255 inValue, 
 								OSType inType,

@@ -2,7 +2,7 @@
 // CTmplEditorWindow.cp					
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-06-18 08:17:11
+//             Last modification: 2004-06-21 22:18:12
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -24,7 +24,6 @@
 #include "CSingleScrollBar.h"
 #include "CTxtDataSubView.h"
 #include "CWasteEditView.h"
-#include "RezillaConstants.h"
 #include "UMiscUtils.h"
 #include "UMessageDialogs.h"
 #include "UHexFilters.h"
@@ -97,6 +96,9 @@ CTmplEditorWindow::~CTmplEditorWindow()
 	if (mRezStream != nil) {
 		delete mRezStream;
 	} 
+	if (mOutStream != nil) {
+		delete mOutStream;
+	} 
 
 	// Remove the window from the list of listeners to the prefs object
 	CRezillaApp::sPrefs->RemoveListener(this);
@@ -118,10 +120,12 @@ CTmplEditorWindow::FinishCreateSelf()
 	mLeftLabelTraitsID	= Txtr_GenevaTenBoldUlLeft;
 	mRightLabelTraitsID	= Txtr_GenevaTenBoldUlRight;
 	mEditTraitsID		= Txtr_GenevaTen;
+	mHeaderTraitsID		= Txtr_GenevaTenBold;
 	mXCoord				= kTmplLeftMargin;
 	mYCoord				= kTmplVertSep;
 	mTemplateStream		= nil;
 	mRezStream			= nil;
+	mOutStream			= new LHandleStream();
 	
 	// The main view containing the labels and editing panes
 	mContentsView = dynamic_cast<LView *>(this->FindPaneByID(item_EditorContents));
@@ -142,6 +146,7 @@ CTmplEditorWindow::FinishCreateSelf()
 
 	// Label fields basic values
 	mStaticPaneInfo.paneID			= 0;
+	mStaticPaneInfo.left			= kTmplLeftMargin + mIndent;
 	mStaticPaneInfo.width			= kTmplLabelWidth;
 	mStaticPaneInfo.height			= kTmplLabelHeight;
 	mStaticPaneInfo.visible			= true;
@@ -246,18 +251,6 @@ CTmplEditorWindow::FinishCreateSelf()
 	mWastePaneInfo.bindings.right	= true;
 	mWastePaneInfo.bindings.bottom	= true;
 	mWastePaneInfo.userCon			= 0;
-	
-// 	// List header basic values
-// 	mHeaderPaneInfo.width			= kTmplListHeaderWidth;
-// 	mHeaderPaneInfo.height			= kTmplListHeaderHeight;
-// 	mHeaderPaneInfo.visible			= true;
-// 	mHeaderPaneInfo.enabled			= true;
-// 	mHeaderPaneInfo.bindings.left	= true;
-// 	mHeaderPaneInfo.bindings.top	= true;
-// 	mHeaderPaneInfo.bindings.right	= false;
-// 	mHeaderPaneInfo.bindings.bottom	= false;
-// 	mHeaderPaneInfo.userCon			= 0;
-// 	mHeaderPaneInfo.superView		= mContentsView;
 	
 }
 	
@@ -371,6 +364,7 @@ CTmplEditorWindow::IsDirty()
 	return false;
 }
 
+#pragma mark -
 
 // ---------------------------------------------------------------------------
 //	¥ CreateTemplateStream									[private]
@@ -423,9 +417,7 @@ CTmplEditorWindow::DoParseTemplate(SInt32 inRecursionMark)
 			ParseDataForType(theType, theString);
 		} else if (theType == 'LSTB' || theType == 'LSTC' || theType == 'LSTZ') {
 			currType = theType;
-			if (theType == 'LSTC') {
-				AddListHeader(theType, theString, mItemsCount, countLabel);
-			}
+			AddListHeader(theType, theString, mItemsCount, countLabel);
 			ParseList(mTemplateStream->GetMarker(), theType, theString, mItemsCount);
 		} else if (theType == 'LSTE') {
 			if ( EndOfList(currType) ) {
@@ -581,7 +573,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 		case 'CSTR':
 		// C string. This should be either characters followed by a null or all
 		// the chars until the end of the stream if there is no null byte.
-		AddStaticField(inLabelString, tmpl_flushLeft);
+		AddStaticField(inLabelString, mLeftLabelTraitsID);
 		mYCoord += kTmplLabelHeight + kTmplVertSkip;
 		AddWasteField(inType);
  		break;
@@ -660,7 +652,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 
 		case 'HEXD':
 		// Hex dump of remaining bytes in resource (this can only be the last type in a resource)
-		AddStaticField(inLabelString, tmpl_flushLeft);
+		AddStaticField(inLabelString, mLeftLabelTraitsID);
 		mYCoord += kTmplLabelHeight + kTmplVertSkip;
 		AddHexDumpField(inType);
 		break;
@@ -701,7 +693,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 
 		case 'LSTR':
 		// Long string (length long followed by the characters)
-		AddStaticField(inLabelString, tmpl_flushLeft);
+		AddStaticField(inLabelString, mLeftLabelTraitsID);
 		mYCoord += kTmplLabelHeight + kTmplVertSkip;
 		AddWasteField(inType);
 		break;
@@ -775,7 +767,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 
 		case 'WSTR':
 		// Same as LSTR, but a word rather than a long word
-		AddStaticField(inLabelString, tmpl_flushLeft);
+		AddStaticField(inLabelString, mLeftLabelTraitsID);
 		mYCoord += kTmplLabelHeight + kTmplVertSkip;
 		AddWasteField(inType);
  		break;
@@ -807,18 +799,18 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 }
 
 
+#pragma mark -
+
 // ---------------------------------------------------------------------------
 //	¥ AddStaticField													[public]
 // ---------------------------------------------------------------------------
 
 void
-CTmplEditorWindow::AddStaticField(Str255 inLabel, SInt16 inJustification)
+CTmplEditorWindow::AddStaticField(Str255 inLabel, ResIDT inTextTraitsID)
 {
-	mStaticPaneInfo.left = kTmplLeftMargin + mIndent;
 	mStaticPaneInfo.top = mYCoord;
 	
-	LStaticText * theStaticText = new LStaticText(mStaticPaneInfo, inLabel, 
-												  inJustification ? mLeftLabelTraitsID : mRightLabelTraitsID);
+	LStaticText * theStaticText = new LStaticText(mStaticPaneInfo, inLabel, inTextTraitsID);
 	ThrowIfNil_(theStaticText);
 }
 
@@ -1211,16 +1203,21 @@ CTmplEditorWindow::AddListHeader(OSType inType, Str255 inLabel, short inCount, S
 	Str255	numStr;
 	SInt32	oldLeft;
 	
-	AddStaticField(inLabel);
+	AddStaticField(inLabel, mHeaderTraitsID);
+	mYCoord += mStaticPaneInfo.height;
 
-	oldLeft = mStaticPaneInfo.left;
-	mStaticPaneInfo.left += mStaticPaneInfo.width;
-	::NumToString( (long) inCount, numStr);
-	AddStaticField(numStr);	
+	if (inType == 'LSTC') {
+		oldLeft = mStaticPaneInfo.left;
+		mStaticPaneInfo.left += kTmplLeftMargin;
+		AddStaticField(inCountLabel, mRightLabelTraitsID);
+		mStaticPaneInfo.left += mStaticPaneInfo.width;
+		::NumToString( (long) inCount, numStr);
+		AddStaticField(numStr, mHeaderTraitsID);	
+		mStaticPaneInfo.left = oldLeft;
+	}
 
 	// Advance the counters
-	mStaticPaneInfo.left = oldLeft;
-	mYCoord += kTmplListHeaderHeight + kTmplVertSep;
+	mYCoord += mStaticPaneInfo.height + kTmplVertSep;
 }
  
 
@@ -1249,6 +1246,7 @@ CTmplEditorWindow::AlignBytes(UInt8 inStep)
 }
 
 
+#pragma mark -
 
 // ---------------------------------------------------------------------------
 //	¥ ReadValues														[public]
@@ -1260,6 +1258,8 @@ Handle
 CTmplEditorWindow::ReadValues()
 {
 	Handle theHandle = nil;
+	
+// 	mOutStream
 	
 	
 	return theHandle;
