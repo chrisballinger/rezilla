@@ -409,6 +409,7 @@ CRezillaApp::FindCommandStatus(
 		outEnabled = true;
 			break;		
 		
+		case cmd_Revert:
 		case cmd_ExportMap:
 		case cmd_Find:
 		case cmd_NewRez:
@@ -994,6 +995,7 @@ CRezillaApp::HandleOpenDocsEvent(
 		
 	if (theDocList.descriptorType != typeNull) ::AEDisposeDesc(&theDocList);
 }
+
 
 
 
