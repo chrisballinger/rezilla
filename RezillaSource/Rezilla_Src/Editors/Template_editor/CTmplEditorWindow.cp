@@ -980,7 +980,9 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		BuildFormatString(formatString, 2);
 		sprintf(charString, formatString, theUInt8, NULL);
 		CopyCStringToPascal(charString, theString);
-		AddStaticField(inType, inLabelString, inContainer);
+		if (inType != 'FBYT' || CRezillaPrefs::GetPrefValue(kPref_editors_dispFillers) ) {
+			AddStaticField(inType, inLabelString, inContainer);
+		} 
 		AddEditField(theString, inType, 2 + CRezillaPrefs::GetPrefValue(kPref_editors_hexSymbol), 0, 
 					 &UHexFilters::HexTemplateField, inContainer);
 		break;
@@ -1012,7 +1014,9 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		BuildFormatString(formatString, 8);
 		sprintf(charString, formatString, theUInt32, NULL);
 		CopyCStringToPascal(charString, theString);
-		AddStaticField(inType, inLabelString, inContainer);
+		if (inType != 'FLNG' || CRezillaPrefs::GetPrefValue(kPref_editors_dispFillers) ) {
+			AddStaticField(inType, inLabelString, inContainer);
+		} 
 		AddEditField(theString, inType, 8 + CRezillaPrefs::GetPrefValue(kPref_editors_hexSymbol), 0, 
 					 &UHexFilters::HexTemplateField, inContainer);
 		break;
@@ -1026,7 +1030,9 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		BuildFormatString(formatString, 4);
 		sprintf(charString, formatString, theUInt16, NULL);
 		CopyCStringToPascal(charString, theString);
-		AddStaticField(inType, inLabelString, inContainer);
+		if (inType != 'FWRD' || CRezillaPrefs::GetPrefValue(kPref_editors_dispFillers) ) {
+			AddStaticField(inType, inLabelString, inContainer);
+		} 
 		AddEditField(theString, inType, 4 + CRezillaPrefs::GetPrefValue(kPref_editors_hexSymbol), 0, 
 					 &UHexFilters::HexTemplateField, inContainer);
 		break;
@@ -1393,16 +1399,21 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		  //       so the string itself occupies the first $nnn-1 bytes.)
 		  // Fnnn: an uneditable filler hexadecimal string that is $nnn hex bytes long 
 		  // Tnnn: a text string with fixed padding that is $nnn hex bytes long 
-		  AddStaticField(inType, inLabelString, inContainer, sLeftLabelTraitsID);
-		  mYCoord += kTmplLabelHeight + kTmplVertSkip;
-		  if (inType >> 24 == 'H' || inType >> 24 == 'F') {
-			   AddHexDumpField(inType, inContainer);
-		  } else {
-			   AddWasteField(inType, inContainer);
-		  }
-		  
-	  } else if ( inType >> 16 == 'P0' && UMiscUtils::IsValidHexadecimal( (Ptr) typeStr + 3, 2)) {
-		  
+
+		   if (inType >> 24 != 'F' || 
+			   CRezillaPrefs::GetPrefValue(kPref_editors_dispFillers) ) {
+					AddStaticField(inType, inLabelString, inContainer, sLeftLabelTraitsID);
+					mYCoord += kTmplLabelHeight + kTmplVertSkip;
+			} 
+				
+			if (inType >> 24 == 'H' || inType >> 24 == 'F') {
+				AddHexDumpField(inType, inContainer);
+			} else {
+				AddWasteField(inType, inContainer);
+			}
+				
+		} else if ( inType >> 16 == 'P0' && UMiscUtils::IsValidHexadecimal( (Ptr) typeStr + 3, 2)) {
+					
 		  // P0nn: a Pascal string that is nn hex bytes long. 
 		  // 		The length byte is included in $nn, so the string itself
 		  // 		occupies in fact $nn-1 bytes and the overall length in the

@@ -267,6 +267,7 @@ CTmplEditorWindow::AddEditField(Str255 inValue,
 								LView * inContainer)
 {
 	SDimension16	theFrame;
+	Boolean			incrY = true;
 	inContainer->GetFrameSize(theFrame);
 
 	sEditPaneInfo.left		= kTmplLeftMargin + kTmplLabelWidth + kTmplHorizSep;
@@ -285,13 +286,20 @@ CTmplEditorWindow::AddEditField(Str255 inValue,
 	// Let the window listen to this field
 	theEditText->AddListener(this);
 
-	// Filler types are not editable
-	if (inType == 'FBYT' || inType == 'FLNG' || inType == 'FWRD') {
-		theEditText->Disable();
+	// Filler types can be invisible or disabled
+	if (inType == 'FBYT' || inType == 'FWRD' || inType == 'FLNG') {
+		if ( ! CRezillaPrefs::GetPrefValue(kPref_editors_dispFillers) ) {
+			theEditText->Hide();
+			incrY = false;	
+		} else if ( ! CRezillaPrefs::GetPrefValue(kPref_editors_enableFillers) ) {
+			theEditText->Disable();
+		} 
 	} 
 	
 	// Advance the counters
-	mYCoord += sEditPaneInfo.height + kTmplVertSep;
+	if (incrY) {
+		mYCoord += sEditPaneInfo.height + kTmplVertSep;
+	} 
 	mCurrentID++;
 }
 
@@ -675,6 +683,7 @@ void
 CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 {
 	SInt32		oldPos, newPos, totalLength;
+	Boolean		incrY = true;
 	Handle		theHandle;
 	SViewInfo	theViewInfo;
 	SDimension16	theFrame;
@@ -864,13 +873,21 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 
 	} 
 	
-	// Fnnn filler hex strings are uneditable
+	// Fnnn filler hex strings can be invisible or disabled
 	if (inType >> 24 == 'F') {
-		theTGB->Disable();
+		if ( ! CRezillaPrefs::GetPrefValue(kPref_editors_dispFillers) ) {
+			theTGB->Hide();
+			incrY = false;	
+		} else if ( ! CRezillaPrefs::GetPrefValue(kPref_editors_enableFillers) ) {
+			theHexWE->Disable();
+			theTxtWE->Disable();
+		} 
 	} 
 	
 	// Advance the counters
-	mYCoord += sTgbPaneInfo.height + kTmplVertSep;
+	if (incrY) {
+		mYCoord += sTgbPaneInfo.height + kTmplVertSep;
+	} 
 	mCurrentID++;
 }
 
