@@ -1717,7 +1717,7 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 	sScrollPaneInfo.paneID			= 0;
 	sScrollPaneInfo.superView		= theTGB;
 
-	CSingleScrollBar * theScroller = new CSingleScrollBar(sScrollPaneInfo, 'HScr', 0, 0, 0, true);
+	CSingleScrollBar * theScroller = new CSingleScrollBar(sScrollPaneInfo, msg_HexScroller, 0, 0, 0, true);
 	ThrowIfNil_(theScroller);
 
 	// Make the Waste edit panes: they are, by default, selectable with 

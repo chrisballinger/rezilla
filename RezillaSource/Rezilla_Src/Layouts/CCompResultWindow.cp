@@ -210,10 +210,11 @@ CCompResultWindow::FinishCreateSelf()
 	// Link the broadcasters.
     UReanimator::LinkListenerToControls( this, this, rRidL_RezCompWindow );
 	
-	// Let the window listen to the tables
+	// Let the window listen to the tables and to the scroller
 	mOnlyOldTable->AddListener(this);	
 	mDifferTable->AddListener(this);	
 	mOnlyNewTable->AddListener(this);	
+	mScroller->AddListener(this);	
 
 	// Make the window a listener to the prefs object
 	CRezillaApp::sPrefs->AddListener(this);
