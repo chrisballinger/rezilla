@@ -1,7 +1,7 @@
 // ===========================================================================
 // UMiscUtils.cp					
 //                       Created: 2003-05-13 20:06:23
-//             Last modification: 2004-08-15 20:02:36
+//             Last modification: 2004-08-19 22:11:18
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -28,6 +28,7 @@
 #include <Drag.h>
 
 #include <string.h>
+#include "regex.h"
 
 
 PP_Begin_Namespace_PowerPlant
@@ -221,6 +222,137 @@ SInt16
 UMiscUtils::CompareStr255(Str255 * leftString, Str255 * rightString)
 {
 	return LString::CompareBytes((*leftString) + 1, (*rightString) + 1, (*leftString)[0], (*rightString)[0]);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ BuildDateString												[static]
+// ---------------------------------------------------------------------------
+
+Boolean 
+UMiscUtils::BuildDateString(UInt32 inTime, Str255 inString)
+{
+	Boolean result = false;
+	
+#ifdef RZIL_PantherOrGreater
+		CFAbsoluteTime absTime;
+		CFStringRef dateRef;
+		
+		if (inTime != 0) {
+			absTime = CFDateGetAbsoluteTime(inTime);
+		} else {
+			absTime = CFAbsoluteTimeGetCurrent();
+		}
+		CFDateFormatterRef formatter = CFDateFormatterCreate(kCFAllocatorDefault, NULL, 
+										  kCFDateFormatterShortStyle, kCFDateFormatterLongStyle);
+		if (formatter) {
+			// 		absTime += kCFAbsoluteTimeIntervalSince1970;
+			dateRef = CFDateFormatterCreateStringWithAbsoluteTime(kCFAllocatorDefault, formatter, absTime);
+			CFRelease(formatter);
+			if (dateRef) {
+				CFStringGetPascalString(dateRef, inString, sizeof(inString), kCFStringEncodingMacRoman);
+				CFRelease(dateRef);
+			} 
+		}
+		
+#else
+		Str255      dateStr, timeStr;
+		LStr255     datimStr("\p");
+		DateString(inTime, shortDate, dateStr, NULL);
+		TimeString(inTime, true, timeStr, NULL);
+		datimStr += dateStr;
+		datimStr += "\p - ";
+		datimStr += timeStr;
+		LString::CopyPStr(datimStr, inString);
+#endif
+	
+	return result;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ ParseDateString												[static]
+// ---------------------------------------------------------------------------
+
+
+Boolean 
+UMiscUtils::ParseDateString(Str255 inString, UInt32 * outAbsTime)
+{
+	Boolean result = false;
+
+#ifdef RZIL_PantherOrGreater
+
+	CFAbsoluteTime	absTime;
+	CFStringRef		dateRef;
+	CFDateFormatterRef formatter;
+	
+	formatter = CFDateFormatterCreate(kCFAllocatorDefault, NULL, 
+									  kCFDateFormatterShortStyle, kCFDateFormatterLongStyle);
+	if (formatter) {
+		dateRef = CFStringCreateWithPascalString(NULL, numStr, kCFStringEncodingMacRoman);
+		if (dateRef) {
+			if (CFDateFormatterGetAbsoluteTimeFromString(formatter, dateRef, NULL, outAbsTime)) {
+				// *outAbsTime -= kCFAbsoluteTimeIntervalSince1970;
+				result = true;
+			}
+			CFRelease(dateRef);
+		} 
+		CFRelease(formatter);
+	}
+	
+#else
+	
+	OSErr error = noErr;
+	struct re_pattern_buffer regex;
+	struct re_registers regs;
+	const char *		s;
+	int 				n;
+	long				theNum, lengthUsed;
+	LStr255				subString("\p");
+	Size				dataSize;
+	const char * 		thepattern = " *([0-9]{1,2}/[0-9]{1,2}/[0-9]{1,2}) *- *([0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2})";
+	int 				startpos = 0;
+	StringToDateStatus	dateStatus, timeStatus;
+	
+	// Get the contents of the edit field
+	dataSize = inString[0] ;
+	char * theBuffer = new char[dataSize+1];
+	theBuffer[dataSize] = 0;
+	::CopyPascalStringToC( inString, theBuffer );			
+	
+	// Compile the regexp
+	memset(&regex, '\0', sizeof(regex));
+	regs.start = regs.end = NULL;
+	regs.num_regs = 0;
+	
+	::re_set_syntax(RE_SYNTAX_POSIX_EXTENDED);
+	
+	s = ::re_compile_pattern( thepattern, strlen(thepattern), &regex);
+	// Error if re_compile_pattern returned non-NULL value
+	ThrowIfNot_(s == NULL);
+	
+	if ( ::re_search(&regex, theBuffer, dataSize, startpos, dataSize, &regs) >= 0 ) {
+		LongDateRec		dateTimeRec;
+		DateCacheRecord	cache;
+		LongDateTime	longDate;
+		
+		error = ::InitDateCache(&cache);
+		
+		// Convert date to num
+		dateStatus = ::StringToDate(theBuffer + regs.start[1], regs.end[1] - regs.start[1], &cache, &lengthUsed, &dateTimeRec);
+		// Convert time to num
+		timeStatus = ::StringToTime(theBuffer + regs.start[2], regs.end[2] - regs.start[2], &cache, &lengthUsed, &dateTimeRec);
+		result = ( (dateStatus & longDateFound) && (timeStatus & longDateFound) );
+		
+		::LongDateToSeconds(&dateTimeRec, &longDate);
+		*outAbsTime = (UInt32) longDate;
+		
+	}
+	regfree(&regex);
+	
+#endif
+	
+	return result;
 }
 
 
@@ -423,40 +555,6 @@ UMiscUtils::MetricsFromTraits(ConstTextTraitsPtr inTextTraits)
 // 	CRezillaApp::sBasics.charWidth = CharWidth('0');
 	CRezillaApp::sBasics.charHeight = metrics.ascent + metrics.descent + metrics.leading;
 }
-
-
-// #pragma mark -
-// 
-// 
-// // ---------------------------------------------------------------------------
-// //	¥ BrowserIsRunning											[static]
-// // ---------------------------------------------------------------------------
-// 
-// Boolean
-// UMiscUtils::BrowserIsRunning(void)
-// {
-// 	Boolean				isRunning = false;
-// 	FSSpec				theFSSpec;
-// 	ProcessInfoRec		prcsInfo;
-// 	ProcessSerialNumber	thePSN;
-// 	
-// 	// Loop over the current processes
-// 	prcsInfo.processInfoLength = sizeof(ProcessInfoRec);
-// 	prcsInfo.processName = nil;
-// 	prcsInfo.processAppSpec = &theFSSpec;
-// 	thePSN.lowLongOfPSN = thePSN.highLongOfPSN = kNoProcess;
-// 	
-// 	while (::GetNextProcess(&thePSN) == noErr)
-// 		if (::GetProcessInformation(&thePSN, &prcsInfo) == noErr) {
-// 			if (prcsInfo.processSignature == mBrowserSig) {
-// 				mBrowserPSN = thePSN;
-// 				isRunning = true;
-// 				break;
-// 			}
-// 		}
-// 		
-// 	return isRunning;
-// }
 
 
 #pragma mark -

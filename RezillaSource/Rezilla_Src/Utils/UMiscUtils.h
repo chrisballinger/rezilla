@@ -1,7 +1,7 @@
 // ===========================================================================
 // UMiscUtils.h					
 //                       Created: 2003-05-13 20:06:23
-//             Last modification: 2004-08-15 20:02:26
+//             Last modification: 2004-08-19 22:11:12
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -45,6 +45,8 @@ public:
 	static Boolean	GetDragFileData(DragReference inDragRef, ItemReference inItemRef, HFSFlavor& fileData);
 	static Boolean	IsValidHexadecimal(Handle inHandle);
 	static Boolean	IsValidHexadecimal(Ptr inPtr, ByteCount inByteCount);
+	static Boolean	BuildDateString(UInt32 inTime, Str255 inString);
+	static Boolean	ParseDateString(Str255 inString, UInt32 * outAbsTime);
 	static SInt16	CompareStr255(Str255 * leftString, Str255 * rightString);
 	static Boolean	HandlesAreIdentical(const Handle leftHndl, const Handle rightHndl);
 	static void		CopyFSSpec(FSSpec& srcFileSpec, FSSpec& trgtFileSpec);
