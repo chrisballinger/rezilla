@@ -2,7 +2,7 @@
 // CWasteEditView.cp 
 // 
 // Created : 2001-09-05 18:22:04 
-// Last modification : 2004-10-20 08:51:29
+// Last modification : 2004-11-03 22:09:09
 // Author: Bernard Desgraupes 
 // e-mail: <bdesgraupes@easyconnect.fr> 
 // www: <http://webperso.easyconnect.fr/bdesgraupes/> 
@@ -1291,7 +1291,6 @@ CWasteEditView::ResizeFrameBy(
 	LView::OutOfFocus(this);
 
 	AdjustImageToText();
-
 	
 	// It's safe to refresh now that everything is in sync
 	if (inRefresh) {				
@@ -1308,6 +1307,19 @@ void
 CWasteEditView::AdjustImageToText()
 {
 	ResizeImageTo(mImageSize.width,CalcWEHeight(),Refresh_No);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ AdaptToNewSurroundings
+// ---------------------------------------------------------------------------
+
+void
+CWasteEditView::AdaptToNewSurroundings()
+{
+	LView::AdaptToNewSurroundings();
+	
+	AlignWERects();	
 }
 
 

@@ -2,7 +2,7 @@
 //	CWasteEditView.h
 //	
 //                       Created: 2001-09-05 18:22:04
-//             Last modification: 2004-10-20 08:51:36
+//             Last modification: 2004-11-03 21:46:18
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -163,6 +163,8 @@ public:
 									SInt32				inTopDelta,
 									Boolean				inRefresh);
 
+	virtual void			AdaptToNewSurroundings();
+	
 	virtual void			ApplyForeAndBackColors() const;
 	virtual	void			ForceAutoScroll(
 									const LongRect&		inOldDestRect);
