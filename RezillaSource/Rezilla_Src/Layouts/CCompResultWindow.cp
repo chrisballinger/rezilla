@@ -2,7 +2,7 @@
 // CHexEditorWindow.cp					
 // 
 //                       Created: 2004-03-02 14:18:16
-//             Last modification: 2004-03-18 23:34:53
+//             Last modification: 2004-03-20 22:40:56
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -19,7 +19,7 @@
 #include "CRezCompare.h"
 #include "CRezClipboard.h"
 #include "CWindowMenu.h"
-#include "CHexDataWE.h"
+#include "CBiDataWE.h"
 #include "CBroadcasterTableView.h"
 #include "RezillaConstants.h"
 #include "UCodeTranslator.h"
@@ -100,6 +100,8 @@ void
 CCompResultWindow::FinishCreateSelf()
 {	
 	LStaticText * theStaticText;
+	mDisplayDataFormat = compare_displayAsHex;
+	mActiveTable = compare_undefinedTbl;
 	
 	// The RezCompare owner was passed in the inSuperCommander argument
 	mRezCompare = dynamic_cast<CRezCompare *>(GetSuperCommander());
@@ -107,15 +109,15 @@ CCompResultWindow::FinishCreateSelf()
 	SetSuperCommander(mRezCompare->GetSuperCommander());
 	
 	// Build the hex editing elements
-	mOldHexDataWE = dynamic_cast<CHexDataWE *> (FindPaneByID( item_CompResultOldHex ));
-	ThrowIfNil_(mOldHexDataWE);
+	mOldRezDataWE = dynamic_cast<CBiDataWE *> (FindPaneByID( item_CompResultOldHex ));
+	ThrowIfNil_(mOldRezDataWE);
 			
-	mNewHexDataWE = dynamic_cast<CHexDataWE *> (FindPaneByID( item_CompResultNewHex ));
-	ThrowIfNil_(mNewHexDataWE);
+	mNewRezDataWE = dynamic_cast<CBiDataWE *> (FindPaneByID( item_CompResultNewHex ));
+	ThrowIfNil_(mNewRezDataWE);
 	
 	// Cache a pointer to the scrollbar separating the hex panes
 	mScroller = dynamic_cast<LScrollBar *> (FindPaneByID( item_CompResultScroller ));
-	
+
 	// Build the table elements
 		// Left table
 	mOnlyOldTable = dynamic_cast<CBroadcasterTableView *> (FindPaneByID( item_CompResultOnlyOldTbl ));
@@ -162,8 +164,8 @@ CCompResultWindow::FinishCreateSelf()
 	mOnlyNewTable->AddListener(this);	
 
 	// Attach an LUndoer to each of the subpanes
-	mOldHexDataWE->AddAttachment( new LUndoer );
-	mNewHexDataWE->AddAttachment( new LUndoer );
+	mOldRezDataWE->AddAttachment( new LUndoer );
+	mNewRezDataWE->AddAttachment( new LUndoer );
 
 	// Add self to the windows menu
 	gWindowMenu->InsertWindow(this);
@@ -192,16 +194,18 @@ CCompResultWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		break;
 		
 		case msg_CompResultScroller: 
-		InsertHexContentsFromLine(mScroller->GetValue() + 1);
+		InsertContentsFromLine(mScroller->GetValue() + 1);
 		break;
 		
 		case msg_CompResultOnlyOldTbl: 
+		mActiveTable = compare_onlyinOldTbl;
 		mOnlyNewTable->UnselectAllCells();
 		mDifferTable->UnselectAllCells();
 		EraseHexPanes();
 		break;
 		
 		case msg_CompResultOnlyNewTbl: 
+		mActiveTable = compare_onlyinNewTbl;
 		mOnlyOldTable->UnselectAllCells();
 		mDifferTable->UnselectAllCells();
 		EraseHexPanes();
@@ -211,6 +215,7 @@ CCompResultWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			CRezTypId * theTypid;
 			STableCell theCell;
 			
+			mActiveTable = compare_differTbl;
 			mOnlyOldTable->UnselectAllCells();
 			mOnlyNewTable->UnselectAllCells();
 			
@@ -225,12 +230,23 @@ CCompResultWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			if (mOldData == nil || mNewData == nil) {
 				return;
 			} 
-	
-			InsertHexContentsFromLine(1);
+			
+			InsertContentsFromLine(1);
 			
 			SetMaxScrollerValue();
 			break;
 		}
+		
+		case msg_CompResultHexRadio: {
+			LStdRadioButton * theRadio = dynamic_cast<LStdRadioButton *> (FindPaneByID( item_CompResultHexRadio ));
+			ThrowIfNil_(theRadio);
+			mDisplayDataFormat = 1 - theRadio->GetValue();
+			if (mActiveTable == compare_differTbl) {
+				ListenToMessage(msg_CompResultDifferingTbl, ioParam);
+			} 
+			break;
+		}
+		
 		
 		// 		default:
 		// 		GetSuperCommander()->ListenToMessage(inMessage, ioParam);
@@ -302,7 +318,6 @@ CCompResultWindow::ObeyCommand(
 		break;
 
 		case cmd_Close:
-		
 		delete this;
 		break;
 				
@@ -359,8 +374,8 @@ CCompResultWindow::DoClose()
 Boolean
 CCompResultWindow::IsDirty()
 {
-/* 	return (mOldHexDataWE->IsDirty() || mNewHexDataWE->IsDirty()); */
-    return true;
+/* 	return (mOldRezDataWE->IsDirty() || mNewRezDataWE->IsDirty()); */
+    return false;
 }
 
 
@@ -434,15 +449,15 @@ CCompResultWindow::SetMaxScrollerValue()
 	SInt16 lineHeight;
 	SDimension16	theSize;
 
-	// How many lines fit in the hex panes
-	mOldHexDataWE->GetFrameSize(theSize);
-	lineHeight = mOldHexDataWE->GetLineHeight();
-	if (lineHeight == 0) {
-		lineHeight = kRzilDefaultLineHeight;
-	} 
-	linesPerPane = theSize.height / lineHeight;
+// 	// How many lines fit in the hex panes
+// 	mOldRezDataWE->GetFrameSize(theSize);
+// 	lineHeight = mOldRezDataWE->CWasteEditView::GetLineHeight();
+// 	if (lineHeight == 0) {
+// 		lineHeight = kRzilDefaultLineHeight;
+// 	} 
+// 	linesPerPane = theSize.height / lineHeight;
 
-	theLineDelta = HexLineCount() - linesPerPane + 1;
+	theLineDelta = LineCount() - kRzilRezCompLineCount + 1;
 	
 	if (theLineDelta < 0) {
 		theLineDelta = 0;
@@ -452,68 +467,117 @@ CCompResultWindow::SetMaxScrollerValue()
 
 
 // ---------------------------------------------------------------------------
-//	¥ HexLineCount										[protected]
+//	¥ LineCount										[protected]
 // ---------------------------------------------------------------------------
 // Find the max number of lines among the two panes
 
 SInt32
-CCompResultWindow::HexLineCount() 
+CCompResultWindow::LineCount() 
 {
 	SInt32 oldByteCount = ::GetHandleSize(mOldData);
 	SInt32 newByteCount = ::GetHandleSize(mNewData);
+	SInt32 bytesPerLineCount = BytesPerLineCount();
 	SInt32 oldLineCount = 0;
 	SInt32 newLineCount = 0;
 
 	if (oldByteCount) {
-		oldLineCount = oldByteCount / kRzilHexCompBytesPerLine;
-		oldLineCount += (oldByteCount % kRzilHexCompBytesPerLine == 0) ? 0:1 ;
+		oldLineCount = oldByteCount / bytesPerLineCount;
+		oldLineCount += (oldByteCount % bytesPerLineCount == 0) ? 0:1 ;
 	} 
 	if (newByteCount) {
-		newLineCount = newByteCount / kRzilHexCompBytesPerLine;
-		newLineCount += (newByteCount % kRzilHexCompBytesPerLine == 0) ? 0:1 ;
+		newLineCount = newByteCount / bytesPerLineCount;
+		newLineCount += (newByteCount % bytesPerLineCount == 0) ? 0:1 ;
 	} 
 	return ((oldLineCount > newLineCount) ? oldLineCount:newLineCount );
 }
 
 
 // ---------------------------------------------------------------------------
-//	¥ InsertHexContentsFromLine										[protected]
+//	¥ BytesPerLineCount										[protected]
+// ---------------------------------------------------------------------------
+
+SInt32
+CCompResultWindow::BytesPerLineCount() 
+{
+	SInt32 result = 0;
+	
+	switch (mDisplayDataFormat) {
+		case compare_displayAsHex:
+		result = kRzilHexCompBytesPerLine;
+		break;
+		
+		case compare_displayAsTxt:
+		result = kRzilTxtCompBytesPerLine;
+		break;
+	}
+	return result;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ BytesPerPaneCount										[protected]
+// ---------------------------------------------------------------------------
+
+SInt32
+CCompResultWindow::BytesPerPaneCount() 
+{
+	SInt32 result = 0;
+	
+	switch (mDisplayDataFormat) {
+		case compare_displayAsHex:
+		result = kRzilRezCompLineCount * kRzilHexCompBytesPerLine;
+		break;
+		
+		case compare_displayAsTxt:
+		result = kRzilRezCompLineCount * kRzilTxtCompBytesPerLine;
+		break;
+	}
+	return result;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ InsertContentsFromLine										[protected]
 // ---------------------------------------------------------------------------
 // All the counts in this proc are counts of bytes in the resource data. 
-// InsertHexContents() takes care of converting the bytes in their hex+space representation.
+// InsertContents() takes care of converting the bytes to their (hex or char)+space representation.
 
-void
-CCompResultWindow::InsertHexContentsFromLine(SInt32 inFromLine)
+ void
+CCompResultWindow::InsertContentsFromLine(SInt32 inFromLine)
 {
+	SInt32 remainingChars;
 	SInt32 oldByteCount = ::GetHandleSize(mOldData);
 	SInt32 newByteCount = ::GetHandleSize(mNewData);
-	SInt32 charOffset = (inFromLine - 1) * kRzilHexCompBytesPerLine;
-	SInt32 remainingChars;
-
+	SInt32 charOffset = (inFromLine - 1) * BytesPerLineCount();
+	SInt32 bytesPerPaneCount = BytesPerPaneCount();
+	
+	mOldRezDataWE->SetDataType(mDisplayDataFormat);
+	mNewRezDataWE->SetDataType(mDisplayDataFormat);
+	
 	// Left pane
 	remainingChars = oldByteCount - charOffset;
-
-	if (remainingChars > kRzilHexCompBytesPerPane) {
-		remainingChars = kRzilHexCompBytesPerPane;
+	
+	if (remainingChars > bytesPerPaneCount) {
+		remainingChars = bytesPerPaneCount;
 	} 
 	if (remainingChars < 0) {
 		remainingChars = 0;
-		mOldHexDataWE->InsertHexContents( (*mOldData), remainingChars);
+		mOldRezDataWE->InsertContents( (*mOldData), remainingChars);
 	} else {
-		mOldHexDataWE->InsertHexContents( (*mOldData) + charOffset, remainingChars);
+		mOldRezDataWE->InsertContents( (*mOldData) + charOffset, remainingChars);
 	}
 	
 	// Right pane
 	remainingChars = newByteCount - charOffset;
-
-	if (remainingChars > kRzilHexCompBytesPerPane) {
-		remainingChars = kRzilHexCompBytesPerPane;
+	
+	if (remainingChars > bytesPerPaneCount) {
+		remainingChars = bytesPerPaneCount;
 	} 
 	if (remainingChars < 0) {
 		remainingChars = 0;
-		mNewHexDataWE->InsertHexContents( (*mNewData), remainingChars);
+		mNewRezDataWE->InsertContents( (*mNewData), remainingChars);
 	} else {
-		mNewHexDataWE->InsertHexContents( (*mNewData) + charOffset, remainingChars);
+		mNewRezDataWE->InsertContents( (*mNewData) + charOffset, remainingChars);
 	}
 }
 
@@ -525,8 +589,8 @@ CCompResultWindow::InsertHexContentsFromLine(SInt32 inFromLine)
 void
 CCompResultWindow::EraseHexPanes()
 {
-	mOldHexDataWE->DeleteAll();
-	mNewHexDataWE->DeleteAll();
+	mOldRezDataWE->DeleteAll();
+	mNewRezDataWE->DeleteAll();
 
 	mScroller->SetMaxValue(0);
 }

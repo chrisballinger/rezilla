@@ -28,6 +28,7 @@
 #include "CWasteEditView.h"
 #include "CHexDataWE.h"
 #include "CTxtDataWE.h"
+#include "CBiDataWE.h"
 #include "CHexDataSubView.h"
 #include "CTxtDataSubView.h"
 #include "CDropStaticText.h"
@@ -259,6 +260,7 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(LScrollerView);
 	RegisterClass_(LStaticText);
 	RegisterClass_(LStdPopupMenu);
+	RegisterClass_(LStdRadioButton);
 	RegisterClass_(LTabGroupView);
 	RegisterClass_(LTextEditView);
 	RegisterClass_(LView);
@@ -276,6 +278,7 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(CWasteEditView);
 	RegisterClass_(CHexDataWE);
 	RegisterClass_(CTxtDataWE);
+	RegisterClass_(CBiDataWE);
 	RegisterClass_(CHexDataSubView);
 	RegisterClass_(CTxtDataSubView);
 	RegisterClass_(CRangeEditText);

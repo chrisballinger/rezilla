@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2004-03-17 16:22:31
+//             Last modification : 2004-03-21 15:29:46
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -256,6 +256,8 @@ const PaneIDT	item_CompResultOldStatic	= 2;
 const PaneIDT	item_CompResultNewStatic	= 3;
 const PaneIDT	item_CompResultOldHex		= 4;
 const PaneIDT	item_CompResultNewHex		= 5;
+const PaneIDT	item_CompResultHexRadio		= 6;
+const PaneIDT	item_CompResultTxtRadio		= 7;
 const PaneIDT	item_CompResultOnlyOldTbl	= 11;
 const PaneIDT	item_CompResultDifferingTbl	= 13;
 const PaneIDT	item_CompResultOnlyNewTbl	= 15;
@@ -337,12 +339,15 @@ const MessageT	msg_RezCompIgnoreData	= rPPob_RezCompDialog + item_RezCompIgnoreD
 // Rez Compare Results Window
 // --------------------------
 const MessageT	msg_CompResultScroller		= rPPob_RezCompWindow + item_CompResultScroller;
+const MessageT	msg_CompResultHexRadio		= rPPob_RezCompWindow + item_CompResultHexRadio;
+const MessageT	msg_CompResultTxtRadio		= rPPob_RezCompWindow + item_CompResultTxtRadio;
 const MessageT	msg_CompResultOnlyOldTbl	= rPPob_RezCompWindow + item_CompResultOnlyOldTbl;
 const MessageT	msg_CompResultDifferingTbl	= rPPob_RezCompWindow + item_CompResultDifferingTbl;
 const MessageT	msg_CompResultOnlyNewTbl	= rPPob_RezCompWindow + item_CompResultOnlyNewTbl;
 // Ask Unique ID dialog
 // --------------------
 const MessageT	msg_UidOtherConflicts	= rPPob_AskUniqueID + item_UidOtherConflicts;
+
 
 
 // -----------------------------------------------------------------------
@@ -410,11 +415,11 @@ const SInt16	kRzilDragFlavor		= FOUR_CHAR_CODE('Rzil');
 // Constants for the Rezmap tables
 const SInt16	kRzilColWidth				= 100;
 // Constants for the Rez Compare results window
-//     kRzilHexCompBytesPerLine and kRzilHexCompBytesPerPane are counts of bytes 
-//     which have to be multiplied by 3 (two hex digits + space)
-const SInt16	kRzilHexCompLineCount		= 12;
+//     kRzilHexCompBytesPerLine and kRzilTxtCompBytesPerLine are counts of bytes 
+//     which have to be multiplied by 3 (two hex digits + space) or by 2 (one char + space) resp.
+const SInt16	kRzilRezCompLineCount		= 12;
 const SInt16	kRzilHexCompBytesPerLine	= 16;
-const SInt16	kRzilHexCompBytesPerPane	= kRzilHexCompLineCount * kRzilHexCompBytesPerLine;
+const SInt16	kRzilTxtCompBytesPerLine	= 24;
 // Constants for the Rez Hex editor
 //     kRzilHexEditBytesPerLine and kRzilHexEditBytesPerPane are counts of bytes 
 //     which have to be multiplied by 3 (two hex digits + space) or by 2 in text

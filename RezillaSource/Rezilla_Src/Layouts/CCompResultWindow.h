@@ -17,12 +17,11 @@
 #include <LWindow.h>
 #include <LListener.h>
 
-
 class CRezObj;
 class LScrollBar;
 class CRezCompare;
 class CRezTypId;
-class CHexDataWE;
+class CBiDataWE;
 class CBroadcasterTableView;
 
 enum
@@ -42,6 +41,11 @@ public:
 		compare_onlyinOldTbl,
 		compare_onlyinNewTbl,
 		compare_differTbl
+	};
+
+	enum {	
+		compare_displayAsHex = 0,
+		compare_displayAsTxt
 	};
 
 							CCompResultWindow();
@@ -72,8 +76,8 @@ public:
 	
 protected:
 	CRezCompare *			mRezCompare;
-	CHexDataWE *			mOldHexDataWE;
-	CHexDataWE *			mNewHexDataWE;
+	CBiDataWE *				mOldRezDataWE;
+	CBiDataWE *				mNewRezDataWE;
 	Handle					mOldData;
 	Handle					mNewData;
 	LScrollBar *			mScroller;
@@ -81,12 +85,15 @@ protected:
 	CBroadcasterTableView *	mOnlyNewTable;
 	CBroadcasterTableView *	mDifferTable;
 	SInt16					mActiveTable;
+	SInt16					mDisplayDataFormat;
 	
 	void				NameNewCompWindow();
 	virtual void		SetMaxScrollerValue();
-	SInt32				HexLineCount();
+	SInt32				LineCount();
+	SInt32				BytesPerLineCount();
+	SInt32				BytesPerPaneCount();
 	virtual void		FinishCreateSelf();
-	void				InsertHexContentsFromLine(SInt32 inFromLine);
+	void				InsertContentsFromLine(SInt32 inFromLine);
 	void				EraseHexPanes();
 };
 
