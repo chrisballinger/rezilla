@@ -2,7 +2,7 @@
 // CMENU_EditorTable.h
 // 
 //                       Created: 2005-03-09 17:16:53
-//             Last modification: 2005-03-10 08:42:12
+//             Last modification: 2005-03-16 13:54:48
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -34,7 +34,7 @@ class CMENU_EditorTable : public LTable, public LDragAndDrop  {
 public:
 	enum { class_ID = FOUR_CHAR_CODE('DnDT') };
 
-	static CMENU_EditorTable	*CreateDragAndDropTableStream( LStream *inStream );
+	static CMENU_EditorTable	*CreateDnDTableStream( LStream *inStream );
 
 								CMENU_EditorTable( LStream *inStream );
 			virtual				~CMENU_EditorTable();
@@ -43,9 +43,7 @@ public:
 // 	virtual Boolean			HandleKeyPress(
 // 									const EventRecord& 	inKeyEvent);
 
-// 	virtual Boolean			ObeyCommand(
-// 									CommandT			inCommand,
-// 									void*				ioParam);
+	virtual void	SelectCell( const TableCellT& inCell );
 	
 	virtual void 			FindCommandStatus(
 									CommandT			inCommand,
@@ -56,6 +54,8 @@ public:
 
 	virtual void			Click( SMouseDownEvent &inMouseDown );
 
+	void					DrawSeparator( TableIndexT	inRow );
+	
 	CMENU_EditorWindow*		GetOwnerWindow() { return mOwnerWindow;}
 	void					SetOwnerWindow(CMENU_EditorWindow* inOwnerWindow) {mOwnerWindow = inOwnerWindow;}
 
@@ -89,6 +89,7 @@ protected:
 		void				GetDividingLineGivenPoint( const Point &inPortPoint,
 								TableIndexT &outRow );
 		void				DrawDividingLine( TableIndexT inRow );
+		
 };
 
 

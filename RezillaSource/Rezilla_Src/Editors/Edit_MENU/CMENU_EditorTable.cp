@@ -2,7 +2,7 @@
 // CMENU_EditorTable.cp
 // 
 //                       Created: 2005-03-09 17:16:53
-//             Last modification: 2005-03-11 07:21:48
+//             Last modification: 2005-03-16 13:54:55
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -40,11 +40,11 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------------
-//  CreateDragAndDropTableStream [static]
+//  CreateDnDTableStream [static]
 // ---------------------------------------------------------------------------------
 
 CMENU_EditorTable *
-CMENU_EditorTable::CreateDragAndDropTableStream(
+CMENU_EditorTable::CreateDnDTableStream(
 	LStream	*inStream )
 {
 	return new CMENU_EditorTable( inStream );
@@ -255,7 +255,11 @@ CMENU_EditorTable::ClickCell(
 
 		}
 
+	} else {
+		// Update the info in right pane
+		
 	}
+	
 }
 
 
@@ -276,8 +280,9 @@ CMENU_EditorTable::DrawCell(
 		GetCellData( inCell, theString );
 	
 		// Setup for drawing.
-		::TextFont( kFontIDGeneva );
-		::TextSize( 9 );
+		::TextFont( systemFont );
+		::TextSize( 12 );
+		::TextFace( bold );
 
 		// Draw the string.
 		MoveTo( theCellFrame.left + 4, theCellFrame.bottom - 3 );
@@ -655,6 +660,66 @@ CMENU_EditorTable::DrawDividingLine(
 	
 	}
 }
+
+
+// ---------------------------------------------------------------------------------
+//   DrawSeparator
+// ---------------------------------------------------------------------------------
+
+void
+CMENU_EditorTable::DrawSeparator(
+	TableIndexT	inRow )
+{
+	// Setup the cell.
+	TableCellT	theCell;
+	theCell.row = inRow;
+	theCell.col = 1;
+
+	// Focus the pane and get the table and cell frames.
+	Rect	theFrame;
+	if ( FocusDraw() && CalcLocalFrameRect( theFrame ) ) {
+
+		// Save the draw state.
+		StColorPenState	theDrawState;
+
+		// Save the clip region state and clip the list view rect.
+		StClipRgnState	theClipState( theFrame );
+
+		// Setup the color and pen state.
+		::ForeColor( blackColor );
+		::PenMode( patXor );
+		::PenSize( 1, 1 );
+
+		// Calculate the dividing line position.		 + mRowHeight/2 
+		Point	thePoint;
+		thePoint.v = inRow * mRowHeight;
+		thePoint.h = 0;
+
+		// Draw the line.
+		::MoveTo( thePoint.h, thePoint.v-1 );
+		::LineTo( thePoint.h + mColWidth, thePoint.v-1 );
+	
+	}
+}
+
+
+// ---------------------------------------------------------------------------
+//	 SelectCell
+// ---------------------------------------------------------------------------
+
+void
+CMENU_EditorTable::SelectCell(
+	const TableCellT	&inCell)
+{
+	if (!EqualCell(inCell, mSelectedCell)) {
+		FocusDraw();
+		UnhiliteCell(mSelectedCell);
+
+		mSelectedCell = inCell;
+		HiliteCell(inCell);
+	}
+}
+
 
 
 
