@@ -20,11 +20,14 @@
 
 #include <stdarg.h>
 
-class CBroadcasterTableView;
-class CCategoriesListBox;
+class LPageController;
+class LMultiPanelView;
+class LSlider;
 class LPopupButton;
 class LScrollerView;
 class LStaticText;
+class CAete;
+
 
 class CAete_EditorWindow : public CEditorWindow {
 public:
@@ -52,19 +55,26 @@ public:
 
 // 	void				FillInSuitesPopup();
 // 	void				FillInCategoriesLBox(SInt32 inCatNum[4]);
-// 	void				FillInTermsTable(SInt32 inTermType);
+// 	void				FillInTermsTable(SInt32 inType);
 	
 	void				EmptyContents();
 		
 	// Accessors
 
-  protected:
-// 	LView *						mContentsView;
+	static LMenu		*sAeteMenu;
 
-	LPopupButton *              mSuitesPopup;
-	LStaticText *				mStatusBar;
+  protected:
+	CAete *					mAete;
+	UInt8					mCurrentPanel;
+	LPageController *		mController;
+	LMultiPanelView *		mMultiPanel;
+	LSlider *				mMainSlider;
+	LStaticText *			mIndicator;
+	LPopupButton *			mSuitesPopup;
 	
 	virtual void		FinishCreateSelf();
+	virtual void		PutOnDuty(LCommander *inNewTarget);
+	virtual void		TakeOffDuty();
 
 private:
 };
