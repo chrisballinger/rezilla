@@ -42,7 +42,8 @@ public:
 	void			SetType(ResType theType) {mType = theType;}
 
 	OSErr			GetResourceAtIndex(short inIdx, Handle & outHandle);
-
+	OSErr			GetNameAtIndex(short inIdx, Str255 & outName);
+	
 protected:
 		ResType		mType;
 		CRezMap * 	mOwnerMap;
@@ -51,4 +52,3 @@ protected:
 
 
 #endif
-

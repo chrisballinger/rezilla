@@ -136,8 +136,7 @@ CRezType::GetAllRezIDs( TArray<short>* & outArray )
     OSErr error = CountResources(numResources);
    
     if (error == noErr) {
-	for ( UInt16 i = 1; i <= numResources; i++ )
-	{
+	for ( UInt16 i = 1; i <= numResources; i++ ) {
 	    theHandle = ::Get1IndResource( mType, i );
 	    error = ::ResError();
 	    if (error != noErr) {
@@ -167,6 +166,32 @@ CRezType::GetResourceAtIndex(short inIdx, Handle & outHandle)
 	return ::ResError();
 }
 
+
+// ---------------------------------------------------------------------------
+//  ¥ GetNameAtIndex											[public]
+// ---------------------------------------------------------------------------
+
+OSErr
+CRezType::GetNameAtIndex(short inIdx, Str255 & outName)
+{
+	Handle	theHandle;
+	short	theID;
+	ResType	theType;
+	OSErr	error;
+	
+	StRezReferenceSaver saver(GetOwnerMap()->GetRefnum());
+	theHandle = ::Get1IndResource( mType, inIdx );
+	error = ::ResError();
+	if (error == noErr) {
+		::GetResInfo(theHandle, &theID, &theType, outName);
+		error = ::ResError();
+	} 
+	if (error != noErr) {
+		outName[0] = 0;
+	} 
+	
+	return error;
+}
 
 
 
