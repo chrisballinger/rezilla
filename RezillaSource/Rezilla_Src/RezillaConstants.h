@@ -290,10 +290,10 @@ const ResIDT	PPob_PixPatEditor			= 10607;
 const ResIDT	PPob_PatternSuiteEditor		= 10608;
 const ResIDT	PPob_IconSuiteEditor		= 10609;
 const ResIDT	PPob_AeteEditorWindow		= 11000;
-const ResIDT	PPob_AeteEventsPane			= 11100;
-const ResIDT	PPob_AeteClassesPane		= 11200;
-const ResIDT	PPob_AeteCompOpsPane		= 11300;
-const ResIDT	PPob_AeteEnumsPane			= 11400;
+const ResIDT	PPob_AeteEventPane			= 11100;
+const ResIDT	PPob_AeteClassPane			= 11200;
+const ResIDT	PPob_AeteCompOpPane			= 11300;
+const ResIDT	PPob_AeteEnumPane			= 11400;
 
 const ResIDT	ics8_Unlocked				= 1500;
 const ResIDT	ics8_Locked					= 1501;
@@ -787,7 +787,7 @@ const PaneIDT   item_AetePropertyType		= 13;
 const PaneIDT   item_AetePropertyOptions	= 14;
 const PaneIDT   item_AetePropertyDescr		= 15;
 const PaneIDT   item_AeteElementID			= 22;
-const PaneIDT   item_AeteKeyFormID			= 24;
+const PaneIDT   item_AeteKeyFormID			= 23;
 const PaneIDT   item_AetePropertyBox		= FOUR_CHAR_CODE('PROP');
 const PaneIDT   item_AeteElementBox			= FOUR_CHAR_CODE('ELEM');
 const PaneIDT   item_AetePropertySlider		= FOUR_CHAR_CODE('PSLI');
@@ -992,10 +992,13 @@ const MessageT	msg_IconShowAsMask			= PPob_IconEditorWindow + item_IconShowAsMas
 // // Aete Editor Window
 // // ------------------
 const MessageT    msg_AeteSuiteName			= PPob_AeteEditorWindow + item_AeteSuiteName;
-//   All the other edit fields as well as the option popups broadcast a
-//   msg_EditorModifiedItem message.
+//   All the other edit fields broadcast a msg_EditorModifiedItem message
 // Events panel
+const MessageT    msg_AeteDirectOptions			= PPob_AeteEventPane + item_AeteDirectOptions;
+const MessageT    msg_AeteReplyOptions			= PPob_AeteEventPane + item_AeteReplyOptions;
+const MessageT    msg_AeteParamOptions			= PPob_AeteEventPane + item_AeteParamOptions;
 // Classes panel
+const MessageT    msg_AetePropertyOptions		= PPob_AeteClassPane + item_AetePropertyOptions;
 // CompOps panel
 // Enums panel
 
