@@ -1,7 +1,7 @@
 // ===========================================================================
 // Rezilla_STR#.r					
 //                       Created: 2004-02-28 22:51:23
-//             Last modification: 2005-03-15 18:19:59
+//             Last modification: 2005-03-22 07:31:15
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -413,6 +413,17 @@ resource 'STR#' (1604, "Keyboard Glyphs") {
 };
 
 
+resource 'STR#' (1605, "Menu Editor Mark Chars", purgeable) {
+	{	
+/* [1] */	"No mark=0",
+/* [2] */	"Command mark=17",
+/* [3] */	"Check mark=18",
+/* [4] */	"Diamond mark=19",
+/* [5] */	"Apple mark=20",
+	}
+};
+
+
 resource 'STR#' (1700, "Paint Redo", purgeable) {
 	{	
 /* [1] */	"Redo Line",
@@ -519,4 +530,13 @@ resource 'STR#' (1711, "Aete Remove", purgeable) {
 	}
 };
 
+
+resource 'STR#' (1712, "Menu Editor Labels", purgeable) {
+	{	
+/* [1] */	"Mark char",
+/* [2] */	"Submenu ID",
+/* [3] */	"Icon ID - 256",
+/* [4] */	"Script code"
+	}
+};
 
