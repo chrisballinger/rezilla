@@ -162,7 +162,6 @@ CTmplEditorWindow::FinishCreateSelf()
 	mBitSeqValue		= 0;
 	mBitSeqBytesLen		= 0;
 	mBitSeqIndex		= 0;
-	mBitSeqMax			= 0;
 	mIsDirty			= false;
 	mFixedCount			= false;
 	mYCoord             = kTmplVertSkip;
@@ -654,6 +653,13 @@ CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount,
 				mYCoord = outYCoord;
 			} 
 		} while (! EndOfList(inType, &error) );
+		if (error && !drawCtrl) {
+			// If we create a new resource, the previous call to EndOfList() 
+			// will report an error since we are posityioned at the end of
+			// the RezStream. Ignore it: a malformed resource would already
+			// have been detected by the first call to EndOfList() above.
+			error = noErr;
+		} 
 		if (error == noErr && inCountPane != 0) {
 			AdjustCounterField(inCountPane, listCount);
 		} 
@@ -725,7 +731,6 @@ CTmplEditorWindow::EndOfList(ResType inType, OSErr * outError)
 					*outError = err_TmplZeroListNotTerminated;
 				}
 			}
-// 			mRezStream->SetMarker(0, streamFrom_End);
 		} 
 		break;
 		
@@ -751,7 +756,7 @@ CTmplEditorWindow::ParseKeyedSection(ResType inType, Str255 inLabelString, LView
 		KeyValueToString(inType, keyString);
 		inDrawControls = true;
 		// Skip all the CASE statements
-		SkipNextKeyCases();
+		SkipNextKeyCases(0);
 	} else {
 		if ( ! SelectValueFromKeyCases(inLabelString) ) {
 			error = err_TmplCreateEmptyNewAborted;
@@ -1504,7 +1509,6 @@ CTmplEditorWindow::RetrieveDataWithTemplate()
 	mBitSeqValue		= 0;
 	mBitSeqBytesLen		= 0;
 	mBitSeqIndex		= 0;
-	mBitSeqMax			= 0;
 
 	// Parse the template stream
 	error = DoRetrieveWithTemplate(0, true);
@@ -1610,7 +1614,7 @@ CTmplEditorWindow::RetrieveKeyedSection(ResType inType)
 	KeyValueToString(inType, keyString);
 	
 	// Skip all the CASE statements
-	SkipNextKeyCases();
+	SkipNextKeyCases(0);
 	
 	// Find the corresponding KEYB tag
 	FindKeyStartForValue(keyString, &sectionStart);
@@ -1725,7 +1729,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		// Increment the current pane ID to skip the case popup
 		mCurrentID++;
 		// Skip the following CASE statements
-		error = SkipNextKeyCases();
+		error = SkipNextKeyCases(1);
 		break;
 
 		case 'CHAR':
@@ -2430,15 +2434,14 @@ CTmplEditorWindow::RetrieveBitField(UInt16 inBitCount, UInt16 inBytesLen)
 	if (!mBitSeqInProgress) {
 		mBitSeqInProgress = true;
 		mBitSeqBytesLen = inBytesLen;
-		mBitSeqMax = mBitSeqBytesLen * 8 - 1;
-		mBitSeqIndex = 0;
+		mBitSeqIndex = mBitSeqBytesLen * 8 - 1;
 		mBitSeqValue = 0;
 	} 
 	
 	if (inBitCount == 1) {
 		LCheckBox * theCheckBox = dynamic_cast<LCheckBox *>(this->FindPaneByID(mCurrentID));
 		mBitSeqValue |= theCheckBox->GetValue() ? 1 << mBitSeqIndex : 0 ;
-		mBitSeqIndex++;
+		mBitSeqIndex--;
 	} else {
 		LEditText * theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
 		theEditText->GetDescriptor(numStr);	
@@ -2448,16 +2451,13 @@ CTmplEditorWindow::RetrieveBitField(UInt16 inBitCount, UInt16 inBytesLen)
 			error = err_TmplValueTooLargeInBitsField;
 			goto DONE;
 		} 
-		for (i = 0; i < inBitCount ; i++) {
-			val = theLong & (1 << i);
-			mBitSeqValue |= val ? (1 << mBitSeqIndex) : 0 ;
-			mBitSeqIndex++;
-		}		
+		mBitSeqValue |= theLong << (mBitSeqIndex - inBitCount + 1);
+		mBitSeqIndex -= inBitCount;
 	}
 	
 	mCurrentID++;
 	
-	if (mBitSeqIndex > mBitSeqMax) {
+	if (mBitSeqIndex < 0) {
 		mBitSeqInProgress = false;
 		switch (mBitSeqBytesLen) {
 			case 1:

@@ -537,13 +537,13 @@ CTmplEditorWindow::FindMatchingKeyEnd(SInt32 * outEnd)
 // Skip all the CASE statements starting from current position
 
 OSErr
-CTmplEditorWindow::SkipNextKeyCases()
+CTmplEditorWindow::SkipNextKeyCases(UInt16 inPreCount)
 {	
 	OSErr	error = noErr;
 	Boolean	found = false;
 	Str255	theString;
 	ResType	theType;
-	UInt16	caseCount = 1;
+	UInt16	caseCount = inPreCount + 1;
 	SInt32	currMark = mTemplateStream->GetMarker();
 	SInt32	maxPos = mTemplateStream->GetLength();
 	

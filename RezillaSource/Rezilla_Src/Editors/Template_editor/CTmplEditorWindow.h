@@ -125,8 +125,8 @@ protected:
 	Boolean				mBitSeqInProgress;
 	UInt32				mBitSeqValue;
 	UInt8				mBitSeqBytesLen;
-	UInt8				mBitSeqIndex;
-	UInt8				mBitSeqMax;
+	SInt8				mBitSeqIndex;
+// 	UInt8				mBitSeqMax;
 
 	virtual void	FinishCreateSelf();
 
@@ -271,7 +271,7 @@ private:
 	
 	OSErr			FindMatchingKeyEnd(SInt32 * outEnd);
 	
-	OSErr			SkipNextKeyCases();
+	OSErr			SkipNextKeyCases(UInt16 inPreCount);
 	
 	Boolean			SelectValueFromKeyCases(Str255 inLabelString);
 	

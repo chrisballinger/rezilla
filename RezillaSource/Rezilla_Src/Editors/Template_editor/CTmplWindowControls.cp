@@ -395,8 +395,8 @@ CTmplEditorWindow::AddBitField(OSType inType,
 	if (!mBitSeqInProgress) {
 		mBitSeqInProgress = true;
 		mBitSeqBytesLen = inBytesLen;
-		mBitSeqMax = mBitSeqBytesLen * 8 - 1;
-		mBitSeqIndex = 0;
+		// The first bit enumerated in a template is the highest bit.
+		mBitSeqIndex = mBitSeqBytesLen * 8 - 1;
 		if (mRezStream->GetMarker() < mRezStream->GetLength() - mBitSeqBytesLen + 1) {
 			switch (mBitSeqBytesLen) {
 				case 1:
@@ -423,7 +423,7 @@ CTmplEditorWindow::AddBitField(OSType inType,
 	if (inBitCount == 1) {
 		AddStaticField(inType, inLabel, inContainer);
 		AddCheckField( ((mBitSeqValue & 1 << mBitSeqIndex) > 0), inType, inContainer);	
-		mBitSeqIndex++;
+		mBitSeqIndex--;
 	} else {
 		// Add the bits count to the label
 		LStr255 theLabel(inLabel);
@@ -435,18 +435,18 @@ CTmplEditorWindow::AddBitField(OSType inType,
 		
 		// Build the value
 		val = 0;
-		offset = mBitSeqIndex;
-		for (i = 0; i < inBitCount ; i++) {
+		for (i = 0; i < inBitCount; i++) {
 			val |= mBitSeqValue & (1 << mBitSeqIndex);
-			mBitSeqIndex++;
+			mBitSeqIndex--;
 		}
-		val = val >> offset;
+		val = val >> (mBitSeqIndex + 1);
+		
 		::NumToString( (long) val, numStr);
 		AddEditField(numStr, inType, 2 * mBitSeqBytesLen + 1 + (mBitSeqBytesLen == 4), 
 					 0, UKeyFilters::SelectTEKeyFilter(keyFilter_Integer), inContainer);
 	}
 	
-	if (mBitSeqIndex > mBitSeqMax) {
+	if (mBitSeqIndex < 0) {
 		mBitSeqInProgress = false;
 	} 
 }
