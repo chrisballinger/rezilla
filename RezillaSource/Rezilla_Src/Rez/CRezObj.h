@@ -2,7 +2,7 @@
 // CRezObj.h					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2004-03-02 12:02:31
+//             Last modification: 2004-03-10 23:32:17
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -29,6 +29,7 @@ public:
 						short inID, 
 						Str255* inName);
 				CRezObj(CRezType * inRezType);
+				CRezObj(CRezObj& inOriginal);
 				~CRezObj();
 
 		OSErr Changed();
@@ -166,4 +167,5 @@ CRezObj::SetOneAttribute(
 
 
 #endif
+
 

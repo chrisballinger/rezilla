@@ -18,6 +18,9 @@
 
 #include "CRezClipboard.h"
 #include "CRezFile.h"
+#include "CRezMap.h"
+#include "CRezObj.h"
+#include "CRezObjItem.h"
 #include "UMiscUtils.h"
 #include "RezillaConstants.h"
 
@@ -32,6 +35,8 @@ PP_Begin_Namespace_PowerPlant
 
 SInt32		CRezClipboard::sScrapContext = 0;
 CRezFile *	CRezClipboard::sScrapRezFile;
+CRezMap *	CRezClipboard::sScrapRezMap;
+short		CRezClipboard::sScrapRefnum;
 
 // ---------------------------------------------------------------------------
 //	¥ CRezClipboard							Default Constructor		  [public]
@@ -63,8 +68,6 @@ CRezClipboard::~CRezClipboard()
 // 		
 // 	#endif
 
-// Close the ScrapRezMap
-
 }
 
 
@@ -81,7 +84,7 @@ CRezClipboard::InitScrapRezMap()
 	CFURLRef 		mainBundleURL, scrapRezMapURL, resDirUrl;
 	FSRef 			theFSRef, parentRef;
 	FSSpec			theFileSpec;
-	OSStatus  		err = noErr;
+	OSStatus  		error = noErr;
 	short			scrapRefNum;
 	HFSUniStr255	unicodeName;
 	ConstStr31Param hfsName = "\pScrapRezMap.rsrc";
@@ -93,7 +96,7 @@ CRezClipboard::InitScrapRezMap()
 	
 	mainBundleRef = CFBundleGetMainBundle();
 	if (mainBundleRef == NULL) {
-		err = fnfErr; 
+		error = fnfErr; 
 		sScrapRezFile = nil;
 		goto bail;
 	}
@@ -107,11 +110,11 @@ CRezClipboard::InitScrapRezMap()
 			resDirUrl = CFBundleCopyResourcesDirectoryURL(mainBundleRef);
 			if (resDirUrl) {
 				if ( CFURLGetFSRef(resDirUrl, &parentRef) ) {
-					err = UMiscUtils::HFSNameToUnicodeName(hfsName, &unicodeName);
-					err = FSCreateResourceFile(&parentRef, hfsName[0], unicodeName.unicode, kFSCatInfoNone, NULL, 0, NULL, &theFSRef, &theFileSpec);
-					err = FSOpenResourceFile( &theFSRef, 0, nil, fsRdWrPerm, &scrapRefNum );
+					error = UMiscUtils::HFSNameToUnicodeName(hfsName, &unicodeName);
+					error = FSCreateResourceFile(&parentRef, hfsName[0], unicodeName.unicode, kFSCatInfoNone, NULL, 0, NULL, &theFSRef, &theFileSpec);
+					error = FSOpenResourceFile( &theFSRef, 0, nil, fsRdWrPerm, &scrapRefNum );
 				} else {
-					err = fnfErr;
+					error = fnfErr;
 				}
 				CFRelease(resDirUrl);
 			} 
@@ -119,19 +122,24 @@ CRezClipboard::InitScrapRezMap()
 		} 
 	} else {
 		if ( CFURLGetFSRef(scrapRezMapURL, &theFSRef) ) {
-			err = FSGetCatalogInfo( &theFSRef, kFSCatInfoNone, NULL, NULL, &theFileSpec, NULL );
+			error = FSGetCatalogInfo( &theFSRef, kFSCatInfoNone, NULL, NULL, &theFileSpec, NULL );
+			SetResLoad( false );
+			error = FSOpenResourceFile( &theFSRef, 0, nil, fsRdWrPerm, &scrapRefNum );
+			SetResLoad( true );
 		}
 		CFRelease(scrapRezMapURL);
 	} 	
 	
 	// Make a new file object.
-	if (err == noErr) {
+	if (error == noErr) {
 		sScrapRezFile = new CRezFile(theFileSpec, scrapRefNum, fork_datafork);
+		sScrapRezMap = new CRezMap(scrapRefNum);
+		sScrapRefnum = scrapRefNum;
 	} 
 		
 	bail:
 	if (mainBundleRef != NULL) CFRelease(mainBundleRef);
-	return err;
+	return error;
 }
 
 
@@ -182,8 +190,6 @@ CRezClipboard::GetDataSelf(
 //	inReset specifies whether to clear the existing contents of the
 //	Clipboard before storing the new data.
 //
-//	This implementation sets the data in the global scrap. Subclasses
-//	should override to maintain a local scrap.
 
 void
 CRezClipboard::SetDataSelf(
@@ -193,9 +199,41 @@ CRezClipboard::SetDataSelf(
 	Boolean		inReset)
 {
 	switch (sScrapContext) {
-	  case scrap_rezmap:
-		UScrap::SetData(inDataType, inDataPtr, inDataLength, inReset);
+	  case scrap_rezmap: {
+		LArray* theArray = (LArray*) inDataPtr;
+		LArrayIterator	iterator(*theArray);
+		CRezObjItem *	theItem = nil;	
+		CRezObj *		theRezObj = nil;
+		OSErr			error = noErr;
+		short			theAttrs;
+	
+		if (inReset) {
+			sScrapRezMap->DeleteAll();
+		} 
+		
+		while (iterator.Next(&theItem)) {
+			if (theRezObj != nil) {
+				delete theRezObj;
+			} 
+			theRezObj = new CRezObj( *((CRezObjItem *)theItem)->GetRezObj() );
+			error = theRezObj->GetAttributesFromMap(theAttrs);
+// 			// Detach the handle before adding it
+// 			error = theRezObj->Detach();
+			
+			theRezObj->SetOwnerRefnum(sScrapRefnum);
+			theRezObj->Add();
+// 			error = theRezObj->Write();
+
+			if (theAttrs != 0) {
+				// Write the attributes in scrap rezmap
+				error = theRezObj->SetAttributes(theAttrs);
+			} 
+			error = theRezObj->Changed();
+		}
+		error = sScrapRezMap->Update();
 		break;
+	  }
+	  
 		
 	  case scrap_hexeditHexdata:
 	  case scrap_hexeditTxtdata:

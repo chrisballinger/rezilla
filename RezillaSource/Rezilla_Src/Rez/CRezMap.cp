@@ -2,11 +2,11 @@
 // CRezMap.cp					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2003-06-03 06:24:06
+//             Last modification: 2004-03-10 22:54:59
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003
+// (c) Copyright : Bernard Desgraupes, 2003, 2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -38,7 +38,7 @@ CRezMap::~CRezMap()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ UpdateResFile														[public]
+//  ¥ Update														[public]
 // ---------------------------------------------------------------------------
 // 		ThrowIfResError_();
 
@@ -304,7 +304,7 @@ CRezMap::SetFileAttrs(short inResFileAttrs)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ UnsetFileAttrs														[public]
+//  ¥ UnsetFileAttrs											[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -316,6 +316,49 @@ CRezMap::UnsetFileAttrs(short inResFileAttrs)
     ::SetResFileAttrs(mRefnum, theAttrs);
     return ::ResError();
 }
+
+
+// ---------------------------------------------------------------------------
+//  ¥ DeleteAll													[public]
+// ---------------------------------------------------------------------------
+// Delete all the resources from the resource map.
+
+OSErr
+CRezMap::DeleteAll()
+{
+	short numTypes;
+	short numResources;
+	ResType theType;
+	Handle theHandle;
+	
+	StRezReferenceSaver saver(mRefnum);
+	OSErr error = CountAllTypes(numTypes);
+	
+	if (error == noErr) {
+		for ( UInt16 i = 1; i <= numTypes; i++ )
+		{
+			::Get1IndType( &theType, i );
+			error = ::ResError();
+			if (error != noErr) {
+				CountForType(theType, numResources);
+				if (error == noErr) {
+					for ( UInt16 j = 1; j <= numResources; j++ )
+					{
+						theHandle = ::Get1IndResource( theType, j );
+						error = ::ResError();
+						if (error == noErr) {
+							::RemoveResource(theHandle);
+							::DisposeHandle(theHandle);
+							error = ::ResError();
+						} 
+					}
+				} 
+			} 
+		}
+	} 
+	return error;
+}
+
 
 
 

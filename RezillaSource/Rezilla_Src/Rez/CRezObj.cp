@@ -2,11 +2,11 @@
 // CRezObj.cp					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2003-05-24 11:21:12
+//             Last modification: 2004-03-10 23:32:28
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003
+// (c) Copyright : Bernard Desgraupes, 2003, 2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -111,6 +111,25 @@ CRezObj::CRezObj(CRezType * inRezType)
 	mData = ::NewHandle(0);
 	mSize = 0;
 	mAttributes = 0;
+}
+
+
+// ---------------------------------------------------------------------------
+//  ¥ CRezObj							Copy Constructor			[public]
+// ---------------------------------------------------------------------------
+
+CRezObj::CRezObj(CRezObj& inOriginal)
+{
+	mOwnerRezType = inOriginal.GetOwnerRezType();
+	mOwnerRefnum = inOriginal.GetOwnerRefnum();
+	mType = inOriginal.GetType();
+	mID = inOriginal.GetID();
+	mSize = inOriginal.GetSize();
+	mAttributes = inOriginal.GetAttributes();	
+	
+	this->SetName(inOriginal.GetName());
+	mData = ::NewHandle(0);
+	this->SetData(inOriginal.GetData());
 }
 
 
@@ -449,6 +468,7 @@ CRezObj::SetData(Handle srcHandle)
 // CRezObj::WritePartial()
 // {
 // }
+
 
 
 

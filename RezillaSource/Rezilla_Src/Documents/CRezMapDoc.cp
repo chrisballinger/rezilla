@@ -361,15 +361,20 @@ CRezMapDoc::ObeyCommand(
 		case cmd_Copy: 
 		case cmd_Cut: {
 			CRezClipboard::SetScrapContext(scrap_rezmap);
-			CRezObjItem * theRezObjItem;
-			mRezMapWindow->GetRezMapTable()->GetFirstSelectedRezObjItem(theRezObjItem);
+
+			LArray* theArray = new LArray( sizeof(LOutlineItem*) );
+			mRezMapWindow->GetRezMapTable()->GetAllSelectedRezObjItems(theArray);
 			
-			if ( theRezObjItem != nil ) {
-				CRezClipboard::GetClipboard()->SetData( theRezObjItem->GetRezObj()->GetType(),
-													   theRezObjItem->GetRezObj()->GetData(), 
+			if ( theArray != nil ) {
+				CRezClipboard::GetClipboard()->SetData( kRezillaType, (Ptr) theArray,
+													   theArray->GetCount(), 
 													   true);
-				if ( inCommand == cmd_Cut) {
-					RemoveResource( theRezObjItem );
+				if (inCommand == cmd_Cut) {
+					LArrayIterator iterator(*theArray);
+					CRezObjItem *theItem = nil;	
+					while (iterator.Next(&theItem)) {
+						RemoveResource(theItem);
+					}
 				} 
 			} 
 			break;
@@ -1570,6 +1575,7 @@ CRezMapDoc::UpdateRefNum(short newRefNum)
 
 
 PP_End_Namespace_PowerPlant
+
 
 
 

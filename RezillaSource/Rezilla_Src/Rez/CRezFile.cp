@@ -374,7 +374,7 @@ CRezFile::CopyFromRezMap(CRezMap * srcRezmap)
 
 		for ( j = 1; j <= numResources; j++ )
 		{
-			// Get each data handle
+			// Get the data handle
 			error = srcRezmap->GetResourceAtIndex(theType, j, theRezHandle);
 			
 			// Make a rez object out of it

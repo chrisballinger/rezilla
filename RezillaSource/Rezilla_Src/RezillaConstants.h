@@ -378,7 +378,7 @@ enum
 // ==============
 // Signatures
 #define  keyEditorSignature  	'ttxt'
-#define	 keyAERezillaSignature	'Rzil'
+#define	 kRezillaType			'Rzil'
 // File extension separator
 #define  kFileExtSeparator		(char)'.'
 // Preferences identifier
@@ -403,5 +403,6 @@ const ResType	ResType_DITL = FOUR_CHAR_CODE('DITL');
 
 // #define  kFirstSizeMenuItem	1
 // #define  kLastSizeMenuItem	9
+
 
 

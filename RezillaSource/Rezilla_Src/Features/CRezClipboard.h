@@ -35,6 +35,7 @@ enum
 
 
 class CRezFile;
+class CRezMap;
 
 // ---------------------------------------------------------------------------
 
@@ -49,11 +50,14 @@ public:
 	static void			SetScrapContext(SInt32 inScrapContext) {sScrapContext = inScrapContext;}
 
 	static CRezFile *	GetScrapRezFile() { return sScrapRezFile;}
+	static CRezMap *	GetScrapRezMap() { return sScrapRezMap;}
 	
 protected:
 	static SInt32		sScrapContext;
 	static CRezFile *	sScrapRezFile;
-	
+	static CRezMap *	sScrapRezMap;
+	static short		sScrapRefnum;
+
 	virtual void		SetDataSelf(
 								ResType		inDataType,
 								Ptr			inDataPtr,
