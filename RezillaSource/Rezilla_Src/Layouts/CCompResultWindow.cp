@@ -114,8 +114,6 @@ CCompResultWindow::FinishCreateSelf()
 	
 	// The RezCompare owner was passed in the inSuperCommander argument
 	mRezCompare = dynamic_cast<CRezCompare *>(GetSuperCommander());
-	// Now set the SuperCommander to be CRezillaApp itself
-	SetSuperCommander(mRezCompare->GetSuperCommander());
 	
 	// Build the hex editing elements
 	mOldRezDataWE = dynamic_cast<CBiDataWE *> (FindPaneByID( item_CompResultOldHex ));
@@ -350,7 +348,7 @@ CCompResultWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 // ---------------------------------------------------------------------------
 //	¥ FindCommandStatus
 // ---------------------------------------------------------------------------
-//	Pass back whether a Command is enabled and/or marked (in a Menu)
+// Cut, Paste and Clear are disabled. Copy is OK.
 
 void
 CCompResultWindow::FindCommandStatus(
@@ -381,41 +379,6 @@ CCompResultWindow::FindCommandStatus(
 									  outUsesMark, outMark, outName);
 		break;
 	}
-}
-
-
-// ---------------------------------------------------------------------------
-//	¥ ObeyCommand							[public, virtual]
-// ---------------------------------------------------------------------------
-// Cut, Paste and Clear are disabled.
-
-Boolean
-CCompResultWindow::ObeyCommand(
-	CommandT	inCommand,
-	void*		ioParam)
-{
-	Boolean		cmdHandled = true;
-
-// 	CHexEditorDoc * theOwnerDoc = dynamic_cast<CHexEditorDoc *>( GetSuperCommander() );
-// 	ThrowIfNil_(theOwnerDoc);
-	
-	switch (inCommand) {
-
-		case cmd_Cut:
-		case cmd_Paste:
-		case cmd_Clear:
-		break;
-
-		case cmd_Close:
-		delete this;
-		break;
-				
-		default:
-			cmdHandled = LCommander::ObeyCommand(inCommand, ioParam);
-			break;
-	}
-
-	return cmdHandled;
 }
 
 

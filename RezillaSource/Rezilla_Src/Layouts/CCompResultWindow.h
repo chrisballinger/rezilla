@@ -61,10 +61,6 @@ public:
 
 	void			DoClose();
 
-	virtual Boolean	ObeyCommand(
-							CommandT			inCommand,
-							void*				ioParam);
-
 	Boolean			IsDirty();
 	
 	void			FillTableView( TArray<CRezTypId *> inList, SInt16 inWhichList);
