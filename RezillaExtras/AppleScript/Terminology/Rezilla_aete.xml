@@ -721,24 +721,212 @@
 			<Class>
 				<ClassName>application</ClassName>
 				<ClassID>capp</ClassID>
-				<ClassDescription>An application program</ClassDescription>
+				<ClassDescription>The application</ClassDescription>
 				<ArrayProperties>
+					<ClassProperty>
+						<PropertyName>name</PropertyName>
+						<PropertyID>pnam</PropertyID>
+						<PropertyClass>itxt</PropertyClass>
+						<PropertyDescription>Rezilla's name</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+					<ClassProperty>
+						<PropertyName>version</PropertyName>
+						<PropertyID>vers</PropertyID>
+						<PropertyClass>itxt</PropertyClass>
+						<PropertyDescription>the version of the application</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+					<ClassProperty>
+						<PropertyName>clipboard</PropertyName>
+						<PropertyID>pcli</PropertyID>
+						<PropertyClass>obj </PropertyClass>
+						<PropertyDescription>Rezilla's private clipboard</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+					<ClassProperty>
+						<PropertyName>preferences</PropertyName>
+						<PropertyID>pfrp</PropertyID>
+						<PropertyClass>obj </PropertyClass>
+						<PropertyDescription>Various preferences that apply to the application as a whole</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
 				</ArrayProperties>
 				<ArrayElements>
+					<ClassElement>
+						<ClassElementID>docu</ClassElementID>
+						<ArrayKeyForms>
+							<KeyFormID>indx</KeyFormID>
+							<KeyFormID>name</KeyFormID>
+							<KeyFormID>rang</KeyFormID>
+						</ArrayKeyForms>
+					</ClassElement>
 					<ClassElement>
 						<ClassElementID>cwin</ClassElementID>
 						<ArrayKeyForms>
 							<KeyFormID>indx</KeyFormID>
 							<KeyFormID>name</KeyFormID>
-							<KeyFormID>rele</KeyFormID>
+							<KeyFormID>rang</KeyFormID>
 						</ArrayKeyForms>
 					</ClassElement>
-					<ClassElement>
-						<ClassElementID>docu</ClassElementID>
-						<ArrayKeyForms>
-							<KeyFormID>name</KeyFormID>
-						</ArrayKeyForms>
-					</ClassElement>
+				</ArrayElements>
+			</Class>
+
+			<Class>
+				<ClassName>document</ClassName>
+				<ClassID>docu</ClassID>
+				<ClassDescription>A document</ClassDescription>
+				<ArrayProperties>
+					<ClassProperty>
+						<PropertyName>name</PropertyName>
+						<PropertyID>pnam</PropertyID>
+						<PropertyClass>itxt</PropertyClass>
+						<PropertyDescription>the title of the document</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+					<ClassProperty>
+						<PropertyName>kind</PropertyName>
+						<PropertyID>pKND</PropertyID>
+						<PropertyClass>DKND</PropertyClass>
+						<PropertyDescription>the kind of document</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>enumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+					<ClassProperty>
+						<PropertyName>modified</PropertyName>
+						<PropertyID>imod</PropertyID>
+						<PropertyClass>bool</PropertyClass>
+						<PropertyDescription>Has the document been modified since the last save?</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+					<ClassProperty>
+						<PropertyName>window</PropertyName>
+						<PropertyID>cwin</PropertyID>
+						<PropertyClass>cwin</PropertyClass>
+						<PropertyDescription>the window of the document.</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+				</ArrayProperties>
+				<ArrayElements>
 				</ArrayElements>
 			</Class>
 
@@ -1016,59 +1204,6 @@
 				</ArrayElements>
 			</Class>
 
-			<Class>
-				<ClassName>document</ClassName>
-				<ClassID>docu</ClassID>
-				<ClassDescription>A Document</ClassDescription>
-				<ArrayProperties>
-					<ClassProperty>
-						<PropertyName>name</PropertyName>
-						<PropertyID>pnam</PropertyID>
-						<PropertyClass>itxt</PropertyClass>
-						<PropertyDescription>the title of the document</PropertyDescription>
-						<Reserved/>
-						<IsPropertyList>singleItem</IsPropertyList>
-						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
-						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
-						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
-						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
-						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
-						<Reserved/>
-						<Reserved/>
-						<Reserved/>
-						<Reserved/>
-						<Reserved/>
-						<IsApostrophe>noApostrophe</IsApostrophe>
-						<IsFeminine>notFeminine</IsFeminine>
-						<IsMasculine>notMasculine</IsMasculine>
-						<SingularOrPlural>singular</SingularOrPlural>
-					</ClassProperty>
-					<ClassProperty>
-						<PropertyName>modified</PropertyName>
-						<PropertyID>imod</PropertyID>
-						<PropertyClass>bool</PropertyClass>
-						<PropertyDescription>Has the document been modified since the last save?</PropertyDescription>
-						<Reserved/>
-						<IsPropertyList>singleItem</IsPropertyList>
-						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
-						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
-						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
-						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
-						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
-						<Reserved/>
-						<Reserved/>
-						<Reserved/>
-						<Reserved/>
-						<Reserved/>
-						<IsApostrophe>noApostrophe</IsApostrophe>
-						<IsFeminine>notFeminine</IsFeminine>
-						<IsMasculine>notMasculine</IsMasculine>
-						<SingularOrPlural>singular</SingularOrPlural>
-					</ClassProperty>
-				</ArrayProperties>
-				<ArrayElements>
-				</ArrayElements>
-			</Class>
 		</ArrayClasses>
 
 		<ArrayComparisonOps>
