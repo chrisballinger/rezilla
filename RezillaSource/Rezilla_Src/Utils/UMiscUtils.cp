@@ -1,7 +1,7 @@
 // ===========================================================================
 // UMiscUtils.cp					
 //                       Created: 2003-05-13 20:06:23
-//             Last modification: 2004-09-19 21:46:18
+//             Last modification: 2004-10-14 09:16:48
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -26,6 +26,7 @@
 #include <LPopupButton.h>
 #include <LComparator.h>
 #include <Drag.h>
+#include <UTextTraits.h>
 
 #include <stdio.h>
 #include <string.h>
@@ -597,6 +598,7 @@ UMiscUtils::SizeIndexFromSizeValue(LPopupButton * inPopup, SInt16 inSize)
 // ---------------------------------------------------------------------------
 //	¥ MetricsFromTraits											[static]
 // ---------------------------------------------------------------------------
+// 	CRezillaApp::sBasics.charWidth = CharWidth('0');
 
 void
 UMiscUtils::MetricsFromTraits(ConstTextTraitsPtr inTextTraits)
@@ -607,8 +609,21 @@ UMiscUtils::MetricsFromTraits(ConstTextTraitsPtr inTextTraits)
 	::GetFontInfo( &metrics );
 		
 	CRezillaApp::sBasics.charWidth = metrics.widMax;
-// 	CRezillaApp::sBasics.charWidth = CharWidth('0');
 	CRezillaApp::sBasics.charHeight = metrics.ascent + metrics.descent + metrics.leading;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ MetricsFromTraits											[static]
+// ---------------------------------------------------------------------------
+
+void
+UMiscUtils::MetricsFromTraits(ResIDT inTraitsID)
+{
+	TextTraitsRecord	traitsRec;
+
+	UTextTraits::LoadTextTraits(inTraitsID, traitsRec);
+	MetricsFromTraits(&traitsRec);
 }
 
 

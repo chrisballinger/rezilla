@@ -1,7 +1,7 @@
 // ===========================================================================
 // UMiscUtils.h					
 //                       Created: 2003-05-13 20:06:23
-//             Last modification: 2004-08-19 22:11:12
+//             Last modification: 2004-10-14 09:14:56
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -47,6 +47,7 @@ public:
 	static Boolean	HandlesAreIdentical(const Handle leftHndl, const Handle rightHndl);
 	static void		CopyFSSpec(FSSpec& srcFileSpec, FSSpec& trgtFileSpec);
 	static void		MetricsFromTraits(ConstTextTraitsPtr inTextTraits);
+	static void		MetricsFromTraits(ResIDT inTraitsID);
 	static Boolean	FontSizeExists(LPopupButton * inPopup, SInt32 inSize, SInt32 &outItemIndex);
 	static SInt32	FontIndexFromFontNum(LPopupButton * inPopup, SInt16 inFNum);
 	static SInt32	SizeIndexFromSizeValue(LPopupButton * inPopup, SInt16 inSize);
