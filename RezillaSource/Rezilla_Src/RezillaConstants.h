@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2005-03-08 16:05:15
+//             Last modification : 2005-03-10 15:27:16
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -236,8 +236,22 @@ enum {
 
 // These complete the kAEUT* constants from AEUserTermTypes.h
 enum {
-	aeut_NonVerbEvent				= 3,
-	aeut_LabeledParam				= 3
+	aeut_NonVerbEvent		= 3,
+	aeut_LabeledParam		= 3
+};
+
+// MENU editor
+// -----------
+// Special menu items
+enum {
+	kind_MenuNoCharact		= 0,
+	kind_MenuIsSeparator,
+	kind_MenuHasKeyEquiv,
+	kind_MenuHasSubmenu,
+	kind_MenuUsesCicn,
+	kind_MenuUsesICON,
+	kind_MenuUsesSicn,
+	kind_MenuNonSystemScript
 };
 
 
@@ -813,16 +827,13 @@ const PaneIDT   item_MenuEditMenuTitle		= 1;
 const PaneIDT   item_MenuEditMenuID			= 2;
 const PaneIDT   item_MenuEditMDEF			= 3;
 const PaneIDT   item_MenuEditMenuEnabled	= 4;
-const PaneIDT   item_MenuEditItemText		= 5;
-const PaneIDT   item_MenuEditSeparator		= 6;
-const PaneIDT   item_MenuEditItemEnabled	= 7;
+const PaneIDT   item_MenuEditItemTitle		= 5;
+const PaneIDT   item_MenuEditItemEnabled	= 6;
+const PaneIDT   item_MenuEditIconID			= 7;
 const PaneIDT   item_MenuEditShortcut		= 8;
 const PaneIDT   item_MenuEditMarkChar		= 9;
-const PaneIDT   item_MenuEditIconID			= 10;
-const PaneIDT   item_MenuEditSubmenuID		= 11;
-const PaneIDT   item_MenuEditUsesICON		= 12;
-const PaneIDT   item_MenuEditUseSICN		= 13;
-const PaneIDT   item_MenuEditStylePopup		= 15;
+const PaneIDT   item_MenuEditCharactPopup	= 40;
+const PaneIDT   item_MenuEditStylePopup		= 41;
 const PaneIDT   item_MenuEditCmdModifier	= 20;
 const PaneIDT   item_MenuEditShiftModifier	= 21;
 const PaneIDT   item_MenuEditOptModifier	= 22;
@@ -1027,16 +1038,13 @@ const MessageT    msg_MenuEditMenuTitle		= PPob_MenuEditorWindow + item_MenuEdit
 const MessageT    msg_MenuEditMenuID		= PPob_MenuEditorWindow + item_MenuEditMenuID;
 const MessageT    msg_MenuEditMDEF			= PPob_MenuEditorWindow + item_MenuEditMDEF;
 const MessageT    msg_MenuEditMenuEnabled	= PPob_MenuEditorWindow + item_MenuEditMenuEnabled;
-const MessageT    msg_MenuEditItemText		= PPob_MenuEditorWindow + item_MenuEditItemText;
-const MessageT    msg_MenuEditSeparator		= PPob_MenuEditorWindow + item_MenuEditSeparator;
+const MessageT    msg_MenuEditItemTitle		= PPob_MenuEditorWindow + item_MenuEditItemTitle;
 const MessageT    msg_MenuEditItemEnabled	= PPob_MenuEditorWindow + item_MenuEditItemEnabled;
+const MessageT    msg_MenuEditIconID		= PPob_MenuEditorWindow + item_MenuEditIconID;
 const MessageT    msg_MenuEditShortcut		= PPob_MenuEditorWindow + item_MenuEditShortcut;
 const MessageT    msg_MenuEditMarkChar		= PPob_MenuEditorWindow + item_MenuEditMarkChar;
-const MessageT    msg_MenuEditIconID		= PPob_MenuEditorWindow + item_MenuEditIconID;
-const MessageT    msg_MenuEditSubmenuID		= PPob_MenuEditorWindow + item_MenuEditSubmenuID;
-const MessageT    msg_MenuEditUsesICON		= PPob_MenuEditorWindow + item_MenuEditUsesICON;
-const MessageT    msg_MenuEditUseSICN		= PPob_MenuEditorWindow + item_MenuEditUseSICN;
 const MessageT    msg_MenuEditStylePopup	= PPob_MenuEditorWindow + item_MenuEditStylePopup;
+const MessageT    msg_MenuEditCharactPopup	= PPob_MenuEditorWindow + item_MenuEditCharactPopup;
 const MessageT    msg_MenuEditCmdModifier	= PPob_MenuEditorWindow + item_MenuEditCmdModifier;
 const MessageT    msg_MenuEditShiftModifier	= PPob_MenuEditorWindow + item_MenuEditShiftModifier;
 const MessageT    msg_MenuEditOptModifier	= PPob_MenuEditorWindow + item_MenuEditOptModifier;
