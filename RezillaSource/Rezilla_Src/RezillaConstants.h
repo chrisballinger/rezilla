@@ -868,13 +868,11 @@ const MessageT	msg_Close						= FOUR_CHAR_CODE('Clos');
 const MessageT	msg_StylePrefsChanged			= FOUR_CHAR_CODE('StPC');
 const MessageT	msg_HexScroller					= FOUR_CHAR_CODE('HScr');
 const MessageT	msg_DualViewEdited				= FOUR_CHAR_CODE('DuEd');
-const MessageT	msg_TmplCasePopup				= FOUR_CHAR_CODE('Case');
-const MessageT	msg_TmplPopupField				= FOUR_CHAR_CODE('PopF');
-const MessageT	msg_TmplModifiedItem			= FOUR_CHAR_CODE('TmMd');
-const MessageT	msg_EditScroller				= FOUR_CHAR_CODE('Scrl');
-const MessageT	msg_EditContents				= FOUR_CHAR_CODE('Cnts');
+const MessageT	msg_EditorItemModified			= FOUR_CHAR_CODE('EdMd');
 const MessageT	msg_MinusButton					= FOUR_CHAR_CODE('Mins');
 const MessageT	msg_PlusButton					= FOUR_CHAR_CODE('Plus');
+const MessageT	msg_TmplCasePopup				= FOUR_CHAR_CODE('Case');
+const MessageT	msg_TmplPopupField				= FOUR_CHAR_CODE('PopF');
 // Icon editor
 const MessageT	msg_TargetViewClicked			= FOUR_CHAR_CODE('Tclk');
 const MessageT	msg_ImageDroppedOnTargetView	= FOUR_CHAR_CODE('IDrp');
