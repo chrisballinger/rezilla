@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2005-01-01 08:05:34
+//             Last modification : 2005-01-06 07:40:03
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -227,8 +227,8 @@ const ResIDT	STRx_InternetUrls			= 1504;
 const ResIDT	STRx_LanguageCodes			= 1601;
 const ResIDT	STRx_RegionCodes			= 1602;
 const ResIDT	STRx_ScriptCodes			= 1603;
-const ResIDT	STRx_PaintUndo				= 7000;
-const ResIDT	STRx_PaintRedo				= 7001;
+const ResIDT	STRx_PaintUndo				= 1700;
+const ResIDT	STRx_PaintRedo				= 1701;
 
 // Text traits resources
 const ResIDT    Txtr_GenevaNine				= 130;
@@ -264,8 +264,8 @@ const ResIDT	Txtr_PaintFont				= Txtr_GenevaNine;
 const ResIDT	RidL_ToolList				= 300;
 const ResIDT	MENU_IconActions			= 300;
 const ResIDT	MENU_IconColors				= 301;
-const ResIDT	MENU_IconStyle				= 302;
-const ResIDT	MENU_IconFonts				= MENU_TextFonts;
+const ResIDT	MENU_IconFonts				= 302;
+const ResIDT	MENU_IconStyle				= 303;
 
 // Icon resources
 const ResIDT	ICN_WindowMenu				= 3100;
