@@ -963,7 +963,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 	SInt8	theSInt8 = 0;
 	SInt16	theSInt16 = 0;
 	SInt32	theSInt32 = 0, theLength;
-	SInt8	theUInt8 = 0;
+	UInt8	theUInt8 = 0;
 	UInt16	theUInt16 = 0;
 	UInt32	theUInt32 = 0;
 	Boolean	theBool = 0;
@@ -1135,10 +1135,10 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		case 'HBYT':
 		// Hex byte
 		if (mRezStream->GetMarker() < mRezStream->GetLength() ) {
-			*mRezStream >> theChar;
+			*mRezStream >> theUInt8;
 		} 
 		BuildFormatString(formatString, 2);
-		sprintf(charString, formatString, theChar, NULL);
+		sprintf(charString, formatString, theUInt8, NULL);
 		CopyCStringToPascal(charString, theString);
 		AddStaticField(inLabelString, inContainer);
 		AddEditField(theString, inType, 2 + CRezillaPrefs::GetPrefValue(kPref_editors_hexSymbol), 0, 
@@ -2218,15 +2218,6 @@ CTmplEditorWindow::RetrieveDataWithTemplate()
 }
 
 
-// // 	//	Dissociate the data Handle from a HandleStream.
-// // 	//
-// // 	//	Creates a new, empty data Handle and passes back the existing Handle.
-// // 	//	Caller assumes ownership of the Handle.
-// // 
-// // 	Handle
-// // 	LHandleStream::DetachDataHandle()
-
-
 // ---------------------------------------------------------------------------
 //	¥ DoRetrieveWithTemplate													[public]
 // ---------------------------------------------------------------------------
@@ -2626,12 +2617,13 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		theStaticText = dynamic_cast<LStaticText *>(this->FindPaneByID(mCurrentID));
 		theStaticText->GetDescriptor(theString);	
 		::StringToNum( theString, &theLong);
+		mItemsCount = (UInt16) theLong;
 		if (!theLong) {
-			mItemsCount = 0xffff;
+			theUInt16 = 0xffff;
 		} else {
-			mItemsCount = (UInt16) --theLong;
+			theUInt16 = (UInt16) --theLong;
 		}
-		*mOutStream << mItemsCount;
+		*mOutStream << theUInt16;
 		mCurrentID++;
 		break;
 
