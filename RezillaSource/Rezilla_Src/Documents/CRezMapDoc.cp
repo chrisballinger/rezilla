@@ -506,7 +506,7 @@ CRezMapDoc::DoEdit(CRezObjItem * inRezObjItem, CommandT inCommand, ResType inTyp
 		if ( CEditorsController::HasEditorForType(inType, substTypePtr) ) {
 			
 			// call the right GUI editor
-			CEditorsController::InvokeCustomEditor(this, inRezObjItem);
+			CEditorsController::InvokeCustomEditor(this, inRezObjItem, *substTypePtr);
 			break;
 		} // else fall through to template editing...
 						
