@@ -2,11 +2,11 @@
 // CEditorDoc.cp
 // 
 //                       Created: 2003-05-04 19:16:00
-//             Last modification: 2005-02-17 07:04:31
+//             Last modification: 2005-02-24 09:59:49
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003-2004, 2005
+// (c) Copyright : Bernard Desgraupes, 2003-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -219,7 +219,7 @@ CEditorDoc::ListenToMessage( MessageT inMessage, void * /* ioParam */)
 		if ( CanSaveChanges() ) {
 			DoSaveChanges();
 		} 
-		// Fall through...
+		break;
 		
 		case msg_EditorCancel:
 		Close();

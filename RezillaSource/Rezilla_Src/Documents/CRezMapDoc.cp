@@ -855,7 +855,10 @@ CRezMapDoc::DoSave()
 {
 	OSErr error;
 
-	error = mRezMap->Update();
+	try {
+		error = mRezMap->Update();
+	}
+	catch (...) {}
 	
 	if (error != noErr) {
 		UMessageDialogs::ErrorWithString(CFSTR("ErrorSavingRezMapDoc"), error);
@@ -1645,7 +1648,7 @@ CRezMapDoc::GetRezEditor(ResType inType, short inID)
 	
 	// The CRezMapDoc class maintains a list of all opened CEditorDoc's
 	while (iterator.Next(theRezEditor)) {
-		if (inType == theRezEditor->GetRezObj()->GetType() && inID == theRezEditor->GetRezObj()->GetID() ) {
+		if ( CEditorsController::TypesCorrespond(inType, theRezEditor->GetRezObj()->GetType() )  && inID == theRezEditor->GetRezObj()->GetID() ) {
 			result = theRezEditor;
 			break;
 		} 

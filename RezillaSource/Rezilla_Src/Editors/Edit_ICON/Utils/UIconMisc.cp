@@ -40,6 +40,7 @@ UIconMisc::GetDefaultBitmap(CRezObj * inResObj, ResType inType, Boolean loadIt)
 		if (error == noErr && theHandle != NULL) {
 			::DetachResource(theHandle);
 			inResObj->SetData(theHandle);
+			::DisposeHandle(theHandle);
 		} 
 	}
 	return error;
@@ -60,7 +61,7 @@ UIconMisc::GetBitmapResource(CRezMap *inMap, ResType inType, short inID,
 	CRezObj *	theRes = NULL;
 	
 	theRes = inMap->FindResource( inType, inID, loadIt );
-	if ( theRes &&  theRes->GetSize() == 0 ) {
+	if ( theRes && theRes->GetSize() == 0 ) {
 			GetDefaultBitmap( theRes, inType, loadIt);
 	}
 	

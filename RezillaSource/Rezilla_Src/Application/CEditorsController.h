@@ -40,6 +40,8 @@ public:
 							ResType inType, 
 							short inID, 
 							CRezObj** outRezObj);
+	
+	static Boolean	TypesCorrespond(ResType inType1, ResType inType2);
 
 	OSErr			RegisterEditor();
 

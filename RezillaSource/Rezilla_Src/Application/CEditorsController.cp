@@ -331,6 +331,56 @@ CEditorsController::RegisterEditor()
 }
 
 
+// inType == theRezEditor->GetRezObj()->GetType()
+// ---------------------------------------------------------------------------
+//  ¥ TypesCorrespond												[public]
+// ---------------------------------------------------------------------------
+// Some editors edit several types simultaneously (like the IconFamily 
+// editor). So the type of the resource to be edited could be different 
+// from the type of a certain editor and still correspond.
+// ResType iconTypes[9] = {'ICN#', 'icl4', 'icl8', 'ics#', 'ics4', 'ics8', 'icm#', 'icm4', 'icm8'};
+
+Boolean
+CEditorsController::TypesCorrespond(ResType inType1, ResType inType2)
+{
+	Boolean corresponds = false;
+	
+	switch (inType1) {
+		
+		case 'ICN#':
+		case 'icl4':
+		case 'icl8':
+		case 'icm#':
+		case 'icm4':
+		case 'icm8':
+		case 'ics#':
+		case 'ics4':
+		case 'ics8':
+		switch (inType2) {
+			case 'ICN#':
+			case 'icl4':
+			case 'icl8':
+			case 'icm#':
+			case 'icm4':
+			case 'icm8':
+			case 'ics#':
+			case 'ics4':
+			case 'ics8':
+			corresponds = true;
+			break;
+		}
+		
+		break;
+		
+		default:
+		corresponds = (inType1 == inType2);
+		break;
+		
+	}
+	
+	return corresponds;
+}
+
 
 
 
