@@ -258,8 +258,8 @@ CColorTableChoice::ChangePopupColorTables( ResIDT inResID )
 	// Change the color table popups. If this results in a change of the
 	// current color, they will broadcast a message to the paint view which
 	// will also redraw the pattern popup.
-	CColorPane *	forePane = (CColorPane*) mPaintView->FindPaneByID( item_IconEditForeColor );
-	CColorPane *	backPane = (CColorPane*) mPaintView->FindPaneByID( item_IconEditBackColor );
+	CColorPane *	forePane = (CColorPane*) mPaintView->FindPaneByID( tool_ForeColor );
+	CColorPane *	backPane = (CColorPane*) mPaintView->FindPaneByID( tool_BackColor );
 	
 	if ( forePane )
 		forePane->SetColorTable( mCurrentTable, true, redraw_Now );

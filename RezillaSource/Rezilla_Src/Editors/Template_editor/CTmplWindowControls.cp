@@ -1119,7 +1119,7 @@ CTmplEditorWindow::AddCasePopup(ResType inType, Str255 inLabel, SInt32 inStartMa
 	sBevelPaneInfo.superView		= inContainer;
 
 	CTmplBevelButton * theBevelButton = new CTmplBevelButton(sBevelPaneInfo, msg_TmplCasePopup, kControlBevelButtonSmallBevelProc,
-													 rMENU_TemplateCases, kControlBevelButtonMenuOnBottom, 
+													 MENU_TemplateCases, kControlBevelButtonMenuOnBottom, 
 													 kControlContentTextOnly, 0, 0, Str_Empty, 1, 
 													 kControlBevelButtonPlaceNormally, teFlushDefault, 0, 
 													 kControlBevelButtonAlignCenter, Point_00, true);													 
@@ -1228,7 +1228,7 @@ CTmplEditorWindow::AddEditPopup(Str255 inValue,
 	sBevelPaneInfo.superView	= inContainer;
 
 	CTmplBevelButton * theBevelButton = new CTmplBevelButton(sBevelPaneInfo, msg_TmplPopupField, kControlBevelButtonSmallBevelProc,
-													 rMENU_TemplateCases, kControlBevelButtonMenuOnBottom, 
+													 MENU_TemplateCases, kControlBevelButtonMenuOnBottom, 
 													 kControlContentTextOnly, 0, 0, Str_Empty, 1, 
 													 kControlBevelButtonPlaceNormally, teFlushDefault, 0, 
 													 kControlBevelButtonAlignCenter, Point_00, true);													 

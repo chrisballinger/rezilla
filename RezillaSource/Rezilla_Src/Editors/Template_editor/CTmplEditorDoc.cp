@@ -93,7 +93,7 @@ CTmplEditorDoc::Initialize()
 	mKind = editor_kindTmpl;
 
 	// Create window for our document. This sets this doc as the SuperCommander of the window.
-	mTmplEditWindow = dynamic_cast<CTmplEditorWindow *>(LWindow::CreateWindow( rPPob_TmplEditorWindow, this ));
+	mTmplEditWindow = dynamic_cast<CTmplEditorWindow *>(LWindow::CreateWindow( PPob_TmplEditorWindow, this ));
 	Assert_( mTmplEditWindow != nil );
 	
 	mTmplEditWindow->SetOwnerDoc(this);
@@ -122,7 +122,7 @@ CTmplEditorDoc::Initialize()
 	
 	if (error != noErr) {
 		if (error == err_ExceptionParsingTemplate) {
-			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("TemplateParsingException"), rPPob_SimpleMessage);
+			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("TemplateParsingException"), PPob_SimpleMessage);
 		} else if (error != userCanceledErr) {
 			UMessageDialogs::ErrorWithString(CFSTR("ErrorWhileParsingTemplate"), error);
 		} 
@@ -224,7 +224,7 @@ SInt16
 CTmplEditorDoc::AskSaveChanges(
 	bool /* inQuitting */)
 {
-	return UMessageDialogs::AskYesNoFromLocalizable(CFSTR("SaveTemplateWindow"), rPPob_AskYesNoMessage);
+	return UMessageDialogs::AskYesNoFromLocalizable(CFSTR("SaveTemplateWindow"), PPob_AskYesNoMessage);
 }
 
 

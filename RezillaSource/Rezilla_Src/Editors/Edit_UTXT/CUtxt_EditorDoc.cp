@@ -86,11 +86,11 @@ void
 CUtxt_EditorDoc::Initialize()
 {
 // 	if (sUnicodeFontsMenu == NULL) {
-// 		sUnicodeFontsMenu = new LMenu(rMENU_FontsUnicode);
+// 		sUnicodeFontsMenu = new LMenu(MENU_FontsUnicode);
 // 	} 	
 	
 	// Create window for our document. This sets this doc as the SuperCommander of the window.
-	mUtxtEditWindow = dynamic_cast<CUtxt_EditorWindow *>(LWindow::CreateWindow( rPPob_UtxtEditorWindow, this ));
+	mUtxtEditWindow = dynamic_cast<CUtxt_EditorWindow *>(LWindow::CreateWindow( PPob_UtxtEditorWindow, this ));
 	Assert_( mUtxtEditWindow != nil );
 	
 	mUtxtEditWindow->SetOwnerDoc(this);
@@ -194,7 +194,7 @@ SInt16
 CUtxt_EditorDoc::AskSaveChanges(
 	bool /* inQuitting */)
 {
-	return UMessageDialogs::AskYesNoFromLocalizable(CFSTR("SaveTextEditorWindow"), rPPob_AskYesNoMessage);
+	return UMessageDialogs::AskYesNoFromLocalizable(CFSTR("SaveTextEditorWindow"), PPob_AskYesNoMessage);
 }
 
 

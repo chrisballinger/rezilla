@@ -1,7 +1,7 @@
 // ===========================================================================
 // CIconTextAction.cp
 //                       Created: 2004-12-11 18:52:42
-//             Last modification: 2004-12-23 23:32:03
+//             Last modification: 2004-12-27 10:32:12
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -17,6 +17,10 @@
 // Don't try this by hand unless you have a month to kill.
 
 #include "CIconTextAction.h"
+#include "CIcon_EditorView.h"
+#include "CIcon_EditorWindow.h"
+#include "COffscreen.h"
+#include "CIconSelection.h"
 #include "UIconMisc.h"
 
 
@@ -36,7 +40,7 @@ CIconTextAction::CIconTextAction( const SPaintAction &inAction ) :
 	
 	if ( !sCaretUPP )
 	{
-		sCaretUPP = NewCaretHookProc( MyCaretHook );
+		sCaretUPP = NewCaretHookUPP( MyCaretHook );
 		ThrowIfMemFail_( sCaretUPP );
 	}
 	
@@ -470,43 +474,13 @@ CIconTextAction::CalcTextAreaHeight()
 	SInt32 lineHeight = mFontInfo.ascent + mFontInfo.descent + mFontInfo.leading;
 	SInt32 result = lineHeight * MAX( 1, (**mText).nLines );
 	
-	/*
-		this fixes a bug in textedit (since 1984) - nLines is sometimes incorrect
-	*/
+	// This fixes an old bug in textedit (nLines is sometimes incorrect)
 	SInt32 numBytes = (**mText).teLength;
 	if ( (numBytes > 0) && ((*(**mText).hText)[numBytes-1] == char_Return) )
 		result += lineHeight;
 
 	return( result );
 }
-
-
-#ifdef OLDWAY_TOO_SLOW
-
-// ---------------------------------------------------------------------------
-// 	GetRectRelativeToTextBuffer
-// ---------------------------------------------------------------------------
-
-Boolean
-CIconTextAction::GetRectRelativeToTextBuffer( Rect *outR )
-{
-	if ( !mText || !mImageBuffer )
-	{
-		::SetRect( outR, 0, 0, 0, 0 );
-		return( false );
-	}
-	
-	*outR = (**mText).destRect;
-
-		// bug in textedit (since 1984) - add lineHeight if the last char is a return
-	short numBytes = (**mText).teLength;
-	if ( (numBytes > 0) && ((*(**mText).hText)[numBytes-1] == char_Return) )
-		outR->bottom += mFontInfo.ascent + mFontInfo.descent + mFontInfo.leading;
-
-	::OffsetRect( outR, -outR->left, -outR->top );		// make sure it's 0,0-based
-	return( ::EmptyRect( outR ) );
-}
-
 
 
 // ---------------------------------------------------------------------------

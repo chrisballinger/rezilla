@@ -245,7 +245,7 @@ CRezMapDoc::Initialize(FSSpec * inFileSpec, short inRefnum)
 	mRezMap = new CRezMap(inRefnum);
 	
 	// Create window for our document.
-	mRezMapWindow = dynamic_cast<CRezMapWindow *>(LWindow::CreateWindow( rPPob_RezMapWindow, this));
+	mRezMapWindow = dynamic_cast<CRezMapWindow *>(LWindow::CreateWindow( PPob_RezMapWindow, this));
 	Assert_( mRezMapWindow != nil );
 
 	// Make this document the supercommander of the RezMapWindow
@@ -409,7 +409,7 @@ CRezMapDoc::ObeyCommand(
 
 			if (countEdited != 0) {
 				if (countEdited == 1 && countItems == 1) {
-						UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("ThisResourceEditedInOtherMode"), rPPob_SimpleMessage);
+						UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("ThisResourceEditedInOtherMode"), PPob_SimpleMessage);
 				} else {
 					UMessageDialogs::AlertWithValue(CFSTR("SomeResourcesEditedInOtherMode"), countEdited);
 				}
@@ -704,7 +704,7 @@ CRezMapDoc::AttemptClose(
 	// if some of them are modified.
 	if (! IsModified() && ! CheckEditorsUnmodified(false) ) {
 		SInt16		answer;
-		answer = UMessageDialogs::AskIfFromLocalizable(CFSTR("ConfirmCloseModifiedEditedRes"), rPPob_AskIfMessage);
+		answer = UMessageDialogs::AskIfFromLocalizable(CFSTR("ConfirmCloseModifiedEditedRes"), PPob_AskIfMessage);
 		if (answer == answer_Cancel) {
 			return;
 		}
@@ -712,7 +712,7 @@ CRezMapDoc::AttemptClose(
 
 	if (IsModified()) {
 		if (mReadOnly) {
-			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("CantSaveReadOnly"), rPPob_SimpleMessage);
+			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("CantSaveReadOnly"), PPob_SimpleMessage);
 		} else {
 			SInt16 answer = AskSaveChanges(SaveWhen_Closing);
 
@@ -721,7 +721,7 @@ CRezMapDoc::AttemptClose(
 					// Inspect the edited resources and interrupt the
 					// operation if some of them are modified.
 					if (! CheckEditorsUnmodified(false) ) {
-						UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("ValidateEditedResBeforeSave"), rPPob_SimpleMessage);
+						UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("ValidateEditedResBeforeSave"), PPob_SimpleMessage);
 						return;
 					} 			
 					DoSave();
@@ -765,7 +765,7 @@ CRezMapDoc::AskSaveChanges(
 	bool /* inQuitting */)
 {
 // 	MakeCurrent();
-	return UMessageDialogs::AskYesNoFromLocalizable(CFSTR("SaveRezMapWindow"), rPPob_AskYesNoMessage);
+	return UMessageDialogs::AskYesNoFromLocalizable(CFSTR("SaveRezMapWindow"), PPob_AskYesNoMessage);
 }
 
 
@@ -910,7 +910,7 @@ CRezMapDoc::AskSaveAs(
 		// Try to close all the editor windows related to this rezmap.
 		// Interrupt the operation if some of them are modified.
 		if (! CheckEditorsUnmodified(true) ) {
-			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("ValidateEditedResBeforeSaveAs"), rPPob_SimpleMessage);
+			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("ValidateEditedResBeforeSaveAs"), PPob_SimpleMessage);
 		} else {
 			if (replacing && UsesFileSpec(outFSSpec)) {
 				// User chose to replace the file with one of the same
@@ -1023,7 +1023,7 @@ CRezMapDoc::DoRevert()
 bool
 CRezMapDoc::AskConfirmRevert()
 {
-	return UMessageDialogs::AskIfFromLocalizable(CFSTR("ConfirmRevertRezMapDoc"), rPPob_AskIfMessage);
+	return UMessageDialogs::AskIfFromLocalizable(CFSTR("ConfirmRevertRezMapDoc"), PPob_AskIfMessage);
 }
 
 
@@ -1414,7 +1414,7 @@ static Boolean DoKeyCheck( const EventRecord &inKeyEvent )
 			++numInBuffer;
 			if ( numInBuffer == 8 )
 			{
-				UMessageDialogs::SimpleMessage("\pLes insensŽs s'agitent, le sage se repose !", rPPob_SimpleMessage);
+				UMessageDialogs::SimpleMessage("\pLes insensŽs s'agitent, le sage se repose !", PPob_SimpleMessage);
 				return true;
 			}
 			return false;
@@ -1468,7 +1468,7 @@ CRezMapDoc::NewResDialog()
 	short			theAttrs = 0;
 	CRezObjItem *	theRezObjItem = NULL;
 	
-	StDialogBoxHandler	theHandler(rPPob_NewRezDialog, this);
+	StDialogBoxHandler	theHandler(PPob_NewRezDialog, this);
 	LDialogBox *		theDialog = theHandler.GetDialog();
 	Assert_(theDialog != nil);
 	
@@ -1514,7 +1514,7 @@ CRezMapDoc::NewResDialog()
 						::NumToString(theID, theString);
 						theIDField->SetDescriptor(theString);
 					} else {
-						UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("NoTypeSpecified"), rPPob_SimpleMessage);
+						UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("NoTypeSpecified"), PPob_SimpleMessage);
 					}
 					break;
 				}	
@@ -1568,11 +1568,11 @@ CRezMapDoc::NewResDialog()
 					SetModified(true);
 
 				} else {
-					UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("NoIDSpecified"), rPPob_SimpleMessage);
+					UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("NoIDSpecified"), PPob_SimpleMessage);
 					inLoop = true;
 				}
 			} else {
-				UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("NoTypeSpecified"), rPPob_SimpleMessage);
+				UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("NoTypeSpecified"), PPob_SimpleMessage);
 				inLoop = true;
 			}
 		}

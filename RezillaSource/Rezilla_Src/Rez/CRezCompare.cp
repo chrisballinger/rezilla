@@ -137,7 +137,7 @@ CRezCompare::RunRezCompareDialog()
 	FSSpec			theFSSpec;
 	FSSpec			nilFSSpec = {0, 0, "\p"};		// Invalid specifiers	
 
-	StDialogBoxHandler	theHandler(rPPob_RezCompDialog, mSuperCommander);
+	StDialogBoxHandler	theHandler(PPob_RezCompDialog, mSuperCommander);
 	LDialogBox *		theDialog = theHandler.GetDialog();
 	Assert_(theDialog != nil);
 	
@@ -189,7 +189,7 @@ CRezCompare::RunRezCompareDialog()
 				theNewStaticText->GetDescriptor(theNewPath);
 				// Check that both fields are not empty
 				if ( !theOldPath[0] || !theNewPath[0] ) {
-					UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("MapsNotSelected"), rPPob_SimpleMessage);
+					UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("MapsNotSelected"), PPob_SimpleMessage);
 				} else {
 					break;
 				}
@@ -460,7 +460,7 @@ void
 CRezCompare::DisplayResults()
 {	
 	// Create window for the results
-	mResultWindow = dynamic_cast<CCompResultWindow *>(LWindow::CreateWindow( rPPob_RezCompWindow, this ));
+	mResultWindow = dynamic_cast<CCompResultWindow *>(LWindow::CreateWindow( PPob_RezCompWindow, this ));
 	Assert_( mResultWindow != nil );
 
 	// Populate the tables

@@ -208,7 +208,7 @@ CCompResultWindow::FinishCreateSelf()
 	theRGV->SetCurrentRadioID( CRezillaPrefs::GetPrefValue( kPref_compare_dataDisplayAs ) + item_CompResultShowAsRgbx );
 	
 	// Link the broadcasters.
-    UReanimator::LinkListenerToControls( this, this, rPPob_RezCompWindow );
+    UReanimator::LinkListenerToControls( this, this, PPob_RezCompWindow );
 	
 	// Let the window listen to the tables and to the scroller
 	mOnlyOldTable->AddListener(this);	

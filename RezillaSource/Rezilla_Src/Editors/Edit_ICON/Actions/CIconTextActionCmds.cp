@@ -73,7 +73,7 @@ CIconTextAction::FindCommandStatus(
 	}
 	
 	// 9100-9300 is for font sizes (1..200 pts), 9100 -> "other"
-	if ( (inCommand >= cmd_FirstFontSize) && (inCommand <= cmd_LastFontSize) )
+	if ( (inCommand >= cmd_IconBaseFontSize) && (inCommand <= cmd_IconLastFontSize) )
 	{
 		outEnabled = true;							// font menu always enabled
 		outUsesMark = true;
@@ -85,7 +85,7 @@ CIconTextAction::FindCommandStatus(
 		// This won't put a checkMark next to "other" if a non-standard
 		// size is selected. is this a problem??? We also don't outline
 		// installed sizes. should we???
-		SInt32 fontSize = (SInt32) inCommand - (SInt32) cmd_FirstFontSize;
+		SInt32 fontSize = (SInt32) inCommand - (SInt32) cmd_IconBaseFontSize;
 		if ( fontSize == specifiedSize )
 			outMark = checkMark;
 		else
@@ -224,16 +224,16 @@ CIconTextAction::ObeyCommand( 	CIcon_EditorWindow *,
 	}
 
 	// Now for the font size
-	if ( !handled && (inCommand >= cmd_FirstFontSize) && (inCommand <= cmd_LastFontSize) )
+	if ( !handled && (inCommand >= cmd_IconBaseFontSize) && (inCommand <= cmd_IconLastFontSize) )
 	{
-		if ( inCommand == cmd_OtherFontSize )
+		if ( inCommand == cmd_IconOtherFontSize )
 		{
 			if ( UFontSizeDialog::DoSizeDialog( ioRec->size, &ioRec->size ) )
 				changed = true;
 		}
 		else
 		{
-			ioRec->size = (SInt32) inCommand - (SInt32) cmd_FirstFontSize;
+			ioRec->size = (SInt32) inCommand - (SInt32) cmd_IconBaseFontSize;
 			changed = true;
 		}	
 		

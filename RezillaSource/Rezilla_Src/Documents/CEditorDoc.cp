@@ -231,7 +231,7 @@ CEditorDoc::CanSaveChanges()
 	SInt16 	answer;
 	
 	if (mRezObj->HasAttribute(resProtected)) {
-		answer = UMessageDialogs::AskYesNoFromLocalizable(CFSTR("AskRemoveProtectedBit"), rPPob_AskYesNoMessage);
+		answer = UMessageDialogs::AskYesNoFromLocalizable(CFSTR("AskRemoveProtectedBit"), PPob_AskYesNoMessage);
 		if (answer == answer_Do) {
 			mRezObj->ToggleOneAttribute(resProtected);
 		} else if (answer == answer_Cancel) {
@@ -265,7 +265,7 @@ SInt16
 CEditorDoc::AskSaveChanges(
 	bool /* inQuitting */)
 {
-	return UMessageDialogs::AskYesNoFromLocalizable(CFSTR("SaveModifiedResource"), rPPob_AskYesNoMessage);
+	return UMessageDialogs::AskYesNoFromLocalizable(CFSTR("SaveModifiedResource"), PPob_AskYesNoMessage);
 }
 
 

@@ -2,7 +2,7 @@
 // UResources.cp					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2004-12-17 20:31:51
+//             Last modification: 2004-12-27 10:28:59
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -171,7 +171,7 @@ Boolean
 UResources::MapHasResource( short inRefnum, ResType inType, ResIDT inID )
 {
 	StRezRefSaver	saver;				// save/restore current refnum
-	StResLoad		loader( false );	// prevent loading the resource
+	StRezLoadSaver	loader( false );	// prevent loading the resource
 	
 	::UseResFile( inRefnum );
 	Handle h = ::Get1Resource( inType, inID );

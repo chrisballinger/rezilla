@@ -1,7 +1,7 @@
 // ===========================================================================
 // CColorPane.h
 //                       Created: 2004-12-11 18:57:33
-//             Last modification: 2004-12-14 18:57:33
+//             Last modification: 2004-12-27 10:44:13
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -16,9 +16,10 @@
 #pragma once
 
 #include "RezillaConstants.h"		// just for ERedrawOptions
+#include <LBevelButton.h>
 
-class CColorPane : public LPane, public LBroadcaster
-{
+
+class CColorPane : public LBevelButton {
 	public:
 		enum { class_ID = FOUR_CHAR_CODE('ColP') };
 		

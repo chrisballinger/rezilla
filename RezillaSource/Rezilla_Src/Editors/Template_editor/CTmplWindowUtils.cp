@@ -734,7 +734,7 @@ CTmplEditorWindow::SelectKeyValueFromKeyCases(Str255 inLabelString,
 	LPopupButton *	thePopup;
 	CFStringRef		formatStr = NULL, messageStr = NULL;
 
-	StDialogBoxHandler	theHandler(rPPob_TmplKeyPicker, this);
+	StDialogBoxHandler	theHandler(PPob_TmplKeyPicker, this);
 	LDialogBox *		theDialog = theHandler.GetDialog();
 	Assert_(theDialog != nil);
 	

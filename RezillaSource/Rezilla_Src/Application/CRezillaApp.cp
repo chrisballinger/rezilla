@@ -214,12 +214,12 @@ CRezillaApp::Initialize()
 	// Check that we are running on OS9 or greater
 #if TARGET_RT_MAC_MACHO
 	if ( theOsVersion < 0x01000) {
-		UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("RequireSystemTen"), rPPob_SimpleMessage);
+		UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("RequireSystemTen"), PPob_SimpleMessage);
 		SendAEQuit();
 	}
 #else
 	if ( theOsVersion < 0x00900) {
-		UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("RequireSystemNine"), rPPob_SimpleMessage);
+		UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("RequireSystemNine"), PPob_SimpleMessage);
 		SendAEQuit();
 	}	
 #endif
@@ -254,7 +254,7 @@ CRezillaApp::Initialize()
 	InstallWindowMenu();	
 
 	// Create the inspector window
-	sInspectorWindow = (CInspectorWindow *)LWindow::CreateWindow(rPPob_InspectorWindow, this);
+	sInspectorWindow = (CInspectorWindow *)LWindow::CreateWindow(PPob_InspectorWindow, this);
 	ThrowIfNil_(sInspectorWindow);
 	
 	// Add attachments
@@ -264,7 +264,7 @@ CRezillaApp::Initialize()
 	theAttachment = new CWindowMenuAttachment( gWindowMenu );
 	AddAttachment( theAttachment, nil, true );
 	
-	sRecentItemsAttachment = new CRecentItemsMenu(rMENU_RecentItems, 
+	sRecentItemsAttachment = new CRecentItemsMenu(MENU_RecentItems, 
 												  sPrefs->GetPrefValue(kPref_general_maxRecent), 
 												  CFSTR(kRezillaIdentifier));
 	AddAttachment( sRecentItemsAttachment, nil, true );
@@ -301,10 +301,10 @@ CRezillaApp::InitMLTE()
 	defaultFont.fontStyle	= kTXNDefaultFontStyle;
 	defaultFont.encoding	= kTXNSystemDefaultEncoding;
 	
-	LMLTEPane::Initialize( rMENU_FontsUnicode, rMENU_StartHierMenuID, &defaultFont, 1, 0);
+	LMLTEPane::Initialize( MENU_FontsUnicode, MENU_StartHierMenuID, &defaultFont, 1, 0);
 	
 	// Remove the Fonts menu from the menu bar
-	::MacDeleteMenu(rMENU_FontsUnicode);
+	::MacDeleteMenu(MENU_FontsUnicode);
 	::InvalMenuBar();
 }
 
@@ -432,7 +432,7 @@ CRezillaApp::ObeyCommand(
 				
 				if (replacing) {
 					SInt16	theAnswer;
-					theAnswer = UMessageDialogs::AskIfFromLocalizable(CFSTR("NewRezMapReplaceExisting"), rPPob_AskIfMessage);
+					theAnswer = UMessageDialogs::AskIfFromLocalizable(CFSTR("NewRezMapReplaceExisting"), PPob_AskIfMessage);
 					if (theAnswer == answer_Cancel) {
 						return false;
 					} else {
@@ -471,7 +471,7 @@ CRezillaApp::ObeyCommand(
 				if (theComparator->HasDifferences()) {
 					theComparator->DisplayResults();
 				} else {
-					UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("RezMapsDoNotDiffer"), rPPob_SimpleMessage);
+					UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("RezMapsDoNotDiffer"), PPob_SimpleMessage);
 				}
 			} 
 // 			delete theComparator;
@@ -577,7 +577,7 @@ CRezillaApp::ListenToMessage( MessageT inMessage, void *ioParam )
 		mAboutWindow->Hide();		
 		WindowPtr theWinPtr = UWindows::FindNamedWindow("\pRezilla Licence");
 		if (!theWinPtr) {
-			LWindow* theWindow = LWindow::CreateWindow( rPPob_LicenceWindow, this );
+			LWindow* theWindow = LWindow::CreateWindow( PPob_LicenceWindow, this );
 			ThrowIfNil_(theWindow);
 			theWinPtr = theWindow->GetMacWindow();
 		} 
@@ -598,7 +598,7 @@ CRezillaApp::MakeAboutWindow()
 	LStaticText *theCaption;	
 	CStaticTextURL *theUrlCaption;	
 
-	mAboutWindow = (LDialogBox *)(LWindow::CreateWindow( rPPob_AboutWindow, this ));
+	mAboutWindow = (LDialogBox *)(LWindow::CreateWindow( PPob_AboutWindow, this ));
 	ThrowIfNil_(mAboutWindow);
 	
 	// Write the version number in the caption
@@ -617,7 +617,7 @@ CRezillaApp::MakeAboutWindow()
 		theUrlCaption->SetUrlString(theString);
 	}
 	
-	UReanimator::LinkListenerToControls( this, mAboutWindow, rPPob_AboutWindow );
+	UReanimator::LinkListenerToControls( this, mAboutWindow, PPob_AboutWindow );
 }
 
 
@@ -663,7 +663,7 @@ CRezillaApp::InstallWindowMenu()
 		LString::CopyPStr("\pWindows", menuName);
 	}
 	
-	gWindowMenu = new CWindowMenu( rMENU_Window, menuName );
+	gWindowMenu = new CWindowMenu( MENU_OpenedWindows, menuName );
 	ThrowIfNil_( gWindowMenu );
 	
 	// Insert permanent items
@@ -979,7 +979,7 @@ done:
 	if (error == wrPermErr && sReadOnlyNavFlag == false) {
 		// If opening failed with write permission, ask to try again in
 		// read-only access.
-		if (!askChangePerm || UMessageDialogs::AskIfFromLocalizable(CFSTR("WritePermissionError"), rPPob_AskIfMessage) == answer_Do) {
+		if (!askChangePerm || UMessageDialogs::AskIfFromLocalizable(CFSTR("WritePermissionError"), PPob_AskIfMessage) == answer_Do) {
 			sReadOnlyNavFlag = true;
 			error = PreOpen(inFileSpec, outFork, outRefnum, inWantedFork);
 			if (error == noErr) {
@@ -1038,7 +1038,7 @@ CRezillaApp::ReportOpenForkError(OSErr inError, FSSpec * inFileSpecPtr)
 		messageStr = ::CFStringCreateWithFormat(NULL, NULL, formatStr, nameStr);
 		if (messageStr != NULL)
 		{
-			UMessageDialogs::SimpleMessageFromLocalizable(messageStr, rPPob_SimpleMessage);
+			UMessageDialogs::SimpleMessageFromLocalizable(messageStr, PPob_SimpleMessage);
 			CFRelease(messageStr);                     
 		}
 		CFRelease(formatStr);                             

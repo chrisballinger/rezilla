@@ -118,7 +118,7 @@ CRezMapWindow::FinishCreateSelf()
 	mOwnerDoc->GetRezMap()->CountAllResources(theCount);
 	SetCountRezField(theCount);
 		
-	UReanimator::LinkListenerToControls(this, this, rPPob_RezMapWindow);
+	UReanimator::LinkListenerToControls(this, this, PPob_RezMapWindow);
 }
 
 

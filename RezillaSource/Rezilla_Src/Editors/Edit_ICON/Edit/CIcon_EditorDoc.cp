@@ -93,7 +93,7 @@ CIcon_EditorDoc::Initialize()
 {
 	
 	// Create window for our document. This sets this doc as the SuperCommander of the window.
-	mIconEditWindow = dynamic_cast<CIcon_EditorWindow *>(LWindow::CreateWindow( rPPob_IconEditorWindow, this ));
+	mIconEditWindow = dynamic_cast<CIcon_EditorWindow *>(LWindow::CreateWindow( PPob_IconEditorWindow, this ));
 	Assert_( mIconEditWindow != nil );
 	
 	mIconEditWindow->SetOwnerDoc(this);
@@ -190,7 +190,7 @@ SInt16
 CIcon_EditorDoc::AskSaveChanges(
 	bool /* inQuitting */)
 {
-	return UMessageDialogs::AskYesNoFromLocalizable(CFSTR("SaveTextEditorWindow"), rPPob_AskYesNoMessage);
+	return UMessageDialogs::AskYesNoFromLocalizable(CFSTR("SaveTextEditorWindow"), PPob_AskYesNoMessage);
 }
 
 

@@ -124,7 +124,7 @@ CRezillaPrefs::Initialize()
 void
 CRezillaPrefs::MakePrefsWindow()
 {	
-	sPrefsWindow = (LDialogBox *) (LWindow::CreateWindow( rPPob_PrefsWindow, this ));
+	sPrefsWindow = (LDialogBox *) (LWindow::CreateWindow( PPob_PrefsWindow, this ));
 	ThrowIfNil_(sPrefsWindow);
 }
 
@@ -941,7 +941,7 @@ CRezillaPrefs::RunPrefsDialog()
 	OSType			theType;
 	TextTraitsRecord theCurrTraits;
 	
-	StDialogBoxHandler	theHandler(rPPob_PrefsWindow, this);
+	StDialogBoxHandler	theHandler(PPob_PrefsWindow, this);
 	LDialogBox *		theDialog = theHandler.GetDialog();
 	Assert_(theDialog != nil);
 	SetPrefsWindow(theDialog);
@@ -1006,12 +1006,12 @@ CRezillaPrefs::RunPrefsDialog()
 	
 	// Note : the RidL resource does not contain the controls of
 	// the various MPV's subpanels. We have to do that explicitly.
-	UReanimator::LinkListenerToBroadcasters( &theHandler, theGeneralPane, rPPob_PrefsGeneralPane );
-	UReanimator::LinkListenerToBroadcasters( &theHandler, theExportPane, rPPob_PrefsExportPane );
-	UReanimator::LinkListenerToBroadcasters( &theHandler, theComparePane, rPPob_PrefsComparePane );
-	UReanimator::LinkListenerToBroadcasters( &theHandler, theInterfacePane, rPPob_PrefsInterfacePane );
-	UReanimator::LinkListenerToBroadcasters( &theHandler, theEditorPane, rPPob_PrefsInterfacePane );
-	UReanimator::LinkListenerToBroadcasters( &theHandler, theMiscPane, rPPob_PrefsInterfacePane );
+	UReanimator::LinkListenerToBroadcasters( &theHandler, theGeneralPane, PPob_PrefsGeneralPane );
+	UReanimator::LinkListenerToBroadcasters( &theHandler, theExportPane, PPob_PrefsExportPane );
+	UReanimator::LinkListenerToBroadcasters( &theHandler, theComparePane, PPob_PrefsComparePane );
+	UReanimator::LinkListenerToBroadcasters( &theHandler, theInterfacePane, PPob_PrefsInterfacePane );
+	UReanimator::LinkListenerToBroadcasters( &theHandler, theEditorPane, PPob_PrefsInterfacePane );
+	UReanimator::LinkListenerToBroadcasters( &theHandler, theMiscPane, PPob_PrefsInterfacePane );
 	
 	while (inPrefsLoop) {
 		
@@ -1126,7 +1126,7 @@ CRezillaPrefs::RunPrefsDialog()
 					itemIndex = thePopup->GetValue();
 					if (itemIndex == kLastSizeMenuItem + 2) {
 						// This is the 'Other' item
-						if (UModalDialogs::AskForOneNumber(sPrefsWindow, rPPob_FontSizeDialog, item_SizeField, theSize)) {
+						if (UModalDialogs::AskForOneNumber(sPrefsWindow, PPob_FontSizeDialog, item_SizeField, theSize)) {
 							if (theSize == 0) {theSize = 10;}
 							// If they match, no need to use 'Other' item
 							if (UMiscUtils::FontSizeExists(thePopup, theSize, itemIndex)) {

@@ -430,7 +430,7 @@ UMessageDialogs::AskSolveUidConflicts(ResType inType,
 	SInt16		theAnswer = answer_Dont;
 	char *		theType = new char[5];
 	
-	StDialogBoxHandler dialog(rPPob_AskUniqueID, LCommander::GetTopCommander());		
+	StDialogBoxHandler dialog(PPob_AskUniqueID, LCommander::GetTopCommander());		
 	LDialogBox * theDialog = dialog.GetDialog();
 	Assert_(theDialog != nil);
 	
@@ -502,7 +502,7 @@ UMessageDialogs::AlertWithValue(CFStringRef inCFStringRef, SInt32 inValue)
 	if (formatStr != NULL) {
 		messageStr = ::CFStringCreateWithFormat(NULL, NULL, formatStr, inValue);
 		if (messageStr != NULL) {
-			UMessageDialogs::SimpleMessageFromLocalizable(messageStr, rPPob_SimpleMessage);
+			UMessageDialogs::SimpleMessageFromLocalizable(messageStr, PPob_SimpleMessage);
 			CFRelease(messageStr);                     
 		}
 		CFRelease(formatStr);                             
@@ -526,7 +526,7 @@ UMessageDialogs::AlertWithType(CFStringRef inCFStringRef, ResType inType)
 		typeStr[4] = 0;
 		messageStr = ::CFStringCreateWithFormat(NULL, NULL, formatStr, typeStr);
 		if (messageStr != NULL) {
-			UMessageDialogs::SimpleMessageFromLocalizable(messageStr, rPPob_SimpleMessage);
+			UMessageDialogs::SimpleMessageFromLocalizable(messageStr, PPob_SimpleMessage);
 			CFRelease(messageStr);                     
 		}
 		CFRelease(formatStr);                             
@@ -553,7 +553,7 @@ UMessageDialogs::ErrorWithString(CFStringRef inCFStringRef, SInt32 inError)
 		return;
 	} 
 	
-	StDialogBoxHandler dialog(rPPob_ExplainedError, LCommander::GetTopCommander());		
+	StDialogBoxHandler dialog(PPob_ExplainedError, LCommander::GetTopCommander());		
 	LDialogBox * theDialog = dialog.GetDialog();
 	Assert_(theDialog != nil);
 	

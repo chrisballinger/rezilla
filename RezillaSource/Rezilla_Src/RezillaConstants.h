@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2004-12-24 10:18:41
+//             Last modification : 2004-12-27 09:06:02
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -174,37 +174,45 @@ const ResIDT	DITL_NewMap					= 10001;
 const ResIDT	DITL_OpenMap				= 10002;
 const ResIDT	DITL_SaveMap				= 10003;
 
-const ResIDT	rPPob_RezMapWindow			= 1000;
-const ResIDT	rPPob_InspectorWindow		= 2000;
-const ResIDT	rPPob_NewRezDialog			= 2100;
-const ResIDT	rPPob_HexEditorWindow		= 3000;
-const ResIDT	rPPob_AboutWindow			= 5000;
-const ResIDT	rPPob_LicenceWindow			= 5100;
-const ResIDT	rPPob_RezCompDialog			= 6000;
-const ResIDT	rPPob_RezCompWindow			= 6500;
-const ResIDT	rPPob_PrefsWindow			= 7000;
-const ResIDT	rPPob_PrefsGeneralPane		= 7100;
-const ResIDT	rPPob_PrefsExportPane		= 7200;
-const ResIDT	rPPob_PrefsComparePane		= 7300;
-const ResIDT	rPPob_PrefsInterfacePane	= 7400;
-const ResIDT	rPPob_PrefsEditorsPane		= 7500;
-const ResIDT	rPPob_PrefsMiscPane			= 7600;
-const ResIDT	rPPob_FindDialog			= 8500;
-const ResIDT	rPPob_FontSizeDialog		= 8600;
-const ResIDT	rPPob_ImageResizeDialog		= 8900;
-const ResIDT	rPPob_RezTypePicker			= 8700;
-const ResIDT	rPPob_TmplKeyPicker			= 8800;
-const ResIDT	rPPob_SimpleMessage			= 9500;
-const ResIDT	rPPob_AskIfMessage			= 9510;
-const ResIDT	rPPob_AskYesNoMessage		= 9520;
-const ResIDT	rPPob_ExplainedError		= 9530;
-const ResIDT	rPPob_AskUniqueID			= 9550;
-const ResIDT	rPPob_TmplEditorWindow		= 10100;
-const ResIDT	rPPob_TextEditorWindow		= 10200;
-const ResIDT	rPPob_AeteEditorWindow		= 10300;
-const ResIDT	rPPob_PictEditorWindow		= 10400;
-const ResIDT	rPPob_UtxtEditorWindow		= 10500;
-const ResIDT	rPPob_IconEditorWindow		= 10600;
+const ResIDT	PPob_RezMapWindow			= 1000;
+const ResIDT	PPob_InspectorWindow		= 2000;
+const ResIDT	PPob_NewRezDialog			= 2100;
+const ResIDT	PPob_HexEditorWindow		= 3000;
+const ResIDT	PPob_AboutWindow			= 5000;
+const ResIDT	PPob_LicenceWindow			= 5100;
+const ResIDT	PPob_RezCompDialog			= 6000;
+const ResIDT	PPob_RezCompWindow			= 6500;
+const ResIDT	PPob_PrefsWindow			= 7000;
+const ResIDT	PPob_PrefsGeneralPane		= 7100;
+const ResIDT	PPob_PrefsExportPane		= 7200;
+const ResIDT	PPob_PrefsComparePane		= 7300;
+const ResIDT	PPob_PrefsInterfacePane		= 7400;
+const ResIDT	PPob_PrefsEditorsPane		= 7500;
+const ResIDT	PPob_PrefsMiscPane			= 7600;
+const ResIDT	PPob_FindDialog				= 8500;
+const ResIDT	PPob_FontSizeDialog			= 8600;
+const ResIDT	PPob_ImageResizeDialog		= 8900;
+const ResIDT	PPob_RezTypePicker			= 8700;
+const ResIDT	PPob_TmplKeyPicker			= 8800;
+const ResIDT	PPob_SimpleMessage			= 9500;
+const ResIDT	PPob_AskIfMessage			= 9510;
+const ResIDT	PPob_AskYesNoMessage		= 9520;
+const ResIDT	PPob_ExplainedError			= 9530;
+const ResIDT	PPob_AskUniqueID			= 9550;
+const ResIDT	PPob_TmplEditorWindow		= 10100;
+const ResIDT	PPob_TextEditorWindow		= 10200;
+const ResIDT	PPob_AeteEditorWindow		= 10300;
+const ResIDT	PPob_PictEditorWindow		= 10400;
+const ResIDT	PPob_UtxtEditorWindow		= 10500;
+const ResIDT	PPob_IconEditorWindow		= 10600;
+const ResIDT	PPob_IconSuiteEditor		= 10600;
+const ResIDT	PPob_CICNEditor				= 10601;
+const ResIDT	PPob_ICONEditor				= 10602;
+const ResIDT	PPob_PictEditor				= 10603;
+const ResIDT	PPob_CursorEditor			= 10604;
+const ResIDT	PPob_ColorCursorEditor		= 10605;
+const ResIDT	PPob_PatternEditor			= 10606;
+const ResIDT	PPob_PixPatEditor			= 10607;
 
 const ResIDT	ics8_Unlocked				= 1500;
 const ResIDT	ics8_Locked					= 1501;
@@ -236,19 +244,19 @@ const ResIDT	Txtr_GenevaTenBoldRight		= 150;
 const ResIDT	Txtr_GenevaTenBoldUl		= 151;
 
 // Menu resources
-	// rMENU_Window is not a resource. It is built  
+	// MENU_OpenedWindows is not a resource. It is built  
 	// in CRezillaApp::InstallWindowMenu()
-const ResIDT	rMENU_Window				= 1300;  
-const ResIDT	rMENU_Help					= 2000;
-const ResIDT	rMENU_RecentItems			= 140;  
-const ResIDT	rMENU_TemplateCases			= 150;  
-const ResIDT	rMENU_FontsTEXT				= 250;  
-const ResIDT	rMENU_FontsUnicode			= 255;  
-const ResIDT	rMENU_StartHierMenuID		= 500;  
-// Values the PP menu cmds are based on
-const ResIDT	baseMENU_File				= 1000;
-const ResIDT	baseMENU_Edit				= 1100;
-const ResIDT	baseMENU_Resource			= 1200;
+const ResIDT	MENU_OpenedWindows			= 1300;  
+const ResIDT	MENU_Help					= 2000;
+const ResIDT	MENU_RecentItems			= 140;  
+const ResIDT	MENU_TemplateCases			= 150;  
+const ResIDT	MENU_FontsTEXT				= 250;  
+const ResIDT	MENU_FontsUnicode			= 255;  
+const ResIDT	MENU_StartHierMenuID		= 500;  
+// Values the PP menu commands are based on
+const ResIDT	base_MenuFile				= 1000;
+const ResIDT	base_MenuEdit				= 1100;
+const ResIDT	base_MenuResource			= 1200;
 
 // Icon editor
 const ResIDT	Txtr_PaintFont				= 9000;		// default font/size/style for text tool
@@ -348,43 +356,43 @@ const SInt16	index_UndoText				= 22;
 // ======================================================================
 // Menu commands
 // ======================================================================
-// Help menu items
+// Help menu commands
 const CommandT	cmd_Help					= 3000;	
-// Window menu items
+// Window menu commands
 const CommandT	cmd_ShowInspector			= 2001;	
-// Resource menu items
-const CommandT	cmd_NewRez				= baseMENU_Resource + 1;	
-const CommandT	cmd_EditRez				= baseMENU_Resource + 2;	
-const CommandT	cmd_TmplEditRez			= baseMENU_Resource + 3;	
-const CommandT	cmd_HexEditRez			= baseMENU_Resource + 4;	
-const CommandT	cmd_EditRezAsType		= baseMENU_Resource + 5;	
-const CommandT	cmd_RemoveRez			= baseMENU_Resource + 10;	
-const CommandT	cmd_DuplicateRez		= baseMENU_Resource + 11;	
-const CommandT	cmd_GetRezInfo			= baseMENU_Resource + 15;
-const CommandT	cmd_TmplEditAsRez		= baseMENU_Resource + 99;	
-// File menu items
-const CommandT	cmd_ExportMap			= baseMENU_File + 1;	
-const CommandT	cmd_RecentItems			= baseMENU_File + 2;	
-// Edit menu items
-const CommandT	cmd_Find				= baseMENU_Edit + 1;	
-const CommandT	cmd_FindNext			= baseMENU_Edit + 2;	
-const CommandT	cmd_RezCompare			= baseMENU_Edit + 3;	
+// Resource menu commands
+const CommandT	cmd_NewRez				= base_MenuResource + 1;	
+const CommandT	cmd_EditRez				= base_MenuResource + 2;	
+const CommandT	cmd_TmplEditRez			= base_MenuResource + 3;	
+const CommandT	cmd_HexEditRez			= base_MenuResource + 4;	
+const CommandT	cmd_EditRezAsType		= base_MenuResource + 5;	
+const CommandT	cmd_RemoveRez			= base_MenuResource + 10;	
+const CommandT	cmd_DuplicateRez		= base_MenuResource + 11;	
+const CommandT	cmd_GetRezInfo			= base_MenuResource + 15;
+const CommandT	cmd_TmplEditAsRez		= base_MenuResource + 99;	
+// File menu commands
+const CommandT	cmd_ExportMap			= base_MenuFile + 1;	
+const CommandT	cmd_RecentItems			= base_MenuFile + 2;	
+// Edit menu commands
+const CommandT	cmd_Find				= base_MenuEdit + 1;	
+const CommandT	cmd_FindNext			= base_MenuEdit + 2;	
+const CommandT	cmd_RezCompare			= base_MenuEdit + 3;	
 
 // Icon editor commands
 const CommandT	cmd_IconMoveSelection		= FOUR_CHAR_CODE('MOVE');
 const CommandT	cmd_IconEraseAll			= FOUR_CHAR_CODE('ERAL');
 const CommandT	cmd_IconFlipVertical		= FOUR_CHAR_CODE('FLPV');
 const CommandT	cmd_IconFlipHorizontal		= FOUR_CHAR_CODE('FLPH');
-const CommandT	cmd_IconRotateClockwise		= FOUR_CHAR_CODE('ROTA');
-const CommandT	cmd_IconRotateCounterClock	= FOUR_CHAR_CODE('ROTC');
+const CommandT	cmd_IconRotateRight			= FOUR_CHAR_CODE('ROTR');  // Clockwise
+const CommandT	cmd_IconRotateLeft			= FOUR_CHAR_CODE('ROTL');  // CounterClockwise
 const CommandT	cmd_IconTransparent			= FOUR_CHAR_CODE('TRAN');
 const CommandT	cmd_IconShowBitmap			= FOUR_CHAR_CODE('BITM');
 const CommandT	cmd_IconShowMask			= FOUR_CHAR_CODE('MASK');
 const CommandT	cmd_IconDragImage			= FOUR_CHAR_CODE('DRAG');
 const CommandT	cmd_IconPaintModified		= FOUR_CHAR_CODE('PMOD');
-const CommandT	cmd_IconRecolorCurrentImage	= FOUR_CHAR_CODE('PTRC');
-const CommandT	cmd_IconResizeImage			= FOUR_CHAR_CODE('PTSZ');
-const CommandT	cmd_IconDeleteImage			= FOUR_CHAR_CODE('PTDL');
+const CommandT	cmd_IconRecolorCurrentImage	= FOUR_CHAR_CODE('RWCT');  // Recolor With Current Table
+const CommandT	cmd_IconResizeImage			= FOUR_CHAR_CODE('RSZI');
+const CommandT	cmd_IconDeleteImage			= FOUR_CHAR_CODE('DELI');
 // 	Color Menu Command IDs
 const CommandT	cmd_ColorTableAppleIcon		= FOUR_CHAR_CODE('CLT1');
 const CommandT	cmd_ColorTableApple256		= FOUR_CHAR_CODE('CLT2');
@@ -393,9 +401,11 @@ const CommandT	cmd_ColorTableApple16		= FOUR_CHAR_CODE('CLT4');
 const CommandT	cmd_ColorTableApple16Gray	= FOUR_CHAR_CODE('CLT5');
 const CommandT	cmd_ColorTableApple4Gray	= FOUR_CHAR_CODE('CLT6');
 const CommandT	cmd_ColorTablePicker		= FOUR_CHAR_CODE('CLT7');
-// this isn't in the menu, but is used in the code
-const CommandT	cmd_ColorTableApple2		= FOUR_CHAR_CODE('CLT8');
+const CommandT	cmd_ColorTableApple2		= FOUR_CHAR_CODE('CLT8');  // not in the menu, but used in the code
 const MessageT	msg_TextActionDied			= FOUR_CHAR_CODE('TxDi');
+const CommandT	cmd_IconBaseFontSize		= 9100;		// font sizes are (cmdID - 9100)
+const CommandT	cmd_IconLastFontSize		= 9300;		// and within this range
+const CommandT	cmd_IconOtherFontSize		= 9100;
 
 
 // ======================================================================
@@ -581,8 +591,7 @@ const PaneIDT   item_UtxtEditStyleMenu	= 3;
 const PaneIDT   item_UtxtEditLength		= 4;
 // Icon Editor Windows
 // -------------------
-// Same values are used for the pane ID and 
-// for the message it broadcasts.
+// Same values are used for the pane ID and for the message it broadcasts.
 const PaneIDT	tool_None					= 0;
 const PaneIDT	tool_Lasso					= FOUR_CHAR_CODE('tLAS');
 const PaneIDT	tool_Selection				= FOUR_CHAR_CODE('tSEL');
@@ -601,19 +610,18 @@ const PaneIDT	tool_FilledOval				= FOUR_CHAR_CODE('tFOV');
 const PaneIDT	tool_HotSpot				= FOUR_CHAR_CODE('tHOT');
 const PaneIDT	tool_BlackAndWhite			= FOUR_CHAR_CODE('tBnW');
 const PaneIDT	tool_Rotate					= FOUR_CHAR_CODE('tROT');
-const PaneIDT	tool_SwapColors				= FOUR_CHAR_CODE('tSWA');
-const PaneIDT	item_IconEditTypeRgbx		= 4;
-const PaneIDT	item_IconEditTypeBitmap		= 5;
-const PaneIDT	item_IconEditTypeMask		= 6;
-const PaneIDT	item_IconEditPreview		= 7;		
-const PaneIDT   item_IconEditCoords			= 8;
-const PaneIDT	item_IconEditPattern		= 10;
-const PaneIDT	item_IconEditForeColor		= 11;
-const PaneIDT	item_IconEditBackColor		= 12;		
-const PaneIDT	item_BoxAroundCanvas		= FOUR_CHAR_CODE('BACV');
-const PaneIDT	item_SampleWell				= FOUR_CHAR_CODE('SAMP');
+const PaneIDT	tool_SwapColors				= FOUR_CHAR_CODE('tSWP');
+const PaneIDT	tool_Pattern				= FOUR_CHAR_CODE('tPAT');
+const PaneIDT	tool_ForeColor				= FOUR_CHAR_CODE('tFCL');
+const PaneIDT	tool_BackColor				= FOUR_CHAR_CODE('tBCL');		
+const PaneIDT   item_IconCoords				= FOUR_CHAR_CODE('COOR');
+const PaneIDT	item_BoxAroundCanvas		= FOUR_CHAR_CODE('ENCL');
+const PaneIDT	item_IconSampleWell			= FOUR_CHAR_CODE('SAMP');
 const PaneIDT	item_IconEditBWSample		= FOUR_CHAR_CODE('BWPT');
 const PaneIDT	item_IconEditMask			= FOUR_CHAR_CODE('MASK');
+const PaneIDT	item_IconShowAsRgbx			= 4;
+const PaneIDT	item_IconShowAsBitmap		= 5;
+const PaneIDT	item_IconShowAsMask			= 6;
 
 
 // Common elements for Editor Windows
@@ -660,112 +668,112 @@ enum {
 // ======================================================================
 // Inspector Window
 // ----------------
-const MessageT	msg_InspEditID			= rPPob_InspectorWindow + item_InspEditID;
-const MessageT	msg_InspEditName		= rPPob_InspectorWindow + item_InspEditName;
-const MessageT	msg_InspSysHeap			= rPPob_InspectorWindow + item_InspSysHeap;
-const MessageT	msg_InspPurgeable		= rPPob_InspectorWindow + item_InspPurgeable;
-const MessageT	msg_InspLocked			= rPPob_InspectorWindow + item_InspLocked;
-const MessageT	msg_InspProtected		= rPPob_InspectorWindow + item_InspProtected;
-const MessageT	msg_InspPreload			= rPPob_InspectorWindow + item_InspPreload;
-const MessageT	msg_InspRevert			= rPPob_InspectorWindow + item_InspRevert;
-const MessageT	msg_InspModify			= rPPob_InspectorWindow + item_InspModify;
+const MessageT	msg_InspEditID			= PPob_InspectorWindow + item_InspEditID;
+const MessageT	msg_InspEditName		= PPob_InspectorWindow + item_InspEditName;
+const MessageT	msg_InspSysHeap			= PPob_InspectorWindow + item_InspSysHeap;
+const MessageT	msg_InspPurgeable		= PPob_InspectorWindow + item_InspPurgeable;
+const MessageT	msg_InspLocked			= PPob_InspectorWindow + item_InspLocked;
+const MessageT	msg_InspProtected		= PPob_InspectorWindow + item_InspProtected;
+const MessageT	msg_InspPreload			= PPob_InspectorWindow + item_InspPreload;
+const MessageT	msg_InspRevert			= PPob_InspectorWindow + item_InspRevert;
+const MessageT	msg_InspModify			= PPob_InspectorWindow + item_InspModify;
 // New Resource Window
 // -------------------
-const MessageT	msg_NewType				= rPPob_NewRezDialog + item_NewType;
-const MessageT	msg_NewID				= rPPob_NewRezDialog + item_NewID;
-const MessageT	msg_NewName				= rPPob_NewRezDialog + item_NewName;
-const MessageT	msg_NewSysHeap			= rPPob_NewRezDialog + item_NewSysHeap;
-const MessageT	msg_NewPurgeable		= rPPob_NewRezDialog + item_NewPurgeable;
-const MessageT	msg_NewLocked			= rPPob_NewRezDialog + item_NewLocked;
-const MessageT	msg_NewProtected		= rPPob_NewRezDialog + item_NewProtected;
-const MessageT	msg_NewPreload			= rPPob_NewRezDialog + item_NewPreload;
-const MessageT	msg_NewUniqueID			= rPPob_NewRezDialog + item_NewUniqueID;
+const MessageT	msg_NewType				= PPob_NewRezDialog + item_NewType;
+const MessageT	msg_NewID				= PPob_NewRezDialog + item_NewID;
+const MessageT	msg_NewName				= PPob_NewRezDialog + item_NewName;
+const MessageT	msg_NewSysHeap			= PPob_NewRezDialog + item_NewSysHeap;
+const MessageT	msg_NewPurgeable		= PPob_NewRezDialog + item_NewPurgeable;
+const MessageT	msg_NewLocked			= PPob_NewRezDialog + item_NewLocked;
+const MessageT	msg_NewProtected		= PPob_NewRezDialog + item_NewProtected;
+const MessageT	msg_NewPreload			= PPob_NewRezDialog + item_NewPreload;
+const MessageT	msg_NewUniqueID			= PPob_NewRezDialog + item_NewUniqueID;
 // Hex Edit Window
 // ---------------
-const MessageT	msg_HexLineEdit			= rPPob_HexEditorWindow + item_HexLineEdit;
-const MessageT	msg_HexOffsetEdit		= rPPob_HexEditorWindow + item_HexOffsetEdit;
+const MessageT	msg_HexLineEdit			= PPob_HexEditorWindow + item_HexLineEdit;
+const MessageT	msg_HexOffsetEdit		= PPob_HexEditorWindow + item_HexOffsetEdit;
 // About box
 // ---------
-const MessageT	msg_AboutOkButton		= rPPob_AboutWindow + item_AboutOkButton;
-const MessageT	msg_AboutLicenceButton	= rPPob_AboutWindow + item_AboutLicenceButton;
+const MessageT	msg_AboutOkButton		= PPob_AboutWindow + item_AboutOkButton;
+const MessageT	msg_AboutLicenceButton	= PPob_AboutWindow + item_AboutLicenceButton;
 // Find Dialog
 // -----------
-const MessageT	msg_FindSearchField		= rPPob_FindDialog + item_FindSearchField;
-const MessageT	msg_FindInHexRadio		= rPPob_FindDialog + item_FindInHexRadio;
-const MessageT	msg_FindInTxtRadio		= rPPob_FindDialog + item_FindInTxtRadio;
-const MessageT	msg_FindIgnoreCase		= rPPob_FindDialog + item_FindIgnoreCase;
-const MessageT	msg_FindRegexp			= rPPob_FindDialog + item_FindRegexp;
+const MessageT	msg_FindSearchField		= PPob_FindDialog + item_FindSearchField;
+const MessageT	msg_FindInHexRadio		= PPob_FindDialog + item_FindInHexRadio;
+const MessageT	msg_FindInTxtRadio		= PPob_FindDialog + item_FindInTxtRadio;
+const MessageT	msg_FindIgnoreCase		= PPob_FindDialog + item_FindIgnoreCase;
+const MessageT	msg_FindRegexp			= PPob_FindDialog + item_FindRegexp;
 // Rez Compare Dialog
 // ------------------
-const MessageT	msg_RezCompSetOld		= rPPob_RezCompDialog + item_RezCompSetOld;
-const MessageT	msg_RezCompSetNew		= rPPob_RezCompDialog + item_RezCompSetNew;
-const MessageT	msg_RezCompIgnoreNames	= rPPob_RezCompDialog + item_RezCompIgnoreNames;
-const MessageT	msg_RezCompIgnoreAttrs	= rPPob_RezCompDialog + item_RezCompIgnoreAttrs;
-const MessageT	msg_RezCompIgnoreData	= rPPob_RezCompDialog + item_RezCompIgnoreData;
+const MessageT	msg_RezCompSetOld		= PPob_RezCompDialog + item_RezCompSetOld;
+const MessageT	msg_RezCompSetNew		= PPob_RezCompDialog + item_RezCompSetNew;
+const MessageT	msg_RezCompIgnoreNames	= PPob_RezCompDialog + item_RezCompIgnoreNames;
+const MessageT	msg_RezCompIgnoreAttrs	= PPob_RezCompDialog + item_RezCompIgnoreAttrs;
+const MessageT	msg_RezCompIgnoreData	= PPob_RezCompDialog + item_RezCompIgnoreData;
 // Rez Compare Results Window
 // --------------------------
-const MessageT	msg_CompResultScroller		= rPPob_RezCompWindow + item_CompResultScroller;
-const MessageT	msg_CompResultHexRadio		= rPPob_RezCompWindow + item_CompResultHexRadio;
-const MessageT	msg_CompResultTxtRadio		= rPPob_RezCompWindow + item_CompResultTxtRadio;
-const MessageT	msg_CompResultOnlyOldTbl	= rPPob_RezCompWindow + item_CompResultOnlyOldTbl;
-const MessageT	msg_CompResultDifferingTbl	= rPPob_RezCompWindow + item_CompResultDifferingTbl;
-const MessageT	msg_CompResultOnlyNewTbl	= rPPob_RezCompWindow + item_CompResultOnlyNewTbl;
+const MessageT	msg_CompResultScroller		= PPob_RezCompWindow + item_CompResultScroller;
+const MessageT	msg_CompResultHexRadio		= PPob_RezCompWindow + item_CompResultHexRadio;
+const MessageT	msg_CompResultTxtRadio		= PPob_RezCompWindow + item_CompResultTxtRadio;
+const MessageT	msg_CompResultOnlyOldTbl	= PPob_RezCompWindow + item_CompResultOnlyOldTbl;
+const MessageT	msg_CompResultDifferingTbl	= PPob_RezCompWindow + item_CompResultDifferingTbl;
+const MessageT	msg_CompResultOnlyNewTbl	= PPob_RezCompWindow + item_CompResultOnlyNewTbl;
 // Ask Unique ID dialog
 // --------------------
-const MessageT	msg_UidOtherConflicts		= rPPob_AskUniqueID + item_UidOtherConflicts;
+const MessageT	msg_UidOtherConflicts		= PPob_AskUniqueID + item_UidOtherConflicts;
 // Resource Type Picker
 // --------------------
-const MessageT	msg_TypePickerField			= rPPob_RezTypePicker + item_TypePickerField;
-const MessageT	msg_TypePickerMenu			= rPPob_RezTypePicker + item_TypePickerMenu;
+const MessageT	msg_TypePickerField			= PPob_RezTypePicker + item_TypePickerField;
+const MessageT	msg_TypePickerMenu			= PPob_RezTypePicker + item_TypePickerMenu;
 // Template Option Picker
 // ----------------------
-const MessageT	msg_TmplKeyPickerMenu		= rPPob_TmplKeyPicker + item_TmplKeyPickerMenu;
+const MessageT	msg_TmplKeyPickerMenu		= PPob_TmplKeyPicker + item_TmplKeyPickerMenu;
 
 // Preferences
 // -----------
-const MessageT  msg_PrefsRevert				= rPPob_PrefsWindow + 3;
+const MessageT  msg_PrefsRevert				= PPob_PrefsWindow + 3;
 //     General Prefs Pane
 //     ------------------
-const MessageT  msg_GenPrefsMaxRecent       = rPPob_PrefsGeneralPane + item_GenPrefsMaxRecent;
-const MessageT	msg_GenPrefsResetRecent		= rPPob_PrefsGeneralPane + item_GenPrefsResetRecent;
-const MessageT	msg_GenPrefsDataFork		= rPPob_PrefsGeneralPane + item_GenPrefsDataFork;
-const MessageT	msg_GenPrefsResourceFork	= rPPob_PrefsGeneralPane + item_GenPrefsResourceFork;
+const MessageT  msg_GenPrefsMaxRecent       = PPob_PrefsGeneralPane + item_GenPrefsMaxRecent;
+const MessageT	msg_GenPrefsResetRecent		= PPob_PrefsGeneralPane + item_GenPrefsResetRecent;
+const MessageT	msg_GenPrefsDataFork		= PPob_PrefsGeneralPane + item_GenPrefsDataFork;
+const MessageT	msg_GenPrefsResourceFork	= PPob_PrefsGeneralPane + item_GenPrefsResourceFork;
 //     Export Prefs Pane
 //     -----------------
-const MessageT	msg_ExpPrefsKeyDtd			= rPPob_PrefsExportPane + item_ExpPrefsKeyDtd;
-const MessageT	msg_ExpPrefsAttrDtd			= rPPob_PrefsExportPane + item_ExpPrefsAttrDtd;
-const MessageT	msg_ExpPrefsInclBinData		= rPPob_PrefsExportPane + item_ExpPrefsInclBinData;
-const MessageT	msg_ExpPrefsHexEnc			= rPPob_PrefsExportPane + item_ExpPrefsHexEnc;
-const MessageT	msg_ExpPrefsBase64Enc		= rPPob_PrefsExportPane + item_ExpPrefsBase64Enc;
-const MessageT	msg_ExpPrefsEditSig			= rPPob_PrefsExportPane + item_ExpPrefsEditSig;
+const MessageT	msg_ExpPrefsKeyDtd			= PPob_PrefsExportPane + item_ExpPrefsKeyDtd;
+const MessageT	msg_ExpPrefsAttrDtd			= PPob_PrefsExportPane + item_ExpPrefsAttrDtd;
+const MessageT	msg_ExpPrefsInclBinData		= PPob_PrefsExportPane + item_ExpPrefsInclBinData;
+const MessageT	msg_ExpPrefsHexEnc			= PPob_PrefsExportPane + item_ExpPrefsHexEnc;
+const MessageT	msg_ExpPrefsBase64Enc		= PPob_PrefsExportPane + item_ExpPrefsBase64Enc;
+const MessageT	msg_ExpPrefsEditSig			= PPob_PrefsExportPane + item_ExpPrefsEditSig;
 //     Compare Prefs Pane
 //     ------------------
-const MessageT	msg_CompPrefsIgnName		= rPPob_PrefsComparePane + item_CompPrefsIgnName;
-const MessageT	msg_CompPrefsIgnAttr		= rPPob_PrefsComparePane + item_CompPrefsIgnAttr;
-const MessageT	msg_CompPrefsIgnData		= rPPob_PrefsComparePane + item_CompPrefsIgnData;
-const MessageT	msg_CompPrefsHexDisplay		= rPPob_PrefsComparePane + item_CompPrefsHexDisplay;
-const MessageT	msg_CompPrefsTxtDisplay		= rPPob_PrefsComparePane + item_CompPrefsTxtDisplay;
+const MessageT	msg_CompPrefsIgnName		= PPob_PrefsComparePane + item_CompPrefsIgnName;
+const MessageT	msg_CompPrefsIgnAttr		= PPob_PrefsComparePane + item_CompPrefsIgnAttr;
+const MessageT	msg_CompPrefsIgnData		= PPob_PrefsComparePane + item_CompPrefsIgnData;
+const MessageT	msg_CompPrefsHexDisplay		= PPob_PrefsComparePane + item_CompPrefsHexDisplay;
+const MessageT	msg_CompPrefsTxtDisplay		= PPob_PrefsComparePane + item_CompPrefsTxtDisplay;
 //     Interface Prefs Pane
 //     --------------------
-const MessageT	msg_UIPrefsFontsMenu		= rPPob_PrefsInterfacePane + item_UIPrefsFontsMenu;
-const MessageT	msg_UIPrefsSizeMenu			= rPPob_PrefsInterfacePane + item_UIPrefsSizeMenu;
+const MessageT	msg_UIPrefsFontsMenu		= PPob_PrefsInterfacePane + item_UIPrefsFontsMenu;
+const MessageT	msg_UIPrefsSizeMenu			= PPob_PrefsInterfacePane + item_UIPrefsSizeMenu;
 //     Editors Prefs Pane
 //     ------------------
-const MessageT	msg_EditPrefsHexSym0x		= rPPob_PrefsEditorsPane + item_EditPrefsHexSym0x;
-const MessageT	msg_EditPrefsHexSymDollar	= rPPob_PrefsEditorsPane + item_EditPrefsHexSymDollar;
-const MessageT	msg_EditPrefsHexLowercase	= rPPob_PrefsEditorsPane + item_EditPrefsHexLowercase;
-const MessageT	msg_EditPrefsHexUppercase	= rPPob_PrefsEditorsPane + item_EditPrefsHexUppercase;
-const MessageT	msg_EditPrefsDispFillers	= rPPob_PrefsEditorsPane + item_EditPrefsDispFillers;
-const MessageT	msg_EditPrefsEnableFillers	= rPPob_PrefsEditorsPane + item_EditPrefsEnableFillers;
-const MessageT	msg_EditPrefsUse8BitPicts	= rPPob_PrefsEditorsPane + item_EditPrefsUse8BitPicts;
-const MessageT	msg_EditPrefsUseFullTables	= rPPob_PrefsEditorsPane + item_EditPrefsUseFullTables;
+const MessageT	msg_EditPrefsHexSym0x		= PPob_PrefsEditorsPane + item_EditPrefsHexSym0x;
+const MessageT	msg_EditPrefsHexSymDollar	= PPob_PrefsEditorsPane + item_EditPrefsHexSymDollar;
+const MessageT	msg_EditPrefsHexLowercase	= PPob_PrefsEditorsPane + item_EditPrefsHexLowercase;
+const MessageT	msg_EditPrefsHexUppercase	= PPob_PrefsEditorsPane + item_EditPrefsHexUppercase;
+const MessageT	msg_EditPrefsDispFillers	= PPob_PrefsEditorsPane + item_EditPrefsDispFillers;
+const MessageT	msg_EditPrefsEnableFillers	= PPob_PrefsEditorsPane + item_EditPrefsEnableFillers;
+const MessageT	msg_EditPrefsUse8BitPicts	= PPob_PrefsEditorsPane + item_EditPrefsUse8BitPicts;
+const MessageT	msg_EditPrefsUseFullTables	= PPob_PrefsEditorsPane + item_EditPrefsUseFullTables;
 //     Misc Prefs Pane
 //     ---------------
-const MessageT	msg_MiscPrefsSetSigOnClose	= rPPob_PrefsMiscPane + item_MiscPrefsSetSigOnClose;
-const MessageT	msg_MiscPrefsClosingType	= rPPob_PrefsMiscPane + item_MiscPrefsClosingType;
-const MessageT	msg_MiscPrefsClosingCreator	= rPPob_PrefsMiscPane + item_MiscPrefsClosingCreator;
-const MessageT	msg_MiscPrefsSetSigOnCreate	= rPPob_PrefsMiscPane + item_MiscPrefsSetSigOnCreate;
-const MessageT	msg_MiscPrefsOnlyRsrcExt	= rPPob_PrefsMiscPane + item_MiscPrefsOnlyRsrcExt;
+const MessageT	msg_MiscPrefsSetSigOnClose	= PPob_PrefsMiscPane + item_MiscPrefsSetSigOnClose;
+const MessageT	msg_MiscPrefsClosingType	= PPob_PrefsMiscPane + item_MiscPrefsClosingType;
+const MessageT	msg_MiscPrefsClosingCreator	= PPob_PrefsMiscPane + item_MiscPrefsClosingCreator;
+const MessageT	msg_MiscPrefsSetSigOnCreate	= PPob_PrefsMiscPane + item_MiscPrefsSetSigOnCreate;
+const MessageT	msg_MiscPrefsOnlyRsrcExt	= PPob_PrefsMiscPane + item_MiscPrefsOnlyRsrcExt;
 // Tmpl Editor Window
 // ------------------
 const MessageT	msg_EditorValidate			= msg_OK;
@@ -773,27 +781,27 @@ const MessageT	msg_EditorCancel			= msg_Cancel;
 const MessageT	msg_EditorRevert			= cmd_Revert;
 // Text Editor Window
 // ------------------
-const MessageT	msg_TextEditFontMenu		= rPPob_TextEditorWindow + item_TextEditFontMenu;
-const MessageT	msg_TextEditSizeMenu		= rPPob_TextEditorWindow + item_TextEditSizeMenu;
-const MessageT	msg_TextEditStyleMenu		= rPPob_TextEditorWindow + item_TextEditStyleMenu;
+const MessageT	msg_TextEditFontMenu		= PPob_TextEditorWindow + item_TextEditFontMenu;
+const MessageT	msg_TextEditSizeMenu		= PPob_TextEditorWindow + item_TextEditSizeMenu;
+const MessageT	msg_TextEditStyleMenu		= PPob_TextEditorWindow + item_TextEditStyleMenu;
 // Aete Editor Window
 // ------------------
-const MessageT	msg_AeteSuitesPopup			= rPPob_AeteEditorWindow + item_AeteSuitesPopup;
-const MessageT	msg_AeteCategories			= rPPob_AeteEditorWindow + item_AeteCategories;
-const MessageT	msg_AeteTermsTable			= rPPob_AeteEditorWindow + item_AeteTermsTable;
+const MessageT	msg_AeteSuitesPopup			= PPob_AeteEditorWindow + item_AeteSuitesPopup;
+const MessageT	msg_AeteCategories			= PPob_AeteEditorWindow + item_AeteCategories;
+const MessageT	msg_AeteTermsTable			= PPob_AeteEditorWindow + item_AeteTermsTable;
 // Text Editor Window
 // ------------------
-const MessageT	msg_UtxtEditFontMenu		= rPPob_UtxtEditorWindow + item_UtxtEditFontMenu;
-const MessageT	msg_UtxtEditSizeMenu		= rPPob_UtxtEditorWindow + item_UtxtEditSizeMenu;
-const MessageT	msg_UtxtEditStyleMenu		= rPPob_UtxtEditorWindow + item_UtxtEditStyleMenu;
+const MessageT	msg_UtxtEditFontMenu		= PPob_UtxtEditorWindow + item_UtxtEditFontMenu;
+const MessageT	msg_UtxtEditSizeMenu		= PPob_UtxtEditorWindow + item_UtxtEditSizeMenu;
+const MessageT	msg_UtxtEditStyleMenu		= PPob_UtxtEditorWindow + item_UtxtEditStyleMenu;
 // Icon Editor Window
 // ------------------
-const MessageT	msg_IconEditPattern			= rPPob_IconEditorWindow + item_IconEditPattern;
-const MessageT	msg_IconEditForeColor		= rPPob_IconEditorWindow + item_IconEditForeColor;
-const MessageT	msg_IconEditBackColor		= rPPob_IconEditorWindow + item_IconEditBackColor;		
-const MessageT	msg_IconEditTypeRgbx		= rPPob_IconEditorWindow + item_IconEditTypeRgbx;
-const MessageT	msg_IconEditTypeBitmap		= rPPob_IconEditorWindow + item_IconEditTypeBitmap;
-const MessageT	msg_IconEditTypeMask		= rPPob_IconEditorWindow + item_IconEditTypeMask;
+const MessageT	msg_IconEditPattern			= tool_Pattern;
+const MessageT	msg_IconEditForeColor		= tool_ForeColor;
+const MessageT	msg_IconEditBackColor		= tool_BackColor;		
+const MessageT	msg_IconShowAsRgbx			= PPob_IconEditorWindow + item_IconShowAsRgbx;
+const MessageT	msg_IconShowAsBitmap		= PPob_IconEditorWindow + item_IconShowAsBitmap;
+const MessageT	msg_IconShowAsMask			= PPob_IconEditorWindow + item_IconShowAsMask;
 
 
 

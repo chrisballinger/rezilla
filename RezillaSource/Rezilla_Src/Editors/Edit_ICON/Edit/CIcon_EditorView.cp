@@ -754,7 +754,7 @@ CIcon_EditorView::ResizeFrameBy( SInt16 dh, SInt16 dv, Boolean inRedraw )
 void 
 CIcon_EditorView::MoveSamplePanes( SInt16 dh, SInt16 /*dv*/, Boolean inRedraw )
 {
-	LPane *samplePane = UIconMisc::FindSiblingPaneByID( this, item_SampleWell );
+	LPane *samplePane = UIconMisc::FindSiblingPaneByID( this, item_IconSampleWell );
 	if ( samplePane )
 		samplePane->MoveBy( dh, 0, inRedraw );
 

@@ -81,7 +81,7 @@ void
 CPICT_EditorDoc::Initialize()
 {
 	// Create window for our document. This sets this doc as the SuperCommander of the window.
-	mPictWindow = dynamic_cast<CPICT_EditorWindow *>(LWindow::CreateWindow( rPPob_PictEditorWindow, this ));
+	mPictWindow = dynamic_cast<CPICT_EditorWindow *>(LWindow::CreateWindow( PPob_PictEditorWindow, this ));
 	Assert_( mPictWindow != nil );
 	
 	mPictWindow->SetOwnerDoc(this);
@@ -183,7 +183,7 @@ SInt16
 CPICT_EditorDoc::AskSaveChanges(
 	bool /* inQuitting */)
 {
-	return UMessageDialogs::AskYesNoFromLocalizable(CFSTR("SavePictEditorWindow"), rPPob_AskYesNoMessage);
+	return UMessageDialogs::AskYesNoFromLocalizable(CFSTR("SavePictEditorWindow"), PPob_AskYesNoMessage);
 }
 
 

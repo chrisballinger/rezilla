@@ -382,7 +382,7 @@ CDualDataView::ObeyCommand(
 			if (mCurrentSubView == hex_hexpane) {
 				// Check if scrap contains valid hex data
 				if( ! CRezClipboard::ContentsIsValidHex()) {
-					UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("InvalidHexDataInScrap"), rPPob_SimpleMessage);
+					UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("InvalidHexDataInScrap"), PPob_SimpleMessage);
 					return cmdHandled;
 				}
 				// If so, convert it to byte code

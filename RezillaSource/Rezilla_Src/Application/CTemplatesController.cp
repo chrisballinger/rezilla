@@ -115,14 +115,14 @@ CTemplatesController::BuildInternalTemplatesArray()
 	
 	if (templatesURL == nil) {
 		// If the file does not exist, post an alert
-		UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("CouldNotFindTemplates"), rPPob_SimpleMessage);
+		UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("CouldNotFindTemplates"), PPob_SimpleMessage);
 	} else {
 		if ( CFURLGetFSRef(templatesURL, &theFSRef) ) {
 			// Open the resource map
 			error = FSOpenResourceFile( &theFSRef, 0, nil, fsRdWrPerm, &tmplRefNum );
 			error = FSGetCatalogInfo(&theFSRef, kFSCatInfoNone, NULL, NULL, &theFileSpec, NULL);
 		} else {
-			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("CouldNotOpenTemplates"), rPPob_SimpleMessage);
+			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("CouldNotOpenTemplates"), PPob_SimpleMessage);
 			error = fnfErr; 
 			return error;
 		}

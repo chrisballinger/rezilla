@@ -187,7 +187,7 @@ CTmplEditorWindow::FinishCreateSelf()
 	theStaticText->SetDescriptor(*strPtr);	
 	
 	// Link the broadcasters
-	UReanimator::LinkListenerToControls( this, this, rPPob_TmplEditorWindow );
+	UReanimator::LinkListenerToControls( this, this, PPob_TmplEditorWindow );
 	
 	// Make the window a listener to the prefs object
 	CRezillaApp::sPrefs->AddListener(this);
@@ -643,7 +643,7 @@ CTmplEditorWindow::ParseDataWithTemplate(Handle inHandle)
 		if (error == noErr) {
 			// Check that there is nothing left in the data stream
 			if (mRezStream->GetMarker() < mRezStream->GetLength() ) {
-				UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("ResourceLongerThanTemplate"), rPPob_SimpleMessage);
+				UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("ResourceLongerThanTemplate"), PPob_SimpleMessage);
 			} 
 			mLastID = mCurrentID - 1;
 			mContentsView->ResizeImageBy(0, mYCoord - oldYCoord, true);
@@ -2764,7 +2764,7 @@ CTmplEditorWindow::RevertWithTemplate()
 	if (error == noErr) {
 		// Check that there is nothing left in the data stream
 		if (mRezStream->GetMarker() < mRezStream->GetLength() ) {
-			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("ResourceLongerThanTemplate"), rPPob_SimpleMessage);
+			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("ResourceLongerThanTemplate"), PPob_SimpleMessage);
 		} 
 		mLastID = mCurrentID - 1;
 		mContentsView->ResizeImageBy(0, mYCoord - oldYCoord, true);

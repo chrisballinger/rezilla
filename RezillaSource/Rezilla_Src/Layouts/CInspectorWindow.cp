@@ -143,7 +143,7 @@ CInspectorWindow::FinishCreateSelf()
 	ThrowIfNil_( mModifyButton );
 	
 	// Let window listen to its sub panes
-    UReanimator::LinkListenerToControls( this, this, rPPob_InspectorWindow );
+    UReanimator::LinkListenerToControls( this, this, PPob_InspectorWindow );
 
 }
 

@@ -117,7 +117,7 @@ CUtxt_EditorWindow::FinishCreateSelf()
 	ThrowIfNil_( mLengthField );
 	
 	// Link the broadcasters
-	UReanimator::LinkListenerToControls(this, this, rPPob_UtxtEditorWindow );
+	UReanimator::LinkListenerToControls(this, this, PPob_UtxtEditorWindow );
 	
 	// Make the window a listener to the prefs object
 	CRezillaApp::sPrefs->AddListener(this);

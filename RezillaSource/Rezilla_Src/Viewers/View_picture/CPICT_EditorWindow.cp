@@ -99,7 +99,7 @@ CPICT_EditorWindow::FinishCreateSelf()
 	mContentsView->SetOwnerWindow(this);
 	
 // 	// Link the broadcasters
-// 	UReanimator::LinkListenerToControls( this, this, rPPob_TextEditorWindow );
+// 	UReanimator::LinkListenerToControls( this, this, PPob_TextEditorWindow );
 }
 
 

@@ -2,7 +2,7 @@
 // CIcon_EditorWindow.cp
 // 
 //                       Created: 2004-12-10 17:23:05
-//             Last modification: 2004-12-24 10:17:23
+//             Last modification: 2004-12-27 09:09:59
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -390,19 +390,19 @@ CIcon_EditorWindow::FinishCreateSelf()
 	mCanvas = (CIcon_EditorView*) this->FindPaneByID( CIcon_EditorView::class_ID );
 	ThrowIfNil_( mCanvas );
 
-	mPatternPane = (CPatternPane*) this->FindPaneByID( item_IconEditPattern );
+	mPatternPane = (CPatternPane*) this->FindPaneByID( tool_Pattern );
 	ThrowIfNil_( mPatternPane );
 	mPatternPane->GetCurrentPattern( &mCurrentPattern );
 	
 	UIconMisc::LinkListenerToControls( this, this, RidL_ToolList );
 
-	mColorPane = (CColorPane*) this->FindPaneByID( item_IconEditForeColor );
-	mBackColorPane = (CColorPane*) this->FindPaneByID( item_IconEditBackColor );
+	mColorPane = (CColorPane*) this->FindPaneByID( tool_ForeColor );
+	mBackColorPane = (CColorPane*) this->FindPaneByID( tool_BackColor );
 	ThrowIfNil_( mColorPane );
 	ThrowIfNil_( mBackColorPane );
 	
 	// This may or may not exist depending on the editor
-	mSampleWell = this->FindPaneByID( item_SampleWell );
+	mSampleWell = this->FindPaneByID( item_IconSampleWell );
 
 	
 	
@@ -424,11 +424,11 @@ CIcon_EditorWindow::FinishCreateSelf()
 // 	ThrowIfNil_( mStylePopup );
 	
 	// The total length field
-	mCoordsField = dynamic_cast<LStaticText *> (this->FindPaneByID( item_IconEditCoords ));
+	mCoordsField = dynamic_cast<LStaticText *> (this->FindPaneByID( item_IconCoords ));
 	ThrowIfNil_( mCoordsField );
 	
 	// Link the broadcasters
-	UReanimator::LinkListenerToControls( this, this, rPPob_IconEditorWindow );
+	UReanimator::LinkListenerToControls( this, this, PPob_IconEditorWindow );
 	
 	// Make the window a listener to the prefs object
 	CRezillaApp::sPrefs->AddListener(this);
@@ -476,11 +476,11 @@ CIcon_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			this->HandleControlDoubleClick( (LPane*) ioParam );
 			break;
 			
-		case item_IconEditPattern:
+		case tool_Pattern:
 			mPatternPane->GetCurrentPattern( &mCurrentPattern );
 			break;
 
-		case item_IconEditForeColor:			// user changed the color
+		case tool_ForeColor:			// user changed the color
 			mForeColor = (Color32) ioParam;
 			this->ResetPatternPaneColors( redraw_Now );
 			
@@ -490,7 +490,7 @@ CIcon_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 				mTextAction->ChangeTextTraits( mTextTraits );
 			break;
 			
-		case item_IconEditBackColor:			// user changed the background color
+		case tool_BackColor:			// user changed the background color
 			mBackColor = (Color32) ioParam;
 			this->ResetPatternPaneColors( redraw_Now );
 			break;
@@ -559,9 +559,12 @@ CIcon_EditorWindow::FindCommandStatus(
 						enableIt = true;
 					break;
 					
-				case cmd_Cut:				case cmd_Clear:
-				case cmd_IconFlipVertical:		case cmd_IconFlipHorizontal:
-				case cmd_IconRotateClockwise:	case cmd_IconRotateCounterClock:				
+				case cmd_Cut:
+				case cmd_Clear:
+				case cmd_IconFlipVertical:
+				case cmd_IconFlipHorizontal:
+				case cmd_IconRotateRight:
+				case cmd_IconRotateLeft:				
 				case cmd_IconTransparent:
 					if ( mCurrentImage && !mCurrentSelection->IsEmpty() && !fileLocked ) {
 						enableIt = true;
@@ -655,14 +658,21 @@ CIcon_EditorWindow::ObeyCommand(
 		switch( inCommand )
 		{
 			// Editing Commands
-			case cmd_Cut:					case cmd_Copy:		
-			case cmd_Paste:					case cmd_Clear:
-			case cmd_IconFlipVertical:		case cmd_IconFlipHorizontal:
-			case cmd_IconRotateClockwise:	case cmd_IconRotateCounterClock:			
+			case cmd_Cut:
+			case cmd_Copy:
+			case cmd_Paste:
+			case cmd_Clear:
+			case cmd_IconFlipVertical:
+			case cmd_IconFlipHorizontal:
+			case cmd_IconRotateRight:
+			case cmd_IconRotateLeft:
 			case cmd_IconTransparent:
-			case cmd_IconDragImage:			case cmd_IconRecolorCurrentImage:
-			case msg_TargetBoxClicked:		case msg_ImageDroppedOnTargetBox:
-			case cmd_IconResizeImage:		case cmd_IconDeleteImage:
+			case cmd_IconDragImage:
+			case cmd_IconRecolorCurrentImage:
+			case msg_TargetBoxClicked:
+			case msg_ImageDroppedOnTargetBox:
+			case cmd_IconResizeImage:
+			case cmd_IconDeleteImage:
 			case tool_Lasso:			// double-click on lasso
 			
 				theAction = (CIconAction*) this->CreateNewAction( inCommand, ioParam );
@@ -1016,10 +1026,10 @@ CIcon_EditorWindow::CreateNewAction( OSType inActionType, void *ioParam )
 			case cmd_IconFlipHorizontal:
 				return new CFlipHorizontalAction( actionSettings );
 
-			case cmd_IconRotateClockwise:
+			case cmd_IconRotateRight:
 				return new CIconRotateAction( actionSettings, -90 );
 				
-			case cmd_IconRotateCounterClock:
+			case cmd_IconRotateLeft:
 				return new CIconRotateAction( actionSettings, 90 );
 
 			case cmd_IconTransparent:
@@ -1524,10 +1534,10 @@ CIcon_EditorWindow::PutOnDuty(LCommander *inNewTarget)
 	
 	// Update the menu bar
 	LMenuBar	*theBar = LMenuBar::GetCurrentMenuBar();
-	theBar->InstallMenu( sIconActionsMenu, rMENU_Window );	
-	theBar->InstallMenu( sIconColorsMenu, rMENU_Window );
-	theBar->InstallMenu( sIconFontMenu, rMENU_Window );
-	theBar->InstallMenu( sIconStyleMenu, rMENU_Window );
+	theBar->InstallMenu( sIconActionsMenu, MENU_OpenedWindows );	
+	theBar->InstallMenu( sIconColorsMenu, MENU_OpenedWindows );
+	theBar->InstallMenu( sIconFontMenu, MENU_OpenedWindows );
+	theBar->InstallMenu( sIconStyleMenu, MENU_OpenedWindows );
 	mWindowIsActive = true;
 }
 

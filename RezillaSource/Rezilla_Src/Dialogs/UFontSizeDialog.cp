@@ -31,7 +31,7 @@ UFontSizeDialog::DoSizeDialog( SInt16 inSize, SInt16 *outSize )
 		::SetGDevice( ::GetMainDevice() );
 		
 		// Create the dialog
-		StDialogHandler			theHandler( rPPob_FontSizeDialog, LCommander::GetTopCommander() );
+		StDialogHandler			theHandler( PPob_FontSizeDialog, LCommander::GetTopCommander() );
 		LWindow	*				theWindow = theHandler.GetDialog();
 		LEditField *			sizeField =  (LEditField*) theWindow->FindPaneByID( item_SizeField );
 		ThrowIfNil_( sizeField );

@@ -98,7 +98,7 @@ CTEXT_EditorDoc::Initialize()
 // 	mIgnoreCase = true;
 	
 	// Create window for our document. This sets this doc as the SuperCommander of the window.
-	mTextEditWindow = dynamic_cast<CTEXT_EditorWindow *>(LWindow::CreateWindow( rPPob_TextEditorWindow, this ));
+	mTextEditWindow = dynamic_cast<CTEXT_EditorWindow *>(LWindow::CreateWindow( PPob_TextEditorWindow, this ));
 	Assert_( mTextEditWindow != nil );
 	
 	mTextEditWindow->SetOwnerDoc(this);
@@ -208,7 +208,7 @@ SInt16
 CTEXT_EditorDoc::AskSaveChanges(
 	bool /* inQuitting */)
 {
-	return UMessageDialogs::AskYesNoFromLocalizable(CFSTR("SaveTextEditorWindow"), rPPob_AskYesNoMessage);
+	return UMessageDialogs::AskYesNoFromLocalizable(CFSTR("SaveTextEditorWindow"), PPob_AskYesNoMessage);
 }
 
 

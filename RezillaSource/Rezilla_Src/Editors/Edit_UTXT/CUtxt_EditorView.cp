@@ -2,7 +2,7 @@
 // CUtxt_EditorView.cp
 // 
 //                       Created: 2004-12-08 18:21:21
-//             Last modification: 2004-12-09 23:05:04
+//             Last modification: 2004-12-24 11:06:01
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -139,7 +139,7 @@ CUtxt_EditorView::ActivateSelf()
 		status = ::TXNPrepareFontMenu(mTXNObject, sTXNFontMenuObject );
 		status = ::TXNGetFontMenuHandle(sTXNFontMenuObject, &macMenuH);
 	
-		::MacInsertMenu(macMenuH, rMENU_Window);
+		::MacInsertMenu(macMenuH, MENU_OpenedWindows);
 	} 
 }
 
@@ -155,7 +155,7 @@ CUtxt_EditorView::ActivateSelf()
 void
 CUtxt_EditorView::DeactivateSelf()
 {
-	::MacDeleteMenu(rMENU_FontsUnicode);
+	::MacDeleteMenu(MENU_FontsUnicode);
 	// Force redraw of MenuBar
 	::InvalMenuBar();
 }

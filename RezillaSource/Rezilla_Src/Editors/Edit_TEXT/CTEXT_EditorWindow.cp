@@ -124,7 +124,7 @@ CTEXT_EditorWindow::FinishCreateSelf()
 	ThrowIfNil_( mLengthField );
 	
 	// Link the broadcasters
-	UReanimator::LinkListenerToControls( this, this, rPPob_TextEditorWindow );
+	UReanimator::LinkListenerToControls( this, this, PPob_TextEditorWindow );
 	
 	// Make the window a listener to the prefs object
 	CRezillaApp::sPrefs->AddListener(this);
@@ -162,7 +162,7 @@ CTEXT_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		theIndex = mSizePopup->GetValue();
 		if (theIndex == kLastSizeMenuItem + 2) {
 			// This is the 'Other' item
-			if (UModalDialogs::AskForOneNumber(this, rPPob_FontSizeDialog, item_SizeField, theSize)) {
+			if (UModalDialogs::AskForOneNumber(this, PPob_FontSizeDialog, item_SizeField, theSize)) {
 				if (theSize == 0) {theSize = 10;}
 				// If they match, no need to use 'Other' item
 				if (UMiscUtils::FontSizeExists(mSizePopup, theSize, theIndex)) {

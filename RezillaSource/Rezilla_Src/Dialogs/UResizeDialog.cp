@@ -34,7 +34,7 @@ UResizeDialog::DoResizeDialog(	SInt32 inWidth, SInt32 inMinWidth, SInt32 inMaxWi
 	::SetGDevice( ::GetMainDevice() );
 	
 	// Create the dialog
-	StDialogHandler			theHandler( rPPob_ImageResizeDialog, LCommander::GetTopCommander() );
+	StDialogHandler			theHandler( PPob_ImageResizeDialog, LCommander::GetTopCommander() );
 	LWindow	*				theWindow = theHandler.GetDialog();
 	LEditField *			widthField =  (LEditField*) theWindow->FindPaneByID( item_WidthField );
 	LEditField *			heightField = (LEditField*) theWindow->FindPaneByID( item_HeightField );
@@ -107,7 +107,7 @@ UResizeDialog::ShowResizeError( SInt32 inMinWidth, SInt32 inMaxWidth,
 	if (formatStr != NULL) {
 		messageStr = ::CFStringCreateWithFormat(NULL, NULL, formatStr, inMinWidth, inMaxWidth);
 		if (messageStr != NULL) {
-			UMessageDialogs::SimpleMessageFromLocalizable(messageStr, rPPob_SimpleMessage);
+			UMessageDialogs::SimpleMessageFromLocalizable(messageStr, PPob_SimpleMessage);
 			CFRelease(messageStr);                     
 		}
 		CFRelease(formatStr);                             

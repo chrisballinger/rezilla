@@ -49,7 +49,7 @@ CIconViewResizer::Initialize( CIcon_EditorWindow *pv )
 	mImageBuffer->CopyFrom( sourceBuffer );
 	
 	// Keep track of the sample well position & size
-	this->GetPaneInfoByID( item_SampleWell, false,  &mSampleWellInfo );
+	this->GetPaneInfoByID( item_IconSampleWell, false,  &mSampleWellInfo );
 	
 	// Keep track of all of the current sample panes
 	mNumSamplePanes = pv->GetSamplePaneCount();
