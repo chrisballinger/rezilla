@@ -2,7 +2,7 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2004-11-18 13:58:04
+//             Last modification: 2004-11-20 19:21:53
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -155,20 +155,26 @@ CRezMapDoc::CRezMapDoc(LCommander *inSuper,
 // ---------------------------------------------------------------------------
 
 CRezMapDoc::~CRezMapDoc()
-{
-	short theattrs;
-	mRezMap->GetMapAttributes(theattrs);
-	
+{	
 	if (mUpdateOnClose == false) {
 		mRezMap->UnsetFileAttrs(1 << mapChangedBit);
 	} 
-	mRezMap->GetMapAttributes(theattrs);
 	
 	// CloseFile() is called from the destructor
 	if (mRezFile != nil) {
 		delete mRezFile;
 	} 
 	
+	if (mRezMap != nil) {
+		delete mRezMap;
+	} 
+	
+	if (mTypesArray != nil) {
+		delete mTypesArray;
+	} 
+	
+	// Note: mFileStream is deleted in DoAEExport()
+
 	// Unregister from the static RezMapDocs list
 	CRezillaApp::sRezMapDocList.Remove(this);
 
@@ -180,13 +186,22 @@ CRezMapDoc::~CRezMapDoc()
 		CRezillaApp::sInspectorWindow->ClearValues();
 	} 
 	
-	// Comment: the RezEditors are deleted automatically since they are 
-	// subcommanders of "this".
-	
+	// Delete the RezEditors associated to this document
+	if (mOpenedEditors != nil) {
+		TArrayIterator<CEditorDoc *> iterator(*mOpenedEditors, LArrayIterator::from_End);
+		CEditorDoc* theRezEditor = nil;
+		while (iterator.Previous(theRezEditor)) {
+			 delete theRezEditor;
+		}
+		
+		delete mOpenedEditors;
+	} 
+
 	if (mRezMapWindow != nil) {
-		// The RezMapWindow is deleted automatically since it is a subcommander 
-		// of "this". Just need to remove the window from the window menu.
+		// Remove the window from the window menu.
 		gWindowMenu->RemoveWindow( mRezMapWindow );
+		// Delete the RezMapWindow associated to this document
+		delete mRezMapWindow;
 	} 
 	
 	// 	// Remove ourselves from the list of listeners to the prefs object
@@ -232,7 +247,8 @@ CRezMapDoc::Initialize(FSSpec * inFileSpec, short inRefnum)
 	Assert_( mRezMapWindow != nil );
 
 	// Make this document the supercommander of the RezMapWindow
-	mRezMapWindow->SetSuperCommander(this);
+// 	mRezMapWindow->SetSuperCommander(this);
+// 	mRezMapWindow->SetOwnerDoc(this);
 	
 	// The RezMapTable keeps a pointer to the RezMap object
 	mRezMapWindow->GetRezMapTable()->SetRezMap(mRezMap);
@@ -870,12 +886,13 @@ CRezMapDoc::DoRevert()
 	SInt16		theFork;
 	OSErr		error;
 	
-	// Delete all the editor windows depending from this rezmap
+	// Delete all the editor windows depending from this rezmap and reset the array
     if (mOpenedEditors != nil) {
-        TArrayIterator<CEditorDoc *> iterator(*mOpenedEditors);
+        TArrayIterator<CEditorDoc *> iterator(*mOpenedEditors, LArrayIterator::from_End);
         CEditorDoc* theRezEditor = nil;
-        while (iterator.Next(theRezEditor)) {
-            delete theRezEditor;
+        while (iterator.Previous(theRezEditor)) {
+			mOpenedEditors->RemoveItemsAt(1, iterator.GetCurrentIndex());
+			 delete theRezEditor;
         }
     } 
 	
@@ -1108,14 +1125,19 @@ CRezMapDoc::DoAEExport(
 	// Make a new file object.
 	mFileStream = new CTextFileStream( inFileSpec );
 	
-	// Get the proper file type.
-	OSType	theFileType = 'TEXT';
-
-	// Make new file on disk (we use TextEdit's creator).
-	mFileStream->CreateNewDataFile( (OSType) CRezillaPrefs::GetPrefValue(kPref_export_editorSig), theFileType );
-	
-	// Write out the data.
-	DoExport();
+	if (mFileStream != nil) {
+		// Get the proper file type.
+		OSType	theFileType = 'TEXT';
+		
+		// Make new file on disk (we use TextEdit's creator).
+		mFileStream->CreateNewDataFile( (OSType) CRezillaPrefs::GetPrefValue(kPref_export_editorSig), theFileType );
+		
+		// Write out the data.
+		DoExport();
+		
+		// Free memory which we don't need anymore
+		delete mFileStream;
+	}	
 }
 
 

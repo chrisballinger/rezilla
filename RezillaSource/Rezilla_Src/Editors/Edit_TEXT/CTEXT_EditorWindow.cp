@@ -205,7 +205,7 @@ CTEXT_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		
 			
 		default:
-		dynamic_cast<CTEXT_EditorDoc *>(GetSuperCommander())->ListenToMessage(inMessage, ioParam);
+		dynamic_cast<CTEXT_EditorDoc *>(mOwnerDoc)->ListenToMessage(inMessage, ioParam);
 		break;
 				
 	}

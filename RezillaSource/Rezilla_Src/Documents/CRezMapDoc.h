@@ -151,7 +151,7 @@ protected:
 	CTextFileStream *		mFileStream;
 	TArray<ResType>*		mTypesArray;	// Maintain a sorted array of ResTypes
 	TArray<CEditorDoc *> *	mOpenedEditors;	// Maintain an array of editor docs 
-	                 		                // depending on this doc (all edit 
+	                 		                // depending from this doc (all edit 
 	                 		                // windows for resources in this map)
 	Boolean					mUpdateOnClose;
 	Boolean					mReadOnly;

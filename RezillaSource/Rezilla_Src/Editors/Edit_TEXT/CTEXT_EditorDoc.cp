@@ -58,7 +58,6 @@ extern CWindowMenu * gWindowMenu;
 // ---------------------------------------------------------------------------
 //	¥ CTEXT_EditorDoc							Constructor		  [public]
 // ---------------------------------------------------------------------------
-// 	: CEditorController( inSuperMap )
 
 CTEXT_EditorDoc::CTEXT_EditorDoc(LCommander* inSuper, 
 								 CRezMapTable* inSuperMap,
@@ -98,11 +97,10 @@ CTEXT_EditorDoc::Initialize()
 // 	mSearchWhichPane = item_FindInHexRadio;
 // 	mIgnoreCase = true;
 	
-	// Create window for our document.
+	// Create window for our document. This sets this doc as the SuperCommander of the window.
 	mTextEditWindow = dynamic_cast<CTEXT_EditorWindow *>(LWindow::CreateWindow( rPPob_TextEditorWindow, this ));
 	Assert_( mTextEditWindow != nil );
 	
-	mTextEditWindow->SetSuperCommander(this);
 	mTextEditWindow->SetOwnerDoc(this);
 	mTextEditWindow->InstallReadOnlyIcon();
 	SetMainWindow( dynamic_cast<CEditorWindow *>(mTextEditWindow) );

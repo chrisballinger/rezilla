@@ -91,6 +91,7 @@ CRezMapWindow::~CRezMapWindow()
 void
 CRezMapWindow::FinishCreateSelf()
 {    	
+	// We need to have mOwnerDoc now because it is called below
 	mOwnerDoc = dynamic_cast<CRezMapDoc*>(GetSuperCommander());
 	
 	mRezMapTable = dynamic_cast<CRezMapTable *>(this->FindPaneByID( item_OutlineTable ));
