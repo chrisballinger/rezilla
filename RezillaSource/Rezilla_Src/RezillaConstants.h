@@ -260,7 +260,7 @@ const ResIDT	base_MenuResource			= 1200;
 
 // Icon editor
 const ResIDT	Txtr_PaintFont				= 9000;		// default font/size/style for text tool
-const ResIDT	RidL_ToolList				= 9100;		// note: Constructor may create own Ridl 9000 -- don't conflict
+const ResIDT	RidL_ToolList				= 300;
 const ResIDT	MENU_IconActions			= 300;
 const ResIDT	MENU_IconColors				= 301;
 const ResIDT	MENU_IconFont				= 302;
@@ -285,7 +285,7 @@ const ResIDT	CURS_HotSpot		= 9011;
 const ResIDT	CURS_Square			= 9012;
 const ResIDT	CURS_Cross			= 9013;
 
-// Phony id used to indicate "the color picker" in the Icon editor
+// Phony ID used to indicate "the color picker" in the Icon editor
 const ResIDT	ColorTable_UsePicker	= 0;
 
 
@@ -813,10 +813,10 @@ const MessageT	msg_TmplModifiedItem		= FOUR_CHAR_CODE('TmMd');
 const MessageT	msg_EditScroller			= FOUR_CHAR_CODE('Scrl');
 const MessageT	msg_EditContents			= FOUR_CHAR_CODE('Cnts');
 // Icon editor
-const MessageT	msg_TargetBoxClicked		= FOUR_CHAR_CODE('Tclk');
-const MessageT	msg_ImageDroppedOnTargetBox	= FOUR_CHAR_CODE('IDrp');
-const MessageT	msg_DoubleClick				= FOUR_CHAR_CODE('DClk'); 
-const MessageT	msg_GetLastCommand			= FOUR_CHAR_CODE('LCMD');
+const MessageT	msg_TargetViewClicked			= FOUR_CHAR_CODE('Tclk');
+const MessageT	msg_ImageDroppedOnTargetView	= FOUR_CHAR_CODE('IDrp');
+const MessageT	msg_DoubleClick					= FOUR_CHAR_CODE('DClk'); 
+const MessageT	msg_GetLastCommand				= FOUR_CHAR_CODE('LCMD');
 
 
 // ======================================================================
@@ -1165,7 +1165,7 @@ const Pattern	Pattern_Black = { { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF
 const OSType	ResType_Region			= FOUR_CHAR_CODE('RgN ');
 const OSType	ResType_ColorCursor 	= FOUR_CHAR_CODE('crsr');
 const ResType	ResType_PaneResizer		= FOUR_CHAR_CODE('RSIZ');
-const ResType	ResType_PaintFamilyInfo	= FOUR_CHAR_CODE('PTFM');
+const ResType	ResType_IconFamilyInfo	= FOUR_CHAR_CODE('RzII');
 
 // Three ways to redraw
 enum ERedrawOptions
