@@ -79,6 +79,10 @@ CAete_EditorDoc::CAete_EditorDoc(LCommander* inSuper,
 
 CAete_EditorDoc::~CAete_EditorDoc()
 {
+	if (mOutStream != nil) {
+		delete mOutStream;
+	} 
+
 	if (mAeteEditWindow != nil) {
 		// Remove the window from the window menu.
 		gWindowMenu->RemoveWindow( mAeteEditWindow );
@@ -100,7 +104,7 @@ CAete_EditorDoc::Initialize()
 		mTotalCount[index] = 0;
 	}
 
-	// Create window for our document.
+	// Create window for our document
 	mAeteEditWindow = dynamic_cast<CAete_EditorWindow *>(LWindow::CreateWindow( PPob_AeteEditorWindow, this ));
 	Assert_( mAeteEditWindow != nil );
 	
@@ -112,7 +116,7 @@ CAete_EditorDoc::Initialize()
 	// Name the window
 	NameNewEditorDoc();
 	
-	// Add the window to the window menu.
+	// Add the window to the window menu
 	gWindowMenu->InsertWindow( mAeteEditWindow );
 	
 	// Install the contents
@@ -120,11 +124,14 @@ CAete_EditorDoc::Initialize()
 		Handle rezData = mRezObj->GetData();
 		
 		if (rezData != nil) {
-			mAeteEditWindow->InstallAete(rezData);			
+			OSErr	error = mRezObj->Detach();
+			if (error == noErr) {
+				mAeteEditWindow->InstallAete(rezData);			
+			}
 		} 
 	} 
 	
-	// Make the window visible.
+	// Make the window visible
 	mAeteEditWindow->Show();
 }
 
@@ -225,14 +232,15 @@ CAete_EditorDoc::FindCommandStatus(
 Handle
 CAete_EditorDoc::GetModifiedResource(Boolean &releaseIt) 
 {
-	CAeteStream * theStream = new CAeteStream();
-
-	Handle theHandle = NULL;
+	if (mOutStream != nil) {
+		delete mOutStream;
+	} 
 	
-	mAeteEditWindow->RetrieveAete(theStream);
-// // 	releaseIt = true;
+	mOutStream = new CAeteStream();	
+	mAeteEditWindow->RetrieveAete(mOutStream);
+	releaseIt = false;
 	
-	return theHandle;
+	return mOutStream->GetDataHandle();
 }
 
 

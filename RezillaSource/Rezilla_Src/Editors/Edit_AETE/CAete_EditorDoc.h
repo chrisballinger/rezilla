@@ -2,7 +2,7 @@
 // CAete_EditorDoc.h
 // 
 //                       Created: 2004-07-01 08:42:37
-//             Last modification: 2005-01-22 11:57:46
+//             Last modification: 2005-01-27 07:56:08
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -25,9 +25,7 @@
 
 PP_Begin_Namespace_PowerPlant
 
-
 class CAete_EditorWindow;
-class CAeteSuite;
 class CAeteStream;
 
 
@@ -60,8 +58,7 @@ protected:
 
 	SInt32						mTotalCount[5];
 	SInt32						mCurrCategory;
-	CAeteStream *               mCurrentStreamPtr;
-	CAeteSuite *                mCurrentSuitePtr;
+	CAeteStream *				mOutStream;
 	
 	virtual Handle		GetModifiedResource(Boolean &releaseIt);
 
