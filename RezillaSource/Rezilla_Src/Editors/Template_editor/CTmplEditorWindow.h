@@ -35,6 +35,7 @@ enum {
 
 
 class CTmplListItemView;
+class CWasteEditView;
 
 
 class CTmplEditorWindow : public CEditorWindow {
@@ -65,6 +66,7 @@ public:
 	Handle			RetrieveDataWithTemplate();
 	
 	Boolean			IsDirty();
+	void			SetDirty(Boolean inDirty) {mIsDirty = inDirty;}
 		
 	void			InstallReadOnlyIcon();
 
@@ -83,6 +85,7 @@ protected:
 	PaneIDT				mLastID;
 	SInt32				mIndent;
 	short				mItemsCount;
+	Boolean				mIsDirty;
 	SPaneInfo			mEditPaneInfo,
 						mStaticPaneInfo,
 						mRgvPaneInfo,
@@ -104,6 +107,8 @@ protected:
 						mRightLabelTraitsID,
 						mHeaderTraitsID,
 						mEditTraitsID;
+	TArray<CWasteEditView *>	mWasteFieldsList;
+
 
 	virtual void	FinishCreateSelf();
 
