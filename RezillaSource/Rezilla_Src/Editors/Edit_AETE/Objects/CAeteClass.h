@@ -2,7 +2,7 @@
 // CAeteClass.h
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-30 20:56:34
+//             Last modification: 2005-01-31 08:58:32
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -44,6 +44,12 @@ public:
 		void		AddElement( CAeteElement * inElement );
 		void		AddElement( OSType inKeyForms[], UInt16 inCount = 1 );
 		void		RemoveElement( ArrayIndexT inAtIndex );
+
+		SInt32		NewProperty();
+		SInt32		DeleteProperty();
+
+		SInt32		NewElement();
+		SInt32		DeleteElement();
 
 		void		InstallDataStream(CAeteStream * inStream);
 		void		SendDataToStream(CAeteStream * outStream);

@@ -2,7 +2,7 @@
 // CAeteElement.cp
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-30 20:59:44
+//             Last modification: 2005-01-31 08:52:44
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -112,4 +112,39 @@ CAeteElement::SendDataToStream(CAeteStream * outStream)
 	}
 }
 
+
+// ---------------------------------------------------------------------------
+//  NewKeyForm													[public]
+// ---------------------------------------------------------------------------
+// Returns the new count of KeyForms after addition. This is also the
+// index of the new KeyForm.
+
+SInt32
+CAeteElement::NewKeyForm()
+{	
+	AddKeyForm();
+	mKeyFormIndex = CountKeyForms();
+	
+	return mKeyFormIndex;
+}
+ 
+
+// ---------------------------------------------------------------------------
+// DeleteKeyForm 													[public]
+// ---------------------------------------------------------------------------
+// Deletes the KeyForm at current index. Returns the new count of
+// KeyForms after deletion.
+
+SInt32
+CAeteElement::DeleteKeyForm()
+{
+	SInt32 count = 0;
+	
+	RemoveKeyForm(mKeyFormIndex);
+	count = CountKeyForms();
+	mKeyFormIndex = ( count > 0 );
+	
+	return count;
+}
+ 
 

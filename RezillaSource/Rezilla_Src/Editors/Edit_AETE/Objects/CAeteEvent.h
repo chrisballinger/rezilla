@@ -46,6 +46,9 @@ public:
 								UInt16	inFlags);
 		void	RemoveParameter( ArrayIndexT inAtIndex );
 		
+		SInt32		NewParameter();
+		SInt32		DeleteParameter();
+
 		void	InstallDataStream(CAeteStream * inStream);
 		void	SendDataToStream(CAeteStream * outStream);
 

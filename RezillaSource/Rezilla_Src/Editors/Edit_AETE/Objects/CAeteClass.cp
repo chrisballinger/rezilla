@@ -289,3 +289,73 @@ CAeteClass::SetValues(Str255 inName, OSType inID, Str255 inDescription)
 }
 
 
+// ---------------------------------------------------------------------------
+//  NewProperty													[public]
+// ---------------------------------------------------------------------------
+// Returns the new count of properties after addition. This is also the
+// index of the new property.
+
+SInt32
+CAeteClass::NewProperty()
+{	
+	AddProperty();
+	mPropertyIndex = CountProperties();
+	
+	return mPropertyIndex;
+}
+ 
+
+// ---------------------------------------------------------------------------
+// DeleteProperty 													[public]
+// ---------------------------------------------------------------------------
+// Deletes the property at current index. Returns the new count of
+// properties after deletion.
+
+SInt32
+CAeteClass::DeleteProperty()
+{
+	SInt32 count = 0;
+	
+	RemoveProperty(mPropertyIndex);
+	count = CountProperties();
+	mPropertyIndex = ( count > 0 );
+	
+	return count;
+}
+ 
+
+// ---------------------------------------------------------------------------
+//  NewElement													[public]
+// ---------------------------------------------------------------------------
+// Returns the new count of elements after addition. This is also the
+// index of the new element.
+
+SInt32
+CAeteClass::NewElement()
+{	
+	AddElement();
+	mElementIndex = CountElements();
+	
+	return mElementIndex;
+}
+ 
+
+// ---------------------------------------------------------------------------
+// DeleteElement 													[public]
+// ---------------------------------------------------------------------------
+// Deletes the element at current index. Returns the new count of
+// elements after deletion.
+
+SInt32
+CAeteClass::DeleteElement()
+{
+	SInt32 count = 0;
+	
+	RemoveElement(mElementIndex);
+	count = CountElements();
+	mElementIndex = ( count > 0 );
+	
+	return count;
+}
+ 
+

@@ -2,7 +2,7 @@
 // CAeteEnumeration.h
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-30 20:57:18
+//             Last modification: 2005-01-31 08:00:43
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -37,6 +37,9 @@ public:
 		ArrayIndexT		AddEnumerator();
 		ArrayIndexT		AddEnumerator(Str255 inName, OSType inType, Str255 inDescription);
 		void			RemoveEnumerator( ArrayIndexT inAtIndex );
+
+		SInt32			NewEnumerator();
+		SInt32			DeleteEnumerator();
 
 		OSType			GetEnumerationID() { return mEnumerationID;}
 		void			SetEnumerationID(OSType inEnumerationID) {mEnumerationID = inEnumerationID;}

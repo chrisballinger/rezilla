@@ -2,7 +2,7 @@
 // CAeteEvent.cp
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-30 21:00:18
+//             Last modification: 2005-01-31 08:58:42
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -259,4 +259,39 @@ CAeteEvent::SetValues( Str255 inName, Str255 inDescription,
 	mDirectFlags = inDirectFlags;
 }
 
+
+// ---------------------------------------------------------------------------
+//  NewParameter													[public]
+// ---------------------------------------------------------------------------
+// Returns the new count of parameters after addition. This is also the
+// index of the new parameter.
+
+SInt32
+CAeteEvent::NewParameter()
+{	
+	AddParameter();
+	mParameterIndex = CountParameters();
+	
+	return mParameterIndex;
+}
+ 
+
+// ---------------------------------------------------------------------------
+// DeleteParameter 													[public]
+// ---------------------------------------------------------------------------
+// Deletes the parameter at current index. Returns the new count of
+// parameters after deletion.
+
+SInt32
+CAeteEvent::DeleteParameter()
+{
+	SInt32 count = 0;
+	
+	RemoveParameter(mParameterIndex);
+	count = CountParameters();
+	mParameterIndex = ( count > 0 );
+	
+	return count;
+}
+ 
 

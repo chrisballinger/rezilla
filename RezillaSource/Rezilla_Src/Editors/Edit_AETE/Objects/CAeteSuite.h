@@ -2,7 +2,7 @@
 // CAeteSuite.h
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-30 20:56:04
+//             Last modification: 2005-01-31 07:36:54
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -69,6 +69,9 @@ public:
 		void		AddEnumeration(CAeteEnumeration * inEnum);
 		void		AddEnumeration(OSType inID);
 		void		RemoveEnumeration( ArrayIndexT inAtIndex );
+
+		SInt32		NewItem(SInt8 inKind);
+		SInt32		DeleteItem(SInt8 inKind);
 
 		void		InstallDataStream(CAeteStream * inStream);
 		void		SendDataToStream(CAeteStream * outStream);

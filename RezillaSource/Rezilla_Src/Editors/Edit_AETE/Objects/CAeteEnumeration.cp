@@ -171,3 +171,38 @@ CAeteEnumeration::SendDataToStream(CAeteStream * outStream)
 }
 
 
+// ---------------------------------------------------------------------------
+//  NewEnumerator													[public]
+// ---------------------------------------------------------------------------
+// Returns the new count of enumerators after addition. This is also the
+// index of the new enumerator.
+
+SInt32
+CAeteEnumeration::NewEnumerator()
+{	
+	AddEnumerator();
+	mEnumeratorIndex = CountEnumerators();
+	
+	return mEnumeratorIndex;
+}
+ 
+
+// ---------------------------------------------------------------------------
+// DeleteEnumerator 												[public]
+// ---------------------------------------------------------------------------
+// Deletes the enumerator at current index. Returns the new count of
+// enumerators after deletion.
+
+SInt32
+CAeteEnumeration::DeleteEnumerator()
+{
+	SInt32 count = 0;
+	
+	RemoveEnumerator(mEnumeratorIndex);
+	mEnumeratorIndex = CountEnumerators();
+	
+	return mEnumeratorIndex;
+}
+ 
+
+

@@ -2,7 +2,7 @@
 // CAeteElement.h
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-30 20:56:53
+//             Last modification: 2005-01-31 08:52:25
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -31,6 +31,9 @@ public:
 		ArrayIndexT	AddKeyForm( OSType inKey = 0);
 		void		RemoveKeyForm( ArrayIndexT inAtIndex );
 		
+		SInt32		NewKeyForm();
+		SInt32		DeleteKeyForm();
+
 		OSType		GetID() { return mID;}
 		void		SetID(OSType inID) {mID = inID;}
 

@@ -2,7 +2,7 @@
 // CAeteSuite.cp
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-30 21:01:25
+//             Last modification: 2005-01-31 07:36:46
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -558,6 +558,78 @@ CAeteSuite::GetCurrentCount(SInt8 inKind)
 		count = this->CountEnumerations();
 		break;
 	}	
+	return count;
+}
+ 
+
+// ---------------------------------------------------------------------------
+//  NewItem															[public]
+// ---------------------------------------------------------------------------
+// Returns the new count of items after addition. This is also the index 
+// of the new item.
+
+SInt32
+CAeteSuite::NewItem(SInt8 inKind)
+{	
+	switch (inKind) {
+		case kind_AeteEvent:
+		AddEvent();
+		break;
+		
+		case kind_AeteClass:
+		AddClass();
+		break;
+		
+		case kind_AeteCompOp:
+		AddCompOp();
+		break;
+		
+		case kind_AeteEnum:
+		AddEnumeration();
+		break;
+	}
+	
+	return GetCurrentCount(inKind);
+}
+ 
+
+// ---------------------------------------------------------------------------
+// DeleteItem 														[public]
+// ---------------------------------------------------------------------------
+// Deletes the item at current index. Returns the new count of items after
+// deletion.
+
+SInt32
+CAeteSuite::DeleteItem(SInt8 inKind)
+{
+	SInt32 count = 0;
+	
+	switch (inKind) {
+		case kind_AeteEvent:
+		RemoveEvent(mEventIndex);
+		count = CountEvents();
+		mEventIndex = ( count > 0 );
+		break;
+		
+		case kind_AeteClass:
+		RemoveClass(mClassIndex);
+		count = CountClasses();
+		mClassIndex = ( count > 0 );
+		break;
+		
+		case kind_AeteCompOp:
+		RemoveCompOp(mCompOpIndex);
+		count = CountCompOps();
+		mCompOpIndex = ( count > 0 );
+		break;
+		
+		case kind_AeteEnum:
+		RemoveEnumeration(mEnumerationIndex);
+		count = CountEnumerations();
+		mEnumerationIndex = ( count > 0 );
+		break;
+	}	
+	
 	return count;
 }
  
