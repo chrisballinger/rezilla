@@ -52,7 +52,7 @@ public:
 							CommandT		inCommand,
 							void*			ioParam);
 
-	OSErr			InstallMenuData(Handle inMenuHandle, Handle inXmnuHandle);
+	OSErr			InstallResourceData(Handle inMenuHandle, Handle inXmnuHandle);
 	
 	virtual Handle			CollectMenuData();
 
@@ -79,7 +79,7 @@ private:
 	void			InstallItemValuesAtIndex( ArrayIndexT inAtIndex );
 	void			InstallMenuValues();
 	void			InstallTableValues();
-	void			InstallGlyphValue(UInt8 inValue);
+	void			InstallKeyboardGlyph(UInt8 inValue);
 
 };
 

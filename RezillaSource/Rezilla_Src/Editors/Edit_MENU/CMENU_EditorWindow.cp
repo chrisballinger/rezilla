@@ -135,12 +135,12 @@ CMENU_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		ThrowIfNil_( theEditText );
 		theEditText->GetDescriptor(theString);
 		::StringToNum( theString, &theValue);
-		InstallGlyphValue( (UInt8) theValue);
+		InstallKeyboardGlyph( (UInt8) theValue);
 		break;
 				
 		case msg_MenuEditGlyphField: 
 		if (ioParam == NULL) {
-			InstallGlyphValue(0);
+			InstallKeyboardGlyph(0);
 		} else {
 			ListenToMessage(msg_MenuEditGlyphPopup, ioParam);
 		}
@@ -199,11 +199,11 @@ CMENU_EditorWindow::ObeyCommand(
 
 
 // ---------------------------------------------------------------------------
-//	 InstallMenuData													[public]
+//	 InstallResourceData											[public]
 // ---------------------------------------------------------------------------
 
 OSErr
-CMENU_EditorWindow::InstallMenuData(Handle inMenuHandle, Handle inXmnuHandle)
+CMENU_EditorWindow::InstallResourceData(Handle inMenuHandle, Handle inXmnuHandle)
 {
 	OSErr		error = noErr, ignoreErr = noErr;
 	StHandleLocker	menulock(inMenuHandle);
@@ -487,11 +487,11 @@ CMENU_EditorWindow::InstallItemValuesAtIndex( ArrayIndexT inAtIndex )
 
 
 // ---------------------------------------------------------------------------
-//	 InstallTableValues
+//	 InstallKeyboardGlyph
 // ---------------------------------------------------------------------------
 
 void
-CMENU_EditorWindow::InstallGlyphValue(UInt8 inValue)
+CMENU_EditorWindow::InstallKeyboardGlyph(UInt8 inValue)
 {
 	Str255		theString;
 	
@@ -521,7 +521,27 @@ CMENU_EditorWindow::ClearItemValues()
 void
 CMENU_EditorWindow::InstallTableValues()
 {
+	SInt32	i = 1, theCount = mMenuObj->CountItems();
+	TableCellT	theCell;
+	Str255	theString;
+
+	theCell.col = 1;
+	
+	// Add rows for the items.
+	mItemsTable->InsertRows( theCount, 0, nil );
+	
+	TArrayIterator<CMenuItem*> iterator( *(mMenuObj->GetItems()) );
+	CMenuItem *	theItem;
+	
+	while (iterator.Next(theItem)) {
+		theItem->GetTitle(theString);
+		
+		// Set the cell data.
+		theCell.row = i++;
+		mItemsTable->SetCellData( theCell, theString );
+	}
 }
+
 
 
 
