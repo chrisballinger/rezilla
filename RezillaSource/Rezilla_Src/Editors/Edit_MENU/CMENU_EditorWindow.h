@@ -24,7 +24,7 @@
 
 class CMENU_EditorDoc;
 class CMENU_EditorTable;
-class CRezObj;
+class CMenuObject;
 class LStaticText;
 
 
@@ -52,7 +52,7 @@ public:
 							CommandT		inCommand,
 							void*			ioParam);
 
-	void			InstallMenuData(Handle inMenuHandle, Handle inXmnuHandle);
+	OSErr			InstallMenuData(Handle inMenuHandle, Handle inXmnuHandle);
 	
 	virtual Handle			CollectMenuData();
 
@@ -60,13 +60,14 @@ public:
 
 
 protected:
+	CMenuObject *		mMenu;
 	CMENU_EditorTable *	mItemsTable;
 	LStaticText *		mLengthField;
 						
 	virtual void	FinishCreateSelf();
-	virtual void	PutOnDuty(LCommander *inNewTarget);
-	virtual void	TakeOffDuty();
-	virtual void	RemoveTextMenus();
+// 	virtual void	PutOnDuty(LCommander *inNewTarget);
+// 	virtual void	TakeOffDuty();
+// 	virtual void	RemoveTextMenus();
 
 private:
 	Handle			RetrieveMenuData();

@@ -15,7 +15,7 @@
 #include "CMENU_EditorDoc.h"
 #include "CMENU_EditorWindow.h"
 #include "CMENU_EditorTable.h"
-#include "CRezObj.h"
+#include "CMenuObject.h"
 #include "CRezillaApp.h"
 #include "CRezMap.h"
 #include "CRezillaPrefs.h"
@@ -104,11 +104,7 @@ CMENU_EditorWindow::FinishCreateSelf()
 	mItemsTable->SetOwnerWindow(this);
 	
 // 	SwitchTarget(mItemsTable);
-	
-	// The total length field
-	mLengthField = dynamic_cast<LStaticText *> (this->FindPaneByID( item_TextEditLength ));
-	ThrowIfNil_( mLengthField );
-	
+		
 	// Link the broadcasters
 	UReanimator::LinkListenerToControls( this, this, PPob_TextEditorWindow );
 	
@@ -183,12 +179,33 @@ CMENU_EditorWindow::ObeyCommand(
 //	¥ InstallMenuData													[public]
 // ---------------------------------------------------------------------------
 
-void
+OSErr
 CMENU_EditorWindow::InstallMenuData(Handle inMenuHandle, Handle inXmnuHandle)
 {
-// 	StHandleLocker	lock(inTextHandle);
-// 	mItemsTable->SetTextHandle(inTextHandle, inScrapHandle);
+	OSErr		error = noErr;
+	StHandleLocker	menulock(inMenuHandle);
+
+	LHandleStream * theStream = new LHandleStream(inMenuHandle);
+	
+	if ( theStream->GetLength() == 0 ) {
+		// We are creating a new resource
+		mMenu = new CMenuObject();
+	} else {
+		mMenu = new CMenuObject(theStream);
+	}
+	
+	// Check that all the data have been parsed
+	if (theStream->GetMarker() < theStream->GetLength() ) {
+		error = err_MoreDataThanExpected;
+	} 
+	delete theStream;
+	
+	if (error == noErr) {
+// 		mItemsTable->InstallValues();
+	} 
+
 	SetDirty(false);
+	return error;
 }
 
 
