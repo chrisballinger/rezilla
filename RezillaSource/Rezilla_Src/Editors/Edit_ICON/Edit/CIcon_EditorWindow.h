@@ -186,10 +186,10 @@ protected:
 	CDraggableTargetBox			*mSamplePaneList[ kMaxIconSamplePanes ];
 	SInt32						mNumSamplePanes;
 // 	LClipboard					mClipboard;			// only need one of these ???
-	static LMenu				*sOptionsMenu, 
-								*sColorsMenu, 
-								*sFontMenu, 
-								*sStyleMenu;
+	static LMenu				*sIconActionsMenu, 
+								*sIconColorsMenu, 
+								*sIconFontMenu, 
+								*sIconStyleMenu;
 	Boolean						mWindowIsActive;
 	
 	// Resizing

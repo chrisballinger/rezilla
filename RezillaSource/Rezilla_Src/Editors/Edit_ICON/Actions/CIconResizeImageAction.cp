@@ -1,7 +1,7 @@
 // ===========================================================================
 // CIconResizeImageAction.cp
 //                       Created: 2004-12-11 18:52:32
-//             Last modification: 2004-12-22 18:03:51
+//             Last modification: 2004-12-24 09:47:53
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -12,9 +12,9 @@
 // ===========================================================================
 
 #include "CIconResizeImageAction.h"
-#include "CResizeDialog.h"
 #include "CIcon_EditorWindow.h"
 #include "COffscreen.h"
+#include "UResizeDialog.h"
 
 
 // ---------------------------------------------------------------------------
@@ -58,7 +58,7 @@ CIconResizeImageAction::DoIt()
 	
 			// ask the user for a new height & width 
 
-	Boolean okHit = PTResizeDialog::DoResizeDialog(
+	Boolean okHit = UResizeDialog::DoResizeDialog(
 						cb->GetWidth(), pv->GetMinImageWidth(), pv->GetMaxImageWidth(),
 						cb->GetHeight(), pv->GetMinImageHeight(), pv->GetMaxImageHeight(),
 						&newWidth, &newHeight );

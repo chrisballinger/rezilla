@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2004-12-15 17:43:33
+//             Last modification : 2004-12-24 10:18:41
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -174,9 +174,6 @@ const ResIDT	DITL_NewMap					= 10001;
 const ResIDT	DITL_OpenMap				= 10002;
 const ResIDT	DITL_SaveMap				= 10003;
 
-const ResIDT	PPob_SelectVolDialog		= 1128;
-const ResIDT	PPob_EditTable				= 1129;
-
 const ResIDT	rPPob_RezMapWindow			= 1000;
 const ResIDT	rPPob_InspectorWindow		= 2000;
 const ResIDT	rPPob_NewRezDialog			= 2100;
@@ -193,7 +190,8 @@ const ResIDT	rPPob_PrefsInterfacePane	= 7400;
 const ResIDT	rPPob_PrefsEditorsPane		= 7500;
 const ResIDT	rPPob_PrefsMiscPane			= 7600;
 const ResIDT	rPPob_FindDialog			= 8500;
-const ResIDT	rPPob_OtherSize				= 8600;
+const ResIDT	rPPob_FontSizeDialog		= 8600;
+const ResIDT	rPPob_ImageResizeDialog		= 8900;
 const ResIDT	rPPob_RezTypePicker			= 8700;
 const ResIDT	rPPob_TmplKeyPicker			= 8800;
 const ResIDT	rPPob_SimpleMessage			= 9500;
@@ -207,14 +205,6 @@ const ResIDT	rPPob_AeteEditorWindow		= 10300;
 const ResIDT	rPPob_PictEditorWindow		= 10400;
 const ResIDT	rPPob_UtxtEditorWindow		= 10500;
 const ResIDT	rPPob_IconEditorWindow		= 10600;
-
-const ResIDT	PPob_TextSizeDialog	= 9022;
-const PaneIDT	PaneID_Size			= 'SIZE';
-const ResIDT	PPob_ResizeDialog	= 9021;
-const PaneIDT	PaneID_Width		= 'WIDT';
-const PaneIDT	PaneID_Height		= 'HEIG';
-
-
 
 const ResIDT	ics8_Unlocked				= 1500;
 const ResIDT	ics8_Locked					= 1501;
@@ -261,12 +251,12 @@ const ResIDT	baseMENU_Edit				= 1100;
 const ResIDT	baseMENU_Resource			= 1200;
 
 // Icon editor
-const ResIDT	Txtr_PaintFont		= 9000;		// default font/size/style for text tool
-const ResIDT	RidL_ToolList		= 9100;		// note: Constructor may create own Ridl 9000 -- don't conflict
-const ResIDT	MenuID_PaintOptions	= 9000;
-const ResIDT	MenuID_PaintColors	= 9001;
-const ResIDT	MenuID_PaintFont	= 9002;
-const ResIDT	MenuID_PaintStyle	= 9003;
+const ResIDT	Txtr_PaintFont				= 9000;		// default font/size/style for text tool
+const ResIDT	RidL_ToolList				= 9100;		// note: Constructor may create own Ridl 9000 -- don't conflict
+const ResIDT	MENU_IconActions			= 300;
+const ResIDT	MENU_IconColors				= 301;
+const ResIDT	MENU_IconFont				= 302;
+const ResIDT	MENU_IconStyle				= 303;
 
 // Icon resources
 const ResIDT	ICN_WindowMenu				= 3100;
@@ -636,9 +626,13 @@ const PaneIDT   item_EditorRevert			= FOUR_CHAR_CODE('Rvrt');
 const PaneIDT	item_NameStaticText			= FOUR_CHAR_CODE('Name');
 const PaneIDT	item_ReadOnlyIcon			= FOUR_CHAR_CODE('Lock');
 
-// 'Other size' dialog
-// -------------------
-const PaneIDT   item_OtherSizeField			= 1;
+// Misc dialog elements
+// --------------------
+const PaneIDT	item_SizeField				= FOUR_CHAR_CODE('SIZE');
+const PaneIDT	item_WidthField				= FOUR_CHAR_CODE('WIDT');
+const PaneIDT	item_HeightField			= FOUR_CHAR_CODE('HEIG');
+
+
 
 // Navigation dialogs custom items
 // -------------------------------

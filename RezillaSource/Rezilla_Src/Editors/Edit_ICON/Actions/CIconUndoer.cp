@@ -1,7 +1,7 @@
 // ===========================================================================
 // CIconUndoer.cp
 //                       Created: 2004-12-11 18:52:45
-//             Last modification: 2004-12-23 15:25:56
+//             Last modification: 2004-12-24 09:46:10
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -18,6 +18,7 @@
 // one, not the most recent one.
 	
 #include "CIconUndoer.h"
+#include "RezillaConstants.h"
 
 
 void

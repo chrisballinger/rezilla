@@ -41,7 +41,7 @@
 
 #include "RezillaConstants.h"
 #include "CIconActions.h"
-#include "CIconUndoer.h"					// for cmd_GetLastCommand
+#include "CIconUndoer.h"					// for msg_GetLastCommand
 #include "CIcon_EditorView.h"
 #include "CIcon_EditorWindow.h"
 #include "COffscreen.h"
@@ -64,7 +64,7 @@ CIconMoveAction::CIconMoveAction( const SPaintAction &inAction )
 	// If previous action was also a move, this particular one will not be
 	// undoable because that one will be remembered instead.
 	LAction		*lastAction = nil;
-	mSettings.thePaintView->ProcessCommand( cmd_GetLastCommand, &lastAction );
+	mSettings.thePaintView->ProcessCommand( msg_GetLastCommand, &lastAction );
 	
 	// Constructor LActions don't have the GetActionType() method, so the
 	// dynamic case below is necessary. If ourLastAction is nil, it isn't a

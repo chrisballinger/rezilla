@@ -1,7 +1,7 @@
 // ===========================================================================
 // CIconTextActionCmds.cp
 //                       Created: 2004-12-11 18:57:13
-//             Last modification: 2004-12-23 12:15:21
+//             Last modification: 2004-12-24 10:16:05
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -12,7 +12,7 @@
 // ===========================================================================
 
 #include "CIconTextAction.h"
-// #include "CFontSizeDialog.h"
+#include "UFontSizeDialog.h"
 
 
 // ---------------------------------------------------------------------------
@@ -36,7 +36,7 @@ CIconTextAction::FindCommandStatus(
 	
 	if ( LCommander::IsSyntheticCommand( inCommand, theMenuID, theMenuItem ) )
 	{
-		if ( !inFontMenu || (theMenuID != MenuID_PaintFont) ) return( false );
+		if ( !inFontMenu || (theMenuID != MENU_IconFont) ) return( false );
 		
 		// The font menu is shared between different windows, so we need to
 		// uncheck the previous item and check the current one. The easiest
@@ -209,7 +209,7 @@ CIconTextAction::ObeyCommand( 	CIcon_EditorWindow *,
 	
 	if ( LCommander::IsSyntheticCommand( inCommand, theMenuID, theMenuItem ) )
 	{
-		if ( theMenuID == MenuID_PaintFont )
+		if ( theMenuID == MENU_IconFont )
 		{
 			MenuHandle	fontMenuH = ::GetMenuHandle( theMenuID );
 			if ( fontMenuH )
@@ -228,7 +228,7 @@ CIconTextAction::ObeyCommand( 	CIcon_EditorWindow *,
 	{
 		if ( inCommand == cmd_OtherFontSize )
 		{
-			if ( PTFontSizeDialog::DoSizeDialog( ioRec->size, &ioRec->size ) )
+			if ( UFontSizeDialog::DoSizeDialog( ioRec->size, &ioRec->size ) )
 				changed = true;
 		}
 		else

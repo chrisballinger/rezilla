@@ -2,7 +2,7 @@
 // CIcon_EditorWindow.cp
 // 
 //                       Created: 2004-12-10 17:23:05
-//             Last modification: 2004-12-23 23:10:32
+//             Last modification: 2004-12-24 10:17:23
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -59,10 +59,10 @@
 // Statics
 CColorCursorCache *	CIcon_EditorWindow::mColorCursorCache = nil;
 SInt32				CIcon_EditorWindow::mNumPaintWindows = 0;
-LMenu *				CIcon_EditorWindow::sOptionsMenu = nil;
-LMenu *				CIcon_EditorWindow::sColorsMenu = nil;
-LMenu *				CIcon_EditorWindow::sFontMenu = nil;
-LMenu *				CIcon_EditorWindow::sStyleMenu = nil;
+LMenu *				CIcon_EditorWindow::sIconActionsMenu = nil;
+LMenu *				CIcon_EditorWindow::sIconColorsMenu = nil;
+LMenu *				CIcon_EditorWindow::sIconFontMenu = nil;
+LMenu *				CIcon_EditorWindow::sIconStyleMenu = nil;
 
 
 // ---------------------------------------------------------------------------
@@ -547,7 +547,7 @@ CIcon_EditorWindow::FindCommandStatus(
 			// See if the command belongs to the text editor
 			if ( CIconTextAction::FindCommandStatus(	mTextTraits, inCommand, 
 													outEnabled, outUsesMark,
-													outMark, outName, sFontMenu ) ) {
+													outMark, outName, sIconFontMenu ) ) {
 				return;
 			}
 													
@@ -1493,30 +1493,30 @@ CIcon_EditorWindow::PutOnDuty(LCommander *inNewTarget)
 
 	// Put up our menus when we're on duty
 	{
-		if ( !sOptionsMenu )
+		if ( !sIconActionsMenu )
 		{
-			sOptionsMenu = new LMenu( MenuID_PaintOptions );
-			ThrowIfNil_( sOptionsMenu );
+			sIconActionsMenu = new LMenu( MENU_IconActions );
+			ThrowIfNil_( sIconActionsMenu );
 		}
 		
-		if ( !sColorsMenu )
+		if ( !sIconColorsMenu )
 		{
-			sColorsMenu = new LMenu( MenuID_PaintColors );
-			ThrowIfNil_( sColorsMenu );
+			sIconColorsMenu = new LMenu( MENU_IconColors );
+			ThrowIfNil_( sIconColorsMenu );
 		}
 		
-		if ( !sStyleMenu )
+		if ( !sIconStyleMenu )
 		{
-			sStyleMenu = new LMenu( MenuID_PaintStyle );
-			ThrowIfNil_( sStyleMenu );
+			sIconStyleMenu = new LMenu( MENU_IconStyle );
+			ThrowIfNil_( sIconStyleMenu );
 		}
 		
-		if ( !sFontMenu )
+		if ( !sIconFontMenu )
 		{
-			sFontMenu = new LMenu( MenuID_PaintFont );
-			ThrowIfNil_( sFontMenu );
+			sIconFontMenu = new LMenu( MENU_IconFont );
+			ThrowIfNil_( sIconFontMenu );
 
-			MenuHandle	macH = sFontMenu->GetMacMenuH();
+			MenuHandle	macH = sIconFontMenu->GetMacMenuH();
 			if ( macH )
 				::AppendResMenu( macH, 'FONT' );
 		}
@@ -1524,10 +1524,10 @@ CIcon_EditorWindow::PutOnDuty(LCommander *inNewTarget)
 	
 	// Update the menu bar
 	LMenuBar	*theBar = LMenuBar::GetCurrentMenuBar();
-	theBar->InstallMenu( sOptionsMenu, rMENU_Window );	
-	theBar->InstallMenu( sColorsMenu, rMENU_Window );
-	theBar->InstallMenu( sFontMenu, rMENU_Window );
-	theBar->InstallMenu( sStyleMenu, rMENU_Window );
+	theBar->InstallMenu( sIconActionsMenu, rMENU_Window );	
+	theBar->InstallMenu( sIconColorsMenu, rMENU_Window );
+	theBar->InstallMenu( sIconFontMenu, rMENU_Window );
+	theBar->InstallMenu( sIconStyleMenu, rMENU_Window );
 	mWindowIsActive = true;
 }
 
@@ -1557,17 +1557,17 @@ CIcon_EditorWindow::RemovePaintMenus()
 {
 	LMenuBar	*theBar = LMenuBar::GetCurrentMenuBar();
 	
-	if ( sColorsMenu )
-		theBar->RemoveMenu( sColorsMenu );
+	if ( sIconColorsMenu )
+		theBar->RemoveMenu( sIconColorsMenu );
 	
-	if ( sOptionsMenu )
-		theBar->RemoveMenu( sOptionsMenu );
+	if ( sIconActionsMenu )
+		theBar->RemoveMenu( sIconActionsMenu );
 		
-	if ( sFontMenu )
-		theBar->RemoveMenu( sFontMenu );
+	if ( sIconFontMenu )
+		theBar->RemoveMenu( sIconFontMenu );
 		
-	if ( sStyleMenu )
-		theBar->RemoveMenu( sStyleMenu );
+	if ( sIconStyleMenu )
+		theBar->RemoveMenu( sIconStyleMenu );
 }
 
 
@@ -1823,7 +1823,7 @@ CIconAction *CIcon_EditorWindow::GetLastAction()
 	
 	// The previous action is an attachment to our view, so it will 
 	// see this request and respond to it
-	this->ProcessCommand( cmd_GetLastCommand, &lastAction );
+	this->ProcessCommand( msg_GetLastCommand, &lastAction );
 	if ( lastAction == nil ) return( nil );
 	
 	// The dynamic cast will fail if the last action was something other than

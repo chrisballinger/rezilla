@@ -1126,7 +1126,7 @@ CRezillaPrefs::RunPrefsDialog()
 					itemIndex = thePopup->GetValue();
 					if (itemIndex == kLastSizeMenuItem + 2) {
 						// This is the 'Other' item
-						if (UModalDialogs::AskForOneNumber(sPrefsWindow, rPPob_OtherSize, item_OtherSizeField, theSize)) {
+						if (UModalDialogs::AskForOneNumber(sPrefsWindow, rPPob_FontSizeDialog, item_SizeField, theSize)) {
 							if (theSize == 0) {theSize = 10;}
 							// If they match, no need to use 'Other' item
 							if (UMiscUtils::FontSizeExists(thePopup, theSize, itemIndex)) {

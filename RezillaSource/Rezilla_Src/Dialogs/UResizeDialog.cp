@@ -1,7 +1,7 @@
 // ===========================================================================
 // UResizeDialog.cp
 //                       Created: 2004-12-11 18:57:29
-//             Last modification: 2004-12-11 18:57:29
+//             Last modification: 2004-12-24 09:13:01
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -34,10 +34,10 @@ UResizeDialog::DoResizeDialog(	SInt32 inWidth, SInt32 inMinWidth, SInt32 inMaxWi
 	::SetGDevice( ::GetMainDevice() );
 	
 	// Create the dialog
-	StDialogHandler			theHandler( PPob_ResizeDialog, LCommander::GetTopCommander() );
+	StDialogHandler			theHandler( rPPob_ImageResizeDialog, LCommander::GetTopCommander() );
 	LWindow	*				theWindow = theHandler.GetDialog();
-	LEditField *			widthField =  (LEditField*) theWindow->FindPaneByID( PaneID_Width );
-	LEditField *			heightField = (LEditField*) theWindow->FindPaneByID( PaneID_Height );
+	LEditField *			widthField =  (LEditField*) theWindow->FindPaneByID( item_WidthField );
+	LEditField *			heightField = (LEditField*) theWindow->FindPaneByID( item_HeightField );
 	
 	ThrowIf_( !widthField || !heightField );
 	
@@ -101,9 +101,18 @@ void
 UResizeDialog::ShowResizeError( SInt32 inMinWidth, SInt32 inMaxWidth,
 								SInt32 /*inMinHeight*/, SInt32 /*inMaxHeight*/ )
 {
-	char	formatString[ 256 ], combinedString[ 256 ];
+	CFStringRef formatStr = NULL, messageStr = NULL;
 	
-	SUErrors::ConvertErrorNumberToString( err_ResizeFormatString, formatString, combinedString );
-	sprintf( combinedString, formatString, inMinWidth, inMaxWidth );
-	SUErrors::DisplayErrorString( combinedString, nil );
+	formatStr = CFCopyLocalizedString(CFSTR("ErrorResizingImage"), NULL);
+	if (formatStr != NULL) {
+		messageStr = ::CFStringCreateWithFormat(NULL, NULL, formatStr, inMinWidth, inMaxWidth);
+		if (messageStr != NULL) {
+			UMessageDialogs::SimpleMessageFromLocalizable(messageStr, rPPob_SimpleMessage);
+			CFRelease(messageStr);                     
+		}
+		CFRelease(formatStr);                             
+	}		  	
 }
+
+
+
