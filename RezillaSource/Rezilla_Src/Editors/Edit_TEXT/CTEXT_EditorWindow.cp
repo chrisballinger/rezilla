@@ -2,7 +2,7 @@
 // CTEXT_EditorWindow.cp					
 // 
 //                       Created: 2004-06-17 12:46:55
-//             Last modification: 2005-01-08 17:16:54
+//             Last modification: 2005-01-27 18:11:38
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -277,73 +277,6 @@ CTEXT_EditorWindow::InstallText(Handle inTextHandle, StScrpHandle inScrapHandle)
 	StHandleLocker	lock(inTextHandle);
 	mContentsView->SetTextHandle(inTextHandle, inScrapHandle);
 	SetDirty(false);
-}
-
-
-// ---------------------------------------------------------------------------
-//	¥ AdjustMenusToSelection										[public]
-// ---------------------------------------------------------------------------
-
-// LPane::GetUserCon()
-
-void
-CTEXT_EditorWindow::AdjustMenusToSelection()
-{
-// 	SInt16	theFontNum, theSize;
-// 	SInt32	theIndex;
-// 	UInt8	i;
-// 	Style	theStyle;
-// 	Boolean	result;
-// 	LStr255	theLine( "\p" );
-// 	SInt16	theStart = (**(mContentsView->GetMacTEH())).selStart;
-// 	SInt16	theEnd   = (**(mContentsView->GetMacTEH())).selEnd;
-// 	
-// 	mIsAdjustingMenus = true;
-// 	
-// 	result = mContentsView->GetFont(theFontNum);
-// 	if (result) {
-// 		theIndex = UMiscUtils::FontIndexFromFontNum(mFontPopup, theFontNum);
-// 		mFontPopup->SetValue(theIndex);
-// // 		::MacCheckMenuItem(mFontPopup->GetMacMenuH(), theIndex, 1);
-// 	}
-// 	
-// 	result = mContentsView->GetSize(theSize);
-// 	if (result) {
-// 		theIndex = UMiscUtils::SizeIndexFromSizeValue(mSizePopup, theSize);
-// 		if (theIndex == kLastSizeMenuItem + 2) {
-// 			// This is the 'Other' item
-// 			Str255	theSizeString;
-// 			theLine = "\pOther (" ;
-// 			::NumToString( theSize, theSizeString );
-// 			// Append the current size
-// 			theLine += theSizeString;
-// 			theLine += "\p)É";
-// 			// Set the menu item text.
-// 			::SetMenuItemText( mSizePopup->GetMacMenuH(), kLastSizeMenuItem + 2, theLine );					
-// 		} else {
-// 			::SetMenuItemText( mSizePopup->GetMacMenuH(), kLastSizeMenuItem + 2, LStr255("\pOtherÉ"));					
-// 		}
-// 		mSizePopup->SetValue(theIndex);
-// // 		::MacCheckMenuItem(mSizePopup->GetMacMenuH(), theIndex, 1);
-// 	}
-// 	
-// 	result = mContentsView->GetStyle(theStyle);
-// 	if (result) {
-// 		for (i = 0; i < 7; i++) {
-// 			::MacCheckMenuItem(mStylePopup->GetMacMenuH(), i+3, theStyle & (1 << i));
-// 		}
-// 		::MacCheckMenuItem(mStylePopup->GetMacMenuH(), 2, (theStyle == 0));
-// 	} else {
-// 		// Not a continuous style. Uncheck all items.
-// 		for (i = 0; i < 7; i++) {
-// 			::MacCheckMenuItem(mStylePopup->GetMacMenuH(), i+3, 0);
-// 		}
-// 		::MacCheckMenuItem(mStylePopup->GetMacMenuH(), 2, 0);
-// 	}
-// 	
-// 	mStylePopup->SetValue(1);
-// 
-// 	mIsAdjustingMenus = false;
 }
 
 
