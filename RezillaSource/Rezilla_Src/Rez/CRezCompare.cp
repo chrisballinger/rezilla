@@ -126,7 +126,7 @@ CRezCompare::AllowSubRemoval(
 //  ¥ RunRezCompareDialog
 // ---------------------------------------------------------------------------------
 
-void
+OSErr
 CRezCompare::RunRezCompareDialog()
 {
 	Boolean			isIgnoreNames = false;
@@ -259,8 +259,11 @@ CRezCompare::RunRezCompareDialog()
 				// Now get out of the outer 'while'
 				inRezCompLoop = false;
 			}
-		}		
+		} else {
+			error = userCanceledErr;
+		}
 	}
+	return error;
 }
 
 

@@ -59,7 +59,7 @@ public:
 
 		virtual Boolean		AllowSubRemoval( LCommander* inSub );
 
-		void			RunRezCompareDialog();
+		OSErr			RunRezCompareDialog();
 		void			DoCompareRezMaps();
 		void			CompareTypes(ResType inType);
 		void			CompareTwoResources(CRezType * inOldRezType, 
