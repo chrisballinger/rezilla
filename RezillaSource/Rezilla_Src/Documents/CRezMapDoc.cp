@@ -446,6 +446,7 @@ CRezMapDoc::TryEdit(CRezObjItem * inRezObjItem, CommandT inCommand, int & outCou
 	ResType		theType = inRezObjItem->GetRezObj()->GetType();
 	short		theID = inRezObjItem->GetRezObj()->GetID();
 
+	// Is this resource already edited ?
 	CEditorDoc * theRezEditor = GetRezEditor(theType, theID);
 	if (theRezEditor != nil) {
 		if ((theRezEditor->GetKind() != editor_kindTmpl && inCommand == cmd_TmplEditRez) 
