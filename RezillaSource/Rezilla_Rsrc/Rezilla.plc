@@ -1,7 +1,7 @@
 // ===========================================================================
 // Rezilla.plc					
 //                       Created: 2003-04-16 22:25:40
-//             Last modification: 2004-05-07 06:55:55
+//             Last modification: 2004-05-07 22:34:57
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -20,7 +20,8 @@
 #define kBundleShortInfoString __OUTPUT_FILENAME__ " "  REZILLA_PLC_VERSION
 
 // String to display in the Finder's Get Info window (\U00A9 = ©)
-#define kBundleLongInfoString kBundleShortInfoString ", Copyright © 2003-2004 by Bernard Desgraupes. All rights reserved."
+#define kBundleLongInfo_EN kBundleShortInfoString ", Copyright © 2003-2004 by Bernard Desgraupes. All rights reserved."
+#define kBundleLongInfo_FR kBundleShortInfoString ", Copyright © 2003-2004 par Bernard Desgraupes. Tous droits réservés."
 
 plist
 {
@@ -29,7 +30,7 @@ plist
 		key "CFBundleIdentifier" value string kBundleIdentifier
 		
 		key "CFBundleName" value string __OUTPUT_FILENAME__
-		key "CFBundleGetInfoString" value string kBundleLongInfoString
+		key "CFBundleGetInfoString" value string kBundleLongInfo_EN
 		key "CFBundleShortVersionString" value string kBundleShortInfoString
 		
 		key "CFBundlePackageType" value string __OUTPUT_TYPE__
@@ -38,7 +39,7 @@ plist
 		key "CFBundleVersion" value string REZILLA_PLC_VERSION
 		key "CFBundleIconFile" value string "Rezilla.icns"
 		
-		key "CFBundleHelpBookFolder" value string "Rezilla Help"
+		key "CFBundleHelpBookFolder" value string "RezillaHelp"
 		key "CFBundleHelpBookName" value string "Rezilla Help"
 	
 		key "CFBundleDevelopmentRegion" value string "English"
@@ -71,8 +72,18 @@ localize "English"
 {
 	comment "Localized versions of Info.plist keys"
 	key "CFBundleName" value string __OUTPUT_FILENAME__
-	key "CFBundleGetInfoString" value string kBundleLongInfoString
+	key "CFBundleGetInfoString" value string kBundleLongInfo_EN
 	key "CFBundleShortVersionString" value string kBundleShortInfoString
+}
+
+localize "French"
+{
+	comment "Localized versions of Info.plist keys"
+	key "CFBundleName" value string __OUTPUT_FILENAME__
+	key "CFBundleGetInfoString" value string kBundleLongInfo_FR
+	key "CFBundleShortVersionString" value string kBundleShortInfoString
+	key "CFBundleHelpBookFolder" value string "RezillaHelp"
+	key "CFBundleHelpBookName" value string "Aide Rezilla"
 }
 
 #include "Rezilla_EN.ploc"
