@@ -1024,13 +1024,11 @@ CRezMapDoc::DoRevert()
 // ---------------------------------------------------------------------------
 //	¥ AskConfirmRevert												  [public]
 // ---------------------------------------------------------------------------
-//	Ask user to confirm discarding changes and reverting to the last
-//	saved version of the RezMapDoc
 
 bool
 CRezMapDoc::AskConfirmRevert()
 {
-	return UMessageDialogs::AskIfFromLocalizable(CFSTR("ConfirmRevertRezMapDoc"), PPob_AskIfMessage);
+	return UMessageDialogs::AskIfFromLocalizable(CFSTR("ConfirmRevert"), PPob_AskIfMessage);
 }
 
 
