@@ -88,11 +88,8 @@ CTmplEditorDoc::~CTmplEditorDoc()
 void
 CTmplEditorDoc::Initialize()
 {
-// 	mSearchString[0] = 0;
-// 	mMatchStart = 0;
-// 	mMatchEnd = 0;
-// 	mSearchWhichPane = item_FindInHexRadio;
-// 	mIgnoreCase = true;
+	OSErr error;
+	
 	mKind = editor_kindTmpl;
 
 	// Create window for our document.
@@ -116,10 +113,19 @@ CTmplEditorDoc::Initialize()
 			// Work with a copy of the handle
 			::HandToHand(&rezData);
 			
-			mTmplEditWindow->ParseDataWithTemplate(rezData);						
+			try {
+				error = mTmplEditWindow->ParseDataWithTemplate(rezData);						
+			} catch (...) {
+				UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("TemplateParsingException"), rPPob_SimpleMessage);
+			}
 		} 
 	} 
 	
+	if (error != noErr) {
+		UMessageDialogs::AlertWithValue(CFSTR("ErrorWhileParsingTemplate"), error);
+		delete this;
+	} 
+
 	// Make the window visible.
 	mTmplEditWindow->Show();
 	// Enable all the subpanes
@@ -280,10 +286,17 @@ CTmplEditorDoc::NameNewEditorDoc()
 void
 CTmplEditorDoc::ListenToMessage( MessageT inMessage, void *ioParam ) 
 {
+	OSErr error;
+	
 	switch (inMessage) {
 		case msg_OK:
-		mTmplEditWindow->RetrieveDataWithTemplate();
-		DoSaveChanges();
+		error = mTmplEditWindow->RetrieveDataWithTemplate();
+		if (error == noErr) {
+			DoSaveChanges();
+		} else {
+			UMessageDialogs::AlertWithValue(CFSTR("ErrorWhileSavingTemplateWindow"), error);
+		}
+		
 		// Fall through...
 		
 		case msg_Cancel:

@@ -490,15 +490,18 @@ CTmplEditorWindow::ObeyCommand(
 //	¥ CreateTemplateStream									[protected]
 // ---------------------------------------------------------------------------
 
-void
+OSErr
 CTmplEditorWindow::CreateTemplateStream()
 {
+	OSErr		error = noErr;
 	Handle theHandle = CTemplatesController::GetTemplateHandle( mOwnerDoc->GetSubstType() );
 	if (theHandle == NULL) {
 		UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("CouldNotGetTemplateData"), rPPob_SimpleMessage);
-// 		UMessageDialogs::AlertForType(CFSTR("CouldNotGetTemplateDataForType"), mOwnerDoc->GetSubstType());
+// 		UMessageDialogs::AlertWithType(CFSTR("CouldNotGetTemplateDataForType"), mOwnerDoc->GetSubstType());
 	} 
 	mTemplateStream = new LHandleStream(theHandle);	
+
+	return error;
 }
  
 
@@ -506,24 +509,34 @@ CTmplEditorWindow::CreateTemplateStream()
 //	¥ ParseDataWithTemplate											[public]
 // ---------------------------------------------------------------------------
 
-void
+OSErr
 CTmplEditorWindow::ParseDataWithTemplate(Handle inHandle)
 {
+	OSErr		error = noErr;
 	SInt32		oldYCoord = mYCoord;
 	
 	// Get a handle to the template resource and create a stream to parse it
-	CreateTemplateStream();
+	error = CreateTemplateStream();
 	
-	// Create a stream to parse the data
-	mRezStream = new LHandleStream(inHandle);	
+	if (error == noErr) {
+		// Create a stream to parse the data
+		mRezStream = new LHandleStream(inHandle);	
+		
+		// Parse the template stream
+		error = DoParseWithTemplate(0, true, mContentsView);
+		
+		if (error == noErr) {
+			// Check that there is nothing left in the data stream
+			if (mRezStream->GetMarker() < mRezStream->GetLength() ) {
+				UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("ResourceLongerThanTemplate"), rPPob_SimpleMessage);
+			} 
+			mLastID = mCurrentID;
+			mContentsView->ResizeImageBy(0, mYCoord - oldYCoord, true);
+			mContentsScroller->AdjustScrollBars();
+		} 
+	}
 	
-	// Parse the template stream
-	DoParseWithTemplate(0, true, mContentsView);
-
-	mLastID = mCurrentID;
-
-	mContentsView->ResizeImageBy(0, mYCoord - oldYCoord, true);
-	mContentsScroller->AdjustScrollBars();
+	return error;
 }
 
 
@@ -541,7 +554,9 @@ CTmplEditorWindow::DoParseWithTemplate(SInt32 inRecursionMark, Boolean inDrawCon
 
 	mTemplateStream->SetMarker(inRecursionMark, streamFrom_Start);
 
-	while (mTemplateStream->GetMarker() < mTemplateStream->GetLength() ) {
+	while (mTemplateStream->GetMarker() < mTemplateStream->GetLength() 
+		   && 
+		   error == noErr) {
 		*mTemplateStream >> theString;
 		*mTemplateStream >> theType;
 		
@@ -615,7 +630,7 @@ CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount,
 		
 		case 'LSTC':
 		if (inCount == 0) {
-			DoParseWithTemplate(inStartMark, false, theContainer);
+			error = DoParseWithTemplate(inStartMark, false, theContainer);
 		} else {
 			mYCoord = outYCoord;
 			for (short i = 0 ; i < inCount; i++) {
@@ -716,8 +731,8 @@ CTmplEditorWindow::ParseKeyedSection(ResType inType, Str255 inLabelString, LView
 		error = DoParseWithTemplate(sectionStart, inDrawControls, inContainer);
 	} 
 
-	// NB: if there are other KEYB-KEYE segments, they will be skipped from 
-	// the ParseDataForType() function.
+	// NB: the following KEYB-KEYE segments (remaining cases) will be skipped  
+	// when met by the ParseDataForType() function.
 	
 	return error;
 }
@@ -1031,6 +1046,18 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		ParseKeyedSection(inType, inLabelString, inContainer);
 		break;
 		
+		case 'KEYB':
+		// Beginning of keyed segment. This is normally a segment
+		// corresponding to remaining cases just after the matching segment. 
+		// We must skip it.
+		error = FindMatchingKeyEnd(&theSInt32);
+		break;
+
+		case 'KEYE':
+		// End of keyed segment. We shoould never reach here.
+		error = err_TmplUnexpectedTag;
+		break;
+
 		case 'LABL':
 		// Insert a comment
 		AddStaticField(inType, inLabelString, inContainer, sCommentTraitsID);
@@ -1387,7 +1414,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		  
 	  } else {
 		  // Unrecognized type
-		  UMessageDialogs::AlertForType(CFSTR("UnknownTemplateTag"), inType);
+		  UMessageDialogs::AlertWithType(CFSTR("UnknownTemplateTag"), inType);
 	  }
 	  break;
 	}
@@ -1402,9 +1429,11 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 //	¥ RetrieveDataWithTemplate								[public]
 // ---------------------------------------------------------------------------
 
-Handle
+OSErr
 CTmplEditorWindow::RetrieveDataWithTemplate()
 {
+	OSErr	error = noErr;
+
 	if (mOutStream != nil) {
 		delete mOutStream;
 	} 
@@ -1414,18 +1443,15 @@ CTmplEditorWindow::RetrieveDataWithTemplate()
 	mItemsCount = 0;
 	
 	// Parse the template stream
-	DoRetrieveWithTemplate(0);
+	error = DoRetrieveWithTemplate(0);
 	
-	return mOutStream->GetDataHandle();
+	return error;
 }
 
 
 // ---------------------------------------------------------------------------
 //	¥ DoRetrieveWithTemplate													[public]
 // ---------------------------------------------------------------------------
-// // // SInt32
-// // // LPane::GetUserCon() const
-// // // GetPaneID()
 
 OSErr
 CTmplEditorWindow::DoRetrieveWithTemplate(SInt32 inRecursionMark)
@@ -1435,23 +1461,25 @@ CTmplEditorWindow::DoRetrieveWithTemplate(SInt32 inRecursionMark)
 	ResType		theType;
 	
 	mTemplateStream->SetMarker(inRecursionMark, streamFrom_Start);
-
-	while (mTemplateStream->GetMarker() < mTemplateStream->GetLength() ) {
+	
+	while (mTemplateStream->GetMarker() < mTemplateStream->GetLength() 
+		   &&
+		   error == noErr) {
 		*mTemplateStream >> theString;
 		*mTemplateStream >> theType;
 		
 		if (theType == 'OCNT' || theType == 'WCNT' || theType == 'ZCNT' 
 			|| theType == 'FCNT' || theType == 'LCNT' || theType == 'LZCT') {
-			RetrieveDataForType(theType);
+			error = RetrieveDataForType(theType);
 		} else if (theType == 'LSTB' || theType == 'LSTC' || theType == 'LSTZ') {
 			// Skip the Plus and Minus buttons
 			mCurrentID += 2;
-			RetrieveList(mTemplateStream->GetMarker(), theType, mItemsCount);
+			error = RetrieveList(mTemplateStream->GetMarker(), theType, mItemsCount);
 		} else if (theType == 'LSTE') {
 			break;
 		} else {
 			// Create controls according to the type declared in the template
-			RetrieveDataForType(theType);
+			error = RetrieveDataForType(theType);
 		}
 	}
 	
@@ -1497,10 +1525,22 @@ CTmplEditorWindow::RetrieveList(SInt32 inStartMark, ResType inType, SInt32 inCou
 OSErr
 CTmplEditorWindow::RetrieveKeyedSection(ResType inType)
 {
-	OSErr	error = noErr;
+	OSErr		error = noErr;
+	Str255		keyString;
+	SInt32		sectionStart;
+	
+	// Get the key value
+	KeyValueToString(inType, keyString);
+	
+	// Skip all the CASE statements
+	SkipNextKeyCases();
+	
+	// Find the corresponding KEYB tag
+	FindKeyStartForValue(keyString, &sectionStart);
+	
+	// Parse the section
+	error = DoRetrieveWithTemplate(sectionStart);
 
-	
-	
 	return error;
 }
 
@@ -1518,7 +1558,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 	char 	formatString[16];
 	long	theLong;
 	Str255	numStr, typeStr, theString;
-	SInt32	theLength, reqLength, currMark, oldMark;
+	SInt32	theSInt32, theLength, reqLength, currMark, oldMark;
 	UInt8	theUInt8 = 0;
 	UInt16	theUInt16 = 0, bitCount = 0, bytesLen = 0;
 	UInt32	theUInt32 = 0;
@@ -1654,10 +1694,10 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		case 'MDAT':
 		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
 		theEditText->GetDescriptor(numStr);	
-		if ( ! UMiscUtils::ParseDateString(numStr, &theUInt32)) {
+		if ( ! UMiscUtils::ParseDateString(numStr, &theSInt32)) {
 			error = err_TmplParseDateFailed;
 		} 
-		*mOutStream << theUInt32;
+		*mOutStream << theSInt32;
 		break;
 		
 		case 'DBYT':
@@ -1846,10 +1886,19 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		case 'KUBT':
 		case 'KULG':
 		case 'KUWD':
-		// Keyed lists switches
+		// Keyed sections switches
 		error = RetrieveKeyedSection(inType);
 		break;
 		
+		case 'KEYB':
+		// Beginning of keyed segment. Just skip it.
+		error = FindMatchingKeyEnd(&theSInt32);
+		break;
+
+		case 'KEYE':
+		// End of keyed segment
+		break;
+
 		case 'LABL':
 		// It is a comment. Just skip it.
 		break;
@@ -2273,7 +2322,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		  
 	  } else {
 		  // Unrecognized type
-		  UMessageDialogs::AlertForType(CFSTR("UnknownTemplateType"), inType);
+		  UMessageDialogs::AlertWithType(CFSTR("UnknownTemplateType"), inType);
 	  }
 	  break;
 	}

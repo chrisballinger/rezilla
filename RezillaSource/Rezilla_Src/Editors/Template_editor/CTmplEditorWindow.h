@@ -62,8 +62,9 @@ public:
 							CommandT			inCommand,
 							void*				ioParam);
 
-	void			ParseDataWithTemplate(Handle inHandle);
-	Handle			RetrieveDataWithTemplate();
+	OSErr			ParseDataWithTemplate(Handle inHandle);
+	
+	OSErr			RetrieveDataWithTemplate();
 	
 	Boolean			IsDirty();
 	void			SetDirty(Boolean inDirty) {mIsDirty = inDirty;}
@@ -124,7 +125,7 @@ protected:
 
 	virtual void	FinishCreateSelf();
 
-	void			CreateTemplateStream();
+	OSErr			CreateTemplateStream();
 		
 private:
 	OSErr			ParseDataForType(ResType inType, Str255 inLabelString, LView * inContainer);
