@@ -2,7 +2,7 @@
 // CIcon_EditorWindow.h
 // 
 //                       Created: 2004-12-10 17:23:05
-//             Last modification: 2004-12-28 21:59:39
+//             Last modification: 2004-12-30 09:40:25
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -11,6 +11,8 @@
 // $Date$
 // $Revision$
 // ===========================================================================
+// mScratchBuffer: this should be static since we only need one for all 
+// windows.
 
 #ifndef _H_CIcon_EditorWindow
 #define _H_CIcon_EditorWindow
@@ -43,9 +45,6 @@ class LPopupButton;
 class LStaticText;
 class CIconAction;
 
-// mScratchBuffer: this should be static since we only need one for all 
-// windows.
-
 
 class CIcon_EditorWindow : public CEditorWindow, public LBroadcaster, public LPeriodical {
 public:
@@ -61,7 +60,7 @@ public:
 	static CIcon_EditorWindow *	CreatePaintStream( LStream *inStream );
 
 	virtual void				SetImage( COffscreen *, SInt32 = resize_None,
-											ERedrawOptions = redraw_Later );
+											RedrawOptions = redraw_Later );
 											
 	// Getting our buffers
 	virtual COffscreen *		GetImageBuffer();
@@ -123,7 +122,7 @@ public:
 	virtual Boolean				CanvasPointInSelection( Point canvasPt );
 
 	// Target box
-	virtual void				SetTargetView( CDraggableTargetView *, ERedrawOptions = redraw_Later );
+	virtual void				SetTargetView( CDraggableTargetView *, RedrawOptions = redraw_Later );
 	virtual CDraggableTargetView *GetTargetView();
 
 	// Misc
@@ -207,7 +206,6 @@ protected:
 	
 	COffscreen					*mScratchBuffer;
 	
-	
 	static LWindow *			CreatePaintWindow( ResIDT inWindowID );
 
 	// Event handling		
@@ -221,7 +219,7 @@ protected:
 	virtual void				EraseAll();
 	
 	// Misc
-	virtual void				ResetPatternPaneColors( ERedrawOptions = redraw_Later );
+	virtual void				ResetPatternPaneColors( RedrawOptions = redraw_Later );
 	virtual void				PutOnDuty(LCommander *inNewTarget);
 	virtual void				TakeOffDuty();
 	virtual void				ThrowIfInvalidDepth( SInt32 inDepth );

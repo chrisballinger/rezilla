@@ -207,6 +207,23 @@ CIcon_EditorWindow::Initialize()
 
 
 // ---------------------------------------------------------------------------
+// 	CreatePaintWindow
+// ---------------------------------------------------------------------------
+
+LWindow *
+CIcon_EditorWindow::CreatePaintWindow( ResIDT inWindowID )
+{
+	StGWorldSaver			aSaver;
+	LWindow 				*theWindow = nil;
+	
+	// Create the window
+	::SetGDevice( GetMainDevice() );				// bug in Mac toolbox requires this
+	theWindow = LWindow::CreateWindow( inWindowID, LCommander::GetTopCommander() );
+	return( theWindow );
+}
+
+
+// ---------------------------------------------------------------------------
 // 	SetImage
 // ---------------------------------------------------------------------------
 // 	We duplicate the image buffer, so caller can destroy the original. The
@@ -215,7 +232,7 @@ CIcon_EditorWindow::Initialize()
 // 	b&w or color pattern.
 
 void
-CIcon_EditorWindow::SetImage( COffscreen *inBuffer, SInt32 inResize, ERedrawOptions inRedraw )
+CIcon_EditorWindow::SetImage( COffscreen *inBuffer, SInt32 inResize, RedrawOptions inRedraw )
 {
 	ThrowIfNil_( inBuffer );
 	
@@ -269,7 +286,7 @@ CIcon_EditorWindow::SetImage( COffscreen *inBuffer, SInt32 inResize, ERedrawOpti
 // ---------------------------------------------------------------------------
 
 void
-CIcon_EditorWindow::ResetPatternPaneColors( ERedrawOptions inRedraw )
+CIcon_EditorWindow::ResetPatternPaneColors( RedrawOptions inRedraw )
 {
 	mPatternPane->SetColors( mColorPane->GetColor(), mBackColorPane->GetColor(), inRedraw );
 }
@@ -1416,20 +1433,6 @@ CIcon_EditorWindow::RedrawSampleView( Rect * )
 
 
 // ---------------------------------------------------------------------------
-// 	CreatePaintWindow
-// ---------------------------------------------------------------------------
-
-LWindow *
-CIcon_EditorWindow::CreatePaintWindow( ResIDT inWindowID )
-{
-	// Create the window
-	LWindow *theWindow = UIconMisc::CreatePPWindow( inWindowID );
-
-	return( theWindow );
-}
-
-
-// ---------------------------------------------------------------------------
 // 	SwapColors
 // ---------------------------------------------------------------------------
 
@@ -1582,7 +1585,7 @@ CIcon_EditorWindow::ThrowIfInvalidDepth( SInt32 inDepth )
 // calling this if you want.
 
 void
-CIcon_EditorWindow::SetTargetView( CDraggableTargetView *inBox, ERedrawOptions inRedrawHow )
+CIcon_EditorWindow::SetTargetView( CDraggableTargetView *inBox, RedrawOptions inRedrawHow )
 {
 	if ( inBox == mCurrentSamplePane ) return;
 	if ( !inBox ) return;				// shouldn't happen
