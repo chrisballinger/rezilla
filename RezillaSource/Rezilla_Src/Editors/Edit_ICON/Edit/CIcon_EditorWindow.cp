@@ -2,11 +2,11 @@
 // CIcon_EditorWindow.cp
 // 
 //                       Created: 2004-12-10 17:23:05
-//             Last modification: 2004-12-28 22:06:54
+//             Last modification: 2005-01-01 14:01:33
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004
+// (c) Copyright : Bernard Desgraupes, 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -46,19 +46,17 @@
 #include "UMessageDialogs.h"
 #include "UResourceMgr.h"
 
-#include <LScrollBar.h>
+#include <LBevelButton.h>
 #include <LStaticText.h>
 #include <LEditText.h>
-#include <LPopupButton.h>
-#include <LScrollerView.h>
 #include <UMemoryMgr.h>
 
 #include <stdio.h>
 
 
 // Statics
-CColorCursorCache *	CIcon_EditorWindow::mColorCursorCache = nil;
-SInt32				CIcon_EditorWindow::mNumPaintWindows = 0;
+CColorCursorCache *	CIcon_EditorWindow::sColorCursorCache = nil;
+SInt32				CIcon_EditorWindow::sNumPaintWindows = 0;
 LMenu *				CIcon_EditorWindow::sIconActionsMenu = nil;
 LMenu *				CIcon_EditorWindow::sIconColorsMenu = nil;
 LMenu *				CIcon_EditorWindow::sIconFontMenu = nil;
@@ -132,11 +130,11 @@ CIcon_EditorWindow::~CIcon_EditorWindow()
 	
 	if ( mColorTableChoice ) delete( mColorTableChoice );
 	
-	--mNumPaintWindows;
-	if ( mNumPaintWindows == 0 )
+	--sNumPaintWindows;
+	if ( sNumPaintWindows == 0 )
 	{
-		delete mColorCursorCache;
-		mColorCursorCache = nil;
+		delete sColorCursorCache;
+		sColorCursorCache = nil;
 	}
 	
 	mSampleWell = nil;
@@ -197,12 +195,12 @@ CIcon_EditorWindow::Initialize()
 	mMinImageWidth = 4;
 	mMaxImageWidth = 64;
 
-	if ( mColorCursorCache == nil ) {
-		mColorCursorCache = new CColorCursorCache( 12, CRezillaApp::GetOwnRefNum() );
-		ThrowIfMemFail_( mColorCursorCache );
+	if ( sColorCursorCache == nil ) {
+		sColorCursorCache = new CColorCursorCache( 12, CRezillaApp::GetOwnRefNum() );
+		ThrowIfMemFail_( sColorCursorCache );
 	}
 
-	++mNumPaintWindows;
+	++sNumPaintWindows;
 }
 
 
@@ -266,10 +264,10 @@ CIcon_EditorWindow::SetImage( COffscreen *inBuffer, SInt32 inResize, RedrawOptio
 		// Copy the supplied image to the image buffer
 		imageBuffer->CopyFrom( inBuffer );
 		
-		// We have a new color table, so the color popups might need to be
-		// reset
-		if ( mColorTableChoice )
+		// We have a new color table, so the color popups might need to be reset
+		if ( mColorTableChoice ) {
 			mColorTableChoice->ImageChanged( imageBuffer->GetDepth() );
+		}
 	}
 	catch( ... )
 	{
@@ -368,15 +366,11 @@ CIcon_EditorWindow::SetRawUndoBuffer( COffscreen *inBuffer )
 void
 CIcon_EditorWindow::FinishCreateSelf()
 {	
-	
-	// The main view containing the labels and editing panes
+	// The drawing view
 	mContentsView = dynamic_cast<CIcon_EditorView *>(this->FindPaneByID(item_EditorContents));
 	ThrowIfNil_( mContentsView );
-	
 	mContentsView->SetOwnerWindow(this);
-	
-// 	LWindow::FinishCreateSelf();   // Not using Carbon events
-	
+		
 	mColorTableChoice = new CColorTableChoice( this, mPrefersIconColors );
 	ThrowIfMemFail_( mColorTableChoice );
 
@@ -408,15 +402,15 @@ CIcon_EditorWindow::FinishCreateSelf()
 	// This may or may not exist depending on the editor
 	mSampleWell = this->FindPaneByID( item_IconSampleWell );
 
-	// Should 'this' be a LCommander ?
-// 	SwitchTarget(mContentsView);
+	LBevelButton * theButton = dynamic_cast<LBevelButton *>(this->FindPaneByID( mCurrentTool ));;
+	ThrowIfNil_( theButton );
+	theButton->SetValue(Button_On);
 	
-	// The total length field
+	// The coords field
 	mCoordsField = dynamic_cast<LStaticText *> (this->FindPaneByID( item_IconCoords ));
 	ThrowIfNil_( mCoordsField );
 	
 	// Link the broadcasters
-// 	UReanimator::LinkListenerToControls( this, this, PPob_IconEditorWindow );
 	UIconMisc::LinkListenerToControls( this, this, RidL_ToolList );
 	
 	// Make the window a listener to the prefs object
@@ -457,8 +451,8 @@ CIcon_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 {
 	switch( inMessage )
 	{
-		case msg_ControlClicked:			// tool was clicked on
-			this->HandleControlClick( (LPane*) ioParam );
+		case msg_ControlClicked:
+			this->HandleToolClick(inMessage);
 			break;
 	
 		case msg_DoubleClick:
@@ -484,6 +478,24 @@ CIcon_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			this->ResetPatternPaneColors( redraw_Now );
 			break;
 		
+		case tool_Lasso:
+		case tool_Selection:
+		case tool_Text:
+		case tool_Pencil:
+		case tool_Eraser:
+		case tool_Bucket:
+		case tool_Dropper:
+		case tool_Line:
+		case tool_Rect:
+		case tool_FilledRect:
+		case tool_RoundRect:
+		case tool_FilledRoundRect:
+		case tool_Oval:
+		case tool_FilledOval:
+		case tool_HotSpot:
+			this->HandleToolClick(inMessage);
+			break;
+
 		case msg_TargetViewClicked:
 			this->ObeyCommand( msg_TargetViewClicked, ioParam );
 			break;
@@ -813,9 +825,11 @@ CIcon_EditorWindow::AdjustCursorInCanvas( Point pt, const EventRecord& inMacEven
 					case tool_Eraser:
 						newCursorID = CURS_Eraser;
 						break;
+						
 					case tool_Pencil:
 						newCursorID = CURS_Pencil;
 						break;
+						
 					case tool_Bucket:
 						newCursorID = CURS_Bucket;
 						break;
@@ -847,7 +861,7 @@ CIcon_EditorWindow::AdjustCursorInCanvas( Point pt, const EventRecord& inMacEven
 	}
 	
 	if ( newCursorID )
-		mColorCursorCache->SetColorCursor( newCursorID );
+		sColorCursorCache->SetColorCursor( newCursorID );
 	else
 		UCursor::SetArrow();
 }
@@ -963,12 +977,13 @@ CIcon_EditorWindow::CreateNewAction( OSType inActionType, void *ioParam )
 		this->GetActionSettings( &actionSettings );
 		
 		// Create the object
-		switch( inActionType )
-		{
+		switch( inActionType ) {
 			case tool_Lasso:
 				return new CIconLassoAction( actionSettings );
+	
 			case tool_Selection:
 				return new CIconSelectionAction( actionSettings );
+			
 			case cmd_IconMoveSelection:
 				return new CIconMoveAction( actionSettings );
 			
@@ -977,10 +992,13 @@ CIcon_EditorWindow::CreateNewAction( OSType inActionType, void *ioParam )
 				
 			case tool_Pencil:
 				return new CIconPenAction( actionSettings );
+			
 			case tool_Dropper:
 				return new CIconDropperAction( actionSettings, mColorPane, mBackColorPane );
+			
 			case tool_Bucket:
 				return new CIconBucketAction( actionSettings );
+			
 			case tool_Line:
 				return new CIconLineAction( actionSettings );
 				
@@ -1118,36 +1136,36 @@ CIcon_EditorWindow::CopyToUndo()
 
 
 // ---------------------------------------------------------------------------
-// 	HandleControlClick
+// 	HandleToolClick
 // ---------------------------------------------------------------------------
-
+// LPane *thePane 
 void
-CIcon_EditorWindow::HandleControlClick( LPane *thePane )
+CIcon_EditorWindow::HandleToolClick(PaneIDT inPaneID)
 {
-	ThrowIfNil_( thePane );
-	
-	PaneIDT		thePaneID = thePane->GetPaneID();
-	
-	if ( thePaneID != mCurrentTool )
+	if ( inPaneID != mCurrentTool )
 	{
-		switch( thePaneID )
+		switch( inPaneID )
 		{
-			case tool_Eraser: 		case tool_Pencil:			case tool_Dropper: 		
+			case tool_Eraser: 		case tool_Pencil:		case tool_Dropper: 		
 			case tool_Bucket:		case tool_Line: 		case tool_Rect:			
 			case tool_FilledRect:	case tool_RoundRect:	case tool_FilledRoundRect:
 			case tool_Oval:			case tool_FilledOval:
 			case tool_Lasso:		case tool_Selection:	case tool_HotSpot:
 			case tool_Text:
 			
-				this->SelectNone();	
+			LBevelButton * theButton = dynamic_cast<LBevelButton *>(this->FindPaneByID( mPreviousTool ));;
+			ThrowIfNil_( theButton );
+			theButton->SetValue(Button_Off);
+
+			this->SelectNone();	
 				
-				mCurrentTool = thePaneID;
-				
-				// Keep track of previous tool - double-click on eraser reverts to orig tool
-				if ( thePaneID != tool_Eraser ) {
-					mPreviousTool = thePaneID;
-				}
-				break;
+			mCurrentTool = inPaneID;
+			
+			// Keep track of previous tool - double-click on eraser reverts to orig tool
+			if ( inPaneID != tool_Eraser ) {
+				mPreviousTool = inPaneID;
+			}
+			break;
 		}
 	}
 }
@@ -1168,9 +1186,11 @@ CIcon_EditorWindow::HandleControlDoubleClick( LPane *thePane )
 		case tool_Eraser:
 			this->EraseAll();
 			break;
+			
 		case tool_Selection:
 			this->SelectAll();
 			break;
+			
 		case tool_Lasso:
 			this->ObeyCommand( tool_Lasso, 0 );
 			break;
@@ -1284,7 +1304,7 @@ CIcon_EditorWindow::SelectNone()
 	if ( !mCurrentImage ) return;
 	
 	this->CommitSelection();
-	// Erase the selection (draw over it) rather than Refresh() because
+	// Erase the selection (draw over it) rather than Refresh()
 	this->HandleCanvasDraw();
 	// Clear the region
 	mCurrentSelection->SelectNone();
@@ -1893,7 +1913,10 @@ CIcon_EditorWindow::ResizeWindowIfNeeded( SInt32 hMargin, SInt32 vMargin )
 	oldWidth = oldSize.width;
 	oldHeight = oldSize.height;
 	
+	// We do not resize vertically.
 	GetContainedWidth( newWidth );
+	newHeight = oldHeight;
+	
 	newWidth += hMargin;
 	newHeight += vMargin;
 	
@@ -1917,25 +1940,31 @@ CIcon_EditorWindow::ResizeWindowIfNeeded( SInt32 hMargin, SInt32 vMargin )
 // ---------------------------------------------------------------------------
 // 	GetContainedWidth
 // ---------------------------------------------------------------------------
-// This is the sum of the widths of the left header, the encloser and the 
-// right header. The foot placard is ignored. We do not resize vertically.
+// This is the sum of the widths of the left header (fixed), the encloser
+// and the right header (samples container + outmargin).
 
 void
 CIcon_EditorWindow::GetContainedWidth(SInt32 &outWidth)
 {
-	SInt32			totalWidth = 0;
-	LPane			*thePane;
+	SInt32			totalWidth = kLeftHeaderWidth;
+	LPane *			thePane;
+	SDimension16	frameSize;
 
-	LArrayIterator	anIterator( GetSubPanes() );
-
-	while ( anIterator.Next( &thePane ) && thePane->GetPaneID() != 'FOOT') 
-	{
-		SDimension16	frameSize;
+	thePane = dynamic_cast<CIcon_EditorView *>(this->FindPaneByID(item_CanvasEncloser));
+	ThrowIfNil_( thePane );
+	thePane->GetFrameSize( frameSize );
+	totalWidth += frameSize.width ;
+	
+	// If there is a samples view, add its width (only PICT editing windows
+	// do not have one).
+	thePane = dynamic_cast<CIcon_EditorView *>(this->FindPaneByID(item_IconSampleWell));
+	if (thePane) {
 		thePane->GetFrameSize( frameSize );
 		totalWidth += frameSize.width ;
-	}
+	} 
+
+	totalWidth += kSampleOutMargin * 2 ;
 
 	outWidth = totalWidth;
 }
-
 
