@@ -454,7 +454,7 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 				theEditText = (LEditText *) theBevel->GetUserCon();
 				resID = (ResIDT) theEditText->GetUserCon();
 				
-				GetIndString(theString, resID, choice);
+				::GetIndString(theString, resID, choice);
 				if ( UMiscUtils::SplitCaseValue(theString, &rightPtr) ) {
 					theEditText->SetDescriptor(*rightPtr);
 				} 
