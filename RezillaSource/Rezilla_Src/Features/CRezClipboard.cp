@@ -66,6 +66,12 @@ CRezClipboard::~CRezClipboard()
 	}
 	// Close the Scrap Rez Map
 	error = sScrapRezMap->Close();
+	// Delete the scrap file
+	if (sScrapRezFile != nil) {
+		 FSSpec theFileSpec ;
+		sScrapRezFile->GetSpecifier(theFileSpec);
+		error = FSpDelete(&theFileSpec);
+	} 
 }
 
 
@@ -101,33 +107,34 @@ CRezClipboard::CreateNewScrap()
 	
 	scrapRezMapURL = CFBundleCopyResourceURL(mainBundleRef, CFSTR("ScrapRezMap"), CFSTR("rsrc"), NULL);
 	
-	if (scrapRezMapURL == nil) {
-		// Create the file
-		mainBundleURL = CFBundleCopyBundleURL(mainBundleRef);
-		if (mainBundleURL) {
-			resDirUrl = CFBundleCopyResourcesDirectoryURL(mainBundleRef);
-			if (resDirUrl) {
-				if ( CFURLGetFSRef(resDirUrl, &parentRef) ) {
-					error = UMiscUtils::HFSNameToUnicodeName(hfsName, &unicodeName);
-					error = FSCreateResourceFile(&parentRef, hfsName[0], unicodeName.unicode, kFSCatInfoNone, NULL, 0, NULL, &theFSRef, &theFileSpec);
-					error = FSOpenResourceFile( &theFSRef, 0, nil, fsRdWrPerm, &scrapRefNum );
-				} else {
-					error = fnfErr;
-				}
-				CFRelease(resDirUrl);
-			} 
-			CFRelease(mainBundleURL);
-		} 
-	} else {
+	if (scrapRezMapURL != nil) {
 		if ( CFURLGetFSRef(scrapRezMapURL, &theFSRef) ) {
 			error = FSGetCatalogInfo( &theFSRef, kFSCatInfoNone, NULL, NULL, &theFileSpec, NULL);
-			SetResLoad( false );
-			error = FSOpenResourceFile( &theFSRef, 0, nil, fsRdWrPerm, &scrapRefNum );
-			SetResLoad( true );
+			error = FSpDelete(&theFileSpec);
+			if (error == noErr) {
+				return error;
+			} 
 		}
 		CFRelease(scrapRezMapURL);
 	} 	
 	
+	// Create the file
+	mainBundleURL = CFBundleCopyBundleURL(mainBundleRef);
+	if (mainBundleURL) {
+		resDirUrl = CFBundleCopyResourcesDirectoryURL(mainBundleRef);
+		if (resDirUrl) {
+			if ( CFURLGetFSRef(resDirUrl, &parentRef) ) {
+				error = UMiscUtils::HFSNameToUnicodeName(hfsName, &unicodeName);
+				error = FSCreateResourceFile(&parentRef, hfsName[0], unicodeName.unicode, kFSCatInfoNone, NULL, 0, NULL, &theFSRef, &theFileSpec);
+				error = FSOpenResourceFile( &theFSRef, 0, nil, fsRdWrPerm, &scrapRefNum );
+			} else {
+				error = fnfErr;
+			}
+			CFRelease(resDirUrl);
+		} 
+		CFRelease(mainBundleURL);
+	} 
+
 	// Make static objects
 	if (error == noErr) {
 		sScrapRezFile = new CRezFile(theFileSpec, scrapRefNum, fork_datafork);
@@ -407,4 +414,5 @@ CRezClipboard::SetDataInScrapRezMap(
 
 
 PP_End_Namespace_PowerPlant
+
 
