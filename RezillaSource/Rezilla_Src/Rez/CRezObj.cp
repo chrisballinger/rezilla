@@ -345,7 +345,7 @@ void
 CRezObj::SetName(Str255* inName)
 {
 	if (inName != nil) {
-		::BlockMoveData(inName, &mName, (*inName[0]) + 1);
+		::BlockMoveData(inName, &mName, (*inName)[0] + 1);
 	} else {
 		Str255 theName = "\p";
 		::BlockMoveData(theName, &mName, 1);
