@@ -75,19 +75,21 @@ public:
 // 	static void			SetOwnRefNum(SInt16 theCurrentRefNum) {sOwnRefNum = theCurrentRefNum ;}
 
 	static CRezMapDoc*	FetchRezMapDoc(FSSpec *	inFileSpecPtr);
+	
+	static CRecentItemsMenu*	GetRecentItemsAttachment() { return sRecentItemsAttachment;}
 
 	static const LStr255		sVersionNumber;
 	static short				sOwnRefNum;
 	static CInspectorWindow *	sInspectorWindow;
 	static TArray<CRezMapDoc *>	sRezMapDocList;
 	static SInt16				sDefaultCreatingFork;
+	static CRecentItemsMenu *	sRecentItemsAttachment;
 
 protected:
 	LDialogBox *		mAboutWindow;
 	SInt16				mCreatingFork;
 	SInt16				mOpeningFork;
 	Boolean				mReadOnlyNavFlag;
-	CRecentItemsMenu *	mRecentItemsAttachment;
 
 	virtual void		StartUp();
 	virtual void		Initialize();

@@ -2,7 +2,7 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2004-04-12 18:25:44
+//             Last modification: 2004-04-13 08:13:23
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -34,6 +34,7 @@ PP_Begin_Namespace_PowerPlant
 #include "CHexEditorDoc.h"
 #include "CWindowMenu.h"
 #include "CRezClipboard.h"
+#include "CRecentItemsMenu.h"
 #include "RezillaConstants.h"
 #include "UDialogBoxHandler.h"
 #include "UMessageDialogs.h"
@@ -636,6 +637,9 @@ CRezMapDoc::DoAESave(
 		// Set window title to the name of the file.
 		mRezMapWindow->SetDescriptor(inFileSpec.name);
 
+		// Register to the Recent Items menu
+		CRezillaApp::GetRecentItemsAttachment()->AddFile(inFileSpec, true);
+		
 		// Document now has a specified file. 
 		SetSpecified(true);
 		SetModified(false);

@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2004-04-11 21:33:57
+//             Last modification: 2004-04-13 08:03:21
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -104,6 +104,7 @@ const LStr255			CRezillaApp::sVersionNumber( VersionFromResource() );
 SInt16					CRezillaApp::sOwnRefNum;
 TArray<CRezMapDoc *>	CRezillaApp::sRezMapDocList;
 SInt16					CRezillaApp::sDefaultCreatingFork;
+CRecentItemsMenu *		CRezillaApp::sRecentItemsAttachment;
 
 // ===========================================================================
 //  ¥ Main Program
@@ -221,8 +222,8 @@ CRezillaApp::Initialize()
 	theAttachment = new CWindowMenuAttachment( gWindowMenu );
 	AddAttachment( theAttachment , nil, true );
 	
-	mRecentItemsAttachment = new CRecentItemsMenu(rMENU_RecentItems, kRzilMaxRecentItems, CFSTR(kRezillaIdentifier));
-	AddAttachment( mRecentItemsAttachment , nil, true );
+	sRecentItemsAttachment = new CRecentItemsMenu(rMENU_RecentItems, kRzilMaxRecentItems, CFSTR(kRezillaIdentifier));
+	AddAttachment( sRecentItemsAttachment , nil, true );
 	
 	// Help tags settings
 	ABalloonBase::EnableControlKeyPop();
@@ -380,7 +381,7 @@ CRezillaApp::ObeyCommand(
 					ReportOpenForkError(error, &theFileSpec);
 				} else {
 					// Register to the Recent Items menu
-					mRecentItemsAttachment->AddFile(theFileSpec, true);
+					sRecentItemsAttachment->AddFile(theFileSpec, true);
 				}
 			}
 			break;
@@ -829,23 +830,23 @@ CRezillaApp::ReportOpenForkError(OSErr inError, FSSpec * inFileSpecPtr)
 
 	switch (inError) {
 	  case err_NoRezInDataFork:
-		formatStr =  CFCopyLocalizedString(CFSTR("NoRezInDataFork"), NULL);
+		formatStr = CFCopyLocalizedString(CFSTR("NoRezInDataFork"), NULL);
 		break;
 		
 	  case err_NoRezInRezFork:
-		formatStr =  CFCopyLocalizedString(CFSTR("NoRezInRezFork"), NULL);
+		formatStr = CFCopyLocalizedString(CFSTR("NoRezInRezFork"), NULL);
 		break;
 		
 	  case err_NoRezInAnyFork:
-		formatStr =  CFCopyLocalizedString(CFSTR("NoRezInAnyFork"), NULL);
+		formatStr = CFCopyLocalizedString(CFSTR("NoRezInAnyFork"), NULL);
 		break;
 		
 	  case opWrErr:
-		formatStr =  CFCopyLocalizedString(CFSTR("NoOpenWritePermission"), NULL);
+		formatStr = CFCopyLocalizedString(CFSTR("NoOpenWritePermission"), NULL);
 		break;
 		
 	  case permErr:
-		formatStr =  CFCopyLocalizedString(CFSTR("PermissionError"), NULL);
+		formatStr = CFCopyLocalizedString(CFSTR("PermissionError"), NULL);
 		break;
 		
 	  default:
@@ -1007,6 +1008,7 @@ CRezillaApp::HandleOpenDocsEvent(
 						      (Ptr) &theFileSpec, sizeof(FSSpec), &theSize);
 	    ThrowIfOSErr_(error);
 	
+		mReadOnlyNavFlag = false;
 	    OpenFork(theFileSpec);
 	}
 		
