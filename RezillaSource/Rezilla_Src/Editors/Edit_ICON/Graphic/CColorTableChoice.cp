@@ -37,7 +37,7 @@
 
 CColorTableChoice::CColorTableChoice( CIcon_EditorWindow *inPaintView, Boolean inUsesIconColors )
 {
-	mPaintView = inPaintView;
+	mPaintWindow = inPaintView;
 	mCurrentTable = nil;
 	this->InitTableCommands( inUsesIconColors );
 }
@@ -75,7 +75,7 @@ CColorTableChoice::FindCommandStatus( SInt32 inDepth, CommandT inCommand,
 										UInt16 &outMark, Str255  )
 {
 	Boolean		handled = false;
-	Boolean		isLocked = mPaintView->GetLockFlag();
+	Boolean		isLocked = mPaintWindow->GetLockFlag();
 	
 	outEnabled = false;
 	
@@ -164,7 +164,7 @@ CColorTableChoice::ObeyCommand( SInt32 inDepth, CommandT inCommand )
 		if ( inCommand == cmd_IconRecolorCurrentImage )
 		{
 			if ( mCurrentTable )
-				mPaintView->ObeyCommand( cmd_IconRecolorCurrentImage, mCurrentTable );
+				mPaintWindow->ObeyCommand( cmd_IconRecolorCurrentImage, mCurrentTable );
 			didIt = true;
 		}
 		else
@@ -256,8 +256,8 @@ CColorTableChoice::ChangePopupColorTables( ResIDT inResID )
 	// Change the color table popups. If this results in a change of the
 	// current color, they will broadcast a message to the paint view which
 	// will also redraw the pattern popup.
-	CColorPane *	forePane = (CColorPane*) mPaintView->FindPaneByID( tool_ForeColor );
-	CColorPane *	backPane = (CColorPane*) mPaintView->FindPaneByID( tool_BackColor );
+	CColorPane *	forePane = (CColorPane*) mPaintWindow->FindPaneByID( tool_ForeColor );
+	CColorPane *	backPane = (CColorPane*) mPaintWindow->FindPaneByID( tool_BackColor );
 	
 	if ( forePane )
 		forePane->SetColorTable( mCurrentTable, true, redraw_Now );
@@ -302,14 +302,14 @@ CColorTableChoice::DisposeCurrentTable()
 // ---------------------------------------------------------------------------
 
 void
-CColorTableChoice::InitTableCommands( Boolean inIcon )
+CColorTableChoice::InitTableCommands( Boolean inIconColors )
 {
 	CommandT	preferredCmd;
 	
 	UIconMisc::ClearMemory( mTableCommands, sizeof( mTableCommands ) );
 	
 	// Icons default to Apple's preferred icon colors
-	if ( inIcon && ! CRezillaPrefs::GetPrefValue(kPref_editors_fullTables)  )
+	if ( inIconColors && ! CRezillaPrefs::GetPrefValue(kPref_editors_fullTables)  )
 		preferredCmd = cmd_ColorTableAppleIcon;
 	else
 		preferredCmd = cmd_ColorTableApple256;

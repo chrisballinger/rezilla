@@ -1,7 +1,7 @@
 // ===========================================================================
 // CColorTableChoice.h
 //                       Created: 2004-12-11 18:56:24
-//             Last modification: 2004-12-17 11:58:00
+//             Last modification: 2004-12-29 08:42:43
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -31,11 +31,11 @@ class CColorTableChoice {
 		CTabHandle		GetCurrentTable();
 	
 	protected:
-		CommandT			mTableCommands[ 33 ];	// we use the bit depth as an index
+		CommandT			mTableCommands[ 33 ];	// uses the bit depth as an index
 		CTabHandle			mCurrentTable;
-		CIcon_EditorWindow	*mPaintView;
+		CIcon_EditorWindow	*mPaintWindow;
 		
-		void			InitTableCommands( Boolean inIcon );
+		void			InitTableCommands( Boolean inIconColors );
 		Boolean			MapCommandToTableID( CommandT, ResIDT * );
 		void			ChangePopupColorTables( ResIDT inResID );
 		void			DisposeCurrentTable();

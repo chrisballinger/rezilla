@@ -476,10 +476,10 @@ COffscreen::CopyTo( GrafPtr inDestPort, const Rect *inDestR,
 	ThrowIfNil_( inDestPort );
 	
 	this->BeginDrawing();
-	this->ResetColorsSelf();					// don't want copybits to colorize
+	this->ResetColorsSelf();		// don't want copybits to colorize
 
-	UIconMisc::SetPort( inDestPort );			// note: forces origin to 0,0, gdevice to main, unclips
-	
+	// This forces origin to 0,0, gdevice to main, unclips
+	UIconMisc::SetPort( inDestPort );	
 	sourceBits = ::GetPortBitMapForCopyBits(mWorld);
 	destBits = ::GetPortBitMapForCopyBits(inDestPort);
 

@@ -250,8 +250,8 @@ const ResIDT	MENU_OpenedWindows			= 1300;
 const ResIDT	MENU_Help					= 2000;
 const ResIDT	MENU_RecentItems			= 140;  
 const ResIDT	MENU_TemplateCases			= 150;  
-const ResIDT	MENU_FontsTEXT				= 250;  
-const ResIDT	MENU_FontsUnicode			= 255;  
+const ResIDT	MENU_TextFonts				= 250;  
+const ResIDT	MENU_UnicodeFonts			= 255;  
 const ResIDT	MENU_StartHierMenuID		= 500;  
 // Values the PP menu commands are based on
 const ResIDT	base_MenuFile				= 1000;
@@ -263,8 +263,8 @@ const ResIDT	Txtr_PaintFont				= 9000;		// default font/size/style for text tool
 const ResIDT	RidL_ToolList				= 300;
 const ResIDT	MENU_IconActions			= 300;
 const ResIDT	MENU_IconColors				= 301;
-const ResIDT	MENU_IconFont				= 302;
-const ResIDT	MENU_IconStyle				= 303;
+const ResIDT	MENU_IconStyle				= 302;
+const ResIDT	MENU_IconFonts				= MENU_TextFonts;
 
 // Icon resources
 const ResIDT	ICN_WindowMenu				= 3100;

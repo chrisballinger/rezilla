@@ -158,22 +158,17 @@ CIcon_EditorWindow::Initialize()
 	mChanged = false;
 	mLockedFlag = false;
 	mCanvas = nil;
-	
-	mForeColor = kBlackColor32;			// these may be changed during SetImage()
+	mForeColor = kBlackColor32;
 	mBackColor = kWhiteColor32;
 	mPrefersIconColors = true;
-	
 	mCurrentPattern = Pattern_Black;
-	
+	mTextAction = nil;
+	mSharedPalette = nil;
+	mWindowIsActive = false;
 	// Pencil tool is the default
 	mCurrentTool = tool_Pencil;
 	mPreviousTool = tool_Pencil;
 	
-	mTextAction = nil;
-
-	mSharedPalette = nil;
-	
-	// use the app's resource fork, but save/restore the previous file
 	StRezRefSaver	aSaver( CRezillaApp::GetOwnRefNum() );
 
 	TextTraitsRecord **textTraitsH = UTextTraits::LoadTextTraits( Txtr_PaintFont );
@@ -191,20 +186,18 @@ CIcon_EditorWindow::Initialize()
 	// Sample panes
 	mCurrentSamplePane = nil;
 	mNumSamplePanes = 0;
-	for ( SInt32 count = 0; count < kMaxIconSamplePanes; count++ )
+	for ( SInt32 count = 0; count < kMaxIconSamplePanes; count++ ) {
 		mSamplePaneList[ count ] = nil;
-
-	mWindowIsActive = false;			// set later
+	}
 	
 	// Image resizing
-	mAllowImageResizing = false;		// assume we can't resize (changed by some subclasses)
+	mAllowImageResizing = false;
 	mMinImageHeight = 4;
 	mMaxImageHeight = 64;
 	mMinImageWidth = 4;
 	mMaxImageWidth = 64;
 
-	if ( mColorCursorCache == nil )
-	{
+	if ( mColorCursorCache == nil ) {
 		mColorCursorCache = new CColorCursorCache( 12, CRezillaApp::GetOwnRefNum() );
 		ThrowIfMemFail_( mColorCursorCache );
 	}
@@ -780,8 +773,7 @@ CIcon_EditorWindow::AdjustCursorInCanvas( Point pt, const EventRecord& inMacEven
 	Boolean		isOptionKey = ( inMacEvent.modifiers & optionKey ) ? true : false;
 	Boolean		isInSelection = this->CanvasPointInSelection( pt );
 	
-	if ( mCurrentImage )
-	{
+	if ( mCurrentImage ) {
 		// Make sure the cursor isn't in one of the margins instead of the image
 		// (this shouldn't happen)
 		SInt32 theCol, theRow;
@@ -789,46 +781,50 @@ CIcon_EditorWindow::AdjustCursorInCanvas( Point pt, const EventRecord& inMacEven
 		if ( (theCol >= 0) || (theCol < mCurrentImage->GetWidth()) &&
 			 (theRow >= 0) && (theRow < mCurrentImage->GetHeight()) )
 		{
-			if ( isOptionKey && !isInSelection )
+			if ( isOptionKey && !isInSelection ) {
 				newCursorID = CURS_Dropper;
-			else switch( mCurrentTool )
-			{
-				case tool_Lasso:
-					newCursorID = isInSelection ? CURS_HandFingers : CURS_Lasso;
-					break;
+			} else {
+				switch( mCurrentTool ) {
+					case tool_Lasso:
+						newCursorID = isInSelection ? CURS_HandFingers : CURS_Lasso;
+						break;
+						
+					case tool_Selection:
+						newCursorID = isInSelection ? CURS_HandFingers : CURS_Plus;
+						break;
+						
+					case tool_Eraser:
+						newCursorID = CURS_Eraser;
+						break;
+					case tool_Pencil:
+						newCursorID = CURS_Pencil;
+						break;
+					case tool_Bucket:
+						newCursorID = CURS_Bucket;
+						break;
+						
+					case tool_Dropper:
+						newCursorID = CURS_Dropper;
+						break;
 					
-				case tool_Selection:
-					newCursorID = isInSelection ? CURS_HandFingers : CURS_Plus;
-					break;
-					
-				case tool_Eraser:
-					newCursorID = CURS_Eraser;
-					break;
-				case tool_Pencil:
-					newCursorID = CURS_Pencil;
-					break;
-				case tool_Bucket:
-					newCursorID = CURS_Bucket;
-					break;
-					
-				case tool_Dropper:
-					newCursorID = CURS_Dropper;
-					break;
-				
-				case tool_HotSpot:
-					newCursorID = CURS_HotSpot;
-					break;
-					
-				case tool_Text:
-					newCursorID = CURS_TextBeam;
-					break;
-					
-				case tool_Line:			
-				case tool_Rect:			case tool_FilledRect:
-				case tool_RoundRect:	case tool_FilledRoundRect:
-				case tool_Oval:			case tool_FilledOval:
-					newCursorID = CURS_Plus;
-					break;
+					case tool_HotSpot:
+						newCursorID = CURS_HotSpot;
+						break;
+						
+					case tool_Text:
+						newCursorID = CURS_TextBeam;
+						break;
+						
+					case tool_Line:			
+					case tool_Rect:
+					case tool_FilledRect:
+					case tool_RoundRect:
+					case tool_FilledRoundRect:
+					case tool_Oval:
+					case tool_FilledOval:
+						newCursorID = CURS_Plus;
+						break;
+				}
 			}
 		}
 	}
@@ -1502,7 +1498,7 @@ CIcon_EditorWindow::PutOnDuty(LCommander *inNewTarget)
 		
 		if ( !sIconFontMenu )
 		{
-			sIconFontMenu = new LMenu( MENU_IconFont );
+			sIconFontMenu = new LMenu( MENU_IconFonts );
 			ThrowIfNil_( sIconFontMenu );
 
 			MenuHandle	macH = sIconFontMenu->GetMacMenuH();

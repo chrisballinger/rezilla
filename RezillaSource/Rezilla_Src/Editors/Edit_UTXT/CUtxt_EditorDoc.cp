@@ -86,7 +86,7 @@ void
 CUtxt_EditorDoc::Initialize()
 {
 // 	if (sUnicodeFontsMenu == NULL) {
-// 		sUnicodeFontsMenu = new LMenu(MENU_FontsUnicode);
+// 		sUnicodeFontsMenu = new LMenu(MENU_UnicodeFonts);
 // 	} 	
 	
 	// Create window for our document. This sets this doc as the SuperCommander of the window.

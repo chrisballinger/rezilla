@@ -93,11 +93,11 @@ UIconMisc::GetMouseRelativeToView( LPane *inPane, Point *outPt )
 void
 UIconMisc::SetGWorld( CGrafPtr inPort, GDHandle inDevice )
 {
-	ThrowIfNil_( inPort );					// shouldn't happen
+	ThrowIfNil_( inPort );	// shouldn't happen
 	
 	::SetGWorld( inPort, inDevice );
 	
-	// tell PP the port has changed since it caches it
+	// Tell PP the port has changed since it caches it
 	LView::OutOfFocus( nil );	
 }
 
@@ -120,19 +120,19 @@ UIconMisc::SetPort( GrafPtr inPort )
 			::SetPort( inPort );
 		}
 		
-		// set the gdevice to the main device (if it isn't already)
-		// the Window Mgr requires this when opening windows, etc
+		// Set the gdevice to the main device (if it isn't already).
+		// The Window Mgr requires this when opening windows etc.
 		GDHandle mainDevice = ::GetMainDevice();
 		if ( GetGDevice() != mainDevice ) {
 			::SetGDevice( mainDevice );
 		}
 
-		// since PP changes this all the time	
+		// Since PP changes this all the time	
 		::SetOrigin( 0, 0 );
 		::GetPortBounds(inPort, &theRect);
 		::ClipRect( &theRect );
 		
-		// tell PP the port has changed since it caches it
+		// Tell PP the port has changed since it caches it
 		LView::OutOfFocus( nil );	
 	}
 }

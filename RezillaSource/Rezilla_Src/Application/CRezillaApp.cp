@@ -64,7 +64,7 @@
 #include "CWasteEditView.h"
 #include "CWindow_ColorIcon.h"
 #include "CWindow_Cursor.h"
-#include "CWindow_Family.h"
+#include "CWindow_IconFamily.h"
 #include "CWindow_Pattern.h"
 #include "CWindow_Picture.h"
 // #include "ABalloon.h"
@@ -311,10 +311,10 @@ CRezillaApp::InitMLTE()
 	defaultFont.fontStyle	= kTXNDefaultFontStyle;
 	defaultFont.encoding	= kTXNSystemDefaultEncoding;
 	
-	LMLTEPane::Initialize( MENU_FontsUnicode, MENU_StartHierMenuID, &defaultFont, 1, 0);
+	LMLTEPane::Initialize( MENU_UnicodeFonts, MENU_StartHierMenuID, &defaultFont, 1, 0);
 	
 	// Remove the Fonts menu from the menu bar
-	::MacDeleteMenu(MENU_FontsUnicode);
+	::MacDeleteMenu(MENU_UnicodeFonts);
 	::InvalMenuBar();
 }
 
@@ -391,7 +391,7 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(CWasteEditView);
 	RegisterClass_(CWindow_ColorIcon);
 	RegisterClass_(CWindow_Cursor);
-	RegisterClass_(CWindow_Family);
+	RegisterClass_(CWindow_IconFamily);
 	RegisterClass_(CWindow_Pattern);
 	RegisterClass_(CWindow_Picture);
 // #include "ABalloon.h"

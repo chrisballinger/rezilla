@@ -155,7 +155,7 @@ CUtxt_EditorView::ActivateSelf()
 void
 CUtxt_EditorView::DeactivateSelf()
 {
-	::MacDeleteMenu(MENU_FontsUnicode);
+	::MacDeleteMenu(MENU_UnicodeFonts);
 	// Force redraw of MenuBar
 	::InvalMenuBar();
 }

@@ -36,7 +36,7 @@ CIconTextAction::FindCommandStatus(
 	
 	if ( LCommander::IsSyntheticCommand( inCommand, theMenuID, theMenuItem ) )
 	{
-		if ( !inFontMenu || (theMenuID != MENU_IconFont) ) return( false );
+		if ( !inFontMenu || (theMenuID != MENU_IconFonts) ) return( false );
 		
 		// The font menu is shared between different windows, so we need to
 		// uncheck the previous item and check the current one. The easiest
@@ -209,7 +209,7 @@ CIconTextAction::ObeyCommand( 	CIcon_EditorWindow *,
 	
 	if ( LCommander::IsSyntheticCommand( inCommand, theMenuID, theMenuItem ) )
 	{
-		if ( theMenuID == MENU_IconFont )
+		if ( theMenuID == MENU_IconFonts )
 		{
 			MenuHandle	fontMenuH = ::GetMenuHandle( theMenuID );
 			if ( fontMenuH )
