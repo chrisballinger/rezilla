@@ -2,7 +2,7 @@
 // CTmplEditorWindow.cp					
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-08-14 16:14:50
+//             Last modification: 2004-08-16 15:10:59
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -985,18 +985,18 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		// Binary bit (there must be 8 or an even multiple of 8 of these).
 		// High bit first.
 		if (mRezStream->GetMarker() < mRezStream->GetLength() ) {
-			*mRezStream >> theChar;
+			*mRezStream >> theUInt8;
 		} 
 		// Edit the first bit
 		AddStaticField(inLabelString, inContainer);
-		AddCheckField( ((theChar & 1<<7) > 0), inType, inContainer);	
+		AddCheckField( ((theUInt8 & 1<<7) > 0), inType, inContainer);	
 		for (i = 6; i >= 0 ; i--) {
 			// Consume the next 7 pairs in the template to get the
 			// corresponding labels.
 			*mTemplateStream >> theString;
 			*mTemplateStream >> theOSType;
 			AddStaticField(theString, inContainer);
-			AddCheckField( ((theChar & (1 << i)) > 0), inType, inContainer);	
+			AddCheckField( ((theUInt8 & (1 << i)) > 0), inType, inContainer);	
 		}
 		break;
 
@@ -1376,12 +1376,12 @@ CTmplEditorWindow::BuildFormatString(char * ioString, UInt8 inLength)
 OSErr
 CTmplEditorWindow::BuildScanString(char * inString, char * ioFormat, UInt8 inLength)
 {
-	OSErr error;
+	OSErr error = noErr;
 	
 	if (inString[0] == '$') {
-		sprintf(ioFormat, "$%s%dx%c", "%", inLength, "%", 0);
+		sprintf(ioFormat, "$%s%dx%c", "%", inLength, 0);
 	} else if (inString[0] == '0' && inString[1] == 'x') {
-		sprintf(ioFormat, "0x%s%dx%c", "%", inLength, "%", 0);		
+		sprintf(ioFormat, "0x%s%dx%c", "%", inLength, 0);		
 	} else {
 		// alert
 		error = paramErr;
@@ -2305,6 +2305,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 	long	theLong;
 	Str255	numStr, theString;
 	SInt32	theLength, reqLength;
+	UInt8	theUInt8 = 0;
 	UInt16	theUInt16 = 0;
 	UInt32	theUInt32 = 0;
 	OSType	theOSType;
@@ -2462,10 +2463,8 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		CopyPascalStringToC(numStr, charString);
 		::LowercaseText(charString, strlen(charString), (ScriptCode)0);
 		error = BuildScanString(charString, formatString, 2);
-		
-// 		sscanf(charString, "$%2x", &theChar);
-		sscanf(charString, formatString, &theChar);
-		*mOutStream << theChar;
+		sscanf(charString, formatString, &theLong);
+		*mOutStream << (UInt8) theLong;
 		mCurrentID++;
 		break;
 
@@ -2489,9 +2488,8 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		CopyPascalStringToC(numStr, charString);
 		::LowercaseText(charString, strlen(charString), (ScriptCode)0);
 		error = BuildScanString(charString, formatString, 8);
-// 		sscanf(charString, "$%8x", &theUInt32);
-		sscanf(charString, formatString, &theUInt32);
-		*mOutStream << theUInt32;
+		sscanf(charString, formatString, &theLong);
+		*mOutStream << (UInt32) theLong;
 		mCurrentID++;
 		break;
 
@@ -2503,9 +2501,8 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		CopyPascalStringToC(numStr, charString);
 		::LowercaseText(charString, strlen(charString), (ScriptCode)0);
 		error = BuildScanString(charString, formatString, 4);
-// 		sscanf(charString, "$%4x", &theUInt16);
-		sscanf(charString, formatString, &theUInt16);
-		*mOutStream << theUInt16;
+		sscanf(charString, formatString, &theLong);
+		*mOutStream << (UInt16) theLong;
 		mCurrentID++;
 		break;
 
