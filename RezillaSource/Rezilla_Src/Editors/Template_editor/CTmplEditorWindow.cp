@@ -698,26 +698,27 @@ CTmplEditorWindow::ParseKeyedSection(ResType inType, Str255 inLabelString, LView
 	if (mRezStream->GetMarker() < mRezStream->GetLength()) {
 		KeyValueToString(inType, keyString);
 		inDrawControls = true;
+		// Skip all the CASE statements
+		SkipNextKeyCases();
 	} else {
 		if ( ! SelectValueFromKeyCases(inLabelString) ) {
-			error = err_TmplCreateNewAborted;
+			error = err_TmplCreateEmptyNewAborted;
 			return error;
 		} 
 		inDrawControls = false;
 	}
 	
 	// Find the corresponding KEYB tag
-	error = GetKeyedSectionStart(&sectionStart);
+	error = FindKeyStartForValue(keyString, &sectionStart);
 	
 	if (error == noErr) {
 		// Parse the section
 		error = DoParseWithTemplate(sectionStart, inDrawControls, inContainer);
-		if (error == noErr) {
-			// Jump to end of section
-			error = GotoKeyedSectionEnd();
-		} 
 	} 
 
+	// NB: if there are other KEYB-KEYE segments, they will be skipped from 
+	// the ParseDataForType() function.
+	
 	return error;
 }
 
@@ -1611,19 +1612,8 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		case 'CASE':
 		// Increment the current pane ID to skip the case popup
 		mCurrentID++;
-		// Skip the next CASE statements
-		currMark = mTemplateStream->GetMarker();
-		theLength = mTemplateStream->GetLength();
-		while (currMark < theLength) {
-			*mTemplateStream >> theString;
-			*mTemplateStream >> theType;
-			if (theType != inType) {
-				// We went too far. Reposition the stream marker.
-				mTemplateStream->SetMarker(currMark, streamFrom_Start);
-				break;
-			} 
-			currMark = mTemplateStream->GetMarker();
-		}
+		// Skip the following CASE statements
+		error = SkipNextKeyCases();
 		break;
 
 		case 'CHAR':

@@ -259,11 +259,13 @@ private:
 	
 	void			KeyValueToString(ResType inType, Str255 keyString);
 	
-	OSErr			GetKeyedSectionStart(SInt32 * outStart);
+	OSErr			FindKeyStartForValue(Str255 keyString, SInt32 * outStart);
 	
-	OSErr			GotoKeyedSectionEnd();
-
-	Boolean			SelectValueFromKeyCases();
+	OSErr			FindMatchingKeyEnd(SInt32 * outEnd);
+	
+	OSErr			SkipNextKeyCases();
+	
+	Boolean			SelectValueFromKeyCases(Str255 inLabelString);
 	
 };
 

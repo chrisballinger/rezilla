@@ -19,7 +19,9 @@
 #include "CTmplEditorDoc.h"
 #include "CRezillaApp.h"
 #include "CRezillaPrefs.h"
+#include "CRezObj.h"
 #include "CWasteEditView.h"
+#include "UMiscUtils.h"
 
 #include <LStaticText.h>
 #include <LIconPane.h>
@@ -347,73 +349,229 @@ CTmplEditorWindow::AlignBytesWrite(UInt8 inStep)
 void
 CTmplEditorWindow::KeyValueToString(ResType inType, Str255 keyString)
 {
+	char	theChar = 0;
 	UInt8	theUInt8 = 0;
 	UInt16	theUInt16 = 0;
 	UInt32	theUInt32 = 0;
-
+	SInt8	theSInt8 = 0;
+	SInt16	theSInt16 = 0;
+	SInt32	theSInt32 = 0;
+	char 	charString[256];
+	char 	formatString[16];
+	OSType	theOSType;
+	
 	switch (inType) {
 		case 'KBYT':
-		*mRezStream >> theUInt8;
-		break;
-
-		case 'KHBT':
-		break;
-
-		case 'KHLG':
-		break;
-
-		case 'KHWD':
-		break;
-
-		case 'KLNG':
-		break;
-
-		case 'KRID':
-		break;
-
-		case 'KTYP':
-		break;
-
-		case 'KWRD':
+		*mRezStream >> theSInt8;
+		::NumToString( (long) theSInt8, keyString);
 		break;
 
 		case 'KCHR':
+		*mRezStream >> theChar;
+		keyString[0] = 1;
+		keyString[1] = theChar;
 		break;
 
+		case 'KHBT':
+		*mRezStream >> theUInt8;
+		BuildFormatString(formatString, 2);
+		sprintf(charString, formatString, theUInt8, NULL);
+		CopyCStringToPascal(charString, keyString);
+		break;
+
+		case 'KHLG':
+		*mRezStream >> theUInt32;
+		BuildFormatString(formatString, 8);
+		sprintf(charString, formatString, theUInt32, NULL);
+		CopyCStringToPascal(charString, keyString);
+		break;
+
+		case 'KHWD':
+		*mRezStream >> theSInt16;
+		BuildFormatString(formatString, 4);
+		sprintf(charString, formatString, theUInt16, NULL);
+		CopyCStringToPascal(charString, keyString);
+		break;
+
+		case 'KLNG':
+		*mRezStream >> theSInt32;
+		::NumToString( (long) theSInt32, keyString);
+		break;
+
+		case 'KRID':
+		theSInt16 = GetOwnerDoc()->GetRezObj()->GetID();
+		::NumToString( (long) theSInt16, keyString);	
+		break;
+
+		case 'KTYP': {
+			Str255 tempString;
+			*mRezStream >> theOSType;
+			UMiscUtils::OSTypeToPString(theOSType, tempString);
+			LString::CopyPStr(tempString, keyString);
+			break;
+		}
+		
 		case 'KUBT':
+		*mRezStream >> theUInt8;
+		::NumToString( (long) theUInt8, keyString);
 		break;
 
 		case 'KULG':
+		*mRezStream >> theUInt32;
+		::NumToString( (long) theUInt32, keyString);
 		break;
 
 		case 'KUWD':
+		*mRezStream >> theUInt16;
+		::NumToString( (long) theUInt16, keyString);
+		break;
+
+		case 'KWRD':
+		*mRezStream >> theSInt16;
+		::NumToString( (long) theSInt16, keyString);
 		break;
 	}
 }
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetKeyedSectionStart											[private]
+//	¥ FindKeyStartForValue											[private]
 // ---------------------------------------------------------------------------
+// The marker is positionned after the last CASE statement. Scan the 
+// keyed sections until the corrsponding key is found.
 
 OSErr
-CTmplEditorWindow::GetKeyedSectionStart(SInt32 * outStart)
+CTmplEditorWindow::FindKeyStartForValue(Str255 keyString, SInt32 * outStart)
 {	
 	OSErr	error = noErr;
-
+	Boolean	found = false;
+	SInt32	currMark, maxPos;
+	Str255	theString;
+	ResType	theType;
+		
+	currMark = mTemplateStream->GetMarker();
+	maxPos = mTemplateStream->GetLength();
+	
+	while (currMark < maxPos) {
+		*mTemplateStream >> theString;
+		*mTemplateStream >> theType;
+		currMark = mTemplateStream->GetMarker();		
+	
+		// The type at this point should normally be 'KEYB'
+		if (theType != 'KEYB') {
+			error = err_TmplMalformedKeySection;
+			return error;
+		} 
+		
+		// Is it the case corresponding to our keyString?
+		if ( ::EqualString(theString, keyString, true, true) ) {
+			found = true;
+			break;
+		} 
+		
+		// If not, go to the corresponding KEYE
+		error = FindMatchingKeyEnd(&currMark);
+		if (error != noErr) {
+			break;
+		} 
+	}
+	
+	if (!found) {
+		error = err_TmplCantFindKeyStartForValue;
+	} else {
+		*outStart = currMark;
+	}
+	
 	return error;
 }
 
 
 // ---------------------------------------------------------------------------
-//	¥ GotoKeyedSectionEnd											[private]
+//	¥ FindMatchingKeyEnd											[private]
 // ---------------------------------------------------------------------------
+// Starting from a given KEYB find the corresponding KEYE. It returns 
+// the position after the KEYE.
 
 OSErr
-CTmplEditorWindow::GotoKeyedSectionEnd()
+CTmplEditorWindow::FindMatchingKeyEnd(SInt32 * outEnd)
 {	
 	OSErr	error = noErr;
+	Boolean	found = false;
+	SInt32	currMark, maxPos;
+	UInt16	keybCount, keyeCount;
+	Str255	theString;
+	ResType	theType;
 
+	currMark = mTemplateStream->GetMarker();
+	maxPos = mTemplateStream->GetLength();
+	keybCount = 1;
+	keyeCount = 0;
+	
+	while (currMark < maxPos) {
+		*mTemplateStream >> theString;
+		*mTemplateStream >> theType;
+		currMark = mTemplateStream->GetMarker();		
+		
+		if (theType == 'KEYB') {
+			keybCount++;
+		} else if (theType == 'KEYE') {
+			keyeCount++;
+		} else continue;
+		
+		if (keybCount == keyeCount) {
+			break;
+		} 
+	}
+	
+	if (!found) {
+		error = err_TmplCantFindMatchingKeyEnd;
+	} else {
+		*outEnd = currMark;
+	}
+	
+	return error;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ SkipNextKeyCases											[private]
+// ---------------------------------------------------------------------------
+// Skip all the CASE statements starting from current position
+
+OSErr
+CTmplEditorWindow::SkipNextKeyCases()
+{	
+	OSErr	error = noErr;
+	Boolean	found = false;
+	Str255	theString;
+	ResType	theType;
+	UInt16	caseCount = 1;
+	SInt32	currMark = mTemplateStream->GetMarker();
+	SInt32	maxPos = mTemplateStream->GetLength();
+	
+	while (currMark < maxPos) {
+		*mTemplateStream >> theString;
+		*mTemplateStream >> theType;
+		
+		if (theType != 'CASE') {
+			if (caseCount == 1) {
+				// The type at this point should normally be 'CASE'
+				error = err_TmplMalformedCaseSection;
+				return error;
+			} else {
+				// We went too far. Reposition the stream marker.
+				mTemplateStream->SetMarker(currMark, streamFrom_Start);
+				break;
+			}
+		} 
+		caseCount++;
+		currMark = mTemplateStream->GetMarker();
+	}
+
+	if (!found) {
+		error = err_TmplCantFindKeyedSectionStart;
+	} 
+	
 	return error;
 }
 

@@ -681,7 +681,12 @@ enum
 	err_TmplCantGetDateFormat,
 	err_TmplParseDateFailed,
 	err_TmplNotExpectedSize,
-	err_TmplCreateNewAborted
+	err_TmplCreateEmptyNewAborted,
+	err_TmplMalformedCaseSection,
+	err_TmplMalformedKeySection,
+	err_TmplCantFindKeyedSectionStart,
+	err_TmplCantFindKeyStartForValue,
+	err_TmplCantFindMatchingKeyEnd
 };
 
 
