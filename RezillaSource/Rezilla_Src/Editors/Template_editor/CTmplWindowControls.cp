@@ -1220,9 +1220,10 @@ CTmplEditorWindow::AddSeparatorLine(LView * inContainer)
 //	¥ AddCasePopup													[public]
 // ---------------------------------------------------------------------------
 
-void
+OSErr
 CTmplEditorWindow::AddCasePopup(ResType inType, Str255 inLabel, SInt32 inStartMark, LView * inContainer)
 {
+	OSErr			error = noErr;
 	SDimension16	theFrame;
 	SInt16			index = 1, foundIdx = -1;
 	ResType			theType;
@@ -1248,6 +1249,9 @@ CTmplEditorWindow::AddCasePopup(ResType inType, Str255 inLabel, SInt32 inStartMa
 	
 	// Store a pointer to the associated edit field
 	LEditText * theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID - 1));
+	if (theEditText == NULL) {
+		return err_TmplCasePopupNotRelatedToField;
+	} 
 	theBevelButton->SetUserCon( (long) theEditText);
 	// Store the position mark of the first CASE in the userCon of the edit field
 	theEditText->SetUserCon(inStartMark);
@@ -1293,6 +1297,8 @@ CTmplEditorWindow::AddCasePopup(ResType inType, Str255 inLabel, SInt32 inStartMa
 	// Advance the counters. mYCoord has already been increased by the edit field
 	mPaneIDs.AddItem(mCurrentID);
 	mCurrentID++;
+	
+	return error;
 }
 
 

@@ -923,7 +923,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		// Switch with predefined values. Remember the position mark of the
 		// first CASE in the template stream
 		theSInt32 = mTemplateStream->GetMarker() - inLabelString[0] - 5;
-		AddCasePopup(inType, inLabelString, theSInt32, inContainer);		
+		error = AddCasePopup(inType, inLabelString, theSInt32, inContainer);		
 		break;
 
 		case 'CHAR':

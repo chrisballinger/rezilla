@@ -233,7 +233,7 @@ private:
 	
 	void			AddSeparatorLine(LView * inContainer);
 
-	void			AddCasePopup(ResType inType, 
+	OSErr			AddCasePopup(ResType inType, 
 									 Str255 inLabel, 
 									 SInt32 inStartMark,
 									 LView * inContainer);
