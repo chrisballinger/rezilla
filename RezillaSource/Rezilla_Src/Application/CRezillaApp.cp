@@ -856,7 +856,8 @@ CRezillaApp::ChooseAFile(const LFileTypeList & inFileTypes, FSSpec & fileSpec)
 // ---------------------------------------------------------------------------
 //	¥ OpenDocument													  [public]
 // ---------------------------------------------------------------------------
-//	Open a Document specified by an FSSpec
+//	Open a Document specified by an FSSpec. This is used by SendAEOpenDoc()
+//	which is invoked when an item is selected in the RecentItems menu.
 
 void
 CRezillaApp::OpenDocument(
@@ -885,7 +886,7 @@ CRezillaApp::OpenFork(FSSpec & inFileSpec, Boolean askChangePerm)
 		return true;
 	} 
 	
-	error = PreOpen(inFileSpec, theFork, theRefNum, mOpeningFork, true);
+	error = PreOpen(inFileSpec, theFork, theRefNum, mOpeningFork, askChangePerm);
 	if ( error == noErr || error == err_OpenSucceededReadOnly) {
 		theRezMapDocPtr = new CRezMapDoc(this, &inFileSpec, theFork, theRefNum);
 		if (error == err_OpenSucceededReadOnly) {
@@ -1171,11 +1172,15 @@ CRezillaApp::HandleOpenDocsEvent(
 	    error = ::AEGetNthPtr(&theDocList, i, typeFSS, &theKey, &theType,
 						      (Ptr) &theFileSpec, sizeof(FSSpec), &theSize);
 	    ThrowIfOSErr_(error);
-	
-		sReadOnlyNavFlag = false;
-	    OpenFork(theFileSpec);
-	}
 		
+		sReadOnlyNavFlag = false;
+		error = OpenFork(theFileSpec);
+		if (error == noErr) {
+			// Register to the Recent Items menu
+			sRecentItemsAttachment->AddFile(theFileSpec, true);
+		}
+	}
+	
 	if (theDocList.descriptorType != typeNull) ::AEDisposeDesc(&theDocList);
 }
 
