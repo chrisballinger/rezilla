@@ -255,6 +255,8 @@ const ResIDT	MENU_TextFonts				= 250;
 const ResIDT	MENU_TextSize				= 251;  
 const ResIDT	MENU_TextStyle				= 252;  
 const ResIDT	MENU_UnicodeFonts			= 255;  
+const ResIDT	MENU_UnicodeSize			= 256;  
+const ResIDT	MENU_UnicodeStyle			= 257;  
 const ResIDT	MENU_StartHierMenuID		= 500;  
 
 // Icon editor
@@ -357,6 +359,9 @@ const CommandT	cmd_MenuResourceBase		= 1200;
 // Text editor
 const CommandT	cmd_MenuTextSizeBase		= 1400;		// font sizes are (cmdID - 1400)
 const CommandT	cmd_MenuTextSizeLast		= 1499;		// and within this range
+// Unicode editor
+const CommandT	cmd_MenuUtxtSizeBase		= 1500;		// font sizes are (cmdID - 1400)
+const CommandT	cmd_MenuUtxtSizeLast		= 1599;		// and within this range
 // Bitmap editor
 const CommandT	cmd_IconFontSizeBase		= 9100;		// font sizes are (cmdID - 9100)
 const CommandT	cmd_IconFontSizeLast		= 9300;		// and within this range
