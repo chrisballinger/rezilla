@@ -106,6 +106,7 @@
 #include <LWindowHeader.h>
 #include <UAttachments.h>
 #include <LMLTEPane.h>
+#include <LTextColumn.h>
 
 #include <LGrowZone.h>
 #include <PP_Messages.h>
@@ -356,12 +357,12 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(LWindowHeader);
  	RegisterClass_(LBorderAttachment);
 	RegisterClass_(LMLTEPane);
+	RegisterClass_(LTextColumn);
 
 	// Register Rezilla custom classes.
 	RegisterClass_(CAete_EditorWindow);
 	RegisterClass_(CBiDataWE);
 	RegisterClass_(CBroadcasterTableView);
-	RegisterClass_(CCategoriesListBox);
 	RegisterClass_(CColorPane);
 	RegisterClass_(CCompResultWindow);
 	RegisterClass_(CDoubleClickButton);
