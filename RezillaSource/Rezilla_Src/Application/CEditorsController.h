@@ -22,30 +22,30 @@ class	CRezObj;
 
 class CEditorsController {
 public:
-					CEditorsController();
-					~CEditorsController();
+						CEditorsController();
+						~CEditorsController();
 	
-	static Boolean		FindSubstitutionType(ResType inType, ResType * outType);
+	static Boolean	FindSubstitutionType(ResType inType, ResType * outType);
 
-	static Boolean		HasEditorForType(ResType inType, ResType * substType);
-	static void			InvokeCustomEditor(LCommander* inSuper, 
+	static Boolean	HasEditorForType(ResType inType, ResType * substType);
+	static void		InvokeCustomEditor(LCommander* inSuper, 
 						   CRezMapTable* inSuperMap, 
 						   CRezObj* inRezObj,
 						   Boolean inReadOnly);
-	static OSErr		OpenOrCreateWithTypeAndID(
+	static OSErr	OpenOrCreateWithTypeAndID(
 							CRezMapTable* inSuperMap, 
 							ResType inType, 
 							short inID, 
 							CRezObj** outRezObj);
 
-	OSErr				RegisterEditor();
+	OSErr			RegisterEditor();
 
-	static TArray<OSType>	sInterfaceTypes;
-	static CFPropertyListRef		sAsTypeDictionary;
+
+	static CFPropertyListRef	sAsTypeDictionary;
 
 protected:	
 
-CFPropertyListRef	BuildAsTypeDictionary();
+	void			BuildAsTypeDictionary();
 	void			Unregister();
 };
 

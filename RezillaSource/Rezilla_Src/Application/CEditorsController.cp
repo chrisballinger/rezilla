@@ -37,7 +37,7 @@ PP_Begin_Namespace_PowerPlant
 // #include <string.h>
 
 
-CFPropertyListRef	CEditorsController::sAsTypeDictionary;
+CFPropertyListRef	CEditorsController::sAsTypeDictionary = NULL;
 
 
 // ---------------------------------------------------------------------------
@@ -46,7 +46,7 @@ CFPropertyListRef	CEditorsController::sAsTypeDictionary;
 
 CEditorsController::CEditorsController()
 {
-	sAsTypeDictionary = BuildAsTypeDictionary();
+	BuildAsTypeDictionary();
 }
 
 
@@ -67,11 +67,10 @@ CEditorsController::~CEditorsController()
 // is defined with a 'type as' statement in the Rez include files (with .r
 // extension).
 
-CFPropertyListRef
+void
 CEditorsController::BuildAsTypeDictionary()
 {
 	CFBundleRef 			mainBundleRef;
-	CFPropertyListRef		plistRef = NULL;
 	CFURLRef 				typeasURL;
 	OSErr	  				error = noErr;
 	
@@ -93,10 +92,10 @@ CEditorsController::BuildAsTypeDictionary()
 		if (status) {
 			CFStringRef errorString;
 			// Reconstitute the dictionary using the XML data
-			plistRef = CFPropertyListCreateFromXMLData(kCFAllocatorDefault, xmlRef, 
+			sAsTypeDictionary = CFPropertyListCreateFromXMLData(kCFAllocatorDefault, xmlRef, 
 													   kCFPropertyListImmutable, &errorString);
 			
-			if (plistRef == NULL) CFShow(errorString);
+			if (sAsTypeDictionary == NULL) CFShow(errorString);
 			
 			// Release the XML data
 			CFRelease(xmlRef);
@@ -104,8 +103,6 @@ CEditorsController::BuildAsTypeDictionary()
 		
 		CFRelease(typeasURL);
 	}	
-	
-	return plistRef;
 }
 
 
@@ -133,7 +130,7 @@ CEditorsController::FindSubstitutionType(ResType inType, ResType * outType)
 				if (result) {
 					result = CFStringGetPascalString(outTypeRef, theString, 
 													 sizeof(theString), kCFStringEncodingMacRoman);
-					CFRelease(outTypeRef);
+					// Caveat: outTypeRef must not be released
 					
 					if (result) {
 						UMiscUtils::PStringToOSType(theString, *outType);	
