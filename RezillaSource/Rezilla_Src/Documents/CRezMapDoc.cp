@@ -2,7 +2,7 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2004-11-06 00:49:58
+//             Last modification: 2004-11-16 06:50:49
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -1359,7 +1359,6 @@ CRezMapDoc::NewResDialog()
 					case msg_NewLocked:
 					case msg_NewProtected:
 					case msg_NewPreload:
-					case msg_NewCompressed:
 					isModified = true;
 					break;
 					
