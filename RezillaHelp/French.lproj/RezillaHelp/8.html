@@ -130,23 +130,26 @@ format <B>XML, DeRez, Sdef, HTML</B> ou <B>texte</B>:
 	<LI> les formats <I>HTML</I> et <I>texte</I> peuvent être utiles simplement pour rendre
 le contenu d'une ressource de terminologie AppleScript lisible. Il est 
 parfois nécessaire dans un script AppleScript de connaître les codes de 
-certains termes.
-	<LI> le format <I>XML</I> comporte toutes les données de la ressource selon un
-format rigoureux et permet l'échange de données: une DTD décrivant la
-structure du fichier XML est jointe au projet. 
-Rezilla sait aussi importer ce type de fichiers (voir ci-dessous).
-	<LI> le format <I>DeRez</I> produit un fichier avec l'extension <I>.r</I>
+certains termes.<P>	<LI> le format <I>XML</I> comporte toutes les données de la ressource selon un
+format spécifique: une DTD décrivant la structure du fichier XML est jointe
+au projet. Rezilla sait aussi importer ce type de fichiers (voir
+ci-dessous) permettant ainsi l'échange de données.<P><B>Caveat:</B> on notera que Rezilla n'opère pas la conversion de 
+caractères spéciaux (comme les symboles <I>inférieur</I> ou <I>supérieur</I>, 
+les <I>apostrophes</I>, les <I>esperluètes</I>) en entités Xml. Il faudra
+éditer les fichiers XML obtenus si certaines chaînes comportent de tels
+caractères.<P>	<LI> le format <I>DeRez</I> produit un fichier avec l'extension <I>.r</I>
 identique à celui que produirait l'utilitaire DeRez : ce fichier est prêt à
 être recompilé dans n'importe quel projet (avec l'utilitaire Rez par
-exemple).
-	<LI> le format <I>Sdef</I> (<I>Scripting Definition File</I>) décrit les
+exemple).<P>	<LI> le format <I>Sdef</I> (<I>Scripting Definition File</I>) décrit les
 données de la ressource selon le nouveau format défini par Apple. Voir la
 définition dans le fichier <I>/System/Library/DTDs/sdef.dtd</I> et la page
 de manuel (taper "man sdef" dans une fenêtre de Terminal). Le format
 Sdef ne reprend pas toute l'information contenue dans une ressource Aete:
 il y a nécessairement une déperdition d'information en passant de l'un à
 l'autre. Rezilla s'efforce de convertir au mieux la ressource Aete.
-</UL><P>La commande <B>Import Terminology</B> permet d'importer des données 
+</UL><P><B>Important:</B> Les fichiers exportés en format XML, Sdef ou HTML sont 
+encodés en UTF-8 tandis que les fichiers exportés en format texte ou DeRez 
+sont encodés en encodage MacRoman.<P>La commande <B>Import Terminology</B> permet d'importer des données 
 depuis un fichier XML dans une ressource 'aete' : on peut pour cela créer 
 une nouvelle ressource 'aete', l'éditer et choisir la commande 
 <I>Import Terminology</I> dans le menu <I>Terminology</I>. Le fichier 
