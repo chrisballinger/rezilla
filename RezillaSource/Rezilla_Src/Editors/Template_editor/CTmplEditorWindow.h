@@ -72,9 +72,7 @@ public:
 	OSErr			RetrieveDataWithTemplate();
 	
 	OSErr			RevertWithTemplate();
-	
-	virtual Boolean	IsDirty();
-		
+			
 	void			InstallReadOnlyIcon();
 
 	void			AdjustCounterField(PaneIDT inPaneID, SInt32 inDelta);
@@ -133,7 +131,6 @@ protected:
 	LHandleStream *		mTemplateStream;
 	LHandleStream *		mRezStream;
 	LHandleStream *		mOutStream;
-	TArray<CWasteEditView *>	mWasteFields;
 	TArray<PaneIDT>		mPaneIDs;
 	TArray<ResType>		mOffsetTypes;
 	TArray<SInt32>		mOffsetMarks;

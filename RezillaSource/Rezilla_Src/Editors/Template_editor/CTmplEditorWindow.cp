@@ -2708,7 +2708,6 @@ CTmplEditorWindow::RevertWithTemplate()
 	mYCoord             = kTmplVertSkip;
 	
 	// Reset the arrays
-	mWasteFields.RemoveAllItemsAfter(0);
 	mPaneIDs.RemoveAllItemsAfter(0);
 	mOffsetTypes.RemoveAllItemsAfter(0);
 	mOffsetMarks.RemoveAllItemsAfter(0);
