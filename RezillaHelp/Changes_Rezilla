@@ -28,7 +28,13 @@ This changes log is in reverse chronological order (from bottom to top).
 $Date$
 
 ================================================================================
-= 1.0.6b1	                             last update: 
+= 1.0.6b2	                             last update: 
+================================================================================
+¥ Added a MENU resource editor. Supports menu extension resources ('xmnu').
+¥ 
+
+================================================================================
+= 1.0.6b1	                             last update: 2005-03-09 17:33:47
 ================================================================================
 ¥ The picture viewer alternately draws/erases a frame around the image 
   upon clicking in the contents area.
@@ -39,7 +45,6 @@ $Date$
   buttons fixed. The Dont/No button can be triggered by cmd-D or cmd-N.
 ¥ Added a "Wrap Text" command to the Text editor.
 ¥ Added more procIDs to CNTL resource template.
-¥ 
 
 ================================================================================
 = 1.0.5b	                             last update: 2005-02-28 11:27:26
