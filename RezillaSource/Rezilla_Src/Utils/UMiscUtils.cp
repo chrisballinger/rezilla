@@ -122,6 +122,19 @@ UMiscUtils::MakePath(FSSpec* inFileSpec, Str255 outPath, short inWidth)
 }
 
 
+// ---------------------------------------------------------------------------
+//	¥ CopyFSSpec										[private]
+// ---------------------------------------------------------------------------
+
+void
+UMiscUtils::CopyFSSpec(FSSpec& srcFileSpec, FSSpec& trgtFileSpec)
+{
+	trgtFileSpec.vRefNum = srcFileSpec.vRefNum;
+	trgtFileSpec.parID = srcFileSpec.parID;
+	LString::CopyPStr(srcFileSpec.name, trgtFileSpec.name);
+}
+
+
 // ------------------------------------------------------------------------------
 //  ¥  GetTypeFromScrap
 // ------------------------------------------------------------------------------
@@ -235,4 +248,3 @@ CTypeComparator::Compare(
 
 
 PP_End_Namespace_PowerPlant
-

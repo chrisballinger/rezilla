@@ -44,6 +44,7 @@ public:
 	static Boolean	IsValidHexadecimal(Handle inHandle);
 	static Boolean	IsValidHexadecimal(Ptr inPtr, ByteCount inByteCount);
 	static SInt16	CompareStr255(Str255 * leftString, Str255 * rightString);
+	static void		CopyFSSpec(FSSpec& srcFileSpec, FSSpec& trgtFileSpec);
 };
 
 
@@ -79,4 +80,3 @@ PP_End_Namespace_PowerPlant
 #endif
 
 #endif
-
