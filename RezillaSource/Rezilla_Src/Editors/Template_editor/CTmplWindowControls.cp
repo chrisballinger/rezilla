@@ -989,7 +989,7 @@ CTmplEditorWindow::AddListHeaderField(Str255 inLabel,
 	sPushPaneInfo.paneID	= mCurrentID;
 	sPushPaneInfo.superView	= inContainer;
 	
-	thePushButton = new CTmplListButton(sPushPaneInfo, msg_TmplMinusButton, "\p-");
+	thePushButton = new CTmplListButton(sPushPaneInfo, msg_MinusButton, "\p-");
 	ThrowIfNil_(thePushButton);
 	// Store the current position in the template stream
 	thePushButton->SetUserCon( mTemplateStream->GetMarker());
@@ -1003,7 +1003,7 @@ CTmplEditorWindow::AddListHeaderField(Str255 inLabel,
 	
 	sPushPaneInfo.left		+= kTmplCountWidth + kTmplHorizSep;
 	sPushPaneInfo.paneID	= mCurrentID;
-	thePushButton = new CTmplListButton(sPushPaneInfo, msg_TmplPlusButton, "\p+");
+	thePushButton = new CTmplListButton(sPushPaneInfo, msg_PlusButton, "\p+");
 	ThrowIfNil_(thePushButton);
 	// The UserCon field will contain a pointer to the first ListItemView. Initialize with nil.
 	thePushButton->SetUserCon(nil);

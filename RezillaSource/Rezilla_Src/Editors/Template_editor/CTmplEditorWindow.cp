@@ -238,7 +238,7 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 	
 	switch (inMessage) {
 		
-		case msg_TmplMinusButton:
+		case msg_MinusButton:
 			theMinusButton = (CTmplListButton *) ioParam;
 			thePaneID = theMinusButton->GetPaneID();
 			thePlusButton = dynamic_cast<CTmplListButton *>(this->FindPaneByID(thePaneID + 1));
@@ -311,7 +311,7 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			break;
 		
 		
-		case msg_TmplPlusButton:
+		case msg_PlusButton:
 			thePlusButton = (CTmplListButton *) ioParam;
 			thePaneID = thePlusButton->GetPaneID();
 			theMinusButton = dynamic_cast<CTmplListButton *>(this->FindPaneByID(thePaneID - 1));
@@ -555,7 +555,7 @@ CTmplEditorWindow::HandleKeyPress(
 			// The Delete key deletes the currently selected list item, if 
 			// no field has the focus. Pass the data via a message to
 			// simulate a click on the Minus button. 
-			ListenToMessage(msg_TmplMinusButton, (void *) mSelectedListItem->mMinusButton);
+			ListenToMessage(msg_MinusButton, (void *) mSelectedListItem->mMinusButton);
 		} 
 		break;
 		
