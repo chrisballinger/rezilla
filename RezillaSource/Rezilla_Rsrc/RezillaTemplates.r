@@ -1,3 +1,10 @@
+type 'TMPL' {
+	array {
+		pstring;      		/* Label */
+		literal longint;	/* Tag */
+	};
+};
+
 resource 'TMPL' (1000, "accl", protected) {
 	{	/* array: 10 elements */
 		/* [1] */
@@ -440,7 +447,184 @@ resource 'TMPL' (1008, "APPL", protected) {
 	}
 };
 
-resource 'TMPL' (1009, "audt", protected) {
+resource 'TMPL' (1009, "atms", protected) {
+	{	/* array: 57 elements */
+		/* [1] */
+		"Resource for the creation of parameter d"
+		"escription atoms",
+		'DVDR',
+		/* [2] */
+		"Count:",
+		'LCNT',
+		/* [3] */
+		"List of atoms",
+		'LSTC',
+		/* [4] */
+		"Atom type",
+		'TNAM',
+		/* [5] */
+		"Atom ID",
+		'DLNG',
+		/* [6] */
+		"Children",
+		'DLNG',
+		/* [7] */
+		"No children=0",
+		'CASE',
+		/* [8] */
+		"Count:",
+		'LCNT',
+		/* [9] */
+		"Array atom data",
+		'LSTC',
+		/* [10] */
+		"Data type",
+		'KTYP',
+		/* [11] */
+		"long=long",
+		'CASE',
+		/* [12] */
+		"short=shrt",
+		'CASE',
+		/* [13] */
+		"noMininumFixed=nmiF",
+		'CASE',
+		/* [14] */
+		"noMaximumFixed=nmaF",
+		'CASE',
+		/* [15] */
+		"noMininumDouble=nmiD",
+		'CASE',
+		/* [16] */
+		"noMaximumDouble=nmaD",
+		'CASE',
+		/* [17] */
+		"fixed=fixd",
+		'CASE',
+		/* [18] */
+		"double=doub",
+		'CASE',
+		/* [19] */
+		"string=str ",
+		'CASE',
+		/* [20] */
+		"lstring=lstr",
+		'CASE',
+		/* [21] */
+		"OSType=osty",
+		'CASE',
+		/* [22] */
+		"long",
+		'KEYB',
+		/* [23] */
+		"Data",
+		'PSTR',
+		/* [24] */
+		"",
+		'KEYE',
+		/* [25] */
+		"shrt",
+		'KEYB',
+		/* [26] */
+		"Data",
+		'PSTR',
+		/* [27] */
+		"",
+		'KEYE',
+		/* [28] */
+		"nmiF",
+		'KEYB',
+		/* [29] */
+		"Data",
+		'PSTR',
+		/* [30] */
+		"",
+		'KEYE',
+		/* [31] */
+		"nmaF",
+		'KEYB',
+		/* [32] */
+		"Data",
+		'PSTR',
+		/* [33] */
+		"",
+		'KEYE',
+		/* [34] */
+		"nmiD",
+		'KEYB',
+		/* [35] */
+		"Data",
+		'PSTR',
+		/* [36] */
+		"",
+		'KEYE',
+		/* [37] */
+		"nmaD",
+		'KEYB',
+		/* [38] */
+		"Data",
+		'PSTR',
+		/* [39] */
+		"",
+		'KEYE',
+		/* [40] */
+		"fixd",
+		'KEYB',
+		/* [41] */
+		"Data",
+		'PSTR',
+		/* [42] */
+		"",
+		'KEYE',
+		/* [43] */
+		"doub",
+		'KEYB',
+		/* [44] */
+		"Data",
+		'PSTR',
+		/* [45] */
+		"",
+		'KEYE',
+		/* [46] */
+		"str ",
+		'KEYB',
+		/* [47] */
+		"Data",
+		'PSTR',
+		/* [48] */
+		"",
+		'KEYE',
+		/* [49] */
+		"lstr",
+		'KEYB',
+		/* [50] */
+		"Length",
+		'DLNG',
+		/* [51] */
+		"Hexadecimal data",
+		'HEXD',
+		/* [52] */
+		"",
+		'KEYE',
+		/* [53] */
+		"osty",
+		'KEYB',
+		/* [54] */
+		"Data",
+		'PSTR',
+		/* [55] */
+		"",
+		'KEYE',
+		/* [56] */
+		"*****",
+		'LSTE',
+		/* [57] */
+		"*****",
+		'LSTE'
+	}
+};
+
+resource 'TMPL' (1010, "audt", protected) {
 	{	/* array: 42 elements */
 		/* [1] */
 		"Event constants",
@@ -571,7 +755,35 @@ resource 'TMPL' (1009, "audt", protected) {
 	}
 };
 
-resource 'TMPL' (1010, "badg", protected) {
+resource 'TMPL' (1011, "avvc", protected) {
+	{	/* array: 3 elements */
+		/* [1] */
+		"Compressors AVI file four cc's",
+		'LSTB',
+		/* [2] */
+		"AVI four cc type",
+		'TNAM',
+		/* [3] */
+		"*****",
+		'LSTE'
+	}
+};
+
+resource 'TMPL' (1012, "avvd", protected) {
+	{	/* array: 3 elements */
+		/* [1] */
+		"Decompressors AVI file four cc's",
+		'LSTB',
+		/* [2] */
+		"AVI four cc type",
+		'TNAM',
+		/* [3] */
+		"*****",
+		'LSTE'
+	}
+};
+
+resource 'TMPL' (1013, "badg", protected) {
 	{	/* array: 17 elements */
 		/* [1] */
 		"Version",
@@ -627,7 +839,7 @@ resource 'TMPL' (1010, "badg", protected) {
 	}
 };
 
-resource 'TMPL' (1011, "bMRM", protected) {
+resource 'TMPL' (1014, "bMRM", protected) {
 	{	/* array: 19 elements */
 		/* [1] */
 		"\"Fetch\" resource template",
@@ -690,7 +902,7 @@ resource 'TMPL' (1011, "bMRM", protected) {
 	}
 };
 
-resource 'TMPL' (1012, "BNDL", protected) {
+resource 'TMPL' (1015, "BNDL", protected) {
 	{	/* array: 11 elements */
 		/* [1] */
 		"Signature",
@@ -728,7 +940,7 @@ resource 'TMPL' (1012, "BNDL", protected) {
 	}
 };
 
-resource 'TMPL' (1013, "brws", protected) {
+resource 'TMPL' (1016, "brws", protected) {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Version",
@@ -745,7 +957,7 @@ resource 'TMPL' (1013, "brws", protected) {
 	}
 };
 
-resource 'TMPL' (1014, "bVal", protected) {
+resource 'TMPL' (1017, "bVal", protected) {
 	{	/* array: 2 elements */
 		/* [1] */
 		"\"AfterDark\" resource format",
@@ -756,7 +968,7 @@ resource 'TMPL' (1014, "bVal", protected) {
 	}
 };
 
-resource 'TMPL' (1015, "Cals", protected) {
+resource 'TMPL' (1018, "Cals", protected) {
 	{	/* array: 8 elements */
 		/* [1] */
 		"\"AfterDark\" resource format",
@@ -785,7 +997,7 @@ resource 'TMPL' (1015, "Cals", protected) {
 	}
 };
 
-resource 'TMPL' (1016, "caps", protected) {
+resource 'TMPL' (1019, "caps", protected) {
 	{	/* array: 139 elements */
 		/* [1] */
 		"Count:",
@@ -896,8 +1108,8 @@ resource 'TMPL' (1016, "caps", protected) {
 		"Both=BOTH",
 		'CASE',
 		/* [37] */
-		"Not supported=$00000000",
-		'CASE',
+		"Leave empty if not supported",
+		'DVDR',
 		/* [38] */
 		"",
 		'KEYE',
@@ -953,8 +1165,8 @@ resource 'TMPL' (1016, "caps", protected) {
 		"Both=BOTH",
 		'CASE',
 		/* [56] */
-		"Not supported=$00000000",
-		'CASE',
+		"Leave empty if not supported",
+		'DVDR',
 		/* [57] */
 		"",
 		'KEYE',
@@ -995,8 +1207,8 @@ resource 'TMPL' (1016, "caps", protected) {
 		"Both=BOTH",
 		'CASE',
 		/* [70] */
-		"Not supported=$00000000",
-		'CASE',
+		"Leave empty if not supported",
+		'DVDR',
 		/* [71] */
 		"",
 		'KEYE',
@@ -1037,8 +1249,8 @@ resource 'TMPL' (1016, "caps", protected) {
 		"Both=BOTH",
 		'CASE',
 		/* [84] */
-		"Not supported=$00000000",
-		'CASE',
+		"Leave empty if not supported",
+		'DVDR',
 		/* [85] */
 		"",
 		'KEYE',
@@ -1109,8 +1321,8 @@ resource 'TMPL' (1016, "caps", protected) {
 		"Both=BOTH",
 		'CASE',
 		/* [108] */
-		"Not supported=$00000000",
-		'CASE',
+		"Leave empty if not supported",
+		'DVDR',
 		/* [109] */
 		"",
 		'KEYE',
@@ -1184,8 +1396,8 @@ resource 'TMPL' (1016, "caps", protected) {
 		"Both=BOTH",
 		'CASE',
 		/* [133] */
-		"Not supported=$00000000",
-		'CASE',
+		"Leave empty if not supported",
+		'DVDR',
 		/* [134] */
 		"",
 		'KEYE',
@@ -1196,8 +1408,8 @@ resource 'TMPL' (1016, "caps", protected) {
 		"How",
 		'TNAM',
 		/* [137] */
-		"Not supported=$00000000",
-		'CASE',
+		"Leave empty if not supported",
+		'DVDR',
 		/* [138] */
 		"",
 		'KEYE',
@@ -1207,7 +1419,7 @@ resource 'TMPL' (1016, "caps", protected) {
 	}
 };
 
-resource 'TMPL' (1017, "cbnd", protected) {
+resource 'TMPL' (1020, "cbnd", protected) {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Count:",
@@ -1239,7 +1451,7 @@ resource 'TMPL' (1017, "cbnd", protected) {
 	}
 };
 
-resource 'TMPL' (1018, "CCIâ„¢", protected) {
+resource 'TMPL' (1021, "CCIª") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Description",
@@ -1247,7 +1459,21 @@ resource 'TMPL' (1018, "CCIâ„¢", protected) {
 	}
 };
 
-resource 'TMPL' (1019, "cctb", protected) {
+resource 'TMPL' (1022, "ccop", protected) {
+	{	/* array: 3 elements */
+		/* [1] */
+		"Codec compression options",
+		'HLNG',
+		/* [2] */
+		"DefaultOptions=0x00000000",
+		'CASE',
+		/* [3] */
+		"NoQuality=0x00000001",
+		'CASE'
+	}
+};
+
+resource 'TMPL' (1023, "cctb", protected) {
 	{	/* array: 22 elements */
 		/* [1] */
 		"Control color seed",
@@ -1318,7 +1544,7 @@ resource 'TMPL' (1019, "cctb", protected) {
 	}
 };
 
-resource 'TMPL' (1020, "cdci", protected) {
+resource 'TMPL' (1024, "cdci", protected) {
 	{	/* array: 53 elements */
 		/* [1] */
 		"Description/name",
@@ -1483,7 +1709,7 @@ resource 'TMPL' (1020, "cdci", protected) {
 	}
 };
 
-resource 'TMPL' (1021, "cFIG", protected) {
+resource 'TMPL' (1025, "cFIG", protected) {
 	{	/* array: 29 elements */
 		/* [1] */
 		"Tool version",
@@ -1575,7 +1801,7 @@ resource 'TMPL' (1021, "cFIG", protected) {
 	}
 };
 
-resource 'TMPL' (1022, "cfmt", protected) {
+resource 'TMPL' (1026, "cfmt", protected) {
 	{	/* array: 12 elements */
 		/* [1] */
 		"Column1 width",
@@ -1616,7 +1842,7 @@ resource 'TMPL' (1022, "cfmt", protected) {
 	}
 };
 
-resource 'TMPL' (1023, "cfrg", protected) {
+resource 'TMPL' (1027, "cfrg", protected) {
 	{	/* array: 26 elements */
 		/* [1] */
 		"(private)",
@@ -1699,7 +1925,7 @@ resource 'TMPL' (1023, "cfrg", protected) {
 	}
 };
 
-resource 'TMPL' (1024, "chCd", protected) {
+resource 'TMPL' (1028, "chCd", protected) {
 	{	/* array: 5 elements */
 		/* [1] */
 		"\"Finale\" resource format",
@@ -1719,7 +1945,7 @@ resource 'TMPL' (1024, "chCd", protected) {
 	}
 };
 
-resource 'TMPL' (1025, "chCv", protected) {
+resource 'TMPL' (1029, "chCv", protected) {
 	{	/* array: 3 elements */
 		/* [1] */
 		"\"Finale\" resource format",
@@ -1733,7 +1959,7 @@ resource 'TMPL' (1025, "chCv", protected) {
 	}
 };
 
-resource 'TMPL' (1026, "Chnl", protected) {
+resource 'TMPL' (1030, "Chnl", protected) {
 	{	/* array: 3 elements */
 		/* [1] */
 		"\"AfterDark\" resource format",
@@ -1747,7 +1973,7 @@ resource 'TMPL' (1026, "Chnl", protected) {
 	}
 };
 
-resource 'TMPL' (1027, "CHOS", protected) {
+resource 'TMPL' (1031, "CHOS", protected) {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Serial device",
@@ -1767,7 +1993,7 @@ resource 'TMPL' (1027, "CHOS", protected) {
 	}
 };
 
-resource 'TMPL' (1028, "chrw", protected) {
+resource 'TMPL' (1032, "chrw", protected) {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Number of characters per 50 pixels",
@@ -1775,7 +2001,7 @@ resource 'TMPL' (1028, "chrw", protected) {
 	}
 };
 
-resource 'TMPL' (1029, "ckid", protected) {
+resource 'TMPL' (1033, "ckid", protected) {
 	{	/* array: 27 elements */
 		/* [1] */
 		"Checksum",
@@ -1861,7 +2087,7 @@ resource 'TMPL' (1029, "ckid", protected) {
 	}
 };
 
-resource 'TMPL' (1030, "Clmn", protected) {
+resource 'TMPL' (1034, "Clmn", protected) {
 	{	/* array: 35 elements */
 		/* [1] */
 		"\"SuitCase\" resource format",
@@ -1971,7 +2197,7 @@ resource 'TMPL' (1030, "Clmn", protected) {
 	}
 };
 
-resource 'TMPL' (1031, "clr#", protected) {
+resource 'TMPL' (1035, "clr#", protected) {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Appearance Color List Resource (ID 384)",
@@ -1991,7 +2217,7 @@ resource 'TMPL' (1031, "clr#", protected) {
 	}
 };
 
-resource 'TMPL' (1032, "cltn", protected) {
+resource 'TMPL' (1036, "cltn", protected) {
 	{	/* array: 14 elements */
 		/* [1] */
 		"Count:",
@@ -2038,7 +2264,7 @@ resource 'TMPL' (1032, "cltn", protected) {
 	}
 };
 
-resource 'TMPL' (1033, "clut", protected) {
+resource 'TMPL' (1037, "clut", protected) {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Color table seed",
@@ -2070,7 +2296,7 @@ resource 'TMPL' (1033, "clut", protected) {
 	}
 };
 
-resource 'TMPL' (1034, "CMDK", protected) {
+resource 'TMPL' (1038, "CMDK", protected) {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Command Keys",
@@ -2078,7 +2304,7 @@ resource 'TMPL' (1034, "CMDK", protected) {
 	}
 };
 
-resource 'TMPL' (1035, "cmdo", protected) {
+resource 'TMPL' (1039, "cmdo", protected) {
 	{	/* array: 315 elements */
 		/* [1] */
 		"Commando version",
@@ -3028,7 +3254,7 @@ resource 'TMPL' (1035, "cmdo", protected) {
 	}
 };
 
-resource 'TMPL' (1036, "cmnu", protected) {
+resource 'TMPL' (1040, "cmnu", protected) {
 	{	/* array: 72 elements */
 		/* [1] */
 		"Menu ID",
@@ -3249,7 +3475,7 @@ resource 'TMPL' (1036, "cmnu", protected) {
 	}
 };
 
-resource 'TMPL' (1037, "CNTL", protected) {
+resource 'TMPL' (1041, "CNTL", protected) {
 	{	/* array: 16 elements */
 		/* [1] */
 		"Bounds Rect",
@@ -3302,7 +3528,7 @@ resource 'TMPL' (1037, "CNTL", protected) {
 	}
 };
 
-resource 'TMPL' (1038, "Colr", protected) {
+resource 'TMPL' (1042, "Colr", protected) {
 	{	/* array: 6 elements */
 		/* [1] */
 		"Version",
@@ -3326,7 +3552,7 @@ resource 'TMPL' (1038, "Colr", protected) {
 	}
 };
 
-resource 'TMPL' (1039, "colw", protected) {
+resource 'TMPL' (1043, "colw", protected) {
 	{	/* array: 12 elements */
 		/* [1] */
 		"Name col default width",
@@ -3367,7 +3593,7 @@ resource 'TMPL' (1039, "colw", protected) {
 	}
 };
 
-resource 'TMPL' (1040, "comm", protected) {
+resource 'TMPL' (1044, "comm", protected) {
 	{	/* array: 96 elements */
 		/* [1] */
 		"Printer connection",
@@ -3664,7 +3890,7 @@ resource 'TMPL' (1040, "comm", protected) {
 	}
 };
 
-resource 'TMPL' (1041, "cool", protected) {
+resource 'TMPL' (1045, "cool", protected) {
 	{	/* array: 27 elements */
 		/* [1] */
 		"Alert type",
@@ -3750,7 +3976,22 @@ resource 'TMPL' (1041, "cool", protected) {
 	}
 };
 
-resource 'TMPL' (1042, "CPPb", protected) {
+resource 'TMPL' (1046, "cpix", protected) {
+	{	/* array: 3 elements */
+		/* [1] */
+		"Compressors supported compress pixel for"
+		"mat surfaces",
+		'LSTB',
+		/* [2] */
+		"Type",
+		'TNAM',
+		/* [3] */
+		"*****",
+		'LSTE'
+	}
+};
+
+resource 'TMPL' (1047, "CPPb", protected) {
 	{	/* array: 58 elements */
 		/* [1] */
 		"Object Type",
@@ -3929,7 +4170,7 @@ resource 'TMPL' (1042, "CPPb", protected) {
 	}
 };
 
-resource 'TMPL' (1043, "cpts", protected) {
+resource 'TMPL' (1048, "cpts", protected) {
 	{	/* array: 13 elements */
 		/* [1] */
 		"Type of capture string",
@@ -3973,7 +4214,7 @@ resource 'TMPL' (1043, "cpts", protected) {
 	}
 };
 
-resource 'TMPL' (1044, "crst", protected) {
+resource 'TMPL' (1049, "crst", protected) {
 	{	/* array: 8 elements */
 		/* [1] */
 		"Color space",
@@ -4002,7 +4243,7 @@ resource 'TMPL' (1044, "crst", protected) {
 	}
 };
 
-resource 'TMPL' (1045, "CTY#", protected) {
+resource 'TMPL' (1050, "CTY#", protected) {
 	{	/* array: 10 elements */
 		/* [1] */
 		"Num cities",
@@ -4037,7 +4278,7 @@ resource 'TMPL' (1045, "CTY#", protected) {
 	}
 };
 
-resource 'TMPL' (1046, "CTYP", protected) {
+resource 'TMPL' (1051, "CTYP", protected) {
 	{	/* array: 237 elements */
 		/* [1] */
 		"Template for Constructor CWPro4",
@@ -4753,7 +4994,7 @@ resource 'TMPL' (1046, "CTYP", protected) {
 	}
 };
 
-resource 'TMPL' (1047, "CURS", protected) {
+resource 'TMPL' (1052, "CURS", protected) {
 	{	/* array: 3 elements */
 		/* [1] */
 		"Image bits (32 bytes)",
@@ -4767,7 +5008,7 @@ resource 'TMPL' (1047, "CURS", protected) {
 	}
 };
 
-resource 'TMPL' (1048, "cust", protected) {
+resource 'TMPL' (1053, "cust", protected) {
 	{	/* array: 15 elements */
 		/* [1] */
 		"Horizontal resolution (dots/inch)",
@@ -4819,7 +5060,7 @@ resource 'TMPL' (1048, "cust", protected) {
 	}
 };
 
-resource 'TMPL' (1049, "CWid", protected) {
+resource 'TMPL' (1054, "CWid", protected) {
 	{	/* array: 47 elements */
 		/* [1] */
 		"Minimum column width",
@@ -4965,7 +5206,7 @@ resource 'TMPL' (1049, "CWid", protected) {
 	}
 };
 
-resource 'TMPL' (1050, "dale", protected) {
+resource 'TMPL' (1055, "dale", protected) {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Count:",
@@ -4982,7 +5223,7 @@ resource 'TMPL' (1050, "dale", protected) {
 	}
 };
 
-resource 'TMPL' (1051, "DBnf", protected) {
+resource 'TMPL' (1056, "DBnf", protected) {
 	{	/* array: 9 elements */
 		/* [1] */
 		"\"SuitCase\" resource format",
@@ -5014,7 +5255,7 @@ resource 'TMPL' (1051, "DBnf", protected) {
 	}
 };
 
-resource 'TMPL' (1052, "dbug", protected) {
+resource 'TMPL' (1057, "dbug", protected) {
 	{	/* array: 12 elements */
 		/* [1] */
 		"Debug window bounds",
@@ -5055,7 +5296,7 @@ resource 'TMPL' (1052, "dbug", protected) {
 	}
 };
 
-resource 'TMPL' (1053, "dctb", protected) {
+resource 'TMPL' (1058, "dctb", protected) {
 	{	/* array: 12 elements */
 		/* [1] */
 		"Dialog color seed",
@@ -5096,7 +5337,7 @@ resource 'TMPL' (1053, "dctb", protected) {
 	}
 };
 
-resource 'TMPL' (1054, "dctl", protected) {
+resource 'TMPL' (1059, "dctl", protected) {
 	{	/* array: 103 elements */
 		/* [1] */
 		"Maximum item count",
@@ -5411,7 +5652,7 @@ resource 'TMPL' (1054, "dctl", protected) {
 	}
 };
 
-resource 'TMPL' (1055, "desC", protected) {
+resource 'TMPL' (1060, "desC", protected) {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Count:",
@@ -5443,7 +5684,7 @@ resource 'TMPL' (1055, "desC", protected) {
 	}
 };
 
-resource 'TMPL' (1056, "deta", protected) {
+resource 'TMPL' (1061, "deta", protected) {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Aspect template",
@@ -5475,7 +5716,7 @@ resource 'TMPL' (1056, "deta", protected) {
 	}
 };
 
-resource 'TMPL' (1057, "detf", protected) {
+resource 'TMPL' (1062, "detf", protected) {
 	{	/* array: 2 elements */
 		/* [1] */
 		"Version",
@@ -5486,7 +5727,7 @@ resource 'TMPL' (1057, "detf", protected) {
 	}
 };
 
-resource 'TMPL' (1058, "deti", protected) {
+resource 'TMPL' (1063, "deti", protected) {
 	{	/* array: 18 elements */
 		/* [1] */
 		"Version",
@@ -5545,7 +5786,7 @@ resource 'TMPL' (1058, "deti", protected) {
 	}
 };
 
-resource 'TMPL' (1059, "detk", protected) {
+resource 'TMPL' (1064, "detk", protected) {
 	{	/* array: 2 elements */
 		/* [1] */
 		"Version",
@@ -5556,7 +5797,7 @@ resource 'TMPL' (1059, "detk", protected) {
 	}
 };
 
-resource 'TMPL' (1060, "detn", protected) {
+resource 'TMPL' (1065, "detn", protected) {
 	{	/* array: 1 elements */
 		/* [1] */
 		"A decimal number",
@@ -5564,7 +5805,7 @@ resource 'TMPL' (1060, "detn", protected) {
 	}
 };
 
-resource 'TMPL' (1061, "detp", protected) {
+resource 'TMPL' (1066, "detp", protected) {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Count:",
@@ -5581,7 +5822,7 @@ resource 'TMPL' (1061, "detp", protected) {
 	}
 };
 
-resource 'TMPL' (1062, "dett", protected) {
+resource 'TMPL' (1067, "dett", protected) {
 	{	/* array: 56 elements */
 		/* [1] */
 		"Attribute pattern table",
@@ -5755,7 +5996,7 @@ resource 'TMPL' (1062, "dett", protected) {
 	}
 };
 
-resource 'TMPL' (1063, "detv", protected) {
+resource 'TMPL' (1068, "detv", protected) {
 	{	/* array: 104 elements */
 		/* [1] */
 		"Filler",
@@ -6072,7 +6313,7 @@ resource 'TMPL' (1063, "detv", protected) {
 	}
 };
 
-resource 'TMPL' (1064, "detw", protected) {
+resource 'TMPL' (1069, "detw", protected) {
 	{	/* array: 6 elements */
 		/* [1] */
 		"If top of bounds is 0, use standard plac"
@@ -6097,7 +6338,7 @@ resource 'TMPL' (1064, "detw", protected) {
 	}
 };
 
-resource 'TMPL' (1065, "detx", protected) {
+resource 'TMPL' (1070, "detx", protected) {
 	{	/* array: 6 elements */
 		/* [1] */
 		"Version",
@@ -6120,7 +6361,7 @@ resource 'TMPL' (1065, "detx", protected) {
 	}
 };
 
-resource 'TMPL' (1066, "dflg", protected) {
+resource 'TMPL' (1071, "dflg", protected) {
 	{	/* array: 3 elements */
 		/* [1] */
 		"Version",
@@ -6134,7 +6375,7 @@ resource 'TMPL' (1066, "dflg", protected) {
 	}
 };
 
-resource 'TMPL' (1067, "dftb", protected) {
+resource 'TMPL' (1072, "dftb", protected) {
 	{	/* array: 49 elements */
 		/* [1] */
 		"Version",
@@ -6155,10 +6396,10 @@ resource 'TMPL' (1067, "dftb", protected) {
 		"Entry Type",
 		'KWRD',
 		/* [7] */
-		"Skip=0",
+		"Skip Item=0",
 		'CASE',
 		/* [8] */
-		"Data=1",
+		"Data Item=1",
 		'CASE',
 		/* [9] */
 		"0",
@@ -6286,7 +6527,7 @@ resource 'TMPL' (1067, "dftb", protected) {
 	}
 };
 
-resource 'TMPL' (1068, "DITL", protected) {
+resource 'TMPL' (1073, "DITL", protected) {
 	{	/* array: 13 elements */
 		/* [1] */
 		"Count:",
@@ -6330,7 +6571,7 @@ resource 'TMPL' (1068, "DITL", protected) {
 	}
 };
 
-resource 'TMPL' (1069, "dJvU", protected) {
+resource 'TMPL' (1074, "dJvU", protected) {
 	{	/* array: 7 elements */
 		/* [1] */
 		"\"Eudora\" resource format",
@@ -6356,7 +6597,7 @@ resource 'TMPL' (1069, "dJvU", protected) {
 	}
 };
 
-resource 'TMPL' (1070, "DLGf", protected) {
+resource 'TMPL' (1075, "DLGf", protected) {
 	{	/* array: 8 elements */
 		/* [1] */
 		"\"Finale\" resource format",
@@ -6385,7 +6626,7 @@ resource 'TMPL' (1070, "DLGf", protected) {
 	}
 };
 
-resource 'TMPL' (1071, "dlgx", protected) {
+resource 'TMPL' (1076, "dlgx", protected) {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Version",
@@ -6417,7 +6658,7 @@ resource 'TMPL' (1071, "dlgx", protected) {
 	}
 };
 
-resource 'TMPL' (1072, "dlle", protected) {
+resource 'TMPL' (1077, "dlle", protected) {
 	{	/* array: 1 elements */
 		/* [1] */
 		"String used for multi-platform things",
@@ -6425,7 +6666,7 @@ resource 'TMPL' (1072, "dlle", protected) {
 	}
 };
 
-resource 'TMPL' (1073, "DLOG", protected) {
+resource 'TMPL' (1078, "DLOG", protected) {
 	{	/* array: 28 elements */
 		/* [1] */
 		"BoundsRect",
@@ -6514,10 +6755,10 @@ resource 'TMPL' (1073, "DLOG", protected) {
 	}
 };
 
-resource 'TMPL' (1074, "DRVR", protected) {
+resource 'TMPL' (1079, "DRVR", protected) {
 	{	/* array: 35 elements */
 		/* [1] */
-		"Reserved (should be 0)",
+		"Unused (should be 0)",
 		'BBIT',
 		/* [2] */
 		"Lock driver in memory",
@@ -6526,7 +6767,7 @@ resource 'TMPL' (1074, "DRVR", protected) {
 		"Need time for periodic action",
 		'BBIT',
 		/* [4] */
-		"Call before heap reinit",
+		"Say goodbye before heap reinit",
 		'BBIT',
 		/* [5] */
 		"Responds to status message",
@@ -6544,7 +6785,7 @@ resource 'TMPL' (1074, "DRVR", protected) {
 		"Reserved (should be 0)",
 		'FBYT',
 		/* [10] */
-		"Driver delay",
+		"Driver delay (ticks)",
 		'DWRD',
 		/* [11] */
 		"Desk acc event mask",
@@ -6595,36 +6836,36 @@ resource 'TMPL' (1074, "DRVR", protected) {
 		"mouseDown",
 		'WBIT',
 		/* [27] */
-		"(null event)",
+		"null event",
 		'WBIT',
 		/* [28] */
 		"Driver menu ID",
 		'DWRD',
 		/* [29] */
-		"Offset to open",
-		'HWRD',
+		"Offset to DRVRRuntime open (50)",
+		'UWRD',
 		/* [30] */
-		"Offset to prime",
-		'HWRD',
+		"Offset to DRVRRuntime prime (54)",
+		'UWRD',
 		/* [31] */
-		"Offset to control",
-		'HWRD',
+		"Offset to DRVRRuntime control (58)",
+		'UWRD',
 		/* [32] */
-		"Offset to status",
-		'HWRD',
+		"Offset to DRVRRuntime status (62)",
+		'UWRD',
 		/* [33] */
-		"Offset to close",
-		'HWRD',
+		"Offset to DRVRRuntime close (64)",
+		'UWRD',
 		/* [34] */
 		"Driver name",
-		'PSTR',
+		'P020',
 		/* [35] */
 		"Driver hexadecimal code",
 		'HEXD'
 	}
 };
 
-resource 'TMPL' (1075, "DSAT", protected) {
+resource 'TMPL' (1080, "DSAT", protected) {
 	{	/* array: 6 elements */
 		/* [1] */
 		"Alerts",
@@ -6647,7 +6888,7 @@ resource 'TMPL' (1075, "DSAT", protected) {
 	}
 };
 
-resource 'TMPL' (1076, "DSPC", protected) {
+resource 'TMPL' (1081, "DSPC", protected) {
 	{	/* array: 271 elements */
 		/* [1] */
 		"Version Number",
@@ -7465,7 +7706,7 @@ resource 'TMPL' (1076, "DSPC", protected) {
 	}
 };
 
-resource 'TMPL' (1077, "EDDI", protected) {
+resource 'TMPL' (1082, "EDDI", protected) {
 	{	/* array: 14 elements */
 		/* [1] */
 		"\"Resurrection\" resource format",
@@ -7512,7 +7753,7 @@ resource 'TMPL' (1077, "EDDI", protected) {
 	}
 };
 
-resource 'TMPL' (1078, "EDT#", protected) {
+resource 'TMPL' (1083, "EDT#", protected) {
 	{	/* array: 34 elements */
 		/* [1] */
 		"Last modified",
@@ -7619,7 +7860,7 @@ resource 'TMPL' (1078, "EDT#", protected) {
 	}
 };
 
-resource 'TMPL' (1079, "eopt", protected) {
+resource 'TMPL' (1084, "eopt", protected) {
 	{	/* array: 6 elements */
 		/* [1] */
 		"Execute during imaging",
@@ -7642,7 +7883,7 @@ resource 'TMPL' (1079, "eopt", protected) {
 	}
 };
 
-resource 'TMPL' (1080, "epcf", protected) {
+resource 'TMPL' (1085, "epcf", protected) {
 	{	/* array: 16 elements */
 		/* [1] */
 		"Version",
@@ -7695,7 +7936,7 @@ resource 'TMPL' (1080, "epcf", protected) {
 	}
 };
 
-resource 'TMPL' (1081, "eppc", protected) {
+resource 'TMPL' (1086, "eppc", protected) {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Flags",
@@ -7712,7 +7953,7 @@ resource 'TMPL' (1081, "eppc", protected) {
 	}
 };
 
-resource 'TMPL' (1082, "EQPS", protected) {
+resource 'TMPL' (1087, "EQPS", protected) {
 	{	/* array: 25 elements */
 		/* [1] */
 		"Version (0)",
@@ -7792,7 +8033,7 @@ resource 'TMPL' (1082, "EQPS", protected) {
 	}
 };
 
-resource 'TMPL' (1083, "EQST", protected) {
+resource 'TMPL' (1088, "EQST", protected) {
 	{	/* array: 33 elements */
 		/* [1] */
 		"eqEnabled",
@@ -7896,7 +8137,7 @@ resource 'TMPL' (1083, "EQST", protected) {
 	}
 };
 
-resource 'TMPL' (1084, "ErrC", protected) {
+resource 'TMPL' (1089, "ErrC", protected) {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Error description",
@@ -7904,7 +8145,7 @@ resource 'TMPL' (1084, "ErrC", protected) {
 	}
 };
 
-resource 'TMPL' (1085, "errs", protected) {
+resource 'TMPL' (1090, "errs", protected) {
 	{	/* array: 8 elements */
 		/* [1] */
 		"List of errors",
@@ -7933,7 +8174,7 @@ resource 'TMPL' (1085, "errs", protected) {
 	}
 };
 
-resource 'TMPL' (1086, "EuFl", protected) {
+resource 'TMPL' (1091, "EuFl", protected) {
 	{	/* array: 4 elements */
 		/* [1] */
 		"\"Eudora\" resource format",
@@ -7950,7 +8191,7 @@ resource 'TMPL' (1086, "EuFl", protected) {
 	}
 };
 
-resource 'TMPL' (1087, "EuOM", protected) {
+resource 'TMPL' (1092, "EuOM", protected) {
 	{	/* array: 17 elements */
 		/* [1] */
 		"\"Eudora\" resource format",
@@ -8006,7 +8247,7 @@ resource 'TMPL' (1087, "EuOM", protected) {
 	}
 };
 
-resource 'TMPL' (1088, "EuRg", protected) {
+resource 'TMPL' (1093, "EuRg", protected) {
 	{	/* array: 4 elements */
 		/* [1] */
 		"\"Eudora\" resource format",
@@ -8023,7 +8264,7 @@ resource 'TMPL' (1088, "EuRg", protected) {
 	}
 };
 
-resource 'TMPL' (1089, "exft", protected) {
+resource 'TMPL' (1094, "exft", protected) {
 	{	/* array: 148 elements */
 		/* [1] */
 		"Count:",
@@ -8472,7 +8713,7 @@ resource 'TMPL' (1089, "exft", protected) {
 	}
 };
 
-resource 'TMPL' (1090, "f2im", protected) {
+resource 'TMPL' (1095, "f2im", protected) {
 	{	/* array: 6 elements */
 		/* [1] */
 		"\"SuitCase\" resource format",
@@ -8495,81 +8736,93 @@ resource 'TMPL' (1090, "f2im", protected) {
 	}
 };
 
-resource 'TMPL' (1091, "faps", protected) {
-	{	/* array: 23 elements */
+resource 'TMPL' (1096, "faps", protected) {
+	{	/* array: 27 elements */
 		/* [1] */
+		"File Transfer tool capabilities list",
+		'DVDR',
+		/* [2] */
 		"Count:",
 		'OCNT',
-		/* [2] */
+		/* [3] */
 		"List of Pairs",
 		'LSTC',
-		/* [3] */
+		/* [4] */
 		"Pair type",
 		'KTYP',
-		/* [4] */
+		/* [5] */
 		"Batch transfer=BXFR",
 		'CASE',
-		/* [5] */
-		"Files supported=TYPE",
-		'CASE',
 		/* [6] */
-		"Transfer mode=MODE",
+		"File types supported=TYPE",
 		'CASE',
 		/* [7] */
+		"Transfer modes=MODE",
+		'CASE',
+		/* [8] */
 		"BXFR",
 		'KEYB',
-		/* [8] */
+		/* [9] */
+		"Support for FTSend/FTReceive",
+		'DVDR',
+		/* [10] */
 		"Reserved",
 		'LB31',
-		/* [9] */
+		/* [11] */
 		"Supported",
 		'LB01',
-		/* [10] */
+		/* [12] */
 		"",
 		'KEYE',
-		/* [11] */
+		/* [13] */
 		"TYPE",
 		'KEYB',
-		/* [12] */
+		/* [14] */
+		"Types of files that can be transferred",
+		'DVDR',
+		/* [15] */
 		"File type",
 		'TNAM',
-		/* [13] */
+		/* [16] */
 		"Text only=TEXT",
 		'CASE',
-		/* [14] */
+		/* [17] */
 		"All types=????",
 		'CASE',
-		/* [15] */
+		/* [18] */
 		"",
 		'KEYE',
-		/* [16] */
+		/* [19] */
 		"MODE",
 		'KEYB',
-		/* [17] */
+		/* [20] */
 		"Mode",
 		'TNAM',
-		/* [18] */
+		/* [21] */
 		"Send only=SEND",
 		'CASE',
-		/* [19] */
+		/* [22] */
 		"Receive only=RECV",
 		'CASE',
-		/* [20] */
+		/* [23] */
 		"Send and receive=BOTH",
 		'CASE',
-		/* [21] */
-		"Not supported=$00000000",
+		/* [24] */
+		"Send and receive Async='ASYN',",
 		'CASE',
-		/* [22] */
+		/* [25] */
+		"Leave empty if not supported",
+		'DVDR',
+		/* [26] */
 		"",
 		'KEYE',
-		/* [23] */
+		/* [27] */
 		"*****",
 		'LSTE'
 	}
 };
 
-resource 'TMPL' (1092, "fbnd", protected) {
+resource 'TMPL' (1097, "fbnd", protected) {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Count:",
@@ -8601,7 +8854,7 @@ resource 'TMPL' (1092, "fbnd", protected) {
 	}
 };
 
-resource 'TMPL' (1093, "FBTN", protected) {
+resource 'TMPL' (1098, "FBTN", protected) {
 	{	/* array: 7 elements */
 		/* [1] */
 		"Count:",
@@ -8627,7 +8880,7 @@ resource 'TMPL' (1093, "FBTN", protected) {
 	}
 };
 
-resource 'TMPL' (1094, "FCMT", protected) {
+resource 'TMPL' (1099, "FCMT", protected) {
 	{	/* array: 2 elements */
 		/* [1] */
 		"Comment string",
@@ -8638,7 +8891,7 @@ resource 'TMPL' (1094, "FCMT", protected) {
 	}
 };
 
-resource 'TMPL' (1095, "fctb", protected) {
+resource 'TMPL' (1100, "fctb", protected) {
 	{	/* array: 7 elements */
 		/* [1] */
 		"Seed",
@@ -8664,7 +8917,7 @@ resource 'TMPL' (1095, "fctb", protected) {
 	}
 };
 
-resource 'TMPL' (1096, "fdes", protected) {
+resource 'TMPL' (1101, "fdes", protected) {
 	{	/* array: 46 elements */
 		/* [1] */
 		"Go Mixed Mode Trap",
@@ -8807,7 +9060,7 @@ resource 'TMPL' (1096, "fdes", protected) {
 	}
 };
 
-resource 'TMPL' (1097, "FDIR", protected) {
+resource 'TMPL' (1102, "FDIR", protected) {
 	{	/* array: 3 elements */
 		/* [1] */
 		"*****",
@@ -8821,7 +9074,7 @@ resource 'TMPL' (1097, "FDIR", protected) {
 	}
 };
 
-resource 'TMPL' (1098, "FDlg", protected) {
+resource 'TMPL' (1103, "FDlg", protected) {
 	{	/* array: 14 elements */
 		/* [1] */
 		"\"Finale\" resource format",
@@ -8868,7 +9121,7 @@ resource 'TMPL' (1098, "FDlg", protected) {
 	}
 };
 
-resource 'TMPL' (1099, "fdmn", protected) {
+resource 'TMPL' (1104, "fdmn", protected) {
 	{	/* array: 8 elements */
 		/* [1] */
 		"Menu ID",
@@ -8897,7 +9150,7 @@ resource 'TMPL' (1099, "fdmn", protected) {
 	}
 };
 
-resource 'TMPL' (1100, "fFIG", protected) {
+resource 'TMPL' (1105, "fFIG", protected) {
 	{	/* array: 25 elements */
 		/* [1] */
 		"Tool version",
@@ -8977,7 +9230,7 @@ resource 'TMPL' (1100, "fFIG", protected) {
 	}
 };
 
-resource 'TMPL' (1101, "FHLP", protected) {
+resource 'TMPL' (1106, "FHLP", protected) {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Fetch Help Text",
@@ -8985,7 +9238,7 @@ resource 'TMPL' (1101, "FHLP", protected) {
 	}
 };
 
-resource 'TMPL' (1102, "find", protected) {
+resource 'TMPL' (1107, "find", protected) {
 	{	/* array: 12 elements */
 		/* [1] */
 		"Find text",
@@ -9026,7 +9279,7 @@ resource 'TMPL' (1102, "find", protected) {
 	}
 };
 
-resource 'TMPL' (1103, "finf", protected) {
+resource 'TMPL' (1108, "finf", protected) {
 	{	/* array: 14 elements */
 		/* [1] */
 		"Count:",
@@ -9073,7 +9326,7 @@ resource 'TMPL' (1103, "finf", protected) {
 	}
 };
 
-resource 'TMPL' (1104, "fld#", protected) {
+resource 'TMPL' (1109, "fld#", protected) {
 	{	/* array: 18 elements */
 		/* [1] */
 		"Folders",
@@ -9132,7 +9385,7 @@ resource 'TMPL' (1104, "fld#", protected) {
 	}
 };
 
-resource 'TMPL' (1105, "FLOG", protected) {
+resource 'TMPL' (1110, "FLOG", protected) {
 	{	/* array: 3 elements */
 		/* [1] */
 		"File creator for font log",
@@ -9146,7 +9399,7 @@ resource 'TMPL' (1105, "FLOG", protected) {
 	}
 };
 
-resource 'TMPL' (1106, "flst", protected) {
+resource 'TMPL' (1111, "flst", protected) {
 	{	/* array: 16 elements */
 		/* [1] */
 		"Count:",
@@ -9199,7 +9452,7 @@ resource 'TMPL' (1106, "flst", protected) {
 	}
 };
 
-resource 'TMPL' (1107, "fmap", protected) {
+resource 'TMPL' (1112, "fmap", protected) {
 	{	/* array: 5 elements */
 		/* [1] */
 		"The last list item must be a pair of NUL"
@@ -9220,7 +9473,7 @@ resource 'TMPL' (1107, "fmap", protected) {
 	}
 };
 
-resource 'TMPL' (1108, "fmn2", protected) {
+resource 'TMPL' (1113, "fmn2", protected) {
 	{	/* array: 18 elements */
 		/* [1] */
 		"Menu name",
@@ -9279,7 +9532,7 @@ resource 'TMPL' (1108, "fmn2", protected) {
 	}
 };
 
-resource 'TMPL' (1109, "fmnu", protected) {
+resource 'TMPL' (1114, "fmnu", protected) {
 	{	/* array: 18 elements */
 		/* [1] */
 		"Auto-initialize",
@@ -9338,7 +9591,7 @@ resource 'TMPL' (1109, "fmnu", protected) {
 	}
 };
 
-resource 'TMPL' (1110, "FOND", protected) {
+resource 'TMPL' (1115, "FOND", protected) {
 	{	/* array: 37 elements */
 		/* [1] */
 		"Proportional or fixed width",
@@ -9454,7 +9707,7 @@ resource 'TMPL' (1110, "FOND", protected) {
 	}
 };
 
-resource 'TMPL' (1111, "FONT", protected) {
+resource 'TMPL' (1116, "FONT", protected) {
 	{	/* array: 29 elements */
 		/* [1] */
 		"Reserved (on)",
@@ -9546,7 +9799,7 @@ resource 'TMPL' (1111, "FONT", protected) {
 	}
 };
 
-resource 'TMPL' (1112, "FREF", protected) {
+resource 'TMPL' (1117, "FREF", protected) {
 	{	/* array: 3 elements */
 		/* [1] */
 		"File type",
@@ -9560,7 +9813,7 @@ resource 'TMPL' (1112, "FREF", protected) {
 	}
 };
 
-resource 'TMPL' (1113, "FRSV", protected) {
+resource 'TMPL' (1118, "FRSV", protected) {
 	{	/* array: 12 elements */
 		/* [1] */
 		"Count:",
@@ -9601,7 +9854,7 @@ resource 'TMPL' (1113, "FRSV", protected) {
 	}
 };
 
-resource 'TMPL' (1114, "FSty", protected) {
+resource 'TMPL' (1119, "FSty", protected) {
 	{	/* array: 12 elements */
 		/* [1] */
 		"\"Finale\" resource format",
@@ -9642,7 +9895,7 @@ resource 'TMPL' (1114, "FSty", protected) {
 	}
 };
 
-resource 'TMPL' (1115, "FTLS", protected) {
+resource 'TMPL' (1120, "FTLS", protected) {
 	{	/* array: 5 elements */
 		/* [1] */
 		"\"SuitCase\" resource format",
@@ -9662,7 +9915,7 @@ resource 'TMPL' (1115, "FTLS", protected) {
 	}
 };
 
-resource 'TMPL' (1116, "FtSz", protected) {
+resource 'TMPL' (1121, "FtSz", protected) {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Font size or other pref value",
@@ -9670,7 +9923,7 @@ resource 'TMPL' (1116, "FtSz", protected) {
 	}
 };
 
-resource 'TMPL' (1117, "ftyp", protected) {
+resource 'TMPL' (1122, "ftyp", protected) {
 	{	/* array: 5 elements */
 		/* [1] */
 		"\"SuitCase\" resource format",
@@ -9690,7 +9943,7 @@ resource 'TMPL' (1117, "ftyp", protected) {
 	}
 };
 
-resource 'TMPL' (1118, "fval", protected) {
+resource 'TMPL' (1123, "fval", protected) {
 	{	/* array: 34 elements */
 		/* [1] */
 		"Version",
@@ -9797,7 +10050,7 @@ resource 'TMPL' (1118, "fval", protected) {
 	}
 };
 
-resource 'TMPL' (1119, "FWID", protected) {
+resource 'TMPL' (1124, "FWID", protected) {
 	{	/* array: 17 elements */
 		/* [1] */
 		"Font type",
@@ -9853,7 +10106,7 @@ resource 'TMPL' (1119, "FWID", protected) {
 	}
 };
 
-resource 'TMPL' (1120, "gdir", protected) {
+resource 'TMPL' (1125, "gdir", protected) {
 	{	/* array: 2 elements */
 		/* [1] */
 		"Type",
@@ -9864,7 +10117,7 @@ resource 'TMPL' (1120, "gdir", protected) {
 	}
 };
 
-resource 'TMPL' (1121, "gmcd", protected) {
+resource 'TMPL' (1126, "gmcd", protected) {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Count:",
@@ -9884,7 +10137,7 @@ resource 'TMPL' (1121, "gmcd", protected) {
 	}
 };
 
-resource 'TMPL' (1122, "GNRL", protected) {
+resource 'TMPL' (1127, "GNRL", protected) {
 	{	/* array: 23 elements */
 		/* [1] */
 		"Show sys warn",
@@ -9958,7 +10211,7 @@ resource 'TMPL' (1122, "GNRL", protected) {
 	}
 };
 
-resource 'TMPL' (1123, "GOBJ", protected) {
+resource 'TMPL' (1128, "GOBJ", protected) {
 	{	/* array: 9 elements */
 		/* [1] */
 		"",
@@ -9990,7 +10243,7 @@ resource 'TMPL' (1123, "GOBJ", protected) {
 	}
 };
 
-resource 'TMPL' (1124, "HAlt", protected) {
+resource 'TMPL' (1129, "HAlt", protected) {
 	{	/* array: 36 elements */
 		/* [1] */
 		"Version number",
@@ -10107,7 +10360,7 @@ resource 'TMPL' (1124, "HAlt", protected) {
 	}
 };
 
-resource 'TMPL' (1125, "hdlg", protected) {
+resource 'TMPL' (1130, "hdlg", protected) {
 	{	/* array: 142 elements */
 		/* [1] */
 		"Balloon help version",
@@ -10543,7 +10796,7 @@ resource 'TMPL' (1125, "hdlg", protected) {
 	}
 };
 
-resource 'TMPL' (1126, "hfdr", protected) {
+resource 'TMPL' (1131, "hfdr", protected) {
 	{	/* array: 53 elements */
 		/* [1] */
 		"Balloon help version",
@@ -10712,7 +10965,7 @@ resource 'TMPL' (1126, "hfdr", protected) {
 	}
 };
 
-resource 'TMPL' (1127, "hmnu", protected) {
+resource 'TMPL' (1132, "hmnu", protected) {
 	{	/* array: 179 elements */
 		/* [1] */
 		"Balloon help version",
@@ -11262,7 +11515,7 @@ resource 'TMPL' (1127, "hmnu", protected) {
 	}
 };
 
-resource 'TMPL' (1128, "hovr", protected) {
+resource 'TMPL' (1133, "hovr", protected) {
 	{	/* array: 91 elements */
 		/* [1] */
 		"Balloon help version",
@@ -11549,7 +11802,7 @@ resource 'TMPL' (1128, "hovr", protected) {
 	}
 };
 
-resource 'TMPL' (1129, "hrct", protected) {
+resource 'TMPL' (1134, "hrct", protected) {
 	{	/* array: 114 elements */
 		/* [1] */
 		"Balloon help version",
@@ -11901,7 +12154,7 @@ resource 'TMPL' (1129, "hrct", protected) {
 	}
 };
 
-resource 'TMPL' (1130, "HTMB", protected) {
+resource 'TMPL' (1135, "HTMB", protected) {
 	{	/* array: 8 elements */
 		/* [1] */
 		"Button kind",
@@ -11930,7 +12183,7 @@ resource 'TMPL' (1130, "HTMB", protected) {
 	}
 };
 
-resource 'TMPL' (1131, "hwin", protected) {
+resource 'TMPL' (1136, "hwin", protected) {
 	{	/* array: 17 elements */
 		/* [1] */
 		"Balloon help version",
@@ -11986,7 +12239,7 @@ resource 'TMPL' (1131, "hwin", protected) {
 	}
 };
 
-resource 'TMPL' (1132, "ICLB", protected) {
+resource 'TMPL' (1137, "ICLB", protected) {
 	{	/* array: 26 elements */
 		/* [1] */
 		"\"MacZoop\" resource format",
@@ -12069,7 +12322,7 @@ resource 'TMPL' (1132, "ICLB", protected) {
 	}
 };
 
-resource 'TMPL' (1133, "icmt", protected) {
+resource 'TMPL' (1138, "icmt", protected) {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Version release date",
@@ -12086,7 +12339,7 @@ resource 'TMPL' (1133, "icmt", protected) {
 	}
 };
 
-resource 'TMPL' (1134, "ICOX", protected) {
+resource 'TMPL' (1139, "ICOX", protected) {
 	{	/* array: 9 elements */
 		/* [1] */
 		"",
@@ -12118,7 +12371,7 @@ resource 'TMPL' (1134, "ICOX", protected) {
 	}
 };
 
-resource 'TMPL' (1135, "ICx6", protected) {
+resource 'TMPL' (1140, "ICx6", protected) {
 	{	/* array: 28 elements */
 		/* [1] */
 		"",
@@ -12207,7 +12460,7 @@ resource 'TMPL' (1135, "ICx6", protected) {
 	}
 };
 
-resource 'TMPL' (1136, "inaa", protected) {
+resource 'TMPL' (1141, "inaa", protected) {
 	{	/* array: 50 elements */
 		/* [1] */
 		"Action Atom format version",
@@ -12365,7 +12618,7 @@ resource 'TMPL' (1136, "inaa", protected) {
 	}
 };
 
-resource 'TMPL' (1137, "inah", protected) {
+resource 'TMPL' (1142, "inah", protected) {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Action Handler format version",
@@ -12397,7 +12650,7 @@ resource 'TMPL' (1137, "inah", protected) {
 	}
 };
 
-resource 'TMPL' (1138, "inat", protected) {
+resource 'TMPL' (1143, "inat", protected) {
 	{	/* array: 39 elements */
 		/* [1] */
 		"Audit Trail format version",
@@ -12519,7 +12772,7 @@ resource 'TMPL' (1138, "inat", protected) {
 	}
 };
 
-resource 'TMPL' (1139, "inbb", protected) {
+resource 'TMPL' (1144, "inbb", protected) {
 	{	/* array: 120 elements */
 		/* [1] */
 		"Boot Block format version",
@@ -12885,7 +13138,7 @@ resource 'TMPL' (1139, "inbb", protected) {
 	}
 };
 
-resource 'TMPL' (1140, "incd", protected) {
+resource 'TMPL' (1145, "incd", protected) {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Creation date & time",
@@ -12893,7 +13146,7 @@ resource 'TMPL' (1140, "incd", protected) {
 	}
 };
 
-resource 'TMPL' (1141, "indm", protected) {
+resource 'TMPL' (1146, "indm", protected) {
 	{	/* array: 37 elements */
 		/* [1] */
 		"Format version",
@@ -13009,7 +13262,7 @@ resource 'TMPL' (1141, "indm", protected) {
 	}
 };
 
-resource 'TMPL' (1142, "indo", protected) {
+resource 'TMPL' (1147, "indo", protected) {
 	{	/* array: 19 elements */
 		/* [1] */
 		"Disk Order resource version",
@@ -13071,7 +13324,7 @@ resource 'TMPL' (1142, "indo", protected) {
 	}
 };
 
-resource 'TMPL' (1143, "inex", protected) {
+resource 'TMPL' (1148, "inex", protected) {
 	{	/* array: 21 elements */
 		/* [1] */
 		"Atom Extender format version",
@@ -13139,7 +13392,7 @@ resource 'TMPL' (1143, "inex", protected) {
 	}
 };
 
-resource 'TMPL' (1144, "infa", protected) {
+resource 'TMPL' (1149, "infa", protected) {
 	{	/* array: 84 elements */
 		/* [1] */
 		"File Atom format version",
@@ -13401,7 +13654,7 @@ resource 'TMPL' (1144, "infa", protected) {
 	}
 };
 
-resource 'TMPL' (1145, "inff", protected) {
+resource 'TMPL' (1150, "inff", protected) {
 	{	/* array: 206 elements */
 		/* [1] */
 		"Font Family resource atom flags",
@@ -14031,7 +14284,7 @@ resource 'TMPL' (1145, "inff", protected) {
 	}
 };
 
-resource 'TMPL' (1146, "infm", protected) {
+resource 'TMPL' (1151, "infm", protected) {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Folder Merge format version",
@@ -14063,7 +14316,7 @@ resource 'TMPL' (1146, "infm", protected) {
 	}
 };
 
-resource 'TMPL' (1147, "INFO", protected) {
+resource 'TMPL' (1152, "INFO", protected) {
 	{	/* array: 15 elements */
 		/* [1] */
 		"Color type",
@@ -14114,7 +14367,7 @@ resource 'TMPL' (1147, "INFO", protected) {
 	}
 };
 
-resource 'TMPL' (1148, "infr", protected) {
+resource 'TMPL' (1153, "infr", protected) {
 	{	/* array: 18 elements */
 		/* [1] */
 		"Rule Framework format version",
@@ -14173,7 +14426,7 @@ resource 'TMPL' (1148, "infr", protected) {
 	}
 };
 
-resource 'TMPL' (1149, "infs", protected) {
+resource 'TMPL' (1154, "infs", protected) {
 	{	/* array: 7 elements */
 		/* [1] */
 		"File type",
@@ -14200,7 +14453,7 @@ resource 'TMPL' (1149, "infs", protected) {
 	}
 };
 
-resource 'TMPL' (1150, "inpc", protected) {
+resource 'TMPL' (1155, "inpc", protected) {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Package Comment format version",
@@ -14232,7 +14485,7 @@ resource 'TMPL' (1150, "inpc", protected) {
 	}
 };
 
-resource 'TMPL' (1151, "inpk", protected) {
+resource 'TMPL' (1156, "inpk", protected) {
 	{	/* array: 27 elements */
 		/* [1] */
 		"Package format version",
@@ -14318,7 +14571,7 @@ resource 'TMPL' (1151, "inpk", protected) {
 	}
 };
 
-resource 'TMPL' (1152, "inpr", protected) {
+resource 'TMPL' (1157, "inpr", protected) {
 	{	/* array: 22 elements */
 		/* [1] */
 		"Preference format version",
@@ -14391,7 +14644,7 @@ resource 'TMPL' (1152, "inpr", protected) {
 	}
 };
 
-resource 'TMPL' (1153, "inr#", protected) {
+resource 'TMPL' (1158, "inr#", protected) {
 	{	/* array: 47 elements */
 		/* [1] */
 		"Resource Atom List version",
@@ -14540,7 +14793,7 @@ resource 'TMPL' (1153, "inr#", protected) {
 	}
 };
 
-resource 'TMPL' (1154, "inra", protected) {
+resource 'TMPL' (1159, "inra", protected) {
 	{	/* array: 76 elements */
 		/* [1] */
 		"Resource Atom format version",
@@ -14777,7 +15030,7 @@ resource 'TMPL' (1154, "inra", protected) {
 	}
 };
 
-resource 'TMPL' (1155, "inrf", protected) {
+resource 'TMPL' (1160, "inrf", protected) {
 	{	/* array: 10 elements */
 		/* [1] */
 		"Rule Function format version",
@@ -14812,7 +15065,7 @@ resource 'TMPL' (1155, "inrf", protected) {
 	}
 };
 
-resource 'TMPL' (1156, "inrl", protected) {
+resource 'TMPL' (1161, "inrl", protected) {
 	{	/* array: 407 elements */
 		/* [1] */
 		"Rules format version",
@@ -16039,7 +16292,7 @@ resource 'TMPL' (1156, "inrl", protected) {
 	}
 };
 
-resource 'TMPL' (1157, "inrm", protected) {
+resource 'TMPL' (1162, "inrm", protected) {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Resource Merge format version",
@@ -16071,7 +16324,7 @@ resource 'TMPL' (1157, "inrm", protected) {
 	}
 };
 
-resource 'TMPL' (1158, "insc", protected) {
+resource 'TMPL' (1163, "insc", protected) {
 	{	/* array: 53 elements */
 		/* [1] */
 		"Format",
@@ -16235,7 +16488,7 @@ resource 'TMPL' (1158, "insc", protected) {
 	}
 };
 
-resource 'TMPL' (1159, "insp", protected) {
+resource 'TMPL' (1164, "insp", protected) {
 	{	/* array: 10 elements */
 		/* [1] */
 		"Search Procedure format version",
@@ -16270,7 +16523,7 @@ resource 'TMPL' (1159, "insp", protected) {
 	}
 };
 
-resource 'TMPL' (1160, "insz", protected) {
+resource 'TMPL' (1165, "insz", protected) {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Script Size format version",
@@ -16290,7 +16543,7 @@ resource 'TMPL' (1160, "insz", protected) {
 	}
 };
 
-resource 'TMPL' (1161, "intf", protected) {
+resource 'TMPL' (1166, "intf", protected) {
 	{	/* array: 46 elements */
 		/* [1] */
 		"Target FileSpec format version",
@@ -16436,7 +16689,7 @@ resource 'TMPL' (1161, "intf", protected) {
 	}
 };
 
-resource 'TMPL' (1162, "invc", protected) {
+resource 'TMPL' (1167, "invc", protected) {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Version Compare format version",
@@ -16468,7 +16721,7 @@ resource 'TMPL' (1162, "invc", protected) {
 	}
 };
 
-resource 'TMPL' (1163, "invs", protected) {
+resource 'TMPL' (1168, "invs", protected) {
 	{	/* array: 14 elements */
 		/* [1] */
 		"Version format version",
@@ -16515,7 +16768,7 @@ resource 'TMPL' (1163, "invs", protected) {
 	}
 };
 
-resource 'TMPL' (1164, "iobm", protected) {
+resource 'TMPL' (1169, "iobm", protected) {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Communications options",
@@ -16548,7 +16801,7 @@ resource 'TMPL' (1164, "iobm", protected) {
 	}
 };
 
-resource 'TMPL' (1165, "isys", protected) {
+resource 'TMPL' (1170, "isys", protected) {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Resource type of imaging system to selec"
@@ -16557,7 +16810,7 @@ resource 'TMPL' (1165, "isys", protected) {
 	}
 };
 
-resource 'TMPL' (1166, "ITEM", protected) {
+resource 'TMPL' (1171, "ITEM", protected) {
 	{	/* array: 260 elements */
 		/* [1] */
 		"Item type",
@@ -17342,7 +17595,7 @@ resource 'TMPL' (1166, "ITEM", protected) {
 	}
 };
 
-resource 'TMPL' (1167, "itl0", protected) {
+resource 'TMPL' (1172, "itl0", protected) {
 	{	/* array: 110 elements */
 		/* [1] */
 		"Decimal point separator",
@@ -17677,7 +17930,7 @@ resource 'TMPL' (1167, "itl0", protected) {
 	}
 };
 
-resource 'TMPL' (1168, "itl1", protected) {
+resource 'TMPL' (1173, "itl1", protected) {
 	{	/* array: 131 elements */
 		/* [1] */
 		"Day 1",
@@ -18076,7 +18329,7 @@ resource 'TMPL' (1168, "itl1", protected) {
 	}
 };
 
-resource 'TMPL' (1169, "ITL1", protected) {
+resource 'TMPL' (1174, "ITL1", protected) {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Use short dates before system",
@@ -18084,7 +18337,7 @@ resource 'TMPL' (1169, "ITL1", protected) {
 	}
 };
 
-resource 'TMPL' (1170, "itl2", protected) {
+resource 'TMPL' (1175, "itl2", protected) {
 	{	/* array: 43 elements */
 		/* [1] */
 		"Init hook offset",
@@ -18218,7 +18471,7 @@ resource 'TMPL' (1170, "itl2", protected) {
 	}
 };
 
-resource 'TMPL' (1171, "itl4", protected) {
+resource 'TMPL' (1176, "itl4", protected) {
 	{	/* array: 37 elements */
 		/* [1] */
 		"Flags",
@@ -18334,7 +18587,7 @@ resource 'TMPL' (1171, "itl4", protected) {
 	}
 };
 
-resource 'TMPL' (1172, "itlb", protected) {
+resource 'TMPL' (1177, "itlb", protected) {
 	{	/* array: 68 elements */
 		/* [1] */
 		"'itl0' (Numbers) resource ID",
@@ -18546,7 +18799,7 @@ resource 'TMPL' (1172, "itlb", protected) {
 	}
 };
 
-resource 'TMPL' (1173, "itlc", protected) {
+resource 'TMPL' (1178, "itlc", protected) {
 	{	/* array: 24 elements */
 		/* [1] */
 		"System script code",
@@ -18624,7 +18877,7 @@ resource 'TMPL' (1173, "itlc", protected) {
 	}
 };
 
-resource 'TMPL' (1174, "itlk", protected) {
+resource 'TMPL' (1179, "itlk", protected) {
 	{	/* array: 10 elements */
 		/* [1] */
 		"Count:",
@@ -18659,7 +18912,7 @@ resource 'TMPL' (1174, "itlk", protected) {
 	}
 };
 
-resource 'TMPL' (1175, "ITML", protected) {
+resource 'TMPL' (1180, "ITML", protected) {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Count:",
@@ -18676,7 +18929,7 @@ resource 'TMPL' (1175, "ITML", protected) {
 	}
 };
 
-resource 'TMPL' (1176, "JPob", protected) {
+resource 'TMPL' (1181, "JPob", protected) {
 	{	/* array: 378 elements */
 		/* [1] */
 		"Version Number",
@@ -19815,7 +20068,7 @@ resource 'TMPL' (1176, "JPob", protected) {
 	}
 };
 
-resource 'TMPL' (1177, "KBDN", protected) {
+resource 'TMPL' (1182, "KBDN", protected) {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Keyboard name",
@@ -19823,7 +20076,7 @@ resource 'TMPL' (1177, "KBDN", protected) {
 	}
 };
 
-resource 'TMPL' (1178, "KCAP", protected) {
+resource 'TMPL' (1183, "KCAP", protected) {
 	{	/* array: 16 elements */
 		/* [1] */
 		"Bounds rect",
@@ -19876,7 +20129,7 @@ resource 'TMPL' (1178, "KCAP", protected) {
 	}
 };
 
-resource 'TMPL' (1179, "KCHR", protected) {
+resource 'TMPL' (1184, "KCHR", protected) {
 	{	/* array: 35 elements */
 		/* [1] */
 		"Version",
@@ -19986,7 +20239,7 @@ resource 'TMPL' (1179, "KCHR", protected) {
 	}
 };
 
-resource 'TMPL' (1180, "kind", protected) {
+resource 'TMPL' (1185, "kind", protected) {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Application signature",
@@ -20018,7 +20271,7 @@ resource 'TMPL' (1180, "kind", protected) {
 	}
 };
 
-resource 'TMPL' (1181, "KInf", protected) {
+resource 'TMPL' (1186, "KInf", protected) {
 	{	/* array: 6 elements */
 		/* [1] */
 		"\"SuitCase\" resource format",
@@ -20041,7 +20294,7 @@ resource 'TMPL' (1181, "KInf", protected) {
 	}
 };
 
-resource 'TMPL' (1182, "KMAP", protected) {
+resource 'TMPL' (1187, "KMAP", protected) {
 	{	/* array: 135 elements */
 		/* [1] */
 		"ID ( 2=, 5=)",
@@ -20451,7 +20704,7 @@ resource 'TMPL' (1182, "KMAP", protected) {
 	}
 };
 
-resource 'TMPL' (1183, "KRNL", protected) {
+resource 'TMPL' (1188, "KRNL", protected) {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Use FilterBits?",
@@ -20471,7 +20724,7 @@ resource 'TMPL' (1183, "KRNL", protected) {
 	}
 };
 
-resource 'TMPL' (1184, "KSWP", protected) {
+resource 'TMPL' (1189, "KSWP", protected) {
 	{	/* array: 32 elements */
 		/* [1] */
 		"Don't change the last list item, it is a"
@@ -20573,7 +20826,7 @@ resource 'TMPL' (1184, "KSWP", protected) {
 	}
 };
 
-resource 'TMPL' (1185, "Labl", protected) {
+resource 'TMPL' (1190, "Labl", protected) {
 	{	/* array: 6 elements */
 		/* [1] */
 		"Count:",
@@ -20596,7 +20849,7 @@ resource 'TMPL' (1185, "Labl", protected) {
 	}
 };
 
-resource 'TMPL' (1186, "LAYO", protected) {
+resource 'TMPL' (1191, "LAYO", protected) {
 	{	/* array: 40 elements */
 		/* [1] */
 		"Font ID",
@@ -20721,7 +20974,7 @@ resource 'TMPL' (1186, "LAYO", protected) {
 	}
 };
 
-resource 'TMPL' (1187, "LBEL", protected) {
+resource 'TMPL' (1192, "LBEL", protected) {
 	{	/* array: 6 elements */
 		/* [1] */
 		"\"Resurrection\" resource format",
@@ -20744,7 +20997,7 @@ resource 'TMPL' (1187, "LBEL", protected) {
 	}
 };
 
-resource 'TMPL' (1188, "LBRK", protected) {
+resource 'TMPL' (1193, "LBRK", protected) {
 	{	/* array: 12 elements */
 		/* [1] */
 		"\"Eudora\" resource format",
@@ -20785,7 +21038,7 @@ resource 'TMPL' (1188, "LBRK", protected) {
 	}
 };
 
-resource 'TMPL' (1189, "ldes", protected) {
+resource 'TMPL' (1194, "ldes", protected) {
 	{	/* array: 12 elements */
 		/* [1] */
 		"Version",
@@ -20826,7 +21079,7 @@ resource 'TMPL' (1189, "ldes", protected) {
 	}
 };
 
-resource 'TMPL' (1190, "libi", protected) {
+resource 'TMPL' (1195, "libi", protected) {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Format version",
@@ -20858,7 +21111,7 @@ resource 'TMPL' (1190, "libi", protected) {
 	}
 };
 
-resource 'TMPL' (1191, "libr", protected) {
+resource 'TMPL' (1196, "libr", protected) {
 	{	/* array: 50 elements */
 		/* [1] */
 		"Libraries",
@@ -21013,7 +21266,7 @@ resource 'TMPL' (1191, "libr", protected) {
 	}
 };
 
-resource 'TMPL' (1192, "LIST", protected) {
+resource 'TMPL' (1197, "LIST", protected) {
 	{	/* array: 19 elements */
 		/* [1] */
 		"\"MacZoop\" resource format",
@@ -21075,7 +21328,7 @@ resource 'TMPL' (1192, "LIST", protected) {
 	}
 };
 
-resource 'TMPL' (1193, "load", protected) {
+resource 'TMPL' (1198, "load", protected) {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Load priority",
@@ -21092,7 +21345,7 @@ resource 'TMPL' (1193, "load", protected) {
 	}
 };
 
-resource 'TMPL' (1194, "LOGD", protected) {
+resource 'TMPL' (1199, "LOGD", protected) {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Maximum log file size",
@@ -21113,7 +21366,7 @@ resource 'TMPL' (1194, "LOGD", protected) {
 	}
 };
 
-resource 'TMPL' (1195, "look", protected) {
+resource 'TMPL' (1200, "look", protected) {
 	{	/* array: 8 elements */
 		/* [1] */
 		"Default looker",
@@ -21142,7 +21395,7 @@ resource 'TMPL' (1195, "look", protected) {
 	}
 };
 
-resource 'TMPL' (1196, "mach", protected) {
+resource 'TMPL' (1201, "mach", protected) {
 	{	/* array: 3 elements */
 		/* [1] */
 		"Machine type: cdev filtering",
@@ -21156,7 +21409,7 @@ resource 'TMPL' (1196, "mach", protected) {
 	}
 };
 
-resource 'TMPL' (1197, "MACS", protected) {
+resource 'TMPL' (1202, "MACS", protected) {
 	{	/* array: 2 elements */
 		/* [1] */
 		"String",
@@ -21167,7 +21420,7 @@ resource 'TMPL' (1197, "MACS", protected) {
 	}
 };
 
-resource 'TMPL' (1198, "mapp", protected) {
+resource 'TMPL' (1203, "mapp", protected) {
 	{	/* array: 9 elements */
 		/* [1] */
 		"",
@@ -21199,7 +21452,7 @@ resource 'TMPL' (1198, "mapp", protected) {
 	}
 };
 
-resource 'TMPL' (1199, "MBAR", protected) {
+resource 'TMPL' (1204, "MBAR", protected) {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Count:",
@@ -21216,7 +21469,153 @@ resource 'TMPL' (1199, "MBAR", protected) {
 	}
 };
 
-resource 'TMPL' (1200, "mcky", protected) {
+resource 'TMPL' (1205, "mcfg", protected) {
+	{	/* array: 47 elements */
+		/* [1] */
+		"Importer MIME configuration info",
+		'DVDR',
+		/* [2] */
+		"Resource version",
+		'DLNG',
+		/* [3] */
+		"Version of the component this applies to",
+		'DLNG',
+		/* [4] */
+		"kVersionDoesntMatter=0",
+		'CASE',
+		/* [5] */
+		"Count:",
+		'LCNT',
+		/* [6] */
+		"Array of media types info",
+		'LSTC',
+		/* [7] */
+		"ID of the group this type belongs with",
+		'TNAM',
+		/* [8] */
+		"Stream Group ID=strm",
+		'CASE',
+		/* [9] */
+		"Interactive Group ID=intr",
+		'CASE',
+		/* [10] */
+		"Video Group ID=eyes",
+		'CASE',
+		/* [11] */
+		"Audio Group ID=ears",
+		'CASE',
+		/* [12] */
+		"MPEG Group ID=mpeg",
+		'CASE',
+		/* [13] */
+		"MP3 Group ID=mp3 ",
+		'CASE',
+		/* [14] */
+		"Image Group ID=ogle",
+		'CASE',
+		/* [15] */
+		"Misc Group ID=misc",
+		'CASE',
+		/* [16] */
+		"MIME config flags",
+		'TNAM',
+		/* [17] */
+		"MacOS file type when saved",
+		'TNAM',
+		/* [18] */
+		"MacOS file creator when saved",
+		'TNAM',
+		/* [19] */
+		"Component type",
+		'TNAM',
+		/* [20] */
+		"Component subtype",
+		'TNAM',
+		/* [21] */
+		"Component manufacturer",
+		'TNAM',
+		/* [22] */
+		"Component flags",
+		'HLNG',
+		/* [23] */
+		"Component flags mask",
+		'HLNG',
+		/* [24] */
+		"Any Component Flags Mask=0",
+		'CASE',
+		/* [25] */
+		"Default file extension",
+		'TNAM',
+		/* [26] */
+		"QT file group",
+		'TNAM',
+		/* [27] */
+		"Net Group=net ",
+		'CASE',
+		/* [28] */
+		"Win Group=win ",
+		'CASE',
+		/* [29] */
+		"Mac Group=mac ",
+		'CASE',
+		/* [30] */
+		"Misc Group=????",
+		'CASE',
+		/* [31] */
+		"Count:",
+		'LCNT',
+		/* [32] */
+		"Array of media type synonyms",
+		'LSTC',
+		/* [33] */
+		"Synonym",
+		'PSTR',
+		/* [34] */
+		"*****",
+		'LSTE',
+		/* [35] */
+		"align",
+		'ALNG',
+		/* [36] */
+		"Media type description",
+		'PSTR',
+		/* [37] */
+		"File extension(s)",
+		'PSTR',
+		/* [38] */
+		"Opening application name",
+		'PSTR',
+		/* [39] */
+		"Missing software description",
+		'PSTR',
+		/* [40] */
+		"Vendor info string (copyright, version)",
+		'PSTR',
+		/* [41] */
+		"align",
+		'ALNG',
+		/* [42] */
+		"Count:",
+		'LCNT',
+		/* [43] */
+		"Array of MIME types (eg. audio/mpeg)",
+		'LSTC',
+		/* [44] */
+		"Description",
+		'PSTR',
+		/* [45] */
+		"*****",
+		'LSTE',
+		/* [46] */
+		"align",
+		'ALNG',
+		/* [47] */
+		"*****",
+		'LSTE'
+	}
+};
+
+resource 'TMPL' (1206, "mcky", protected) {
 	{	/* array: 8 elements */
 		/* [1] */
 		"Threshold 1",
@@ -21245,7 +21644,7 @@ resource 'TMPL' (1200, "mcky", protected) {
 	}
 };
 
-resource 'TMPL' (1201, "Mcmd", protected) {
+resource 'TMPL' (1207, "Mcmd", protected) {
 	{	/* array: 44 elements */
 		/* [1] */
 		"Count:",
@@ -21382,7 +21781,7 @@ resource 'TMPL' (1201, "Mcmd", protected) {
 	}
 };
 
-resource 'TMPL' (1202, "mctb", protected) {
+resource 'TMPL' (1208, "mctb", protected) {
 	{	/* array: 12 elements */
 		/* [1] */
 		"Count:",
@@ -21423,7 +21822,7 @@ resource 'TMPL' (1202, "mctb", protected) {
 	}
 };
 
-resource 'TMPL' (1203, "mcvs", protected) {
+resource 'TMPL' (1209, "mcvs", protected) {
 	{	/* array: 25 elements */
 		/* [1] */
 		"Version",
@@ -21503,7 +21902,7 @@ resource 'TMPL' (1203, "mcvs", protected) {
 	}
 };
 
-resource 'TMPL' (1204, "mem!", protected) {
+resource 'TMPL' (1210, "mem!", protected) {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Add to the size of heap space",
@@ -21523,7 +21922,7 @@ resource 'TMPL' (1204, "mem!", protected) {
 	}
 };
 
-resource 'TMPL' (1205, "MENA", protected) {
+resource 'TMPL' (1211, "MENA", protected) {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Number of keys",
@@ -21543,7 +21942,7 @@ resource 'TMPL' (1205, "MENA", protected) {
 	}
 };
 
-resource 'TMPL' (1206, "MENU", protected) {
+resource 'TMPL' (1212, "MENU", protected) {
 	{	/* array: 59 elements */
 		/* [1] */
 		"MenuID",
@@ -21725,7 +22124,7 @@ resource 'TMPL' (1206, "MENU", protected) {
 	}
 };
 
-resource 'TMPL' (1207, "mgrp", protected) {
+resource 'TMPL' (1213, "mgrp", protected) {
 	{	/* array: 11 elements */
 		/* [1] */
 		"Importer MIME configuration info",
@@ -21763,7 +22162,7 @@ resource 'TMPL' (1207, "mgrp", protected) {
 	}
 };
 
-resource 'TMPL' (1208, "MIMA", protected) {
+resource 'TMPL' (1214, "MIMA", protected) {
 	{	/* array: 13 elements */
 		/* [1] */
 		"Count:",
@@ -21807,7 +22206,7 @@ resource 'TMPL' (1208, "MIMA", protected) {
 	}
 };
 
-resource 'TMPL' (1209, "MIMD", protected) {
+resource 'TMPL' (1215, "MIMD", protected) {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Count:",
@@ -21839,7 +22238,7 @@ resource 'TMPL' (1209, "MIMD", protected) {
 	}
 };
 
-resource 'TMPL' (1210, "mimp", protected) {
+resource 'TMPL' (1216, "mimp", protected) {
 	{	/* array: 6 elements */
 		/* [1] */
 		"Resource version",
@@ -21862,7 +22261,7 @@ resource 'TMPL' (1210, "mimp", protected) {
 	}
 };
 
-resource 'TMPL' (1211, "mitq", protected) {
+resource 'TMPL' (1217, "mitq", protected) {
 	{	/* array: 3 elements */
 		/* [1] */
 		"Queue size for 3 bit inverse table",
@@ -21876,7 +22275,7 @@ resource 'TMPL' (1211, "mitq", protected) {
 	}
 };
 
-resource 'TMPL' (1212, "MKEY", protected) {
+resource 'TMPL' (1218, "MKEY", protected) {
 	{	/* array: 7 elements */
 		/* [1] */
 		"Count:",
@@ -21902,7 +22301,7 @@ resource 'TMPL' (1212, "MKEY", protected) {
 	}
 };
 
-resource 'TMPL' (1213, "mntb", protected) {
+resource 'TMPL' (1219, "mntb", protected) {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Menu table",
@@ -21922,7 +22321,7 @@ resource 'TMPL' (1213, "mntb", protected) {
 	}
 };
 
-resource 'TMPL' (1214, "modm", protected) {
+resource 'TMPL' (1220, "modm", protected) {
 	{	/* array: 22 elements */
 		/* [1] */
 		"Version",
@@ -21993,7 +22392,7 @@ resource 'TMPL' (1214, "modm", protected) {
 	}
 };
 
-resource 'TMPL' (1215, "mppc", protected) {
+resource 'TMPL' (1221, "mppc", protected) {
 	{	/* array: 3 elements */
 		/* [1] */
 		"Information passed to DRVR",
@@ -22007,7 +22406,7 @@ resource 'TMPL' (1215, "mppc", protected) {
 	}
 };
 
-resource 'TMPL' (1216, "MPSR", protected) {
+resource 'TMPL' (1222, "MPSR", protected) {
 	{	/* array: 46 elements */
 		/* [1] */
 		"Type of data (by resource ID)",
@@ -22150,7 +22549,7 @@ resource 'TMPL' (1216, "MPSR", protected) {
 	}
 };
 
-resource 'TMPL' (1217, "mVal", protected) {
+resource 'TMPL' (1223, "mVal", protected) {
 	{	/* array: 2 elements */
 		/* [1] */
 		"\"AfterDark\" resource format",
@@ -22161,7 +22560,7 @@ resource 'TMPL' (1217, "mVal", protected) {
 	}
 };
 
-resource 'TMPL' (1218, "mxbc", protected) {
+resource 'TMPL' (1224, "mxbc", protected) {
 	{	/* array: 2 elements */
 		/* [1] */
 		"Background RGB color",
@@ -22172,7 +22571,7 @@ resource 'TMPL' (1218, "mxbc", protected) {
 	}
 };
 
-resource 'TMPL' (1219, "mxbi", protected) {
+resource 'TMPL' (1225, "mxbi", protected) {
 	{	/* array: 3 elements */
 		/* [1] */
 		"Number of traps recorded",
@@ -22186,7 +22585,7 @@ resource 'TMPL' (1219, "mxbi", protected) {
 	}
 };
 
-resource 'TMPL' (1220, "mxbm", protected) {
+resource 'TMPL' (1226, "mxbm", protected) {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Count:",
@@ -22206,7 +22605,7 @@ resource 'TMPL' (1220, "mxbm", protected) {
 	}
 };
 
-resource 'TMPL' (1221, "mxpr", protected) {
+resource 'TMPL' (1227, "mxpr", protected) {
 	{	/* array: 16 elements */
 		/* [1] */
 		"Version",
@@ -22259,7 +22658,7 @@ resource 'TMPL' (1221, "mxpr", protected) {
 	}
 };
 
-resource 'TMPL' (1222, "mxst", protected) {
+resource 'TMPL' (1228, "mxst", protected) {
 	{	/* array: 12 elements */
 		/* [1] */
 		"Version",
@@ -22300,7 +22699,7 @@ resource 'TMPL' (1222, "mxst", protected) {
 	}
 };
 
-resource 'TMPL' (1223, "mxwt", protected) {
+resource 'TMPL' (1229, "mxwt", protected) {
 	{	/* array: 10 elements */
 		/* [1] */
 		"Count:",
@@ -22335,7 +22734,7 @@ resource 'TMPL' (1223, "mxwt", protected) {
 	}
 };
 
-resource 'TMPL' (1224, "nfnt", protected) {
+resource 'TMPL' (1230, "nfnt", protected) {
 	{	/* array: 14 elements */
 		/* [1] */
 		"Font type",
@@ -22382,7 +22781,7 @@ resource 'TMPL' (1224, "nfnt", protected) {
 	}
 };
 
-resource 'TMPL' (1225, "nmKy", protected) {
+resource 'TMPL' (1231, "nmKy", protected) {
 	{	/* array: 11 elements */
 		/* [1] */
 		"\"Finale\" resource format",
@@ -22420,7 +22819,7 @@ resource 'TMPL' (1225, "nmKy", protected) {
 	}
 };
 
-resource 'TMPL' (1226, "nrct", protected) {
+resource 'TMPL' (1232, "nrct", protected) {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Count:",
@@ -22437,7 +22836,7 @@ resource 'TMPL' (1226, "nrct", protected) {
 	}
 };
 
-resource 'TMPL' (1227, "Odds", protected) {
+resource 'TMPL' (1233, "Odds", protected) {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Resource ID of Equivalent 'Sods'",
@@ -22457,7 +22856,7 @@ resource 'TMPL' (1227, "Odds", protected) {
 	}
 };
 
-resource 'TMPL' (1228, "open", protected) {
+resource 'TMPL' (1234, "open", protected) {
 	{	/* array: 7 elements */
 		/* [1] */
 		"Application signature",
@@ -22484,7 +22883,7 @@ resource 'TMPL' (1228, "open", protected) {
 	}
 };
 
-resource 'TMPL' (1229, "osiz", protected) {
+resource 'TMPL' (1235, "osiz", protected) {
 	{	/* array: 6 elements */
 		/* [1] */
 		"Don't open resource file",
@@ -22507,7 +22906,7 @@ resource 'TMPL' (1229, "osiz", protected) {
 	}
 };
 
-resource 'TMPL' (1230, "otdr", protected) {
+resource 'TMPL' (1236, "otdr", protected) {
 	{	/* array: 10 elements */
 		/* [1] */
 		"Version (should be 1)",
@@ -22542,7 +22941,7 @@ resource 'TMPL' (1230, "otdr", protected) {
 	}
 };
 
-resource 'TMPL' (1231, "over", protected) {
+resource 'TMPL' (1237, "over", protected) {
 	{	/* array: 123 elements */
 		/* [1] */
 		"Count:",
@@ -22919,7 +23318,7 @@ resource 'TMPL' (1231, "over", protected) {
 	}
 };
 
-resource 'TMPL' (1232, "PANE", protected) {
+resource 'TMPL' (1238, "PANE", protected) {
 	{	/* array: 51 elements */
 		/* [1] */
 		"\"MacZoop\" resource format",
@@ -23077,7 +23476,7 @@ resource 'TMPL' (1232, "PANE", protected) {
 	}
 };
 
-resource 'TMPL' (1233, "PANI", protected) {
+resource 'TMPL' (1239, "PANI", protected) {
 	{	/* array: 12 elements */
 		/* [1] */
 		"Version",
@@ -23118,7 +23517,7 @@ resource 'TMPL' (1233, "PANI", protected) {
 	}
 };
 
-resource 'TMPL' (1234, "panl", protected) {
+resource 'TMPL' (1240, "panl", protected) {
 	{	/* array: 15 elements */
 		/* [1] */
 		"Bounds",
@@ -23168,7 +23567,7 @@ resource 'TMPL' (1234, "panl", protected) {
 	}
 };
 
-resource 'TMPL' (1235, "PAPA", protected) {
+resource 'TMPL' (1241, "PAPA", protected) {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Name",
@@ -23188,7 +23587,7 @@ resource 'TMPL' (1235, "PAPA", protected) {
 	}
 };
 
-resource 'TMPL' (1236, "PAT ", protected) {
+resource 'TMPL' (1242, "PAT ", protected) {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Pattern (8 hex string)",
@@ -23196,7 +23595,7 @@ resource 'TMPL' (1236, "PAT ", protected) {
 	}
 };
 
-resource 'TMPL' (1237, "PAT#", protected) {
+resource 'TMPL' (1243, "PAT#", protected) {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Count:",
@@ -23228,7 +23627,7 @@ resource 'TMPL' (1237, "PAT#", protected) {
 	}
 };
 
-resource 'TMPL' (1238, "PBUT", protected) {
+resource 'TMPL' (1244, "PBUT", protected) {
 	{	/* array: 14 elements */
 		/* [1] */
 		"Image \"PICT\" Resource ID",
@@ -23275,7 +23674,7 @@ resource 'TMPL' (1238, "PBUT", protected) {
 	}
 };
 
-resource 'TMPL' (1239, "pdip", protected) {
+resource 'TMPL' (1245, "pdip", protected) {
 	{	/* array: 26 elements */
 		/* [1] */
 		"PostScript language level",
@@ -23358,7 +23757,7 @@ resource 'TMPL' (1239, "pdip", protected) {
 	}
 };
 
-resource 'TMPL' (1240, "Pers", protected) {
+resource 'TMPL' (1246, "Pers", protected) {
 	{	/* array: 17 elements */
 		/* [1] */
 		"\"Eudora\" resource format",
@@ -23414,7 +23813,7 @@ resource 'TMPL' (1240, "Pers", protected) {
 	}
 };
 
-resource 'TMPL' (1241, "pfil", protected) {
+resource 'TMPL' (1247, "pfil", protected) {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Count:",
@@ -23431,7 +23830,7 @@ resource 'TMPL' (1241, "pfil", protected) {
 	}
 };
 
-resource 'TMPL' (1242, "pfnt", protected) {
+resource 'TMPL' (1248, "pfnt", protected) {
 	{	/* array: 166 elements */
 		/* [1] */
 		"Memory usage",
@@ -23934,7 +24333,7 @@ resource 'TMPL' (1242, "pfnt", protected) {
 	}
 };
 
-resource 'TMPL' (1243, "PgSz", protected) {
+resource 'TMPL' (1249, "PgSz", protected) {
 	{	/* array: 6 elements */
 		/* [1] */
 		"\"Finale\" resource format",
@@ -23957,7 +24356,7 @@ resource 'TMPL' (1243, "PgSz", protected) {
 	}
 };
 
-resource 'TMPL' (1244, "picb", protected) {
+resource 'TMPL' (1250, "picb", protected) {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Version",
@@ -23977,7 +24376,7 @@ resource 'TMPL' (1244, "picb", protected) {
 	}
 };
 
-resource 'TMPL' (1245, "PICK", protected) {
+resource 'TMPL' (1251, "PICK", protected) {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Which type",
@@ -24009,7 +24408,7 @@ resource 'TMPL' (1245, "PICK", protected) {
 	}
 };
 
-resource 'TMPL' (1246, "PICT", protected) {
+resource 'TMPL' (1252, "PICT", protected) {
 	{	/* array: 3 elements */
 		/* [1] */
 		"Picture size",
@@ -24023,66 +24422,7 @@ resource 'TMPL' (1246, "PICT", protected) {
 	}
 };
 
-resource 'TMPL' (1247, "PINF", protected) {
-	{	/* array: 18 elements */
-		/* [1] */
-		"\"MacZoop\" resource format",
-		'DVDR',
-		/* [2] */
-		"Version",
-		'HWRD',
-		/* [3] */
-		"Rel item ID",
-		'DWRD',
-		/* [4] */
-		"Flags (0)",
-		'HWRD',
-		/* [5] */
-		"reserved=0",
-		'CASE',
-		/* [6] */
-		"Count:",
-		'OCNT',
-		/* [7] */
-		"List of panels",
-		'LSTC',
-		/* [8] */
-		"\"cicn\" ID",
-		'RSID',
-		/* [9] */
-		"\"DITL\" ID",
-		'RSID',
-		/* [10] */
-		"Flags",
-		'HBYT',
-		/* [11] */
-		"reserved=0",
-		'CASE',
-		/* [12] */
-		"Unused",
-		'DBYT',
-		/* [13] */
-		"Pref resource ID",
-		'DWRD',
-		/* [14] */
-		"Pref resource Type",
-		'TNAM',
-		/* [15] */
-		"Mapper class ID",
-		'TNAM',
-		/* [16] */
-		"Default=zpmp",
-		'CASE',
-		/* [17] */
-		"Panel name",
-		'P020',
-		/* [18] */
-		"*****",
-		'LSTE'
-	}
-};
-
-resource 'TMPL' (1248, "PLGN", protected) {
+resource 'TMPL' (1253, "PLGN", protected) {
 	{	/* array: 6 elements */
 		/* [1] */
 		"Count:",
@@ -24105,7 +24445,7 @@ resource 'TMPL' (1248, "PLGN", protected) {
 	}
 };
 
-resource 'TMPL' (1249, "pltt", protected) {
+resource 'TMPL' (1254, "pltt", protected) {
 	{	/* array: 25 elements */
 		/* [1] */
 		"Count:",
@@ -24185,7 +24525,7 @@ resource 'TMPL' (1249, "pltt", protected) {
 	}
 };
 
-resource 'TMPL' (1250, "plut", protected) {
+resource 'TMPL' (1255, "plut", protected) {
 	{	/* array: 17 elements */
 		/* [1] */
 		"Pattern Lookup Table",
@@ -24241,7 +24581,7 @@ resource 'TMPL' (1250, "plut", protected) {
 	}
 };
 
-resource 'TMPL' (1251, "pnel", protected) {
+resource 'TMPL' (1256, "pnel", protected) {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Panel name",
@@ -24258,7 +24598,7 @@ resource 'TMPL' (1251, "pnel", protected) {
 	}
 };
 
-resource 'TMPL' (1252, "pnot", protected) {
+resource 'TMPL' (1257, "pnot", protected) {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Modification date",
@@ -24275,7 +24615,7 @@ resource 'TMPL' (1252, "pnot", protected) {
 	}
 };
 
-resource 'TMPL' (1253, "POST", protected) {
+resource 'TMPL' (1258, "POST", protected) {
 	{	/* array: 4 elements */
 		/* [1] */
 		"NumStrings",
@@ -24292,7 +24632,7 @@ resource 'TMPL' (1253, "POST", protected) {
 	}
 };
 
-resource 'TMPL' (1254, "ppat", protected) {
+resource 'TMPL' (1259, "ppat", protected) {
 	{	/* array: 23 elements */
 		/* [1] */
 		"Pattern type",
@@ -24366,7 +24706,7 @@ resource 'TMPL' (1254, "ppat", protected) {
 	}
 };
 
-resource 'TMPL' (1255, "ppcc", protected) {
+resource 'TMPL' (1260, "ppcc", protected) {
 	{	/* array: 7 elements */
 		/* [1] */
 		"NBP lookup interval",
@@ -24393,7 +24733,7 @@ resource 'TMPL' (1255, "ppcc", protected) {
 	}
 };
 
-resource 'TMPL' (1256, "ppdA", protected) {
+resource 'TMPL' (1261, "ppdA", protected) {
 	{	/* array: 25 elements */
 		/* [1] */
 		"Signature",
@@ -24473,7 +24813,7 @@ resource 'TMPL' (1256, "ppdA", protected) {
 	}
 };
 
-resource 'TMPL' (1257, "ppdT", protected) {
+resource 'TMPL' (1262, "ppdT", protected) {
 	{	/* array: 52 elements */
 		/* [1] */
 		"Signature",
@@ -24634,7 +24974,7 @@ resource 'TMPL' (1257, "ppdT", protected) {
 	}
 };
 
-resource 'TMPL' (1258, "PPob", protected) {
+resource 'TMPL' (1263, "PPob", protected) {
 	{	/* array: 3820 elements */
 		/* [1] */
 		"Template for PowerPlant 2.5",
@@ -36099,7 +36439,7 @@ resource 'TMPL' (1258, "PPob", protected) {
 	}
 };
 
-resource 'TMPL' (1259, "PPRO", protected) {
+resource 'TMPL' (1264, "PPRO", protected) {
 	{	/* array: 9 elements */
 		/* [1] */
 		"\"Fetch\" resource template",
@@ -36131,7 +36471,7 @@ resource 'TMPL' (1259, "PPRO", protected) {
 	}
 };
 
-resource 'TMPL' (1260, "PRC0", protected) {
+resource 'TMPL' (1265, "PRC0", protected) {
 	{	/* array: 37 elements */
 		/* [1] */
 		"iPrVersion",
@@ -36247,7 +36587,7 @@ resource 'TMPL' (1260, "PRC0", protected) {
 	}
 };
 
-resource 'TMPL' (1261, "PRC3", protected) {
+resource 'TMPL' (1266, "PRC3", protected) {
 	{	/* array: 20 elements */
 		/* [1] */
 		"Number of Buttons",
@@ -36312,7 +36652,7 @@ resource 'TMPL' (1261, "PRC3", protected) {
 	}
 };
 
-resource 'TMPL' (1262, "PREC", protected) {
+resource 'TMPL' (1267, "PREC", protected) {
 	{	/* array: 138 elements */
 		/* [1] */
 		"Type of resource",
@@ -36731,7 +37071,7 @@ resource 'TMPL' (1262, "PREC", protected) {
 	}
 };
 
-resource 'TMPL' (1263, "PRF2", protected) {
+resource 'TMPL' (1268, "PRF2", protected) {
 	{	/* array: 16 elements */
 		/* [1] */
 		"Create papToDisk file",
@@ -36787,7 +37127,7 @@ resource 'TMPL' (1263, "PRF2", protected) {
 	}
 };
 
-resource 'TMPL' (1264, "PRFS", protected) {
+resource 'TMPL' (1269, "PRFS", protected) {
 	{	/* array: 32 elements */
 		/* [1] */
 		"Full PPD dialog",
@@ -36893,7 +37233,7 @@ resource 'TMPL' (1264, "PRFS", protected) {
 	}
 };
 
-resource 'TMPL' (1265, "prop", protected) {
+resource 'TMPL' (1270, "prop", protected) {
 	{	/* array: 7 elements */
 		/* [1] */
 		"Enable quality",
@@ -36919,7 +37259,7 @@ resource 'TMPL' (1265, "prop", protected) {
 	}
 };
 
-resource 'TMPL' (1266, "proz", protected) {
+resource 'TMPL' (1271, "proz", protected) {
 	{	/* array: 3 elements */
 		/* [1] */
 		"",
@@ -36933,7 +37273,7 @@ resource 'TMPL' (1266, "proz", protected) {
 	}
 };
 
-resource 'TMPL' (1267, "PSAP", protected) {
+resource 'TMPL' (1272, "PSAP", protected) {
 	{	/* array: 1 elements */
 		/* [1] */
 		"String",
@@ -36941,7 +37281,7 @@ resource 'TMPL' (1267, "PSAP", protected) {
 	}
 };
 
-resource 'TMPL' (1268, "PSLD", protected) {
+resource 'TMPL' (1273, "PSLD", protected) {
 	{	/* array: 15 elements */
 		/* [1] */
 		"Picture resource ID",
@@ -36991,7 +37331,7 @@ resource 'TMPL' (1268, "PSLD", protected) {
 	}
 };
 
-resource 'TMPL' (1269, "pslt", protected) {
+resource 'TMPL' (1274, "pslt", protected) {
 	{	/* array: 17 elements */
 		/* [1] */
 		"Slot orientation is as seen from the fro"
@@ -37056,7 +37396,7 @@ resource 'TMPL' (1269, "pslt", protected) {
 	}
 };
 
-resource 'TMPL' (1270, "ptyp", protected) {
+resource 'TMPL' (1275, "ptyp", protected) {
 	{	/* array: 46 elements */
 		/* [1] */
 		"Paper type name",
@@ -37199,7 +37539,7 @@ resource 'TMPL' (1270, "ptyp", protected) {
 	}
 };
 
-resource 'TMPL' (1271, "puf!", protected) {
+resource 'TMPL' (1276, "puf!", protected) {
 	{	/* array: 4 elements */
 		/* [1] */
 		"",
@@ -37216,7 +37556,7 @@ resource 'TMPL' (1271, "puf!", protected) {
 	}
 };
 
-resource 'TMPL' (1272, "qrsc", protected) {
+resource 'TMPL' (1277, "qrsc", protected) {
 	{	/* array: 13 elements */
 		/* [1] */
 		"Version",
@@ -37260,7 +37600,7 @@ resource 'TMPL' (1272, "qrsc", protected) {
 	}
 };
 
-resource 'TMPL' (1273, "ramr", protected) {
+resource 'TMPL' (1278, "ramr", protected) {
 	{	/* array: 7 elements */
 		/* [1] */
 		"Amt to indent 1st colum/title",
@@ -37286,7 +37626,7 @@ resource 'TMPL' (1273, "ramr", protected) {
 	}
 };
 
-resource 'TMPL' (1274, "rdes", protected) {
+resource 'TMPL' (1279, "rdes", protected) {
 	{	/* array: 31 elements */
 		/* [1] */
 		"Go Mixed Mode Trap",
@@ -37384,7 +37724,7 @@ resource 'TMPL' (1274, "rdes", protected) {
 	}
 };
 
-resource 'TMPL' (1275, "rdpf", protected) {
+resource 'TMPL' (1280, "rdpf", protected) {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Count:",
@@ -37401,7 +37741,7 @@ resource 'TMPL' (1275, "rdpf", protected) {
 	}
 };
 
-resource 'TMPL' (1276, "rdws", protected) {
+resource 'TMPL' (1281, "rdws", protected) {
 	{	/* array: 1 elements */
 		/* [1] */
 		"String",
@@ -37409,7 +37749,7 @@ resource 'TMPL' (1276, "rdws", protected) {
 	}
 };
 
-resource 'TMPL' (1277, "RECT", protected) {
+resource 'TMPL' (1282, "RECT", protected) {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Rectangle",
@@ -37417,7 +37757,7 @@ resource 'TMPL' (1277, "RECT", protected) {
 	}
 };
 
-resource 'TMPL' (1278, "RES!", protected) {
+resource 'TMPL' (1283, "RES!", protected) {
 	{	/* array: 2 elements */
 		/* [1] */
 		"\"Resurrection\" resource format",
@@ -37428,7 +37768,7 @@ resource 'TMPL' (1278, "RES!", protected) {
 	}
 };
 
-resource 'TMPL' (1279, "RES#", protected) {
+resource 'TMPL' (1284, "RES#", protected) {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Count:",
@@ -37448,7 +37788,7 @@ resource 'TMPL' (1279, "RES#", protected) {
 	}
 };
 
-resource 'TMPL' (1280, "resf", protected) {
+resource 'TMPL' (1285, "resf", protected) {
 	{	/* array: 10 elements */
 		/* [1] */
 		"Count:",
@@ -37483,7 +37823,7 @@ resource 'TMPL' (1280, "resf", protected) {
 	}
 };
 
-resource 'TMPL' (1281, "resl", protected) {
+resource 'TMPL' (1286, "resl", protected) {
 	{	/* array: 11 elements */
 		/* [1] */
 		"Range type",
@@ -37521,7 +37861,7 @@ resource 'TMPL' (1281, "resl", protected) {
 	}
 };
 
-resource 'TMPL' (1282, "rgb ", protected) {
+resource 'TMPL' (1287, "rgb ", protected) {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Color",
@@ -37529,7 +37869,7 @@ resource 'TMPL' (1282, "rgb ", protected) {
 	}
 };
 
-resource 'TMPL' (1283, "RID#", protected) {
+resource 'TMPL' (1288, "RID#", protected) {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Count:",
@@ -37546,7 +37886,7 @@ resource 'TMPL' (1283, "RID#", protected) {
 	}
 };
 
-resource 'TMPL' (1284, "RidL", protected) {
+resource 'TMPL' (1289, "RidL", protected) {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Count:",
@@ -37563,7 +37903,7 @@ resource 'TMPL' (1284, "RidL", protected) {
 	}
 };
 
-resource 'TMPL' (1285, "RMAP", protected) {
+resource 'TMPL' (1290, "RMAP", protected) {
 	{	/* array: 8 elements */
 		/* [1] */
 		"MapTo type",
@@ -37592,7 +37932,7 @@ resource 'TMPL' (1285, "RMAP", protected) {
 	}
 };
 
-resource 'TMPL' (1286, "ropt", protected) {
+resource 'TMPL' (1291, "ropt", protected) {
 	{	/* array: 28 elements */
 		/* [1] */
 		"Start page 'wstr' ID",
@@ -37681,7 +38021,7 @@ resource 'TMPL' (1286, "ropt", protected) {
 	}
 };
 
-resource 'TMPL' (1287, "rout", protected) {
+resource 'TMPL' (1292, "rout", protected) {
 	{	/* array: 27 elements */
 		/* [1] */
 		"Array for folder routing",
@@ -37767,7 +38107,7 @@ resource 'TMPL' (1287, "rout", protected) {
 	}
 };
 
-resource 'TMPL' (1288, "ROv#", protected) {
+resource 'TMPL' (1293, "ROv#", protected) {
 	{	/* array: 6 elements */
 		/* [1] */
 		"Version",
@@ -37790,7 +38130,7 @@ resource 'TMPL' (1288, "ROv#", protected) {
 	}
 };
 
-resource 'TMPL' (1289, "rptw", protected) {
+resource 'TMPL' (1294, "rptw", protected) {
 	{	/* array: 6 elements */
 		/* [1] */
 		"Name column width",
@@ -37813,7 +38153,7 @@ resource 'TMPL' (1289, "rptw", protected) {
 	}
 };
 
-resource 'TMPL' (1290, "RSCP", protected) {
+resource 'TMPL' (1295, "RSCP", protected) {
 	{	/* array: 21 elements */
 		/* [1] */
 		"Resource Spec Current Version (should be"
@@ -37883,7 +38223,7 @@ resource 'TMPL' (1290, "RSCP", protected) {
 	}
 };
 
-resource 'TMPL' (1291, "RSID", protected) {
+resource 'TMPL' (1296, "RSID", protected) {
 	{	/* array: 13 elements */
 		/* [1] */
 		"\"Resurrection\" resource format",
@@ -37927,7 +38267,7 @@ resource 'TMPL' (1291, "RSID", protected) {
 	}
 };
 
-resource 'TMPL' (1292, "rst#", protected) {
+resource 'TMPL' (1297, "rst#", protected) {
 	{	/* array: 8 elements */
 		/* [1] */
 		"Size of the following data",
@@ -37956,7 +38296,7 @@ resource 'TMPL' (1292, "rst#", protected) {
 	}
 };
 
-resource 'TMPL' (1293, "rstr", protected) {
+resource 'TMPL' (1298, "rstr", protected) {
 	{	/* array: 2 elements */
 		/* [1] */
 		"Script region code",
@@ -37967,7 +38307,7 @@ resource 'TMPL' (1293, "rstr", protected) {
 	}
 };
 
-resource 'TMPL' (1294, "RTXT", protected) {
+resource 'TMPL' (1299, "RTXT", protected) {
 	{	/* array: 4 elements */
 		/* [1] */
 		"TrueType rotated text?",
@@ -37984,7 +38324,7 @@ resource 'TMPL' (1294, "RTXT", protected) {
 	}
 };
 
-resource 'TMPL' (1295, "RVEW", protected) {
+resource 'TMPL' (1300, "RVEW", protected) {
 	{	/* array: 2 elements */
 		/* [1] */
 		"View by",
@@ -37995,7 +38335,7 @@ resource 'TMPL' (1295, "RVEW", protected) {
 	}
 };
 
-resource 'TMPL' (1296, "RZID", protected) {
+resource 'TMPL' (1301, "RZID", protected) {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Resources",
@@ -38012,7 +38352,7 @@ resource 'TMPL' (1296, "RZID", protected) {
 	}
 };
 
-resource 'TMPL' (1297, "RZLE", protected) {
+resource 'TMPL' (1302, "RZLE", protected) {
 	{	/* array: 8 elements */
 		/* [1] */
 		"Count:",
@@ -38041,7 +38381,7 @@ resource 'TMPL' (1297, "RZLE", protected) {
 	}
 };
 
-resource 'TMPL' (1298, "sAbt", protected) {
+resource 'TMPL' (1303, "sAbt", protected) {
 	{	/* array: 11 elements */
 		/* [1] */
 		"\"SuitCase\" resource format",
@@ -38079,7 +38419,7 @@ resource 'TMPL' (1298, "sAbt", protected) {
 	}
 };
 
-resource 'TMPL' (1299, "sami", protected) {
+resource 'TMPL' (1304, "sami", protected) {
 	{	/* array: 10 elements */
 		/* [1] */
 		"Maximum number of directories/slots",
@@ -38114,7 +38454,7 @@ resource 'TMPL' (1299, "sami", protected) {
 	}
 };
 
-resource 'TMPL' (1300, "scan", protected) {
+resource 'TMPL' (1305, "scan", protected) {
 	{	/* array: 72 elements */
 		/* [1] */
 		"Owner count",
@@ -38335,7 +38675,7 @@ resource 'TMPL' (1300, "scan", protected) {
 	}
 };
 
-resource 'TMPL' (1301, "scop", protected) {
+resource 'TMPL' (1306, "scop", protected) {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Count:",
@@ -38352,7 +38692,7 @@ resource 'TMPL' (1301, "scop", protected) {
 	}
 };
 
-resource 'TMPL' (1302, "scrn", protected) {
+resource 'TMPL' (1307, "scrn", protected) {
 	{	/* array: 23 elements */
 		/* [1] */
 		"Count:",
@@ -38426,7 +38766,7 @@ resource 'TMPL' (1302, "scrn", protected) {
 	}
 };
 
-resource 'TMPL' (1303, "scsz", protected) {
+resource 'TMPL' (1308, "scsz", protected) {
 	{	/* array: 10 elements */
 		/* [1] */
 		"Launch to get terminology",
@@ -38461,7 +38801,7 @@ resource 'TMPL' (1303, "scsz", protected) {
 	}
 };
 
-resource 'TMPL' (1304, "sect", protected) {
+resource 'TMPL' (1309, "sect", protected) {
 	{	/* array: 11 elements */
 		/* [1] */
 		"Version",
@@ -38499,7 +38839,7 @@ resource 'TMPL' (1304, "sect", protected) {
 	}
 };
 
-resource 'TMPL' (1305, "sept", protected) {
+resource 'TMPL' (1310, "sept", protected) {
 	{	/* array: 256 elements */
 		/* [1] */
 		"0x01",
@@ -39272,7 +39612,7 @@ resource 'TMPL' (1305, "sept", protected) {
 	}
 };
 
-resource 'TMPL' (1306, "sig ", protected) {
+resource 'TMPL' (1311, "sig ", protected) {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Creator type of file",
@@ -39280,7 +39620,7 @@ resource 'TMPL' (1306, "sig ", protected) {
 	}
 };
 
-resource 'TMPL' (1307, "SIGN", protected) {
+resource 'TMPL' (1312, "SIGN", protected) {
 	{	/* array: 2 elements */
 		/* [1] */
 		"Key word",
@@ -39291,7 +39631,7 @@ resource 'TMPL' (1307, "SIGN", protected) {
 	}
 };
 
-resource 'TMPL' (1308, "SINF", protected) {
+resource 'TMPL' (1313, "SINF", protected) {
 	{	/* array: 6 elements */
 		/* [1] */
 		"Internet Config resource format",
@@ -39314,7 +39654,7 @@ resource 'TMPL' (1308, "SINF", protected) {
 	}
 };
 
-resource 'TMPL' (1309, "SIZE", protected) {
+resource 'TMPL' (1314, "SIZE", protected) {
 	{	/* array: 16 elements */
 		/* [1] */
 		"Save screen (obsolete)",
@@ -39367,7 +39707,7 @@ resource 'TMPL' (1309, "SIZE", protected) {
 	}
 };
 
-resource 'TMPL' (1310, "Smly", protected) {
+resource 'TMPL' (1315, "Smly", protected) {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Count:",
@@ -39399,7 +39739,7 @@ resource 'TMPL' (1310, "Smly", protected) {
 	}
 };
 
-resource 'TMPL' (1311, "Sods", protected) {
+resource 'TMPL' (1316, "Sods", protected) {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Version",
@@ -39431,7 +39771,7 @@ resource 'TMPL' (1311, "Sods", protected) {
 	}
 };
 
-resource 'TMPL' (1312, "SPLY", protected) {
+resource 'TMPL' (1317, "SPLY", protected) {
 	{	/* array: 8 elements */
 		/* [1] */
 		"Playlist name",
@@ -39460,7 +39800,7 @@ resource 'TMPL' (1312, "SPLY", protected) {
 	}
 };
 
-resource 'TMPL' (1313, "sReq", protected) {
+resource 'TMPL' (1318, "sReq", protected) {
 	{	/* array: 6 elements */
 		/* [1] */
 		"\"AfterDark\" resource format",
@@ -39483,7 +39823,7 @@ resource 'TMPL' (1313, "sReq", protected) {
 	}
 };
 
-resource 'TMPL' (1314, "stab", protected) {
+resource 'TMPL' (1319, "stab", protected) {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Values in reduction table should be in a"
@@ -39504,7 +39844,7 @@ resource 'TMPL' (1314, "stab", protected) {
 	}
 };
 
-resource 'TMPL' (1315, "stat", protected) {
+resource 'TMPL' (1320, "stat", protected) {
 	{	/* array: 20 elements */
 		/* [1] */
 		"Status owner",
@@ -39569,7 +39909,7 @@ resource 'TMPL' (1315, "stat", protected) {
 	}
 };
 
-resource 'TMPL' (1316, "STCT", protected) {
+resource 'TMPL' (1321, "STCT", protected) {
 	{	/* array: 8 elements */
 		/* [1] */
 		"\"Fetch\" resource template",
@@ -39598,7 +39938,7 @@ resource 'TMPL' (1316, "STCT", protected) {
 	}
 };
 
-resource 'TMPL' (1317, "STR ", protected) {
+resource 'TMPL' (1322, "STR ", protected) {
 	{	/* array: 2 elements */
 		/* [1] */
 		"String",
@@ -39609,7 +39949,7 @@ resource 'TMPL' (1317, "STR ", protected) {
 	}
 };
 
-resource 'TMPL' (1318, "STR#", protected) {
+resource 'TMPL' (1323, "STR#", protected) {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Count:",
@@ -39626,7 +39966,7 @@ resource 'TMPL' (1318, "STR#", protected) {
 	}
 };
 
-resource 'TMPL' (1319, "stri", protected) {
+resource 'TMPL' (1324, "stri", protected) {
 	{	/* array: 1 elements */
 		/* [1] */
 		"String used for component info resources",
@@ -39634,7 +39974,7 @@ resource 'TMPL' (1319, "stri", protected) {
 	}
 };
 
-resource 'TMPL' (1320, "strn", protected) {
+resource 'TMPL' (1325, "strn", protected) {
 	{	/* array: 1 elements */
 		/* [1] */
 		"String used for component name resources",
@@ -39642,7 +39982,7 @@ resource 'TMPL' (1320, "strn", protected) {
 	}
 };
 
-resource 'TMPL' (1321, "STRT", protected) {
+resource 'TMPL' (1326, "STRT", protected) {
 	{	/* array: 6 elements */
 		/* [1] */
 		"\"Resurrection\" resource format",
@@ -39665,7 +40005,7 @@ resource 'TMPL' (1321, "STRT", protected) {
 	}
 };
 
-resource 'TMPL' (1322, "styl", protected) {
+resource 'TMPL' (1327, "styl", protected) {
 	{	/* array: 13 elements */
 		/* [1] */
 		"Count:",
@@ -39709,7 +40049,7 @@ resource 'TMPL' (1322, "styl", protected) {
 	}
 };
 
-resource 'TMPL' (1323, "SUFX", protected) {
+resource 'TMPL' (1328, "SUFX", protected) {
 	{	/* array: 9 elements */
 		/* [1] */
 		"\"Fetch\" resource template",
@@ -39741,7 +40081,7 @@ resource 'TMPL' (1323, "SUFX", protected) {
 	}
 };
 
-resource 'TMPL' (1324, "Suit", protected) {
+resource 'TMPL' (1329, "Suit", protected) {
 	{	/* array: 11 elements */
 		/* [1] */
 		"\"SuitCase\" resource format",
@@ -39779,7 +40119,7 @@ resource 'TMPL' (1324, "Suit", protected) {
 	}
 };
 
-resource 'TMPL' (1325, "sUnt", protected) {
+resource 'TMPL' (1330, "sUnt", protected) {
 	{	/* array: 6 elements */
 		/* [1] */
 		"\"AfterDark\" resource format",
@@ -39802,7 +40142,7 @@ resource 'TMPL' (1325, "sUnt", protected) {
 	}
 };
 
-resource 'TMPL' (1326, "sVal", protected) {
+resource 'TMPL' (1331, "sVal", protected) {
 	{	/* array: 2 elements */
 		/* [1] */
 		"\"AfterDark\" resource format",
@@ -39813,7 +40153,7 @@ resource 'TMPL' (1326, "sVal", protected) {
 	}
 };
 
-resource 'TMPL' (1327, "sysz", protected) {
+resource 'TMPL' (1332, "sysz", protected) {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Memory allocated (in bytes)",
@@ -39821,7 +40161,7 @@ resource 'TMPL' (1327, "sysz", protected) {
 	}
 };
 
-resource 'TMPL' (1328, "tab#", protected) {
+resource 'TMPL' (1333, "tab#", protected) {
 	{	/* array: 11 elements */
 		/* [1] */
 		"Version",
@@ -39859,60 +40199,69 @@ resource 'TMPL' (1328, "tab#", protected) {
 	}
 };
 
-resource 'TMPL' (1329, "taps", protected) {
-	{	/* array: 16 elements */
+resource 'TMPL' (1334, "taps", protected) {
+	{	/* array: 19 elements */
 		/* [1] */
+		"Terminal tool capabilities list",
+		'DVDR',
+		/* [2] */
 		"Count:",
 		'OCNT',
-		/* [2] */
+		/* [3] */
 		"List of Pairs",
 		'LSTC',
-		/* [3] */
+		/* [4] */
 		"Pair type",
 		'KTYP',
-		/* [4] */
+		/* [5] */
 		"Terminal searching=SRCH",
 		'CASE',
-		/* [5] */
+		/* [6] */
 		"Terminal file type=TYPE",
 		'CASE',
-		/* [6] */
+		/* [7] */
 		"SRCH",
 		'KEYB',
-		/* [7] */
+		/* [8] */
+		"Support for TMAddSearch",
+		'DVDR',
+		/* [9] */
 		"Reserved",
 		'LB31',
-		/* [8] */
+		/* [10] */
 		"Supported",
 		'LB01',
-		/* [9] */
+		/* [11] */
 		"",
 		'KEYE',
-		/* [10] */
+		/* [12] */
 		"TYPE",
 		'KEYB',
-		/* [11] */
+		/* [13] */
+		"Types of files that can be transferred",
+		'DVDR',
+		/* [14] */
 		"File type",
 		'TNAM',
-		/* [12] */
+		/* [15] */
 		"Graphic terminal=GRFX",
 		'CASE',
-		/* [13] */
+		/* [16] */
 		"Text only=TEXT",
 		'CASE',
-		/* [14] */
+		/* [17] */
 		"Graphics and text=BOTH",
 		'CASE',
-		/* [15] */
+		/* [18] */
 		"",
 		'KEYE',
-		/* [16] */
+		/* [19] */
 		"*****",
 		'LSTE'
 	}
 };
 
-resource 'TMPL' (1330, "tdat", protected) {
+resource 'TMPL' (1335, "tdat", protected) {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Theme Data (ID 1)",
@@ -39945,7 +40294,7 @@ resource 'TMPL' (1330, "tdat", protected) {
 	}
 };
 
-resource 'TMPL' (1331, "TEXT", protected) {
+resource 'TMPL' (1336, "TEXT", protected) {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Text",
@@ -39953,7 +40302,7 @@ resource 'TMPL' (1331, "TEXT", protected) {
 	}
 };
 
-resource 'TMPL' (1332, "thg0", protected) {
+resource 'TMPL' (1337, "thg0", protected) {
 	{	/* array: 19 elements */
 		/* [1] */
 		"Initial version of Thing resource",
@@ -40015,7 +40364,7 @@ resource 'TMPL' (1332, "thg0", protected) {
 	}
 };
 
-resource 'TMPL' (1333, "thga", protected) {
+resource 'TMPL' (1338, "thga", protected) {
 	{	/* array: 23 elements */
 		/* [1] */
 		"Type of component",
@@ -40089,7 +40438,7 @@ resource 'TMPL' (1333, "thga", protected) {
 	}
 };
 
-resource 'TMPL' (1334, "thn#", protected) {
+resource 'TMPL' (1339, "thn#", protected) {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Component Manager thing load order depen"
@@ -40107,7 +40456,7 @@ resource 'TMPL' (1334, "thn#", protected) {
 	}
 };
 
-resource 'TMPL' (1335, "thn0", protected) {
+resource 'TMPL' (1340, "thn0", protected) {
 	{	/* array: 19 elements */
 		/* [1] */
 		"Version 0 of Component Manager thing",
@@ -40170,7 +40519,7 @@ resource 'TMPL' (1335, "thn0", protected) {
 	}
 };
 
-resource 'TMPL' (1336, "thn1", protected) {
+resource 'TMPL' (1341, "thn1", protected) {
 	{	/* array: 44 elements */
 		/* [1] */
 		"Version 1 of Component Manager thing",
@@ -40309,7 +40658,7 @@ resource 'TMPL' (1336, "thn1", protected) {
 	}
 };
 
-resource 'TMPL' (1337, "thnd", protected) {
+resource 'TMPL' (1342, "thnd", protected) {
 	{	/* array: 8 elements */
 		/* [1] */
 		"Count:",
@@ -40338,7 +40687,7 @@ resource 'TMPL' (1337, "thnd", protected) {
 	}
 };
 
-resource 'TMPL' (1338, "thng", protected) {
+resource 'TMPL' (1343, "thng", protected) {
 	{	/* array: 45 elements */
 		/* [1] */
 		"Type of component",
@@ -40480,7 +40829,7 @@ resource 'TMPL' (1338, "thng", protected) {
 	}
 };
 
-resource 'TMPL' (1339, "thnr", protected) {
+resource 'TMPL' (1344, "thnr", protected) {
 	{	/* array: 8 elements */
 		/* [1] */
 		"Components public resource maps",
@@ -40509,7 +40858,7 @@ resource 'TMPL' (1339, "thnr", protected) {
 	}
 };
 
-resource 'TMPL' (1340, "THUM", protected) {
+resource 'TMPL' (1345, "THUM", protected) {
 	{	/* array: 6 elements */
 		/* [1] */
 		"\"AfterDark\" resource format",
@@ -40532,7 +40881,7 @@ resource 'TMPL' (1340, "THUM", protected) {
 	}
 };
 
-resource 'TMPL' (1341, "tic#", protected) {
+resource 'TMPL' (1346, "tic#", protected) {
 	{	/* array: 6 elements */
 		/* [1] */
 		"Theme File Icon List (ID 384)",
@@ -40555,7 +40904,7 @@ resource 'TMPL' (1341, "tic#", protected) {
 	}
 };
 
-resource 'TMPL' (1342, "TMPL", protected) {
+resource 'TMPL' (1347, "TMPL", protected) {
 	{	/* array: 4 elements */
 		/* [1] */
 		"List of template fields",
@@ -40572,7 +40921,7 @@ resource 'TMPL' (1342, "TMPL", protected) {
 	}
 };
 
-resource 'TMPL' (1343, "TOOL", protected) {
+resource 'TMPL' (1348, "TOOL", protected) {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Tools per row",
@@ -40592,7 +40941,7 @@ resource 'TMPL' (1343, "TOOL", protected) {
 	}
 };
 
-resource 'TMPL' (1344, "TPal", protected) {
+resource 'TMPL' (1349, "TPal", protected) {
 	{	/* array: 13 elements */
 		/* [1] */
 		"\"Finale\" resource format",
@@ -40637,7 +40986,7 @@ resource 'TMPL' (1344, "TPal", protected) {
 	}
 };
 
-resource 'TMPL' (1345, "tray", protected) {
+resource 'TMPL' (1350, "tray", protected) {
 	{	/* array: 2 elements */
 		/* [1] */
 		"Tray count",
@@ -40648,7 +40997,7 @@ resource 'TMPL' (1345, "tray", protected) {
 	}
 };
 
-resource 'TMPL' (1346, "trsl", protected) {
+resource 'TMPL' (1351, "trsl", protected) {
 	{	/* array: 44 elements */
 		/* [1] */
 		"To convert from all text, set all 16 fol"
@@ -40790,7 +41139,7 @@ resource 'TMPL' (1346, "trsl", protected) {
 	}
 };
 
-resource 'TMPL' (1347, "TTBL", protected) {
+resource 'TMPL' (1352, "TTBL", protected) {
 	{	/* array: 6 elements */
 		/* [1] */
 		"\"SuitCase\" resource format",
@@ -40813,7 +41162,7 @@ resource 'TMPL' (1347, "TTBL", protected) {
 	}
 };
 
-resource 'TMPL' (1348, "tVal", protected) {
+resource 'TMPL' (1353, "tVal", protected) {
 	{	/* array: 2 elements */
 		/* [1] */
 		"\"AfterDark\" resource format",
@@ -40824,7 +41173,7 @@ resource 'TMPL' (1348, "tVal", protected) {
 	}
 };
 
-resource 'TMPL' (1349, "tvar", protected) {
+resource 'TMPL' (1354, "tvar", protected) {
 	{	/* array: 10 elements */
 		/* [1] */
 		"Theme Variants (must have ID 128)",
@@ -40859,7 +41208,7 @@ resource 'TMPL' (1349, "tvar", protected) {
 	}
 };
 
-resource 'TMPL' (1350, "TxSt", protected) {
+resource 'TMPL' (1355, "TxSt", protected) {
 	{	/* array: 12 elements */
 		/* [1] */
 		"Unused",
@@ -40900,7 +41249,7 @@ resource 'TMPL' (1350, "TxSt", protected) {
 	}
 };
 
-resource 'TMPL' (1351, "Txtr", protected) {
+resource 'TMPL' (1356, "Txtr", protected) {
 	{	/* array: 43 elements */
 		/* [1] */
 		"Size",
@@ -41034,7 +41383,7 @@ resource 'TMPL' (1351, "Txtr", protected) {
 	}
 };
 
-resource 'TMPL' (1352, "TXTs", protected) {
+resource 'TMPL' (1357, "TXTs", protected) {
 	{	/* array: 2 elements */
 		/* [1] */
 		"\"Fetch\" resource template",
@@ -41045,7 +41394,7 @@ resource 'TMPL' (1352, "TXTs", protected) {
 	}
 };
 
-resource 'TMPL' (1353, "TYPs", protected) {
+resource 'TMPL' (1358, "TYPs", protected) {
 	{	/* array: 3 elements */
 		/* [1] */
 		"\"Fetch\" resource template",
@@ -41059,7 +41408,7 @@ resource 'TMPL' (1353, "TYPs", protected) {
 	}
 };
 
-resource 'TMPL' (1354, "url ", protected) {
+resource 'TMPL' (1359, "url ", protected) {
 	{	/* array: 1 elements */
 		/* [1] */
 		"URL string",
@@ -41067,7 +41416,7 @@ resource 'TMPL' (1354, "url ", protected) {
 	}
 };
 
-resource 'TMPL' (1355, "vers", protected) {
+resource 'TMPL' (1360, "vers", protected) {
 	{	/* array: 11 elements */
 		/* [1] */
 		"Version number",
@@ -41105,7 +41454,7 @@ resource 'TMPL' (1355, "vers", protected) {
 	}
 };
 
-resource 'TMPL' (1356, "VFlg", protected) {
+resource 'TMPL' (1361, "VFlg", protected) {
 	{	/* array: 2 elements */
 		/* [1] */
 		"Obey DIV \"align\" tag",
@@ -41116,7 +41465,2739 @@ resource 'TMPL' (1356, "VFlg", protected) {
 	}
 };
 
-resource 'TMPL' (1357, "wctb", protected) {
+resource 'TMPL' (1362, "view", protected) {
+	{	/* array: 909 elements */
+		/* [1] */
+		"Views",
+		'OCNT',
+		/* [2] */
+		"*****",
+		'LSTC',
+		/* [3] */
+		"Signature of ancestral view",
+		'TNAM',
+		/* [4] */
+		"Root=    ",
+		'CASE',
+		/* [5] */
+		"Identifier for this view",
+		'TNAM',
+		/* [6] */
+		"No ID=    ",
+		'CASE',
+		/* [7] */
+		"Vertical position within parent view",
+		'DLNG',
+		/* [8] */
+		"Horizontal position within parent view",
+		'DLNG',
+		/* [9] */
+		"View height",
+		'DLNG',
+		/* [10] */
+		"View width",
+		'DLNG',
+		/* [11] */
+		"Vertical view handling",
+		'WB03',
+		/* [12] */
+		"Same height as superview=0",
+		'CASE',
+		/* [13] */
+		"Height is relative to superview=1",
+		'CASE',
+		/* [14] */
+		"Height should be one page=2",
+		'CASE',
+		/* [15] */
+		"Fill an exact number of pages=3",
+		'CASE',
+		/* [16] */
+		"Application-specific height=4",
+		'CASE',
+		/* [17] */
+		"Fixed height (no special handling)=5",
+		'CASE',
+		/* [18] */
+		"Horizontal view handling",
+		'WB03',
+		/* [19] */
+		"Same width as superview=0",
+		'CASE',
+		/* [20] */
+		"Width is relative to superview=1",
+		'CASE',
+		/* [21] */
+		"Width should be one page=2",
+		'CASE',
+		/* [22] */
+		"Fill an exact number of pages=3",
+		'CASE',
+		/* [23] */
+		"Application-specific width=4",
+		'CASE',
+		/* [24] */
+		"Fixed width (no special handling)=5",
+		'CASE',
+		/* [25] */
+		"Show view",
+		'WBIT',
+		/* [26] */
+		"Enable view",
+		'WBIT',
+		/* [27] */
+		"Unused",
+		'WB08',
+		/* [28] */
+		"View type",
+		'KTYP',
+		/* [29] */
+		"Include a view=incl",
+		'CASE',
+		/* [30] */
+		"Include view at=inc@",
+		'CASE',
+		/* [31] */
+		"View=view",
+		'CASE',
+		/* [32] */
+		"Default view=dflt",
+		'CASE',
+		/* [33] */
+		"Window=wind",
+		'CASE',
+		/* [34] */
+		"Scroller=scrl",
+		'CASE',
+		/* [35] */
+		"Dialog view=dlog",
+		'CASE',
+		/* [36] */
+		"Control=cntl",
+		'CASE',
+		/* [37] */
+		"Button=butn",
+		'CASE',
+		/* [38] */
+		"Check box=chkb",
+		'CASE',
+		/* [39] */
+		"Radio button=radb",
+		'CASE',
+		/* [40] */
+		"Scroll bar=sbar",
+		'CASE',
+		/* [41] */
+		"Cluster=clus",
+		'CASE',
+		/* [42] */
+		"Icon=icon",
+		'CASE',
+		/* [43] */
+		"Pattern=patn",
+		'CASE',
+		/* [44] */
+		"Picture=pict",
+		'CASE',
+		/* [45] */
+		"Popup Menu=popp",
+		'CASE',
+		/* [46] */
+		"Static text=stat",
+		'CASE',
+		/* [47] */
+		"Edit text=edit",
+		'CASE',
+		/* [48] */
+		"Number text=nmbr",
+		'CASE',
+		/* [49] */
+		"TextEdit=tevw",
+		'CASE',
+		/* [50] */
+		"Grid=grid",
+		'CASE',
+		/* [51] */
+		"Text grid=txtg",
+		'CASE',
+		/* [52] */
+		"Text list=lstg",
+		'CASE',
+		/* [53] */
+		"Other=othr",
+		'CASE',
+		/* [54] */
+		"incl",
+		'KEYB',
+		/* [55] */
+		"Resource ID of 'view' to include",
+		'RSID',
+		/* [56] */
+		"",
+		'KEYE',
+		/* [57] */
+		"inc@",
+		'KEYB',
+		/* [58] */
+		"Resource ID of 'view' to include at",
+		'RSID',
+		/* [59] */
+		"Y offset for sub-views",
+		'DLNG',
+		/* [60] */
+		"X offset for sub-views",
+		'DLNG',
+		/* [61] */
+		"",
+		'KEYE',
+		/* [62] */
+		"view",
+		'KEYB',
+		/* [63] */
+		"Class name",
+		'ESTR',
+		/* [64] */
+		"Usual=TView",
+		'CASE',
+		/* [65] */
+		"",
+		'KEYE',
+		/* [66] */
+		"dflt",
+		'KEYB',
+		/* [67] */
+		"Class name",
+		'ESTR',
+		/* [68] */
+		"Usual=TDefaultView",
+		'CASE',
+		/* [69] */
+		"",
+		'KEYE',
+		/* [70] */
+		"wind",
+		'KEYB',
+		/* [71] */
+		"Class name",
+		'ESTR',
+		/* [72] */
+		"Usual=TWindow",
+		'CASE',
+		/* [73] */
+		"Resource ID of 'WDEF'",
+		'WB12',
+		/* [74] */
+		"Standard system=0",
+		'CASE',
+		/* [75] */
+		"Standard accessory=1",
+		'CASE',
+		/* [76] */
+		"Variation code",
+		'WB04',
+		/* [77] */
+		"Document/accessory=0",
+		'CASE',
+		/* [78] */
+		"Modal dialog=1",
+		'CASE',
+		/* [79] */
+		"Plain frame=2",
+		'CASE',
+		/* [80] */
+		"Shadow frame=3",
+		'CASE',
+		/* [81] */
+		"No grow document=4",
+		'CASE',
+		/* [82] */
+		"Moveable modal=5",
+		'CASE',
+		/* [83] */
+		"Zoomable document=8",
+		'CASE',
+		/* [84] */
+		"No grow, zoomable document=12",
+		'CASE',
+		/* [85] */
+		"Window has GoAway box",
+		'WBIT',
+		/* [86] */
+		"Window is resizeable",
+		'WBIT',
+		/* [87] */
+		"Window is modal",
+		'WBIT',
+		/* [88] */
+		"Window accepts first click",
+		'WBIT',
+		/* [89] */
+		"Free window on closing",
+		'WBIT',
+		/* [90] */
+		"Dispose window on freeing",
+		'WBIT',
+		/* [91] */
+		"Closes document",
+		'WBIT',
+		/* [92] */
+		"Open with document",
+		'WBIT',
+		/* [93] */
+		"Adapt to screen",
+		'WBIT',
+		/* [94] */
+		"Stagger",
+		'WBIT',
+		/* [95] */
+		"Force onto screen",
+		'WBIT',
+		/* [96] */
+		"Centering",
+		'WB02',
+		/* [97] */
+		"Leave as is=0",
+		'CASE',
+		/* [98] */
+		"Horizontally=1",
+		'CASE',
+		/* [99] */
+		"Vertically=2",
+		'CASE',
+		/* [100] */
+		"Both=3",
+		'CASE',
+		/* [101] */
+		"Reserved",
+		'WB03',
+		/* [102] */
+		"ID of target view",
+		'TNAM',
+		/* [103] */
+		"No ID=    ",
+		'CASE',
+		/* [104] */
+		"Window title",
+		'ESTR',
+		/* [105] */
+		"",
+		'KEYE',
+		/* [106] */
+		"scrl",
+		'KEYB',
+		/* [107] */
+		"Class name",
+		'ESTR',
+		/* [108] */
+		"Usual=TScroller",
+		'CASE',
+		/* [109] */
+		"Has vertical scroll bar",
+		'DBYT',
+		/* [110] */
+		"No=0",
+		'CASE',
+		/* [111] */
+		"Yes=1",
+		'CASE',
+		/* [112] */
+		"Has horizontal scroll bar",
+		'DBYT',
+		/* [113] */
+		"No=0",
+		'CASE',
+		/* [114] */
+		"Yes=1",
+		'CASE',
+		/* [115] */
+		"Vertical maximum value",
+		'DLNG',
+		/* [116] */
+		"Horizontal maximum value",
+		'DLNG',
+		/* [117] */
+		"Vertical scroll units",
+		'DWRD',
+		/* [118] */
+		"Horizontal scroll units",
+		'DWRD',
+		/* [119] */
+		"Vertical constraint",
+		'DBYT',
+		/* [120] */
+		"No=0",
+		'CASE',
+		/* [121] */
+		"Yes=1",
+		'CASE',
+		/* [122] */
+		"Horizontal constraint",
+		'DBYT',
+		/* [123] */
+		"No=0",
+		'CASE',
+		/* [124] */
+		"Yes=1",
+		'CASE',
+		/* [125] */
+		"Scroll bar offsets",
+		'RECT',
+		/* [126] */
+		"",
+		'KEYE',
+		/* [127] */
+		"dlog",
+		'KEYB',
+		/* [128] */
+		"Class name",
+		'ESTR',
+		/* [129] */
+		"Usual=TDialogView",
+		'CASE',
+		/* [130] */
+		"ID of default item",
+		'TNAM',
+		/* [131] */
+		"No default=    ",
+		'CASE',
+		/* [132] */
+		"ID of cancel item",
+		'TNAM',
+		/* [133] */
+		"No cancel=    ",
+		'CASE',
+		/* [134] */
+		"",
+		'KEYE',
+		/* [135] */
+		"cntl",
+		'KEYB',
+		/* [136] */
+		"Class name",
+		'ESTR',
+		/* [137] */
+		"Usual=TControl",
+		'CASE',
+		/* [138] */
+		"TControlData",
+		'DVDR',
+		/* [139] */
+		"Line adornment",
+		'WB04',
+		/* [140] */
+		"No lines=0",
+		'CASE',
+		/* [141] */
+		"Frame=15",
+		'CASE',
+		/* [142] */
+		"Along top=1",
+		'CASE',
+		/* [143] */
+		"Along left=2",
+		'CASE',
+		/* [144] */
+		"Along bottom=4",
+		'CASE',
+		/* [145] */
+		"ALong right=8",
+		'CASE',
+		/* [146] */
+		"Pattern fill",
+		'WBIT',
+		/* [147] */
+		"Use oval",
+		'WBIT',
+		/* [148] */
+		"Use RoundRect",
+		'WBIT',
+		/* [149] */
+		"Use Shadow",
+		'WBIT',
+		/* [150] */
+		"Reserved",
+		'WB08',
+		/* [151] */
+		"Pen size",
+		'PNT ',
+		/* [152] */
+		"Control is sizeable",
+		'WBIT',
+		/* [153] */
+		"Control is dimmed",
+		'WBIT',
+		/* [154] */
+		"Control is hilited",
+		'WBIT',
+		/* [155] */
+		"Control dismisses",
+		'WBIT',
+		/* [156] */
+		"Reserved",
+		'WB12',
+		/* [157] */
+		"Control inset",
+		'RECT',
+		/* [158] */
+		"Font style",
+		'UBYT',
+		/* [159] */
+		"Plain=0",
+		'CASE',
+		/* [160] */
+		"Bold=1",
+		'CASE',
+		/* [161] */
+		"Italic=2",
+		'CASE',
+		/* [162] */
+		"Underline=4",
+		'CASE',
+		/* [163] */
+		"Outline=8",
+		'CASE',
+		/* [164] */
+		"Shadow=16",
+		'CASE',
+		/* [165] */
+		"Condensed=32",
+		'CASE',
+		/* [166] */
+		"Extended=64",
+		'CASE',
+		/* [167] */
+		"Filler",
+		'FBYT',
+		/* [168] */
+		"Font size",
+		'DWRD',
+		/* [169] */
+		"SystemFont=0",
+		'CASE',
+		/* [170] */
+		"Small applFont=9",
+		'CASE',
+		/* [171] */
+		"Large applFont=12",
+		'CASE',
+		/* [172] */
+		"Font color",
+		'COLR',
+		/* [173] */
+		"Font name",
+		'ESTR',
+		/* [174] */
+		"",
+		'KEYE',
+		/* [175] */
+		"butn",
+		'KEYB',
+		/* [176] */
+		"Class name",
+		'ESTR',
+		/* [177] */
+		"Usual=TButton",
+		'CASE',
+		/* [178] */
+		"TControlData",
+		'DVDR',
+		/* [179] */
+		"Line adornment",
+		'WB04',
+		/* [180] */
+		"No lines=0",
+		'CASE',
+		/* [181] */
+		"Frame=15",
+		'CASE',
+		/* [182] */
+		"Along top=1",
+		'CASE',
+		/* [183] */
+		"Along left=2",
+		'CASE',
+		/* [184] */
+		"Along bottom=4",
+		'CASE',
+		/* [185] */
+		"ALong right=8",
+		'CASE',
+		/* [186] */
+		"Pattern fill",
+		'WBIT',
+		/* [187] */
+		"Use oval",
+		'WBIT',
+		/* [188] */
+		"Use RoundRect",
+		'WBIT',
+		/* [189] */
+		"Use Shadow",
+		'WBIT',
+		/* [190] */
+		"Reserved",
+		'WB08',
+		/* [191] */
+		"Pen size",
+		'PNT ',
+		/* [192] */
+		"Control is sizeable",
+		'WBIT',
+		/* [193] */
+		"Control is dimmed",
+		'WBIT',
+		/* [194] */
+		"Control is hilited",
+		'WBIT',
+		/* [195] */
+		"Control dismisses",
+		'WBIT',
+		/* [196] */
+		"Reserved",
+		'WB12',
+		/* [197] */
+		"Control inset",
+		'RECT',
+		/* [198] */
+		"Font style",
+		'UBYT',
+		/* [199] */
+		"Plain=0",
+		'CASE',
+		/* [200] */
+		"Bold=1",
+		'CASE',
+		/* [201] */
+		"Italic=2",
+		'CASE',
+		/* [202] */
+		"Underline=4",
+		'CASE',
+		/* [203] */
+		"Outline=8",
+		'CASE',
+		/* [204] */
+		"Shadow=16",
+		'CASE',
+		/* [205] */
+		"Condensed=32",
+		'CASE',
+		/* [206] */
+		"Extended=64",
+		'CASE',
+		/* [207] */
+		"Filler",
+		'FBYT',
+		/* [208] */
+		"Font size",
+		'DWRD',
+		/* [209] */
+		"SystemFont=0",
+		'CASE',
+		/* [210] */
+		"Small applFont=9",
+		'CASE',
+		/* [211] */
+		"Large applFont=12",
+		'CASE',
+		/* [212] */
+		"Font color",
+		'COLR',
+		/* [213] */
+		"Font name",
+		'ESTR',
+		/* [214] */
+		"TButtonData",
+		'DVDR',
+		/* [215] */
+		"Button title",
+		'ESTR',
+		/* [216] */
+		"",
+		'KEYE',
+		/* [217] */
+		"chkb",
+		'KEYB',
+		/* [218] */
+		"Class name",
+		'ESTR',
+		/* [219] */
+		"Usual=TCheckBox",
+		'CASE',
+		/* [220] */
+		"TControlData",
+		'DVDR',
+		/* [221] */
+		"Line adornment",
+		'WB04',
+		/* [222] */
+		"No lines=0",
+		'CASE',
+		/* [223] */
+		"Frame=15",
+		'CASE',
+		/* [224] */
+		"Along top=1",
+		'CASE',
+		/* [225] */
+		"Along left=2",
+		'CASE',
+		/* [226] */
+		"Along bottom=4",
+		'CASE',
+		/* [227] */
+		"ALong right=8",
+		'CASE',
+		/* [228] */
+		"Pattern fill",
+		'WBIT',
+		/* [229] */
+		"Use oval",
+		'WBIT',
+		/* [230] */
+		"Use RoundRect",
+		'WBIT',
+		/* [231] */
+		"Use Shadow",
+		'WBIT',
+		/* [232] */
+		"Reserved",
+		'WB08',
+		/* [233] */
+		"Pen size",
+		'PNT ',
+		/* [234] */
+		"Control is sizeable",
+		'WBIT',
+		/* [235] */
+		"Control is dimmed",
+		'WBIT',
+		/* [236] */
+		"Control is hilited",
+		'WBIT',
+		/* [237] */
+		"Control dismisses",
+		'WBIT',
+		/* [238] */
+		"Reserved",
+		'WB12',
+		/* [239] */
+		"Control inset",
+		'RECT',
+		/* [240] */
+		"Font style",
+		'UBYT',
+		/* [241] */
+		"Plain=0",
+		'CASE',
+		/* [242] */
+		"Bold=1",
+		'CASE',
+		/* [243] */
+		"Italic=2",
+		'CASE',
+		/* [244] */
+		"Underline=4",
+		'CASE',
+		/* [245] */
+		"Outline=8",
+		'CASE',
+		/* [246] */
+		"Shadow=16",
+		'CASE',
+		/* [247] */
+		"Condensed=32",
+		'CASE',
+		/* [248] */
+		"Extended=64",
+		'CASE',
+		/* [249] */
+		"Filler",
+		'FBYT',
+		/* [250] */
+		"Font size",
+		'DWRD',
+		/* [251] */
+		"SystemFont=0",
+		'CASE',
+		/* [252] */
+		"Small applFont=9",
+		'CASE',
+		/* [253] */
+		"Large applFont=12",
+		'CASE',
+		/* [254] */
+		"Font color",
+		'COLR',
+		/* [255] */
+		"Font name",
+		'ESTR',
+		/* [256] */
+		"TCheckboxData",
+		'DVDR',
+		/* [257] */
+		"Initial state",
+		'DBYT',
+		/* [258] */
+		"Off=0",
+		'CASE',
+		/* [259] */
+		"On=1",
+		'CASE',
+		/* [260] */
+		"Filler",
+		'FBYT',
+		/* [261] */
+		"Check box label",
+		'ESTR',
+		/* [262] */
+		"",
+		'KEYE',
+		/* [263] */
+		"radb",
+		'KEYB',
+		/* [264] */
+		"Class name",
+		'ESTR',
+		/* [265] */
+		"Usual=TRadioButton",
+		'CASE',
+		/* [266] */
+		"TControlData",
+		'DVDR',
+		/* [267] */
+		"Line adornment",
+		'WB04',
+		/* [268] */
+		"No lines=0",
+		'CASE',
+		/* [269] */
+		"Frame=15",
+		'CASE',
+		/* [270] */
+		"Along top=1",
+		'CASE',
+		/* [271] */
+		"Along left=2",
+		'CASE',
+		/* [272] */
+		"Along bottom=4",
+		'CASE',
+		/* [273] */
+		"ALong right=8",
+		'CASE',
+		/* [274] */
+		"Pattern fill",
+		'WBIT',
+		/* [275] */
+		"Use oval",
+		'WBIT',
+		/* [276] */
+		"Use RoundRect",
+		'WBIT',
+		/* [277] */
+		"Use Shadow",
+		'WBIT',
+		/* [278] */
+		"Reserved",
+		'WB08',
+		/* [279] */
+		"Pen size",
+		'PNT ',
+		/* [280] */
+		"Control is sizeable",
+		'WBIT',
+		/* [281] */
+		"Control is dimmed",
+		'WBIT',
+		/* [282] */
+		"Control is hilited",
+		'WBIT',
+		/* [283] */
+		"Control dismisses",
+		'WBIT',
+		/* [284] */
+		"Reserved",
+		'WB12',
+		/* [285] */
+		"Control inset",
+		'RECT',
+		/* [286] */
+		"Font style",
+		'UBYT',
+		/* [287] */
+		"Plain=0",
+		'CASE',
+		/* [288] */
+		"Bold=1",
+		'CASE',
+		/* [289] */
+		"Italic=2",
+		'CASE',
+		/* [290] */
+		"Underline=4",
+		'CASE',
+		/* [291] */
+		"Outline=8",
+		'CASE',
+		/* [292] */
+		"Shadow=16",
+		'CASE',
+		/* [293] */
+		"Condensed=32",
+		'CASE',
+		/* [294] */
+		"Extended=64",
+		'CASE',
+		/* [295] */
+		"Filler",
+		'FBYT',
+		/* [296] */
+		"Font size",
+		'DWRD',
+		/* [297] */
+		"SystemFont=0",
+		'CASE',
+		/* [298] */
+		"Small applFont=9",
+		'CASE',
+		/* [299] */
+		"Large applFont=12",
+		'CASE',
+		/* [300] */
+		"Font color",
+		'COLR',
+		/* [301] */
+		"Font name",
+		'ESTR',
+		/* [302] */
+		"TRadioData",
+		'DVDR',
+		/* [303] */
+		"Initial state",
+		'DBYT',
+		/* [304] */
+		"Off=0",
+		'CASE',
+		/* [305] */
+		"On=1",
+		'CASE',
+		/* [306] */
+		"Filler",
+		'FBYT',
+		/* [307] */
+		"Radio button label",
+		'ESTR',
+		/* [308] */
+		"",
+		'KEYE',
+		/* [309] */
+		"sbar",
+		'KEYB',
+		/* [310] */
+		"Class name",
+		'ESTR',
+		/* [311] */
+		"Usual=TScrollBar",
+		'CASE',
+		/* [312] */
+		"TControlData",
+		'DVDR',
+		/* [313] */
+		"Line adornment",
+		'WB04',
+		/* [314] */
+		"No lines=0",
+		'CASE',
+		/* [315] */
+		"Frame=15",
+		'CASE',
+		/* [316] */
+		"Along top=1",
+		'CASE',
+		/* [317] */
+		"Along left=2",
+		'CASE',
+		/* [318] */
+		"Along bottom=4",
+		'CASE',
+		/* [319] */
+		"ALong right=8",
+		'CASE',
+		/* [320] */
+		"Pattern fill",
+		'WBIT',
+		/* [321] */
+		"Use oval",
+		'WBIT',
+		/* [322] */
+		"Use RoundRect",
+		'WBIT',
+		/* [323] */
+		"Use Shadow",
+		'WBIT',
+		/* [324] */
+		"Reserved",
+		'WB08',
+		/* [325] */
+		"Pen size",
+		'PNT ',
+		/* [326] */
+		"Control is sizeable",
+		'WBIT',
+		/* [327] */
+		"Control is dimmed",
+		'WBIT',
+		/* [328] */
+		"Control is hilited",
+		'WBIT',
+		/* [329] */
+		"Control dismisses",
+		'WBIT',
+		/* [330] */
+		"Reserved",
+		'WB12',
+		/* [331] */
+		"Control inset",
+		'RECT',
+		/* [332] */
+		"Font style",
+		'UBYT',
+		/* [333] */
+		"Plain=0",
+		'CASE',
+		/* [334] */
+		"Bold=1",
+		'CASE',
+		/* [335] */
+		"Italic=2",
+		'CASE',
+		/* [336] */
+		"Underline=4",
+		'CASE',
+		/* [337] */
+		"Outline=8",
+		'CASE',
+		/* [338] */
+		"Shadow=16",
+		'CASE',
+		/* [339] */
+		"Condensed=32",
+		'CASE',
+		/* [340] */
+		"Extended=64",
+		'CASE',
+		/* [341] */
+		"Filler",
+		'FBYT',
+		/* [342] */
+		"Font size",
+		'DWRD',
+		/* [343] */
+		"SystemFont=0",
+		'CASE',
+		/* [344] */
+		"Small applFont=9",
+		'CASE',
+		/* [345] */
+		"Large applFont=12",
+		'CASE',
+		/* [346] */
+		"Font color",
+		'COLR',
+		/* [347] */
+		"Font name",
+		'ESTR',
+		/* [348] */
+		"TScrollBarData",
+		'DVDR',
+		/* [349] */
+		"Initial value",
+		'DLNG',
+		/* [350] */
+		"Minimum value",
+		'DLNG',
+		/* [351] */
+		"Maximum value",
+		'DLNG',
+		/* [352] */
+		"",
+		'KEYE',
+		/* [353] */
+		"clus",
+		'KEYB',
+		/* [354] */
+		"Class name",
+		'ESTR',
+		/* [355] */
+		"Usual=TCluster",
+		'CASE',
+		/* [356] */
+		"TControlData",
+		'DVDR',
+		/* [357] */
+		"Line adornment",
+		'WB04',
+		/* [358] */
+		"Frame=15",
+		'CASE',
+		/* [359] */
+		"No lines=0",
+		'CASE',
+		/* [360] */
+		"Along top=1",
+		'CASE',
+		/* [361] */
+		"Along left=2",
+		'CASE',
+		/* [362] */
+		"Along bottom=4",
+		'CASE',
+		/* [363] */
+		"ALong right=8",
+		'CASE',
+		/* [364] */
+		"Pattern fill",
+		'WBIT',
+		/* [365] */
+		"Use oval",
+		'WBIT',
+		/* [366] */
+		"Use RoundRect",
+		'WBIT',
+		/* [367] */
+		"Use Shadow",
+		'WBIT',
+		/* [368] */
+		"Reserved",
+		'WB08',
+		/* [369] */
+		"Pen size",
+		'PNT ',
+		/* [370] */
+		"Control is sizeable",
+		'WBIT',
+		/* [371] */
+		"Control is dimmed",
+		'WBIT',
+		/* [372] */
+		"Control is hilited",
+		'WBIT',
+		/* [373] */
+		"Control dismisses",
+		'WBIT',
+		/* [374] */
+		"Reserved",
+		'WB12',
+		/* [375] */
+		"Control inset",
+		'RECT',
+		/* [376] */
+		"Font style",
+		'UBYT',
+		/* [377] */
+		"Plain=0",
+		'CASE',
+		/* [378] */
+		"Bold=1",
+		'CASE',
+		/* [379] */
+		"Italic=2",
+		'CASE',
+		/* [380] */
+		"Underline=4",
+		'CASE',
+		/* [381] */
+		"Outline=8",
+		'CASE',
+		/* [382] */
+		"Shadow=16",
+		'CASE',
+		/* [383] */
+		"Condensed=32",
+		'CASE',
+		/* [384] */
+		"Extended=64",
+		'CASE',
+		/* [385] */
+		"Filler",
+		'FBYT',
+		/* [386] */
+		"Font size",
+		'DWRD',
+		/* [387] */
+		"SystemFont=0",
+		'CASE',
+		/* [388] */
+		"Small applFont=9",
+		'CASE',
+		/* [389] */
+		"Large applFont=12",
+		'CASE',
+		/* [390] */
+		"Font color",
+		'COLR',
+		/* [391] */
+		"Font name",
+		'ESTR',
+		/* [392] */
+		"TClusterData",
+		'DVDR',
+		/* [393] */
+		"Cluster label",
+		'ESTR',
+		/* [394] */
+		"",
+		'KEYE',
+		/* [395] */
+		"icon",
+		'KEYB',
+		/* [396] */
+		"Class name",
+		'ESTR',
+		/* [397] */
+		"Usual=TIcon",
+		'CASE',
+		/* [398] */
+		"TControlData",
+		'DVDR',
+		/* [399] */
+		"Line adornment",
+		'WB04',
+		/* [400] */
+		"No lines=0",
+		'CASE',
+		/* [401] */
+		"Frame=15",
+		'CASE',
+		/* [402] */
+		"Along top=1",
+		'CASE',
+		/* [403] */
+		"Along left=2",
+		'CASE',
+		/* [404] */
+		"Along bottom=4",
+		'CASE',
+		/* [405] */
+		"ALong right=8",
+		'CASE',
+		/* [406] */
+		"Pattern fill",
+		'WBIT',
+		/* [407] */
+		"Use oval",
+		'WBIT',
+		/* [408] */
+		"Use RoundRect",
+		'WBIT',
+		/* [409] */
+		"Use Shadow",
+		'WBIT',
+		/* [410] */
+		"Reserved",
+		'WB08',
+		/* [411] */
+		"Pen size",
+		'PNT ',
+		/* [412] */
+		"Control is sizeable",
+		'WBIT',
+		/* [413] */
+		"Control is dimmed",
+		'WBIT',
+		/* [414] */
+		"Control is hilited",
+		'WBIT',
+		/* [415] */
+		"Control dismisses",
+		'WBIT',
+		/* [416] */
+		"Reserved",
+		'WB12',
+		/* [417] */
+		"Control inset",
+		'RECT',
+		/* [418] */
+		"Font style",
+		'UBYT',
+		/* [419] */
+		"Plain=0",
+		'CASE',
+		/* [420] */
+		"Bold=1",
+		'CASE',
+		/* [421] */
+		"Italic=2",
+		'CASE',
+		/* [422] */
+		"Underline=4",
+		'CASE',
+		/* [423] */
+		"Outline=8",
+		'CASE',
+		/* [424] */
+		"Shadow=16",
+		'CASE',
+		/* [425] */
+		"Condensed=32",
+		'CASE',
+		/* [426] */
+		"Extended=64",
+		'CASE',
+		/* [427] */
+		"Filler",
+		'FBYT',
+		/* [428] */
+		"Font size",
+		'DWRD',
+		/* [429] */
+		"SystemFont=0",
+		'CASE',
+		/* [430] */
+		"Small applFont=9",
+		'CASE',
+		/* [431] */
+		"Large applFont=12",
+		'CASE',
+		/* [432] */
+		"Font color",
+		'COLR',
+		/* [433] */
+		"Font name",
+		'ESTR',
+		/* [434] */
+		"Color preference",
+		'DBYT',
+		/* [435] */
+		"Look for color first=1",
+		'CASE',
+		/* [436] */
+		"Look for B&W first=0",
+		'CASE',
+		/* [437] */
+		"Filler",
+		'FBYT',
+		/* [438] */
+		"TIconData",
+		'DVDR',
+		/* [439] */
+		"Resource ID of 'cicn' or 'ICON'",
+		'RSID',
+		/* [440] */
+		"",
+		'KEYE',
+		/* [441] */
+		"patn",
+		'KEYB',
+		/* [442] */
+		"Class name",
+		'ESTR',
+		/* [443] */
+		"Usual=TPattern",
+		'CASE',
+		/* [444] */
+		"TControlData",
+		'DVDR',
+		/* [445] */
+		"Line adornment",
+		'WB04',
+		/* [446] */
+		"No lines=0",
+		'CASE',
+		/* [447] */
+		"Frame=15",
+		'CASE',
+		/* [448] */
+		"Along top=1",
+		'CASE',
+		/* [449] */
+		"Along left=2",
+		'CASE',
+		/* [450] */
+		"Along bottom=4",
+		'CASE',
+		/* [451] */
+		"ALong right=8",
+		'CASE',
+		/* [452] */
+		"Pattern fill",
+		'WBIT',
+		/* [453] */
+		"Use oval",
+		'WBIT',
+		/* [454] */
+		"Use RoundRect",
+		'WBIT',
+		/* [455] */
+		"Use Shadow",
+		'WBIT',
+		/* [456] */
+		"Reserved",
+		'WB08',
+		/* [457] */
+		"Pen size",
+		'PNT ',
+		/* [458] */
+		"Control is sizeable",
+		'WBIT',
+		/* [459] */
+		"Control is dimmed",
+		'WBIT',
+		/* [460] */
+		"Control is hilited",
+		'WBIT',
+		/* [461] */
+		"Control dismisses",
+		'WBIT',
+		/* [462] */
+		"Reserved",
+		'WB12',
+		/* [463] */
+		"Control inset",
+		'RECT',
+		/* [464] */
+		"Font style",
+		'UBYT',
+		/* [465] */
+		"Plain=0",
+		'CASE',
+		/* [466] */
+		"Bold=1",
+		'CASE',
+		/* [467] */
+		"Italic=2",
+		'CASE',
+		/* [468] */
+		"Underline=4",
+		'CASE',
+		/* [469] */
+		"Outline=8",
+		'CASE',
+		/* [470] */
+		"Shadow=16",
+		'CASE',
+		/* [471] */
+		"Condensed=32",
+		'CASE',
+		/* [472] */
+		"Extended=64",
+		'CASE',
+		/* [473] */
+		"Filler",
+		'FBYT',
+		/* [474] */
+		"Font size",
+		'DWRD',
+		/* [475] */
+		"SystemFont=0",
+		'CASE',
+		/* [476] */
+		"Small applFont=9",
+		'CASE',
+		/* [477] */
+		"Large applFont=12",
+		'CASE',
+		/* [478] */
+		"Font color",
+		'COLR',
+		/* [479] */
+		"Font name",
+		'ESTR',
+		/* [480] */
+		"TPatternData",
+		'DVDR',
+		/* [481] */
+		"Color preference",
+		'DBYT',
+		/* [482] */
+		"Look for color first=1",
+		'CASE',
+		/* [483] */
+		"Look for B&W first=0",
+		'CASE',
+		/* [484] */
+		"Filler",
+		'FBYT',
+		/* [485] */
+		"Resource ID of 'ppat' or 'PAT '",
+		'RSID',
+		/* [486] */
+		"",
+		'KEYE',
+		/* [487] */
+		"pict",
+		'KEYB',
+		/* [488] */
+		"Class name",
+		'ESTR',
+		/* [489] */
+		"Usual=TPicture",
+		'CASE',
+		/* [490] */
+		"TControlData",
+		'DVDR',
+		/* [491] */
+		"Line adornment",
+		'WB04',
+		/* [492] */
+		"No lines=0",
+		'CASE',
+		/* [493] */
+		"Frame=15",
+		'CASE',
+		/* [494] */
+		"Along top=1",
+		'CASE',
+		/* [495] */
+		"Along left=2",
+		'CASE',
+		/* [496] */
+		"Along bottom=4",
+		'CASE',
+		/* [497] */
+		"ALong right=8",
+		'CASE',
+		/* [498] */
+		"Pattern fill",
+		'WBIT',
+		/* [499] */
+		"Use oval",
+		'WBIT',
+		/* [500] */
+		"Use RoundRect",
+		'WBIT',
+		/* [501] */
+		"Use Shadow",
+		'WBIT',
+		/* [502] */
+		"Reserved",
+		'WB08',
+		/* [503] */
+		"Pen size",
+		'PNT ',
+		/* [504] */
+		"Control is sizeable",
+		'WBIT',
+		/* [505] */
+		"Control is dimmed",
+		'WBIT',
+		/* [506] */
+		"Control is hilited",
+		'WBIT',
+		/* [507] */
+		"Control dismisses",
+		'WBIT',
+		/* [508] */
+		"Reserved",
+		'WB12',
+		/* [509] */
+		"Control inset",
+		'RECT',
+		/* [510] */
+		"Font style",
+		'UBYT',
+		/* [511] */
+		"Plain=0",
+		'CASE',
+		/* [512] */
+		"Bold=1",
+		'CASE',
+		/* [513] */
+		"Italic=2",
+		'CASE',
+		/* [514] */
+		"Underline=4",
+		'CASE',
+		/* [515] */
+		"Outline=8",
+		'CASE',
+		/* [516] */
+		"Shadow=16",
+		'CASE',
+		/* [517] */
+		"Condensed=32",
+		'CASE',
+		/* [518] */
+		"Extended=64",
+		'CASE',
+		/* [519] */
+		"Filler",
+		'FBYT',
+		/* [520] */
+		"Font size",
+		'DWRD',
+		/* [521] */
+		"SystemFont=0",
+		'CASE',
+		/* [522] */
+		"Small applFont=9",
+		'CASE',
+		/* [523] */
+		"Large applFont=12",
+		'CASE',
+		/* [524] */
+		"Font color",
+		'COLR',
+		/* [525] */
+		"Font name",
+		'ESTR',
+		/* [526] */
+		"TPictureData",
+		'DVDR',
+		/* [527] */
+		"Picture ('PICT') resource ID",
+		'RSID',
+		/* [528] */
+		"",
+		'KEYE',
+		/* [529] */
+		"popp",
+		'KEYB',
+		/* [530] */
+		"Class name",
+		'ESTR',
+		/* [531] */
+		"Usual=TPopup",
+		'CASE',
+		/* [532] */
+		"TControlData",
+		'DVDR',
+		/* [533] */
+		"Line adornment",
+		'WB04',
+		/* [534] */
+		"No lines=0",
+		'CASE',
+		/* [535] */
+		"Frame=15",
+		'CASE',
+		/* [536] */
+		"Along top=1",
+		'CASE',
+		/* [537] */
+		"Along left=2",
+		'CASE',
+		/* [538] */
+		"Along bottom=4",
+		'CASE',
+		/* [539] */
+		"ALong right=8",
+		'CASE',
+		/* [540] */
+		"Pattern fill",
+		'WBIT',
+		/* [541] */
+		"Use oval",
+		'WBIT',
+		/* [542] */
+		"Use RoundRect",
+		'WBIT',
+		/* [543] */
+		"Use Shadow",
+		'WBIT',
+		/* [544] */
+		"Reserved",
+		'WB08',
+		/* [545] */
+		"Pen size",
+		'PNT ',
+		/* [546] */
+		"Control is sizeable",
+		'WBIT',
+		/* [547] */
+		"Control is dimmed",
+		'WBIT',
+		/* [548] */
+		"Control is hilited",
+		'WBIT',
+		/* [549] */
+		"Control dismisses",
+		'WBIT',
+		/* [550] */
+		"Reserved",
+		'WB12',
+		/* [551] */
+		"Control inset",
+		'RECT',
+		/* [552] */
+		"Font style",
+		'UBYT',
+		/* [553] */
+		"Plain=0",
+		'CASE',
+		/* [554] */
+		"Bold=1",
+		'CASE',
+		/* [555] */
+		"Italic=2",
+		'CASE',
+		/* [556] */
+		"Underline=4",
+		'CASE',
+		/* [557] */
+		"Outline=8",
+		'CASE',
+		/* [558] */
+		"Shadow=16",
+		'CASE',
+		/* [559] */
+		"Condensed=32",
+		'CASE',
+		/* [560] */
+		"Extended=64",
+		'CASE',
+		/* [561] */
+		"Filler",
+		'FBYT',
+		/* [562] */
+		"Font size",
+		'DWRD',
+		/* [563] */
+		"SystemFont=0",
+		'CASE',
+		/* [564] */
+		"Small applFont=9",
+		'CASE',
+		/* [565] */
+		"Large applFont=12",
+		'CASE',
+		/* [566] */
+		"Font color",
+		'COLR',
+		/* [567] */
+		"Font name",
+		'ESTR',
+		/* [568] */
+		"TPopupData",
+		'DVDR',
+		/* [569] */
+		"Resource ID of 'MENU'",
+		'RSID',
+		/* [570] */
+		"Current item",
+		'DWRD',
+		/* [571] */
+		"Left offset",
+		'DWRD',
+		/* [572] */
+		"",
+		'KEYE',
+		/* [573] */
+		"stat",
+		'KEYB',
+		/* [574] */
+		"Class name",
+		'ESTR',
+		/* [575] */
+		"Usual=TStaticText",
+		'CASE',
+		/* [576] */
+		"TControlData",
+		'DVDR',
+		/* [577] */
+		"Line adornment",
+		'WB04',
+		/* [578] */
+		"No lines=0",
+		'CASE',
+		/* [579] */
+		"Frame=15",
+		'CASE',
+		/* [580] */
+		"Along top=1",
+		'CASE',
+		/* [581] */
+		"Along left=2",
+		'CASE',
+		/* [582] */
+		"Along bottom=4",
+		'CASE',
+		/* [583] */
+		"ALong right=8",
+		'CASE',
+		/* [584] */
+		"Pattern fill",
+		'WBIT',
+		/* [585] */
+		"Use oval",
+		'WBIT',
+		/* [586] */
+		"Use RoundRect",
+		'WBIT',
+		/* [587] */
+		"Use Shadow",
+		'WBIT',
+		/* [588] */
+		"Reserved",
+		'WB08',
+		/* [589] */
+		"Pen size",
+		'PNT ',
+		/* [590] */
+		"Control is sizeable",
+		'WBIT',
+		/* [591] */
+		"Control is dimmed",
+		'WBIT',
+		/* [592] */
+		"Control is hilited",
+		'WBIT',
+		/* [593] */
+		"Control dismisses",
+		'WBIT',
+		/* [594] */
+		"Reserved",
+		'WB12',
+		/* [595] */
+		"Control inset",
+		'RECT',
+		/* [596] */
+		"Font style",
+		'UBYT',
+		/* [597] */
+		"Plain=0",
+		'CASE',
+		/* [598] */
+		"Bold=1",
+		'CASE',
+		/* [599] */
+		"Italic=2",
+		'CASE',
+		/* [600] */
+		"Underline=4",
+		'CASE',
+		/* [601] */
+		"Outline=8",
+		'CASE',
+		/* [602] */
+		"Shadow=16",
+		'CASE',
+		/* [603] */
+		"Condensed=32",
+		'CASE',
+		/* [604] */
+		"Extended=64",
+		'CASE',
+		/* [605] */
+		"Filler",
+		'FBYT',
+		/* [606] */
+		"Font size",
+		'DWRD',
+		/* [607] */
+		"SystemFont=0",
+		'CASE',
+		/* [608] */
+		"Small applFont=9",
+		'CASE',
+		/* [609] */
+		"Large applFont=12",
+		'CASE',
+		/* [610] */
+		"Font color",
+		'COLR',
+		/* [611] */
+		"Font name",
+		'ESTR',
+		/* [612] */
+		"TStaticTextData",
+		'DVDR',
+		/* [613] */
+		"Justification",
+		'DWRD',
+		/* [614] */
+		"Let system do it (left)=0",
+		'CASE',
+		/* [615] */
+		"Force left=-2",
+		'CASE',
+		/* [616] */
+		"Right justify=-1",
+		'CASE',
+		/* [617] */
+		"Center=1",
+		'CASE',
+		/* [618] */
+		"Initial text value",
+		'ESTR',
+		/* [619] */
+		"",
+		'KEYE',
+		/* [620] */
+		"edit",
+		'KEYB',
+		/* [621] */
+		"Class name",
+		'ESTR',
+		/* [622] */
+		"Usual=TEditText",
+		'CASE',
+		/* [623] */
+		"TControlData",
+		'DVDR',
+		/* [624] */
+		"Line adornment",
+		'WB04',
+		/* [625] */
+		"No lines=0",
+		'CASE',
+		/* [626] */
+		"Frame=15",
+		'CASE',
+		/* [627] */
+		"Along top=1",
+		'CASE',
+		/* [628] */
+		"Along left=2",
+		'CASE',
+		/* [629] */
+		"Along bottom=4",
+		'CASE',
+		/* [630] */
+		"ALong right=8",
+		'CASE',
+		/* [631] */
+		"Pattern fill",
+		'WBIT',
+		/* [632] */
+		"Use oval",
+		'WBIT',
+		/* [633] */
+		"Use RoundRect",
+		'WBIT',
+		/* [634] */
+		"Use Shadow",
+		'WBIT',
+		/* [635] */
+		"Reserved",
+		'WB08',
+		/* [636] */
+		"Pen size",
+		'PNT ',
+		/* [637] */
+		"Control is sizeable",
+		'WBIT',
+		/* [638] */
+		"Control is dimmed",
+		'WBIT',
+		/* [639] */
+		"Control is hilited",
+		'WBIT',
+		/* [640] */
+		"Control dismisses",
+		'WBIT',
+		/* [641] */
+		"Reserved",
+		'WB12',
+		/* [642] */
+		"Control inset",
+		'RECT',
+		/* [643] */
+		"Font style",
+		'UBYT',
+		/* [644] */
+		"Plain=0",
+		'CASE',
+		/* [645] */
+		"Bold=1",
+		'CASE',
+		/* [646] */
+		"Italic=2",
+		'CASE',
+		/* [647] */
+		"Underline=4",
+		'CASE',
+		/* [648] */
+		"Outline=8",
+		'CASE',
+		/* [649] */
+		"Shadow=16",
+		'CASE',
+		/* [650] */
+		"Condensed=32",
+		'CASE',
+		/* [651] */
+		"Extended=64",
+		'CASE',
+		/* [652] */
+		"Filler",
+		'FBYT',
+		/* [653] */
+		"Font size",
+		'DWRD',
+		/* [654] */
+		"SystemFont=0",
+		'CASE',
+		/* [655] */
+		"Small applFont=9",
+		'CASE',
+		/* [656] */
+		"Large applFont=12",
+		'CASE',
+		/* [657] */
+		"Font color",
+		'COLR',
+		/* [658] */
+		"Font name",
+		'ESTR',
+		/* [659] */
+		"TStaticTextData",
+		'DVDR',
+		/* [660] */
+		"Justification",
+		'DWRD',
+		/* [661] */
+		"Let system do it (left)=0",
+		'CASE',
+		/* [662] */
+		"Force left=-2",
+		'CASE',
+		/* [663] */
+		"Right justify=-1",
+		'CASE',
+		/* [664] */
+		"Center=1",
+		'CASE',
+		/* [665] */
+		"Initial text value",
+		'ESTR',
+		/* [666] */
+		"TEditTextData",
+		'DVDR',
+		/* [667] */
+		"Maximum number of characters",
+		'DWRD',
+		/* [668] */
+		"Unlimited=255",
+		'CASE',
+		/* [669] */
+		"Accept Down Arrow",
+		'LBIT',
+		/* [670] */
+		"Accept Up Arrow",
+		'LBIT',
+		/* [671] */
+		"Accept Right Arrow",
+		'LBIT',
+		/* [672] */
+		"Accept Left Arrow",
+		'LBIT',
+		/* [673] */
+		"Accept Escape",
+		'LBIT',
+		/* [674] */
+		"Accept ^Z",
+		'LBIT',
+		/* [675] */
+		"^Y",
+		'LBIT',
+		/* [676] */
+		"^X",
+		'LBIT',
+		/* [677] */
+		"^W",
+		'LBIT',
+		/* [678] */
+		"^V",
+		'LBIT',
+		/* [679] */
+		"^U",
+		'LBIT',
+		/* [680] */
+		"^T",
+		'LBIT',
+		/* [681] */
+		"^S",
+		'LBIT',
+		/* [682] */
+		"^R",
+		'LBIT',
+		/* [683] */
+		"^Q",
+		'LBIT',
+		/* [684] */
+		"^P",
+		'LBIT',
+		/* [685] */
+		"^O",
+		'LBIT',
+		/* [686] */
+		"^N",
+		'LBIT',
+		/* [687] */
+		"Accept CarriageReturn",
+		'LBIT',
+		/* [688] */
+		"^L",
+		'LBIT',
+		/* [689] */
+		"^K",
+		'LBIT',
+		/* [690] */
+		"^J",
+		'LBIT',
+		/* [691] */
+		"^I",
+		'LBIT',
+		/* [692] */
+		"Accept BackSpace",
+		'LBIT',
+		/* [693] */
+		"^G",
+		'LBIT',
+		/* [694] */
+		"^F",
+		'LBIT',
+		/* [695] */
+		"^E",
+		'LBIT',
+		/* [696] */
+		"^D",
+		'LBIT',
+		/* [697] */
+		"Accept Enter",
+		'LBIT',
+		/* [698] */
+		"^B",
+		'LBIT',
+		/* [699] */
+		"^A",
+		'LBIT',
+		/* [700] */
+		"Accept Null",
+		'LBIT',
+		/* [701] */
+		"",
+		'KEYE',
+		/* [702] */
+		"nmbr",
+		'KEYB',
+		/* [703] */
+		"Class name",
+		'ESTR',
+		/* [704] */
+		"Usual=TNumberText",
+		'CASE',
+		/* [705] */
+		"TControlData",
+		'DVDR',
+		/* [706] */
+		"Line adornment",
+		'WB04',
+		/* [707] */
+		"No lines=0",
+		'CASE',
+		/* [708] */
+		"Frame=15",
+		'CASE',
+		/* [709] */
+		"Along top=1",
+		'CASE',
+		/* [710] */
+		"Along left=2",
+		'CASE',
+		/* [711] */
+		"Along bottom=4",
+		'CASE',
+		/* [712] */
+		"ALong right=8",
+		'CASE',
+		/* [713] */
+		"Pattern fill",
+		'WBIT',
+		/* [714] */
+		"Use oval",
+		'WBIT',
+		/* [715] */
+		"Use RoundRect",
+		'WBIT',
+		/* [716] */
+		"Use Shadow",
+		'WBIT',
+		/* [717] */
+		"Reserved",
+		'WB08',
+		/* [718] */
+		"Pen size",
+		'PNT ',
+		/* [719] */
+		"Control is sizeable",
+		'WBIT',
+		/* [720] */
+		"Control is dimmed",
+		'WBIT',
+		/* [721] */
+		"Control is hilited",
+		'WBIT',
+		/* [722] */
+		"Control dismisses",
+		'WBIT',
+		/* [723] */
+		"Reserved",
+		'WB12',
+		/* [724] */
+		"Control inset",
+		'RECT',
+		/* [725] */
+		"Font style",
+		'UBYT',
+		/* [726] */
+		"Plain=0",
+		'CASE',
+		/* [727] */
+		"Bold=1",
+		'CASE',
+		/* [728] */
+		"Italic=2",
+		'CASE',
+		/* [729] */
+		"Underline=4",
+		'CASE',
+		/* [730] */
+		"Outline=8",
+		'CASE',
+		/* [731] */
+		"Shadow=16",
+		'CASE',
+		/* [732] */
+		"Condensed=32",
+		'CASE',
+		/* [733] */
+		"Extended=64",
+		'CASE',
+		/* [734] */
+		"Filler",
+		'FBYT',
+		/* [735] */
+		"Font size",
+		'DWRD',
+		/* [736] */
+		"SystemFont=0",
+		'CASE',
+		/* [737] */
+		"Small applFont=9",
+		'CASE',
+		/* [738] */
+		"Large applFont=12",
+		'CASE',
+		/* [739] */
+		"Font color",
+		'COLR',
+		/* [740] */
+		"Font name",
+		'ESTR',
+		/* [741] */
+		"TStaticTextData",
+		'DVDR',
+		/* [742] */
+		"Justification",
+		'DWRD',
+		/* [743] */
+		"Let system do it (left)=0",
+		'CASE',
+		/* [744] */
+		"Force left=-2",
+		'CASE',
+		/* [745] */
+		"Right justify=-1",
+		'CASE',
+		/* [746] */
+		"Center=1",
+		'CASE',
+		/* [747] */
+		"Initial text value",
+		'ESTR',
+		/* [748] */
+		"TEditTextData",
+		'DVDR',
+		/* [749] */
+		"Maximum number of characters",
+		'DWRD',
+		/* [750] */
+		"Unlimited=255",
+		'CASE',
+		/* [751] */
+		"Accept Down Arrow",
+		'LBIT',
+		/* [752] */
+		"Accept Up Arrow",
+		'LBIT',
+		/* [753] */
+		"Accept Right Arrow",
+		'LBIT',
+		/* [754] */
+		"Accept Left Arrow",
+		'LBIT',
+		/* [755] */
+		"Accept Escape",
+		'LBIT',
+		/* [756] */
+		"Accept ^Z",
+		'LBIT',
+		/* [757] */
+		"^Y",
+		'LBIT',
+		/* [758] */
+		"^X",
+		'LBIT',
+		/* [759] */
+		"^W",
+		'LBIT',
+		/* [760] */
+		"^V",
+		'LBIT',
+		/* [761] */
+		"^U",
+		'LBIT',
+		/* [762] */
+		"^T",
+		'LBIT',
+		/* [763] */
+		"^S",
+		'LBIT',
+		/* [764] */
+		"^R",
+		'LBIT',
+		/* [765] */
+		"^Q",
+		'LBIT',
+		/* [766] */
+		"^P",
+		'LBIT',
+		/* [767] */
+		"^O",
+		'LBIT',
+		/* [768] */
+		"^N",
+		'LBIT',
+		/* [769] */
+		"Accept CarriageReturn",
+		'LBIT',
+		/* [770] */
+		"^L",
+		'LBIT',
+		/* [771] */
+		"^K",
+		'LBIT',
+		/* [772] */
+		"^J",
+		'LBIT',
+		/* [773] */
+		"^I",
+		'LBIT',
+		/* [774] */
+		"Accept BackSpace",
+		'LBIT',
+		/* [775] */
+		"^G",
+		'LBIT',
+		/* [776] */
+		"^F",
+		'LBIT',
+		/* [777] */
+		"^E",
+		'LBIT',
+		/* [778] */
+		"^D",
+		'LBIT',
+		/* [779] */
+		"Accept Enter",
+		'LBIT',
+		/* [780] */
+		"^B",
+		'LBIT',
+		/* [781] */
+		"^A",
+		'LBIT',
+		/* [782] */
+		"Accept Null",
+		'LBIT',
+		/* [783] */
+		"TNumberTextData",
+		'DVDR',
+		/* [784] */
+		"Initial numeric value",
+		'DLNG',
+		/* [785] */
+		"Minimum value",
+		'DLNG',
+		/* [786] */
+		"Maximum value",
+		'DLNG',
+		/* [787] */
+		"",
+		'KEYE',
+		/* [788] */
+		"tevw",
+		'KEYB',
+		/* [789] */
+		"Class name",
+		'ESTR',
+		/* [790] */
+		"Usual=TTEView",
+		'CASE',
+		/* [791] */
+		"TTEViewData",
+		'DVDR',
+		/* [792] */
+		"Use styled TextEdit",
+		'WBIT',
+		/* [793] */
+		"Use word wrap",
+		'WBIT',
+		/* [794] */
+		"Accept changes",
+		'WBIT',
+		/* [795] */
+		"Free text",
+		'WBIT',
+		/* [796] */
+		"Reserved",
+		'WB12',
+		/* [797] */
+		"Command",
+		'DWRD',
+		/* [798] */
+		"Typing=120",
+		'CASE',
+		/* [799] */
+		"Maximum number of characters",
+		'DWRD',
+		/* [800] */
+		"Unlimited=32767",
+		'CASE',
+		/* [801] */
+		"Inset",
+		'RECT',
+		/* [802] */
+		"Justification",
+		'DWRD',
+		/* [803] */
+		"Let system do it (left)=0",
+		'CASE',
+		/* [804] */
+		"Force left=-2",
+		'CASE',
+		/* [805] */
+		"Right justify=-1",
+		'CASE',
+		/* [806] */
+		"Center=1",
+		'CASE',
+		/* [807] */
+		"Font style",
+		'UBYT',
+		/* [808] */
+		"Plain=0",
+		'CASE',
+		/* [809] */
+		"Bold=1",
+		'CASE',
+		/* [810] */
+		"Italic=2",
+		'CASE',
+		/* [811] */
+		"Underline=4",
+		'CASE',
+		/* [812] */
+		"Outline=8",
+		'CASE',
+		/* [813] */
+		"Shadow=16",
+		'CASE',
+		/* [814] */
+		"Condensed=32",
+		'CASE',
+		/* [815] */
+		"Extended=64",
+		'CASE',
+		/* [816] */
+		"Filler",
+		'FBYT',
+		/* [817] */
+		"Font size",
+		'DWRD',
+		/* [818] */
+		"SystemFont=0",
+		'CASE',
+		/* [819] */
+		"Small applFont=9",
+		'CASE',
+		/* [820] */
+		"Large applFont=12",
+		'CASE',
+		/* [821] */
+		"Font color",
+		'COLR',
+		/* [822] */
+		"Font name",
+		'ESTR',
+		/* [823] */
+		"",
+		'KEYE',
+		/* [824] */
+		"grid",
+		'KEYB',
+		/* [825] */
+		"Class name",
+		'ESTR',
+		/* [826] */
+		"Usual=TGridView",
+		'CASE',
+		/* [827] */
+		"TGridViewData",
+		'DVDR',
+		/* [828] */
+		"Number of rows",
+		'DWRD',
+		/* [829] */
+		"Number of columns",
+		'DWRD',
+		/* [830] */
+		"Row height (in pixels)",
+		'DWRD',
+		/* [831] */
+		"Column width (in pixels)",
+		'DWRD',
+		/* [832] */
+		"Row inset",
+		'DWRD',
+		/* [833] */
+		"Column inset",
+		'DWRD',
+		/* [834] */
+		"Adorn rows",
+		'WBIT',
+		/* [835] */
+		"Adorn columns",
+		'WBIT',
+		/* [836] */
+		"Single selection",
+		'WBIT',
+		/* [837] */
+		"Reserved",
+		'WB13',
+		/* [838] */
+		"",
+		'KEYE',
+		/* [839] */
+		"txtg",
+		'KEYB',
+		/* [840] */
+		"Class name",
+		'ESTR',
+		/* [841] */
+		"Usual=TTextGridView",
+		'CASE',
+		/* [842] */
+		"TGridViewData",
+		'DVDR',
+		/* [843] */
+		"Number of rows",
+		'DWRD',
+		/* [844] */
+		"Number of columns",
+		'DWRD',
+		/* [845] */
+		"Row height (in pixels)",
+		'DWRD',
+		/* [846] */
+		"Column width (in pixels)",
+		'DWRD',
+		/* [847] */
+		"Row inset",
+		'DWRD',
+		/* [848] */
+		"Column inset",
+		'DWRD',
+		/* [849] */
+		"Adorn rows",
+		'WBIT',
+		/* [850] */
+		"Adorn columns",
+		'WBIT',
+		/* [851] */
+		"Single selection",
+		'WBIT',
+		/* [852] */
+		"Reserved",
+		'WB13',
+		/* [853] */
+		"TTextGridViewData",
+		'DVDR',
+		/* [854] */
+		"Font style",
+		'UBYT',
+		/* [855] */
+		"Plain=0",
+		'CASE',
+		/* [856] */
+		"Bold=1",
+		'CASE',
+		/* [857] */
+		"Italic=2",
+		'CASE',
+		/* [858] */
+		"Underline=4",
+		'CASE',
+		/* [859] */
+		"Outline=8",
+		'CASE',
+		/* [860] */
+		"Shadow=16",
+		'CASE',
+		/* [861] */
+		"Condensed=32",
+		'CASE',
+		/* [862] */
+		"Extended=64",
+		'CASE',
+		/* [863] */
+		"Filler",
+		'FBYT',
+		/* [864] */
+		"Font size",
+		'DWRD',
+		/* [865] */
+		"SystemFont=0",
+		'CASE',
+		/* [866] */
+		"Small applFont=9",
+		'CASE',
+		/* [867] */
+		"Large applFont=12",
+		'CASE',
+		/* [868] */
+		"Font color",
+		'COLR',
+		/* [869] */
+		"Font name",
+		'ESTR',
+		/* [870] */
+		"",
+		'KEYE',
+		/* [871] */
+		"lstg",
+		'KEYB',
+		/* [872] */
+		"Class name",
+		'ESTR',
+		/* [873] */
+		"Usual=TTextListView",
+		'CASE',
+		/* [874] */
+		"TGridViewData",
+		'DVDR',
+		/* [875] */
+		"Number of rows",
+		'DWRD',
+		/* [876] */
+		"Number of columns",
+		'DWRD',
+		/* [877] */
+		"Row height (in pixels)",
+		'DWRD',
+		/* [878] */
+		"Column width (in pixels)",
+		'DWRD',
+		/* [879] */
+		"Row inset",
+		'DWRD',
+		/* [880] */
+		"Column inset",
+		'DWRD',
+		/* [881] */
+		"Adorn rows",
+		'WBIT',
+		/* [882] */
+		"Adorn columns",
+		'WBIT',
+		/* [883] */
+		"Single selection",
+		'WBIT',
+		/* [884] */
+		"Reserved",
+		'WB13',
+		/* [885] */
+		"TTextGridViewData",
+		'DVDR',
+		/* [886] */
+		"Font style",
+		'UBYT',
+		/* [887] */
+		"Plain=0",
+		'CASE',
+		/* [888] */
+		"Bold=1",
+		'CASE',
+		/* [889] */
+		"Italic=2",
+		'CASE',
+		/* [890] */
+		"Underline=4",
+		'CASE',
+		/* [891] */
+		"Outline=8",
+		'CASE',
+		/* [892] */
+		"Shadow=16",
+		'CASE',
+		/* [893] */
+		"Condensed=32",
+		'CASE',
+		/* [894] */
+		"Extended=64",
+		'CASE',
+		/* [895] */
+		"Filler",
+		'FBYT',
+		/* [896] */
+		"Font size",
+		'DWRD',
+		/* [897] */
+		"SystemFont=0",
+		'CASE',
+		/* [898] */
+		"Small applFont=9",
+		'CASE',
+		/* [899] */
+		"Large applFont=12",
+		'CASE',
+		/* [900] */
+		"Font color",
+		'COLR',
+		/* [901] */
+		"Font name",
+		'ESTR',
+		/* [902] */
+		"",
+		'KEYE',
+		/* [903] */
+		"othr",
+		'KEYB',
+		/* [904] */
+		"Class name",
+		'ESTR',
+		/* [905] */
+		"Offset to end of unknown view data",
+		'SKIP',
+		/* [906] */
+		"Signature of unknown view",
+		'TNAM',
+		/* [907] */
+		"",
+		'SKPE',
+		/* [908] */
+		"",
+		'KEYE',
+		/* [909] */
+		"*****",
+		'LSTE'
+	}
+};
+
+resource 'TMPL' (1363, "wctb", protected) {
 	{	/* array: 20 elements */
 		/* [1] */
 		"Window color seed",
@@ -41181,7 +44262,7 @@ resource 'TMPL' (1357, "wctb", protected) {
 	}
 };
 
-resource 'TMPL' (1358, "WIND", protected) {
+resource 'TMPL' (1364, "WIND", protected) {
 	{	/* array: 27 elements */
 		/* [1] */
 		"BoundsRect",
@@ -41267,7 +44348,7 @@ resource 'TMPL' (1358, "WIND", protected) {
 	}
 };
 
-resource 'TMPL' (1359, "wstr", protected) {
+resource 'TMPL' (1365, "wstr", protected) {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Query",
@@ -41275,7 +44356,7 @@ resource 'TMPL' (1359, "wstr", protected) {
 	}
 };
 
-resource 'TMPL' (1360, "xdtl", protected) {
+resource 'TMPL' (1366, "xdtl", protected) {
 	{	/* array: 63 elements */
 		/* [1] */
 		"Count:",
@@ -41469,7 +44550,7 @@ resource 'TMPL' (1360, "xdtl", protected) {
 	}
 };
 
-resource 'TMPL' (1361, "xmnu", protected) {
+resource 'TMPL' (1367, "xmnu", protected) {
 	{	/* array: 33 elements */
 		/* [1] */
 		"Version",
@@ -41573,7 +44654,7 @@ resource 'TMPL' (1361, "xmnu", protected) {
 	}
 };
 
-resource 'TMPL' (1363, "xMNU", protected) {
+resource 'TMPL' (1368, "xMNU", protected) {
 	{	/* array: 23 elements */
 		/* [1] */
 		"Menu title",
@@ -41647,7 +44728,7 @@ resource 'TMPL' (1363, "xMNU", protected) {
 	}
 };
 
-resource 'TMPL' (1364, "ZOOM", protected) {
+resource 'TMPL' (1369, "ZOOM", protected) {
 	{	/* array: 21 elements */
 		/* [1] */
 		"Doing zooming rectangles?",
@@ -41715,7 +44796,7 @@ resource 'TMPL' (1364, "ZOOM", protected) {
 	}
 };
 
-resource 'TMPL' (1365, "Â§DTD", protected) {
+resource 'TMPL' (1370, "¤DTD") {
 	{	/* array: 30 elements */
 		/* [1] */
 		"Version (should be 1 as of 980622)",
@@ -41812,7 +44893,7 @@ resource 'TMPL' (1365, "Â§DTD", protected) {
 	}
 };
 
-resource 'TMPL' (1366, "ÂµVal", protected) {
+resource 'TMPL' (1371, "µVal") {
 	{	/* array: 14 elements */
 		/* [1] */
 		"\"AfterDark\" resource format",
