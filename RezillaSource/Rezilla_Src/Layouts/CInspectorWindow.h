@@ -51,6 +51,8 @@ public:
 	
 	void			ClearValues();
 
+	void			SetValueForAttribute(short inFlag, Boolean inState);
+	
 	SResourceObjInfoPtr		GetSavedInfo() { return &mSavedInfo;}
 	void					SetSavedInfo(SResourceObjInfoPtr inRezInfoPtr);
 

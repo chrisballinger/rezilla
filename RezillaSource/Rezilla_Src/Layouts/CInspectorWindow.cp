@@ -397,6 +397,41 @@ CInspectorWindow::InstallValues()
 
 
 // ---------------------------------------------------------------------------
+//	¥ SetValueForAttribute											[public]
+// ---------------------------------------------------------------------------
+
+void
+CInspectorWindow::SetValueForAttribute(short inFlag, Boolean inState)
+{
+	LCheckBox * theCheckBox;
+	
+	switch (inFlag) {
+		case resSysHeap:
+		theCheckBox = mSysHeapItem;
+		break;
+		
+		case resPurgeable:
+		theCheckBox = mPurgeableItem;
+		break;
+		
+		case resLocked:
+		theCheckBox = mLockedItem;
+		break;
+		
+		case resProtected:
+		theCheckBox = mProtectedItem;
+		break;
+		
+		case resPreload:
+		theCheckBox = mPreloadItem;
+		break;
+		
+	}
+	theCheckBox->SetValue(inState);
+}
+
+
+// ---------------------------------------------------------------------------
 //	¥ SaveValues											[protected]
 // ---------------------------------------------------------------------------
 
