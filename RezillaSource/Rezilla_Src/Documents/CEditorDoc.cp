@@ -2,7 +2,7 @@
 // CEditorDoc.cp
 // 
 //                       Created: 2003-05-04 19:16:00
-//             Last modification: 2004-11-15 18:11:49
+//             Last modification: 2004-11-22 09:10:58
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -19,12 +19,15 @@ PP_Begin_Namespace_PowerPlant
 	#include PowerPlant_PCH
 #endif
 
+#include "CRezillaApp.h"
+#include "CInspectorWindow.h"
 #include "CEditorDoc.h"
 #include "CEditorWindow.h"
 #include "CRezFile.h"
 #include "CRezMapDoc.h"
 #include "CRezMapTable.h"
 #include "CRezObj.h"
+#include "CRezObjItem.h"
 #include "RezillaConstants.h"
 #include "UMessageDialogs.h"
 #include "UMiscUtils.h"
@@ -222,6 +225,13 @@ CEditorDoc::CanSaveChanges()
 		answer = UMessageDialogs::AskYesNoFromLocalizable(CFSTR("AskRemoveProtectedBit"), rPPob_AskYesNoMessage);
 		if (answer == answer_Do) {
 			mRezObj->ToggleOneAttribute(resProtected);
+			// Update the Inspector if it contains info about this RezObj
+			if (CRezillaApp::sInspectorWindow != nil &&
+				CRezillaApp::sInspectorWindow->GetRezObjItem() != nil &&
+				CRezillaApp::sInspectorWindow->GetRezObjItem()->GetRezObj() == mRezObj
+			) {
+				CRezillaApp::sInspectorWindow->SetValueForAttribute(resProtected, false);
+			} 
 		} else if (answer == answer_Cancel) {
 			canSave = false;
 		} 
