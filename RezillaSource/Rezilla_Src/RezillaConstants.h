@@ -410,11 +410,13 @@ const SInt16	kRzilDragFlavor		= FOUR_CHAR_CODE('Rzil');
 // Constants for the Rezmap tables
 const SInt16	kRzilColWidth				= 100;
 // Constants for the Rez Compare results window
+const SInt16	kRzilHexCompLineCount		= 12;
 const SInt16	kRzilHexCompCharsPerLine	= 48;
+const SInt16	kRzilHexCompCharsPerPane	= kRzilHexCompLineCount * kRzilHexCompCharsPerLine;
 // Constants for the Rez Hex editor
 const SInt16	kRzilHexEditLineCount		= 32;
 const SInt16	kRzilHexEditCharsPerLine	= 16;
-const SInt16	kRzilHexEditCharsPerPane	= 512;
+const SInt16	kRzilHexEditCharsPerPane	= kRzilHexEditLineCount * kRzilHexEditCharsPerLine;
 // Max number of items in the Recent Items menu
 const SInt16	kRzilMaxRecentItems	= 10;
 
