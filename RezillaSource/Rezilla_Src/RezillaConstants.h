@@ -203,10 +203,10 @@ enum {
 // -----------
 // The indices of the aete editor's MultiPanels views
 enum {
-	mpv_AeteEvents = 1,
-	mpv_AeteClasses,
-	mpv_AeteCompOps,
-	mpv_AeteEnums
+	mpv_AeteEvent = 1,
+	mpv_AeteClass,
+	mpv_AeteCompOp,
+	mpv_AeteEnum
 };
 
 // Terminology objects
@@ -318,6 +318,8 @@ const ResIDT	STRx_RegionCodes			= 1602;
 const ResIDT	STRx_ScriptCodes			= 1603;
 const ResIDT	STRx_PaintUndo				= 1700;
 const ResIDT	STRx_PaintRedo				= 1701;
+const ResIDT	STRx_AeteAdd				= 1710;
+const ResIDT	STRx_AeteRemove				= 1711;
 
 // Text traits resources
 const ResIDT    Txtr_GenevaNine				= 130;
@@ -757,6 +759,7 @@ const PaneIDT   item_AeteSuiteID			= 7;
 const PaneIDT   item_AeteSuiteLevel			= 8;
 const PaneIDT   item_AeteSuiteVersion		= 9;
 const PaneIDT   item_AeteSuitePopup			= FOUR_CHAR_CODE('SUIT');
+const PaneIDT   item_AeteSuiteBox			= FOUR_CHAR_CODE('SUIB');
 const PaneIDT   item_AetePanelController	= FOUR_CHAR_CODE('ACTL');
 const PaneIDT   item_AeteMultiPanelView		= FOUR_CHAR_CODE('AMPV');
 const PaneIDT   item_AeteItemSlider			= FOUR_CHAR_CODE('SLID');
@@ -777,6 +780,9 @@ const PaneIDT   item_AeteOtherKeyword		= 32;
 const PaneIDT   item_AeteOtherType			= 33;
 const PaneIDT   item_AeteOtherOptions		= 34;
 const PaneIDT   item_AeteOtherDescr			= 35;
+// const PaneIDT   item_AeteDirectBox			= FOUR_CHAR_CODE('DRCT');
+// const PaneIDT   item_AeteReplyBox			= FOUR_CHAR_CODE('REPL');
+const PaneIDT   item_AeteOtherBox			= FOUR_CHAR_CODE('OTHR');
 const PaneIDT   item_AeteOtherSlider		= FOUR_CHAR_CODE('OSLI');
 const PaneIDT   item_AeteOtherIndicator		= FOUR_CHAR_CODE('OIDC');
 //    Classes panel
@@ -790,6 +796,8 @@ const PaneIDT   item_AetePropertyOptions	= 14;
 const PaneIDT   item_AetePropertyDescr		= 15;
 const PaneIDT   item_AeteElementID			= 22;
 const PaneIDT   item_AeteKeyFormsTable		= 24;
+const PaneIDT   item_AetePropertyBox		= FOUR_CHAR_CODE('PROP');
+const PaneIDT   item_AeteElementBox			= FOUR_CHAR_CODE('ELEM');
 const PaneIDT   item_AetePropertySlider		= FOUR_CHAR_CODE('PSLI');
 const PaneIDT   item_AetePropertyIndicator	= FOUR_CHAR_CODE('PIDC');
 const PaneIDT   item_AeteElementSlider		= FOUR_CHAR_CODE('ESLI');
@@ -798,11 +806,13 @@ const PaneIDT   item_AeteElementIndicator	= FOUR_CHAR_CODE('EIDC');
 const PaneIDT   item_AeteCompName			= 1;
 const PaneIDT   item_AeteCompID				= 2;
 const PaneIDT   item_AeteCompDescr			= 3;
+// const PaneIDT   item_AeteCompOpBox			= FOUR_CHAR_CODE('CMPO');
 //    Enums panel
 const PaneIDT   item_AeteEnumerationID		= 1;
 const PaneIDT   item_AeteEnumName			= 2;
 const PaneIDT   item_AeteEnumType			= 3;
 const PaneIDT   item_AeteEnumDescr			= 4;
+const PaneIDT   item_AeteEnumBox			= FOUR_CHAR_CODE('ENUM');
 const PaneIDT   item_AeteEnumSlider			= FOUR_CHAR_CODE('NSLI');
 const PaneIDT   item_AeteEnumIndicator		= FOUR_CHAR_CODE('NIDC');
 
