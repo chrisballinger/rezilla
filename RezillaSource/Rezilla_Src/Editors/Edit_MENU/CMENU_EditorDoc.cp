@@ -118,7 +118,9 @@ CMENU_EditorDoc::Initialize()
 
 				// Look for a 'xmnu' resource with same ID 
 				error = theRezMap->GetWithID(ResType_ExtendedMenu, mRezObj->GetID(), xmnuData, false);
-				
+				if (xmnuData != nil) {
+					::HandToHand(&xmnuData);
+				} 			
 				error = mMenuEditWindow->InstallMenuData(rezData, xmnuData);			
 			} 
 		} 
