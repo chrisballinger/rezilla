@@ -46,7 +46,11 @@
 #include <LArray.h>
 
 #include <ControlDefinitions.h>
-// #include <LMenuController.h>
+
+#ifdef RZIL_PantherOrGreater
+#include <CFDateFormatter.h>
+#endif
+
 
 #include <stdio.h>
 #include <string.h>
@@ -1037,7 +1041,9 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 	long	theLong;
 	Boolean	theBool = 0;
 	OSType	theOSType;
-	SInt8	i;
+	
+	theString[0] = 0;
+	numStr[0] = 0;
 		
 	switch (inType) {
 		case 'ALNG':
@@ -1136,6 +1142,17 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		mYCoord += kTmplLabelHeight + kTmplVertSkip;
 		AddWasteField(inType, inContainer);
  		break;
+
+		case 'DATE':
+		// Date/Time
+		if (mRezStream->GetMarker() < mRezStream->GetLength() - 3) {
+			*mRezStream >> theSInt32;
+		} 
+		UMiscUtils::BuildDateString(theSInt32, theString);
+		AddStaticField(inType, inLabelString, inContainer);
+		AddEditField(theString, inType, 255, 0, 
+					 UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar), inContainer);
+		break;
 
 		case 'DBYT':
 		// Signed decimal byte
@@ -2943,9 +2960,9 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 	UInt8	theUInt8 = 0;
 	UInt16	theUInt16 = 0, bitCount = 0, bytesLen = 0;;
 	UInt32	theUInt32 = 0;
+	SInt8	i;
 	OSType	theOSType;
 	ResType	theType;
-	SInt8	i;	
 	LRadioGroupView *	theRGV;
 	LStaticText	*		theStaticText;
 	LEditText *			theEditText;
@@ -3069,6 +3086,15 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		mCurrentID++;
 		break;
 
+		case 'DATE':
+		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
+		theEditText->GetDescriptor(numStr);	
+		if ( ! UMiscUtils::ParseDateString(numStr, &theUInt32)) {
+			error = err_TmplParseDateFailed;
+		} 
+		*mOutStream << theUInt32;
+		break;
+		
 		case 'DBYT':
 		// Decimal byte
 		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
