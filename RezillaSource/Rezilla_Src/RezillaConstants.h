@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2004-02-25 15:57:30
+//             Last modification : 2004-03-02 16:51:47
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -87,6 +87,7 @@ const ResIDT	rPPob_HexEditWindow			= 3000;
 const ResIDT	rPPob_AboutWindow			= 5000;
 const ResIDT	rPPob_LicenceWindow			= 5100;
 const ResIDT	rPPob_RezCompDialog			= 6000;
+const ResIDT	rPPob_RezCompWindow			= 6500;
 const ResIDT	rPPob_FindDialog			= 8500;
 const ResIDT	rPPob_SimpleMessage			= 9500;
 const ResIDT	rPPob_AskIfMessage			= 9510;
@@ -98,8 +99,8 @@ const ResIDT	rRidL_HexEditWindow			= rPPob_HexEditWindow;
 const ResIDT	rRidL_AboutWindow			= rPPob_AboutWindow;
 const ResIDT	rRidL_FindDialog			= rPPob_FindDialog;
 const ResIDT	rRidL_RezCompDialog			= rPPob_RezCompDialog;
+const ResIDT	rRidL_RezCompWindow			= rPPob_RezCompWindow;
 
-const ResIDT	STRx_DefaultScriptTitle		= 1500;
 
 const ResIDT	STRx_RzilErrorStrings		= 1000;
 const ResIDT	STRx_PrefsCtrlList			= 1004;
@@ -128,6 +129,8 @@ const SInt16	index_RezMapUntitled		= 1;
 const SInt16	index_RezMapUntitledX		= 2;
 const SInt16	index_HexEditUntitled		= 3;
 const SInt16	index_HexEditUntitledX		= 4;
+const SInt16	index_CompWinUntitled		= 5;
+const SInt16	index_CompWinUntitledX		= 6;
 // Indices of STR# 1501: windows menu items
 const SInt16	index_WinMenuInspector		= 1;
 const SInt16	index_WinMenuTypeInspector	= 2;
@@ -240,6 +243,18 @@ const PaneIDT	item_RezCompSetNew			= 3;
 const PaneIDT	item_RezCompEditNew			= 4;
 const PaneIDT	item_RezCompIgnoreNames		= 5;
 const PaneIDT	item_RezCompIgnoreAttrs		= 6;
+const PaneIDT	item_RezCompIgnoreData		= 7;
+// Rez Compare Results Window
+// --------------------------
+const PaneIDT	item_CompResultScroller		= 1;
+const PaneIDT	item_CompResultOldStatic	= 2;
+const PaneIDT	item_CompResultNewStatic	= 3;
+const PaneIDT	item_CompResultOldHex		= 4;
+const PaneIDT	item_CompResultNewHex		= 5;
+const PaneIDT	item_CompResultStatus		= 6;
+const PaneIDT	item_CompResultOnlyOldTbl	= 11;
+const PaneIDT	item_CompResultDifferingTbl	= 13;
+const PaneIDT	item_CompResultOnlyNewTbl	= 15;
 
 
 // Navigation dialogs custom items
@@ -311,6 +326,13 @@ const MessageT	msg_RezCompSetOld		= rPPob_RezCompDialog + item_RezCompSetOld;
 const MessageT	msg_RezCompSetNew		= rPPob_RezCompDialog + item_RezCompSetNew;
 const MessageT	msg_RezCompIgnoreNames	= rPPob_RezCompDialog + item_RezCompIgnoreNames;
 const MessageT	msg_RezCompIgnoreAttrs	= rPPob_RezCompDialog + item_RezCompIgnoreAttrs;
+const MessageT	msg_RezCompIgnoreData	= rPPob_RezCompDialog + item_RezCompIgnoreData;
+// Rez Compare Results Window
+// --------------------------
+const MessageT	msg_CompResultScroller		= rPPob_RezCompWindow + item_CompResultScroller;
+const MessageT	msg_CompResultOnlyOldTbl	= rPPob_RezCompWindow + item_CompResultOnlyOldTbl;
+const MessageT	msg_CompResultDifferingTbl	= rPPob_RezCompWindow + item_CompResultDifferingTbl;
+const MessageT	msg_CompResultOnlyNewTbl	= rPPob_RezCompWindow + item_CompResultOnlyNewTbl;
 
 // -----------------------------------------------------------------------
 // -----------------------------------------------------------------------
