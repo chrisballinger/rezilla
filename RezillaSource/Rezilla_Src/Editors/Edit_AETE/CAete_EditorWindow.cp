@@ -571,7 +571,7 @@ CAete_EditorWindow::ObeyCommand(
 					UpdateSlider(item_AeteKeyFormSlider, count, count);
 				} else {
 					count = theElement->DeleteKeyForm();
-					InstallElementValues(theElement);
+					UpdateSlider(item_AeteKeyFormSlider, -1, count);
 				}
 				SetDirty(true);
 				break;
