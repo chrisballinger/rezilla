@@ -2,7 +2,7 @@
 // CAete.cp
 // 
 //                       Created: 2005-01-21 07:27:26
-//             Last modification: 2005-01-21 07:45:11
+//             Last modification: 2005-01-30 21:00:58
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -15,6 +15,7 @@
 #include "CAete.h"
 #include "CAeteStream.h"
 #include "CAeteSuite.h"
+#include "RezillaConstants.h"
 
 
 // ---------------------------------------------------------------------------
@@ -205,6 +206,5 @@ CAete::AdjustSuiteIndex()
 		mSuiteIndex = mSuites.GetCount();
 	} 
 }
-
 
 

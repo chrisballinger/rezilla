@@ -2,7 +2,7 @@
 // CAeteSuite.cp
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-25 09:14:17
+//             Last modification: 2005-01-30 21:01:25
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>

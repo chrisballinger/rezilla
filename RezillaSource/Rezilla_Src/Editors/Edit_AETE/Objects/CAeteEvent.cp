@@ -2,7 +2,7 @@
 // CAeteEvent.cp
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-23 10:27:08
+//             Last modification: 2005-01-30 21:00:18
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -15,6 +15,7 @@
 #include "CAeteEvent.h"
 #include "CAeteStream.h"
 #include "CAeteParameter.h"
+#include "RezillaConstants.h"
 
 
 // ---------------------------------------------------------------------------
@@ -257,4 +258,5 @@ CAeteEvent::SetValues( Str255 inName, Str255 inDescription,
 	mDirectType = inDirectType;
 	mDirectFlags = inDirectFlags;
 }
+
 

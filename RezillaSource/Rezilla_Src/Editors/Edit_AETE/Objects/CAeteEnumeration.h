@@ -2,7 +2,7 @@
 // CAeteEnumeration.h
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-26 06:53:36
+//             Last modification: 2005-01-30 20:57:18
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -23,7 +23,7 @@ struct AeteEnumerator {
 };
 
 class CAeteStream;
-	
+
 class CAeteEnumeration {
 
 public:

@@ -2,7 +2,7 @@
 // CAete_EditorDoc.cp
 // 
 //                       Created: 2004-07-01 08:42:37
-//             Last modification: 2005-01-23 10:30:35
+//             Last modification: 2005-01-30 21:02:05
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -12,7 +12,6 @@
 // $Revision$
 // ===========================================================================
 
-
 #ifdef PowerPlant_PCH
 	#include PowerPlant_PCH
 #endif
@@ -21,12 +20,16 @@
 #include "RezillaConstants.h"
 #include "CAete_EditorDoc.h"
 #include "CAete_EditorWindow.h"
+#include "CTextFileStream.h"
+#include "CRezillaPrefs.h"
 #include "CAeteSuite.h"
 #include "CAeteStream.h"
 #include "CRezObj.h"
 #include "CWindowMenu.h"
 #include "UMessageDialogs.h"
 #include "UAeteTranslator.h"
+#include "UNavigationDialogs.h"
+#include "NavServicesCallbacks.h"
 
 #include <PP_Messages.h>
 
@@ -55,7 +58,13 @@
 PP_Begin_Namespace_PowerPlant
 
 extern CWindowMenu * gWindowMenu;
-
+extern const Str15 Rzil_AeteExportItems[] = {
+	"\pXML",
+	"\pDeRez"
+};
+// "\pSdef",
+// "\pHTML",
+// "\pTEXT",
 
 
 // ---------------------------------------------------------------------------
@@ -219,6 +228,37 @@ CAete_EditorDoc::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------
+//	¥ ObeyCommand							[public, virtual]
+// ---------------------------------------------------------------------------
+
+Boolean
+CAete_EditorDoc::ObeyCommand(
+	CommandT	inCommand,
+	void*		ioParam)
+{
+	Boolean		cmdHandled = true;
+	if (inCommand == cmd_AeteExport) {
+		FSSpec	theFSSpec;
+		SInt16	exportFormat;
+		Boolean	replacing;
+
+		if ( DesignateExportFile(theFSSpec, replacing, exportFormat) ) {
+			if (replacing) {
+				// Delete existing file
+				ThrowIfOSErr_(::FSpDelete(&theFSSpec));
+			}
+
+			DoExport(theFSSpec, exportFormat);
+		}		
+	} else {
+		cmdHandled = CEditorDoc::ObeyCommand(inCommand, ioParam);
+	}
+	
+	return cmdHandled;
+}
+	
+
+// ---------------------------------------------------------------------------
 //  GetModifiedResource										[protected]
 // ---------------------------------------------------------------------------
 // The returned handle should be released by the caller.
@@ -236,6 +276,120 @@ CAete_EditorDoc::GetModifiedResource(Boolean &releaseIt)
 	
 	return mOutStream->GetDataHandle();
 }
+
+
+// ---------------------------------------------------------------------------
+//	¥ DesignateExportFile								[public static]
+// ---------------------------------------------------------------------------
+
+Boolean
+CAete_EditorDoc::DesignateExportFile( FSSpec & outFileSpec, Boolean & outReplacing, SInt16 & outExportFormat)
+{
+	bool	openOK = false;
+	Str255	theString;
+	UInt8	theCount = sizeof(Rzil_AeteExportItems)/sizeof(Str15);
+
+	outExportFormat = export_Xml;
+	
+	// Build the forks popup
+	NavMenuItemSpecHandle	theMenuItemHandle ;
+	NavMenuItemSpecPtr		theNavMenuItemSpecPtr;
+	
+	theMenuItemHandle = (NavMenuItemSpec**) NewHandleClear( theCount * sizeof(NavMenuItemSpec) );
+	if (theMenuItemHandle != NULL) {
+		for (SInt16 theIndex = 0; theIndex < theCount; theIndex++) {
+			theNavMenuItemSpecPtr = *theMenuItemHandle + theIndex;
+			(*theNavMenuItemSpecPtr).version = kNavMenuItemSpecVersion;
+			(*theNavMenuItemSpecPtr).menuCreator = FOUR_CHAR_CODE('Rzil');
+			(*theNavMenuItemSpecPtr).menuType = 'TEXT';
+			BlockMoveData(Rzil_AeteExportItems[theIndex], (*theNavMenuItemSpecPtr).menuItemName, Rzil_AeteExportItems[theIndex][0] + 1);
+		}
+	}
+
+	// Deactivate the desktop.
+	::UDesktop::Deactivate();
+	
+	// Browse for a document
+	UNavigationDialogs::CNavFileDesignator designator;
+	
+	// File designator setup
+	designator.SetEventFilterProc(Rzil_ExportAeteEventFilterUPP);
+	designator.SetPopupExtension(theMenuItemHandle);
+	designator.SetOptionFlags(kNavDontAutoTranslate);
+	designator.SetUserData( (void *) &outExportFormat);
+
+	// Retrieve strings from STR# resource
+	GetIndString(theString, STRx_NavStrings, index_RezillaAppName);
+	designator.SetClientName(theString);
+	GetIndString(theString, STRx_NavStrings, index_ExportMapAs);
+	designator.SetMessage(theString);
+	// Build a default name from the name of the map
+	designator.SetSavedFileName("\pAete.xml");
+	
+	openOK = designator.AskDesignateFile();
+
+	if (openOK) {
+		designator.GetFileSpec(outFileSpec);
+		outReplacing = designator.IsReplacing();
+	}
+
+	// Activate the desktop.
+	::UDesktop::Activate();
+
+	return openOK;
+}
+
+
+// ---------------------------------------------------------------------------------
+//  DoExport
+// ---------------------------------------------------------------------------------
+
+void
+CAete_EditorDoc::DoExport(FSSpec & inFileSpec, SInt16 inFormat)
+{
+	CAeteStream * theStream = new CAeteStream();
+	if (theStream != nil) {
+		mAeteEditWindow->GetAete()->SendDataToStream(theStream);	
+
+		StAeteExporter exporter(theStream, inFileSpec, inFormat);
+		
+		exporter.WriteOut();
+		delete theStream;
+	} 	
+}
+
+
+// // ---------------------------------------------------------------------------------
+// //  DoExport
+// // ---------------------------------------------------------------------------------
+// 
+// void
+// CAete_EditorDoc::DoExport(FSSpec & inFileSpec, SInt16 inFormat)
+// {
+// 	// Make a new file object
+// 	CTextFileStream *	fileStream = new CTextFileStream( inFileSpec );
+// 
+// 	if (fileStream != nil) {
+// 		// Get the proper file type.
+// 		OSType	theFileType = 'TEXT';
+// 		
+// 		// Make new file on disk (we use TextEdit's creator).
+// 		fileStream->CreateNewDataFile( (OSType) CRezillaPrefs::GetPrefValue(kPref_export_editorSig), theFileType );
+// 		
+// 		// Open the data fork for writing
+// 		fileStream->OpenDataFork( fsWrPerm );
+// 		
+// 		// Export the data
+// 		mAeteEditWindow->GetAete()->ExportData(fileStream, inFormat);
+// 		
+// 		// Close the data fork.
+// 		fileStream->CloseDataFork();
+// 		
+// 		// Free memory which we don't need anymore
+// 		delete fileStream;
+// 	}	
+// 
+// }
 
 
 

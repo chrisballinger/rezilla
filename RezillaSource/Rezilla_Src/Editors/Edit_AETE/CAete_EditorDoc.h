@@ -2,7 +2,7 @@
 // CAete_EditorDoc.h
 // 
 //                       Created: 2004-07-01 08:42:37
-//             Last modification: 2005-01-27 07:56:08
+//             Last modification: 2005-01-30 13:02:04
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -27,7 +27,7 @@ PP_Begin_Namespace_PowerPlant
 
 class CAete_EditorWindow;
 class CAeteStream;
-
+class CTextFileStream;
 
 class CAete_EditorDoc : public CEditorDoc {
 public:
@@ -43,11 +43,17 @@ public:
 									Boolean &outEnabled, Boolean &outUsesMark,
 									UInt16 &outMark, Str255 outName );
 
+	virtual Boolean			ObeyCommand(
+									CommandT	inCommand,
+									void*		ioParam);
+
 	virtual Boolean			AllowSubRemoval( LCommander* inSub );
 
 	virtual Boolean			IsModified();
 	
-// 	SInt16					AskSaveChanges(bool	inQuitting);
+	static Boolean			DesignateExportFile(FSSpec& outFileSpec, 
+												Boolean & outReplacing, 
+												SInt16 & outExportFormat);
 
 	virtual StringPtr		GetDescriptor( Str255 outDescriptor ) const;
 
@@ -62,6 +68,12 @@ protected:
 private:
 
 	void				Initialize();
+	void				DoExport(FSSpec	&inFileSpec, SInt16 inFormat);
+	/* 
+	 * void                WriteOutExport(CTextFileStream * inFileStream, SInt16 inExportFormat);
+	 */
+	
+
 };
 
 

@@ -2,7 +2,7 @@
 // CAeteClass.cp
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-23 10:27:20
+//             Last modification: 2005-01-30 21:01:39
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -16,6 +16,7 @@
 #include "CAeteStream.h"
 #include "CAeteProperty.h"
 #include "CAeteElement.h"
+#include "RezillaConstants.h"
 
 
 // ---------------------------------------------------------------------------
@@ -286,4 +287,5 @@ CAeteClass::SetValues(Str255 inName, OSType inID, Str255 inDescription)
 	LString::CopyPStr(inDescription, mDescription);
 	mID = inID;
 }
+
 

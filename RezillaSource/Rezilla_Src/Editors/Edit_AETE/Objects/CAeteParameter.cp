@@ -2,7 +2,7 @@
 // CAeteParameter.cp
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-23 10:26:52
+//             Last modification: 2005-01-30 20:59:51
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -14,6 +14,7 @@
 
 #include "CAeteParameter.h"
 #include "CAeteStream.h"
+#include "RezillaConstants.h"
 
 #include <LString.h>
 
@@ -131,4 +132,5 @@ CAeteParameter::SetValues(Str255 inName, OSType inKeyword, OSType inType,
 	mType = inType;
 	mFlags = inFlags;
 }
+
 

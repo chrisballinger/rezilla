@@ -2,7 +2,7 @@
 // CAeteProperty.cp
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-23 10:28:34
+//             Last modification: 2005-01-30 21:00:03
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -14,6 +14,7 @@
 
 #include "CAeteProperty.h"
 #include "CAeteStream.h"
+#include "RezillaConstants.h"
 
 
 // ---------------------------------------------------------------------------
@@ -130,4 +131,5 @@ CAeteProperty::SetValues(Str255 inName, OSType inID, OSType inType,
 	mType = inType;
 	mFlags = inFlags;
 }
+
 

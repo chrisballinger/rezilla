@@ -2,7 +2,7 @@
 // CAeteElement.h
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-22 10:45:37
+//             Last modification: 2005-01-30 20:56:53
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>

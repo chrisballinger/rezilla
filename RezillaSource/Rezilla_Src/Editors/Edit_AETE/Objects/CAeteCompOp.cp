@@ -2,7 +2,7 @@
 // CAeteCompOp.cp
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-23 10:27:32
+//             Last modification: 2005-01-30 21:00:31
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -14,6 +14,7 @@
 
 #include "CAeteCompOp.h"
 #include "CAeteStream.h"
+#include "RezillaConstants.h"
 
 
 // ---------------------------------------------------------------------------
@@ -115,4 +116,5 @@ CAeteCompOp::SetValues(Str255 inName, OSType inType, Str255 inDescription)
 	LString::CopyPStr(inDescription, mDescription);
 	mType = inType;
 }
+
 

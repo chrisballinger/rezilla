@@ -2,7 +2,7 @@
 // CAeteParameter.h
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-22 10:48:47
+//             Last modification: 2005-01-30 20:57:29
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>

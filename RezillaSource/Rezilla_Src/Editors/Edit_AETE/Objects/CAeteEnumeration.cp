@@ -2,7 +2,7 @@
 // CAeteEnumeration.cp
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-26 06:55:45
+//             Last modification: 2005-01-30 21:01:11
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -14,6 +14,7 @@
 
 #include "CAeteEnumeration.h"
 #include "CAeteStream.h"
+#include "RezillaConstants.h"
 
 
 // ---------------------------------------------------------------------------
