@@ -2,7 +2,7 @@
 // CAeteClass.h
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-31 08:58:32
+//             Last modification: 2005-02-19 15:09:00
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -15,6 +15,8 @@
 #ifndef _H_CAeteClass
 #define _H_CAeteClass
 #pragma once
+
+#include <CFXMLNode.h>
 
 class CAeteStream;
 class CAeteProperty;
@@ -38,11 +40,13 @@ public:
 								OSType	inType, 
 								Str255	inDescription, 
 								UInt16	inFlags);
+		void		AddProperty(CFXMLTreeRef inTreeNode);
 		void		RemoveProperty( ArrayIndexT inAtIndex );
 
 		void		AddElement();
 		void		AddElement( CAeteElement * inElement );
 		void		AddElement( OSType inKeyForms[], UInt16 inCount = 1 );
+		void		AddElement(CFXMLTreeRef inTreeNode);
 		void		RemoveElement( ArrayIndexT inAtIndex );
 
 		SInt32		NewProperty();
@@ -54,6 +58,8 @@ public:
 		void		InstallDataStream(CAeteStream * inStream);
 		void		SendDataToStream(CAeteStream * outStream);
 
+		OSErr		GetDataFromXml(CFXMLTreeRef inTreeNode);
+		
 		void		GetValues(Str255 outName, OSType & outID, Str255 outDescription);
 		
 		void 		SetValues(Str255 inName, OSType inID, Str255 inDescription);

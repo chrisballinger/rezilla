@@ -2,7 +2,7 @@
 // CAeteEvent.cp
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-02-04 06:06:07
+//             Last modification: 2005-02-19 16:46:30
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -16,6 +16,7 @@
 #include "CAeteStream.h"
 #include "CAeteParameter.h"
 #include "RezillaConstants.h"
+#include "UMiscUtils.h"
 
 
 // ---------------------------------------------------------------------------
@@ -120,6 +121,19 @@ CAeteEvent::AddParameter(Str255	inName,
 {
 	mParameters.AddItem( new CAeteParameter( inName, inKeyword, inType,
 											inDescription, inFlags) );
+}
+
+
+// ---------------------------------------------------------------------------
+//  AddParameter												[public]
+// ---------------------------------------------------------------------------
+
+void
+CAeteEvent::AddParameter(CFXMLTreeRef inTreeNode)
+{
+	CAeteParameter * theParameter = new CAeteParameter();
+	mParameters.AddItem(theParameter);
+	theParameter->GetDataFromXml(inTreeNode);
 }
 
 
@@ -288,4 +302,61 @@ CAeteEvent::DeleteParameter()
 	return CountParameters();
 }
  
+
+// ---------------------------------------------------------------------------
+//  GetDataFromXml												[public]
+// ---------------------------------------------------------------------------
+
+OSErr
+CAeteEvent::GetDataFromXml(CFXMLTreeRef inTreeNode)
+{
+	OSErr			error = noErr;
+	int             childCount, subCount;
+	CFXMLTreeRef    xmlTree, subTree;
+	CFXMLNodeRef    xmlNode, subNode;
+	int             index, subIndex;
+	SInt32			theLong;
+	
+	childCount = CFTreeGetChildCount(inTreeNode);
+	for (index = 0; index < childCount; index++) {
+		xmlTree = CFTreeGetChildAtIndex(inTreeNode, index);
+		xmlNode = CFXMLTreeGetNode(xmlTree);
+
+		if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("EventName"), 0) ) {
+			UMiscUtils::GetStringFromXml(xmlTree, mName);
+		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("EventDescription"), 0) ) {
+			UMiscUtils::GetStringFromXml(xmlTree, mDescription);
+		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("EventClass"), 0) ) {
+			UMiscUtils::GetOSTypeFromXml(xmlTree, mClass);
+		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("EventID"), 0) ) {
+			UMiscUtils::GetOSTypeFromXml(xmlTree, mID);
+		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ReplyType"), 0) ) {
+			UMiscUtils::GetOSTypeFromXml(xmlTree, mReplyType);
+		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ReplyDescription"), 0) ) {
+			UMiscUtils::GetStringFromXml(xmlTree, mReplyDescription);
+		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ReplyFlags"), 0) ) {
+			UMiscUtils::GetValueFromXml(xmlTree, theLong);
+			mReplyFlags = theLong;
+		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("DirectParamType"), 0) ) {
+			UMiscUtils::GetOSTypeFromXml(xmlTree, mDirectType);
+		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("DirectParamDescription"), 0) ) {
+			UMiscUtils::GetStringFromXml(xmlTree, mDirectDescription);
+		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("DirectFlags"), 0) ) {
+			UMiscUtils::GetValueFromXml(xmlTree, theLong);
+			mDirectFlags = theLong;
+		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ArrayOtherParams"), 0) ) {
+			subCount = CFTreeGetChildCount(xmlTree);
+			for (subIndex = 0; subIndex < subCount; subIndex++) {
+				subTree = CFTreeGetChildAtIndex(xmlTree, subIndex);
+				subNode = CFXMLTreeGetNode(subTree);
+				if ( ! CFStringCompare( CFXMLNodeGetString(subNode), CFSTR("Parameter"), 0) ) {
+					AddParameter(subTree);
+				}
+			}
+		}
+	}
+	
+	return error;
+}
+
 

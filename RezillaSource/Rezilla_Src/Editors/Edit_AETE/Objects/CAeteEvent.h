@@ -2,7 +2,7 @@
 // CAeteEvent.h
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-30 20:56:17
+//             Last modification: 2005-02-19 15:09:10
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -15,6 +15,8 @@
 #ifndef _H_CAeteEvent
 #define _H_CAeteEvent
 #pragma once
+
+#include <CFXMLNode.h>
 
 class CAeteStream;
 class CAeteParameter;
@@ -44,6 +46,7 @@ public:
 								OSType	inType, 
 								Str255	inDescription, 
 								UInt16	inFlags);
+		void	AddParameter(CFXMLTreeRef inTreeNode);
 		void	RemoveParameter( ArrayIndexT inAtIndex );
 		
 		SInt32		NewParameter();
@@ -52,6 +55,8 @@ public:
 		void	InstallDataStream(CAeteStream * inStream);
 		void	SendDataToStream(CAeteStream * outStream);
 
+		OSErr		GetDataFromXml(CFXMLTreeRef inTreeNode);
+		
 		void	GetValues(
 					   Str255 & outName, Str255 outDescription,
 					   OSType & outClass, OSType & outID,

@@ -17,6 +17,7 @@
 #include "CAeteProperty.h"
 #include "CAeteElement.h"
 #include "RezillaConstants.h"
+#include "UMiscUtils.h"
 
 
 // ---------------------------------------------------------------------------
@@ -118,6 +119,19 @@ CAeteClass::AddProperty(Str255	inName,
 
 
 // ---------------------------------------------------------------------------
+//  AddProperty												[public]
+// ---------------------------------------------------------------------------
+
+void
+CAeteClass::AddProperty(CFXMLTreeRef inTreeNode)
+{
+	CAeteProperty * theProperty = new CAeteProperty();
+	mProperties.AddItem(theProperty);
+	theProperty->GetDataFromXml(inTreeNode);
+}
+
+
+// ---------------------------------------------------------------------------
 //  RemoveProperty												[public]
 // ---------------------------------------------------------------------------
 
@@ -169,6 +183,19 @@ CAeteClass::AddElement( OSType inKeyForms[], UInt16 inCount )
 	for (i = 0 ; i < inCount; i++) {
 		theElement->AddKeyForm( inKeyForms[i] );
 	}	
+}
+
+
+// ---------------------------------------------------------------------------
+//  AddElement												[public]
+// ---------------------------------------------------------------------------
+
+void
+CAeteClass::AddElement(CFXMLTreeRef inTreeNode)
+{
+	CAeteElement * theElement = new CAeteElement();
+	mElements.AddItem(theElement);
+	theElement->GetDataFromXml(inTreeNode);
 }
 
 
@@ -346,4 +373,53 @@ CAeteClass::DeleteElement()
 	return CountElements();
 }
  
+
+// ---------------------------------------------------------------------------
+//  GetDataFromXml												[public]
+// ---------------------------------------------------------------------------
+
+OSErr
+CAeteClass::GetDataFromXml(CFXMLTreeRef inTreeNode)
+{
+	OSErr			error = noErr;
+	int             childCount, subCount;
+	CFXMLTreeRef    xmlTree, subTree;
+	CFXMLNodeRef    xmlNode, subNode;
+	int             index, subIndex;
+	
+	childCount = CFTreeGetChildCount(inTreeNode);
+	for (index = 0; index < childCount; index++) {
+		xmlTree = CFTreeGetChildAtIndex(inTreeNode, index);
+		xmlNode = CFXMLTreeGetNode(xmlTree);
+
+		if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ClassName"), 0) ) {
+			UMiscUtils::GetStringFromXml(xmlTree, mName);
+		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ClassID"), 0) ) {
+			UMiscUtils::GetOSTypeFromXml(xmlTree, mID);
+		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ClassDescription"), 0) ) {
+			UMiscUtils::GetStringFromXml(xmlTree, mDescription);
+		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ArrayProperties"), 0) ) {
+			subCount = CFTreeGetChildCount(xmlTree);
+			for (subIndex = 0; subIndex < subCount; subIndex++) {
+				subTree = CFTreeGetChildAtIndex(xmlTree, subIndex);
+				subNode = CFXMLTreeGetNode(subTree);
+				if ( ! CFStringCompare( CFXMLNodeGetString(subNode), CFSTR("Property"), 0) ) {
+					AddProperty(subTree);
+				}
+			}
+		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ArrayElements"), 0) ) {
+			subCount = CFTreeGetChildCount(xmlTree);
+			for (subIndex = 0; subIndex < subCount; subIndex++) {
+				subTree = CFTreeGetChildAtIndex(xmlTree, subIndex);
+				subNode = CFXMLTreeGetNode(subTree);
+				if ( ! CFStringCompare( CFXMLNodeGetString(subNode), CFSTR("Element"), 0) ) {
+					AddElement(subTree);
+				}
+			}
+		}
+	}
+	
+	return error;
+}
+
 

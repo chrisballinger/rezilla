@@ -2,7 +2,7 @@
 // CAeteProperty.cp
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-30 21:00:03
+//             Last modification: 2005-02-19 17:05:34
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -15,6 +15,7 @@
 #include "CAeteProperty.h"
 #include "CAeteStream.h"
 #include "RezillaConstants.h"
+#include "UMiscUtils.h"
 
 
 // ---------------------------------------------------------------------------
@@ -130,6 +131,43 @@ CAeteProperty::SetValues(Str255 inName, OSType inID, OSType inType,
 	mID = inID;
 	mType = inType;
 	mFlags = inFlags;
+}
+
+
+// ---------------------------------------------------------------------------
+//  GetDataFromXml												[public]
+// ---------------------------------------------------------------------------
+
+OSErr
+CAeteProperty::GetDataFromXml(CFXMLTreeRef inTreeNode)
+{
+	OSErr			error = noErr;
+	int             childCount;
+	CFXMLTreeRef    xmlTree;
+	CFXMLNodeRef    xmlNode;
+	int             index;
+	SInt32			theLong;
+	
+	childCount = CFTreeGetChildCount(inTreeNode);
+	for (index = 0; index < childCount; index++) {
+		xmlTree = CFTreeGetChildAtIndex(inTreeNode, index);
+		xmlNode = CFXMLTreeGetNode(xmlTree);
+
+		if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("PropertyName"), 0) ) {
+			UMiscUtils::GetStringFromXml(xmlTree, mName);
+		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("PropertyID"), 0) ) {
+			UMiscUtils::GetOSTypeFromXml(xmlTree, mID);
+		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("PropertyClass"), 0) ) {
+			UMiscUtils::GetOSTypeFromXml(xmlTree, mType);
+		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("PropertyDescription"), 0) ) {
+			UMiscUtils::GetStringFromXml(xmlTree, mDescription);
+		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("PropertyFlags"), 0) ) {
+			UMiscUtils::GetValueFromXml(xmlTree, theLong);
+			mFlags = theLong;
+		} 
+	}
+	
+	return error;
 }
 
 

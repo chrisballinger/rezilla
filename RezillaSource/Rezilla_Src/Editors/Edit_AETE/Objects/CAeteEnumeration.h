@@ -2,7 +2,7 @@
 // CAeteEnumeration.h
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-31 08:00:43
+//             Last modification: 2005-02-19 15:09:19
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -15,6 +15,8 @@
 #ifndef _H_CAeteEnumeration
 #define _H_CAeteEnumeration
 #pragma once
+
+#include <CFXMLNode.h>
 
 struct AeteEnumerator {
 	Str255	name;
@@ -36,11 +38,14 @@ public:
 
 		ArrayIndexT		AddEnumerator();
 		ArrayIndexT		AddEnumerator(Str255 inName, OSType inType, Str255 inDescription);
+		ArrayIndexT		AddEnumerator(CFXMLTreeRef inTreeNode);
 		void			RemoveEnumerator( ArrayIndexT inAtIndex );
 
 		SInt32			NewEnumerator();
 		SInt32			DeleteEnumerator();
 
+		OSErr			GetDataFromXml(CFXMLTreeRef inTreeNode);
+		
 		OSType			GetEnumerationID() { return mEnumerationID;}
 		void			SetEnumerationID(OSType inEnumerationID) {mEnumerationID = inEnumerationID;}
 

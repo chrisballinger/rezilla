@@ -2,7 +2,7 @@
 // CAeteParameter.cp
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-30 20:59:51
+//             Last modification: 2005-02-19 17:02:01
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -15,6 +15,7 @@
 #include "CAeteParameter.h"
 #include "CAeteStream.h"
 #include "RezillaConstants.h"
+#include "UMiscUtils.h"
 
 #include <LString.h>
 
@@ -131,6 +132,43 @@ CAeteParameter::SetValues(Str255 inName, OSType inKeyword, OSType inType,
 	mKeyword = inKeyword;
 	mType = inType;
 	mFlags = inFlags;
+}
+
+
+// ---------------------------------------------------------------------------
+//  GetDataFromXml												[public]
+// ---------------------------------------------------------------------------
+
+OSErr
+CAeteParameter::GetDataFromXml(CFXMLTreeRef inTreeNode)
+{
+	OSErr			error = noErr;
+	int             childCount;
+	CFXMLTreeRef    xmlTree;
+	CFXMLNodeRef    xmlNode;
+	int             index;
+	SInt32			theLong;
+	
+	childCount = CFTreeGetChildCount(inTreeNode);
+	for (index = 0; index < childCount; index++) {
+		xmlTree = CFTreeGetChildAtIndex(inTreeNode, index);
+		xmlNode = CFXMLTreeGetNode(xmlTree);
+
+		if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ParameterName"), 0) ) {
+			UMiscUtils::GetStringFromXml(xmlTree, mName);
+		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ParameterID"), 0) ) {
+			UMiscUtils::GetOSTypeFromXml(xmlTree, mKeyword);
+		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ParameterType"), 0) ) {
+			UMiscUtils::GetOSTypeFromXml(xmlTree, mType);
+		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ParameterDescription"), 0) ) {
+			UMiscUtils::GetStringFromXml(xmlTree, mDescription);
+		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ParameterFlags"), 0) ) {
+			UMiscUtils::GetValueFromXml(xmlTree, theLong);
+			mFlags = theLong;
+		} 
+	}
+	
+	return error;
 }
 
 

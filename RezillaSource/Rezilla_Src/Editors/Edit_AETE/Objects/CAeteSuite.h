@@ -2,7 +2,7 @@
 // CAeteSuite.h
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-31 07:36:54
+//             Last modification: 2005-02-19 16:29:25
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -15,6 +15,8 @@
 #ifndef _H_CAeteSuite
 #define _H_CAeteSuite
 #pragma once
+
+#include <CFXMLNode.h>
 
 class CAeteStream;
 class CAeteEvent;
@@ -49,6 +51,7 @@ public:
 						   OSType	inDirectType,
 						   Str255	inDirectDescription,
 						   UInt16	inDirectFlags);
+		void		AddEvent(CFXMLTreeRef inTreeNode);
 		void		RemoveEvent( ArrayIndexT inAtIndex );
 		
 		void		AddClass();
@@ -56,6 +59,7 @@ public:
 		void		AddClass(Str255	inName,
 							OSType	inID,
 							Str255	inDescription);
+		void		AddClass(CFXMLTreeRef inTreeNode);
 		void		RemoveClass( ArrayIndexT inAtIndex );
 		
 		void		AddCompOp();
@@ -63,11 +67,13 @@ public:
 		void		AddCompOp(Str255 inName, 
 							 OSType inType, 
 							 Str255 inDescription);
+		void		AddCompOp(CFXMLTreeRef inTreeNode);
 		void		RemoveCompOp( ArrayIndexT inAtIndex );
 		
 		void		AddEnumeration();
 		void		AddEnumeration(CAeteEnumeration * inEnum);
 		void		AddEnumeration(OSType inID);
+		void		AddEnumeration(CFXMLTreeRef inTreeNode);
 		void		RemoveEnumeration( ArrayIndexT inAtIndex );
 
 		SInt32		NewItem(SInt8 inKind);
@@ -76,6 +82,8 @@ public:
 		void		InstallDataStream(CAeteStream * inStream);
 		void		SendDataToStream(CAeteStream * outStream);
 
+		OSErr		GetDataFromXml(CFXMLTreeRef inTreeNode);
+		
 		StringPtr	GetName( Str255	outName ) const;
 	
 		void		GetValues(Str255 outName, Str255 outDescription, OSType & outID, 

@@ -98,6 +98,19 @@ CAete::AddSuite(Str255	inName,
 
 
 // ---------------------------------------------------------------------------
+//  AddSuite												[public]
+// ---------------------------------------------------------------------------
+
+void
+CAete::AddSuite(CFXMLTreeRef inTreeNode)
+{
+	CAeteSuite * theSuite = new CAeteSuite();
+	mSuites.AddItem(theSuite);
+	theSuite->GetDataFromXml(inTreeNode);
+}
+
+
+// ---------------------------------------------------------------------------
 //  RemoveSuite														[public]
 // ---------------------------------------------------------------------------
 
@@ -217,10 +230,10 @@ OSErr
 CAete::GetDataFromXml(CFXMLTreeRef inTreeNode)
 {
 	OSErr			error = noErr;
-	int             childCount, subCount, suiteCount;
-	CFXMLTreeRef    xmlTree;
-	CFXMLNodeRef    xmlNode;
-	int             index;
+	int             childCount, subCount;
+	CFXMLTreeRef    xmlTree, subTree;
+	CFXMLNodeRef    xmlNode, subNode;
+	int             index, subIndex;
 	SInt32			theLong;
 	
 	childCount = CFTreeGetChildCount(inTreeNode);
@@ -241,7 +254,14 @@ CAete::GetDataFromXml(CFXMLTreeRef inTreeNode)
 			UMiscUtils::GetValueFromXml(xmlTree, theLong);
 			mScript = theLong;
 		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ArraySuites"), 0) ) {
-			suiteCount = CFTreeGetChildCount(xmlTree);
+			subCount = CFTreeGetChildCount(xmlTree);
+			for (subIndex = 0; subIndex < subCount; subIndex++) {
+				subTree = CFTreeGetChildAtIndex(xmlTree, subIndex);
+				subNode = CFXMLTreeGetNode(subTree);
+				if ( ! CFStringCompare( CFXMLNodeGetString(subNode), CFSTR("Suite"), 0) ) {
+					AddSuite(subTree);
+				}
+			}
 		} 
 	}
 	

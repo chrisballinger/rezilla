@@ -2,7 +2,7 @@
 // CAeteCompOp.h
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-30 20:56:43
+//             Last modification: 2005-02-19 15:09:28
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -15,6 +15,8 @@
 #ifndef _H_CAeteCompOp
 #define _H_CAeteCompOp
 #pragma once
+
+#include <CFXMLNode.h>
 
 class CAeteStream;
 
@@ -31,6 +33,8 @@ public:
 		void		InstallDataStream(CAeteStream * inStream);
 		void		SendDataToStream(CAeteStream * outStream);
 
+		OSErr		GetDataFromXml(CFXMLTreeRef inTreeNode);
+		
 		void		GetValues(Str255 outName, OSType & outType, Str255 outDescription);
 		
 		void 		SetValues(Str255 inName, OSType inType, Str255 inDescription);

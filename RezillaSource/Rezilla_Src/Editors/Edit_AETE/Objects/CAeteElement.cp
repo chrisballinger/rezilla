@@ -2,7 +2,7 @@
 // CAeteElement.cp
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-02-04 06:06:00
+//             Last modification: 2005-02-19 17:25:12
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -15,6 +15,7 @@
 #include "CAeteElement.h"
 #include "CAeteStream.h"
 #include "RezillaConstants.h"
+#include "UMiscUtils.h"
 
 
 // ---------------------------------------------------------------------------
@@ -55,6 +56,21 @@ ArrayIndexT
 CAeteElement::AddKeyForm( OSType inKey )
 {
 	return ( mKeyForms.AddItem(inKey) );
+}
+
+
+// ---------------------------------------------------------------------------
+//  AddKeyForm														[public]
+// ---------------------------------------------------------------------------
+
+ArrayIndexT
+CAeteElement::AddKeyForm(CFXMLTreeRef inTreeNode)
+{
+	OSType	theKey = 0;
+	
+	UMiscUtils::GetOSTypeFromXml(inTreeNode, theKey);
+
+	return ( mKeyForms.AddItem(theKey) );
 }
 
 
@@ -167,4 +183,41 @@ CAeteElement::SetCurrentKeyForm(OSType inKeyForm)
 {
 	mKeyForms.AssignItemsAt(1, mKeyFormIndex, inKeyForm);
 }
+
+
+// ---------------------------------------------------------------------------
+//  GetDataFromXml												[public]
+// ---------------------------------------------------------------------------
+
+OSErr
+CAeteElement::GetDataFromXml(CFXMLTreeRef inTreeNode)
+{
+	OSErr			error = noErr;
+	int             childCount, subCount;
+	CFXMLTreeRef    xmlTree, subTree;
+	CFXMLNodeRef    xmlNode, subNode;
+	int             index, subIndex;
+	
+	childCount = CFTreeGetChildCount(inTreeNode);
+	for (index = 0; index < childCount; index++) {
+		xmlTree = CFTreeGetChildAtIndex(inTreeNode, index);
+		xmlNode = CFXMLTreeGetNode(xmlTree);
+
+		if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ElementID"), 0) ) {
+			UMiscUtils::GetOSTypeFromXml(xmlTree, mID);
+		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ArrayKeyForms"), 0) ) {
+			subCount = CFTreeGetChildCount(xmlTree);
+			for (subIndex = 0; subIndex < subCount; subIndex++) {
+				subTree = CFTreeGetChildAtIndex(xmlTree, subIndex);
+				subNode = CFXMLTreeGetNode(subTree);
+				if ( ! CFStringCompare( CFXMLNodeGetString(subNode), CFSTR("KeyFormID"), 0) ) {
+					AddKeyForm(subTree);
+				}
+			}
+		}
+	}
+	
+	return error;
+}
+
 

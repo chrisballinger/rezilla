@@ -2,7 +2,7 @@
 // CAeteEnumeration.cp
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-02-07 08:05:27
+//             Last modification: 2005-02-19 17:16:15
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -15,6 +15,7 @@
 #include "CAeteEnumeration.h"
 #include "CAeteStream.h"
 #include "RezillaConstants.h"
+#include "UMiscUtils.h"
 
 
 // ---------------------------------------------------------------------------
@@ -76,6 +77,37 @@ CAeteEnumeration::AddEnumerator(Str255 inName, OSType inType, Str255 inDescripti
 	numerator.type = inType;
 	LString::CopyPStr(inName, numerator.name);
 	LString::CopyPStr(inDescription, numerator.description);
+	
+	return ( mEnumerators.AddItem(numerator) );
+}
+
+
+// ---------------------------------------------------------------------------
+//  AddEnumerator												[public]
+// ---------------------------------------------------------------------------
+
+ArrayIndexT
+CAeteEnumeration::AddEnumerator(CFXMLTreeRef inTreeNode)
+{
+	AeteEnumerator	numerator;
+	int             childCount;
+	CFXMLTreeRef    xmlTree;
+	CFXMLNodeRef    xmlNode;
+	int             index;
+	
+	childCount = CFTreeGetChildCount(inTreeNode);
+	for (index = 0; index < childCount; index++) {
+		xmlTree = CFTreeGetChildAtIndex(inTreeNode, index);
+		xmlNode = CFXMLTreeGetNode(xmlTree);
+
+		if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("EnumeratorName"), 0) ) {
+			UMiscUtils::GetStringFromXml(xmlTree, numerator.name);
+		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("EnumeratorID"), 0) ) {
+			UMiscUtils::GetOSTypeFromXml(xmlTree, numerator.type);
+		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("EnumeratorDescription"), 0) ) {
+			UMiscUtils::GetStringFromXml(xmlTree, numerator.description);
+		}
+	}
 	
 	return ( mEnumerators.AddItem(numerator) );
 }
@@ -206,5 +238,41 @@ CAeteEnumeration::DeleteEnumerator()
 	return CountEnumerators();
 }
  
+
+// ---------------------------------------------------------------------------
+//  GetDataFromXml												[public]
+// ---------------------------------------------------------------------------
+
+OSErr
+CAeteEnumeration::GetDataFromXml(CFXMLTreeRef inTreeNode)
+{
+	OSErr			error = noErr;
+	int             childCount, subCount;
+	CFXMLTreeRef    xmlTree, subTree;
+	CFXMLNodeRef    xmlNode, subNode;
+	int             index, subIndex;
+	
+	childCount = CFTreeGetChildCount(inTreeNode);
+	for (index = 0; index < childCount; index++) {
+		xmlTree = CFTreeGetChildAtIndex(inTreeNode, index);
+		xmlNode = CFXMLTreeGetNode(xmlTree);
+
+		if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("EnumerationID"), 0) ) {
+			UMiscUtils::GetOSTypeFromXml(xmlTree, mEnumerationID);
+		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ArrayEnumerators"), 0) ) {
+			subCount = CFTreeGetChildCount(xmlTree);
+			for (subIndex = 0; subIndex < subCount; subIndex++) {
+				subTree = CFTreeGetChildAtIndex(xmlTree, subIndex);
+				subNode = CFXMLTreeGetNode(subTree);
+				if ( ! CFStringCompare( CFXMLNodeGetString(subNode), CFSTR("Enumerator"), 0) ) {
+					AddEnumerator(subTree);
+				}
+			}
+		} 
+	}
+	
+	return error;
+}
+
 
 

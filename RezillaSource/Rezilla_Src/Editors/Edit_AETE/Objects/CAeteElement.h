@@ -2,7 +2,7 @@
 // CAeteElement.h
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-02-03 09:25:41
+//             Last modification: 2005-02-19 16:56:24
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -15,6 +15,8 @@
 #ifndef _H_CAeteElement
 #define _H_CAeteElement
 #pragma once
+
+#include <CFXMLNode.h>
 
 class CAeteStream;
 
@@ -29,11 +31,14 @@ public:
 		void		SendDataToStream(CAeteStream *	outStream);
 
 		ArrayIndexT	AddKeyForm( OSType inKey = 0);
+		ArrayIndexT	AddKeyForm(CFXMLTreeRef inTreeNode);
 		void		RemoveKeyForm( ArrayIndexT inAtIndex );
 		
 		SInt32		NewKeyForm();
 		SInt32		DeleteKeyForm();
 
+		OSErr		GetDataFromXml(CFXMLTreeRef inTreeNode);
+		
 		Boolean		GetCurrentKeyForm(OSType & outKeyForm);
 		void		SetCurrentKeyForm(OSType inKeyForm);
 		
