@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2004-06-22 16:42:44
+//             Last modification : 2004-07-02 21:59:42
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -105,6 +105,15 @@ enum {
 	count_BytesPerPane
 };
 
+// Kind of editor
+enum
+{	
+	editor_kindGui,
+	editor_kindTmpl,
+	editor_kindHex
+};
+
+
 
 // Resource ID's
 // =============
@@ -138,12 +147,14 @@ const ResIDT	rPPob_AskYesNoMessage		= 9520;
 const ResIDT	rPPob_AskUniqueID			= 9550;
 const ResIDT	rPPob_TmplEditorWindow		= 10100;
 const ResIDT	rPPob_TextEditorWindow		= 10200;
+const ResIDT	rPPob_AeteEditorWindow		= 10300;
 const ResIDT	rRidL_RezMapWindow			= rPPob_RezMapWindow;
 const ResIDT	rRidL_InspectorWindow		= rPPob_InspectorWindow;
 const ResIDT	rRidL_NewRezDialog			= rPPob_NewRezDialog;
 const ResIDT	rRidL_HexEditorWindow		= rPPob_HexEditorWindow;
 const ResIDT	rRidL_TmplEditorWindow		= rPPob_TmplEditorWindow;
 const ResIDT	rRidL_TextEditorWindow		= rPPob_TextEditorWindow;
+const ResIDT	rRidL_AeteEditorWindow		= rPPob_AeteEditorWindow;
 const ResIDT	rRidL_AboutWindow			= rPPob_AboutWindow;
 const ResIDT	rRidL_FindDialog			= rPPob_FindDialog;
 const ResIDT	rRidL_RezCompDialog			= rPPob_RezCompDialog;
@@ -178,6 +189,7 @@ const ResIDT	Txtr_UrlHyperlink			= 146;
 const ResIDT	rMENU_Window				= 1300;  
 const ResIDT	rMENU_Help					= 2000;
 const ResIDT	rMENU_RecentItems			= 140;  
+const ResIDT	rMENU_TemplateCases			= 150;  
 // Values the PP menu cmds are based on
 const ResIDT	baseMENU_File				= 1000;
 const ResIDT	baseMENU_Edit				= 1100;
@@ -197,6 +209,10 @@ const SInt16	index_CompWinUntitled		= 5;
 const SInt16	index_CompWinUntitledX		= 6;
 const SInt16	index_TmplEditUntitled		= 7;
 const SInt16	index_TmplEditUntitledX		= 8;
+const SInt16	index_TEXTEditUntitled		= 9;
+const SInt16	index_TEXTEditUntitledX		= 10;
+const SInt16	index_AeteEditUntitled		= 11;
+const SInt16	index_AeteEditUntitledX		= 12;
 // Indices of STR# 1501: windows menu items
 const SInt16	index_WinMenuInspector		= 1;
 const SInt16	index_WinMenuTypeInspector	= 2;
@@ -352,8 +368,8 @@ const PaneIDT	item_UidOtherConflicts		= 1;
 const PaneIDT   item_PrefsOkButton			= 1;
 const PaneIDT   item_PrefsCancelButton		= 2;
 const PaneIDT   item_RevertPrefs			= 3;
-const PaneIDT   item_PrefsPageController	= FOUR_CHAR_CODE('PCTL') ;
-const PaneIDT   item_PrefsMultiPanelView	= FOUR_CHAR_CODE('PMPV') ;
+const PaneIDT   item_PrefsPageController	= FOUR_CHAR_CODE('PCTL');
+const PaneIDT   item_PrefsMultiPanelView	= FOUR_CHAR_CODE('PMPV');
 //     General Prefs Pane
 //     ------------------
 const PaneIDT	item_GenPrefsMaxRecent		= 2;
@@ -388,28 +404,38 @@ const PaneIDT	item_EditPrefsLabelWidth	= 2;
 const PaneIDT	item_EditPrefsHexSymRgbx	= 3;
 const PaneIDT	item_EditPrefsHexSym0x		= 4;
 const PaneIDT	item_EditPrefsHexSymDollar	= 5;
-// Common elements for Editor Windows
-// ----------------------------------
-const PaneIDT   item_EditorContents		= FOUR_CHAR_CODE('Cnts') ;
-const PaneIDT   item_EditorScroller		= FOUR_CHAR_CODE('Scrl') ;
-const PaneIDT   item_EditorValidate		= FOUR_CHAR_CODE('Vlid') ;
-const PaneIDT   item_EditorCancel		= FOUR_CHAR_CODE('Cncl') ;
-const PaneIDT   item_EditorRevert		= FOUR_CHAR_CODE('Rvrt') ;
 // Text Editor Window
 // ------------------
-const PaneIDT   item_TextEditFontMenu	= 1 ;
-const PaneIDT   item_TextEditSizeMenu	= 2 ;
-const PaneIDT   item_TextEditStyleMenu	= 3 ;
-const PaneIDT   item_TextEditLength		= 4 ;
+const PaneIDT   item_TextEditFontMenu	= 1;
+const PaneIDT   item_TextEditSizeMenu	= 2;
+const PaneIDT   item_TextEditStyleMenu	= 3;
+const PaneIDT   item_TextEditLength		= 4;
+// Aete Editor Window
+// ------------------
+const PaneIDT   item_AeteSuitesPopup		= 4;
+const PaneIDT   item_AeteMajorVersion		= 5;
+const PaneIDT   item_AeteMinorVersion		= 6;
+const PaneIDT   item_AeteLangID				= 7;
+const PaneIDT   item_AeteScriptCode			= 8;
+const PaneIDT   item_AeteListBoxesView		= 20;
+const PaneIDT   item_AeteCategories			= 21;
+const PaneIDT   item_AeteTermsScroller		= 22;
+const PaneIDT   item_AeteTermsTable			= 23;
 
-// The Lock icon
-// -------------
-const PaneIDT	item_ReadOnlyIcon		= FOUR_CHAR_CODE('Lock');
+
+// Common elements for Editor Windows
+// ----------------------------------
+const PaneIDT   item_EditorContents		= FOUR_CHAR_CODE('Cnts');
+const PaneIDT   item_EditorScroller		= FOUR_CHAR_CODE('Scrl');
+const PaneIDT   item_EditorValidate		= FOUR_CHAR_CODE('Vlid');
+const PaneIDT   item_EditorCancel		= FOUR_CHAR_CODE('Cncl');
+const PaneIDT   item_EditorRevert		= FOUR_CHAR_CODE('Rvrt');
 const PaneIDT	item_NameStaticText		= FOUR_CHAR_CODE('Name');
+const PaneIDT	item_ReadOnlyIcon		= FOUR_CHAR_CODE('Lock');
 
 // 'Other size' dialog
 // -------------------
-const PaneIDT   item_OtherSizeField			= 1 ;
+const PaneIDT   item_OtherSizeField			= 1;
 
 // Navigation dialogs custom items
 // -------------------------------
@@ -528,17 +554,28 @@ const MessageT	msg_TmplEditCancel			= msg_Cancel;
 const MessageT	msg_TmplEditRevert			= cmd_Revert;
 // Text Editor Window
 // ------------------
-const MessageT	msg_TextEditScroller	= FOUR_CHAR_CODE('Scrl') ;
-const MessageT	msg_TextEditContents	= FOUR_CHAR_CODE('Cnts') ;
-const MessageT	msg_TextEditFontMenu	= rPPob_TextEditorWindow + item_TextEditFontMenu;
-const MessageT	msg_TextEditSizeMenu	= rPPob_TextEditorWindow + item_TextEditSizeMenu;
-const MessageT	msg_TextEditStyleMenu	= rPPob_TextEditorWindow + item_TextEditStyleMenu;
+const MessageT	msg_TextEditScroller		= FOUR_CHAR_CODE('Scrl');
+const MessageT	msg_TextEditContents		= FOUR_CHAR_CODE('Cnts');
+const MessageT	msg_TextEditFontMenu		= rPPob_TextEditorWindow + item_TextEditFontMenu;
+const MessageT	msg_TextEditSizeMenu		= rPPob_TextEditorWindow + item_TextEditSizeMenu;
+const MessageT	msg_TextEditStyleMenu		= rPPob_TextEditorWindow + item_TextEditStyleMenu;
+// Aete Editor Window
+// ------------------
+const MessageT	msg_AeteSuitesPopup			= rPPob_AeteEditorWindow + item_AeteSuitesPopup;
+const MessageT	msg_AeteCategories			= rPPob_AeteEditorWindow + item_AeteCategories;
+const MessageT	msg_AeteTermsTable			= rPPob_AeteEditorWindow + item_AeteTermsTable;
 
-
+// Other general purpose messages
+// ------------------------------
 const MessageT	msg_Close					= 	FOUR_CHAR_CODE('Clos');
 const MessageT	msg_StylePrefsChanged		= 	FOUR_CHAR_CODE('StPC');
 const MessageT	msg_HexScroller				=	FOUR_CHAR_CODE('HScr');
 const MessageT	msg_DualViewEdited			= 	FOUR_CHAR_CODE('DuEd');
+const MessageT	msg_TmplMinusButton			= 	FOUR_CHAR_CODE('Mins');
+const MessageT	msg_TmplPlusButton			= 	FOUR_CHAR_CODE('Plus');
+const MessageT	msg_TmplCasePopup			= 	FOUR_CHAR_CODE('Case');
+
+
 
 // AE constants
 // ============
@@ -626,8 +663,13 @@ const ResType	ResType_DITL = FOUR_CHAR_CODE('DITL');
 const SInt16	kTmplLeftMargin			= 10;
 const SInt16	kTmplListIndent			= 15;
 const SInt16	kTmplVertSkip			= 4;
-const SInt16	kTmplVertSep			= 10;
+const SInt16	kTmplVertSep			= 8;
 const SInt16	kTmplHorizSep			= 10;
+const SInt16	kTmplHorizSkip			= 4;
+const SInt16	kTmplBevelHeight		= 18;
+const SInt16	kTmplBevelWidth			= 12;
+const SInt16	kTmplCheckHeight		= 18;
+const SInt16	kTmplCheckWidth			= 18;
 const SInt16	kTmplEditHeight			= 22;
 const SInt16	kTmplEditWidth			= 250;
 const SInt16	kTmplHexPaneWidth		= 288;
@@ -651,4 +693,5 @@ const SInt16	kTmplTxtPaneWidth		= 144;
 const SInt16	kTmplPushWidth			= 27;
 const SInt16	kTmplPushHeight			= 18;
 const SInt16	kTmplCountWidth			= 40;
+const SInt16	kTmplSeparatorHeight	= 3;
 
