@@ -2,7 +2,7 @@
 // CTmplEditorWindow.h
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-10-14 09:08:21
+//             Last modification: 2004-11-06 07:24:26
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -73,8 +73,7 @@ public:
 	
 	OSErr			RevertWithTemplate();
 	
-	Boolean			IsDirty();
-	void			SetDirty(Boolean inDirty) {mIsDirty = inDirty;}
+	virtual Boolean	IsDirty();
 		
 	void			InstallReadOnlyIcon();
 
@@ -130,7 +129,6 @@ protected:
 	SInt32				mListCountMark;
 	ResType				mCountType;
 	short				mListCount;
-	Boolean				mIsDirty;
 	Boolean				mFixedCount;
 	LHandleStream *		mTemplateStream;
 	LHandleStream *		mRezStream;

@@ -1,8 +1,8 @@
 // ===========================================================================
 // CTEXT_EditorView.cp
 // 
-//                       Created: 2004-06-19 13:23:32k
-//             Last modification: 2004-08-09 11:00:33
+//                       Created: 2004-06-19 13:23:32
+//             Last modification: 2004-11-06 08:22:28
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -169,13 +169,13 @@ CTEXT_EditorView::ObeyCommand(
 void
 CTEXT_EditorView::UserChangedText()
 {
-	if ( !IsDirty() ) {
+	if ( ! mOwnerWindow->IsDirty() ) {
 
 		// Set the update menus flag.
 		SetUpdateCommandStatus( true );
 		
 		// Set the dirty flag.
-		SetDirty( true );
+		mOwnerWindow->SetDirty( true );
 	}
 }
 

@@ -2,7 +2,7 @@
 // CEditorDoc.h				
 // 
 //                       Created: 2004-02-23 17:57:59
-//             Last modification: 2004-08-10 11:20:34
+//             Last modification: 2004-11-06 06:54:51
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -17,9 +17,9 @@
 #include <LWindow.h>
 #include "UResources.h"
 
-class	CRezMapTable;
-class	CRezObj;
-
+class CRezMapTable;
+class CRezObj;
+class CEditorWindow;
 
 class CEditorDoc : public LDocument, public LListener {
 public:
@@ -45,12 +45,12 @@ public:
 							MessageT		inMessage,
 							void*			ioParam);
 
-	virtual Boolean	IsModified();
-	
 	virtual Boolean	AllowSubRemoval( LCommander* inSub );
+
 	virtual SInt16	AskSaveChanges( bool inQuitting );
 
 	virtual void	AttemptClose( Boolean inRecordIt );
+	
 	virtual void	DoSaveChanges();
 	
 	void			SelectMainWindow();
@@ -68,13 +68,13 @@ public:
 	Boolean			IsReadOnly() { return mReadOnly;}
 	void			SetReadOnly(Boolean inReadOnlyDoc) {mReadOnly = inReadOnlyDoc;}
 
-	LWindow*		GetMainWindow() { return mMainWindow;}
-	void			SetMainWindow(LWindow* inMainWindow) {mMainWindow = inMainWindow;}
+	CEditorWindow*	GetMainWindow() { return mMainWindow;}
+	void			SetMainWindow(CEditorWindow* inMainWindow) {mMainWindow = inMainWindow;}
 
 protected:
 	CRezObj *				mRezObj;
 	CRezMapTable *			mRezMapTable;
-	LWindow *				mMainWindow;
+	CEditorWindow *			mMainWindow;
 	ResType					mSubstType;
 	Boolean					mReadOnly;
 	SInt16					mKind;

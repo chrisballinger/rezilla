@@ -1,8 +1,8 @@
 // ===========================================================================
 // CTEXT_EditorView.h
 // 
-//                       Created: 2004-06-19 13:23:32k
-//             Last modification: 2004-06-19 13:23:49
+//                       Created: 2004-06-19 13:23:32
+//             Last modification: 2004-11-06 08:22:42
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -52,8 +52,6 @@ public:
 									void*				ioParam);
 	
 	virtual void			UserChangedText();
-	Boolean					IsDirty() const {return mIsDirty;}
-	void					SetDirty( Boolean inDirty ) {mIsDirty = inDirty;}
 
 	CTEXT_EditorWindow*		GetOwnerWindow() { return mOwnerWindow;}
 	void					SetOwnerWindow(CTEXT_EditorWindow* inOwnerWindow) {mOwnerWindow = inOwnerWindow;}
@@ -62,7 +60,6 @@ public:
 
 protected:
 		CTEXT_EditorWindow *	mOwnerWindow;
-		Boolean					mIsDirty;
 
 	virtual void			ClickSelf(
 									const SMouseDownEvent&	inMouseDown);

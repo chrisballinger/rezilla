@@ -2,7 +2,7 @@
 // CTEXT_EditorWindow.cp					
 // 
 //                       Created: 2004-06-17 12:46:55
-//             Last modification: 2004-08-09 11:00:24
+//             Last modification: 2004-11-06 08:28:25
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -299,17 +299,6 @@ CTEXT_EditorWindow::InstallReadOnlyIcon()
 
 
 // ---------------------------------------------------------------------------
-//	¥ IsDirty														[public]
-// ---------------------------------------------------------------------------
-
-Boolean
-CTEXT_EditorWindow::IsDirty()
-{
-	return mContentsView->IsDirty();
-}
-
-
-// ---------------------------------------------------------------------------
 //	¥ InstallText													[public]
 // ---------------------------------------------------------------------------
 
@@ -317,9 +306,8 @@ void
 CTEXT_EditorWindow::InstallText(Handle inTextHandle, StScrpHandle inScrapHandle)
 {
 	StHandleLocker	lock(inTextHandle);
-// 	mContentsView->Insert(*inTextHandle, ::GetHandleSize(inTextHandle), inScrapHandle, true);
 	mContentsView->SetTextHandle(inTextHandle, inScrapHandle);
-	mContentsView->SetDirty(false);
+	SetDirty(false);
 }
 
 

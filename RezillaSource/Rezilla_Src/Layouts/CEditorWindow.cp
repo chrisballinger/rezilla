@@ -2,7 +2,7 @@
 // CEditorWindow.cp
 // 
 //                       Created: 2004-06-10 14:50:31
-//             Last modification: 2004-08-12 17:24:22
+//             Last modification: 2004-11-06 07:54:30
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -24,6 +24,7 @@
 
 CEditorWindow::CEditorWindow()
 {
+	mIsDirty = false;
 }
 
 
@@ -35,6 +36,7 @@ CEditorWindow::CEditorWindow(
 	const SWindowInfo &inWindowInfo )
 		: LWindow( inWindowInfo )
 {
+	mIsDirty = false;
 }
 
 
@@ -48,6 +50,7 @@ CEditorWindow::CEditorWindow(
 	LCommander	*inSuperCommander )
 		: LWindow( inWINDid, inAttributes, inSuperCommander )
 {
+	mIsDirty = false;
 }
 
 
@@ -59,6 +62,7 @@ CEditorWindow::CEditorWindow(
 			       LStream *inStream )
 		: LWindow( inStream )
 {
+	mIsDirty = false;
 }
 
 
@@ -217,7 +221,18 @@ CEditorWindow::InstallReadOnlyIcon()
 Boolean
 CEditorWindow::IsDirty()
 {
-	return false;
+	return mIsDirty;
 }
 
 
+// ---------------------------------------------------------------------------
+//	¥ SetDirty														[public]
+// ---------------------------------------------------------------------------
+
+void
+CEditorWindow::SetDirty(Boolean inDirty) 
+{
+	mIsDirty = inDirty;
+	mOwnerDoc->SetModified(inDirty);
+	::SetWindowModified(mMacWindowP, inDirty);	
+}

@@ -2,7 +2,7 @@
 // CTEXT_EditorDoc.cp
 // 
 //                       Created: 2004-06-17 12:46:55
-//             Last modification: 2004-07-01 18:12:45
+//             Last modification: 2004-11-06 08:24:49
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -105,7 +105,7 @@ CTEXT_EditorDoc::Initialize()
 	mTextEditWindow->SetSuperCommander(this);
 	mTextEditWindow->SetOwnerDoc(this);
 	mTextEditWindow->InstallReadOnlyIcon();
-	SetMainWindow( dynamic_cast<LWindow *>(mTextEditWindow) );
+	SetMainWindow( dynamic_cast<CEditorWindow *>(mTextEditWindow) );
 
 	NameNewEditorDoc();
 	
@@ -117,18 +117,14 @@ CTEXT_EditorDoc::Initialize()
 		Handle rezData = mRezObj->GetData();
 		
 		if (rezData != nil) {
-// 			StScrpHandle	theScrapHandle = NULL;
 			Handle			theScrapHandle = NULL;
 			StResource		initialStyleRes;
 			CRezMap *		theRezMap = mRezMapTable->GetRezMap();
 
 			// Look for a 'styl' resource with same ID
-// 			Boolean hasStyle = theRezMap->HasResourceWithTypeAndId( ResType_TextStyle, mRezObj->GetID()) ;
 			OSErr error = theRezMap->GetWithID(ResType_TextStyle, mRezObj->GetID(), theScrapHandle, false);
 			
 			if (error == noErr) {
-// 				initialStyleRes.GetResource(ResType_TextStyle, mRezObj->GetID(), false, true);
-// 				theScrapHandle = (StScrpHandle) initialStyleRes.mResourceH;
 				mTextEditWindow->SetHasStyleResource(true);
 			}
 			mTextEditWindow->InstallText(rezData, (StScrpHandle) theScrapHandle);			
@@ -140,46 +136,6 @@ CTEXT_EditorDoc::Initialize()
 	
 	// Make the window visible.
 	mTextEditWindow->Show();
-}
-
-
-// ---------------------------------------------------------------------------
-//	¥ ObeyCommand									[public, virtual]
-// ---------------------------------------------------------------------------
-
-Boolean
-CTEXT_EditorDoc::ObeyCommand(
-	CommandT	inCommand,
-	void*		ioParam)
-{
-	Boolean		cmdHandled = true;	// Assume we'll handle the command
-	
-	switch (inCommand) {
-		
-		case cmd_Close : 
-		AttemptClose(false);
-		break;
-				
-		default: {
-			cmdHandled = LDocument::ObeyCommand(inCommand, ioParam);
-			break;
-		}
-	}
-	
-	return cmdHandled;
-}
-
-
-// ---------------------------------------------------------------------------------
-//  ¥ IsModified
-// ---------------------------------------------------------------------------------
-
-Boolean
-CTEXT_EditorDoc::IsModified()
-{
-	// Document has changed if the text views are dirty
-	mIsModified = mTextEditWindow->IsDirty();
-	return mIsModified;
 }
 
 

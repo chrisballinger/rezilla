@@ -340,7 +340,6 @@ CRezMapDoc::ObeyCommand(
 		case cmd_RemoveRez:
 		case cmd_Clear:
 		case cmd_DuplicateRez: {
-			ResType theType;
 			LArray* theArray = new LArray( sizeof(LOutlineItem*) );
 			
 			mRezMapWindow->GetRezMapTable()->GetAllSelectedRezObjItems(theArray);
@@ -367,10 +366,8 @@ CRezMapDoc::ObeyCommand(
 		case cmd_TmplEditRez:
 		case cmd_HexEditRez:
 		case cmd_EditRezAsType: {
-			ResType theType, asType = 0;
-			short 	theID;
+			ResType asType = 0;
 			LArray* theArray = new LArray( sizeof(LOutlineItem*) );
-			CEditorDoc * theRezEditor;
 			int		countEdited = 0;
 			UInt32	countItems;
 			

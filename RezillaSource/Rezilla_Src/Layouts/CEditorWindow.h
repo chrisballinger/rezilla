@@ -2,7 +2,7 @@
 // CEditorWindow.h				
 // 
 //                       Created: 2004-06-10 14:44:33
-//             Last modification: 2004-08-12 17:24:16
+//             Last modification: 2004-11-06 07:24:32
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -50,8 +50,10 @@ public:
 
 // 	virtual SInt32	InstallContentsFromLine(SInt32 inFromLine);
 	
-	Boolean			IsDirty();
-	
+	virtual Boolean	IsDirty();
+
+	virtual void	SetDirty(Boolean inDirty);
+
 	void			InstallReadOnlyIcon();
 
 	virtual CEditorDoc*		GetOwnerDoc() { return mOwnerDoc;}
@@ -59,7 +61,8 @@ public:
 
 protected:
 	CEditorDoc *		mOwnerDoc;
-	
+	Boolean				mIsDirty;
+
 	virtual void		FinishCreateSelf();
 };
 

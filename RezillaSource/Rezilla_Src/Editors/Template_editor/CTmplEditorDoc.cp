@@ -99,7 +99,7 @@ CTmplEditorDoc::Initialize()
 	mTmplEditWindow->SetSuperCommander(this);
 	mTmplEditWindow->SetOwnerDoc(this);
 	mTmplEditWindow->InstallReadOnlyIcon();
-	SetMainWindow( dynamic_cast<LWindow *>(mTmplEditWindow) );
+	SetMainWindow( dynamic_cast<CEditorWindow *>(mTmplEditWindow) );
 
 	NameNewEditorDoc();
 	
@@ -133,33 +133,6 @@ CTmplEditorDoc::Initialize()
 	mTmplEditWindow->Show();
 	// Enable all the subpanes
 	mTmplEditWindow->GetContentsView()->Enable();
-}
-
-
-// ---------------------------------------------------------------------------
-//	¥ ObeyCommand									[public, virtual]
-// ---------------------------------------------------------------------------
-
-Boolean
-CTmplEditorDoc::ObeyCommand(
-	CommandT	inCommand,
-	void*		ioParam)
-{
-	Boolean		cmdHandled = true;	// Assume we'll handle the command
-	
-	switch (inCommand) {
-		
-		case cmd_Close : 
-		AttemptClose(false);
-		break;
-				
-		default: {
-			cmdHandled = LDocument::ObeyCommand(inCommand, ioParam);
-			break;
-		}
-	}
-	
-	return cmdHandled;
 }
 
 

@@ -2,7 +2,7 @@
 // CEditorDoc.cp
 // 
 //                       Created: 2003-05-04 19:16:00
-//             Last modification: 2004-08-10 11:20:58
+//             Last modification: 2004-11-06 06:55:11
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -20,6 +20,7 @@ PP_Begin_Namespace_PowerPlant
 #endif
 
 #include "CEditorDoc.h"
+#include "CEditorWindow.h"
 #include "CRezFile.h"
 #include "CRezMapDoc.h"
 #include "CRezMapTable.h"
@@ -194,18 +195,6 @@ CEditorDoc::ListenToMessage( MessageT inMessage, void *ioParam )
 }
 
 
-// ---------------------------------------------------------------------------------
-//  ¥ IsModified
-// ---------------------------------------------------------------------------------
-
-Boolean
-CEditorDoc::IsModified()
-{
-	mIsModified = false;
-	return mIsModified;
-}
-
-
 // ---------------------------------------------------------------------------
 //	¥ AllowSubRemoval												  [public]
 // ---------------------------------------------------------------------------
@@ -283,6 +272,11 @@ CEditorDoc::DoSaveChanges()
 
 		// Tell the rezmap doc that there has been a modification
 		mRezMapTable->GetOwnerDoc()->SetModified(true);
+		
+		// The editor window is not dirty anymore. This will also set 
+		// mModified to false.
+		mMainWindow->SetDirty(false);
+		
 		// Refresh the view
 		mRezObj->SetSize( ::GetHandleSize(theHandle) );
 		mRezMapTable->Refresh();
