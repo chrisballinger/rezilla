@@ -127,7 +127,7 @@ CMenuObject::RemoveItem( ArrayIndexT inAtIndex )
 			mItemIndex--;
 		} 
 		if (mItemIndex > theCount) {
-			mItemIndex == theCount;
+			mItemIndex = theCount;
 		} 
 	} 
 }
