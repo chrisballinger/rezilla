@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2005-01-06 07:40:03
+//             Last modification : 2005-01-08 11:47:15
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -1017,7 +1017,7 @@ const UInt32	kRezFileType		= FOUR_CHAR_CODE('rsrc');
 // Preferences identifier
 #define  kRezillaIdentifier		"net.sourceforge.rezilla"
 // Color to frame drop region 
-#define  kRzilDragHiliteColor	{ 65535, 0, 65535 }
+#define  kRzilDragHiliteColor	{ 0xFFFF, 0x0000, 0xFFFF }
 // Pen size to frame drop region 
 #define  kRzilDragHiliteSize	1
 // Width of the three tables in the comparison results window
@@ -1026,6 +1026,9 @@ const UInt32	kRezFileType		= FOUR_CHAR_CODE('rsrc');
 #define  kCompTableHeight	14
 // Height of a line in a WE view in case of null value
 #define  kRzilDefaultLineHeight	11
+
+// Color used to draw frames around selected items
+const RGBColor	Color_Red = {0xFFFF, 0x0000, 0x0000};
 
 // Drag and drop
 const UInt32	DragFlavor_Rezilla		= FOUR_CHAR_CODE('Rzil');  // kRzilDragFlavor
