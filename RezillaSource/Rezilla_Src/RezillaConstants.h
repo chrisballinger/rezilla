@@ -277,7 +277,7 @@ const ResIDT	PPob_ExplainedError			= 9530;
 const ResIDT	PPob_AskUniqueID			= 9550;
 const ResIDT	PPob_TmplEditorWindow		= 10100;
 const ResIDT	PPob_TextEditorWindow		= 10200;
-// const ResIDT	PPob_AeteEditorWindow		= 10300;
+const ResIDT	PPob_MenuEditorWindow		= 10300;
 const ResIDT	PPob_PictEditorWindow		= 10400;
 const ResIDT	PPob_UtxtEditorWindow		= 10500;
 const ResIDT	PPob_IconEditorWindow		= 10600;
@@ -1404,5 +1404,12 @@ enum RedrawOptions
 // Constants for the Text editor
 // ======================================================================
 const SInt32		kMaxTextWidth		= 32768;	
+
+
+// ======================================================================
+// Constants for the Menu editor
+// ======================================================================
+const OSType	ResType_ExtraMenu			= FOUR_CHAR_CODE('xmnu');
+
 
 
