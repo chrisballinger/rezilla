@@ -87,7 +87,8 @@ CWindow_Cursor *CWindow_Cursor::CreateFromStream( LStream *inStream )
 // ---------------------------------------------------------------------------
 // 	Constructor
 // ---------------------------------------------------------------------------
-CWindow_Cursor::CWindow_Cursor( LStream *inStream ) : CIcon_EditorWindow( inStream )
+CWindow_Cursor::CWindow_Cursor( LStream *inStream ) 
+		: CIcon_EditorWindow( inStream )
 {
 	mColorSample = nil;
 	mBWSample = nil;
@@ -135,7 +136,7 @@ CWindow_Cursor::FinishCreateSelf()
 
 
 // ---------------------------------------------------------------------------
-// 	Initialize
+// 	InitializeFromResource
 // ---------------------------------------------------------------------------
 void
 CWindow_Cursor::InitializeFromResource( CRezMap *inMap, ResType inResType, ResIDT inResID )
@@ -203,7 +204,6 @@ CWindow_Cursor::InitializeFromResource( CRezMap *inMap, ResType inResType, ResID
 }
 
 
-
 // ---------------------------------------------------------------------------
 // 	ParseBWCursor
 // ---------------------------------------------------------------------------
@@ -254,7 +254,6 @@ CWindow_Cursor::ParseBWCursor( CRezMap *inMap, ResIDT inResID,
 	
 	( h );
 }
-
 
 
 // ---------------------------------------------------------------------------

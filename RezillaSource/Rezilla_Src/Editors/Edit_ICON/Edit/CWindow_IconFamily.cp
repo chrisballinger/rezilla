@@ -75,7 +75,7 @@ CWindow_IconFamily::~CWindow_IconFamily()
 
 
 // ---------------------------------------------------------------------------
-// 	CreateFamilyView
+// 	CreateFromStream
 // ---------------------------------------------------------------------------
 CWindow_IconFamily *
 CWindow_IconFamily::CreateFromStream( LStream *inStream )

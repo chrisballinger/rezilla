@@ -2,7 +2,7 @@
 // CIcon_EditorWindow.h
 // 
 //                       Created: 2004-12-10 17:23:05
-//             Last modification: 2005-01-09 08:20:40
+//             Last modification: 2005-01-11 07:04:40
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -125,7 +125,10 @@ public:
 
 	// Misc
 	virtual void				ChangeTool( OSType toWhat );
-	virtual void				SaveAsResource( CRezMap *inMap, ResIDT inResID );	// == 0 ???
+	
+// 	// Pure Virtual. Concrete subclasses must override
+	virtual void				SaveAsResource( CRezMap *inMap, ResIDT inResID ) /* = 0 */;
+	
 	virtual Boolean				GetLockFlag();
 	virtual void				SetLockFlag( Boolean );
 		
@@ -146,8 +149,6 @@ public:
 	// Fixes for bugs in PowerPlant when working with GWorlds
 	virtual void				UpdatePort();
 	virtual Boolean				EstablishPort();
-
-	void						InstallBitmap(Handle inTextHandle);
 	
 	void						SetCoordsField(SInt16 inXCoord, SInt16 inYCoord);
 

@@ -2,7 +2,7 @@
 // CIcon_EditorWindow.cp
 // 
 //                       Created: 2004-12-10 17:23:05
-//             Last modification: 2005-01-09 08:20:52
+//             Last modification: 2005-01-11 07:05:02
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -217,6 +217,16 @@ CIcon_EditorWindow::CreatePaintWindow( ResIDT inWindowID )
 	// Create the window
 	theWindow = LWindow::CreateWindow( inWindowID, LCommander::GetTopCommander() );
 	return( theWindow );
+}
+
+
+// ---------------------------------------------------------------------------
+// 	SaveAsResource
+// ---------------------------------------------------------------------------
+
+void
+CIcon_EditorWindow::SaveAsResource( CRezMap *inMap, ResIDT inResID )
+{
 }
 
 
@@ -1845,36 +1855,12 @@ CIcon_EditorWindow::GetTextTraits( struct TextTraitsRecord *outRec )
 
 
 // ---------------------------------------------------------------------------
-// 	InstallBitmap													[public]
-// ---------------------------------------------------------------------------
-
-void
-CIcon_EditorWindow::InstallBitmap(Handle inHandle)
-{
-	StHandleLocker	lock(inHandle);
-// 	mContentsView->SetBitmapHandle(inHandle);
-	SetDirty(false);
-}
-
-
-// ---------------------------------------------------------------------------
 // 	SetCoordsField												[public]
 // ---------------------------------------------------------------------------
 
 void
 CIcon_EditorWindow::SetCoordsField(SInt16 inXCoord, SInt16 inYCoord)
 {
-}
-
-
-// ---------------------------------------------------------------------------
-// 	SaveAsResource												[public]
-// ---------------------------------------------------------------------------
-
-void 
-CIcon_EditorWindow::SaveAsResource( CRezMap *inMap, ResIDT inResID )
-{
-	// Subclasses should override
 }
 
 
