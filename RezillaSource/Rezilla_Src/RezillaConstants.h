@@ -844,6 +844,7 @@ const PaneIDT   item_MenuEditRefcon2		= 32;
 const PaneIDT   item_MenuEditFontID			= 33;
 const PaneIDT   item_MenuEditGlyphField		= 34;
 const PaneIDT   item_MenuEditGlyphBox		= 35;
+const PaneIDT   item_MenuEditItemGroupVIew	= 50;
 
 
 // Common elements for Editor Windows
