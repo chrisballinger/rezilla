@@ -375,7 +375,7 @@ CRezillaApp::ObeyCommand(
 					theRezFile->OpenFile(fsRdWrPerm);
 				}
 				theRezMapDocPtr = new CRezMapDoc(this, theRezFile);
-				theRezMapDocPtr->SetReadOnlyDoc(false);
+				theRezMapDocPtr->SetReadOnly(false);
 			}
 			break;
 		}
@@ -811,7 +811,7 @@ CRezillaApp::OpenFork(FSSpec & inFileSpec)
 	error = PreOpen(inFileSpec, theFork, theRefNum, mOpeningFork);
 	if ( error == noErr ) {
 		theRezMapDocPtr = new CRezMapDoc(this, &inFileSpec, theFork, theRefNum);
-		theRezMapDocPtr->SetReadOnlyDoc(sReadOnlyNavFlag);
+		theRezMapDocPtr->SetReadOnly(sReadOnlyNavFlag);
 		theRezMapDocPtr->GetRezMapWindow()->InstallReadOnlyIcon();
 	} 
 	
