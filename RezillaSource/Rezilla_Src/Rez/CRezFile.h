@@ -75,14 +75,13 @@ public:
 
 	OSErr				CopyFromRezMap(CRezMap * srcRezmap);
 
-	virtual short		GetRefNum() { return mRefNum;}
-	void				SetRefNum(short theRefNum) {mRefNum = theRefNum;}
+	virtual short		GetRefnum() { return mRefNum;}
+	void				SetRefnum(short theRefNum) {mRefNum = theRefNum;}
 
 	virtual CRezMapDoc*	GetOwnerDoc() { return mOwnerDoc;}
 	void				SetOwnerDoc(CRezMapDoc* theOwnerDoc) {mOwnerDoc = theOwnerDoc ;}
 
 	virtual SInt16		GetUsedFork() { return mUsedFork;}
-	void				SetUsedFork(SInt16 theUsedFork) {mUsedFork = theUsedFork ;}
 
 protected:
 		CRezMapDoc *	mOwnerDoc;
@@ -106,4 +105,3 @@ PP_End_Namespace_PowerPlant
 #endif
 
 #endif
-

@@ -77,7 +77,7 @@ public:
 						StRezReferenceSaver( SInt16 inRefNum );
 						~StRezReferenceSaver();
 
-	void		SetRefNum( SInt16 inRefNum ) { mOriginalRefNum = inRefNum; }
+	void		SetRefnum( SInt16 inRefNum ) { mOriginalRefNum = inRefNum; }
 	
 	void		Restore();
 	
