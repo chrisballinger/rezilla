@@ -2,7 +2,7 @@
 // CTemplatesController.h
 // 
 //                       Created: 2004-08-06 12:57:55
-//             Last modification: 2004-08-14 00:24:07
+//             Last modification: 2004-08-25 12:32:44
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -21,6 +21,7 @@
 
 enum {
 	tmpl_none = 0,
+	tmpl_local,
 	tmpl_internal,
 	tmpl_external
 };
@@ -36,7 +37,9 @@ public:
 							CTemplatesController();
 			virtual			~CTemplatesController();
 	
-		static Boolean		HasTemplateForType(ResType inType, ResType * substType);
+		static Boolean		HasTemplateForType(ResType inType, 
+											   ResType * substType, 
+											   CRezMap * inRezMap);
 		
 		static Boolean		HasInternalTemplateForType(ResType inType);
 		

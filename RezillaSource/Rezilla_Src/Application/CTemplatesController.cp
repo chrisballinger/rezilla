@@ -326,29 +326,40 @@ CTemplatesController::AddTemplatesToDictionary(FSRef * inFileRef)
 // ---------------------------------------------------------------------------
 
 Boolean
-CTemplatesController::HasTemplateForType(ResType inType, ResType * substType)
+CTemplatesController::HasTemplateForType(ResType inType, ResType * substType, CRezMap * inRezMap)
 {
 	Boolean hasTMPL = false;
-	
+	Str255	theName;
+
 	sTemplateKind = tmpl_none;
-	
-	// First look fo an internal TMPL resource
-	hasTMPL = HasInternalTemplateForType(inType);
+	UMiscUtils::OSTypeToPString(inType, theName);	
+
+	// First look fo a local TMPL resource inside the RezMap itself
+	if (inRezMap != NULL) {
+		hasTMPL = inRezMap->HasResourceWithTypeAndName('TMPL', theName);
+	} 
 	if (hasTMPL == true) {
-		sTemplateKind = tmpl_internal;
+		sTemplateKind = tmpl_local;
 	} else {
-		// Look for an external TMPL
-		hasTMPL = HasExternalTemplateForType(inType, &sTemplateFile);
-		if (hasTMPL) {
-			sTemplateKind = tmpl_external;
+		// Now look fo an internal TMPL resource
+		hasTMPL = HasInternalTemplateForType(inType);
+		if (hasTMPL == true) {
+			sTemplateKind = tmpl_internal;
+		} else {
+			// Look for an external TMPL
+			hasTMPL = HasExternalTemplateForType(inType, &sTemplateFile);
+			if (hasTMPL) {
+				sTemplateKind = tmpl_external;
+			} 
+		}
+		// If still not found, check if there is a substitution type
+		if ( !hasTMPL ) {
+			if ( CEditorsController::FindSubstitutionType(inType, substType) ) {
+				hasTMPL = HasTemplateForType(*substType, substType, inRezMap);
+			} 
 		} 
 	}
-	// If still not found, check if there is a substitution type
-	if ( !hasTMPL ) {
-		if ( CEditorsController::FindSubstitutionType(inType, substType) ) {
-			hasTMPL = HasTemplateForType(*substType, substType);
-		} 
-	} 
+	
 	return hasTMPL;
 }
 
@@ -441,7 +452,7 @@ CTemplatesController::HasExternalTemplateForType(ResType inType, FSRef * outFile
 //	¥ GetTemplateHandle										[static]
 // ---------------------------------------------------------------------------
 
-Handle
+ Handle
 CTemplatesController::GetTemplateHandle(ResType inType)
 {
 	Handle		theHandle = nil;

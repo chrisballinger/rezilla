@@ -2,7 +2,7 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2004-08-21 10:17:31
+//             Last modification: 2004-08-25 12:35:15
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -497,7 +497,7 @@ CRezMapDoc::TryEdit(CRezObjItem * inRezObjItem, CommandT inCommand, int & outCou
 		} // else fall through to template editing...
 						
 		case cmd_TmplEditRez:
-		if ( CTemplatesController::HasTemplateForType(theType, &substType) ) {
+		if ( CTemplatesController::HasTemplateForType(theType, &substType, this) ) {
 			new CTmplEditorDoc(this, mRezMapWindow->GetRezMapTable(), inRezObjItem->GetRezObj(), substType, mReadOnly);
 			break;
 		} else {
