@@ -121,7 +121,7 @@ CRezObj::CRezObj(short inRefnum,
 	: LModelObject(NULL, rzil_cResource)
 {
 	mType = inType;
-	mOwnerRefnum = inType;
+	mOwnerRefnum = inRefnum;
 	mID = inID;
 	SetName(inName);
 	// Get the handle of the resource
@@ -573,6 +573,8 @@ CRezObj::SetData(Handle srcHandle)
 	::BlockMoveData( *srcHandle, *mData, theSize);
 	// Update the mSize class member
 	mSize = ::GetHandleSize(mData);
+	// Tell the map the resource changed
+	this->Changed();
 }
 
 
