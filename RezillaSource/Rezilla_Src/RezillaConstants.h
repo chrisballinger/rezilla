@@ -48,7 +48,8 @@ enum
 	export_Xml = 0,
 	export_Text,
 	export_Html,
-	export_Derez
+	export_Derez,
+	export_Sdef
 };
 
 // DTDs
