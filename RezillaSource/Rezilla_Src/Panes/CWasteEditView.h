@@ -2,7 +2,7 @@
 //	CWasteEditView.h
 //	
 //                       Created: 2001-09-05 18:22:04
-//             Last modification: 2004-11-10 06:18:10
+//             Last modification: 2004-11-13 22:34:03
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -142,8 +142,7 @@ public:
 									UInt16&				outMark,
 									Str255				outName);
 
-	virtual	void			SpendTime(
-									const EventRecord&	inMacEvent);
+	virtual	void			SpendTime(const EventRecord&	inMacEvent);
 
 	virtual void			AlignWERects();
 	
@@ -213,7 +212,10 @@ public:
 	UInt16					GetAttributes() const;
 	void					SetAttributes(
 									UInt16				inAttributes );
-	UInt16					BuildTextAttributes();
+	
+	void					SetPropertiesFromAttributes();
+	
+	void					SetAttributesFromProperties();
 	
 	void					ToggleAttribute(
 									UInt32				inAttribute,
@@ -253,7 +255,7 @@ public:
 	virtual void			ScrollToCharOffset( 
 									SInt32				inPos);
 	
-	Boolean					IsSelection();
+	Boolean					HasSelection();
 	
 	UInt32					FlagsFromAttributes();
 	
@@ -302,8 +304,6 @@ public:
 	virtual void			ApplyTextTraits(
 									ResIDT		inTextTraitsID,
 									WEReference	inWERef);
-
-	virtual void			ActivateSelf();
 	
 	void					ApplyStyleValues(UInt16 theSize, UInt16 theFont);
 
