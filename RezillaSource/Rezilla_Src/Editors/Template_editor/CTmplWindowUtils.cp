@@ -1011,6 +1011,9 @@ CTmplEditorWindow::CountAllSubPanes(LView * inView)
 	while (iterator.Next(theSub)) {
 		theView = dynamic_cast<LView *>(theSub);
 		if (theView) {
+			if (theView->GetPaneID() > 0) {
+				count++;
+			} 
 			count += CountAllSubPanes(theView);
 		} else {
 			if (theSub->GetPaneID() > 0) {
