@@ -572,6 +572,7 @@ const PaneIDT	item_EditPrefsEnableFillers		= 9;
 const PaneIDT	item_EditPrefsUse8BitPicts	= 10;
 const PaneIDT	item_EditPrefsUseFullTables	= 11;
 const PaneIDT	item_EditPrefsDoFontSubst	= 20;
+const PaneIDT	item_EditPrefsInsertBOM		= 21;
 //     Misc Prefs Pane
 //     ---------------
 const PaneIDT	item_MiscPrefsSetSigOnClose		= 2;
