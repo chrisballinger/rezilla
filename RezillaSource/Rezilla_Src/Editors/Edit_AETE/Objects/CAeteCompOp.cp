@@ -145,6 +145,7 @@ CAeteCompOp::GetDataFromXml(CFXMLTreeRef inTreeNode)
 				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("CompOpDescription"), 0) ) {
 					UMiscUtils::GetStringFromXml(xmlTree, mDescription);
 				} else {
+					CFShow(CFXMLNodeGetString(xmlNode));
 					error = err_ImportUnknownAeteCompOpTag;	
 				}
 				

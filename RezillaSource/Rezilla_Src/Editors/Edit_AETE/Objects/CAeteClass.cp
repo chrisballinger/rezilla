@@ -436,6 +436,7 @@ CAeteClass::GetDataFromXml(CFXMLTreeRef inTreeNode)
 				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ArrayElements"), 0) ) {
 					error = GetArrayFromXml(xmlTree, kind_AeteElement);
 				} else {
+					CFShow(CFXMLNodeGetString(xmlNode));
 					error = err_ImportUnknownAeteClassTag;	
 				}
 				

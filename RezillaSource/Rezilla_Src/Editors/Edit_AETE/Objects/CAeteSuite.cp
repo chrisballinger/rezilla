@@ -748,6 +748,7 @@ CAeteSuite::GetDataFromXml(CFXMLTreeRef inTreeNode)
 				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ArrayEnumerations"), 0) ) {
 					error = GetArrayFromXml(xmlTree, kind_AeteEnum);
 				} else {
+					CFShow(CFXMLNodeGetString(xmlNode));
 					error = err_ImportUnknownAeteSuiteTag;	
 				}
 				

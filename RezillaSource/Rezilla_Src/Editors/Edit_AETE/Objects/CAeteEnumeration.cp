@@ -113,6 +113,7 @@ CAeteEnumeration::AddEnumerator(CFXMLTreeRef inTreeNode)
 				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("EnumeratorDescription"), 0) ) {
 					UMiscUtils::GetStringFromXml(xmlTree, numerator.description);
 				} else {
+					CFShow(CFXMLNodeGetString(xmlNode));
 					error = err_ImportUnknownAeteEnumeratorTag;	
 				}
 				
@@ -291,6 +292,7 @@ CAeteEnumeration::GetDataFromXml(CFXMLTreeRef inTreeNode)
 						} 
 					}
 				} else {
+					CFShow(CFXMLNodeGetString(xmlNode));
 					error = err_ImportUnknownAeteEnumerationTag;	
 				}
 				

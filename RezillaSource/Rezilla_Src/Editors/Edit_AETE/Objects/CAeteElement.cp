@@ -226,6 +226,7 @@ CAeteElement::GetDataFromXml(CFXMLTreeRef inTreeNode)
 						} 
 					}
 				} else {
+					CFShow(CFXMLNodeGetString(xmlNode));
 					error = err_ImportUnknownAeteElementTag;	
 				} 
 
