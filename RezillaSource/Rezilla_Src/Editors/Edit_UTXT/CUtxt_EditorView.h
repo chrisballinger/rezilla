@@ -77,6 +77,7 @@ public:
 protected:
 		CUtxt_EditorWindow *	mOwnerWindow;
 
+		virtual void	FinishCreateSelf();
 		virtual void	PutOnDuty(LCommander *inNewTarget);
 		virtual void	TakeOffDuty();
 		virtual void	RemoveUnicodeMenus();

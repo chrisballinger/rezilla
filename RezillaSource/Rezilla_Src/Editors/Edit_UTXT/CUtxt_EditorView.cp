@@ -2,7 +2,7 @@
 // CUtxt_EditorView.cp
 // 
 //                       Created: 2004-12-08 18:21:21
-//             Last modification: 2005-01-14 09:55:29
+//             Last modification: 2005-01-15 09:46:56
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -84,6 +84,21 @@ CUtxt_EditorView::~CUtxt_EditorView()
 
 #pragma mark -
 
+
+// ---------------------------------------------------------------------------
+//	¥ FinishCreateSelf
+// ---------------------------------------------------------------------------
+
+void
+CUtxt_EditorView::FinishCreateSelf()
+{
+	if ( CRezillaPrefs::GetPrefValue(kPref_editors_doFontSubst) ) {
+		TXNControlTag ctrlTags[1] = { kTXNDoFontSubstitution };
+		TXNControlData ctrlData[1] = { {true} };
+
+		OSStatus status = ::TXNSetTXNObjectControls( mTXNObject, false, 2, ctrlTags, ctrlData );
+	}
+}
 
 // ---------------------------------------------------------------------------
 //	¥ HandleKeyPress										[public, virtual]
@@ -355,7 +370,6 @@ CUtxt_EditorView::RemoveUnicodeMenus()
 // ---------------------------------------------------------------------------
 //  ¥ GetModifiedText										[public]
 // ---------------------------------------------------------------------------
-// kTXNTextData or kTXNUnicodeTextData
 
 Handle
 CUtxt_EditorView::GetModifiedText() 
@@ -363,6 +377,20 @@ CUtxt_EditorView::GetModifiedText()
 	Handle		dataH  = nil;
 	OSStatus	status = ::TXNGetDataEncoded( mTXNObject, kTXNStartOffset, kTXNEndOffset,
 											 &dataH, kTXNUnicodeTextData );
+
+	ItemCount	runsCount = 0;
+
+	status = ::TXNCountRunsInRange(mTXNObject, kTXNStartOffset, kTXNEndOffset,
+											 &runsCount);
+
+	if (status == noErr && runsCount > 1) {
+		Handle	styleHandle = nil;
+		
+		// This is not available yet: SaveStylResource() does nothing.
+		// Don't know how to get a style handle.
+		dynamic_cast<CUtxt_EditorDoc *>(mOwnerWindow->GetOwnerDoc())->SaveStylResource(styleHandle);
+	} 
+
 	return dataH;
 }
 
