@@ -410,9 +410,11 @@ const SInt16	kRzilDragFlavor		= FOUR_CHAR_CODE('Rzil');
 // Constants for the Rezmap tables
 const SInt16	kRzilColWidth				= 100;
 // Constants for the Rez Compare results window
+//     kRzilHexCompBytesPerLine and kRzilHexCompBytesPerPane are counts of bytes 
+//     which have to be multiplied by 3 (two hex digits + space)
 const SInt16	kRzilHexCompLineCount		= 12;
-const SInt16	kRzilHexCompCharsPerLine	= 48;
-const SInt16	kRzilHexCompCharsPerPane	= kRzilHexCompLineCount * kRzilHexCompCharsPerLine;
+const SInt16	kRzilHexCompBytesPerLine	= 16;
+const SInt16	kRzilHexCompBytesPerPane	= kRzilHexCompLineCount * kRzilHexCompBytesPerLine;
 // Constants for the Rez Hex editor
 //     kRzilHexEditBytesPerLine and kRzilHexEditBytesPerPane are counts of bytes 
 //     which have to be multiplied by 3 (two hex digits + space) or by 2 in text
