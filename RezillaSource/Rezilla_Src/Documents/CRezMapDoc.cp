@@ -1392,18 +1392,22 @@ CRezMapDoc::RemoveResource(CRezObjItem* inRezObjItem)
 void
 CRezMapDoc::PasteRezMap(CRezMap * srcRezMap)
 {
-	short	numTypes, numResources;
-    ResType theType;
-	Handle	theRezHandle;
-	short	theAttrs;
-	short	theSrcRefNum = srcRezMap->GetRefnum();
-	OSErr	error = noErr;
+	short		numTypes, numResources;
+    ResType 	theType;
+	short		theID, theAttrs;
+	short		theSrcRefNum = srcRezMap->GetRefnum();
+	Handle		theRezHandle;
+	OSErr		error = noErr;
+	Boolean		applyToOthers = false;
+	SInt16		answer;
+	MessageT 	theAction = answer_Do;
+	CRezObj *	theRezObj;
+	CRezObjItem * theRezObjItem;
 	
 	error = srcRezMap->CountAllTypes(numTypes);
 	if (error != noErr || numTypes == 0) {return;}
 	
 	for (UInt16 i = 1; i <= numTypes; i++ ) {
-		CRezObj *	theRezObj;
 		
 		// Read in each data type
 		srcRezMap->GetTypeAtIndex(i, theType );
@@ -1412,17 +1416,41 @@ CRezMapDoc::PasteRezMap(CRezMap * srcRezMap)
 		for (UInt16 j = 1; j <= numResources; j++) {
 			// Get the data handle
 			error = srcRezMap->GetResourceAtIndex(theType, j, theRezHandle);
-			HUnlock(theRezHandle);
+// 			HUnlock(theRezHandle);
 			
 			// Make a rez object out of it
 			try {
 					theRezObj = new CRezObj(theRezHandle, theSrcRefNum);
 					theAttrs = theRezObj->GetAttributes();
-// 					error = theRezObj->Detach();
-					error = HandToHand(&theRezHandle);
+// 					error = HandToHand(&theRezHandle);
+					theID = theRezObj->GetID();
 					
 					if (error == noErr) {
-						PasteResource(theType, theRezObj->GetID(), theRezHandle, theRezObj->GetName(), theAttrs);			
+						if ( mRezMap->ResourceExists(theType, theID)) {
+							if (!applyToOthers) {
+								answer = UMessageDialogs::AskSolveUidConflicts(applyToOthers);
+								theAction = answer;
+							} else {
+								answer = theAction;
+							}
+							switch (answer) {
+							  case answer_Do:
+							  mRezMap->UniqueID(theType, theID);;
+								break;
+								
+							  case answer_Dont:
+							  // Remove the corresponding entry from the table if it is visible
+							  theRezObjItem = mRezMapWindow->GetRezMapTable()->GetRezObjItem(theType, theID);
+							  if (theRezObjItem) {
+							  	RemoveResource(theRezObjItem);
+							  } 
+								break;
+								
+							  case answer_Cancel:
+								return;
+							}
+						} 
+						PasteResource(theType, theID, theRezHandle, theRezObj->GetName(), theAttrs);			
 					} 
 					
 					delete theRezObj;
@@ -1523,6 +1551,7 @@ CRezMapDoc::UpdateRefNum(short newRefNum)
 
 
 PP_End_Namespace_PowerPlant
+
 
 
 
