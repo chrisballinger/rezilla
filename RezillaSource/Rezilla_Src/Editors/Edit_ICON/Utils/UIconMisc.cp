@@ -1,7 +1,7 @@
 // ===========================================================================
 // UIconMisc.cp
 //                       Created: 2004-12-11 18:52:00
-//             Last modification: 2005-02-15 06:55:36
+//             Last modification: 2005-02-17 12:00:45
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -23,32 +23,45 @@
 
 
 // ---------------------------------------------------------------------------
-// 	FindBitmapResource
+// 	GetDefaultBitmap
+// ---------------------------------------------------------------------------
+// Get an empty default (blank) icon. Note that inType is not necessarily 
+// the same as the type of inResObj. 
+
+OSErr
+UIconMisc::GetDefaultBitmap(CRezObj * inResObj, ResType inType, Boolean loadIt)
+{	
+	OSErr	error;
+	if ( inResObj ) {
+		Handle	theHandle = NULL;
+		
+		error = UResources::GetResourceInMap( CRezillaApp::GetOwnRefNum(), inType, IconEditor_EmptyDefaults, theHandle, true );
+		
+		if (error == noErr && theHandle != NULL) {
+			::DetachResource(theHandle);
+			inResObj->SetData(theHandle);
+		} 
+	}
+	return error;
+}
+
+
+// ---------------------------------------------------------------------------
+// 	GetBitmapResource
 // ---------------------------------------------------------------------------
 // This will try to find a bitmap resource in a rez map. It the resource 
 // has no data (null data size), it means that is it a newly created bitmap: 
 // in that case, return an empty default (blank icon).
 
 CRezObj *
-UIconMisc::FindBitmapResource(CRezMap *inMap, ResType inType, short inID, 
+UIconMisc::GetBitmapResource(CRezMap *inMap, ResType inType, short inID, 
 							  Boolean loadIt)
 {
 	CRezObj *	theRes = NULL;
 	
 	theRes = inMap->FindResource( inType, inID, loadIt );
-	if ( theRes ) {
-		if ( theRes->GetSize() == 0 )
-		{
-			OSErr	error;
-			Handle	theHandle = NULL;
-			
-			error = UResources::GetResourceInMap( CRezillaApp::GetOwnRefNum(), inType, IconEditor_EmptyDefaults, theHandle, true );
-
-			if (error == noErr && theHandle != NULL) {
-				::DetachResource(theHandle);
-				theRes->SetData(theHandle);
-			} 
-		}
+	if ( theRes &&  theRes->GetSize() == 0 ) {
+			GetDefaultBitmap( theRes, inType, loadIt);
 	}
 	
 	return theRes;

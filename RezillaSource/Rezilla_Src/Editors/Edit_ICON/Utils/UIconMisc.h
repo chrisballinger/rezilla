@@ -1,7 +1,7 @@
 // ===========================================================================
 // UIconMisc.h
 //                       Created: 2004-12-11 18:52:00
-//             Last modification: 2005-02-14 08:54:16
+//             Last modification: 2005-02-17 12:00:35
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -23,7 +23,11 @@ class CRezObj;
 class UIconMisc {
 	public:
 
-		static CRezObj *	FindBitmapResource(CRezMap * inMap, 
+		static OSErr		GetDefaultBitmap(CRezObj * inResObj, 
+											 ResType inType, 
+											 Boolean loadIt);
+
+		static CRezObj *	GetBitmapResource(CRezMap * inMap, 
 											   ResType inType, 
 											   short inID, 
 											   Boolean loadIt);
