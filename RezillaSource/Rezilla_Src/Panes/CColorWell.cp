@@ -2,7 +2,7 @@
 // CColorWell.cp
 // 
 //                       Created: 2004-08-20 12:37:09
-//             Last modification: 2004-08-20 13:08:59
+//             Last modification: 2004-09-21 10:30:14
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -27,7 +27,9 @@ PP_Begin_Namespace_PowerPlant
 // ---------------------------------------------------------------------------
 
 CColorWell::CColorWell()
-{}
+{
+	mMessage = 0;
+}
 
 
 // ---------------------------------------------------------------------------
@@ -37,7 +39,9 @@ CColorWell::CColorWell()
 CColorWell::CColorWell(
 	const CColorWell&	inOriginal)
 : LPane(inOriginal)
-{}
+{
+	mMessage = inOriginal.mMessage;
+}
 
 
 // ---------------------------------------------------------------------------
@@ -45,9 +49,12 @@ CColorWell::CColorWell(
 // ---------------------------------------------------------------------------
 
 CColorWell::CColorWell(	const SPaneInfo &inPaneInfo, 
-					   RGBColor * inColor)
+					   RGBColor * inColor,
+					   MessageT inMessage)
 : LPane(inPaneInfo)
 {
+	mMessage = inMessage;
+	
 	SetColor(*inColor);
 	
 	mPenState.pnLoc = Point_00;
@@ -65,7 +72,17 @@ CColorWell::CColorWell(	const SPaneInfo &inPaneInfo,
 CColorWell::CColorWell(
 	LStream*	inStream)
 : LPane(inStream)
-{}
+{
+	*inStream >> mColor.red;
+	*inStream >> mColor.green;
+	*inStream >> mColor.blue;
+	*inStream >> mMessage;
+
+	mPenState.pnLoc = Point_00;
+	mPenState.pnSize.h = 1;
+	mPenState.pnSize.v = 1;
+	mPenState.pnMode = patCopy;
+}
 
 
 // ---------------------------------------------------------------------------
@@ -96,7 +113,10 @@ void
 CColorWell::ClickSelf(
 	const SMouseDownEvent&	/* inMouseDown */)
 {
-	PickRGBColor(&mColor);
+	if (PickRGBColor(&mColor)) {
+		BroadcastMessage(mMessage, &mColor);
+	} 
+	
 	Refresh();
 }
 
@@ -196,7 +216,7 @@ CColorWell::PickRGBColor(RGBColor * inRGB)
 	cpinfo.theColor.color.rgb.blue  = inRGB->blue;
 	cpinfo.dstProfile = 0L;
 	cpinfo.flags = kColorPickerCanModifyPalette 
-				 | kColorPickerCanAnimatePalette;
+	| kColorPickerCanAnimatePalette;
 	cpinfo.placeWhere = kDeepestColorScreen;
 	cpinfo.pickerType = 0L;
 	cpinfo.eventProc = NULL;
@@ -204,13 +224,13 @@ CColorWell::PickRGBColor(RGBColor * inRGB)
 	cpinfo.colorProcData = NULL;
 	error = PickColor(&cpinfo);
 	if ((error == noErr) && (cpinfo.newColorChosen != 0)) {
-		  inRGB->red    = cpinfo.theColor.color.rgb.red;
-		  inRGB->green  = cpinfo.theColor.color.rgb.green;
-		  inRGB->blue   = cpinfo.theColor.color.rgb.blue;
-		  picked = 1;
-	  }
-	  
-	  return picked;
+		inRGB->red    = cpinfo.theColor.color.rgb.red;
+		inRGB->green  = cpinfo.theColor.color.rgb.green;
+		inRGB->blue   = cpinfo.theColor.color.rgb.blue;
+		picked = true;
+	}
+	
+	return picked;
 }
 
 

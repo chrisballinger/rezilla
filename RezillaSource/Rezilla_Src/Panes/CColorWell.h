@@ -18,6 +18,7 @@
 
 
 #include <LPane.h>
+#include <LBroadcaster.h>
 
 #if PP_Uses_Pragma_Import
 	#pragma import on
@@ -28,7 +29,7 @@ PP_Begin_Namespace_PowerPlant
 // ---------------------------------------------------------------------------
 
 
-class CColorWell : public LPane {
+class CColorWell : public LPane, public LBroadcaster {
 
 public:
 	enum { class_ID = FOUR_CHAR_CODE('CWel') };
@@ -36,7 +37,8 @@ public:
 						CColorWell();
 						CColorWell(	const CColorWell &inOriginal);
 						CColorWell(	const SPaneInfo &inPaneInfo, 
-								   RGBColor * inColor);
+								   RGBColor * inColor,
+								   MessageT inMessage);
 						CColorWell(	LStream * inStream);
 
 	virtual				~CColorWell();
@@ -56,6 +58,7 @@ public:
 protected:
 	PenState		mPenState;
 	RGBColor		mColor;
+	MessageT		mMessage;
 
 	virtual void	FinishCreateSelf();
 
