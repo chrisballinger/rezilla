@@ -277,8 +277,7 @@ private:
 	Boolean			RecalcTextBoxHeight(SInt32 inTextSize, 
 										CWasteEditView * inWEView,
 										Boolean isFixed,
-										SInt16 & delta,
-										UInt8 inBytesPerChar = 1);
+										SInt16 & delta);
 
 	Boolean			CalcTextPositions(OSType inType, 
 									  SInt32 & oldPos, 
@@ -287,6 +286,13 @@ private:
 									  SInt32 & reqLength, 
 									  Boolean & isFixed);
 
+	void			CalcDualPanesPositions(SInt16 inWidth, 
+										   SInt16 extraWidth, 
+										   SInt32 & hexLeft, 
+										   SInt16 & hexWidth, 
+										   SInt32 & txtLeft, 
+										   SInt16 & txtWidth);
+	
 	Boolean			IsValidBitField(OSType inType, 
 									Str255 ioString, 
 									UInt16 & ioBitsCount, 

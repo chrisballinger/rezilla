@@ -964,16 +964,12 @@ CTmplEditorWindow::CountAllSubPanes(LView * inView)
 // Otherwise, there is a minimum height (corresponding to five lines) and a
 // maximum (corresponding to seventeen lines).
 
-// 		bytesPerLine = theSize.width / (CRezillaApp::sBasics.charWidth * inBytesPerChar);
-// 		linesCount = inTextSize / bytesPerLine + (inTextSize % bytesPerLine != 0) ;
-
-
 Boolean
 CTmplEditorWindow::RecalcTextBoxHeight(SInt32 inTextSize, CWasteEditView * inWEView,
-									   Boolean isFixed, SInt16 & delta, UInt8 inBytesPerChar)
+									   Boolean isFixed, SInt16 & delta)
 {
 	Boolean			reduce = false;
-	SInt32			bytesPerLine, linesCount;
+	SInt32			linesCount;
 	SInt16			linesHeight, minHeight = kTmplTextMinHeight;
 	SDimension16	theSize;
 	
@@ -1217,4 +1213,25 @@ CTmplEditorWindow::CalcTextPositions(OSType inType, SInt32 & oldPos, SInt32 & ne
 	} 	
 	
 	return hasText;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ CalcDualPanesPositions										[private]
+// ---------------------------------------------------------------------------
+
+void
+CTmplEditorWindow::CalcDualPanesPositions(SInt16 inWidth, SInt16 extraWidth, 
+										  SInt32 & hexLeft, SInt16 & hexWidth, 
+										  SInt32 & txtLeft, SInt16 & txtWidth)
+{
+	SInt16 numChar = (inWidth - extraWidth) / (CRezillaApp::sBasics.charWidth * 5);
+	
+	// Hex pane
+	hexWidth = numChar * CRezillaApp::sBasics.charWidth * 3;
+	hexLeft = kTmplTextInset;
+	
+	// Txt pane (readable representation)
+	txtWidth = numChar * CRezillaApp::sBasics.charWidth * 2;
+	txtLeft = hexLeft + hexWidth + kTmplHorizSep;
 }

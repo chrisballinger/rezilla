@@ -518,11 +518,8 @@ CTmplEditorWindow::AddCheckField(Boolean inValue,
 // scrollbar. 
 // The strategy is to first create the WE inside the container in order to
 // get an estimate of the number of lines. Then we decide if a scrollbar is
-// necessary: if yes, 
-// 
-// the WE does not necessarily have to be a subpane of
-// the scrollbar (it is just its associated scrolling view) but its
-// position is slightly readjusted.
+// necessary: if yes, the WE must be made a subpane of the scrollbar and
+// its associated scrolling view.
 
 void
 CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
@@ -600,8 +597,6 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 
 		theWasteEdit->PutInside(theScroller);
 		theScroller->InstallView(theWasteEdit);
-		// Inside the scroller's frame, the WE is at top=0 and left=0.
-// 		theWasteEdit->MoveBy(-kTmplTextInset, -kTmplTextHeadHeight, false);
 	} 
 	
 	if (delta < 0) {
@@ -624,6 +619,8 @@ void
 CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 {
 	SInt32		oldPos, newPos, nextPos, reqLength;
+	SInt16		hexWidth, txtWidth, extraWidth, extraHeight;
+	SInt32		hexLeft, txtLeft;
 	Boolean		incrY = true, isFixed = false, hasText, canReduce;
 	Handle		theHandle;
 	UInt8		theUInt8 = 0;
@@ -640,6 +637,8 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 	inContainer->GetFrameSize(theFrame);
 	mOwnerDoc = dynamic_cast<CTmplEditorDoc*>(GetSuperCommander());
 
+	extraWidth = kTmplTextInset * 3 + kTmplHorizSep + kTmplScrollWidth;
+	extraHeight = kTmplTextInset * 2;
 	theViewInfo.imageSize.width		= theViewInfo.imageSize.height	= 0 ;
 	theViewInfo.scrollPos.h			= theViewInfo.scrollPos.v		= 0;
 	theViewInfo.scrollUnit.h		= theViewInfo.scrollUnit.v		= 1;
@@ -650,7 +649,7 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 	sTgbPaneInfo.width				= theFrame.width - kTmplTextMargin * 2;
 	sTgbPaneInfo.paneID				= mCurrentID;
 	sTgbPaneInfo.superView			= inContainer;
-	CDualDataView * theTGB = new CDualDataView(sTgbPaneInfo, theViewInfo, false);
+	CDualDataView * theTGB = new CDualDataView(sTgbPaneInfo, theViewInfo, extraWidth, extraHeight, false);
 	ThrowIfNil_(theTGB);
 
 	// Make the single vertical scroll bar
@@ -669,9 +668,11 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 	// wrapping on (so that the image size is recalculated automatically 
 	// when the frame size changes). The read only property is set 
 	// by InstallSubViews() below.
-	sWastePaneInfo.left				= kTmplTextInset;
+	CalcDualPanesPositions(sTgbPaneInfo.width, extraWidth, hexLeft, hexWidth, txtLeft, txtWidth);
+	
+	sWastePaneInfo.left				= hexLeft;
 	sWastePaneInfo.top				= kTmplTextInset;
-	sWastePaneInfo.width			= kTmplHexPaneWidth;
+	sWastePaneInfo.width			= hexWidth;
 	sWastePaneInfo.height			= sScrollPaneInfo.height;
 	sWastePaneInfo.bindings.left	= false;
 	sWastePaneInfo.bindings.right	= false;
@@ -681,8 +682,8 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 	CHexDataSubView * theHexWE = new CHexDataSubView(sWastePaneInfo, theViewInfo, 0, sEditTraitsID);
 	ThrowIfNil_(theHexWE);
 
-	sWastePaneInfo.left				= kTmplTxtPaneLeft;
-	sWastePaneInfo.width			= kTmplTxtPaneWidth;
+	sWastePaneInfo.left				= txtLeft;
+	sWastePaneInfo.width			= txtWidth;
 	
 	CTxtDataSubView * theTxtWE = new CTxtDataSubView(sWastePaneInfo, theViewInfo, 0, sEditTraitsID);
 	ThrowIfNil_(theTxtWE);
@@ -696,7 +697,7 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 
 	// Adjust to the style specified in the preferences
 	TextTraitsRecord theTraits = CRezillaPrefs::GetStyleElement( CRezillaPrefs::prefsType_Curr );
-	theTGB->ResizeDataPanes();
+// 	theTGB->ResizeDataPanes();
 	theTGB->UpdatePaneCounts();
 	theHexWE->ApplyStyleValues( theTraits.size, theTraits.fontNumber);
 	theTxtWE->ApplyStyleValues( theTraits.size, theTraits.fontNumber);
@@ -733,7 +734,7 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 	// Advance the counters
 	if (incrY) {
 		// Adjust the height of the TextGroupBox
-		canReduce = RecalcTextBoxHeight(newPos - oldPos, theHexWE, isFixed, delta, 3);
+		canReduce = RecalcTextBoxHeight(newPos - oldPos, theHexWE, isFixed, delta);
 		if (delta != 0) {
 			theTGB->ResizeFrameBy(0, delta, false);
 			boxHeight += delta;
