@@ -2,7 +2,7 @@
 // CAete_EditorWindow.cp
 // 
 //                       Created: 2004-07-01 08:42:37
-//             Last modification: 2005-02-03 19:15:28
+//             Last modification: 2005-02-04 04:18:12
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -17,8 +17,9 @@
 #include "CRezillaApp.h"
 #include "CRezObj.h"
 #include "RezillaConstants.h"
-#include "UMiscUtils.h"
 #include "UAeteTranslator.h"
+#include "UMessageDialogs.h"
+#include "UMiscUtils.h"
 
 // PP headers
 #include <LPageController.h>
@@ -156,16 +157,7 @@ CAete_EditorWindow::FinishCreateSelf()
 	
 	mEnumerationPane = mMultiPanel->GetPanel(mpv_AeteEnum);
 	ThrowIfNil_(mEnumerationPane);
-	
-// 	// Settings for the KeyForms table
-// 	LTextColumn * theTable = dynamic_cast<LTextColumn *> (mClassPane->FindPaneByID( item_AeteKeyFormsTable ));
-// 	ThrowIfNil_( theTable );
-// 	theTable->SetTableGeometry(new LTableMonoGeometry(theTable, kAeteTableWidth, kAeteTableHeight));
-// 	theTable->SetTableSelector(new LTableSingleSelector(theTable));
-// 	theTable->SetTableStorage(new LTableArrayStorage(theTable, sizeof(OSType)));
-// 
-// 	theTable->InsertCols(1, 0);
-	
+		
 	// Edit menu strings. Load these once only.
 	if ( sAddEventStr[0] == 0 )
 	{
@@ -485,7 +477,14 @@ CAete_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 
 		
 		case msg_AeteSuiteName:
-			break;
+		Str255		theName;
+		LEditText *	theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_AeteSuiteName ));
+		ThrowIfNil_( theEditText );
+		theEditText->GetDescriptor(theName);
+		mSuitesPopup->SetMenuItemText(mSuitesPopup->GetCurrentMenuItem(), theName);
+		mSuitesPopup->Refresh();	
+		SetDirty(true);
+		break;
 		
 		
 		default:
@@ -510,9 +509,7 @@ CAete_EditorWindow::ObeyCommand(
 	if (inCommand == cmd_AeteAddSuite) {
 		mAete->AddSuite();
 		RebuildSuitePopup();
-		mAete->SetSuiteIndex( mAete->CountSuites() );	
-		InstallSuiteValues();
-		InstallPanelValues();
+		mSuitesPopup->SetValue( mAete->CountSuites() );
 	} else if (inCommand == cmd_AeteRemoveSuite) {
 		mAete->RemoveSuite( mAete->GetSuiteIndex() );
 		mAete->SetSuiteIndex( (mAete->CountSuites() > 0) );	
@@ -534,7 +531,7 @@ CAete_EditorWindow::ObeyCommand(
 				} else {
 					count = theSuite->DeleteItem(mCurrentPanel);	
 					InstallPanelValues();
-					UpdateSlider(item_AeteItemSlider, (count > 0), count);
+					UpdateSlider(item_AeteItemSlider, -1, count);
 				}
 				break;
 			}
@@ -549,7 +546,7 @@ CAete_EditorWindow::ObeyCommand(
 					UpdateSlider(item_AeteParamSlider, count, count);
 				} else {
 					count = theEvent->DeleteParameter();
-					UpdateSlider(item_AeteParamSlider, (count > 0), count);
+					UpdateSlider(item_AeteParamSlider, -1, count);
 					CAeteParameter * theParameter = static_cast<CAeteParameter *>( FindCurrentObject( kind_AeteParameter ) );
 					InstallParameterValues(theParameter);
 				}
@@ -566,7 +563,7 @@ CAete_EditorWindow::ObeyCommand(
 					UpdateSlider(item_AeteParamSlider, count, count);
 				} else {
 					count = theClass->DeleteProperty();
-					UpdateSlider(item_AetePropertySlider, (count > 0), count);
+					UpdateSlider(item_AetePropertySlider, -1, count);
 					CAeteProperty * theProperty = static_cast<CAeteProperty *>( FindCurrentObject( kind_AeteProperty ) );
 					InstallPropertyValues(theProperty);
 				}
@@ -583,7 +580,7 @@ CAete_EditorWindow::ObeyCommand(
 					UpdateSlider(item_AeteParamSlider, count, count);
 				} else {
 					count = theClass->DeleteElement();
-					UpdateSlider(item_AeteElementSlider, (count > 0), count);
+					UpdateSlider(item_AeteElementSlider, -1, count);
 					CAeteElement * theElement = static_cast<CAeteElement *>( FindCurrentObject( kind_AeteElement ) );
 					InstallElementValues(theElement);
 				}
@@ -616,7 +613,7 @@ CAete_EditorWindow::ObeyCommand(
 				} else {
 					AeteEnumerator		enumerator;
 					count = theEnum->DeleteEnumerator();
-					UpdateSlider(item_AeteEnumSlider, (count > 0), count);
+					UpdateSlider(item_AeteEnumSlider, -1, count);
 					theEnum->GetEnumerator(count, enumerator);
 					InstallEnumeratorValues(enumerator);
 				}
@@ -677,6 +674,11 @@ CAete_EditorWindow::InstallAete(Handle inHandle)
 void
 CAete_EditorWindow::RetrieveAete(CAeteStream * outStream) 
 {	
+	// Retrieve the current data from the window
+	RetrieveResourceInfo();
+	RetrieveSuiteValues();
+	RetrievePanelValues();
+	// Reassemble the resource
 	mAete->SendDataToStream(outStream);	
 }
 
@@ -693,20 +695,25 @@ CAete_EditorWindow::RevertContents()
 		mAete = nil;
 	} 
 	mCurrentPanel = mpv_AeteEvent;
-
+	
 	CRezObj * theRezObj = mOwnerDoc->GetRezObj();
 	// Reinstall the contents
 	if (theRezObj != nil) {
 		Handle rezData = theRezObj->GetData();
 		
-		if (rezData != nil) {
-			// Work with a copy of the handle
-			::HandToHand(&rezData);
-			InstallAete(rezData);
-			Refresh();  // Draw(nil);
-		} 
+		try {
+			if (rezData != nil) {
+				// Work with a copy of the handle
+				::HandToHand(&rezData);
+				InstallAete(rezData);
+				Refresh();  // Draw(nil);
+			} 
+		} catch (...) {
+			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("DataParsingException"), PPob_SimpleMessage);
+			return;
+		}
 	} 
-
+	
 	SetDirty(false);
 }
 
@@ -1069,7 +1076,17 @@ CAete_EditorWindow::UpdateSlider(SInt32 inSliderID, SInt32 inValue, SInt32 inTot
 		if ( theSlider->GetMinValue() > 0 ) {
 			theSlider->SetMinValue( (inTotal > 0) && (inValue > 0) );
 		} 
-		theSlider->SetValue(inValue);
+		if (inValue == -1) {
+			// This is the case when an item is removed
+			inValue = (inTotal > 0);
+			if (theSlider->GetValue() == 1) {
+				HandleSliderMessage(inSliderID, inValue);
+			} else {
+				theSlider->SetValue(inValue);
+			}
+		} else {
+			theSlider->SetValue(inValue);
+		}		
 		if (inValue > 0) {
 			theSlider->SetMinValue(1);
 		} 
