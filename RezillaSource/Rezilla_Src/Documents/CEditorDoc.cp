@@ -2,11 +2,11 @@
 // CEditorDoc.cp
 // 
 //                       Created: 2003-05-04 19:16:00
-//             Last modification: 2004-12-27 14:58:25
+//             Last modification: 2005-02-17 07:04:31
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003-2004
+// (c) Copyright : Bernard Desgraupes, 2003-2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -338,31 +338,33 @@ CEditorDoc::DoSaveChanges()
 		// Copy to resource's data handle
 		mRezObj->SetData(theHandle);
 		
-		// Mark the resource as modified in the rez map
-		mRezObj->Changed();
-		
-		// Tell the rezmap doc that there has been a modification
-		mRezMapTable->GetOwnerDoc()->SetModified(true);
-		
-		// The editor window is not dirty anymore. This will also set 
-		// mModified to false.
-		mMainWindow->SetDirty(false);
-		
-		// Refresh the view
-		mRezObj->SetSize( ::GetHandleSize(theHandle) );
-		mRezMapTable->Refresh();
-		
-		// Update the inspector if its info concerns the RezObj
-		if (CRezillaApp::sInspectorWindow != nil
-			&& CRezillaApp::sInspectorWindow->GetRezObjItem() != nil 
-			&& CRezillaApp::sInspectorWindow->GetRezObjItem()->GetRezObj() == mRezObj) {
-			CRezillaApp::sInspectorWindow->InstallValues(mRezObj);
-		} 		
+// 		// Mark the resource as modified in the rez map
+// 		mRezObj->Changed(); // This is already done in SetData()
 		
 		if (shouldWeRelease) {
 			::DisposeHandle(theHandle);
 		} 
 	} 
+	
+	// Tell the rezmap doc that there has been a modification
+	mRezMapTable->GetOwnerDoc()->SetModified(true);
+	
+	// The editor window is not dirty anymore. This will also set 
+	// mModified to false.
+	mMainWindow->SetDirty(false);
+	
+	// Refresh the view
+// 		mRezObj->SetSize( ::GetHandleSize(theHandle) ); // This is already done in SetData()
+	mRezMapTable->Refresh();
+// 	mRezMapTable->Draw(nil);
+	
+	// Update the inspector if its info concerns the RezObj
+	if (CRezillaApp::sInspectorWindow != nil
+		&& CRezillaApp::sInspectorWindow->GetRezObjItem() != nil 
+		&& CRezillaApp::sInspectorWindow->GetRezObjItem()->GetRezObj() == mRezObj) {
+		CRezillaApp::sInspectorWindow->InstallValues(mRezObj);
+	} 		
+	
 }
 
 
@@ -390,13 +392,13 @@ CEditorDoc::GetDescriptor(
 // ---------------------------------------------------------------------------
 //  ¥ GetModifiedResource										[public]
 // ---------------------------------------------------------------------------
-// Override in subclasses to collect the proper modified data.
-
-Handle
-CEditorDoc::GetModifiedResource(Boolean &releaseIt) 
-{
-	return NULL;
-}
+// Purely virtual. Define in every subclasses.
+// 
+// 			Handle
+// 			CEditorDoc::GetModifiedResource(Boolean & /* releaseIt */) 
+// 			{
+// 				return NULL;
+// 			}
 
 
 // ---------------------------------------------------------------------------

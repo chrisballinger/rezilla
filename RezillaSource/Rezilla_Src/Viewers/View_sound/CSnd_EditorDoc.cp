@@ -2,11 +2,11 @@
 // CSnd_EditorDoc.cp
 // 
 //                       Created: 2004-12-07 07:22:47
-//             Last modification: 2004-12-07 07:46:23
+//             Last modification: 2005-02-17 07:02:04
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004
+// (c) Copyright : Bernard Desgraupes, 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -88,6 +88,19 @@ CSnd_EditorDoc::Play(Handle inSoundH)
 	StHandleLocker	lock(inSoundH);
 	::SndPlay(NULL, (SndListHandle) inSoundH, false);
 }
+
+
+// ---------------------------------------------------------------------------
+//  ¥ GetModifiedResource										[private]
+// ---------------------------------------------------------------------------
+// Needs to be defined because it is purely virtual
+
+Handle
+CSnd_EditorDoc::GetModifiedResource(Boolean & /* releaseIt */) 
+{
+	return NULL;
+}
+
 
 
 

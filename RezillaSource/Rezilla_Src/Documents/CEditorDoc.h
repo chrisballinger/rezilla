@@ -2,11 +2,11 @@
 // CEditorDoc.h				
 // 
 //                       Created: 2004-02-23 17:57:59
-//             Last modification: 2005-01-09 08:46:08
+//             Last modification: 2005-02-17 07:02:31
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003-2004, 2005
+// (c) Copyright : Bernard Desgraupes, 2003-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -85,7 +85,7 @@ protected:
 	Boolean					mReadOnly;
 	SInt16					mKind;
 
-	virtual Handle	GetModifiedResource(Boolean &releaseIt);
+	virtual Handle	GetModifiedResource(Boolean &releaseIt) = 0;  // Purely virtual
 	void			NameNewEditorDoc();
 	void			BuildDocumentTitle(Str255 & outTitle, SInt16 whichString);
 	void			Register();

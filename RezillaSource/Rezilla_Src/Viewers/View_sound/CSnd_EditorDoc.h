@@ -2,11 +2,11 @@
 // CSnd_EditorDoc.h				
 // 
 //                       Created: 2004-12-07 07:22:47
-//             Last modification: 2004-12-07 07:46:16
+//             Last modification: 2005-02-17 07:01:56
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004
+// (c) Copyright : Bernard Desgraupes, 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -49,6 +49,7 @@ protected:
 	
 private:
 	void				Initialize();
+	virtual Handle		GetModifiedResource(Boolean &releaseIt);
 };
 
 
