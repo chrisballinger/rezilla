@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2004-09-22 15:15:35
+//             Last modification : 2004-09-23 18:14:09
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -447,6 +447,7 @@ const PaneIDT	item_EditPrefsHexCaseRgbx	= 5;
 const PaneIDT	item_EditPrefsHexLowercase	= 6;
 const PaneIDT	item_EditPrefsHexUppercase	= 7;
 const PaneIDT	item_EditPrefsDispFillers	= 8;
+const PaneIDT	item_EditPrefsEnableFillers	= 9;
 //     Misc Prefs Pane
 //     ---------------
 const PaneIDT	item_MiscPrefsSetSigOnClose		= 2;
@@ -610,6 +611,7 @@ const MessageT	msg_EditPrefsHexSymDollar	= rPPob_PrefsEditorsPane + item_EditPre
 const MessageT	msg_EditPrefsHexLowercase	= rPPob_PrefsEditorsPane + item_EditPrefsHexLowercase;
 const MessageT	msg_EditPrefsHexUppercase	= rPPob_PrefsEditorsPane + item_EditPrefsHexUppercase;
 const MessageT	msg_EditPrefsDispFillers	= rPPob_PrefsEditorsPane + item_EditPrefsDispFillers;
+const MessageT	msg_EditPrefsEnableFillers	= rPPob_PrefsEditorsPane + item_EditPrefsEnableFillers;
 //     Misc Prefs Pane
 //     ---------------
 const MessageT	msg_MiscPrefsSetSigOnClose	= rPPob_PrefsMiscPane + item_MiscPrefsSetSigOnClose;

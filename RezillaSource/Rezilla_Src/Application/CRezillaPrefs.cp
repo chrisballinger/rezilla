@@ -2,7 +2,7 @@
 // CRezillaPrefs.cp					
 // 
 //                       Created: 2004-05-17 08:52:16
-//             Last modification: 2004-09-22 17:16:24
+//             Last modification: 2004-09-23 18:18:50
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -152,6 +152,7 @@ CRezillaPrefs::SetDefaultPreferences()
 	sCurrPrefs.editors.hexSymbol		= hex_SymbDollar;
 	sCurrPrefs.editors.hexCase			= hex_lowercase;
 	sCurrPrefs.editors.dispFillers		= false;
+	sCurrPrefs.editors.enableFillers	= false;
 
 	// Misc pane
 	sCurrPrefs.misc.setSigOnClose		= false;
@@ -196,6 +197,11 @@ CRezillaPrefs::StorePreferences()
 	theNumber = GetPrefValue( kPref_editors_dispFillers );
 	theValue = CFNumberCreate(NULL, kCFNumberIntType, &theNumber); 
 	CFPreferencesSetAppValue( CFSTR("pref_editors_dispFillers"), theValue, kCFPreferencesCurrentApplication);
+	if (theValue) CFRelease(theValue);
+
+	theNumber = GetPrefValue( kPref_editors_enableFillers );
+	theValue = CFNumberCreate(NULL, kCFNumberIntType, &theNumber); 
+	CFPreferencesSetAppValue( CFSTR("pref_editors_enableFillers"), theValue, kCFPreferencesCurrentApplication);
 	if (theValue) CFRelease(theValue);
 
 	theNumber = GetPrefValue( kPref_export_formatDtd );
@@ -304,6 +310,10 @@ CRezillaPrefs::RetrievePreferences()
 	result = CFPreferencesGetAppBooleanValue(CFSTR("pref_editors_dispFillers"), CFSTR(kRezillaIdentifier), &valueValid);
 	if (valueValid) {
 		SetPrefValue( result, kPref_editors_dispFillers);
+	}	
+	result = CFPreferencesGetAppBooleanValue(CFSTR("pref_editors_enableFillers"), CFSTR(kRezillaIdentifier), &valueValid);
+	if (valueValid) {
+		SetPrefValue( result, kPref_editors_enableFillers);
 	}	
 	result = CFPreferencesGetAppIntegerValue(CFSTR("pref_export_formatDtd"), CFSTR(kRezillaIdentifier), &valueValid);
 	if (valueValid) {
@@ -429,6 +439,14 @@ CRezillaPrefs::SetPrefValue(SInt32 inPrefValue, SInt32 inConstant, SInt32 inPref
 			sTempPrefs.editors.dispFillers = inPrefValue;
 		} else {
 			sCurrPrefs.editors.dispFillers = inPrefValue;
+		}	
+		break;
+		
+		case kPref_editors_enableFillers:
+		if (inPrefType == prefsType_Temp) {
+			sTempPrefs.editors.enableFillers = inPrefValue;
+		} else {
+			sCurrPrefs.editors.enableFillers = inPrefValue;
 		}	
 		break;
 		
@@ -588,6 +606,14 @@ CRezillaPrefs::GetPrefValue(SInt32 inConstant, SInt32 inPrefType)
 			theValue = sTempPrefs.editors.dispFillers;
 		} else {
 			theValue = sCurrPrefs.editors.dispFillers;
+		}	
+		break;
+		
+		case kPref_editors_enableFillers:
+		if (inPrefType == prefsType_Temp) {
+			theValue = sTempPrefs.editors.enableFillers;
+		} else {
+			theValue = sCurrPrefs.editors.enableFillers;
 		}	
 		break;
 		
@@ -938,6 +964,10 @@ CRezillaPrefs::RunPrefsDialog()
 		ThrowIfNil_( theCheckBox );
 		theCheckBox->SetValue(  GetPrefValue( kPref_editors_dispFillers ) );
 
+		theCheckBox = dynamic_cast<LCheckBox *>(theEditorPane->FindPaneByID( item_EditPrefsEnableFillers ));
+		ThrowIfNil_( theCheckBox );
+		theCheckBox->SetValue(  GetPrefValue( kPref_editors_enableFillers ) );
+
 		theCheckBox = dynamic_cast<LCheckBox *>(theExportPane->FindPaneByID( item_ExpPrefsInclBinData ));
 		ThrowIfNil_( theCheckBox );
 		theCheckBox->SetValue(  GetPrefValue( kPref_export_includeBinary ) );
@@ -1046,6 +1076,10 @@ CRezillaPrefs::RunPrefsDialog()
 			// EditPrefsDispFillers
 			theCheckBox = dynamic_cast<LCheckBox *>(theComparePane->FindPaneByID( item_EditPrefsDispFillers ));
 			SetPrefValue( theCheckBox->GetValue(), kPref_editors_dispFillers, prefsType_Temp);
+			
+			// EditPrefsEnableFillers
+			theCheckBox = dynamic_cast<LCheckBox *>(theComparePane->FindPaneByID( item_EditPrefsEnableFillers ));
+			SetPrefValue( theCheckBox->GetValue(), kPref_editors_enableFillers, prefsType_Temp);
 			
 			// CompPrefsIgnName
 			theCheckBox = dynamic_cast<LCheckBox *>(theComparePane->FindPaneByID( item_CompPrefsIgnName ));

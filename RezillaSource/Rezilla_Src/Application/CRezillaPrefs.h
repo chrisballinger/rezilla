@@ -52,6 +52,7 @@ struct SEditorsPrefs {
 	SInt32			hexSymbol;
 	SInt32			hexCase;
 	Boolean			dispFillers;
+	Boolean			enableFillers;
 };
 
 //     Misc Prefs
@@ -80,6 +81,7 @@ enum {
 	kPref_editors_hexSymbol,
 	kPref_editors_hexCase,
 	kPref_editors_dispFillers,
+	kPref_editors_enableFillers,
 	kPref_export_dataEncoding,
 	kPref_export_formatDtd,
 	kPref_export_includeBinary,
