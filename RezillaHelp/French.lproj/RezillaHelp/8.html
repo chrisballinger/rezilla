@@ -133,8 +133,8 @@ parfois nécessaire dans un script AppleScript de connaître les codes de
 certains termes.
 	<LI> le format <I>XML</I> comporte toutes les données de la ressource selon un
 format rigoureux et permet l'échange de données: une DTD décrivant la
-structure du fichier XML est jointe au projet. Une future version de 
-Rezilla permettra d'importer ce type de fichiers.
+structure du fichier XML est jointe au projet. 
+Rezilla sait aussi importer ce type de fichiers (voir ci-dessous).
 	<LI> le format <I>DeRez</I> produit un fichier avec l'extension <I>.r</I>
 identique à celui que produirait l'utilitaire DeRez : ce fichier est prêt à
 être recompilé dans n'importe quel projet (avec l'utilitaire Rez par
@@ -146,7 +146,14 @@ de manuel (taper "man sdef" dans une fenêtre de Terminal). Le format
 Sdef ne reprend pas toute l'information contenue dans une ressource Aete:
 il y a nécessairement une déperdition d'information en passant de l'un à
 l'autre. Rezilla s'efforce de convertir au mieux la ressource Aete.
-</UL><P><H3>L'éditeur 'PICT'</H3><P>Ce n'est pas un éditeur graphique complet mais plutôt un visualisateur. Si 
+</UL><P>La commande <B>Import Terminology</B> permet d'importer des données 
+depuis un fichier XML dans une ressource 'aete' : on peut pour cela créer 
+une nouvelle ressource 'aete', l'éditer et choisir la commande 
+<I>Import Terminology</I> dans le menu <I>Terminology</I>. Le fichier 
+XML peut aussi être importé dans une ressource existante : les nouvelles 
+données sont ajoutées aux données existantes. Le fichier XML doit 
+impérativement utiliser le format défini dans la DTD jointe au projet 
+(aete.dtd, à ne pas confondre avec sdef.dtd).<P><H3>L'éditeur 'PICT'</H3><P>Ce n'est pas un éditeur graphique complet mais plutôt un visualisateur. Si 
 l'on exécute un double-clic sur une ressource d'image (de type <I>'PICT'</I>), 
 Rezilla affiche cette image.<P>Les commandes <I>Copy</I>, <I>Cut</I> et <I>Paste</I> sont activées. Il
 est possible de copier l'image dans le presse-papier: il n'y a pas de

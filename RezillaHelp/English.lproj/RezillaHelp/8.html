@@ -108,10 +108,10 @@ or <B>text</B>:
 	<LI> the <I>HTML</I> and <I>text</I> formats can be useful simply to make an AppleScript
 terminology resource human readable. It is sometimes necessary in an
 AppleScript script to know the codes for certain terms.
-	<LI> the <I>XML</I> format describes the entire data of the ressource according to
-a precise format and allows for the data to be exchanged: a DTD defining
-the structure of the XML file is available in the project. A future 
-version of Rezilla will allow to import this kind of files.
+	<LI> the <I>XML</I> format describes the entire data of the ressource
+according to a precise format and allows for the data to be exchanged: a
+DTD defining the structure of the XML file is available in the project. 
+Rezilla can also import this kind of files (see below).
 	<LI> the <I>DeRez</I> format produces a file with a <I>.r</I> extension
 identical to what one obtains using the DeRez tool: this file is ready to
 be recompiled in any project (with the Rez tool for instance).
@@ -122,7 +122,13 @@ and the manual page (type "man sdef" in a Terminal window). The Sdef format
 does not reproduce all the information contained in an Aete resource: the
 translation from Aete to Sdef is necessarily lossy. Rezilla does its best
 to make this conversion accurate.
-</UL><P><H3>The PICT editor</H3><P>Not a fully fledged editor but rather a viewer. If you double-click on a
+</UL><P>The <B>Import Terminology</B> command lets you import data from an 
+<B>XML</B> file into a terminology resource. For instance, you can create
+a new 'aete' resource, edit it and select <I>Import Terminology</I> in the
+<I>Terminology</I> menu. You can also import an XML file into an already
+existing resource : the data imported will be appended to the resource. The
+XML file must be in the format defined in the DTD included in the project 
+(aete.dtd, not to be confused with sdef.dtd).<P><H3>The PICT editor</H3><P>Not a fully fledged editor but rather a viewer. If you double-click on a
 picture resource (of type <I>'PICT'</I>), Rezilla displays the image.<P>The <I>Copy</I>, <I>Cut</I> and <I>Paste</I> commands are enabled. You
 can copy the image to the clipboard (no need to select anything, the entire
 image is automatically copied). On the contrary, if the clipboard contains

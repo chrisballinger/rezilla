@@ -39,7 +39,7 @@ $Date$
 ¥ Added Sdef (Scripting Definition File) export format in the Aete editor.
 ¥ Rewritten code to export Aete in Xml, DeRez, Text and Html formats.
 ¥ Added empty container resources used when creating new bitmap resources.
-¥ Added support for importing Aete from Xml file.
+¥ Added support for importing Aete data from an Xml file.
 
 ================================================================================
 = 1.0.5b1	                             last update: 2005-02-04 07:44:16
