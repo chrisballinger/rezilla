@@ -46,6 +46,15 @@ $Date$
   of characters. Fixed-size fields do not have a scrollbar if they fit in
   the container's frame.
 ¥ Small fixed-size edit fields are not bound to the right edge anymore.
+¥ Fixed the commanders chain issue with list items in templates.
+¥ Fixed display bug with text or hex fields inside list items.
+¥ A frame is now drawn around color wells.
+¥ Enable the Enter key to validate a template editor window.
+¥ Redesigned the SetModified/SetDirty chain to make it more reliably
+  responsive to modifications.
+¥ Enabled window proxys to display the document's Finder icon in the title
+  bar. The Close button changes when a window has been modified.
+¥ 
 
 ================================================================================
 = 1.0.4a8	                             last update: 2004-09-17 10:55:56
