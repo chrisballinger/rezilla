@@ -54,8 +54,8 @@ Last modification: $Date$
 	* fixed issue with null bytes in search code
 	* fix in hex to byte converter
 	* new application and documents icons
-	* doc was not marked as modified after a Remove or Duplicate action
-	* doc was not marked as non-modified after a simple Save
+	* document was not marked as modified after a Remove or Duplicate action
+	* document was not marked as non-modified after a simple Save
 	* when a resource is removed, close any edited window associated to it
 	* name was lost when replacing an existing resource during a Paste or a
 	  Drop action 
@@ -63,6 +63,7 @@ Last modification: $Date$
 	* fixed memory leak when closing a comparison results window
 	* reminder of the comparison options in the results window
 ¥ Added Help files to the package to be viewed with Apple Help Viewer.
+¥ French translation of the Help files.
 
 ================================================================================
 = 1.0.1a7 	                             last update: 2004-03-23 23:23:57
