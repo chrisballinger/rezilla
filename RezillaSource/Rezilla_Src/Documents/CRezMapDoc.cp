@@ -2,7 +2,7 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2004-04-18 18:10:36
+//             Last modification: 2004-06-26 08:56:46
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -327,9 +327,6 @@ CRezMapDoc::ObeyCommand(
 		break;		
 		}
 		
-		case cmd_EditRez:
-		case cmd_TmplEditRez:
-		case cmd_HexEditRez:
 		case cmd_RemoveRez:
 		case cmd_Clear:
 		case cmd_DuplicateRez: {
@@ -339,48 +336,8 @@ CRezMapDoc::ObeyCommand(
 			mRezMapWindow->GetRezMapTable()->GetAllSelectedRezObjItems(theArray);
 			LArrayIterator iterator(*theArray);
 			CRezObjItem *theItem = nil;	
-			while (iterator.Next(&theItem)) {
-				theType = theItem->GetRezObj()->GetType();
-				
+			while (iterator.Next(&theItem)) {				
 				switch (inCommand) {		
-					
-					case cmd_EditRez:
-					if ( CRezEditor::HasEditorForType(theType) ) {
-						
-						// call the right GUI editor
-						CRezEditor::InvokeCustomEditor(this, mRezMapWindow->GetRezMapTable(), theItem->GetRezObj(), mReadOnly);
-						
-						break;
-					} // else fall through to template editing...
-									
-					case cmd_TmplEditRez:
-					if ( CRezEditor::HasTemplateForType(theType) ) {
-						new CTmplEditorDoc(this, mRezMapWindow->GetRezMapTable(), theItem->GetRezObj(), mReadOnly);
-						break;
-					} else {
-						if (inCommand == cmd_TmplEditRez) {
-							CFStringRef formatStr = NULL, messageStr = NULL;
-							formatStr = CFCopyLocalizedString(CFSTR("NoTemplateForThisType"), NULL);
-							if (formatStr != NULL) {
-								char typeStr[5];
-								*(OSType*)typeStr = theType;
-								typeStr[4] = 0;
-								messageStr = ::CFStringCreateWithFormat(NULL, NULL, formatStr, typeStr);
-								if (messageStr != NULL) {
-									UMessageDialogs::SimpleMessageFromLocalizable(messageStr, rPPob_SimpleMessage);
-									CFRelease(messageStr);                     
-								}
-								CFRelease(formatStr);                             
-							}
-							break;
-						} 
-						// else fall through to hexadecimal editing...
-					}
-
-					case cmd_HexEditRez:
-					new CHexEditorDoc(this, mRezMapWindow->GetRezMapTable(), theItem->GetRezObj(), mReadOnly);
-					break;
-						
 					case cmd_RemoveRez:
 					case cmd_Clear: 
 						RemoveResource( theItem );
@@ -390,6 +347,31 @@ CRezMapDoc::ObeyCommand(
 						DuplicateResource( theItem->GetRezObj() );
 						break;
 				}
+			}
+
+			delete theArray;
+			break;
+		}
+		
+		case cmd_EditRez:
+		case cmd_TmplEditRez:
+		case cmd_HexEditRez: {
+			ResType theType;
+			short 	theID;
+			LArray* theArray = new LArray( sizeof(LOutlineItem*) );
+			CEditorDoc * theRezEditor;
+			int		countEdited = 0;
+			
+			mRezMapWindow->GetRezMapTable()->GetAllSelectedRezObjItems(theArray);
+			LArrayIterator iterator(*theArray);
+			CRezObjItem * theItem = nil;
+			
+			while (iterator.Next(&theItem)) {
+				TryEdit(theItem, inCommand, countEdited);
+			}
+
+			if (countEdited != 0) {
+				UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("SomeResourcesAreAlreadyEdited"), rPPob_SimpleMessage);
 			}
 
 			delete theArray;
@@ -451,6 +433,56 @@ CRezMapDoc::ObeyCommand(
 	}
 	
 	return cmdHandled;
+}
+
+
+// ---------------------------------------------------------------------------------
+//  ¥ TryEdit
+// ---------------------------------------------------------------------------------
+
+void
+CRezMapDoc::TryEdit(CRezObjItem * inRezObjItem, CommandT inCommand, int & outCountEdited)
+{	
+	ResType		theType = inRezObjItem->GetRezObj()->GetType();
+	short		theID = inRezObjItem->GetRezObj()->GetID();
+
+	CEditorDoc * theRezEditor = GetRezEditor(theType, theID);
+	if (theRezEditor != nil) {
+		if ((theRezEditor->GetKind() != editor_kindTmpl && inCommand == cmd_TmplEditRez) 
+			|| (theRezEditor->GetKind() != editor_kindHex && inCommand == cmd_HexEditRez)) {
+			 outCountEdited++;
+		 } 
+		 theRezEditor->SelectMainWindow();
+		 return;
+	} 
+	
+	switch (inCommand) {		
+		case cmd_EditRez:
+		if ( CRezEditor::HasEditorForType(theType) ) {
+			
+			// call the right GUI editor
+			CRezEditor::InvokeCustomEditor(this, mRezMapWindow->GetRezMapTable(), inRezObjItem->GetRezObj(), mReadOnly);
+			
+			break;
+		} // else fall through to template editing...
+						
+		case cmd_TmplEditRez:
+		if ( CRezEditor::HasTemplateForType(theType) ) {
+			new CTmplEditorDoc(this, mRezMapWindow->GetRezMapTable(), inRezObjItem->GetRezObj(), mReadOnly);
+			break;
+		} else {
+			if (inCommand == cmd_TmplEditRez) {
+				UMessageDialogs::AlertForType(CFSTR("NoTemplateForThisType"), theType);
+				break;
+			} 
+			// else fall through to hexadecimal editing...
+		}
+
+		case cmd_HexEditRez:
+		new CHexEditorDoc(this, mRezMapWindow->GetRezMapTable(), inRezObjItem->GetRezObj(), mReadOnly);
+		break;
+	}
+
 }
 
 
@@ -1278,8 +1310,7 @@ CRezMapDoc::NewResDialog()
 		}
 		
 		// if Create button hit, retrieve the options
-		if (msg_OK == theMessage)
-		{
+		if (msg_OK == theMessage) {
 			theTypeField->GetDescriptor(theString);
 			// Do we really have a type
 			if (theString[0]) {
@@ -1397,7 +1428,6 @@ CRezMapDoc::CreateNewRes(ResType inType, short inID, Str255* inName, short inAtt
 	OSErr error = newRezObjItem->GetRezObj()->Add();
 	
 	// Set the attributes
-// 	dynamic_cast<CRezObjItem *>(newRezObjItem)->GetRezObj()->SetAttributes(inAttrs);
 	newRezObjItem->GetRezObj()->SetAttributes(inAttrs);
 
 	// Refresh the view

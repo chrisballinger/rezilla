@@ -2,7 +2,7 @@
 // CEditorDoc.cp
 // 
 //                       Created: 2003-05-04 19:16:00
-//             Last modification: 2004-06-19 20:05:02
+//             Last modification: 2004-07-01 18:12:36
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -48,7 +48,9 @@ CEditorDoc::CEditorDoc(LCommander* inSuper,
 {
 	mRezObj = inRezObj;
 	mRezMapTable = inSuperMap;
+	mMainWindow = nil;
 	mReadOnly = inReadOnly;
+	mKind = editor_kindGui;
 	Register();
 }
 
@@ -146,11 +148,11 @@ CEditorDoc::FindCommandStatus(
 	UInt16		&outMark,
 	Str255		outName )
 {
-
 	switch ( inCommand ) {
 	
 		case cmd_Save:
 		case cmd_SaveAs:
+		case cmd_ExportMap:
 		case cmd_FindNext:
 			outEnabled = false;
 		break;
@@ -161,15 +163,13 @@ CEditorDoc::FindCommandStatus(
 		break;
 
 		case cmd_Close : 
-			outEnabled = true;
-			break;
+		outEnabled = true;
+		break;
 								
 	  default:
-		{
-			// Call inherited.
-			LDocument::FindCommandStatus( inCommand,
+		// Call inherited.
+		LDocument::FindCommandStatus( inCommand,
 				outEnabled, outUsesMark, outMark, outName );
-		}
 		break;
 
 	}
@@ -184,9 +184,9 @@ void
 CEditorDoc::ListenToMessage( MessageT inMessage, void *ioParam ) 
 {
 	switch (inMessage) {
-		case msg_StylePrefsChanged:
-		 
-			break;
+		
+		default:
+		break;
 		
 	}
 }
@@ -199,8 +199,7 @@ CEditorDoc::ListenToMessage( MessageT inMessage, void *ioParam )
 Boolean
 CEditorDoc::IsModified()
 {
-	// Compare original handle with modified handle
-	mIsModified = UMiscUtils::HandlesAreIdentical(mRezObj->GetData(), GetModifiedResource());
+	mIsModified = false;
 	return mIsModified;
 }
 
@@ -272,7 +271,7 @@ void
 CEditorDoc::DoSaveChanges() 
 {
 	Handle theHandle = GetModifiedResource();
-		
+	
 	// Copy to resource's data handle
 	mRezObj->SetData(theHandle);
 
@@ -321,6 +320,18 @@ CEditorDoc::Unregister()
 }
 
 
+// ---------------------------------------------------------------------------------
+//  ¥ SelectMainWindow
+// ---------------------------------------------------------------------------------
+
+void
+CEditorDoc::SelectMainWindow()
+{
+	if (mMainWindow != nil) {
+		mMainWindow->Select();
+	} 
+}
+ 
 
 
 PP_End_Namespace_PowerPlant

@@ -127,6 +127,10 @@ public:
 	CEditorDoc *		GetRezEditor(ResType inType, short inID);
 
 	TArray<CEditorDoc *>*	GetOpenedEditors() { return mOpenedEditors ;}
+
+	void				TryEdit(CRezObjItem * inRezObjItem, 
+								CommandT inCommand, 
+								int & outCountEdited);
 	
 	Boolean				IsReadOnly() { return mReadOnly;}
 	void				SetReadOnly(Boolean inReadOnlyDoc) {mReadOnly = inReadOnlyDoc;}
@@ -139,8 +143,8 @@ protected:
 	CTextFileStream *		mFileStream;
 	TArray<ResType>*		mTypesArray;	// Maintain a sorted array of ResTypes
 	TArray<CEditorDoc *> *	mOpenedEditors;	// Maintain an array of editor docs 
-	                 		                  	// dependent from this doc (all edit 
-	                 		                  	// windows for resources in this map)
+	                 		                // depending on this doc (all edit 
+	                 		                // windows for resources in this map)
 	Boolean					mUpdateOnClose;
 	Boolean					mReadOnly;
 	SInt16					mExportFormat;

@@ -2,7 +2,7 @@
 // CEditorDoc.h				
 // 
 //                       Created: 2004-02-23 17:57:59
-//             Last modification: 2004-06-19 20:04:54
+//             Last modification: 2004-06-25 10:05:07
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -51,6 +51,8 @@ public:
 
 	virtual void	AttemptClose( Boolean inRecordIt );
 	virtual void	DoSaveChanges();
+	
+	void			SelectMainWindow();
 
 	CRezObj *		GetRezObj() { return mRezObj; }
 	
@@ -59,10 +61,18 @@ public:
 	Boolean			IsReadOnly() { return mReadOnly;}
 	void			SetReadOnly(Boolean inReadOnlyDoc) {mReadOnly = inReadOnlyDoc;}
 
+	SInt16			GetKind() { return mKind;}
+	void			SetKind(SInt16 inKind) {mKind = inKind;}
+
+	LWindow*		GetMainWindow() { return mMainWindow;}
+	void			SetMainWindow(LWindow* inMainWindow) {mMainWindow = inMainWindow;}
+
 protected:
 	CRezObj *				mRezObj;
 	CRezMapTable *			mRezMapTable;
+	LWindow *				mMainWindow;
 	Boolean					mReadOnly;
+	SInt16					mKind;
 
 	virtual Handle	GetModifiedResource();
 	void			BuildDocumentTitle(Str255 & outTitle, SInt16 whichString);
