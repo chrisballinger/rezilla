@@ -1,7 +1,7 @@
 // ===========================================================================
 // UGraphicConversion.cp
 //                       Created: 2004-12-11 18:52:47
-//             Last modification: 2004-12-14 00:11:56
+//             Last modification: 2004-12-15 10:49:08
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -13,14 +13,15 @@
 
 #include "UGraphicConversion.h"
 #include "COffscreen.h"
-#include "RezillaConstants.h"
-#include "UIconMisc.h"
-#include "UFileUtils.h"
-#include "CSaveResFile.h"
-#include "CColorUtils.h"
 #include "CColorTableBuilder.h"
-#include "CPrefs.h"
+#include "CColorUtils.h"
 #include "CDisposeOnExit.h"
+#include "CPrefs.h"
+#include "CSaveResFile.h"
+#include "RezillaConstants.h"
+#include "UFileUtils.h"
+#include "UIconMisc.h"
+#include "UResources.h"
 
 #include <stdio.h>
 
@@ -107,7 +108,7 @@ void UGraphicConversion::OffscreenToClipboard( COffscreen *inBuffer, RgnHandle i
 	thePict = OffscreenToPicture( inBuffer, inSelection );
 	
 	// Delete the picture on exit (handles case when errors are thrown)
-	StDisposeHandle		aDeleter( (Handle) thePict );
+	StDisposeHandle		aDeleter( (Handle) thePict );  // StHandleBlock ?
 	
 	// Write the picture 
 	theClipboard->SetData( ImageType_Picture, (Handle) thePict, true /* reset */ );
@@ -249,7 +250,7 @@ PicHandle UGraphicConversion::GetPictFromFile( const FSSpec &inSpec )
 // 	
 // 			// save/restore various states
 // 
-// 	StSaveResFile		saver1;
+// 	StRezRefSaver		saver1;
 // 	StGWorldSaver		saver2;
 // 	
 // 			// if the rowBytes (or maskRowBytes) isn't specified, use the

@@ -13,14 +13,14 @@
 
 #pragma once
 
-#include "CRefCountMixin.h"
+#include "CRefCount.h"
 
 
 // ============================================================
 // 	CSharedPalette
 // ============================================================
 
-class CSharedPalette : public CRefCountMixin
+class CSharedPalette : public CRefCount
 {
 	public:
 								CSharedPalette( CTabHandle, GrafPtr inPort = nil, short inUpdates = pmNoUpdates );
