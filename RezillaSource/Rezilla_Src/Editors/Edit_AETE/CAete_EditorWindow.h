@@ -2,7 +2,7 @@
 // CAete_EditorWindow.h
 // 
 //                       Created: 2004-07-01 08:42:37
-//             Last modification: 2005-01-27 07:05:58
+//             Last modification: 2005-01-30 12:25:15
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -59,12 +59,11 @@ public:
 							void*				ioParam);
 
 	virtual void		ListenToMessage( MessageT inMessage,void *ioParam);
-
-// 	virtual void		Activate();
 	
 	void				InstallAete(Handle inHandle);
 	void				RetrieveAete(CAeteStream * outStream);
 		
+	CAete *				GetAete() {return mAete;}
 
 	static LMenu		*sAeteMenu;
 	static Str31		sAddEventStr, sAddClassStr, sAddCompOpStr, sAddEnumerationStr,

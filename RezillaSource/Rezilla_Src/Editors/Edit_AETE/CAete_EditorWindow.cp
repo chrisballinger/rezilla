@@ -539,7 +539,6 @@ CAete_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 //	¥ ObeyCommand							[public, virtual]
 // ---------------------------------------------------------------------------
 
-
 Boolean
 CAete_EditorWindow::ObeyCommand(
 	CommandT	inCommand,
@@ -559,13 +558,6 @@ CAete_EditorWindow::ObeyCommand(
 		InstallSuiteValues();
 		InstallPanelValues();
 		RebuildSuitePopup();
-	} else if (inCommand == cmd_AeteExport) {
-// 		UAeteTranslator::ExportTerminology();
-// 		FSSpec	theFSSpec;
-// 		AskExportAs(theFSSpec, RecordAE_Yes);
-	
-// 		mAete->ExportData(outFileStream);	
-
 	} else {
 		CAeteSuite *	theSuite = static_cast<CAeteSuite *>( FindCurrentObject( kind_AeteSuite ) );
 		LSlider *		theSlider;
