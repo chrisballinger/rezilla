@@ -214,6 +214,7 @@ CRezMapTable::InsertRezTypeItem(CRezTypeItem * inRezTypeItem)
 	LOutlineItem *	theItem = nil;	
 	CRezTypeItem *	theRezTypeItem = nil;	
 	CRezTypeItem *	prevRezTypeItem = nil;	
+	Boolean found = false;
 	
 	// Iterate among first level items
 	LArrayIterator iterator(mFirstLevelItems);
@@ -223,9 +224,14 @@ CRezMapTable::InsertRezTypeItem(CRezTypeItem * inRezTypeItem)
 		theType = theRezTypeItem->GetRezType()->GetType();
 		
 		if ( ::CompareText( (const void *) &theType, (const void *) &inType, 4, 4, nil) >= 0 ) {
+			found = true;
 			break;
 		} 
 	}
+	if (!found) {
+		// We have reached the end of the list
+		prevRezTypeItem = theRezTypeItem;
+	} 
 	InsertItem( inRezTypeItem, nil, prevRezTypeItem );	
 }
 
@@ -241,6 +247,7 @@ CRezMapTable::InsertRezObjItem(CRezObjItem * inRezObjItem, CRezTypeItem * inRezT
 	LOutlineItem *	theItem = nil;	
 	CRezObjItem *	theRezObjItem = nil;	
 	CRezObjItem *	prevRezObjItem = nil;	
+	Boolean found = false;
 	
 	// Iterate among subitems of the RezTypeItem
 	LArrayIterator iterator( *(inRezTypeItem->GetSubItems()) );
@@ -250,9 +257,14 @@ CRezMapTable::InsertRezObjItem(CRezObjItem * inRezObjItem, CRezTypeItem * inRezT
 		theID = theRezObjItem->GetRezObj()->GetID();
 		
 		if ( theID >= inID ) {
+			found = true;
 			break;
 		} 
 	}
+	if (!found) {
+		// We have reached the end of the list
+		prevRezObjItem = theRezObjItem;
+	} 
 	InsertItem( inRezObjItem, inRezTypeItem, prevRezObjItem );	
 }
 
