@@ -80,6 +80,7 @@ protected:
 	CBroadcasterTableView *	mDifferTable;
 	SInt16					mActiveTable;
 	
+	void				NameNewCompWindow();
 	virtual void		SetMaxScrollerValue();
 	SInt32				HexLineCount();
 	virtual void		FinishCreateSelf();

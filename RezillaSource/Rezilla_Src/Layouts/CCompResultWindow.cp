@@ -2,7 +2,7 @@
 // CHexEditorWindow.cp					
 // 
 //                       Created: 2004-03-02 14:18:16
-//             Last modification: 2004-03-18 19:19:14
+//             Last modification: 2004-03-18 23:34:53
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -167,7 +167,10 @@ CCompResultWindow::FinishCreateSelf()
 
 	// Add self to the windows menu
 	gWindowMenu->InsertWindow(this);
-	
+
+	// Name the window
+	NameNewCompWindow();
+
 	// Make the window visible
 	Show();
 }
@@ -197,40 +200,40 @@ CCompResultWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		mDifferTable->UnselectAllCells();
 		EraseHexPanes();
 		break;
-				
+		
 		case msg_CompResultOnlyNewTbl: 
 		mOnlyOldTable->UnselectAllCells();
 		mDifferTable->UnselectAllCells();
 		EraseHexPanes();
 		break;
-				
-	  case msg_CompResultDifferingTbl: {
-		Handle	oldHandle, newHandle;
-	    CRezTypId * theTypid;
-		STableCell theCell;
 		
-		mOnlyOldTable->UnselectAllCells();
-		mOnlyNewTable->UnselectAllCells();
-	  
-		theCell = mDifferTable->GetFirstSelectedCell();		
-		mRezCompare->GetDifferingList()->FetchItemAt( theCell.row, theTypid);
+		case msg_CompResultDifferingTbl: {
+			Handle	oldHandle, newHandle;
+			CRezTypId * theTypid;
+			STableCell theCell;
+			
+			mOnlyOldTable->UnselectAllCells();
+			mOnlyNewTable->UnselectAllCells();
+			
+			theCell = mDifferTable->GetFirstSelectedCell();		
+			mRezCompare->GetDifferingList()->FetchItemAt( theCell.row, theTypid);
+			
+			mRezCompare->GetOldMap()->GetWithID(theTypid->mType, theTypid->mID, oldHandle, false);
+			mRezCompare->GetNewMap()->GetWithID(theTypid->mType, theTypid->mID, newHandle, false);
+			
+			EraseHexPanes();
+			
+			mOldHexDataWE->InsertHexContents( *oldHandle, ::GetHandleSize(oldHandle));
+			mNewHexDataWE->InsertHexContents( *newHandle, ::GetHandleSize(newHandle));
+			
+			SetMaxScrollerValue();
+			break;
+		}
 		
-		mRezCompare->GetOldMap()->GetWithID(theTypid->mType, theTypid->mID, oldHandle, false);
-		mRezCompare->GetNewMap()->GetWithID(theTypid->mType, theTypid->mID, newHandle, false);
+		// 		default:
+		// 		GetSuperCommander()->ListenToMessage(inMessage, ioParam);
+		// 		break;
 		
-		EraseHexPanes();
-
-		mOldHexDataWE->InsertHexContents( *oldHandle, ::GetHandleSize(oldHandle));
-		mNewHexDataWE->InsertHexContents( *newHandle, ::GetHandleSize(newHandle));
-		
-		SetMaxScrollerValue();
-		break;
-	  }
-
-// 		default:
-// 		GetSuperCommander()->ListenToMessage(inMessage, ioParam);
-// 		break;
-				
 	}
 }
 
@@ -307,6 +310,31 @@ CCompResultWindow::ObeyCommand(
 	}
 
 	return cmdHandled;
+}
+
+
+// ---------------------------------------------------------------------------------
+//  ¥ NameNewCompWindow
+// ---------------------------------------------------------------------------------
+
+void
+CCompResultWindow::NameNewCompWindow()
+{
+	// Start with the default name ("untitled rez map [1]")
+	LStr255		theTitle(STRx_DefaultDocTitles, index_CompWinUntitled);
+	// If an existing window has this name, append a count and
+	// keep incrementing the count until we find a unique name.
+	long	num = 1;
+	while (UWindows::FindNamedWindow(theTitle) != nil) {
+		theTitle.Assign(STRx_DefaultDocTitles, index_CompWinUntitledX);
+		++num;
+		theTitle += "\p [";
+		theTitle += num;
+		theTitle += "\p]";
+	}		
+	
+	// Finally, set window title
+	SetDescriptor(theTitle);
 }
 
 
@@ -460,19 +488,31 @@ CCompResultWindow::InsertHexContentsFromLine(SInt32 inFromLine)
 	SInt32 charOffset = (inFromLine - 1) * kRzilHexCompCharsPerLine;
 	SInt32 remainingChars;
 
+	// Left pane
 	remainingChars = oldByteCount - charOffset;
 
 	if (remainingChars > kRzilHexCompCharsPerPane) {
 		remainingChars = kRzilHexCompCharsPerPane;
 	} 
-	mOldHexDataWE->InsertHexContents( (*theOldHandle) + charOffset, remainingChars);
+	if (remainingChars < 0) {
+		remainingChars = 0;
+		mOldHexDataWE->InsertHexContents( (*theOldHandle), remainingChars);
+	} else {
+		mOldHexDataWE->InsertHexContents( (*theOldHandle) + charOffset, remainingChars);
+	}
 	
+	// Right pane
 	remainingChars = newByteCount - charOffset;
 
 	if (remainingChars > kRzilHexCompCharsPerPane) {
 		remainingChars = kRzilHexCompCharsPerPane;
 	} 
-	mNewHexDataWE->InsertHexContents( (*theOldHandle) + charOffset, remainingChars);
+	if (remainingChars < 0) {
+		remainingChars = 0;
+		mNewHexDataWE->InsertHexContents( (*theOldHandle), remainingChars);
+	} else {
+		mNewHexDataWE->InsertHexContents( (*theOldHandle) + charOffset, remainingChars);
+	}
 	
 	// Adjust the scrollbar
 	mScroller->SetValue(inFromLine-1);
