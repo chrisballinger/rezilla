@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2005-01-15 09:33:48
+//             Last modification : 2005-01-17 21:11:23
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -166,6 +166,35 @@ enum {
 	resize_MoveSamples	= 0x02,
 	resize_Window		= 0x04,
 	resize_All			= 0xFF
+};
+
+// Indices for elements of 'icns' resources
+enum {
+	icns_Thumbnail32BitData	= 0,	// 'it32'
+	icns_Thumbnail8BitMask,			// 't8mk'
+	icns_Huge1BitMask,				// 'ich#'
+	icns_Huge4BitData,				// 'ich4'
+	icns_Huge8BitData,				// 'ich8'
+	icns_Huge32BitData,				// 'ih32'
+	icns_Huge8BitMask,				// 'h8mk'
+	icns_Large1BitMask,				// 'ICN#'
+	icns_Large4BitData,				// 'icl4'
+	icns_Large8BitData,				// 'icl8'
+	icns_Large32BitData,			// 'il32'
+	icns_Large8BitMask,				// 'l8mk'
+	icns_Small1BitMask,				// 'ics#'
+	icns_Small4BitData,				// 'ics4'
+	icns_Small8BitData,				// 'ics8'
+	icns_Small32BitData,			// 'is32'
+	icns_Small8BitMask,				// 's8mk'
+	icns_Mini1BitMask,				// 'icm#'
+	icns_Mini4BitData,				// 'icm4'
+	icns_Mini8BitData,				// 'icm8'
+	icns_TileIconVariant,			// 'tile'
+	icns_RolloverIconVariant,		// 'over'
+	icns_DropIconVariant,			// 'drop'
+	icns_OpenIconVariant,			// 'open'
+	icns_OpenDropIconVariant		// 'odrp'
 };
 
 
