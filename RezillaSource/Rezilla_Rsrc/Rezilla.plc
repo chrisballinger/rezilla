@@ -1,0 +1,74 @@
+// ===========================================================================
+// Rezilla.plc					
+//                       Created : 2003-04-16 22:25:40
+//             Last modification : 2003-04-28 08:14:09
+// Author : Bernard Desgraupes
+// e-mail : <bdesgraupes@easyconnect.fr>
+// www : <http://webperso.easyconnect.fr/bdesgraupes/>
+// © Copyright : Bernard Desgraupes 2003
+// All rights reserved.
+// ===========================================================================
+
+
+// Bundle identifier string
+#define kBundleIdentifier "fr.rezilla.bdesgraupes"
+
+// Short version string
+#define kBundleShortVersion __OUTPUT_FILENAME__ " version 1.0"
+
+// String to display in the Finder's Get Info window
+#define kBundleGetInfo kBundleShortVersion ", Copyright \U00A9 2003 by Bernardo Desgraupes. All rights reserved."
+
+plist
+{
+	dictionary
+	{
+		key "CFBundleIdentifier" value string kBundleIdentifier
+		
+		key "CFBundleName" value string __OUTPUT_FILENAME__
+		key "CFBundleGetInfoString" value string kBundleGetInfo
+		key "CFBundleShortVersionString" value string kBundleShortVersion
+		
+		key "CFBundlePackageType" value string __OUTPUT_TYPE__
+		key "CFBundleSignature" value string __OUTPUT_CREATOR__
+		key "CFBundleExecutable" value string __OUTPUT_FILENAME__
+		key "CFBundleVersion" value string "1.0"
+		
+		key "CFBundleHelpBookFolder" value string "Rezilla Help"
+		key "CFBundleHelpBookName" value string "Rezilla Help"
+	
+		key "CFBundleDevelopmentRegion" value string "English"
+		key "CFBundleInfoDictionaryVersion" value string "6.0"
+		key "LSRequiresCarbon" value boolean true
+		key "CFBundleDocumentTypes" value array 
+		[
+			dictionary
+			{
+				key "CFBundleTypeName" value string "NSStringPboardType"
+				key "CFBundleTypeIconFile" value string "128"
+				key "CFBundleTypeRole" value string "Viewer"
+				key "CFBundleTypeOSTypes" value array
+				[
+					string 'TEXT'
+				]
+				key "CFBundleTypeExtensions" value array
+				[
+					string "*"
+				]
+			}
+		]
+	}
+}
+
+// Change this to be localized for English
+localize "English"
+{
+	comment "Localized versions of Info.plist keys"
+	key "CFBundleName" value string __OUTPUT_FILENAME__
+	key "CFBundleGetInfoString" value string kBundleGetInfo
+	key "CFBundleShortVersionString" value string kBundleShortVersion
+}
+
+#include "Rezilla_EN.ploc"
+#include "Rezilla_FR.ploc"
+

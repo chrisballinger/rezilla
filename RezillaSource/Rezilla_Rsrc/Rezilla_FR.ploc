@@ -1,0 +1,16 @@
+localize "French" as "Localizable.strings" 
+{
+	key "RequireSystemNine" value string "Rezilla requiert le Système 9 ou plus."
+	key "NoTypeSpecified" value string "Vous devez spécifier un type pour la ressource."
+	key "NoIDSpecified" value string "Vous devez spécifier un numéro ID pour la ressource."
+	key "NoRezInAnyFork" value string "Ce fichier ne contient aucune ressource."
+	key "NoRezInDataFork" value string "Ce fichier ne contient aucune ressource dans la branche de données."
+	key "NoRezInRezFork" value string "Ce fichier ne contient aucune ressource dans la branche de ressources."
+	key "HaveWritePermission" value string "Impossible de sauver le fichier. Vérifiez que vous possédez bien les droits d'accès en écriture."
+	key "HaveReadPermission" value string "Impossible de sauver le fichier. Vérifiez que vous possédez bien les droits d'accès en lecture."
+	key "SaveHexWindow" value string "Voulez-vous sauvegarder les modifications faites avec l'éditeur hexadécimal ?"
+	key "SaveRezMapWindow" value string "Voulez-vous sauvegarder les modifications avant de refermer la table de ressources ?"
+	key "InvalidHexDataInScrap" value string "Impossible de coller les données du presse-papier dans ce cadre car elles ne sont pas hexadécimales."
+	key "InvalidHexDataInString" value string "Cette chaîne n'est pas hexadécimale."
+}
+

@@ -1,0 +1,16 @@
+localize "English" as "Localizable.strings" 
+{
+	key "RequireSystemNine" value string "Rezilla require System 9 or greater."
+	key "NoTypeSpecified" value string "You must specify a resource type."
+	key "NoIDSpecified" value string "You must specify a resource ID."
+	key "NoRezInAnyFork" value string "This file contains no resources."
+	key "NoRezInDataFork" value string "This file contains no resources in the data fork."
+	key "NoRezInRezFork" value string "This file contains no resources in the resource fork."
+	key "HaveWritePermission" value string "Couldn't save file. Make sure you have 'write' permission."
+	key "HaveReadPermission" value string "Couldn't save file. Make sure you have 'read' permission."
+	key "SaveHexWindow" value string "Do you want to save the changes made in the hex editing window?"
+	key "SaveRezMapWindow" value string "Do you want to save the resource map before closing?"
+	key "InvalidHexDataInScrap" value string "Can't paste: scrap does not contain valid hexadecimal data."
+	key "InvalidHexDataInString" value string "This string does not contain valid hexadecimal data."
+}
+
