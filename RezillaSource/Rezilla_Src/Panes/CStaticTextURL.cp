@@ -22,7 +22,11 @@
 // #include <UDesktop.h>
 #include <LString.h>
 
+// Standard headers
+#include <string.h>
+
 #include <AEHelpers.h>
+#include <LaunchServices.h>
 
 PP_Begin_Namespace_PowerPlant
 
@@ -103,8 +107,6 @@ CStaticTextURL::GetUrlString(
  Str255  outDescriptor) const
 {
 	LString::CopyPStr(mUrlString, outDescriptor);
-	Size	strLen;
-	GetText((Ptr) outDescriptor + 1, 255, &strLen);
 	return outDescriptor;
 }
 
@@ -122,8 +124,7 @@ CStaticTextURL::AdjustMouseSelf(
 	Rect	frame;
 	CalcLocalFrameRect(frame);
 	PortToLocalPoint(inPortPt);
-	if (PtInRect(inPortPt, &frame))
-	{
+	if (PtInRect(inPortPt, &frame)) {
 		::SetCursor(&mHandCursor);
 	}
 }
@@ -138,8 +139,6 @@ CStaticTextURL::ClickSelf(
 	const SMouseDownEvent &inMouseDown)
 {
 #pragma unused(inMouseDown)
-	
-// 	UDesktop::FetchTopRegular()->Hide();		
 	SendGurlGurlEvent();
 }
 
@@ -152,27 +151,16 @@ OSErr
 CStaticTextURL::SendGurlGurlEvent() 
 {
 	OSErr		error;
-	OSType		theSignature = kSystemEventsSig;
 	char		urlCString[256];
-	AppleEvent	theEvent = {typeNull, nil};
-	AppleEvent	theReply = {typeNull, nil};
-
+	CFURLRef	theCFUrl, outLaunchedURL;
+	
 	CopyPascalStringToC(mUrlString, urlCString);
 	
-	error = AEBuildAppleEvent(
-				'GURL', 'GURL',
-				typeApplSignature, &theSignature, sizeof(OSType),
-				kAutoGenerateReturnID, kAnyTransactionID,
-				&theEvent,
-				NULL,
-				"'----':'TEXT'(@)", urlCString);
+	theCFUrl = CFURLCreateWithBytes(kCFAllocatorDefault, (const UInt8 *) urlCString, strlen(urlCString),
+									 CFStringGetSystemEncoding(), NULL);
 
-	if (error == noErr) {
-		error = AESend( &theEvent, &theReply, kAENoReply, kAENormalPriority, kNoTimeOut, nil, nil );			
-	} 	
+	error = LSOpenCFURLRef(theCFUrl, &outLaunchedURL);
 
-	(void) AEDisposeDesc(&theEvent);
-	(void) AEDisposeDesc(&theReply);
 	return error;
 }
 

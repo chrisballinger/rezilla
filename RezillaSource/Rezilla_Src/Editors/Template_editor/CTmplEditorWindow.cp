@@ -247,17 +247,17 @@ CTmplEditorWindow::FinishCreateSelf()
 	mWastePaneInfo.bindings.bottom	= true;
 	mWastePaneInfo.userCon			= 0;
 	
-	// Rectangle edit basic values
-	mHeaderPaneInfo.width			= kTmplListHeaderWidth;
-	mHeaderPaneInfo.height			= kTmplListHeaderHeight;
-	mHeaderPaneInfo.visible			= true;
-	mHeaderPaneInfo.enabled			= true;
-	mHeaderPaneInfo.bindings.left	= true;
-	mHeaderPaneInfo.bindings.top	= true;
-	mHeaderPaneInfo.bindings.right	= false;
-	mHeaderPaneInfo.bindings.bottom	= false;
-	mHeaderPaneInfo.userCon			= 0;
-	mHeaderPaneInfo.superView		= mContentsView;
+// 	// List header basic values
+// 	mHeaderPaneInfo.width			= kTmplListHeaderWidth;
+// 	mHeaderPaneInfo.height			= kTmplListHeaderHeight;
+// 	mHeaderPaneInfo.visible			= true;
+// 	mHeaderPaneInfo.enabled			= true;
+// 	mHeaderPaneInfo.bindings.left	= true;
+// 	mHeaderPaneInfo.bindings.top	= true;
+// 	mHeaderPaneInfo.bindings.right	= false;
+// 	mHeaderPaneInfo.bindings.bottom	= false;
+// 	mHeaderPaneInfo.userCon			= 0;
+// 	mHeaderPaneInfo.superView		= mContentsView;
 	
 }
 	
@@ -420,10 +420,13 @@ CTmplEditorWindow::DoParseTemplate(SInt32 inRecursionMark)
 		
 		if (theType == 'OCNT' || theType == 'ZCNT') {
 			LString::CopyPStr(theString, countLabel);
+			ParseDataForType(theType, theString);
 		} else if (theType == 'LSTB' || theType == 'LSTC' || theType == 'LSTZ') {
-			AddListHeader(theType, theString, countLabel, mItemsCount);
 			currType = theType;
-			ParseList(mTemplateStream->GetMarker(), theType, mItemsCount);
+			if (theType == 'LSTC') {
+				AddListHeader(theType, theString, mItemsCount, countLabel);
+			}
+			ParseList(mTemplateStream->GetMarker(), theType, theString, mItemsCount);
 		} else if (theType == 'LSTE') {
 			if ( EndOfList(currType) ) {
 				break;
@@ -443,7 +446,7 @@ CTmplEditorWindow::DoParseTemplate(SInt32 inRecursionMark)
 // ---------------------------------------------------------------------------
 
 void
-CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount)
+CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, Str255 inLabel, SInt32 inCount)
 {
 	mIndent += kTmplListIndent;
 	
@@ -1203,24 +1206,20 @@ CTmplEditorWindow::AddRectField(SInt16 inTop,
 // ::MacFrameRect(&theFrame);
 
 void
-CTmplEditorWindow::AddListHeader(OSType inType, Str255 inLabel, Str255 inCountLabel, short inCount)
+CTmplEditorWindow::AddListHeader(OSType inType, Str255 inLabel, short inCount, Str255 inCountLabel)
 {
-	mHeaderPaneInfo.left = kTmplLeftMargin + mIndent;
-	mHeaderPaneInfo.top = mYCoord;
+	Str255	numStr;
+	SInt32	oldLeft;
 	
-	LStaticText * theStaticText = new LStaticText(mHeaderPaneInfo, inLabel, mLeftLabelTraitsID);
-	ThrowIfNil_(theStaticText);
-	
-	if (inType == 'LSTC') {
-		// ::NumToString( (long) mItemsCount, numStr);
-		// AddStaticField(inLabelString);
-		// AddEditField(numStr, inType, rPPob_TmplEditorWindow + mCurrentID, 255, 0, 
-		// 			 UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar));
-		
-	}
-	
+	AddStaticField(inLabel);
+
+	oldLeft = mStaticPaneInfo.left;
+	mStaticPaneInfo.left += mStaticPaneInfo.width;
+	::NumToString( (long) inCount, numStr);
+	AddStaticField(numStr);	
 
 	// Advance the counters
+	mStaticPaneInfo.left = oldLeft;
 	mYCoord += kTmplListHeaderHeight + kTmplVertSep;
 }
  

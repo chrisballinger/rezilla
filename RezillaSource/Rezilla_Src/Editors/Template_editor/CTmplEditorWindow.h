@@ -110,7 +110,10 @@ protected:
 private:
 	OSErr			ParseDataForType(ResType inType, Str255 inString);
 	
-	void			ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount);
+	void			ParseList(SInt32 inStartMark, 
+							  ResType inType, 
+							  Str255 inLabel, 
+							  SInt32 inCount);
 
 	Boolean			EndOfList(ResType inType);
 	
@@ -144,8 +147,8 @@ private:
 
 	void			AddListHeader(OSType inType, 
 								  Str255 inLabel, 
-								  Str255 inCountLabel, 
-								  short inCount);
+								  short inCount, 
+								  Str255 inCountLabel);
 	
 	ExceptionCode	AlignBytes(UInt8 inStep);
 	
