@@ -201,7 +201,7 @@ CEditorsController::InvokeCustomEditor(CRezMapDoc* inRezMapDoc,
 		break;
 		
 		case 'PICT':
-		  new CPICT_EditorDoc( (LCommander *) inRezMapDoc, inSuperMap, inRezObj, 'PICT', true);
+		  new CPICT_EditorDoc( (LCommander *) inRezMapDoc, inSuperMap, inRezObj, 'PICT', inReadOnly);
 		break;
 		
 		case 'snd ':
