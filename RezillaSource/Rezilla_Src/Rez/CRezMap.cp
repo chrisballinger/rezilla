@@ -2,7 +2,7 @@
 // CRezMap.cp					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2004-03-16 15:44:40
+//             Last modification: 2004-11-09 04:06:51
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -15,7 +15,7 @@
 #include "CRezMap.h"
 #include "CRezObj.h"
 #include "UResources.h"
-
+#include "RezillaConstants.h"
 
 
 // ---------------------------------------------------------------------------
@@ -189,19 +189,46 @@ CRezMap::GetWithID(ResType inType, short inID, Handle & outHandle, Boolean loadI
 // ---------------------------------------------------------------------------
 //  ¥ GetWithName													[public]
 // ---------------------------------------------------------------------------
-// Get a handle to a resource of a given type with a given name
-// from current resource map.
+// Get a handle to a resource of a given type with a given name in the
+// current resource map. Unfortunately Get1NamedResource() appears to be
+// case insensitive! So we must get the list of all resources of the given
+// type and check the names directly.
 
 OSErr
 CRezMap::GetWithName(ResType inType, ConstStr255Param inName, Handle & outHandle, Boolean loadIt)
 {
-	OSErr error;
-    StRezReferenceSaver saver(mRefNum);
+	OSErr	error = noErr;
+	short	theCount = 0;
+	short	theID;
+	ResType	theType;
+	Str255	theName;
+	Boolean found = false;
+
+	StRezReferenceSaver saver(mRefNum);
 	if (!loadIt) {
 		::SetResLoad(false);
 	} 
-    outHandle = ::Get1NamedResource(inType, inName);
+	theCount = ::Count1Resources(inType);
 	error = ::ResError();
+	if (error == noErr) {
+		for ( UInt16 i = 1; i <= theCount; i++ ) {
+			outHandle = ::Get1IndResource(inType, i);
+			error = ::ResError();
+			if (error == noErr) {
+				::GetResInfo(outHandle, &theID, &theType, theName);
+				error = ::ResError();
+			} 
+			if (error == noErr 
+				&& 
+				LString::CompareBytes(theName + 1, inName + 1, theName[0], inName[0]) == 0) {
+					found = true;
+					break;
+			} 
+		}
+	}
+	if (!found) {
+		error = resNotFound;
+	} 
 	if (!loadIt) {
 		::SetResLoad(true);
 	} 

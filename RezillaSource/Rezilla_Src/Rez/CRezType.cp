@@ -2,7 +2,7 @@
 // CRezType.cp					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2004-03-02 07:33:34
+//             Last modification: 2004-11-09 04:06:57
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -15,6 +15,7 @@
 #include "CRezType.h"
 #include "UResources.h"
 #include "CRezMap.h"
+#include "RezillaConstants.h"
 
 
 // ---------------------------------------------------------------------------
@@ -77,7 +78,7 @@ CRezType::GetWithID(short inID, Handle & outHandle)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetWithName														[public]
+//  ¥ GetWithName													[public]
 // ---------------------------------------------------------------------------
 // Get a handle to a resource of a given type with a given name
 // from current resource map.
@@ -85,9 +86,36 @@ CRezType::GetWithID(short inID, Handle & outHandle)
 OSErr
 CRezType::GetWithName(ConstStr255Param inName, Handle & outHandle)
 {
-    StRezReferenceSaver saver(GetOwnerMap()->GetRefnum());
-    outHandle = ::Get1NamedResource(mType, inName);
-    return ::ResError();
+	OSErr	error = noErr;
+	short	theCount = 0;
+	short	theID;
+	ResType	theType;
+	Str255	theName;
+	Boolean found = false;
+
+   StRezReferenceSaver saver(GetOwnerMap()->GetRefnum());
+   theCount = ::Count1Resources(mType);
+   error = ::ResError();
+   if (error == noErr) {
+	   for ( UInt16 i = 1; i <= theCount; i++ ) {
+		   outHandle = ::Get1IndResource(mType, i);
+		   error = ::ResError();
+		   if (error == noErr) {
+			   ::GetResInfo(outHandle, &theID, &theType, theName);
+			   error = ::ResError();
+		   } 
+		   if (error == noErr 
+			   && 
+			   LString::CompareBytes(theName + 1, inName + 1, theName[0], inName[0]) == 0) {
+				   found = true;
+				   break;
+		   } 
+	   }
+   }
+   if (!found) {
+	   error = resNotFound;
+   } 
+   return error;
 }
 
 
