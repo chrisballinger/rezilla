@@ -715,6 +715,7 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 		theHandle = mRezStream->GetDataHandle();
 		HLock(theHandle);
 		theTGB->InstallBackStoreData((*theHandle) + oldPos, newPos - oldPos);
+		theScroller->SetValue(0);
 		theTGB->SetMaxScrollerValue();
 		theTGB->InstallContentsFromLine(1);
 		HUnlock(theHandle);
