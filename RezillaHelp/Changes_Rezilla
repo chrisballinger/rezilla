@@ -40,9 +40,12 @@ Last modification: $Date$
 	* fixed scrollbar jumps in Hex Editor windows
 	* created, copied or dropped resources are inserted alphabetically
 	* IDs are sorted in increasing order in RezMapTable
-	* read-only state fulling working for rez map documents
+	* read-only state fully working for rez map documents
 	* locked/unlocked icon in the lower left corner of rezmap windows and
 	  hexadecimal editor's windows to indicate read-only state
+	* fixed issue with SaveAs when some resources were not loaded in memory
+	* display the icon for standard icon resource types ('ICN#', 'ics#', 
+		'icl4', 'icl8', 'ics4', or 'ics8') in the Inspector Window
 	* 
 
 ================================================================================
