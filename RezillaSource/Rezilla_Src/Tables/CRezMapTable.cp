@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezMapTable.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2005-02-16 16:44:31
+//             Last modification: 2005-02-18 17:26:49
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -933,7 +933,7 @@ static Boolean DoKeyCheck( const EventRecord &inKeyEvent )
 			++numInBuffer;
 			if ( numInBuffer == 8 )
 			{
-				UMessageDialogs::SimpleMessage("\pLes insensŽs s'agitent, le sage se repose !", PPob_SimpleMessage);
+				UMessageDialogs::SimpleMessage("\pLes insensŽs s'agitent, le sage se prŽlasse !", PPob_SimpleMessage);
 				return true;
 			}
 			return false;
@@ -953,12 +953,8 @@ CRezObjItem *
 CRezMapTable::CreateItemIfNecessary(ResType inType, short inID, Str255* inName)
 {
 	CRezTypeItem *	rezTypeItem;
-	CRezObjItem 	*oldRezItem, *newRezItem = NULL;
+	CRezObjItem 	*rezObjItem = NULL;
 	CRezType *		theRezType;
-	
-	oldRezItem = GetRezObjItem(inType, inID);
-	
-	if ( oldRezItem != NULL ) { return oldRezItem; } 
 	
 	if ( ! TypeExists(inType, rezTypeItem) ) {
 		// If the type does not already exist, create a new ResTypeItem
@@ -974,13 +970,17 @@ CRezMapTable::CreateItemIfNecessary(ResType inType, short inID, Str255* inName)
 		rezTypeItem->Expand();
 	}
 	
-	// Create a new RezObjItem
-	newRezItem = new CRezObjItem( theRezType, inID, inName);
-	ThrowIfNil_(newRezItem);
-		
-	// Install the item in the table
-	InsertRezObjItem( newRezItem, rezTypeItem );
+	rezObjItem = GetRezObjItem(inType, inID);
+	
+	if ( rezObjItem == NULL ) { 
+		// Create a new RezObjItem
+		rezObjItem = new CRezObjItem( theRezType, inID, inName);
+		ThrowIfNil_(rezObjItem);
+			
+		// Install the item in the table
+		InsertRezObjItem( rezObjItem, rezTypeItem );
+	} 
 
-	return newRezItem;
+	return rezObjItem;
 }
  
