@@ -305,7 +305,7 @@ Rzil_ExportAeteEventFilterUPP(NavEventCallbackMessage inCBSelector,
 						   NavCBRecPtr inCBParams, 
 						   void *ioCallBackUD)
 {
-#define NUM_AETE_EXPORT_ITEMS    2
+#define NUM_AETE_EXPORT_ITEMS    4
 
 	SInt16				theOutputIndex = *(SInt16 *)ioCallBackUD;
 	NavMenuItemSpec		theMenuItemSpec;
@@ -316,8 +316,8 @@ Rzil_ExportAeteEventFilterUPP(NavEventCallbackMessage inCBSelector,
 		// Get the filename extensions
 		GetIndString(theExtension[0], STRx_FileExtensions, index_ExtXml);
 		GetIndString(theExtension[1], STRx_FileExtensions, index_ExtR);
-// 		GetIndString(theExtension[2], STRx_FileExtensions, index_ExtHtml);
-// 		GetIndString(theExtension[3], STRx_FileExtensions, index_ExtText);
+		GetIndString(theExtension[2], STRx_FileExtensions, index_ExtText);
+		GetIndString(theExtension[3], STRx_FileExtensions, index_ExtHtml);
 		// Set Xml (i-e Rzil_AeteExportItems[0]) as the default
 		theMenuItemSpec.version = kNavMenuItemSpecVersion;
 		theMenuItemSpec.menuCreator = FOUR_CHAR_CODE('Rzil');
