@@ -758,10 +758,10 @@ CTmplEditorWindow::ParseKeyedSection(ResType inType, Str255 inLabelString, LView
 		// Skip all the CASE statements
 		SkipNextKeyCases(0);
 	} else {
-		if ( ! SelectKeyValueFromKeyCases(inLabelString, keyString) ) {
-			error = err_TmplCreateEmptyNewAborted;
+		error = SelectKeyValueFromKeyCases(inLabelString, keyString);
+		if (error != noErr) {
 			return error;
-		} 
+		}
 		inDrawControls = false;
 	}
 	
@@ -1092,7 +1092,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		case 'KULG':
 		case 'KUWD':
 		// Keyed lists switches
-		ParseKeyedSection(inType, inLabelString, inContainer);
+		error = ParseKeyedSection(inType, inLabelString, inContainer);
 		break;
 		
 		case 'KEYB':
