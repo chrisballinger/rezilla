@@ -61,6 +61,8 @@ $Date$
 ¥ Fix for the P100 template tag.
 ¥ Fix for the case-insensitivity issue when finding a resource by name.
 ¥ No double alert message when error thrown from stream parsing.
+¥ Fixed display glitch when reactivating a hex editing window.
+¥ Test samples file. Test suite templates.
 
 ================================================================================
 = 1.0.4a8	                             last update: 2004-09-17 10:55:56
