@@ -42,6 +42,8 @@ $Date$
   before a selected item.
 ¥ Enabled command-click in title bar of rez map windows. Added proxy icon.
 ¥ The height of text fields is now adapted to the amount of text to edit.
+¥ The width of the edit fields is now calculated with the expected number
+  of characters. Small fields are not bound to the right edge anymore.
 
 ================================================================================
 = 1.0.4a8	                             last update: 2004-09-17 10:55:56
