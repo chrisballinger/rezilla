@@ -15,6 +15,8 @@
 #include "CMENU_EditorDoc.h"
 #include "CMENU_EditorWindow.h"
 #include "CMENU_EditorTable.h"
+#include "CPopupEditField.h"
+#include "CKeyboardGlyphBox.h"
 #include "CMenuObject.h"
 #include "CRezillaApp.h"
 #include "CMenuItem.h"
@@ -106,6 +108,11 @@ CMENU_EditorWindow::FinishCreateSelf()
 	// Link the broadcasters
 	UReanimator::LinkListenerToControls( this, this, PPob_TextEditorWindow );
 	
+	// Listen to the glyph popup
+	CPopupEditField * theEditText = dynamic_cast<CPopupEditField *>(this->FindPaneByID( item_MenuEditGlyphField ));
+	ThrowIfNil_( theEditText );
+	theEditText->GetPopup()->AddListener(this);
+	
 // 	// Make the window a listener to the prefs object
 // 	CRezillaApp::sPrefs->AddListener(this);
 
@@ -120,21 +127,21 @@ void
 CMENU_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam ) 
 {	
 	switch (inMessage) {
-// 		case 'Glyf': 
-// 		Str255 theString;
-// 		SInt32 theGlyph;
-// 		
-// 		LEditText * theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(item_MenuEditGlyph));
-// 		ThrowIfNil_( theEditText );
-// 		theEditText->GetDescriptor(theString);
-// 		::StringToNum( theString, &theGlyph);
-// 		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(50));
-// 		ThrowIfNil_( theEditText );
-// 		theString[0] = 1;
-// 		theString[1] = (UInt32) theGlyph;
-// 		theEditText->SetDescriptor(theString);
-// 
-// 		break;
+		case msg_MenuEditGlyphPopup: 
+		Str255		theString;
+		SInt32 		theValue;
+		
+		LEditText * theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(item_MenuEditGlyphField));
+		ThrowIfNil_( theEditText );
+		theEditText->GetDescriptor(theString);
+		::StringToNum( theString, &theValue);		
+		CKeyboardGlyphBox * theGlyphBox = dynamic_cast<CKeyboardGlyphBox *>(this->FindPaneByID(item_MenuEditGlyphBox));
+		ThrowIfNil_( theGlyphBox );
+		theString[0] = 1;
+		theString[1] = theValue;
+		theGlyphBox->SetString(theString);
+		theGlyphBox->Draw(nil);
+		break;
 		
 		default:
 		dynamic_cast<CMENU_EditorDoc *>(mOwnerDoc)->ListenToMessage(inMessage, ioParam);
@@ -449,7 +456,7 @@ CMENU_EditorWindow::InstallItemValuesAtIndex( ArrayIndexT inAtIndex )
 			::NumToString( theFontID, theString);
 			theEditText->SetDescriptor(theString);
 
-			theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditGlyph ));
+			theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditGlyphField ));
 			ThrowIfNil_( theEditText );
 			::NumToString( theGlyph, theString);
 			theEditText->SetDescriptor(theString);
