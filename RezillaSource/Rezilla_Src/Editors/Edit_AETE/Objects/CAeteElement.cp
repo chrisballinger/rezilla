@@ -148,3 +148,15 @@ CAeteElement::DeleteKeyForm()
 }
  
 
+// ---------------------------------------------------------------------------
+// GetKeyForm 													[public]
+// ---------------------------------------------------------------------------
+
+OSType
+CAeteElement::GetKeyForm(ArrayIndexT inKeyFormIndex)
+{
+	OSType	keyForm = 0;
+	mKeyForms.FetchItemAt(inKeyFormIndex, keyForm);
+	return keyForm;
+}
+
