@@ -24,7 +24,6 @@
 #include "CHexDataSubView.h"
 #include "CTxtDataSubView.h"
 #include "CHexEditorWindow.h"
-#include "CRezClipboard.h"
 #include "CWEViewActions.h"
 #include "CHexEditorActions.h"
 #include "UCodeTranslator.h"
@@ -90,6 +89,8 @@ CHexDataSubView::ClickSelf(
 	const SMouseDownEvent	&inMouseDown)
 {
 	SInt32 startPos, endPos;
+
+	mEditorWindow->SetSelectingAll(false);
 	CHexDataWE::ClickSelf(inMouseDown);
 
 	// Synchronize sibling
@@ -141,30 +142,10 @@ CHexDataSubView::ObeyCommand(
 
 	switch (inCommand) {
 
-		case cmd_Copy: {
-			Handle txtData;
-			SInt32 startPos, endPos;
-			WEGetSelection( &startPos, &endPos, mWasteEditRef );
-			
-			txtData = ::NewHandle(endPos - startPos);
-			WEStreamRange(startPos, endPos, kTypeText, 0, txtData, mWasteEditRef) ;
-			
-			// Strip blanks
-			StStripPeriodicalTranslator blankstripper(txtData, 3);
-			blankstripper.FilterOutPeriodical();
-			
-			CRezClipboard::SetScrapContext(scrap_hexeditHexdata);
-			CRezClipboard::GetClipboard()->SetData(ResType_Text, blankstripper.GetOutHandle(), true);
-			
-			if (txtData != nil) {
-				::DisposeHandle(txtData);
-			} 
-			break;
-		}
-
-		case cmd_Paste: 
+		case cmd_Copy: 
 		case cmd_Cut: 
-		case cmd_Clear: {
+		case cmd_Clear:
+		case cmd_Paste:  {
 			mEditorWindow->SetCurrentSubView(hex_hexpane);
 			cmdHandled = mEditorWindow->ObeyCommand(inCommand, ioParam);
 			break;
@@ -185,6 +166,7 @@ CHexDataSubView::ObeyCommand(
 		}
 
 		case cmd_SelectAll: {
+			mEditorWindow->SetSelectingAll(true);
 			SelectAll();
 			AdjustImageToText();
 			ForceAutoScroll(oldDestRect);

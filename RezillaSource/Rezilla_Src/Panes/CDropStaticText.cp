@@ -1,12 +1,15 @@
 // ===========================================================================
 // CDropStaticText.cp					
 // 
-// © 2002, Bernard Desgraupes, All rights reserved.
 //                       Created : 2003-04-12 10:45:24
 //             Last modification : 2004-02-29 18:50:16
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
+// © Copyright: Bernard Desgraupes 2003-2004
+// All rights reserved.
+// $Date$
+// $Revision$
 // ===========================================================================
 // Subclass implementing drag and drop of a file from the Finder onto a 
 // text edit field.

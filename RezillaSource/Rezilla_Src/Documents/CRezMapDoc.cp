@@ -209,6 +209,10 @@ CRezMapDoc::Initialize(FSSpec * inFileSpec, short inRefnum)
 			mRezFile = new CRezFile();
 		}
 	} 
+	
+	if (inFileSpec != nil) {
+		SetSpecified(true);
+	} 
 
 	mRezFile->SetOwnerDoc(this);
 	
@@ -710,7 +714,6 @@ CRezMapDoc::AskSaveAs(
 void
 CRezMapDoc::DoRevert()
 {
-	short		mapAttrs;
 	FSSpec		theFSSpec;
 	short		theRefNum;
 	SInt16		theFork;
@@ -944,7 +947,6 @@ void
 CRezMapDoc::DoAEExport(
 	FSSpec	&inFileSpec)
 {
-	Str255	thePath;
 	OSErr	err = noErr;
 
 	// Delete the existing file object.
@@ -1359,7 +1361,7 @@ CRezMapDoc::GetRezEditor(ResType inType, short inID)
 	TArrayIterator<CRezEditor *> iterator(*mOpenedEditors);
 	CRezEditor*	theRezEditor = nil;
 	
-	// CRezillaApp class maintains a list of all CRezMapDoc's that we created
+	// CRezillaApp class maintains a list of all CRezMapDoc's that were created
 	while (iterator.Next(theRezEditor)) {
 		if (inType == theRezEditor->GetRezObj()->GetType() && inID == theRezEditor->GetRezObj()->GetID() ) {
 			result = theRezEditor;
@@ -1549,7 +1551,6 @@ CRezMapDoc::PasteResource(ResType inType, short inID, Handle inHandle, Str255* i
 {
 	CRezTypeItem * theRezTypeItem;
 	CRezType * theRezType;
-// 	Str255 theName = "\p";
 	
 	// Find if there is already a CRezTypeItem for the specified type. If not, create one. 
 	if ( ! mRezMapWindow->GetRezMapTable()->TypeExists(inType, theRezTypeItem) ) {

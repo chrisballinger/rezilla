@@ -5,7 +5,7 @@
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// ¬© Copyright: Bernard Desgraupes 2003
+// © Copyright: Bernard Desgraupes 2003
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -97,4 +97,3 @@ PP_End_Namespace_PowerPlant
 #endif
 
 #endif
-

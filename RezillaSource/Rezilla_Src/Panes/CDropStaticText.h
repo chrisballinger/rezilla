@@ -1,12 +1,15 @@
 // ===========================================================================
 // CDropStaticText.h					
 // 
-// © 2002, Bernard Desgraupes, All rights reserved.
 //                       Created : 2003-04-12 10:45:24
 //             Last modification : 2003-04-12 10:45:43
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
+// © Copyright: Bernard Desgraupes 2003-2004
+// All rights reserved.
+// $Date$
+// $Revision$
 // ===========================================================================
 // Subclass the LSlider class to define a HotSpotResult function
 // to update the collate WEViews after the slider has been tracked.

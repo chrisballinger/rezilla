@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRecentItemsMenu.cp				
 //                       Created: 2004-03-02 13:18:30
-//             Last modification: 2004-03-13 08:54:55
+//             Last modification: 2004-03-23 16:32:42
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -89,6 +89,8 @@ CRecentItemsMenu::ExecuteSelf( MessageT inMessage, void *ioParam )
 			if (GetSelectedItem(synthItem, theFile) == noErr) {
 				OpenSelectedItem(theFile);
 				mExecuteHost = false;
+			} else {
+				::SysBeep(3);
 			}
 		}
 	}
@@ -382,7 +384,6 @@ CRecentItemsMenu::RetrieveFromPreferences()
 		RebuildMenu();
 	}
 }
-
 
 
 
