@@ -2,7 +2,7 @@
 // CRezMapDoc.h				
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2004-11-06 00:49:46
+//             Last modification: 2004-11-08 15:07:59
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -131,10 +131,14 @@ public:
 
 	TArray<CEditorDoc *>*	GetOpenedEditors() { return mOpenedEditors ;}
 
-	void				TryEdit(CRezObjItem * inRezObjItem, 
+	int					TryEdit(CRezObjItem * inRezObjItem, 
 								CommandT inCommand, 
-								int & outCountEdited,
 								ResType asType = 0);
+	
+	void				DoEdit(CRezObjItem * inRezObjItem, 
+							   CommandT inCommand, 
+							   ResType inType, 
+							   ResType * substTypePtr);
 	
 	Boolean				IsReadOnly() { return mReadOnly;}
 	void				SetReadOnly(Boolean inReadOnlyDoc) {mReadOnly = inReadOnlyDoc;}
