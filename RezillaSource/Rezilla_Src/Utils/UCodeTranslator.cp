@@ -2,7 +2,7 @@
 // UCodeTranslator.cp					
 // 
 //                       Created: 2003-05-04 16:40:47
-//             Last modification: 2004-03-23 22:54:33
+//             Last modification: 2004-04-18 20:37:49
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -184,6 +184,10 @@ UCodeTranslator::ConvertHexToByte( LDataStream* srcDataStream, LDataStream* trgt
 	SInt32 length = srcDataStream->GetLength() ;
 	UInt8 result;
 	
+	// The number of hex digits must be even. If not, omit the last one.
+	if (length % 2) {
+		length -= 1;
+	} 
 	for (UInt32 i = 1; i <= length; i += 2) {
 		*srcDataStream >> readChar;
 		if (readChar != 0x30) {
