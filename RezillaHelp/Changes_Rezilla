@@ -31,7 +31,7 @@ Last modification: $Date$
 ================================================================================
 = 1.0.1a8 	                             last update: 
 ================================================================================
-¥ No real new features, only fixes, debugging and small improvements:
+¥ No real new features, only debugging, fixes and small improvements:
 	* count fields correctly updated when a drag/copy etc action occurs
 	* ask in case of conflicting IDs when dropping resources rather than
 	  automatically attributing an unique ID
@@ -51,6 +51,10 @@ Last modification: $Date$
 	* new application and documents icons
 	* doc was not marked as modified after a Remove or Duplicate action
 	* doc was not marked as non-modified after a simple Save
+	* when a resource is removed, close any edited window associated to it
+	* name was lost when replacing an existing resource during a Paste or a
+	  Drop action 
+	* 
 	* 
 	* 
 
