@@ -137,28 +137,32 @@ valeurs). D'autre part, un gabarit énonce toujours les bits comme s'ils étaient 
 de gauche à droite, autrement dit en commençant par le bit le plus fort.<P><P><TABLE BORDER=1 CELLPADDING=1>
 <TR><TD><I>balise</I></TD><TD><I>description</I></TD><TD><I>taille</I></TD><TD></TD></TR>
 <TR><TD>BBIT</TD><TD>Bit dans un octet</TD><TD>1 bit</TD><TD></TD></TR>
-<TR><TD>BB<I>0n</I></TD><TD>Bits dans un octet</TD><TD><I>n</I> bits</TD><TD>x</TD></TR>
+<TR><TD>BB0<I>n</I></TD><TD>Bits dans un octet</TD><TD><I>n</I> bits</TD><TD>x</TD></TR>
 <TR><TD>WBIT</TD><TD>Bit dans un mot</TD><TD>1 bit</TD><TD>x</TD></TR>
 <TR><TD>WB<I>nn</I></TD><TD>Bits dans un mot</TD><TD><I>nn</I> bits</TD><TD>x</TD></TR>
 <TR><TD>LBIT</TD><TD>Bit dans un long</TD><TD>1 bit</TD><TD>x</TD></TR>
 <TR><TD>LB<I>nn</I></TD><TD>Bits dans un long</TD><TD><I>nn</I> bits</TD><TD>x</TD></TR>
-</TABLE></P><P>Dans le cas de la balise BB<I>0n</I>, <I>n</I> est une valeur décimale
+</TABLE></P><P>Dans le cas de la balise BB0<I>n</I>, <I>n</I> est une valeur décimale
 comprise entre 0 et 7. pour WB<I>nn</I>, <I>nn</I> est compris
 entre 0 et 15. pour LB<I>nn</I>, <I>nn</I> est compris entre 0 et
-31.<P><H4>Chaînes</H4>
+31. Exceptionnellement, Rezilla accepte également la balise BB08 comme
+synonyme de la balise UBYT (entier décimal non signé sur un octet).<P><H4>Chaînes</H4>
 Dans la table suivante, <I>nn</I> ou <I>nnn</I> désignent des valeurs
 hexadécimales. Par exemple, si l'on trouve une balise C010 dans un gabarit, cela
 correspond à une chaîne de langage C contenue dans 16 octets (l'octet nul
 terminal est inclus). Si la chaîne C avec son octet nul terminal est plus
 courte, les octets excédentaires sont mis à zéro.<P>On notera qu'il existe une différence incompatible entre la syntaxe basique
-et la syntaxe étendue concernant la balise P<I>0nn</I> : la syntaxe de
+et la syntaxe étendue concernant la balise P0<I>nn</I> : la syntaxe de
 base (définie dans ResEdit) considère que l'octet initial qui contient la
 longueur de la chaîne de Pascal n'est <I>pas</I> inclus dans la nombre <I>$nn</I>, tandis qu'avec la syntaxe étendue, c'est la contraire. La syntaxe
 étendue a modifié cela dans un souci de cohérence avec d'autres balises
 (telles que C<I>nnn</I>, H<I>nnn</I>, F<I>nnn</I> etc.). Rezilla adopte
 la même convention, ce qui fait que ce qui aurait été écrit P00F avec un
 gabarit de ResEdit devra être défini comme P010 avec Rezilla (et avec tout
-éditeur de ressources supportant cette syntaxe, comme Resorcerer).<P><P><TABLE BORDER=1 CELLPADDING=1>
+éditeur de ressources supportant cette syntaxe, comme
+ <A HREF="www.mathemaesthetics.com"> Resorcerer</A>). <P>On notera que, bien que la notation P0<I>nn</I> limite les valeurs de <I>nn</I> à
+la valeur hexadécimale <I>FF</I>, Rezilla accepte aussi la balise P100. Avec
+la convention précédente, P100 est simplement synonyme de PSTR .<P><P><TABLE BORDER=1 CELLPADDING=1>
 <TR><TD><I>balise</I></TD><TD><I>description</I></TD><TD><I>taille</I></TD><TD></TD></TR>
 <TR><TD>PSTR</TD><TD>chaîne de Pascal</TD><TD>1 à 256</TD><TD></TD></TR>
 <TR><TD>ESTR</TD><TD>chaîne de Pascal complétée à longueur paire</TD><TD>2 à 256</TD><TD></TD></TR>
@@ -170,7 +174,8 @@ gabarit de ResEdit devra être défini comme P010 avec Rezilla (et avec tout
 <TR><TD>BSTR</TD><TD>chaîne avec longueur dans un octet</TD><TD>1 à 256</TD><TD>x</TD></TR>
 <TR><TD>WSTR</TD><TD>chaîne avec longueur dans un mot</TD><TD>2 à 65KB</TD><TD></TD></TR>
 <TR><TD>LSTR</TD><TD>chaîne avec longueur dans un long</TD><TD>4 à 4MB</TD><TD></TD></TR>
-<TR><TD>P<I>0nn</I></TD><TD>chaîne de Pascal avec complément fixe</TD><TD><I>$nn</I> octets</TD><TD></TD></TR>
+<TR><TD>P100</TD><TD>Synonyme de PSTR</TD><TD>1 à 256</TD><TD></TD></TR>
+<TR><TD>P0<I>nn</I></TD><TD>chaîne de Pascal avec complément fixe</TD><TD><I>$nn</I> octets</TD><TD></TD></TR>
 <TR><TD>C<I>nnn</I></TD><TD>chaîne C avec complément fixe</TD><TD><I>$nnn</I> octets</TD><TD>x</TD></TR>
 <TR><TD>T<I>nnn</I></TD><TD>texte avec complément fixe</TD><TD><I>$nnn</I> octets</TD><TD>x</TD></TR>
 </TABLE></P><P><H4>Champs hexadécimaux</H4>

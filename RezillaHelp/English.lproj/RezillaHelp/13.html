@@ -125,28 +125,32 @@ A template quotes the bits as if they were read from left to right which
 means that the higher order bit comes first.<P><P><TABLE BORDER=1 CELLPADDING=1>
 <TR><TD><I>Tag</I></TD><TD><I>Description</I></TD><TD><I>Size</I></TD><TD></TD></TR>
 <TR><TD>BBIT</TD><TD>Bit within a byte</TD><TD>1 bit</TD><TD></TD></TR>
-<TR><TD>BB<I>0n</I></TD><TD>Bits within a byte</TD><TD><I>n</I> bits</TD><TD>x</TD></TR>
+<TR><TD>BB0<I>n</I></TD><TD>Bits within a byte</TD><TD><I>n</I> bits</TD><TD>x</TD></TR>
 <TR><TD>WBIT</TD><TD>Bit within a word</TD><TD>1 bit</TD><TD>x</TD></TR>
 <TR><TD>WB<I>nn</I></TD><TD>Bits within a word</TD><TD><I>nn</I> bits</TD><TD>x</TD></TR>
 <TR><TD>LBIT</TD><TD>Bit within a long</TD><TD>1 bit</TD><TD>x</TD></TR>
 <TR><TD>LB<I>nn</I></TD><TD>Bits within a long</TD><TD><I>nn</I> bits</TD><TD>x</TD></TR>
 </TABLE></P>
-In the case of a BB<I>0n</I> tag, <I>n</I> is a decimal value between 0
+In the case of a BB0<I>n</I> tag, <I>n</I> is a decimal value between 0
 and 7. For WB<I>nn</I>, <I>nn</I> is between 0 and 15. For LB<I>nn</I>,
-<I>nn</I> is between 0 and 31.<P><H4>Strings</H4>
+<I>nn</I> is between 0 and 31. Exceptionnally, Rezilla also accepts the
+BB08 tag as a synonym for the UBYT (unsigned decimal byte) tag.<P><H4>Strings</H4>
 In the next table, <I>nn</I> or <I>nnn</I> designate hexadecimal
 values. For instance, when one writes C010 in a template, it means a C
 string within 16 bytes (the terminating null byte is included). If the C
 string with its ending NULL is shorter, the remaining bytes are set to
 zero.<P>Note that there is a difference between the basic and the extended syntax
-concerning the P<I>0nn</I> tag: the basic syntax (as found in ResEdit)
+concerning the P0<I>nn</I> tag: the basic syntax (as found in ResEdit)
 considered that the initial length byte of the Pascal string is <I>not</I>
 included in the $nn count, whereas with the extended syntax, it is the
 opposite. The extended syntax changed this to be consistent with the other
-similar tags (C<I>nnn</I>, H<I>nnn</I>, F<I>nnn</I> etc.). Rezilla adopts the extended
-convention, so what would have been written as P00F in a ResEdit template
-should be P010 with Rezilla (and with any resource editor supporting the
-extended syntax, such as Resorcerer).<P><P><TABLE BORDER=1 CELLPADDING=1>
+similar tags (C<I>nnn</I>, H<I>nnn</I>, F<I>nnn</I> etc.). Rezilla
+adopts the extended convention, so what would have been written as P00F in
+a ResEdit template should be P010 with Rezilla (and with any resource
+editor supporting the extended syntax, such as 
+<A HREF="www.mathemaesthetics.com"> Resorcerer</A>).<P>Note that, despite the P0<I>nn</I> notation which limits <I>nn</I> to the
+hexadecimal value <I>FF</I>, the P100 tag is also accepted by Rezilla.
+With the convention just mentioned, P100 is synonym of PSTR.<P><P><TABLE BORDER=1 CELLPADDING=1>
 <TR><TD><I>Tag</I></TD><TD><I>Description</I></TD><TD><I>Size</I></TD><TD></TD></TR>
 <TR><TD>PSTR</TD><TD>Pascal string</TD><TD>1 to 256</TD><TD></TD></TR>
 <TR><TD>ESTR</TD><TD>Even-Padded Pascal string</TD><TD>2 to 256</TD><TD></TD></TR>
@@ -158,7 +162,8 @@ extended syntax, such as Resorcerer).<P><P><TABLE BORDER=1 CELLPADDING=1>
 <TR><TD>BSTR</TD><TD>Byte length string</TD><TD>1 to 256</TD><TD>x</TD></TR>
 <TR><TD>WSTR</TD><TD>Word length string</TD><TD>2 to 65KB</TD><TD></TD></TR>
 <TR><TD>LSTR</TD><TD>Long length string</TD><TD>4 to 4MB</TD><TD></TD></TR>
-<TR><TD>P<I>0nn</I></TD><TD>Pascal string with fixed padding</TD><TD><I>$nn</I> bytes</TD><TD></TD></TR>
+<TR><TD>P100</TD><TD>Synonym of PSTR</TD><TD>1 to 256</TD><TD></TD></TR>
+<TR><TD>P0<I>nn</I></TD><TD>Pascal string with fixed padding</TD><TD><I>$nn</I> bytes</TD><TD></TD></TR>
 <TR><TD>C<I>nnn</I></TD><TD>C string with fixed padding</TD><TD><I>$nnn</I> bytes</TD><TD>x</TD></TR>
 <TR><TD>T<I>nnn</I></TD><TD>Text with fixed padding</TD><TD><I>$nnn</I> bytes</TD><TD>x</TD></TR>
 </TABLE></P><P><H4>Hexadecimal fields</H4>

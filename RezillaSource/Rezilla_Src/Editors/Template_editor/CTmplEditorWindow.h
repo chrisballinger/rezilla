@@ -178,7 +178,7 @@ private:
 	void			AddEditField(Str255 inValue, 
 								OSType inType,
 								SInt16 inMaxChars, 
-								UInt8 inAttributes,
+								SInt16 inWidth,
 								TEKeyFilterFunc inKeyFilter, 
 								LView * inContainer);
 	

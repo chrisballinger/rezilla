@@ -1006,9 +1006,9 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 
 		case 'DVDR':
 		// Insert a comment. Add a vertical skip as AddStaticField doesn't.
-		mYCoord += kTmplVertSep;
+		mYCoord += kTmplDividerSep;
 		AddStaticField(inType, inLabelString, inContainer, sCommentTraitsID);
-		mYCoord += sEditPaneInfo.height + kTmplVertSep;
+		mYCoord += sEditPaneInfo.height + kTmplDividerSep;
 		break;
 
 		case 'DWRD':
@@ -1342,6 +1342,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 
 		case 'BSTR':
 		case 'PSTR':
+		case 'P100':
 		// Pascal string
 		if (mRezStream->GetMarker() < mRezStream->GetLength() ) {
 			*mRezStream >> theString;
@@ -1393,6 +1394,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		break;
 
 		case 'UBYT':
+		case 'BB08':
 		// Unsigned decimal byte
 		if (mRezStream->GetMarker() < mRezStream->GetLength() ) {
 			*mRezStream >> theUInt8;
@@ -2198,6 +2200,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		break;
 
 		case 'PSTR':
+		case 'P100':
 		case 'BSTR':
 		// Pascal string
 		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
@@ -2272,6 +2275,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		break;
 
 		case 'UBYT':
+		case 'BB08':
 		// Unsigned decimal byte
 		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
 		theEditText->GetDescriptor(numStr);	
