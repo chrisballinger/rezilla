@@ -290,6 +290,9 @@ CTmplEditorDoc::ListenToMessage( MessageT inMessage, void *ioParam )
 		break;
 		
 		case cmd_Revert:
+		// todo...
+		
+		mTmplEditWindow->SetDirty(false);
 		break;
 		
 	}
