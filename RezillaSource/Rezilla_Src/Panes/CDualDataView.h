@@ -74,7 +74,8 @@ public:
 	
 	void			DisplayBothSelections(SInt32 inStart, SInt32 inEnd);
 
-	virtual void	ResetBounds();
+// 	virtual void	ResetBounds();
+	virtual void	AdaptToNewSurroundings();
 
 	SInt32			CountLines();
 	SInt32			GetPaneCount(SInt16 whichValue);

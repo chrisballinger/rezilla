@@ -675,11 +675,11 @@ CDualDataView::IsDirty()
 
 
 // ---------------------------------------------------------------------------
-//	¥ ResetBounds
+//	¥ AdaptToNewSurroundings
 // ---------------------------------------------------------------------------
 
 void
-CDualDataView::ResetBounds()
+CDualDataView::AdaptToNewSurroundings()
 {
 	ResizeDataPanes();
 	UpdatePaneCounts();
@@ -688,6 +688,22 @@ CDualDataView::ResetBounds()
 	mScroller->SetValue(0);
 	SetMaxScrollerValue();				
 }
+
+
+// // ---------------------------------------------------------------------------
+// //	¥ ResetBounds
+// // ---------------------------------------------------------------------------
+// 
+// void
+// CDualDataView::ResetBounds()
+// {
+// 	ResizeDataPanes();
+// 	UpdatePaneCounts();
+// 	mCurrFirstLine = 1;
+// 	InstallContentsFromLine(mCurrFirstLine);
+// 	mScroller->SetValue(0);
+// 	SetMaxScrollerValue();				
+// }
 
 
 // ---------------------------------------------------------------------------
@@ -711,7 +727,7 @@ CDualDataView::ResetBounds()
 // 
 // 	We also have the following proportions:	
 // 		HDSVw = 3/5 (TGBXw - 46)
-// 		HDSVw = 3/5 (TGBXw - 46)
+// 		TDSVw = 2/5 (TGBXw - 46)
 
 void
 CDualDataView::ResizeDataPanes()

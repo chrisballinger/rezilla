@@ -46,7 +46,7 @@ public:
 											UInt16				inTextAttributes,
 											ResIDT				inTextTraitsID,
 											Boolean				inReadOnly = false,
-											Boolean				inWordWrap = false,
+											Boolean				inWordWrap = true,
 											Boolean				inSelectable = true);
 							CHexDataSubView(LStream * inStream );
 	virtual					~CHexDataSubView();

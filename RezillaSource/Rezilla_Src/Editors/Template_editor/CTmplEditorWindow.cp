@@ -284,7 +284,7 @@ CTmplEditorWindow::InitPaneInfos()
 	sTgbPaneInfo.visible			= true;
 	sTgbPaneInfo.enabled			= true;
 	sTgbPaneInfo.bindings.left		= true;
-	sTgbPaneInfo.bindings.top		= false;
+	sTgbPaneInfo.bindings.top		= true;
 	sTgbPaneInfo.bindings.right		= true;
 	sTgbPaneInfo.bindings.bottom	= false;
 	sTgbPaneInfo.userCon			= 0;
@@ -294,7 +294,7 @@ CTmplEditorWindow::InitPaneInfos()
 	sWastePaneInfo.visible			= true;
 	sWastePaneInfo.enabled			= true;
 	sWastePaneInfo.bindings.left	= true;
-	sWastePaneInfo.bindings.top		= false;
+	sWastePaneInfo.bindings.top		= true;
 	sWastePaneInfo.bindings.right	= true;
 	sWastePaneInfo.bindings.bottom	= true;
 	sWastePaneInfo.userCon			= 0;
@@ -1526,6 +1526,7 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 	sTgbPaneInfo.top				= mYCoord;
 	sTgbPaneInfo.left				= kTmplTextMargin;
 	sTgbPaneInfo.width				= theFrame.width - kTmplTextMargin * 2;
+	sTgbPaneInfo.bindings.bottom	= false;
 	sTgbPaneInfo.superView			= inContainer;
 
 	LTextGroupBox * theTGB = new LTextGroupBox(sTgbPaneInfo, theViewInfo, false);
@@ -1546,6 +1547,8 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 	sWastePaneInfo.top				= 0;
 	sWastePaneInfo.width			= sScrollPaneInfo.width - 15;
 	sWastePaneInfo.height			= sScrollPaneInfo.height - 15;
+	sWastePaneInfo.bindings.left	= true;
+	sWastePaneInfo.bindings.right	= true;
 	sWastePaneInfo.paneID			= mCurrentID;
 	sWastePaneInfo.superView		= theScroller;
 
@@ -1699,6 +1702,7 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 	sTgbPaneInfo.top				= mYCoord;
 	sTgbPaneInfo.left				= kTmplTextMargin;
 	sTgbPaneInfo.width				= theFrame.width - kTmplTextMargin * 2;
+	sTgbPaneInfo.bindings.bottom	= true;
 	sTgbPaneInfo.paneID				= mCurrentID;
 	sTgbPaneInfo.superView			= inContainer;
 	CDualDataView * theTGB = new CDualDataView(sTgbPaneInfo, theViewInfo, false);
@@ -1716,12 +1720,16 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 	CSingleScrollBar * theScroller = new CSingleScrollBar(sScrollPaneInfo, 'HScr', 0, 0, 0, true);
 	ThrowIfNil_(theScroller);
 
-	// Make the Waste edit panes (no wrapping, selectable). The read only
-	// property is set by InstallSubViews() below.
+	// Make the Waste edit panes: they are, by default, selectable with 
+	// wrapping on (so that the image size is recalculated automatically 
+	// when the frame size changes). The read only property is set 
+	// by InstallSubViews() below.
 	sWastePaneInfo.left				= kTmplTextInset;
 	sWastePaneInfo.top				= kTmplTextInset;
 	sWastePaneInfo.width			= kTmplHexPaneWidth;
 	sWastePaneInfo.height			= sScrollPaneInfo.height;
+	sWastePaneInfo.bindings.left	= false;
+	sWastePaneInfo.bindings.right	= false;
 	sWastePaneInfo.paneID			= 0;
 	sWastePaneInfo.superView		= theTGB;
 
