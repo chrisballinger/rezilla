@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2005-02-02 05:49:10
+//             Last modification : 2005-02-07 16:21:08
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -55,9 +55,9 @@ enum
 {	
 	exportAete_Xml = 0,
 	exportAete_Derez,
+	exportMap_Sdef,
 	exportAete_Text,
-	exportAete_Html,
-	exportMap_Sdef
+	exportAete_Html
 };
 
 // DTDs
@@ -413,6 +413,7 @@ const SInt16	index_ExtText				= 4;
 const SInt16	index_ExtHtml				= 5;
 const SInt16	index_ExtR					= 6;
 const SInt16	index_ExtIcns				= 7;
+const SInt16	index_ExtSdef				= 8;
 // Indices of STR# 7000 and 7001: undo/redo for icon editor
 const SInt16	index_UndoLine				= 1;
 const SInt16	index_UndoBucket			= 2;
