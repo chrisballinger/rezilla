@@ -1220,6 +1220,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		break;
 		
 		case 'OCNT':
+		case 'WCNT':
 		// One Count. Terminated by a one-based word count that starts 
 		// the sequence (as in 'STR#' resources).
 		if (mRezStream->GetMarker() < mRezStream->GetLength() - 1) {
@@ -1255,6 +1256,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 					 UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar), inContainer);
 		break;
 
+		case 'BSTR':
 		case 'PSTR':
 		// Pascal string
 		if (mRezStream->GetMarker() < mRezStream->GetLength() ) {
@@ -2556,6 +2558,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		break;
 		
 		case 'OCNT':
+		case 'WCNT':
 		// One count for LSTC lists
 		theStaticText = dynamic_cast<LStaticText *>(this->FindPaneByID(mCurrentID));
 		theStaticText->GetDescriptor(theString);	
@@ -2594,6 +2597,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		mCurrentID++;
 		break;
 
+		case 'BSTR':
 		case 'PSTR':
 		// Pascal string
 		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
