@@ -21,9 +21,19 @@ versions:
 <OL>
 	<LI> since version 1.0.4, a text editor which lets you edit
 'TEXT' and 'styl' resources and can handle styled text (i-e text using
-various fonts, sizes, styles).<P>	<LI> since version 1.0.5, a bitmap resources editor, a picture viewer for
-'PICT' resources, a sound player ('snd '), a Unicode editor ('utxt').
-</OL><P>Future versions of Rezilla will have additional interface editors. <P><H3>The text editor</H3><P>The text editor has three menus: <B>Font</B>, <B>Size</B>, and 
+various fonts, sizes, styles).<P>	<LI> since version 1.0.5, a bitmap resources editor, an AppleScript
+terminology resources editor, a picture viewer for 'PICT' resources, a
+sound player ('snd '), a Unicode editor ('utxt').
+</OL>
+<UL>
+	<LI> <A HREF="#texteditor">The text editor</A>
+	<LI> <A HREF="#bitmapeditor">The bitmap editor</A>
+	<LI> <A HREF="#Unicodeeditor">The Unicode editor</A>
+	<LI> <A HREF="#Aeteeditor">The Aete editor</A>
+	<LI> <A HREF="#PICTeditor">The PICT editor</A>
+	<LI> <A HREF="#sndeditor">The 'snd ' editor</A>
+</UL><P>Future versions of Rezilla will have additional interface editors. <P><A NAME="texteditor"></A>
+<H3>The text editor</H3><P>The text editor has three menus: <B>Font</B>, <B>Size</B>, and 
 <B>Style</B> located at the top of the text editing window. <P>If you edit a resource with type 'TEXT' for which a 'styl' resource 
 <I>with the same ID</I> exists, Rezilla reads the style information contained in 
 this resource (font, size, face) and applies it to the text. Otherwise, 
@@ -31,7 +41,8 @@ the text resource is displayed using the default style settings.<P>When a new re
 default settings too. If some modifications have been made using one of 
 the three menus, Rezilla will automatically create a 'styl' resource with 
 the same ID as the 'TEXT' resource itself upon saving, in order to store 
-the style information.<P><H3>The bitmap editor</H3><P>It allows you to edit bitmap image resources. This includes icons (small,
+the style information.<P><A NAME="bitmapeditor"></A>
+<H3>The bitmap editor</H3><P>It allows you to edit bitmap image resources. This includes icons (small,
 mini or large), icon families, patterns, cursors. To be more precise, it
 supports the following resource types:<P>'cicn', 'crsr', 'CURS', 'icl4', 'icl8', 'icm#', 'icm4', 'icm8', 'ICN#',
 'ICON', 'ics#', 'ics4', 'ics8', 'PAT#', 'PAT ', 'ppat', 'SICN'<P>The bitmap editor provides several tools to help creating or modifying a 
@@ -70,7 +81,8 @@ and background color popups.
 image. The <I>Resize Image</I> command lets you specify the width and height of 
 the bitmap (only for resources which do not have a fixed predefined size, 
 such as 'cicn' resources).
-</OL><P><H3>The Unicode editor</H3><P>Rezilla's Unicode editor lets you edit resources containing Unicode text
+</OL><P><A NAME="Unicodeeditor"></A>
+<H3>The Unicode editor</H3><P>Rezilla's Unicode editor lets you edit resources containing Unicode text
 in the UTF-16 encoding form (for instance, resources of type 'utxt').<P>It has three menus: <B>Font</B>, <B>Size</B> and <B>Style</B> located in
 the menu bar. A typical Unicode editing window looks like this:
 <P><IMG SRC="../../Images/rzil_utxteditor.gif" ALT="Unicode editor window" ALIGN=bottom></P><P>By default, Rezilla uses the appropriate character fonts to display texts
@@ -81,7 +93,8 @@ knows which font to use, it is also possible to deactivate this preference
 (in the Editors panel of the Preferences) and select the required font in 
 the <I>Font</I> menu.<P>Note that the <I>Style</I> and <I>Size</I> menus are here only to
 facilitate the editing tasks but that, as of the current release, the
-stylistic settings are neither remembered, nor stored in a 'styl' resource.<P><H3>The Aete editor</H3>
+stylistic settings are neither remembered, nor stored in a 'styl' resource.<P><A NAME="Aeteeditor"></A>
+<H3>The Aete editor</H3>
 This is an editor dedicated to AppleScript terminology resources (resources
 with type 'aete' or 'aeut'). These resources contain the dictionary of
 terms supported by an application for AppleScript scripting.<P>An 'aete' (or 'aeut') resource can contain several suites such as the 
@@ -130,7 +143,8 @@ can, for instance, create a new 'aete' resource, edit it and select the
 also import an XML file into an already existing resource : the data
 imported will be appended to the resource. The XML file must be in the
 format defined in the DTD included in the project (aete.dtd, not to be
-confused with sdef.dtd). <P><H3>The PICT editor</H3><P>Not a fully fledged editor but rather a viewer. If you double-click on a
+confused with sdef.dtd). <P><A NAME="PICTeditor"></A>
+<H3>The PICT editor</H3><P>Not a fully fledged editor but rather a viewer. If you double-click on a
 picture resource (of type <I>'PICT'</I>), Rezilla displays the image.<P>The <I>Copy</I>, <I>Cut</I> and <I>Paste</I> commands are enabled. You
 can copy the image to the clipboard (no need to select anything, the entire
 image is automatically copied). On the contrary, if the clipboard contains
@@ -138,7 +152,8 @@ a picture (more technically speaking, contains data with 'PICT' flavor),
 Rezilla will replace the current image by the contents of the clipboard.<P>This allows you to create images in another graphic application and import
 it into Rezilla . Note that you can also paste graphic data directly from
 the clipboard to a resource map document in Rezilla (see the <I>Copy, Cut
-and Paste</I> section in this document).<P><H3>The 'snd ' editor</H3><P>Not really an editor but rather a player. If you double-click on a sound
+and Paste</I> section in this document).<P><A NAME="sndeditor"></A>
+<H3>The 'snd ' editor</H3><P>Not really an editor but rather a player. If you double-click on a sound
 resource (of type <I>'snd '</I>), Rezilla plays the sound. Make sure the
 volume is not set to 0 on your system.<P>
 

@@ -26,9 +26,19 @@ différentes versions:
 	<LI> à partir de la version 1.0.4, un éditeur de texte supportant à la fois
 des ressources de type 'TEXT' et de type 'styl' et permettant de gérer les
 informations de police, taille et style.<P>	<LI> à partir de la version 1.0.5, un éditeur de ressources d'images
-bitmaps, un visualisateur de ressources 'PICT', un lecteur de ressources
-son ('snd '), un éditeur de ressources Unicode ('utxt').
-</OL><P>De futures versions de Rezilla ajouteront d'autres interface d'édition.<P><H3>L'éditeur de texte</H3><P>L'éditeur de texte possède trois menus: <B>Font</B>, <B>Size</B> et 
+bitmaps, un éditeur de ressources de terminologie AppleScript, un
+visualisateur de ressources 'PICT', un lecteur de ressources son ('snd '),
+un éditeur de ressources Unicode ('utxt').
+</OL>
+<UL>
+	<LI> <A HREF="#texteditor">The text editor</A>
+	<LI> <A HREF="#bitmapeditor">The bitmap editor</A>
+	<LI> <A HREF="#Unicodeeditor">The Unicode editor</A>
+	<LI> <A HREF="#Aeteeditor">The Aete editor</A>
+	<LI> <A HREF="#PICTeditor">The PICT editor</A>
+	<LI> <A HREF="#sndeditor">The 'snd ' editor</A>
+</UL><P>De futures versions de Rezilla ajouteront d'autres interface d'édition.<P><A NAME="texteditor"></A>
+<H3>L'éditeur de texte</H3><P>L'éditeur de texte possède trois menus: <B>Font</B>, <B>Size</B> et 
 <B>Style</B> placés en haut de ses fenêtres d'édition. <P>Si l'on édite une ressource de type 'TEXT' pour laquelle une ressource de 
 type 'styl' <I>de même numéro</I> existe, Rezilla lit les informations 
 de style (police, taille, forme) contenues dans cette ressource et les 
@@ -38,7 +48,8 @@ utilise <I>a priori</I> les réglages par défaut. Si des modifications de style o
 été apportées au moyen de l'un des trois menus, Rezilla créera
 automatiquement une ressource de type 'styl' de même numéro que la
 ressource 'TEXT' au moment de la sauvegarde de la ressource afin de
-conserver les données stylistiques.<P><H3>L'éditeur d'images</H3><P>Il permet d'éditer des ressources contenant des images bitmaps. Cela inclut
+conserver les données stylistiques.<P><A NAME="bitmapeditor"></A>
+<H3>L'éditeur d'images</H3><P>Il permet d'éditer des ressources contenant des images bitmaps. Cela inclut
 les icones (petites, mini ou grandes), les familles d'icones, les motifs,
 les curseurs. Plus précisément, l'éditeur supporte les types de ressources
 suivants:<P>'cicn', 'crsr', 'CURS', 'icl4', 'icl8', 'icm#', 'icm4', 'icm8', 'ICN#',
@@ -87,7 +98,8 @@ transformations de base à l'image. La commande <I>Resize Image</I> permet
 de spécifier la largeur et la hauteur de l'image (disponible seulement pour
 les ressources qui n'ont pas une taille prédéfinie, comme les ressources
 'cicn').
-</OL><P><H3>L'éditeur Unicode</H3><P>L'éditeur Unicode de Rezilla permet d'éditer des ressources contenant du
+</OL><P><A NAME="Unicodeeditor"></A>
+<H3>L'éditeur Unicode</H3><P>L'éditeur Unicode de Rezilla permet d'éditer des ressources contenant du
 texte Unicode dans la forme UTF-16 (comme par exemple des ressources de
 type 'utxt').<P>Il possède trois menus: <B>Font</B>, <B>Size</B> et <B>Style</B> placés
 dans la barre de menus. Une fenêtre d'édition typique ressemble à ceci:
@@ -100,7 +112,8 @@ désactiver cette préférence (dans le panneau Éditeurs des Préférences) et
 sélectionner la police souhaitée dans le menu <I>Font</I>.<P>On notera que les menus de style et de taille de police sont là uniquement
 pour faciliter le travail d'édition mais que, dans la version courante, les
 modifications stylistiques ne sont pas mémorisées, ni stockées dans une
-ressource 'styl'.<P><H3>L'éditeur Aete</H3>
+ressource 'styl'.<P><A NAME="Aeteeditor"></A>
+<H3>L'éditeur Aete</H3>
 Il s'agit d'un éditeur dédié aux ressources de terminologie AppleScript
 (ressources de type 'aete' ou 'aeut'). Ces ressources contiennent le
 dictionnaire des termes supportés par une application dans le cadre de
@@ -156,7 +169,8 @@ une nouvelle ressource 'aete', l'éditer et choisir la commande
 XML peut aussi être importé dans une ressource existante : les nouvelles 
 données sont ajoutées aux données existantes. Le fichier XML doit 
 impérativement utiliser le format défini dans la DTD jointe au projet 
-(aete.dtd, à ne pas confondre avec sdef.dtd).<P><H3>L'éditeur 'PICT'</H3><P>Ce n'est pas un éditeur graphique complet mais plutôt un visualisateur. Si 
+(aete.dtd, à ne pas confondre avec sdef.dtd).<P><A NAME="PICTeditor"></A>
+<H3>L'éditeur 'PICT'</H3><P>Ce n'est pas un éditeur graphique complet mais plutôt un visualisateur. Si 
 l'on exécute un double-clic sur une ressource d'image (de type <I>'PICT'</I>), 
 Rezilla affiche cette image.<P>Les commandes <I>Copy</I>, <I>Cut</I> et <I>Paste</I> sont activées. Il
 est possible de copier l'image dans le presse-papier: il n'y a pas de
@@ -167,7 +181,8 @@ courante par le contenu du presse-papiers.<P>Cela permet de créer des images dan
 de les importer dans Rezilla. Notez qu'il est aussi possible de copier
 directement des données graphiques depuis le presse-papiers dans une table
 de ressource de Rezilla (voir la section <I>Copy, Cut and Paste</I> dans
-ce document).<P><H3>L'éditeur 'snd '</H3><P>Ce n'est pas un éditeur à proprement mais plutôt un lecteur de sons. Si
+ce document).<P><A NAME="sndeditor"></A>
+<H3>L'éditeur 'snd '</H3><P>Ce n'est pas un éditeur à proprement mais plutôt un lecteur de sons. Si
 l'on exécute un double-clic sur une ressource de son (ressource de type 
 <I>'snd '</I>), Rezilla joue le son sur la sortie audio de l'ordinateur.
 Assurez-vous que le volume n'est pas réduit à 0 sur votre système.<P>
