@@ -238,7 +238,6 @@ const PaneIDT   item_OutlineTable			= FOUR_CHAR_CODE('TABL');
 const PaneIDT	item_TypesNum				= 1;
 const PaneIDT	item_ResourcesNum			= 2;
 const PaneIDT	item_WhichFork				= 3;
-const PaneIDT	item_MapReadOnlyIcon		= 4;
 // Inspector Window
 // ----------------
 const PaneIDT	item_InspType				= 1;
@@ -264,7 +263,6 @@ const PaneIDT	item_TxtDataWE				= 3;
 const PaneIDT	item_HexLineEdit			= 4;
 const PaneIDT	item_HexOffsetEdit			= 5;
 const PaneIDT	item_NameStaticText			= 6;
-const PaneIDT	item_HexReadOnlyIcon		= 7;
 const PaneIDT	item_HexEditGroupBox		= 10;
 // New Resource Window
 // -------------------
@@ -357,19 +355,20 @@ const PaneIDT	item_UIPrefsFontsMenu		= 2;
 const PaneIDT	item_UIPrefsSizeMenu		= 3;
 // Tmpl Editor Window
 // ------------------
-const PaneIDT   item_TmplEditScroller	= FOUR_CHAR_CODE('Scrl') ;
 const PaneIDT   item_TmplEditContents	= FOUR_CHAR_CODE('Cnts') ;
+const PaneIDT   item_TmplEditScroller	= FOUR_CHAR_CODE('Scrl') ;
 const PaneIDT   item_TmplEditValidate	= FOUR_CHAR_CODE('Vlid') ;
 const PaneIDT   item_TmplEditCancel		= FOUR_CHAR_CODE('Cncl') ;
 const PaneIDT   item_TmplEditRevert		= FOUR_CHAR_CODE('Rvrt') ;
 // Text Editor Window
 // ------------------
-const PaneIDT   item_TextEditScroller	= FOUR_CHAR_CODE('Scrl') ;
-const PaneIDT   item_TextEditContents	= FOUR_CHAR_CODE('Cnts') ;
 const PaneIDT   item_TextEditFontMenu	= 1 ;
 const PaneIDT   item_TextEditSizeMenu	= 2 ;
 const PaneIDT   item_TextEditStyleMenu	= 3 ;
 
+// The Lock icon
+// -------------
+const PaneIDT	item_ReadOnlyIcon		= FOUR_CHAR_CODE('Lock');
 
 // 'Other size' dialog
 // -------------------
