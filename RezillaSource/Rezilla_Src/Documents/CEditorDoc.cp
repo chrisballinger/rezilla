@@ -274,17 +274,19 @@ CEditorDoc::DoSaveChanges()
 {
 	Handle theHandle = GetModifiedResource();
 	
-	// Copy to resource's data handle
-	mRezObj->SetData(theHandle);
+	if (theHandle != NULL) {
+		// Copy to resource's data handle
+		mRezObj->SetData(theHandle);
 
-	// Mark the resource as modified in the rez map
-	mRezObj->Changed();
+		// Mark the resource as modified in the rez map
+		mRezObj->Changed();
 
-	// Tell the rezmap doc that there has been a modification
-	mRezMapTable->GetOwnerDoc()->SetModified(true);
-	// Refresh the view
-	mRezObj->SetSize( ::GetHandleSize(theHandle) );
-	mRezMapTable->Refresh();
+		// Tell the rezmap doc that there has been a modification
+		mRezMapTable->GetOwnerDoc()->SetModified(true);
+		// Refresh the view
+		mRezObj->SetSize( ::GetHandleSize(theHandle) );
+		mRezMapTable->Refresh();
+	} 
 }
 
 

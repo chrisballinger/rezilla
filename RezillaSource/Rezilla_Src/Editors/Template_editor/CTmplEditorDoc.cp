@@ -260,7 +260,16 @@ CTmplEditorDoc::AskSaveChanges(
 Handle
 CTmplEditorDoc::GetModifiedResource() 
 {
-	return mTmplEditWindow->GetOutStream()->GetDataHandle();
+	Handle theHandle = NULL;
+	OSErr error = mTmplEditWindow->RetrieveDataWithTemplate();
+
+	if ( error != noErr ) {
+		UMessageDialogs::AlertWithValue(CFSTR("ErrorWhileSavingTemplateWindow"), error);		
+	} else {
+		theHandle = mTmplEditWindow->GetOutStream()->GetDataHandle();
+	}
+	
+	return theHandle;
 }
 
 
@@ -288,16 +297,10 @@ void
 CTmplEditorDoc::ListenToMessage( MessageT inMessage, void *ioParam ) 
 {
 #pragma unused(ioParam)
-	OSErr error;
 	
 	switch (inMessage) {
 		case msg_OK:
-		error = mTmplEditWindow->RetrieveDataWithTemplate();
-		if (error == noErr) {
-			DoSaveChanges();
-		} else {
-			UMessageDialogs::AlertWithValue(CFSTR("ErrorWhileSavingTemplateWindow"), error);
-		}
+		DoSaveChanges();
 		
 		// Fall through...
 		
