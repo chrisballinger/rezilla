@@ -988,7 +988,7 @@ CRezillaApp::ReportOpenForkError(OSErr inError, FSSpec * inFileSpecPtr)
 		break;
 		
 	  default:
-		UMessageDialogs::AlertWithValue(CFSTR("SystemError"), error);
+		UMessageDialogs::AlertWithValue(CFSTR("SystemError"), inError);
 		return;
 	}
 	
