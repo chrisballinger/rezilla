@@ -648,7 +648,7 @@ const SInt16	kRzilHexEditTopRidge		= 5;
 // Used in ResCompare windows to recalculate the edit panes. It is the extra 
 // size of the TextGroupBox around the panes.
 const SInt16	kRzilResCompExtraWidth = 29;
-const SInt16	kRzilResCompExtraHeight = 12;
+const SInt16	kRzilResCompExtraHeight = 6;
 
 // Max number of items in the Recent Items menu
 const SInt16	kRzilMaxRecentItems	= 10;
