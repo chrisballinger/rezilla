@@ -892,12 +892,11 @@ CRezMapDoc::DoRevert()
         CEditorDoc* theRezEditor = nil;
         while (iterator.Previous(theRezEditor)) {
 			mOpenedEditors->RemoveItemsAt(1, iterator.GetCurrentIndex());
-			 delete theRezEditor;
+			delete theRezEditor;
         }
     } 
 	
-	// Set the changedMap attribute to false
-	// mapChanged = 2^mapChangedBit
+	// Set the changedMap attribute to false (mapChanged = 2^mapChangedBit)
 	mRezMap->UnsetFileAttrs(mapChanged);
 
 	// Close...
@@ -907,7 +906,9 @@ CRezMapDoc::DoRevert()
 	error = dynamic_cast<CRezillaApp *>(GetSuperCommander())->PreOpen(theFSSpec, theFork, theRefNum, mFork);
 
 	if (error == noErr) {
-		delete mRezFile;
+		if (mRezFile != nil) {
+			delete mRezFile;
+		} 
 		mRezFile = new CRezFile(theFSSpec, theRefNum, mFork);
 		mRezFile->SetOwnerDoc(this);
 	} else {
@@ -916,7 +917,9 @@ CRezMapDoc::DoRevert()
 	}
 	
 	// Delete the RezMap object and create a new one
-	delete mRezMap;
+	if (mRezMap != nil) {
+		delete mRezMap;
+	} 
 	mRezMap = new CRezMap(theRefNum);
 	mRezMapWindow->GetRezMapTable()->SetRezMap(mRezMap);
 
@@ -924,8 +927,10 @@ CRezMapDoc::DoRevert()
 	mRezMapWindow->GetRezMapTable()->RemoveAllItems();
 	
 	// Rebuild it
+	if (mTypesArray != nil) {
+		delete mTypesArray;
+	} 
 	CTypeComparator* theComparator = new CTypeComparator;
-	delete mTypesArray;
 	mTypesArray = new TArray<ResType>( theComparator, true);
 	mRezMap->GetAllTypes(mTypesArray);
 	mRezMapWindow->GetRezMapTable()->Populate(mTypesArray);
