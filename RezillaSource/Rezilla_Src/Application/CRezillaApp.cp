@@ -411,12 +411,17 @@ CRezillaApp::FindCommandStatus(
 		
 		case cmd_Revert:
 		case cmd_ExportMap:
-		case cmd_Find:
+		case cmd_FindNext:
 		case cmd_NewRez:
 		case cmd_EditRez:
 		case cmd_GetRezInfo:
 		case cmd_RemoveRez:
 		case cmd_DuplicateRez:
+		outEnabled = false;
+			break;		
+		
+		case cmd_Find:
+		LString::CopyPStr( "\pFind…", outName);
 		outEnabled = false;
 			break;		
 		
@@ -995,7 +1000,6 @@ CRezillaApp::HandleOpenDocsEvent(
 		
 	if (theDocList.descriptorType != typeNull) ::AEDisposeDesc(&theDocList);
 }
-
 
 
 
