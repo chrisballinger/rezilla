@@ -2,11 +2,11 @@
 // CPICT_EditorView.h
 // 
 //                       Created: 2004-12-06 14:54:09
-//             Last modification: 2004-12-07 14:38:09
+//             Last modification: 2005-03-07 19:29:26
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004
+// (c) Copyright : Bernard Desgraupes, 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -43,14 +43,19 @@ public:
 	PicHandle		GetPictureH() { return mPictureH;}
 	void			SetPictureH(PicHandle inPictureH);
 
+	virtual void		Click( SMouseDownEvent& inMouseDown );
+	
 	CPICT_EditorWindow*	GetOwnerWindow() { return mOwnerWindow;}
 	void				SetOwnerWindow(CPICT_EditorWindow* inOwnerWindow) {mOwnerWindow = inOwnerWindow;}
 
 protected:
 	PicHandle				mPictureH;
+	Boolean					mHasFrame;
 	CPICT_EditorWindow *	mOwnerWindow;
 	
 	virtual void		DrawSelf();
+
+	virtual void		DrawBorder(Boolean inVisibility);
 
 private:
 	void				ErasePicture();

@@ -2,11 +2,11 @@
 // CPICT_EditorView.h
 // 
 //                       Created: 2004-12-06 14:54:09
-//             Last modification: 2004-12-07 14:38:16
+//             Last modification: 2005-03-07 19:32:23
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004
+// (c) Copyright : Bernard Desgraupes, 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -20,6 +20,7 @@
 
 #include "CPICT_EditorView.h"
 #include "CPICT_EditorWindow.h"
+#include "RezillaConstants.h"
 
 #include <LStream.h>
 #include <UDrawingState.h>
@@ -38,6 +39,7 @@ CPICT_EditorView::CPICT_EditorView(
 
 	: LView(inStream)
 {
+	mHasFrame = false;
 	mPictureH = nil;
 }
 
@@ -49,6 +51,7 @@ CPICT_EditorView::CPICT_EditorView(
 CPICT_EditorView::CPICT_EditorView(
 	ResIDT	inPictureID)			// 'PICT' Resource ID
 {
+	mHasFrame = false;
 	mPictureH = ::GetPicture(inPictureID);
 	AdaptPicture();
 }
@@ -137,7 +140,7 @@ CPICT_EditorView::DrawSelf()
 		pictureBounds.bottom = (SInt16) imageSize.height;
 
 		::DrawPicture(mPictureH, &pictureBounds);
-
+		
 	} else {
 		Rect	frame;
 		CalcLocalFrameRect(frame);
@@ -149,6 +152,72 @@ CPICT_EditorView::DrawSelf()
 		::MacFrameRect(&frame);
 	}
 }
+
+
+// ---------------------------------------------------------------------------
+//	¥ Click
+// ---------------------------------------------------------------------------
+//	Handle a click inside the picture view by alternately drawing or 
+//	erasing a border around the image.
+
+void
+CPICT_EditorView::Click(
+	SMouseDownEvent	&inMouseDown)
+{
+#pragma unused (inMouseDown)
+	
+	if (mPictureH == nil) { return; } 
+	
+	if (mHasFrame) {
+		mHasFrame = false;
+	} else {
+		mHasFrame = true;
+	}
+	DrawBorder(mHasFrame);
+}
+
+
+
+// ---------------------------------------------------------------------------
+//	¥ DrawBorder
+// ---------------------------------------------------------------------------
+//  Border around a picture is outset from the interior by 1 pixel.
+
+void
+CPICT_EditorView::DrawBorder(Boolean inVisibility)
+{
+	StColorState	saveColors;			// Preserve color state
+	StGrafPortSaver	savePort;
+	RGBColor		theColor;
+	SDimension32	imageSize;
+	Rect			pictureBounds;
+
+	if (inVisibility) {
+		theColor = Color_Red;
+	} else {
+		theColor = Color_White;
+	}
+	
+	GetImageSize(imageSize);
+
+	pictureBounds.left   = 0;
+	pictureBounds.top    = 0;
+	pictureBounds.right  = (SInt16) imageSize.width;
+	pictureBounds.bottom = (SInt16) imageSize.height;
+	
+	FocusDraw();
+	
+	// Adjust the parameters
+	::MacInsetRect(&pictureBounds, 1, 1);
+	::RGBForeColor(&theColor);	
+	::PenNormal();
+	::PenSize(1, 1);
+	
+	// Draw border around the view
+	::RGBForeColor(&theColor);
+	::FrameRect( &pictureBounds );
+}
+
 
 
 PP_End_Namespace_PowerPlant
