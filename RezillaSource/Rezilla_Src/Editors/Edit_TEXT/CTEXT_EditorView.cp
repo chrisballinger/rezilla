@@ -16,16 +16,11 @@
 	#include PowerPlant_PCH
 #endif
 
+#include "CTEXT_EditorDoc.h"
 #include "CTEXT_EditorView.h"
 #include "CTEXT_EditorWindow.h"
 #include "CRezObj.h"
-#include "CRezillaApp.h"
 #include "CRezillaPrefs.h"
-#include "CRezMapDoc.h"
-// #include "CEditorsController.h"
-#include "CTEXT_EditorDoc.h"
-#include "CEditorDoc.h"
-#include "CRezMapTable.h"
 
 
 PP_Begin_Namespace_PowerPlant

@@ -24,18 +24,18 @@ PP_Begin_Namespace_PowerPlant
 #include "CTEXT_EditorView.h"
 #include "CEditorsController.h"
 #include "RezillaConstants.h"
-#include "CRezFile.h"
 #include "CRezMap.h"
 #include "CRezMapTable.h"
 #include "CRezMapDoc.h"
 #include "CRezObj.h"
-#include "CRezillaApp.h"
 #include "CRezillaPrefs.h"
 #include "CWindowMenu.h"
 #include "UCodeTranslator.h"
 #include "UDialogBoxHandler.h"
 #include "UMessageDialogs.h"
 #include "UMiscUtils.h"
+// #include "CRezFile.h"
+// #include "CRezillaApp.h"
 
 #include <LWindow.h>
 #include <LFile.h>
