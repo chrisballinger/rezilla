@@ -29,12 +29,13 @@
 #include "CHexDataSubView.h"
 #include "CTxtDataSubView.h"
 #include "CDropStaticText.h"
+#include "CBroadcasterTableView.h"
 #include "CRangeEditText.h"
 #include "UNavigationDialogs.h"
 #include "NavServicesCallbacks.h"
 #include "UMessageDialogs.h"
-// #include "COutBorderAttachment.h"
 #include "UDialogBoxHandler.h"
+// #include "COutBorderAttachment.h"
 
 // PP Classes for registration
 #include <Appearance.h>
@@ -279,6 +280,7 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(CTxtDataSubView);
 	RegisterClass_(CRangeEditText);
 	RegisterClass_(CDropStaticText);
+	RegisterClass_(CBroadcasterTableView);
 // 	RegisterClass_(COutBorderAttachment);
 
 // 	RegisterClass_(ATag);
@@ -709,8 +711,8 @@ CRezillaApp::OpenFork(FSSpec & inFileSpec)
 	error = PreOpen(inFileSpec, theFork, theRefnum, mOpeningFork);
 	if ( error == noErr ) {
 		new CRezMapDoc(this, &inFileSpec, theFork, theRefnum);
-	} else {
-	}
+	} 
+	
 	return error;
 }
 

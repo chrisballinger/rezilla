@@ -50,6 +50,7 @@ public:
 								short & outRefnum, 
 								SInt16 inWantedFork = fork_anyfork);
 	OSErr				OpenFork(FSSpec & inFileSpec);
+	static void			ReportOpenForkError(OSErr inError, FSSpec * inFileSpecPtr);
 
 	virtual void		ShowAboutBox();
 	
@@ -95,7 +96,6 @@ protected:
 
 private:
 	void				InstallWindowMenu()	;
-	void				ReportOpenForkError(OSErr inError, FSSpec * inFileSpecPtr);
 	
 };
 
