@@ -91,6 +91,8 @@ CRezMapWindow::~CRezMapWindow()
 void
 CRezMapWindow::FinishCreateSelf()
 {    	
+	SetModelKind(rzil_cRezMapWindow);
+
 	// We need to have mOwnerDoc now because it is called below
 	mOwnerDoc = dynamic_cast<CRezMapDoc*>(GetSuperCommander());
 	

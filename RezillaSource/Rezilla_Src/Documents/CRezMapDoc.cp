@@ -221,6 +221,8 @@ CRezMapDoc::Initialize(FSSpec * inFileSpec, short inRefnum)
 	mFileStream   = nil;
 	mReadOnly = false;
 	
+	SetModelKind(rzil_cRezMapDoc);
+
 	if (mRezFile == nil) {
 		if (inFileSpec != nil) {
 			mRezFile = new CRezFile(*inFileSpec, inRefnum, mFork);
