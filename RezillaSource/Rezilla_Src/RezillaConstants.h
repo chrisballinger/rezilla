@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2004-09-29 15:28:44
+//             Last modification : 2004-10-02 16:36:07
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -700,6 +700,9 @@ enum RezillaErrors
 	err_TmplMalformedKeySection,
 	err_TmplCantFindKeyedSectionStart,
 	err_TmplCantFindKeyStartForValue,
+	err_TmplCantFindKeyIndex,
+	err_TmplCantFindKeyValue,
+	err_TmplCantFindKeyPosition,
 	err_TmplUnsupportedResourceId,
 	err_TmplCantFindMatchingKeyEnd
 };
