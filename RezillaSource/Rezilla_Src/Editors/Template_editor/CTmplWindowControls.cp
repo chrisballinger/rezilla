@@ -691,6 +691,9 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 	SInt32		oldPos, newPos, totalLength;
 	Boolean		incrY = true;
 	Handle		theHandle;
+	UInt8		theUInt8 = 0;
+	UInt16		theUInt16 = 0;
+	UInt32		theUInt32 = 0;
 	SViewInfo	theViewInfo;
 	SDimension16	theFrame;
 
@@ -777,7 +780,6 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 			break;
 			
 			case 'BHEX': {
-				UInt32 theUInt8 = 0;
 				// ByteLength Hex Dump
 				if (mRezStream->GetMarker() < totalLength) {
 					*mRezStream >> theUInt8;
@@ -788,7 +790,6 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 			}
 			
 			case 'BSHX': {
-				UInt32 theUInt8 = 0;
 				// (ByteLength - 1) Hex Dump
 				if (mRezStream->GetMarker() < totalLength) {
 					*mRezStream >> theUInt8;
@@ -802,7 +803,6 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 			}
 			
 			case 'LHEX': {
-				UInt32 theUInt32 = 0;
 				// LongLength Hex Dump
 				if (mRezStream->GetMarker() < totalLength - 3) {
 					*mRezStream >> theUInt32;
@@ -813,7 +813,6 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 			}
 			
 			case 'LSHX': {
-				UInt32 theUInt32 = 0;
 				// (LongLength - 4) Hex Dump
 				if (mRezStream->GetMarker() < totalLength - 3) {
 					*mRezStream >> theUInt32;
@@ -827,7 +826,6 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 			}
 			
 			case 'WHEX': {
-				UInt16 theUInt16 = 0;
 				// WordLength Hex Dump
 				if (mRezStream->GetMarker() < totalLength - 1) {
 					*mRezStream >> theUInt16;
@@ -838,7 +836,6 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 			}
 			
 			case 'WSHX': {
-				UInt16 theUInt16 = 0;
 				// (WordLength - 2) Hex Dump
 				if (mRezStream->GetMarker() < totalLength - 1) {
 					*mRezStream >> theUInt16;
