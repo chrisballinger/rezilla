@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2004-12-06 15:01:17
+//             Last modification: 2004-12-09 08:55:16
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -33,6 +33,9 @@
 #include "CPICT_EditorWindow.h"
 #include "CTEXT_EditorView.h"
 #include "CTEXT_EditorWindow.h"
+#include "CUtxt_EditorDoc.h"
+#include "CUtxt_EditorView.h"
+#include "CUtxt_EditorWindow.h"
 #include "CWasteEditView.h"
 #include "CBiDataWE.h"
 #include "CDualDataView.h"
@@ -178,6 +181,8 @@ CRezillaApp::CRezillaApp()
 
 CRezillaApp::~CRezillaApp()
 {
+	LMLTEPane::Terminate();
+	
 	// CRezClipboard is deleted with all the attachments
 // 	delete CRezClipboard::GetScrapRezFile();
 }
@@ -198,7 +203,7 @@ CRezillaApp::Initialize()
 	UResources::GetCurrentResFile(sOwnRefNum);
 
 	InitMLTE();
-		
+	
 	SInt32 theOsVersion = UEnvironment::GetOSVersion();
 	// Check that we are running on OS9 or greater
 #if TARGET_RT_MAC_MACHO
@@ -279,19 +284,27 @@ CRezillaApp::Initialize()
 void
 CRezillaApp::InitMLTE()
 {
-	TXNMacOSPreferredFontDescription	defaultFont[1];
+	TXNMacOSPreferredFontDescription	defaultFont;
 	OSStatus							osStatus = noErr;
 	SInt16								fontID;
 
-// 	GetFNum("\pNew York",&fontID);
-	GetFNum("\pHelvetica",&fontID);
+	GetFNum("\pMonaco",&fontID);
 
-	defaultFont[0].fontID		= fontID;	
-	defaultFont[0].pointSize	= 0x000C0000;
-	defaultFont[0].fontStyle	= kTXNDefaultFontStyle;
-	defaultFont[0].encoding		= kTXNSystemDefaultEncoding;
-
-	LMLTEPane::Initialize( 250, 160, defaultFont, 1, kTXNWantMoviesMask);
+	defaultFont.fontID		= fontID;	
+	defaultFont.pointSize	= kTXNDefaultFontSize;
+	defaultFont.fontStyle	= kTXNDefaultFontStyle;
+	defaultFont.encoding	= kTXNSystemDefaultEncoding;
+	
+	LMLTEPane::Initialize( rMENU_FontsUnicode, rMENU_StartHierMenuID, &defaultFont, 1, 0);
+	
+	// Create the Fonts menu static object
+	if (CUtxt_EditorDoc::sUnicodeFontsMenu == NULL) {
+		CUtxt_EditorDoc::SetUnicodeFontsMenu( new LMenu(rMENU_FontsUnicode));
+	} 	
+	// Remove the Fonts menu from the menu bar
+	LMenuBar::GetCurrentMenuBar()->RemoveMenu(CUtxt_EditorDoc::GetUnicodeFontsMenu());
+// 	::MacDeleteMenu(rMENU_FontsUnicode);
+// 	::InvalMenuBar();				// Force redraw of MenuBar
 }
 
 
@@ -357,6 +370,8 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(CTmplEditorWindow);
 	RegisterClass_(CTmplBevelButton);
 	RegisterClass_(CTxtDataSubView);
+	RegisterClass_(CUtxt_EditorView);
+	RegisterClass_(CUtxt_EditorWindow);
 	RegisterClass_(CWasteEditView);
 
 // 	RegisterClass_(ATag);
