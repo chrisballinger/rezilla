@@ -666,7 +666,8 @@ enum
 	err_TmplMalformedHexValue,
 	err_TmplMalformedDateValue,
 	err_TmplCantGetDateFormat,
-	err_TmplParseDateFailed
+	err_TmplParseDateFailed,
+	err_TmplNotExpectedSize
 };
 
 
