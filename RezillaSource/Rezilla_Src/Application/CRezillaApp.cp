@@ -371,7 +371,7 @@ CRezillaApp::ObeyCommand(
 					ReportOpenForkError(error, &theFileSpec);
 				} else {
 					// Register to the Recent Items menu
-					mRecentItemsAttachment->AddFile(theFileSpec);
+					mRecentItemsAttachment->AddFile(theFileSpec, true);
 				}
 			}
 			break;
@@ -399,11 +399,11 @@ CRezillaApp::FindCommandStatus(
 	UInt16		&outMark,
 	Str255		outName)
 {
-
 	switch (inCommand) {
 	
 		case cmd_New:
 		case cmd_Open:
+		case cmd_RecentItems:
 		case cmd_ShowInspector:
 		case cmd_RezCompare:
 		outEnabled = true;
@@ -981,7 +981,6 @@ CRezillaApp::HandleOpenDocsEvent(
 		
 	if (theDocList.descriptorType != typeNull) ::AEDisposeDesc(&theDocList);
 }
-
 
 
 

@@ -419,4 +419,3 @@ const ResType	ResType_DITL = FOUR_CHAR_CODE('DITL');
 // #define  kLastSizeMenuItem	9
 
 
-

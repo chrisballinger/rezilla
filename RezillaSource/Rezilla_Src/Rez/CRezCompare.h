@@ -126,4 +126,3 @@ CRezCompare::GetNewPath() const
 
 #endif
 
-
