@@ -2,7 +2,7 @@
 // CRezillaPrefs.cp					
 // 
 //                       Created: 2004-05-17 08:52:16
-//             Last modification: 2004-09-23 18:18:50
+//             Last modification: 2004-11-19 07:40:13
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -108,8 +108,8 @@ CRezillaPrefs::Initialize()
 	// Retrieve preferences stored on disk
 	RetrievePreferences();
 	
-	// Calculate some global metrics after the Text Traits and set some
-	// statics.
+	// Calculate some global metric values from the text traits 
+	// and set some statics.
 	UMiscUtils::MetricsFromTraits( &sCurrPrefs.interface.traitsRecord );	
 	CRezCompare::sIgnoreNames = GetPrefValue(kPref_compare_ignoreName);
 	CRezCompare::sIgnoreAttrs = GetPrefValue(kPref_compare_ignoreAttributes);
@@ -137,7 +137,7 @@ void
 CRezillaPrefs::SetDefaultPreferences()
 {
 	// General pane
-	sCurrPrefs.general.maxRecent		= 10;
+	sCurrPrefs.general.maxRecent		= kRzilMaxRecentItems;
 	sCurrPrefs.general.newFork			= fork_datafork;
 	
 	// Exporting pane
