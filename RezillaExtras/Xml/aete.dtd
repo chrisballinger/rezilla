@@ -22,13 +22,13 @@
 		MinorVersion,
 		LanguageCode,
 		ScriptCode,
-		ArraySuites
+		ArraySuites?
 		)
 >
 
-<!ELEMENT ArraySuites (Suite)+>
+<!ELEMENT ArraySuites (Suite)*>
 <!ELEMENT Suite (SuiteName, SuiteDescription, SuiteID, SuiteLevel, SuiteVersion, 
-		ArrayEvents, ArrayClasses, ArrayComparisonOps, ArrayEnumerations)>
+		ArrayEvents?, ArrayClasses?, ArrayComparisonOps?, ArrayEnumerations?)>
 <!ELEMENT ArrayEvents (Event*)>
 <!ELEMENT ArrayClasses (Class*)>
 <!ELEMENT ArrayComparisonOps (ComparisonOp*)>
@@ -45,7 +45,7 @@
 		    DirectParamType,
 		    DirectParamDescription,
 		    DirectFlags,
-		    ArrayOtherParams
+		    ArrayOtherParams?
 		)
 >
 
@@ -125,8 +125,8 @@
 		    ClassName,
 		    ClassID,
 		    ClassDescription,
-		    ArrayProperties, 
-		    ArrayElements
+		    ArrayProperties?, 
+		    ArrayElements?
 		    )
 >
 
@@ -164,7 +164,7 @@
 <!ELEMENT ArrayElements (Element*)>
 <!ELEMENT Element (
 		    ElementClass,
-		    ArrayKeyForms
+		    ArrayKeyForms?
 		    )
 >
 
@@ -179,7 +179,7 @@
 
 <!ELEMENT Enumeration (
 		    EnumerationID,
-		    ArrayEnumerators
+		    ArrayEnumerators?
 		    )
 >
 
@@ -191,9 +191,11 @@
 		    )
 >
 
-<!-- ==================================================================== -->
-<!--                       Atomic elements                                -->
-<!-- ==================================================================== -->
+<!--
+ |   ====================================================================
+ |                          Atomic elements                               
+ |   ====================================================================
+-->
 <!--Boolean-->
 <!ELEMENT ChangeState (doesntChangeState|changesState)>
 <!ELEMENT DirectParamIsReference (directParamIsValue|directParamIsReference)>
