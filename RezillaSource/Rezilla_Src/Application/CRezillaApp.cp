@@ -542,7 +542,7 @@ CRezillaApp::MakeAboutWindow()
 	theCaption->SetDescriptor(sVersionNumber);
 
 	// Write the URLs
-	for (UInt8 i = 0; i < 5; i++) {
+	for (UInt8 i = 0; i < 6; i++) {
 		theUrlCaption = dynamic_cast<CStaticTextURL *>(mAboutWindow->FindPaneByID( item_AboutUrlsBase + i ));
 	
 		// Retrieve strings from STR# resource

@@ -221,16 +221,18 @@ const SInt16	index_ExtHtml				= 5;
 const SInt16	index_ExtR					= 6;
 const SInt16	index_ExtIcns				= 7;
 // Indices of STR# 1503: internet urls for about box
-const SInt16	index_urlProjCaption		= 1;
-const SInt16	index_urlProjURL			= 2;
-const SInt16	index_urlBinsCaption		= 3;
-const SInt16	index_urlBinsUEL			= 4;
-const SInt16	index_urlCvsCaption			= 5;
-const SInt16	index_urlCvsUEL				= 6;
-const SInt16	index_urlBugCaption			= 7;
-const SInt16	index_urlBugUEL				= 8;
-const SInt16	index_urlMailCaption		= 9;
-const SInt16	index_urlMailURL			= 10;
+/* 
+ * const SInt16    index_urlProjCaption        = 1;
+ * const SInt16    index_urlProjURL            = 2;
+ * const SInt16    index_urlBinsCaption        = 3;
+ * const SInt16    index_urlBinsUEL            = 4;
+ * const SInt16    index_urlCvsCaption            = 5;
+ * const SInt16    index_urlCvsUEL                = 6;
+ * const SInt16    index_urlBugCaption            = 7;
+ * const SInt16    index_urlBugUEL                = 8;
+ * const SInt16    index_urlMailCaption        = 9;
+ * const SInt16    index_urlMailURL            = 10;
+ */
 
 
 

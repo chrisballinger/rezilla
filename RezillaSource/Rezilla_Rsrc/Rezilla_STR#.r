@@ -1,7 +1,7 @@
 // ===========================================================================
 // Rezilla_STR#.r					
 //                       Created: 2004-02-28 22:51:23
-//             Last modification: 2004-06-17 12:09:05
+//             Last modification: 2004-06-21 15:38:05
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -112,7 +112,11 @@ resource 'STR#' (1504, "Project URLs") {
 		/* [9] */
 		"Mailing list",
 		/* [10] */
-		"http://lists.sourceforge.net/lists/listinfo/rezilla-users"
+		"http://lists.sourceforge.net/lists/listinfo/rezilla-users",
+		/* [11] */
+		"by Bernard Desgraupes",
+		/* [12] */
+		"mailto:bdesgraupes@easyconnect.fr"
 	}
 };
 
