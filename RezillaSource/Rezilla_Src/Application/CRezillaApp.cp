@@ -56,6 +56,7 @@
 #include "CRangeEditText.h"
 #include "CRezIconPane.h"
 #include "CSingleScrollBar.h"
+#include "CStaticEditCombo.h"
 #include "CStaticTextURL.h"
 #include "CSuiteSlider.h"
 #include "CSuite_Window.h"
@@ -396,6 +397,7 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(CRezMapTable);
 	RegisterClass_(CRezMapWindow);
 	RegisterClass_(CSingleScrollBar);
+	RegisterClass_(CStaticEditCombo);
 	RegisterClass_(CStaticTextURL);
 	RegisterClass_(CSuiteSlider);
 	RegisterClass_(CSuite_Window);
