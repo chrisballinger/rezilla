@@ -648,7 +648,7 @@ const MessageT	msg_TmplModifiedItem		= 	FOUR_CHAR_CODE('TmMd');
 
 // AE constants
 // ============
-// AE event class and ID
+// AE classes and IDs
 enum
 {
 	kAERzilClass			=    FOUR_CHAR_CODE('Rzil'),
@@ -656,15 +656,93 @@ enum
 	kAERzilFilesList	 	=	 FOUR_CHAR_CODE('LFil')
 };
 
-
-/* Apple Events constants (aedt) */
+/* AE Dispatch Table constants (aedt) */
 // const long	aeRzil_Open				= 5000;
 // const long	aeRzil_Ltyp				= 5001;
 // const long	aeRzil_Lrez				= 5002;
 const long	aeRzil_Version				= 5010;
 
+// Objects:
+// --------
+const DescType rzil_cRezMapDoc		= 'MapD';	// RezMap document
+const DescType rzil_cEditorDoc		= 'EdiD';	// Editor document
+const DescType rzil_cGuiEditDoc		= 'GuiD';	// Gui editor document
+const DescType rzil_cTmplEditDoc	= 'TmpD';	// Tmpl editor document
+const DescType rzil_cHexEditDoc		= 'HexD';	// Hex editor document
+const DescType rzil_cCompareDoc		= 'CmpD';	// Compare document
+
+const DescType rzil_cRezMapWindow	= 'MapW';	// RezMap window
+const DescType rzil_cEditorWindow	= 'EdiW';	// RezEditor window
+const DescType rzil_cGuiWindow		= 'GuiW';	// Gui editor window
+const DescType rzil_cTmplWindow		= 'TmpW';	// Tmpl editor window
+const DescType rzil_cHexWindow		= 'HexW';	// Hex editor window
+
+const DescType rzil_cCompWindow		= 'CmpW';	// RezCompare window
+const DescType rzil_cInspector		= 'Insp';	// Inspector window
+
+const DescType rzil_cHexPane		= 'HexP';	// HexPane
+const DescType rzil_cTxtPane		= 'TxtP';	// TxtPane
+
+const DescType rzil_cMap			= 'cMAP';	// RezMap
+const DescType rzil_cType			= 'cTYP';	// RezType
+const DescType rzil_cResource		= 'cRSC';	// Resource (RezObj)
+
+// Properties
+// ----------
+//    Application
+const DescType rzil_pVersion		= pVersion;		// Version ('vers')	
+const DescType rzil_pClipboard		= pClipboard;	// PrivateClipboard ('pcli')
+const DescType rzil_pPreferences	= 'pPRF';		// Preferences
+
+//    Document
+const DescType rzil_pDocKind		= 'DKND';	// Document's kind
+
+//    RezMap document
+const DescType rzil_pRezFork		= 'pFRK';	// ResFork
+const DescType rzil_pRezMap			= 'pMAP';	// RezMap
+const DescType rzil_pRezFile		= 'pFIL';	// ResFile
+
+//    RezMap
+const DescType rzil_pRefNum			= 'pREF';	// RefNum
+const DescType rzil_pReadOnly		= 'pRDO';	// mapReadOnly
+const DescType rzil_pCompact		= 'pCMP';	// mapCompact
+const DescType rzil_pChanged		= 'pCHG';	// mapChanged
+
+//    RezType
+/* const DescType pName		= 'pnam';	// Type pName */
+
+//    Resource
+const DescType rzil_pResID			= pID;		// ID ('pID ')			 
+const DescType rzil_pName			= pName;	// Name ('pnam')
+const DescType rzil_pType			= 'pTYP';	// Type
+const DescType rzil_pSize			= 'pSIZ';	// Size
+const DescType rzil_pData			= 'pDAT';	// Data
+const DescType rzil_pAttributes		= 'pATR';	// Attributes
+const DescType rzil_pSysHeap		= 'pSHP';	// resSysHeap
+const DescType rzil_pPurgeable		= 'pPUR';	// resPurgeable
+const DescType rzil_pLocked			= 'pLOC';	// resLocked
+const DescType rzil_pProtected		= 'pPRO';	// resProtected
+const DescType rzil_pPreload		= 'pPRE';	// resPreload
+
+//    HexPane/TxtPane
+const DescType rzil_pContents		= pContents;	// Contents ('pcnt')
+
+//    Editor document
+const DescType rzil_pKind			= 'pKND';	// Kind
+
+//    Tmpl editor document
+const DescType rzil_pTemplate		= 'pTMP';	// Template
+
+//    Compare document
+const DescType rzil_pIgnoreName		= 'pINm';	// IgnoreNameDiff
+const DescType rzil_pIgnoreAttr		= 'pIAt';	// IgnoreAttrDiff
+const DescType rzil_pIgnoreData		= 'pIDa';	// IgnoreDataDiff
+
+
+
 
 // Error constants
+// ===============
 enum RezillaErrors
 {
 	err_RezillaErrorStart			= 1000,
