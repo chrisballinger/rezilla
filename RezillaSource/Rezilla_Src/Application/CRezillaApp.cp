@@ -673,12 +673,10 @@ CRezillaApp::InstallWindowMenu()
 	Handle theIconSuite = nil;
 
 	OSErr result = -1;
-	if (UEnvironment::GetOSVersion() >= 0x070)
-	{
-		result = GetIconSuite(&theIconSuite, ICN_WindowMenu, kSelectorAllAvailableData);
-		if (theIconSuite == nil)
-			SignalPStr_("\pMenuIcons.rsrc not included in project!");
-	}	
+	result = GetIconSuite(&theIconSuite, Icon_WindowsMenu, kSelectorAllAvailableData);
+	if (theIconSuite == nil)
+		SignalPStr_("\pWindowMenuIcons.rsrc not included in project!");
+
 	if (!result && theIconSuite)
 	{
 		HLock(theIconSuite);
