@@ -193,15 +193,26 @@ CCompResultWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		break;
 		
 		case msg_CompResultOnlyOldTbl: 
+		mOnlyNewTable->UnselectAllCells();
+		mDifferTable->UnselectAllCells();
+		EraseHexPanes();
+		break;
+				
 		case msg_CompResultOnlyNewTbl: 
+		mOnlyOldTable->UnselectAllCells();
+		mDifferTable->UnselectAllCells();
 		EraseHexPanes();
 		break;
 				
 	  case msg_CompResultDifferingTbl: {
 		Handle	oldHandle, newHandle;
 	    CRezTypId * theTypid;
+		STableCell theCell;
+		
+		mOnlyOldTable->UnselectAllCells();
+		mOnlyNewTable->UnselectAllCells();
 	  
-		STableCell theCell = mDifferTable->GetFirstSelectedCell();		
+		theCell = mDifferTable->GetFirstSelectedCell();		
 		mRezCompare->GetDifferingList()->FetchItemAt( theCell.row, theTypid);
 		
 		mRezCompare->GetOldMap()->GetWithID(theTypid->mType, theTypid->mID, oldHandle, false);
