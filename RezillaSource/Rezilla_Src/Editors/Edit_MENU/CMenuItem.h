@@ -50,6 +50,9 @@ public:
 		void		SetExtendedValues(UInt8 inModifiers, SInt32 inEncoding, SInt32 inRefcon1, 
 							   SInt32 inRefcon2, SInt16 inFontID, SInt16 inSubstituteGlyph );
 
+		void		GetTitle(Str255 outTitle);
+		void 		SetTitle(Str255 inTitle);
+
 		SInt16		GetEntryType() { return mEntryType;}
 		void		SetEntryType(SInt16 inEntryType) {mEntryType = inEntryType;}
 
