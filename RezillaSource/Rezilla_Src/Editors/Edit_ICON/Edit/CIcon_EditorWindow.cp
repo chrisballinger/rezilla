@@ -2,7 +2,7 @@
 // CIcon_EditorWindow.cp
 // 
 //                       Created: 2004-12-10 17:23:05
-//             Last modification: 2004-12-27 09:09:59
+//             Last modification: 2004-12-28 22:06:54
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -1877,3 +1877,66 @@ CIcon_EditorWindow::SaveAsResource( CRezMap *inMap, ResIDT inResID  )
 {
 	// Subclasses should define
 }
+
+
+// ---------------------------------------------------------------------------
+// 	ResizeWindowIfNeeded
+// ---------------------------------------------------------------------------
+
+void
+CIcon_EditorWindow::ResizeWindowIfNeeded( SInt32 hMargin, SInt32 vMargin )
+{
+	SInt32		oldWidth, oldHeight;
+	SInt32		newWidth, newHeight;
+	
+	SDimension16	oldSize;
+	GetFrameSize( oldSize );
+	oldWidth = oldSize.width;
+	oldHeight = oldSize.height;
+	
+	GetContainedWidth( newWidth );
+	newWidth += hMargin;
+	newHeight += vMargin;
+	
+	if ( (newWidth != oldWidth) || (newHeight != oldHeight) )
+	{
+		// Resize the view
+		SInt32	dh = MAX( 0, newWidth - oldWidth );
+		SInt32	dv = MAX( 0, newHeight - oldHeight );
+		ResizeFrameBy( dh, dv, true );
+		
+		// Resize the window itself
+		Rect	r;
+		UIconMisc::GetWindowGlobalBounds( GetMacWindow(), r );
+		r.right = r.left + newWidth;
+		r.bottom = r.top + newHeight;
+		DoSetBounds( r );
+	}
+}
+
+
+// ---------------------------------------------------------------------------
+// 	GetContainedWidth
+// ---------------------------------------------------------------------------
+// This is the sum of the widths of the left header, the encloser and the 
+// right header. The foot placard is ignored. We do not resize vertically.
+
+void
+CIcon_EditorWindow::GetContainedWidth(SInt32 &outWidth)
+{
+	SInt32			totalWidth = 0;
+	LPane			*thePane;
+
+	LArrayIterator	anIterator( GetSubPanes() );
+
+	while ( anIterator.Next( &thePane ) && thePane->GetPaneID() != 'FOOT') 
+	{
+		SDimension16	frameSize;
+		thePane->GetFrameSize( frameSize );
+		totalWidth += frameSize.width ;
+	}
+
+	outWidth = totalWidth;
+}
+
+

@@ -2,7 +2,7 @@
 // CIcon_EditorWindow.h
 // 
 //                       Created: 2004-12-10 17:23:05
-//             Last modification: 2004-12-16 00:05:06
+//             Last modification: 2004-12-28 21:59:39
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -58,7 +58,7 @@ public:
 							CIcon_EditorWindow( LStream *inStream );
 							~CIcon_EditorWindow();
 
-	static CIcon_EditorWindow*			CreatePaintStream( LStream *inStream );
+	static CIcon_EditorWindow *	CreatePaintStream( LStream *inStream );
 
 	virtual void				SetImage( COffscreen *, SInt32 = resize_None,
 											ERedrawOptions = redraw_Later );
@@ -141,6 +141,9 @@ public:
 	virtual void				ChangeImageSize( SInt32 inWidth, SInt32 inHeight, Boolean inStretch );
 	virtual void				ImageSizeChangeUndone( SInt32 inWidth, SInt32 inHeight );
 		
+	virtual void				ResizeWindowIfNeeded(SInt32 hMargin = 0, SInt32 vMargin = 0);
+	virtual void				GetContainedWidth(SInt32 &outWidth);
+
 	virtual SInt32				GetZoomFactor( SInt32 inImageWidth, SInt32 inImageHeight, Boolean *outShowGrid );
 
 	// Fixes for bugs in PowerPlant when working with GWorlds

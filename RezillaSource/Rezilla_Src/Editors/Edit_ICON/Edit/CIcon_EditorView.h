@@ -97,7 +97,9 @@ public:
 	virtual Boolean			HasHotSpot();
 	virtual Point			GetHotSpot();
 	
-	virtual void			ResizeFrameBy( SInt16 dh, SInt16 dv, Boolean inRedraw );
+	/* 
+	 * virtual void            ResizeFrameBy( SInt16 dh, SInt16 dv, Boolean inRedraw );
+	 */
 	virtual void			MoveSamplePanes( SInt16 dh, SInt16 dv, Boolean inRedraw );
 
 	CIcon_EditorWindow*		GetOwnerWindow() { return mOwnerWindow;}
