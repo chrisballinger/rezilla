@@ -3,6 +3,7 @@
 
 localize "English" as "Localizable.strings" 
 {
+	key "AevtOdocError" value string "Some resource files couldn't be opened."
 	key "AlreadyExistTypeAndID" value string "There is already a '%s' resource with ID %d. Do you want to replace it or create one with a new ID (unique ID)?"
 	key "AlreadyExistingID" value string "There is already a resource with this ID. Do you want to replace the existing resource or create a new one with a new ID (unique ID)?"
 	key "AskRemoveProtectedBit" value string "This resource is protected. Do you want to remove the protection ? If not, you can remove it later in the Insoector window before saving the resource map."
