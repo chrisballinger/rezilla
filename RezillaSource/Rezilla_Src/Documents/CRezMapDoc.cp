@@ -89,7 +89,7 @@ CRezMapDoc::CRezMapDoc(LCommander *inSuper)
 	mFork = CRezillaApp::sDefaultCreatingFork;
 	mRezFile = nil;
 	
-	Initialize(nil, refnum_undefined);
+	Initialize(nil, kResFileNotOpened);
 }
 
 
@@ -104,7 +104,7 @@ CRezMapDoc::CRezMapDoc(LCommander *inSuper,
 	mFork = CRezillaApp::sDefaultCreatingFork;
 	mRezFile = nil;
 	
-	Initialize(inFileSpec, refnum_undefined);
+	Initialize(inFileSpec, kResFileNotOpened);
 }
 
 
@@ -384,7 +384,7 @@ CRezMapDoc::ObeyCommand(
 			CRezClipboard::SetScrapContext(scrap_rezmap);
 			CRezClipboard::GetClipboard()->GetData(kRezillaType, nil);
 			// The call to GetData() ensures that CRezClipboard::ImportSelf() is 
-			// called when necessary, but GetDataSelf() is empty and all the work 
+			// called when appropriate, but GetDataSelf() is empty and all the work 
 			// is done by the following:
 			PasteRezMap( CRezClipboard::GetScrapRezMap() );
 			break;
@@ -627,7 +627,7 @@ CRezMapDoc::DoAESave(
 	} 
 	
 	// Make a new file object.
-	CRezFile * theFile = new CRezFile( inFileSpec, refnum_undefined, mFork );
+	CRezFile * theFile = new CRezFile( inFileSpec, kResFileNotOpened, mFork );
 	theFile->SetOwnerDoc(this);
 	
 	// Make new resource file on disk
@@ -1503,7 +1503,7 @@ CRezMapDoc::PasteRezMap(CRezMap * srcRezMap)
 		srcRezMap->GetTypeAtIndex(i, theType );
 		error = srcRezMap->CountForType( theType, numResources);
 
-		for (UInt16 j = 1; j <= numResources; j++ ) {
+		for (UInt16 j = 1; j <= numResources; j++) {
 			// Get the data handle
 			error = srcRezMap->GetResourceAtIndex(theType, j, theRezHandle);
 			
@@ -1612,5 +1612,6 @@ CRezMapDoc::UpdateRefNum(short newRefNum)
 
 
 PP_End_Namespace_PowerPlant
+
 
 

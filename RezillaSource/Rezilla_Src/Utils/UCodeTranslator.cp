@@ -426,8 +426,7 @@ StReadableTranslator::StReadableTranslator(Handle inHandle)
 	mInSize = ::GetHandleSize(inHandle);
 	mOutSize = 2 * mInSize;
 	mOutHandle = ::NewHandle( mOutSize );
-	OSErr err = MemError();
-	ThrowIfNil_(mOutHandle);
+	ThrowIfMemError_();
 }
 
 
@@ -442,8 +441,7 @@ StReadableTranslator::StReadableTranslator(const void * inPtr, SInt32 inByteCoun
 	BlockMoveData(inPtr, *mInHandle, inByteCount);
 	mOutSize = 2 * mInSize;
 	mOutHandle = ::NewHandle( mOutSize );
-	OSErr err = MemError();
-	ThrowIfNil_(mOutHandle);
+	ThrowIfMemError_();
 }
 
 
@@ -522,7 +520,7 @@ StStripBlanksTranslator::FilterOutBlanks()
 	
 	mSize = UCodeTranslator::StripBlanks(&inStream, &outStream);
 	::SetHandleSize(mOutHandle, mSize);
-// 	err = MemError();
+	ThrowIfMemError_();
 }
 
 
@@ -573,11 +571,12 @@ StStripPeriodicalTranslator::FilterOutPeriodical()
 	
 	mSize = UCodeTranslator::StripPeriodical(&inStream, &outStream, mPeriod);
 	::SetHandleSize(mOutHandle, mSize);
-// 	err = MemError();
+	ThrowIfMemError_();
 }
 
 
 
 
 PP_End_Namespace_PowerPlant
+
 

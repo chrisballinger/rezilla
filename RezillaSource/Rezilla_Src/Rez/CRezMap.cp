@@ -13,6 +13,7 @@
 // ===========================================================================
 
 #include "CRezMap.h"
+#include "CRezObj.h"
 #include "UResources.h"
 
 
@@ -23,7 +24,7 @@
 
 CRezMap::CRezMap(short inRefnum)
 {
-    mRefnum	= inRefnum;
+    mRefNum	= inRefnum;
     mMapAttributes	= 0;
 }
 
@@ -38,6 +39,24 @@ CRezMap::~CRezMap()
 
 
 // ---------------------------------------------------------------------------
+//  ¥ Close														[public]
+// ---------------------------------------------------------------------------
+// 		ThrowIfResError_();
+
+OSErr
+CRezMap::Close()
+{
+	OSErr error = noErr;
+    if (mRefNum != kResFileNotOpened) {
+		::CloseResFile(mRefNum);
+		error = ::ResError();
+		mRefNum = kResFileNotOpened;
+    }
+	return error;
+}
+
+
+// ---------------------------------------------------------------------------
 //  ¥ Update														[public]
 // ---------------------------------------------------------------------------
 // 		ThrowIfResError_();
@@ -45,7 +64,7 @@ CRezMap::~CRezMap()
 OSErr
 CRezMap::Update()
 {
-    ::UpdateResFile(mRefnum);
+    ::UpdateResFile(mRefNum);
     return ::ResError();
 }
 
@@ -58,7 +77,7 @@ CRezMap::Update()
 OSErr
 CRezMap::CountForType(ResType inType, short & outCount)
 {
-    StRezReferenceSaver saver(mRefnum);
+    StRezReferenceSaver saver(mRefNum);
     outCount = ::Count1Resources(inType);
     return ::ResError();
 }
@@ -72,7 +91,7 @@ CRezMap::CountForType(ResType inType, short & outCount)
 OSErr
 CRezMap::CountAllTypes(short & outCount)
 {
-    StRezReferenceSaver saver(mRefnum);
+    StRezReferenceSaver saver(mRefNum);
     outCount = ::Count1Types();
     return ::ResError();
 }
@@ -93,7 +112,7 @@ CRezMap::CountAllResources(short & outCount)
     OSErr error = CountAllTypes(numTypes);
     outCount = 0;
     
-    StRezReferenceSaver saver(mRefnum);
+    StRezReferenceSaver saver(mRefNum);
     if (error == noErr) {
 	for ( UInt16 i = 1; i <= numTypes; i++ )
 	{
@@ -113,11 +132,10 @@ CRezMap::CountAllResources(short & outCount)
 OSErr
 CRezMap::GetResourceAtIndex(ResType inType, short inIdx, Handle & outHandle)
 {
-    StRezReferenceSaver saver(mRefnum);
+    StRezReferenceSaver saver(mRefNum);
     outHandle = ::Get1IndResource( inType, inIdx );
 	return ::ResError();
 }
-
 
 
 // ---------------------------------------------------------------------------
@@ -132,7 +150,7 @@ CRezMap::ResourceExists(ResType inType, short inID)
 	OSErr error;
 	Handle theHandle;
 	
-    StRezReferenceSaver saver(mRefnum);
+    StRezReferenceSaver saver(mRefNum);
 	::SetResLoad(false);
     theHandle = ::Get1Resource(inType, inID);
 	error = ::ResError();
@@ -151,7 +169,7 @@ OSErr
 CRezMap::GetWithID(ResType inType, short inID, Handle & outHandle, Boolean loadIt)
 {
 	OSErr error;
-    StRezReferenceSaver saver(mRefnum);
+    StRezReferenceSaver saver(mRefNum);
 	if (!loadIt) {
 		::SetResLoad(false);
 	} 
@@ -174,7 +192,7 @@ OSErr
 CRezMap::GetWithName(ResType inType, ConstStr255Param inName, Handle & outHandle, Boolean loadIt)
 {
 	OSErr error;
-    StRezReferenceSaver saver(mRefnum);
+    StRezReferenceSaver saver(mRefNum);
 	if (!loadIt) {
 		::SetResLoad(false);
 	} 
@@ -226,7 +244,7 @@ CRezMap::GetAllTypes( TArray<ResType>* & outArray )
     short numTypes;
     ResType theType;
     
-    StRezReferenceSaver saver(mRefnum);
+    StRezReferenceSaver saver(mRefNum);
     OSErr error = CountAllTypes(numTypes);
     
     if (error == noErr) {
@@ -252,7 +270,7 @@ CRezMap::GetAllTypes( TArray<ResType>* & outArray )
 OSErr
 CRezMap::GetTypeAtIndex(short inIdx, ResType & outType)
 {
-    StRezReferenceSaver saver(mRefnum);
+    StRezReferenceSaver saver(mRefNum);
    ::Get1IndType( &outType, inIdx );
     return ::ResError();
 }
@@ -268,7 +286,7 @@ CRezMap::GetTypeAtIndex(short inIdx, ResType & outType)
 OSErr
 CRezMap::UniqueID(ResType inType, short & outID)
 {
-    StRezReferenceSaver saver(mRefnum);
+    StRezReferenceSaver saver(mRefNum);
     outID = ::Unique1ID(inType);
     return ::ResError();
 }
@@ -284,8 +302,8 @@ CRezMap::UniqueID(ResType inType, short & outID)
 OSErr
 CRezMap::GetFileAttrs(short & outResFileAttrs)
 {
-    StRezReferenceSaver saver(mRefnum);
-    outResFileAttrs = ::GetResFileAttrs(mRefnum);
+    StRezReferenceSaver saver(mRefNum);
+    outResFileAttrs = ::GetResFileAttrs(mRefNum);
     return ::ResError();
 }
 
@@ -297,8 +315,8 @@ CRezMap::GetFileAttrs(short & outResFileAttrs)
 OSErr
 CRezMap::SetFileAttrs(short inResFileAttrs)
 {
-    StRezReferenceSaver saver(mRefnum);
-    ::SetResFileAttrs(mRefnum, inResFileAttrs);
+    StRezReferenceSaver saver(mRefNum);
+    ::SetResFileAttrs(mRefNum, inResFileAttrs);
     return ::ResError();
 }
 
@@ -310,10 +328,10 @@ CRezMap::SetFileAttrs(short inResFileAttrs)
 OSErr
 CRezMap::UnsetFileAttrs(short inResFileAttrs)
 {
-    StRezReferenceSaver saver(mRefnum);
-    short theAttrs = ::GetResFileAttrs(mRefnum);
+    StRezReferenceSaver saver(mRefNum);
+    short theAttrs = ::GetResFileAttrs(mRefNum);
     theAttrs  &= ~inResFileAttrs;
-    ::SetResFileAttrs(mRefnum, theAttrs);
+    ::SetResFileAttrs(mRefNum, theAttrs);
     return ::ResError();
 }
 
@@ -326,30 +344,29 @@ CRezMap::UnsetFileAttrs(short inResFileAttrs)
 OSErr
 CRezMap::DeleteAll()
 {
-	short numTypes;
-	short numResources;
-	ResType theType;
-	Handle theHandle;
+	short		numTypes, numResources;
+	ResType		theType;
+	Handle		theHandle;
+	CRezObj *	theRezObj = nil;
+	OSErr error;
 	
-	StRezReferenceSaver saver(mRefnum);
-	OSErr error = CountAllTypes(numTypes);
+	StRezReferenceSaver saver(mRefNum);
+	error = CountAllTypes(numTypes);
 	
 	if (error == noErr) {
-		for ( UInt16 i = 1; i <= numTypes; i++ )
-		{
-			::Get1IndType( &theType, i );
-			error = ::ResError();
-			if (error != noErr) {
-				CountForType(theType, numResources);
+		for (UInt16 i = 1; i <= numTypes; i++ ) {
+			error = GetTypeAtIndex(i, theType);
+			if (error == noErr) {
+				error = CountForType(theType, numResources);
 				if (error == noErr) {
-					for ( UInt16 j = 1; j <= numResources; j++ )
-					{
-						theHandle = ::Get1IndResource( theType, j );
-						error = ::ResError();
+					for (UInt16 j = 1; j <= numResources; j++ ) {
+						if (theRezObj != nil) {
+							delete theRezObj;
+						} 
+						error = GetResourceAtIndex(theType, j, theHandle);
+						theRezObj = new CRezObj(theHandle, mRefNum);
 						if (error == noErr) {
-							::RemoveResource(theHandle);
-							::DisposeHandle(theHandle);
-							error = ::ResError();
+							error = theRezObj->Remove();
 						} 
 					}
 				} 
@@ -358,5 +375,6 @@ CRezMap::DeleteAll()
 	} 
 	return error;
 }
+
 
 

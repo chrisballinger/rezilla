@@ -333,7 +333,7 @@ CRezillaApp::ObeyCommand(
 					}						
 				} 
 				// Make a new file object.
-				CRezFile * theRezFile = new CRezFile( theFileSpec, refnum_undefined, mCreatingFork );
+				CRezFile * theRezFile = new CRezFile( theFileSpec, kResFileNotOpened, mCreatingFork );
 				// Make new resource file on disk
 				if (theRezFile->CreateNewFile() == noErr) {
 					// Open the resource file.
@@ -694,6 +694,19 @@ CRezillaApp::ChooseAFile(const LFileTypeList & inFileTypes, FSSpec & fileSpec)
     ::UDesktop::Activate();
 
 	return openOK;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ OpenDocument													  [public]
+// ---------------------------------------------------------------------------
+//	Open a Document specified by an FSSpec
+
+void
+CRezillaApp::OpenDocument(
+	FSSpec* inFSSpec)
+{
+	OpenFork(*inFSSpec);
 }
 
 

@@ -39,6 +39,7 @@ public:
 	OSErr	DeleteAll();
 	
 	OSErr	Update();
+	OSErr	Close();
 
 	OSErr	UniqueID(ResType inType, short & outID);
 
@@ -48,15 +49,15 @@ public:
 
 	Boolean	ResourceExists(ResType inType, short inID);
 	
-	virtual short	GetRefnum() { return mRefnum;}
-	void			SetRefnum(short theRefnum) {mRefnum = theRefnum;}
+	virtual short	GetRefnum() { return mRefNum;}
+	void			SetRefnum(short theRefnum) {mRefNum = theRefnum;}
 
 	virtual short	GetMapAttributes() { return mMapAttributes;}
 	void			SetMapAttributes(short inMapAttributes) {mMapAttributes = inMapAttributes;}
 
 protected:
 
-	short		mRefnum;
+	short		mRefNum;
 	short		mMapAttributes;
 	
 };

@@ -2,11 +2,11 @@
 // CRezObj.cp					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2004-03-10 23:32:28
+//             Last modification: 2004-03-14 21:44:01
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003, 2004
+// (c) Copyright : Bernard Desgraupes, 2003-2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -103,10 +103,10 @@ CRezObj::CRezObj(CRezType * inRezType)
 	Str255 theName = "\p";
 	
 	mOwnerRezType = inRezType;
-	mType = mOwnerRezType->GetType();
-	mOwnerRefnum = mOwnerRezType->GetOwnerMap()->GetRefnum();
+	mType = inRezType->GetType();
+	mOwnerRefnum = inRezType->GetOwnerMap()->GetRefnum();
 	// Generate an unique ID
-	mOwnerRezType->GetOwnerMap()->UniqueID(mType, mID);
+	inRezType->GetOwnerMap()->UniqueID(mType, mID);
 	SetName(&theName);
 	mData = ::NewHandle(0);
 	mSize = 0;
@@ -120,12 +120,14 @@ CRezObj::CRezObj(CRezType * inRezType)
 
 CRezObj::CRezObj(CRezObj& inOriginal)
 {
-	mOwnerRezType = inOriginal.GetOwnerRezType();
+// 	mOwnerRezType = inOriginal.GetOwnerRezType();
 	mOwnerRefnum = inOriginal.GetOwnerRefnum();
 	mType = inOriginal.GetType();
 	mID = inOriginal.GetID();
 	mSize = inOriginal.GetSize();
 	mAttributes = inOriginal.GetAttributes();	
+	mOwnerRezType = new CRezType(mType);
+	mOwnerRezType->SetOwnerMap( inOriginal.GetOwnerRezType()->GetOwnerMap() );
 	
 	this->SetName(inOriginal.GetName());
 	mData = ::NewHandle(0);
@@ -178,12 +180,14 @@ CRezObj::Add()
 OSErr
 CRezObj::Remove()
 {
+	OSErr error = noErr;
     StRezReferenceSaver saver(mOwnerRefnum);
-	if (mData != nil) {
+	if (mData != nil) { 
 		::RemoveResource(mData);
 		::DisposeHandle(mData);
+		error = ::ResError();
 	} 
-	return ::ResError();
+	return error;
 }
 
 
@@ -197,11 +201,13 @@ CRezObj::Remove()
 OSErr
 CRezObj::Changed()
 {
+	OSErr error = noErr;
     StRezReferenceSaver saver(mOwnerRefnum);
 	if (mData != nil) {
 		::ChangedResource(mData);
+		error = ::ResError();
 	} 
-	return ::ResError();
+	return error;
 }
 
 
@@ -214,11 +220,13 @@ CRezObj::Changed()
 OSErr
 CRezObj::Detach()
 {
+	OSErr error = noErr;
     StRezReferenceSaver saver(mOwnerRefnum);
 	if (mData != nil) {
 		::DetachResource(mData);
+		error = ::ResError();
 	} 
-	return ::ResError();
+	return error;
 }
 
 
@@ -230,11 +238,13 @@ CRezObj::Detach()
 OSErr
 CRezObj::Release()
 {
+	OSErr error = noErr;
     StRezReferenceSaver saver(mOwnerRefnum);
 	if (mData != nil) {
 		::ReleaseResource(mData);
+		error = ::ResError();
 	} 
-	return ::ResError();
+	return error;
 }
 
 
@@ -250,11 +260,13 @@ CRezObj::Release()
 OSErr
 CRezObj::Load()
 {
+	OSErr error = noErr;
     StRezReferenceSaver saver(mOwnerRefnum);
 	if (mData != nil) {
 		::MacLoadResource(mData);
+		error = ::ResError();
 	} 
-	return ::ResError();
+	return error;
 }
 
 
@@ -273,11 +285,13 @@ CRezObj::Load()
 OSErr
 CRezObj::Write()
 {
+	OSErr error = noErr;
     StRezReferenceSaver saver(mOwnerRefnum);
 	if (mData != nil) {
 		::WriteResource(mData);
+		error = ::ResError();
 	} 
-	return ::ResError();
+	return error;
 }
 
 
@@ -303,11 +317,13 @@ CRezObj::GetRezHandle()
 OSErr
 CRezObj::GetInfoFromMap()
 {
+	OSErr error = noErr;
     StRezReferenceSaver saver(mOwnerRefnum);
 	if (mData != nil) {
 		::GetResInfo(mData, &mID, &mType, (unsigned char *) mName);
+		error = ::ResError();
 	} 
-	return ::ResError();
+	return error;
 }
 
 
@@ -319,11 +335,13 @@ CRezObj::GetInfoFromMap()
 OSErr
 CRezObj::SetInfoInMap()
 {
+	OSErr error = noErr;
     StRezReferenceSaver saver(mOwnerRefnum);
 	if (mData != nil) {
 		::SetResInfo(mData, mID, mName);
+		error = ::ResError();
 	} 
-	return ::ResError();
+	return error;
 }
 
 
@@ -351,11 +369,13 @@ CRezObj::SetName(Str255* inName)
 OSErr
 CRezObj::GetAttributesFromMap(short & outAttribute)
 {
+	OSErr error = noErr;
     StRezReferenceSaver saver(mOwnerRefnum);
 	if (mData != nil) {
 		outAttribute = ::GetResAttrs(mData);
+		error = ::ResError();
 	} 
-	return ::ResError();
+	return error;
 }
 
 
@@ -387,11 +407,13 @@ CRezObj::SetAttributes(short inAttributes)
 OSErr
 CRezObj::GetMaxSize(Size & outSize)
 {
+	OSErr error = noErr;
     StRezReferenceSaver saver(mOwnerRefnum);
 	if (mData != nil) {
 		outSize = ::GetMaxResourceSize(mData);
+		error = ::ResError();
 	} 
-	return ::ResError();
+	return error;
 }
 
 
@@ -402,11 +424,13 @@ CRezObj::GetMaxSize(Size & outSize)
 OSErr
 CRezObj::GetSizeOnDisk(Size & outSize)
 {
+	OSErr error = noErr;
     StRezReferenceSaver saver(mOwnerRefnum);
 	if (mData != nil) {
 		outSize = ::GetResourceSizeOnDisk(mData);
+		error = ::ResError();
 	} 
-	return ::ResError();
+	return error;
 }
 
 
@@ -468,6 +492,7 @@ CRezObj::SetData(Handle srcHandle)
 // CRezObj::WritePartial()
 // {
 // }
+
 
 
 

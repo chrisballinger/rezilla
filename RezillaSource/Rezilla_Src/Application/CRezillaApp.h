@@ -43,6 +43,8 @@ public:
 							Boolean &outEnabled, Boolean &outUsesMark,
 							UInt16 &outMark, Str255 outName);
 
+	virtual void		OpenDocument( FSSpec* inFSSpec );
+
 	Boolean				ChooseAFile(FSSpec & fileSpec);
 	Boolean				ChooseAFile(const LFileTypeList & inFileTypes, FSSpec & fileSpec);
 	Boolean				DesignateNewMap( FSSpec& outFileSpec, bool & outReplacing);
@@ -99,6 +101,7 @@ private:
 	void				InstallWindowMenu()	;
 	
 };
+
 
 
 

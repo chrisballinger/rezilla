@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2004-03-12 23:20:51
+//             Last modification : 2004-03-15 09:06:10
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -40,11 +40,12 @@ enum
 };
 
 // Reference numbers
-enum
-{	
-	refnum_undefined = -1,
-	refnum_system = 0
-};
+// Use kResFileNotOpened and kSystemResFile instead (defined in Resources.h)
+// enum
+// {	
+// 	refnum_undefined = -1,
+// 	refnum_system = 0
+// };
 
 // Export formats
 enum

@@ -20,6 +20,7 @@
 #include "CRezMapDoc.h"
 #include "CRezFile.h"
 #include "CRezMap.h"
+#include "CRezType.h"
 #include "CRezObj.h"
 #include "CRezObjItem.h"
 #include "UMiscUtils.h"
@@ -57,18 +58,12 @@ CRezClipboard::CRezClipboard()
 
 CRezClipboard::~CRezClipboard()
 {
-		// Depending on the circumstances when you delete a Clipboard
-		// object, you may want to call ExportSelf() in your subclass's
-		// destructor if mExportPending is true
-
-// 	#ifdef Debug_Signal
-// 	
-// 		if (mExportPending) {
-// 			SignalStringLiteral_("Custom Clipboard deleted while export is pending");
-// 		}
-// 		
-// 	#endif
-
+	if (mExportPending) {
+// 		ExportSelf();
+		mExportPending = false;
+	}
+	// Close the Scrap Rez Map
+	sScrapRezMap->Close();
 }
 
 
@@ -131,12 +126,14 @@ CRezClipboard::InitScrapRezMap()
 		CFRelease(scrapRezMapURL);
 	} 	
 	
-	// Make a new file object.
+	// Make static objects
 	if (error == noErr) {
 		sScrapRezFile = new CRezFile(theFileSpec, scrapRefNum, fork_datafork);
 		sScrapRezMap = new CRezMap(scrapRefNum);
 		sScrapRefnum = scrapRefNum;
 	} 
+short		numTypes;
+error = sScrapRezMap->CountAllTypes(numTypes);
 		
 	bail:
 	if (mainBundleRef != NULL) CFRelease(mainBundleRef);
@@ -227,21 +224,57 @@ CRezClipboard::SetDataSelf(
 void
 CRezClipboard::ImportSelf()
 {
-// 			ResType theType;
-// 			short theID;
-// 			Handle theHandle = ::NewHandle(0);
-// 			
-// 			if ( UMiscUtils::GetTypeFromScrap(theType) == noErr 
-// 				&& mRezMap->UniqueID(theType, theID) == noErr) {
-// 				UScrap::GetData(theType, theHandle);
-// 				PasteResource(theType, theID, theHandle);
-// 			} 
-// 			if (theHandle != nil) {
-// 				::DisposeHandle(theHandle);
-// 			} 
+	OSStatus			error = noErr;
+	UInt32				theCount, idx;
 	
+	error = ::GetScrapFlavorCount(mScrapRef, &theCount);
+	
+	if (error == noErr && theCount)  {
+		ScrapFlavorInfo *	infoList;
+		CRezType *	theRezType = nil;
+		CRezObj *	theRezObj = nil;
+		Handle		theHandle;
+		Size		byteCount;
+		
+		// Reset the scrap rez map
+		error = sScrapRezMap->DeleteAll();
+		error = sScrapRezMap->Update();
+		
+		// Get the list of all flavors found in the global scrap
+		infoList = (ScrapFlavorInfo*) NewPtrClear( theCount * sizeof(ScrapFlavorInfo) );
+		error = ::GetScrapFlavorInfoList(mScrapRef, &theCount, infoList);		
+		
+		for (idx = 0; idx < theCount; idx++) {
+			// Create a new resource in the scrap rez map
+			theRezType = new CRezType(infoList[idx].flavorType, sScrapRezMap);
+			theRezObj = new CRezObj(theRezType);
+			
+			// Set the data in the RezObj
+			error = ::GetScrapFlavorSize(mScrapRef, infoList[idx].flavorType, &byteCount);
+			if (error == noErr)  {
+				theHandle = ::NewHandle(byteCount);
+				if (theHandle != nil) {
+					error = ::GetScrapFlavorData(mScrapRef, infoList[idx].flavorType, &byteCount, *theHandle);
+					if (error == noErr)  {
+						theRezObj->SetData(theHandle);
+					}
+					::DisposeHandle(theHandle);
+				}
+			}
+			// Add the RezObj to the map
+			error = theRezObj->Add();
+			error = theRezObj->Changed();
+			if (theRezType != nil) {
+				delete theRezType;
+			} 
+			if (theRezObj != nil) {
+				delete theRezObj;
+			} 
+		}
+		error = sScrapRezMap->Update();
+	}	
 }
-
+	
 
 // ---------------------------------------------------------------------------
 //	¥ ExportSelf												   [protected]
@@ -254,11 +287,39 @@ CRezClipboard::ImportSelf()
 void
 CRezClipboard::ExportSelf()
 {
+	short	numTypes;
+	ResType theType;
+	Handle	theRezHandle;
+	short	theAttrs;
+	OSErr	error = noErr;
+
+return;
+
+	// Clear the data on the scrap and get a new scrapRef
+	ClearData();
+	
+	error = sScrapRezMap->CountAllTypes(numTypes);
+	if (error != noErr || numTypes == 0) {return;}
+	
+	for (UInt16 i = 1; i <= numTypes; i++ ) {
+		CRezObj *	theRezObj;
+		
+		// Read in each data type
+		sScrapRezMap->GetTypeAtIndex(i, theType);
+		
+		// Get the data handle for the resource at index 1 in this type
+		error = sScrapRezMap->GetResourceAtIndex(theType, 1, theRezHandle);
+		if (theRezHandle) {
+			// Put it on the global scrap
+			error = PutScrapFlavor(mScrapRef, theType, 0, ::GetHandleSize(theRezHandle), *theRezHandle);
+		} 
+	}
+	return;
 }
 
 
 // ---------------------------------------------------------------------------
-//	¥ ContentsIsValidHex												   [protected]
+//	¥ ContentsIsValidHex										   [protected]
 // ---------------------------------------------------------------------------
 //	Check it the actual contents of the scrap are valid hexadecimal data 
 // (only 0-9, a-f, A-F).
@@ -295,20 +356,24 @@ CRezClipboard::SetDataInScrapRezMap(
 	OSErr			error = noErr;
 	short			theAttrs;
 	
+short		numTypes;
+error = sScrapRezMap->CountAllTypes(numTypes);
 	if (inReset) {
-		sScrapRezMap->DeleteAll();
-		sScrapRezMap->Update();
+		error = sScrapRezMap->DeleteAll();
+		error = sScrapRezMap->Update();
 	} 
+error = sScrapRezMap->CountAllTypes(numTypes);
 	
 	while (iterator.Next(&theItem)) {
 		if (theRezObj != nil) {
 			delete theRezObj;
 		} 
 		theRezObj = new CRezObj( *((CRezObjItem *)theItem)->GetRezObj() );
-		error = theRezObj->GetAttributesFromMap(theAttrs);
+// 		error = GetAttributesFromMap(theAttrs);
+		theAttrs = theRezObj->GetAttributes();
 		
 		theRezObj->SetOwnerRefnum(sScrapRefnum);
-		theRezObj->Add();
+		error = theRezObj->Add();
 		
 		if (theAttrs != 0) {
 			// Write the attributes in scrap rezmap
@@ -317,82 +382,28 @@ CRezClipboard::SetDataInScrapRezMap(
 		error = theRezObj->Changed();
 	}
 	error = sScrapRezMap->Update();
+
+
+short	numResources;
+ResType		theType;
+Handle theHandle;
+error = sScrapRezMap->CountAllTypes(numTypes);
+for (UInt16 i = 1; i <= numTypes; i++) {
+	error = sScrapRezMap->GetTypeAtIndex(i, theType);
+	if (error == noErr) {
+		sScrapRezMap->CountForType(theType, numResources);
+		if (error == noErr) {
+			for (UInt16 j = 1; j <= numResources; j++) {
+				theHandle = ::Get1IndResource(theType, j);
+				error = ::ResError();
+			}
+		
+		} 
+	} 
+}
 }
 
 
 
-// ---------------------------------------------------------------------------
-//	¥ GetDataFromScrapRezMap											[private]
-// ---------------------------------------------------------------------------
-//	Set the ScrapRezMap contents to the data specified by a pointer and length.
-//
-//	inReset specifies whether to clear the existing contents of the
-//	ScrapRezMap before storing the new data.
-// 
-// 	ResType		inDataType,
-// 	Ptr			inDataPtr,
-// 	SInt32		inDataLength,
-// 	Boolean		inReset
-// void
-// CRezClipboard::GetDataFromScrapRezMap(
-// 	ResType		inDataType,
-// 	Handle		ioDataH)
-// {
-// 	short	numTypes, i;
-// 	short	numResources, j;
-//     ResType theType;
-// 	OSErr	error = noErr;
-// 	Handle	theRezHandle;
-// 	short	theAttrs;
-// 	CRezObj *	theRezObj;
-// 	
-// // 	CRezMap * trgtRezmap = new CRezMap(mRefNum);
-// 	
-// 	error = sScrapRezMap->CountAllTypes(numTypes);
-// 	if (error != noErr || numTypes == 0) {return error;}
-// 	
-// 	for ( i = 1; i <= numTypes; i++ )
-// 	{
-// 		// Read in each data type
-// 		sScrapRezMap->GetTypeAtIndex( i, theType );
-// 		error = sScrapRezMap->CountForType( theType, numResources);
-// 
-// 		for ( j = 1; j <= numResources; j++ )
-// 		{
-// 			// Get the data handle
-// 			error = sScrapRezMap->GetResourceAtIndex(theType, j, theRezHandle);
-// 			
-// 			// Make a rez object out of it
-// 			theRezObj = new CRezObj(theRezHandle, sScrapRezMap->GetRefnum());
-// 			error = theRezObj->GetAttributesFromMap(theAttrs);
-// 			// Detach the handle before adding it
-// 			error = theRezObj->Detach();
-// 			
-// 			// Change its refnum and add the resource to the new fork
-// 			theRezObj->SetOwnerRefnum(mRefNum);
-// 			error = theRezObj->Add();
-// 			error = theRezObj->Write();
-// 			
-// 			if (theAttrs != 0) {
-// 				// Write the attributes in new rezmap
-// 				error = theRezObj->SetAttributes(theAttrs);
-// 				error = theRezObj->Changed();
-// 			} 
-// 			
-// 			delete theRezObj;
-// 		}
-// 	}
-// 	
-// // 	::CloseResFile( sScrapRezMap->GetRefnum() );
-// // 	error = ::ResError();
-// 	::UpdateResFile(mRefNum);
-// 
-// 	return error;
-// }
-
-
-
-
 PP_End_Namespace_PowerPlant
-
 

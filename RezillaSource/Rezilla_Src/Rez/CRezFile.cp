@@ -2,11 +2,11 @@
 // CRezFile.cp					
 // 
 //                       Created: 2003-04-24 14:17:20
-//             Last modification: 2003-05-27 13:54:31
+//             Last modification: 2004-03-15 09:03:01
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003
+// (c) Copyright : Bernard Desgraupes, 2003, 2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -19,7 +19,7 @@
 
 #include "CRezFile.h"
 #include "CRezillaApp.h"
-#include "RezillaConstants.h"
+// #include "RezillaConstants.h"
 #include "UMiscUtils.h"
 #include "CRezMap.h"
 #include "CRezObj.h"
@@ -39,7 +39,7 @@ CRezFile::CRezFile()
     mFileSpec.vRefNum	= 0;
     mFileSpec.parID		= 0;
     mFileSpec.name[0]	= 0;
-    mRefNum				= refnum_undefined;
+    mRefNum				= kResFileNotOpened;
 	mUsedFork			= CRezillaApp::sDefaultCreatingFork;
 }
 
@@ -68,7 +68,7 @@ CRezFile::CRezFile(const FSSpec& inFileSpec, short inRefnum, SInt16 inFork)
 CRezFile::CRezFile(const FSSpec& inFileSpec)
 {
     mFileSpec	= inFileSpec;
-    mRefNum		= refnum_undefined;
+    mRefNum		= kResFileNotOpened;
     mUsedFork	= CRezillaApp::sDefaultCreatingFork;
 // 	FSpMakeFSRef( &mFileSpec, &mFileRef );
 }
@@ -91,7 +91,7 @@ CRezFile::CRezFile(
 	OSErr err = ::ResolveAlias(inFromFile, inAlias, 
 				     &mFileSpec, &outWasChanged);
 
-	mRefNum = refnum_undefined;
+	mRefNum = kResFileNotOpened;
 	ThrowIfOSErr_(err);
 }
 
@@ -285,10 +285,10 @@ CRezFile::CloseFile()
 {
 	OSErr error = noErr;
 	
-    if (mRefNum != refnum_undefined) {
+    if (mRefNum != kResFileNotOpened) {
 		::CloseResFile(mRefNum);
 		error = ::ResError();
-		mRefNum = refnum_undefined;
+		mRefNum = kResFileNotOpened;
 		::FlushVol(nil, mFileSpec.vRefNum);
     }
 	return error;
@@ -409,3 +409,4 @@ CRezFile::CopyFromRezMap(CRezMap * srcRezmap)
 
 
 PP_End_Namespace_PowerPlant
+
