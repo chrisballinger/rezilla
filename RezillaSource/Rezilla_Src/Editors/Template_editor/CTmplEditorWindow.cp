@@ -2,7 +2,7 @@
 // CTmplEditorWindow.cp					
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-07-02 06:46:47
+//             Last modification: 2004-08-01 22:54:24
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -767,7 +767,6 @@ CTmplEditorWindow::DoParseWithTemplate(SInt32 inRecursionMark, Boolean inDrawCon
 			}
 			ParseList(mTemplateStream->GetMarker(), theType, mItemsCount, inContainer);
 		} else if (theType == 'LSTE') {
-// 				AddSeparatorLine(inContainer);
 			break;
 		} else {
 			if (inDrawControls) {
@@ -812,7 +811,6 @@ CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount,
 			mYCoord = kTmplVertSep;
 			DoParseWithTemplate(inStartMark, drawCtrl, theContainer);
 			currListItemView->mLastItemID = mCurrentID - 1;
-// 			mYCoord += kTmplVertSkip;
 			if (drawCtrl) {
 				currListItemView->ResizeFrameBy(0, mYCoord, false);
 				outYCoord += mYCoord + kTmplVertSkip;
@@ -837,7 +835,6 @@ CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount,
 				mYCoord = kTmplVertSep;
 				DoParseWithTemplate(inStartMark, true, theContainer);
 				currListItemView->mLastItemID = mCurrentID - 1;
-// 				mYCoord += kTmplVertSkip;
 				currListItemView->ResizeFrameBy(0, mYCoord, false);
 				outYCoord += mYCoord + kTmplVertSkip;
 				mYCoord = outYCoord;
@@ -934,7 +931,6 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		} 
 		// Edit the first bit
 		AddStaticField(inLabelString, inContainer);
-// 		AddBooleanField( ((theChar & 1<<7) > 0), inType, tmpl_titleOnOff, inContainer);	
 		AddCheckField( ((theChar & 1<<7) > 0), inType, rPPob_TmplEditorWindow + mCurrentID, inContainer);	
 		for (i = 6; i >= 0 ; i--) {
 			// Consume the next 7 pairs in the template to get the
@@ -942,7 +938,6 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 			*mTemplateStream >> theString;
 			*mTemplateStream >> theOSType;
 			AddStaticField(theString, inContainer);
-// 			AddBooleanField( ((theChar & (1 << i)) > 0), inType, tmpl_titleOnOff, inContainer);	
 			AddCheckField( ((theChar & (1 << i)) > 0), inType, rPPob_TmplEditorWindow + mCurrentID, inContainer);	
 		}
 		break;
@@ -1560,7 +1555,8 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 
 		default:
 		if (inType >> 24 == 'C') {
-			// Cnnn: a C string that is nnn hex bytes long (The last byte is always a 0, so the string itself occupies the first nnn-1 bytes.)
+			// Cnnn: a C string that is nnn hex bytes long (The last byte is always a 0, 
+			// so the string itself occupies the first nnn-1 bytes.)
 			SInt32 length;
 			char str[4];
 			char * p = (char*) &inType;
@@ -1910,9 +1906,6 @@ CTmplEditorWindow::AddListItemView(CTmplListItemView * inPrevListItemView, LView
 
 	theLIV->mFirstItemID = mCurrentID;
 
-// 	// Advance the counters
-// 	mYCoord += kTmplVertSep;
-
 	return theLIV;
 }
 
@@ -2064,6 +2057,8 @@ CTmplEditorWindow::RetrieveDataWithTemplate()
 	mOutStream = new LHandleStream();
 	mCurrentID = 1;
 
+	mItemsCount = 0;
+	
 	// Parse the template stream
 	DoRetrieveWithTemplate(0);
 	
@@ -2102,6 +2097,8 @@ CTmplEditorWindow::DoRetrieveWithTemplate(SInt32 inRecursionMark)
 		if (theType == 'OCNT' || theType == 'ZCNT') {
 			RetrieveDataForType(theType);
 		} else if (theType == 'LSTB' || theType == 'LSTC' || theType == 'LSTZ') {
+			// Skip the Plus and Minus buttons
+			mCurrentID += 2;
 			RetrieveList(mTemplateStream->GetMarker(), theType, mItemsCount);
 		} else if (theType == 'LSTE') {
 			break;
@@ -2125,13 +2122,12 @@ CTmplEditorWindow::RetrieveList(SInt32 inStartMark, ResType inType, SInt32 inCou
 		case 'LSTZ':
 		do {
 			DoRetrieveWithTemplate(inStartMark);
-		} while (! EndOfList(inType) );
+		} while (mCurrentID < mLastID);
 		break;
 		
 		case 'LSTC':
-		if (inCount == 0) {
-			DoRetrieveWithTemplate(inStartMark);
-		} else {
+		if (inCount != 0) {
+			mItemsCount = 0;
 			for (short i = 0 ; i < inCount; i++) {
 				DoRetrieveWithTemplate(inStartMark);
 			}
@@ -2161,7 +2157,9 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 	OSType	theOSType;
 	SInt8	i;	
 	LRadioGroupView *	theRGV;
+	LStaticText	*		theStaticText;
 	LEditText *			theEditText;
+	LCheckBox *			theCheckBox;
 	CWasteEditView *	theWasteEdit;
 	PaneIDT			theCurrentRadioID;
 	Handle			theHandle;
@@ -2181,19 +2179,17 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 
 		case 'BBIT':
 		// Binary bit (there must be 8 or an even multiple of 8 of these).
-		theRGV = dynamic_cast<LRadioGroupView *>(this->FindPaneByID(mCurrentID));
-		theCurrentRadioID = theRGV->GetCurrentRadioID();		
-		theChar |= ( (theCurrentRadioID - mCurrentID) % 2) ? 1<<7 : 0 ;
-		mCurrentID += 3;
+		theCheckBox = dynamic_cast<LCheckBox *>(this->FindPaneByID(mCurrentID));
+		theChar |= theCheckBox->GetValue() ? 1<<7 : 0 ;
+		mCurrentID++;
 		// Consume similarly the next 7 controls in the template
 		for (i = 6; i >= 0 ; i--) {
 			*mTemplateStream >> theString;
 			*mTemplateStream >> theOSType;
 			
-			theRGV = dynamic_cast<LRadioGroupView *>(this->FindPaneByID(mCurrentID));
-			theCurrentRadioID = theRGV->GetCurrentRadioID();
-			theChar |= ( (theCurrentRadioID - mCurrentID) % 2) ? 1<<i : 0 ;
-			mCurrentID += 3;
+			theCheckBox = dynamic_cast<LCheckBox *>(this->FindPaneByID(mCurrentID));
+			theChar |= theCheckBox->GetValue() ? 1<<i : 0 ;
+			mCurrentID++;
 		}
 		*mOutStream << theChar;
 		break;
@@ -2207,6 +2203,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		} else {
 			*mOutStream << (UInt16) 0x0000;
 		}
+		// The RGV and both radiobuttons have an ID
 		mCurrentID += 3;
 		break;
 
@@ -2373,17 +2370,16 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		// List Zero. Terminated by a 0 byte (as in 'MENU' resources).
 		break;
 		
-// 		case 'OCNT':
-// 		// One Count. Terminated by a one-based word count that starts 
-// 		// the sequence (as in 'STR#' resources).
-// 		*mOutStream << theUInt16;
-// 		mItemsCount = theUInt16;
-// // 		::NumToString( (long) mItemsCount, numStr);
-// // 		AddStaticField(inLabelString);
-// // 		AddEditField(numStr, inType, rPPob_TmplEditorWindow + mCurrentID, 255, 0, 
-// // 					 UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar));
-// 		break;
-// 
+		case 'OCNT':
+		// One count for LSTC lists
+		theStaticText = dynamic_cast<LStaticText *>(this->FindPaneByID(mCurrentID));
+		theStaticText->GetDescriptor(theString);	
+		::StringToNum( theString, &theLong);
+		mItemsCount = (UInt16) theLong;
+		*mOutStream << mItemsCount;
+		mCurrentID++;
+		break;
+
 		case 'OCST':
 		// Odd-padded C string (padded with nulls)
 		theWasteEdit = dynamic_cast<CWasteEditView *>(this->FindPaneByID(mCurrentID));
@@ -2453,17 +2449,20 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		mCurrentID++;
 		break;
 
-// 		case 'ZCNT':
-// 		// Zero Count. Terminated by a zero-based word count that starts 
-// 		// the sequence (as in 'DITL' resources).
-// 		*mOutStream << theUInt16;
-// 		mItemsCount = theUInt16 + 1;
-// // 		::NumToString( (long) mItemsCount, numStr);
-// // 		AddStaticField(inLabelString);
-// // 		AddEditField(numStr, inType, rPPob_TmplEditorWindow + mCurrentID, 255, 0, 
-// // 					 UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar));
-// 		break;
-// 
+		case 'ZCNT':
+		// Zero count for LSTC lists
+		theStaticText = dynamic_cast<LStaticText *>(this->FindPaneByID(mCurrentID));
+		theStaticText->GetDescriptor(theString);	
+		::StringToNum( theString, &theLong);
+		if (!theLong) {
+			mItemsCount = 0xffff;
+		} else {
+			mItemsCount = (UInt16) --theLong;
+		}
+		*mOutStream << mItemsCount;
+		mCurrentID++;
+		break;
+
 	  default:
 	  // Handle Hnnn, Cnnn, P0nn cases here or unrecognized type
 	  if (inType >> 24 == 'H') {
