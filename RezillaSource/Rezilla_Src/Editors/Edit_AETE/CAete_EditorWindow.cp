@@ -2,7 +2,7 @@
 // CAete_EditorWindow.cp
 // 
 //                       Created: 2004-07-01 08:42:37
-//             Last modification: 2005-02-07 08:19:12
+//             Last modification: 2005-02-19 10:53:33
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -322,6 +322,7 @@ CAete_EditorWindow::FindCommandStatus(
 		break;
 
 		case cmd_AeteExport:
+		case cmd_AeteImport:
 		outEnabled = true;
 		break;
 
@@ -688,6 +689,21 @@ CAete_EditorWindow::RevertContents()
 	} 
 	
 	SetDirty(false);
+}
+
+
+// ---------------------------------------------------------------------------
+//  ImportAete														[public]
+// ---------------------------------------------------------------------------
+
+OSErr
+CAete_EditorWindow::ImportAete(FSSpec inFSSpec) 
+{
+	StAeteImporter importer(mAete, inFSSpec);
+	
+	OSErr error = importer.ReadXml();
+
+	return error;
 }
 
 

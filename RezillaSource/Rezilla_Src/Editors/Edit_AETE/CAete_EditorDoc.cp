@@ -2,7 +2,7 @@
 // CAete_EditorDoc.cp
 // 
 //                       Created: 2004-07-01 08:42:37
-//             Last modification: 2005-02-08 17:48:57
+//             Last modification: 2005-02-19 10:53:10
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -253,6 +253,7 @@ CAete_EditorDoc::ObeyCommand(
 	void*		ioParam)
 {
 	Boolean		cmdHandled = true;
+	OSErr		error = noErr;
 	
 	if (inCommand == cmd_AeteExport) {
 		FSSpec	theFSSpec;
@@ -262,7 +263,7 @@ CAete_EditorDoc::ObeyCommand(
 		if ( DesignateExportFile(theFSSpec, replacing, exportFormat) ) {
 			if (replacing) {
 				// Delete existing file
-				OSErr error = ::FSpDelete(&theFSSpec);
+				error = ::FSpDelete(&theFSSpec);
 				if (error) {
 					UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("CouldNotDeleteExistingFile"), PPob_SimpleMessage);
 					return cmdHandled;
@@ -271,6 +272,19 @@ CAete_EditorDoc::ObeyCommand(
 
 			DoExport(theFSSpec, exportFormat);
 		}		
+	} else if (inCommand == cmd_AeteImport) {
+		FSSpec	theFSSpec;
+
+		Boolean openOK = UNavigationDialogs::AskOpenOneFile('TEXT', theFSSpec, 
+												kNavNoTypePopup 
+												+ kNavDontAutoTranslate
+												+ kNavSupportPackages
+												+ kNavAllowOpenPackages);
+		
+		if (openOK) {
+			error = mAeteEditWindow->ImportAete(theFSSpec);
+		} 
+		
 	} else {
 		cmdHandled = CEditorDoc::ObeyCommand(inCommand, ioParam);
 	}

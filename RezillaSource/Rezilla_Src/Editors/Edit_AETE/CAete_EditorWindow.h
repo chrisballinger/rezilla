@@ -60,7 +60,9 @@ public:
 	
 	OSErr				InstallAete(Handle inHandle);
 	void				RetrieveAete(CAeteStream * outStream);
-		
+	
+	OSErr				ImportAete(FSSpec inFSSpec);
+	
 	virtual void		RevertContents();
 
 	CAete *				GetAete() {return mAete;}
