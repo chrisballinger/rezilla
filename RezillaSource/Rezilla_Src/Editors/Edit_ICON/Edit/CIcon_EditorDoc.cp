@@ -2,7 +2,7 @@
 // CIcon_EditorDoc.cp
 // 
 //                       Created: 2004-12-11 23:33:03
-//             Last modification: 2004-12-16 12:09:07
+//             Last modification: 2004-12-27 22:01:45
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -24,6 +24,11 @@ PP_Begin_Namespace_PowerPlant
 #include "CIcon_EditorView.h"
 #include "CEditorsController.h"
 #include "RezillaConstants.h"
+#include "CIconView_Picture.h"
+#include "CIconView_Pattern.h"
+#include "CIconView_Cursor.h"
+#include "CIconView_Family.h"
+#include "CIconView_ColorIcon.h"
 #include "CRezMap.h"
 #include "CRezMapTable.h"
 #include "CRezMapDoc.h"
@@ -71,7 +76,7 @@ CIcon_EditorDoc::CIcon_EditorDoc(LCommander* inSuper,
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CIcon_EditorDoc							Destructor				  [public]
+//	¥ ~CIcon_EditorDoc							Destructor			[public]
 // ---------------------------------------------------------------------------
 
 CIcon_EditorDoc::~CIcon_EditorDoc()
@@ -91,11 +96,76 @@ CIcon_EditorDoc::~CIcon_EditorDoc()
 void
 CIcon_EditorDoc::Initialize()
 {
-	
+	LWindow	* theWindow = nil;
+
 	// Create window for our document. This sets this doc as the SuperCommander of the window.
-	mIconEditWindow = dynamic_cast<CIcon_EditorWindow *>(LWindow::CreateWindow( PPob_IconEditorWindow, this ));
+	switch (mSubstType) {
+		// 'ICON'
+		case ImgType_LargeIcon:
+			theWindow = CIconView_Family::OpenPaintWindow( PPob_ICONEditor, 
+									  mRezMapTable->GetRezMap(), mRezObj->GetID() );
+			break;
+
+		// 'ICN#', 'icl4', 'icl8', 'ics#', 'ics4', 'ics8', 'icm#', 'icm4', 'icm8'
+		case ImgType_LargeIconWithMask:
+		case ImgType_Large4BitIcon:
+		case ImgType_Large8BitIcon:
+		case ImgType_SmallIconWithMask:
+		case ImgType_Small4BitIcon:
+		case ImgType_Small8BitIcon:
+		case ImgType_MiniIconWithMask:
+		case ImgType_Mini4BitIcon:
+		case ImgType_Mini8BitIcon:
+			theWindow = CIconView_Family::OpenPaintWindow( PPob_IconSuiteEditor,
+										mRezMapTable->GetRezMap(), mRezObj->GetID() );
+			break;
+			
+		// 'cicn'
+		case ImgType_ColorIcon:
+			theWindow = CIconView_ColorIcon::OpenPaintWindow( PPob_CICNEditor,
+										mRezMapTable->GetRezMap(), mRezObj->GetID() );
+			break;
+			
+		// 'CURS'
+		case ImgType_Cursor:
+			theWindow = CIconView_Cursor::OpenPaintWindow( PPob_CursorEditor,
+										mRezMapTable->GetRezMap(), ImgType_Cursor,
+										mRezObj->GetID() );
+			break;
+
+		// 'crsr'
+		case ImgType_ColorCursor:
+			theWindow = CIconView_Cursor::OpenPaintWindow( PPob_ColorCursorEditor,
+										mRezMapTable->GetRezMap(), ImgType_ColorCursor,
+										mRezObj->GetID() );
+			break;
+			
+		// 'PAT '
+		case ImgType_Pattern:
+			theWindow = CIconView_Pattern::OpenPaintWindow( PPob_PatternEditor,
+										mRezMapTable->GetRezMap(), ImgType_Pattern,
+										mRezObj->GetID() );
+			break;
+			
+		// 'ppat'
+		case ImgType_PixPat:
+			theWindow = CIconView_Pattern::OpenPaintWindow( PPob_PixPatEditor,
+										mRezMapTable->GetRezMap(), ImgType_PixPat,
+										mRezObj->GetID() );
+			break;
+
+		// 'PICT'
+		case ImgType_Picture:
+			theWindow = CIconView_Picture::OpenPaintWindow( PPob_PictEditor,
+										mRezMapTable->GetRezMap(), mRezObj->GetID() );
+			break;
+	}
+	
+// 	mIconEditWindow = dynamic_cast<CIcon_EditorWindow *>(LWindow::CreateWindow( PPob_IconEditorWindow, this ));
+	mIconEditWindow = dynamic_cast<CIcon_EditorWindow *>( theWindow );
 	Assert_( mIconEditWindow != nil );
 	
+	mIconEditWindow->SetSuperCommander(this);
 	mIconEditWindow->SetOwnerDoc(this);
 	mIconEditWindow->InstallReadOnlyIcon();
 	SetMainWindow( dynamic_cast<CEditorWindow *>(mIconEditWindow) );
@@ -117,6 +187,17 @@ CIcon_EditorDoc::Initialize()
 	// Make the window visible.
 	mIconEditWindow->Show();
 }
+
+
+// // ---------------------------------------------------------------------------
+// //	¥ CreateIconWindow													  [public]
+// // ---------------------------------------------------------------------------
+// 
+// CIcon_EditorWindow *
+// CIcon_EditorDoc::CreateIconWindow()
+// {
+// 	
+// }
 
 
 // ---------------------------------------------------------------------------
