@@ -125,16 +125,24 @@ commandes pour ajouter ou supprimer des suites, ou pour ajouter ou
 supprimer des objets dans la suite courante. En fonction de l'objet
 couramment édité, certaines commandes du menu peuvent être désactivées.<P>La commande <B>Export Terminology</B> permet d'exporter les données d'une
 ressource 'aete' ou 'aeut' sous forme de fichier texte au
-format <I>XML, DeRez, HTML</I> ou <I>texte</I>:
+format <B>XML, DeRez, Sdef, HTML</B> ou <B>texte</B>:
 <UL>
-	<LI> les formats HTML et texte peuvent être utiles simplement pour rendre
+	<LI> les formats <I>HTML</I> et <I>texte</I> peuvent être utiles simplement pour rendre
 le contenu d'une ressource de terminologie AppleScript lisible. Il est 
 parfois nécessaire dans un script AppleScript de connaître les codes de 
 certains termes.
-	<LI> le format XML comporte toutes les données de la ressource selon un
+	<LI> le format <I>XML</I> comporte toutes les données de la ressource selon un
 format rigoureux et permet l'échange de données: une DTD décrivant la
-structure du fichier XML est jointe au projet. 
-	<LI> le format DeRez produit un fichier avec l'extension <I>.r</I> identique à
+structure du fichier XML est jointe au projet. Une future version de 
+Rezilla permettra d'importer ce type de fichiers.
+	<LI> le format <I>Sdef</I> (<I>Scripting Definition File</I>) décrit les
+données de la ressource selon le nouveau format défini par Apple. Voir la
+définition dans le fichier <I>/System/Library/DTDs/sdef.dtd</I> et la page
+de manuel (taper "man sdef" dans une fenêtre de Terminal). Le format
+Sdef ne reprend pas toute l'information contenue dans une ressource Aete:
+il y a nécessairement une déperdition d'information en passant de l'un à
+l'autre. Rezilla s'efforce de convertir au mieux la ressource Aete.
+	<LI> le format <I>DeRez</I> produit un fichier avec l'extension <I>.r</I> identique à
 celui que produirait l'utilitaire DeRez : ce fichier est prêt à être
 recompilé dans une application (avec l'utilitaire Rez par exemple).
 </UL><P><H3>L'éditeur 'PICT'</H3><P>Ce n'est pas un éditeur graphique complet mais plutôt un visualisateur. Si 
