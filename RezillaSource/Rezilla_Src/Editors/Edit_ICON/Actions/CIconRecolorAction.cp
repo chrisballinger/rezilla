@@ -19,7 +19,6 @@
 #include "CIconSelection.h"
 #include "UColorUtils.h"
 
-const SInt32		kRecolorDepth = 8;
 
 
 // ---------------------------------------------------------------------------

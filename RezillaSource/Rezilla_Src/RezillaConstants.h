@@ -208,6 +208,14 @@ const ResIDT	rPPob_PictEditorWindow		= 10400;
 const ResIDT	rPPob_UtxtEditorWindow		= 10500;
 const ResIDT	rPPob_IconEditorWindow		= 10600;
 
+const ResIDT	PPob_TextSizeDialog	= 9022;
+const PaneIDT	PaneID_Size			= 'SIZE';
+const ResIDT	PPob_ResizeDialog	= 9021;
+const PaneIDT	PaneID_Width		= 'WIDT';
+const PaneIDT	PaneID_Height		= 'HEIG';
+
+
+
 const ResIDT	ics8_Unlocked				= 1500;
 const ResIDT	ics8_Locked					= 1501;
 
@@ -253,12 +261,12 @@ const ResIDT	baseMENU_Edit				= 1100;
 const ResIDT	baseMENU_Resource			= 1200;
 
 // Icon editor
-const ResIDT	Txtr_PaintFont		=	9000;		// default font/size/style for text tool
-const ResIDT	RidL_ToolList		=	9100;		// note: Constructor may create own Ridl 9000 -- don't conflict
-const ResIDT	MenuID_PaintOptions	=	9000;
-const ResIDT	MenuID_PaintColors	=	9001;
-const ResIDT	MenuID_PaintFont	=	9002;
-const ResIDT	MenuID_PaintStyle	=	9003;
+const ResIDT	Txtr_PaintFont		= 9000;		// default font/size/style for text tool
+const ResIDT	RidL_ToolList		= 9100;		// note: Constructor may create own Ridl 9000 -- don't conflict
+const ResIDT	MenuID_PaintOptions	= 9000;
+const ResIDT	MenuID_PaintColors	= 9001;
+const ResIDT	MenuID_PaintFont	= 9002;
+const ResIDT	MenuID_PaintStyle	= 9003;
 
 // Icon resources
 const ResIDT	ICN_WindowMenu				= 3100;
@@ -828,8 +836,8 @@ enum
 // Various AE parameters
 enum
 {
-	kAERzilReply	 		=	 FOUR_CHAR_CODE('Repl'),
-	kAERzilFilesList	 	=	 FOUR_CHAR_CODE('LFil')
+	kAERzilReply	 		=  FOUR_CHAR_CODE('Repl'),
+	kAERzilFilesList	 	=  FOUR_CHAR_CODE('LFil')
 };
 
 /* AE Dispatch Table constants (aedt) */
@@ -1130,15 +1138,30 @@ typedef UInt32		Color32;		// RGB color in a long (0:R:G:B)
 typedef UInt8 *		RawPtr;
 typedef UInt8		RawByte;
 
-const Color32		kWhiteColor32		= 0x00FFFFFF;
-const Color32		kBlackColor32		= 0;
-const SInt32 		kColorMargins		= 1;
-const SInt32 		kFlashCount			= 5;
+const Color32		kWhiteColor32			= 0x00FFFFFF;
+const Color32		kBlackColor32			= 0;
+const SInt32 		kColorMargins			= 1;
+const SInt32 		kFlashCount				= 5;
 // These need to remain identical
-const SInt32		kIconSideMargin 	= 1;
-const SInt32		kIconSpaceBetween 	= 1;
-const SInt32		PaintWindowMargin_h	= 8;
-const SInt32		PaintWindowMargin_v	= 8;
+const SInt32		kIconSideMargin 		= 1;
+const SInt32		kIconSpaceBetween 		= 1;
+const SInt32		kPaintMarginHeight		= 8;
+const SInt32		kPaintMarginWidth		= 8;
+const SInt32		kRecolorDepth			= 8;
+const UInt16		kMinTargetWidth			= 40;
+const UInt16		kMinTargetHeight		= 40;
+// Cursors are always the same size
+const SInt32		kCursorWidth			= 16;
+const SInt32		kCursorHeight			= 16;
+// Black & white cursors have the following values (68 = 2 bw images, 16x16, + hotspot)
+const SInt32		kBWCursorRowBytes		= 2;	
+const SInt32		kBWCursorBytes			= 68;
+const SInt32		kDefaultPatternWidth	= 8;
+const SInt32		kDefaultPatternHeight	= 8;
+const SInt32		kBWPatternRowBytes		= 1;
+const SInt16		kDefaultMarchInterval	= 3;
+// The default pattern is black
+const Pattern	Pattern_Black = { { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF } };
 
 #define kMaxIconSamplePanes		20
 

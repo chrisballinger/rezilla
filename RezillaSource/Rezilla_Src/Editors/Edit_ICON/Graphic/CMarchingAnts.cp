@@ -1,7 +1,7 @@
 // ===========================================================================
 // CMarchingAnts.cp
 //                       Created: 2004-12-11 18:52:50
-//             Last modification: 2004-12-17 12:13:37
+//             Last modification: 2004-12-23 23:40:08
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -12,10 +12,7 @@
 // ===========================================================================
 
 #include "CMarchingAnts.h"
-
-
-// Constants
-const SInt16		kDefaultMarchInterval = 3;
+#include "RezillaConstants.h"
 
 
 // Statics

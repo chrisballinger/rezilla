@@ -697,7 +697,7 @@ CIcon_EditorView::Reinitialize( COffscreen *	inOffscreen,
 			{
 				LWindow *theWindow = dynamic_cast< LWindow * >( UIconMisc::GetTopView( this ) );
 				if ( theWindow )
-					UPaneResizer::ResizeWindowIfNeeded( theWindow, PaintWindowMargin_h, PaintWindowMargin_v );
+					UPaneResizer::ResizeWindowIfNeeded( theWindow, kPaintMarginHeight, kPaintMarginWidth );
 			}
 			
 			CalcLocalFrameRect( localFrame );			// this may have been changed
@@ -762,7 +762,7 @@ CIcon_EditorView::MoveSamplePanes( SInt16 dh, SInt16 /*dv*/, Boolean inRedraw )
 // 	// Our window is probably too small now, so resize it
 // 	LWindow *ourWindow = dynamic_cast< LWindow * >( UIconMisc::GetTopView( this ) );
 // 	if ( ourWindow )
-// 		UPaneResizer::ResizeWindowIfNeeded( ourWindow, PaintWindowMargin_h, PaintWindowMargin_v );
+// 		UPaneResizer::ResizeWindowIfNeeded( ourWindow, kPaintMarginHeight, kPaintMarginWidth );
 	
 	
 }

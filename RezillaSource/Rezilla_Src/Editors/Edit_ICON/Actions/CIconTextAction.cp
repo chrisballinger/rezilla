@@ -1,7 +1,7 @@
 // ===========================================================================
 // CIconTextAction.cp
 //                       Created: 2004-12-11 18:52:42
-//             Last modification: 2004-12-14 18:52:42
+//             Last modification: 2004-12-23 23:32:03
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -10,28 +10,17 @@
 // $Date$
 // $Revision$
 // ===========================================================================
-
 // We draw the text into a 1-bit gworld that has a TextEdit record attached
 // to it. We then blit and colorize this gworld to the image buffer and
 // then to the canvas. TextEdit provides support for languages like Arabic
 // where each new character can affect the look of previous characters.
 // Don't try this by hand unless you have a month to kill.
 
-
 #include "CIconTextAction.h"
 #include "UIconMisc.h"
 
-#define TEXT_BASELINE_FIX
 
-#if GENERATINGCFM
-	static pascal void MyCaretHook( const Rect *, TEPtr );		// CFM version
-#else
-
-	S_PASCAL(void) MyCaretHook( const Rect *, TEPtr );			// MSVC compatible
-#else
-	static asm void MyCaretHook( void );						// 68K version
-
-
+static pascal void MyCaretHook( const Rect *, TEPtr );
 
 static CaretHookUPP		sCaretUPP = nil;
 
@@ -61,7 +50,7 @@ CIconTextAction::CIconTextAction( const SPaintAction &inAction ) :
 	mDrawnInsertionPoint = false;
 	mNextInsertionTime = 0;
 	
-		// the paint view needs to know when we go away (listens for msg_TextActionDied)
+	// The paint view needs to know when we go away (listens for msg_TextActionDied)
 	this->AddListener( mSettings.thePaintView );
 }
 
@@ -69,21 +58,16 @@ CIconTextAction::CIconTextAction( const SPaintAction &inAction ) :
 // ---------------------------------------------------------------------------
 // 	Destructor
 // ---------------------------------------------------------------------------
+// Let the PaintView know we died -- it won't know in the case of
+// Constructor-wide commands like Save.
+// We can't rely on the generic "broadcastDied" message because by the time
+// it is sent, the object is no longer a text action and the paintview
+// won't recognize it.
+// This may cause the paintview to call us to erase the insertion point.
+// This isn't a very good C++ practice (we can't be subclassed completely).
 
 CIconTextAction::~CIconTextAction()
 {
-	/*
-		Let the PaintView know we died -- it won't know in the case of
-		  Constructor-wide commands like Save.
-		  
-		Notes: 
-		  We can't rely on the generic "broadcastDied" message because
-		    by the time it is sent, the object is no longer a text action and
-		    the paintview won't recognize it. (C++ is great, eh?).
-		    
-		  This may cause the paintview to call us to erase the insertion point.
-		    This isn't a very good C++ practice (we can't be subclassed completely).
-	*/
 	this->BroadcastMessage( msg_TextActionDied, this );
 	
 	if ( mText ) 
@@ -125,32 +109,24 @@ CIconTextAction::HandleMouseDown( const SMouseDownEvent &inEvent )
 	GrafPtr			aSparePort = USparePort::GetSparePort();
 	SInt32			initialH, initialV;
 	
-			// get the initial cell hit by the user
-
+	// Get the initial cell hit by the user
 	if ( !mSettings.theCanvas->MapPointToCell( inEvent.whereLocal, &initialH, &initialV ) )
 		return;								// missed it by *that* much
 	
-			// save the image & undo buffers 'cause we need them just about everywhere
-
+	// Save the image & undo buffers 'cause we need them just about everywhere
 	mImageBuffer = mSettings.thePaintView->GetImageBuffer();
 	mUndoBuffer = mSettings.thePaintView->GetUndoBuffer();
 	SInt32	mImageWidth = mImageBuffer->GetWidth();
 	SInt32	mImageHeight = mImageBuffer->GetHeight();
 
-			// get the text traits from the paint view and then the font information
-
+	// Get the text traits from the paint view and then the font information
 	thePaintView->GetTextTraits( &mTextTraits );
 	UIconMisc::SetPort( aSparePort );
 	UTextTraits::SetPortTextTraits( &mTextTraits );
 	::GetFontInfo( &mFontInfo );
 	
-			// find the rectangle we are drawing in relative to the paint image buffer. 
-
-	#ifdef TEXT_BASELINE_FIX
+	// Find the rectangle we are drawing in relative to the paint image buffer. 
 	mTextTop = MAX( 0, initialV - mFontInfo.ascent + 1 );	// no negatives allowed
-	#else
-	mTextTop = MAX( 0, initialV - mFontInfo.ascent/2 );		// no negatives allowed
-	
 	
 	switch( mTextTraits.justification )
 	{
@@ -170,44 +146,38 @@ CIconTextAction::HandleMouseDown( const SMouseDownEvent &inEvent )
 	short textAreaWidth = destR.right - destR.left;
 	short textAreaHeight = destR.bottom - destR.top;
 	
-			// find the rectangle we are drawing in relative to text buffer
-
+	// Find the rectangle we are drawing in relative to text buffer
 	::SetRect( &sourceR, 0, 0, textAreaWidth, textAreaHeight );
 	mTextLeft = destR.left;
 	
-			// allocate a 1-bit buffer the same size as the text area
-
+	// Allocate a 1-bit buffer the same size as the text area
 	mTextBuffer = COffscreen::CreateBuffer( textAreaWidth, textAreaHeight, 1 );
 
-			// draw into our offscreen in black always, since it's only 1-bit.
-		// (we'll colorize the text when we blit it to the image buffer later on)
-
+	// Draw into our offscreen in black always, since it's only 1-bit
+	// (we'll colorize the text when we blit it to the image buffer later on).
 	TextTraitsRecord copyOfTraits = mTextTraits;
 	copyOfTraits.color = Color_Black;
 	
-			// create the text edit record
-
+	// Create the text edit record
 	mTextBuffer->BeginDrawing();
 		
-		UTextTraits::SetPortTextTraits( &copyOfTraits );
-		mText = ::TENew( &sourceR, &sourceR );
-		ThrowIfMemFail_( mText );
+	UTextTraits::SetPortTextTraits( &copyOfTraits );
+	mText = ::TENew( &sourceR, &sourceR );
+	ThrowIfMemFail_( mText );
 
-			// this will set the alignment (not part of the port text style)		
-		UTextTraits::SetTETextTraits( &copyOfTraits, mText );
-		
-			// and we draw the caret ourself
-		(**mText).caretHook = sCaretUPP;
+	// This will set the alignment (not part of the port text style)		
+	UTextTraits::SetTETextTraits( &copyOfTraits, mText );
+	
+	// and we draw the caret ourself
+	(**mText).caretHook = sCaretUPP;
 
 	mTextBuffer->EndDrawing();
 	
-			// we're undoable, so copy the current image to the undo buffer
-
+	// We're undoable, so copy the current image to the undo buffer
 	mSettings.thePaintView->CopyToUndo();
 
-			// Post us to the undo queue and let the paintview know we're active.
-		// The order of this is important.
-
+	// Post us to the undo queue and let the paintview know we're active.
+	// The order of this is important.
 	this->PostAsAction();	
 	mSettings.thePaintView->SetTextAction( this );
 }
@@ -228,49 +198,40 @@ CIconTextAction::HandleKeyDown( const EventRecord &inEvent )
 	
 	UInt8 theChar = inEvent.message & charCodeMask;
 
-			// erase the old insertion point or we get junk on the screen (esp left arrow key)
-
+	// Erase the old insertion point or we get junk on the screen (esp left arrow key)
 	this->DrawInsertionPoint( false );
 	
-			// if an arrow key was hit, be sure to draw the insertion
-		// point at the bottom of this function or user won't be able 
-		// to see it until they release the key. 
-
+	// If an arrow key was hit, be sure to draw the insertion point at the
+	// bottom of this function or user won't be able to see it until they
+	// release the key.
 	if ( (theChar == char_LeftArrow) || (theChar == char_RightArrow)
 			|| (theChar == char_UpArrow) || (theChar == char_DownArrow) )
 		isArrowKey = true;
 	
-			// get the size of the area we've already drawn into.
-		// this is needed for the backspace key when the user
-		// deletes a CR.
-
+	// Get the size of the area we've already drawn into. This is needed
+	// for the backspace key when the user deletes a CR.
 	this->GetRectRelativeToImageBuffer( &rBefore );
 	
-			// restore the main buffer to virgin status
-
+	// Restore the main buffer to virgin status
 	this->RestoreMainBufferFromUndoBuffer();
 	
-			// tell TextEdit to do its thing
-
+	// Tell TextEdit to do its thing
 	mTextBuffer->BeginDrawing();
 		::TEKey( theChar, mText );
 	mTextBuffer->EndDrawing();
 	
-			// copy the text buffer back to the main image buffer
-
+	// Copy the text buffer back to the main image buffer
 	this->CopyTextBufferToMainBuffer();
 
-			// and update the portion of the canvas/screen that needs it.
-		// this may be one extra line of text if the user deleted a CR.
-
+	// Update the portion of the canvas/screen that needs it. this may be
+	// one extra line of text if the user deleted a CR.
 	this->GetRectRelativeToImageBuffer( &rAfter );
 	rAfter.bottom = MAX( rAfter.bottom, rBefore.bottom );
 	this->CopyMainBufferToCanvas( &rAfter );
 
-			// in case of repeating arrow keys, draw the insertion point now.
-		// for any other key, the paint view has been modified (this is
-		// needed when the user saves while editing text).
-
+	// In case of repeating arrow keys, draw the insertion point now. For
+	// any other key, the paint view has been modified (this is needed when
+	// the user saves while editing text).
 	if ( isArrowKey )
 		this->DrawInsertionPoint( true );
 	else
@@ -328,16 +289,16 @@ CIconTextAction::ChangeTextTraits( const TextTraitsRecord &inTraits )
 	
 	if ( !mText || !mTextBuffer ) return;
 
-		// erase the insertion point -- its size may change
+	// Erase the insertion point -- its size may change
 	this->DrawInsertionPoint( false );	
 
-		// restore the image buffer to its initial state
+	// Restore the image buffer to its initial state
 	this->RestoreMainBufferFromUndoBuffer();
 	
-		// change the textedit record and our internal variables
+	// Change the textedit record and our internal variables
 	mTextTraits = inTraits;
 
-		// we always draw in black since our text buffer is only 1-bit
+	// We always draw in black since our text buffer is only 1-bit
 	TextTraitsRecord copyOfTraits = mTextTraits;
 	copyOfTraits.color = Color_Black;
 
@@ -349,15 +310,15 @@ CIconTextAction::ChangeTextTraits( const TextTraitsRecord &inTraits )
 		::TEUpdate( &bigR, mText );
 	mTextBuffer->EndDrawing();
 	
-		// overlay the text into the main image buffer
+	// Overlay the text into the main image buffer
 	this->CopyTextBufferToMainBuffer();
 	
-		// redraw the entire canvas -- this covers all possible text changes
+	// Redraw the entire canvas -- this covers all possible text changes
 	Rect r;
 	::SetRect( &r, 0, 0, mImageBuffer->GetWidth(), mImageBuffer->GetHeight() );
 	this->CopyMainBufferToCanvas( &r );
 	
-		// tell the paint view we've changed
+	// Tell the paint view we've changed
 	mSettings.thePaintView->SetChangedFlag( true );
 }
 
@@ -365,11 +326,9 @@ CIconTextAction::ChangeTextTraits( const TextTraitsRecord &inTraits )
 
 // ---------------------------------------------------------------------------
 // 	RestoreMainBufferFromUndoBuffer
-// 	
-// 	Description:
-// 	Restores the main buffer from the undo buffer. For speed, only copies the
-// 	 currently used portion of the buffer.
 // ---------------------------------------------------------------------------
+// 	Restores the main buffer from the undo buffer. For speed, only copies
+// 	the currently used portion of the buffer.
 
 void
 CIconTextAction::RestoreMainBufferFromUndoBuffer()
@@ -432,9 +391,8 @@ CIconTextAction::CopyAndColorize( COffscreen *inSource, COffscreen *inDest,
  
  	try
  	{
- 				// pin the source & dest rectangles to the actual buffer size
-		// so we don't overstep the bounds.
-
+		// Pin the source & dest rectangles to the actual buffer size so we
+		// don't overstep the bounds.
 		sourceR.left = MAX( 0, inSourceR.left );
 		sourceR.right = MIN( inSource->GetWidth(), inSourceR.right );
 		sourceR.top = MAX( 0, inSourceR.top );
@@ -445,12 +403,10 @@ CIconTextAction::CopyAndColorize( COffscreen *inSource, COffscreen *inDest,
 		destR.top = MAX( 0, inDestR.top );
 		destR.bottom = MIN( inDest->GetHeight(), inDestR.bottom );
 		
- 				// find the pixel value for the color we want
-
+		// Find the pixel value for the color we want
 		PixelValue 	destPixel = inDest->RGBToPixelValue( inRGBColor );
 
- 				// loop through the source and set the appropriate pixels in the dest
-
+		// Loop through the source and set the appropriate pixels in the dest
 		SInt32		numRows = MIN( sourceR.bottom - sourceR.top, destR.bottom - destR.top );
 		SInt32		numCols = MIN( sourceR.right - sourceR.left, destR.right - destR.left );
 		
@@ -568,9 +524,8 @@ CIconTextAction::GetRectRelativeToImageBuffer( Rect *outR )
 
 // ---------------------------------------------------------------------------
 // 	DrawInsertionPoint
-// 	
-// 	Draws or erases the insertion point.
 // ---------------------------------------------------------------------------
+// 	Draws or erases the insertion point.
 
 void
 CIconTextAction::DrawInsertionPoint( Boolean inDraw )
@@ -592,7 +547,7 @@ CIconTextAction::DrawInsertionPoint( Boolean inDraw )
 		StColorPenState		penSaver;
 		penSaver.Normalize();				// selection always drawn in black
 		
-			// clip inside the canvas a bit or we don't always clean up well
+		// Clip inside the canvas a bit or we don't always clean up well
 		Rect		r;
 		theCanvas->GetInsideDrawingRect( &r );
 		StClipRgnState	saveSetAndRestore( r );
@@ -618,14 +573,11 @@ CIconTextAction::DrawInsertionPoint( Boolean inDraw )
 }
 
 
-
 // ---------------------------------------------------------------------------
 // 	GetInsertionPoint
-// 	
-// 	Description:
+// ---------------------------------------------------------------------------
 // 	Returns a rectangle which indicates where the insertion point is (rel to text).
 // 	Returns false if no insertion point can be drawn.
-// ---------------------------------------------------------------------------
 
 Boolean
 CIconTextAction::GetInsertionPoint( Rect *outR )
@@ -639,7 +591,7 @@ CIconTextAction::GetInsertionPoint( Rect *outR )
 	short selStart = (**mText).selStart;
 	Point pt = ::TEGetPoint( selStart, mText );
 	
-		// bug in textedit (since 1984) - add lineHeight if the last char is a return
+	// Bug in textedit (since 1984) - add lineHeight if the last char is a return
 	if ( selStart == (**mText).teLength )
 		if ( ((*(**mText).hText)[selStart-1] == char_Return) )
 			pt.v += mFontInfo.ascent + mFontInfo.descent + mFontInfo.leading;
@@ -654,34 +606,13 @@ CIconTextAction::GetInsertionPoint( Rect *outR )
 
 // ---------------------------------------------------------------------------
 // 	MyCaretHook
-// 	
-// 	Description:
+// ---------------------------------------------------------------------------
 // 	If we don't put a dummy caret hook in the TERecord, sometimes the caret
 // 	gets drawn into our offscreen buffer and never erased, leaving trails
-// 	on the screen when the arrow keys are used. blech.
-// 	
-// 	Note: 
-// 	On the 68K side, we have to use assembly language because the Rect *
-// 	is passed on the stack *after* the return address and TEPtr is in
-// 	D3, I think. blech. blech. See TextEdit.h and TextEditControl.c on
-// 	the "Tools" CD from Apple.
-// ---------------------------------------------------------------------------
+// 	on the screen when the arrow keys are used.
 
-#if GENERATINGCFM
 static pascal void MyCaretHook( const Rect *, TEPtr )		// CFM version
 {
 }
-#else
-
-S_PASCAL(void) MyCaretHook( const Rect *, TEPtr )			// MSVC compatible
-{
-}
-#else
-static asm void MyCaretHook( void )
-{
-	move.l	(A7)+,D0
-	rts
-}
-
 
 

@@ -2,7 +2,7 @@
 // CIcon_EditorWindow.cp
 // 
 //                       Created: 2004-12-10 17:23:05
-//             Last modification: 2004-12-22 10:18:37
+//             Last modification: 2004-12-23 23:10:32
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -45,38 +45,6 @@
 #include "UIconMisc.h"
 #include "UMessageDialogs.h"
 #include "UResourceMgr.h"
-// #include "CIconMoveAction.h"
-
-// #include "CFlipHorizontalAction.h"
-// #include "CFlipVerticalAction.h"
-// #include "CIconBucketAction.h"
-// #include "CIconClearAction.h"
-// #include "CIconCopyAction.h"
-// #include "CIconCutAction.h"
-// #include "CIconDeleteImageAction.h"
-// #include "CIconDragToTargetAction.h"
-// #include "CIconDropperAction.h"
-// #include "CIconEraseAllAction.h"
-// #include "CIconEraserAction.h"
-// #include "CIconHotSpotAction.h"
-// #include "CIconLassoAction.h"
-// #include "CIconLineAction.h"
-// #include "CIconMoveAction.h"
-// #include "CIconPasteAction.h"
-// #include "CIconPenAction.h"
-// #include "CIconRecolorAction.h"
-// #include "CIconRectAction.h"
-// #include "CIconResizeImageAction.h"
-// #include "CIconRotateAction.h"
-// #include "CIconRotateAction.h"
-// #include "CIconRoundRectAction.h"
-// #include "CIconSelectionAction.h"
-// #include "CIconTargetClickedAction.h"
-// #include "CIconTextAction.h"
-// #include "COvalAction.h"
-// #include "CTransparentAction.h"
-
-// #include "CIconResizeDialog.h"
 
 #include <LScrollBar.h>
 #include <LStaticText.h>
@@ -87,9 +55,6 @@
 
 #include <stdio.h>
 
-
-// The default pattern is black
-const Pattern	Pattern_Black = { { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF } };
 
 // Statics
 CColorCursorCache *	CIcon_EditorWindow::mColorCursorCache = nil;

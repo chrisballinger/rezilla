@@ -1,7 +1,7 @@
 // ===========================================================================
 // CIconResizeImageAction.h
 //                       Created: 2004-12-11 18:57:04
-//             Last modification: 2004-12-14 18:57:04
+//             Last modification: 2004-12-23 23:54:37
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -15,10 +15,9 @@
 #define _H_CIconResizeImageAction
 
 #include "CIconActions.h"
-#include "CResizer.h"
+#include "CIconViewResizer.h"
 
-class CIconResizeImageAction : public CIconAction
-{
+class CIconResizeImageAction : public CIconAction {
 	public:
 							CIconResizeImageAction( const SPaintAction & );
 		virtual 			~CIconResizeImageAction();
@@ -26,7 +25,7 @@ class CIconResizeImageAction : public CIconAction
 		virtual void		DoIt();
 		
 	protected:
-		CResizer			mBeforeState, mAfterState;
+		CIconViewResizer	mBeforeState, mAfterState;
 		Boolean				mCancelledResize;
 		virtual void		UndoSelf();
 		virtual void		RedoSelf();
