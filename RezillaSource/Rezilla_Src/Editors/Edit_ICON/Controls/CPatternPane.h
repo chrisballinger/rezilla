@@ -32,7 +32,7 @@ class CPatternPane : public LPane, public LBroadcaster
 		virtual void			GetCurrentPattern( Pattern * );
 		
 		virtual void			SetPatternList( SPatternListH inHandle, ERedrawOptions = redraw_Later );
-		virtual void 			SetPatternList( ResFileIDT inFileID, ResIDT inResID, ERedrawOptions = redraw_Later );
+		virtual void 			SetPatternList( SInt16 inFileID, ResIDT inResID, ERedrawOptions = redraw_Later );
 		virtual void 			SetColors( Color32, Color32, ERedrawOptions = redraw_Later );
 
 			// events

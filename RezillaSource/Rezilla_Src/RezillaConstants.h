@@ -155,6 +155,15 @@ enum
 	img_ColorCursor			= FOUR_CHAR_CODE('crsr')
 };
 
+// Resizing options for Icon editor
+enum {
+	resize_None,
+	resize_Canvas,
+	resize_MoveSampleBox,
+	resize_Window,
+	resize_All
+};
+
 
 // Resource ID's
 // =============
@@ -1067,22 +1076,24 @@ const SInt16	kTmplMinListItemHeight	= 16;
 
 // Definitions for the Icon editor
 // ===============================
-typedef SInt16		ResFileIDT;
 
 // HFS volumes may break the 32-bit limit, so we might as well make it
 // possible to find code dependent on the file size.
-typedef UInt32		DiskSizeT;
-typedef UInt32		FileSizeT;		
-typedef UInt32		MemSizeT;
 typedef UInt32		PixelValue;		// raw values within a bitmap/pixmap
 typedef UInt32		Color32;		// RGB color in a long (0:R:G:B)
 typedef UInt8 *		RawPtr;
 typedef UInt8		RawByte;
 
-const Color32		kWhiteColor32 = 0x00FFFFFF;
-const Color32		kBlackColor32 = 0;
-const SInt32 		kColorMargins = 1;
-const SInt32 		kFlashCount = 5;
+const Color32		kWhiteColor32		= 0x00FFFFFF;
+const Color32		kBlackColor32		= 0;
+const SInt32 		kColorMargins		= 1;
+const SInt32 		kFlashCount			= 5;
+// These need to remain identical
+const SInt32		kIconSideMargin 	= 1;
+const SInt32		kIconSpaceBetween 	= 1;
+const SInt32		PaintWindowMargin_h	= 8;
+const SInt32		PaintWindowMargin_v	= 8;
+#define kMaxIconSamplePanes		20
 
 // Three ways to redraw
 enum ERedrawOptions

@@ -29,15 +29,12 @@ CPatternPane::CPatternPane( LStream *inStream ) : LPane( inStream )
 	mCurrentIndex = 0;
 	mPatternListH = nil;
 	
-	/*
-		the refCon is formatted as follows:
-			the low word has the PAT# resource id (-1 if no default).
-			the high word has 0 -> application file, 1 -> system file
-		
-	*/
+	// the refCon is formatted as follows:
+	// 	the low word has the PAT# resource id (-1 if no default).
+	// 	the high word has 0 -> application file, 1 -> system file
 	SInt32		theRefCon = this->GetUserCon();
 	ResIDT		theResID = LoWord( theRefCon );
-	ResFileIDT	theFileID;
+	SInt16	theFileID;
 	
 	if ( theResID != -1 )
 	{
@@ -115,7 +112,7 @@ void CPatternPane::GetCurrentPattern( Pattern *outPattern )
 // 	SetPatternList
 // ============================================================
 
-void CPatternPane::SetPatternList( ResFileIDT inFileID, ResIDT inResID, ERedrawOptions inRedraw )
+void CPatternPane::SetPatternList( SInt16 inFileID, ResIDT inResID, ERedrawOptions inRedraw )
 {
 	Boolean		wasLoaded;
 	
