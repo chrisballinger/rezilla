@@ -41,7 +41,7 @@ const UInt16 AeteParamFlag[] = { kAEUTOptional, kAEUTlistOfItems, kAEUTEnumerate
 	aeut_LabeledParam, kAEUTFeminine, kAEUTMasculine, kAEUTPlural};
 
 const UInt16 AetePropertyFlag[] = { kAEUTlistOfItems, kAEUTEnumerated, kAEUTReadWrite,
-	kAEUTEnumsAreTypes, kAEUTEnumListIsExclusive, kAEUTParamIsReference,
+	kAEUTEnumsAreTypes, kAEUTEnumListIsExclusive, kAEUTPropertyIsReference,
 	kAEUTApostrophe, kAEUTFeminine, kAEUTMasculine, kAEUTPlural};
 
 
