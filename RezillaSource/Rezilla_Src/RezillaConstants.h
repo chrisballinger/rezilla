@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2005-01-17 21:11:23
+//             Last modification : 2005-01-20 22:08:53
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -128,6 +128,8 @@ enum
 	editor_kindHex
 };
 
+// Bitmap editor
+// -------------
 // Supported image types
 enum
 {	
@@ -197,6 +199,51 @@ enum {
 	icns_OpenDropIconVariant		// 'odrp'
 };
 
+// AETE editor
+// -----------
+// The indices of the aete editor's MultiPanels views
+enum {
+	mpv_AeteEvents = 1,
+	mpv_AeteClasses,
+	mpv_AeteCompOps,
+	mpv_AeteEnums
+};
+
+// Terminology objects
+enum {
+	type_AeteSuite = 0,
+	type_AeteEvent = 1,
+	type_AeteClass,
+	type_AeteCompOp,
+	type_AeteEnum,
+	type_AeteParameter,
+	type_AeteProperty,
+	type_AeteElement
+};
+
+enum {
+	aeut_Optional					= kAEUTOptional,
+	aeut_listOfItems				= kAEUTlistOfItems,
+	aeut_Enumerated					= kAEUTEnumerated,
+	aeut_ReadWrite					= kAEUTReadWrite,
+	aeut_ChangesState				= kAEUTChangesState,
+	aeut_TightBindingFunction		= kAEUTTightBindingFunction,
+	aeut_EnumsAreTypes				= kAEUTEnumsAreTypes,
+	aeut_EnumListIsExclusive		= kAEUTEnumListIsExclusive,
+	aeut_ReplyIsReference			= kAEUTReplyIsReference,
+	aeut_DirectParamIsReference		= kAEUTDirectParamIsReference,
+	aeut_ParamIsReference			= kAEUTParamIsReference,
+	aeut_PropertyIsReference		= kAEUTPropertyIsReference,
+	aeut_NotDirectParamIsTarget		= kAEUTNotDirectParamIsTarget,
+	aeut_ParamIsTarget				= kAEUTParamIsTarget,
+	aeut_Apostrophe					= kAEUTApostrophe,
+	aeut_Feminine					= kAEUTFeminine,
+	aeut_Masculine					= kAEUTMasculine,
+	aeut_Plural						= kAEUTPlural,
+	aeut_NonVerbEvent				= 3,
+	aeut_LabeledParam				= 3
+};
+
 
 // ======================================================================
 // Resource ID's
@@ -234,7 +281,7 @@ const ResIDT	PPob_ExplainedError			= 9530;
 const ResIDT	PPob_AskUniqueID			= 9550;
 const ResIDT	PPob_TmplEditorWindow		= 10100;
 const ResIDT	PPob_TextEditorWindow		= 10200;
-const ResIDT	PPob_AeteEditorWindow		= 10300;
+// const ResIDT	PPob_AeteEditorWindow		= 10300;
 const ResIDT	PPob_PictEditorWindow		= 10400;
 const ResIDT	PPob_UtxtEditorWindow		= 10500;
 const ResIDT	PPob_IconEditorWindow		= 10600;
@@ -248,6 +295,11 @@ const ResIDT	PPob_PatternEditor			= 10606;
 const ResIDT	PPob_PixPatEditor			= 10607;
 const ResIDT	PPob_PatternSuiteEditor		= 10608;
 const ResIDT	PPob_IconSuiteEditor		= 10609;
+const ResIDT	PPob_AeteEditorWindow		= 11000;
+const ResIDT	PPob_AeteEventsPane			= 11100;
+const ResIDT	PPob_AeteClassesPane		= 11200;
+const ResIDT	PPob_AeteCompOpsPane		= 11300;
+const ResIDT	PPob_AeteEnumsPane			= 11400;
 
 const ResIDT	ics8_Unlocked				= 1500;
 const ResIDT	ics8_Locked					= 1501;
@@ -301,6 +353,12 @@ const ResIDT	MENU_IconActions			= 300;
 const ResIDT	MENU_IconColors				= 301;
 const ResIDT	MENU_IconFonts				= 302;
 const ResIDT	MENU_IconStyle				= 303;
+
+// Aete editor
+const ResIDT	MENU_AeteTerminology		= 161;
+const ResIDT	MENU_AeteReplyOptions		= 162;
+const ResIDT	MENU_AeteDirectOptions		= 163;
+const ResIDT	MENU_AetePropertyOptions	= 164;
 
 // Icon resources
 const ResIDT	Icon_WindowsMenu			= 3100;
@@ -401,6 +459,8 @@ const CommandT	cmd_MenuUtxtSizeLast		= 1599;		// and within this range
 // Bitmap editor
 const CommandT	cmd_IconFontSizeBase		= 9100;		// font sizes are (cmdID - 9100)
 const CommandT	cmd_IconFontSizeLast		= 9300;		// and within this range
+// Bitmap editor
+const CommandT	cmd_MenuAeteBase			= 1600;
 
 
 // Help menu commands
@@ -450,6 +510,24 @@ const CommandT	cmd_ColorTablePicker		= FOUR_CHAR_CODE('CLT7');
 const CommandT	cmd_ColorTableApple2		= FOUR_CHAR_CODE('CLT8');  // Not in the menu, but used in the code
 const MessageT	msg_TextActionDied			= FOUR_CHAR_CODE('TxDi');
 const CommandT	cmd_IconOtherFontSize		= cmd_IconFontSizeBase;
+
+// Aete editor commands
+const CommandT	cmd_AeteAddSuite			= cmd_MenuAeteBase + 1;
+const CommandT	cmd_AeteRemoveSuite			= cmd_MenuAeteBase + 2;
+const CommandT	cmd_AeteAddItem				= cmd_MenuAeteBase + 3;
+const CommandT	cmd_AeteRemoveItem			= cmd_MenuAeteBase + 4;
+const CommandT	cmd_AeteAddParameter		= cmd_MenuAeteBase + 5;
+const CommandT	cmd_AeteRemoveParameter		= cmd_MenuAeteBase + 6;
+const CommandT	cmd_AeteAddProperty			= cmd_MenuAeteBase + 7;
+const CommandT	cmd_AeteRemoveProperty		= cmd_MenuAeteBase + 8;
+const CommandT	cmd_AeteAddElement			= cmd_MenuAeteBase + 9;
+const CommandT	cmd_AeteRemoveElement		= cmd_MenuAeteBase + 10;
+const CommandT	cmd_AeteAddKeyForm			= cmd_MenuAeteBase + 11;
+const CommandT	cmd_AeteRemoveKeyForm		= cmd_MenuAeteBase + 12;
+const CommandT	cmd_AeteAddEnumerator		= cmd_MenuAeteBase + 13;
+const CommandT	cmd_AeteRemoveEnumerator	= cmd_MenuAeteBase + 14;
+const CommandT	cmd_AeteImport				= cmd_MenuAeteBase + 21;
+const CommandT	cmd_AeteExport				= cmd_MenuAeteBase + 22;
 
 
 // ======================================================================
@@ -615,17 +693,6 @@ const PaneIDT   item_TextEditFontMenu	= 1;
 const PaneIDT   item_TextEditSizeMenu	= 2;
 const PaneIDT   item_TextEditStyleMenu	= 3;
 const PaneIDT   item_TextEditLength		= 4;
-// Aete Editor Window
-// ------------------
-const PaneIDT   item_AeteSuitesPopup		= 4;
-const PaneIDT   item_AeteMajorVersion		= 5;
-const PaneIDT   item_AeteMinorVersion		= 6;
-const PaneIDT   item_AeteLangID				= 7;
-const PaneIDT   item_AeteScriptCode			= 8;
-const PaneIDT   item_AeteListBoxesView		= 20;
-const PaneIDT   item_AeteCategories			= 21;
-const PaneIDT   item_AeteTermsScroller		= 22;
-const PaneIDT   item_AeteTermsTable			= 23;
 // Pict Viewer Window
 // ------------------
 const PaneIDT   item_PictEditSize			= 1;
@@ -675,6 +742,68 @@ const PaneIDT	item_IconLabelName3			= FOUR_CHAR_CODE('NAM3');
 const PaneIDT	item_IconShowAsRgbx			= 4;
 const PaneIDT	item_IconShowAsBitmap		= 5;
 const PaneIDT	item_IconShowAsMask			= 6;
+// Aete Editor Window
+// ------------------
+const PaneIDT   item_AeteMajorVersion		= 1;
+const PaneIDT   item_AeteMinorVersion		= 2;
+const PaneIDT   item_AeteLanguageID			= 3;
+const PaneIDT   item_AeteScriptCode			= 4;
+const PaneIDT   item_AeteSuiteName			= 5;
+const PaneIDT   item_AeteSuiteDescr			= 6;
+const PaneIDT   item_AeteSuiteID			= 7;
+const PaneIDT   item_AeteSuiteLevel			= 8;
+const PaneIDT   item_AeteSuiteVersion		= 9;
+const PaneIDT   item_AeteSuitesPopup		= FOUR_CHAR_CODE('SUIT');
+const PaneIDT   item_AeteItemsSlider		= FOUR_CHAR_CODE('SLID');
+const PaneIDT   item_AeteItemsIndicator		= FOUR_CHAR_CODE('SIDC');
+const PaneIDT   item_AetePanelsController	= FOUR_CHAR_CODE('ACTL');
+const PaneIDT   item_AeteMultiPanelsView	= FOUR_CHAR_CODE('AMPV');
+//    Events panel
+const PaneIDT   item_AeteEventName			= 1;
+const PaneIDT   item_AeteEventClass			= 2;
+const PaneIDT   item_AeteEventID			= 3;
+const PaneIDT   item_AeteEventDescr			= 4;
+const PaneIDT   item_AeteDirectType			= 11;
+const PaneIDT   item_AeteDirectOptions		= 12;
+const PaneIDT   item_AeteDirectDescr		= 13;
+const PaneIDT   item_AeteReplyType			= 21;
+const PaneIDT   item_AeteReplyOptions		= 22;
+const PaneIDT   item_AeteReplyDescr			= 23;
+const PaneIDT   item_AeteOtherName			= 31;
+const PaneIDT   item_AeteOtherKeyword		= 32;
+const PaneIDT   item_AeteOtherType			= 33;
+const PaneIDT   item_AeteOtherOptions		= 34;
+const PaneIDT   item_AeteOtherDescr			= 35;
+const PaneIDT   item_AeteOtherSlider		= FOUR_CHAR_CODE('OSLI');
+const PaneIDT   item_AeteOtherIndicator		= FOUR_CHAR_CODE('OIDC');
+//    Classes panel
+const PaneIDT   item_AeteClassName			= 1;
+const PaneIDT   item_AeteClassID			= 2;
+const PaneIDT   item_AeteClassDescr			= 3;
+const PaneIDT   item_AetePropertyName		= 11;
+const PaneIDT   item_AetePropertyKeyword	= 12;
+const PaneIDT   item_AetePropertyType		= 13;
+const PaneIDT   item_AetePropertyOptions	= 14;
+const PaneIDT   item_AetePropertyDescr		= 15;
+const PaneIDT   item_AeteElementName		= 21;
+const PaneIDT   item_AeteElementID			= 22;
+const PaneIDT   item_AeteKeyFormsTable		= 24;
+const PaneIDT   item_AetePropertySlider		= FOUR_CHAR_CODE('PSLI');
+const PaneIDT   item_AetePropertyIndicator	= FOUR_CHAR_CODE('PIDC');
+const PaneIDT   item_AeteElementSlider		= FOUR_CHAR_CODE('ESLI');
+const PaneIDT   item_AeteElementIndicator	= FOUR_CHAR_CODE('EIDC');
+//    CompOps panel
+const PaneIDT   item_AeteCompName			= 1;
+const PaneIDT   item_AeteCompID				= 2;
+const PaneIDT   item_AeteCompDescr			= 3;
+//    Enums panel
+const PaneIDT   item_AeteEnumerationID		= 1;
+const PaneIDT   item_AeteEnumName			= 2;
+const PaneIDT   item_AeteEnumKeyword		= 3;
+const PaneIDT   item_AeteEnumType			= 4;
+const PaneIDT   item_AeteEnumDescr			= 5;
+const PaneIDT   item_AeteEnumSlider			= FOUR_CHAR_CODE('NSLI');
+const PaneIDT   item_AeteEnumIndicator		= FOUR_CHAR_CODE('NIDC');
 
 
 // Common elements for Editor Windows
@@ -842,11 +971,6 @@ const MessageT	msg_EditorRevert			= cmd_Revert;
 const MessageT	msg_TextEditFontMenu		= PPob_TextEditorWindow + item_TextEditFontMenu;
 const MessageT	msg_TextEditSizeMenu		= PPob_TextEditorWindow + item_TextEditSizeMenu;
 const MessageT	msg_TextEditStyleMenu		= PPob_TextEditorWindow + item_TextEditStyleMenu;
-// Aete Editor Window
-// ------------------
-const MessageT	msg_AeteSuitesPopup			= PPob_AeteEditorWindow + item_AeteSuitesPopup;
-const MessageT	msg_AeteCategories			= PPob_AeteEditorWindow + item_AeteCategories;
-const MessageT	msg_AeteTermsTable			= PPob_AeteEditorWindow + item_AeteTermsTable;
 // Text Editor Window
 // ------------------
 const MessageT	msg_UtxtEditFontMenu		= PPob_UtxtEditorWindow + item_UtxtEditFontMenu;
@@ -860,6 +984,55 @@ const MessageT	msg_IconEditBackColor		= tool_BackColor;
 const MessageT	msg_IconShowAsRgbx			= PPob_IconEditorWindow + item_IconShowAsRgbx;
 const MessageT	msg_IconShowAsBitmap		= PPob_IconEditorWindow + item_IconShowAsBitmap;
 const MessageT	msg_IconShowAsMask			= PPob_IconEditorWindow + item_IconShowAsMask;
+// // Aete Editor Window
+// // ------------------
+// const MessageT    msg_AeteMajorVersion		= PPob_AeteEditorWindow + item_AeteMajorVersion;
+// const MessageT    msg_AeteMinorVersion		= PPob_AeteEditorWindow + item_AeteMinorVersion;
+// const MessageT    msg_AeteLanguageID		= PPob_AeteEditorWindow + item_AeteLanguageID;
+// const MessageT    msg_AeteScriptCode		= PPob_AeteEditorWindow + item_AeteScriptCode;
+// const MessageT    msg_AeteSuiteName			= PPob_AeteEditorWindow + item_AeteSuiteName;
+// const MessageT    msg_AeteSuiteDescr		= PPob_AeteEditorWindow + item_AeteSuiteDescr;
+// const MessageT    msg_AeteSuiteID			= PPob_AeteEditorWindow + item_AeteSuiteID;
+// const MessageT    msg_AeteSuiteLevel		= PPob_AeteEditorWindow + item_AeteSuiteLevel;
+// const MessageT    msg_AeteSuiteVersion		= PPob_AeteEditorWindow + item_AeteSuiteVersion;
+// //    Events panel
+// const MessageT    msg_AeteEventName			= PPob_AeteEventsPane + item_AeteEventName;
+// const MessageT    msg_AeteEventClass		= PPob_AeteEventsPane + item_AeteEventClass;
+// const MessageT    msg_AeteEventID			= PPob_AeteEventsPane + item_AeteEventID;
+// const MessageT    msg_AeteEventDescr		= PPob_AeteEventsPane + item_AeteEventDescr;
+// const MessageT    msg_AeteDirectType		= PPob_AeteEventsPane + item_AeteDirectType;
+const MessageT    msg_AeteDirectOptions		= PPob_AeteEventsPane + item_AeteDirectOptions;
+// const MessageT    msg_AeteDirectDescr		= PPob_AeteEventsPane + item_AeteDirectDescr;
+// const MessageT    msg_AeteReplyType			= PPob_AeteEventsPane + item_AeteReplyType;
+const MessageT    msg_AeteReplyOptions		= PPob_AeteEventsPane + item_AeteReplyOptions;
+// const MessageT    msg_AeteReplyDescr		= PPob_AeteEventsPane + item_AeteReplyDescr;
+// const MessageT    msg_AeteOtherName			= PPob_AeteEventsPane + item_AeteOtherName;
+// const MessageT    msg_AeteOtherKeyword		= PPob_AeteEventsPane + item_AeteOtherKeyword;
+// const MessageT    msg_AeteOtherType			= PPob_AeteEventsPane + item_AeteOtherType;
+const MessageT    msg_AeteOtherOptions		= PPob_AeteEventsPane + item_AeteOtherOptions;
+// const MessageT    msg_AeteOtherDescr		= PPob_AeteEventsPane + item_AeteOtherDescr;
+// //    Classes panel
+// const MessageT    msg_AeteClassName			= PPob_AeteClassesPane + item_AeteClassName;
+// const MessageT    msg_AeteClassID			= PPob_AeteClassesPane + item_AeteClassID;
+// const MessageT    msg_AeteClassDescr		= PPob_AeteClassesPane + item_AeteClassDescr;
+// const MessageT    msg_AetePropertyName		= PPob_AeteClassesPane + item_AetePropertyName;
+// const MessageT    msg_AetePropertyKeyword	= PPob_AeteClassesPane + item_AetePropertyKeyword;
+// const MessageT    msg_AetePropertyType		= PPob_AeteClassesPane + item_AetePropertyType;
+const MessageT    msg_AetePropertyOptions	= PPob_AeteClassesPane + item_AetePropertyOptions;
+// const MessageT    msg_AetePropertyDescr		= PPob_AeteClassesPane + item_AetePropertyDescr;
+// const MessageT    msg_AeteElementName		= PPob_AeteClassesPane + item_AeteElementName;
+// const MessageT    msg_AeteElementID			= PPob_AeteClassesPane + item_AeteElementID;
+// const MessageT    msg_AeteKeyFormsTable		= PPob_AeteClassesPane + item_AeteKeyFormsTable;
+// //    CompOps panel
+// const MessageT    msg_AeteCompName			= PPob_AeteCompOpsPane + item_AeteCompName;
+// const MessageT    msg_AeteCompID			= PPob_AeteCompOpsPane + item_AeteCompID;
+// const MessageT    msg_AeteCompDescr			= PPob_AeteCompOpsPane + item_AeteCompDescr;
+// //    Enums panel
+// const MessageT    msg_AeteEnumerationID		= PPob_AeteEnumsPane + item_AeteEnumerationID;
+// const MessageT    msg_AeteEnumName			= PPob_AeteEnumsPane + item_AeteEnumName;
+// const MessageT    msg_AeteEnumKeyword		= PPob_AeteEnumsPane + item_AeteEnumKeyword;
+// const MessageT    msg_AeteEnumType			= PPob_AeteEnumsPane + item_AeteEnumType;
+// const MessageT    msg_AeteEnumDescr			= PPob_AeteEnumsPane + item_AeteEnumDescr;
 
 
 // Other general purpose messages
