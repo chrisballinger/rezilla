@@ -1175,7 +1175,7 @@ CTmplEditorWindow::AddListItemView(CTmplListItemView * inPrevListItemView, LView
 	sListItemInfo.width				= theFrame.width - sListItemInfo.left - kTmplHorizSep;
 	sListItemInfo.superView			= inContainer;
 	
-	CTmplListItemView * theLIV = new CTmplListItemView(sListItemInfo, theViewInfo, false);
+	CTmplListItemView * theLIV = new CTmplListItemView(sListItemInfo, theViewInfo, this, false);
 	ThrowIfNil_(theLIV);
 
 	theLIV->mPrevItem = inPrevListItemView;
