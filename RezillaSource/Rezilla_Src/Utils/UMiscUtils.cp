@@ -1,11 +1,11 @@
 // ===========================================================================
 // UMiscUtils.cp					
 //                       Created: 2003-05-13 20:06:23
-//             Last modification: 2003-06-08 06:59:03
+//             Last modification: 2004-03-01 18:15:39
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// ¬© Copyright: Bernard Desgraupes 2003
+// © Copyright: Bernard Desgraupes 2003, 2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -17,6 +17,8 @@
 #endif
 
 #include "UMiscUtils.h"
+#include "FullPath.h"
+
 #include <PP_KeyCodes.h>
 
 // #include <Script.h>
@@ -29,7 +31,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//  ¬€ PStringToOSType
+//  ¥ PStringToOSType
 // ---------------------------------------------------------------------------
 
 void
@@ -43,7 +45,7 @@ UMiscUtils::PStringToOSType(Str255 inString, OSType & outType)
 
 
 // ---------------------------------------------------------------------------
-//  ¬€ OSTypeToPString
+//  ¥ OSTypeToPString
 // ---------------------------------------------------------------------------
 
 void
@@ -57,7 +59,7 @@ UMiscUtils::OSTypeToPString(OSType inType, Str255 & outString)
 
 
 // ------------------------------------------------------------------------------
-//  ¬€  HFSNameToUnicodeName
+//  ¥  HFSNameToUnicodeName
 // ------------------------------------------------------------------------------
 // Borrowed and adapted from MoreFilesX.c
 
@@ -93,8 +95,37 @@ UMiscUtils::HFSNameToUnicodeName(
 }
 
 
+// ---------------------------------------------------------------------------
+//	¥ MakePath										[private]
+// ---------------------------------------------------------------------------
+
+OSErr
+UMiscUtils::MakePath(FSSpec* inFileSpec, Str255 outPath, short inWidth)
+{
+	short pathLength;
+	Handle pathHndl = NULL;
+	char * pathName;
+	OSErr err = ::FSpGetFullPath(inFileSpec, &pathLength, &pathHndl);
+	if (err == noErr) {
+		HLock(pathHndl);
+		pathName = new char[pathLength + 1];
+		BlockMoveData(*pathHndl, pathName, pathLength);
+		pathName[pathLength] = 0;
+		HUnlock(pathHndl);
+		DisposeHandle(pathHndl);			
+		::TruncText(inWidth, pathName, &pathLength, truncMiddle) ;
+		// On output pathLength has the new length
+		pathName[pathLength] = 0;
+		CopyCStringToPascal(pathName, outPath);	
+	} 
+	return err;
+}
+
+
+
+
 // ------------------------------------------------------------------------------
-//  ¬€  GetTypeFromScrap
+//  ¥  GetTypeFromScrap
 // ------------------------------------------------------------------------------
 
 OSErr
@@ -114,7 +145,7 @@ UMiscUtils::GetTypeFromScrap(ResType & outType)
 
 
 // ---------------------------------------------------------------------------
-//	¬€ IsValidHexadecimal										  
+//	¥ IsValidHexadecimal										  
 // ---------------------------------------------------------------------------
 
 Boolean 
@@ -141,7 +172,7 @@ UMiscUtils::IsValidHexadecimal(Ptr inPtr, ByteCount inByteCount)
 
 
 // ---------------------------------------------------------------------------
-//	¬€ IsValidHexadecimal										  
+//	¥ IsValidHexadecimal										  
 // ---------------------------------------------------------------------------
 
 Boolean 
@@ -154,7 +185,7 @@ UMiscUtils::IsValidHexadecimal(Handle inHandle)
 
 
 // ---------------------------------------------------------------------------
-//	¬€ GetDragFileData										  
+//	¥ GetDragFileData										  
 // ---------------------------------------------------------------------------
 // If the flavour data is an HFSFlavor structure, retrieve it.
 
@@ -173,7 +204,7 @@ UMiscUtils::GetDragFileData(DragReference inDragRef, ItemReference inItemRef, HF
 
 
 // ================================================================
-//  ¬€  Class CTypeComparator
+//  ¥  Class CTypeComparator
 // ================================================================
 // String comparator class to build tables sorted alphabetically
 

@@ -5,7 +5,7 @@
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// ¬© Copyright: Bernard Desgraupes 2003
+// © Copyright: Bernard Desgraupes 2003
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -39,6 +39,7 @@ public:
 	static void		OSTypeToPString(OSType inType, Str255 & outString);
 	static OSErr	HFSNameToUnicodeName(ConstStr31Param hfsName, HFSUniStr255 *unicodeName);
 	static OSErr	GetTypeFromScrap(ResType & outType);
+	static OSErr	MakePath(FSSpec* inFileSpec, Str255 outPath, short inWidth);
 	static Boolean	GetDragFileData(DragReference inDragRef, ItemReference inItemRef, HFSFlavor& fileData);
 	static Boolean	IsValidHexadecimal(Handle inHandle);
 	static Boolean	IsValidHexadecimal(Ptr inPtr, ByteCount inByteCount);
