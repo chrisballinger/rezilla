@@ -166,6 +166,21 @@ CEditorsController::HasEditorForType(ResType inType, ResType * substType)
 		case 'thga':
 		case 'PICT':
 		case 'snd ':
+		case 'CURS':
+		case 'ICN#':
+		case 'ICON':
+		case 'PAT ':
+		case 'cicn':
+		case 'crsr':
+		case 'icl4':
+		case 'icl8':
+		case 'icm#':
+		case 'icm4':
+		case 'icm8':
+		case 'ics#':
+		case 'ics4':
+		case 'ics8':
+		case 'ppat':
 		*substType = inType;
 		result = true;
 		break;
