@@ -23,6 +23,7 @@
 /* #include <LActiveScroller.h> */
 
 class CTmplEditorDoc;
+class CTmplListButton;
 class CRezObj;
 class LStaticText;
 class LScrollerView;
@@ -158,7 +159,7 @@ private:
 							  ResType inType, 
 							  SInt32 inCount, 
 							  LView * inContainer, 
-							  PaneIDT inCountPane);
+							  PaneIDT inCountPaneID);
 
 	OSErr			RetrieveList(SInt32 inStartMark, 
 								 ResType inType, 
@@ -231,6 +232,7 @@ private:
 	
 	CTmplListItemView *	AddListItemView(CTmplListItemView * inPrevListItemView, 
 										CTmplListItemView * inNextListItemView, 
+										CTmplListButton * inMinusButton,
 										LView * inContainer);
 	
 	void			AddSeparatorLine(LView * inContainer);

@@ -364,7 +364,7 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			}
 			mIndent += kTmplListIndent * sublevel;
 
-			currListItemView = AddListItemView(prevListItemView, nextListItemView, theContainer);
+			currListItemView = AddListItemView(prevListItemView, nextListItemView, theMinusButton, theContainer);
 			if (prevListItemView == nil) {
 				thePlusButton->SetUserCon( (long) currListItemView);
 			} 
@@ -555,31 +555,10 @@ CTmplEditorWindow::HandleKeyPress(
 		
 		case keyStatus_TEDelete: 
 		if (mSelectedListItem != NULL) {
-			CTmplListItemView *	currListItemView;
-			CTmplListButton *	theMinusButton;
-			PaneIDT 			thePaneID;
-			ArrayIndexT			index;
-			
-			// Find the corresponding minus button
-			currListItemView = mSelectedListItem;
-			while (currListItemView->mPrevItem) {
-				currListItemView = currListItemView->mPrevItem;
-			}
-			// The ID of the minus button is located two positions before
-			// this one in the list of pane IDs. If it is not found in the 
-			// list, it means that we are removing an empty list item view
-			// and that there is no real control after that: in that case
-			// the minus button is next to last in the list.
-			thePaneID = currListItemView->mFirstItemID;
-			index = mPaneIDs.FetchIndexOf(thePaneID);
-			if (index == LArray::index_Bad) {
-				index = mPaneIDs.GetCount() + 1;		
-			}
-			mPaneIDs.FetchItemAt(index-2, thePaneID);
-			theMinusButton = dynamic_cast<CTmplListButton *>(this->FindPaneByID(thePaneID));
-			ThrowIfNil_(theMinusButton);
-			// Pass the data via a message
-			ListenToMessage(msg_TmplMinusButton, (void *) theMinusButton);
+			// The Delete key deletes the currently selected list item, if 
+			// no field has the focus. Pass the data via a message to
+			// simulate a click on the Minus button. 
+			ListenToMessage(msg_TmplMinusButton, (void *) mSelectedListItem->mMinusButton);
 		} 
 		break;
 		
@@ -720,17 +699,23 @@ CTmplEditorWindow::DoParseWithTemplate(SInt32 inRecursionMark, Boolean inDrawCon
 
 OSErr
 CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount, 
-							 LView * inContainer, PaneIDT inCountPane)
+							 LView * inContainer, PaneIDT inCountPaneID)
 {
 	OSErr	error = noErr;
 	SInt32	outYCoord = mYCoord;
 
 	CTmplListItemView * prevListItemView = nil;
 	CTmplListItemView * currListItemView = nil;
-	
-	CTmplListButton * thePlusButton = dynamic_cast<CTmplListButton *>(this->FindPaneByID(mCurrentID - 1));
+	CTmplListButton * thePlusButton = nil;
+	CTmplListButton * theMinusButton = nil;
 	LView * theContainer = inContainer;
 
+	if (inCountPaneID) {
+		theMinusButton = dynamic_cast<CTmplListButton *>(this->FindPaneByID(inCountPaneID + 1));
+		ThrowIfNil_(theMinusButton);
+		thePlusButton = dynamic_cast<CTmplListButton *>(this->FindPaneByID(inCountPaneID + 2));		
+		ThrowIfNil_(thePlusButton);
+	} 
 	mIndent += kTmplListIndent;
 	
 	switch (inType) {
@@ -749,7 +734,7 @@ CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount,
 		do {
 			if (drawCtrl) {
 				listCount++;
-				currListItemView = AddListItemView(prevListItemView, NULL, inContainer);
+				currListItemView = AddListItemView(prevListItemView, NULL, theMinusButton, inContainer);
 				prevListItemView = currListItemView;
 				theContainer = currListItemView;
 				if (thePlusButton->GetUserCon() == nil) {
@@ -777,8 +762,8 @@ CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount,
 			// have been detected by the first call to EndOfList() above.
 			error = noErr;
 		} 
-		if (error == noErr && inCountPane != 0) {
-			AdjustCounterField(inCountPane, listCount);
+		if (error == noErr && inCountPaneID != 0) {
+			AdjustCounterField(inCountPaneID, listCount);
 		} 
 		break;
 		
@@ -787,7 +772,7 @@ CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount,
 			error = DoParseWithTemplate(inStartMark, false, theContainer);
 		} else {
 			for (short i = 0 ; i < inCount && error == noErr; i++) {
-				currListItemView = AddListItemView(prevListItemView, NULL, inContainer);
+				currListItemView = AddListItemView(prevListItemView, NULL, theMinusButton, inContainer);
 				prevListItemView = currListItemView;
 				theContainer = currListItemView;
 				if (thePlusButton->GetUserCon() == nil) {
