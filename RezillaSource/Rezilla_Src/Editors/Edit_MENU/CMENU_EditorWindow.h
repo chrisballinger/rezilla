@@ -2,7 +2,7 @@
 // CMENU_EditorWindow.h
 // 
 //                       Created: 2005-03-09 17:16:53
-//             Last modification: 2005-03-16 19:17:13
+//             Last modification: 2005-03-20 18:50:18
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -84,6 +84,7 @@ private:
 	void			InstallKeyboardGlyph(UInt8 inValue);
 	
 	void			RetrieveCurrentValues();
+	void			RetrieveMenuValues();
 	void			RetrieveItemValues( ArrayIndexT inAtIndex );
 
 };

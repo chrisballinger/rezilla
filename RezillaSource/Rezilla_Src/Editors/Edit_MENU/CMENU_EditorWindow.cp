@@ -2,7 +2,7 @@
 // CMENU_EditorWindow.cp					
 // 
 //                       Created: 2005-03-09 17:16:53
-//             Last modification: 2005-03-19 15:36:33
+//             Last modification: 2005-03-20 18:50:28
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -27,8 +27,7 @@
 #include <LCheckBox.h>
 #include <LEditText.h>
 #include <LPopupButton.h>
-// #include <LScrollerView.h>
-// #include <UMemoryMgr.h>
+#include <CStaticEditCombo.h>
 
 #include <stdio.h>
 
@@ -391,9 +390,9 @@ CMENU_EditorWindow::InstallMenuValues()
 	
 	mMenuObj->GetValues( theID, theMDEF, theEnableFlag, theString);
 	
-	theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditMenuTitle ));
-	ThrowIfNil_( theEditText );
-	theEditText->SetDescriptor(theString);
+	CStaticEditCombo * theCombo = dynamic_cast<CStaticEditCombo *>(this->FindPaneByID( item_MenuEditMenuTitle ));
+	ThrowIfNil_( theCombo );
+	theCombo->SetDescriptor(theString);
 
 	theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditMenuID ));
 	ThrowIfNil_( theEditText );
@@ -507,9 +506,13 @@ CMENU_EditorWindow::InstallItemValues( ArrayIndexT inAtIndex )
 	}
 	
 	// Extended data
-	theItem->GetExtendedValues(theMods, theEncoding,
-							   theRefcon1, theRefcon2, 
-							   theFontID, theGlyph);
+	if (inAtIndex == 0) {
+		theString[0] = 0;
+	} else {
+		theItem->GetExtendedValues(theMods, theEncoding,
+								   theRefcon1, theRefcon2, 
+								   theFontID, theGlyph);
+	}
 	
 	theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditEncoding ));
 	ThrowIfNil_( theEditText );
@@ -561,6 +564,46 @@ CMENU_EditorWindow::InstallItemValues( ArrayIndexT inAtIndex )
 
 
 // ---------------------------------------------------------------------------
+//	 RetrieveMenuValues
+// ---------------------------------------------------------------------------
+
+void
+CMENU_EditorWindow::RetrieveMenuValues()
+{
+	Str255		theString;
+	SInt32 		theLong;
+	ResIDT		theID, theMDEF;
+	UInt32		theEnableFlag;
+	LEditText * theEditText;
+	LCheckBox *	theCheckBox;
+	
+	CStaticEditCombo * theCombo = dynamic_cast<CStaticEditCombo *>(this->FindPaneByID( item_MenuEditMenuTitle ));
+	ThrowIfNil_( theCombo );
+	theCombo->GetDescriptor(theString);
+
+	theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditMenuID ));
+	ThrowIfNil_( theEditText );
+	theEditText->GetDescriptor(theString);
+	::StringToNum(theString, &theLong);
+	theID = theLong;
+
+	theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditMDEF ));
+	ThrowIfNil_( theEditText );
+	theEditText->GetDescriptor(theString);
+	::StringToNum(theString, &theLong);
+	theMDEF = theLong;
+
+	theCheckBox = dynamic_cast<LCheckBox *>(this->FindPaneByID( item_MenuEditMenuEnabled ));
+	ThrowIfNil_( theCheckBox );
+	theCheckBox->GetValue();
+	theEnableFlag = mMenuObj->GetEnableFlag();
+	theEnableFlag |= theCheckBox->GetValue();
+	
+	mMenuObj->SetValues( theID, theMDEF, theEnableFlag, theString);
+}
+
+
+// ---------------------------------------------------------------------------
 //	 RetrieveCurrentValues
 // ---------------------------------------------------------------------------
 
@@ -594,6 +637,13 @@ CMENU_EditorWindow::RetrieveItemValues( ArrayIndexT inAtIndex )
 		LCheckBox *		theCheckBox;
 		LPopupButton *	thePopup;
 		Boolean			enableIt;
+		UInt8			theMods = 0;
+		SInt32			theEncoding, theRefcon1, theRefcon2;
+		SInt16			theFontID, theGlyph;
+		
+		if (inAtIndex == 0) {
+			return;
+		} 
 		
 		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditItemTitle ));
 		ThrowIfNil_( theEditText );
@@ -644,60 +694,54 @@ CMENU_EditorWindow::RetrieveItemValues( ArrayIndexT inAtIndex )
 		
 		theItem->SetValues(theTitle, theIconID, theShortcut, theMark, theStyle);
 
-		if (mHasXmnu) {
-			UInt8	theMods = 0;
-			SInt32	theEncoding, theRefcon1, theRefcon2;
-			SInt16	theFontID, theGlyph;
-			
-			theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditEncoding ));
-			ThrowIfNil_( theEditText );
-			theEditText->GetDescriptor(theString);
-			::StringToNum(theString, &theEncoding);
+		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditEncoding ));
+		ThrowIfNil_( theEditText );
+		theEditText->GetDescriptor(theString);
+		::StringToNum(theString, &theEncoding);
 
-			theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditRefcon1 ));
-			ThrowIfNil_( theEditText );
-			theEditText->GetDescriptor(theString);
-			::StringToNum(theString, &theRefcon1);
+		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditRefcon1 ));
+		ThrowIfNil_( theEditText );
+		theEditText->GetDescriptor(theString);
+		::StringToNum(theString, &theRefcon1);
 
-			theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditRefcon2 ));
-			ThrowIfNil_( theEditText );
-			theEditText->GetDescriptor(theString);
-			::StringToNum(theString, &theRefcon2);
+		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditRefcon2 ));
+		ThrowIfNil_( theEditText );
+		theEditText->GetDescriptor(theString);
+		::StringToNum(theString, &theRefcon2);
 
-			theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditFontID ));
-			ThrowIfNil_( theEditText );
-			theEditText->GetDescriptor(theString);
-			::StringToNum(theString, &theLong);
-			theFontID = theLong;
+		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditFontID ));
+		ThrowIfNil_( theEditText );
+		theEditText->GetDescriptor(theString);
+		::StringToNum(theString, &theLong);
+		theFontID = theLong;
 
-			theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditGlyphField ));
-			ThrowIfNil_( theEditText );
-			theEditText->GetDescriptor(theString);
-			::StringToNum(theString, &theLong);
-			theGlyph = theLong;
+		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditGlyphField ));
+		ThrowIfNil_( theEditText );
+		theEditText->GetDescriptor(theString);
+		::StringToNum(theString, &theLong);
+		theGlyph = theLong;
 
-			// Modifiers. If bit 3 is on, it means that command key is _not_ used.
-			theCheckBox = dynamic_cast<LCheckBox *>(this->FindPaneByID( item_MenuEditCmdModifier ));
-			ThrowIfNil_( theCheckBox );
-			theMods |= theCheckBox->GetValue() ? 0:8 ;
+		// Modifiers. If bit 3 is on, it means that command key is _not_ used.
+		theCheckBox = dynamic_cast<LCheckBox *>(this->FindPaneByID( item_MenuEditCmdModifier ));
+		ThrowIfNil_( theCheckBox );
+		theMods |= theCheckBox->GetValue() ? 0:8 ;
 
-			theCheckBox = dynamic_cast<LCheckBox *>(this->FindPaneByID( item_MenuEditCtrlModifier ));
-			ThrowIfNil_( theCheckBox );
-			theMods |= theCheckBox->GetValue() ? 4:0 ;
+		theCheckBox = dynamic_cast<LCheckBox *>(this->FindPaneByID( item_MenuEditCtrlModifier ));
+		ThrowIfNil_( theCheckBox );
+		theMods |= theCheckBox->GetValue() ? 4:0 ;
 
-			theCheckBox = dynamic_cast<LCheckBox *>(this->FindPaneByID( item_MenuEditOptModifier ));
-			ThrowIfNil_( theCheckBox );
-			theMods |= theCheckBox->GetValue() ? 2:0;
+		theCheckBox = dynamic_cast<LCheckBox *>(this->FindPaneByID( item_MenuEditOptModifier ));
+		ThrowIfNil_( theCheckBox );
+		theMods |= theCheckBox->GetValue() ? 2:0;
 
-			theCheckBox = dynamic_cast<LCheckBox *>(this->FindPaneByID( item_MenuEditShiftModifier ));
-			ThrowIfNil_( theCheckBox );
-			theMods |= theCheckBox->GetValue() ? 1:0;
-			
-			theItem->SetExtendedValues(theMods, theEncoding,
-									   theRefcon1, theRefcon2, 
-									   theFontID, theGlyph);
-			
-		} 
+		theCheckBox = dynamic_cast<LCheckBox *>(this->FindPaneByID( item_MenuEditShiftModifier ));
+		ThrowIfNil_( theCheckBox );
+		theMods |= theCheckBox->GetValue() ? 1:0;
+		
+		theItem->SetExtendedValues(theMods, theEncoding,
+								   theRefcon1, theRefcon2, 
+								   theFontID, theGlyph);
+		
 	} 
 }
 
