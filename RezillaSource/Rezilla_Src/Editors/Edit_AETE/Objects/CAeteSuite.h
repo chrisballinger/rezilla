@@ -2,7 +2,7 @@
 // CAeteSuite.h
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-28 09:29:49
+//             Last modification: 2005-01-29 22:15:03
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -100,7 +100,8 @@ public:
 		SInt32			CountClasses() { return mClasses.GetCount(); }
 		SInt32			CountCompOps() { return mCompOps.GetCount(); }
 		SInt32			CountEnumerations() { return mEnumerations.GetCount(); }
-
+		SInt32			GetCurrentCount(SInt8 inKind);
+		
 		TArray<CAeteEvent*> *	GetEvents() { return &mEvents;}
 		TArray<CAeteClass*> *	GetClasses() { return &mClasses;}
 		TArray<CAeteCompOp*> *	GetCompOps() { return &mCompOps;}

@@ -532,3 +532,33 @@ CAeteSuite::SetCurrentIndex(SInt8 inKind, ArrayIndexT inIndex)
 }
  
 
+// ---------------------------------------------------------------------------
+//  GetCurrentCount												[public]
+// ---------------------------------------------------------------------------
+
+SInt32
+CAeteSuite::GetCurrentCount(SInt8 inKind)
+{
+	SInt32 count = 0;
+	
+	switch (inKind) {
+		case kind_AeteEvent:
+		count = this->CountEvents();
+		break;
+		
+		case kind_AeteClass:
+		count = this->CountClasses();
+		break;
+		
+		case kind_AeteCompOp:
+		count = this->CountCompOps();
+		break;
+		
+		case kind_AeteEnum:
+		count = this->CountEnumerations();
+		break;
+	}	
+	return count;
+}
+ 
+
