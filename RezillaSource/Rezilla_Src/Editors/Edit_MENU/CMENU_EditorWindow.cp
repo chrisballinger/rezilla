@@ -2,7 +2,7 @@
 // CMENU_EditorWindow.cp					
 // 
 //                       Created: 2005-03-09 17:16:53
-//             Last modification: 2005-03-20 18:50:28
+//             Last modification: 2005-03-22 07:44:39
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -26,11 +26,18 @@
 
 #include <LCheckBox.h>
 #include <LEditText.h>
+#include <LStaticText.h>
 #include <LPopupButton.h>
 #include <CStaticEditCombo.h>
+#include <LTabGroupView.h>
 
 #include <stdio.h>
 
+// Statics
+Str31	CMENU_EditorWindow::sMarkCharStr;
+Str31	CMENU_EditorWindow::sSubmenuIDStr;
+Str31	CMENU_EditorWindow::sIconIDStr;
+Str31	CMENU_EditorWindow::sScriptCodeStr;
 
 
 // ---------------------------------------------------------------------------
@@ -106,7 +113,21 @@ CMENU_EditorWindow::FinishCreateSelf()
 	
 	// Add a single column.
 	mItemsTable->InsertCols( 1, 0, nil );
-			
+	
+	// Item's property popup
+	mPopup = dynamic_cast<LPopupButton *>(this->FindPaneByID( item_MenuEditPropertyPopup ));
+	ThrowIfNil_( mPopup );
+
+	// Edit fields
+	mIconIdField = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditIconID ));
+	ThrowIfNil_( mIconIdField );
+	
+	mShortcutField = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditShortcut ));
+	ThrowIfNil_( mShortcutField );
+
+	mMarkCharField = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditMarkChar ));
+	ThrowIfNil_( mMarkCharField );
+	
 	// Link the broadcasters
 	UReanimator::LinkListenerToControls( this, this, PPob_MenuEditorWindow );
 	
@@ -125,6 +146,15 @@ CMENU_EditorWindow::FinishCreateSelf()
 	ThrowIfNil_( theEditField );
 	theEditField->GetPopup()->AddListener(this);
 	
+	// Editor fields labels. Load these once only.
+	if ( sMarkCharStr[0] == 0 )
+	{
+		::GetIndString(sMarkCharStr, STRx_MenuEditorLabels, indx_MenuMarkChar);
+		::GetIndString(sSubmenuIDStr, STRx_MenuEditorLabels, indx_MenuSubID);
+		::GetIndString(sIconIDStr, STRx_MenuEditorLabels, indx_MenuIconID);
+		::GetIndString(sScriptCodeStr, STRx_MenuEditorLabels, indx_MenuScriptCode);
+	}
+
 }
 
 
@@ -223,8 +253,10 @@ CMENU_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			break;
 		}
 				
-		case msg_MenuEditPropertyPopup: 
-		break;
+		case msg_MenuEditPropertyPopup:  {
+			HandlePropertyPopup( mPopup->GetValue() );
+			break;
+		}
 				
 		case msg_MenuEditStylePopup: {
 			SInt32			i, itemIndex;
@@ -235,6 +267,7 @@ CMENU_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			itemIndex = thePopup->GetValue();
 			theMenuH = thePopup->GetMacMenuH();
 			if (itemIndex < 3) {
+				return;
 			} else if (itemIndex == 3) {
 				::MacCheckMenuItem(theMenuH, 3, 1);
 				for ( i = 0; i < 7; i++) {
@@ -473,14 +506,6 @@ CMENU_EditorWindow::InstallCurrentValues()
 // ---------------------------------------------------------------------------
 //	 InstallItemValues
 // ---------------------------------------------------------------------------
-//   normal       = 0,
-//   bold         = 1,
-//   italic       = 2,
-//   underline    = 4,
-//   outline      = 8,
-//   shadow       = 0x10,
-//   condense     = 0x20,
-//   extend       = 0x40
 
 void
 CMENU_EditorWindow::InstallItemValues( ArrayIndexT inAtIndex )
@@ -495,11 +520,11 @@ CMENU_EditorWindow::InstallItemValues( ArrayIndexT inAtIndex )
 	LEditText * 	theEditText;
 	LCheckBox *		theCheckBox;
 	LPopupButton *	thePopup;
-	Boolean			enableIt;
-		
-
+	Boolean			enableIt = false;
+	
 	if (inAtIndex == 0) {
 		theString[0] = 0;
+		mMenuObject->SetStyleAtIndex(0, mMenuObj->GetItemIndex());
 	} else if (mMenuObj->GetItems()->FetchItemAt(inAtIndex, theItem)) {
 		theItem->GetValues(theString, theIconID, theShortcut, theMark, theStyle);
 	} else {
@@ -509,6 +534,11 @@ CMENU_EditorWindow::InstallItemValues( ArrayIndexT inAtIndex )
 	theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditItemTitle ));
 	ThrowIfNil_( theEditText );
 	theEditText->SetDescriptor(theString);
+	
+	if (theString[0] && theString[1] == '-') {
+		mPopup->SetValue(kind_MenuIsSeparator);
+		return;
+	} 
 
 	theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditIconID ));
 	ThrowIfNil_( theEditText );
@@ -532,7 +562,9 @@ CMENU_EditorWindow::InstallItemValues( ArrayIndexT inAtIndex )
 	// enabled, and bit 0 indicates whether the menu is enabled or
 	// disabled. The Menu Manager automatically enables menu items
 	// greater than 31 when a menu is created.
-	enableIt = (inAtIndex < 32) ? ( (theEnableFlag & (1 << inAtIndex)) > 0) : 1;
+	if (inAtIndex != 0) {
+		enableIt = (inAtIndex < 32) ? ( (theEnableFlag & (1 << inAtIndex)) > 0) : 1;
+	}
 	theCheckBox->SetValue(enableIt);
 	
 	// Style popup. 'Plain' is item 3.
@@ -850,3 +882,109 @@ CMENU_EditorWindow::InstallTableValues()
 }
 
 
+// ---------------------------------------------------------------------------
+//	 InstallTableValues
+// ---------------------------------------------------------------------------
+
+void
+CMENU_EditorWindow::HandlePropertyPopup(SInt32 inIndex) 
+{
+	Str255			theString;
+	LEditText * 	theEditText;
+	LStaticText 	*theMarkCharLabel, *theIconIdLabel;
+	LTabGroupView *	theTGV;
+// 	LCheckBox *		theCheckBox;
+
+	theTGV = dynamic_cast<LTabGroupView *>(this->FindPaneByID( item_MenuEditItemGroupVIew ));
+	theTGV->Enable();
+	mShortcutField->Enable();
+	mIconIdField->Enable();
+	mMarkCharField->Enable();
+
+	theMarkCharLabel = dynamic_cast<LStaticText *>(this->FindPaneByID( item_MenuEditMarkChar + kMenuEditLabelOffset ));
+	ThrowIfNil_( theMarkCharLabel );
+	theIconIdLabel = dynamic_cast<LStaticText *>(this->FindPaneByID( item_MenuEditIconID + kMenuEditLabelOffset ));
+	ThrowIfNil_( theIconIdLabel );
+	
+	if (inIndex != kind_MenuHasSubmenu) {
+		theMarkCharLabel->SetDescriptor(sMarkCharStr);
+	}
+	
+	if (inIndex != kind_MenuNonSystemScript) {
+		theIconIdLabel->SetDescriptor(sIconIDStr);
+	}
+
+	if (inIndex > 1) {
+		
+		switch (inIndex) {
+			case kind_MenuIsSeparator:
+			ClearItemValues();
+			theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditItemTitle ));
+			theEditText->SetDescriptor("\p-");
+			theTGV->Disable();
+	// 		// Uncheck the "Item Enabled" checkbox   <--  done in ClearItemValues()
+	// 		theCheckBox = dynamic_cast<LCheckBox *>(this->FindPaneByID( item_MenuEditItemEnabled ));
+	// 		theCheckBox->SetValue(0);
+			// This will update the table
+			ListenToMessage(msg_MenuEditItemTitle, NULL);
+			break;
+
+			case kind_MenuHasSubmenu:
+			// Empty and disable the IconID field.
+			mIconIdField->SetDescriptor("\p");
+			mIconIdField->Disable();
+			// The shortcut field receives the value $1B
+			::NumToString(0x1b, theString);
+			mShortcutField->SetDescriptor(theString);
+			mShortcutField->Disable();
+			// The marking char field is renamed and should receive the ID of the submenu
+			theMarkCharLabel->SetDescriptor(sSubmenuIDStr);
+			mMarkCharField->SetDescriptor("\p");
+			SwitchTarget(mMarkCharField);
+			break;
+
+			case kind_MenuUsesCicn:
+			mShortcutField->SetDescriptor("\p");
+			mShortcutField->Disable();
+			SwitchTarget(mIconIdField);
+			break;
+
+			case kind_MenuUsesICON:
+			::NumToString(0x1d, theString);
+			mShortcutField->SetDescriptor(theString);
+			mShortcutField->Disable();
+			SwitchTarget(mIconIdField);
+			break;
+
+			case kind_MenuUsesSICN:
+			::NumToString(0x1e, theString);
+			mShortcutField->SetDescriptor(theString);
+			mShortcutField->Disable();
+			SwitchTarget(mIconIdField);
+			break;
+
+			case kind_MenuNonSystemScript:
+			::NumToString(0x1c, theString);
+			mShortcutField->SetDescriptor(theString);
+			mShortcutField->Disable();
+			// The iconID field is renamed and should receive the code of the script
+			theIconIdLabel->SetDescriptor(sScriptCodeStr);
+			SwitchTarget(mIconIdField);
+			break;
+		}		
+	} 
+	Refresh();
+	
+}
+
+
+// // ---------------------------------------------------------------------------
+// //	 UpdatePropertyPopup
+// // ---------------------------------------------------------------------------
+// // Set the property popup according to the values found in sopme fields. 
+// // For instance, if the item's name is "-" 
+// void
+// CMENU_EditorWindow::UpdatePropertyPopup() 
+// {
+// 	
+// }

@@ -2,7 +2,7 @@
 // CMENU_EditorWindow.h
 // 
 //                       Created: 2005-03-09 17:16:53
-//             Last modification: 2005-03-20 18:50:18
+//             Last modification: 2005-03-22 07:44:27
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -22,10 +22,11 @@
 #include <LActiveScroller.h>
 
 
-class CMENU_EditorDoc;
 class CMENU_EditorTable;
 class CMenuObject;
 class LStaticText;
+class LPopupButton;
+class LEditText;
 
 
 class CMENU_EditorWindow : public CEditorWindow {
@@ -66,9 +67,18 @@ public:
 protected:
 	CMenuObject *		mMenuObj;
 	CMENU_EditorTable *	mItemsTable;
+	LPopupButton *		mPopup;
+	LEditText 			*mIconIdField,
+						*mShortcutField,
+						*mMarkCharField;
 	Boolean				mHasXmnu,
 						mNeedsXmnu;
-						
+	
+	static Str31		sMarkCharStr, 
+						sSubmenuIDStr, 
+						sIconIDStr, 
+						sScriptCodeStr;
+
 	virtual void	FinishCreateSelf();
 
 private:
@@ -87,6 +97,8 @@ private:
 	void			RetrieveMenuValues();
 	void			RetrieveItemValues( ArrayIndexT inAtIndex );
 
+	void			HandlePropertyPopup(SInt32 inIndex);
+	
 };
 
 
