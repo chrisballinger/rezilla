@@ -2,7 +2,7 @@
 // CTmplEditorWindow.cp					
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-10-08 11:26:16
+//             Last modification: 2004-10-10 10:06:28
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -166,6 +166,7 @@ CTmplEditorWindow::FinishCreateSelf()
 	mIsDirty			= false;
 	mFixedCount			= false;
 	mYCoord             = kTmplVertSkip;
+	mSelectedListItem	= nil;
 	mTemplateStream		= nil;
 	mRezStream			= nil;
 	mOutStream			= nil;

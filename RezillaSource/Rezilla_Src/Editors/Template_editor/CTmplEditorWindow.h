@@ -2,7 +2,7 @@
 // CTmplEditorWindow.h
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-10-01 17:08:20
+//             Last modification: 2004-10-10 10:06:17
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -75,9 +75,20 @@ public:
 
 	void			AdjustCounterField(PaneIDT inPaneID, SInt32 inDelta);
 	
-	LView*			GetContentsView() const { return mContentsView;}
+	static void			InitPaneInfos();
+	
+	static Boolean		SplitCaseValue(Str255 inString, 
+									   Str255 ** outRightPtr);
+	
+	static UInt32		CountAllSubPanes(LView * inView);
 	
 	LHandleStream*		GetOutStream() { return mOutStream;}
+						
+	LView*				GetContentsView() const { return mContentsView;}
+	
+	CTmplListItemView*	GetSelectedListItem() { return mSelectedListItem;}
+	void				SetSelectedListItem(CTmplListItemView* inSelectedListItem) {mSelectedListItem = inSelectedListItem;}
+	
 
 	static ResIDT		sCommentTraitsID,
 						sLeftLabelTraitsID,
@@ -100,18 +111,11 @@ public:
 						sSeparatorPaneInfo,
 						sBevelPaneInfo,
 						sColorPaneInfo;
-						
-	static void			InitPaneInfos();
-	
-	static Boolean		SplitCaseValue(Str255 inString, 
-									   Str255 ** outRightPtr);
-	
-	static UInt32		CountAllSubPanes(LView * inView);
-	
 	
 protected:
 	LView *				mContentsView;
 	LScrollerView *		mContentsScroller;
+	CTmplListItemView *	mSelectedListItem;
 	SInt32				mYCoord;
 	PaneIDT				mCurrentID;
 	PaneIDT				mPaneIndex;
