@@ -1,25 +1,27 @@
 Rezilla acknowledgement
 -----------------------
 
-Rezilla
-Written for the Macintosh by Bernard Desgraupes <bdesgraupes@easyconnect.fr>
-© Copyright : Bernard Desgraupes, 2003
-All rights reserved.
-
-
+Here are the required credits about third party software used by Rezilla:
 
 ABalloon is ©1998-2002 by James W. Walker.
-	Permission is granted for use of ABalloon
-	free of charge, other than acknowledgement of
-	James W. Walker in any program using ABalloon
-	(perhaps in an About box or in accompanying
-	documentation).
+	" Permission is granted for use of ABalloon free of charge, other than
+	acknowledgement of James W. Walker in any program using ABalloon
+	(perhaps in an About box or in accompanying documentation)."
 				
-Waste
-	
-	
+WasteLib 2.0 is ©1998-2002 by Marco Piovanelli
+	"You are free to develop, use and distribute to end users binaries
+	built using the WASTE 2.0 static libraries, at no cost.  Moreover, you
+	are free to use and distribute to end users the WASTELib shared
+	library, as included in the standard distribution, at no cost.  All
+	WASTE-using applications must include the following credit line in
+	their about box and/or documentation:
+		WASTE Text Engine © 1993-2004 Marco Piovanelli
+	Use of source code in freeware applications is free."
 				
 				
 				
 				
-Last modification : 2003-06-12 12:57:00
+
+<http://sourceforge.net/projects/rezilla>
+
+Last modification: 2004-04-13 07:30:56

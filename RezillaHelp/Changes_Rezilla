@@ -41,7 +41,8 @@ Last modification: $Date$
 	* created, copied or dropped resources are inserted alphabetically
 	* IDs are sorted in increasing order in RezMapTable
 	* read-only state fulling working for rez map documents
-	* locked/unlocked icon in the lower left corner
+	* locked/unlocked icon in the lower left corner of rezmap windows and
+	  hexadecimal editor's windows to indicate read-only state
 	* 
 
 ================================================================================
