@@ -844,6 +844,7 @@ CRezillaApp::ReportOpenForkError(OSErr inError, FSSpec * inFileSpecPtr)
 		
 	  case opWrErr:
 		formatStr = CFCopyLocalizedString(CFSTR("NoOpenWritePermission"), NULL);
+		UMessageDialogs::ErrorMessageFromLocalizable(CFSTR("SystemError"), inError, rPPob_SimpleMessage);
 		break;
 		
 	  case permErr:
