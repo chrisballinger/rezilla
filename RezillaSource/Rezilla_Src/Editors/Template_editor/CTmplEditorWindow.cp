@@ -212,7 +212,7 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 	Rect				theFrame;
 	CTmplListItemView 	*prevListItemView, *currListItemView;
 	CTmplListButton 	*theMinusButton, *thePlusButton;
-	PaneIDT 			thePaneID, saveID, startID;
+	PaneIDT 			thePaneID, saveID;
 	LView				*theContainer, *theView;
 	SInt32 				startMark, theHeight;
 	ResType				theType;
@@ -258,13 +258,10 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 
 			// Adjust all IDs and positions
 			AdjustListOfPaneIDs(currListItemView, currListItemView->mFirstItemID, 0, false);
-// 			AdjustListOfPaneIDs(saveID, startID, true);
-// 			RenumberSubPanes(mContentsView, currListItemView->mLastItemID, currListItemView->mFirstItemID, false);
 			theContainer->PortToLocalPoint(topLeft(theFrame));
 			RecalcPositions(currListItemView, theFrame.top, -theHeight);
-// 			mCurrentID -= currListItemView->mLastItemID - currListItemView->mFirstItemID + 1;
-// 			mLastID = mCurrentID;
-			
+			mLastID = mPaneIDs.GetCount();
+
 			// Now delete the object
 			prevListItemView = currListItemView->mPrevItem;
 			if (prevListItemView) {
@@ -301,11 +298,9 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 					currListItemView = currListItemView->mNextItem;
 				}
 				currListItemView->CalcPortFrameRect(theFrame);
-				startID = currListItemView->mFirstItemID;
 			} else {
 				mYCoord += kTmplVertSkip;
 				thePlusButton->CalcPortFrameRect(theFrame);
-				startID = thePlusButton->GetPaneID();
 			}
 			
 			// Calculate the insertion position of the new list item
@@ -328,7 +323,6 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			} 
 			mYCoord = kTmplVertSep;
 			DoParseWithTemplate(startMark, true, currListItemView);
-// 			currListItemView->mLastItemID = mCurrentID - 1;
 			currListItemView->ResizeFrameBy(0, mYCoord, false);
 
 			mIndent -= kTmplListIndent * sublevel;
@@ -339,10 +333,10 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			AdjustCounterField(thePaneID - 2, 1);
 			
 			// Adjust all IDs and positions
-			AdjustListOfPaneIDs(prevListItemView, startID, saveID, true);
-// 			RenumberSubPanes(mContentsView, saveID, startID, true);
+			AdjustListOfPaneIDs(prevListItemView, thePlusButton->GetPaneID(), saveID, true);
 			RecalcPositions(currListItemView, theFrame.bottom + kTmplVertSkip, mYCoord + kTmplVertSkip);
-			mLastID = mCurrentID;
+// 			mLastID = mCurrentID;
+			mLastID = mPaneIDs.GetCount();
 
 			mContentsView->ResizeImageBy(0, mYCoord + kTmplVertSkip, true);
 			mContentsView->Show();
@@ -651,7 +645,6 @@ CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount,
 				return error;
 			} 
 			if (drawCtrl) {
-// 				currListItemView->mLastItemID = mCurrentID - 1;
 				currListItemView->ResizeFrameBy(0, mYCoord, false);
 				outYCoord += mYCoord + kTmplVertSkip;
 				mYCoord = outYCoord;
@@ -683,7 +676,6 @@ CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount,
 				} 
 				mYCoord = kTmplVertSep;
 				error = DoParseWithTemplate(inStartMark, true, theContainer);
-// 				currListItemView->mLastItemID = mCurrentID - 1;
 				currListItemView->ResizeFrameBy(0, mYCoord, false);
 				outYCoord += mYCoord + kTmplVertSkip;
 				mYCoord = outYCoord;
@@ -769,6 +761,9 @@ CTmplEditorWindow::ParseKeyedSection(ResType inType, Str255 inLabelString, LView
 		}
 	}
 	
+	// Store the current ID
+	mKeyIDs.AddItem(mCurrentID);
+	
 	// Find the corresponding KEYB tag
 	error = FindKeyStartForValue(inType, keyString, &sectionStart);
 	
@@ -787,10 +782,6 @@ CTmplEditorWindow::ParseKeyedSection(ResType inType, Str255 inLabelString, LView
 // ---------------------------------------------------------------------------
 //	¥ ParseDataForType												[public]
 // ---------------------------------------------------------------------------
-
-// TODO:
-//   - add error checking: insufficient data, required null bytes
-//   - insert in try blocks and catch exceptions
 
 OSErr
 CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView * inContainer)
@@ -1503,11 +1494,11 @@ CTmplEditorWindow::RetrieveDataWithTemplate()
 		delete mOutStream;
 	} 
 	mOutStream = new LHandleStream( ::NewHandle(0) );
-	mCurrentID = 1;
-	mPaneIndex = 1;
-	mListCount = 0;
 	
-	// Reinitialize the bit sequence globals
+	// Reinitialize variables
+	mCurrentID 			= 1;
+	mPaneIndex 			= 1;
+	mListCount 			= 0;
 	mBitSeqInProgress	= false;
 	mBitSeqValue		= 0;
 	mBitSeqBytesLen		= 0;
@@ -1574,9 +1565,11 @@ CTmplEditorWindow::RetrieveList(SInt32 inStartMark, ResType inType, SInt32 inCou
 		case 'LSTB':
 		case 'LSTZ':
 		Boolean readCtrl = (mPaneIndex < mLastID);
+		
 		do {
 			error = DoRetrieveWithTemplate(inStartMark, readCtrl);
 		} while (mPaneIndex < mLastID && error == noErr);
+		
 		// An LSTZ list is terminated by a NULL
 		if (inType == 'LSTZ') {
 			*mOutStream << (UInt8) 0x00;
@@ -1612,15 +1605,24 @@ CTmplEditorWindow::RetrieveKeyedSection(ResType inType)
 	OSErr		error = noErr;
 	Str255		keyString;
 	SInt32		sectionStart;
+	ArrayIndexT	index;
 	
 	// Retrieve and write the key value
-	WriteOutKeyValue(inType);
-	
-	// Get the corresponding position in the template
-	mKeyMarks.RemoveLastItem(sectionStart);
-	
-	// Parse the section
-	error = DoRetrieveWithTemplate(sectionStart, true);
+	error = WriteOutKeyValue(inType, &index);
+		
+	if (error == noErr) {
+		// Get the corresponding position in the template
+		if ( mKeyMarks.FetchItemAt(index, sectionStart) ) {
+			mKeyMarks.RemoveItemsAt(1, index);
+		} else {
+			error = err_TmplCantFindKeyPosition;
+		}
+		
+		if (error == noErr) {
+			// Parse the section
+			error = DoRetrieveWithTemplate(sectionStart, true);
+		}
+	} 
 
 	return error;
 }
@@ -2622,3 +2624,4 @@ CTmplEditorWindow::RevertWithTemplate()
 
 	return  error;
 }
+ 
