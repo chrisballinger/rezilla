@@ -567,11 +567,14 @@ CRezMapTable::TrackDrag(
 	} 
 	
 	// Store the TEXT information in the first item
-	StHandleLocker locker(textDataStream->GetDataHandle());
-	thePtr = (void *) *(textDataStream->GetDataHandle());
-	error = ::AddDragItemFlavor(theDragRef, 1, 'TEXT', 
-								*(textDataStream->GetDataHandle()), 
-								textDataStream->GetMarker(), 0L );
+	Handle theHandle = textDataStream->GetDataHandle();
+	if (theHandle != nil) {
+		StHandleLocker locker(theHandle);
+		thePtr = (void *) *theHandle;
+		error = ::AddDragItemFlavor(theDragRef, 1, 'TEXT', 
+									*(textDataStream->GetDataHandle()), 
+									textDataStream->GetMarker(), 0L );
+	} 
 	error = ::TrackDrag(theDragRef, &inMouseDown.macEvent, outlineRgn);
 	
 	// Invalidate LView's focus cache. The port may have changed during the drag.(UInt16) 
@@ -656,49 +659,52 @@ CRezMapTable::ReceiveDragItem(DragReference inDragRef,
 		if (error == noErr && theRezObjItem != nil) {
 			CRezObj * theRezObj = theRezObjItem->GetRezObj();
 			theType = theRezObj->GetType();
-			mRezMap->UniqueID(theType, theID);
+			theID = theRezObj->GetID();
+			 if ( mRezMap->ResourceExists(theType, theID) ) {
+				 mRezMap->UniqueID(theType, theID);
+			 }
 			GetOwnerDoc()->PasteResource(theType, theID, 
 										 theRezObj->GetData(), 
 										 theRezObj->GetName(), 
 										 theRezObj->GetAttributes() );			
-		}
-		
-		if (theRezObjItem != nil) {
-			::DisposePtr( (char*) theRezObjItem);
-		} 
-		
-	} else if (::GetFlavorFlags(inDragRef, inItemRef, flavorTypeHFS, &theFlags) == noErr) {
-		// Drag from the Finder
-		// What to do ?
-	} else {
-		UInt16      theFlavorsCount;
-		error = ::CountDragItemFlavors(inDragRef, inItemRef, &theFlavorsCount);
-		if (error == noErr) {
-			for (index = 1; index <= theFlavorsCount; index++) {
-				error = ::GetFlavorType(inDragRef, inItemRef, index, &theType);
-				error = ::GetFlavorDataSize(inDragRef, inItemRef, theType, &theSize);
-				
-				if (theType == 'TEXT' && theSize > 32*1024) {
-					theSize = 32*1024;  // kMaxChars
-				} 
+		 }
+		 
+		 if (theRezObjItem != nil) {
+			 ::DisposePtr( (char*) theRezObjItem);
+		 } 
+		 
+	 } else if (::GetFlavorFlags(inDragRef, inItemRef, flavorTypeHFS, &theFlags) == noErr) {
+		 // Drag from the Finder
+		 // What to do ?
+	 } else {
+		 UInt16      theFlavorsCount;
+		 error = ::CountDragItemFlavors(inDragRef, inItemRef, &theFlavorsCount);
+		 if (error == noErr) {
+			 for (index = 1; index <= theFlavorsCount; index++) {
+				 error = ::GetFlavorType(inDragRef, inItemRef, index, &theType);
+				 error = ::GetFlavorDataSize(inDragRef, inItemRef, theType, &theSize);
 				 
-				if (error == noErr) {
-					Handle theHandle = ::NewHandle(theSize);
-					error = ::GetFlavorData(inDragRef, inItemRef, theType, *theHandle, &theSize, 0);
-					
-					if (error == noErr) {
-						mRezMap->UniqueID(theType, theID);
-						GetOwnerDoc()->PasteResource(theType, theID, theHandle, nil, 0 );			
-					}
-					
-					if (theHandle != nil) {
-						::DisposeHandle(theHandle);
-					} 
-				}
-			}
-		}
-	}
-}
+				 if (theType == 'TEXT' && theSize > 32*1024) {
+					 theSize = 32*1024;  // kMaxChars
+				 } 
+				 
+				 if (error == noErr) {
+					 Handle theHandle = ::NewHandle(theSize);
+					 error = ::GetFlavorData(inDragRef, inItemRef, theType, *theHandle, &theSize, 0);
+					 
+					 if (error == noErr) {
+						 mRezMap->UniqueID(theType, theID);
+						 GetOwnerDoc()->PasteResource(theType, theID, theHandle, nil, 0 );			
+					 }
+					 
+					 if (theHandle != nil) {
+						 ::DisposeHandle(theHandle);
+					 } 
+				 }
+			 }
+		 }
+	 }
+ }
 
 
 

@@ -137,7 +137,7 @@ CRezMap::ResourceExists(ResType inType, short inID)
     theHandle = ::Get1Resource(inType, inID);
 	error = ::ResError();
 	::SetResLoad(true);
-    return (::ResError() == noErr);
+    return (theHandle != nil && ::ResError() == noErr);
 }
 
 

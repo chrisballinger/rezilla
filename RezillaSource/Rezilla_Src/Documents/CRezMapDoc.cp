@@ -381,7 +381,8 @@ CRezMapDoc::ObeyCommand(
 			short theID;
 			Handle theHandle = ::NewHandle(0);
 			
-			if ( UMiscUtils::GetTypeFromScrap(theType) == noErr && mRezMap->UniqueID(theType, theID) == noErr) {
+			if ( UMiscUtils::GetTypeFromScrap(theType) == noErr 
+				&& mRezMap->UniqueID(theType, theID) == noErr) {
 				UScrap::GetData(theType, theHandle);
 				PasteResource(theType, theID, theHandle);
 			} 
@@ -396,9 +397,6 @@ CRezMapDoc::ObeyCommand(
 		case cmd_ActionClear:
 		case cmd_ActionTyping: {
 // 			if (mReadOnly) {
-// 				AdjustImageToText();
-// 				ForceAutoScroll(oldDestRect);
-// 				UserChangedText();
 // 			}
 			break;
 		}
