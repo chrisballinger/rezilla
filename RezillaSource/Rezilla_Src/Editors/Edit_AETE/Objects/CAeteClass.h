@@ -24,9 +24,14 @@ class CAeteElement;
 class CAeteClass {
 
 public:
+				CAeteClass();
+				CAeteClass(	Str255	inName,
+							OSType	inID,
+							Str255	inDescription);
 				CAeteClass(CAeteStream *	inStream);
 				~CAeteClass();
 
+		void		AddProperty();
 		void		AddProperty( CAeteProperty * inProperty );
 		void		AddProperty(Str255	inName,
 								OSType	inID, 
@@ -35,9 +40,9 @@ public:
 								UInt16	inFlags);
 		void		RemoveProperty( ArrayIndexT inAtIndex );
 
-		void		AddElement( CAeteElement * inElement );
-		void		AddElement( OSType inKeyForms[] );
 		void		AddElement();
+		void		AddElement( CAeteElement * inElement );
+		void		AddElement( OSType inKeyForms[], UInt16 inCount = 1 );
 		void		RemoveElement( ArrayIndexT inAtIndex );
 
 		void		InstallDataStream();

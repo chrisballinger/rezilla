@@ -22,9 +22,17 @@ class CAeteParameter;
 class CAeteEvent {
 
 public:
+				CAeteEvent();
+				CAeteEvent(
+							Str255	inName,
+							Str255	inDescription,
+							OSType	inClass, 
+							OSType	inID,
+							UInt16	inFlags);
 				CAeteEvent(CAeteStream * inStream);
 				~CAeteEvent();
 
+		void		AddParameter();
 		void		AddParameter(CAeteParameter * inParameter);
 		void		AddParameter(Str255	inName,
 								OSType	inKeyword, 

@@ -23,9 +23,11 @@ class CAeteSuite;
 class CAete {
 
 public:
+				CAete();
 				CAete(CAeteStream *	inStream);
 				~CAete();
 
+		void		AddSuite();
 		void		AddSuite( CAeteSuite * inSuite );
 		void		AddSuite(Str255		inName,
 							 Str255		inDescription,

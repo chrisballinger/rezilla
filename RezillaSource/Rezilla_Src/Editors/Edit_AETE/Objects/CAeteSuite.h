@@ -2,7 +2,7 @@
 // CAeteSuite.h
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-21 06:58:59
+//             Last modification: 2005-01-21 10:04:43
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -26,19 +26,42 @@ class CAeteEnumeration;
 class CAeteSuite {
 
 public:
+				CAeteSuite();
+				CAeteSuite(
+							Str255	inName,
+							Str255	inDescription,
+							OSType	inID, 
+							UInt16	inLevel,
+							UInt16	inVersion);
 				CAeteSuite(CAeteStream * inStream);
 				~CAeteSuite();
 
+		void		AddEvent();
 		void		AddEvent(CAeteEvent * inEvent);
+		void		AddEvent(Str255	inName,
+							Str255	inDescription,
+							OSType	inClass, 
+							OSType	inID,
+							UInt16	inFlags);
 		void		RemoveEvent( ArrayIndexT inAtIndex );
 		
+		void		AddClass();
 		void		AddClass(CAeteClass * inClass);
+		void		AddClass(Str255	inName,
+							OSType	inID,
+							Str255	inDescription);
 		void		RemoveClass( ArrayIndexT inAtIndex );
 		
+		void		AddCompOp();
 		void		AddCompOp(CAeteCompOp * inCompOp);
+		void		AddCompOp(Str255 inName, 
+							 OSType inType, 
+							 Str255 inDescription);
 		void		RemoveCompOp( ArrayIndexT inAtIndex );
 		
+		void		AddEnumeration();
 		void		AddEnumeration(CAeteEnumeration * inEnum);
+		void		AddEnumeration(OSType inID);
 		void		RemoveEnumeration( ArrayIndexT inAtIndex );
 
 		void		InstallDataStream();
