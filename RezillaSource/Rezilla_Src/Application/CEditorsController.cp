@@ -2,7 +2,7 @@
 // CEditorsController.cp					
 // 
 //                       Created: 2004-06-11 10:48:38
-//             Last modification: 2004-08-09 10:05:57
+//             Last modification: 2004-11-08 15:35:14
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -24,6 +24,7 @@ PP_Begin_Namespace_PowerPlant
 #include "CTemplatesController.h"
 #include "CRezMap.h"
 #include "CRezMapDoc.h"
+#include "CRezMapWindow.h"
 #include "CRezMapTable.h"
 #include "CRezObj.h"
 #include "CRezType.h"
@@ -157,6 +158,8 @@ CEditorsController::HasEditorForType(ResType inType, ResType * substType)
 	switch (inType) {
 		case 'TEXT':
 		case 'styl':
+		case 'thng':
+		case 'thga':
 		result = true;
 		break;
 	}
@@ -170,22 +173,51 @@ CEditorsController::HasEditorForType(ResType inType, ResType * substType)
 // ---------------------------------------------------------------------------
 
 void
-CEditorsController::InvokeCustomEditor(LCommander* inSuper, 
-						   CRezMapTable* inSuperMap, 
-						   CRezObj* inRezObj,
-						   Boolean inReadOnly)
+CEditorsController::InvokeCustomEditor(CRezMapDoc* inRezMapDoc, 
+									   CRezObjItem * inRezObjItem)
 {
-	ResType theType = inRezObj->GetType();
+	CRezMapTable *	inSuperMap = inRezMapDoc->GetRezMapWindow()->GetRezMapTable();
+	CRezObj *		inRezObj = inRezObjItem->GetRezObj();
+	Boolean			inReadOnly = inRezMapDoc->IsReadOnly();
+	ResType			theType = inRezObj->GetType();
+	Size			theSize;
+	
 	switch (theType) {
 		case 'styl':
 		// Check if there is an associated TEXT resource
 		CRezObj * textRezObj = NULL;
 		OpenOrCreateWithTypeAndID(inSuperMap, 'TEXT', inRezObj->GetID(), &textRezObj);
-		new CTEXT_EditorDoc(inSuper, inSuperMap, textRezObj, 'TEXT', inReadOnly);
+		new CTEXT_EditorDoc( (LCommander *) inRezMapDoc, inSuperMap, textRezObj, 'TEXT', inReadOnly);
 		break;
 
 		case 'TEXT':
-		  new CTEXT_EditorDoc(inSuper, inSuperMap, inRezObj, 'TEXT', inReadOnly);
+		  new CTEXT_EditorDoc( (LCommander *) inRezMapDoc, inSuperMap, inRezObj, 'TEXT', inReadOnly);
+		break;
+		
+		case 'thng':
+		// A 'thng' resource has three different formats but contains 
+		// no field to determine its version: 
+		// - version 0 had fixed a size of 44 bytes,
+		// - version 1 adds a list of 12 bytes item and 2 bytes for the
+		//     list count. Size = 44 + 12*n + 2
+		// - version 2 adds 6 bytes. Size = 44 + 12*n + 2 + 6
+		theSize = inRezObjItem->GetRezObj()->GetSize();
+		if (theSize == 44) {
+			theType = 'thn0';
+		} else if ( ((theSize - 46) % 12) == 0 ) {
+			theType = 'thn1';
+		} 
+		inRezMapDoc->TryEdit(inRezObjItem, cmd_TmplEditAsRez, theType);
+		break;
+		
+		case 'thga':
+		// A 'thga' resource has two different formats with fixed size.
+		// Initial version had 64 bytes, current version has 72 bytes
+		theSize = inRezObjItem->GetRezObj()->GetSize();
+		if (theSize == 64) {
+			theType = 'thg0';
+		} 
+		inRezMapDoc->TryEdit(inRezObjItem, cmd_TmplEditAsRez, theType);
 		break;
 		
 	}
