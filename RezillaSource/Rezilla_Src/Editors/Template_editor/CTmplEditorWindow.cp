@@ -977,13 +977,23 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		AlignBytesRead(4);
 		break;
 
-		case 'ALRT':
-		// Post an alert with description string
+		case 'AL08':
+		// Align to 8-byte boundary
+		AlignBytesRead(8);
+		break;
+
+		case 'AL16':
+		// Align to 16-byte boundary
+		AlignBytesRead(16);
 		break;
 
 		case 'AWRD':
 		// Word align
 		AlignBytesRead(2);
+		break;
+
+		case 'ALRT':
+		// Post an alert with description string
 		break;
 
 		case 'BBIT':
@@ -1003,6 +1013,14 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 			AddStaticField(inType, theString, inContainer);
 			AddCheckField( ((theUInt8 & (1 << i)) > 0), inType, inContainer);	
 		}
+		break;
+
+		case 'BCNT':
+		// Byte Count for LSTC lists
+		if (mRezStream->GetMarker() < mRezStream->GetLength()) {
+			*mRezStream >> theUInt8;
+		} 
+		mItemsCount = theUInt8;
 		break;
 
 		case 'BFLG':
@@ -1061,8 +1079,8 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		} 
 		::NumToString( (long) theUInt8, numStr);
 		AddStaticField(inType, inLabelString, inContainer);
-		AddEditField(numStr, inType, 3, 0, 
-					 UKeyFilters::SelectTEKeyFilter(keyFilter_Integer), inContainer);
+		AddEditField(numStr, inType, 4, 0, 
+					 UKeyFilters::SelectTEKeyFilter(keyFilter_NegativeInteger), inContainer);
 		break;
 
 		case 'DLNG':
@@ -1072,8 +1090,8 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		} 
 		::NumToString( (long) theUInt32, numStr);
 		AddStaticField(inType, inLabelString, inContainer);
-		AddEditField(numStr, inType, 5, 0, 
-					 UKeyFilters::SelectTEKeyFilter(keyFilter_Integer), inContainer);
+		AddEditField(numStr, inType, 6, 0, 
+					 UKeyFilters::SelectTEKeyFilter(keyFilter_NegativeInteger), inContainer);
 		break;
 
 		case 'DVDR':
@@ -1089,8 +1107,8 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		} 
 		::NumToString( (long) theUInt16, numStr);
 		AddStaticField(inType, inLabelString, inContainer);
-		AddEditField(numStr, inType, 10, 0, 
-					 UKeyFilters::SelectTEKeyFilter(keyFilter_Integer), inContainer);
+		AddEditField(numStr, inType, 11, 0, 
+					 UKeyFilters::SelectTEKeyFilter(keyFilter_NegativeInteger), inContainer);
 		break;
 
 		case 'ECST':
@@ -1198,14 +1216,34 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 
 		case 'LNGC':
 		case 'RGNC':
-		case 'SCPC':
-		// A language, region or script code
-		if (mRezStream->GetMarker() < mRezStream->GetLength() - 1) {
-			*mRezStream >> theUInt16;
-		} 
-		::NumToString( (long) theUInt16, numStr);
-		AddMenuPopup(numStr, inType, inLabelString, inContainer);
-		break;
+		case 'SCPC': {
+			// A language, region or script code
+			ResIDT resID;
+			
+			if (mRezStream->GetMarker() < mRezStream->GetLength() - 1) {
+				*mRezStream >> theUInt16;
+			} 
+			::NumToString( (long) theUInt16, numStr);
+
+			switch (inType) {
+				case 'LNGC':
+				resID = STRx_LanguageCodes;
+				break;
+
+				case 'RGNC':
+				resID = STRx_RegionCodes;
+				break;
+
+				case 'SCPC':
+				resID =STRx_ScriptCodes ;
+				break;
+			}
+			
+			AddStaticField(inType, inLabelString, inContainer);
+			AddEditPopup(numStr, inType, 6, kTmplPopupFieldWidth, 0, 
+						 UKeyFilters::SelectTEKeyFilter(keyFilter_NegativeInteger), resID, inContainer);
+			break;
+		}
 
 		case 'LSTB':
 		// List Begin. Ends at the end of the resource.
@@ -1233,7 +1271,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		
 		case 'OCNT':
 		case 'WCNT':
-		// One Count. Terminated by a one-based word count that starts 
+		// One-based Count. Terminated by a one-based word count that starts 
 		// the sequence (as in 'STR#' resources).
 		if (mRezStream->GetMarker() < mRezStream->GetLength() - 1) {
 			*mRezStream >> theUInt16;
@@ -1293,8 +1331,8 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 			mYCoord += kTmplRectVertSkip;
 			AddStaticField(inType, inLabelString, inContainer);
 			mYCoord -= kTmplRectVertSkip;
-			AddRectField(theTop, theLeft, theBottom, theRight, inType, 5, 0, 
-						 UKeyFilters::SelectTEKeyFilter(keyFilter_Integer), inContainer);
+			AddRectField(theTop, theLeft, theBottom, theRight, inType, 6, 0, 
+						 UKeyFilters::SelectTEKeyFilter(keyFilter_NegativeInteger), inContainer);
 			break;
 		}
 
@@ -1319,7 +1357,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
  		break;
 
 		case 'ZCNT':
-		// Zero Count. Terminated by a zero-based word count that starts 
+		// Zero-based Count. Terminated by a zero-based word count that starts 
 		// the sequence (as in 'DITL' resources).
 		if (mRezStream->GetMarker() < mRezStream->GetLength() ) {
 			*mRezStream >> theUInt16;
@@ -1473,7 +1511,7 @@ CTmplEditorWindow::AddEditField(Str255 inValue,
 	// Store the template's type in the userCon field
 	theEditText->SetUserCon(inType);
 	
-	// Let the window listen to this button
+	// Let the window listen to this field
 	theEditText->AddListener(this);
 
 	// Advance the counters
@@ -2136,7 +2174,7 @@ CTmplEditorWindow::AddCasePopup(ResType inType, Str255 inLabel, LView * inContai
 	inContainer->GetFrameSize(theFrame);
 	sBevelPaneInfo.left			= theFrame.width - sBevelPaneInfo.width - 2;
 	sBevelPaneInfo.top			= mYCoord - sEditPaneInfo.height -kTmplVertSep -1;
-	sSeparatorPaneInfo.paneID	= mCurrentID;
+	sBevelPaneInfo.paneID		= mCurrentID;
 	sBevelPaneInfo.superView	= inContainer;
 
 	CTmplBevelButton * theBevelButton = new CTmplBevelButton(sBevelPaneInfo, msg_TmplCasePopup, kControlBevelButtonSmallBevelProc,
@@ -2180,6 +2218,90 @@ CTmplEditorWindow::AddCasePopup(ResType inType, Str255 inLabel, LView * inContai
 	theBevelButton->SetUserCon( (long) theEditText);
 	
 	// Advance the counters. mYCoord has already been increased by the edit field
+	mCurrentID++;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ AddEditPopup													[public]
+// ---------------------------------------------------------------------------
+
+void
+CTmplEditorWindow::AddEditPopup(Str255 inValue, 
+								OSType inType,
+								SInt16 inMaxChars, 
+								SInt16 inWidth,
+								UInt8 inAttributes,
+								TEKeyFilterFunc inKeyFilter, 
+								ResIDT inResourceID,
+								LView * inContainer)
+{
+	register char *	p;
+	SDimension16	theFrame;
+	SInt16			index = 1;
+	ResType			theType;
+	SInt32			currMark, theLength = mTemplateStream->GetLength();
+	Str255			theString;
+	char 			charString[256];
+
+	inContainer->GetFrameSize(theFrame);
+
+	sEditPaneInfo.left		= kTmplLeftMargin + kTmplLabelWidth + kTmplHorizSep;
+	sEditPaneInfo.width		= inWidth;
+	sEditPaneInfo.top		= mYCoord - 3;
+	sEditPaneInfo.paneID	= mCurrentID;
+	sEditPaneInfo.superView	= inContainer;
+
+	LEditText * theEditText = new LEditText(sEditPaneInfo, this, inValue, sEditTraitsID, 
+											msg_TmplModifiedItem, inMaxChars, inAttributes, inKeyFilter);
+	ThrowIfNil_(theEditText);
+
+	// Store the template's type in the userCon field
+	theEditText->SetUserCon(inType);
+	
+	// Let the window listen to this field
+	theEditText->AddListener(this);
+
+	// Incr the pane ID
+	mCurrentID++;
+
+	// Now build the popup
+	sBevelPaneInfo.left			= sEditPaneInfo.left + kTmplHorizSep;
+	sBevelPaneInfo.top			= sEditPaneInfo.top + 1;
+	sBevelPaneInfo.paneID		= mCurrentID;
+	sBevelPaneInfo.superView	= inContainer;
+
+	CTmplBevelButton * theBevelButton = new CTmplBevelButton(sBevelPaneInfo, msg_TmplPopupField, kControlBevelButtonSmallBevelProc,
+													 rMENU_TemplateCases, kControlBevelButtonMenuOnBottom, 
+													 kControlContentTextOnly, 0, 0, Str_Empty, 1, 
+													 kControlBevelButtonPlaceNormally, teFlushDefault, 0, 
+													 kControlBevelButtonAlignCenter, Point_00, true);													 
+	ThrowIfNil_(theBevelButton);
+
+	// Let the window listen to this menu
+	theBevelButton->AddListener(this);
+	
+	// Populate the popup with the items from the STR# resource with ID inResourceID
+	while (true) {
+		GetIndString(theString, inResourceID, index);
+		if (theString[0]) {
+			CopyPascalStringToC(theString, charString);
+			p = strrchr((char *) charString, '=');
+			if (p != nil) {
+				theString[0] = p - (char *) charString;
+				theBevelButton->InsertMenuItem(theString, index, true);
+			} 
+			index++;
+		} else {
+			break;
+		}
+	} 
+	
+	// Store a pointer to the associated edit field
+	theBevelButton->SetUserCon( (long) theEditText);
+	
+	// Advance the counters
+	mYCoord += sEditPaneInfo.height + kTmplVertSep;
 	mCurrentID++;
 }
 
@@ -2355,9 +2477,23 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		AlignBytesWrite(4);
 		break;
 
+		case 'AL08':
+		// Align to 8-byte boundary
+		AlignBytesWrite(8);
+		break;
+
+		case 'AL16':
+		// Align to 16-byte boundary
+		AlignBytesWrite(16);
+		break;
+
 		case 'AWRD':
 		// Word align
 		AlignBytesWrite(2);
+		break;
+
+		case 'ALRT':
+		// Posted an alert. Just skip.
 		break;
 
 		case 'BBIT':
@@ -2375,6 +2511,16 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 			mCurrentID++;
 		}
 		*mOutStream << theChar;
+		break;
+
+		case 'BCNT':
+		// Byte count for LSTC lists
+		theStaticText = dynamic_cast<LStaticText *>(this->FindPaneByID(mCurrentID));
+		theStaticText->GetDescriptor(theString);	
+		::StringToNum( theString, &theLong);
+		*mOutStream << (UInt8) theLong;
+		mItemsCount = (UInt16) theLong;
+		mCurrentID++;
 		break;
 
 		case 'BFLG':
@@ -2541,6 +2687,21 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		mCurrentID++;
 		break;
 
+		case 'LABL':
+		// It is a comment. Just skip.
+		break;
+
+		case 'LNGC':
+		case 'RGNC':
+		case 'SCPC': 
+		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
+		theEditText->GetDescriptor(numStr);	
+		::StringToNum( numStr, &theLong);
+		*mOutStream << (SInt16) theLong;
+		// Skip the field and bevel popup button
+		mCurrentID += 2;
+		break;
+
 		case 'LSTB':
 		// List Begin. Ends at the end of the resource.
 		break;
@@ -2572,7 +2733,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		
 		case 'OCNT':
 		case 'WCNT':
-		// One count for LSTC lists
+		// One-based count for LSTC lists
 		theStaticText = dynamic_cast<LStaticText *>(this->FindPaneByID(mCurrentID));
 		theStaticText->GetDescriptor(theString);	
 		::StringToNum( theString, &theLong);
@@ -2652,7 +2813,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		break;
 
 		case 'ZCNT':
-		// Zero count for LSTC lists
+		// Zero-based count for LSTC lists
 		theStaticText = dynamic_cast<LStaticText *>(this->FindPaneByID(mCurrentID));
 		theStaticText->GetDescriptor(theString);	
 		::StringToNum( theString, &theLong);

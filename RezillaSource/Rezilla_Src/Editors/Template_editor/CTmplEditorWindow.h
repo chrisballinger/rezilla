@@ -177,11 +177,20 @@ private:
 	
 	CTmplListItemView *	AddListItemView(CTmplListItemView * inPrevListItemView, LView * inContainer);
 	
-	void				AddSeparatorLine(LView * inContainer);
+	void			AddSeparatorLine(LView * inContainer);
 
-	void				AddCasePopup(ResType inType, 
+	void			AddCasePopup(ResType inType, 
 									  Str255 inLabel, 
 									  LView * inContainer);
+	
+	void			AddEditPopup(Str255 inValue, 
+									OSType inType,
+									SInt16 inMaxChars, 
+									SInt16 inWidth,
+									UInt8 inAttributes,
+									TEKeyFilterFunc inKeyFilter, 
+									ResIDT inResourceID,
+									LView * inContainer);
 	
 	ExceptionCode	AlignBytesRead(UInt8 inStep);
 	
