@@ -18,10 +18,22 @@
 
 class CRezMap;
 
+struct RezTypId {
+	ResType	type;
+	short	id;
+};
+
 
 class CRezCompare {
-
+	
 public:
+
+	enum {
+		list_OnlyInOld,
+		list_OnlyInNew,
+		list_Differ
+	};
+	
 				CRezCompare(LCommander* inSuper);
 				CRezCompare(LCommander* inSuper,
 							CRezMap * inOldMap, 
@@ -31,15 +43,26 @@ public:
 							FSSpec& inNewFileSpec);
 				~CRezCompare();
 
-		void				RunRezCompareDialog();
+		void			RunRezCompareDialog();
+		void			DoCompareRezMaps();
+		void			CompareTypes(ResType inType);
+		UInt32			CompareTwoResources(ResType inType, short theID);
 
+		Boolean			HasDifferences();
+		
 protected:
-		LCommander* mSuperCommander;
-		Boolean		mIgnoreNames;
-		Boolean		mIgnoreAttrs;
-		CRezMap * 	mOldMap;
-		CRezMap * 	mNewMap;
+		LCommander* 		mSuperCommander;
+		Boolean				mIgnoreNames;
+		Boolean				mIgnoreAttrs;
+		CRezMap * 			mOldMap;
+		CRezMap * 			mNewMap;
+		TArray<RezTypId *>	mOnlyInOldList;
+		TArray<RezTypId *>	mOnlyInNewList;
+		TArray<RezTypId *>	mDifferList;
 
+		void		AddTypeToArray(ResType inType, SInt16 inWhichList);
+		void		AddResourceToArray(ResType inType, short inID, SInt16 inWhichList);
+		
 };
 
 
