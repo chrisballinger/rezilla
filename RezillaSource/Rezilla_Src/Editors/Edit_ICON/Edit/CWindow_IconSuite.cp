@@ -46,7 +46,7 @@ CWindow_IconSuite::OpenPaintWindow( CRezObj * inRezObj, ResIDT inPPobID )
 	}
 	catch( ... )
 	{
-		delete theWindow;
+		if (theWindow) { delete theWindow; } 
 		throw;
 	}
 	
@@ -108,14 +108,16 @@ CWindow_IconSuite::FinishCreateSelf()
 void
 CWindow_IconSuite::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 {
+#pragma unused(inMap, inResID)
+
 	// Store the current pattern's data.
 	ImageToNthBitmap(mCurrentIndex);
 	
-	Size totalSize = mTotalCount * sizeof(Pattern);
+	Size totalSize = mTotalCount * sizeof(SICN);
 	Handle	srcHandle = mBitmapsArray.GetItemsHandle();
 	
-	// First two bytes to store the patterns count
-	Handle	outHandle = ::NewHandle(totalSize + 2);
+	// This is a simple array. The count of items is not stored.
+	Handle	outHandle = ::NewHandle(totalSize);
 	ThrowIfMemFail_( outHandle );
 		
 	try
@@ -123,8 +125,7 @@ CWindow_IconSuite::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 		StHandleLocker	srcLocker(srcHandle);
 		StHandleLocker	outLocker(outHandle);
 		
-		**(UInt16 **) outHandle = mTotalCount;
-		::BlockMoveData( *srcHandle, (*outHandle) + 2, totalSize );
+		::BlockMoveData( *srcHandle, (*outHandle), totalSize );
 		
 		CRezObj *	theRes = mOwnerDoc->GetRezObj();
 		ThrowIfNil_( theRes );
@@ -170,7 +171,7 @@ CWindow_IconSuite::ParseBitmapSuite( Handle inHandle, COffscreen **outBW  )
 		} 
 		
 		StHandleLocker	locker( (Handle) inHandle );
-
+		
 		mTotalCount = theSize / 32;
 		
 		p = (SICN *) *inHandle;
