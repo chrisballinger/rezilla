@@ -2,7 +2,7 @@
 // CTEXT_EditorView.cp
 // 
 //                       Created: 2004-06-19 13:23:32k
-//             Last modification: 2004-07-02 18:06:48
+//             Last modification: 2004-08-09 11:00:33
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -22,7 +22,7 @@
 #include "CRezillaApp.h"
 #include "CRezillaPrefs.h"
 #include "CRezMapDoc.h"
-#include "CRezEditor.h"
+// #include "CEditorsController.h"
 #include "CTEXT_EditorDoc.h"
 #include "CEditorDoc.h"
 #include "CRezMapTable.h"

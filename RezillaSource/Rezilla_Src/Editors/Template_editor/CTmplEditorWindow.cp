@@ -18,7 +18,7 @@
 #include "CTmplListItemView.h"
 #include "CTmplListButton.h"
 #include "CTmplBevelButton.h"
-#include "CRezEditor.h"
+#include "CTemplatesController.h"
 #include "CRezObj.h"
 #include "CRezillaApp.h"
 #include "CRezillaPrefs.h"
@@ -768,7 +768,7 @@ CTmplEditorWindow::IsDirty()
 void
 CTmplEditorWindow::CreateTemplateStream()
 {
-	Handle theHandle = CRezEditor::GetTemplateHandle( mOwnerDoc->GetRezObj()->GetType() );
+	Handle theHandle = CTemplatesController::GetTemplateHandle( mOwnerDoc->GetRezObj()->GetType() );
 	mTemplateStream = new LHandleStream(theHandle);	
 }
  

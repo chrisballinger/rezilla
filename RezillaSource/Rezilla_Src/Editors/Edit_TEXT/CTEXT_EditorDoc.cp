@@ -22,7 +22,7 @@ PP_Begin_Namespace_PowerPlant
 #include "CTEXT_EditorDoc.h"
 #include "CTEXT_EditorWindow.h"
 #include "CTEXT_EditorView.h"
-#include "CRezEditor.h"
+#include "CEditorsController.h"
 #include "RezillaConstants.h"
 #include "CRezFile.h"
 #include "CRezMap.h"
@@ -279,7 +279,7 @@ CTEXT_EditorDoc::SaveStylResource(StScrpHandle	inScrapHandle)
 	// Open or create a 'styl' resource and save the StScrpHandle therein
 	CRezObj * stylRezObj = NULL;
 	
-	CRezEditor::OpenOrCreateWithTypeAndID(mRezMapTable, 'styl', mRezObj->GetID(), &stylRezObj);
+	CEditorsController::OpenOrCreateWithTypeAndID(mRezMapTable, 'styl', mRezObj->GetID(), &stylRezObj);
 	if (stylRezObj != NULL) {
 		// Copy to resource's data handle
 		stylRezObj->SetData( (Handle) inScrapHandle);

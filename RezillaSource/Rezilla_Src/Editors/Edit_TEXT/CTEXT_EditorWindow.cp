@@ -2,7 +2,7 @@
 // CTEXT_EditorWindow.cp					
 // 
 //                       Created: 2004-06-17 12:46:55
-//             Last modification: 2004-07-01 18:13:09
+//             Last modification: 2004-08-09 11:00:24
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -16,7 +16,7 @@
 #include "CTEXT_EditorDoc.h"
 #include "CTEXT_EditorWindow.h"
 #include "CTEXT_EditorView.h"
-#include "CRezEditor.h"
+// #include "CEditorsController.h"
 #include "CRezObj.h"
 #include "CRezillaApp.h"
 #include "CRezMapTable.h"

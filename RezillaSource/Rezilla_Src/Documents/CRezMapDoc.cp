@@ -2,7 +2,7 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2004-06-26 08:56:46
+//             Last modification: 2004-08-09 10:43:45
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -23,7 +23,8 @@ PP_Begin_Namespace_PowerPlant
 #include "CRezillaApp.h"
 #include "CRezillaPrefs.h"
 #include "CRezFile.h"
-#include "CRezEditor.h"
+#include "CEditorsController.h"
+#include "CTemplatesController.h"
 #include "CTextFileStream.h"
 #include "CRezMap.h"
 #include "CRezMapTable.h"
@@ -459,16 +460,16 @@ CRezMapDoc::TryEdit(CRezObjItem * inRezObjItem, CommandT inCommand, int & outCou
 	
 	switch (inCommand) {		
 		case cmd_EditRez:
-		if ( CRezEditor::HasEditorForType(theType) ) {
+		if ( CEditorsController::HasEditorForType(theType) ) {
 			
 			// call the right GUI editor
-			CRezEditor::InvokeCustomEditor(this, mRezMapWindow->GetRezMapTable(), inRezObjItem->GetRezObj(), mReadOnly);
+			CEditorsController::InvokeCustomEditor(this, mRezMapWindow->GetRezMapTable(), inRezObjItem->GetRezObj(), mReadOnly);
 			
 			break;
 		} // else fall through to template editing...
 						
 		case cmd_TmplEditRez:
-		if ( CRezEditor::HasTemplateForType(theType) ) {
+		if ( CTemplatesController::HasTemplateForType(theType) ) {
 			new CTmplEditorDoc(this, mRezMapWindow->GetRezMapTable(), inRezObjItem->GetRezObj(), mReadOnly);
 			break;
 		} else {
