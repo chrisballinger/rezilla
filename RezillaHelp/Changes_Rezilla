@@ -28,7 +28,12 @@ This changes log is in reverse chronological order (from bottom to top).
 $Date$
 
 ================================================================================
-= 1.0.5a2	                             last update: 
+= 1.0.5a3	                             last update: 
+================================================================================
+¥ 
+
+================================================================================
+= 1.0.5a2	                             last update: 2005-01-08 12:10:31
 ================================================================================
 ¥ Added a bitmap editor for resources of type:
 	  'cicn', 'crsr', 'CURS', 'icl4', 'icl8', 'icm#', 'icm4', 'icm8',
@@ -37,7 +42,6 @@ $Date$
 ¥ Added Text editor doc in the help files.
 ¥ Added templates for 11 icon types:
   'ICON' 'ICN#' 'SICN' 'icl4' 'icl8' 'icm#' 'icm4' 'icm8' 'ics#' 'ics4' 'ics8'.
-¥ 
 
 ================================================================================
 = 1.0.5a1	                             last update: 2004-12-16 10:24:52
