@@ -1409,14 +1409,14 @@ CRezObjItem *
 CRezMapDoc::CreateNewRes(ResType inType, short inID, Str255* inName, short inAttrs)
 {
 	CRezTypeItem * theRezTypeItem;
-	CRezObjItem *oldRezObjItem, *newRezObjItem;
+	CRezObjItem *oldRezObjItem, *newRezObjItem = NULL;
 	CRezType * theRezType;
-	Boolean replacing = false;
+	Boolean replacing = false, applyToOthers = false;
 	
 	if ( mRezMap->ResourceExists(inType, inID) ) {
-		SInt16 result = UMessageDialogs::AskYesNoFromLocalizable(CFSTR("AlreadyExistingID"), rPPob_AskUniqueID);
+		SInt16 answer = UMessageDialogs::AskSolveUidConflicts(inType, inID, applyToOthers, false);
 		
-		switch (result) {
+		switch (answer) {
 			case answer_Do:
 			// Unique ID
 			mRezMap->UniqueID(inType, inID);
@@ -1428,7 +1428,7 @@ CRezMapDoc::CreateNewRes(ResType inType, short inID, Str255* inName, short inAtt
 			break;
 			
 			case answer_Cancel:
-			return;
+			return newRezObjItem;
 			break;
 		}
 	} 
@@ -1458,7 +1458,7 @@ CRezMapDoc::CreateNewRes(ResType inType, short inID, Str255* inName, short inAtt
 	ThrowIfNil_(newRezObjItem);
 		
 	// Add the resource to the resource map (err -194 = addResFailed)
-	OSErr error = newRezObjItem->GetRezObj()->Add();
+	newRezObjItem->GetRezObj()->Add();
 	
 	// Set the attributes
 	newRezObjItem->GetRezObj()->SetAttributes(inAttrs);
@@ -1702,8 +1702,6 @@ CRezMapDoc::PasteRezMap(CRezMap * srcRezMap)
 			} 
 		}
 	}
-	
-	return;
 }
 
 
