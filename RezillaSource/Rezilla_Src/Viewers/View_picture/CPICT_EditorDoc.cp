@@ -21,16 +21,9 @@ PP_Begin_Namespace_PowerPlant
 
 #include "CPICT_EditorDoc.h"
 #include "CPICT_EditorWindow.h"
-// #include "CPICT_EditorView.h"
-#include "CEditorsController.h"
+#include "CPICT_EditorView.h"
 #include "RezillaConstants.h"
-#include "CRezFile.h"
-#include "CRezMap.h"
-#include "CRezMapTable.h"
-#include "CRezMapDoc.h"
 #include "CRezObj.h"
-#include "CRezillaApp.h"
-#include "CRezillaPrefs.h"
 #include "CWindowMenu.h"
 #include "UCodeTranslator.h"
 #include "UDialogBoxHandler.h"
@@ -38,12 +31,8 @@ PP_Begin_Namespace_PowerPlant
 #include "UMiscUtils.h"
 
 #include <LWindow.h>
-#include <LFile.h>
 #include <UStandardDialogs.h>
 #include <LRadioGroupView.h>
-#include <LCheckBox.h>
-#include <LEditField.h>
-#include <LDataStream.h>
 
 #include <LString.h>
 #include <PP_Messages.h>
@@ -71,7 +60,7 @@ CPICT_EditorDoc::CPICT_EditorDoc(LCommander* inSuper,
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CPICT_EditorDoc							Destructor				  [public]
+//	¥ ~CPICT_EditorDoc							Destructor			  [public]
 // ---------------------------------------------------------------------------
 
 CPICT_EditorDoc::~CPICT_EditorDoc()
@@ -104,20 +93,17 @@ CPICT_EditorDoc::Initialize()
 	// Add the window to the window menu.
 	gWindowMenu->InsertWindow( mPictWindow );
 		
-	// Install the contents according to the TMPL
+	// Install the contents
 	if (mRezObj != nil) {
 		Handle rezData = mRezObj->GetData();
 		
-		if (rezData != nil) {
-			Rect theRect;
-			short theSize;
-			
+		if (rezData != nil) {			
 			// Work with a copy of the handle
 			::HandToHand(&rezData);
 			mPictWindow->InstallPict(rezData);
 			
-			theRect = (**(PicHandle)rezData).picFrame;
-			mPictWindow->SetSizeFields(theRect);			
+			// Don't mark as modified
+			mPictWindow->SetDirty(false);
 		} 
 	} 
 		
@@ -191,14 +177,13 @@ CPICT_EditorDoc::AllowSubRemoval(
 // ---------------------------------------------------------------------------
 //	¥ AskSaveChanges												  [public]
 // ---------------------------------------------------------------------------
-//	Ask user whether to save changes before closing the Document or
-//	quitting the Application
+//	Ask user whether to save changes before closing the Document.
 
 SInt16
 CPICT_EditorDoc::AskSaveChanges(
 	bool /* inQuitting */)
 {
-	return UMessageDialogs::AskYesNoFromLocalizable(CFSTR("SaveTextEditorWindow"), rPPob_AskYesNoMessage);
+	return UMessageDialogs::AskYesNoFromLocalizable(CFSTR("SavePictEditorWindow"), rPPob_AskYesNoMessage);
 }
 
 
@@ -206,11 +191,11 @@ CPICT_EditorDoc::AskSaveChanges(
 //  ¥ GetModifiedResource										[protected]
 // ---------------------------------------------------------------------------
 
-// Handle
-// CPICT_EditorDoc::GetModifiedResource() 
-// {
-// 	return mPictWindow->GetModifiedPict();
-// }
+Handle
+CPICT_EditorDoc::GetModifiedResource() 
+{
+	return (Handle) mPictWindow->GetContentsView()->GetPictureH();
+}
 
 
 // ---------------------------------------------------------------------------------

@@ -2,7 +2,7 @@
 // CPICT_EditorDoc.h				
 // 
 //                       Created: 2004-12-06 14:54:09
-//             Last modification: 2004-12-06 20:36:20
+//             Last modification: 2004-12-08 00:38:32
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -55,7 +55,7 @@ public:
 protected:
 	CPICT_EditorWindow *		mPictWindow;
 	
-// 	virtual Handle		GetModifiedResource();
+	virtual Handle		GetModifiedResource();
 
 private:
 	void				Initialize();
