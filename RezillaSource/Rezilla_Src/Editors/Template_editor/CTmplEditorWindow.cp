@@ -358,16 +358,14 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		
 		
 		case msg_TmplCasePopup: {
-			register char *	p;
 			STmplBevelInfo	theBevelInfo = *((STmplBevelInfo *) ioParam);								
 			LEditText *		theEditText;
 			CTmplBevelButton *	theBevel;
 			SInt32			firstMark, currMark;
 			Str255			theString;
-			char 			charString[256];
+			Str255 * 		rightPtr;
 			ResType			theType;
 			SInt16			i, choice;
-			SInt32			len;
 			
 			choice = theBevelInfo.menuChoice;
 			theBevel = dynamic_cast<CTmplBevelButton *>(theBevelInfo.selfPtr);
@@ -382,12 +380,9 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 					*mTemplateStream >> theString;
 					*mTemplateStream >> theType;
 				}
-				CopyPascalStringToC(theString, charString);
-				p = strrchr((char *) charString, '=');
-				if (p != nil) {
-					len = (p - (char *) charString) + 1;
-					CopyCStringToPascal(charString + len, theString);
-					theEditText->SetDescriptor(theString);
+
+				if ( SplitCaseValue(theString, &rightPtr) ) {
+					theEditText->SetDescriptor(*rightPtr);
 				} 
 				mTemplateStream->SetMarker(currMark, streamFrom_Start);
 			}
@@ -396,14 +391,12 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		
 		
 		case msg_TmplPopupField: {
-			register char *	p;
 			STmplBevelInfo	theBevelInfo = *((STmplBevelInfo *) ioParam);								
 			CTmplBevelButton *	theBevel;
 			LEditText *		theEditText;
 			Str255			theString;
-			char 			charString[256];
+			Str255 * 		rightPtr;
 			SInt16			choice;
-			SInt32			len;
 			ResIDT			resID;
 			
 			choice = theBevelInfo.menuChoice;
@@ -413,12 +406,8 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 				resID = (ResIDT) theEditText->GetUserCon();
 				
 				GetIndString(theString, resID, choice);
-				CopyPascalStringToC(theString, charString);
-				p = strrchr((char *) charString, '=');
-				if (p != nil) {
-					len = (p - (char *) charString) + 1;
-					CopyCStringToPascal(charString + len, theString);
-					theEditText->SetDescriptor(theString);
+				if ( SplitCaseValue(theString, &rightPtr) ) {
+					theEditText->SetDescriptor(*rightPtr);
 				} 
 			} 
 			break;

@@ -1153,13 +1153,12 @@ CTmplEditorWindow::AddSeparatorLine(LView * inContainer)
 void
 CTmplEditorWindow::AddCasePopup(ResType inType, Str255 inLabel, SInt32 inStartMark, LView * inContainer)
 {
-	register char *	p;
 	SDimension16	theFrame;
-	SInt16			index = 1;
+	SInt16			index = 1, foundIdx = -1;
 	ResType			theType;
 	SInt32			currMark, totalLength = mTemplateStream->GetLength();
-	Str255			theString;
-	char 			charString[256];
+	Str255			theString, theValue;
+	Str255 * 		rightPtr;
 
 	inContainer->GetFrameSize(theFrame);
 	sBevelPaneInfo.left			= theFrame.width - sBevelPaneInfo.width - 5;
@@ -1177,12 +1176,20 @@ CTmplEditorWindow::AddCasePopup(ResType inType, Str255 inLabel, SInt32 inStartMa
 	// Let the window listen to this menu
 	theBevelButton->AddListener(this);
 	
+	// Store a pointer to the associated edit field
+	LEditText * theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID - 1));
+	theBevelButton->SetUserCon( (long) theEditText);
+	// Store the position mark of the first CASE in the userCon of the edit field
+	theEditText->SetUserCon(inStartMark);
+	// Retrieve the value of the associated edit field
+	theEditText->GetDescriptor(theValue);
+	
 	// Populate the popup with all the successive cases
-	CopyPascalStringToC(inLabel, charString);
-	p = strrchr((char *) charString, '=');
-	if (p != nil) {
-		inLabel[0] = p - (char *) charString;
+	if ( SplitCaseValue(inLabel, &rightPtr) ) {
 		theBevelButton->InsertMenuItem(inLabel, index, true);
+		if (rightPtr != NULL && UMiscUtils::CompareStr255( (Str255 *) theValue, rightPtr) == 0) {
+			foundIdx = index;
+		} 
 	} 
 	currMark = mTemplateStream->GetMarker();
 	while (currMark < totalLength) {
@@ -1195,19 +1202,21 @@ CTmplEditorWindow::AddCasePopup(ResType inType, Str255 inLabel, SInt32 inStartMa
 		} 
 		currMark = mTemplateStream->GetMarker();
 		index++;
-		CopyPascalStringToC(theString, charString);
-		p = strrchr((char *) charString, '=');
-		if (p != nil) {
-			theString[0] = p - (char *) charString;
+		if ( SplitCaseValue(theString, &rightPtr) ) {
 			theBevelButton->InsertMenuItem(theString, index, true);
+			if (foundIdx == -1 && rightPtr != NULL && UMiscUtils::CompareStr255( (Str255 *) theValue, rightPtr) == 0) {
+				foundIdx = index;
+			} 
 		} 
 	}
 	
-	// Store a pointer to the associated edit field
-	LEditText * theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID - 1));
-	theBevelButton->SetUserCon( (long) theEditText);
-	// Store the position mark of the first CASE in the userCon of the edit field
-	theEditText->SetUserCon(inStartMark);
+	// Mark the item corresponding to the value
+	if (foundIdx != -1) {
+		theBevelButton->SetCurrentMenuItem(foundIdx);						
+	} else {
+		
+// 		theBevelButton->SetCurrentMenuItem(-1);						
+	}
 	
 	// Advance the counters. mYCoord has already been increased by the edit field
 	mCurrentID++;
@@ -1228,13 +1237,11 @@ CTmplEditorWindow::AddEditPopup(Str255 inValue,
 								ResIDT inResourceID,
 								LView * inContainer)
 {
-	register char *	p;
 	SDimension16	theFrame;
 	SInt16			index = 1, foundIdx = -1;
 	SInt32			totalLength = mTemplateStream->GetLength();
 	Str255			theString;
 	Str255 * 		rightPtr;
-	char 			charString[256];
 
 	inContainer->GetFrameSize(theFrame);
 
@@ -1317,8 +1324,11 @@ CTmplEditorWindow::AddColorPane(OSType inType,
 	sColorPaneInfo.superView	= inContainer;
 	sColorPaneInfo.paneID		= mCurrentID;
 	
-	CColorWell * thePane = new CColorWell(sColorPaneInfo, inRGB);
-	ThrowIfNil_(thePane);
+	CColorWell * theWell = new CColorWell(sColorPaneInfo, inRGB, msg_TmplModifiedItem);
+	ThrowIfNil_(theWell);
+
+	// Let the window listen to this control
+	theWell->AddListener(this);
 
 	// Advance the counters
 	mYCoord += sColorPaneInfo.height + kTmplVertSep;
