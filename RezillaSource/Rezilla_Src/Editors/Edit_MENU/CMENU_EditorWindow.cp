@@ -22,6 +22,7 @@
 #include "CMenuItem.h"
 #include "RezillaConstants.h"
 #include "UMessageDialogs.h"
+#include "UCompareUtils.h"
 
 #include <LCheckBox.h>
 #include <LEditText.h>
@@ -102,6 +103,9 @@ CMENU_EditorWindow::FinishCreateSelf()
 	ThrowIfNil_( mItemsTable );
 	
 	mItemsTable->SetOwnerWindow(this);
+	
+	// Add a single column.
+	mItemsTable->InsertCols( 1, 0, nil );
 	
 // 	SwitchTarget(mItemsTable);
 		
@@ -541,7 +545,5 @@ CMENU_EditorWindow::InstallTableValues()
 		mItemsTable->SetCellData( theCell, theString );
 	}
 }
-
-
 
 
