@@ -218,7 +218,7 @@ void
 CRezMapDoc::Initialize(FSSpec * inFileSpec, short inRefnum)
 {		
 	mUpdateOnClose = true;
-	mExportFormat = export_Xml;
+	mExportFormat = exportMap_Xml;
 	mFileStream   = nil;
 	mReadOnly = false;
 	
@@ -480,7 +480,7 @@ CRezMapDoc::ObeyCommand(
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ TryEdit															[public]
+//  TryEdit															[public]
 // ---------------------------------------------------------------------------------
 
 int
@@ -514,7 +514,7 @@ CRezMapDoc::TryEdit(CRezObjItem * inRezObjItem, CommandT inCommand, ResType asTy
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ DoEdit															[public]
+//  DoEdit															[public]
 // ---------------------------------------------------------------------------------
 
 void
@@ -551,7 +551,7 @@ CRezMapDoc::DoEdit(CRezObjItem * inRezObjItem, CommandT inCommand, ResType inTyp
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ NameNewDoc
+//  NameNewDoc
 // ---------------------------------------------------------------------------------
 
 void
@@ -577,7 +577,7 @@ CRezMapDoc::NameNewDoc()
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ IsModified
+//  IsModified
 // ---------------------------------------------------------------------------------
 // The Resource Manager sets the mapChanged attribute for the resource fork
 // when you call the ChangedResource, the AddResource, or the RemoveResource
@@ -630,7 +630,7 @@ CRezMapDoc::GetDescriptor(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetOwnerRefnum												[public]
+//  GetOwnerRefnum												[public]
 // ---------------------------------------------------------------------------
 
 short
@@ -641,7 +641,7 @@ CRezMapDoc::GetRefnum()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetOwnerRefnum												[public]
+//  GetOwnerRefnum												[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -772,7 +772,7 @@ CRezMapDoc::AskSaveChanges(
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ DoAESave
+//  DoAESave
 // ---------------------------------------------------------------------------------
 // Called when doing a SaveAs.
 
@@ -847,7 +847,7 @@ CRezMapDoc::DoAESave(
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ DoSave
+//  DoSave
 // ---------------------------------------------------------------------------------
 
 void
@@ -1134,7 +1134,7 @@ CRezMapDoc::DesignateExportFile( FSSpec& outFileSpec, bool & outReplacing)
 	FSSpec	theFileSpec;
 	UInt8	theCount = sizeof(Rzil_MapExportItems)/sizeof(Str15);
 	
-	mExportFormat = export_Xml;
+	mExportFormat = exportMap_Xml;
 	
 	// Build the forks popup
 	NavMenuItemSpecHandle	theMenuItemHandle ;
@@ -1187,7 +1187,7 @@ CRezMapDoc::DesignateExportFile( FSSpec& outFileSpec, bool & outReplacing)
 
 
 // ---------------------------------------------------------------------------------
-//		¥ DoAEExport
+//  DoAEExport
 // ---------------------------------------------------------------------------------
 
 void
@@ -1221,7 +1221,7 @@ CRezMapDoc::DoAEExport(
 
 
 // ---------------------------------------------------------------------------------
-//		¥ DoExport
+//  DoExport
 // ---------------------------------------------------------------------------------
 
 void
@@ -1238,7 +1238,7 @@ CRezMapDoc::DoExport()
 
 
 // ---------------------------------------------------------------------------------
-//		¥ WriteOutExport
+//  WriteOutExport
 // ---------------------------------------------------------------------------------
 
 void
@@ -1246,26 +1246,26 @@ CRezMapDoc::WriteOutExport(SInt16 inExportFormat)
 {	
 	StRezExporter	exporter(mFileStream);
 	switch ( inExportFormat ) {
-		case export_Xml:
+		case exportMap_Xml:
 		exporter.WriteOutXml(mRezMap, 
 							 CRezillaPrefs::GetPrefValue(kPref_export_formatDtd),
 							 CRezillaPrefs::GetPrefValue(kPref_export_includeBinary),
 							 CRezillaPrefs::GetPrefValue(kPref_export_dataEncoding));
 		break;
 		
-		case export_Text:
+		case exportMap_Text:
 		exporter.WriteOutText(mRezMap, 
 							 CRezillaPrefs::GetPrefValue(kPref_export_includeBinary),
 							 CRezillaPrefs::GetPrefValue(kPref_export_dataEncoding));
 		break;
 		
-		case export_Html:
+		case exportMap_Html:
 		exporter.WriteOutHtml(mRezMap, 
 							 CRezillaPrefs::GetPrefValue(kPref_export_includeBinary),
 							 CRezillaPrefs::GetPrefValue(kPref_export_dataEncoding));
 		break;
 
-		case export_Derez:
+		case exportMap_Derez:
 		exporter.WriteOutDerez(mRezMap);
 		break;
 	}
@@ -1274,7 +1274,7 @@ CRezMapDoc::WriteOutExport(SInt16 inExportFormat)
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ FindCommandStatus
+//  FindCommandStatus
 // ---------------------------------------------------------------------------------
 
 void
@@ -1371,7 +1371,7 @@ CRezMapDoc::AllowSubRemoval(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ ListenToMessage				[public]
+//  ListenToMessage				[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -1389,7 +1389,7 @@ CRezMapDoc::ListenToMessage( MessageT inMessage, void *ioParam )
 
 
 // ---------------------------------------------------------------------------
-//  ¥ HasSelection												[public]
+//  HasSelection												[public]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -1400,7 +1400,7 @@ CRezMapDoc::HasSelection()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetFirstSelected												[public]
+//  GetFirstSelected												[public]
 // ---------------------------------------------------------------------------
 
 TableIndexT
@@ -1412,7 +1412,7 @@ CRezMapDoc::GetFirstSelected()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ NewResDialog												[public]
+//  NewResDialog												[public]
 // ---------------------------------------------------------------------------
 // Note: Linking Listeners and Broadcasters is done in the StDialogBoxHandler constructor
 
@@ -1545,7 +1545,7 @@ CRezMapDoc::NewResDialog()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CreateNewRes												[public]
+//  CreateNewRes												[public]
 // ---------------------------------------------------------------------------
 
 CRezObjItem *
@@ -1624,7 +1624,7 @@ CRezMapDoc::CreateNewRes(ResType inType, short inID, Str255* inName, short inAtt
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetRezEditor												[public]
+//  GetRezEditor												[public]
 // ---------------------------------------------------------------------------
 // ResType is an unsigned long
 
@@ -1648,7 +1648,7 @@ CRezMapDoc::GetRezEditor(ResType inType, short inID)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ DuplicateResource												[public]
+//  DuplicateResource												[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -1716,7 +1716,7 @@ CRezMapDoc::DuplicateResource(CRezObj* inRezObj)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ RemoveResource												[public]
+//  RemoveResource												[public]
 // ---------------------------------------------------------------------------
 // "The RemoveResource function does not dispose of the handle you  pass  into
 // it; to do so you must call the Memory Manager function DisposeHandle  after
@@ -1776,7 +1776,7 @@ CRezMapDoc::RemoveResource(CRezObjItem* inRezObjItem)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ PasteRezMap												[public]
+//  PasteRezMap												[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -1858,7 +1858,7 @@ CRezMapDoc::PasteRezMap(CRezMap * srcRezMap)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ PasteResource												[public]
+//  PasteResource												[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -1932,7 +1932,7 @@ CRezMapDoc::PasteResource(ResType inType, short inID, Handle inHandle,
 
 
 // ---------------------------------------------------------------------------
-//  ¥ UpdateRefNum												[public]
+//  UpdateRefNum												[public]
 // ---------------------------------------------------------------------------
 // Takes care of updating the refnum in all the sub objects which store a 
 // copy of this value:

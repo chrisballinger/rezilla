@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2005-01-28 17:00:37
+//             Last modification : 2005-01-31 23:59:01
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -45,11 +45,19 @@ enum
 // Export formats
 enum
 {	
-	export_Xml = 0,
-	export_Text,
-	export_Html,
-	export_Derez,
-	export_Sdef
+	exportMap_Xml = 0,
+	exportMap_Text,
+	exportMap_Html,
+	exportMap_Derez
+};
+
+enum
+{	
+	exportAete_Xml = 0,
+	exportAete_Derez,
+	exportMap_Sdef,
+	exportAete_Text,
+	exportAete_Html
 };
 
 // DTDs

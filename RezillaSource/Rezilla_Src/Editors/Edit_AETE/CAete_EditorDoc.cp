@@ -2,7 +2,7 @@
 // CAete_EditorDoc.cp
 // 
 //                       Created: 2004-07-01 08:42:37
-//             Last modification: 2005-01-30 21:02:05
+//             Last modification: 2005-01-31 23:58:42
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -289,7 +289,7 @@ CAete_EditorDoc::DesignateExportFile( FSSpec & outFileSpec, Boolean & outReplaci
 	Str255	theString;
 	UInt8	theCount = sizeof(Rzil_AeteExportItems)/sizeof(Str15);
 
-	outExportFormat = export_Xml;
+	outExportFormat = exportAete_Xml;
 	
 	// Build the forks popup
 	NavMenuItemSpecHandle	theMenuItemHandle ;
