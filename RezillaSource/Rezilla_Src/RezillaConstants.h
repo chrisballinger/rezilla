@@ -717,7 +717,7 @@ const ResType	ResType_DITL = FOUR_CHAR_CODE('DITL');
 #define  kLastSizeMenuItem	9
 
 // Constants used by the template editor
-const SInt16	kTmplLeftMargin			= 10;
+const SInt16	kTmplLeftMargin			= 15;
 const SInt16	kTmplListIndent			= 15;
 const SInt16	kTmplVertSkip			= 4;
 const SInt16	kTmplVertSep			= 8;
