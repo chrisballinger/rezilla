@@ -15,7 +15,7 @@
 //	the Waste Edit text engine (©1993-2000 by Marco Piovanelli)
 //  and CodeWarrior's PowerPlant 2.1 library (©1993-2000 Metrowerks Inc.)
 //  
-// This file is part of the CWasteEditView package vs 1.6
+// This file is part of the CWasteEditView package vs 1.7
 // ===========================================================================
 
 #ifndef _H_CWasteEditView
