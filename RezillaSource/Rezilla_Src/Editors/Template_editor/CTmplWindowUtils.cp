@@ -17,6 +17,7 @@
 
 #include "CTmplEditorWindow.h"
 #include "CTmplEditorDoc.h"
+#include "CTmplListItemView.h"
 #include "CRezillaApp.h"
 #include "CRezillaPrefs.h"
 #include "CRezObj.h"
@@ -268,22 +269,37 @@ CTmplEditorWindow::AdjustCounterField(PaneIDT inPaneID, SInt32 inDelta) {
 // removed. They are located between inPrevLastID and inOldLastID
 // inclusive. 
 
-
 void
-CTmplEditorWindow::AdjustListOfPaneIDs(LView * inView, PaneIDT inStartID, PaneIDT inPrevCurrID, Boolean adding) 
+CTmplEditorWindow::AdjustListOfPaneIDs(CTmplListItemView * inView, PaneIDT inStartID, 
+									   PaneIDT inPrevCurrID, Boolean adding) 
 {
-	PaneIDT		theID;
-	LView *		theView;
+	PaneIDT		theID = inStartID ;
+	CTmplListItemView *	theView = inView;
 	ArrayIndexT	index;
-	SInt32		i;
+	SInt32		i, count = 0;
 	
 	// If adding is true, we've been inserting a list item, otherwise we've
 	// been removing one.
 	if (adding) {
-		// Find the index of inStartID
-		index = mPaneIDs.FetchIndexOf(inStartID);
-		if (inView != NULL) {
-			index += CountAllSubPanes(inView) - 1;
+		if (theView != NULL) {
+			theID = theView->mFirstItemID;
+			count = CountAllSubPanes(inView);
+			// If the item view does not contain any control, its mFirstID
+			// will be incorrect. Look in the previous list items until we 
+			// find a non empty one.
+			while (count == 0) {
+				theView = theView->mPrevItem;
+				if (theView == NULL) {
+					theID = inStartID;
+					break;
+				} 
+				theID = theView->mFirstItemID;
+				count = CountAllSubPanes(theView);
+			} 
+		} 
+		index = mPaneIDs.FetchIndexOf(theID);
+		if (count > 0) {
+			index += count - 1;
 		} 
 		// Move the newly added items from the end of the list. There are 
 		// (mCurrentID - inPrevCurrID) of them.
@@ -292,12 +308,15 @@ CTmplEditorWindow::AdjustListOfPaneIDs(LView * inView, PaneIDT inStartID, PaneID
 			mPaneIDs.InsertItemsAt(1, index + 1, theID);
 		}
 	} else {
-		// Find the index of inStartID
-		index = mPaneIDs.FetchIndexOf(inStartID);
-		// Remove all the IDs of the itemView's subpanes
-		if (index != LArray::index_Bad) {
-			mPaneIDs.RemoveItemsAt( CountAllSubPanes(inView), index);		
-		}
+		count = CountAllSubPanes(inView);
+		if (count > 0) {
+			// Find the index of inStartID
+			index = mPaneIDs.FetchIndexOf(inStartID);
+			// Remove all the IDs of the itemView's subpanes
+			if (index != LArray::index_Bad) {
+				mPaneIDs.RemoveItemsAt( count, index);		
+			}
+		} 
 	}
 }
 
@@ -414,9 +433,6 @@ CTmplEditorWindow::KeyValueToString(ResType inType, Str255 keyString)
 	char 	formatString[16];
 	OSType	theOSType;
 	
-	// Store the current ID
-	mKeyIDs.AddItem(mCurrentID);
-	
 	switch (inType) {
 		case 'KBYT':
 		*mRezStream >> theSInt8;
@@ -519,9 +535,6 @@ CTmplEditorWindow::KeyStringToValue(ResType inType, Str255 keyString)
 	OSType	theOSType;
 	long	theLong;
 	
-	// Store the current ID
-	mKeyIDs.AddItem(mCurrentID);
-
 	switch (inType) {
 		case 'KBYT':
 		case 'KLNG':
@@ -647,64 +660,80 @@ CTmplEditorWindow::FindKeyStartForValue(ResType inType, Str255 keyString, SInt32
 // ---------------------------------------------------------------------------
 //	¥ WriteOutKeyValue											[private]
 // ---------------------------------------------------------------------------
-// The value of the key tag has been stored as an SInt32 in the mKeyValues.
+// The value of the key tag has been stored as an SInt32 in the mKeyValues 
+// list.
 
-void
-CTmplEditorWindow::WriteOutKeyValue(ResType inType)
+OSErr
+CTmplEditorWindow::WriteOutKeyValue(ResType inType, ArrayIndexT * outIndex)
 {
 	SInt32	keyValue;
+	OSErr	error;
 	
-	mKeyValues.RemoveLastItem(keyValue);
+	*outIndex = mKeyIDs.FetchIndexOf(mCurrentID);
 	
-	switch (inType) {
-		case 'KBYT':
-		*mOutStream << (SInt8) keyValue;
-		break;
-
-		case 'KCHR':
-		*mOutStream << (UInt8) keyValue;
-		break;
-
-		case 'KHBT':
-		*mOutStream << (UInt8) keyValue;
-		break;
-
-		case 'KHLG':
-		*mOutStream << (UInt32) keyValue;
-		break;
-
-		case 'KHWD':
-		*mOutStream << (UInt16) keyValue;
-		break;
-
-		case 'KLNG':
-		*mOutStream << (SInt32) keyValue;
-		break;
-
-		case 'KRID':
-		// Nothing written in the resource. The key is its ID.
-		break;
-
-		case 'KTYP': 
-		*mOutStream << (OSType) keyValue;
-		break;
+	if (*outIndex == LArray::index_Bad) {
+		error = err_TmplCantFindKeyIndex;
+	} else {
+		mKeyIDs.RemoveItemsAt(1, *outIndex);
 		
-		case 'KUBT':
-		*mOutStream << (UInt8) keyValue;
-		break;
-
-		case 'KULG':
-		*mOutStream << (UInt32) keyValue;
-		break;
-
-		case 'KUWD':
-		*mOutStream << (UInt16) keyValue;
-		break;
-
-		case 'KWRD':
-		*mOutStream << (SInt16) keyValue;
-		break;
+		if ( mKeyValues.FetchItemAt(*outIndex, keyValue) ) {
+			mKeyValues.RemoveItemsAt(1, *outIndex);
+			
+			switch (inType) {
+				case 'KBYT':
+				*mOutStream << (SInt8) keyValue;
+				break;
+				
+				case 'KCHR':
+				*mOutStream << (UInt8) keyValue;
+				break;
+				
+				case 'KHBT':
+				*mOutStream << (UInt8) keyValue;
+				break;
+				
+				case 'KHLG':
+				*mOutStream << (UInt32) keyValue;
+				break;
+				
+				case 'KHWD':
+				*mOutStream << (UInt16) keyValue;
+				break;
+				
+				case 'KLNG':
+				*mOutStream << (SInt32) keyValue;
+				break;
+				
+				case 'KRID':
+				// Nothing written in the resource. The key is its ID.
+				break;
+				
+				case 'KTYP': 
+				*mOutStream << (OSType) keyValue;
+				break;
+				
+				case 'KUBT':
+				*mOutStream << (UInt8) keyValue;
+				break;
+				
+				case 'KULG':
+				*mOutStream << (UInt32) keyValue;
+				break;
+				
+				case 'KUWD':
+				*mOutStream << (UInt16) keyValue;
+				break;
+				
+				case 'KWRD':
+				*mOutStream << (SInt16) keyValue;
+				break;
+			}
+		} else {
+			error = err_TmplCantFindKeyValue;
+		} 
 	}
+	
+	return error;
 }
 
 
@@ -984,7 +1013,9 @@ CTmplEditorWindow::CountAllSubPanes(LView * inView)
 		if (theView) {
 			count += CountAllSubPanes(theView);
 		} else {
-			count++;
+			if (theSub->GetPaneID() != 0) {
+				count++;
+			} 
 		}
 	}
 	
