@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2005-01-27 08:46:43
+//             Last modification : 2005-01-28 17:00:37
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -758,16 +758,16 @@ const PaneIDT   item_AeteDirectDescr		= 13;
 const PaneIDT   item_AeteReplyType			= 21;
 const PaneIDT   item_AeteReplyOptions		= 22;
 const PaneIDT   item_AeteReplyDescr			= 23;
-const PaneIDT   item_AeteOtherName			= 31;
-const PaneIDT   item_AeteOtherKeyword		= 32;
-const PaneIDT   item_AeteOtherType			= 33;
-const PaneIDT   item_AeteOtherOptions		= 34;
-const PaneIDT   item_AeteOtherDescr			= 35;
+const PaneIDT   item_AeteParamName			= 31;
+const PaneIDT   item_AeteParamKeyword		= 32;
+const PaneIDT   item_AeteParamType			= 33;
+const PaneIDT   item_AeteParamOptions		= 34;
+const PaneIDT   item_AeteParamDescr			= 35;
 // const PaneIDT   item_AeteDirectBox			= FOUR_CHAR_CODE('DRCT');
 // const PaneIDT   item_AeteReplyBox			= FOUR_CHAR_CODE('REPL');
-const PaneIDT   item_AeteOtherBox			= FOUR_CHAR_CODE('OTHR');
-const PaneIDT   item_AeteOtherSlider		= FOUR_CHAR_CODE('OSLI');
-const PaneIDT   item_AeteOtherIndicator		= FOUR_CHAR_CODE('OIDC');
+const PaneIDT   item_AeteParamBox			= FOUR_CHAR_CODE('OTHR');
+const PaneIDT   item_AeteParamSlider		= FOUR_CHAR_CODE('OSLI');
+const PaneIDT   item_AeteParamIndicator		= FOUR_CHAR_CODE('OIDC');
 //    Classes panel
 const PaneIDT   item_AeteClassName			= 1;
 const PaneIDT   item_AeteClassID			= 2;
@@ -1000,11 +1000,11 @@ const MessageT    msg_AeteDirectOptions		= PPob_AeteEventsPane + item_AeteDirect
 // const MessageT    msg_AeteReplyType			= PPob_AeteEventsPane + item_AeteReplyType;
 const MessageT    msg_AeteReplyOptions		= PPob_AeteEventsPane + item_AeteReplyOptions;
 // const MessageT    msg_AeteReplyDescr		= PPob_AeteEventsPane + item_AeteReplyDescr;
-// const MessageT    msg_AeteOtherName			= PPob_AeteEventsPane + item_AeteOtherName;
-// const MessageT    msg_AeteOtherKeyword		= PPob_AeteEventsPane + item_AeteOtherKeyword;
-// const MessageT    msg_AeteOtherType			= PPob_AeteEventsPane + item_AeteOtherType;
-const MessageT    msg_AeteOtherOptions		= PPob_AeteEventsPane + item_AeteOtherOptions;
-// const MessageT    msg_AeteOtherDescr		= PPob_AeteEventsPane + item_AeteOtherDescr;
+// const MessageT    msg_AeteParamName			= PPob_AeteEventsPane + item_AeteParamName;
+// const MessageT    msg_AeteParamKeyword		= PPob_AeteEventsPane + item_AeteParamKeyword;
+// const MessageT    msg_AeteParamType			= PPob_AeteEventsPane + item_AeteParamType;
+const MessageT    msg_AeteParamOptions		= PPob_AeteEventsPane + item_AeteParamOptions;
+// const MessageT    msg_AeteParamDescr		= PPob_AeteEventsPane + item_AeteParamDescr;
 // //    Classes panel
 // const MessageT    msg_AeteClassName			= PPob_AeteClassesPane + item_AeteClassName;
 // const MessageT    msg_AeteClassID			= PPob_AeteClassesPane + item_AeteClassID;

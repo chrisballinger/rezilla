@@ -36,7 +36,7 @@ const UInt16 AeteDirectFlag[] = { kAEUTOptional, kAEUTlistOfItems, kAEUTEnumerat
 const UInt16 AeteReplyFlag[] = { kAEUTOptional, kAEUTlistOfItems, kAEUTEnumerated, kAEUTTightBindingFunction, 
 	kAEUTEnumsAreTypes, kAEUTEnumListIsExclusive, kAEUTReplyIsReference, aeut_NonVerbEvent };
 
-const UInt16 AeteOtherFlag[] = { kAEUTOptional, kAEUTlistOfItems, kAEUTEnumerated, 
+const UInt16 AeteParamFlag[] = { kAEUTOptional, kAEUTlistOfItems, kAEUTEnumerated, 
 	kAEUTEnumsAreTypes, kAEUTEnumListIsExclusive, kAEUTParamIsReference, kAEUTParamIsTarget,
 	aeut_LabeledParam, kAEUTFeminine, kAEUTMasculine, kAEUTPlural};
 
@@ -242,7 +242,7 @@ CAete_EditorWindow::InstallEventValues(CAeteEvent * inEvent)
 	InstallFlags(item_AeteReplyOptions, theReplyFlags);
 
 	// Current parameter
-	theTGB = dynamic_cast<LTextGroupBox *> (mEventPane->FindPaneByID( item_AeteOtherBox ));
+	theTGB = dynamic_cast<LTextGroupBox *> (mEventPane->FindPaneByID( item_AeteParamBox ));
 
 	if (inEvent && inEvent->GetParameters()->FetchItemAt(index, theParameter) ) {
 		InstallParameterValues(theParameter);
@@ -255,7 +255,7 @@ CAete_EditorWindow::InstallEventValues(CAeteEvent * inEvent)
 		theTotal = 0;
 	}
 	
-	UpdateSlider(item_AeteOtherSlider, theValue, theTotal);	
+	UpdateSlider(item_AeteParamSlider, theValue, theTotal);	
 }
 
 
@@ -284,29 +284,29 @@ CAete_EditorWindow::InstallParameterValues(CAeteParameter*	inParameter)
 		disableIt = true;
 	}
 		
-	theEditText = dynamic_cast<LEditText *> (mEventPane->FindPaneByID( item_AeteOtherName ));
+	theEditText = dynamic_cast<LEditText *> (mEventPane->FindPaneByID( item_AeteParamName ));
 	ThrowIfNil_( theEditText );
 	theEditText->SetDescriptor(theName);
 
-	theEditText = dynamic_cast<LEditText *> (mEventPane->FindPaneByID( item_AeteOtherKeyword ));
+	theEditText = dynamic_cast<LEditText *> (mEventPane->FindPaneByID( item_AeteParamKeyword ));
 	ThrowIfNil_( theEditText );
 	if (!disableIt) {
 		UMiscUtils::OSTypeToPString(theKeyword, theString);
 	} 
 	theEditText->SetDescriptor(theString);
 
-	theEditText = dynamic_cast<LEditText *> (mEventPane->FindPaneByID( item_AeteOtherType ));
+	theEditText = dynamic_cast<LEditText *> (mEventPane->FindPaneByID( item_AeteParamType ));
 	ThrowIfNil_( theEditText );
 	if (!disableIt) {
 		UMiscUtils::OSTypeToPString(theType, theString);
 	} 
 	theEditText->SetDescriptor(theString);
 
-	theEditText = dynamic_cast<LEditText *> (mEventPane->FindPaneByID( item_AeteOtherDescr ));
+	theEditText = dynamic_cast<LEditText *> (mEventPane->FindPaneByID( item_AeteParamDescr ));
 	ThrowIfNil_( theEditText );
 	theEditText->SetDescriptor(theDescription);
 	
-	InstallFlags(item_AeteOtherOptions, theFlags);
+	InstallFlags(item_AeteParamOptions, theFlags);
 
 }
 
@@ -789,25 +789,25 @@ CAete_EditorWindow::RetrieveParameterValues(CAeteParameter* inParameter)
 	UInt16 			theFlags;
 	LEditText *		theEditText;
 	
-	theEditText = dynamic_cast<LEditText *> (mEventPane->FindPaneByID( item_AeteOtherName ));
+	theEditText = dynamic_cast<LEditText *> (mEventPane->FindPaneByID( item_AeteParamName ));
 	ThrowIfNil_( theEditText );
 	theEditText->GetDescriptor(theName);
 
-	theEditText = dynamic_cast<LEditText *> (mEventPane->FindPaneByID( item_AeteOtherKeyword ));
+	theEditText = dynamic_cast<LEditText *> (mEventPane->FindPaneByID( item_AeteParamKeyword ));
 	ThrowIfNil_( theEditText );
 	theEditText->GetDescriptor(theString);
 	UMiscUtils::PStringToOSType( theString, theKeyword);
 
-	theEditText = dynamic_cast<LEditText *> (mEventPane->FindPaneByID( item_AeteOtherType ));
+	theEditText = dynamic_cast<LEditText *> (mEventPane->FindPaneByID( item_AeteParamType ));
 	ThrowIfNil_( theEditText );
 	theEditText->GetDescriptor(theString);
 	UMiscUtils::PStringToOSType( theString, theType);
 
-	theEditText = dynamic_cast<LEditText *> (mEventPane->FindPaneByID( item_AeteOtherDescr ));
+	theEditText = dynamic_cast<LEditText *> (mEventPane->FindPaneByID( item_AeteParamDescr ));
 	ThrowIfNil_( theEditText );
 	theEditText->GetDescriptor(theDescription);
 		
-	RetrieveFlags(item_AeteOtherOptions, theFlags);
+	RetrieveFlags(item_AeteParamOptions, theFlags);
 
 	inParameter->SetValues(theName, theKeyword, theType,
 								theDescription, theFlags);
@@ -1095,13 +1095,13 @@ CAete_EditorWindow::InstallFlags(SInt32 inKind, UInt16 inFlags)
 		}
 		break;
 		
-		case item_AeteOtherOptions:
+		case item_AeteParamOptions:
 		thePopup = dynamic_cast<LPopupButton *> (mEventPane->FindPaneByID( inKind ));
 		ThrowIfNil_(thePopup);
 		theMenuH = thePopup->GetMacMenuH();
-		theCount = sizeof(AeteOtherFlag)/sizeof(UInt16);
+		theCount = sizeof(AeteParamFlag)/sizeof(UInt16);
 		for ( i = 0; i < theCount; i++) {
-			::MacCheckMenuItem(theMenuH, i+2, ( (inFlags & (1 << AeteOtherFlag[i])) > 0 ) );
+			::MacCheckMenuItem(theMenuH, i+2, ( (inFlags & (1 << AeteParamFlag[i])) > 0 ) );
 		}
 		break;
 		
@@ -1156,14 +1156,14 @@ CAete_EditorWindow::RetrieveFlags(SInt32 inKind, UInt16 & outFlags)
 		}
 		break;
 		
-		case item_AeteOtherOptions:
+		case item_AeteParamOptions:
 		thePopup = dynamic_cast<LPopupButton *> (mEventPane->FindPaneByID( inKind ));
 		ThrowIfNil_(thePopup);
 		theMenuH = thePopup->GetMacMenuH();
-		theCount = sizeof(AeteOtherFlag)/sizeof(UInt16);
+		theCount = sizeof(AeteParamFlag)/sizeof(UInt16);
 		for ( i = 0; i < theCount; i++) {
 			::GetItemMark( theMenuH, i+2, &markChar);
-			outFlags |= (markChar == 0) ? 0:(1 << AeteOtherFlag[i]);
+			outFlags |= (markChar == 0) ? 0:(1 << AeteParamFlag[i]);
 		}
 		break;
 		
