@@ -2,7 +2,7 @@
 // CCompResultWindow.h				
 // 
 //                       Created: 2004-03-02 14:18:16
-//             Last modification: 2004-03-18 19:23:27
+//             Last modification: 2004-03-24 22:52:56
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -18,10 +18,10 @@
 #include <LListener.h>
 
 class CRezObj;
-class LScrollBar;
 class CRezCompare;
 class CRezTypId;
 class CBiDataWE;
+class CSingleScrollBar;
 class CBroadcasterTableView;
 
 enum
@@ -80,7 +80,7 @@ protected:
 	CBiDataWE *				mNewRezDataWE;
 	Handle					mOldData;
 	Handle					mNewData;
-	LScrollBar *			mScroller;
+	CSingleScrollBar *		mScroller;
 	CBroadcasterTableView *	mOnlyOldTable;
 	CBroadcasterTableView *	mOnlyNewTable;
 	CBroadcasterTableView *	mDifferTable;

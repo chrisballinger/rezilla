@@ -20,6 +20,7 @@
 #include "CRezClipboard.h"
 #include "CWindowMenu.h"
 #include "CBiDataWE.h"
+#include "CSingleScrollBar.h"
 #include "CBroadcasterTableView.h"
 #include "RezillaConstants.h"
 #include "UCodeTranslator.h"
@@ -116,8 +117,10 @@ CCompResultWindow::FinishCreateSelf()
 	ThrowIfNil_(mNewRezDataWE);
 	
 	// Cache a pointer to the scrollbar separating the hex panes
-	mScroller = dynamic_cast<LScrollBar *> (FindPaneByID( item_CompResultScroller ));
-
+	mScroller = dynamic_cast<CSingleScrollBar *> (FindPaneByID( item_CompResultScroller ));
+	ThrowIfNil_(mScroller);
+	mScroller->SetLinesPerPage(kRzilRezCompLineCount - 1);
+	
 	// Build the table elements
 		// Left table
 	mOnlyOldTable = dynamic_cast<CBroadcasterTableView *> (FindPaneByID( item_CompResultOnlyOldTbl ));
@@ -167,11 +170,11 @@ CCompResultWindow::FinishCreateSelf()
 	mOldRezDataWE->AddAttachment( new LUndoer );
 	mNewRezDataWE->AddAttachment( new LUndoer );
 
-	// Add self to the windows menu
-	gWindowMenu->InsertWindow(this);
-
 	// Name the window
 	NameNewCompWindow();
+
+	// Add self to the windows menu
+	gWindowMenu->InsertWindow(this);
 
 	// Make the window visible
 	Show();
