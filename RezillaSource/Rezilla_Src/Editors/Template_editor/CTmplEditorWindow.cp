@@ -2,7 +2,7 @@
 // CTmplEditorWindow.cp					
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-09-23 10:13:26
+//             Last modification: 2004-09-24 15:18:54
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -164,6 +164,7 @@ CTmplEditorWindow::FinishCreateSelf()
 	mBitSeqIndex		= 0;
 	mBitSeqMax			= 0;
 	mIsDirty			= false;
+	mFixedCount			= false;
 	mYCoord             = kTmplVertSkip;
 	mTemplateStream		= nil;
 	mRezStream			= nil;
@@ -510,6 +511,7 @@ CTmplEditorWindow::CreateTemplateStream()
 	}
 	
 	if (theHandle == NULL) {
+		// UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("CouldNotGetTemplateData"), rPPob_SimpleMessage);
 		error = err_TmplGetDataStreamFailed;
 	} else {
 		mTemplateStream = new LHandleStream(theHandle);	
@@ -548,9 +550,7 @@ CTmplEditorWindow::ParseDataWithTemplate(Handle inHandle)
 			mContentsView->ResizeImageBy(0, mYCoord - oldYCoord, true);
 			mContentsScroller->AdjustScrollBars();
 		} 
-	} else {
-// 		UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("CouldNotGetTemplateData"), rPPob_SimpleMessage);
-	}	
+	} 	
 	
 	return error;
 }
@@ -569,7 +569,8 @@ CTmplEditorWindow::DoParseWithTemplate(SInt32 inRecursionMark, Boolean inDrawCon
 	ResType		theType;
 
 	mTemplateStream->SetMarker(inRecursionMark, streamFrom_Start);
-
+	mFixedCount = false;
+	
 	while (mTemplateStream->GetMarker() < mTemplateStream->GetLength() 
 		   && 
 		   error == noErr) {
@@ -608,6 +609,7 @@ OSErr
 CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount, LView * inContainer)
 {
 	OSErr	error = noErr;
+	UInt8	theChar;
 
 	mIndent += kTmplListIndent;
 	
@@ -641,7 +643,13 @@ CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount,
 				mYCoord = outYCoord;
 			} 
 		} while (! EndOfList(inType) );
-		
+		// An LSTZ list must be terminated by a NULL
+		if (inType == 'LSTZ') {
+			*mRezStream >> theChar;
+			if (theChar != 0) {
+				error = err_TmplZeroListNotEndingWithNull;
+			}
+		} 
 		break;
 		
 		case 'LSTC':
@@ -682,7 +690,6 @@ Boolean
 CTmplEditorWindow::EndOfList(ResType inType)
 {
 	Boolean result = false;
-	UInt8	theChar;
 
 	switch (inType) {
 		case 'LSTB':
@@ -696,16 +703,9 @@ CTmplEditorWindow::EndOfList(ResType inType)
 		break;
 		
 		case 'LSTZ':
-		if (mRezStream->GetMarker() < mRezStream->GetLength() ) {
-			*mRezStream >> theChar;
-			if (theChar == 0) {
-				result = true;
-			} else {
-				mRezStream->SetMarker(-1, streamFrom_Marker);
-			}
-		} else {
+		if ( mRezStream->GetMarker() >= mRezStream->GetLength() - 1 ) {
 			result = true;
-		}
+		} 
 		break;
 		
 	}
