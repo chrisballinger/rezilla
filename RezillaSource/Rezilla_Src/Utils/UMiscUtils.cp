@@ -1,7 +1,7 @@
 // ===========================================================================
 // UMiscUtils.cp					
 //                       Created: 2003-05-13 20:06:23
-//             Last modification: 2004-06-21 14:00:01
+//             Last modification: 2004-08-15 20:02:36
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -156,6 +156,23 @@ UMiscUtils::GetTypeFromScrap(ResType & outType)
 }
 
 
+// ------------------------------------------------------------------------------
+//  ¥  PaddTypeIfNecessary										[static]
+// ------------------------------------------------------------------------------
+// If a type is shorter than 4 chars, padd it with spaces.
+
+void
+UMiscUtils::PaddTypeIfNecessary(Str255 inTypeStr)
+{
+	if (inTypeStr[0] != 4) {
+		for (UInt8 i = 4; i > inTypeStr[0]; i--) {
+			inTypeStr[i] = ' ';
+		}
+		inTypeStr[0] = 4;
+	} 
+}
+
+
 // ---------------------------------------------------------------------------
 //	¥ IsValidHexadecimal										[static]				  
 // ---------------------------------------------------------------------------
@@ -256,6 +273,35 @@ UMiscUtils::GetDragFileData(DragReference inDragRef, ItemReference inItemRef, HF
 			&& size == sizeof(HFSFlavor) 
 			&& ::GetFlavorData(inDragRef, inItemRef, 
 							flavorTypeHFS, &fileData, &size, 0) == noErr);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ SetTypeAndCreator										[static]
+// ---------------------------------------------------------------------------
+
+void 
+UMiscUtils::SetTypeAndCreator(FSSpec inFSSpec, OSType inType, OSType inCreator)
+{
+	HFileInfo	param;
+	OSErr		error;
+
+	param.ioCompletion	= NULL;
+	param.ioFDirIndex	= 0;
+	param.ioVRefNum		= inFSSpec.vRefNum;
+	param.ioNamePtr		= inFSSpec.name;
+	param.ioDirID		= inFSSpec.parID;
+	
+	error = ::PBGetCatInfoSync((CInfoPBPtr)&param);
+	if ( inType != (OSType)0x00000000 ) {
+		param.ioFlFndrInfo.fdType = inType;
+	}
+	if ( inCreator != (OSType)0x00000000 ) {
+		param.ioFlFndrInfo.fdCreator = inCreator;
+	}
+	// ioDirID gets clobbered
+	param.ioDirID = inFSSpec.parID;
+	error = ::PBHSetFInfoSync((HParmBlkPtr)&param);
 }
 
 

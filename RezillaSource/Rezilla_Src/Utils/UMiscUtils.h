@@ -1,7 +1,7 @@
 // ===========================================================================
 // UMiscUtils.h					
 //                       Created: 2003-05-13 20:06:23
-//             Last modification: 2004-06-12 07:42:54
+//             Last modification: 2004-08-15 20:02:26
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -52,7 +52,9 @@ public:
 	static Boolean	FontSizeExists(LPopupButton * inPopup, SInt32 inSize, SInt32 &outItemIndex);
 	static SInt32	FontIndexFromFontNum(LPopupButton * inPopup, SInt16 inFNum);
 	static SInt32	SizeIndexFromSizeValue(LPopupButton * inPopup, SInt16 inSize);
-
+	static void		PaddTypeIfNecessary(Str255 inTypeStr);
+	static void 	SetTypeAndCreator(FSSpec inFSSpec, OSType inType, OSType inCreator);
+	
 };
 
 
