@@ -78,8 +78,6 @@ CTEXT_EditorDoc::~CTEXT_EditorDoc()
 		gWindowMenu->RemoveWindow( mTextEditWindow );
 		delete mTextEditWindow;
 	} 
-	// Remove ourselves from the list of listeners to the prefs object
-	CRezillaApp::sPrefs->RemoveListener(this);
 }
 
 

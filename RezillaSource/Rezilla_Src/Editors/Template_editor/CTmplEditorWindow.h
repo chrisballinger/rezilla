@@ -2,7 +2,7 @@
 // CTmplEditorWindow.h
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-06-15 20:44:07
+//             Last modification: 2004-06-18 08:17:54
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -30,12 +30,6 @@ enum {
 	tmpl_titleOnOff,
 	tmpl_flushRight = 0,
 	tmpl_flushLeft
-};
-
-enum {
-	tmpl_listLSTZ = 0,		// Zero List
-	tmpl_listLSTC,			// Count List
-	tmpl_listLSTB			// Plain List
 };
 
 
@@ -88,14 +82,13 @@ public:
 protected:
 	LView *				mContentsView;
 	LActiveScroller *	mContentsScroller;
-	SInt32				mCurrFirstID;
-	SInt32				mCurrentID;
-	SInt32				mItemsCount;
-	SInt32				mIndent;
 	SInt32				mXCoord;
 	SInt32				mYCoord;
-	SInt16				mListType;
-	short				mListCount;
+	SInt32				mCurrFirstID;
+	SInt32				mCurrentID;
+	SInt32				mIndent;
+	short				mItemsCount;
+	Boolean				mStopList;
 	SPaneInfo			mEditPaneInfo;
 	SPaneInfo			mStaticPaneInfo;
 	SPaneInfo			mRgvPaneInfo;
@@ -115,6 +108,10 @@ protected:
 
 private:
 	OSErr			ParseDataForType(ResType inType, Str255 inString);
+	
+	void			ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount);
+
+	Boolean			EndOfList(ResType inType);
 	
 	void			AddStaticField(Str255 inLabel, 
 								   SInt16 inJustification = tmpl_flushRight);
@@ -146,49 +143,8 @@ private:
 
 	ExceptionCode	AlignBytes(UInt8 inStep);
 	
-	void			DoParseTemplate();
+	void			DoParseTemplate(SInt32 inRecursionMark);
 	
 };
 
-
-// Utility class to handle iteration lists
-// =======================================
-
-class CTmplList {
-public:
-	friend class CTmplEditorWindow;
-
-							CTmplList(SInt32 inStartPos,
-									  SInt32 inEndPos,
-									  LHandleStream * inTmplStream,
-									  SInt16 inListType,
-									  SInt8 inNestingLevel = 1);
-							~CTmplList();
-
-	virtual SInt32		GetStartPos() { return mStartPos;}
-	void				SetStartPos(SInt32 inStartPos) {mStartPos = inStartPos;}
-
-	virtual SInt32		GetEndPos() { return mEndPos;}
-	void				SetEndPos(SInt32 inEndPos) {mEndPos = inEndPos;}
-
-	virtual SInt32		GetCount() { return mCount;}
-	void				SetCount(SInt32 inCount) {mCount = inCount;}
-
-	virtual SInt8		GetNestingLevel() { return mNestingLevel;}
-	void				SetNestingLevel(SInt8 inNestingLevel) {mNestingLevel = inNestingLevel;}
-
-protected:
-	SInt32			mStartPos;
-	SInt32			mEndPos;
-	SInt32			mCount;
-	SInt16			mListType;
-	SInt8			mNestingLevel;  // level=1 means a first level list
-	LHandleStream *	mTmplStream;
-	CTmplList *		mParent;
-	
-	OSErr		Process();
-	OSErr		ProcessFromPos(SInt32 inPos);
-	
-
-};
 

@@ -93,6 +93,9 @@ CCompResultWindow::~CCompResultWindow()
 {
 	// Remove self from the window menu.
 	gWindowMenu->RemoveWindow(this);
+	
+	// Remove the window from the list of listeners to the prefs object
+	CRezillaApp::sPrefs->RemoveListener(this);
 }
 
 

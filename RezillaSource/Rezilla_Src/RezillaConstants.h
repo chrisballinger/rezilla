@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2004-06-17 11:51:15
+//             Last modification : 2004-06-18 08:23:41
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -601,6 +601,7 @@ const ResType	ResType_DITL = FOUR_CHAR_CODE('DITL');
 
 // Constants used by the template editor
 const SInt16	kTmplLeftMargin			= 10;
+const SInt16	kTmplListIndent			= 15;
 const SInt16	kTmplVertSkip			= 4;
 const SInt16	kTmplVertSep			= 10;
 const SInt16	kTmplHorizSep			= 10;

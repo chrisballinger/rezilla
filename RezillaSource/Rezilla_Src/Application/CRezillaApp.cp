@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2004-06-16 22:46:06
+//             Last modification: 2004-06-18 08:31:56
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -15,6 +15,7 @@
 #include "CRezillaApp.h"
 #include "CRezillaPrefs.h"
 #include "CRezEditor.h"
+#include "CTEXT_EditorWindow.h"
 #include "CEditTable.h"
 #include "CRezMapDoc.h"
 #include "CRezMap.h"
@@ -306,6 +307,7 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(CTmplEditorWindow);
 	RegisterClass_(CTxtDataSubView);
 	RegisterClass_(CWasteEditView);
+	RegisterClass_(CTEXT_EditorWindow);
 
 // 	RegisterClass_(ATag);
 

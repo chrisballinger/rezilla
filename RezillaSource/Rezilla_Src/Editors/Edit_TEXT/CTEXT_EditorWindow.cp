@@ -93,6 +93,8 @@ CTEXT_EditorWindow::CTEXT_EditorWindow(
 
 CTEXT_EditorWindow::~CTEXT_EditorWindow()
 {
+	// Remove the window from the list of listeners to the prefs object
+	CRezillaApp::sPrefs->RemoveListener(this);
 }
 
 
@@ -113,12 +115,6 @@ CTEXT_EditorWindow::FinishCreateSelf()
 	mContentsScroller = dynamic_cast<LActiveScroller *>(this->FindPaneByID(item_EditorScroller));
 	ThrowIfNil_( mContentsScroller );
 		
-	// Install the name of the resource if it has one
-	LStaticText * theStaticText = dynamic_cast<LStaticText *>(this->FindPaneByID( item_NameStaticText ));
-	ThrowIfNil_( theStaticText );
-	Str255 * strPtr = dynamic_cast<CTEXT_EditorDoc *>(GetSuperCommander())->GetRezObj()->GetName();
-	theStaticText->SetDescriptor(*strPtr);	
-	
 	// Make the window a listener to the prefs object
 	CRezillaApp::sPrefs->AddListener(this);
 

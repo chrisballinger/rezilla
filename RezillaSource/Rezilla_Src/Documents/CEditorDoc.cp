@@ -61,9 +61,6 @@ CEditorDoc::CEditorDoc(LCommander* inSuper,
 CEditorDoc::~CEditorDoc()
 {
 	Unregister();
-	
-// 	// Remove ourselves from the list of listeners to the prefs object
-// 	CRezillaApp::sPrefs->RemoveListener(this);
 }
 
 

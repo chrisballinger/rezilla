@@ -2,7 +2,7 @@
 // CDualDataView.cp					
 // 
 //                       Created: 2004-06-16 20:13:56
-//             Last modification: 2004-06-17 06:27:19
+//             Last modification: 2004-06-18 08:43:57
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -79,6 +79,8 @@ CDualDataView::~CDualDataView()
 		WEDispose(mInMemoryWasteRef);
 		mInMemoryWasteRef = nil;
 	}
+	// Remove the view from the list of listeners to the prefs object
+	CRezillaApp::sPrefs->RemoveListener(this);
 }
 
 

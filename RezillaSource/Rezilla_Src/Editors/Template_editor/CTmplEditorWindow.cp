@@ -2,7 +2,7 @@
 // CTmplEditorWindow.cp					
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-06-15 10:20:00
+//             Last modification: 2004-06-18 08:17:11
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -96,6 +96,9 @@ CTmplEditorWindow::~CTmplEditorWindow()
 	if (mRezStream != nil) {
 		delete mRezStream;
 	} 
+
+	// Remove the window from the list of listeners to the prefs object
+	CRezillaApp::sPrefs->RemoveListener(this);
 }
 
 
@@ -112,6 +115,7 @@ CTmplEditorWindow::FinishCreateSelf()
 	mCurrentID			= mCurrFirstID;
 	mItemsCount			= 0;
 	mIndent				= 0;
+	mStopList			= false;
 	mLeftLabelTraitsID	= Txtr_GenevaTenBoldUlLeft;
 	mRightLabelTraitsID	= Txtr_GenevaTenBoldUlRight;
 	mEditTraitsID		= Txtr_GenevaTen;
@@ -154,7 +158,6 @@ CTmplEditorWindow::FinishCreateSelf()
 	
 	// Edit fields basic values
 	mEditPaneInfo.paneID			= 0;
-	mEditPaneInfo.width				= theFrame.width - kTmplLeftMargin * 2 - kTmplLabelWidth - kTmplHorizSep;
 	mEditPaneInfo.height			= kTmplEditHeight;
 	mEditPaneInfo.visible			= true;
 	mEditPaneInfo.enabled			= true;
@@ -190,7 +193,7 @@ CTmplEditorWindow::FinishCreateSelf()
 	mRadioPaneInfo.bindings.bottom	= false;
 	mRadioPaneInfo.userCon			= 0;
 
-	// Rectangle boxes basic values
+	// Rectangle labels basic values
 	mRectLabelInfo.paneID			= 0;
 	mRectLabelInfo.width			= kTmplRectWidth;
 	mRectLabelInfo.height			= kTmplRectHeight;
@@ -227,14 +230,13 @@ CTmplEditorWindow::FinishCreateSelf()
 
 	// Text group box for text views basic values
 	mTgbPaneInfo.paneID				= 0;
-	mTgbPaneInfo.width				= theFrame.width - kTmplTextMargin * 2;
 	mTgbPaneInfo.height				= kTmplTextHeight;
 	mTgbPaneInfo.visible			= true;
 	mTgbPaneInfo.enabled			= true;
 	mTgbPaneInfo.bindings.left		= true;
 	mTgbPaneInfo.bindings.top		= true;
 	mTgbPaneInfo.bindings.right		= true;
-	mTgbPaneInfo.bindings.bottom	= false;
+	mTgbPaneInfo.bindings.bottom	= true;
 	mTgbPaneInfo.userCon			= 0;
 	mTgbPaneInfo.superView			= mContentsView;
 
@@ -387,7 +389,7 @@ CTmplEditorWindow::ParseWithTemplate(Handle inHandle)
 	mRezStream = new LHandleStream(inHandle);	
 
 	// Parse the template stream
-	DoParseTemplate();
+	DoParseTemplate(0);
 }
 
 
@@ -396,29 +398,92 @@ CTmplEditorWindow::ParseWithTemplate(Handle inHandle)
 // ---------------------------------------------------------------------------
 
 void
-CTmplEditorWindow::DoParseTemplate()
+CTmplEditorWindow::DoParseTemplate(SInt32 inRecursionMark)
 {
 	Str255		theString;
-	ResType		theType;
-
+	ResType		theType, currType;
+	
 	while (mTemplateStream->GetMarker() < mTemplateStream->GetLength() ) {
 		*mTemplateStream >> theString;
 		*mTemplateStream >> theType;
 		
-		if (theType == 'LSTB') {
-			CTmplList theList = CTmplList(mTemplateStream->GetMarker(), mTemplateStream->GetLength(), mTemplateStream, tmpl_listLSTB);
-			theList.ProcessFromPos(mTemplateStream->GetMarker());
-		} else if (theType == 'LSTC') {
-			CTmplList theList = CTmplList(mTemplateStream->GetMarker(), mTemplateStream->GetLength(), mTemplateStream, tmpl_listLSTC);
-			theList.ProcessFromPos(mTemplateStream->GetMarker());
-		} else if (theType == 'LSTZ') {
-			CTmplList theList = CTmplList(mTemplateStream->GetMarker(), mTemplateStream->GetLength(), mTemplateStream, tmpl_listLSTZ);
-			theList.ProcessFromPos(mTemplateStream->GetMarker());
+		if (theType == 'LSTB' || theType == 'LSTC' || theType == 'LSTZ') {
+			currType = theType;
+			ParseList(mTemplateStream->GetMarker(), theType, mItemsCount);
+		} else if (theType == 'LSTE') {
+			if ( EndOfList(currType) ) {
+				break;
+			} else {
+				mTemplateStream->SetMarker(inRecursionMark, streamFrom_Start);
+			}
 		} else {
 			// Create controls according to the type declared in the template
 			ParseDataForType(theType, theString);
 		}
 	}
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ ParseList													[public]
+// ---------------------------------------------------------------------------
+
+void
+CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount)
+{
+	mIndent += kTmplListIndent;
+	
+	switch (inType) {
+		case 'LSTB':
+		case 'LSTZ':
+			DoParseTemplate(inStartMark);
+		break;
+		
+		case 'LSTC':
+		for (short i = 0 ; i < inCount; i++) {
+			mTemplateStream->SetMarker(inStartMark, streamFrom_Start);
+			DoParseTemplate(inStartMark);
+		}
+		break;
+		
+	}
+	mIndent -= kTmplListIndent;
+
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ EndOfList													[public]
+// ---------------------------------------------------------------------------
+
+Boolean
+CTmplEditorWindow::EndOfList(ResType inType)
+{
+	Boolean result = false;
+	UInt8	theChar;
+
+	switch (inType) {
+		case 'LSTB':
+		if (mRezStream->GetMarker() >= mRezStream->GetLength() ) {
+			result = true;
+		} 
+		break;
+		
+		case 'LSTC':
+		result = true;
+		break;
+		
+		case 'LSTZ':
+		*mRezStream >> theChar;
+		if (theChar == 0) {
+			result = true;
+		} else {
+			mRezStream->SetMarker(-1, streamFrom_Marker);
+		}
+		break;
+		
+	}
+	return result;
 }
 
 
@@ -553,17 +618,17 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 
 		case 'FBYT':
 		// Byte fill (with 0)
-		mTemplateStream->SetMarker(1, streamFrom_Marker);
+		mRezStream->SetMarker(1, streamFrom_Marker);
 		break;
 
 		case 'FLNG':
 		// Long fill (with 0)
-		mTemplateStream->SetMarker(4, streamFrom_Marker);
+		mRezStream->SetMarker(4, streamFrom_Marker);
 		break;
 
 		case 'FWRD':
 		// Word fill (with 0)
-		mTemplateStream->SetMarker(2, streamFrom_Marker);
+		mRezStream->SetMarker(2, streamFrom_Marker);
 		break;
 
 		case 'HBYT':
@@ -605,19 +670,15 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 
 		case 'LSTB':
 		// List Begin. Ends at the end of the resource.
-		
 		break;
 
 		case 'LSTC':
 		// List Count. Terminated by a zero-based word count that starts 
 		// the sequence (as in 'DITL' resources).
-		// // repeats recursionTotal times
-		
 		break;
 
 		case 'LSTE':
-		// List end
-		
+		// List end. Handled in DoParseTemplate().
 		break;
 
 		case 'LSTR':
@@ -625,20 +686,18 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 		AddStaticField(inLabelString, tmpl_flushLeft);
 		mYCoord += kTmplLabelHeight + kTmplVertSkip;
 		AddWasteField(inType);
- 		break;
+		break;
 
 		case 'LSTZ':
 		// List Zero. Terminated by a 0 byte (as in 'MENU' resources).
-		// // repeats until 0x00 is encountered as first byte of next block
-		
 		break;
-
+		
 		case 'OCNT':
 		// One Count. Terminated by a one-based word count that starts 
 		// the sequence (as in 'STR#' resources).
-		*mRezStream >> mListCount;
-		mListType = tmpl_listLSTC;
-		::NumToString( (long) mListCount, numStr);
+		*mRezStream >> theShort;
+		mItemsCount = theShort;
+		::NumToString( (long) mItemsCount, numStr);
 		AddStaticField(inLabelString);
 		AddEditField(numStr, inType, rPPob_TmplEditorWindow + mCurrentID, 255, 0, 
 					 UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar));
@@ -707,6 +766,12 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 		case 'ZCNT':
 		// Zero Count. Terminated by a zero-based word count that starts 
 		// the sequence (as in 'DITL' resources).
+		*mRezStream >> theShort;
+		mItemsCount = theShort + 1;
+		::NumToString( (long) mItemsCount, numStr);
+		AddStaticField(inLabelString);
+		AddEditField(numStr, inType, rPPob_TmplEditorWindow + mCurrentID, 255, 0, 
+					 UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar));
 		
 		break;
 
@@ -754,7 +819,11 @@ CTmplEditorWindow::AddEditField(Str255 inValue,
 								UInt8 inAttributes,
 								TEKeyFilterFunc inKeyFilter)
 {
+	SDimension16	theFrame;
+	mContentsView->GetFrameSize(theFrame);
+
 	mEditPaneInfo.left		= kTmplLeftMargin + kTmplLabelWidth + kTmplHorizSep + mIndent;
+	mEditPaneInfo.width		= theFrame.width - kTmplLeftMargin * 2 - kTmplLabelWidth - kTmplHorizSep - mIndent;
 	mEditPaneInfo.top		= mYCoord - 3;
 	mEditPaneInfo.paneID	= mCurrentID;
 
@@ -848,6 +917,9 @@ CTmplEditorWindow::AddWasteField(OSType inType)
 	Handle		theHandle;
 	char 		theChar;
 	SViewInfo	theViewInfo;
+	SDimension16	theFrame;
+	
+	mContentsView->GetFrameSize(theFrame);
 
 	theViewInfo.imageSize.width		= theViewInfo.imageSize.height	= 0 ;
 	theViewInfo.scrollPos.h			= theViewInfo.scrollPos.v		= 0;
@@ -855,7 +927,8 @@ CTmplEditorWindow::AddWasteField(OSType inType)
 	theViewInfo.reconcileOverhang	= false;
 	
 	mTgbPaneInfo.top				= mYCoord;
-	mTgbPaneInfo.left				= kTmplTextMargin + mIndent;
+	mTgbPaneInfo.left				= kTmplTextMargin;
+	mTgbPaneInfo.width				= theFrame.width - kTmplTextMargin * 2;
 	mTgbPaneInfo.bindings.bottom	= false;
 	LTextGroupBox * theTGB = new LTextGroupBox(mTgbPaneInfo, theViewInfo, false);
 	ThrowIfNil_(theTGB);
@@ -942,6 +1015,9 @@ CTmplEditorWindow::AddHexDumpField(OSType inType)
 	SInt32		oldPos, newPos;
 	Handle		theHandle;
 	SViewInfo	theViewInfo;
+	SDimension16	theFrame;
+
+	mContentsView->GetFrameSize(theFrame);
 	mOwnerDoc = dynamic_cast<CTmplEditorDoc*>(GetSuperCommander());
 
 	theViewInfo.imageSize.width		= theViewInfo.imageSize.height	= 0 ;
@@ -950,7 +1026,8 @@ CTmplEditorWindow::AddHexDumpField(OSType inType)
 	theViewInfo.reconcileOverhang	= false;
 	
 	mTgbPaneInfo.top				= mYCoord;
-	mTgbPaneInfo.left				= kTmplTextMargin + mIndent;
+	mTgbPaneInfo.left				= kTmplTextMargin;
+	mTgbPaneInfo.width				= theFrame.width - kTmplTextMargin * 2;
 	mTgbPaneInfo.bindings.bottom	= true;
 	mTgbPaneInfo.paneID				= mCurrentID;
 	CDualDataView * theTGB = new CDualDataView(mTgbPaneInfo, theViewInfo, false);
@@ -1141,56 +1218,5 @@ CTmplEditorWindow::ReadValues()
 	
 	return theHandle;
 }
-
-
-
-
-// Utility CTmplList class to handle template lists
-// ================================================
-
-
-// ---------------------------------------------------------------------------
-//		¥ CTmplList													[public]
-// ---------------------------------------------------------------------------
-
-CTmplList::CTmplList(SInt32 inStartPos, SInt32 inEndPos, LHandleStream * inTmplStream, SInt16 inListType, SInt8 inNestingLevel)
-{
-	mStartPos = inStartPos;
-	mEndPos = inEndPos;
-	mListType = inListType;
-	mTmplStream = inTmplStream;
-	mNestingLevel = inNestingLevel;
-}
-
-
-// ---------------------------------------------------------------------------
-//		¥ ~CTmplList												[public]
-// ---------------------------------------------------------------------------
-
-CTmplList::~CTmplList()
-{	
-}
-
-
-// ---------------------------------------------------------------------------
-//		¥ ProcessFromPos											[public]
-// ---------------------------------------------------------------------------
-
-OSErr
-CTmplList::ProcessFromPos(SInt32 inPos)
-{	
-	mTmplStream->SetMarker(inPos, streamFrom_Start);
-
-	for (SInt32 i = 0 ; i < mCount; i++) {
-		
-	}
-	
-}
-
-
-
-
-
-
 
 
