@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2005-02-20 17:43:18
+//             Last modification : 2005-02-23 13:25:59
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -508,7 +508,8 @@ const CommandT	cmd_ColorTableApple16Gray	= FOUR_CHAR_CODE('CLT5');
 const CommandT	cmd_ColorTableApple4Gray	= FOUR_CHAR_CODE('CLT6');
 const CommandT	cmd_ColorTablePicker		= FOUR_CHAR_CODE('CLT7');
 const CommandT	cmd_ColorTableApple2		= FOUR_CHAR_CODE('CLT8');  // Not in the menu, but used in the code
-const MessageT	msg_TextActionDied			= FOUR_CHAR_CODE('TxDi');
+const CommandT	cmd_BlackAndWhite			= FOUR_CHAR_CODE('tBnW');
+const CommandT	cmd_SwapColors				= FOUR_CHAR_CODE('tSWP');
 const CommandT	cmd_IconOtherFontSize		= cmd_IconFontSizeBase;
 
 // Aete editor commands
@@ -723,9 +724,6 @@ const PaneIDT	tool_FilledRoundRect		= FOUR_CHAR_CODE('tFRR');
 const PaneIDT	tool_Oval					= FOUR_CHAR_CODE('tOVL');
 const PaneIDT	tool_FilledOval				= FOUR_CHAR_CODE('tFOV');
 const PaneIDT	tool_HotSpot				= FOUR_CHAR_CODE('tHOT');
-const PaneIDT	tool_BlackAndWhite			= FOUR_CHAR_CODE('tBnW');
-const PaneIDT	tool_Rotate					= FOUR_CHAR_CODE('tROT');
-const PaneIDT	tool_SwapColors				= FOUR_CHAR_CODE('tSWP');
 const PaneIDT	tool_Pattern				= FOUR_CHAR_CODE('tPAT');
 const PaneIDT	tool_ForeColor				= FOUR_CHAR_CODE('tFCL');
 const PaneIDT	tool_BackColor				= FOUR_CHAR_CODE('tBCL');		
@@ -986,6 +984,7 @@ const MessageT	msg_UtxtEditSizeMenu		= PPob_UtxtEditorWindow + item_UtxtEditSize
 const MessageT	msg_UtxtEditStyleMenu		= PPob_UtxtEditorWindow + item_UtxtEditStyleMenu;
 // Icon Editor Window
 // ------------------
+const MessageT	msg_TextActionDied			= FOUR_CHAR_CODE('TxDi');
 const MessageT	msg_IconEditPattern			= tool_Pattern;
 const MessageT	msg_IconEditForeColor		= tool_ForeColor;
 const MessageT	msg_IconEditBackColor		= tool_BackColor;		
@@ -1366,17 +1365,18 @@ const SInt32 		kFlashCount				= 5;
 // These need to remain identical
 const SInt32		kIconSideMargin 		= 1;
 const SInt32		kIconSpaceBetween 		= 1;
-const SInt32		kRecolorDepth			= 8;
-const UInt16		kMinTargetWidth			= 40;
-const UInt16		kMinTargetHeight		= 40;
-const UInt16		kLeftHeaderWidth		= 80;
-const UInt16		kSampleOutMargin		= 10;
+const SInt32		kIconRecolorDepth		= 8;
+const UInt16		kIconMinTargetWidth		= 40;
+const UInt16		kIconMinTargetHeight	= 40;
+const UInt16		kIconLeftHeaderWidth	= 80;
+const UInt16		kIconFooterHeight		= 40;
+const UInt16		kIconSampleOutMargin	= 10;
 // Cursors are always the same size
 const SInt32		kCursorWidth			= 16;
 const SInt32		kCursorHeight			= 16;
-// Black & white cursors have the following values (68 = 2 bw images, 16x16, + hotspot)
+// Black & white cursors have the following values
 const SInt32		kBWCursorRowBytes		= 2;	
-const SInt32		kBWCursorBytes			= 68;
+const SInt32		kBWCursorBytes			= 68;  // 68 = 2 bw images, 16x16, + hotspot
 const SInt32		kDefaultPatternWidth	= 8;
 const SInt32		kDefaultPatternHeight	= 8;
 const SInt32		kDefaultIconWidth		= 16;
@@ -1402,10 +1402,5 @@ enum RedrawOptions
 	redraw_Dont
 };
 
-// ======================================================================
-// Constants used by the Aete Editor
-// ======================================================================
-const SInt16	kAeteTableWidth			= 81;
-const SInt16	kAeteTableHeight		= 11;
 
 
