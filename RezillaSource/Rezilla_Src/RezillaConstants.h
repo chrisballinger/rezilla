@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2003-10-03 16:32:43
+//             Last modification : 2003-10-03 16:54:49
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -156,8 +156,6 @@ const MessageT	cmd_GetRezInfo			= rMENU_Resource + 3;
 const MessageT	cmd_RemoveRez			= rMENU_Resource + 4;	
 const MessageT	cmd_DuplicateRez		= rMENU_Resource + 5;	
 // File menu items
-const MessageT	cmd_ExportAsText		= rMENU_File + 1;	
-const MessageT	cmd_ExportAsXML			= rMENU_File + 2;	
 // Edit menu items
 const MessageT	cmd_Find				= rMENU_Edit + 1;	
 const MessageT	cmd_FindNext			= rMENU_Edit + 2;	
