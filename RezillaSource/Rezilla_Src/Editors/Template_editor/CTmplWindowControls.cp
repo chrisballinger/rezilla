@@ -1184,6 +1184,9 @@ CTmplEditorWindow::AddCasePopup(ResType inType, Str255 inLabel, SInt32 inStartMa
 	// Retrieve the value of the associated edit field
 	theEditText->GetDescriptor(theValue);
 	
+	// Let the popup listen to the edit field
+	theEditText->AddListener(theBevelButton);
+
 	// Populate the popup with all the successive cases
 	if ( SplitCaseValue(inLabel, &rightPtr) ) {
 		theBevelButton->InsertMenuItem(inLabel, index, true);
@@ -1298,6 +1301,9 @@ CTmplEditorWindow::AddEditPopup(Str255 inValue,
 	// Store the STR# resource ID in the userCon of the edit field
 	theEditText->SetUserCon(inResourceID);
 	
+	// Let the popup listen to the edit field
+	theEditText->AddListener(theBevelButton);
+
 	// Mark the item corresponding to the value
 	if (foundIdx != -1) {
 		theBevelButton->SetCurrentMenuItem(foundIdx);						
