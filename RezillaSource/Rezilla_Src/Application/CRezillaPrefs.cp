@@ -2,7 +2,7 @@
 // CRezillaPrefs.cp					
 // 
 //                       Created: 2004-05-17 08:52:16
-//             Last modification: 2004-05-17 13:08:15
+//             Last modification: 2004-05-18 19:07:43
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -27,6 +27,7 @@
 #include <LCheckBox.h>
 #include <LClipboard.h>
 #include <LDialogBox.h>
+#include <LEditText.h>
 #include <LMultiPanelView.h>
 #include <LPageController.h>
 #include <LPopupButton.h>
@@ -51,7 +52,7 @@
 #include <string.h>
 
 
-LDialogBox *	CRezillaPrefs::sWindow;
+LDialogBox *	CRezillaPrefs::sPrefsWindow;
 
 
 // ---------------------------------------------------------------------------
@@ -93,18 +94,18 @@ CRezillaPrefs::~CRezillaPrefs()
 void
 CRezillaPrefs::Initialize()
 {
-	sWindow = nil;
+	sPrefsWindow = nil;
 	mFile = nil;
 
 	mCurrPrefs.general.maxRecent		= 10;
-	mCurrPrefs.exporting.formatDtd			= export_KeyDtd;
+	mCurrPrefs.exporting.includeBinary	= true;
+	mCurrPrefs.exporting.formatDtd		= export_KeyDtd;
 	mCurrPrefs.exporting.binaryEncoding	= export_Base64Enc;
 	mCurrPrefs.compare.ignoreName		= false;
 	mCurrPrefs.compare.ignoreAttributes	= true;
 	mCurrPrefs.compare.ignoreData		= false;
 	mCurrPrefs.compare.dataDisplay		= compare_hexDisplay;
 
-		
 	// Retrieve preferences stored on disk
 	RetrievePreferences();
 }
@@ -117,8 +118,8 @@ CRezillaPrefs::Initialize()
 void
 CRezillaPrefs::MakePrefsWindow()
 {	
-	sWindow = (LDialogBox *) (LWindow::CreateWindow( rPPob_PrefsWindow, this ));
-	ThrowIfNil_(sWindow);
+	sPrefsWindow = (LDialogBox *) (LWindow::CreateWindow( rPPob_PrefsWindow, this ));
+	ThrowIfNil_(sPrefsWindow);
 }
 
 
@@ -426,10 +427,10 @@ CRezillaPrefs::RunPrefsWindow()
 					itemIndex,
 					theSize,
 					theFace = 0;
-	SInt16			theFontNum;
-	LStr255			theLine( "\p" );
-	Str255			theStrName;
+	long			theLong;
+	Str255			theString;
 	Boolean 		inPrefsLoop = true;
+	LEditText *		theEditField;
 	
 	StDialogBoxHandler	theHandler(rPPob_PrefsWindow, this);
 	LDialogBox *		theDialog = theHandler.GetDialog();
@@ -460,11 +461,12 @@ CRezillaPrefs::RunPrefsWindow()
 	
 	LRadioGroupView * theDtdRGV = dynamic_cast<LRadioGroupView *>(theExportPane->FindPaneByID( item_ExpPrefsDtdRgbx ));
 	ThrowIfNil_(theDtdRGV);
-	PaneIDT dtdRadioID = theDtdRGV->GetCurrentRadioID();
 	
-	LRadioGroupView * theDisplayRGV = dynamic_cast<LRadioGroupView *>(theExportPane->FindPaneByID( item_ExpPrefsEncRgbx ));
+	LRadioGroupView * theEncodingRGV = dynamic_cast<LRadioGroupView *>(theExportPane->FindPaneByID( item_ExpPrefsEncRgbx ));
+	ThrowIfNil_(theEncodingRGV);
+	
+	LRadioGroupView * theDisplayRGV = dynamic_cast<LRadioGroupView *>(theComparePane->FindPaneByID( item_CompPrefsDisplayRgbx ));
 	ThrowIfNil_(theDisplayRGV);
-	PaneIDT displayRadioID = theDisplayRGV->GetCurrentRadioID();
 	
 	//    Link Listeners and Broadcasters
 	// ----------------------------------
@@ -479,31 +481,34 @@ CRezillaPrefs::RunPrefsWindow()
 	UReanimator::LinkListenerToBroadcasters( &theHandler, theExportPane, rPPob_PrefsExportPane );
 	UReanimator::LinkListenerToBroadcasters( &theHandler, theComparePane, rPPob_PrefsComparePane );
 	
-	
 	while (inPrefsLoop) {
 		
 		//    Setup the controls values
 		// ----------------------------		
-// 		theDtdRGV->SetCurrentRadioID(  GetPrefValue( msg_Interaction ) + item_ModesBase );
-// 		theDisplayRGV->SetCurrentRadioID(  GetPrefValue( msg_Interaction ) + item_ModesBase );
-				
-		theCheckBox = dynamic_cast<LCheckBox *>(sWindow->FindPaneByID( item_ExpPrefsInclBinData ));
-		ThrowIfNil_( theCheckBox );
-// 		theCheckBox->SetValue(  GetPrefValue( msg_PrefsStartDiff ) );
+		theDtdRGV->SetCurrentRadioID( GetPrefValue( kPref_export_formatDtd ) + 2 );
+		theEncodingRGV->SetCurrentRadioID( GetPrefValue( kPref_export_dataEncoding ) + 4 );
+		theDisplayRGV->SetCurrentRadioID( GetPrefValue( kPref_compare_dataDisplay ) + 6 );
 
-		theCheckBox = dynamic_cast<LCheckBox *>(sWindow->FindPaneByID( item_CompPrefsIgnName ));
+		theEditField = dynamic_cast<LEditText *>(theGeneralPane->FindPaneByID( item_GenPrefsMaxRecent ));
+		ThrowIfNil_( theEditField );
+		theEditField->SetValue(  GetPrefValue( kPref_general_maxRecent ) );
+
+		theCheckBox = dynamic_cast<LCheckBox *>(theExportPane->FindPaneByID( item_ExpPrefsInclBinData ));
+		ThrowIfNil_( theCheckBox );
+		theCheckBox->SetValue(  GetPrefValue( kPref_export_includeBinary ) );
+
+		theCheckBox = dynamic_cast<LCheckBox *>(theComparePane->FindPaneByID( item_CompPrefsIgnName ));
 		ThrowIfNil_( theCheckBox );
 		theCheckBox->SetValue(  GetPrefValue( kPref_compare_ignoreName ) );
 
-		theCheckBox = dynamic_cast<LCheckBox *>(sWindow->FindPaneByID( item_CompPrefsIgnAttr ));
+		theCheckBox = dynamic_cast<LCheckBox *>(theComparePane->FindPaneByID( item_CompPrefsIgnAttr ));
 		ThrowIfNil_( theCheckBox );
 		theCheckBox->SetValue(  GetPrefValue( kPref_compare_ignoreAttributes ) );
 
-		theCheckBox = dynamic_cast<LCheckBox *>(sWindow->FindPaneByID( item_CompPrefsIgnData ));
+		theCheckBox = dynamic_cast<LCheckBox *>(theComparePane->FindPaneByID( item_CompPrefsIgnData ));
 		ThrowIfNil_( theCheckBox );
 		theCheckBox->SetValue(  GetPrefValue( kPref_compare_ignoreData ) );
 
-		
 		theDialog->Show();
 		
 		MessageT theMessage;
@@ -512,24 +517,66 @@ CRezillaPrefs::RunPrefsWindow()
 			if (msg_OK == theMessage || msg_Cancel == theMessage) {
 				inPrefsLoop = false;
 				break;
-			} else if (msg_RevertPrefs == theMessage) {
+			} else if (msg_PrefsRevert == theMessage) {
 				break;  // Breaks out from the inner 'while' but still in the inPrefsLoop 'while'
 			} else {
-				theLine = "\p";
 				switch (theMessage) {
 					
 				  case msg_CompPrefsIgnName:
+					theCheckBox = dynamic_cast<LCheckBox *>(theComparePane->FindPaneByID( theMessage - rPPob_PrefsComparePane ));
+					SetPrefValue( theCheckBox->GetValue(), kPref_compare_ignoreName, CRezillaPrefs::prefsType_Temp);
+					break;
+																				
 				  case msg_CompPrefsIgnAttr:
+					theCheckBox = dynamic_cast<LCheckBox *>(theComparePane->FindPaneByID( theMessage - rPPob_PrefsComparePane ));
+					SetPrefValue( theCheckBox->GetValue(), kPref_compare_ignoreAttributes, CRezillaPrefs::prefsType_Temp);
+					break;
+																				
 				  case msg_CompPrefsIgnData:
-// 					theCheckBox = dynamic_cast<LCheckBox *>(sWindow->FindPaneByID( theMessage - rPPob_PrefsWindow ));
-// 					SetPrefValue( theCheckBox->GetValue(), theMessage, CRezillaPrefs::prefsType_Temp);
+					theCheckBox = dynamic_cast<LCheckBox *>(theComparePane->FindPaneByID( theMessage - rPPob_PrefsComparePane ));
+					SetPrefValue( theCheckBox->GetValue(), kPref_compare_ignoreData, CRezillaPrefs::prefsType_Temp);
 					break;
 																				
 				  case msg_ExpPrefsInclBinData:
-// 					theCheckBox = dynamic_cast<LCheckBox *>(sWindow->FindPaneByID( theMessage - rPPob_PrefsWindow ));
-// 					SetPrefValue( theCheckBox->GetValue(), theMessage, CRezillaPrefs::prefsType_Temp);
+					theCheckBox = dynamic_cast<LCheckBox *>(theExportPane->FindPaneByID( theMessage - rPPob_PrefsExportPane ));
+					SetPrefValue( theCheckBox->GetValue(), kPref_export_includeBinary, CRezillaPrefs::prefsType_Temp);
 					break;
 																				
+				  case msg_GenPrefsResetRecent:
+
+				    break;
+																				
+				  case msg_GenPrefsMaxRecent:
+					theEditField = dynamic_cast<LEditText *>(theGeneralPane->FindPaneByID( item_GenPrefsMaxRecent ));
+					theEditField->GetDescriptor(theString);
+					if (theString[0]) {
+						::StringToNum(theString, &theLong);
+					} else {
+						theLong = 10;
+					}
+					SetPrefValue( theLong, kPref_general_maxRecent, CRezillaPrefs::prefsType_Temp);
+				    break;
+																				
+				  case msg_ControlClicked:
+				  case msg_ExpPrefsKeyDtd:
+				  case msg_ExpPrefsAttrDtd:
+				  case msg_ExpPrefsHexEnc:
+				  case msg_ExpPrefsBase64Enc: {
+						// DoDialog() returns the *last* message which, in the case of a RadioGroup,
+						// is msg_ControlClicked. So we fail to receive the messages sent just before
+						// by the individual controls. 
+				  		PaneIDT theCurrentRadioID;
+						theCurrentRadioID = theDtdRGV->GetCurrentRadioID();
+						SetPrefValue( theCurrentRadioID - 2, kPref_export_formatDtd, CRezillaPrefs::prefsType_Temp);
+
+						theCurrentRadioID = theEncodingRGV->GetCurrentRadioID();
+						SetPrefValue( theCurrentRadioID - 4, kPref_export_dataEncoding, CRezillaPrefs::prefsType_Temp);
+						break;
+
+						theCurrentRadioID = theDisplayRGV->GetCurrentRadioID();
+						SetPrefValue( theCurrentRadioID - 6, kPref_compare_dataDisplay, CRezillaPrefs::prefsType_Temp);
+						break;
+				  }
 				}	
 			}
 		}

@@ -2,7 +2,7 @@
 // CRezillaPrefs.h					
 // 
 //                       Created: 2004-05-17 08:52:16
-//             Last modification: 2004-05-17 11:43:28
+//             Last modification: 2004-05-18 19:07:58
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -83,15 +83,15 @@ public:
 									 SInt32 inConstant, 
 									 SInt32 inPrefType = prefsType_Curr);
 	
-	LDialogBox *		GetPrefsWindow() { return sWindow;}
-	void				SetPrefsWindow(LDialogBox * inPrefsWindow) {sWindow = inPrefsWindow ;}
+	LDialogBox *		GetPrefsWindow() { return sPrefsWindow;}
+	void				SetPrefsWindow(LDialogBox * inPrefsWindow) {sPrefsWindow = inPrefsWindow ;}
 	
 	void				ValidateTempPrefs();
 	void				InitTempPrefs();
 	virtual void		StorePreferences();
 	Boolean				PrefsHaveChanged();
 	
-	static LDialogBox *		sWindow;
+	static LDialogBox *		sPrefsWindow;
 	
 protected:
 	SRezillaPrefs			mTempPrefs;
