@@ -30,6 +30,9 @@ $Date$
 ================================================================================
 = 1.0.5a3	                             last update: 
 ================================================================================
+¥ Modified Text editors menus. They are now in the menu bar rather than in 
+  popup menus at the top of every text editing window.
+¥ Debugged bitmap editor.
 ¥ 
 
 ================================================================================
