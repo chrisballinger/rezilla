@@ -1,7 +1,7 @@
 // ===========================================================================
 // CWindow_Picture.h
 //                       Created: 2004-12-11 18:56:32
-//             Last modification: 2005-02-06 19:10:31
+//             Last modification: 2005-02-17 18:09:37
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -18,6 +18,7 @@
 #include "CIcon_EditorWindow.h"
 
 class CRezMap;
+class CRezObj;
 
 
 class CWindow_Picture : public CIcon_EditorWindow {
@@ -27,12 +28,12 @@ class CWindow_Picture : public CIcon_EditorWindow {
 									CWindow_Picture( LStream * );
 		virtual						~CWindow_Picture();
 		
-		static CWindow_Picture *	OpenPaintWindow( ResIDT inPPobID, CRezMap *, ResIDT );
+		static CWindow_Picture *	OpenPaintWindow(CRezObj * inRezObj, ResIDT inPPobID );
 		static CWindow_Picture *	CreateFromStream( LStream *inStream );
 		
 		virtual void				FinishCreateSelf();
 		
-		virtual void				InitializeFromResource( CRezMap *, ResIDT );
+		virtual void				InitializeFromResource(CRezObj * inRezObj);
 		virtual void				InitializeFromBuffer( COffscreen * );
 		
 		virtual void				SaveAsResource( CRezMap *, ResIDT );

@@ -1,7 +1,7 @@
 // ===========================================================================
 // CWindow_IconSuite.cp
 //                       Created: 2005-01-10 21:23:57
-//             Last modification: 2005-02-06 19:19:52
+//             Last modification: 2005-02-17 17:51:18
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -35,14 +35,14 @@
 // 	OpenPaintWindow
 // ---------------------------------------------------------------------------
 CWindow_IconSuite*
-CWindow_IconSuite::OpenPaintWindow( ResIDT inPPobID, CRezMap *inMap, ResType inResType, ResIDT inResID )
+CWindow_IconSuite::OpenPaintWindow( CRezObj * inRezObj, ResIDT inPPobID )
 {
 	CWindow_IconSuite *	theWindow = nil;
 
 	try
 	{
 		theWindow = (CWindow_IconSuite*) CIcon_EditorWindow::CreatePaintWindow( inPPobID );
-		theWindow->InitializeFromResource( inMap, inResType, inResID );
+		theWindow->InitializeFromResource(inRezObj);
 	}
 	catch( ... )
 	{
@@ -113,6 +113,7 @@ CWindow_IconSuite::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 	
 	Size totalSize = mTotalCount * sizeof(Pattern);
 	Handle	srcHandle = mBitmapsArray.GetItemsHandle();
+	
 	// First two bytes to store the patterns count
 	Handle	outHandle = ::NewHandle(totalSize + 2);
 	ThrowIfMemFail_( outHandle );
@@ -125,13 +126,10 @@ CWindow_IconSuite::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 		**(UInt16 **) outHandle = mTotalCount;
 		::BlockMoveData( *srcHandle, (*outHandle) + 2, totalSize );
 		
-		CRezObj * theRes = inMap->FindResource( ImgType_PatternSuite, inResID, 
-													false /* loadIt */, 
-													true  /* createIt */ );
+		CRezObj *	theRes = mOwnerDoc->GetRezObj();
 		ThrowIfNil_( theRes );
 		theRes->SetData( outHandle );
 
-		delete theRes;
 	}
 	catch( ... )
 	{

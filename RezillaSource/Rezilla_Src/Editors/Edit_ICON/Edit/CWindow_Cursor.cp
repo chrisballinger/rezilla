@@ -1,7 +1,7 @@
 // ===========================================================================
 // CWindow_Cursor.cp
 //                       Created: 2004-12-11 18:50:15
-//             Last modification: 2005-02-15 07:02:29
+//             Last modification: 2005-02-17 18:07:54
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -44,6 +44,7 @@
 #include "CIcon_EditorWindow.h"
 #include "CRezObj.h"
 #include "CRezMap.h"
+#include "CEditorDoc.h"
 #include "COffscreen.h"
 #include "RezillaConstants.h"
 #include "UColorUtils.h"
@@ -56,14 +57,14 @@
 // 	OpenPaintWindow
 // ---------------------------------------------------------------------------
 CWindow_Cursor*
-CWindow_Cursor::OpenPaintWindow( ResIDT inPPobID, CRezMap *inMap, ResType inResType, ResIDT inResID )
+CWindow_Cursor::OpenPaintWindow( CRezObj * inRezObj, ResIDT inPPobID )
 {
 	CWindow_Cursor *	theWindow = nil;
 
 	try
 	{
 		theWindow = (CWindow_Cursor*) CIcon_EditorWindow::CreatePaintWindow( inPPobID );
-		theWindow->InitializeFromResource( inMap, inResType, inResID );
+		theWindow->InitializeFromResource(inRezObj);
 	}
 	catch( ... )
 	{
@@ -141,7 +142,7 @@ CWindow_Cursor::FinishCreateSelf()
 // 	InitializeFromResource
 // ---------------------------------------------------------------------------
 void
-CWindow_Cursor::InitializeFromResource( CRezMap *inMap, ResType inResType, ResIDT inResID )
+CWindow_Cursor::InitializeFromResource(CRezObj * inRezObj)
 {
 	StGWorldSaver		aSaver;
 	StRezRefSaver		aSaver2;
@@ -149,16 +150,16 @@ CWindow_Cursor::InitializeFromResource( CRezMap *inMap, ResType inResType, ResID
 	COffscreen			*colorImage = nil, *bwImage = nil, *maskImage = nil;
 	Point				theHotSpot;
 	
-	switch( inResType )
+	mResourceType = inRezObj->GetType();
+	
+	switch( mResourceType )
 	{
 		case ImgType_Cursor:
-			this->ParseBWCursor( inMap, inResID, &bwImage, &maskImage, &theHotSpot );
-			mResourceType = inResType;
+			this->ParseBWCursor( inRezObj, &bwImage, &maskImage, &theHotSpot );
 			break;
 			
 		case ImgType_ColorCursor:
-			this->ParseColorCursor( inMap, inResID, &colorImage, &bwImage, &maskImage, &theHotSpot );
-			mResourceType = inResType;
+			this->ParseColorCursor( inRezObj, &colorImage, &bwImage, &maskImage, &theHotSpot );
 			ThrowIfNil_( mColorSample );
 			break;
 			
@@ -210,21 +211,22 @@ CWindow_Cursor::InitializeFromResource( CRezMap *inMap, ResType inResType, ResID
 // 	ParseBWCursor
 // ---------------------------------------------------------------------------
 void
-CWindow_Cursor::ParseBWCursor( CRezMap *inMap, ResIDT inResID,
+CWindow_Cursor::ParseBWCursor( CRezObj * inRezObj,
 						COffscreen **outBW, COffscreen **outMask, 
 						Point *outHotSpot )
 {
 	CursHandle		h = nil;
 	COffscreen		*bw = nil, *mask = nil;
-	CRezObj 		*theRes = nil;
 
 	try
 	{
+		// Get an empty default icon if the size is 0
+		if (inRezObj->GetSize() == 0) {
+			UIconMisc::GetDefaultBitmap(inRezObj, ImgType_Cursor, true );	
+		} 
+		
 		// Get the raw resource handle
-// 		theRes = inMap->FindResource( ImgType_Cursor, inResID, true );
-		theRes = UIconMisc::FindBitmapResource(inMap, ImgType_Cursor, inResID, true );
-		ThrowIfNil_( theRes );
-		h = (CursHandle) theRes->GetData();
+		h = (CursHandle) inRezObj->GetData();
 		ThrowIfNil_( h );
 		::HLock( (Handle) h );
 
@@ -248,12 +250,10 @@ CWindow_Cursor::ParseBWCursor( CRezMap *inMap, ResIDT inResID,
 		*outMask = mask;
 		*outHotSpot = (**h).hotSpot;
 		
-		delete theRes;
 	}
 	catch( ... )
 	{
 		( h );
-		if ( theRes ) delete ( theRes );
 		if ( bw ) delete ( bw );
 		if ( mask ) delete( mask );
 		throw;
@@ -266,10 +266,10 @@ CWindow_Cursor::ParseBWCursor( CRezMap *inMap, ResIDT inResID,
 // ---------------------------------------------------------------------------
 // 	ParseColorCursor
 // ---------------------------------------------------------------------------
-// 	See description of CCrsr structure above.
+// 	See description of CCrsr structure above. ImgType_ColorCursor
 
 void
-CWindow_Cursor::ParseColorCursor( CRezMap *inMap, ResIDT inResID,
+CWindow_Cursor::ParseColorCursor( CRezObj * inRezObj,
 						COffscreen **outColor, COffscreen **outBW, 
 						COffscreen **outMask, Point *outHotSpot )
 {
@@ -278,18 +278,19 @@ CWindow_Cursor::ParseColorCursor( CRezMap *inMap, ResIDT inResID,
 	CTabHandle		theTable = nil, oneBitTable = nil;
 	COffscreen		*cBuffer = nil, *bwBuffer = nil, *maskBuffer = nil, *tempBuffer = nil;
 	CCrsrHandle		h = nil;
-	CRezObj 		*theRes = nil;
 	UInt8			*p;
 	
 	try
 	{
+		// Get an empty default icon if the size is 0
+		if (inRezObj->GetSize() == 0) {
+			UIconMisc::GetDefaultBitmap(inRezObj, ImgType_Cursor, true );	
+		} 
+		
 		// Get the raw resource handle. This isn't the usual way of loading
 		// color cursors, so the fields will be raw and not filled in (as
 		// when GetCCursor is used).
-// 		theRes = inMap->FindResource( ImgType_ColorCursor, inResID, true );
-		theRes = UIconMisc::FindBitmapResource(inMap, ImgType_ColorCursor, inResID, true );
-		ThrowIfNil_( theRes );
-		h = (CCrsrHandle) theRes->GetData();
+		h = (CCrsrHandle) inRezObj->GetData();
 		ThrowIfNil_( h );
 		::HLock( (Handle) h );
 		p = (UInt8*) *h;
@@ -345,7 +346,6 @@ CWindow_Cursor::ParseColorCursor( CRezMap *inMap, ResIDT inResID,
 		cBuffer = COffscreen::CreateBuffer( width, height, 32 );
 		cBuffer->CopyFrom( tempBuffer );
 		
-		delete theRes;
 	}
 	catch( ... )
 	{
@@ -353,7 +353,6 @@ CWindow_Cursor::ParseColorCursor( CRezMap *inMap, ResIDT inResID,
 		if ( bwBuffer ) delete ( bwBuffer );
 		if ( cBuffer ) delete ( cBuffer );
 		if ( tempBuffer ) delete ( tempBuffer );
-		if ( theRes ) delete ( theRes );
 		if ( theTable ) ::DisposeCTable( theTable );
 		( h );
 	}
@@ -383,7 +382,6 @@ CWindow_Cursor::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 	ThrowIf_( !mBWSample || !mMaskSample );
 	COffscreen	*bwBuffer = mBWSample->GetBuffer();
 	COffscreen	*maskBuffer = mMaskSample->GetBuffer();
-	CRezObj 	*theRes = nil;
 
 	Point	theHotSpot = mCanvas->GetHotSpot();
 	
@@ -404,13 +402,9 @@ CWindow_Cursor::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 				throw( err_IconInvalidImageFormat );
 		}
 
-		theRes = inMap->FindResource( mResourceType, inResID, 
-													false /* loadIt */, 
-													true  /* createIt */ );
+		CRezObj *	theRes = mOwnerDoc->GetRezObj();
 		ThrowIfNil_( theRes );
 		theRes->SetData( h );
-		
-		delete theRes;
 	}
 	catch( ... )
 	{

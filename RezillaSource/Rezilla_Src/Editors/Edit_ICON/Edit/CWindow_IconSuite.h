@@ -1,7 +1,7 @@
 // ===========================================================================
 // CWindow_IconSuite.h
 //                       Created: 2005-01-10 21:23:57
-//             Last modification: 2005-01-11 08:01:15
+//             Last modification: 2005-02-17 17:50:58
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -19,6 +19,7 @@
 
 class CRezMap;
 class CDraggableTargetView;
+class CRezObj;
 
 typedef short		SICN[16];
 typedef SICN *		SICN_Ptr;
@@ -32,7 +33,7 @@ class CWindow_IconSuite : public CSuite_Window {
 								CWindow_IconSuite( LStream * );
 		virtual					~CWindow_IconSuite();
 		
-		static CWindow_IconSuite *	OpenPaintWindow( ResIDT inPPobID, CRezMap *inMap, ResType inResType, ResIDT inResID );
+		static CWindow_IconSuite *	OpenPaintWindow( CRezObj * inRezObj, ResIDT inPPobID );
 		static CWindow_IconSuite *	CreateFromStream( LStream *inStream );
 		
 		virtual void		SaveAsResource( CRezMap *inMap, ResIDT inID);

@@ -1,7 +1,7 @@
 // ===========================================================================
 // CWindow_ColorIcon.cp
 //                       Created: 2004-12-11 18:50:11
-//             Last modification: 2005-02-06 19:19:45
+//             Last modification: 2005-02-17 12:19:06
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -17,6 +17,7 @@
 #include "CDraggableTargetView.h"
 #include "CRezillaPrefs.h"
 #include "CRezObj.h"
+#include "CEditorDoc.h"
 #include "CRezMap.h"
 #include "COffscreen.h"
 #include "RezillaConstants.h"
@@ -31,14 +32,14 @@
 // 	OpenPaintWindow
 // ---------------------------------------------------------------------------
 CWindow_ColorIcon*
-CWindow_ColorIcon::OpenPaintWindow( ResIDT inPPobID, CRezMap *inMap, ResIDT inResID )
+CWindow_ColorIcon::OpenPaintWindow(CRezObj * inRezObj, ResIDT inPPobID )
 {
 	CWindow_ColorIcon *	theWindow = nil;
 
 	try
 	{
 		theWindow = (CWindow_ColorIcon*) CIcon_EditorWindow::CreatePaintWindow( inPPobID );
-		theWindow->InitializeFromResource( inMap, inResID );
+		theWindow->InitializeFromResource(inRezObj);
 	}
 	catch( ... )
 	{
@@ -117,7 +118,7 @@ CWindow_ColorIcon::FinishCreateSelf()
 // 	InitializeFromResource
 // ---------------------------------------------------------------------------
 void
-CWindow_ColorIcon::InitializeFromResource( CRezMap *inMap, ResIDT inResID )
+CWindow_ColorIcon::InitializeFromResource(CRezObj * inRezObj)
 {
 	StGWorldSaver		aSaver;
 	StRezRefSaver		aSaver2;
@@ -125,7 +126,7 @@ CWindow_ColorIcon::InitializeFromResource( CRezMap *inMap, ResIDT inResID )
 	
 	COffscreen			*colorImage = nil, *bwImage = nil, *maskImage = nil;
 	
-	this->ParseColorIcon( inMap, inResID, &colorImage, &bwImage, &maskImage, &bwIsEmpty );
+	this->ParseColorIcon( inRezObj, &colorImage, &bwImage, &maskImage, &bwIsEmpty );
 	this->InitializeFromBuffers( colorImage, bwImage, maskImage, bwIsEmpty );
 }
 
@@ -182,7 +183,7 @@ CWindow_ColorIcon::InitializeFromBuffers( COffscreen *colorImage, COffscreen *bw
 // 	ParseColorIcon
 // ---------------------------------------------------------------------------
 void
-CWindow_ColorIcon::ParseColorIcon( CRezMap *inMap, ResIDT inResID,
+CWindow_ColorIcon::ParseColorIcon( CRezObj * inRezObj,
 						COffscreen **outColor, COffscreen **outBW, 
 						COffscreen **outMask, Boolean *outBWEmpty )
 {
@@ -193,15 +194,18 @@ CWindow_ColorIcon::ParseColorIcon( CRezMap *inMap, ResIDT inResID,
 	CTabHandle		theTable = nil, oneBitTable = nil;
 	COffscreen		*cBuffer = nil, *bwBuffer = nil, *maskBuffer = nil;
 	Handle			h = nil;
-	CRezObj 		*theRes = nil;
 
 	try
 	{
+		ThrowIfNil_( inRezObj );
+		
+		// Get an empty default icon if the size is 0
+		if (inRezObj->GetSize() == 0) {
+			UIconMisc::GetDefaultBitmap(inRezObj, ImgType_ColorIcon, true );	
+		} 
+		
 		// Get the raw resource handle
-		theRes = UIconMisc::FindBitmapResource(inMap, ImgType_ColorIcon, inResID, true );
-// 		theRes = inMap->FindResource( ImgType_ColorIcon, inResID, true );
-		ThrowIfNil_( theRes );
-		h = theRes->GetData();
+		h = inRezObj->GetData();
 		ThrowIfNil_( h );
 		::HLock( h );
 		
@@ -273,11 +277,9 @@ CWindow_ColorIcon::ParseColorIcon( CRezMap *inMap, ResIDT inResID,
 			cBuffer = directBuffer;
 		}
 
-		delete theRes;
 	}
 	catch( ... )
 	{
-		if ( theRes ) delete( theRes );
 		if ( maskBuffer ) delete( maskBuffer );
 		if ( bwBuffer ) delete( bwBuffer );
 		if ( cBuffer ) delete( cBuffer );
@@ -307,7 +309,6 @@ CWindow_ColorIcon::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 {
 	ThrowIf_( !mColorSample || !mBWSample || !mMaskSample );
 	
-	CRezObj 	*theRes = nil;
 	COffscreen	*colorBuffer = mColorSample->GetBuffer();
 	COffscreen	*bwBuffer = mBWSample->GetBuffer();
 	COffscreen	*maskBuffer = mMaskSample->GetBuffer();
@@ -320,17 +321,12 @@ CWindow_ColorIcon::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 	
 	try
 	{
-		theRes = inMap->FindResource( ImgType_ColorIcon, inResID, 
-													false /* loadIt */, 
-													true  /* createIt */ );
+		CRezObj *	theRes = mOwnerDoc->GetRezObj();
 		ThrowIfNil_( theRes );
 		theRes->SetData( h );
-		
-		delete theRes;
 	}
 	catch( ... )
 	{
-		if ( theRes ) delete( theRes );
 		( h );
 		throw;
 	}

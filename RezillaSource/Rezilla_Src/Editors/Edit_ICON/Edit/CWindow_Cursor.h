@@ -1,11 +1,11 @@
 // ===========================================================================
 // CWindow_Cursor.h
 //                       Created: 2004-12-11 18:56:26
-//             Last modification: 2005-01-09 08:16:15
+//             Last modification: 2005-02-17 17:52:39
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes 2004, 2005
+// (c) Copyright: Bernard Desgraupes 2004-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -20,20 +20,21 @@
 class COffscreen;
 class CDraggableTargetView;
 class CRezMap;
+class CRezObj;
 
 
 class CWindow_Cursor : public CIcon_EditorWindow {
 	public:
 		enum { class_ID = FOUR_CHAR_CODE('CrsV') };
 
-		static CWindow_Cursor*		OpenPaintWindow( ResIDT inPPobID, CRezMap *, ResType, ResIDT );
+		static CWindow_Cursor*		OpenPaintWindow( CRezObj * inRezObj, ResIDT inPPobID );
 		static CWindow_Cursor*		CreateFromStream( LStream *inStream );
 		
 									CWindow_Cursor( LStream * );
 		virtual						~CWindow_Cursor();
 		virtual void				FinishCreateSelf();
 		
-		virtual void				InitializeFromResource( CRezMap *, ResType, ResIDT );		
+		virtual void				InitializeFromResource(CRezObj * inRezObj);		
 		virtual void				SaveAsResource( CRezMap *inMap, ResIDT inResID );
 
 	protected:
@@ -43,10 +44,10 @@ class CWindow_Cursor : public CIcon_EditorWindow {
 		ResType						mResourceType;
 		Point						mUndoHotSpot;
 		
-		void 						ParseBWCursor( CRezMap *, ResIDT, COffscreen **outBW,
+		void 						ParseBWCursor( CRezObj * inRezObj, COffscreen **outBW,
 													COffscreen **outMask, Point *outHotSpot );
 
-		void						ParseColorCursor( CRezMap *, ResIDT, COffscreen **outColor,
+		void						ParseColorCursor( CRezObj * inRezObj, COffscreen **outColor,
 												COffscreen **outBW, COffscreen **outMask,
 												Point *outHotSpot);
 

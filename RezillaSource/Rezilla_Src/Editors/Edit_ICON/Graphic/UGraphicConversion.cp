@@ -254,7 +254,7 @@ UGraphicConversion::GetPictFromFile( const FSSpec &inSpec )
 // is present in RAM.
 
 void UGraphicConversion::SaveOffscreenAsResource( 
-								CRezMap *inMap, ResType inResType, ResIDT inResID,
+								CRezObj * inRezObj, ResType inResType,
 								COffscreen *inBuffer, SInt32 rowBytes,
 								COffscreen *inMask, SInt32 maskOffset, SInt32 maskRowBytes )
 {
@@ -290,14 +290,14 @@ void UGraphicConversion::SaveOffscreenAsResource(
 			inMask->CopyToRawData( *h + maskOffset, maskRowBytes );
 
 		// Write out the resource
-		CRezObj * theRes = inMap->FindResource( inResType, inResID, 
-													false /* loadIt */, 
-													true  /* createIt */ );
-		ThrowIfNil_( theRes );
+// 		CRezObj * theRes = inMap->FindResource( inResType, inResID, 
+// 													false /* loadIt */, 
+// 													true  /* createIt */ );
+		ThrowIfNil_( inRezObj );
 		
-		theRes->SetData( (Handle) h );
+		inRezObj->SetData( (Handle) h );
 
-		delete theRes;
+// 		delete theRes;
 	}
 	catch( ... )
 	{

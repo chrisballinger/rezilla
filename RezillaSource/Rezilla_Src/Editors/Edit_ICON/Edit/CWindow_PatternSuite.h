@@ -1,7 +1,7 @@
 // ===========================================================================
 // CWindow_PatternSuite.h
 //                       Created: 2005-01-09 10:38:27
-//             Last modification: 2005-01-11 08:03:28
+//             Last modification: 2005-02-17 17:47:24
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -19,6 +19,7 @@
 
 class CRezMap;
 class CPatternTargetView;
+class CRezObj;
 
 
 class CWindow_PatternSuite : public CSuite_Window {
@@ -28,7 +29,7 @@ class CWindow_PatternSuite : public CSuite_Window {
 								CWindow_PatternSuite( LStream * );
 		virtual					~CWindow_PatternSuite();
 		
-		static CWindow_PatternSuite *	OpenPaintWindow( ResIDT inPPobID, CRezMap *inMap, ResType inResType, ResIDT inResID );
+		static CWindow_PatternSuite *	OpenPaintWindow( CRezObj * inRezObj, ResIDT inPPobID );
 		static CWindow_PatternSuite *	CreateFromStream( LStream *inStream );
 		
 		virtual void		SaveAsResource( CRezMap *inMap, ResIDT inID);

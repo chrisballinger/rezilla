@@ -1,7 +1,7 @@
 // ===========================================================================
 // CWindow_Picture.cp
 //                       Created: 2004-12-11 18:50:22
-//             Last modification: 2005-02-15 07:00:31
+//             Last modification: 2005-02-17 18:09:23
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -24,19 +24,18 @@
 #include "UResourceMgr.h"
 
 
-
 // ---------------------------------------------------------------------------
 // 	OpenPaintWindow
 // ---------------------------------------------------------------------------
 CWindow_Picture*
-CWindow_Picture::OpenPaintWindow( ResIDT inPPobID, CRezMap *inMap, ResIDT inResID )
+CWindow_Picture::OpenPaintWindow(CRezObj * inRezObj, ResIDT inPPobID )
 {
 	CWindow_Picture *	theWindow = nil;
 	
 	try
 	{
 		theWindow = (CWindow_Picture*) CIcon_EditorWindow::CreatePaintWindow( inPPobID );
-		theWindow->InitializeFromResource( inMap, inResID );
+		theWindow->InitializeFromResource(inRezObj);
 	}
 	catch( ... )
 	{
@@ -93,32 +92,35 @@ CWindow_Picture::FinishCreateSelf()
 // ---------------------------------------------------------------------------
 // 	InitializeFromResource
 // ---------------------------------------------------------------------------
+
 void
-CWindow_Picture::InitializeFromResource( CRezMap * /* inMap */, ResIDT /* inResID */ )
+CWindow_Picture::InitializeFromResource(CRezObj * /* inRezObj */)
 {
 // 	StGWorldSaver		aSaver;
 // 	StRezRefSaver		aSaver2;
 // 
 // 	COffscreen			*theBuffer = nil;
 // 	PicHandle			thePict = nil;
-// 	CRezObj 			*theRes = nil;
 // #if 0
 // 	try
 // 	{
-// 	// 		theRes = inMap->FindResource( ImgType_Picture, inResID, true );
-// 		theRes = UIconMisc::FindBitmapResource(inMap, ImgType_Picture, inResID, true );
-// 		if ( !theRes ) throw( resNotFound );
-// 		thePict = (PicHandle) theRes->GetResData();
+// 		ThrowIfNil_( inRezObj );
+// 	
+// 		// Get an empty default icon if the size is 0
+// 		if (inRezObj->GetSize() == 0) {
+// 			UIconMisc::GetDefaultBitmap(inRezObj, mResourceType, true );	
+// 		} 
+// 		
+// 		if ( !inRezObj ) throw( resNotFound );
+// 		thePict = (PicHandle) inRezObj->GetResData();
 // 		if ( !thePict ) throw( resNotFound );
 // 		
 // 		theBuffer = UGraphicConversion::PictureToOffscreen( thePict );
 // 		this->InitializeFromBuffer( theBuffer );
 // 		
-// 		delete theRes;
 // 	}
 // 	catch( ... )
 // 	{
-// 		if ( theRes ) delete( theRes );
 // 		if ( theBuffer ) delete( theBuffer );
 // 		( thePict );
 // 		throw;
@@ -126,7 +128,7 @@ CWindow_Picture::InitializeFromResource( CRezMap * /* inMap */, ResIDT /* inResI
 // 	
 // 	delete theBuffer;
 // 	( thePict );
-
+// 	#endif
 }
 
 
@@ -150,16 +152,14 @@ CWindow_Picture::SaveAsResource( CRezMap * /* inMap */, ResIDT /* inResID */ )
 	COffscreen	*theBuffer = this->GetCombinedBuffer();
 	if ( !theBuffer ) return;
 		
-	Handle h = nil;
+// 	Handle h = nil;
 // #if 0
 // 	try
 // 	{
 // 		h = (Handle) UGraphicConversion::OffscreenToPicture( theBuffer );
-// 		CRezObj * theResource = inMap->FindResource( ImgType_Picture, inResID, 
-// 													false /* loadIt */, 
-// 													true  /* createIt */ );
-// 		ThrowIfNil_( theResource );
-// 		theResource->SetResData( h );
+// 		CRezObj *	theRes = mOwnerDoc->GetRezObj();
+// 		ThrowIfNil_( theRes );
+// 		theRes->SetResData( h );
 // 	}
 // 	catch( ... )
 // 	{
@@ -169,7 +169,7 @@ CWindow_Picture::SaveAsResource( CRezMap * /* inMap */, ResIDT /* inResID */ )
 // 	
 // 	( h );
 // 	this->SetDirty( false );
-//  // 
+//  #endif
 }
 
 

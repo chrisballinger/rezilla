@@ -1,7 +1,7 @@
 // ===========================================================================
 // CWindow_IconFamily.cp
 //                       Created: 2004-12-11 18:50:16
-//             Last modification: 2005-02-15 07:08:19
+//             Last modification: 2005-02-18 22:32:20
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -19,6 +19,7 @@
 #include "CEditorDoc.h"
 #include "CRezMap.h"
 #include "CRezObj.h"
+#include "CRezObjItem.h"
 #include "CRezillaApp.h"
 #include "RezillaConstants.h"
 #include "UColorUtils.h"
@@ -174,8 +175,8 @@ CWindow_IconFamily::InitializeOneMember( CRezMap *inMap, ResType inResType, ResI
 		theBuffer = COffscreen::CreateBuffer( inWidth, inHeight, inDepth, theTable );
 		
 		// If we have a resource, load the data into the offscreen buffer
-// 		theRes = inMap->FindResource( inResType, inResID, true );
-		theRes = UIconMisc::FindBitmapResource(inMap, inResType, inResID, true );
+		theRes = UIconMisc::GetBitmapResource(inMap, inResType, inResID, true );
+
 		if ( theRes )
 		{
 			Handle h = theRes->GetData();
@@ -230,6 +231,7 @@ CWindow_IconFamily::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 	SInt32					numIcons = this->GetFamilyMemberCount();
 	CDraggableTargetView	*mainPane, *maskPane;
 	COffscreen				*mainBuffer, *maskBuffer;
+	CRezObjItem *			rezObjItem;
 
 	// Post CW11 stuff
 	SInt32					numActiveImages = 0;
@@ -277,12 +279,18 @@ CWindow_IconFamily::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 		// Create whatever resources are used
 		if ( mainPane->IsUsed() /*|| (maskPane && maskPane->IsUsed())*/ )
 		{
-			UGraphicConversion::SaveOffscreenAsResource( 
-								inMap, memberInfo.resourceType, inResID, 
-								mainBuffer, memberInfo.rowBytes, 
-								maskBuffer, memberInfo.maskOffset, 
-								memberInfo.maskRowBytes );
-			++numActiveImages;
+		   // Make sure there is a corresponding RezObjItem in the table. 
+		   // This is the case if a resource has been created in the bitmap editor.			
+			rezObjItem = mOwnerDoc->GetRezMapTable()->CreateItemIfNecessary(memberInfo.resourceType, inResID, NULL);
+
+			if (rezObjItem) {				
+				UGraphicConversion::SaveOffscreenAsResource( 
+									rezObjItem->GetRezObj(), memberInfo.resourceType, 
+									mainBuffer, memberInfo.rowBytes, 
+									maskBuffer, memberInfo.maskOffset, 
+									memberInfo.maskRowBytes );
+				++numActiveImages;
+			} 
 		}
 	}	
 	
@@ -290,11 +298,16 @@ CWindow_IconFamily::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 	// things happen (our window gets disposed of).
 	if ( (numActiveImages == 0) && icnPane && icnBuffer )
 	{
-		UGraphicConversion::SaveOffscreenAsResource( 
-							inMap, ImgType_LargeIconWithMask, inResID, 
-							icnBuffer, icnInfo.rowBytes, 
-							icnMaskBuffer, icnInfo.maskOffset, 
-							icnInfo.maskRowBytes );
+		rezObjItem = mOwnerDoc->GetRezMapTable()->CreateItemIfNecessary(ImgType_LargeIconWithMask, inResID, NULL);
+
+		if (rezObjItem) {
+			UGraphicConversion::SaveOffscreenAsResource( 
+									rezObjItem->GetRezObj(), ImgType_LargeIconWithMask, 
+									icnBuffer, icnInfo.rowBytes, 
+									icnMaskBuffer, icnInfo.maskOffset, 
+									icnInfo.maskRowBytes );
+		}
+		
 	}
 	
 	// Now delete all of the unused ones
@@ -331,10 +344,6 @@ CWindow_IconFamily::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 				theRes->Remove();
 			}
 			delete theRes;
-		} else {
-			// Make sure there is a corresponding RezObjItem in the table. 
-			// This is the case if a resource has been created in the bitmap editor.			
-			mOwnerDoc->GetRezMapTable()->CreateItemIfNecessary(memberInfo.resourceType, inResID, NULL);
 		}
 	}	
 

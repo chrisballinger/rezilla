@@ -1,7 +1,7 @@
 // ===========================================================================
 // CWindow_Pattern.cp
 //                       Created: 2004-12-11 18:50:21
-//             Last modification: 2005-02-15 07:03:59
+//             Last modification: 2005-02-17 17:29:37
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -18,6 +18,7 @@
 #include "CPatternTargetView.h"
 #include "CRezObj.h"
 #include "CRezMap.h"
+#include "CEditorDoc.h"
 #include "UColorUtils.h"
 #include "COffscreen.h"
 #include "UIconMisc.h"
@@ -32,14 +33,14 @@
 // ---------------------------------------------------------------------------
 
 CWindow_Pattern *
-CWindow_Pattern::OpenPaintWindow( ResIDT inPPobID, CRezMap *inMap, ResType inResType, ResIDT inResID )
+CWindow_Pattern::OpenPaintWindow( CRezObj * inRezObj, ResIDT inPPobID )
 {
 	CWindow_Pattern *	theWindow = nil;
 
 	try
 	{
 		theWindow = (CWindow_Pattern*) CIcon_EditorWindow::CreatePaintWindow( inPPobID );
-		theWindow->InitializeFromResource( inMap, inResType, inResID );
+		theWindow->InitializeFromResource(inRezObj);
 	}
 	catch( ... )
 	{
@@ -129,28 +130,31 @@ CWindow_Pattern::FinishCreateSelf()
 // ---------------------------------------------------------------------------
 
 void
-CWindow_Pattern::InitializeFromResource( CRezMap *inMap, ResType inResType, ResIDT inResID )
+CWindow_Pattern::InitializeFromResource(CRezObj * inRezObj)
 {
 	StGWorldSaver		aSaver;
 	StRezRefSaver		aSaver2;
 
 	COffscreen			*colorImage = nil, *bwImage = nil;
-	CRezObj 			*theRes = nil;
 	Handle				h = nil;
+	
+	mResourceType = inRezObj->GetType();
 	
 	try
 	{
-		mResourceType = inResType;
+		ThrowIfNil_( inRezObj );
 	
+		// Get an empty default icon if the size is 0
+		if (inRezObj->GetSize() == 0) {
+			UIconMisc::GetDefaultBitmap(inRezObj, mResourceType, true );	
+		} 
+		
 		// Get the raw resource handle
-// 		theRes = inMap->FindResource( inResType, inResID, true );
-		theRes = UIconMisc::FindBitmapResource(inMap, inResType, inResID, true );
-		ThrowIfNil_( theRes );
-		h = theRes->GetData();
+		h = inRezObj->GetData();
 		ThrowIfNil_( h );
 		
 		// Draw the pattern(s) into bitmaps
-		switch( inResType )
+		switch( mResourceType )
 		{
 			case ImgType_PixPat:
 				this->ParseColorPattern( h, &colorImage, &bwImage );
@@ -194,13 +198,11 @@ CWindow_Pattern::InitializeFromResource( CRezMap *inMap, ResType inResType, ResI
 		mBWSample->SetBuffer( bwImage, redraw_Dont );
 		bwImage = nil;			// because it belongs to the sample pane now
 
-		delete theRes;
 	}
 	catch( ... )
 	{
 		if ( bwImage ) delete( bwImage );
 		if ( colorImage ) delete( colorImage );
-		if ( theRes ) delete( theRes );
 		( h );
 		throw;
 	}
@@ -299,13 +301,10 @@ CWindow_Pattern::SaveAsResource( CRezMap *inMap, ResIDT inResID  )
 				throw( err_IconInvalidImageFormat );
 		}
 
-		CRezObj * theRes = inMap->FindResource( mResourceType, inResID, 
-													false /* loadIt */, 
-													true  /* createIt */ );
+		CRezObj *	theRes = mOwnerDoc->GetRezObj();
 		ThrowIfNil_( theRes );
 		theRes->SetData( h );
 
-		delete theRes;
 	}
 	catch( ... )
 	{

@@ -1,11 +1,11 @@
 // ===========================================================================
 // CWindow_Pattern.h
 //                       Created: 2004-12-11 18:56:30
-//             Last modification: 2005-01-09 08:17:08
+//             Last modification: 2005-02-17 17:23:20
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes 2004, 2005
+// (c) Copyright: Bernard Desgraupes 2004-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -20,6 +20,7 @@
 class COffscreen;
 class CPatternTargetView;
 class CRezMap;
+class CRezObj;
 
 
 class CWindow_Pattern : public CIcon_EditorWindow {
@@ -29,12 +30,12 @@ class CWindow_Pattern : public CIcon_EditorWindow {
 									CWindow_Pattern( LStream * );
 		virtual						~CWindow_Pattern();
 
-		static CWindow_Pattern *	OpenPaintWindow( ResIDT inPPobID, CRezMap *, ResType, ResIDT );
+		static CWindow_Pattern *	OpenPaintWindow(CRezObj * inRezObj, ResIDT inPPobID );
 		static CWindow_Pattern *	CreateFromStream( LStream *inStream );
 		
 		virtual void				FinishCreateSelf();
 		
-		virtual void				InitializeFromResource( CRezMap *, ResType, ResIDT );
+		virtual void				InitializeFromResource(CRezObj * inRezObj);
 		virtual void				SaveAsResource( CRezMap *, ResIDT );
 		
 		virtual SInt32				GetZoomFactor( SInt32, SInt32, Boolean *outShowGrid );
