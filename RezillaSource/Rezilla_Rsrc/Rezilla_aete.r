@@ -1,6 +1,6 @@
-#define SystemSevenOrLater 1
-#include "Types.r"
-#include "SysTypes.r"
+// #define SystemSevenOrLater 1
+// #include "Types.r"
+// #include "SysTypes.r"
 #include "AEUserTermTypes.r"
 
 resource 'aete' (0,"Scripting terminology") {
