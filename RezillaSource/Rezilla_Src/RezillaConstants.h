@@ -211,7 +211,7 @@ const ResIDT	STRx_LanguageCodes			= 1601;
 const ResIDT	STRx_RegionCodes			= 1602;
 const ResIDT	STRx_ScriptCodes			= 1603;
 const ResIDT	STRx_PaintUndo				= 7000;
-const ResIDT	STRx_PaintUndo				= 7001;
+const ResIDT	STRx_PaintRedo				= 7001;
 
 // Text traits resources
 const ResIDT    Txtr_GenevaTenBold          = 131;
@@ -911,7 +911,7 @@ enum RezillaErrors
 	err_TmplCantFindKeyPosition,
 	err_TmplUnsupportedResourceId,
 	err_TmplCantFindMatchingKeyEnd,
-	err_FirstError = 3000;   // Used by Icon editor
+	err_FirstError = 3000,   // Used by Icon editor
 	err_IconGeneric					= 3000,	
 	err_IconInvalidImageDepth,
 	err_IconInvalidImageFormat,
@@ -962,6 +962,10 @@ const UInt32	kRezFileType		= FOUR_CHAR_CODE('rsrc');
 // Drag and drop
 const UInt32	kRzilDragFlavor		= FOUR_CHAR_CODE('Rzil');
 
+// For the Icon editor's clipboard and Drag&Drop
+const OSType	ResourceType_Region	= FOUR_CHAR_CODE('RgN ');
+const OSType	ImageType_Picture	= FOUR_CHAR_CODE('PICT');
+
 // Constants for the Rezmap tables
 const SInt16	kRzilColWidth		= 100;
 
@@ -990,6 +994,7 @@ const ResType	ResType_DITL = FOUR_CHAR_CODE('DITL');
 #define  kLastSizeMenuItem	9
 
 // Constants used by the template editor
+// =====================================
 const SInt16	kTmplLeftMargin			= 15;
 const SInt16	kTmplListIndent			= 15;
 const SInt16	kTmplVertSkip			= 4;
@@ -1044,43 +1049,40 @@ const SInt16	kTmplMinListItemHeight	= 16;
 // ==============
 #ifndef MIN
 	#define MIN(a,b) ( (a)<(b) ? a : b )
-
+#endif
 
 #ifndef MAX
 	#define MAX(a,b) ( (a)<(b) ? b : a )
-
+#endif
 
 #ifndef ABS
 	#define ABS(x)   ( (x) < 0 ?  -(x) : x )
+#endif
 
 
-// Prov types for Icon editor
-// ==========================
+// Definitions for the Icon editor
+// ===============================
 typedef SInt16		VolIDT;
 typedef SInt32		DirIDT;
 typedef SInt16		FileIDT;
 typedef SInt16		ResFileIDT;
 
-/*
-	HFS volumes may break the 32-bit limit, so we might as well
-	make it possible to find code dependent on the file size.
-*/
+// HFS volumes may break the 32-bit limit, so we might as well make it
+// possible to find code dependent on the file size.
 typedef UInt32		DiskSizeT;
 typedef UInt32		FileSizeT;		
 typedef UInt32		MemSizeT;
-
-/*
-	a few other things shared by several pieces of code
-*/
 typedef UInt32		PixelValue;		// raw values within a bitmap/pixmap
 typedef UInt32		Color32;		// RGB color in a long (0:R:G:B)
-
 typedef UInt8 *		RawPtr;
 typedef UInt8		RawByte;
 
-/*
-	Three ways to redraw
-*/
+const Color32		kWhiteColor32 = 0x00FFFFFF;
+const Color32		kBlackColor32 = 0;
+const SInt32 		kColorMargins = 1;
+const SInt32 		kFlashCount = 5;
+
+// Three ways to redraw
 enum ERedrawOptions
 {
 	redraw_Now,
