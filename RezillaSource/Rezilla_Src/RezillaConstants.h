@@ -54,6 +54,14 @@ enum
 	refnum_system = 0
 };
 
+// Export formats
+enum
+{	
+	export_Xml = 0,
+	export_Text
+} ;
+
+
 
 // Resource ID's
 // =============
@@ -89,29 +97,37 @@ const ResIDT	rRidL_FindDialog			= rPPob_FindDialog;
 const ResIDT	STRx_DefaultScriptTitle		= 1500;
 
 const ResIDT	STRx_RzilErrorStrings		= 1000;
-const ResIDT	STRx_RzilMessageStrings		= 1001;
-const ResIDT	STRx_NavStrings				= 1002;
-const ResIDT	STRx_FileExtensions			= 1003;
 const ResIDT	STRx_PrefsCtrlList			= 1004;
 const ResIDT	STRx_DefaultDocTitles		= 1500;
-const ResIDT	STRx_RzilWinMenuItem		= 1510;
+const ResIDT	STRx_RzilWinMenuItem		= 1501;
+const ResIDT	STRx_NavStrings				= 1502;
+const ResIDT	STRx_FileExtensions			= 1503;
 
 // Menu resources
-const ResIDT	baseMENU_File				= 1000;
-const ResIDT	baseMENU_Edit				= 1100;
-const ResIDT	rMENU_Resource				= 1200;
-const ResIDT	rMENU_Export				= 140;
 	// rMENU_Window is not a resource. It is built  
 	// in CRezillaApp::InstallWindowMenu()
 const ResIDT	rMENU_Window				= 1300;  
 const ResIDT	rMENU_Help					= 2000;
+// Values the PP menu cmds are based on
+const ResIDT	baseMENU_Edit				= 1100;
+const ResIDT	baseMENU_File				= 1000;
+const ResIDT	baseMENU_Resource			= 1200;
 
 // Icon resources
 const ResIDT	ICN_WindowMenu				= 3100;
 
 // Indices in STR# resources
 // -------------------------
-// Indices of STR# 1002: save as names
+// Indices of STR# 1500: untitled windows names
+const SInt16	index_RezMapUntitled		= 1;
+const SInt16	index_RezMapUntitledX		= 2;
+const SInt16	index_HexEditUntitled		= 3;
+const SInt16	index_HexEditUntitledX		= 4;
+// Indices of STR# 1501: windows menu items
+const SInt16	index_WinMenuInspector		= 1;
+const SInt16	index_WinMenuTypeInspector	= 2;
+const SInt16	index_WinMenuRezInspector	= 3;
+// Indices of STR# 1502: save as names
 const SInt16	index_RezillaAppName		= 1;
 const SInt16	index_SaveRezFileAs			= 2;
 const SInt16	index_SaveResourceAs		= 3;
@@ -119,22 +135,16 @@ const SInt16	index_SaveUntitledRsrc		= 4;
 const SInt16	index_SaveUntitledIcon		= 5;
 const SInt16	index_CreateNewRezMap		= 6;
 const SInt16	index_CreateUntitled		= 7;
-// Indices of STR# 1003: file extensions
+const SInt16	index_ExportMapAs			= 8;
+const SInt16	index_ExportUntitledXml		= 9;
+const SInt16	index_ExportUntitledTxt		= 10;
+// Indices of STR# 1503: file extensions
 const SInt16	index_NoExt					= 1;
 const SInt16	index_ExtRsrc				= 2;
-const SInt16	index_ExtText				= 3;
-const SInt16	index_ExtXml				= 4;
+const SInt16	index_ExtXml				= 3;
+const SInt16	index_ExtText				= 4;
 const SInt16	index_ExtR					= 5;
 const SInt16	index_ExtIcns				= 6;
-// Indices of STR# 1500: untitled windows names
-const SInt16	index_RezMapUntitled		= 1;
-const SInt16	index_RezMapUntitledX		= 2;
-const SInt16	index_HexEditUntitled		= 3;
-const SInt16	index_HexEditUntitledX		= 4;
-// Inspector names
-const SInt16	index_WinsInspector			= 1;
-const SInt16	index_WinsTypeInspector		= 2;
-const SInt16	index_WinsRezInspector		= 3;
 
 
 // Menu commands
@@ -144,19 +154,16 @@ const MessageT	cmd_Help					= 3000;
 // Window menu items
 const MessageT	cmd_ShowInspector			= 2001;	
 // Resource menu items
-const MessageT	cmd_NewRez				= rMENU_Resource + 1;	
-const MessageT	cmd_EditRez				= rMENU_Resource + 2;	
-const MessageT	cmd_GetRezInfo			= rMENU_Resource + 3;
-const MessageT	cmd_RemoveRez			= rMENU_Resource + 4;	
-const MessageT	cmd_DuplicateRez		= rMENU_Resource + 5;	
+const MessageT	cmd_NewRez				= baseMENU_Resource + 1;	
+const MessageT	cmd_EditRez				= baseMENU_Resource + 2;	
+const MessageT	cmd_GetRezInfo			= baseMENU_Resource + 3;
+const MessageT	cmd_RemoveRez			= baseMENU_Resource + 4;	
+const MessageT	cmd_DuplicateRez		= baseMENU_Resource + 5;	
 // File menu items
-const MessageT	cmd_ExportSubMenu		= baseMENU_File + 1;	
+const MessageT	cmd_ExportMap			= baseMENU_File + 1;	
 // Edit menu items
 const MessageT	cmd_Find				= baseMENU_Edit + 1;	
 const MessageT	cmd_FindNext			= baseMENU_Edit + 2;	
-// Export submenu items
-const MessageT	cmd_ExportAsText		= rMENU_Export + 1;	
-const MessageT	cmd_ExportAsXML			= rMENU_Export + 2;	
 
 // Control ID's
 // ============
@@ -304,8 +311,10 @@ enum
 
 
 /* Apple Events constants (aedt) */
-// const long	ae_Rzil					= 5000;
-const long	ae_Version				= 5001;
+// const long	aeRzil_Open				= 5000;
+// const long	aeRzil_Ltyp				= 5001;
+// const long	aeRzil_Lrez				= 5002;
+const long	aeRzil_Version				= 5010;
 
 
 // Error constants

@@ -63,16 +63,22 @@ public:
 
 	virtual StringPtr	GetDescriptor( Str255 outDescriptor ) const;
 
-// 	virtual Boolean		UsesFileSpec( const FSSpec& inFileSpec ) const;
+	virtual Boolean		UsesFileSpec( const FSSpec& inFileSpec ) const;
 
 	virtual Boolean		IsModified();
 	virtual Boolean		HasSelection();
 	
 	Boolean				DesignateOutFile( FSSpec& outFileSpec, bool & outReplacing);
 
+	Boolean				DesignateExportFile( FSSpec& outFileSpec, bool & outReplacing);
+
 	virtual void		AttemptClose( Boolean inRecordIt );
 
 	virtual Boolean		AskSaveAs(
+								FSSpec			&outFSSpec,
+								Boolean			inRecordIt);
+
+	virtual Boolean		AskExportAs(
 								FSSpec			&outFSSpec,
 								Boolean			inRecordIt);
 
@@ -121,7 +127,8 @@ protected:
 	                 		                  	// dependent from this doc (all edit 
 	                 		                  	// windows for resources in this map)
 	Boolean					mUpdateOnClose;
-		
+	SInt16					mExportFormat;
+	
 	void				NameNewDoc();
 	void				NewResDialog();
 	void				UpdateRefNum(short newRefNum);
