@@ -1127,10 +1127,10 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		BuildFormatString(formatString, 2);
 		sprintf(charString, formatString, theUInt8, NULL);
 		CopyCStringToPascal(charString, theString);
-		if (inType != 'FBYT' || CRezillaPrefs::GetPrefValue(kPref_editors_dispFillers) ) {
+		if (inType != 'FBYT' || CRezillaPrefs::GetPrefValue(kPref_templates_dispFillers) ) {
 			AddStaticField(inType, inLabelString, inContainer);
 		} 
-		AddEditField(theString, inType, 2 + CRezillaPrefs::GetPrefValue(kPref_editors_hexSymbol), 0, 
+		AddEditField(theString, inType, 2 + CRezillaPrefs::GetPrefValue(kPref_templates_hexSymbol), 0, 
 					 &UHexFilters::HexTemplateField, inContainer);
 		break;
 
@@ -1161,10 +1161,10 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		BuildFormatString(formatString, 8);
 		sprintf(charString, formatString, theUInt32, NULL);
 		CopyCStringToPascal(charString, theString);
-		if (inType != 'FLNG' || CRezillaPrefs::GetPrefValue(kPref_editors_dispFillers) ) {
+		if (inType != 'FLNG' || CRezillaPrefs::GetPrefValue(kPref_templates_dispFillers) ) {
 			AddStaticField(inType, inLabelString, inContainer);
 		} 
-		AddEditField(theString, inType, 8 + CRezillaPrefs::GetPrefValue(kPref_editors_hexSymbol), 0, 
+		AddEditField(theString, inType, 8 + CRezillaPrefs::GetPrefValue(kPref_templates_hexSymbol), 0, 
 					 &UHexFilters::HexTemplateField, inContainer);
 		break;
 
@@ -1177,10 +1177,10 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		BuildFormatString(formatString, 4);
 		sprintf(charString, formatString, theUInt16, NULL);
 		CopyCStringToPascal(charString, theString);
-		if (inType != 'FWRD' || CRezillaPrefs::GetPrefValue(kPref_editors_dispFillers) ) {
+		if (inType != 'FWRD' || CRezillaPrefs::GetPrefValue(kPref_templates_dispFillers) ) {
 			AddStaticField(inType, inLabelString, inContainer);
 		} 
-		AddEditField(theString, inType, 4 + CRezillaPrefs::GetPrefValue(kPref_editors_hexSymbol), 0, 
+		AddEditField(theString, inType, 4 + CRezillaPrefs::GetPrefValue(kPref_templates_hexSymbol), 0, 
 					 &UHexFilters::HexTemplateField, inContainer);
 		break;
 
@@ -1555,7 +1555,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		  // Tnnn: a text string with fixed padding that is $nnn hex bytes long 
 
 		   if (inType >> 24 != 'F' || 
-			   CRezillaPrefs::GetPrefValue(kPref_editors_dispFillers) ) {
+			   CRezillaPrefs::GetPrefValue(kPref_templates_dispFillers) ) {
 					AddStaticField(inType, inLabelString, inContainer, sLeftLabelTraitsID, reqLength);
 					mYCoord += kTmplLabelVertSkip;
 			} 

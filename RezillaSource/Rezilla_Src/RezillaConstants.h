@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2005-01-14 09:09:22
+//             Last modification : 2005-01-15 09:33:48
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -100,7 +100,8 @@ enum {
 	mpv_Export,
 	mpv_Compare,
 	mpv_Interface,
-	mpv_Editor,
+	mpv_Templates,
+	mpv_Editors,
 	mpv_Misc
 };
 
@@ -189,8 +190,9 @@ const ResIDT	PPob_PrefsGeneralPane		= 7100;
 const ResIDT	PPob_PrefsExportPane		= 7200;
 const ResIDT	PPob_PrefsComparePane		= 7300;
 const ResIDT	PPob_PrefsInterfacePane		= 7400;
-const ResIDT	PPob_PrefsEditorsPane		= 7500;
-const ResIDT	PPob_PrefsMiscPane			= 7600;
+const ResIDT	PPob_PrefsTemplatesPane		= 7500;
+const ResIDT	PPob_PrefsEditorsPane		= 7600;
+const ResIDT	PPob_PrefsMiscPane			= 7700;
 const ResIDT	PPob_FindDialog				= 8500;
 const ResIDT	PPob_FontSizeDialog			= 8600;
 const ResIDT	PPob_ImageResizeDialog		= 8900;
@@ -555,18 +557,21 @@ const PaneIDT	item_CompPrefsTxtDisplay	= 7;
 //     --------------------
 const PaneIDT	item_UIPrefsFontsMenu		= 2;
 const PaneIDT	item_UIPrefsSizeMenu		= 3;
+//     Templates Prefs Pane
+//     --------------------
+const PaneIDT	item_EditPrefsHexSymRgbx		= 2;
+const PaneIDT	item_EditPrefsHexSym0x			= 3;
+const PaneIDT	item_EditPrefsHexSymDollar		= 4;
+const PaneIDT	item_EditPrefsHexCaseRgbx		= 5;
+const PaneIDT	item_EditPrefsHexLowercase		= 6;
+const PaneIDT	item_EditPrefsHexUppercase		= 7;
+const PaneIDT	item_EditPrefsDisplayFillers	= 8;
+const PaneIDT	item_EditPrefsEnableFillers		= 9;
 //     Editors Prefs Pane
 //     ------------------
-const PaneIDT	item_EditPrefsHexSymRgbx	= 2;
-const PaneIDT	item_EditPrefsHexSym0x		= 3;
-const PaneIDT	item_EditPrefsHexSymDollar	= 4;
-const PaneIDT	item_EditPrefsHexCaseRgbx	= 5;
-const PaneIDT	item_EditPrefsHexLowercase	= 6;
-const PaneIDT	item_EditPrefsHexUppercase	= 7;
-const PaneIDT	item_EditPrefsDispFillers	= 8;
-const PaneIDT	item_EditPrefsEnableFillers	= 9;
 const PaneIDT	item_EditPrefsUse8BitPicts	= 10;
 const PaneIDT	item_EditPrefsUseFullTables	= 11;
+const PaneIDT	item_EditPrefsDoFontSubst	= 20;
 //     Misc Prefs Pane
 //     ---------------
 const PaneIDT	item_MiscPrefsSetSigOnClose		= 2;
@@ -774,16 +779,19 @@ const MessageT	msg_CompPrefsTxtDisplay		= PPob_PrefsComparePane + item_CompPrefs
 //     --------------------
 const MessageT	msg_UIPrefsFontsMenu		= PPob_PrefsInterfacePane + item_UIPrefsFontsMenu;
 const MessageT	msg_UIPrefsSizeMenu			= PPob_PrefsInterfacePane + item_UIPrefsSizeMenu;
+//     Templates Prefs Pane
+//     --------------------
+const MessageT	msg_EditPrefsHexSym0x		= PPob_PrefsTemplatesPane + item_EditPrefsHexSym0x;
+const MessageT	msg_EditPrefsHexSymDollar	= PPob_PrefsTemplatesPane + item_EditPrefsHexSymDollar;
+const MessageT	msg_EditPrefsHexLowercase	= PPob_PrefsTemplatesPane + item_EditPrefsHexLowercase;
+const MessageT	msg_EditPrefsHexUppercase	= PPob_PrefsTemplatesPane + item_EditPrefsHexUppercase;
+const MessageT	msg_EditPrefsDisplayFillers	= PPob_PrefsTemplatesPane + item_EditPrefsDisplayFillers;
+const MessageT	msg_EditPrefsEnableFillers	= PPob_PrefsTemplatesPane + item_EditPrefsEnableFillers;
 //     Editors Prefs Pane
 //     ------------------
-const MessageT	msg_EditPrefsHexSym0x		= PPob_PrefsEditorsPane + item_EditPrefsHexSym0x;
-const MessageT	msg_EditPrefsHexSymDollar	= PPob_PrefsEditorsPane + item_EditPrefsHexSymDollar;
-const MessageT	msg_EditPrefsHexLowercase	= PPob_PrefsEditorsPane + item_EditPrefsHexLowercase;
-const MessageT	msg_EditPrefsHexUppercase	= PPob_PrefsEditorsPane + item_EditPrefsHexUppercase;
-const MessageT	msg_EditPrefsDispFillers	= PPob_PrefsEditorsPane + item_EditPrefsDispFillers;
-const MessageT	msg_EditPrefsEnableFillers	= PPob_PrefsEditorsPane + item_EditPrefsEnableFillers;
 const MessageT	msg_EditPrefsUse8BitPicts	= PPob_PrefsEditorsPane + item_EditPrefsUse8BitPicts;
 const MessageT	msg_EditPrefsUseFullTables	= PPob_PrefsEditorsPane + item_EditPrefsUseFullTables;
+const MessageT	msg_EditPrefsDoFontSubst	= PPob_PrefsEditorsPane + item_EditPrefsDoFontSubst;
 //     Misc Prefs Pane
 //     ---------------
 const MessageT	msg_MiscPrefsSetSigOnClose	= PPob_PrefsMiscPane + item_MiscPrefsSetSigOnClose;

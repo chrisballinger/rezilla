@@ -53,6 +53,8 @@ public:
 	virtual Boolean		AllowSubRemoval( LCommander* inSub );
 	virtual SInt16		AskSaveChanges( bool inQuitting );
 	
+	void				SaveStylResource(Handle inStyleHandle);
+
 protected:
 	CUtxt_EditorWindow *		mUtxtEditWindow;
 	

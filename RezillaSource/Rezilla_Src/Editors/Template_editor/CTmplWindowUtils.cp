@@ -82,14 +82,14 @@ CTmplEditorWindow::IsValidBitField(OSType inType, Str255 inStr,
 void
 CTmplEditorWindow::BuildFormatString(char * ioString, UInt8 inLength)
 {
-	if (CRezillaPrefs::GetPrefValue(kPref_editors_hexSymbol) == hex_Symb0x) {
-		if (CRezillaPrefs::GetPrefValue(kPref_editors_hexCase) == hex_uppercase) {
+	if (CRezillaPrefs::GetPrefValue(kPref_templates_hexSymbol) == hex_Symb0x) {
+		if (CRezillaPrefs::GetPrefValue(kPref_templates_hexCase) == hex_uppercase) {
 			sprintf(ioString, "0x%s.%dX%sc%c", "%", inLength, "%", 0);
 		} else {
 			sprintf(ioString, "0x%s.%dx%sc%c", "%", inLength, "%", 0);
 		}
 	} else {
-		if (CRezillaPrefs::GetPrefValue(kPref_editors_hexCase) == hex_uppercase) {
+		if (CRezillaPrefs::GetPrefValue(kPref_templates_hexCase) == hex_uppercase) {
 			sprintf(ioString, "$%s.%dX%sc%c", "%", inLength, "%", 0);
 		} else {
 			sprintf(ioString, "$%s.%dx%sc%c", "%", inLength, "%", 0);

@@ -2,11 +2,11 @@
 // CRezillaPrefs.h					
 // 
 //                       Created: 2004-05-17 08:52:16
-//             Last modification: 2004-12-18 07:49:26
+//             Last modification: 2005-01-15 09:33:57
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004
+// (c) Copyright : Bernard Desgraupes, 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -48,18 +48,23 @@ struct SInterfacePrefs {
 };
 
 //     Editors Prefs
-struct SEditorsPrefs {
+struct STemplatesPrefs {
 	SInt32			hexSymbol;
 	SInt32			hexCase;
-	Boolean			dispFillers;
+	Boolean			displayFillers;
 	Boolean			enableFillers;
-	Boolean			use8BitPicts;	// 8-bit instead of 32 ?
-	Boolean			use8BitIcons;	// 8-bit instead of 32 ?
-	Boolean			fullTables;		// default to 256 colors rather than 36 ?
 };
+
+//     Editors Prefs
 // 	// 	One of these two should be #defined
 // 			#define USE_LINES_FOR_ERASER
 // 			//#define USE_RECTS_FOR_ERASER
+struct SEditorsPrefs {
+	Boolean			use8BitPicts;	// 8-bit instead of 32 ?
+	Boolean			use8BitIcons;	// 8-bit instead of 32 ?
+	Boolean			fullTables;		// default to 256 colors rather than 36 ?
+	Boolean			doFontSubst;	// kTXNDoFontSubstitution in MLTE
+};
 
 //     Misc Prefs
 struct SMiscPrefs {
@@ -75,6 +80,7 @@ struct SRezillaPrefs {
 	SExportPrefs		exporting;
 	SComparePrefs		compare;
 	SInterfacePrefs		interface;
+	STemplatesPrefs		templates;
 	SEditorsPrefs		editors;
 	SMiscPrefs			misc;
 };
@@ -84,13 +90,10 @@ enum {
 	kPref_compare_ignoreAttributes,
 	kPref_compare_ignoreData,
 	kPref_compare_ignoreName,
-	kPref_editors_hexSymbol,
-	kPref_editors_hexCase,
-	kPref_editors_dispFillers,
-	kPref_editors_enableFillers,
 	kPref_editors_use8BitPicts,
 	kPref_editors_use8BitIcons,
 	kPref_editors_fullTables,
+	kPref_editors_doFontSubst,
 	kPref_export_dataEncoding,
 	kPref_export_formatDtd,
 	kPref_export_includeBinary,
@@ -102,7 +105,11 @@ enum {
 	kPref_misc_onlyRsrcExt,
 	kPref_misc_closingType,
 	kPref_misc_closingCreator,
-	kPref_misc_setSigOnCreate
+	kPref_misc_setSigOnCreate,
+	kPref_templates_hexSymbol,
+	kPref_templates_hexCase,
+	kPref_templates_displayFillers,
+	kPref_templates_enableFillers
 };
 
 

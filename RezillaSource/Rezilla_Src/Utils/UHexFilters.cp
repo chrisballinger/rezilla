@@ -119,7 +119,7 @@ UHexFilters::HexadecimalField(
 //
 //		> Identify delete and cursor keys
 //		> Accept hexadecimal numbers (0 to 9, a to f and A to F)
-//		> Accept letters x or $ (depending on kPref_editors_hexSymbol)
+//		> Accept letters x or $ (depending on kPref_templates_hexSymbol)
 //		> Reject all other printing characters
 //		> PassUp all other characters
 
@@ -161,7 +161,7 @@ UHexFilters::HexTemplateField(
 //
 //		> Identify delete and cursor keys
 //		> Accept hexadecimal numbers (0 to 9, a to f and A to F)
-//		> Accept letters x or $ (depending on kPref_editors_hexSymbol)
+//		> Accept letters x or $ (depending on kPref_templates_hexSymbol)
 //		> Reject all other printing characters
 //		> PassUp all other characters
 
@@ -347,7 +347,7 @@ UHexFilters::IsHexadecimalChar(UInt16 inChar)
 // ---------------------------------------------------------------------------
 //  ¥ IsHexTemplateChar
 // ---------------------------------------------------------------------------
-// UInt16 val = (CRezillaPrefs::GetPrefValue(kPref_editors_hexSymbol) == hex_Symb0x) ? 'x':'$';
+// UInt16 val = (CRezillaPrefs::GetPrefValue(kPref_templates_hexSymbol) == hex_Symb0x) ? 'x':'$';
 
 bool
 UHexFilters::IsHexTemplateChar(UInt16 inChar)

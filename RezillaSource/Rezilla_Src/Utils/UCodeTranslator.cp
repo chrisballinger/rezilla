@@ -143,7 +143,7 @@ UCodeTranslator::ConvertByteToSeparatedHex( LDataStream* srcDataStream, LDataStr
 	SInt32 length = srcDataStream->GetLength();
 	char * formatStr = new char[32];
 
-	if (CRezillaPrefs::GetPrefValue(kPref_editors_hexCase) == hex_uppercase) {
+	if (CRezillaPrefs::GetPrefValue(kPref_templates_hexCase) == hex_uppercase) {
 		sprintf(formatStr, "%s.2X %c", "%", 0);
 	} else {
 		sprintf(formatStr, "%s.2x %c", "%", 0);
@@ -170,7 +170,7 @@ UCodeTranslator::ConvertByteToSeparatedHex(char* srcString, char* trgtString )
 	SInt32 pos = 0;
 	char * formatStr = new char[32];
 
-	if (CRezillaPrefs::GetPrefValue(kPref_editors_hexCase) == hex_uppercase) {
+	if (CRezillaPrefs::GetPrefValue(kPref_templates_hexCase) == hex_uppercase) {
 		sprintf(formatStr, "%s.2X %c", "%", 0);
 	} else {
 		sprintf(formatStr, "%s.2x %c", "%", 0);
@@ -200,7 +200,7 @@ UCodeTranslator::ConvertByteToSegmentedHex( LDataStream* srcDataStream, LDataStr
 	SInt32 length = srcDataStream->GetLength();
 	char * formatStr = new char[32];
 
-	if (CRezillaPrefs::GetPrefValue(kPref_editors_hexCase) == hex_uppercase) {
+	if (CRezillaPrefs::GetPrefValue(kPref_templates_hexCase) == hex_uppercase) {
 		sprintf(formatStr, "%s.2X%c", "%", 0);
 	} else {
 		sprintf(formatStr, "%s.2x%c", "%", 0);
@@ -231,7 +231,7 @@ UCodeTranslator::ConvertByteToSegmentedHex(char* srcString, char* trgtString, SI
 	SInt32 period = 3 * inSegment;
 	char * formatStr = new char[32];
 
-	if (CRezillaPrefs::GetPrefValue(kPref_editors_hexCase) == hex_uppercase) {
+	if (CRezillaPrefs::GetPrefValue(kPref_templates_hexCase) == hex_uppercase) {
 		sprintf(formatStr, "%s.2X%ss%c", "%", "%", 0);
 	} else {
 		sprintf(formatStr, "%s.2x%ss%c", "%", "%", 0);
@@ -260,7 +260,7 @@ UCodeTranslator::ConvertByteToHex( LDataStream* srcDataStream, LDataStream* trgt
 	SInt32 length = srcDataStream->GetLength();
 	char * formatStr = new char[32];
 
-	if (CRezillaPrefs::GetPrefValue(kPref_editors_hexCase) == hex_uppercase) {
+	if (CRezillaPrefs::GetPrefValue(kPref_templates_hexCase) == hex_uppercase) {
 		sprintf(formatStr, "%s.2X%c", "%", 0);
 	} else {
 		sprintf(formatStr, "%s.2x%c", "%", 0);
@@ -287,7 +287,7 @@ UCodeTranslator::ConvertByteToHex(char* srcString, char* trgtString )
 	SInt32 pos = 0;
 	char * formatStr = new char[32];
 
-	if (CRezillaPrefs::GetPrefValue(kPref_editors_hexCase) == hex_uppercase) {
+	if (CRezillaPrefs::GetPrefValue(kPref_templates_hexCase) == hex_uppercase) {
 		sprintf(formatStr, "%s.2X%c", "%", 0);
 	} else {
 		sprintf(formatStr, "%s.2x%c", "%", 0);

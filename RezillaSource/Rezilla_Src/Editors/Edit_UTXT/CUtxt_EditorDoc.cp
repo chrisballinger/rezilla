@@ -25,7 +25,9 @@ PP_Begin_Namespace_PowerPlant
 #include "RezillaConstants.h"
 #include "CRezObj.h"
 #include "CRezMap.h"
+#include "CRezMapDoc.h"
 #include "CRezMapTable.h"
+#include "CEditorsController.h"
 #include "CWindowMenu.h"
 #include "UCodeTranslator.h"
 #include "UDialogBoxHandler.h"
@@ -217,6 +219,21 @@ CUtxt_EditorDoc::IsModified()
 }
 
 
+// // ---------------------------------------------------------------------------
+// //  ¥ DoSaveChanges													[public]
+// // ---------------------------------------------------------------------------
+// // The callee should set the shouldWeRelease variable to tell us if the 
+// // handle we receive should be released here.
+// 
+// void
+// CEditorDoc::DoSaveChanges() 
+// {
+// 	CEditorDoc::DoSaveChanges();
+// 	
+// // 	SaveStylResource
+// }
+
+
 // ---------------------------------------------------------------------------
 //  ¥ GetModifiedResource										[protected]
 // ---------------------------------------------------------------------------
@@ -231,6 +248,39 @@ CUtxt_EditorDoc::GetModifiedResource(Boolean &releaseIt)
 	releaseIt = true;
 	return mUtxtEditWindow->GetContentsView()->GetModifiedText();
 }
+
+
+// ---------------------------------------------------------------------------------
+//  ¥ SaveStylResource
+// ---------------------------------------------------------------------------------
+// What's the eqauivalent of TextEdit's StScrpHandle with MLTE ?
+
+void
+CUtxt_EditorDoc::SaveStylResource(Handle inStyleHandle)
+{
+	if (inStyleHandle == NULL) {
+		return;
+	} else {
+		// Open or create a 'styl' resource and save the style handle therein
+		CRezObj * stylRezObj = NULL;
+		
+		CEditorsController::OpenOrCreateWithTypeAndID(mRezMapTable, 'styl', mRezObj->GetID(), &stylRezObj);
+		if (stylRezObj != NULL) {
+			// Copy to resource's data handle
+			stylRezObj->SetData( (Handle) inStyleHandle);
+			
+			// Mark the resource as modified in the rez map
+			stylRezObj->Changed();
+			
+			// Tell the rezmap doc that there has been a modification
+			mRezMapTable->GetOwnerDoc()->SetModified(true);
+			// Refresh the view
+			stylRezObj->SetSize( ::GetHandleSize( (Handle) inStyleHandle) );
+			mRezMapTable->Refresh();
+		} 
+	}
+}
+
 
 
 PP_End_Namespace_PowerPlant

@@ -320,10 +320,10 @@ CTmplEditorWindow::AddEditField(Str255 inValue,
 
 	// Filler types can be invisible or disabled
 	if (inType == 'FBYT' || inType == 'FWRD' || inType == 'FLNG') {
-		if ( ! CRezillaPrefs::GetPrefValue(kPref_editors_dispFillers) ) {
+		if ( ! CRezillaPrefs::GetPrefValue(kPref_templates_dispFillers) ) {
 			theEditText->Hide();
 			incrY = false;	
-		} else if ( ! CRezillaPrefs::GetPrefValue(kPref_editors_enableFillers) ) {
+		} else if ( ! CRezillaPrefs::GetPrefValue(kPref_templates_enableFillers) ) {
 			theEditText->Disable();
 		} 
 	} 
@@ -744,10 +744,10 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer, SInt32 in
 		
 	// Fnnn filler hex strings can be invisible or disabled
 	if (inType >> 24 == 'F') {
-		if ( ! CRezillaPrefs::GetPrefValue(kPref_editors_dispFillers) ) {
+		if ( ! CRezillaPrefs::GetPrefValue(kPref_templates_dispFillers) ) {
 			theTGB->Hide();
 			incrY = false;	
-		} else if ( ! CRezillaPrefs::GetPrefValue(kPref_editors_enableFillers) ) {
+		} else if ( ! CRezillaPrefs::GetPrefValue(kPref_templates_enableFillers) ) {
 			theHexWE->Disable();
 			theTxtWE->Disable();
 		} 
