@@ -827,6 +827,13 @@
 							<KeyFormID>rang</KeyFormID>
 						</ArrayKeyForms>
 					</ClassElement>
+					<ClassElement>
+						<ClassElementID>cMAP</ClassElementID>
+						<ArrayKeyForms>
+							<KeyFormID>indx</KeyFormID>
+							<KeyFormID>name</KeyFormID>
+						</ArrayKeyForms>
+					</ClassElement>
 				</ArrayElements>
 			</Class>
 
@@ -1333,26 +1340,6 @@
 						<EnumeratorName>ask</EnumeratorName>
 						<EnumeratorID>ask </EnumeratorID>
 						<EnumeratorDescription>Ask the user whether to save</EnumeratorDescription>
-					</Enumerator>
-				</ArrayEnumerators>
-			</Enumeration>
-			<Enumeration>
-				<EnumerationID>DKND</EnumerationID>
-				<ArrayEnumerators>
-					<Enumerator>
-						<EnumeratorName>resource map</EnumeratorName>
-						<EnumeratorID>RMAP</EnumeratorID>
-						<EnumeratorDescription>resource map document</EnumeratorDescription>
-					</Enumerator>
-					<Enumerator>
-						<EnumeratorName>resource editor</EnumeratorName>
-						<EnumeratorID>EDOC</EnumeratorID>
-						<EnumeratorDescription>a resource editor</EnumeratorDescription>
-					</Enumerator>
-					<Enumerator>
-						<EnumeratorName>maps compare</EnumeratorName>
-						<EnumeratorID>COMP</EnumeratorID>
-						<EnumeratorDescription>maps comparison document</EnumeratorDescription>
 					</Enumerator>
 				</ArrayEnumerators>
 			</Enumeration>
@@ -1884,7 +1871,7 @@
 			<Class>
 				<ClassName>hex editor</ClassName>
 				<ClassID>GuiD</ClassID>
-				<ClassDescription>an hexadecimal editor document for a resource</ClassDescription>
+				<ClassDescription>a hexadecimal editor document for a resource</ClassDescription>
 				<ArrayProperties>
 					<ClassProperty>
 						<PropertyName>inherits</PropertyName>
@@ -1913,12 +1900,293 @@
 				</ArrayElements>
 			</Class>
 
+			<Class>
+				<ClassName>map window</ClassName>
+				<ClassID>MapW</ClassID>
+				<ClassDescription>a resource map window</ClassDescription>
+				<ArrayProperties>
+					<ClassProperty>
+						<PropertyName>inherits</PropertyName>
+						<PropertyID>c@#^</PropertyID>
+						<PropertyClass>cwin</PropertyClass>
+						<PropertyDescription>all properties of the 'window' class</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+				</ArrayProperties>
+				<ArrayElements>
+				</ArrayElements>
+			</Class>
+
+			<Class>
+				<ClassName>GUI window</ClassName>
+				<ClassID>MapW</ClassID>
+				<ClassDescription>a GUI custom editor window</ClassDescription>
+				<ArrayProperties>
+					<ClassProperty>
+						<PropertyName>inherits</PropertyName>
+						<PropertyID>c@#^</PropertyID>
+						<PropertyClass>MapW</PropertyClass>
+						<PropertyDescription>all properties of the 'map window' class</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+				</ArrayProperties>
+				<ArrayElements>
+				</ArrayElements>
+			</Class>
+
+			<Class>
+				<ClassName>template window</ClassName>
+				<ClassID>TmpW</ClassID>
+				<ClassDescription>a template editor window</ClassDescription>
+				<ArrayProperties>
+					<ClassProperty>
+						<PropertyName>inherits</PropertyName>
+						<PropertyID>c@#^</PropertyID>
+						<PropertyClass>MapW</PropertyClass>
+						<PropertyDescription>all properties of the 'map window' class</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+				</ArrayProperties>
+				<ArrayElements>
+				</ArrayElements>
+			</Class>
+
+			<Class>
+				<ClassName>hex window</ClassName>
+				<ClassID>HexW</ClassID>
+				<ClassDescription>a hexadecimal editor window</ClassDescription>
+				<ArrayProperties>
+					<ClassProperty>
+						<PropertyName>inherits</PropertyName>
+						<PropertyID>c@#^</PropertyID>
+						<PropertyClass>MapW</PropertyClass>
+						<PropertyDescription>all properties of the 'map window' class</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+					<ClassProperty>
+						<PropertyName>hex pane</PropertyName>
+						<PropertyID>HexP</PropertyID>
+						<PropertyClass>DatP</PropertyClass>
+						<PropertyDescription>the left pane of the hex window</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+					<ClassProperty>
+						<PropertyName>text pane</PropertyName>
+						<PropertyID>TxtP</PropertyID>
+						<PropertyClass>DatP</PropertyClass>
+						<PropertyDescription>the left pane of the hex window</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+				</ArrayProperties>
+				<ArrayElements>
+				</ArrayElements>
+			</Class>
+
+			<Class>
+				<ClassName>data pane</ClassName>
+				<ClassID>DatP</ClassID>
+				<ClassDescription>a pane displaying resource data</ClassDescription>
+				<ArrayProperties>
+					<ClassProperty>
+						<PropertyName>kind</PropertyName>
+						<PropertyID>pKND</PropertyID>
+						<PropertyClass>PKND</PropertyClass>
+						<PropertyDescription>the kind of data this pane displays (hexadecimal or ascii text)</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>enumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+					<ClassProperty>
+						<PropertyName>contents</PropertyName>
+						<PropertyID>pcnt</PropertyID>
+						<PropertyClass>TEXT</PropertyClass>
+						<PropertyDescription>the data displayed in this pane</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>enumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+				</ArrayProperties>
+				<ArrayElements>
+				</ArrayElements>
+			</Class>
+
 		</ArrayClasses>
 		
 		<ArrayComparisonOps>
 		</ArrayComparisonOps>
 		
 		<ArrayEnumerations>
+			<Enumeration>
+				<EnumerationID>DKND</EnumerationID>
+				<ArrayEnumerators>
+					<Enumerator>
+						<EnumeratorName>resource map</EnumeratorName>
+						<EnumeratorID>RMAP</EnumeratorID>
+						<EnumeratorDescription>resource map document</EnumeratorDescription>
+					</Enumerator>
+					<Enumerator>
+						<EnumeratorName>resource editor</EnumeratorName>
+						<EnumeratorID>EDOC</EnumeratorID>
+						<EnumeratorDescription>a resource editor</EnumeratorDescription>
+					</Enumerator>
+					<Enumerator>
+						<EnumeratorName>maps compare</EnumeratorName>
+						<EnumeratorID>COMP</EnumeratorID>
+						<EnumeratorDescription>maps comparison document</EnumeratorDescription>
+					</Enumerator>
+				</ArrayEnumerators>
+			</Enumeration>
+			<Enumeration>
+				<EnumerationID>EKND</EnumerationID>
+				<ArrayEnumerators>
+					<Enumerator>
+						<EnumeratorName>custom</EnumeratorName>
+						<EnumeratorID>kGUI</EnumeratorID>
+						<EnumeratorDescription>custom GUI editor</EnumeratorDescription>
+					</Enumerator>
+					<Enumerator>
+						<EnumeratorName>template</EnumeratorName>
+						<EnumeratorID>kTMP</EnumeratorID>
+						<EnumeratorDescription>template editor</EnumeratorDescription>
+					</Enumerator>
+					<Enumerator>
+						<EnumeratorName>hexadecimal</EnumeratorName>
+						<EnumeratorID>kHEX</EnumeratorID>
+						<EnumeratorDescription>hexadecimal editor</EnumeratorDescription>
+					</Enumerator>
+				</ArrayEnumerators>
+			</Enumeration>
+			<Enumeration>
+				<EnumerationID>PKND</EnumerationID>
+				<ArrayEnumerators>
+					<Enumerator>
+						<EnumeratorName>hexa</EnumeratorName>
+						<EnumeratorID>HEXA</EnumeratorID>
+						<EnumeratorDescription>hex pane</EnumeratorDescription>
+					</Enumerator>
+					<Enumerator>
+						<EnumeratorName>ascii</EnumeratorName>
+						<EnumeratorID>ASCI</EnumeratorID>
+						<EnumeratorDescription>text pane</EnumeratorDescription>
+					</Enumerator>
+				</ArrayEnumerators>
+			</Enumeration>
 		</ArrayEnumerations>
 	</Suite>
 
@@ -2505,12 +2773,12 @@
 					<Enumerator>
 						<EnumeratorName>data fork</EnumeratorName>
 						<EnumeratorID>DATA</EnumeratorID>
-						<EnumeratorDescription>map IN DATA FORK</EnumeratorDescription>
+						<EnumeratorDescription>map in data fork</EnumeratorDescription>
 					</Enumerator>
 					<Enumerator>
 						<EnumeratorName>resource fork</EnumeratorName>
 						<EnumeratorID>RSRC</EnumeratorID>
-						<EnumeratorDescription>a resource editor</EnumeratorDescription>
+						<EnumeratorDescription>map in resource fork</EnumeratorDescription>
 					</Enumerator>
 					<Enumerator>
 						<EnumeratorName>any fork</EnumeratorName>
