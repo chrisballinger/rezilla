@@ -250,17 +250,19 @@ CRezMapTable::InsertRezObjItem(CRezObjItem * inRezObjItem, CRezTypeItem * inRezT
 	Boolean found = false;
 	
 	// Iterate among subitems of the RezTypeItem
-	LArrayIterator iterator( *(inRezTypeItem->GetSubItems()) );
-	while (iterator.Next(&theItem)) {
-		prevRezObjItem = theRezObjItem;
-		theRezObjItem = dynamic_cast<CRezObjItem *>(theItem);
-		theID = theRezObjItem->GetRezObj()->GetID();
-		
-		if ( theID >= inID ) {
-			found = true;
-			break;
-		} 
-	}
+	if (inRezTypeItem->GetSubItems() != NULL) {
+		LArrayIterator iterator( *(inRezTypeItem->GetSubItems()) );
+		while (iterator.Next(&theItem)) {
+			prevRezObjItem = theRezObjItem;
+			theRezObjItem = dynamic_cast<CRezObjItem *>(theItem);
+			theID = theRezObjItem->GetRezObj()->GetID();
+			
+			if ( theID >= inID ) {
+				found = true;
+				break;
+			} 
+		}
+	} 
 	if (!found) {
 		// We have reached the end of the list
 		prevRezObjItem = theRezObjItem;
