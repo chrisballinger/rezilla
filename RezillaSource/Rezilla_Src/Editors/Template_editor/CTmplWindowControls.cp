@@ -1180,6 +1180,7 @@ CTmplEditorWindow::AddListItemView(CTmplListItemView * inPrevListItemView, LView
 
 	theLIV->mPrevItem = inPrevListItemView;
 	if (inPrevListItemView != nil) {
+		theLIV->mNextItem = inPrevListItemView->mNextItem;
 		inPrevListItemView->mNextItem = theLIV;
 	} 
 
