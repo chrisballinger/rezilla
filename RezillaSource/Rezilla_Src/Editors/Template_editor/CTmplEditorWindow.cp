@@ -150,6 +150,10 @@ CTmplEditorWindow::FinishCreateSelf()
 	mItemsCount			= 0;
 	mIndent				= 0;
 	mSkipOffset			= 0;
+	mBitSeqInProgress	= false;
+	mBitSeqValue		= 0;
+	mBitSeqBytesLen		= 0;
+	mBitSeqIndex		= 0;
 	mIsDirty			= false;
 	mYCoord             = kTmplVertSkip;
 	mTemplateStream		= nil;
@@ -1022,12 +1026,12 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 	char	theChar = 0;
 	char 	charString[256];
 	char 	formatString[16];
-	Str255	numStr, theString;
+	Str255	numStr, typeStr, theString;
 	SInt8	theSInt8 = 0;
 	SInt16	theSInt16 = 0;
 	SInt32	theSInt32 = 0, theLength;
 	UInt8	theUInt8 = 0;
-	UInt16	theUInt16 = 0;
+	UInt16	theUInt16 = 0, bitCount = 0, bytesLen = 0;
 	UInt32	theUInt32 = 0;
 	long	theLong;
 	Boolean	theBool = 0;
@@ -1061,6 +1065,9 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 
 		case 'BBIT':
 		// Binary bit (there must be 8 or an even multiple of 8 of these).
+		
+// 		AddBitField(inType, inLabelString, 1, 1, inContainer) ;
+
 		// High bit first.
 		if (mRezStream->GetMarker() < mRezStream->GetLength() ) {
 			*mRezStream >> theUInt8;
@@ -1076,6 +1083,16 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 			AddStaticField(inType, theString, inContainer);
 			AddCheckField( ((theUInt8 & (1 << i)) > 0), inType, inContainer);	
 		}
+		break;
+
+		case 'LBIT':
+		// Bit within a long
+		AddBitField(inType, inLabelString, 1, 4, inContainer) ;
+		break;
+
+		case 'WBIT':
+		// Bit within a word
+		AddBitField(inType, inLabelString, 1, 2, inContainer) ;
 		break;
 
 		case 'BCNT':
@@ -1535,21 +1552,28 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		break;
 
 	  default:
-	  // Handle Hnnn, Cnnn, P0nn cases here or unrecognized type
-	  if (inType >> 24 == 'H') {
-		  // Hnnn A 3-digit hex number; displays nnn bytes in hex format
-		  // 0xfff = 4095
+	  UMiscUtils::OSTypeToPString(inType, typeStr);
+	  // Handle Hnnn, Cnnn, P0nn, BB0n etc cases here or unrecognized type
+	  if (inType >> 24 == 'H' && UMiscUtils::IsValidHexadecimal( (Ptr) typeStr + 2, 3) ) {
+		  
+		  // Hnnn: a 3-digit hex number; displays nnn bytes in hex format.
 		  AddStaticField(inType, inLabelString, inContainer, sLeftLabelTraitsID);
 		  mYCoord += kTmplLabelHeight + kTmplVertSkip;
 		  AddHexDumpField(inType, inContainer);
-	  } else if (inType >> 24 == 'C') {
-		  // Cnnn A C string that is nnn hex bytes long (The last byte is always a 0, so the string itself occupies the first nnn-1 bytes.)
+		  
+	  } else if (inType >> 24 == 'C' && UMiscUtils::IsValidHexadecimal( (Ptr) typeStr + 2, 3) ) {
+		  
+		  // Cnnn: a C string that is nnn hex bytes long (the last byte is always a 0, 
+		  // so the string itself occupies the first nnn-1 bytes.)
 		  AddStaticField(inType, inLabelString, inContainer, sLeftLabelTraitsID);
 		  mYCoord += kTmplLabelHeight + kTmplVertSkip;
 		  AddWasteField(inType, inContainer);
-	  } else if ( inType >> 16 == 'P0') {
+		  
+	  } else if ( inType >> 16 == 'P0' && UMiscUtils::IsValidHexadecimal( (Ptr) typeStr + 3, 2)) {
+		  
+		  // P0nn: a Pascal string that is nn hex bytes long (the length byte is not included in nn, 
+		  // so the string occupies the entire specified length.)
 		  SInt32 length = 255;
-		  // P0nn A Pascal string that is nn hex bytes long (The length byte is not included in nn, so the string occupies the entire specified length.)
 		  if (mRezStream->GetMarker() < mRezStream->GetLength() ) {
 			  SInt32 length;
 			  char str[3];
@@ -1567,15 +1591,53 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		}
 		AddStaticField(inType, inLabelString, inContainer);
 		AddEditField(theString, inType, length, 0, 
-					   UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar), inContainer);	  	
+					   UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar), inContainer);
+					   
+	  } else if ( IsValidBitField(inType, typeStr, bitCount, bytesLen) ) {
+		  
+		  AddBitField(inType, inLabelString, bitCount, bytesLen, inContainer) ;
+		  
 	  } else {
 		  // Unrecognized type
-		  UMessageDialogs::AlertForType(CFSTR("UnknownTemplateType"), inType);
+		  UMessageDialogs::AlertForType(CFSTR("UnknownTemplateTag"), inType);
 	  }
 	  break;
 	}
 
 	return error;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ IsValidBitField													[public]
+// ---------------------------------------------------------------------------
+// BB0n  	BB01 to BB07	Bit field within a byte
+// LBnn  	LB01 to LB31	Bit field within a long
+// WBnn  	WB01 to WB16	Bit field within a word
+
+
+Boolean
+CTmplEditorWindow::IsValidBitField(OSType inType, Str255 ioString, 
+								   UInt16 & ioBitsCount, UInt16 & ioBytesLen)
+{
+	Boolean isValid = false;
+	long	theLong;
+	
+	if (inType >> 8 == 'BB0') {
+		if (ioString[4] > '0' && ioString[4] < 8) {
+			ioBitsCount = ioString[4] - '0';
+			isValid = true;
+			ioString[3] = 1;
+			ioString += 3;
+			ioBytesLen = 1;
+		} 
+	} else if (inType >> 16 == 'LB') {
+		
+	} else if (inType >> 16 == 'WB') {
+		
+	} 
+	
+	return isValid;
 }
 
 
@@ -1755,6 +1817,37 @@ CTmplEditorWindow::AddBooleanField(Boolean inValue,
 	// Advance the counters
 	mYCoord += sRgvPaneInfo.height + kTmplVertSep;
 	mCurrentID++;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ AddBitField											[public]
+// ---------------------------------------------------------------------------
+
+void
+CTmplEditorWindow::AddBitField(OSType inType,
+							   Str255 inLabel,
+							   UInt16 inBitCount, 
+							   UInt16 inBytesLen,
+							   LView * inContainer)
+{
+	if (!mBitSeqInProgress) {
+		mBitSeqInProgress = true;
+		mBitSeqIndex += inBitCount;
+		mBitSeqBytesLen = inBytesLen;
+		if (mRezStream->GetMarker() < mRezStream->GetLength() - mBitSeqBytesLen + 1) {
+			*mRezStream >> mBitSeqValue;
+		} 
+	} 
+	
+	
+	
+	
+	
+	
+	if (mBitSeqBytesLen == mBitSeqIndex + 1) {
+		mBitSeqInProgress = false;
+	} 
 }
 
 

@@ -116,7 +116,10 @@ protected:
 	TArray<CWasteEditView *>	mWasteFieldsList;
 	TArray<ResType>		mOffsetTypesList;
 	TArray<SInt32>		mOffsetMarksList;
-
+	Boolean				mBitSeqInProgress;
+	SInt32				mBitSeqValue;
+	UInt16				mBitSeqBytesLen;
+	UInt16				mBitSeqIndex;
 
 	virtual void	FinishCreateSelf();
 
@@ -153,6 +156,12 @@ private:
 									OSType inType,
 									SInt16 inTitleType, 
 									LView * inContainer);
+	
+	void			AddBitField(OSType inType,
+								   Str255 inLabel,
+								   UInt16 inBitCount, 
+								   UInt16 inBytesLen,
+								   LView * inContainer);
 	
 	void			AddCheckField(Boolean inValue,
 								   OSType inType,
@@ -226,6 +235,12 @@ private:
 	void			RecalcPositions(LView * inView, 
 									SInt32 inVertPos, 
 									SInt32 inPosDelta);
+
+	Boolean			IsValidBitField(OSType inType, 
+									Str255 ioString, 
+									UInt16 & ioBitsCount, 
+									UInt16 & ioBytesLen);
+	
 };
 
 
