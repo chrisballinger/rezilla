@@ -29,10 +29,24 @@ $Date$
 
 
 ================================================================================
-= 1.0.4a6	                             last update: 
+= 1.0.4a7	                             last update: 
 ================================================================================
-¥ Installed editor of 'aete' resources.
 ¥ 
+
+================================================================================
+= 1.0.4a6	                             last update: 2004-08-16 00:40:51
+================================================================================
+¥ Templates output now working for lists.
+¥ Started editor of 'aete' resources.
+¥ Added 22 new templates (now 139 templates available).
+¥ Use the Preference interface settings when creating a new TEXT resource.
+¥ Installed support for external Templates.
+¥ Application Support folders for Rezilla in User and Local domains.
+¥ Rezilla has an internal list of substitution types.
+¥ Installed mechanism for editing some types using another type's 
+  editor or template. There is a new "Edit as Type..." menu item.
+¥ New preferences (Editor and Misc) concerning hex numbers and signatures 
+  on creating, closing and exporting a resource map.
 
 ================================================================================
 = 1.0.4a5	                             last update: 2004-06-30 15:24:18
