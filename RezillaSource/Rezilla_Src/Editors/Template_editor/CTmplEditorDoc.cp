@@ -92,11 +92,10 @@ CTmplEditorDoc::Initialize()
 	
 	mKind = editor_kindTmpl;
 
-	// Create window for our document.
+	// Create window for our document. This sets this doc as the SuperCommander of the window.
 	mTmplEditWindow = dynamic_cast<CTmplEditorWindow *>(LWindow::CreateWindow( rPPob_TmplEditorWindow, this ));
 	Assert_( mTmplEditWindow != nil );
 	
-	mTmplEditWindow->SetSuperCommander(this);
 	mTmplEditWindow->SetOwnerDoc(this);
 	mTmplEditWindow->InstallReadOnlyIcon();
 	SetMainWindow( dynamic_cast<CEditorWindow *>(mTmplEditWindow) );
