@@ -2,7 +2,7 @@
 // CTmplEditorWindow.h
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-11-08 07:33:18
+//             Last modification: 2004-11-09 07:21:32
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -172,8 +172,9 @@ private:
 	
 	void			AddStaticField(OSType inType, 
 								   Str255 inLabel, 
-								   LView * inContainer, 
-								   ResIDT inTextTraitsID = Txtr_GenevaTenBoldRight);
+								   LView * inContainer,
+								   ResIDT inTextTraitsID = Txtr_GenevaTenBoldRight, 
+								   SInt32 inReqLength = 0);
 	
 	void			AddEditField(Str255 inValue, 
 								OSType inType,
@@ -198,10 +199,12 @@ private:
 								   LView * inContainer);
 	
 	void			AddWasteField(OSType inType, 
-								  LView * inContainer);
+								  LView * inContainer, 
+								  SInt32 inReqLength = 0);
 	
 	void			AddHexDumpField(OSType inType, 
-									LView * inContainer);
+									LView * inContainer, 
+									SInt32 inReqLength = 0);
 	
 	void			AddPointField(SInt16 inX, 
 									SInt16 inY, 

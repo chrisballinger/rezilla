@@ -2,7 +2,7 @@
 // CTmplEditorWindow.cp					
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-11-08 07:33:32
+//             Last modification: 2004-11-09 07:21:25
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -912,7 +912,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 	Str255	numStr, typeStr, theString;
 	SInt8	theSInt8 = 0;
 	SInt16	theSInt16 = 0;
-	SInt32	theSInt32 = 0, theLength;
+	SInt32	theSInt32 = 0, theLength, reqLength;
 	UInt8	theUInt8 = 0;
 	UInt16	theUInt16 = 0, bitCount = 0, bytesLen = 0;
 	UInt32	theUInt32 = 0;
@@ -1543,6 +1543,8 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		  && 
 		   UMiscUtils::IsValidHexadecimal( (Ptr) typeStr + 2, 3) ) {
 			  
+		   UMiscUtils::HexNumStringToDecimal(&inType, &reqLength);
+
 		  // Hnnn: a 3-digit hex number; displays $nnn bytes in hex format.
 		  // Cnnn: a C string that is $nnn hex bytes long (the last byte is always a 0, 
 		  //       so the string itself occupies the first $nnn-1 bytes.)
@@ -1551,14 +1553,14 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 
 		   if (inType >> 24 != 'F' || 
 			   CRezillaPrefs::GetPrefValue(kPref_editors_dispFillers) ) {
-					AddStaticField(inType, inLabelString, inContainer, sLeftLabelTraitsID);
+					AddStaticField(inType, inLabelString, inContainer, sLeftLabelTraitsID, reqLength);
 					mYCoord += kTmplLabelHeight + kTmplVertSkip;
 			} 
 				
 			if (inType >> 24 == 'H' || inType >> 24 == 'F') {
-				AddHexDumpField(inType, inContainer);
+				AddHexDumpField(inType, inContainer, reqLength);
 			} else {
-				AddWasteField(inType, inContainer);
+				AddWasteField(inType, inContainer, reqLength);
 			}
 				
 		} else if ( inType >> 16 == 'P0' && UMiscUtils::IsValidHexadecimal( (Ptr) typeStr + 3, 2)) {
@@ -1583,7 +1585,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		  } else {
 			  theString[0] = 0;
 		  }
-		  AddStaticField(inType, inLabelString, inContainer);
+		  AddStaticField(inType, inLabelString, inContainer, sRightLabelTraitsID, theLength);
 		  AddEditField(theString, inType, theLength, 0, 
 					   UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar), inContainer);
 					   
