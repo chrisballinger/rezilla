@@ -2,7 +2,7 @@
 // CIcon_EditorWindow.h
 // 
 //                       Created: 2004-12-10 17:23:05
-//             Last modification: 2004-12-30 09:40:25
+//             Last modification: 2004-12-31 14:33:42
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -157,16 +157,13 @@ public:
 
 protected:
 	CIcon_EditorView *			mContentsView;
-// 	LPopupButton *				mFontPopup;
-// 	LPopupButton *				mSizePopup;
-// 	LPopupButton *				mStylePopup;
 	LStaticText *				mCoordsField;
 
 	Boolean						mChanged;
 	Boolean						mLockedFlag;
 	RgnHandle					mSpareRgn;
 	OSType						mCurrentTool;
-	OSType						mPreviousTool;		// for reverting on eraser
+	OSType						mPreviousTool;
 	Color32						mForeColor,
 								mBackColor;
 	CColorPane					*mColorPane, 
@@ -184,37 +181,34 @@ protected:
 	CIconTextAction				*mTextAction;
 	CSharedPalette				*mSharedPalette;
 	CColorTableChoice			*mColorTableChoice;
-	CDraggableTargetView			*mCurrentSamplePane;
-	CDraggableTargetView			*mSamplePaneList[ kMaxIconSamplePanes ];
+	CDraggableTargetView		*mCurrentSamplePane;
+	CDraggableTargetView		*mSamplePaneList[ kMaxIconSamplePanes ];
 	SInt32						mNumSamplePanes;
-// 	LClipboard					mClipboard;			// only need one of these ???
 	static LMenu				*sIconActionsMenu, 
 								*sIconColorsMenu, 
 								*sIconFontMenu, 
 								*sIconStyleMenu;
 	Boolean						mWindowIsActive;
-	
 	// Resizing
 	Boolean						mAllowImageResizing;
 	SInt32						mMinImageWidth,
 								mMaxImageWidth;
 	SInt32						mMinImageHeight,
 								mMaxImageHeight;
-
-	static CColorCursorCache	*mColorCursorCache;
-	static SInt32				mNumPaintWindows;
-	
+								
+	static CColorCursorCache	*sColorCursorCache;
+	static SInt32				sNumPaintWindows;
 	COffscreen					*mScratchBuffer;
 	
 	static LWindow *			CreatePaintWindow( ResIDT inWindowID );
 
 	// Event handling		
-	virtual void				HandleControlClick( LPane * );
+	virtual void				HandleToolClick(PaneIDT inPaneID);
 	virtual void				HandleControlDoubleClick( LPane * );
 	virtual void				ForceBlackAndWhite();
 	virtual void				SwapColors();
 	
-	virtual CIconAction *			CreateNewAction( OSType inActionType, void *ioParam = nil );
+	virtual CIconAction *		CreateNewAction( OSType inActionType, void *ioParam = nil );
 	virtual void				GetActionSettings( struct SPaintAction * );
 	virtual void				EraseAll();
 	
