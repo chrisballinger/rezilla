@@ -17,8 +17,9 @@ panels:
 	<LI> the General panel
 	<LI> the Export panel
 	<LI> the Compare panel
+	<LI> the Interface panel
 </UL>
-<P> In the <I>General</I> panel, one can set the maximum number of items contained in 
+<P><IMG SRC="../../Images/rzil_preferences.gif" ALT="Preferences window" ALIGN=bottom></P><P><P> In the <I>General</I> panel, one can set the maximum number of items contained in 
 the <I>Recent Items</I> menu (by default, this is 10). A <I>Reset</I> button lets you
 clear the list of recent items. One can also set the default fork in which 
 a new resource map should be created (this corresponds to the radio buttons
@@ -36,13 +37,16 @@ be modified later when the dialog is displayed. One can also set a default
 for the radio buttons appearing at the bottom of a <I>Compare Results</I> window
 and indicating the format in which resource data should be displayed
 (hexadecimal or text): these values can be modified too when the
-window is displayed.<P><!--  ((if $aida_params(target) eq "Html" -->
-<!--  ((s1 Index -->
-<!--  if)) -->
-<!--  ((if $aida_params(target) eq "Html" || $aida_params(target) eq "Pdf" -->
-<!--  ((idx -->
-<!--  if)) --><P><HR>
-<P> Last updated 2004-05-19 17:04:34<P>
+window is displayed.
+<P> In the <I>Interface</I> panel, one can set the font and size used to 
+display the hexadecimal and textual representations of the data resources
+in windows such as the hexadecimal editor windows or the comparison results
+windows. Note that only monospaced fonts (like <I>Monaco</I>, <I>Courier</I> etc.) will
+guarantee a nice display with a correct vertical alignment.
+<P> The preferences are written on disk in the user's preferences file only
+when the application quits. They are stored in a file named 
+<I>net.sourceforge.rezilla.plist</I> located in the user's Preferences folder.<P><HR>
+<P> Last updated 2004-06-09 16:30:50<P>
 
 </BODY>
 </HTML>
