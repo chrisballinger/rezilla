@@ -1432,6 +1432,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 	  } else {
 		  // Unrecognized type
 		  UMessageDialogs::AlertWithType(CFSTR("UnknownTemplateTag"), inType);
+		  error = err_TmplUnrecognizedTag;
 	  }
 	  break;
 	}
@@ -2338,6 +2339,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 	  } else {
 		  // Unrecognized type
 		  UMessageDialogs::AlertWithType(CFSTR("UnknownTemplateType"), inType);
+		  error = err_TmplUnrecognizedTag;
 	  }
 	  break;
 	}

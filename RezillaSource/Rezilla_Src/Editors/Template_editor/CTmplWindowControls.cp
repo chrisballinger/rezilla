@@ -599,7 +599,7 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 					nextPos = oldPos + reqLength;
 					newPos = nextPos - 1;
 					// Look for a NULL byte in this range
-					while (mRezStream->GetMarker() <= nextPos ) {
+					while (mRezStream->GetMarker() < nextPos ) {
 						*mRezStream >> theChar;
 						if (theChar == 0) {
 							newPos = mRezStream->GetMarker() - 1;
@@ -611,7 +611,7 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 					nextPos = oldPos + reqLength;
 					newPos = nextPos;
 					// Look for a NULL byte in this range
-					while (mRezStream->GetMarker() <= nextPos ) {
+					while (mRezStream->GetMarker() < nextPos ) {
 						*mRezStream >> theChar;
 						if (theChar == 0) {
 							newPos = mRezStream->GetMarker() - 1;

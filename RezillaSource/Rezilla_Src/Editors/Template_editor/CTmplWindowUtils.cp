@@ -76,8 +76,8 @@ CTmplEditorWindow::IsDirty()
 //	¥ IsValidBitField													[public]
 // ---------------------------------------------------------------------------
 // BB0n  	BB01 to BB07	Bit field within a byte
-// LBnn  	LB01 to LB31	Bit field within a long
 // WBnn  	WB01 to WB16	Bit field within a word
+// LBnn  	LB01 to LB31	Bit field within a long
 
 Boolean
 CTmplEditorWindow::IsValidBitField(OSType inType, Str255 inStr, 
@@ -93,7 +93,7 @@ CTmplEditorWindow::IsValidBitField(OSType inType, Str255 inStr,
 			isValid = true;
 		} 
 	} else {
-		if ( ((inStr[3] >= '0') && (inStr[3] <= '9')) && ((inStr[4] > '0') && (inStr[4] < 8)) ) {
+		if ( (inStr[3] >= '0') && (inStr[3] <= '3') && (inStr[4] >= '0') && (inStr[4] <= '9') ) {
 			inStr[2] = 2;
 			::StringToNum( inStr + 2, &theLong);
 			if (inType >> 16 == 'LB' && theLong <= 32) {
