@@ -256,7 +256,7 @@ CTemplatesController::AddTemplatesToDictionary(FSRef * inFileRef, CFMutableDicti
 
 				theKey = CFDataCreate(NULL, (const UInt8 *) inFileRef, sizeof(FSRef));
 				if (theKey) {
-					theArray = CFArrayCreateMutable(NULL, 0, NULL);
+					theArray = CFArrayCreateMutable(NULL, 0, &kCFTypeArrayCallBacks);
 					if (theArray) {
 						for ( UInt16 i = 1; i <= numResources; i++ ) {
 							error = theRezType->GetNameAtIndex(i, theName);
