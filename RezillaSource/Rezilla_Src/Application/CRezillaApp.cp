@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2004-08-06 19:17:45
+//             Last modification: 2004-08-07 12:51:23
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -865,7 +865,6 @@ CRezillaApp::OpenFork(FSSpec & inFileSpec)
 OSErr
 CRezillaApp::PreOpen(FSSpec & inFileSpec, SInt16 & outFork, short & outRefnum, SInt16 inWantedFork)
 {
-	Boolean		openOK = false;
 	OSErr		error;
 	FSRef		inFileRef;
 	
@@ -879,7 +878,6 @@ CRezillaApp::PreOpen(FSSpec & inFileSpec, SInt16 & outFork, short & outRefnum, S
 		SetResLoad( true );
 		
 		if (error == noErr) {
-			openOK = true;
 			outFork = fork_datafork;
 			goto done;
 		} else if (error == mapReadErr || error == eofErr) {
@@ -901,7 +899,6 @@ CRezillaApp::PreOpen(FSSpec & inFileSpec, SInt16 & outFork, short & outRefnum, S
 		error = ::ResError();
 		SetResLoad( true );
 		if (error == noErr) {
-			openOK = true;
 			outFork = fork_rezfork;
 		} else if (error == mapReadErr || error == eofErr) {
 			// If this failed with mapReadErr or eofErr, the file has no resource 
