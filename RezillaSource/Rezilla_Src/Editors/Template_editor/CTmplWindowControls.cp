@@ -457,13 +457,6 @@ CTmplEditorWindow::AddCheckField(Boolean inValue,
 // ---------------------------------------------------------------------------
 // C string. This should be either characters followed by a null or all
 // the chars until the end of the stream if there is no null byte.
-// LTextGroupBox::LTextGroupBox(
-// 	const SPaneInfo&	inPaneInfo,
-// 	const SViewInfo&	inViewInfo,
-// 	Boolean				inPrimary,
-// 	ResIDT				inTextTraitsID,
-// 	ConstStringPtr		inTitle,
-// 	ClassIDT			inImpID)
 
 void
 CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
@@ -525,117 +518,121 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 	
 	// Insert the text
 	oldPos = mRezStream->GetMarker();
-	switch (inType) {
-		case 'CSTR':
-			// Is there a NULL byte marking the end of the string?
-			newPos = totalLength;
-			while (mRezStream->GetMarker() < totalLength ) {
-				*mRezStream >> theChar;
-				if (theChar == 0) {
-					// Don't take the ending NULL
-					newPos = mRezStream->GetMarker() - 1;
-					break;
-				} 
-			}
-			nextPos = mRezStream->GetMarker();
-		break;
-
-		case 'LSTR': {
-			UInt32		theUInt32 = 0;
-			// Long string (long  length followed by the characters)
-			if (mRezStream->GetMarker() < totalLength - 3) {
-				*mRezStream >> theUInt32;
-			}
-			oldPos += 4;
-			newPos = oldPos + theUInt32;
-			nextPos = newPos;
-			break;
-		}
-		
-		case 'WSTR': {
-			UInt16		theUInt16 = 0;
-			// Same as LSTR, but a word rather than a long word
-			if (mRezStream->GetMarker() < totalLength - 1) {
-				*mRezStream >> theUInt16;
-			}
-			oldPos += 2;
-			newPos = oldPos + theUInt16;
-			nextPos = newPos;
-			break;
-		}
-
-		case 'ECST':
-		case 'OCST':
-			// Is there a NULL byte marking the end of the string?
-			newPos = totalLength;
-			while (mRezStream->GetMarker() < totalLength ) {
-				*mRezStream >> theChar;
-				if (theChar == 0) {
-					newPos = mRezStream->GetMarker();
-					// If the total length, including ending NULL, is odd
-					// (with ESTR) or even (with OSTR), the string is padded, 
-					// so skip one byte.
-					if ( (newPos < totalLength) && ( 
-						   ( (newPos - oldPos) % 2 && (inType = 'ECST') ) 
-						   ||
-						   ( (newPos - oldPos) % 2 == 0 && (inType = 'OCST') ) )) {
-					   // Skip one byte.
-					   if (mRezStream->GetMarker() < totalLength ) {
-						   *mRezStream >> theChar;
-					   }
-					} 
-					// Don't take the ending NULL
-					newPos--;
-					break;
-				} 
-			}
-			nextPos = mRezStream->GetMarker();
-		break;
-
-		default: {
-			SInt32 reqLength;
-			UMiscUtils::HexNumStringToDecimal(&inType, &reqLength);
-
-			if (inType >> 24 == 'C') {
-				// Cnnn: a C string that is $nnn hex bytes long. The last byte is always a 0, 
-				// so the string itself occupies the first $nnn-1 bytes (possibly less
-				// if a null is encountered before the end).
-
-				nextPos = oldPos + reqLength;
-				newPos = nextPos - 1;
-				// Look for a NULL byte in this range
-				while (mRezStream->GetMarker() <= nextPos ) {
+	// Check we are not creating an empty new resource.
+	if (oldPos < totalLength) {
+		switch (inType) {
+			case 'CSTR':
+				// Is there a NULL byte marking the end of the string?
+				newPos = totalLength;
+				while (mRezStream->GetMarker() < totalLength ) {
 					*mRezStream >> theChar;
 					if (theChar == 0) {
+						// Don't take the ending NULL
 						newPos = mRezStream->GetMarker() - 1;
 						break;
-					}
+					} 
 				}
-			} else if (inType >> 24 == 'T') {
-				// Tnnn: a text string with fixed padding that is $nnn hex bytes long 
-				nextPos = oldPos + reqLength;
-				newPos = nextPos;
+				nextPos = mRezStream->GetMarker();
+			break;
+
+			case 'LSTR': {
+				UInt32		theUInt32 = 0;
+				// Long string (long  length followed by the characters)
+				if (mRezStream->GetMarker() < totalLength - 3) {
+					*mRezStream >> theUInt32;
+				}
+				oldPos += 4;
+				newPos = oldPos + theUInt32;
+				nextPos = newPos;
+				break;
+			}
+			
+			case 'WSTR': {
+				UInt16		theUInt16 = 0;
+				// Same as LSTR, but a word rather than a long word
+				if (mRezStream->GetMarker() < totalLength - 1) {
+					*mRezStream >> theUInt16;
+				}
+				oldPos += 2;
+				newPos = oldPos + theUInt16;
+				nextPos = newPos;
+				break;
+			}
+
+			case 'ECST':
+			case 'OCST':
+				// Is there a NULL byte marking the end of the string?
+				newPos = totalLength;
+				while (mRezStream->GetMarker() < totalLength ) {
+					*mRezStream >> theChar;
+					if (theChar == 0) {
+						newPos = mRezStream->GetMarker();
+						// If the total length, including ending NULL, is odd
+						// (with ESTR) or even (with OSTR), the string is padded, 
+						// so skip one byte.
+						if ( (newPos < totalLength) && ( 
+							   ( (newPos - oldPos) % 2 && (inType = 'ECST') ) 
+							   ||
+							   ( (newPos - oldPos) % 2 == 0 && (inType = 'OCST') ) )) {
+						   // Skip one byte.
+						   if (mRezStream->GetMarker() < totalLength ) {
+							   *mRezStream >> theChar;
+						   }
+						} 
+						// Don't take the ending NULL
+						newPos--;
+						break;
+					} 
+				}
+				nextPos = mRezStream->GetMarker();
+			break;
+
+			default: {
+				SInt32 reqLength;
+				UMiscUtils::HexNumStringToDecimal(&inType, &reqLength);
+
+				if (inType >> 24 == 'C') {
+					// Cnnn: a C string that is $nnn hex bytes long. The last byte is always a 0, 
+					// so the string itself occupies the first $nnn-1 bytes (possibly less
+					// if a null is encountered before the end).
+
+					nextPos = oldPos + reqLength;
+					newPos = nextPos - 1;
+					// Look for a NULL byte in this range
+					while (mRezStream->GetMarker() <= nextPos ) {
+						*mRezStream >> theChar;
+						if (theChar == 0) {
+							newPos = mRezStream->GetMarker() - 1;
+							break;
+						}
+					}
+				} else if (inType >> 24 == 'T') {
+					// Tnnn: a text string with fixed padding that is $nnn hex bytes long 
+					nextPos = oldPos + reqLength;
+					newPos = nextPos;
+				}
 			}
 		}
-	}
 
-	if (oldPos > totalLength) {
-		oldPos = totalLength;
-	} 
-	if (newPos > totalLength) {
-		newPos = totalLength;
-	} 
-	if (newPos < oldPos) {
-		newPos = oldPos;
-	} 
-	
-	theHandle = mRezStream->GetDataHandle();
-	HLock(theHandle);
-	theWasteEdit->Insert( (*theHandle) + oldPos , newPos - oldPos, NULL, true);
-	HUnlock(theHandle);
+		if (oldPos > totalLength) {
+			oldPos = totalLength;
+		} 
+		if (newPos > totalLength) {
+			newPos = totalLength;
+		} 
+		if (newPos < oldPos) {
+			newPos = oldPos;
+		} 
+		
+		theHandle = mRezStream->GetDataHandle();
+		HLock(theHandle);
+		theWasteEdit->Insert( (*theHandle) + oldPos , newPos - oldPos, NULL, true);
+		HUnlock(theHandle);
+		mRezStream->SetMarker(nextPos, streamFrom_Start);
+		
+	} 	
 	
 	// Advance the counters
-	mRezStream->SetMarker(nextPos, streamFrom_Start);
 	mYCoord += sTgbPaneInfo.height + kTmplVertSep;
 	mCurrentID++;
 }
@@ -723,124 +720,127 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 	// Insert the text
 	totalLength = mRezStream->GetLength();
 	oldPos = mRezStream->GetMarker();
+		
+	if (oldPos < totalLength) {
+		switch (inType) {
+			case 'HEXD':
+			// This is always the last code in a template. Go to the end of the
+			// resource data.
+			newPos = totalLength;
+			break;
+			
+			case 'BHEX': {
+				UInt32 theUInt8 = 0;
+				// ByteLength Hex Dump
+				if (mRezStream->GetMarker() < totalLength) {
+					*mRezStream >> theUInt8;
+				}
+				oldPos += 1;
+				newPos = oldPos + theUInt8;
+				break;
+			}
+			
+			case 'BSHX': {
+				UInt32 theUInt8 = 0;
+				// (ByteLength - 1) Hex Dump
+				if (mRezStream->GetMarker() < totalLength) {
+					*mRezStream >> theUInt8;
+				}
+				if (theUInt8 < 1) {
+					theUInt8 = 1;
+				} 
+				oldPos += 1;
+				newPos = oldPos + theUInt8 - 1;
+				break;
+			}
+			
+			case 'LHEX': {
+				UInt32 theUInt32 = 0;
+				// LongLength Hex Dump
+				if (mRezStream->GetMarker() < totalLength - 3) {
+					*mRezStream >> theUInt32;
+				}
+				oldPos += 4;
+				newPos = oldPos + theUInt32;
+				break;
+			}
+			
+			case 'LSHX': {
+				UInt32 theUInt32 = 0;
+				// (LongLength - 4) Hex Dump
+				if (mRezStream->GetMarker() < totalLength - 3) {
+					*mRezStream >> theUInt32;
+				}
+				if (theUInt32 < 4) {
+					theUInt32 = 4;
+				} 
+				oldPos += 4;
+				newPos = oldPos + theUInt32 - 4;
+				break;
+			}
+			
+			case 'WHEX': {
+				UInt16 theUInt16 = 0;
+				// WordLength Hex Dump
+				if (mRezStream->GetMarker() < totalLength - 1) {
+					*mRezStream >> theUInt16;
+				}
+				oldPos += 2;
+				newPos = oldPos + theUInt16;
+				break;
+			}
+			
+			case 'WSHX': {
+				UInt16 theUInt16 = 0;
+				// (WordLength - 2) Hex Dump
+				if (mRezStream->GetMarker() < totalLength - 1) {
+					*mRezStream >> theUInt16;
+				}
+				if (theUInt16 < 2) {
+					theUInt16 = 2;
+				} 
+				oldPos += 2;
+				newPos = oldPos + theUInt16 - 2;
+				break;
+			}
+			
+			default:
+			if (inType >> 24 == 'H' || inType >> 24 == 'F') {
+				// Hnnn: a 3-digit hex number; displays $nnn bytes in hex format
+				SInt32 numbytes;
+				UMiscUtils::HexNumStringToDecimal(&inType, &numbytes);
+				newPos = oldPos + numbytes;
+			}
+		}	
+			
+		if (oldPos > totalLength) {
+			oldPos = totalLength;
+		} 
+		if (newPos > totalLength) {
+			newPos = totalLength;
+		} 
+		if (newPos < oldPos) {
+			newPos = oldPos;
+		} 
+		
+		theHandle = mRezStream->GetDataHandle();
+		HLock(theHandle);
+		theTGB->InstallBackStoreData((*theHandle) + oldPos, newPos - oldPos);
+		theTGB->SetMaxScrollerValue();
+		theTGB->InstallContentsFromLine(1);
+		HUnlock(theHandle);
 
-	switch (inType) {
-		case 'HEXD':
-		// This is always the last code in a template. Go to the end of the
-		// resource data.
-		newPos = totalLength;
-		break;
-		
-		case 'BHEX': {
-			UInt32		theUInt8 = 0;
-			// ByteLength Hex Dump
-			if (mRezStream->GetMarker() < totalLength) {
-				*mRezStream >> theUInt8;
-			}
-			oldPos += 1;
-			newPos = oldPos + theUInt8;
-			break;
-		}
-		
-		case 'BSHX': {
-			UInt32		theUInt8 = 0;
-			// (ByteLength - 1) Hex Dump
-			if (mRezStream->GetMarker() < totalLength) {
-				*mRezStream >> theUInt8;
-			}
-			if (theUInt8 < 1) {
-				theUInt8 = 1;
-			} 
-			oldPos += 1;
-			newPos = oldPos + theUInt8 - 1;
-			break;
-		}
-		
-		case 'LHEX': {
-			UInt32		theUInt32 = 0;
-			// LongLength Hex Dump
-			if (mRezStream->GetMarker() < totalLength - 3) {
-				*mRezStream >> theUInt32;
-			}
-			oldPos += 4;
-			newPos = oldPos + theUInt32;
-			break;
-		}
-		
-		case 'LSHX': {
-			UInt32		theUInt32 = 0;
-			// (LongLength - 4) Hex Dump
-			if (mRezStream->GetMarker() < totalLength - 3) {
-				*mRezStream >> theUInt32;
-			}
-			if (theUInt32 < 4) {
-				theUInt32 = 4;
-			} 
-			oldPos += 4;
-			newPos = oldPos + theUInt32 - 4;
-			break;
-		}
-		
-		case 'WHEX': {
-			UInt16		theUInt16 = 0;
-			// WordLength Hex Dump
-			if (mRezStream->GetMarker() < totalLength - 1) {
-				*mRezStream >> theUInt16;
-			}
-			oldPos += 2;
-			newPos = oldPos + theUInt16;
-			break;
-		}
-		
-		case 'WSHX': {
-			UInt16		theUInt16 = 0;
-			// (WordLength - 2) Hex Dump
-			if (mRezStream->GetMarker() < totalLength - 1) {
-				*mRezStream >> theUInt16;
-			}
-			if (theUInt16 < 2) {
-				theUInt16 = 2;
-			} 
-			oldPos += 2;
-			newPos = oldPos + theUInt16 - 2;
-			break;
-		}
-		
-		default:
-		if (inType >> 24 == 'H' || inType >> 24 == 'F') {
-			// Hnnn: a 3-digit hex number; displays $nnn bytes in hex format
-			SInt32 numbytes;
-			UMiscUtils::HexNumStringToDecimal(&inType, &numbytes);
-			newPos = oldPos + numbytes;
-		}
-	}	
-		
-	if (oldPos > totalLength) {
-		oldPos = totalLength;
-	} 
-	if (newPos > totalLength) {
-		newPos = totalLength;
-	} 
-	if (newPos < oldPos) {
-		newPos = oldPos;
+		WESetSelection(0, 0, theTGB->GetInMemoryWasteRef());
+		mRezStream->SetMarker(newPos, streamFrom_Start);
+
 	} 
 	
-	theHandle = mRezStream->GetDataHandle();
-	HLock(theHandle);
-	theTGB->InstallBackStoreData((*theHandle) + oldPos , newPos - oldPos);
-	theTGB->SetMaxScrollerValue();
-	theTGB->InstallContentsFromLine(1);
-	HUnlock(theHandle);
-
-	WESetSelection(0, 0, theTGB->GetInMemoryWasteRef());
-
 	// Fnnn filler hex strings are uneditable
 	if (inType >> 24 == 'F') {
 		theTGB->Disable();
 	} 
 	
 	// Advance the counters
-	mRezStream->SetMarker(newPos, streamFrom_Start);
 	mYCoord += sTgbPaneInfo.height + kTmplVertSep;
 	mCurrentID++;
 }
