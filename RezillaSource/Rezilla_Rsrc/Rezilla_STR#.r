@@ -312,13 +312,14 @@ resource 'STR#' (1602, "Region Codes") {
 
 resource 'STR#' (1603, "Script Codes") {
 	{	
+		"System Script=-1",
+		"Current Script=-2",
 		"All Scripts=-3",
 		"Arabic=4",
 		"Armenian=24",
 		"Bengali=13",
 		"Burmese=19",
 		"Central Euro Roman=29",
-		"Current Script=-2",
 		"Cyrillic=7",
 		"Devanagari=9",
 		"Ethiopic=28",
@@ -341,7 +342,6 @@ resource 'STR#' (1603, "Script Codes") {
 		"Roman=0",
 		"Simp Chinese=25",
 		"Sinhalese=18",
-		"System Script=-1",
 		"Tamil=14",
 		"Telugu=15",
 		"Thai=21",
