@@ -34,6 +34,7 @@ $Date$
 ¥ Added 'aete' and 'aeut' (AppleScript terminology) editor.
 ¥ Debugging and testing phase before 1.0.5b release.
 ¥ Added Aete editor doc in the Help files.
+¥ Aete resources can be exported to XML, DeRez, HTML and text formats.
 ¥ 
 
 ================================================================================

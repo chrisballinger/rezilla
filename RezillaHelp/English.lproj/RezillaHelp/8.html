@@ -101,9 +101,21 @@ no such objects the corresponding subpane is not displayed.<P>A typical Aete edi
 is inserted in the menu bar. It contains commands to add or remove a suite
 or to add or remove objects from the current suite. Depending on the
 category of the currently edited object some of the menu items can be
-disabled.<P>There is also an <B>Export Terminology</B> command which lets you export
-the entire resource data to a text file in XML format. This can be useful
-to make an AppleScript terminology resource readable.<P><H3>The 'PICT' editor</H3><P>Not a fully fledged editor but rather a viewer. If you double-click on a
+disabled.<P>The <B>Export Terminology</B> command lets you export the data of a
+terminology resource to a text file in format <I>XML, DeRez, HTML</I> or 
+<I>text</I>:
+<UL>
+	<LI> the HTML and text formats can be useful simply to make an AppleScript
+terminology resource human readable. It is sometimes necessary in an
+AppleScript script to know the codes for certain terms.
+	<LI> the XML format describes the entire data of the ressource according to
+a precise format and allows for the data to be exchanged: a DTD defining
+the structure of the XML file is available in the project.
+	<LI> the DeRez format produces a file with a <I>.r</I> extension identical
+to what one obtains using the DeRez tool: this file is ready to be
+recompiled in any application (with the Rez tool for instance).
+</UL><P>This can be useful
+to make an AppleScript terminology resource readable.<P><H3>The PICT editor</H3><P>Not a fully fledged editor but rather a viewer. If you double-click on a
 picture resource (of type <I>'PICT'</I>), Rezilla displays the image.<P>The <I>Copy</I>, <I>Cut</I> and <I>Paste</I> commands are enabled. You
 can copy the image to the clipboard (no need to select anything, the entire
 image is automatically copied). On the contrary, if the clipboard contains

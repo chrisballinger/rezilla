@@ -123,10 +123,21 @@ affiché. S'il n'y en a aucun, le panneau correspondant est vide.<P>Une fenêtre d
 <B>Terminology</B> est inséré dans la barre de menus. Il comporte des
 commandes pour ajouter ou supprimer des suites, ou pour ajouter ou
 supprimer des objets dans la suite courante. En fonction de l'objet
-couramment édité, certaines commandes du menu peuvent être désactivées.<P>Il y a également une commande <B>Export Terminology</B> qui permet
-d'exporter les données d'une ressource 'aete' ou 'aeut' sous forme de
-fichier texte au format XML. Cela peut être utile pour rendre le contenu
-d'une ressource de terminologie AppleScript lisible.<P><H3>L'éditeur 'PICT'</H3><P>Ce n'est pas un éditeur graphique complet mais plutôt un visualisateur. Si 
+couramment édité, certaines commandes du menu peuvent être désactivées.<P>La commande <B>Export Terminology</B> permet d'exporter les données d'une
+ressource 'aete' ou 'aeut' sous forme de fichier texte au
+format <I>XML, DeRez, HTML</I> ou <I>texte</I>:
+<UL>
+	<LI> les formats HTML et texte peuvent être utiles simplement pour rendre
+le contenu d'une ressource de terminologie AppleScript lisible. Il est 
+parfois nécessaire dans un script AppleScript de connaître les codes de 
+certains termes.
+	<LI> le format XML comporte toutes les données de la ressource selon un
+format rigoureux et permet l'échange de données: une DTD décrivant la
+structure du fichier XML est jointe au projet. 
+	<LI> le format DeRez produit un fichier avec l'extension <I>.r</I> identique à
+celui que produirait l'utilitaire DeRez : ce fichier est prêt à être
+recompilé dans une application (avec l'utilitaire Rez par exemple).
+</UL><P><H3>L'éditeur 'PICT'</H3><P>Ce n'est pas un éditeur graphique complet mais plutôt un visualisateur. Si 
 l'on exécute un double-clic sur une ressource d'image (de type <I>'PICT'</I>), 
 Rezilla affiche cette image.<P>Les commandes <I>Copy</I>, <I>Cut</I> et <I>Paste</I> sont activées. Il
 est possible de copier l'image dans le presse-papier: il n'y a pas de
