@@ -2,7 +2,7 @@
 // CRezCompare.cp					
 // 
 //                       Created: 2004-02-29 18:17:07
-//             Last modification: 2004-03-02 14:11:01
+//             Last modification: 2004-03-16 16:31:53
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -27,6 +27,9 @@
 #include <LBevelButton.h>
 #include <LCheckBox.h>
 #include <LStaticText.h>
+
+FSSpec	CRezCompare::sOldFSSpec = {0, 0, "\p"};		// Invalid specifiers
+FSSpec	CRezCompare::sNewFSSpec = {0, 0, "\p"};	
 
 // ---------------------------------------------------------------------------
 //  ¥ CRezCompare														[public]
@@ -115,7 +118,12 @@ CRezCompare::RunRezCompareDialog()
 	SInt32 			itemIndex;
 	Boolean			isIgnoreNames = false;
 	Boolean 		inRezCompLoop = true;
-	
+	OSErr			error;
+	SInt16			theFork;
+	short			oldRefNum, newRefNum;
+	FSSpec			theFSSpec;
+	FSSpec			nilFSSpec = {0, 0, "\p"};		// Invalid specifiers	
+
 	StDialogBoxHandler	theHandler(rPPob_RezCompDialog, mSuperCommander);
 	LDialogBox *		theDialog = theHandler.GetDialog();
 	Assert_(theDialog != nil);
@@ -140,11 +148,18 @@ CRezCompare::RunRezCompareDialog()
 	
 	LStaticText * theOldStaticText = dynamic_cast<LStaticText *>(theDialog->FindPaneByID( item_RezCompEditOld ));
 	ThrowIfNil_(theOldStaticText);
-
+	
 	LStaticText * theNewStaticText = dynamic_cast<LStaticText *>(theDialog->FindPaneByID( item_RezCompEditNew ));
 	ThrowIfNil_(theNewStaticText);
 	
 	//  Note: linking of Listeners and Broadcasters is done in the StDialogBoxHandler constructor
+
+	if ( ! LFile::EqualFileSpec(sOldFSSpec, nilFSSpec) && UMiscUtils::MakePath(&sOldFSSpec, mOldPath, 650) == noErr ) {
+		theOldStaticText->SetDescriptor(mOldPath);
+	} 
+	if ( ! LFile::EqualFileSpec(sNewFSSpec, nilFSSpec) && UMiscUtils::MakePath(&sNewFSSpec, mNewPath, 650) == noErr ) {
+		theNewStaticText->SetDescriptor(mNewPath);
+	} 
 	
 	while (inRezCompLoop) {
 		
@@ -152,75 +167,86 @@ CRezCompare::RunRezCompareDialog()
 		
 		MessageT theMessage;
 		while (true) {
+			
 			theMessage = theHandler.DoDialog();
+			
 			if (msg_OK == theMessage) {
-				// Check that both fileds are not empty
-				if (mOldMap == nil || mNewMap == nil) {
+				Str255		theOldPath, theNewPath;
+				theOldStaticText->GetDescriptor(theOldPath);
+				theNewStaticText->GetDescriptor(theNewPath);
+				// Check that both fields are not empty
+				if ( !theOldPath[0] || !theNewPath[0] ) {
 					UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("MapsNotSelected"), rPPob_SimpleMessage);
 				} else {
-					inRezCompLoop = false;
+					break;
 				}
-				break;
 			} else if (msg_Cancel == theMessage) {
 				inRezCompLoop = false;
 				break;
 			} else if (msg_RezCompSetOld == theMessage || msg_RezCompSetNew == theMessage) {
 				// Select the files to compare
-				OSErr	error;
-				SInt16	theFork;
-				short	theRefNum;
-				FSSpec	theFSSpec;
-				Str255	thePath;
 				LFileTypeList fileTypes(fileTypes_All);
 				PP_StandardDialogs::LFileChooser chooser;
 				NavDialogOptions * options = chooser.GetDialogOptions();
-
+				
 				if (options != nil) {
 					options->dialogOptionFlags = kNavNoTypePopup 
-												+ kNavDontAutoTranslate 
-												+ kNavSelectAllReadableItem 
-												+ kNavSupportPackages 
-												+ kNavAllowOpenPackages;
+					+ kNavDontAutoTranslate 
+					+ kNavSelectAllReadableItem 
+					+ kNavSupportPackages 
+					+ kNavAllowOpenPackages;
 				}
 				
 				if ( chooser.AskChooseOneFile(fileTypes, theFSSpec) ) {
-					error = CRezillaApp::PreOpen(theFSSpec, theFork, theRefNum);
-					
-					if (error != noErr) {
-						CRezillaApp::ReportOpenForkError(error, &theFSSpec);
-					} else {
-						switch (theMessage) {
-						  case msg_RezCompSetOld:
-							if ( UMiscUtils::MakePath(&theFSSpec, thePath, 650) == noErr ) {
-								theOldStaticText->SetDescriptor(thePath);
-							} 
-							LString::CopyPStr(thePath, mOldPath);
-							mOldMap = new CRezMap(theRefNum);
-							break;
+					switch (theMessage) {
+						case msg_RezCompSetOld:
+						if ( UMiscUtils::MakePath(&theFSSpec, mOldPath, 650) == noErr ) {
+							theOldStaticText->SetDescriptor(mOldPath);
+						} 
+						UMiscUtils::CopyFSSpec(theFSSpec, sOldFSSpec);
+						break;
 						
-						  case msg_RezCompSetNew:
-							if ( UMiscUtils::MakePath(&theFSSpec, thePath, 450) == noErr ) {
-								theNewStaticText->SetDescriptor(thePath);
-							} 
-							LString::CopyPStr(thePath, mNewPath);
-							mNewMap = new CRezMap(theRefNum);
-							break;
-						}
+						case msg_RezCompSetNew:
+						if ( UMiscUtils::MakePath(&theFSSpec, mNewPath, 450) == noErr ) {
+							theNewStaticText->SetDescriptor(mNewPath);
+						} 
+						UMiscUtils::CopyFSSpec(theFSSpec, sNewFSSpec);
+						break;
 					}
 				}
 				break;  // Breaks out from the inner 'while' but still in the inRezCompLoop 'while'
 			}
 		}
 		
-		// If the default button was hit, do the comparison
+		// If the default button was hit, try to open the rezmaps
 		if (msg_OK == theMessage) {
-			// Retrieve the checkbox settings
-			mIgnoreAttrs = theAttrsCheckBox->GetValue();
-			mIgnoreNames = theNamesCheckBox->GetValue();
-			mIgnoreData = theDataCheckBox->GetValue();
-			// Execute a comparison
-			DoCompareRezMaps();
-		}
+			if (mOldMap == nil) {
+				error = CRezillaApp::PreOpen(sOldFSSpec, theFork, oldRefNum);
+				if (error != noErr) {
+					CRezillaApp::ReportOpenForkError(error, &sOldFSSpec);
+				} else {
+					mOldMap = new CRezMap(oldRefNum);
+				}
+			} 
+			if (mNewMap == nil) {
+				error = CRezillaApp::PreOpen(sNewFSSpec, theFork, newRefNum);
+				if (error != noErr) {
+					CRezillaApp::ReportOpenForkError(error, &sNewFSSpec);
+				} else {
+					mNewMap = new CRezMap(newRefNum);
+				}
+			} 
+			if (mOldMap != nil && mNewMap != nil) {
+				// Retrieve the checkbox settings
+				mIgnoreAttrs = theAttrsCheckBox->GetValue();
+				mIgnoreNames = theNamesCheckBox->GetValue();
+				mIgnoreData = theDataCheckBox->GetValue();
+				// Execute a comparison
+				DoCompareRezMaps();
+				// Now get out of the outer 'while'
+				inRezCompLoop = false;
+			}
+		}		
 	}
 }
 

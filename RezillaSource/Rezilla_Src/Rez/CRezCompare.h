@@ -83,6 +83,9 @@ public:
 		virtual CRezMap*		GetOldMap() { return mOldMap;}
 		virtual CRezMap*		GetNewMap() { return mNewMap;}
 		
+		static FSSpec		sOldFSSpec;
+		static FSSpec		sNewFSSpec;
+		
 protected:
 		CCompResultWindow*	mResultWindow;
 		Boolean				mIgnoreNames;
@@ -125,4 +128,3 @@ CRezCompare::GetNewPath() const
 
 
 #endif
-
