@@ -52,22 +52,22 @@ localize "English" as "Errors.strings"
 	key "2026" value string "Can't find key position"
 	key "2027" value string "Unsupported resource id"
 	key "2028" value string "Can't find matching key end"
-	key "3000" value string "An error occurred within the bitmap editor.",
-	key "3001" value string "The bitmap editor cannot edit the selected image (invalid color depth).",
-	key "3002" value string "The bitmap editor cannot edit the selected image (format unknown).",
-	key "3003" value string "The bitmap editor cannot edit the selected image (size is out of range).",
-	key "3004" value string "The bitmap editor cannot edit the selected image (resource may be corrupt).",
-	key "3005" value string "The bitmap editor cannot edit the selected image (file may be corrupt).",
-	key "3006" value string "The bitmap editor cannot edit the selected image.",
-	key "3007" value string "An internal error occurred within the bitmap editor (assertion error).",
-	key "3008" value string "An internal error occurred within the bitmap editor (nil pointer error).",
-	key "3009" value string "Out of memory.",
-	key "3010" value string "Resource not found.",
-	key "3011" value string "Disk is full.",
-	key "3012" value string "File not found.",
-	key "3013" value string "An I/O error occurred.",
-	key "3014" value string "This image must be between %ld and %ld pixels.",
-	key "3015" value string "Can’t modify locked file.",
+	key "3000" value string "Unknown error."
+	key "3001" value string "Invalid color depth."
+	key "3002" value string "Format unknown."
+	key "3003" value string "Size is out of range."
+	key "3004" value string "Resource may be corrupt."
+	key "3005" value string "File may be corrupt."
+	key "3006" value string "The bitmap editor cannot edit the selected image."
+	key "3007" value string "Assertion error."
+	key "3008" value string "Nil pointer error."
+	key "3009" value string "Out of memory."
+	key "3010" value string "Resource not found."
+	key "3011" value string "Disk is full."
+	key "3012" value string "File not found."
+	key "3013" value string "An I/O error occurred."
+	key "3014" value string "This image must be between %ld and %ld pixels."
+	key "3015" value string "Can’t modify locked file."
 	key "3016" value string "The font size must be between 4 and 512 pts."
 }
 

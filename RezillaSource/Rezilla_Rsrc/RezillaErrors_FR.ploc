@@ -51,22 +51,22 @@ localize "French" as "Errors.strings"
 	key "2026" value string "Impossible de trouver la position d'une clé"
 	key "2027" value string "Ce numéro de ressource est inconnu du gabarit"
 	key "2028" value string "Impossible de trouver la fin de clé correspondante"
-	key "3000" value string "Une erreur s'est produite avec l'éditeur d'icones.",
-	key "3001" value string "L'éditeur d'icones ne peut pas éditer cette ressource (invalid color depth).",
-	key "3002" value string "L'éditeur d'icones ne peut pas éditer cette ressource (format unknown).",
-	key "3003" value string "L'éditeur d'icones ne peut pas éditer cette ressource (size is out of range).",
-	key "3004" value string "L'éditeur d'icones ne peut pas éditer cette ressource (resource may be corrupt).",
-	key "3005" value string "L'éditeur d'icones ne peut pas éditer cette ressource (file may be corrupt).",
-	key "3006" value string "L'éditeur d'icones ne peut pas éditer cette ressource.",
-	key "3007" value string "Erreur interne avec l'éditeur d'icones (assertion invalide).",
-	key "3008" value string "Erreur interne avec l'éditeur d'icones (pointeur nul).",
-	key "3009" value string "Mémoire insuffisante pour l'éditeur d'icones.",
-	key "3010" value string "Ressource introuvable.",
-	key "3011" value string "Le disque est plein.",
-	key "3012" value string "Fichier non trouvé.",
-	key "3013" value string "Une erreur d'entrée-sorite s'est produite.",
-	key "3014" value string "Cette image doit avoir entre %ld et %ld pixels.",
-	key "3015" value string "Impossible de modifier un fichier verrouillé.",
+	key "3000" value string "Erreur inconnue."
+	key "3001" value string "Profondeur de couleur non supportée."
+	key "3002" value string "Format inconnu."
+	key "3003" value string "Taille en-dehors de l'intervalle autorisé."
+	key "3004" value string "La ressource est peut-être corrompue."
+	key "3005" value string "Le fichier est peut-être corrompu."
+	key "3006" value string "L'éditeur d'icones ne peut pas éditer cette ressource."
+	key "3007" value string "Assertion invalide."
+	key "3008" value string "Pointeur nul."
+	key "3009" value string "Mémoire insuffisante pour l'éditeur d'icones."
+	key "3010" value string "Ressource introuvable."
+	key "3011" value string "Le disque est plein."
+	key "3012" value string "Fichier non trouvé."
+	key "3013" value string "Une erreur d'entrée-sorite s'est produite."
+	key "3014" value string "Cette image doit avoir entre %ld et %ld pixels."
+	key "3015" value string "Impossible de modifier un fichier verrouillé."
 	key "3016" value string "Le corps de la police doit être entre 4 et 512 pts."
 }
 
