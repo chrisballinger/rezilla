@@ -5,7 +5,7 @@
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// ¬© Copyright: Bernard Desgraupes 2003
+// © Copyright: Bernard Desgraupes 2003
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -54,6 +54,8 @@ public:
 	void					ExpandAll();
 	void					CollapseAll();
 	
+	CRezObjItem *			GetRezObjItem(ResType inType, short inID);
+
 	virtual CRezMap*		GetRezMap() { return mRezMap;}
 	void					SetRezMap(CRezMap* theRezMap) {mRezMap = theRezMap ;}
 
@@ -91,3 +93,4 @@ private:
 	CRezMapTable&		operator=( const CRezMapTable &inOriginal );
 
 };
+
