@@ -2,7 +2,7 @@
 // CMENU_EditorDoc.h				
 // 
 //                       Created: 2005-03-09 17:16:53
-//             Last modification: 2005-03-10 06:03:29
+//             Last modification: 2005-03-11 22:17:47
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -52,12 +52,9 @@ public:
 
 	void				SaveXmnuResource(Handle inXmnuHandle);
 	
-	Boolean			GetHasXmnu() { return mHasXmnu;}
-	void			SetHasXmnu(Boolean inHasXmnu) {mHasXmnu = inHasXmnu;}
 
 protected:
 	CMENU_EditorWindow *		mMenuEditWindow;
-	Boolean						mHasXmnu;
 
 	virtual Handle		GetModifiedResource(Boolean &releaseIt);
 

@@ -2,7 +2,7 @@
 // CMENU_EditorDoc.cp
 // 
 //                       Created: 2005-03-09 17:16:53
-//             Last modification: 2005-03-09 17:16:57
+//             Last modification: 2005-03-11 22:17:27
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -90,8 +90,6 @@ void
 CMENU_EditorDoc::Initialize()
 {
 	OSErr error;
-
-	mHasXmnu = false;
 	
 	// Create window for our document. This sets this doc as the SuperCommander of the window.
 	mMenuEditWindow = dynamic_cast<CMENU_EditorWindow *>(LWindow::CreateWindow( PPob_MenuEditorWindow, this ));
@@ -121,9 +119,6 @@ CMENU_EditorDoc::Initialize()
 				// Look for a 'xmnu' resource with same ID 
 				error = theRezMap->GetWithID(ResType_ExtendedMenu, mRezObj->GetID(), xmnuData, false);
 				
-				if (error == noErr) {
-					mHasXmnu = true;
-				}
 				error = mMenuEditWindow->InstallMenuData(rezData, xmnuData);			
 			} 
 		} 
