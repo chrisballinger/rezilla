@@ -1131,8 +1131,8 @@ CAete_EditorWindow::RetrieveFlags(SInt32 inKind, UInt16 & outFlags)
 		theMenuH = thePopup->GetMacMenuH();
 		theCount = sizeof(AeteDirectFlag)/sizeof(UInt16);
 		for ( i = 0; i < theCount; i++) {
-			GetItemMark( theMenuH, i+2, &markChar);
-			outFlags |= (markChar == 0) ? 0:(1 << AeteDirectFlag[i]) ;
+			::GetItemMark( theMenuH, i+2, &markChar);
+			outFlags |= (markChar == 0) ? 0:(1 << AeteDirectFlag[i]);
 		}
 		break;
 		
@@ -1142,8 +1142,8 @@ CAete_EditorWindow::RetrieveFlags(SInt32 inKind, UInt16 & outFlags)
 		theMenuH = thePopup->GetMacMenuH();
 		theCount = sizeof(AeteReplyFlag)/sizeof(UInt16);
 		for ( i = 0; i < theCount; i++) {
-			GetItemMark( theMenuH, i+2, &markChar);
-			outFlags |= (markChar == 0) ? 0:(1 << AeteReplyFlag[i]) ;
+			::GetItemMark( theMenuH, i+2, &markChar);
+			outFlags |= (markChar == 0) ? 0:(1 << AeteReplyFlag[i]);
 		}
 		break;
 		
@@ -1153,8 +1153,8 @@ CAete_EditorWindow::RetrieveFlags(SInt32 inKind, UInt16 & outFlags)
 		theMenuH = thePopup->GetMacMenuH();
 		theCount = sizeof(AeteOtherFlag)/sizeof(UInt16);
 		for ( i = 0; i < theCount; i++) {
-			GetItemMark( theMenuH, i+2, &markChar);
-			outFlags |= (markChar == 0) ? 0:(1 << AeteOtherFlag[i]) ;
+			::GetItemMark( theMenuH, i+2, &markChar);
+			outFlags |= (markChar == 0) ? 0:(1 << AeteOtherFlag[i]);
 		}
 		break;
 		
@@ -1164,8 +1164,8 @@ CAete_EditorWindow::RetrieveFlags(SInt32 inKind, UInt16 & outFlags)
 		theMenuH = thePopup->GetMacMenuH();
 		theCount = sizeof(AetePropertyFlag)/sizeof(UInt16);
 		for ( i = 0; i < theCount; i++) {
-			GetItemMark( theMenuH, i+2, &markChar);
-			outFlags |= (markChar == 0) ? 0:(1 << AetePropertyFlag[i]) ;
+			::GetItemMark( theMenuH, i+2, &markChar);
+			outFlags |= (markChar == 0) ? 0:(1 << AetePropertyFlag[i]);
 		}
 		break;
 		
