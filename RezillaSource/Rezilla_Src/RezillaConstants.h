@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2004-12-27 09:06:02
+//             Last modification : 2004-12-28 22:13:23
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -156,13 +156,13 @@ enum
 	ImgType_ColorCursor			= FOUR_CHAR_CODE('crsr')
 };
 
-// Resizing options for Icon editor
+// Resizing flags for Icon editor
 enum {
-	resize_None,
-	resize_Canvas,
-	resize_MoveSampleBox,
-	resize_Window,
-	resize_All
+	resize_None			= 0x00,
+	resize_Canvas		= 0x01,
+	resize_MoveSamples	= 0x02,
+	resize_Window		= 0x04,
+	resize_All			= 0xFF
 };
 
 
@@ -1141,8 +1141,6 @@ const SInt32 		kFlashCount				= 5;
 // These need to remain identical
 const SInt32		kIconSideMargin 		= 1;
 const SInt32		kIconSpaceBetween 		= 1;
-const SInt32		kPaintMarginHeight		= 8;
-const SInt32		kPaintMarginWidth		= 8;
 const SInt32		kRecolorDepth			= 8;
 const UInt16		kMinTargetWidth			= 40;
 const UInt16		kMinTargetHeight		= 40;
