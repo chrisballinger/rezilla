@@ -69,6 +69,7 @@ localize "English" as "Errors.strings"
 	key "3014" value string "This image must be between %ld and %ld pixels."
 	key "3015" value string "Can’t modify locked file."
 	key "3016" value string "The font size must be between 4 and 512 pts."
+	key "3017" value string "No 'PICT' resource on the clipboard."
 }
 
 

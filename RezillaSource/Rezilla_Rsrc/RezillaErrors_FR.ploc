@@ -68,5 +68,6 @@ localize "French" as "Errors.strings"
 	key "3014" value string "Cette image doit avoir entre %ld et %ld pixels."
 	key "3015" value string "Impossible de modifier un fichier verrouillé."
 	key "3016" value string "Le corps de la police doit être entre 4 et 512 pts."
+	key "3017" value string "Il n'y a pas de ressource 'PICT' dans le presse-papiers."
 }
 
