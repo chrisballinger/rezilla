@@ -1,37 +1,48 @@
 Rezilla
+=======
 
 Rezilla is a resource forks editor for the Macintosh. 
-This is version 1.0.3a.
+This is version 1.0.4a.
 
-The Rezilla project is a work in progress. This is just an alpha release,
-provided as a foretaste for people who want to give it a try at the current
-stage of development. It comes with no guarantee. Use it at your own risk.
+The Rezilla project is a work in progress. This release is an alpha
+release, provided for people who want to give it a try at the current stage
+of its development. It comes with no guarantee and you use it at your own risk.
+That said, the present version has been thoroughly tested and has proven
+quite stable and reliable.
 
-That said, the present version contains all the basic features and has
-proven quite stable and reliable: it lets you edit, create, modify,
-duplicate, remove resources contained in any fork (data fork or resource
-fork), copy, cut and paste them from a resource map to the other, drag and
-drop resources, compare resource maps etc. There are several output formats
-(including XML). Various properties can be set via Preferences. 
-On the other hand, the custom editors and the plugin architecture are not
-implemented yet.
+This new version adds the following features:
+    ¥ it now has a template editor which is able to edit with a nice user
+  interface more than 365 resource types;
+    ¥ additional templates can be defined in the Application Support folder;
+    ¥ many new preferences have been added to customize the application;
+    ¥ it is now possible to edit a resource using an another type's editor.
+
+Previous versions already implemented the following features:
+	edit, create, modify, duplicate, remove resources contained in any fork
+	(data fork or resource fork), copy, cut and paste them from a resource
+	map to the other, drag and drop resources, compare resource maps,
+	export them to various formats (including HTML and XML). Various
+	properties can be set via preferences.
+
+The plugin architecture is not implemented yet and there is currently no
+pictures and icons editor. This will be in future versions.
 
 Please read the doc contained in the help files. It is accessible via the
-"Rezilla Help" command in the Help menu when Rezilla is
+Rezilla Help command in the Help menu when Rezilla is
 running. You can also
 read it online <http://webperso.easyconnect.fr/bdesgraupes/DocHTML/RezillaHelp/index.html>.
 
-Rezilla is free software.
+Rezilla is a free software.
 See the licensing terms in the Licence.terms file or click on the
-"License" button in the About box.
+License button in the About box of the application.
 
 The official home page for the project is at SourceForge:
-<http://sourceforge.net/projects/rezilla>
+ <http://sourceforge.net/projects/rezilla>
 
 Please e-mail me any problem you encounter with this software:
-<bdesgraupes@users.sourceforge.net>
+ <bdesgraupes@users.sourceforge.net>
 
 (c) Copyright: Bernard Desgraupes, 2003-2004
-All rights reserved.
+ All rights reserved.
 
 $Date$
