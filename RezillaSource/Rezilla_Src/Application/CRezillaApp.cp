@@ -101,6 +101,7 @@ CWindowMenu	*		gWindowMenu;	// This is the window menu.
 
 // Static variables
 CRezillaPrefs *			CRezillaApp::sPrefs = nil;
+Rzil_basics				CRezillaApp::sBasics;
 CInspectorWindow *		CRezillaApp::sInspectorWindow = nil;
 const LStr255			CRezillaApp::sVersionNumber( VersionFromResource() );
 SInt16					CRezillaApp::sOwnRefNum;

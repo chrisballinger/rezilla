@@ -35,11 +35,10 @@ typedef struct Rzil_OpenFileUD{
 // 	SInt16		fontNumber;
 // 	Str255		fontName;
 // } TextTraitsRecord, *TextTraitsPtr, **TextTraitsH;
-typedef struct Rzil_metrics{
-	TextTraitsRecord	textTraits;
+typedef struct Rzil_basics{
 	SInt32				charWidth;
 	SInt32				charHeight;
-} Rzil_metrics;
+} Rzil_basics;
 
 class CInspectorWindow;
 class CRezMapDoc;
@@ -97,6 +96,7 @@ public:
 	static CRecentItemsMenu*	GetRecentItemsAttachment() { return sRecentItemsAttachment;}
 
 	static CRezillaPrefs *		sPrefs;
+	static Rzil_basics			sBasics;
 	static const LStr255		sVersionNumber;
 	static short				sOwnRefNum;
 	static CInspectorWindow *	sInspectorWindow;
