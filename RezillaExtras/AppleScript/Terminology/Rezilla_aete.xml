@@ -1609,7 +1609,7 @@
 		
 		<ArrayClasses>
 			<Class>
-				<ClassName>rez map</ClassName>
+				<ClassName>map</ClassName>
 				<ClassID>cMAP</ClassID>
 				<ClassDescription>a resource map</ClassDescription>
 				<ArrayProperties>
@@ -1683,7 +1683,7 @@
 						<PropertyName>readOnly</PropertyName>
 						<PropertyID>pRDO</PropertyID>
 						<PropertyClass>bool</PropertyClass>
-						<PropertyDescription>the mapReadOnly attribute</PropertyDescription>
+						<PropertyDescription>the mapReadOnly bit</PropertyDescription>
 						<Reserved/>
 						<IsPropertyList>singleItem</IsPropertyList>
 						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
@@ -1705,7 +1705,7 @@
 						<PropertyName>compact</PropertyName>
 						<PropertyID>pCMP</PropertyID>
 						<PropertyClass>bool</PropertyClass>
-						<PropertyDescription>the mapCompact attribute</PropertyDescription>
+						<PropertyDescription>the mapCompact bit</PropertyDescription>
 						<Reserved/>
 						<IsPropertyList>singleItem</IsPropertyList>
 						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
@@ -1727,7 +1727,7 @@
 						<PropertyName>changed</PropertyName>
 						<PropertyID>imod</PropertyID>
 						<PropertyClass>bool</PropertyClass>
-						<PropertyDescription>the mapChanged attribute</PropertyDescription>
+						<PropertyDescription>the mapChanged bit</PropertyDescription>
 						<Reserved/>
 						<IsPropertyList>singleItem</IsPropertyList>
 						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
@@ -1785,6 +1785,364 @@
 							<KeyFormID>list</KeyFormID>
 						</ArrayKeyForms>
 					</ClassElement>
+				</ArrayElements>
+			</Class>
+
+			<Class>
+				<ClassName>type</ClassName>
+				<ClassID>cTYP</ClassID>
+				<ClassDescription>a resource type</ClassDescription>
+				<ArrayProperties>
+					<ClassProperty>
+						<PropertyName>name</PropertyName>
+						<PropertyID>pnam</PropertyID>
+						<PropertyClass>itxt</PropertyClass>
+						<PropertyDescription>the type's name</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+					<ClassProperty>
+						<PropertyName>refnum</PropertyName>
+						<PropertyID>pREF</PropertyID>
+						<PropertyClass>shor</PropertyClass>
+						<PropertyDescription>the refnum of the map it belongs to</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+				</ArrayProperties>
+				<ArrayElements>
+					<ClassElement>
+						<ClassElementID>cRSC</ClassElementID>
+						<ArrayKeyForms>
+							<KeyFormID>indx</KeyFormID>
+							<KeyFormID>name</KeyFormID>
+							<KeyFormID>list</KeyFormID>
+						</ArrayKeyForms>
+					</ClassElement>
+				</ArrayElements>
+			</Class>
+
+			<Class>
+				<ClassName>resource</ClassName>
+				<ClassID>cRSC</ClassID>
+				<ClassDescription>a single resource</ClassDescription>
+				<ArrayProperties>
+					<ClassProperty>
+						<PropertyName>name</PropertyName>
+						<PropertyID>pnam</PropertyID>
+						<PropertyClass>itxt</PropertyClass>
+						<PropertyDescription>the map's name</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+					<ClassProperty>
+						<PropertyName>ID</PropertyName>
+						<PropertyID>ID  </PropertyID>
+						<PropertyClass>shor</PropertyClass>
+						<PropertyDescription>the ID of the resource</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>enumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+					<ClassProperty>
+						<PropertyName>type</PropertyName>
+						<PropertyID>pTYP</PropertyID>
+						<PropertyClass>TEXT</PropertyClass>
+						<PropertyDescription>the type of the resource</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>enumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+					<ClassProperty>
+						<PropertyName>refnum</PropertyName>
+						<PropertyID>pREF</PropertyID>
+						<PropertyClass>shor</PropertyClass>
+						<PropertyDescription>the refnum of the map it belongs to</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+					<ClassProperty>
+						<PropertyName>attributes</PropertyName>
+						<PropertyID>pATR</PropertyID>
+						<PropertyClass>shor</PropertyClass>
+						<PropertyDescription>the global value of the resource attributes (sum of the individual flags)</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readWrite</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+					<ClassProperty>
+						<PropertyName>sysHeap</PropertyName>
+						<PropertyID>pSHP</PropertyID>
+						<PropertyClass>bool</PropertyClass>
+						<PropertyDescription>the resSysHeap bit</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readWrite</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+					<ClassProperty>
+						<PropertyName>purgeable</PropertyName>
+						<PropertyID>pPUR</PropertyID>
+						<PropertyClass>bool</PropertyClass>
+						<PropertyDescription>the resPurgeable bit</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readWrite</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+					<ClassProperty>
+						<PropertyName>locked</PropertyName>
+						<PropertyID>pLOC</PropertyID>
+						<PropertyClass>bool</PropertyClass>
+						<PropertyDescription>the resLocked bit</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readWrite</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+					<ClassProperty>
+						<PropertyName>resPreload</PropertyName>
+						<PropertyID>pPRE</PropertyID>
+						<PropertyClass>bool</PropertyClass>
+						<PropertyDescription>the resPreload bit</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readWrite</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+					<ClassProperty>
+						<PropertyName>protected</PropertyName>
+						<PropertyID>pPRO</PropertyID>
+						<PropertyClass>bool</PropertyClass>
+						<PropertyDescription>the resProtected bit</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readWrite</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+					<ClassProperty>
+						<PropertyName>changed</PropertyName>
+						<PropertyID>imod</PropertyID>
+						<PropertyClass>bool</PropertyClass>
+						<PropertyDescription>the resChanged bit</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readWrite</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+					<ClassProperty>
+						<PropertyName>size</PropertyName>
+						<PropertyID>pSIZ</PropertyID>
+						<PropertyClass>long</PropertyClass>
+						<PropertyDescription>the size of the resource data (in bytes)</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+					<ClassProperty>
+						<PropertyName>data</PropertyName>
+						<PropertyID>pcnt</PropertyID>
+						<PropertyClass>****</PropertyClass>
+						<PropertyDescription>the size of the resource data (in bytes)</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readWrite</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+				</ArrayProperties>
+				<ArrayElements>
 				</ArrayElements>
 			</Class>
 
