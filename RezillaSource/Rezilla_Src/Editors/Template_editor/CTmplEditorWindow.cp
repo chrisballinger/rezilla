@@ -2,7 +2,7 @@
 // CTmplEditorWindow.cp					
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-08-04 22:27:43
+//             Last modification: 2004-08-14 16:14:50
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -284,7 +284,7 @@ CTmplEditorWindow::InitPaneInfos()
 	sTgbPaneInfo.visible			= true;
 	sTgbPaneInfo.enabled			= true;
 	sTgbPaneInfo.bindings.left		= true;
-	sTgbPaneInfo.bindings.top		= true;
+	sTgbPaneInfo.bindings.top		= false;
 	sTgbPaneInfo.bindings.right		= true;
 	sTgbPaneInfo.bindings.bottom	= false;
 	sTgbPaneInfo.userCon			= 0;
@@ -1109,27 +1109,28 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		
 		break;
 
+// 		case 'FBYT':
+// 		// Byte fill (with 0)
+// 		if (mRezStream->GetMarker() < mRezStream->GetLength() ) {
+// 			mRezStream->SetMarker(1, streamFrom_Marker);
+// 		} 
+// 		break;
+
+// 		case 'FLNG':
+// 		// Long fill (with 0)
+// 		if (mRezStream->GetMarker() < mRezStream->GetLength() - 3) {
+// 			mRezStream->SetMarker(4, streamFrom_Marker);
+// 		} 
+// 		break;
+
+// 		case 'FWRD':
+// 		// Word fill (with 0)
+// 		if (mRezStream->GetMarker() < mRezStream->GetLength() - 1) {
+// 			mRezStream->SetMarker(2, streamFrom_Marker);
+// 		} 
+// 		break;
+
 		case 'FBYT':
-		// Byte fill (with 0)
-		if (mRezStream->GetMarker() < mRezStream->GetLength() ) {
-			mRezStream->SetMarker(1, streamFrom_Marker);
-		} 
-		break;
-
-		case 'FLNG':
-		// Long fill (with 0)
-		if (mRezStream->GetMarker() < mRezStream->GetLength() - 3) {
-			mRezStream->SetMarker(4, streamFrom_Marker);
-		} 
-		break;
-
-		case 'FWRD':
-		// Word fill (with 0)
-		if (mRezStream->GetMarker() < mRezStream->GetLength() - 1) {
-			mRezStream->SetMarker(2, streamFrom_Marker);
-		} 
-		break;
-
 		case 'HBYT':
 		// Hex byte
 		if (mRezStream->GetMarker() < mRezStream->GetLength() ) {
@@ -1149,6 +1150,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		AddHexDumpField(inType, inContainer);
 		break;
 
+		case 'FLNG':
 		case 'HLNG':
 		// Hex long word
 		if (mRezStream->GetMarker() < mRezStream->GetLength() - 3) {
@@ -1161,6 +1163,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 					 &UHexFilters::HexadecimalField, inContainer);
 		break;
 
+		case 'FWRD':
 		case 'HWRD':
 		// Hex word
 		if (mRezStream->GetMarker() < mRezStream->GetLength() - 1) {
@@ -1509,7 +1512,7 @@ CTmplEditorWindow::AddCheckField(Boolean inValue,
 void
 CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 {
-	SInt32		oldPos, newPos, maxPos, theLength;
+	SInt32		oldPos, newPos, nextPos, theLength;
 	Handle		theHandle;
 	char 		theChar;
 	SViewInfo	theViewInfo;
@@ -1526,7 +1529,6 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 	sTgbPaneInfo.top				= mYCoord;
 	sTgbPaneInfo.left				= kTmplTextMargin;
 	sTgbPaneInfo.width				= theFrame.width - kTmplTextMargin * 2;
-	sTgbPaneInfo.bindings.bottom	= false;
 	sTgbPaneInfo.superView			= inContainer;
 
 	LTextGroupBox * theTGB = new LTextGroupBox(sTgbPaneInfo, theViewInfo, false);
@@ -1579,6 +1581,7 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 					break;
 				} 
 			}
+			nextPos = mRezStream->GetMarker();
 		break;
 
 		case 'LSTR': {
@@ -1589,6 +1592,7 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 			}
 			oldPos += 4;
 			newPos = oldPos + theUInt32;
+			nextPos = newPos;
 			break;
 		}
 		
@@ -1600,6 +1604,7 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 			}
 			oldPos += 2;
 			newPos = oldPos + theUInt16;
+			nextPos = newPos;
 			break;
 		}
 
@@ -1628,6 +1633,7 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 					break;
 				} 
 			}
+			nextPos = mRezStream->GetMarker();
 		break;
 
 		default:
@@ -1640,21 +1646,16 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 			sprintf(str, "%c%c%c%c", *(p+1), *(p+2), *(p+3), 0);
 			sscanf(str, "%3x", &length);
 
-			maxPos = oldPos + length;
-			newPos = maxPos - 1;
+			nextPos = oldPos + length;
+			newPos = nextPos - 1;
 			// Look for a NULL byte in this range
-			while (mRezStream->GetMarker() <= maxPos ) {
+			while (mRezStream->GetMarker() <= nextPos ) {
 				*mRezStream >> theChar;
 				if (theChar == 0) {
 					newPos = mRezStream->GetMarker() - 1;
-					mRezStream->SetMarker(maxPos, streamFrom_Start);
 					break;
 				}
 			}
-// 			// Skip the ending byte
-// 			if (mRezStream->GetMarker() < theLength ) {
-// 				*mRezStream >> theChar;
-// 			}
 		}
 	}
 
@@ -1674,6 +1675,7 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 	HUnlock(theHandle);
 	
 	// Advance the counters
+	mRezStream->SetMarker(nextPos, streamFrom_Start);
 	mYCoord += sTgbPaneInfo.height + kTmplVertSep;
 	mCurrentID++;
 }
@@ -1702,7 +1704,6 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 	sTgbPaneInfo.top				= mYCoord;
 	sTgbPaneInfo.left				= kTmplTextMargin;
 	sTgbPaneInfo.width				= theFrame.width - kTmplTextMargin * 2;
-	sTgbPaneInfo.bindings.bottom	= true;
 	sTgbPaneInfo.paneID				= mCurrentID;
 	sTgbPaneInfo.superView			= inContainer;
 	CDualDataView * theTGB = new CDualDataView(sTgbPaneInfo, theViewInfo, false);
@@ -1763,15 +1764,17 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 	theLength = mRezStream->GetLength();
 	oldPos = mRezStream->GetMarker();
 	if (inType == 'HEXD') {
+		// This is always the last code in a template. Go to the end of the
+		// resource data.
 		newPos = theLength;
 	} else if (inType >> 24 == 'H') {
 	  // Hnnn: a 3-digit hex number; displays nnn bytes in hex format
-		SInt32 length;
+		SInt32 numbytes;
 		char str[4];
 		char * p = (char*) &inType;
 		sprintf(str, "%c%c%c%c", *(p+1), *(p+2), *(p+3), 0);
-		sscanf(str, "%3x", &length);
-		newPos = oldPos + length;
+		sscanf(str, "%3x", &numbytes);
+		newPos = oldPos + numbytes;
 	}
 	
 	if (oldPos > theLength) {
@@ -1792,8 +1795,9 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 	HUnlock(theHandle);
 
 	WESetSelection(0, 0, theTGB->GetInMemoryWasteRef());
-	
+
 	// Advance the counters
+	mRezStream->SetMarker(newPos, streamFrom_Start);
 	mYCoord += sTgbPaneInfo.height + kTmplVertSep;
 	mCurrentID++;
 }
@@ -2380,21 +2384,22 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		mCurrentID++;
 		break;
 
+// 		case 'FBYT':
+// 		// Byte fill (with 0)
+// 		*mOutStream << (SInt8) 0;
+// 		break;
+
+// 		case 'FLNG':
+// 		// Long fill (with 0)
+// 		*mOutStream << (SInt32) 0;
+// 		break;
+
+// 		case 'FWRD':
+// 		// Word fill (with 0)
+// 		*mOutStream << (SInt16) 0;
+// 		break;
+
 		case 'FBYT':
-		// Byte fill (with 0)
-		*mOutStream << (SInt8) 0;
-		break;
-
-		case 'FLNG':
-		// Long fill (with 0)
-		*mOutStream << (SInt32) 0;
-		break;
-
-		case 'FWRD':
-		// Word fill (with 0)
-		*mOutStream << (SInt16) 0;
-		break;
-
 		case 'HBYT':
 		// Hex byte
 		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
@@ -2417,23 +2422,25 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		mCurrentID++;
 		break;
 
+		case 'FLNG':
 		case 'HLNG':
 		// Hex long word
 		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
 		theEditText->GetDescriptor(numStr);	
 		CopyPascalStringToC(theString, charString);
 		sscanf(charString, "$%8x", &theUInt32);
-		*mOutStream << theChar;
+		*mOutStream << theUInt32;
 		mCurrentID++;
 		break;
 
+		case 'FWRD':
 		case 'HWRD':
 		// Hex word
 		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
 		theEditText->GetDescriptor(numStr);	
 		CopyPascalStringToC(theString, charString);
 		sscanf(charString, "$%4x", &theUInt16);
-		*mOutStream << theChar;
+		*mOutStream << theUInt16;
 		mCurrentID++;
 		break;
 
