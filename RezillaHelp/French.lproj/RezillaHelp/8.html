@@ -1,28 +1,47 @@
 <HTML>
 <HEAD>
-<TITLE>Interfaces d'éditionLes interfaces d'édition (ou éditeurs dédiés) sont des modes</TITLE>
+<TITLE>Interfaces d'éditionLes interfaces d'édition (appelés aussi éditeurs dédiés) sont des</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="7.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="9.html">Suiv</A><HR><P>&nbsp;</P>
-<H2>Interfaces d'édition</H2><P>Les <I>interfaces d'édition</I> (ou éditeurs dédiés) sont des modes
-d'édition qui définissent une interface graphique dédiée spécifiquement à
-un type de ressources particulier (ou à une famille de types). Elles
-diffèrent de l'édition par gabarits en ce qu'elles ne reposent pas sur
-l'existence d'un gabarit descriptif prédéfini. Elles sont aussi en général
-plus puissantes que les gabarits car elles sont écrites spécifiquement pour
-tenir compte de toutes les particularités du type concerné. Par exemple,
-une interface d'édition pour les ressources de type 'TEXT' sera capable de
-gérer les éléments stylistiques, tels que le choix de polices, de taille,
-de style de caractères (gras, italique etc.): l'éditeur de gabarits est
-aussi capable d'éditer une ressource de type 'TEXT' mais il ne peut pas
-tenir compte du style.<P>Depuis la version 1.0.4, Rezilla dispose justement d'un éditeur de textes
-qui permet d'éditer à la fois des ressources de type 'TEXT' et de type
-'styl' et gère les informations de police, taille et style.<P>De futures versions de Rezilla ajouteront d'autres interface d'édition, en
-particulier pour faciliter l'édition de ressources graphiques (icones,
-images).<P><H3>L'éditeur Texte</H3><P><H3>L'éditeur d'images</H3><P>Il permet d'éditer des ressources contenant des images bitmaps. Cela inclut
+<H2>Interfaces d'édition</H2><P>Les <I>interfaces d'édition</I> (appelés aussi éditeurs dédiés) sont des
+modes d'édition qui définissent une interface graphique dédiée
+spécifiquement à un type de ressources particulier (ou à une famille de
+types). Elles diffèrent de l'édition par gabarits en ce qu'elles ne
+reposent pas sur l'existence d'un gabarit descriptif prédéfini. Elles sont
+aussi en général plus puissantes que les gabarits car elles sont écrites
+spécifiquement pour tenir compte de toutes les particularités du type
+concerné. Par exemple, une interface d'édition pour les ressources de type
+'TEXT' sera capable de gérer les éléments stylistiques, tels que le choix
+de polices, de taille, de style de caractères (gras, italique etc.):
+l'éditeur de gabarits est aussi capable d'éditer une ressource de type
+'TEXT' mais il ne peut pas tenir compte du style.<P>Les interfaces d'édition sont parfois appelées éditeurs graphiques mais
+cette dénomination est imprécise dans la mesure oùl'éditeur de gabarits
+construit lui aussi des interfaces graphiques.<P>Rezilla possède plusieurs interfaces d'édition introduites dans 
+différentes versions:
+<OL>
+	<LI> depuis la version 1.0.4, un éditeur de texte supportant à la
+fois des ressources de type 'TEXT' et de type 'styl' et permettant de gérer 
+les informations de police, taille et style.<P>	<LI> depuis la version 1.0.5, un éditeur de ressources d'images bitmaps, un
+visualisateur de ressources 'PICT', un lecteur de ressources son ('snd '),
+un éditeur de ressources Unicode ('utxt').
+</OL><P>De futures versions de Rezilla ajouteront d'autres interface d'édition.<P><H3>L'éditeur de texte</H3>
+L'éditeur de texte possède trois menus: <B>Font</B>, <B>Size</B> et 
+<B>Style</B> placés en haut de ses fenêtres d'édition. Une fenêtre
+d'édition typique ressemble à ceci:
+<P><IMG SRC="../../Images/rzil_texteditor.gif" ALT="Text editor window" ALIGN=bottom></P><P>Si l'on édite une ressource de type 'TEXT' pour laquelle une ressource de 
+type 'styl' <I>de même numéro</I> existe, Rezilla lit les informations 
+de style (police, taille, forme) contenues dans cette ressource et les 
+applique au texte. Autrement, la ressource texte est affichée avec les 
+valeurs par défaut de police, taille et forme.<P>Lorsqu'une nouvelle ressource de type 'TEXT' est créée, l'éditeur de texte
+utilise <I>a priori</I> les réglages par défaut. Si des modifications de style ont
+été apportées au moyen de l'un des trois menus, Rezilla créera
+automatiquement une ressource de type 'styl' de même numéro que la
+ressource 'TEXT' au moment de la sauvegarde de la ressource afin de
+conserver les données stylistiques.<P><H3>L'éditeur d'images</H3><P>Il permet d'éditer des ressources contenant des images bitmaps. Cela inclut
 les icones (petites, mini ou grandes), les familles d'icones, les motifs,
 les curseurs. Plus précisément, l'éditeur supporte les types de ressources
 suivants:<P>'cicn', 'crsr', 'CURS', 'icl4', 'icl8', 'icm#', 'icm4', 'icm8',

@@ -14,10 +14,27 @@ because it does not rely on the existence of a descriptive template. It is
 generally more powerful than a template: for instance, you can edit the
 contents of a 'TEXT' resource using a template but this won't take account
 of style info, whereas the Text editor will support this. There are types
-which can not be described easily by a template anyway.<P>As of version 1.0.4, Rezilla provides a text editor which lets you edit
+which can not be described easily by a template anyway.<P>The interface editors are sometimes called graphic editors. This is an 
+improper denomination because the templates editor does also build graphic 
+interfaces.<P>Rezilla provides various interface editors introduced in successive 
+versions:
+<OL>
+	<LI> since version 1.0.4, a text editor which lets you edit
 'TEXT' and 'styl' resources and can handle styled text (i-e text using
-various fonts, sizes, styles).<P>Future versions of Rezilla will have additional interface editors, in
-particular to edit icon resources. <P><H3>The Text editor</H3><P><H3>The bitmap editor</H3>
+various fonts, sizes, styles).<P>	<LI> since version 1.0.5, a bitmap resources editor, a picture viewer for
+'PICT' resources, a sound player ('snd '), a Unicode editor ('utxt').
+</OL><P>Future versions of Rezilla will have additional interface editors. <P><H3>The Text editor</H3>
+The text editor has three menus: <B>Font</B>, <B>Size</B>, and 
+<B>Style</B> located at the top of the text editing window. A typical 
+text editing window looks like this:
+<P><IMG SRC="../../Images/rzil_texteditor.gif" ALT="Text editor window" ALIGN=bottom></P><P>If you edit a resource with type 'TEXT' for which a 'styl' resource 
+<I>with the same ID</I> exists, Rezilla reads the style information contained in 
+this resource (font, size, face) and applies it to the text. Otherwise, 
+the text resource is displayed using the default style settings.<P>When a new resource with type 'TEXT' is created, the text editor uses the 
+default settings too. If some modifications have been made using one of 
+the three menus, Rezilla will automatically create a 'styl' resource with 
+the same ID as the 'TEXT' resource itself upon saving, in order to store 
+the style information.<P><H3>The bitmap editor</H3>
 It allows you to edit bitmap image resources. This includes icons (small,
 mini or large), icon families, patterns, cursors. To be more precise, it
 supports the following resource types:<P>'cicn', 'crsr', 'CURS', 'icl4', 'icl8', 'icm#', 'icm4', 'icm8',
