@@ -2,7 +2,7 @@
 // CTmplWindowUtils.cp					
 // 
 //                       Created: 2004-08-20 16:45:08
-//             Last modification: 2004-11-03 23:01:38
+//             Last modification: 2004-11-06 12:01:40
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -49,31 +49,6 @@ CTmplEditorWindow::InstallReadOnlyIcon()
 	} else {
 		theIcon->SetIconID(ics8_Unlocked);
 	}
-}
-
-
-// ---------------------------------------------------------------------------
-//	¥ IsDirty														[public]
-// ---------------------------------------------------------------------------
-
-Boolean
-CTmplEditorWindow::IsDirty()
-{	
-	if (!mIsDirty) {
-		// The mWasteFields list contains all the Waste views. Check if they
-		// are modified.
-		TArrayIterator<CWasteEditView *> iterator(mWasteFields);
-		CWasteEditView *	theWasteView = nil;
-		
-		while (iterator.Next(theWasteView)) {
-			mIsDirty = theWasteView->IsDirty();
-			if (mIsDirty) {
-				break;
-			} 
-		}
-	} 
-
-	return mIsDirty;
 }
 
 
