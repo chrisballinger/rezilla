@@ -2,7 +2,7 @@
 // CKeyboardGlyphBox.h
 // 
 //                       Created: 2005-03-14 14:42:07
-//             Last modification: 2005-03-14 14:42:14
+//             Last modification: 2005-03-23 06:06:24
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -197,9 +197,16 @@ CKeyboardGlyphBox::DrawSelf()
 // ---------------------------------------------------------------------------
 //	¥ SetString													   [protected]
 // ---------------------------------------------------------------------------
+// Allowable values for inString[1] are : 0, 2-31, 97-122, 135-138 (Menus.h)
 
 void
 CKeyboardGlyphBox::SetString(StringPtr inString) {
+	// Make sure we have only one char
+	if (inString[0] == 0) {
+		return;
+	} else {
+		inString[0] = 1;
+	}
 	CFRelease(mString);
 	mString = *(new LCFString(inString, kTextEncodingMacKeyboardGlyphs));
 }
