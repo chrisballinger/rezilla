@@ -179,8 +179,8 @@ void
 UCodeTranslator::ConvertHexToByte( LDataStream* srcDataStream, LDataStream* trgtDataStream )
 {
 	UInt8 readChar;
-	UInt8 val1 = 0;
-	UInt8 val2 = 0;
+	UInt8 val1;
+	UInt8 val2;
 	SInt32 length = srcDataStream->GetLength() ;
 	UInt8 result;
 	
@@ -188,10 +188,15 @@ UCodeTranslator::ConvertHexToByte( LDataStream* srcDataStream, LDataStream* trgt
 		*srcDataStream >> readChar;
 		if (readChar != 0x30) {
 			val1 = ConvertHexToValue(readChar);
+		} else {
+			val1 = 0;
 		}
+		
 		*srcDataStream >> readChar;
 		if (readChar != 0x30) {
 			val2 = ConvertHexToValue(readChar);
+		} else {
+			val2 = 0;
 		}
 		*trgtDataStream << (UInt8) (16 * val1 + val2);
 	}
