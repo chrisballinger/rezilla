@@ -944,7 +944,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		} 
 		::NumToString( (long) theSInt32, numStr);
 		AddStaticField(inType, inLabelString, inContainer);
-		AddEditField(numStr, inType, 6, 0, 
+		AddEditField(numStr, inType, 11, 0, 
 					 UKeyFilters::SelectTEKeyFilter(keyFilter_NegativeInteger), inContainer);
 		break;
 
@@ -963,7 +963,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		} 
 		::NumToString( (long) theSInt16, numStr);
 		AddStaticField(inType, inLabelString, inContainer);
-		AddEditField(numStr, inType, 11, 0, 
+		AddEditField(numStr, inType, 6, 0, 
 					 UKeyFilters::SelectTEKeyFilter(keyFilter_NegativeInteger), inContainer);
 		break;
 
@@ -1354,7 +1354,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		} 
 		::NumToString( (long) theUInt32, numStr);
 		AddStaticField(inType, inLabelString, inContainer);
-		AddEditField(numStr, inType, 6, 0, 
+		AddEditField(numStr, inType, 11, 0, 
 					 UKeyFilters::SelectTEKeyFilter(keyFilter_Integer), inContainer);
 		break;
 
@@ -1365,7 +1365,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		} 
 		::NumToString( (long) theUInt16, numStr);
 		AddStaticField(inType, inLabelString, inContainer);
-		AddEditField(numStr, inType, 11, 0, 
+		AddEditField(numStr, inType, 6, 0, 
 					 UKeyFilters::SelectTEKeyFilter(keyFilter_Integer), inContainer);
 		break;
 
