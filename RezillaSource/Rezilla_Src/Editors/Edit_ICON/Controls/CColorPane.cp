@@ -1,11 +1,11 @@
 // ===========================================================================
 // CColorPane.cp
 //                       Created: 2004-12-11 18:53:05
-//             Last modification: 2005-01-02 15:44:56
+//             Last modification: 2005-01-07 17:14:43
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes 2004, 2005
+// (c) Copyright: Bernard Desgraupes 2004-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -182,10 +182,12 @@ CColorPane::GetColorTable()
 void
 CColorPane::SetColorTable( CTabHandle inTable, Boolean inChangeColorToo, RedrawOptions inRedrawHow )
 {
-	Handle	copyOfTable = inTable ? ((Handle)inTable) : nil;
-
+	if (mColorTable == inTable) {
+		return;
+	} 
+	
 	this->DisposeCurrentTable();
-	mColorTable = (CTabHandle) copyOfTable;
+	mColorTable = inTable;
 	
 	// Change the currently displayed color if it's not in the new table
 	if ( mColorTable && inChangeColorToo )
