@@ -74,6 +74,8 @@ protected:
 	CRezCompare *			mRezCompare;
 	CHexDataWE *			mOldHexDataWE;
 	CHexDataWE *			mNewHexDataWE;
+	Handle					mOldData;
+	Handle					mNewData;
 	LScrollBar *			mScroller;
 	CBroadcasterTableView *	mOnlyOldTable;
 	CBroadcasterTableView *	mOnlyNewTable;

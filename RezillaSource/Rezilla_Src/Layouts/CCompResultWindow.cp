@@ -208,7 +208,6 @@ CCompResultWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		break;
 		
 		case msg_CompResultDifferingTbl: {
-			Handle	oldHandle, newHandle;
 			CRezTypId * theTypid;
 			STableCell theCell;
 			
@@ -218,13 +217,16 @@ CCompResultWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			theCell = mDifferTable->GetFirstSelectedCell();		
 			mRezCompare->GetDifferingList()->FetchItemAt( theCell.row, theTypid);
 			
-			mRezCompare->GetOldMap()->GetWithID(theTypid->mType, theTypid->mID, oldHandle, false);
-			mRezCompare->GetNewMap()->GetWithID(theTypid->mType, theTypid->mID, newHandle, false);
+			mRezCompare->GetOldMap()->GetWithID(theTypid->mType, theTypid->mID, mOldData, false);
+			mRezCompare->GetNewMap()->GetWithID(theTypid->mType, theTypid->mID, mNewData, false);
 			
 			EraseHexPanes();
 			
-			mOldHexDataWE->InsertHexContents( *oldHandle, ::GetHandleSize(oldHandle));
-			mNewHexDataWE->InsertHexContents( *newHandle, ::GetHandleSize(newHandle));
+			if (mOldData == nil || mNewData == nil) {
+				return;
+			} 
+	
+			InsertHexContentsFromLine(1);
 			
 			SetMaxScrollerValue();
 			break;
@@ -457,18 +459,18 @@ CCompResultWindow::SetMaxScrollerValue()
 SInt32
 CCompResultWindow::HexLineCount() 
 {
-	SInt32 oldByteCount = WEGetTextLength( mOldHexDataWE->GetWasteRef() );
-	SInt32 newByteCount = WEGetTextLength( mNewHexDataWE->GetWasteRef() );
+	SInt32 oldByteCount = ::GetHandleSize(mOldData);
+	SInt32 newByteCount = ::GetHandleSize(mNewData);
 	SInt32 oldLineCount = 0;
 	SInt32 newLineCount = 0;
 
 	if (oldByteCount) {
-		oldLineCount = oldByteCount / kRzilHexCompCharsPerLine;
-		oldLineCount += (oldByteCount % kRzilHexCompCharsPerLine == 0) ? 0:1 ;
+		oldLineCount = oldByteCount / kRzilHexCompBytesPerLine;
+		oldLineCount += (oldByteCount % kRzilHexCompBytesPerLine == 0) ? 0:1 ;
 	} 
 	if (newByteCount) {
-		newLineCount = newByteCount / kRzilHexCompCharsPerLine;
-		newLineCount += (newByteCount % kRzilHexCompCharsPerLine == 0) ? 0:1 ;
+		newLineCount = newByteCount / kRzilHexCompBytesPerLine;
+		newLineCount += (newByteCount % kRzilHexCompBytesPerLine == 0) ? 0:1 ;
 	} 
 	return ((oldLineCount > newLineCount) ? oldLineCount:newLineCount );
 }
@@ -477,46 +479,45 @@ CCompResultWindow::HexLineCount()
 // ---------------------------------------------------------------------------
 //	¥ InsertHexContentsFromLine										[protected]
 // ---------------------------------------------------------------------------
+// All the counts in this proc are counts of bytes in the resource data. 
+// InsertHexContents() takes care of converting the bytes in their hex+space representation.
 
 void
 CCompResultWindow::InsertHexContentsFromLine(SInt32 inFromLine)
 {
-	Handle theOldHandle = WEGetText( mOldHexDataWE->GetWasteRef() );
-	Handle theNewHandle = WEGetText( mNewHexDataWE->GetWasteRef() );
-	SInt32 oldByteCount = mOldHexDataWE->GetTextLength();
-	SInt32 newByteCount = mNewHexDataWE->GetTextLength();
-	SInt32 charOffset = (inFromLine - 1) * kRzilHexCompCharsPerLine;
+	SInt32 oldByteCount = ::GetHandleSize(mOldData);
+	SInt32 newByteCount = ::GetHandleSize(mNewData);
+	SInt32 charOffset = (inFromLine - 1) * kRzilHexCompBytesPerLine;
 	SInt32 remainingChars;
 
 	// Left pane
 	remainingChars = oldByteCount - charOffset;
 
-	if (remainingChars > kRzilHexCompCharsPerPane) {
-		remainingChars = kRzilHexCompCharsPerPane;
+	if (remainingChars > kRzilHexCompBytesPerPane) {
+		remainingChars = kRzilHexCompBytesPerPane;
 	} 
 	if (remainingChars < 0) {
 		remainingChars = 0;
-		mOldHexDataWE->InsertHexContents( (*theOldHandle), remainingChars);
+		mOldHexDataWE->InsertHexContents( (*mOldData), remainingChars);
 	} else {
-		mOldHexDataWE->InsertHexContents( (*theOldHandle) + charOffset, remainingChars);
+		mOldHexDataWE->InsertHexContents( (*mOldData) + charOffset, remainingChars);
 	}
 	
 	// Right pane
 	remainingChars = newByteCount - charOffset;
 
-	if (remainingChars > kRzilHexCompCharsPerPane) {
-		remainingChars = kRzilHexCompCharsPerPane;
+	if (remainingChars > kRzilHexCompBytesPerPane) {
+		remainingChars = kRzilHexCompBytesPerPane;
 	} 
 	if (remainingChars < 0) {
 		remainingChars = 0;
-		mNewHexDataWE->InsertHexContents( (*theOldHandle), remainingChars);
+		mNewHexDataWE->InsertHexContents( (*mNewData), remainingChars);
 	} else {
-		mNewHexDataWE->InsertHexContents( (*theOldHandle) + charOffset, remainingChars);
+		mNewHexDataWE->InsertHexContents( (*mNewData) + charOffset, remainingChars);
 	}
-	
-	// Adjust the scrollbar
-	mScroller->SetValue(inFromLine-1);
 }
+// 	// Adjust the scrollbar
+// 	mScroller->SetValue(inFromLine-1);
 
 
 // ---------------------------------------------------------------------------
