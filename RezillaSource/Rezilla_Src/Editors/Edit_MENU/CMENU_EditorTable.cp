@@ -2,7 +2,7 @@
 // CMENU_EditorTable.cp
 // 
 //                       Created: 2005-03-09 17:16:53
-//             Last modification: 2005-03-16 13:54:55
+//             Last modification: 2005-03-22 09:35:10
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -26,17 +26,6 @@
 
 
 PP_Begin_Namespace_PowerPlant
-// cmdKey                        = 1 << cmdKeyBit,
-// shiftKey                      = 1 << shiftKeyBit,
-// alphaLock                     = 1 << alphaLockBit,
-// optionKey                     = 1 << optionKeyBit,
-// controlKey                    = 1 << controlKeyBit,
-// 
-// cmdKeyBit                     = 8,    /* command key down?*/
-// shiftKeyBit                   = 9,    /* shift key down?*/
-// alphaLockBit                  = 10,   /* alpha lock down?*/
-// optionKeyBit                  = 11,   /* option key down?*/
-// controlKeyBit                 = 12,   /* control key down?*/
 
 
 // ---------------------------------------------------------------------------------
@@ -218,36 +207,35 @@ CMENU_EditorTable::ClickCell(
 	if ( DragAndDropIsPresent() &&
 		::WaitMouseMoved( inMouseDown.macEvent.where ) ) {
 
-		// Get the selected cell.
+		// Get the selected cell
 		TableCellT	theCell;
 		GetSelectedCell( theCell );
 		
 		if ( IsValidCell( theCell ) ) {
 		
-			// Focus.
 			FocusDraw();
 			
-			// Get the cell frame.
+			// Get the cell frame
 			Rect	theCellFrame;
 			FetchLocalCellFrame( theCell, theCellFrame );
 	
-			// Get the cell data.
+			// Get the cell data
 			Str255	theString;
 			GetCellData( theCell, theString );
 			
-			// Create the drag task.
+			// Create the drag task
 			LDragTask	theDragTask( inMouseDown.macEvent, theCellFrame,
 							1, 'TEXT', &theString[1], StrLength(theString), 0 );
 			
-			// Invalidate LView's focus cache.
-			// The port may have changed during the drag.
+			// Invalidate LView's focus cache. The port may have changed
+			// during the drag.
 			LView::OutOfFocus( nil );
 		
-			// Check for a drop in the trash.
+			// Check for a drop in the trash
 			if ( UDragAndDropUtils::DroppedInTrash(
 				theDragTask.GetDragReference() ) ) {
 			
-				// Delete the cell and refresh the list.
+				// Delete the cell and refresh the list
 				RemoveRows( 1, theCell.row );
 				Refresh();
 
