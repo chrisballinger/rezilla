@@ -77,11 +77,19 @@ valeurs seront cachées. De plus, si la case à cocher appelée <I>Enable
 filler fields in templates</I> est sélectionnée, ces champs seront rendus
 éditables, autrement ils sont désactivés et apparaissent en gris.<P><H3>Panneau <I>Editors</I></H3>
 <P> Dans le panneau <I>Editors</I>, on peut spécifier des propriétés 
-concernant certains éditeurs particuliers.<P>Les préférences <I>Use 8-bit colors</I> et <I>Use Full Color Tables</I> 
-sont liées à l'éditeur d'images.<P>La préférence <I>Do Font SUbstitution</I> est liée à l'éditeur Unicode. 
-Si elle est activée, Rezilla affichera automatiquement le texte Unicode 
-en se servant des polices de caractères appropriées correspondant aux scripts
-utilisés dans la ressource.<P><H3>Panneau <I>Misc</I></H3><P><P> Dans le panneau <I>Misc</I> (abréviation de <I>miscellaneous</I> qui
+concernant certains éditeurs particuliers.<P><H4>Préférences de l'éditeur d'images</H4>
+La préférence <I>Use 8-bit colors</I> est utilisée pour des conversions 
+d'images couleur. Elle force à utiliser une profondeur de couleur de 8 au 
+lieu de 32.<P>La préférence <I>Use Full Color Tables</I> indique d'utiliser des palettes
+de 256 couleurs. Autrement la palette Apple classique avec seulement 32
+couleurs est utilisée.<P><H4>Préférences de l'éditeur Unicode</H4>
+Si la préférence <I>Do Font Substitution</I> est activée, Rezilla
+affichera automatiquement le texte Unicode en se servant des polices de
+caractères appropriées correspondant aux scripts utilisés dans la
+ressource.<P>La préférence <I>Insert Byte Order Mark</I> dit s'il faut inclure la
+marque d'ordre (BOM, de code-point U+FEFF) au début de la ressource. Ce
+symbole Unicode sert souvent à identifier des données Unicode au format
+UTF-16 qui est la forme d'encodage utilisée par Rezilla.<P><H3>Panneau <I>Misc</I></H3><P><P> Dans le panneau <I>Misc</I> (abréviation de <I>miscellaneous</I> qui
 signifie <I>divers</I>), on peut spécifier au moyen de la préférence <I>Set type and creator when closing</I> un type et une signature à attribuer
 à un fichier de ressources après qu'il a été édité par Rezilla et refermé.
 Les valeurs par défaut sont <I>rsrc</I> et <I>Rzil</I> respectivement.

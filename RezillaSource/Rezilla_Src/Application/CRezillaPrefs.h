@@ -2,11 +2,11 @@
 // CRezillaPrefs.h					
 // 
 //                       Created: 2004-05-17 08:52:16
-//             Last modification: 2005-01-15 09:33:57
+//             Last modification: 2005-01-15 19:49:58
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004, 2005
+// (c) Copyright : Bernard Desgraupes, 2004-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -64,6 +64,7 @@ struct SEditorsPrefs {
 	Boolean			use8BitIcons;	// 8-bit instead of 32 ?
 	Boolean			fullTables;		// default to 256 colors rather than 36 ?
 	Boolean			doFontSubst;	// kTXNDoFontSubstitution in MLTE
+	Boolean			insertBOM;		// Byte Order Mark at start of 'utxt' resources
 };
 
 //     Misc Prefs
@@ -94,6 +95,7 @@ enum {
 	kPref_editors_use8BitIcons,
 	kPref_editors_fullTables,
 	kPref_editors_doFontSubst,
+	kPref_editors_insertBOM,
 	kPref_export_dataEncoding,
 	kPref_export_formatDtd,
 	kPref_export_includeBinary,

@@ -33,6 +33,7 @@ $Date$
 ¥ Completed Unicode editor.
 ¥ Added "Do Font Substitution" preference for Unicode editor.
 ¥ Split Templates and Editors preferences in two separate panes.
+¥ Added "Insert Byte Order Mark" preference for Unicode editor.
 ¥ 
 
 ================================================================================

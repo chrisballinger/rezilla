@@ -2,11 +2,11 @@
 // CRezillaPrefs.cp					
 // 
 //                       Created: 2004-05-17 08:52:16
-//             Last modification: 2005-01-15 09:34:10
+//             Last modification: 2005-01-15 19:49:51
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004, 2005
+// (c) Copyright : Bernard Desgraupes, 2004-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -165,6 +165,7 @@ CRezillaPrefs::SetDefaultPreferences()
 	sCurrPrefs.editors.use8BitIcons		= false;
 	sCurrPrefs.editors.fullTables		= true;
 	sCurrPrefs.editors.doFontSubst		= true;
+	sCurrPrefs.editors.insertBOM		= false;
 
 	// Misc pane
 	sCurrPrefs.misc.setSigOnClose		= false;
@@ -234,6 +235,11 @@ CRezillaPrefs::StorePreferences()
 	theNumber = GetPrefValue( kPref_editors_doFontSubst );
 	theValue = CFNumberCreate(NULL, kCFNumberIntType, &theNumber); 
 	CFPreferencesSetAppValue( CFSTR("pref_editors_doFontSubst"), theValue, kCFPreferencesCurrentApplication);
+	if (theValue) CFRelease(theValue);
+
+	theNumber = GetPrefValue( kPref_editors_insertBOM );
+	theValue = CFNumberCreate(NULL, kCFNumberIntType, &theNumber); 
+	CFPreferencesSetAppValue( CFSTR("pref_editors_insertBOM"), theValue, kCFPreferencesCurrentApplication);
 	if (theValue) CFRelease(theValue);
 
 	theNumber = GetPrefValue( kPref_export_formatDtd );
@@ -362,6 +368,10 @@ CRezillaPrefs::RetrievePreferences()
 	result = CFPreferencesGetAppBooleanValue(CFSTR("pref_editors_doFontSubst"), CFSTR(kRezillaIdentifier), &valueValid);
 	if (valueValid) {
 		SetPrefValue( result, kPref_editors_doFontSubst);
+	}	
+	result = CFPreferencesGetAppBooleanValue(CFSTR("pref_editors_insertBOM"), CFSTR(kRezillaIdentifier), &valueValid);
+	if (valueValid) {
+		SetPrefValue( result, kPref_editors_insertBOM);
 	}	
 	result = CFPreferencesGetAppIntegerValue(CFSTR("pref_export_formatDtd"), CFSTR(kRezillaIdentifier), &valueValid);
 	if (valueValid) {
@@ -525,6 +535,14 @@ CRezillaPrefs::SetPrefValue(SInt32 inPrefValue, SInt32 inConstant, SInt32 inPref
 			sTempPrefs.editors.doFontSubst = inPrefValue;
 		} else {
 			sCurrPrefs.editors.doFontSubst = inPrefValue;
+		}	
+		break;
+				
+		case kPref_editors_insertBOM:
+		if (inPrefType == prefsType_Temp) {
+			sTempPrefs.editors.insertBOM = inPrefValue;
+		} else {
+			sCurrPrefs.editors.insertBOM = inPrefValue;
 		}	
 		break;
 				
@@ -724,6 +742,14 @@ CRezillaPrefs::GetPrefValue(SInt32 inConstant, SInt32 inPrefType)
 			theValue = sTempPrefs.editors.doFontSubst;
 		} else {
 			theValue = sCurrPrefs.editors.doFontSubst;
+		}	
+		break;
+				
+		case kPref_editors_insertBOM:
+		if (inPrefType == prefsType_Temp) {
+			theValue = sTempPrefs.editors.insertBOM;
+		} else {
+			theValue = sCurrPrefs.editors.insertBOM;
 		}	
 		break;
 				
@@ -1094,6 +1120,10 @@ CRezillaPrefs::RunPrefsDialog()
 		ThrowIfNil_( theCheckBox );
 		theCheckBox->SetValue(  GetPrefValue( kPref_editors_doFontSubst ) );
 		
+		theCheckBox = dynamic_cast<LCheckBox *>(theEditorsPane->FindPaneByID( item_EditPrefsInsertBOM ));
+		ThrowIfNil_( theCheckBox );
+		theCheckBox->SetValue(  GetPrefValue( kPref_editors_insertBOM ) );
+		
 		theCheckBox = dynamic_cast<LCheckBox *>(theExportPane->FindPaneByID( item_ExpPrefsInclBinData ));
 		ThrowIfNil_( theCheckBox );
 		theCheckBox->SetValue(  GetPrefValue( kPref_export_includeBinary ) );
@@ -1218,6 +1248,10 @@ CRezillaPrefs::RunPrefsDialog()
 			// EditPrefsDoFontSubst
 			theCheckBox = dynamic_cast<LCheckBox *>(theEditorsPane->FindPaneByID( item_EditPrefsDoFontSubst ));
 			SetPrefValue( theCheckBox->GetValue(), kPref_editors_doFontSubst, prefsType_Temp);
+						
+			// EditPrefsInsertBOM
+			theCheckBox = dynamic_cast<LCheckBox *>(theEditorsPane->FindPaneByID( item_EditPrefsInsertBOM ));
+			SetPrefValue( theCheckBox->GetValue(), kPref_editors_insertBOM, prefsType_Temp);
 						
 			// CompPrefsIgnName
 			theCheckBox = dynamic_cast<LCheckBox *>(theComparePane->FindPaneByID( item_CompPrefsIgnName ));
