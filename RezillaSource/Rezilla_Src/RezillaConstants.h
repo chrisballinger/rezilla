@@ -665,7 +665,7 @@ const long	aeRzil_Version				= 5010;
 
 
 // Error constants
-enum
+enum RezillaErrors
 {
 	err_NoRezInDataFork		= 1001,
 	err_NoRezInRezFork,
