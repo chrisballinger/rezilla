@@ -366,7 +366,7 @@ CRezMapDoc::ObeyCommand(
 			mRezMapWindow->GetRezMapTable()->GetAllSelectedRezObjItems(theArray);
 			
 			if ( theArray != nil ) {
-				CRezClipboard::GetClipboard()->SetData( kRezillaType, (Ptr) theArray,
+				CRezClipboard::GetClipboard()->SetData(kRezillaType, (Ptr) theArray,
 													   theArray->GetCount(), 
 													   true);
 				if (inCommand == cmd_Cut) {
@@ -382,7 +382,11 @@ CRezMapDoc::ObeyCommand(
 
 		case cmd_Paste: {
 			CRezClipboard::SetScrapContext(scrap_rezmap);
-			mRezFile->CopyFromRezMap(CRezClipboard::GetScrapRezMap());
+			CRezClipboard::GetClipboard()->GetData(kRezillaType, nil);
+			// The call to GetData() ensures that CRezClipboard::ImportSelf() is 
+			// called when necessary, but GetDataSelf() is empty and all the work 
+			// is done by the following:
+			PasteRezMap( CRezClipboard::GetScrapRezMap() );
 			break;
 		}
 
@@ -1472,6 +1476,50 @@ CRezMapDoc::RemoveResource(CRezObjItem* inRezObjItem)
 	if (theCount == 0) {
 		mRezMapWindow->GetRezMapTable()->RemoveItem(theSuperItem);
 	} 
+}
+
+
+// ---------------------------------------------------------------------------
+//  ¥ PasteRezMap												[public]
+// ---------------------------------------------------------------------------
+
+void
+CRezMapDoc::PasteRezMap(CRezMap * srcRezMap)
+{
+	short	numTypes, numResources;
+    ResType theType;
+	Handle	theRezHandle;
+	short	theAttrs;
+	short	theSrcRefNum = srcRezMap->GetRefnum();
+	OSErr	error = noErr;
+	
+	error = srcRezMap->CountAllTypes(numTypes);
+	if (error != noErr || numTypes == 0) {return;}
+	
+	for (UInt16 i = 1; i <= numTypes; i++ ) {
+		CRezObj *	theRezObj;
+		
+		// Read in each data type
+		srcRezMap->GetTypeAtIndex(i, theType );
+		error = srcRezMap->CountForType( theType, numResources);
+
+		for (UInt16 j = 1; j <= numResources; j++ ) {
+			// Get the data handle
+			error = srcRezMap->GetResourceAtIndex(theType, j, theRezHandle);
+			
+			// Make a rez object out of it
+			try {
+					theRezObj = new CRezObj(theRezHandle, theSrcRefNum);
+					theRezObj->GetAttributesFromMap(theAttrs);
+								
+					PasteResource(theType, theRezObj->GetID(), theRezHandle, theRezObj->GetName(), theAttrs);			
+					
+					delete theRezObj;
+			} catch (...) { }
+		}
+	}
+	
+	return;
 }
 
 

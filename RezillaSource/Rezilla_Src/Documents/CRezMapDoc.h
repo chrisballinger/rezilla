@@ -118,7 +118,8 @@ public:
 									  Handle inHandle, 
 									  Str255* inName = nil, 
 									  short inAttrs = 0);
-	
+	void				PasteRezMap(CRezMap * srcRezMap);
+
 	CRezEditor *		GetRezEditor(ResType inType, short inID);
 
 	TArray<CRezEditor *>*	GetOpenedEditors() { return mOpenedEditors ;}
@@ -153,4 +154,3 @@ PP_End_Namespace_PowerPlant
 #endif
 
 #endif
-

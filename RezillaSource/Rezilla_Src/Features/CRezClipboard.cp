@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezClipboard.cp					
 //                       Created: 2003-05-11 21:05:08
-//             Last modification: 2004-03-10 19:42:38
+//             Last modification: 2004-03-12 14:17:16
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -17,6 +17,7 @@
 // #endif
 
 #include "CRezClipboard.h"
+#include "CRezMapDoc.h"
 #include "CRezFile.h"
 #include "CRezMap.h"
 #include "CRezObj.h"
@@ -153,8 +154,6 @@ CRezClipboard::InitScrapRezMap()
 //	Otherwise, ioDataH must be a valid Handle which is resized if necessary
 //	to hold all the data.
 //
-//	This implementation gets the data from the global scrap. Subclasses
-//	should override to maintain a local scrap.
 
 SInt32
 CRezClipboard::GetDataSelf(
@@ -165,6 +164,7 @@ CRezClipboard::GetDataSelf(
 	
 	switch (sScrapContext) {
 	  case scrap_rezmap:
+	  // Do nothing. The bulk of the work is accomplished by CRezMapDoc::PasteRezMap().
 		break;
 		
 	  case scrap_hexeditHexdata:
@@ -200,18 +200,18 @@ CRezClipboard::SetDataSelf(
 {
 	switch (sScrapContext) {
 	  case scrap_rezmap: 
-	  SetDataInScrapRezMap(inDataType, inDataPtr, inDataLength, inReset);	  
+	  SetDataInScrapRezMap(inDataType, inDataPtr, inDataLength, inReset);
+	  // mExportPending is not reset to false
 		break;
 		
 	  case scrap_hexeditHexdata:
 	  case scrap_hexeditTxtdata:
 	  default:
 		UScrap::SetData(inDataType, inDataPtr, inDataLength, inReset);
+		mExportPending = false;
 		break;
 		
 	}
-
-	mExportPending = false;
 }
 
 
@@ -220,13 +220,14 @@ CRezClipboard::SetDataSelf(
 // ---------------------------------------------------------------------------
 //	Import the data in the global scrap to a local scrap
 //
-//	This implementation does nothing since this class uses the global
-//	scrap when setting and getting clipboard data. Subclasses should
-//	override if they maintain a local scrap.
+//	Retrieve the data from the global scrap, extract all types 
+//	and create a resource with the same type/data. There is no ID 
+//	associated with this data in the scrap, so generate an UID.
 
 void
 CRezClipboard::ImportSelf()
 {
+	
 }
 
 
@@ -235,9 +236,8 @@ CRezClipboard::ImportSelf()
 // ---------------------------------------------------------------------------
 //	Export the data in a local scrap to the global scrap
 //
-//	This implementation does nothing since this class uses the global
-//	scrap when setting and getting clipboard data. Subclasses should
-//	override if they maintain a local scrap.
+//	Take the first resource of each type and put the data in the 
+//	global scrap using the same type.
 
 void
 CRezClipboard::ExportSelf()

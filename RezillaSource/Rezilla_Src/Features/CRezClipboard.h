@@ -51,6 +51,7 @@ public:
 
 	static CRezFile *	GetScrapRezFile() { return sScrapRezFile;}
 	static CRezMap *	GetScrapRezMap() { return sScrapRezMap;}
+	static short		GetScrapRefNum() { return sScrapRefnum;}
 	
 protected:
 	static SInt32		sScrapContext;

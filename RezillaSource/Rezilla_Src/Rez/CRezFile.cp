@@ -409,4 +409,3 @@ CRezFile::CopyFromRezMap(CRezMap * srcRezmap)
 
 
 PP_End_Namespace_PowerPlant
-
