@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2004-07-02 21:59:42
+//             Last modification : 2004-08-15 00:56:37
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -55,16 +55,32 @@ enum
 	export_Derez
 };
 
+// DTDs
 enum
 {	
 	export_KeyDtd = 1,		// Key-based DTD
 	export_AttrDtd = 2		// Attrs-based DTD
 };
 
+// Binary encodings
 enum
 {	
 	export_Base64Enc = 1,	// Base64 encoding for binary data
 	export_HexEnc = 2		// Hexadecimal encoding for binary data
+};
+
+// Symbol used in templates to designate hexadecimal data
+enum
+{	
+	hex_Symb0x = 1,
+	hex_SymbDollar = 2
+};
+
+// Which case (lower or upper) for hexadecimal letters
+enum
+{	
+	hex_lowercase = 1,
+	hex_uppercase = 2
 };
 
 // Rez comparison results
@@ -87,7 +103,9 @@ enum {
 	mpv_General = 1,
 	mpv_Export,
 	mpv_Compare,
-	mpv_Interface
+	mpv_Interface,
+	mpv_Editor,
+	mpv_Misc
 };
 
 // Pref style element constants
@@ -139,8 +157,10 @@ const ResIDT	rPPob_PrefsExportPane		= 7200;
 const ResIDT	rPPob_PrefsComparePane		= 7300;
 const ResIDT	rPPob_PrefsInterfacePane	= 7400;
 const ResIDT	rPPob_PrefsEditorsPane		= 7500;
+const ResIDT	rPPob_PrefsMiscPane			= 7600;
 const ResIDT	rPPob_FindDialog			= 8500;
 const ResIDT	rPPob_OtherSize				= 8600;
+const ResIDT	rPPob_RezTypePicker			= 8700;
 const ResIDT	rPPob_SimpleMessage			= 9500;
 const ResIDT	rPPob_AskIfMessage			= 9510;
 const ResIDT	rPPob_AskYesNoMessage		= 9520;
@@ -160,6 +180,7 @@ const ResIDT	rRidL_FindDialog			= rPPob_FindDialog;
 const ResIDT	rRidL_RezCompDialog			= rPPob_RezCompDialog;
 const ResIDT	rRidL_RezCompWindow			= rPPob_RezCompWindow;
 const ResIDT	rRidL_AskUniqueID			= rPPob_AskUniqueID;
+const ResIDT	rRidL_RezTypePicker			= rPPob_RezTypePicker;
 
 const ResIDT	ics8_Unlocked				= 1500;
 const ResIDT	ics8_Locked					= 1501;
@@ -263,6 +284,7 @@ const MessageT	cmd_NewRez				= baseMENU_Resource + 1;
 const MessageT	cmd_EditRez				= baseMENU_Resource + 2;	
 const MessageT	cmd_TmplEditRez			= baseMENU_Resource + 3;	
 const MessageT	cmd_HexEditRez			= baseMENU_Resource + 4;	
+const MessageT	cmd_EditRezAsType		= baseMENU_Resource + 5;	
 const MessageT	cmd_RemoveRez			= baseMENU_Resource + 10;	
 const MessageT	cmd_DuplicateRez		= baseMENU_Resource + 11;	
 const MessageT	cmd_GetRezInfo			= baseMENU_Resource + 15;
@@ -363,6 +385,10 @@ const PaneIDT	item_CompResultTxtRadio		= 27;
 // Ask Unique ID dialog
 // --------------------
 const PaneIDT	item_UidOtherConflicts		= 1;
+// Rez Type Picker dialog
+// ----------------------
+const PaneIDT	item_TypePickerField		= 1;
+const PaneIDT	item_TypePickerMenu			= 2;
 // Preferences
 // -----------
 const PaneIDT   item_PrefsOkButton			= 1;
@@ -386,6 +412,7 @@ const PaneIDT	item_ExpPrefsInclBinData	= 5;
 const PaneIDT	item_ExpPrefsEncRgbx		= 6;
 const PaneIDT	item_ExpPrefsHexEnc			= 7;
 const PaneIDT	item_ExpPrefsBase64Enc		= 8;
+const PaneIDT	item_ExpPrefsEditSig		= 9;
 //     Compare Prefs Pane
 //     ------------------
 const PaneIDT	item_CompPrefsIgnName		= 2;
@@ -400,10 +427,18 @@ const PaneIDT	item_UIPrefsFontsMenu		= 2;
 const PaneIDT	item_UIPrefsSizeMenu		= 3;
 //     Editors Prefs Pane
 //     ------------------
-const PaneIDT	item_EditPrefsLabelWidth	= 2;
-const PaneIDT	item_EditPrefsHexSymRgbx	= 3;
-const PaneIDT	item_EditPrefsHexSym0x		= 4;
-const PaneIDT	item_EditPrefsHexSymDollar	= 5;
+const PaneIDT	item_EditPrefsHexSymRgbx	= 2;
+const PaneIDT	item_EditPrefsHexSym0x		= 3;
+const PaneIDT	item_EditPrefsHexSymDollar	= 4;
+const PaneIDT	item_EditPrefsHexCaseRgbx	= 5;
+const PaneIDT	item_EditPrefsHexLowercase	= 6;
+const PaneIDT	item_EditPrefsHexUppercase	= 7;
+//     Misc Prefs Pane
+//     ---------------
+const PaneIDT	item_MiscPrefsSetSigOnClose		= 2;
+const PaneIDT	item_MiscPrefsClosingType		= 3;
+const PaneIDT	item_MiscPrefsClosingCreator	= 4;
+const PaneIDT	item_MiscPrefsSetSigOnCreate	= 5;
 // Text Editor Window
 // ------------------
 const PaneIDT   item_TextEditFontMenu	= 1;
@@ -517,6 +552,10 @@ const MessageT	msg_CompResultOnlyNewTbl	= rPPob_RezCompWindow + item_CompResultO
 // Ask Unique ID dialog
 // --------------------
 const MessageT	msg_UidOtherConflicts		= rPPob_AskUniqueID + item_UidOtherConflicts;
+// Rez Type Picker dialog
+// ----------------------
+const MessageT	msg_TypePickerField			= rPPob_RezTypePicker + item_TypePickerField;
+const MessageT	msg_TypePickerMenu			= rPPob_RezTypePicker + item_TypePickerMenu;
 // Preferences
 // -----------
 const MessageT  msg_PrefsRevert				= rPPob_PrefsWindow + 3;
@@ -533,6 +572,7 @@ const MessageT	msg_ExpPrefsAttrDtd			= rPPob_PrefsExportPane + item_ExpPrefsAttr
 const MessageT	msg_ExpPrefsInclBinData		= rPPob_PrefsExportPane + item_ExpPrefsInclBinData;
 const MessageT	msg_ExpPrefsHexEnc			= rPPob_PrefsExportPane + item_ExpPrefsHexEnc;
 const MessageT	msg_ExpPrefsBase64Enc		= rPPob_PrefsExportPane + item_ExpPrefsBase64Enc;
+const MessageT	msg_ExpPrefsEditSig			= rPPob_PrefsExportPane + item_ExpPrefsEditSig;
 //     Compare Prefs Pane
 //     ------------------
 const MessageT	msg_CompPrefsIgnName		= rPPob_PrefsComparePane + item_CompPrefsIgnName;
@@ -546,7 +586,16 @@ const MessageT	msg_UIPrefsFontsMenu		= rPPob_PrefsInterfacePane + item_UIPrefsFo
 const MessageT	msg_UIPrefsSizeMenu			= rPPob_PrefsInterfacePane + item_UIPrefsSizeMenu;
 //     Editors Prefs Pane
 //     ------------------
-const MessageT	msg_EditPrefsLableWidth		= rPPob_PrefsEditorsPane + item_EditPrefsLabelWidth;
+const MessageT	msg_EditPrefsHexSym0x		= rPPob_PrefsEditorsPane + item_EditPrefsHexSym0x;
+const MessageT	msg_EditPrefsHexSymDollar	= rPPob_PrefsEditorsPane + item_EditPrefsHexSymDollar;
+const MessageT	msg_EditPrefsHexLowercase	= rPPob_PrefsEditorsPane + item_EditPrefsHexLowercase;
+const MessageT	msg_EditPrefsHexUppercase	= rPPob_PrefsEditorsPane + item_EditPrefsHexUppercase;
+//     Misc Prefs Pane
+//     ---------------
+const MessageT	msg_MiscPrefsSetSigOnClose	= rPPob_PrefsMiscPane + item_MiscPrefsSetSigOnClose;
+const MessageT	msg_MiscPrefsClosingType	= rPPob_PrefsMiscPane + item_MiscPrefsClosingType;
+const MessageT	msg_MiscPrefsClosingCreator	= rPPob_PrefsMiscPane + item_MiscPrefsClosingCreator;
+const MessageT	msg_MiscPrefsSetSigOnCreate	= rPPob_PrefsMiscPane + item_MiscPrefsSetSigOnCreate;
 // Tmpl Editor Window
 // ------------------
 const MessageT	msg_TmplEditValidate		= msg_OK;
@@ -611,10 +660,12 @@ enum
 // Misc constants
 // ==============
 // Signatures
-#define  keyEditorSignature  	'ttxt'
-#define	 kSystemEventsSig		'sevs'
+const UInt32	kTextEditSig		= FOUR_CHAR_CODE('ttxt');
+const UInt32	kSystemEventsSig	= FOUR_CHAR_CODE('sevs');
+const UInt32	kRezillaSig			= FOUR_CHAR_CODE('Rzil');
+const UInt32	kRezFileType		= FOUR_CHAR_CODE('rsrc');
 // Rezilla's own type for Clipboard data
-#define	 kRezillaType			'Rzil'
+#define	 kRezillaClipType		'Rzil'
 // File extension separator
 #define  kFileExtSeparator		(char)'.'
 // Preferences identifier
@@ -631,7 +682,7 @@ enum
 #define  kRzilDefaultLineHeight	11
 
 // Drag and drop
-const SInt16	kRzilDragFlavor		= FOUR_CHAR_CODE('Rzil');
+const UInt32	kRzilDragFlavor		= FOUR_CHAR_CODE('Rzil');
 
 // Constants for the Rezmap tables
 const SInt16	kRzilColWidth		= 100;
@@ -686,7 +737,7 @@ const SInt16	kTmplRectWidth			= 60;
 const SInt16	kTmplRgvHeight			= 22;
 const SInt16	kTmplRgvWidth			= 150;
 const SInt16	kTmplScrollWidth		= 15;
-const SInt16	kTmplTextHeight			= 200;
+const SInt16	kTmplTextHeight			= 250;
 const SInt16	kTmplTextInset			= 4;
 const SInt16	kTmplTextMargin			= 20;
 const SInt16	kTmplTxtPaneLeft		= 294;
