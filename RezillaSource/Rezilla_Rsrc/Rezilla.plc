@@ -1,11 +1,11 @@
 // ===========================================================================
 // Rezilla.plc					
 //                       Created: 2003-04-16 22:25:40
-//             Last modification: 2004-05-07 22:34:57
+//             Last modification: 2005-03-01 10:44:58
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003-2004
+// © Copyright: Bernard Desgraupes 2003-2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -30,9 +30,9 @@ plist
 		key "CFBundleIdentifier" value string kBundleIdentifier
 		
 		key "CFBundleName" value string __OUTPUT_FILENAME__
-		key "CFBundleGetInfoString" value string kBundleLongInfo_EN
 		key "CFBundleShortVersionString" value string kBundleShortInfoString
-		
+// 		key "CFBundleGetInfoString"  // See localized files
+	
 		key "CFBundlePackageType" value string __OUTPUT_TYPE__
 		key "CFBundleSignature" value string __OUTPUT_CREATOR__
 		key "CFBundleExecutable" value string __OUTPUT_FILENAME__
@@ -40,7 +40,7 @@ plist
 		key "CFBundleIconFile" value string "Rezilla.icns"
 		
 		key "CFBundleHelpBookFolder" value string "RezillaHelp"
-		key "CFBundleHelpBookName" value string "Rezilla Help"
+// 		key "CFBundleHelpBookName"  // See localized files
 	
 		key "CFBundleDevelopmentRegion" value string "English"
 		key "CFBundleInfoDictionaryVersion" value string "6.0"
@@ -71,20 +71,17 @@ plist
 localize "English"
 {
 	comment "Localized versions of Info.plist keys"
-	key "CFBundleName" value string __OUTPUT_FILENAME__
 	key "CFBundleGetInfoString" value string kBundleLongInfo_EN
-	key "CFBundleShortVersionString" value string kBundleShortInfoString
+	key "CFBundleHelpBookName" value string "Rezilla Help"
 }
 
 localize "French"
 {
 	comment "Localized versions of Info.plist keys"
-	key "CFBundleName" value string __OUTPUT_FILENAME__
 	key "CFBundleGetInfoString" value string kBundleLongInfo_FR
-	key "CFBundleShortVersionString" value string kBundleShortInfoString
-	key "CFBundleHelpBookFolder" value string "RezillaHelp"
 	key "CFBundleHelpBookName" value string "Aide Rezilla"
 }
+
 
 #include "Rezilla_EN.ploc"
 #include "Rezilla_FR.ploc"
