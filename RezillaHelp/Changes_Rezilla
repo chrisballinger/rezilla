@@ -28,14 +28,24 @@ This changes log is in reverse chronological order (from bottom to top).
 $Date$
 
 ================================================================================
-= 1.0.5b1	                             last update: 
+= 1.0.5b	                             last update: 
+================================================================================
+¥ Fifth public release of Rezilla. Beta stage now.
+
+================================================================================
+= 1.0.5b2	                             last update: 2005-02-08 18:19:00
+================================================================================
+¥ Debugging and testing phase before 1.0.5b release
+¥ Added Sdef (Scripting Definition File) export format in the Aete editor.
+
+================================================================================
+= 1.0.5b1	                             last update: 2005-02-04 07:44:16
 ================================================================================
 ¥ Bumping to beta stage.
 ¥ Added 'aete' and 'aeut' (AppleScript terminology) editor.
 ¥ Debugging and testing phase before 1.0.5b release.
 ¥ Added Aete editor doc in the Help files.
 ¥ Aete resources can be exported to XML, DeRez, HTML and text formats.
-¥ 
 
 ================================================================================
 = 1.0.5a4	                             last update: 2005-01-16 19:49:24
