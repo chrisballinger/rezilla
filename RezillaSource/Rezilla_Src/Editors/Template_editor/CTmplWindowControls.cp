@@ -1157,7 +1157,7 @@ CTmplEditorWindow::AddListHeaderField(Str255 inLabel,
 // ---------------------------------------------------------------------------
 
 CTmplListItemView *
-CTmplEditorWindow::AddListItemView(CTmplListItemView * inPrevListItemView, LView * inContainer)
+CTmplEditorWindow::AddListItemView(CTmplListItemView * inPrevListItemView, CTmplListItemView * inNextListItemView, LView * inContainer)
 {
 	SDimension16	theFrame;
 	
@@ -1179,8 +1179,11 @@ CTmplEditorWindow::AddListItemView(CTmplListItemView * inPrevListItemView, LView
 	ThrowIfNil_(theLIV);
 
 	theLIV->mPrevItem = inPrevListItemView;
+	theLIV->mNextItem = inNextListItemView;
+	if (inNextListItemView != nil) {
+		inNextListItemView->mPrevItem = theLIV;
+	} 
 	if (inPrevListItemView != nil) {
-		theLIV->mNextItem = inPrevListItemView->mNextItem;
 		inPrevListItemView->mNextItem = theLIV;
 	} 
 
