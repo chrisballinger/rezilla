@@ -2,11 +2,11 @@
 // CPICT_EditorDoc.cp
 // 
 //                       Created: 2004-12-06 14:54:09
-//             Last modification: 2004-12-06 20:36:29
+//             Last modification: 2005-02-24 09:06:16
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004
+// (c) Copyright : Bernard Desgraupes, 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -29,6 +29,7 @@ PP_Begin_Namespace_PowerPlant
 #include "UDialogBoxHandler.h"
 #include "UMessageDialogs.h"
 #include "UMiscUtils.h"
+#include "UIconMisc.h"
 
 #include <LWindow.h>
 #include <UStandardDialogs.h>
@@ -94,18 +95,31 @@ CPICT_EditorDoc::Initialize()
 	gWindowMenu->InsertWindow( mPictWindow );
 		
 	// Install the contents
-	if (mRezObj != nil) {
-		Handle rezData = mRezObj->GetData();
-		
-		if (rezData != nil) {			
-			// Work with a copy of the handle
-			::HandToHand(&rezData);
-			mPictWindow->InstallPict(rezData);
+	try {
+		if (mRezObj != nil) {
+			Handle rezData = mRezObj->GetData();
 			
-			// Don't mark as modified
-			mPictWindow->SetDirty(false);
+			if (::GetHandleSize(rezData) < sizeof(Picture)) {
+				::DisposeHandle(rezData);
+				UIconMisc::GetDefaultBitmap(mRezObj, ImgType_Picture, true);
+				rezData = mRezObj->GetData();
+			} 
+			
+			if (rezData != nil) {			
+				// Work with a copy of the handle
+				::HandToHand(&rezData);
+				mPictWindow->InstallPict(rezData);
+				
+				// Don't mark as modified
+				mPictWindow->SetDirty(false);
+			} 
 		} 
-	} 
+	}
+	catch (...) {
+		UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("ErrorInitializingPictureViewer"), PPob_SimpleMessage);	
+		delete this;
+		return;
+	}
 		
 	// Make the window visible.
 	mPictWindow->Show();
@@ -196,7 +210,16 @@ CPICT_EditorDoc::AskSaveChanges(
 Handle
 CPICT_EditorDoc::GetModifiedResource(Boolean &releaseIt) 
 {
-	return (Handle) mPictWindow->GetContentsView()->GetPictureH();
+#pragma unused(releaseIt)
+	
+	Handle theHandle = (Handle) mPictWindow->GetContentsView()->GetPictureH();
+	if (theHandle == nil) {
+		// If the pict handle is nil (if there was a cut action for 
+		// instance), return a zero size handle.
+		theHandle = ::NewHandle(0);
+		mPictWindow->GetContentsView()->SetPictureH( (PicHandle) theHandle);
+	} 
+	return theHandle;
 }
 
 
