@@ -2,7 +2,7 @@
 // CUtxt_EditorWindow.h
 // 
 //                       Created: 2004-12-08 18:21:21
-//             Last modification: 2004-12-09 07:37:15
+//             Last modification: 2004-12-09 23:07:37
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -17,13 +17,7 @@
 #include "CEditorWindow.h"
 #include "UResources.h"
 
-// #include <LPane.h>
-// #include <LView.h>
-// #include <LActiveScroller.h>
 
-
-class CUtxt_EditorDoc;
-class CRezObj;
 class CUtxt_EditorView;
 class LStaticText;
 class LPopupButton;
@@ -53,24 +47,14 @@ public:
 							CommandT			inCommand,
 							void*				ioParam);
 
-	virtual void			ActivateSelf();
-	virtual void			DeactivateSelf();
-
 	void			InstallText(Handle inTextHandle);
 
 	void			SetLengthField();
-				
-// 	void			AdjustMenusToSelection();
-	
+					
 	CUtxt_EditorView *	GetContentsView() const { return mContentsView;}
-
-	virtual Boolean		GetHasStyleResource() { return mHasStyleResource;}
-	void				SetHasStyleResource(Boolean inHasStyleResource) {mHasStyleResource = inHasStyleResource;}
 
 protected:
 	CUtxt_EditorView *	mContentsView;
-	Boolean				mHasStyleResource;
-	Boolean				mIsAdjustingMenus;
 	LPopupButton *		mSizePopup;
 	LPopupButton *		mStylePopup;
 	LStaticText *		mLengthField;

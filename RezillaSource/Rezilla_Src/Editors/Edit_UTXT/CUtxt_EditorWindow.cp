@@ -2,7 +2,7 @@
 // CUtxt_EditorWindow.cp					
 // 
 //                       Created: 2004-12-08 18:21:21
-//             Last modification: 2004-12-09 07:37:22
+//             Last modification: 2004-12-09 23:10:30
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -96,10 +96,7 @@ CUtxt_EditorWindow::~CUtxt_EditorWindow()
 
 void
 CUtxt_EditorWindow::FinishCreateSelf()
-{	
-	mHasStyleResource = false;
-	mIsAdjustingMenus = false;
-	
+{		
 	// The main view containing the labels and editing panes
 	mContentsView = dynamic_cast<CUtxt_EditorView *>(this->FindPaneByID(item_EditorContents));
 	ThrowIfNil_( mContentsView );
@@ -139,10 +136,6 @@ CUtxt_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 	SInt32 			theSize = 10, theIndex, theFace = 0;
 	LStr255			theLine( "\p" );
 
-	if (mIsAdjustingMenus) {
-		return;
-	} 
-	
 	switch (inMessage) {
 		case msg_UtxtEditFontMenu:
 // 		// Get the name of the font.
@@ -251,95 +244,6 @@ CUtxt_EditorWindow::InstallText(Handle inTextHandle)
 	mContentsView->SetTextPtr(*inTextHandle, ::GetHandleSize(inTextHandle));
 	SetDirty(false);
 }
-
-
-// ---------------------------------------------------------------------------
-//	¥ ActivateSelf
-// ---------------------------------------------------------------------------
-//	Pane is being Activated
-
-void
-CUtxt_EditorWindow::ActivateSelf()
-{
-	LMenuBar::GetCurrentMenuBar()->InstallMenu(CUtxt_EditorDoc::GetUnicodeFontsMenu(), rMENU_Window);
-}
-
-
-// ---------------------------------------------------------------------------
-//	¥ DeactivateSelf
-// ---------------------------------------------------------------------------
-//	Pane is being Deactivated
-
-void
-CUtxt_EditorWindow::DeactivateSelf()
-{
-	LMenuBar::GetCurrentMenuBar()->RemoveMenu(CUtxt_EditorDoc::GetUnicodeFontsMenu());
-}
-
-
-// // ---------------------------------------------------------------------------
-// //	¥ AdjustMenusToSelection										[public]
-// // ---------------------------------------------------------------------------
-// 
-// void
-// CUtxt_EditorWindow::AdjustMenusToSelection()
-// {
-// 	SInt16	theFontNum, theSize;
-// 	SInt32	theIndex;
-// 	UInt8	i;
-// 	Style	theStyle;
-// 	Boolean	result;
-// 	LStr255	theLine( "\p" );
-// 	SInt16	theStart = (**(mContentsView->GetMacTEH())).selStart;
-// 	SInt16	theEnd   = (**(mContentsView->GetMacTEH())).selEnd;
-// 	
-// 	mIsAdjustingMenus = true;
-// 	
-// 	result = mContentsView->GetFont(theFontNum);
-// 	if (result) {
-// 		theIndex = UMiscUtils::FontIndexFromFontNum(mFontPopup, theFontNum);
-// 		mFontPopup->SetValue(theIndex);
-// // 		::MacCheckMenuItem(mFontPopup->GetMacMenuH(), theIndex, 1);
-// 	}
-// 	
-// 	result = mContentsView->GetSize(theSize);
-// 	if (result) {
-// 		theIndex = UMiscUtils::SizeIndexFromSizeValue(mSizePopup, theSize);
-// 		if (theIndex == kLastSizeMenuItem + 2) {
-// 			// This is the 'Other' item
-// 			Str255	theSizeString;
-// 			theLine = "\pOther (" ;
-// 			::NumToString( theSize, theSizeString );
-// 			// Append the current size
-// 			theLine += theSizeString;
-// 			theLine += "\p)É";
-// 			// Set the menu item text.
-// 			::SetMenuItemText( mSizePopup->GetMacMenuH(), kLastSizeMenuItem + 2, theLine );					
-// 		} else {
-// 			::SetMenuItemText( mSizePopup->GetMacMenuH(), kLastSizeMenuItem + 2, LStr255("\pOtherÉ"));					
-// 		}
-// 		mSizePopup->SetValue(theIndex);
-// // 		::MacCheckMenuItem(mSizePopup->GetMacMenuH(), theIndex, 1);
-// 	}
-// 	
-// 	result = mContentsView->GetStyle(theStyle);
-// 	if (result) {
-// 		for (i = 0; i < 7; i++) {
-// 			::MacCheckMenuItem(mStylePopup->GetMacMenuH(), i+3, theStyle & (1 << i));
-// 		}
-// 		::MacCheckMenuItem(mStylePopup->GetMacMenuH(), 2, (theStyle == 0));
-// 	} else {
-// 		// Not a continuous style. Uncheck all items.
-// 		for (i = 0; i < 7; i++) {
-// 			::MacCheckMenuItem(mStylePopup->GetMacMenuH(), i+3, 0);
-// 		}
-// 		::MacCheckMenuItem(mStylePopup->GetMacMenuH(), 2, 0);
-// 	}
-// 	
-// 	mStylePopup->SetValue(1);
-// 
-// 	mIsAdjustingMenus = false;
-// }
 
 
 // ---------------------------------------------------------------------------
