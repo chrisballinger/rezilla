@@ -92,7 +92,7 @@ CAete_EditorWindow::InstallSuiteValues()
 	UInt16		theLevel = 0, theVersion = 0;
 	OSType		theID;
 	LEditText *	theEditText;
-	Boolean		disableIt;
+	Boolean		disableIt = false;
 	
 	CAeteSuite * theSuite = static_cast<CAeteSuite *>( FindCurrentObject( kind_AeteSuite ) );
 	LTextGroupBox * theTGB = dynamic_cast<LTextGroupBox *> (this->FindPaneByID( item_AeteSuiteBox ));
@@ -382,7 +382,6 @@ CAete_EditorWindow::InstallClassValues(CAeteClass * inClass)
 	}
 	
 	UpdateSlider(item_AeteElementSlider, theValue, theTotal);
-
 }
 
 
