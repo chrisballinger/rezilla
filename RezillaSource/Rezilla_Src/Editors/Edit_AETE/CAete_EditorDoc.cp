@@ -61,10 +61,10 @@ extern CWindowMenu * gWindowMenu;
 extern const Str15 Rzil_AeteExportItems[] = {
 	"\pXML",
 	"\pDeRez",
+	"\pSdef",
 	"\pTEXT",
 	"\pHTML"
 };
-// "\pSdef",
 
 
 // ---------------------------------------------------------------------------
