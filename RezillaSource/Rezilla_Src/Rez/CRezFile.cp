@@ -404,7 +404,7 @@ CRezFile::CopyFromRezMap(CRezMap * srcRezmap)
 			
 			if (theAttrs != 0) {
 				// Write the attributes in new rezmap
-				error = theRezObj->SetAttributes(theAttrs);
+				error = theRezObj->SetAttributesInMap(theAttrs);
 				error = theRezObj->Changed();
 			} 
 			

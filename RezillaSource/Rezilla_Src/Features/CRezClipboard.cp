@@ -405,7 +405,7 @@ CRezClipboard::SetDataInScrapRezMap(
 		
 		if (theAttrs != 0) {
 			// Write the attributes in the scrap rezmap
-			error = theRezObj->SetAttributes(theAttrs);
+			error = theRezObj->SetAttributesInMap(theAttrs);
 		} 
 		error = theRezObj->Changed();
 	}

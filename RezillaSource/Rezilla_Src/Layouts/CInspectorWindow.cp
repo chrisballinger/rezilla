@@ -450,7 +450,7 @@ CInspectorWindow::UpdateRezObj()
 	theAttrs |= mSavedInfo.purge ? resPurgeable : 0;
 	theAttrs |= mSavedInfo.sysheap ? resSysHeap : 0;
 	// Put the value in the rezmap
-	error = theRezObj->SetAttributes(theAttrs);
+	error = theRezObj->SetAttributesInMap(theAttrs);
 	if (error == noErr) {
 		theRezObj->Changed();
 	} 

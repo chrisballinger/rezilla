@@ -2,7 +2,7 @@
 // CRezObj.cp					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2004-06-20 08:52:20
+//             Last modification: 2004-11-18 19:52:29
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -373,11 +373,11 @@ CRezObj::GetAttributesFromMap(short & outAttribute)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ SetAttributes													[public]
+//  ¥ SetAttributesInMap													[public]
 // ---------------------------------------------------------------------------
 
 OSErr
-CRezObj::SetAttributes(short inAttributes)
+CRezObj::SetAttributesInMap(short inAttributes)
 {
 	OSErr error = noErr;
 	
@@ -392,6 +392,53 @@ CRezObj::SetAttributes(short inAttributes)
 			} 
 		} 
 	} 
+	
+	return error;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ ToggleOneAttribute											[inline]
+// ---------------------------------------------------------------------------
+//	Allows the toggling of an attribute setting. If you wish to change all
+//	attributes in one call, use SetAttributesInMap instead.
+
+OSErr
+CRezObj::ToggleOneAttribute(short inFlag)
+{
+	OSErr error = noErr;
+	short theAttrs = mAttributes;
+	Boolean theSetting = ((theAttrs & inFlag) != 0);
+	
+	if (theSetting) {
+		theAttrs &= ~inFlag;
+	} else {
+		theAttrs |= inFlag;
+	}
+	error = SetAttributesInMap(theAttrs);
+	
+	return error;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ SetOneAttribute												[inline]
+// ---------------------------------------------------------------------------
+//	Allows to set a single attribute. If you wish to change all
+//	attributes in one call, use SetAttributesInMap instead.
+
+OSErr
+CRezObj::SetOneAttribute(short inFlag, Boolean inSetting)
+{
+	OSErr error = noErr;
+	short theAttrs = mAttributes;
+	
+	if (inSetting) {
+		theAttrs |= inFlag;
+	} else {
+		theAttrs &= ~inFlag;
+	}
+	error = SetAttributesInMap(theAttrs);
 	
 	return error;
 }

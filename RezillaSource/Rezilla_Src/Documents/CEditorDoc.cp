@@ -221,7 +221,7 @@ CEditorDoc::CanSaveChanges()
 	if (mRezObj->HasAttribute(resProtected)) {
 		answer = UMessageDialogs::AskYesNoFromLocalizable(CFSTR("AskRemoveProtectedBit"), rPPob_AskYesNoMessage);
 		if (answer == answer_Do) {
-			mRezObj->ToggleAttribute(resProtected);
+			mRezObj->ToggleOneAttribute(resProtected);
 		} else if (answer == answer_Cancel) {
 			canSave = false;
 		} 

@@ -2,7 +2,7 @@
 // CRezObj.h					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2004-03-10 23:32:17
+//             Last modification: 2004-11-18 19:52:20
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -73,11 +73,11 @@ public:
 
 		virtual short	GetAttributes() { return mAttributes;}
 		OSErr			GetAttributesFromMap(short & outAttribute);
-		OSErr			SetAttributes(short inAttributes);
+		OSErr			SetAttributesInMap(short inAttributes);
 
-		Boolean			HasAttribute(UInt32 inAttribute);
-		void			ToggleAttribute(UInt32 inAttribute);
-		void			SetOneAttribute(UInt32 inAttribute, Boolean inSetting);
+		Boolean			HasAttribute(short inFlag);
+		OSErr			ToggleOneAttribute(short inFlag);
+		OSErr			SetOneAttribute(short inFlag, Boolean inSetting);
 
 protected:
 	short			mOwnerRefnum;
@@ -114,53 +114,12 @@ protected:
 
 inline
 Boolean
-CRezObj::HasAttribute(
-	UInt32 inAttribute )
+CRezObj::HasAttribute( short inFlag )
 {
-	return ((mAttributes & inAttribute) != 0);
+	return ((mAttributes & inFlag) != 0);
 }
 
-
-// ---------------------------------------------------------------------------
-//	¥ ToggleAttribute												[inline]
-// ---------------------------------------------------------------------------
-//	Allows the toggling of an attribute setting. If you wish to change all
-//	attributes in one call, use SetAttributes instead.
-
-inline
-void
-CRezObj::ToggleAttribute(
-	UInt32		inAttribute)
-{
-	Boolean theSetting = ((mAttributes & inAttribute) != 0);
-	if (theSetting) {
-		mAttributes &= ~inAttribute;
-	} else {
-		mAttributes |= inAttribute;
-	}
-}
-
-
-// ---------------------------------------------------------------------------
-//	¥ SetOneAttribute												[inline]
-// ---------------------------------------------------------------------------
-//	Allows the toggling of an attribute setting. If you wish to change all
-//	attributes in one call, use SetAttributes instead.
-
-inline
-void
-CRezObj::SetOneAttribute(
-	UInt32		inAttribute, 
-	Boolean 	inSetting)
-{
-	if (inSetting) {
-		mAttributes |= inAttribute;
-	} else {
-		mAttributes &= ~inAttribute;
-	}
-}
 
 
 
 #endif
-
