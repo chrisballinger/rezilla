@@ -881,7 +881,8 @@ CTmplEditorWindow::DoParseWithTemplate(SInt32 inRecursionMark, Boolean inDrawCon
 		*mTemplateStream >> theString;
 		*mTemplateStream >> theType;
 		
-		if (theType == 'OCNT' || theType == 'WCNT' || theType == 'ZCNT' || theType == 'FCNT') {
+		if (theType == 'OCNT' || theType == 'WCNT' || theType == 'ZCNT' 
+			|| theType == 'FCNT' || theType == 'LCNT' || theType == 'LZCT') {
 			LString::CopyPStr(theString, countLabel);
 			mFixedCount = (theType == 'FCNT');
 			ParseDataForType(theType, theString, inContainer);
@@ -1064,35 +1065,8 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		break;
 
 		case 'BBIT':
-		// Binary bit (there must be 8 or an even multiple of 8 of these).
-		
-// 		AddBitField(inType, inLabelString, 1, 1, inContainer) ;
-
-		// High bit first.
-		if (mRezStream->GetMarker() < mRezStream->GetLength() ) {
-			*mRezStream >> theUInt8;
-		} 
-		// Edit the first bit
-		AddStaticField(inType, inLabelString, inContainer);
-		AddCheckField( ((theUInt8 & 1<<7) > 0), inType, inContainer);	
-		for (i = 6; i >= 0 ; i--) {
-			// Consume the next 7 pairs in the template to get the
-			// corresponding labels.
-			*mTemplateStream >> theString;
-			*mTemplateStream >> theOSType;
-			AddStaticField(inType, theString, inContainer);
-			AddCheckField( ((theUInt8 & (1 << i)) > 0), inType, inContainer);	
-		}
-		break;
-
-		case 'LBIT':
-		// Bit within a long
-		AddBitField(inType, inLabelString, 1, 4, inContainer) ;
-		break;
-
-		case 'WBIT':
-		// Bit within a word
-		AddBitField(inType, inLabelString, 1, 2, inContainer) ;
+		// Binary bit within a byte
+		AddBitField(inType, inLabelString, 1, 1, inContainer);
 		break;
 
 		case 'BCNT':
@@ -1230,27 +1204,6 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		
 		break;
 
-// 		case 'FBYT':
-// 		// Byte fill (with 0)
-// 		if (mRezStream->GetMarker() < mRezStream->GetLength() ) {
-// 			mRezStream->SetMarker(1, streamFrom_Marker);
-// 		} 
-// 		break;
-
-// 		case 'FLNG':
-// 		// Long fill (with 0)
-// 		if (mRezStream->GetMarker() < mRezStream->GetLength() - 3) {
-// 			mRezStream->SetMarker(4, streamFrom_Marker);
-// 		} 
-// 		break;
-
-// 		case 'FWRD':
-// 		// Word fill (with 0)
-// 		if (mRezStream->GetMarker() < mRezStream->GetLength() - 1) {
-// 			mRezStream->SetMarker(2, streamFrom_Marker);
-// 		} 
-// 		break;
-
 		case 'FBYT':
 		case 'HBYT':
 		// Hex byte
@@ -1278,7 +1231,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 				::StringToNum( theString, &theLong);
 				mItemsCount = theLong;
 			} else {
-				error = paramErr;
+				error = err_TmplWrongFixedCount;
 			}
 			break;
 		}
@@ -1327,6 +1280,33 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		case 'LABL':
 		// Insert a comment
 		AddStaticField(inType, inLabelString, inContainer, sCommentTraitsID);
+		break;
+
+		case 'LBIT':
+		// Binary bit within a long
+		AddBitField(inType, inLabelString, 1, 4, inContainer);
+		break;
+
+		case 'LCNT':
+		// One-based long count
+		if (mRezStream->GetMarker() < mRezStream->GetLength() - 1) {
+			*mRezStream >> theUInt32;
+		} 
+		if (theUInt32 < 0xffff) {
+			mItemsCount = theUInt32;
+		} else {
+			error = err_TmplListCountTooBig;
+		}
+		break;
+
+		case 'LFLG':
+		// Long Boolean flag in low-order bit (four bytes: 0x00000001 for true,
+		// 0x00000000 for false)
+		if (mRezStream->GetMarker() < mRezStream->GetLength() - 1) {
+			*mRezStream >> theUInt32;
+		} 
+		AddStaticField(inType, inLabelString, inContainer);
+		AddBooleanField( (Boolean) theUInt32, inType, tmpl_titleYesNo, inContainer);		
 		break;
 
 		case 'LSIZ':
@@ -1393,6 +1373,20 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		// List Zero. Terminated by a 0 byte (as in 'MENU' resources).
 		break;
 		
+		case 'LZCT':
+		// Zero-based long count
+		if (mRezStream->GetMarker() < mRezStream->GetLength() ) {
+			*mRezStream >> theUInt32;
+			if (theUInt32 < 0xfffe) {
+				mItemsCount = theUInt32 + 1;
+			} else {
+				error = err_TmplListCountTooBig;
+			}
+		} else {
+			mItemsCount = 0;
+		}
+		break;
+
 		case 'OCNT':
 		case 'WCNT':
 		// One-based Count. Terminated by a one-based word count that starts 
@@ -1458,7 +1452,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 				}
 			} else {
 				// theLength should never be even
-				error = paramErr;
+				error = err_TmplWrongEvenValue;
 			}
 		} else {
 			theString[0] = 0;
@@ -1513,6 +1507,11 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		AddStaticField(inType, inLabelString, inContainer);
 		AddEditField(theString, inType, 4, 0, 
 					 UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar), inContainer);
+		break;
+
+		case 'WBIT':
+		// Binary bit within a word
+		AddBitField(inType, inLabelString, 1, 2, inContainer);
 		break;
 
 		case 'WFLG':
@@ -1595,7 +1594,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 					   
 	  } else if ( IsValidBitField(inType, typeStr, bitCount, bytesLen) ) {
 		  
-		  AddBitField(inType, inLabelString, bitCount, bytesLen, inContainer) ;
+		  AddBitField(inType, inLabelString, bitCount, bytesLen, inContainer);
 		  
 	  } else {
 		  // Unrecognized type
@@ -1615,27 +1614,34 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 // LBnn  	LB01 to LB31	Bit field within a long
 // WBnn  	WB01 to WB16	Bit field within a word
 
-
 Boolean
-CTmplEditorWindow::IsValidBitField(OSType inType, Str255 ioString, 
+CTmplEditorWindow::IsValidBitField(OSType inType, Str255 inStr, 
 								   UInt16 & ioBitsCount, UInt16 & ioBytesLen)
 {
 	Boolean isValid = false;
 	long	theLong;
 	
 	if (inType >> 8 == 'BB0') {
-		if (ioString[4] > '0' && ioString[4] < 8) {
-			ioBitsCount = ioString[4] - '0';
-			isValid = true;
-			ioString[3] = 1;
-			ioString += 3;
+		if (inStr[4] > '0' && inStr[4] < '8') {
+			ioBitsCount = inStr[4] - '0';
 			ioBytesLen = 1;
+			isValid = true;
 		} 
-	} else if (inType >> 16 == 'LB') {
-		
-	} else if (inType >> 16 == 'WB') {
-		
-	} 
+	} else {
+		if ( ((inStr[3] >= '0') && (inStr[3] <= '9')) && ((inStr[4] > '0') && (inStr[4] < 8)) ) {
+			inStr[2] = 2;
+			::StringToNum( inStr + 2, &theLong);
+			if (inType >> 16 == 'LB' && theLong <= 32) {
+				ioBitsCount = theLong;
+				ioBytesLen = 4;
+				isValid = true;				
+			} else if (inType >> 16 == 'WB' && theLong <= 16) {
+				ioBitsCount = theLong;
+				ioBytesLen = 2;
+				isValid = true;
+			} 
+		} 
+	}
 	
 	return isValid;
 }
@@ -1680,7 +1686,7 @@ CTmplEditorWindow::BuildScanString(char * inString, char * ioFormat, UInt8 inLen
 		sprintf(ioFormat, "0x%s%dx%c", "%", inLength, 0);		
 	} else {
 		// alert
-		error = paramErr;
+		error = err_TmplMalformedHexValue;
 	}
 	return error;
 }
@@ -1831,21 +1837,46 @@ CTmplEditorWindow::AddBitField(OSType inType,
 							   UInt16 inBytesLen,
 							   LView * inContainer)
 {
+	UInt16	i, val;
+	Str255	numStr;
+	
 	if (!mBitSeqInProgress) {
 		mBitSeqInProgress = true;
-		mBitSeqIndex += inBitCount;
+		// High bit first.
+		mBitSeqIndex = mBitSeqBytesLen * 8 - 1;
 		mBitSeqBytesLen = inBytesLen;
 		if (mRezStream->GetMarker() < mRezStream->GetLength() - mBitSeqBytesLen + 1) {
 			*mRezStream >> mBitSeqValue;
-		} 
+		} else {
+			mBitSeqValue = 0;
+		}
 	} 
 	
 	
+	if (inBitCount == 1) {
+		AddStaticField(inType, inLabel, inContainer);
+		AddCheckField( ((mBitSeqValue & 1 << mBitSeqIndex) > 0), inType, inContainer);	
+		mBitSeqIndex--;
+	} else {
+		// Add the bits count to the label
+		LStr255 theLabel(inLabel);
+		theLabel += "\p (";
+		::NumToString( (long) inBitCount, numStr);
+		theLabel += numStr;
+		theLabel += "\p bits)";
+		AddStaticField(inType, theLabel, inContainer);
+		
+		// Build the value
+		val = 0;
+		for (i = 0; i < inBitCount ; i++) {
+			val |= mBitSeqValue & 1 << mBitSeqIndex;
+			mBitSeqIndex--;
+		}
+		::NumToString( (long) val, numStr);
+		AddEditField(numStr, inType, 4, 0, UKeyFilters::SelectTEKeyFilter(keyFilter_Integer), inContainer);
+	}
 	
-	
-	
-	
-	if (mBitSeqBytesLen == mBitSeqIndex + 1) {
+	if (mBitSeqIndex < 0) {
 		mBitSeqInProgress = false;
 	} 
 }
@@ -2816,7 +2847,8 @@ CTmplEditorWindow::DoRetrieveWithTemplate(SInt32 inRecursionMark)
 		*mTemplateStream >> theString;
 		*mTemplateStream >> theType;
 		
-		if (theType == 'OCNT' || theType == 'WCNT' || theType == 'ZCNT' || theType == 'FCNT') {
+		if (theType == 'OCNT' || theType == 'WCNT' || theType == 'ZCNT' 
+			|| theType == 'FCNT' || theType == 'LCNT' || theType == 'LZCT') {
 			RetrieveDataForType(theType);
 		} else if (theType == 'LSTB' || theType == 'LSTC' || theType == 'LSTZ') {
 			// Skip the Plus and Minus buttons
@@ -2873,10 +2905,10 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 	char 	charString[256];
 	char 	formatString[16];
 	long	theLong;
-	Str255	numStr, theString;
+	Str255	numStr, typeStr, theString;
 	SInt32	theLength, reqLength, currMark, oldMark;
 	UInt8	theUInt8 = 0;
-	UInt16	theUInt16 = 0;
+	UInt16	theUInt16 = 0, bitCount = 0, bytesLen = 0;;
 	UInt32	theUInt32 = 0;
 	OSType	theOSType;
 	ResType	theType;
@@ -2919,20 +2951,8 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		break;
 
 		case 'BBIT':
-		// Binary bit (there must be 8 or an even multiple of 8 of these).
-		theCheckBox = dynamic_cast<LCheckBox *>(this->FindPaneByID(mCurrentID));
-		theChar |= theCheckBox->GetValue() ? 1<<7 : 0 ;
-		mCurrentID++;
-		// Consume similarly the next 7 controls in the template
-		for (i = 6; i >= 0 ; i--) {
-			*mTemplateStream >> theString;
-			*mTemplateStream >> theOSType;
-			
-			theCheckBox = dynamic_cast<LCheckBox *>(this->FindPaneByID(mCurrentID));
-			theChar |= theCheckBox->GetValue() ? 1<<i : 0 ;
-			mCurrentID++;
-		}
-		*mOutStream << theChar;
+		// Binary bit within a byte
+		RetrieveBitField(1, 1);
 		break;
 
 		case 'BCNT':
@@ -3073,21 +3093,6 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		mCurrentID++;
 		break;
 
-// 		case 'FBYT':
-// 		// Byte fill (with 0)
-// 		*mOutStream << (SInt8) 0;
-// 		break;
-
-// 		case 'FLNG':
-// 		// Long fill (with 0)
-// 		*mOutStream << (SInt32) 0;
-// 		break;
-
-// 		case 'FWRD':
-// 		// Word fill (with 0)
-// 		*mOutStream << (SInt16) 0;
-// 		break;
-
 		case 'FBYT':
 		case 'HBYT':
 		// Hex byte
@@ -3199,6 +3204,39 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		// It is a comment. Just skip it.
 		break;
 
+		case 'LBIT':
+		// Binary bit within a long
+		RetrieveBitField(1, 4);
+		break;
+
+		case 'LCNT':
+		// One-based long count for LSTC lists
+		theStaticText = dynamic_cast<LStaticText *>(this->FindPaneByID(mCurrentID));
+		theStaticText->GetDescriptor(theString);	
+		::StringToNum( theString, &theLong);
+		if (theLong < 0xffff) {
+			mItemsCount = theLong;
+		} else {
+			error = err_TmplListCountTooBig;
+		}
+		*mOutStream << theLong;
+		mCurrentID++;
+		break;
+
+		case 'LFLG':
+		// Long Boolean flag in low-order bit (four bytes: 0x00000001 for true,
+		// 0x00000000 for false)
+		theRGV = dynamic_cast<LRadioGroupView *>(this->FindPaneByID(mCurrentID));
+		theCurrentRadioID = theRGV->GetCurrentRadioID();
+		if ( (theCurrentRadioID - mCurrentID) % 2 ) {
+			*mOutStream << (UInt32) 0x00000001;
+		} else {
+			*mOutStream << (UInt32) 0x00000000;
+		}
+		// The RGV and both radiobuttons have an ID. That makes three.
+		mCurrentID += 3;
+		break;
+
 		case 'LSIZ':
 		case 'LSKP':
 		// Offset to SKPE in long (LSIZ:exclusive or LSKP:inclusive)
@@ -3248,6 +3286,25 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		// List Zero. Terminated by a 0 byte (as in 'MENU' resources).
 		break;
 		
+		case 'LZCT':
+		// Zero-based count for LSTC lists
+		theStaticText = dynamic_cast<LStaticText *>(this->FindPaneByID(mCurrentID));
+		theStaticText->GetDescriptor(theString);	
+		::StringToNum( theString, &theLong);
+		mItemsCount = (UInt16) theLong;
+		if (theLong < 0xffff) {
+			if (!theLong) {
+				theUInt16 = 0xffff;
+			} else {
+				theUInt16 = (UInt16) --theLong;
+			}
+			*mOutStream << theUInt16;
+		} else {
+			error = err_TmplListCountTooBig;
+		}
+		mCurrentID++;
+		break;
+
 		case 'OCNT':
 		case 'FCNT':
 		case 'WCNT':
@@ -3256,7 +3313,9 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		theStaticText->GetDescriptor(theString);	
 		::StringToNum( theString, &theLong);
 		mItemsCount = (UInt16) theLong;
-		*mOutStream << mItemsCount;
+		if (inType != 'FCNT') {
+			*mOutStream << mItemsCount;
+		} 
 		mCurrentID++;
 		break;
 
@@ -3382,13 +3441,9 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		mCurrentID++;
 		break;
 
-		case 'WSIZ':
-		case 'WSKP':
-		// Offset to SKPE in word (WSIZ:exclusive or WSKP:inclusive)
-		// Cache the current position
-		mOffsetMarksList.AddItem(mOutStream->GetMarker());
-		// Temporarily fill with null to create the place holder
-		*mOutStream << (UInt16) 0x0000;;
+		case 'WBIT':
+		// Binary bit within a word
+		RetrieveBitField(1, 2);
 		break;
 
 		case 'WFLG':
@@ -3402,6 +3457,15 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		}
 		// The RGV and both radiobuttons have an ID. That makes three.
 		mCurrentID += 3;
+		break;
+
+		case 'WSIZ':
+		case 'WSKP':
+		// Offset to SKPE in word (WSIZ:exclusive or WSKP:inclusive)
+		// Cache the current position
+		mOffsetMarksList.AddItem(mOutStream->GetMarker());
+		// Temporarily fill with null to create the place holder
+		*mOutStream << (UInt16) 0x0000;;
 		break;
 
 		case 'WSTR':
@@ -3432,8 +3496,10 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		break;
 
 	  default:
-	  // Handle Hnnn, Cnnn, P0nn cases here or unrecognized type
+	  UMiscUtils::OSTypeToPString(inType, typeStr);
+	  // Handle Hnnn, Cnnn, P0nn, BB0n etc cases here or unrecognized type
 	  if (inType >> 24 == 'H') {
+		  
 		  // Hnnn: a 3-digit hex number; displays nnn bytes in hex format
 		  CDualDataView * theTGB = dynamic_cast<CDualDataView *>(this->FindPaneByID(mCurrentID));
 		  WEReference theWE = theTGB->GetInMemoryWasteRef();
@@ -3450,6 +3516,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		  mCurrentID++;
 		  
 	  } else if (inType >> 24 == 'C') {
+		  
 		  // Cnnn: a C string that is nnn hex bytes long (The last byte is always a 0, so the string itself occupies the first nnn-1 bytes.)
 		  theWasteEdit = dynamic_cast<CWasteEditView *>(this->FindPaneByID(mCurrentID));
 		  theHandle = theWasteEdit->GetTextHandle();
@@ -3467,6 +3534,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		  mCurrentID++;
 
 	  } else if ( inType >> 16 == 'P0') {
+		  
 		  // P0nn: a Pascal string that is nn hex bytes long (The length byte is not included in nn, so the string occupies the entire specified length.)
 		  theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
 		  theEditText->GetDescriptor(theString);	
@@ -3481,6 +3549,10 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		  }
 		  mCurrentID++;
 
+	  } else if ( IsValidBitField(inType, typeStr, bitCount, bytesLen) ) {
+		  
+		  RetrieveBitField(bitCount, bytesLen);
+		  
 	  } else {
 		  // Unrecognized type
 		  UMessageDialogs::AlertForType(CFSTR("UnknownTemplateType"), inType);
@@ -3489,6 +3561,50 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 	}
 
 	return error;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ RetrieveBitField											[public]
+// ---------------------------------------------------------------------------
+
+void
+CTmplEditorWindow::RetrieveBitField(UInt16 inBitCount, UInt16 inBytesLen)
+{
+	UInt16	i, val;
+	long	theLong;
+	Str255	numStr;
+	
+	if (!mBitSeqInProgress) {
+		mBitSeqInProgress = true;
+		// High bit first.
+		mBitSeqIndex = mBitSeqBytesLen * 8 - 1;
+		mBitSeqBytesLen = inBytesLen;
+		mBitSeqValue = 0;
+	} 
+	
+	if (inBitCount == 1) {
+		LCheckBox * theCheckBox = dynamic_cast<LCheckBox *>(this->FindPaneByID(mCurrentID));
+		mBitSeqValue |= theCheckBox->GetValue() ? 1 << mBitSeqIndex : 0 ;
+		mBitSeqIndex--;
+	} else {
+		LEditText * theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
+		theEditText->GetDescriptor(numStr);	
+		::StringToNum( numStr, &theLong);
+		
+		for (i = inBitCount - 1; i >= 0 ; i--) {
+			val = theLong & 1 << i;
+			mBitSeqValue |= val ? 1 << mBitSeqIndex : 0 ;
+			mBitSeqIndex--;
+		}		
+	}
+	
+	mCurrentID++;
+	
+	if (mBitSeqIndex < 0) {
+		mBitSeqInProgress = false;
+		*mOutStream << mBitSeqValue;
+	} 
 }
 
 

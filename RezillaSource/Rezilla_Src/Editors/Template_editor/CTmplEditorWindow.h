@@ -241,6 +241,8 @@ private:
 									UInt16 & ioBitsCount, 
 									UInt16 & ioBytesLen);
 	
+	void			RetrieveBitField(UInt16 inBitCount, UInt16 inBytesLen);
+	
 };
 
 
