@@ -89,9 +89,9 @@ DBYT, HWRD, ULNG), and sometimes with just their first letter (like in BCNT,
 WFLG or LBIT).<P>The tables below indicate, for each flag, its meaning and the size
 occupied in the resource data by the corresponding value. The letter x in
 the last column marks tags which are part of the extended syntax.<P><H4>Numerical values</H4>
-Rezilla allows you to specify hexadecimal values using a dollar sign $ or
-the 0x combination. The dollar sign is kept for historical reasons: it is
-what ResEdit or command line tools like Rez and DeRez use. <P><P><TABLE BORDER=1 CELLPADDING=1>
+Rezilla allows you to specify hexadecimal values using a dollar sign <B>$</B> or
+the <B>0x</B> combination. The dollar sign is kept for historical reasons: it is
+<P><TABLE BORDER=1 CELLPADDING=1>
 <TR><TD><I>Tag</I></TD><TD><I>Description</I></TD><TD><I>Size</I></TD><TD></TD></TR>
 <TR><TD>DBYT</TD><TD>Signed decimal byte</TD><TD>1 byte</TD><TD></TD></TR>
 <TR><TD>DWRD</TD><TD>Signed decimal word</TD><TD>2 bytes</TD><TD></TD></TR>
@@ -218,7 +218,29 @@ be at the beginning of the FCNT tag's label. <P><P><TABLE BORDER=1 CELLPADDING=1
 <TR><TD>LSTB</TD><TD>Begin non counted list</TD><TD>0 byte</TD><TD></TD></TR>
 <TR><TD>LSTZ</TD><TD>Begin 0x00 ended list</TD><TD>0 byte</TD><TD></TD></TR>
 <TR><TD>LSTE</TD><TD>End of any list</TD><TD>0 or 1 byte</TD><TD></TD></TR>
-</TABLE></P><P><H4>Keyed sections</H4>
+</TABLE></P><P><H4>CASE tag</H4>
+The CASE tag is used to specify predefined values or default choices. There
+can be several CASE tags following a particular editable tag. They are used
+to build a popup menu whose items correspond to each CASE statement. The
+label of a CASE tag must contain two elements separated by an equal sign:
+the left element is used as the item to display in the popup, the right
+element is the value which will be attributed to the edited tag if it is
+selected in the popup. The CASE tags do not correspond to any byte in the
+resource itself, they only concern the template's definition.<P>More concretely, here is an example of what could be a series of CASE
+statements accompanying a font style value stored as an hexadecimal byte:
+<PRE>
+	HBYT	Style
+	CASE	Normal=$00
+	CASE	Bold=$01
+	CASE	Italic=$02
+	CASE	Underline=$04
+	CASE	Condensed=$20
+	CASE	Extended=$40
+</PRE>
+The template editor would build, out of this, a popup menu made of six
+items: <I>Normal, Bold, Italic, Underline, Condensed, Extended</I>. If the
+<I>Underline</I> item is selected by the user, the value <I>$04</I> will
+automatically be inserted in the style field.<P><H4>Keyed sections</H4>
 The format of certain resources has changed over time. It is quite common
 that a resource contains a field to indicate which version of the format it
 is using. Keyed sections provide a syntax to store different definitions of
@@ -268,7 +290,7 @@ editable by Rezilla: there are preferences for this (see the
 <TR><TD>F<I>nnn</I></TD><TD>Counted bytes filler</TD><TD><I>$nnn</I> bytes</TD><TD>x</TD></TR>
 </TABLE></P><P><H4>Miscellaneous</H4>
 This table contains various tags which have a handy editing interface. For 
-instance, the COLR tag will display the RGB color and will call a color
+instance, the COLR tag will display the RGB color (red, green, blue) and will call a color
 picker when you click in the colored rectangle. Thus you do not have to
 mess with the hexadecimal values specifying the red, green and blue components.
 Similarly, the LNGC, RGNC and SCPC tags display a prebuilt popup menu 
@@ -285,15 +307,8 @@ containing respectively all the allowable language, region or script codes.<P><P
 <TR><TD>PNT </TD><TD>Point coords</TD><TD>4 bytes</TD><TD></TD></TR>
 <TR><TD>RECT</TD><TD>Rectangle</TD><TD>8 bytes</TD><TD></TD></TR>
 <TR><TD>COLR</TD><TD>RGB color</TD><TD>6 bytes</TD><TD>x</TD></TR>
-<TR><TD>CASE</TD><TD>Suggested default value</TD><TD>0 byte</TD><TD>x</TD></TR>
 <TR><TD>DVDR</TD><TD>Comment</TD><TD>0 byte</TD><TD>x</TD></TR>
-</TABLE></P><P>The CASE tag is used to specify predefined values or default choices. There
-can be several CASE tags following a particular editable tag. They are used
-to build a popup menu whose items correspond to each CASE statement. The label of 
-a CASE tag must contain two elements separated by an equal sign: the left
-element is used as the item to display in the popup, the right element is
-the value which will be attributed to the edited tag if it is selected in
-the popup.<P><!--  t)) --><P><!--  t)) --><P><!--  t)) --><P><!--  t)) --><P>
+</TABLE></P><P><!--  t)) --><P><!--  t)) --><P><!--  t)) --><P><!--  t)) --><P>
 
 </BODY>
 </HTML>

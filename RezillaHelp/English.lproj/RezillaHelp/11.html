@@ -34,7 +34,7 @@ One can also choose the encoding used to store the binary data: Base64
 encoding or hexadecimal encoding. The <I>Include binary data in output</I>
 checkbox lets specify whether the data for each resource should be included
 in the export file: this currently applies only to Text and XML exports,
-not HTML. In the <I>Text editor signature</I> field, you can specify the
+not HTML. <P>In the <I>Text editor signature</I> field, you can specify the
 creator type of a text editor which will be attributed to the output file
 so that you can later edit it with this editor by a double-click.<P><H3>Compare panel</H3>
 <P> In the <I>Compare</I> panel, one can set default values for the
@@ -53,7 +53,7 @@ guarantee a nice display with a correct vertical alignment.
 when the application quits. They are stored in a file named 
 <I>net.sourceforge.rezilla.plist</I> located in the user's Preferences folder.<P><H3>Editors panel</H3>
 <P> In the <I>Editors</I> panel, one can select the symbol to use to
-write hexadecimal values: either <B>$</B> or <B>0x</B>. This is the
+represent hexadecimal values: either <B>$</B> or <B>0x</B>. This is the
 symbol which will be used by the template editor when it displays a hex
 number. If you write an hexadecimal value in a field, you can use any of
 these symbols indifferently: the editor will accept both.
@@ -61,7 +61,8 @@ these symbols indifferently: the editor will accept both.
 uppercase form. This is set using the <I>Hexadecimal digits</I> preference.<P><H3>Misc panel</H3>
 <P> In the <I>Misc</I> panel, one can use the <I>Set type and creator
 when closing</I> preference to specify a type and signature to attribute to
-a resource file after it has been edited by Rezilla. This is a preference
+a resource file after it has been edited by Rezilla. The default values are
+<I>rsrc</I> and <I>Rzil</I> respectively. This is a preference
 one must be careful with because certain files, like application files,
 already have a specific creator which should not be modified. There is an
 additionnal checkbox called <I>Only files with .rsrc extension</I> which

@@ -13,12 +13,12 @@ resource. For instance, the following image shows how Rezilla would edit a
 MPSR resource containing font and size information about a document.<P>There are three kinds of locations where TMPL resources can be found. They 
 are described in details in the following subsections: 
 <UL>
-	<LI> internal templates are predefined templates stored inside the
+	<LI> <I>internal</I> templates are predefined templates stored inside the
 application. Rezilla ships with more than 360 predefined templates covering
 the most currently used resource types;
-	<LI> external templates are additional templates that one can add to one of
+	<LI> <I>external</I> templates are additional templates that one can add to one of
 the <I>Application Support</I> folders;
-	<LI> local templates are TMPL resources present in the currently edited resource map.
+	<LI> <I>local</I> templates are TMPL resources present in the currently edited resource map.
 </UL><P>When Rezilla attempts to edit a resource using a template, it looks for 
 the appropriate template in all these locations in the following order:
 local, external, internal. You can thus override the definition of an
@@ -86,7 +86,8 @@ application.<P><H3>Local templates</H3><P>Some resource files already contain TM
 you want to edit, in such a file, a resource having one of these types, Rezilla
 will automatically use the provided TMPL resource. Such a template is
 called a <I>local template</I> because it is found in the resource map you are
-currently editing.<P>This can be useful if you transmit a non standeard resource to somebody and
+currently editing and won't be available anymore as soon as this table is
+closed.<P>This can be useful if you transmit a non standeard resource to somebody and
 want to be sure he will be able to view it with the template editor. You
 just have to copy the TMPL resource in the resource file you transmit.<P>The template editor always looks for a TMPL resource in the current map
 before it tries to find an external or an internal template.<P>
