@@ -964,24 +964,29 @@ CTmplEditorWindow::CountAllSubPanes(LView * inView)
 // Otherwise, there is a minimum height (corresponding to five lines) and a
 // maximum (corresponding to seventeen lines).
 
-SInt16
-CTmplEditorWindow::RecalcTextBoxHeight(SInt32 inTextSize, CWasteEditView * inWEView, 
-									   Boolean isFixed, UInt8 inBytesPerChar)
+// 		bytesPerLine = theSize.width / (CRezillaApp::sBasics.charWidth * inBytesPerChar);
+// 		linesCount = inTextSize / bytesPerLine + (inTextSize % bytesPerLine != 0) ;
+
+
+Boolean
+CTmplEditorWindow::RecalcTextBoxHeight(SInt32 inTextSize, CWasteEditView * inWEView,
+									   Boolean isFixed, SInt16 & delta, UInt8 inBytesPerChar)
 {
-	SInt32			bytesPerLine, linesPerPane, linesCount;
-	SInt16			linesHeight, minHeight = kTmplTextMinHeight, delta = 0;
+	Boolean			reduce = false;
+	SInt32			bytesPerLine, linesCount;
+	SInt16			linesHeight, minHeight = kTmplTextMinHeight;
 	SDimension16	theSize;
 	
 	if (inTextSize || isFixed) {
 		inWEView->GetFrameSize(theSize);
-		bytesPerLine = theSize.width / (CRezillaApp::sBasics.charWidth * inBytesPerChar);
-		linesCount = inTextSize / bytesPerLine + (inTextSize % bytesPerLine != 0) ;
+		linesCount = inWEView->CountLines() ;
 		if (linesCount == 0) {
 			linesCount = 1;
 		} 
 		
 		linesHeight = CRezillaApp::sBasics.charHeight * linesCount;	
-		if (linesHeight < theSize.height ) {
+		if (linesHeight <= theSize.height ) {
+			reduce = true;
 			if (linesHeight < kTmplTextMinHeight && !isFixed) {
 				delta = kTmplTextMinHeight - theSize.height;
 			} else {
@@ -993,3 +998,223 @@ CTmplEditorWindow::RecalcTextBoxHeight(SInt32 inTextSize, CWasteEditView * inWEV
 	return delta;
 }
 
+
+// ---------------------------------------------------------------------------
+//	¥ CalcTextPositions											[private]
+// ---------------------------------------------------------------------------
+
+Boolean
+CTmplEditorWindow::CalcTextPositions(OSType inType, SInt32 & oldPos, SInt32 & newPos, 
+									 SInt32 & nextPos, SInt32 & reqLength, Boolean & isFixed)
+{
+	Boolean		hasText = false;
+	SInt32		totalLength;
+	char 		theChar;
+	UInt8		theUInt8 = 0;
+	UInt16		theUInt16 = 0;
+	UInt32		theUInt32 = 0;
+	
+	totalLength = mRezStream->GetLength();
+	oldPos = mRezStream->GetMarker();
+	nextPos = newPos = oldPos;
+	
+	// Calc the limits of the text depending on the tag
+	if (oldPos < totalLength) {
+		hasText = true;
+		
+		// We are not creating an empty new resource
+		switch (inType) {
+			case 'CSTR':
+				// Is there a NULL byte marking the end of the string?
+				newPos = totalLength;
+				while (mRezStream->GetMarker() < totalLength ) {
+					*mRezStream >> theChar;
+					if (theChar == 0) {
+						// Don't take the ending NULL
+						newPos = mRezStream->GetMarker() - 1;
+						break;
+					} 
+				}
+				nextPos = mRezStream->GetMarker();
+			break;
+
+			case 'LSTR': {
+				UInt32		theUInt32 = 0;
+				// Long string (long  length followed by the characters)
+				if (mRezStream->GetMarker() < totalLength - 3) {
+					*mRezStream >> theUInt32;
+				}
+				oldPos += 4;
+				newPos = oldPos + theUInt32;
+				nextPos = newPos;
+				break;
+			}
+			
+			case 'WSTR': {
+				UInt16		theUInt16 = 0;
+				// Same as LSTR, but a word rather than a long word
+				if (mRezStream->GetMarker() < totalLength - 1) {
+					*mRezStream >> theUInt16;
+				}
+				oldPos += 2;
+				newPos = oldPos + theUInt16;
+				nextPos = newPos;
+				break;
+			}
+
+			case 'ECST':
+			case 'OCST':
+				// Is there a NULL byte marking the end of the string?
+				newPos = totalLength;
+				while (mRezStream->GetMarker() < totalLength ) {
+					*mRezStream >> theChar;
+					if (theChar == 0) {
+						newPos = mRezStream->GetMarker();
+						// If the total length, including ending NULL, is odd
+						// (with ESTR) or even (with OSTR), the string is padded, 
+						// so skip one byte.
+						if ( (newPos < totalLength) && ( 
+							   ( ((newPos - oldPos) % 2) && (inType == 'ECST') ) 
+							   ||
+							   ( ((newPos - oldPos) % 2 == 0) && (inType == 'OCST') ) )) {
+						   // Skip one byte.
+						   if (mRezStream->GetMarker() < totalLength ) {
+							   *mRezStream >> theChar;
+						   }
+						} 
+						// Don't take the ending NULL
+						newPos--;
+						break;
+					} 
+				}
+				nextPos = mRezStream->GetMarker();
+			break;
+
+			case 'HEXD':
+			// This is always the last code in a template. Go to the end of the
+			// resource data.
+			newPos = totalLength;
+			break;
+			
+			case 'BHEX': {
+				// ByteLength Hex Dump
+				if (mRezStream->GetMarker() < totalLength) {
+					*mRezStream >> theUInt8;
+				}
+				oldPos += 1;
+				newPos = oldPos + theUInt8;
+				break;
+			}
+			
+			case 'BSHX': {
+				// (ByteLength - 1) Hex Dump
+				if (mRezStream->GetMarker() < totalLength) {
+					*mRezStream >> theUInt8;
+				}
+				if (theUInt8 < 1) {
+					theUInt8 = 1;
+				} 
+				oldPos += 1;
+				newPos = oldPos + theUInt8 - 1;
+				break;
+			}
+			
+			case 'LHEX': {
+				// LongLength Hex Dump
+				if (mRezStream->GetMarker() < totalLength - 3) {
+					*mRezStream >> theUInt32;
+				}
+				oldPos += 4;
+				newPos = oldPos + theUInt32;
+				break;
+			}
+			
+			case 'LSHX': {
+				// (LongLength - 4) Hex Dump
+				if (mRezStream->GetMarker() < totalLength - 3) {
+					*mRezStream >> theUInt32;
+				}
+				if (theUInt32 < 4) {
+					theUInt32 = 4;
+				} 
+				oldPos += 4;
+				newPos = oldPos + theUInt32 - 4;
+				break;
+			}
+			
+			case 'WHEX': {
+				// WordLength Hex Dump
+				if (mRezStream->GetMarker() < totalLength - 1) {
+					*mRezStream >> theUInt16;
+				}
+				oldPos += 2;
+				newPos = oldPos + theUInt16;
+				break;
+			}
+			
+			case 'WSHX': {
+				// (WordLength - 2) Hex Dump
+				if (mRezStream->GetMarker() < totalLength - 1) {
+					*mRezStream >> theUInt16;
+				}
+				if (theUInt16 < 2) {
+					theUInt16 = 2;
+				} 
+				oldPos += 2;
+				newPos = oldPos + theUInt16 - 2;
+				break;
+			}
+			default: {
+				isFixed = true;
+				
+				UMiscUtils::HexNumStringToDecimal(&inType, &reqLength);
+
+				if (inType >> 24 == 'H' || inType >> 24 == 'F') {
+					// Hnnn: a 3-digit hex number; displays $nnn bytes in hex format
+					UMiscUtils::HexNumStringToDecimal(&inType, &reqLength);
+					newPos = oldPos + reqLength;
+				} else if (inType >> 24 == 'C') {
+					// Cnnn: a C string that is $nnn hex bytes long. The last byte is always a 0, 
+					// so the string itself occupies the first $nnn-1 bytes (possibly less
+					// if a null is encountered before the end).
+
+					nextPos = oldPos + reqLength;
+					newPos = nextPos - 1;
+					// Look for a NULL byte in this range
+					while (mRezStream->GetMarker() < nextPos ) {
+						*mRezStream >> theChar;
+						if (theChar == 0) {
+							newPos = mRezStream->GetMarker() - 1;
+							break;
+						}
+					}
+				} else if (inType >> 24 == 'T') {
+					// Tnnn: a text string with fixed padding that is $nnn hex bytes long 
+					nextPos = oldPos + reqLength;
+					newPos = nextPos;
+					// Look for a NULL byte in this range
+					while (mRezStream->GetMarker() < nextPos ) {
+						*mRezStream >> theChar;
+						if (theChar == 0) {
+							newPos = mRezStream->GetMarker() - 1;
+							break;
+						}
+					}
+				}
+			}
+		}
+
+		if (oldPos > totalLength) {
+			oldPos = totalLength;
+		} 
+		if (newPos > totalLength) {
+			newPos = totalLength;
+		} 
+		if (newPos < oldPos) {
+			newPos = oldPos;
+		} 
+		
+	} 	
+	
+	return hasText;
+}

@@ -274,10 +274,18 @@ private:
 									SInt32 inVertPos, 
 									SInt32 inPosDelta);
 
-	SInt16			RecalcTextBoxHeight(SInt32 inTextSize, 
+	Boolean			RecalcTextBoxHeight(SInt32 inTextSize, 
 										CWasteEditView * inWEView,
 										Boolean isFixed,
+										SInt16 & delta,
 										UInt8 inBytesPerChar = 1);
+
+	Boolean			CalcTextPositions(OSType inType, 
+									  SInt32 & oldPos, 
+									  SInt32 & newPos, 
+									  SInt32 & nextPos,
+									  SInt32 & reqLength, 
+									  Boolean & isFixed);
 
 	Boolean			IsValidBitField(OSType inType, 
 									Str255 ioString, 
