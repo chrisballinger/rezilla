@@ -2,7 +2,7 @@
 // CTmplWindowUtils.cp					
 // 
 //                       Created: 2004-08-20 16:45:08
-//             Last modification: 2004-11-09 07:21:10
+//             Last modification: 2004-11-22 08:52:12
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -242,7 +242,8 @@ CTmplEditorWindow::AddStaticField(OSType inType, Str255 inLabel, LView * inConta
 	sStaticPaneInfo.superView	= inContainer;
 	
 	// For a comment label (DVDR) extend the width to the entire window.
-	if (inType == 'DVDR') {
+	// Ditto for a sized hex/txt field to ensure the extended label fits in.
+	if (inType == 'DVDR' || inReqLength > 0) {
 		SDimension16	theFrame;
 		inContainer->GetFrameSize(theFrame);
 		sStaticPaneInfo.width = theFrame.width - kTmplLeftMargin * 2;
