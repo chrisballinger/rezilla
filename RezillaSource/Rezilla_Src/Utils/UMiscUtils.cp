@@ -361,7 +361,7 @@ UMiscUtils::GetOSTypeFromXml(CFXMLTreeRef inTreeRef, OSType & outType)
 	Str255	theString;
 	
 	GetStringFromXml(inTreeRef, theString);
-	if (theString[0] != 4) {
+	if (theString[0] != 0 && theString[0] != 4) {
 		error = err_ImportInvalidOSType;
 	} 
 	if (error == noErr) {
