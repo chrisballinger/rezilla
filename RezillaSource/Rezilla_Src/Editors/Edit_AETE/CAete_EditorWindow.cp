@@ -44,6 +44,20 @@ Str31	CAete_EditorWindow::sRemoveClassStr;
 Str31	CAete_EditorWindow::sRemoveCompOpStr;
 Str31	CAete_EditorWindow::sRemoveEnumerationStr;
 
+const UInt16 AeteDirectFlag[] = { kAEUTOptional, kAEUTlistOfItems, kAEUTEnumerated, kAEUTChangesState, 
+	kAEUTEnumsAreTypes, kAEUTEnumListIsExclusive, kAEUTDirectParamIsReference, kAEUTNotDirectParamIsTarget };
+
+const UInt16 AeteReplyFlag[] = { kAEUTOptional, kAEUTlistOfItems, kAEUTEnumerated, kAEUTTightBindingFunction, 
+	kAEUTEnumsAreTypes, kAEUTEnumListIsExclusive, kAEUTReplyIsReference, aeut_NonVerbEvent };
+
+const UInt16 AeteOtherFlag[] = { kAEUTOptional, kAEUTlistOfItems, kAEUTEnumerated, 
+	kAEUTEnumsAreTypes, kAEUTEnumListIsExclusive, kAEUTParamIsReference, kAEUTParamIsTarget,
+	aeut_LabeledParam, kAEUTFeminine, kAEUTMasculine, kAEUTPlural};
+
+const UInt16 AetePropertyFlag[] = { kAEUTlistOfItems, kAEUTEnumerated, kAEUTReadWrite,
+	kAEUTEnumsAreTypes, kAEUTEnumListIsExclusive, kAEUTParamIsReference,
+	kAEUTApostrophe, kAEUTFeminine, kAEUTMasculine, kAEUTPlural};
+
 
 // ---------------------------------------------------------------------------
 //  CAete_EditorWindow										[public]
@@ -155,11 +169,6 @@ CAete_EditorWindow::FinishCreateSelf()
 	mEnumerationPane = mMultiPanel->GetPanel(mpv_AeteEnum);
 	ThrowIfNil_(mEnumerationPane);
 		
-	// Link the broadcasters
-	UReanimator::LinkListenerToControls( this, this, PPob_AeteEditorWindow );
-	mController->AddListener(mMultiPanel);
-	mController->AddListener(this);
-
 	// Edit menu strings. Load these once only.
 	if ( sAddEventStr[0] == 0 )
 	{
@@ -173,6 +182,9 @@ CAete_EditorWindow::FinishCreateSelf()
 		::GetIndString(sRemoveEnumerationStr, STRx_AeteRemove, kind_AeteEnum);
 	}
 
+	// Link to the broadcasters
+	MakeListeners();
+	
 // 	// Make the DictDoc a listener of mCategoriesListBox
 // 	mCategoriesListBox->AddListener(this);
 // 	mDictTermsTable->AddListener(this);
@@ -180,6 +192,64 @@ CAete_EditorWindow::FinishCreateSelf()
 // 	mAeteStreamsArrayPtr = new TArray<CAeteStream*>();
 
 //     SwitchTarget(mContentsView);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ MakeListeners
+// ---------------------------------------------------------------------------
+
+void
+CAete_EditorWindow::MakeListeners()
+{
+	UReanimator::LinkListenerToBroadcasters( this, this, PPob_AeteEditorWindow );
+	mController->AddListener(mMultiPanel);
+	mController->AddListener(this);
+	
+	UReanimator::LinkListenerToBroadcasters( this, mEventPane, PPob_AeteEventsPane );
+	UReanimator::LinkListenerToBroadcasters( this, mClassPane, PPob_AeteClassesPane );
+	UReanimator::LinkListenerToBroadcasters( this, mCompOpPane, PPob_AeteCompOpsPane );
+	UReanimator::LinkListenerToBroadcasters( this, mEnumerationPane, PPob_AeteEnumsPane );
+
+	
+// 	// Link the sliders
+// 	LSlider * theSlider;
+// 	
+// 	theSlider = dynamic_cast<LSlider *> (mEventPane->FindPaneByID( item_AeteOtherSlider ));
+// 	ThrowIfNil_(theSlider);
+// 	theSlider->AddListener(this);
+// 	
+// 	theSlider = dynamic_cast<LSlider *> (mClassPane->FindPaneByID( item_AetePropertySlider ));
+// 	ThrowIfNil_(theSlider);
+// 	theSlider->AddListener(this);
+// 	
+// 	theSlider = dynamic_cast<LSlider *> (mClassPane->FindPaneByID( item_AeteElementSlider ));
+// 	ThrowIfNil_(theSlider);
+// 	theSlider->AddListener(this);
+// 	
+// 	theSlider = dynamic_cast<LSlider *> (mEnumerationPane->FindPaneByID( item_AeteEnumSlider ));
+// 	ThrowIfNil_(theSlider);
+// 	theSlider->AddListener(this);
+// 	
+// 	// Link the popups
+// 	LPopupButton * thePopup;
+// 	
+// 	thePopup = dynamic_cast<LPopupButton *> (mEventPane->FindPaneByID( item_AeteDirectOptions ));
+// 	ThrowIfNil_(thePopup);
+// 	thePopup->AddListener(this);
+// 	
+// 	thePopup = dynamic_cast<LPopupButton *> (mEventPane->FindPaneByID( item_AeteReplyOptions ));
+// 	ThrowIfNil_(thePopup);
+// 	thePopup->AddListener(this);
+// 	
+// 	thePopup = dynamic_cast<LPopupButton *> (mEventPane->FindPaneByID( item_AeteOtherOptions ));
+// 	ThrowIfNil_(thePopup);
+// 	thePopup->AddListener(this);
+// 	
+// 	thePopup = dynamic_cast<LPopupButton *> (mClassPane->FindPaneByID( item_AetePropertyOptions ));
+// 	ThrowIfNil_(thePopup);
+// 	thePopup->AddListener(this);
+	
 }
 
 
@@ -400,36 +470,52 @@ CAete_EditorWindow::TakeOffDuty()
 void
 CAete_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam ) 
 {
-	SInt32 index;
+	SInt32 newIndex, oldIndex;
 	
 	switch (inMessage) {
 		
 		case item_AeteSuitePopup:
-		index = mSuitesPopup->GetValue();
-		if (index > 0) {
-			mAete->SetSuiteIndex(index);
-			InstallSuiteInfo();
+		newIndex = mSuitesPopup->GetValue();
+		if (newIndex > 0) {
+			mAete->SetSuiteIndex(newIndex);
+			InstallSuiteValues();
 			InstallPanelValues();
 		} 
 		break;
 		
 		case item_AetePanelController:
-		index = *(SInt32 *) ioParam;
+		newIndex = *(SInt32 *) ioParam;
 		RetrievePanelValues();
-		mCurrentPanel = index;
+		mCurrentPanel = newIndex;
 		InstallPanelValues();
 		UpdateSlider(item_AeteItemSlider, 0, 0);
 		break;
 		
 		case item_AeteItemSlider:
-		case item_AeteOtherSlider:
-		case item_AetePropertySlider:
-		case item_AeteElementSlider:
-		case item_AeteEnumSlider:
-		index = *(SInt32 *) ioParam;
+		newIndex = *(SInt32 *) ioParam;
 		RetrievePanelValues();
-		SetCurrentIndex(inMessage, index);
+		SetCurrentIndex(inMessage, newIndex);
 		InstallPanelValues();
+		break;
+		
+		case item_AeteOtherSlider:
+		newIndex = *(SInt32 *) ioParam;
+		oldIndex = GetCurrentIndex(inMessage);
+		if (newIndex != oldIndex) {
+			RetrievePanelValues();
+			SetCurrentIndex(inMessage, newIndex);
+			CAeteParameter * theParameter = static_cast<CAeteParameter *>( FindCurrentObject( kind_AeteParameter ) );
+			InstallParameterValues(theParameter);
+		} 
+		break;
+		
+		case item_AetePropertySlider:
+		break;
+		
+		case item_AeteElementSlider:
+		break;
+		
+		case item_AeteEnumSlider:
 		break;
 		
 	}
@@ -452,7 +538,7 @@ CAete_EditorWindow::InstallAete(Handle inHandle)
 	
 	FillSuitePopup();
 	InstallResourceInfo();
-	InstallSuiteInfo();
+	InstallSuiteValues();
 	InstallPanelValues();
 }
 
@@ -495,6 +581,74 @@ CAete_EditorWindow::FillSuitePopup()
 		}
 	}
 	mSuitesPopup->SetMacMenuH(theMenuH);
+}
+
+
+// ---------------------------------------------------------------------------
+//  GetCurrentIndex												[public]
+// ---------------------------------------------------------------------------
+
+SInt32
+CAete_EditorWindow::GetCurrentIndex(SInt32 inType)
+{	
+	SInt32	index = 0;
+	
+	switch (inType) {
+		case item_AeteItemSlider: 
+		CAeteSuite * theSuite = static_cast<CAeteSuite *>( FindCurrentObject( kind_AeteSuite ) );
+		if (theSuite) {
+			switch (mCurrentPanel) {
+				case mpv_AeteEvent:
+				index = theSuite->GetEventIndex();
+				break;
+				
+				case mpv_AeteClass:
+				index = theSuite->GetClassIndex();
+				break;
+				
+				case mpv_AeteCompOp:
+				index = theSuite->GetCompOpIndex();
+				break;
+				
+				case mpv_AeteEnum:
+				index = theSuite->GetEnumerationIndex();
+				break;
+			}	
+		}
+		break;
+		
+		case item_AeteOtherSlider:
+		CAeteEvent * theEvent = static_cast<CAeteEvent *>( FindCurrentObject( kind_AeteEvent ) );
+		if (theEvent) {
+			index = theEvent->GetParameterIndex();
+		}
+		break;
+		
+		case item_AetePropertySlider: {
+			CAeteClass * theClass = static_cast<CAeteClass *>( FindCurrentObject( kind_AeteClass ) );
+			if (theClass) {
+				index = theClass->GetPropertyIndex();
+			}
+			break;
+		}
+		
+		case item_AeteElementSlider: {
+			CAeteClass * theClass = static_cast<CAeteClass *>( FindCurrentObject( kind_AeteClass ) );
+			if (theClass) {
+				index = theClass->GetElementIndex();
+			}
+			break;
+		}
+		
+		case item_AeteEnumSlider:
+		CAeteEnumeration * theEnum = static_cast<CAeteEnumeration *>( FindCurrentObject( kind_AeteEnum ) );
+		if (theEnum) {
+			index = theEnum->GetEnumeratorIndex();
+		}
+		break;
+		
+	}
+	return index;
 }
 
 
@@ -588,7 +742,19 @@ CAete_EditorWindow::FindCurrentObject(SInt8 inKind)
 			CAeteEvent * theEvent;
 			index = theSuite->GetEventIndex();
 			if (theSuite->GetEvents()->FetchItemAt(index, theEvent)) {
-				theObj = (void *) theEvent;
+				switch (inKind) {
+					case kind_AeteEvent:
+					theObj = (void *) theEvent;
+					break;
+					
+					case kind_AeteParameter:
+					CAeteParameter * theParameter;
+					index = theEvent->GetParameterIndex();
+					if (theEvent->GetParameters()->FetchItemAt(index, theParameter)) {
+						theObj = (void *) theParameter;
+					} 
+					break;	
+				}
 			} 
 			break;
 			
@@ -687,11 +853,11 @@ CAete_EditorWindow::InstallResourceInfo()
 
 
 // ---------------------------------------------------------------------------
-//  InstallSuiteInfo												[public]
+//  InstallSuiteValues												[public]
 // ---------------------------------------------------------------------------
 
 void
-CAete_EditorWindow::InstallSuiteInfo()
+CAete_EditorWindow::InstallSuiteValues()
 {
 	Str255		theString, theName, theDescription;
 	UInt16		theLevel = 0, theVersion = 0;
@@ -801,6 +967,7 @@ CAete_EditorWindow::InstallEventValues(CAeteEvent * inEvent)
 		mEventPane->Show();
 	} else {
 		mEventPane->Hide();
+		return;
 	}
 	
 	theEditText = dynamic_cast<LEditText *> (mEventPane->FindPaneByID( item_AeteEventName ));
@@ -831,6 +998,8 @@ CAete_EditorWindow::InstallEventValues(CAeteEvent * inEvent)
 	ThrowIfNil_( theEditText );
 	theEditText->SetDescriptor(theDirectDescription);
 
+	InstallFlags(item_AeteDirectOptions, theDirectFlags);
+
 	// Reply
 	theEditText = dynamic_cast<LEditText *> (mEventPane->FindPaneByID( item_AeteReplyType ));
 	ThrowIfNil_( theEditText );
@@ -841,6 +1010,8 @@ CAete_EditorWindow::InstallEventValues(CAeteEvent * inEvent)
 	ThrowIfNil_( theEditText );
 	theEditText->SetDescriptor(theReplyDescription);
 	
+	InstallFlags(item_AeteReplyOptions, theReplyFlags);
+
 	// Current parameter
 	theTGB = dynamic_cast<LTextGroupBox *> (mEventPane->FindPaneByID( item_AeteOtherBox ));
 
@@ -906,6 +1077,8 @@ CAete_EditorWindow::InstallParameterValues(CAeteParameter*	inParameter)
 	ThrowIfNil_( theEditText );
 	theEditText->SetDescriptor(theDescription);
 	
+	InstallFlags(item_AeteOtherOptions, theFlags);
+
 }
 
 
@@ -933,6 +1106,7 @@ CAete_EditorWindow::InstallClassValues(CAeteClass * inClass)
 		mClassPane->Show();
 	} else {
 		mClassPane->Hide();
+		return;
 	}
 		
 	theEditText = dynamic_cast<LEditText *> (mClassPane->FindPaneByID( item_AeteClassName ));
@@ -1030,6 +1204,8 @@ CAete_EditorWindow::InstallPropertyValues(CAeteProperty *	inProperty)
 	ThrowIfNil_( theEditText );
 	theEditText->SetDescriptor(theDescription);
 
+	InstallFlags(item_AetePropertyOptions, theFlags);
+
 }
 
 
@@ -1086,6 +1262,7 @@ CAete_EditorWindow::InstallCompOpValues(CAeteCompOp * inCompOp)
 		mCompOpPane->Show();
 	} else {
 		mCompOpPane->Hide();
+		return;
 	}
 	
 	theEditText = dynamic_cast<LEditText *> (mCompOpPane->FindPaneByID( item_AeteCompName ));
@@ -1125,8 +1302,13 @@ CAete_EditorWindow::InstallEnumerationValues(CAeteEnumeration * inEnum)
 		mEnumerationPane->Show();
 	} else {
 		mEnumerationPane->Hide();
+		return;
 	}
 	
+	enumerator.name[0] = 0;
+	enumerator.type = 0;
+	enumerator.description[0] = 0;
+
 	theEditText = dynamic_cast<LEditText *> (mEnumerationPane->FindPaneByID( item_AeteEnumerationID ));
 	ThrowIfNil_( theEditText );
 	UMiscUtils::OSTypeToPString(theID, theString);
@@ -1136,17 +1318,16 @@ CAete_EditorWindow::InstallEnumerationValues(CAeteEnumeration * inEnum)
 	theTGB = dynamic_cast<LTextGroupBox *> (mEnumerationPane->FindPaneByID( item_AeteEnumBox ));
 	
 	if ( inEnum && inEnum->GetEnumerators()->FetchItemAt(index, enumerator) ) {
-		InstallEnumeratorValues( & enumerator);
 		theTGB->Enable();
 		theValue = inEnum->GetEnumeratorIndex();
 		theTotal = inEnum->GetEnumerators()->GetCount();
 	} else {
-		InstallEnumeratorValues(NULL);
 		theTGB->Disable();
 		theValue = 0;
 		theTotal = 0;
 	}
 	
+	InstallEnumeratorValues(enumerator);
 	UpdateSlider(item_AeteEnumSlider, theValue, theTotal);
 
 }
@@ -1157,34 +1338,27 @@ CAete_EditorWindow::InstallEnumerationValues(CAeteEnumeration * inEnum)
 // ---------------------------------------------------------------------------
 
 void
-CAete_EditorWindow::InstallEnumeratorValues(AeteEnumerator * inEnumerator)
+CAete_EditorWindow::InstallEnumeratorValues(AeteEnumerator inEnumerator)
 {
 	Str255			theString;
 	LEditText *		theEditText;
-	Boolean			disableIt = false;
 	
 	theString[0] = 0;
-	
-	if (!inEnumerator) {
-		inEnumerator->name[0] = 0;
-		inEnumerator->description[0] = 0;
-		disableIt = true;
-	}
-	
+		
 	theEditText = dynamic_cast<LEditText *> (mEnumerationPane->FindPaneByID( item_AeteEnumName ));
 	ThrowIfNil_( theEditText );
-	theEditText->SetDescriptor(inEnumerator->name);
+	theEditText->SetDescriptor(inEnumerator.name);
 
 	theEditText = dynamic_cast<LEditText *> (mEnumerationPane->FindPaneByID( item_AeteEnumType ));
 	ThrowIfNil_( theEditText );
-	if (!disableIt) {
-		UMiscUtils::OSTypeToPString(inEnumerator->type, theString);
+	if (inEnumerator.type != 0) {
+		UMiscUtils::OSTypeToPString(inEnumerator.type, theString);
 	} 
 	theEditText->SetDescriptor(theString);
 
 	theEditText = dynamic_cast<LEditText *> (mEnumerationPane->FindPaneByID( item_AeteEnumDescr ));
 	ThrowIfNil_( theEditText );
-	theEditText->SetDescriptor(inEnumerator->description);
+	theEditText->SetDescriptor(inEnumerator.description);
 }
 
 
@@ -1631,21 +1805,97 @@ CAete_EditorWindow::UpdateSlider(SInt32 inSliderID, SInt32 inValue, SInt32 inTot
 	
 	if (!theSlider || !theIndicator) return;
 	
+	// Set the slider
 	if (inTotal > 1) {
 		theSlider->SetMinValue(1);
 		theSlider->SetValue(inValue);
 		theSlider->SetMaxValue(inTotal);
-		SetIndicator(theIndicator, inValue, inTotal);
 		theSlider->Show();
-		theIndicator->Show();
 	} else {
 		theSlider->Hide();
-		if (inTotal == 0) {
-			theIndicator->Hide();
-		}
+	}
+	// Set the indicator
+	if (inTotal == 0) {
+		theIndicator->Hide();
+	} else {
+		SetIndicator(theIndicator, inValue, inTotal);
+		theIndicator->Show();
 	}
 }
 
 
+// ---------------------------------------------------------------------------
+//  InstallFlags													[public]
+// ---------------------------------------------------------------------------
+
+void
+CAete_EditorWindow::InstallFlags(SInt32 inKind, UInt16 inFlags)
+{
+	SInt32			theCount, i, val;
+	MenuHandle		theMenuH;
+	LPopupButton *	thePopup;
+	Boolean			markIt;
+	
+	switch (inKind) {
+		case item_AeteDirectOptions:
+		thePopup = dynamic_cast<LPopupButton *> (mEventPane->FindPaneByID( inKind ));
+		ThrowIfNil_(thePopup);
+		theMenuH = thePopup->GetMacMenuH();
+		theCount = sizeof(AeteDirectFlag)/sizeof(UInt16);
+		for ( i = 0; i < theCount; i++) {
+			val = inFlags & (1 << AeteDirectFlag[i]);
+			
+			markIt =  ( val > 0 );
+			
+			::MacCheckMenuItem(theMenuH, i+2, markIt );
+		}
+		break;
+		
+		case item_AeteReplyOptions:
+		thePopup = dynamic_cast<LPopupButton *> (mEventPane->FindPaneByID( inKind ));
+		ThrowIfNil_(thePopup);
+		theMenuH = thePopup->GetMacMenuH();
+		theCount = sizeof(AeteReplyFlag)/sizeof(UInt16);
+		for ( i = 0; i < theCount; i++) {
+			::MacCheckMenuItem(theMenuH, i+2, ( (inFlags & (1 << AeteReplyFlag[i])) > 0 )? 1:0 );
+		}
+		break;
+		
+		case item_AeteOtherOptions:
+		thePopup = dynamic_cast<LPopupButton *> (mEventPane->FindPaneByID( inKind ));
+		ThrowIfNil_(thePopup);
+		theMenuH = thePopup->GetMacMenuH();
+		theCount = sizeof(AeteOtherFlag)/sizeof(UInt16);
+		for ( i = 0; i < theCount; i++) {
+			::MacCheckMenuItem(theMenuH, i+2, ( (inFlags & (1 << AeteOtherFlag[i])) > 0 )? 1:0 );
+		}
+		break;
+		
+		case item_AetePropertyOptions:
+		thePopup = dynamic_cast<LPopupButton *> (mClassPane->FindPaneByID( inKind ));
+		ThrowIfNil_(thePopup);
+		theMenuH = thePopup->GetMacMenuH();
+		theCount = sizeof(AetePropertyFlag)/sizeof(UInt16);
+		for ( i = 0; i < theCount; i++) {
+			::MacCheckMenuItem(theMenuH, i+2, ( (inFlags & (1 << AetePropertyFlag[i])) > 0 )? 1:0 );
+		}
+		break;
+		
+	}
+	
+// 	thePopup->SetValue(1);
+}
 
 
+// ---------------------------------------------------------------------------
+//  RetrieveFlags													[public]
+// ---------------------------------------------------------------------------
+
+UInt16
+CAete_EditorWindow::RetrieveFlags(SInt32 inKind)
+{
+	UInt16	theFlags = 0;
+	
+	
+	return theFlags;
+}

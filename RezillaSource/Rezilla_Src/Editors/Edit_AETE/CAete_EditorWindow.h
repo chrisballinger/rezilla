@@ -60,30 +60,6 @@ public:
 	
 	void				InstallAete(Handle inHandle);
 	void				RetrieveAete(CAeteStream * outStream);
-	
-	void				FillSuitePopup();
-	
-	void				InstallResourceInfo();
-	void				InstallSuiteInfo();
-	void				InstallPanelValues();
-	void				InstallEventValues(CAeteEvent * inEvent);
-	void				InstallParameterValues(CAeteParameter* inParameter);
-	void				InstallClassValues(CAeteClass * inClass);
-	void				InstallPropertyValues(CAeteProperty * inProperty);
-	void				InstallElementValues(CAeteElement * inElement);
-	void				InstallCompOpValues(CAeteCompOp * inCompOp);
-	void				InstallEnumerationValues(CAeteEnumeration * inEnum);
-	void				InstallEnumeratorValues(AeteEnumerator * inEnumerator);
-
-	void *				FindCurrentObject(SInt8 inKind);
-
-	void				RetrieveResourceInfo();
-	void				RetrieveSuiteInfo();
-	void				RetrievePanelValues();
-	void				RetrieveEventValues();
-	void				RetrieveClassValues();
-	void				RetrieveCompOpValues();
-	void				RetrieveEnumerationValues();
 		
 
 	static LMenu		*sAeteMenu;
@@ -108,8 +84,36 @@ protected:
 private:
 	void				SetIndicator(LStaticText * inIndicator, SInt32 inValue, SInt32 inTotal);
 	void				UpdateSlider(SInt32 inSliderID, SInt32 inValue, SInt32 inTotal);
+	SInt32				GetCurrentIndex(SInt32 inType);
 	void				SetCurrentIndex(SInt32 inType, SInt32 inIndex);
+	void				MakeListeners();
 	
+	void *				FindCurrentObject(SInt8 inKind);
+
+	void				FillSuitePopup();
+	
+	void				InstallResourceInfo();
+	void				InstallSuiteValues();
+	void				InstallPanelValues();
+	void				InstallEventValues(CAeteEvent * inEvent);
+	void				InstallParameterValues(CAeteParameter* inParameter);
+	void				InstallClassValues(CAeteClass * inClass);
+	void				InstallPropertyValues(CAeteProperty * inProperty);
+	void				InstallElementValues(CAeteElement * inElement);
+	void				InstallCompOpValues(CAeteCompOp * inCompOp);
+	void				InstallEnumerationValues(CAeteEnumeration * inEnum);
+	void				InstallEnumeratorValues(AeteEnumerator inEnumerator);
+	void				InstallFlags(SInt32 inKind, UInt16 inFlags);
+	
+	void				RetrieveResourceInfo();
+	void				RetrieveSuiteInfo();
+	void				RetrievePanelValues();
+	void				RetrieveEventValues();
+	void				RetrieveClassValues();
+	void				RetrieveCompOpValues();
+	void				RetrieveEnumerationValues();
+	UInt16				RetrieveFlags(SInt32 inKind);
+
 };
 
 
