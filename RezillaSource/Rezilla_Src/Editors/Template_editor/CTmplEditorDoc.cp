@@ -110,7 +110,7 @@ CTmplEditorDoc::Initialize()
 	if (mRezObj != nil) {
 		Handle rezData = mRezObj->GetData();
 		if (rezData != nil) {
-			mTmplEditWindow->ParseWithTemplate(rezData);						
+			mTmplEditWindow->ParseDataWithTemplate(rezData);						
 		} 
 	} 
 	
@@ -254,7 +254,7 @@ CTmplEditorDoc::AskSaveChanges(
 Handle
 CTmplEditorDoc::GetModifiedResource() 
 {
-	return mTmplEditWindow->ReadValues();
+	return mTmplEditWindow->RetrieveDataWithTemplate();
 }
 
 
