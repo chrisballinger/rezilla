@@ -2,7 +2,7 @@
 // CAete_EditorWindow.cp
 // 
 //                       Created: 2004-07-01 08:42:37
-//             Last modification: 2005-01-24 14:47:09
+//             Last modification: 2005-01-26 07:11:37
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -460,8 +460,9 @@ CAete_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 	switch (inMessage) {
 		
 		case item_AeteSuitePopup:
-		newIndex = mSuitesPopup->GetValue();
-		if (newIndex > 0) {
+		newIndex = *(SInt32 *) ioParam;
+		oldIndex = GetCurrentIndex(kind_AeteSuite);
+		if (newIndex != oldIndex) {
 			RetrieveSuiteValues();
 			mAete->SetSuiteIndex(newIndex);
 			InstallSuiteValues();
@@ -536,6 +537,19 @@ CAete_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		
 		
 		case item_AeteEnumSlider:
+		AeteEnumerator		enumerator;
+		CAeteEnumeration *	theEnum ;
+		
+		theEnum = static_cast<CAeteEnumeration *>( FindCurrentObject( kind_AeteEnum ) );
+		newIndex = *(SInt32 *) ioParam;
+		oldIndex = GetCurrentIndex(kind_AeteEnumerator);
+		if (newIndex != oldIndex) {
+			RetrieveEnumeratorValues(enumerator);
+			theEnum->SetEnumerator(oldIndex, enumerator);
+			SetCurrentIndex(kind_AeteEnumerator, newIndex);
+			theEnum->GetEnumerator(newIndex, enumerator);
+			InstallEnumeratorValues(enumerator);
+		} 
 		break;
 		
 	}
@@ -584,6 +598,10 @@ CAete_EditorWindow::GetCurrentIndex(SInt8 inKind)
 	SInt32	index = 0;
 	
 	switch (inKind) {
+		case kind_AeteSuite:
+		index = mAete->GetSuiteIndex();
+		break;
+		
 		case kind_AeteEvent: 
 		case kind_AeteClass: 
 		case kind_AeteCompOp: 
