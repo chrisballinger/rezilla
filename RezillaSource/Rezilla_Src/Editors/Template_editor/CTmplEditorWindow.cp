@@ -29,7 +29,7 @@
 #include <LStaticText.h>
 #include <LIconPane.h>
 #include <LEditText.h>
-#include <LUndoer.h>
+#include <LTextGroupBox.h>
 #include <UExtractFromAEDesc.h>
 #include <UAppleEventsMgr.h>
 #include <UCursor.h>
@@ -103,6 +103,8 @@ CTmplEditorWindow::~CTmplEditorWindow()
 void
 CTmplEditorWindow::FinishCreateSelf()
 {	
+	SDimension16	theFrame;
+
 	mCurrFirstID		= 1;
 	mCurrentID			= mCurrFirstID;
 	mItemsCount			= 0;
@@ -131,6 +133,8 @@ CTmplEditorWindow::FinishCreateSelf()
 	// Make the window a listener to the prefs object
 	CRezillaApp::sPrefs->AddListener(this);
 
+	mContentsView->GetFrameSize(theFrame);
+
 	// Label fields basic values
 	mStaticPaneInfo.paneID			= 0;
 	mStaticPaneInfo.width			= kTmplLabelWidth;
@@ -146,7 +150,7 @@ CTmplEditorWindow::FinishCreateSelf()
 	
 	// Edit fields basic values
 	mEditPaneInfo.paneID			= mCurrentID;
-	mEditPaneInfo.width				= kTmplEditWidth;
+	mEditPaneInfo.width				= theFrame.width - kTmplLeftMargin - kTmplLabelWidth - kTmplHorizSep - 10;
 	mEditPaneInfo.height			= kTmplEditHeight;
 	mEditPaneInfo.visible			= true;
 	mEditPaneInfo.enabled			= true;
@@ -168,6 +172,7 @@ CTmplEditorWindow::FinishCreateSelf()
 	mRgvPaneInfo.bindings.right		= false;
 	mRgvPaneInfo.bindings.bottom	= false;
 	mRgvPaneInfo.userCon			= 0;
+	mRgvPaneInfo.superView			= mContentsView;
 	
 	// Radio buttons basic values
 	mRadioPaneInfo.paneID			= 0;
@@ -180,6 +185,19 @@ CTmplEditorWindow::FinishCreateSelf()
 	mRadioPaneInfo.bindings.right	= false;
 	mRadioPaneInfo.bindings.bottom	= false;
 	mRadioPaneInfo.userCon			= 0;
+
+	// Rectangle basic values
+	mRectPaneInfo.paneID			= 0;
+	mRectPaneInfo.width				= kTmplRectWidth;
+	mRectPaneInfo.height			= kTmplRectHeight;
+	mRectPaneInfo.visible			= true;
+	mRectPaneInfo.enabled			= true;
+	mRectPaneInfo.bindings.left		= true;
+	mRectPaneInfo.bindings.top		= true;
+	mRectPaneInfo.bindings.right	= false;
+	mRectPaneInfo.bindings.bottom	= false;
+	mRectPaneInfo.userCon			= 0;
+	mRectPaneInfo.superView			= mContentsView;
 
 // 	// Attach an LUndoer to each of the subpanes
 // 	mHexDataWE->AddAttachment( new LUndoer );
@@ -377,6 +395,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 	UInt32	theUInt32;
 	Boolean	theBool;
 	OSType	theOSType;
+	UInt8	i;
 	
 	// Store the type in the userCon field
 	oldYCoord = mYCoord;
@@ -393,19 +412,26 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 		break;
 
 		case 'BBIT':
-		// 
+		// Binary bit (there must be 8 or an even multiple of 8 of these).
 		*mRezStream >> theChar;
-		
+		// Edit the first bit
 		AddStaticField(inLabelString);
-// 		AddBooleanControls();
-		
+		AddBooleanControls( (theChar & (1 << 0)), inType, tmpl_titleOnOff);	
+		for (i = 1; i < 8 ; i++) {
+			// Consume the next 7 pairs in the template to get the
+			// corresponding labels.
+			*mTemplateStream >> theString;
+			*mTemplateStream >> theOSType;
+			AddStaticField(theString);
+			AddBooleanControls( (theChar & (1 << i)), inType, tmpl_titleOnOff);	
+		}
 		break;
 
 		case 'BOOL':
 		// Boolean (two bytes: 0x0100 for true, 0x0000 for false)
 		*mRezStream >> theBool;
 		AddStaticField(inLabelString);
-		AddBooleanControls( (Boolean) theSInt16, inType, tmpl_titleYesNo);		
+		AddBooleanControls( theBool, inType, tmpl_titleYesNo);		
 		// BOOL is two bytes long, so let's consume one more byte
 		*mRezStream >> theBool;
 		break;
@@ -588,16 +614,19 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 		break;
 
 		case 'RECT': {
-		// An 8-byte rectangle
-		SInt16 theTop, theLeft, theBottom, theRight;
-		*mRezStream >> theTop;
-		*mRezStream >> theLeft;
-		*mRezStream >> theBottom;
-		*mRezStream >> theRight;
-		AddStaticField(inLabelString);
-		AddRectField(theTop, theLeft, theBottom, theRight, inType, rPPob_TmplEditorWindow + mCurrentID, 255, 0, 
-					 UKeyFilters::SelectTEKeyFilter(keyFilter_Integer));
-		break;
+			// An 8-byte rectangle
+			SInt16 theTop, theLeft, theBottom, theRight;
+			*mRezStream >> theTop;
+			*mRezStream >> theLeft;
+			*mRezStream >> theBottom;
+			*mRezStream >> theRight;
+			
+			mYCoord += kTmplRectVertSkip;
+			AddStaticField(inLabelString);
+			mYCoord -= kTmplRectVertSkip;
+			AddRectField(theTop, theLeft, theBottom, theRight, inType, rPPob_TmplEditorWindow + mCurrentID, 255, 0, 
+						 UKeyFilters::SelectTEKeyFilter(keyFilter_Integer));
+			break;
 		}
 
 		case 'TNAM':
@@ -730,33 +759,36 @@ CTmplEditorWindow::AddBooleanControls(Boolean inValue,
 	mRgvPaneInfo.top = mYCoord - 2;
 	mRgvPaneInfo.paneID = mCurrentID;
 
-	LRadioGroupView * theRGV = new LRadioGroupView(mEditPaneInfo, theViewInfo);
-	ThrowIfNil_(theRGV);
-
-	// Store the template's type in the userCon field
-	theRGV->SetUserCon(inType);
+// 	LRadioGroupView * theRGV = new LRadioGroupView(mEditPaneInfo, theViewInfo);
+// 	ThrowIfNil_(theRGV);
+// 
+// 	// Store the template's type in the userCon field
+// 	theRGV->SetUserCon(inType);
 	
 	mCurrentID++;
 
 	// Create two radiobuttons in this group
+	//     "Yes/On" radiobutton
 	mRadioPaneInfo.left = 2;
-	mRadioPaneInfo.top = 2;
+	mRadioPaneInfo.top = mYCoord + 2;
 	mRadioPaneInfo.paneID = mCurrentID;
-	mRadioPaneInfo.superView = theRGV;
+	mRadioPaneInfo.superView = mContentsView;
 
 	theRadio = new LStdRadioButton(mRadioPaneInfo, rPPob_TmplEditorWindow + mCurrentID, 
 								   inValue, mLabelTraitsID, (UInt8 *)(inTitleType ? "\pOn":"\pYes"));
 	ThrowIfNil_(theRadio);
 	
 	mCurrentID++;
+
+	//     "No/Off" radiobutton
 	mRadioPaneInfo.left += kTmplRadioWidth + kTmplHorizSep;
 	mRadioPaneInfo.paneID = mCurrentID;
 
 	theRadio = new LStdRadioButton(mRadioPaneInfo, rPPob_TmplEditorWindow + mCurrentID, 
-								   inValue, mLabelTraitsID, (UInt8 *)(inTitleType ? "\pOff":"\pNo"));
+								   1 - inValue, mLabelTraitsID, (UInt8 *)(inTitleType ? "\pOff":"\pNo"));
 	ThrowIfNil_(theRadio);
 	
-	theRGV->SetCurrentRadioID( inValue ?  mCurrentID - 1 : mCurrentID );
+// 	theRGV->SetCurrentRadioID( inValue ?  mCurrentID - 1 : mCurrentID );
 	
 	// Advance the counters
 	mYCoord += mRgvPaneInfo.height + kTmplVertSkip;
@@ -801,6 +833,10 @@ void
 CTmplEditorWindow::AddWasteField(OSType inType)
 {
 	SViewInfo	theViewInfo;
+	theViewInfo.imageSize.width = theViewInfo.imageSize.height = 0 ;
+	theViewInfo.scrollPos.h = theViewInfo.scrollPos.v = 0;
+	theViewInfo.scrollUnit.h = theViewInfo.scrollUnit.v = 1;
+	theViewInfo.reconcileOverhang = false;
 	
 	mEditPaneInfo.left = kTmplLeftMargin + mIndent;
 	mEditPaneInfo.top = mYCoord;
@@ -823,6 +859,13 @@ CTmplEditorWindow::AddWasteField(OSType inType)
 // ---------------------------------------------------------------------------
 // 		AddRectField(theTop, theLeft, theBottom, theRight, inType, rPPob_TmplEditorWindow + mCurrentID, 255, 0, 
 // 					 UKeyFilters::SelectTEKeyFilter(keyFilter_Integer));
+// LTextGroupBox(
+// 								const SPaneInfo&	inPaneInfo,
+// 								const SViewInfo&	inViewInfo,
+// 								Boolean				inPrimary = true,
+// 								ResIDT				inTextTraitsID = 0,
+// 								ConstStringPtr		inTitle = Str_Empty,
+// 								ClassIDT			inImpID = imp_class_ID);
 
 void
 CTmplEditorWindow::AddRectField(SInt16 inTop, 
@@ -835,13 +878,51 @@ CTmplEditorWindow::AddRectField(SInt16 inTop,
 								UInt8 inAttributes,
 								TEKeyFilterFunc inKeyFilter)
 {
+	LTextGroupBox * theTGB;
+	SViewInfo	theViewInfo;
+	theViewInfo.imageSize.width = theViewInfo.imageSize.height = 0 ;
+	theViewInfo.scrollPos.h = theViewInfo.scrollPos.v = 0;
+	theViewInfo.scrollUnit.h = theViewInfo.scrollUnit.v = 1;
+	theViewInfo.reconcileOverhang = false;
 
-// 	ThrowIfNil_(  );
+	mRectPaneInfo.top = mYCoord;
 
-	// Store the template's type in the userCon field
-	
+	// Top
+	mRectPaneInfo.left = kTmplLeftMargin + kTmplLabelWidth + kTmplHorizSep + mIndent;
+	mRectPaneInfo.paneID = mCurrentID;
+	theTGB = new LTextGroupBox(mRectPaneInfo, theViewInfo, true, mEditTraitsID, "\pTop");
+	ThrowIfNil_(theTGB);
+	theTGB->SetUserCon(inType);
+	mCurrentID++;
+
+	// Left
+	mRectPaneInfo.left += kTmplRectWidth + kTmplHorizSep + mIndent;
+	mRectPaneInfo.paneID = mCurrentID;
+	theTGB = new LTextGroupBox(mRectPaneInfo, theViewInfo, true, mEditTraitsID, "\pLeft");
+	ThrowIfNil_(theTGB);
+	theTGB->SetUserCon(inType);
+	mCurrentID++;
+
+
+	// Bottom
+	mRectPaneInfo.left += kTmplRectWidth + kTmplHorizSep + mIndent;
+	mRectPaneInfo.paneID = mCurrentID;
+	theTGB = new LTextGroupBox(mRectPaneInfo, theViewInfo, true, mEditTraitsID, "\pBottom");
+	ThrowIfNil_(theTGB);
+	theTGB->SetUserCon(inType);
+	mCurrentID++;
+
+
+	// Right
+	mRectPaneInfo.left += kTmplRectWidth + kTmplHorizSep + mIndent;
+	mRectPaneInfo.paneID = mCurrentID;
+	theTGB = new LTextGroupBox(mRectPaneInfo, theViewInfo, true, mEditTraitsID, "\pRight");
+	ThrowIfNil_(theTGB);
+	theTGB->SetUserCon(inType);
+	mCurrentID++;
+
 	// Advance the counters
-
+	mYCoord += mRectPaneInfo.height + kTmplVertSkip;
 }
 
 

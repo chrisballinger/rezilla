@@ -83,6 +83,7 @@ protected:
 	SPaneInfo			mStaticPaneInfo;
 	SPaneInfo			mRgvPaneInfo;
 	SPaneInfo			mRadioPaneInfo;
+	SPaneInfo			mRectPaneInfo;
 	LHandleStream *		mTemplateStream;
 	LHandleStream *		mRezStream;
 	ResIDT				mLabelTraitsID;
