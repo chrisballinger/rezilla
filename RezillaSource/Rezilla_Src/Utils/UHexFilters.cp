@@ -19,6 +19,9 @@
 #endif
 
 #include "UHexFilters.h"
+#include "CRezillaPrefs.h"
+#include "RezillaConstants.h"
+
 #include <PP_KeyCodes.h>
 
 #include <Script.h>
@@ -116,7 +119,7 @@ UHexFilters::HexadecimalField(
 //
 //		> Identify delete and cursor keys
 //		> Accept hexadecimal numbers (0 to 9, a to f and A to F)
-//		> Accept letters x and $
+//		> Accept letters x or $ (depending on kPref_editors_hexSymbol)
 //		> Reject all other printing characters
 //		> PassUp all other characters
 
@@ -158,7 +161,7 @@ UHexFilters::HexTemplateField(
 //
 //		> Identify delete and cursor keys
 //		> Accept hexadecimal numbers (0 to 9, a to f and A to F)
-//		> Accept letters x and $
+//		> Accept letters x or $ (depending on kPref_editors_hexSymbol)
 //		> Reject all other printing characters
 //		> PassUp all other characters
 
@@ -200,7 +203,7 @@ UHexFilters::HexTemplateField(
 //	Key Filter for Hexadecimal Integer characters
 //
 //		> Identify delete and cursor keys
-//		> Accept hexadecimal numbers (0 to 9, a to f and A to F)
+//		> Accept integer numbers (0 to 9) or dash
 //		> Reject all other printing characters
 //		> PassUp all other characters
 
@@ -241,7 +244,7 @@ UHexFilters::IntegerRangeField(
 //	Key Filter for Hexadecimal Integer characters
 //
 //		> Identify delete and cursor keys
-//		> Accept hexadecimal numbers (0 to 9, a to f and A to F)
+//		> Accept integer numbers (0 to 9) or dash
 //		> Reject all other printing characters
 //		> PassUp all other characters
 
@@ -348,8 +351,9 @@ UHexFilters::IsHexadecimalChar(UInt16 inChar)
 bool
 UHexFilters::IsHexTemplateChar(UInt16 inChar)
 {
-	return  (IsHexadecimalChar(inChar) ||
-			(inChar == 'x') || (inChar == '$'));
+	UInt16 val = (CRezillaPrefs::GetPrefValue(kPref_editors_hexSymbol) == hex_Symb0x) ? 'x':'$';
+	
+	return  (IsHexadecimalChar(inChar) || (inChar ==  val));
 }
 
 
