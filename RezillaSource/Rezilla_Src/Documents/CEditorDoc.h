@@ -2,7 +2,7 @@
 // CEditorDoc.h				
 // 
 //                       Created: 2004-02-23 17:57:59
-//             Last modification: 2004-11-21 21:25:35
+//             Last modification: 2004-12-07 08:43:25
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -60,6 +60,8 @@ public:
 	virtual void	DoRevert();
 
 	void			SelectMainWindow();
+
+	virtual StringPtr	GetDescriptor( Str255 outDescriptor ) const;
 
 	CRezObj *		GetRezObj() { return mRezObj; }
 	

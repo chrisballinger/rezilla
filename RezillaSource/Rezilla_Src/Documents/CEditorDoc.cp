@@ -2,7 +2,7 @@
 // CEditorDoc.cp
 // 
 //                       Created: 2003-05-04 19:16:00
-//             Last modification: 2004-11-22 09:10:58
+//             Last modification: 2004-12-07 08:43:37
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -366,6 +366,29 @@ CEditorDoc::DoSaveChanges()
 		} 		
 	} 
 }
+
+
+// ---------------------------------------------------------------------------
+//	¥ GetDescriptor													  [public]
+// ---------------------------------------------------------------------------
+//	Pass back the name of a Document
+
+StringPtr
+CEditorDoc::GetDescriptor(
+	Str255	outDescriptor) const
+{
+	if (mMainWindow != nil) {
+		// Use name of its window
+		mMainWindow->GetDescriptor(outDescriptor);
+	} else {
+		// No window, document name is empty string
+		outDescriptor[0] = 0;		
+	}
+
+	return outDescriptor;
+}
+
+
 
 
 // ---------------------------------------------------------------------------
