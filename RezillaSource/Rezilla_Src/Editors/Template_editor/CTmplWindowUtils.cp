@@ -21,8 +21,12 @@
 #include "CRezillaPrefs.h"
 #include "CRezObj.h"
 #include "CWasteEditView.h"
+#include "RezillaConstants.h"
+#include "UDialogBoxHandler.h"
+#include "UMessageDialogs.h"
 #include "UMiscUtils.h"
 
+#include <LPopupButton.h>
 #include <LStaticText.h>
 #include <LIconPane.h>
 
@@ -647,26 +651,124 @@ CTmplEditorWindow::SkipNextKeyCases(UInt16 inPreCount)
 		currMark = mTemplateStream->GetMarker();
 	}
 
-// 	if (!found) {
-// 		error = err_TmplCantFindKeyedSectionStart;
-// 	} 
-	
 	return error;
 }
 
 
 // ---------------------------------------------------------------------------
-//	¥ SelectValueFromKeyCases										[private]
+//	¥ SelectKeyValueFromKeyCases										[private]
 // ---------------------------------------------------------------------------
 
-Boolean
-CTmplEditorWindow::SelectValueFromKeyCases(Str255 inLabelString)
+OSErr
+CTmplEditorWindow::SelectKeyValueFromKeyCases(Str255 inLabelString,
+										   Str255 outKeyString)
 {
-	Boolean selected = false;
+	Str255			theString;
+	ResType			theType;
+	Boolean			selected = false;
+	Boolean 		inPickerLoop = true;
+	UInt16			countCases = 0;
+	OSErr			error = noErr;
+	Str255 * 		rightPtr;
+	SInt16			index = 1;
+	SInt32			currMark, totalLength = mTemplateStream->GetLength();
+
+	
+	StDialogBoxHandler	theHandler(rPPob_TmplKeyPickerPicker, this);
+	LDialogBox *		theDialog = theHandler.GetDialog();
+	Assert_(theDialog != nil);
+	
+	UMiscUtils::OSTypeToPString(mOwnerDoc->GetSubstType(), theString);
+	
+	LStaticText * theTypeField = dynamic_cast<LStaticText *>(theDialog->FindPaneByID( item_TmplKeyPickerType ));
+	ThrowIfNil_(theTypeField);
+	
+	LStaticText * theLabelField = dynamic_cast<LStaticText *>(theDialog->FindPaneByID( item_TmplKeyPickerLabel ));
+	ThrowIfNil_(theLabelField);
+	
+	LPopupButton * thePopup = dynamic_cast<LPopupButton *>(theDialog->FindPaneByID( item_TmplKeyPickerMenu ));
+	ThrowIfNil_(thePopup);
+	
+	theTypeField->SetDescriptor(theString);
+	theLabelField->SetDescriptor(inLabelString);
+
+	// Populate the popup with all the successive cases
+	currMark = mTemplateStream->GetMarker();
+	while (currMark < totalLength) {
+		*mTemplateStream >> theString;
+		*mTemplateStream >> theType;
+		if (theType != 'CASE') {
+			if (countCases == 0) {
+				error = err_TmplNoCaseInKeySection;
+				return error;
+			} else {
+				// We went too far. Reposition the stream marker.
+				mTemplateStream->SetMarker(currMark, streamFrom_Start);
+				break;
+			}
+		} 
+		countCases++;
+		
+		currMark = mTemplateStream->GetMarker();
+		index++;
+		if ( SplitCaseValue(theString, &rightPtr) ) {
+			thePopup->InsertMenuItem(theString, index, true);
+		} 
+	}
 	
 	// If there is only one CASE, choose it without asking
+	if (countCases == 1) {
+
+		
+		return error;
+	} 
+
 	
-	return selected;
+	while (inPickerLoop) {
+		
+		theDialog->Show();
+		
+		MessageT theMessage;
+		while (true) {
+			
+			theMessage = theHandler.DoDialog();
+			
+			if (msg_OK == theMessage) {
+				theTypeField->GetDescriptor(theString);
+				// Check that both fields are not empty
+				if ( !theString[0] ) {
+					UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("TypeFieldIsEmpty"), rPPob_SimpleMessage);
+				} else {
+					break;
+				}
+			} else if (msg_Cancel == theMessage) {
+				inPickerLoop = false;
+				break;
+			} else if (msg_TmplKeyPickerMenu == theMessage) {
+				// Retrieve the menu item and write it in the edit field
+				index = thePopup->GetValue();
+				::GetMenuItemText( thePopup->GetMacMenuH(), thePopup->GetValue(), theString );
+				theTypeField->SetDescriptor(theString);
+				break;  // Breaks out from the inner 'while' but still in the inPickerLoop 'while'
+			} else if (msg_TypePickerField == theMessage) {
+				// If something is typed, set the popup to its first
+				// element (the empty string).
+				thePopup->SetValue(0);
+				break;  // Breaks out from the inner 'while' but still in the inPickerLoop 'while'
+			}
+		}
+		
+		// If the default button was hit, try to open the rezmaps
+		if (msg_OK == theMessage) {
+// 			UMiscUtils::PaddTypeIfNecessary(theString);
+// 			UMiscUtils::PStringToOSType(theString, mChosenType);
+			// Now get out of the outer 'while'
+			inPickerLoop = false;
+		} else {
+			error = userCanceledErr;
+		}
+	}
+	return error;
 }
 
 
