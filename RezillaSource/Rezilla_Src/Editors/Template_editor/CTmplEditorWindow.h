@@ -79,9 +79,6 @@ public:
 	
 	static void			InitPaneInfos();
 	
-	static Boolean		SplitCaseValue(Str255 inString, 
-									   Str255 ** outRightPtr);
-	
 	static UInt32		CountAllSubPanes(LView * inView);
 	
 	LHandleStream*		GetOutStream() { return mOutStream;}

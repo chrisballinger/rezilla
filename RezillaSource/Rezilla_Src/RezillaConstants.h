@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2005-03-10 15:27:16
+//             Last modification : 2005-03-12 12:00:08
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -1066,7 +1066,7 @@ const MessageT	msg_EditorModifiedItem			= FOUR_CHAR_CODE('EdMd');
 const MessageT	msg_MinusButton					= FOUR_CHAR_CODE('Mins');
 const MessageT	msg_PlusButton					= FOUR_CHAR_CODE('Plus');
 const MessageT	msg_TmplCasePopup				= FOUR_CHAR_CODE('Case');
-const MessageT	msg_TmplPopupField				= FOUR_CHAR_CODE('PopF');
+const MessageT	msg_PopupEditField				= FOUR_CHAR_CODE('PopF');
 // Icon editor
 const MessageT	msg_TargetViewClicked			= FOUR_CHAR_CODE('Tclk');
 const MessageT	msg_ImageDroppedOnTargetView	= FOUR_CHAR_CODE('IDrp');

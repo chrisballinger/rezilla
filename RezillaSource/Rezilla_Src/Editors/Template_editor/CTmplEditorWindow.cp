@@ -427,7 +427,7 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 					*mTemplateStream >> theType;
 				}
 
-				if ( SplitCaseValue(theString, &rightPtr) ) {
+				if ( UMiscUtils::SplitCaseValue(theString, &rightPtr) ) {
 					theEditText->SetDescriptor(*rightPtr);
 				} 
 				mTemplateStream->SetMarker(currMark, streamFrom_Start);
@@ -439,7 +439,7 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		}
 		
 		
-		case msg_TmplPopupField: {
+		case msg_PopupEditField: {
 			STmplBevelInfo	theBevelInfo = *((STmplBevelInfo *) ioParam);								
 			CTmplBevelButton *	theBevel;
 			LEditText *		theEditText;
@@ -455,7 +455,7 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 				resID = (ResIDT) theEditText->GetUserCon();
 				
 				GetIndString(theString, resID, choice);
-				if ( SplitCaseValue(theString, &rightPtr) ) {
+				if ( UMiscUtils::SplitCaseValue(theString, &rightPtr) ) {
 					theEditText->SetDescriptor(*rightPtr);
 				} 
 			} 
