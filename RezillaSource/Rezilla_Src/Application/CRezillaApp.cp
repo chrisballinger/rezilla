@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2004-12-11 07:10:32
+//             Last modification: 2004-12-28 14:51:54
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -31,11 +31,12 @@
 #include "UMessageDialogs.h"
 #include "UNavigationDialogs.h"
 
-// Classes for registration
+// Custom classes for registration
 #include "CAete_EditorWindow.h"
 #include "CBiDataWE.h"
 #include "CBroadcasterTableView.h"
 #include "CCategoriesListBox.h"
+#include "CColorPane.h"
 #include "CCompResultWindow.h"
 #include "CDraggableTargetView.h"
 #include "CDropStaticText.h"
@@ -46,6 +47,7 @@
 #include "CIcon_EditorWindow.h"
 #include "CPICT_EditorView.h"
 #include "CPICT_EditorWindow.h"
+#include "CPatternPane.h"
 #include "CPatternTargetView.h"
 #include "CRangeEditText.h"
 #include "CRezIconPane.h"
@@ -357,23 +359,22 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(CBiDataWE);
 	RegisterClass_(CBroadcasterTableView);
 	RegisterClass_(CCategoriesListBox);
+	RegisterClass_(CColorPane);
 	RegisterClass_(CCompResultWindow);
+	RegisterClass_(CDraggableTargetView);
 	RegisterClass_(CDropStaticText);
 	RegisterClass_(CDualDataView);
 	RegisterClass_(CEditTable);
 	RegisterClass_(CEditorWindow);
 	RegisterClass_(CHexDataSubView);
 	RegisterClass_(CHexEditorWindow);
-	RegisterClass_(CWindow_ColorIcon);
-	RegisterClass_(CWindow_Cursor);
-	RegisterClass_(CWindow_Family);
-	RegisterClass_(CWindow_Pattern);
-	RegisterClass_(CWindow_Picture);
 	RegisterClass_(CIcon_EditorView);
 	RegisterClass_(CIcon_EditorWindow);
 	RegisterClass_(CInspectorWindow);
 	RegisterClass_(CPICT_EditorView);
 	RegisterClass_(CPICT_EditorWindow);
+	RegisterClass_(CPatternPane);
+	RegisterClass_(CPatternTargetView);
 	RegisterClass_(CRangeEditText);
 	RegisterClass_(CRezIconPane);
 	RegisterClass_(CRezMapTable);
@@ -388,8 +389,11 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(CUtxt_EditorView);
 	RegisterClass_(CUtxt_EditorWindow);
 	RegisterClass_(CWasteEditView);
-	RegisterClass_(CDraggableTargetView);
-	RegisterClass_(CPatternTargetView);
+	RegisterClass_(CWindow_ColorIcon);
+	RegisterClass_(CWindow_Cursor);
+	RegisterClass_(CWindow_Family);
+	RegisterClass_(CWindow_Pattern);
+	RegisterClass_(CWindow_Picture);
 // #include "ABalloon.h"
 
 // 	RegisterClass_(ATag);
