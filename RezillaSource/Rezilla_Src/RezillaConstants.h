@@ -72,8 +72,8 @@ enum
 // Symbol used in templates to designate hexadecimal data
 enum
 {	
-	hex_Symb0x = 1,
-	hex_SymbDollar = 2
+	hex_SymbDollar = 1,
+	hex_Symb0x = 2
 };
 
 // Which case (lower or upper) for hexadecimal letters
