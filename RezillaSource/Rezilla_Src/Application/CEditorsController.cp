@@ -2,7 +2,7 @@
 // CEditorsController.cp					
 // 
 //                       Created: 2004-06-11 10:48:38
-//             Last modification: 2004-12-07 07:40:55
+//             Last modification: 2004-12-08 18:26:36
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -21,6 +21,7 @@ PP_Begin_Namespace_PowerPlant
 
 #include "CEditorsController.h"
 #include "CTEXT_EditorDoc.h"
+#include "CUtxt_EditorDoc.h"
 #include "CPICT_EditorDoc.h"
 #include "CSnd_EditorDoc.h"
 #include "CTemplatesController.h"
@@ -160,6 +161,7 @@ CEditorsController::HasEditorForType(ResType inType, ResType * substType)
 	switch (inType) {
 		case 'TEXT':
 		case 'styl':
+		case 'utxt':
 		case 'thng':
 		case 'thga':
 		case 'PICT':
@@ -198,6 +200,10 @@ CEditorsController::InvokeCustomEditor(CRezMapDoc* inRezMapDoc,
 
 		case 'TEXT':
 		  new CTEXT_EditorDoc( (LCommander *) inRezMapDoc, inSuperMap, inRezObj, 'TEXT', inReadOnly);
+		break;
+		
+		case 'utxt':
+		  new CUtxt_EditorDoc( (LCommander *) inRezMapDoc, inSuperMap, inRezObj, 'TEXT', inReadOnly);
 		break;
 		
 		case 'PICT':
