@@ -64,6 +64,8 @@ public:
 							CommandT			inCommand,
 							void*				ioParam);
 
+	virtual Boolean	HandleKeyPress( const EventRecord& inKeyEvent );
+
 	OSErr			ParseDataWithTemplate(Handle inHandle);
 	
 	OSErr			RetrieveDataWithTemplate();

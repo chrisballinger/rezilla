@@ -532,6 +532,73 @@ CTmplEditorWindow::ObeyCommand(
 }
 
 
+// ---------------------------------------------------------------------------
+//	¥ HandleKeyPress
+// ---------------------------------------------------------------------------
+
+Boolean
+CTmplEditorWindow::HandleKeyPress(
+	const EventRecord&	inKeyEvent)
+{
+	Boolean		keyHandled	 = true;
+	EKeyStatus	theKeyStatus = keyStatus_Input;
+	SInt16		theKey		 = (SInt16) (inKeyEvent.message & charCodeMask);
+	LCommander*	theTarget	 = GetTarget();
+	
+	if (inKeyEvent.modifiers & cmdKey) {	// Always pass up when the command
+		theKeyStatus = keyStatus_PassUp;	//   key is down
+	} else {
+		theKeyStatus = UKeyFilters::PrintingCharField(inKeyEvent);
+	}
+	
+	switch (theKeyStatus) {
+		
+		case keyStatus_TEDelete: 
+		if (mSelectedListItem != NULL) {
+			CTmplListItemView *	currListItemView;
+			CTmplListButton *	theMinusButton;
+			PaneIDT 			thePaneID;
+			ArrayIndexT			index;
+			
+			// Find the corresponding minus button
+			currListItemView = mSelectedListItem;
+			while (currListItemView->mPrevItem) {
+				currListItemView = currListItemView->mPrevItem;
+			}
+			// The ID of the minus button is located two positions before
+			// this one in the list of pane IDs. If it is not found in the 
+			// list, it means that we are removing an empty list item view
+			// and that there is no real control after that: in that case
+			// the minus button is next to last in the list.
+			thePaneID = currListItemView->mFirstItemID;
+			index = mPaneIDs.FetchIndexOf(thePaneID);
+			if (index == LArray::index_Bad) {
+				index = mPaneIDs.GetCount() + 1;		
+			}
+			mPaneIDs.FetchItemAt(index-2, thePaneID);
+			theMinusButton = dynamic_cast<CTmplListButton *>(this->FindPaneByID(thePaneID));
+			ThrowIfNil_(theMinusButton);
+			// Pass the data via a message
+			ListenToMessage(msg_TmplMinusButton, (void *) theMinusButton);
+		} 
+		break;
+		
+		case keyStatus_TECursor: 
+		switch (theKey) {
+			case char_LeftArrow:
+			case char_RightArrow:
+			case char_UpArrow:
+			case char_DownArrow:
+				break;
+		}
+		break;
+		
+	}
+	
+	return keyHandled;
+}
+
+
 #pragma mark -
 
 // ---------------------------------------------------------------------------
@@ -2646,7 +2713,6 @@ CTmplEditorWindow::RevertWithTemplate()
 {
 	OSErr			error = noErr;
 	SInt32			oldYCoord;
-	UInt32			theCount;
 	SDimension32	theSize;
 	
 	mContentsView->GetImageSize(theSize);
