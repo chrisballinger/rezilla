@@ -2,7 +2,7 @@
 // CTmplEditorWindow.h
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-09-28 07:20:34
+//             Last modification: 2004-09-29 07:50:50
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -269,7 +269,11 @@ private:
 	
 	void			KeyValueToString(ResType inType, Str255 keyString);
 	
-	OSErr			FindKeyStartForValue(Str255 keyString, SInt32 * outStart);
+	OSErr			KeyStringToValue(ResType inType, Str255 keyString);
+	
+	OSErr			FindKeyStartForValue(ResType inType, 
+										 Str255 keyString, 
+										 SInt32 * outStart);
 	
 	OSErr			FindMatchingKeyEnd(SInt32 * outEnd);
 	

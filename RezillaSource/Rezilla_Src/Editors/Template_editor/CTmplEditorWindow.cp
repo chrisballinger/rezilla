@@ -749,32 +749,32 @@ CTmplEditorWindow::ParseKeyedSection(ResType inType, Str255 inLabelString, LView
 	OSErr		error = noErr;
 	Str255		keyString;
 	SInt32		sectionStart;
-	Boolean		inDrawControls;
 	
 	// Get the key value
 	if (mRezStream->GetMarker() < mRezStream->GetLength()) {
 		KeyValueToString(inType, keyString);
-		inDrawControls = true;
 		// Skip all the CASE statements
 		SkipNextKeyCases(0);
 	} else {
 		error = SelectKeyValueFromKeyCases(inLabelString, keyString);
+		if (error == noErr) {
+			error = KeyStringToValue(inType, keyString);
+		}
 		if (error != noErr) {
 			return error;
 		}
-		inDrawControls = false;
 	}
 	
 	// Find the corresponding KEYB tag
-	error = FindKeyStartForValue(keyString, &sectionStart);
+	error = FindKeyStartForValue(inType, keyString, &sectionStart);
 	
 	if (error == noErr) {
 		// Parse the section
-		error = DoParseWithTemplate(sectionStart, inDrawControls, inContainer);
+		error = DoParseWithTemplate(sectionStart, true, inContainer);
 	} 
 
-	// NB: the following KEYB-KEYE segments (remaining cases) will be skipped  
-	// when met by the ParseDataForType() function.
+	// NB: the following KEYB-KEYE segments in the template stream (remaining
+	// cases) will be skipped when met by the ParseDataForType() function.
 	
 	return error;
 }
@@ -1103,8 +1103,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		break;
 
 		case 'KEYE':
-		// End of keyed segment. We shoould never reach here.
-		error = err_TmplUnexpectedTag;
+		// End of keyed segment. We should never reach here.
 		break;
 
 		case 'LBIT':
