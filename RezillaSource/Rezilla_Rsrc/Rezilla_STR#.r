@@ -1,7 +1,7 @@
 // ===========================================================================
 // Rezilla_STR#.r					
 //                       Created: 2004-02-28 22:51:23
-//             Last modification: 2005-01-17 21:08:06
+//             Last modification: 2005-03-15 18:19:59
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -315,6 +315,7 @@ resource 'STR#' (1603, "Script Codes") {
 		"System Script=-1",
 		"Current Script=-2",
 		"All Scripts=-3",
+		"-=",
 		"Arabic=4",
 		"Armenian=24",
 		"Bengali=13",
@@ -356,38 +357,43 @@ resource 'STR#' (1603, "Script Codes") {
 resource 'STR#' (1604, "Keyboard Glyphs") {
 	{	
 		"Natural Glyph=0",
-		"Tab Right=2",
-		"Tab Left=3",
-		"Enter=4",
-		"Space=9",
+		"-=",
+		"Blank=97",
+		"Caps Lock=99",
+		"Clear=28",
+		"Delete Left=23",
 		"Delete Right=10",
-		"Return=11",
+		"Enter=4",
+		"Escape=27",
 		"Nonmarking Return=13",
+		"Return=11",
+		"Space=9",
+		"Tab Left=3",
+		"Tab Right=2",
+		"-=",
 		"Pencil=15",
-		"Downward Arrow Dashed=16",
 		"Checkmark=18",
 		"Diamond=19",
 		"Apple Logo Filled=20",
-		"Delete Left=23",
-		"Left Arrow Dashed=24",
-		"Up Arrow Dashed=25",
-		"Right Arrow Dashed=26",
-		"Escape=27",
-		"Clear=28",
-		"Blank=97",
+		"Apple Logo Outline=108",
+		"Help=103",
+		"Power=110",
+		"Contextual Menu=109",
+		"Control ISO=138",
+		"-=",
 		"Page Up=98",
-		"Caps Lock=99",
+		"Page Down=107",
 		"Left Arrow=100",
 		"Right Arrow=101",
-		"Northwest Arrow=102",
-		"Help=103",
 		"Up Arrow=104",
-		"Southeast Arrow=105",
 		"Down Arrow=106",
-		"Page Down=107",
-		"Apple Logo Outline=108",
-		"Contextual Menu=109",
-		"Power=110",
+		"Left Arrow Dashed=24",
+		"Right Arrow Dashed=26",
+		"Up Arrow Dashed=25",
+		"Downward Arrow Dashed=16",
+		"Northwest Arrow=102",
+		"Southeast Arrow=105",
+		"-=",
 		"F1=111",
 		"F2=112",
 		"F3=113",
@@ -402,8 +408,7 @@ resource 'STR#' (1604, "Keyboard Glyphs") {
 		"F12=122",
 		"F13=135",
 		"F14=136",
-		"F15=137",
-		"Control ISO=138"
+		"F15=137"
 	}
 };
 
