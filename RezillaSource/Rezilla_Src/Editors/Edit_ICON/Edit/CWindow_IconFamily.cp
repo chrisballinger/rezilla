@@ -1,7 +1,7 @@
 // ===========================================================================
 // CWindow_IconFamily.cp
 //                       Created: 2004-12-11 18:50:16
-//             Last modification: 2005-02-06 19:20:12
+//             Last modification: 2005-02-15 07:08:19
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -90,6 +90,8 @@ CWindow_IconFamily::CreateFromStream( LStream *inStream )
 void
 CWindow_IconFamily::FinishCreateSelf()
 {
+	CIcon_EditorWindow::FinishCreateSelf();
+
 	// Link the broadcasters
 	UReanimator::LinkListenerToBroadcasters( this, this, PPob_IconFamilyEditor );
 }
@@ -170,7 +172,8 @@ CWindow_IconFamily::InitializeOneMember( CRezMap *inMap, ResType inResType, ResI
 		theBuffer = COffscreen::CreateBuffer( inWidth, inHeight, inDepth, theTable );
 		
 		// If we have a resource, load the data into the offscreen buffer
-		theRes = inMap->FindResource( inResType, inResID, true );
+// 		theRes = inMap->FindResource( inResType, inResID, true );
+		theRes = UIconMisc::FindBitmapResource(inMap, inResType, inResID, true );
 		if ( theRes )
 		{
 			Handle h = theRes->GetData();
