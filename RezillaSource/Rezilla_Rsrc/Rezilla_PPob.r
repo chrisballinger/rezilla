@@ -5,7 +5,7 @@
 #include <MacWindows.r>
 
 resource 'MBAR' (128, "Standard") {
-	{	/* array MenuArray: 4 elements */
+	{	/* array MenuArray: 5 elements */
 		/* [1] */
 		128,
 		/* [2] */
@@ -13,12 +13,14 @@ resource 'MBAR' (128, "Standard") {
 		/* [3] */
 		130,
 		/* [4] */
-		1200
+		1200,
+		/* [5] */
+		255
 	}
 };
 
 resource 'MBAR' (129, "Aqua") {
-	{	/* array MenuArray: 4 elements */
+	{	/* array MenuArray: 5 elements */
 		/* [1] */
 		128,
 		/* [2] */
@@ -26,7 +28,9 @@ resource 'MBAR' (129, "Aqua") {
 		/* [3] */
 		130,
 		/* [4] */
-		1200
+		1200,
+		/* [5] */
+		255
 	}
 };
 
@@ -198,7 +202,7 @@ resource 'MENU' (140, "Recent Items Menu") {
 	}
 };
 
-resource 'MENU' (250, "Font") {
+resource 'MENU' (250, "Text Font") {
 	250,
 	textMenuProc,
 	allEnabled,
@@ -208,7 +212,7 @@ resource 'MENU' (250, "Font") {
 	}
 };
 
-resource 'MENU' (251, "Size") {
+resource 'MENU' (251, "Text Size") {
 	251,
 	textMenuProc,
 	0x7FFFFDFF,
@@ -240,7 +244,7 @@ resource 'MENU' (251, "Size") {
 	}
 };
 
-resource 'MENU' (252, "Style") {
+resource 'MENU' (252, "Text Style") {
 	252,
 	textMenuProc,
 	allEnabled,
@@ -300,6 +304,186 @@ resource 'MENU' (254, "Empty") {
 	}
 };
 
+resource 'MENU' (255, "Font Unicode") {
+	255,
+	textMenuProc,
+	allEnabled,
+	enabled,
+	"Font",
+	{	/* array: 0 elements */
+	}
+};
+
+resource 'MENU' (256, "Size Unicode") {
+	256,
+	textMenuProc,
+	allEnabled,
+	enabled,
+	"Size",
+	{	/* array: 8 elements */
+		/* [1] */
+		"9", noIcon, noKey, noMark, plain,
+		/* [2] */
+		"10", noIcon, noKey, noMark, plain,
+		/* [3] */
+		"11", noIcon, noKey, noMark, plain,
+		/* [4] */
+		"12", noIcon, noKey, noMark, plain,
+		/* [5] */
+		"14", noIcon, noKey, noMark, plain,
+		/* [6] */
+		"18", noIcon, noKey, noMark, plain,
+		/* [7] */
+		"24", noIcon, noKey, noMark, plain,
+		/* [8] */
+		"36", noIcon, noKey, noMark, plain
+	}
+};
+
+resource 'MENU' (257, "Style Unicode") {
+	257,
+	textMenuProc,
+	allEnabled,
+	enabled,
+	"Style",
+	{	/* array: 5 elements */
+		/* [1] */
+		"   ", noIcon, noKey, noMark, plain,
+		/* [2] */
+		"Plain", noIcon, noKey, noMark, plain,
+		/* [3] */
+		"Bold", noIcon, noKey, noMark, 1,
+		/* [4] */
+		"Italic", noIcon, noKey, noMark, 2,
+		/* [5] */
+		"Underline", noIcon, noKey, noMark, 4
+	}
+};
+
+resource 'MENU' (300, "Icon Actions") {
+	300,
+	textMenuProc,
+	0x7FFFFF5B,
+	enabled,
+	"Actions",
+	{	/* array: 10 elements */
+		/* [1] */
+		"Flip Vertical", noIcon, "V", noMark, plain,
+		/* [2] */
+		"Flip Horizontal", noIcon, "H", noMark, plain,
+		/* [3] */
+		"-", noIcon, noKey, noMark, plain,
+		/* [4] */
+		"Rotate Right", noIcon, "R", noMark, plain,
+		/* [5] */
+		"Rotate Left", noIcon, "L", noMark, plain,
+		/* [6] */
+		"-", noIcon, noKey, noMark, plain,
+		/* [7] */
+		"Make Transparent", noIcon, "T", noMark, plain,
+		/* [8] */
+		"-", noIcon, noKey, noMark, plain,
+		/* [9] */
+		"Delete Image", noIcon, noKey, noMark, plain,
+		/* [10] */
+		"Set Image Size…", noIcon, noKey, noMark, plain
+	}
+};
+
+resource 'MENU' (301, "Icon Colors") {
+	301,
+	textMenuProc,
+	0x7FFFFB7F,
+	enabled,
+	"Colors",
+	{	/* array: 12 elements */
+		/* [1] */
+		"Recommended Icon Colors", noIcon, noKey, noMark, plain,
+		/* [2] */
+		"256 Colors", noIcon, noKey, noMark, plain,
+		/* [3] */
+		"256 Grays", noIcon, noKey, noMark, plain,
+		/* [4] */
+		"16 Colors", noIcon, noKey, noMark, plain,
+		/* [5] */
+		"16 Grays", noIcon, noKey, noMark, plain,
+		/* [6] */
+		"4 Grays", noIcon, noKey, noMark, plain,
+		/* [7] */
+		"Use Color Picker", noIcon, noKey, noMark, plain,
+		/* [8] */
+		"-", noIcon, noKey, noMark, plain,
+		/* [9] */
+		"Black & White", noIcon, "1", noMark, plain,
+		/* [10] */
+		"Swap Fore & Back Colors", noIcon, "2", noMark, plain,
+		/* [11] */
+		"-", noIcon, noKey, noMark, plain,
+		/* [12] */
+		"Recolor With Current Table", noIcon, noKey, noMark, plain
+	}
+};
+
+resource 'MENU' (302, "Icon Font") {
+	302,
+	textMenuProc,
+	allEnabled,
+	enabled,
+	"Font",
+	{	/* array: 0 elements */
+	}
+};
+
+resource 'MENU' (303, "Icon Style") {
+	303,
+	textMenuProc,
+	0x7FFFEEFF,
+	enabled,
+	"Style",
+	{	/* array: 20 elements */
+		/* [1] */
+		"Plain", noIcon, noKey, noMark, plain,
+		/* [2] */
+		"Bold", noIcon, noKey, noMark, 1,
+		/* [3] */
+		"Italic", noIcon, noKey, noMark, 2,
+		/* [4] */
+		"Underline", noIcon, noKey, noMark, 4,
+		/* [5] */
+		"Outline", noIcon, noKey, noMark, 8,
+		/* [6] */
+		"Shadow", noIcon, noKey, noMark, 16,
+		/* [7] */
+		"Condense", noIcon, noKey, noMark, 32,
+		/* [8] */
+		"Extend", noIcon, noKey, noMark, 64,
+		/* [9] */
+		"-", noIcon, noKey, noMark, plain,
+		/* [10] */
+		"Left Flush", noIcon, noKey, noMark, plain,
+		/* [11] */
+		"Centered", noIcon, noKey, noMark, plain,
+		/* [12] */
+		"Right Flush", noIcon, noKey, noMark, plain,
+		/* [13] */
+		"-", noIcon, noKey, noMark, plain,
+		/* [14] */
+		"9 pt", noIcon, noKey, noMark, plain,
+		/* [15] */
+		"12 pt", noIcon, noKey, noMark, plain,
+		/* [16] */
+		"14 pt", noIcon, noKey, noMark, plain,
+		/* [17] */
+		"18 pt", noIcon, noKey, noMark, plain,
+		/* [18] */
+		"24 pt", noIcon, noKey, noMark, plain,
+		/* [19] */
+		"36 pt", noIcon, noKey, noMark, plain,
+		/* [20] */
+		"Other...", noIcon, noKey, noMark, plain
+	}
+};
+
 data 'Mcmd' (128, "Apple Menu") {
 	$"0001 0000 0001"
 };
@@ -335,16 +519,49 @@ data 'Mcmd' (1200, "Resources Menu") {
 	$"04BF"
 };
 
-data 'Mcmd' (251, "Size") {
+data 'Mcmd' (251, "Text Size") {
 	$"000B FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
 	$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
 	$"FFFF FFFF FFFF 0000 0000 0000 012F"
 };
 
-data 'Mcmd' (252, "Style") {
+data 'Mcmd' (252, "Text Style") {
 	$"0009 0000 0000 0000 0191 0000 0192 0000"
 	$"0193 0000 0194 0000 0195 0000 0196 0000"
 	$"0197 0000 0198"
+};
+
+data 'Mcmd' (256, "Size Unicode") {
+	$"0008 FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
+	$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
+	$"FFFF"
+};
+
+data 'Mcmd' (257, "Style Unicode") {
+	$"0005 0000 0000 0000 0191 0000 0192 0000"
+	$"0193 0000 0194"
+};
+
+data 'Mcmd' (300, "Icon Actions") {
+	$"000A 464C 5056 464C 5048 0000 0000 524F"
+	$"5452 524F 544C 0000 0000 5452 414E 0000"
+	$"0000 4445 4C49 5253 5A49"
+};
+
+data 'Mcmd' (301, "Icon Colors") {
+	$"000C 434C 5431 434C 5432 434C 5433 434C"
+	$"5434 434C 5435 434C 5436 434C 5437 0000"
+	$"0000 7442 6E57 7453 5750 0000 0000 5257"
+	$"4354"
+};
+
+data 'Mcmd' (303, "Icon Style") {
+	$"0014 0000 0191 0000 0192 0000 0193 0000"
+	$"0194 0000 0195 0000 0196 0000 0197 0000"
+	$"0198 FFFF FFFF 0000 019C 0000 019D 0000"
+	$"019E FFFF FFFF 0000 2395 0000 2398 0000"
+	$"239A 0000 239E 0000 23A4 0000 23B0 0000"
+	$"238C"
 };
 
 resource 'PICT' (128, "Rezilla banner") {
@@ -2466,32 +2683,32 @@ data 'PPob' (7400, "Interface Prefs Pane") {
 	$"656E 6473 656E 6473 656E 642E"
 };
 
-data 'PPob' (8600, "Other Size") {
+data 'PPob' (8600, "Set Font Size Dialog") {
 	$"0002 6F62 6A64 0000 0024 646C 6F67 2198"
 	$"0000 08E2 0000 0040 0040 FFFF FFFF FFFF"
 	$"FFFF 0000 0000 FFFF FFFF FFFF FFFF 6265"
 	$"6773 6F62 6A64 0000 0012 7774 6861 FFFF"
 	$"FFFE 0101 0001 0002 0001 0002 6F62 6A64"
 	$"0000 003A 7075 7368 6F6B 2020 0043 0014"
-	$"0101 0000 0101 0000 009F 0000 0046 0000"
+	$"0101 0000 0101 0000 00A1 0000 0045 0000"
 	$"0000 FFFF FFFF 0000 0384 0000 0000 0000"
 	$"0000 0000 0000 0170 0000 024F 4B01 6F62"
 	$"6A64 0000 003E 7075 7368 636E 636C 0041"
-	$"0014 0101 0000 0101 0000 004E 0000 0046"
+	$"0014 0101 0000 0101 0000 0050 0000 0045"
 	$"0000 0000 FFFF FFFF 0000 0385 0000 0000"
 	$"0000 0000 0000 0000 0170 0000 0643 616E"
 	$"6365 6C00 6F62 6A64 0000 0024 6963 6E70"
 	$"0000 0000 0020 0020 0101 0000 0000 0000"
 	$"000D 0000 000E 0000 0000 FFFF FFFF 0080"
-	$"6F62 6A64 0000 0029 6564 6974 0000 0001"
+	$"6F62 6A64 0000 0029 6564 6974 5349 5A45"
 	$"0030 0016 0101 0000 0000 0000 009B 0000"
 	$"0014 0000 0000 FFFF FFFF 0000 8C00 0288"
-	$"016F 626A 6400 0000 4073 7478 7400 0000"
+	$"016F 626A 6400 0000 4173 7478 7400 0000"
 	$"0000 3700 1201 0101 0000 0100 0000 6100"
-	$"0000 1700 0000 00FF FFFF FF00 0000 0000"
-	$"0000 0000 0000 0000 0000 0001 2000 8309"
-	$"4E65 7720 7369 7A65 3A65 6E64 7365 6E64"
-	$"2E"
+	$"0000 1600 0000 00FF FFFF FF00 0000 0000"
+	$"0000 0000 0000 0000 0000 0001 2000 830A"
+	$"466F 6E74 2073 697A 653A 656E 6473 656E"
+	$"642E"
 };
 
 data 'PPob' (7500, "Editors Prefs Pane") {
@@ -2501,18 +2718,18 @@ data 'PPob' (7500, "Editors Prefs Pane") {
 	$"0000 0000 0000 0000 0000 0000 0000 0010"
 	$"0000 0010 0000 6265 6773 6F62 6A64 0000"
 	$"0058 7467 6278 0000 0000 016C 00B4 0101"
-	$"0000 0000 0000 000D 0000 000E 0000 0000"
+	$"0000 0000 0000 000E 0000 000E 0000 0000"
 	$"FFFF FFFF 0000 0000 0000 0000 0000 0000"
 	$"0000 0000 0000 0001 0000 0001 0000 0000"
 	$"0000 0000 0000 0000 0000 0000 0000 00A0"
 	$"0085 0745 6469 746F 7273 6265 6773 6F62"
-	$"6A64 0000 004A 7374 7874 0000 0000 0067"
-	$"0010 0101 0000 0001 0000 0044 0000 003A"
+	$"6A64 0000 004A 7374 7874 0000 0000 0058"
+	$"000F 0101 0000 0001 0000 0021 0000 003A"
 	$"0000 0000 FFFF FFFF 0000 0000 0000 0000"
 	$"0000 0000 0000 0000 0120 0085 1348 6578"
 	$"6164 6563 696D 616C 2064 6967 6974 733A"
 	$"6F62 6A64 0000 003C 7267 7076 0000 0005"
-	$"0066 002E 0101 0000 0001 0000 00AF 0000"
+	$"00CC 0018 0101 0000 0001 0000 008C 0000"
 	$"0036 0000 0000 FFFF FFFF 0000 0000 0000"
 	$"0000 0000 0000 0000 0000 0000 0001 0000"
 	$"0001 0000 6265 6773 6F62 6A64 0000 0044"
@@ -2522,17 +2739,17 @@ data 'PPob' (7500, "Editors Prefs Pane") {
 	$"0001 0002 008B 096C 6F77 6572 6361 7365"
 	$"0000 0000 6F62 6A64 0000 0044 7262 7574"
 	$"0000 0007 005A 0010 0101 0000 0000 0000"
-	$"0005 0000 0018 0000 0000 FFFF FFFF 0000"
+	$"0066 0000 0003 0000 0000 FFFF FFFF 0000"
 	$"1D53 0000 0000 0000 0000 0000 0001 0002"
 	$"008B 0975 7070 6572 6361 7365 0000 0000"
 	$"656E 6473 6F62 6A64 0000 004A 7374 7874"
 	$"0000 0000 0067 0010 0101 0000 0001 0000"
-	$"0044 0000 0018 0000 0000 FFFF FFFF 0000"
+	$"0021 0000 0018 0000 0000 FFFF FFFF 0000"
 	$"0000 0000 0000 0000 0000 0000 0000 0120"
 	$"0085 1348 6578 6164 6563 696D 616C 2073"
 	$"796D 626F 6C3A 6F62 6A64 0000 003C 7267"
 	$"7076 0000 0002 0064 0016 0101 0000 0001"
-	$"0000 00AF 0000 0014 0000 0000 FFFF FFFF"
+	$"0000 008C 0000 0014 0000 0000 FFFF FFFF"
 	$"0000 0000 0000 0000 0000 0000 0000 0000"
 	$"0000 0001 0000 0001 0000 6265 6773 6F62"
 	$"6A64 0000 003D 7262 7574 0000 0004 0028"
@@ -2545,24 +2762,35 @@ data 'PPob' (7500, "Editors Prefs Pane") {
 	$"4F00 0000 0100 0000 0000 0000 0100 0200"
 	$"8B01 2400 0000 0065 6E64 736F 626A 6400"
 	$"0000 5963 6862 7800 0000 0800 DC00 1001"
-	$"0100 0000 0000 0000 4400 0000 7300 0000"
+	$"0100 0000 0000 0000 4400 0000 5600 0000"
 	$"00FF FFFF FF00 001D 5400 0000 0000 0000"
 	$"0000 0000 0100 0100 8B22 4469 7370 6C61"
 	$"7920 6669 6C6C 6572 2066 6965 6C64 7320"
 	$"696E 2074 656D 706C 6174 6573 6F62 6A64"
 	$"0000 0058 6368 6278 0000 0009 00DC 0010"
-	$"0101 0000 0000 0000 0044 0000 008A 0000"
+	$"0101 0000 0000 0000 0044 0000 006D 0000"
 	$"0000 FFFF FFFF 0000 1D55 0000 0000 0000"
 	$"0000 0000 0001 0001 008B 2145 6E61 626C"
 	$"6520 6669 6C6C 6572 2066 6965 6C64 7320"
-	$"696E 2074 656D 706C 6174 6573 656E 6473"
-	$"656E 6473 656E 642E"
+	$"696E 2074 656D 706C 6174 6573 6F62 6A64"
+	$"0000 0057 6368 6278 0000 000A 00DC 0010"
+	$"0101 0000 0000 0000 0044 0000 0084 0000"
+	$"0000 FFFF FFFF 0000 1D56 0000 0000 0000"
+	$"0000 0000 0001 0001 008B 2055 7365 2038"
+	$"2D62 6974 2063 6F6C 6F72 7320 2869 6E73"
+	$"7465 6164 206F 6620 3332 296F 626A 6400"
+	$"0000 4C63 6862 7800 0000 0B00 DC00 1001"
+	$"0100 0000 0000 0000 4400 0000 9B00 0000"
+	$"00FF FFFF FF00 001D 5700 0000 0100 0000"
+	$"0000 0000 0100 0100 8B15 5573 6520 6675"
+	$"6C6C 2063 6F6C 6F72 2074 6162 6C65 7365"
+	$"6E64 7365 6E64 7365 6E64 2E"
 };
 
 data 'PPob' (10200, "TEXT Editor Window") {
 	$"0002 646F 706C 5458 5457 6F62 6A64 0000"
 	$"001C 7769 6E64 27D8 0002 1F62 0000 01F4"
-	$"0064 FFFF FFFF FFFF FFFF 0000 0000 6265"
+	$"00C8 FFFF FFFF FFFF FFFF 0000 0000 6265"
 	$"6773 6F62 6A64 0000 0048 6173 6372 5363"
 	$"726C 01F4 01EA 0101 0101 0101 0000 0000"
 	$"0000 0028 0000 0000 FFFF FFFF 0000 0001"
@@ -2835,7 +3063,7 @@ data 'PPob' (10300, "AETE Editor Window") {
 data 'PPob' (8700, "Select Type Dialog") {
 	$"0002 6F62 6A64 0000 0024 646C 6F67 21FC"
 	$"0000 08E2 0000 0040 0040 FFFF FFFF FFFF"
-	$"FFFF 0000 0000 FFFF FFFF FFFF FFFF 6265"
+	$"FFFF 0000 0000 6F6B 2020 636E 636C 6265"
 	$"6773 6F62 6A64 0000 0012 7774 6861 FFFF"
 	$"FFFE 0101 0001 0002 0001 0002 6F62 6A64"
 	$"0000 003A 7075 7368 6F6B 2020 0043 0014"
@@ -2917,7 +3145,7 @@ data 'PPob' (8800, "Template Key Picker") {
 	$"6E64 7365 6E64 2E"
 };
 
-data 'PPob' (9530, "Explained error") {
+data 'PPob' (9530, "Explained Error") {
 	$"0002 6F62 6A64 0000 0024 646C 6F67 253A"
 	$"0000 08E2 0000 0040 0040 FFFF FFFF FFFF"
 	$"FFFF 0000 0000 6F6B 2020 FFFF FFFF 6265"
@@ -2938,6 +3166,272 @@ data 'PPob' (9530, "Explained error") {
 	$"0100 0000 0000 3700 0000 1900 0000 00FF"
 	$"FFFF FF00 0000 0000 0000 0000 0000 0000"
 	$"0000 0001 2000 8C00 656E 6473 656E 642E"
+};
+
+data 'PPob' (10400, "PICT Editor Window") {
+	$"0002 646F 706C 5049 4357 6F62 6A64 0000"
+	$"001C 7769 6E64 28A0 0002 1F62 0000 017C"
+	$"00C8 FFFF FFFF 01F4 0190 0000 0000 6265"
+	$"6773 6F62 6A64 0000 0049 7363 6C76 5363"
+	$"726C 0208 0208 0101 0101 0101 0000 0000"
+	$"0000 0000 0000 0000 FFFF FFFF 0000 0001"
+	$"0000 0001 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 000F 0000 000F 436E"
+	$"7473 0162 6567 7364 6F70 6C50 4943 566F"
+	$"626A 6400 0000 3C76 6965 7743 6E74 7301"
+	$"F801 F801 0101 0101 0100 0000 0100 0000"
+	$"0100 0000 00FF FFFF FF00 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0A00 0000"
+	$"0A00 0165 6E64 736F 626A 6400 0000 5170"
+	$"6C63 6400 0000 0002 0A00 1801 0101 0001"
+	$"01FF FFFF FF00 0002 0800 0000 00FF FFFF"
+	$"FF00 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0100 0000 0100 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 E000 0000"
+	$"6265 6773 6F62 6A64 0000 0024 6963 6E70"
+	$"4C6F 636B 0010 0010 0101 0100 0001 0000"
+	$"0004 0000 0003 0000 0000 FFFF FFFF 0000"
+	$"6F62 6A64 0000 0037 7374 7874 0000 0002"
+	$"0028 000E 0101 0100 0001 0000 0034 0000"
+	$"0007 0000 0000 FFFF FFFF 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0120 0082 006F"
+	$"626A 6400 0000 3773 7478 7400 0000 0300"
+	$"2800 0E01 0101 0000 0100 0000 7200 0000"
+	$"0700 0000 00FF FFFF FF00 0000 0000 0000"
+	$"0000 0000 0000 0000 0001 2000 8200 6F62"
+	$"6A64 0000 0039 7374 7874 0000 0000 000E"
+	$"000E 0101 0100 0001 0000 0026 0000 0007"
+	$"0000 0000 FFFF FFFF 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0120 008B 0277 3A6F"
+	$"626A 6400 0000 3973 7478 7400 0000 0000"
+	$"0E00 0E01 0101 0000 0100 0000 6400 0000"
+	$"0700 0000 00FF FFFF FF00 0000 0000 0000"
+	$"0000 0000 0000 0000 0001 2000 8B02 683A"
+	$"656E 6473 656E 6473 656E 642E"
+};
+
+data 'PPob' (10500, "UTXT Editor Window") {
+	$"0002 646F 706C 5554 5857 6F62 6A64 0000"
+	$"001C 7769 6E64 2904 0002 1F62 0000 01F4"
+	$"00C8 FFFF FFFF FFFF FFFF 0000 0000 6265"
+	$"6773 6F62 6A64 0000 0051 7769 6E68 0000"
+	$"0000 01F8 0028 0101 0101 0100 FFFF FFFE"
+	$"0000 0000 0000 0000 FFFF FFFF 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0001"
+	$"0000 0001 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0150 0000 0062 6567 736F"
+	$"626A 6400 0000 4270 6F70 6200 0000 0200"
+	$"6400 1201 0100 0000 0000 0000 1000 0000"
+	$"0B00 0000 00FF FFFF FF00 0029 0600 0000"
+	$"0000 0001 0000 00FF FF01 9400 8505 5369"
+	$"7A65 3A00 0000 0000 016F 626A 6400 0000"
+	$"4370 6F70 6200 0000 0300 8700 1301 0101"
+	$"0100 0000 0000 A100 0000 0B00 0000 00FF"
+	$"FFFF FF00 0029 0700 0000 0000 0001 0100"
+	$"00FF FF01 9400 8506 5374 796C 653A 0000"
+	$"0000 0001 656E 6473 6F62 6A64 0000 0051"
+	$"7769 6E68 0000 0000 01F4 0014 0101 0100"
+	$"0101 0000 0000 0000 0212 0000 0000 FFFF"
+	$"FFFF 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0001 0000 0001 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0150 0000"
+	$"0062 6567 736F 626A 6400 0000 2469 636E"
+	$"704C 6F63 6B00 1000 1001 0101 0000 0100"
+	$"0000 0500 0000 0200 0000 00FF FFFF FF00"
+	$"006F 626A 6400 0000 4473 7478 7400 0000"
+	$"0000 4B00 0E01 0101 0000 0100 0000 2F00"
+	$"0000 0500 0000 00FF FFFF FF00 0000 0000"
+	$"0000 0000 0000 0000 0000 0001 2000 8B0D"
+	$"546F 7461 6C20 6C65 6E67 7468 3A6F 626A"
+	$"6400 0000 3773 7478 7400 0000 0400 3C00"
+	$"0E01 0101 0000 0100 0000 7B00 0000 0500"
+	$"0000 00FF FFFF FF00 0000 0000 0000 0000"
+	$"0000 0000 0000 0001 2000 8B00 656E 6473"
+	$"646F 706C 5554 5856 6F62 6A64 0000 0032"
+	$"6D6C 7465 436E 7473 01ED 01E5 0101 0101"
+	$"0101 0000 0003 0000 002B 0000 0000 FFFF"
+	$"FFFF 0000 1A08 0000 0001 5445 5854 0000"
+	$"0000 656E 6473 656E 642E"
+};
+
+data 'PPob' (10600, "ICON Editor Window") {
+	$"0002 646F 706C 4943 4E57 6F62 6A64 0000"
+	$"001C 7769 6E64 2968 0002 1F62 0000 017C"
+	$"00C8 FFFF FFFF 01F4 0190 0000 0000 6265"
+	$"6773 6F62 6A64 0000 0051 706C 6364 0000"
+	$"0000 01F4 0028 0101 0100 0101 0000 0000"
+	$"0000 0168 0000 0000 FFFF FFFF 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0001"
+	$"0000 0001 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 00E0 0000 0062 6567 736F"
+	$"626A 6400 0000 4070 7573 6800 0000 0100"
+	$"5000 1401 0100 0001 0100 0001 8D00 0000"
+	$"0A00 0000 00FF FFFF FF00 0003 8400 0000"
+	$"0000 0000 0000 0000 0001 7000 0008 5661"
+	$"6C69 6461 7465 016F 626A 6400 0000 3E70"
+	$"7573 6800 0000 0200 4100 1401 0100 0001"
+	$"0100 0001 3F00 0000 0900 0000 00FF FFFF"
+	$"FF00 0003 8500 0000 0000 0000 0000 0000"
+	$"0001 7000 0006 4361 6E63 656C 006F 626A"
+	$"6400 0000 3E70 7573 6800 0000 0300 4100"
+	$"1401 0101 0000 0100 0000 1C00 0000 0900"
+	$"0000 00FF FFFF FF00 0000 0700 0000 0000"
+	$"0000 0000 0000 0001 7000 0006 5265 7665"
+	$"7274 006F 626A 6400 0000 2469 636E 704C"
+	$"6F63 6B00 1000 1001 0101 0000 0100 0000"
+	$"0600 0000 0B00 0000 00FF FFFF FF00 006F"
+	$"626A 6400 0000 3C72 6770 7600 0000 0400"
+	$"8800 1C01 0101 0000 0100 0000 8900 0000"
+	$"0700 0000 00FF FFFF FF00 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0100 0000"
+	$"0100 0062 6567 736F 626A 6400 0000 4172"
+	$"6275 7400 0000 0500 3C00 1001 0100 0000"
+	$"0000 0000 0900 0000 0600 0000 00FF FFFF"
+	$"FF00 0029 6D00 0000 0100 0000 0000 0000"
+	$"0100 0200 8B06 4269 746D 6170 0000 0000"
+	$"6F62 6A64 0000 003F 7262 7574 0000 0006"
+	$"0032 0010 0101 0000 0000 0000 004A 0000"
+	$"0006 0000 0000 FFFF FFFF 0000 296E 0000"
+	$"0000 0000 0000 0000 0001 0002 008B 044D"
+	$"6173 6B00 0000 0065 6E64 7365 6E64 736F"
+	$"626A 6400 0000 5174 6762 7845 4E43 4C01"
+	$"6801 6801 0101 0100 0000 0000 5000 0000"
+	$"0000 0000 00FF FFFF FF00 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0100 0000"
+	$"0100 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 A000 0000 6265 6773 646F 706C"
+	$"4943 4E56 6F62 6A64 0000 003C 7669 6577"
+	$"436E 7473 0160 0160 0101 0101 0101 0000"
+	$"0004 0000 0004 0000 0000 FFFF FFFF 0000"
+	$"0000 0000 0004 0000 0000 0000 0000 0000"
+	$"0014 0000 0014 0001 656E 6473 6F62 6A64"
+	$"0000 0051 7769 6E68 0000 0000 0050 0168"
+	$"0101 0101 0000 0000 0000 0000 0000 0000"
+	$"0000 FFFF FFFF 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0001 0000 0001 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0150 0000 0062 6567 736F 626A 6400 0000"
+	$"4662 6275 7474 4C41 5300 1800 1801 0100"
+	$"0000 0000 0000 0F00 0000 1900 0000 00FF"
+	$"FFFF FF74 4C41 5300 0000 0000 0001 0100"
+	$"0023 2800 2100 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 006F 626A 6400 0000 4662"
+	$"6275 7474 5345 4C00 1800 1801 0100 0000"
+	$"0000 0000 2900 0000 1900 0000 00FF FFFF"
+	$"FF74 5345 4C00 0000 0000 0001 0100 0023"
+	$"2900 2100 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 006F 626A 6400 0000 4662 6275"
+	$"7474 5458 5400 1800 1801 0100 0000 0000"
+	$"0000 0F00 0000 3300 0000 00FF FFFF FF74"
+	$"5458 5400 0000 0000 0001 0100 0023 2A00"
+	$"2100 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 006F 626A 6400 0000 4662 6275 7474"
+	$"5045 4E00 1800 1801 0100 0000 0000 0000"
+	$"2900 0000 3300 0000 00FF FFFF FF74 5045"
+	$"4E00 0000 0000 0001 0100 0023 2B00 2100"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"006F 626A 6400 0000 4662 6275 7474 4552"
+	$"4100 1800 1801 0100 0000 0000 0000 0F00"
+	$"0000 4D00 0000 00FF FFFF FF74 4552 4100"
+	$"0000 0000 0001 0100 0023 2C00 2100 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 006F"
+	$"626A 6400 0000 4662 6275 7474 4255 4300"
+	$"1800 1801 0100 0000 0000 0000 2900 0000"
+	$"4D00 0000 00FF FFFF FF74 4255 4300 0000"
+	$"0000 0001 0100 0023 2D00 2100 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 006F 626A"
+	$"6400 0000 4662 6275 7474 4452 4F00 1800"
+	$"1801 0100 0000 0000 0000 0F00 0000 6700"
+	$"0000 00FF FFFF FF74 4452 4F00 0000 0000"
+	$"0001 0100 0023 2E00 2100 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 006F 626A 6400"
+	$"0000 4662 6275 7474 4C49 4E00 1800 1801"
+	$"0100 0000 0000 0000 2900 0000 6700 0000"
+	$"00FF FFFF FF74 4C49 4E00 0000 0000 0001"
+	$"0100 0023 2F00 2100 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 006F 626A 6400 0000"
+	$"4662 6275 7474 5245 4300 1800 1801 0100"
+	$"0000 0000 0000 0F00 0000 8100 0000 00FF"
+	$"FFFF FF74 5245 4300 0000 0000 0001 0100"
+	$"0023 3100 2100 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 006F 626A 6400 0000 4662"
+	$"6275 7474 4652 4300 1800 1801 0100 0000"
+	$"0000 0000 2900 0000 8100 0000 00FF FFFF"
+	$"FF74 4652 4300 0000 0000 0001 0100 0023"
+	$"3000 2100 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 006F 626A 6400 0000 4662 6275"
+	$"7474 5252 4300 1800 1801 0100 0000 0000"
+	$"0000 0F00 0000 9B00 0000 00FF FFFF FF74"
+	$"5252 4300 0000 0000 0001 0100 0023 3300"
+	$"2100 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 006F 626A 6400 0000 4662 6275 7474"
+	$"4652 5200 1800 1801 0100 0000 0000 0000"
+	$"2900 0000 9B00 0000 00FF FFFF FF74 4652"
+	$"5200 0000 0000 0001 0100 0023 3200 2100"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"006F 626A 6400 0000 4662 6275 7474 4F56"
+	$"4C00 1800 1801 0100 0000 0000 0000 0F00"
+	$"0000 B500 0000 00FF FFFF FF74 4F56 4C00"
+	$"0000 0000 0001 0100 0023 3500 2100 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 006F"
+	$"626A 6400 0000 4662 6275 7474 464F 5600"
+	$"1800 1801 0100 0000 0000 0000 2900 0000"
+	$"B500 0000 00FF FFFF FF74 464F 5600 0000"
+	$"0000 0001 0100 0023 3400 2100 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 006F 626A"
+	$"6400 0000 2270 616E 6574 5041 5400 3200"
+	$"1401 0100 0000 0000 0000 0F00 0000 F300"
+	$"0000 00FF FFFF FF6F 626A 6400 0000 2270"
+	$"616E 6574 4243 4C00 2800 1401 0100 0000"
+	$"0000 0000 1B00 0001 1D00 0000 00FF FFFF"
+	$"FF6F 626A 6400 0000 2270 616E 6574 4643"
+	$"4C00 2800 1401 0100 0000 0000 0000 0F00"
+	$"0001 1000 0000 00FF FFFF FF6F 626A 6400"
+	$"0000 3773 7478 7443 4F4F 5200 3C00 1001"
+	$"0100 0000 0000 0000 0A00 0001 4C00 0000"
+	$"00FF FFFF FF00 0000 0000 0000 0000 0000"
+	$"0000 0000 0001 2000 0000 656E 6473 6F62"
+	$"6A64 0000 0046 6262 7574 7448 4F54 0018"
+	$"0018 0001 0000 0000 0000 001C 0000 00CF"
+	$"0000 0000 FFFF FFFF 7448 4F54 0000 0000"
+	$"0000 0101 0000 2336 0021 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 6F62 6A64"
+	$"0000 0024 6963 6E70 0000 0007 0020 0020"
+	$"0101 0000 0000 0000 01C5 0000 000D 0000"
+	$"0000 FFFF FFFF 0000 656E 6473 656E 642E"
+};
+
+data 'PPob' (8900, "Set Image Size Dialog") {
+	$"0002 6F62 6A64 0000 0024 646C 6F67 22C4"
+	$"0000 08E2 0000 0040 0040 FFFF FFFF FFFF"
+	$"FFFF 0000 0000 6F6B 2020 636E 636C 6265"
+	$"6773 6F62 6A64 0000 0012 7774 6861 FFFF"
+	$"FFFE 0101 0001 0002 0001 0002 6F62 6A64"
+	$"0000 003A 7075 7368 6F6B 2020 0043 0014"
+	$"0101 0000 0101 0000 00A1 0000 0045 0000"
+	$"0000 FFFF FFFF 0000 0384 0000 0000 0000"
+	$"0000 0000 0000 0170 0000 024F 4B01 6F62"
+	$"6A64 0000 003E 7075 7368 636E 636C 0041"
+	$"0014 0101 0000 0101 0000 0050 0000 0045"
+	$"0000 0000 FFFF FFFF 0000 0385 0000 0000"
+	$"0000 0000 0000 0000 0170 0000 0643 616E"
+	$"6365 6C00 6F62 6A64 0000 0024 6963 6E70"
+	$"0000 0000 0020 0020 0101 0000 0000 0000"
+	$"000D 0000 000E 0000 0000 FFFF FFFF 0080"
+	$"6F62 6A64 0000 0029 6564 6974 5749 4454"
+	$"0048 0010 0101 0000 0000 0000 008C 0000"
+	$"000E 0000 0000 FFFF FFFF 0000 8C00 0480"
+	$"016F 626A 6400 0000 2965 6469 7448 4549"
+	$"4700 4800 1001 0100 0000 0000 0000 8C00"
+	$"0000 2200 0000 00FF FFFF FF00 008C 0004"
+	$"8001 6F62 6A64 0000 002B 6361 7074 0000"
+	$"0000 002D 000F 0101 0000 0000 0000 005D"
+	$"0000 000F 0000 0000 FFFF FFFF 0657 6964"
+	$"7468 3A00 836F 626A 6400 0000 2C63 6170"
+	$"7400 0000 0000 2D00 0F01 0100 0000 0000"
+	$"0000 5D00 0000 2300 0000 00FF FFFF FF07"
+	$"4865 6967 6874 3A00 8365 6E64 7365 6E64"
+	$"2E"
 };
 
 data 'RidL' (1000, "Rez Map Window") {
@@ -3033,13 +3527,14 @@ data 'RidL' (7400, "Interface Prefs Pane") {
 	$"0002 0000 0002 0000 0003"
 };
 
-data 'RidL' (8600, "Other Size") {
+data 'RidL' (8600, "Set Font Size Dialog") {
 	$"0002 6F6B 2020 636E 636C"
 };
 
 data 'RidL' (7500, "Editors Prefs Pane") {
-	$"0006 0000 0006 0000 0007 0000 0004 0000"
-	$"0003 0000 0008 0000 0009"
+	$"0008 0000 0006 0000 0007 0000 0004 0000"
+	$"0003 0000 0008 0000 0009 0000 000A 0000"
+	$"000B"
 };
 
 data 'RidL' (10200, "TEXT Editor Window") {
@@ -3072,8 +3567,29 @@ data 'RidL' (8800, "Template Key Picker") {
 	$"0004 0000 0003 0000 0001"
 };
 
-data 'RidL' (9530, "Explained error") {
+data 'RidL' (9530, "Explained Error") {
 	$"0003 6F6B 2020 4558 504C 4D45 5347"
+};
+
+data 'RidL' (10400, "PICT Editor Window") {
+	$"0002 0000 0002 0000 0003"
+};
+
+data 'RidL' (10500, "UTXT Editor Window") {
+	$"0003 0000 0002 0000 0003 0000 0004"
+};
+
+data 'RidL' (10600, "ICON Editor Window") {
+	$"0016 0000 0001 0000 0002 0000 0003 0000"
+	$"0005 0000 0006 454E 434C 744C 4153 7453"
+	$"454C 7454 5854 7450 454E 7445 5241 7442"
+	$"5543 7444 524F 744C 494E 7452 4543 7446"
+	$"5243 7452 5243 7446 5252 744F 564C 7446"
+	$"4F56 434F 4F52 7448 4F54"
+};
+
+data 'RidL' (8900, "Set Image Size Dialog") {
+	$"0002 6F6B 2020 636E 636C"
 };
 
 resource 'STR#' (200, "Standards", purgeable) {
@@ -3391,13 +3907,13 @@ resource 'WIND' (7000, "Preferences Window") {
 	alertPositionMainScreen
 };
 
-resource 'WIND' (8600, "Other Size") {
-	{40, 16, 141, 254},
+resource 'WIND' (8600, "Set Font Size Dialog") {
+	{40, 16, 140, 256},
 	movableDBoxProc,
 	invisible,
 	noGoAway,
 	0x0,
-	"Font size",
+	"Set Font Size",
 	alertPositionParentWindow
 };
 
@@ -3437,7 +3953,7 @@ resource 'WIND' (8700, "Select Type Dialog") {
 	invisible,
 	noGoAway,
 	0x0,
-	"Type selector",
+	"Select Type",
 	alertPositionParentWindow
 };
 
@@ -3451,7 +3967,7 @@ resource 'WIND' (8800, "Template Key Picker") {
 	alertPositionParentWindow
 };
 
-resource 'WIND' (9530, "Explained error") {
+resource 'WIND' (9530, "Explained Error") {
 	{40, 16, 195, 321},
 	movableDBoxProc,
 	invisible,
@@ -3459,6 +3975,46 @@ resource 'WIND' (9530, "Explained error") {
 	0x0,
 	"",
 	alertPositionMainScreen
+};
+
+resource 'WIND' (10400, "PICT Editor Window") {
+	{42, 4, 586, 524},
+	zoomDocProc,
+	invisible,
+	goAway,
+	0x0,
+	"PICT viewer",
+	noAutoCenter
+};
+
+resource 'WIND' (10500, "UTXT Editor Window") {
+	{42, 4, 592, 504},
+	zoomDocProc,
+	invisible,
+	goAway,
+	0x0,
+	"Unicode editor",
+	noAutoCenter
+};
+
+resource 'WIND' (10600, "ICON Editor Window") {
+	{42, 4, 442, 504},
+	zoomDocProc,
+	invisible,
+	goAway,
+	0x0,
+	"Icon editor",
+	noAutoCenter
+};
+
+resource 'WIND' (8900, "Set Image Size Dialog") {
+	{40, 16, 140, 256},
+	movableDBoxProc,
+	invisible,
+	noGoAway,
+	0x0,
+	"Set Image Size",
+	alertPositionParentWindow
 };
 
 resource 'xmnu' (128, "Apple Menu") {
@@ -3958,7 +4514,7 @@ resource 'xmnu' (1200, "Resources Menu") {
 	}
 };
 
-resource 'xmnu' (251, "Size") {
+resource 'xmnu' (251, "Text Size") {
 	versionZero {
 		{	/* array ItemExtensions: 11 elements */
 			/* [1] */
@@ -4079,7 +4635,7 @@ resource 'xmnu' (251, "Size") {
 	}
 };
 
-resource 'xmnu' (252, "Style") {
+resource 'xmnu' (252, "Text Style") {
 	versionZero {
 		{	/* array ItemExtensions: 9 elements */
 			/* [1] */
@@ -4203,6 +4759,597 @@ resource 'xmnu' (253, "Types") {
 	}
 };
 
+resource 'xmnu' (256, "Size Unicode") {
+	versionZero {
+		{	/* array ItemExtensions: 8 elements */
+			/* [1] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			},
+			/* [2] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			},
+			/* [3] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			},
+			/* [4] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			},
+			/* [5] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			},
+			/* [6] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			},
+			/* [7] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			},
+			/* [8] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			}
+		}
+	}
+};
+
+resource 'xmnu' (257, "Style Unicode") {
+	versionZero {
+		{	/* array ItemExtensions: 5 elements */
+			/* [1] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			},
+			/* [2] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			},
+			/* [3] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			},
+			/* [4] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			},
+			/* [5] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			}
+		}
+	}
+};
+
+resource 'xmnu' (300, "Icon Actions") {
+	versionZero {
+		{	/* array ItemExtensions: 10 elements */
+			/* [1] */
+			dataItem {
+				0,
+				0x2,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			},
+			/* [2] */
+			dataItem {
+				0,
+				0x2,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			},
+			/* [3] */
+			skipItem {
+
+			},
+			/* [4] */
+			dataItem {
+				0,
+				0x2,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			},
+			/* [5] */
+			dataItem {
+				0,
+				0x2,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			},
+			/* [6] */
+			skipItem {
+
+			},
+			/* [7] */
+			dataItem {
+				0,
+				0x2,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			},
+			/* [8] */
+			skipItem {
+
+			},
+			/* [9] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			},
+			/* [10] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			}
+		}
+	}
+};
+
+resource 'xmnu' (301, "Icon Colors") {
+	versionZero {
+		{	/* array ItemExtensions: 12 elements */
+			/* [1] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			},
+			/* [2] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			},
+			/* [3] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			},
+			/* [4] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			},
+			/* [5] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			},
+			/* [6] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			},
+			/* [7] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			},
+			/* [8] */
+			skipItem {
+
+			},
+			/* [9] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			},
+			/* [10] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			},
+			/* [11] */
+			skipItem {
+
+			},
+			/* [12] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			}
+		}
+	}
+};
+
+resource 'xmnu' (303, "Icon Style") {
+	versionZero {
+		{	/* array ItemExtensions: 20 elements */
+			/* [1] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			},
+			/* [2] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			},
+			/* [3] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			},
+			/* [4] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			},
+			/* [5] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			},
+			/* [6] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			},
+			/* [7] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			},
+			/* [8] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			},
+			/* [9] */
+			skipItem {
+
+			},
+			/* [10] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			},
+			/* [11] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			},
+			/* [12] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			},
+			/* [13] */
+			skipItem {
+
+			},
+			/* [14] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			},
+			/* [15] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			},
+			/* [16] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			},
+			/* [17] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			},
+			/* [18] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			},
+			/* [19] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			},
+			/* [20] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			}
+		}
+	}
+};
+
 data 'µMWC' (32000) {
 };
 
@@ -4212,5 +5359,811 @@ resource 'CURS' (1000, "Hand cursor", preload) {
 	$"0300 0780 0780 0780 0780 0780 67F8 F7FC"
 	$"7FFE 3FFE 3FFE 1FFE 0FFE 0FFC 07FC 07FC",
 	{0, 6}
+};
+
+resource 'ics#' (9000, "Lasso Tool Icons") {
+	{	/* array: 2 elements */
+		/* [1] */
+		$"0000 03F0 1C0C 2002 4002 8002 800C 8070"
+		$"7180 CE00 A800 7000 1000 1000 20",
+		/* [2] */
+		$"0000 03F0 1DFC 2E06 5003 A003 C00D C076"
+		$"71B8 FEC0 FF00 7800 1800 1800 2800 10"
+	}
+};
+
+resource 'ics#' (9001, "Marquee Tool Icons") {
+	{	/* array: 2 elements */
+		/* [1] */
+		$"0000 79CE 4002 4002 0000 0000 4002 4002"
+		$"4002 0000 0000 4002 4002 739E",
+		/* [2] */
+		$"0000 79CE 4002 4002 0000 0000 4002 4002"
+		$"4002 0000 0000 4002 4002 739E"
+	}
+};
+
+resource 'ics#' (9002, "Text Tool Icons") {
+	{	/* array: 2 elements */
+		/* [1] */
+		$"0000 0000 1FF8 1FF8 1998 1998 0180 0180"
+		$"0180 0180 0180 0180 03C0 03C0",
+		/* [2] */
+		$"0000 0000 1FF8 1FFC 1FFC 1DDC 0DCC 01C0"
+		$"01C0 01C0 01C0 01C0 03C0 03E0 01E0"
+	}
+};
+
+resource 'ics#' (9003, "Pencil Tool Icons") {
+	{	/* array: 2 elements */
+		/* [1] */
+		$"01E0 0110 0210 0320 04E0 0440 0840 0880"
+		$"1080 1100 1900 1E00 1C00 1800 10",
+		/* [2] */
+		$"01E0 01F0 03F8 03F8 07F8 07F0 0FE0 0FE0"
+		$"1FC0 1FC0 1F80 1F80 1F00 1E00 1C00 08"
+	}
+};
+
+resource 'ics#' (9004, "Eraser Tool Icons") {
+	{	/* array: 2 elements */
+		/* [1] */
+		$"0000 0000 01FE 0206 040A 0812 1024 2048"
+		$"4090 FF20 8140 8180 FF",
+		/* [2] */
+		$"0000 0000 01FE 03FF 07FF 0FFF 1FFF 3FFE"
+		$"7FFC FFF8 FFF0 FFE0 FFC0 7F80"
+	}
+};
+
+resource 'ics#' (9005, "Paint Bucket Tool Icons") {
+	{	/* array: 2 elements */
+		/* [1] */
+		$"0E00 1100 1300 1580 1960 1138 211C 438E"
+		$"810E 801E 402E 204E 108C 0908 0608",
+		/* [2] */
+		$"0E00 1100 1300 1780 1FE0 1FF8 3FFC 7FFE"
+		$"FFFF FFFF 7FFF 3FFF 1FEF 0FCE 078C 0304"
+	}
+};
+
+resource 'ics#' (9006, "Eye Dropper Tool Icons") {
+	{	/* array: 2 elements */
+		/* [1] */
+		$"001C 0036 002E 01FE 00BC 0170 0230 0450"
+		$"0880 1100 2200 4400 E800 F000 E0",
+		/* [2] */
+		$"001C 003E 003F 01FF 00FF 01FE 03F8 07F8"
+		$"0FE8 1FC0 3F80 7F00 FE00 FC00 F800 70"
+	}
+};
+
+resource 'ics#' (9007, "Line Tool Icons") {
+	{	/* array: 2 elements */
+		/* [1] */
+		$"0000 0000 0000 0000 C000 3000 0C00 0300"
+		$"00C0 0030 000C",
+		/* [2] */
+		$"0000 0000 0000 0000 C000 7000 1C00 0700"
+		$"01C0 0070 001C 0006"
+	}
+};
+
+resource 'ics#' (9008, "Filled Rect Tool Icons") {
+	{	/* array: 2 elements */
+		/* [1] */
+		$"0000 0000 FFFE FFFE FFFE FFFE FFFE FFFE"
+		$"FFFE FFFE FFFE FFFE FFFE FFFE",
+		/* [2] */
+		$"0000 0000 FFFE FFFF FFFF FFFF FFFF FFFF"
+		$"FFFF FFFF FFFF FFFF FFFF FFFF 7FFF"
+	}
+};
+
+resource 'ics#' (9009, "Empty Rect Tool Icons") {
+	{	/* array: 2 elements */
+		/* [1] */
+		$"0000 0000 FFFE 8002 8002 8002 8002 8002"
+		$"8002 8002 8002 8002 8002 FFFE",
+		/* [2] */
+		$"0000 0000 FFFE FFFF C003 C003 C003 C003"
+		$"C003 C003 C003 C003 C003 FFFF 7FFF"
+	}
+};
+
+resource 'ics#' (9010, "Filled Round Rect Tool ICons") {
+	{	/* array: 2 elements */
+		/* [1] */
+		$"0000 0000 3FF8 7FFC FFFE FFFE FFFE FFFE"
+		$"FFFE FFFE FFFE FFFE 7FFC 3FF8",
+		/* [2] */
+		$"0000 0000 3FF8 7FFC FFFE FFFF FFFF FFFF"
+		$"FFFF FFFF FFFF FFFF 7FFF 3FFE 1FFC"
+	}
+};
+
+resource 'ics#' (9011, "Empty Round Rect Tool Icons") {
+	{	/* array: 2 elements */
+		/* [1] */
+		$"0000 0000 3FF8 4004 8002 8002 8002 8002"
+		$"8002 8002 8002 8002 4004 3FF8",
+		/* [2] */
+		$"0000 0000 3FF8 7FFC E002 C003 C003 C003"
+		$"C003 C003 C003 C003 4007 3FFE 1FFC"
+	}
+};
+
+resource 'ics#' (9012, "Filled Oval Tool Icons") {
+	{	/* array: 2 elements */
+		/* [1] */
+		$"0000 0000 0000 0FE0 3FF8 7FFC FFFE FFFE"
+		$"FFFE FFFE 7FFC 3FF8 0FE0",
+		/* [2] */
+		$"0000 0000 0000 0FE0 3FF8 7FFC FFFE FFFF"
+		$"FFFF FFFF 7FFF 3FFE 1FFC 07F0"
+	}
+};
+
+resource 'ics#' (9013, "Empty Oval Tool Icons") {
+	{	/* array: 2 elements */
+		/* [1] */
+		$"0000 0000 0000 0FE0 3018 4004 8002 8002"
+		$"8002 8002 4004 3018 0FE0",
+		/* [2] */
+		$"0000 0000 0000 0FE0 37F8 580C A002 C003"
+		$"C003 C003 4007 301E 1FFC 07F0"
+	}
+};
+
+resource 'ics#' (9014, "HotSpot") {
+	{	/* array: 2 elements */
+		/* [1] */
+		$"0000 0000 0000 0000 0C30 0E70 07E0 03C0"
+		$"03C0 07E0 0E70 0C30",
+		/* [2] */
+		$"0000 0000 0000 0000 0C30 0E70 07E0 03C0"
+		$"03C0 07E0 0E70 0C30"
+	}
+};
+
+resource 'ics4' (9000, "Lasso Tool Icons") {
+	$"0000 0000 0000 0000 0000 00FF FFFF 0000"
+	$"000F FF0D DDDD FF00 00F0 DDD0 0000 0DF0"
+	$"0F0D 0000 0000 00FD F0D0 0000 0000 00FD"
+	$"FD00 0000 0000 FF0D FD00 0000 0FFF 0DD0"
+	$"0FFF 000F F0DD D000 FFDD FFF0 DD00 0000"
+	$"FDFD FDDD 0000 0000 0FFF D000 0000 0000"
+	$"000F D000 0000 0000 000F D000 0000 0000"
+	$"00F0 D000 0000 0000 000D"
+};
+
+resource 'ics4' (9001, "Marquee Tool Icons") {
+	$"0000 0000 0000 0000 0FFF F00F FF00 FFF0"
+	$"0F00 0000 0000 00F0 0F00 0000 0000 00F0"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0F00 0000 0000 00F0 0F00 0000 0000 00F0"
+	$"0F00 0000 0000 00F0 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0F00 0000 0000 00F0"
+	$"0F00 0000 0000 00F0 0FFF 00FF F00F FFF0"
+};
+
+resource 'ics4' (9002, "Text Tool Icons") {
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0006 6666 6666 6000 0006 6666 6666 6D00"
+	$"0006 6DD6 6DD6 6D00 0006 6D06 6D06 6D00"
+	$"0000 DD06 6D00 DD00 0000 0006 6D00 0000"
+	$"0000 0006 6D00 0000 0000 0006 6D00 0000"
+	$"0000 0006 6D00 0000 0000 0006 6D00 0000"
+	$"0000 0066 6600 0000 0000 0066 66D0 0000"
+	$"0000 000D DDD0"
+};
+
+resource 'ics4' (9003, "Pencil Tool Icons") {
+	$"0000 000F FFF0 0000 0000 000F CCCF 0000"
+	$"0000 00FC CCCF D000 0000 00FF CCFD D000"
+	$"0000 0F11 FFFD D000 0000 0F11 1FDD 0000"
+	$"0000 F111 1FD0 0000 0000 F111 FDD0 0000"
+	$"000F 1111 FD00 0000 000F 111F DD00 0000"
+	$"000F F11F D000 0000 000F FFFD D000 0000"
+	$"000F FFDD 0000 0000 000F FDD0 0000 0000"
+	$"000F DD00 0000 0000 0000 D0"
+};
+
+resource 'ics4' (9004, "Eraser Tool Icons") {
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 000F FFFF FFF0 0000 00FC CCCC CFFD"
+	$"0000 0FCC CCCC FCFD 0000 FCCC CCCF CCFD"
+	$"000F CCCC CCFC CFDD 00FC CCCC CFCC FDD0"
+	$"0FCC CCCC FCCF DD00 FFFF FFFF CCFD D000"
+	$"FCCC CCCF CFDD 0000 FCCC CCCF FDD0 0000"
+	$"FFFF FFFF DD00 0000 0DDD DDDD D0"
+};
+
+resource 'ics4' (9005, "Paint Bucket Tool Icons") {
+	$"0000 FFF0 0000 0000 000F 000F 0000 0000"
+	$"000F 00FF 0000 0000 000F 0FCF F000 0000"
+	$"000F FCCF CF60 0000 000F CCCF DDF6 6000"
+	$"00FC CDCF EDDF 6600 0FCC CDFE FDEE F660"
+	$"FCCD CDDF EDEE F66D FCDC DDDD EEEF 666D"
+	$"0FDD DDED EEFD 666D 00FE DEEE EFDD 666D"
+	$"000F EEEE FDD0 66DD 0000 FEEF DD00 6DD0"
+	$"0000 0FFD D000 6D00 0000 00DD 0000 0D"
+};
+
+resource 'ics4' (9006, "Eye Dropper Tool Icons") {
+	$"0000 0000 000F FF00 0000 0000 00FF CFF0"
+	$"0000 0000 00FC FFFD 0000 000F FFFF FFFD"
+	$"0000 0000 FCFF FFDD 0000 000F 0FFF DDD0"
+	$"0000 00F0 CCFF D000 0000 0F0C CFDF D000"
+	$"0000 F0CC FDD0 D000 000F 0CCF DD00 0000"
+	$"00F0 CCFD D000 0000 0F0C CFDD 0000 0000"
+	$"F33C FDD0 0000 0000 F33F DD00 0000 0000"
+	$"3FFD D000 0000 0000 0DDD"
+};
+
+resource 'ics4' (9007, "Line Tool Icons") {
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"FF00 0000 0000 0000 0DFF 0000 0000 0000"
+	$"000D FF00 0000 0000 0000 0DFF 0000 0000"
+	$"0000 000D FF00 0000 0000 0000 0DFF 0000"
+	$"0000 0000 000D FF00 0000 0000 0000 0DD0"
+};
+
+resource 'ics4' (9008, "Filled Rect Tool Icons") {
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"FFFF FFFF FFFF FFF0 F111 1111 1111 11FD"
+	$"F111 1111 1111 11FD F111 1111 1111 11FD"
+	$"F111 1111 1111 11FD F111 1111 1111 11FD"
+	$"F111 1111 1111 11FD F111 1111 1111 11FD"
+	$"F111 1111 1111 11FD F111 1111 1111 11FD"
+	$"F111 1111 1111 11FD FFFF FFFF FFFF FFFD"
+	$"0DDD DDDD DDDD DDDD"
+};
+
+resource 'ics4' (9009, "Empty Rect Tool Icons") {
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"FFFF FFFF FFFF FFF0 FDDD DDDD DDDD DDFD"
+	$"FD00 0000 0000 00FD FD00 0000 0000 00FD"
+	$"FD00 0000 0000 00FD FD00 0000 0000 00FD"
+	$"FD00 0000 0000 00FD FD00 0000 0000 00FD"
+	$"FD00 0000 0000 00FD FD00 0000 0000 00FD"
+	$"FD00 0000 0000 00FD FFFF FFFF FFFF FFFD"
+	$"0DDD DDDD DDDD DDDD"
+};
+
+resource 'ics4' (9010, "Filled Round Rect Tool ICons") {
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"00FF FFFF FFFF F000 0F11 1111 1111 1F00"
+	$"F111 1111 1111 11F0 F111 1111 1111 11FD"
+	$"F111 1111 1111 11FD F111 1111 1111 11FD"
+	$"F111 1111 1111 11FD F111 1111 1111 11FD"
+	$"F111 1111 1111 11FD F111 1111 1111 11FD"
+	$"0F11 1111 1111 1FDD 00FF FFFF FFFF FDD0"
+	$"000D DDDD DDDD DD"
+};
+
+resource 'ics4' (9011, "Empty Round Rect Tool Icons") {
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"00FF FFFF FFFF F000 0FDD DDDD DDDD DF00"
+	$"FDD0 0000 0000 00F0 FD00 0000 0000 00FD"
+	$"FD00 0000 0000 00FD FD00 0000 0000 00FD"
+	$"FD00 0000 0000 00FD FD00 0000 0000 00FD"
+	$"FD00 0000 0000 00FD FD00 0000 0000 00FD"
+	$"0F00 0000 0000 0FDD 00FF FFFF FFFF FDD0"
+	$"000D DDDD DDDD DD"
+};
+
+resource 'ics4' (9012, "Filled Oval Tool Icons") {
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 FFFF FFF0 0000"
+	$"00FF 1111 111F F000 0F11 1111 1111 1F00"
+	$"F111 1111 1111 11F0 F111 1111 1111 11FD"
+	$"F111 1111 1111 11FD F111 1111 1111 11FD"
+	$"0F11 1111 1111 1FDD 00FF 1111 111F FDD0"
+	$"000D FFFF FFFD DD00 0000 0DDD DDDD"
+};
+
+resource 'ics4' (9013, "Empty Oval Tool Icons") {
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 FFFF FFF0 0000"
+	$"00FF 0DDD DDDF F000 0F0D D000 0000 DF00"
+	$"F0D0 0000 0000 00F0 FD00 0000 0000 00FD"
+	$"FD00 0000 0000 00FD FD00 0000 0000 00FD"
+	$"0F00 0000 0000 0FDD 00FF 0000 000F FDD0"
+	$"000D FFFF FFFD DD00 0000 0DDD DDDD"
+};
+
+resource 'ics4' (9014) {
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 3300 0033 0000 0000 3330 0333 0000"
+	$"0000 0333 3330 0000 0000 0033 3300 0000"
+	$"0000 0033 3300 0000 0000 0333 3330 0000"
+	$"0000 3330 0333 0000 0000 3300 0033"
+};
+
+resource 'ics8' (9000, "Lasso Tool Icons") {
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 FFFF FFFF FFFF 0000 0000"
+	$"0000 00FF FFFF 00FA FAFA FAFA FFFF 0000"
+	$"0000 FF00 FAFA FA00 0000 0000 00FA FF00"
+	$"00FF 00FA 0000 0000 0000 0000 0000 FFFA"
+	$"FF00 FA00 0000 0000 0000 0000 0000 FFFA"
+	$"FFFA 0000 0000 0000 0000 0000 FFFF 00FA"
+	$"FFFA 0000 0000 0000 00FF FFFF 00FA FA00"
+	$"00FF FFFF 0000 00FF FF00 FAFA FA00 0000"
+	$"FFFF FAFA FFFF FF00 FAFA 0000 0000 0000"
+	$"FFFA FFFA FFFA FAFA 0000 0000 0000 0000"
+	$"00FF FFFF FA00 0000 0000 0000 0000 0000"
+	$"0000 00FF FA00 0000 0000 0000 0000 0000"
+	$"0000 00FF FA00 0000 0000 0000 0000 0000"
+	$"0000 FF00 FA00 0000 0000 0000 0000 0000"
+	$"0000 00FA"
+};
+
+resource 'ics8' (9001, "Marquee Tool Icons") {
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"00FF FFFF FF00 00FF FFFF 0000 FFFF FF00"
+	$"00FF 0000 0000 0000 0000 0000 0000 FF00"
+	$"00FF 0000 0000 0000 0000 0000 0000 FF00"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"00FF 0000 0000 0000 0000 0000 0000 FF00"
+	$"00FF 0000 0000 0000 0000 0000 0000 FF00"
+	$"00FF 0000 0000 0000 0000 0000 0000 FF00"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"00FF 0000 0000 0000 0000 0000 0000 FF00"
+	$"00FF 0000 0000 0000 0000 0000 0000 FF00"
+	$"00FF FFFF 0000 FFFF FF00 00FF FFFF FF"
+};
+
+resource 'ics8' (9002, "Text Tool Icons") {
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 00EB EBEB EBEB EBEB EBEB EB00 0000"
+	$"0000 00EB EBEB EBEB EBEB EBEB EBFA 0000"
+	$"0000 00EB EBFA FAEB EBFA FAEB EBFA 0000"
+	$"0000 00EB EBFA 00EB EBFA 00EB EBFA 0000"
+	$"0000 0000 FAFA 00EB EBFA 0000 FAFA 0000"
+	$"0000 0000 0000 00EB EBFA 0000 0000 0000"
+	$"0000 0000 0000 00EB EBFA 0000 0000 0000"
+	$"0000 0000 0000 00EB EBFA 0000 0000 0000"
+	$"0000 0000 0000 00EB EBFA 0000 0000 0000"
+	$"0000 0000 0000 00EB EBFA 0000 0000 0000"
+	$"0000 0000 0000 EBEB EBEB 0000 0000 0000"
+	$"0000 0000 0000 EBEB EBEB FA00 0000 0000"
+	$"0000 0000 0000 00FA FAFA FA"
+};
+
+resource 'ics8' (9003, "Pencil Tool Icons") {
+	$"0000 0000 0000 00FF FFFF FF00 0000 0000"
+	$"0000 0000 0000 00FF 0E0E 0EFF 0000 0000"
+	$"0000 0000 0000 FF0E 0E0E 0EFF FA00 0000"
+	$"0000 0000 0000 FFFF 0E0E FFFA FA00 0000"
+	$"0000 0000 00FF 0B0B FFFF FFFA FA00 0000"
+	$"0000 0000 00FF 0B0B 0BFF FAFA 0000 0000"
+	$"0000 0000 FF0B 0B0B 0BFF FA00 0000 0000"
+	$"0000 0000 FF0B 0B0B FFFA FA00 0000 0000"
+	$"0000 00FF 0B0B 0B0B FFFA 0000 0000 0000"
+	$"0000 00FF 0B0B 0BFF FAFA 0000 0000 0000"
+	$"0000 00FF FF0B 0BFF FA00 0000 0000 0000"
+	$"0000 00FF FFFF FFFA FA00 0000 0000 0000"
+	$"0000 00FF FFFF FAFA 0000 0000 0000 0000"
+	$"0000 00FF FFFA FA00 0000 0000 0000 0000"
+	$"0000 00FF FAFA 0000 0000 0000 0000 0000"
+	$"0000 0000 FA"
+};
+
+resource 'ics8' (9004, "Eraser Tool Icons") {
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 00FF FFFF FFFF FFFF FF00"
+	$"0000 0000 0000 FF0E 0E0E 0E0E 0EFF FFFA"
+	$"0000 0000 00FF 0E0E 0E0E 0E0E FF0E FFFA"
+	$"0000 0000 FF0E 0E0E 0E0E 0EFF 0E0E FFFA"
+	$"0000 00FF 0E0E 0E0E 0E0E FF0E 0EFF FAFA"
+	$"0000 FF0E 0E0E 0E0E 0EFF 0E0E FFFA FA00"
+	$"00FF 0E0E 0E0E 0E0E FF0E 0EFF FAFA 0000"
+	$"FFFF FFFF FFFF FFFF 0E0E FFFA FA00 0000"
+	$"FF0E 0E0E 0E0E 0EFF 0EFF FAFA 0000 0000"
+	$"FF0E 0E0E 0E0E 0EFF FFFA FA00 0000 0000"
+	$"FFFF FFFF FFFF FFFF FAFA 0000 0000 0000"
+	$"00FA FAFA FAFA FAFA FA"
+};
+
+resource 'ics8' (9005, "Paint Bucket Tool Icons") {
+	$"0000 0000 FFFF FF00 0000 0000 0000 0000"
+	$"0000 00FF 0000 00FF 0000 0000 0000 0000"
+	$"0000 00FF 0000 FFFF 0000 0000 0000 0000"
+	$"0000 00FF 00FF 2BFF FF00 0000 0000 0000"
+	$"0000 00FF FF2B 2BFF 2BFF EB00 0000 0000"
+	$"0000 00FF 2B2B 2BFF F9F9 FFEB EB00 0000"
+	$"0000 FF2B 2BF9 2BFF FCF9 F9FF EBEB 0000"
+	$"00FF 2B2B 2BF9 FFFC FFF9 FCFC FFEB EB00"
+	$"FF2B 2BF9 2BF9 F9FF FCF9 FCFC FFEB EBFA"
+	$"FF2B F92B F9F9 F9F9 FCFC FCFF EBEB EBFA"
+	$"00FF F9F9 F9F9 FCF9 FCFC FFFA EBEB EBFA"
+	$"0000 FFFC F9FC FCFC FCFF FAFA EBEB EBFA"
+	$"0000 00FF FCFC FCFC FFFA FA00 EBEB FAFA"
+	$"0000 0000 FFFC FCFF FAFA 0000 EBFA FA00"
+	$"0000 0000 00FF FFFA FA00 0000 EBFA 0000"
+	$"0000 0000 0000 FAFA 0000 0000 00FA"
+};
+
+resource 'ics8' (9006, "Eye Dropper Tool Icons") {
+	$"0000 0000 0000 0000 0000 00FF FFFF 0000"
+	$"0000 0000 0000 0000 0000 FFFF F8FF FF00"
+	$"0000 0000 0000 0000 0000 FFF8 FFFF FFFA"
+	$"0000 0000 0000 00FF FFFF FFFF FFFF FFFA"
+	$"0000 0000 0000 0000 FFF8 FFFF FFFF FAFA"
+	$"0000 0000 0000 00FF 00FF FFFF FAFA FA00"
+	$"0000 0000 0000 FF00 F6F6 FFFF FA00 0000"
+	$"0000 0000 00FF 00F6 F6FF FAFF FA00 0000"
+	$"0000 0000 FF00 F6F6 FFFA FA00 FA00 0000"
+	$"0000 00FF 00F6 F6FF FAFA 0000 0000 0000"
+	$"0000 FF00 F6F6 FFFA FA00 0000 0000 0000"
+	$"00FF 00F6 F6FF FAFA 0000 0000 0000 0000"
+	$"FFD7 D7F6 FFFA FA00 0000 0000 0000 0000"
+	$"FFD7 D7FF FAFA 0000 0000 0000 0000 0000"
+	$"D7FF FFFA FA00 0000 0000 0000 0000 0000"
+	$"00FA FAFA"
+};
+
+resource 'ics8' (9007, "Line Tool Icons") {
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"FFFF 0000 0000 0000 0000 0000 0000 0000"
+	$"00FA FFFF 0000 0000 0000 0000 0000 0000"
+	$"0000 00FA FFFF 0000 0000 0000 0000 0000"
+	$"0000 0000 00FA FFFF 0000 0000 0000 0000"
+	$"0000 0000 0000 00FA FFFF 0000 0000 0000"
+	$"0000 0000 0000 0000 00FA FFFF 0000 0000"
+	$"0000 0000 0000 0000 0000 00FA FFFF 0000"
+	$"0000 0000 0000 0000 0000 0000 00FA FA"
+};
+
+resource 'ics8' (9008, "Filled Rect Tool Icons") {
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FF00"
+	$"FF05 0505 0505 0505 0505 0505 0505 FFFA"
+	$"FF05 0505 0505 0505 0505 0505 0505 FFFA"
+	$"FF05 0505 0505 0505 0505 0505 0505 FFFA"
+	$"FF05 0505 0505 0505 0505 0505 0505 FFFA"
+	$"FF05 0505 0505 0505 0505 0505 0505 FFFA"
+	$"FF05 0505 0505 0505 0505 0505 0505 FFFA"
+	$"FF05 0505 0505 0505 0505 0505 0505 FFFA"
+	$"FF05 0505 0505 0505 0505 0505 0505 FFFA"
+	$"FF05 0505 0505 0505 0505 0505 0505 FFFA"
+	$"FF05 0505 0505 0505 0505 0505 0505 FFFA"
+	$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFA"
+	$"00FA FAFA FAFA FAFA FAFA FAFA FAFA FAFA"
+};
+
+resource 'ics8' (9009, "Empty Rect Tool Icons") {
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FF00"
+	$"FFFA FAFA FAFA FAFA FAFA FAFA FAFA FFFA"
+	$"FFFA 0000 0000 0000 0000 0000 0000 FFFA"
+	$"FFFA 0000 0000 0000 0000 0000 0000 FFFA"
+	$"FFFA 0000 0000 0000 0000 0000 0000 FFFA"
+	$"FFFA 0000 0000 0000 0000 0000 0000 FFFA"
+	$"FFFA 0000 0000 0000 0000 0000 0000 FFFA"
+	$"FFFA 0000 0000 0000 0000 0000 0000 FFFA"
+	$"FFFA 0000 0000 0000 0000 0000 0000 FFFA"
+	$"FFFA 0000 0000 0000 0000 0000 0000 FFFA"
+	$"FFFA 0000 0000 0000 0000 0000 0000 FFFA"
+	$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFA"
+	$"00FA FAFA FAFA FAFA FAFA FAFA FAFA FAFA"
+};
+
+resource 'ics8' (9010, "Filled Round Rect Tool ICons") {
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 FFFF FFFF FFFF FFFF FFFF FF00 0000"
+	$"00FF 0505 0505 0505 0505 0505 05FF 0000"
+	$"FF05 0505 0505 0505 0505 0505 0505 FF00"
+	$"FF05 0505 0505 0505 0505 0505 0505 FFFA"
+	$"FF05 0505 0505 0505 0505 0505 0505 FFFA"
+	$"FF05 0505 0505 0505 0505 0505 0505 FFFA"
+	$"FF05 0505 0505 0505 0505 0505 0505 FFFA"
+	$"FF05 0505 0505 0505 0505 0505 0505 FFFA"
+	$"FF05 0505 0505 0505 0505 0505 0505 FFFA"
+	$"FF05 0505 0505 0505 0505 0505 0505 FFFA"
+	$"00FF 0505 0505 0505 0505 0505 05FF FAFA"
+	$"0000 FFFF FFFF FFFF FFFF FFFF FFFA FA00"
+	$"0000 00FA FAFA FAFA FAFA FAFA FAFA"
+};
+
+resource 'ics8' (9011, "Empty Round Rect Tool Icons") {
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 FFFF FFFF FFFF FFFF FFFF FF00 0000"
+	$"00FF FAFA FAFA FAFA FAFA FAFA FAFF 0000"
+	$"FFFA FA00 0000 0000 0000 0000 0000 FF00"
+	$"FFFA 0000 0000 0000 0000 0000 0000 FFFA"
+	$"FFFA 0000 0000 0000 0000 0000 0000 FFFA"
+	$"FFFA 0000 0000 0000 0000 0000 0000 FFFA"
+	$"FFFA 0000 0000 0000 0000 0000 0000 FFFA"
+	$"FFFA 0000 0000 0000 0000 0000 0000 FFFA"
+	$"FFFA 0000 0000 0000 0000 0000 0000 FFFA"
+	$"FFFA 0000 0000 0000 0000 0000 0000 FFFA"
+	$"00FF 0000 0000 0000 0000 0000 00FF FAFA"
+	$"0000 FFFF FFFF FFFF FFFF FFFF FFFA FA00"
+	$"0000 00FA FAFA FAFA FAFA FAFA FAFA"
+};
+
+resource 'ics8' (9012, "Filled Oval Tool Icons") {
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 FFFF FFFF FFFF FF00 0000 0000"
+	$"0000 FFFF 0505 0505 0505 05FF FF00 0000"
+	$"00FF 0505 0505 0505 0505 0505 05FF 0000"
+	$"FF05 0505 0505 0505 0505 0505 0505 FF00"
+	$"FF05 0505 0505 0505 0505 0505 0505 FFFA"
+	$"FF05 0505 0505 0505 0505 0505 0505 FFFA"
+	$"FF05 0505 0505 0505 0505 0505 0505 FFFA"
+	$"00FF 0505 0505 0505 0505 0505 05FF FAFA"
+	$"0000 FFFF 0505 0505 0505 05FF FFFA FA00"
+	$"0000 00FA FFFF FFFF FFFF FFFA FAFA 0000"
+	$"0000 0000 00FA FAFA FAFA FAFA"
+};
+
+resource 'ics8' (9013, "Empty Oval Tool Icons") {
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 FFFF FFFF FFFF FF00 0000 0000"
+	$"0000 FFFF 00FA FAFA FAFA FAFF FF00 0000"
+	$"00FF 00FA FA00 0000 0000 0000 FAFF 0000"
+	$"FF00 FA00 0000 0000 0000 0000 0000 FF00"
+	$"FFFA 0000 0000 0000 0000 0000 0000 FFFA"
+	$"FFFA 0000 0000 0000 0000 0000 0000 FFFA"
+	$"FFFA 0000 0000 0000 0000 0000 0000 FFFA"
+	$"00FF 0000 0000 0000 0000 0000 00FF FAFA"
+	$"0000 FFFF 0000 0000 0000 00FF FFFA FA00"
+	$"0000 00FA FFFF FFFF FFFF FFFA FAFA 0000"
+	$"0000 0000 00FA FAFA FAFA FAFA"
+};
+
+resource 'ics8' (9014, "Cursor Tools") {
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 D8D8 0000 0000 D8D8 0000 0000"
+	$"0000 0000 D8D8 D800 00D8 D8D8 0000 0000"
+	$"0000 0000 00D8 D8D8 D8D8 D800 0000 0000"
+	$"0000 0000 0000 D8D8 D8D8 0000 0000 0000"
+	$"0000 0000 0000 D8D8 D8D8 0000 0000 0000"
+	$"0000 0000 00D8 D8D8 D8D8 D800 0000 0000"
+	$"0000 0000 D8D8 D800 00D8 D8D8 0000 0000"
+	$"0000 0000 D8D8 0000 0000 D8D8"
+};
+
+data 'crsr' (9000, "Lasso Cursor") {
+	$"8001 0000 0060 0000 0092 0000 0000 0000"
+	$"0000 0000 0000 03F0 1C0C 2002 4002 8002"
+	$"800C 8070 7180 CE00 A800 7000 1000 1000"
+	$"2000 0000 0000 03F0 1FFC 3FFE 7FFE FFFE"
+	$"FFFC FFF0 7F80 FE00 F800 7000 1000 1000"
+	$"2000 0000 000E 0002 0000 0000 0000 0000"
+	$"0000 0000 8002 0000 0000 0010 0010 0000"
+	$"0000 0000 0000 0048 0000 0048 0000 0000"
+	$"0001 0001 0001 0000 0000 0000 00B2 0000"
+	$"0000 0000 03F0 1C0C 2002 4002 8002 800C"
+	$"8070 7180 CE00 A800 7000 1000 1000 2000"
+	$"0000 0000 0000 0000 0001 0000 FFFF FFFF"
+	$"FFFF 0001 0000 0000 0000"
+};
+
+data 'crsr' (9001, "Eraser Tool Cursor") {
+	$"8001 0000 0060 0000 0092 0000 0000 0000"
+	$"0000 0000 0000 3FFE 2002 2002 2002 2002"
+	$"2002 2002 2002 2002 2002 2002 2002 3FFE"
+	$"0000 0000 0000 3FFE 3FFE 3006 3006 3006"
+	$"3006 3006 3006 3006 3006 3006 3FFE 3FFE"
+	$"0000 0000 0002 0003 0000 0000 0000 0000"
+	$"0000 0000 8002 0000 0000 0010 0010 0000"
+	$"0000 0000 0000 0048 0000 0048 0000 0000"
+	$"0001 0001 0001 0000 0000 0000 00B2 0000"
+	$"0000 0000 3FFE 2002 2002 2002 2002 2002"
+	$"2002 2002 2002 2002 2002 2002 3FFE 0000"
+	$"0000 0001 521C 0000 0001 0000 FFFF FFFF"
+	$"FFFF 0001 0000 0000 0000"
+};
+
+data 'crsr' (9002, "Pencil Tool Cursor") {
+	$"8001 0000 0060 0000 0092 0000 0000 0000"
+	$"0000 0000 01E0 0110 0210 0320 04E0 0440"
+	$"0840 0880 1080 1100 1900 1E00 1C00 1800"
+	$"1000 0000 01E0 01F0 03F0 03E0 07E0 07C0"
+	$"0FC0 0F80 1F80 1F00 1F00 1E00 1C00 1800"
+	$"1000 0000 000E 0003 0000 0000 0000 0000"
+	$"0000 0000 8004 0000 0000 0010 0010 0000"
+	$"0000 0000 0000 0048 0000 0048 0000 0000"
+	$"0002 0001 0002 0000 0000 0000 00D2 0000"
+	$"0000 0003 FC00 0003 5700 000D 5700 000F"
+	$"5C00 003A FC00 003A B000 00EA B000 00EA"
+	$"C000 03AA C000 03AB 0000 03EB 0000 03FC"
+	$"0000 03F0 0000 03C0 0000 0300 0000 0000"
+	$"0000 0000 0000 0000 0003 0000 FFFF FFFF"
+	$"FFFF 0001 FFFF 6666 3333 0002 FFFF FFFF"
+	$"0000 0003 0000 0000 0000"
+};
+
+data 'crsr' (9003, "Eye Dropper Tool Cursor") {
+	$"8001 0000 0060 0000 0092 0000 0000 0000"
+	$"0000 0000 001C 0036 002E 01FE 00BC 0170"
+	$"0230 0450 0880 1100 2200 4400 E800 F000"
+	$"E000 0000 001C 003E 003E 01FE 00FC 01F0"
+	$"03F0 07D0 0F80 1F00 3E00 7C00 F800 F000"
+	$"E000 0000 000E 0000 0000 0000 0000 0000"
+	$"0000 0000 8008 0000 0000 0010 0010 0000"
+	$"0000 0000 0000 0048 0000 0048 0000 0000"
+	$"0004 0001 0004 0000 0000 0000 0112 0000"
+	$"0000 0000 0000 000F FF00 0000 0000 00FF"
+	$"3FF0 0000 0000 00F3 FFF0 0000 000F FFFF"
+	$"FFF0 0000 0000 F3FF FF00 0000 000F 0FFF"
+	$"0000 0000 00F0 11FF 0000 0000 0F01 1F0F"
+	$"0000 0000 F011 F000 0000 000F 011F 0000"
+	$"0000 00F0 11F0 0000 0000 0F01 1F00 0000"
+	$"0000 F221 F000 0000 0000 F22F 0000 0000"
+	$"0000 2FF0 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0004 0000 FFFF FFFF"
+	$"FFFF 0001 BBBB BBBB BBBB 0002 DDDD 0000"
+	$"0000 0003 8888 8888 8888 000F 0000 0000"
+	$"0000"
+};
+
+data 'crsr' (9004, "Grabber Hand Tool Cursor") {
+	$"8001 0000 0060 0000 0092 0000 0000 0000"
+	$"0000 0000 0180 1A70 2648 264A 124D 1249"
+	$"6809 9801 8802 4002 2002 2004 1004 0808"
+	$"0408 0408 0180 1BF0 3FF8 3FFA 1FFF 1FFF"
+	$"7FFF FFFF FFFE 7FFE 3FFE 3FFC 1FFC 0FF8"
+	$"07F8 07F8 0009 0008 0000 0000 0000 0000"
+	$"0000 0000 8004 0000 0000 0010 0010 0000"
+	$"0000 0000 0000 0048 0000 0048 0000 0000"
+	$"0002 0001 0002 0000 0000 0000 00D2 0000"
+	$"0000 0003 C000 03CD 7F00 0D7D 75C0 0D7D"
+	$"75CC 035D 75F7 035D 75D7 3CD5 55D7 D7D5"
+	$"5557 D5D5 555C 3555 555C 0D55 555C 0D55"
+	$"5570 0355 5570 00D5 55C0 0035 55C0 0035"
+	$"55C0 0000 0000 0000 0002 0000 FFFF FFFF"
+	$"FFFF 0001 FFFF CCCC 9999 0003 0000 0000"
+	$"0000"
+};
+
+data 'crsr' (9005, "Cross Hair Cursor") {
+	$"8001 0000 0060 0000 0092 0000 0000 0000"
+	$"0000 0000 0000 0100 0100 0100 0100 0100"
+	$"0100 7FFC 0100 0100 0100 0100 0100 0100"
+	$"0000 0000 0100 0380 0380 0380 0380 0380"
+	$"7FFC FFFE 7FFC 0380 0380 0380 0380 0380"
+	$"0100 0000 0007 0007 0000 0000 0000 0000"
+	$"0000 0000 8002 0000 0000 0010 0010 0000"
+	$"0000 0000 0000 0048 0000 0048 0000 0000"
+	$"0001 0001 0001 0000 0000 0000 00B2 0000"
+	$"0000 0000 0100 0100 0100 0100 0100 0100"
+	$"7FFC 0100 0100 0100 0100 0100 0100 0000"
+	$"0000 0000 F602 0000 0001 0000 FFFF FFFF"
+	$"FFFF 0001 0000 0000 0000"
+};
+
+data 'crsr' (9006, "Paint Bucket Tool Cursor") {
+	$"8001 0000 0060 0000 0092 0000 0000 0000"
+	$"0000 0000 0E00 1100 1300 1580 1960 1138"
+	$"211C 438E 810E 801E 402E 204E 108C 0908"
+	$"0608 0000 0E00 1100 1300 1780 1FE0 1FF8"
+	$"3FFC 7FFE FFFE FFFE 7FEE 3FCE 1F8C 0F08"
+	$"0608 0000 000E 000C 0000 0000 0000 0000"
+	$"0000 0000 8008 0000 0000 0010 0010 0000"
+	$"0000 0000 0000 0048 0000 0048 0000 0000"
+	$"0004 0001 0004 0000 0000 0000 0112 0000"
+	$"0000 0000 FFF0 0000 0000 000F 000F 0000"
+	$"0000 000F 00FF 0000 0000 000F 0F2F F000"
+	$"0000 000F F22F 2F30 0000 000F 222F 11F3"
+	$"3000 00F2 212F F11F 3300 0F22 21FF F1FF"
+	$"F330 F221 211F F1FF F330 F212 1111 FFFF"
+	$"3330 0F11 11F1 FFF0 3330 00FF 1FFF FF00"
+	$"3330 000F FFFF F000 3300 0000 FFFF 0000"
+	$"3000 0000 0FF0 0000 3000 0000 0000 0000"
+	$"0000 0000 0000 0000 0004 0000 FFFF FFFF"
+	$"FFFF 0001 7777 7777 7777 0002 BBBB BBBB"
+	$"BBBB 0003 0000 0000 DDDD 000F 0000 0000"
+	$"0000"
+};
+
+data 'crsr' (9007, "Edit Cursor") {
+	$"8001 0000 0060 0000 0092 0000 0000 0000"
+	$"0000 0000 0000 07F0 0080 0080 0080 0080"
+	$"0080 0080 0080 0080 0080 0080 07F0 0000"
+	$"0000 0000 07F0 0FF8 07F0 01C0 01C0 01C0"
+	$"01C0 01C0 01C0 01C0 01C0 07F0 0FF8 07F0"
+	$"0000 0000 000B 0008 0000 0000 0000 0000"
+	$"0000 0000 8002 0000 0000 0010 0010 0000"
+	$"0000 0000 0000 0048 0000 0048 0000 0000"
+	$"0001 0001 0001 0000 0000 0000 00B2 0000"
+	$"0000 0000 07F0 0080 0080 0080 0080 0080"
+	$"0080 0080 0080 0080 0080 07F0 0000 0000"
+	$"0000 0003 F5D8 0000 0001 0000 FFFF FFFF"
+	$"FFFF 0001 0000 0000 0000"
+};
+
+data 'crsr' (9010, "Closed Grabber Hand Tool Cursor") {
+	$"8001 0000 0060 0000 0092 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0DB0 124C"
+	$"100A 0802 1802 2002 2002 2004 1004 0808"
+	$"0408 0408 0000 0000 0000 0000 0DB0 1FFC"
+	$"1FFE 0FFE 1FFE 3FFE 3FFE 3FFC 1FFC 0FF8"
+	$"07F8 07F8 0009 0008 0000 0000 0000 0000"
+	$"0000 0000 8004 0000 0000 0010 0010 0000"
+	$"0000 0000 0000 0048 0000 0048 0000 0000"
+	$"0002 0001 0002 0000 0000 0000 00D2 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 00F3 CF00 035D 75F0 0355 55DC 00D5"
+	$"555C 03D5 555C 0D55 555C 0D55 555C 0D55"
+	$"5570 0355 5570 00D5 55C0 0035 55C0 0035"
+	$"55C0 0000 0000 0000 0002 0000 FFFF FFFF"
+	$"FFFF 0001 FFFF CCCC 9999 0003 0000 0000"
+	$"0000"
+};
+
+data 'crsr' (9011, "Hot Spot Cursor") {
+	$"8001 0000 0060 0000 0092 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0C30 0E70"
+	$"07E0 03C0 03C0 07E0 0E70 0C30 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0C30 0E70"
+	$"07E0 03C0 03C0 07E0 0E70 0C30 0000 0000"
+	$"0000 0000 0007 0007 0000 0000 0000 0000"
+	$"0000 0000 8002 0000 0000 0010 0010 0000"
+	$"0000 0000 0000 0048 0000 0048 0000 0000"
+	$"0001 0001 0001 0000 0000 0000 00B2 0000"
+	$"0000 0000 0000 0000 0000 0C30 0E70 07E0"
+	$"03C0 03C0 07E0 0E70 0C30 0000 0000 0000"
+	$"0000 0000 0000 0000 0001 0000 FFFF FFFF"
+	$"FFFF 0001 DDDD 0000 0000"
+};
+
+data 'crsr' (9012, "Small Eraser Tool Cursor") {
+	$"8001 0000 0060 0000 0092 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0FE0 0820"
+	$"0820 0820 0820 0820 0FE0 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 1FF0 1FF0 1830"
+	$"1830 1830 1830 1830 1FF0 1FF0 0000 0000"
+	$"0000 0000 0005 0005 0000 0000 0000 0000"
+	$"0000 0000 8002 0000 0000 0010 0010 0000"
+	$"0000 0000 0000 0048 0000 0048 0000 0000"
+	$"0001 0001 0001 0000 0000 0000 00B2 0000"
+	$"0000 0000 0000 0000 0000 0FE0 0820 0820"
+	$"0820 0820 0820 0FE0 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0001 0000 FFFF FFFF"
+	$"FFFF 0001 0000 0000 0000"
+};
+
+data 'crsr' (9013, "Cross Hair Cursor") {
+	$"8001 0000 0060 0000 0092 0000 0000 0000"
+	$"0000 0000 0000 03E0 0220 0220 0220 0220"
+	$"7E3F 4001 4001 4001 7E3F 0220 0220 0220"
+	$"0220 03E0 0000 03E0 03E0 03E0 03E0 03E0"
+	$"7E3F 7C1F 7C1F 7C1F 7E3F 03E0 03E0 03E0"
+	$"03E0 03E0 0006 0006 0000 0000 0000 0000"
+	$"0000 0000 8004 0000 0000 0010 0010 0000"
+	$"0000 0000 0000 0048 0000 0048 0000 0000"
+	$"0002 0001 0002 0000 0000 0000 00D2 0000"
+	$"0000 0000 0000 000F FC00 000D 5C00 000D"
+	$"5C00 000D 5C00 000D 5C00 3FFC 0FFF 3550"
+	$"0157 3550 0157 3550 0157 3FFC 0FFF 000D"
+	$"5C00 000D 5C00 000D 5C00 000D 5C00 000F"
+	$"FC00 0000 0000 0000 0002 0000 FFFF FFFF"
+	$"FFFF 0001 CCCC CCCC CCCC 0003 0000 0000"
+	$"0000"
 };
 
