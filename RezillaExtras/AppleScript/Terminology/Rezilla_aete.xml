@@ -820,7 +820,87 @@
 						</ArrayKeyForms>
 					</ClassElement>
 					<ClassElement>
+						<ClassElementID>MapD</ClassElementID>
+						<ArrayKeyForms>
+							<KeyFormID>indx</KeyFormID>
+							<KeyFormID>name</KeyFormID>
+							<KeyFormID>rang</KeyFormID>
+						</ArrayKeyForms>
+					</ClassElement>
+					<ClassElement>
+						<ClassElementID>EdiD</ClassElementID>
+						<ArrayKeyForms>
+							<KeyFormID>indx</KeyFormID>
+							<KeyFormID>name</KeyFormID>
+							<KeyFormID>rang</KeyFormID>
+						</ArrayKeyForms>
+					</ClassElement>
+					<ClassElement>
+						<ClassElementID>GuiD</ClassElementID>
+						<ArrayKeyForms>
+							<KeyFormID>indx</KeyFormID>
+							<KeyFormID>name</KeyFormID>
+							<KeyFormID>rang</KeyFormID>
+						</ArrayKeyForms>
+					</ClassElement>
+					<ClassElement>
+						<ClassElementID>TmpD</ClassElementID>
+						<ArrayKeyForms>
+							<KeyFormID>indx</KeyFormID>
+							<KeyFormID>name</KeyFormID>
+							<KeyFormID>rang</KeyFormID>
+						</ArrayKeyForms>
+					</ClassElement>
+					<ClassElement>
+						<ClassElementID>HexD</ClassElementID>
+						<ArrayKeyForms>
+							<KeyFormID>indx</KeyFormID>
+							<KeyFormID>name</KeyFormID>
+							<KeyFormID>rang</KeyFormID>
+						</ArrayKeyForms>
+					</ClassElement>
+					<ClassElement>
 						<ClassElementID>cwin</ClassElementID>
+						<ArrayKeyForms>
+							<KeyFormID>indx</KeyFormID>
+							<KeyFormID>name</KeyFormID>
+							<KeyFormID>rang</KeyFormID>
+						</ArrayKeyForms>
+					</ClassElement>
+					<ClassElement>
+						<ClassElementID>MapW</ClassElementID>
+						<ArrayKeyForms>
+							<KeyFormID>indx</KeyFormID>
+							<KeyFormID>name</KeyFormID>
+							<KeyFormID>rang</KeyFormID>
+						</ArrayKeyForms>
+					</ClassElement>
+					<ClassElement>
+						<ClassElementID>EdiW</ClassElementID>
+						<ArrayKeyForms>
+							<KeyFormID>indx</KeyFormID>
+							<KeyFormID>name</KeyFormID>
+							<KeyFormID>rang</KeyFormID>
+						</ArrayKeyForms>
+					</ClassElement>
+					<ClassElement>
+						<ClassElementID>GuiW</ClassElementID>
+						<ArrayKeyForms>
+							<KeyFormID>indx</KeyFormID>
+							<KeyFormID>name</KeyFormID>
+							<KeyFormID>rang</KeyFormID>
+						</ArrayKeyForms>
+					</ClassElement>
+					<ClassElement>
+						<ClassElementID>TmpW</ClassElementID>
+						<ArrayKeyForms>
+							<KeyFormID>indx</KeyFormID>
+							<KeyFormID>name</KeyFormID>
+							<KeyFormID>rang</KeyFormID>
+						</ArrayKeyForms>
+					</ClassElement>
+					<ClassElement>
+						<ClassElementID>HexW</ClassElementID>
 						<ArrayKeyForms>
 							<KeyFormID>indx</KeyFormID>
 							<KeyFormID>name</KeyFormID>
@@ -1707,6 +1787,38 @@
 			</Class>
 
 			<Class>
+				<ClassName>map documents</ClassName>
+				<ClassID>MapD</ClassID>
+				<ClassDescription>every map document</ClassDescription>
+				<ArrayProperties>
+					<ClassProperty>
+						<PropertyName></PropertyName>
+						<PropertyID>c@#!</PropertyID>
+						<PropertyClass>type</PropertyClass>
+						<PropertyDescription></PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>plural</SingularOrPlural>
+					</ClassProperty>
+				</ArrayProperties>
+				<ArrayElements>
+				</ArrayElements>
+			</Class>
+
+			<Class>
 				<ClassName>editor document</ClassName>
 				<ClassID>EdiD</ClassID>
 				<ClassDescription>an editor document for a single resource</ClassDescription>
@@ -1805,6 +1917,38 @@
 			</Class>
 
 			<Class>
+				<ClassName>editor documents</ClassName>
+				<ClassID>EdiD</ClassID>
+				<ClassDescription>every editor document</ClassDescription>
+				<ArrayProperties>
+					<ClassProperty>
+						<PropertyName></PropertyName>
+						<PropertyID>c@#!</PropertyID>
+						<PropertyClass>type</PropertyClass>
+						<PropertyDescription></PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>plural</SingularOrPlural>
+					</ClassProperty>
+				</ArrayProperties>
+				<ArrayElements>
+				</ArrayElements>
+			</Class>
+
+			<Class>
 				<ClassName>GUI editor</ClassName>
 				<ClassID>GuiD</ClassID>
 				<ClassDescription>a GUI editor document for a resource</ClassDescription>
@@ -1837,8 +1981,40 @@
 			</Class>
 
 			<Class>
-				<ClassName>template editor</ClassName>
+				<ClassName>GUI editors</ClassName>
 				<ClassID>GuiD</ClassID>
+				<ClassDescription>every GUI editor</ClassDescription>
+				<ArrayProperties>
+					<ClassProperty>
+						<PropertyName></PropertyName>
+						<PropertyID>c@#!</PropertyID>
+						<PropertyClass>type</PropertyClass>
+						<PropertyDescription></PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>plural</SingularOrPlural>
+					</ClassProperty>
+				</ArrayProperties>
+				<ArrayElements>
+				</ArrayElements>
+			</Class>
+
+			<Class>
+				<ClassName>template editor</ClassName>
+				<ClassID>TmpD</ClassID>
 				<ClassDescription>a template editor document for a resource</ClassDescription>
 				<ArrayProperties>
 					<ClassProperty>
@@ -1869,8 +2045,40 @@
 			</Class>
 
 			<Class>
+				<ClassName>template editors</ClassName>
+				<ClassID>TmpD</ClassID>
+				<ClassDescription>every template editor</ClassDescription>
+				<ArrayProperties>
+					<ClassProperty>
+						<PropertyName></PropertyName>
+						<PropertyID>c@#!</PropertyID>
+						<PropertyClass>type</PropertyClass>
+						<PropertyDescription></PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>plural</SingularOrPlural>
+					</ClassProperty>
+				</ArrayProperties>
+				<ArrayElements>
+				</ArrayElements>
+			</Class>
+
+			<Class>
 				<ClassName>hex editor</ClassName>
-				<ClassID>GuiD</ClassID>
+				<ClassID>HexD</ClassID>
 				<ClassDescription>a hexadecimal editor document for a resource</ClassDescription>
 				<ArrayProperties>
 					<ClassProperty>
@@ -1894,6 +2102,38 @@
 						<IsFeminine>notFeminine</IsFeminine>
 						<IsMasculine>notMasculine</IsMasculine>
 						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+				</ArrayProperties>
+				<ArrayElements>
+				</ArrayElements>
+			</Class>
+
+			<Class>
+				<ClassName>hex editors</ClassName>
+				<ClassID>HexD</ClassID>
+				<ClassDescription>every hex editor</ClassDescription>
+				<ArrayProperties>
+					<ClassProperty>
+						<PropertyName></PropertyName>
+						<PropertyID>c@#!</PropertyID>
+						<PropertyClass>type</PropertyClass>
+						<PropertyDescription></PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>plural</SingularOrPlural>
 					</ClassProperty>
 				</ArrayProperties>
 				<ArrayElements>
@@ -1933,6 +2173,38 @@
 			</Class>
 
 			<Class>
+				<ClassName>map windows</ClassName>
+				<ClassID>MapW</ClassID>
+				<ClassDescription>every map window</ClassDescription>
+				<ArrayProperties>
+					<ClassProperty>
+						<PropertyName></PropertyName>
+						<PropertyID>c@#!</PropertyID>
+						<PropertyClass>type</PropertyClass>
+						<PropertyDescription></PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>plural</SingularOrPlural>
+					</ClassProperty>
+				</ArrayProperties>
+				<ArrayElements>
+				</ArrayElements>
+			</Class>
+
+			<Class>
 				<ClassName>editor window</ClassName>
 				<ClassID>EdiW</ClassID>
 				<ClassDescription>a resource editor window</ClassDescription>
@@ -1958,6 +2230,38 @@
 						<IsFeminine>notFeminine</IsFeminine>
 						<IsMasculine>notMasculine</IsMasculine>
 						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+				</ArrayProperties>
+				<ArrayElements>
+				</ArrayElements>
+			</Class>
+
+			<Class>
+				<ClassName>editor windows</ClassName>
+				<ClassID>EdiW</ClassID>
+				<ClassDescription>every editor window</ClassDescription>
+				<ArrayProperties>
+					<ClassProperty>
+						<PropertyName></PropertyName>
+						<PropertyID>c@#!</PropertyID>
+						<PropertyClass>type</PropertyClass>
+						<PropertyDescription></PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>plural</SingularOrPlural>
 					</ClassProperty>
 				</ArrayProperties>
 				<ArrayElements>
@@ -1997,6 +2301,38 @@
 			</Class>
 
 			<Class>
+				<ClassName>GUI windows</ClassName>
+				<ClassID>GuiW</ClassID>
+				<ClassDescription>every GUI window</ClassDescription>
+				<ArrayProperties>
+					<ClassProperty>
+						<PropertyName></PropertyName>
+						<PropertyID>c@#!</PropertyID>
+						<PropertyClass>type</PropertyClass>
+						<PropertyDescription></PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>plural</SingularOrPlural>
+					</ClassProperty>
+				</ArrayProperties>
+				<ArrayElements>
+				</ArrayElements>
+			</Class>
+
+			<Class>
 				<ClassName>template window</ClassName>
 				<ClassID>TmpW</ClassID>
 				<ClassDescription>a template editor window</ClassDescription>
@@ -2022,6 +2358,38 @@
 						<IsFeminine>notFeminine</IsFeminine>
 						<IsMasculine>notMasculine</IsMasculine>
 						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+				</ArrayProperties>
+				<ArrayElements>
+				</ArrayElements>
+			</Class>
+
+			<Class>
+				<ClassName>template windows</ClassName>
+				<ClassID>TmpW</ClassID>
+				<ClassDescription>every template window</ClassDescription>
+				<ArrayProperties>
+					<ClassProperty>
+						<PropertyName></PropertyName>
+						<PropertyID>c@#!</PropertyID>
+						<PropertyClass>type</PropertyClass>
+						<PropertyDescription></PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>plural</SingularOrPlural>
 					</ClassProperty>
 				</ArrayProperties>
 				<ArrayElements>
@@ -2105,6 +2473,38 @@
 			</Class>
 
 			<Class>
+				<ClassName>hex windows</ClassName>
+				<ClassID>HexW</ClassID>
+				<ClassDescription>every hex window</ClassDescription>
+				<ArrayProperties>
+					<ClassProperty>
+						<PropertyName></PropertyName>
+						<PropertyID>c@#!</PropertyID>
+						<PropertyClass>type</PropertyClass>
+						<PropertyDescription></PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>plural</SingularOrPlural>
+					</ClassProperty>
+				</ArrayProperties>
+				<ArrayElements>
+				</ArrayElements>
+			</Class>
+
+			<Class>
 				<ClassName>compare window</ClassName>
 				<ClassID>CmpW</ClassID>
 				<ClassDescription>a maps comparison window</ClassDescription>
@@ -2152,6 +2552,38 @@
 						<IsFeminine>notFeminine</IsFeminine>
 						<IsMasculine>notMasculine</IsMasculine>
 						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+				</ArrayProperties>
+				<ArrayElements>
+				</ArrayElements>
+			</Class>
+
+			<Class>
+				<ClassName>compare windows</ClassName>
+				<ClassID>CmpW</ClassID>
+				<ClassDescription>every compare window</ClassDescription>
+				<ArrayProperties>
+					<ClassProperty>
+						<PropertyName></PropertyName>
+						<PropertyID>c@#!</PropertyID>
+						<PropertyClass>type</PropertyClass>
+						<PropertyDescription></PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>plural</SingularOrPlural>
 					</ClassProperty>
 				</ArrayProperties>
 				<ArrayElements>
