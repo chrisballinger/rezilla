@@ -287,7 +287,8 @@ const ResIDT	CURS_Square			= 9012;
 const ResIDT	CURS_Cross			= 9013;
 
 // Phony ID used to indicate "the color picker" in the Icon editor
-const ResIDT	ColorTable_UsePicker	= 0;
+const ResIDT	ColorTable_UsePicker		= 0;
+const ResIDT	IconEditor_EmptyDefaults	= 9200;
 
 
 // Indices in STR# resources
