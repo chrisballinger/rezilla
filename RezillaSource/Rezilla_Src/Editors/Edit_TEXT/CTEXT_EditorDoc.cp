@@ -115,7 +115,6 @@ CTEXT_EditorDoc::Initialize()
 		
 		if (rezData != nil) {
 			Handle			theScrapHandle = NULL;
-			StResource		initialStyleRes;
 			CRezMap *		theRezMap = mRezMapTable->GetRezMap();
 
 			// Look for a 'styl' resource with same ID
@@ -235,7 +234,7 @@ CTEXT_EditorDoc::SaveStylResource(StScrpHandle	inScrapHandle)
 	// Open or create a 'styl' resource and save the StScrpHandle therein
 	CRezObj * stylRezObj = NULL;
 	
-	CEditorsController::OpenOrCreateWithTypeAndID(mRezMapTable, 'styl', mRezObj->GetID(), &stylRezObj);
+	CEditorsController::OpenOrCreateWithTypeAndID(mRezMapTable, ResType_TextStyle, mRezObj->GetID(), &stylRezObj);
 	if (stylRezObj != NULL) {
 		// Copy to resource's data handle
 		stylRezObj->SetData( (Handle) inScrapHandle);
