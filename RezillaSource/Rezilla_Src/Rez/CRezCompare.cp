@@ -2,7 +2,7 @@
 // CRezCompare.cp					
 // 
 //                       Created: 2004-02-29 18:17:07
-//             Last modification: 2004-03-01 22:12:30
+//             Last modification: 2004-03-02 14:11:01
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -15,6 +15,7 @@
 #include "CRezCompare.h"
 #include "CRezMap.h"
 #include "CRezType.h"
+#include "CRezObj.h"
 #include "CRezillaApp.h"
 #include "RezillaConstants.h"
 #include "UDialogBoxHandler.h"
@@ -262,6 +263,7 @@ CRezCompare::CompareTypes(ResType inType)
 	TArrayIterator<short>	newIterator(*theNewRezIDArray);
 	CRezType	*theOldRezType, *theNewRezType;
 	short		theID;
+	SInt16		result;
 
 	theOldRezType = new CRezType(inType, mOldMap);
 	theOldRezType->GetAllRezIDs(theOldRezIDArray);
@@ -275,7 +277,10 @@ CRezCompare::CompareTypes(ResType inType)
 		} else {
 			// It is in both maps, compare the corresponding resources, then remove the ID 
 			// from the new map's list
-			CompareTwoResources(inType, theID);
+			CompareTwoResources(theOldRezType, theNewRezType, theID, &result);
+			if (result) {
+				AddResourceToArray(inType, theID, list_Differing);
+			} 
 			theNewRezIDArray->Remove(theID);
 		}
 	}
@@ -290,13 +295,30 @@ CRezCompare::CompareTypes(ResType inType)
 //  ¥ CompareTwoResources
 // ---------------------------------------------------------------------------------
 
-UInt32
-CRezCompare::CompareTwoResources(ResType inType, short theID)
+void
+CRezCompare::CompareTwoResources(CRezType * inOldRezType, CRezType * inNewRezType, 
+								 short inID, SInt16 * outCompResult)
 {
-	UInt32 theCount = 0;
+	UInt32		theCount = 0;
+	CRezObj		*theOldRezObj, *theNewRezObj;
+	Handle		oldRezHandle, newRezHandle;
 	
-// 	theCount = DoCompareTwoResources(inType, theID, mIgnoreNames, mIgnoreAttrs)
-	return theCount;
+	theOldRezObj = new CRezObj(inOldRezType, inID);
+	theNewRezObj = new CRezObj(inNewRezType, inID);
+
+	if (theOldRezObj->GetSize() != theNewRezObj->GetSize()) {
+		// Compare the sizes of the handles
+		*outCompResult = compare_sizeDiff;
+	} else if (!mIgnoreNames && (*(theOldRezObj->GetName()) != *(theNewRezObj->GetName()))) {
+		// Compare the names
+		*outCompResult = compare_nameDiff;
+	} else if (!mIgnoreAttrs && (theOldRezObj->GetAttributes() != theNewRezObj->GetAttributes())) {
+		// Compare the flags
+		*outCompResult = compare_flagDiff;
+	}  else if (BlockCompare(*(theOldRezObj->GetData()), *(theNewRezObj->GetData()), theOldRezObj->GetSize()) != 0) {
+		// Compare the data
+		*outCompResult = compare_dataDiff;
+	}
 }
 
 
@@ -307,6 +329,26 @@ CRezCompare::CompareTwoResources(ResType inType, short theID)
 void
 CRezCompare::AddTypeToArray(ResType inType, SInt16 inWhichList)
 {
+	TArray<short>* theRezIDArray = new TArray<short>();
+	TArrayIterator<short>	iterator(*theRezIDArray);
+	CRezType * theRezType;
+	short theID;
+	
+	while (iterator.Next(theID)) {
+		switch (inWhichList) {
+			case list_OnlyInOld:
+			theRezType = new CRezType(inType, mOldMap);
+			theRezType->GetAllRezIDs(theRezIDArray);
+			mOnlyInOldList.AddItem( new CRezTypId(inType, theID) );
+			break;
+			
+			case list_OnlyInNew:
+			theRezType = new CRezType(inType, mNewMap);
+			theRezType->GetAllRezIDs(theRezIDArray);
+			mOnlyInNewList.AddItem( new CRezTypId(inType, theID) );
+			break;
+		}
+	}
 }
 
 
@@ -317,6 +359,19 @@ CRezCompare::AddTypeToArray(ResType inType, SInt16 inWhichList)
 void
 CRezCompare::AddResourceToArray(ResType inType, short inID, SInt16 inWhichList)
 {
+	switch (inWhichList) {
+	  case list_OnlyInOld:
+		mOnlyInOldList.AddItem( new CRezTypId(inType, inID) );
+		break;
+		
+	  case list_OnlyInNew:
+		mOnlyInNewList.AddItem( new CRezTypId(inType, inID) );
+		break;
+		
+	  case list_Differing:
+		mDifferingList.AddItem( new CRezTypId(inType, inID) );
+		break;
+	}
 }
 
 
@@ -329,7 +384,7 @@ CRezCompare::HasDifferences()
 {
     return ( (mOnlyInOldList.GetCount() 
 			+ mOnlyInNewList.GetCount()
-			+ mDifferList.GetCount()) > 0);
+			+ mDifferingList.GetCount()) > 0);
 }
 
 

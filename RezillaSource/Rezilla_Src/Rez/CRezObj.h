@@ -2,11 +2,11 @@
 // CRezObj.h					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2003-05-24 17:49:28
+//             Last modification: 2004-03-02 12:02:31
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003
+// (c) Copyright : Bernard Desgraupes, 2003-2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -24,8 +24,10 @@ class CRezObj {
 public:
 				CRezObj(Handle inResHandle, short inRefnum);
 				CRezObj(CRezType * inRezType,
+						short inID);
+				CRezObj(CRezType * inRezType,
 						short inID, 
-						Str255* inName = nil);
+						Str255* inName);
 				CRezObj(CRezType * inRezType);
 				~CRezObj();
 
@@ -102,9 +104,9 @@ protected:
 //        ================== INLINES =====================
 
 // ---------------------------------------------------------------------------
-//	¬€ HasAttribute													[inline]
+//	¥ HasAttribute													[inline]
 // ---------------------------------------------------------------------------
-// Checks if a resourceˆïs attribute is on or off. The inFlag argument 
+// Checks if a resourceÕs attribute is on or off. The inFlag argument 
 // is one of the following constants:
 // 		resSysHeap		In system or in application heap
 // 		resPurgeable	Purgeable or not
@@ -123,7 +125,7 @@ CRezObj::HasAttribute(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ ToggleAttribute												[inline]
+//	¥ ToggleAttribute												[inline]
 // ---------------------------------------------------------------------------
 //	Allows the toggling of an attribute setting. If you wish to change all
 //	attributes in one call, use SetAttributes instead.
@@ -143,7 +145,7 @@ CRezObj::ToggleAttribute(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ SetOneAttribute												[inline]
+//	¥ SetOneAttribute												[inline]
 // ---------------------------------------------------------------------------
 //	Allows the toggling of an attribute setting. If you wish to change all
 //	attributes in one call, use SetAttributes instead.

@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2004-02-29 22:58:55
+//             Last modification: 2004-03-02 13:13:47
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -90,15 +90,6 @@
 
 // Globals
 CWindowMenu	*		gWindowMenu;	// This is the window menu.
-
-
-extern const Str255 Rzil_NavOpenItems[] = {
-	"\pfrom any fork",
-	"\pfrom resource fork",
-	"\pfrom data fork"
-};
-
-
 
 // Statics
 CInspectorWindow *		CRezillaApp::sInspectorWindow = nil;
@@ -621,8 +612,7 @@ CRezillaApp::VersionFromResource()
 	}
 	return  theString;
 }
-// 01014000000007312e302e3161312752657a696c6c6120312e302e31613120a9203230303420627920422e2044657367726175706573
-// ÿÿ@ÿÿÿÿ1.0.1a1'Rezilla.1.0.1a1.ö.2004.by.B..Desgraupes
+
 
 // ---------------------------------------------------------------------------
 //	¥ ChooseAFile								[public static]
@@ -690,7 +680,6 @@ CRezillaApp::ChooseAFile(const LFileTypeList & inFileTypes, FSSpec & fileSpec)
 }
 
 
-
 // ---------------------------------------------------------------------------
 //	¥ OpenFork								[public static]
 // ---------------------------------------------------------------------------
@@ -720,32 +709,6 @@ CRezillaApp::OpenFork(FSSpec & inFileSpec)
 // ---------------------------------------------------------------------------
 //	¥ PreOpen								[public static]
 // ---------------------------------------------------------------------------
-// 	theRefNum = OpenOrCreateResFile(WinFSSpecPtr(inWinP), fsRdWrPerm, &theErr);
-// 	if (kInvalidFileRefNum_ == theRefNum)
-// 	{
-// 		if (theErr == opWrErr || theErr == permErr) {
-// 			OSErrorAlert("\pResource fork is opened from another application. Could not save any extra information.", theErr);
-// 		} else {
-// 			OSErrorAlert("\pCould not save any extra information.", theErr);
-// 		}
-// 		goto RETURN;
-// 	}
-// file already open with write permission	
-// 		Str255	theTitle;
-// 		char * theCStr = new char[255];
-// 		CFStringRef formatStr = NULL, messageStr = NULL;
-// 		mWindow->GetDescriptor(theTitle);
-// 		CopyPascalStringToC(theTitle,theCStr);
-// 		formatStr =  CFCopyLocalizedString(CFSTR("SaveDictKey"), NULL);
-// 		if (formatStr != NULL) {
-// 			messageStr = CFStringCreateWithFormat(NULL, NULL, formatStr, theCStr);
-// 			if (messageStr != NULL)
-// 			{
-// 				theAnswer = UMessageDialogs::AskYesNoFromLocalizable(messageStr, rPPob_AskYesNoMessage);
-// 				CFRelease(messageStr);                     
-// 			}
-// 			CFRelease(formatStr);                             
-// 		}
 
 OSErr
 CRezillaApp::PreOpen(FSSpec & inFileSpec, SInt16 & outFork, short & outRefnum, SInt16 inWantedFork)
@@ -807,21 +770,6 @@ done:
 // ---------------------------------------------------------------------------
 //	¥ ReportOpenForkError								[public static]
 // ---------------------------------------------------------------------------
-// 		Str255	theTitle;
-// 		char * theCStr = new char[255];
-// 		CFStringRef formatStr = NULL, messageStr = NULL;
-// 		mWindow->GetDescriptor(theTitle);
-// 		CopyPascalStringToC(theTitle,theCStr);
-// 		formatStr =  CFCopyLocalizedString(CFSTR("SaveDictKey"), NULL);
-// 		if (formatStr != NULL) {
-// 			messageStr = CFStringCreateWithFormat(NULL, NULL, formatStr, theCStr);
-// 			if (messageStr != NULL)
-// 			{
-// 				theAnswer = UMessageDialogs::AskYesNoFromLocalizable(messageStr, rPPob_AskYesNoMessage);
-// 				CFRelease(messageStr);                     
-// 			}
-// 			CFRelease(formatStr);                             
-// 		}
 
 void
 CRezillaApp::ReportOpenForkError(OSErr inError, FSSpec * inFileSpecPtr)
@@ -867,7 +815,6 @@ CRezillaApp::ReportOpenForkError(OSErr inError, FSSpec * inFileSpecPtr)
 		CFRelease(formatStr);                             
 	}
 }
-
 
 
 // ---------------------------------------------------------------------------

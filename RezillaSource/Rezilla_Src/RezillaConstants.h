@@ -39,15 +39,7 @@ enum
 	idxIcnsDefaultName
 };
 
-// File extensions indices
-// enum
-// {	
-// 	rNoExtIndex = 1,
-// 	rRsrcExtIndex,
-// 	rRsrcExtIndex,
-// 	rRsrcExtIndex
-// };
-
+// Reference numbers
 enum
 {	
 	refnum_undefined = -1,
@@ -60,6 +52,16 @@ enum
 	export_Xml = 0,
 	export_Text,
 	export_Html
+} ;
+
+// Rez comparison results
+enum
+{	
+	compare_noDiff = 0,
+	compare_sizeDiff,
+	compare_dataDiff,
+	compare_nameDiff,
+	compare_flagDiff
 } ;
 
 
