@@ -149,14 +149,28 @@ CAeteElement::DeleteKeyForm()
  
 
 // ---------------------------------------------------------------------------
-// GetKeyForm 													[public]
+// GetCurrentKeyForm 												[public]
 // ---------------------------------------------------------------------------
 
-OSType
-CAeteElement::GetKeyForm(ArrayIndexT inKeyFormIndex)
+Boolean
+CAeteElement::GetCurrentKeyForm(OSType & outKeyForm)
 {
-	OSType	keyForm = 0;
-	mKeyForms.FetchItemAt(inKeyFormIndex, keyForm);
-	return keyForm;
+	Boolean	found = false;
+	if ( mKeyForms.FetchItemAt(mKeyFormIndex, outKeyForm) ) {
+		found = true;
+	} 
+	
+	return found;
+}
+
+
+// ---------------------------------------------------------------------------
+// SetCurrentKeyForm 												[public]
+// ---------------------------------------------------------------------------
+
+void
+CAeteElement::SetCurrentKeyForm(OSType inKeyForm)
+{
+	mKeyForms.AssignItemsAt(1, mKeyFormIndex, inKeyForm);
 }
 
