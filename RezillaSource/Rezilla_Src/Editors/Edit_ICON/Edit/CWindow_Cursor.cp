@@ -32,7 +32,6 @@
 #include "COffscreen.h"
 #include "RezillaConstants.h"
 #include "UColorUtils.h"
-#include "UPaneResizer.h"
 #include "UIconMisc.h"
 #include "UResourceMgr.h"
 

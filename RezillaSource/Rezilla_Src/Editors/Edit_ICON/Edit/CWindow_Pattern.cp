@@ -19,7 +19,6 @@
 #include "CRezMap.h"
 #include "UColorUtils.h"
 #include "COffscreen.h"
-#include "UPaneResizer.h"
 #include "UIconMisc.h"
 #include "UResourceMgr.h"
 #include "RezillaConstants.h"
