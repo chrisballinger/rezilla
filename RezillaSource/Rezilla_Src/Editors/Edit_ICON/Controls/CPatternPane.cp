@@ -24,7 +24,8 @@
 // 	CPatternPane
 // ---------------------------------------------------------------------------
 
-CPatternPane::CPatternPane( LStream *inStream ) : LPane( inStream )
+CPatternPane::CPatternPane( LStream *inStream ) 
+		: LBevelButton( inStream )
 {
 	mForeColor = Color_Black;
 	mBackColor = Color_White;
