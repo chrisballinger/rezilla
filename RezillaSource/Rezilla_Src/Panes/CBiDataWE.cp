@@ -298,7 +298,7 @@ CBiDataWE::InsertContents(Handle inHandle)
 		break;
 		
 		case bidata_txtType: {
-			StReadableTranslator translator(inHandle);
+			StSepTextTranslator translator(inHandle);
 			translator.Convert();
 			
 			// Empty the Waste edit
@@ -333,7 +333,7 @@ CBiDataWE::InsertContents(const void * inPtr, SInt32 inByteCount)
 		break;
 		
 		case bidata_txtType: {
-			StReadableTranslator translator(inPtr, inByteCount);
+			StSepTextTranslator translator(inPtr, inByteCount);
 			translator.Convert();
 			
 			// Empty the Waste edit
