@@ -447,7 +447,7 @@ CRezMapDoc::ObeyCommand(
 			
 			CRezClipboard::GetClipboard()->GetData(kRezillaClipType, nil);
 			// The call to GetData() ensures that CRezClipboard::ImportSelf() is 
-			// called when appropriate, but GetDataSelf() is empty and all the work 
+			// called appropriately, but GetDataSelf() is empty and all the work 
 			// is done by the following:
 			PasteRezMap( CRezClipboard::GetScrapRezMap() );
 			break;
