@@ -1,7 +1,7 @@
 // ===========================================================================
 // CSuite_Window.h
 //                       Created: 2005-01-10 21:23:57
-//             Last modification: 2005-01-11 13:30:46
+//             Last modification: 2005-02-17 17:45:33
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -19,6 +19,7 @@
 
 class LStaticText;
 class LPushButton;
+class CRezObj;
 class CRezMap;
 class CSuiteSlider;
 class CPatternTargetView;
@@ -31,14 +32,14 @@ class CSuite_Window : public CIcon_EditorWindow {
 								CSuite_Window( LStream * );
 		virtual					~CSuite_Window();
 		
-		static CSuite_Window *	OpenPaintWindow( ResIDT inPPobID, CRezMap *inMap, ResType inResType, ResIDT inResID );
+		static CSuite_Window *	OpenPaintWindow( CRezObj * inRezObj, ResIDT inPPobID );
 		static CSuite_Window *	CreateFromStream( LStream *inStream );
 		
 		virtual void		ListenToMessage(MessageT inMessage, void *ioParam);
 
 		virtual Boolean		HandleKeyPress( const EventRecord&	inKeyEvent);
 
-		virtual void		InitializeFromResource( CRezMap *inMap, ResType inResType, ResIDT inResID );
+		virtual void		InitializeFromResource(CRezObj * inRezObj);
 		virtual void		SaveAsResource( CRezMap *inMap, ResIDT inID);
 				
 		void				SwitchToNthBitmap( SInt32 inBitmapIndex );

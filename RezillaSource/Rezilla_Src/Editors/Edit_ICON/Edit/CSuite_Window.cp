@@ -35,14 +35,14 @@
 // 	OpenPaintWindow
 // ---------------------------------------------------------------------------
 CSuite_Window*
-CSuite_Window::OpenPaintWindow( ResIDT inPPobID, CRezMap *inMap, ResType inResType, ResIDT inResID )
+CSuite_Window::OpenPaintWindow( CRezObj * inRezObj, ResIDT inPPobID )
 {
 	CSuite_Window *	theWindow = nil;
 
 	try
 	{
 		theWindow = (CSuite_Window*) CIcon_EditorWindow::CreatePaintWindow( inPPobID );
-		theWindow->InitializeFromResource( inMap, inResType, inResID );
+		theWindow->InitializeFromResource(inRezObj);
 	}
 	catch( ... )
 	{
@@ -85,22 +85,26 @@ CSuite_Window::CreateFromStream( LStream *inStream )
 // 	InitializeFromResource
 // ---------------------------------------------------------------------------
 void
-CSuite_Window::InitializeFromResource( CRezMap *inMap, ResType inResType, ResIDT inResID )
+CSuite_Window::InitializeFromResource(CRezObj * inRezObj)
 {
 	StGWorldSaver		worldSaver;
 	StRezRefSaver		refSaver;
 
-	CRezObj 			*theRes = nil;
 	COffscreen			*bwImage = nil;
 	Handle				h = nil;
+	ResType				resType = inRezObj->GetType();
 	
 	try
 	{	
+		ThrowIfNil_( inRezObj );
+
+		// Get an empty default icon if the size is 0
+		if (inRezObj->GetSize() == 0) {
+			UIconMisc::GetDefaultBitmap(inRezObj, resType, true );	
+		} 
+		
 		// Get the raw resource handle
-// 		theRes = inMap->FindResource( inResType, inResID, true );
-		theRes = UIconMisc::FindBitmapResource(inMap, inResType, inResID, true );
-		ThrowIfNil_( theRes );
-		h = theRes->GetData();
+		h = inRezObj->GetData();
 		ThrowIfNil_( h );
 		
 		// Parse the resource to build the patterns array
@@ -113,11 +117,9 @@ CSuite_Window::InitializeFromResource( CRezMap *inMap, ResType inResType, ResIDT
 		mSlider->SetMaxValue(mTotalCount);
 		AdjustSlider();
 
-		delete theRes;
 	}
 	catch( ... )
 	{
-		if ( theRes ) delete( theRes );
 		if ( bwImage ) delete( bwImage );
 		( h );
 		throw;
