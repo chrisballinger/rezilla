@@ -244,7 +244,9 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 							break;
 						}
 					}
-				} 
+				} else {
+					mSelectedListItem = NULL;
+				}
 				currListItemView->CalcPortFrameRect(theFrame);
 				theHeight = theFrame.bottom - theFrame.top + kTmplVertSkip;
 			} else {
@@ -315,13 +317,16 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 						}
 						currListItemView = currListItemView->mNextItem;
 					}
+					nextListItemView = currListItemView->mNextItem;
 					currListItemView->CalcPortFrameRect(theFrame);
 				} else {
 					// The first item is selected
+					nextListItemView = currListItemView;
 					currListItemView = NULL;
 					thePlusButton->CalcPortFrameRect(theFrame);
 				}
 			} else {
+				nextListItemView = NULL;
 				thePlusButton->CalcPortFrameRect(theFrame);
 			}
 			
@@ -342,7 +347,7 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			}
 			mIndent += kTmplListIndent * sublevel;
 
-			currListItemView = AddListItemView(prevListItemView, theContainer);
+			currListItemView = AddListItemView(prevListItemView, nextListItemView, theContainer);
 			if (prevListItemView == nil) {
 				thePlusButton->SetUserCon( (long) currListItemView);
 			} 
@@ -655,7 +660,7 @@ CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount,
 		do {
 			if (drawCtrl) {
 				listCount++;
-				currListItemView = AddListItemView(prevListItemView, inContainer);
+				currListItemView = AddListItemView(prevListItemView, NULL, inContainer);
 				prevListItemView = currListItemView;
 				theContainer = currListItemView;
 				if (thePlusButton->GetUserCon() == nil) {
@@ -690,7 +695,7 @@ CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount,
 			error = DoParseWithTemplate(inStartMark, false, theContainer);
 		} else {
 			for (short i = 0 ; i < inCount && error == noErr; i++) {
-				currListItemView = AddListItemView(prevListItemView, inContainer);
+				currListItemView = AddListItemView(prevListItemView, NULL, inContainer);
 				prevListItemView = currListItemView;
 				theContainer = currListItemView;
 				if (thePlusButton->GetUserCon() == nil) {

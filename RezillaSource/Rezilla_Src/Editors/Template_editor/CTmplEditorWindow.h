@@ -225,7 +225,9 @@ private:
 								   LView * inContainer,
 								   Boolean isFixedCount);
 	
-	CTmplListItemView *	AddListItemView(CTmplListItemView * inPrevListItemView, LView * inContainer);
+	CTmplListItemView *	AddListItemView(CTmplListItemView * inPrevListItemView, 
+										CTmplListItemView * inNextListItemView, 
+										LView * inContainer);
 	
 	void			AddSeparatorLine(LView * inContainer);
 
