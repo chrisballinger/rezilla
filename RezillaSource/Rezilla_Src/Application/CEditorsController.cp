@@ -2,11 +2,11 @@
 // CEditorsController.cp					
 // 
 //                       Created: 2004-06-11 10:48:38
-//             Last modification: 2005-01-09 20:20:20
+//             Last modification: 2005-01-21 10:12:23
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004, 2005
+// (c) Copyright : Bernard Desgraupes, 2004-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -25,6 +25,7 @@ PP_Begin_Namespace_PowerPlant
 #include "CPICT_EditorDoc.h"
 #include "CSnd_EditorDoc.h"
 #include "CIcon_EditorDoc.h"
+#include "CAete_EditorDoc.h"
 #include "CTemplatesController.h"
 #include "CRezMap.h"
 #include "CRezMapDoc.h"
@@ -184,6 +185,7 @@ CEditorsController::HasEditorForType(ResType inType, ResType * substType)
 		case 'ics4':
 		case 'ics8':
 		case 'ppat':
+		case 'aete':
 		*substType = inType;
 		result = true;
 		break;
@@ -230,6 +232,10 @@ CEditorsController::InvokeCustomEditor(CRezMapDoc* inRezMapDoc,
 		
 		case 'snd ':
 		  new CSnd_EditorDoc( (LCommander *) inRezMapDoc, inSuperMap, inRezObj, inUseType, true);
+		break;
+		
+		case 'aete':
+		  new CAete_EditorDoc( (LCommander *) inRezMapDoc, inSuperMap, inRezObj, inUseType, inReadOnly);
 		break;
 		
 		case 'CURS':
