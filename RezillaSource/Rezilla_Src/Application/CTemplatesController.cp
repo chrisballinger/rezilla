@@ -2,7 +2,7 @@
 // CTemplatesController.cp					
 // 
 //                       Created: 2004-08-06 12:57:55
-//             Last modification: 2004-08-27 22:05:41
+//             Last modification: 2004-10-12 23:38:53
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -333,9 +333,9 @@ CTemplatesController::HasTemplateForType(ResType inType, ResType * substType, CR
 	sTemplateKind = tmpl_none;
 	UMiscUtils::OSTypeToPString(inType, theName);	
 
-	// First look fo a local TMPL resource inside the RezMap itself
+	// First look for a local TMPL resource inside the RezMap itself
 	if (inRezMap != NULL) {
-		hasTMPL = inRezMap->HasResourceWithTypeAndName('TMPL', theName);
+		hasTMPL = HasLocalTemplateForType(theName, inRezMap);
 	} 
 	if (hasTMPL == true) {
 		sTemplateKind = tmpl_local;
@@ -358,6 +358,35 @@ CTemplatesController::HasTemplateForType(ResType inType, ResType * substType, CR
 			} 
 		} 
 	}
+	
+	return hasTMPL;
+}
+
+
+// ---------------------------------------------------------------------------
+//  ¥ HasLocalTemplateForType									[static]
+// ---------------------------------------------------------------------------
+// Get1NamedResource() appears to be case insensitive! We must then get the
+// list of resources and check the names directly.
+
+Boolean
+CTemplatesController::HasLocalTemplateForType(Str255 inName, CRezMap * inRezMap)
+{
+	Boolean hasTMPL = false;
+	Str255	theName;
+	short	theCount;
+	CRezType * theRezTRype = new CRezType('TMPL', inRezMap);
+	
+	if (theRezTRype->CountResources(theCount) == noErr) {
+		for ( UInt16 i = 1; i <= theCount; i++ ) {
+			if (theRezTRype->GetNameAtIndex(i, theName) == noErr 
+				&& 
+				UMiscUtils::CompareStr255( (Str255 *) &theName, (Str255 *) &inName) == 0) {
+					hasTMPL = true;
+					break;
+			} 
+		}
+	} 
 	
 	return hasTMPL;
 }

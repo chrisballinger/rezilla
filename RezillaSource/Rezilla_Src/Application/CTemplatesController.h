@@ -2,7 +2,7 @@
 // CTemplatesController.h
 // 
 //                       Created: 2004-08-06 12:57:55
-//             Last modification: 2004-08-25 12:32:44
+//             Last modification: 2004-10-12 23:29:08
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -41,6 +41,9 @@ public:
 											   ResType * substType, 
 											   CRezMap * inRezMap);
 		
+		static Boolean		HasLocalTemplateForType(Str255 inName, 
+													CRezMap * inRezMap);
+
 		static Boolean		HasInternalTemplateForType(ResType inType);
 		
 		static Boolean		HasExternalTemplateForType(ResType inType,
