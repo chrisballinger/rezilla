@@ -147,7 +147,6 @@ CAeteParameter::GetDataFromXml(CFXMLTreeRef inTreeNode)
 	CFXMLTreeRef    xmlTree;
 	CFXMLNodeRef    xmlNode;
 	int             index;
-	SInt32			theLong;
 	
 	childCount = CFTreeGetChildCount(inTreeNode);
 	for (index = 0; index < childCount; index++) {
@@ -164,9 +163,9 @@ CAeteParameter::GetDataFromXml(CFXMLTreeRef inTreeNode)
 				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ParameterDescription"), 0) ) {
 					UMiscUtils::GetStringFromXml(xmlTree, mDescription);
 				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ParameterFlags"), 0) ) {
-					UMiscUtils::GetValueFromXml(xmlTree, theLong);
-					mFlags = theLong;
+					error = UMiscUtils::GetFlagsFromXml(xmlTree, mFlags);
 				} else {
+					CFShow(CFXMLNodeGetString(xmlNode));
 					error = err_ImportUnknownAeteParameterTag;	
 				}
 				

@@ -317,7 +317,6 @@ CAeteEvent::GetDataFromXml(CFXMLTreeRef inTreeNode)
 	CFXMLTreeRef    xmlTree, subTree;
 	CFXMLNodeRef    xmlNode, subNode;
 	int             index, subIndex;
-	SInt32			theLong;
 	
 	childCount = CFTreeGetChildCount(inTreeNode);
 	for (index = 0; index < childCount; index++) {
@@ -338,15 +337,13 @@ CAeteEvent::GetDataFromXml(CFXMLTreeRef inTreeNode)
 				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ReplyDescription"), 0) ) {
 					UMiscUtils::GetStringFromXml(xmlTree, mReplyDescription);
 				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ReplyFlags"), 0) ) {
-					UMiscUtils::GetValueFromXml(xmlTree, theLong);
-					mReplyFlags = theLong;
+					error = UMiscUtils::GetFlagsFromXml(xmlTree, mReplyFlags);
 				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("DirectParamType"), 0) ) {
 					error = UMiscUtils::GetOSTypeFromXml(xmlTree, mDirectType);
 				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("DirectParamDescription"), 0) ) {
 					UMiscUtils::GetStringFromXml(xmlTree, mDirectDescription);
 				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("DirectFlags"), 0) ) {
-					UMiscUtils::GetValueFromXml(xmlTree, theLong);
-					mDirectFlags = theLong;
+					error = UMiscUtils::GetFlagsFromXml(xmlTree, mDirectFlags);
 				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ArrayOtherParams"), 0) ) {
 					subCount = CFTreeGetChildCount(xmlTree);
 					for (subIndex = 0; subIndex < subCount; subIndex++) {
@@ -363,6 +360,7 @@ CAeteEvent::GetDataFromXml(CFXMLTreeRef inTreeNode)
 					}
 					mParameterIndex = (CountParameters() > 0);
 				} else {
+					CFShow(CFXMLNodeGetString(xmlNode));
 					error = err_ImportUnknownAeteEventTag;	
 				} 
 
