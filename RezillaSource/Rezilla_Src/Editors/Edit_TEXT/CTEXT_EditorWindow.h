@@ -68,7 +68,6 @@ public:
 protected:
 	CTEXT_EditorView *	mContentsView;
 	Boolean				mHasStyleResource;
-	Boolean				mIsAdjustingMenus;
 	LStaticText *		mLengthField;
 						
 	virtual void	FinishCreateSelf();

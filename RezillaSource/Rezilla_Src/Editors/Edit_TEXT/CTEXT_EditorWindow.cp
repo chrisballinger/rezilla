@@ -104,7 +104,6 @@ void
 CTEXT_EditorWindow::FinishCreateSelf()
 {	
 	mHasStyleResource = false;
-	mIsAdjustingMenus = false;
 	
 	// The main view containing the labels and editing panes
 	mContentsView = dynamic_cast<CTEXT_EditorView *>(this->FindPaneByID(item_EditorContents));
@@ -208,11 +207,7 @@ CTEXT_EditorWindow::RemoveTextMenus()
 
 void
 CTEXT_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam ) 
-{	
-	if (mIsAdjustingMenus) {
-		return;
-	} 
-	
+{		
 	switch (inMessage) {
 		
 		default:
