@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- This is a preliminary draft version! -->
-<!--
- | Rezilla project
- | Author: Bernard Desgraupes
- | E-mail: bdesgraupes@users.sourceforge.net
- | Web: http://webperso.easyconnect.fr/bdesgraupes/rezilla.html
- | $Revision$
- | $Date$
--->
+<!-- Rezilla project -->
+<!-- Author: Bernard Desgraupes -->
+<!-- E-mail: bdesgraupes@users.sourceforge.net -->
+<!-- Web: http://webperso.easyconnect.fr/bdesgraupes/rezilla.html -->
+<!-- $Revision$ -->
+<!-- $Date$ -->
 <!DOCTYPE AETEREZ SYSTEM "file://localhost/System/Library/DTDs/aete.dtd">
 
 <AETEREZ>
@@ -650,7 +648,7 @@
 
 			<Event>
 				<EventName>set</EventName>
-				<EventDescription>Set an objectÍs data</EventDescription>
+				<EventDescription>Set an object's data</EventDescription>
 				<EventClass>core</EventClass>
 				<EventID>setd</EventID>
 				<ReplyDirectParamType>null</ReplyDirectParamType>
@@ -721,7 +719,7 @@
 			<Class>
 				<ClassName>application</ClassName>
 				<ClassID>capp</ClassID>
-				<ClassDescription>The application</ClassDescription>
+				<ClassDescription>the application</ClassDescription>
 				<ArrayProperties>
 					<ClassProperty>
 						<PropertyName>name</PropertyName>
@@ -931,10 +929,108 @@
 			</Class>
 
 			<Class>
+				<ClassName>documents</ClassName>
+				<ClassID>docu</ClassID>
+				<ClassDescription>Every document</ClassDescription>
+				<ArrayProperties>
+					<ClassProperty>
+						<PropertyName>class attributes</PropertyName>
+						<PropertyID>c@#!</PropertyID>
+						<PropertyClass>type</PropertyClass>
+						<PropertyDescription>special class attributes</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>plural</SingularOrPlural>
+					</ClassProperty>
+				</ArrayProperties>
+				<ArrayElements>
+				</ArrayElements>
+			</Class>
+
+			<Class>
 				<ClassName>window</ClassName>
 				<ClassID>cwin</ClassID>
-				<ClassDescription>A Window</ClassDescription>
+				<ClassDescription>a window</ClassDescription>
 				<ArrayProperties>
+					<ClassProperty>
+						<PropertyName>name</PropertyName>
+						<PropertyID>pnam</PropertyID>
+						<PropertyClass>itxt</PropertyClass>
+						<PropertyDescription>the title of the window</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readWrite</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+					<ClassProperty>
+						<PropertyName>index</PropertyName>
+						<PropertyID>pidx</PropertyID>
+						<PropertyClass>long</PropertyClass>
+						<PropertyDescription>the number of the window</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readWrite</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+					<ClassProperty>
+						<PropertyName>document</PropertyName>
+						<PropertyID>docu</PropertyID>
+						<PropertyClass>docu</PropertyClass>
+						<PropertyDescription>the document that owns this window</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
 					<ClassProperty>
 						<PropertyName>bounds</PropertyName>
 						<PropertyID>pbnd</PropertyID>
@@ -988,28 +1084,6 @@
 						<IsPropertyList>singleItem</IsPropertyList>
 						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
 						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
-						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
-						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
-						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
-						<Reserved/>
-						<Reserved/>
-						<Reserved/>
-						<Reserved/>
-						<Reserved/>
-						<IsApostrophe>noApostrophe</IsApostrophe>
-						<IsFeminine>notFeminine</IsFeminine>
-						<IsMasculine>notMasculine</IsMasculine>
-						<SingularOrPlural>singular</SingularOrPlural>
-					</ClassProperty>
-					<ClassProperty>
-						<PropertyName>index</PropertyName>
-						<PropertyID>pidx</PropertyID>
-						<PropertyClass>long</PropertyClass>
-						<PropertyDescription>the number of the window</PropertyDescription>
-						<Reserved/>
-						<IsPropertyList>singleItem</IsPropertyList>
-						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
-						<IsReadOnlyProperty>readWrite</IsReadOnlyProperty>
 						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
 						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
 						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
@@ -1134,28 +1208,6 @@
 						<SingularOrPlural>singular</SingularOrPlural>
 					</ClassProperty>
 					<ClassProperty>
-						<PropertyName>name</PropertyName>
-						<PropertyID>pnam</PropertyID>
-						<PropertyClass>itxt</PropertyClass>
-						<PropertyDescription>the title of the window</PropertyDescription>
-						<Reserved/>
-						<IsPropertyList>singleItem</IsPropertyList>
-						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
-						<IsReadOnlyProperty>readWrite</IsReadOnlyProperty>
-						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
-						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
-						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
-						<Reserved/>
-						<Reserved/>
-						<Reserved/>
-						<Reserved/>
-						<Reserved/>
-						<IsApostrophe>noApostrophe</IsApostrophe>
-						<IsFeminine>notFeminine</IsFeminine>
-						<IsMasculine>notMasculine</IsMasculine>
-						<SingularOrPlural>singular</SingularOrPlural>
-					</ClassProperty>
-					<ClassProperty>
 						<PropertyName>visible</PropertyName>
 						<PropertyID>pvis</PropertyID>
 						<PropertyClass>bool</PropertyClass>
@@ -1204,6 +1256,38 @@
 				</ArrayElements>
 			</Class>
 
+			<Class>
+				<ClassName>windows</ClassName>
+				<ClassID>cwin</ClassID>
+				<ClassDescription>Every window</ClassDescription>
+				<ArrayProperties>
+					<ClassProperty>
+						<PropertyName>class attributes</PropertyName>
+						<PropertyID>c@#!</PropertyID>
+						<PropertyClass>type</PropertyClass>
+						<PropertyDescription>special class attributes</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>plural</SingularOrPlural>
+					</ClassProperty>
+				</ArrayProperties>
+				<ArrayElements>
+				</ArrayElements>
+			</Class>
+
 		</ArrayClasses>
 
 		<ArrayComparisonOps>
@@ -1230,12 +1314,32 @@
 					</Enumerator>
 				</ArrayEnumerators>
 			</Enumeration>
+			<Enumeration>
+				<EnumerationID>DKND</EnumerationID>
+				<ArrayEnumerators>
+					<Enumerator>
+						<EnumeratorName>resource map</EnumeratorName>
+						<EnumeratorID>RMAP</EnumeratorID>
+						<EnumeratorDescription>resource map document</EnumeratorDescription>
+					</Enumerator>
+					<Enumerator>
+						<EnumeratorName>resource editor</EnumeratorName>
+						<EnumeratorID>EDOC</EnumeratorID>
+						<EnumeratorDescription>a resource editor</EnumeratorDescription>
+					</Enumerator>
+					<Enumerator>
+						<EnumeratorName>maps compare</EnumeratorName>
+						<EnumeratorID>COMP</EnumeratorID>
+						<EnumeratorDescription>maps comparison document</EnumeratorDescription>
+					</Enumerator>
+				</ArrayEnumerators>
+			</Enumeration>
 		</ArrayEnumerations>
 	</Suite>
 
 	<Suite>
 	<SuiteName>Miscellaneous Standards</SuiteName>
-	<SuiteDescription>Useful events that arenÍt in any other suite</SuiteDescription>
+	<SuiteDescription>Useful events that aren't in any other suite</SuiteDescription>
 	<SuiteID>misc</SuiteID>
 	<SuiteLevel>0</SuiteLevel>
 	<SuiteVersion>0</SuiteVersion>
@@ -1299,14 +1403,14 @@
 
 	<Suite>
 	<SuiteName>odds and ends</SuiteName>
-	<SuiteDescription>Things that should be in some standard suite, but arenÍt</SuiteDescription>
+	<SuiteDescription>Things that should be in some standard suite, but aren't</SuiteDescription>
 	<SuiteID>Odds</SuiteID>
 	<SuiteLevel>1</SuiteLevel>
 	<SuiteVersion>1</SuiteVersion>
 		<ArrayEvents>
 			<Event>
 				<EventName>SetTellTarget</EventName>
-				<EventDescription>Makes an object the ñfocusî of AppleEvents</EventDescription>
+				<EventDescription>Makes an object the 'focus' of AppleEvents</EventDescription>
 				<EventClass>ppnt</EventClass>
 				<EventID>sttg</EventID>
 				<ReplyDirectParamType>null</ReplyDirectParamType>
