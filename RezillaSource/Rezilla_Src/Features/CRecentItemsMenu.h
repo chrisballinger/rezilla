@@ -46,6 +46,10 @@ class CRecentItemsMenu : public LAttachment {
 		OSErr		GetSelectedItem(UInt16 inMenuItem, FSSpec& outFSSpec);
 		virtual void	OpenSelectedItem(FSSpec& inFSSpec);
 		
+		void	Reset();
+		
+		UInt32	CountItems();
+
 		virtual void 	StoreInPreferences();
 		virtual void 	RetrieveFromPreferences();
 		

@@ -2,7 +2,7 @@
 // CRezillaPrefs.cp					
 // 
 //                       Created: 2004-05-17 08:52:16
-//             Last modification: 2004-05-18 19:07:43
+//             Last modification: 2004-05-18 20:20:21
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -17,6 +17,7 @@
 #include "CRezillaPrefs.h"
 #include "CRezillaApp.h"
 #include "RezillaConstants.h"
+#include "CRecentItemsMenu.h"
 #include "UDialogBoxHandler.h"
 
 // PowerPlant Headers
@@ -97,6 +98,7 @@ CRezillaPrefs::Initialize()
 	sPrefsWindow = nil;
 	mFile = nil;
 
+	// Ensure default values
 	mCurrPrefs.general.maxRecent		= 10;
 	mCurrPrefs.exporting.includeBinary	= true;
 	mCurrPrefs.exporting.formatDtd		= export_KeyDtd;
@@ -543,7 +545,7 @@ CRezillaPrefs::RunPrefsWindow()
 					break;
 																				
 				  case msg_GenPrefsResetRecent:
-
+					CRezillaApp::sRecentItemsAttachment->Reset();
 				    break;
 																				
 				  case msg_GenPrefsMaxRecent:

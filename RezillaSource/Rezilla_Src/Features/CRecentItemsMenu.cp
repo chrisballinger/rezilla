@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRecentItemsMenu.cp				
 //                       Created: 2004-03-02 13:18:30
-//             Last modification: 2004-03-23 16:32:42
+//             Last modification: 2004-05-18 20:20:01
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -26,6 +26,7 @@
 // ---------------------------------------------------------------------------------
 //	¥	CRecentItemsMenu								[Constructor] 
 // ---------------------------------------------------------------------------------
+// mAppIdentifier ---> CFSTR(kRezillaIdentifier)
 
 CRecentItemsMenu::CRecentItemsMenu(ResIDT inMenuID, 
 								   UInt32 inMaxRecentItems, 
@@ -36,7 +37,6 @@ CRecentItemsMenu::CRecentItemsMenu(ResIDT inMenuID,
 	mMenuID				= inMenuID;
 	mMenuHandle			= ::GetMenuHandle(mMenuID);
 	mAppIdentifier 		= inApplicationID;
-	// mAppIdentifier ---> CFSTR(kRezillaIdentifier)
 // 	ThrowIfNil_( mMenuHandle );
 	
 	RetrieveFromPreferences();
@@ -121,6 +121,17 @@ CRecentItemsMenu::SetMaxRecentItems(UInt32 inMaxRecentItems)
 			theCount--;
 		}
 	}
+}
+
+
+// ---------------------------------------------------------------------------------
+//	¥	CountItems 
+// ---------------------------------------------------------------------------------
+
+UInt32
+CRecentItemsMenu::CountItems() 
+{	
+	return mAliasArray.GetCount();
 }
 
 
@@ -299,15 +310,31 @@ CRecentItemsMenu::RebuildMenu()
 //	Delete all CAlias objects whose ptrs are stored in mAliasArray
 
 void
-CRecentItemsMenu::DeleteAllItems() {
-
+CRecentItemsMenu::DeleteAllItems()
+{
 	TArrayIterator<CAlias*> iterator(mAliasArray, LArray::index_First);
-	CAlias * theAlias;
+	CAlias * theAlias, * theNextAlias;
+	Boolean hasNext = iterator.Current(theNextAlias);
 
-	while(iterator.Current(theAlias)) {
+	while (hasNext) {
+		theAlias = theNextAlias;
+		hasNext = iterator.Next(theNextAlias);
 		mAliasArray.Remove(theAlias);
 		delete theAlias;
 	}
+}
+
+
+// ---------------------------------------------------------------------------------
+//	¥	Reset 
+// ---------------------------------------------------------------------------------
+//	Delete all items and rebuild the menu
+
+void
+CRecentItemsMenu::Reset()
+{
+	DeleteAllItems();
+	RebuildMenu();
 }
 
 
@@ -363,9 +390,6 @@ CRecentItemsMenu::RetrieveFromPreferences()
 		const UInt8 *		theDataPtr;
 		CFDataRef			theDataRef;
 
-		// Empty alias array. Not sure we need this.
-		DeleteAllItems();
-		
 		theCount = CFArrayGetCount((CFArrayRef) theArray);
 		
 		for (theIndex = 0 ; theIndex < theCount ; theIndex++ ) {

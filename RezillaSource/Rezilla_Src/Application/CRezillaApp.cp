@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2004-05-17 13:58:45
+//             Last modification: 2004-05-18 20:19:50
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -314,6 +314,19 @@ CRezillaApp::StartUp()
 
 
 // ---------------------------------------------------------------------------
+//	¥ AttemptQuitSelf
+// ---------------------------------------------------------------------------
+
+Boolean
+CRezillaApp::AttemptQuitSelf(
+	SInt32	/* inSaveOption */)
+{
+	sPrefs->StorePreferences();
+	return true;
+}
+
+
+// ---------------------------------------------------------------------------
 //  ¥ ObeyCommand
 // ---------------------------------------------------------------------------
 
@@ -422,7 +435,6 @@ CRezillaApp::FindCommandStatus(
 	
 		case cmd_New:
 		case cmd_Open:
-		case cmd_RecentItems:
 		case cmd_ShowInspector:
 		case cmd_RezCompare:
 		case cmd_Preferences:
@@ -443,6 +455,10 @@ CRezillaApp::FindCommandStatus(
 		case cmd_Find:
 			LString::CopyPStr( "\pFindÉ", outName);
 			outEnabled = false;
+			break;		
+		
+		case cmd_RecentItems:
+			outEnabled = ( sRecentItemsAttachment->CountItems() > 0);
 			break;		
 		
 		default:

@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.h					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2004-04-19 06:42:20
+//             Last modification: 2004-05-18 20:19:37
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -39,6 +39,8 @@ public:
 			
 	virtual void		ListenToMessage( MessageT inMessage, void *ioParam);
 
+	virtual Boolean		AttemptQuitSelf( SInt32	 inSaveOption );
+	
 	virtual void		FindCommandStatus(CommandT inCommand,
 							Boolean &outEnabled, Boolean &outUsesMark,
 							UInt16 &outMark, Str255 outName);
