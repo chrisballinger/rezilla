@@ -2,7 +2,7 @@
 // CIcon_EditorDoc.cp
 // 
 //                       Created: 2004-12-11 23:33:03
-//             Last modification: 2005-01-10 19:49:31
+//             Last modification: 2005-02-23 15:43:11
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -96,80 +96,90 @@ CIcon_EditorDoc::Initialize()
 	CRezMap *	theMap = mRezMapTable->GetRezMap();
 	ResIDT		theID = mRezObj->GetID();
 	
-	// Create the document window
-	switch (mSubstType) {
-		// 'ICON'
-		case ImgType_LargeIcon:
-			theWindow = CWindow_IconFamily::OpenPaintWindow( PPob_ICONEditor, theMap, theID );
-			break;
+	mIconEditWindow = nil;
 
-		// 'ICN#', 'icl4', 'icl8', 'ics#', 'ics4', 'ics8', 'icm#', 'icm4', 'icm8'
-		case ImgType_LargeIconWithMask:
-		case ImgType_Large4BitIcon:
-		case ImgType_Large8BitIcon:
-		case ImgType_SmallIconWithMask:
-		case ImgType_Small4BitIcon:
-		case ImgType_Small8BitIcon:
-		case ImgType_MiniIconWithMask:
-		case ImgType_Mini4BitIcon:
-		case ImgType_Mini8BitIcon:
-			theWindow = CWindow_IconFamily::OpenPaintWindow( PPob_IconFamilyEditor, theMap, theID );
-			break;
-			
-		// 'cicn'
-		case ImgType_ColorIcon:
-			theWindow = CWindow_ColorIcon::OpenPaintWindow( mRezObj, PPob_CICNEditor );
-			break;
+	try {		
+		// Create the document window
+		switch (mSubstType) {
+			// 'ICON'
+			case ImgType_LargeIcon:
+				theWindow = CWindow_IconFamily::OpenPaintWindow( PPob_ICONEditor, theMap, theID );
+				break;
 
-		// 'PICT'
-		case ImgType_Picture:
-			theWindow = CWindow_Picture::OpenPaintWindow( mRezObj, PPob_PictEditor );
-			break;
-			
-		// 'PAT#'
-		case ImgType_PatternSuite:
-			theWindow = CWindow_PatternSuite::OpenPaintWindow( mRezObj, PPob_PatternSuiteEditor );
-			break;
+			// 'ICN#', 'icl4', 'icl8', 'ics#', 'ics4', 'ics8', 'icm#', 'icm4', 'icm8'
+			case ImgType_LargeIconWithMask:
+			case ImgType_Large4BitIcon:
+			case ImgType_Large8BitIcon:
+			case ImgType_SmallIconWithMask:
+			case ImgType_Small4BitIcon:
+			case ImgType_Small8BitIcon:
+			case ImgType_MiniIconWithMask:
+			case ImgType_Mini4BitIcon:
+			case ImgType_Mini8BitIcon:
+				theWindow = CWindow_IconFamily::OpenPaintWindow( PPob_IconFamilyEditor, theMap, theID );
+				break;
 				
-		// 'SICN'
-		case ImgType_IconSuite:
-			theWindow = CWindow_IconSuite::OpenPaintWindow( mRezObj, PPob_IconSuiteEditor );
-			break;
+			// 'cicn'
+			case ImgType_ColorIcon:
+				theWindow = CWindow_ColorIcon::OpenPaintWindow( mRezObj, PPob_CICNEditor );
+				break;
+
+			// 'PICT'
+			case ImgType_Picture:
+				theWindow = CWindow_Picture::OpenPaintWindow( mRezObj, PPob_PictEditor );
+				break;
 				
-		// 'CURS'
-		case ImgType_Cursor:
-			theWindow = CWindow_Cursor::OpenPaintWindow( mRezObj, PPob_CursorEditor );
-			break;
+			// 'PAT#'
+			case ImgType_PatternSuite:
+				theWindow = CWindow_PatternSuite::OpenPaintWindow( mRezObj, PPob_PatternSuiteEditor );
+				break;
+					
+			// 'SICN'
+			case ImgType_IconSuite:
+				theWindow = CWindow_IconSuite::OpenPaintWindow( mRezObj, PPob_IconSuiteEditor );
+				break;
+					
+			// 'CURS'
+			case ImgType_Cursor:
+				theWindow = CWindow_Cursor::OpenPaintWindow( mRezObj, PPob_CursorEditor );
+				break;
 
-		// 'crsr'
-		case ImgType_ColorCursor:
-			theWindow = CWindow_Cursor::OpenPaintWindow( mRezObj, PPob_ColorCursorEditor );
-			break;
-			
-		// 'PAT '
-		case ImgType_Pattern:
-			theWindow = CWindow_Pattern::OpenPaintWindow( mRezObj, PPob_PatternEditor );
-			break;
-			
-		// 'ppat'
-		case ImgType_PixPat:
-			theWindow = CWindow_Pattern::OpenPaintWindow( mRezObj, PPob_PixPatEditor );
-			break;
+			// 'crsr'
+			case ImgType_ColorCursor:
+				theWindow = CWindow_Cursor::OpenPaintWindow( mRezObj, PPob_ColorCursorEditor );
+				break;
+				
+			// 'PAT '
+			case ImgType_Pattern:
+				theWindow = CWindow_Pattern::OpenPaintWindow( mRezObj, PPob_PatternEditor );
+				break;
+				
+			// 'ppat'
+			case ImgType_PixPat:
+				theWindow = CWindow_Pattern::OpenPaintWindow( mRezObj, PPob_PixPatEditor );
+				break;
 
+		}
+		
+		mIconEditWindow = dynamic_cast<CIcon_EditorWindow *>( theWindow );
+		Assert_( mIconEditWindow != nil );
+		
+		mIconEditWindow->SetSuperCommander(this);
+		mIconEditWindow->SetOwnerDoc(this);
+		mIconEditWindow->InstallReadOnlyIcon();
+		SetMainWindow( dynamic_cast<CEditorWindow *>(mIconEditWindow) );
+
+		NameNewEditorDoc();
+		
+		// Add the window to the window menu.
+		gWindowMenu->InsertWindow( mIconEditWindow );
+		
 	}
-	
-	mIconEditWindow = dynamic_cast<CIcon_EditorWindow *>( theWindow );
-	Assert_( mIconEditWindow != nil );
-	
-	mIconEditWindow->SetSuperCommander(this);
-	mIconEditWindow->SetOwnerDoc(this);
-	mIconEditWindow->InstallReadOnlyIcon();
-	SetMainWindow( dynamic_cast<CEditorWindow *>(mIconEditWindow) );
-
-	NameNewEditorDoc();
-	
-	// Add the window to the window menu.
-	gWindowMenu->InsertWindow( mIconEditWindow );
+	catch (...) {
+		UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("ErrorInitializingBitmapEditor"), PPob_SimpleMessage);	
+		delete this;
+		return;
+	}
 			
 	// Make the window visible.
 	mIconEditWindow->Show();
@@ -254,19 +264,19 @@ CIcon_EditorDoc::AskSaveChanges(
 // ---------------------------------------------------------------------------
 //  ¥ GetModifiedResource										[protected]
 // ---------------------------------------------------------------------------
-// 		CRezTypeItem *
-// 	GetRezTypeItem(ResType inType)
-// 		CRezObjItem *
-// 		CRezMapTable::GetRezObjItem(ResType inType, short inID)
-// 	theRezObjItem = CreateNewRes(theType, theID, &theString, theAttrs);
-// 	SetModified(true);
 
 Handle
 CIcon_EditorDoc::GetModifiedResource(Boolean &releaseIt) 
 {
 #pragma unused(releaseIt)
-	// The resource is saved directly
-	mIconEditWindow->SaveAsResource( mRezMapTable->GetRezMap(), mRezObj->GetID() );
+
+	try {
+		// The resource is saved directly
+		mIconEditWindow->SaveAsResource( mRezMapTable->GetRezMap(), mRezObj->GetID() );
+	}
+	catch (...) {
+		UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("ErrorSavingBitmapResource"), PPob_SimpleMessage);	
+	}
 	
 	// Refresh the view to update the size field
 	mRezMapTable->Refresh();

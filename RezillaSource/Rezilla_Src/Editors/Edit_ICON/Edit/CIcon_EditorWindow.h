@@ -142,7 +142,7 @@ public:
 	virtual void				ImageSizeChangeUndone( SInt32 inWidth, SInt32 inHeight );
 		
 	virtual void				ResizeWindowIfNeeded(SInt32 hMargin = 0, SInt32 vMargin = 0);
-	virtual void				GetContainedWidth(SInt32 &outWidth);
+	virtual void				GetContainedDimensions(SInt32 &outWidth, SInt32 &outHeight);
 
 	virtual SInt32				GetZoomFactor( SInt32 inImageWidth, SInt32 inImageHeight, Boolean *outShowGrid );
 

@@ -228,6 +228,7 @@ CIcon_EditorWindow::CreatePaintWindow( ResIDT inWindowID )
 void
 CIcon_EditorWindow::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 {
+#pragma unused(inMap, inResID)
 }
 
 
@@ -576,8 +577,8 @@ CIcon_EditorWindow::FindCommandStatus(
 					}
 					break;
 					
-				case tool_SwapColors:
-				case tool_BlackAndWhite:
+				case cmd_SwapColors:
+				case cmd_BlackAndWhite:
 					enableIt = true;
 					break;
 				
@@ -677,11 +678,11 @@ CIcon_EditorWindow::ObeyCommand(
 				this->SelectAll();
 				return( true );
 			
-			case tool_SwapColors:
+			case cmd_SwapColors:
 				this->SwapColors();
 				return( true );
 			
-			case tool_BlackAndWhite:
+			case cmd_BlackAndWhite:
 				this->ForceBlackAndWhite();
 				return( true );
 				
@@ -1868,6 +1869,7 @@ CIcon_EditorWindow::GetTextTraits( struct TextTraitsRecord *outRec )
 void
 CIcon_EditorWindow::SetCoordsField(SInt16 inXCoord, SInt16 inYCoord)
 {
+#pragma unused(inXCoord, inYCoord)
 }
 
 
@@ -1887,7 +1889,8 @@ CIcon_EditorWindow::ResizeWindowIfNeeded( SInt32 hMargin, SInt32 vMargin )
 	oldHeight = oldSize.height;
 	
 	// We do not resize vertically.
-	GetContainedWidth( newWidth );
+	GetContainedDimensions( newWidth, newHeight );
+	// Don't change the height
 	newHeight = oldHeight;
 	
 	newWidth += hMargin;
@@ -1911,15 +1914,16 @@ CIcon_EditorWindow::ResizeWindowIfNeeded( SInt32 hMargin, SInt32 vMargin )
 
 
 // ---------------------------------------------------------------------------
-// 	GetContainedWidth
+// 	GetContainedDimensions
 // ---------------------------------------------------------------------------
 // This is the sum of the widths of the left header (fixed), the encloser
 // and the right header (samples container + outmargin).
 
 void
-CIcon_EditorWindow::GetContainedWidth(SInt32 &outWidth)
+CIcon_EditorWindow::GetContainedDimensions(SInt32 &outWidth, SInt32 &outHeight)
 {
-	SInt32			totalWidth = kLeftHeaderWidth;
+	SInt32			totalWidth = kIconLeftHeaderWidth;
+	SInt32			totalHeight = kIconFooterHeight;
 	LPane *			thePane;
 	SDimension16	frameSize;
 
@@ -1927,8 +1931,9 @@ CIcon_EditorWindow::GetContainedWidth(SInt32 &outWidth)
 	ThrowIfNil_( thePane );
 	thePane->GetFrameSize( frameSize );
 	totalWidth += frameSize.width ;
+	totalHeight += frameSize.height ;
 	
-	// If there is a samples view, add its width (only PICT editing windows
+	// If there is a sample view, add its width (only PICT editing windows
 	// do not have one).
 	thePane = this->FindPaneByID(item_IconSampleWell);
 	if (thePane) {
@@ -1936,9 +1941,10 @@ CIcon_EditorWindow::GetContainedWidth(SInt32 &outWidth)
 		totalWidth += frameSize.width ;
 	} 
 
-	totalWidth += kSampleOutMargin * 2 ;
+	totalWidth += kIconSampleOutMargin * 2 ;
 
 	outWidth = totalWidth;
+	outHeight = totalHeight;
 }
 
 
