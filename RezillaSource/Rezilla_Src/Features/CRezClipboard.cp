@@ -227,6 +227,18 @@ CRezClipboard::SetDataSelf(
 void
 CRezClipboard::ImportSelf()
 {
+// 			ResType theType;
+// 			short theID;
+// 			Handle theHandle = ::NewHandle(0);
+// 			
+// 			if ( UMiscUtils::GetTypeFromScrap(theType) == noErr 
+// 				&& mRezMap->UniqueID(theType, theID) == noErr) {
+// 				UScrap::GetData(theType, theHandle);
+// 				PasteResource(theType, theID, theHandle);
+// 			} 
+// 			if (theHandle != nil) {
+// 				::DisposeHandle(theHandle);
+// 			} 
 	
 }
 
@@ -242,19 +254,6 @@ CRezClipboard::ImportSelf()
 void
 CRezClipboard::ExportSelf()
 {
-// 			CRezClipboard::SetScrapContext(scrap_rezmap);
-// 			ResType theType;
-// 			short theID;
-// 			Handle theHandle = ::NewHandle(0);
-// 			
-// 			if ( UMiscUtils::GetTypeFromScrap(theType) == noErr 
-// 				&& mRezMap->UniqueID(theType, theID) == noErr) {
-// 				UScrap::GetData(theType, theHandle);
-// 				PasteResource(theType, theID, theHandle);
-// 			} 
-// 			if (theHandle != nil) {
-// 				::DisposeHandle(theHandle);
-// 			} 
 }
 
 
@@ -298,6 +297,7 @@ CRezClipboard::SetDataInScrapRezMap(
 	
 	if (inReset) {
 		sScrapRezMap->DeleteAll();
+		sScrapRezMap->Update();
 	} 
 	
 	while (iterator.Next(&theItem)) {
@@ -394,3 +394,5 @@ CRezClipboard::SetDataInScrapRezMap(
 
 
 PP_End_Namespace_PowerPlant
+
+

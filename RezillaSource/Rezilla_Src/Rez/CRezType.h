@@ -12,8 +12,8 @@
 // $Revision$
 // ===========================================================================
 
-#ifndef _H_CREZTYPE
-#define _H_CREZTYPE
+#ifndef _H_CRezType
+#define _H_CRezType
 #pragma once
 
 class CRezMap;
@@ -51,4 +51,5 @@ protected:
 
 
 #endif
+
 

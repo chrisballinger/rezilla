@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2004-03-02 16:51:47
+//             Last modification : 2004-03-12 23:20:51
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -116,6 +116,7 @@ const ResIDT	STRx_FileExtensions			= 1503;
 	// in CRezillaApp::InstallWindowMenu()
 const ResIDT	rMENU_Window				= 1300;  
 const ResIDT	rMENU_Help					= 2000;
+const ResIDT	rMENU_RecentItems			= 140;  
 // Values the PP menu cmds are based on
 const ResIDT	baseMENU_File				= 1000;
 const ResIDT	baseMENU_Edit				= 1100;
@@ -172,6 +173,7 @@ const MessageT	cmd_RemoveRez			= baseMENU_Resource + 4;
 const MessageT	cmd_DuplicateRez		= baseMENU_Resource + 5;	
 // File menu items
 const MessageT	cmd_ExportMap			= baseMENU_File + 1;	
+const MessageT	cmd_RecentItems			= baseMENU_File + 2;	
 // Edit menu items
 const MessageT	cmd_Find				= baseMENU_Edit + 1;	
 const MessageT	cmd_FindNext			= baseMENU_Edit + 2;	
@@ -395,20 +397,26 @@ enum
 #define  kRzilDragHiliteColor	{ 65535, 0, 65535 }
 // Pen size to frame drop region 
 #define  kRzilDragHiliteSize	1
-
-const SInt16	kRzilDragFlavor		= FOUR_CHAR_CODE('Rzil');
-const SInt16	kRzilColWidth		= 100;
-const SInt16	kRzilHexLineCount	= 32;
-const SInt16	kRzilHexPerLine		= 16;
-const SInt16	kRzilHexPerPane		= 512;
 // Width of the three tables in the comparison results window
 #define  kCompTableWidth	183
 // Height of a row in these tables
 #define  kCompTableHeight	14
+
+const SInt16	kRzilDragFlavor		= FOUR_CHAR_CODE('Rzil');
+// Constants for the Rez Hex editor
+const SInt16	kRzilColWidth		= 100;
+const SInt16	kRzilHexLineCount	= 32;
+const SInt16	kRzilHexPerLine		= 16;
+const SInt16	kRzilHexPerPane		= 512;
+// Max number of items in the Recent Items menu
+const SInt16	kRzilMaxRecentItems	= 10;
+
 
 
 const ResType	ResType_DITL = FOUR_CHAR_CODE('DITL');
 
 // #define  kFirstSizeMenuItem	1
 // #define  kLastSizeMenuItem	9
+
+
 

@@ -14,8 +14,8 @@
 // A wrapper class for a Macintosh resource file ie a file storing its resources 
 // either in the data fork or in the resource fork
 
-#ifndef _H_CREZFILE
-#define _H_CREZFILE
+#ifndef _H_CRezFile
+#define _H_CRezFile
 #pragma once
 
 #include <PP_Prefix.h>
@@ -106,4 +106,5 @@ PP_End_Namespace_PowerPlant
 #endif
 
 #endif
+
 

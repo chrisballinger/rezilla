@@ -12,8 +12,8 @@
 // $Revision$
 // ===========================================================================
 
-#ifndef _H_CREZCOMPARE
-#define _H_CREZCOMPARE
+#ifndef _H_CRezCompare
+#define _H_CRezCompare
 #pragma once
 
 class CRezMap;
@@ -125,4 +125,5 @@ CRezCompare::GetNewPath() const
 
 
 #endif
+
 

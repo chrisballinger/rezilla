@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2004-03-03 16:19:39
+//             Last modification: 2004-03-13 10:53:47
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -22,6 +22,7 @@
 #include "CRezCompare.h"
 #include "CRezClipboard.h"
 #include "CWindowMenu.h"
+#include "CRecentItemsMenu.h"
 #include "CInspectorWindow.h"
 #include "CHexEditorWindow.h"
 #include "CWasteEditView.h"
@@ -217,6 +218,9 @@ CRezillaApp::Initialize()
 	theAttachment = new CWindowMenuAttachment( gWindowMenu );
 	AddAttachment( theAttachment , nil, true );
 	
+	mRecentItemsAttachment = new CRecentItemsMenu(rMENU_RecentItems, kRzilMaxRecentItems, CFSTR(kRezillaIdentifier));
+	AddAttachment( mRecentItemsAttachment , nil, true );
+	
 	// Help tags settings
 	ABalloonBase::EnableControlKeyPop();
 	ABalloonBase::SetAutoPopDelay(20);
@@ -365,7 +369,10 @@ CRezillaApp::ObeyCommand(
 				error = OpenFork(theFileSpec);
 				if (error != noErr) {
 					ReportOpenForkError(error, &theFileSpec);
-				} 
+				} else {
+					// Register to the Recent Items menu
+					mRecentItemsAttachment->AddFile(theFileSpec);
+				}
 			}
 			break;
 		}
@@ -974,6 +981,7 @@ CRezillaApp::HandleOpenDocsEvent(
 		
 	if (theDocList.descriptorType != typeNull) ::AEDisposeDesc(&theDocList);
 }
+
 
 
 

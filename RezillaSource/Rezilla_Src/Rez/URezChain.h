@@ -12,8 +12,8 @@
 // $Revision$
 // ===========================================================================
 
-#ifndef _H_UREZCHAIN
-#define _H_UREZCHAIN
+#ifndef _H_URezChain
+#define _H_URezChain
 #pragma once
 
 
@@ -44,4 +44,5 @@ private:
 
 
 #endif
+
 

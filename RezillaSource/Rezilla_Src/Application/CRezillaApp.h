@@ -27,9 +27,10 @@ typedef struct Rzil_OpenFileUD{
 
 class CInspectorWindow;
 class CRezMapDoc;
+class CRecentItemsMenu;
 
 
-class	CRezillaApp : public LDocApplication, public LListener {
+class CRezillaApp : public LDocApplication, public LListener {
 public:
 						CRezillaApp();
 	virtual 			~CRezillaApp();
@@ -84,7 +85,7 @@ protected:
 	SInt16				mCreatingFork;
 	SInt16				mOpeningFork;
 	Boolean				mIsReadOnly;
-
+	CRecentItemsMenu *	mRecentItemsAttachment;
 
 	virtual void		StartUp();
 	virtual void		Initialize();
@@ -98,6 +99,7 @@ private:
 	void				InstallWindowMenu()	;
 	
 };
+
 
 
 

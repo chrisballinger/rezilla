@@ -12,8 +12,8 @@
 // $Revision$
 // ===========================================================================
 
-#ifndef _H_CREZMAP
-#define _H_CREZMAP
+#ifndef _H_CRezMap
+#define _H_CRezMap
 #pragma once
 
 
@@ -63,4 +63,5 @@ protected:
 
 
 #endif
+
 

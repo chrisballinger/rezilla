@@ -12,8 +12,8 @@
 // $Revision$
 // ===========================================================================
 
-#ifndef _H_URESOURCES
-#define _H_URESOURCES
+#ifndef _H_UResources
+#define _H_UResources
 #pragma once
 
 // -------------------------------------------------------------
@@ -96,4 +96,5 @@ public:
 
 
 #endif
+
 

@@ -12,8 +12,8 @@
 // $Revision$
 // ===========================================================================
 
-#ifndef _H_CREZOBJ
-#define _H_CREZOBJ
+#ifndef _H_CRezObj
+#define _H_CRezObj
 #pragma once
 
 class CRezType;
@@ -167,4 +167,5 @@ CRezObj::SetOneAttribute(
 
 
 #endif
+
 
