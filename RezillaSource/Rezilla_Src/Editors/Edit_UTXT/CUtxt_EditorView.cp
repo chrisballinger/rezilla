@@ -2,7 +2,7 @@
 // CUtxt_EditorView.cp
 // 
 //                       Created: 2004-12-08 18:21:21
-//             Last modification: 2005-01-15 09:46:56
+//             Last modification: 2005-01-16 12:56:49
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -24,6 +24,7 @@
 #include "RezillaConstants.h"
 
 #include <LMenuBar.h>
+#include <string.h>
 
 
 PP_Begin_Namespace_PowerPlant
@@ -337,14 +338,7 @@ CUtxt_EditorView::TakeOffDuty()
 
 void
 CUtxt_EditorView::SpendTime( const EventRecord& inMacEvent)
-{
-	ByteCount theCount;
-	
-// 	CountChanges(theCount);
-// 	if (theCount > 0) {
-// 		mOwnerWindow->SetDirty(true);
-// 	} 
-
+{	
 	mOwnerWindow->SetLengthField( GetDataSize() );
 
 	LMLTEPane::SpendTime(inMacEvent);
@@ -375,6 +369,14 @@ CUtxt_EditorView::RemoveUnicodeMenus()
 // ---------------------------------------------------------------------------
 //  ¥ GetModifiedText										[public]
 // ---------------------------------------------------------------------------
+// Note: we don't have to check if there is already a BOM because, 
+// even if there was one in the original resource data, MLTE would 
+// have stripped it off from its data buffer. As a consequence, if the 
+// insertBOM preference is off and there was originally a BOM, it will 
+// disappear upon saving.
+
+// 		UniChar 		bom = 0xFEFF;
+// 		if ( ::memcmp( (const char *) *dataH, &bom, 2) ) {}
 
 Handle
 CUtxt_EditorView::GetModifiedText() 
@@ -382,9 +384,26 @@ CUtxt_EditorView::GetModifiedText()
 	Handle		dataH  = nil;
 	OSStatus	status = ::TXNGetDataEncoded( mTXNObject, kTXNStartOffset, kTXNEndOffset,
 											 &dataH, kTXNUnicodeTextData );
+	ByteCount theSize;
+	theSize = GetDataSize();
+	
+	// Deal with the Byte Order Mark (U+FEFF)
+	if ( CRezillaPrefs::GetPrefValue(kPref_editors_insertBOM) ) {		
+		LHandleStream	theStream;
+		
+		theStream << (UInt16) 0xFEFF;
+		
+		StHandleLocker	lock(dataH);
+		theStream.WriteBlock(*dataH, theSize);
 
+		::DisposeHandle(dataH);
+		dataH = theStream.DetachDataHandle();
+	}
+
+#ifdef	REZILLA_SAVES_MLTE_STYLES
 	ItemCount	runsCount = 0;
 
+	// Deal with the multi-styles
 	status = ::TXNCountRunsInRange(mTXNObject, kTXNStartOffset, kTXNEndOffset,
 											 &runsCount);
 
@@ -395,7 +414,8 @@ CUtxt_EditorView::GetModifiedText()
 		// Don't know how to get a style handle.
 		dynamic_cast<CUtxt_EditorDoc *>(mOwnerWindow->GetOwnerDoc())->SaveStylResource(styleHandle);
 	} 
-
+#endif
+	
 	return dataH;
 }
 
