@@ -2,11 +2,11 @@
 // CTextFileStream.cp					
 // 
 //                       Created : 2002-06-09 19:38:34
-//             Last modification : 2004-03-23 15:48:18
+//             Last modification : 2005-02-07 23:40:11
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2002-2004
+// © Copyright: Bernard Desgraupes 2002-2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -71,6 +71,27 @@ CTextFileStream::CTextFileStream(
 
 CTextFileStream::~CTextFileStream()
 {
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ WriteOSType
+// ---------------------------------------------------------------------------
+//	Write a Pascal string to a Stream as a text string (ie strips the first
+//	length byte)
+//	Returns the number of bytes written
+
+SInt32
+CTextFileStream::WriteOSType(OSType inType)
+{
+	char theType[4];
+	SInt32	bytesToWrite = 4;
+
+	*(OSType*)theType = inType;
+
+	WriteBlock(theType, 4);
+
+	return bytesToWrite;
 }
 
 

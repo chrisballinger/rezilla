@@ -2,11 +2,11 @@
 // CTextFileStream.h					
 // 
 //                       Created : 2002-06-09 19:38:34
-//             Last modification : 2004-02-26 19:19:49
+//             Last modification : 2005-02-07 23:40:00
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2002-2004
+// © Copyright: Bernard Desgraupes 2002-2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -65,6 +65,8 @@ public:
 	CTextFileStream&	operator << (Boolean inBool);
 	
 
+	SInt32			WriteOSType(OSType inType);
+	
 	SInt32			WritePString( ConstStringPtr inString );
 	
 	SInt32			WriteCString( const char* inString );
