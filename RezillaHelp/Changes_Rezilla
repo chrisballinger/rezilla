@@ -33,7 +33,11 @@ $Date$
 ¥ Modified Text editors menus. They are now in the menu bar rather than in 
   popup menus at the top of every text editing window.
 ¥ Debugged bitmap editor.
-¥ 
+¥ Modified saving edited resources scheme.
+¥ Streamlined the GUI between the various interface editors (resource name 
+  field in the window header).
+¥ Added a pattern suite ('PAT#') editor.
+¥  
 
 ================================================================================
 = 1.0.5a2	                             last update: 2005-01-08 12:10:31
