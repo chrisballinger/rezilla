@@ -2,11 +2,11 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2003-06-10 15:01:15
+//             Last modification: 2004-03-16 11:49:52
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003
+// (c) Copyright : Bernard Desgraupes, 2003, 2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -175,19 +175,13 @@ CRezMapDoc::~CRezMapDoc()
 		CRezillaApp::sInspectorWindow->ClearValues();
 	} 
 	
-	// Delete all the editor windows depending from this rezmap
-	if (mOpenedEditors != nil) {
-		TArrayIterator<CRezEditor *> iterator(*mOpenedEditors);
-		CRezEditor*	theRezEditor = nil;
-		while (iterator.Next(theRezEditor)) {
-			delete theRezEditor;
-		}
-	} 
+	// Comment: the RezEditors are deleted automatically since they are 
+	// subcommanders of "this".
 	
 	if (mRezMapWindow != nil) {
-		// Remove the window from the window menu.
+		// The RezMapWindow is deleted automatically since it is a subcommander 
+		// of "this". Just need to remove the window from the window menu.
 		gWindowMenu->RemoveWindow( mRezMapWindow );
-		delete mRezMapWindow;
 	} 
 	
 	// 	// Remove ourselves from the list of listeners to the prefs object
@@ -715,7 +709,23 @@ CRezMapDoc::AskSaveAs(
 void
 CRezMapDoc::DoRevert()
 {
+	// 	Set the changedMap attribute to false, close and reopen the rezfile
+
+	// 	Close all the RezEditor windows which might be opened
+    
+	// Delete all the editor windows depending from this rezmap
+    if (mOpenedEditors != nil) {
+        TArrayIterator<CRezEditor *> iterator(*mOpenedEditors);
+        CRezEditor* theRezEditor = nil;
+        while (iterator.Next(theRezEditor)) {
+            delete theRezEditor;
+        }
+    } 
 	
+	// 	Erase the RezMapTable
+
+	// 	Rebuild it
+		
 }
 
 
@@ -981,6 +991,10 @@ CRezMapDoc::FindCommandStatus(
 			break;
 								
 		case cmd_Find:
+			LString::CopyPStr( "\pFind in Map…", outName);
+			outEnabled = true;
+			break;
+								
 		case cmd_ExportMap:
 			outEnabled = true;
 			break;
@@ -990,11 +1004,6 @@ CRezMapDoc::FindCommandStatus(
 		case cmd_RemoveRez:
 		case cmd_DuplicateRez:
 		outEnabled = HasSelection();
-// 			  if (mIsLogOpen) {
-// 				LString::CopyPStr( "\pHide Log", outName);
-// 			  } else {
-// 				LString::CopyPStr( "\pShow Log", outName);
-// 			  }
 			break;		
 		
 		case cmd_Revert:
@@ -1578,7 +1587,6 @@ CRezMapDoc::UpdateRefNum(short newRefNum)
 
 
 PP_End_Namespace_PowerPlant
-
 
 
 
