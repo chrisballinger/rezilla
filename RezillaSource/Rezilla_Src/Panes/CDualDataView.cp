@@ -2,7 +2,7 @@
 // CDualDataView.cp					
 // 
 //                       Created: 2004-06-16 20:13:56
-//             Last modification: 2004-06-18 08:43:57
+//             Last modification: 2004-08-04 21:11:29
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -91,9 +91,9 @@ CDualDataView::~CDualDataView()
 void
 CDualDataView::Initialize()
 {	
-	OSErr error;
-	Rect			theRect ;
-	LongRect		theLongRect ;
+	OSErr 		error;
+	Rect		theRect ;
+	LongRect	theLongRect ;
 
 	// Create the Waste object containing the resource code
 	UInt32  initFlags = weDoInhibitRecal + weDoInhibitRedraw;
@@ -103,7 +103,6 @@ CDualDataView::Initialize()
 	CalcPortFrameRect(theRect);
 	WERectToLongRect( &theRect, &theLongRect) ;
 	error = WENew( &theLongRect, &theLongRect, initFlags , &mInMemoryWasteRef);
-	
 }
 
 
@@ -144,7 +143,10 @@ CDualDataView::InstallSubViews(CHexDataSubView * inHexDataWE,
 
 	mHexView->SetReadOnly(inReadOnly);
 	mTxtView->SetReadOnly(inReadOnly);
-	
+
+	mHexView->SetDirty(false);
+	mTxtView->SetDirty(false);
+
 	DeclareListeners();
 }
  
@@ -254,7 +256,6 @@ CDualDataView::ObeyCommand(
 				    trueStartPos = mHexView->PosToHexPos(theStartPos);
 				    trueEndPos = mHexView->PosToHexPos(theEndPos);
 				    subPaneWERef = mHexView->GetWasteRef();
-				    mHexView->SetDirty(true);
 				    break;
 				    
 				    case hex_txtpane:
@@ -263,7 +264,6 @@ CDualDataView::ObeyCommand(
 				    trueStartPos = mTxtView->PosToCharPos(theStartPos);
 				    trueEndPos = mTxtView->PosToCharPos(theEndPos);
 				    subPaneWERef = mTxtView->GetWasteRef();
-				    mTxtView->SetDirty(true);
 				    break;
 			    }
 			    
@@ -286,16 +286,10 @@ CDualDataView::ObeyCommand(
 				WEDelete(mInMemoryWasteRef);
 				
 				InstallContentsFromLine(mCurrFirstLine);
-				SetMaxScrollerValue();				
-				switch (mCurrentSubView) {
-					case hex_hexpane:
-					mHexView->SetDirty(true);
-					break;
-					
-					case hex_txtpane:
-					mTxtView->SetDirty(true);
-					break;
-				}
+				SetMaxScrollerValue();
+				
+				mHexView->SetDirty(true);
+				mTxtView->SetDirty(true);
 				mSelectingAll = false;
 			} 
 			
@@ -314,33 +308,19 @@ CDualDataView::ObeyCommand(
 				theStartPos = 0;
 				theEndPos = ::WEGetTextLength(mInMemoryWasteRef);
 				mCurrFirstLine = 1;
-				
-				switch (mCurrentSubView) {
-					case hex_hexpane:
-					mHexView->SetDirty(true);
-					break;
-					
-					case hex_txtpane:
-					mTxtView->SetDirty(true);
-					break;
-				}
-				
 				mSelectingAll = false;
-
 			} else {
 				switch (mCurrentSubView) {
 					case hex_hexpane:
 					mHexView->GetSelectionRange(theStartPos, theEndPos);
 					theStartPos = mHexView->PosToHexPos(theStartPos);
 					theEndPos = mHexView->PosToHexPos(theEndPos);
-					mHexView->SetDirty(true);
 					break;
 					
 					case hex_txtpane:
 					mTxtView->GetSelectionRange(theStartPos, theEndPos);
 					theStartPos = mTxtView->PosToCharPos(theStartPos);
 					theEndPos = mTxtView->PosToCharPos(theEndPos);
-					mTxtView->SetDirty(true);
 					break;
 				}
 				
@@ -355,6 +335,9 @@ CDualDataView::ObeyCommand(
 			WEDelete(mInMemoryWasteRef);
 			InstallContentsFromLine(mCurrFirstLine);
 			SetMaxScrollerValue();
+			
+			mHexView->SetDirty(true);
+			mTxtView->SetDirty(true);
 			break;
 		}
 
@@ -385,19 +368,8 @@ CDualDataView::ObeyCommand(
 				theStartPos = 0;
 				theEndPos = ::WEGetTextLength(mInMemoryWasteRef);
 				mCurrFirstLine = 1;
-				
-				switch (mCurrentSubView) {
-					case hex_hexpane:
-					mHexView->SetDirty(true);
-					break;
-					
-					case hex_txtpane:
-					mTxtView->SetDirty(true);
-					break;
-				}
-				
+								
 				mSelectingAll = false;
-
 			} else {
 				switch (mCurrentSubView) {
 					case hex_hexpane:
@@ -405,7 +377,6 @@ CDualDataView::ObeyCommand(
 					mHexView->GetSelectionRange(theStartPos, theEndPos);
 					theStartPos = mHexView->PosToHexPos(theStartPos);
 					theEndPos = mHexView->PosToHexPos(theEndPos);
-					mHexView->SetDirty(true);
 					break;
 					
 					case hex_txtpane:
@@ -413,7 +384,6 @@ CDualDataView::ObeyCommand(
 					mTxtView->GetSelectionRange(theStartPos, theEndPos);
 					theStartPos = mTxtView->PosToCharPos(theStartPos);
 					theEndPos = mTxtView->PosToCharPos(theEndPos);
-					mTxtView->SetDirty(true);
 					break;
 				}
 				
@@ -429,6 +399,9 @@ CDualDataView::ObeyCommand(
 			WEInsert(*scrapDataH, dataSize, nil, nil, mInMemoryWasteRef);
 			InstallContentsFromLine(mCurrFirstLine);
 			SetMaxScrollerValue();
+			
+			mHexView->SetDirty(true);
+			mTxtView->SetDirty(true);
 			break;
 		}
 
