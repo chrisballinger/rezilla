@@ -54,15 +54,15 @@ enum
 	export_Text,
 	export_Html,
 	export_Derez
-} ;
+};
 
 enum
 {	
 	export_KeyDtd = 1,		// Key-based DTD
 	export_AttrDtd = 2,		// Attrs-based DTD
-	export_HexEnc = 3,		// Hexadecimal encoding for binary data
-	export_Base64Enc = 4	// Base64 encoding for binary data
-} ;
+	export_Base64Enc = 3,	// Hexadecimal encoding for binary data
+	export_HexEnc = 4		// Base64 encoding for binary data
+};
 
 // Rez comparison results
 enum
@@ -72,13 +72,13 @@ enum
 	compare_dataDiff,
 	compare_nameDiff,
 	compare_flagDiff
-} ;
+};
 
 enum
 {	
 	compare_hexDisplay = 0,
 	compare_txtDisplay
-} ;
+};
 
 // The indices of the MultiPanel's views
 enum {
@@ -317,8 +317,9 @@ const PaneIDT	item_ExpPrefsBase64Enc		= 8;
 const PaneIDT	item_CompPrefsIgnName		= 2;
 const PaneIDT	item_CompPrefsIgnAttr		= 3;
 const PaneIDT	item_CompPrefsIgnData		= 4;
-const PaneIDT	item_CompPrefsHexDisplay	= 5;
-const PaneIDT	item_CompPrefsTxtDisplay	= 6;
+const PaneIDT	item_CompPrefsDisplayRgbx	= 5;
+const PaneIDT	item_CompPrefsHexDisplay	= 6;
+const PaneIDT	item_CompPrefsTxtDisplay	= 7;
 
 // Navigation dialogs custom items
 // -------------------------------
@@ -403,6 +404,7 @@ const MessageT	msg_CompResultOnlyNewTbl	= rPPob_RezCompWindow + item_CompResultO
 const MessageT	msg_UidOtherConflicts	= rPPob_AskUniqueID + item_UidOtherConflicts;
 // Preferences
 // -----------
+const MessageT  msg_PrefsRevert                 = rPPob_PrefsWindow + 3;
 //     General Prefs Pane
 //     ------------------
 const MessageT  msg_GenPrefsMaxRecent       = rPPob_PrefsGeneralPane + item_GenPrefsMaxRecent;
@@ -423,12 +425,6 @@ const MessageT	msg_CompPrefsHexDisplay		= rPPob_PrefsComparePane + 5;
 const MessageT	msg_CompPrefsTxtDisplay		= rPPob_PrefsComparePane + 6;
 
 
-
-// -----------------------------------------------------------------------
-// -----------------------------------------------------------------------
-const MessageT  msg_RevertPrefs                 = rPPob_FindDialog + 6;
-// -----------------------------------------------------------------------
-// -----------------------------------------------------------------------
 
 const MessageT	msg_Close					= 	FOUR_CHAR_CODE('Clos');
 const MessageT	msg_StylePrefsChanged		= 	FOUR_CHAR_CODE('StPC');
