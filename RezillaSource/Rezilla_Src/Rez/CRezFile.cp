@@ -360,9 +360,7 @@ CRezFile::CopyFromRezMap(CRezMap * srcRezmap)
 	Handle	theRezHandle;
 	short	theAttrs;
 	CRezObj *	theRezObj;
-	
-// 	CRezMap * trgtRezmap = new CRezMap(mRefNum);
-	
+		
 	error = srcRezmap->CountAllTypes(numTypes);
 	if (error != noErr || numTypes == 0) {return error;}
 	
@@ -375,7 +373,7 @@ CRezFile::CopyFromRezMap(CRezMap * srcRezmap)
 		for ( j = 1; j <= numResources; j++ )
 		{
 			// Get the data handle
-			error = srcRezmap->GetResourceAtIndex(theType, j, theRezHandle);
+			error = srcRezmap->GetResourceAtIndex(theType, j, theRezHandle, true);
 			
 			// Make a rez object out of it
 			theRezObj = new CRezObj(theRezHandle, srcRezmap->GetRefnum());
@@ -409,4 +407,3 @@ CRezFile::CopyFromRezMap(CRezMap * srcRezmap)
 
 
 PP_End_Namespace_PowerPlant
-

@@ -765,21 +765,14 @@ CRezillaApp::PreOpen(FSSpec & inFileSpec, SInt16 & outFork, short & outRefnum, S
 	Boolean		openOK = false;
 	OSErr		error;
 	FSRef		inFileRef;
-	SInt8       thePermission;
 	
 	StRezReferenceSaver saver( ::CurResFile() );
-	
-	if (sReadOnlyNavFlag) {
-		thePermission = fsRdPerm;
-	} else {
-		thePermission = fsRdWrPerm;
-	}
-	
+		
 	if (inWantedFork != fork_rezfork) {
 		// Try to open the file as a datafork resource file
 		error = FSpMakeFSRef( &inFileSpec, &inFileRef );
 		SetResLoad( false );
-		error = FSOpenResourceFile( &inFileRef, 0, nil, thePermission, &outRefnum );
+		error = FSOpenResourceFile( &inFileRef, 0, nil, sReadOnlyNavFlag ? fsRdPerm : fsRdWrPerm, &outRefnum );
 		SetResLoad( true );
 		
 		if (error == noErr) {
@@ -801,7 +794,7 @@ CRezillaApp::PreOpen(FSSpec & inFileSpec, SInt16 & outFork, short & outRefnum, S
 	if (inWantedFork != fork_datafork) {
 		// If this failed (mapReadErr), try to open as a resourcefork resource file
 		SetResLoad( false );
-		outRefnum = FSpOpenResFile( &inFileSpec, thePermission);
+		outRefnum = FSpOpenResFile( &inFileSpec, sReadOnlyNavFlag ? fsRdPerm : fsRdWrPerm);
 		error = ::ResError();
 		SetResLoad( true );
 		if (error == noErr) {

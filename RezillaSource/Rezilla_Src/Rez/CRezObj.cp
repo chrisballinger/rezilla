@@ -288,6 +288,8 @@ CRezObj::Write()
 // ---------------------------------------------------------------------------
 //  ¥ GetRezHandle														[public]
 // ---------------------------------------------------------------------------
+// This loads the resource data in memory since we DON'T call
+// SetResLoad(false). 
 
 OSErr
 CRezObj::GetRezHandle()

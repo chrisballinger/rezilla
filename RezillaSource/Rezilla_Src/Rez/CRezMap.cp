@@ -369,6 +369,7 @@ CRezMap::DeleteAll()
 							delete theRezObj;
 						} 
 						error = GetResourceAtIndex(theType, j, theHandle);
+						// if theHandle && *theHandle <- is it in memory ?
 						if (theHandle) {
 							theRezObj = new CRezObj(theHandle, mRefNum);
 							error = theRezObj->Remove();

@@ -617,6 +617,8 @@ void
 CRezMapDoc::DoAESave(
 	FSSpec	&inFileSpec)
 {
+	OSErr error;
+	
 	short oldRefnum = GetRefnum();
 	if (mFork == fork_samefork) {
 		mFork = mRezFile->GetUsedFork();
@@ -627,7 +629,8 @@ CRezMapDoc::DoAESave(
 	theFile->SetOwnerDoc(this);
 	
 	// Make new resource file on disk
-	if (theFile->CreateNewFile() == noErr) {
+	error = theFile->CreateNewFile();
+	if (error == noErr) {
 		// Open the resource file.
 		theFile->OpenFile(fsRdWrPerm);
 
@@ -648,6 +651,9 @@ CRezMapDoc::DoAESave(
 			mRezFile->SetUsedFork(mFork);
 			mRezMapWindow->InstallWhichForkField();
 		} 
+	} else {
+		UMessageDialogs::ErrorMessageFromLocalizable(CFSTR("CantCreateNewRezFile"), error, rPPob_SimpleMessage);
+		return;
 	}
 	
 	delete theFile;

@@ -18,8 +18,7 @@
 #include <LApplication.h>
 
 
-//Used Internally to implement Standard File System Open Dialog
-//the hook data is used to set the default location
+//Used Internally to implement Open Dialog
 typedef struct Rzil_OpenFileUD{
     UInt16		whichFork;
     Boolean		isReadOnly;
