@@ -1,9 +1,8 @@
 // ===========================================================================
 // UCodeTranslator.cp					
 // 
-// © 2002, Bernard Desgraupes, All rights reserved.
 //                       Created: 2003-05-04 16:40:47
-//             Last modification: 2004-03-23 06:52:44
+//             Last modification: 2004-03-23 22:54:33
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -36,13 +35,13 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ ConvertAsciiToReadable											[public]
+//	¥ ConvertByteToReadable											[public]
 // ---------------------------------------------------------------------------
 // 0xF6 (246) is ö and 0xFF (255) is ÿ.
 // 0x5E (94) is ö too.
 
 void
-UCodeTranslator::ConvertAsciiToReadable( LDataStream* srcDataStream, LDataStream* trgtDataStream )
+UCodeTranslator::ConvertByteToReadable( LDataStream* srcDataStream, LDataStream* trgtDataStream, Boolean inInsertSpace)
 {
 	UInt8 readChar;
 	SInt32 length = srcDataStream->GetLength();
@@ -58,28 +57,30 @@ UCodeTranslator::ConvertAsciiToReadable( LDataStream* srcDataStream, LDataStream
 		} else {
 			*trgtDataStream << readChar;
 		}
-		*trgtDataStream << (char) 0x20;
+		if (inInsertSpace) {
+			*trgtDataStream << (char) 0x20;
+		} 
 	}
 }
 
 
 // ---------------------------------------------------------------------------
-//	¥ ConvertAsciiToReadable										[public]
+//	¥ ConvertByteToReadable										[public]
 // ---------------------------------------------------------------------------
 
 void
-UCodeTranslator::ConvertAsciiToReadable(char* srcString, char* trgtString )
+UCodeTranslator::ConvertByteToReadable(char* srcString, char* trgtString, Boolean inInsertSpace)
 {
 	// todo...
 }
 
 
 // // ---------------------------------------------------------------------------
-// //	¥ ConvertAsciiToReadable									[public]
+// //	¥ ConvertByteToReadable									[public]
 // // ---------------------------------------------------------------------------
 // 
 // void
-// UCodeTranslator::ConvertAsciiToReadable(char srcChar, char trgtChar )
+// UCodeTranslator::ConvertByteToReadable(char srcChar, char trgtChar )
 // {
 // }
 
@@ -811,14 +812,14 @@ StBase64ToByteTranslator::Convert()
 
 
 // =====================================
-//  CLASS StReadableTranslator
+//  CLASS StSepTextTranslator
 // =====================================
 
 // ---------------------------------------------------------------------------
-//	¥ StReadableTranslator					Constructor			  [public]
+//	¥ StSepTextTranslator					Constructor			  [public]
 // ---------------------------------------------------------------------------
 
-StReadableTranslator::StReadableTranslator(Handle inHandle)
+StSepTextTranslator::StSepTextTranslator(Handle inHandle)
 {
 	mInHandle = inHandle;
 	mInSize = ::GetHandleSize(inHandle);
@@ -829,10 +830,10 @@ StReadableTranslator::StReadableTranslator(Handle inHandle)
 
 
 // ---------------------------------------------------------------------------
-//	¥ StReadableTranslator					Constructor			  [public]
+//	¥ StSepTextTranslator					Constructor			  [public]
 // ---------------------------------------------------------------------------
 
-StReadableTranslator::StReadableTranslator(const void * inPtr, SInt32 inByteCount)
+StSepTextTranslator::StSepTextTranslator(const void * inPtr, SInt32 inByteCount)
 {
 	mInHandle = ::NewHandle(inByteCount);
 	mInSize = inByteCount;
@@ -844,10 +845,10 @@ StReadableTranslator::StReadableTranslator(const void * inPtr, SInt32 inByteCoun
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~StReadableTranslator					Destructor			  [public]
+//	¥ ~StSepTextTranslator					Destructor			  [public]
 // ---------------------------------------------------------------------------
 
-StReadableTranslator::~StReadableTranslator()
+StSepTextTranslator::~StSepTextTranslator()
 {
 	// It should not be nil, but who knows...
 	if (mOutHandle != nil) {
@@ -861,17 +862,77 @@ StReadableTranslator::~StReadableTranslator()
 // ---------------------------------------------------------------------------
 
 void
-StReadableTranslator::Convert()
+StSepTextTranslator::Convert()
 {
 	StHandleLocker locker(mInHandle);
 	
 	LDataStream inStream(*mInHandle, mInSize);
 	LDataStream outStream(*mOutHandle, mOutSize);
 	
-	UCodeTranslator::ConvertAsciiToReadable(&inStream, &outStream);
+	UCodeTranslator::ConvertByteToReadable(&inStream, &outStream, true);
 }
 
 
+// =====================================
+//  CLASS StByteToTextTranslator
+// =====================================
+
+// ---------------------------------------------------------------------------
+//	¥ StByteToTextTranslator					Constructor			  [public]
+// ---------------------------------------------------------------------------
+
+StByteToTextTranslator::StByteToTextTranslator(Handle inHandle)
+{
+	mInHandle = inHandle;
+	mInSize = ::GetHandleSize(inHandle);
+	mOutSize = mInSize;
+	mOutHandle = ::NewHandle( mOutSize );
+	ThrowIfMemError_();
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ StByteToTextTranslator					Constructor			  [public]
+// ---------------------------------------------------------------------------
+
+StByteToTextTranslator::StByteToTextTranslator(const void * inPtr, SInt32 inByteCount)
+{
+	mInHandle = ::NewHandle(inByteCount);
+	mInSize = inByteCount;
+	BlockMoveData(inPtr, *mInHandle, inByteCount);
+	mOutSize = mInSize;
+	mOutHandle = ::NewHandle( mOutSize );
+	ThrowIfMemError_();
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ ~StByteToTextTranslator					Destructor			  [public]
+// ---------------------------------------------------------------------------
+
+StByteToTextTranslator::~StByteToTextTranslator()
+{
+	// It should not be nil, but who knows...
+	if (mOutHandle != nil) {
+		::DisposeHandle(mOutHandle);
+	} 
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ Convert													[public]
+// ---------------------------------------------------------------------------
+
+void
+StByteToTextTranslator::Convert()
+{
+	StHandleLocker locker(mInHandle);
+	
+	LDataStream inStream(*mInHandle, mInSize);
+	LDataStream outStream(*mOutHandle, mOutSize);
+	
+	UCodeTranslator::ConvertByteToReadable(&inStream, &outStream, false);
+}
 
 
 // =====================================

@@ -1,13 +1,12 @@
 // ===========================================================================
 // UCodeTranslator.h					
 // 
-// © 2002, Bernard Desgraupes, All rights reserved.
 //                       Created: 2003-05-04 16:40:47
-//             Last modification: 2004-02-22 19:49:55
+//             Last modification: 2004-03-23 23:00:09
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003, 2004
+// © Copyright: Bernard Desgraupes 2003-2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -36,6 +35,7 @@ enum Hextype {
 	hextype__incoherent
 };
 
+// Filling character used at the end of a Base64 encoded string.
 const char kFillChar = '=';
 
 
@@ -45,9 +45,9 @@ const char kFillChar = '=';
 class UCodeTranslator {
 public:
 	
-	static void		ConvertAsciiToReadable( LDataStream* srcDataStream, LDataStream* trgtDataStream );
+	static void		ConvertByteToReadable( LDataStream* srcDataStream, LDataStream* trgtDataStream, Boolean inInsertSpace);
 
-	static void		ConvertAsciiToReadable( char* srcString, char* trgtString );
+	static void		ConvertByteToReadable( char* srcString, char* trgtString, Boolean inInsertSpace);
 
 	static void		ConvertByteToSeparatedHex( LDataStream* srcDataStream, LDataStream* trgtDataStream );
 
@@ -206,13 +206,35 @@ private:
 
 
 // ---------------------------------------------------------------------------
-//  ¥ class StReadableTranslator
+//  ¥ class StSepTextTranslator
 // ---------------------------------------------------------------------------
-class StReadableTranslator {
+class StSepTextTranslator {
 public:
-						StReadableTranslator( Handle	inHandle );
-						StReadableTranslator(const void * inPtr, SInt32 inByteCount);
-						~StReadableTranslator();
+						StSepTextTranslator( Handle	inHandle );
+						StSepTextTranslator(const void * inPtr, SInt32 inByteCount);
+						~StSepTextTranslator();
+
+	void				Convert();
+
+	virtual Handle		GetOutHandle() { return mOutHandle;}
+
+	virtual Size		GetOutSize() { return mOutSize;}
+
+	Handle	mInHandle;
+	Handle	mOutHandle;
+	Size	mInSize;
+	Size	mOutSize;
+};
+
+
+// ---------------------------------------------------------------------------
+//  ¥ class StByteToTextTranslator
+// ---------------------------------------------------------------------------
+class StByteToTextTranslator {
+public:
+						StByteToTextTranslator( Handle	inHandle );
+						StByteToTextTranslator(const void * inPtr, SInt32 inByteCount);
+						~StByteToTextTranslator();
 
 	void				Convert();
 
