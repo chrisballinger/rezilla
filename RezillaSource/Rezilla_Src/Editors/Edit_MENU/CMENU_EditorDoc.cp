@@ -2,7 +2,7 @@
 // CMENU_EditorDoc.cp
 // 
 //                       Created: 2005-03-09 17:16:53
-//             Last modification: 2005-03-11 22:17:27
+//             Last modification: 2005-03-16 10:24:10
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -89,7 +89,7 @@ CMENU_EditorDoc::~CMENU_EditorDoc()
 void
 CMENU_EditorDoc::Initialize()
 {
-	OSErr error;
+	OSErr error = noErr;
 	
 	// Create window for our document. This sets this doc as the SuperCommander of the window.
 	mMenuEditWindow = dynamic_cast<CMENU_EditorWindow *>(LWindow::CreateWindow( PPob_MenuEditorWindow, this ));
@@ -121,20 +121,20 @@ CMENU_EditorDoc::Initialize()
 				if (xmnuData != nil) {
 					::HandToHand(&xmnuData);
 				} 			
-				error = mMenuEditWindow->InstallMenuData(rezData, xmnuData);			
+				error = mMenuEditWindow->InstallResourceData(rezData, xmnuData);			
 			} 
+			ThrowIfError_(error);			
 		} 
 	} catch (...) {
-		if (error == err_MoreDataThanExpected) {
-			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("ResourceLongerThanExpected"), PPob_SimpleMessage);
-		} else if (error != userCanceledErr) {
-			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("ErrorWhileParsingResource"), error);
-		} 
 		delete this;
+		if (error == err_MoreDataThanExpected) {
+				UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("ResourceLongerThanExpected"), PPob_SimpleMessage);
+			} else if (error != userCanceledErr) {
+				UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("ErrorWhileParsingResource"), error);
+			} 
 		return;
 	}
 
-		
 	// Make the window visible.
 	mMenuEditWindow->Show();
 }
