@@ -122,6 +122,13 @@ CMenuObject::RemoveItem( ArrayIndexT inAtIndex )
 			delete theItem;
 		} 
 		mItems.RemoveItemsAt(1, inAtIndex);
+		SInt32 theCount = CountItems();
+		if (mItemIndex > inAtIndex) {
+			mItemIndex--;
+		} 
+		if (mItemIndex > theCount) {
+			mItemIndex == theCount;
+		} 
 	} 
 }
 
@@ -246,7 +253,7 @@ SInt32
 CMenuObject::DeleteItem()
 {
 	RemoveItem(mItemIndex);
-	mItemIndex = -1;
+// 	mItemIndex = -1;
 	return CountItems();
 }
  
