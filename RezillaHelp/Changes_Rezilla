@@ -31,11 +31,17 @@ Last modification: $Date$
 ================================================================================
 = 1.0.1a8 	                             last update: 
 ================================================================================
-¥ No new feature, only fixes and debugging.
+¥ No real new features, only fixes, debugging and small improvements.
 	* count fields correctly updated when a drag/copy etc action occurs
 	* ask in case of conflicting IDs when dropping resources rather than
 	  automatically attributing an unique ID
-	* update the size in SetData
+	* update the resource's size in SetData
+	* fixed compare RezMap ignore-options
+	* fixed scrollbar jumps in Hex Editor windows
+	* created, copied or dropped resources are inserted alphabetically
+	* IDs are sorted in increasing order in RezMapTable
+	* read-only state fulling working for rez map documents
+	* locked/unlocked icon in the lower left corner
 	* 
 
 ================================================================================
