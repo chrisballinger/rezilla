@@ -214,15 +214,17 @@ CWindow_ColorIcon::ParseColorIcon( CRezMap *inMap, ResIDT inResID,
 
 		width = cMap->bounds.right - cMap->bounds.left;
 		height = cMap->bounds.bottom - cMap->bounds.top;
-		if ( (width < this->GetMinImageWidth()) || (width > this->GetMaxImageWidth()) || 
-			(height < this->GetMinImageHeight()) || (height > this->GetMaxImageHeight()) ) 
+		if ( (width < this->GetMinImageWidth()) 
+			|| (width > this->GetMaxImageWidth()) 
+			|| (height < this->GetMinImageHeight()) 
+			|| (height > this->GetMaxImageHeight()) ) 
 				Throw_( err_IconInvalidImageSize );
 
 		// This isn't really necessary, but it can't hurt to check
-		if ( (width != maskMap->bounds.right - maskMap->bounds.left) ||
-			 (height != maskMap->bounds.bottom - maskMap->bounds.top) ||
-			 (width != bwMap->bounds.right - bwMap->bounds.left) ||
-			 (height != bwMap->bounds.bottom - bwMap->bounds.top) )
+		if ( (width != maskMap->bounds.right - maskMap->bounds.left) 
+			|| (height != maskMap->bounds.bottom - maskMap->bounds.top) 
+			|| (width != bwMap->bounds.right - bwMap->bounds.left) 
+			|| (height != bwMap->bounds.bottom - bwMap->bounds.top) )
 			Throw_( err_IconCorruptedResource );
 		
 		// Allocate the mask
