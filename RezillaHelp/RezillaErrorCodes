@@ -1,4 +1,5 @@
 Rezilla error codes
+===================
 
 This is a list of the error codes defined by Rezilla.
 It does not contain codes emitted by the System.
@@ -9,27 +10,34 @@ It does not contain codes emitted by the System.
 1004	No Open Permission
 1005	Open Fork Error
 1006	Under Version Control
-2000	Tmpl Error
+2000	Tmpl Template Error
 2001	Tmpl Get Data Stream Failed
 2002	Tmpl Unrecognized Tag
 2003	Tmpl Parsing Aborted
 2004	Tmpl Value Too Large In Bits Field
 2005	Tmpl Text Overflow
 2006	Tmpl Wrong Fixed Count
-2007	Tmpl List Count Too Big
-2008	Tmpl Expected Even Length String
-2009	Tmpl Unexpected Tag
-2010	Tmpl Malformed Hex Value
-2011	Tmpl Malformed Date Value
-2012	Tmpl Cant Get Date Format
-2013	Tmpl Parse Date Failed
-2014	Tmpl Not Expected Size
-2015	Tmpl Create Empty New Aborted
-2016	Tmpl Malformed Case Section
-2017	Tmpl Malformed Key Section
-2018	Tmpl Cant Find Keyed Section Start
-2019	Tmpl Cant Find Key Start For Value
-2020	Tmpl Cant Find Matching Key End
+2007	Tmpl Zero List Not Terminated
+2008	Tmpl Zero List Ending With Non Null
+2009	Tmpl List Count Too Big
+2010	Tmpl Expected Even Length String
+2011	Tmpl Unexpected Tag
+2012	Tmpl Malformed Hex Value
+2013	Tmpl Malformed Date Value
+2014	Tmpl Cant Get Date Format
+2015	Tmpl Parse Date Failed
+2016	Tmpl Not Expected Size
+2017	Tmpl Create Empty New Aborted
+2018	Tmpl No Case In Key Section
+2019	Tmpl Malformed Case Section
+2020	Tmpl Malformed Key Section
+2021	Tmpl Cant Find Keyed Section Start
+2022	Tmpl Cant Find Key Start For Value
+2023	Tmpl Cant Find Key Index
+2024	Tmpl Cant Find Key Value
+2025	Tmpl Cant Find Key Position
+2026	Tmpl Unsupported Resource Id
+2027	Tmpl Cant Find Matching Key End
 
 --------
-Last updated 2004-09-23 10:30:31
+Last updated 2004-10-06 15:23:47
