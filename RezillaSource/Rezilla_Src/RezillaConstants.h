@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2004-10-14 07:04:54
+//             Last modification : 2004-11-07 22:00:37
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -682,6 +682,7 @@ enum RezillaErrors
 	err_NoOpenPermission,
 	err_OpenForkError,
 	err_UnderVersionControlSystem,
+	err_ExceptionParsingTemplate,
 	err_TmplTemplateError			= 2000,
 	err_TmplGetDataStreamFailed,
 	err_TmplUnrecognizedTag,
