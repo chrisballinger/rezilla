@@ -537,16 +537,17 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 	// Install the overall container
 	inContainer->GetFrameSize(theFrame);
 
-	theViewInfo.imageSize.width		= theViewInfo.imageSize.height	= 0 ;
-	theViewInfo.scrollPos.h			= theViewInfo.scrollPos.v		= 0;
-	theViewInfo.scrollUnit.h		= theViewInfo.scrollUnit.v		= CRezillaApp::sBasics.charHeight;
-	theViewInfo.reconcileOverhang	= false;
-	
 	sTgbPaneInfo.top				= mYCoord;
 	sTgbPaneInfo.left				= kTmplTextMargin;
 	sTgbPaneInfo.width				= theFrame.width - kTmplTextMargin * 2;
 	sTgbPaneInfo.superView			= inContainer;
 	sTgbPaneInfo.paneID				= 0;
+
+	theViewInfo.imageSize.width		= theViewInfo.imageSize.height	= 0 ;
+	theViewInfo.scrollPos.h			= theViewInfo.scrollPos.v		= 0;
+	theViewInfo.scrollUnit.h		= theViewInfo.scrollUnit.v		= CRezillaApp::sBasics.charHeight;
+	theViewInfo.reconcileOverhang	= false;
+	
 	LTextGroupBox * theTGB = new LTextGroupBox(sTgbPaneInfo, theViewInfo, false);
 	ThrowIfNil_(theTGB);
 
@@ -651,9 +652,9 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 	sTgbPaneInfo.width				= theFrame.width - kTmplTextMargin * 2;
 	sTgbPaneInfo.paneID				= mCurrentID;
 	sTgbPaneInfo.superView			= inContainer;
+
 	CDualDataView * theTGB = new CDualDataView(this, sTgbPaneInfo, theViewInfo, geo, false);
 	ThrowIfNil_(theTGB);
-// 	theTGB->ResizeImageTo(sTgbPaneInfo.width, sTgbPaneInfo.height, false);
 	
 	// Make the single vertical scroll bar
 	sScrollPaneInfo.left			= sTgbPaneInfo.width - kTmplTextInset - kTmplScrollWidth;
@@ -777,11 +778,6 @@ CTmplEditorWindow::AddPointField(SInt16 inX,
 	Str255	numStr;
 	LEditText * theEditText;
 	LStaticText * theStaticText;
-	SViewInfo	theViewInfo;
-	theViewInfo.imageSize.width		= theViewInfo.imageSize.height	= 0 ;
-	theViewInfo.scrollPos.h			= theViewInfo.scrollPos.v		= 0;
-	theViewInfo.scrollUnit.h		= theViewInfo.scrollUnit.v		= 1;
-	theViewInfo.reconcileOverhang	= false;
 
 	sRectLabelInfo.top			= mYCoord;
 	sRectLabelInfo.left 		= kTmplLeftMargin + kTmplLabelWidth + kTmplHorizSep;
@@ -844,11 +840,6 @@ CTmplEditorWindow::AddRectField(SInt16 inTop,
 	Str255	numStr;
 	LEditText * theEditText;
 	LStaticText * theStaticText;
-	SViewInfo	theViewInfo;
-	theViewInfo.imageSize.width		= theViewInfo.imageSize.height	= 0 ;
-	theViewInfo.scrollPos.h			= theViewInfo.scrollPos.v		= 0;
-	theViewInfo.scrollUnit.h		= theViewInfo.scrollUnit.v		= 1;
-	theViewInfo.reconcileOverhang	= false;
 
 	sRectLabelInfo.top			= mYCoord;
 	sRectLabelInfo.left 		= kTmplLeftMargin + kTmplLabelWidth + kTmplHorizSep;
