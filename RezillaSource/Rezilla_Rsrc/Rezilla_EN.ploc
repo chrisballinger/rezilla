@@ -26,10 +26,12 @@ localize "English" as "Localizable.strings"
 	key "RequireSystemTen" value string "Rezilla requires System OSX or greater."
 	key "RezMapAlreadyOpened" value string "There is already a resource map table opened for this file."
 	key "RezMapsDoNotDiffer" value string "The resource maps are identical with respect to the comparison criteria."
+	key "SaveEditedResource" value string "Do you want to save the changes made in the resource editor?"
 	key "SaveHexWindow" value string "Do you want to save the changes made in the hex editing window?"
 	key "SaveModifiedResource" value string "Do you want to save the changes made in the resource?"
 	key "SaveRezMapWindow" value string "Do you want to save the resource map before closing?"
 	key "SaveTemplateWindow" value string "Do you want to save the changes made in the template editing window?"
+	key "SaveTextEditorWindow" value string "Do you want to save the changes made in the TEXT editing window?"
 	key "SystemError" value string "System error"
 }
 

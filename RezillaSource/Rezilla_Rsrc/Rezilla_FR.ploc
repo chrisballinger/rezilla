@@ -26,10 +26,12 @@ localize "French" as "Localizable.strings"
 	key "RequireSystemTen" value string "Rezilla requiert le Système OSX ou plus."
 	key "RezMapAlreadyOpened" value string "Une table de ressources est déjà ouverte pour ce fichier."
 	key "RezMapsDoNotDiffer" value string "Les tables de ressources sont identiques compte-tenu des critères de comparaison."
+	key "SaveEditedResource" value string "Voulez-vous sauvegarder les modifications faites avec l'éditeur de ressources ?"
 	key "SaveHexWindow" value string "Voulez-vous sauvegarder les modifications faites avec l'éditeur hexadécimal ?"
 	key "SaveModifiedResource" value string "Voulez-vous sauvegarder les modifications faites dans cette ressource ?"
 	key "SaveRezMapWindow" value string "Voulez-vous sauvegarder les modifications avant de refermer la table de ressources ?"
 	key "SaveTemplateWindow" value string "Voulez-vous sauvegarder les modifications faites avec l'éditeur de gabarits ?"
+	key "SaveTextEditorWindow" value string "Voulez-vous sauvegarder les modifications faites avec l'éditeur de textes ?"
 	key "SystemError" value string "Erreur système"
 }
 
