@@ -11,8 +11,8 @@
 // $Revision$
 // ===========================================================================
 
-#include <Dialogs.r>
-#include <Quickdraw.r>
+#include <Carbon/Carbon.r>
+
 
 // Rezilla Icon family info type
 type 'RzII' {

@@ -1,7 +1,7 @@
 // ===========================================================================
 // File: "Rezilla_empty_icons.r"
 //                        Created: 2005-02-14 09:10:24
-//              Last modification: 2005-02-16 18:25:21
+//              Last modification: 2005-03-01 12:11:35
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -23,7 +23,8 @@
 #define ppat_RezTemplateVersion 0
 
 
-#include "Types.r" 
+#include <Carbon/Carbon.r>
+
 
 // Icons
 // -----

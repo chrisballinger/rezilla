@@ -1,8 +1,5 @@
-#include <MacTypes.r>
-#include <Menus.r>
-#include <PictUtils.r>
-#include <Quickdraw.r>
-#include <MacWindows.r>
+#include <Carbon/Carbon.r>
+
 
 resource 'MBAR' (128, "Standard") {
 	{	/* array MenuArray: 5 elements */
