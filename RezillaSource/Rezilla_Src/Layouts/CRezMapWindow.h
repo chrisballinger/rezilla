@@ -49,7 +49,7 @@ public:
 	void					SetCountRezField(long inCount);
 
 	void					InstallWhichForkField();
-	void					InstallReadOnlyField();
+	void					InstallReadOnlyIcon();
 	void					RecalcCountFields();
 	
 protected:

@@ -283,13 +283,13 @@ CRezMapWindow::InstallWhichForkField()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ InstallReadOnlyField											[public]
+//  ¥ InstallReadOnlyIcon											[public]
 // ---------------------------------------------------------------------------
 
 void
-CRezMapWindow::InstallReadOnlyField() 
+CRezMapWindow::InstallReadOnlyIcon() 
 {
-	LIconPane * theIcon = dynamic_cast<LIconPane *>(this->FindPaneByID( item_ReadOnlyIcon ));
+	LIconPane * theIcon = dynamic_cast<LIconPane *>(this->FindPaneByID( item_MapReadOnlyIcon ));
 	ThrowIfNil_( theIcon );
 	if (mOwnerDoc->GetReadOnlyDoc()) {
 		theIcon->SetIconID(ics8_Locked);

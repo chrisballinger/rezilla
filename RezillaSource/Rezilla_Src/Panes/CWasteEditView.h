@@ -2,11 +2,11 @@
 //	CWasteEditView.h
 //	
 //                       Created: 2001-09-05 18:22:04
-//             Last modification: 2003-05-03 19:49:26
+//             Last modification: 2004-04-12 18:26:38
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2001-2003
+// © Copyright: Bernard Desgraupes 2001-2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -312,6 +312,9 @@ public:
 	void					SetLineHeight(SInt16 inLineHeight) {mLineHeight = inLineHeight;}
 	SInt16					GetLineHeightFromStyle(TextStyle theStyle);
 	
+	virtual Boolean			GetReadOnly() { return mReadOnly;}
+	void					SetReadOnly(Boolean inReadOnly) {mReadOnly = inReadOnly;}
+
 	static CWasteEditView *	sWasteEditViewP;
 
 protected:

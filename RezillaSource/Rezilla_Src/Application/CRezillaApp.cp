@@ -747,7 +747,7 @@ CRezillaApp::OpenFork(FSSpec & inFileSpec)
 	if ( error == noErr ) {
 		theRezMapDocPtr = new CRezMapDoc(this, &inFileSpec, theFork, theRefNum);
 		theRezMapDocPtr->SetReadOnlyDoc(mReadOnlyNavFlag);
-		theRezMapDocPtr->GetRezMapWindow()->InstallReadOnlyField();
+		theRezMapDocPtr->GetRezMapWindow()->InstallReadOnlyIcon();
 	} 
 	
 	return error;

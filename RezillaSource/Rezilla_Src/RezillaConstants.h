@@ -191,7 +191,7 @@ const PaneIDT   item_OutlineTable			= FOUR_CHAR_CODE('TABL');
 const PaneIDT	item_TypesNum				= 1;
 const PaneIDT	item_ResourcesNum			= 2;
 const PaneIDT	item_WhichFork				= 3;
-const PaneIDT	item_ReadOnlyIcon			= 4;
+const PaneIDT	item_MapReadOnlyIcon		= 4;
 // Inspector Window
 // ----------------
 const PaneIDT	item_InspType				= 1;
@@ -217,6 +217,7 @@ const PaneIDT	item_TxtDataWE				= 3;
 const PaneIDT	item_HexLineEdit			= 4;
 const PaneIDT	item_HexOffsetEdit			= 5;
 const PaneIDT	item_NameStaticText			= 6;
+const PaneIDT	item_HexReadOnlyIcon		= 7;
 // New Resource Window
 // -------------------
 const PaneIDT	item_NewType				= 1;

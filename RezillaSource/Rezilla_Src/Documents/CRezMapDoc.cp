@@ -2,7 +2,7 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2004-04-11 21:33:24
+//             Last modification: 2004-04-12 18:25:44
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -334,7 +334,7 @@ CRezMapDoc::ObeyCommand(
 			while (iterator.Next(&theItem)) {
 				switch (inCommand) {		
 					case cmd_EditRez:
-						new CHexEditorDoc(this, mRezMapWindow->GetRezMapTable(), theItem->GetRezObj());
+						new CHexEditorDoc(this, mRezMapWindow->GetRezMapTable(), theItem->GetRezObj(), mReadOnlyDoc);
 						break;
 					
 					case cmd_RemoveRez:
