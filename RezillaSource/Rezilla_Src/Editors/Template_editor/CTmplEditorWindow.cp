@@ -1029,7 +1029,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 
 		case 'CASE':
 		// Switch with predefined values
-		AddPopupField(inType, inLabelString, inContainer);		
+		AddCasePopup(inType, inLabelString, inContainer);		
 		break;
 
 		case 'CHAR':
@@ -1082,6 +1082,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		break;
 
 		case 'DWRD':
+		case 'RSID':
 		// Decimal word
 		if (mRezStream->GetMarker() < mRezStream->GetLength() - 1) {
 			*mRezStream >> theUInt16;
@@ -1193,6 +1194,17 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		case 'LABL':
 		// Insert a comment
 		AddStaticField(inType, inLabelString, inContainer, sCommentTraitsID);
+		break;
+
+		case 'LNGC':
+		case 'RGNC':
+		case 'SCPC':
+		// A language, region or script code
+		if (mRezStream->GetMarker() < mRezStream->GetLength() - 1) {
+			*mRezStream >> theUInt16;
+		} 
+		::NumToString( (long) theUInt16, numStr);
+		AddMenuPopup(numStr, inType, inLabelString, inContainer);
 		break;
 
 		case 'LSTB':
@@ -2107,11 +2119,11 @@ CTmplEditorWindow::AddSeparatorLine(LView * inContainer)
 
 
 // ---------------------------------------------------------------------------
-//	¥ AddPopupField													[public]
+//	¥ AddCasePopup													[public]
 // ---------------------------------------------------------------------------
 
 void
-CTmplEditorWindow::AddPopupField(ResType inType, Str255 inLabel, LView * inContainer)
+CTmplEditorWindow::AddCasePopup(ResType inType, Str255 inLabel, LView * inContainer)
 {
 	register char *	p;
 	SDimension16	theFrame;
@@ -2425,6 +2437,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		break;
 
 		case 'DWRD':
+		case 'RSID':
 		// Decimal word
 		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
 		theEditText->GetDescriptor(numStr);	

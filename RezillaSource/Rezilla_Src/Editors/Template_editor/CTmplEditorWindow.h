@@ -179,7 +179,7 @@ private:
 	
 	void				AddSeparatorLine(LView * inContainer);
 
-	void				AddPopupField(ResType inType, 
+	void				AddCasePopup(ResType inType, 
 									  Str255 inLabel, 
 									  LView * inContainer);
 	
