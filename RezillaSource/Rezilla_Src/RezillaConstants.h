@@ -677,6 +677,7 @@ enum RezillaErrors
 	err_NoRezInAnyFork,
 	err_NoOpenPermission,
 	err_OpenForkError,
+	err_OpenSucceededReadOnly,
 	err_UnderVersionControlSystem,
 	err_ExceptionParsingTemplate,
 	err_NoResourceForType,
