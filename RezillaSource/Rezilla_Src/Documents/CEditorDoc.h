@@ -53,7 +53,9 @@ public:
 	virtual void	DoSaveChanges();
 
 	CRezObj *		GetRezObj() { return mRezObj; }
-		
+	
+	CRezMapTable*	GetOwnerRezMapTable() { return mOwnerRezMapTable;}
+	
 	Boolean			IsReadOnly() { return mReadOnly;}
 	void			SetReadOnly(Boolean inReadOnlyDoc) {mReadOnly = inReadOnlyDoc;}
 

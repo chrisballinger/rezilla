@@ -121,11 +121,11 @@ CTmplEditorWindow::FinishCreateSelf()
 	mRezStream			= nil;
 	
 	// The main view containing the labels and editing panes
-	mContentsView = dynamic_cast<LView *>(this->FindPaneByID(item_TmplEditContents));
+	mContentsView = dynamic_cast<LView *>(this->FindPaneByID(item_EditorContents));
 	ThrowIfNil_( mContentsView );
 		
 	// The scroller controlling the contents view
-	mContentsScroller = dynamic_cast<LActiveScroller *>(this->FindPaneByID(item_TmplEditScroller));
+	mContentsScroller = dynamic_cast<LActiveScroller *>(this->FindPaneByID(item_EditorScroller));
 	ThrowIfNil_( mContentsScroller );
 		
 	// Install the name of the resource if it has one

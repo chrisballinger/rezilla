@@ -348,6 +348,7 @@ CRezMapDoc::ObeyCommand(
 					if ( CRezEditor::HasEditorForType(theType) ) {
 						
 						// call the right GUI editor
+						CRezEditor::InvokeCustomEditor(this, mRezMapWindow->GetRezMapTable(), theItem->GetRezObj(), mReadOnly);
 						
 						break;
 					} // else fall through to template editing...

@@ -368,13 +368,13 @@ const PaneIDT	item_EditPrefsLabelWidth	= 2;
 const PaneIDT	item_EditPrefsHexSymRgbx	= 3;
 const PaneIDT	item_EditPrefsHexSym0x		= 4;
 const PaneIDT	item_EditPrefsHexSymDollar	= 5;
-// Tmpl Editor Window
-// ------------------
-const PaneIDT   item_TmplEditContents	= FOUR_CHAR_CODE('Cnts') ;
-const PaneIDT   item_TmplEditScroller	= FOUR_CHAR_CODE('Scrl') ;
-const PaneIDT   item_TmplEditValidate	= FOUR_CHAR_CODE('Vlid') ;
-const PaneIDT   item_TmplEditCancel		= FOUR_CHAR_CODE('Cncl') ;
-const PaneIDT   item_TmplEditRevert		= FOUR_CHAR_CODE('Rvrt') ;
+// Common elements for Editor Windows
+// ----------------------------------
+const PaneIDT   item_EditorContents		= FOUR_CHAR_CODE('Cnts') ;
+const PaneIDT   item_EditorScroller		= FOUR_CHAR_CODE('Scrl') ;
+const PaneIDT   item_EditorValidate		= FOUR_CHAR_CODE('Vlid') ;
+const PaneIDT   item_EditorCancel		= FOUR_CHAR_CODE('Cncl') ;
+const PaneIDT   item_EditorRevert		= FOUR_CHAR_CODE('Rvrt') ;
 // Text Editor Window
 // ------------------
 const PaneIDT   item_TextEditFontMenu	= 1 ;

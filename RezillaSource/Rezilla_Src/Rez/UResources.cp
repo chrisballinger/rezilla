@@ -216,4 +216,3 @@ StRezLoadSaver::~StRezLoadSaver()
 	::SetResLoad(mOriginalResLoad);
 }
 
-
