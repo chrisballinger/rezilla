@@ -3,7 +3,6 @@
 
 localize "French" as "Localizable.strings" 
 {
- 	key "AevtOdocError" value string "Impossible d'ouvrir certains fichiers de ressources."
 	key "AlreadyExistTypeAndID" value string "Il existe déjà une ressource '%s' de numéro %d. Voulez-vous la remplacer ou en créer une avec un nouveau numéro (Unique ID) ?"
 	key "AlreadyExistingID" value string "Il existe une ressource de même numéro. Voulez-vous remplacer la ressource existante ou en créer une nouvelle avec un nouveau numéro (Unique ID) ?"
 	key "AskRemoveProtectedBit" value string "Cette ressource est protégée. Voulez-vous ôter la protection ? Vous pouvez aussi la déprotéger plus tard dans l'Inspecteur avant de sauvegarder la table."
@@ -19,6 +18,7 @@ localize "French" as "Localizable.strings"
 	key "CouldNotOpenTemplates" value string "Impossible d'ouvrir les ressources TMPL. L'édition par gabarits ne fonctionnera pas correctement."
 	key "CouldNotSaveEditedRez" value string "Une ressource éditée n'a pu être sauvegardée. L'opération a été annulée."
 	key "CreateUsingTemplate" value string "Création d'une ressource avec le gabarit '%s'"
+	key "DataParsingException" value string "Une erreur s'est produite au cours de l'analyse des données. Cette ressource est peut-être corrompue."
 	key "ErrorResizingImage" value string "Cette image doit avoir entre %ld et %ld pixels."
 	key "ErrorSavingRezMapDoc" value string "Une erreur '%d' s'est produite au cours de la sauvegarde de la table de ressource."
 	key "ErrorSettingSize" value string "Une erreur '%d' s'est produite en fixant la taille de la police."
@@ -45,7 +45,8 @@ localize "French" as "Localizable.strings"
 	key "PermissionError" value string "Fichier '%s': erreur d'autorisation d'accès. Le fichier est peut-être utilisé en service avec une autre application."
 	key "RequireSystemNine" value string "Rezilla requiert le Système 9 ou plus."
 	key "RequireSystemTen" value string "Rezilla requiert le Système OSX ou plus."
-	key "ResourceLongerThanTemplate" value string "Bizarre: il y a plus de données dans la ressource que ce qui est prévu par le gabarit. Les données excédentaires seront perdues si vous validez les modifications."
+	key "ResourceLongerThanExpected" value string "La ressource contient plus de données que prévu. Utiliser l'éditeur hexadécimal pour examiner le contenu."
+	key "ResourceLongerThanTemplate" value string "Il y a plus de données dans la ressource que ce qui est prévu par le gabarit. Les données excédentaires seront perdues si vous validez les modifications."
 	key "RezMapAlreadyOpened" value string "Une table de ressources est déjà ouverte pour ce fichier."
 	key "RezMapsDoNotDiffer" value string "Les tables de ressources sont identiques compte-tenu des critères de comparaison."
 	key "SaveBitmapEditorWindow" value string "Voulez-vous sauvegarder les modifications faites avec l'éditeur d'images ?"
@@ -69,6 +70,7 @@ localize "French" as "Localizable.strings"
 	key "ValidateEditedResBeforeSaveAs" value string "Certaines ressources éditées sont modifiées. Refermez-les avant de sauvegarder la table de ressources."
 	key "WritePermissionError" value string "Impossible d'ouvrir le fichier en écriture. Voulez-vous essayer en lecture seule?"
 	key "WrongIdForSelectedTemplate" value string "Étant donné le gabarit choisi, le numéro de cette ressource devrait être '%d'. S'il n'est pas corrigé, l'éditeur de gabarit ne pourra ouvrir cette ressource."
+ 	key "AevtOdocError" value string "Impossible d'ouvrir certains fichiers de ressources."
 }
 
 
