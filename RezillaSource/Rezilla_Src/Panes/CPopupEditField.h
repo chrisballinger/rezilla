@@ -78,12 +78,14 @@ public:
 	
 protected:
 		LBevelButton *	mPopup;
-		
+		ResIDT			mStringsID;
+							
+	virtual void	FinishCreateSelf();		
 
 	virtual void	HotSpotResult( SInt16 inHotSpot );
 	
 private:
-	void			CreatePopup(ResIDT inStringListID, MessageT inPopupMsg, Boolean inLeftSide);
+	void			CreatePopup(MessageT inPopupMsg, Boolean inLeftSide);
 
 };
 

@@ -6,7 +6,7 @@
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2005
+// (c) Copyright: Bernard Desgraupes 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -45,10 +45,10 @@ CPopupEditField::CPopupEditField(
 	Boolean		leftSide;
 	
 	*inStream >> popupMessage;
-	*inStream >> stringListID;
+	*inStream >> mStringsID;
 	*inStream >> leftSide;
 	
-	CreatePopup(stringListID, popupMessage, leftSide);
+	CreatePopup(popupMessage, leftSide);
 
 }
 
@@ -75,7 +75,8 @@ CPopupEditField::CPopupEditField(
 				inTextTraitsID, inMessage, inMaxChars, inAttributes, 
 				inKeyFilter, inPasswordField, inImpID)
 {
-	CreatePopup(inStringListID, inPopupMessage, inLeftSide);
+	mStringsID = inStringListID;
+	CreatePopup(inPopupMessage, inLeftSide);
 }
 
 
@@ -93,12 +94,13 @@ CPopupEditField::~CPopupEditField()
 // ---------------------------------------------------------------------------
 
 void
-CPopupEditField::CreatePopup(ResIDT inStringListID, MessageT inPopupMsg, Boolean inLeftSide) 
+CPopupEditField::CreatePopup(MessageT inPopupMsg, Boolean inLeftSide) 
 {
 	SPaneInfo	pi;
 	Rect		frame;
-		
+	
 	CalcLocalFrameRect(frame);
+	GetSuperView()->PortToLocalPoint(topLeft(frame));
 	
 	// Popup button fields basic values
 	pi.width			= kPopupEditWidth;
@@ -127,7 +129,19 @@ CPopupEditField::CreatePopup(ResIDT inStringListID, MessageT inPopupMsg, Boolean
 							 kControlBevelButtonAlignCenter, Point_00, true);													 
 	ThrowIfNil_(mPopup);
 
-	FillPopup(inStringListID);
+	FillPopup(mStringsID);
+}
+
+
+// ---------------------------------------------------------------------------
+// FinishCreateSelf											[protected]
+// ---------------------------------------------------------------------------
+
+void
+CPopupEditField::FinishCreateSelf()
+{	
+	// Let the edit field listen to the popup
+	mPopup->AddListener(this);
 }
 
 
@@ -199,6 +213,17 @@ void
 CPopupEditField::ListenToMessage( MessageT inMessage, void *ioParam ) 
 {
 	Str255	theString;
+	
+	if (inMessage == mPopup->GetValueMessage()) {
+		SInt32		choice = *(SInt32 *) ioParam;
+		Str255 *	rightPtr;
+	
+		::GetIndString(theString, mStringsID, choice);
+		if ( UMiscUtils::SplitCaseValue(theString, &rightPtr) ) {
+			SetDescriptor(*rightPtr);
+		} 
+		return;
+	} 
 	
 	switch (inMessage) {
 		
