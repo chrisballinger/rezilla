@@ -2,7 +2,7 @@
 // CAeteSuite.cp
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-23 10:28:15
+//             Last modification: 2005-01-25 09:14:17
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -18,6 +18,7 @@
 #include "CAeteClass.h"
 #include "CAeteCompOp.h"
 #include "CAeteEnumeration.h"
+#include "RezillaConstants.h"
 
 
 // ---------------------------------------------------------------------------
@@ -472,4 +473,62 @@ CAeteSuite::SetValues(Str255 inName, Str255 inDescription, OSType inID,
 	mLevel = inLevel;
 	mVersion = inVersion;
 }
+
+
+// ---------------------------------------------------------------------------
+//  GetCurrentIndex												[public]
+// ---------------------------------------------------------------------------
+
+ArrayIndexT
+CAeteSuite::GetCurrentIndex(SInt8 inKind)
+{
+	ArrayIndexT index = LArray::index_Bad;
+	
+	switch (inKind) {
+		case kind_AeteEvent:
+		index = this->GetEventIndex();
+		break;
+		
+		case kind_AeteClass:
+		index = this->GetClassIndex();
+		break;
+		
+		case kind_AeteCompOp:
+		index = this->GetCompOpIndex();
+		break;
+		
+		case kind_AeteEnum:
+		index = this->GetEnumerationIndex();
+		break;
+	}	
+	return index;
+}
+ 
+
+// ---------------------------------------------------------------------------
+//  SetCurrentIndex												[public]
+// ---------------------------------------------------------------------------
+
+void
+CAeteSuite::SetCurrentIndex(SInt8 inKind, ArrayIndexT inIndex)
+{
+	switch (inKind) {
+		case kind_AeteEvent:
+		this->SetEventIndex(inIndex);
+		break;
+		
+		case kind_AeteClass:
+		this->SetClassIndex(inIndex);
+		break;
+		
+		case kind_AeteCompOp:
+		this->SetCompOpIndex(inIndex);
+		break;
+		
+		case kind_AeteEnum:
+		this->SetEnumerationIndex(inIndex);
+		break;
+	}	
+}
+ 
 

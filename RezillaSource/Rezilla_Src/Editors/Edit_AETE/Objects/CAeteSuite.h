@@ -81,6 +81,9 @@ public:
 		void 		SetValues(Str255 inName, Str255 inDescription, OSType inID, 
 							  UInt16 inLevel, UInt16 inVersion);
 			
+		ArrayIndexT		GetCurrentIndex(SInt8 inKind);
+		void			SetCurrentIndex(SInt8 inKind, ArrayIndexT inIndex);
+
 		ArrayIndexT		GetEventIndex() { return mEventIndex;}
 		void			SetEventIndex(ArrayIndexT inEventIndex) {mEventIndex = inEventIndex;}
 
