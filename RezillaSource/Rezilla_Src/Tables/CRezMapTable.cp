@@ -1,11 +1,11 @@
 // ===========================================================================
 // CRezMapTable.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2005-01-01 16:14:28
+//             Last modification: 2005-01-13 09:56:27
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003-2004, 2005
+// (c) Copyright: Bernard Desgraupes 2003-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -898,7 +898,6 @@ CRezMapTable::RemoveAllItems()
 }
 
 
-
 // ---------------------------------------------------------------------------
 //	¥ HandleKeyPress
 // ---------------------------------------------------------------------------
@@ -908,6 +907,12 @@ Boolean
 CRezMapTable::HandleKeyPress(
 	const EventRecord&	inKeyEvent)
 {
+	unsigned char theChar = inKeyEvent.message & charCodeMask;
+	if (theChar == char_Backspace) {
+		GetOwnerDoc()->ObeyCommand(cmd_RemoveRez, nil);
+		return true;
+	} 
+	
 	if ( DoKeyCheck( inKeyEvent )) {
 		return true;
 	} else {
