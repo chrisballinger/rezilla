@@ -2,7 +2,7 @@
 // CRezillaPrefs.h					
 // 
 //                       Created: 2004-05-17 08:52:16
-//             Last modification: 2004-09-22 15:25:43
+//             Last modification: 2004-12-15 17:55:44
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -53,6 +53,8 @@ struct SEditorsPrefs {
 	SInt32			hexCase;
 	Boolean			dispFillers;
 	Boolean			enableFillers;
+	Boolean			use8Bits;		// 8-bit instead of 32 ?
+	Boolean			fullTables;		// default to 256 colors rather than 36 ?
 };
 
 //     Misc Prefs
@@ -82,6 +84,8 @@ enum {
 	kPref_editors_hexCase,
 	kPref_editors_dispFillers,
 	kPref_editors_enableFillers,
+	kPref_editors_use8Bits,
+	kPref_editors_fullTables,
 	kPref_export_dataEncoding,
 	kPref_export_formatDtd,
 	kPref_export_includeBinary,
