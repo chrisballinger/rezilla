@@ -2,7 +2,7 @@
 // CTEXT_EditorDoc.cp
 // 
 //                       Created: 2004-06-17 12:46:55
-//             Last modification: 2004-06-17 12:48:00
+//             Last modification: 2004-06-19 15:31:45
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -21,6 +21,7 @@ PP_Begin_Namespace_PowerPlant
 
 #include "CTEXT_EditorDoc.h"
 #include "CTEXT_EditorWindow.h"
+#include "CTEXT_EditorView.h"
 #include "RezillaConstants.h"
 #include "CRezFile.h"
 #include "CRezMap.h"
@@ -106,6 +107,8 @@ CTEXT_EditorDoc::Initialize()
 	
 	// Add the window to the window menu.
 	gWindowMenu->InsertWindow( mTextEditWindow );
+	
+	mTextEditWindow->InstallDefaults();
 	
 	// Install the contents according to the TMPL
 	if (mRezObj != nil) {

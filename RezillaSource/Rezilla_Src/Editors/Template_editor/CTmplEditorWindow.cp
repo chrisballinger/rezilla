@@ -36,6 +36,7 @@
 #include <LEditText.h>
 #include <LTextGroupBox.h>
 #include <LScrollerView.h>
+#include <UDrawingState.h>
 
 #include <stdio.h>
 
@@ -109,8 +110,6 @@ CTmplEditorWindow::~CTmplEditorWindow()
 void
 CTmplEditorWindow::FinishCreateSelf()
 {	
-	SDimension16	theFrame;
-
 	mCurrFirstID		= 1;
 	mCurrentID			= mCurrFirstID;
 	mItemsCount			= 0;
@@ -140,8 +139,6 @@ CTmplEditorWindow::FinishCreateSelf()
 	
 	// Make the window a listener to the prefs object
 	CRezillaApp::sPrefs->AddListener(this);
-
-	mContentsView->GetFrameSize(theFrame);
 
 	// Label fields basic values
 	mStaticPaneInfo.paneID			= 0;
@@ -222,7 +219,7 @@ CTmplEditorWindow::FinishCreateSelf()
 	mScrollPaneInfo.paneID			= 0;
 	mScrollPaneInfo.visible			= true;
 	mScrollPaneInfo.enabled			= true;
-	mScrollPaneInfo.bindings.left	= true;
+	mScrollPaneInfo.bindings.left	= false;
 	mScrollPaneInfo.bindings.top	= true;
 	mScrollPaneInfo.bindings.right	= true;
 	mScrollPaneInfo.bindings.bottom	= true;
@@ -249,6 +246,18 @@ CTmplEditorWindow::FinishCreateSelf()
 	mWastePaneInfo.bindings.right	= true;
 	mWastePaneInfo.bindings.bottom	= true;
 	mWastePaneInfo.userCon			= 0;
+	
+	// Rectangle edit basic values
+	mHeaderPaneInfo.width			= kTmplListHeaderWidth;
+	mHeaderPaneInfo.height			= kTmplListHeaderHeight;
+	mHeaderPaneInfo.visible			= true;
+	mHeaderPaneInfo.enabled			= true;
+	mHeaderPaneInfo.bindings.left	= true;
+	mHeaderPaneInfo.bindings.top	= true;
+	mHeaderPaneInfo.bindings.right	= false;
+	mHeaderPaneInfo.bindings.bottom	= false;
+	mHeaderPaneInfo.userCon			= 0;
+	mHeaderPaneInfo.superView		= mContentsView;
 	
 }
 	
@@ -400,14 +409,17 @@ CTmplEditorWindow::ParseWithTemplate(Handle inHandle)
 void
 CTmplEditorWindow::DoParseTemplate(SInt32 inRecursionMark)
 {
-	Str255		theString;
+	Str255		theString, countLabel;
 	ResType		theType, currType;
 	
 	while (mTemplateStream->GetMarker() < mTemplateStream->GetLength() ) {
 		*mTemplateStream >> theString;
 		*mTemplateStream >> theType;
 		
-		if (theType == 'LSTB' || theType == 'LSTC' || theType == 'LSTZ') {
+		if (theType == 'OCNT' || theType == 'ZCNT') {
+			LString::CopyPStr(theString, countLabel);
+		} else if (theType == 'LSTB' || theType == 'LSTC' || theType == 'LSTZ') {
+			AddListHeader(theType, theString, countLabel, mItemsCount);
 			currType = theType;
 			ParseList(mTemplateStream->GetMarker(), theType, mItemsCount);
 		} else if (theType == 'LSTE') {
@@ -679,6 +691,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 
 		case 'LSTE':
 		// List end. Handled in DoParseTemplate().
+// 		AddHorizontalSeparator(inLabelString);
 		break;
 
 		case 'LSTR':
@@ -697,11 +710,10 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 		// the sequence (as in 'STR#' resources).
 		*mRezStream >> theShort;
 		mItemsCount = theShort;
-		::NumToString( (long) mItemsCount, numStr);
-		AddStaticField(inLabelString);
-		AddEditField(numStr, inType, rPPob_TmplEditorWindow + mCurrentID, 255, 0, 
-					 UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar));
-
+// 		::NumToString( (long) mItemsCount, numStr);
+// 		AddStaticField(inLabelString);
+// 		AddEditField(numStr, inType, rPPob_TmplEditorWindow + mCurrentID, 255, 0, 
+// 					 UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar));
 		break;
 
 		case 'OCST':
@@ -768,11 +780,10 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 		// the sequence (as in 'DITL' resources).
 		*mRezStream >> theShort;
 		mItemsCount = theShort + 1;
-		::NumToString( (long) mItemsCount, numStr);
-		AddStaticField(inLabelString);
-		AddEditField(numStr, inType, rPPob_TmplEditorWindow + mCurrentID, 255, 0, 
-					 UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar));
-		
+// 		::NumToString( (long) mItemsCount, numStr);
+// 		AddStaticField(inLabelString);
+// 		AddEditField(numStr, inType, rPPob_TmplEditorWindow + mCurrentID, 255, 0, 
+// 					 UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar));
 		break;
 
 	  default:
@@ -1179,9 +1190,43 @@ CTmplEditorWindow::AddRectField(SInt16 inTop,
 }
 
 
-// // ---------------------------------------------------------------------------
-// //	¥ AlignBytes											[public]
-// // ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+//	¥ AddListHeader													[public]
+// ---------------------------------------------------------------------------
+// Rect		theFrame;
+// Pattern		grayPat;
+// 
+// theStaticText->CalcLocalFrameRect(theFrame);
+// ::MacFillRect(&theFrame, UQDGlobals::GetDarkGrayPat(&grayPat));
+// ::MacFrameRect(&theFrame);
+
+void
+CTmplEditorWindow::AddListHeader(OSType inType, Str255 inLabel, Str255 inCountLabel, short inCount)
+{
+	mHeaderPaneInfo.left = kTmplLeftMargin + mIndent;
+	mHeaderPaneInfo.top = mYCoord;
+	
+	LStaticText * theStaticText = new LStaticText(mHeaderPaneInfo, inLabel, mLeftLabelTraitsID);
+	ThrowIfNil_(theStaticText);
+	
+	if (inType == 'LSTC') {
+		// ::NumToString( (long) mItemsCount, numStr);
+		// AddStaticField(inLabelString);
+		// AddEditField(numStr, inType, rPPob_TmplEditorWindow + mCurrentID, 255, 0, 
+		// 			 UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar));
+		
+	}
+	
+
+	// Advance the counters
+	mYCoord += kTmplListHeaderHeight + kTmplVertSep;
+}
+ 
+
+
+// ---------------------------------------------------------------------------
+//	¥ AlignBytes											[public]
+// ---------------------------------------------------------------------------
 
 ExceptionCode
 CTmplEditorWindow::AlignBytes(UInt8 inStep)

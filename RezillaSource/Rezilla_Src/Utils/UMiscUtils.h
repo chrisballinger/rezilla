@@ -21,6 +21,8 @@
 
 #include <Carbon.h>
 
+class LPopupButton;
+
 
 #if PP_Uses_Pragma_Import
 	#pragma import on
@@ -46,6 +48,11 @@ public:
 	static SInt16	CompareStr255(Str255 * leftString, Str255 * rightString);
 	static Boolean	HandlesAreIdentical(const Handle leftHndl, const Handle rightHndl);
 	static void		CopyFSSpec(FSSpec& srcFileSpec, FSSpec& trgtFileSpec);
+	static void		MetricsFromTraits(ConstTextTraitsPtr inTextTraits);
+	static Boolean	FontSizeExists(LPopupButton * inPopup, SInt32 inSize, SInt32 &outItemIndex);
+	static SInt32	FontIndexFromFontNum(LPopupButton * inPopup, SInt16 inFNum);
+	static SInt32	SizeIndexFromSizeValue(LPopupButton * inPopup, SInt16 inSize);
+
 };
 
 

@@ -2,7 +2,7 @@
 // CTEXT_EditorWindow.cp					
 // 
 //                       Created: 2004-06-17 12:46:55
-//             Last modification: 2004-06-17 16:44:17
+//             Last modification: 2004-06-19 14:16:01
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -13,8 +13,9 @@
 // ===========================================================================
 
 
-#include "CTEXT_EditorWindow.h"
 #include "CTEXT_EditorDoc.h"
+#include "CTEXT_EditorWindow.h"
+#include "CTEXT_EditorView.h"
 #include "CRezEditor.h"
 #include "CRezObj.h"
 #include "CRezillaApp.h"
@@ -36,7 +37,7 @@
 #include <LStaticText.h>
 #include <LIconPane.h>
 #include <LEditText.h>
-#include <LTextGroupBox.h>
+#include <LPopupButton.h>
 #include <LScrollerView.h>
 #include <UMemoryMgr.h>
 
@@ -99,37 +100,149 @@ CTEXT_EditorWindow::~CTEXT_EditorWindow()
 
 
 // ---------------------------------------------------------------------------
-//		¥ FinishCreateSelf				[protected]
+//		¥ FinishCreateSelf											[protected]
 // ---------------------------------------------------------------------------
 
 void
 CTEXT_EditorWindow::FinishCreateSelf()
 {	
 	mHasStyleResource = false;
+	mIsAdjustingMenus = false;
 	
 	// The main view containing the labels and editing panes
-	mContentsView = static_cast<LTextEditView *>(this->FindPaneByID(item_EditorContents));
+	mContentsView = dynamic_cast<CTEXT_EditorView *>(this->FindPaneByID(item_EditorContents));
 	ThrowIfNil_( mContentsView );
-		
+	
+	mContentsView->SetOwnerWindow(this);
+	
 	// The scroller controlling the contents view
 	mContentsScroller = dynamic_cast<LActiveScroller *>(this->FindPaneByID(item_EditorScroller));
 	ThrowIfNil_( mContentsScroller );
-		
+	
+	mFontPopup = dynamic_cast<LPopupButton *> (this->FindPaneByID( item_TextEditFontMenu ));
+	ThrowIfNil_( mFontPopup );
+
+	mSizePopup = dynamic_cast<LPopupButton *> (this->FindPaneByID( item_TextEditSizeMenu ));
+	ThrowIfNil_( mSizePopup );
+
+	mStylePopup = dynamic_cast<LPopupButton *> (this->FindPaneByID( item_TextEditStyleMenu ));
+	ThrowIfNil_( mStylePopup );
+	
+	// Link the broadcasters.
+	UReanimator::LinkListenerToControls( this, this, rRidL_TextEditorWindow );
+	
 	// Make the window a listener to the prefs object
 	CRezillaApp::sPrefs->AddListener(this);
 
 }
+// SetItemMark(
+//   MenuRef         theMenu,
+//   short           item,
+//   CharParameter   markChar)
+
+// SetItemMark(curr->menu, i, '¥');
+// // CharParameter markChar = 0;
+// // GetItemMark(mr, i, &markChar);
+
+
+// ---------------------------------------------------------------------------
+//		¥ InstallDefaults											[public]
+// ---------------------------------------------------------------------------
+
+void
+CTEXT_EditorWindow::InstallDefaults()
+{
+	// Retrieve the default font and size
+	TextTraitsRecord theTraits = CRezillaApp::sPrefs->GetStyleElement( CRezillaPrefs::prefsType_Curr );
 	
+	UTextTraits::SetTETextTraits(&theTraits, mContentsView->GetMacTEH());
+
+	// Set the style elements
+// 	mContentsView->SelectAll();
+// 	mContentsView->SetFont(theTraits.fontNumber);
+// 	mContentsView->SetSize(theTraits.size);
+// 	mContentsView->SetSelectionRange(0,0);
+	
+	// Install preference values in the popups
+	mFontPopup->SetValue( UMiscUtils::FontIndexFromFontNum(mFontPopup, theTraits.fontNumber) );
+	mSizePopup->SetValue( UMiscUtils::SizeIndexFromSizeValue(mSizePopup, theTraits.size) );
+	
+}
+ 
+
 
 // ---------------------------------------------------------------------------
 //		¥ ListenToMessage				[public]
 // ---------------------------------------------------------------------------
+// 		  normal                        = 0,
+// 		  bold                          = 1,
+// 		  italic                        = 2,
+// 		  underline                     = 4,
+// 		  outline                       = 8,
+// 		  shadow                        = 0x10,
+// 		  condense                      = 0x20,
+// 		  extend                        = 0x40
 
 void
 CTEXT_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam ) 
 {	
+	Str255			theString;
+	SInt16			theFontNum;
+	SInt32 			theSize = 10, theIndex, theFace = 0;
+	LStr255			theLine( "\p" );
+
+	if (mIsAdjustingMenus) {
+		return;
+	} 
+	
 	switch (inMessage) {
-					
+		case msg_TextEditFontMenu:
+		// Get the name of the font.
+		::GetMenuItemText( mFontPopup->GetMacMenuH(), mFontPopup->GetValue(), theString );
+		::GetFNum(theString, &theFontNum);
+		mContentsView->SetFont(theFontNum);
+		break;
+
+		
+		case msg_TextEditSizeMenu:
+		// Get the value of the item.
+		theIndex = mSizePopup->GetValue();
+		if (theIndex == kLastSizeMenuItem + 2) {
+			// This is the 'Other' item
+			if (UModalDialogs::AskForOneNumber(this, rPPob_OtherSize, item_OtherSizeField, theSize)) {
+				if (theSize == 0) {theSize = 10;}
+				// If they match, no need to use 'Other' item
+				if (UMiscUtils::FontSizeExists(mSizePopup, theSize, theIndex)) {
+					mSizePopup->SetValue(theIndex);
+					::SetMenuItemText( mSizePopup->GetMacMenuH(), kLastSizeMenuItem + 2, LStr255("\pOtherÉ"));					
+				} else {
+					// Modify the text of the 'Other' item.
+					Str255	theSizeString;
+					theLine = "\pOther (" ;
+					::NumToString( theSize, theSizeString );
+					// Append the current size
+					theLine += theSizeString;
+					theLine += "\p)É";
+					// Set the menu item text.
+					::SetMenuItemText( mSizePopup->GetMacMenuH(), kLastSizeMenuItem + 2, theLine );					
+				}
+			}
+		} else {
+			::GetMenuItemText( mSizePopup->GetMacMenuH(), mSizePopup->GetValue(), theString );
+			::StringToNum( theString, &theSize );
+			::SetMenuItemText( mSizePopup->GetMacMenuH(), kLastSizeMenuItem + 2, LStr255("\pOtherÉ"));					
+		}
+		mContentsView->SetSize(theSize);
+		break;
+		
+		
+		case msg_TextEditStyleMenu:
+		// Get the values of all the items
+		theIndex = mStylePopup->GetValue();
+		mContentsView->ProcessCommand(cmd_Plain + theIndex - 2, NULL);
+		break;
+		
+			
 		default:
 		dynamic_cast<CTEXT_EditorDoc *>(GetSuperCommander())->ListenToMessage(inMessage, ioParam);
 		break;
@@ -152,19 +265,37 @@ CTEXT_EditorWindow::FindCommandStatus(
 	Str255		outName)
 {
 	switch (inCommand) {
-
+		
 		case cmd_EditRez:
 		case cmd_TmplEditRez:
 		case cmd_HexEditRez:
 		case cmd_RemoveRez:
 		case cmd_DuplicateRez:
-			outEnabled = false;
-			break;		
+		outEnabled = false;
+		break;		
+		
+// 		case cmd_Plain:
+// 		case cmd_Bold:
+// 		case cmd_Italic:
+// 		case cmd_Underline:
+// 		case cmd_Outline:
+// 		case cmd_Shadow:
+// 		case cmd_Condense:
+// 		case cmd_Extend: {
+// 			Style theStyle;
+// 			if (mContentsView->GetStyle(theStyle)) {
+// 				outEnabled = theStyle & (1 << (inCommand - cmd_Plain - 1) );
+// 			} else {
+// 				outEnabled = false;
+// 			}
+// 			break;
+// 		}
+
 		
 		default:
-			LCommander::FindCommandStatus(inCommand, outEnabled,
-									outUsesMark, outMark, outName);
-			break;
+		LCommander::FindCommandStatus(inCommand, outEnabled,
+									  outUsesMark, outMark, outName);
+		break;
 	}
 }
 
@@ -181,18 +312,6 @@ CTEXT_EditorWindow::ObeyCommand(
 	Boolean		cmdHandled = true;
 	
 	switch (inCommand) {
-
-		case cmd_Copy: 
-		case cmd_Cut: 
-		case cmd_Clear:
-		case cmd_Paste:
-		break;
-
-		case cmd_ActionCut:
-		case cmd_ActionPaste:
-		case cmd_ActionClear:
-		case cmd_ActionTyping:
-			break;
 
 		default:
 			cmdHandled = LCommander::ObeyCommand(inCommand, ioParam);
@@ -234,12 +353,6 @@ CTEXT_EditorWindow::IsDirty()
 // ---------------------------------------------------------------------------
 //	¥ InstallText														[public]
 // ---------------------------------------------------------------------------
-// Insert(
-// 		const void*		inText,
-// 		SInt32			inLength,
-// 		StScrpHandle	inStyleH,
-// 		Boolean			inRefresh )
-// 	// 	StScrpHandle	theStyleH = NULL;
 
 void
 CTEXT_EditorWindow::InstallText(Handle inHandle)
@@ -254,9 +367,67 @@ CTEXT_EditorWindow::InstallText(Handle inHandle)
 	}
 	
 	StHandleLocker	lock(inHandle);
-	dynamic_cast<LTextEditView *>(mContentsView)->Insert(*inHandle, ::GetHandleSize(inHandle), NULL, true);
-// 	mContentsView->Insert(*inHandle, ::GetHandleSize(inHandle), (StScrpHandle) initialStyleRes.mResourceH, true);
+	mContentsView->Insert(*inHandle, ::GetHandleSize(inHandle), (StScrpHandle) initialStyleRes.mResourceH, true);
 	
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ AdjustMenusToSelection										[public]
+// ---------------------------------------------------------------------------
+
+// LPane::GetUserCon()
+
+void
+CTEXT_EditorWindow::AdjustMenusToSelection()
+{
+	SInt16	theFontNum, theSize;
+	SInt32	theIndex, theLong;
+	Style	theStyle;
+	Boolean	result;
+	Str255	theString;
+	LStr255	theLine( "\p" );
+	SInt16	theStart = (**(mContentsView->GetMacTEH())).selStart;
+	SInt16	theEnd   = (**(mContentsView->GetMacTEH())).selEnd;
+	
+	mIsAdjustingMenus = true;
+	
+	result = mContentsView->GetFont(theFontNum);
+	if (result) {
+		theIndex = UMiscUtils::FontIndexFromFontNum(mFontPopup, theFontNum);
+		mFontPopup->SetValue(theIndex);
+// 		MacCheckMenuItem(mFontPopup->GetMacMenuH(), theIndex, 1);
+	}
+	
+	result = mContentsView->GetSize(theSize);
+	if (result) {
+		theIndex = UMiscUtils::SizeIndexFromSizeValue(mSizePopup, theSize);
+		if (theIndex == kLastSizeMenuItem + 2) {
+			// This is the 'Other' item
+			Str255	theSizeString;
+			theLine = "\pOther (" ;
+			::NumToString( theSize, theSizeString );
+			// Append the current size
+			theLine += theSizeString;
+			theLine += "\p)É";
+			// Set the menu item text.
+			::SetMenuItemText( mSizePopup->GetMacMenuH(), kLastSizeMenuItem + 2, theLine );					
+		} else {
+			::SetMenuItemText( mSizePopup->GetMacMenuH(), kLastSizeMenuItem + 2, LStr255("\pOtherÉ"));					
+		}
+		mSizePopup->SetValue(theIndex);
+// 		MacCheckMenuItem(mSizePopup->GetMacMenuH(), theIndex, 1);
+	}
+	
+	result = mContentsView->GetStyle(theStyle);
+	if (result) {
+		for (UInt8 i = 1; i < 7; i++) {
+			MacCheckMenuItem(mStylePopup->GetMacMenuH(), i+1, theStyle & (1 << i));
+		}
+		mStylePopup->SetValue(1);
+	}
+
+	mIsAdjustingMenus = false;
 }
 
 
@@ -275,3 +446,9 @@ CTEXT_EditorWindow::ReadValues()
 	return theHandle;
 }
 
+
+// void
+// LTextEditView::ClickSelf(
+// 	const SMouseDownEvent	&inMouseDown)
+// {
+// }

@@ -98,6 +98,7 @@ protected:
 	SPaneInfo			mScrollPaneInfo;
 	SPaneInfo			mTgbPaneInfo;
 	SPaneInfo			mWastePaneInfo;
+	SPaneInfo			mHeaderPaneInfo;
 	LHandleStream *		mTemplateStream;
 	LHandleStream *		mRezStream;
 	ResIDT				mLeftLabelTraitsID;
@@ -141,6 +142,11 @@ private:
 									UInt8 inAttributes,
 									TEKeyFilterFunc inKeyFilter);
 
+	void			AddListHeader(OSType inType, 
+								  Str255 inLabel, 
+								  Str255 inCountLabel, 
+								  short inCount);
+	
 	ExceptionCode	AlignBytes(UInt8 inStep);
 	
 	void			DoParseTemplate(SInt32 inRecursionMark);

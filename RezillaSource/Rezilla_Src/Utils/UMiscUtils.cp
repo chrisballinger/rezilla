@@ -17,12 +17,13 @@
 #endif
 
 #include "CRezType.h"
+#include "CRezillaApp.h"
+#include "RezillaConstants.h"
 #include "UMiscUtils.h"
-//#include "FullPath.h"
 
 #include <PP_KeyCodes.h>
 
-// #include <Script.h>
+#include <LPopupButton.h>
 #include <LComparator.h>
 #include <Drag.h>
 
@@ -257,6 +258,136 @@ UMiscUtils::GetDragFileData(DragReference inDragRef, ItemReference inItemRef, HF
 							flavorTypeHFS, &fileData, &size, 0) == noErr);
 }
 
+
+// ---------------------------------------------------------------------------
+//	• FontSizeExists											[private]
+// ---------------------------------------------------------------------------
+// The 'inPopup' argument is a pointer to a Font popup menu.
+
+Boolean
+UMiscUtils::FontSizeExists(LPopupButton * inPopup, SInt32 inSize, SInt32 &outItemIndex)
+{
+	OSErr	itemMatches = 0;
+	SInt16	i;
+	Str255	theMenuText;
+	SInt32	theMenuSize;
+	
+	// See if inSize matches some menu item
+	for ( i= kFirstSizeMenuItem ; i<= kLastSizeMenuItem ; i++ ) {
+		::GetMenuItemText( inPopup->GetMacMenuH(), i, theMenuText );
+		::StringToNum( theMenuText, &theMenuSize );
+		if ( inSize == theMenuSize)
+		{
+			itemMatches = true;
+			outItemIndex = i;
+			break;
+		}	
+	}
+	
+	return itemMatches;
+}
+
+
+// ---------------------------------------------------------------------------
+//	• FontIndexFromFontNum											[private]
+// ---------------------------------------------------------------------------
+// The 'inPopup' argument is a pointer to a Font popup menu.
+
+SInt32
+UMiscUtils::FontIndexFromFontNum(LPopupButton * inPopup, SInt16 inFNum) 
+{
+	SInt32	i;
+	SInt16	theFontNum;
+	Str255	theMenuText;
+	Boolean foundIt = false;
+	MenuRef	theMenuRef = inPopup->GetMacMenuH();
+	
+	// See if inFNum matches some menu item
+	for ( i = 1 ; i<= ::CountMenuItems(theMenuRef) ; i++ ) {
+		::GetMenuItemText( theMenuRef, i, theMenuText );
+		::GetFNum(theMenuText,&theFontNum);
+		if ( inFNum == theFontNum) {
+			foundIt = true;
+			break;
+		}	
+	}
+	if (!foundIt) {
+		// Put the OS Application font
+		return ::GetAppFont();
+	}
+	
+	return i;
+}
+
+
+// ---------------------------------------------------------------------------
+//	• SizeIndexFromSizeValue											[private]
+// ---------------------------------------------------------------------------
+// The 'inPopup' argument is a pointer to a Size popup menu.
+
+SInt32
+UMiscUtils::SizeIndexFromSizeValue(LPopupButton * inPopup, SInt16 inSize) 
+{
+	SInt32	i, theSize;
+	Str255	theSizeString;
+	Boolean foundIt = false;
+	MenuRef	theMenuRef = inPopup->GetMacMenuH();
+	
+	// See if inSize matches some menu item. Don't look at the last item.
+	for ( i = 1 ; i< ::CountMenuItems(theMenuRef) ; i++ ) {
+		::GetMenuItemText( theMenuRef, i, theSizeString );
+		::StringToNum( theSizeString, &theSize );
+		if ( inSize == theSize) {
+			foundIt = true;
+			break;
+		}	
+	}
+	if (!foundIt) {
+		// Put the value in the 'Other' item
+		LStr255	theLine( "\pOther (" );
+		::NumToString( inSize, theSizeString );
+		theLine += theSizeString;
+		theLine += "\p)…";
+		// Set the menu item text.
+		::SetMenuItemText( inPopup->GetMacMenuH(), kLastSizeMenuItem + 2, theLine );					
+		return (kLastSizeMenuItem + 2);
+	} else {
+		::SetMenuItemText( inPopup->GetMacMenuH(), kLastSizeMenuItem + 2, LStr255("\pOther…"));					
+	}
+	
+	return i;
+}
+
+
+// 
+// // ---------------------------------------------------------------------------
+// //	• GetStyleFromMenu											[private]
+// // ---------------------------------------------------------------------------
+// // The 'inPopup' argument is a pointer to a Style popup.
+// 
+// SInt16
+// UMiscUtils::GetStyleFromMenu(LPopupButton * inPopup)
+// {
+// }
+ 
+ 
+
+
+// ---------------------------------------------------------------------------
+//	• MetricsFromTraits											[private]
+// ---------------------------------------------------------------------------
+void
+UMiscUtils::MetricsFromTraits(ConstTextTraitsPtr inTextTraits)
+{
+	FontInfo metrics;
+	
+	UTextTraits::SetPortTextTraits( inTextTraits );
+	::GetFontInfo( &metrics );
+		
+	CRezillaApp::sBasics.charWidth = metrics.widMax;
+// 	CRezillaApp::sBasics.charWidth = CharWidth('0');
+	CRezillaApp::sBasics.charHeight = metrics.ascent + metrics.descent + metrics.leading;
+}
 
 
 // ================================================================

@@ -2,7 +2,7 @@
 // CTEXT_EditorWindow.h
 // 
 //                       Created: 2004-06-17 12:46:55
-//             Last modification: 2004-06-17 16:44:12
+//             Last modification: 2004-06-19 13:57:47
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -21,9 +21,11 @@
 #include <LView.h>
 #include <LActiveScroller.h>
 
-class CTEXT_EditorDoc;
-class CRezObj;
 
+class CTEXT_EditorDoc;
+class CTEXT_EditorView;
+class CRezObj;
+class LPopupButton;
 
 
 class CTEXT_EditorWindow : public CEditorWindow {
@@ -55,17 +57,29 @@ public:
 	
 	Boolean			IsDirty();
 		
+	void			InstallDefaults();
 	void			InstallReadOnlyIcon();
-
-	LView*		GetContentsView() const { return mContentsView;}
+	void			AdjustMenusToSelection();
+	
+	CTEXT_EditorView *		GetContentsView() const { return mContentsView;}
 
 // 	virtual SInt32		GetCurrentSubView() { return mCurrentSubView;}
 // 	void				SetCurrentSubView(SInt32 inCurrentSubView) {mCurrentSubView = inCurrentSubView;}
 
 protected:
-	LView *				mContentsView;
+	CTEXT_EditorView *	mContentsView;
 	LActiveScroller *	mContentsScroller;
 	Boolean				mHasStyleResource;
+	Boolean				mIsAdjustingMenus;
+	LPopupButton *		mFontPopup;
+	LPopupButton *		mSizePopup;
+	LPopupButton *		mStylePopup;
+	/* 
+	 * MenuHandle            mFontMenuH;
+	 * MenuHandle            mSizeMenuH;
+	 * MenuHandle            mStyleMenuH;
+	 */
+	
 
 	virtual void	FinishCreateSelf();
 

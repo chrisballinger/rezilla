@@ -130,11 +130,6 @@ private:
 	void				SetDefaultPreferences();
 	void				RetrievePreferences();
 	void				ApplyStylePrefs();
-	void				MetricsFromTraits(ConstTextTraitsPtr inTextTraits);
-  
-	OSStatus			FontSizeExists(LPopupButton * inPopup, SInt32 inSize, SInt32 &outItemIndex);
-	SInt32				FontIndexFromFontNum(LPopupButton * inPopup, SInt16 inFNum);
-	SInt32				SizeIndexFromSizeValue(LPopupButton * inPopup, SInt16 inSize);
 };
 
 #endif // _H_CRezillaPrefs

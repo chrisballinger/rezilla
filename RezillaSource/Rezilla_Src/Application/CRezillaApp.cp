@@ -29,6 +29,7 @@
 #include "CInspectorWindow.h"
 #include "CHexEditorWindow.h"
 #include "CTmplEditorWindow.h"
+#include "CTEXT_EditorView.h"
 #include "CWasteEditView.h"
 #include "CBiDataWE.h"
 #include "CDualDataView.h"
@@ -308,6 +309,7 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(CTxtDataSubView);
 	RegisterClass_(CWasteEditView);
 	RegisterClass_(CTEXT_EditorWindow);
+	RegisterClass_(CTEXT_EditorView);
 
 // 	RegisterClass_(ATag);
 
