@@ -1,0 +1,51 @@
+<HTML>
+<HEAD>
+<TITLE>Exporting</TITLE>
+<META NAME=GENERATOR CONTENT="Aida Mode">
+</HEAD>
+<BODY>
+
+<A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="8.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="10.html">Next</A><HR><P>&nbsp;</P>
+<H2>Exporting</H2>
+The exporting functionality lets you generate an XML file containing all the
+data of the resource map (all resources of all types, with their
+ID, name, attributes etc.). The binary code for each resource is encoded in
+Base64 encoding (which is the format used on MacOSX for many other
+types of binary data stored in XML files, like for instance preferences
+files, property lists etc.). Here is an example of the output produced by the Export
+command:<P><PRE>
+    &lt;Type&gt;
+    	&lt;TypeCode&gt;ALRT&lt;/TypeCode&gt;
+    	&lt;ResourcesArray&gt;
+    		&lt;Resource&gt;
+    			&lt;ResourceID&gt;204&lt;/ResourceID&gt;
+    			&lt;ResourceName&gt;Low Memory Warning&lt;/ResourceName&gt;
+    			&lt;ResourceFlags&gt;20&lt;/ResourceFlags&gt;
+    			&lt;ResourceSize&gt;14&lt;/ResourceSize&gt;
+    			&lt;ResourceData&gt;
+    			AGgAggDNAegAzEREMAo=
+    			&lt;/ResourceData&gt;
+    		&lt;/Resource&gt;
+    	&lt;/ResourcesArray&gt;
+    &lt;/Type&gt;
+    &lt;Type&gt;
+    	&lt;TypeCode&gt;DITL&lt;/TypeCode&gt;
+    	&lt;ResourcesArray&gt;
+    		&lt;Resource&gt;
+    			&lt;ResourceID&gt;204&lt;/ResourceID&gt;
+    			&lt;ResourceName&gt;&lt;/ResourceName&gt;
+    			&lt;ResourceFlags&gt;20&lt;/ResourceFlags&gt;
+    			&lt;ResourceSize&gt;120&lt;/ResourceSize&gt;
+    			&lt;ResourceData&gt;
+    			AAEAAAAAAEcBIABbAVwEAk9LAAAAAAAKAEsAOgFciFdNZW1v
+    			cnkgaXMgZ2V0dGluZyBmdWxsLiBQbGVhc2UgdHJ5IHRvIGFs
+    			bGV2aWF0ZSB0aGUgcHJvYmxlbSBieSBjbG9zaW5nIHNvbWUg
+    			ZG9jdW1lbnRzLiDl
+    			&lt;/ResourceData&gt;
+    		&lt;/Resource&gt;
+    	&lt;/ResourcesArray&gt;
+    &lt;/Type&gt;
+</PRE><P>
+
+</BODY>
+</HTML>

@@ -1,0 +1,37 @@
+<HTML>
+<HEAD>
+<TITLE>Copy, Cut and Paste</TITLE>
+<META NAME=GENERATOR CONTENT="Aida Mode">
+</HEAD>
+<BODY>
+
+<A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="6.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="8.html">Next</A><HR><P>&nbsp;</P>
+<H2>Copy, Cut and Paste</H2>
+The Copy, Cut and Paste commands can have different meanings according to
+the context. 
+<UL>
+	<LI> In the resource map table, you copy entire resources.  If you copy inside
+the application, you can copy as many resources at a time as you wish, not
+necessarily of the same type.  If you switch to another application on the
+contrary, only one resource for each type will be copied to the clipboard:
+each type corresponds to one flavor on the clipboard.  If you paste in a
+resource map document in Rezilla some data copied from an external application, a
+resource will be created for each flavour found on the clipboard: the
+flavour is used as the type of the created resource. 
+<P> For instance, if you copy an
+image in a program like 
+<A HREF="http://www.lemkesoft.de/en/graphcon.htm">GraphicConverter</A> and paste it in Rezilla, a PICT
+and a Rect resources are created: the PICT resource contains the data for
+the image and the Rect resource contains its dimensions.  This is because
+<A HREF="http://www.lemkesoft.de/en/graphcon.htm">GraphicConverter</A> puts these two informations on the clipboard when it
+performs the copy.  This all depends on how applications store data in the
+clipboard.  The other way round, you can for instance select a TEXT
+resource in a resource map table in Rezilla and paste it into a text
+editor: the contents of the resource will be inserted in the editor.<P>	<LI> In the hexadecimal editor, you copy selections from one of the panes.  To
+paste data from the clipboard into the left pane, it must be valid
+hexadecimal data.  Any data pasted in one of the panes is also pasted
+accordingly in the other pane: for instance, any data pasted in the right
+pane is converted to its hexadecimal values and inserted in the left one.<P></UL><P>
+
+</BODY>
+</HTML>

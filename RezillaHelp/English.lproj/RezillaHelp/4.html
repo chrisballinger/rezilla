@@ -1,0 +1,117 @@
+<HTML>
+<HEAD>
+<TITLE>Description of the menu itemsFile menu</TITLE>
+<META NAME=GENERATOR CONTENT="Aida Mode">
+</HEAD>
+<BODY>
+
+<A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="3.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="5.html">Next</A><HR><P>&nbsp;</P>
+<H2>Description of the menu items</H2><P><H3>File menu</H3>
+<UL>
+<DL><P><DT><B>New Map</B><DL><DT>
+Create a new resource file. A standard dialog lets you indicate the name and
+the location of the new resource file to create;  two radio buttons let  you
+specify whether the resource map should be stored in the  data  fork  or  the
+resource fork of the file.</DL><P><DT><B>Open...</B><DL><DT>
+Brings up a standard dialog to open a resource map.  In this dialog, three
+radio buttons let you specify the fork in which to look for resources.  The
+available options are:
+<UL>
+	<LI> <I>any fork</I>: in that case, Rezilla will look  first  for  a  data  fork
+resource map. If it can't find one, it will then look in the resource fork.
+	<LI> <I>data fork</I>: look only for a data fork resource map
+	<LI> <I>resource fork</I>: look only for a resource fork resource map
+</UL>
+You can also select the <I>Read Only</I> checkbox: if it is checked, the
+map will be opened in read-only mode and all the editing commands will be
+disabled.</DL><P><DT><B>Recent items</B><DL><DT>
+This is a submenu keeping the names of the ten most recently opened resource
+maps.  Selecting an item from this menu will open the corresponding
+resource map.</DL><P><DT><B>Close</B><DL><DT>
+Close the topmost window.</DL><P><DT><B>Revert</B><DL><DT>
+This item will restore the last version saved on disk in case the current 
+map has been modified.</DL><P><DT><B>Save</B><DL><DT>
+Save the modifications to disk.</DL><P><DT><B>Save As...</B><DL><DT>
+Brings up a standard dialog to specify a file in which to store the current
+resource map.  Three radio buttons let you specify in which fork to store
+the map.  The available options are:
+<UL>
+	<LI> <I>same fork</I>: use the same foprk as the currently opened map.
+	<LI> <I>data fork</I>: save in the data fork.
+	<LI> <I>resource fork"</I>: save in the resource fork.
+</UL></DL><P><DT><B>Export...</B><DL><DT>
+This item lets you export the structure and contents of a resource map to 
+files in various formats. Currently available formats are:
+<UL>
+	<LI> Text
+	<LI> HTML 
+	<LI> XML 
+	<LI> DeRez
+</UL>
+In XML format, the resource data are Base64 encoded as is usual in XML to 
+store binary data (plist files for instance use the same encoding). In text 
+format, on the contrary, resource data are in hexadecimal form (each byte 
+represented by two hexadecimal numbers like in an hexadecimal editor).<P>DeRez is a format which is of interest only for developers: it is the format 
+used by the <I>Rez</I> and <I>DeRez</I> tools. The resources are output as data in a way 
+similar to what the DeRez tool produces when no specific resource pattern 
+is specified.</DL>
+</DL>
+</UL><P><H3>Edit menu</H3>
+<UL><P><DT><B>Copy / Cut / Paste</B><DL><DT>
+The Copy, Cut and Paste commands can have different meanings according to
+the context. See the <I>Copy, Cut and Paste</I> section below.<P><DT><B>Clear</B><DL><DT>
+Deletes the selection. This command can have different meanings  according  to  the
+context. If a Resource Map Table is active  and  resources  are  selected
+therein, they will be removed from the map; if an hexadecimal editor window is
+active and some text is selected in a pane, this selection is deleted.</DL><P><DT><B>Select all</B><DL><DT>
+Just as it says...</DL><P><DT><B>Find...</B><DL><DT>
+In the hexadecimal editor, this command brings up a dialog in which you can
+enter a string to search.
+Two radio buttons let you specify in which pane the search is to  be  done.
+When searching in  the  right  pane,  a  check  box  allows  to  specify  a
+case-insensitive search.</DL><P><DT><B>Find again</B><DL><DT>
+This command searches, from the current position, the string entered in the
+Find dialog. It uses the same settings as currently selected  in  the  Find
+dialog. If the Find dialog contains an empty search string, the command  is
+disabled.</DL><P><DT><B>Compare maps...</B><DL><DT>
+This item lets you compare two resource maps.  This can be useful if you
+want to see what has changed between two successive versions of an
+application or a file.  The results are displayed in a window containing
+three lists: the left hand side list contains the resources found in the first
+resource map and absent from the second, the right hand side list contains the
+resources found in the second resource map and absent from the first.  The
+middle list contains resources existing in both Resource Maps but which differ according to some
+criterion.  If you click on a resource in this list, the hexadecimal data
+for the resource will be displayed in two parallel panes in the bottom part
+of the window for comparison: on the left, the data as found in the first 
+map, on the right the data as found in the second map. The data can be 
+viewed either as hexadecimal or as text using the two radio buttons at the 
+bottom of the window.</DL><P></DL>
+</UL><P><H3>Resource menu</H3>
+<P><IMG SRC="../../Images/rzil_resourcemenu.gif" ALT="Resource Menu" ALIGN=bottom></P><P><UL>
+<DL><P><DT><B>New Resource</B><DL><DT>
+Create a new resource in the current resource map.  A dialog window lets
+you specify the type, ID, name and attributes of the new resource.  A 
+resource is then created with empty data: the resource is created in 
+memory and you will have to save your file to make it permanent.</DL><P><DT><B>Edit</B><DL><DT>
+Calls the <I>Hexadecimal Editor</I> for all the selected resources in the resource
+map table. This is equivalent to double-clicking on a resource in a 
+resource map.</DL><P><DT><B>Get Info</B><DL><DT>
+Calls the <I>Inspector window</I> for the first selected resource in the  resource
+map table. This is equivalent to option-clicking on a resource in a 
+resource map.</DL><P><DT><B>Duplicate</B><DL><DT>
+Duplicates all the selected resources  in  the  resource  map  table.  This
+command attributes an unique ID for the duplicated resources. You can change
+these values later with the <I>Inspector window</I>.</DL><P><DT><B>Remove</B><DL><DT>
+Removes all the selected resources from the resource map table. Note that
+this action won't be definitive until you save explicitely the file.</DL><P></DL>
+</UL><P><H3>Window menu</H3>
+<P> This menu lists the windows currently opened in Rezilla (resource
+maps, editing windows etc.). Selecting an item in this menu brings the
+corresponding window to the front.<P><H3>Help menu</H3>
+<P> The Help menu contains a <I>Rezilla Help</I> item which lets you access
+directly the documentation about Rezilla and read it using the System's
+Help Viewer.<P>
+
+</BODY>
+</HTML>
