@@ -2,7 +2,7 @@
 // CRezFile.cp					
 // 
 //                       Created: 2003-04-24 14:17:20
-//             Last modification: 2004-05-19 19:25:41
+//             Last modification: 2004-08-15 20:06:33
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -213,6 +213,13 @@ CRezFile::CreateNewFile()
 	FSCatalogInfo	catalogInfo;
 	HFSUniStr255	unicodeName;
 	OSErr 			error = noErr;
+	OSType			fileType = 0, fileCreator = 0;
+	
+	if ( CRezillaApp::sPrefs->GetPrefValue(kPref_misc_setSigOnCreate) ) {
+		// Rezilla's signature for resource files is Rzil/rsrc
+		fileType = kRezFileType;
+		fileCreator = kRezillaSig;
+	} 
 	
 	switch (mUsedFork) {
 		case rezfile_datafork:
@@ -220,18 +227,17 @@ CRezFile::CreateNewFile()
 		if (SpecifierExists()) {
 			::FSpDelete(&mFileSpec);
 		} 
-		error = ::FSpCreate(&mFileSpec, '????', '????', smSystemScript);
+		error = ::FSpCreate(&mFileSpec, fileCreator, fileType, smSystemScript);
 		// Get an FSRef
 		error = FSpMakeFSRef( &mFileSpec, &mFileRef );
 		// Get parentRef
 		error = FSGetCatalogInfo(&mFileRef, kFSCatInfoNodeID, &catalogInfo, NULL, NULL, &parentRef);
 		error = UMiscUtils::HFSNameToUnicodeName(mFileSpec.name, &unicodeName);
-// 		error = FSCreateResourceFile(&parentRef, mFileSpec.name[0], unicodeName.unicode, kFSCatInfoNone, NULL, 0, NULL, &mFileRef, &mFileSpec);
 		error = FSCreateResourceFile(&parentRef, unicodeName.length, unicodeName.unicode, kFSCatInfoNone, NULL, 0, NULL, &mFileRef, &mFileSpec);
 		break;
 		
 		case rezfile_rezfork:
-		::FSpCreateResFile(&mFileSpec, 'RSED', 'rsrc', smSystemScript);
+		::FSpCreateResFile(&mFileSpec, fileCreator, fileType, smSystemScript);
 		error = ::ResError();
 		break;
 	}
@@ -292,6 +298,13 @@ CRezFile::CloseFile()
 		mRefNum = kResFileNotOpened;
 		::FlushVol(nil, mFileSpec.vRefNum);
     }
+	// Set the type and creator if the corresponding pref is on
+	if ( CRezillaApp::sPrefs->GetPrefValue(kPref_misc_setSigOnClose) ) {
+		UMiscUtils::SetTypeAndCreator(mFileSpec,
+									  (OSType) CRezillaApp::sPrefs->GetPrefValue(kPref_misc_closingType),
+									  (OSType) CRezillaApp::sPrefs->GetPrefValue(kPref_misc_closingCreator));
+	} 
+	
 	return error;
 }
 
