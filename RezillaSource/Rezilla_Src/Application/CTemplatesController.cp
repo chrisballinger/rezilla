@@ -367,29 +367,12 @@ CTemplatesController::HasTemplateForType(ResType inType, ResType * substType, CR
 // ---------------------------------------------------------------------------
 //  ¥ HasLocalTemplateForType									[static]
 // ---------------------------------------------------------------------------
-// Get1NamedResource() appears to be case insensitive! We must then get the
-// list of resources and check the names directly.
 
 Boolean
 CTemplatesController::HasLocalTemplateForType(Str255 inName, CRezMap * inRezMap)
 {
-	Boolean hasTMPL = false;
-	Str255	theName;
-	short	theCount;
-	CRezType * theRezTRype = new CRezType('TMPL', inRezMap);
-	
-	if (theRezTRype->CountResources(theCount) == noErr) {
-		for ( UInt16 i = 1; i <= theCount; i++ ) {
-			if (theRezTRype->GetNameAtIndex(i, theName) == noErr 
-				&& 
-				LString::CompareBytes(theName + 1, inName + 1, theName[0], inName[0]) == 0) {
-					hasTMPL = true;
-					break;
-			} 
-		}
-	} 
-	
-	return hasTMPL;
+	Handle theHandle;
+	return (inRezMap->GetWithName('TMPL', inName, theHandle, false) == noErr);	
 }
 
 
@@ -481,7 +464,7 @@ CTemplatesController::HasExternalTemplateForType(ResType inType, FSRef * outFile
 //	¥ GetTemplateHandle										[static]
 // ---------------------------------------------------------------------------
 
- Handle
+Handle
 CTemplatesController::GetTemplateHandle(ResType inType)
 {
 	Handle		theHandle = nil;
