@@ -1,0 +1,109 @@
+// ===========================================================================
+// CRezillaPrefs.h					
+// 
+//                       Created: 2004-05-17 08:52:16
+//             Last modification: 2004-05-17 11:43:28
+// Author: Bernard Desgraupes
+// e-mail: <bdesgraupes@easyconnect.fr>
+// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// (c) Copyright : Bernard Desgraupes, 2004
+// All rights reserved.
+// $Date$
+// $Revision$
+// ===========================================================================
+
+
+#ifndef _H_CRezillaPrefs
+#define _H_CRezillaPrefs
+#pragma once
+
+#include <LPreferencesFile.h>
+#include <LCommander.h>
+
+//     General Prefs
+struct SGeneralPrefs {
+	SInt32			maxRecent;
+};
+
+//     Export Prefs
+struct SExportPrefs {
+	Boolean			includeBinary;
+	SInt32			formatDtd;
+	SInt32			binaryEncoding;
+};
+
+//     Comparison Prefs
+struct SComparePrefs {
+	Boolean			ignoreName;
+	Boolean			ignoreAttributes;
+	Boolean			ignoreData;
+	SInt32			dataDisplay;
+};
+
+struct SRezillaPrefs {
+	SGeneralPrefs		general;
+	SExportPrefs		exporting;
+	SComparePrefs		compare;
+};
+
+enum {
+	kPref_compare_dataDisplay,
+	kPref_compare_ignoreAttributes,
+	kPref_compare_ignoreData,
+	kPref_compare_ignoreName,
+	kPref_export_dataEncoding,
+	kPref_export_formatDtd,
+	kPref_export_includeBinary,
+	kPref_general_maxRecent
+};
+
+
+class LDialogBox;
+class LPopupButton;
+
+class CRezillaPrefs : public LCommander, public LBroadcaster {
+
+public:
+	enum { 	prefsType_Temp = 0,
+			prefsType_Curr = 1};
+
+							CRezillaPrefs();
+							CRezillaPrefs( LCommander* inSuper );
+			virtual			~CRezillaPrefs();
+
+	void				RunPrefsWindow();
+
+	virtual SRezillaPrefs	GetRezillaPreferences() { return mCurrPrefs;}
+	void					SetRezillaPreferences(SRezillaPrefs inRezillaPreferences) {
+														mCurrPrefs = inRezillaPreferences ;}
+				
+	SInt32				GetPrefValue(SInt32 inConstant, 
+									 SInt32 inPrefType = prefsType_Curr);
+	void				SetPrefValue(SInt32 inPrefValue, 
+									 SInt32 inConstant, 
+									 SInt32 inPrefType = prefsType_Curr);
+	
+	LDialogBox *		GetPrefsWindow() { return sWindow;}
+	void				SetPrefsWindow(LDialogBox * inPrefsWindow) {sWindow = inPrefsWindow ;}
+	
+	void				ValidateTempPrefs();
+	void				InitTempPrefs();
+	virtual void		StorePreferences();
+	Boolean				PrefsHaveChanged();
+	
+	static LDialogBox *		sWindow;
+	
+protected:
+	SRezillaPrefs			mTempPrefs;
+	SRezillaPrefs			mCurrPrefs;
+	LPreferencesFile *		mFile;
+	
+	virtual void		Initialize();
+	void                MakePrefsWindow();
+
+private:
+	virtual void		RetrievePreferences();
+  
+};
+
+#endif // _H_CRezillaPrefs
