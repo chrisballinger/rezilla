@@ -2,7 +2,7 @@
 // CStaticEditCombo.cp
 // 
 //                       Created: 2005-03-17 09:36:42
-//             Last modification: 2005-03-17 09:36:42
+//             Last modification: 2005-03-19 16:20:45
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -11,11 +11,11 @@
 // $Date$
 // $Revision$
 // ===========================================================================
-// A static text which allows for editing when clicked upon. Useful, for
+// A view containing both a static text and an edit text field. Useful, for
 // instance, for the menu title in a menu editor: if the user clicks on the
-// title, it is replaced by an edit field. When the Return or the Enter key
-// is pressed, the string is validated and we switch back to the static
-// text.
+// static title, it is replaced by an edit field. When the Return or the
+// Enter key is pressed, the string is validated and we switch back to the
+// static text.
 
 
 #ifdef PowerPlant_PCH
@@ -26,6 +26,7 @@
 #include "RezillaConstants.h"
 
 #include <LString.h>
+#include <UKeyFilters.h>
 
 // // Standard headers
 // #include <string.h>
@@ -34,45 +35,34 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CStaticEditCombo							Stream Constructor		  [public]
+//   CStaticEditCombo							Stream Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CStaticEditCombo::CStaticEditCombo(
-	LStream*	inStream,
-	ClassIDT	inImpID)
+	LStream*	inStream)
 
-	: LEditText(inStream, inImpID)
+	: LView(inStream)
 {
 	InitCombo();
 }
 
 
 // ---------------------------------------------------------------------------
-//	¥ CStaticEditCombo							Parameterized Constructor [public]
+//   CStaticEditCombo							Parameterized Constructor [public]
 // ---------------------------------------------------------------------------
 
-CStaticEditCombo::CStaticEditCombo(
-	const SPaneInfo&	inPaneInfo,
-	LCommander*			inSuperCommander,
-	ConstStringPtr		inInitialText,
-	ResIDT				inTextTraitsID,
-	MessageT			inMessage,
-	SInt16				inMaxChars,
-	UInt8				inAttributes,
-	TEKeyFilterFunc		inKeyFilter,
-	bool				inPasswordField,
-	ClassIDT			inImpID)
+CStaticEditCombo::CStaticEditCombo(	
+								const SPaneInfo&	inPaneInfo,
+								const SViewInfo&	inViewInfo)
 
-	: LEditText(inPaneInfo, inSuperCommander, inInitialText, 
-				inTextTraitsID, inMessage, inMaxChars, inAttributes, 
-				inKeyFilter, inPasswordField, inImpID)
+	: LView(inPaneInfo, inViewInfo)
 {
 	InitCombo();
 }
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CStaticEditCombo							Destructor				  [public]
+//   ~CStaticEditCombo							Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CStaticEditCombo::~CStaticEditCombo()
@@ -81,8 +71,9 @@ CStaticEditCombo::~CStaticEditCombo()
 
 
 // ---------------------------------------------------------------------------
-//	¥ InitCombo
+//   InitCombo
 // ---------------------------------------------------------------------------
+// 		PlaceInSuperImageAt(inPaneInfo.left, inPaneInfo.top, false);
 
 void 
 CStaticEditCombo::InitCombo()
@@ -92,65 +83,58 @@ CStaticEditCombo::InitCombo()
 	pi.paneID = 0;
 	pi.width = mFrameSize.width;
 	pi.height = mFrameSize.height;
-	pi.visible = true;
+	pi.visible = false;
 	pi.enabled = true;
 	pi.bindings = mFrameBinding;
 	pi.left = mFrameLocation.h;
 	pi.top = mFrameLocation.v;
 	pi.userCon = 0;
-	pi.superView = mSuperView;
+	pi.superView = this;
 
-	Str255		theTitle;
-	this->GetDescriptor(theTitle);
-	this->Hide();
-	
-	mStaticText = new LStaticText(pi, theTitle, 0);
-	// 		PlaceInSuperImageAt(inPaneInfo.left, inPaneInfo.top, false);
-
-	mStaticText->SetDescriptor(theTitle);
-	mStaticText->Show();
-	
-	mIsEditing = false;
+	mStaticText = new LStaticText(pi, "\p", 0);
+	mEditText = new LEditText(pi, this, "\p", 0, msg_Nothing, 255, 0, 
+							  UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar));
+							  
 }
 
 
-// // ---------------------------------------------------------------------------
-// // FinishCreateSelf											[protected]
-// // ---------------------------------------------------------------------------
-// 
-// void
-// CStaticEditCombo::FinishCreateSelf()
-// {
-// }
+// ---------------------------------------------------------------------------
+//   FinishCreateSelf											[protected]
+// ---------------------------------------------------------------------------
+
+void
+CStaticEditCombo::FinishCreateSelf()
+{
+	mIsEditing = false;
+// 	Str255		theTitle;
+// 	this->GetDescriptor(theTitle);
+	mEditText->Hide();
+	
+// 	mStaticText->SetDescriptor(theTitle);
+	mStaticText->Show();
+}
 
 
 
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥  ClickSelf
+//   Click
 // ---------------------------------------------------------------------------
 
 void 
-CStaticEditCombo::ClickSelf(const SMouseDownEvent &inMouseDown)
-{
-// #pragma unused(inMouseDown)
-	
+CStaticEditCombo::Click(SMouseDownEvent &inMouseDown)
+{	
 	if (mIsEditing) {
-		LEditText::ClickSelf(inMouseDown);
+		mEditText->Click(inMouseDown);
 	} else {
-		Str255	theTitle;
-		mStaticText->GetDescriptor(theTitle);
-		mStaticText->Hide();
-		this->SetDescriptor(theTitle);
-		this->Show();
-		mIsEditing = true;
+		SwapPanes();
 	}
 }
 
 
 // ---------------------------------------------------------------------------
-//	¥ HandleKeyPress												  [public]
+//   HandleKeyPress												  [public]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -160,24 +144,77 @@ CStaticEditCombo::HandleKeyPress(
 	Boolean		keyHandled = true;
 
 	if (mIsEditing) {
-		UInt16		theChar = (UInt16) (inKeyEvent.message & charCodeMask);
+		UInt16	theChar = (UInt16) (inKeyEvent.message & charCodeMask);
 
 		if ( (theChar == char_Enter) || (theChar == char_Return) ) {
-			Str255	theTitle;
-			this->GetDescriptor(theTitle);
-			this->Hide();
-			mStaticText->SetDescriptor(theTitle);
-			mStaticText->Show();
-			mIsEditing = false;
+			SwapPanes();
 		} else {
-			keyHandled = LEditText::HandleKeyPress(inKeyEvent);
+			keyHandled = mEditText->HandleKeyPress(inKeyEvent);
 		}
-		
 	} 
 
 	return keyHandled;
 }
 
+
+// ---------------------------------------------------------------------------
+//   SwapPanes												  [public]
+// ---------------------------------------------------------------------------
+// 			GetSuperView()->GetSubPanes().SwapItems(1,2);
+
+void
+CStaticEditCombo::SwapPanes()
+{
+	Boolean		keyHandled = true;
+	Str255	theTitle;
+
+	if (mIsEditing) {
+		mEditText->GetDescriptor(theTitle);
+		mEditText->Hide();
+		mStaticText->SetDescriptor(theTitle);
+		mStaticText->Show();
+		mIsEditing = false;
+	} else {
+		mStaticText->GetDescriptor(theTitle);
+		mStaticText->Hide();
+		mEditText->SetDescriptor(theTitle);
+		mEditText->Show();
+		mIsEditing = true;
+	}
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ GetDescriptor													  [public]
+// ---------------------------------------------------------------------------
+
+StringPtr
+CStaticEditCombo::GetDescriptor(
+	Str255	outDescriptor) const
+{
+	if (mIsEditing) {
+		mEditText->GetDescriptor(outDescriptor);
+	} else {
+		mStaticText->GetDescriptor(outDescriptor);
+	}
+	return outDescriptor;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ SetDescriptor													  [public]
+// ---------------------------------------------------------------------------
+
+void
+CStaticEditCombo::SetDescriptor(
+	ConstStringPtr	inDescriptor)
+{
+	if (mIsEditing) {
+		mEditText->SetDescriptor(inDescriptor);
+	} else {
+		mStaticText->SetDescriptor(inDescriptor);
+	}
+}
 
 
 

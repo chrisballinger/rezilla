@@ -2,7 +2,7 @@
 // CStaticEditCombo.h
 // 
 //                       Created: 2005-03-17 09:36:42
-//             Last modification: 2005-03-17 09:36:42
+//             Last modification: 2005-03-19 15:44:30
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -18,6 +18,8 @@
 
 #include <LStaticText.h>
 #include <LEditText.h>
+#include <LView.h>
+#include <LCommander.h>
 
 #if PP_Uses_Pragma_Import
 	#pragma import on
@@ -25,44 +27,42 @@
 
 PP_Begin_Namespace_PowerPlant
 
-class	LString;
+
 
 // ---------------------------------------------------------------------------
 
-class CStaticEditCombo : public LEditText {
+class CStaticEditCombo : public LView, public LCommander {
 public:
-	enum { class_ID		= FOUR_CHAR_CODE('SEtx'),
-		   imp_class_ID	= FOUR_CHAR_CODE('ietx') };
+	enum { class_ID		= FOUR_CHAR_CODE('SECV')};
 
-						CStaticEditCombo(
-								LStream*		inStream,
-								ClassIDT		inImpID = imp_class_ID);
+							CStaticEditCombo(
+								LStream*		inStream);
 
-						CStaticEditCombo(
+							CStaticEditCombo(	
 								const SPaneInfo&	inPaneInfo,
-								LCommander*			inSuperCommander,
-								ConstStringPtr		inInitialText,
-								ResIDT				inTextTraitsID,
-								MessageT			inMessage,
-								SInt16				inMaxChars,
-								UInt8				inAttributes,
-								TEKeyFilterFunc		inKeyFilter,
-								bool				inPasswordField = false,
-								ClassIDT			inImpID = imp_class_ID);
+								const SViewInfo&	inViewInfo);
 
 	virtual				~CStaticEditCombo();
 
+	virtual void		Click( SMouseDownEvent& inMouseDown );
+	
 	virtual Boolean		HandleKeyPress( const EventRecord& inKeyEvent );
 	
+	virtual StringPtr	GetDescriptor( Str255 outDescriptor ) const;
+	virtual void		SetDescriptor( ConstStringPtr inDescriptor );
 	
 protected:
 	LStaticText *			mStaticText;
+	LEditText *				mEditText;
 	Boolean					mIsEditing;
 
-	virtual void		ClickSelf(const SMouseDownEvent &inMouseDown);
 	
+	virtual void		FinishCreateSelf();
+
 private:
 	void				InitCombo();
+	void				SwapPanes();
+	
 };
 
 PP_End_Namespace_PowerPlant
