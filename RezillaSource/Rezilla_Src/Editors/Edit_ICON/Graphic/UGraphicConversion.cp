@@ -1,11 +1,11 @@
 // ===========================================================================
 // UGraphicConversion.cp
 //                       Created: 2004-12-11 18:52:47
-//             Last modification: 2005-01-02 15:47:10
+//             Last modification: 2005-01-13 08:43:24
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes 2004, 2005
+// (c) Copyright: Bernard Desgraupes 2004-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -20,6 +20,7 @@
 #include "CRezClipboard.h"
 #include "RezillaConstants.h"
 #include "UIconMisc.h"
+#include "UMessageDialogs.h"
 #include "UMiscUtils.h"
 #include "UResources.h"
 
@@ -140,8 +141,11 @@ UGraphicConversion::GetPictFromClipboard()
 		ThrowIfMemFail_( thePict );
 		
 		numBytes = theClipboard->GetData( ImgType_Picture, (Handle) thePict );
-		if ( numBytes < sizeof(Picture) )
-			Throw_( noTypeErr );
+		if ( numBytes < sizeof(Picture) ) {
+			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("NoPictOnClipboard"), PPob_SimpleMessage);
+// 			Throw_( noTypeErr );
+			Throw_( err_IconNoPictOnClipboard );
+		}
 	}
 	catch( ... )
 	{
@@ -156,8 +160,6 @@ UGraphicConversion::GetPictFromClipboard()
 // ---------------------------------------------------------------------------
 // 	GetRegionFromClipboard
 // ---------------------------------------------------------------------------
-// Returns nil if the clipboard doesn't have a region rather than throwing
-// an error.
 
 RgnHandle
 UGraphicConversion::GetRegionFromClipboard()
@@ -166,8 +168,12 @@ UGraphicConversion::GetRegionFromClipboard()
 	SInt32			numBytes;
 	LClipboard *	theClipboard = CRezClipboard::GetClipboard();
 
+	// Return nil if the clipboard doesn't have a region rather than
+	// throwing an error
 	numBytes = theClipboard->GetData( ResType_Region, nil );
-	if ( numBytes <= 0 ) return( nil );
+	if ( numBytes <= 0 ) {
+		return( nil );
+	}
 	
 	try
 	{
