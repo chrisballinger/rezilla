@@ -724,10 +724,6 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 		// the sequence (as in 'STR#' resources).
 		*mRezStream >> theShort;
 		mItemsCount = theShort;
-// 		::NumToString( (long) mItemsCount, numStr);
-// 		AddStaticField(inLabelString);
-// 		AddEditField(numStr, inType, rPPob_TmplEditorWindow + mCurrentID, 255, 0, 
-// 					 UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar));
 		break;
 
 		case 'OCST':
@@ -797,18 +793,31 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 		// the sequence (as in 'DITL' resources).
 		*mRezStream >> theShort;
 		mItemsCount = theShort + 1;
-// 		::NumToString( (long) mItemsCount, numStr);
-// 		AddStaticField(inLabelString);
-// 		AddEditField(numStr, inType, rPPob_TmplEditorWindow + mCurrentID, 255, 0, 
-// 					 UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar));
 		break;
 
 	  default:
 	  // Handle Hnnn, Cnnn, P0nn cases here or unrecognized type
-	  // Hnnn A 3-digit hex number; displays nnn bytes in hex format
-	  // Cnnn A C string that is nnn hex bytes long (The last byte is always a 0, so the string itself occupies the first nnn-1 bytes.)
-	  // P0nn A Pascal string that is nn hex bytes long (The length byte is not included in nn, so the string occupies the entire specified length.)
-
+	  if (inType >> 24 == 'H') {
+		  // Hnnn A 3-digit hex number; displays nnn bytes in hex format
+		  // 0xfff = 4095
+		  AddStaticField(inLabelString, mLeftLabelTraitsID);
+		  mYCoord += kTmplLabelHeight + kTmplVertSkip;
+		  AddHexDumpField(inType);
+	  } else if (inType >> 24 == 'C') {
+		  // Cnnn A C string that is nnn hex bytes long (The last byte is always a 0, so the string itself occupies the first nnn-1 bytes.)
+		  AddStaticField(inLabelString, mLeftLabelTraitsID);
+		  mYCoord += kTmplLabelHeight + kTmplVertSkip;
+		  AddWasteField(inType);
+	  } else if ( inType >> 16 == 'P0') {
+		  // P0nn A Pascal string that is nn hex bytes long (The length byte is not included in nn, so the string occupies the entire specified length.)
+		  *mRezStream >> theString;
+		  AddStaticField(inLabelString);
+		  AddEditField(theString, inType, rPPob_TmplEditorWindow + mCurrentID, 255, 0, 
+					   UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar));	  	
+	  } else {
+		  // Unrecognized type
+		  UMessageDialogs::AlertWrongType(CFSTR("UnknownTemplateType"), inType);
+	  }
 	  break;
 	}
 
@@ -943,7 +952,7 @@ CTmplEditorWindow::AddBooleanField(Boolean inValue,
 void
 CTmplEditorWindow::AddWasteField(OSType inType)
 {
-	SInt32		oldPos, newPos;
+	SInt32		oldPos, newPos, theLength;
 	Handle		theHandle;
 	char 		theChar;
 	SViewInfo	theViewInfo;
@@ -992,10 +1001,10 @@ CTmplEditorWindow::AddWasteField(OSType inType)
 	theLength = mRezStream->GetLength();
 	
 	// Insert the text
+	oldPos = mRezStream->GetMarker();
 	switch (inType) {
 		case 'CSTR':
 			// Is there a NULL byte marking the end of the string?
-			oldPos = mRezStream->GetMarker();
 			newPos = theLength;
 			while (mRezStream->GetMarker() < theLength ) {
 				*mRezStream >> theChar;
@@ -1010,7 +1019,6 @@ CTmplEditorWindow::AddWasteField(OSType inType)
 			UInt32		theUInt32;
 			// Long string (length long followed by the characters)
 			*mRezStream >> theUInt32;
-			oldPos = mRezStream->GetMarker();;
 			newPos = oldPos + theUInt32;
 			break;
 		}
@@ -1019,7 +1027,6 @@ CTmplEditorWindow::AddWasteField(OSType inType)
 			UInt16		theUInt16;
 			// Same as LSTR, but a word rather than a long word
 			*mRezStream >> theUInt16;
-			oldPos = mRezStream->GetMarker();;
 			newPos = oldPos + theUInt16;
 			break;
 		}
@@ -1027,7 +1034,6 @@ CTmplEditorWindow::AddWasteField(OSType inType)
 		case 'ECST':
 		case 'OCST':
 			// Is there a NULL byte marking the end of the string?
-			oldPos = mRezStream->GetMarker();
 			newPos = theLength;
 			while (mRezStream->GetMarker() < theLength ) {
 				*mRezStream >> theChar;
@@ -1048,6 +1054,13 @@ CTmplEditorWindow::AddWasteField(OSType inType)
 			}
 		break;
 
+		default:
+		if (inType >> 24 == 'C') {
+			// Cnnn: a C string that is nnn hex bytes long (The last byte is always a 0, so the string itself occupies the first nnn-1 bytes.)
+			newPos = oldPos + (inType << 8 & 0xffffff00) - 1;
+			// Skip the ending byte
+			*mRezStream >> theChar;
+		}
 	}
 
 	theHandle = mRezStream->GetDataHandle();
@@ -1133,7 +1146,12 @@ CTmplEditorWindow::AddHexDumpField(OSType inType)
 	
 	// Insert the text
 	oldPos = mRezStream->GetMarker();
-	newPos = mRezStream->GetLength();
+	if (inType == 'HEXD') {
+		newPos = mRezStream->GetLength();
+	} else if (inType >> 24 == 'H') {
+	  // Hnnn: a 3-digit hex number; displays nnn bytes in hex format
+		newPos = oldPos + (inType << 8 & 0xffffff00);
+	}
 	
 	theHandle = mRezStream->GetDataHandle();
 	HLock(theHandle);
@@ -1451,21 +1469,20 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 	Str255	numStr, theString;
 	SInt8	theSInt8;
 	SInt16	theSInt16;
-	SInt32	theSInt32, theLength, oldYCoord;
+	SInt32	theSInt32, theLength, reqLength;
 	UInt16	theUInt16;
 	UInt32	theUInt32;
 	Boolean	theBool;
 	OSType	theOSType;
-	UInt8	i;
-	Ptr		p;
-	
-	PaneIDT theCurrentRadioID;
-	Handle theHandle;
+	UInt8	i;	
+	LRadioGroupView *	theRGV;
+	LEditText *			theEditText;
+	CWasteEditView *	theWasteEdit;
+	PaneIDT	theCurrentRadioID;
+	Handle	theHandle;
 	StHandleLocker locker(nil);
+	CFStringRef formatStr = NULL, messageStr = NULL;
 
-	LRadioGroupView * theRGV;
-	LEditText * theEditText;
-	CWasteEditView * theWasteEdit;
 	
 	switch (inType) {
 		case 'ALNG':
@@ -1523,13 +1540,9 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		theWasteEdit = dynamic_cast<CWasteEditView *>(this->FindPaneByID(mCurrentID));
 		theHandle = theWasteEdit->GetTextHandle();
 		theLength = theWasteEdit->GetTextLength();
+
 		locker.Adopt(theHandle);
-		p = *theHandle;
-		
-		for (theSInt32 = 0; theSInt32 < theLength; theSInt32++) {
-			*mOutStream << (char) *p;
-			p++;
-		}
+		mOutStream->PutBytes(*theHandle, theLength);		
 		// End with a NULL byte
 		*mOutStream << (UInt8) 0x00;
 		mCurrentID++;
@@ -1562,11 +1575,23 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		mCurrentID++;
 		break;
 
-// 		case 'ECST':
-// 		// Even-padded C string, or odd-padded C string (padded with nulls)
-// 		
-// 		break;
-// 
+		case 'ECST':
+		// Even-padded C string (padded with nulls)
+		theWasteEdit = dynamic_cast<CWasteEditView *>(this->FindPaneByID(mCurrentID));
+		theHandle = theWasteEdit->GetTextHandle();
+		theLength = theWasteEdit->GetTextLength();
+
+		locker.Adopt(theHandle);
+		mOutStream->PutBytes(*theHandle, theLength);		
+		// End with a NULL byte
+		*mOutStream << (UInt8) 0x00;
+		// Padd with a NULL byte if total length with ending NULL is odd
+		if (theLength % 2 == 0) {
+			*mOutStream << (UInt8) 0x00;
+		} 
+		mCurrentID++;
+		break;
+
 		case 'ESTR':
 		// Pascal string padded to even length (needed for DITL resources)
 		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
@@ -1612,11 +1637,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		theLength = ::WEGetTextLength(theWE);
 		
 		locker.Adopt(theHandle);
-		p = *theHandle;
-		for (theSInt32 = 0; theSInt32 < theLength; theSInt32++) {
-			*mOutStream << (char) *p;
-			p++;
-		}
+		mOutStream->PutBytes(*theHandle, theLength);
 		mCurrentID++;
 		break;
 
@@ -1650,7 +1671,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		break;
 
 		case 'LSTE':
-		// List end. Handled in DoParseWithTemplate().
+		// List end. Handled in DoRetrieveWithTemplate().
 		break;
 
 		case 'LSTR':
@@ -1659,13 +1680,9 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		theHandle = theWasteEdit->GetTextHandle();
 		theLength = theWasteEdit->GetTextLength();
 		*mOutStream << (UInt32) theLength;
+
 		locker.Adopt(theHandle);
-		p = *theHandle;
-		
-		for (theSInt32 = 0; theSInt32 < theLength; theSInt32++) {
-			*mOutStream << (char) *p;
-			p++;
-		}
+		mOutStream->PutBytes(*theHandle, theLength);
 		mCurrentID++;
 		break;
 
@@ -1684,11 +1701,23 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 // // 					 UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar));
 // 		break;
 // 
-// 		case 'OCST':
-// 		// Odd-padded C string (padded with nulls)
-// 		
-// 		break;
-// 
+		case 'OCST':
+		// Odd-padded C string (padded with nulls)
+		theWasteEdit = dynamic_cast<CWasteEditView *>(this->FindPaneByID(mCurrentID));
+		theHandle = theWasteEdit->GetTextHandle();
+		theLength = theWasteEdit->GetTextLength();
+
+		locker.Adopt(theHandle);
+		mOutStream->PutBytes(*theHandle, theLength);		
+		// End with a NULL byte
+		*mOutStream << (UInt8) 0x00;
+		// Padd with a NULL byte if total length with ending NULL is odd
+		if (theLength % 2 == 1) {
+			*mOutStream << (UInt8) 0x00;
+		} 
+		mCurrentID++;
+		break;
+
 		case 'OSTR':
 		// Pascal string padded to odd length (needed for DITL resources)
 		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
@@ -1735,13 +1764,9 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		theHandle = theWasteEdit->GetTextHandle();
 		theLength = theWasteEdit->GetTextLength();
 		*mOutStream << (UInt16) theLength;
+
 		locker.Adopt(theHandle);
-		p = *theHandle;
-		
-		for (theSInt32 = 0; theSInt32 < theLength; theSInt32++) {
-			*mOutStream << (char) *p;
-			p++;
-		}
+		mOutStream->PutBytes(*theHandle, theLength);
 		mCurrentID++;
 		break;
 
@@ -1758,10 +1783,58 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 // 
 	  default:
 	  // Handle Hnnn, Cnnn, P0nn cases here or unrecognized type
-	  // Hnnn A 3-digit hex number; displays nnn bytes in hex format
-	  // Cnnn A C string that is nnn hex bytes long (The last byte is always a 0, so the string itself occupies the first nnn-1 bytes.)
-	  // P0nn A Pascal string that is nn hex bytes long (The length byte is not included in nn, so the string occupies the entire specified length.)
+	  if (inType >> 24 == 'H') {
+		  // Hnnn: a 3-digit hex number; displays nnn bytes in hex format
+		  CDualDataView * theTGB = dynamic_cast<CDualDataView *>(this->FindPaneByID(mCurrentID));
+		  WEReference theWE = theTGB->GetInMemoryWasteRef();
+		  theHandle = static_cast<Handle>(::WEGetText(theWE));
+		  theLength = ::WEGetTextLength(theWE);
+		  reqLength = inType << 8 & 0xffffff00;
 
+		  if (theLength < reqLength) {
+			  UMessageDialogs::AlertWrongValue(CFSTR("StringShorterThanRequired"), reqLength);
+		  } else {
+			  locker.Adopt(theHandle);
+			  mOutStream->PutBytes(*theHandle, reqLength);
+		  }
+		  mCurrentID++;
+		  
+	  } else if (inType >> 24 == 'C') {
+		  // Cnnn: a C string that is nnn hex bytes long (The last byte is always a 0, so the string itself occupies the first nnn-1 bytes.)
+		  theWasteEdit = dynamic_cast<CWasteEditView *>(this->FindPaneByID(mCurrentID));
+		  theHandle = theWasteEdit->GetTextHandle();
+		  theLength = theWasteEdit->GetTextLength();
+		  reqLength = (inType << 8 & 0xffffff00) - 1;
+
+		  if (theLength < reqLength) {
+			  UMessageDialogs::AlertWrongValue(CFSTR("StringShorterThanRequired"), reqLength);
+		  } else {
+			  locker.Adopt(theHandle);
+			  mOutStream->PutBytes(*theHandle, reqLength);		
+			  // End with a NULL byte
+			  *mOutStream << (UInt8) 0x00;
+		  }
+		  mCurrentID++;
+
+	  } else if ( inType >> 16 == 'P0') {
+		  // P0nn: a Pascal string that is nn hex bytes long (The length byte is not included in nn, so the string occupies the entire specified length.)
+		  theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
+		  theEditText->GetDescriptor(theString);	
+		  theLength = theString[0];
+		  reqLength = inType << 16 & 0xffff0000;
+
+		  if (theLength < reqLength) {
+			  UMessageDialogs::AlertWrongValue(CFSTR("StringShorterThanRequired"), reqLength);
+		  } else {
+			  theString[0] = reqLength;
+			  *mOutStream << theString;
+		  }
+		  mCurrentID++;
+
+	  } else {
+		  // Unrecognized type
+		  UMessageDialogs::AlertWrongType(CFSTR("UnknownTemplateType"), inType);
+	  }
 	  break;
 	}
 
