@@ -1,11 +1,11 @@
 // ===========================================================================
 // CIconResizeImageAction.cp
 //                       Created: 2004-12-11 18:52:32
-//             Last modification: 2004-12-24 09:47:53
+//             Last modification: 2005-01-13 21:22:02
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes 2004
+// (c) Copyright: Bernard Desgraupes 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -52,12 +52,11 @@ CIconResizeImageAction::~CIconResizeImageAction()
 void
 CIconResizeImageAction::DoIt()
 {
-	CIcon_EditorWindow		*pv = mSettings.thePaintView;
-	COffscreen		*cb = mSettings.currentBuffer;
-	SInt32			newWidth, newHeight;
+	CIcon_EditorWindow	*pv = mSettings.thePaintView;
+	COffscreen			*cb = mSettings.currentBuffer;
+	SInt32				newWidth, newHeight;
 	
-			// ask the user for a new height & width 
-
+	// Ask the user for a new height & width 
 	Boolean okHit = UResizeDialog::DoResizeDialog(
 						cb->GetWidth(), pv->GetMinImageWidth(), pv->GetMaxImageWidth(),
 						cb->GetHeight(), pv->GetMinImageHeight(), pv->GetMaxImageHeight(),
@@ -69,30 +68,23 @@ CIconResizeImageAction::DoIt()
 		return;
 	}
 	
-			// we're memory hungry enough -- clear the selection so we don't
-		// have to save it. 
-		// 
-		// clear the current action as well.
-
+	// Clear the selection so we don't have to save it. Clear the current
+	// action as well.
 	pv->SelectNone();
 	pv->PostAction( nil );
 	
-			// save off the current state of the window
-		// (this includes sample pane location, canvas size, etc, etc)
-
+	// Save off the current state of the window (this includes sample pane
+	// location, canvas size, etc, etc)
 	mCancelledResize = false;
 	mBeforeState.Initialize( pv );
 	
-			// do the resize operation
-
+	// Do the resize operation
 	pv->ChangeImageSize( newWidth, newHeight, false );
 	
-			// save off the current state of the window
-
+	// Save off the current state of the window
 	mAfterState.Initialize( pv );
 	
-			// and we're undoable
-
+	// and we're undoable
 	this->PostAsAction();
 }
 
