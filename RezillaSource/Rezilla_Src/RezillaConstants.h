@@ -165,6 +165,7 @@ const ResIDT	rPPob_AskUniqueID			= 9550;
 const ResIDT	rPPob_TmplEditorWindow		= 10100;
 const ResIDT	rPPob_TextEditorWindow		= 10200;
 const ResIDT	rPPob_AeteEditorWindow		= 10300;
+const ResIDT	rPPob_PictEditorWindow		= 10400;
 const ResIDT	rRidL_RezMapWindow			= rPPob_RezMapWindow;
 const ResIDT	rRidL_InspectorWindow		= rPPob_InspectorWindow;
 const ResIDT	rRidL_NewRezDialog			= rPPob_NewRezDialog;
@@ -469,6 +470,11 @@ const PaneIDT   item_AeteListBoxesView		= 20;
 const PaneIDT   item_AeteCategories			= 21;
 const PaneIDT   item_AeteTermsScroller		= 22;
 const PaneIDT   item_AeteTermsTable			= 23;
+// Pict Viewer Window
+// ------------------
+const PaneIDT   item_PictEditSize			= 1;
+const PaneIDT   item_PictEditWidth			= 2;
+const PaneIDT   item_PictEditHeight			= 3;
 
 
 // Common elements for Editor Windows
