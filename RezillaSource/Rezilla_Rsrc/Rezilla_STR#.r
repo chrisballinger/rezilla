@@ -91,6 +91,32 @@ resource 'STR#' (1503, "File extensions") {
 };
 
 
+resource 'STR#' (1504, "Project URLs") {
+	{	/* array StringArray */
+		/* [1] */
+		"Rezilla Project",
+		/* [2] */
+		"http://sourceforge.net/projects/rezilla",
+		/* [3] */
+		"Binary releases",
+		/* [4] */
+		"http://sourceforge.net/project/showfiles.php?group_id=83267",
+		/* [5] */
+		"Browse CVS repository",
+		/* [6] */
+		"http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/rezilla",
+		/* [7] */
+		"Bug Tracker",
+		/* [8] */
+		"http://sourceforge.net/tracker/?atid=568882&group_id=83267&func=browse",
+		/* [9] */
+		"Mailing list",
+		/* [10] */
+		"http://lists.sourceforge.net/lists/listinfo/rezilla-users"
+	}
+};
+
+
 resource 'STR#' (1100, "Help Tags") {
 	{	/* array StringArray */
 		/* [1] */
