@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2004-11-15 22:51:01
+//             Last modification: 2004-11-19 07:27:04
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -250,12 +250,11 @@ CRezillaApp::Initialize()
 	
 	sRecentItemsAttachment = new CRecentItemsMenu(rMENU_RecentItems, kRzilMaxRecentItems, CFSTR(kRezillaIdentifier));
 	AddAttachment( sRecentItemsAttachment, nil, true );
-	
+	sRecentItemsAttachment->SetMaxRecentItems( sPrefs->GetPrefValue(kPref_general_maxRecent) );
+
 // 	// Help tags settings
 // 	ABalloonBase::EnableControlKeyPop();
 // 	ABalloonBase::SetAutoPopDelay(20);
-
-// 	ModifyResourcesMenu();
 	
 	mOpeningFork = fork_anyfork;
 	
@@ -627,40 +626,6 @@ CRezillaApp::InstallWindowMenu()
 	LMenuBar * theMBar = LMenuBar::GetCurrentMenuBar();
 	ThrowIfNil_( theMBar );
 	theMBar->InstallMenu( gWindowMenu, 0 );
-}
-
-
-// ---------------------------------------------------------------------------
-//	¥ ModifyResourcesMenu									[protected]
-// ---------------------------------------------------------------------------
-// Attempt to make the "Edit as Type..." menu item dynamic.
-
-void
-CRezillaApp::ModifyResourcesMenu()
-{
-	int			attributes = 0;
-	SInt16		theIndex;
-	OSStatus	error;
-	
-	LMenu * theMenu = new LMenu( baseMENU_Resource );
-
-	MenuHandle theMenuHndl = theMenu->GetMacMenuH();
-
-	theIndex = theMenu->IndexFromCommand(cmd_EditRez);
-// 	if (GetMenuItemAttributes(theMenuHndl, theIndex, &attributes) == noErr) {
-// 		attributes |= kMenuItemAttrNotPreviousAlternate;
-// 	} 
-	if (theIndex > 0) {
-		error = ::ChangeMenuItemAttributes(theMenuHndl, theIndex, 
-		kMenuItemAttrNotPreviousAlternate | kMenuItemAttrDynamic, 0);
-	} 
-	theIndex = theMenu->IndexFromCommand(cmd_EditRezAsType);
-	if (theIndex > 0) {
-		error = ::ChangeMenuItemAttributes(theMenuHndl, theIndex, kMenuItemAttrDynamic, 0);
-		error = ::SetMenuItemModifiers(theMenuHndl, theIndex, kMenuControlModifier);
-	} 
-	error = ::UpdateInvalidMenuItems(theMenuHndl);
-	
 }
 
 
