@@ -115,10 +115,15 @@ CMENU_EditorWindow::FinishCreateSelf()
 	TableCellT	theCell = {1,1};
 	mItemsTable->SelectCell(theCell);
 	
-	// Listen to the glyph popup
-	CPopupEditField * theEditText = dynamic_cast<CPopupEditField *>(this->FindPaneByID( item_MenuEditGlyphField ));
+	// Listen to the item title field
+	LEditText *	theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(item_MenuEditItemTitle));
 	ThrowIfNil_( theEditText );
-	theEditText->GetPopup()->AddListener(this);
+	theEditText->AddListener(this);
+
+	// Listen to the glyph popup
+	CPopupEditField * theEditField = dynamic_cast<CPopupEditField *>(this->FindPaneByID( item_MenuEditGlyphField ));
+	ThrowIfNil_( theEditField );
+	theEditField->GetPopup()->AddListener(this);
 	
 }
 
@@ -189,6 +194,7 @@ CMENU_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			theEditText->GetDescriptor(theTitle);
 			mItemsTable->GetSelectedCell(theCell);
 			mItemsTable->SetCellData( theCell, theTitle );
+			mItemsTable->Refresh();
 			break;
 		}
 				
@@ -201,8 +207,21 @@ CMENU_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			break;
 		}
 				
-		case msg_PlusButton: 
-		break;
+		case msg_PlusButton: {
+			Str255		theString = "\p";
+			TableCellT	theCell = {0,1};
+			ArrayIndexT	theIndex = mMenuObj->GetItemIndex();
+			// Add in the table
+			mItemsTable->InsertRows(1, theIndex, theString);
+			theCell.row = theIndex + 1;
+			mItemsTable->SelectCell(theCell);
+			// Add in the menu object
+			mMenuObj->NewItem(theIndex);
+			mMenuObj->SetItemIndex(theIndex + 1);
+			ClearItemValues();
+			mItemsTable->Refresh();
+			break;
+		}
 				
 		case msg_MenuEditPropertyPopup: 
 		break;
