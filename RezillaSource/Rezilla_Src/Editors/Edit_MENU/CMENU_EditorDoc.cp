@@ -132,7 +132,6 @@ CMENU_EditorDoc::Initialize()
 			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("ResourceLongerThanExpected"), PPob_SimpleMessage);
 		} else if (error != userCanceledErr) {
 			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("ErrorWhileParsingResource"), error);
-// 			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("DataParsingException"), PPob_SimpleMessage);
 		} 
 		delete this;
 		return;
