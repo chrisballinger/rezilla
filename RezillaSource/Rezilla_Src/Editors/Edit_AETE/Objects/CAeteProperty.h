@@ -2,7 +2,7 @@
 // CAeteProperty.h
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-20 14:22:53
+//             Last modification: 2005-01-21 09:19:41
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -21,6 +21,12 @@ class CAeteStream;
 class CAeteProperty {
 
 public:
+				CAeteProperty();
+				CAeteProperty(Str255 inName, 
+							  OSType inId, 
+							  OSType inType, 
+							  Str255 inDescription, 
+							  UInt16 inFlags);
 				CAeteProperty(CAeteStream *	inStream);
 				~CAeteProperty();
 

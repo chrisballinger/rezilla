@@ -21,6 +21,20 @@
 //  CAete												[public]
 // ---------------------------------------------------------------------------
 
+CAete::CAete()
+{
+	mMajorVersion = 1;
+	mMinorVersion = 0;
+	mLanguage = 0;			// 0 is English
+	mMScript = 0;			// 0 is Roman
+	mCurrSuiteIndex = 0;
+}
+
+
+// ---------------------------------------------------------------------------
+//  CAete												[public]
+// ---------------------------------------------------------------------------
+
 CAete::CAete(CAeteStream * inStream)
 {
 	UInt16			theCount, i;
@@ -49,6 +63,24 @@ CAete::CAete(CAeteStream * inStream)
 
 CAete::~CAete()
 {
+
+	TArrayIterator<CAeteSuite*> iteraror(mSuites, LArrayIterator::from_End);
+	CAeteSuite *	theSuite;
+	while (iteraror.Previous(theSuite)) {
+		mSuites.RemoveItemsAt(1, iteraror.GetCurrentIndex());
+		delete theSuite;
+	}
+}
+
+
+// ---------------------------------------------------------------------------
+//  AddSuite												[public]
+// ---------------------------------------------------------------------------
+
+void
+CAete::AddSuite()
+{
+	mSuites.AddItem( new CAeteSuite() );
 }
 
 
@@ -59,6 +91,7 @@ CAete::~CAete()
 void
 CAete::AddSuite( CAeteSuite * inSuite )
 {
+	mSuites.AddItem(inSuite);
 }
 
 
@@ -73,6 +106,8 @@ CAete::AddSuite(Str255	inName,
 				 UInt16	inLevel,
 				 UInt16	inVersion)
 {
+	mSuites.AddItem( new CAeteSuite( inName, inDescription, inID,
+											inLevel, inVersion) );
 }
 
 

@@ -2,7 +2,7 @@
 // CAeteParameter.h
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-20 09:35:10
+//             Last modification: 2005-01-21 08:53:43
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -21,6 +21,12 @@ class CAeteStream;
 class CAeteParameter {
 
 public:
+				CAeteParameter();
+				CAeteParameter(Str255	inName,
+							OSType	inKeyword, 
+							OSType	inType, 
+							Str255	inDescription, 
+							UInt16	inFlags);
 				CAeteParameter(CAeteStream * inStream);
 				~CAeteParameter();
 
@@ -33,7 +39,6 @@ protected:
 		OSType		mType;			// like alis, type, **** etc.
 		Str255		mDescription;
 		UInt16		mFlags;
-
 
 private:
 

@@ -21,6 +21,40 @@
 //  CAeteEvent												[public]
 // ---------------------------------------------------------------------------
 
+CAeteEvent::CAeteEvent()
+{
+	mName[0] = 0;
+	mDescription[0] = 0;
+	mClass = 0;
+	mID = 0;
+	mFlags = 0;
+	mCurrParameterIndex = 0;	
+}
+
+
+// ---------------------------------------------------------------------------
+//  CAeteEvent												[public]
+// ---------------------------------------------------------------------------
+
+CAeteEvent::CAeteEvent(	Str255	inName,
+						Str255	inDescription,
+						OSType	inClass, 
+						OSType	inID,
+						UInt16	inFlags)
+{
+	LString::CopyPStr(inName, mName);
+	LString::CopyPStr(inDescription, mDescription);
+	mClass = inClass;
+	mID = inID;
+	mFlags = inFlags;
+	mCurrParameterIndex = 0;	
+}
+
+
+// ---------------------------------------------------------------------------
+//  CAeteEvent												[public]
+// ---------------------------------------------------------------------------
+
 CAeteEvent::CAeteEvent(CAeteStream * inStream)
 {
 	UInt16	theCount, i;
@@ -57,6 +91,23 @@ CAeteEvent::CAeteEvent(CAeteStream * inStream)
 
 CAeteEvent::~CAeteEvent()
 {
+	TArrayIterator<CAeteParameter*> iteraror(mParameters, LArrayIterator::from_End);
+	CAeteParameter *	theParam;
+	while (iteraror.Previous(theParam)) {
+		mParameters.RemoveItemsAt(1, iteraror.GetCurrentIndex());
+		delete theParam;
+	}
+}
+
+
+// ---------------------------------------------------------------------------
+//  AddParameter												[public]
+// ---------------------------------------------------------------------------
+
+void
+CAeteEvent::AddParameter()
+{
+	mParameters.AddItem( new CAeteParameter() );
 }
 
 
@@ -67,6 +118,7 @@ CAeteEvent::~CAeteEvent()
 void
 CAeteEvent::AddParameter(CAeteParameter * inParameter)
 {
+	mParameters.AddItem(inParameter);
 }
 
 
@@ -81,6 +133,8 @@ CAeteEvent::AddParameter(Str255	inName,
 						Str255	inDescription, 
 						UInt16	inFlags)
 {
+	mParameters.AddItem( new CAeteParameter( inName, inKeyword, inType,
+											inDescription, inFlags) );
 }
 
 

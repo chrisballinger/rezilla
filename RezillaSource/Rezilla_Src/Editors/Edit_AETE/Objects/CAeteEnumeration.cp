@@ -20,6 +20,17 @@
 //  CAeteEnumeration												[public]
 // ---------------------------------------------------------------------------
 
+CAeteEnumeration::CAeteEnumeration(OSType inID)
+{
+	mEnumerationID = inID;
+	mCurrEnumeratorIndex = 0;
+}
+
+
+// ---------------------------------------------------------------------------
+//  CAeteEnumeration												[public]
+// ---------------------------------------------------------------------------
+
 CAeteEnumeration::CAeteEnumeration(CAeteStream * inStream)
 {
 	UInt16	theCount, i;
@@ -51,6 +62,23 @@ CAeteEnumeration::CAeteEnumeration(CAeteStream * inStream)
 
 CAeteEnumeration::~CAeteEnumeration()
 {
+}
+
+
+// ---------------------------------------------------------------------------
+//  AddEnumerator												[public]
+// ---------------------------------------------------------------------------
+
+ArrayIndexT
+CAeteEnumeration::AddEnumerator()
+{
+	AeteEnumerator	numerator;
+	
+	numerator.type = 0;
+	numerator.name[0] = 0;
+	numerator.description[0] = 0;
+	
+	return ( mEnumerators.AddItem(numerator) );
 }
 
 

@@ -27,9 +27,11 @@ class CAeteStream;
 class CAeteEnumeration {
 
 public:
+				CAeteEnumeration(OSType inID = 0);
 				CAeteEnumeration(CAeteStream *	inStream);
 				~CAeteEnumeration();
 
+		ArrayIndexT		AddEnumerator();
 		ArrayIndexT		AddEnumerator(Str255 inName, OSType inType, Str255 inDescription);
 		void			RemoveEnumerator( ArrayIndexT inAtIndex );
 		void			InstallDataStream();

@@ -22,6 +22,36 @@
 //  CAeteClass												[public]
 // ---------------------------------------------------------------------------
 
+CAeteClass::CAeteClass()
+{
+	mName[0] = 0;
+	mID = 0;
+	mDescription[0] = 0;
+	mCurrPropertyIndex = 0;
+	mCurrElementIndex = 0;
+}
+
+
+// ---------------------------------------------------------------------------
+//  CAeteClass												[public]
+// ---------------------------------------------------------------------------
+
+CAeteClass::CAeteClass(	Str255	inName,
+						OSType	inID,
+						Str255	inDescription)
+{
+	LString::CopyPStr(inName, mName);
+	LString::CopyPStr(inDescription, mDescription);
+	mID = inID;
+	mCurrPropertyIndex = 0;
+	mCurrElementIndex = 0;
+}
+
+
+// ---------------------------------------------------------------------------
+//  CAeteClass												[public]
+// ---------------------------------------------------------------------------
+
 CAeteClass::CAeteClass(CAeteStream * inStream)
 {
 	UInt16	theCount, i;
@@ -62,6 +92,30 @@ CAeteClass::CAeteClass(CAeteStream * inStream)
 
 CAeteClass::~CAeteClass()
 {
+	TArrayIterator<CAeteProperty*> iterarorProp(mProperties, LArrayIterator::from_End);
+	CAeteProperty *	theProp;
+	while (iterarorProp.Previous(theProp)) {
+		mProperties.RemoveItemsAt(1, iterarorProp.GetCurrentIndex());
+		delete theProp;
+	}
+
+	TArrayIterator<CAeteElement*> iterarorElem(mElements, LArrayIterator::from_End);
+	CAeteElement *	theElement;
+	while (iterarorElem.Previous(theElement)) {
+		mElements.RemoveItemsAt(1, iterarorElem.GetCurrentIndex());
+		delete theElement;
+	}
+}
+
+
+// ---------------------------------------------------------------------------
+//  AddProperty												[public]
+// ---------------------------------------------------------------------------
+
+void
+CAeteClass::AddProperty()
+{
+	mProperties.AddItem( new CAeteProperty() );
 }
 
 
@@ -72,6 +126,7 @@ CAeteClass::~CAeteClass()
 void
 CAeteClass::AddProperty( CAeteProperty * inProperty )
 {
+	mProperties.AddItem(inProperty);
 }
 
 
@@ -86,6 +141,8 @@ CAeteClass::AddProperty(Str255	inName,
 						Str255	inDescription, 
 						UInt16	inFlags)
 {
+	mProperties.AddItem( new CAeteProperty( inName, inID, inType,
+											inDescription, inFlags) );
 }
 
 
@@ -111,28 +168,36 @@ CAeteClass::RemoveProperty( ArrayIndexT inAtIndex )
 // ---------------------------------------------------------------------------
 
 void
-CAeteClass::AddElement( CAeteElement * inElement )
-{
-}
-
-
-// ---------------------------------------------------------------------------
-//  AddElement												[public]
-// ---------------------------------------------------------------------------
-
-void
-CAeteClass::AddElement( OSType inKeyForms[] )
-{
-}
-
-
-// ---------------------------------------------------------------------------
-//  AddElement												[public]
-// ---------------------------------------------------------------------------
-
-void
 CAeteClass::AddElement()
 {
+	mElements.AddItem( new CAeteElement() );
+}
+
+
+// ---------------------------------------------------------------------------
+//  AddElement												[public]
+// ---------------------------------------------------------------------------
+
+void
+CAeteClass::AddElement( CAeteElement * inElement )
+{
+	mElements.AddItem(inElement);
+}
+
+
+// ---------------------------------------------------------------------------
+//  AddElement												[public]
+// ---------------------------------------------------------------------------
+
+void
+CAeteClass::AddElement( OSType inKeyForms[], UInt16 inCount )
+{
+	UInt16	i;
+	CAeteElement * theElement = new CAeteElement();
+	
+	for (i = 0 ; i < inCount; i++) {
+		theElement->AddKeyForm( inKeyForms[i] );
+	}	
 }
 
 

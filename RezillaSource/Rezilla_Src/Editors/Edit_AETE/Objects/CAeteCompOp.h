@@ -2,7 +2,7 @@
 // CAeteCompOp.h
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-20 14:01:52
+//             Last modification: 2005-01-21 08:45:01
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -21,6 +21,10 @@ class CAeteStream;
 class CAeteCompOp {
 
 public:
+				CAeteCompOp();
+				CAeteCompOp(Str255 inName, 
+							OSType inType, 
+							Str255 inDescription);
 				CAeteCompOp(CAeteStream *	inStream);
 				~CAeteCompOp();
 

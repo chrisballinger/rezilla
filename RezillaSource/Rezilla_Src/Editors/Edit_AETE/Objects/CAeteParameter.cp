@@ -15,6 +15,39 @@
 #include "CAeteParameter.h"
 #include "CAeteStream.h"
 
+#include <LString.h>
+
+// ---------------------------------------------------------------------------
+//  CAeteParameter												[public]
+// ---------------------------------------------------------------------------
+
+CAeteParameter::CAeteParameter()
+{
+	mName[0] = 0;
+	mKeyword = 0;
+	mType = 0;
+	mDescription[0] = 0;
+	mFlags = 0;
+}
+
+
+// ---------------------------------------------------------------------------
+//  CAeteParameter												[public]
+// ---------------------------------------------------------------------------
+
+CAeteParameter::CAeteParameter(Str255	inName,
+							OSType	inKeyword, 
+							OSType	inType, 
+							Str255	inDescription, 
+							UInt16	inFlags)
+{
+	LString::CopyPStr(inName, mName);
+	LString::CopyPStr(inDescription, mDescription);
+	mKeyword = inKeyword;
+	mType = inType;
+	mFlags = inFlags;
+}
+
 
 // ---------------------------------------------------------------------------
 //  CAeteParameter												[public]

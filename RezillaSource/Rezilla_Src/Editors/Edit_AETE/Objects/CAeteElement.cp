@@ -20,6 +20,17 @@
 //  CAeteElement													[public]
 // ---------------------------------------------------------------------------
 
+CAeteElement::CAeteElement(OSType inID)
+{
+	mID = inID;
+	mCurrKeyFormIndex = 0;
+}
+
+
+// ---------------------------------------------------------------------------
+//  CAeteElement													[public]
+// ---------------------------------------------------------------------------
+
 CAeteElement::CAeteElement(CAeteStream * inStream)
 {
 	UInt16	theCount, i;

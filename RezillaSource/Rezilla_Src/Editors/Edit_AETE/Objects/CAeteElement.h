@@ -21,10 +21,11 @@ class CAeteStream;
 class CAeteElement {
 
 public:
+				CAeteElement(OSType inID = 0);
 				CAeteElement(CAeteStream *	inStream);
 				~CAeteElement();
 
-		ArrayIndexT	AddKeyForm( OSType inKey);
+		ArrayIndexT	AddKeyForm( OSType inKey = 0);
 		void		RemoveKeyForm( ArrayIndexT inAtIndex );
 		void		InstallDataStream();
 		void		SendDataToStream(CAeteStream *	outStream);
