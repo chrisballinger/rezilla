@@ -66,95 +66,43 @@ CMENU_EditorTable::~CMENU_EditorTable()
 
 #pragma mark -
 
-// // ---------------------------------------------------------------------------
-// //  HandleKeyPress							[public, virtual]
-// // ---------------------------------------------------------------------------
-// 
-// Boolean
-// CMENU_EditorTable::HandleKeyPress(
-// 	const EventRecord	&inKeyEvent)
-// {
-// 	Boolean		keyHandled	 = LTextEditView::HandleKeyPress(inKeyEvent);
-// 	
-// 	return keyHandled;
-// }
-
-
 // ---------------------------------------------------------------------------
-// 	FindCommandStatus
+//  HandleKeyPress											[public, virtual]
 // ---------------------------------------------------------------------------
 
-void
-CMENU_EditorTable::FindCommandStatus(
-	CommandT	inCommand,
-	Boolean		&outEnabled,
-	Boolean		&outUsesMark,
-	UInt16		&outMark,
-	Str255		outName)
+Boolean
+CMENU_EditorTable::HandleKeyPress(
+	const EventRecord	&inKeyEvent)
 {
-	Boolean		enableIt = false;
-	Boolean		handled = false;
-// 	ResIDT		theMenuID;
-// 	SInt16		theMenuItem;
-	Boolean		foundFontItem = false;
+	Boolean		keyHandled	= true;
+	LControl*	keyButton	= nil;
+	UInt8		theChar		= (UInt8) (inKeyEvent.message & charCodeMask);
 	
-	try
-	{
-		
-		// Deal with the Style menu 
-		if ( (inCommand >= cmd_Plain) && (inCommand <= cmd_Extend) )
-		{
-			Style theStyle = 0;
-// 			GetStyle(theStyle);
-			
-			// This won't put a checkMark next to "Other size" if a
-			// non-standard size is selected.
-			if ( inCommand == cmd_Plain ) {
-				outMark = theStyle ? 0 : checkMark;
-			} else {
-				UInt8 i = inCommand - cmd_Plain - 1;
-				outMark = (theStyle & (1 << i)) ? checkMark : 0;
-			}
-			outEnabled = true;
-			outUsesMark = true;
-			outName[0] = 0;
-			return;
-		}
-				
-		
-		// Other commands
-		switch( inCommand )
-		{
-				
-				
-			case cmd_FontLarger:
-			case cmd_FontSmaller:
-			enableIt = true;
-				break;				
+	if (inKeyEvent.modifiers & cmdKey) {
+		keyHandled = LCommander::HandleKeyPress(inKeyEvent);
+	} else {
+		SInt32 theValue = 0;
+		// 		theValue = mSlider->GetValue();
 
-			case cmd_FontOther:
-			enableIt = true;
-			break;
+		if ( (theChar == char_UpArrow) || (theChar == char_PageUp) ) {
+			--theValue;
+// 			if (theValue == 0) {
+// 				return keyHandled;
+// 			} 
+		} else if ( (theChar == char_DownArrow) || (theChar == char_PageDown) ) {
+			++theValue;
+// 			if (theValue > theCount) {
+// 				return keyHandled;
+// 			} 
+		}  else if ( theChar == char_Home ) {
+			theValue = 1;
+		}
+		 else if ( theChar == char_End ) {
+// 			theValue = theCount;
+		 }
+	}
 
-		}
-			
-		if ( enableIt )
-		{
-			outEnabled = true;
-			outUsesMark = false;
-			outMark = 0;
-			outName[0] = 0;
-		} else {
-			mOwnerWindow->FindCommandStatus( inCommand, outEnabled, outUsesMark, outMark, outName );
-		}
-	}
-	catch( ... )
-	{
-		outEnabled = false;
-		outUsesMark = false;
-		outMark = 0;
-		outName[0] = 0;
-	}
+	return keyHandled;
 }
 
 
@@ -166,28 +114,23 @@ void
 CMENU_EditorTable::Click(
 	SMouseDownEvent	&inMouseDown )
 {
+	// In order to support dragging from an inactive window, we must
+	// explicitly test for delaySelect and the presence of Drag and Drop.
 	if ( inMouseDown.delaySelect && DragAndDropIsPresent() ) {
-
-		// In order to support dragging from an inactive window,
-		// we must explicitly test for delaySelect and the
-		// presence of Drag and Drop.
 
 		// Convert to a local point.
 		PortToLocalPoint( inMouseDown.whereLocal );
 		
 		// Execute click attachments.
 		if ( ExecuteAttachments( msg_Click, &inMouseDown ) ) {
-		
 			// Handle the actual click event.
 			ClickSelf( inMouseDown );
-
 		}
 	
 	} else {
-
 		// Call inherited for default behavior.	
 		LTable::Click( inMouseDown );
-	
+		SwitchTarget(this);
 	}
 }
 
@@ -247,7 +190,6 @@ CMENU_EditorTable::ClickCell(
 		// Tell the window
 		BroadcastMessage(msg_MenuTableClicked,this);
 	}
-	
 }
 
 
