@@ -76,7 +76,7 @@ void
 CStaticTextURL::InitUrlPane()
 {
 	CursHandle	theCurs;
-	theCurs = ::GetCursor(CURS_HandCursor);
+	theCurs = ::GetCursor(CURS_HandOneFinger);
 	mHandCursor = **theCurs;
 }
 
