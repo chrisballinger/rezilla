@@ -2,7 +2,7 @@
 // CAete_EditorDoc.cp
 // 
 //                       Created: 2004-07-01 08:42:37
-//             Last modification: 2005-01-31 23:58:42
+//             Last modification: 2005-02-03 15:46:18
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -107,6 +107,8 @@ CAete_EditorDoc::~CAete_EditorDoc()
 void
 CAete_EditorDoc::Initialize()
 {
+	OSErr error;
+
 	// Create window for our document
 	mAeteEditWindow = dynamic_cast<CAete_EditorWindow *>(LWindow::CreateWindow( PPob_AeteEditorWindow, this ));
 	Assert_( mAeteEditWindow != nil );
@@ -122,16 +124,27 @@ CAete_EditorDoc::Initialize()
 	// Add the window to the window menu
 	gWindowMenu->InsertWindow( mAeteEditWindow );
 	
-	// Install the contents
-	if (mRezObj != nil) {
-		Handle rezData = mRezObj->GetData();
-		
-		if (rezData != nil) {
-			// Work with a copy of the handle
-			::HandToHand(&rezData);
-			mAeteEditWindow->InstallAete(rezData);			
+	try {
+		// Install the contents
+		if (mRezObj != nil) {
+			Handle rezData = mRezObj->GetData();
+			
+			if (rezData != nil && mRezObj->GetSize() > 0) {
+				// Work with a copy of the handle
+				::HandToHand(&rezData);
+				error = mAeteEditWindow->InstallAete(rezData);
+				ThrowIfOSErr_(error);
+			} 
 		} 
-	} 
+	} catch (...) {
+		if (error == err_MoreDataThanExpected) {
+			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("ResourceLongerThanExpected"), PPob_SimpleMessage);
+		} else if (error != userCanceledErr) {
+			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("DataParsingException"), PPob_SimpleMessage);
+		} 
+		delete this;
+		return;
+	}
 	
 	// Make the window visible
 	mAeteEditWindow->Show();
