@@ -2,7 +2,7 @@
 // CMENU_EditorTable.cp
 // 
 //                       Created: 2005-03-09 17:16:53
-//             Last modification: 2005-03-09 17:16:57
+//             Last modification: 2005-03-11 07:21:48
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -26,6 +26,17 @@
 
 
 PP_Begin_Namespace_PowerPlant
+// cmdKey                        = 1 << cmdKeyBit,
+// shiftKey                      = 1 << shiftKeyBit,
+// alphaLock                     = 1 << alphaLockBit,
+// optionKey                     = 1 << optionKeyBit,
+// controlKey                    = 1 << controlKeyBit,
+// 
+// cmdKeyBit                     = 8,    /* command key down?*/
+// shiftKeyBit                   = 9,    /* shift key down?*/
+// alphaLockBit                  = 10,   /* alpha lock down?*/
+// optionKeyBit                  = 11,   /* option key down?*/
+// controlKeyBit                 = 12,   /* control key down?*/
 
 
 // ---------------------------------------------------------------------------------
