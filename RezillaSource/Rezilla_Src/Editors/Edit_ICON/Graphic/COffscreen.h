@@ -1,11 +1,11 @@
 // ===========================================================================
 // COffscreen.h
 //                       Created: 2004-12-11 18:52:53
-//             Last modification: 2004-12-15 07:46:02
+//             Last modification: 2005-01-03 06:34:57
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes 2004
+// (c) Copyright: Bernard Desgraupes 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -137,8 +137,8 @@ class COffscreen {
 		static SInt32			sNumBuffers;
 		
 		// Pointers to functions for getting/setting pixel values
-		SUPixelGetter			mPixelGetter;
-		SUPixelSetter			mPixelSetter;
+		FPixelGetter			mPixelGetter;
+		FPixelSetter			mPixelSetter;
 	
 		CSharedPalette	*		mPalette;
 		

@@ -1,11 +1,11 @@
 // ===========================================================================
 // COffscreen.cp
 //                       Created: 2004-12-11 18:52:51
-//             Last modification: 2004-12-15 08:33:48
+//             Last modification: 2005-01-03 06:47:59
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes 2004
+// (c) Copyright: Bernard Desgraupes 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -19,6 +19,7 @@
 #include "UIconMisc.h"
 
 #include <PictUtils.h>
+#include <UDesktop.h>
 
 #include <stdio.h>
 
@@ -191,7 +192,7 @@ COffscreen::~COffscreen()
 		// current gworld and it crashes if you do so. We'll prevent this.
 		CGrafPtr	theCurrentPort;
 		GDHandle	theCurrentDevice;
-// 		GrafPtr		aSparePort;
+		LWindow *	theWindow;
 		
 		::GetGWorld( &theCurrentPort, &theCurrentDevice );
 		if ( theCurrentPort == mWorld )
@@ -199,8 +200,11 @@ COffscreen::~COffscreen()
 			LView::OutOfFocus( nil );
 			
 			::SetGDevice( GetMainDevice() );
-// 			::GetWMgrPort( &aSparePort );  // The window manager port does not exist in Carbon.
-// 			::SetPort( aSparePort );
+			
+			theWindow = UDesktop::FetchTopRegular();
+			if (theWindow) {
+				::SetPortWindowPort( theWindow->GetMacWindow() );
+			}
 		}
 	
 		// Dispose of the gworld
@@ -257,7 +261,6 @@ COffscreen::SetPixel( SInt32 h, SInt32 v, PixelValue inPixel )
 	
 	this->RawSetPixel( this->RawGetRowPtr(v), h, inPixel );
 }
-
 
 
 // ---------------------------------------------------------------------------
@@ -348,9 +351,6 @@ COffscreen::Color32ToPixelValue( Color32 theColor32 )
 	RGBColor	theRGB = UColorUtils::Color32ToRGB( theColor32 );
 	return this->RGBToPixelValue( theRGB );
 }
-
-
-
 
 
 // ---------------------------------------------------------------------------
@@ -499,7 +499,6 @@ COffscreen::CopyTo( GrafPtr inDestPort, const Rect *inDestR,
 	CopyBits( sourceBits, destBits, &sourceR, inDestR, inMode, inMaskRgn );
 	this->EndDrawing();
 }
-
 
 
 // ---------------------------------------------------------------------------
@@ -735,7 +734,6 @@ COffscreen::ConvertToRegion()
 }
 
 
-
 // ---------------------------------------------------------------------------
 // 	EraseToWhite
 // ---------------------------------------------------------------------------
@@ -850,7 +848,6 @@ COffscreen::CopyFromAndDownSample( COffscreen *inSource,
 	if ( tempBuffer )
 		delete tempBuffer;
 }
-
 
 
 // ---------------------------------------------------------------------------

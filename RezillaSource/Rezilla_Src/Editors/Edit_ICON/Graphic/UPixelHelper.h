@@ -1,11 +1,11 @@
 // ===========================================================================
 // UPixelHelper.h
 //                       Created: 2004-12-11 18:57:22
-//             Last modification: 2004-12-15 13:47:46
+//             Last modification: 2005-01-03 06:35:25
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes 2004
+// (c) Copyright: Bernard Desgraupes 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -26,14 +26,14 @@
 
 #include "RezillaConstants.h"
 
-typedef Color32		(*SUPixelGetter)( RawPtr rowPtr, SInt32 h );
-typedef void		(*SUPixelSetter)( RawPtr rowPtr, SInt32 h, Color32 inColor );
+typedef Color32		(*FPixelGetter)( RawPtr rowPtr, SInt32 h );
+typedef void		(*FPixelSetter)( RawPtr rowPtr, SInt32 h, Color32 inColor );
 
 class UPixelHelper
 {
 	public:
 		static void				GetPixelFunctions( SInt32 inDepth, 
-											SUPixelGetter *, SUPixelSetter * );
+											FPixelGetter *, FPixelSetter * );
 										
 		static Color32			GetColor32( RawPtr rowPtr, SInt32 h );
 		static Color32			GetColor16( RawPtr rowPtr, SInt32 h );
