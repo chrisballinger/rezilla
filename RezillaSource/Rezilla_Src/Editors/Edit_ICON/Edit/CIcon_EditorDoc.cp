@@ -29,6 +29,7 @@ PP_Begin_Namespace_PowerPlant
 #include "CWindow_Cursor.h"
 #include "CWindow_IconFamily.h"
 #include "CWindow_ColorIcon.h"
+#include "CWindow_IconSuite.h"
 #include "CWindow_PatternSuite.h"
 #include "CRezMap.h"
 #include "CRezMapTable.h"
@@ -133,7 +134,7 @@ CIcon_EditorDoc::Initialize()
 				
 		// 'SICN'
 		case ImgType_IconSuite:
-			theWindow = CWindow_PatternSuite::OpenPaintWindow( PPob_IconSuiteEditor, theMap, 
+			theWindow = CWindow_IconSuite::OpenPaintWindow( PPob_IconSuiteEditor, theMap, 
 															  ImgType_IconSuite, theID );
 			break;
 				
