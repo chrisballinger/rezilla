@@ -32,6 +32,9 @@ localize "English" as "Localizable.strings"
 	key "SaveRezMapWindow" value string "Do you want to save the resource map before closing?"
 	key "SaveTemplateWindow" value string "Do you want to save the changes made in the template editing window?"
 	key "SaveTextEditorWindow" value string "Do you want to save the changes made in the TEXT editing window?"
+	key "SomeResourcesAreAlreadyEdited" value string "Some resources are already edited with another kind of editor. Close the corresponding editing window first and try again."
+	key "StringShorterThanRequired" value string "String must be '%c' bytes long."
 	key "SystemError" value string "System error"
+	key "UnknownTemplateType" value string "Unknown template type '%s'."
 }
 

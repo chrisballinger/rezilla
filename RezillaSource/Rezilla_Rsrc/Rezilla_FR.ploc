@@ -32,6 +32,9 @@ localize "French" as "Localizable.strings"
 	key "SaveRezMapWindow" value string "Voulez-vous sauvegarder les modifications avant de refermer la table de ressources ?"
 	key "SaveTemplateWindow" value string "Voulez-vous sauvegarder les modifications faites avec l'éditeur de gabarits ?"
 	key "SaveTextEditorWindow" value string "Voulez-vous sauvegarder les modifications faites avec l'éditeur de textes ?"
+	key "SomeResourcesAreAlreadyEdited" value string "Certaines ressources sont déjà éditées dans un autre mode d'édition. Fermer la fenêtre d'édition correspondante d'abord et réessayer."
+	key "StringShorterThanRequired" value string "La chaîone doit comporter '%c' octets."
 	key "SystemError" value string "Erreur système"
+	key "UnknownTemplateType" value string "Code-type de gabarit inconnu '%s'."
 }
 
