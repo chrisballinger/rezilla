@@ -2,7 +2,7 @@
 // CTmplEditorWindow.cp					
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-10-10 10:06:28
+//             Last modification: 2004-10-12 13:40:18
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -200,6 +200,23 @@ CTmplEditorWindow::FinishCreateSelf()
 	
 
 // ---------------------------------------------------------------------------
+//	¥ Draw
+// ---------------------------------------------------------------------------
+// After redrawing the entire window, draw a border around a possible
+// selected CTmplListItemView.
+
+void
+CTmplEditorWindow::Draw( RgnHandle inSuperDrawRgnH )
+{
+	LWindow::Draw(inSuperDrawRgnH);
+	// Draw border if necessary
+	if (mSelectedListItem != NULL) {
+		mSelectedListItem->DrawBorder();
+	} 
+}
+
+
+// ---------------------------------------------------------------------------
 //		¥ ListenToMessage											[public]
 // ---------------------------------------------------------------------------
 // The Plus button stores a pointer to the first list item in its UserCon
@@ -378,7 +395,6 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			// Window has been modified
 			SetDirty(true);
 			break;
-			
 			
 		case msg_TmplModifiedItem:
 			SetDirty(true);

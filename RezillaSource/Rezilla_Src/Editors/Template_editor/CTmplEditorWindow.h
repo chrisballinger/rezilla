@@ -2,7 +2,7 @@
 // CTmplEditorWindow.h
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-10-10 10:06:17
+//             Last modification: 2004-10-12 13:40:40
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -49,6 +49,8 @@ public:
 							CTmplEditorWindow( LStream *inStream );
 							~CTmplEditorWindow();
 
+	virtual void	Draw( RgnHandle inSuperDrawRgnH );
+							
 	virtual void	ListenToMessage( MessageT inMessage,void *ioParam);
 
 	virtual void	FindCommandStatus(
