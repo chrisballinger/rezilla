@@ -77,6 +77,7 @@ protected:
 		LCommander* 		mSuperCommander;
 		Boolean				mIgnoreNames;
 		Boolean				mIgnoreAttrs;
+		Boolean				mIgnoreData;
 		CRezMap * 			mOldMap;
 		CRezMap * 			mNewMap;
 		TArray<CRezTypId *>	mOnlyInOldList;

@@ -36,6 +36,7 @@ CRezCompare::CRezCompare(LCommander* inSuper)
 	mSuperCommander = inSuper;
     mIgnoreNames = false;
     mIgnoreAttrs = true;
+	mIgnoreData = false;
 	mOldMap = nil;
 	mNewMap = nil;
 }
@@ -52,6 +53,7 @@ CRezCompare::CRezCompare(LCommander* inSuper,
 	mSuperCommander = inSuper;
     mIgnoreNames = false;
     mIgnoreAttrs = true;
+	mIgnoreData = false;
 	mOldMap = inOldMap;
 	mNewMap = inNewMap;
 }
@@ -72,6 +74,7 @@ CRezCompare::CRezCompare(LCommander* inSuper,
 	mSuperCommander = inSuper;
 	mIgnoreNames = false;
 	mIgnoreAttrs = true;
+	mIgnoreData = false;
 	error = CRezillaApp::PreOpen(inOldFileSpec, oldFork, oldRefnum);
 	if (error != noErr) {
 		CRezillaApp::ReportOpenForkError(error, &inOldFileSpec);
@@ -126,6 +129,10 @@ CRezCompare::RunRezCompareDialog()
 	LCheckBox *	theAttrsCheckBox = dynamic_cast<LCheckBox *>(theDialog->FindPaneByID( item_RezCompIgnoreAttrs ));
 	ThrowIfNil_(theAttrsCheckBox);
 	theAttrsCheckBox->SetValue(mIgnoreAttrs);
+	
+	LCheckBox *	theDataCheckBox = dynamic_cast<LCheckBox *>(theDialog->FindPaneByID( item_RezCompIgnoreData ));
+	ThrowIfNil_(theDataCheckBox);
+	theDataCheckBox->SetValue(mIgnoreData);
 	
 	LStaticText * theOldStaticText = dynamic_cast<LStaticText *>(theDialog->FindPaneByID( item_RezCompEditOld ));
 	ThrowIfNil_(theOldStaticText);
@@ -204,6 +211,7 @@ CRezCompare::RunRezCompareDialog()
 			// Retrieve the checkbox settings
 			mIgnoreAttrs = theAttrsCheckBox->GetValue();
 			mIgnoreNames = theNamesCheckBox->GetValue();
+			mIgnoreData = theDataCheckBox->GetValue();
 			// Execute a comparison
 			DoCompareRezMaps();
 		}
@@ -306,10 +314,11 @@ CRezCompare::CompareTwoResources(CRezType * inOldRezType, CRezType * inNewRezTyp
 	theOldRezObj = new CRezObj(inOldRezType, inID);
 	theNewRezObj = new CRezObj(inNewRezType, inID);
 
-	if (theOldRezObj->GetSize() != theNewRezObj->GetSize()) {
+	if (!mIgnoreData && (theOldRezObj->GetSize() != theNewRezObj->GetSize())) {
 		// Compare the sizes of the handles
 		*outCompResult = compare_sizeDiff;
-	} else if (!mIgnoreNames && (*(theOldRezObj->GetName()) != *(theNewRezObj->GetName()))) {
+	} else if (!mIgnoreData 
+			   && (!mIgnoreNames && (*(theOldRezObj->GetName()) != *(theNewRezObj->GetName())))) {
 		// Compare the names
 		*outCompResult = compare_nameDiff;
 	} else if (!mIgnoreAttrs && (theOldRezObj->GetAttributes() != theNewRezObj->GetAttributes())) {
