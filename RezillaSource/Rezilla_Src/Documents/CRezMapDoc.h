@@ -2,11 +2,11 @@
 // CRezMapDoc.h				
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2004-11-22 05:35:39
+//             Last modification: 2005-03-08 17:33:17
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003-2004
+// (c) Copyright : Bernard Desgraupes, 2003-2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -66,8 +66,6 @@ public:
 
 	virtual Boolean		UsesFileSpec( const FSSpec& inFileSpec ) const;
 
-	Boolean				HasExportSpec( const FSSpec& inFileSpec ) const;
-
 	virtual Boolean		IsModified();
 
 	virtual void		SetModified( Boolean inModified );
@@ -98,8 +96,7 @@ public:
 	virtual void		DoSave();
 	virtual void		DoRevert();
 	
-	virtual void		DoAEExport( FSSpec &inFileSpec);
-	virtual void		DoExport();
+	virtual void		DoExport( FSSpec &inFileSpec);
 	
 	virtual Boolean		AllowSubRemoval( LCommander* inSub );
 
@@ -150,7 +147,7 @@ protected:
 	CRezMap *				mRezMap;
 	CRezMapWindow *			mRezMapWindow;
 	CRezFile *				mRezFile;
-	CTextFileStream *		mFileStream;
+	CTextFileStream *		mExportStream;
 	TArray<ResType>*		mTypesArray;	// Maintain a sorted array of ResTypes
 	TArray<CEditorDoc *> *	mOpenedEditors;	// Maintain an array of editor docs 
 	                 		                // depending from this doc (all edit 

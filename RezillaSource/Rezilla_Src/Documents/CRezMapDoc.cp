@@ -174,7 +174,7 @@ CRezMapDoc::~CRezMapDoc()
 		delete mTypesArray;
 	} 
 	
-	// Note: mFileStream is deleted in DoAEExport()
+	// Note: mExportStream is deleted in DoExport() immediately after writing
 
 	// Unregister from the static RezMapDocs list
 	CRezillaApp::sRezMapDocList.Remove(this);
@@ -219,7 +219,7 @@ CRezMapDoc::Initialize(FSSpec * inFileSpec, short inRefnum)
 {		
 	mUpdateOnClose = true;
 	mExportFormat = exportMap_Xml;
-	mFileStream   = nil;
+	mExportStream = nil;
 	mReadOnly = false;
 	
 	SetModelKind(rzil_cRezMapDoc);
@@ -665,25 +665,6 @@ CRezMapDoc::UsesFileSpec(
 
 
 // ---------------------------------------------------------------------------
-//	¥ HasExportSpec													  [public]
-// ---------------------------------------------------------------------------
-//	Returns whether the Document's FileStream corresponds to the given FSSpec
-
-Boolean
-CRezMapDoc::HasExportSpec(
-	const FSSpec&	inFileSpec) const
-{
-	Boolean usesFS = false;
-
-	if (mFileStream != nil) {
-		usesFS = mFileStream->UsesSpecifier(inFileSpec);
-	}
-
-	return usesFS;
-}
-
-
-// ---------------------------------------------------------------------------
 //	¥ AttemptClose													  [public]
 // ---------------------------------------------------------------------------
 //	Try to close an edited resource map.
@@ -1090,37 +1071,23 @@ CRezMapDoc::AskExportAs(
 
 	if ( DesignateExportFile(outFSSpec, replacing) ) {
 
-		if (replacing && HasExportSpec(outFSSpec)) {
-									// User chose to replace the file with
-									//   one of the same name. This is the
-									//   same thing as a regular save.
-			if (inRecordIt) {
-				SendSelfAE(kAECoreSuite, kAESave, ExecuteAE_No);
-			}
-
-			DoExport();
-			saveOK = true;
-
-		} else {
-
-			if (inRecordIt) {
-				try {
+		if (inRecordIt) {
+			try {
 // 					SendAEExport(outFSSpec, mExportFormat, ExecuteAE_No);
-				} catch (...) { }
-			}
-
-			if (replacing) {
-				// Delete existing file
-				OSErr error = ::FSpDelete(&outFSSpec);
-				if (error) {
-					UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("CouldNotDeleteExistingFile"), PPob_SimpleMessage);
-					return saveOK;
-				} 
-			}
-
-			DoAEExport(outFSSpec);
-			saveOK = true;
+			} catch (...) { }
 		}
+
+		if (replacing) {
+			// Delete existing file
+			OSErr error = ::FSpDelete(&outFSSpec);
+			if (error) {
+				UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("CouldNotDeleteExistingFile"), PPob_SimpleMessage);
+				return saveOK;
+			} 
+		}
+
+		DoExport(outFSSpec);
+		saveOK = true;
 	}
 
 	return saveOK;
@@ -1196,49 +1163,31 @@ CRezMapDoc::DesignateExportFile( FSSpec& outFileSpec, bool & outReplacing)
 // ---------------------------------------------------------------------------------
 
 void
-CRezMapDoc::DoAEExport(
+CRezMapDoc::DoExport(
 	FSSpec	&inFileSpec)
 {
 	OSErr	err = noErr;
-
-	// Delete the existing file object.
-	if (mFileStream != nil) {
-		delete mFileStream;
-	} 
 	
 	// Make a new file object.
-	mFileStream = new CTextFileStream( inFileSpec );
+	mExportStream = new CTextFileStream( inFileSpec );
 	
-	if (mFileStream != nil) {
-		// Get the proper file type.
-		OSType	theFileType = 'TEXT';
+	if (mExportStream != nil) {		
+		// Make new file on disk
+		mExportStream->CreateNewDataFile( (OSType) CRezillaPrefs::GetPrefValue(kPref_export_editorSig), 'TEXT' );
 		
-		// Make new file on disk (we use TextEdit's creator).
-		mFileStream->CreateNewDataFile( (OSType) CRezillaPrefs::GetPrefValue(kPref_export_editorSig), theFileType );
+		// Open the data fork.
+		mExportStream->OpenDataFork( fsWrPerm );
 		
 		// Write out the data.
-		DoExport();
+		WriteOutExport(mExportFormat);
+		
+		// Close the data fork.
+		mExportStream->CloseDataFork();
 		
 		// Free memory which we don't need anymore
-		delete mFileStream;
-	}	
-}
-
-
-// ---------------------------------------------------------------------------------
-//  DoExport
-// ---------------------------------------------------------------------------------
-
-void
-CRezMapDoc::DoExport()
-{
-	// Open the data fork.
-	mFileStream->OpenDataFork( fsWrPerm );
-	
-	WriteOutExport(mExportFormat);
-	
-	// Close the data fork.
-	mFileStream->CloseDataFork();
+		delete mExportStream;
+		mExportStream = nil;
+	} 
 }
 
 
@@ -1249,7 +1198,7 @@ CRezMapDoc::DoExport()
 void
 CRezMapDoc::WriteOutExport(SInt16 inExportFormat)
 {	
-	StRezExporter	exporter(mFileStream);
+	StRezExporter	exporter(mExportStream);
 	switch ( inExportFormat ) {
 		case exportMap_Xml:
 		exporter.WriteOutXml(mRezMap, 
