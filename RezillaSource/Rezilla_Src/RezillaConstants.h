@@ -572,6 +572,8 @@ enum
 // ==============
 // Signatures
 #define  keyEditorSignature  	'ttxt'
+#define	 kSystemEventsSig		'sevs'
+// Rezilla's own type for Clipboard data
 #define	 kRezillaType			'Rzil'
 // File extension separator
 #define  kFileExtSeparator		(char)'.'

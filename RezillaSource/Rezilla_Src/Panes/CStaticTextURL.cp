@@ -2,7 +2,7 @@
 // CStaticTextURL.cp
 // 
 //                       Created: 2004-06-20 20:22:41
-//             Last modification: 2004-06-21 07:41:03
+//             Last modification: 2004-06-21 14:05:10
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -19,9 +19,10 @@
 #include "CStaticTextURL.h"
 #include "RezillaConstants.h"
 
+// #include <UDesktop.h>
+#include <LString.h>
 
 #include <AEHelpers.h>
-#include <LString.h>
 
 PP_Begin_Namespace_PowerPlant
 
@@ -137,15 +138,21 @@ CStaticTextURL::ClickSelf(
 	const SMouseDownEvent &inMouseDown)
 {
 #pragma unused(inMouseDown)
+	
+// 	UDesktop::FetchTopRegular()->Hide();		
 	SendGurlGurlEvent();
 }
 
+
+// ---------------------------------------------------------------------------
+//	¥  SendGurlGurlEvent
+// ---------------------------------------------------------------------------
 
 OSErr 
 CStaticTextURL::SendGurlGurlEvent() 
 {
 	OSErr		error;
-	OSType		theSignature = 'sfri';
+	OSType		theSignature = kSystemEventsSig;
 	char		urlCString[256];
 	AppleEvent	theEvent = {typeNull, nil};
 	AppleEvent	theReply = {typeNull, nil};
@@ -158,7 +165,7 @@ CStaticTextURL::SendGurlGurlEvent()
 				kAutoGenerateReturnID, kAnyTransactionID,
 				&theEvent,
 				NULL,
-				"'----':'TEXT'(\"@\")", &urlCString);
+				"'----':'TEXT'(@)", urlCString);
 
 	if (error == noErr) {
 		error = AESend( &theEvent, &theReply, kAENoReply, kAENormalPriority, kNoTimeOut, nil, nil );			
@@ -168,5 +175,6 @@ CStaticTextURL::SendGurlGurlEvent()
 	(void) AEDisposeDesc(&theReply);
 	return error;
 }
+
 
 PP_End_Namespace_PowerPlant

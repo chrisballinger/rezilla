@@ -1,7 +1,7 @@
 // ===========================================================================
 // UMiscUtils.cp					
 //                       Created: 2003-05-13 20:06:23
-//             Last modification: 2004-06-09 09:54:36
+//             Last modification: 2004-06-21 14:00:01
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -259,8 +259,10 @@ UMiscUtils::GetDragFileData(DragReference inDragRef, ItemReference inItemRef, HF
 }
 
 
+#pragma mark -
+
 // ---------------------------------------------------------------------------
-//	¥ FontSizeExists											[private]
+//	¥ FontSizeExists											[static]
 // ---------------------------------------------------------------------------
 // The 'inPopup' argument is a pointer to a Font popup menu.
 
@@ -289,7 +291,7 @@ UMiscUtils::FontSizeExists(LPopupButton * inPopup, SInt32 inSize, SInt32 &outIte
 
 
 // ---------------------------------------------------------------------------
-//	¥ FontIndexFromFontNum											[private]
+//	¥ FontIndexFromFontNum											[static]
 // ---------------------------------------------------------------------------
 // The 'inPopup' argument is a pointer to a Font popup menu.
 
@@ -321,7 +323,7 @@ UMiscUtils::FontIndexFromFontNum(LPopupButton * inPopup, SInt16 inFNum)
 
 
 // ---------------------------------------------------------------------------
-//	¥ SizeIndexFromSizeValue											[private]
+//	¥ SizeIndexFromSizeValue											[static]
 // ---------------------------------------------------------------------------
 // The 'inPopup' argument is a pointer to a Size popup menu.
 
@@ -359,23 +361,10 @@ UMiscUtils::SizeIndexFromSizeValue(LPopupButton * inPopup, SInt16 inSize)
 }
 
 
-// 
-// // ---------------------------------------------------------------------------
-// //	¥ GetStyleFromMenu											[private]
-// // ---------------------------------------------------------------------------
-// // The 'inPopup' argument is a pointer to a Style popup.
-// 
-// SInt16
-// UMiscUtils::GetStyleFromMenu(LPopupButton * inPopup)
-// {
-// }
- 
- 
-
-
 // ---------------------------------------------------------------------------
-//	¥ MetricsFromTraits											[private]
+//	¥ MetricsFromTraits											[static]
 // ---------------------------------------------------------------------------
+
 void
 UMiscUtils::MetricsFromTraits(ConstTextTraitsPtr inTextTraits)
 {
@@ -388,6 +377,43 @@ UMiscUtils::MetricsFromTraits(ConstTextTraitsPtr inTextTraits)
 // 	CRezillaApp::sBasics.charWidth = CharWidth('0');
 	CRezillaApp::sBasics.charHeight = metrics.ascent + metrics.descent + metrics.leading;
 }
+
+
+// #pragma mark -
+// 
+// 
+// // ---------------------------------------------------------------------------
+// //	¥ BrowserIsRunning											[static]
+// // ---------------------------------------------------------------------------
+// 
+// Boolean
+// UMiscUtils::BrowserIsRunning(void)
+// {
+// 	Boolean				isRunning = false;
+// 	FSSpec				theFSSpec;
+// 	ProcessInfoRec		prcsInfo;
+// 	ProcessSerialNumber	thePSN;
+// 	
+// 	// Loop over the current processes
+// 	prcsInfo.processInfoLength = sizeof(ProcessInfoRec);
+// 	prcsInfo.processName = nil;
+// 	prcsInfo.processAppSpec = &theFSSpec;
+// 	thePSN.lowLongOfPSN = thePSN.highLongOfPSN = kNoProcess;
+// 	
+// 	while (::GetNextProcess(&thePSN) == noErr)
+// 		if (::GetProcessInformation(&thePSN, &prcsInfo) == noErr) {
+// 			if (prcsInfo.processSignature == mBrowserSig) {
+// 				mBrowserPSN = thePSN;
+// 				isRunning = true;
+// 				break;
+// 			}
+// 		}
+// 		
+// 	return isRunning;
+// }
+
+
+#pragma mark -
 
 
 // ================================================================

@@ -516,8 +516,6 @@ CRezillaApp::ListenToMessage( MessageT inMessage, void *ioParam )
 			LWindow* theWindow = LWindow::CreateWindow( rPPob_LicenceWindow, this );
 			ThrowIfNil_(theWindow);
 			theWinPtr = theWindow->GetMacWindow();
-// 			// Add the window to the window menu.
-// 			gWindowMenu->InsertWindow( theWindow );
 		} 
 		::SelectWindow(theWinPtr);
 		break;
