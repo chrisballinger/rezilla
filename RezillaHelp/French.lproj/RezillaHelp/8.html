@@ -22,7 +22,60 @@ tenir compte du style.<P>Depuis la version 1.0.4, Rezilla dispose justement d'un
 qui permet d'éditer à la fois des ressources de type 'TEXT' et de type
 'styl' et gère les informations de police, taille et style.<P>De futures versions de Rezilla ajouteront d'autres interface d'édition, en
 particulier pour faciliter l'édition de ressources graphiques (icones,
-images).<P>
+images).<P><H3>L'éditeur Texte</H3><P><H3>L'éditeur d'images</H3><P>Il permet d'éditer des ressources contenant des images bitmaps. Cela inclut
+les icones (petites, mini ou grandes), les familles d'icones, les motifs,
+les curseurs. Plus précisément, l'éditeur supporte les types de ressources
+suivants:<P>'cicn', 'crsr', 'CURS', 'icl4', 'icl8', 'icm#', 'icm4', 'icm8',
+'ICN#', 'ICON', 'ics#', 'ics4', 'ics8', 'PAT ', 'ppat'<P>L'éditeur d'images possède plusieurs outils permettant la création et la 
+modification des ressources bitmaps. Une fenêtre typique d'édition 
+ressemble à ceci:
+<P><IMG SRC="../../Images/rzil_bitmapeditor.gif" ALT="Bitmap editor window" ALIGN=bottom></P><P>La partie gauche de la fenêtre comporte les outils d'édition ainsi que les
+boutons de motifs et de couleurs. On dispose des outils suivants (de gauche
+à droite et de haut en bas): lasso, sélection, texte, crayon, gomme, seau,
+pipette, ligne, rectangle, rectangle plein, rectangle arrondi, rectangle
+arrondi plein, ovale, ovale plein. En outre, les fenêtres d'édition des
+curseurs possèdent un outil symbolisé par une croix rouge en forme de x
+permettant de désigner le pixel servant de point actif (<I>hotspot</I>).<P>En-dessous de la palette d'outils se trouvent trois boutons donnant accès 
+à la palette de motifs,la palette de couleurs de premier plan et la 
+palette de couleurs de second plan.<P>Au milieu de la fenêtre se trouve la zone de dessin dans laquelle chaque 
+pixel de l'image peut être modifié au moyen de l'un des outils d'édition.<P>Dans la partie droite de la fenêtre, le panneau d'échantillons affiche 
+l'image à sa taille réelle ainsi que le masque correspondant lorsque c'est 
+nécessaire. Les échantillons sont instantanément mis à jour dès qu'une 
+modification est apportée à la zone de dessin. <P>Lorsqu'une fenêtre de l'éditeur d'images est ouverte, quatre nouveaux 
+menus sont insérés dans la barre de menus:
+<OL>
+	<LI> le menu <B>Font</B> permet de sélectionner la police à utiliser avec 
+l'outil Texte
+	<LI> le menu <B>Style</B> permet de spécifier la taille de la police ainsi
+que le style à utiliser avec l'outil Texte (normal, gras, italique,
+souligné etc.). On peut aussi choisir la justification du texte (fer à
+droite ou à gauche).
+	<LI> le menu <B>Colors</B> comporte des commandes relatives à la 
+profondeur des couleurs (liée à la profondeur de l'écran). Si une couluer 
+ne figure pas dans une palette de couleurs, il est possible d'en créer une 
+nouvelle au moyen de la commande <I>Color Picker</I>.
+	<LI> le menu <B>Actions</B> comporte des commandes pour appliquer des 
+transformations de base à l'image. La commande <I>Resize Image</I>
+permet de spécifier la largeur et la hauteur de l'image (seulement pour 
+les ressources qui n'ont pas une taille prédéfinie, comme les ressources 
+'cicn').
+</OL><P><H3>L'éditeur 'PICT'</H3>
+Ce n'est pas un éditeur graphique complet mais plutôt un visualisateur. Si 
+l'on exécute un double-clic sur une ressource d'image (de type <I>'PICT'</I>), 
+Rezilla affiche cette image.<P>Les commandes <I>Copy</I>, <I>Cut</I> et <I>Paste</I> sont activées. Il
+est possible de copier l'image dans le presse-papier: il n'y a pas de
+sélection à faire, l'image entière est automatiquement copiée. À
+l'inverse, si le presse-papiers contient une image (techniquement parlant,
+s'il contient des données de type 'PICT'), Rezilla remplace l'image
+courante par le contenu du presse-papiers.<P>Cela permet de créer des images dans une application graphique externe et
+de les importer dans Rezilla. Notez qu'il est aussi possible de copier
+directement des données graphiques depuis le presse-papiers dans une table
+de ressource de Rezilla (voir la section <I>Copy, Cut and Paste</I> dans
+ce document).<P><H3>L'éditeur 'snd '</H3>
+Ce n'est pas un éditeur à proprement mais plutôt un lecteur de sons. Si
+l'on exécute un double-clic sur une ressource de son (ressource de type 
+<I>'snd '</I>), Rezilla joue le son sur la sortie audio de l'ordinateur.
+Assurez-vous que le volume n'est pas réduit à 0 sur votre système.<P>
 
 </BODY>
 </HTML>

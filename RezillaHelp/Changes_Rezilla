@@ -30,15 +30,16 @@ $Date$
 ================================================================================
 = 1.0.5a2	                             last update: 
 ================================================================================
-¥ Added a bitmap editor for resources of type:
-	  'CURS', 'ICN#', 'ICON', 'PAT ', 'cicn', 'crsr', 'icl4', 'icl8',
-	  'icm#', 'icm4', 'icm8', 'ics#', 'ics4', 'ics8', 'ppat'
-
+¥ Added bitmap editor for resources of type:
+	  'cicn', 'crsr', 'CURS', 'icl4', 'icl8', 'icm#', 'icm4', 'icm8',
+	  'ICN#', 'ICON', 'ics#', 'ics4', 'ics8', 'PAT ', 'ppat'
+¥ Updated the help files concerning the bitmap editor.
+¥ 
 
 ================================================================================
 = 1.0.5a1	                             last update: 2004-12-16 10:24:52
 ================================================================================
-¥ Created Rezilla's Object Model for AppleScript scripting.
+¥ Installed Rezilla's Object Model for AppleScript scripting.
 ¥ Added dictionary corresponding to the Object Model:: Rezilla Suite
   and Resource Suite.
 ¥ Added 'PICT' resource viewer.

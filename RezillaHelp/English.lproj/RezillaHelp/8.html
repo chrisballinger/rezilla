@@ -17,7 +17,49 @@ of style info, whereas the Text editor will support this. There are types
 which can not be described easily by a template anyway.<P>As of version 1.0.4, Rezilla provides a text editor which lets you edit
 'TEXT' and 'styl' resources and can handle styled text (i-e text using
 various fonts, sizes, styles).<P>Future versions of Rezilla will have additional interface editors, in
-particular to edit icon resources. <P>
+particular to edit icon resources. <P><H3>The Text editor</H3><P><H3>The bitmap editor</H3>
+It allows you to edit bitmap image resources. This includes icons (small,
+mini or large), icon families, patterns, cursors. To be more precise, it
+supports the following resource types:<P>'cicn', 'crsr', 'CURS', 'icl4', 'icl8', 'icm#', 'icm4', 'icm8',
+'ICN#', 'ICON', 'ics#', 'ics4', 'ics8', 'PAT ', 'ppat'<P>The bitmap editor provides several tools to help creating or modifying a 
+bitmap image resource. A typical bitmap editing window will look like this:
+<P><IMG SRC="../../Images/rzil_bitmapeditor.gif" ALT="Bitmap editor window" ALIGN=bottom></P><P>The left hand side of the window contains editing tools and pattern and
+color buttons. The following tools are available (from left to right and
+from top to bottom): lasso, selection, text, pencil, eraser, bucket,
+dropper, line, rectangle, filling rectangle, round corners rectangle, round
+corners filling rectangle, oval, filling oval. Additionally, the cursors
+windows have a red x-cross tool to locate the hotspot of the cursor.<P>Below the tools palette are three popup buttons giving access to the 
+patterns palette, the foreground color palette and the background color 
+palette.<P>In the middle of the window is the editing canvas where one can modify each
+pixel of the bitmap using one of the editing tools.<P>On the right hand side of the window, the sample panel displays images of 
+the bitmap at its actual size. It is updated immediately when the editing 
+canvas in the middle of the window is modified.<P>When a bitmap editing window is open, four additional menus are inserted 
+in the menu bar:
+<OL>
+	<LI> the <B>Font</B> menu lets you select the font to use with the Text tool
+	<LI> the <B>Style</B> menu lets you specify the size of the font and the style 
+to use with the Text tool (plain, bold italic, underline etc.). One can 
+also specify the justification of the text (flush left or right).
+	<LI> the <B>Colors</B> menu has commands related to the color depth (depending on 
+the depth of the screen). If a color is not available in the color 
+palette, one can use the <I>Color Picker</I> command to create a new one.
+	<LI> the <B>Actions</B> menu has commands to apply basic transformations to the 
+image. The <I>Resize Image</I> command lets you specify the width and height of 
+the bitmap (only for resources which do not have a fixed predefined size, 
+such as 'cicn' resources).
+</OL><P><H3>The 'PICT' editor</H3>
+Not a fully fledged editor but rather a viewer. If you double-click on a
+picture resource (of type <I>'PICT'</I>), Rezilla displays the image.<P>The <I>Copy</I>, <I>Cut</I> and <I>Paste</I> commands are enabled. You
+can copy the image to the clipboard (no need to select anything, the entire
+image is automatically copied). On the contrary, if the clipboard contains
+a picture (more technically speaking, contains data with 'PICT' flavor),
+Rezilla will replace the current image by the contents of the clipboard.<P>This allows you to create images in another graphic application and import
+it into Rezilla . Note that you can also paste graphic data directly from
+the clipboard to a resource map document in Rezilla (see the <I>Copy, Cut
+and Paste</I> section in this document).<P><H3>The 'snd ' editor</H3>
+Not really an editor but rather a player. If you double-click on a sound
+resource (of type <I>'snd '</I>), Rezilla plays the sound. Make sure the
+volume is not set to 0 on your system.<P>
 
 </BODY>
 </HTML>
