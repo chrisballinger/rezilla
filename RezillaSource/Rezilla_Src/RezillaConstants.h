@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2005-02-14 08:44:26
+//             Last modification : 2005-02-20 17:43:18
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -229,7 +229,9 @@ enum {
 	kind_AeteProperty,
 	kind_AeteElement,
 	kind_AeteKeyForm,
-	kind_AeteEnumerator
+	kind_AeteEnumerator,
+	kind_AeteDirectParam,
+	kind_AeteReply
 };
 
 // These complete the kAEUT* constants from AEUserTermTypes.h
@@ -1167,6 +1169,7 @@ enum RezillaErrors
 	err_ImportUnknownAeteCompOpTag,
 	err_ImportUnknownAeteEnumerationTag,
 	err_ImportUnknownAeteEnumeratorTag,
+	err_ImportUnknownFlagsTag,
 	err_TmplTemplateError			= 2000,
 	err_TmplGetDataStreamFailed,
 	err_TmplUnrecognizedTag,
