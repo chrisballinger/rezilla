@@ -15,6 +15,7 @@
 #include "CRezillaApp.h"
 #include "CEditTable.h"
 #include "CRezMapDoc.h"
+#include "CRezMap.h"
 #include "CRezFile.h"
 #include "CRezMapTable.h"
 #include "CRezMapWindow.h"
@@ -158,6 +159,7 @@ CRezillaApp::CRezillaApp()
 CRezillaApp::~CRezillaApp()
 {
 	// nothing
+	delete CRezClipboard::GetScrapRezMap();
 }
 
 
@@ -974,7 +976,6 @@ CRezillaApp::HandleOpenDocsEvent(
 		
 	if (theDocList.descriptorType != typeNull) ::AEDisposeDesc(&theDocList);
 }
-
 
 
 

@@ -5,7 +5,7 @@
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// ¬© Copyright: Bernard Desgraupes 2003, 2004
+// © Copyright: Bernard Desgraupes 2003, 2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -36,7 +36,7 @@ enum
 };
 
 
-
+class CRezMap;
 
 // ---------------------------------------------------------------------------
 
@@ -50,9 +50,12 @@ public:
 
 	static Boolean		ContentsIsValidHex();
 	
+	static CRezMap*		GetScrapRezMap() { return sScrapRezMap;}
+	
 protected:
 	static SInt32		sScrapContext;
-
+	static CRezMap *	sScrapRezMap;
+	
 	virtual void		SetDataSelf(
 								ResType		inDataType,
 								Ptr			inDataPtr,
@@ -66,6 +69,7 @@ protected:
 	virtual void		ImportSelf();
 	virtual void		ExportSelf();
 
+	OSErr				InitScrapRezMap();
 };
 
 PP_End_Namespace_PowerPlant
@@ -76,4 +80,3 @@ PP_End_Namespace_PowerPlant
 #endif
 
 #endif
-

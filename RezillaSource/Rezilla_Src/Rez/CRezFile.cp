@@ -55,6 +55,7 @@ CRezFile::CRezFile(const FSSpec& inFileSpec, short inRefnum, SInt16 inFork)
     mFileSpec	= inFileSpec;
     mRefNum		= inRefnum;
     mUsedFork	= inFork;
+// 	FSpMakeFSRef( &mFileSpec, &mFileRef );
 }
 
 
@@ -69,6 +70,7 @@ CRezFile::CRezFile(const FSSpec& inFileSpec)
     mFileSpec	= inFileSpec;
     mRefNum		= refnum_undefined;
     mUsedFork	= CRezillaApp::sDefaultCreatingFork;
+// 	FSpMakeFSRef( &mFileSpec, &mFileRef );
 }
 
 
@@ -223,7 +225,8 @@ CRezFile::CreateNewFile()
 		// Get parentRef
 		error = FSGetCatalogInfo(&mFileRef, kFSCatInfoNodeID, &catalogInfo, NULL, NULL, &parentRef);
 		error = UMiscUtils::HFSNameToUnicodeName(mFileSpec.name, &unicodeName);
-		error = FSCreateResourceFile(&parentRef, mFileSpec.name[0], unicodeName.unicode, kFSCatInfoNone, NULL, 0, NULL, &mFileRef, &mFileSpec);
+// 		error = FSCreateResourceFile(&parentRef, mFileSpec.name[0], unicodeName.unicode, kFSCatInfoNone, NULL, 0, NULL, &mFileRef, &mFileSpec);
+		error = FSCreateResourceFile(&parentRef, unicodeName.length, unicodeName.unicode, kFSCatInfoNone, NULL, 0, NULL, &mFileRef, &mFileSpec);
 		break;
 		
 		case rezfile_rezfork:
@@ -406,4 +409,3 @@ CRezFile::CopyFromRezMap(CRezMap * srcRezmap)
 
 
 PP_End_Namespace_PowerPlant
-

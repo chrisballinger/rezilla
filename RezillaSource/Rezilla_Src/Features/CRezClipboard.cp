@@ -5,7 +5,7 @@
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// ¬© Copyright: Bernard Desgraupes 2003, 2004
+// © Copyright: Bernard Desgraupes 2003, 2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -17,6 +17,7 @@
 // #endif
 
 #include "CRezClipboard.h"
+#include "CRezMap.h"
 #include "UMiscUtils.h"
 
 #include <LClipboard.h>
@@ -28,21 +29,23 @@
 
 PP_Begin_Namespace_PowerPlant
 
-SInt32 CRezClipboard::sScrapContext = 0;
+SInt32		CRezClipboard::sScrapContext = 0;
+CRezMap *	CRezClipboard::sScrapRezMap;
 
 // ---------------------------------------------------------------------------
-//	¬€ CRezClipboard							Default Constructor		  [public]
+//	¥ CRezClipboard							Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CRezClipboard::CRezClipboard()
 	: LClipboard()
 {
 	sScrapContext = scrap_default;
+	CRezClipboard::InitScrapRezMap();
 }
 
 
 // ---------------------------------------------------------------------------
-//	¬€ ~CRezClipboard							Destructor			  [public]
+//	¥ ~CRezClipboard							Destructor			  [public]
 // ---------------------------------------------------------------------------
 
 CRezClipboard::~CRezClipboard()
@@ -58,11 +61,99 @@ CRezClipboard::~CRezClipboard()
 // 		}
 // 		
 // 	#endif
+
+// Close the ScrapRezMap
+
 }
 
 
 // ---------------------------------------------------------------------------
-//	¬€ GetDataSelf												   [protected]
+//	¥ InitScrapRezMap												   [protected]
+// ---------------------------------------------------------------------------
+// /Developer/Examples/Printing/App/BasicPrintLoop/PrintLoop/Source/main.c
+// /Developer/Examples/Printing/Printer/Plugins/SamplePM/Source/RasterUtils.cp
+
+
+OSErr
+CRezClipboard::InitScrapRezMap()
+{
+	// 	CFAllocatorRef		allocator			= CFAllocatorGetDefault();
+	CFBundleRef mainBundleRef;
+	CFURLRef 	mainBundleURL, scrapRezMapURL, resUrl;
+	FSRef 		theFSRef, parentRef;
+	FSSpec		theFileSpec;
+	OSStatus  	err = noErr;
+	short		scrapRefNum;
+	HFSUniStr255	unicodeName;
+	ConstStr31Param hfsName = "\pScrapRezMap.rsrc";
+	
+	mainBundleRef = NULL;
+	mainBundleURL = NULL;
+	scrapRezMapURL = NULL;
+	resUrl = NULL;
+	
+	mainBundleRef = CFBundleGetMainBundle();
+	if (mainBundleRef == NULL) {err = fnfErr; goto bail;}
+	
+	scrapRezMapURL = CFBundleCopyResourceURL(mainBundleRef, CFSTR("ScrapRezMap"), CFSTR("rsrc"), NULL);
+	
+	if (scrapRezMapURL == nil) {
+		// Create the file
+		mainBundleURL = CFBundleCopyBundleURL(mainBundleRef);
+		resUrl = CFBundleCopyResourcesDirectoryURL(mainBundleRef);
+		
+		CFURLGetFSRef( resUrl, &parentRef);
+		err = UMiscUtils::HFSNameToUnicodeName(hfsName, &unicodeName);
+		err = FSCreateResourceFile(&parentRef, hfsName[0], unicodeName.unicode, kFSCatInfoNone, NULL, 0, NULL, &theFSRef, &theFileSpec);
+		err = FSOpenResourceFile( &theFSRef, 0, nil, fsRdWrPerm, &scrapRefNum );
+	} else {
+		if ( CFURLGetFSRef( scrapRezMapURL, &theFSRef) )
+		{
+			err = FSGetCatalogInfo( &theFSRef, kFSCatInfoNone, NULL, NULL, &theFileSpec, NULL );
+		}
+	} 
+// 	scrapRefNum = CFBundleOpenBundleResourceMap(scrapRezMapURL);
+	
+	
+	// Make a new file object.
+	sScrapRezMap = new CRezMap(scrapRefNum);	
+	
+	bail:
+	if (mainBundleRef != NULL) CFRelease(mainBundleRef);
+	if (scrapRezMapURL != NULL) CFRelease(scrapRezMapURL);
+	return err;
+}
+// 		if (resUrl) {
+// 			CFURLRef scrapRezMapURL = CFURLCreateCopyAppendingPathComponent(NULL, resUrl,
+// 																			CFSTR("ScrapRezMap.rsrc"), false);
+// 		} 
+// 	FSRef theFSRef;
+// 	FSRef theParentRef;
+// 	UniChar	theFileName[] = { 'o', 'u', 't', 'p', 'u', 't', '.', 's', 'd', '2' };
+// 	OSStatus theError = FSPathMakeRef((const UInt8*)"/Volumes/Annex/Users/moorf/output.sd2", &theFSRef, NULL);
+// 	if(theError != fnfErr)
+// 	{
+// 		FSDeleteObject(&theFSRef);
+// 	}
+// 	theError = FSPathMakeRef((const UInt8*)"/Volumes/Annex/Users/moorf", &theParentRef, NULL);
+// 	theError = FSCreateFileUnicode(&theParentRef, 10, theFileName, kFSCatInfoNone, NULL, &theFSRef, NULL);
+// 	theError = FSOpenFork(&theFSRef, 0, NULL, fsRdWrPerm, &mOutputFileRefNum);
+// EXTERN_API( OSErr )
+// FSCreateFileUnicode(
+//   const FSRef *          parentRef,
+//   UniCharCount           nameLength,
+//   const UniChar *        name,
+//   FSCatalogInfoBitmap    whichInfo,
+//   const FSCatalogInfo *  catalogInfo,       /* can be NULL */
+//   FSRef *                newRef,            /* can be NULL */
+//   FSSpec *               newSpec) 
+// OSErr
+// UMiscUtils::HFSNameToUnicodeName(
+// 	ConstStr31Param hfsName,
+// 	HFSUniStr255 *unicodeName)
+
+// ---------------------------------------------------------------------------
+//	¥ GetDataSelf												   [protected]
 // ---------------------------------------------------------------------------
 //	Pass back the data in the Clipboard of the specified type in a Handle
 //	and return the size of the data
@@ -101,7 +192,7 @@ CRezClipboard::GetDataSelf(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ SetDataSelf												   [protected]
+//	¥ SetDataSelf												   [protected]
 // ---------------------------------------------------------------------------
 //	Set the Clipboard contents to the data specified by a pointer and length
 //
@@ -136,7 +227,7 @@ CRezClipboard::SetDataSelf(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ ImportSelf												   [protected]
+//	¥ ImportSelf												   [protected]
 // ---------------------------------------------------------------------------
 //	Import the data in the global scrap to a local scrap
 //
@@ -151,7 +242,7 @@ CRezClipboard::ImportSelf()
 
 
 // ---------------------------------------------------------------------------
-//	¬€ ExportSelf												   [protected]
+//	¥ ExportSelf												   [protected]
 // ---------------------------------------------------------------------------
 //	Export the data in a local scrap to the global scrap
 //
@@ -166,7 +257,7 @@ CRezClipboard::ExportSelf()
 
 
 // ---------------------------------------------------------------------------
-//	¬€ ContentsIsValidHex												   [protected]
+//	¥ ContentsIsValidHex												   [protected]
 // ---------------------------------------------------------------------------
 //	Check it the actual contents of the scrap are valid hexadecimal data 
 // (only 0-9, a-f, A-F).
@@ -176,11 +267,10 @@ CRezClipboard::ContentsIsValidHex()
 {
     Handle theHandle = ::NewHandle(0);
     UScrap::GetData('TEXT', theHandle);
-
-	return UMiscUtils::IsValidHexadecimal(theHandle);
+    
+    return UMiscUtils::IsValidHexadecimal(theHandle);
 }
 
 
 
 PP_End_Namespace_PowerPlant
-
