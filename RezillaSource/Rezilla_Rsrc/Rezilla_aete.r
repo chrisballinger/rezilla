@@ -776,14 +776,73 @@ resource 'aete' (0,"Scripting terminology") {
 					
 				},
 				{
-					
 						'docu',
 						{
 							'indx',
 							'name',
 							'rang'}
 					,
+						'MapD',
+						{
+							'indx',
+							'name',
+							'rang'}
+					,
+						'EdiD',
+						{
+							'indx',
+							'name',
+							'rang'}
+					,
+						'GuiD',
+						{
+							'indx',
+							'name',
+							'rang'}
+					,
+						'TmpD',
+						{
+							'indx',
+							'name',
+							'rang'}
+					,
+						'HexD',
+						{
+							'indx',
+							'name',
+							'rang'}
+					,
 						'cwin',
+						{
+							'indx',
+							'name',
+							'rang'}
+					,
+						'MapW',
+						{
+							'indx',
+							'name',
+							'rang'}
+					,
+						'EdiW',
+						{
+							'indx',
+							'name',
+							'rang'}
+					,
+						'GuiW',
+						{
+							'indx',
+							'name',
+							'rang'}
+					,
+						'TmpW',
+						{
+							'indx',
+							'name',
+							'rang'}
+					,
+						'HexW',
 						{
 							'indx',
 							'name',
@@ -1626,6 +1685,36 @@ resource 'aete' (0,"Scripting terminology") {
 					
 				}
 			,
+				"map documents",
+				'MapD',
+				"every map document",
+				{
+					
+						"",
+						'c@#!',
+						'type',
+						"",
+						reserved,
+						singleItem,
+						notEnumerated,
+						readOnly,
+						enumsAreConstants,
+						enumListCanRepeat,
+						propertyIsValue,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						noApostrophe,
+						notFeminine,
+						notMasculine,
+						plural
+					
+				},
+				{
+				}
+			,
 				"editor document",
 				'EdiD',
 				"an editor document for a single resource",
@@ -1719,6 +1808,36 @@ resource 'aete' (0,"Scripting terminology") {
 				{
 				}
 			,
+				"editor documents",
+				'EdiD',
+				"every editor document",
+				{
+					
+						"",
+						'c@#!',
+						'type',
+						"",
+						reserved,
+						singleItem,
+						notEnumerated,
+						readOnly,
+						enumsAreConstants,
+						enumListCanRepeat,
+						propertyIsValue,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						noApostrophe,
+						notFeminine,
+						notMasculine,
+						plural
+					
+				},
+				{
+				}
+			,
 				"GUI editor",
 				'GuiD',
 				"a GUI editor document for a resource",
@@ -1749,8 +1868,38 @@ resource 'aete' (0,"Scripting terminology") {
 				{
 				}
 			,
-				"template editor",
+				"GUI editors",
 				'GuiD',
+				"every GUI editor",
+				{
+					
+						"",
+						'c@#!',
+						'type',
+						"",
+						reserved,
+						singleItem,
+						notEnumerated,
+						readOnly,
+						enumsAreConstants,
+						enumListCanRepeat,
+						propertyIsValue,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						noApostrophe,
+						notFeminine,
+						notMasculine,
+						plural
+					
+				},
+				{
+				}
+			,
+				"template editor",
+				'TmpD',
 				"a template editor document for a resource",
 				{
 					
@@ -1779,8 +1928,38 @@ resource 'aete' (0,"Scripting terminology") {
 				{
 				}
 			,
+				"template editors",
+				'TmpD',
+				"every template editor",
+				{
+					
+						"",
+						'c@#!',
+						'type',
+						"",
+						reserved,
+						singleItem,
+						notEnumerated,
+						readOnly,
+						enumsAreConstants,
+						enumListCanRepeat,
+						propertyIsValue,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						noApostrophe,
+						notFeminine,
+						notMasculine,
+						plural
+					
+				},
+				{
+				}
+			,
 				"hex editor",
-				'GuiD',
+				'HexD',
 				"a hexadecimal editor document for a resource",
 				{
 					
@@ -1804,6 +1983,36 @@ resource 'aete' (0,"Scripting terminology") {
 						notFeminine,
 						notMasculine,
 						singular
+					
+				},
+				{
+				}
+			,
+				"hex editors",
+				'HexD',
+				"every hex editor",
+				{
+					
+						"",
+						'c@#!',
+						'type',
+						"",
+						reserved,
+						singleItem,
+						notEnumerated,
+						readOnly,
+						enumsAreConstants,
+						enumListCanRepeat,
+						propertyIsValue,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						noApostrophe,
+						notFeminine,
+						notMasculine,
+						plural
 					
 				},
 				{
@@ -1839,6 +2048,36 @@ resource 'aete' (0,"Scripting terminology") {
 				{
 				}
 			,
+				"map windows",
+				'MapW',
+				"every map window",
+				{
+					
+						"",
+						'c@#!',
+						'type',
+						"",
+						reserved,
+						singleItem,
+						notEnumerated,
+						readOnly,
+						enumsAreConstants,
+						enumListCanRepeat,
+						propertyIsValue,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						noApostrophe,
+						notFeminine,
+						notMasculine,
+						plural
+					
+				},
+				{
+				}
+			,
 				"editor window",
 				'EdiW',
 				"a resource editor window",
@@ -1864,6 +2103,36 @@ resource 'aete' (0,"Scripting terminology") {
 						notFeminine,
 						notMasculine,
 						singular
+					
+				},
+				{
+				}
+			,
+				"editor windows",
+				'EdiW',
+				"every editor window",
+				{
+					
+						"",
+						'c@#!',
+						'type',
+						"",
+						reserved,
+						singleItem,
+						notEnumerated,
+						readOnly,
+						enumsAreConstants,
+						enumListCanRepeat,
+						propertyIsValue,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						noApostrophe,
+						notFeminine,
+						notMasculine,
+						plural
 					
 				},
 				{
@@ -1899,6 +2168,36 @@ resource 'aete' (0,"Scripting terminology") {
 				{
 				}
 			,
+				"GUI windows",
+				'GuiW',
+				"every GUI window",
+				{
+					
+						"",
+						'c@#!',
+						'type',
+						"",
+						reserved,
+						singleItem,
+						notEnumerated,
+						readOnly,
+						enumsAreConstants,
+						enumListCanRepeat,
+						propertyIsValue,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						noApostrophe,
+						notFeminine,
+						notMasculine,
+						plural
+					
+				},
+				{
+				}
+			,
 				"template window",
 				'TmpW',
 				"a template editor window",
@@ -1924,6 +2223,36 @@ resource 'aete' (0,"Scripting terminology") {
 						notFeminine,
 						notMasculine,
 						singular
+					
+				},
+				{
+				}
+			,
+				"template windows",
+				'TmpW',
+				"every template window",
+				{
+					
+						"",
+						'c@#!',
+						'type',
+						"",
+						reserved,
+						singleItem,
+						notEnumerated,
+						readOnly,
+						enumsAreConstants,
+						enumListCanRepeat,
+						propertyIsValue,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						noApostrophe,
+						notFeminine,
+						notMasculine,
+						plural
 					
 				},
 				{
@@ -2001,6 +2330,36 @@ resource 'aete' (0,"Scripting terminology") {
 				{
 				}
 			,
+				"hex windows",
+				'HexW',
+				"every hex window",
+				{
+					
+						"",
+						'c@#!',
+						'type',
+						"",
+						reserved,
+						singleItem,
+						notEnumerated,
+						readOnly,
+						enumsAreConstants,
+						enumListCanRepeat,
+						propertyIsValue,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						noApostrophe,
+						notFeminine,
+						notMasculine,
+						plural
+					
+				},
+				{
+				}
+			,
 				"compare window",
 				'CmpW',
 				"a maps comparison window",
@@ -2047,6 +2406,36 @@ resource 'aete' (0,"Scripting terminology") {
 						notFeminine,
 						notMasculine,
 						singular
+					
+				},
+				{
+				}
+			,
+				"compare windows",
+				'CmpW',
+				"every compare window",
+				{
+					
+						"",
+						'c@#!',
+						'type',
+						"",
+						reserved,
+						singleItem,
+						notEnumerated,
+						readOnly,
+						enumsAreConstants,
+						enumListCanRepeat,
+						propertyIsValue,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						noApostrophe,
+						notFeminine,
+						notMasculine,
+						plural
 					
 				},
 				{
