@@ -2,7 +2,7 @@
 // CRezCompare.cp					
 // 
 //                       Created: 2004-02-29 18:17:07
-//             Last modification: 2005-02-21 08:47:22
+//             Last modification: 2005-02-28 11:45:19
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -113,7 +113,11 @@ CRezCompare::~CRezCompare()
 	
 	if (mResultWindow != nil) {
 		delete mResultWindow;
-	} 
+	} else {
+		// Unregister from the super commander (which is CRezillaApp itself) 
+		SwitchTarget( GetSuperCommander() );
+		SetSuperCommander(nil);
+	}	
 }
 
 
@@ -143,7 +147,7 @@ Boolean
 CRezCompare::AllowSubRemoval(
 	LCommander*		inSub)
 {
-	if (inSub == mResultWindow) {
+	if (inSub == mResultWindow) {		
 		delete this;
 		return false;
 	} else {
