@@ -45,6 +45,7 @@
 #include "CHexEditorWindow.h"
 #include "CIcon_EditorView.h"
 #include "CIcon_EditorWindow.h"
+#include "CKeyboardGlyphBox.h"
 #include "CMENU_EditorTable.h"
 #include "CMENU_EditorWindow.h"
 #include "CPICT_EditorView.h"
@@ -382,6 +383,7 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(CIcon_EditorView);
 	RegisterClass_(CIcon_EditorWindow);
 	RegisterClass_(CInspectorWindow);
+	RegisterClass_(CKeyboardGlyphBox);
 	RegisterClass_(CMENU_EditorTable);
 	RegisterClass_(CMENU_EditorWindow);
 	RegisterClass_(CPICT_EditorView);
