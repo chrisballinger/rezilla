@@ -52,13 +52,6 @@ public:
 
 	virtual Boolean		AllowSubRemoval( LCommander* inSub );
 	virtual SInt16		AskSaveChanges( bool inQuitting );
-
-// 	void				SaveStylResource(StScrpHandle inScrapHandle);
-// 	
-	static  LMenu *		GetUnicodeFontsMenu() { return sUnicodeFontsMenu;}
-	static void			SetUnicodeFontsMenu(LMenu * inMenu) {sUnicodeFontsMenu = inMenu;}
-
-	static LMenu *		sUnicodeFontsMenu;
 	
 protected:
 	CUtxt_EditorWindow *		mUtxtEditWindow;

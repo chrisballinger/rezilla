@@ -48,8 +48,6 @@ PP_Begin_Namespace_PowerPlant
 
 extern CWindowMenu * gWindowMenu;
 
-LMenu *	CUtxt_EditorDoc::sUnicodeFontsMenu = NULL;
-
 
 // ---------------------------------------------------------------------------
 //	¥ CUtxt_EditorDoc							Constructor		  [public]
