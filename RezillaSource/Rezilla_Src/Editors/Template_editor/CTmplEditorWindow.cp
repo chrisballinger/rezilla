@@ -2,7 +2,7 @@
 // CTmplEditorWindow.cp					
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-09-22 06:45:31
+//             Last modification: 2004-09-23 10:13:26
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -162,6 +162,7 @@ CTmplEditorWindow::FinishCreateSelf()
 	mBitSeqValue		= 0;
 	mBitSeqBytesLen		= 0;
 	mBitSeqIndex		= 0;
+	mBitSeqMax			= 0;
 	mIsDirty			= false;
 	mYCoord             = kTmplVertSkip;
 	mTemplateStream		= nil;
@@ -1460,6 +1461,13 @@ CTmplEditorWindow::RetrieveDataWithTemplate()
 
 	mItemsCount = 0;
 	
+	// Reinitialize the bit sequence globals
+	mBitSeqInProgress	= false;
+	mBitSeqValue		= 0;
+	mBitSeqBytesLen		= 0;
+	mBitSeqIndex		= 0;
+	mBitSeqMax			= 0;
+
 	// Parse the template stream
 	error = DoRetrieveWithTemplate(0);
 	
@@ -1624,7 +1632,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 
 		case 'BBIT':
 		// Binary bit within a byte
-		RetrieveBitField(1, 1);
+		error = RetrieveBitField(1, 1);
 		break;
 
 		case 'BCNT':
@@ -1921,7 +1929,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 
 		case 'LBIT':
 		// Binary bit within a long
-		RetrieveBitField(1, 4);
+		error = RetrieveBitField(1, 4);
 		break;
 
 		case 'LCNT':
@@ -2169,7 +2177,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 
 		case 'WBIT':
 		// Binary bit within a word
-		RetrieveBitField(1, 2);
+		error = RetrieveBitField(1, 2);
 		break;
 
 		case 'WFLG':
@@ -2334,7 +2342,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 
 	  } else if ( IsValidBitField(inType, typeStr, bitCount, bytesLen) ) {
 		  
-		  RetrieveBitField(bitCount, bytesLen);
+		  error = RetrieveBitField(bitCount, bytesLen);
 		  
 	  } else {
 		  // Unrecognized type
@@ -2356,41 +2364,59 @@ OSErr
 CTmplEditorWindow::RetrieveBitField(UInt16 inBitCount, UInt16 inBytesLen)
 {
 	OSErr	error = noErr;
-	UInt16	i, val;
+	SInt8	i;
+	UInt32	val;
 	long	theLong;
 	Str255	numStr;
 	
 	if (!mBitSeqInProgress) {
 		mBitSeqInProgress = true;
-		// High bit first.
-		mBitSeqIndex = mBitSeqBytesLen * 8 - 1;
 		mBitSeqBytesLen = inBytesLen;
+		mBitSeqMax = mBitSeqBytesLen * 8 - 1;
+		mBitSeqIndex = 0;
 		mBitSeqValue = 0;
 	} 
 	
 	if (inBitCount == 1) {
 		LCheckBox * theCheckBox = dynamic_cast<LCheckBox *>(this->FindPaneByID(mCurrentID));
 		mBitSeqValue |= theCheckBox->GetValue() ? 1 << mBitSeqIndex : 0 ;
-		mBitSeqIndex--;
+		mBitSeqIndex++;
 	} else {
 		LEditText * theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
 		theEditText->GetDescriptor(numStr);	
 		::StringToNum( numStr, &theLong);
 		
-		for (i = inBitCount - 1; i >= 0 ; i--) {
-			val = theLong & 1 << i;
-			mBitSeqValue |= val ? 1 << mBitSeqIndex : 0 ;
-			mBitSeqIndex--;
+		if (theLong >= (1 << inBitCount)) {
+			error = err_TmplValueTooLargeInBitsField;
+			goto DONE;
+		} 
+		for (i = 0; i < inBitCount ; i++) {
+			val = theLong & (1 << i);
+			mBitSeqValue |= val ? (1 << mBitSeqIndex) : 0 ;
+			mBitSeqIndex++;
 		}		
 	}
 	
 	mCurrentID++;
 	
-	if (mBitSeqIndex < 0) {
+	if (mBitSeqIndex > mBitSeqMax) {
 		mBitSeqInProgress = false;
-		*mOutStream << mBitSeqValue;
+		switch (mBitSeqBytesLen) {
+			case 1:
+			*mOutStream << (SInt8) mBitSeqValue;
+			break;
+			
+			case 2:
+			*mOutStream << (SInt16) mBitSeqValue;
+			break;
+			
+			case 4:
+			*mOutStream << mBitSeqValue;
+			break;
+		}
 	} 
 	
+DONE:	
 	return error;
 }
 

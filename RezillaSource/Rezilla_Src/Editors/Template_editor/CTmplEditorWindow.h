@@ -123,9 +123,10 @@ protected:
 	TArray<ResType>		mOffsetTypesList;
 	TArray<SInt32>		mOffsetMarksList;
 	Boolean				mBitSeqInProgress;
-	SInt32				mBitSeqValue;
-	UInt16				mBitSeqBytesLen;
-	UInt16				mBitSeqIndex;
+	UInt32				mBitSeqValue;
+	UInt8				mBitSeqBytesLen;
+	UInt8				mBitSeqIndex;
+	UInt8				mBitSeqMax;
 
 	virtual void	FinishCreateSelf();
 
