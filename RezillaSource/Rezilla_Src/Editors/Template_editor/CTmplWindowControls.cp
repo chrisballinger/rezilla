@@ -2,7 +2,7 @@
 // CTmplWindowUtils.cp					
 // 
 //                       Created: 2004-08-20 16:45:08
-//             Last modification: 2004-11-05 11:35:14
+//             Last modification: 2004-11-06 12:01:58
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -560,28 +560,30 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 	sWastePaneInfo.superView		= theTGB;
 	
 	// Make the Waste edit writable, not wrapping, selectable
-	CWasteEditView * theWasteEdit = new CWasteEditView(this, sWastePaneInfo, theViewInfo, 0, sEditTraitsID, true, mOwnerDoc->IsReadOnly());
-	ThrowIfNil_(theWasteEdit);
-	// Add to the mWasteFields
-	mWasteFields.AddItem(theWasteEdit);
+	CWasteEditView * theWE = new CWasteEditView(this, sWastePaneInfo, theViewInfo, 0, sEditTraitsID, true, mOwnerDoc->IsReadOnly());
+	ThrowIfNil_(theWE);
 	// Store the template's type in the userCon field
-	theWasteEdit->SetUserCon(inType);
+	theWE->SetUserCon(inType);
 	
 	// Adjust to the style specified in the preferences
 	TextTraitsRecord theTraits = CRezillaPrefs::GetStyleElement( CRezillaPrefs::prefsType_Curr );
-	theWasteEdit->ApplyStyleValues( theTraits.size, theTraits.fontNumber);
+	theWE->ApplyStyleValues( theTraits.size, theTraits.fontNumber);
+
+	// Install the ChangesMessage and let the window listen
+	theWE->SetChangesMessage(msg_TmplModifiedItem);
+	theWE->AddListener(this);
 
 	// Insert the text
 	if (hasText) {
 		theHandle = mRezStream->GetDataHandle();
 		HLock(theHandle);
-		theWasteEdit->Insert( (*theHandle) + oldPos , newPos - oldPos, NULL, true);
+		theWE->Insert( (*theHandle) + oldPos , newPos - oldPos, NULL, true);
 		HUnlock(theHandle);
 		mRezStream->SetMarker(nextPos, streamFrom_Start);
 	} 
 		
 	// Adjust the height of the TextGroupBox
-	canReduce = RecalcTextBoxHeight(newPos - oldPos, theWasteEdit, isFixed, reqLength, delta);
+	canReduce = RecalcTextBoxHeight(newPos - oldPos, theWE, isFixed, reqLength, delta);
 	
 	// If we have a fixed size and it does not exceed the frame, we don't
 	// need a scrollbar. 
@@ -594,10 +596,10 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 		sScrollPaneInfo.paneID			= 0;
 		sScrollPaneInfo.superView		= theTGB;
 
-		LScrollerView * theScroller = new LScrollerView(sScrollPaneInfo, theViewInfo, -1, 15, 0, 0, 16, theWasteEdit, true);
+		LScrollerView * theScroller = new LScrollerView(sScrollPaneInfo, theViewInfo, -1, 15, 0, 0, 16, theWE, true);
 		ThrowIfNil_(theScroller);
 
-		theWasteEdit->PutInside(theScroller);
+		theWE->PutInside(theScroller);
 	} 
 	
 	if (delta < 0) {
@@ -692,11 +694,7 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 	
 	CTxtDataSubView * theTxtWE = new CTxtDataSubView(theTGB, sWastePaneInfo, theViewInfo, 0, sEditTraitsID, true);
 	ThrowIfNil_(theTxtWE);
-	
-	// Add to the mWasteFields
-	mWasteFields.AddItem(theHexWE);
-	mWasteFields.AddItem(theTxtWE);
-	
+		
 	// Install the subpanes and the scroller in the dual view
 	theTGB->InstallSubViews(theHexWE, theTxtWE, theScroller, mOwnerDoc->IsReadOnly() );
 
@@ -710,6 +708,12 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 	theScroller->SetMinValue(1);	
 	theScroller->SetLinesPerPage( theTGB->GetPaneCount(count_LinesPerPane) - 1);
 	
+	// Install the ChangesMessage and let the window listen
+	theHexWE->SetChangesMessage(msg_TmplModifiedItem);
+	theTxtWE->SetChangesMessage(msg_TmplModifiedItem);
+	theHexWE->AddListener(this);
+	theTxtWE->AddListener(this);
+
 	// Store the template's type in the userCon field
 	theTGB->SetUserCon(inType);
 			
