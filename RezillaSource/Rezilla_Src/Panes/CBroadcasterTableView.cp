@@ -54,7 +54,7 @@ CBroadcasterTableView::DrawCell(
 	TextFace(italic);
 	
 	Str255	theString;
-	UInt32	dataSize = sizeof(theString);
+	UInt32	dataSize = sizeof(Str255);
 	GetCellData(inCell, &theString, dataSize);
 	
 	::MoveTo(inLocalRect.left + 4, inLocalRect.top + 12);
@@ -146,5 +146,6 @@ CBroadcasterTableView::ClickCell(
 {
 	BroadcastMessage(mValueMessage,this);
 }
+
 
 

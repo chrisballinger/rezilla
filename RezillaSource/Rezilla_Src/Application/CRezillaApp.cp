@@ -30,7 +30,7 @@
 #include "CTxtDataSubView.h"
 #include "CDropStaticText.h"
 #include "CBroadcasterTableView.h"
-#include "CModifierBevelButton.h"
+// #include "CModifierBevelButton.h"
 #include "CCompResultWindow.h"
 #include "CRangeEditText.h"
 #include "UNavigationDialogs.h"
@@ -276,7 +276,7 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(CDropStaticText);
 	RegisterClass_(CBroadcasterTableView);
 	RegisterClass_(CCompResultWindow);
-	RegisterClass_(CModifierBevelButton);
+// 	RegisterClass_(CModifierBevelButton);
 // 	RegisterClass_(COutBorderAttachment);
 
 	RegisterClass_(ATag);

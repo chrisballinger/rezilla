@@ -316,7 +316,7 @@ CCompResultWindow::FillTableView( TArray<CRezTypId *> inList, SInt16 inWhichList
 	SInt32 		theCount;
 	TableIndexT	theRows, theCols;
 	STableCell	cell(0,1);
-	Str255		theString;
+	Str255		tempString;
 	LStr255		thePString;
 	TableIndexT	thePos = 0;
 	CRezTypId *	theTypId;
@@ -337,8 +337,7 @@ CCompResultWindow::FillTableView( TArray<CRezTypId *> inList, SInt16 inWhichList
 		
 	}
 	
-	
-	theCount = mRezCompare->GetOnlyInOldList()->GetCount() ;
+	theCount = inList.GetCount() ;
 	theTable->GetTableSize(theRows, theCols);
 	if (theRows < theCount) {
 		theTable->InsertRows(theCount-theRows, theRows, nil, 0, Refresh_Yes);
@@ -346,27 +345,24 @@ CCompResultWindow::FillTableView( TArray<CRezTypId *> inList, SInt16 inWhichList
 		theTable->RemoveRows(theRows-theCount, theCount+1, Refresh_Yes);
 	}
 	
-	TArray<CRezTypId*>* theTypidsArray = mRezCompare->GetOnlyInOldList();
-	TArrayIterator<CRezTypId*> iterator(*theTypidsArray);
-	
-	iterator.ResetTo(0);
+	TArrayIterator<CRezTypId*> iterator(inList);	
+// 	iterator.ResetTo(0);
 	
 	for (SInt16 i = 1; i <= theCount; ++i) {
 		iterator.Next(theTypId);
+		thePString = "\p";
 		cell.row = i;
-		UMiscUtils::OSTypeToPString(theTypId->mType, theString);
-		thePString += theString;
-		::NumToString(theTypId->mType, theString);
+		UMiscUtils::OSTypeToPString(theTypId->mType, tempString);
+		thePString += tempString;
+		::NumToString(theTypId->mID, tempString);
 		thePString += "\p ";
-		thePString += theString;
-		theTable->SetCellData(cell, &thePString, sizeof(Str255));
+		thePString += tempString;
+		theTable->SetCellData(cell, thePString, sizeof(Str255));
 	}
-	
 	
 	STableCell	topCell(0,1);
 	STableCell	botCell(theCount,1);
 	theTable->RefreshCellRange(topCell, botCell);
-	
 }
 
 

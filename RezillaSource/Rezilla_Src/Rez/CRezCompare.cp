@@ -239,8 +239,8 @@ CRezCompare::DoCompareRezMaps()
 	CTypeComparator* theComparator = new CTypeComparator;
 	TArray<ResType>* theNewTypesArray = new TArray<ResType>( theComparator, true);
 	TArray<ResType>* theOldTypesArray = new TArray<ResType>( theComparator, true);
-	TArrayIterator<ResType>	typeOldIterator(*theNewTypesArray);
-	TArrayIterator<ResType>	typeNewIterator(*theOldTypesArray);
+	TArrayIterator<ResType>	typeOldIterator(*theOldTypesArray);
+	TArrayIterator<ResType>	typeNewIterator(*theNewTypesArray);
 
 	// Populate the arrays
 	mOldMap->GetAllTypes(theOldTypesArray);
@@ -313,7 +313,6 @@ void
 CRezCompare::CompareTwoResources(CRezType * inOldRezType, CRezType * inNewRezType, 
 								 short inID, SInt16 * outCompResult)
 {
-	UInt32		theCount = 0;
 	CRezObj		*theOldRezObj, *theNewRezObj;
 	Handle		oldRezHandle, newRezHandle;
 	
@@ -323,8 +322,7 @@ CRezCompare::CompareTwoResources(CRezType * inOldRezType, CRezType * inNewRezTyp
 	if (!mIgnoreData && (theOldRezObj->GetSize() != theNewRezObj->GetSize())) {
 		// Compare the sizes of the handles
 		*outCompResult = compare_sizeDiff;
-	} else if (!mIgnoreData 
-			   && (!mIgnoreNames && (*(theOldRezObj->GetName()) != *(theNewRezObj->GetName())))) {
+	} else if (!mIgnoreNames && ! UMiscUtils::CompareStr255(theOldRezObj->GetName(), theNewRezObj->GetName())) {
 		// Compare the names
 		*outCompResult = compare_nameDiff;
 	} else if (!mIgnoreAttrs && (theOldRezObj->GetAttributes() != theNewRezObj->GetAttributes())) {
@@ -349,21 +347,23 @@ CRezCompare::AddTypeToArray(ResType inType, SInt16 inWhichList)
 	CRezType * theRezType;
 	short theID;
 	
-	while (iterator.Next(theID)) {
 		switch (inWhichList) {
 			case list_OnlyInOld:
 			theRezType = new CRezType(inType, mOldMap);
 			theRezType->GetAllRezIDs(theRezIDArray);
-			mOnlyInOldList.AddItem( new CRezTypId(inType, theID) );
+			while (iterator.Next(theID)) {
+				mOnlyInOldList.AddItem( new CRezTypId(inType, theID) );
+			}
 			break;
 			
 			case list_OnlyInNew:
 			theRezType = new CRezType(inType, mNewMap);
 			theRezType->GetAllRezIDs(theRezIDArray);
-			mOnlyInNewList.AddItem( new CRezTypId(inType, theID) );
+			while (iterator.Next(theID)) {
+				mOnlyInNewList.AddItem( new CRezTypId(inType, theID) );
+			}
 			break;
 		}
-	}
 }
 
 
