@@ -156,34 +156,40 @@ CPICT_EditorWindow::ObeyCommand(
 	
 	switch (inCommand) {
 		
-			case cmd_Copy:
-			case cmd_Cut:{
-				CRezClipboard::SetScrapContext(scrap_default);
-				// Copy the image to the clipboard with 'PICT' flavor
-				UScrap::SetData('PICT',(Handle) mContentsView->GetPictureH());
-				if (inCommand == cmd_Cut) {
-					mContentsView->SetPictureH(nil);
-				} 
+		case cmd_Copy:
+		case cmd_Cut:
+		case cmd_Clear: {
+			CRezClipboard::SetScrapContext(scrap_default);
+			// Copy the image to the clipboard with 'PICT' flavor
+			UScrap::SetData('PICT',(Handle) mContentsView->GetPictureH());
+			if (inCommand == cmd_Cut && ! GetOwnerDoc()->IsReadOnly() ) {
+				InstallPict(nil);
+			} 
+			break;
+		}
+		
+		case cmd_Paste: {
+			if (GetOwnerDoc()->IsReadOnly()) {
 				break;
-			}
-
-			case cmd_Paste: {
-				CRezClipboard::SetScrapContext(scrap_default);
-				// If the clipboard contains data with 'PICT' flavor,
-				// replace the current image.
-				StHandleBlock	scrapDataH(Size_Zero);
+			} 
+			CRezClipboard::SetScrapContext(scrap_default);
+			// If the clipboard contains data with 'PICT' flavor,
+			// replace the current image.
+			Handle scrapDataH = ::NewHandle(0);
+			if (scrapDataH != nil) {
 				SInt32 dataSize = UScrap::GetData('PICT', scrapDataH);
 				if (dataSize != 0) {
 					InstallPict(scrapDataH);
 				} 
-				break;
-			}
-
-		default:
-			cmdHandled = LCommander::ObeyCommand(inCommand, ioParam);
+			} 
 			break;
+		}
+		
+		default:
+		cmdHandled = mOwnerDoc->ObeyCommand(inCommand, ioParam);
+		break;
 	}
-
+	
 	return cmdHandled;
 }
 
@@ -193,11 +199,19 @@ CPICT_EditorWindow::ObeyCommand(
 // ---------------------------------------------------------------------------
 
 void
-CPICT_EditorWindow::InstallPict(Handle inPictHandle)
+CPICT_EditorWindow::InstallPict(Handle inHandle)
 {
-	StHandleLocker	lock(inPictHandle);
-	mContentsView->SetPictureH( (PicHandle) inPictHandle);
-	SetDirty(false);
+	Rect theRect = Rect_0000;
+	StHandleLocker	lock(inHandle);
+	mContentsView->SetPictureH( (PicHandle) inHandle);
+	
+	// Update the dimensions in the bottom fields
+	if (inHandle != nil && ::GetHandleSize(inHandle) > sizeof(Picture)) {
+		theRect = (**(PicHandle)inHandle).picFrame;
+	}
+	SetSizeFields(theRect);
+	
+	SetDirty(true);
 }
 
 

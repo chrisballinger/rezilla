@@ -51,7 +51,7 @@ public:
 							CommandT			inCommand,
 							void*				ioParam);
 
-	void			InstallPict(Handle inPictHandle);
+	void			InstallPict(Handle inHandle);
 
 	void			SetSizeFields(Rect inRect);
 		
