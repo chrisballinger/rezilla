@@ -1,12 +1,12 @@
 // ===========================================================================
-// CTmplWindowUtils.cp					
+// CTmplWindowUtils.cp
 // 
 //                       Created: 2004-08-20 16:45:08
-//             Last modification: 2004-12-06 09:07:09
+//             Last modification: 2005-03-01 09:42:41
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes, 2004
+// (c) Copyright: Bernard Desgraupes, 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -48,7 +48,7 @@ CTmplEditorWindow::IsValidBitField(OSType inType, Str255 inStr,
 	Boolean isValid = false;
 	long	theLong;
 	
-	if (inType >> 8 == 'BB0') {
+	if ( (inType >> 8) == '0BB0' ) { // CWPro9 does not accept just 'BB0' (05-03-01)
 		if (inStr[4] > '0' && inStr[4] < '8') {
 			ioBitsCount = inStr[4] - '0';
 			ioBytesLen = 1;
