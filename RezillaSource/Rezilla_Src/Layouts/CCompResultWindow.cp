@@ -516,8 +516,6 @@ CCompResultWindow::InsertHexContentsFromLine(SInt32 inFromLine)
 		mNewHexDataWE->InsertHexContents( (*mNewData) + charOffset, remainingChars);
 	}
 }
-// 	// Adjust the scrollbar
-// 	mScroller->SetValue(inFromLine-1);
 
 
 // ---------------------------------------------------------------------------
