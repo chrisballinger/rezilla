@@ -1751,7 +1751,7 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 	theTGB->InstallSubViews(theHexWE, theTxtWE, theScroller, mOwnerDoc->IsReadOnly() );
 
 	// Adjust to the style specified in the preferences
-	TextTraitsRecord theTraits = CRezillaApp::sPrefs->GetStyleElement( CRezillaPrefs::prefsType_Curr );
+	TextTraitsRecord theTraits = CRezillaPrefs::GetStyleElement( CRezillaPrefs::prefsType_Curr );
 	theTGB->ResizeDataPanes();
 	theTGB->UpdatePaneCounts();
 	theHexWE->ApplyStyleValues( theTraits.size, theTraits.fontNumber);

@@ -66,7 +66,7 @@ CTEXT_EditorView::CTEXT_EditorView(
 
 	: LTextEditView(inStream)
 {
-	TextTraitsRecord theTraits = CRezillaApp::sPrefs->GetStyleElement( CRezillaPrefs::prefsType_Curr );
+	TextTraitsRecord theTraits = CRezillaPrefs::GetStyleElement( CRezillaPrefs::prefsType_Curr );
 	TextStyle	theStyle;
 	SInt16		justification = teFlushDefault;
 
