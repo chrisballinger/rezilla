@@ -19,6 +19,7 @@
 #endif
 
 #include "CPICT_EditorView.h"
+#include "CPICT_EditorWindow.h"
 
 #include <LStream.h>
 #include <UDrawingState.h>
@@ -75,7 +76,6 @@ void
 CPICT_EditorView::AdaptPicture()
 {
 	mRefreshAllWhenResized = false;
-	ErasePicture();
 	
 	if (mPictureH != nil) {
 		Rect	picFrame = (**mPictureH).picFrame;
@@ -96,7 +96,6 @@ CPICT_EditorView::ErasePicture()
 	CalcLocalFrameRect(theFrame);
 	ApplyForeAndBackColors();
 	::EraseRect(&theFrame);
-	Refresh();
 }
 
 
@@ -110,7 +109,9 @@ CPICT_EditorView::SetPictureH(PicHandle inPictureH)
 		::DisposeHandle( (Handle) mPictureH);	
 	}
 	mPictureH = inPictureH;
+	ErasePicture();
 	AdaptPicture();
+	mOwnerWindow->Refresh();
 }
 
 
