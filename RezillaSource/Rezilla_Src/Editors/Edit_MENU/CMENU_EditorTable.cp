@@ -19,7 +19,7 @@
 #include "CMENU_EditorDoc.h"
 #include "CMENU_EditorTable.h"
 #include "CMENU_EditorWindow.h"
-#include "CRezObj.h"
+#include "CMenuObject.h"
 #include "CRezillaPrefs.h"
 #include "RezillaConstants.h"
 #include "UDragAndDropUtils.h"
@@ -282,7 +282,7 @@ CMENU_EditorTable::DrawCell(
 		// Setup for drawing.
 		::TextFont( systemFont );
 		::TextSize( 12 );
-		::TextFace( bold );
+		::TextFace(mOwnerWindow->GetMenuObj()->GetStyleAtIndex(inCell.row));
 
 		// Draw the string.
 		MoveTo( theCellFrame.left + 4, theCellFrame.bottom - 3 );
