@@ -85,10 +85,6 @@ UIconMisc::SetPort( GrafPtr inPort )
 	{
 		Rect theRect;
 
-		if ( UQDGlobals::GetCurrentPort() != inPort ) {
-			::SetPort( inPort );
-		}
-		
 		// Set the gdevice to the main device (if it isn't already).
 		// The Window Mgr requires this when opening windows etc.
 		GDHandle mainDevice = ::GetMainDevice();
@@ -96,6 +92,10 @@ UIconMisc::SetPort( GrafPtr inPort )
 			::SetGDevice( mainDevice );
 		}
 
+		if ( UQDGlobals::GetCurrentPort() != inPort ) {
+			::SetPort( inPort );
+		}
+		
 		// Since PP changes this all the time	
 		::SetOrigin( 0, 0 );
 		::GetPortBounds(inPort, &theRect);
