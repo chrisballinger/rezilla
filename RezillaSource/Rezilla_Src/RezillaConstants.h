@@ -714,7 +714,7 @@ const DescType rzil_pEditedRsrcDocs	= 'pERD';	// Edited resources documents
 const DescType rzil_pRefNum			= 'pREF';		// RefNum
 const DescType rzil_pAttributes		= 'pATR';		// Attributes
 const DescType rzil_pReadOnly		= 'pRDO';		// mapReadOnly
-const DescType rzil_pCompact		= 'pCMP';		// mapCompact
+const DescType rzil_pCompact		= 'pCPT';		// mapCompact
 const DescType rzil_pChanged		= pIsModified;	// mapChanged/resChanged ('imod')
 
 //    RezType
