@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2004-05-19 07:37:18
+//             Last modification : 2004-06-02 09:05:06
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -116,6 +116,7 @@ const ResIDT	rPPob_PrefsWindow			= 7000;
 const ResIDT	rPPob_PrefsGeneralPane		= 7100;
 const ResIDT	rPPob_PrefsExportPane		= 7200;
 const ResIDT	rPPob_PrefsComparePane		= 7300;
+const ResIDT	rPPob_PrefsInterfacePane	= 7400;
 const ResIDT	rPPob_FindDialog			= 8500;
 const ResIDT	rPPob_SimpleMessage			= 9500;
 const ResIDT	rPPob_AskIfMessage			= 9510;
@@ -328,6 +329,10 @@ const PaneIDT	item_CompPrefsIgnData		= 4;
 const PaneIDT	item_CompPrefsDisplayRgbx	= 5;
 const PaneIDT	item_CompPrefsHexDisplay	= 6;
 const PaneIDT	item_CompPrefsTxtDisplay	= 7;
+//     Interface Prefs Pane
+//     --------------------
+const PaneIDT	item_UIPrefsFontsMenu		= 2;
+const PaneIDT	item_UIPrefsSizeMenu		= 3;
 
 // Navigation dialogs custom items
 // -------------------------------
@@ -409,10 +414,10 @@ const MessageT	msg_CompResultDifferingTbl	= rPPob_RezCompWindow + item_CompResul
 const MessageT	msg_CompResultOnlyNewTbl	= rPPob_RezCompWindow + item_CompResultOnlyNewTbl;
 // Ask Unique ID dialog
 // --------------------
-const MessageT	msg_UidOtherConflicts	= rPPob_AskUniqueID + item_UidOtherConflicts;
+const MessageT	msg_UidOtherConflicts		= rPPob_AskUniqueID + item_UidOtherConflicts;
 // Preferences
 // -----------
-const MessageT  msg_PrefsRevert                 = rPPob_PrefsWindow + 3;
+const MessageT  msg_PrefsRevert				= rPPob_PrefsWindow + 3;
 //     General Prefs Pane
 //     ------------------
 const MessageT  msg_GenPrefsMaxRecent       = rPPob_PrefsGeneralPane + item_GenPrefsMaxRecent;
@@ -433,7 +438,10 @@ const MessageT	msg_CompPrefsIgnAttr		= rPPob_PrefsComparePane + 3;
 const MessageT	msg_CompPrefsIgnData		= rPPob_PrefsComparePane + 4;
 const MessageT	msg_CompPrefsHexDisplay		= rPPob_PrefsComparePane + 5;
 const MessageT	msg_CompPrefsTxtDisplay		= rPPob_PrefsComparePane + 6;
-
+//     Interface Prefs Pane
+//     --------------------
+const MessageT	msg_UIPrefsFontsMenu		= rPPob_PrefsInterfacePane + 2;
+const MessageT	msg_UIPrefsSizeMenu			= rPPob_PrefsInterfacePane + 2;
 
 
 const MessageT	msg_Close					= 	FOUR_CHAR_CODE('Clos');
@@ -496,15 +504,15 @@ const SInt16	kRzilDragFlavor		= FOUR_CHAR_CODE('Rzil');
 // Constants for the Rezmap tables
 const SInt16	kRzilColWidth				= 100;
 // Constants for the Rez Compare results window
-//     kRzilHexCompBytesPerLine and kRzilTxtCompBytesPerLine are counts of bytes 
+//     kRzilHexCompBytesPerLine and kRzilTxtCompBytesPerLine are counts of virtual bytes 
 //     which have to be multiplied by 3 (two hex digits + space) or by 2 (one char + space) resp.
 const SInt16	kRzilRezCompLineCount		= 12;
 const SInt16	kRzilHexCompBytesPerLine	= 16;
 const SInt16	kRzilTxtCompBytesPerLine	= 24;
 // Constants for the Rez Hex editor
-//     kRzilHexEditBytesPerLine and kRzilHexEditBytesPerPane are counts of bytes 
-//     which have to be multiplied by 3 (two hex digits + space) or by 2 in text
-//     representation (one char + space)
+//     kRzilHexEditBytesPerLine and kRzilHexEditBytesPerPane are counts of virtual bytes 
+//     which have to be multiplied by 3 (two hex digits + space) in hex
+//     representation or by 2 in text representation (one char + space)
 const SInt16	kRzilHexEditLineCount		= 32;
 const SInt16	kRzilHexEditBytesPerLine	= 16;
 const SInt16	kRzilHexEditBytesPerPane	= kRzilHexEditLineCount * kRzilHexEditBytesPerLine;
@@ -515,6 +523,7 @@ const SInt16	kRzilMaxRecentItems	= 10;
 
 const ResType	ResType_DITL = FOUR_CHAR_CODE('DITL');
 
-// #define  kFirstSizeMenuItem	1
-// #define  kLastSizeMenuItem	9
+// Used by size popup menu in Interface preferences
+#define  kFirstSizeMenuItem	1
+#define  kLastSizeMenuItem	9
 

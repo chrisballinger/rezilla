@@ -16,6 +16,7 @@
 #include "RezillaConstants.h"
 
 #include <LApplication.h>
+#include <UTextTraits.h>
 
 
 //Used Internally to implement Open Dialog
@@ -23,6 +24,22 @@ typedef struct Rzil_OpenFileUD{
     UInt16		whichFork;
     Boolean		isReadOnly;
 } Rzil_OpenFileUD;
+
+
+// typedef struct TextTraitsRecord {
+// 	SInt16		size;
+// 	SInt16		style;
+// 	SInt16		justification;
+// 	SInt16		mode;
+// 	RGBColor	color;
+// 	SInt16		fontNumber;
+// 	Str255		fontName;
+// } TextTraitsRecord, *TextTraitsPtr, **TextTraitsH;
+typedef struct Rzil_metrics{
+	TextTraitsRecord	textTraits;
+	SInt32				charWidth;
+	SInt32				charHeight;
+} Rzil_metrics;
 
 class CInspectorWindow;
 class CRezMapDoc;

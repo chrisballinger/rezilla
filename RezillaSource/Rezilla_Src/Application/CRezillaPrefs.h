@@ -107,6 +107,10 @@ protected:
 private:
 	virtual void		RetrievePreferences();
 	void				SetDefaultPreferences();
+  
+	OSStatus			FontSizeExists(LStdPopupMenu * inPopup, SInt32 inSize, SInt32 &outItemIndex);
+	SInt32				FontIndexFromFontNum(LStdPopupMenu * inPopup, SInt16 inFNum);
+	SInt32				SizeIndexFromSizeValue(LStdPopupMenu * inPopup, SInt16 inSize);
 };
 
 #endif // _H_CRezillaPrefs

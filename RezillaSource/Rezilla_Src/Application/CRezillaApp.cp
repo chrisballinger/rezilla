@@ -42,7 +42,7 @@
 #include "NavServicesCallbacks.h"
 #include "UMessageDialogs.h"
 #include "UDialogBoxHandler.h"
-#include "ABalloon.h"
+// #include "ABalloon.h"
 
 // PP Classes for registration
 #include <Appearance.h>
@@ -223,14 +223,14 @@ CRezillaApp::Initialize()
 	
 	CWindowMenuAttachment *theAttachment;	// Window menu attachment.
 	theAttachment = new CWindowMenuAttachment( gWindowMenu );
-	AddAttachment( theAttachment , nil, true );
+	AddAttachment( theAttachment, nil, true );
 	
 	sRecentItemsAttachment = new CRecentItemsMenu(rMENU_RecentItems, kRzilMaxRecentItems, CFSTR(kRezillaIdentifier));
-	AddAttachment( sRecentItemsAttachment , nil, true );
+	AddAttachment( sRecentItemsAttachment, nil, true );
 	
-	// Help tags settings
-	ABalloonBase::EnableControlKeyPop();
-	ABalloonBase::SetAutoPopDelay(20);
+// 	// Help tags settings
+// 	ABalloonBase::EnableControlKeyPop();
+// 	ABalloonBase::SetAutoPopDelay(20);
 
 	mOpeningFork = fork_anyfork;
 	
@@ -295,7 +295,7 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(CTxtDataWE);
 	RegisterClass_(CWasteEditView);
 
-	RegisterClass_(ATag);
+// 	RegisterClass_(ATag);
 
 	// AM always present on Carbon
 	UControlRegistry::RegisterAMClasses();

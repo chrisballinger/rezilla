@@ -651,3 +651,100 @@ CRezillaPrefs::UpdateVars()
 
 
 
+// ---------------------------------------------------------------------------
+//	¥ FontSizeExists											[private]
+// ---------------------------------------------------------------------------
+
+OSStatus
+CRezillaPrefs::FontSizeExists(LStdPopupMenu * inPopup, SInt32 inSize, SInt32 &outItemIndex)
+{
+	OSErr	itemMatches = 0;
+	SInt16	i;
+	Str255	theMenuText;
+	SInt32	theMenuSize;
+	
+	// See if inSize matches a menu item
+	for ( i= kFirstSizeMenuItem ; i<= kLastSizeMenuItem ; i++ ) {
+		::GetMenuItemText( inPopup->GetMacMenuH(), i, theMenuText );
+		::StringToNum( theMenuText, &theMenuSize );
+		if ( inSize == theMenuSize)
+		{
+			itemMatches = true;
+			outItemIndex = i;
+			break;
+		}	
+	}
+	
+	return itemMatches;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ FontIndexFromFontNum											[private]
+// ---------------------------------------------------------------------------
+
+SInt32
+CRezillaPrefs::FontIndexFromFontNum(LStdPopupMenu * inPopup, SInt16 inFNum) 
+{
+	SInt32	i;
+	SInt16	theFontNum;
+	Str255	theMenuText;
+	Boolean foundIt = false;
+	MenuRef	theMenuRef = inPopup->GetMacMenuH();
+	
+	// See if inFNum matches a menu item
+	for ( i = 1 ; i<= ::CountMenuItems(theMenuRef) ; i++ ) {
+		::GetMenuItemText( theMenuRef, i, theMenuText );
+		::GetFNum(theMenuText,&theFontNum);
+		if ( inFNum == theFontNum)
+		{
+			foundIt = true;
+			break;
+		}	
+	}
+	if (!foundIt) {
+		// Put the OS Application font
+		return ::GetAppFont();
+	}
+	
+	return i;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ SizeIndexFromSizeValue											[private]
+// ---------------------------------------------------------------------------
+
+SInt32
+CRezillaPrefs::SizeIndexFromSizeValue(LStdPopupMenu * inPopup, SInt16 inSize) 
+{
+	SInt32	i;
+	SInt32	theSize;
+	Str255	theSizeString;
+	Boolean foundIt = false;
+	MenuRef	theMenuRef = inPopup->GetMacMenuH();
+	
+	// See if inSize matches a menu item
+	for ( i = 1 ; i<= ::CountMenuItems(theMenuRef) ; i++ ) {
+		::GetMenuItemText( theMenuRef, i, theSizeString );
+		::StringToNum( theSizeString, &theSize );
+		if ( inSize == theSize)
+		{
+			foundIt = true;
+			break;
+		}	
+	}
+	if (!foundIt) {
+		// Put the value in the 'Other' item
+		LStr255	theLine( "\pOther (" );
+		theLine += theSizeString;
+		theLine += "\p)É";
+		// Set the menu item text.
+		::SetMenuItemText( inPopup->GetMacMenuH(), kLastSizeMenuItem + 2, theLine );					
+		return kLastSizeMenuItem + 2;
+	}
+	
+	return i;
+}
+
+
