@@ -15,6 +15,7 @@
 #include "UColorUtils.h"
 #include "UMemoryMgr.h"
 #include "UResources.h"
+#include "CRezillaApp.h"
 
 
 // ============================================================
@@ -251,7 +252,7 @@ CTabHandle UColorUtils::NewColorTableByDepth( SInt32 depth )
 CTabHandle UColorUtils::GetColorTable( SInt32 inResourceID )
 {
 	StRezRefSaver	aSaver;
-	::UseResFile( UFileUtils::GetMainResourceFile() );
+	::UseResFile( CRezillaApp::GetOwnRefNum() );
 	
 	CTabHandle	theTable = nil;
 	if ( (inResourceID == 32) || (inResourceID == 16) )
