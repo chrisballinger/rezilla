@@ -1,11 +1,11 @@
 // ===========================================================================
 // NavServicesCallbacks.c					
 //                       Created: 2003-05-07 15:58:27
-//             Last modification: 2005-01-30 19:44:49
+//             Last modification: 2005-02-07 16:20:58
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003-2004, 2005
+// © Copyright: Bernard Desgraupes 2003-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -305,7 +305,7 @@ Rzil_ExportAeteEventFilterUPP(NavEventCallbackMessage inCBSelector,
 						   NavCBRecPtr inCBParams, 
 						   void *ioCallBackUD)
 {
-#define NUM_AETE_EXPORT_ITEMS    4
+#define NUM_AETE_EXPORT_ITEMS    5
 
 	SInt16				theOutputIndex = *(SInt16 *)ioCallBackUD;
 	NavMenuItemSpec		theMenuItemSpec;
@@ -316,8 +316,9 @@ Rzil_ExportAeteEventFilterUPP(NavEventCallbackMessage inCBSelector,
 		// Get the filename extensions
 		GetIndString(theExtension[0], STRx_FileExtensions, index_ExtXml);
 		GetIndString(theExtension[1], STRx_FileExtensions, index_ExtR);
-		GetIndString(theExtension[2], STRx_FileExtensions, index_ExtText);
-		GetIndString(theExtension[3], STRx_FileExtensions, index_ExtHtml);
+		GetIndString(theExtension[2], STRx_FileExtensions, index_ExtSdef);
+		GetIndString(theExtension[3], STRx_FileExtensions, index_ExtText);
+		GetIndString(theExtension[4], STRx_FileExtensions, index_ExtHtml);
 		// Set Xml (i-e Rzil_AeteExportItems[0]) as the default
 		theMenuItemSpec.version = kNavMenuItemSpecVersion;
 		theMenuItemSpec.menuCreator = FOUR_CHAR_CODE('Rzil');
