@@ -154,12 +154,10 @@ CRezillaApp::CRezillaApp()
 //  ¥ ~CRezillaApp
 // ---------------------------------------------------------------------------
 //	Destructor
-//
 
 CRezillaApp::~CRezillaApp()
 {
-	// nothing
-	delete CRezClipboard::GetScrapRezMap();
+	delete CRezClipboard::GetScrapRezFile();
 }
 
 
@@ -976,6 +974,8 @@ CRezillaApp::HandleOpenDocsEvent(
 		
 	if (theDocList.descriptorType != typeNull) ::AEDisposeDesc(&theDocList);
 }
+
+
 
 
 

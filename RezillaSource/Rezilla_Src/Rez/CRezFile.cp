@@ -55,7 +55,7 @@ CRezFile::CRezFile(const FSSpec& inFileSpec, short inRefnum, SInt16 inFork)
     mFileSpec	= inFileSpec;
     mRefNum		= inRefnum;
     mUsedFork	= inFork;
-// 	FSpMakeFSRef( &mFileSpec, &mFileRef );
+ 	FSpMakeFSRef( &mFileSpec, &mFileRef );
 }
 
 
@@ -409,3 +409,5 @@ CRezFile::CopyFromRezMap(CRezMap * srcRezmap)
 
 
 PP_End_Namespace_PowerPlant
+
+

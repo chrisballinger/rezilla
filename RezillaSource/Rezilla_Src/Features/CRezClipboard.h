@@ -1,11 +1,11 @@
 // ===========================================================================
 // CRezClipboard.h					
 //                       Created: 2003-05-11 21:05:08
-//             Last modification: 2004-02-22 19:29:44
+//             Last modification: 2004-03-10 19:42:25
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003, 2004
+// © Copyright: Bernard Desgraupes 2003-2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -15,8 +15,6 @@
 #ifndef _H_CRezClipboard
 #define _H_CRezClipboard
 #pragma once
-
-// #include <LAttachment.h>
 
 #include <UScrap.h>
 
@@ -36,7 +34,7 @@ enum
 };
 
 
-class CRezMap;
+class CRezFile;
 
 // ---------------------------------------------------------------------------
 
@@ -45,16 +43,16 @@ public:
 						CRezClipboard();
 	virtual				~CRezClipboard();
 
+	static Boolean		ContentsIsValidHex();
+	
 	static  SInt32		GetScrapContext() { return sScrapContext;}
 	static void			SetScrapContext(SInt32 inScrapContext) {sScrapContext = inScrapContext;}
 
-	static Boolean		ContentsIsValidHex();
-	
-	static CRezMap*		GetScrapRezMap() { return sScrapRezMap;}
+	static CRezFile *	GetScrapRezFile() { return sScrapRezFile;}
 	
 protected:
 	static SInt32		sScrapContext;
-	static CRezMap *	sScrapRezMap;
+	static CRezFile *	sScrapRezFile;
 	
 	virtual void		SetDataSelf(
 								ResType		inDataType,
@@ -69,6 +67,7 @@ protected:
 	virtual void		ImportSelf();
 	virtual void		ExportSelf();
 
+private:
 	OSErr				InitScrapRezMap();
 };
 
@@ -80,3 +79,5 @@ PP_End_Namespace_PowerPlant
 #endif
 
 #endif
+
+
