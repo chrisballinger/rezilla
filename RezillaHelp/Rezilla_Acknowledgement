@@ -14,11 +14,11 @@ WasteLib 2.0 is ©1998-2002 by Marco Piovanelli
 	Use of source code in freeware applications is free."
 
 
-***  Rezilla's icons editing capacity took PowerPlant's ancient bitmap
+***  Rezilla's icons editing capacity has taken PowerPlant's ancient bitmap
 editor sample code as starting point. This preCarbon code has been widely
-modified in order to make it both Carbon savvy and OSX savvy, to fit it in
-Rezilla's resource editing scheme, and to add a 'SICN' and a 'PAT#' types
-editor.
+modified in order to make it both Carbon savvy and OSX savvy, to fit in
+Rezilla's resource editing scheme. Moreover a 'SICN' editor and a 'PAT#' 
+editor have been added.
 
 
 ***  The Rezilla project is hosted by SourceForge:
