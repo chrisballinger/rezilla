@@ -675,6 +675,7 @@ enum RezillaErrors
 	err_UnderVersionControl,
 	err_TmplError			= 2000,
 	err_TmplGetDataStreamFailed,
+	err_TmplUnrecognizedTag,
 	err_TmplParsingAborted,
 	err_TmplTextOverflow,
 	err_TmplWrongFixedCount,
@@ -758,7 +759,7 @@ const SInt16	kTmplVertSep			= 8;
 const SInt16	kTmplHorizSep			= 10;
 const SInt16	kTmplHorizSkip			= 4;
 const SInt16	kTmplBevelHeight		= 18;
-const SInt16	kTmplBevelWidth			= 13;
+const SInt16	kTmplBevelWidth			= 12;
 const SInt16	kTmplCheckHeight		= 18;
 const SInt16	kTmplCheckWidth			= 18;
 const SInt16	kTmplEditHeight			= 22;
