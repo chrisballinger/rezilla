@@ -256,8 +256,8 @@ CMENU_EditorTable::ClickCell(
 		}
 
 	} else {
-		// Update the info in right pane
-		
+		// Tell the window
+		BroadcastMessage(msg_MenuTableClicked,this);
 	}
 	
 }
@@ -454,6 +454,8 @@ CMENU_EditorTable::ReceiveDragItem(
 			// SelectCell to avoid immediate drawing.
 			mSelectedCell.row = theRow + 1;
 		
+			// Tell the window
+			BroadcastMessage(msg_DragMoveAction, &mDropRow);
 		}
 
 	} else { // it's a copy operation
@@ -470,6 +472,9 @@ CMENU_EditorTable::ReceiveDragItem(
 		// Select the new cell, but without calling
 		// SelectCell to avoid immediate drawing.
 		mSelectedCell.row = theRow + 1;
+
+		// Tell the window
+		BroadcastMessage(msg_DragCopyAction, &mDropRow);
 
 	}
 	
@@ -704,20 +709,24 @@ CMENU_EditorTable::DrawSeparator(
 
 
 // ---------------------------------------------------------------------------
-//	 SelectCell
+//	 RemoveSelectedRow
 // ---------------------------------------------------------------------------
+// Removes one row from the table and takes care of hiliting another one.
 
 void
-CMENU_EditorTable::SelectCell(
-	const TableCellT	&inCell)
+CMENU_EditorTable::RemoveSelectedRow()
 {
-	if (!EqualCell(inCell, mSelectedCell)) {
-		FocusDraw();
-		UnhiliteCell(mSelectedCell);
-
-		mSelectedCell = inCell;
-		HiliteCell(inCell);
-	}
+	TableCellT theCell;
+	TableIndexT	theRow;
+	
+	GetSelectedCell(theCell);
+	RemoveRows(1, theCell.row);
+	if (theCell.row > mRows) {
+		// We removed the last row
+		theRow = mRows;
+	} 
+	
+	mSelectedCell.row = mRows;
 }
 
 

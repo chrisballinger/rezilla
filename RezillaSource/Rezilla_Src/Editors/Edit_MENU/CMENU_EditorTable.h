@@ -2,7 +2,7 @@
 // CMENU_EditorTable.h
 // 
 //                       Created: 2005-03-09 17:16:53
-//             Last modification: 2005-03-16 13:54:48
+//             Last modification: 2005-03-18 07:01:21
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -17,6 +17,7 @@
 #pragma once
 
 #include <LTable.h>
+#include <LBroadcaster.h>
 #include <LDragAndDrop.h>
 
 
@@ -30,7 +31,9 @@ class CMENU_EditorWindow;
 
 // ---------------------------------------------------------------------------
 
-class CMENU_EditorTable : public LTable, public LDragAndDrop  {
+class CMENU_EditorTable :	public LTable, 
+							public LBroadcaster, 
+							public LDragAndDrop  {
 public:
 	enum { class_ID = FOUR_CHAR_CODE('DnDT') };
 
@@ -43,7 +46,7 @@ public:
 // 	virtual Boolean			HandleKeyPress(
 // 									const EventRecord& 	inKeyEvent);
 
-	virtual void	SelectCell( const TableCellT& inCell );
+// 	virtual void	SelectCell( const TableCellT& inCell );
 	
 	virtual void 			FindCommandStatus(
 									CommandT			inCommand,
@@ -55,6 +58,8 @@ public:
 	virtual void			Click( SMouseDownEvent &inMouseDown );
 
 	void					DrawSeparator( TableIndexT	inRow );
+	
+	void					RemoveSelectedRow();
 	
 	CMENU_EditorWindow*		GetOwnerWindow() { return mOwnerWindow;}
 	void					SetOwnerWindow(CMENU_EditorWindow* inOwnerWindow) {mOwnerWindow = inOwnerWindow;}
