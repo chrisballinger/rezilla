@@ -703,6 +703,13 @@ CAete_EditorWindow::ImportAete(FSSpec inFSSpec)
 	
 	OSErr error = importer.ReadXml();
 
+	if (error == noErr) {
+		RebuildSuitePopup();
+		InstallResourceInfo();
+// 		InstallSuiteValues();
+// 		InstallPanelValues();
+	} 
+
 	return error;
 }
 
