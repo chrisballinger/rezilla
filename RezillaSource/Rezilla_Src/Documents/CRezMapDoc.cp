@@ -2,11 +2,11 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2005-01-02 15:18:31
+//             Last modification: 2005-01-30 19:26:44
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003-2004, 2005
+// (c) Copyright : Bernard Desgraupes, 2003-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -77,7 +77,7 @@ PP_Begin_Namespace_PowerPlant
 
 extern CWindowMenu * gWindowMenu;
 
-extern const Str255 Rzil_NavExportItems[] = {
+extern const Str15 Rzil_MapExportItems[] = {
 	"\pXML",
 	"\pTEXT",
 	"\pHTML",
@@ -1132,6 +1132,7 @@ CRezMapDoc::DesignateExportFile( FSSpec& outFileSpec, bool & outReplacing)
 	bool	openOK = false;
 	Str255	theString;
 	FSSpec	theFileSpec;
+	UInt8	theCount = sizeof(Rzil_MapExportItems)/sizeof(Str15);
 	
 	mExportFormat = export_Xml;
 	
@@ -1139,14 +1140,14 @@ CRezMapDoc::DesignateExportFile( FSSpec& outFileSpec, bool & outReplacing)
 	NavMenuItemSpecHandle	theMenuItemHandle ;
 	NavMenuItemSpecPtr		theNavMenuItemSpecPtr;
 	
-	theMenuItemHandle = (NavMenuItemSpec**) NewHandleClear( 4 * sizeof(NavMenuItemSpec) );
+	theMenuItemHandle = (NavMenuItemSpec**) NewHandleClear( theCount * sizeof(NavMenuItemSpec) );
 	if (theMenuItemHandle != NULL) {
-		for (SInt16 theIndex = 0; theIndex < 4; theIndex++) {
+		for (SInt16 theIndex = 0; theIndex < theCount; theIndex++) {
 			theNavMenuItemSpecPtr = *theMenuItemHandle + theIndex;
 			(*theNavMenuItemSpecPtr).version = kNavMenuItemSpecVersion;
 			(*theNavMenuItemSpecPtr).menuCreator = FOUR_CHAR_CODE('Rzil');
 			(*theNavMenuItemSpecPtr).menuType = 'TEXT';
-			BlockMoveData(Rzil_NavExportItems[theIndex], (*theNavMenuItemSpecPtr).menuItemName, Rzil_NavExportItems[theIndex][0] + 1);
+			BlockMoveData(Rzil_MapExportItems[theIndex], (*theNavMenuItemSpecPtr).menuItemName, Rzil_MapExportItems[theIndex][0] + 1);
 		}
 	}
 
@@ -1157,7 +1158,7 @@ CRezMapDoc::DesignateExportFile( FSSpec& outFileSpec, bool & outReplacing)
 	UNavigationDialogs::CNavFileDesignator designator;
 	
 	// File designator setup
-	designator.SetEventFilterProc(Rzil_ExportNavEventFilterUPP);
+	designator.SetEventFilterProc(Rzil_ExportMapEventFilterUPP);
 	designator.SetPopupExtension(theMenuItemHandle);
 	designator.SetOptionFlags(kNavDontAutoTranslate);
 	designator.SetUserData( (void *) &mExportFormat);
