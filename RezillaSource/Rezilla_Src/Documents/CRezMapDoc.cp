@@ -2,7 +2,7 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2004-11-16 06:50:49
+//             Last modification: 2004-11-18 13:58:04
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -1477,6 +1477,13 @@ CRezMapDoc::CreateNewRes(ResType inType, short inID, Str255* inName, short inAtt
 	} else {
 		theRezType = theRezTypeItem->GetRezType();
 	}
+	// Expand the RezType item now. If we expand too late, the pointer to
+	// the RezObj item after expansion will not be the same as the one we
+	// obtain with "new CRezObjItem" and the view will not redraw correctly
+	// after validation of the edited new resource (size displayed as 0).
+	if ( ! theRezTypeItem->IsExpanded() ) {
+		theRezTypeItem->Expand();
+	}
 
 	if (replacing) {
 		if ( theRezTypeItem->ExistsItemForID(inID, oldRezObjItem) ) {
@@ -1499,14 +1506,10 @@ CRezMapDoc::CreateNewRes(ResType inType, short inID, Str255* inName, short inAtt
 	// Set the attributes
 	newRezObjItem->GetRezObj()->SetAttributes(inAttrs);
 
-	// Refresh the view
-	if ( theRezTypeItem->IsExpanded() ) {
-		// Install the item in the table
-		mRezMapWindow->GetRezMapTable()->InsertRezObjItem( newRezObjItem, theRezTypeItem );
-	} else {
-		theRezTypeItem->Expand();
-	}
-	// Redraw
+	// Install the item in the table
+	mRezMapWindow->GetRezMapTable()->InsertRezObjItem( newRezObjItem, theRezTypeItem );
+
+	// Redraw the window
 	mRezMapWindow->Refresh();
 	
 	return newRezObjItem;
