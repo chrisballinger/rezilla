@@ -2,7 +2,7 @@
 // CTmplEditorWindow.cp					
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-09-28 07:32:15
+//             Last modification: 2004-10-01 17:08:26
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -2564,3 +2564,50 @@ CTmplEditorWindow::RetrieveCountValue()
 }
 
 
+// ---------------------------------------------------------------------------
+//	¥ RevertWithTemplate											[public]
+// ---------------------------------------------------------------------------
+
+OSErr
+CTmplEditorWindow::RevertWithTemplate()
+{
+	OSErr		error = noErr;
+	SInt32		oldYCoord = mYCoord;
+
+	// Delete all the sub panes in the contents view
+	mContentsView->DeleteAllSubPanes();
+	
+	// Reset the basic values
+	mCurrentID			= 1;
+	mLastID				= 0;
+	mItemsCount			= 0;
+	mIndent				= 0;
+	mSkipOffset			= 0;
+	mListCountMark		= 0;
+	mBitSeqInProgress	= false;
+	mBitSeqValue		= 0;
+	mBitSeqBytesLen		= 0;
+	mBitSeqIndex		= 0;
+	mFixedCount			= false;
+	mYCoord             = kTmplVertSkip;
+	
+	mRezStream->SetMarker(0, streamFrom_Start);
+
+	// Parse the template stream
+	error = DoParseWithTemplate(0, true, mContentsView);
+	
+	if (error == noErr) {
+		// Check that there is nothing left in the data stream
+		if (mRezStream->GetMarker() < mRezStream->GetLength() ) {
+			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("ResourceLongerThanTemplate"), rPPob_SimpleMessage);
+		} 
+		mLastID = mCurrentID;
+		mContentsView->ResizeImageBy(0, mYCoord - oldYCoord, true);
+		mContentsScroller->AdjustScrollBars();
+// 		mContentsView->Refresh();
+	} 
+	
+	Refresh();
+
+	return  error;
+}

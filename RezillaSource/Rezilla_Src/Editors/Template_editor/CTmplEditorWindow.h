@@ -2,7 +2,7 @@
 // CTmplEditorWindow.h
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-09-29 07:50:50
+//             Last modification: 2004-10-01 17:08:20
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -66,6 +66,8 @@ public:
 	
 	OSErr			RetrieveDataWithTemplate();
 	
+	OSErr			RevertWithTemplate();
+	
 	Boolean			IsDirty();
 	void			SetDirty(Boolean inDirty) {mIsDirty = inDirty;}
 		
@@ -108,6 +110,7 @@ protected:
 	LScrollerView *		mContentsScroller;
 	SInt32				mYCoord;
 	PaneIDT				mCurrentID;
+	PaneIDT				mPaneIndex;
 	PaneIDT				mLastID;
 	SInt32				mIndent;
 	SInt32				mSkipOffset;
@@ -120,6 +123,7 @@ protected:
 	LHandleStream *		mRezStream;
 	LHandleStream *		mOutStream;
 	TArray<CWasteEditView *>	mWasteFieldsList;
+	TArray<SInt32>		mPaneIDsList;
 	TArray<ResType>		mOffsetTypesList;
 	TArray<SInt32>		mOffsetMarksList;
 	TArray<SInt32>		mKeyedValuesList;
