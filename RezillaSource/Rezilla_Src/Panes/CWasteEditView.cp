@@ -114,8 +114,10 @@ CWasteEditView::CWasteEditView(
 
 	: LView(inStream)
 {
-	// The flags set in Constructor
-
+	ResIDT	textTraitsID;
+	ResIDT	initialTextID;
+	
+	// Retrieve the flags set in Constructor
 	*inStream >> mAutoScroll;
 	*inStream >> mOutlineHilite;
 	*inStream >> mMonoStyled;
@@ -133,19 +135,14 @@ CWasteEditView::CWasteEditView(
 	*inStream >> mNoKeyboardSync;
 	*inStream >> mWordWrap;
 	*inStream >> mSelectable;
-	
-	mTextAttributes = BuildTextAttributes();
-	
-	ResIDT	textTraitsID;
 	*inStream >> textTraitsID;
-
-	ResIDT	initialTextID;
 	*inStream >> initialTextID;
 		
+	mTextAttributes = BuildTextAttributes();
+	
 	InitView();
 	InitStyle(textTraitsID);
 	InitText(initialTextID);
-
 }
 
 
@@ -180,7 +177,6 @@ CWasteEditView::~CWasteEditView()
 // ---------------------------------------------------------------------------
 //	¥ InitView												[private]
 // ---------------------------------------------------------------------------
-//	Private initializer
 
 void
 CWasteEditView::InitView()
@@ -192,8 +188,8 @@ CWasteEditView::InitView()
 	
 	mChangesMessage	= msg_Nothing;
 	mTypingAction	= nil;
-	mTextTraitsID	= -1;
 	mClickLoopUPP	= nil;
+	mTextTraitsID	= -1;
 	mIsDirty		= false;
 	 
 	// Retrieve the attributes set in Constructor
@@ -211,21 +207,17 @@ CWasteEditView::InitView()
 	// Set the mWasteEdit data member
 	SetWasteRef(we) ;
 	
-	// Deal with dimensions
-	// If word wrap is on, then the Image width is always the same as the Frame
-	// width, which forces text to wrap to the Frame. If  the  Image  width  is
-	// zero (or negative), the user probably forgot to set it: we set the Image
-	// width to the Frame width.
+	// If word wrap is on, then the Image width is always the same as the
+	// Frame width, which forces text to wrap to the Frame. If the Image
+	// width is zero (or negative), the user probably forgot to set it: we
+	// set the Image width to the Frame width.
 	if (mWordWrap || (mImageSize.width <= 0)) {
 		mImageSize.width = mFrameSize.width;
 	}
 	
 	// Outline hiliting
 	WEFeatureFlag(weFOutlineHilite,mOutlineHilite,mWasteEditRef);
-	
-	// Initial rect was offscreen. Align it with the Frame.
-	AlignWERects();
-	
+		
 	// Set the clickloop
 	if (mAutoScroll) {
 		sWasteEditViewP = this;
@@ -239,7 +231,6 @@ CWasteEditView::InitView()
 // ---------------------------------------------------------------------------
 //	¥ InitStyle												[private]
 // ---------------------------------------------------------------------------
-// Deal with style
 
 void
 CWasteEditView::InitStyle(ResIDT inTextTraitsID )
@@ -293,7 +284,7 @@ CWasteEditView::InitText(ResIDT inTextID )
 
 
 // ---------------------------------------------------------------------------
-//	¥ FlagsFromAttributes											  [public]
+//	¥ FlagsFromAttributes										  [public]
 // ---------------------------------------------------------------------------
 // Build the WE flags from the mTextAttributes variable.
 
