@@ -2,7 +2,7 @@
 // CColorWell.cp
 // 
 //                       Created: 2004-08-20 12:37:09
-//             Last modification: 2004-09-21 10:30:14
+//             Last modification: 2004-11-05 22:46:52
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -17,6 +17,7 @@
 #endif
 
 #include "CColorWell.h"
+#include "UDrawingState.h"
 
 
 PP_Begin_Namespace_PowerPlant
@@ -29,6 +30,7 @@ PP_Begin_Namespace_PowerPlant
 CColorWell::CColorWell()
 {
 	mMessage = 0;
+	mFramed = true;
 }
 
 
@@ -41,6 +43,7 @@ CColorWell::CColorWell(
 : LPane(inOriginal)
 {
 	mMessage = inOriginal.mMessage;
+	mFramed = inOriginal.mFramed;
 }
 
 
@@ -54,6 +57,7 @@ CColorWell::CColorWell(	const SPaneInfo &inPaneInfo,
 : LPane(inPaneInfo)
 {
 	mMessage = inMessage;
+	mFramed = true;
 	
 	SetColor(*inColor);
 	
@@ -77,6 +81,7 @@ CColorWell::CColorWell(
 	*inStream >> mColor.green;
 	*inStream >> mColor.blue;
 	*inStream >> mMessage;
+	*inStream >> mFramed;
 
 	mPenState.pnLoc = Point_00;
 	mPenState.pnSize.h = 1;
@@ -140,6 +145,11 @@ CColorWell::DrawSelf()
 
 	::MacInsetRect(&frame, mPenState.pnSize.h, mPenState.pnSize.v);
 	::PaintRect(&frame);
+	
+	if (mFramed) {
+		::RGBForeColor(&Color_Black);
+		::MacFrameRect(&frame);
+	} 
 }
 
 

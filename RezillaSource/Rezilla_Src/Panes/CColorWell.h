@@ -2,7 +2,7 @@
 // CColorWell.h
 // 
 //                       Created: 2004-08-20 12:37:09
-//             Last modification: 2004-08-20 13:13:55
+//             Last modification: 2004-11-05 22:47:01
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -54,11 +54,15 @@ public:
 	
 	void				GetColor(RGBColor & ioColor);
 	void				SetColor(RGBColor inColor);
+	
+	Boolean				GetFramed() { return mFramed;}
+	void				SetFramed(Boolean inFramed) {mFramed = inFramed;}
 
 protected:
 	PenState		mPenState;
 	RGBColor		mColor;
 	MessageT		mMessage;
+	Boolean			mFramed;
 
 	virtual void	FinishCreateSelf();
 
