@@ -1,0 +1,52 @@
+// ===========================================================================
+// RezillaErrors_FR.ploc
+//                       Created: 2004-10-05 15:00:32
+//             Last modification: 2004-10-05 15:00:35
+// Author: Bernard Desgraupes
+// e-mail: <bdesgraupes@easyconnect.fr>
+// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// (c) Copyright: Bernard Desgraupes, 2004
+// All rights reserved.
+// $Date$
+// $Revision$
+// ===========================================================================
+
+localize "French" as "Errors.strings" 
+{
+	key "1001" value string ""
+	key "1002" value string ""
+	key "1003" value string ""
+	key "1004" value string ""
+	key "1005" value string ""
+	key "1006" value string ""
+	key "2000" value string ""
+	key "2001" value string ""
+	key "2002" value string ""
+	key "2003" value string ""
+	key "2004" value string ""
+	key "2005" value string ""
+	key "2006" value string ""
+	key "2007" value string ""
+	key "2008" value string ""
+	key "2009" value string ""
+	key "2010" value string ""
+	key "2011" value string ""
+	key "2012" value string ""
+	key "2013" value string ""
+	key "2014" value string ""
+	key "2015" value string ""
+	key "2016" value string ""
+	key "2017" value string ""
+	key "2018" value string ""
+	key "2019" value string ""
+	key "2020" value string ""
+	key "2021" value string ""
+	key "2022" value string ""
+	key "2023" value string ""
+	key "2024" value string ""
+	key "2025" value string ""
+	key "2026" value string ""
+	key "2027" value string ""
+}
+
+
