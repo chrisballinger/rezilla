@@ -31,8 +31,6 @@ class	CRezObj;
 class	CTEXT_EditorWindow;
 
 
-// ---------------------------------------------------------------------------
-
 class CTEXT_EditorDoc : public CEditorDoc {
 	
 public:
