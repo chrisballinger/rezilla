@@ -313,7 +313,6 @@ const PaneIDT	item_WhichFork				= 3;
 // Inspector Window
 // ----------------
 const PaneIDT	item_InspType				= 1;
-const PaneIDT	item_InspOrigID				= 2;
 const PaneIDT	item_InspSize				= 3;
 const PaneIDT	item_InspMapName			= 4;
 const PaneIDT	item_InspEditID				= 5;
@@ -324,7 +323,6 @@ const PaneIDT	item_InspPurgeable			= 12;
 const PaneIDT	item_InspLocked				= 13;
 const PaneIDT	item_InspProtected			= 14;
 const PaneIDT	item_InspPreload			= 15;
-const PaneIDT	item_InspCompressed			= 16;
 const PaneIDT	item_InspRevert				= 20;
 const PaneIDT   item_InspModify				= 21;
 // Hex Edit Window
@@ -345,7 +343,6 @@ const PaneIDT	item_NewPurgeable			= 12;
 const PaneIDT	item_NewLocked				= 13;
 const PaneIDT	item_NewProtected			= 14;
 const PaneIDT	item_NewPreload				= 15;
-const PaneIDT	item_NewCompressed			= 16;
 const PaneIDT	item_NewUniqueID			= 20;
 // About box
 // ---------
@@ -520,7 +517,6 @@ const MessageT	msg_InspPurgeable		= rPPob_InspectorWindow + item_InspPurgeable;
 const MessageT	msg_InspLocked			= rPPob_InspectorWindow + item_InspLocked;
 const MessageT	msg_InspProtected		= rPPob_InspectorWindow + item_InspProtected;
 const MessageT	msg_InspPreload			= rPPob_InspectorWindow + item_InspPreload;
-const MessageT	msg_InspCompressed		= rPPob_InspectorWindow + item_InspCompressed;
 const MessageT	msg_InspRevert			= rPPob_InspectorWindow + item_InspRevert;
 const MessageT	msg_InspModify			= rPPob_InspectorWindow + item_InspModify;
 // New Resource Window
@@ -533,7 +529,6 @@ const MessageT	msg_NewPurgeable		= rPPob_NewRezDialog + item_NewPurgeable;
 const MessageT	msg_NewLocked			= rPPob_NewRezDialog + item_NewLocked;
 const MessageT	msg_NewProtected		= rPPob_NewRezDialog + item_NewProtected;
 const MessageT	msg_NewPreload			= rPPob_NewRezDialog + item_NewPreload;
-const MessageT	msg_NewCompressed		= rPPob_NewRezDialog + item_NewCompressed;
 const MessageT	msg_NewUniqueID			= rPPob_NewRezDialog + item_NewUniqueID;
 // Hex Edit Window
 // ---------------
