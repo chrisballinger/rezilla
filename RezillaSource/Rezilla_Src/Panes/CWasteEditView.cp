@@ -45,6 +45,7 @@ CWasteEditView *			CWasteEditView::sWasteEditViewP;
 
 CWasteEditView::CWasteEditView()
 {
+	mWordWrap = false;
 	mTextAttributes = (UInt32) weAttr_Default;
 	InitWasteEditView(0);
 }
@@ -95,10 +96,12 @@ CWasteEditView::CWasteEditView(
 	const SPaneInfo&	inPaneInfo,
 	const SViewInfo&	inViewInfo,
 	UInt16				inTextAttributes,
-	ResIDT				inTextTraitsID)
+	ResIDT				inTextTraitsID,
+	Boolean				inWordWrap)
 
 	: LView(inPaneInfo, inViewInfo)
 {
+	mWordWrap = inWordWrap;
 	mTextAttributes = inTextAttributes;
 	InitWasteEditView(inTextTraitsID);
 }
@@ -1009,7 +1012,7 @@ CWasteEditView::Insert(
 					   const void*		inText,
 					   SInt32			inLength,
 					   StScrpHandle		inStyleH,
-					   Boolean			inRefresh )
+					   Boolean			inRefresh)
 {
 	LongRect	oldDestRect ;
 	OSErr		err;
@@ -1042,7 +1045,7 @@ CWasteEditView::Insert(
 OSErr
 CWasteEditView::Insert(
 					   Str255 		inString,
-					   Boolean		inRefresh )
+					   Boolean		inRefresh)
 {
 	char * theStr = new char[256];
 	CopyPascalStringToC(inString,theStr);	

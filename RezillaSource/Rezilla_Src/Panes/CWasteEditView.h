@@ -125,7 +125,8 @@ public:
 									const SPaneInfo&	inPaneInfo,
 									const SViewInfo&	inViewInfo,
 									UInt16				inTextAttributes,
-									ResIDT				inTextTraitsID );
+									ResIDT				inTextTraitsID,
+									Boolean				inWordWrap = false);
 							CWasteEditView(
 									LStream*			inStream );
 	virtual					~CWasteEditView();
