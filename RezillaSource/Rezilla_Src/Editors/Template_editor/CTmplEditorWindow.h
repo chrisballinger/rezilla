@@ -2,7 +2,7 @@
 // CTmplEditorWindow.h
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-06-21 21:58:42
+//             Last modification: 2004-06-22 18:48:48
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -20,11 +20,14 @@
 
 #include <LPane.h>
 #include <LView.h>
-#include <LActiveScroller.h>
+/* #include <LActiveScroller.h> */
 
 class CTmplEditorDoc;
 class CRezObj;
 class CTmplList;
+class LStaticText;
+class LScrollerView;
+
 
 enum {
 	tmpl_titleYesNo = 0,
@@ -57,34 +60,24 @@ public:
 							CommandT			inCommand,
 							void*				ioParam);
 
-	void			ParseWithTemplate(Handle inHandle);
-	Handle			ReadValues();
+	void			ParseDataWithTemplate(Handle inHandle);
+	Handle			RetrieveDataWithTemplate();
 	
 	Boolean			IsDirty();
 		
 	void			InstallReadOnlyIcon();
 
-	void				CreateTemplateStream();
-	
-// 	void				SetTemplateMarker(SInt32 inPos) { mTemplateStream->SetMarker(inPos, streamFrom_Start); }
-	
-	virtual SInt32		GetCurrFirstID() { return mCurrFirstID;}
-	void				SetCurrFirstID(SInt32 theCurrFirstLine) {mCurrFirstID = theCurrFirstLine ;}
+	void			CreateTemplateStream();
+		
+	LView*			GetContentsView() const { return mContentsView;}
 
-	LView*		GetContentsView() const { return mContentsView;}
-
-// 	static LHandleStream*		GetTemplateStream() { return mTemplateStream;}
-
-// 	virtual SInt32		GetCurrentSubView() { return mCurrentSubView;}
-// 	void				SetCurrentSubView(SInt32 inCurrentSubView) {mCurrentSubView = inCurrentSubView;}
 
 protected:
 	LView *				mContentsView;
-	LActiveScroller *	mContentsScroller;
-	SInt32				mXCoord;
+	LScrollerView *		mContentsScroller;
 	SInt32				mYCoord;
-	SInt32				mCurrFirstID;
 	SInt32				mCurrentID;
+	SInt32				mLastID;
 	SInt32				mIndent;
 	short				mItemsCount;
 	Boolean				mStopList;
@@ -97,7 +90,7 @@ protected:
 	SPaneInfo			mScrollPaneInfo;
 	SPaneInfo			mTgbPaneInfo;
 	SPaneInfo			mWastePaneInfo;
-	SPaneInfo			mHeaderPaneInfo;
+	SPaneInfo			mPushPaneInfo;
 	LHandleStream *		mTemplateStream;
 	LHandleStream *		mRezStream;
 	LHandleStream *		mOutStream;
@@ -110,11 +103,16 @@ protected:
 
 private:
 	OSErr			ParseDataForType(ResType inType, Str255 inString);
+	OSErr			RetrieveDataForType(ResType inType);
 	
 	void			ParseList(SInt32 inStartMark, 
 							  ResType inType, 
 							  Str255 inLabel, 
 							  SInt32 inCount);
+
+	void			RetrieveList(SInt32 inStartMark, 
+								 ResType inType, 
+								 SInt32 inCount);
 
 	Boolean			EndOfList(ResType inType);
 	
@@ -127,7 +125,7 @@ private:
 								UInt8 inAttributes = 0,
 								TEKeyFilterFunc inKeyFilter = NULL);
 	
-	void			AddBooleanControls(Boolean inValue,
+	void			AddBooleanField(Boolean inValue,
 									  OSType inType,
 									  SInt16 inTitleType);
 	
@@ -145,14 +143,17 @@ private:
 									UInt8 inAttributes,
 									TEKeyFilterFunc inKeyFilter);
 
-	void			AddListHeader(OSType inType, 
+	void			AddListHeaderField(OSType inType, 
 								  Str255 inLabel, 
 								  short inCount, 
 								  Str255 inCountLabel);
 	
-	ExceptionCode	AlignBytes(UInt8 inStep);
+	ExceptionCode	AlignBytesRead(UInt8 inStep);
 	
-	void			DoParseTemplate(SInt32 inRecursionMark);
+	ExceptionCode	AlignBytesWrite(UInt8 inStep);
+	
+	void			DoParseWithTemplate(SInt32 inRecursionMark);
+	void			DoRetrieveWithTemplate(SInt32 inRecursionMark);
 	
 };
 

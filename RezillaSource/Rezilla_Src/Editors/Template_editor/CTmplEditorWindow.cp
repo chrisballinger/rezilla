@@ -34,6 +34,7 @@
 #include <LIconPane.h>
 #include <LEditText.h>
 #include <LTextGroupBox.h>
+#include <LPushButton.h>
 #include <LScrollerView.h>
 #include <UDrawingState.h>
 
@@ -112,8 +113,8 @@ CTmplEditorWindow::~CTmplEditorWindow()
 void
 CTmplEditorWindow::FinishCreateSelf()
 {	
-	mCurrFirstID		= 1;
-	mCurrentID			= mCurrFirstID;
+	mCurrentID			= 1;
+	mLastID				= 0;
 	mItemsCount			= 0;
 	mIndent				= 0;
 	mStopList			= false;
@@ -121,18 +122,18 @@ CTmplEditorWindow::FinishCreateSelf()
 	mRightLabelTraitsID	= Txtr_GenevaTenBoldUlRight;
 	mEditTraitsID		= Txtr_GenevaTen;
 	mHeaderTraitsID		= Txtr_GenevaTenBold;
-	mXCoord				= kTmplLeftMargin;
-	mYCoord				= kTmplVertSep;
+	mYCoord				= 1;
 	mTemplateStream		= nil;
 	mRezStream			= nil;
-	mOutStream			= new LHandleStream();
+	mOutStream			= nil;
 	
 	// The main view containing the labels and editing panes
 	mContentsView = dynamic_cast<LView *>(this->FindPaneByID(item_EditorContents));
 	ThrowIfNil_( mContentsView );
 		
 	// The scroller controlling the contents view
-	mContentsScroller = dynamic_cast<LActiveScroller *>(this->FindPaneByID(item_EditorScroller));
+// 	mContentsScroller = dynamic_cast<LActiveScroller *>(this->FindPaneByID(item_EditorScroller));
+	mContentsScroller = dynamic_cast<LScrollerView *>(this->FindPaneByID(item_EditorScroller));
 	ThrowIfNil_( mContentsScroller );
 		
 	// Install the name of the resource if it has one
@@ -146,8 +147,6 @@ CTmplEditorWindow::FinishCreateSelf()
 
 	// Label fields basic values
 	mStaticPaneInfo.paneID			= 0;
-	mStaticPaneInfo.left			= kTmplLeftMargin + mIndent;
-	mStaticPaneInfo.width			= kTmplLabelWidth;
 	mStaticPaneInfo.height			= kTmplLabelHeight;
 	mStaticPaneInfo.visible			= true;
 	mStaticPaneInfo.enabled			= true;
@@ -231,7 +230,6 @@ CTmplEditorWindow::FinishCreateSelf()
 	mScrollPaneInfo.userCon			= 0;
 
 	// Text group box for text views basic values
-	mTgbPaneInfo.paneID				= 0;
 	mTgbPaneInfo.height				= kTmplTextHeight;
 	mTgbPaneInfo.visible			= true;
 	mTgbPaneInfo.enabled			= true;
@@ -251,6 +249,18 @@ CTmplEditorWindow::FinishCreateSelf()
 	mWastePaneInfo.bindings.right	= true;
 	mWastePaneInfo.bindings.bottom	= true;
 	mWastePaneInfo.userCon			= 0;
+	
+	// Rectangle edit basic values
+	mPushPaneInfo.width				= kTmplPushWidth;
+	mPushPaneInfo.height			= kTmplPushHeight;
+	mPushPaneInfo.visible			= true;
+	mPushPaneInfo.enabled			= true;
+	mPushPaneInfo.bindings.left		= false;
+	mPushPaneInfo.bindings.top		= false;
+	mPushPaneInfo.bindings.right	= false;
+	mPushPaneInfo.bindings.bottom	= false;
+	mPushPaneInfo.userCon			= 0;
+	mPushPaneInfo.superView			= mContentsView;
 	
 }
 	
@@ -379,11 +389,11 @@ CTmplEditorWindow::CreateTemplateStream()
  
 
 // ---------------------------------------------------------------------------
-//	¥ ParseWithTemplate												[public]
+//	¥ ParseDataWithTemplate												[public]
 // ---------------------------------------------------------------------------
 
 void
-CTmplEditorWindow::ParseWithTemplate(Handle inHandle)
+CTmplEditorWindow::ParseDataWithTemplate(Handle inHandle)
 {
 	// Get a handle to the template resource and create a stream to parse it
 	CreateTemplateStream();
@@ -392,32 +402,36 @@ CTmplEditorWindow::ParseWithTemplate(Handle inHandle)
 	mRezStream = new LHandleStream(inHandle);	
 
 	// Parse the template stream
-	DoParseTemplate(0);
+	DoParseWithTemplate(0);
 }
 
 
 // ---------------------------------------------------------------------------
-//	¥ DoParseTemplate													[public]
+//	¥ DoParseWithTemplate													[public]
 // ---------------------------------------------------------------------------
 
 void
-CTmplEditorWindow::DoParseTemplate(SInt32 inRecursionMark)
+CTmplEditorWindow::DoParseWithTemplate(SInt32 inRecursionMark)
 {
 	Str255		theString, countLabel;
 	ResType		theType, currType;
-	
+	SInt32		oldYCoord;
+
 	mTemplateStream->SetMarker(inRecursionMark, streamFrom_Start);
 
 	while (mTemplateStream->GetMarker() < mTemplateStream->GetLength() ) {
 		*mTemplateStream >> theString;
 		*mTemplateStream >> theType;
 		
+		
 		if (theType == 'OCNT' || theType == 'ZCNT') {
 			LString::CopyPStr(theString, countLabel);
 			ParseDataForType(theType, theString);
 		} else if (theType == 'LSTB' || theType == 'LSTC' || theType == 'LSTZ') {
 			currType = theType;
-			AddListHeader(theType, theString, mItemsCount, countLabel);
+			oldYCoord = mYCoord;
+			AddListHeaderField(theType, theString, mItemsCount, countLabel);
+			mContentsView->ResizeImageBy(0, mYCoord - oldYCoord, true);
 			ParseList(mTemplateStream->GetMarker(), theType, theString, mItemsCount);
 		} else if (theType == 'LSTE') {
 			if ( EndOfList(currType) ) {
@@ -429,6 +443,7 @@ CTmplEditorWindow::DoParseTemplate(SInt32 inRecursionMark)
 			// Create controls according to the type declared in the template
 			ParseDataForType(theType, theString);
 		}
+
 	}
 }
 
@@ -445,13 +460,13 @@ CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, Str255 inLabel,
 	switch (inType) {
 		case 'LSTB':
 		case 'LSTZ':
-			DoParseTemplate(inStartMark);
+			DoParseWithTemplate(inStartMark);
 		break;
 		
 		case 'LSTC':
 		for (short i = 0 ; i < inCount; i++) {
 // 			mTemplateStream->SetMarker(inStartMark, streamFrom_Start);
-			DoParseTemplate(inStartMark);
+			DoParseWithTemplate(inStartMark);
 		}
 		break;
 		
@@ -521,18 +536,17 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 	OSType	theOSType;
 	UInt8	i;
 	
-	// Store the type in the userCon field
 	oldYCoord = mYCoord;
 	
 	switch (inType) {
 		case 'ALNG':
 		// Long align
-		AlignBytes(4);
+		AlignBytesRead(4);
 		break;
 
 		case 'AWRD':
 		// Word align
-		AlignBytes(2);
+		AlignBytesRead(2);
 		break;
 
 		case 'BBIT':
@@ -540,14 +554,14 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 		*mRezStream >> theChar;
 		// Edit the first bit
 		AddStaticField(inLabelString);
-		AddBooleanControls( (theChar & (1 << 0)), inType, tmpl_titleOnOff);	
+		AddBooleanField( (theChar & 1), inType, tmpl_titleOnOff);	
 		for (i = 1; i < 8 ; i++) {
 			// Consume the next 7 pairs in the template to get the
 			// corresponding labels.
 			*mTemplateStream >> theString;
 			*mTemplateStream >> theOSType;
 			AddStaticField(theString);
-			AddBooleanControls( (theChar & (1 << i)), inType, tmpl_titleOnOff);	
+			AddBooleanField( (theChar & (1 << i)), inType, tmpl_titleOnOff);	
 		}
 		break;
 
@@ -555,7 +569,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 		// Boolean (two bytes: 0x0100 for true, 0x0000 for false)
 		*mRezStream >> theBool;
 		AddStaticField(inLabelString);
-		AddBooleanControls( theBool, inType, tmpl_titleYesNo);		
+		AddBooleanField( theBool, inType, tmpl_titleYesNo);		
 		// BOOL is two bytes long, so let's consume one more byte
 		*mRezStream >> theBool;
 		break;
@@ -606,18 +620,21 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 		break;
 
 		case 'ECST':
-		// Even-padded C string, or odd-padded C string (padded with nulls)
-		
+		// Even-padded C string (padded with nulls)
+		AddStaticField(inLabelString, mLeftLabelTraitsID);
+		mYCoord += kTmplLabelHeight + kTmplVertSkip;
+		// Padding is handled there
+		AddWasteField(inType);
 		break;
 
 		case 'ESTR':
 		// Pascal string padded to even length (needed for DITL resources)
 		*mRezStream >> theString;
 		theLength = theString[0];
-		if ((theLength % 2 == 0) && (theString[theLength] == 0)) {
-			// If the length is even and the last char is a null, it means the string has 
-			// been padded. So ignore the last char.
-			theString[0] -= 1;
+		if (theLength % 2 == 0) {
+			// if the length is even, the string has been padded. So skip the 
+			// next char.
+			*mRezStream >> theChar;
 		} 
 		AddStaticField(inLabelString);
 		AddEditField(theString, inType, rPPob_TmplEditorWindow + mCurrentID, 255, 0, 
@@ -687,7 +704,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 		break;
 
 		case 'LSTE':
-		// List end. Handled in DoParseTemplate().
+		// List end. Handled in DoParseWithTemplate().
 // 		AddHorizontalSeparator(inLabelString);
 		break;
 
@@ -715,17 +732,20 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 
 		case 'OCST':
 		// Odd-padded C string (padded with nulls)
-		
+		AddStaticField(inLabelString, mLeftLabelTraitsID);
+		mYCoord += kTmplLabelHeight + kTmplVertSkip;
+		// Padding is handled there
+		AddWasteField(inType);
 		break;
 
 		case 'OSTR':
 		// Pascal string padded to odd length (needed for DITL resources)
 		*mRezStream >> theString;
 		theLength = theString[0];
-		if ((theLength % 2) && (theString[theLength] == 0)) {
-			// if the length is odd and the last char is a null, it means the string has 
-			// been padded. So ignore the last char.
-			theString[0] -= 1;
+		if (theLength % 2) {
+			// if the length is odd, the string has been padded. So skip the 
+			// next char.
+			*mRezStream >> theChar;
 		} 
 		AddStaticField(inLabelString);
 		AddEditField(theString, inType, rPPob_TmplEditorWindow + mCurrentID, 255, 0, 
@@ -793,7 +813,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 	}
 
 	mContentsView->ResizeImageBy(0, mYCoord - oldYCoord, true);
-	mContentsScroller->AdjustScrollBars();
+// 	mContentsScroller->AdjustScrollBars();
 
 	return error;
 }
@@ -808,7 +828,9 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 void
 CTmplEditorWindow::AddStaticField(Str255 inLabel, ResIDT inTextTraitsID)
 {
-	mStaticPaneInfo.top = mYCoord;
+	mStaticPaneInfo.left	= kTmplLeftMargin + mIndent;
+	mStaticPaneInfo.top		= mYCoord;
+	mStaticPaneInfo.width	= kTmplLabelWidth;
 	
 	LStaticText * theStaticText = new LStaticText(mStaticPaneInfo, inLabel, inTextTraitsID);
 	ThrowIfNil_(theStaticText);
@@ -849,11 +871,11 @@ CTmplEditorWindow::AddEditField(Str255 inValue,
 
 
 // ---------------------------------------------------------------------------
-//	¥ AddBooleanControls											[public]
+//	¥ AddBooleanField											[public]
 // ---------------------------------------------------------------------------
 
 void
-CTmplEditorWindow::AddBooleanControls(Boolean inValue,
+CTmplEditorWindow::AddBooleanField(Boolean inValue,
 									  OSType inType,
 									  SInt16 inTitleType)
 {
@@ -934,6 +956,7 @@ CTmplEditorWindow::AddWasteField(OSType inType)
 	theViewInfo.scrollUnit.h		= theViewInfo.scrollUnit.v		= 1;
 	theViewInfo.reconcileOverhang	= false;
 	
+	mTgbPaneInfo.paneID				= 0;
 	mTgbPaneInfo.top				= mYCoord;
 	mTgbPaneInfo.left				= kTmplTextMargin;
 	mTgbPaneInfo.width				= theFrame.width - kTmplTextMargin * 2;
@@ -945,7 +968,7 @@ CTmplEditorWindow::AddWasteField(OSType inType)
 	mScrollPaneInfo.top			= kTmplTextInset;
 	mScrollPaneInfo.width		= mTgbPaneInfo.width - kTmplTextInset * 2;
 	mScrollPaneInfo.height		= mTgbPaneInfo.height - kTmplTextInset * 2;
-	mScrollPaneInfo.paneID		= mCurrentID;
+	mScrollPaneInfo.paneID		= 0;
 	mScrollPaneInfo.superView	= theTGB;
 
 	LScrollerView * theScroller = new LScrollerView(mScrollPaneInfo, theViewInfo, 0, 15, 0, 15, 16, NULL, true);
@@ -955,7 +978,7 @@ CTmplEditorWindow::AddWasteField(OSType inType)
 	mWastePaneInfo.top			= 0;
 	mWastePaneInfo.width		= mScrollPaneInfo.width - 15;
 	mWastePaneInfo.height		= mScrollPaneInfo.height - 15;
-	mWastePaneInfo.paneID		= 0;
+	mWastePaneInfo.paneID		= mCurrentID;
 	mWastePaneInfo.superView	= theScroller;
 
 	// Make the Waste edit writable, not wrapping, selectable
@@ -963,18 +986,18 @@ CTmplEditorWindow::AddWasteField(OSType inType)
 	ThrowIfNil_(theWasteEdit);
 
 	theScroller->InstallView(theWasteEdit);
-// 	theScroller->AddListener(this);
 	
 	// Store the template's type in the userCon field
 	theWasteEdit->SetUserCon(inType);
+	theLength = mRezStream->GetLength();
 	
 	// Insert the text
 	switch (inType) {
 		case 'CSTR':
 			// Is there a NULL byte marking the end of the string?
 			oldPos = mRezStream->GetMarker();
-			newPos = mRezStream->GetLength();
-			while (mRezStream->GetMarker() < mRezStream->GetLength() ) {
+			newPos = theLength;
+			while (mRezStream->GetMarker() < theLength ) {
 				*mRezStream >> theChar;
 				if (theChar == 0) {
 					newPos = mRezStream->GetMarker();
@@ -988,7 +1011,7 @@ CTmplEditorWindow::AddWasteField(OSType inType)
 			// Long string (length long followed by the characters)
 			*mRezStream >> theUInt32;
 			oldPos = mRezStream->GetMarker();;
-			newPos = theUInt32;
+			newPos = oldPos + theUInt32;
 			break;
 		}
 		
@@ -997,9 +1020,34 @@ CTmplEditorWindow::AddWasteField(OSType inType)
 			// Same as LSTR, but a word rather than a long word
 			*mRezStream >> theUInt16;
 			oldPos = mRezStream->GetMarker();;
-			newPos = theUInt16;
+			newPos = oldPos + theUInt16;
 			break;
 		}
+
+		case 'ECST':
+		case 'OCST':
+			// Is there a NULL byte marking the end of the string?
+			oldPos = mRezStream->GetMarker();
+			newPos = theLength;
+			while (mRezStream->GetMarker() < theLength ) {
+				*mRezStream >> theChar;
+				if (theChar == 0) {
+					newPos = mRezStream->GetMarker();
+					// If the total length, including ending NULL, is odd
+					// (with ESTR) or even (with OSTR), the string is padded, 
+					// so skip one byte
+					if ( (newPos < theLength) && ( 
+						   ( (newPos - oldPos) % 2 && (inType = 'ECST') ) 
+						   ||
+						   ( (newPos - oldPos) % 2 == 0 && (inType = 'OCST') ) )) {
+					   // String is padded: skip one byte.
+					   *mRezStream >> theChar;
+					} 
+					break;
+				} 
+			}
+		break;
+
 	}
 
 	theHandle = mRezStream->GetDataHandle();
@@ -1188,33 +1236,61 @@ CTmplEditorWindow::AddRectField(SInt16 inTop,
 
 
 // ---------------------------------------------------------------------------
-//	¥ AddListHeader													[public]
+//	¥ AddListHeaderField													[public]
 // ---------------------------------------------------------------------------
-// Rect		theFrame;
-// Pattern		grayPat;
-// 
-// theStaticText->CalcLocalFrameRect(theFrame);
-// ::MacFillRect(&theFrame, UQDGlobals::GetDarkGrayPat(&grayPat));
-// ::MacFrameRect(&theFrame);
 
 void
-CTmplEditorWindow::AddListHeader(OSType inType, Str255 inLabel, short inCount, Str255 inCountLabel)
+CTmplEditorWindow::AddListHeaderField(OSType inType, Str255 inLabel, short inCount, Str255 inCountLabel)
 {
-	Str255	numStr;
-	SInt32	oldLeft;
+	Str255			numStr;
+	LStaticText *	theStaticText;
+	LPushButton *	thePushButton;
 	
-	AddStaticField(inLabel, mHeaderTraitsID);
-	mYCoord += mStaticPaneInfo.height;
+	// This is the label of the list (usually "*****")
+	mStaticPaneInfo.left	= kTmplLeftMargin + mIndent;
+	mStaticPaneInfo.top		= mYCoord;
+	mStaticPaneInfo.width	= kTmplLabelWidth;
+	
+	theStaticText = new LStaticText(mStaticPaneInfo, inLabel, mHeaderTraitsID);
+	ThrowIfNil_(theStaticText);
 
 	if (inType == 'LSTC') {
-		oldLeft = mStaticPaneInfo.left;
-		mStaticPaneInfo.left += kTmplLeftMargin;
-		AddStaticField(inCountLabel, mRightLabelTraitsID);
-		mStaticPaneInfo.left += mStaticPaneInfo.width;
+		mYCoord += kTmplEditHeight;
+		// This is the label of the OCNT or ZCNT count
+		mStaticPaneInfo.left 	= 0;
+		mStaticPaneInfo.top		= mYCoord;
+		mStaticPaneInfo.width	= kTmplLabelWidth;
+		theStaticText = new LStaticText(mStaticPaneInfo, inCountLabel, mRightLabelTraitsID);
+		ThrowIfNil_(theStaticText);
+		
+		// This is the value of the OCNT or ZCNT count
+		mStaticPaneInfo.left 	+= mStaticPaneInfo.width + kTmplHorizSep;
+		mStaticPaneInfo.width	= kTmplCountWidth;
+		mStaticPaneInfo.paneID 	= mCurrentID;
 		::NumToString( (long) inCount, numStr);
-		AddStaticField(numStr, mHeaderTraitsID);	
-		mStaticPaneInfo.left = oldLeft;
+		theStaticText = new LStaticText(mStaticPaneInfo, numStr, mHeaderTraitsID);
+		ThrowIfNil_(theStaticText);
+		
+		mStaticPaneInfo.paneID = 0;
+		mCurrentID++;
 	}
+	
+	mPushPaneInfo.top		= mStaticPaneInfo.top - 3;
+	mPushPaneInfo.left		= mStaticPaneInfo.left + mStaticPaneInfo.width + kTmplHorizSep;
+	mPushPaneInfo.paneID	= mCurrentID;
+	thePushButton = new LPushButton(mPushPaneInfo, 'Mins', "\p-");
+	ThrowIfNil_(thePushButton);
+	// Store the current position in the template stream
+	thePushButton->SetUserCon( mTemplateStream->GetMarker() );
+	mCurrentID++;
+	
+	mPushPaneInfo.left		+= kTmplCountWidth + kTmplHorizSep;
+	mPushPaneInfo.paneID	= mCurrentID;
+	thePushButton = new LPushButton(mPushPaneInfo, 'Plus', "\p+");
+	ThrowIfNil_(thePushButton);
+	// Store the current position in the template stream
+	thePushButton->SetUserCon( mTemplateStream->GetMarker() );
+	mCurrentID++;
 
 	// Advance the counters
 	mYCoord += mStaticPaneInfo.height + kTmplVertSep;
@@ -1223,11 +1299,11 @@ CTmplEditorWindow::AddListHeader(OSType inType, Str255 inLabel, short inCount, S
 
 
 // ---------------------------------------------------------------------------
-//	¥ AlignBytes											[public]
+//	¥ AlignBytesRead											[public]
 // ---------------------------------------------------------------------------
 
 ExceptionCode
-CTmplEditorWindow::AlignBytes(UInt8 inStep)
+CTmplEditorWindow::AlignBytesRead(UInt8 inStep)
 {
 	ExceptionCode	err = noErr;
 	
@@ -1246,23 +1322,452 @@ CTmplEditorWindow::AlignBytes(UInt8 inStep)
 }
 
 
+// ---------------------------------------------------------------------------
+//	¥ AlignBytesWrite											[public]
+// ---------------------------------------------------------------------------
+
+ExceptionCode
+CTmplEditorWindow::AlignBytesWrite(UInt8 inStep)
+{
+	ExceptionCode	err = noErr;
+	
+	SInt32 theSInt32 = mOutStream->GetMarker();
+	SInt32 theRest = theSInt32 % inStep;
+
+	if (theRest != 0) {	
+		for (UInt8 i = theRest; i < 4; i++) {
+				*mOutStream << (UInt8) 0x00;
+			}
+		}
+	
+	return err;
+}
+
+
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ ReadValues														[public]
+//	¥ RetrieveDataWithTemplate								[public]
 // ---------------------------------------------------------------------------
 
-// LPane::GetUserCon()
-
 Handle
-CTmplEditorWindow::ReadValues()
+CTmplEditorWindow::RetrieveDataWithTemplate()
 {
-	Handle theHandle = nil;
+	mOutStream = new LHandleStream();
+	mLastID = mCurrentID;
+	mCurrentID = 1;
+
+	// Parse the template stream
+	DoRetrieveWithTemplate(0);
 	
-// 	mOutStream
-	
-	
-	return theHandle;
+	return mOutStream->GetDataHandle();
 }
+
+
+// // 	//	Dissociate the data Handle from a HandleStream.
+// // 	//
+// // 	//	Creates a new, empty data Handle and passes back the existing Handle.
+// // 	//	Caller assumes ownership of the Handle.
+// // 
+// // 	Handle
+// // 	LHandleStream::DetachDataHandle()
+
+
+// ---------------------------------------------------------------------------
+//	¥ DoRetrieveWithTemplate													[public]
+// ---------------------------------------------------------------------------
+// // // SInt32
+// // // LPane::GetUserCon() const
+// // // GetPaneID()
+
+void
+CTmplEditorWindow::DoRetrieveWithTemplate(SInt32 inRecursionMark)
+{
+	Str255		theString;
+	ResType		theType, currType;
+	
+	mTemplateStream->SetMarker(inRecursionMark, streamFrom_Start);
+
+	while (mTemplateStream->GetMarker() < mTemplateStream->GetLength() ) {
+		*mTemplateStream >> theString;
+		*mTemplateStream >> theType;
+		
+		if (theType == 'OCNT' || theType == 'ZCNT') {
+			RetrieveDataForType(theType);
+		} else if (theType == 'LSTB' || theType == 'LSTC' || theType == 'LSTZ') {
+			currType = theType;
+			RetrieveList(mTemplateStream->GetMarker(), theType, mItemsCount);
+		} else if (theType == 'LSTE') {
+			if ( EndOfList(currType) ) {
+				break;
+			} else {
+				mTemplateStream->SetMarker(inRecursionMark, streamFrom_Start);
+			}
+		} else {
+			// Create controls according to the type declared in the template
+			RetrieveDataForType(theType);
+		}
+	}
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ RetrieveList													[public]
+// ---------------------------------------------------------------------------
+
+void
+CTmplEditorWindow::RetrieveList(SInt32 inStartMark, ResType inType, SInt32 inCount)
+{
+	switch (inType) {
+		case 'LSTB':
+		case 'LSTZ':
+			DoRetrieveWithTemplate(inStartMark);
+		break;
+		
+		case 'LSTC':
+		for (short i = 0 ; i < inCount; i++) {
+// 			mTemplateStream->SetMarker(inStartMark, streamFrom_Start);
+			DoRetrieveWithTemplate(inStartMark);
+		}
+		break;
+		
+	}
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ RetrieveDataForType												[public]
+// ---------------------------------------------------------------------------
+
+
+OSErr
+CTmplEditorWindow::RetrieveDataForType(ResType inType)
+{
+	OSErr	error = noErr;
+	char	theChar;
+	char 	charString[256];
+	short	theShort;
+	long	theLong;
+	Str255	numStr, theString;
+	SInt8	theSInt8;
+	SInt16	theSInt16;
+	SInt32	theSInt32, theLength, oldYCoord;
+	UInt16	theUInt16;
+	UInt32	theUInt32;
+	Boolean	theBool;
+	OSType	theOSType;
+	UInt8	i;
+	Ptr		p;
+	
+	PaneIDT theCurrentRadioID;
+	Handle theHandle;
+	StHandleLocker locker(nil);
+
+	LRadioGroupView * theRGV;
+	LEditText * theEditText;
+	CWasteEditView * theWasteEdit;
+	
+	switch (inType) {
+		case 'ALNG':
+		// Long align
+		AlignBytesWrite(4);
+		break;
+
+		case 'AWRD':
+		// Word align
+		AlignBytesWrite(2);
+		break;
+
+		case 'BBIT':
+		// Binary bit (there must be 8 or an even multiple of 8 of these).
+
+		theRGV = dynamic_cast<LRadioGroupView *>(this->FindPaneByID(mCurrentID));
+		theCurrentRadioID = theRGV->GetCurrentRadioID();
+		*mOutStream << (UInt8) ( (theCurrentRadioID - mCurrentID) % 2);
+		mCurrentID += 3;
+		
+		// Consume similarly the next 7 controls in the template
+		for (i = 1; i < 8 ; i++) {
+			*mTemplateStream >> theString;
+			*mTemplateStream >> theOSType;
+			
+			theRGV = dynamic_cast<LRadioGroupView *>(this->FindPaneByID(mCurrentID));
+			theCurrentRadioID = theRGV->GetCurrentRadioID();
+			*mOutStream << (UInt8) ( (theCurrentRadioID - mCurrentID) % 2);
+			mCurrentID += 3;
+		}
+		break;
+
+		case 'BOOL':
+		// Boolean (two bytes: 0x0100 for true, 0x0000 for false)
+		theRGV = dynamic_cast<LRadioGroupView *>(this->FindPaneByID(mCurrentID));
+		theCurrentRadioID = theRGV->GetCurrentRadioID();
+		if ( (theCurrentRadioID - mCurrentID) % 2 ) {
+			*mOutStream << (UInt16) 0x0100;
+		} else {
+			*mOutStream << (UInt16) 0x0000;
+		}
+		mCurrentID += 3;
+		break;
+
+		case 'CHAR':
+		// A single character
+		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
+		theEditText->GetDescriptor(theString);		
+		*mOutStream << (char) (theString + 1);
+		mCurrentID++;
+		break;
+
+		case 'CSTR':
+		// C string
+		theWasteEdit = dynamic_cast<CWasteEditView *>(this->FindPaneByID(mCurrentID));
+		theHandle = theWasteEdit->GetTextHandle();
+		theLength = theWasteEdit->GetTextLength();
+		locker.Adopt(theHandle);
+		p = *theHandle;
+		
+		for (theSInt32 = 0; theSInt32 < theLength; theSInt32++) {
+			*mOutStream << (char) *p;
+			p++;
+		}
+		// End with a NULL byte
+		*mOutStream << (UInt8) 0x00;
+		mCurrentID++;
+		break;
+
+		case 'DBYT':
+		// Decimal byte
+		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
+		theEditText->GetDescriptor(numStr);	
+		::StringToNum( numStr, &theLong);
+		*mOutStream << (SInt8) theLong;
+		mCurrentID++;
+		break;
+
+		case 'DLNG':
+		// Decimal long word
+		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
+		theEditText->GetDescriptor(numStr);	
+		::StringToNum( numStr, &theLong);
+		*mOutStream << (SInt32) theLong;
+		mCurrentID++;
+		break;
+
+		case 'DWRD':
+		// Decimal word
+		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
+		theEditText->GetDescriptor(numStr);	
+		::StringToNum( numStr, &theLong);
+		*mOutStream << (SInt16) theLong;
+		mCurrentID++;
+		break;
+
+// 		case 'ECST':
+// 		// Even-padded C string, or odd-padded C string (padded with nulls)
+// 		
+// 		break;
+// 
+		case 'ESTR':
+		// Pascal string padded to even length (needed for DITL resources)
+		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
+		theEditText->GetDescriptor(theString);	
+		*mOutStream << theString;
+		if (theString[0] % 2 == 0) {
+			// if the length is even, padd the string with a NULL byte.
+			*mOutStream << (UInt8) 0x00;
+		} 
+		mCurrentID++;
+		break;
+
+		case 'FBYT':
+		// Byte fill (with 0)
+		*mOutStream << (SInt8) 0;
+		break;
+
+		case 'FLNG':
+		// Long fill (with 0)
+		*mOutStream << (SInt32) 0;
+		break;
+
+		case 'FWRD':
+		// Word fill (with 0)
+		*mOutStream << (SInt16) 0;
+		break;
+
+		case 'HBYT':
+		// Hex byte
+		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
+		theEditText->GetDescriptor(numStr);	
+		CopyPascalStringToC(theString, charString);
+		sscanf(charString, "$%.2x", theChar);
+		*mOutStream << theChar;
+		mCurrentID++;
+		break;
+
+		case 'HEXD':
+		// Hex dump of remaining bytes in resource (this can only be the last type in a resource)
+		CDualDataView * theTGB = dynamic_cast<CDualDataView *>(this->FindPaneByID(mCurrentID));
+		WEReference theWE = theTGB->GetInMemoryWasteRef();
+		theHandle = static_cast<Handle>(::WEGetText(theWE));
+		theLength = ::WEGetTextLength(theWE);
+		
+		locker.Adopt(theHandle);
+		p = *theHandle;
+		for (theSInt32 = 0; theSInt32 < theLength; theSInt32++) {
+			*mOutStream << (char) *p;
+			p++;
+		}
+		mCurrentID++;
+		break;
+
+		case 'HLNG':
+		// Hex long word
+		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
+		theEditText->GetDescriptor(numStr);	
+		CopyPascalStringToC(theString, charString);
+		sscanf(charString, "$%.8x", theUInt32);
+		*mOutStream << theChar;
+		mCurrentID++;
+		break;
+
+		case 'HWRD':
+		// Hex word
+		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
+		theEditText->GetDescriptor(numStr);	
+		CopyPascalStringToC(theString, charString);
+		sscanf(charString, "$%.4x", theUInt16);
+		*mOutStream << theChar;
+		mCurrentID++;
+		break;
+
+		case 'LSTB':
+		// List Begin. Ends at the end of the resource.
+		break;
+
+		case 'LSTC':
+		// List Count. Terminated by a zero-based word count that starts 
+		// the sequence (as in 'DITL' resources).
+		break;
+
+		case 'LSTE':
+		// List end. Handled in DoParseWithTemplate().
+		break;
+
+		case 'LSTR':
+		// Long string (length long followed by the characters)
+		theWasteEdit = dynamic_cast<CWasteEditView *>(this->FindPaneByID(mCurrentID));
+		theHandle = theWasteEdit->GetTextHandle();
+		theLength = theWasteEdit->GetTextLength();
+		*mOutStream << (UInt32) theLength;
+		locker.Adopt(theHandle);
+		p = *theHandle;
+		
+		for (theSInt32 = 0; theSInt32 < theLength; theSInt32++) {
+			*mOutStream << (char) *p;
+			p++;
+		}
+		mCurrentID++;
+		break;
+
+		case 'LSTZ':
+		// List Zero. Terminated by a 0 byte (as in 'MENU' resources).
+		break;
+		
+// 		case 'OCNT':
+// 		// One Count. Terminated by a one-based word count that starts 
+// 		// the sequence (as in 'STR#' resources).
+// 		*mOutStream << theShort;
+// 		mItemsCount = theShort;
+// // 		::NumToString( (long) mItemsCount, numStr);
+// // 		AddStaticField(inLabelString);
+// // 		AddEditField(numStr, inType, rPPob_TmplEditorWindow + mCurrentID, 255, 0, 
+// // 					 UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar));
+// 		break;
+// 
+// 		case 'OCST':
+// 		// Odd-padded C string (padded with nulls)
+// 		
+// 		break;
+// 
+		case 'OSTR':
+		// Pascal string padded to odd length (needed for DITL resources)
+		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
+		theEditText->GetDescriptor(theString);	
+		*mOutStream << theString;
+		if (theString[0] % 2) {
+			// if the length is odd, padd the string with a NULL byte.
+			*mOutStream << (UInt8) 0x00;
+		} 
+		mCurrentID++;
+		break;
+
+		case 'PSTR':
+		// Pascal string
+		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
+		theEditText->GetDescriptor(theString);	
+		*mOutStream << theString;
+		mCurrentID++;
+		break;
+
+		case 'RECT':
+		// An 8-byte rectangle
+		for (i = 0; i < 4; i++) {
+			theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
+			theEditText->GetDescriptor(numStr);	
+			::StringToNum( numStr, &theLong);
+			*mOutStream << (SInt16) theLong;
+			mCurrentID++;
+		}
+		break;
+
+		case 'TNAM':
+		// Type name (four characters, like OSType and ResType)
+		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
+		theEditText->GetDescriptor(theString);	
+		UMiscUtils::PStringToOSType(theString, theOSType);
+		*mOutStream << theOSType;
+		mCurrentID++;
+		break;
+
+		case 'WSTR':
+		// Same as LSTR, but a word rather than a long word
+		theWasteEdit = dynamic_cast<CWasteEditView *>(this->FindPaneByID(mCurrentID));
+		theHandle = theWasteEdit->GetTextHandle();
+		theLength = theWasteEdit->GetTextLength();
+		*mOutStream << (UInt16) theLength;
+		locker.Adopt(theHandle);
+		p = *theHandle;
+		
+		for (theSInt32 = 0; theSInt32 < theLength; theSInt32++) {
+			*mOutStream << (char) *p;
+			p++;
+		}
+		mCurrentID++;
+		break;
+
+// 		case 'ZCNT':
+// 		// Zero Count. Terminated by a zero-based word count that starts 
+// 		// the sequence (as in 'DITL' resources).
+// 		*mOutStream << theShort;
+// 		mItemsCount = theShort + 1;
+// // 		::NumToString( (long) mItemsCount, numStr);
+// // 		AddStaticField(inLabelString);
+// // 		AddEditField(numStr, inType, rPPob_TmplEditorWindow + mCurrentID, 255, 0, 
+// // 					 UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar));
+// 		break;
+// 
+	  default:
+	  // Handle Hnnn, Cnnn, P0nn cases here or unrecognized type
+	  // Hnnn A 3-digit hex number; displays nnn bytes in hex format
+	  // Cnnn A C string that is nnn hex bytes long (The last byte is always a 0, so the string itself occupies the first nnn-1 bytes.)
+	  // P0nn A Pascal string that is nn hex bytes long (The length byte is not included in nn, so the string occupies the entire specified length.)
+
+	  break;
+	}
+
+	return error;
+}
+
+
 
 
