@@ -1,11 +1,11 @@
 // ===========================================================================
 // CRezillaApp.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2004-12-28 14:51:54
+//             Last modification: 2005-01-01 20:55:51
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003-2004
+// © Copyright: Bernard Desgraupes 2003-2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -38,6 +38,7 @@
 #include "CCategoriesListBox.h"
 #include "CColorPane.h"
 #include "CCompResultWindow.h"
+#include "CDoubleClickButton.h"
 #include "CDraggableTargetView.h"
 #include "CDropStaticText.h"
 #include "CDualDataView.h"
@@ -361,6 +362,7 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(CCategoriesListBox);
 	RegisterClass_(CColorPane);
 	RegisterClass_(CCompResultWindow);
+	RegisterClass_(CDoubleClickButton);
 	RegisterClass_(CDraggableTargetView);
 	RegisterClass_(CDropStaticText);
 	RegisterClass_(CDualDataView);
