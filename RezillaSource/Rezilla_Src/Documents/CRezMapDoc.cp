@@ -746,7 +746,7 @@ CRezMapDoc::DoAESave(
 {
 	OSErr error;
 	
-	short oldRefnum = GetRefnum();
+// 	short oldRefnum = GetRefnum();
 	if (mFork == fork_samefork) {
 		mFork = mRezFile->GetUsedFork();
 	} 
