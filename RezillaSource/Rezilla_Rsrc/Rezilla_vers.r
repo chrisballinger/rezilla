@@ -5,7 +5,7 @@
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// ¬© Copyright: Bernard Desgraupes 2003-2004
+// © Copyright: Bernard Desgraupes 2003-2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -62,10 +62,10 @@ resource 'vers' (1) {
 	REZILLA_MAJOR_BCD,
 	REZILLA_MINOR_BCD,
 	REZILLA_STAGE,
-	0x0,
+	REZILLA_DEVEL,
 	0,
 	REZILLA_VERSION_STRING,
-	$$Format("%s %s ¬© %d by B. Desgraupes", 
+	$$Format("%s %s © %d by B. Desgraupes", 
 					"Rezilla", REZILLA_VERSION_STRING, $$YEAR)
 };
 
@@ -73,7 +73,7 @@ resource 'vers' (2) {
 	REZILLA_MAJOR_BCD,
 	REZILLA_MINOR_BCD,
 	REZILLA_STAGE,
-	0x0,
+	REZILLA_DEVEL,
 	0,
 	REZILLA_VERSION_STRING,
 	"Resource editor"
