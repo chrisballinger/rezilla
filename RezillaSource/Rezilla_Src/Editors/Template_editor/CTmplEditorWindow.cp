@@ -371,6 +371,9 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			mContentsView->Show();
 			mContentsView->Enable();
 			mContentsView->Activate();
+			if (mSelectedListItem != NULL) {
+				mSelectedListItem->DrawBorder();
+			} 
 			
 			// Window has been modified
 			SetDirty(true);
