@@ -78,10 +78,11 @@ public:
 		ConstStringPtr		GetNewPath() const;
 
 		virtual TArray<CRezTypId*>*		GetOnlyInOldList() { return &mOnlyInOldList;}
+		virtual TArray<CRezTypId*>*		GetOnlyInNewList() { return &mOnlyInNewList;}
 		virtual TArray<CRezTypId*>*		GetDifferingList() { return &mDifferingList;}
 
-		virtual CRezMap*		GetOldMap() { return mOldMap;}
-		virtual CRezMap*		GetNewMap() { return mNewMap;}
+		virtual CRezMap*		GetOldMap() {return mOldMap;}
+		virtual CRezMap*		GetNewMap() {return mNewMap;}
 		
 		static FSSpec		sOldFSSpec;
 		static FSSpec		sNewFSSpec;
