@@ -23,7 +23,23 @@ the <I>Application Support</I> folders;
 </UL><P>When Rezilla attempts to edit a resource using a template, it looks for 
 the appropriate template in all these locations in the following order:
 local, external, internal. You can thus override the definition of an
-internal template by putting a new definition in the external locations.<P><H3>Lists of elements in templates</H3>
+internal template by putting a new definition in the external locations.<P>Templates editor windows have three buttons:
+<UL>
+	<LI> the <B>Cancel</B> button lets you abort the editing and close the window
+without asking if modifications should be saved.
+	<LI> the <B>Validate</B> button lets you save your modifications and close the
+window.
+	<LI> the <B>Revert</B> button lets you discard the recent modifications
+and revert to the last saved version of the resource in the resource map in
+memory (not the last saved version of the resource on disk).
+</UL><P>Note that pressing the <B>Enter</B> key (not the Return key) is equivalent to
+clicking on the <I>Validate</I> button.<P>If the <I>Close</I> button (the leftmost red little button in the title
+bar) is clicked and if any of the resource fields has been edited, Rezilla
+will ask you if you want to save your modifications. If the answer is yes,
+the modified resource is installed in the resource map. This does not mean
+though that the new data are saved to the disk: this happens only when you
+close the resource map table itself or invoke the <I>Save</I> menu item
+when this resource map table is at the front.<P><H3>Lists of elements in templates</H3>
 Some resources contain lists of data, for instance a list of strings, a
 list of graphical objects etc. Templates are able to handle various kinds
 of lists: as a header of each list, the Templates editor displays a count

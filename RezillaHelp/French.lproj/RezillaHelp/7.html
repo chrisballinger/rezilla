@@ -5,7 +5,6 @@
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
-
 <A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="6.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="8.html">Suiv</A><HR><P>&nbsp;</P>
 <H2>Éditeur de gabarits</H2><P>Rezilla est capable d'analyser des ressources au moyen de gabarits
 descriptifs et de construire à partir de là des interfaces graphiques
@@ -28,24 +27,41 @@ de ressource en cours d'édition.
 recherche la définition du gabarit dans les trois emplacements mentionnés
 en procédant dans l'ordre suivant: <I>local, externe, interne</I>. Cela permet en 
 particulier de redéfinir un gabarit interne en plaçant une nouvelle
-définition dans les gabarits externes.<P><H3>Listes d'éléments dans un gabarit</H3>
+définition dans les gabarits externes.<P>Les fenêtres de l'éditeur de gabarits possèdent trois boutons:
+<UL>
+	<LI> le bouton <B>Cancel</B> permet d'interrompre l'édition et de refermer
+la fenêtre sans demander si les modifications doivent être sauvegardées.
+	<LI> le bouton <B>Validate</B> permet de sauvegarder les modifications et 
+de refermer la fenêtre. 
+	<LI> le bouton <B>Revert</B> permet d'annuler les modifications récentes
+et de revenir à la dernière version de la ressource sauvegardée dans la
+table de ressources en mémoire.
+</UL><P>Presser la touche <B>Enter</B> (à ne pas confondre avec la touche
+Retour-Chariot) est équivalent à un clic sur le bouton <I>Validate</I>.<P>Si l'on clique sur le bouton de fermeture de la fenêtre (le petit bouton
+rouge en haut à gauche de la barre de titre de la fenêtre) et si l'un
+quelconque des champs de la fenêtre a été édité, Rezilla affichera un
+dialogue pour demander si les modifications doivent être sauvegardées dans
+la table de ressources en mémoire. Ceci n'a pas pour effet de sauvegarder
+la ressource dans le fichier sur disque: cela ne se produit qu'au moment de
+la fermeture de la fenêtre contenant la table de ressources ou lorsque l'on 
+utilise la commande <I>Save</I> du menu <I>File</I>.<P><H3>Listes d'éléments dans un gabarit</H3>
 Certaines ressources contiennent des listes de données, par exemple une
 liste de chaînes de texte, une liste d'objets graphiques etc. Les gabarits 
 ont la possibilité de gérer diverses sortes de listes. L'éditeur de gabarit
 affiche, en tête de chaque liste, le compte des éléments figurant dans la
-liste et deux bouttons marqués d'un signe <B>Moins</B> et d'un signe <B>Plus</B>
-respectivement. Le boutton Moins sert typiquement à supprimer un élément de
-la liste et le boutton Plus à en ajouter un.<P>Un élément de liste peut lui-même contenir plusieurs champs: ils sont
+liste et deux boutons marqués d'un signe <B>Moins</B> et d'un signe <B>Plus</B>
+respectivement. Le bouton Moins sert typiquement à supprimer un élément de
+la liste et le bouton Plus à en ajouter un.<P>Un élément de liste peut lui-même contenir plusieurs champs: ils sont
 affichés dans un cadre commun facilement identifiable. Cliquer sur l'un de 
 ces éléments revient à le sélectionner, ce que l'éditeur de gabarit indique
-en l'entourant d'un cadre rouge.<P>Lorsque l'on clique sur le boutton <B>Moins</B>:
+en l'entourant d'un cadre rouge.<P>Lorsque l'on clique sur le bouton <B>Moins</B>:
 <UL>
 	<LI> si un élément de la liste est sélectionné, cet élément est supprimé de
 la liste.
 	<LI> si aucun élément n'est sélectionné, le <I>dernier</I> élément de la
 liste est supprimé.
 	<LI> si la liste est vide, il ne se passe rien.
-</UL><P>Lorsque l'on clique sur le boutton <B>Plus</B>:
+</UL><P>Lorsque l'on clique sur le bouton <B>Plus</B>:
 <UL>
 	<LI> si un élément de la liste est sélectionné, un nouvel élément est inséré
 <I>devant</I> l'élément sélectionné.
