@@ -2,7 +2,7 @@
 // CAeteStream.cp					
 // 
 //                       Created : 2002-05-14 13:01:10
-//             Last modification : 2005-01-20 13:49:39
+//             Last modification : 2005-01-23 09:32:45
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -77,14 +77,14 @@ CAeteStream::~CAeteStream()
 
 
 // ---------------------------------------------------------------------------
-//	¥ AlignBytes													 [public]
+//	¥ AlignBytesRead													 [public]
 // ---------------------------------------------------------------------------
 //	If the marker is odd, move it 1 step forward.
 //	Errors: 
 //		writErr		Attempt to write past end of DataStream
 
 ExceptionCode
-CAeteStream::AlignBytes()
+CAeteStream::AlignBytesRead()
 {
 	ExceptionCode	err = noErr;
 	
@@ -97,6 +97,19 @@ CAeteStream::AlignBytes()
 	}
 	
 	return err;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ AlignBytesWrite											[public]
+// ---------------------------------------------------------------------------
+
+void
+CAeteStream::AlignBytesWrite()
+{		
+	if (GetMarker() % 2 != 0) {	
+		*this << (UInt8) 0x00;
+	}
 }
 
 

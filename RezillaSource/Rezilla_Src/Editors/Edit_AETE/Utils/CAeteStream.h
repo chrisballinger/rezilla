@@ -2,7 +2,7 @@
 // CAeteStream.h					
 // 
 //                       Created : 2002-05-14 13:01:10
-//             Last modification : 2005-01-20 13:50:26
+//             Last modification : 2005-01-23 09:32:34
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -38,9 +38,10 @@ public:
 						CAeteStream(AEDesc * inAete);
 						virtual				~CAeteStream();
 						
-	void					ReadOSType( char	outString[5] );
+	void					ReadOSType( char outString[5] );
 
-	virtual ExceptionCode	AlignBytes();
+	virtual ExceptionCode	AlignBytesRead();
+	virtual void			AlignBytesWrite();
 
 	SInt32					MoveToNextTerm( SInt32 inKind);
 
