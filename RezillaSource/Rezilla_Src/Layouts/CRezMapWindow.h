@@ -2,11 +2,11 @@
 // CRezMapWindow.h				
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2003-04-29 07:18:18
+//             Last modification: 2004-03-24 08:18:56
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003
+// (c) Copyright : Bernard Desgraupes, 2003-2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -32,16 +32,9 @@ public:
 									CRezMapWindow( LStream *inStream );
 									~CRezMapWindow();
 
-// 	virtual void			FindCommandStatus(
-// 								CommandT	inCommand,
-// 								Boolean&	outEnabled,
-// 								Boolean&	outUsesMark,
-// 								UInt16&		outMark,
-// 								Str255		outName);
-
-	virtual void			ListenToMessage( MessageT inMessage,void *ioParam);
-// 	void					InstallText(FSSpec *inFileSpec, SInt32 inSide);
 	
+	virtual void		ListenToMessage( MessageT inMessage, void *ioParam);
+
 	virtual Boolean			HandleKeyPress( const EventRecord&	inKeyEvent);
 
 	virtual CRezMapTable*	GetRezMapTable() { return mRezMapTable;}
@@ -50,10 +43,13 @@ public:
 	virtual CRezMapDoc*		GetOwnerDoc() { return mOwnerDoc;}
 	void					SetOwnerDoc(CRezMapDoc* theOwnerDoc) {mOwnerDoc = theOwnerDoc ;}
 
-	void					InstallCountTypeValue(short inCount);
-	void					InstallCountRezValue(short inCount);
+	long					GetCountTypeField();
+	long					GetCountRezField();
+	void					SetCountTypeField(long inCount);
+	void					SetCountRezField(long inCount);
+
 	void					InstallWhichForkField();
-	void					UpdateCountFields();
+	void					RecalcCountFields();
 	
 protected:
 	CRezMapTable *		mRezMapTable;
@@ -62,8 +58,6 @@ protected:
 	LStaticText *		mCountRezField;
 	
 	virtual void		FinishCreateSelf();
-// 	Boolean				AskReplaceAll(SInt32 inSide);
 };
-
 
 

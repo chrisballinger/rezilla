@@ -1,11 +1,11 @@
 // ===========================================================================
 // CRezMapTable.h					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2003-04-18 09:15:03
+//             Last modification: 2004-03-24 08:21:23
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003
+// © Copyright: Bernard Desgraupes 2003-2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -67,6 +67,10 @@ public:
 	CRezMapWindow *			GetOwnerWindow();
 	CRezMapDoc *			GetOwnerDoc();
 
+	// Used in Drag & Drop
+	static Boolean			sApplyToOthers;
+	static MessageT			sConflictAction;
+	
 protected:
 	// Cache the rezmap of the owning document for faster retrieval. It is 
 	// set by the caller (ie when the CRezMapDoc is created).

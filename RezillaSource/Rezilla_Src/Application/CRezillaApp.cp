@@ -945,8 +945,7 @@ CRezillaApp::HandleAppleEvent(
 	AEDesc&				outResult,
 	long				inAENumber)
 {
-	OSErr			error, ignoreErr;
-	AEDesc			duplicateAppleEvent;
+	OSErr	ignoreErr;
 	
 	switch (inAENumber) {
 		
@@ -982,6 +981,7 @@ CRezillaApp::HandleOpenDocsEvent(
 	AppleEvent&			outAEReply,
 	AEDesc&				outResult)
 {
+#pragma unused( outAEReply, outResult )
 	OSErr			error;
 	AEDesc			theDocList;
 	AEKeyword		theKey;

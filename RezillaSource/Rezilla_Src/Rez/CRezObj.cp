@@ -463,6 +463,8 @@ CRezObj::SetData(Handle srcHandle)
 	StHandleLocker	lockSrc(srcHandle);
 	StHandleLocker	lockTrgt(mData);
 	::BlockMoveData( *srcHandle, *mData, theSize);
+	// Update the mSize class member
+	mSize = ::GetHandleSize(mData);
 }
 
 
@@ -482,6 +484,5 @@ CRezObj::SetData(Handle srcHandle)
 // CRezObj::WritePartial(long offset, const void * buffer, long count)
 // {
 // }
-
 
 

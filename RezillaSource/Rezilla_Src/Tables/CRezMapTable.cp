@@ -1,11 +1,11 @@
 // ===========================================================================
 // CRezMapTable.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2003-06-01 11:32:30
+//             Last modification: 2004-03-24 08:21:35
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003
+// © Copyright: Bernard Desgraupes 2003-2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -24,6 +24,7 @@
 #include "CTextHandleStream.h"
 #include "RezillaConstants.h"
 #include "UDragAndDropUtils.h"
+#include "UMessageDialogs.h"
 #include "UMiscUtils.h"
 
 #include <LTableMultiGeometry.h>
@@ -34,6 +35,10 @@
 #include <LDragTask.h>
 
 
+Boolean		CRezMapTable::sApplyToOthers = false;
+MessageT	CRezMapTable::sConflictAction = answer_Do;
+
+
 // ---------------------------------------------------------------------------
 //  ¥ CRezMapTable						Default Constructor		  [public]
 // ---------------------------------------------------------------------------
@@ -42,7 +47,6 @@ CRezMapTable::CRezMapTable(
 	LStream *inStream )
 		: LOutlineTable( inStream ), 
 		CRezMapDragDrop( UQDGlobals::GetCurrentWindowPort(), this )
-
 {
 	// Set the table geometry
 	SetTableGeometry(new LTableMultiGeometry(this, kRzilColWidth, 20));
@@ -549,9 +553,12 @@ CRezMapTable::TrackDrag(
 	void * 			thePtr;
 	ItemReference	itemCount = 1;
 	OSErr			error;
-	CTextHandleStream*	textDataStream = new CTextHandleStream();
 	Str255			theString;
+	CTextHandleStream*	textDataStream = new CTextHandleStream();
 	
+	sApplyToOthers = false;
+	sConflictAction = answer_Do;
+
 	// Get the selected rows to build the outline region
 	LArray* theArray = new LArray( sizeof(LOutlineItem*) );
 	
@@ -611,7 +618,7 @@ CRezMapTable::TrackDrag(
 	} 
 	error = ::TrackDrag(theDragRef, &inMouseDown.macEvent, outlineRgn);
 	
-	// Invalidate LView's focus cache. The port may have changed during the drag.(UInt16) 
+	// Invalidate LView's focus cache. The port may have changed during the drag.
 	LView::OutOfFocus( nil );
 	
 	// Check for a drop in the trash.
@@ -680,31 +687,55 @@ CRezMapTable::ReceiveDragItem(DragReference inDragRef,
 	short 		theID;
 	Size 		theSize;
 	UInt16		index;
+	SInt16		answer;
 	void * 		theAdr;
+	CRezObjItem	*newRezObjItem, *oldRezObjItem;
 	
 	if (::GetFlavorFlags(inDragRef, inItemRef, kRzilDragFlavor, &theFlags) == noErr) {
 		// Data coming from inside the application: pointer to the sending rezmap table.
 		error = ::GetFlavorDataSize(inDragRef, inItemRef, kRzilDragFlavor, &theSize);
 		
 		error = ::GetFlavorData(inDragRef, inItemRef, kRzilDragFlavor, &theAdr, &theSize, 0);
-		CRezObjItem * theRezObjItem = (CRezObjItem *) NewPtr( sizeof(CRezObjItem) );
-		BlockMoveData( theAdr, (void *) theRezObjItem, sizeof(CRezObjItem));
+		newRezObjItem = (CRezObjItem *) NewPtr( sizeof(CRezObjItem) );
+		BlockMoveData( theAdr, (void *) newRezObjItem, sizeof(CRezObjItem));
 		
-		if (error == noErr && theRezObjItem != nil) {
-			CRezObj * theRezObj = theRezObjItem->GetRezObj();
+		if (error == noErr && newRezObjItem != nil) {
+			// Check for conflicting IDs
+			CRezObj * theRezObj = newRezObjItem->GetRezObj();
 			theType = theRezObj->GetType();
 			theID = theRezObj->GetID();
-			 if ( mRezMap->ResourceExists(theType, theID) ) {
-				 mRezMap->UniqueID(theType, theID);
-			 }
+			if ( mRezMap->ResourceExists(theType, theID) ) {
+				if (!sApplyToOthers) {
+					answer = UMessageDialogs::AskSolveUidConflicts(sApplyToOthers);
+					sConflictAction = answer;
+				} else {
+					answer = sConflictAction;
+				}
+				switch (answer) {
+					case answer_Do:
+					mRezMap->UniqueID(theType, theID);;
+					break;
+					
+					case answer_Dont:
+					// Remove the corresponding entry from the table if it is visible
+					oldRezObjItem = GetRezObjItem(theType, theID);
+					if (oldRezObjItem) {
+						GetOwnerDoc()->RemoveResource(oldRezObjItem);
+					} 
+					break;
+					
+					case answer_Cancel:
+					return;
+				}
+			}
 			GetOwnerDoc()->PasteResource(theType, theID, 
 										 theRezObj->GetData(), 
 										 theRezObj->GetName(), 
 										 theRezObj->GetAttributes() );			
 		 }
 		 
-		 if (theRezObjItem != nil) {
-			 ::DisposePtr( (char*) theRezObjItem);
+		 if (newRezObjItem != nil) {
+			 ::DisposePtr( (char*) newRezObjItem);
 		 } 
 		 
 	 } else if (::GetFlavorFlags(inDragRef, inItemRef, flavorTypeHFS, &theFlags) == noErr) {
@@ -766,7 +797,6 @@ CRezMapTable::RemoveAllItems()
 		RemoveItem(theRezTypeItem, false, false);
 	}
 }
-
 
 
 

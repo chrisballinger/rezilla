@@ -2,7 +2,7 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2004-03-23 15:48:29
+//             Last modification: 2004-03-24 08:18:07
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -223,7 +223,7 @@ CRezMapDoc::Initialize(FSSpec * inFileSpec, short inRefnum)
 	mRezMap = new CRezMap(inRefnum);
 	
 	// Create window for our document.
-	mRezMapWindow = dynamic_cast<CRezMapWindow *>(LWindow::CreateWindow( rPPob_RezMapWindow, this ));
+	mRezMapWindow = dynamic_cast<CRezMapWindow *>(LWindow::CreateWindow( rPPob_RezMapWindow, this));
 	Assert_( mRezMapWindow != nil );
 
 	// Make this document the supercommander of the RezMapWindow
@@ -306,7 +306,7 @@ CRezMapDoc::ObeyCommand(
 
 		case cmd_NewRez: 
 		NewResDialog();
-		mRezMapWindow->UpdateCountFields();
+		mRezMapWindow->RecalcCountFields();
 		break;
 		
 		case cmd_GetRezInfo: {
@@ -347,9 +347,11 @@ CRezMapDoc::ObeyCommand(
 				}
 			}
 
-			if (inCommand != cmd_EditRez) {
-				mRezMapWindow->UpdateCountFields();
-			} 
+			// RecalcCountFields not needed anymore: each remove/paste etc action 
+			// updates the fields.
+// 			if (inCommand != cmd_EditRez) {
+// 				mRezMapWindow->RecalcCountFields();
+// 			} 
 			SetModified(true);
 			
 			delete theArray;
@@ -1345,6 +1347,7 @@ CRezMapDoc::CreateNewRes(ResType inType, short inID, Str255* inName, short inAtt
 	} else {
 		theRezTypeItem->Expand();
 	}
+	// Redraw
 	mRezMapWindow->Refresh();
 }
 
@@ -1410,6 +1413,9 @@ CRezMapDoc::DuplicateResource(CRezObj* inRezObj)
 	// Copy the data handle
 	Handle srcHandle = inRezObj->GetData();
 	theRezObjItem->GetRezObj()->SetData( srcHandle );
+
+	// Update the size field
+	theRezObjItem->GetRezObj()->SetSize( ::GetHandleSize( srcHandle ) );
 	
 	// Mark the resource as modified in the rez map
 	theRezObjItem->GetRezObj()->Changed();
@@ -1421,7 +1427,11 @@ CRezMapDoc::DuplicateResource(CRezObj* inRezObj)
 	} else {
 		theRezTypeItem->Expand();
 	}
-	theRezObjItem->GetRezObj()->SetSize( ::GetHandleSize( srcHandle ) );
+
+	// Update the resources count field
+	mRezMapWindow->SetCountRezField( mRezMapWindow->GetCountRezField() + 1 );
+
+	// Redraw
 	mRezMapWindow->Refresh();
 }
 
@@ -1459,10 +1469,15 @@ CRezMapDoc::RemoveResource(CRezObjItem* inRezObjItem)
 	LOutlineItem* theSuperItem =  inRezObjItem->GetSuperItem();
 	mRezMapWindow->GetRezMapTable()->RemoveItem(inRezObjItem);
 	
+	// Update the resources count field
+	mRezMapWindow->SetCountRezField( mRezMapWindow->GetCountRezField() - 1 );
+
 	// If there are no more resources of this type, remove the type item
 	error = mRezMap->CountForType(theType, theCount);
 	if (theCount == 0) {
 		mRezMapWindow->GetRezMapTable()->RemoveItem(theSuperItem);
+		// Update the types count field
+		mRezMapWindow->SetCountTypeField( mRezMapWindow->GetCountTypeField() - 1 );
 	} 
 }
 
@@ -1558,6 +1573,8 @@ CRezMapDoc::PasteResource(ResType inType, short inID, Handle inHandle, Str255* i
 		theRezType = new CRezType(inType, mRezMap);
 		theRezTypeItem = new CRezTypeItem( theRezType );
 		mRezMapWindow->GetRezMapTable()->InsertItem( theRezTypeItem, nil, nil );
+		// Update the types count field
+		mRezMapWindow->SetCountTypeField( mRezMapWindow->GetCountTypeField() + 1 );
 	} else {
 		theRezType = theRezTypeItem->GetRezType();
 	}
@@ -1591,6 +1608,9 @@ CRezMapDoc::PasteResource(ResType inType, short inID, Handle inHandle, Str255* i
 	} else {
 		theRezTypeItem->Expand();
 	}
+	// Update the resources count field
+	mRezMapWindow->SetCountRezField( mRezMapWindow->GetCountRezField() + 1 );
+	// Redraw
 	mRezMapWindow->Refresh();
 }
 

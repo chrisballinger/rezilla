@@ -2,11 +2,11 @@
 // CRezMapWindow.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2003-05-01 18:53:37
+//             Last modification: 2004-03-24 08:18:24
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003
+// (c) Copyright : Bernard Desgraupes, 2003-2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -19,8 +19,6 @@
 #include "RezillaConstants.h"
 #include "CRezMapDoc.h"
 #include "CRezMap.h"
-
-// #include "UMessageDialogs.h"
 
 #include <LWindow.h>
 #include <LFile.h>
@@ -102,8 +100,7 @@ CRezMapWindow::FinishCreateSelf()
 	mRezMapTable->SetSuperCommander(this);
 
 	// Fill in the bottom fields
-	LStaticText *	theStaticText;
-	short			theCount;
+	short	theCount;
 	
 	mCountTypeField = dynamic_cast<LStaticText *>(this->FindPaneByID( item_TypesNum ));
 	ThrowIfNil_( mCountTypeField );
@@ -114,65 +111,24 @@ CRezMapWindow::FinishCreateSelf()
 	InstallWhichForkField();
 	
 	mOwnerDoc->GetRezMap()->CountAllTypes(theCount);
-	InstallCountTypeValue(theCount);
+	SetCountTypeField(theCount);
 	mOwnerDoc->GetRezMap()->CountAllResources(theCount);
-	InstallCountRezValue(theCount);
+	SetCountRezField(theCount);
 		
 	UReanimator::LinkListenerToControls(this, this, rRidL_RezMapWindow);
 }
 
 
 // ---------------------------------------------------------------------------
-//  ¥ ListenToMessage											[public]
+//  ¥ ListenToMessage												[public]
 // ---------------------------------------------------------------------------
 
 void
 CRezMapWindow::ListenToMessage( MessageT inMessage, void *ioParam ) 
 {
-	SInt32 theValue;
+#pragma unused( ioParam, inMessage )
 	
-// 	switch (inMessage) {
-// 		
-// 		case msg_Slider: {
-// 			break;
-// 		}
-// 		
-// 	}
 }
-
-
-// // ---------------------------------------------------------------------------------
-// //  ¥ FindCommandStatus
-// // ---------------------------------------------------------------------------------
-// 
-// void
-// CRezMapWindow::FindCommandStatus(
-// 	CommandT	inCommand,
-// 	Boolean		&outEnabled,
-// 	Boolean		&outUsesMark,
-// 	UInt16		&outMark,
-// 	Str255		outName )
-// {
-// 
-// 	switch ( inCommand ) {
-// 									
-// 		case cmd_EditRez:
-// 		case cmd_GetRezInfo:
-// 		case cmd_RemoveRez:
-// 		case cmd_DuplicateRez:
-// 		outEnabled = true;
-// 			break;		
-// 		
-// 	  default:
-// 		{
-// 			// Call inherited.
-// 			LDocument::FindCommandStatus( inCommand,
-// 				outEnabled, outUsesMark, outMark, outName );
-// 		}
-// 		break;
-// 
-// 	}
-// }
 
 
 // ---------------------------------------------------------------------------
@@ -186,8 +142,8 @@ CRezMapWindow::HandleKeyPress(
 	const EventRecord&	inKeyEvent)
 {
 	Boolean		keyHandled	= true;
-// 	LControl*	keyButton	= nil;
-// 	UInt8		theChar		= (UInt8) (inKeyEvent.message & charCodeMask);
+	LControl*	keyButton	= nil;
+	UInt8		theChar		= (UInt8) (inKeyEvent.message & charCodeMask);
 // 	
 // 	if (inKeyEvent.modifiers & cmdKey) {
 // 		if ( theChar == char_LeftArrow) {
@@ -233,11 +189,43 @@ CRezMapWindow::HandleKeyPress(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ InstallCountTypeValue											[public]
+//  ¥ GetCountTypeField											[public]
+// ---------------------------------------------------------------------------
+
+long
+CRezMapWindow::GetCountTypeField() 
+{
+	long result;
+	Str255 theString;
+	
+	mCountTypeField->GetDescriptor(theString);
+	::StringToNum(theString, &result);
+	return result;
+}
+
+
+// ---------------------------------------------------------------------------
+//  ¥ GetCountRezField											[public]
+// ---------------------------------------------------------------------------
+
+long
+CRezMapWindow::GetCountRezField() 
+{
+	long result;
+	Str255 theString;
+	
+	mCountRezField->GetDescriptor(theString);
+	::StringToNum(theString, &result);
+	return result;
+}
+
+
+// ---------------------------------------------------------------------------
+//  ¥ SetCountTypeField											[public]
 // ---------------------------------------------------------------------------
 
 void
-CRezMapWindow::InstallCountTypeValue(short inCount) 
+CRezMapWindow::SetCountTypeField(long inCount) 
 {
 	Str255 theString;
 	::NumToString(inCount, theString);
@@ -246,11 +234,11 @@ CRezMapWindow::InstallCountTypeValue(short inCount)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ InstallCountRezValue											[public]
+//  ¥ SetCountRezField											[public]
 // ---------------------------------------------------------------------------
 
 void
-CRezMapWindow::InstallCountRezValue(short inCount) 
+CRezMapWindow::SetCountRezField(long inCount) 
 {
 	Str255 theString;
 	::NumToString(inCount, theString);
@@ -259,20 +247,20 @@ CRezMapWindow::InstallCountRezValue(short inCount)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ UpdateCountFields												[public]
+//  ¥ RecalcCountFields												[public]
 // ---------------------------------------------------------------------------
 // Update the count fields at the bottom of the rezmap window
 
 void
-CRezMapWindow::UpdateCountFields() 
+CRezMapWindow::RecalcCountFields() 
 {
 	short theCount;
 	
 	mOwnerDoc->GetRezMap()->CountAllTypes(theCount);
-	InstallCountTypeValue(theCount);
+	SetCountTypeField(theCount);
 	
 	mOwnerDoc->GetRezMap()->CountAllResources(theCount);
-	InstallCountRezValue(theCount);
+	SetCountRezField(theCount);
 }
 
 
