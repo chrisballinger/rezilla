@@ -2,7 +2,7 @@
 // CTmplWindowUtils.cp					
 // 
 //                       Created: 2004-08-20 16:45:08
-//             Last modification: 2004-09-29 15:27:48
+//             Last modification: 2004-10-16 10:08:40
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -1210,28 +1210,18 @@ CTmplEditorWindow::CalcTextPositions(OSType inType, SInt32 & oldPos, SInt32 & ne
 			newPos = oldPos;
 		} 
 		
-	} 	
+	} else {
+		if (inType >> 24 == 'H' || inType >> 24 == 'F' || inType >> 24 == 'C' || inType >> 24 == 'T') {
+			isFixed = true;
+			UMiscUtils::HexNumStringToDecimal(&inType, &reqLength);
+			if (inType >> 24 == 'C') {
+				// Don't count the NULL byte
+				reqLength--;
+			} 
+		}
+	}
 	
 	return hasText;
 }
 
 
-// ---------------------------------------------------------------------------
-//	¥ CalcDualPanesPositions										[private]
-// ---------------------------------------------------------------------------
-
-void
-CTmplEditorWindow::CalcDualPanesPositions(SInt16 inWidth, SInt16 extraWidth, 
-										  SInt32 & hexLeft, SInt16 & hexWidth, 
-										  SInt32 & txtLeft, SInt16 & txtWidth)
-{
-	SInt16 numChar = (inWidth - extraWidth) / (CRezillaApp::sBasics.charWidth * 5);
-	
-	// Hex pane
-	hexWidth = numChar * CRezillaApp::sBasics.charWidth * 3;
-	hexLeft = kTmplTextInset;
-	
-	// Txt pane (readable representation)
-	txtWidth = numChar * CRezillaApp::sBasics.charWidth * 2;
-	txtLeft = hexLeft + hexWidth + kTmplHorizSep;
-}

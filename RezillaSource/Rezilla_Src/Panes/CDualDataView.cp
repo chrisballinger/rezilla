@@ -2,7 +2,7 @@
 // CDualDataView.cp					
 // 
 //                       Created: 2004-06-16 20:13:56
-//             Last modification: 2004-10-15 23:10:59
+//             Last modification: 2004-10-16 10:08:57
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -733,6 +733,27 @@ CDualDataView::AdaptToNewSurroundings()
 // ---------------------------------------------------------------------------
 //	¥ ResizeDataPanes												[public]
 // ---------------------------------------------------------------------------
+
+void
+CDualDataView::ResizeDataPanes()
+{
+	SInt16			hexWidth, hexHeight, txtWidth, txtHeight;
+	SInt32			hexLeft, txtLeft;
+	
+	CalcPanesPositions(hexLeft, hexWidth, hexHeight, txtLeft, txtWidth, txtHeight);
+	
+	// LHS pane (hexadecimal representation)
+	mHexView->ResizeFrameTo(hexWidth, hexHeight, false);
+	
+	// RHS pane (readable representation)	
+	mTxtView->ResizeFrameTo(txtWidth, txtHeight, false);
+	mTxtView->PlaceInSuperImageAt(mGeometry.hinst + hexWidth + mGeometry.hsep, mGeometry.vinst, false);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ CalcPanesPositions										[private]
+// ---------------------------------------------------------------------------
 // 	Formulas:
 // 	Width
 // 	If nc is the number of chars per line:
@@ -754,32 +775,28 @@ CDualDataView::AdaptToNewSurroundings()
 // 		TDSVw = 2/5 (TGBXw - 46)
 
 void
-CDualDataView::ResizeDataPanes()
+CDualDataView::CalcPanesPositions(SInt32 & hexLeft, SInt16 & hexWidth, SInt16 & hexHeight, 
+								  SInt32 & txtLeft, SInt16 & txtWidth, SInt16 & txtHeight)
 {
-	SDimension16	theSize;
-	SInt16			theWidth, theHeight, extraWidth, extraHeight;
-	SInt16			numChar, numLine;
-	SPoint32		theLocation;
+	SInt16			numChar, numLine, extraWidth, extraHeight;
+	SDimension16	frame;
 	
-	GetFrameSize(theSize);
-	GetFrameLocation(theLocation);
-
+	GetFrameSize(frame);
 	extraWidth = mGeometry.hinst * 3 + mGeometry.hsep + mGeometry.scrlw;
 	extraHeight = mGeometry.vinst * 2;
+
+	numChar = (frame.width - extraWidth) / (CRezillaApp::sBasics.charWidth * 5);
+	numLine = (frame.height - extraHeight) / CRezillaApp::sBasics.charHeight;
+
+	// Hex pane
+	hexWidth = numChar * CRezillaApp::sBasics.charWidth * 3;
+	hexHeight = numLine * CRezillaApp::sBasics.charHeight;
+	hexLeft = mGeometry.hinst;
 	
-	numChar = (theSize.width - extraWidth) / (CRezillaApp::sBasics.charWidth * 5);
-	numLine = (theSize.height - extraHeight) / CRezillaApp::sBasics.charHeight;
-	
-	// LHS pane (hexadecimal representation)
-	theWidth = numChar * CRezillaApp::sBasics.charWidth * 3;
-	theHeight = numLine * CRezillaApp::sBasics.charHeight;
-	mHexView->ResizeFrameTo(theWidth, theHeight, false);
-	
-	// RHS pane (readable representation)
-	theWidth = numChar * CRezillaApp::sBasics.charWidth * 2;
-	// Relocate the RHS pane	
-	mTxtView->ResizeFrameTo(theWidth, theHeight, false);
-	mTxtView->PlaceInSuperImageAt(theSize.width - theWidth - mGeometry.hinst - mGeometry.scrlw - theLocation.h, mGeometry.vinst, false);
+	// Txt pane (readable representation)
+	txtWidth = numChar * CRezillaApp::sBasics.charWidth * 2;
+	txtHeight = hexHeight;
+	txtLeft = hexLeft + hexWidth + mGeometry.hsep;
 }
 
 

@@ -2,7 +2,7 @@
 // CTmplWindowUtils.cp					
 // 
 //                       Created: 2004-08-20 16:45:08
-//             Last modification: 2004-10-12 23:48:53
+//             Last modification: 2004-10-16 10:09:10
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -619,7 +619,7 @@ void
 CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 {
 	SInt32		oldPos, newPos, nextPos, reqLength;
-	SInt16		hexWidth, txtWidth, extraWidth, extraHeight;
+	SInt16		hexWidth, hexHeight, txtWidth, txtHeight;
 	SInt32		hexLeft, txtLeft;
 	Boolean		incrY = true, isFixed = false, hasText, canReduce;
 	Handle		theHandle;
@@ -672,7 +672,7 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 	// wrapping on (so that the image size is recalculated automatically 
 	// when the frame size changes). The read only property is set 
 	// by InstallSubViews() below.
-	CalcDualPanesPositions(sTgbPaneInfo.width, extraWidth, hexLeft, hexWidth, txtLeft, txtWidth);
+	theTGB->CalcPanesPositions(hexLeft, hexWidth, hexHeight, txtLeft, txtWidth, txtHeight);
 	
 	sWastePaneInfo.left				= hexLeft;
 	sWastePaneInfo.top				= kTmplTextInset;

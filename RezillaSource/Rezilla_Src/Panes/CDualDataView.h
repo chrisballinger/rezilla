@@ -2,7 +2,7 @@
 // CDualDataView.h
 // 
 //                       Created: 2004-06-16 20:13:56
-//             Last modification: 2004-06-17 01:17:15
+//             Last modification: 2004-10-16 09:56:31
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -100,6 +100,13 @@ public:
 	void			ResizeDataPanes();
 	void			UpdatePaneCounts();
 	
+	void			CalcPanesPositions(SInt32 & hexLeft, 
+									   SInt16 & hexWidth, 
+									   SInt16 & hexHeight, 
+									   SInt32 & txtLeft, 
+									   SInt16 & txtWidth, 
+									   SInt16 & txtHeight);
+	
 	// Accessors
 	virtual SInt32		GetCurrFirstLine() { return mCurrFirstLine;}
 	void				SetCurrFirstLine(SInt32 theCurrFirstLine) {mCurrFirstLine = theCurrFirstLine ;}
@@ -136,16 +143,11 @@ protected:
 	SInt32				mCurrLocalOffset;
 	SInt32				mCurrentSubView;
 	DualGeometry		mGeometry;
-	/* 
-	 * SInt16                mExtraWidth;
-	 * SInt16                mExtraHeight;
-	 */
 	Boolean				mSelectingAll;
 	
 	virtual void		FinishCreateSelf();
 	void				Initialize();
 	void				DeclareListeners();
-	
 };
 
 
