@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2005-01-21 10:14:13
+//             Last modification: 2005-03-08 15:46:25
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -31,6 +31,7 @@
 #include "UNavigationDialogs.h"
 
 // Custom classes for registration
+#include "CAboutWindow.h"
 #include "CAete_EditorWindow.h"
 #include "CBiDataWE.h"
 #include "CBroadcasterTableView.h"
@@ -251,8 +252,8 @@ CRezillaApp::Initialize()
 		}
 	}
 	
-	// Create the about window
-	MakeAboutWindow();
+// 	// Create the about window
+// 	MakeAboutWindow();
 	
 	// Create an instance of CRezillaPrefs
 	sPrefs = new CRezillaPrefs(this);
@@ -360,6 +361,7 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(LTextColumn);
 
 	// Register Rezilla custom classes.
+	RegisterClass_(CAboutWindow);
 	RegisterClass_(CAete_EditorWindow);
 	RegisterClass_(CBiDataWE);
 	RegisterClass_(CBroadcasterTableView);
@@ -596,59 +598,7 @@ CRezillaApp::FindCommandStatus(
 void
 CRezillaApp::ListenToMessage( MessageT inMessage, void *ioParam ) 
 {
-#pragma unused( ioParam )
-	
-	switch (inMessage) {
-		
-		case msg_AboutOkButton:
-		mAboutWindow->Hide();		
-		break;
-		
-		case msg_AboutLicenceButton:
-		mAboutWindow->Hide();		
-		WindowPtr theWinPtr = UWindows::FindNamedWindow("\pRezilla Licence");
-		if (!theWinPtr) {
-			LWindow* theWindow = LWindow::CreateWindow( PPob_LicenceWindow, this );
-			ThrowIfNil_(theWindow);
-			theWinPtr = theWindow->GetMacWindow();
-		} 
-		::SelectWindow(theWinPtr);
-		break;
-	}
-}
-
-
-// ---------------------------------------------------------------------------
-//	¥ MakeAboutBox													  [public]
-// ---------------------------------------------------------------------------
-
-void
-CRezillaApp::MakeAboutWindow()
-{	
-	Str255	theString;
-	LStaticText *theCaption;	
-	CStaticTextURL *theUrlCaption;	
-
-	mAboutWindow = (LDialogBox *)(LWindow::CreateWindow( PPob_AboutWindow, this ));
-	ThrowIfNil_(mAboutWindow);
-	
-	// Write the version number in the caption
-	theCaption = dynamic_cast<LStaticText *>(mAboutWindow->FindPaneByID( item_AboutVersCaption ));
-	theCaption->SetDescriptor(sVersionNumber);
-
-	// Write the URLs
-	for (UInt8 i = 0; i < 6; i++) {
-		theUrlCaption = dynamic_cast<CStaticTextURL *>(mAboutWindow->FindPaneByID( item_AboutUrlsBase + i ));
-	
-		// Retrieve strings from STR# resource
-		::GetIndString(theString, STRx_InternetUrls, 2*i+1);
-		theUrlCaption->SetDescriptor(theString);
-		
-		::GetIndString(theString, STRx_InternetUrls, 2*i+2);
-		theUrlCaption->SetUrlString(theString);
-	}
-	
-	UReanimator::LinkListenerToControls( this, mAboutWindow, PPob_AboutWindow );
+#pragma unused(inMessage, ioParam )
 }
 
 
@@ -660,8 +610,12 @@ CRezillaApp::MakeAboutWindow()
 void
 CRezillaApp::ShowAboutBox()
 {
-	mAboutWindow->Show();
-	UDesktop::SelectDeskWindow(mAboutWindow);
+	CAboutWindow * aboutWindow = dynamic_cast<CAboutWindow *>(LWindow::CreateWindow( PPob_AboutWindow, this ));
+	Assert_( aboutWindow != nil );
+	
+	aboutWindow->Show();
+	SwitchTarget(aboutWindow);
+// 	UDesktop::SelectDeskWindow(aboutWindow);
 }
 
 
@@ -865,30 +819,6 @@ CRezillaApp::ChooseAFile(FSSpec & outFileSpec)
 		mOpeningFork = theUserData.whichFork;
 		sReadOnlyNavFlag = theUserData.isReadOnly;
 	}
-
-    // Activate the desktop.
-    ::UDesktop::Activate();
-
-	return openOK;
-}
-
-
-// ---------------------------------------------------------------------------
-//	¥ ChooseAFile								[public static]
-// ---------------------------------------------------------------------------
-
-Boolean
-CRezillaApp::ChooseAFile(const LFileTypeList & inFileTypes, FSSpec & fileSpec)
-{
-	bool	openOK = false;
-	
-	// Deactivate the desktop.
-	::UDesktop::Deactivate();
-	
-	// Browse for a document.
-	UNavServicesDialogs::LFileChooser	chooser;
-	
-	openOK = chooser.AskChooseOneFile(inFileTypes, fileSpec);
 
     // Activate the desktop.
     ::UDesktop::Activate();
