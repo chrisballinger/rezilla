@@ -2,7 +2,7 @@
 // CStaticEditCombo.cp
 // 
 //                       Created: 2005-03-17 09:36:42
-//             Last modification: 2005-03-19 16:20:45
+//             Last modification: 2005-03-20 17:48:28
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -86,13 +86,17 @@ CStaticEditCombo::InitCombo()
 	pi.visible = false;
 	pi.enabled = true;
 	pi.bindings = mFrameBinding;
-	pi.left = mFrameLocation.h;
-	pi.top = mFrameLocation.v;
+// 	pi.left = mFrameLocation.h;
+// 	pi.top = mFrameLocation.v;
+	pi.left = 0;
+	pi.top = 0;
 	pi.userCon = 0;
 	pi.superView = this;
 
 	mStaticText = new LStaticText(pi, "\p", 0);
-	mEditText = new LEditText(pi, this, "\p", 0, msg_Nothing, 255, 0, 
+	
+	pi.top -= 2;
+	mEditText = new LEditText(pi, this, "\p", Txtr_MonacoNineDefault, msg_Nothing, 255, 0, 
 							  UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar));
 							  
 }
@@ -179,6 +183,7 @@ CStaticEditCombo::SwapPanes()
 		mStaticText->Hide();
 		mEditText->SetDescriptor(theTitle);
 		mEditText->Show();
+		SwitchTarget(mEditText);
 		mIsEditing = true;
 	}
 }
