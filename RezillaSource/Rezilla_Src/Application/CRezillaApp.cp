@@ -383,9 +383,12 @@ CRezillaApp::ObeyCommand(
 		case cmd_RezCompare: {
 			CRezCompare * theComparator = new CRezCompare(this);
 			ThrowIfNil_(theComparator);
-			theComparator->RunRezCompareDialog();
-			if (theComparator->HasDifferences()) {
-				theComparator->DisplayResults();
+			if (theComparator->RunRezCompareDialog() == noErr) {
+				if (theComparator->HasDifferences()) {
+					theComparator->DisplayResults();
+				} else {
+					UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("RezMapsDoNotDiffer"), rPPob_SimpleMessage);
+				}
 			} 
 // 			delete theComparator;
 			break;
