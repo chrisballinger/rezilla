@@ -667,7 +667,7 @@ OSErr
 CTmplEditorWindow::WriteOutKeyValue(ResType inType, ArrayIndexT * outIndex)
 {
 	SInt32	keyValue;
-	OSErr	error;
+	OSErr	error = noErr;
 	
 	*outIndex = mKeyIDs.FetchIndexOf(mCurrentID);
 	
@@ -847,7 +847,7 @@ CTmplEditorWindow::SelectKeyValueFromKeyCases(Str255 inLabelString,
 	LPopupButton *	thePopup;
 	CFStringRef		formatStr = NULL, messageStr = NULL;
 
-	StDialogBoxHandler	theHandler(rPPob_TmplKeyPickerPicker, this);
+	StDialogBoxHandler	theHandler(rPPob_TmplKeyPicker, this);
 	LDialogBox *		theDialog = theHandler.GetDialog();
 	Assert_(theDialog != nil);
 	
@@ -1013,7 +1013,7 @@ CTmplEditorWindow::CountAllSubPanes(LView * inView)
 		if (theView) {
 			count += CountAllSubPanes(theView);
 		} else {
-			if (theSub->GetPaneID() != 0) {
+			if (theSub->GetPaneID() > 0) {
 				count++;
 			} 
 		}
