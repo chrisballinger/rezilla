@@ -2,7 +2,7 @@
 // CAeteElement.cp
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-31 08:52:44
+//             Last modification: 2005-02-04 06:06:00
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -123,9 +123,7 @@ SInt32
 CAeteElement::NewKeyForm()
 {	
 	AddKeyForm();
-	mKeyFormIndex = CountKeyForms();
-	
-	return mKeyFormIndex;
+	return CountKeyForms();
 }
  
 
@@ -138,14 +136,20 @@ CAeteElement::NewKeyForm()
 SInt32
 CAeteElement::DeleteKeyForm()
 {
-	SInt32 count = 0;
-	
 	RemoveKeyForm(mKeyFormIndex);
-	count = CountKeyForms();
-	mKeyFormIndex = ( count > 0 );
-	
-	return count;
+	mKeyFormIndex = -1;
+	return CountKeyForms();
 }
+ 
+// SInt32
+// CAeteElement::DeleteKeyForm()
+// {
+// 	SInt32	count;
+// 	RemoveKeyForm(mKeyFormIndex);
+// 	count = CountKeyForms();
+// 	mKeyFormIndex = (count > 0);
+// 	return count;
+// }
  
 
 // ---------------------------------------------------------------------------

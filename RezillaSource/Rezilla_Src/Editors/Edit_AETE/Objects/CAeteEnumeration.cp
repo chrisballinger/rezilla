@@ -2,7 +2,7 @@
 // CAeteEnumeration.cp
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-30 21:01:11
+//             Last modification: 2005-02-04 06:06:13
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -110,6 +110,7 @@ CAeteEnumeration::GetEnumerator(ArrayIndexT inAtIndex, AeteEnumerator & outEnume
 void
 CAeteEnumeration::SetEnumerator(ArrayIndexT inAtIndex, AeteEnumerator inEnumerator)
 {
+	if (inAtIndex == 0) { return; } 
 	RemoveEnumerator(inAtIndex);
 	mEnumerators.InsertItemsAt(1, inAtIndex, inEnumerator);
 }
@@ -181,9 +182,7 @@ SInt32
 CAeteEnumeration::NewEnumerator()
 {	
 	AddEnumerator();
-	mEnumeratorIndex = CountEnumerators();
-	
-	return mEnumeratorIndex;
+	return CountEnumerators();
 }
  
 
@@ -196,12 +195,9 @@ CAeteEnumeration::NewEnumerator()
 SInt32
 CAeteEnumeration::DeleteEnumerator()
 {
-	SInt32 count = 0;
-	
 	RemoveEnumerator(mEnumeratorIndex);
-	mEnumeratorIndex = CountEnumerators();
-	
-	return mEnumeratorIndex;
+	mEnumeratorIndex = -1;
+	return CountEnumerators();
 }
  
 

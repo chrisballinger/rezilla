@@ -2,7 +2,7 @@
 // CAeteClass.cp
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-30 21:01:39
+//             Last modification: 2005-02-04 06:06:26
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -298,10 +298,8 @@ CAeteClass::SetValues(Str255 inName, OSType inID, Str255 inDescription)
 SInt32
 CAeteClass::NewProperty()
 {	
-	AddProperty();
-	mPropertyIndex = CountProperties();
-	
-	return mPropertyIndex;
+	AddProperty();	
+	return CountProperties();
 }
  
 
@@ -314,13 +312,9 @@ CAeteClass::NewProperty()
 SInt32
 CAeteClass::DeleteProperty()
 {
-	SInt32 count = 0;
-	
 	RemoveProperty(mPropertyIndex);
-	count = CountProperties();
-	mPropertyIndex = ( count > 0 );
-	
-	return count;
+	mPropertyIndex = -1;
+	return CountProperties();
 }
  
 
@@ -334,9 +328,7 @@ SInt32
 CAeteClass::NewElement()
 {	
 	AddElement();
-	mElementIndex = CountElements();
-	
-	return mElementIndex;
+	return CountElements();
 }
  
 
@@ -349,13 +341,9 @@ CAeteClass::NewElement()
 SInt32
 CAeteClass::DeleteElement()
 {
-	SInt32 count = 0;
-	
 	RemoveElement(mElementIndex);
-	count = CountElements();
-	mElementIndex = ( count > 0 );
-	
-	return count;
+	mElementIndex = -1;
+	return CountElements();
 }
  
 

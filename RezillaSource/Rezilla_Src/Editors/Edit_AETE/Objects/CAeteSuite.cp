@@ -2,7 +2,7 @@
 // CAeteSuite.cp
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-31 07:36:46
+//             Last modification: 2005-02-04 06:06:20
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -607,30 +607,23 @@ CAeteSuite::DeleteItem(SInt8 inKind)
 	switch (inKind) {
 		case kind_AeteEvent:
 		RemoveEvent(mEventIndex);
-		count = CountEvents();
-		mEventIndex = ( count > 0 );
 		break;
 		
 		case kind_AeteClass:
 		RemoveClass(mClassIndex);
-		count = CountClasses();
-		mClassIndex = ( count > 0 );
 		break;
 		
 		case kind_AeteCompOp:
 		RemoveCompOp(mCompOpIndex);
-		count = CountCompOps();
-		mCompOpIndex = ( count > 0 );
 		break;
 		
 		case kind_AeteEnum:
 		RemoveEnumeration(mEnumerationIndex);
-		count = CountEnumerations();
-		mEnumerationIndex = ( count > 0 );
 		break;
 	}	
 	
-	return count;
+	SetCurrentIndex(inKind, -1);
+	return GetCurrentCount(inKind);
 }
  
 

@@ -2,7 +2,7 @@
 // CAeteEvent.cp
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-31 08:58:42
+//             Last modification: 2005-02-04 06:06:07
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -270,9 +270,7 @@ SInt32
 CAeteEvent::NewParameter()
 {	
 	AddParameter();
-	mParameterIndex = CountParameters();
-	
-	return mParameterIndex;
+	return CountParameters();
 }
  
 
@@ -285,13 +283,9 @@ CAeteEvent::NewParameter()
 SInt32
 CAeteEvent::DeleteParameter()
 {
-	SInt32 count = 0;
-	
 	RemoveParameter(mParameterIndex);
-	count = CountParameters();
-	mParameterIndex = ( count > 0 );
-	
-	return count;
+	mParameterIndex = -1;
+	return CountParameters();
 }
  
 
