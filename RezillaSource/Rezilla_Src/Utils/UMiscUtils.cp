@@ -575,47 +575,6 @@ UMiscUtils::MetricsFromTraits(ConstTextTraitsPtr inTextTraits)
 }
 
 
-// ---------------------------------------------------------------------------
-//	¥ PickColor											[static]
-// ---------------------------------------------------------------------------
-
-Boolean
-UMiscUtils::PickRGBColor(RGBColor * inRGB)
-{	
-	ColorPickerInfo	cpinfo;
-	Boolean			picked = false;
-	OSErr			error;
-	
-	if (inRGB == NULL) {
-		inRGB->red = 0xffff;
-		inRGB->green = 0xffff;
-		inRGB->blue = 0xffff;
-	} 
-	
-	cpinfo.theColor.profile = 0L;
-	cpinfo.theColor.color.rgb.red   = inRGB->red;
-	cpinfo.theColor.color.rgb.green = inRGB->green;
-	cpinfo.theColor.color.rgb.blue  = inRGB->blue;
-	cpinfo.dstProfile = 0L;
-	cpinfo.flags = kColorPickerCanModifyPalette 
-				 | kColorPickerCanAnimatePalette;
-	cpinfo.placeWhere = kDeepestColorScreen;
-	cpinfo.pickerType = 0L;
-	cpinfo.eventProc = NULL;
-	cpinfo.colorProc = NULL;
-	cpinfo.colorProcData = NULL;
-	error = PickColor(&cpinfo);
-	if ((error == noErr) && (cpinfo.newColorChosen != 0)) {
-		  inRGB->red    = cpinfo.theColor.color.rgb.red;
-		  inRGB->green  = cpinfo.theColor.color.rgb.green;
-		  inRGB->blue   = cpinfo.theColor.color.rgb.blue;
-		  picked = 1;
-	  }
-	  
-	  return picked;
-}
-
-
 #pragma mark -
 
 

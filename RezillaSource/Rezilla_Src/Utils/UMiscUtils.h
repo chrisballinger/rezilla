@@ -53,7 +53,6 @@ public:
 	static void		PaddTypeIfNecessary(Str255 inTypeStr);
 	static void 	SetTypeAndCreator(FSSpec inFSSpec, OSType inType, OSType inCreator);
 	static void		HexNumStringToDecimal(ResType * inTypePtr, SInt32 * outNum);
-	static Boolean	PickRGBColor(RGBColor * inRGB);
 
 };
 
