@@ -1138,22 +1138,22 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
  		break;
 
 		case 'DBYT':
-		// Decimal byte
+		// Signed decimal byte
 		if (mRezStream->GetMarker() < mRezStream->GetLength() ) {
-			*mRezStream >> theUInt8;
+			*mRezStream >> theSInt8;
 		} 
-		::NumToString( (long) theUInt8, numStr);
+		::NumToString( (long) theSInt8, numStr);
 		AddStaticField(inType, inLabelString, inContainer);
 		AddEditField(numStr, inType, 4, 0, 
 					 UKeyFilters::SelectTEKeyFilter(keyFilter_NegativeInteger), inContainer);
 		break;
 
 		case 'DLNG':
-		// Decimal long word
+		// Signed decimal long word
 		if (mRezStream->GetMarker() < mRezStream->GetLength() - 3) {
-			*mRezStream >> theUInt32;
+			*mRezStream >> theSInt32;
 		} 
-		::NumToString( (long) theUInt32, numStr);
+		::NumToString( (long) theSInt32, numStr);
 		AddStaticField(inType, inLabelString, inContainer);
 		AddEditField(numStr, inType, 6, 0, 
 					 UKeyFilters::SelectTEKeyFilter(keyFilter_NegativeInteger), inContainer);
@@ -1166,11 +1166,11 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 
 		case 'DWRD':
 		case 'RSID':
-		// Decimal word
+		// Signed decimal word
 		if (mRezStream->GetMarker() < mRezStream->GetLength() - 1) {
-			*mRezStream >> theUInt16;
+			*mRezStream >> theSInt16;
 		} 
-		::NumToString( (long) theUInt16, numStr);
+		::NumToString( (long) theSInt16, numStr);
 		AddStaticField(inType, inLabelString, inContainer);
 		AddEditField(numStr, inType, 11, 0, 
 					 UKeyFilters::SelectTEKeyFilter(keyFilter_NegativeInteger), inContainer);
@@ -1507,6 +1507,39 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		AddStaticField(inType, inLabelString, inContainer);
 		AddEditField(theString, inType, 4, 0, 
 					 UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar), inContainer);
+		break;
+
+		case 'UBYT':
+		// Unsigned decimal byte
+		if (mRezStream->GetMarker() < mRezStream->GetLength() ) {
+			*mRezStream >> theUInt8;
+		} 
+		::NumToString( (long) theUInt8, numStr);
+		AddStaticField(inType, inLabelString, inContainer);
+		AddEditField(numStr, inType, 4, 0, 
+					 UKeyFilters::SelectTEKeyFilter(keyFilter_Integer), inContainer);
+		break;
+
+		case 'ULNG':
+		// Unsigned decimal long word
+		if (mRezStream->GetMarker() < mRezStream->GetLength() - 3) {
+			*mRezStream >> theUInt32;
+		} 
+		::NumToString( (long) theUInt32, numStr);
+		AddStaticField(inType, inLabelString, inContainer);
+		AddEditField(numStr, inType, 6, 0, 
+					 UKeyFilters::SelectTEKeyFilter(keyFilter_Integer), inContainer);
+		break;
+
+		case 'UWRD':
+		// Unsigned decimal word
+		if (mRezStream->GetMarker() < mRezStream->GetLength() - 1) {
+			*mRezStream >> theUInt16;
+		} 
+		::NumToString( (long) theUInt16, numStr);
+		AddStaticField(inType, inLabelString, inContainer);
+		AddEditField(numStr, inType, 11, 0, 
+					 UKeyFilters::SelectTEKeyFilter(keyFilter_Integer), inContainer);
 		break;
 
 		case 'WBIT':
@@ -3054,6 +3087,10 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		mCurrentID++;
 		break;
 
+		case 'DVDR':
+		// Divider line. Just skip it.
+		break;
+
 		case 'DWRD':
 		case 'RSID':
 		// Decimal word
@@ -3438,6 +3475,33 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		theEditText->GetDescriptor(theString);	
 		UMiscUtils::PStringToOSType(theString, theOSType);
 		*mOutStream << theOSType;
+		mCurrentID++;
+		break;
+
+		case 'UBYT':
+		// Unsigned decimal byte
+		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
+		theEditText->GetDescriptor(numStr);	
+		::StringToNum( numStr, &theLong);
+		*mOutStream << (UInt8) theLong;
+		mCurrentID++;
+		break;
+
+		case 'ULNG':
+		// Unsigned decimal long word
+		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
+		theEditText->GetDescriptor(numStr);	
+		::StringToNum( numStr, &theLong);
+		*mOutStream << (UInt32) theLong;
+		mCurrentID++;
+		break;
+
+		case 'UWRD':
+		// Unsigned decimal word
+		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
+		theEditText->GetDescriptor(numStr);	
+		::StringToNum( numStr, &theLong);
+		*mOutStream << (UInt16) theLong;
 		mCurrentID++;
 		break;
 
