@@ -543,7 +543,6 @@ CTmplEditorWindow::HandleKeyPress(
 	Boolean		keyHandled	 = true;
 	EKeyStatus	theKeyStatus = keyStatus_Input;
 	SInt16		theKey		 = (SInt16) (inKeyEvent.message & charCodeMask);
-	LCommander*	theTarget	 = GetTarget();
 	
 	if (inKeyEvent.modifiers & cmdKey) {	// Always pass up when the command
 		theKeyStatus = keyStatus_PassUp;	//   key is down
@@ -561,17 +560,6 @@ CTmplEditorWindow::HandleKeyPress(
 			ListenToMessage(msg_TmplMinusButton, (void *) mSelectedListItem->mMinusButton);
 		} 
 		break;
-		
-		case keyStatus_TECursor: 
-		switch (theKey) {
-			case char_LeftArrow:
-			case char_RightArrow:
-			case char_UpArrow:
-			case char_DownArrow:
-				break;
-		}
-		break;
-		
 	}
 	
 	return keyHandled;
@@ -600,7 +588,6 @@ CTmplEditorWindow::CreateTemplateStream()
 	}
 	
 	if (theHandle == NULL) {
-		// UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("CouldNotGetTemplateData"), rPPob_SimpleMessage);
 		error = err_TmplGetDataStreamFailed;
 	} else {
 		mTemplateStream = new LHandleStream(theHandle);	
