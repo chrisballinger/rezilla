@@ -2,7 +2,7 @@
 // CTemplatesController.cp					
 // 
 //                       Created: 2004-08-06 12:57:55
-//             Last modification: 2004-08-10 22:26:00
+//             Last modification: 2004-08-14 00:14:08
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -35,23 +35,41 @@
 #include <string.h>
 
 
-TArray<OSType>		CTemplatesController::sInternalTemplates;
-CRezMap *			CTemplatesController::sTemplatesMap = nil;
-SInt16				CTemplatesController::sTemplateKind = tmpl_none;
+CFArrayRef			CTemplatesController::sAllTypesArray;
+CFArrayRef			CTemplatesController::sInternalTemplates;
 CFDictionaryRef		CTemplatesController::sExternalTemplates;
 CFDictionaryRef		CTemplatesController::sPreferedTemplates;
+CRezMap *			CTemplatesController::sTemplatesMap = nil;
+SInt16				CTemplatesController::sTemplateKind = tmpl_none;
 FSRef				CTemplatesController::sTemplateFile;
 
 
 // ---------------------------------------------------------------------------
 //	¥ CTemplatesController											[public]
 // ---------------------------------------------------------------------------
-//  Object constructor
+//  Object constructor. Takes care of building the various static 
+// arrays. The "All Types Array" contains all the types for which a 
+// template (internal or external) exists and the types stored in the 
+// static CEditorsController::sAsTypeDictionary variable.
 
 CTemplatesController::CTemplatesController()
 {
-	RegisterInternalTemplates();
-	sExternalTemplates = BuildExternalTemplatesDictionary();
+	// Build the internal array
+	BuildInternalTemplatesArray();
+	
+	// Copy it in the list of all known types
+	sAllTypesArray = CFArrayCreateMutableCopy(NULL, 0, sInternalTemplates);
+	
+	// Build the external array. Any new type is added to sAllTypesArray.
+	BuildExternalTemplatesDictionary();
+	
+	// Add the types registered as TypeAs types (the CEditorsController 
+	// class must have been created already).
+	AddAsTypesToAllTypes();
+		
+	// Sort the All Types Array
+	CFArraySortValues( (CFMutableArrayRef) sAllTypesArray, CFRangeMake(0, CFArrayGetCount(sAllTypesArray)), 
+					  (CFComparatorFunction) TypeSorter, NULL);
 }
 
 
@@ -65,21 +83,24 @@ CTemplatesController::~CTemplatesController()
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ RegisterInternalTemplates								[private]
+// 
+//  ¥ BuildInternalTemplatesArray								[private]
 // ---------------------------------------------------------------------------------
 
 OSErr
-CTemplatesController::RegisterInternalTemplates()
+CTemplatesController::BuildInternalTemplatesArray()
 {
 	CFBundleRef 	mainBundleRef;
 	CFURLRef 		templatesURL;
+	CFStringRef		typeRef;
 	FSRef 			theFSRef;
 	FSSpec			theFileSpec;
 	OSErr	  		error = noErr;
 	short			tmplRefNum, numResources;
 	ResType			theType;
 	Str255			theName;
-	
+	CRezType * 		theRezType;
+
 	// Locate the Templates resource file inside the main bundle
 	mainBundleRef = NULL;
 	templatesURL = NULL;
@@ -112,16 +133,26 @@ CTemplatesController::RegisterInternalTemplates()
 	}
 	
 	// Build the list of types (names of the TMPL resources)
-	CRezType * theRezType = new CRezType('TMPL', sTemplatesMap);
-	error = theRezType->CountResources(numResources);
-	if (error == noErr) {
-		for ( UInt16 i = 1; i <= numResources; i++ ) {
-			error = theRezType->GetNameAtIndex(i, theName);
-			if (error == noErr) {
-				UMiscUtils::PStringToOSType(theName, theType);
-				sInternalTemplates.AddItem(theType);
+	theRezType = new CRezType('TMPL', sTemplatesMap);
+	
+	if (theRezType) {
+		sInternalTemplates = CFArrayCreateMutable(NULL, 0, &kCFTypeArrayCallBacks);
+		error = theRezType->CountResources(numResources);
+		if (error == noErr) {
+			for ( UInt16 i = 1; i <= numResources; i++ ) {
+				error = theRezType->GetNameAtIndex(i, theName);
+				if (error == noErr) {
+					typeRef = CFStringCreateWithPascalString(NULL, theName, kCFStringEncodingMacRoman);
+					if (typeRef) {
+						if ( ! CFArrayContainsValue(sInternalTemplates, CFRangeMake(0, CFArrayGetCount(sInternalTemplates)), typeRef) ) {
+							CFArrayAppendValue( (CFMutableArrayRef) sInternalTemplates, typeRef);
+						} 
+						// It is OK to CFRelease because CFArrayAppendValue has incremented the retain count.
+						CFRelease(typeRef);
+					}
+				}
 			}
-		}
+		} 
 	} 
 	return error;
 }
@@ -142,20 +173,19 @@ CTemplatesController::RegisterInternalTemplates()
 // 		
 // 	Do we really need kSystemDomain ? kNetworkDomain ?
 
-CFDictionaryRef
+OSErr
 CTemplatesController::BuildExternalTemplatesDictionary()
 {
 	OSErr					error = noErr;
 	UInt32   				domainIndex;
-	CFMutableDictionaryRef	theDict = NULL;
 	FSRef					appSupportRef, rezillaRef, templateRef, fileRef;
-	// 	static const SInt16 kFolderDomains[] = {kUserDomain, kNetworkDomain, kLocalDomain, kSystemDomain, 0};
+	// kUserDomain, kNetworkDomain, kLocalDomain, kSystemDomain
 	static const SInt16 kFolderDomains[] = {kUserDomain, kLocalDomain, kSystemDomain, 0};
 	
 	// Create a mutable dictionary
-	theDict = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+	sExternalTemplates = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
 	
-	if (theDict) {
+	if (sExternalTemplates) {
 		domainIndex = 0;
 		do {
 			error = FSFindFolder(kFolderDomains[domainIndex], kApplicationSupportFolderType, kCreateFolder, &appSupportRef);
@@ -205,7 +235,7 @@ CTemplatesController::BuildExternalTemplatesDictionary()
 								if ( 0 != (catalogInfo.nodeFlags & kFSNodeIsDirectoryMask) ) {
 									continue;
 								}
-								error = AddTemplatesToDictionary(&fileRef, theDict);
+								error = AddTemplatesToDictionary(&fileRef);
 							}
 						} while ( result == noErr );
 						
@@ -220,7 +250,7 @@ CTemplatesController::BuildExternalTemplatesDictionary()
 		} while ( kFolderDomains[domainIndex] != 0 );
 	}
 	
-	return theDict;
+	return error;
 }
 
 
@@ -229,7 +259,7 @@ CTemplatesController::BuildExternalTemplatesDictionary()
 // ---------------------------------------------------------------------------
 
 OSErr
-CTemplatesController::AddTemplatesToDictionary(FSRef * inFileRef, CFMutableDictionaryRef inDict)
+CTemplatesController::AddTemplatesToDictionary(FSRef * inFileRef)
 {
 	OSErr		error = noErr;
 	SInt16		theFork;
@@ -239,48 +269,54 @@ CTemplatesController::AddTemplatesToDictionary(FSRef * inFileRef, CFMutableDicti
 	// Get the FSSpec from the FSRef
 	error = FSGetCatalogInfo(inFileRef, kFSCatInfoNone, NULL, NULL, &theFileSpec, NULL);
 	if (error == noErr) {
-		
 		error = CRezillaApp::PreOpen(theFileSpec, theFork, theRefnum, fork_anyfork);
 		if (error == noErr) {
 			CRezMap * rezMap = new CRezMap(theRefnum);
-			
-			// Build the list of types (names of the TMPL resources)
-			CRezType * theRezType = new CRezType('TMPL', rezMap);
-			error = theRezType->CountResources(numResources);
-			if (error == noErr && numResources > 0) {
-				// Create a CFArray to contain all the names
-				CFMutableArrayRef	theArray;
-				CFStringRef			nameRef;
-				CFDataRef			theKey;
-				Str255				theName;
-
-				theKey = CFDataCreate(NULL, (const UInt8 *) inFileRef, sizeof(FSRef));
-				if (theKey) {
-					theArray = CFArrayCreateMutable(NULL, 0, &kCFTypeArrayCallBacks);
-					if (theArray) {
-						for ( UInt16 i = 1; i <= numResources; i++ ) {
-							error = theRezType->GetNameAtIndex(i, theName);
-							if (error == noErr) {
-								nameRef = CFStringCreateWithPascalString(NULL, theName, kCFStringEncodingMacRoman);
-								if (nameRef) {
-									CFArrayAppendValue(theArray, nameRef);
-									CFRelease(nameRef);
-								} 							
-							}
-						}
-						delete theRezType;
+			if (rezMap) {
+				// Build the list of types (names of the TMPL resources)
+				CRezType * theRezType = new CRezType('TMPL', rezMap);
+				if (theRezType) {
+					error = theRezType->CountResources(numResources);
+					if (error == noErr && numResources > 0) {
+						// Create a CFArray to contain all the names
+						CFMutableArrayRef	theArray;
+						CFStringRef			nameRef;
+						CFDataRef			theKey;
+						Str255				theName;
 						
-						// Add to the dictionary
-						CFDictionaryAddValue(inDict, theKey, theArray);
-						CFRelease(theArray);
+						theKey = CFDataCreate(NULL, (const UInt8 *) inFileRef, sizeof(FSRef));
+						if (theKey) {
+							theArray = CFArrayCreateMutable(NULL, 0, &kCFTypeArrayCallBacks);
+							if (theArray) {
+								for ( UInt16 i = 1; i <= numResources; i++ ) {
+									error = theRezType->GetNameAtIndex(i, theName);
+									if (error == noErr) {
+										nameRef = CFStringCreateWithPascalString(NULL, theName, kCFStringEncodingMacRoman);
+										if (nameRef) {
+											CFArrayAppendValue(theArray, nameRef);
+											// Add to the sAllTypesArray in the same time
+											if ( ! CFArrayContainsValue(sAllTypesArray, CFRangeMake(0, CFArrayGetCount(sAllTypesArray)), nameRef) ) {
+												CFArrayAppendValue( (CFMutableArrayRef) sAllTypesArray, nameRef);
+											} 
+											CFRelease(nameRef);
+										} 							
+									}
+								}
+								
+								// Add to the dictionary
+								CFDictionaryAddValue( (CFMutableDictionaryRef) sExternalTemplates, theKey, theArray);
+								CFRelease(theArray);
+							} 
+							CFRelease(theKey);
+						} 
 					} 
-					CFRelease(theKey);
+					delete theRezType;
 				} 
+				delete rezMap;
 			} 
-			delete rezMap;
 		}
 	}
-		
+	
 	return error;
 }
 
@@ -297,7 +333,7 @@ CTemplatesController::HasTemplateForType(ResType inType, ResType * substType)
 	sTemplateKind = tmpl_none;
 	
 	// First look fo an internal TMPL resource
-	hasTMPL = sInternalTemplates.ContainsItem(inType);
+	hasTMPL = HasInternalTemplateForType(inType);
 	if (hasTMPL == true) {
 		sTemplateKind = tmpl_internal;
 	} else {
@@ -313,6 +349,30 @@ CTemplatesController::HasTemplateForType(ResType inType, ResType * substType)
 			hasTMPL = HasTemplateForType(*substType, substType);
 		} 
 	} 
+	return hasTMPL;
+}
+
+
+// ---------------------------------------------------------------------------
+//  ¥ HasInternalTemplateForType									[static]
+// ---------------------------------------------------------------------------
+
+Boolean
+CTemplatesController::HasInternalTemplateForType(ResType inType)
+{
+	Boolean hasTMPL = false;
+	Str255	theName;
+	
+	if (sInternalTemplates) {
+		CFStringRef			typeRef;
+		UMiscUtils::OSTypeToPString(inType, theName);	
+		typeRef = CFStringCreateWithPascalString(NULL, theName, kCFStringEncodingMacRoman);
+		if (typeRef) {
+			hasTMPL = CFArrayContainsValue(sInternalTemplates, CFRangeMake(0, CFArrayGetCount(sInternalTemplates)), typeRef);
+			CFRelease(typeRef);
+		}
+	}
+	
 	return hasTMPL;
 }
 
@@ -353,7 +413,7 @@ CTemplatesController::HasExternalTemplateForType(ResType inType, FSRef * outFile
 				for (i = 0; i < dictCount; i++) {
 					if (theKeys[i] && theVals[i] ) {
 						theArrayRef = (CFArrayRef) theVals[i];
-						// Let's be paranoid
+						// Let's be paranoid: check that it is an array
 						if (CFGetTypeID(theArrayRef) == CFArrayGetTypeID()) {
 							hasTMPL = CFArrayContainsValue(theArrayRef, CFRangeMake(0, CFArrayGetCount(theArrayRef)), typeRef);
 							if (hasTMPL) {
@@ -404,5 +464,49 @@ CTemplatesController::GetTemplateHandle(ResType inType)
 	return theHandle;
 }
  
+
+// ---------------------------------------------------------------------------
+//	¥ AddAsTypesToAllTypes										[static]
+// ---------------------------------------------------------------------------
+
+void
+CTemplatesController::AddAsTypesToAllTypes()
+{
+	if (CEditorsController::sAsTypeDictionary != NULL) {
+		CFStringRef theStringRef;
+		
+		CFIndex dictCount = CFDictionaryGetCount( (CFDictionaryRef) CEditorsController::sAsTypeDictionary);
+		// Allocate memory to store the keys
+		CFStringRef * theKeys = (CFStringRef*) NewPtrClear(sizeof(CFStringRef) * dictCount);
+		if (theKeys != NULL) {
+			CFDictionaryGetKeysAndValues( (CFDictionaryRef) CEditorsController::sAsTypeDictionary, (const void **) theKeys, NULL);
+			for (int i = 0; i < dictCount; i++) {
+				if (theKeys[i]) {
+					theStringRef = (CFStringRef) theKeys[i];
+					// Add to the sAllTypesArray if it is not already in
+					if ( ! CFArrayContainsValue(sAllTypesArray, CFRangeMake(0, CFArrayGetCount(sAllTypesArray)), theStringRef) ) {
+						CFArrayAppendValue( (CFMutableArrayRef) sAllTypesArray, theStringRef);
+					} 
+					CFRelease(theStringRef);
+				} 
+			}
+			DisposePtr( (char *) theKeys);
+		} 
+	} 
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ TypeSorter										[static]
+// ---------------------------------------------------------------------------
+
+CFComparisonResult
+CTemplatesController::TypeSorter(const void *lhs, const void *rhs, void *context)
+{
+#pragma unused(context)
+	return CFStringCompare( (CFStringRef) lhs, (CFStringRef) rhs, kCFCompareCaseInsensitive);
+}
+
+
 
 

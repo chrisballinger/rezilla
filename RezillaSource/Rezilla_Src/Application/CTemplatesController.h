@@ -2,7 +2,7 @@
 // CTemplatesController.h
 // 
 //                       Created: 2004-08-06 12:57:55
-//             Last modification: 2004-08-09 10:06:58
+//             Last modification: 2004-08-14 00:24:07
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -38,6 +38,8 @@ public:
 	
 		static Boolean		HasTemplateForType(ResType inType, ResType * substType);
 		
+		static Boolean		HasInternalTemplateForType(ResType inType);
+		
 		static Boolean		HasExternalTemplateForType(ResType inType,
 													   FSRef * outFileRef);
 
@@ -47,10 +49,14 @@ public:
 
 		static FSRef		GetTemplateFileRef() { return sTemplateFile;}
 
-		static TArray<OSType>	sInternalTemplates;
+		static CFComparisonResult	TypeSorter(const void *lhs, const void *rhs, void *context);
+		
+
 		static CRezMap *		sTemplatesMap;
+		static CFArrayRef		sInternalTemplates;
 		static CFDictionaryRef	sExternalTemplates;
 		static CFDictionaryRef	sPreferedTemplates;
+		static CFArrayRef		sAllTypesArray;
 		static SInt16			sTemplateKind;
 		static FSRef			sTemplateFile;
 
@@ -59,10 +65,11 @@ protected:
 
 	
 private:
-	OSErr				RegisterInternalTemplates();
-	OSErr				AddTemplatesToDictionary(FSRef * inFileRef, CFMutableDictionaryRef inDict);
-	CFDictionaryRef		BuildExternalTemplatesDictionary();
-
+	OSErr				BuildInternalTemplatesArray();
+	OSErr				BuildExternalTemplatesDictionary();
+	OSErr				AddTemplatesToDictionary(FSRef * inFileRef);
+	void				AddAsTypesToAllTypes();
+	
 };
 
 #endif // _H_CTemplatesController
