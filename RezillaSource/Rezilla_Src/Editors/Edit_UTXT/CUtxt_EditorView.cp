@@ -2,7 +2,7 @@
 // CUtxt_EditorView.cp
 // 
 //                       Created: 2004-12-08 18:21:21
-//             Last modification: 2004-12-09 07:01:34
+//             Last modification: 2004-12-09 23:05:04
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -50,8 +50,8 @@ CUtxt_EditorView::CUtxt_EditorView(
 	: LMLTEPane(inStream)
 {
 	TextTraitsRecord theTraits = CRezillaPrefs::GetStyleElement( CRezillaPrefs::prefsType_Curr );
-	TextStyle	theStyle;
 	SInt16		justification = teFlushDefault;
+// 	TextStyle	theStyle;
 
 // 	theStyle.tsFont			= theTraits.fontNumber;
 // 	theStyle.tsFace			= static_cast<UInt8>(theTraits.style);
@@ -79,19 +79,6 @@ CUtxt_EditorView::~CUtxt_EditorView()
 
 
 #pragma mark -
-
-// // ---------------------------------------------------------------------------
-// //	¥ ClickSelf								[protected, virtual]
-// // ---------------------------------------------------------------------------
-// 
-// void
-// CUtxt_EditorView::ClickSelf(
-// 	const SMouseDownEvent	&inMouseDown)
-// {
-// 	LTextEditView::ClickSelf(inMouseDown);
-// 	
-// 	mOwnerWindow->AdjustMenusToSelection();
-// }
 
 
 // ---------------------------------------------------------------------------
@@ -135,6 +122,42 @@ CUtxt_EditorView::ObeyCommand(
 	}
 
 	return cmdHandled;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ ActivateSelf
+// ---------------------------------------------------------------------------
+
+void
+CUtxt_EditorView::ActivateSelf()
+{
+	if (LMLTEPane::sTXNFontMenuObject != NULL) {
+		OSStatus 	status;
+		MenuHandle	macMenuH;
+		
+		status = ::TXNPrepareFontMenu(mTXNObject, sTXNFontMenuObject );
+		status = ::TXNGetFontMenuHandle(sTXNFontMenuObject, &macMenuH);
+	
+		::MacInsertMenu(macMenuH, rMENU_Window);
+	} 
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ DeactivateSelf
+// ---------------------------------------------------------------------------
+
+//	Return the Menu object for the specified MENU resource ID. Returns nil
+//	if there is no such Menu object
+// LMenu * LMenuBar::FetchMenu(ResIDT	inMENUid) const
+
+void
+CUtxt_EditorView::DeactivateSelf()
+{
+	::MacDeleteMenu(rMENU_FontsUnicode);
+	// Force redraw of MenuBar
+	::InvalMenuBar();
 }
 
 
