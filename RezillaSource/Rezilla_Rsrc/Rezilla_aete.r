@@ -912,13 +912,13 @@ resource 'aete' (0,"Scripting terminology") {
 			,
 				"documents",
 				'docu',
-				"Every document",
+				"every document",
 				{
 					
-						"class attributes",
+						"",
 						'c@#!',
 						'type',
-						"special class attributes",
+						"",
 						reserved,
 						singleItem,
 						notEnumerated,
@@ -1224,13 +1224,13 @@ resource 'aete' (0,"Scripting terminology") {
 			,
 				"windows",
 				'cwin',
-				"Every window",
+				"every window",
 				{
 					
-						"class attributes",
+						"",
 						'c@#!',
 						'type',
-						"special class attributes",
+						"",
 						reserved,
 						singleItem,
 						notEnumerated,
@@ -1839,8 +1839,38 @@ resource 'aete' (0,"Scripting terminology") {
 				{
 				}
 			,
+				"editor window",
+				'EdiW',
+				"a resource editor window",
+				{
+					
+						"inherits",
+						'c@#^',
+						'MapW',
+						"all properties of the 'map window' class",
+						reserved,
+						singleItem,
+						notEnumerated,
+						readOnly,
+						enumsAreConstants,
+						enumListCanRepeat,
+						propertyIsValue,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						noApostrophe,
+						notFeminine,
+						notMasculine,
+						singular
+					
+				},
+				{
+				}
+			,
 				"GUI window",
-				'MapW',
+				'GuiW',
 				"a GUI custom editor window",
 				{
 					
@@ -1950,36 +1980,6 @@ resource 'aete' (0,"Scripting terminology") {
 						'TxtP',
 						'DatP',
 						"the left pane of the hex window",
-						reserved,
-						singleItem,
-						notEnumerated,
-						readOnly,
-						enumsAreConstants,
-						enumListCanRepeat,
-						propertyIsValue,
-						reserved,
-						reserved,
-						reserved,
-						reserved,
-						reserved,
-						noApostrophe,
-						notFeminine,
-						notMasculine,
-						singular
-					
-				},
-				{
-				}
-			,
-				"GUI window",
-				'MapW',
-				"a GUI custom editor window",
-				{
-					
-						"inherits",
-						'c@#^',
-						'MapW',
-						"all properties of the 'map window' class",
 						reserved,
 						singleItem,
 						notEnumerated,
@@ -2312,7 +2312,7 @@ resource 'aete' (0,"Scripting terminology") {
 						singular
 					,
 						"compact",
-						'pCMP',
+						'pCPT',
 						'bool',
 						"the mapCompact bit",
 						reserved,
@@ -2391,6 +2391,36 @@ resource 'aete' (0,"Scripting terminology") {
 					
 				}
 			,
+				"maps",
+				'cMAP',
+				"every map",
+				{
+					
+						"",
+						'c@#!',
+						'type',
+						"",
+						reserved,
+						singleItem,
+						notEnumerated,
+						readOnly,
+						enumsAreConstants,
+						enumListCanRepeat,
+						propertyIsValue,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						noApostrophe,
+						notFeminine,
+						notMasculine,
+						plural
+					
+				},
+				{
+				}
+			,
 				"type",
 				'cTYP',
 				"a resource type",
@@ -2447,6 +2477,36 @@ resource 'aete' (0,"Scripting terminology") {
 							'name',
 							'list'}
 					
+				}
+			,
+				"types",
+				'cTYP',
+				"every type",
+				{
+					
+						"",
+						'c@#!',
+						'type',
+						"",
+						reserved,
+						singleItem,
+						notEnumerated,
+						readOnly,
+						enumsAreConstants,
+						enumListCanRepeat,
+						propertyIsValue,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						noApostrophe,
+						notFeminine,
+						notMasculine,
+						plural
+					
+				},
+				{
 				}
 			,
 				"resource",
@@ -2731,6 +2791,36 @@ resource 'aete' (0,"Scripting terminology") {
 				{
 				}
 			,
+				"resources",
+				'cRSC',
+				"every resource",
+				{
+					
+						"",
+						'c@#!',
+						'type',
+						"",
+						reserved,
+						singleItem,
+						notEnumerated,
+						readOnly,
+						enumsAreConstants,
+						enumListCanRepeat,
+						propertyIsValue,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						noApostrophe,
+						notFeminine,
+						notMasculine,
+						plural
+					
+				},
+				{
+				}
+			,
 				"comparison",
 				'COMP',
 				"the result of a comparison between two maps",
@@ -2931,5 +3021,6 @@ resource 'aete' (0,"Scripting terminology") {
 }
 
 };
+
 
 
