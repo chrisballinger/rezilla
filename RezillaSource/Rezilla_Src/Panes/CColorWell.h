@@ -36,8 +36,7 @@ public:
 						CColorWell();
 						CColorWell(	const CColorWell &inOriginal);
 						CColorWell(	const SPaneInfo &inPaneInfo, 
-								   RGBColor * foreRGB, 
-								   RGBColor * backRGB);
+								   RGBColor * inColor);
 						CColorWell(	LStream * inStream);
 
 	virtual				~CColorWell();
@@ -49,13 +48,14 @@ public:
 	virtual StringPtr	GetDescriptor( Str255 outDescriptor ) const;
 	virtual void		SetDescriptor( ConstStringPtr inDescriptor );
 
-	virtual SInt32		GetValue() const;
-	virtual void		SetValue( SInt32 inValue );
+	static Boolean		PickRGBColor(RGBColor * inRGB);
+	
+	void				GetColor(RGBColor & ioColor);
+	void				SetColor(RGBColor inColor);
 
 protected:
 	PenState		mPenState;
-	RGBColor		mForeColor;
-	RGBColor		mBackColor;
+	RGBColor		mColor;
 
 	virtual void	FinishCreateSelf();
 

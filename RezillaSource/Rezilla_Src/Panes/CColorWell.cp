@@ -17,7 +17,6 @@
 #endif
 
 #include "CColorWell.h"
-#include "UMiscUtils.h"
 
 
 PP_Begin_Namespace_PowerPlant
@@ -46,23 +45,16 @@ CColorWell::CColorWell(
 // ---------------------------------------------------------------------------
 
 CColorWell::CColorWell(	const SPaneInfo &inPaneInfo, 
-					   RGBColor * foreRGB, 
-					   RGBColor * backRGB)
+					   RGBColor * inColor)
 : LPane(inPaneInfo)
 {
-	mForeColor.red = foreRGB->red;
-	mForeColor.green = foreRGB->green;
-	mForeColor.blue = foreRGB->blue;
-	mBackColor.red = backRGB->red;
-	mBackColor.green = backRGB->green;
-	mBackColor.blue = backRGB->blue;
+	SetColor(*inColor);
 	
 	mPenState.pnLoc = Point_00;
 	mPenState.pnSize.h = 1;
 	mPenState.pnSize.v = 1;
 	mPenState.pnMode = patCopy;
 	UQDGlobals::GetBlackPat(&mPenState.pnPat);
-
 }
 
 
@@ -104,7 +96,7 @@ void
 CColorWell::ClickSelf(
 	const SMouseDownEvent&	/* inMouseDown */)
 {
-	UMiscUtils::PickRGBColor(&mForeColor);
+	PickRGBColor(&mColor);
 	Refresh();
 }
 
@@ -123,8 +115,8 @@ CColorWell::DrawSelf()
 
 	//		::PenNormal();
 	::SetPenState(&mPenState);
-	::RGBForeColor(&mForeColor);
-	::RGBBackColor(&mBackColor);
+	::RGBForeColor(&mColor);
+	::RGBBackColor(&mColor);
 
 	::MacInsetRect(&frame, mPenState.pnSize.h, mPenState.pnSize.v);
 	::PaintRect(&frame);
@@ -132,24 +124,28 @@ CColorWell::DrawSelf()
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetValue														  [public]
+//	¥ GetColor														  [public]
 // ---------------------------------------------------------------------------
 
-SInt32
-CColorWell::GetValue() const
+void
+CColorWell::GetColor(RGBColor & ioColor)
 {
-	return 0;
+	ioColor.red = mColor.red;
+	ioColor.green = mColor.green;
+	ioColor.blue = mColor.blue;
 }
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetValue														  [public]
+//	¥ SetColor														  [public]
 // ---------------------------------------------------------------------------
 
 void
-CColorWell::SetValue(
-	SInt32	/* inValue */)
+CColorWell::SetColor(RGBColor inColor)
 {
+	mColor.red = inColor.red;
+	mColor.green = inColor.green;
+	mColor.blue = inColor.blue;
 }
 
 
@@ -175,6 +171,49 @@ CColorWell::SetDescriptor(
 	ConstStringPtr	/* inDescriptor */)
 {
 }
+
+
+// ---------------------------------------------------------------------------
+//	¥ PickRGBColor											[static]
+// ---------------------------------------------------------------------------
+
+Boolean
+CColorWell::PickRGBColor(RGBColor * inRGB)
+{	
+	ColorPickerInfo	cpinfo;
+	Boolean			picked = false;
+	OSErr			error;
+	
+	if (inRGB == NULL) {
+		inRGB->red = 0xffff;
+		inRGB->green = 0xffff;
+		inRGB->blue = 0xffff;
+	} 
+	
+	cpinfo.theColor.profile = 0L;
+	cpinfo.theColor.color.rgb.red   = inRGB->red;
+	cpinfo.theColor.color.rgb.green = inRGB->green;
+	cpinfo.theColor.color.rgb.blue  = inRGB->blue;
+	cpinfo.dstProfile = 0L;
+	cpinfo.flags = kColorPickerCanModifyPalette 
+				 | kColorPickerCanAnimatePalette;
+	cpinfo.placeWhere = kDeepestColorScreen;
+	cpinfo.pickerType = 0L;
+	cpinfo.eventProc = NULL;
+	cpinfo.colorProc = NULL;
+	cpinfo.colorProcData = NULL;
+	error = PickColor(&cpinfo);
+	if ((error == noErr) && (cpinfo.newColorChosen != 0)) {
+		  inRGB->red    = cpinfo.theColor.color.rgb.red;
+		  inRGB->green  = cpinfo.theColor.color.rgb.green;
+		  inRGB->blue   = cpinfo.theColor.color.rgb.blue;
+		  picked = 1;
+	  }
+	  
+	  return picked;
+}
+
+
 
 
 PP_End_Namespace_PowerPlant
