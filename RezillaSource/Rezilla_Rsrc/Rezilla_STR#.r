@@ -86,3 +86,19 @@ resource 'STR#' (1503, "File extensions") {
 	}
 };
 
+resource 'STR#' (1100, "Help Tags") {
+	{	/* array StringArray */
+		/* [1] */
+		"Copy into old map",
+		/* [2] */
+		"Copy into new map",
+		/* [3] */
+		"Copy this resource from the 'new' map in"
+		"to the 'old' one",
+		/* [4] */
+		"Copy this resource from the 'old' map in"
+		"to the 'new' one"
+	}
+};
+
+
