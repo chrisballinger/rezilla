@@ -23,6 +23,7 @@
 #include <LWindow.h>
 #include <LFile.h>
 #include <LStaticText.h>
+#include <LIconPane.h>
 
 
 #include <UExtractFromAEDesc.h>
@@ -288,11 +289,13 @@ CRezMapWindow::InstallWhichForkField()
 void
 CRezMapWindow::InstallReadOnlyField() 
 {
-	LStaticText * theField = dynamic_cast<LStaticText *>(this->FindPaneByID( item_ReadOnly ));
-	ThrowIfNil_( theField );
+	LIconPane * theIcon = dynamic_cast<LIconPane *>(this->FindPaneByID( item_ReadOnlyIcon ));
+	ThrowIfNil_( theIcon );
 	if (mOwnerDoc->GetReadOnlyDoc()) {
-		theField->SetDescriptor("\pRO!");
-	} 
+		theIcon->SetIconID(ics8_Locked);
+	} else {
+		theIcon->SetIconID(ics8_Unlocked);
+	}
 }
 
 

@@ -324,9 +324,11 @@ CRezillaApp::ObeyCommand(
 			FSSpec	theFileSpec;
 			bool	replacing;
 			if ( DesignateNewMap(theFileSpec, replacing) ) {
+				CRezMapDoc * theRezMapDocPtr;
+				
 				if (replacing) {
 					SInt16	theAnswer;
-					CRezMapDoc * theRezMapDocPtr = FetchRezMapDoc(&theFileSpec);
+					theRezMapDocPtr = FetchRezMapDoc(&theFileSpec);
 					// Check if a RezMapDoc is already opened for this file and close it
 					if (theRezMapDocPtr != nil) {
 						theRezMapDocPtr->Close();
@@ -345,7 +347,8 @@ CRezillaApp::ObeyCommand(
 					// Open the resource file.
 					theRezFile->OpenFile(fsRdWrPerm);
 				}
-				new CRezMapDoc(this, theRezFile);
+				theRezMapDocPtr = new CRezMapDoc(this, theRezFile);
+				theRezMapDocPtr->SetReadOnlyDoc(false);
 			}
 			break;
 		}
@@ -718,6 +721,7 @@ void
 CRezillaApp::OpenDocument(
 	FSSpec* inFSSpec)
 {
+	mReadOnlyNavFlag = false;
 	OpenFork(*inFSSpec);
 }
 

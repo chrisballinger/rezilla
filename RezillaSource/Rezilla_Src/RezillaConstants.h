@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2004-03-21 15:29:46
+//             Last modification : 2004-04-12 10:08:42
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -71,10 +71,6 @@ enum
 // Resource ID's
 // =============
 
-const ResIDT	icon_Folder					= 10000;
-const ResIDT	icon_Document				= 20000;
-const ResIDT	icon_App					= 25000;
-
 const ResIDT	DITL_NewMap					= 10001;
 const ResIDT	DITL_OpenMap				= 10002;
 const ResIDT	DITL_SaveMap				= 10003;
@@ -105,6 +101,12 @@ const ResIDT	rRidL_RezCompDialog			= rPPob_RezCompDialog;
 const ResIDT	rRidL_RezCompWindow			= rPPob_RezCompWindow;
 const ResIDT	rRidL_AskUniqueID			= rPPob_AskUniqueID;
 
+const ResIDT	ics8_Unlocked				= 1500;
+const ResIDT	ics8_Locked					= 1501;
+
+const ResIDT	icon_Folder					= 1510;
+const ResIDT	icon_Document				= 1511;
+const ResIDT	icon_App					= 1512;
 
 const ResIDT	STRx_RzilErrorStrings		= 1000;
 const ResIDT	STRx_PrefsCtrlList			= 1004;
@@ -189,7 +191,7 @@ const PaneIDT   item_OutlineTable			= FOUR_CHAR_CODE('TABL');
 const PaneIDT	item_TypesNum				= 1;
 const PaneIDT	item_ResourcesNum			= 2;
 const PaneIDT	item_WhichFork				= 3;
-const PaneIDT	item_ReadOnly				= 4;
+const PaneIDT	item_ReadOnlyIcon			= 4;
 // Inspector Window
 // ----------------
 const PaneIDT	item_InspType				= 1;
