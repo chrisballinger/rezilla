@@ -104,10 +104,6 @@ const ResIDT	rRidL_AskUniqueID			= rPPob_AskUniqueID;
 const ResIDT	ics8_Unlocked				= 1500;
 const ResIDT	ics8_Locked					= 1501;
 
-const ResIDT	icon_Folder					= 1510;
-const ResIDT	icon_Document				= 1511;
-const ResIDT	icon_App					= 1512;
-
 const ResIDT	STRx_RzilErrorStrings		= 1000;
 const ResIDT	STRx_PrefsCtrlList			= 1004;
 const ResIDT	STRx_DefaultDocTitles		= 1500;
