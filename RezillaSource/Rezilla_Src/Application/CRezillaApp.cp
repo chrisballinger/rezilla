@@ -87,6 +87,7 @@
 #include <LWindow.h>
 #include <LWindowHeader.h>
 #include <UAttachments.h>
+#include <LMLTEPane.h>
 
 #include <LGrowZone.h>
 #include <PP_Messages.h>
@@ -196,6 +197,8 @@ CRezillaApp::Initialize()
 
 	UResources::GetCurrentResFile(sOwnRefNum);
 
+	InitMLTE();
+		
 	SInt32 theOsVersion = UEnvironment::GetOSVersion();
 	// Check that we are running on OS9 or greater
 #if TARGET_RT_MAC_MACHO
@@ -269,6 +272,30 @@ CRezillaApp::Initialize()
 
 
 // ---------------------------------------------------------------------------
+//	¥ InitMLTE													[private]
+// ---------------------------------------------------------------------------
+//	Last chance to initialize the application before processing events
+
+void
+CRezillaApp::InitMLTE()
+{
+	TXNMacOSPreferredFontDescription	defaultFont[1];
+	OSStatus							osStatus = noErr;
+	SInt16								fontID;
+
+// 	GetFNum("\pNew York",&fontID);
+	GetFNum("\pHelvetica",&fontID);
+
+	defaultFont[0].fontID		= fontID;	
+	defaultFont[0].pointSize	= 0x000C0000;
+	defaultFont[0].fontStyle	= kTXNDefaultFontStyle;
+	defaultFont[0].encoding		= kTXNSystemDefaultEncoding;
+
+	LMLTEPane::Initialize( 250, 160, defaultFont, 1, kTXNWantMoviesMask);
+}
+
+
+// ---------------------------------------------------------------------------
 //	¥ RegisterClasses								[protected]
 // ---------------------------------------------------------------------------
 //	To reduce clutter within the Application object's constructor, class
@@ -302,6 +329,7 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(LWindow);
 	RegisterClass_(LWindowHeader);
  	RegisterClass_(LBorderAttachment);
+	RegisterClass_(LMLTEPane);
 
 	// Register Rezilla custom classes.
 // 	RegisterClass_(CAete_EditorWindow);

@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.h					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2004-11-19 07:26:55
+//             Last modification: 2004-12-08 18:13:32
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -134,6 +134,7 @@ protected:
 	virtual void		DoPreferences();
 
 private:
+	void				InitMLTE();
 	void				InstallWindowMenu();
 };
 
