@@ -226,8 +226,35 @@ CMENU_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		case msg_MenuEditPropertyPopup: 
 		break;
 				
-		case msg_MenuEditStylePopup: 
-		break;
+		case msg_MenuEditStylePopup: {
+			SInt32			i, itemIndex;
+			UInt8			theStyle = 0;
+			MenuRef			theMenuH;
+			LPopupButton *	thePopup = dynamic_cast<LPopupButton *>(this->FindPaneByID( item_MenuEditStylePopup ));
+			ThrowIfNil_(thePopup);
+			itemIndex = thePopup->GetValue();
+			theMenuH = thePopup->GetMacMenuH();
+			if (itemIndex < 3) {
+			} else if (itemIndex == 3) {
+				::MacCheckMenuItem(theMenuH, 3, 1);
+				for ( i = 0; i < 7; i++) {
+					::MacCheckMenuItem(theMenuH, i + 4, 0 );
+				}
+			} else {
+				CharParameter	markChar;
+				::GetItemMark(theMenuH, itemIndex, &markChar);
+				::MacCheckMenuItem(theMenuH, 3, 0);
+				::MacCheckMenuItem(theMenuH, itemIndex, (markChar == 0) );
+				for ( i = 0; i < 7; i++) {
+					::GetItemMark( theMenuH, i+4, &markChar);
+					theStyle |= (markChar == 0) ? 0:(1 << i);
+				}
+			}
+			thePopup->SetValue(1);
+			mMenuObj->SetStyleAtIndex(theStyle, mMenuObj->GetItemIndex());
+			mItemsTable->Refresh();
+			break;
+		}
 				
 		default:
 		dynamic_cast<CMENU_EditorDoc *>(mOwnerDoc)->ListenToMessage(inMessage, ioParam);
@@ -508,19 +535,19 @@ CMENU_EditorWindow::InstallItemValues( ArrayIndexT inAtIndex )
 	enableIt = (inAtIndex < 32) ? ( (theEnableFlag & (1 << inAtIndex)) > 0) : 1;
 	theCheckBox->SetValue(enableIt);
 	
-	// Style popup
+	// Style popup. 'Plain' is item 3.
 	thePopup = dynamic_cast<LPopupButton *>(this->FindPaneByID( item_MenuEditStylePopup ));
 	ThrowIfNil_(thePopup);
 	theMenuH = thePopup->GetMacMenuH();
 	if (theStyle == 0) {
-		::MacCheckMenuItem(theMenuH, 2, 1 );
+		::MacCheckMenuItem(theMenuH, 3, 1 );
 		for ( i = 0; i < 7; i++) {
-			::MacCheckMenuItem(theMenuH, i + 3, 0 );
+			::MacCheckMenuItem(theMenuH, i + 4, 0 );
 		}
 	} else {
-		::MacCheckMenuItem(theMenuH, 2, 0);
+		::MacCheckMenuItem(theMenuH, 3, 0);
 		for ( i = 0; i < 7; i++) {
-			::MacCheckMenuItem(theMenuH, i + 3, ( (theStyle & (1 << i)) > 0 ) );
+			::MacCheckMenuItem(theMenuH, i + 4, ( (theStyle & (1 << i)) > 0 ) );
 		}
 	}
 	
@@ -703,10 +730,10 @@ CMENU_EditorWindow::RetrieveItemValues( ArrayIndexT inAtIndex )
 		thePopup = dynamic_cast<LPopupButton *>(this->FindPaneByID( item_MenuEditStylePopup ));
 		ThrowIfNil_(thePopup);
 		theMenuH = thePopup->GetMacMenuH();
-		::GetItemMark( theMenuH, 2, &markChar);
+		::GetItemMark( theMenuH, 3, &markChar);
 		if (markChar == 0) {
 			for ( i = 0; i < 7; i++) {
-				::GetItemMark( theMenuH, i+3, &markChar);
+				::GetItemMark( theMenuH, i+4, &markChar);
 				theStyle |= (markChar == 0) ? 0:(1 << i);
 			}
 		} 
