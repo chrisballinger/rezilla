@@ -33,10 +33,11 @@ $Date$
 ¥ Fifth public release of Rezilla. Beta stage now.
 
 ================================================================================
-= 1.0.5b2	                             last update: 2005-02-08 18:19:00
+= 1.0.5b2	                             last update: 2005-02-10 10:07:34
 ================================================================================
 ¥ Debugging and testing phase before 1.0.5b release
 ¥ Added Sdef (Scripting Definition File) export format in the Aete editor.
+¥ Rewritten code to export Aete in Xml, DeRez, Text and Html formats.
 
 ================================================================================
 = 1.0.5b1	                             last update: 2005-02-04 07:44:16

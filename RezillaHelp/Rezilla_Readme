@@ -1,4 +1,5 @@
 Rezilla
+=======
 
 Rezilla is a resource forks editor for the Macintosh. 
 This is version 1.0.5b.
@@ -10,17 +11,23 @@ thoroughly tested and has proven quite stable and reliable.
 
 This new version adds the following features:
     ¥ Rezilla now has a Bitmap Editor which is able to edit 
-      any of the following types:
+		any of the following types:
 
-	'cicn', 'crsr', 'CURS', 'icl4', 'icl8', 'icm#', 'icm4', 'icm8', 'ICN#',
-	'ICON', 'ics#', 'ics4', 'ics8', 'PAT#', 'PAT ', 'ppat', 'SICN'
+			'cicn', 'crsr', 'CURS', 'icl4', 'icl8', 'icm#', 'icm4', 'icm8',
+			'ICN#', 'ICON', 'ics#', 'ics4', 'ics8', 'PAT#', 'PAT ', 'ppat',
+			'SICN'
 
-    ¥ an Unicode Editor has been added to edit resources storing UTF-16 data.
+    ¥ an Unicode Editor has been added to edit resources storing 
+		Unicode UTF-16 data.
+    ¥ an Aete Editor has been added to edit AppleScript terminology
+		resources (resources with type 'aete' or 'aeut'). It can generate
+		Scripting Definition files (sdef) and exports to Xml, DeRez, Html,
+		and Text formats.
     ¥ a PICT viewer has been added.
     ¥ a sound player has been added to play 'snd ' resources.
     ¥ the Text Editor's interface has been reorganised.
     ¥ additional templates have been added to the Templates Editor. There 
-      are now 385 internal templates.
+		are now 385 internal templates.
     ¥ a few preferences have been added to customize the new editors.
 
 
@@ -34,8 +41,8 @@ Previous versions already implemented the following features:
 
 Please read the doc contained in the help files. It is accessible via the
 Rezilla Help command in the Help menu when Rezilla is
-running. You can also
-read it online <http://webperso.easyconnect.fr/bdesgraupes/DocHTML/RezillaHelp/index.html>.
+running. You can also read it online:
+<http://webperso.easyconnect.fr/bdesgraupes/DocHTML/RezillaHelp/index.html>.
 
 Rezilla is a free software.
 See the licensing terms in the Licence.terms file or click on the
