@@ -25,20 +25,57 @@ Please e-mail about any problems you might encounter:
 
 This changes log is in reverse chronological order (from bottom to top).
 
-Last modification: $Date$
+$Date$
 
 
 ================================================================================
-= 1.0.2a1	                             last update: 
+= 1.0.3a 	                             last update: 
 ================================================================================
-¥ Installed three preferences panels: general, exporting and comparison preferences.
-¥ Added "Reset" button in the general preferences to reset the list of recent
-  items.
+¥ Third public alpha release.
+
+================================================================================
+= 1.0.3a2	                             last update: 2004-06-09 10:48:16
+================================================================================
+¥ Version string returned from Info.plist file rather than 'vers' resources.
+¥ Last viewed pane in preferences is remembered.
+¥ Suppressed grey background and separator line in hex editor panes.
+¥ Style changes apply to comparison results windows.
+¥ Enabled Copy in resource data panes of comparison results windows. Cut, 
+  Clear and Paste commands are disabled: these panes are meant for viewing, 
+  not editing.
+¥ File names are now displayed in POSIX style.
+¥ In the Resource Maps Comparison dialog, one can drag and drop a file from
+  the Finder onto one of the file fields to select it rather than using the 
+  "Set" button.
+
+================================================================================
+= 1.0.3a1	                             last update: 2004-06-06 22:32:29
+================================================================================
+¥ Added an "Interface" preferences panel with font and size menus. It
+  allows to specify a font and a size for the hexadecimal editor windows and
+  comparison results windows. Monospaced fonts are strongly recommended.
+¥ Hexadecimal editor windows and comparison results windows are now resizable. 
+  The size of the subpanes is adjusted to a multiple of the characters width.
+¥ Fixed bug with arrow keys action in textual pane of hex editor windows.
+¥ Merged resource data pane classes together to simplify inheritance hierarchy.
+
+================================================================================
+= 1.0.2a 	                             last update: 2004-05-24 10:40:58
+================================================================================
+¥ Second public alpha release.
+
+================================================================================
+= 1.0.2a1	                             last update: 2004-05-22 07:21:49
+================================================================================
+¥ Installed three preferences panels: general, exporting and comparison prefs.
+¥ Added "Reset" button in the general prefs to reset list of recent items.
 ¥ Support for both Base64 and Hex encodings in Export.
 ¥ Support for including binary data or not in Export files (applies to Text
   and XML formats).
-¥ 
-¥ 
+¥ Two formats available for XML export: there is an elements-based DTD and an 
+  attributes-based DTD.
+¥ Fixed small problem with hiliting text in the hexadecimal editor.
+¾ Updated the doc with new section about Preferences.
 
 ================================================================================
 = 1.0.1a 	                             last update: 2004-05-07 07:24:37
