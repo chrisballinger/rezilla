@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2004-11-15 09:11:21
+//             Last modification: 2004-11-15 22:51:01
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -1170,8 +1170,8 @@ CRezillaApp::HandleOpenDocsEvent(
 	error = ::AECountItems(&theDocList, &numDocs);
 	ThrowIfOSErr_(error);
 	
-	::AEInitializeDesc(&errorList);
-
+	::AECreateList(NULL, 0, false, &errorList);
+	
 	for ( UInt16 i = 1; i <= numDocs; i++ ) {
 	    error = ::AEGetNthPtr(&theDocList, i, typeFSS, &theKey, &theType,
 						      (Ptr) &theFileSpec, sizeof(FSSpec), &theSize);
@@ -1189,10 +1189,19 @@ CRezillaApp::HandleOpenDocsEvent(
 	}
 	
 	if (errCount > 0) {
+		CFStringRef messageStr = NULL;
+		Str255   buffer;
+
 		error = err_OpenDocsAEFailed;
-		// OSErr is SInt16 (keyErrorString)
-		error = ::AEPutParamPtr(&outAEReply, keyErrorNumber, typeSInt16, &error, sizeof(OSErr));
-		error = ::AEPutParamDesc(&outAEReply, keyAERezillaReplyBuffer, &errorList);
+		messageStr = ::CFCopyLocalizedString(CFSTR("AevtOdocError"), NULL);
+		if (messageStr != NULL) {
+			if (::CFStringGetPascalString(messageStr, buffer, sizeof(buffer), ::GetApplicationTextEncoding())) {
+				::AEPutParamPtr(&outAEReply, keyErrorString, typeChar, buffer+1, buffer[0]);
+			}
+		}
+		// OSErr is SInt16
+		::AEPutParamPtr(&outAEReply, keyErrorNumber, typeSInt16, &error, sizeof(OSErr));
+		::AEPutParamDesc(&outAEReply, kAERzilFilesList, &errorList);
 	} 
 
 	if (theDocList.descriptorType != typeNull) ::AEDisposeDesc(&theDocList);
