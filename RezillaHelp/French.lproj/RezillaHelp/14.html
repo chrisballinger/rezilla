@@ -10,37 +10,40 @@
 <H2>Codes d'erreur</H2>
 Voici la liste des codes d'erreur définis par Rezilla (elle ne contient pas
 les codes qui peuvent être émis par ailleurs par le Système).<P><P><TABLE BORDER=1 CELLPADDING=1>
-<TR><TD>1001</TD><TD>No Rez In Data Fork</TD></TR>
-<TR><TD>1002</TD><TD>No Rez In Rez Fork</TD></TR>
-<TR><TD>1003</TD><TD>No Rez In Any Fork</TD></TR>
-<TR><TD>1004</TD><TD>No Open Permission</TD></TR>
-<TR><TD>1005</TD><TD>Open Fork Error</TD></TR>
-<TR><TD>1006</TD><TD>Under Version Control</TD></TR>
-<TR><TD>2000</TD><TD>Tmpl Error</TD></TR>
-<TR><TD>2001</TD><TD>Tmpl Get Data Stream Failed</TD></TR>
-<TR><TD>2002</TD><TD>Tmpl Unrecognized Tag</TD></TR>
-<TR><TD>2003</TD><TD>Tmpl Parsing Aborted</TD></TR>
-<TR><TD>2004</TD><TD>Tmpl Value Too Large In Bits Field</TD></TR>
-<TR><TD>2005</TD><TD>Tmpl Text Overflow</TD></TR>
-<TR><TD>2006</TD><TD>Tmpl Wrong Fixed Count</TD></TR>
-<TR><TD>2007</TD><TD>Tmpl Zero List Not Terminated</TD></TR>
-<TR><TD>2008</TD><TD>Tmpl Zero List Ending With Non Null</TD></TR>
-<TR><TD>2009</TD><TD>Tmpl List Count Too Big</TD></TR>
-<TR><TD>2010</TD><TD>Tmpl Expected Even Length String</TD></TR>
-<TR><TD>2011</TD><TD>Tmpl Unexpected Tag</TD></TR>
-<TR><TD>2012</TD><TD>Tmpl Malformed Hex Value</TD></TR>
-<TR><TD>2013</TD><TD>Tmpl Malformed Date Value</TD></TR>
-<TR><TD>2014</TD><TD>Tmpl Cant Get Date Format</TD></TR>
-<TR><TD>2015</TD><TD>Tmpl Parse Date Failed</TD></TR>
-<TR><TD>2016</TD><TD>Tmpl Not Expected Size</TD></TR>
-<TR><TD>2017</TD><TD>Tmpl Create Empty New Aborted</TD></TR>
-<TR><TD>2018</TD><TD>Tmpl No Case In Key Section</TD></TR>
-<TR><TD>2019</TD><TD>Tmpl Malformed Case Section</TD></TR>
-<TR><TD>2020</TD><TD>Tmpl Malformed Key Section</TD></TR>
-<TR><TD>2021</TD><TD>Tmpl Cant Find Keyed Section Start</TD></TR>
-<TR><TD>2022</TD><TD>Tmpl Cant Find Key Start For Value</TD></TR>
-<TR><TD>2023</TD><TD>Tmpl Unsupported Resource Id</TD></TR>
-<TR><TD>2024</TD><TD>Tmpl Cant Find Matching Key End</TD></TR>
+<TR><TD>1001</TD><TD>Pas de ressources dans la branche de données</TD></TR>
+<TR><TD>1002</TD><TD>Pas de ressources dans la branche de ressources</TD></TR>
+<TR><TD>1003</TD><TD>Pas de ressources dans aucune branche</TD></TR>
+<TR><TD>1004</TD><TD>Pas d'autorisation d'ouverture</TD></TR>
+<TR><TD>1005</TD><TD>Erreur à l'ouverture des ressources</TD></TR>
+<TR><TD>1006</TD><TD>Fichier sous Système de Contrôle de Version (VCS)</TD></TR>
+<TR><TD>2000</TD><TD>Gabarit: erreur de l'éditeur de gabarits</TD></TR>
+<TR><TD>2001</TD><TD>Gabarit: impossible d'obtenir les données de la ressource</TD></TR>
+<TR><TD>2002</TD><TD>Gabarit: balise inconnue</TD></TR>
+<TR><TD>2003</TD><TD>Gabarit: analyse de gabarit interrompue</TD></TR>
+<TR><TD>2004</TD><TD>Gabarit: valeur trop grande dans un champ de données binaires</TD></TR>
+<TR><TD>2005</TD><TD>Gabarit: dépassement de capacité de texte</TD></TR>
+<TR><TD>2006</TD><TD>Gabarit: compte de liste fixe invalide</TD></TR>
+<TR><TD>2007</TD><TD>Gabarit: liste sans le code nul de terminaison</TD></TR>
+<TR><TD>2008</TD><TD>Gabarit: liste terminée par un code non nul</TD></TR>
+<TR><TD>2009</TD><TD>Gabarit: compteur de liste trop grand</TD></TR>
+<TR><TD>2010</TD><TD>Gabarit: longueur de chaîne doit être paire</TD></TR>
+<TR><TD>2011</TD><TD>Gabarit: balise inopinée</TD></TR>
+<TR><TD>2012</TD><TD>Gabarit: valeur hexadécimale mal formée</TD></TR>
+<TR><TD>2013</TD><TD>Gabarit: valeur de date mal formée</TD></TR>
+<TR><TD>2014</TD><TD>Gabarit: impossible d'obtenir le format de date</TD></TR>
+<TR><TD>2015</TD><TD>Gabarit: l'analyse de la date a échoué</TD></TR>
+<TR><TD>2016</TD><TD>Gabarit: la taille ne correspond pas à la valeur requise</TD></TR>
+<TR><TD>2017</TD><TD>Gabarit: création de nouvelle ressource selon gabarit annulée</TD></TR>
+<TR><TD>2018</TD><TD>Gabarit: aucun cas spécifié dans une section à clés</TD></TR>
+<TR><TD>2019</TD><TD>Gabarit: cas de section à clés mal formé</TD></TR>
+<TR><TD>2020</TD><TD>Gabarit: section à clés mal formée</TD></TR>
+<TR><TD>2021</TD><TD>Gabarit: impossible de trouver le début de la section à clés</TD></TR>
+<TR><TD>2022</TD><TD>Gabarit: impossible de trouver la clé spécifiée</TD></TR>
+<TR><TD>2023</TD><TD>Gabarit: impossible de trouver l'indice d'une clé</TD></TR>
+<TR><TD>2024</TD><TD>Gabarit: impossible de trouver la valeur d'une clé</TD></TR>
+<TR><TD>2025</TD><TD>Gabarit: impossible de trouver la position d'une clé</TD></TR>
+<TR><TD>2026</TD><TD>Gabarit: ce numéro de ressource est inconnu du gabarit</TD></TR>
+<TR><TD>2027</TD><TD>Gabarit: impossible de trouver la fin de clé correspondante</TD></TR>
 </TABLE></P><P>
 
 </BODY>

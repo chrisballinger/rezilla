@@ -21,7 +21,11 @@ multipage s'affiche comportant trois panneaux:
 	<LI> le panneau <I>Editors</I>
 	<LI> le panneau <I>Misc</I>
 </UL>
-<P><IMG SRC="../../Images/rzil_preferences.gif" ALT="Fenêtre de préférences" ALIGN=bottom></P><P><H3>Panneau <I>General</I></H3>
+<P><IMG SRC="../../Images/rzil_preferences.gif" ALT="Fenêtre de préférences" ALIGN=bottom></P>
+<P> Les préférences sont sauvegardées sur disque dans le fichier de
+préférences de l'utilisateur uniquement lorsque l'on quitte l'application. Elles
+sont stockées dans un fichier nommé <I>net.sourceforge.rezilla.plist</I> situé
+dans le dossier de préférences de l'utilisateur.<P><H3>Panneau <I>General</I></H3>
 <P> Dans le panneau <I>General</I>, on peut fixer le nombre maximal
 d'articles contenus dans le menu <I>Recent Items</I> (par défaut 10). 
 Un bouton <I>Reset</I> permet d'effacer la liste actuelle. On peut aussi
@@ -54,14 +58,10 @@ taille utilisées pour afficher les représentations hexadécimales ou
 textuelles des données de ressources dans les fenêtres de l'éditeur
 hexadécimal ou dans les fenêtres de résultats de comparaison. Noter que
 seules les polices à espacement fixe (telles que <I>Monaco</I> ou <I>Courier</I>)
-garantissent un affichage en colonnes verticalement alignées.
-<P> Les préférences sont sauvegardées sur disque dans le fichier de
-préférences de l'utilisateur uniquement lorsque l'application quitte. Elles
-sont stockées dans un fichier nommé <I>net.sourceforge.rezilla.plist</I> situé
-dans le dossier de préférences de l'utilisateur.<P><H3>Panneau <I>Editors</I></H3>
+garantissent un affichage en colonnes verticalement alignées.<P><H3>Panneau <I>Editors</I></H3>
 <P> Dans le panneau <I>Editors</I>, on peut choisir le symbole à utiliser
 pour représenter les nombres hexadécimaux: <B>$</B> ou <B>0x</B>. C'est
-le symbole qui est utilisé par l'éditeur de gabarits lorqu'il doit afficher 
+le symbole qui est utilisé par l'éditeur de gabarits lorsqu'il doit afficher 
 une valeur hexadécimale. Inversement si l'on doit saisir un nombre hexadécimal dans
 un champ, on peut utiliser indifféremment l'un des deux symboles. Rezilla
 accepte les deux.
@@ -71,20 +71,20 @@ appelée <I>Hexadecimal digits</I>.
 <P> Si la case à cocher appelée <I>Display filler fields in templates</I>
 est sélectionnée, l'éditeur de gabarits affichera les données correspondant
 aux balises de remplissage (voir la sous-section <I>Champs fantômes</I>
-dans la section <I>Syntaxe des gabarits</I> ci-dessous). Autrement, ces
-valeurs seront cachées. De plus, si la case à cochée appelée <I>Enable
+dans la section <I>Syntaxe des gabarits</I>). Autrement, ces
+valeurs seront cachées. De plus, si la case à cocher appelée <I>Enable
 filler fields in templates</I> est sélectionnée, ces champs seront rendus
 éditables, autrement ils sont désactivés et apparaissent en gris.<P><H3>Panneau <I>Misc</I></H3><P><P> Dans le panneau <I>Misc</I> (abréviation de <I>miscellaneous</I> qui
 signifie <I>divers</I>), on peut spécifier au moyen de la préférence <I>Set type and creator when closing</I> un type et une signature à attribuer
 à un fichier de ressources après qu'il a été édité par Rezilla et refermé.
 Les valeurs par défaut sont <I>rsrc</I> et <I>Rzil</I> respectivement.
 Cette préférence est à utiliser avec précaution car certains fichiers, tels
-que les fichiers d'applications, possèdent leur propre créateur qui ne doit
-pas être modifié. Il y a en outre une case à cocher appelée <I>Only files
+que les fichiers d'applications, possèdent leur propre signature qui ne doit
+pas être modifiée. Il y a en outre une case à cocher appelée <I>Only files
 with .rsrc extension</I> qui permet de limiter la portée de cette
 préférence aux fichiers portant une extension <I>.rsrc</I>.<P><P> La préférence <I>Use Rezilla's signature for new maps</I> permet de
-décider si Rezilla doit attribuer sa proprre signature aux fichiers de
-ressources novellement créés. S'ils ont cette signature, ils seront, par la
+décider si Rezilla doit attribuer sa propre signature aux fichiers de
+ressources nouvellement créés. S'ils ont cette signature, ils seront, par la
 suite, ouverts automatiquement dans Rezilla en réponse à un double clic
 sur leur icone.<P>
 

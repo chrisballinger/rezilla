@@ -12,20 +12,20 @@ descriptifs et de construire à partir de là des interfaces graphiques
 permettant d'éditer et de modifier facilement les divers éléments de la
 ressource. L'image ci-dessous montre, par exemple, comment Rezilla éditera
 une ressource de type MPSR contenant des informations relatives aux polices
-et dimensions utilisées dans un document.<P>Il y a trois emplacements où les ressources TMPL peuvent être palcées.
+et dimensions utilisées dans un document.<P>Il y a trois emplacements où les ressources TMPL peuvent être placées.
 Ils sont décrits en détail dans les sous-sections qui suivent: 
 <UL>
 	<LI> les gabarits <I>internes</I> sont des gabarits prédéfinis qui sont stockés
 dans l'application. Rezilla est équipée de plus de 360 gabarits qui
-couvrent les types de ressources les plus couramment utilisés;
+couvrent la plupart des types de ressources les plus couramment utilisés;
 	<LI> les gabarits <I>externes</I> sont des gabarits supplémentaires que l'on peut
-ajouter dans l'un des dossiers dits de support d'applications 
+ajouter dans l'un des dossiers dits de support d'application 
 (<I>Application Support</I>);
 	<LI> les gabarits <I>locaux</I> sont des ressources TMPL  présentes dans la table
 de ressource en cours d'édition.
 </UL><P>Lorsque Rezilla tente d'éditer une ressource au moyen d'un gabarit, elle
 recherche la définition du gabarit dans les trois emplacements mentionnés
-en procédant dans l'ordre suivant: local, externe, interne. Cela permet en 
+en procédant dans l'ordre suivant: <I>local, externe, interne</I>. Cela permet en 
 particulier de redéfinir un gabarit interne en plaçant une nouvelle
 définition dans les gabarits externes.<P><H3>Gabarits internes</H3><P>La version 1.0.4a9 de Rezilla incorpore 
 365 gabarits internes correspondant aux types de
@@ -91,16 +91,16 @@ indifféremment.<P>Rezilla lit le contenu des dossiers <I>Application Support/Rez
 au moment de son démarrage. Si vous ajoutez de nouveaux gabarits par la
 suite, il faudra quitter l'application puis la relancer pour qu'ils soient
 pris en compte.<P><H3>Gabarits locaux</H3>
-Certains fichiers de ressources comportent des ressources TMPL pour
+Certains fichiers de ressources comportent eux-mêmes des ressources TMPL pour
 certains types. Lorsque l'on cherche à éditer une ressource d'un de ces
 types dans ce fichier, Rezilla utilise automatiquement le gabarit figurant 
 dans le fichier. Un tel gabarit est dit <I>local</I> car il se trouve dans la
 table de ressources couramment ouverte et qu'il ne sera plus disponible
-dès que la table aura été refermée.<P>Les gabarits sont utiles si l'on veut transmettre des ressources à une
+dès que la table aura été refermée.<P>Les gabarits locaux sont utiles si l'on doit transmettre des ressources à une
 autre personne et que l'on veut être sûre qu'elle aura la possibilité de
-les lire dans l'éditeur de gabarit. Il suffit de placer une copie des
-ressource TMPL dans le fichier transmis.<P>L'éditeur de gabarits recherchera toujours une définition de gabarit
-localement avant d'aller chercher parmi les gabarits externes, puis
+les lire dans l'éditeur de gabarits. Il suffit de placer une copie des
+ressources TMPL dans le fichier transmis.<P>L'éditeur de gabarits recherchera toujours une définition de gabarit
+locale avant d'aller chercher parmi les gabarits externes, puis
 internes.<P>
 
 </BODY>
