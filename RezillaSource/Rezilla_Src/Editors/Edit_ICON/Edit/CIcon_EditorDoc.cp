@@ -80,6 +80,15 @@ CIcon_EditorDoc::~CIcon_EditorDoc()
 	if (mIconEditWindow != nil) {
 		// Remove the window from the window menu.
 		gWindowMenu->RemoveWindow( mIconEditWindow );
+
+		// Remove the attachments before deleting the window. This is
+		// because, when deleting the LUndoer, some actions like
+		// CIconViewResizer make calls to the window to purge some buffers
+		// (see DeleteAllBuffers for instance) and would provoke a crash if
+		// the window was not valid anymore.
+		mIconEditWindow->RemoveAllAttachments();
+
+		// Now delete the window
 		delete mIconEditWindow;
 	} 
 }
