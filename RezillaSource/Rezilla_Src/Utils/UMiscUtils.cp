@@ -16,6 +16,7 @@
 	#include PowerPlant_PCH
 #endif
 
+#include "CRezType.h"
 #include "UMiscUtils.h"
 #include "FullPath.h"
 
@@ -244,6 +245,32 @@ CTypeComparator::Compare(
 #pragma unused(inSizeOne, inSizeTwo)
 
 	return ::CompareText(inItemOne, inItemTwo, 4, 4, nil);
+}
+
+
+
+// ================================================================
+//  ¥  Class CTypeItemComparator
+// ================================================================
+// String comparator class to build tables sorted alphabetically
+
+CTypeItemComparator::CTypeItemComparator() {}
+
+CTypeItemComparator::~CTypeItemComparator() {}
+
+SInt32
+CTypeItemComparator::Compare(
+	void*		inItemOne,
+	void*		inItemTwo,
+	UInt32		inSizeOne,
+	UInt32		inSizeTwo) const
+{
+#pragma unused(inSizeOne, inSizeTwo)
+
+	CRezType* rezTypeOne = static_cast<CRezType *>(inItemOne);
+	CRezType* rezTypeTwo = static_cast<CRezType *>(inItemTwo);
+	
+	return ::CompareText( (void*) rezTypeOne->GetType(), (void*) rezTypeTwo->GetType(), 4, 4, nil);
 }
 
 

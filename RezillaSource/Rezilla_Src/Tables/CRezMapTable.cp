@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezMapTable.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2004-03-24 08:21:35
+//             Last modification: 2004-03-26 07:25:27
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -55,8 +55,13 @@ CRezMapTable::CRezMapTable(
 	SetTableSelector(new LOutlineRowSelector( this ) );
 	
 	// We don't set the table storage...
+	
+// 	// Attach comparators to get the items sorted.
+// 	CTypeItemComparator* theTypeComparator = new CTypeItemComparator;
+// 	mFirstLevelItems.SetComparator(theTypeComparator);
+// 	mFirstLevelItems.SetKeepSorted(true);
 		
-	// insert columns (type, size and name)
+	// Insert three columns (type, size and name)
 	InsertCols( 3, 0, nil, nil, false );
 	SetColWidth(250, 3, 3);
 	
@@ -195,6 +200,60 @@ CRezMapTable::TypeExists(ResType inType, CRezTypeItem * & outRezTypeItem)
 	}
 	
 	return existing;
+}
+
+
+// ---------------------------------------------------------------------------
+//  ¥ InsertRezTypeItem												[public]
+// ---------------------------------------------------------------------------
+
+void
+CRezMapTable::InsertRezTypeItem(CRezTypeItem * inRezTypeItem)
+{
+	ResType			theType, inType = inRezTypeItem->GetRezType()->GetType();
+	LOutlineItem *	theItem = nil;	
+	CRezTypeItem *	theRezTypeItem = nil;	
+	CRezTypeItem *	prevRezTypeItem = nil;	
+	
+	// Iterate among first level items
+	LArrayIterator iterator(mFirstLevelItems);
+	while (iterator.Next(&theItem)) {
+		prevRezTypeItem = theRezTypeItem;
+		theRezTypeItem = dynamic_cast<CRezTypeItem *>(theItem);
+		theType = theRezTypeItem->GetRezType()->GetType();
+		
+		if ( ::CompareText( (const void *) &theType, (const void *) &inType, 4, 4, nil) >= 0 ) {
+			break;
+		} 
+	}
+	InsertItem( inRezTypeItem, nil, prevRezTypeItem );	
+}
+
+
+// ---------------------------------------------------------------------------
+//  ¥ InsertRezObjItem												[public]
+// ---------------------------------------------------------------------------
+
+void
+CRezMapTable::InsertRezObjItem(CRezObjItem * inRezObjItem, CRezTypeItem * inRezTypeItem)
+{
+	ResType			theID, inID = inRezObjItem->GetRezObj()->GetID();
+	LOutlineItem *	theItem = nil;	
+	CRezObjItem *	theRezObjItem = nil;	
+	CRezObjItem *	prevRezObjItem = nil;	
+	
+	// Iterate among subitems of the RezTypeItem
+	LArrayIterator iterator( *(inRezTypeItem->GetSubItems()) );
+	while (iterator.Next(&theItem)) {
+		prevRezObjItem = theRezObjItem;
+		theRezObjItem = dynamic_cast<CRezObjItem *>(theItem);
+		theID = theRezObjItem->GetRezObj()->GetID();
+		
+		if ( theID >= inID ) {
+			break;
+		} 
+	}
+	InsertItem( inRezObjItem, inRezTypeItem, prevRezObjItem );	
 }
 
 

@@ -38,6 +38,9 @@ public:
 
 	Boolean					TypeExists(ResType inType, CRezTypeItem * & outRezTypeItem);
 
+	void					InsertRezTypeItem(CRezTypeItem * inRezTypeItem);
+	void					InsertRezObjItem(CRezObjItem * inRezObjItem, CRezTypeItem * inRezTypeItem);
+
 	virtual void			Click( SMouseDownEvent &inMouseDown );
 
 	Boolean					HasSelection();

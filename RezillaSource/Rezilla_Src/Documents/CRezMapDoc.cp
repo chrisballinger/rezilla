@@ -2,7 +2,7 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2004-03-24 08:18:07
+//             Last modification: 2004-03-26 07:25:19
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -1314,7 +1314,7 @@ CRezMapDoc::CreateNewRes(ResType inType, short inID, Str255* inName, short inAtt
 		// If the type does not already exist, create a new ResTypeItem
 		theRezType = new CRezType(inType, mRezMap);
 		theRezTypeItem = new CRezTypeItem( theRezType );
-		mRezMapWindow->GetRezMapTable()->InsertItem( theRezTypeItem, nil, nil );
+		mRezMapWindow->GetRezMapTable()->InsertRezTypeItem( theRezTypeItem );
 	} else {
 		theRezType = theRezTypeItem->GetRezType();
 	}
@@ -1343,7 +1343,7 @@ CRezMapDoc::CreateNewRes(ResType inType, short inID, Str255* inName, short inAtt
 	// Refresh the view
 	if ( theRezTypeItem->IsExpanded() ) {
 		// Install the item in the table
-		mRezMapWindow->GetRezMapTable()->InsertItem( newRezObjItem, theRezTypeItem, nil );
+		mRezMapWindow->GetRezMapTable()->InsertRezObjItem( newRezObjItem, theRezTypeItem );
 	} else {
 		theRezTypeItem->Expand();
 	}
@@ -1423,7 +1423,7 @@ CRezMapDoc::DuplicateResource(CRezObj* inRezObj)
 	// Refresh the view
 	if ( theRezTypeItem->IsExpanded() ) {
 		// Install the item in the table
-		mRezMapWindow->GetRezMapTable()->InsertItem( theRezObjItem, theRezTypeItem, nil );
+		mRezMapWindow->GetRezMapTable()->InsertRezObjItem( theRezObjItem, theRezTypeItem );
 	} else {
 		theRezTypeItem->Expand();
 	}
@@ -1572,7 +1572,7 @@ CRezMapDoc::PasteResource(ResType inType, short inID, Handle inHandle, Str255* i
 		// If the type does not already exist, create a new ResTypeItem
 		theRezType = new CRezType(inType, mRezMap);
 		theRezTypeItem = new CRezTypeItem( theRezType );
-		mRezMapWindow->GetRezMapTable()->InsertItem( theRezTypeItem, nil, nil );
+		mRezMapWindow->GetRezMapTable()->InsertRezTypeItem( theRezTypeItem );
 		// Update the types count field
 		mRezMapWindow->SetCountTypeField( mRezMapWindow->GetCountTypeField() + 1 );
 	} else {
@@ -1604,7 +1604,7 @@ CRezMapDoc::PasteResource(ResType inType, short inID, Handle inHandle, Str255* i
 	// Refresh the view
 	if ( theRezTypeItem->IsExpanded() ) {
 		// Install the item in the table
-		mRezMapWindow->GetRezMapTable()->InsertItem( theRezObjItem, theRezTypeItem, nil );
+		mRezMapWindow->GetRezMapTable()->InsertRezObjItem( theRezObjItem, theRezTypeItem );
 	} else {
 		theRezTypeItem->Expand();
 	}

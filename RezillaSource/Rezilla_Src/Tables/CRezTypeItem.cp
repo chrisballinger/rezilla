@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezTypeItem.cp				
 //                       Created: 2003-04-18 09:34:02
-//             Last modification: 2004-03-08 09:42:24
+//             Last modification: 2004-03-26 00:36:05
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -35,11 +35,12 @@
 // ---------------------------------------------------------------------------
 //	¥ CRezTypeItem							Default Constructor		  [public]
 // ---------------------------------------------------------------------------
+// 		LLongComparator* theIDComparator = new LLongComparator;
+// 		mSubItems->SetComparator(theIDComparator);
 
 CRezTypeItem::CRezTypeItem(ResType type)
 {
 	mRezType = new CRezType(type);
-// 	mType = type;
 	mIconH = nil;
 }
 
@@ -51,7 +52,6 @@ CRezTypeItem::CRezTypeItem(ResType type)
 CRezTypeItem::CRezTypeItem(CRezType * inRezType)
 {
 	mRezType = inRezType;
-// 	mType = type;
 	mIconH = nil;
 }
 
@@ -145,29 +145,22 @@ CRezTypeItem::DrawRowAdornments(
 void
 CRezTypeItem::ExpandSelf()
 {
-	SInt32		theSize;
-	ResType		theType;
-	Handle		theResourceH;
-	Str255		theName;
-	SInt16		theResID;
-	SInt16		theAttribs;
-	OSErr		error;
-	
-	StRezReferenceSaver saver(GetOwnerRefnum());
-
+	short		theID;	
+	CRezObj *	theRezObj = nil;
 	LOutlineItem *theItem = nil;
 	LOutlineItem *lastItem = nil;
-	// Read in each resource
-	UInt16 n = ::Count1Resources( mRezType->GetType() );
-	for ( UInt16 j = 1; j <= n; j++ ) {
-		// Get the resource handle
-		theResourceH = ::Get1IndResource( mRezType->GetType(), j );
-		error = ResError();
-		theItem = new CRezObjItem( theResourceH, GetOwnerRefnum());
-		ThrowIfNil_(theItem);
+
+	LLongComparator* theIDComparator = new LLongComparator;
+	TArray<short>* theIdArray = new TArray<short>(theIDComparator, true);
+	TArrayIterator<short>	idIterator(*theIdArray);
+	mRezType->GetAllRezIDs(theIdArray);
+
+	while (idIterator.Next(theID)) {
+		theRezObj = new CRezObj(mRezType, theID);
+		theItem = new CRezObjItem(theRezObj);
 		mOutlineTable->InsertItem( theItem, this, lastItem );
 		lastItem = theItem;
-	}	
+	}
 }
 
 
@@ -299,6 +292,5 @@ CRezTypeItem::ExistsItemForID(short inID, CRezObjItem * & outRezObjItem)
 	
 	return existing;
 }
-
 
 

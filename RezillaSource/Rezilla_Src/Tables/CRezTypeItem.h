@@ -42,8 +42,8 @@ public:
 		Boolean					ExistsItemForID(short inID, CRezObjItem * & outRezObjItem);
 
 protected:
-				Handle			mIconH;
 				CRezType*		mRezType;
+				Handle			mIconH;
 				
 		virtual void			GetDrawContentsSelf(
 									const STableCell&		inCell,
@@ -72,4 +72,3 @@ private:
 };
 
 // 		CRezMapTable *theRezMapTable = dynamic_cast<CRezMapTable*>(mOutlineTable);
-

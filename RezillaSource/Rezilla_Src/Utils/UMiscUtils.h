@@ -49,8 +49,12 @@ public:
 
 
 
+// ================================================================
+//  ¥  Comparator classes
+// ================================================================
+
 // ---------------------------------------------------------------------------
-// String comparator class to build tables sorted alphabetically
+// String comparator class to build tables of types sorted alphabetically
 
 class	LComparator;
 
@@ -65,6 +69,26 @@ public:
 								const void* 		inItemTwo,
 								UInt32				inSizeOne,
 								UInt32				inSizeTwo) const;
+
+};
+
+
+
+// ---------------------------------------------------------------------------
+// String comparator class to build outline tables of typeItems 
+// sorted alphabetically
+
+class CTypeItemComparator : public LComparator {
+public:
+
+						CTypeItemComparator();
+	virtual				~CTypeItemComparator();
+
+	virtual SInt32		Compare(
+								void*		inItemOne,
+								void* 		inItemTwo,
+								UInt32		inSizeOne,
+								UInt32		inSizeTwo) const;
 
 };
 
