@@ -74,7 +74,6 @@ public:
 	static LStr255		VersionFromResource();
 
 	static SInt16		GetOwnRefNum() { return sOwnRefNum;}
-// 	static void			SetOwnRefNum(SInt16 theCurrentRefNum) {sOwnRefNum = theCurrentRefNum ;}
 
 	static CRezMapDoc*	FetchRezMapDoc(FSSpec *	inFileSpecPtr);
 	
@@ -85,7 +84,6 @@ public:
 	static short				sOwnRefNum;
 	static CInspectorWindow *	sInspectorWindow;
 	static TArray<CRezMapDoc *>	sRezMapDocList;
-	static SInt16				sDefaultCreatingFork;
 	static CRecentItemsMenu *	sRecentItemsAttachment;
 	static Boolean				sReadOnlyNavFlag;
 

@@ -2,7 +2,7 @@
 // CRezillaPrefs.cp					
 // 
 //                       Created: 2004-05-17 08:52:16
-//             Last modification: 2004-05-19 08:02:38
+//             Last modification: 2004-05-19 19:20:26
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -99,15 +99,8 @@ CRezillaPrefs::Initialize()
 	mFile = nil;
 
 	// Ensure default values
-	mCurrPrefs.general.maxRecent		= 10;
-	mCurrPrefs.exporting.includeBinary	= true;
-	mCurrPrefs.exporting.formatDtd		= export_KeyDtd;
-	mCurrPrefs.exporting.binaryEncoding	= export_Base64Enc;
-	mCurrPrefs.compare.ignoreName		= false;
-	mCurrPrefs.compare.ignoreAttributes	= true;
-	mCurrPrefs.compare.ignoreData		= false;
-	mCurrPrefs.compare.dataDisplay		= compare_hexDisplay;
-
+	CRezillaPrefs::SetDefaultPreferences();
+	
 	// Retrieve preferences stored on disk
 	RetrievePreferences();
 }
@@ -122,6 +115,28 @@ CRezillaPrefs::MakePrefsWindow()
 {	
 	sPrefsWindow = (LDialogBox *) (LWindow::CreateWindow( rPPob_PrefsWindow, this ));
 	ThrowIfNil_(sPrefsWindow);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ SetDefaultPreferences												[public]
+// ---------------------------------------------------------------------------
+
+void
+CRezillaPrefs::SetDefaultPreferences()
+{
+	// General pane
+	mCurrPrefs.general.maxRecent		= 10;
+	mCurrPrefs.general.newFork			= fork_datafork;
+	// Exporting pane
+	mCurrPrefs.exporting.includeBinary	= true;
+	mCurrPrefs.exporting.formatDtd		= export_KeyDtd;
+	mCurrPrefs.exporting.binaryEncoding	= export_Base64Enc;
+	// Comparison pane
+	mCurrPrefs.compare.ignoreName		= false;
+	mCurrPrefs.compare.ignoreAttributes	= true;
+	mCurrPrefs.compare.ignoreData		= false;
+	mCurrPrefs.compare.dataDisplay		= compare_hexDisplay;
 }
 
 

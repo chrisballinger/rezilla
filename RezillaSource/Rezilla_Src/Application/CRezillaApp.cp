@@ -105,7 +105,6 @@ CInspectorWindow *		CRezillaApp::sInspectorWindow = nil;
 const LStr255			CRezillaApp::sVersionNumber( VersionFromResource() );
 SInt16					CRezillaApp::sOwnRefNum;
 TArray<CRezMapDoc *>	CRezillaApp::sRezMapDocList;
-SInt16					CRezillaApp::sDefaultCreatingFork;
 CRecentItemsMenu *		CRezillaApp::sRecentItemsAttachment;
 Boolean					CRezillaApp::sReadOnlyNavFlag = false;
 
@@ -238,9 +237,7 @@ CRezillaApp::Initialize()
 	// Set some defaults from preferences
 	sPrefs->UpdateVars();
 	
-	// TODO: replace by preference
-	sDefaultCreatingFork = fork_datafork;
-	mCreatingFork = sDefaultCreatingFork;
+	mCreatingFork = sPrefs->GetPrefValue(kPref_general_newFork);
 }
 
 
@@ -908,7 +905,7 @@ CRezillaApp::DesignateNewMap( FSSpec& outFileSpec, bool & outReplacing)
 	bool	openOK = false;
 	Str255	theString;
 		
-	mCreatingFork = sDefaultCreatingFork;
+	mCreatingFork = sPrefs->GetPrefValue(kPref_general_newFork);
 	
 	// Deactivate the desktop.
 	::UDesktop::Deactivate();

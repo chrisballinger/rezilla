@@ -106,6 +106,7 @@ protected:
 
 private:
 	virtual void		RetrievePreferences();
+	void				SetDefaultPreferences();
 };
 
 #endif // _H_CRezillaPrefs
