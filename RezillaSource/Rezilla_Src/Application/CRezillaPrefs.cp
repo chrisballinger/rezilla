@@ -107,6 +107,13 @@ CRezillaPrefs::Initialize()
 	
 	// Retrieve preferences stored on disk
 	RetrievePreferences();
+	
+	// Calculate some global metrics after the Text Traits and set some
+	// statics.
+	UMiscUtils::MetricsFromTraits( &sCurrPrefs.interface.traitsRecord );	
+	CRezCompare::sIgnoreNames = GetPrefValue(kPref_compare_ignoreName);
+	CRezCompare::sIgnoreAttrs = GetPrefValue(kPref_compare_ignoreAttributes);
+	CRezCompare::sIgnoreData = GetPrefValue(kPref_compare_ignoreData);
 }
 
 
@@ -388,8 +395,6 @@ CRezillaPrefs::RetrievePreferences()
 		sCurrPrefs.interface.traitsRecord.fontNumber = UTextTraits::fontNumber_Unknown;
 		UTextTraits::LoadTextTraits(Txtr_MonacoNineDefault, sCurrPrefs.interface.traitsRecord);
 	}
-	// Calculate some global metrics after the Text Traits
-	UMiscUtils::MetricsFromTraits( &sCurrPrefs.interface.traitsRecord );	
 }
 
 
