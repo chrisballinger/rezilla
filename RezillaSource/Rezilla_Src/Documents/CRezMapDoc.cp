@@ -2,7 +2,7 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2004-04-13 08:13:23
+//             Last modification: 2004-04-18 00:01:12
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -349,13 +349,6 @@ CRezMapDoc::ObeyCommand(
 				}
 			}
 
-			// RecalcCountFields not needed anymore: each remove/paste etc action 
-			// updates the fields.
-// 			if (inCommand != cmd_EditRez) {
-// 				mRezMapWindow->RecalcCountFields();
-// 			} 
-			SetModified(true);
-			
 			delete theArray;
 			break;
 		}
@@ -668,6 +661,8 @@ void
 CRezMapDoc::DoSave()
 {
 	mRezMap->Update();
+	// Mark the document as non modified
+	SetModified(false);
 }
 
 
@@ -1448,6 +1443,9 @@ CRezMapDoc::DuplicateResource(CRezObj* inRezObj)
 	// Update the resources count field
 	mRezMapWindow->SetCountRezField( mRezMapWindow->GetCountRezField() + 1 );
 
+	// Doc has been modified
+	SetModified(true);
+
 	// Redraw
 	mRezMapWindow->Refresh();
 }
@@ -1500,7 +1498,10 @@ CRezMapDoc::RemoveResource(CRezObjItem* inRezObjItem)
 		mRezMapWindow->GetRezMapTable()->RemoveItem(theSuperItem);
 		// Update the types count field
 		mRezMapWindow->SetCountTypeField( mRezMapWindow->GetCountTypeField() - 1 );
-	} 
+	}
+	
+	// Doc has been modified
+	SetModified(true);
 }
 
 
@@ -1550,7 +1551,7 @@ CRezMapDoc::PasteRezMap(CRezMap * srcRezMap)
 					if (error == noErr) {
 						if ( mRezMap->ResourceExists(theType, theID)) {
 							if (!applyToOthers) {
-								answer = UMessageDialogs::AskSolveUidConflicts(applyToOthers);
+								answer = UMessageDialogs::AskSolveUidConflicts(theType, theID, applyToOthers);
 								theAction = answer;
 							} else {
 								answer = theAction;
