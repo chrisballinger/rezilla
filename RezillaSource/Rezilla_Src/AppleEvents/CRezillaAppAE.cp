@@ -148,23 +148,45 @@ SInt32
 CRezillaApp::CountSubModels(
 	DescType	inModelID) const
 {
-	SInt32	count = 0;
-
+	SInt32		count = 0;
+	DescType	theKind;
+	WindowPtr	windowP;
+	LWindow *	theWindow;
+	
 	switch (inModelID) {
 
 		case cWindow:
-		case rzil_cRezMapWindow:
-		case rzil_cEditorWindow:
+		count = LApplication::CountSubModels(inModelID);
+		break;		
+		
+		case rzil_cRezMapWindow: {
+			windowP = ::GetWindowList();
+			
+			while (windowP != nil) {
+				theWindow = LWindow::FetchWindowObject(windowP);
+				if (theWindow != nil) {
+					theKind = theWindow->GetModelKind();
+					if (theKind == inModelID 
+						|| theKind == rzil_cGuiWindow 
+						|| theKind == rzil_cTmplWindow 
+						|| theKind == rzil_cHexWindow) {
+						count++;
+					} 
+				} 
+				windowP = ::MacGetNextWindow(windowP);
+			}
+			break;
+		}
+
 		case rzil_cGuiWindow:
 		case rzil_cTmplWindow:
 		case rzil_cHexWindow:
 		case rzil_cCompWindow: {
-			WindowPtr	windowP = ::GetWindowList();
-			LWindow *	theWindow;
+			windowP = ::GetWindowList();
 			
 			while (windowP != nil) {
 				theWindow = LWindow::FetchWindowObject(windowP);
-				if (theWindow->GetModelKind() == inModelID) {
+				if (theWindow != nil && theWindow->GetModelKind() == inModelID) {
 					count++;
 				} 
 				windowP = ::MacGetNextWindow(windowP);
