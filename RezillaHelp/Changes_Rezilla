@@ -35,6 +35,9 @@ $Date$
 	  'ICN#', 'ICON', 'ics#', 'ics4', 'ics8', 'PAT ', 'ppat'
 ¥ Added bitmap editor doc in the help files.
 ¥ Added Text editor doc in the help files.
+¥ Added templates for 11 icon types:
+  'ICON' 'ICN#' 'SICN' 'icl4' 'icl8' 'icm#' 'icm4' 'icm8' 'ics#' 'ics4' 'ics8'.
+¥ 
 
 ================================================================================
 = 1.0.5a1	                             last update: 2004-12-16 10:24:52
