@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2005-01-20 22:08:53
+//             Last modification : 2005-01-27 08:46:43
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -223,25 +223,8 @@ enum {
 	kind_AeteEnumerator
 };
 
+// These complete the kAEUT* constants from AEUserTermTypes.h
 enum {
-	aeut_Optional					= kAEUTOptional,
-	aeut_listOfItems				= kAEUTlistOfItems,
-	aeut_Enumerated					= kAEUTEnumerated,
-	aeut_ReadWrite					= kAEUTReadWrite,
-	aeut_ChangesState				= kAEUTChangesState,
-	aeut_TightBindingFunction		= kAEUTTightBindingFunction,
-	aeut_EnumsAreTypes				= kAEUTEnumsAreTypes,
-	aeut_EnumListIsExclusive		= kAEUTEnumListIsExclusive,
-	aeut_ReplyIsReference			= kAEUTReplyIsReference,
-	aeut_DirectParamIsReference		= kAEUTDirectParamIsReference,
-	aeut_ParamIsReference			= kAEUTParamIsReference,
-	aeut_PropertyIsReference		= kAEUTPropertyIsReference,
-	aeut_NotDirectParamIsTarget		= kAEUTNotDirectParamIsTarget,
-	aeut_ParamIsTarget				= kAEUTParamIsTarget,
-	aeut_Apostrophe					= kAEUTApostrophe,
-	aeut_Feminine					= kAEUTFeminine,
-	aeut_Masculine					= kAEUTMasculine,
-	aeut_Plural						= kAEUTPlural,
 	aeut_NonVerbEvent				= 3,
 	aeut_LabeledParam				= 3
 };
