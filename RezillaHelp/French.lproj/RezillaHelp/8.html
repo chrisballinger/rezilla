@@ -23,11 +23,11 @@ cette dénomination est imprécise dans la mesure oùl'éditeur de gabarits
 construit lui aussi des interfaces graphiques.<P>Rezilla possède plusieurs interfaces d'édition introduites dans 
 différentes versions:
 <OL>
-	<LI> depuis la version 1.0.4, un éditeur de texte supportant à la
-fois des ressources de type 'TEXT' et de type 'styl' et permettant de gérer 
-les informations de police, taille et style.<P>	<LI> depuis la version 1.0.5, un éditeur de ressources d'images bitmaps, un
-visualisateur de ressources 'PICT', un lecteur de ressources son ('snd '),
-un éditeur de ressources Unicode ('utxt').
+	<LI> à partir de la version 1.0.4, un éditeur de texte supportant à la fois
+des ressources de type 'TEXT' et de type 'styl' et permettant de gérer les
+informations de police, taille et style.<P>	<LI> à partir de la version 1.0.5, un éditeur de ressources d'images
+bitmaps, un visualisateur de ressources 'PICT', un lecteur de ressources
+son ('snd '), un éditeur de ressources Unicode ('utxt').
 </OL><P>De futures versions de Rezilla ajouteront d'autres interface d'édition.<P><H3>L'éditeur de texte</H3><P>L'éditeur de texte possède trois menus: <B>Font</B>, <B>Size</B> et 
 <B>Style</B> placés en haut de ses fenêtres d'édition. <P>Si l'on édite une ressource de type 'TEXT' pour laquelle une ressource de 
 type 'styl' <I>de même numéro</I> existe, Rezilla lit les informations 
@@ -100,7 +100,33 @@ désactiver cette préférence (dans le panneau Éditeurs des Préférences) et
 sélectionner la police souhaitée dans le menu <I>Font</I>.<P>On notera que les menus de style et de taille de police sont là uniquement
 pour faciliter le travail d'édition mais que, dans la version courante, les
 modifications stylistiques ne sont pas mémorisées, ni stockées dans une
-ressource 'styl'.<P><H3>L'éditeur 'PICT'</H3><P>Ce n'est pas un éditeur graphique complet mais plutôt un visualisateur. Si 
+ressource 'styl'.<P><H3>L'éditeur Aete</H3>
+Il s'agit d'un éditeur dédié aux ressources de terminologie AppleScript
+(ressources de type 'aete' ou 'aeut'). Ces ressources contiennent le
+dictionnaire des termes supportés par une application dans le cadre de
+scripts écrits dans le langage AppleScript.<P>Une ressource 'aete' (ou 'aeut') peut contenir plusieurs suites telles que
+la suite dite <I>Required Suite</I> (avec les termes <I>Open</I>, 
+<I>Quit</I> etc.), la suite <I>Core Suite</I> (avec les termes <I>Count</I>,
+<I>Make</I> etc.) et d'autres suites comportant des termes spécifiques à
+une application. Chaque suite peut contenir des informations concernant
+quatre catégories d'objets: événements, classes, opérateurs de comparaison
+et énumerations. Cette structure est reflétée par l'éditeur Aete qui
+possède une unique fenêtre et permet de sélectionner une suite à partir
+d'un menu-bouton. Une barre avec quatre onglets appelés <B>Events</B>, 
+<B>Classes</B>, <B>Comparison Operators</B> et <B>Enumerations</B>
+permet de choisir une catégorie et d'afficher un panneau avec toute
+l'information nécessaire relative à cet objet. Si plusieurs objets d'un
+certain type sont définis dans une suite, l'éditeur affiche un curseur pour
+passer de l'un à l'autre. S'il n'y a qu'un seul objet, aucun curseur n'est
+affiché. S'il n'y en a aucun, le panneau correspondant est vide.<P>Une fenêtre d'édition de ressource Aete typique ressemble à ceci:
+<P><IMG SRC="../../Images/rzil_aeteeditor.gif" ALT="Aete editor window" ALIGN=bottom></P><P>Lorsqu'une fenêtre de l'éditeur Aete est active, un nouveau menu appelé 
+<B>Terminology</B> est inséré dans la barre de menus. Il comporte des
+commandes pour ajouter ou supprimer des suites, ou pour ajouter ou
+supprimer des objets dans la suite courante. En fonction de l'objet
+couramment édité, certaines commandes du menu peuvent être désactivées.<P>Il y a également une commande <B>Export Terminology</B> qui permet
+d'exporter les données d'une ressource 'aete' ou 'aeut' sous forme de
+fichier texte au format XML. Cela peut être utile pour rendre le contenu
+d'une ressource de terminologie AppleScript lisible.<P><H3>L'éditeur 'PICT'</H3><P>Ce n'est pas un éditeur graphique complet mais plutôt un visualisateur. Si 
 l'on exécute un double-clic sur une ressource d'image (de type <I>'PICT'</I>), 
 Rezilla affiche cette image.<P>Les commandes <I>Copy</I>, <I>Cut</I> et <I>Paste</I> sont activées. Il
 est possible de copier l'image dans le presse-papier: il n'y a pas de

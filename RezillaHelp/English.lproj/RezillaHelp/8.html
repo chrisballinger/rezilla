@@ -81,7 +81,29 @@ knows which font to use, it is also possible to deactivate this preference
 (in the Editors panel of the Preferences) and select the required font in 
 the <I>Font</I> menu.<P>Note that the <I>Style</I> and <I>Size</I> menus are here only to
 facilitate the editing tasks but that, as of the current release, the
-stylistic settings are neither remembered, nor stored in a 'styl' resource.<P><H3>The 'PICT' editor</H3><P>Not a fully fledged editor but rather a viewer. If you double-click on a
+stylistic settings are neither remembered, nor stored in a 'styl' resource.<P><H3>The Aete editor</H3>
+This is an editor dedicated to AppleScript terminology resources (resources
+with type 'aete' or 'aeut'). These resources contain the dictionary of
+terms supported by an application for AppleScript scripting.<P>An 'aete' (or 'aeut') resource can contain several suites such as the 
+<I>Required Suite</I> (with the <I>Open</I>, <I>Quit</I> etc. events), 
+the <I>Core Suite</I> (with the <I>Count</I>, <I>Make</I> etc. events)
+and more application-specific suites. Each suite can contain information
+about four categories of objects: events, classes, comparison operators and
+enumerations. This is reflected by the Aete editor which has a unique
+window and lets you select a suite from a popup menu. A bar with four
+thumbnails called <B>Events</B>, <B>Classes</B>, <B>Comparison 
+Operators</B> and <B>Enumerations</B> allows to select a category and
+displays a subpane with all the necessary information. If several objects
+are defined for a particular suite, the editor displays a slider to select
+one. If there is only one such object, no slider is dispalyed. If there are
+no such objects the corresponding subpane is not displayed.<P>A typical Aete editing window looks like this:
+<P><IMG SRC="../../Images/rzil_aeteeditor.gif" ALT="Aete editor window" ALIGN=bottom></P><P>When an Aete editor window is active a new menu named <B>Terminology</B>
+is inserted in the menu bar. It contains commands to add or remove a suite
+or to add or remove objects from the current suite. Depending on the
+category of the currently edited object some of the menu items can be
+disabled.<P>There is also an <B>Export Terminology</B> command which lets you export
+the entire resource data to a text file in XML format. This can be useful
+to make an AppleScript terminology resource readable.<P><H3>The 'PICT' editor</H3><P>Not a fully fledged editor but rather a viewer. If you double-click on a
 picture resource (of type <I>'PICT'</I>), Rezilla displays the image.<P>The <I>Copy</I>, <I>Cut</I> and <I>Paste</I> commands are enabled. You
 can copy the image to the clipboard (no need to select anything, the entire
 image is automatically copied). On the contrary, if the clipboard contains
