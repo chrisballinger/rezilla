@@ -32,6 +32,11 @@ Last modification: $Date$
 = 1.0.2a1	                             last update: 
 ================================================================================
 ¥ Installed three preferences panels: general, exporting and comparison preferences.
+¥ Added "Reset" button in the general preferences to reset the list of recent
+  items.
+¥ Support for both Base64 and Hex encodings in Export.
+¥ Support for including binary data or not in Export files (applies to Text
+  and XML formats).
 ¥ 
 ¥ 
 
