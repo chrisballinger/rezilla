@@ -44,6 +44,7 @@ class CInspectorWindow;
 class CRezMapDoc;
 class CRecentItemsMenu;
 class CRezillaPrefs;
+class CRezEditor;
 
 
 class CRezillaApp : public LDocApplication, public LListener {
@@ -97,6 +98,7 @@ public:
 	static CRecentItemsMenu*	GetRecentItemsAttachment() { return sRecentItemsAttachment;}
 
 	static CRezillaPrefs *		sPrefs;
+	static CRezEditor *			sEditController;
 	static Rzil_basics			sBasics;
 	static const LStr255		sVersionNumber;
 	static short				sOwnRefNum;
