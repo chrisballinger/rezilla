@@ -1,7 +1,7 @@
 // ===========================================================================
 // Rezilla_vers.r					
 //                       Created: 2003-04-18 17:34:40
-//             Last modification: 2004-02-23 15:51:05
+//             Last modification: 2004-05-07 07:07:48
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -38,9 +38,16 @@
 			$$Format("%d.%d%c", REZILLA_MAJOR, REZILLA_MINOR, \
 						REZILLA_STAGE_CODE)
 #	else
-#		define	REZILLA_VERSION_STRING	\
-			$$Format("%d.%d%c%d", REZILLA_MAJOR, REZILLA_MINOR, \
+#		if (REZILLA_DEVEL == 0)
+#			define	REZILLA_VERSION_STRING	\
+				$$Format("%d.%d%c", REZILLA_MAJOR, REZILLA_MINOR, \
+						REZILLA_STAGE_CODE)
+#		else
+#			define	REZILLA_VERSION_STRING	\
+				$$Format("%d.%d%c%d", REZILLA_MAJOR, REZILLA_MINOR, \
 						REZILLA_STAGE_CODE, REZILLA_DEVEL)
+#		endif
+
 #	endif
 
 #else
@@ -50,9 +57,16 @@
 			$$Format("%d.%d.%d%c", REZILLA_MAJOR, REZILLA_MINOR, REZILLA_SUBMINOR,\
 						REZILLA_STAGE_CODE)
 #	else
-#		define	REZILLA_VERSION_STRING	\
-			$$Format("%d.%d.%d%c%d", REZILLA_MAJOR, REZILLA_MINOR, REZILLA_SUBMINOR,\
-						REZILLA_STAGE_CODE, REZILLA_DEVEL)
+#		if (REZILLA_DEVEL == 0)
+#			define	REZILLA_VERSION_STRING	\
+				$$Format("%d.%d.%d%c", REZILLA_MAJOR, REZILLA_MINOR, REZILLA_SUBMINOR,\
+								REZILLA_STAGE_CODE)
+#		else
+#			define	REZILLA_VERSION_STRING	\
+				$$Format("%d.%d.%d%c%d", REZILLA_MAJOR, REZILLA_MINOR, REZILLA_SUBMINOR,\
+							REZILLA_STAGE_CODE, REZILLA_DEVEL)
+#	endif
+
 #	endif
 
 #endif
@@ -78,5 +92,4 @@ resource 'vers' (2) {
 	REZILLA_VERSION_STRING,
 	"Resource editor"
 };
-
 
