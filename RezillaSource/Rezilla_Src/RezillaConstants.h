@@ -2,11 +2,11 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2004-12-31 09:25:20
+//             Last modification : 2005-01-01 08:05:34
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003-2004
+// (c) Copyright : Bernard Desgraupes, 2003-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -610,7 +610,7 @@ const PaneIDT	tool_Pattern				= FOUR_CHAR_CODE('tPAT');
 const PaneIDT	tool_ForeColor				= FOUR_CHAR_CODE('tFCL');
 const PaneIDT	tool_BackColor				= FOUR_CHAR_CODE('tBCL');		
 const PaneIDT   item_IconCoords				= FOUR_CHAR_CODE('COOR');
-const PaneIDT	item_BoxAroundCanvas		= FOUR_CHAR_CODE('ENCL');
+const PaneIDT	item_CanvasEncloser			= FOUR_CHAR_CODE('ENCL');
 const PaneIDT	item_IconSampleWell			= FOUR_CHAR_CODE('SAMP');
 const PaneIDT	item_IconEditBWSample		= FOUR_CHAR_CODE('BWPT');
 const PaneIDT	item_IconEditMask			= FOUR_CHAR_CODE('MASK');
@@ -1145,6 +1145,8 @@ const SInt32		kIconSpaceBetween 		= 1;
 const SInt32		kRecolorDepth			= 8;
 const UInt16		kMinTargetWidth			= 40;
 const UInt16		kMinTargetHeight		= 40;
+const UInt16		kLeftHeaderWidth		= 80;
+const UInt16		kSampleOutMargin		= 10;
 // Cursors are always the same size
 const SInt32		kCursorWidth			= 16;
 const SInt32		kCursorHeight			= 16;
