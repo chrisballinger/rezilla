@@ -1,20 +1,16 @@
 // ===========================================================================
 // CRezClipboard.cp					
 //                       Created: 2003-05-11 21:05:08
-//             Last modification: 2004-05-19 07:09:02
+//             Last modification: 2005-01-06 14:05:00
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003-2004
+// © Copyright: Bernard Desgraupes 2003-2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
 // ===========================================================================
 
-
-// #ifdef PowerPlant_PCH
-// 	#include PowerPlant_PCH
-// #endif
 
 #include "CRezClipboard.h"
 #include "CRezMapDoc.h"
@@ -278,32 +274,39 @@ CRezClipboard::ImportSelf()
 		infoList = (ScrapFlavorInfo*) NewPtrClear( theCount * sizeof(ScrapFlavorInfo) );
 		error = ::GetScrapFlavorInfoList(mScrapRef, &theCount, infoList);		
 		
-		for (idx = 0; idx < theCount; idx++) {
-			// Create a new resource in the scrap rez map
-			theRezType = new CRezType(infoList[idx].flavorType, sScrapRezMap);
-			theRezObj = new CRezObj(theRezType);
-			
-			// Set the data in the RezObj
-			error = ::GetScrapFlavorSize(mScrapRef, infoList[idx].flavorType, &byteCount);
-			if (error == noErr)  {
-				theHandle = ::NewHandle(byteCount);
-				if (theHandle != nil) {
-					error = ::GetScrapFlavorData(mScrapRef, infoList[idx].flavorType, &byteCount, *theHandle);
+		if (error == noErr)  {
+			for (idx = 0; idx < theCount; idx++) {
+				// Create a new resource in the scrap rez map
+				theRezType = new CRezType(infoList[idx].flavorType, sScrapRezMap);
+				theRezObj = new CRezObj(theRezType);
+				
+				if (theRezObj != nil && theRezType != nil) {
+					// Set the data in the RezObj
+					error = ::GetScrapFlavorSize(mScrapRef, infoList[idx].flavorType, &byteCount);
 					if (error == noErr)  {
-						theRezObj->SetData(theHandle);
+						theHandle = ::NewHandle(byteCount);
+						if (theHandle != nil) {
+							error = ::GetScrapFlavorData(mScrapRef, infoList[idx].flavorType, &byteCount, *theHandle);
+							if (error == noErr)  {
+								theRezObj->SetData(theHandle);
+							}
+							::DisposeHandle(theHandle);
+						}
 					}
-					::DisposeHandle(theHandle);
+					// Add the RezObj to the map
+					error = theRezObj->Add();
+					error = theRezObj->Changed();
 				}
+				
+				if (theRezType != nil) {
+					delete theRezType;
+					theRezType = nil;
+				} 
+				if (theRezObj != nil) {
+					delete theRezObj;
+					theRezObj = nil;
+				} 
 			}
-			// Add the RezObj to the map
-			error = theRezObj->Add();
-			error = theRezObj->Changed();
-			if (theRezType != nil) {
-				delete theRezType;
-			} 
-			if (theRezObj != nil) {
-				delete theRezObj;
-			} 
 		}
 		error = sScrapRezMap->Update();
 	}	
