@@ -2,7 +2,7 @@
 // CRezillaPrefs.cp					
 // 
 //                       Created: 2004-05-17 08:52:16
-//             Last modification: 2004-05-19 19:20:26
+//             Last modification: 2004-06-02 22:35:24
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -99,7 +99,7 @@ CRezillaPrefs::Initialize()
 	mFile = nil;
 
 	// Ensure default values
-	CRezillaPrefs::SetDefaultPreferences();
+	SetDefaultPreferences();
 	
 	// Retrieve preferences stored on disk
 	RetrievePreferences();
@@ -137,6 +137,9 @@ CRezillaPrefs::SetDefaultPreferences()
 	mCurrPrefs.compare.ignoreAttributes	= true;
 	mCurrPrefs.compare.ignoreData		= false;
 	mCurrPrefs.compare.dataDisplay		= compare_hexDisplay;
+	// Interface pane
+	UTextTraits::LoadSystemTraits(mCurrPrefs.interface.traitsRecord);
+	mCurrPrefs.interface.traitsRecord.size = 10;
 }
 
 
@@ -148,6 +151,7 @@ void
 CRezillaPrefs::StorePreferences()
 {
 	CFNumberRef		theValue;
+	CFDataRef		theData;
 	SInt32			theNumber;
 
 	theNumber = GetPrefValue( kPref_general_maxRecent );
@@ -191,9 +195,13 @@ CRezillaPrefs::StorePreferences()
 	if (theValue) CFRelease(theValue);	
 
 	theNumber = GetPrefValue( kPref_compare_dataDisplayAs );
-	theValue = CFNumberCreate(NULL, kCFNumberIntType, &theNumber);;
+	theValue = CFNumberCreate(NULL, kCFNumberIntType, &theNumber);
 	CFPreferencesSetAppValue( CFSTR("pref_compare_dataDisplay"), theValue, kCFPreferencesCurrentApplication);
 	if (theValue) CFRelease(theValue);
+	
+	theData = CFDataCreate(NULL, (const UInt8 *)&(mCurrPrefs.interface.traitsRecord), sizeof(TextTraitsRecord));
+	CFPreferencesSetAppValue( CFSTR("pref_interface_traitsRecord"), theData, kCFPreferencesCurrentApplication);
+	if (theData) CFRelease(theData);
 	
 	// Flush the prefs to disk
 	CFPreferencesAppSynchronize( CFSTR(kRezillaIdentifier) );
@@ -207,7 +215,10 @@ CRezillaPrefs::StorePreferences()
 void
 CRezillaPrefs::RetrievePreferences()
 {
-	Boolean 	valueValid, result;
+	Boolean 			valueValid, result;
+	CFPropertyListRef	theData;
+	CFIndex				theSize;
+	const UInt8 *		thePtr;
 	
 	result = CFPreferencesGetAppIntegerValue(CFSTR("pref_general_maxRecent"), CFSTR(kRezillaIdentifier), &valueValid);
 	if (valueValid) {
@@ -244,6 +255,14 @@ CRezillaPrefs::RetrievePreferences()
 	result = CFPreferencesGetAppIntegerValue(CFSTR("pref_compare_dataDisplay"), CFSTR(kRezillaIdentifier), &valueValid);
 	if (valueValid) {
 		SetPrefValue( result, kPref_compare_dataDisplayAs);
+	}
+	theData = CFPreferencesCopyAppValue(CFSTR("pref_interface_traitsRecord"), CFSTR(kRezillaIdentifier));
+	if (theData) {
+		theSize = CFDataGetLength( (CFDataRef) theData);
+		thePtr = CFDataGetBytePtr( (CFDataRef) theData);
+		BlockMoveData(thePtr, &(mCurrPrefs.interface.traitsRecord), theSize);
+		::GetFNum(mCurrPrefs.interface.traitsRecord.fontName, &mCurrPrefs.interface.traitsRecord.fontNumber);
+		CFRelease(theData);
 	}
 }
 
@@ -421,13 +440,77 @@ CRezillaPrefs::GetPrefValue(SInt32 inConstant, SInt32 inPrefType)
 
 
 // ---------------------------------------------------------------------------
+//	¥ GetStyleElement												[public]
+// ---------------------------------------------------------------------------
+// Default value for inPrefType is 'prefsType_Temp'
+
+TextTraitsRecord 	
+CRezillaPrefs::GetStyleElement(SInt32 inPrefType)
+{
+	if (inPrefType == prefsType_Temp) {
+		return mTempPrefs.interface.traitsRecord;
+	} else {
+		return mCurrPrefs.interface.traitsRecord;
+	}	
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ LoadStyleElement												[public]
+// ---------------------------------------------------------------------------
+
+void
+CRezillaPrefs::LoadStyleElement(TextTraitsPtr inTraitsRecPtr)
+{
+	::BlockMoveData(inTraitsRecPtr, &mCurrPrefs.interface.traitsRecord, sizeof(TextTraitsRecord));
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ SetStyleElement												[public]
+// ---------------------------------------------------------------------------
+
+void
+CRezillaPrefs::SetStyleElement(SInt16 inStyleValue, 
+								SInt32 inElementType,
+								SInt32 inPrefType) 
+{
+	switch (inElementType) {
+		
+	  case style_fontType:
+		if (inPrefType == prefsType_Temp) {
+			mTempPrefs.interface.traitsRecord.fontNumber = inStyleValue ;
+		} else {
+			mCurrPrefs.interface.traitsRecord.fontNumber = inStyleValue ;
+		}	
+		break;
+		
+	  case style_sizeType:
+		if (inPrefType == prefsType_Temp) {
+			mTempPrefs.interface.traitsRecord.size = inStyleValue ;
+		} else {
+			mCurrPrefs.interface.traitsRecord.size = inStyleValue ;
+		}	
+		break;
+		
+	  case style_faceType:
+		if (inPrefType == prefsType_Temp) {
+			mTempPrefs.interface.traitsRecord.style = inStyleValue ;
+		} else {
+			mCurrPrefs.interface.traitsRecord.style = inStyleValue ;
+		}	
+		break;
+	}
+}
+
+
+// ---------------------------------------------------------------------------
 //	¥ ValidateTempPrefs												[public]
 // ---------------------------------------------------------------------------
 
 void
 CRezillaPrefs::ValidateTempPrefs() 
 {
-	if ( ! PrefsHaveChanged() ) return;
 	::BlockMoveData(&mTempPrefs, &mCurrPrefs, sizeof(SRezillaPrefs));
 }
 
@@ -455,6 +538,18 @@ CRezillaPrefs::PrefsHaveChanged()
 
 
 // ---------------------------------------------------------------------------
+//	¥ ApplyStylePrefs										[public]
+// ---------------------------------------------------------------------------
+// Apply the style changes to all the windows listening.
+
+void
+CRezillaPrefs::ApplyStylePrefs() 
+{
+	BroadcastMessage(msg_StylePrefsChanged, &mCurrPrefs);
+}
+
+
+// ---------------------------------------------------------------------------
 //	¥ RunPrefsWindow											[public]
 // ---------------------------------------------------------------------------
 //	Display the preferences window for the application
@@ -463,10 +558,15 @@ void
 CRezillaPrefs::RunPrefsWindow()
 {
 	LCheckBox *		theCheckBox;
+	LPopupButton *	thePopup;
 	long			theLong;
 	Str255			theString;
+	LStr255			theLine( "\p" );
 	Boolean 		inPrefsLoop = true;
 	LEditText *		theEditField;
+	SInt32 			theSize, itemIndex;
+	SInt16			theFontNum;
+	TextTraitsRecord theCurrTraits;
 	
 	StDialogBoxHandler	theHandler(rPPob_PrefsWindow, this);
 	LDialogBox *		theDialog = theHandler.GetDialog();
@@ -495,6 +595,9 @@ CRezillaPrefs::RunPrefsWindow()
 	LView* theComparePane = theMPV->GetPanel(mpv_Compare);
 	ThrowIfNil_(theComparePane);
 	
+	LView* theInterfacePane = theMPV->GetPanel(mpv_Interface);
+	ThrowIfNil_(theInterfacePane);
+	
 	LRadioGroupView * theNewMapRGV = dynamic_cast<LRadioGroupView *>(theGeneralPane->FindPaneByID( item_GenPrefsNewMapRgbx ));
 	ThrowIfNil_(theNewMapRGV);
 	
@@ -507,6 +610,8 @@ CRezillaPrefs::RunPrefsWindow()
 	LRadioGroupView * theDisplayRGV = dynamic_cast<LRadioGroupView *>(theComparePane->FindPaneByID( item_CompPrefsDisplayRgbx ));
 	ThrowIfNil_(theDisplayRGV);
 	
+	theCurrTraits = GetStyleElement( prefsType_Curr );
+
 	//    Link Listeners and Broadcasters
 	// ----------------------------------
 	// Partly done in the StDialogBoxHandler constructor
@@ -549,6 +654,16 @@ CRezillaPrefs::RunPrefsWindow()
 		ThrowIfNil_( theCheckBox );
 		theCheckBox->SetValue(  GetPrefValue( kPref_compare_ignoreData ) );
 
+		thePopup = dynamic_cast<LPopupButton *> (theInterfacePane->FindPaneByID( item_UIPrefsFontsMenu ));
+		ThrowIfNil_( thePopup );
+		theFontNum = theCurrTraits.fontNumber;
+		thePopup->SetValue( FontIndexFromFontNum(thePopup, theFontNum) );
+		
+		thePopup = dynamic_cast<LPopupButton *> (theInterfacePane->FindPaneByID( item_UIPrefsSizeMenu ));
+		ThrowIfNil_( thePopup );
+		theSize = theCurrTraits.size;
+		thePopup->SetValue( SizeIndexFromSizeValue(thePopup, theSize) );
+
 		theDialog->Show();
 		
 		MessageT theMessage;
@@ -564,22 +679,22 @@ CRezillaPrefs::RunPrefsWindow()
 					
 				  case msg_CompPrefsIgnName:
 					theCheckBox = dynamic_cast<LCheckBox *>(theComparePane->FindPaneByID( theMessage - rPPob_PrefsComparePane ));
-					SetPrefValue( theCheckBox->GetValue(), kPref_compare_ignoreName, CRezillaPrefs::prefsType_Temp);
+					SetPrefValue( theCheckBox->GetValue(), kPref_compare_ignoreName, prefsType_Temp);
 					break;
 																				
 				  case msg_CompPrefsIgnAttr:
 					theCheckBox = dynamic_cast<LCheckBox *>(theComparePane->FindPaneByID( theMessage - rPPob_PrefsComparePane ));
-					SetPrefValue( theCheckBox->GetValue(), kPref_compare_ignoreAttributes, CRezillaPrefs::prefsType_Temp);
+					SetPrefValue( theCheckBox->GetValue(), kPref_compare_ignoreAttributes, prefsType_Temp);
 					break;
 																				
 				  case msg_CompPrefsIgnData:
 					theCheckBox = dynamic_cast<LCheckBox *>(theComparePane->FindPaneByID( theMessage - rPPob_PrefsComparePane ));
-					SetPrefValue( theCheckBox->GetValue(), kPref_compare_ignoreData, CRezillaPrefs::prefsType_Temp);
+					SetPrefValue( theCheckBox->GetValue(), kPref_compare_ignoreData, prefsType_Temp);
 					break;
 																				
 				  case msg_ExpPrefsInclBinData:
 					theCheckBox = dynamic_cast<LCheckBox *>(theExportPane->FindPaneByID( theMessage - rPPob_PrefsExportPane ));
-					SetPrefValue( theCheckBox->GetValue(), kPref_export_includeBinary, CRezillaPrefs::prefsType_Temp);
+					SetPrefValue( theCheckBox->GetValue(), kPref_export_includeBinary, prefsType_Temp);
 					break;
 																				
 				  case msg_GenPrefsResetRecent:
@@ -594,7 +709,7 @@ CRezillaPrefs::RunPrefsWindow()
 					} else {
 						theLong = 10;
 					}
-					SetPrefValue( theLong, kPref_general_maxRecent, CRezillaPrefs::prefsType_Temp);
+					SetPrefValue( theLong, kPref_general_maxRecent, prefsType_Temp);
 				    break;
 																				
 				  case msg_ControlClicked:
@@ -607,27 +722,75 @@ CRezillaPrefs::RunPrefsWindow()
 						// by the individual controls. 
 				  		PaneIDT theCurrentRadioID;
 						theCurrentRadioID = theNewMapRGV->GetCurrentRadioID();
-						SetPrefValue( theCurrentRadioID - item_GenPrefsNewMapRgbx, kPref_general_newFork, CRezillaPrefs::prefsType_Temp);
+						SetPrefValue( theCurrentRadioID - item_GenPrefsNewMapRgbx, kPref_general_newFork, prefsType_Temp);
 
 						theCurrentRadioID = theDtdRGV->GetCurrentRadioID();
-						SetPrefValue( theCurrentRadioID - item_ExpPrefsDtdRgbx, kPref_export_formatDtd, CRezillaPrefs::prefsType_Temp);
+						SetPrefValue( theCurrentRadioID - item_ExpPrefsDtdRgbx, kPref_export_formatDtd, prefsType_Temp);
 
 						theCurrentRadioID = theEncodingRGV->GetCurrentRadioID();
-						SetPrefValue( theCurrentRadioID - item_ExpPrefsEncRgbx, kPref_export_dataEncoding, CRezillaPrefs::prefsType_Temp);
+						SetPrefValue( theCurrentRadioID - item_ExpPrefsEncRgbx, kPref_export_dataEncoding, prefsType_Temp);
 
 						theCurrentRadioID = theDisplayRGV->GetCurrentRadioID();
-						SetPrefValue( theCurrentRadioID - item_CompPrefsDisplayRgbx, kPref_compare_dataDisplayAs, CRezillaPrefs::prefsType_Temp);
+						SetPrefValue( theCurrentRadioID - item_CompPrefsDisplayRgbx, kPref_compare_dataDisplayAs, prefsType_Temp);
 						break;
 				  }
+				  
+				  case msg_UIPrefsFontsMenu:
+					// Get the popup menu.
+					thePopup = dynamic_cast<LPopupButton *> (theInterfacePane->FindPaneByID( item_UIPrefsFontsMenu ));
+					ThrowIfNil_( thePopup );
+					// Get the name of the font.
+					::GetMenuItemText( thePopup->GetMacMenuH(), thePopup->GetValue(), theString );
+					LString::CopyPStr(theString, mTempPrefs.interface.traitsRecord.fontName);
+					::GetFNum(theString, &theFontNum);
+					SetStyleElement(theFontNum, style_fontType, prefsType_Temp);
+					break;
+					
+				  case msg_UIPrefsSizeMenu:
+					theSize = GetStyleElement().size;
+					// Get the popup menu.
+					thePopup = dynamic_cast<LPopupButton *> (theInterfacePane->FindPaneByID( item_UIPrefsSizeMenu ));
+					ThrowIfNil_( thePopup );
+					// Get the value of the item.
+					itemIndex = thePopup->GetValue();
+					if (itemIndex == kLastSizeMenuItem + 2) {
+						// This is the 'Other' item
+						if (UModalDialogs::AskForOneNumber(sPrefsWindow, rPPob_OtherSize, item_OtherSizeField, theSize)) {
+							if (theSize == 0) {theSize = 10;}
+							// If they match, no need to use 'Other' item
+							if (FontSizeExists(thePopup, theSize, itemIndex)) {
+								thePopup->SetValue(itemIndex);
+							} else {
+								// Modify the text of the 'Other' item.
+								theLine = "\pOther" ;
+								Str255	theSizeString;
+								::NumToString( theSize, theSizeString );
+								// Append the current size
+								theLine += "\p (";
+								theLine += theSizeString;
+								theLine += "\p)É";
+								// Set the menu item text.
+								::SetMenuItemText( thePopup->GetMacMenuH(), kLastSizeMenuItem + 2, theLine );					
+							}
+						}
+					} else {
+						::GetMenuItemText( thePopup->GetMacMenuH(), thePopup->GetValue(), theString );
+						::StringToNum( theString, &theSize );
+					}
+					SetStyleElement( (SInt16) theSize, style_sizeType, prefsType_Temp);
+					break;
 				}	
 			}
 		}
 		
 		// if we hit ok, save the pref info
-		if (msg_OK == theMessage)
-		{
-			ValidateTempPrefs();
+		if (msg_OK == theMessage) {
 			if ( PrefsHaveChanged() ) {
+				Boolean stylechanged = (memcmp( &mCurrPrefs.interface, &mTempPrefs.interface, sizeof(SInterfacePrefs) ) != 0);
+				ValidateTempPrefs();
+				if (stylechanged) {
+					ApplyStylePrefs();
+				}
 				UpdateVars();
 			}
 		}
@@ -656,14 +819,14 @@ CRezillaPrefs::UpdateVars()
 // ---------------------------------------------------------------------------
 
 OSStatus
-CRezillaPrefs::FontSizeExists(LStdPopupMenu * inPopup, SInt32 inSize, SInt32 &outItemIndex)
+CRezillaPrefs::FontSizeExists(LPopupButton * inPopup, SInt32 inSize, SInt32 &outItemIndex)
 {
 	OSErr	itemMatches = 0;
 	SInt16	i;
 	Str255	theMenuText;
 	SInt32	theMenuSize;
 	
-	// See if inSize matches a menu item
+	// See if inSize matches some menu item
 	for ( i= kFirstSizeMenuItem ; i<= kLastSizeMenuItem ; i++ ) {
 		::GetMenuItemText( inPopup->GetMacMenuH(), i, theMenuText );
 		::StringToNum( theMenuText, &theMenuSize );
@@ -684,7 +847,7 @@ CRezillaPrefs::FontSizeExists(LStdPopupMenu * inPopup, SInt32 inSize, SInt32 &ou
 // ---------------------------------------------------------------------------
 
 SInt32
-CRezillaPrefs::FontIndexFromFontNum(LStdPopupMenu * inPopup, SInt16 inFNum) 
+CRezillaPrefs::FontIndexFromFontNum(LPopupButton * inPopup, SInt16 inFNum) 
 {
 	SInt32	i;
 	SInt16	theFontNum;
@@ -692,12 +855,11 @@ CRezillaPrefs::FontIndexFromFontNum(LStdPopupMenu * inPopup, SInt16 inFNum)
 	Boolean foundIt = false;
 	MenuRef	theMenuRef = inPopup->GetMacMenuH();
 	
-	// See if inFNum matches a menu item
+	// See if inFNum matches some menu item
 	for ( i = 1 ; i<= ::CountMenuItems(theMenuRef) ; i++ ) {
 		::GetMenuItemText( theMenuRef, i, theMenuText );
 		::GetFNum(theMenuText,&theFontNum);
-		if ( inFNum == theFontNum)
-		{
+		if ( inFNum == theFontNum) {
 			foundIt = true;
 			break;
 		}	
@@ -716,7 +878,7 @@ CRezillaPrefs::FontIndexFromFontNum(LStdPopupMenu * inPopup, SInt16 inFNum)
 // ---------------------------------------------------------------------------
 
 SInt32
-CRezillaPrefs::SizeIndexFromSizeValue(LStdPopupMenu * inPopup, SInt16 inSize) 
+CRezillaPrefs::SizeIndexFromSizeValue(LPopupButton * inPopup, SInt16 inSize) 
 {
 	SInt32	i;
 	SInt32	theSize;
@@ -724,12 +886,11 @@ CRezillaPrefs::SizeIndexFromSizeValue(LStdPopupMenu * inPopup, SInt16 inSize)
 	Boolean foundIt = false;
 	MenuRef	theMenuRef = inPopup->GetMacMenuH();
 	
-	// See if inSize matches a menu item
+	// See if inSize matches some menu item
 	for ( i = 1 ; i<= ::CountMenuItems(theMenuRef) ; i++ ) {
 		::GetMenuItemText( theMenuRef, i, theSizeString );
 		::StringToNum( theSizeString, &theSize );
-		if ( inSize == theSize)
-		{
+		if ( inSize == theSize) {
 			foundIt = true;
 			break;
 		}	

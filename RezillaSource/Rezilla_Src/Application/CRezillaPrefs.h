@@ -41,10 +41,16 @@ struct SComparePrefs {
 	SInt32			dataDisplay;
 };
 
+//     Interface Prefs
+struct SInterfacePrefs {
+	TextTraitsRecord	traitsRecord;
+};
+
 struct SRezillaPrefs {
 	SGeneralPrefs		general;
 	SExportPrefs		exporting;
 	SComparePrefs		compare;
+	SInterfacePrefs		interface;
 };
 
 enum {
@@ -55,6 +61,7 @@ enum {
 	kPref_export_dataEncoding,
 	kPref_export_formatDtd,
 	kPref_export_includeBinary,
+	kPref_interface_traitsRecord,
 	kPref_general_newFork,
 	kPref_general_maxRecent
 };
@@ -85,6 +92,13 @@ public:
 									 SInt32 inConstant, 
 									 SInt32 inPrefType = prefsType_Curr);
 	
+	virtual TextTraitsRecord	GetStyleElement(SInt32 inPrefType = prefsType_Temp);
+	
+	virtual void		SetStyleElement(SInt16 inStyleValue, 
+										SInt32 inElementType,
+										SInt32 inPrefType = prefsType_Curr);
+	virtual void		LoadStyleElement(TextTraitsPtr inTraitsRecPtr);
+
 	LDialogBox *		GetPrefsWindow() { return sPrefsWindow;}
 	void				SetPrefsWindow(LDialogBox * inPrefsWindow) {sPrefsWindow = inPrefsWindow ;}
 	
@@ -105,12 +119,13 @@ protected:
 	void                MakePrefsWindow();
 
 private:
-	virtual void		RetrievePreferences();
 	void				SetDefaultPreferences();
+	void				RetrievePreferences();
+	void				ApplyStylePrefs();
   
-	OSStatus			FontSizeExists(LStdPopupMenu * inPopup, SInt32 inSize, SInt32 &outItemIndex);
-	SInt32				FontIndexFromFontNum(LStdPopupMenu * inPopup, SInt16 inFNum);
-	SInt32				SizeIndexFromSizeValue(LStdPopupMenu * inPopup, SInt16 inSize);
+	OSStatus			FontSizeExists(LPopupButton * inPopup, SInt32 inSize, SInt32 &outItemIndex);
+	SInt32				FontIndexFromFontNum(LPopupButton * inPopup, SInt16 inFNum);
+	SInt32				SizeIndexFromSizeValue(LPopupButton * inPopup, SInt16 inSize);
 };
 
 #endif // _H_CRezillaPrefs
