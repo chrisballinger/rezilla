@@ -2,7 +2,7 @@
 // CAeteSuite.h
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-22 09:35:35
+//             Last modification: 2005-01-28 09:29:49
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -96,12 +96,14 @@ public:
 		ArrayIndexT		GetEnumerationIndex() { return mEnumerationIndex;}
 		void			SetEnumerationIndex(ArrayIndexT inEnumerationIndex) {mEnumerationIndex = inEnumerationIndex;}
 
+		SInt32			CountEvents() { return mEvents.GetCount(); }
+		SInt32			CountClasses() { return mClasses.GetCount(); }
+		SInt32			CountCompOps() { return mCompOps.GetCount(); }
+		SInt32			CountEnumerations() { return mEnumerations.GetCount(); }
+
 		TArray<CAeteEvent*> *	GetEvents() { return &mEvents;}
-
 		TArray<CAeteClass*> *	GetClasses() { return &mClasses;}
-
-		TArray<CAeteCompOp*> *	GetCompOperators() { return &mCompOperators;}
-
+		TArray<CAeteCompOp*> *	GetCompOps() { return &mCompOps;}
 		TArray<CAeteEnumeration*> *	GetEnumerations() { return &mEnumerations;}
 
 protected:
@@ -118,7 +120,7 @@ protected:
 
 		TArray<CAeteEvent*>			mEvents;
 		TArray<CAeteClass*>			mClasses;
-		TArray<CAeteCompOp*>		mCompOperators;
+		TArray<CAeteCompOp*>		mCompOps;
 		TArray<CAeteEnumeration*>	mEnumerations;
 
 

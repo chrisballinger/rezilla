@@ -2,7 +2,7 @@
 // CAete.h
 // 
 //                       Created: 2005-01-21 07:27:26
-//             Last modification: 2005-01-22 10:15:11
+//             Last modification: 2005-01-28 06:55:20
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -47,7 +47,10 @@ public:
 			
 		ArrayIndexT		GetSuiteIndex() { return mSuiteIndex;}
 		void			SetSuiteIndex(ArrayIndexT inSuiteIndex) {mSuiteIndex = inSuiteIndex;}
-
+		void			AdjustSuiteIndex();
+		
+		SInt32			CountSuites() { return mSuites.GetCount(); }
+		
 		TArray<CAeteSuite*> *	GetSuites() { return &mSuites;}
 
 protected:

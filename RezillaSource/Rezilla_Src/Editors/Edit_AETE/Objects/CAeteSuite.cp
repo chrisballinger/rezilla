@@ -87,10 +87,10 @@ CAeteSuite::~CAeteSuite()
 		delete theClass;
 	}
 
-	TArrayIterator<CAeteCompOp*> iteratorCo(mCompOperators, LArrayIterator::from_End);
+	TArrayIterator<CAeteCompOp*> iteratorCo(mCompOps, LArrayIterator::from_End);
 	CAeteCompOp *	theCompOp;
 	while (iteratorCo.Previous(theCompOp)) {
-		mCompOperators.RemoveItemsAt(1, iteratorCo.GetCurrentIndex());
+		mCompOps.RemoveItemsAt(1, iteratorCo.GetCurrentIndex());
 		delete theCompOp;
 	}
 
@@ -224,7 +224,7 @@ CAeteSuite::RemoveClass( ArrayIndexT inAtIndex )
 void
 CAeteSuite::AddCompOp()
 {
-	mCompOperators.AddItem( new CAeteCompOp() );
+	mCompOps.AddItem( new CAeteCompOp() );
 }
 
 
@@ -235,7 +235,7 @@ CAeteSuite::AddCompOp()
 void
 CAeteSuite::AddCompOp(CAeteCompOp * inCompOp)
 {
-	mCompOperators.AddItem(inCompOp);
+	mCompOps.AddItem(inCompOp);
 }
 
 
@@ -248,7 +248,7 @@ CAeteSuite::AddCompOp(Str255 inName,
 					 OSType inType, 
 					 Str255 inDescription)
 {
-	mCompOperators.AddItem( new CAeteCompOp( inName, inType, inDescription) );
+	mCompOps.AddItem( new CAeteCompOp( inName, inType, inDescription) );
 }
 
 
@@ -260,11 +260,11 @@ void
 CAeteSuite::RemoveCompOp( ArrayIndexT inAtIndex )
 {
 	CAeteCompOp *	theCompOp;
-	if ( mCompOperators.FetchItemAt( inAtIndex, theCompOp) ) {
+	if ( mCompOps.FetchItemAt( inAtIndex, theCompOp) ) {
 		if (theCompOp != NULL) {
 			delete theCompOp;
 		} 
-		mCompOperators.RemoveItemsAt(1, inAtIndex);
+		mCompOps.RemoveItemsAt(1, inAtIndex);
 	} 
 }
 
@@ -410,9 +410,9 @@ CAeteSuite::SendDataToStream(CAeteStream * outStream)
 	}
 
 	// CompOps data
-	*outStream << (UInt16) mCompOperators.GetCount();
+	*outStream << (UInt16) mCompOps.GetCount();
 
-	TArrayIterator<CAeteCompOp*> iterCo( mCompOperators );
+	TArrayIterator<CAeteCompOp*> iterCo( mCompOps );
 	CAeteCompOp *	theCompOp;
 	
 	while (iterCo.Next(theCompOp)) {

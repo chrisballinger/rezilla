@@ -36,6 +36,8 @@ public:
 		ArrayIndexT	GetKeyFormIndex() { return mKeyFormIndex;}
 		void		SetKeyFormIndex(ArrayIndexT inKeyFormIndex) {mKeyFormIndex = inKeyFormIndex;}
 
+		SInt32			CountKeyForms() { return mKeyForms.GetCount(); }
+	
 		TArray<OSType> *	GetKeyForms() { return &mKeyForms;}
 
 protected:

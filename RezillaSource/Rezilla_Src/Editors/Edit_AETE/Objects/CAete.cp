@@ -96,7 +96,7 @@ CAete::AddSuite(Str255	inName,
 
 
 // ---------------------------------------------------------------------------
-//  RemoveProperty												[public]
+//  RemoveSuite														[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -190,4 +190,21 @@ CAete::SetValues(UInt8 inMajorVersion, UInt8 inMinorVersion,
 	mLanguage = inLanguage;
 	mScript = inScript;
 }
+
+
+// ---------------------------------------------------------------------------
+//  AdjustSuiteIndex												[public]
+// ---------------------------------------------------------------------------
+
+void
+CAete::AdjustSuiteIndex()
+{
+	if ( mSuiteIndex == 0 ) {
+		mSuiteIndex = (mSuites.GetCount() > 0);
+	} else if ( mSuiteIndex > mSuites.GetCount() ) {
+		mSuiteIndex = mSuites.GetCount();
+	} 
+}
+
+
 
