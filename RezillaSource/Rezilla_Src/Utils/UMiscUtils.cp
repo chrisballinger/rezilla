@@ -27,6 +27,7 @@
 #include <LComparator.h>
 #include <Drag.h>
 
+#include <stdio.h>
 #include <string.h>
 #include "regex.h"
 
@@ -60,6 +61,23 @@ UMiscUtils::OSTypeToPString(OSType inType, Str255 & outString)
 	theType[4] = 0;
 	*(OSType*)theType = inType;
 	CopyCStringToPascal(theType, outString);	
+}
+
+
+// ---------------------------------------------------------------------------
+//  ¥ HexNumStringToDecimal											[static]
+// ---------------------------------------------------------------------------
+// Used to calculate the $nnn hexadecimal values in Hnnn, Cnnn, Tnnn 
+// template tags.
+
+void
+UMiscUtils::HexNumStringToDecimal(ResType * inTypePtr, SInt32 * outNum)
+{
+	char str[4];
+	char * p = (char *) inTypePtr;
+	sprintf(str, "%c%c%c%c", *(p+1), *(p+2), *(p+3), 0);
+	::LowercaseText(str, 3, (ScriptCode)0);
+	sscanf(str, "%3x", outNum);
 }
 
 
@@ -306,8 +324,7 @@ UMiscUtils::ParseDateString(Str255 inString, UInt32 * outAbsTime)
 	struct re_pattern_buffer regex;
 	struct re_registers regs;
 	const char *		s;
-	int 				n;
-	long				theNum, lengthUsed;
+	long				lengthUsed;
 	LStr255				subString("\p");
 	Size				dataSize;
 	const char * 		thepattern = " *([0-9]{1,2}/[0-9]{1,2}/[0-9]{1,2}) *- *([0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2})";
@@ -355,6 +372,7 @@ UMiscUtils::ParseDateString(Str255 inString, UInt32 * outAbsTime)
 	return result;
 }
 
+// #define HiWord(x) ((short)((long)(x) >> 16))
 
 // ---------------------------------------------------------------------------
 //	¥ IdenticalHandles												[static]

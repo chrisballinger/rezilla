@@ -11,18 +11,14 @@
 // $Revision$
 // ===========================================================================
 
-
 #ifndef _H_UMiscUtils
 #define _H_UMiscUtils
 #pragma once
 
 #include <PP_Prefix.h>
-// #include <UKeyFilters.h>
-
 #include <Carbon.h>
 
 class LPopupButton;
-
 
 #if PP_Uses_Pragma_Import
 	#pragma import on
@@ -56,6 +52,7 @@ public:
 	static SInt32	SizeIndexFromSizeValue(LPopupButton * inPopup, SInt16 inSize);
 	static void		PaddTypeIfNecessary(Str255 inTypeStr);
 	static void 	SetTypeAndCreator(FSSpec inFSSpec, OSType inType, OSType inCreator);
+	static void		HexNumStringToDecimal(ResType * inTypePtr, SInt32 * outNum);
 	
 };
 
