@@ -131,6 +131,7 @@ enum
 enum
 {	
 	ImgType_LargeIcon			= FOUR_CHAR_CODE('ICON'),
+	ImgType_IconSuite			= FOUR_CHAR_CODE('SICN'),
 	
 	ImgType_LargeIconWithMask	= FOUR_CHAR_CODE('ICN#'),
 	ImgType_LargeIconMask		= FOUR_CHAR_CODE('ICN#'),
@@ -206,7 +207,7 @@ const ResIDT	PPob_AeteEditorWindow		= 10300;
 const ResIDT	PPob_PictEditorWindow		= 10400;
 const ResIDT	PPob_UtxtEditorWindow		= 10500;
 const ResIDT	PPob_IconEditorWindow		= 10600;
-const ResIDT	PPob_IconSuiteEditor		= 10600;
+const ResIDT	PPob_IconFamilyEditor		= 10600;
 const ResIDT	PPob_CICNEditor				= 10601;
 const ResIDT	PPob_ICONEditor				= 10602;
 const ResIDT	PPob_PictEditor				= 10603;
@@ -215,6 +216,7 @@ const ResIDT	PPob_ColorCursorEditor		= 10605;
 const ResIDT	PPob_PatternEditor			= 10606;
 const ResIDT	PPob_PixPatEditor			= 10607;
 const ResIDT	PPob_PatternSuiteEditor		= 10608;
+const ResIDT	PPob_IconSuiteEditor		= 10609;
 
 const ResIDT	ics8_Unlocked				= 1500;
 const ResIDT	ics8_Locked					= 1501;
@@ -1177,7 +1179,10 @@ const SInt32		kBWCursorRowBytes		= 2;
 const SInt32		kBWCursorBytes			= 68;
 const SInt32		kDefaultPatternWidth	= 8;
 const SInt32		kDefaultPatternHeight	= 8;
+const SInt32		kDefaultIconWidth		= 16;
+const SInt32		kDefaultIconHeight		= 16;
 const SInt32		kBWPatternRowBytes		= 1;
+const SInt32		kBWIconRowBytes			= 2;
 const SInt16		kDefaultMarchInterval	= 3;
 // The default pattern is black
 const Pattern	Pattern_Black = { { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF } };
