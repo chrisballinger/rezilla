@@ -16,6 +16,25 @@
 #define _H_CMenuItem
 #pragma once
 
+typedef struct	SMenuItemInfo {
+	Str255		title;
+	UInt8		iconID;
+	UInt8		shortcut;
+	UInt8		mark;
+	UInt8		style;
+	SInt16		entrytype;
+	SInt32		commandID;
+	UInt8		modifiers;
+	UInt8		icontype;
+	UInt32		iconhandle;
+	SInt32		encoding;
+	SInt32		refcon1;
+	SInt32		refcon2;
+	ResIDT		submenuID;
+	SInt16		fontID;
+	SInt16		glyph;
+} SMenuItemInfo;
+
 
 class LHandleStream;
 
