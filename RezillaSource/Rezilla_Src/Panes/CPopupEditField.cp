@@ -210,9 +210,7 @@ CPopupEditField::FillPopup(ResIDT inStringListID)
 
 void
 CPopupEditField::ListenToMessage( MessageT inMessage, void *ioParam ) 
-{
-	Str255	theString;
-	
+{	
 	if (inMessage == mPopup->GetValueMessage()) {
 		SInt32		choice = *(SInt32 *) ioParam;
 		Str255 		theString;
@@ -224,30 +222,38 @@ CPopupEditField::ListenToMessage( MessageT inMessage, void *ioParam )
 		} 
 		return;
 	} 
-	
-	switch (inMessage) {
-		
-		case msg_EditorModifiedItem: 
-		// This is the message emitted by the edit fields. Check that it is
-		// the correlated field.
-		LEditText * theEditText = (LEditText *) GetUserCon();
-		if (ioParam == theEditText) {
-			theEditText->GetDescriptor(theString);
-			AdjustItemWithValue(theString);
-		} 
-		
-		break;
-		
-	}
 }
 
 
 // ---------------------------------------------------------------------------
-//	 AdjustItemWithValue											[public]
+//	 AdjustPopupWithValue											[public]
 // ---------------------------------------------------------------------------
 
-void
-CPopupEditField::AdjustItemWithValue(Str255 inString) 
+SInt16
+CPopupEditField::AdjustPopupWithValue(Str255 inString) 
+{
+	SInt16 foundIdx = FindInPopup(inString);
+	
+	// Mark the item corresponding to the value or remove any mark
+	if (foundIdx != -1) {
+		mPopup->SetCurrentMenuItem(foundIdx);						
+	} else {
+		SInt16 val = mPopup->GetCurrentMenuItem();
+		mPopup->SetCurrentMenuItem(0);
+// 		::MacCheckMenuItem(mPopup->GetMacMenuH(), mPopup->GetCurrentMenuItem(), 0);
+		::SetItemMark(mPopup->GetMacMenuH(), val, 0);
+	}
+	
+	return foundIdx;
+}
+
+
+// ---------------------------------------------------------------------------
+//	 FindInPopup											[public]
+// ---------------------------------------------------------------------------
+
+SInt16
+CPopupEditField::FindInPopup(Str255 inString) 
 {
 	SInt16		num = (SInt16) ::CountMenuItems(mPopup->GetMacMenuH());
 	SInt16		foundIdx = -1;
@@ -255,7 +261,7 @@ CPopupEditField::AdjustItemWithValue(Str255 inString)
 	Str255 *	rightPtr;
 
 	while (num > 0) {
-		mPopup->GetMenuItemText(num, itemString);
+		::GetIndString(itemString, mStringsID, num);
 		if (UMiscUtils::SplitCaseValue(itemString, &rightPtr)) {
 			if (rightPtr != NULL && UCompareUtils::CompareStr255( (Str255 *) inString, rightPtr) == 0) {
 				foundIdx = num;
@@ -265,13 +271,30 @@ CPopupEditField::AdjustItemWithValue(Str255 inString)
 		num--;
 	}
 	
-	// Mark the item corresponding to the value or remove any mark
-	if (foundIdx != -1) {
-		mPopup->SetCurrentMenuItem(foundIdx);						
+	return foundIdx;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ UserChangedText
+// ---------------------------------------------------------------------------
+
+void
+CPopupEditField::UserChangedText()
+{
+	Str255	theString;
+	SInt16	index;
+	
+	GetDescriptor(theString);
+	index = AdjustPopupWithValue(theString);
+	if (index == -1) {
+		// Pass NULL as ioParam to tell that no item was found in list
+		BroadcastMessage(mValueMessage, NULL);
 	} else {
-		::MacCheckMenuItem(mPopup->GetMacMenuH(), mPopup->GetCurrentMenuItem(), 0);
+		LEditText::UserChangedText();
 	}
 }
+
 
 
 PP_End_Namespace_PowerPlant

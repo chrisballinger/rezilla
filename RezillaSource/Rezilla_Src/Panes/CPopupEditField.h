@@ -72,8 +72,12 @@ public:
 							MessageT		inMessage,
 							void*			ioParam);
 
-	void			AdjustItemWithValue(Str255 inString);
+	virtual void	UserChangedText();
 
+	SInt16			AdjustPopupWithValue(Str255 inString);
+
+	SInt16			FindInPopup(Str255 inString) ;
+	
 	void			FillPopup(ResIDT inStringListID);
 	
 	LBevelButton*		GetPopup() { return mPopup;}
