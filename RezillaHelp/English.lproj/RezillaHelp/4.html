@@ -1,6 +1,7 @@
 <HTML>
 <HEAD>
 <TITLE>Description of the menu itemsFile menu</TITLE>
+<META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
@@ -36,7 +37,7 @@ Brings up a standard dialog to specify a file in which to store the current
 resource map.  Three radio buttons let you specify in which fork to store
 the map.  The available options are:
 <UL>
-	<LI> <I>same fork</I>: use the same foprk as the currently opened map.
+	<LI> <I>same fork</I>: use the same fork as the currently opened map.
 	<LI> <I>data fork</I>: save in the data fork.
 	<LI> <I>resource fork"</I>: save in the resource fork.
 </UL></DL><P><DT><B>Export...</B><DL><DT>
@@ -76,17 +77,22 @@ dialog. If the Find dialog contains an empty search string, the command  is
 disabled.</DL><P><DT><B>Compare maps...</B><DL><DT>
 This item lets you compare two resource maps.  This can be useful if you
 want to see what has changed between two successive versions of an
-application or a file.  The results are displayed in a window containing
-three lists: the left hand side list contains the resources found in the first
-resource map and absent from the second, the right hand side list contains the
-resources found in the second resource map and absent from the first.  The
-middle list contains resources existing in both Resource Maps but which differ according to some
-criterion.  If you click on a resource in this list, the hexadecimal data
-for the resource will be displayed in two parallel panes in the bottom part
-of the window for comparison: on the left, the data as found in the first 
-map, on the right the data as found in the second map. The data can be 
-viewed either as hexadecimal or as text using the two radio buttons at the 
-bottom of the window.</DL><P></DL>
+application or a file. The dialog window in which one selects the files
+whose resources must be compared contains three checkboxes which let you
+specify additional comparison options: it is possible to ignore differences
+relative to the name, to the attributes or to the binary data of the
+resources.
+<P> The results are displayed in a window containing three lists: the left
+hand side list contains the resources found in the first resource map and
+absent from the second, the right hand side list contains the resources
+found in the second resource map and absent from the first. The middle list
+contains resources existing in both Resource Maps but which differ
+according to some criterion. If you click on a resource in this list, the
+hexadecimal data for the resource will be displayed in two parallel panes
+in the bottom part of the window for comparison: on the left, the data as
+found in the first map, on the right the data as found in the second map.
+The data can be viewed either as hexadecimal or as text using the two radio
+buttons at the bottom of the window.</DL><P></DL>
 </UL><P><H3>Resource menu</H3>
 <P><IMG SRC="../../Images/rzil_resourcemenu.gif" ALT="Resource Menu" ALIGN=bottom></P><P><UL>
 <DL><P><DT><B>New Resource</B><DL><DT>
