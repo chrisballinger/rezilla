@@ -297,22 +297,15 @@ CRezillaApp::InitMLTE()
 	
 	LMLTEPane::Initialize( rMENU_FontsUnicode, rMENU_StartHierMenuID, &defaultFont, 1, 0);
 	
-	// Create the Fonts menu static object
-	if (CUtxt_EditorDoc::sUnicodeFontsMenu == NULL) {
-		CUtxt_EditorDoc::SetUnicodeFontsMenu( new LMenu(rMENU_FontsUnicode));
-	} 	
 	// Remove the Fonts menu from the menu bar
-	LMenuBar::GetCurrentMenuBar()->RemoveMenu(CUtxt_EditorDoc::GetUnicodeFontsMenu());
-// 	::MacDeleteMenu(rMENU_FontsUnicode);
-// 	::InvalMenuBar();				// Force redraw of MenuBar
+	::MacDeleteMenu(rMENU_FontsUnicode);
+	::InvalMenuBar();
 }
 
 
 // ---------------------------------------------------------------------------
-//	¥ RegisterClasses								[protected]
+//	¥ RegisterClasses											[protected]
 // ---------------------------------------------------------------------------
-//	To reduce clutter within the Application object's constructor, class
-//	registrations appear here in this seperate function for ease of use.
 
 void
 CRezillaApp::RegisterClasses()
