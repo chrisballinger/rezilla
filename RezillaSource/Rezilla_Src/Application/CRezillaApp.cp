@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2004-04-13 08:03:21
+//             Last modification: 2004-04-13 08:55:03
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -98,13 +98,14 @@
 // Globals
 CWindowMenu	*		gWindowMenu;	// This is the window menu.
 
-// Statics
+// Static variables
 CInspectorWindow *		CRezillaApp::sInspectorWindow = nil;
 const LStr255			CRezillaApp::sVersionNumber( VersionFromResource() );
 SInt16					CRezillaApp::sOwnRefNum;
 TArray<CRezMapDoc *>	CRezillaApp::sRezMapDocList;
 SInt16					CRezillaApp::sDefaultCreatingFork;
 CRecentItemsMenu *		CRezillaApp::sRecentItemsAttachment;
+Boolean					CRezillaApp::sReadOnlyNavFlag = false;
 
 // ===========================================================================
 //  ¥ Main Program
@@ -230,7 +231,6 @@ CRezillaApp::Initialize()
 	ABalloonBase::SetAutoPopDelay(20);
 
 	mOpeningFork = fork_anyfork;
-	mReadOnlyNavFlag = false;
 	
 	// TODO: replace by preference
 	sDefaultCreatingFork = fork_datafork;
@@ -679,7 +679,7 @@ CRezillaApp::ChooseAFile(FSSpec & outFileSpec)
 	if (openOK) {
 		chooser.GetFileSpec(1, outFileSpec);
 		mOpeningFork = theUserData.whichFork;
-		mReadOnlyNavFlag = theUserData.isReadOnly;
+		sReadOnlyNavFlag = theUserData.isReadOnly;
 	}
 
     // Activate the desktop.
@@ -722,7 +722,7 @@ void
 CRezillaApp::OpenDocument(
 	FSSpec* inFSSpec)
 {
-	mReadOnlyNavFlag = false;
+	sReadOnlyNavFlag = false;
 	OpenFork(*inFSSpec);
 }
 
@@ -747,7 +747,7 @@ CRezillaApp::OpenFork(FSSpec & inFileSpec)
 	error = PreOpen(inFileSpec, theFork, theRefNum, mOpeningFork);
 	if ( error == noErr ) {
 		theRezMapDocPtr = new CRezMapDoc(this, &inFileSpec, theFork, theRefNum);
-		theRezMapDocPtr->SetReadOnlyDoc(mReadOnlyNavFlag);
+		theRezMapDocPtr->SetReadOnlyDoc(sReadOnlyNavFlag);
 		theRezMapDocPtr->GetRezMapWindow()->InstallReadOnlyIcon();
 	} 
 	
@@ -765,14 +765,21 @@ CRezillaApp::PreOpen(FSSpec & inFileSpec, SInt16 & outFork, short & outRefnum, S
 	Boolean		openOK = false;
 	OSErr		error;
 	FSRef		inFileRef;
+	SInt8       thePermission;
 	
 	StRezReferenceSaver saver( ::CurResFile() );
+	
+	if (sReadOnlyNavFlag) {
+		thePermission = fsRdPerm;
+	} else {
+		thePermission = fsRdWrPerm;
+	}
 	
 	if (inWantedFork != fork_rezfork) {
 		// Try to open the file as a datafork resource file
 		error = FSpMakeFSRef( &inFileSpec, &inFileRef );
 		SetResLoad( false );
-		error = FSOpenResourceFile( &inFileRef, 0, nil, fsRdWrPerm, &outRefnum );
+		error = FSOpenResourceFile( &inFileRef, 0, nil, thePermission, &outRefnum );
 		SetResLoad( true );
 		
 		if (error == noErr) {
@@ -794,7 +801,7 @@ CRezillaApp::PreOpen(FSSpec & inFileSpec, SInt16 & outFork, short & outRefnum, S
 	if (inWantedFork != fork_datafork) {
 		// If this failed (mapReadErr), try to open as a resourcefork resource file
 		SetResLoad( false );
-		outRefnum = FSpOpenResFile( &inFileSpec, fsRdWrPerm);
+		outRefnum = FSpOpenResFile( &inFileSpec, thePermission);
 		error = ::ResError();
 		SetResLoad( true );
 		if (error == noErr) {
@@ -1008,7 +1015,7 @@ CRezillaApp::HandleOpenDocsEvent(
 						      (Ptr) &theFileSpec, sizeof(FSSpec), &theSize);
 	    ThrowIfOSErr_(error);
 	
-		mReadOnlyNavFlag = false;
+		sReadOnlyNavFlag = false;
 	    OpenFork(theFileSpec);
 	}
 		

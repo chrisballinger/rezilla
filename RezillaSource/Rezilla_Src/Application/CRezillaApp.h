@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.h					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2004-04-11 21:34:15
+//             Last modification: 2004-04-13 08:54:57
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -84,12 +84,12 @@ public:
 	static TArray<CRezMapDoc *>	sRezMapDocList;
 	static SInt16				sDefaultCreatingFork;
 	static CRecentItemsMenu *	sRecentItemsAttachment;
+	static Boolean				sReadOnlyNavFlag;
 
 protected:
 	LDialogBox *		mAboutWindow;
 	SInt16				mCreatingFork;
 	SInt16				mOpeningFork;
-	Boolean				mReadOnlyNavFlag;
 
 	virtual void		StartUp();
 	virtual void		Initialize();
