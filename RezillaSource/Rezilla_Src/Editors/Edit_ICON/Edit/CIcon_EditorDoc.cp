@@ -112,7 +112,7 @@ CIcon_EditorDoc::Initialize()
 		case ImgType_MiniIconWithMask:
 		case ImgType_Mini4BitIcon:
 		case ImgType_Mini8BitIcon:
-			theWindow = CWindow_IconFamily::OpenPaintWindow( PPob_IconSuiteEditor, theMap, theID );
+			theWindow = CWindow_IconFamily::OpenPaintWindow( PPob_IconFamilyEditor, theMap, theID );
 			break;
 			
 		// 'cicn'
@@ -127,7 +127,14 @@ CIcon_EditorDoc::Initialize()
 			
 		// 'PAT#'
 		case ImgType_PatternSuite:
-			theWindow = CWindow_PatternSuite::OpenPaintWindow( PPob_PatternSuiteEditor, theMap, theID );
+			theWindow = CWindow_PatternSuite::OpenPaintWindow( PPob_PatternSuiteEditor, theMap, 
+															  ImgType_PatternSuite, theID );
+			break;
+				
+		// 'SICN'
+		case ImgType_IconSuite:
+			theWindow = CWindow_PatternSuite::OpenPaintWindow( PPob_IconSuiteEditor, theMap, 
+															  ImgType_IconSuite, theID );
 			break;
 				
 		// 'CURS'
