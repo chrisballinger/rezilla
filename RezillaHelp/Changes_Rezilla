@@ -29,7 +29,15 @@ $Date$
 
 
 ================================================================================
-= 1.0.4a8	                             last update: 
+= 1.0.4a9	                             last update: 
+================================================================================
+¥ Debugging and testing phase before release.
+¥ Added a "Display filler fields in templates" pref.
+¥ Built categorized templates for testing. Tested all the tags.
+¥ Built Samples Suite to test the templates against.
+
+================================================================================
+= 1.0.4a8	                             last update: 2004-09-17 10:55:56
 ================================================================================
 ¥ Implemented keyed sections in templates.
 ¥ Added 18 new templates.
@@ -42,7 +50,7 @@ $Date$
 ¥ Created TestSamples.
 ¥ Syntax validation Tcl scripts.
 ¥ The resProtected bit is set on internal TMPL resources.
-¥ 
+¥ Support for SKIP template tag.
 
 ================================================================================
 = 1.0.4a7	                             last update: 2004-08-20 16:24:25
