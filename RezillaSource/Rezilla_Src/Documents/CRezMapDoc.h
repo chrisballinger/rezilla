@@ -32,7 +32,7 @@ class	CRezMap;
 class	CRezMapWindow;
 class	CRezObj;
 class	CRezObjItem;
-class	CRezEditor;
+class	CEditorDoc;
 
 // ---------------------------------------------------------------------------
 
@@ -124,9 +124,9 @@ public:
 									  Boolean replaceExisting);
 	void				PasteRezMap(CRezMap * srcRezMap);
 
-	CRezEditor *		GetRezEditor(ResType inType, short inID);
+	CEditorDoc *		GetRezEditor(ResType inType, short inID);
 
-	TArray<CRezEditor *>*	GetOpenedEditors() { return mOpenedEditors ;}
+	TArray<CEditorDoc *>*	GetOpenedEditors() { return mOpenedEditors ;}
 	
 	Boolean				GetReadOnlyDoc() { return mReadOnlyDoc;}
 	void				SetReadOnlyDoc(Boolean inReadOnlyDoc) {mReadOnlyDoc = inReadOnlyDoc;}
@@ -138,7 +138,7 @@ protected:
 	CRezFile *				mRezFile;
 	CTextFileStream *		mFileStream;
 	TArray<ResType>*		mTypesArray;	// Maintain a sorted array of ResTypes
-	TArray<CRezEditor *> *	mOpenedEditors;	// Maintain an array of editor docs 
+	TArray<CEditorDoc *> *	mOpenedEditors;	// Maintain an array of editor docs 
 	                 		                  	// dependent from this doc (all edit 
 	                 		                  	// windows for resources in this map)
 	Boolean					mUpdateOnClose;

@@ -244,7 +244,7 @@ CRezMapDoc::Initialize(FSSpec * inFileSpec, short inRefnum)
 	}
 
 	// Initialize the array of edited resources
-	mOpenedEditors = new TArray<CRezEditor *>();
+	mOpenedEditors = new TArray<CEditorDoc *>();
 	
 	// Populate the RezTable
 	CTypeComparator* theComparator = new CTypeComparator;
@@ -734,8 +734,8 @@ CRezMapDoc::DoRevert()
 	
 	// Delete all the editor windows depending from this rezmap
     if (mOpenedEditors != nil) {
-        TArrayIterator<CRezEditor *> iterator(*mOpenedEditors);
-        CRezEditor* theRezEditor = nil;
+        TArrayIterator<CEditorDoc *> iterator(*mOpenedEditors);
+        CEditorDoc* theRezEditor = nil;
         while (iterator.Next(theRezEditor)) {
             delete theRezEditor;
         }
@@ -1377,14 +1377,14 @@ CRezMapDoc::CreateNewRes(ResType inType, short inID, Str255* inName, short inAtt
 // ---------------------------------------------------------------------------
 // ResType is an unsigned long
 
-CRezEditor *
+CEditorDoc *
 CRezMapDoc::GetRezEditor(ResType inType, short inID)
 {
-	CRezEditor * result = nil;	
-	TArrayIterator<CRezEditor *> iterator(*mOpenedEditors);
-	CRezEditor*	theRezEditor = nil;
+	CEditorDoc * result = nil;	
+	TArrayIterator<CEditorDoc *> iterator(*mOpenedEditors);
+	CEditorDoc*	theRezEditor = nil;
 	
-	// The CRezMapDoc class maintains a list of all opened CRezEditor's
+	// The CRezMapDoc class maintains a list of all opened CEditorDoc's
 	while (iterator.Next(theRezEditor)) {
 		if (inType == theRezEditor->GetRezObj()->GetType() && inID == theRezEditor->GetRezObj()->GetID() ) {
 			result = theRezEditor;
@@ -1491,7 +1491,7 @@ CRezMapDoc::RemoveResource(CRezObjItem* inRezObjItem)
 	CRezObj * theRezObj = inRezObjItem->GetRezObj();
 	
 	// If an editing window is opened for this resource, close it
-	CRezEditor * theRezEditor = GetRezEditor( theRezObj->GetType(), theRezObj->GetID() );
+	CEditorDoc * theRezEditor = GetRezEditor( theRezObj->GetType(), theRezObj->GetID() );
 	if (theRezEditor != nil) {
 		theRezEditor->SetModified(false);
 		delete theRezEditor;

@@ -207,6 +207,40 @@ UMiscUtils::CompareStr255(Str255 * leftString, Str255 * rightString)
 
 
 // ---------------------------------------------------------------------------
+//	¥ IdenticalHandles												[static]
+// ---------------------------------------------------------------------------
+
+Boolean 
+UMiscUtils::HandlesAreIdentical(const Handle leftHndl, const Handle rightHndl)
+{
+	Boolean result = true;
+	Size leftSize = GetHandleSize(leftHndl);
+	Size rightSize = GetHandleSize(rightHndl);
+	
+	if( leftSize != rightSize ) {
+		 result = false;
+	} else {
+		SInt8 leftState = HGetState(leftHndl);
+		SInt8 rightState = HGetState(rightHndl);
+		HLock(leftHndl);
+		HLock(rightHndl);
+		
+		char *l = *leftHndl;
+		char *r = *rightHndl;
+		for ( UInt16 i = 0; i < leftSize; i++ ) {
+			if ( *l++ != *r++ ) {
+				result = false;
+				break;
+			}
+		}
+		HSetState(leftHndl, leftState);
+		HSetState(rightHndl, rightState);
+	}
+	return result;
+}
+
+
+// ---------------------------------------------------------------------------
 //	¥ GetDragFileData										[static]
 // ---------------------------------------------------------------------------
 // If the flavour data is an HFSFlavor structure, retrieve it.

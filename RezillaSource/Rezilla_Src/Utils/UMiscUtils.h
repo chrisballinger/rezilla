@@ -1,11 +1,11 @@
 // ===========================================================================
 // UMiscUtils.h					
 //                       Created: 2003-05-13 20:06:23
-//             Last modification: 2004-03-05 07:05:19
+//             Last modification: 2004-06-12 07:42:54
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003, 2004
+// © Copyright: Bernard Desgraupes 2003-2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -44,6 +44,7 @@ public:
 	static Boolean	IsValidHexadecimal(Handle inHandle);
 	static Boolean	IsValidHexadecimal(Ptr inPtr, ByteCount inByteCount);
 	static SInt16	CompareStr255(Str255 * leftString, Str255 * rightString);
+	static Boolean	HandlesAreIdentical(const Handle leftHndl, const Handle rightHndl);
 	static void		CopyFSSpec(FSSpec& srcFileSpec, FSSpec& trgtFileSpec);
 };
 

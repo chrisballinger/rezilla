@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2004-06-08 18:55:18
+//             Last modification : 2004-06-11 10:16:31
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -129,12 +129,15 @@ const ResIDT	rPPob_PrefsGeneralPane		= 7100;
 const ResIDT	rPPob_PrefsExportPane		= 7200;
 const ResIDT	rPPob_PrefsComparePane		= 7300;
 const ResIDT	rPPob_PrefsInterfacePane	= 7400;
+const ResIDT	rPPob_PrefsEditorsPane		= 7500;
 const ResIDT	rPPob_FindDialog			= 8500;
 const ResIDT	rPPob_OtherSize				= 8600;
 const ResIDT	rPPob_SimpleMessage			= 9500;
 const ResIDT	rPPob_AskIfMessage			= 9510;
 const ResIDT	rPPob_AskYesNoMessage		= 9520;
 const ResIDT	rPPob_AskUniqueID			= 9550;
+const ResIDT	rPPob_TmplEditorWindow		= 10100;
+const ResIDT	rPPob_TextEditorWindow		= 10200;
 const ResIDT	rRidL_RezMapWindow			= rPPob_RezMapWindow;
 const ResIDT	rRidL_InspectorWindow		= rPPob_InspectorWindow;
 const ResIDT	rRidL_NewRezDialog			= rPPob_NewRezDialog;
@@ -214,10 +217,11 @@ const MessageT	cmd_ShowInspector			= 2001;
 // Resource menu items
 const MessageT	cmd_NewRez				= baseMENU_Resource + 1;	
 const MessageT	cmd_GuiEditRez			= baseMENU_Resource + 2;	
-const MessageT	cmd_HexEditRez			= baseMENU_Resource + 3;	
-const MessageT	cmd_RemoveRez			= baseMENU_Resource + 4;	
-const MessageT	cmd_DuplicateRez		= baseMENU_Resource + 5;	
-const MessageT	cmd_GetRezInfo			= baseMENU_Resource + 6;
+const MessageT	cmd_TmplEditRez			= baseMENU_Resource + 3;	
+const MessageT	cmd_HexEditRez			= baseMENU_Resource + 4;	
+const MessageT	cmd_RemoveRez			= baseMENU_Resource + 10;	
+const MessageT	cmd_DuplicateRez		= baseMENU_Resource + 11;	
+const MessageT	cmd_GetRezInfo			= baseMENU_Resource + 15;
 // File menu items
 const MessageT	cmd_ExportMap			= baseMENU_File + 1;	
 const MessageT	cmd_RecentItems			= baseMENU_File + 2;	
@@ -351,7 +355,24 @@ const PaneIDT	item_CompPrefsTxtDisplay	= 7;
 //     --------------------
 const PaneIDT	item_UIPrefsFontsMenu		= 2;
 const PaneIDT	item_UIPrefsSizeMenu		= 3;
+// Tmpl Editor Window
+// ------------------
+const PaneIDT   item_TmplEditScroller	= FOUR_CHAR_CODE('Scrl') ;
+const PaneIDT   item_TmplEditContents	= FOUR_CHAR_CODE('Cnts') ;
+const PaneIDT   item_TmplEditValidate	= FOUR_CHAR_CODE('Vlid') ;
+const PaneIDT   item_TmplEditCancel		= FOUR_CHAR_CODE('Cncl') ;
+const PaneIDT   item_TmplEditRevert		= FOUR_CHAR_CODE('Rvrt') ;
+// Text Editor Window
+// ------------------
+const PaneIDT   item_TextEditScroller	= FOUR_CHAR_CODE('Scrl') ;
+const PaneIDT   item_TextEditContents	= FOUR_CHAR_CODE('Cnts') ;
+const PaneIDT   item_TextEditFontMenu	= 1 ;
+const PaneIDT   item_TextEditSizeMenu	= 2 ;
+const PaneIDT   item_TextEditStyleMenu	= 3 ;
+
+
 // 'Other size' dialog
+// -------------------
 const PaneIDT   item_OtherSizeField			= 1 ;
 
 // Navigation dialogs custom items
@@ -462,6 +483,18 @@ const MessageT	msg_CompPrefsTxtDisplay		= rPPob_PrefsComparePane + item_CompPref
 //     --------------------
 const MessageT	msg_UIPrefsFontsMenu		= rPPob_PrefsInterfacePane + item_UIPrefsFontsMenu;
 const MessageT	msg_UIPrefsSizeMenu			= rPPob_PrefsInterfacePane + item_UIPrefsSizeMenu;
+// Tmpl Editor Window
+// ------------------
+const MessageT	msg_TmplEditValidate		= msg_OK;
+const MessageT	msg_TmplEditCancel			= msg_Cancel;
+const MessageT	msg_TmplEditRevert			= cmd_Revert;
+// Text Editor Window
+// ------------------
+const MessageT	msg_TextEditScroller	= FOUR_CHAR_CODE('Scrl') ;
+const MessageT	msg_TextEditContents	= FOUR_CHAR_CODE('Cnts') ;
+const MessageT	msg_TextEditFontMenu	= rPPob_TextEditorWindow + item_TextEditFontMenu;
+const MessageT	msg_TextEditSizeMenu	= rPPob_TextEditorWindow + item_TextEditSizeMenu;
+const MessageT	msg_TextEditStyleMenu	= rPPob_TextEditorWindow + item_TextEditStyleMenu;
 
 
 const MessageT	msg_Close					= 	FOUR_CHAR_CODE('Clos');

@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2004-06-07 09:15:03
+//             Last modification: 2004-06-12 08:50:09
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -287,7 +287,9 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(CDropStaticText);
 	RegisterClass_(CEditTable);
 	RegisterClass_(CHexDataSubView);
+	RegisterClass_(CEditorWindow);
 	RegisterClass_(CHexEditorWindow);
+// 	RegisterClass_(CTmplEditorWindow);
 	RegisterClass_(CInspectorWindow);
 	RegisterClass_(CRangeEditText);
 	RegisterClass_(CRezIconPane);
