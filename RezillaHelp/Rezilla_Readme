@@ -10,25 +10,23 @@ of its development. It comes without any warranty. That said, it has been
 thoroughly tested and has proven quite stable and reliable.
 
 This new version adds the following features:
-    ¥ Rezilla now has a Bitmap Editor which is able to edit 
-		any of the following types:
+	¥ a Bitmap Editor which is able to edit any of the following types:
 
 		'cicn', 'crsr', 'CURS', 'icl4', 'icl8', 'icm#', 'icm4', 'icm8',
 		'ICN#', 'ICON', 'ics#', 'ics4', 'ics8', 'PAT#', 'PAT ', 'ppat',
 		'SICN'
 
-    ¥ an Aete Editor has been added to edit AppleScript terminology
-		resources (resources with type 'aete' or 'aeut'). It can generate
-		Scripting Definition files (sdef) and export to Xml, DeRez, Html,
-		and Text formats. It can also import an aete from an Xml file.
-    ¥ an Unicode Editor has been added to edit resources storing 
-		Unicode UTF-16 data.
-    ¥ a PICT viewer has been added.
-    ¥ a sound player has been added to play 'snd ' resources.
+	¥ an Aete Editor to edit AppleScript terminology resources (resources
+		with type 'aete' or 'aeut'). It can generate Scripting Definition files
+		(sdef) and export to Xml, DeRez, Html, and Text formats. It can also
+		import an aete from an Xml file.
+    ¥ an Unicode Editor to edit resources storing Unicode UTF-16 data.
+    ¥ a PICT viewer.
+    ¥ a sound player to play 'snd ' resources.
     ¥ the Text Editor's interface has been reorganised.
-    ¥ additional templates have been added to the Templates Editor. There 
-		are now 385 internal templates.
-    ¥ a few preferences have been added to customize the new editors.
+    ¥ additional templates for the Templates Editor. There 
+		are now 386 internal templates.
+    ¥ a few preferences to customize the new editors.
 
 
 Previous versions already implemented the following features:
@@ -40,11 +38,12 @@ Previous versions already implemented the following features:
 	Text editor.
 
 Please read the doc contained in the help files. It is accessible via the
-Rezilla Help command in the Help menu when Rezilla is
-running. You can also
-read it online <http://webperso.easyconnect.fr/bdesgraupes/DocHTML/RezillaHelp/index.html>.
+Rezilla Help command in the Help menu when Rezilla is running. You can also
+read it online
+    <http://webperso.easyconnect.fr/bdesgraupes/DocHTML/RezillaHelp/index.html>.
 
 Rezilla is a free software.
+
 See the licensing terms in the Licence.terms file or click on the
 License button in the About box of the application.
 
