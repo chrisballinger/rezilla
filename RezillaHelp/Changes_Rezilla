@@ -29,12 +29,61 @@ $Date$
 
 
 ================================================================================
-= 1.0.3a 	                             last update: 2004-06-09 18:11:57
+= 1.0.4a6	                             last update: 
+================================================================================
+¥ Installed editor of 'aete' resources.
+¥ 
+
+================================================================================
+= 1.0.4a5	                             last update: 2004-06-30 15:24:18
+================================================================================
+¥ Implemented addition and suppression of list items in a template window.
+¥ Building of empty templates for new resource.
+¥ One can double-click on a resource in a resource map table with a
+  modifier key (shift-key for template editing and option-key for hexadecimal
+  editing). This is like the "shift-command-E" and "option-command-E" menu
+  shortcuts.
+¥ Menu shortcut "option-command-N" to create a new resource in a map.
+¥ Revised the labels of the already existing 92 templates.
+¥ Added some 25 new templates.
+
+================================================================================
+= 1.0.4a4	                             last update: 2004-06-25 10:09:39
+================================================================================
+¥ Implemented modifications saving in a template edited resource.
+¥ Added clickable hyperlinks in the About box.
+¥ A resource can't be opened in different editing modes simultaneously.
+¥ Fixed redraw bug in template windows due to frame bindings to top and bottom.
+
+================================================================================
+= 1.0.4a3	                             last update: 2004-06-20 15:22:48
+================================================================================
+¥ Implemented interface editors mechanism.
+¥ Implemented 'TEXT' and 'styl' multi style editor.
+
+================================================================================
+= 1.0.4a2	                             last update: 2004-06-18 08:57:29
+================================================================================
+¥ Factored dual data edit views out of Hex Edit windows.
+¥ Added Hew Dump template field.
+¥ Implemented lists handling in TMPL editor. Nested lists are supported.
+
+================================================================================
+= 1.0.4a1	                             last update: 2004-06-16 13:58:24
+================================================================================
+¥ Implemented template editor mechanism.
+¥ Installed most of the template fields (no lists yet)
+¥ Defined XML format (DTD) for templates.
+¥ Added an "Editors" preferences panel. It allows to set some geometric values 
+  for the TMPL editor.
+
+================================================================================
+= 1.0.3a 	                             last update: 2004-06-09 19:05:26
 ================================================================================
 ¥ Third public alpha release.
 
 ================================================================================
-= 1.0.3a2	                             last update: 2004-06-08 10:48:16
+= 1.0.3a2	                             last update: 2004-06-09 10:48:16
 ================================================================================
 ¥ Version string returned from Info.plist file rather than 'vers' resources.
 ¥ Last viewed pane in preferences is remembered.
