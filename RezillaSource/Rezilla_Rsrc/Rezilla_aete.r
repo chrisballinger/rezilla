@@ -686,7 +686,7 @@ resource 'aete' (0,"Scripting terminology") {
 		{
 			
 				"application",
-				<ObjectClassID>capp</ObjectClassID>
+				'capp',
 				"An application program",
 				{
 				},
@@ -705,7 +705,7 @@ resource 'aete' (0,"Scripting terminology") {
 				}
 			,
 				"window",
-				<ObjectClassID>cwin</ObjectClassID>
+				'cwin',
 				"A Window",
 				{
 					
@@ -966,7 +966,7 @@ resource 'aete' (0,"Scripting terminology") {
 				}
 			,
 				"document",
-				<ObjectClassID>docu</ObjectClassID>
+				'docu',
 				"A Document",
 				{
 					
@@ -1054,34 +1054,34 @@ resource 'aete' (0,"Scripting terminology") {
 				"",         
 				'Rzil',               
 				'Vers',                  
-				<ReplyDirectParamType></ReplyDirectParamType>      
-				"",     
-				 replyRequired replyOptional ,
-				 singleItem listOfItems ,
-				 notEnumerated enumerated ,
-				 notTightBindingFunction tightBindingFunction ,
-				 enumsAreConstants enumsAreTypes ,
-				 enumListCanRepeat enumListIsExclusive ,
-				 replyIsValue replyIsReference ,
+				'TEXT',      
+				"Rezilla's version number",     
+				replyRequired,
+				singleItem,
+				notEnumerated,
+				notTightBindingFunction,
+				enumsAreConstants,
+				enumListCanRepeat,
+				replyIsValue,
 				reserved,
 				reserved,
 				reserved,
 				reserved,
 				reserved,
-				 verbEvent nonVerbEvent ,
+				verbEvent,
 				reserved,
 				reserved,
 				reserved,
-				'',           
+				'null',           
 				"",    
-				 directParamRequired directParamOptional ,
-				 singleItem listOfItems ,
-				 notEnumerated enumerated ,
-				 doesntChangeState changesState ,
-				 enumsAreConstants enumsAreTypes ,
-				 enumListCanRepeat enumListIsExclusive ,
-				 directParamIsValue directParamIsReference ,
-				 directParamIsTarget notDirectParamIsTarget ,
+				directParamOptional,
+				singleItem,
+				notEnumerated,
+				doesntChangeState,
+				enumsAreConstants,
+				enumListCanRepeat,
+				directParamIsValue,
+				directParamIsTarget,
 				reserved,
 				reserved,
 				reserved,
