@@ -10,7 +10,8 @@
 <H2>Template Editor</H2><P>Rezilla is able to parse resources using descriptive templates and to
 build a graphical interface out of it, allowing to easily edit all the elements of the
 resource. For instance, the following image shows how Rezilla would edit a 
-MPSR resource containing font and size information about a document.<P>There are three kinds of locations where TMPL resources can be found. They 
+Txtr resource containing font and size information for a document.
+<P><IMG SRC="../../Images/rzil_tmpleditor.gif" ALT="A Template editor window" ALIGN=bottom></P><P>There are three kinds of locations where TMPL resources can be found. They 
 are described in details in the following subsections: 
 <UL>
 	<LI> <I>internal</I> templates are predefined templates stored inside the
@@ -40,46 +41,46 @@ selects it, which the editor displays by drawing a red border around it.<P>When 
 	<LI> if an item of this list is selected, a new item is inserted <I>before</I>
 the selected item.
 	<LI> if no item is selected, a new item is added at the <I>end</I> of the list.
-</UL><P><H3>Internal templates</H3><P>Rezilla, in version 1.0.4a, ships with 365
+</UL><P><H3>Internal templates</H3><P>Rezilla, in version 1.0.4a, ships with 363
 templates corresponding to the following resource types:
 <P><TABLE BORDER=0 CELLPADDING=1>
-<TR><TD>accl</TD><TD>ACfg </TD><TD>actb </TD><TD>acur </TD><TD>admn </TD><TD>aedt </TD><TD>aete </TD><TD>ALRT </TD><TD>alrx </TD><TD>APPL </TD></TR>
-<TR><TD>audt</TD><TD>badg </TD><TD>bMRM </TD><TD>BNDL </TD><TD>brws </TD><TD>bVal </TD><TD>Cals </TD><TD>caps </TD><TD>cbnd </TD><TD>CCI? </TD></TR>
-<TR><TD>cctb</TD><TD>cdci </TD><TD>cFIG </TD><TD>cfmt </TD><TD>cfrg </TD><TD>chCd </TD><TD>chCv </TD><TD>Chnl </TD><TD>CHOS </TD><TD>chrw </TD></TR>
-<TR><TD>ckid</TD><TD>Clmn </TD><TD>clr# </TD><TD>cltn </TD><TD>clut </TD><TD>CMDK </TD><TD>cmdo </TD><TD>cmnu </TD><TD>CNTL </TD><TD>Colr </TD></TR>
-<TR><TD>colw</TD><TD>comm </TD><TD>cool </TD><TD>CPPb </TD><TD>cpts </TD><TD>crst </TD><TD>CTY# </TD><TD>CTYP </TD><TD>CURS </TD><TD>cust </TD></TR>
-<TR><TD>CWid</TD><TD>dale </TD><TD>DBnf </TD><TD>dbug </TD><TD>dctb </TD><TD>dctl </TD><TD>desC </TD><TD>deta </TD><TD>detf </TD><TD>deti </TD></TR>
-<TR><TD>detk</TD><TD>detn </TD><TD>detp </TD><TD>dett </TD><TD>detv </TD><TD>detw </TD><TD>detx </TD><TD>dflg </TD><TD>dftb </TD><TD>DITL </TD></TR>
-<TR><TD>dJvU</TD><TD>DLGf </TD><TD>dlgx </TD><TD>dlle </TD><TD>DLOG </TD><TD>DRVR </TD><TD>DSAT </TD><TD>DSPC </TD><TD>EDDI </TD><TD>EDT# </TD></TR>
-<TR><TD>eopt</TD><TD>epcf </TD><TD>eppc </TD><TD>EQPS </TD><TD>EQST </TD><TD>ErrC </TD><TD>errs </TD><TD>EuFl </TD><TD>EuOM </TD><TD>EuRg </TD></TR>
-<TR><TD>exft</TD><TD>f2im </TD><TD>faps </TD><TD>fbnd </TD><TD>FBTN </TD><TD>FCMT </TD><TD>fctb </TD><TD>fdes </TD><TD>FDIR </TD><TD>FDlg </TD></TR>
-<TR><TD>fdmn</TD><TD>fFIG </TD><TD>FHLP </TD><TD>find </TD><TD>finf </TD><TD>fld# </TD><TD>FLOG </TD><TD>flst </TD><TD>fmap </TD><TD>fmn2 </TD></TR>
-<TR><TD>fmnu</TD><TD>FOND </TD><TD>FONT </TD><TD>FREF </TD><TD>FRSV </TD><TD>FSty </TD><TD>FTLS </TD><TD>FtSz </TD><TD>ftyp </TD><TD>fval </TD></TR>
-<TR><TD>FWID</TD><TD>gdir </TD><TD>gmcd </TD><TD>GNRL </TD><TD>GOBJ </TD><TD>HAlt </TD><TD>hdlg </TD><TD>hfdr </TD><TD>hmnu </TD><TD>hovr </TD></TR>
-<TR><TD>hrct</TD><TD>HTMB </TD><TD>hwin </TD><TD>ICLB </TD><TD>icmt </TD><TD>ICOX </TD><TD>ICx6 </TD><TD>inaa </TD><TD>inah </TD><TD>inat </TD></TR>
-<TR><TD>inbb</TD><TD>incd </TD><TD>indm </TD><TD>indo </TD><TD>inex </TD><TD>infa </TD><TD>inff </TD><TD>infm </TD><TD>INFO </TD><TD>infr </TD></TR>
-<TR><TD>infs</TD><TD>inpc </TD><TD>inpk </TD><TD>inpr </TD><TD>inr# </TD><TD>inra </TD><TD>inrf </TD><TD>inrl </TD><TD>inrm </TD><TD>insc </TD></TR>
-<TR><TD>insp</TD><TD>insz </TD><TD>intf </TD><TD>invc </TD><TD>invs </TD><TD>iobm </TD><TD>isys </TD><TD>ITEM </TD><TD>itl0 </TD><TD>ITL1 </TD></TR>
-<TR><TD>itl1</TD><TD>itl2 </TD><TD>itl4 </TD><TD>itlb </TD><TD>itlc </TD><TD>itlk </TD><TD>ITML </TD><TD>JPob </TD><TD>KBDN </TD><TD>KCAP </TD></TR>
-<TR><TD>KCHR</TD><TD>kind </TD><TD>KInf </TD><TD>KMAP </TD><TD>KRNL </TD><TD>KSWP </TD><TD>Labl </TD><TD>LAYO </TD><TD>LBEL </TD><TD>LBRK </TD></TR>
-<TR><TD>ldes</TD><TD>libi </TD><TD>libr </TD><TD>LIST </TD><TD>load </TD><TD>LOGD </TD><TD>look </TD><TD>mach </TD><TD>MACS </TD><TD>mapp </TD></TR>
-<TR><TD>MBAR</TD><TD>mcky </TD><TD>Mcmd </TD><TD>mctb </TD><TD>mcvs </TD><TD>mem! </TD><TD>MENA </TD><TD>MENU </TD><TD>mgrp </TD><TD>MIMA </TD></TR>
-<TR><TD>MIMD</TD><TD>mimp </TD><TD>mitq </TD><TD>MKEY </TD><TD>mntb </TD><TD>modm </TD><TD>mppc </TD><TD>MPSR </TD><TD>mVal </TD><TD>mxbc </TD></TR>
-<TR><TD>mxbi</TD><TD>mxbm </TD><TD>mxpr </TD><TD>mxst </TD><TD>mxwt </TD><TD>NFNT </TD><TD>nfnt </TD><TD>nmKy </TD><TD>nrct </TD><TD>Odds </TD></TR>
-<TR><TD>open</TD><TD>osiz </TD><TD>otdr </TD><TD>over </TD><TD>PANE </TD><TD>PANI </TD><TD>panl </TD><TD>PAPA </TD><TD>PAT  </TD><TD>PAT# </TD></TR>
-<TR><TD>PBUT</TD><TD>pdip </TD><TD>Pers </TD><TD>pfil </TD><TD>pfnt </TD><TD>PgSz </TD><TD>picb </TD><TD>PICK </TD><TD>PICT </TD><TD>PINF </TD></TR>
-<TR><TD>PLGN</TD><TD>pltt </TD><TD>plut </TD><TD>pnel </TD><TD>pnot </TD><TD>POST </TD><TD>ppat </TD><TD>ppcc </TD><TD>ppdA </TD><TD>ppdT </TD></TR>
-<TR><TD>PPob</TD><TD>PPRO </TD><TD>PRC0 </TD><TD>PRC3 </TD><TD>PRF2 </TD><TD>PRFS </TD><TD>prop </TD><TD>proz </TD><TD>PSAP </TD><TD>PSLD </TD></TR>
-<TR><TD>pslt</TD><TD>ptyp </TD><TD>puf! </TD><TD>qrsc </TD><TD>ramr </TD><TD>rdes </TD><TD>rdpf </TD><TD>rdws </TD><TD>RECT </TD><TD>RES! </TD></TR>
-<TR><TD>RES#</TD><TD>resf </TD><TD>resl </TD><TD>rgb  </TD><TD>RID# </TD><TD>RidL </TD><TD>RMAP </TD><TD>ropt </TD><TD>rout </TD><TD>ROv# </TD></TR>
-<TR><TD>rptw</TD><TD>RSCP </TD><TD>RSID </TD><TD>rst# </TD><TD>rstr </TD><TD>RTXT </TD><TD>RVEW </TD><TD>RZID </TD><TD>RZLE </TD><TD>sAbt </TD></TR>
-<TR><TD>sami</TD><TD>scan </TD><TD>scop </TD><TD>scrn </TD><TD>scsz </TD><TD>sect </TD><TD>sept </TD><TD>sig  </TD><TD>SIGN </TD><TD>SINF </TD></TR>
-<TR><TD>SIZE</TD><TD>Smly </TD><TD>Sods </TD><TD>SPLY </TD><TD>sReq </TD><TD>stab </TD><TD>stat </TD><TD>STCT </TD><TD>STR  </TD><TD>STR# </TD></TR>
-<TR><TD>stri</TD><TD>strn </TD><TD>STRT </TD><TD>styl </TD><TD>SUFX </TD><TD>Suit </TD><TD>sUnt </TD><TD>sVal </TD><TD>sysz </TD><TD>tab# </TD></TR>
-<TR><TD>taps</TD><TD>tdat </TD><TD>TEXT </TD><TD>thga </TD><TD>thn# </TD><TD>thnd </TD><TD>thng </TD><TD>thnr </TD><TD>THUM </TD><TD>tic# </TD></TR>
-<TR><TD>TMPL</TD><TD>TOOL </TD><TD>TPal </TD><TD>tray </TD><TD>trsl </TD><TD>TTBL </TD><TD>tVal </TD><TD>tvar </TD><TD>TxSt </TD><TD>Txtr </TD></TR>
-<TR><TD>TXTs</TD><TD>TYPs </TD><TD>url  </TD><TD>vers </TD><TD>VFlg </TD><TD>wctb </TD><TD>WIND </TD><TD>wstr </TD><TD>xdtl </TD><TD>Xmnu </TD></TR>
-<TR><TD>xMNU</TD><TD>xmnu </TD><TD>ZOOM </TD><TD>§DTD </TD><TD>µVal </TD><TD> </TD><TD> </TD><TD> </TD><TD> </TD><TD> </TD></TR>
+<TR><TD>accl</TD><TD>ACfg </TD><TD>actb </TD><TD>acur </TD><TD>admn </TD><TD>aedt </TD><TD>ALRT </TD><TD>alrx </TD><TD>APPL </TD><TD>audt </TD></TR>
+<TR><TD>badg</TD><TD>bMRM </TD><TD>BNDL </TD><TD>brws </TD><TD>bVal </TD><TD>Cals </TD><TD>caps </TD><TD>cbnd </TD><TD>CCI? </TD><TD>cctb </TD></TR>
+<TR><TD>cdci</TD><TD>cFIG </TD><TD>cfmt </TD><TD>cfrg </TD><TD>chCd </TD><TD>chCv </TD><TD>Chnl </TD><TD>CHOS </TD><TD>chrw </TD><TD>ckid </TD></TR>
+<TR><TD>Clmn</TD><TD>clr# </TD><TD>cltn </TD><TD>clut </TD><TD>CMDK </TD><TD>cmdo </TD><TD>cmnu </TD><TD>CNTL </TD><TD>Colr </TD><TD>colw </TD></TR>
+<TR><TD>comm</TD><TD>cool </TD><TD>CPPb </TD><TD>cpts </TD><TD>crst </TD><TD>CTY# </TD><TD>CTYP </TD><TD>CURS </TD><TD>cust </TD><TD>CWid </TD></TR>
+<TR><TD>dale</TD><TD>DBnf </TD><TD>dbug </TD><TD>dctb </TD><TD>dctl </TD><TD>desC </TD><TD>deta </TD><TD>detf </TD><TD>deti </TD><TD>detk </TD></TR>
+<TR><TD>detn</TD><TD>detp </TD><TD>dett </TD><TD>detv </TD><TD>detw </TD><TD>detx </TD><TD>dflg </TD><TD>dftb </TD><TD>DITL </TD><TD>dJvU </TD></TR>
+<TR><TD>DLGf</TD><TD>dlgx </TD><TD>dlle </TD><TD>DLOG </TD><TD>DRVR </TD><TD>DSAT </TD><TD>DSPC </TD><TD>EDDI </TD><TD>EDT# </TD><TD>eopt </TD></TR>
+<TR><TD>epcf</TD><TD>eppc </TD><TD>EQPS </TD><TD>EQST </TD><TD>ErrC </TD><TD>errs </TD><TD>EuFl </TD><TD>EuOM </TD><TD>EuRg </TD><TD>exft </TD></TR>
+<TR><TD>f2im</TD><TD>faps </TD><TD>fbnd </TD><TD>FBTN </TD><TD>FCMT </TD><TD>fctb </TD><TD>fdes </TD><TD>FDIR </TD><TD>FDlg </TD><TD>fdmn </TD></TR>
+<TR><TD>fFIG</TD><TD>FHLP </TD><TD>find </TD><TD>finf </TD><TD>fld# </TD><TD>FLOG </TD><TD>flst </TD><TD>fmap </TD><TD>fmn2 </TD><TD>fmnu </TD></TR>
+<TR><TD>FOND</TD><TD>FONT </TD><TD>FREF </TD><TD>FRSV </TD><TD>FSty </TD><TD>FTLS </TD><TD>FtSz </TD><TD>ftyp </TD><TD>fval </TD><TD>FWID </TD></TR>
+<TR><TD>gdir</TD><TD>gmcd </TD><TD>GNRL </TD><TD>GOBJ </TD><TD>HAlt </TD><TD>hdlg </TD><TD>hfdr </TD><TD>hmnu </TD><TD>hovr </TD><TD>hrct </TD></TR>
+<TR><TD>HTMB</TD><TD>hwin </TD><TD>ICLB </TD><TD>icmt </TD><TD>ICOX </TD><TD>ICx6 </TD><TD>inaa </TD><TD>inah </TD><TD>inat </TD><TD>inbb </TD></TR>
+<TR><TD>incd</TD><TD>indm </TD><TD>indo </TD><TD>inex </TD><TD>infa </TD><TD>inff </TD><TD>infm </TD><TD>INFO </TD><TD>infr </TD><TD>infs </TD></TR>
+<TR><TD>inpc</TD><TD>inpk </TD><TD>inpr </TD><TD>inr# </TD><TD>inra </TD><TD>inrf </TD><TD>inrl </TD><TD>inrm </TD><TD>insc </TD><TD>insp </TD></TR>
+<TR><TD>insz</TD><TD>intf </TD><TD>invc </TD><TD>invs </TD><TD>iobm </TD><TD>isys </TD><TD>ITEM </TD><TD>itl0 </TD><TD>ITL1 </TD><TD>itl1 </TD></TR>
+<TR><TD>itl2</TD><TD>itl4 </TD><TD>itlb </TD><TD>itlc </TD><TD>itlk </TD><TD>ITML </TD><TD>JPob </TD><TD>KBDN </TD><TD>KCAP </TD><TD>KCHR </TD></TR>
+<TR><TD>kind</TD><TD>KInf </TD><TD>KMAP </TD><TD>KRNL </TD><TD>KSWP </TD><TD>Labl </TD><TD>LAYO </TD><TD>LBEL </TD><TD>LBRK </TD><TD>ldes </TD></TR>
+<TR><TD>libi</TD><TD>libr </TD><TD>LIST </TD><TD>load </TD><TD>LOGD </TD><TD>look </TD><TD>mach </TD><TD>MACS </TD><TD>mapp </TD><TD>MBAR </TD></TR>
+<TR><TD>mcky</TD><TD>Mcmd </TD><TD>mctb </TD><TD>mcvs </TD><TD>mem! </TD><TD>MENA </TD><TD>MENU </TD><TD>mgrp </TD><TD>MIMA </TD><TD>MIMD </TD></TR>
+<TR><TD>mimp</TD><TD>mitq </TD><TD>MKEY </TD><TD>mntb </TD><TD>modm </TD><TD>mppc </TD><TD>MPSR </TD><TD>mVal </TD><TD>mxbc </TD><TD>mxbi </TD></TR>
+<TR><TD>mxbm</TD><TD>mxpr </TD><TD>mxst </TD><TD>mxwt </TD><TD>nfnt </TD><TD>nmKy </TD><TD>nrct </TD><TD>Odds </TD><TD>open </TD><TD>osiz </TD></TR>
+<TR><TD>otdr</TD><TD>over </TD><TD>PANE </TD><TD>PANI </TD><TD>panl </TD><TD>PAPA </TD><TD>PAT  </TD><TD>PAT# </TD><TD>PBUT </TD><TD>pdip </TD></TR>
+<TR><TD>Pers</TD><TD>pfil </TD><TD>pfnt </TD><TD>PgSz </TD><TD>picb </TD><TD>PICK </TD><TD>PICT </TD><TD>PINF </TD><TD>PLGN </TD><TD>pltt </TD></TR>
+<TR><TD>plut</TD><TD>pnel </TD><TD>pnot </TD><TD>POST </TD><TD>ppat </TD><TD>ppcc </TD><TD>ppdA </TD><TD>ppdT </TD><TD>PPob </TD><TD>PPRO </TD></TR>
+<TR><TD>PRC0</TD><TD>PRC3 </TD><TD>PRF2 </TD><TD>PRFS </TD><TD>prop </TD><TD>proz </TD><TD>PSAP </TD><TD>PSLD </TD><TD>pslt </TD><TD>ptyp </TD></TR>
+<TR><TD>puf!</TD><TD>qrsc </TD><TD>ramr </TD><TD>rdes </TD><TD>rdpf </TD><TD>rdws </TD><TD>RECT </TD><TD>RES! </TD><TD>RES# </TD><TD>resf </TD></TR>
+<TR><TD>resl</TD><TD>rgb  </TD><TD>RID# </TD><TD>RidL </TD><TD>RMAP </TD><TD>ropt </TD><TD>rout </TD><TD>ROv# </TD><TD>rptw </TD><TD>RSCP </TD></TR>
+<TR><TD>RSID</TD><TD>rst# </TD><TD>rstr </TD><TD>RTXT </TD><TD>RVEW </TD><TD>RZID </TD><TD>RZLE </TD><TD>sAbt </TD><TD>sami </TD><TD>scan </TD></TR>
+<TR><TD>scop</TD><TD>scrn </TD><TD>scsz </TD><TD>sect </TD><TD>sept </TD><TD>sig  </TD><TD>SIGN </TD><TD>SINF </TD><TD>SIZE </TD><TD>Smly </TD></TR>
+<TR><TD>Sods</TD><TD>SPLY </TD><TD>sReq </TD><TD>stab </TD><TD>stat </TD><TD>STCT </TD><TD>STR  </TD><TD>STR# </TD><TD>stri </TD><TD>strn </TD></TR>
+<TR><TD>STRT</TD><TD>styl </TD><TD>SUFX </TD><TD>Suit </TD><TD>sUnt </TD><TD>sVal </TD><TD>sysz </TD><TD>tab# </TD><TD>taps </TD><TD>tdat </TD></TR>
+<TR><TD>TEXT</TD><TD>thga </TD><TD>thn# </TD><TD>thnd </TD><TD>thng </TD><TD>thnr </TD><TD>THUM </TD><TD>tic# </TD><TD>TMPL </TD><TD>TOOL </TD></TR>
+<TR><TD>TPal</TD><TD>tray </TD><TD>trsl </TD><TD>TTBL </TD><TD>tVal </TD><TD>tvar </TD><TD>TxSt </TD><TD>Txtr </TD><TD>TXTs </TD><TD>TYPs </TD></TR>
+<TR><TD>url </TD><TD>vers </TD><TD>VFlg </TD><TD>wctb </TD><TD>WIND </TD><TD>wstr </TD><TD>xdtl </TD><TD>Xmnu </TD><TD>xMNU </TD><TD>xmnu </TD></TR>
+<TR><TD>ZOOM</TD><TD>§DTD </TD><TD>µVal </TD><TD> </TD><TD> </TD><TD> </TD><TD> </TD><TD> </TD><TD> </TD><TD> </TD></TR>
 </TABLE></P><P><H3>External templates</H3>
 One can add new templates to those already defined internally by Rezilla.
 New templates must be located in one of the <I>Application Support</I>
