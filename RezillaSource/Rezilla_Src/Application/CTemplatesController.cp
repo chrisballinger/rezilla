@@ -36,13 +36,12 @@
 
 
 TArray<OSType>		CTemplatesController::sTemplateTypes;
-CRezFile *			CTemplatesController::sTmplRezFile = nil;
-CRezMap *			CTemplatesController::sTmplRezMap = nil;
-short				CTemplatesController::sTmplRefnum = kResFileNotOpened;
+CRezMap *			CTemplatesController::sInternalTemplates = nil;
 SInt16				CTemplatesController::sTemplateKind = tmpl_none;
-CFDictionaryRef		CTemplatesController::sTmplDictionary;
+CFDictionaryRef		CTemplatesController::sExternalTemplates;
 CFDictionaryRef		CTemplatesController::sPreferedTemplates;
-FSRef				CTemplatesController::sTmplFileRef;
+FSRef				CTemplatesController::sTemplateFile;
+
 
 // ---------------------------------------------------------------------------
 //	¥ CTemplatesController											[public]
@@ -51,8 +50,8 @@ FSRef				CTemplatesController::sTmplFileRef;
 
 CTemplatesController::CTemplatesController()
 {
-	RegisterTemplates();
-	sTmplDictionary = BuildTmplTypesDictionary();
+	RegisterInternalTemplates();
+	sExternalTemplates = BuildExternalTemplatesDictionary();
 }
 
 
@@ -66,11 +65,11 @@ CTemplatesController::~CTemplatesController()
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ RegisterTemplates
+//  ¥ RegisterInternalTemplates								[private]
 // ---------------------------------------------------------------------------------
 
 OSErr
-CTemplatesController::RegisterTemplates()
+CTemplatesController::RegisterInternalTemplates()
 {
 	CFBundleRef 	mainBundleRef;
 	CFURLRef 		templatesURL;
@@ -107,15 +106,13 @@ CTemplatesController::RegisterTemplates()
 			return error;
 		}
 		if (error == noErr) {
-			sTmplRezFile = new CRezFile(theFileSpec, tmplRefNum, fork_datafork);
-			sTmplRezMap = new CRezMap(tmplRefNum);
-			sTmplRefnum = tmplRefNum;
+			sInternalTemplates = new CRezMap(tmplRefNum);
 		}
 		CFRelease(templatesURL);
 	}
 	
 	// Build the list of types (names of the TMPL resources)
-	CRezType * theRezType = new CRezType('TMPL', sTmplRezMap);
+	CRezType * theRezType = new CRezType('TMPL', sInternalTemplates);
 	error = theRezType->CountResources(numResources);
 	if (error == noErr) {
 		for ( UInt16 i = 1; i <= numResources; i++ ) {
@@ -131,7 +128,7 @@ CTemplatesController::RegisterTemplates()
 
 
 // ---------------------------------------------------------------------------
-//	¥ BuildTmplTypesDictionary											[public]
+//	¥ BuildExternalTemplatesDictionary								[private]
 // ---------------------------------------------------------------------------
 // Create a CFDictionary whose keys are the FSRefs of the resource files
 // located in the various "Application Support/Rezilla/Templates" folders and
@@ -146,7 +143,7 @@ CTemplatesController::RegisterTemplates()
 // 	Do we really need kSystemDomain ? kNetworkDomain ?
 
 CFDictionaryRef
-CTemplatesController::BuildTmplTypesDictionary()
+CTemplatesController::BuildExternalTemplatesDictionary()
 {
 	OSErr					error = noErr;
 	UInt32   				domainIndex;
@@ -229,7 +226,7 @@ CTemplatesController::BuildTmplTypesDictionary()
 
 
 // ---------------------------------------------------------------------------
-//	¥ AddTemplatesToDictionary											[public]
+//	¥ AddTemplatesToDictionary										[private]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -290,7 +287,7 @@ CTemplatesController::AddTemplatesToDictionary(FSRef * inFileRef, CFMutableDicti
 
 
 // ---------------------------------------------------------------------------
-//  ¥ HasTemplateForType											[public]
+//  ¥ HasTemplateForType											[static]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -306,7 +303,7 @@ CTemplatesController::HasTemplateForType(ResType inType)
 		sTemplateKind = tmpl_internal;
 	} else {
 		// Look for an external TMPL
-		hasTMPL = CTemplatesController::HasExternalTemplateForType(inType, &sTmplFileRef);
+		hasTMPL = HasExternalTemplateForType(inType, &sTemplateFile);
 		if (hasTMPL) {
 			sTemplateKind = tmpl_external;
 		} 
@@ -323,7 +320,7 @@ CTemplatesController::HasTemplateForType(ResType inType)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ HasExternalTemplateForType									[public]
+//  ¥ HasExternalTemplateForType									[static]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -331,7 +328,7 @@ CTemplatesController::HasExternalTemplateForType(ResType inType, FSRef * outFile
 {
 	Boolean hasTMPL = false;
 	
-	if (sTmplDictionary) {
+	if (sExternalTemplates) {
 		CFIndex 			dictCount;
 		CFArrayRef			theArrayRef;
 		CFStringRef			typeRef;
@@ -345,14 +342,14 @@ CTemplatesController::HasExternalTemplateForType(ResType inType, FSRef * outFile
 		typeRef = CFStringCreateWithPascalString(NULL, theName, kCFStringEncodingMacRoman);
 		
 		if (typeRef) {
-			dictCount = CFDictionaryGetCount(sTmplDictionary);
+			dictCount = CFDictionaryGetCount(sExternalTemplates);
 			// Allocate memory to store the keys and values
 			theKeys = (CFStringRef*) NewPtrClear(sizeof(CFStringRef*) * dictCount);
 			theVals = (CFStringRef*) NewPtrClear(sizeof(CFStringRef*) * dictCount);
 			
 			if ((theKeys != NULL) && (theVals != NULL)) {
 				// Fill the keys and values from this dictionary
-				CFDictionaryGetKeysAndValues(sTmplDictionary, (const void **) theKeys, (const void **) theVals);
+				CFDictionaryGetKeysAndValues(sExternalTemplates, (const void **) theKeys, (const void **) theVals);
 				// Loop over all the entries
 				for (i = 0; i < dictCount; i++) {
 					if (theKeys[i] && theVals[i] ) {
@@ -380,7 +377,7 @@ CTemplatesController::HasExternalTemplateForType(ResType inType, FSRef * outFile
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetTemplateHandle										[public]
+//	¥ GetTemplateHandle										[static]
 // ---------------------------------------------------------------------------
 
 Handle
@@ -391,7 +388,7 @@ CTemplatesController::GetTemplateHandle(ResType inType)
 	
 	switch (sTemplateKind) {
 		case tmpl_internal:
-		CRezType *	theRezType = new CRezType('TMPL', sTmplRezMap);
+		CRezType *	theRezType = new CRezType('TMPL', sInternalTemplates);
 		
 		UMiscUtils::OSTypeToPString(inType, typeName);
 		theRezType->GetWithName(typeName, theHandle);

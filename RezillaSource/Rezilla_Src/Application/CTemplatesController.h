@@ -38,32 +38,30 @@ public:
 	
 		static Boolean		HasTemplateForType(ResType inType);
 		
-		static Boolean	HasExternalTemplateForType(ResType inType, 
-												   FSRef * outFileRef);
+		static Boolean		HasExternalTemplateForType(ResType inType,
+													   FSRef * outFileRef);
 
 		static Handle		GetTemplateHandle(ResType inType);
 
 		static SInt16		GetTemplateKind() { return sTemplateKind;}
 
-		static FSRef		GetTmplFileRef() { return sTmplFileRef;}
+		static FSRef		GetTemplateFileRef() { return sTemplateFile;}
 
 		static TArray<OSType>	sTemplateTypes;
-		static CFDictionaryRef			sTmplDictionary;
-		static CFDictionaryRef			sPreferedTemplates;
+		static CRezMap *		sInternalTemplates;
+		static CFDictionaryRef	sExternalTemplates;
+		static CFDictionaryRef	sPreferedTemplates;
 		static SInt16			sTemplateKind;
-		static CRezFile *		sTmplRezFile;
-		static CRezMap *		sTmplRezMap;
-		static short			sTmplRefnum;
-		static FSRef			sTmplFileRef;
+		static FSRef			sTemplateFile;
 
 
 protected:
 
 	
 private:
-	OSErr			RegisterTemplates();
-	OSErr		AddTemplatesToDictionary(FSRef * inFileRef, CFMutableDictionaryRef inDict);
-	CFDictionaryRef		BuildTmplTypesDictionary();
+	OSErr				RegisterInternalTemplates();
+	OSErr				AddTemplatesToDictionary(FSRef * inFileRef, CFMutableDictionaryRef inDict);
+	CFDictionaryRef		BuildExternalTemplatesDictionary();
 
 };
 
