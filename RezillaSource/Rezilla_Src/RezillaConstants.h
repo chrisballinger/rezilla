@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2004-12-01 08:41:48
+//             Last modification : 2004-12-08 19:00:47
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -166,6 +166,7 @@ const ResIDT	rPPob_TmplEditorWindow		= 10100;
 const ResIDT	rPPob_TextEditorWindow		= 10200;
 const ResIDT	rPPob_AeteEditorWindow		= 10300;
 const ResIDT	rPPob_PictEditorWindow		= 10400;
+const ResIDT	rPPob_UtxtEditorWindow		= 10500;
 const ResIDT	rRidL_RezMapWindow			= rPPob_RezMapWindow;
 const ResIDT	rRidL_InspectorWindow		= rPPob_InspectorWindow;
 const ResIDT	rRidL_NewRezDialog			= rPPob_NewRezDialog;
@@ -173,6 +174,7 @@ const ResIDT	rRidL_HexEditorWindow		= rPPob_HexEditorWindow;
 const ResIDT	rRidL_TmplEditorWindow		= rPPob_TmplEditorWindow;
 const ResIDT	rRidL_TextEditorWindow		= rPPob_TextEditorWindow;
 const ResIDT	rRidL_AeteEditorWindow		= rPPob_AeteEditorWindow;
+const ResIDT	rRidL_UtxtEditorWindow		= rPPob_UtxtEditorWindow;
 const ResIDT	rRidL_AboutWindow			= rPPob_AboutWindow;
 const ResIDT	rRidL_FindDialog			= rPPob_FindDialog;
 const ResIDT	rRidL_RezCompDialog			= rPPob_RezCompDialog;
@@ -217,6 +219,9 @@ const ResIDT	rMENU_Window				= 1300;
 const ResIDT	rMENU_Help					= 2000;
 const ResIDT	rMENU_RecentItems			= 140;  
 const ResIDT	rMENU_TemplateCases			= 150;  
+const ResIDT	rMENU_FontsTEXT				= 250;  
+const ResIDT	rMENU_FontsUnicode			= 255;  
+const ResIDT	rMENU_StartHierMenuID		= 500;  
 // Values the PP menu cmds are based on
 const ResIDT	baseMENU_File				= 1000;
 const ResIDT	baseMENU_Edit				= 1100;
@@ -475,6 +480,12 @@ const PaneIDT   item_AeteTermsTable			= 23;
 const PaneIDT   item_PictEditSize			= 1;
 const PaneIDT   item_PictEditWidth			= 2;
 const PaneIDT   item_PictEditHeight			= 3;
+// Utxt Editor Window
+// ------------------
+const PaneIDT   item_UtxtEditFontMenu	= 1;
+const PaneIDT   item_UtxtEditSizeMenu	= 2;
+const PaneIDT   item_UtxtEditStyleMenu	= 3;
+const PaneIDT   item_UtxtEditLength		= 4;
 
 
 // Common elements for Editor Windows
@@ -627,8 +638,6 @@ const MessageT	msg_EditorCancel			= msg_Cancel;
 const MessageT	msg_EditorRevert			= cmd_Revert;
 // Text Editor Window
 // ------------------
-const MessageT	msg_TextEditScroller		= FOUR_CHAR_CODE('Scrl');
-const MessageT	msg_TextEditContents		= FOUR_CHAR_CODE('Cnts');
 const MessageT	msg_TextEditFontMenu		= rPPob_TextEditorWindow + item_TextEditFontMenu;
 const MessageT	msg_TextEditSizeMenu		= rPPob_TextEditorWindow + item_TextEditSizeMenu;
 const MessageT	msg_TextEditStyleMenu		= rPPob_TextEditorWindow + item_TextEditStyleMenu;
@@ -637,6 +646,11 @@ const MessageT	msg_TextEditStyleMenu		= rPPob_TextEditorWindow + item_TextEditSt
 const MessageT	msg_AeteSuitesPopup			= rPPob_AeteEditorWindow + item_AeteSuitesPopup;
 const MessageT	msg_AeteCategories			= rPPob_AeteEditorWindow + item_AeteCategories;
 const MessageT	msg_AeteTermsTable			= rPPob_AeteEditorWindow + item_AeteTermsTable;
+// Text Editor Window
+// ------------------
+const MessageT	msg_UtxtEditFontMenu		= rPPob_UtxtEditorWindow + item_UtxtEditFontMenu;
+const MessageT	msg_UtxtEditSizeMenu		= rPPob_UtxtEditorWindow + item_UtxtEditSizeMenu;
+const MessageT	msg_UtxtEditStyleMenu		= rPPob_UtxtEditorWindow + item_UtxtEditStyleMenu;
 
 // Other general purpose messages
 // ------------------------------
@@ -649,6 +663,8 @@ const MessageT	msg_TmplPlusButton			= 	FOUR_CHAR_CODE('Plus');
 const MessageT	msg_TmplCasePopup			= 	FOUR_CHAR_CODE('Case');
 const MessageT	msg_TmplPopupField			= 	FOUR_CHAR_CODE('PopF');
 const MessageT	msg_TmplModifiedItem		= 	FOUR_CHAR_CODE('TmMd');
+const MessageT	msg_EditScroller		= FOUR_CHAR_CODE('Scrl');
+const MessageT	msg_EditContents		= FOUR_CHAR_CODE('Cnts');
 
 
 
