@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2005-03-15 07:19:55
+//             Last modification : 2005-03-23 08:06:47
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -242,8 +242,9 @@ enum {
 
 // MENU editor
 // -----------
-// Special menu items
+// Menu item properties
 enum {
+	kind_MenuAllEnabled		= 0,
 	kind_MenuNoProperty		= 1,
 	kind_MenuIsSeparator,
 	kind_MenuHasSubmenu,
@@ -253,7 +254,7 @@ enum {
 	kind_MenuNonSystemScript
 };
 
-
+// Index of property labels (in resource STRx_MenuEditorLabels)
 enum {
 	indx_MenuMarkChar		= 1,
 	indx_MenuSubID,
