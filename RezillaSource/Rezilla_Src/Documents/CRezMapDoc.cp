@@ -1783,7 +1783,7 @@ CRezMapDoc::PasteRezMap(CRezMap * srcRezMap)
 	short		numTypes, numResources;
     ResType 	theType;
 	short		theID, theAttrs;
-	short		theSrcRefNum = srcRezMap->GetRefnum();
+	short		theSrcRefNum;
 	Handle		theRezHandle;
 	OSErr		error = noErr;
 	Boolean		applyToOthers = false;
@@ -1795,6 +1795,12 @@ CRezMapDoc::PasteRezMap(CRezMap * srcRezMap)
 		::SysBeep(3);
 		return;
 	} 
+	
+	if (srcRezMap == NULL) {
+		return;
+	} 
+	
+	theSrcRefNum = srcRezMap->GetRefnum();
 	
 	error = srcRezMap->CountAllTypes(numTypes);
 	if (error != noErr || numTypes == 0) {return;}

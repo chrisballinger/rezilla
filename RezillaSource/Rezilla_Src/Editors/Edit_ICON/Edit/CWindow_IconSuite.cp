@@ -307,7 +307,7 @@ CWindow_IconSuite::ImageToNthBitmap( SInt32 inBitmapIndex )
 	COffscreen	*bwBuffer = mSample->GetBuffer();
 	ThrowIfNil_( bwBuffer );
 
-	bwBuffer->CopyToRawData( (UInt8*) &icon, kBWPatternRowBytes );
+	bwBuffer->CopyToRawData( (UInt8*) &icon, kBWIconRowBytes );
 
 	mBitmapsArray.AssignItemsAt(1, inBitmapIndex, icon);	
 }

@@ -29,7 +29,7 @@
 #include <LCaption.h>
 #include <LCheckBox.h>
 #include <LCheckBoxGroupBox.h>
-#include <LClipboard.h>
+// #include <LClipboard.h>
 #include <LDialogBox.h>
 #include <LEditText.h>
 #include <LMultiPanelView.h>

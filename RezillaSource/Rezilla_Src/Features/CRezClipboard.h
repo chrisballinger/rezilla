@@ -31,7 +31,8 @@ enum
 	scrap_rezmap,
 	scrap_pictedit,
 	scrap_hexeditHexdata,
-	scrap_hexeditTxtdata
+	scrap_hexeditTxtdata,
+	scrap_bitmap
 };
 
 
@@ -47,7 +48,7 @@ public:
 
 	static Boolean		ContentsIsValidHex();
 	
-	static  SInt32		GetScrapContext() { return sScrapContext;}
+	static SInt32		GetScrapContext() { return sScrapContext;}
 	static void			SetScrapContext(SInt32 inScrapContext) {sScrapContext = inScrapContext;}
 
 	static CRezFile *	GetScrapRezFile() { return sScrapRezFile;}

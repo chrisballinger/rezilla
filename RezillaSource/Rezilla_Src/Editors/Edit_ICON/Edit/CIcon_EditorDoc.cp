@@ -253,7 +253,7 @@ SInt16
 CIcon_EditorDoc::AskSaveChanges(
 	bool /* inQuitting */)
 {
-	return UMessageDialogs::AskYesNoFromLocalizable(CFSTR("SaveTextEditorWindow"), PPob_AskYesNoMessage);
+	return UMessageDialogs::AskYesNoFromLocalizable(CFSTR("SaveBitmapEditorWindow"), PPob_AskYesNoMessage);
 }
 
 

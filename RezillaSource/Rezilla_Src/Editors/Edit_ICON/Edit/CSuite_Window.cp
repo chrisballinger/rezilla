@@ -126,7 +126,7 @@ CSuite_Window::InitializeFromResource( CRezMap *inMap, ResType inResType, ResIDT
 // 	SaveAsResource
 // ---------------------------------------------------------------------------
 void
-CSuite_Window::SaveAsResource( CRezMap */* inMap */, ResIDT /* inResID */ )
+CSuite_Window::SaveAsResource( CRezMap * /* inMap */, ResIDT /* inResID */ )
 {
 }
 
@@ -220,8 +220,9 @@ CSuite_Window::HandleKeyPress(
 			keyButton = dynamic_cast<LControl*>(mMinusButton);		
 		} 
 	} else {
-		SInt32 theValue;
-		theValue = mSlider->GetValue();
+		SInt32 theValue, oldValue;
+		oldValue = mSlider->GetValue();
+		theValue = oldValue;
 		
 		if (theChar == char_PageDown) {
 			if (theValue > 1) {
@@ -235,10 +236,12 @@ CSuite_Window::HandleKeyPress(
 			theValue = 1;
 		} else if ( theChar == char_End ) {
 			theValue = mTotalCount;
-		}
+		} 
 		
-		mSlider->SetValue(theValue);
-		SetNthBitmap(theValue);
+		if (theValue != oldValue) {
+			mSlider->SetValue(theValue);
+			SetNthBitmap(theValue);	
+		} 
 	}
 	
 	if (keyButton != nil) {
@@ -256,7 +259,7 @@ CSuite_Window::HandleKeyPress(
 // ---------------------------------------------------------------------------
 
 void
-CSuite_Window::ParseBitmapSuite( Handle /* inHandle */, COffscreen **/* outBW */  )
+CSuite_Window::ParseBitmapSuite( Handle /* inHandle */, COffscreen ** /* outBW */  )
 {
 	// Subclasses must override
 }
@@ -367,6 +370,7 @@ CSuite_Window::RemoveBitmap( SInt32 /* inBitmapIndex */ )
 {
 // Subclasses must override
 }
+
 
 // ---------------------------------------------------------------------------
 // 	ImageToNthBitmap

@@ -82,7 +82,7 @@
 #include <LAMTrackActionImp.h>
 #include <LActiveScroller.h>
 #include <LCaption.h>
-#include <LClipboard.h>
+// #include <LClipboard.h>
 #include <LCheckBox.h>
 #include <LDialogBox.h>
 #include <LDragAndDrop.h>

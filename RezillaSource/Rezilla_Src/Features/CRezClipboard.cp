@@ -31,7 +31,7 @@
 
 PP_Begin_Namespace_PowerPlant
 
-SInt32		CRezClipboard::sScrapContext = 0;
+SInt32		CRezClipboard::sScrapContext;
 CRezFile *	CRezClipboard::sScrapRezFile = nil;
 CRezMap *	CRezClipboard::sScrapRezMap = nil;
 short		CRezClipboard::sScrapRefnum = kResFileNotOpened;

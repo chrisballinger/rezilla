@@ -1,11 +1,11 @@
 // ===========================================================================
 // CIconSelection.cp
 //                       Created: 2004-12-11 18:53:20
-//             Last modification: 2005-01-02 15:46:53
+//             Last modification: 2005-01-12 08:53:09
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes 2004, 2005
+// (c) Copyright: Bernard Desgraupes 2004-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -18,9 +18,9 @@
 #include "UIconMisc.h"
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	Constructor
-// ============================================================
+// ---------------------------------------------------------------------------
 
 CIconSelection::CIconSelection()
 {
@@ -29,9 +29,9 @@ CIconSelection::CIconSelection()
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	Destructor
-// ============================================================
+// ---------------------------------------------------------------------------
 
 CIconSelection::~CIconSelection()
 {
@@ -40,9 +40,9 @@ CIconSelection::~CIconSelection()
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	DisposeBuffer
-// ============================================================
+// ---------------------------------------------------------------------------
 
 void
 CIconSelection::DisposeBuffer()
@@ -55,9 +55,9 @@ CIconSelection::DisposeBuffer()
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	SelectAll
-// ============================================================
+// ---------------------------------------------------------------------------
 
 void
 CIconSelection::SelectAll( COffscreen *inBuffer )
@@ -68,9 +68,9 @@ CIconSelection::SelectAll( COffscreen *inBuffer )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	SelectNone
-// ============================================================
+// ---------------------------------------------------------------------------
 
 void
 CIconSelection::SelectNone()
@@ -80,9 +80,9 @@ CIconSelection::SelectNone()
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	SetSelection
-// ============================================================
+// ---------------------------------------------------------------------------
 
 void
 CIconSelection::SetSelection( COffscreen *inBuffer, const Rect &inRect )
@@ -93,9 +93,9 @@ CIconSelection::SetSelection( COffscreen *inBuffer, const Rect &inRect )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	SetSelection
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	Copy the region and allocate a new selection buffer.
 
 void
@@ -133,15 +133,16 @@ CIconSelection::SetSelection( COffscreen *inBuffer, RgnHandle inRegion )
 	}
 	catch( ... )
 	{
-		this->SelectNone();		// if an error occurs, force no selection or things get weird
+		// If an error occurs, force no selection or things get weird
+		this->SelectNone();		
 		throw;
 	}
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	SetSelection
-// ============================================================
+// ---------------------------------------------------------------------------
 
 void
 CIconSelection::SetSelection( CIconSelection *inSource )
@@ -171,14 +172,11 @@ CIconSelection::SetSelection( CIconSelection *inSource )
 }
 
 
-
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	SetRawSelection
-// 	
-// 	Description:
+// ---------------------------------------------------------------------------
 // 	Copies the region into the internal region structure.
 // 	Does not affect the offscreen bitmap at all.
-// ============================================================
 
 void
 CIconSelection::SetRawSelection( RgnHandle inRgn )
@@ -193,10 +191,9 @@ CIconSelection::SetRawSelection( RgnHandle inRgn )
 }
 
 
-
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	DrawInto
-// ============================================================
+// ---------------------------------------------------------------------------
 
 void
 CIconSelection::DrawInto( COffscreen *destBuffer )
@@ -213,9 +210,9 @@ CIconSelection::DrawInto( COffscreen *destBuffer )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	GetImageBuffer
-// ============================================================
+// ---------------------------------------------------------------------------
 
 COffscreen *CIconSelection::GetImageBuffer()
 {
@@ -223,9 +220,9 @@ COffscreen *CIconSelection::GetImageBuffer()
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CopyToClipboard
-// ============================================================
+// ---------------------------------------------------------------------------
 
 void
 CIconSelection::CopyToClipboard()
@@ -236,9 +233,9 @@ CIconSelection::CopyToClipboard()
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	PasteFromClipboard
-// ============================================================
+// ---------------------------------------------------------------------------
 
 void
 CIconSelection::PasteFromClipboard( COffscreen *inParentBuffer )
@@ -275,9 +272,9 @@ CIconSelection::PasteFromClipboard( COffscreen *inParentBuffer )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	PastePicture
-// ============================================================
+// ---------------------------------------------------------------------------
 
 void
 CIconSelection::PastePicture( COffscreen *inParentBuffer, PicHandle inPict, RgnHandle inRegion )
@@ -289,31 +286,26 @@ CIconSelection::PastePicture( COffscreen *inParentBuffer, PicHandle inPict, RgnH
 
 	try
 	{
-			// note: this is after SelectNone() because it might destroy a gworld
+		// This is after SelectNone() because it might destroy a gworld
 		StGWorldSaver	aSaver;
 		Rect			r;
 		
-				// width & height of our buffer match the picture
-
+		// Width & height of our buffer match the picture
 		SInt32	width = (**inPict).picFrame.right - (**inPict).picFrame.left;
 		SInt32	height = (**inPict).picFrame.bottom - (**inPict).picFrame.top;
 
-				// create an offscreen gworld using the paint view's gworld as 
-		// a base (use same depth, ctable)
-
+		// Create an offscreen gworld using the paint view's gworld as a
+		// base (use same depth, ctable)
 		mSelectionBuffer = inParentBuffer->CreateSimilarOffscreen( false /* device???*/, width, height );
 
-				// image the picture into the offscreen buffer
-
+		// Image the picture into the offscreen buffer
 		mSelectionBuffer->BeginDrawing();
-				// should we erase to the background color instead of white? no.
-			SetRect( &r, 0, 0, width, height );
-			DrawPicture( inPict, &r );
+		SetRect( &r, 0, 0, width, height );
+		DrawPicture( inPict, &r );
 		mSelectionBuffer->EndDrawing();
 
-				// restore the selection area from the clipboard
-		// -- if none, use the entire picture frame
-
+		// Restore the selection area from the clipboard. If none, use the
+		// entire picture frame
 		if ( inRegion )
 			this->SetRawSelection( inRegion );
 		else
@@ -331,9 +323,9 @@ CIconSelection::PastePicture( COffscreen *inParentBuffer, PicHandle inPict, RgnH
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	PasteOffscreenBuffer
-// ============================================================
+// ---------------------------------------------------------------------------
 
 void
 CIconSelection::PasteOffscreenBuffer( COffscreen *inParentBuffer, COffscreen *inBuffer, RgnHandle inRegion )
@@ -345,26 +337,22 @@ CIconSelection::PasteOffscreenBuffer( COffscreen *inParentBuffer, COffscreen *in
 
 	try
 	{
-			// note: this is after SelectNone() because it might destroy a gworld
+		// This is after SelectNone() because it might destroy a gworld
 		StGWorldSaver	aSaver;
 		
-				// width & height of our buffer match the picture
-
+		// Width & height of our buffer match the picture
 		SInt32	width = inBuffer->GetWidth();
 		SInt32	height = inBuffer->GetHeight();
 
-				// create an offscreen gworld using the paint view's gworld as 
-		// a base (use same depth, ctable)
-
+		// Create an offscreen gworld using the paint view's gworld as a
+		// base (use same depth, ctable)
 		mSelectionBuffer = inParentBuffer->CreateSimilarOffscreen( false /* device???*/, width, height );
 
-				// image the picture into the offscreen buffer
-
+		// Image the picture into the offscreen buffer
 		mSelectionBuffer->CopyFrom( inBuffer );
 
-				// restore the selection area from the clipboard
-		// -- if none, use the entire picture frame
-
+		// Restore the selection area from the clipboard. If none, use the
+		// entire picture frame
 		if ( inRegion )
 			this->SetRawSelection( inRegion );
 		else
@@ -382,9 +370,9 @@ CIconSelection::PasteOffscreenBuffer( COffscreen *inParentBuffer, COffscreen *in
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	IsEmpty
-// ============================================================
+// ---------------------------------------------------------------------------
 
 Boolean
 CIconSelection::IsEmpty()
@@ -396,12 +384,10 @@ CIconSelection::IsEmpty()
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	Offset
-// 
-// 	Note:
+// ---------------------------------------------------------------------------
 // 	Does not affect the image.
-// ============================================================
 
 void
 CIconSelection::Offset( SInt32 dh, SInt32 dv )
@@ -410,12 +396,10 @@ CIconSelection::Offset( SInt32 dh, SInt32 dv )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	MoveTo
-// 
-// 	Note:
+// ---------------------------------------------------------------------------
 // 	Does not affect the image.
-// ============================================================
 
 void
 CIconSelection::MoveTo( SInt32 left, SInt32 top )
@@ -427,9 +411,9 @@ CIconSelection::MoveTo( SInt32 left, SInt32 top )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	GetRegion
-// ============================================================
+// ---------------------------------------------------------------------------
 
 RgnHandle
 CIconSelection::GetRegion()
@@ -438,9 +422,9 @@ CIconSelection::GetRegion()
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	GetCopyOfRegion
-// ============================================================
+// ---------------------------------------------------------------------------
 
 RgnHandle
 CIconSelection::GetCopyOfRegion()
@@ -449,10 +433,9 @@ CIconSelection::GetCopyOfRegion()
 }
 
 
-
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	PointInSelection
-// ============================================================
+// ---------------------------------------------------------------------------
 
 Boolean
 CIconSelection::PointInSelection( SInt32 h, SInt32 v )
