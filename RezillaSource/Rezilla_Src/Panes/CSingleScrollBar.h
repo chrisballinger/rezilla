@@ -51,6 +51,12 @@ public:
 								SInt16				inHotSpot,
 								SInt32				inValue);
 
+	virtual SInt32		GetLinesPerPage() { return mLinesPerPage;}
+	void				SetLinesPerPage(SInt32 inLinesPerPage) {mLinesPerPage = inLinesPerPage;}
+
+protected:
+	SInt32		mLinesPerPage;	
+	
 private:
 	void				InitScrollBar();
 };

@@ -34,6 +34,7 @@ CSingleScrollBar::CSingleScrollBar(
 
 	: LScrollBar(inStream, inImpID)
 {
+	mLinesPerPage = 1;
 }
 
 
@@ -53,6 +54,7 @@ CSingleScrollBar::CSingleScrollBar(
 	: LScrollBar(inPaneInfo, inValueMessage, inValue, inMinValue,
 					inMaxValue, inLiveScrolling, inImpID)
 {
+	mLinesPerPage = 1;
 }
 
 
@@ -89,12 +91,12 @@ CSingleScrollBar::DoTrackAction(
 
 			case kControlPageUpPart:		// Scroll up by Frame height
 											//   less one unit of overlap
-				--inValue;
+				inValue -= mLinesPerPage;
 				break;
 
 			case kControlPageDownPart:		// Scroll down by Frame height
 											//   less one unit of overlap
-				++inValue;
+				inValue += mLinesPerPage;
 				break;
 		}
 		// Caveat: here call SetValue (i-e LControlPane::SetValue) 
