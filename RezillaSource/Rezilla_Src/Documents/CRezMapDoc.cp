@@ -2,7 +2,7 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2004-08-12 17:37:36
+//             Last modification: 2004-08-21 10:17:31
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -393,16 +393,7 @@ CRezMapDoc::ObeyCommand(
 				if (countEdited == 1 && countItems == 1) {
 						UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("ThisResourceEditedInOtherMode"), rPPob_SimpleMessage);
 				} else {
-					CFStringRef formatStr = NULL, messageStr = NULL;
-					formatStr = ::CFCopyLocalizedString(CFSTR("SomeResourcesEditedInOtherMode"), NULL);
-					if (formatStr != NULL) {
-						messageStr = ::CFStringCreateWithFormat(NULL, NULL, formatStr, countEdited);
-						CFRelease(formatStr);                             
-						if (messageStr != NULL) {
-							UMessageDialogs::SimpleMessageFromLocalizable(messageStr, rPPob_SimpleMessage);
-							CFRelease(messageStr);                     
-						}
-					}
+					UMessageDialogs::AlertWithValue(CFSTR("SomeResourcesEditedInOtherMode"), countEdited);
 				}
 			}
 
@@ -511,7 +502,7 @@ CRezMapDoc::TryEdit(CRezObjItem * inRezObjItem, CommandT inCommand, int & outCou
 			break;
 		} else {
 			if (inCommand == cmd_TmplEditRez) {
-				UMessageDialogs::AlertForType(CFSTR("NoTemplateForThisType"), theType);
+				UMessageDialogs::AlertWithType(CFSTR("NoTemplateForThisType"), theType);
 				break;
 			} 
 			// else fall through to hexadecimal editing...
@@ -759,7 +750,7 @@ CRezMapDoc::DoAESave(
 			mRezMapWindow->InstallWhichForkField();
 		} 
 	} else {
-		UMessageDialogs::ErrorMessageFromLocalizable(CFSTR("CantCreateNewRezFile"), error, rPPob_SimpleMessage);
+		UMessageDialogs::AlertWithValue(CFSTR("CantCreateNewRezFile"), error);
 		return;
 	}
 	

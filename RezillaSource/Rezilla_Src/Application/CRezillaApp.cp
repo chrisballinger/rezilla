@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2004-08-07 12:51:23
+//             Last modification: 2004-08-21 10:29:54
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -961,10 +961,10 @@ done:
 void
 CRezillaApp::ReportOpenForkError(OSErr inError, FSSpec * inFileSpecPtr)
 {
-	char * theCStr = new char[255];
+	char * nameStr = new char[255];
 	CFStringRef formatStr = NULL, messageStr = NULL;
 
-	CopyPascalStringToC(inFileSpecPtr->name,theCStr);
+	CopyPascalStringToC(inFileSpecPtr->name,nameStr);
 
 	switch (inError) {
 	  case err_NoRezInDataFork:
@@ -981,7 +981,6 @@ CRezillaApp::ReportOpenForkError(OSErr inError, FSSpec * inFileSpecPtr)
 		
 	  case opWrErr:
 		formatStr = ::CFCopyLocalizedString(CFSTR("NoOpenWritePermission"), NULL);
-		UMessageDialogs::ErrorMessageFromLocalizable(CFSTR("SystemError"), inError, rPPob_SimpleMessage);
 		break;
 		
 	  case permErr:
@@ -989,12 +988,12 @@ CRezillaApp::ReportOpenForkError(OSErr inError, FSSpec * inFileSpecPtr)
 		break;
 		
 	  default:
-		UMessageDialogs::ErrorMessageFromLocalizable(CFSTR("SystemError"), inError, rPPob_SimpleMessage);
+		UMessageDialogs::AlertWithValue(CFSTR("SystemError"), error);
 		return;
 	}
 	
 	if (formatStr != NULL) {
-		messageStr = ::CFStringCreateWithFormat(NULL, NULL, formatStr, theCStr);
+		messageStr = ::CFStringCreateWithFormat(NULL, NULL, formatStr, nameStr);
 		if (messageStr != NULL)
 		{
 			UMessageDialogs::SimpleMessageFromLocalizable(messageStr, rPPob_SimpleMessage);
