@@ -1,7 +1,7 @@
 // ===========================================================================
 // CSuiteSlider.cp					
 //                       Created: 2005-01-10 09:03:25
-//             Last modification: 2005-01-10 09:38:30
+//             Last modification: 2005-01-10 22:17:23
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -15,7 +15,7 @@
 
 
 #include "CSuiteSlider.h"
-#include "CWindow_PatternSuite.h"
+#include "CSuite_Window.h"
 
 #include <LControlImp.h>
 #include <LStream.h>
@@ -67,7 +67,7 @@ CSuiteSlider::HotSpotResult(
 	SInt16	/* inHotSpot */)
 {
 	if (mOwnerWindow != NULL) {
-		mOwnerWindow->SwitchToNthPattern(mValue);
+		mOwnerWindow->SwitchToNthBitmap(mValue);
 	} 
 }
 

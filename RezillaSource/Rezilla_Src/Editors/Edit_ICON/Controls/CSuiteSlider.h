@@ -1,7 +1,7 @@
 // ===========================================================================
 // CSuiteSlider.h
 //                       Created: 2005-01-10 09:03:25
-//             Last modification: 2005-01-10 09:03:29
+//             Last modification: 2005-01-10 22:17:37
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -24,7 +24,7 @@
 
 PP_Begin_Namespace_PowerPlant
 
-class CWindow_PatternSuite;
+class CSuite_Window;
 
 
 // ---------------------------------------------------------------------------
@@ -45,10 +45,10 @@ public:
 								SInt16			inHotSpot,
 								SInt32			inValue);
 
-	void				SetOwnerWindow(CWindow_PatternSuite* inOwnerWindow) {mOwnerWindow = inOwnerWindow;}
+	void				SetOwnerWindow(CSuite_Window* inOwnerWindow) {mOwnerWindow = inOwnerWindow;}
 
 protected:
-	CWindow_PatternSuite *	mOwnerWindow;
+	CSuite_Window *	mOwnerWindow;
 
 };
 
