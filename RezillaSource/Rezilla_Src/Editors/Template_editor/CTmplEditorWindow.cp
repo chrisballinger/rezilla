@@ -211,7 +211,7 @@ void
 CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam ) 
 {	
 	Rect				theFrame;
-	CTmplListItemView 	*prevListItemView, *currListItemView;
+	CTmplListItemView 	*prevListItemView, *nextListItemView, *currListItemView;
 	CTmplListButton 	*theMinusButton, *thePlusButton;
 	PaneIDT 			thePaneID, saveID;
 	LView				*theContainer, *theView;
@@ -234,10 +234,17 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			currListItemView = (CTmplListItemView *) thePlusButton->GetUserCon();
 			
 			if (currListItemView) {
-				// Find the last list item
-				while (currListItemView->mNextItem) {
-					currListItemView = currListItemView->mNextItem;
-				}
+				// Find the list item to remove: if an item is selected,
+				// remove it, otherwise remove the last item in the list
+				if (currListItemView != mSelectedListItem) {
+					while (currListItemView->mNextItem) {
+						currListItemView = currListItemView->mNextItem;
+						if (currListItemView == mSelectedListItem) {
+							mSelectedListItem = NULL;
+							break;
+						}
+					}
+				} 
 				currListItemView->CalcPortFrameRect(theFrame);
 				theHeight = theFrame.bottom - theFrame.top + kTmplVertSkip;
 			} else {
@@ -263,15 +270,20 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			RecalcPositions(currListItemView, theFrame.top, -theHeight);
 			mLastID = mPaneIDs.GetCount();
 
-			// Now delete the object
+			// Adjust the chain
 			prevListItemView = currListItemView->mPrevItem;
+			nextListItemView = currListItemView->mNextItem;
+			if (nextListItemView) {
+				nextListItemView->mPrevItem = prevListItemView;
+			} 
 			if (prevListItemView) {
-				prevListItemView->mNextItem = currListItemView->mNextItem;
+				prevListItemView->mNextItem = nextListItemView;
 			} else {
 				// We're about to delete the first list item.
-				thePlusButton->SetUserCon(nil);
+				thePlusButton->SetUserCon( (long) nextListItemView);
 			}
 			
+			// Now delete the object
 			delete currListItemView;
 			
 			mContentsView->ResizeImageBy(0, -theHeight, true);
@@ -294,11 +306,21 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			currListItemView = (CTmplListItemView *) thePlusButton->GetUserCon();
 			
 			if (currListItemView) {
-				// Find the last list item
-				while (currListItemView->mNextItem) {
-					currListItemView = currListItemView->mNextItem;
+				// If an item is selected, the new item will be inserted
+				// before it, otherwise it is added at the end of the list
+				if (currListItemView != mSelectedListItem) {
+					while (currListItemView->mNextItem) {
+						if (currListItemView->mNextItem == mSelectedListItem) {
+							break;
+						}
+						currListItemView = currListItemView->mNextItem;
+					}
+					currListItemView->CalcPortFrameRect(theFrame);
+				} else {
+					// The first item is selected
+					currListItemView = NULL;
+					thePlusButton->CalcPortFrameRect(theFrame);
 				}
-				currListItemView->CalcPortFrameRect(theFrame);
 			} else {
 				thePlusButton->CalcPortFrameRect(theFrame);
 			}
