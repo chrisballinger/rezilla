@@ -2,7 +2,7 @@
 // CTmplWindowUtils.cp					
 // 
 //                       Created: 2004-08-20 16:45:08
-//             Last modification: 2004-09-23 21:45:26
+//             Last modification: 2004-09-28 07:20:40
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -343,6 +343,8 @@ CTmplEditorWindow::AlignBytesWrite(UInt8 inStep)
 // ---------------------------------------------------------------------------
 //	¥ KeyValueToString											[private]
 // ---------------------------------------------------------------------------
+// The value of the key tag is stored as an SInt32 in the mKeyedValuesList 
+// for faster validation.
 
 void
 CTmplEditorWindow::KeyValueToString(ResType inType, Str255 keyString)
@@ -361,17 +363,20 @@ CTmplEditorWindow::KeyValueToString(ResType inType, Str255 keyString)
 	switch (inType) {
 		case 'KBYT':
 		*mRezStream >> theSInt8;
+		mKeyedValuesList.AddItem( (SInt32) theSInt8);
 		::NumToString( (long) theSInt8, keyString);
 		break;
 
 		case 'KCHR':
 		*mRezStream >> theChar;
+		mKeyedValuesList.AddItem( (SInt32) theChar);
 		keyString[0] = 1;
 		keyString[1] = theChar;
 		break;
 
 		case 'KHBT':
 		*mRezStream >> theUInt8;
+		mKeyedValuesList.AddItem( (SInt32) theUInt8);
 		BuildFormatString(formatString, 2);
 		sprintf(charString, formatString, theUInt8, NULL);
 		CopyCStringToPascal(charString, keyString);
@@ -379,13 +384,15 @@ CTmplEditorWindow::KeyValueToString(ResType inType, Str255 keyString)
 
 		case 'KHLG':
 		*mRezStream >> theUInt32;
+		mKeyedValuesList.AddItem( (SInt32) theUInt32);
 		BuildFormatString(formatString, 8);
 		sprintf(charString, formatString, theUInt32, NULL);
 		CopyCStringToPascal(charString, keyString);
 		break;
 
 		case 'KHWD':
-		*mRezStream >> theSInt16;
+		*mRezStream >> theUInt16;
+		mKeyedValuesList.AddItem( (SInt32) theUInt16);
 		BuildFormatString(formatString, 4);
 		sprintf(charString, formatString, theUInt16, NULL);
 		CopyCStringToPascal(charString, keyString);
@@ -393,17 +400,20 @@ CTmplEditorWindow::KeyValueToString(ResType inType, Str255 keyString)
 
 		case 'KLNG':
 		*mRezStream >> theSInt32;
+		mKeyedValuesList.AddItem( (SInt32) theSInt32);
 		::NumToString( (long) theSInt32, keyString);
 		break;
 
 		case 'KRID':
 		theSInt16 = GetOwnerDoc()->GetRezObj()->GetID();
+		mKeyedValuesList.AddItem( (SInt32) theSInt16);
 		::NumToString( (long) theSInt16, keyString);	
 		break;
 
 		case 'KTYP': {
 			Str255 tempString;
 			*mRezStream >> theOSType;
+			mKeyedValuesList.AddItem( (SInt32) theOSType);
 			UMiscUtils::OSTypeToPString(theOSType, tempString);
 			LString::CopyPStr(tempString, keyString);
 			break;
@@ -411,21 +421,25 @@ CTmplEditorWindow::KeyValueToString(ResType inType, Str255 keyString)
 		
 		case 'KUBT':
 		*mRezStream >> theUInt8;
+		mKeyedValuesList.AddItem( (SInt32) theUInt8);
 		::NumToString( (long) theUInt8, keyString);
 		break;
 
 		case 'KULG':
 		*mRezStream >> theUInt32;
+		mKeyedValuesList.AddItem( (SInt32) theUInt32);
 		::NumToString( (long) theUInt32, keyString);
 		break;
 
 		case 'KUWD':
 		*mRezStream >> theUInt16;
+		mKeyedValuesList.AddItem( (SInt32) theUInt16);
 		::NumToString( (long) theUInt16, keyString);
 		break;
 
 		case 'KWRD':
 		*mRezStream >> theSInt16;
+		mKeyedValuesList.AddItem( (SInt32) theSInt16);
 		::NumToString( (long) theSInt16, keyString);
 		break;
 	}
@@ -478,9 +492,75 @@ CTmplEditorWindow::FindKeyStartForValue(Str255 keyString, SInt32 * outStart)
 		error = err_TmplCantFindKeyStartForValue;
 	} else {
 		*outStart = currMark;
+		// Store the value for future validation
+		mKeyedMarksList.AddItem(currMark);
 	}
 	
 	return error;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ WriteOutKeyValue											[private]
+// ---------------------------------------------------------------------------
+// The value of the key tag has been stored as an SInt32 in the mKeyedValuesList.
+
+void
+CTmplEditorWindow::WriteOutKeyValue(ResType inType)
+{
+	SInt32	keyValue;
+	
+	mKeyedValuesList.RemoveLastItem(keyValue);
+	
+	switch (inType) {
+		case 'KBYT':
+		*mOutStream << (SInt8) keyValue;
+		break;
+
+		case 'KCHR':
+		*mOutStream << (UInt8) keyValue;
+		break;
+
+		case 'KHBT':
+		*mOutStream << (UInt8) keyValue;
+		break;
+
+		case 'KHLG':
+		*mOutStream << (UInt32) keyValue;
+		break;
+
+		case 'KHWD':
+		*mOutStream << (UInt16) keyValue;
+		break;
+
+		case 'KLNG':
+		*mOutStream << (SInt32) keyValue;
+		break;
+
+		case 'KRID':
+		*mOutStream << (SInt16) keyValue;
+		break;
+
+		case 'KTYP': 
+		*mOutStream << (OSType) keyValue;
+		break;
+		
+		case 'KUBT':
+		*mOutStream << (UInt8) keyValue;
+		break;
+
+		case 'KULG':
+		*mOutStream << (UInt32) keyValue;
+		break;
+
+		case 'KUWD':
+		*mOutStream << (UInt16) keyValue;
+		break;
+
+		case 'KWRD':
+		*mOutStream << (SInt16) keyValue;
+		break;
+	}
 }
 
 
@@ -517,6 +597,7 @@ CTmplEditorWindow::FindMatchingKeyEnd(SInt32 * outEnd)
 		} else continue;
 		
 		if (keybCount == keyeCount) {
+			found = true;
 			break;
 		} 
 	}

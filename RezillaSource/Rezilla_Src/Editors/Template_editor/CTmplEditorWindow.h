@@ -2,7 +2,7 @@
 // CTmplEditorWindow.h
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-09-24 08:55:33
+//             Last modification: 2004-09-28 07:20:34
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -122,6 +122,8 @@ protected:
 	TArray<CWasteEditView *>	mWasteFieldsList;
 	TArray<ResType>		mOffsetTypesList;
 	TArray<SInt32>		mOffsetMarksList;
+	TArray<SInt32>		mKeyedValuesList;
+	TArray<SInt32>		mKeyedMarksList;
 	Boolean				mBitSeqInProgress;
 	UInt32				mBitSeqValue;
 	UInt8				mBitSeqBytesLen;
@@ -272,6 +274,8 @@ private:
 	OSErr			FindMatchingKeyEnd(SInt32 * outEnd);
 	
 	OSErr			SkipNextKeyCases(UInt16 inPreCount);
+	
+	void			WriteOutKeyValue(ResType inType);
 	
 	Boolean			SelectValueFromKeyCases(Str255 inLabelString);
 	

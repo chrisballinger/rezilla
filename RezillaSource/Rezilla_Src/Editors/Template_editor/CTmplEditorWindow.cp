@@ -2,7 +2,7 @@
 // CTmplEditorWindow.cp					
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-09-26 07:54:34
+//             Last modification: 2004-09-28 07:32:15
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -1610,14 +1610,11 @@ CTmplEditorWindow::RetrieveKeyedSection(ResType inType)
 	Str255		keyString;
 	SInt32		sectionStart;
 	
-	// Get the key value
-	KeyValueToString(inType, keyString);
+	// Retrieve and write the key value
+	WriteOutKeyValue(inType);
 	
-	// Skip all the CASE statements
-	SkipNextKeyCases(0);
-	
-	// Find the corresponding KEYB tag
-	FindKeyStartForValue(keyString, &sectionStart);
+	// Get the corresponding position in the template
+	mKeyedMarksList.RemoveLastItem(sectionStart);
 	
 	// Parse the section
 	error = DoRetrieveWithTemplate(sectionStart, true);
