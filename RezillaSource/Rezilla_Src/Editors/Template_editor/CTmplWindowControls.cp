@@ -151,7 +151,7 @@ CTmplEditorWindow::InitPaneInfos()
 	sScrollPaneInfo.userCon			= 0;
 
 	// Text group box for text views basic values
-	sTgbPaneInfo.height				= kTmplTextHeight;
+	sTgbPaneInfo.height				= kTmplTextMaxHeight;
 	sTgbPaneInfo.visible			= true;
 	sTgbPaneInfo.enabled			= true;
 	sTgbPaneInfo.bindings.left		= true;
@@ -498,8 +498,10 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 	SInt32		oldPos, newPos, nextPos, totalLength;
 	Handle		theHandle;
 	char 		theChar;
+	Boolean		isFixed = false;
 	SViewInfo	theViewInfo;
 	SDimension16	theFrame;
+	SInt16		boxHeight = sTgbPaneInfo.height, delta;
 	
 	inContainer->GetFrameSize(theFrame);
 
@@ -520,7 +522,7 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 	sScrollPaneInfo.left			= kTmplTextInset;
 	sScrollPaneInfo.top				= kTmplTextInset;
 	sScrollPaneInfo.width			= sTgbPaneInfo.width - kTmplTextInset * 2;
-	sScrollPaneInfo.height			= sTgbPaneInfo.height - kTmplTextInset * 2;
+	sScrollPaneInfo.height			= boxHeight - kTmplTextInset * 2;
 	sScrollPaneInfo.bindings.left	= true;
 	sScrollPaneInfo.paneID			= 0;
 	sScrollPaneInfo.superView		= theTGB;
@@ -530,13 +532,13 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 
 	sWastePaneInfo.left				= 0;
 	sWastePaneInfo.top				= 0;
-	sWastePaneInfo.width			= sScrollPaneInfo.width - 15;
-	sWastePaneInfo.height			= sScrollPaneInfo.height - 15;
+	sWastePaneInfo.width			= sScrollPaneInfo.width - kTmplScrollWidth;
+	sWastePaneInfo.height			= sScrollPaneInfo.height - kTmplTextFootHeight;
 	sWastePaneInfo.bindings.left	= true;
 	sWastePaneInfo.bindings.right	= true;
 	sWastePaneInfo.paneID			= mCurrentID;
 	sWastePaneInfo.superView		= theScroller;
-
+	
 	// Make the Waste edit writable, not wrapping, selectable
 	CWasteEditView * theWasteEdit = new CWasteEditView(sWastePaneInfo, theViewInfo, 0, sEditTraitsID);
 	ThrowIfNil_(theWasteEdit);
@@ -550,10 +552,12 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 	theWasteEdit->SetUserCon(inType);
 	totalLength = mRezStream->GetLength();
 	
-	// Insert the text
 	oldPos = mRezStream->GetMarker();
-	// Check we are not creating an empty new resource.
+	newPos = oldPos;
+	
+	// Prepare for the insertion of the text
 	if (oldPos < totalLength) {
+		// We are not creating an empty new resource
 		switch (inType) {
 			case 'CSTR':
 				// Is there a NULL byte marking the end of the string?
@@ -623,6 +627,8 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 
 			default: {
 				SInt32 reqLength;
+				isFixed = true;
+				
 				UMiscUtils::HexNumStringToDecimal(&inType, &reqLength);
 
 				if (inType >> 24 == 'C') {
@@ -671,11 +677,24 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 		theWasteEdit->Insert( (*theHandle) + oldPos , newPos - oldPos, NULL, true);
 		HUnlock(theHandle);
 		mRezStream->SetMarker(nextPos, streamFrom_Start);
-		
 	} 	
 	
+	// Adjust the height of the TextGroupBox
+	delta = RecalcTextBoxHeight(newPos - oldPos, theWasteEdit, isFixed);
+	if (delta != 0) {
+		theTGB->ResizeFrameBy(0, delta, false);
+		boxHeight += delta;
+		if (isFixed) {
+			// We have a fixed size and the box has been reduced. We
+			// can hide the scrollbar
+			theScroller->Hide();
+		} else {
+// 			theTGB->SetMaxScrollerValue();
+		}
+	} 
+	
 	// Advance the counters
-	mYCoord += sTgbPaneInfo.height + kTmplVertSep;
+	mYCoord += boxHeight + kTmplVertSep;
 	mPaneIDs.AddItem(mCurrentID);
 	mCurrentID++;
 }
@@ -689,13 +708,14 @@ void
 CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 {
 	SInt32		oldPos, newPos, totalLength;
-	Boolean		incrY = true;
+	Boolean		incrY = true, isFixed = false;
 	Handle		theHandle;
 	UInt8		theUInt8 = 0;
 	UInt16		theUInt16 = 0;
 	UInt32		theUInt32 = 0;
 	SViewInfo	theViewInfo;
 	SDimension16	theFrame;
+	SInt16		boxHeight = sTgbPaneInfo.height, delta;
 
 	inContainer->GetFrameSize(theFrame);
 	mOwnerDoc = dynamic_cast<CTmplEditorDoc*>(GetSuperCommander());
@@ -717,7 +737,7 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 	sScrollPaneInfo.left			= sTgbPaneInfo.width - kTmplTextInset - kTmplScrollWidth;
 	sScrollPaneInfo.top				= kTmplTextInset;
 	sScrollPaneInfo.width			= kTmplScrollWidth;
-	sScrollPaneInfo.height			= sTgbPaneInfo.height - kTmplTextInset * 2;
+	sScrollPaneInfo.height			= boxHeight - kTmplTextInset * 2;
 	sScrollPaneInfo.bindings.left	= false;
 	sScrollPaneInfo.paneID			= 0;
 	sScrollPaneInfo.superView		= theTGB;
@@ -770,6 +790,7 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 	// Insert the text
 	totalLength = mRezStream->GetLength();
 	oldPos = mRezStream->GetMarker();
+	newPos = oldPos;
 		
 	if (oldPos < totalLength) {
 		switch (inType) {
@@ -852,6 +873,7 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 			if (inType >> 24 == 'H' || inType >> 24 == 'F') {
 				// Hnnn: a 3-digit hex number; displays $nnn bytes in hex format
 				SInt32 numbytes;
+				isFixed = true;
 				UMiscUtils::HexNumStringToDecimal(&inType, &numbytes);
 				newPos = oldPos + numbytes;
 			}
@@ -876,7 +898,6 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 
 		WESetSelection(0, 0, theTGB->GetInMemoryWasteRef());
 		mRezStream->SetMarker(newPos, streamFrom_Start);
-
 	} 
 	
 	// Fnnn filler hex strings can be invisible or disabled
@@ -892,7 +913,20 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 	
 	// Advance the counters
 	if (incrY) {
-		mYCoord += sTgbPaneInfo.height + kTmplVertSep;
+		// Adjust the height of the TextGroupBox
+		delta = RecalcTextBoxHeight(newPos - oldPos, theHexWE, isFixed, 3);
+		if (delta != 0) {
+			theTGB->ResizeFrameBy(0, delta, false);
+			boxHeight += delta;
+			if (isFixed) {
+				// We have a fixed size and the box has been reduced. We
+				// can hide the scrollbar
+				theScroller->Hide();
+			} else {
+// 			theTGB->SetMaxScrollerValue();
+			}
+		} 
+		mYCoord += boxHeight + kTmplVertSep;
 	} 
 	mPaneIDs.AddItem(mCurrentID);
 	mCurrentID++;
@@ -1101,7 +1135,7 @@ CTmplEditorWindow::AddListHeaderField(Str255 inLabel,
 	sStaticPaneInfo.width	= kTmplCountWidth;
 	sStaticPaneInfo.paneID 	= mCurrentID;
 	::NumToString( (long) inCount, numStr);
-	theStaticText = new LStaticText(sStaticPaneInfo, numStr, sHeaderTraitsID);
+	theStaticText = new LStaticText(sStaticPaneInfo, numStr, sLeftLabelTraitsID);
 	ThrowIfNil_(theStaticText);
 	if (isFixedCount) {
 		// If it is a fixed count list, don't show the count field because the
@@ -1250,7 +1284,7 @@ CTmplEditorWindow::AddCasePopup(ResType inType, Str255 inLabel, SInt32 inStartMa
 	// Store a pointer to the associated edit field
 	LEditText * theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID - 1));
 	if (theEditText == NULL) {
-		return err_TmplCasePopupNotRelatedToField;
+		return err_TmplPopupNotConnectedToEditField;
 	} 
 	theBevelButton->SetUserCon( (long) theEditText);
 	// Store the position mark of the first CASE in the userCon of the edit field

@@ -41,6 +41,7 @@ $Date$
 ¥ Possibility of removing a selected list item or inserting a new item
   before a selected item.
 ¥ Enabled command-click in title bar of rez map windows. Added proxy icon.
+¥ The height of text fields is now adapted to the amount of text to edit.
 
 ================================================================================
 = 1.0.4a8	                             last update: 2004-09-17 10:55:56
