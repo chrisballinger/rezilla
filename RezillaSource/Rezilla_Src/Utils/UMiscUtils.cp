@@ -202,7 +202,7 @@ UMiscUtils::IsValidHexadecimal(Handle inHandle)
 SInt16 
 UMiscUtils::CompareStr255(Str255 * leftString, Str255 * rightString)
 {
-	return LString::CompareBytes(*leftString + 1, *rightString + 1, (*leftString)[0], (*rightString)[0]);
+	return LString::CompareBytes((*leftString) + 1, (*rightString) + 1, (*leftString)[0], (*rightString)[0]);
 }
 
 
