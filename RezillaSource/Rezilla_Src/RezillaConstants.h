@@ -671,13 +671,14 @@ const long	aeRzil_Version				= 5010;
 // Error constants
 enum RezillaErrors
 {
-	err_NoRezInDataFork		= 1001,
+	err_RezillaErrorStart			= 1000,
+	err_NoRezInDataFork				= 1001,
 	err_NoRezInRezFork,
 	err_NoRezInAnyFork,
 	err_NoOpenPermission,
 	err_OpenForkError,
 	err_UnderVersionControl,
-	err_TmplError			= 2000,
+	err_TmplTemplateError			= 2000,
 	err_TmplGetDataStreamFailed,
 	err_TmplUnrecognizedTag,
 	err_TmplParsingAborted,
@@ -704,7 +705,8 @@ enum RezillaErrors
 	err_TmplCantFindKeyValue,
 	err_TmplCantFindKeyPosition,
 	err_TmplUnsupportedResourceId,
-	err_TmplCantFindMatchingKeyEnd
+	err_TmplCantFindMatchingKeyEnd,
+	err_RezillaErrorEnd
 };
 
 
