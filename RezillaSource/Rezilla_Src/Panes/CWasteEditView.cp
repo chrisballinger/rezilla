@@ -1,8 +1,8 @@
 // ===========================================================================
 // CWasteEditView.cp 
 // 
-// Created : 2001-09-05 18:22:04 
-// Last modification : 2004-11-03 22:09:09
+// Created: 2001-09-05 18:22:04 
+// Last modification: 2004-11-10 06:18:15
 // Author: Bernard Desgraupes 
 // e-mail: <bdesgraupes@easyconnect.fr> 
 // www: <http://webperso.easyconnect.fr/bdesgraupes/> 
@@ -11,11 +11,11 @@
 // $Date$
 // $Revision$
 // 
-// Description : CWaste is a class designed to interface between 
+// Description: CWaste is a class designed to interface between 
 // the Waste Edit text engine (©1993-2000 by Marco Piovanelli)
 // and CodeWarrior's PowerPlant 2.1 library (©1993-2000 Metrowerks Inc.) 
 // 
-// This file is part of the CWasteEditView package vs 1.7
+// This file is part of the CWasteEditView package vs-1.8
 // ===========================================================================
 
 
@@ -33,10 +33,8 @@
 
 PP_Begin_Namespace_PowerPlant
 
-// ---------------------------------------------------------------------------
-//	Class Variables
-
-CWasteEditView *			CWasteEditView::sWasteEditViewP;
+// Class Variables
+CWasteEditView * CWasteEditView::sWasteEditViewP;
 
 
 // ---------------------------------------------------------------------------
@@ -47,7 +45,9 @@ CWasteEditView::CWasteEditView()
 {
 	mWordWrap = false;
 	mTextAttributes = (UInt32) weAttr_Default;
-	InitWasteEditView(0);
+	
+	InitView();
+	InitStyle(0);
 }
 
 
@@ -84,7 +84,8 @@ CWasteEditView::CWasteEditView(
 	outWasteEdit->mLineHeight				= inOriginal.mLineHeight ;
 	outWasteEdit->mClickLoopUPP				= inOriginal.mClickLoopUPP ;
 
-// 	InitWasteEditView(0);
+// 	InitView();
+// 	InitStyle(0);
 }
 
 
@@ -109,7 +110,9 @@ CWasteEditView::CWasteEditView(
 	mWordWrap = inWordWrap;
 	mSelectable = inSelectable;
 	mTextAttributes = inTextAttributes;
-	InitWasteEditView(inTextTraitsID);
+	
+	InitView();
+	InitStyle(inTextTraitsID);
 }
 
 
@@ -150,7 +153,8 @@ CWasteEditView::CWasteEditView(
 	ResIDT	initialTextID;
 	*inStream >> initialTextID;
 		
-	InitWasteEditView(textTraitsID);
+	InitView();
+	InitStyle(textTraitsID);
 
 	StResource	initialTextRes(ResType_Text, initialTextID, false);
 
@@ -172,7 +176,7 @@ CWasteEditView::CWasteEditView(
     }
 	
 	// Set the readOnly option now. It has been postponed until after
-	// a text resource has possibly been inserted
+	// the text resource has been inserted
 	WEFeatureFlag(weFReadOnly,mReadOnly,mWasteEditRef);
 }
 
@@ -206,13 +210,12 @@ CWasteEditView::~CWasteEditView()
 
 
 // ---------------------------------------------------------------------------
-//	¥ InitWasteEditView												[private]
+//	¥ InitView												[private]
 // ---------------------------------------------------------------------------
 //	Private initializer
 
 void
-CWasteEditView::InitWasteEditView(
-								  ResIDT inTextTraitsID )
+CWasteEditView::InitView()
 {
 	WEReference		we = nil ;
 	Rect			theViewRect ;
@@ -221,12 +224,12 @@ CWasteEditView::InitWasteEditView(
 	
 	mChangesMessage	= msg_Nothing;
 	mTypingAction	= nil;
-	mTextTraitsID	= inTextTraitsID;
+	mTextTraitsID	= -1;
 	mClickLoopUPP	= nil;
 	mIsDirty		= false;
 	 
 	// Retrieve the attributes set in Constructor
-	UInt32  initFlags = InitWasteAttributes();
+	UInt32  initFlags = FlagsFromAttributes();
 
 	// Set the focus on the WasteEditView
 	StFocusAndClipIfHidden	focus(this);
@@ -240,7 +243,44 @@ CWasteEditView::InitWasteEditView(
 	// Set the mWasteEdit data member
 	SetWasteRef(we) ;
 	
-	// Deal with style
+	// Deal with dimensions
+	// If word wrap is on, then the Image width is always the same as the Frame
+	// width, which forces text to wrap to the Frame. If  the  Image  width  is
+	// zero (or negative), the user probably forgot to set it: we set the Image
+	// width to the Frame width.
+	if (mWordWrap || (mImageSize.width <= 0)) {
+		mImageSize.width = mFrameSize.width;
+	}
+	
+	// Outline hiliting
+	WEFeatureFlag(weFOutlineHilite,mOutlineHilite,mWasteEditRef);
+	
+	// Initial rect was offscreen. Align it with the Frame.
+	AlignWERects();
+	
+	// Set the clickloop
+	if (mAutoScroll) {
+		sWasteEditViewP = this;
+// 		SetClickLoop( MyClickLoop );
+	} else {
+		sWasteEditViewP = nil;
+	}
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ InitStyle												[private]
+// ---------------------------------------------------------------------------
+// Deal with style
+
+void
+CWasteEditView::InitStyle(ResIDT inTextTraitsID )
+{
+	WEReference		we = nil ;
+	OSStatus		err = noErr ;
+
+	mTextTraitsID	= inTextTraitsID;
+		
 	if (!mMonoStyled) {
 		
 		// TextTraits are not used in multi-style text edit, however
@@ -285,46 +325,23 @@ CWasteEditView::InitWasteEditView(
 		
 	} else {
 		// Set the initial text traits
-		SetWETextTraits(mTextTraitsID, mWasteEditRef);
+		ApplyTextTraits(mTextTraitsID, mWasteEditRef);
 		
 		SPoint32	scrollUnit;
 		scrollUnit.h = 4;
 		scrollUnit.v = mLineHeight;
 		SetScrollUnit(scrollUnit);
 	}
-	
-	// Deal with dimensions
-	// If word wrap is on, then the Image width is always the same as the Frame
-	// width, which forces text to wrap to the Frame. If  the  Image  width  is
-	// zero (or negative), the user probably forgot to set it: we set the Image
-	// width to the Frame width.
-	if (mWordWrap || (mImageSize.width <= 0)) {
-		mImageSize.width = mFrameSize.width;
-	}
-	
-	// Outline hiliting
-	WEFeatureFlag(weFOutlineHilite,mOutlineHilite,mWasteEditRef);
-	
-	// Initial rect was offscreen. Align it with the Frame.
-	AlignWERects();
-	
-	// Set the clickloop
-	if (mAutoScroll) {
-		sWasteEditViewP = this;
-// 		SetClickLoop( MyClickLoop );
-	} else {
-		sWasteEditViewP = nil;
-	}
 }
 
 
 // ---------------------------------------------------------------------------
-//	¥ InitWasteAttributes											  [public]
+//	¥ FlagsFromAttributes											  [public]
 // ---------------------------------------------------------------------------
-// Initialize the attributes of the WasteEditeView set in Constructor.
+// Build the WE flags from the mTextAttributes variable.
 
 UInt32
-CWasteEditView::InitWasteAttributes() {
+CWasteEditView::FlagsFromAttributes() {
 	UInt32  theFlags = 0 ;
 	
 	theFlags |= HasAttribute(weAttr_AutoScroll) ?		weDoAutoScroll : 0 ;
@@ -350,9 +367,8 @@ CWasteEditView::InitWasteAttributes() {
 // ---------------------------------------------------------------------------
 //	¥ BuildTextAttributes											  [public]
 // ---------------------------------------------------------------------------
-// Initialize the mTextAttributes data member. Don't set the weAttr_ReadOnly
-// attribute too early : if there is an initial text (from a TEXT resource), 
-// it cannot be inserted if this flag is on.
+// Initialize the mTextAttributes data member from the individual property 
+// values.
 
 UInt16
 CWasteEditView::BuildTextAttributes()
@@ -361,7 +377,7 @@ CWasteEditView::BuildTextAttributes()
 	theTxtAttr |= mAutoScroll ?			weAttr_AutoScroll : 0 ;
 	theTxtAttr |= mOutlineHilite ?		weAttr_OutlineHilite : 0 ;
 	theTxtAttr |= mMonoStyled ?			weAttr_MonoStyled : 0 ;
-// 	theTxtAttr |= mReadOnly ?			weAttr_ReadOnly : 0 ;
+	theTxtAttr |= mReadOnly ?			weAttr_ReadOnly : 0 ;
 	theTxtAttr |= mDragAndDrop ?		weAttr_DragAndDrop : 0 ;
 	theTxtAttr |= mUndo ?				weAttr_Undo : 0 ;
 	theTxtAttr |= mMultipleUndo ?		weAttr_MultipleUndo : 0 ;
@@ -876,125 +892,6 @@ CWasteEditView::FindCommandStatus(
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ Insert								[public, virtual]
-// ---------------------------------------------------------------------------
-//	Will optionally recalculate, autoscroll, and refresh the text if desired.
-
-OSErr
-CWasteEditView::Insert(
-					   const void*		inText,
-					   SInt32			inLength,
-					   StScrpHandle		inStyleH,
-					   Boolean			inRefresh)
-{
-	LongRect	oldDestRect ;
-	OSErr		err;
-	
-	StFocusAndClipIfHidden	focus(this);
-
-	WEGetDestRect(&oldDestRect,mWasteEditRef);
-	
-	if ( !mMonoStyled && (inStyleH != nil) ) {
-		err = WEInsert(inText, inLength, (StScrpHandle) inStyleH, nil, mWasteEditRef ) ;
-	} else {
-		err = WEInsert(inText, inLength, nil, nil, mWasteEditRef);
-	}
-	
-	// Force a redraw. The WasteEdit internals are updated, so we need to
-	// reflect this fact.
-	if ( inRefresh ) {
-		AdjustImageToText();
-		ForceAutoScroll( oldDestRect );
-		Refresh();
-	}
-	return err;
-}
-
-
-// ---------------------------------------------------------------------------
-//	¥ Insert								[public, virtual]
-// ---------------------------------------------------------------------------
-
-OSErr
-CWasteEditView::Insert(
-					   Str255 		inString,
-					   Boolean		inRefresh)
-{
-	char * theStr = new char[256];
-	CopyPascalStringToC(inString,theStr);	
-	return Insert(theStr, inString[0], NULL, inRefresh);
-}
-
-
-// ---------------------------------------------------------------------------
-//	¥ SelectAll								[public, virtual]
-// ---------------------------------------------------------------------------
-//	Select entire contents of a WasteEdit
-
-void
-CWasteEditView::SelectAll()
-{
-	if (mSelectable) {
-		StFocusAndClipIfHidden	focus(this);
-		int saveFeature = WEFeatureFlag( weFAutoScroll, weBitClear, mWasteEditRef ) ;
-		WESetSelection( 0, 0x7FFFFFFF, mWasteEditRef ) ;
-		WEFeatureFlag( weFAutoScroll, saveFeature, mWasteEditRef ) ;
-	}
-}
-
-
-// ---------------------------------------------------------------------------
-//	¥ DeleteAll								[public, virtual]
-// ---------------------------------------------------------------------------
-//	Delete entire contents of the WasteEdit
-
-void
-CWasteEditView::DeleteAll()
-{
-	if (mSelectable) {
-		// Get the original dest rect
-		LongRect oldDestRect;
-		WEGetDestRect( &oldDestRect, mWasteEditRef);	
-
-		SelectAll();
-		WEDelete(mWasteEditRef);
-
-		AdjustImageToText();
-		ForceAutoScroll(oldDestRect);
-		Refresh();
-	}
-}
-
-
-// ---------------------------------------------------------------------------
-//	¥ DeleteTextRange								[public]
-// ---------------------------------------------------------------------------
-// Delete the text in a specified range and update.
-// If autoscrolling is on.
-
-void
-CWasteEditView::DeleteTextRange( SInt32 inStartPos, SInt32 inEndPos)
-{
-	if (!mReadOnly && mSelectable) {
-		LongRect oldDestRect;
-		WEGetDestRect( &oldDestRect, mWasteEditRef);	
-
-		StFocusAndClipIfHidden	focus(this);
-		
-		int saveFeature = WEFeatureFlag( weFAutoScroll, weBitClear, mWasteEditRef ) ;
-		WESetSelection( inStartPos, inEndPos, mWasteEditRef ) ;
-		WEFeatureFlag( weFAutoScroll, saveFeature, mWasteEditRef ) ;
-
-		WEDelete(mWasteEditRef);
-
-		AdjustImageToText();
-		ForceAutoScroll(oldDestRect);
-		Refresh();
-	} 
-}
-
-
-// ---------------------------------------------------------------------------
 //	¥ FocusDraw								[public, virtual]
 // ---------------------------------------------------------------------------
 
@@ -1302,74 +1199,5 @@ CWasteEditView::ScrollToCharOffset( SInt32	inPos )
 }
 
 
-// ---------------------------------------------------------------------------
-//	¥ SaveStateForUndo						[protected, virtual]
-// ---------------------------------------------------------------------------
-
-SWasteEditUndoH
-CWasteEditView::SaveStateForUndo()
-{
-	SInt32	theSelStart;
-	SInt32	theSelEnd;
-	WEGetSelection( & theSelStart, & theSelEnd, mWasteEditRef);
-
-	SWasteEditUndoH	theUndoH = reinterpret_cast<SWasteEditUndoH>
-									(::NewHandle(sizeof(SWasteEditUndo)));
-	ThrowIfMemFail_(theUndoH);
-
-	Handle	currTextH		= WEGetText(mWasteEditRef);
-	ThrowIfOSErr_(::HandToHand(&currTextH));
-	(*theUndoH)->textH		= currTextH;
-	(*theUndoH)->selStart	= theSelStart;
-	(*theUndoH)->selEnd		= theSelEnd;
-
-	return theUndoH;
-}
-
-
-// ---------------------------------------------------------------------------
-//	¥ SavePlace								[public, virtual]
-// ---------------------------------------------------------------------------
-// Override function in LView class
-
-void
-CWasteEditView::SavePlace(
-						  LStream		*outPlace)
-{
-	LView::SavePlace(outPlace);
-	
-	LongRect	viewRect ;
-	WEGetViewRect(&viewRect,mWasteEditRef);
-	// 	*outPlace << viewRect;
-	outPlace->WriteBlock(&viewRect,sizeof(viewRect));
-	
-	LongRect	destRect ;
-	WEGetDestRect(&destRect,mWasteEditRef);
-	// 	*outPlace << destRect;
-	outPlace->WriteBlock(&destRect,sizeof(destRect));
-}
-
-
-// ---------------------------------------------------------------------------
-//	¥ RestorePlace								[public, virtual]
-// ---------------------------------------------------------------------------
-// Override function in LView class
-
-void
-CWasteEditView::RestorePlace(
-	LStream		*inPlace)
-{
-	LView::RestorePlace(inPlace);
-
-	LongRect	theViewRect ;
-// 	*inPlace >> theViewRect;
-	inPlace->ReadBlock(&theViewRect,sizeof(theViewRect));
-	WESetViewRect(&theViewRect,mWasteEditRef);
-
-	LongRect	theDestRect ;
-// 	*inPlace >> theDestRect;
-	inPlace->ReadBlock(&theDestRect,sizeof(theDestRect));
-	WESetDestRect(&theDestRect,mWasteEditRef);
-}
 
 PP_End_Namespace_PowerPlant
