@@ -62,6 +62,8 @@ public:
 	OSErr			GetMapAttributes(short & outResFileAttrs);
 	OSErr			SetMapAttributes(short inMapAttributes);
 
+	Boolean			IsUnderVersionControl();
+
 protected:
 
 	short		mRefNum;

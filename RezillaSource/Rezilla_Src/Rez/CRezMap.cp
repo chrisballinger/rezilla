@@ -383,4 +383,17 @@ CRezMap::DeleteAll()
 }
 
 
+// ---------------------------------------------------------------------------
+//	¥ IsUnderVersionControl										[public]
+// ---------------------------------------------------------------------------
+
+Boolean
+CRezMap::IsUnderVersionControl()
+{
+	OSErr	error;
+	short 	theCount = 0;
+	error = CountForType( (ResType) "ckid", theCount);
+	return (error == noErr && theCount > 0);
+}
+
 

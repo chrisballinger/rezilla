@@ -57,6 +57,8 @@ public:
 							FSSpec& inNewFileSpec);
 				~CRezCompare();
 
+		virtual Boolean		AllowSubRemoval( LCommander* inSub );
+
 		void			RunRezCompareDialog();
 		void			DoCompareRezMaps();
 		void			CompareTypes(ResType inType);
