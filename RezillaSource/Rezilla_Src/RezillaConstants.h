@@ -200,6 +200,7 @@ const ResIDT	Txtr_MonacoNineDefault		= 139;
 const ResIDT	Txtr_MonacoNineGray			= 133;
 const ResIDT	Txtr_GenevaTen				= 140;
 const ResIDT	Txtr_GenevaTenBold			= 131;
+const ResIDT	Txtr_MonacoBlueNineCenter	= 141;
 const ResIDT	Txtr_GenevaTenBoldUlLeft	= 144;
 const ResIDT	Txtr_GenevaTenBoldUlRight	= 145;
 const ResIDT	Txtr_UrlHyperlink			= 146;
