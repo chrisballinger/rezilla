@@ -1,0 +1,76 @@
+// ===========================================================================
+// CTEXT_EditorWindow.h
+// 
+//                       Created: 2004-06-17 12:46:55
+//             Last modification: 2004-06-17 16:44:12
+// Author: Bernard Desgraupes
+// e-mail: <bdesgraupes@easyconnect.fr>
+// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// (c) Copyright : Bernard Desgraupes, 2004
+// All rights reserved.
+// $Date$
+// $Revision$
+// ===========================================================================
+
+#pragma once
+
+#include "CEditorWindow.h"
+#include "UResources.h"
+
+#include <LPane.h>
+#include <LView.h>
+#include <LActiveScroller.h>
+
+class CTEXT_EditorDoc;
+class CRezObj;
+
+
+
+class CTEXT_EditorWindow : public CEditorWindow {
+public:
+	enum { class_ID = 'TXTW' };
+
+							CTEXT_EditorWindow();
+							CTEXT_EditorWindow( const SWindowInfo &inWindowInfo );
+							CTEXT_EditorWindow( ResIDT inWINDid,
+								UInt32 inAttributes, LCommander *inSuperCommander );
+							CTEXT_EditorWindow( LStream *inStream );
+							~CTEXT_EditorWindow();
+
+	virtual void	ListenToMessage( MessageT inMessage,void *ioParam);
+
+	virtual void	FindCommandStatus(
+								CommandT			inCommand,
+								Boolean&			outEnabled,
+								Boolean&			outUsesMark,
+								UInt16&				outMark,
+								Str255				outName);
+
+	virtual Boolean	ObeyCommand(
+							CommandT			inCommand,
+							void*				ioParam);
+
+	void			InstallText(Handle inHandle);
+	Handle			ReadValues();
+	
+	Boolean			IsDirty();
+		
+	void			InstallReadOnlyIcon();
+
+	LView*		GetContentsView() const { return mContentsView;}
+
+// 	virtual SInt32		GetCurrentSubView() { return mCurrentSubView;}
+// 	void				SetCurrentSubView(SInt32 inCurrentSubView) {mCurrentSubView = inCurrentSubView;}
+
+protected:
+	LView *				mContentsView;
+	LActiveScroller *	mContentsScroller;
+	Boolean				mHasStyleResource;
+
+	virtual void	FinishCreateSelf();
+
+private:
+
+};
+
+
