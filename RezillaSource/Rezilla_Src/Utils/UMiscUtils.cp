@@ -384,7 +384,6 @@ UMiscUtils::GetFlagsFromXml(CFXMLTreeRef inTreeRef, UInt16 & outFlags)
 	CFXMLTreeRef    xmlTree;
 	CFXMLNodeRef    xmlNode;
 	int             index;
-	Str255			theString;
 	Boolean			theBool;
 
 	outFlags = 0;
@@ -436,7 +435,10 @@ UMiscUtils::GetFlagsFromXml(CFXMLTreeRef inTreeRef, UInt16 & outFlags)
 					outFlags |= theBool ? (1 << kAEUTReplyIsReference): 0;
 				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("TightBindingFunction"), 0) ) {
 					outFlags |= theBool ? (1 << kAEUTTightBindingFunction): 0;
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("Reserved"), 0) ) {
+					// Ignore
 				} else {
+					CFShow(CFXMLNodeGetString(xmlNode));
 					error = err_ImportUnknownFlagsTag;	
 				}
 				
