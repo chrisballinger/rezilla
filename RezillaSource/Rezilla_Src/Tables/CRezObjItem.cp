@@ -171,7 +171,7 @@ CRezObjItem::GetOwnerRezMapTable()
 // ---------------------------------------------------------------------------
 //	¥ SingleClick												   [protected]
 // ---------------------------------------------------------------------------
-// If the option key is down, open the inspector window and display the 
+// If the control key is down, open the inspector window and display the 
 // corresponding info about the resource
 
 void
@@ -182,7 +182,7 @@ CRezObjItem::SingleClick(
 	Boolean						/* inHitText */)
 {
 // 	LOutlineItem::SingleClick(inCell, inMouseDown, inDrawContents, inHitText);
-	if (inMouseDown.macEvent.modifiers & optionKey) {
+	if (inMouseDown.macEvent.modifiers & controlKey) {
 		CRezillaApp::sInspectorWindow->Show();
 		CRezillaApp::sInspectorWindow->InstallValues(this);
 		// Bring the window to the front.
