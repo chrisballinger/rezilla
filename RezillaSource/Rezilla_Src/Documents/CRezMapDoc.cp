@@ -697,7 +697,17 @@ CRezMapDoc::AttemptClose(
 	Boolean		closeIt = true;
 	SInt32		saveOption = kAENo;
 	FSSpec		fileSpec = {0, 0, "\p"};		// Invalid specifier
-	
+
+	// Check all the editor windows related to this rezmap. Ask what to do
+	// if some of them are modified.
+	if (! IsModified() && ! CheckEditorsUnmodified(false) ) {
+		SInt16		answer;
+		answer = UMessageDialogs::AskIfFromLocalizable(CFSTR("ConfirmCloseModifiedEditedRes"), rPPob_AskIfMessage);
+		if (answer == answer_Cancel) {
+			return;
+		}
+	} 
+
 	if (IsModified()) {
 		if (mReadOnly) {
 			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("CantSaveReadOnly"), rPPob_SimpleMessage);
@@ -706,6 +716,12 @@ CRezMapDoc::AttemptClose(
 
 			if (answer == answer_Save) {
 				if (IsSpecified()) {
+					// Inspect the edited resources and interrupt the
+					// operation if some of them are modified.
+					if (! CheckEditorsUnmodified(false) ) {
+						UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("ValidateEditedResBeforeSave"), rPPob_SimpleMessage);
+						return;
+					} 			
 					DoSave();
 					saveOption = kAEYes;
 
@@ -884,7 +900,9 @@ CRezMapDoc::DoAESave(
 void
 CRezMapDoc::DoSave()
 {
-	OSErr error = mRezMap->Update();
+	OSErr error;
+
+	error = mRezMap->Update();
 	
 	if (error != noErr) {
 		UMessageDialogs::ErrorWithString(CFSTR("ErrorSavingRezMapDoc"), error);
@@ -894,6 +912,34 @@ CRezMapDoc::DoSave()
 	}
 }
 
+
+// ---------------------------------------------------------------------------
+//	¥ CheckEditorsUnmodified										[public]
+// ---------------------------------------------------------------------------
+
+Boolean
+CRezMapDoc::CheckEditorsUnmodified(Boolean closeAll)
+{
+	Boolean unmodified = true;
+	
+	if (mOpenedEditors != nil) {
+		TArrayIterator<CEditorDoc *> iterator(*mOpenedEditors, LArrayIterator::from_End);
+		CEditorDoc* theRezEditor = nil;
+		while (iterator.Previous(theRezEditor)) {
+			if ( theRezEditor->IsModified() ) {
+				theRezEditor->SelectMainWindow();
+				unmodified = false;
+				break;
+			} else if (closeAll) {
+				delete theRezEditor;
+				mOpenedEditors->RemoveItemsAt(1, iterator.GetCurrentIndex());
+			}
+		}
+	} 
+			
+	return unmodified;
+}
+ 
 
 // ---------------------------------------------------------------------------
 //	¥ AskSaveAs														  [public]
@@ -910,17 +956,11 @@ CRezMapDoc::AskSaveAs(
 	bool		replacing;
 
 	if ( DesignateOutFile(outFSSpec, replacing) ) {
-		// Try to save and close all the editor windows related to this rezmap
-		if (mOpenedEditors != nil) {
-			TArrayIterator<CEditorDoc *> iterator(*mOpenedEditors, LArrayIterator::from_End);
-			CEditorDoc* theRezEditor = nil;
-			while (iterator.Previous(theRezEditor)) {
-				if (theRezEditor->AskSaveBeforeClose() == false) {
-					UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("CouldNotSaveAndCloseEditedRez"), rPPob_SimpleMessage);
-					return saveOK;
-				}
-				mOpenedEditors->RemoveItemsAt(1, iterator.GetCurrentIndex());
-			}
+		// Try to close all the editor windows related to this rezmap.
+		// Interrupt the operation if some of them are modified.
+		if (! CheckEditorsUnmodified(true) ) {
+			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("ValidateEditedResBeforeSaveAs"), rPPob_SimpleMessage);
+			return;
 		} 
 		
 		if (replacing && UsesFileSpec(outFSSpec)) {

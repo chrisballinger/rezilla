@@ -2,7 +2,7 @@
 // CRezMapDoc.h				
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2004-11-08 15:07:59
+//             Last modification: 2004-11-22 05:35:39
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -72,6 +72,8 @@ public:
 
 	virtual void		SetModified( Boolean inModified );
 
+	Boolean				CheckEditorsUnmodified(Boolean closeAll);
+	
 	virtual Boolean		HasSelection();
 	
 	Boolean				DesignateOutFile( FSSpec& outFileSpec, bool & outReplacing);
