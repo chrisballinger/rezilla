@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2004-08-15 00:56:37
+//             Last modification : 2004-08-17 21:17:26
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -194,6 +194,9 @@ const ResIDT	STRx_RzilWinMenuItem		= 1501;
 const ResIDT	STRx_NavStrings				= 1502;
 const ResIDT	STRx_FileExtensions			= 1503;
 const ResIDT	STRx_InternetUrls			= 1504;
+const ResIDT	STRx_LanguageCodes			= 1601;
+const ResIDT	STRx_RegionCodes			= 1602;
+const ResIDT	STRx_ScriptCodes			= 1603;
 
 // Text traits resources
 const ResIDT	Txtr_MonacoNineDefault		= 139;
