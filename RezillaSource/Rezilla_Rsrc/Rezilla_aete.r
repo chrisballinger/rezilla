@@ -788,6 +788,11 @@ resource 'aete' (0,"Scripting terminology") {
 							'indx',
 							'name',
 							'rang'}
+					,
+						'cMAP',
+						{
+							'indx',
+							'name'}
 					
 				}
 			,
@@ -1271,23 +1276,6 @@ resource 'aete' (0,"Scripting terminology") {
 						"Ask the user whether to save"
 					
 				}
-			,
-				'DKND',
-				{
-					
-						"resource map",
-						'RMAP',
-						"resource map document"
-					,
-						"resource editor",
-						'EDOC',
-						"a resource editor"
-					,
-						"maps compare",
-						'COMP',
-						"maps comparison document"
-					
-				}
 			
 		}
 	,
@@ -1691,7 +1679,7 @@ resource 'aete' (0,"Scripting terminology") {
 						"the resource edited by this document",
 						reserved,
 						singleItem,
-						enumerated,
+						notEnumerated,
 						readOnly,
 						enumsAreConstants,
 						enumListCanRepeat,
@@ -1793,7 +1781,7 @@ resource 'aete' (0,"Scripting terminology") {
 			,
 				"hex editor",
 				'GuiD',
-				"an hexadecimal editor document for a resource",
+				"a hexadecimal editor document for a resource",
 				{
 					
 						"inherits",
@@ -1820,6 +1808,219 @@ resource 'aete' (0,"Scripting terminology") {
 				},
 				{
 				}
+			,
+				"map window",
+				'MapW',
+				"a resource map window",
+				{
+					
+						"inherits",
+						'c@#^',
+						'cwin',
+						"all properties of the 'window' class",
+						reserved,
+						singleItem,
+						notEnumerated,
+						readOnly,
+						enumsAreConstants,
+						enumListCanRepeat,
+						propertyIsValue,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						noApostrophe,
+						notFeminine,
+						notMasculine,
+						singular
+					
+				},
+				{
+				}
+			,
+				"GUI window",
+				'MapW',
+				"a GUI custom editor window",
+				{
+					
+						"inherits",
+						'c@#^',
+						'MapW',
+						"all properties of the 'map window' class",
+						reserved,
+						singleItem,
+						notEnumerated,
+						readOnly,
+						enumsAreConstants,
+						enumListCanRepeat,
+						propertyIsValue,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						noApostrophe,
+						notFeminine,
+						notMasculine,
+						singular
+					
+				},
+				{
+				}
+			,
+				"template window",
+				'TmpW',
+				"a template editor window",
+				{
+					
+						"inherits",
+						'c@#^',
+						'MapW',
+						"all properties of the 'map window' class",
+						reserved,
+						singleItem,
+						notEnumerated,
+						readOnly,
+						enumsAreConstants,
+						enumListCanRepeat,
+						propertyIsValue,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						noApostrophe,
+						notFeminine,
+						notMasculine,
+						singular
+					
+				},
+				{
+				}
+			,
+				"hex window",
+				'HexW',
+				"a hexadecimal editor window",
+				{
+					
+						"inherits",
+						'c@#^',
+						'MapW',
+						"all properties of the 'map window' class",
+						reserved,
+						singleItem,
+						notEnumerated,
+						readOnly,
+						enumsAreConstants,
+						enumListCanRepeat,
+						propertyIsValue,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						noApostrophe,
+						notFeminine,
+						notMasculine,
+						singular
+					,
+						"hex pane",
+						'HexP',
+						'DatP',
+						"the left pane of the hex window",
+						reserved,
+						singleItem,
+						notEnumerated,
+						readOnly,
+						enumsAreConstants,
+						enumListCanRepeat,
+						propertyIsValue,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						noApostrophe,
+						notFeminine,
+						notMasculine,
+						singular
+					,
+						"text pane",
+						'TxtP',
+						'DatP',
+						"the left pane of the hex window",
+						reserved,
+						singleItem,
+						notEnumerated,
+						readOnly,
+						enumsAreConstants,
+						enumListCanRepeat,
+						propertyIsValue,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						noApostrophe,
+						notFeminine,
+						notMasculine,
+						singular
+					
+				},
+				{
+				}
+			,
+				"data pane",
+				'DatP',
+				"a pane displaying resource data",
+				{
+					
+						"kind",
+						'pKND',
+						'PKND',
+						"the kind of data this pane displays (hexadecimal or ascii text)",
+						reserved,
+						singleItem,
+						enumerated,
+						readOnly,
+						enumsAreConstants,
+						enumListCanRepeat,
+						propertyIsValue,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						noApostrophe,
+						notFeminine,
+						notMasculine,
+						singular
+					,
+						"contents",
+						'pcnt',
+						'TEXT',
+						"the data displayed in this pane",
+						reserved,
+						singleItem,
+						enumerated,
+						readOnly,
+						enumsAreConstants,
+						enumListCanRepeat,
+						propertyIsValue,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						noApostrophe,
+						notFeminine,
+						notMasculine,
+						singular
+					
+				},
+				{
+				}
 			
 
 		},
@@ -1828,6 +2029,54 @@ resource 'aete' (0,"Scripting terminology") {
 		},
 		
 		{
+			
+				'DKND',
+				{
+					
+						"resource map",
+						'RMAP',
+						"resource map document"
+					,
+						"resource editor",
+						'EDOC',
+						"a resource editor"
+					,
+						"maps compare",
+						'COMP',
+						"maps comparison document"
+					
+				}
+			,
+				'EKND',
+				{
+					
+						"custom",
+						'kGUI',
+						"custom GUI editor"
+					,
+						"template",
+						'kTMP',
+						"template editor"
+					,
+						"hexadecimal",
+						'kHEX',
+						"hexadecimal editor"
+					
+				}
+			,
+				'PKND',
+				{
+					
+						"hexa",
+						'HEXA',
+						"hex pane"
+					,
+						"ascii",
+						'ASCI',
+						"text pane"
+					
+				}
+			
 		}
 	,
 	"Resource suite",       	
@@ -2121,7 +2370,7 @@ resource 'aete' (0,"Scripting terminology") {
 						"the ID of the resource",
 						reserved,
 						singleItem,
-						enumerated,
+						notEnumerated,
 						readOnly,
 						enumsAreConstants,
 						enumListCanRepeat,
@@ -2142,7 +2391,7 @@ resource 'aete' (0,"Scripting terminology") {
 						"the type of the resource",
 						reserved,
 						singleItem,
-						enumerated,
+						notEnumerated,
 						readOnly,
 						enumsAreConstants,
 						enumListCanRepeat,
@@ -2384,11 +2633,11 @@ resource 'aete' (0,"Scripting terminology") {
 					
 						"data fork",
 						'DATA',
-						"map IN DATA FORK"
+						"map in data fork"
 					,
 						"resource fork",
 						'RSRC',
-						"a resource editor"
+						"map in resource fork"
 					,
 						"any fork",
 						'ANY ',
