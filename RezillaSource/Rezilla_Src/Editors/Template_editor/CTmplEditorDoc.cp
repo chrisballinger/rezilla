@@ -287,6 +287,7 @@ CTmplEditorDoc::NameNewEditorDoc()
 void
 CTmplEditorDoc::ListenToMessage( MessageT inMessage, void *ioParam ) 
 {
+#pragma unused(ioParam)
 	OSErr error;
 	
 	switch (inMessage) {
