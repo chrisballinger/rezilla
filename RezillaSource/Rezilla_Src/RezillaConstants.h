@@ -702,7 +702,7 @@ enum RezillaErrors
 	err_TmplCreateEmptyNewAborted,
 	err_TmplNoCaseInKeySection,
 	err_TmplMalformedCaseSection,
-	err_TmplMalformedKeySection,
+	err_TmplUnknownKeyValueInResource,
 	err_TmplPopupNotConnectedToEditField,
 	err_TmplCantFindKeyedSectionStart,
 	err_TmplCantFindKeyStartForValue,

@@ -2,7 +2,7 @@
 // CTmplWindowUtils.cp					
 // 
 //                       Created: 2004-08-20 16:45:08
-//             Last modification: 2004-11-06 12:01:40
+//             Last modification: 2004-11-07 12:27:15
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -525,9 +525,10 @@ CTmplEditorWindow::FindKeyStartForValue(ResType inType, Str255 keyString, SInt32
 		*mTemplateStream >> theType;
 		currMark = mTemplateStream->GetMarker();		
 	
-		// The type at this point should normally be 'KEYB'
+		// The type at this point should normally be 'KEYB' otherwise we've
+		// inspected all the key starts without founding our value.
 		if (theType != 'KEYB') {
-			error = err_TmplMalformedKeySection;
+			error = err_TmplUnknownKeyValueInResource;
 			return error;
 		} 
 		

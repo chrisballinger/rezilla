@@ -1,7 +1,7 @@
 // ===========================================================================
 // RezillaErrors_FR.ploc
 //                       Created: 2004-10-05 15:00:32
-//             Last modification: 2004-10-14 07:13:46
+//             Last modification: 2004-11-07 12:25:39
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -39,7 +39,7 @@ localize "French" as "Errors.strings"
 	key "2017" value string "Création de nouvelle ressource selon gabarit annulée"
 	key "2018" value string "Aucun cas spécifié dans une section à clés"
 	key "2019" value string "Cas de section à clés mal formé"
-	key "2020" value string "Section à clés mal formée"
+	key "2020" value string "Valeur de clé inconnue dans la ressource"
 	key "2021" value string "Menu non connecté à un champ de saisie"
 	key "2022" value string "Impossible de trouver le début de la section à clés"
 	key "2023" value string "Impossible de trouver la clé spécifiée"
