@@ -11,6 +11,6 @@ localize "French" as "Localizable.strings"
 	key "SaveHexWindow" value string "Voulez-vous sauvegarder les modifications faites avec l'éditeur hexadécimal ?"
 	key "SaveRezMapWindow" value string "Voulez-vous sauvegarder les modifications avant de refermer la table de ressources ?"
 	key "InvalidHexDataInScrap" value string "Impossible de coller les données du presse-papier dans ce cadre car elles ne sont pas hexadécimales."
-	key "InvalidHexDataInString" value string "Cette chaîne n'est pas hexadécimale."
+	key "RezMapAlreadyOpened" value string "Une table de ressources est déjà ouverte pour ce fichier."
 }
 

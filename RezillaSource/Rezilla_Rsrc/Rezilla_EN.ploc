@@ -12,5 +12,6 @@ localize "English" as "Localizable.strings"
 	key "SaveRezMapWindow" value string "Do you want to save the resource map before closing?"
 	key "InvalidHexDataInScrap" value string "Can't paste: scrap does not contain valid hexadecimal data."
 	key "InvalidHexDataInString" value string "This string does not contain valid hexadecimal data."
+	key "RezMapAlreadyOpened" value string "There is already a resource map table opened for this file."
 }
 

@@ -319,6 +319,14 @@ CRezillaApp::ObeyCommand(
 			short	theRefnum;
 			bool	replacing;
 			if ( DesignateNewMap(theFileSpec, replacing) ) {
+				if (replacing) {
+					// Check if a rezmap is already opened for this file
+					
+					// todo...
+
+					UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("RezMapAlreadyOpened"), rPPob_SimpleMessage);
+					return;
+				} 
 				// Make a new file object.
 				CRezFile * theFile = new CRezFile( theFileSpec, refnum_undefined, mOpeningFork );
 				// Make new resource file on disk
