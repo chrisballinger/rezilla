@@ -657,7 +657,10 @@ enum
 	err_NoRezInAnyFork,
 	err_NoOpenPermission,
 	err_OpenForkError,
-	err_UnderVersionControl
+	err_UnderVersionControl,
+	err_TmplError = 2000,
+	err_TmplTextOverflow,
+	err_TmplWrongFixedCount
 };
 
 
