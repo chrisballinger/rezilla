@@ -9,8 +9,8 @@
 <!DOCTYPE AETEREZ SYSTEM "file://localhost/System/Library/DTDs/aete.dtd">
 
 <AETEREZ>
-<aeteRezNum>0</aeteRezNum>
-<aeteRezTitle>Scripting terminology</aeteRezTitle>
+<AeteResID>0</AeteResID>
+<AeteResTitle>Scripting terminology</AeteResTitle>
 <MajorVersion>0x1</MajorVersion>
 <MinorVersion>0x0</MinorVersion>
 <LanguageCode>0</LanguageCode>
@@ -67,7 +67,7 @@
 				<Reserved/>
 				<Reserved/>
 				<DirectParamType>obj </DirectParamType>
-				<DirectParmDescription>the objects to close</DirectParmDescription>
+				<DirectParamDescription>the objects to close</DirectParamDescription>
 				<IsDirectParamRequired>directParamRequired</IsDirectParamRequired>
 				<IsDirectParamList>singleItem</IsDirectParamList>
 				<IsDirectParamEnumerated>notEnumerated</IsDirectParamEnumerated>
@@ -156,7 +156,7 @@
 				<Reserved/>
 				<Reserved/>
 				<DirectParamType>obj </DirectParamType>
-				<DirectParmDescription>the object whose elements are to be counted</DirectParmDescription>
+				<DirectParamDescription>the object whose elements are to be counted</DirectParamDescription>
 				<IsDirectParamRequired>directParamRequired</IsDirectParamRequired>
 				<IsDirectParamList>singleItem</IsDirectParamList>
 				<IsDirectParamEnumerated>notEnumerated</IsDirectParamEnumerated>
@@ -223,7 +223,7 @@
 				<Reserved/>
 				<Reserved/>
 				<DirectParamType>obj </DirectParamType>
-				<DirectParmDescription>the object whose data size is to be returned</DirectParmDescription>
+				<DirectParamDescription>the object whose data size is to be returned</DirectParamDescription>
 				<IsDirectParamRequired>directParamRequired</IsDirectParamRequired>
 				<IsDirectParamList>singleItem</IsDirectParamList>
 				<IsDirectParamEnumerated>notEnumerated</IsDirectParamEnumerated>
@@ -268,7 +268,7 @@
 				<Reserved/>
 				<Reserved/>
 				<DirectParamType>null</DirectParamType>
-				<DirectParmDescription></DirectParmDescription>
+				<DirectParamDescription></DirectParamDescription>
 				<IsDirectParamRequired>directParamRequired</IsDirectParamRequired>
 				<IsDirectParamList>singleItem</IsDirectParamList>
 				<IsDirectParamEnumerated>notEnumerated</IsDirectParamEnumerated>
@@ -313,7 +313,7 @@
 				<Reserved/>
 				<Reserved/>
 				<DirectParamType>obj </DirectParamType>
-				<DirectParmDescription>the object whose data is to be returned</DirectParmDescription>
+				<DirectParamDescription>the object whose data is to be returned</DirectParamDescription>
 				<IsDirectParamRequired>directParamRequired</IsDirectParamRequired>
 				<IsDirectParamList>singleItem</IsDirectParamList>
 				<IsDirectParamEnumerated>notEnumerated</IsDirectParamEnumerated>
@@ -358,7 +358,7 @@
 				<Reserved/>
 				<Reserved/>
 				<DirectParamType>null</DirectParamType>
-				<DirectParmDescription></DirectParmDescription>
+				<DirectParamDescription></DirectParamDescription>
 				<IsDirectParamRequired>directParamOptional</IsDirectParamRequired>
 				<IsDirectParamList>singleItem</IsDirectParamList>
 				<IsDirectParamEnumerated>notEnumerated</IsDirectParamEnumerated>
@@ -491,7 +491,7 @@
 				<Reserved/>
 				<Reserved/>
 				<DirectParamType>obj </DirectParamType>
-				<DirectParmDescription>Objects to open. Can be a list of files or an object specifier.</DirectParmDescription>
+				<DirectParamDescription>Objects to open. Can be a list of files or an object specifier.</DirectParamDescription>
 				<IsDirectParamRequired>directParamRequired</IsDirectParamRequired>
 				<IsDirectParamList>singleItem</IsDirectParamList>
 				<IsDirectParamEnumerated>notEnumerated</IsDirectParamEnumerated>
@@ -536,7 +536,7 @@
 				<Reserved/>
 				<Reserved/>
 				<DirectParamType>obj </DirectParamType>
-				<DirectParmDescription>Objects to save.</DirectParmDescription>
+				<DirectParamDescription>Objects to save.</DirectParamDescription>
 				<IsDirectParamRequired>directParamRequired</IsDirectParamRequired>
 				<IsDirectParamList>singleItem</IsDirectParamList>
 				<IsDirectParamEnumerated>notEnumerated</IsDirectParamEnumerated>
@@ -625,7 +625,7 @@
 				<Reserved/>
 				<Reserved/>
 				<DirectParamType>obj </DirectParamType>
-				<DirectParmDescription>the object to change</DirectParmDescription>
+				<DirectParamDescription>the object to change</DirectParamDescription>
 				<IsDirectParamRequired>directParamRequired</IsDirectParamRequired>
 				<IsDirectParamList>singleItem</IsDirectParamList>
 				<IsDirectParamEnumerated>notEnumerated</IsDirectParamEnumerated>
@@ -1309,7 +1309,7 @@
 				<Reserved/>
 				<Reserved/>
 				<DirectParamType>obj </DirectParamType>
-				<DirectParmDescription>object to revert</DirectParmDescription>
+				<DirectParamDescription>object to revert</DirectParamDescription>
 				<IsDirectParamRequired>directParamRequired</IsDirectParamRequired>
 				<IsDirectParamList>singleItem</IsDirectParamList>
 				<IsDirectParamEnumerated>notEnumerated</IsDirectParamEnumerated>
@@ -1354,7 +1354,7 @@
 				<Reserved/>
 				<Reserved/>
 				<DirectParamType>null</DirectParamType>
-				<DirectParmDescription></DirectParmDescription>
+				<DirectParamDescription></DirectParamDescription>
 				<IsDirectParamRequired>directParamRequired</IsDirectParamRequired>
 				<IsDirectParamList>singleItem</IsDirectParamList>
 				<IsDirectParamEnumerated>notEnumerated</IsDirectParamEnumerated>
@@ -1421,7 +1421,7 @@
 				<Reserved/>
 				<Reserved/>
 				<DirectParamType>obj </DirectParamType>
-				<DirectParmDescription>the object to select</DirectParmDescription>
+				<DirectParamDescription>the object to select</DirectParamDescription>
 				<IsDirectParamRequired>directParamOptional</IsDirectParamRequired>
 				<IsDirectParamList>singleItem</IsDirectParamList>
 				<IsDirectParamEnumerated>notEnumerated</IsDirectParamEnumerated>
@@ -1486,7 +1486,7 @@
 				<Reserved/>
 				<Reserved/>
 				<DirectParamType>noParams</DirectParamType>           
-				<DirectParmDescription></DirectParmDescription>    
+				<DirectParamDescription></DirectParamDescription>    
 				<IsDirectParamRequired>directParamOptional</IsDirectParamRequired>
 				<IsDirectParamList>singleItem</IsDirectParamList>
 				<IsDirectParamEnumerated>notEnumerated</IsDirectParamEnumerated>
@@ -3417,7 +3417,7 @@
 					</Enumerator>
 					<Enumerator>
 						<EnumeratorName>unknown fork</EnumeratorName>
-						<EnumeratorID>ANY </EnumeratorID>
+						<EnumeratorID>UNKW</EnumeratorID>
 						<EnumeratorDescription>fork is unknown</EnumeratorDescription>
 					</Enumerator>
 				</ArrayEnumerators>
