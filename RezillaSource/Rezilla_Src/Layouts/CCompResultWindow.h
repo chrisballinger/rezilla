@@ -2,7 +2,7 @@
 // CCompResultWindow.h				
 // 
 //                       Created: 2004-03-02 14:18:16
-//             Last modification: 2004-03-05 14:59:02
+//             Last modification: 2004-03-17 10:05:05
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -75,6 +75,8 @@ protected:
 	CBroadcasterTableView *	mDifferTable;
 	
 	
+	virtual void		SetMaxScrollerValue();
+	SInt32				HexLineCount(SInt32 inLinesPerPane);
 	virtual void		FinishCreateSelf();
 };
 

@@ -180,8 +180,9 @@ CCompResultWindow::FinishCreateSelf()
 void
 CCompResultWindow::ListenToMessage( MessageT inMessage, void *ioParam ) 
 {
-	SInt32 theRangeStart, theRangeEnd;
-	SInt32 lineStart, lineEnd;
+#pragma unused(ioParam)
+// 	SInt32 theRangeStart, theRangeEnd;
+// 	SInt32 lineStart, lineEnd;
 	
 	switch (inMessage) {
 		
@@ -204,6 +205,8 @@ CCompResultWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		
 		mOldHexDataWE->InsertHexContents( *oldHandle, ::GetHandleSize(oldHandle));
 		mNewHexDataWE->InsertHexContents( *newHandle, ::GetHandleSize(newHandle));
+		
+		SetMaxScrollerValue();
 		break;
 	  }
 
@@ -384,3 +387,49 @@ CCompResultWindow::FillTableView( TArray<CRezTypId *> inList, SInt16 inWhichList
 }
 
 
+// ---------------------------------------------------------------------------
+//	¥ SetMaxScrollerValue										[protected]
+// ---------------------------------------------------------------------------
+
+void
+CCompResultWindow::SetMaxScrollerValue()
+{
+	SInt32 linesPerPane, theLineCount;
+	SDimension16	theSize;
+
+	// How many lines fit in the hex panes
+	mOldHexDataWE->GetFrameSize(theSize);
+	linesPerPane = theSize.height / mOldHexDataWE->GetLineHeight();
+
+	theLineCount = HexLineCount(linesPerPane) - linesPerPane + 1;
+	
+	if (theLineCount < 0) {
+		theLineCount = 0;
+	} 
+	mScroller->SetMaxValue(theLineCount);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ HexLineCount										[protected]
+// ---------------------------------------------------------------------------
+// Find the max number of lines among the two panes
+
+SInt32
+CCompResultWindow::HexLineCount(SInt32 inLinesPerPane) 
+{
+	SInt32 oldByteCount = WEGetTextLength( mOldHexDataWE->GetWasteRef() );
+	SInt32 newByteCount = WEGetTextLength( mNewHexDataWE->GetWasteRef() );
+	SInt32 oldLineCount = 0;
+	SInt32 newLineCount = 0;
+
+	if (oldByteCount) {
+		oldLineCount = oldByteCount / inLinesPerPane;
+		oldLineCount += (oldByteCount % kRzilHexPerLine == 0) ? 0:1 ;
+	} 
+	if (newByteCount) {
+		newLineCount = newByteCount / inLinesPerPane;
+		newLineCount += (newByteCount % kRzilHexPerLine == 0) ? 0:1 ;
+	} 
+	return ((oldLineCount > newLineCount) ? oldLineCount:newLineCount );
+}
