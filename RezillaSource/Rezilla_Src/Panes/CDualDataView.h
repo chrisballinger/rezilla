@@ -41,11 +41,13 @@ public:
 							CDualDataView(
 								LStream*		inStream);
 							CDualDataView(
-								const SPaneInfo&	inPaneInfo,
-								const SViewInfo&	inViewInfo,
-								Boolean				inPrimary = true,
-								ResIDT				inTextTraitsID = 0,
-								ConstStringPtr		inTitle = Str_Empty);
+								  const SPaneInfo&	inPaneInfo,
+								  const SViewInfo&	inViewInfo,
+								  SInt16			inExtraWidth,
+								  SInt16			inExtraHeight,
+								  Boolean			inPrimary = true,
+								  ResIDT			inTextTraitsID = 0,
+								  ConstStringPtr	inTitle = Str_Empty);
 							~CDualDataView();
 
 	virtual void	ListenToMessage( MessageT inMessage,void *ioParam);
@@ -114,6 +116,12 @@ public:
 	virtual Boolean		GetSelectingAll() { return mSelectingAll;}
 	void				SetSelectingAll(Boolean inSelectingAll) {mSelectingAll = inSelectingAll;}
 
+	SInt16			GetExtraWidth() { return mExtraWidth;}
+	void			SetExtraWidth(SInt16 inExtraWidth) {mExtraWidth = inExtraWidth;}
+
+	SInt16			GetExtraHeight() { return mExtraHeight;}
+	void			SetExtraHeight(SInt16 inExtraHeight) {mExtraHeight = inExtraHeight;}
+
 protected:
 	CHexDataSubView *	mHexView;
 	CTxtDataSubView *	mTxtView;
@@ -124,6 +132,8 @@ protected:
 	SInt32				mCurrFirstLine;
 	SInt32				mCurrLocalOffset;
 	SInt32				mCurrentSubView;
+	SInt16				mExtraWidth;
+	SInt16				mExtraHeight;
 	Boolean				mSelectingAll;
 	
 	virtual void		FinishCreateSelf();

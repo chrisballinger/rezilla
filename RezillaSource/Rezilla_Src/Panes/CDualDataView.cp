@@ -2,7 +2,7 @@
 // CDualDataView.cp					
 // 
 //                       Created: 2004-06-16 20:13:56
-//             Last modification: 2004-08-04 21:11:29
+//             Last modification: 2004-10-15 23:10:59
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -46,13 +46,18 @@
 // ---------------------------------------------------------------------------
 
 CDualDataView::CDualDataView(
-								const SPaneInfo&	inPaneInfo,
-								const SViewInfo&	inViewInfo,
-								Boolean				inPrimary,
-								ResIDT				inTextTraitsID,
-								ConstStringPtr		inTitle)
+							 const SPaneInfo&	inPaneInfo,
+							 const SViewInfo&	inViewInfo,
+							 SInt16				inExtraWidth,
+							 SInt16				inExtraHeight,
+							 Boolean			inPrimary,
+							 ResIDT				inTextTraitsID,
+							 ConstStringPtr		inTitle)
 : LTextGroupBox(inPaneInfo, inViewInfo, inPrimary, inTextTraitsID, inTitle)
 {
+	mExtraWidth = inExtraWidth;
+	mExtraHeight = inExtraHeight;
+	
 	Initialize();
 }
 
@@ -738,8 +743,8 @@ CDualDataView::ResizeDataPanes()
 	
 	GetFrameSize(theSize);
 	GetFrameLocation(theLocation);
-	numChar = (theSize.width - kRzilHexEditExtraWidth) / (CRezillaApp::sBasics.charWidth * 5);
-	numLine = (theSize.height - kRzilHexEditExtraHeight) / CRezillaApp::sBasics.charHeight;
+	numChar = (theSize.width - mExtraWidth) / (CRezillaApp::sBasics.charWidth * 5);
+	numLine = (theSize.height - mExtraHeight) / CRezillaApp::sBasics.charHeight;
 	
 	// LHS pane (hexadecimal representation)
 	theWidth = numChar * CRezillaApp::sBasics.charWidth * 3;
@@ -749,9 +754,8 @@ CDualDataView::ResizeDataPanes()
 	// RHS pane (readable representation)
 	theWidth = numChar * CRezillaApp::sBasics.charWidth * 2;
 	// Relocate the RHS pane	
-// 	mTxtView->PlaceInSuperFrameAt(theSize.width - theWidth - kRzilHexEditLeftRidge - 16 - theLocation.h, kRzilHexEditTopRidge, false);
 	mTxtView->ResizeFrameTo(theWidth, theHeight, false);
-	mTxtView->PlaceInSuperImageAt(theSize.width - theWidth - kRzilHexEditLeftRidge - 16 - theLocation.h, kRzilHexEditTopRidge, false);
+	mTxtView->PlaceInSuperImageAt(theSize.width - theWidth - kRzilHexEditLeftRidge - kTmplScrollWidth - theLocation.h, kRzilHexEditTopRidge, false);
 }
 
 
