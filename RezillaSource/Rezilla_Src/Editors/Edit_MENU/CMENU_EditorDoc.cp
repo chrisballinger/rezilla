@@ -89,6 +89,8 @@ CMENU_EditorDoc::~CMENU_EditorDoc()
 void
 CMENU_EditorDoc::Initialize()
 {
+	OSErr error;
+
 	mHasXmnu = false;
 	
 	// Create window for our document. This sets this doc as the SuperCommander of the window.
@@ -105,23 +107,37 @@ CMENU_EditorDoc::Initialize()
 	// Add the window to the window menu.
 	gWindowMenu->InsertWindow( mMenuEditWindow );
 		
-	// Install the contents according to the TMPL
-	if (mRezObj != nil) {
-		Handle rezData = mRezObj->GetData();
-		
-		if (rezData != nil) {
-			Handle			theXmnuHandle = NULL;
-			CRezMap *		theRezMap = mRezMapTable->GetRezMap();
-
-			// Look for a 'xmnu' resource with same ID 
-			OSErr error = theRezMap->GetWithID(ResType_ExtendedMenu, mRezObj->GetID(), theXmnuHandle, false);
+	try {
+		// Install the data
+		if (mRezObj != nil) {
+			Handle rezData = mRezObj->GetData();
 			
-			if (error == noErr) {
-				mHasXmnu = true;
-			}
-			mMenuEditWindow->InstallMenuData(rezData, theXmnuHandle);			
+			if (rezData != nil) {
+				Handle			xmnuData = NULL;
+				CRezMap *		theRezMap = mRezMapTable->GetRezMap();
+				// Work with a copy of the handle
+				::HandToHand(&rezData);
+
+				// Look for a 'xmnu' resource with same ID 
+				error = theRezMap->GetWithID(ResType_ExtendedMenu, mRezObj->GetID(), xmnuData, false);
+				
+				if (error == noErr) {
+					mHasXmnu = true;
+				}
+				error = mMenuEditWindow->InstallMenuData(rezData, xmnuData);			
+			} 
 		} 
-	} 
+	} catch (...) {
+		if (error == err_MoreDataThanExpected) {
+			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("ResourceLongerThanExpected"), PPob_SimpleMessage);
+		} else if (error != userCanceledErr) {
+			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("ErrorWhileParsingResource"), error);
+// 			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("DataParsingException"), PPob_SimpleMessage);
+		} 
+		delete this;
+		return;
+	}
+
 		
 	// Make the window visible.
 	mMenuEditWindow->Show();
@@ -249,3 +265,11 @@ CMENU_EditorDoc::SaveXmnuResource(Handle inXmnuHandle)
 PP_End_Namespace_PowerPlant
 
 
+// struct MenuInfo {
+//   MenuID              menuID;                 /* in Carbon use Get/SetMenuID*/
+//   short               menuWidth;              /* in Carbon use Get/SetMenuWidth*/
+//   short               menuHeight;             /* in Carbon use Get/SetMenuHeight*/
+//   Handle              menuProc;               /* not supported in Carbon*/
+//   long                enableFlags;            /* in Carbon use Enable/DisableMenuItem, IsMenuItemEnable*/
+//   Str255              menuData;               /* in Carbon use Get/SetMenuTitle*/
+// };
