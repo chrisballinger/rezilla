@@ -1,7 +1,7 @@
 // ===========================================================================
 // CWindow_ColorIcon.cp
 //                       Created: 2004-12-11 18:50:11
-//             Last modification: 2005-01-09 08:20:26
+//             Last modification: 2005-01-19 09:26:23
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -25,6 +25,7 @@
 #include "UMiscUtils.h"
 #include "UResourceMgr.h"
 
+#include <LStaticText.h>
 
 // ---------------------------------------------------------------------------
 // 	OpenPaintWindow
@@ -190,11 +191,12 @@ CWindow_ColorIcon::ParseColorIcon( CRezMap *inMap, ResIDT inResID,
 	CTabHandle		theTable = nil, oneBitTable = nil;
 	COffscreen		*cBuffer = nil, *bwBuffer = nil, *maskBuffer = nil;
 	Handle			h = nil;
-	
+	CRezObj 		*theRes = nil;
+
 	try
 	{
 		// Get the raw resource handle
-		CRezObj * theRes = inMap->FindResource( ImgType_ColorIcon, inResID, true );
+		theRes = inMap->FindResource( ImgType_ColorIcon, inResID, true );
 		ThrowIfNil_( theRes );
 		h = theRes->GetData();
 		ThrowIfNil_( h );
@@ -267,12 +269,15 @@ CWindow_ColorIcon::ParseColorIcon( CRezMap *inMap, ResIDT inResID,
 			delete cBuffer;
 			cBuffer = directBuffer;
 		}
+
+		delete theRes;
 	}
 	catch( ... )
 	{
-		delete maskBuffer;
-		delete bwBuffer;
-		delete cBuffer;
+		if ( theRes ) delete( theRes );
+		if ( maskBuffer ) delete( maskBuffer );
+		if ( bwBuffer ) delete( bwBuffer );
+		if ( cBuffer ) delete( cBuffer );
 		if ( theTable ) ::DisposeCTable( theTable );
 		( h );
 		throw;
@@ -299,6 +304,7 @@ CWindow_ColorIcon::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 {
 	ThrowIf_( !mColorSample || !mBWSample || !mMaskSample );
 	
+	CRezObj 	*theRes = nil;
 	COffscreen	*colorBuffer = mColorSample->GetBuffer();
 	COffscreen	*bwBuffer = mBWSample->GetBuffer();
 	COffscreen	*maskBuffer = mMaskSample->GetBuffer();
@@ -311,14 +317,17 @@ CWindow_ColorIcon::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 	
 	try
 	{
-		CRezObj * theResource = inMap->FindResource( ImgType_ColorIcon, inResID, 
+		theRes = inMap->FindResource( ImgType_ColorIcon, inResID, 
 													false /* loadIt */, 
 													true  /* createIt */ );
-		ThrowIfNil_( theResource );
-		theResource->SetData( h );
+		ThrowIfNil_( theRes );
+		theRes->SetData( h );
+		
+		delete theRes;
 	}
 	catch( ... )
 	{
+		if ( theRes ) delete( theRes );
 		( h );
 		throw;
 	}
@@ -491,6 +500,7 @@ CWindow_ColorIcon::ResizeSampleWell( SInt32 inIconWidth, SInt32 inIconHeight )
 	SDimension16	minSampleSize;
 	SInt32			dh = inIconWidth - 32;		// since samples are sized for 32x32 initially
 	SInt32			dv = inIconHeight - 32;
+	LStaticText *	theLabel;
 
 	mColorSample->GetInitialPaneSize( &initialSampleSize );
 	mColorSample->GetMinPaneSize( &minSampleSize );
@@ -523,6 +533,22 @@ CWindow_ColorIcon::ResizeSampleWell( SInt32 inIconWidth, SInt32 inIconHeight )
 	mMaskSample->GetFrameLocation( currentLoc );
 	mMaskSample->MoveBy( 0, initialLoc.v + 2 * dv - currentLoc.v, true );
 
+	// Move the three labels too
+	theLabel = dynamic_cast<LStaticText *> (this->FindPaneByID( item_IconLabelName1 ));
+	if (theLabel) {
+		theLabel->MoveBy( 0, initialLoc.v + 2 * dv - currentLoc.v, true );
+	} 
+
+	theLabel = dynamic_cast<LStaticText *> (this->FindPaneByID( item_IconLabelName2 ));
+	if (theLabel) {
+		theLabel->MoveBy( 0, initialLoc.v + 2 * dv - currentLoc.v, true );
+	} 
+
+	theLabel = dynamic_cast<LStaticText *> (this->FindPaneByID( item_IconLabelName3 ));
+	if (theLabel) {
+		theLabel->MoveBy( 0, initialLoc.v + 2 * dv - currentLoc.v, true );
+	} 
+	
 	// The sample well contains all three sample icons (color, bw, mask)
 	// and needs to be resized accordingly. Never allow it to get tiny or
 	// things may get cut-off. The numbers should probably be read from a

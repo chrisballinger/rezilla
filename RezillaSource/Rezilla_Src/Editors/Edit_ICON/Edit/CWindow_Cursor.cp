@@ -1,7 +1,7 @@
 // ===========================================================================
 // CWindow_Cursor.cp
 //                       Created: 2004-12-11 18:50:15
-//             Last modification: 2005-01-09 08:20:17
+//             Last modification: 2005-01-19 09:27:00
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -214,11 +214,12 @@ CWindow_Cursor::ParseBWCursor( CRezMap *inMap, ResIDT inResID,
 {
 	CursHandle		h = nil;
 	COffscreen		*bw = nil, *mask = nil;
-	
+	CRezObj 		*theRes = nil;
+
 	try
 	{
 		// Get the raw resource handle
-		CRezObj * theRes = inMap->FindResource( ImgType_Cursor, inResID, true );
+		theRes = inMap->FindResource( ImgType_Cursor, inResID, true );
 		ThrowIfNil_( theRes );
 		h = (CursHandle) theRes->GetData();
 		ThrowIfNil_( h );
@@ -243,10 +244,13 @@ CWindow_Cursor::ParseBWCursor( CRezMap *inMap, ResIDT inResID,
 		*outBW = bw;
 		*outMask = mask;
 		*outHotSpot = (**h).hotSpot;
+		
+		delete theRes;
 	}
 	catch( ... )
 	{
 		( h );
+		if ( theRes ) delete ( theRes );
 		if ( bw ) delete ( bw );
 		if ( mask ) delete( mask );
 		throw;
@@ -271,6 +275,7 @@ CWindow_Cursor::ParseColorCursor( CRezMap *inMap, ResIDT inResID,
 	CTabHandle		theTable = nil, oneBitTable = nil;
 	COffscreen		*cBuffer = nil, *bwBuffer = nil, *maskBuffer = nil, *tempBuffer = nil;
 	CCrsrHandle		h = nil;
+	CRezObj 		*theRes = nil;
 	UInt8			*p;
 	
 	try
@@ -278,7 +283,7 @@ CWindow_Cursor::ParseColorCursor( CRezMap *inMap, ResIDT inResID,
 		// Get the raw resource handle. This isn't the usual way of loading
 		// color cursors, so the fields will be raw and not filled in (as
 		// when GetCCursor is used).
-		CRezObj * theRes = inMap->FindResource( ImgType_ColorCursor, inResID, true );
+		theRes = inMap->FindResource( ImgType_ColorCursor, inResID, true );
 		ThrowIfNil_( theRes );
 		h = (CCrsrHandle) theRes->GetData();
 		ThrowIfNil_( h );
@@ -317,16 +322,17 @@ CWindow_Cursor::ParseColorCursor( CRezMap *inMap, ResIDT inResID,
 		ThrowIfMemFail_( maskBuffer );
 		maskBuffer->CopyFromRawData( (UInt8*) &(**h).crsrMask, kBWCursorRowBytes );
 
-		// Allocate the color table. note that the resource may have a
+		// Allocate the color table. Note that the resource may have a
 		// minimal color table and QuickDraw doesn't work with anything but
 		// a full-sized one.
-		if ( cMap->pmTable == 0 )			// probably won't happen, but can't hurt to check
+		if ( cMap->pmTable == 0 )
 			theTable = UColorUtils::NewColorTableByDepth( depth );
 		else
 			theTable = UColorUtils::NewColorTableFromPtr( depth, p + (SInt32) cMap->pmTable );
 				
 		// Allocate the color bitmap
 		tempBuffer = COffscreen::CreateBuffer( width, height, depth, theTable );
+		ThrowIfMemFail_( tempBuffer );
 		SInt32	rowBytes = cMap->rowBytes & 0x3FFF;			// clear flag bits
 		if ( rowBytes != 0 )
 			tempBuffer->CopyFromRawData( p + (SInt32) (**h).crsrData, rowBytes );
@@ -334,13 +340,16 @@ CWindow_Cursor::ParseColorCursor( CRezMap *inMap, ResIDT inResID,
 		// Now switch it to a 32-bit offscreen
 		cBuffer = COffscreen::CreateBuffer( width, height, 32 );
 		cBuffer->CopyFrom( tempBuffer );
+		
+		delete theRes;
 	}
 	catch( ... )
 	{
-		delete maskBuffer;
-		delete bwBuffer;
-		delete cBuffer;
-		delete tempBuffer;
+		if ( maskBuffer ) delete ( maskBuffer );
+		if ( bwBuffer ) delete ( bwBuffer );
+		if ( cBuffer ) delete ( cBuffer );
+		if ( tempBuffer ) delete ( tempBuffer );
+		if ( theRes ) delete ( theRes );
 		if ( theTable ) ::DisposeCTable( theTable );
 		( h );
 	}
@@ -370,6 +379,7 @@ CWindow_Cursor::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 	ThrowIf_( !mBWSample || !mMaskSample );
 	COffscreen	*bwBuffer = mBWSample->GetBuffer();
 	COffscreen	*maskBuffer = mMaskSample->GetBuffer();
+	CRezObj 	*theRes = nil;
 
 	Point	theHotSpot = mCanvas->GetHotSpot();
 	
@@ -390,11 +400,13 @@ CWindow_Cursor::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 				throw( err_IconInvalidImageFormat );
 		}
 
-		CRezObj * theResource = inMap->FindResource( mResourceType, inResID, 
+		theRes = inMap->FindResource( mResourceType, inResID, 
 													false /* loadIt */, 
 													true  /* createIt */ );
-		ThrowIfNil_( theResource );
-		theResource->SetData( h );
+		ThrowIfNil_( theRes );
+		theRes->SetData( h );
+		
+		delete theRes;
 	}
 	catch( ... )
 	{

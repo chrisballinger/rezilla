@@ -1,7 +1,7 @@
 // ===========================================================================
 // CWindow_IconSuite.cp
 //                       Created: 2005-01-10 21:23:57
-//             Last modification: 2005-01-11 14:28:05
+//             Last modification: 2005-01-19 09:27:23
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -114,7 +114,7 @@ CWindow_IconSuite::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 	// First two bytes to store the patterns count
 	Handle	outHandle = ::NewHandle(totalSize + 2);
 	ThrowIfMemFail_( outHandle );
-	
+		
 	try
 	{
 		StHandleLocker	srcLocker(srcHandle);
@@ -123,9 +123,11 @@ CWindow_IconSuite::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 		**(UInt16 **) outHandle = mTotalCount;
 		::BlockMoveData( *srcHandle, (*outHandle) + 2, totalSize );
 		
-		CRezObj * theResource = inMap->FindResource( ImgType_PatternSuite, inResID, false );
-		ThrowIfNil_( theResource );
-		theResource->SetData( outHandle );
+		CRezObj * theRes = inMap->FindResource( ImgType_PatternSuite, inResID, false );
+		ThrowIfNil_( theRes );
+		theRes->SetData( outHandle );
+
+		delete theRes;
 	}
 	catch( ... )
 	{

@@ -1,7 +1,7 @@
 // ===========================================================================
 // CWindow_IconFamily.cp
 //                       Created: 2004-12-11 18:50:16
-//             Last modification: 2005-01-09 08:16:29
+//             Last modification: 2005-01-19 09:26:52
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -147,6 +147,7 @@ CWindow_IconFamily::InitializeOneMember( CRezMap *inMap, ResType inResType, ResI
 {
 	StRezRefSaver 	aSaver;
 	COffscreen		*theBuffer = nil;
+	CRezObj 		*theRes = nil;
 	Boolean			isUsed = false;
 	
 	// Icon families use the standard color table for their depth
@@ -158,10 +159,10 @@ CWindow_IconFamily::InitializeOneMember( CRezMap *inMap, ResType inResType, ResI
 		theBuffer = COffscreen::CreateBuffer( inWidth, inHeight, inDepth, theTable );
 		
 		// If we have a resource, load the data into the offscreen buffer
-		CRezObj * theResource = inMap->FindResource( inResType, inResID, true );
-		if ( theResource )
+		theRes = inMap->FindResource( inResType, inResID, true );
+		if ( theRes )
 		{
-			Handle h = theResource->GetData();
+			Handle h = theRes->GetData();
 			if ( h )
 			{
 				::HLock( h );
@@ -169,6 +170,7 @@ CWindow_IconFamily::InitializeOneMember( CRezMap *inMap, ResType inResType, ResI
 				( h );
 				isUsed = true;
 			}
+			delete theRes;
 		}
 
 		// Initialize the sample pane
@@ -182,10 +184,9 @@ CWindow_IconFamily::InitializeOneMember( CRezMap *inMap, ResType inResType, ResI
 	}
 	catch( ... )
 	{
-		if ( theBuffer )
-			delete theBuffer;
-		if ( theTable )
-			::DisposeCTable( theTable );
+		if ( theRes ) delete theRes;
+		if ( theBuffer ) delete theBuffer;
+		if ( theTable ) ::DisposeCTable( theTable );
 		throw;
 	}
 	
@@ -309,9 +310,11 @@ CWindow_IconFamily::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 		
 		if ( !mainPane->IsUsed() && ((numActiveImages > 0) || (memberInfo.resourceType != ImgType_LargeIconWithMask)) )
 		{
-			CRezObj * theResource = inMap->FindResource( memberInfo.resourceType, inResID, false );
-			if ( theResource )
-				theResource->Remove();
+			CRezObj * theRes = inMap->FindResource( memberInfo.resourceType, inResID, false );
+			if ( theRes ) {
+				theRes->Remove();
+			}
+			delete theRes;
 		}
 	}	
 

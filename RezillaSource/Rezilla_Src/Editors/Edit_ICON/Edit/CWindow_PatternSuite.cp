@@ -1,7 +1,7 @@
 // ===========================================================================
 // CWindow_PatternSuite.cp
 //                       Created: 2005-01-09 10:38:27
-//             Last modification: 2005-01-16 19:11:40
+//             Last modification: 2005-01-19 09:27:14
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -122,9 +122,11 @@ CWindow_PatternSuite::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 		**(UInt16 **) outHandle = mTotalCount;
 		::BlockMoveData( *srcHandle, (*outHandle) + 2, totalSize );
 		
-		CRezObj * theResource = inMap->FindResource( ImgType_PatternSuite, inResID, false );
-		ThrowIfNil_( theResource );
-		theResource->SetData( outHandle );
+		CRezObj * theRes = inMap->FindResource( ImgType_PatternSuite, inResID, false );
+		ThrowIfNil_( theRes );
+		theRes->SetData( outHandle );
+
+		delete theRes;
 	}
 	catch( ... )
 	{

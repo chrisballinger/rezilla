@@ -2,7 +2,7 @@
 // CIcon_EditorWindow.cp
 // 
 //                       Created: 2004-12-10 17:23:05
-//             Last modification: 2005-01-11 07:05:02
+//             Last modification: 2005-01-19 09:27:41
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -49,6 +49,7 @@
 #include <LBevelButton.h>
 #include <LStaticText.h>
 #include <LEditText.h>
+#include <LPushButton.h>
 #include <UMemoryMgr.h>
 
 #include <stdio.h>
@@ -415,6 +416,11 @@ CIcon_EditorWindow::FinishCreateSelf()
 	ThrowIfNil_( theButton );
 	theButton->SetValue(Button_On);
 	
+	// Disable the Revert button
+	LPushButton * revButton = dynamic_cast<LPushButton *>(this->FindPaneByID( item_EditorRevert ));;
+	ThrowIfNil_( revButton );
+	revButton->Hide();
+
 	// The coords field
 	mCoordsField = dynamic_cast<LStaticText *> (this->FindPaneByID( item_IconCoords ));
 	ThrowIfNil_( mCoordsField );

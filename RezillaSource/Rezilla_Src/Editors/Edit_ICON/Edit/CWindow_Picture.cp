@@ -1,11 +1,11 @@
 // ===========================================================================
 // CWindow_Picture.cp
 //                       Created: 2004-12-11 18:50:22
-//             Last modification: 2005-01-02 15:45:23
+//             Last modification: 2005-01-19 09:27:07
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes 2004, 2005
+// (c) Copyright: Bernard Desgraupes 2004-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -81,27 +81,31 @@ CWindow_Picture::~CWindow_Picture()
 // 	InitializeFromResource
 // ---------------------------------------------------------------------------
 void
-CWindow_Picture::InitializeFromResource( CRezMap * /*inMap */, ResIDT /* inResID */ )
+CWindow_Picture::InitializeFromResource( CRezMap * /* inMap */, ResIDT /* inResID */ )
 {
-	StGWorldSaver		aSaver;
-	StRezRefSaver		aSaver2;
-
-	COffscreen			*theBuffer = nil;
-	PicHandle			thePict = nil;
+// 	StGWorldSaver		aSaver;
+// 	StRezRefSaver		aSaver2;
+// 
+// 	COffscreen			*theBuffer = nil;
+// 	PicHandle			thePict = nil;
+// 	CRezObj 			*theRes = nil;
 // #if 0
 // 	try
 // 	{
-// 		RFResource *theRes = inMap->FindResource( ImgType_Picture, inResID, true );
+// 		theRes = inMap->FindResource( ImgType_Picture, inResID, true );
 // 		if ( !theRes ) throw( resNotFound );
 // 		thePict = (PicHandle) theRes->GetResData();
 // 		if ( !thePict ) throw( resNotFound );
 // 		
 // 		theBuffer = UGraphicConversion::PictureToOffscreen( thePict );
 // 		this->InitializeFromBuffer( theBuffer );
+// 		
+// 		delete theRes;
 // 	}
 // 	catch( ... )
 // 	{
-// 		delete theBuffer;
+// 		if ( theRes ) delete( theRes );
+// 		if ( theBuffer ) delete( theBuffer );
 // 		( thePict );
 // 		throw;
 // 	}

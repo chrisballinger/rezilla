@@ -90,13 +90,14 @@ CSuite_Window::InitializeFromResource( CRezMap *inMap, ResType inResType, ResIDT
 	StGWorldSaver		worldSaver;
 	StRezRefSaver		refSaver;
 
+	CRezObj 			*theRes = nil;
 	COffscreen			*bwImage = nil;
 	Handle				h = nil;
 	
 	try
 	{	
 		// Get the raw resource handle
-		CRezObj * theRes = inMap->FindResource( inResType, inResID, true );
+		theRes = inMap->FindResource( inResType, inResID, true );
 		ThrowIfNil_( theRes );
 		h = theRes->GetData();
 		ThrowIfNil_( h );
@@ -110,10 +111,13 @@ CSuite_Window::InitializeFromResource( CRezMap *inMap, ResType inResType, ResIDT
 		mSlider->SetMinValue(1);
 		mSlider->SetMaxValue(mTotalCount);
 		AdjustSlider();
+
+		delete theRes;
 	}
 	catch( ... )
 	{
-		delete( bwImage );
+		if ( theRes ) delete( theRes );
+		if ( bwImage ) delete( bwImage );
 		( h );
 		throw;
 	}
