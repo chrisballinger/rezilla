@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaAppAE.cp					
 //                       Created: 2004-11-30 08:44:17
-//             Last modification: 2004-11-19 07:27:04
+//             Last modification: 2004-11-30 13:43:37
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -20,6 +20,7 @@
 #include "CHexEditorWindow.h"
 #include "CTmplEditorWindow.h"
 #include "CTEXT_EditorView.h"
+#include "CRecentItemsMenu.h"
 #include "UMessageDialogs.h"
 #include "UDialogBoxHandler.h"
 
@@ -159,11 +160,13 @@ CRezillaApp::CountSubModels(
 		case rzil_cHexWindow:
 		case rzil_cCompWindow: {
 			WindowPtr	windowP = ::GetWindowList();
+			LWindow *	theWindow;
+			
 			while (windowP != nil) {
-				if (GetModelKind() == inModelID) {
-					
+				theWindow = LWindow::FetchWindowObject(windowP);
+				if (theWindow->GetModelKind() == inModelID) {
+					count++;
 				} 
-				count++;
 				windowP = ::MacGetNextWindow(windowP);
 			}
 			break;
