@@ -2,11 +2,11 @@
 // CTmplEditorWindow.cp					
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-11-15 07:53:35
+//             Last modification: 2005-01-15 09:55:33
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes, 2004
+// (c) Copyright: Bernard Desgraupes, 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -1127,7 +1127,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		BuildFormatString(formatString, 2);
 		sprintf(charString, formatString, theUInt8, NULL);
 		CopyCStringToPascal(charString, theString);
-		if (inType != 'FBYT' || CRezillaPrefs::GetPrefValue(kPref_templates_dispFillers) ) {
+		if (inType != 'FBYT' || CRezillaPrefs::GetPrefValue(kPref_templates_displayFillers) ) {
 			AddStaticField(inType, inLabelString, inContainer);
 		} 
 		AddEditField(theString, inType, 2 + CRezillaPrefs::GetPrefValue(kPref_templates_hexSymbol), 0, 
@@ -1161,7 +1161,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		BuildFormatString(formatString, 8);
 		sprintf(charString, formatString, theUInt32, NULL);
 		CopyCStringToPascal(charString, theString);
-		if (inType != 'FLNG' || CRezillaPrefs::GetPrefValue(kPref_templates_dispFillers) ) {
+		if (inType != 'FLNG' || CRezillaPrefs::GetPrefValue(kPref_templates_displayFillers) ) {
 			AddStaticField(inType, inLabelString, inContainer);
 		} 
 		AddEditField(theString, inType, 8 + CRezillaPrefs::GetPrefValue(kPref_templates_hexSymbol), 0, 
@@ -1177,7 +1177,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		BuildFormatString(formatString, 4);
 		sprintf(charString, formatString, theUInt16, NULL);
 		CopyCStringToPascal(charString, theString);
-		if (inType != 'FWRD' || CRezillaPrefs::GetPrefValue(kPref_templates_dispFillers) ) {
+		if (inType != 'FWRD' || CRezillaPrefs::GetPrefValue(kPref_templates_displayFillers) ) {
 			AddStaticField(inType, inLabelString, inContainer);
 		} 
 		AddEditField(theString, inType, 4 + CRezillaPrefs::GetPrefValue(kPref_templates_hexSymbol), 0, 
@@ -1555,7 +1555,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		  // Tnnn: a text string with fixed padding that is $nnn hex bytes long 
 
 		   if (inType >> 24 != 'F' || 
-			   CRezillaPrefs::GetPrefValue(kPref_templates_dispFillers) ) {
+			   CRezillaPrefs::GetPrefValue(kPref_templates_displayFillers) ) {
 					AddStaticField(inType, inLabelString, inContainer, sLeftLabelTraitsID, reqLength);
 					mYCoord += kTmplLabelVertSkip;
 			} 

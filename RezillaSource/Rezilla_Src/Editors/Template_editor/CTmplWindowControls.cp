@@ -2,11 +2,11 @@
 // CTmplWindowUtils.cp					
 // 
 //                       Created: 2004-08-20 16:45:08
-//             Last modification: 2005-01-02 15:22:43
+//             Last modification: 2005-01-15 09:55:49
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes, 2004, 2005
+// (c) Copyright: Bernard Desgraupes, 2004-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -320,7 +320,7 @@ CTmplEditorWindow::AddEditField(Str255 inValue,
 
 	// Filler types can be invisible or disabled
 	if (inType == 'FBYT' || inType == 'FWRD' || inType == 'FLNG') {
-		if ( ! CRezillaPrefs::GetPrefValue(kPref_templates_dispFillers) ) {
+		if ( ! CRezillaPrefs::GetPrefValue(kPref_templates_displayFillers) ) {
 			theEditText->Hide();
 			incrY = false;	
 		} else if ( ! CRezillaPrefs::GetPrefValue(kPref_templates_enableFillers) ) {
@@ -744,7 +744,7 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer, SInt32 in
 		
 	// Fnnn filler hex strings can be invisible or disabled
 	if (inType >> 24 == 'F') {
-		if ( ! CRezillaPrefs::GetPrefValue(kPref_templates_dispFillers) ) {
+		if ( ! CRezillaPrefs::GetPrefValue(kPref_templates_displayFillers) ) {
 			theTGB->Hide();
 			incrY = false;	
 		} else if ( ! CRezillaPrefs::GetPrefValue(kPref_templates_enableFillers) ) {
