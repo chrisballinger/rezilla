@@ -845,7 +845,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		if (mRezStream->GetMarker() < mRezStream->GetLength()) {
 			*mRezStream >> theUInt8;
 		} 
-		mOffsetTypesList.AddItem(inType);
+// 		mOffsetTypesList.AddItem(inType);
 		break;
 
 		case 'CASE':
@@ -1105,7 +1105,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		if (mRezStream->GetMarker() < mRezStream->GetLength() - 3) {
 			*mRezStream >> theUInt32;
 		} 
-		mOffsetTypesList.AddItem(inType);
+// 		mOffsetTypesList.AddItem(inType);
 		break;
 
 		case 'LNGC':
@@ -1356,10 +1356,11 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		case 'WSKP':
 		case 'SKIP':
 		// Offset to SKPE in word (WSIZ:exclusive or WSKP/SKIP:inclusive)
+		// SKIP is a synonym of WSKP.
 		if (mRezStream->GetMarker() < mRezStream->GetLength() - 1) {
 			*mRezStream >> theUInt16;
 		} 
-		mOffsetTypesList.AddItem(inType);
+// 		mOffsetTypesList.AddItem(inType);
 		break;
 
 		case 'WSTR':
@@ -1666,7 +1667,8 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		case 'BSIZ':
 		case 'BSKP':
 		// Offset to SKPE in byte (BSIZ:exclusive or BSKP:inclusive)
-		// Cache the current position
+		// Cache the current type and position
+		mOffsetTypesList.AddItem(inType);
 		mOffsetMarksList.AddItem(mOutStream->GetMarker());
 		// Temporarily fill with null to create the place holder
 		*mOutStream << (UInt8) 0x00;
@@ -1957,7 +1959,8 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		case 'LSIZ':
 		case 'LSKP':
 		// Offset to SKPE in long (LSIZ:exclusive or LSKP:inclusive)
-		// Cache the current position
+		// Cache the current type and position
+		mOffsetTypesList.AddItem(inType);
 		mOffsetMarksList.AddItem(mOutStream->GetMarker());
 		// Temporarily fill with null to create the place holder
 		*mOutStream << 0L;
@@ -2197,7 +2200,8 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		case 'WSKP':
 		case 'SKIP':
 		// Offset to SKPE in word (WSIZ:exclusive or WSKP/SKIP:inclusive)
-		// Cache the current position
+		// Cache the current type and position
+		mOffsetTypesList.AddItem(inType);
 		mOffsetMarksList.AddItem(mOutStream->GetMarker());
 		// Temporarily fill with null to create the place holder
 		*mOutStream << (UInt16) 0x0000;
