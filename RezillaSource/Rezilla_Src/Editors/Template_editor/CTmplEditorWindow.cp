@@ -370,6 +370,9 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			} 
 			mYCoord = kTmplVertSep;
 			DoParseWithTemplate(startMark, true, currListItemView);
+			if (mYCoord < kTmplMinListItemWidth) {
+				mYCoord = kTmplMinListItemWidth;
+			} 
 			currListItemView->ResizeFrameBy(0, mYCoord, false);
 
 			mIndent -= kTmplListIndent * sublevel;
@@ -692,6 +695,9 @@ CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount,
 				return error;
 			} 
 			if (drawCtrl) {
+				if (mYCoord < kTmplMinListItemWidth) {
+					mYCoord = kTmplMinListItemWidth;
+				} 
 				currListItemView->ResizeFrameBy(0, mYCoord, false);
 				outYCoord += mYCoord + kTmplVertSkip;
 				mYCoord = outYCoord;
@@ -722,6 +728,9 @@ CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount,
 				} 
 				mYCoord = kTmplVertSep;
 				error = DoParseWithTemplate(inStartMark, true, theContainer);
+				if (mYCoord < kTmplMinListItemWidth) {
+					mYCoord = kTmplMinListItemWidth;
+				} 
 				currListItemView->ResizeFrameBy(0, mYCoord, false);
 				outYCoord += mYCoord + kTmplVertSkip;
 				mYCoord = outYCoord;
