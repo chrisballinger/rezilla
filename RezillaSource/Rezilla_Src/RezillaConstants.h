@@ -807,6 +807,31 @@ const PaneIDT   item_AeteEnumDescr			= 4;
 const PaneIDT   item_AeteEnumBox			= FOUR_CHAR_CODE('ENUM');
 const PaneIDT   item_AeteEnumSlider			= FOUR_CHAR_CODE('NSLI');
 const PaneIDT   item_AeteEnumIndicator		= FOUR_CHAR_CODE('NIDC');
+// MENU Editor Window
+// ------------------
+const PaneIDT   item_MenuEditMenuTitle		= 1;
+const PaneIDT   item_MenuEditMenuID			= 2;
+const PaneIDT   item_MenuEditMDEF			= 3;
+const PaneIDT   item_MenuEditMenuEnabled	= 4;
+const PaneIDT   item_MenuEditItemText		= 5;
+const PaneIDT   item_MenuEditSeparator		= 6;
+const PaneIDT   item_MenuEditItemEnabled	= 7;
+const PaneIDT   item_MenuEditShortcut		= 8;
+const PaneIDT   item_MenuEditMarkChar		= 9;
+const PaneIDT   item_MenuEditIconID			= 10;
+const PaneIDT   item_MenuEditSubmenuID		= 11;
+const PaneIDT   item_MenuEditUsesICON		= 12;
+const PaneIDT   item_MenuEditUseSICN		= 13;
+const PaneIDT   item_MenuEditStylePopup		= 15;
+const PaneIDT   item_MenuEditCmdModifier	= 20;
+const PaneIDT   item_MenuEditShiftModifier	= 21;
+const PaneIDT   item_MenuEditOptModifier	= 22;
+const PaneIDT   item_MenuEditCtrlModifier	= 23;
+const PaneIDT   item_MenuEditEncoding		= 30;
+const PaneIDT   item_MenuEditRefcon1		= 31;
+const PaneIDT   item_MenuEditRefcon2		= 32;
+const PaneIDT   item_MenuEditFontID			= 33;
+const PaneIDT   item_MenuEditGlyph			= 34;
 
 
 // Common elements for Editor Windows
@@ -996,8 +1021,31 @@ const MessageT    msg_AeteReplyOptions			= PPob_AeteEventPane + item_AeteReplyOp
 const MessageT    msg_AeteParamOptions			= PPob_AeteEventPane + item_AeteParamOptions;
 // Classes panel
 const MessageT    msg_AetePropertyOptions		= PPob_AeteClassPane + item_AetePropertyOptions;
-// CompOps panel
-// Enums panel
+// MENU Editor Window
+// ------------------
+const MessageT    msg_MenuEditMenuTitle		= PPob_MenuEditorWindow + item_MenuEditMenuTitle;
+const MessageT    msg_MenuEditMenuID		= PPob_MenuEditorWindow + item_MenuEditMenuID;
+const MessageT    msg_MenuEditMDEF			= PPob_MenuEditorWindow + item_MenuEditMDEF;
+const MessageT    msg_MenuEditMenuEnabled	= PPob_MenuEditorWindow + item_MenuEditMenuEnabled;
+const MessageT    msg_MenuEditItemText		= PPob_MenuEditorWindow + item_MenuEditItemText;
+const MessageT    msg_MenuEditSeparator		= PPob_MenuEditorWindow + item_MenuEditSeparator;
+const MessageT    msg_MenuEditItemEnabled	= PPob_MenuEditorWindow + item_MenuEditItemEnabled;
+const MessageT    msg_MenuEditShortcut		= PPob_MenuEditorWindow + item_MenuEditShortcut;
+const MessageT    msg_MenuEditMarkChar		= PPob_MenuEditorWindow + item_MenuEditMarkChar;
+const MessageT    msg_MenuEditIconID		= PPob_MenuEditorWindow + item_MenuEditIconID;
+const MessageT    msg_MenuEditSubmenuID		= PPob_MenuEditorWindow + item_MenuEditSubmenuID;
+const MessageT    msg_MenuEditUsesICON		= PPob_MenuEditorWindow + item_MenuEditUsesICON;
+const MessageT    msg_MenuEditUseSICN		= PPob_MenuEditorWindow + item_MenuEditUseSICN;
+const MessageT    msg_MenuEditStylePopup	= PPob_MenuEditorWindow + item_MenuEditStylePopup;
+const MessageT    msg_MenuEditCmdModifier	= PPob_MenuEditorWindow + item_MenuEditCmdModifier;
+const MessageT    msg_MenuEditShiftModifier	= PPob_MenuEditorWindow + item_MenuEditShiftModifier;
+const MessageT    msg_MenuEditOptModifier	= PPob_MenuEditorWindow + item_MenuEditOptModifier;
+const MessageT    msg_MenuEditCtrlModifier	= PPob_MenuEditorWindow + item_MenuEditCtrlModifier;
+const MessageT    msg_MenuEditEncoding		= PPob_MenuEditorWindow + item_MenuEditEncoding;
+const MessageT    msg_MenuEditRefcon1		= PPob_MenuEditorWindow + item_MenuEditRefcon1;
+const MessageT    msg_MenuEditRefcon2		= PPob_MenuEditorWindow + item_MenuEditRefcon2;
+const MessageT    msg_MenuEditFontID		= PPob_MenuEditorWindow + item_MenuEditFontID;
+const MessageT    msg_MenuEditGlyph			= PPob_MenuEditorWindow + item_MenuEditGlyph;
 
 
 // Other general purpose messages
@@ -1409,7 +1457,7 @@ const SInt32		kMaxTextWidth		= 32768;
 // ======================================================================
 // Constants for the Menu editor
 // ======================================================================
-const OSType	ResType_ExtraMenu			= FOUR_CHAR_CODE('xmnu');
+const OSType	ResType_ExtendedMenu			= FOUR_CHAR_CODE('xmnu');
 
 
 
