@@ -2,7 +2,7 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2004-11-21 09:04:19
+//             Last modification: 2004-11-22 19:40:20
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -1345,8 +1345,9 @@ CRezMapDoc::FindCommandStatus(
 			break;
 
 		case cmd_Find:
-			LString::CopyPStr( "\pFind in Map…", outName);
-			outEnabled = true;
+// 			LString::CopyPStr( "\pFind in Map…", outName);
+// 			outEnabled = true;
+			outEnabled = false;
 			break;
 								
 		case cmd_ExportMap:
