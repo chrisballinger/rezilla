@@ -62,6 +62,9 @@ public:
 
 		TArray<CMenuItem*> *	GetItems() { return &mItems;}
 
+		UInt32		GetEnableFlag() { return mEnableFlag;}
+		void		SetEnableFlag(UInt32 inEnableFlag) {mEnableFlag = inEnableFlag;}
+
 protected:
 		ResIDT					mID;
 		ResIDT					mMDEF;
