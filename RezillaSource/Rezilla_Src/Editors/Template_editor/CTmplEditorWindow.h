@@ -2,7 +2,7 @@
 // CTmplEditorWindow.h
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-08-22 17:36:31
+//             Last modification: 2004-09-21 14:53:54
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -100,6 +100,8 @@ public:
 						sColorPaneInfo;
 						
 	static void			InitPaneInfos();
+	
+	static Boolean	SplitCaseValue(Str255 inString, Str255 ** outRightPtr);
 	
 protected:
 	LView *				mContentsView;
@@ -271,8 +273,6 @@ private:
 	OSErr			SkipNextKeyCases();
 	
 	Boolean			SelectValueFromKeyCases(Str255 inLabelString);
-	
-	Boolean			SplitCaseValue(Str255 inString, Str255 ** outRightPtr);
 	
 };
 

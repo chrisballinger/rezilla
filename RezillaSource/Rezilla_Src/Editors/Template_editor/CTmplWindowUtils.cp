@@ -2,7 +2,7 @@
 // CTmplWindowUtils.cp					
 // 
 //                       Created: 2004-08-20 16:45:08
-//             Last modification: 2004-08-20 19:22:22
+//             Last modification: 2004-09-21 14:43:16
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -593,7 +593,7 @@ CTmplEditorWindow::SelectValueFromKeyCases(Str255 inLabelString)
 
 
 // ---------------------------------------------------------------------------
-//	¥ SplitCaseValue												[private]
+//	¥ SplitCaseValue												[static]
 // ---------------------------------------------------------------------------
 // This function makes two adjacent Pascal strings out of one. For instance:
 //         9abcde=fgh will become 5abcde3fgh.
@@ -617,7 +617,6 @@ CTmplEditorWindow::SplitCaseValue(Str255 inString, Str255 ** outRightPtr)
 			len = p - (char *) str;
 			inString[len+1] = inString[0] - len - 1;
 			inString[0] = len;
-// 			outRightPtr = (Str255 *) (inString + len + 1);
 			*outRightPtr = (Str255 *) &inString[len+1];
 		} 
 	}	
