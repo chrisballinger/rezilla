@@ -977,6 +977,9 @@ CRezMapTable::CreateItemIfNecessary(ResType inType, short inID, Str255* inName)
 		rezObjItem = new CRezObjItem( theRezType, inID, inName);
 		ThrowIfNil_(rezObjItem);
 			
+		// Add the resource to the resource map
+		rezObjItem->GetRezObj()->Add();
+
 		// Install the item in the table
 		InsertRezObjItem( rezObjItem, rezTypeItem );
 	} 
