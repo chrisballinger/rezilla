@@ -1131,9 +1131,11 @@ CTmplEditorWindow::AddSeparatorLine(LView * inContainer)
 	SDimension16	theFrame;
 
 	inContainer->GetFrameSize(theFrame);
-	sSeparatorPaneInfo.left			= kTmplLabelWidth + kTmplLeftMargin;
+// 	sSeparatorPaneInfo.left			= kTmplLabelWidth + kTmplLeftMargin;
+	sSeparatorPaneInfo.left			= kTmplLeftMargin;
 	sSeparatorPaneInfo.top			= mYCoord;
-	sSeparatorPaneInfo.width		= theFrame.width - kTmplLabelWidth - kTmplLeftMargin * 2;
+// 	sSeparatorPaneInfo.width		= theFrame.width - kTmplLabelWidth - kTmplLeftMargin * 2;
+	sSeparatorPaneInfo.width		= theFrame.width - kTmplLeftMargin * 2;
 	sSeparatorPaneInfo.superView	= inContainer;
 
 	LSeparatorLine * theSeparator = new LSeparatorLine(sSeparatorPaneInfo);
@@ -1228,9 +1230,10 @@ CTmplEditorWindow::AddEditPopup(Str255 inValue,
 {
 	register char *	p;
 	SDimension16	theFrame;
-	SInt16			index = 1;
+	SInt16			index = 1, foundIdx = -1;
 	SInt32			totalLength = mTemplateStream->GetLength();
 	Str255			theString;
+	Str255 * 		rightPtr;
 	char 			charString[256];
 
 	inContainer->GetFrameSize(theFrame);
@@ -1273,12 +1276,10 @@ CTmplEditorWindow::AddEditPopup(Str255 inValue,
 	// Populate the popup with the items from the STR# resource with ID inResourceID
 	while (true) {
 		GetIndString(theString, inResourceID, index);
-		if (theString[0]) {
-			CopyPascalStringToC(theString, charString);
-			p = strrchr((char *) charString, '=');
-			if (p != nil) {
-				theString[0] = p - (char *) charString;
-				theBevelButton->InsertMenuItem(theString, index, true);
+		if ( SplitCaseValue(theString, &rightPtr) ) {
+			theBevelButton->InsertMenuItem(theString, index, true);
+			if (foundIdx == -1 && rightPtr != NULL && UMiscUtils::CompareStr255( (Str255 *) inValue, rightPtr) == 0) {
+				foundIdx = index;
 			} 
 			index++;
 		} else {
@@ -1290,6 +1291,11 @@ CTmplEditorWindow::AddEditPopup(Str255 inValue,
 	theBevelButton->SetUserCon( (long) theEditText);
 	// Store the STR# resource ID in the userCon of the edit field
 	theEditText->SetUserCon(inResourceID);
+	
+	// Mark the item corresponding to the value
+	if (foundIdx != -1) {
+		theBevelButton->SetCurrentMenuItem(foundIdx);						
+	} 
 	
 	// Advance the counters
 	mYCoord += sEditPaneInfo.height + kTmplVertSep;
