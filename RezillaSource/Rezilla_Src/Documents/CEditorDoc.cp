@@ -132,10 +132,9 @@ CEditorDoc::ObeyCommand(
 		case cmd_FindNext:
 		break;
 				
-		default: {
-			cmdHandled = LDocument::ObeyCommand(inCommand, ioParam);
-			break;
-		}
+		default: 
+		cmdHandled = LDocument::ObeyCommand(inCommand, ioParam);
+		break;
 	}
 	
 	return cmdHandled;
@@ -250,7 +249,7 @@ CEditorDoc::AllowSubRemoval(
 //	¥ AskSaveChanges												  [public]
 // ---------------------------------------------------------------------------
 //	Ask user whether to save changes before closing the Document or
-//	quitting the Application
+//	quitting the Application.
 
 SInt16
 CEditorDoc::AskSaveChanges(
@@ -258,7 +257,6 @@ CEditorDoc::AskSaveChanges(
 {
 	return UMessageDialogs::AskYesNoFromLocalizable(CFSTR("SaveModifiedResource"), rPPob_AskYesNoMessage);
 }
-
 
 
 // ---------------------------------------------------------------------------
