@@ -178,10 +178,10 @@ CCompResultWindow::FinishCreateSelf()
 	theStaticText = dynamic_cast<LStaticText *>(FindPaneByID( item_CompResultIgnStatic ));
 	ThrowIfNil_(theStaticText);
 	if (CRezCompare::sIgnoreNames + CRezCompare::sIgnoreAttrs + CRezCompare::sIgnoreData == 0) {
-		optionString.Assign("\pNo options");
+		optionString.Assign("\pno options");
 	} else {
 		SInt8 count = 0;
-		optionString.Assign("\pIgnoring ");
+		optionString.Assign("\pignoring ");
 		if (CRezCompare::sIgnoreNames) {
 			optionString += "\pname";
 			count++;
