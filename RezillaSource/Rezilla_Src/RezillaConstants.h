@@ -244,14 +244,21 @@ enum {
 // -----------
 // Special menu items
 enum {
-	kind_MenuNoCharact		= 0,
+	kind_MenuNoProperty		= 1,
 	kind_MenuIsSeparator,
-	kind_MenuHasKeyEquiv,
 	kind_MenuHasSubmenu,
 	kind_MenuUsesCicn,
 	kind_MenuUsesICON,
-	kind_MenuUsesSicn,
+	kind_MenuUsesSICN,
 	kind_MenuNonSystemScript
+};
+
+
+enum {
+	indx_MenuMarkChar		= 1,
+	indx_MenuSubID,
+	indx_MenuIconID,
+	indx_MenuScriptCode
 };
 
 
@@ -328,6 +335,8 @@ const ResIDT	STRx_PaintUndo				= 1700;
 const ResIDT	STRx_PaintRedo				= 1701;
 const ResIDT	STRx_AeteAdd				= 1710;
 const ResIDT	STRx_AeteRemove				= 1711;
+const ResIDT	STRx_MenuEditorLabels		= 1712;
+const ResIDT	STRx_MenuIconID				= 1713;
 
 // Text traits resources
 const ResIDT    Txtr_GenevaNine				= 130;
@@ -832,7 +841,7 @@ const PaneIDT   item_MenuEditItemEnabled	= 6;
 const PaneIDT   item_MenuEditIconID			= 7;
 const PaneIDT   item_MenuEditShortcut		= 8;
 const PaneIDT   item_MenuEditMarkChar		= 9;
-const PaneIDT   item_MenuEditCharactPopup	= 40;
+const PaneIDT   item_MenuEditPropertyPopup	= 40;
 const PaneIDT   item_MenuEditStylePopup		= 41;
 const PaneIDT   item_MenuEditCmdModifier	= 20;
 const PaneIDT   item_MenuEditShiftModifier	= 21;
@@ -1046,7 +1055,7 @@ const MessageT    msg_MenuEditIconID		= PPob_MenuEditorWindow + item_MenuEditIco
 const MessageT    msg_MenuEditShortcut		= PPob_MenuEditorWindow + item_MenuEditShortcut;
 const MessageT    msg_MenuEditMarkChar		= PPob_MenuEditorWindow + item_MenuEditMarkChar;
 const MessageT    msg_MenuEditStylePopup	= PPob_MenuEditorWindow + item_MenuEditStylePopup;
-const MessageT    msg_MenuEditPropertyPopup	= PPob_MenuEditorWindow + item_MenuEditCharactPopup;
+const MessageT    msg_MenuEditPropertyPopup	= PPob_MenuEditorWindow + item_MenuEditPropertyPopup;
 const MessageT    msg_MenuEditCmdModifier	= PPob_MenuEditorWindow + item_MenuEditCmdModifier;
 const MessageT    msg_MenuEditShiftModifier	= PPob_MenuEditorWindow + item_MenuEditShiftModifier;
 const MessageT    msg_MenuEditOptModifier	= PPob_MenuEditorWindow + item_MenuEditOptModifier;
@@ -1474,5 +1483,6 @@ const SInt32		kMaxTextWidth		= 32768;
 // ======================================================================
 const OSType	ResType_ExtendedMenu			= FOUR_CHAR_CODE('xmnu');
 
+#define  kMenuEditLabelOffset	10
 
 
