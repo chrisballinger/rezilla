@@ -2,7 +2,7 @@
 // CTmplEditorWindow.cp					
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-10-06 13:30:26
+//             Last modification: 2004-10-08 11:26:16
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -2123,6 +2123,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 			::StringToNum( numStr, &theLong);
 			*mOutStream << (SInt16) theLong;
 			mPaneIndex++;
+			mPaneIDs.FetchItemAt(mPaneIndex, mCurrentID);
 		}
 		break;
 
@@ -2157,6 +2158,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 			::StringToNum( numStr, &theLong);
 			*mOutStream << (SInt16) theLong;
 			mPaneIndex++;
+			mPaneIDs.FetchItemAt(mPaneIndex, mCurrentID);
 		}
 		break;
 
