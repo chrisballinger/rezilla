@@ -650,9 +650,11 @@ CIcon_EditorWindow::ObeyCommand(
 			return( true );
 		
 		// Next offer the event to the color table code
-		if ( mCurrentImage )
-			if ( mColorTableChoice->ObeyCommand( mCurrentImage->GetDepth(), inCommand ) )
+		if ( mCurrentImage ) {
+			if ( mColorTableChoice->ObeyCommand( mCurrentImage->GetDepth(), inCommand ) ) {
 				return( true );
+			}
+		}		
 		
 		// Otherwise, handle it here
 		switch( inCommand )

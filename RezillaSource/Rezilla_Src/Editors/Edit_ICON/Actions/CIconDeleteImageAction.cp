@@ -62,10 +62,8 @@ CIconDeleteImageAction::DoIt()
 
 // ---------------------------------------------------------------------------
 // 	RedoSelf
-// 	
-// 	Description:
-// 	This deletes the target box.
 // ---------------------------------------------------------------------------
+// 	This deletes the target box.
 
 void
 CIconDeleteImageAction::RedoSelf()
