@@ -153,19 +153,17 @@ CTmplEditorWindow::InitPaneInfos()
 	sTgbPaneInfo.height				= kTmplTextMaxHeight;
 	sTgbPaneInfo.visible			= true;
 	sTgbPaneInfo.enabled			= true;
-	sTgbPaneInfo.bindings.left		= true;
 	sTgbPaneInfo.bindings.top		= false;
-	sTgbPaneInfo.bindings.right		= true;
+	sTgbPaneInfo.bindings.left		= true;
 	sTgbPaneInfo.bindings.bottom	= false;
+	sTgbPaneInfo.bindings.right		= true;
 	sTgbPaneInfo.userCon			= 0;
 
 	// Text views basic values
 	sWastePaneInfo.paneID			= 0;
 	sWastePaneInfo.visible			= true;
 	sWastePaneInfo.enabled			= true;
-	sWastePaneInfo.bindings.left	= true;
 	sWastePaneInfo.bindings.top		= true;
-	sWastePaneInfo.bindings.right	= true;
 	sWastePaneInfo.bindings.bottom	= true;
 	sWastePaneInfo.userCon			= 0;
 	
@@ -540,8 +538,8 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 	sTgbPaneInfo.top				= mYCoord;
 	sTgbPaneInfo.left				= kTmplTextMargin;
 	sTgbPaneInfo.width				= theFrame.width - kTmplTextMargin * 2;
-	sTgbPaneInfo.superView			= inContainer;
 	sTgbPaneInfo.paneID				= 0;
+	sTgbPaneInfo.superView			= inContainer;
 
 	theViewInfo.imageSize.width		= theViewInfo.imageSize.height	= 0 ;
 	theViewInfo.scrollPos.h			= theViewInfo.scrollPos.v		= 0;
@@ -577,7 +575,7 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 		HUnlock(theHandle);
 		mRezStream->SetMarker(nextPos, streamFrom_Start);
 	} 
-	
+		
 	// Adjust the height of the TextGroupBox
 	canReduce = RecalcTextBoxHeight(newPos - oldPos, theWasteEdit, isFixed, reqLength, delta);
 	
@@ -592,11 +590,10 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 		sScrollPaneInfo.paneID			= 0;
 		sScrollPaneInfo.superView		= theTGB;
 
-		LScrollerView * theScroller = new LScrollerView(sScrollPaneInfo, theViewInfo, 0, 15, 0, 0, 16, NULL, true);
+		LScrollerView * theScroller = new LScrollerView(sScrollPaneInfo, theViewInfo, -1, 15, 0, 0, 16, theWasteEdit, true);
 		ThrowIfNil_(theScroller);
 
 		theWasteEdit->PutInside(theScroller);
-		theScroller->InstallView(theWasteEdit);
 	} 
 	
 	if (delta < 0) {
