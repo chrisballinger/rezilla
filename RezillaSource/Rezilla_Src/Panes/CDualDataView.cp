@@ -95,6 +95,10 @@ CDualDataView::Initialize()
 	Rect		theRect ;
 	LongRect	theLongRect ;
 
+	mCurrFirstLine = 1;
+	mCurrentSubView = hex_nopane;
+	mSelectingAll = false;
+
 	// Create the Waste object containing the resource code
 	UInt32  initFlags = weDoInhibitRecal + weDoInhibitRedraw;
 
@@ -113,11 +117,6 @@ CDualDataView::Initialize()
 void
 CDualDataView::FinishCreateSelf()
 {	
-	OSStatus		err = noErr ;
-
-	mCurrFirstLine = 1;
-	mCurrentSubView = hex_nopane;
-	mSelectingAll = false;
 }
 
 
