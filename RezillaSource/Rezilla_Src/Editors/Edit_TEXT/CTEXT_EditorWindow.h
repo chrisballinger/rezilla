@@ -26,6 +26,7 @@ class CTEXT_EditorDoc;
 class CTEXT_EditorView;
 class CRezObj;
 class LPopupButton;
+class LStaticText;
 
 
 class CTEXT_EditorWindow : public CEditorWindow {
@@ -54,6 +55,7 @@ public:
 
 	void			InstallText(Handle inHandle);
 	Handle			ReadValues();
+	void			SetLengthField();
 	
 	Boolean			IsDirty();
 		
@@ -74,15 +76,11 @@ protected:
 	LPopupButton *		mFontPopup;
 	LPopupButton *		mSizePopup;
 	LPopupButton *		mStylePopup;
-	/* 
-	 * MenuHandle            mFontMenuH;
-	 * MenuHandle            mSizeMenuH;
-	 * MenuHandle            mStyleMenuH;
-	 */
+	LStaticText *		mLengthField;
 	
 
 	virtual void	FinishCreateSelf();
-
+	
 private:
 
 };

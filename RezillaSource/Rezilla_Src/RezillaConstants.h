@@ -380,6 +380,7 @@ const PaneIDT   item_EditorRevert		= FOUR_CHAR_CODE('Rvrt') ;
 const PaneIDT   item_TextEditFontMenu	= 1 ;
 const PaneIDT   item_TextEditSizeMenu	= 2 ;
 const PaneIDT   item_TextEditStyleMenu	= 3 ;
+const PaneIDT   item_TextEditLength		= 4 ;
 
 // The Lock icon
 // -------------

@@ -128,6 +128,9 @@ CTEXT_EditorWindow::FinishCreateSelf()
 	mStylePopup = dynamic_cast<LPopupButton *> (this->FindPaneByID( item_TextEditStyleMenu ));
 	ThrowIfNil_( mStylePopup );
 	
+	mLengthField = dynamic_cast<LStaticText *> (this->FindPaneByID( item_TextEditLength ));
+	ThrowIfNil_( mLengthField );
+	
 	// Link the broadcasters.
 	UReanimator::LinkListenerToControls( this, this, rRidL_TextEditorWindow );
 	
@@ -167,6 +170,7 @@ CTEXT_EditorWindow::InstallDefaults()
 	mFontPopup->SetValue( UMiscUtils::FontIndexFromFontNum(mFontPopup, theTraits.fontNumber) );
 	mSizePopup->SetValue( UMiscUtils::SizeIndexFromSizeValue(mSizePopup, theTraits.size) );
 	
+	::MacCheckMenuItem(mStylePopup->GetMacMenuH(), 2, 1);
 }
  
 
@@ -254,7 +258,6 @@ CTEXT_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 // ---------------------------------------------------------------------------
 //	¥ FindCommandStatus
 // ---------------------------------------------------------------------------
-//	Pass back whether a Command is enabled and/or marked (in a Menu)
 
 void
 CTEXT_EditorWindow::FindCommandStatus(
@@ -273,24 +276,6 @@ CTEXT_EditorWindow::FindCommandStatus(
 		case cmd_DuplicateRez:
 		outEnabled = false;
 		break;		
-		
-// 		case cmd_Plain:
-// 		case cmd_Bold:
-// 		case cmd_Italic:
-// 		case cmd_Underline:
-// 		case cmd_Outline:
-// 		case cmd_Shadow:
-// 		case cmd_Condense:
-// 		case cmd_Extend: {
-// 			Style theStyle;
-// 			if (mContentsView->GetStyle(theStyle)) {
-// 				outEnabled = theStyle & (1 << (inCommand - cmd_Plain - 1) );
-// 			} else {
-// 				outEnabled = false;
-// 			}
-// 			break;
-// 		}
-
 		
 		default:
 		LCommander::FindCommandStatus(inCommand, outEnabled,
@@ -312,6 +297,31 @@ CTEXT_EditorWindow::ObeyCommand(
 	Boolean		cmdHandled = true;
 	
 	switch (inCommand) {
+		case cmd_Plain:
+			mContentsView->SetStyle(normal);
+			for (UInt8 i = 0; i < 7; i++) {
+				::MacCheckMenuItem(mStylePopup->GetMacMenuH(), i+3, 0);
+			}
+			break;
+		
+		case cmd_Bold:
+		case cmd_Italic:
+		case cmd_Underline:
+		case cmd_Outline:
+		case cmd_Shadow:
+		case cmd_Condense:
+		case cmd_Extend: {
+			Style theStyle;
+			UInt8 i = inCommand - cmd_Plain - 1;
+			mContentsView->GetStyle(theStyle);
+			theStyle ^= (1 << i);
+			mContentsView->SetStyle(theStyle);
+			for (i = 0; i < 7; i++) {
+				::MacCheckMenuItem(mStylePopup->GetMacMenuH(), i+3, theStyle & (1 << i));
+			}
+			::MacCheckMenuItem(mStylePopup->GetMacMenuH(), 2, (theStyle == 0));
+			break;
+		}
 
 		default:
 			cmdHandled = LCommander::ObeyCommand(inCommand, ioParam);
@@ -383,6 +393,7 @@ CTEXT_EditorWindow::AdjustMenusToSelection()
 {
 	SInt16	theFontNum, theSize;
 	SInt32	theIndex, theLong;
+	UInt8	i;
 	Style	theStyle;
 	Boolean	result;
 	Str255	theString;
@@ -396,7 +407,7 @@ CTEXT_EditorWindow::AdjustMenusToSelection()
 	if (result) {
 		theIndex = UMiscUtils::FontIndexFromFontNum(mFontPopup, theFontNum);
 		mFontPopup->SetValue(theIndex);
-// 		MacCheckMenuItem(mFontPopup->GetMacMenuH(), theIndex, 1);
+// 		::MacCheckMenuItem(mFontPopup->GetMacMenuH(), theIndex, 1);
 	}
 	
 	result = mContentsView->GetSize(theSize);
@@ -416,23 +427,31 @@ CTEXT_EditorWindow::AdjustMenusToSelection()
 			::SetMenuItemText( mSizePopup->GetMacMenuH(), kLastSizeMenuItem + 2, LStr255("\pOtherÉ"));					
 		}
 		mSizePopup->SetValue(theIndex);
-// 		MacCheckMenuItem(mSizePopup->GetMacMenuH(), theIndex, 1);
+// 		::MacCheckMenuItem(mSizePopup->GetMacMenuH(), theIndex, 1);
 	}
 	
 	result = mContentsView->GetStyle(theStyle);
 	if (result) {
-		for (UInt8 i = 1; i < 7; i++) {
-			MacCheckMenuItem(mStylePopup->GetMacMenuH(), i+1, theStyle & (1 << i));
+		for (i = 0; i < 7; i++) {
+			::MacCheckMenuItem(mStylePopup->GetMacMenuH(), i+3, theStyle & (1 << i));
 		}
-		mStylePopup->SetValue(1);
+		::MacCheckMenuItem(mStylePopup->GetMacMenuH(), 2, (theStyle == 0));
+	} else {
+		// Not a continuous style. Uncheck all items.
+		for (i = 0; i < 7; i++) {
+			::MacCheckMenuItem(mStylePopup->GetMacMenuH(), i+3, 0);
+		}
+		::MacCheckMenuItem(mStylePopup->GetMacMenuH(), 2, 0);
 	}
+	
+	mStylePopup->SetValue(1);
 
 	mIsAdjustingMenus = false;
 }
 
 
 // ---------------------------------------------------------------------------
-//	¥ ReadValues														[public]
+//	¥ ReadValues													[public]
 // ---------------------------------------------------------------------------
 
 // LPane::GetUserCon()
@@ -447,8 +466,17 @@ CTEXT_EditorWindow::ReadValues()
 }
 
 
-// void
-// LTextEditView::ClickSelf(
-// 	const SMouseDownEvent	&inMouseDown)
-// {
-// }
+// ---------------------------------------------------------------------------
+//	¥ SetLengthField												[public]
+// ---------------------------------------------------------------------------
+
+void
+CTEXT_EditorWindow::SetLengthField()
+{
+	Str255	theString;
+	SInt32	theLength = ::GetHandleSize( ::TEGetText(mContentsView->GetMacTEH()) );
+	::NumToString( theLength, theString);
+	mLengthField->SetDescriptor(theString);
+}
+
+

@@ -118,6 +118,8 @@ CTEXT_EditorDoc::Initialize()
 		} 
 	} 
 	
+	mTextEditWindow->SetLengthField();
+	
 	// Make the window visible.
 	mTextEditWindow->Show();
 }
