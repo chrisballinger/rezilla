@@ -1521,11 +1521,221 @@ resource 'aete' (0,"Scripting terminology") {
 		
 		{
 		}
+	,
+	"Resource suite",       	
+	"Resource maps handling",	
+	'Rsrc',         	
+	1,      	
+	1,    
+	
+		{						
+		},
+		
+		{
+			
+				"rez map",
+				'cMAP',
+				"a resource map",
+				{
+					
+						"name",
+						'pnam',
+						'itxt',
+						"the map's name",
+						reserved,
+						singleItem,
+						notEnumerated,
+						readOnly,
+						enumsAreConstants,
+						enumListCanRepeat,
+						propertyIsValue,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						noApostrophe,
+						notFeminine,
+						notMasculine,
+						singular
+					,
+						"refNum",
+						'pREF',
+						'shor',
+						"the refnum of the map in memory",
+						reserved,
+						singleItem,
+						notEnumerated,
+						readOnly,
+						enumsAreConstants,
+						enumListCanRepeat,
+						propertyIsValue,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						noApostrophe,
+						notFeminine,
+						notMasculine,
+						singular
+					,
+						"fork",
+						'pFRK',
+						'FKND',
+						"the fork this map is stored in (data fork or resource fork)",
+						reserved,
+						singleItem,
+						enumerated,
+						readOnly,
+						enumsAreConstants,
+						enumListCanRepeat,
+						propertyIsValue,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						noApostrophe,
+						notFeminine,
+						notMasculine,
+						singular
+					,
+						"readOnly",
+						'pRDO',
+						'bool',
+						"the mapReadOnly attribute",
+						reserved,
+						singleItem,
+						notEnumerated,
+						readWrite,
+						enumsAreConstants,
+						enumListCanRepeat,
+						propertyIsValue,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						noApostrophe,
+						notFeminine,
+						notMasculine,
+						singular
+					,
+						"compact",
+						'pCMP',
+						'bool',
+						"the mapCompact attribute",
+						reserved,
+						singleItem,
+						notEnumerated,
+						readWrite,
+						enumsAreConstants,
+						enumListCanRepeat,
+						propertyIsValue,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						noApostrophe,
+						notFeminine,
+						notMasculine,
+						singular
+					,
+						"changed",
+						'imod',
+						'bool',
+						"the mapChanged attribute",
+						reserved,
+						singleItem,
+						notEnumerated,
+						readWrite,
+						enumsAreConstants,
+						enumListCanRepeat,
+						propertyIsValue,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						noApostrophe,
+						notFeminine,
+						notMasculine,
+						singular
+					,
+						"size",
+						'pSIZ',
+						'long',
+						"the size of the fork (in bytes)",
+						reserved,
+						singleItem,
+						notEnumerated,
+						readOnly,
+						enumsAreConstants,
+						enumListCanRepeat,
+						propertyIsValue,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						reserved,
+						noApostrophe,
+						notFeminine,
+						notMasculine,
+						singular
+					
+				},
+				{
+					
+						'cTYP',
+						{
+							'indx',
+							'name',
+							'list'}
+					,
+						'cRSC',
+						{
+							'indx',
+							'name',
+							'list'}
+					
+				}
+			
+
+		},
+		
+		{
+		},
+		
+		{
+			
+				'FKND',
+				{
+					
+						"data fork",
+						'DATA',
+						"map IN DATA FORK"
+					,
+						"resource fork",
+						'RSRC',
+						"a resource editor"
+					,
+						"any fork",
+						'ANY ',
+						"could be any fork"
+					,
+						"unknown fork",
+						'ANY ',
+						"fork is unknown"
+					
+				}
+			
+		}
 	
 	
 }
 
 };
-
 
 

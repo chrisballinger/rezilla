@@ -1596,6 +1596,231 @@
 		<ArrayEnumerations>
 		</ArrayEnumerations>
 	</Suite>
+
+	<Suite>
+	<SuiteName>Resource suite</SuiteName>       	
+	<SuiteDescription>Resource maps handling</SuiteDescription>	
+	<SuiteID>Rsrc</SuiteID>         	
+	<SuiteLevel>1</SuiteLevel>      	
+	<SuiteVersion>1</SuiteVersion>    
+	
+		<ArrayEvents>						
+		</ArrayEvents>
+		
+		<ArrayClasses>
+			<Class>
+				<ClassName>rez map</ClassName>
+				<ClassID>cMAP</ClassID>
+				<ClassDescription>a resource map</ClassDescription>
+				<ArrayProperties>
+					<ClassProperty>
+						<PropertyName>name</PropertyName>
+						<PropertyID>pnam</PropertyID>
+						<PropertyClass>itxt</PropertyClass>
+						<PropertyDescription>the map's name</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+					<ClassProperty>
+						<PropertyName>refNum</PropertyName>
+						<PropertyID>pREF</PropertyID>
+						<PropertyClass>shor</PropertyClass>
+						<PropertyDescription>the refnum of the map in memory</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+					<ClassProperty>
+						<PropertyName>fork</PropertyName>
+						<PropertyID>pFRK</PropertyID>
+						<PropertyClass>FKND</PropertyClass>
+						<PropertyDescription>the fork this map is stored in (data fork or resource fork)</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>enumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+					<ClassProperty>
+						<PropertyName>readOnly</PropertyName>
+						<PropertyID>pRDO</PropertyID>
+						<PropertyClass>bool</PropertyClass>
+						<PropertyDescription>the mapReadOnly attribute</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readWrite</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+					<ClassProperty>
+						<PropertyName>compact</PropertyName>
+						<PropertyID>pCMP</PropertyID>
+						<PropertyClass>bool</PropertyClass>
+						<PropertyDescription>the mapCompact attribute</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readWrite</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+					<ClassProperty>
+						<PropertyName>changed</PropertyName>
+						<PropertyID>imod</PropertyID>
+						<PropertyClass>bool</PropertyClass>
+						<PropertyDescription>the mapChanged attribute</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readWrite</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+					<ClassProperty>
+						<PropertyName>size</PropertyName>
+						<PropertyID>pSIZ</PropertyID>
+						<PropertyClass>long</PropertyClass>
+						<PropertyDescription>the size of the fork (in bytes)</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+				</ArrayProperties>
+				<ArrayElements>
+					<ClassElement>
+						<ClassElementID>cTYP</ClassElementID>
+						<ArrayKeyForms>
+							<KeyFormID>indx</KeyFormID>
+							<KeyFormID>name</KeyFormID>
+							<KeyFormID>list</KeyFormID>
+						</ArrayKeyForms>
+					</ClassElement>
+					<ClassElement>
+						<ClassElementID>cRSC</ClassElementID>
+						<ArrayKeyForms>
+							<KeyFormID>indx</KeyFormID>
+							<KeyFormID>name</KeyFormID>
+							<KeyFormID>list</KeyFormID>
+						</ArrayKeyForms>
+					</ClassElement>
+				</ArrayElements>
+			</Class>
+
+		</ArrayClasses>
+		
+		<ArrayComparisonOps>
+		</ArrayComparisonOps>
+		
+		<ArrayEnumerations>
+			<Enumeration>
+				<EnumerationID>FKND</EnumerationID>
+				<ArrayEnumerators>
+					<Enumerator>
+						<EnumeratorName>data fork</EnumeratorName>
+						<EnumeratorID>DATA</EnumeratorID>
+						<EnumeratorDescription>map IN DATA FORK</EnumeratorDescription>
+					</Enumerator>
+					<Enumerator>
+						<EnumeratorName>resource fork</EnumeratorName>
+						<EnumeratorID>RSRC</EnumeratorID>
+						<EnumeratorDescription>a resource editor</EnumeratorDescription>
+					</Enumerator>
+					<Enumerator>
+						<EnumeratorName>any fork</EnumeratorName>
+						<EnumeratorID>ANY </EnumeratorID>
+						<EnumeratorDescription>could be any fork</EnumeratorDescription>
+					</Enumerator>
+					<Enumerator>
+						<EnumeratorName>unknown fork</EnumeratorName>
+						<EnumeratorID>ANY </EnumeratorID>
+						<EnumeratorDescription>fork is unknown</EnumeratorDescription>
+					</Enumerator>
+				</ArrayEnumerators>
+			</Enumeration>
+		</ArrayEnumerations>
+	</Suite>
 	
 </ArraySuites>
 
