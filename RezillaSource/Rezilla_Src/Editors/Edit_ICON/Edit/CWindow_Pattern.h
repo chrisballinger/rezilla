@@ -46,6 +46,8 @@ class CWindow_Pattern : public CIcon_EditorWindow {
 									Boolean &outUsesMark, UInt16 &outMark, 
 									Str255 outName );
 		
+		static COffscreen *			BWPatternToOffscreen( const Pattern & );
+
 	protected:
 		CPatternTargetView *		mColorSample;
 		CPatternTargetView *		mBWSample;
@@ -58,7 +60,6 @@ class CWindow_Pattern : public CIcon_EditorWindow {
 												COffscreen **outBW );
 		
 		void						ParseBWPattern( Handle inPattern, COffscreen **outBW );
-		COffscreen *				BWPatternToOffscreen( const Pattern & );
 		
 		Handle						CreateColorPattern( COffscreen *inColor, COffscreen *inBW );
 		Handle						CreateBWPattern( COffscreen *inBW );

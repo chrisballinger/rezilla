@@ -2,11 +2,11 @@
 // CIcon_EditorDoc.cp
 // 
 //                       Created: 2004-12-11 23:33:03
-//             Last modification: 2004-12-28 16:15:05
+//             Last modification: 2005-01-09 15:50:23
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004
+// (c) Copyright : Bernard Desgraupes, 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -29,6 +29,7 @@ PP_Begin_Namespace_PowerPlant
 #include "CWindow_Cursor.h"
 #include "CWindow_IconFamily.h"
 #include "CWindow_ColorIcon.h"
+#include "CWindow_PatternSuite.h"
 #include "CRezMap.h"
 #include "CRezMapTable.h"
 #include "CRezMapDoc.h"
@@ -124,6 +125,11 @@ CIcon_EditorDoc::Initialize()
 			theWindow = CWindow_Picture::OpenPaintWindow( PPob_PictEditor, theMap, theID );
 			break;
 			
+		// 'PAT#'
+		case ImgType_PatternSuite:
+			theWindow = CWindow_PatternSuite::OpenPaintWindow( PPob_PatternSuiteEditor, theMap, theID );
+			break;
+				
 		// 'CURS'
 		case ImgType_Cursor:
 			theWindow = CWindow_Cursor::OpenPaintWindow( PPob_CursorEditor, theMap, 
@@ -147,6 +153,7 @@ CIcon_EditorDoc::Initialize()
 			theWindow = CWindow_Pattern::OpenPaintWindow( PPob_PixPatEditor, theMap, 
 														 ImgType_PixPat, theID );
 			break;
+
 	}
 	
 	mIconEditWindow = dynamic_cast<CIcon_EditorWindow *>( theWindow );
@@ -232,7 +239,7 @@ CIcon_EditorDoc::AllowSubRemoval(
 // ---------------------------------------------------------------------------
 //	¥ AskSaveChanges												  [public]
 // ---------------------------------------------------------------------------
-//	Ask user whether to save changes before closing the Document.
+// Ask user whether to save changes before closing the Document.
 
 SInt16
 CIcon_EditorDoc::AskSaveChanges(
@@ -249,6 +256,8 @@ CIcon_EditorDoc::AskSaveChanges(
 Handle
 CIcon_EditorDoc::GetModifiedResource(Boolean &releaseIt) 
 {
+#pragma unused(releaseIt)
+	
 	mIconEditWindow->SaveAsResource( mRezMapTable->GetRezMap(), mRezObj->GetID() );
 	
 	return (Handle) NULL;

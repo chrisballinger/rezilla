@@ -363,7 +363,7 @@ CWindow_Pattern::ParseColorPattern( Handle inPattern, COffscreen **outColor,
 
 
 // ---------------------------------------------------------------------------
-// 	PatternToOffscreen
+// 	BWPatternToOffscreen
 // ---------------------------------------------------------------------------
 COffscreen *CWindow_Pattern::BWPatternToOffscreen( const Pattern &inPattern )
 {
@@ -511,8 +511,6 @@ CWindow_Pattern::CreateColorPattern( COffscreen *inColor, COffscreen *inBW )
 	::HUnlock( h );
 	return( h );
 }
-
-
 
 
 // ---------------------------------------------------------------------------
