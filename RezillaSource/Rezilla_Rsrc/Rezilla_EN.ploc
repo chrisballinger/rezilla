@@ -1,11 +1,11 @@
 localize "English" as "Localizable.strings" 
 {
-	key "RequireSystemNine" value string "Rezilla require System 9 or greater."
+	key "RequireSystemNine" value string "Rezilla requires System 9 or greater."
 	key "NoTypeSpecified" value string "You must specify a resource type."
 	key "NoIDSpecified" value string "You must specify a resource ID."
-	key "NoRezInAnyFork" value string "This file contains no resources."
-	key "NoRezInDataFork" value string "This file contains no resources in the data fork."
-	key "NoRezInRezFork" value string "This file contains no resources in the resource fork."
+	key "NoRezInAnyFork" value string "The file '%s' contains no resources."
+	key "NoRezInDataFork" value string "The file '%s' contains no resources in the data fork."
+	key "NoRezInRezFork" value string "The file '%s' contains no resources in the resource fork."
 	key "HaveWritePermission" value string "Couldn't save file. Make sure you have 'write' permission."
 	key "HaveReadPermission" value string "Couldn't save file. Make sure you have 'read' permission."
 	key "SaveHexWindow" value string "Do you want to save the changes made in the hex editing window?"
@@ -13,5 +13,11 @@ localize "English" as "Localizable.strings"
 	key "InvalidHexDataInScrap" value string "Can't paste: scrap does not contain valid hexadecimal data."
 	key "InvalidHexDataInString" value string "This string does not contain valid hexadecimal data."
 	key "RezMapAlreadyOpened" value string "There is already a resource map table opened for this file."
+	key "NewRezMapReplaceExisting" value string "This will delete the already existing file and replace it by a new one with an empty resource fork. OK to continue?"
+	key "NoOpenWritePermission" value string "The resource fork of '%s' is already opened with write permission from another application."
+	key "PermissionError" value string "File '%s': access permission error."
+	key "OpenForkError" value string "Error opening resource fork."
+	key "SystemError" value string "System error"
 }
+
 

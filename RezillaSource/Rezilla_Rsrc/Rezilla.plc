@@ -1,23 +1,26 @@
 // ===========================================================================
 // Rezilla.plc					
-//                       Created : 2003-04-16 22:25:40
-//             Last modification : 2003-04-28 08:14:09
-// Author : Bernard Desgraupes
-// e-mail : <bdesgraupes@easyconnect.fr>
-// www : <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright : Bernard Desgraupes 2003
+//                       Created: 2003-04-16 22:25:40
+//             Last modification: 2004-02-23 15:19:03
+// Author: Bernard Desgraupes
+// e-mail: <bdesgraupes@easyconnect.fr>
+// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// ¬© Copyright: Bernard Desgraupes 2003-2004
 // All rights reserved.
+// $Date$
+// $Revision$
 // ===========================================================================
 
+#include "RezillaID.h"
 
 // Bundle identifier string
-#define kBundleIdentifier "fr.rezilla.bdesgraupes"
+#define kBundleIdentifier "net.sourceforge.rezilla"
 
 // Short version string
-#define kBundleShortVersion __OUTPUT_FILENAME__ " version 1.0"
+#define kBundleShortInfoString __OUTPUT_FILENAME__ " "  REZILLA_VERSION_STRING
 
-// String to display in the Finder's Get Info window
-#define kBundleGetInfo kBundleShortVersion ", Copyright \U00A9 2003 by Bernardo Desgraupes. All rights reserved."
+// String to display in the Finder's Get Info window (\U00A9 = ¬©)
+#define kBundleLongInfoString kBundleShortInfoString ", Copyright ¬© 2003 by Bernard Desgraupes. All rights reserved."
 
 plist
 {
@@ -26,13 +29,13 @@ plist
 		key "CFBundleIdentifier" value string kBundleIdentifier
 		
 		key "CFBundleName" value string __OUTPUT_FILENAME__
-		key "CFBundleGetInfoString" value string kBundleGetInfo
-		key "CFBundleShortVersionString" value string kBundleShortVersion
+		key "CFBundleGetInfoString" value string kBundleLongInfoString
+		key "CFBundleShortVersionString" value string kBundleShortInfoString
 		
 		key "CFBundlePackageType" value string __OUTPUT_TYPE__
 		key "CFBundleSignature" value string __OUTPUT_CREATOR__
 		key "CFBundleExecutable" value string __OUTPUT_FILENAME__
-		key "CFBundleVersion" value string "1.0"
+		key "CFBundleVersion" value string REZILLA_VERSION_STRING
 		
 		key "CFBundleHelpBookFolder" value string "Rezilla Help"
 		key "CFBundleHelpBookName" value string "Rezilla Help"
@@ -65,10 +68,11 @@ localize "English"
 {
 	comment "Localized versions of Info.plist keys"
 	key "CFBundleName" value string __OUTPUT_FILENAME__
-	key "CFBundleGetInfoString" value string kBundleGetInfo
-	key "CFBundleShortVersionString" value string kBundleShortVersion
+	key "CFBundleGetInfoString" value string kBundleLongInfoString
+	key "CFBundleShortVersionString" value string kBundleShortInfoString
 }
 
 #include "Rezilla_EN.ploc"
 #include "Rezilla_FR.ploc"
+
 
