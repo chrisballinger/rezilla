@@ -68,12 +68,6 @@ public:
 		Boolean			HasDifferences();
 		void			DisplayResults();
 		
-		virtual Boolean		GetIgnoreNames() { return mIgnoreNames;}
-        void                SetIgnoreNames(Boolean inIgnoreNames) {mIgnoreNames = inIgnoreNames;}
-
-		virtual Boolean		GetIgnoreAttrs() { return mIgnoreAttrs;}
-		void				SetIgnoreAttrs(Boolean inIgnoreAttrs) {mIgnoreAttrs = inIgnoreAttrs;}
-
 		ConstStringPtr		GetOldPath() const;
 		ConstStringPtr		GetNewPath() const;
 
@@ -84,14 +78,20 @@ public:
 		virtual CRezMap*		GetOldMap() {return mOldMap;}
 		virtual CRezMap*		GetNewMap() {return mNewMap;}
 		
+		static Boolean		GetIgnoreNames() { return sIgnoreNames;}
+        static void			SetIgnoreNames(Boolean inIgnoreNames) {sIgnoreNames = inIgnoreNames;}
+
+		static Boolean		GetIgnoreAttrs() { return sIgnoreAttrs;}
+		static void			SetIgnoreAttrs(Boolean inIgnoreAttrs) {sIgnoreAttrs = inIgnoreAttrs;}
+
 		static FSSpec		sOldFSSpec;
 		static FSSpec		sNewFSSpec;
+		static Boolean		sIgnoreNames;
+		static Boolean		sIgnoreAttrs;
+		static Boolean		sIgnoreData;
 		
 protected:
 		CCompResultWindow*	mResultWindow;
-		Boolean				mIgnoreNames;
-		Boolean				mIgnoreAttrs;
-		Boolean				mIgnoreData;
 		CRezMap * 			mOldMap;
 		CRezMap * 			mNewMap;
 		TArray<CRezTypId *>	mOnlyInOldList;
