@@ -648,10 +648,16 @@ const MessageT	msg_TmplModifiedItem		= 	FOUR_CHAR_CODE('TmMd');
 
 // AE constants
 // ============
-// AE classes and IDs
+// AE suites
 enum
 {
 	kAERzilClass			=    FOUR_CHAR_CODE('Rzil'),
+	kAERsrcClass			=    FOUR_CHAR_CODE('Rsrc')
+};
+
+// Various AE parameters
+enum
+{
 	kAERzilReply	 		=	 FOUR_CHAR_CODE('Repl'),
 	kAERzilFilesList	 	=	 FOUR_CHAR_CODE('LFil')
 };
@@ -662,8 +668,8 @@ enum
 // const long	aeRzil_Lrez				= 5002;
 const long	aeRzil_Version				= 5010;
 
-// Objects:
-// --------
+// AE Objects:
+// -----------
 const DescType rzil_cRezMapDoc		= 'MapD';	// RezMap document
 const DescType rzil_cEditorDoc		= 'EdiD';	// Editor document
 const DescType rzil_cGuiEditDoc		= 'GuiD';	// Gui editor document
@@ -680,6 +686,7 @@ const DescType rzil_cHexWindow		= 'HexW';	// Hex editor window
 const DescType rzil_cCompWindow		= 'CmpW';	// RezCompare window
 const DescType rzil_cInspector		= 'Insp';	// Inspector window
 
+const DescType rzil_cDataPane		= 'DatP';	// DataPane
 const DescType rzil_cHexPane		= 'HexP';	// HexPane
 const DescType rzil_cTxtPane		= 'TxtP';	// TxtPane
 
@@ -701,28 +708,28 @@ const DescType rzil_pDocKind		= 'DKND';	// Document's kind
 const DescType rzil_pRezFork		= 'pFRK';	// ResFork
 const DescType rzil_pRezMap			= 'pMAP';	// RezMap
 const DescType rzil_pRezFile		= 'pFIL';	// ResFile
+const DescType rzil_pEditedRsrcDocs	= 'pERD';	// Edited resources documents
 
 //    RezMap
-const DescType rzil_pRefNum			= 'pREF';	// RefNum
-const DescType rzil_pReadOnly		= 'pRDO';	// mapReadOnly
-const DescType rzil_pCompact		= 'pCMP';	// mapCompact
-const DescType rzil_pChanged		= 'pCHG';	// mapChanged
+const DescType rzil_pRefNum			= 'pREF';		// RefNum
+const DescType rzil_pAttributes		= 'pATR';		// Attributes
+const DescType rzil_pReadOnly		= 'pRDO';		// mapReadOnly
+const DescType rzil_pCompact		= 'pCMP';		// mapCompact
+const DescType rzil_pChanged		= pIsModified;	// mapChanged/resChanged ('imod')
 
 //    RezType
-/* const DescType pName		= 'pnam';	// Type pName */
 
 //    Resource
-const DescType rzil_pResID			= pID;		// ID ('pID ')			 
-const DescType rzil_pName			= pName;	// Name ('pnam')
-const DescType rzil_pType			= 'pTYP';	// Type
-const DescType rzil_pSize			= 'pSIZ';	// Size
-const DescType rzil_pData			= 'pDAT';	// Data
-const DescType rzil_pAttributes		= 'pATR';	// Attributes
-const DescType rzil_pSysHeap		= 'pSHP';	// resSysHeap
-const DescType rzil_pPurgeable		= 'pPUR';	// resPurgeable
-const DescType rzil_pLocked			= 'pLOC';	// resLocked
-const DescType rzil_pProtected		= 'pPRO';	// resProtected
-const DescType rzil_pPreload		= 'pPRE';	// resPreload
+const DescType rzil_pResID			= pID;			// ID ('ID  ')			 
+const DescType rzil_pName			= pName;		// Name ('pnam')
+const DescType rzil_pType			= 'pTYP';		// Type
+const DescType rzil_pSysHeap		= 'pSHP';		// resSysHeap
+const DescType rzil_pPurgeable		= 'pPUR';		// resPurgeable
+const DescType rzil_pLocked			= 'pLOC';		// resLocked
+const DescType rzil_pProtected		= 'pPRO';		// resProtected
+const DescType rzil_pPreload		= 'pPRE';		// resPreload
+const DescType rzil_pSize			= 'pSIZ';		// Size
+const DescType rzil_pData			= pContents;	// Data ('pcnt', was 'pDAT')
 
 //    HexPane/TxtPane
 const DescType rzil_pContents		= pContents;	// Contents ('pcnt')
