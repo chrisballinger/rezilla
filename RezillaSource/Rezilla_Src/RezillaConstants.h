@@ -1152,6 +1152,7 @@ enum RezillaErrors
 	err_NoResourceForType,
 	err_NoResourceWithName,
 	err_MoreDataThanExpected,
+	err_AeteImportCouldNotBuildTree,
 	err_TmplTemplateError			= 2000,
 	err_TmplGetDataStreamFailed,
 	err_TmplUnrecognizedTag,
