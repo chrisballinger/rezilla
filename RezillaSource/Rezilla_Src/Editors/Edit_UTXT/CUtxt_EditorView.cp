@@ -34,7 +34,7 @@ LMenu *		CUtxt_EditorView::sUtxtStyleMenu = nil;
 
 
 // ---------------------------------------------------------------------------
-//	¥ CUtxt_EditorView							Default Constructor		  [public]
+//	¥ CUtxt_EditorView						Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CUtxt_EditorView::CUtxt_EditorView()
@@ -44,7 +44,7 @@ CUtxt_EditorView::CUtxt_EditorView()
 
 
 // ---------------------------------------------------------------------------
-//	¥ CUtxt_EditorView							Stream Constructor		  [public]
+//	¥ CUtxt_EditorView						Stream Constructor		  [public]
 // ---------------------------------------------------------------------------
 // Use the Preference interface settings when creating a new TEXT resource.
 
@@ -100,19 +100,19 @@ CUtxt_EditorView::FinishCreateSelf()
 	}
 }
 
-// ---------------------------------------------------------------------------
-//	¥ HandleKeyPress										[public, virtual]
-// ---------------------------------------------------------------------------
-
-Boolean
-CUtxt_EditorView::HandleKeyPress(
-	const EventRecord	&inKeyEvent)
-{
-	Boolean		keyHandled = LMLTEPane::HandleKeyPress(inKeyEvent);
-	
-	mOwnerWindow->SetLengthField();
-	return keyHandled;
-}
+// // ---------------------------------------------------------------------------
+// //	¥ HandleKeyPress										[public, virtual]
+// // ---------------------------------------------------------------------------
+// 
+// Boolean
+// CUtxt_EditorView::HandleKeyPress(
+// 	const EventRecord	&inKeyEvent)
+// {
+// 	Boolean		keyHandled = LMLTEPane::HandleKeyPress(inKeyEvent);
+// 	
+// 	mOwnerWindow->SetLengthField( GetDataSize() );
+// 	return keyHandled;
+// }
 
 
 // ---------------------------------------------------------------------------
@@ -230,7 +230,7 @@ CUtxt_EditorView::ObeyCommand(
 		case cmd_Paste: 
 		case cmd_Clear: 
 		LMLTEPane::ObeyCommand(inCommand, ioParam);
-		mOwnerWindow->SetLengthField();
+		mOwnerWindow->SetLengthField( GetDataSize() );
 		break;
 
 		case cmd_FontLarger: {	
@@ -338,7 +338,15 @@ CUtxt_EditorView::TakeOffDuty()
 void
 CUtxt_EditorView::SpendTime( const EventRecord& inMacEvent)
 {
-	mOwnerWindow->SetLengthField();
+	ByteCount theCount;
+	
+// 	CountChanges(theCount);
+// 	if (theCount > 0) {
+// 		mOwnerWindow->SetDirty(true);
+// 	} 
+
+	mOwnerWindow->SetLengthField( GetDataSize() );
+
 	LMLTEPane::SpendTime(inMacEvent);
 }
 
@@ -351,9 +359,6 @@ void
 CUtxt_EditorView::RemoveUnicodeMenus()
 {
 	LMenuBar	*theBar = LMenuBar::GetCurrentMenuBar();
-	
-// 	if ( sTextFontMenu )
-// 		theBar->RemoveMenu( sUtxtFontMenu );
 	
 	::MacDeleteMenu(MENU_UnicodeFonts);
 	// Force redraw of MenuBar
@@ -485,22 +490,34 @@ CUtxt_EditorView::GetFontColor(
 
 
 // ---------------------------------------------------------------------------------
-//	¥ CountChanges														[public]
+//	¥ GetDataSize														[public]
 // ---------------------------------------------------------------------------------
 
 ByteCount
-CUtxt_EditorView::CountChanges()
+CUtxt_EditorView::GetDataSize()
 {
 	return ::TXNDataSize( mTXNObject );
 }
 
 
 // ---------------------------------------------------------------------------------
+//	¥ CountChanges														[public]
+// ---------------------------------------------------------------------------------
+
+OSStatus
+CUtxt_EditorView::CountChanges(ByteCount & outCount)
+{
+	OSStatus	status = noErr;
+	
+	status = ::TXNGetActionChangeCount( mTXNObject, kTXNAllCountMask, &outCount);
+	return status;
+}
+
+
+// ---------------------------------------------------------------------------------
 //	¥ ResetChangesCount													[public]
 // ---------------------------------------------------------------------------------
-//   kTXNTextInputCountMask
-//   kTXNRunCountMask
-//   kTXNAllCountMask
+//   kTXNTextInputCountMask / kTXNRunCountMask / kTXNAllCountMask
 
 OSStatus
 CUtxt_EditorView::ResetChangesCount()

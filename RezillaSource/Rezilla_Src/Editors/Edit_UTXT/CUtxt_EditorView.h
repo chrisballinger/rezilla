@@ -37,8 +37,10 @@ public:
 								CUtxt_EditorView( LStream* inStream );
 		virtual					~CUtxt_EditorView();
 
-	virtual Boolean			HandleKeyPress(
-									const EventRecord& 	inKeyEvent);
+	/* 
+	 * virtual Boolean            HandleKeyPress(
+	 *                                 const EventRecord&    inKeyEvent);
+	 */
 
 	virtual Boolean			ObeyCommand(
 									CommandT			inCommand,
@@ -51,7 +53,9 @@ public:
 									UInt16&				outMark,
 									Str255				outName);
 
-	ByteCount				CountChanges();
+	ByteCount				GetDataSize();
+	
+	OSStatus				CountChanges(ByteCount & outCount);
 	
 	OSStatus				ResetChangesCount();
 	

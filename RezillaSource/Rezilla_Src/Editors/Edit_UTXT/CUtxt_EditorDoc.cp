@@ -114,21 +114,15 @@ CUtxt_EditorDoc::Initialize()
 		} 
 	} 
 	
-	mUtxtEditWindow->SetLengthField();
+	mUtxtEditWindow->SetLengthField( mUtxtEditWindow->GetContentsView()->GetDataSize() );
 	
 	// This is the equivalent of SetDirty(false)
 	mUtxtEditWindow->GetContentsView()->ResetChangesCount();
+	mUtxtEditWindow->SetDirty(false);
 	
 	// Make the window visible.
 	mUtxtEditWindow->Show();
 }
-// 
-// EXTERN_API_C( OSStatus )
-// TXNCountRunsInRange(
-//   TXNObject    iTXNObject,
-//   TXNOffset    iStartOffset,
-//   TXNOffset    iEndOffset,
-//   ItemCount *  oRunCount);
 
 
 // ---------------------------------------------------------------------------
