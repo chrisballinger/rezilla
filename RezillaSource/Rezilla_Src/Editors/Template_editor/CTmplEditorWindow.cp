@@ -467,6 +467,11 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			break;
 			
 			
+		case msg_TmplModified:
+		SetDirty(true);
+		break;
+		
+		
 		case msg_TmplCasePopup:
 		STmplBevelInfo theBevelInfo = *((STmplBevelInfo *) ioParam);								
 // 		theBevelInfo.menuChoice
@@ -1392,7 +1397,11 @@ CTmplEditorWindow::AddBooleanField(Boolean inValue,
 								   inValue, mLeftLabelTraitsID, (UInt8 *)(inTitleType ? "\pOn":"\pYes"));
 	ThrowIfNil_(theRadio);
 	
+	// Add to the radio-group
 	theRGV->AddRadio(theRadio);
+	
+	// Let the window listen to this button
+	theRadio->AddListener(this);
 	
 	mCurrentID++;
 
@@ -1404,7 +1413,11 @@ CTmplEditorWindow::AddBooleanField(Boolean inValue,
 								   1 - inValue, mLeftLabelTraitsID, (UInt8 *)(inTitleType ? "\pOff":"\pNo"));
 	ThrowIfNil_(theRadio);
 	
+	// Add to the radio-group
 	theRGV->AddRadio(theRadio);
+	
+	// Let the window listen to this button
+	theRadio->AddListener(this);
 
 	theRGV->SetCurrentRadioID( inValue ?  mCurrentID - 1 : mCurrentID );
 	
@@ -1434,6 +1447,9 @@ CTmplEditorWindow::AddCheckField(Boolean inValue,
 	// Store the template's type in the userCon field
 	theCheck->SetUserCon(inType);
 	
+	// Let the window listen to this button
+	theCheck->AddListener(this);
+
 	// Advance the counters
 	mYCoord += mCheckPaneInfo.height + kTmplVertSep;
 	mCurrentID++;
@@ -1780,6 +1796,8 @@ CTmplEditorWindow::AddRectField(SInt16 inTop,
 								msg_TmplModified, inMaxChars, inAttributes, inKeyFilter);
 	ThrowIfNil_(theEditText);
 	theEditText->SetUserCon(inType);
+	// Let the window listen to this field
+	theEditText->AddListener(this);
 	mCurrentID++;
 
 	// Left
@@ -1793,6 +1811,8 @@ CTmplEditorWindow::AddRectField(SInt16 inTop,
 								msg_TmplModified, inMaxChars, inAttributes, inKeyFilter);
 	ThrowIfNil_(theEditText);
 	theEditText->SetUserCon(inType);
+	// Let the window listen to this field
+	theEditText->AddListener(this);
 	mCurrentID++;
 
 	// Bottom
@@ -1806,6 +1826,8 @@ CTmplEditorWindow::AddRectField(SInt16 inTop,
 								msg_TmplModified, inMaxChars, inAttributes, inKeyFilter);
 	ThrowIfNil_(theEditText);
 	theEditText->SetUserCon(inType);
+	// Let the window listen to this field
+	theEditText->AddListener(this);
 	mCurrentID++;
 
 	// Right
@@ -1819,6 +1841,8 @@ CTmplEditorWindow::AddRectField(SInt16 inTop,
 								msg_TmplModified, inMaxChars, inAttributes, inKeyFilter);
 	ThrowIfNil_(theEditText);
 	theEditText->SetUserCon(inType);
+	// Let the window listen to this field
+	theEditText->AddListener(this);
 	mCurrentID++;
 
 	// Advance the counters
@@ -1985,6 +2009,9 @@ CTmplEditorWindow::AddPopupField(ResType inType, Str255 inLabel, LView * inConta
 													 kControlBevelButtonAlignCenter, Point_00, true);													 
 	ThrowIfNil_(theBevelButton);
 
+	// Let the window listen to this menu
+	theBevelButton->AddListener(this);
+	
 	// Populate the popup with all the successive cases
 	CopyPascalStringToC(inLabel, charString);
 	p = strrchr((char *) charString, '=');
