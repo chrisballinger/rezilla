@@ -2,11 +2,11 @@
 // CRezObj.cp					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2004-11-29 06:41:12
+//             Last modification: 2005-02-16 09:54:39
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003-2004
+// (c) Copyright : Bernard Desgraupes, 2003-2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -104,6 +104,34 @@ CRezObj::CRezObj(CRezType * inRezType,
 	// Don't use PP's list model
 	SetUseSubModelList(false);
 	SetModelKind(rzil_cResource);
+}
+
+
+// ---------------------------------------------------------------------------
+//  ¥ CRezObj														[public]
+// ---------------------------------------------------------------------------
+// Call this constructor when a temporary object is needed to represent a
+// resource whose type, ID and name are specified (name can be empty). The
+// LModelObject is NULL.
+
+CRezObj::CRezObj(short inRefnum,
+				 ResType inType,
+				 short inID, 
+				 Str255* inName)
+	: LModelObject(NULL, rzil_cResource)
+{
+	mType = inType;
+	mOwnerRefnum = inType;
+	mID = inID;
+	SetName(inName);
+	// Get the handle of the resource
+	OSErr error = GetRezHandle();
+	// If the resource does not already exist
+	if (error != noErr || mData == nil) {
+		mData = ::NewHandle(0);
+	}
+	mSize = 0;
+	mAttributes = 0;
 }
 
 
