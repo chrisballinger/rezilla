@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2005-01-08 11:47:15
+//             Last modification : 2005-01-09 12:24:58
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -150,6 +150,7 @@ enum
 	ImgType_ColorIcon			= FOUR_CHAR_CODE('cicn'),
 	ImgType_Picture				= FOUR_CHAR_CODE('PICT'),
 	
+	ImgType_PatternSuite		= FOUR_CHAR_CODE('PAT#'),
 	ImgType_Pattern				= FOUR_CHAR_CODE('PAT '),
 	ImgType_PixPat				= FOUR_CHAR_CODE('ppat'),
 	ImgType_Cursor				= FOUR_CHAR_CODE('CURS'),
@@ -213,6 +214,7 @@ const ResIDT	PPob_CursorEditor			= 10604;
 const ResIDT	PPob_ColorCursorEditor		= 10605;
 const ResIDT	PPob_PatternEditor			= 10606;
 const ResIDT	PPob_PixPatEditor			= 10607;
+const ResIDT	PPob_PatternSuiteEditor		= 10608;
 
 const ResIDT	ics8_Unlocked				= 1500;
 const ResIDT	ics8_Locked					= 1501;
@@ -628,6 +630,8 @@ const PaneIDT	item_CanvasEncloser			= FOUR_CHAR_CODE('ENCL');
 const PaneIDT	item_IconSampleWell			= FOUR_CHAR_CODE('SAMP');
 const PaneIDT	item_IconEditBWSample		= FOUR_CHAR_CODE('BWPT');
 const PaneIDT	item_IconEditMask			= FOUR_CHAR_CODE('MASK');
+const PaneIDT	item_IconSuiteSlider		= FOUR_CHAR_CODE('SLID');
+const PaneIDT	item_IconCountField			= FOUR_CHAR_CODE('COUN');
 const PaneIDT	item_IconShowAsRgbx			= 4;
 const PaneIDT	item_IconShowAsBitmap		= 5;
 const PaneIDT	item_IconShowAsMask			= 6;
@@ -642,6 +646,8 @@ const PaneIDT   item_EditorCancel			= FOUR_CHAR_CODE('Cncl');
 const PaneIDT   item_EditorRevert			= FOUR_CHAR_CODE('Rvrt');
 const PaneIDT	item_NameStaticText			= FOUR_CHAR_CODE('Name');
 const PaneIDT	item_ReadOnlyIcon			= FOUR_CHAR_CODE('Lock');
+const PaneIDT	item_PlusButton				= FOUR_CHAR_CODE('Plus');
+const PaneIDT	item_MinusButton			= FOUR_CHAR_CODE('Mins');
 
 // Misc dialog elements
 // --------------------
@@ -813,25 +819,25 @@ const MessageT	msg_IconShowAsBitmap		= PPob_IconEditorWindow + item_IconShowAsBi
 const MessageT	msg_IconShowAsMask			= PPob_IconEditorWindow + item_IconShowAsMask;
 
 
-
 // Other general purpose messages
 // ------------------------------
-const MessageT	msg_Close					= FOUR_CHAR_CODE('Clos');
-const MessageT	msg_StylePrefsChanged		= FOUR_CHAR_CODE('StPC');
-const MessageT	msg_HexScroller				= FOUR_CHAR_CODE('HScr');
-const MessageT	msg_DualViewEdited			= FOUR_CHAR_CODE('DuEd');
-const MessageT	msg_TmplMinusButton			= FOUR_CHAR_CODE('Mins');
-const MessageT	msg_TmplPlusButton			= FOUR_CHAR_CODE('Plus');
-const MessageT	msg_TmplCasePopup			= FOUR_CHAR_CODE('Case');
-const MessageT	msg_TmplPopupField			= FOUR_CHAR_CODE('PopF');
-const MessageT	msg_TmplModifiedItem		= FOUR_CHAR_CODE('TmMd');
-const MessageT	msg_EditScroller			= FOUR_CHAR_CODE('Scrl');
-const MessageT	msg_EditContents			= FOUR_CHAR_CODE('Cnts');
+const MessageT	msg_Close						= FOUR_CHAR_CODE('Clos');
+const MessageT	msg_StylePrefsChanged			= FOUR_CHAR_CODE('StPC');
+const MessageT	msg_HexScroller					= FOUR_CHAR_CODE('HScr');
+const MessageT	msg_DualViewEdited				= FOUR_CHAR_CODE('DuEd');
+const MessageT	msg_TmplCasePopup				= FOUR_CHAR_CODE('Case');
+const MessageT	msg_TmplPopupField				= FOUR_CHAR_CODE('PopF');
+const MessageT	msg_TmplModifiedItem			= FOUR_CHAR_CODE('TmMd');
+const MessageT	msg_EditScroller				= FOUR_CHAR_CODE('Scrl');
+const MessageT	msg_EditContents				= FOUR_CHAR_CODE('Cnts');
+const MessageT	msg_MinusButton					= FOUR_CHAR_CODE('Mins');
+const MessageT	msg_PlusButton					= FOUR_CHAR_CODE('Plus');
 // Icon editor
 const MessageT	msg_TargetViewClicked			= FOUR_CHAR_CODE('Tclk');
 const MessageT	msg_ImageDroppedOnTargetView	= FOUR_CHAR_CODE('IDrp');
 const MessageT	msg_DoubleClick					= FOUR_CHAR_CODE('DClk'); 
 const MessageT	msg_GetLastCommand				= FOUR_CHAR_CODE('LCMD');
+const MessageT	msg_IconSuiteSlider				= FOUR_CHAR_CODE('SLID');
 
 
 // ======================================================================
