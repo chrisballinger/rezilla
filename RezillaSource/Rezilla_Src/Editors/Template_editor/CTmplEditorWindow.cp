@@ -19,6 +19,10 @@
 #include "CRezObj.h"
 #include "CRezillaApp.h"
 #include "CRezillaPrefs.h"
+#include "CDualDataView.h"
+#include "CHexDataSubView.h"
+#include "CSingleScrollBar.h"
+#include "CTxtDataSubView.h"
 #include "CWasteEditView.h"
 #include "RezillaConstants.h"
 #include "UMiscUtils.h"
@@ -220,6 +224,16 @@ CTmplEditorWindow::FinishCreateSelf()
 	mScrollPaneInfo.bindings.right	= true;
 	mScrollPaneInfo.bindings.bottom	= false;
 	mScrollPaneInfo.userCon			= 0;
+
+// 	// Single scrollers basic values
+// 	mSingleScrollInfo.paneID			= 0;
+// 	mSingleScrollInfo.visible			= true;
+// 	mSingleScrollInfo.enabled			= true;
+// 	mSingleScrollInfo.bindings.left		= true;
+// 	mSingleScrollInfo.bindings.top		= true;
+// 	mSingleScrollInfo.bindings.right	= true;
+// 	mSingleScrollInfo.bindings.bottom	= false;
+// 	mSingleScrollInfo.userCon			= 0;
 
 	// Text group box for text views basic values
 	mTgbPaneInfo.paneID				= 0;
@@ -744,9 +758,9 @@ CTmplEditorWindow::AddEditField(Str255 inValue,
 								UInt8 inAttributes,
 								TEKeyFilterFunc inKeyFilter)
 {
-	mEditPaneInfo.left = kTmplLeftMargin + kTmplLabelWidth + kTmplHorizSep + mIndent;
-	mEditPaneInfo.top = mYCoord - 2;
-	mEditPaneInfo.paneID = mCurrentID;
+	mEditPaneInfo.left		= kTmplLeftMargin + kTmplLabelWidth + kTmplHorizSep + mIndent;
+	mEditPaneInfo.top		= mYCoord - 3;
+	mEditPaneInfo.paneID	= mCurrentID;
 
 	LEditText * theEditText = new LEditText(mEditPaneInfo, this, inValue, mEditTraitsID, 
 											inMessage, inMaxChars, inAttributes, inKeyFilter);
@@ -755,9 +769,6 @@ CTmplEditorWindow::AddEditField(Str255 inValue,
 	// Store the template's type in the userCon field
 	theEditText->SetUserCon(inType);
 	
-// 	SetLatentSub(theEditText);
-// 	SuperActivate();
-
 	// Advance the counters
 	mYCoord += mEditPaneInfo.height + kTmplVertSep;
 	mCurrentID++;
@@ -775,14 +786,14 @@ CTmplEditorWindow::AddBooleanControls(Boolean inValue,
 {
 	LStdRadioButton * theRadio;
 	SViewInfo	theViewInfo;
-	theViewInfo.imageSize.width		= theViewInfo.imageSize.height = 0 ;
-	theViewInfo.scrollPos.h			= theViewInfo.scrollPos.v = 0;
-	theViewInfo.scrollUnit.h		= theViewInfo.scrollUnit.v = 1;
+	theViewInfo.imageSize.width		= theViewInfo.imageSize.height	= 0 ;
+	theViewInfo.scrollPos.h			= theViewInfo.scrollPos.v		= 0;
+	theViewInfo.scrollUnit.h		= theViewInfo.scrollUnit.v		= 1;
 	theViewInfo.reconcileOverhang	= false;
 	
-	mRgvPaneInfo.left = kTmplLeftMargin + kTmplLabelWidth + kTmplHorizSep + mIndent;
-	mRgvPaneInfo.top = mYCoord - 2;
-	mRgvPaneInfo.paneID = mCurrentID;
+	mRgvPaneInfo.left	= kTmplLeftMargin + kTmplLabelWidth + kTmplHorizSep + mIndent;
+	mRgvPaneInfo.top	= mYCoord - 2;
+	mRgvPaneInfo.paneID	= mCurrentID;
 
 // 	LRadioGroupView * theRGV = new LRadioGroupView(mEditPaneInfo, theViewInfo);
 // 	ThrowIfNil_(theRGV);
@@ -794,10 +805,10 @@ CTmplEditorWindow::AddBooleanControls(Boolean inValue,
 
 	// Create two radiobuttons in this group
 	//     "Yes/On" radiobutton
-	mRadioPaneInfo.left = 2;
-	mRadioPaneInfo.top = mYCoord + 2;
-	mRadioPaneInfo.paneID = mCurrentID;
-	mRadioPaneInfo.superView = mContentsView;
+	mRadioPaneInfo.left			= 2;
+	mRadioPaneInfo.top			= mYCoord + 2;
+	mRadioPaneInfo.paneID		= mCurrentID;
+	mRadioPaneInfo.superView	= mContentsView;
 
 	theRadio = new LStdRadioButton(mRadioPaneInfo, rPPob_TmplEditorWindow + mCurrentID, 
 								   inValue, mLeftLabelTraitsID, (UInt8 *)(inTitleType ? "\pOn":"\pYes"));
@@ -842,32 +853,32 @@ CTmplEditorWindow::AddWasteField(OSType inType)
 	char 		theChar;
 	SViewInfo	theViewInfo;
 
-	theViewInfo.imageSize.width		= theViewInfo.imageSize.height = 0 ;
-	theViewInfo.scrollPos.h			= theViewInfo.scrollPos.v = 0;
-	theViewInfo.scrollUnit.h		= theViewInfo.scrollUnit.v = 1;
+	theViewInfo.imageSize.width		= theViewInfo.imageSize.height	= 0 ;
+	theViewInfo.scrollPos.h			= theViewInfo.scrollPos.v		= 0;
+	theViewInfo.scrollUnit.h		= theViewInfo.scrollUnit.v		= 1;
 	theViewInfo.reconcileOverhang	= false;
 	
-	mTgbPaneInfo.top = mYCoord;
-	mTgbPaneInfo.left = kTmplTextMargin + mIndent;
+	mTgbPaneInfo.top				= mYCoord;
+	mTgbPaneInfo.left				= kTmplTextMargin + mIndent;
+	mTgbPaneInfo.bindings.bottom	= false;
 	LTextGroupBox * theTGB = new LTextGroupBox(mTgbPaneInfo, theViewInfo, false);
 	ThrowIfNil_(theTGB);
 
-	mScrollPaneInfo.left = kTmplTextInset;
-	mScrollPaneInfo.top = kTmplTextInset;
-	mScrollPaneInfo.width = mTgbPaneInfo.width - kTmplTextInset * 2;
-	mScrollPaneInfo.height = mTgbPaneInfo.height - kTmplTextInset * 2;
-	mScrollPaneInfo.bindings.bottom	= false;
-	mScrollPaneInfo.paneID = mCurrentID;
-	mScrollPaneInfo.superView = theTGB;
+	mScrollPaneInfo.left		= kTmplTextInset;
+	mScrollPaneInfo.top			= kTmplTextInset;
+	mScrollPaneInfo.width		= mTgbPaneInfo.width - kTmplTextInset * 2;
+	mScrollPaneInfo.height		= mTgbPaneInfo.height - kTmplTextInset * 2;
+	mScrollPaneInfo.paneID		= mCurrentID;
+	mScrollPaneInfo.superView	= theTGB;
 
 	LScrollerView * theScroller = new LScrollerView(mScrollPaneInfo, theViewInfo, 0, 15, 0, 15, 16, NULL, true);
 	
-	mWastePaneInfo.left = 0;
-	mWastePaneInfo.top = 0;
-	mWastePaneInfo.width = mScrollPaneInfo.width - 15;
-	mWastePaneInfo.height = mScrollPaneInfo.height - 15;
-	mWastePaneInfo.paneID = 0;
-	mWastePaneInfo.superView = theScroller;
+	mWastePaneInfo.left			= 0;
+	mWastePaneInfo.top			= 0;
+	mWastePaneInfo.width		= mScrollPaneInfo.width - 15;
+	mWastePaneInfo.height		= mScrollPaneInfo.height - 15;
+	mWastePaneInfo.paneID		= 0;
+	mWastePaneInfo.superView	= theScroller;
 
 	// Make the Waste edit writable, not wrapping, selectable
 	CWasteEditView * theWasteEdit = new CWasteEditView(mWastePaneInfo, theViewInfo, 0, mEditTraitsID);
@@ -935,39 +946,47 @@ CTmplEditorWindow::AddHexDumpField(OSType inType)
 	char 		theChar;
 	SViewInfo	theViewInfo;
 
-	theViewInfo.imageSize.width		= theViewInfo.imageSize.height = 0 ;
-	theViewInfo.scrollPos.h			= theViewInfo.scrollPos.v = 0;
-	theViewInfo.scrollUnit.h		= theViewInfo.scrollUnit.v = 1;
+	theViewInfo.imageSize.width		= theViewInfo.imageSize.height	= 0 ;
+	theViewInfo.scrollPos.h			= theViewInfo.scrollPos.v		= 0;
+	theViewInfo.scrollUnit.h		= theViewInfo.scrollUnit.v		= 1;
 	theViewInfo.reconcileOverhang	= false;
 	
-	mTgbPaneInfo.top = mYCoord;
-	mTgbPaneInfo.left = kTmplTextMargin + mIndent;
-	mTgbPaneInfo.paneID = mCurrentID;
-	LTextGroupBox * theTGB = new LTextGroupBox(mTgbPaneInfo, theViewInfo, false);
+	mTgbPaneInfo.top				= mYCoord;
+	mTgbPaneInfo.left				= kTmplTextMargin + mIndent;
+	mTgbPaneInfo.bindings.bottom	= true;
+	mTgbPaneInfo.paneID				= mCurrentID;
+	CDualDataView * theTGB = new CDualDataView(mTgbPaneInfo, theViewInfo, false);
 	ThrowIfNil_(theTGB);
 
-	mScrollPaneInfo.left = kTmplTextInset;
-	mScrollPaneInfo.top = kTmplTextInset;
-	mScrollPaneInfo.width = mTgbPaneInfo.width - kTmplTextInset * 2;
-	mScrollPaneInfo.height = mTgbPaneInfo.height - kTmplTextInset * 2;
-	mScrollPaneInfo.bindings.bottom	= true;
-	mScrollPaneInfo.paneID = 0;
-	mScrollPaneInfo.superView = theTGB;
+	mScrollPaneInfo.left		= mTgbPaneInfo.width - kTmplTextInset - kTmplScrollWidth;
+	mScrollPaneInfo.top			= kTmplTextInset;
+	mScrollPaneInfo.width		= kTmplScrollWidth;
+	mScrollPaneInfo.height		= mTgbPaneInfo.height - kTmplTextInset * 2;
+	mScrollPaneInfo.paneID		= 0;
+	mScrollPaneInfo.superView	= theTGB;
 
-	LScrollerView * theScroller = new LScrollerView(mScrollPaneInfo, theViewInfo, 0, 15, 0, 15, 16, NULL, true);
+	CSingleScrollBar * theScroller = new CSingleScrollBar(mScrollPaneInfo, 'HScr', 0, 0, 0, true);
 	
-	mWastePaneInfo.left = 0;
-	mWastePaneInfo.top = 0;
-	mWastePaneInfo.width = mScrollPaneInfo.width - 15;
-	mWastePaneInfo.height = mScrollPaneInfo.height - 15;
-	mWastePaneInfo.paneID = 0;
-	mWastePaneInfo.superView = theScroller;
+	mWastePaneInfo.left			= kTmplTextInset;
+	mWastePaneInfo.top			= kTmplTextInset;
+	mWastePaneInfo.width		= kTmplHexPaneWidth;
+	mWastePaneInfo.height		= mScrollPaneInfo.height;
+	mWastePaneInfo.paneID		= 0;
+	mWastePaneInfo.superView	= theTGB;
 
-	// Make the Waste edit writable, not wrapping, selectable
-	CWasteEditView * theWasteEdit = new CWasteEditView(mWastePaneInfo, theViewInfo, 0, mEditTraitsID);
-	ThrowIfNil_(theWasteEdit);
+	// Make the Waste edit (writable, no wrapping, selectable)
+	CHexDataSubView * theHexWE = new CHexDataSubView(mWastePaneInfo, theViewInfo, 0, mEditTraitsID);
+	ThrowIfNil_(theHexWE);
 
-	theScroller->InstallView(theWasteEdit);
+	mWastePaneInfo.left			= kTmplTxtPaneLeft;
+	mWastePaneInfo.width		= kTmplTxtPaneWidth;
+	CTxtDataSubView * theTxtWE = new CHexDataSubView(mWastePaneInfo, theViewInfo, 0, mEditTraitsID);
+	ThrowIfNil_(theTxtWE);
+	
+	
+	
+	
+// 	theScroller->InstallView(theWasteEdit);
 	
 	// Store the template's type in the userCon field
 	theWasteEdit->SetUserCon(inType);
@@ -1010,10 +1029,6 @@ CTmplEditorWindow::AddHexDumpField(OSType inType)
 //	¥ AddRectField													[public]
 // ---------------------------------------------------------------------------
 // Rectangle text group box basic values
-// // // thePaneInfo.paneID				= mCurrentID;
-// // // thePaneInfo.width				= kTmplRectWidth;
-// // // thePaneInfo.height				= kTmplRectHeight;
-// // // thePaneInfo.superView			= mContentsView;
 
 void
 CTmplEditorWindow::AddRectField(SInt16 inTop, 
@@ -1030,15 +1045,15 @@ CTmplEditorWindow::AddRectField(SInt16 inTop,
 	LEditText * theEditText;
 	LStaticText * theStaticText;
 	SViewInfo	theViewInfo;
-	theViewInfo.imageSize.width		= theViewInfo.imageSize.height = 0 ;
-	theViewInfo.scrollPos.h			= theViewInfo.scrollPos.v = 0;
-	theViewInfo.scrollUnit.h		= theViewInfo.scrollUnit.v = 1;
+	theViewInfo.imageSize.width		= theViewInfo.imageSize.height	= 0 ;
+	theViewInfo.scrollPos.h			= theViewInfo.scrollPos.v		= 0;
+	theViewInfo.scrollUnit.h		= theViewInfo.scrollUnit.v		= 1;
 	theViewInfo.reconcileOverhang	= false;
 
-	mRectLabelInfo.top = mYCoord;
-	mRectPaneInfo.top = mYCoord + kTmplRectHeight;
+	mRectLabelInfo.top	= mYCoord;
+	mRectPaneInfo.top	= mYCoord + kTmplRectHeight;
 	mRectLabelInfo.left = kTmplLeftMargin + kTmplLabelWidth + kTmplHorizSep + mIndent;
-	mRectPaneInfo.left = mRectLabelInfo.left;
+	mRectPaneInfo.left	= mRectLabelInfo.left;
 
 	// Top
 	theStaticText = new LStaticText(mRectLabelInfo, "\pTop", mEditTraitsID);
