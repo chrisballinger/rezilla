@@ -624,6 +624,7 @@ CRezillaPrefs::RunPrefsWindow()
 	UReanimator::LinkListenerToBroadcasters( &theHandler, theGeneralPane, rPPob_PrefsGeneralPane );
 	UReanimator::LinkListenerToBroadcasters( &theHandler, theExportPane, rPPob_PrefsExportPane );
 	UReanimator::LinkListenerToBroadcasters( &theHandler, theComparePane, rPPob_PrefsComparePane );
+	UReanimator::LinkListenerToBroadcasters( &theHandler, theInterfacePane, rPPob_PrefsInterfacePane );
 	
 	while (inPrefsLoop) {
 		
