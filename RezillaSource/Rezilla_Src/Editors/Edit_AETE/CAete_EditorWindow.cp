@@ -706,9 +706,13 @@ CAete_EditorWindow::ImportAete(FSSpec inFSSpec)
 	if (error == noErr) {
 		RebuildSuitePopup();
 		InstallResourceInfo();
-// 		InstallSuiteValues();
-// 		InstallPanelValues();
-	} 
+		InstallSuiteValues();
+		InstallPanelValues();
+		SetDirty(true);
+	} else {
+		UMessageDialogs::ErrorWithString(CFSTR("ErrorImportingAeteFromXml"), error);
+		RevertContents();
+	}
 
 	return error;
 }
