@@ -2,11 +2,11 @@
 // CUtxt_EditorView.h
 // 
 //                       Created: 2004-12-08 18:21:21
-//             Last modification: 2005-01-08 21:58:51
+//             Last modification: 2005-01-14 21:28:13
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004, 2005
+// (c) Copyright : Bernard Desgraupes, 2004-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -15,7 +15,6 @@
 #ifndef _H_CUtxt_EditorView
 #define _H_CUtxt_EditorView
 #pragma once
-
 
 #include <LTextEditView.h>
 #include <LMLTEPane.h>
@@ -29,7 +28,6 @@ PP_Begin_Namespace_PowerPlant
 
 class CUtxt_EditorWindow;
 
-// ---------------------------------------------------------------------------
 
 class CUtxt_EditorView : public LMLTEPane {
 public:
@@ -53,7 +51,15 @@ public:
 									UInt16&				outMark,
 									Str255				outName);
 
-// 	virtual void			UserChangedText();
+	ByteCount				CountChanges();
+	
+	OSStatus				ResetChangesCount();
+	
+	void					SetUnicodePtr(
+									const void *	inTextP,
+									ByteCount		inTextLength);
+	
+	virtual	void			SpendTime( const EventRecord& inMacEvent );
 
 	virtual Boolean			GetFontSize( Fixed & outSize );
 	virtual Boolean			ChangeFontSizeBy( SInt16 inDeltaSize );

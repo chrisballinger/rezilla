@@ -2,11 +2,11 @@
 // CUtxt_EditorDoc.cp
 // 
 //                       Created: 2004-12-08 18:21:21
-//             Last modification: 2004-12-27 14:43:26
+//             Last modification: 2005-01-14 21:27:21
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004
+// (c) Copyright : Bernard Desgraupes, 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -112,12 +112,21 @@ CUtxt_EditorDoc::Initialize()
 		} 
 	} 
 	
-// 	mUtxtEditWindow->AdjustMenusToSelection();
 	mUtxtEditWindow->SetLengthField();
+	
+	// This is the equivalent of SetDirty(false)
+	mUtxtEditWindow->GetContentsView()->ResetChangesCount();
 	
 	// Make the window visible.
 	mUtxtEditWindow->Show();
 }
+// 
+// EXTERN_API_C( OSStatus )
+// TXNCountRunsInRange(
+//   TXNObject    iTXNObject,
+//   TXNOffset    iStartOffset,
+//   TXNOffset    iEndOffset,
+//   ItemCount *  oRunCount);
 
 
 // ---------------------------------------------------------------------------
@@ -195,26 +204,33 @@ CUtxt_EditorDoc::AskSaveChanges(
 }
 
 
+// ---------------------------------------------------------------------------------
+//  ¥ IsModified
+// ---------------------------------------------------------------------------------
+
+Boolean
+CUtxt_EditorDoc::IsModified()
+{
+	// Document has changed if the text views are dirty
+	mIsModified = mUtxtEditWindow->IsDirty();
+	return mIsModified;
+}
+
+
 // ---------------------------------------------------------------------------
 //  ¥ GetModifiedResource										[protected]
 // ---------------------------------------------------------------------------
-// EXTERN_API_C( ItemCount )
-// TXNGetChangeCount(TXNObject iTXNObject);
-// 
-// TXNClearActionChangeCount
-// 
-// TXNCountRunsInRange
-// 
-// TXNDataSize
-// 
-
+// (From MacTextEditor.h) The handle passed to TXNGetDataEncoded should not
+// be allocated. TXNGetDataEncoded takes care of allocating the dataHandle
+// as necessary. However, the caller is responsible for disposing the
+// handle.
 
 Handle
 CUtxt_EditorDoc::GetModifiedResource(Boolean &releaseIt) 
 {
+	releaseIt = true;
 	return mUtxtEditWindow->GetContentsView()->GetModifiedText();
 }
-
 
 
 PP_End_Namespace_PowerPlant

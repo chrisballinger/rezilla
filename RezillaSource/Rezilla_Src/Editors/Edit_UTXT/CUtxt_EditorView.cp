@@ -82,7 +82,6 @@ CUtxt_EditorView::~CUtxt_EditorView()
 }
 
 
-
 #pragma mark -
 
 
@@ -94,7 +93,7 @@ Boolean
 CUtxt_EditorView::HandleKeyPress(
 	const EventRecord	&inKeyEvent)
 {
-	Boolean		keyHandled	 = LMLTEPane::HandleKeyPress(inKeyEvent);
+	Boolean		keyHandled = LMLTEPane::HandleKeyPress(inKeyEvent);
 	
 	mOwnerWindow->SetLengthField();
 	return keyHandled;
@@ -219,6 +218,26 @@ CUtxt_EditorView::ObeyCommand(
 		mOwnerWindow->SetLengthField();
 		break;
 
+		case cmd_FontLarger: {	
+			Fixed	theSize;
+			GetFontSize(theSize);
+			if (theSize < cmd_MenuUtxtSizeLast - cmd_MenuUtxtSizeBase) {
+				theSize++;
+				SetFontSize(theSize);
+			}
+			break;
+		}
+		
+		case cmd_FontSmaller: {
+			Fixed	theSize;
+			GetFontSize(theSize);
+			if (theSize > 1) {
+				theSize--;
+				SetFontSize(theSize);
+			} 
+			break;
+		}
+			
 		case cmd_Plain:
 		SetFontStyle(normal);
 		break;
@@ -232,8 +251,7 @@ CUtxt_EditorView::ObeyCommand(
 		case cmd_Extend: {
 			Style theStyle;
 			UInt8 i = inCommand - cmd_Plain - 1;
-			GetFontStyle(theStyle);
-			theStyle ^= (1 << i);
+			theStyle = (1 << i);
 			SetFontStyle(theStyle);
 			break;
 		}
@@ -299,6 +317,18 @@ CUtxt_EditorView::TakeOffDuty()
 
 
 // ---------------------------------------------------------------------------
+//  SpendTime
+// ---------------------------------------------------------------------------
+
+void
+CUtxt_EditorView::SpendTime( const EventRecord& inMacEvent)
+{
+	mOwnerWindow->SetLengthField();
+	LMLTEPane::SpendTime(inMacEvent);
+}
+
+
+// ---------------------------------------------------------------------------
 // 	RemoveUnicodeMenus
 // ---------------------------------------------------------------------------
 
@@ -320,25 +350,6 @@ CUtxt_EditorView::RemoveUnicodeMenus()
 	if ( sUtxtStyleMenu )
 		theBar->RemoveMenu( sUtxtStyleMenu );
 }
-
-
-// // ---------------------------------------------------------------------------
-// //	¥ UserChangedText						[public, virtual]
-// // ---------------------------------------------------------------------------
-// TXNGetChangeCount
-// 
-// void
-// CUtxt_EditorView::UserChangedText()
-// {
-// 	if ( ! mOwnerWindow->IsDirty() ) {
-// 
-// 		// Set the update menus flag.
-// 		SetUpdateCommandStatus( true );
-// 		
-// 		// Set the dirty flag.
-// 		mOwnerWindow->SetDirty( true );
-// 	}
-// }
 
 
 // ---------------------------------------------------------------------------
@@ -441,9 +452,53 @@ CUtxt_EditorView::GetFontColor(
 
 	status = ::TXNGetContinuousTypeAttributes(mTXNObject,&continuousFlag,1,&attribute);
 
-
 	return ((continuousFlag & kTXNColorContinuousMask) != 0);
 }
+
+
+// ---------------------------------------------------------------------------------
+//	¥ CountChanges														[public]
+// ---------------------------------------------------------------------------------
+
+ByteCount
+CUtxt_EditorView::CountChanges()
+{
+	return ::TXNDataSize( mTXNObject );
+}
+
+
+// ---------------------------------------------------------------------------------
+//	¥ ResetChangesCount													[public]
+// ---------------------------------------------------------------------------------
+//   kTXNTextInputCountMask
+//   kTXNRunCountMask
+//   kTXNAllCountMask
+
+OSStatus
+CUtxt_EditorView::ResetChangesCount()
+{
+	return ::TXNClearActionChangeCount( mTXNObject, kTXNAllCountMask );
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ SetUnicodePtr														[public]
+// ---------------------------------------------------------------------------
+
+void
+CUtxt_EditorView::SetUnicodePtr(
+	const void*		inTextP,
+	ByteCount		inTextLength)
+{
+	ThrowIfOSStatus_( ::TXNSetData( mTXNObject,
+									kTXNUnicodeTextData,
+ 									(void*) inTextP,
+									inTextLength,
+									kTXNStartOffset,
+									kTXNEndOffset ) );
+}
+
+
 
 
 PP_End_Namespace_PowerPlant

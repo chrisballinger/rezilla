@@ -126,19 +126,6 @@ void
 CUtxt_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam ) 
 {	
 	switch (inMessage) {
-// 		case msg_UtxtEditSizeMenu:
-// 		// Get the value of the item.
-// 		theIndex = mSizePopup->GetValue();
-// 		::GetMenuItemText( mSizePopup->GetMacMenuH(), mSizePopup->GetValue(), theString );
-// 		::StringToNum( theString, &theSize );
-// 		mContentsView->SetFontSize(theSize);
-// 		break;
-// 		
-// 		case msg_UtxtEditStyleMenu:
-// 		// Get the values of all the items
-// 		theIndex = mStylePopup->GetValue();
-// 		ObeyCommand(cmd_Plain + theIndex - 2, NULL);
-// 		break;
 			
 		default:
 		dynamic_cast<CUtxt_EditorDoc *>(mOwnerDoc)->ListenToMessage(inMessage, ioParam);
@@ -171,28 +158,6 @@ CUtxt_EditorWindow::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ObeyCommand							[public, virtual]
-// ---------------------------------------------------------------------------
-
-Boolean
-CUtxt_EditorWindow::ObeyCommand(
-	CommandT	inCommand,
-	void*		ioParam)
-{
-	Boolean		cmdHandled = true;
-	
-	switch (inCommand) {
-
-		default:
-			cmdHandled = LCommander::ObeyCommand(inCommand, ioParam);
-			break;
-	}
-
-	return cmdHandled;
-}
-
-
-// ---------------------------------------------------------------------------
 //	¥ InstallText													[public]
 // ---------------------------------------------------------------------------
 
@@ -200,8 +165,20 @@ void
 CUtxt_EditorWindow::InstallText(Handle inTextHandle)
 {
 	StHandleLocker	lock(inTextHandle);
-	mContentsView->SetTextPtr(*inTextHandle, ::GetHandleSize(inTextHandle));
+	mContentsView->SetUnicodePtr(*inTextHandle, ::GetHandleSize(inTextHandle));
 	SetDirty(false);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ IsDirty														[public]
+// ---------------------------------------------------------------------------
+
+Boolean
+CUtxt_EditorWindow::IsDirty()
+{
+	mIsDirty = (::TXNGetChangeCount(mContentsView->GetTextObject()) > 0);
+	return mIsDirty;
 }
 
 
@@ -212,19 +189,12 @@ CUtxt_EditorWindow::InstallText(Handle inTextHandle)
 void
 CUtxt_EditorWindow::SetLengthField()
 {
-	Str255	theString;
-	Size	theLength = 0;
-	Handle	dataH  = nil;
-	OSStatus status = ::TXNGetDataEncoded(mContentsView->GetTextObject(),
-												 kTXNStartOffset, kTXNEndOffset,
-												 &dataH, kTXNUnicodeTextData);
-	
-	if (status == noErr  &&  dataH != nil) {
-		theLength = (Size) (::GetHandleSize(dataH) / sizeof(UniChar));
-		::DisposeHandle(dataH);
-	}
+	Str255		theString;
+	ByteCount	theLength = 0;
 
-	::NumToString( theLength, theString);
+	theLength = ::TXNDataSize(mContentsView->GetTextObject());
+
+	::NumToString(theLength, theString);
 	mLengthField->SetDescriptor(theString);
 }
 

@@ -2,11 +2,11 @@
 // CUtxt_EditorDoc.h
 // 
 //                       Created: 2004-12-08 18:21:21
-//             Last modification: 2005-01-09 09:07:06
+//             Last modification: 2005-01-14 19:31:19
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004, 2005
+// (c) Copyright : Bernard Desgraupes, 2004-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -32,8 +32,6 @@ class CRezObj;
 class CUtxt_EditorWindow;
 
 
-// ---------------------------------------------------------------------------
-
 class CUtxt_EditorDoc : public CEditorDoc {
 	
 public:
@@ -47,6 +45,8 @@ public:
 	virtual void		FindCommandStatus( CommandT inCommand,
 							Boolean &outEnabled, Boolean &outUsesMark,
 							UInt16 &outMark, Str255 outName );
+
+	virtual Boolean		IsModified();
 
 	virtual StringPtr	GetDescriptor( Str255 outDescriptor ) const;
 

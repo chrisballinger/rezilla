@@ -2,11 +2,11 @@
 // CUtxt_EditorWindow.h
 // 
 //                       Created: 2004-12-08 18:21:21
-//             Last modification: 2005-01-08 21:31:35
+//             Last modification: 2005-01-14 17:15:55
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004, 2005
+// (c) Copyright : Bernard Desgraupes, 2004-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -42,12 +42,10 @@ public:
 								UInt16&				outMark,
 								Str255				outName);
 
-	virtual Boolean	ObeyCommand(
-							CommandT			inCommand,
-							void*				ioParam);
-
 	void			InstallText(Handle inTextHandle);
 
+	Boolean			IsDirty();
+	
 	void			SetLengthField();
 					
 	CUtxt_EditorView *	GetContentsView() const { return mContentsView;}
