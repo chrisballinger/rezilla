@@ -1145,8 +1145,8 @@ CTmplEditorWindow::AddListHeaderField(Str255 inLabel,
 	mPaneIDs.AddItem(mCurrentID);
 	mCurrentID++;
 
-	// Advance the counters
-	mYCoord += sStaticPaneInfo.height + kTmplVertSep + kTmplVertSkip;
+	// Advance the counters    kTmplVertSep
+	mYCoord += sStaticPaneInfo.height + kTmplVertSkip;
 	
 	return theCountPane;
 }

@@ -2,7 +2,7 @@
 // CTmplEditorWindow.cp					
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-10-01 17:08:26
+//             Last modification: 2004-10-06 13:30:26
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -299,13 +299,15 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 				}
 				currListItemView->CalcPortFrameRect(theFrame);
 			} else {
-				mYCoord += kTmplVertSkip;
 				thePlusButton->CalcPortFrameRect(theFrame);
 			}
 			
 			// Calculate the insertion position of the new list item
 			theContainer->PortToLocalPoint(botRight(theFrame));
 			mYCoord = theFrame.bottom + kTmplVertSkip;
+			if (!currListItemView) {
+				mYCoord += kTmplVertSep;
+			} 
 			prevListItemView = currListItemView;
 
 			mContentsView->Hide();
@@ -604,16 +606,16 @@ CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount,
 							 LView * inContainer, PaneIDT inCountPane)
 {
 	OSErr	error = noErr;
+	SInt32	outYCoord = mYCoord;
 
-	mIndent += kTmplListIndent;
-	
 	CTmplListItemView * prevListItemView = nil;
 	CTmplListItemView * currListItemView = nil;
-	SInt32		outYCoord = mYCoord;
 	
 	CTmplListButton * thePlusButton = dynamic_cast<CTmplListButton *>(this->FindPaneByID(mCurrentID - 1));
 	LView * theContainer = inContainer;
 
+	mIndent += kTmplListIndent;
+	
 	switch (inType) {
 		case 'LSTB':
 		case 'LSTZ':
@@ -627,7 +629,6 @@ CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount,
 				return error;
 			}
 		} 
-		mYCoord = outYCoord;
 		do {
 			if (drawCtrl) {
 				listCount++;
@@ -665,7 +666,6 @@ CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount,
 		if (inCount == 0) {
 			error = DoParseWithTemplate(inStartMark, false, theContainer);
 		} else {
-			mYCoord = outYCoord;
 			for (short i = 0 ; i < inCount && error == noErr; i++) {
 				currListItemView = AddListItemView(prevListItemView, inContainer);
 				prevListItemView = currListItemView;
@@ -685,6 +685,7 @@ CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount,
 	}
 	
 	mIndent -= kTmplListIndent;
+	mYCoord += kTmplVertSep;
 	
 	return error;
 }
