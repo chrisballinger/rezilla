@@ -1,7 +1,7 @@
 // ===========================================================================
 // CColorTableChoice.cp
 //                       Created: 2004-12-11 18:50:13
-//             Last modification: 2004-12-17 11:42:24
+//             Last modification: 2004-12-28 14:51:11
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -10,12 +10,12 @@
 // $Date$
 // $Revision$
 // ===========================================================================
-// 	¥ 	Most of the color resource types are edited using 32-bit buffers.
+// 	* Most of the color resource types are edited using 32-bit buffers.
 // 		This means that they support all of the various color table choices.
 // 		
-// 	¥	B&W buffers (including masks) don't support any choices (b&w only).
+// 	* B&W buffers (including masks) don't support any choices (b&w only).
 // 	
-// 	¥	Icon families are the only place where the editor uses 4 & 8-bit
+// 	* Icon families are the only place where the editor uses 4 & 8-bit
 // 		buffers. Things are enabled as follows for them:
 // 		  icl8, ics8, icm8	-> Apple 256 table or Apple Icon Colors
 // 		  icl4, ics4, icm4	-> Apple 16 table
@@ -132,8 +132,8 @@ CColorTableChoice::FindCommandStatus( SInt32 inDepth, CommandT inCommand,
 		}
 		else
 		{
-				// note: we have to set outUsesMark to true or the checkmarks never
-				// go away
+			// We have to set outUsesMark to true or the checkmarks never
+			// go away
 			outUsesMark = true;
 			outMark = 0;
 		}
@@ -153,9 +153,7 @@ CColorTableChoice::ObeyCommand( SInt32 inDepth, CommandT inCommand )
 	Boolean		didIt = false;
 	ResIDT		theID;
 	
-	/*
-		watch out for recursion when we get the recolor command
-	*/
+	// Watch out for recursion when we get the recolor command
 	static Boolean busy = false;
 	if ( busy ) return( false );
 	
