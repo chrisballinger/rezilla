@@ -1610,8 +1610,9 @@ CIcon_EditorWindow::SetTargetView( CDraggableTargetView *inBox, RedrawOptions in
 	this->SetImage( inBox->GetBuffer(), resize_Canvas, inRedrawHow );
 	
 	// Change the hiliting of the target box
-	if ( mCurrentSamplePane )
+	if ( mCurrentSamplePane ) {
 		mCurrentSamplePane->SetTarget( false, inRedrawHow );
+	}
 	inBox->SetTarget( true, inRedrawHow );
 	mCurrentSamplePane = inBox;
 }
