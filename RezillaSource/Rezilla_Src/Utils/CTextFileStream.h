@@ -2,11 +2,11 @@
 // CTextFileStream.h					
 // 
 //                       Created : 2002-06-09 19:38:34
-//             Last modification : 2005-02-07 23:40:00
+//             Last modification : 2005-02-08 16:48:20
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2002-2004, 2005
+// © Copyright: Bernard Desgraupes 2002-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -67,25 +67,25 @@ public:
 
 	SInt32			WriteOSType(OSType inType);
 	
-	SInt32			WriteOSTypeWithTag(OSType inType, ConstStringPtr inTag);
+	SInt32			WriteOSTypeWithTag(OSType inType, ConstStringPtr inTag, UInt8 indent = 0);
 
-	SInt32			WriteOSTypeWithTag(OSType inType, const char *inTag);
+	SInt32			WriteOSTypeWithTag(OSType inType, const char *inTag, UInt8 indent = 0);
 
 	SInt32			WritePString( ConstStringPtr inString );
 	
-	SInt32			WritePStringWithTag( ConstStringPtr inString, ConstStringPtr inTag);
+	SInt32			WritePStringWithTag( ConstStringPtr inString, ConstStringPtr inTag, UInt8 indent = 0);
 	
 	SInt32			WriteCString( const char* inString );
 
-	SInt32			WriteCStringWithTag( const char *inString, const char *inTag);
+	SInt32			WriteCStringWithTag( const char *inString, const char *inTag, UInt8 indent = 0);
 
-	SInt32			WriteSInt32WithTag( SInt32 inNum, ConstStringPtr inTag);
+	SInt32			WriteSInt32WithTag( SInt32 inNum, ConstStringPtr inTag, UInt8 indent = 0);
 
-	SInt32			WriteSInt32WithTag( SInt32 inNum, const char *inTag);
+	SInt32			WriteSInt32WithTag( SInt32 inNum, const char *inTag, UInt8 indent = 0);
 
-	SInt32			WriteBooleanWithTag( Boolean inBool, ConstStringPtr inTag);
+	SInt32			WriteBooleanWithTag( Boolean inBool, ConstStringPtr inTag, UInt8 indent = 0);
 
-	SInt32			WriteBooleanWithTag( Boolean inBool, const char *inTag);
+	SInt32			WriteBooleanWithTag( Boolean inBool, const char *inTag, UInt8 indent = 0);
 
 	SInt32			WriteByChunks(const char *inString, 
 								Str255	inPrefix, 

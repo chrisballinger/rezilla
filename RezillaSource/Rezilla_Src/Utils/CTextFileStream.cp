@@ -104,9 +104,16 @@ CTextFileStream::WriteOSType(OSType inType)
 SInt32
 CTextFileStream::WriteOSTypeWithTag(
 		OSType inType,
-		ConstStringPtr	inTag)
+		ConstStringPtr inTag, 
+		UInt8 indent)
 {
-	SInt32	bytesToWrite = WritePString("\p<");
+	SInt32	bytesToWrite = 0;
+	for (UInt8 i = 0; i < indent; i++) {
+		WriteBlock("\t", 1);
+	}
+	bytesToWrite += indent;
+	
+	bytesToWrite += WritePString("\p<");
 	bytesToWrite += WritePString(inTag);
 	bytesToWrite += WritePString("\p>");
 	
@@ -129,9 +136,16 @@ CTextFileStream::WriteOSTypeWithTag(
 SInt32
 CTextFileStream::WriteOSTypeWithTag(
 		OSType inType,
-		const char *inTag)
+		const char *inTag, 
+		UInt8 indent)
 {
-	SInt32	bytesToWrite = WriteCString("<");
+	SInt32	bytesToWrite = 0;
+	for (UInt8 i = 0; i < indent; i++) {
+		WriteBlock("\t", 1);
+	}
+	bytesToWrite += indent;
+
+	bytesToWrite += WriteCString("<");
 	bytesToWrite += WriteCString(inTag);
 	bytesToWrite += WriteCString(">");
 	
@@ -153,10 +167,10 @@ CTextFileStream::WriteOSTypeWithTag(
 //	Return the number of bytes written
 
 SInt32
-CTextFileStream::WritePString(
-	ConstStringPtr	inString)
+CTextFileStream::WritePString(ConstStringPtr inString)
 {
-	SInt32	bytesToWrite = inString[0];
+	SInt32	bytesToWrite = 0;
+	bytesToWrite += inString[0];
 
 	WriteBlock(inString + 1, bytesToWrite);
 
@@ -172,10 +186,16 @@ CTextFileStream::WritePString(
 
 SInt32
 CTextFileStream::WritePStringWithTag(
-		ConstStringPtr	inString,
-		ConstStringPtr	inTag)
+		ConstStringPtr inString,
+		ConstStringPtr inTag, 
+		UInt8 indent)
 {
-	SInt32	bytesToWrite = WritePString("\p<");
+	SInt32	bytesToWrite = 0;
+	for (UInt8 i = 0; i < indent; i++) {
+		WriteBlock("\t", 1);
+	}
+	bytesToWrite += indent;
+	bytesToWrite += WritePString("\p<");
 	bytesToWrite += WritePString(inTag);
 	bytesToWrite += WritePString("\p>");
 	bytesToWrite += WritePString(inString);
@@ -219,9 +239,15 @@ CTextFileStream::WriteCString(
 SInt32
 CTextFileStream::WriteCStringWithTag(
 		const char *inString,
-		const char *inTag)
+		const char *inTag, 
+		UInt8 indent)
 {
-	SInt32	bytesToWrite = WriteCString("<");
+	SInt32	bytesToWrite = 0;
+	for (UInt8 i = 0; i < indent; i++) {
+		WriteBlock("\t", 1);
+	}
+	bytesToWrite += indent;
+	bytesToWrite += WriteCString("<");
 	bytesToWrite += WriteCString(inTag);
 	bytesToWrite += WriteCString(">");
 	bytesToWrite += WriteCString(inString);
@@ -242,12 +268,13 @@ CTextFileStream::WriteCStringWithTag(
 SInt32
 CTextFileStream::WriteSInt32WithTag(
 		SInt32 inNum,
-		ConstStringPtr inTag)
+		ConstStringPtr inTag, 
+		UInt8 indent)
 {
 	Str255	tempString;
 	::NumToString((long) inNum, tempString);
 
-	return (WritePStringWithTag(tempString,inTag));
+	return (WritePStringWithTag(tempString, inTag, indent));
 }
 
 
@@ -260,12 +287,17 @@ CTextFileStream::WriteSInt32WithTag(
 SInt32
 CTextFileStream::WriteSInt32WithTag(
 		SInt32 inNum,
-		const char *inTag)
+		const char *inTag, 
+		UInt8 indent)
 {
 	Str255	tempString;
+	SInt32	bytesToWrite = 0;
+	for (UInt8 i = 0; i < indent; i++) {
+		WriteBlock("\t", 1);
+	}
+	bytesToWrite += indent;
 	::NumToString((long) inNum, tempString);
-
-	SInt32	bytesToWrite = WriteCString("<");
+	bytesToWrite += WriteCString("<");
 	bytesToWrite += WriteCString(inTag);
 	bytesToWrite += WriteCString(">");
 	bytesToWrite += WritePString(tempString);
@@ -286,12 +318,13 @@ CTextFileStream::WriteSInt32WithTag(
 SInt32
 CTextFileStream::WriteBooleanWithTag(
 		Boolean inBool,
-		ConstStringPtr inTag)
+		ConstStringPtr inTag, 
+		UInt8 indent)
 {
 	if (inBool) {
-		return (WritePStringWithTag("\p1",inTag));
+		return (WritePStringWithTag("\p1", inTag, indent));
 	} else {
-		return (WritePStringWithTag("\p0",inTag));
+		return (WritePStringWithTag("\p0", inTag, indent));
 	}
 }
 
@@ -305,14 +338,15 @@ CTextFileStream::WriteBooleanWithTag(
 SInt32
 CTextFileStream::WriteBooleanWithTag(
 		Boolean inBool,
-		const char *inTag)
+		const char *inTag, 
+		UInt8 indent)
 {
 	SInt32	bytesToWrite ;
 	
 	if (inBool) {
-		bytesToWrite = WriteCStringWithTag("1",inTag);
+		bytesToWrite = WriteCStringWithTag("1", inTag, indent);
 	} else {
-		bytesToWrite = WriteCStringWithTag("0",inTag);
+		bytesToWrite = WriteCStringWithTag("0", inTag, indent);
 	}
 
 	return bytesToWrite;
@@ -334,7 +368,8 @@ CTextFileStream::WriteByChunks(
 		SInt32	inLen,
 		SInt32	inChunkSize)
 {
-	SInt32	bytesToWrite = inLen;
+	SInt32	bytesToWrite = 0;
+	bytesToWrite += inLen;
 	SInt32	bytesOffset = 0;
 	SInt32	chunksCount = inLen / inChunkSize;
 	
