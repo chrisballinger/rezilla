@@ -11,20 +11,13 @@
  | See
  | /Technical Publications/mac/pdf/Interapplication_Communication/AE_Term_Resources.pdf
  | 
- | (bd 2005-01-20) Replaced
- | AeteResID	AeteResID
- | AeteResTitle	AeteResTitle
+ | (bd 2005-02-19) Removed AeteResID and AeteResTitle
  | 
- | Misspelled
- | DirectParamDescription	DirectParamDescription
- | 
- | Version 1.1
+ | Version 1.2
 -->
 
 
-<!ELEMENT AETEREZ (
-		AeteResID,
-		AeteResTitle,
+<!ELEMENT AeteResource (
 		MajorVersion,
 		MinorVersion,
 		LanguageCode,
