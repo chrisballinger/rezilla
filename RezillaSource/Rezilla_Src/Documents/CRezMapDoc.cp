@@ -2,7 +2,7 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2004-04-18 00:01:12
+//             Last modification: 2004-04-18 18:10:36
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -251,7 +251,7 @@ CRezMapDoc::Initialize(FSSpec * inFileSpec, short inRefnum)
 	mRezMap->GetAllTypes(mTypesArray);
 	mRezMapWindow->GetRezMapTable()->Populate(mTypesArray);
 
-// 	// Let's make the doc a listener to the prefs object
+// 	// Let's make the document a listener to the prefs object
 // 	CRezillaApp::sPrefs->AddListener(this);
 	
 	// Attach an LUndoer
@@ -1371,7 +1371,7 @@ CRezMapDoc::GetRezEditor(ResType inType, short inID)
 	TArrayIterator<CRezEditor *> iterator(*mOpenedEditors);
 	CRezEditor*	theRezEditor = nil;
 	
-	// CRezillaApp class maintains a list of all CRezMapDoc's that were created
+	// The CRezMapDoc class maintains a list of all opened CRezEditor's
 	while (iterator.Next(theRezEditor)) {
 		if (inType == theRezEditor->GetRezObj()->GetType() && inID == theRezEditor->GetRezObj()->GetID() ) {
 			result = theRezEditor;
@@ -1443,7 +1443,7 @@ CRezMapDoc::DuplicateResource(CRezObj* inRezObj)
 	// Update the resources count field
 	mRezMapWindow->SetCountRezField( mRezMapWindow->GetCountRezField() + 1 );
 
-	// Doc has been modified
+	// Document has been modified
 	SetModified(true);
 
 	// Redraw
@@ -1475,15 +1475,21 @@ CRezMapDoc::RemoveResource(CRezObjItem* inRezObjItem)
 		return;
 	} 
 	
-	ResType theType = inRezObjItem->GetRezObj()->GetType();
+	CRezObj * theRezObj = inRezObjItem->GetRezObj();
 	
-// 	// If the resProtected flag in on (error rmvResFailed)
-// 	if (inRezObjItem->GetRezObj()->HasAttribute(resProtected)) {
-// 		inRezObjItem->GetRezObj()->ToggleAttribute(resProtected);
-// }
+	// If an editing window is opened for this resource, close it
+	CRezEditor * theRezEditor = GetRezEditor( theRezObj->GetType(), theRezObj->GetID() );
+	if (theRezEditor != nil) {
+		theRezEditor->SetModified(false);
+		delete theRezEditor;
+	} 
 	
-	// Remove the resource from the rez map
-	inRezObjItem->GetRezObj()->Remove();
+	// Remove the resource from the rez map: if the resProtected flag is on, 
+	// turn it off (otherwise error rmvResFailed)
+	if (theRezObj->HasAttribute(resProtected)) {
+		theRezObj->ToggleAttribute(resProtected);
+	}
+	theRezObj->Remove();
 	
 	// Remove the item from the table
 	LOutlineItem* theSuperItem =  inRezObjItem->GetSuperItem();
@@ -1493,14 +1499,14 @@ CRezMapDoc::RemoveResource(CRezObjItem* inRezObjItem)
 	mRezMapWindow->SetCountRezField( mRezMapWindow->GetCountRezField() - 1 );
 
 	// If there are no more resources of this type, remove the type item
-	error = mRezMap->CountForType(theType, theCount);
+	error = mRezMap->CountForType(theRezObj->GetType(), theCount);
 	if (theCount == 0) {
 		mRezMapWindow->GetRezMapTable()->RemoveItem(theSuperItem);
 		// Update the types count field
 		mRezMapWindow->SetCountTypeField( mRezMapWindow->GetCountTypeField() - 1 );
 	}
 	
-	// Doc has been modified
+	// Document has been modified
 	SetModified(true);
 }
 
@@ -1522,7 +1528,6 @@ CRezMapDoc::PasteRezMap(CRezMap * srcRezMap)
 	SInt16		answer;
 	MessageT 	theAction = answer_Do;
 	CRezObj *	theRezObj;
-	CRezObjItem * theRezObjItem;
 	
 	if (mReadOnlyDoc) {
 		::SysBeep(3);
@@ -1537,47 +1542,46 @@ CRezMapDoc::PasteRezMap(CRezMap * srcRezMap)
 		// Read in each data type
 		srcRezMap->GetTypeAtIndex(i, theType );
 		error = srcRezMap->CountForType( theType, numResources);
+		if (error != noErr) {continue;}
 
 		for (UInt16 j = 1; j <= numResources; j++) {
 			// Get the data handle
 			error = srcRezMap->GetResourceAtIndex(theType, j, theRezHandle);
 			
-			// Make a rez object out of it
-			try {
+			if (error == noErr) {
+				// Make a rez object out of it
+				try {
+					Boolean replace = false;
+					
 					theRezObj = new CRezObj(theRezHandle, theSrcRefNum);
 					theAttrs = theRezObj->GetAttributes();
 					theID = theRezObj->GetID();
 					
-					if (error == noErr) {
-						if ( mRezMap->ResourceExists(theType, theID)) {
-							if (!applyToOthers) {
-								answer = UMessageDialogs::AskSolveUidConflicts(theType, theID, applyToOthers);
-								theAction = answer;
-							} else {
-								answer = theAction;
-							}
-							switch (answer) {
-							  case answer_Do:
-							  mRezMap->UniqueID(theType, theID);;
-								break;
-								
-							  case answer_Dont:
-							  // Remove the corresponding entry from the table if it is visible
-							  theRezObjItem = mRezMapWindow->GetRezMapTable()->GetRezObjItem(theType, theID);
-							  if (theRezObjItem) {
-							  	RemoveResource(theRezObjItem);
-							  } 
-								break;
-								
-							  case answer_Cancel:
-								return;
-							}
-						} 
-						PasteResource(theType, theID, theRezHandle, theRezObj->GetName(), theAttrs);			
+					if ( mRezMap->ResourceExists(theType, theID)) {
+						if (!applyToOthers) {
+							answer = UMessageDialogs::AskSolveUidConflicts(theType, theID, applyToOthers);
+							theAction = answer;
+						} else {
+							answer = theAction;
+						}
+						switch (answer) {
+							case answer_Do:
+							mRezMap->UniqueID(theType, theID);;
+							break;
+							
+							case answer_Dont:
+							replace = true;
+							break;
+							
+							case answer_Cancel:
+							return;
+						}
 					} 
+					PasteResource(theType, theID, theRezHandle, theRezObj->GetName(), theAttrs, replace);			
 					
 					delete theRezObj;
-			} catch (...) { }
+				} catch (...) { }
+			} 
 		}
 	}
 	
@@ -1590,11 +1594,13 @@ CRezMapDoc::PasteRezMap(CRezMap * srcRezMap)
 // ---------------------------------------------------------------------------
 
 void
-CRezMapDoc::PasteResource(ResType inType, short inID, Handle inHandle, Str255* inName, short inAttrs)
+CRezMapDoc::PasteResource(ResType inType, short inID, Handle inHandle, 
+						  Str255* inName, short inAttrs, Boolean replaceExisting)
 {
-	CRezTypeItem * theRezTypeItem;
-	CRezType * theRezType;
-	
+	CRezTypeItem *	theRezTypeItem;
+	CRezType *		theRezType;
+	CRezObjItem *	theRezObjItem;
+
 	if (mReadOnlyDoc) {
 		return;
 	} 
@@ -1609,10 +1615,20 @@ CRezMapDoc::PasteResource(ResType inType, short inID, Handle inHandle, Str255* i
 		mRezMapWindow->SetCountTypeField( mRezMapWindow->GetCountTypeField() + 1 );
 	} else {
 		theRezType = theRezTypeItem->GetRezType();
+		if ( ! theRezTypeItem->IsExpanded() ) {
+			theRezTypeItem->Expand();
+		}
+		if (replaceExisting) {
+			// Remove the corresponding entry from the table if it is visible
+			theRezObjItem = mRezMapWindow->GetRezMapTable()->GetRezObjItem(inType, inID);
+			if (theRezObjItem) {
+				RemoveResource(theRezObjItem);
+			} 
+		} 
 	}
 
 	// Now create a new RezObjItem
-	CRezObjItem *theRezObjItem = new CRezObjItem( theRezTypeItem->GetRezType(), inID, inName);
+	theRezObjItem = new CRezObjItem( theRezTypeItem->GetRezType(), inID, inName);
 	ThrowIfNil_(theRezObjItem);
 
 	// Copy the data to the mData handle
@@ -1630,7 +1646,7 @@ CRezMapDoc::PasteResource(ResType inType, short inID, Handle inHandle, Str255* i
 	// Mark the resource as modified in the rez map
 	theRezObjItem->GetRezObj()->Changed();
 	
-	// Doc has been modified
+	// Document has been modified
 	SetModified(true);
 
 	// Refresh the view

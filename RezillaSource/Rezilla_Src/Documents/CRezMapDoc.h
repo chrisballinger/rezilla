@@ -2,7 +2,7 @@
 // CRezMapDoc.h				
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2004-04-11 21:33:39
+//             Last modification: 2004-04-18 10:38:33
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -119,8 +119,9 @@ public:
 	void				PasteResource(ResType inType,
 									  short inID,
 									  Handle inHandle, 
-									  Str255* inName = nil, 
-									  short inAttrs = 0);
+									  Str255* inName, 
+									  short inAttrs, 
+									  Boolean replaceExisting);
 	void				PasteRezMap(CRezMap * srcRezMap);
 
 	CRezEditor *		GetRezEditor(ResType inType, short inID);
