@@ -254,9 +254,12 @@ CRezMapDoc::Initialize(FSSpec * inFileSpec, short inRefnum)
 	mRezMap->GetAllTypes(mTypesArray);
 	mRezMapWindow->GetRezMapTable()->Populate(mTypesArray);
 
+	// Link the window to the file's data (icon, creator, type)
+	::SetWindowProxyFSSpec(mRezMapWindow->GetMacWindow(), inFileSpec);
+
 // 	// Let's make the document a listener to the prefs object
 // 	CRezillaApp::sPrefs->AddListener(this);
-	
+		
 	// Attach an LUndoer
 	AddAttachment( new LUndoer );
 	
