@@ -16,7 +16,7 @@
 #define _H_CAeteStream
 #pragma once
 
-#include <LDataStream.h>
+#include <LHandleStream.h>
 
 #if PP_Uses_Pragma_Import
 	#pragma import on
@@ -30,40 +30,24 @@ PP_Begin_Namespace_PowerPlant
 class CAeteSuite;
 
 
-class	CAeteStream : public LDataStream {
+class	CAeteStream : public LHandleStream {
 public:
 						CAeteStream();
 						CAeteStream( const CAeteStream& inOriginal);
-						CAeteStream(void*		inBuffer,
-									SInt32		inLength);
+						CAeteStream(Handle	inHandle);
 						CAeteStream(AEDesc * inAete);
 						virtual				~CAeteStream();
 						
-
-	CAeteStream&		operator = ( const CAeteStream& inOriginal );
-
 	void					ReadOSType( char	outString[5] );
 
 	virtual ExceptionCode	AlignBytes();
 
-	SInt32					NextTerm( SInt32 inType);
-
-	
-	// Accessors
-
-	virtual TArray<CAeteSuite*> *	GetSuitesArrayPtr() { return mSuitesArrayPtr;}
-
-	virtual Handle		GetAeteDataH() { return mAeteDataH;}
-	void				SetAeteDataH(Handle theAeteDataH) {mAeteDataH = theAeteDataH ;}
-
+	SInt32					MoveToNextTerm( SInt32 inKind);
 
 protected:
-	TArray<CAeteSuite*>*   		mSuitesArrayPtr;
-	Handle						mAeteDataH;
-	
 	
 private:
-	void			SkipSuitePreambule();
+	void			SkipPreambule();
 	
 };
 

@@ -29,7 +29,7 @@ PP_Begin_Namespace_PowerPlant
 // ---------------------------------------------------------------------------
 
 CAeteStream::CAeteStream()
-	: LDataStream()
+	: LHandleStream()
 {	
 }
 
@@ -40,21 +40,19 @@ CAeteStream::CAeteStream()
 //	Copy points to the same buffer as the original
 
 CAeteStream::CAeteStream(const CAeteStream&	inOriginal)
-	: LDataStream(inOriginal)
+	: LHandleStream(inOriginal)
 {
-	mBuffer = inOriginal.mBuffer;
 }
 
 
 // ---------------------------------------------------------------------------
 //	¥ CAeteStream							Constructor				  [public]
 // ---------------------------------------------------------------------------
-//	Construct from a pointer and a byte count. 'inBuffer' points to the
-//	first byte of the Stream, which is 'inLength' bytes long.
+//	Construct from an existing Handle.
+//	The LHandleStream object assumes ownership of the Handle.
 
-CAeteStream::CAeteStream(void*	inBuffer,
-						 SInt32	inLength)
-	: LDataStream(inBuffer, inLength)
+CAeteStream::CAeteStream(Handle	inHandle)
+	: LHandleStream(inHandle)
 {
 }
 
@@ -63,14 +61,10 @@ CAeteStream::CAeteStream(void*	inBuffer,
 //	¥ CAeteStream							Constructor				  [public]
 // ---------------------------------------------------------------------------
 //	Construct from an AEDesc of type typeAete.
-//	Lock the data handle before scanning.
 
-CAeteStream::CAeteStream(AEDesc * inAete)
+CAeteStream::CAeteStream(AEDesc * inAeteDesc)
+	: LHandleStream( (Handle) inAeteDesc->dataHandle)
 {
-	mAeteDataH = (Handle) inAete->dataHandle;
-	::HLock(mAeteDataH);
-	
-	SetBuffer(*mAeteDataH, AEGetDescDataSize(inAete));
 }
 
 
@@ -79,31 +73,7 @@ CAeteStream::CAeteStream(AEDesc * inAete)
 // ---------------------------------------------------------------------------
 
 CAeteStream::~CAeteStream()
-{
-	if ( mAeteDataH != nil ) {
-		::HUnlock(mAeteDataH);
-		::DisposeHandle(mAeteDataH);
-	}
-}
-
-
-// ---------------------------------------------------------------------------
-//	¥ operator =							Assignment Operator		  [public]
-// ---------------------------------------------------------------------------
-//	This DataStream will point to the same buffer as the original.
-
-CAeteStream&
-CAeteStream::operator = (
-	const CAeteStream&	inOriginal)
-{
-	if (this != &inOriginal) {
-		LDataStream::operator=(inOriginal);		// Base class assignment
-
-		mBuffer = inOriginal.mBuffer;
-	}
-
-	return *this;
-}
+{}
 
 
 // ---------------------------------------------------------------------------
@@ -145,7 +115,7 @@ CAeteStream::ReadOSType(
 
 
 // ---------------------------------------------------------------------------
-//	¥ NextTerm
+//	¥ MoveToNextTerm
 // ---------------------------------------------------------------------------
 //	Returns the mark of the next term's position in the stream. Here 'term'
 //	means event, class, comparison operator or enumeration. 
@@ -160,16 +130,16 @@ CAeteStream::ReadOSType(
 //	Class structure: 
 
 SInt32
-CAeteStream::NextTerm( SInt32 inType)
+CAeteStream::MoveToNextTerm( SInt32 inKind)
 {
 	SInt32	thePos = 0;
 	UInt8	theUInt8;
 	UInt16	theUInt16, theSubUInt16, theIndex, theSubIndex;
 	UInt8	theAlign = 0;
 	
-	switch (inType) {
+	switch (inKind) {
 		
-	  case type_AeteEvent:
+	  case kind_AeteEvent:
 		*this >> theUInt8; // length of Pascal string
 		SetMarker( theUInt8 , streamFrom_Marker);
 		*this >> theUInt8; // length of Pascal string
@@ -209,7 +179,7 @@ CAeteStream::NextTerm( SInt32 inType)
 		break;
 		
 		
-	  case type_AeteClass:
+	  case kind_AeteClass:
 		*this >> theUInt8; // length of Pascal string
 		SetMarker( theUInt8 , streamFrom_Marker);
 		// Check for an alignment byte
@@ -253,7 +223,7 @@ CAeteStream::NextTerm( SInt32 inType)
 		break;
 		
 		
-	  case type_AeteCompOp:
+	  case kind_AeteCompOp:
 		*this >> theUInt8; // length of Pascal string
 		SetMarker( theUInt8 , streamFrom_Marker);
 		// Check for an alignment byte
@@ -268,7 +238,7 @@ CAeteStream::NextTerm( SInt32 inType)
 		break;
 		
 		
-	  case type_AeteEnum:
+	  case kind_AeteEnum:
 		SetMarker( 4, streamFrom_Marker);
 		*this >> theUInt16; // nb of class enumerators
 		if (theUInt16) {
@@ -294,7 +264,7 @@ CAeteStream::NextTerm( SInt32 inType)
 
 
 // ---------------------------------------------------------------------------
-//	¥ SkipSuitePreambule()
+//	¥ SkipPreambule()
 // ---------------------------------------------------------------------------
 //	Moves to the position of the first item's (event, class, comparison 
 //	operator or enumeration) position in the current suite. 
@@ -303,7 +273,7 @@ CAeteStream::NextTerm( SInt32 inType)
 //	the ID (4 chars), the level (2) and the version (2)
 
 void
-CAeteStream::SkipSuitePreambule()
+CAeteStream::SkipPreambule()
 {
 	UInt8	theUInt8;
 	UInt8	theAlign = 0;
