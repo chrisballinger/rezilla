@@ -5,7 +5,7 @@
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// ¬© Copyright: Bernard Desgraupes 2003
+// Â© Copyright: Bernard Desgraupes 2003
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -32,7 +32,7 @@
 
 
 // ---------------------------------------------------------------------------
-//	¬€ CRezTypeItem							Default Constructor		  [public]
+//	¥ CRezTypeItem							Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CRezTypeItem::CRezTypeItem(ResType type)
@@ -44,7 +44,7 @@ CRezTypeItem::CRezTypeItem(ResType type)
 
 
 // ---------------------------------------------------------------------------
-//	¬€ CRezTypeItem							Default Constructor		  [public]
+//	¥ CRezTypeItem							Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CRezTypeItem::CRezTypeItem(CRezType * inRezType)
@@ -56,7 +56,7 @@ CRezTypeItem::CRezTypeItem(CRezType * inRezType)
 
 
 // ---------------------------------------------------------------------------
-//	¬€ ~CRezTypeItem							Destructor				  [public]
+//	¥ ~CRezTypeItem							Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CRezTypeItem::~CRezTypeItem()
@@ -68,7 +68,7 @@ CRezTypeItem::~CRezTypeItem()
 
 
 // ---------------------------------------------------------------------------
-//	¬€ GetDrawContentsSelf
+//	¥ GetDrawContentsSelf
 // ---------------------------------------------------------------------------
 // Determine what is to be drawn in a given column
 
@@ -111,7 +111,7 @@ CRezTypeItem::GetDrawContentsSelf(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ CanExpand
+//	¥ CanExpand
 // ---------------------------------------------------------------------------
 // by default, rows are not expanders.. but since this is a directory
 // and we're showing hierarchy, of course we need to be able to expand.
@@ -125,7 +125,7 @@ CRezTypeItem::CanExpand() const
 
 
 // ---------------------------------------------------------------------------
-//	¬€ DrawRowAdornments
+//	¥ DrawRowAdornments
 // ---------------------------------------------------------------------------
 // Just to be cute, draw an adornment of a gray background
 
@@ -138,7 +138,7 @@ CRezTypeItem::DrawRowAdornments(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ ExpandSelf
+//	¥ ExpandSelf
 // ---------------------------------------------------------------------------
 
 void
@@ -154,7 +154,6 @@ CRezTypeItem::ExpandSelf()
 	
 	StRezReferenceSaver saver(GetOwnerRefnum());
 
-	SInt16 index = 1;
 	LOutlineItem *theItem = nil;
 	LOutlineItem *lastItem = nil;
 	// Read in each resource
@@ -172,7 +171,7 @@ CRezTypeItem::ExpandSelf()
 
 
 // ---------------------------------------------------------------------------
-//	¬€ DoubleClick
+//	¥ DoubleClick
 // ---------------------------------------------------------------------------
 // send an open document AppleEvent to the Finder to open this
 // given directory
@@ -197,7 +196,7 @@ CRezTypeItem::DoubleClick(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ GetOwnerRefnum
+//	¥ GetOwnerRefnum
 // ---------------------------------------------------------------------------
 
 short
@@ -210,7 +209,7 @@ CRezTypeItem::GetOwnerRefnum()
 
 
 // ---------------------------------------------------------------------------
-//	¬€ GetOwnerRezMapTable
+//	¥ GetOwnerRezMapTable
 // ---------------------------------------------------------------------------
 
 CRezMapTable *
@@ -222,7 +221,7 @@ CRezTypeItem::GetOwnerRezMapTable()
 
 
 // ---------------------------------------------------------------------------
-//  ¬€ GetSelectedRezObjItems										[public]
+//  ¥ GetSelectedRezObjItems										[public]
 // ---------------------------------------------------------------------------
 // Stores the selected RezObjItem's in the LArray provided. Returns the 
 // number of elements found.
@@ -247,7 +246,7 @@ CRezTypeItem::GetSelectedRezObjItems(LArray* & outArray)
 
 
 // ---------------------------------------------------------------------------
-//	¬€ TrackDisclosureTriangle									   [protected]
+//	¥ TrackDisclosureTriangle									   [protected]
 // ---------------------------------------------------------------------------
 //	Called by ClickCell whenever a mouse-down is detected within the
 //	disclosure triangle. Tracks the mouse movement until mouse-up and

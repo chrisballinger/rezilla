@@ -1,11 +1,11 @@
 // ===========================================================================
 // CRezillaApp.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2004-02-24 17:20:41
+//             Last modification: 2004-02-29 22:58:55
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003, 2004
+// Â© Copyright: Bernard Desgraupes 2003-2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -18,9 +18,9 @@
 #include "CRezFile.h"
 #include "CRezMapTable.h"
 #include "CRezMapWindow.h"
+#include "CRezCompare.h"
 #include "CRezClipboard.h"
 #include "CWindowMenu.h"
-#include "RezillaConstants.h"
 #include "CInspectorWindow.h"
 #include "CHexEditorWindow.h"
 #include "CWasteEditView.h"
@@ -28,11 +28,13 @@
 #include "CTxtDataWE.h"
 #include "CHexDataSubView.h"
 #include "CTxtDataSubView.h"
+#include "CDropStaticText.h"
 #include "CRangeEditText.h"
 #include "UNavigationDialogs.h"
 #include "NavServicesCallbacks.h"
 #include "UMessageDialogs.h"
 // #include "COutBorderAttachment.h"
+#include "UDialogBoxHandler.h"
 
 // PP Classes for registration
 #include <Appearance.h>
@@ -43,6 +45,7 @@
 #include <LActiveScroller.h>
 #include <LCaption.h>
 #include <LClipboard.h>
+#include <LCheckBox.h>
 #include <LDialogBox.h>
 #include <LDragAndDrop.h>
 #include <LEditField.h>
@@ -275,6 +278,7 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(CHexDataSubView);
 	RegisterClass_(CTxtDataSubView);
 	RegisterClass_(CRangeEditText);
+	RegisterClass_(CDropStaticText);
 // 	RegisterClass_(COutBorderAttachment);
 
 // 	RegisterClass_(ATag);
@@ -345,6 +349,14 @@ CRezillaApp::ObeyCommand(
 			break;
 		}
 		
+		case cmd_RezCompare: {
+			CRezCompare * theComparator = new CRezCompare();
+			ThrowIfNil_(theComparator);
+			theComparator->RunRezCompareDialog();
+			delete theComparator;
+			break;
+		}
+		
 		case cmd_Open: {	
 			FSSpec theFileSpec;
 			OSErr error;
@@ -385,6 +397,7 @@ CRezillaApp::FindCommandStatus(
 		case cmd_New:
 		case cmd_Open:
 		case cmd_ShowInspector:
+		case cmd_RezCompare:
 		outEnabled = true;
 			break;		
 		
@@ -607,7 +620,7 @@ CRezillaApp::VersionFromResource()
 	return  theString;
 }
 // 01014000000007312e302e3161312752657a696c6c6120312e302e31613120a9203230303420627920422e2044657367726175706573
-// ÿÿ@ÿÿÿÿ1.0.1a1'Rezilla.1.0.1a1.ö.2004.by.B..Desgraupes
+// Ã¿Ã¿@Ã¿Ã¿Ã¿Ã¿1.0.1a1'Rezilla.1.0.1a1.Ã¶.2004.by.B..Desgraupes
 
 // ---------------------------------------------------------------------------
 //	¥ ChooseAFile								[public static]
@@ -693,7 +706,7 @@ CRezillaApp::OpenFork(FSSpec & inFileSpec)
 		theRezMapDocPtr->GetRezMapWindow()->Select();
 		return true;
 	} 
-	error = PreOpen(inFileSpec, theFork, theRefnum);
+	error = PreOpen(inFileSpec, theFork, theRefnum, mOpeningFork);
 	if ( error == noErr ) {
 		new CRezMapDoc(this, &inFileSpec, theFork, theRefnum);
 	} else {
@@ -733,7 +746,7 @@ CRezillaApp::OpenFork(FSSpec & inFileSpec)
 // 		}
 
 OSErr
-CRezillaApp::PreOpen(FSSpec & inFileSpec, SInt16 & outFork, short & outRefnum)
+CRezillaApp::PreOpen(FSSpec & inFileSpec, SInt16 & outFork, short & outRefnum, SInt16 inWantedFork)
 {
 	Boolean		openOK = false;
 	OSErr		error;
@@ -741,7 +754,7 @@ CRezillaApp::PreOpen(FSSpec & inFileSpec, SInt16 & outFork, short & outRefnum)
 	
 	StRezReferenceSaver saver( ::CurResFile() );
 	
-	if (mOpeningFork != fork_rezfork) {
+	if (inWantedFork != fork_rezfork) {
 		// Try to open the file as a datafork resource file
 		error = FSpMakeFSRef( &inFileSpec, &inFileRef );
 		SetResLoad( false );
@@ -753,7 +766,7 @@ CRezillaApp::PreOpen(FSSpec & inFileSpec, SInt16 & outFork, short & outRefnum)
 			outFork = fork_datafork;
 			goto done;
 		} else if (error == mapReadErr || error == eofErr) {
-			if (mOpeningFork == fork_datafork) {
+			if (inWantedFork == fork_datafork) {
 				// If this failed with mapReadErr or eofErr, the file has no resource 
 				// map in data fork or it is empty
 				error = err_NoRezInDataFork;
@@ -764,7 +777,7 @@ CRezillaApp::PreOpen(FSSpec & inFileSpec, SInt16 & outFork, short & outRefnum)
 		}
 	} 
 	
-	if (mOpeningFork != fork_datafork) {
+	if (inWantedFork != fork_datafork) {
 		// If this failed (mapReadErr), try to open as a resourcefork resource file
 		SetResLoad( false );
 		outRefnum = FSpOpenResFile( &inFileSpec, fsRdWrPerm);
@@ -776,7 +789,7 @@ CRezillaApp::PreOpen(FSSpec & inFileSpec, SInt16 & outFork, short & outRefnum)
 		} else if (error == mapReadErr || error == eofErr) {
 			// If this failed with mapReadErr or eofErr, the file has no resource 
 			// map in resource fork or it is empty
-			if (mOpeningFork == fork_anyfork) {
+			if (inWantedFork == fork_anyfork) {
 				error = err_NoRezInAnyFork;
 			} else {
 				error = err_NoRezInRezFork;

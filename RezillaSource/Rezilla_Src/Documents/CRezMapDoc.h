@@ -27,6 +27,7 @@ PP_Begin_Namespace_PowerPlant
 
 class	LWindow;
 class	CRezFile;
+class	CTextFileStream;
 class	CRezMap;
 class	CRezMapWindow;
 class	CRezObj;
@@ -65,6 +66,8 @@ public:
 
 	virtual Boolean		UsesFileSpec( const FSSpec& inFileSpec ) const;
 
+	Boolean				HasExportSpec( const FSSpec& inFileSpec ) const;
+
 	virtual Boolean		IsModified();
 	virtual Boolean		HasSelection();
 	
@@ -86,6 +89,9 @@ public:
 
 	virtual void		DoAESave( FSSpec &inFileSpec);
 	virtual void		DoSave();
+	
+	virtual void		DoAEExport( FSSpec &inFileSpec);
+	virtual void		DoExport();
 	
 	virtual Boolean		AllowSubRemoval( LCommander* inSub );
 
@@ -122,6 +128,7 @@ protected:
 	CRezMap *				mRezMap;
 	CRezMapWindow *			mRezMapWindow;
 	CRezFile *				mRezFile;
+	CTextFileStream *		mFileStream;
 	TArray<ResType>*		mTypesArray;	// Maintain a sorted array of ResTypes
 	TArray<CRezEditor *> *	mOpenedEditors;	// Maintain an array of editor docs 
 	                 		                  	// dependent from this doc (all edit 
@@ -132,6 +139,7 @@ protected:
 	void				NameNewDoc();
 	void				NewResDialog();
 	void				UpdateRefNum(short newRefNum);
+	void				WriteOutExport(SInt16 inExportFormat);
 	
 private:
 	void				Initialize(FSSpec * inFileSpec, short inRefnum);

@@ -21,6 +21,7 @@ PP_Begin_Namespace_PowerPlant
 
 #include "CRezMapDoc.h"
 #include "CRezFile.h"
+#include "CTextFileStream.h"
 #include "CRezMap.h"
 #include "CRezMapTable.h"
 #include "CRezMapWindow.h"
@@ -37,6 +38,7 @@ PP_Begin_Namespace_PowerPlant
 #include "UDialogBoxHandler.h"
 #include "UMessageDialogs.h"
 #include "UMiscUtils.h"
+#include "URezExporter.h"
 #include "UNavigationDialogs.h"
 #include "NavServicesCallbacks.h"
 
@@ -201,6 +203,7 @@ CRezMapDoc::Initialize(FSSpec * inFileSpec, short inRefnum)
 {		
 	mUpdateOnClose = true;
 	mExportFormat = export_Xml;
+	mFileStream   = nil;
 	
 	if (mRezFile == nil) {
 		if (inFileSpec != nil) {
@@ -523,6 +526,25 @@ CRezMapDoc::UsesFileSpec(
 
 
 // ---------------------------------------------------------------------------
+//	• HasExportSpec													  [public]
+// ---------------------------------------------------------------------------
+//	Returns whether the Document's FileStream corresponds to the given FSSpec
+
+Boolean
+CRezMapDoc::HasExportSpec(
+	const FSSpec&	inFileSpec) const
+{
+	Boolean usesFS = false;
+
+	if (mFileStream != nil) {
+		usesFS = mFileStream->UsesSpecifier(inFileSpec);
+	}
+
+	return usesFS;
+}
+
+
+// ---------------------------------------------------------------------------
 //	• AttemptClose													  [public]
 // ---------------------------------------------------------------------------
 //	Try to close an edited resource map.
@@ -753,7 +775,7 @@ CRezMapDoc::AskExportAs(
 
 	if ( DesignateExportFile(outFSSpec, replacing) ) {
 
-		if (replacing && UsesFileSpec(outFSSpec)) {
+		if (replacing && HasExportSpec(outFSSpec)) {
 									// User chose to replace the file with
 									//   one of the same name. This is the
 									//   same thing as a regular save.
@@ -761,14 +783,14 @@ CRezMapDoc::AskExportAs(
 				SendSelfAE(kAECoreSuite, kAESave, ExecuteAE_No);
 			}
 
-// 			DoSave();
+			DoExport();
 			saveOK = true;
 
 		} else {
 
 			if (inRecordIt) {
 				try {
-// 					SendAEExport(outFSSpec, fileType_Default, ExecuteAE_No);
+// 					SendAEExport(outFSSpec, mExportFormat, ExecuteAE_No);
 				} catch (...) { }
 			}
 
@@ -776,7 +798,7 @@ CRezMapDoc::AskExportAs(
 				ThrowIfOSErr_(::FSpDelete(&outFSSpec));
 			}
 
-// 			DoAEExport(outFSSpec);
+			DoAEExport(outFSSpec);
 			saveOK = true;
 		}
 	}
@@ -794,6 +816,7 @@ CRezMapDoc::DesignateExportFile( FSSpec& outFileSpec, bool & outReplacing)
 {
 	bool	openOK = false;
 	Str255	theString;
+	FSSpec	theFileSpec;
 	
 	mExportFormat = export_Xml;
 	
@@ -829,8 +852,9 @@ CRezMapDoc::DesignateExportFile( FSSpec& outFileSpec, bool & outReplacing)
 	designator.SetClientName(theString);
 	GetIndString(theString, STRx_NavStrings, index_ExportMapAs);
 	designator.SetMessage(theString);
-	GetIndString(theString, STRx_NavStrings, index_ExportUntitledXml);
-	designator.SetSavedFileName(theString);
+	// Build a default name from the name of the map
+	mRezFile->GetSpecifier(theFileSpec);
+	designator.SetSavedFileName(theFileSpec.name);
 	
 	openOK = designator.AskDesignateFile();
 
@@ -843,6 +867,78 @@ CRezMapDoc::DesignateExportFile( FSSpec& outFileSpec, bool & outReplacing)
     ::UDesktop::Activate();
 
 	return openOK;
+}
+
+
+// ---------------------------------------------------------------------------------
+//		• DoAEExport
+// ---------------------------------------------------------------------------------
+
+void
+CRezMapDoc::DoAEExport(
+	FSSpec	&inFileSpec)
+{
+	Str255	thePath;
+	OSErr	err = noErr;
+
+	// Delete the existing file object.
+	if (mFileStream != nil) {
+		delete mFileStream;
+	} 
+	
+	// Make a new file object.
+	mFileStream = new CTextFileStream( inFileSpec );
+	
+	// Get the proper file type.
+	OSType	theFileType = 'TEXT';
+
+	// Make new file on disk (we use TextEdit's creator).
+	mFileStream->CreateNewDataFile( keyEditorSignature, theFileType );
+	
+	// Write out the data.
+	DoExport();
+}
+
+
+// ---------------------------------------------------------------------------------
+//		• DoExport
+// ---------------------------------------------------------------------------------
+
+void
+CRezMapDoc::DoExport()
+{
+	// Open the data fork.
+	mFileStream->OpenDataFork( fsWrPerm );
+	
+	WriteOutExport(mExportFormat);
+	
+	// Close the data fork.
+	mFileStream->CloseDataFork();
+}
+
+
+// ---------------------------------------------------------------------------------
+//		• WriteOutExport
+// ---------------------------------------------------------------------------------
+
+void
+CRezMapDoc::WriteOutExport(SInt16 inExportFormat)
+{	
+	StRezExporter	exporter(mFileStream);
+	switch ( inExportFormat ) {
+		case export_Xml:
+		exporter.WriteOutXml(mRezMap);
+		break;
+		
+		case export_Text:
+		exporter.WriteOutText(mRezMap);
+		break;
+		
+		case export_Html:
+		exporter.WriteOutHtml(mRezMap);
+		break;
+	}
+	
 }
 
 
@@ -1317,7 +1413,7 @@ CRezMapDoc::DuplicateResource(CRezObj* inRezObj)
 // calling RemoveResource. You should  dispose  the  handle  if  you  want  to
 // release the memory before updating or closing the resource fork.
 // 
-// If you’ve removed a  resource,  the  Resource  Manager  writes  the  entire
+// If you√ïve removed a  resource,  the  Resource  Manager  writes  the  entire
 // resource map when it updates the resource fork, and all changes made to the
 // resource map become permanent. If  you  want  any  of  the  changes  to  be
 // temporary, you should restore the original information before the  Resource

@@ -58,7 +58,8 @@ enum
 enum
 {	
 	export_Xml = 0,
-	export_Text
+	export_Text,
+	export_Html
 } ;
 
 
@@ -83,16 +84,18 @@ const ResIDT	rPPob_NewRezDialog			= 2100;
 const ResIDT	rPPob_HexEditWindow			= 3000;
 const ResIDT	rPPob_AboutWindow			= 5000;
 const ResIDT	rPPob_LicenceWindow			= 5100;
+const ResIDT	rPPob_RezCompDialog			= 6000;
 const ResIDT	rPPob_FindDialog			= 8500;
 const ResIDT	rPPob_SimpleMessage			= 9500;
 const ResIDT	rPPob_AskIfMessage			= 9510;
 const ResIDT	rPPob_AskYesNoMessage		= 9520;
 const ResIDT	rRidL_RezMapWindow			= rPPob_RezMapWindow;
 const ResIDT	rRidL_InspectorWindow		= rPPob_InspectorWindow;
-const ResIDT	rRidL_NewRezWindow			= rPPob_NewRezDialog;
+const ResIDT	rRidL_NewRezDialog			= rPPob_NewRezDialog;
 const ResIDT	rRidL_HexEditWindow			= rPPob_HexEditWindow;
 const ResIDT	rRidL_AboutWindow			= rPPob_AboutWindow;
 const ResIDT	rRidL_FindDialog			= rPPob_FindDialog;
+const ResIDT	rRidL_RezCompDialog			= rPPob_RezCompDialog;
 
 const ResIDT	STRx_DefaultScriptTitle		= 1500;
 
@@ -109,8 +112,8 @@ const ResIDT	STRx_FileExtensions			= 1503;
 const ResIDT	rMENU_Window				= 1300;  
 const ResIDT	rMENU_Help					= 2000;
 // Values the PP menu cmds are based on
-const ResIDT	baseMENU_Edit				= 1100;
 const ResIDT	baseMENU_File				= 1000;
+const ResIDT	baseMENU_Edit				= 1100;
 const ResIDT	baseMENU_Resource			= 1200;
 
 // Icon resources
@@ -164,6 +167,7 @@ const MessageT	cmd_ExportMap			= baseMENU_File + 1;
 // Edit menu items
 const MessageT	cmd_Find				= baseMENU_Edit + 1;	
 const MessageT	cmd_FindNext			= baseMENU_Edit + 2;	
+const MessageT	cmd_RezCompare			= baseMENU_Edit + 3;	
 
 // Control ID's
 // ============
@@ -225,6 +229,15 @@ const PaneIDT	item_FindInTxtRadio			= 3;
 const PaneIDT	item_FindIgnoreCase			= 4;
 const PaneIDT	item_FindRegexp				= 5;
 const PaneIDT	item_FindInPaneRGV			= 6;
+// Rez Compare Dialog
+// ------------------
+const PaneIDT	item_RezCompSetOld			= 1;
+const PaneIDT	item_RezCompEditOld			= 2;
+const PaneIDT	item_RezCompSetNew			= 3;
+const PaneIDT	item_RezCompEditNew			= 4;
+const PaneIDT	item_RezCompIgnoreNames		= 5;
+const PaneIDT	item_RezCompIgnoreAttrs		= 6;
+
 
 // Navigation dialogs custom items
 // -------------------------------
@@ -289,6 +302,12 @@ const MessageT	msg_FindInHexRadio		= rPPob_FindDialog + item_FindInHexRadio;
 const MessageT	msg_FindInTxtRadio		= rPPob_FindDialog + item_FindInTxtRadio;
 const MessageT	msg_FindIgnoreCase		= rPPob_FindDialog + item_FindIgnoreCase;
 const MessageT	msg_FindRegexp			= rPPob_FindDialog + item_FindRegexp;
+// Rez Compare Dialog
+// ------------------
+const MessageT	msg_RezCompSetOld		= rPPob_RezCompDialog + item_RezCompSetOld;
+const MessageT	msg_RezCompSetNew		= rPPob_RezCompDialog + item_RezCompSetNew;
+const MessageT	msg_RezCompIgnoreNames	= rPPob_RezCompDialog + item_RezCompIgnoreNames;
+const MessageT	msg_RezCompIgnoreAttrs	= rPPob_RezCompDialog + item_RezCompIgnoreAttrs;
 
 // -----------------------------------------------------------------------
 // -----------------------------------------------------------------------
@@ -332,12 +351,12 @@ enum
 // Misc constants
 // ==============
 // Signatures
-#define  keyEditorSignature  	'CWIE'
+#define  keyEditorSignature  	'ttxt'
 #define	 keyAERezillaSignature	'Rzil'
 // File extension separator
 #define  kFileExtSeparator		(char)'.'
 // Preferences identifier
-#define  kRezillaIdentifier		"fr.rezilla.bdesgraupes"
+#define  kRezillaIdentifier		"net.sourceforge.rezilla"
 // Color to frame drop region 
 #define  kRzilDragHiliteColor	{ 65535, 0, 65535 }
 // Pen size to frame drop region 

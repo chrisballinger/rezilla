@@ -1,13 +1,13 @@
 // ===========================================================================
 // UCodeTranslator.h					
 // 
-// ¬© 2002, Bernard Desgraupes, All rights reserved.
+// Â© 2002, Bernard Desgraupes, All rights reserved.
 //                       Created: 2003-05-04 16:40:47
 //             Last modification: 2004-02-22 19:49:55
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// ¬© Copyright: Bernard Desgraupes 2003, 2004
+// Â© Copyright: Bernard Desgraupes 2003, 2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -47,9 +47,13 @@ public:
 
 	static void		ConvertAsciiToReadable( char* srcString, char* trgtString );
 
-	static void		ConvertAsciiToHex( LDataStream* srcDataStream, LDataStream* trgtDataStream );
+	static void		ConvertBytesToSeparateHex( LDataStream* srcDataStream, LDataStream* trgtDataStream );
 
-	static void		ConvertAsciiToHex( char* srcString, char* trgtString );
+	static void		ConvertBytesToSeparateHex( char* srcString, char* trgtString );
+
+	static void		ConvertBytesToHex( LDataStream* srcDataStream, LDataStream* trgtDataStream );
+
+	static void		ConvertBytesToHex( char* srcString, char* trgtString );
 
 	static void		ConvertHexToCode(LDataStream* srcDataStream, LDataStream* trgtDataStream );
 
@@ -67,11 +71,11 @@ public:
 
 
 // ===========================================================================
-//	¬€ Stack-based classes
+//	¥ Stack-based classes
 // ===========================================================================
 
 // ---------------------------------------------------------------------------
-//  ¬€ class StHexTranslator
+//  ¥ class StHexTranslator
 // ---------------------------------------------------------------------------
 class StHexTranslator {
 public:
@@ -95,7 +99,7 @@ private:
 
 
 // ---------------------------------------------------------------------------
-//  ¬€ class StHexToCodeTranslator
+//  ¥ class StHexToCodeTranslator
 // ---------------------------------------------------------------------------
 class StHexToCodeTranslator {
 public:
@@ -118,7 +122,7 @@ private:
 
 
 // ---------------------------------------------------------------------------
-//  ¬€ class StReadableTranslator
+//  ¥ class StReadableTranslator
 // ---------------------------------------------------------------------------
 class StReadableTranslator {
 public:
@@ -140,7 +144,7 @@ public:
 
 
 // ---------------------------------------------------------------------------
-//  ¬€ class StStripBlanksTranslator
+//  ¥ class StStripBlanksTranslator
 // ---------------------------------------------------------------------------
 class StStripBlanksTranslator {
 public:
@@ -160,7 +164,7 @@ public:
 
 
 // ---------------------------------------------------------------------------
-//  ¬€ class StStripPeriodicalTranslator
+//  ¥ class StStripPeriodicalTranslator
 // ---------------------------------------------------------------------------
 class StStripPeriodicalTranslator {
 public:

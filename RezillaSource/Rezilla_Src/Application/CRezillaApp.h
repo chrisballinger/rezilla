@@ -1,11 +1,11 @@
 // ===========================================================================
 // CRezillaApp.h					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2004-02-22 18:22:48
+//             Last modification: 2004-02-29 22:58:46
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// ¬© Copyright: Bernard Desgraupes 2002-2003, 2004
+// Â© Copyright: Bernard Desgraupes 2002-2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -13,6 +13,7 @@
 
 
 #pragma once
+#include "RezillaConstants.h"
 
 #include <LApplication.h>
 
@@ -44,7 +45,10 @@ public:
 	Boolean				ChooseAFile(FSSpec & fileSpec);
 	Boolean				ChooseAFile(const LFileTypeList & inFileTypes, FSSpec & fileSpec);
 	Boolean				DesignateNewMap( FSSpec& outFileSpec, bool & outReplacing);
-	OSErr				PreOpen(FSSpec & inFileSpec, SInt16 & outFork, short & outRefnum);
+	static OSErr		PreOpen(FSSpec & inFileSpec, 
+								SInt16 & outFork, 
+								short & outRefnum, 
+								SInt16 inWantedFork = fork_anyfork);
 	OSErr				OpenFork(FSSpec & inFileSpec);
 
 	virtual void		ShowAboutBox();
@@ -73,7 +77,6 @@ public:
 	static CInspectorWindow *	sInspectorWindow;
 	static TArray<CRezMapDoc *>	sRezMapDocList;
 	static SInt16				sDefaultCreatingFork;
-
 
 protected:
 	LDialogBox *		mAboutWindow;
