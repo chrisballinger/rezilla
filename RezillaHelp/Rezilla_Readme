@@ -1,19 +1,17 @@
-
-
 Rezilla
 
 Rezilla is a resource forks editor for the Macintosh. 
-This is version 1.0.1a8.
+This is version 1.0.1a.
 
 The Rezilla project is a work in progress. This alpha release is provided
-as a foretaste for people who want to test it at the current stage of
+as a foretaste for people who want to give it a try at the current stage of
 development. It comes with no guarantee. Use it at your own risk.
 
 That said, the present version contains all the basic features and has
 proven quite stable and reliable: it lets you edit, create, modify,
 duplicate, remove resources contained in any fork (data fork or resource
 fork), copy, cut and paste them from a resource map to the other, drag and
-drop resources etc. 
+drop resources, compare resource maps etc. 
 On the other hand, the custom editors and the plugin architecture are not
 implemented yet.
 
