@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2004-04-13 08:55:03
+//             Last modification: 2004-04-14 11:42:46
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -329,15 +329,15 @@ CRezillaApp::ObeyCommand(
 				
 				if (replacing) {
 					SInt16	theAnswer;
-					theRezMapDocPtr = FetchRezMapDoc(&theFileSpec);
-					// Check if a RezMapDoc is already opened for this file and close it
-					if (theRezMapDocPtr != nil) {
-						theRezMapDocPtr->Close();
-					} 
 					theAnswer = UMessageDialogs::AskIfFromLocalizable(CFSTR("NewRezMapReplaceExisting"), rPPob_AskIfMessage);
 					if (theAnswer == answer_Cancel) {
 						return false;
 					} else {
+						theRezMapDocPtr = FetchRezMapDoc(&theFileSpec);
+						// Check if a RezMapDoc is already opened for this file and close it
+						if (theRezMapDocPtr != nil) {
+							theRezMapDocPtr->Close();
+						} 
 						FSpDelete(&theFileSpec);
 					}						
 				} 
@@ -744,6 +744,7 @@ CRezillaApp::OpenFork(FSSpec & inFileSpec)
 		theRezMapDocPtr->GetRezMapWindow()->Select();
 		return true;
 	} 
+	
 	error = PreOpen(inFileSpec, theFork, theRefNum, mOpeningFork);
 	if ( error == noErr ) {
 		theRezMapDocPtr = new CRezMapDoc(this, &inFileSpec, theFork, theRefNum);
