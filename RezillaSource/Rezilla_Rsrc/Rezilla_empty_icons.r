@@ -1,7 +1,7 @@
 // ===========================================================================
 // File: "Rezilla_empty_icons.r"
 //                        Created: 2005-02-14 09:10:24
-//              Last modification: 2005-02-14 09:45:16
+//              Last modification: 2005-02-16 08:11:53
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -26,14 +26,8 @@
 #include "Types.r" 
 
 
-resource 'CURS' (9200, "Default CURS") {
-	$"",
-	$"",
-	{0, 0}
-};
-
 resource 'ICN#' (9200, "Default Icon Suite") {
-	{	/* array: 2 elements */
+	{	
 		/* [1] */
 		$"",
 		/* [2] */
@@ -52,8 +46,20 @@ resource 'ICON' (9200, "Default ICON") {
 	$""
 };
 
+resource 'SICN' (9200, "Default SICN") {
+	{	
+		$""
+	}
+};
+
 resource 'PAT ' (9200, "Default PAT ") {
 	$""
+};
+
+resource 'PAT#' (9200, "Default PAT#") {
+	{	/* PatArray */
+		$""
+	}
 };
 
 resource 'PICT' (9200, "Default PICT") {
@@ -129,8 +135,7 @@ resource 'cicn' (9200, "Default cicn") {
 	$"0000 0000 0000 0000 0000 0000 0000 0000"
 	$"0000 0000 0000 0000 0000 0000 0000 0000"
 	$"0000 0000 0000 0000 0000 0000 0000 0000",
-	{	/* array ColorSpec: 1 elements */
-		/* [1] */
+	{	/* array ColorSpec */
 		65535, 65535, 65535
 	},
 	$"0000 0000 0000 0000 0000 0000 0000 0000"
@@ -141,6 +146,12 @@ resource 'cicn' (9200, "Default cicn") {
 	$"0000 0000 0000 0000 0000 0000 0000 0000"
 	$"0000 0000 0000 0000 0000 0000 0000 0000"
 	$"0000 0000 0000 0000 0000 0000 0000 0000"
+};
+
+resource 'CURS' (9200, "Default CURS") {
+	$"",
+	$"",
+	{0, 0}
 };
 
 resource 'crsr' (9200, "Default crsr") {
@@ -164,10 +175,8 @@ resource 'crsr' (9200, "Default crsr") {
 	$"0000 0000 0000 0000 0000 0000 0000 0000",
 	0x0,
 	0,
-	{	/* array ColorSpec: 2 elements */
-		/* [1] */
+	{	/* array ColorSpec */
 		0, 65535, 65535, 65535,
-		/* [2] */
 		1, 0, 0, 0
 	}
 };
@@ -190,8 +199,7 @@ resource 'ppat' (9200, "Default ppat") {
 	$"0000 0000 0000 0000",
 	0x0,
 	0,
-	{	/* array ColorSpec: 1 elements */
-		/* [1] */
+	{	/* array ColorSpec */
 		0, 65535, 65535, 65535
 	}
 };
