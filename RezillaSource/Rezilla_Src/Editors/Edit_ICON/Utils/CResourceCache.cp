@@ -1,11 +1,11 @@
 // ===========================================================================
 // CResourceCache.cp
 //                       Created: 2004-12-11 18:56:46
-//             Last modification: 2004-12-15 10:49:52
+//             Last modification: 2005-01-02 15:47:45
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes 2004
+// (c) Copyright: Bernard Desgraupes 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -13,6 +13,7 @@
 
 #include "CResourceCache.h"
 #include "UIconMisc.h"
+#include "UMiscUtils.h"
 #include "UResources.h"
 
 
@@ -180,7 +181,7 @@ CResourceCache::DisposeRawResource( Handle &h )
 {
 	if ( h )
 	{
-		UIconMisc::DisposeHandle( h );	// does a smart releaseresource/disposehandle
+		( h );	// does a smart releaseresource/disposehandle
 		h = nil;
 	}
 }

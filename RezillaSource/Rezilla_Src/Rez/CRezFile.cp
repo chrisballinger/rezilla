@@ -2,11 +2,11 @@
 // CRezFile.cp					
 // 
 //                       Created: 2003-04-24 14:17:20
-//             Last modification: 2004-12-22 11:41:37
+//             Last modification: 2005-01-02 15:32:31
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003-2004
+// (c) Copyright : Bernard Desgraupes, 2003-2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -20,6 +20,7 @@
 #include "CRezFile.h"
 #include "CRezillaApp.h"
 #include "CRezillaPrefs.h"
+#include "UCompareUtils.h"
 #include "UMiscUtils.h"
 #include "CRezMap.h"
 #include "CRezObj.h"
@@ -284,7 +285,7 @@ CRezFile::CloseFile()
 	}
 	// Set the type and creator if the corresponding pref is on
 	if ( CRezillaPrefs::GetPrefValue(kPref_misc_setSigOnClose) ) {
-		if ( !CRezillaPrefs::GetPrefValue(kPref_misc_onlyRsrcExt) || UMiscUtils::HasExtension(&mFileSpec, ".rsrc") ) {
+		if ( !CRezillaPrefs::GetPrefValue(kPref_misc_onlyRsrcExt) || UCompareUtils::HasExtension(&mFileSpec, ".rsrc") ) {
 			UMiscUtils::SetTypeAndCreator(mFileSpec,
 										  (OSType) CRezillaPrefs::GetPrefValue(kPref_misc_closingType),
 										  (OSType) CRezillaPrefs::GetPrefValue(kPref_misc_closingCreator));

@@ -1,11 +1,11 @@
 // ===========================================================================
 // CIconDropperAction.cp
 //                       Created: 2004-12-11 18:52:17
-//             Last modification: 2004-12-22 15:54:50
+//             Last modification: 2005-01-02 15:44:19
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes 2004
+// (c) Copyright: Bernard Desgraupes 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -16,7 +16,7 @@
 #include "CIcon_EditorView.h"
 #include "CColorPane.h"
 #include "UIconMisc.h"
-
+#include "UMiscUtils.h"
 
 
 // ---------------------------------------------------------------------------
@@ -62,7 +62,7 @@ CIconDropperAction::HandleMouseDown( const SMouseDownEvent &inEvent )
 		UIconMisc::GetMouseRelativeToView( mSettings.theCanvas, &pt );	
 		
 		if ( this->GetColorUnderPoint( pt, &newColor ) )
-			this->ChangeColor( newColor, UIconMisc::IsShiftKey() );
+			this->ChangeColor( newColor, UMiscUtils::IsShiftKey() );
 	}
 	
 		// delete this object (since mAffectsUndoState == false)

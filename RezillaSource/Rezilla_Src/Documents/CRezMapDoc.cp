@@ -2,11 +2,11 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2004-12-22 15:44:55
+//             Last modification: 2005-01-02 15:18:31
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003-2004
+// (c) Copyright : Bernard Desgraupes, 2003-2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -43,6 +43,7 @@ PP_Begin_Namespace_PowerPlant
 #include "RezillaConstants.h"
 #include "UDialogBoxHandler.h"
 #include "UMessageDialogs.h"
+#include "UCompareUtils.h"
 #include "UMiscUtils.h"
 #include "URezExporter.h"
 #include "UNavigationDialogs.h"

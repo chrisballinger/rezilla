@@ -1,11 +1,11 @@
 // ===========================================================================
 // UMiscUtils.cp					
 //                       Created: 2003-05-13 20:06:23
-//             Last modification: 2004-10-14 09:16:48
+//             Last modification: 2005-01-02 15:24:00
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003-2004
+// © Copyright: Bernard Desgraupes 2003-2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -240,13 +240,44 @@ UMiscUtils::IsValidHexadecimal(Handle inHandle)
 
 
 // ---------------------------------------------------------------------------
-//	¥ CompareStr255												[static]
+// 	IsShiftKey
+// ---------------------------------------------------------------------------
+// There are probably better ways to do this (OSEventAvail, for example),
+// but this way is quick and easy and works from trap patches, etc.
+
+Boolean
+UMiscUtils::IsShiftKey()
+{
+	UInt32 modifiers;
+	
+#ifdef REZILLA_MACH_O
+	modifiers = GetCurrentEventKeyModifiers();
+#else
+	EventRecord		ev;
+	EventAvail(everyEvent, &ev);
+	modifiers = ev.modifiers;
+#endif
+	return( (modifiers & shiftKey) != 0 );
+}
+
+
+// ---------------------------------------------------------------------------
+// 	IsOptionKey
 // ---------------------------------------------------------------------------
 
-SInt16 
-UMiscUtils::CompareStr255(Str255 * leftString, Str255 * rightString)
+Boolean
+UMiscUtils::IsOptionKey( void )
 {
-	return LString::CompareBytes((*leftString) + 1, (*rightString) + 1, (*leftString)[0], (*rightString)[0]);
+	UInt32 modifiers;
+	
+#ifdef REZILLA_MACH_O
+	modifiers = GetCurrentEventKeyModifiers();
+#else
+	EventRecord		ev;
+	EventAvail(everyEvent, &ev);
+	modifiers = ev.modifiers;
+#endif
+	return( (modifiers & optionKey) != 0 );
 }
 
 
@@ -384,40 +415,6 @@ UMiscUtils::ParseDateString(Str255 inString, SInt32 * outAbsTime)
 
 
 // ---------------------------------------------------------------------------
-//	¥ IdenticalHandles												[static]
-// ---------------------------------------------------------------------------
-
-Boolean 
-UMiscUtils::HandlesAreIdentical(const Handle leftHndl, const Handle rightHndl)
-{
-	Boolean result = true;
-	Size leftSize = GetHandleSize(leftHndl);
-	Size rightSize = GetHandleSize(rightHndl);
-	
-	if( leftSize != rightSize ) {
-		 result = false;
-	} else {
-		SInt8 leftState = HGetState(leftHndl);
-		SInt8 rightState = HGetState(rightHndl);
-		HLock(leftHndl);
-		HLock(rightHndl);
-		
-		char *l = *leftHndl;
-		char *r = *rightHndl;
-		for ( UInt16 i = 0; i < leftSize; i++ ) {
-			if ( *l++ != *r++ ) {
-				result = false;
-				break;
-			}
-		}
-		HSetState(leftHndl, leftState);
-		HSetState(rightHndl, rightState);
-	}
-	return result;
-}
-
-
-// ---------------------------------------------------------------------------
 //	¥ GetDragFileData										[static]
 // ---------------------------------------------------------------------------
 // If the flavour data is an HFSFlavor structure, retrieve it.
@@ -463,34 +460,6 @@ UMiscUtils::SetTypeAndCreator(FSSpec inFSSpec, OSType inType, OSType inCreator)
 	error = ::PBHSetFInfoSync((HParmBlkPtr)&param);
 }
 
-
-// ---------------------------------------------------------------------------
-//	¥ HasExtension													[static]
-// ---------------------------------------------------------------------------
-
-Boolean 
-UMiscUtils::HasExtension(FSSpec * inFSSpec, char * inExtension)
-{
-	Boolean	hasExtension = false;
-	
-	CFURLRef nameUrl = CFURLCreateWithBytes(kCFAllocatorDefault, 
-											(const UInt8 * ) inFSSpec->name + 1, inFSSpec->name[0], 
-											kCFStringEncodingMacRoman, NULL);
-	if (nameUrl) {
-		CFStringRef fileExtRef = CFURLCopyPathExtension(nameUrl);
-		if (fileExtRef) {
-			CFStringRef inExtRef = CFStringCreateWithCString(kCFAllocatorDefault, inExtension, kCFStringEncodingMacRoman);
-			if (inExtRef) {
-				hasExtension = (CFStringCompare(fileExtRef, inExtRef, kCFCompareCaseInsensitive) == 0);
-				CFRelease(inExtRef);
-			} 
-			CFRelease(fileExtRef);
-		} 
-		CFRelease(nameUrl);
-	} 
-	
-	return hasExtension;
-}
 
 
 #pragma mark -
@@ -630,51 +599,77 @@ UMiscUtils::MetricsFromTraits(ResIDT inTraitsID)
 #pragma mark -
 
 
-// ================================================================
-//  ¥  Class CTypeComparator
-// ================================================================
-// String comparator class to build tables sorted alphabetically
+// ---------------------------------------------------------------------------
+// 	ClearMemory
+// ---------------------------------------------------------------------------
 
-CTypeComparator::CTypeComparator() {}
-
-CTypeComparator::~CTypeComparator() {}
-
-SInt32
-CTypeComparator::Compare(
-	const void*		inItemOne,
-	const void*		inItemTwo,
-	UInt32			inSizeOne,
-	UInt32			inSizeTwo) const
+void
+ UMiscUtils::ClearMemory( void *theBuffer, UInt32 numBytes )
 {
-#pragma unused(inSizeOne, inSizeTwo)
-
-	return ::CompareText(inItemOne, inItemTwo, 4, 4, nil);
+	UInt8 *p = (UInt8*) theBuffer;
+	
+	while( numBytes-- > 0 )
+		*p++ = 0;
 }
 
 
+// ---------------------------------------------------------------------------
+// 	SetMemory
+// ---------------------------------------------------------------------------
 
-// ================================================================
-//  ¥  Class CTypeItemComparator
-// ================================================================
-// String comparator class to build tables sorted alphabetically
-
-CTypeItemComparator::CTypeItemComparator() {}
-
-CTypeItemComparator::~CTypeItemComparator() {}
-
-SInt32
-CTypeItemComparator::Compare(
-	void*		inItemOne,
-	void*		inItemTwo,
-	UInt32		inSizeOne,
-	UInt32		inSizeTwo) const
+void
+ UMiscUtils::SetMemory( void *buffer, UInt8 toWhat, UInt32 numBytes )
 {
-#pragma unused(inSizeOne, inSizeTwo)
-
-	CRezType* rezTypeOne = static_cast<CRezType *>(inItemOne);
-	CRezType* rezTypeTwo = static_cast<CRezType *>(inItemTwo);
+	UInt8	*p = (UInt8*) buffer;
 	
-	return ::CompareText( (void*) rezTypeOne->GetType(), (void*) rezTypeTwo->GetType(), 4, 4, nil);
+	ThrowIfNil_( p );					// can't hurt to check
+	
+	while( numBytes-- > 0 )
+		*p++ = toWhat;
+}
+
+
+// ---------------------------------------------------------------------------
+// 	DuplicateHandle
+// ---------------------------------------------------------------------------
+
+Handle
+ UMiscUtils::DuplicateHandle( Handle source )
+{
+	ThrowIf_ ( !source || !*source );
+	
+	SInt32 numBytes = GetHandleSize( source );
+	Handle result = NewHandle( numBytes );
+	ThrowIfMemFail_( result );
+	
+	BlockMoveData( *source, *result, numBytes );
+	return( result );
+}
+
+
+// ---------------------------------------------------------------------------
+// 	DisposeHandle
+// ---------------------------------------------------------------------------
+// 	Disposes of a handle without having to know if it is a resource manager or
+// 	memory manager one.
+
+void
+ UMiscUtils::DisposeHandle( void *h )
+{
+	if ( !h ) return;	
+	
+	// Assume a resource is purged
+	if ( !*(Handle)h )				
+	{
+		::ReleaseResource( (Handle)h );	
+		return;
+	}
+
+	Byte flags = ::HGetState( (Handle) h );
+	if ( flags & 0x0020 )				/* a resource? */
+		::ReleaseResource( (Handle) h );
+	else
+		::DisposeHandle( (Handle) h );
 }
 
 

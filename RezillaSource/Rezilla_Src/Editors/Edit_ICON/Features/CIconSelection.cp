@@ -1,11 +1,11 @@
 // ===========================================================================
 // CIconSelection.cp
 //                       Created: 2004-12-11 18:53:20
-//             Last modification: 2004-12-15 07:21:07
+//             Last modification: 2005-01-02 15:46:53
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes 2004
+// (c) Copyright: Bernard Desgraupes 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -14,6 +14,7 @@
 #include "COffscreen.h"
 #include "CIconSelection.h"
 #include "UGraphicConversion.h"
+#include "UMiscUtils.h"
 #include "UIconMisc.h"
 
 
@@ -264,13 +265,13 @@ CIconSelection::PasteFromClipboard( COffscreen *inParentBuffer )
 	}
 	catch( ... )
 	{
-		UIconMisc::DisposeHandle( thePict );
-		UIconMisc::DisposeHandle( theRegion );
+		( thePict );
+		( theRegion );
 		throw;
 	}
 
-	UIconMisc::DisposeHandle( thePict );
-	UIconMisc::DisposeHandle( theRegion );
+	( thePict );
+	( theRegion );
 }
 
 

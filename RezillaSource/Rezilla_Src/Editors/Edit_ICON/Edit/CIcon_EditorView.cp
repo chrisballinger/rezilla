@@ -2,11 +2,11 @@
 // CIcon_EditorView.cp
 // 
 //                       Created: 2004-12-10 17:23:05
-//             Last modification: 2004-12-22 11:18:04
+//             Last modification: 2005-01-02 15:01:20
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004
+// (c) Copyright : Bernard Desgraupes, 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -730,31 +730,16 @@ CIcon_EditorView::Reinitialize( COffscreen *	inOffscreen,
 }
 
 
-// // ---------------------------------------------------------------------------
-// // 	ResizeFrameBy
-// // ---------------------------------------------------------------------------
-// 
-// void 
-// CIcon_EditorView::ResizeFrameBy( SInt16 dh, SInt16 dv, Boolean inRedraw )
-// {
-// 	// Call our parent class to resize the frame
-// 	LView::ResizeFrameBy( dh, dv, inRedraw );
-// 	
-// // 	// Resize the Box surrounding us
-// // 	LPane *theBox = UIconMisc::FindSiblingPaneByID( this, item_BoxAroundCanvas );
-// // 	if ( theBox )
-// // 		theBox->ResizeFrameBy( dh, dv, inRedraw );
-// }
-// 
-
 // ---------------------------------------------------------------------------
 // 	MoveSamplePanes
 // ---------------------------------------------------------------------------
-
+// mOwnerWindow
 void 
 CIcon_EditorView::MoveSamplePanes( SInt16 dh, SInt16 /*dv*/, Boolean inRedraw )
 {
-	LPane *samplePane = UIconMisc::FindSiblingPaneByID( this, item_IconSampleWell );
+	LPane *samplePane = mOwnerWindow->FindPaneByID( item_IconSampleWell );
+
+// 	LPane *samplePane = UIconMisc::FindSiblingPaneByID( this, item_IconSampleWell );
 	if ( samplePane )
 		samplePane->MoveBy( dh, 0, inRedraw );
 }

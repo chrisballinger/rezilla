@@ -1,11 +1,11 @@
 // ===========================================================================
 // CSnapTo.cp
 //                       Created: 2004-12-11 18:52:39
-//             Last modification: 2004-12-23 23:19:31
+//             Last modification: 2005-01-02 15:43:36
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes 2004
+// (c) Copyright: Bernard Desgraupes 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -13,7 +13,7 @@
 
 #include "CSnapTo.h"
 #include "CIconActions.h"
-#include "UIconMisc.h"				// for IsShiftKey()
+#include "UMiscUtils.h"
 
 //#include <math.h>
 #include <fp.h>
@@ -102,7 +102,7 @@ CSnapTo::SnapTo90( Point startPt, Point currentPt, Point *outPt )
 {
 	*outPt = currentPt;					// assume no change
 	
-	//if ( !UIconMisc::IsShiftKey() ) return;		// we go by initial click only
+	//if ( !UMiscUtils::IsShiftKey() ) return;		// we go by initial click only
 
 	if ( !mHaveMovedSinceMouseDown )
 	{
@@ -138,7 +138,7 @@ CSnapTo::SnapToRect( Point startPt, Point currentPt, Point *outPt )
 	// Assume no change in point
 	*outPt = currentPt;
 	
-	if ( !UIconMisc::IsShiftKey() ) return;
+	if ( !UMiscUtils::IsShiftKey() ) return;
 
 	// See how far we've moved in each direction
 	long	dh = currentPt.h - startPt.h;
@@ -176,7 +176,7 @@ CSnapTo::SnapTo45( Point startPt, Point currentPt, Point *outPt )
 	// Assume no change in point
 	*outPt = currentPt;
 	
-	if ( !UIconMisc::IsShiftKey() ) return;
+	if ( !UMiscUtils::IsShiftKey() ) return;
 	
 	// Radian/degree conversions (I like degrees, C library likes radians)
 	#define TO_RAD( deg )	( (deg) / 180.0 * pi )

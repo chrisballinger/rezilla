@@ -1,11 +1,11 @@
 // ===========================================================================
 // CWindow_ColorIcon.cp
 //                       Created: 2004-12-11 18:50:11
-//             Last modification: 2004-12-30 09:45:13
+//             Last modification: 2005-01-02 15:45:30
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes 2004
+// (c) Copyright: Bernard Desgraupes 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -22,6 +22,7 @@
 #include "RezillaConstants.h"
 #include "UColorUtils.h"
 #include "UIconMisc.h"
+#include "UMiscUtils.h"
 #include "UResourceMgr.h"
 
 
@@ -271,7 +272,7 @@ CWindow_ColorIcon::ParseColorIcon( CRezMap *inMap, ResIDT inResID,
 		delete bwBuffer;
 		delete cBuffer;
 		if ( theTable ) ::DisposeCTable( theTable );
-		UIconMisc::DisposeHandle( h );
+		( h );
 		throw;
 	}
 	
@@ -282,7 +283,7 @@ CWindow_ColorIcon::ParseColorIcon( CRezMap *inMap, ResIDT inResID,
 	
 	// Don't need the color table because the offscreen makes a copy of it
 	if ( theTable ) ::DisposeCTable( theTable );
-	UIconMisc::DisposeHandle( h );
+	( h );
 }
 
 
@@ -313,12 +314,12 @@ CWindow_ColorIcon::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 	}
 	catch( ... )
 	{
-		UIconMisc::DisposeHandle( h );
+		( h );
 		throw;
 	}
 	
 	this->SetChangedFlag( false );
-	UIconMisc::DisposeHandle( h );
+	( h );
 }
 
 

@@ -1,11 +1,11 @@
 // ===========================================================================
 // CImageDragDrop.cp
 //                       Created: 2004-12-11 18:57:41
-//             Last modification: 2004-12-22 11:28:29
+//             Last modification: 2005-01-02 15:46:42
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes 2004
+// (c) Copyright: Bernard Desgraupes 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -16,6 +16,7 @@
 #include "RezillaConstants.h"
 #include "COffscreenDragTask.h"			// for DragFlavor_Offscreen
 #include "UIconMisc.h"
+#include "UMiscUtils.h"
 #include "UGraphicConversion.h"
 
 
@@ -99,14 +100,14 @@ CImageDragDrop::ReceiveDragItem( DragReference inDragRef, DragAttributes inAttri
 		err = ::GetFlavorData( inDragRef, inItemRef, ImgType_Picture, (void*) *thePict, &numBytes, 0 );
 		if ( err )
 		{
-			UIconMisc::DisposeHandle( (Handle) thePict );
+			( (Handle) thePict );
 			Throw_( err );
 		}
 		
 		HUnlock( (Handle) thePict );
 		
 		this->HandleDroppedPicture( thePict, inDragRef, inAttribs );
-		UIconMisc::DisposeHandle( thePict );
+		( thePict );
 		return;
 	}	
 	
@@ -139,11 +140,11 @@ CImageDragDrop::HandleDroppedPictureFile( const FSSpec &inSpec, DragReference in
 	}
 	catch( ... )
 	{
-		UIconMisc::DisposeHandle( (Handle) thePict );
+		( (Handle) thePict );
 		throw;
 	}
 	
-	UIconMisc::DisposeHandle( (Handle) thePict );
+	( (Handle) thePict );
 }
 
 

@@ -1,11 +1,11 @@
 // ===========================================================================
 // CWindow_Picture.cp
 //                       Created: 2004-12-11 18:50:22
-//             Last modification: 2004-12-27 22:00:41
+//             Last modification: 2005-01-02 15:45:23
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes 2004
+// (c) Copyright: Bernard Desgraupes 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -20,6 +20,7 @@
 #include "CRezMap.h"
 #include "RezillaConstants.h"
 #include "UIconMisc.h"
+#include "UMiscUtils.h"
 #include "UResourceMgr.h"
 
 
@@ -101,12 +102,12 @@ CWindow_Picture::InitializeFromResource( CRezMap * /*inMap */, ResIDT /* inResID
 // 	catch( ... )
 // 	{
 // 		delete theBuffer;
-// 		UIconMisc::DisposeHandle( thePict );
+// 		( thePict );
 // 		throw;
 // 	}
 // 	
 // 	delete theBuffer;
-// 	UIconMisc::DisposeHandle( thePict );
+// 	( thePict );
 
 }
 
@@ -141,11 +142,11 @@ CWindow_Picture::SaveAsResource( CRezMap * /* inMap */, ResIDT /* inResID */ )
 // 	}
 // 	catch( ... )
 // 	{
-// 		UIconMisc::DisposeHandle( h );
+// 		( h );
 // 		throw;
 // 	}
 // 	
-// 	UIconMisc::DisposeHandle( h );
+// 	( h );
 // 	this->SetChangedFlag( false );
 //  // 
 }

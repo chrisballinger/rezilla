@@ -1,11 +1,11 @@
 // ===========================================================================
 // CIconRotateAction.cp
 //                       Created: 2004-12-11 18:52:35
-//             Last modification: 2004-12-22 18:06:31
+//             Last modification: 2005-01-02 15:44:12
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes 2004
+// (c) Copyright: Bernard Desgraupes 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -27,6 +27,7 @@
 #include "CIconSelection.h"
 #include "UColorUtils.h"
 #include "UIconMisc.h"
+#include "UMiscUtils.h"
 
 
 // ---------------------------------------------------------------------------
@@ -137,7 +138,7 @@ CIconRotateAction::DoIt()
 		if ( maskBuffer ) delete maskBuffer;
 		if ( deleteScratchBuffer && scratchBuffer )
 			delete scratchBuffer;
-		UIconMisc::DisposeHandle( (Handle) selectionRgn );
+		( (Handle) selectionRgn );
 		// Dispose of "this" here ???
 		throw;
 	}
@@ -146,7 +147,7 @@ CIconRotateAction::DoIt()
 	if ( maskBuffer ) delete maskBuffer;
 	if ( deleteScratchBuffer && scratchBuffer )
 		delete scratchBuffer;
-	UIconMisc::DisposeHandle( (Handle) selectionRgn );
+	( (Handle) selectionRgn );
 
 	mSettings.thePaintView->HandleCanvasDraw();
 	this->PostAsAction();

@@ -2,11 +2,11 @@
 // CTmplEditorDoc.cp					
 // 
 //                       Created: 2004-06-12 10:06:22
-//             Last modification: 2004-11-08 07:36:11
+//             Last modification: 2005-01-02 15:28:56
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004
+// (c) Copyright : Bernard Desgraupes, 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -141,7 +141,7 @@ CTmplEditorDoc::Initialize()
 //  ¥ IsModified
 // ---------------------------------------------------------------------------------
 // // Compare original handle with modified handle
-// mIsModified = ! UMiscUtils::HandlesAreIdentical(mRezObj->GetData(), mTmplEditWindow->RetrieveDataWithTemplate() );
+// mIsModified = ! UCompareUtils::HandlesAreIdentical(mRezObj->GetData(), mTmplEditWindow->RetrieveDataWithTemplate() );
 
 Boolean
 CTmplEditorDoc::IsModified()

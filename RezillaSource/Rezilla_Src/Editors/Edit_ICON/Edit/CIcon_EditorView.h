@@ -2,11 +2,11 @@
 // CIcon_EditorView.h
 // 
 //                       Created: 2004-12-10 17:23:05
-//             Last modification: 2004-12-22 11:09:14
+//             Last modification: 2005-01-02 15:01:07
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004
+// (c) Copyright : Bernard Desgraupes, 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -97,9 +97,6 @@ public:
 	virtual Boolean			HasHotSpot();
 	virtual Point			GetHotSpot();
 	
-	/* 
-	 * virtual void            ResizeFrameBy( SInt16 dh, SInt16 dv, Boolean inRedraw );
-	 */
 	virtual void			MoveSamplePanes( SInt16 dh, SInt16 dv, Boolean inRedraw );
 
 	CIcon_EditorWindow*		GetOwnerWindow() { return mOwnerWindow;}

@@ -1,11 +1,11 @@
 // ===========================================================================
 // UGraphicConversion.cp
 //                       Created: 2004-12-11 18:52:47
-//             Last modification: 2004-12-23 09:54:42
+//             Last modification: 2005-01-02 15:47:10
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes 2004
+// (c) Copyright: Bernard Desgraupes 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -19,6 +19,7 @@
 #include "CRezillaPrefs.h"
 #include "RezillaConstants.h"
 #include "UIconMisc.h"
+#include "UMiscUtils.h"
 #include "UResources.h"
 
 #include <UMemoryMgr.h>
@@ -143,7 +144,7 @@ UGraphicConversion::GetPictFromClipboard()
 	}
 	catch( ... )
 	{
-		UIconMisc::DisposeHandle( (Handle) thePict );
+		( (Handle) thePict );
 		throw;	
 	}
 	
@@ -178,7 +179,7 @@ UGraphicConversion::GetRegionFromClipboard()
 	}
 	catch( ... )
 	{
-		UIconMisc::DisposeHandle( (Handle) theRegion );
+		( (Handle) theRegion );
 		throw;	
 	}
 	
@@ -289,11 +290,11 @@ void UGraphicConversion::SaveOffscreenAsResource(
 	}
 	catch( ... )
 	{
-		UIconMisc::DisposeHandle( h );
+		( h );
 		throw;
 	}
 	
-	UIconMisc::DisposeHandle( h );
+	( h );
 }
 
 

@@ -1,11 +1,11 @@
 // ===========================================================================
 // CColorPane.cp
 //                       Created: 2004-12-11 18:53:05
-//             Last modification: 2004-12-31 10:28:44
+//             Last modification: 2005-01-02 15:44:56
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes 2004
+// (c) Copyright: Bernard Desgraupes 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -15,6 +15,7 @@
 #include "CColorPopup.h"
 #include "UColorUtils.h"
 #include "UIconMisc.h"
+#include "UMiscUtils.h"
 #include "UPopupDrawing.h"
 
 
@@ -177,7 +178,7 @@ CColorPane::GetColorTable()
 void
 CColorPane::SetColorTable( CTabHandle inTable, Boolean inChangeColorToo, RedrawOptions inRedrawHow )
 {
-	Handle	copyOfTable = inTable ? UIconMisc::DuplicateHandle((Handle)inTable) : nil;
+	Handle	copyOfTable = inTable ? ((Handle)inTable) : nil;
 
 	this->DisposeCurrentTable();
 	mColorTable = (CTabHandle) copyOfTable;

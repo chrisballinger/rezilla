@@ -1,11 +1,11 @@
 // ===========================================================================
 // UIconMisc.cp
 //                       Created: 2004-12-11 18:52:00
-//             Last modification: 2004-12-15 13:04:55
+//             Last modification: 2005-01-02 15:40:05
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes 2004
+// (c) Copyright: Bernard Desgraupes 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -15,37 +15,6 @@
 #include "UResourceMgr.h"
 
 #include <stdio.h>
-
-
-// 	Low memory keymap address
-#define kKeyMapAddr		0x174
-
-
-
-// ---------------------------------------------------------------------------
-// 	DisposeHandle
-// ---------------------------------------------------------------------------
-// 	Disposes of a handle without having to know if it is a resource manager or
-// 	memory manager one.
-
-void
-UIconMisc::DisposeHandle( void *h )
-{
-	if ( !h ) return;	
-	
-	// Assume a resource is purged
-	if ( !*(Handle)h )				
-	{
-		::ReleaseResource( (Handle)h );	
-		return;
-	}
-
-	Byte flags = ::HGetState( (Handle) h );
-	if ( flags & 0x0020 )				/* a resource? */
-		::ReleaseResource( (Handle) h );
-	else
-		::DisposeHandle( (Handle) h );
-}
 
 
 // ---------------------------------------------------------------------------
@@ -139,82 +108,6 @@ UIconMisc::SetPort( GrafPtr inPort )
 
 
 // ---------------------------------------------------------------------------
-// 	IsShiftKey
-// ---------------------------------------------------------------------------
-// There are probably better ways to do this (OSEventAvail, for example),
-// but this way is quick and easy and works from trap patches, etc.
-
-Boolean
-UIconMisc::IsShiftKey()
-{
-	if ( *(UInt8*)(kKeyMapAddr + 7) & 0x01 )
-		return( true );
-	return( false );
-}
-
-
-// ---------------------------------------------------------------------------
-// 	IsOptionKey
-// ---------------------------------------------------------------------------
-
-Boolean
-UIconMisc::IsOptionKey( void )
-{
-	if ( *(UInt8*)(kKeyMapAddr + 7) & 0x04 )
-		return( true );
-	return( false );
-}
-
-
-// ---------------------------------------------------------------------------
-// 	ClearMemory
-// ---------------------------------------------------------------------------
-
-void
-UIconMisc::ClearMemory( void *theBuffer, UInt32 numBytes )
-{
-	UInt8 *p = (UInt8*) theBuffer;
-	
-	while( numBytes-- > 0 )
-		*p++ = 0;
-}
-
-
-// ---------------------------------------------------------------------------
-// 	SetMemory
-// ---------------------------------------------------------------------------
-
-void
-UIconMisc::SetMemory( void *buffer, UInt8 toWhat, UInt32 numBytes )
-{
-	UInt8	*p = (UInt8*) buffer;
-	
-	ThrowIfNil_( p );					// can't hurt to check
-	
-	while( numBytes-- > 0 )
-		*p++ = toWhat;
-}
-
-
-// ---------------------------------------------------------------------------
-// 	DuplicateHandle
-// ---------------------------------------------------------------------------
-
-Handle
-UIconMisc::DuplicateHandle( Handle source )
-{
-	ThrowIf_ ( !source || !*source );
-	
-	SInt32 numBytes = GetHandleSize( source );
-	Handle result = NewHandle( numBytes );
-	ThrowIfMemFail_( result );
-	
-	BlockMoveData( *source, *result, numBytes );
-	return( result );
-}
-
-
-// ---------------------------------------------------------------------------
 // 	GetTopView
 // ---------------------------------------------------------------------------
 
@@ -237,22 +130,6 @@ UIconMisc::GetTopView( LPane *inPane )
 			theView = superView;
 	}
 	return theView;
-}
-
-
-// ---------------------------------------------------------------------------
-// 	FindSiblingPaneByID
-// ---------------------------------------------------------------------------
-
-LPane *
-UIconMisc::FindSiblingPaneByID( LPane *inPane, PaneIDT inPaneID )
-{
-	ThrowIfNil_( inPane );
-	
-	LView *topView = UIconMisc::GetTopView( inPane );
-	ThrowIfNil_( topView );
-	
-	return( topView->FindPaneByID( inPaneID ) );
 }
 
 
@@ -318,24 +195,6 @@ UIconMisc::RedrawPaneAsIndicated( LPane *inPane, RedrawOptions inOptions )
 		inPane->Draw( nil );
 	else if ( inOptions == redraw_Later )
 		inPane->Refresh();
-}
-
-
-// ---------------------------------------------------------------------------
-// 	CreatePPWindow
-/// ---------------------------------------------------------------------------
-// 	Safer way to create a window.
-
-LWindow *
-UIconMisc::CreatePPWindow( ResIDT inWindowID )
-{
-	StGWorldSaver			aSaver;
-	LWindow 				*theWindow = nil;
-	
-	// Create the window
-	::SetGDevice( GetMainDevice() );				// bug in Mac toolbox requires this
-	theWindow = LWindow::CreateWindow( inWindowID, LCommander::GetTopCommander() );
-	return( theWindow );
 }
 
 

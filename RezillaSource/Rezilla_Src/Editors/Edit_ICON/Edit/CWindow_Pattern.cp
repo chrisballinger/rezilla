@@ -1,11 +1,11 @@
 // ===========================================================================
 // CWindow_Pattern.cp
 //                       Created: 2004-12-11 18:50:21
-//             Last modification: 2004-12-30 09:45:43
+//             Last modification: 2005-01-02 15:46:13
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes 2004
+// (c) Copyright: Bernard Desgraupes 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -21,6 +21,7 @@
 #include "UColorUtils.h"
 #include "COffscreen.h"
 #include "UIconMisc.h"
+#include "UMiscUtils.h"
 #include "UResourceMgr.h"
 #include "RezillaConstants.h"
 
@@ -28,6 +29,7 @@
 // ---------------------------------------------------------------------------
 // 	OpenPaintWindow
 // ---------------------------------------------------------------------------
+
 CWindow_Pattern *
 CWindow_Pattern::OpenPaintWindow( ResIDT inPPobID, CRezMap *inMap, ResType inResType, ResIDT inResID )
 {
@@ -51,6 +53,7 @@ CWindow_Pattern::OpenPaintWindow( ResIDT inPPobID, CRezMap *inMap, ResType inRes
 // ---------------------------------------------------------------------------
 // 	CreateFromStream
 // ---------------------------------------------------------------------------
+
 CWindow_Pattern *CWindow_Pattern::CreateFromStream( LStream *inStream )
 {
 	return new CWindow_Pattern( inStream );
@@ -60,6 +63,7 @@ CWindow_Pattern *CWindow_Pattern::CreateFromStream( LStream *inStream )
 // ---------------------------------------------------------------------------
 // 	Constructor
 // ---------------------------------------------------------------------------
+
 CWindow_Pattern::CWindow_Pattern( LStream *inStream )
 		: CIcon_EditorWindow( inStream )
 {
@@ -81,6 +85,7 @@ CWindow_Pattern::CWindow_Pattern( LStream *inStream )
 // ---------------------------------------------------------------------------
 // 	Destructor
 // ---------------------------------------------------------------------------
+
 CWindow_Pattern::~CWindow_Pattern()
 {
 		// close the file ???
@@ -90,6 +95,7 @@ CWindow_Pattern::~CWindow_Pattern()
 // ---------------------------------------------------------------------------
 // 	FinishCreateSelf
 // ---------------------------------------------------------------------------
+
 void
 CWindow_Pattern::FinishCreateSelf()
 {
@@ -118,6 +124,7 @@ CWindow_Pattern::FinishCreateSelf()
 // ---------------------------------------------------------------------------
 // 	InitializeFromResource
 // ---------------------------------------------------------------------------
+
 void
 CWindow_Pattern::InitializeFromResource( CRezMap *inMap, ResType inResType, ResIDT inResID )
 {
@@ -186,11 +193,11 @@ CWindow_Pattern::InitializeFromResource( CRezMap *inMap, ResType inResType, ResI
 	{
 		delete( colorImage );
 		delete( bwImage );
-		UIconMisc::DisposeHandle( h );
+		( h );
 		throw;
 	}
 	
-	UIconMisc::DisposeHandle( h );
+	( h );
 }
 
 
@@ -200,6 +207,7 @@ CWindow_Pattern::InitializeFromResource( CRezMap *inMap, ResType inResType, ResI
 // 	Note:
 // 	Only the color pattern size can change.
 // ---------------------------------------------------------------------------
+
 void
 CWindow_Pattern::ResizeSampleWell( SInt32 inPatternWidth, SInt32 inPatternHeight )
 {
@@ -247,6 +255,7 @@ CWindow_Pattern::ResizeSampleWell( SInt32 inPatternWidth, SInt32 inPatternHeight
 // ---------------------------------------------------------------------------
 // 	SaveAsResource
 // ---------------------------------------------------------------------------
+
 void
 CWindow_Pattern::SaveAsResource( CRezMap *inMap, ResIDT inResID  )
 {
@@ -278,11 +287,11 @@ CWindow_Pattern::SaveAsResource( CRezMap *inMap, ResIDT inResID  )
 	}
 	catch( ... )
 	{
-		UIconMisc::DisposeHandle( h );
+		( h );
 		throw;
 	}
 	
-	UIconMisc::DisposeHandle( h );
+	( h );
 	this->SetChangedFlag( false );
 }
 
@@ -290,6 +299,7 @@ CWindow_Pattern::SaveAsResource( CRezMap *inMap, ResIDT inResID  )
 // ---------------------------------------------------------------------------
 // 	ParseColorPattern
 // ---------------------------------------------------------------------------
+
 void
 CWindow_Pattern::ParseColorPattern( Handle inPattern, COffscreen **outColor,
 												COffscreen **outBW )
@@ -391,6 +401,7 @@ COffscreen *CWindow_Pattern::BWPatternToOffscreen( const Pattern &inPattern )
 // ---------------------------------------------------------------------------
 // 	ParseBWPattern
 // ---------------------------------------------------------------------------
+
 void
 CWindow_Pattern::ParseBWPattern( Handle inPattern, COffscreen **outBW  )
 {
@@ -402,6 +413,7 @@ CWindow_Pattern::ParseBWPattern( Handle inPattern, COffscreen **outBW  )
 // ---------------------------------------------------------------------------
 // 	CreateBWPattern
 // ---------------------------------------------------------------------------
+
 Handle
 CWindow_Pattern::CreateBWPattern( COffscreen *inBuffer )
 {
@@ -417,6 +429,7 @@ CWindow_Pattern::CreateBWPattern( COffscreen *inBuffer )
 // ---------------------------------------------------------------------------
 // 	CreateColorPattern
 // ---------------------------------------------------------------------------
+
 Handle
 CWindow_Pattern::CreateColorPattern( COffscreen *inColor, COffscreen *inBW )
 {
@@ -489,7 +502,7 @@ CWindow_Pattern::CreateColorPattern( COffscreen *inColor, COffscreen *inBW )
 	{
 		if ( deleteBuffer && inColor )
 			delete inColor;
-		UIconMisc::DisposeHandle( h );
+		( h );
 		throw;
 	}
 	

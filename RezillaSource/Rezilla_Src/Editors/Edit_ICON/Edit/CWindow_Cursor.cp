@@ -1,11 +1,11 @@
 // ===========================================================================
 // CWindow_Cursor.cp
 //                       Created: 2004-12-11 18:50:15
-//             Last modification: 2004-12-30 09:44:07
+//             Last modification: 2005-01-02 15:45:46
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes 2004
+// (c) Copyright: Bernard Desgraupes 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -48,6 +48,7 @@
 #include "RezillaConstants.h"
 #include "UColorUtils.h"
 #include "UIconMisc.h"
+#include "UMiscUtils.h"
 #include "UResourceMgr.h"
 
 
@@ -245,13 +246,13 @@ CWindow_Cursor::ParseBWCursor( CRezMap *inMap, ResIDT inResID,
 	}
 	catch( ... )
 	{
-		UIconMisc::DisposeHandle( h );
+		( h );
 		if ( bw ) delete ( bw );
 		if ( mask ) delete( mask );
 		throw;
 	}
 	
-	UIconMisc::DisposeHandle( h );
+	( h );
 }
 
 
@@ -342,7 +343,7 @@ CWindow_Cursor::ParseColorCursor( CRezMap *inMap, ResIDT inResID,
 		delete cBuffer;
 		delete tempBuffer;
 		if ( theTable ) ::DisposeCTable( theTable );
-		UIconMisc::DisposeHandle( h );
+		( h );
 	}
 	
 	// Return buffers and info to the caller
@@ -353,7 +354,7 @@ CWindow_Cursor::ParseColorCursor( CRezMap *inMap, ResIDT inResID,
 
 	// Don't need the color table because the offscreen makes a copy of it
 	if ( theTable ) ::DisposeCTable( theTable );
-	UIconMisc::DisposeHandle( h );
+	( h );
 	delete tempBuffer;
 }
 
@@ -395,12 +396,12 @@ CWindow_Cursor::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 	}
 	catch( ... )
 	{
-		UIconMisc::DisposeHandle( h );
+		( h );
 		throw;
 	}
 	
 	this->SetChangedFlag( false );
-	UIconMisc::DisposeHandle( h );
+	( h );
 }
 
 
@@ -506,7 +507,7 @@ CWindow_Cursor::CreateColorCursor( COffscreen *inColor, COffscreen *inBW,
 	{
 		if ( deleteBuffer && inColor )
 			delete inColor;
-		UIconMisc::DisposeHandle( h );
+		( h );
 		throw;
 	}
 	

@@ -1,11 +1,11 @@
 // ===========================================================================
 // CWindow_IconFamily.cp
 //                       Created: 2004-12-11 18:50:16
-//             Last modification: 2004-12-30 09:44:23
+//             Last modification: 2005-01-02 15:46:04
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes 2004
+// (c) Copyright: Bernard Desgraupes 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -22,6 +22,7 @@
 #include "UColorUtils.h"
 #include "UGraphicConversion.h"
 #include "UIconMisc.h"
+#include "UMiscUtils.h"
 #include "UResourceMgr.h"
 
 
@@ -69,7 +70,7 @@ CWindow_IconFamily::CWindow_IconFamily( LStream *inStream )
 // ---------------------------------------------------------------------------
 CWindow_IconFamily::~CWindow_IconFamily()
 {
-	UIconMisc::DisposeHandle( mFamilyListH );
+	( mFamilyListH );
 }
 
 
@@ -184,7 +185,7 @@ CWindow_IconFamily::InitializeOneMember( CRezMap *inMap, ResType inResType, ResI
 			{
 				::HLock( h );
 				theBuffer->CopyFromRawData( (UInt8*) *h + inOffset, inRowBytes );
-				UIconMisc::DisposeHandle( h );
+				( h );
 				isUsed = true;
 			}
 		}

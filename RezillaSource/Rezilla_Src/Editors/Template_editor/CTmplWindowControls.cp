@@ -2,11 +2,11 @@
 // CTmplWindowUtils.cp					
 // 
 //                       Created: 2004-08-20 16:45:08
-//             Last modification: 2004-11-22 08:52:12
+//             Last modification: 2005-01-02 15:22:43
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes, 2004
+// (c) Copyright: Bernard Desgraupes, 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -30,6 +30,7 @@
 #include "CTxtDataSubView.h"
 #include "CWasteEditView.h"
 #include "CColorWell.h"
+#include "UCompareUtils.h"
 #include "UMiscUtils.h"
 #include "UMessageDialogs.h"
 
@@ -1141,7 +1142,7 @@ CTmplEditorWindow::AddCasePopup(ResType inType, Str255 inLabel, SInt32 inStartMa
 	// Populate the popup with all the successive cases
 	if ( SplitCaseValue(inLabel, &rightPtr) ) {
 		theBevelButton->InsertMenuItem(inLabel, index, true);
-		if (rightPtr != NULL && UMiscUtils::CompareStr255( (Str255 *) theValue, rightPtr) == 0) {
+		if (rightPtr != NULL && UCompareUtils::CompareStr255( (Str255 *) theValue, rightPtr) == 0) {
 			foundIdx = index;
 		} 
 	} 
@@ -1158,7 +1159,7 @@ CTmplEditorWindow::AddCasePopup(ResType inType, Str255 inLabel, SInt32 inStartMa
 		index++;
 		if ( SplitCaseValue(theString, &rightPtr) ) {
 			theBevelButton->InsertMenuItem(theString, index, true);
-			if (foundIdx == -1 && rightPtr != NULL && UMiscUtils::CompareStr255( (Str255 *) theValue, rightPtr) == 0) {
+			if (foundIdx == -1 && rightPtr != NULL && UCompareUtils::CompareStr255( (Str255 *) theValue, rightPtr) == 0) {
 				foundIdx = index;
 			} 
 		} 
@@ -1242,7 +1243,7 @@ CTmplEditorWindow::AddEditPopup(Str255 inValue,
 		GetIndString(theString, inResourceID, index);
 		if ( SplitCaseValue(theString, &rightPtr) ) {
 			theBevelButton->InsertMenuItem(theString, index, true);
-			if (foundIdx == -1 && rightPtr != NULL && UMiscUtils::CompareStr255( (Str255 *) inValue, rightPtr) == 0) {
+			if (foundIdx == -1 && rightPtr != NULL && UCompareUtils::CompareStr255( (Str255 *) inValue, rightPtr) == 0) {
 				foundIdx = index;
 			} 
 			index++;

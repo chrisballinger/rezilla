@@ -2,11 +2,11 @@
 // CRezCompare.cp					
 // 
 //                       Created: 2004-02-29 18:17:07
-//             Last modification: 2004-05-19 07:10:26
+//             Last modification: 2005-01-02 15:18:45
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004
+// (c) Copyright : Bernard Desgraupes, 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -22,6 +22,7 @@
 #include "RezillaConstants.h"
 #include "UDialogBoxHandler.h"
 #include "UMessageDialogs.h"
+#include "UCompareUtils.h"
 #include "UMiscUtils.h"
 
 #include <UStandardDialogs.h>
@@ -366,7 +367,7 @@ CRezCompare::CompareTwoResources(CRezType * inOldRezType, CRezType * inNewRezTyp
 		return;
 	}
 	// Compare the names
-	if (!sIgnoreNames && UMiscUtils::CompareStr255(theOldRezObj->GetName(), theNewRezObj->GetName()) != 0) {
+	if (!sIgnoreNames && UCompareUtils::CompareStr255(theOldRezObj->GetName(), theNewRezObj->GetName()) != 0) {
 		*outCompResult = compare_nameDiff;
 		return;
 	}

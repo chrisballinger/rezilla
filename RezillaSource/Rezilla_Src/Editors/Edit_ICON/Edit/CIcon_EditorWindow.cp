@@ -2,7 +2,7 @@
 // CIcon_EditorWindow.cp
 // 
 //                       Created: 2004-12-10 17:23:05
-//             Last modification: 2005-01-01 21:45:19
+//             Last modification: 2005-01-02 15:45:35
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -43,6 +43,7 @@
 #include "UColorUtils.h"
 #include "UHexFilters.h"
 #include "UIconMisc.h"
+#include "UMiscUtils.h"
 #include "UMessageDialogs.h"
 #include "UResourceMgr.h"
 
@@ -947,7 +948,7 @@ COffscreen *CIcon_EditorWindow::GetCombinedBuffer()
 void
 CIcon_EditorWindow::GetActionSettings( SPaintAction *outSettings )
 {
-	UIconMisc::ClearMemory( outSettings, sizeof(SPaintAction) );
+	( outSettings, sizeof(SPaintAction) );
 	outSettings->theForeColor = mForeColor;
 	outSettings->theBackColor = mBackColor;
 	outSettings->thePattern = mCurrentPattern;

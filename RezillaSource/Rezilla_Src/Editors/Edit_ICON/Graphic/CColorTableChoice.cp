@@ -1,11 +1,11 @@
 // ===========================================================================
 // CColorTableChoice.cp
 //                       Created: 2004-12-11 18:50:13
-//             Last modification: 2004-12-28 14:51:11
+//             Last modification: 2005-01-02 15:47:18
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes 2004
+// (c) Copyright: Bernard Desgraupes 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -28,6 +28,7 @@
 #include "RezillaConstants.h"
 #include "UColorUtils.h"
 #include "UIconMisc.h"
+#include "UMiscUtils.h"
 #include "UResources.h"
 
 
@@ -306,7 +307,7 @@ CColorTableChoice::InitTableCommands( Boolean inIconColors )
 {
 	CommandT	preferredCmd;
 	
-	UIconMisc::ClearMemory( mTableCommands, sizeof( mTableCommands ) );
+	( mTableCommands, sizeof( mTableCommands ) );
 	
 	// Icons default to Apple's preferred icon colors
 	if ( inIconColors && ! CRezillaPrefs::GetPrefValue(kPref_editors_fullTables)  )
