@@ -266,7 +266,9 @@ CTmplEditorDoc::GetModifiedResource()
 	if ( error != noErr ) {
 		UMessageDialogs::AlertWithValue(CFSTR("ErrorWhileSavingTemplateWindow"), error);		
 	} else {
-		theHandle = mTmplEditWindow->GetOutStream()->GetDataHandle();
+		if (mTmplEditWindow->GetOutStream() != NULL) {
+			theHandle = mTmplEditWindow->GetOutStream()->GetDataHandle();
+		} 
 	}
 	
 	return theHandle;
