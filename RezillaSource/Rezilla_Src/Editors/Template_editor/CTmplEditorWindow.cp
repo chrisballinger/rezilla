@@ -2,7 +2,7 @@
 // CTmplEditorWindow.cp					
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-09-17 16:37:28
+//             Last modification: 2004-09-20 09:38:13
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -371,24 +371,26 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			
 			choice = theBevelInfo.menuChoice;
 			theBevel = dynamic_cast<CTmplBevelButton *>(theBevelInfo.selfPtr);
-			theEditText = (LEditText *) theBevel->GetUserCon();
-			
-			firstMark = theEditText->GetUserCon();
-			currMark = mTemplateStream->GetMarker();
-			mTemplateStream->SetMarker(firstMark, streamFrom_Start);
+			if (theBevel != NULL) {
+				theEditText = (LEditText *) theBevel->GetUserCon();
+				
+				firstMark = theEditText->GetUserCon();
+				currMark = mTemplateStream->GetMarker();
+				mTemplateStream->SetMarker(firstMark, streamFrom_Start);
 
-			for ( i = 0; i < choice ; i++) {
-				*mTemplateStream >> theString;
-				*mTemplateStream >> theType;
+				for ( i = 0; i < choice ; i++) {
+					*mTemplateStream >> theString;
+					*mTemplateStream >> theType;
+				}
+				CopyPascalStringToC(theString, charString);
+				p = strrchr((char *) charString, '=');
+				if (p != nil) {
+					len = (p - (char *) charString) + 1;
+					CopyCStringToPascal(charString + len, theString);
+					theEditText->SetDescriptor(theString);
+				} 
+				mTemplateStream->SetMarker(currMark, streamFrom_Start);
 			}
-			CopyPascalStringToC(theString, charString);
-			p = strrchr((char *) charString, '=');
-			if (p != nil) {
-				len = (p - (char *) charString) + 1;
-				CopyCStringToPascal(charString + len, theString);
-				theEditText->SetDescriptor(theString);
-			} 
-			mTemplateStream->SetMarker(currMark, streamFrom_Start);
 			break;
 		}
 		
@@ -406,16 +408,18 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			
 			choice = theBevelInfo.menuChoice;
 			theBevel = dynamic_cast<CTmplBevelButton *>(theBevelInfo.selfPtr);
-			theEditText = (LEditText *) theBevel->GetUserCon();
-			resID = (ResIDT) theEditText->GetUserCon();
-			
-			GetIndString(theString, resID, choice);
-			CopyPascalStringToC(theString, charString);
-			p = strrchr((char *) charString, '=');
-			if (p != nil) {
-				len = (p - (char *) charString) + 1;
-				CopyCStringToPascal(charString + len, theString);
-				theEditText->SetDescriptor(theString);
+			if (theBevel != NULL) {
+				theEditText = (LEditText *) theBevel->GetUserCon();
+				resID = (ResIDT) theEditText->GetUserCon();
+				
+				GetIndString(theString, resID, choice);
+				CopyPascalStringToC(theString, charString);
+				p = strrchr((char *) charString, '=');
+				if (p != nil) {
+					len = (p - (char *) charString) + 1;
+					CopyCStringToPascal(charString + len, theString);
+					theEditText->SetDescriptor(theString);
+				} 
 			} 
 			break;
 		}
@@ -871,8 +875,8 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 
 		case 'COLR': {
 			// QuickDraw color RGB triplet
-			RGBColor theRGB;
-			if (mRezStream->GetMarker() < mRezStream->GetLength() - 2) {
+			RGBColor theRGB = {0,0,0};
+			if (mRezStream->GetMarker() < mRezStream->GetLength() - 5) {
 				*mRezStream >> theRGB.red;
 				*mRezStream >> theRGB.green;
 				*mRezStream >> theRGB.blue;
@@ -925,8 +929,10 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		break;
 
 		case 'DVDR':
-		// Insert a comment
+		// Insert a comment. Add a vertical skip as AddStaticField doesn't.
+		mYCoord += kTmplVertSep;
 		AddStaticField(inType, inLabelString, inContainer, sCommentTraitsID);
+		mYCoord += sEditPaneInfo.height + kTmplVertSep;
 		break;
 
 		case 'DWRD':
@@ -1585,7 +1591,6 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 	OSType	theOSType;
 	ResType	theType;
 	LRadioGroupView *	theRGV;
-	LStaticText	*		theStaticText;
 	LEditText *			theEditText;
 	LCheckBox *			theCheckBox;
 	CWasteEditView *	theWasteEdit;
@@ -1716,6 +1721,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 			error = err_TmplParseDateFailed;
 		} 
 		*mOutStream << theSInt32;
+		mCurrentID++;
 		break;
 		
 		case 'DBYT':
@@ -1960,7 +1966,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		theEditText->GetDescriptor(numStr);	
 		::StringToNum( numStr, &theLong);
 		*mOutStream << (SInt16) theLong;
-		// Skip the field and bevel popup button
+		// Skip the field and the bevel popup button
 		mCurrentID += 2;
 		break;
 
@@ -2384,7 +2390,7 @@ CTmplEditorWindow::RetrieveCountValue()
 	UInt8	theUInt8 = 0;
 	UInt16	theUInt16 = 0;
 	UInt32	theUInt32 = 0;
-	LStaticText	*		theStaticText;
+	LStaticText	*	theStaticText;
 
 	currMark = mOutStream->GetMarker();
 	mOutStream->SetMarker(mListCountMark, streamFrom_Start);

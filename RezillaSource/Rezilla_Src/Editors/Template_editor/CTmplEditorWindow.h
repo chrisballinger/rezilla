@@ -272,6 +272,8 @@ private:
 	
 	Boolean			SelectValueFromKeyCases(Str255 inLabelString);
 	
+	Boolean			SplitCaseValue(Str255 inString, Str255 ** outRightPtr);
+	
 };
 
 
