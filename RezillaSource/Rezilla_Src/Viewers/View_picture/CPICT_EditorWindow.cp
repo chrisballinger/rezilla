@@ -27,6 +27,7 @@
 #include <LPicture.h>
 #include <LScrollerView.h>
 #include <UMemoryMgr.h>
+#include <UScrap.h>
 
 #include <stdio.h>
 
@@ -157,17 +158,24 @@ CPICT_EditorWindow::ObeyCommand(
 		
 			case cmd_Copy:
 			case cmd_Cut:{
-				CRezClipboard::SetScrapContext(scrap_rezmap);
+				CRezClipboard::SetScrapContext(scrap_default);
 				// Copy the image to the clipboard with 'PICT' flavor
-				
+				UScrap::SetData('PICT',(Handle) mContentsView->GetPictureH());
+				if (inCommand == cmd_Cut) {
+					mContentsView->SetPictureH(nil);
+				} 
 				break;
 			}
 
 			case cmd_Paste: {
-				CRezClipboard::SetScrapContext(scrap_rezmap);
+				CRezClipboard::SetScrapContext(scrap_default);
 				// If the clipboard contains data with 'PICT' flavor,
 				// replace the current image.
-				
+				StHandleBlock	scrapDataH(Size_Zero);
+				SInt32 dataSize = UScrap::GetData('PICT', scrapDataH);
+				if (dataSize != 0) {
+					InstallPict(scrapDataH);
+				} 
 				break;
 			}
 
