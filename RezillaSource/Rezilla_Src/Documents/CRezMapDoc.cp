@@ -2,7 +2,7 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2005-01-30 19:26:44
+//             Last modification: 2005-03-08 07:44:20
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -394,14 +394,8 @@ CRezMapDoc::ObeyCommand(
 			LArrayIterator iterator(*theArray);
 			CRezObjItem * theItem = nil;
 			
-			if (inCommand == cmd_EditRezAsType) {
-				CRezTypePicker * rezPicker = new CRezTypePicker();
-				if (rezPicker != NULL) {
-					if (rezPicker->RunDialog() == noErr) {
-						asType = rezPicker->GetChosenType();
-					} 
-					delete rezPicker;
-				} 
+			if (inCommand == cmd_EditRezAsType && ! UMiscUtils::SelectType(asType) ) {
+					break;
 			} 
 			
 			while (iterator.Next(&theItem)) {
