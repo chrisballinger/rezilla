@@ -995,7 +995,7 @@ CTmplEditorWindow::RecalcTextBoxHeight(SInt32 inTextSize, CWasteEditView * inWEV
 		} 
 	} 
 	
-	return delta;
+	return reduce;
 }
 
 
