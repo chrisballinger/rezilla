@@ -1,7 +1,7 @@
 // ===========================================================================
 // Rezilla_STR#.r					
 //                       Created: 2004-02-28 22:51:23
-//             Last modification: 2004-07-01 14:42:32
+//             Last modification: 2004-12-13 13:50:06
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -358,3 +358,65 @@ resource 'STR#' (1603, "Script Codes") {
 };
 
 
+resource 'STR#' (1700, "Paint Redo", purgeable) {
+	{	
+/* [1] */	"Redo Line",
+/* [2] */	"Redo Bucket",
+/* [3] */	"Redo Rectangle",
+/* [4] */	"Redo Round Rect",
+/* [5] */	"Redo Oval",
+/* [6] */	"Redo Eraser",
+/* [7] */	"Redo Pen",
+/* [8] */	"Redo Move",
+/* [9] */	"Redo Flip",
+/* [10] */	"Redo Rotate",
+/* [11] */	"Redo",
+/* [12] */	"Redo Erase All",
+/* [13] */	"Redo Cut",
+/* [14] */	"Redo Paste",
+/* [15] */	"Redo Clear",
+/* [16] */	"Redo Transparency",
+/* [17] */	"Redo Drag",
+/* [18] */	"Redo HotSpot",
+/* [19] */	"Redo Recolor",
+/* [20] */	"Redo Size Change",
+/* [21] */	"Redo Delete Image",
+/* [22] */	"Redo Text"
+	}
+};
+
+resource 'STR#' (1701, "Paint Undo", purgeable) {
+	{	
+/* [1] */	"Undo Line",
+/* [2] */	"Undo Bucket",
+/* [3] */	"Undo Rectangle",
+/* [4] */	"Undo Round Rect",
+/* [5] */	"Undo Oval",
+/* [6] */	"Undo Eraser",
+/* [7] */	"Undo Pen",
+/* [8] */	"Undo Move",
+/* [9] */	"Undo Flip",
+/* [10] */	"Undo Rotate",
+/* [11] */	"Undo",
+/* [12] */	"Undo Erase All",
+/* [13] */	"Undo Cut",
+/* [14] */	"Undo Paste",
+/* [15] */	"Undo Clear",
+/* [16] */	"Undo Transparency",
+/* [17] */	"Undo Drag",
+/* [18] */	"Undo HotSpot",
+/* [19] */	"Undo Recolor",
+/* [20] */	"Undo Size Change",
+/* [21] */	"Undo Delete Image",
+/* [22] */	"Undo Text"
+	}
+};
+
+resource 'STR#' (1702, "Paint Cut/Copy/etc", purgeable) {
+	{		
+/* [1] */	"Cut",
+/* [2] */	"Copy",
+/* [3] */	"Paste",
+/* [4] */	"Clear"
+	}
+};
