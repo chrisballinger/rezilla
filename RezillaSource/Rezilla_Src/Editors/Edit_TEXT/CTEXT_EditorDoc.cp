@@ -128,7 +128,6 @@ CTEXT_EditorDoc::Initialize()
 		} 
 	} 
 	
-	mTextEditWindow->AdjustMenusToSelection();
 	mTextEditWindow->SetLengthField();
 	
 	// Make the window visible.
