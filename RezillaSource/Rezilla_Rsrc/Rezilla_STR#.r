@@ -353,6 +353,61 @@ resource 'STR#' (1603, "Script Codes") {
 };
 
 
+resource 'STR#' (1604, "Keyboard Glyphs") {
+	{	
+		"Natural Glyph=0",
+		"Tab Right=2",
+		"Tab Left=3",
+		"Enter=4",
+		"Space=9",
+		"Delete Right=10",
+		"Return=11",
+		"Nonmarking Return=13",
+		"Pencil=15",
+		"Downward Arrow Dashed=16",
+		"Checkmark=18",
+		"Diamond=19",
+		"Apple Logo Filled=20",
+		"Delete Left=23",
+		"Left Arrow Dashed=24",
+		"Up Arrow Dashed=25",
+		"Right Arrow Dashed=26",
+		"Escape=27",
+		"Clear=28",
+		"Blank=97",
+		"Page Up=98",
+		"Caps Lock=99",
+		"Left Arrow=100",
+		"Right Arrow=101",
+		"Northwest Arrow=102",
+		"Help=103",
+		"Up Arrow=104",
+		"Southeast Arrow=105",
+		"Down Arrow=106",
+		"Page Down=107",
+		"Apple Logo Outline=108",
+		"Contextual Menu=109",
+		"Power=110",
+		"F1=111",
+		"F2=112",
+		"F3=113",
+		"F4=114",
+		"F5=115",
+		"F6=116",
+		"F7=117",
+		"F8=118",
+		"F9=119",
+		"F10=120",
+		"F11=121",
+		"F12=122",
+		"F13=135",
+		"F14=136",
+		"F15=137",
+		"Control ISO=138"
+	}
+};
+
+
 resource 'STR#' (1700, "Paint Redo", purgeable) {
 	{	
 /* [1] */	"Redo Line",
