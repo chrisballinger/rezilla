@@ -1029,7 +1029,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		// C string. This should be either characters followed by a null or all
 		// the chars until the end of the stream if there is no null byte.
 		AddStaticField(inType, inLabelString, inContainer, sLeftLabelTraitsID);
-		mYCoord += kTmplLabelHeight + kTmplVertSkip;
+		mYCoord += kTmplLabelHeight + kTmplLabelInterline;
 		AddWasteField(inType, inContainer);
  		break;
 
@@ -1089,7 +1089,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		case 'ECST':
 		// Even-padded C string (padded with nulls)
 		AddStaticField(inType, inLabelString, inContainer, sLeftLabelTraitsID);
-		mYCoord += kTmplLabelHeight + kTmplVertSkip;
+		mYCoord += kTmplLabelHeight + kTmplLabelInterline;
 		// Padding is handled there
 		AddWasteField(inType, inContainer);
 		break;
@@ -1189,7 +1189,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		case 'WSHX':
 		// Hex dump of remaining bytes in resource (this can only be the last type in a resource)
 		AddStaticField(inType, inLabelString, inContainer, sLeftLabelTraitsID);
-		mYCoord += kTmplLabelHeight + kTmplVertSkip;
+		mYCoord += kTmplLabelHeight + kTmplLabelInterline;
 		AddHexDumpField(inType, inContainer);
 		break;
 
@@ -1303,7 +1303,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		case 'LSTR':
 		// Long string (long  length followed by the characters)
 		AddStaticField(inType, inLabelString, inContainer, sLeftLabelTraitsID);
-		mYCoord += kTmplLabelHeight + kTmplVertSkip;
+		mYCoord += kTmplLabelHeight + kTmplLabelInterline;
 		AddWasteField(inType, inContainer);
 		break;
 
@@ -1340,7 +1340,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		case 'OCST':
 		// Odd-padded C string (padded with nulls)
 		AddStaticField(inType, inLabelString, inContainer, sLeftLabelTraitsID);
-		mYCoord += kTmplLabelHeight + kTmplVertSkip;
+		mYCoord += kTmplLabelHeight + kTmplLabelInterline;
 		// Padding is handled there
 		AddWasteField(inType, inContainer);
 		break;
@@ -1521,7 +1521,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		case 'WSTR':
 		// Same as LSTR, but a word rather than a long word
 		AddStaticField(inType, inLabelString, inContainer, sLeftLabelTraitsID);
-		mYCoord += kTmplLabelHeight + kTmplVertSkip;
+		mYCoord += kTmplLabelHeight + kTmplLabelInterline;
 		AddWasteField(inType, inContainer);
  		break;
 
@@ -1554,7 +1554,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		   if (inType >> 24 != 'F' || 
 			   CRezillaPrefs::GetPrefValue(kPref_editors_dispFillers) ) {
 					AddStaticField(inType, inLabelString, inContainer, sLeftLabelTraitsID, reqLength);
-					mYCoord += kTmplLabelHeight + kTmplVertSkip;
+					mYCoord += kTmplLabelHeight + kTmplLabelInterline;
 			} 
 				
 			if (inType >> 24 == 'H' || inType >> 24 == 'F') {
