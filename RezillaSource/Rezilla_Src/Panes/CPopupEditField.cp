@@ -129,16 +129,7 @@ CPopupEditField::CreatePopup(MessageT inPopupMsg, Boolean inLeftSide)
 	ThrowIfNil_(mPopup);
 
 	FillPopup(mStringsID);
-}
-
-
-// ---------------------------------------------------------------------------
-// FinishCreateSelf											[protected]
-// ---------------------------------------------------------------------------
-
-void
-CPopupEditField::FinishCreateSelf()
-{	
+	
 	// Let the edit field listen to the popup
 	mPopup->AddListener(this);
 }
@@ -147,19 +138,7 @@ CPopupEditField::FinishCreateSelf()
 // ---------------------------------------------------------------------------
 //	 FillPopup													[public]
 // ---------------------------------------------------------------------------
-// Pass in the STR# resource with the popup items.
-// 
-// 	SInt16 index = 1, foundIdx = -1;
-// 	if (foundIdx == -1 && rightPtr != NULL && UCompareUtils::CompareStr255( (Str255 *) inValue, rightPtr) == 0) {
-// 		foundIdx = index;
-// 	} 
-// 	index++;
-// Mark the item corresponding to the value
-// if (foundIdx != -1) {
-// 	theBevelButton->SetCurrentMenuItem(foundIdx);						
-// } else {
-// 	::MacCheckMenuItem(theBevelButton->GetMacMenuH(), theBevelButton->GetCurrentMenuItem(), 0);
-// }
+// Pass in the STR# resource containing the popup items
 
 void
 CPopupEditField::FillPopup(ResIDT inStringListID) 

@@ -86,7 +86,7 @@ protected:
 		LBevelButton *	mPopup;
 		ResIDT			mStringsID;
 							
-	virtual void	FinishCreateSelf();		
+// 	virtual void	FinishCreateSelf();		
 	
 private:
 	void			CreatePopup(MessageT inPopupMsg, Boolean inLeftSide);
