@@ -39,6 +39,7 @@ CRezObj::CRezObj(Handle inResHandle, short inRefnum)
 
 	// Don't use PP's list model
 	SetUseSubModelList(false);
+	SetModelKind(rzil_cResource);
 }
 
 
@@ -71,6 +72,7 @@ CRezObj::CRezObj(CRezType * inRezType, short inID)
 
 	// Don't use PP's list model
 	SetUseSubModelList(false);
+	SetModelKind(rzil_cResource);
 }
 
 
@@ -101,6 +103,7 @@ CRezObj::CRezObj(CRezType * inRezType,
 
 	// Don't use PP's list model
 	SetUseSubModelList(false);
+	SetModelKind(rzil_cResource);
 }
 
 
@@ -124,6 +127,7 @@ CRezObj::CRezObj(CRezType * inRezType)
 
 	// Don't use PP's list model
 	SetUseSubModelList(false);
+	SetModelKind(rzil_cResource);
 }
 
 
@@ -146,6 +150,7 @@ CRezObj::CRezObj(CRezObj& inOriginal)
 
 	// Don't use PP's list model
 	SetUseSubModelList(false);
+	SetModelKind(rzil_cResource);
 }
 
 

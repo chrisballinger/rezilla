@@ -30,6 +30,7 @@ CRezType::CRezType(ResType inResType)
 
 	// Don't use PP's list model
 	SetUseSubModelList(false);
+	SetModelKind(rzil_cType);
 }
 
 

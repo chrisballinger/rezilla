@@ -17,14 +17,20 @@
 #include "UResources.h"
 #include "RezillaConstants.h"
 
+#include <LCommander.h>
 
 // ---------------------------------------------------------------------------
 //  ¥ CRezMap														[public]
 // ---------------------------------------------------------------------------
 
 CRezMap::CRezMap(short inRefnum)
-	: LModelObject(NULL, rzil_cMap), mRefNum(inRefnum)
+	: LModelObject( NULL, rzil_cMap), mRefNum(inRefnum)
 {
+	// Let the application be the supermodel of CRezMaps
+	LModelObject * topModel = dynamic_cast<LModelObject *>(LCommander::GetTopCommander());
+	SetSuperModel(topModel);
+	SetModelKind(rzil_cMap);
+	
 	// Don't use PP's list model since the subobjects are constructed only
 	// when necessary
 	SetUseSubModelList(false);
