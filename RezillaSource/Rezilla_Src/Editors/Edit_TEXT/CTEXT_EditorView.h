@@ -2,11 +2,11 @@
 // CTEXT_EditorView.h
 // 
 //                       Created: 2004-06-19 13:23:32
-//             Last modification: 2004-11-06 08:22:42
+//             Last modification: 2005-01-27 18:10:35
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004
+// (c) Copyright : Bernard Desgraupes, 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -67,9 +67,6 @@ public:
 
 protected:
 		CTEXT_EditorWindow *	mOwnerWindow;
-
-	virtual void			ClickSelf(const SMouseDownEvent& inMouseDown);
-									
 
 };
 

@@ -2,11 +2,11 @@
 // CTEXT_EditorView.cp
 // 
 //                       Created: 2004-06-19 13:23:32
-//             Last modification: 2005-01-08 17:31:17
+//             Last modification: 2005-01-27 18:10:17
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004, 2005
+// (c) Copyright : Bernard Desgraupes, 2004-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -94,20 +94,6 @@ CTEXT_EditorView::~CTEXT_EditorView()
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ ClickSelf								[protected, virtual]
-// ---------------------------------------------------------------------------
-
-void
-CTEXT_EditorView::ClickSelf(
-	const SMouseDownEvent	&inMouseDown)
-{
-	LTextEditView::ClickSelf(inMouseDown);
-	
-	mOwnerWindow->AdjustMenusToSelection();
-}
-
-
-// ---------------------------------------------------------------------------
 //	¥ HandleKeyPress							[public, virtual]
 // ---------------------------------------------------------------------------
 
@@ -117,9 +103,6 @@ CTEXT_EditorView::HandleKeyPress(
 {
 	Boolean		keyHandled	 = LTextEditView::HandleKeyPress(inKeyEvent);
 	
-	if (UKeyFilters::PrintingCharField(inKeyEvent) == keyStatus_TECursor) {
-		mOwnerWindow->AdjustMenusToSelection();
-	} 
 	mOwnerWindow->SetLengthField();
 	return keyHandled;
 }
