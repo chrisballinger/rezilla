@@ -34,8 +34,6 @@ public:
 								UInt32 inAttributes, LCommander *inSuperCommander );
 							CInspectorWindow( LStream *inStream );
 							~CInspectorWindow();
-
-// 	virtual Boolean		ObeyCommand(CommandT inCommand, void* ioParam);	
 			
 	virtual void		FindCommandStatus( CommandT inCommand,
 							Boolean &outEnabled, Boolean &outUsesMark,

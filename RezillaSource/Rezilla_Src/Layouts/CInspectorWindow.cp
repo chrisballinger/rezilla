@@ -154,32 +154,6 @@ CInspectorWindow::FinishCreateSelf()
 }
 
 
-// // ---------------------------------------------------------------------------
-// //  ¥ ObeyCommand
-// // ---------------------------------------------------------------------------
-// 
-// Boolean
-// CInspectorWindow::ObeyCommand(
-// 	CommandT	inCommand,
-// 	void		*ioParam)
-// {
-// 	Boolean		cmdHandled = true;
-// 
-// 	if (inCommand == cmd_Close) {
-// 			cmdHandled = LWindow::ObeyCommand(inCommand, ioParam);
-// 	} else {
-// 		LCommander* theCommander = dynamic_cast<LCommander*>( UDesktop::FetchTopRegular() );
-// 		if (theCommander) {
-// 			cmdHandled = theCommander->ObeyCommand(inCommand, ioParam);
-// 		} else {
-// 			cmdHandled = LCommander::ObeyCommand(inCommand, ioParam);
-// 		}
-// 	}
-// 	
-// 	return cmdHandled;
-// }
-
-
 // ---------------------------------------------------------------------------------
 //  ¥ FindCommandStatus
 // ---------------------------------------------------------------------------------
