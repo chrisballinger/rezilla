@@ -37,10 +37,10 @@ the same ID as the 'TEXT' resource itself upon saving, in order to store
 the style information.<P><H3>The bitmap editor</H3>
 It allows you to edit bitmap image resources. This includes icons (small,
 mini or large), icon families, patterns, cursors. To be more precise, it
-supports the following resource types:<P>'cicn', 'crsr', 'CURS', 'icl4', 'icl8', 'icm#', 'icm4', 'icm8',
-'ICN#', 'ICON', 'ics#', 'ics4', 'ics8', 'PAT ', 'ppat'<P>The bitmap editor provides several tools to help creating or modifying a 
+supports the following resource types:<P>'cicn', 'crsr', 'CURS', 'icl4', 'icl8', 'icm#', 'icm4', 'icm8', 'ICN#',
+'ICON', 'ics#', 'ics4', 'ics8', 'PAT#', 'PAT ', 'ppat', 'SICN'<P>The bitmap editor provides several tools to help creating or modifying a 
 bitmap image resource. A typical bitmap editing window will look like this:
-<P><IMG SRC="../../Images/rzil_bitmapeditor.gif" ALT="Bitmap editor window" ALIGN=bottom></P><P>The left hand side of the window contains editing tools and pattern and
+<P><IMG SRC="../../Images/rzil_patterneditor.gif" ALT="Bitmap editor window" ALIGN=bottom></P><P>The left hand side of the window contains editing tools and pattern and
 color buttons. The following tools are available (from left to right and
 from top to bottom): lasso, selection, text, pencil, eraser, bucket,
 dropper, line, rectangle, filling rectangle, round corners rectangle, round
@@ -50,7 +50,11 @@ patterns palette, the foreground color palette and the background color
 palette.<P>In the middle of the window is the editing canvas where one can modify each
 pixel of the bitmap using one of the editing tools.<P>On the right hand side of the window, the sample panel displays images of 
 the bitmap at its actual size. It is updated immediately when the editing 
-canvas in the middle of the window is modified.<P>When a bitmap editing window is open, four additional menus are inserted 
+canvas in the middle of the window is modified.<P>Additionnally, the 'SICN' (black images suite) and 'PAT#' (patterns suite)
+editing windows have a slider to select a particular bitmap in the suite
+and a <B>Plus</B> and a <B>Minus</B> button. The <B>Plus</B> button lets
+you add a new bitmap at the end of the suite. The <B>Minus</B> button lets
+you remove the currently selected bitmap from the suite.<P>When a bitmap editing window is open, four additional menus are inserted 
 in the menu bar:
 <OL>
 	<LI> the <B>Font</B> menu lets you select the font to use with the Text tool
@@ -59,7 +63,13 @@ to use with the Text tool (plain, bold italic, underline etc.). One can
 also specify the justification of the text (flush left or right).
 	<LI> the <B>Colors</B> menu has commands related to the color depth (depending on 
 the depth of the screen). If a color is not available in the color 
-palette, one can use the <I>Color Picker</I> command to create a new one.
+palette, one can use the <I>Use Color Picker</I> command to create a new
+one : once this menu item is selected, just click on one of the color table
+popups to bring up a Color wheel dialog in order to select some new color.
+The <I>Select Black and White</I> command is a shortcut to select black as
+foreground color and white as background color. The <I>Swap Selected
+Colors</I> command lets you toggle the colors selected in the foreground
+and background color popups.
 	<LI> the <B>Actions</B> menu has commands to apply basic transformations to the 
 image. The <I>Resize Image</I> command lets you specify the width and height of 
 the bitmap (only for resources which do not have a fixed predefined size, 
