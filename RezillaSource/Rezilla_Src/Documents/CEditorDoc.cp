@@ -171,6 +171,16 @@ CEditorDoc::FindCommandStatus(
 		outEnabled = true;
 		break;
 								
+		case cmd_Copy:
+		outEnabled = true;
+		break;
+		
+		case cmd_Clear:
+		case cmd_Cut:
+		case cmd_Paste:
+		outEnabled = not mReadOnly;
+		break;
+
 	  default:
 		// Call inherited.
 		LDocument::FindCommandStatus( inCommand,
