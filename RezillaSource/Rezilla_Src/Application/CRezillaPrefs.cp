@@ -673,6 +673,7 @@ CRezillaPrefs::RunPrefsWindow()
 		thePopup->SetValue( SizeIndexFromSizeValue(thePopup, theSize) );
 
 		thePageCtrl->SetValue(sCurrentPrefsPane);
+		theMPV->SwitchToPanel(sCurrentPrefsPane);
 		
 		theDialog->Show();
 		
@@ -770,13 +771,13 @@ CRezillaPrefs::RunPrefsWindow()
 							// If they match, no need to use 'Other' item
 							if (FontSizeExists(thePopup, theSize, itemIndex)) {
 								thePopup->SetValue(itemIndex);
+								::SetMenuItemText( thePopup->GetMacMenuH(), kLastSizeMenuItem + 2, LStr255("\pOther…"));					
 							} else {
 								// Modify the text of the 'Other' item.
-								theLine = "\pOther" ;
 								Str255	theSizeString;
+								theLine = "\pOther (" ;
 								::NumToString( theSize, theSizeString );
 								// Append the current size
-								theLine += "\p (";
 								theLine += theSizeString;
 								theLine += "\p)…";
 								// Set the menu item text.
@@ -786,6 +787,7 @@ CRezillaPrefs::RunPrefsWindow()
 					} else {
 						::GetMenuItemText( thePopup->GetMacMenuH(), thePopup->GetValue(), theString );
 						::StringToNum( theString, &theSize );
+						::SetMenuItemText( thePopup->GetMacMenuH(), kLastSizeMenuItem + 2, LStr255("\pOther…"));					
 					}
 					SetStyleElement( (SInt16) theSize, style_sizeType, prefsType_Temp);
 					break;
@@ -892,14 +894,13 @@ CRezillaPrefs::FontIndexFromFontNum(LPopupButton * inPopup, SInt16 inFNum)
 SInt32
 CRezillaPrefs::SizeIndexFromSizeValue(LPopupButton * inPopup, SInt16 inSize) 
 {
-	SInt32	i;
-	SInt32	theSize;
+	SInt32	i, theSize;
 	Str255	theSizeString;
 	Boolean foundIt = false;
 	MenuRef	theMenuRef = inPopup->GetMacMenuH();
 	
-	// See if inSize matches some menu item
-	for ( i = 1 ; i<= ::CountMenuItems(theMenuRef) ; i++ ) {
+	// See if inSize matches some menu item. Don't look at the last item.
+	for ( i = 1 ; i< ::CountMenuItems(theMenuRef) ; i++ ) {
 		::GetMenuItemText( theMenuRef, i, theSizeString );
 		::StringToNum( theSizeString, &theSize );
 		if ( inSize == theSize) {
@@ -910,11 +911,14 @@ CRezillaPrefs::SizeIndexFromSizeValue(LPopupButton * inPopup, SInt16 inSize)
 	if (!foundIt) {
 		// Put the value in the 'Other' item
 		LStr255	theLine( "\pOther (" );
+		::NumToString( inSize, theSizeString );
 		theLine += theSizeString;
 		theLine += "\p)…";
 		// Set the menu item text.
 		::SetMenuItemText( inPopup->GetMacMenuH(), kLastSizeMenuItem + 2, theLine );					
-		return kLastSizeMenuItem + 2;
+		return (kLastSizeMenuItem + 2);
+	} else {
+		::SetMenuItemText( inPopup->GetMacMenuH(), kLastSizeMenuItem + 2, LStr255("\pOther…"));					
 	}
 	
 	return i;
@@ -931,8 +935,9 @@ CRezillaPrefs::MetricsFromTraits(ConstTextTraitsPtr inTextTraits)
 	
 	UTextTraits::SetPortTextTraits( inTextTraits );
 	::GetFontInfo( &metrics );
-
+		
 	CRezillaApp::sBasics.charWidth = metrics.widMax;
+// 	CRezillaApp::sBasics.charWidth = CharWidth('0');
 	CRezillaApp::sBasics.charHeight = metrics.ascent + metrics.descent + metrics.leading;
 }
 

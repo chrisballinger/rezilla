@@ -2,7 +2,7 @@
 // UCodeTranslator.h					
 // 
 //                       Created: 2003-05-04 16:40:47
-//             Last modification: 2004-03-23 23:00:09
+//             Last modification: 2004-06-08 14:55:19
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -49,23 +49,31 @@ public:
 
 	static void		ConvertByteToReadable( char* srcString, char* trgtString, Boolean inInsertSpace);
 
-	static void		ConvertByteToSeparatedHex( LDataStream* srcDataStream, LDataStream* trgtDataStream );
+	static void		ConvertByteToSeparatedHex( LDataStream* srcDataStream, LDataStream* trgtDataStream);
 
 	static void		ConvertByteToSeparatedHex( char* srcString, char* trgtString );
 
-	static void		ConvertByteToHex( LDataStream* srcDataStream, LDataStream* trgtDataStream );
+	static void		ConvertByteToSegmentedHex( LDataStream* srcDataStream, LDataStream* trgtDataStream, SInt32 inSegment);
+
+	static void		ConvertByteToSegmentedHex( char* srcString, char* trgtString, SInt32 inSegment);
+
+	static void		ConvertByteToSegmentedText( LDataStream* srcDataStream, LDataStream* trgtDataStream, SInt32 inSegment);
+
+	static void		ConvertByteToSegmentedText( char* srcString, char* trgtString, SInt32 inSegment);
+
+	static void		ConvertByteToHex( LDataStream* srcDataStream, LDataStream* trgtDataStream);
 
 	static void		ConvertByteToHex( char* srcString, char* trgtString );
 
-	static void		ConvertHexToByte( LDataStream* srcDataStream, LDataStream* trgtDataStream );
+	static void		ConvertHexToByte( LDataStream* srcDataStream, LDataStream* trgtDataStream);
 
 	static void		ConvertHexToByte( char* srcString, char* trgtString );
 
-	static void		ConvertByteToBase64( LDataStream* srcDataStream, LDataStream* trgtDataStream );
+	static void		ConvertByteToBase64( LDataStream* srcDataStream, LDataStream* trgtDataStream);
 
 	static void		ConvertByteToBase64( char* srcString, char* trgtString );
 
-	static void		ConvertBase64ToByte( LDataStream* srcDataStream, LDataStream* trgtDataStream );
+	static void		ConvertBase64ToByte( LDataStream* srcDataStream, LDataStream* trgtDataStream);
 
 	static void		ConvertBase64ToByte( char* srcString, char* trgtString );
 
@@ -111,11 +119,35 @@ private:
 
 
 // ---------------------------------------------------------------------------
+//  ¥ class StSegmHexTranslator
+// ---------------------------------------------------------------------------
+class StSegmHexTranslator {
+public:
+						StSegmHexTranslator( Handle	inHandle, SInt32 inSegment);
+						StSegmHexTranslator(const void * inPtr, SInt32 inByteCount, SInt32 inSegment);
+						~StSegmHexTranslator();
+
+	void			Convert();
+
+	virtual Handle	GetOutHandle() { return mOutHandle;}
+
+	virtual Size	GetOutSize() { return mOutSize;}
+
+private:
+	Handle	mInHandle;
+	Handle	mOutHandle;
+	Size	mInSize;
+	Size	mOutSize;
+	SInt32	mSegment;
+};
+
+
+// ---------------------------------------------------------------------------
 //  ¥ class StByteToHexTranslator
 // ---------------------------------------------------------------------------
 class StByteToHexTranslator {
 public:
-						StByteToHexTranslator( Handle	inHandle );
+						StByteToHexTranslator( Handle inHandle );
 						StByteToHexTranslator(const void * inPtr, SInt32 inByteCount);
 						~StByteToHexTranslator();
 
@@ -228,11 +260,34 @@ public:
 
 
 // ---------------------------------------------------------------------------
+//  ¥ class StSegmTextTranslator
+// ---------------------------------------------------------------------------
+class StSegmTextTranslator {
+public:
+						StSegmTextTranslator( Handle inHandle, SInt32 inSegment);
+						StSegmTextTranslator(const void * inPtr, SInt32 inByteCount, SInt32 inSegment);
+						~StSegmTextTranslator();
+
+	void				Convert();
+
+	virtual Handle		GetOutHandle() { return mOutHandle;}
+
+	virtual Size		GetOutSize() { return mOutSize;}
+
+	Handle	mInHandle;
+	Handle	mOutHandle;
+	Size	mInSize;
+	Size	mOutSize;
+	SInt32	mSegment;
+};
+
+
+// ---------------------------------------------------------------------------
 //  ¥ class StByteToTextTranslator
 // ---------------------------------------------------------------------------
 class StByteToTextTranslator {
 public:
-						StByteToTextTranslator( Handle	inHandle );
+						StByteToTextTranslator( Handle inHandle );
 						StByteToTextTranslator(const void * inPtr, SInt32 inByteCount);
 						~StByteToTextTranslator();
 

@@ -1,11 +1,11 @@
 // ===========================================================================
 // CTxtDataSubView.cp 
 //                       Created: 2003-05-06 06:04:42
-//             Last modification: 2003-06-07 15:56:53
+//             Last modification: 2004-06-08 08:50:12
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003
+// © Copyright: Bernard Desgraupes 2003, 2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -541,7 +541,7 @@ CTxtDataSubView::Insert(
 void
 CTxtDataSubView::InsertContents(Handle inHandle)
 {
-	StSepTextTranslator translator(inHandle);
+	StSegmTextTranslator translator(inHandle, mEditorWindow->GetPaneCount(count_BytesPerLine) );
 	translator.Convert();
 	
 	// Empty the Waste edit
@@ -559,7 +559,7 @@ CTxtDataSubView::InsertContents(Handle inHandle)
 void
 CTxtDataSubView::InsertContents(const void * inPtr, SInt32 inByteCount)
 {
-	StSepTextTranslator translator(inPtr, inByteCount);
+	StSegmTextTranslator translator(inPtr, inByteCount, mEditorWindow->GetPaneCount(count_BytesPerLine));
 	translator.Convert();
 	
 	// Empty the Waste edit

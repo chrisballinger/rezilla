@@ -1,11 +1,11 @@
 // ===========================================================================
 // CHexDataSubView.cp 
 //                       Created: 2003-05-06 06:04:42
-//             Last modification: 2003-06-07 15:57:01
+//             Last modification: 2004-06-08 08:50:19
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003
+// © Copyright: Bernard Desgraupes 2003, 2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -606,7 +606,7 @@ CHexDataSubView::Insert(
 void
 CHexDataSubView::InsertContents(Handle inHandle)
 {
-	StSepHexTranslator translator(inHandle);
+	StSegmHexTranslator translator(inHandle, mEditorWindow->GetPaneCount(count_BytesPerLine) );
 	translator.Convert();
 	
 	// Empty the Waste edit
@@ -624,7 +624,7 @@ CHexDataSubView::InsertContents(Handle inHandle)
 void
 CHexDataSubView::InsertContents(const void * inPtr, SInt32 inByteCount)
 {
-	StSepHexTranslator translator(inPtr, inByteCount);
+	StSegmHexTranslator translator(inPtr, inByteCount, mEditorWindow->GetPaneCount(count_BytesPerLine));
 	translator.Convert();
 	
 	// Empty the Waste edit

@@ -2,7 +2,7 @@
 // UCodeTranslator.cp					
 // 
 //                       Created: 2003-05-04 16:40:47
-//             Last modification: 2004-04-18 20:37:49
+//             Last modification: 2004-06-08 08:43:28
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -86,6 +86,47 @@ UCodeTranslator::ConvertByteToReadable(char* srcString, char* trgtString, Boolea
 
 
 // ---------------------------------------------------------------------------
+//	¥ ConvertByteToSegmentedText								[public]
+// ---------------------------------------------------------------------------
+// Similar to ConvertByteToReadable but inserts a Carriage Return (0x0D)
+// instead of a blank every mSegment input chars.
+// 0xF6 (246) is ö and 0xFF (255) is ÿ.
+// 0x5E (94) is ö too.
+
+void
+UCodeTranslator::ConvertByteToSegmentedText( LDataStream* srcDataStream, LDataStream* trgtDataStream, SInt32 inSegment)
+{
+	UInt8 readChar;
+	SInt32 length = srcDataStream->GetLength();
+	
+	for (UInt32 i = 1; i <= length; i++) {
+		*srcDataStream >> readChar;
+		if ( readChar == 0x20 ) {
+			*trgtDataStream << (char) 0x2E;
+		} else if ( readChar <= 0x20 ) {
+			*trgtDataStream << (char) 0xFF;
+		} else if ( readChar >= 0x7F ) {
+			*trgtDataStream << (char) 0xF6;
+		} else {
+			*trgtDataStream << readChar;
+		}
+		*trgtDataStream << ((i % inSegment) ? (char) 0x20 : (char) 0x0D);
+	}
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ ConvertByteToSegmentedText									[public]
+// ---------------------------------------------------------------------------
+
+void
+UCodeTranslator::ConvertByteToSegmentedText(char* srcString, char* trgtString, SInt32 inSegment)
+{
+	// todo...
+}
+
+
+// ---------------------------------------------------------------------------
 //	¥ ConvertByteToSeparatedHex												[public]
 // ---------------------------------------------------------------------------
 // This function supposes that the src and trgt streams are properly allocated. 
@@ -108,7 +149,7 @@ UCodeTranslator::ConvertByteToSeparatedHex( LDataStream* srcDataStream, LDataStr
 
 
 // ---------------------------------------------------------------------------
-//	¥ ConvertByteToSeparatedHex												[public]
+//	¥ ConvertByteToSeparatedHex										[public]
 // ---------------------------------------------------------------------------
 // This function supposes that the src and trgt strings are properly allocated. 
 // The size of trgtString should be three times the size of srcString.
@@ -121,6 +162,53 @@ UCodeTranslator::ConvertByteToSeparatedHex(char* srcString, char* trgtString )
 	
 	do {
 		sprintf(buffer, "%.2x ", (UInt8) *srcString);
+		::BlockMoveData(buffer, trgtString + pos, 3);
+		pos += 3;
+	} while (*srcString++);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ ConvertByteToSegmentedHex										[public]
+// ---------------------------------------------------------------------------
+// Similar to ConvertByteToSeparatedHex but inserts a Carriage Return
+// instead of a blank every mSegment input chars.
+// This function supposes that the src and trgt streams are properly allocated. 
+// The size of trgtDataStream should be three times the size of srcDataStream.
+
+void
+UCodeTranslator::ConvertByteToSegmentedHex( LDataStream* srcDataStream, LDataStream* trgtDataStream, SInt32 inSegment)
+{
+	UInt8 readChar;
+	char * buffer = new char[3];
+	SInt32 length = srcDataStream->GetLength();
+	
+	for (UInt32 i = 1; i <= length; i++) {
+		*srcDataStream >> readChar;
+		sprintf(buffer, "%.2x", readChar);
+		trgtDataStream->WriteBlock(buffer,2);
+		*trgtDataStream << ((i % inSegment) ? (char) 0x20 : (char) 0x0D);
+	}
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ ConvertByteToSegmentedHex										[public]
+// ---------------------------------------------------------------------------
+// Similar to ConvertByteToSeparatedHex but inserts a Carriage Return
+// instead of a blank every mSegment input chars.
+// This function supposes that the src and trgt strings are properly allocated. 
+// The size of trgtString should be three times the size of srcString.
+
+void
+UCodeTranslator::ConvertByteToSegmentedHex(char* srcString, char* trgtString, SInt32 inSegment)
+{
+	char * buffer = new char[3];
+	SInt32 pos = 0;
+	SInt32 period = 3 * inSegment;
+	
+	do {
+		sprintf(buffer, "%.2x%s", (UInt8) *srcString, ((pos % period) ? (char) 0x20 : (char) 0x0D));
 		::BlockMoveData(buffer, trgtString + pos, 3);
 		pos += 3;
 	} while (*srcString++);
@@ -585,6 +673,70 @@ StSepHexTranslator::Convert()
 
 
 // =====================================
+//  CLASS StSegmHexTranslator
+// =====================================
+
+// ---------------------------------------------------------------------------
+//	¥ StSegmHexTranslator							Constructor			  [public]
+// ---------------------------------------------------------------------------
+
+StSegmHexTranslator::StSegmHexTranslator(Handle inHandle, SInt32 inSegment)
+{
+	mSegment = inSegment;
+	mInHandle = inHandle;
+	mInSize = ::GetHandleSize(inHandle);
+	mOutSize = 3 * mInSize;
+	mOutHandle = ::NewHandle( mOutSize );
+	ThrowIfNil_(mOutHandle);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ StSegmHexTranslator							Constructor			  [public]
+// ---------------------------------------------------------------------------
+
+StSegmHexTranslator::StSegmHexTranslator(const void * inPtr, SInt32 inByteCount, SInt32 inSegment)
+{
+	mSegment = inSegment;
+	mInHandle = ::NewHandle(inByteCount);
+	mInSize = inByteCount;
+	BlockMoveData(inPtr, *mInHandle, inByteCount);
+	mOutSize = 3 * mInSize;
+	mOutHandle = ::NewHandle( mOutSize );
+	ThrowIfNil_(mOutHandle);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ ~StSegmHexTranslator						Destructor				  [public]
+// ---------------------------------------------------------------------------
+
+StSegmHexTranslator::~StSegmHexTranslator()
+{
+	// It should not be nil, but who knows...
+	if (mOutHandle != nil) {
+		::DisposeHandle(mOutHandle);
+	} 
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ Convert													[public]
+// ---------------------------------------------------------------------------
+
+void
+StSegmHexTranslator::Convert()
+{
+	StHandleLocker locker(mInHandle);
+	
+	LDataStream inStream(*mInHandle, mInSize);
+	LDataStream outStream(*mOutHandle, mOutSize);
+	
+	UCodeTranslator::ConvertByteToSegmentedHex(&inStream, &outStream, mSegment);
+}
+
+
+// =====================================
 //  CLASS StByteToHexTranslator
 // =====================================
 
@@ -879,6 +1031,70 @@ StSepTextTranslator::Convert()
 	LDataStream outStream(*mOutHandle, mOutSize);
 	
 	UCodeTranslator::ConvertByteToReadable(&inStream, &outStream, true);
+}
+
+
+// =====================================
+//  CLASS StSegmTextTranslator
+// =====================================
+
+// ---------------------------------------------------------------------------
+//	¥ StSegmTextTranslator					Constructor			  [public]
+// ---------------------------------------------------------------------------
+
+StSegmTextTranslator::StSegmTextTranslator(Handle inHandle, SInt32 inSegment)
+{
+	mSegment = inSegment;
+	mInHandle = inHandle;
+	mInSize = ::GetHandleSize(inHandle);
+	mOutSize = 2 * mInSize;
+	mOutHandle = ::NewHandle( mOutSize );
+	ThrowIfMemError_();
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ StSegmTextTranslator					Constructor			  [public]
+// ---------------------------------------------------------------------------
+
+StSegmTextTranslator::StSegmTextTranslator(const void * inPtr, SInt32 inByteCount, SInt32 inSegment)
+{
+	mSegment = inSegment;
+	mInHandle = ::NewHandle(inByteCount);
+	mInSize = inByteCount;
+	BlockMoveData(inPtr, *mInHandle, inByteCount);
+	mOutSize = 2 * mInSize;
+	mOutHandle = ::NewHandle( mOutSize );
+	ThrowIfMemError_();
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ ~StSegmTextTranslator					Destructor			  [public]
+// ---------------------------------------------------------------------------
+
+StSegmTextTranslator::~StSegmTextTranslator()
+{
+	// It should not be nil, but who knows...
+	if (mOutHandle != nil) {
+		::DisposeHandle(mOutHandle);
+	} 
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ Convert													[public]
+// ---------------------------------------------------------------------------
+
+void
+StSegmTextTranslator::Convert()
+{
+	StHandleLocker locker(mInHandle);
+	
+	LDataStream inStream(*mInHandle, mInSize);
+	LDataStream outStream(*mOutHandle, mOutSize);
+	
+	UCodeTranslator::ConvertByteToSegmentedText(&inStream, &outStream, mSegment);
 }
 
 
