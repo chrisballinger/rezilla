@@ -149,7 +149,7 @@ CTmplEditorWindow::FinishCreateSelf()
 	mStaticPaneInfo.superView		= mContentsView;
 	
 	// Edit fields basic values
-	mEditPaneInfo.paneID			= mCurrentID;
+	mEditPaneInfo.paneID			= 0;
 	mEditPaneInfo.width				= theFrame.width - kTmplLeftMargin - kTmplLabelWidth - kTmplHorizSep - 10;
 	mEditPaneInfo.height			= kTmplEditHeight;
 	mEditPaneInfo.visible			= true;
@@ -198,6 +198,19 @@ CTmplEditorWindow::FinishCreateSelf()
 	mRectPaneInfo.bindings.bottom	= false;
 	mRectPaneInfo.userCon			= 0;
 	mRectPaneInfo.superView			= mContentsView;
+
+	// C string fields basic values
+	mWastePaneInfo.paneID			= 0;
+	mWastePaneInfo.width			= theFrame.width - kTmplLeftMargin - kTmplLabelWidth - kTmplHorizSep - 10;
+	mWastePaneInfo.height			= kTmplWasteHeight;
+	mWastePaneInfo.visible			= true;
+	mWastePaneInfo.enabled			= true;
+	mWastePaneInfo.bindings.left	= true;
+	mWastePaneInfo.bindings.top		= true;
+	mWastePaneInfo.bindings.right	= true;
+	mWastePaneInfo.bindings.bottom	= false;
+	mWastePaneInfo.userCon			= 0;
+	mWastePaneInfo.superView		= mContentsView;
 
 // 	// Attach an LUndoer to each of the subpanes
 // 	mHexDataWE->AddAttachment( new LUndoer );
@@ -343,6 +356,8 @@ CTmplEditorWindow::ParseWithTemplate(Handle inHandle)
 	// Create a stream to parse the data
 	mRezStream = new LHandleStream(inHandle);	
 
+// 	SetMarker(0, streamFrom_Start);
+
 	while (mTemplateStream->GetMarker() < mTemplateStream->GetLength() ) {
 		*mTemplateStream >> theString;
 		*mTemplateStream >> theType;
@@ -447,11 +462,11 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 		break;
 
 		case 'CSTR':
-		// C string (characters followed by a null)
-		*mRezStream >> theCString;
-		CopyCStringToPascal(theCString, theString);
+		// C string. This should be either characters followed by a null or all
+		// the chars until the end of the stream if there is no null byte.
 		AddStaticField(inLabelString);
-		AddEditField(theString, inType, rPPob_TmplEditorWindow + mCurrentID, 255, 0, NULL);
+		mYCoord += kTmplLabelHeight + kTmplVertSkip;
+		AddWasteField(inType);
 		break;
 
 		case 'DBYT':
@@ -491,7 +506,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 		*mRezStream >> theString;
 		theLength = theString[0];
 		if ((theLength % 2 == 0) && (theString[theLength] == 0)) {
-			// if the length is even and the last char is a null, it means the string has 
+			// If the length is even and the last char is a null, it means the string has 
 			// been padded. So ignore the last char.
 			theString[0] -= 1;
 		} 
@@ -652,6 +667,10 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 
 	  default:
 	  // Handle Hnnn, Cnnn, P0nn cases here or unrecognized type
+	  // Hnnn A 3-digit hex number; displays nnn bytes in hex format
+	  // Cnnn A C string that is nnn hex bytes long (The last byte is always a 0, so the string itself occupies the first nnn-1 bytes.)
+	  // P0nn A Pascal string that is nn hex bytes long (The length byte is not included in nn, so the string occupies the entire specified length.)
+
 	  break;
 	}
 
@@ -724,25 +743,6 @@ CTmplEditorWindow::AddEditField(Str255 inValue,
 //	¥ AddBooleanControls											[public]
 // ---------------------------------------------------------------------------
 
-// 		enum {
-// 	editAttr_Box			= 0x80,
-// 	editAttr_WordWrap		= 0x40,
-// 	editAttr_AutoScroll		= 0x20,
-// 	editAttr_TextBuffer		= 0x10,
-// 	editAttr_OutlineHilite	= 0x08,
-// 	editAttr_InlineInput	= 0x04,
-// 	editAttr_TextServices	= 0x02
-// };
-// 		attributes |= editAttr_WordWrap;
-// typedef struct	SViewInfo {
-// 	SDimension32	imageSize;
-// 	SPoint32		scrollPos;
-// 	SPoint32		scrollUnit;
-// 	SInt16			reconcileOverhang;
-// } SViewInfo;
-
-// theBool, inType, rPPob_TmplEditorWindow + mCurrentID, 0, 
-// 					 UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar)
 void
 CTmplEditorWindow::AddBooleanControls(Boolean inValue,
 									  OSType inType,
@@ -799,57 +799,68 @@ CTmplEditorWindow::AddBooleanControls(Boolean inValue,
 // ---------------------------------------------------------------------------
 //	¥ AddWasteField													[public]
 // ---------------------------------------------------------------------------
+// C string. This should be either characters followed by a null or all
+// the chars until the end of the stream if there is no null byte.
 
-// CWasteEditView::CWasteEditView(
-// 	const SPaneInfo&	inPaneInfo,
-// 	const SViewInfo&	inViewInfo,
-// 	UInt16				inTextAttributes,
-// 	ResIDT				inTextTraitsID)
-// 
-// 	: LView(inPaneInfo, inViewInfo)
-// {
-// 	mTextAttributes = inTextAttributes;
-// 	InitWasteEditView(inTextTraitsID);
-// }
-// typedef struct	SViewInfo {
-// 	SDimension32	imageSize;
-// 	SPoint32		scrollPos;
-// 	SPoint32		scrollUnit;
-// 	SInt16			reconcileOverhang;
-// } SViewInfo;
-// 
-// struct SDimension32 {
-// 	SInt32	width;
-// 	SInt32	height;
-// };
-// 
-// struct SPoint32 {
-// 	SInt32	h;
-// 	SInt32	v;
-// };
-
+// LActiveScroller(
+// 		const SPaneInfo&	inPaneInfo,
+// 		const SViewInfo&	inViewInfo,
+// 		SInt16				inHorizBarLeftIndent,
+// 		SInt16				inHorizBarRightIndent,
+// 		SInt16				inVertBarTopIndent,
+// 		SInt16				inVertBarBottomIndent,
+// 		LView*				inScrollingView);
+// SInt16	leftIndent		= -1;			// Flag for no horizontal bar
+// SInt16	rightIndent		= 0;
+// SInt16	topIndent		= -1;			// Flag for no vertical bar
+// SInt16	bottomIndent	= 0;
 
 void
 CTmplEditorWindow::AddWasteField(OSType inType)
 {
+	SInt32		oldPos, newPos;
+	char 		theChar;
 	SViewInfo	theViewInfo;
+	Handle		theHandle;
+		
 	theViewInfo.imageSize.width = theViewInfo.imageSize.height = 0 ;
 	theViewInfo.scrollPos.h = theViewInfo.scrollPos.v = 0;
 	theViewInfo.scrollUnit.h = theViewInfo.scrollUnit.v = 1;
 	theViewInfo.reconcileOverhang = false;
 	
-	mEditPaneInfo.left = kTmplLeftMargin + mIndent;
-	mEditPaneInfo.top = mYCoord;
-	mEditPaneInfo.paneID = mCurrentID;
+	mWastePaneInfo.left = kTmplLabelWidth + mIndent;
+	mWastePaneInfo.top = mYCoord;
+	mWastePaneInfo.paneID = mCurrentID;
 	
-	CWasteEditView * theWasteEdit = new CWasteEditView(mEditPaneInfo, theViewInfo, 0, mEditTraitsID);
+	
+	
+// 	mWastePaneInfo.superView = theScroller;
+	
+	// Is there a NULL byte marking the end of the string?
+	oldPos = mRezStream->GetMarker();
+	newPos = mRezStream->GetLength();
+	while (mRezStream->GetMarker() < mRezStream->GetLength() ) {
+		*mRezStream >> theChar;
+		if (theChar == 0) {
+			newPos = mRezStream->GetMarker();
+			break;
+		} 
+	}
+	// Last argument is word wrapping
+	CWasteEditView * theWasteEdit = new CWasteEditView(mWastePaneInfo, theViewInfo, 0, mEditTraitsID, false);
 	ThrowIfNil_(theWasteEdit);
 
 	// Store the template's type in the userCon field
 	theWasteEdit->SetUserCon(inType);
 	
+	// Insert the text
+	theHandle = mRezStream->GetDataHandle();
+	HLock(theHandle);
+	theWasteEdit->Insert( (*theHandle) + oldPos , newPos - oldPos, NULL, true);
+	HUnlock(theHandle);
+
 	// Advance the counters
-	mYCoord += mEditPaneInfo.top + kTmplVertSkip;
+	mYCoord += mWastePaneInfo.top + kTmplVertSkip;
 	mCurrentID++;
 }
 
@@ -857,15 +868,6 @@ CTmplEditorWindow::AddWasteField(OSType inType)
 // ---------------------------------------------------------------------------
 //	¥ AddRectField													[public]
 // ---------------------------------------------------------------------------
-// 		AddRectField(theTop, theLeft, theBottom, theRight, inType, rPPob_TmplEditorWindow + mCurrentID, 255, 0, 
-// 					 UKeyFilters::SelectTEKeyFilter(keyFilter_Integer));
-// LTextGroupBox(
-// 								const SPaneInfo&	inPaneInfo,
-// 								const SViewInfo&	inViewInfo,
-// 								Boolean				inPrimary = true,
-// 								ResIDT				inTextTraitsID = 0,
-// 								ConstStringPtr		inTitle = Str_Empty,
-// 								ClassIDT			inImpID = imp_class_ID);
 
 void
 CTmplEditorWindow::AddRectField(SInt16 inTop, 
