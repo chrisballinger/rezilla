@@ -1,7 +1,7 @@
 // ===========================================================================
 // RezillaErrors_EN.ploc
 //                       Created: 2004-10-05 15:00:32
-//             Last modification: 2004-11-07 12:24:52
+//             Last modification: 2004-11-09 10:39:26
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -20,6 +20,9 @@ localize "English" as "Errors.strings"
 	key "1004" value string "No open permission"
 	key "1005" value string "Open fork error"
 	key "1006" value string "Under version control system"
+	key "1007" value string "Exception parsing template"
+	key "1008" value string "No resource for type"
+	key "1009" value string "No resource with name"
 	key "2000" value string "Template error"
 	key "2001" value string "Get data stream failed"
 	key "2002" value string "Unrecognized tag"
@@ -52,9 +55,3 @@ localize "English" as "Errors.strings"
 }
 
 
-/* Errors redefined */
-//	key "2009" value string "List cunt too big"
-//	key "2015" value string "Parse date fled"
-/* Errors removed */
-//	key "1664" value string "Under version control"
-//	key "2029" value string "Can't find bla key end"

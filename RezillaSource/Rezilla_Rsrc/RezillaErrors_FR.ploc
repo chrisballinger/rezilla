@@ -1,7 +1,7 @@
 // ===========================================================================
 // RezillaErrors_FR.ploc
 //                       Created: 2004-10-05 15:00:32
-//             Last modification: 2004-11-07 12:25:39
+//             Last modification: 2004-11-09 10:38:33
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -19,6 +19,9 @@ localize "French" as "Errors.strings"
 	key "1004" value string "Pas d'autorisation d'ouverture"
 	key "1005" value string "Erreur à l'ouverture des ressources"
 	key "1006" value string "Fichier sous Système de Contrôle de Version (VCS)"
+	key "1007" value string "Exception lors de l'analyse du gabarit"
+	key "1008" value string "Pas de ressource de ce type"
+	key "1009" value string "Pas de ressource avec ce nom"
 	key "2000" value string "Erreur de l'éditeur de gabarits"
 	key "2001" value string "Impossible d'obtenir les données de la ressource"
 	key "2002" value string "Balise inconnue"
@@ -50,8 +53,3 @@ localize "French" as "Errors.strings"
 	key "2028" value string "Impossible de trouver la fin de clé correspondante"
 }
 
-
-/* Errors redefined */
-//	key "2009" value string "Compteur de liste trop grand"
-//	key "2015" value string "L'analyse de la date a échoué"
-//	key "2020" value string "Section à clés mal formée"
