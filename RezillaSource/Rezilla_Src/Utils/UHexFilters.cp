@@ -1,7 +1,7 @@
 // ===========================================================================
 // UHexFilters.cp					
 //                       Created: 2003-05-07 18:35:01
-//             Last modification: 2004-08-16 14:10:48
+//             Last modification: 2004-10-09 07:11:58
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -164,14 +164,6 @@ UHexFilters::HexTemplateField(
 //		> Accept letters x or $ (depending on kPref_editors_hexSymbol)
 //		> Reject all other printing characters
 //		> PassUp all other characters
-	// EKeyStatus	status = keyStatus_Input;
-	// 
-	// if ( ((**inMacTEH).selStart != 0)  ||		// Check for first character
-	// 	 (ioCharCode != '$') ) {					//   being a dollar sign
-	// 
-	// 	status = HexTemplateField(inMacTEH, inKeyCode, ioCharCode, inModifiers);
-	// }
-	// return status;
 
 EKeyStatus
 UHexFilters::HexTemplateField(
@@ -355,13 +347,12 @@ UHexFilters::IsHexadecimalChar(UInt16 inChar)
 // ---------------------------------------------------------------------------
 //  ¥ IsHexTemplateChar
 // ---------------------------------------------------------------------------
+// UInt16 val = (CRezillaPrefs::GetPrefValue(kPref_editors_hexSymbol) == hex_Symb0x) ? 'x':'$';
 
 bool
 UHexFilters::IsHexTemplateChar(UInt16 inChar)
 {
-	UInt16 val = (CRezillaPrefs::GetPrefValue(kPref_editors_hexSymbol) == hex_Symb0x) ? 'x':'$';
-	
-	return  (IsHexadecimalChar(inChar) || (inChar ==  val));
+	return  (IsHexadecimalChar(inChar) || (inChar ==  'x') || (inChar ==  '$'));
 }
 
 
