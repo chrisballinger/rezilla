@@ -206,15 +206,14 @@ CRezObjItem::DoubleClick(
 	const SOutlineDrawContents&	/* inDrawContents */,
 	Boolean						/* inHitText */)
 {
-	int countEdit;
 	CRezMapTable *theRezMapTable = dynamic_cast<CRezMapTable*>(mOutlineTable);
 	
 	if (inMouseDown.macEvent.modifiers & optionKey) {
-		theRezMapTable->GetOwnerDoc()->TryEdit(this, cmd_HexEditRez, countEdit);
+		theRezMapTable->GetOwnerDoc()->TryEdit(this, cmd_HexEditRez);
 	} else if (inMouseDown.macEvent.modifiers & shiftKey) {
-		theRezMapTable->GetOwnerDoc()->TryEdit(this, cmd_TmplEditRez, countEdit);
+		theRezMapTable->GetOwnerDoc()->TryEdit(this, cmd_TmplEditRez);
 	} else {
-		theRezMapTable->GetOwnerDoc()->TryEdit(this, cmd_EditRez, countEdit);
+		theRezMapTable->GetOwnerDoc()->TryEdit(this, cmd_EditRez);
 	}
 }
 
