@@ -202,8 +202,7 @@ CTEXT_EditorDoc::AllowSubRemoval(
 // ---------------------------------------------------------------------------
 //	¥ AskSaveChanges												  [public]
 // ---------------------------------------------------------------------------
-//	Ask user whether to save changes before closing the Document or
-//	quitting the Application
+//	Ask user whether to save changes before closing the Document.
 
 SInt16
 CTEXT_EditorDoc::AskSaveChanges(
