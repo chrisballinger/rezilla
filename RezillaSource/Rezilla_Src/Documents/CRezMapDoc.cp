@@ -444,8 +444,9 @@ CRezMapDoc::ObeyCommand(
 void
 CRezMapDoc::TryEdit(CRezObjItem * inRezObjItem, CommandT inCommand, int & outCountEdited)
 {	
-	ResType		theType = inRezObjItem->GetRezObj()->GetType();
 	short		theID = inRezObjItem->GetRezObj()->GetID();
+	ResType		theType = inRezObjItem->GetRezObj()->GetType();
+	ResType		substType = theType;
 
 	// Is this resource already edited ?
 	CEditorDoc * theRezEditor = GetRezEditor(theType, theID);
@@ -460,7 +461,7 @@ CRezMapDoc::TryEdit(CRezObjItem * inRezObjItem, CommandT inCommand, int & outCou
 	
 	switch (inCommand) {		
 		case cmd_EditRez:
-		if ( CEditorsController::HasEditorForType(theType) ) {
+		if ( CEditorsController::HasEditorForType(theType, &substType) ) {
 			
 			// call the right GUI editor
 			CEditorsController::InvokeCustomEditor(this, mRezMapWindow->GetRezMapTable(), inRezObjItem->GetRezObj(), mReadOnly);
@@ -469,8 +470,8 @@ CRezMapDoc::TryEdit(CRezObjItem * inRezObjItem, CommandT inCommand, int & outCou
 		} // else fall through to template editing...
 						
 		case cmd_TmplEditRez:
-		if ( CTemplatesController::HasTemplateForType(theType) ) {
-			new CTmplEditorDoc(this, mRezMapWindow->GetRezMapTable(), inRezObjItem->GetRezObj(), mReadOnly);
+		if ( CTemplatesController::HasTemplateForType(theType, &substType) ) {
+			new CTmplEditorDoc(this, mRezMapWindow->GetRezMapTable(), inRezObjItem->GetRezObj(), substType, mReadOnly);
 			break;
 		} else {
 			if (inCommand == cmd_TmplEditRez) {
@@ -481,7 +482,7 @@ CRezMapDoc::TryEdit(CRezObjItem * inRezObjItem, CommandT inCommand, int & outCou
 		}
 
 		case cmd_HexEditRez:
-		new CHexEditorDoc(this, mRezMapWindow->GetRezMapTable(), inRezObjItem->GetRezObj(), mReadOnly);
+		new CHexEditorDoc(this, mRezMapWindow->GetRezMapTable(), inRezObjItem->GetRezObj(), theType, mReadOnly);
 		break;
 	}
 

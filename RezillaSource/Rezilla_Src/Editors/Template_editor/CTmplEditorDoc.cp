@@ -57,10 +57,11 @@ extern CWindowMenu * gWindowMenu;
 // 	: CEditorController( inSuperMap )
 
 CTmplEditorDoc::CTmplEditorDoc(LCommander* inSuper, 
-						   CRezMapTable* inSuperMap, 
-						   CRezObj* inRezObj,
-						   Boolean inReadOnly)
- 	: CEditorDoc(inSuper, inSuperMap, inRezObj, inReadOnly)
+							   CRezMapTable* inSuperMap, 
+							   CRezObj* inRezObj,
+							   ResType inSubstType,
+							   Boolean inReadOnly)
+ 	: CEditorDoc(inSuper, inSuperMap, inRezObj, inSubstType, inReadOnly)
 {
 	Initialize();
 }

@@ -291,7 +291,7 @@ CTemplatesController::AddTemplatesToDictionary(FSRef * inFileRef, CFMutableDicti
 // ---------------------------------------------------------------------------
 
 Boolean
-CTemplatesController::HasTemplateForType(ResType inType)
+CTemplatesController::HasTemplateForType(ResType inType, ResType * substType)
 {
 	Boolean hasTMPL = false;
 	
@@ -310,9 +310,8 @@ CTemplatesController::HasTemplateForType(ResType inType)
 	}
 	// If still not found, check if there is a substitution type
 	if ( !hasTMPL ) {
-		ResType substType;
-		if ( CEditorsController::FindSubstitutionType(inType, &substType) ) {
-			hasTMPL = HasTemplateForType(substType);
+		if ( CEditorsController::FindSubstitutionType(inType, substType) ) {
+			hasTMPL = HasTemplateForType(*substType, substType);
 		} 
 	} 
 	return hasTMPL;

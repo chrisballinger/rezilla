@@ -2,7 +2,7 @@
 // CEditorsController.h				
 // 
 //                       Created: 2004-06-11 10:48:38
-//             Last modification: 2004-08-09 10:18:46
+//             Last modification: 2004-08-10 11:33:08
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -27,7 +27,7 @@ public:
 	
 	static Boolean		FindSubstitutionType(ResType inType, ResType * outType);
 
-	static Boolean		HasEditorForType(ResType inType);
+	static Boolean		HasEditorForType(ResType inType, ResType * substType);
 	static void			InvokeCustomEditor(LCommander* inSuper, 
 						   CRezMapTable* inSuperMap, 
 						   CRezObj* inRezObj,

@@ -61,10 +61,11 @@ extern CWindowMenu * gWindowMenu;
 // 	: CEditorController( inSuperMap )
 
 CTEXT_EditorDoc::CTEXT_EditorDoc(LCommander* inSuper, 
-						   CRezMapTable* inSuperMap, 
-						   CRezObj* inRezObj,
-						   Boolean inReadOnly)
- 	: CEditorDoc(inSuper, inSuperMap, inRezObj, inReadOnly)
+								 CRezMapTable* inSuperMap,
+								 CRezObj* inRezObj,
+								 ResType inSubstType,
+								 Boolean inReadOnly)
+ 	: CEditorDoc(inSuper, inSuperMap, inRezObj, inSubstType, inReadOnly)
 {
 	Initialize();
 }

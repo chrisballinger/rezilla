@@ -2,7 +2,7 @@
 // CEditorDoc.cp
 // 
 //                       Created: 2003-05-04 19:16:00
-//             Last modification: 2004-07-01 18:12:36
+//             Last modification: 2004-08-10 11:20:58
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -43,12 +43,14 @@ PP_Begin_Namespace_PowerPlant
 CEditorDoc::CEditorDoc(LCommander* inSuper, 
 						   CRezMapTable* inSuperMap, 
 						   CRezObj* inRezObj,
+						   ResType inSubstType,
 						   Boolean inReadOnly)
  	: LDocument(inSuper)
 {
 	mRezObj = inRezObj;
 	mRezMapTable = inSuperMap;
 	mMainWindow = nil;
+	mSubstType = inSubstType;
 	mReadOnly = inReadOnly;
 	mKind = editor_kindGui;
 	Register();

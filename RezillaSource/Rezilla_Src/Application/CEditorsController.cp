@@ -153,7 +153,7 @@ CEditorsController::FindSubstitutionType(ResType inType, ResType * outType)
 // ---------------------------------------------------------------------------
 
 Boolean
-CEditorsController::HasEditorForType(ResType inType)
+CEditorsController::HasEditorForType(ResType inType, ResType * substType)
 {
 	Boolean result = false;
 	
@@ -184,11 +184,11 @@ CEditorsController::InvokeCustomEditor(LCommander* inSuper,
 		// Check if there is an associated TEXT resource
 		CRezObj * textRezObj = NULL;
 		OpenOrCreateWithTypeAndID(inSuperMap, 'TEXT', inRezObj->GetID(), &textRezObj);
-		new CTEXT_EditorDoc(inSuper, inSuperMap, textRezObj, inReadOnly);
+		new CTEXT_EditorDoc(inSuper, inSuperMap, textRezObj, 'TEXT', inReadOnly);
 		break;
 
 		case 'TEXT':
-		  new CTEXT_EditorDoc(inSuper, inSuperMap, inRezObj, inReadOnly);
+		  new CTEXT_EditorDoc(inSuper, inSuperMap, inRezObj, 'TEXT', inReadOnly);
 		break;
 		
 	}

@@ -36,7 +36,7 @@ public:
 							CTemplatesController();
 			virtual			~CTemplatesController();
 	
-		static Boolean		HasTemplateForType(ResType inType);
+		static Boolean		HasTemplateForType(ResType inType, ResType * substType);
 		
 		static Boolean		HasExternalTemplateForType(ResType inType,
 													   FSRef * outFileRef);

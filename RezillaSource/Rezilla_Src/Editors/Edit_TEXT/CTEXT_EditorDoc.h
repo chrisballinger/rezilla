@@ -2,7 +2,7 @@
 // CTEXT_EditorDoc.h				
 // 
 //                       Created: 2004-06-17 12:46:55
-//             Last modification: 2004-06-20 09:57:25
+//             Last modification: 2004-08-10 11:37:18
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -36,10 +36,11 @@ class	CTEXT_EditorWindow;
 class CTEXT_EditorDoc : public CEditorDoc {
 	
 public:
-						CTEXT_EditorDoc(LCommander* inSuper, 
-									  CRezMapTable* inSuperMap, 
-									  CRezObj* inRezObj,
-									  Boolean inReadOnly);
+						CTEXT_EditorDoc(LCommander* inSuper,
+										CRezMapTable* inSuperMap,
+										CRezObj* inRezObj,
+										ResType inSubstType,
+										Boolean inReadOnly);
 						virtual ~CTEXT_EditorDoc();
 
 	virtual void		FindCommandStatus( CommandT inCommand,

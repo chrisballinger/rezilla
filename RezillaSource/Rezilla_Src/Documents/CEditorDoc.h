@@ -2,7 +2,7 @@
 // CEditorDoc.h				
 // 
 //                       Created: 2004-02-23 17:57:59
-//             Last modification: 2004-06-25 10:05:07
+//             Last modification: 2004-08-10 11:20:34
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -26,6 +26,7 @@ public:
 					CEditorDoc(LCommander* inSuper, 
 							   CRezMapTable* inSuperMap, 
 							   CRezObj* inRezObj,
+							   ResType inSubstType,
 							   Boolean inReadOnly);
 					~CEditorDoc();
 
@@ -71,6 +72,7 @@ protected:
 	CRezObj *				mRezObj;
 	CRezMapTable *			mRezMapTable;
 	LWindow *				mMainWindow;
+	ResType					mSubstType;
 	Boolean					mReadOnly;
 	SInt16					mKind;
 

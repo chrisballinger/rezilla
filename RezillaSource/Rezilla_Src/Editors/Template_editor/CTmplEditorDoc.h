@@ -2,7 +2,7 @@
 // CTmplEditorDoc.h				
 // 
 //                       Created: 2004-06-12 10:06:22
-//             Last modification: 2004-06-12 07:53:08
+//             Last modification: 2004-08-10 11:21:58
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -36,10 +36,11 @@ class	CTmplEditorWindow;
 class CTmplEditorDoc : public CEditorDoc {
 	
 public:
-						CTmplEditorDoc(LCommander* inSuper, 
-									  CRezMapTable* inSuperMap, 
-									  CRezObj* inRezObj,
-									  Boolean inReadOnly);
+						CTmplEditorDoc(LCommander* inSuper,
+									   CRezMapTable* inSuperMap,
+									   CRezObj* inRezObj,
+									   ResType inSubstType,
+									   Boolean inReadOnly);
 						virtual ~CTmplEditorDoc();
 
 	virtual void		FindCommandStatus( CommandT inCommand,
