@@ -65,29 +65,29 @@ public:
 	CTextFileStream&	operator << (Boolean inBool);
 	
 
-	SInt32			WriteOSType(OSType inType);
+	virtual SInt32	WriteOSType(OSType inType);
 	
-	SInt32			WriteOSTypeWithTag(OSType inType, ConstStringPtr inTag, UInt8 indent = 0);
+	virtual SInt32	WriteOSTypeWithTag(OSType inType, ConstStringPtr inTag, UInt8 indent = 0);
 
-	SInt32			WriteOSTypeWithTag(OSType inType, const char *inTag, UInt8 indent = 0);
+	virtual SInt32	WriteOSTypeWithTag(OSType inType, const char *inTag, UInt8 indent = 0);
 
-	SInt32			WritePString( ConstStringPtr inString );
+	virtual SInt32	WritePString( ConstStringPtr inString );
 	
-	SInt32			WritePStringWithTag( ConstStringPtr inString, ConstStringPtr inTag, UInt8 indent = 0);
+	virtual SInt32	WritePStringWithTag( ConstStringPtr inString, ConstStringPtr inTag, UInt8 indent = 0);
 	
-	SInt32			WriteCString( const char* inString );
+	virtual SInt32	WriteCString( const char* inString );
 
-	SInt32			WriteCStringWithTag( const char *inString, const char *inTag, UInt8 indent = 0);
+	virtual SInt32	WriteCStringWithTag( const char *inString, const char *inTag, UInt8 indent = 0);
 
-	SInt32			WriteSInt32WithTag( SInt32 inNum, ConstStringPtr inTag, UInt8 indent = 0);
+	virtual SInt32	WriteSInt32WithTag( SInt32 inNum, ConstStringPtr inTag, UInt8 indent = 0);
 
-	SInt32			WriteSInt32WithTag( SInt32 inNum, const char *inTag, UInt8 indent = 0);
+	virtual SInt32	WriteSInt32WithTag( SInt32 inNum, const char *inTag, UInt8 indent = 0);
 
-	SInt32			WriteBooleanWithTag( Boolean inBool, ConstStringPtr inTag, UInt8 indent = 0);
+	virtual SInt32	WriteBooleanWithTag( Boolean inBool, ConstStringPtr inTag, UInt8 indent = 0);
 
-	SInt32			WriteBooleanWithTag( Boolean inBool, const char *inTag, UInt8 indent = 0);
+	virtual SInt32	WriteBooleanWithTag( Boolean inBool, const char *inTag, UInt8 indent = 0);
 
-	SInt32			WriteByChunks(const char *inString, 
+	virtual SInt32	WriteByChunks(const char *inString, 
 								Str255	inPrefix, 
 								Str255	inSuffix, 
 								SInt32	inLen,
