@@ -20,6 +20,7 @@ localize "French" as "Localizable.strings"
 	key "SystemError" value string "Erreur système"
 	key "MapsNotSelected" value string "Les deux branches de ressources doivent être sélectionnées."
 	key "AlreadyExistingID" value string "Il existe une ressource de même numéro. Voulez-vous remplacer la ressource existante ou en créer une nouvelle avec un nouveau numéro (Unique ID) ?"
+	key "AlreadyExistTypeAndID" value string "Il existe déjà une ressource '%s' de numéro %d. Voulez-vous la remplacer ou en créer une avec un nouveau numéro (Unique ID) ?"
 	key "ConfirmRevertRezMapDoc" value string "OK pour revenir à la dernière version sauvegardée ? Les modifications faites depuis la dernière sauvegarde seront perdues."
 	key "CantCreateNewRezFile" value string "Impossible de créer le nouveau fichier de ressources."
 }

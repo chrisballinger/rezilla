@@ -20,6 +20,7 @@ localize "English" as "Localizable.strings"
 	key "SystemError" value string "System error"
 	key "MapsNotSelected" value string "Both resource maps must be selected."
 	key "AlreadyExistingID" value string "There is already a resource with this ID. Do you want to replace the existing resource or create a new one with a new ID (unique ID)?"
+	key "AlreadyExistTypeAndID" value string "There is already a '%s' resource with ID %d. Do you want to replace it or create one with a new ID (unique ID)?"
 	key "ConfirmRevertRezMapDoc" value string "OK to revert the document to the last saved version? The yet unsaved modifications will be lost."
 	key "CantCreateNewRezFile" value string "Could not create new resource file."
 }
