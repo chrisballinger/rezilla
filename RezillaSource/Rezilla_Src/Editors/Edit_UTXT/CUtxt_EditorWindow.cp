@@ -2,11 +2,11 @@
 // CUtxt_EditorWindow.cp					
 // 
 //                       Created: 2004-12-08 18:21:21
-//             Last modification: 2005-01-08 21:49:00
+//             Last modification: 2005-01-14 09:53:48
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004, 2005
+// (c) Copyright : Bernard Desgraupes, 2004-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -92,6 +92,7 @@ CUtxt_EditorWindow::~CUtxt_EditorWindow()
 // ---------------------------------------------------------------------------
 //		¥ FinishCreateSelf											[protected]
 // ---------------------------------------------------------------------------
+// TXNFind
 
 void
 CUtxt_EditorWindow::FinishCreateSelf()
@@ -104,14 +105,7 @@ CUtxt_EditorWindow::FinishCreateSelf()
 	
 	SwitchTarget(mContentsView);
 
-// 	// The size and style popups
-// 	mSizePopup = dynamic_cast<LPopupButton *> (this->FindPaneByID( item_UtxtEditSizeMenu ));
-// 	ThrowIfNil_( mSizePopup );
-// 
-// 	mStylePopup = dynamic_cast<LPopupButton *> (this->FindPaneByID( item_UtxtEditStyleMenu ));
-// 	ThrowIfNil_( mStylePopup );
-// 	
-	// The total length field
+	// The bytes count field
 	mLengthField = dynamic_cast<LStaticText *> (this->FindPaneByID( item_UtxtEditLength ));
 	ThrowIfNil_( mLengthField );
 	
@@ -124,84 +118,6 @@ CUtxt_EditorWindow::FinishCreateSelf()
 }
 
 
-// // ---------------------------------------------------------------------------
-// // 	PutOnDuty
-// // ---------------------------------------------------------------------------
-// 
-// void
-// CUtxt_EditorWindow::PutOnDuty(LCommander *inNewTarget)
-// {
-// 	LWindow::PutOnDuty(inNewTarget);
-// 
-// 	// Put up our menus when on duty
-// 	{
-// 		if (LMLTEPane::sTXNFontMenuObject != NULL) {
-// 			OSStatus 	status;
-// 			MenuHandle	fontMenuH;
-// 			
-// 			status = ::TXNPrepareFontMenu(mTXNObject, sTXNFontMenuObject );
-// 			status = ::TXNGetFontMenuHandle(sTXNFontMenuObject, &fontMenuH);
-// 		
-// 		} 
-// 		
-// 		if ( !sUtxtSizeMenu )
-// 		{
-// 			sUtxtSizeMenu = new LMenu( MENU_UnicodeSize );
-// 			ThrowIfNil_( sUtxtSizeMenu );
-// 		}
-// 		
-// 		if ( !sUtxtStyleMenu )
-// 		{
-// 			sUtxtStyleMenu = new LMenu( MENU_UnicodeStyle );
-// 			ThrowIfNil_( sUtxtStyleMenu );
-// 		}
-// 	}
-// 	
-// 	// Update the menu bar
-// 	LMenuBar	*theBar = LMenuBar::GetCurrentMenuBar();
-// // 	theBar->InstallMenu( sUtxtFontMenu, MENU_OpenedWindows );	
-// 	theBar->InstallMenu( sUtxtSizeMenu, MENU_OpenedWindows );
-// 	theBar->InstallMenu( sUtxtStyleMenu, MENU_OpenedWindows );
-// 	::MacInsertMenu(fontMenuH, MENU_OpenedWindows);
-// }
-// 
-// 
-// // ---------------------------------------------------------------------------
-// // 	TakeOffDuty
-// // ---------------------------------------------------------------------------
-// 
-// void
-// CUtxt_EditorWindow::TakeOffDuty()
-// {		
-// 	LWindow::TakeOffDuty();
-// 	this->RemoveTextMenus();
-// }
-// 
-// 
-// // ---------------------------------------------------------------------------
-// // 	RemoveTextMenus
-// // ---------------------------------------------------------------------------
-// 
-// void
-// CUtxt_EditorWindow::RemoveTextMenus()
-// {
-// 	LMenuBar	*theBar = LMenuBar::GetCurrentMenuBar();
-// 	
-// // 	if ( sTextFontMenu )
-// // 		theBar->RemoveMenu( sUtxtFontMenu );
-// 	
-// 	// 	::MacDeleteMenu(MENU_UnicodeFonts);
-// 	// 	// Force redraw of MenuBar
-// 	// 	::InvalMenuBar();
-// 
-// 	if ( sUtxtSizeMenu )
-// 		theBar->RemoveMenu( sUtxtSizeMenu );
-// 		
-// 	if ( sUtxtStyleMenu )
-// 		theBar->RemoveMenu( sUtxtStyleMenu );
-// }
-// 
-// 
 // ---------------------------------------------------------------------------
 //		¥ ListenToMessage				[public]
 // ---------------------------------------------------------------------------

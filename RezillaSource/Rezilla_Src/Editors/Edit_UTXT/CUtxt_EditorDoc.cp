@@ -198,6 +198,16 @@ CUtxt_EditorDoc::AskSaveChanges(
 // ---------------------------------------------------------------------------
 //  ¥ GetModifiedResource										[protected]
 // ---------------------------------------------------------------------------
+// EXTERN_API_C( ItemCount )
+// TXNGetChangeCount(TXNObject iTXNObject);
+// 
+// TXNClearActionChangeCount
+// 
+// TXNCountRunsInRange
+// 
+// TXNDataSize
+// 
+
 
 Handle
 CUtxt_EditorDoc::GetModifiedResource(Boolean &releaseIt) 

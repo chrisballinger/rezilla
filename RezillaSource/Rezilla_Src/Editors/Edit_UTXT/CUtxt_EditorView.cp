@@ -2,11 +2,11 @@
 // CUtxt_EditorView.cp
 // 
 //                       Created: 2004-12-08 18:21:21
-//             Last modification: 2005-01-08 22:17:20
+//             Last modification: 2005-01-14 09:55:29
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004, 2005
+// (c) Copyright : Bernard Desgraupes, 2004-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -122,9 +122,10 @@ CUtxt_EditorView::FindCommandStatus(
 
 			GetFontSize(theSize);
 			
-			// This won't put a checkMark next to "Other size" if a
-			// non-standard size is selected.
-			if ( inCommand - cmd_MenuUtxtSizeBase == theSize ) {
+			// This won't put a checkMark if a non-standard size is
+			// selected. Size is a Fixed (16-bit signed int + 16-bit
+			// fraction).
+			if ( theSize == (inCommand - cmd_MenuUtxtSizeBase) << 16 ) {
 				outMark = checkMark;
 			} else {
 				outMark = 0;
@@ -204,7 +205,8 @@ CUtxt_EditorView::ObeyCommand(
 	// Now check for size menu
 	if ( (inCommand >= cmd_MenuUtxtSizeBase) && (inCommand <= cmd_MenuUtxtSizeLast) )
 	{
-		SetFontSize(inCommand - cmd_MenuUtxtSizeBase);
+		// Size is a Fixed (16-bit signed int + 16-bit fraction)
+		SetFontSize( (inCommand - cmd_MenuUtxtSizeBase) << 16);
 		return true;
 	}
 	
@@ -323,6 +325,7 @@ CUtxt_EditorView::RemoveUnicodeMenus()
 // // ---------------------------------------------------------------------------
 // //	¥ UserChangedText						[public, virtual]
 // // ---------------------------------------------------------------------------
+// TXNGetChangeCount
 // 
 // void
 // CUtxt_EditorView::UserChangedText()
