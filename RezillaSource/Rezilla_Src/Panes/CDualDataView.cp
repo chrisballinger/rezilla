@@ -172,6 +172,8 @@ CDualDataView::DeclareListeners()
 void
 CDualDataView::ListenToMessage( MessageT inMessage, void *ioParam ) 
 {	
+#pragma unused(ioParam)
+	
 	switch (inMessage) {
 		
 		case msg_HexScroller:
