@@ -16,7 +16,7 @@
 
 
 // ---------------------------------------------------------------------------
-// 	FindCommandStatus
+// 	FindCommandStatus											[static]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -72,20 +72,20 @@ CIconTextAction::FindCommandStatus(
 		return( true );
 	}
 	
-	// 9100-9300 is for font sizes (1..200 pts), 9100 -> "other"
-	if ( (inCommand >= cmd_IconBaseFontSize) && (inCommand <= cmd_IconLastFontSize) )
+	// 9100-9300 is for font sizes (1..200 pts), 9100 is the "Other size" 
+	// item
+	if ( (inCommand >= cmd_IconFontSizeBase) && (inCommand <= cmd_IconFontSizeLast) )
 	{
 		outEnabled = true;							// font menu always enabled
 		outUsesMark = true;
 		outName[0] = 0;
 		
-			// map "0" to default font size
+		// Map "0" to default font size
 		SInt32 specifiedSize = (inTraits.size == 0) ? ::GetDefFontSize() : inTraits.size;
 
 		// This won't put a checkMark next to "other" if a non-standard
-		// size is selected. is this a problem??? We also don't outline
-		// installed sizes. should we???
-		SInt32 fontSize = (SInt32) inCommand - (SInt32) cmd_IconBaseFontSize;
+		// size is selected.
+		SInt32 fontSize = (SInt32) inCommand - (SInt32) cmd_IconFontSizeBase;
 		if ( fontSize == specifiedSize )
 			outMark = checkMark;
 		else
@@ -190,7 +190,7 @@ static void ToggleBit( SInt16 &ioByte, SInt16 inBit )
 
 
 // ---------------------------------------------------------------------------
-// 	ObeyCommand
+// 	ObeyCommand											[static]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -224,7 +224,7 @@ CIconTextAction::ObeyCommand( 	CIcon_EditorWindow *,
 	}
 
 	// Now for the font size
-	if ( !handled && (inCommand >= cmd_IconBaseFontSize) && (inCommand <= cmd_IconLastFontSize) )
+	if ( !handled && (inCommand >= cmd_IconFontSizeBase) && (inCommand <= cmd_IconFontSizeLast) )
 	{
 		if ( inCommand == cmd_IconOtherFontSize )
 		{
@@ -233,7 +233,7 @@ CIconTextAction::ObeyCommand( 	CIcon_EditorWindow *,
 		}
 		else
 		{
-			ioRec->size = (SInt32) inCommand - (SInt32) cmd_IconBaseFontSize;
+			ioRec->size = (SInt32) inCommand - (SInt32) cmd_IconFontSizeBase;
 			changed = true;
 		}	
 		

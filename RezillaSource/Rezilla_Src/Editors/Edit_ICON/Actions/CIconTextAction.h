@@ -39,7 +39,7 @@ class CIconTextAction : public CIconTrackingPaintAction, public LBroadcaster
 		
 		virtual void		DrawInsertionPoint( Boolean inDraw = true );
 		
-			// these are in CIconTextActionCmds.cp
+		// These are in CIconTextActionCmds.cp
 		static Boolean		FindCommandStatus( 
 								const TextTraitsRecord &inTraits,
 								CommandT inCommand, Boolean &outEnabled, 
