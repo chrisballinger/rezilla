@@ -1675,9 +1675,9 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
 		theEditText->GetDescriptor(theString);
 		if (theString[0] == 0) {
-			*mOutStream << 0x00;
+			*mOutStream << (UInt8) 0x00;
 		} else {
-			*mOutStream << (char) (theString + 1);
+			*mOutStream << (UInt8) theString[1];
 		}
 		mCurrentID++;
 		break;
