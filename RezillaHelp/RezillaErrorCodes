@@ -1,0 +1,31 @@
+Rezilla error codes
+
+This is a list of the error codes defined by Rezilla.
+It does not contain codes emitted by the System.
+
+1001	No Rez In Data Fork
+1002	No Rez In Rez Fork
+1003	No Rez In Any Fork
+1004	No Open Permission
+1005	Open Fork Error
+1006	Under Version Control
+2000	Tmpl Error
+2001	Tmpl Text Overflow
+2002	Tmpl Wrong Fixed Count
+2003	Tmpl List Count Too Big
+2004	Tmpl Wrong Even Value
+2005	Tmpl Unexpected Tag
+2006	Tmpl Malformed Hex Value
+2007	Tmpl Malformed Date Value
+2008	Tmpl Cant Get Date Format
+2009	Tmpl Parse Date Failed
+2010	Tmpl Not Expected Size
+2011	Tmpl Create Empty New Aborted
+2012	Tmpl Malformed Case Section
+2013	Tmpl Malformed Key Section
+2014	Tmpl Cant Find Keyed Section Start
+2015	Tmpl Cant Find Key Start For Value
+2016	Tmpl Cant Find Matching Key End
+
+--------
+Last updated 2004-09-20 07:37:33
