@@ -2,7 +2,7 @@
 // CAete_WindowValues.cp
 // 
 //                       Created: 2005-01-25 09:01:07
-//             Last modification: 2005-01-28 09:19:29
+//             Last modification: 2005-02-02 06:06:35
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -52,32 +52,32 @@ const UInt16 AetePropertyFlag[] = { kAEUTlistOfItems, kAEUTEnumerated, kAEUTRead
 void
 CAete_EditorWindow::InstallResourceInfo()
 {
-	Str255	theString;
-	UInt8	theMajorVersion, theMinorVersion;
-	SInt16	theLanguage, theScript;
-	LEditField * theEditField;
+	Str255		theString;
+	UInt8		theMajorVersion, theMinorVersion;
+	SInt16		theLanguage, theScript;
+	LEditText * theEditText;
 	
 	mAete->GetValues(theMajorVersion, theMinorVersion, theLanguage, theScript);
 
-	theEditField = dynamic_cast<LEditField *> (this->FindPaneByID( item_AeteMajorVersion ));
-	ThrowIfNil_( theEditField );
+	theEditText = dynamic_cast<LEditText *> (this->FindPaneByID( item_AeteMajorVersion ));
+	ThrowIfNil_( theEditText );
 	::NumToString( theMajorVersion, theString);
-	theEditField->SetDescriptor(theString);
+	theEditText->SetDescriptor(theString);
 
-	theEditField = dynamic_cast<LEditField *> (this->FindPaneByID( item_AeteMinorVersion ));
-	ThrowIfNil_( theEditField );
+	theEditText = dynamic_cast<LEditText *> (this->FindPaneByID( item_AeteMinorVersion ));
+	ThrowIfNil_( theEditText );
 	::NumToString( theMinorVersion, theString);
-	theEditField->SetDescriptor(theString);
+	theEditText->SetDescriptor(theString);
 
-	theEditField = dynamic_cast<LEditField *> (this->FindPaneByID( item_AeteLanguageID ));
-	ThrowIfNil_( theEditField );
+	theEditText = dynamic_cast<LEditText *> (this->FindPaneByID( item_AeteLanguageID ));
+	ThrowIfNil_( theEditText );
 	::NumToString( theLanguage, theString);
-	theEditField->SetDescriptor(theString);
+	theEditText->SetDescriptor(theString);
 
-	theEditField = dynamic_cast<LEditField *> (this->FindPaneByID( item_AeteScriptCode ));
-	ThrowIfNil_( theEditField );
+	theEditText = dynamic_cast<LEditText *> (this->FindPaneByID( item_AeteScriptCode ));
+	ThrowIfNil_( theEditText );
 	::NumToString( theScript, theString);
-	theEditField->SetDescriptor(theString);
+	theEditText->SetDescriptor(theString);
 }
 
 
@@ -438,24 +438,30 @@ CAete_EditorWindow::InstallPropertyValues(CAeteProperty *	inProperty)
 
 
 // ---------------------------------------------------------------------------
-//  InstallElementValues												[public]
+//  InstallElementValues											[public]
 // ---------------------------------------------------------------------------
+// 	STableCell theCell = theTable->GetFirstSelectedCell();
 
 void
 CAete_EditorWindow::InstallElementValues(CAeteElement *	inElement)
 {
 	Str255			theString;
-	OSType 			theID;
+	OSType 			theID, theKeyForm;
 	LEditText *		theEditText;
 	LTextColumn *	theTable;
 	Boolean			disableIt = false;
+	SInt32			theCount;
+	TableIndexT		theRows, theCols;
+	STableCell		theCell(0,1);
 
 	if (inElement) {
 		theID = inElement->GetID();				
 		disableIt = false;
+		theCount = inElement->CountKeyForms();
 	}  else {
 		theString[0] = 0;
 		disableIt = true;
+		theCount = 0;
 	}
 	
 	theEditText = dynamic_cast<LEditText *> (mClassPane->FindPaneByID( item_AeteElementID ));
@@ -465,11 +471,27 @@ CAete_EditorWindow::InstallElementValues(CAeteElement *	inElement)
 	} 
 	theEditText->SetDescriptor(theString);
 
-	theTable = dynamic_cast<LTextColumn *> (mClassPane->FindPaneByID( item_AeteKeyFormsTable ));
-	ThrowIfNil_( theEditText );
-
-// 		theTable->GetKeyForms();
-
+	// KeyForms table
+// 	theTable = dynamic_cast<LTextColumn *> (mClassPane->FindPaneByID( item_AeteKeyFormsTable ));
+// 	ThrowIfNil_( theTable );
+// 
+// 	// 	Resize the table
+// 	theTable->GetTableSize(theRows, theCols);
+// 	if (theRows < theCount) {
+// 		theTable->InsertRows(theCount-theRows, theRows, nil, 0, Refresh_Yes);
+// 	} else if (theRows > theCount) {
+// 		theTable->RemoveRows(theRows-theCount, theCount+1, Refresh_Yes);
+// 	}
+// 	// Populate
+// 	for (SInt16 i = 1; i <= theCount; ++i) {
+// 		theCell.row = i;
+// 		if ( inElement->GetKeyForms()->FetchItemAt(i, theKeyForm) ) {
+// 			UMiscUtils::OSTypeToPString( theKeyForm, theString);
+// 		} else {
+// 			theString[0] = 0;
+// 		}
+// 		theTable->SetCellData(theCell, &theString, sizeof(Str255));
+// 	}
 }
 
 
@@ -600,29 +622,29 @@ CAete_EditorWindow::InstallEnumeratorValues(AeteEnumerator inEnumerator)
 void
 CAete_EditorWindow::RetrieveResourceInfo()
 {
-	Str255	theString;
-	SInt32	theMajorVersion, theMinorVersion;
-	SInt32	theLanguage, theScript;
-	LEditField * theEditField;
+	Str255		theString;
+	SInt32		theMajorVersion, theMinorVersion;
+	SInt32		theLanguage, theScript;
+	LEditText * theEditText;
 
-	theEditField = dynamic_cast<LEditField *> (this->FindPaneByID( item_AeteMajorVersion ));
-	ThrowIfNil_( theEditField );
-	theEditField->GetDescriptor(theString);
+	theEditText = dynamic_cast<LEditText *> (this->FindPaneByID( item_AeteMajorVersion ));
+	ThrowIfNil_( theEditText );
+	theEditText->GetDescriptor(theString);
 	::StringToNum( theString, &theMajorVersion);
 
-	theEditField = dynamic_cast<LEditField *> (this->FindPaneByID( item_AeteMinorVersion ));
-	ThrowIfNil_( theEditField );
-	theEditField->GetDescriptor(theString);
+	theEditText = dynamic_cast<LEditText *> (this->FindPaneByID( item_AeteMinorVersion ));
+	ThrowIfNil_( theEditText );
+	theEditText->GetDescriptor(theString);
 	::StringToNum( theString, &theMinorVersion);
 
-	theEditField = dynamic_cast<LEditField *> (this->FindPaneByID( item_AeteLanguageID ));
-	ThrowIfNil_( theEditField );
-	theEditField->GetDescriptor(theString);
+	theEditText = dynamic_cast<LEditText *> (this->FindPaneByID( item_AeteLanguageID ));
+	ThrowIfNil_( theEditText );
+	theEditText->GetDescriptor(theString);
 	::StringToNum( theString, &theLanguage);
 
-	theEditField = dynamic_cast<LEditField *> (this->FindPaneByID( item_AeteScriptCode ));
-	ThrowIfNil_( theEditField );
-	theEditField->GetDescriptor(theString);
+	theEditText = dynamic_cast<LEditText *> (this->FindPaneByID( item_AeteScriptCode ));
+	ThrowIfNil_( theEditText );
+	theEditText->GetDescriptor(theString);
 	::StringToNum( theString, &theScript);
 	
 	mAete->SetValues( (UInt8) theMajorVersion, (UInt8) theMinorVersion, (SInt16) theLanguage, (SInt16) theScript);
@@ -901,17 +923,19 @@ CAete_EditorWindow::RetrievePropertyValues(CAeteProperty * inProperty)
 
 
 // ---------------------------------------------------------------------------
-//  RetrieveElementValues												[public]
+//  RetrieveElementValues											[public]
 // ---------------------------------------------------------------------------
 
 void
 CAete_EditorWindow::RetrieveElementValues(CAeteElement * inElement)
 {
 	Str255			theString;
-	OSType 			theID;
+	OSType 			theID, theKeyForm;
 	LEditText *		theEditText;
 	LTextColumn *	theTable;
-	
+	UInt32			theSize;
+	TableIndexT		theRows, theCols;
+	STableCell		theCell(0,1);
 
 	theEditText = dynamic_cast<LEditText *> (mClassPane->FindPaneByID( item_AeteElementID ));
 	ThrowIfNil_( theEditText );
@@ -920,12 +944,19 @@ CAete_EditorWindow::RetrieveElementValues(CAeteElement * inElement)
 
 	inElement->SetID(theID);
 	
-	theTable = dynamic_cast<LTextColumn *> (mClassPane->FindPaneByID( item_AeteKeyFormsTable ));
-	ThrowIfNil_( theEditText );
-
-// 		theTable->GetKeyForms();
-
-	
+// 	theTable = dynamic_cast<LTextColumn *> (mClassPane->FindPaneByID( item_AeteKeyFormsTable ));
+// 	ThrowIfNil_( theTable );
+// 
+// 	// 	Rebuild the KeyForms array
+// 	inElement->GetKeyForms()->RemoveAllItemsAfter(0);
+// 	theTable->GetTableSize(theRows, theCols);
+// 	for (SInt16 i = 1; i <= theRows; ++i) {
+// 		theSize = sizeof(Str255);
+// 		theCell.row = i;
+// 		theTable->GetCellData(theCell, theString, theSize);
+// 		UMiscUtils::PStringToOSType( theString, theKeyForm);
+// 		inElement->AddKeyForm(theKeyForm);
+// 	}
 }
 
 
