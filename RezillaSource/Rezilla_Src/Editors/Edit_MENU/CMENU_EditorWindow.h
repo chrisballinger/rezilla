@@ -2,7 +2,7 @@
 // CMENU_EditorWindow.h
 // 
 //                       Created: 2005-03-09 17:16:53
-//             Last modification: 2005-03-22 07:44:27
+//             Last modification: 2005-03-23 08:40:17
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -27,6 +27,8 @@ class CMenuObject;
 class LStaticText;
 class LPopupButton;
 class LEditText;
+class LHandleStream;
+class LTabGroupView;
 
 
 class CMENU_EditorWindow : public CEditorWindow {
@@ -68,9 +70,14 @@ protected:
 	CMenuObject *		mMenuObj;
 	CMENU_EditorTable *	mItemsTable;
 	LPopupButton *		mPopup;
-	LEditText 			*mIconIdField,
+	LEditText 			*mItemTitleField,
+						*mIconIdField,
 						*mShortcutField,
 						*mMarkCharField;
+	LStaticText 		*mMarkCharLabel,
+						*mIconIdLabel;
+	LTabGroupView *		mTGV;
+	LHandleStream *		mOutStream;
 	Boolean				mHasXmnu,
 						mNeedsXmnu,
 						mInstallValue;
@@ -82,10 +89,7 @@ protected:
 
 	virtual void	FinishCreateSelf();
 
-private:
-	Handle			RetrieveMenuData();
-	Handle			RetrieveXmnuData();
-	
+private:	
 	void			ClearItemValues();
 	
 	void			InstallCurrentValues();
@@ -99,6 +103,7 @@ private:
 	void			RetrieveItemValues( ArrayIndexT inAtIndex );
 
 	void			HandlePropertyPopup(SInt32 inIndex);
+	void			HandleEnableState(SInt32 inIndex);
 	
 };
 

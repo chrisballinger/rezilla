@@ -2,7 +2,7 @@
 // CMENU_EditorWindow.cp					
 // 
 //                       Created: 2005-03-09 17:16:53
-//             Last modification: 2005-03-22 07:44:39
+//             Last modification: 2005-03-23 06:31:53
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -90,6 +90,9 @@ CMENU_EditorWindow::CMENU_EditorWindow(
 
 CMENU_EditorWindow::~CMENU_EditorWindow()
 {	
+	if (mOutStream != nil) {
+		delete mOutStream;
+	} 
 // 	// Remove the window from the list of listeners to the prefs object
 // 	CRezillaApp::sPrefs->RemoveListener(this);
 }
@@ -105,7 +108,8 @@ CMENU_EditorWindow::FinishCreateSelf()
 	mHasXmnu = false;
 	mNeedsXmnu = false;
 	mInstallValue = false;
-
+	mOutStream = nil;
+	
 	// The main view containing the labels and editing panes
 	mItemsTable = dynamic_cast<CMENU_EditorTable *>(this->FindPaneByID(item_EditorContents));
 	ThrowIfNil_( mItemsTable );
@@ -120,6 +124,9 @@ CMENU_EditorWindow::FinishCreateSelf()
 	ThrowIfNil_( mPopup );
 
 	// Edit fields
+	mItemTitleField = dynamic_cast<LEditText *>(this->FindPaneByID(item_MenuEditItemTitle));
+	ThrowIfNil_( mItemTitleField );
+
 	mIconIdField = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditIconID ));
 	ThrowIfNil_( mIconIdField );
 	
@@ -129,6 +136,15 @@ CMENU_EditorWindow::FinishCreateSelf()
 	mMarkCharField = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditMarkChar ));
 	ThrowIfNil_( mMarkCharField );
 	
+	mTGV = dynamic_cast<LTabGroupView *>(this->FindPaneByID( item_MenuEditItemGroupVIew ));
+	ThrowIfNil_( mTGV );
+
+	mMarkCharLabel = dynamic_cast<LStaticText *>(this->FindPaneByID( item_MenuEditMarkChar + kMenuEditLabelOffset ));
+	ThrowIfNil_( mMarkCharLabel );
+	
+	mIconIdLabel = dynamic_cast<LStaticText *>(this->FindPaneByID( item_MenuEditIconID + kMenuEditLabelOffset ));
+	ThrowIfNil_( mIconIdLabel );
+
 	// Link the broadcasters
 	UReanimator::LinkListenerToControls( this, this, PPob_MenuEditorWindow );
 	
@@ -138,9 +154,7 @@ CMENU_EditorWindow::FinishCreateSelf()
 	mItemsTable->SelectCell(theCell);
 	
 	// Listen to the item title field
-	LEditText *	theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(item_MenuEditItemTitle));
-	ThrowIfNil_( theEditText );
-	theEditText->AddListener(this);
+	mItemTitleField->AddListener(this);
 
 	// Listen to the glyph popup
 	CPopupEditField * theEditField = dynamic_cast<CPopupEditField *>(this->FindPaneByID( item_MenuEditGlyphField ));
@@ -160,7 +174,7 @@ CMENU_EditorWindow::FinishCreateSelf()
 
 
 // ---------------------------------------------------------------------------
-//  ListenToMessage				[public]
+//  ListenToMessage													[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -171,6 +185,7 @@ CMENU_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 	if (!mNeedsXmnu && inMessage >= PPob_MenuEditorWindow + item_MenuEditCmdModifier
 					&& inMessage <= PPob_MenuEditorWindow + item_MenuEditGlyphField) {
 		mNeedsXmnu = true;
+		SetDirty(true);
 	} 
 	
 	switch (inMessage) {
@@ -183,6 +198,7 @@ CMENU_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			theEditText->GetDescriptor(theString);
 			::StringToNum( theString, &theValue);
 			InstallKeyboardGlyph( (UInt8) theValue);
+			SetDirty(true);
 			break;
 		}
 		
@@ -215,17 +231,18 @@ CMENU_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		ArrayIndexT	newIndex = *(ArrayIndexT *) ioParam;
 		mMenuObj->GetItems()->MoveItem(oldIndex, newIndex);
 		mMenuObj->SetItemIndex(newIndex);
+		SetDirty(true);
 		break;
 		
 		
 		case msg_MenuEditItemTitle: {
-			LEditText *	theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(item_MenuEditItemTitle));
 			Str255		theTitle;
 			TableCellT	theCell;
-			theEditText->GetDescriptor(theTitle);
+			mItemTitleField->GetDescriptor(theTitle);
 			mItemsTable->GetSelectedCell(theCell);
 			mItemsTable->SetCellData( theCell, theTitle );
 			mItemsTable->Refresh();
+			SetDirty(true);
 			break;
 		}
 				
@@ -235,6 +252,7 @@ CMENU_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			mMenuObj->RemoveItem(theIndex);
 			InstallCurrentValues();
 			mItemsTable->Refresh();
+			SetDirty(true);
 			break;
 		}
 				
@@ -250,7 +268,9 @@ CMENU_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			mMenuObj->NewItem(theIndex);
 			mMenuObj->SetItemIndex(theIndex + 1);
 			ClearItemValues();
+			mPopup->SetValue(kind_MenuNoProperty);
 			mItemsTable->Refresh();
+			SetDirty(true);
 			break;
 		}
 				
@@ -287,6 +307,7 @@ CMENU_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			thePopup->SetValue(1);
 			mMenuObj->SetStyleAtIndex(theStyle, mMenuObj->GetItemIndex());
 			mItemsTable->Refresh();
+			SetDirty(true);
 			break;
 		}
 				
@@ -368,44 +389,46 @@ CMENU_EditorWindow::InstallResourceData(Handle inMenuHandle, Handle inXmnuHandle
 	delete theStream;
 	theStream = nil;
 	
-	try {
-		if (inXmnuHandle != nil) {
-			UInt16 theVal;
-			
-			mHasXmnu = true;
-			mNeedsXmnu = true;
-			
-			StHandleLocker	xmnulock(inXmnuHandle);
-			theStream = new LHandleStream(inXmnuHandle);
-			
-			// First two words represent the version (should be 0) and the 
-			// list count (OCNT)
-			*theStream >> theVal;
-			*theStream >> theVal;
-			
-			TArrayIterator<CMenuItem*> iterator( *(mMenuObj->GetItems()) );
-			CMenuItem *	theItem;
-			
-			while (iterator.Next(theItem)) {
-				ignoreErr = theItem->InstallExtendedData(theStream);
-			}
-			
-			delete theStream;
-		} 	
-	}
-	catch (...) {
-		if (theStream != nil) {delete theStream;} 
-		if (ignoreErr) {
-			// todo
-		} 
-		UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("ParseXmnuRezFailed"), PPob_SimpleMessage);
-	}
-	
+	if (mMenuObj->GetMDEF() != 0) {
+		UMessageDialogs::AlertWithValue(CFSTR("MenuResourceDeclaresMDEF"), mMenuObj->GetMDEF());
+		error = userCanceledErr;
+	} 
 	
 	if (error == noErr) {
+		try {
+			if (inXmnuHandle != nil) {
+				UInt16 theVal;
+				
+				mHasXmnu = true;
+				mNeedsXmnu = true;
+				
+				StHandleLocker	xmnulock(inXmnuHandle);
+				theStream = new LHandleStream(inXmnuHandle);
+				
+				// First two words represent the version (should be 0) and the 
+				// list count (OCNT)
+				*theStream >> theVal;
+				*theStream >> theVal;
+				
+				TArrayIterator<CMenuItem*> iterator( *(mMenuObj->GetItems()) );
+				CMenuItem *	theItem;
+				
+				while (iterator.Next(theItem)) {
+					ignoreErr = theItem->InstallExtendedData(theStream);
+				}
+				
+				delete theStream;
+			} 	
+		}
+		catch (...) {
+			if (theStream != nil) {delete theStream;} 
+			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("ParseXmnuRezFailed"), PPob_SimpleMessage);
+		}
+		
 		InstallMenuValues();
 		InstallCurrentValues();
 		InstallTableValues();
+		SwitchTarget(mItemsTable);
 		SetDirty(false);
 	} 
 
@@ -414,44 +437,68 @@ CMENU_EditorWindow::InstallResourceData(Handle inMenuHandle, Handle inXmnuHandle
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CollectMenuData										[public]
+//  CollectMenuData										[public]
 // ---------------------------------------------------------------------------
 
 Handle
 CMENU_EditorWindow::CollectMenuData() 
 {
-	Handle	menuHandle = RetrieveMenuData();
-	Handle	xmnuHandle = RetrieveXmnuData();
+	// First deal with the extended data
+	Boolean saveXmnu = mHasXmnu;
+	
+	if ( !mHasXmnu && mNeedsXmnu ) {
+		SInt16 answer = UMessageDialogs::AskIfFromLocalizable(CFSTR("SaveXmnuData"), PPob_AskIfMessage);
+		if (answer == answer_Do) {
+			saveXmnu = true;
+		}
+	} 
+	if (saveXmnu) {
+		try {
+			Handle xmnuHandle = NULL;
+			
+			if (mOutStream != nil) {delete mOutStream;} 
+			
+			mOutStream = new LHandleStream();	
+			ThrowIfNil_(mOutStream);
+			
+			// First two words represent the version (should be 0) and the 
+			// list count (OCNT)
+			*mOutStream << (UInt16) 0;
+			*mOutStream << (UInt16) mMenuObj->CountItems();
+			
+			TArrayIterator<CMenuItem*> iterator( *(mMenuObj->GetItems()) );
+			CMenuItem *	theItem;
+			
+			while (iterator.Next(theItem)) {
+				theItem->SendExtendedData(mOutStream);
+			}
+			
+			xmnuHandle = mOutStream->GetDataHandle();
+			dynamic_cast<CMENU_EditorDoc *>(mOwnerDoc)->SaveXmnuResource(xmnuHandle);
+		}
+		catch (...) {
+			UMessageDialogs::AlertWithType(CFSTR("SavingResourceFailed"), ResType_ExtendedMenu);
+		}
 		
-	dynamic_cast<CMENU_EditorDoc *>(mOwnerDoc)->SaveXmnuResource(xmnuHandle);
+	} 
 
-	return menuHandle;
-}
-
-
-// ---------------------------------------------------------------------------
-//  ¥ RetrieveMenuData										[public]
-// ---------------------------------------------------------------------------
-
-Handle
-CMENU_EditorWindow::RetrieveMenuData() 
-{
+	// Now retrieve the main data
 	Handle	menuHandle = NULL;
 
+	try {
+		if (mOutStream != nil) {delete mOutStream;} 
+
+		mOutStream = new LHandleStream();	
+		ThrowIfNil_(mOutStream);
+
+		mMenuObj->SendData(mOutStream);
+		menuHandle = mOutStream->GetDataHandle();
+	}
+	catch (...) {
+// 		UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("SaveMenuRezFailed"), PPob_SimpleMessage);
+	}
+	
 	return menuHandle;
-}
-
-
-// ---------------------------------------------------------------------------
-//  ¥ RetrieveXmnuData										[public]
-// ---------------------------------------------------------------------------
-
-Handle
-CMENU_EditorWindow::RetrieveXmnuData() 
-{
-	Handle	xmnuHandle = NULL;
-
-	return xmnuHandle;
 }
 
 
@@ -507,6 +554,9 @@ CMENU_EditorWindow::InstallCurrentValues()
 // ---------------------------------------------------------------------------
 //	 InstallItemValues
 // ---------------------------------------------------------------------------
+// If inAtIndex is 0, this proc sets all the item controls to default 
+// values but does not modify the property popup. To set it to none, call 
+// explicitly mPopup->SetValue(kind_MenuNoProperty).
 
 void
 CMENU_EditorWindow::InstallItemValues( ArrayIndexT inAtIndex )
@@ -515,13 +565,13 @@ CMENU_EditorWindow::InstallItemValues( ArrayIndexT inAtIndex )
 	Str255			theString;
 	UInt8			i, theIconID = 0, theShortcut = 0, theMark = 0, theStyle = 0, theMods = 0;
 	SInt16			theFontID = 0, theGlyph = 0;
-	SInt32			theEncoding = 0, theRefcon1 = 0, theRefcon2 = 0, theKind;
+	SInt32			theEncoding = 0, theRefcon1 = 0, theRefcon2 = 0, theKind = 0;
 	UInt32			theEnableFlag;
 	MenuRef			theMenuH;
 	LEditText * 	theEditText;
 	LCheckBox *		theCheckBox;
 	LPopupButton *	thePopup;
-	Boolean			enableIt = false, updateProperty = true;
+	Boolean			enableIt = false;
 	
 	if (inAtIndex == 0) {
 		theString[0] = 0;
@@ -532,31 +582,20 @@ CMENU_EditorWindow::InstallItemValues( ArrayIndexT inAtIndex )
 		return;
 	}
 	
-	theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditItemTitle ));
-	ThrowIfNil_( theEditText );
-	theEditText->SetDescriptor(theString);
+	mItemTitleField->SetDescriptor(theString);
 	
 	if (theString[0] && theString[1] == '-') {
-		mInstallValue = true;
-		mPopup->SetValue(kind_MenuIsSeparator);
-		mInstallValue = false;
-		return;
+		theKind = kind_MenuIsSeparator;
 	} 
 
-	theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditIconID ));
-	ThrowIfNil_( theEditText );
 	::NumToString(theIconID, theString);
-	theEditText->SetDescriptor(theString);
+	mIconIdField->SetDescriptor(theString);
 
-	theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditShortcut ));
-	ThrowIfNil_( theEditText );
 	::NumToString(theShortcut, theString);
-	theEditText->SetDescriptor(theString);
+	mShortcutField->SetDescriptor(theString);
 
-	theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditMarkChar ));
-	ThrowIfNil_( theEditText );
 	::NumToString(theMark, theString);
-	theEditText->SetDescriptor(theString);
+	mMarkCharField->SetDescriptor(theString);
 
 	theCheckBox = dynamic_cast<LCheckBox *>(this->FindPaneByID( item_MenuEditItemEnabled ));
 	ThrowIfNil_( theCheckBox );
@@ -619,6 +658,7 @@ CMENU_EditorWindow::InstallItemValues( ArrayIndexT inAtIndex )
 	ThrowIfNil_( theEditText );
 	::NumToString(theGlyph, theString);
 	theEditText->SetDescriptor(theString);
+	InstallKeyboardGlyph(theGlyph);
 
 	// Modifiers. If bit 3 is on, it means that command key is _not_ used.
 	theCheckBox = dynamic_cast<LCheckBox *>(this->FindPaneByID( item_MenuEditCmdModifier ));
@@ -651,15 +691,13 @@ CMENU_EditorWindow::InstallItemValues( ArrayIndexT inAtIndex )
 		theKind = kind_MenuUsesSICN;
 	} else if (theIconID != 0 && theShortcut == 0) {
 		theKind = kind_MenuUsesCicn;
-	} else {
-		updateProperty = false;
-	}
+	} 
 	
-	if (updateProperty) {
+	if (theKind != 0) {
 		mInstallValue = true;
 		mPopup->SetValue(theKind);
 		mInstallValue = false;
-	} else {
+	} else if (inAtIndex != 0) {
 		mPopup->SetValue(kind_MenuNoProperty);
 	}
 }
@@ -747,25 +785,17 @@ CMENU_EditorWindow::RetrieveItemValues( ArrayIndexT inAtIndex )
 			return;
 		} 
 		
-		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditItemTitle ));
-		ThrowIfNil_( theEditText );
-		theEditText->GetDescriptor(theTitle);
+		mItemTitleField->GetDescriptor(theTitle);
 
-		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditIconID ));
-		ThrowIfNil_( theEditText );
-		theEditText->GetDescriptor(theString);
+		mIconIdField->GetDescriptor(theString);
 		::StringToNum(theString, &theLong);
 		theIconID = theLong;
 		
-		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditShortcut ));
-		ThrowIfNil_( theEditText );
-		theEditText->GetDescriptor(theString);
+		mShortcutField->GetDescriptor(theString);
 		::StringToNum(theString, &theLong);
 		theShortcut = theLong;
 
-		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditMarkChar ));
-		ThrowIfNil_( theEditText );
-		theEditText->GetDescriptor(theString);
+		mMarkCharField->GetDescriptor(theString);
 		::StringToNum(theString, &theLong);
 		theMark = theLong;
 
@@ -907,7 +937,7 @@ CMENU_EditorWindow::InstallTableValues()
 
 
 // ---------------------------------------------------------------------------
-//	 InstallTableValues
+//	 HandlePropertyPopup
 // ---------------------------------------------------------------------------
 
 void
@@ -915,35 +945,15 @@ CMENU_EditorWindow::HandlePropertyPopup(SInt32 inIndex)
 {
 	Str255			theString;
 	LEditText * 	theEditText;
-	LStaticText 	*theMarkCharLabel, *theIconIdLabel;
-	LTabGroupView *	theTGV;
 
-	theTGV = dynamic_cast<LTabGroupView *>(this->FindPaneByID( item_MenuEditItemGroupVIew ));
-	theTGV->Enable();
-	mShortcutField->Enable();
-	mIconIdField->Enable();
-	mMarkCharField->Enable();
-
-	theMarkCharLabel = dynamic_cast<LStaticText *>(this->FindPaneByID( item_MenuEditMarkChar + kMenuEditLabelOffset ));
-	ThrowIfNil_( theMarkCharLabel );
-	theIconIdLabel = dynamic_cast<LStaticText *>(this->FindPaneByID( item_MenuEditIconID + kMenuEditLabelOffset ));
-	ThrowIfNil_( theIconIdLabel );
-	
-	if (inIndex != kind_MenuHasSubmenu) {
-		theMarkCharLabel->SetDescriptor(sMarkCharStr);
-	}
-	
-	if (inIndex != kind_MenuNonSystemScript) {
-		theIconIdLabel->SetDescriptor(sIconIDStr);
-	}
-	
+	HandleEnableState(kind_MenuAllEnabled);
+		
 	if (!mInstallValue) {
+
 		switch (inIndex) {
 			case kind_MenuIsSeparator:
 			ClearItemValues();
-			theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditItemTitle ));
-			theEditText->SetDescriptor("\p-");
-			theTGV->Disable();
+			mItemTitleField->SetDescriptor("\p-");
 			// This will update the table
 			ListenToMessage(msg_MenuEditItemTitle, NULL);
 			break;
@@ -951,60 +961,93 @@ CMENU_EditorWindow::HandlePropertyPopup(SInt32 inIndex)
 			case kind_MenuHasSubmenu:
 			// Empty and disable the IconID field.
 			mIconIdField->SetDescriptor("\p");
-			mIconIdField->Disable();
 			// The shortcut field receives the value $1B
 			::NumToString(0x1b, theString);
 			mShortcutField->SetDescriptor(theString);
-			mShortcutField->Disable();
-			// The marking char field is renamed and should specify the ID of the submenu
-			theMarkCharLabel->SetDescriptor(sSubmenuIDStr);
-	// 		mMarkCharField->SetDescriptor("\p");
+			//  mMarkCharField->SetDescriptor("\p");
 			SwitchTarget(mMarkCharField);
 			break;
 
 			case kind_MenuUsesCicn:
 			mShortcutField->SetDescriptor("\p");
-			mShortcutField->Disable();
 			SwitchTarget(mIconIdField);
 			break;
 
 			case kind_MenuUsesICON:
 			::NumToString(0x1d, theString);
 			mShortcutField->SetDescriptor(theString);
-			mShortcutField->Disable();
 			SwitchTarget(mIconIdField);
 			break;
 
 			case kind_MenuUsesSICN:
 			::NumToString(0x1e, theString);
 			mShortcutField->SetDescriptor(theString);
-			mShortcutField->Disable();
 			SwitchTarget(mIconIdField);
 			break;
 
 			case kind_MenuNonSystemScript:
 			::NumToString(0x1c, theString);
 			mShortcutField->SetDescriptor(theString);
-			mShortcutField->Disable();
-			// The iconID field is renamed and should receive the code of the script
-			theIconIdLabel->SetDescriptor(sScriptCodeStr);
 			SwitchTarget(mIconIdField);
 			break;
 		}		
+		
+		SetDirty(true);
 	} 
 
+	HandleEnableState(inIndex);
 	Refresh();
 	
 }
 
 
-// // ---------------------------------------------------------------------------
-// //	 UpdatePropertyPopup
-// // ---------------------------------------------------------------------------
-// // Set the property popup according to the values found in sopme fields. 
-// // For instance, if the item's name is "-" 
-// void
-// CMENU_EditorWindow::UpdatePropertyPopup() 
-// {
-// 	
-// }
+// ---------------------------------------------------------------------------
+//	 HandlePropertyPopup
+// ---------------------------------------------------------------------------
+
+void
+CMENU_EditorWindow::HandleEnableState(SInt32 inIndex) 
+{
+	switch (inIndex) {
+		case kind_MenuAllEnabled:
+		mTGV->Enable();
+		mShortcutField->Enable();
+		mIconIdField->Enable();
+		mMarkCharField->Enable();
+		// Reset the labels
+		if (inIndex != kind_MenuHasSubmenu) {
+			mMarkCharLabel->SetDescriptor(sMarkCharStr);
+		}
+		if (inIndex != kind_MenuNonSystemScript) {
+			mIconIdLabel->SetDescriptor(sIconIDStr);
+		}
+		break;
+
+		case kind_MenuIsSeparator:
+		mTGV->Disable();
+		break;
+
+		case kind_MenuHasSubmenu:
+		mIconIdField->Disable();
+		mShortcutField->Disable();
+		// The marking char field is renamed and should specify the ID of the submenu
+		mMarkCharLabel->SetDescriptor(sSubmenuIDStr);
+		break;
+
+		case kind_MenuUsesCicn:
+		case kind_MenuUsesICON:
+		case kind_MenuUsesSICN:
+		mShortcutField->Disable();
+		break;
+
+		case kind_MenuNonSystemScript:
+		mShortcutField->Disable();
+		// The iconID field is renamed and should receive the code of the script
+		mIconIdLabel->SetDescriptor(sScriptCodeStr);
+		break;
+	}		
+
+// 	Refresh();
+	
+}
+
