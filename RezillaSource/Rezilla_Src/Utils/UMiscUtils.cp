@@ -1,7 +1,7 @@
 // ===========================================================================
 // UMiscUtils.cp					
 //                       Created: 2003-05-13 20:06:23
-//             Last modification: 2004-08-19 22:11:18
+//             Last modification: 2004-09-19 21:46:18
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -44,8 +44,14 @@ void
 UMiscUtils::PStringToOSType(Str255 inString, OSType & outType)
 {
 	char * theStr = new char[5];
-	CopyPascalStringToC(inString, theStr);	
-	theStr[4] = 0;
+	UInt8 len = inString[0];
+	if (len > 4) {
+		len = 4;
+	} 
+	CopyPascalStringToC(inString, theStr);
+	for (UInt8 i = 4; i >= len; i--) {
+		theStr[i] = 0;
+	}
 	outType = *(OSType*) theStr;
 }
 
