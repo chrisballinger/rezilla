@@ -188,6 +188,7 @@ CTmplEditorWindow::FinishCreateSelf()
 	CRezillaApp::sPrefs->AddListener(this);
 
 	InitPaneInfos();
+	
 }
 	
 
@@ -1471,6 +1472,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 			} else {
 				// theLength should never be even
 				error = err_TmplWrongEvenValue;
+				break;
 			}
 		} else {
 			theString[0] = 0;
@@ -1610,36 +1612,38 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		  ||
 		  ( inType >> 24 == 'T' && UMiscUtils::IsValidHexadecimal( (Ptr) typeStr + 2, 3) ) ) {
 			  
-		  // Hnnn: a 3-digit hex number; displays nnn bytes in hex format.
-		  // Cnnn: a C string that is nnn hex bytes long (the last byte is always a 0, 
-		  //       so the string itself occupies the first nnn-1 bytes.)
-		  // Tnnn: a text string with fixed padding that is nnn hex bytes long 
+		  // Hnnn: a 3-digit hex number; displays $nnn bytes in hex format.
+		  // Cnnn: a C string that is $nnn hex bytes long (the last byte is always a 0, 
+		  //       so the string itself occupies the first $nnn-1 bytes.)
+		  // Tnnn: a text string with fixed padding that is $nnn hex bytes long 
 		  AddStaticField(inType, inLabelString, inContainer, sLeftLabelTraitsID);
 		  mYCoord += kTmplLabelHeight + kTmplVertSkip;
 		  AddHexDumpField(inType, inContainer);
 		  
 	  } else if ( inType >> 16 == 'P0' && UMiscUtils::IsValidHexadecimal( (Ptr) typeStr + 3, 2)) {
 		  
-		  // P0nn: a Pascal string that is nn hex bytes long (the length byte is not included in nn, 
-		  // so the string occupies the entire specified length.)
-		  SInt32 length = 255;
+		  // P0nn: a Pascal string that is nn hex bytes long. 
+		  // 		The length byte is included in $nn, so the string itself
+		  // 		occupies in fact $nn-1 bytes and the overall length in the
+		  // 		resource is $nn bytes: this is Resourcerer's convention; in
+		  // 		ResEdit's specification, the length byte is not included.
+		  // 		So what is declared as P010 in Resourcerer would be P00F in
+		  // 		ResEdit. We here use Resourcerer"s because it is more
+		  // 		consistent with the Cnn, Hnnn, Tnnn types.
+		  UMiscUtils::HexNumStringToDecimal(&inType, &theLength);
 		  if (mRezStream->GetMarker() < mRezStream->GetLength() ) {
-			  SInt32 length;
-			  char str[3];
-			  char * p = (char*) &inType;
-			  sprintf(str, "%c%c%c", *(p+2), *(p+3), 0);
-			  ::LowercaseText(str, 2, (ScriptCode)0);
-			  sscanf(str, "%2x", &length);
-
 			  *mRezStream >> theString;
-			  if (theString[0] > length) {
-				  theString[0] = length;
+			  if (theString[0] >= theLength) {
+				  error = err_TmplNotExpectedSize;
+				  break;
 			  } 
+			  // The overall length is theLength, so skip the remaining bytes
+			  mRezStream->SetMarker(theLength - theString[0] - 1, streamFrom_Marker);	
 		  } else {
-			theString[0] = 0;
-		}
-		AddStaticField(inType, inLabelString, inContainer);
-		AddEditField(theString, inType, length, 0, 
+			  theString[0] = 0;
+		  }
+		  AddStaticField(inType, inLabelString, inContainer);
+		  AddEditField(theString, inType, theLength, 0, 
 					   UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar), inContainer);
 					   
 	  } else if ( IsValidBitField(inType, typeStr, bitCount, bytesLen) ) {
@@ -1977,7 +1981,7 @@ CTmplEditorWindow::AddCheckField(Boolean inValue,
 void
 CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 {
-	SInt32		oldPos, newPos, nextPos, theLength;
+	SInt32		oldPos, newPos, nextPos, totalLength;
 	Handle		theHandle;
 	char 		theChar;
 	SViewInfo	theViewInfo;
@@ -2030,15 +2034,15 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 	
 	// Store the template's type in the userCon field
 	theWasteEdit->SetUserCon(inType);
-	theLength = mRezStream->GetLength();
+	totalLength = mRezStream->GetLength();
 	
 	// Insert the text
 	oldPos = mRezStream->GetMarker();
 	switch (inType) {
 		case 'CSTR':
 			// Is there a NULL byte marking the end of the string?
-			newPos = theLength;
-			while (mRezStream->GetMarker() < theLength ) {
+			newPos = totalLength;
+			while (mRezStream->GetMarker() < totalLength ) {
 				*mRezStream >> theChar;
 				if (theChar == 0) {
 					// Don't take the ending NULL
@@ -2052,7 +2056,7 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 		case 'LSTR': {
 			UInt32		theUInt32 = 0;
 			// Long string (long  length followed by the characters)
-			if (mRezStream->GetMarker() < theLength - 3) {
+			if (mRezStream->GetMarker() < totalLength - 3) {
 				*mRezStream >> theUInt32;
 			}
 			oldPos += 4;
@@ -2064,7 +2068,7 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 		case 'WSTR': {
 			UInt16		theUInt16 = 0;
 			// Same as LSTR, but a word rather than a long word
-			if (mRezStream->GetMarker() < theLength - 1) {
+			if (mRezStream->GetMarker() < totalLength - 1) {
 				*mRezStream >> theUInt16;
 			}
 			oldPos += 2;
@@ -2076,20 +2080,20 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 		case 'ECST':
 		case 'OCST':
 			// Is there a NULL byte marking the end of the string?
-			newPos = theLength;
-			while (mRezStream->GetMarker() < theLength ) {
+			newPos = totalLength;
+			while (mRezStream->GetMarker() < totalLength ) {
 				*mRezStream >> theChar;
 				if (theChar == 0) {
 					newPos = mRezStream->GetMarker();
 					// If the total length, including ending NULL, is odd
 					// (with ESTR) or even (with OSTR), the string is padded, 
 					// so skip one byte.
-					if ( (newPos < theLength) && ( 
+					if ( (newPos < totalLength) && ( 
 						   ( (newPos - oldPos) % 2 && (inType = 'ECST') ) 
 						   ||
 						   ( (newPos - oldPos) % 2 == 0 && (inType = 'OCST') ) )) {
 					   // Skip one byte.
-					   if (mRezStream->GetMarker() < theLength ) {
+					   if (mRezStream->GetMarker() < totalLength ) {
 						   *mRezStream >> theChar;
 					   }
 					} 
@@ -2102,14 +2106,15 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 		break;
 
 		default: {
-			SInt32 length;
-			UMiscUtils::HexNumStringToDecimal(&inType, &length);
+			SInt32 reqLength;
+			UMiscUtils::HexNumStringToDecimal(&inType, &reqLength);
 
 			if (inType >> 24 == 'C') {
-				// Cnnn: a C string that is nnn hex bytes long (The last byte is always a 0, 
-				// so the string itself occupies the first nnn-1 bytes.)
+				// Cnnn: a C string that is $nnn hex bytes long. The last byte is always a 0, 
+				// so the string itself occupies the first $nnn-1 bytes (possibly less
+				// if a null is encountered before the end).
 
-				nextPos = oldPos + length;
+				nextPos = oldPos + reqLength;
 				newPos = nextPos - 1;
 				// Look for a NULL byte in this range
 				while (mRezStream->GetMarker() <= nextPos ) {
@@ -2120,18 +2125,18 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 					}
 				}
 			} else if (inType >> 24 == 'T') {
-				// Tnnn: a text string with fixed padding that is nnn hex bytes long 
-				nextPos = oldPos + length;
+				// Tnnn: a text string with fixed padding that is $nnn hex bytes long 
+				nextPos = oldPos + reqLength;
 				newPos = nextPos;
 			}
 		}
 	}
 
-	if (oldPos > theLength) {
-		oldPos = theLength;
+	if (oldPos > totalLength) {
+		oldPos = totalLength;
 	} 
-	if (newPos > theLength) {
-		newPos = theLength;
+	if (newPos > totalLength) {
+		newPos = totalLength;
 	} 
 	if (newPos < oldPos) {
 		newPos = oldPos;
@@ -2156,7 +2161,7 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 void
 CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 {
-	SInt32		oldPos, newPos, nextPos, theLength;
+	SInt32		oldPos, newPos, nextPos, totalLength;
 	Handle		theHandle;
 	SViewInfo	theViewInfo;
 	SDimension16	theFrame;
@@ -2229,32 +2234,31 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 	theTGB->SetUserCon(inType);
 	
 	// Insert the text
-	theLength = mRezStream->GetLength();
+	totalLength = mRezStream->GetLength();
 	oldPos = mRezStream->GetMarker();
 
 	switch (inType) {
 		case 'HEXD':
 		// This is always the last code in a template. Go to the end of the
 		// resource data.
-		newPos = theLength;
+		newPos = totalLength;
 		break;
 		
 		case 'BHEX': {
 			UInt32		theUInt8 = 0;
 			// ByteLength Hex Dump
-			if (mRezStream->GetMarker() < theLength) {
+			if (mRezStream->GetMarker() < totalLength) {
 				*mRezStream >> theUInt8;
 			}
 			oldPos += 1;
 			newPos = oldPos + theUInt8;
-			nextPos = newPos;
 			break;
 		}
 		
 		case 'BSHX': {
 			UInt32		theUInt8 = 0;
 			// (ByteLength - 1) Hex Dump
-			if (mRezStream->GetMarker() < theLength) {
+			if (mRezStream->GetMarker() < totalLength) {
 				*mRezStream >> theUInt8;
 			}
 			if (theUInt8 < 1) {
@@ -2262,26 +2266,24 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 			} 
 			oldPos += 1;
 			newPos = oldPos + theUInt8 - 1;
-			nextPos = newPos;
 			break;
 		}
 		
 		case 'LHEX': {
 			UInt32		theUInt32 = 0;
 			// LongLength Hex Dump
-			if (mRezStream->GetMarker() < theLength - 3) {
+			if (mRezStream->GetMarker() < totalLength - 3) {
 				*mRezStream >> theUInt32;
 			}
 			oldPos += 4;
 			newPos = oldPos + theUInt32;
-			nextPos = newPos;
 			break;
 		}
 		
 		case 'LSHX': {
 			UInt32		theUInt32 = 0;
 			// (LongLength - 4) Hex Dump
-			if (mRezStream->GetMarker() < theLength - 3) {
+			if (mRezStream->GetMarker() < totalLength - 3) {
 				*mRezStream >> theUInt32;
 			}
 			if (theUInt32 < 4) {
@@ -2289,26 +2291,24 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 			} 
 			oldPos += 4;
 			newPos = oldPos + theUInt32 - 4;
-			nextPos = newPos;
 			break;
 		}
 		
 		case 'WHEX': {
 			UInt16		theUInt16 = 0;
 			// WordLength Hex Dump
-			if (mRezStream->GetMarker() < theLength - 1) {
+			if (mRezStream->GetMarker() < totalLength - 1) {
 				*mRezStream >> theUInt16;
 			}
 			oldPos += 2;
 			newPos = oldPos + theUInt16;
-			nextPos = newPos;
 			break;
 		}
 		
 		case 'WSHX': {
 			UInt16		theUInt16 = 0;
 			// (WordLength - 2) Hex Dump
-			if (mRezStream->GetMarker() < theLength - 1) {
+			if (mRezStream->GetMarker() < totalLength - 1) {
 				*mRezStream >> theUInt16;
 			}
 			if (theUInt16 < 2) {
@@ -2316,24 +2316,23 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 			} 
 			oldPos += 2;
 			newPos = oldPos + theUInt16 - 2;
-			nextPos = newPos;
 			break;
 		}
 		
 		default:
 		if (inType >> 24 == 'H') {
-			// Hnnn: a 3-digit hex number; displays nnn bytes in hex format
+			// Hnnn: a 3-digit hex number; displays $nnn bytes in hex format
 			SInt32 numbytes;
 			UMiscUtils::HexNumStringToDecimal(&inType, &numbytes);
 			newPos = oldPos + numbytes;
 		}
 	}	
 		
-	if (oldPos > theLength) {
-		oldPos = theLength;
+	if (oldPos > totalLength) {
+		oldPos = totalLength;
 	} 
-	if (newPos > theLength) {
-		newPos = theLength;
+	if (newPos > totalLength) {
+		newPos = totalLength;
 	} 
 	if (newPos < oldPos) {
 		newPos = oldPos;
@@ -2664,7 +2663,7 @@ CTmplEditorWindow::AddCasePopup(ResType inType, Str255 inLabel, SInt32 inStartMa
 	SDimension16	theFrame;
 	SInt16			index = 1;
 	ResType			theType;
-	SInt32			currMark, theLength = mTemplateStream->GetLength();
+	SInt32			currMark, totalLength = mTemplateStream->GetLength();
 	Str255			theString;
 	char 			charString[256];
 
@@ -2692,7 +2691,7 @@ CTmplEditorWindow::AddCasePopup(ResType inType, Str255 inLabel, SInt32 inStartMa
 		theBevelButton->InsertMenuItem(inLabel, index, true);
 	} 
 	currMark = mTemplateStream->GetMarker();
-	while (currMark < theLength) {
+	while (currMark < totalLength) {
 		*mTemplateStream >> theString;
 		*mTemplateStream >> theType;
 		if (theType != inType) {
@@ -2738,7 +2737,7 @@ CTmplEditorWindow::AddEditPopup(Str255 inValue,
 	register char *	p;
 	SDimension16	theFrame;
 	SInt16			index = 1;
-	SInt32			theLength = mTemplateStream->GetLength();
+	SInt32			totalLength = mTemplateStream->GetLength();
 	Str255			theString;
 	char 			charString[256];
 
@@ -3163,9 +3162,11 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		CopyPascalStringToC(numStr, charString);
 		::LowercaseText(charString, strlen(charString), (ScriptCode)0);
 		error = BuildScanString(charString, formatString, 2);
-		sscanf(charString, formatString, &theLong);
-		*mOutStream << (UInt8) theLong;
-		mCurrentID++;
+		if (error == noErr) {
+			sscanf(charString, formatString, &theLong);
+			*mOutStream << (UInt8) theLong;
+			mCurrentID++;
+		} 
 		break;
 
 		case 'HEXD':
@@ -3244,9 +3245,11 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		CopyPascalStringToC(numStr, charString);
 		::LowercaseText(charString, strlen(charString), (ScriptCode)0);
 		error = BuildScanString(charString, formatString, 8);
-		sscanf(charString, formatString, &theLong);
-		*mOutStream << (UInt32) theLong;
-		mCurrentID++;
+		if (error == noErr) {
+			sscanf(charString, formatString, &theLong);
+			*mOutStream << (UInt32) theLong;
+			mCurrentID++;
+		}
 		break;
 
 		case 'FWRD':
@@ -3257,9 +3260,11 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		CopyPascalStringToC(numStr, charString);
 		::LowercaseText(charString, strlen(charString), (ScriptCode)0);
 		error = BuildScanString(charString, formatString, 4);
-		sscanf(charString, formatString, &theLong);
-		*mOutStream << (UInt16) theLong;
-		mCurrentID++;
+		if (error == noErr) {
+			sscanf(charString, formatString, &theLong);
+			*mOutStream << (UInt16) theLong;
+			mCurrentID++;
+		}
 		break;
 
 		case 'LABL':
@@ -3589,73 +3594,94 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 	  // Handle Hnnn, Cnnn, P0nn, BB0n etc cases here or unrecognized type
 	  if (inType >> 24 == 'H') {
 		  
-		  // Hnnn: a 3-digit hex number; displays nnn bytes in hex format
+		  // Hnnn: a 3-digit hex number; displays $nnn bytes in hex format
 		  CDualDataView * theTGB = dynamic_cast<CDualDataView *>(this->FindPaneByID(mCurrentID));
 		  WEReference theWE = theTGB->GetInMemoryWasteRef();
 		  theHandle = static_cast<Handle>(::WEGetText(theWE));
 		  theLength = ::WEGetTextLength(theWE);
-		  reqLength = inType << 8 & 0xffffff00;
+		  UMiscUtils::HexNumStringToDecimal(&inType, &reqLength);
 
-		  if (theLength < reqLength) {
-			  UMessageDialogs::AlertForValue(CFSTR("StringShorterThanRequired"), reqLength);
-		  } else {
-			  locker.Adopt(theHandle);
-			  mOutStream->PutBytes(*theHandle, reqLength);
-		  }
+		  // We want exactly $nnn bytes
+		  if (theLength != reqLength) {
+			  error = err_TmplNotExpectedSize;
+			  break;
+		  } 
+		  
+		  locker.Adopt(theHandle);
+		  mOutStream->PutBytes(*theHandle, reqLength);
 		  mCurrentID++;
 		  
 	  } else if (inType >> 24 == 'C') {
 		  
-		  // Cnnn: a C string that is nnn hex bytes long (The last byte is always a 0, 
-		  // so the string itself occupies the first nnn-1 bytes.)
+		  // Cnnn: a C string that is $nnn hex bytes long (the last byte is always a 0, 
+		  // so the string itself occupies the first $nnn-1 bytes).
 		  theWasteEdit = dynamic_cast<CWasteEditView *>(this->FindPaneByID(mCurrentID));
 		  theHandle = theWasteEdit->GetTextHandle();
 		  theLength = theWasteEdit->GetTextLength();
-		  reqLength = (inType << 8 & 0xffffff00) - 1;
+		  UMiscUtils::HexNumStringToDecimal(&inType, &reqLength);
 
+		  // Truncate if we have more.
+		  if (theLength >= reqLength) {
+			  theLength = reqLength - 1;
+		  } 
+		  
+		  locker.Adopt(theHandle);
+		  mOutStream->PutBytes(*theHandle, theLength);
 		  if (theLength < reqLength) {
-			  UMessageDialogs::AlertForValue(CFSTR("StringShorterThanRequired"), reqLength);
-		  } else {
-			  locker.Adopt(theHandle);
-			  mOutStream->PutBytes(*theHandle, reqLength);		
-			  // End with a NULL byte
-			  *mOutStream << (UInt8) 0x00;
-		  }
+			  // Padd with null bytes
+			  for (i = 0; i < reqLength - theLength - 1; i++) {
+				  *mOutStream << (UInt8) 0x00;
+			  }
+		  } 
+		  // Now the ending NULL byte
+		  *mOutStream << (UInt8) 0x00;
+		  
 		  mCurrentID++;
-
+		  
 	  } else if (inType >> 24 == 'T') {
 		  
-		  // Tnnn: a text string with fixed padding that is nnn hex bytes long 
+		  // Tnnn: a text string with fixed padding that is $nnn hex bytes long 
 		  theWasteEdit = dynamic_cast<CWasteEditView *>(this->FindPaneByID(mCurrentID));
 		  theHandle = theWasteEdit->GetTextHandle();
 		  theLength = theWasteEdit->GetTextLength();
-		  reqLength = (inType << 8 & 0xffffff00) - 1;
+		  UMiscUtils::HexNumStringToDecimal(&inType, &reqLength);
 
+		  // Truncate if we have more.
+		  if (theLength > reqLength) {
+			  theLength = reqLength;
+		  } 
+		  		  
+		  locker.Adopt(theHandle);
+		  mOutStream->PutBytes(*theHandle, reqLength);		
 		  if (theLength < reqLength) {
-			  UMessageDialogs::AlertForValue(CFSTR("StringShorterThanRequired"), reqLength);
-		  } else {
-			  locker.Adopt(theHandle);
-			  mOutStream->PutBytes(*theHandle, reqLength);		
-			  // End with a NULL byte
-			  *mOutStream << (UInt8) 0x00;
-		  }
+			  // Padd with null bytes
+			  for (i = 0; i < reqLength - theLength; i++) {
+				  *mOutStream << (UInt8) 0x00;
+			  }
+		  } 
 		  mCurrentID++;
 
 	  } else if ( inType >> 16 == 'P0') {
 		  
-		  // P0nn: a Pascal string that is nn hex bytes long (The length byte is not included in nn, 
-		  // so the string occupies the entire specified length.)
+		  // P0nn: a Pascal string that is $nn hex bytes long. The length byte 
+		  // is included in $nn, so the string itself occupies $nn-1 bytes.
 		  theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
 		  theEditText->GetDescriptor(theString);	
 		  theLength = theString[0];
-		  reqLength = inType << 16 & 0xffff0000;
+		  UMiscUtils::HexNumStringToDecimal(&inType, &reqLength);
 
-		  if (theLength < reqLength) {
-			  UMessageDialogs::AlertForValue(CFSTR("StringShorterThanRequired"), reqLength);
-		  } else {
-			  theString[0] = reqLength;
-			  *mOutStream << theString;
+		  if (theLength >= reqLength) {
+			  // Don't error. Just truncate it.
+			  theString[0] = reqLength - 1;
 		  }
+		  *mOutStream << theString;
+		  if (theLength < reqLength) {
+			  // Padd with null bytes
+			  for (i = 0; i < reqLength - theLength - 1; i++) {
+				  *mOutStream << (UInt8) 0x00;
+			  }
+		  } 
+			  
 		  mCurrentID++;
 
 	  } else if ( IsValidBitField(inType, typeStr, bitCount, bytesLen) ) {
