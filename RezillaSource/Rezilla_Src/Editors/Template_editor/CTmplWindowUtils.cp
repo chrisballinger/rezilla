@@ -438,7 +438,7 @@ CTmplEditorWindow::KeyValueToString(ResType inType, Str255 keyString)
 //	¥ FindKeyStartForValue											[private]
 // ---------------------------------------------------------------------------
 // The marker is positionned after the last CASE statement. Scan the 
-// keyed sections until the corrsponding key is found.
+// keyed sections until the corresponding key is found.
 
 OSErr
 CTmplEditorWindow::FindKeyStartForValue(Str255 keyString, SInt32 * outStart)
@@ -568,9 +568,9 @@ CTmplEditorWindow::SkipNextKeyCases()
 		currMark = mTemplateStream->GetMarker();
 	}
 
-	if (!found) {
-		error = err_TmplCantFindKeyedSectionStart;
-	} 
+// 	if (!found) {
+// 		error = err_TmplCantFindKeyedSectionStart;
+// 	} 
 	
 	return error;
 }
