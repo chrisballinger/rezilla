@@ -2,7 +2,7 @@
 // CTextFileStream.cp					
 // 
 //                       Created : 2002-06-09 19:38:34
-//             Last modification : 2004-03-23 09:05:40
+//             Last modification : 2004-03-23 15:48:18
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -258,7 +258,8 @@ CTextFileStream::WriteBooleanWithTag(
 SInt32
 CTextFileStream::WriteByChunks(
 		const char *inString, 
-		Str255	inSeparator, 
+		Str255	inPrefix, 
+		Str255	inSuffix, 
 		SInt32	inLen,
 		SInt32	inChunkSize)
 {
@@ -267,13 +268,15 @@ CTextFileStream::WriteByChunks(
 	SInt32	chunksCount = inLen / inChunkSize;
 	
 	for (SInt32 i = 0; i < chunksCount; i++) {
-		bytesToWrite += WritePString(inSeparator);
+		bytesToWrite += WritePString(inPrefix);
 		WriteBlock(inString + bytesOffset, inChunkSize);
+		bytesToWrite += WritePString(inSuffix);
 		bytesOffset += inChunkSize;
 	}
 	if (bytesOffset < inLen) {
-		bytesToWrite += WritePString(inSeparator);
+		bytesToWrite += WritePString(inPrefix);
 		WriteBlock(inString + bytesOffset, inLen - bytesOffset);
+		bytesToWrite += WritePString(inSuffix);
 	} 
 
 	return bytesToWrite;

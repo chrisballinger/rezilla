@@ -52,7 +52,8 @@ enum
 {	
 	export_Xml = 0,
 	export_Text,
-	export_Html
+	export_Html,
+	export_Derez
 } ;
 
 // Rez comparison results

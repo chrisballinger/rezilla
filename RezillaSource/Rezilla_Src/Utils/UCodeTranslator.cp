@@ -408,28 +408,62 @@ UCodeTranslator::ConvertBase64ToByte(LDataStream* srcDataStream, LDataStream* tr
 {
 	UInt8 * buffer = new UInt8[4];
 	SInt32 length = srcDataStream->GetLength();
-	SInt32 quadrupleCount = length / 3;
-	UInt8 theChar;
+	SInt32 quadrupleCount = length / 4;
+	UInt8 readChar, outChar;
+	SInt32 trgtLen;
 	
-	for (UInt32 i = 1; i <= quadrupleCount; i++) {
-		*srcDataStream >> buffer[0];
-		*srcDataStream >> buffer[1];
-		*srcDataStream >> buffer[2];
-		*srcDataStream >> buffer[3];
+	// Handle chunks of 4 chars up to the next to last.
+	for (UInt32 i = 1; i < quadrupleCount; i++) {
+		*srcDataStream >> readChar;
+		buffer[0] = ConvertToNumber(readChar);
+		*srcDataStream >> readChar;
+		buffer[1] = ConvertToNumber(readChar);
+		*srcDataStream >> readChar;
+		buffer[2] = ConvertToNumber(readChar);
+		*srcDataStream >> readChar;
+		buffer[3] = ConvertToNumber(readChar);
 		
-// 		theChar = (buffer[0] & 0xfc) >> 2;
-// 		*trgtDataStream << lxvi[theChar];
-// 		
-// 		theChar = ((buffer[0] & 0x03) << 4) | (buffer[1] >> 4);
-// 		*trgtDataStream << lxvi[theChar];
-// 		
-// 		theChar = ((buffer[1] & 0x0f) << 2) | (buffer[2] >> 6);
-// 		*trgtDataStream << lxvi[theChar];
-// 		
-// 		theChar=buffer[2] & 0x3f;
-// 		*trgtDataStream << lxvi[theChar];
+		outChar = (buffer[0] << 2) | (buffer[1] >> 4);
+		*trgtDataStream << outChar;
+		
+		outChar = (buffer[1] << 4) | (buffer[2] >> 2);
+		*trgtDataStream << outChar;
+		
+		outChar = (buffer[2] << 6) | buffer[3];
+		*trgtDataStream << outChar;
 	}
-	// Excedentary chars are ignored
+	// Handle the last chunk: it can be of the form xxxx, xxx= or xx==.
+	*srcDataStream >> readChar;
+	buffer[0] = ConvertToNumber(readChar);
+	*srcDataStream >> readChar;
+	buffer[1] = ConvertToNumber(readChar);
+	
+	outChar = (buffer[0] << 2) | (buffer[1] >> 4);
+	*trgtDataStream << outChar;
+	
+	*srcDataStream >> readChar;
+	if (readChar != '=') {
+		buffer[2] = ConvertToNumber(readChar);
+		outChar = (buffer[1] << 4) | (buffer[2] >> 2);
+		*trgtDataStream << outChar;
+	} else {
+		// Adjust the length of the target stream
+		trgtLen = (*trgtDataStream).GetLength();
+		(*trgtDataStream).SetLength(trgtLen - 2);
+		return;
+	}
+	
+	*srcDataStream >> readChar;
+	if (readChar != '=') {
+		buffer[3] = ConvertToNumber(readChar);
+		outChar = (buffer[2] << 6) | buffer[3];
+		*trgtDataStream << outChar;
+	} else {
+		// Adjust the length of the target stream
+		trgtLen = (*trgtDataStream).GetLength();
+		(*trgtDataStream).SetLength(trgtLen - 1);
+		return;
+	}
 }
 
 

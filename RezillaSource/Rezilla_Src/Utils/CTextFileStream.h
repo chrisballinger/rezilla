@@ -82,7 +82,8 @@ public:
 	SInt32			WriteBooleanWithTag( Boolean inBool, const char *inTag);
 
 	SInt32			WriteByChunks(const char *inString, 
-								Str255	inSeparator, 
+								Str255	inPrefix, 
+								Str255	inSuffix, 
 								SInt32	inLen,
 								SInt32	inChunkSize);
 

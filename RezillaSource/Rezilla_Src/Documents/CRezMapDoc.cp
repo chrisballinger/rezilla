@@ -2,11 +2,11 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2004-03-16 11:49:52
+//             Last modification: 2004-03-23 15:48:29
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003, 2004
+// (c) Copyright : Bernard Desgraupes, 2003-2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -73,7 +73,8 @@ extern CWindowMenu * gWindowMenu;
 extern const Str255 Rzil_NavExportItems[] = {
 	"\pXML",
 	"\pTEXT",
-	"\pHTML"
+	"\pHTML",
+	"\pDeRez"
 };
 
 
@@ -889,9 +890,9 @@ CRezMapDoc::DesignateExportFile( FSSpec& outFileSpec, bool & outReplacing)
 	NavMenuItemSpecHandle	theMenuItemHandle ;
 	NavMenuItemSpecPtr		theNavMenuItemSpecPtr;
 	
-	theMenuItemHandle = (NavMenuItemSpec**) NewHandleClear( 3 * sizeof(NavMenuItemSpec) );
+	theMenuItemHandle = (NavMenuItemSpec**) NewHandleClear( 4 * sizeof(NavMenuItemSpec) );
 	if (theMenuItemHandle != NULL) {
-		for (SInt16 theIndex = 0; theIndex < 3; theIndex++) {
+		for (SInt16 theIndex = 0; theIndex < 4; theIndex++) {
 			theNavMenuItemSpecPtr = *theMenuItemHandle + theIndex;
 			(*theNavMenuItemSpecPtr).version = kNavMenuItemSpecVersion;
 			(*theNavMenuItemSpecPtr).menuCreator = FOUR_CHAR_CODE('Rzil');
@@ -1001,6 +1002,10 @@ CRezMapDoc::WriteOutExport(SInt16 inExportFormat)
 		
 		case export_Html:
 		exporter.WriteOutHtml(mRezMap);
+		break;
+
+		case export_Derez:
+		exporter.WriteOutDerez(mRezMap);
 		break;
 	}
 	
