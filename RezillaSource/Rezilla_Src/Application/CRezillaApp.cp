@@ -104,7 +104,7 @@ TArray<CRezMapDoc *>	CRezillaApp::sRezMapDocList;
 SInt16					CRezillaApp::sDefaultCreatingFork;
 
 // ===========================================================================
-//  ¨Ä Main Program
+//  * Main Program
 // ===========================================================================
 
 int main()
@@ -136,7 +136,7 @@ int main()
 
 
 // ---------------------------------------------------------------------------
-//  ¨Ä CRezillaApp
+//  * CRezillaApp
 // ---------------------------------------------------------------------------
 //	Constructor
 
@@ -152,7 +152,7 @@ CRezillaApp::CRezillaApp()
 
 
 // ---------------------------------------------------------------------------
-//  ¨Ä ~CRezillaApp
+//  * ~CRezillaApp
 // ---------------------------------------------------------------------------
 //	Destructor
 //
@@ -164,7 +164,7 @@ CRezillaApp::~CRezillaApp()
 
 
 // ---------------------------------------------------------------------------
-//	¨Ä Initialize						[protected]
+//	* Initialize						[protected]
 // ---------------------------------------------------------------------------
 //	Last chance to initialize the application before processing events
 
@@ -233,7 +233,7 @@ CRezillaApp::Initialize()
 
 
 // ---------------------------------------------------------------------------
-//	¨Ä RegisterClasses								[protected]
+//	* RegisterClasses								[protected]
 // ---------------------------------------------------------------------------
 //	To reduce clutter within the Application object's constructor, class
 //	registrations appear here in this seperate function for ease of use.
@@ -285,7 +285,7 @@ CRezillaApp::RegisterClasses()
 
 
 // ---------------------------------------------------------------------------
-//  ¨Ä StartUp
+//  * StartUp
 // ---------------------------------------------------------------------------
 
 void
@@ -296,7 +296,7 @@ CRezillaApp::StartUp()
 
 
 // ---------------------------------------------------------------------------
-//  ¨Ä ObeyCommand
+//  * ObeyCommand
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -368,7 +368,7 @@ CRezillaApp::ObeyCommand(
 
 
 // ---------------------------------------------------------------------------
-//  ¨Ä FindCommandStatus
+//  * FindCommandStatus
 // ---------------------------------------------------------------------------
 
 void
@@ -409,7 +409,7 @@ CRezillaApp::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------
-//  ¨Ä ListenToMessage												[public]
+//  * ListenToMessage												[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -438,7 +438,7 @@ CRezillaApp::ListenToMessage( MessageT inMessage, void *ioParam )
 
 
 // ---------------------------------------------------------------------------
-//	¨Ä MakeAboutBox													  [public]
+//	* MakeAboutBox													  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -457,7 +457,7 @@ CRezillaApp::MakeAboutWindow()
 
 
 // ---------------------------------------------------------------------------
-//	¨Ä ShowAboutBox													  [public]
+//	* ShowAboutBox													  [public]
 // ---------------------------------------------------------------------------
 //	Display the About Box for the Application
 
@@ -470,7 +470,7 @@ CRezillaApp::ShowAboutBox()
 
 
 // ---------------------------------------------------------------------------
-//	¨Ä InstallWindowMenu								[protected]
+//	* InstallWindowMenu								[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -515,7 +515,7 @@ CRezillaApp::InstallWindowMenu()
 
 
 // ---------------------------------------------------------------------------
-//	¨Ä RegisterHelpBook											[private]
+//	* RegisterHelpBook											[private]
 // ---------------------------------------------------------------------------
 // Under Carbon and OSX, register a Help folder
 // 
@@ -551,7 +551,7 @@ bail:
 
 
 // ---------------------------------------------------------------------------
-//	¨Ä VersionFromResource										  [public]
+//	* VersionFromResource										  [public]
 // ---------------------------------------------------------------------------
 // Retrieve the version number from the 'vers' resources.
 
@@ -559,7 +559,7 @@ LStr255
 CRezillaApp::VersionFromResource()
 {
 	UInt32 theVersion;
-	UInt8	ver1,ver2,ver3;
+	UInt8	ver1, ver2, ver3, ver4, ver5;
 	Str255	tempString;
 	LStr255	theString( "\p" );
 	
@@ -571,24 +571,46 @@ CRezillaApp::VersionFromResource()
 		ver1 = (((ver1 & 0xF0 ) >> 4) * 10) + (ver1 & 0x0F);
 		ver2 = (((UInt8 *)&theVersion)[1] & 0xF0) >> 4;
 		ver3 = (((UInt8 *)&theVersion)[1] & 0x0F);
+		ver4 = ((UInt8 *)&theVersion)[2];
+		ver5 = ((UInt8 *)&theVersion)[3];
 		::NumToString((long) ver1, tempString);
 		theString += tempString ;
 		::NumToString((long) ver2, tempString);
 		theString += "\p." ;
 		theString += tempString ;
-		if ( ver3 ) {
+		if (ver3) {
 			::NumToString((long) ver3, tempString);
 			theString += "\p." ;
+			theString += tempString ;
+		}
+		switch (ver4) {
+		  case 0x20:
+			theString += "\pd" ;
+			break;
+			
+		  case 0x40:
+		  theString += "\pa" ;
+			break;
+			
+		  case 0x60:
+		  theString += "\pb" ;
+			break;
+			
+		  default:
+			break;
+		}
+		if (ver5) {
+			::NumToString((long) ver5, tempString);
 			theString += tempString ;
 		}
 	}
 	return  theString;
 }
 // 01014000000007312e302e3161312752657a696c6c6120312e302e31613120a9203230303420627920422e2044657367726175706573
-// à¯à¯@à¯à¯à¯à¯1.0.1a1'Rezilla.1.0.1a1.àè.2004.by.B..Desgraupes
+// ˇˇ@ˇˇˇˇ1.0.1a1'Rezilla.1.0.1a1.ˆ.2004.by.B..Desgraupes
 
 // ---------------------------------------------------------------------------
-//	¨Ä ChooseAFile								[public static]
+//	* ChooseAFile								[public static]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -630,7 +652,7 @@ CRezillaApp::ChooseAFile(FSSpec & outFileSpec)
 
 
 // ---------------------------------------------------------------------------
-//	¨Ä ChooseAFile								[public static]
+//	* ChooseAFile								[public static]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -655,7 +677,7 @@ CRezillaApp::ChooseAFile(const LFileTypeList & inFileTypes, FSSpec & fileSpec)
 
 
 // ---------------------------------------------------------------------------
-//	¨Ä OpenFork								[public static]
+//	* OpenFork								[public static]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -681,7 +703,7 @@ CRezillaApp::OpenFork(FSSpec & inFileSpec)
 
 
 // ---------------------------------------------------------------------------
-//	¨Ä PreOpen								[public static]
+//	* PreOpen								[public static]
 // ---------------------------------------------------------------------------
 // 	theRefNum = OpenOrCreateResFile(WinFSSpecPtr(inWinP), fsRdWrPerm, &theErr);
 // 	if (kInvalidFileRefNum_ == theRefNum)
@@ -768,7 +790,7 @@ done:
 
 
 // ---------------------------------------------------------------------------
-//	¨Ä ReportOpenForkError								[public static]
+//	* ReportOpenForkError								[public static]
 // ---------------------------------------------------------------------------
 // 		Str255	theTitle;
 // 		char * theCStr = new char[255];
@@ -834,7 +856,7 @@ CRezillaApp::ReportOpenForkError(OSErr inError, FSSpec * inFileSpecPtr)
 
 
 // ---------------------------------------------------------------------------
-//	¨Ä DesignateNewMap								[public static]
+//	* DesignateNewMap								[public static]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -880,7 +902,7 @@ CRezillaApp::DesignateNewMap( FSSpec& outFileSpec, bool & outReplacing)
 
 
 // ---------------------------------------------------------------------------
-//	¨Ä FetchRezMapDoc												  [static]
+//	* FetchRezMapDoc												  [static]
 // ---------------------------------------------------------------------------
 //	Returns nil if no RezMapDoc exists corresponding to the given FSSpec
 
@@ -909,7 +931,7 @@ CRezillaApp::FetchRezMapDoc(FSSpec * inFileSpecPtr)
 
 
 // ---------------------------------------------------------------------------
-//	¨Ä HandleAppleEvent												  [public]
+//	* HandleAppleEvent												  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -928,6 +950,14 @@ CRezillaApp::HandleAppleEvent(
 		HandleOpenDocsEvent(inAppleEvent, outAEReply, outResult);
 		break;
 		
+		case ae_Version: 
+		char * theVers = new char[256];
+		CopyPascalStringToC( sVersionNumber, theVers);
+		Size  dataSize = strlen(theVers);
+		ignoreErr = ::AEPutParamPtr(&outAEReply, keyAEResult, typeChar, theVers, dataSize);
+		FailOSErr_(ignoreErr);
+		break;
+		
 		case ae_ApplicationDied:
 		break;
 		
@@ -939,7 +969,7 @@ CRezillaApp::HandleAppleEvent(
 
 
 // ---------------------------------------------------------------------------
-//	¨Ä HandleAppleEvent												  [public]
+//	* HandleAppleEvent												  [public]
 // ---------------------------------------------------------------------------
 
 void
