@@ -58,12 +58,15 @@ public:
 	CRezObj *		GetRezObj() { return mRezObj; }
 	
 	CRezMapTable*	GetRezMapTable() { return mRezMapTable;}
-	
-	Boolean			IsReadOnly() { return mReadOnly;}
-	void			SetReadOnly(Boolean inReadOnlyDoc) {mReadOnly = inReadOnlyDoc;}
 
+	ResType			GetSubstType() { return mSubstType;}
+	void			SetSubstType(ResType inSubstType) {mSubstType = inSubstType;}
+	
 	SInt16			GetKind() { return mKind;}
 	void			SetKind(SInt16 inKind) {mKind = inKind;}
+
+	Boolean			IsReadOnly() { return mReadOnly;}
+	void			SetReadOnly(Boolean inReadOnlyDoc) {mReadOnly = inReadOnlyDoc;}
 
 	LWindow*		GetMainWindow() { return mMainWindow;}
 	void			SetMainWindow(LWindow* inMainWindow) {mMainWindow = inMainWindow;}

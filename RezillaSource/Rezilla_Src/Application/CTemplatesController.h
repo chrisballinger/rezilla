@@ -47,8 +47,8 @@ public:
 
 		static FSRef		GetTemplateFileRef() { return sTemplateFile;}
 
-		static TArray<OSType>	sTemplateTypes;
-		static CRezMap *		sInternalTemplates;
+		static TArray<OSType>	sInternalTemplates;
+		static CRezMap *		sTemplatesMap;
 		static CFDictionaryRef	sExternalTemplates;
 		static CFDictionaryRef	sPreferedTemplates;
 		static SInt16			sTemplateKind;

@@ -130,12 +130,12 @@ CEditorsController::FindSubstitutionType(ResType inType, ResType * outType)
 				result = CFDictionaryGetValueIfPresent( (CFDictionaryRef) sAsTypeDictionary, 
 													   inTypeRef, (const void**) &outTypeRef);
 				
-				if (result == noErr) {
+				if (result) {
 					result = CFStringGetPascalString(outTypeRef, theString, 
 													 sizeof(theString), kCFStringEncodingMacRoman);
 					CFRelease(outTypeRef);
 					
-					if (result == noErr) {
+					if (result) {
 						UMiscUtils::PStringToOSType(theString, *outType);	
 					} 
 				}

@@ -768,7 +768,7 @@ CTmplEditorWindow::IsDirty()
 void
 CTmplEditorWindow::CreateTemplateStream()
 {
-	Handle theHandle = CTemplatesController::GetTemplateHandle( mOwnerDoc->GetRezObj()->GetType() );
+	Handle theHandle = CTemplatesController::GetTemplateHandle( mOwnerDoc->GetSubstType() );
 	mTemplateStream = new LHandleStream(theHandle);	
 }
  

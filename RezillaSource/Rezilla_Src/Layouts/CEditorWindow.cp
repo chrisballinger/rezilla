@@ -2,7 +2,7 @@
 // CEditorWindow.cp
 // 
 //                       Created: 2004-06-10 14:50:31
-//             Last modification: 2004-07-01 18:12:41
+//             Last modification: 2004-08-10 12:20:06
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -126,9 +126,11 @@ CEditorWindow::FindCommandStatus(
 		break;		
 		
 		default:
-		mOwnerDoc->FindCommandStatus(inCommand, outEnabled,
-									outUsesMark, outMark, outName);
-			break;
+		if (mOwnerDoc) {
+			mOwnerDoc->FindCommandStatus(inCommand, outEnabled,
+												outUsesMark, outMark, outName);
+		} 
+		break;
 	}
 }
 

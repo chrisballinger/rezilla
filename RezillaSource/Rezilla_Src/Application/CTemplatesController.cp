@@ -2,7 +2,7 @@
 // CTemplatesController.cp					
 // 
 //                       Created: 2004-08-06 12:57:55
-//             Last modification: 2004-08-09 10:41:47
+//             Last modification: 2004-08-10 21:57:55
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -35,8 +35,8 @@
 #include <string.h>
 
 
-TArray<OSType>		CTemplatesController::sTemplateTypes;
-CRezMap *			CTemplatesController::sInternalTemplates = nil;
+TArray<OSType>		CTemplatesController::sInternalTemplates;
+CRezMap *			CTemplatesController::sTemplatesMap = nil;
 SInt16				CTemplatesController::sTemplateKind = tmpl_none;
 CFDictionaryRef		CTemplatesController::sExternalTemplates;
 CFDictionaryRef		CTemplatesController::sPreferedTemplates;
@@ -106,20 +106,20 @@ CTemplatesController::RegisterInternalTemplates()
 			return error;
 		}
 		if (error == noErr) {
-			sInternalTemplates = new CRezMap(tmplRefNum);
+			sTemplatesMap = new CRezMap(tmplRefNum);
 		}
 		CFRelease(templatesURL);
 	}
 	
 	// Build the list of types (names of the TMPL resources)
-	CRezType * theRezType = new CRezType('TMPL', sInternalTemplates);
+	CRezType * theRezType = new CRezType('TMPL', sTemplatesMap);
 	error = theRezType->CountResources(numResources);
 	if (error == noErr) {
 		for ( UInt16 i = 1; i <= numResources; i++ ) {
 			error = theRezType->GetNameAtIndex(i, theName);
 			if (error == noErr) {
 				UMiscUtils::PStringToOSType(theName, theType);
-				sTemplateTypes.AddItem(theType);
+				sInternalTemplates.AddItem(theType);
 			}
 		}
 	} 
@@ -185,8 +185,7 @@ CTemplatesController::BuildExternalTemplatesDictionary()
 					
 					if (error == noErr) {
 						// Iterate inside the folder to get all the file refs and inspect the
-						// resources. Look for resource files only at the first
-						// level. No subfolders.
+						// resources. Look for resource files only at the first level. No subfolders.
 						ItemCount		actualObjects;
 						FSCatalogInfo	catalogInfo;
 						FSIterator		iterator;
@@ -273,9 +272,9 @@ CTemplatesController::AddTemplatesToDictionary(FSRef * inFileRef, CFMutableDicti
 						
 						// Add to the dictionary
 						CFDictionaryAddValue(inDict, theKey, theArray);
-						CFRelease(theArray);
+// 						CFRelease(theArray);
 					} 
-					CFRelease(theKey);
+// 					CFRelease(theKey);
 				} 
 			} 
 			delete rezMap;
@@ -298,7 +297,7 @@ CTemplatesController::HasTemplateForType(ResType inType, ResType * substType)
 	sTemplateKind = tmpl_none;
 	
 	// First look fo an internal TMPL resource
-	hasTMPL = sTemplateTypes.ContainsItem(inType);
+	hasTMPL = sInternalTemplates.ContainsItem(inType);
 	if (hasTMPL == true) {
 		sTemplateKind = tmpl_internal;
 	} else {
@@ -332,8 +331,8 @@ CTemplatesController::HasExternalTemplateForType(ResType inType, FSRef * outFile
 		CFArrayRef			theArrayRef;
 		CFStringRef			typeRef;
 		CFDataRef			theFileRef;
-		CFStringRef *		theKeys;
-		CFStringRef *		theVals;
+		CFTypeRef *			theKeys;
+		CFTypeRef *			theVals;
 		Str255				theName;
 		int					i;
 		
@@ -341,10 +340,11 @@ CTemplatesController::HasExternalTemplateForType(ResType inType, FSRef * outFile
 		typeRef = CFStringCreateWithPascalString(NULL, theName, kCFStringEncodingMacRoman);
 		
 		if (typeRef) {
+			CFIndex retcount = CFGetRetainCount(sExternalTemplates);
 			dictCount = CFDictionaryGetCount(sExternalTemplates);
 			// Allocate memory to store the keys and values
-			theKeys = (CFStringRef*) NewPtrClear(sizeof(CFStringRef*) * dictCount);
-			theVals = (CFStringRef*) NewPtrClear(sizeof(CFStringRef*) * dictCount);
+			theKeys = (CFTypeRef*) NewPtrClear(sizeof(CFTypeRef) * dictCount);
+			theVals = (CFTypeRef*) NewPtrClear(sizeof(CFTypeRef) * dictCount);
 			
 			if ((theKeys != NULL) && (theVals != NULL)) {
 				// Fill the keys and values from this dictionary
@@ -353,6 +353,12 @@ CTemplatesController::HasExternalTemplateForType(ResType inType, FSRef * outFile
 				for (i = 0; i < dictCount; i++) {
 					if (theKeys[i] && theVals[i] ) {
 						theArrayRef = (CFArrayRef) theVals[i];
+						CFIndex retcount = CFGetRetainCount(theArrayRef);
+						CFTypeID thetypeid = CFGetTypeID(theArrayRef);
+						thetypeid = CFArrayGetTypeID();
+						
+						CFIndex countidx = CFArrayGetCount(theArrayRef);
+
 						
 						hasTMPL = CFArrayContainsValue(theArrayRef, CFRangeMake(0, CFArrayGetCount(theArrayRef)), typeRef);
 						if (hasTMPL) {
@@ -387,7 +393,7 @@ CTemplatesController::GetTemplateHandle(ResType inType)
 	
 	switch (sTemplateKind) {
 		case tmpl_internal:
-		CRezType *	theRezType = new CRezType('TMPL', sInternalTemplates);
+		CRezType *	theRezType = new CRezType('TMPL', sTemplatesMap);
 		
 		UMiscUtils::OSTypeToPString(inType, typeName);
 		theRezType->GetWithName(typeName, theHandle);
