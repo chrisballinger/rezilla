@@ -45,6 +45,7 @@ CSnd_EditorDoc::CSnd_EditorDoc(LCommander* inSuper,
  	: CEditorDoc(inSuper, inSuperMap, inRezObj, inSubstType, inReadOnly)
 {
 	Initialize();
+	Close();
 }
 
 
