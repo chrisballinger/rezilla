@@ -79,9 +79,9 @@ CRezObj::CRezObj(CRezType * inRezType, short inID)
 // ---------------------------------------------------------------------------
 //  ¥ CRezObj														[public]
 // ---------------------------------------------------------------------------
-// Call this constructor if type, ID and name are known. It also concerns
-// resources which do not already exist in the resource map: in that case, 
-// an empty handle is associated. 
+// Call this constructor if type, ID and name are known (name can be
+// empty). It also concerns resources which do not already exist in the
+// resource map: in that case, an empty handle is associated.
 
 CRezObj::CRezObj(CRezType * inRezType,
 				short inID, 
