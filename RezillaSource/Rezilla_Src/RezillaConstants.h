@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2003-05-15 13:48:27
+//             Last modification : 2003-10-03 16:32:43
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -103,8 +103,14 @@ const ResIDT	STRx_DefaultDocTitles		= 1500;
 const ResIDT	STRx_RzilWinMenuItem		= 1510;
 
 // Menu resources
-const ResIDT	rMENU_Window				= 1300;
-const ResIDT	rMENU_Resource				= 200;
+const ResIDT	rMENU_File					= 1000;
+const ResIDT	rMENU_Edit					= 1100;
+const ResIDT	rMENU_Resource				= 1200;
+	// rMENU_Window is not a resource. It is built  
+	// in CRezillaApp::InstallWindowMenu()
+const ResIDT	rMENU_Window				= 1300;  
+const ResIDT	rMENU_Export				= 1400;
+const ResIDT	rMENU_Help					= 2000;
 
 // Icon resources
 const ResIDT	ICN_WindowMenu				= 3100;
@@ -149,10 +155,15 @@ const MessageT	cmd_EditRez				= rMENU_Resource + 2;
 const MessageT	cmd_GetRezInfo			= rMENU_Resource + 3;
 const MessageT	cmd_RemoveRez			= rMENU_Resource + 4;	
 const MessageT	cmd_DuplicateRez		= rMENU_Resource + 5;	
+// File menu items
+const MessageT	cmd_ExportAsText		= rMENU_File + 1;	
+const MessageT	cmd_ExportAsXML			= rMENU_File + 2;	
 // Edit menu items
-const MessageT	cmd_Find				= 1001;	
-const MessageT	cmd_FindNext			= 1002;	
-
+const MessageT	cmd_Find				= rMENU_Edit + 1;	
+const MessageT	cmd_FindNext			= rMENU_Edit + 2;	
+// Export submenu items
+const MessageT	cmd_ExportAsText		= rMENU_Export + 1;	
+const MessageT	cmd_ExportAsXML			= rMENU_Export + 2;	
 
 // Control ID's
 // ============
