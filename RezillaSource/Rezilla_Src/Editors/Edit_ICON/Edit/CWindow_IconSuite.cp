@@ -231,16 +231,22 @@ CWindow_IconSuite::SetNthBitmap( SInt32 inBitmapIndex )
 {
 	SICN icon;
 
-	if ( mBitmapsArray.FetchItemAt(inBitmapIndex, icon) ) {
+	if (inBitmapIndex == 0) {
+		// This happens when all the elements of the suite have been
+		// removed using the Minus button. In that case, we should erase
+		// the contents of the canvas.
+		ObeyCommand(cmd_SelectAll, nil);
+		ObeyCommand(cmd_Clear, nil);
+	} else if ( mBitmapsArray.FetchItemAt(inBitmapIndex, icon) ) {
 		COffscreen * bwImage = IconToOffscreen(&icon);
 		this->SetImage( bwImage, resize_All, redraw_Later );
 		mCurrentSamplePane = mSample;	
 		mSample->SetTarget( true, redraw_Dont );
-	
+		
 		mSample->SetBuffer( bwImage, redraw_Now );
 		// It belongs to the sample pane now
 		bwImage = nil;	
-
+		
 		mCurrentIndex = inBitmapIndex;
 	}
 }

@@ -198,7 +198,13 @@ CWindow_PatternSuite::SetNthBitmap( SInt32 inBitmapIndex )
 {
 	Pattern pat;
 
-	if ( mPatternsArray.FetchItemAt(inBitmapIndex, pat) ) {
+	if (inBitmapIndex == 0) {
+		// This happens when all the elements of the suite have been
+		// removed using the Minus button. In that case, we should erase
+		// the contents of the canvas.
+		ObeyCommand(cmd_SelectAll, nil);
+		ObeyCommand(cmd_Clear, nil);
+	} else if ( mPatternsArray.FetchItemAt(inBitmapIndex, pat) ) {
 		COffscreen * bwImage = CWindow_Pattern::BWPatternToOffscreen(pat);
 		this->SetImage( bwImage, resize_None, redraw_Later );
 		mCurrentSamplePane = mSample;	
