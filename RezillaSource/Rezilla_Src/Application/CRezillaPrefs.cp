@@ -1074,11 +1074,11 @@ CRezillaPrefs::RunPrefsDialog()
 			// -------------------------------		
 			
 			// EditPrefsDispFillers
-			theCheckBox = dynamic_cast<LCheckBox *>(theComparePane->FindPaneByID( item_EditPrefsDispFillers ));
+			theCheckBox = dynamic_cast<LCheckBox *>(theEditorPane->FindPaneByID( item_EditPrefsDispFillers ));
 			SetPrefValue( theCheckBox->GetValue(), kPref_editors_dispFillers, prefsType_Temp);
 			
 			// EditPrefsEnableFillers
-			theCheckBox = dynamic_cast<LCheckBox *>(theComparePane->FindPaneByID( item_EditPrefsEnableFillers ));
+			theCheckBox = dynamic_cast<LCheckBox *>(theEditorPane->FindPaneByID( item_EditPrefsEnableFillers ));
 			SetPrefValue( theCheckBox->GetValue(), kPref_editors_enableFillers, prefsType_Temp);
 			
 			// CompPrefsIgnName
