@@ -437,7 +437,6 @@ const MessageT	msg_NewCompressed		= rPPob_NewRezDialog + item_NewCompressed;
 const MessageT	msg_NewUniqueID			= rPPob_NewRezDialog + item_NewUniqueID;
 // Hex Edit Window
 // ---------------
-const MessageT	msg_HexScroller			= rPPob_HexEditorWindow + item_HexScroller;
 const MessageT	msg_HexLineEdit			= rPPob_HexEditorWindow + item_HexLineEdit;
 const MessageT	msg_HexOffsetEdit		= rPPob_HexEditorWindow + item_HexOffsetEdit;
 // About box
@@ -515,7 +514,8 @@ const MessageT	msg_TextEditStyleMenu	= rPPob_TextEditorWindow + item_TextEditSty
 
 const MessageT	msg_Close					= 	FOUR_CHAR_CODE('Clos');
 const MessageT	msg_StylePrefsChanged		= 	FOUR_CHAR_CODE('StPC');
-
+const MessageT	msg_HexScroller				=	FOUR_CHAR_CODE('HScr');
+const MessageT	msg_DualViewEdited			= 	FOUR_CHAR_CODE('DuEd');
 
 // AE constants
 // ============
@@ -616,4 +616,8 @@ const SInt16	kTmplRectVertSkip		= 22;
 const SInt16	kTmplTextHeight			= 200;
 const SInt16	kTmplTextMargin			= 20;
 const SInt16	kTmplTextInset			= 4;
+const SInt16	kTmplScrollWidth		= 15;
+const SInt16	kTmplHexPaneWidth		= 288;
+const SInt16	kTmplTxtPaneWidth		= 144;
+const SInt16	kTmplTxtPaneLeft		= 294;
 
