@@ -159,7 +159,8 @@ CRezillaApp::CRezillaApp()
 
 CRezillaApp::~CRezillaApp()
 {
-	delete CRezClipboard::GetScrapRezFile();
+	// CRezClipboard is deleted with all the attachments
+// 	delete CRezClipboard::GetScrapRezFile();
 }
 
 
