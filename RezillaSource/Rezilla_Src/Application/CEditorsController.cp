@@ -2,11 +2,11 @@
 // CEditorsController.cp					
 // 
 //                       Created: 2004-06-11 10:48:38
-//             Last modification: 2004-12-12 07:16:59
+//             Last modification: 2005-01-09 20:20:20
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004
+// (c) Copyright : Bernard Desgraupes, 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -171,6 +171,7 @@ CEditorsController::HasEditorForType(ResType inType, ResType * substType)
 		case 'ICN#':
 		case 'ICON':
 		case 'PAT ':
+		case 'PAT#':
 		case 'cicn':
 		case 'crsr':
 		case 'icl4':
@@ -234,6 +235,7 @@ CEditorsController::InvokeCustomEditor(CRezMapDoc* inRezMapDoc,
 		case 'ICN#':
 		case 'ICON':
 		case 'PAT ':
+		case 'PAT#':
 		case 'cicn':
 		case 'crsr':
 		case 'icl4':
