@@ -1,7 +1,7 @@
 // ===========================================================================
 // CPatternPane.cp
 //                       Created: 2004-12-11 18:53:08
-//             Last modification: 2004-12-14 14:59:27
+//             Last modification: 2004-12-15 13:11:38
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -14,9 +14,8 @@
 #include "UIconMisc.h"
 #include "CPatternPane.h"
 #include "CPatternPopup.h"
-#include "UFileUtils.h"
 #include "UPopupDrawing.h"
-#include "CColorUtils.h"
+#include "UColorUtils.h"
 
 
 // ============================================================
@@ -158,8 +157,8 @@ void CPatternPane::SetPatternList( SPatternListH inHandle, ERedrawOptions inRedr
 
 void CPatternPane::SetColors( Color32 inFore, Color32 inBack, ERedrawOptions inRedraw )
 {
-	mForeColor = CColorUtils::Color32ToRGB( inFore );
-	mBackColor = CColorUtils::Color32ToRGB( inBack );
+	mForeColor = UColorUtils::Color32ToRGB( inFore );
+	mBackColor = UColorUtils::Color32ToRGB( inBack );
 	UIconMisc::RedrawPaneAsIndicated( this, inRedraw );
 }
 

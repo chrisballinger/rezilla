@@ -13,7 +13,7 @@
 
 #include "CColorPane.h"
 #include "CColorPopup.h"
-#include "CColorUtils.h"
+#include "UColorUtils.h"
 #include "UIconMisc.h"
 #include "UPopupDrawing.h"
 
@@ -35,7 +35,7 @@ CColorPane::CColorPane( LStream *inStream ) : LPane( inStream )
 				uses the stream data instead.
 	*/
 	inStream->ReadData( &anRGB, sizeof(RGBColor) );
-	mCurrentColor = CColorUtils::RGBToColor32( anRGB );
+	mCurrentColor = UColorUtils::RGBToColor32( anRGB );
 	
 	inStream->ReadData( &mClipsToSibblings, sizeof(mClipsToSibblings) );
 	inStream->ReadData( &mUsePickerOption, sizeof(mUsePickerOption) );
@@ -138,7 +138,7 @@ void CColorPane::SetColor( Color32 inColor, ERedrawOptions inRedrawHow )
 	/*
 		only redraw if we need to (prevents flicker)
 	*/
-	if ( !CColorUtils::EqualColor32( inColor, mCurrentColor ) )
+	if ( !UColorUtils::EqualColor32( inColor, mCurrentColor ) )
 	{
 		mCurrentColor = inColor;
 
@@ -191,12 +191,12 @@ void CColorPane::SetColorTable( CTabHandle inTable, Boolean inChangeColorToo, ER
 	if ( mColorTable && inChangeColorToo )
 	{
 		UInt8		newIndex;
-		RGBColor 	oldRGB = CColorUtils::Color32ToRGB( mCurrentColor );
+		RGBColor 	oldRGB = UColorUtils::Color32ToRGB( mCurrentColor );
 
-		if ( !CColorUtils::IsColorInTable( mColorTable, oldRGB, &newIndex ) )
+		if ( !UColorUtils::IsColorInTable( mColorTable, oldRGB, &newIndex ) )
 		{
 			RGBColor	newRGB = (**mColorTable).ctTable[ newIndex ].rgb;
-			this->SetColor( CColorUtils::RGBToColor32(newRGB), inRedrawHow );
+			this->SetColor( UColorUtils::RGBToColor32(newRGB), inRedrawHow );
 		}
 	}
 }
@@ -284,7 +284,7 @@ void CColorPane::ClickSelf( const SMouseDownEvent &inEvent )
 		{
 				// convert newColorIndex to a Color32
 			RGBColor	colorChosenRGB = (**mColorTable).ctTable[ newColorIndex ].rgb;
-			colorChosen = CColorUtils::RGBToColor32( colorChosenRGB );
+			colorChosen = UColorUtils::RGBToColor32( colorChosenRGB );
 
 			this->SetColor( colorChosen, redraw_Dont );
 		}
@@ -302,16 +302,16 @@ void CColorPane::ClickSelf( const SMouseDownEvent &inEvent )
 Boolean CColorPane::DoAppleColorPicker( Color32 *outColor )
 {
 	Point		pt = { -1, -1 };			// picker will choose location
-	RGBColor	currentRGB = CColorUtils::Color32ToRGB( mCurrentColor );
+	RGBColor	currentRGB = UColorUtils::Color32ToRGB( mCurrentColor );
 	RGBColor	newRGB;
 	Boolean		colorChanged = false;
 	
 	UDesktop::Deactivate();
 	
 	if ( ::GetColor( pt, (StringPtr)"", &currentRGB, &newRGB ) )
-		if ( !CColorUtils::EqualRGB( currentRGB, newRGB ) )
+		if ( !UColorUtils::EqualRGB( currentRGB, newRGB ) )
 		{
-			*outColor = CColorUtils::RGBToColor32( newRGB );
+			*outColor = UColorUtils::RGBToColor32( newRGB );
 			colorChanged = true;
 		}
 
@@ -364,7 +364,7 @@ void CColorPane::DrawSwatch()
 
 void CColorPane::DrawSwatchSelf( const Rect &swatchR )
 {
-	RGBColor swatchRGB = CColorUtils::Color32ToRGB( mCurrentColor );
+	RGBColor swatchRGB = UColorUtils::Color32ToRGB( mCurrentColor );
 	
 	::PenNormal();
 	::RGBForeColor( &swatchRGB );
@@ -405,10 +405,10 @@ SInt32 CColorPane::GetColorIndex( Color32 inColor )
 {
 	if ( !mColorTable ) return( -1 );
 	
-	RGBColor	theRGB = CColorUtils::Color32ToRGB( inColor );
+	RGBColor	theRGB = UColorUtils::Color32ToRGB( inColor );
 	UInt8		index;
 	
-	if ( CColorUtils::IsColorInTable( mColorTable, theRGB, &index ) )
+	if ( UColorUtils::IsColorInTable( mColorTable, theRGB, &index ) )
 		return( index );
 	
 	return( -1 );
