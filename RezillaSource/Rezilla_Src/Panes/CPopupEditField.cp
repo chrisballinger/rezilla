@@ -2,7 +2,7 @@
 // CPopupEditField.h
 // 
 //                       Created: 2005-03-12 07:58:12
-//             Last modification: 2005-03-15 07:18:10
+//             Last modification: 2005-03-24 10:57:29
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -42,13 +42,15 @@ CPopupEditField::CPopupEditField(
 {
 	MessageT 	popupMessage;
 	Boolean		leftSide;
+	Str255		theString;
 	
 	*inStream >> popupMessage;
 	*inStream >> mStringsID;
 	*inStream >> leftSide;
+	*inStream >> theString;
 	
+	SetUnknownItem(theString);
 	CreatePopup(popupMessage, leftSide);
-
 }
 
 
@@ -75,6 +77,7 @@ CPopupEditField::CPopupEditField(
 				inKeyFilter, inPasswordField, inImpID)
 {
 	mStringsID = inStringListID;
+	SetUnknownItem("\pUnknown");
 	CreatePopup(inPopupMessage, inLeftSide);
 }
 
@@ -175,6 +178,9 @@ CPopupEditField::FillPopup(ResIDT inStringListID)
 		}
 	}	
 
+	// Finally add the Unknown item
+	mPopup->AppendMenu(mUnknownItem);
+
 	mPopup->SetMacMenuH(theMenuH);
 	
 	mPopup->Refresh();
@@ -198,7 +204,10 @@ CPopupEditField::ListenToMessage( MessageT inMessage, void *ioParam )
 		::GetIndString(theString, mStringsID, choice);
 		if ( UMiscUtils::SplitCaseValue(theString, &rightPtr) ) {
 			SetDescriptor(*rightPtr);
-		} 
+		} else {
+			SetDescriptor("\p");
+		}
+		
 		return;
 	} 
 }
@@ -218,7 +227,8 @@ CPopupEditField::AdjustPopupWithValue(Str255 inString)
 		mPopup->SetCurrentMenuItem(foundIdx);						
 	} else {
 		SInt16 val = mPopup->GetCurrentMenuItem();
-		mPopup->SetCurrentMenuItem(0);
+		UInt16 count = ::CountMenuItems(mPopup->GetMacMenuH());
+		mPopup->SetCurrentMenuItem(count);
 // 		::MacCheckMenuItem(mPopup->GetMacMenuH(), mPopup->GetCurrentMenuItem(), 0);
 		::SetItemMark(mPopup->GetMacMenuH(), val, 0);
 	}
@@ -274,6 +284,37 @@ CPopupEditField::UserChangedText()
 	}
 }
 
+
+// ---------------------------------------------------------------------------
+//	¥ GetUnknownItem												  [public]
+// ---------------------------------------------------------------------------
+// The mUnknownItem string is a menu item appended at the end of the menu. 
+// Its purpose is to designate a value which does not correspond to any 
+// value in the rest of the menu.
+
+void
+CPopupEditField::GetUnknownItem( Str31 outString ) const
+{
+	LString::CopyPStr(mUnknownItem, outString);
+}
+		
+
+// ---------------------------------------------------------------------------
+//	¥ SetUnknownItem												  [public]
+// ---------------------------------------------------------------------------
+
+void
+CPopupEditField::SetUnknownItem( Str31 inString )
+{
+	if (inString[0] > 31) {
+		inString[0] = 31;
+	} 
+	if (inString[0] == 0) {
+		inString[0] = 1;
+		inString[1] = ' ';
+	} 
+	LString::CopyPStr(inString, mUnknownItem);
+}
 
 
 PP_End_Namespace_PowerPlant
