@@ -54,7 +54,7 @@ $Date$
   responsive to modifications.
 ¥ Enabled window proxys to display the document's Finder icon in the title
   bar. The Close button changes when a window has been modified.
-¥ 
+¥ Fix for the P100 template tag.
 
 ================================================================================
 = 1.0.4a8	                             last update: 2004-09-17 10:55:56
