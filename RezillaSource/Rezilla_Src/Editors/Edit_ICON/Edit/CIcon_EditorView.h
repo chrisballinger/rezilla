@@ -2,7 +2,7 @@
 // CIcon_EditorView.h
 // 
 //                       Created: 2004-12-10 17:23:05
-//             Last modification: 2004-12-10 17:23:10
+//             Last modification: 2004-12-15 23:37:17
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -29,6 +29,19 @@ PP_Begin_Namespace_PowerPlant
 class CIcon_EditorWindow;
 
 // ---------------------------------------------------------------------------
+// mPixelArea:		in PP "local" coords, relative to the containing view this is
+//           		where we blit pixels to. Does not include top & left
+//					margins, but does include bottom & right ones (so all rows &
+// 					columns are the same size)
+// mFirstRect:		in PP local coords - does not include spacing on any side
+// mHotSpot:		this is -1,-1 for most images, but used for cursors
+// mCellWidth:		cell width & height (in pixels), not including spacing
+// mSpaceBetween:	number of pixels in between rows & columns
+// mImageWidth:		width of source image (pixels)
+// mImageHeight:	height of source image (pixels)
+// sBigScratchBuffer	single buffer for all of the canvas panes
+// ---------------------------------------------------------------------------
+
 
 class CIcon_EditorView :	public LView {
 public:
@@ -51,6 +64,39 @@ public:
 	
 	virtual void			UserChangedBitmap();
 
+	static CIcon_EditorView *		CreatePaintCanvasStream( LStream * );
+	virtual void			FinishCreateSelf();
+	
+	virtual void	 		Reinitialize( 
+								COffscreen *	inOffscreen, 
+								ERedrawOptions 	inRedraw = redraw_Later,
+								SInt32	inResize = resize_Canvas, );
+								
+	virtual void			DrawSelf();
+	virtual void			DrawFrom( COffscreen *, const Rect *subArea = nil );
+	
+	virtual void			AdjustMouseSelf( Point inPortPt, const EventRecord &inMacEvent, RgnHandle outMouseRgn );
+	virtual void			ClickSelf( const SMouseDownEvent & );
+	
+	virtual Boolean			GetPixelRect( SInt32 inHoriz, SInt32 inVert, Rect *, 
+											Boolean inPixelAreaRelative = true );
+	virtual void			GetInsideDrawingRect( Rect * );
+	virtual SInt32			GetSpaceBetween();
+	
+	virtual Boolean			MapPointToCell( Point inPoint, SInt32 *outH, SInt32 *outV, 
+											Boolean roundNegsDown = false);
+	virtual void			DrawOnePixel( SInt32 inHoriz, SInt32 inVert, COffscreen * );
+
+	virtual void			MapRectToCanvas( const Rect &, Rect *outRect );
+	virtual void			MapRegionToCanvas( RgnHandle inRegion, RgnHandle outRgn );
+	
+	virtual void			SetHotSpot( Point pt );
+	virtual Boolean			HasHotSpot();
+	virtual Point			GetHotSpot();
+	
+	virtual void			ResizeFrameBy( SInt16 dh, SInt16 dv, Boolean inRedraw );
+	virtual void			MoveSamplePanes( SInt16 dh, SInt16 dv, Boolean inRedraw );
+
 	CIcon_EditorWindow*		GetOwnerWindow() { return mOwnerWindow;}
 	void					SetOwnerWindow(CIcon_EditorWindow* inOwnerWindow) {mOwnerWindow = inOwnerWindow;}
 
@@ -58,11 +104,31 @@ public:
 
 protected:
 		CIcon_EditorWindow *	mOwnerWindow;
+		SInt32					mCellWidth;
+		SInt32					mSpaceBetween;	
+		SInt32					mImageWidth, mImageHeight;
+		Rect					mPixelArea;
+		Rect					mFirstRect;
+		Point					mHotSpot;
 
-	virtual void			ClickSelf(
-									const SMouseDownEvent&	inMouseDown);
+		static COffscreen *	sBigScratchBuffer;	
+		static SInt32			sNumWindows;
+
+	// Drag & Drop
+	virtual Boolean			ItemIsAcceptable( DragReference inDragRef, ItemReference inItemRef );
+	virtual void			HandleDroppedPicture( PicHandle, DragReference, DragAttributes  );
+	virtual void			HandleDroppedOffscreen( COffscreen *, DragReference, DragAttributes );
+
+	virtual void			DrawHotSpot( COffscreen *inSourceBuffer );
+	virtual void			DrawHotSpotSelf( Color32 inPixelColor, const Rect &inRect );
+	
+	virtual void			DrawPortionOfBuffer( 
+								COffscreen *inSource, const Rect &inSourceR, 
+								GrafPtr inDest, const Rect &inDestR );
 									
-
+private:
+	void					ClearInstanceVariables();
+	void					Initialize();
 };
 
 
