@@ -201,6 +201,7 @@ CEditorWindow::ObeyCommand(
 void
 CEditorWindow::RevertContents()
 {
+	SetDirty(false);
 }
 
 
