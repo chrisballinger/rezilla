@@ -262,7 +262,7 @@ private:
 // 									 PaneIDT inNewFirstID, 
 // 									 Boolean adding);
 	
-	void			AdjustListOfPaneIDs(LView * inView,
+	void			AdjustListOfPaneIDs(CTmplListItemView * inView,
 									PaneIDT inStartID, 
 									PaneIDT inPrevCurrID,
 									Boolean adding);
@@ -292,7 +292,7 @@ private:
 	
 	OSErr			SkipNextKeyCases(UInt16 inPreCount);
 	
-	void			WriteOutKeyValue(ResType inType);
+	OSErr			WriteOutKeyValue(ResType inType, ArrayIndexT * outIndex);
 	
 	OSErr			SelectKeyValueFromKeyCases(Str255 inLabelString,
 										   Str255 outKeyString);
