@@ -2,7 +2,7 @@
 // CRezillaPrefs.h					
 // 
 //                       Created: 2004-05-17 08:52:16
-//             Last modification: 2004-08-15 00:34:32
+//             Last modification: 2004-09-22 15:25:43
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -51,6 +51,7 @@ struct SInterfacePrefs {
 struct SEditorsPrefs {
 	SInt32			hexSymbol;
 	SInt32			hexCase;
+	Boolean			dispFillers;
 };
 
 //     Misc Prefs
@@ -78,6 +79,7 @@ enum {
 	kPref_compare_ignoreName,
 	kPref_editors_hexSymbol,
 	kPref_editors_hexCase,
+	kPref_editors_dispFillers,
 	kPref_export_dataEncoding,
 	kPref_export_formatDtd,
 	kPref_export_includeBinary,
