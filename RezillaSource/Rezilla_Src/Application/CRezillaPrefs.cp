@@ -2,7 +2,7 @@
 // CRezillaPrefs.cp					
 // 
 //                       Created: 2004-05-17 08:52:16
-//             Last modification: 2004-08-15 00:26:54
+//             Last modification: 2004-09-09 09:28:30
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -384,137 +384,137 @@ CRezillaPrefs::SetPrefValue(SInt32 inPrefValue, SInt32 inConstant, SInt32 inPref
 		
 		case kPref_general_maxRecent:
 		if (inPrefType == prefsType_Temp) {
-			sTempPrefs.general.maxRecent = inPrefValue ;
+			sTempPrefs.general.maxRecent = inPrefValue;
 		} else {
-			sCurrPrefs.general.maxRecent = inPrefValue ;
+			sCurrPrefs.general.maxRecent = inPrefValue;
 		}	
 		break;
 		
 		case kPref_general_newFork:
 		if (inPrefType == prefsType_Temp) {
-			sTempPrefs.general.newFork = inPrefValue ;
+			sTempPrefs.general.newFork = inPrefValue;
 		} else {
-			sCurrPrefs.general.newFork = inPrefValue ;
+			sCurrPrefs.general.newFork = inPrefValue;
 		}	
 		break;
 		
 		case kPref_editors_hexSymbol:
 		if (inPrefType == prefsType_Temp) {
-			sTempPrefs.editors.hexSymbol = inPrefValue ;
+			sTempPrefs.editors.hexSymbol = inPrefValue;
 		} else {
-			sCurrPrefs.editors.hexSymbol = inPrefValue ;
+			sCurrPrefs.editors.hexSymbol = inPrefValue;
 		}	
 		break;
 		
 		case kPref_editors_hexCase:
 		if (inPrefType == prefsType_Temp) {
-			sTempPrefs.editors.hexCase = inPrefValue ;
+			sTempPrefs.editors.hexCase = inPrefValue;
 		} else {
-			sCurrPrefs.editors.hexCase = inPrefValue ;
+			sCurrPrefs.editors.hexCase = inPrefValue;
 		}	
 		break;
 		
 		case kPref_export_formatDtd:
 		if (inPrefType == prefsType_Temp) {
-			sTempPrefs.exporting.formatDtd = inPrefValue ;
+			sTempPrefs.exporting.formatDtd = inPrefValue;
 		} else {
-			sCurrPrefs.exporting.formatDtd = inPrefValue ;
+			sCurrPrefs.exporting.formatDtd = inPrefValue;
 		}	
 		break;
 		
 		case kPref_export_includeBinary:
 		if (inPrefType == prefsType_Temp) {
-			sTempPrefs.exporting.includeBinary = inPrefValue ;
+			sTempPrefs.exporting.includeBinary = inPrefValue;
 		} else {
-			sCurrPrefs.exporting.includeBinary = inPrefValue ;
+			sCurrPrefs.exporting.includeBinary = inPrefValue;
 		}	
 		break;
 		
 		case kPref_export_dataEncoding:
 		if (inPrefType == prefsType_Temp) {
-			sTempPrefs.exporting.binaryEncoding = inPrefValue ;
+			sTempPrefs.exporting.binaryEncoding = inPrefValue;
 		} else {
-			sCurrPrefs.exporting.binaryEncoding = inPrefValue ;
+			sCurrPrefs.exporting.binaryEncoding = inPrefValue;
 		}	
 		break;
 		
 		case kPref_export_editorSig:
 		if (inPrefType == prefsType_Temp) {
-			sTempPrefs.exporting.editorSig = (OSType) inPrefValue ;
+			sTempPrefs.exporting.editorSig = (OSType) inPrefValue;
 		} else {
-			sCurrPrefs.exporting.editorSig = (OSType) inPrefValue ;
+			sCurrPrefs.exporting.editorSig = (OSType) inPrefValue;
 		}	
 		break;
 		
 		case kPref_compare_ignoreName:
 		if (inPrefType == prefsType_Temp) {
-			sTempPrefs.compare.ignoreName = inPrefValue ;
+			sTempPrefs.compare.ignoreName = inPrefValue;
 		} else {
-			sCurrPrefs.compare.ignoreName = inPrefValue ;
+			sCurrPrefs.compare.ignoreName = inPrefValue;
 		}	
 		break;
 		
 		case kPref_compare_ignoreAttributes:
 		if (inPrefType == prefsType_Temp) {
-			sTempPrefs.compare.ignoreAttributes = inPrefValue ;
+			sTempPrefs.compare.ignoreAttributes = inPrefValue;
 		} else {
-			sCurrPrefs.compare.ignoreAttributes = inPrefValue ;
+			sCurrPrefs.compare.ignoreAttributes = inPrefValue;
 		}	
 		break;
 		
 		case kPref_compare_ignoreData:
 		if (inPrefType == prefsType_Temp) {
-			sTempPrefs.compare.ignoreData = inPrefValue ;
+			sTempPrefs.compare.ignoreData = inPrefValue;
 		} else {
-			sCurrPrefs.compare.ignoreData = inPrefValue ;
+			sCurrPrefs.compare.ignoreData = inPrefValue;
 		}	
 		break;
 		
 		case kPref_compare_dataDisplayAs:
 		if (inPrefType == prefsType_Temp) {
-			sTempPrefs.compare.displayAs = inPrefValue ;
+			sTempPrefs.compare.displayAs = inPrefValue;
 		} else {
-			sCurrPrefs.compare.displayAs = inPrefValue ;
+			sCurrPrefs.compare.displayAs = inPrefValue;
 		}	
 		break;
 
 		case kPref_misc_setSigOnClose:
 		if (inPrefType == prefsType_Temp) {
-			sTempPrefs.misc.setSigOnClose = inPrefValue ;
+			sTempPrefs.misc.setSigOnClose = inPrefValue;
 		} else {
-			sCurrPrefs.misc.setSigOnClose = inPrefValue ;
+			sCurrPrefs.misc.setSigOnClose = inPrefValue;
 		}	
 		break;
 		
 		case kPref_misc_onlyRsrcExt:
 		if (inPrefType == prefsType_Temp) {
-			sTempPrefs.misc.onlyRsrcExt = inPrefValue ;
+			sTempPrefs.misc.onlyRsrcExt = inPrefValue;
 		} else {
-			sCurrPrefs.misc.onlyRsrcExt = inPrefValue ;
+			sCurrPrefs.misc.onlyRsrcExt = inPrefValue;
 		}	
 		break;
 		
 		case kPref_misc_closingType:
 		if (inPrefType == prefsType_Temp) {
-			sTempPrefs.misc.closingType = (OSType) inPrefValue ;
+			sTempPrefs.misc.closingType = (OSType) inPrefValue;
 		} else {
-			sCurrPrefs.misc.closingType = (OSType) inPrefValue ;
+			sCurrPrefs.misc.closingType = (OSType) inPrefValue;
 		}	
 		break;
 		
 		case kPref_misc_closingCreator:
 		if (inPrefType == prefsType_Temp) {
-			sTempPrefs.misc.closingCreator = (OSType) inPrefValue ;
+			sTempPrefs.misc.closingCreator = (OSType) inPrefValue;
 		} else {
-			sCurrPrefs.misc.closingCreator = (OSType) inPrefValue ;
+			sCurrPrefs.misc.closingCreator = (OSType) inPrefValue;
 		}	
 		break;
 		
 		case kPref_misc_setSigOnCreate:
 		if (inPrefType == prefsType_Temp) {
-			sTempPrefs.misc.setSigOnCreate = inPrefValue ;
+			sTempPrefs.misc.setSigOnCreate = inPrefValue;
 		} else {
-			sCurrPrefs.misc.setSigOnCreate = inPrefValue ;
+			sCurrPrefs.misc.setSigOnCreate = inPrefValue;
 		}	
 		break;
 		
@@ -714,25 +714,25 @@ CRezillaPrefs::SetStyleElement(SInt16 inStyleValue,
 		
 	  case style_fontType:
 		if (inPrefType == prefsType_Temp) {
-			sTempPrefs.interface.traitsRecord.fontNumber = inStyleValue ;
+			sTempPrefs.interface.traitsRecord.fontNumber = inStyleValue;
 		} else {
-			sCurrPrefs.interface.traitsRecord.fontNumber = inStyleValue ;
+			sCurrPrefs.interface.traitsRecord.fontNumber = inStyleValue;
 		}	
 		break;
 		
 	  case style_sizeType:
 		if (inPrefType == prefsType_Temp) {
-			sTempPrefs.interface.traitsRecord.size = inStyleValue ;
+			sTempPrefs.interface.traitsRecord.size = inStyleValue;
 		} else {
-			sCurrPrefs.interface.traitsRecord.size = inStyleValue ;
+			sCurrPrefs.interface.traitsRecord.size = inStyleValue;
 		}	
 		break;
 		
 	  case style_faceType:
 		if (inPrefType == prefsType_Temp) {
-			sTempPrefs.interface.traitsRecord.style = inStyleValue ;
+			sTempPrefs.interface.traitsRecord.style = inStyleValue;
 		} else {
-			sCurrPrefs.interface.traitsRecord.style = inStyleValue ;
+			sCurrPrefs.interface.traitsRecord.style = inStyleValue;
 		}	
 		break;
 	}
@@ -984,7 +984,7 @@ CRezillaPrefs::RunPrefsDialog()
 							} else {
 								// Modify the text of the 'Other' item.
 								Str255	theSizeString;
-								theLine = "\pOther (" ;
+								theLine = "\pOther (";
 								::NumToString( theSize, theSizeString );
 								// Append the current size
 								theLine += theSizeString;

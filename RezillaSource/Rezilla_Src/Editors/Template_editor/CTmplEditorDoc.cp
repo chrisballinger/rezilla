@@ -124,6 +124,7 @@ CTmplEditorDoc::Initialize()
 	if (error != noErr) {
 		UMessageDialogs::AlertWithValue(CFSTR("ErrorWhileParsingTemplate"), error);
 		delete this;
+		return;
 	} 
 
 	// Make the window visible.

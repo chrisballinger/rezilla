@@ -2,7 +2,7 @@
 // CTemplatesController.cp					
 // 
 //                       Created: 2004-08-06 12:57:55
-//             Last modification: 2004-08-14 00:14:08
+//             Last modification: 2004-08-27 22:05:41
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -97,7 +97,6 @@ CTemplatesController::BuildInternalTemplatesArray()
 	FSSpec			theFileSpec;
 	OSErr	  		error = noErr;
 	short			tmplRefNum, numResources;
-	ResType			theType;
 	Str255			theName;
 	CRezType * 		theRezType;
 
@@ -341,15 +340,15 @@ CTemplatesController::HasTemplateForType(ResType inType, ResType * substType, CR
 	if (hasTMPL == true) {
 		sTemplateKind = tmpl_local;
 	} else {
-		// Now look fo an internal TMPL resource
-		hasTMPL = HasInternalTemplateForType(inType);
+		// Now look for an external TMPL resource
+		hasTMPL = HasExternalTemplateForType(inType, &sTemplateFile);
 		if (hasTMPL == true) {
-			sTemplateKind = tmpl_internal;
+			sTemplateKind = tmpl_external;
 		} else {
-			// Look for an external TMPL
-			hasTMPL = HasExternalTemplateForType(inType, &sTemplateFile);
+			// Look for an internal TMPL
+			hasTMPL = HasInternalTemplateForType(inType);
 			if (hasTMPL) {
-				sTemplateKind = tmpl_external;
+				sTemplateKind = tmpl_internal;
 			} 
 		}
 		// If still not found, check if there is a substitution type
