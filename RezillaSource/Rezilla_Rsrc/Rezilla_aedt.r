@@ -1,6 +1,6 @@
 #include "AppleEvents.r"
 
-resource 'aedt' (0,"Rezilla Suite") {
+resource 'aedt' (1000,"Rezilla Suite") {
 	{
 /* 'Rzil', 'Open', 5000 */
 		1383754092, 1332766062, 5000,
@@ -9,7 +9,8 @@ resource 'aedt' (0,"Rezilla Suite") {
 /* 'Rzil', 'Lrez', 5002 */
 		1383754092, 1282565498, 5002,
 /* 'Rzil', 'Vers', 5010 */
-		1383754092, 1449489011, 5010
+		1383754092, 1449489011, 5010,
+/* 'Rzil', 'RCmp', 5011 */
+		1383754092, 1380150640, 5011
 	}
 };
-
