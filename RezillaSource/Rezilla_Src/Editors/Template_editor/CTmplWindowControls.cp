@@ -2,7 +2,7 @@
 // CTmplWindowUtils.cp					
 // 
 //                       Created: 2004-08-20 16:45:08
-//             Last modification: 2004-10-20 08:50:07
+//             Last modification: 2004-11-05 11:35:14
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -206,7 +206,7 @@ CTmplEditorWindow::InitPaneInfos()
 	sBevelPaneInfo.enabled			= true;
 	sBevelPaneInfo.bindings.left	= false;
 	sBevelPaneInfo.bindings.top		= false;
-	sBevelPaneInfo.bindings.right	= true;
+	sBevelPaneInfo.bindings.right	= false;
 	sBevelPaneInfo.bindings.bottom 	= false;
 	sBevelPaneInfo.userCon			= 0;
 
@@ -1102,7 +1102,6 @@ CTmplEditorWindow::AddCasePopup(ResType inType, Str255 inLabel, SInt32 inStartMa
 	sBevelPaneInfo.top				= mYCoord - sEditPaneInfo.height -kTmplVertSep -1;
 	sBevelPaneInfo.paneID			= mCurrentID;
 	sBevelPaneInfo.superView		= inContainer;
-	sEditPaneInfo.bindings.right	= true;
 
 	CTmplBevelButton * theBevelButton = new CTmplBevelButton(sBevelPaneInfo, msg_TmplCasePopup, kControlBevelButtonSmallBevelProc,
 													 rMENU_TemplateCases, kControlBevelButtonMenuOnBottom, 
