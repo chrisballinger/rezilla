@@ -54,6 +54,8 @@ public:
 	void					ExpandAll();
 	void					CollapseAll();
 	
+	void					RemoveAllItems();
+
 	CRezObjItem *			GetRezObjItem(ResType inType, short inID);
 
 	virtual CRezMap*		GetRezMap() { return mRezMap;}
@@ -93,4 +95,3 @@ private:
 	CRezMapTable&		operator=( const CRezMapTable &inOriginal );
 
 };
-

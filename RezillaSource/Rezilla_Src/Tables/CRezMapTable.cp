@@ -741,6 +741,32 @@ CRezMapTable::ReceiveDragItem(DragReference inDragRef,
  }
 
 
+// ---------------------------------------------------------------------------
+//  ¥ RemoveAllItems										[public]
+// ---------------------------------------------------------------------------
+// Stores all the selected RezObjItem's in the LArray provided. Returns the 
+// number of elements found.
+	
+void
+CRezMapTable::RemoveAllItems()
+{	
+	// Iterate among first level items
+	LArrayIterator rezTypeIterator(mFirstLevelItems);
+	LOutlineItem *theRezTypeItem = nil;	
+	LOutlineItem *theRezObjItem = nil;	
+	
+	while (rezTypeIterator.Next(&theRezTypeItem)) {
+		if (theRezTypeItem->IsExpanded()) {
+			// Now iterate among sub items of this RezTypeItem
+			LArrayIterator rezObjIterator( *(theRezTypeItem->GetSubItems()) );
+			while (rezObjIterator.Next(&theRezObjItem)) {
+				RemoveItem(theRezObjItem, false, false);
+			}
+		} 
+		RemoveItem(theRezTypeItem, false, false);
+	}
+}
+
 
 
 
