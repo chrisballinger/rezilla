@@ -5,7 +5,7 @@
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// ¬© Copyright: Bernard Desgraupes 2003
+// © Copyright: Bernard Desgraupes 2003
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -44,7 +44,7 @@ public:
 	virtual Boolean			ObeyCommand(
 									CommandT			inCommand,
 									void*				ioParam);
-
+	
 	virtual Boolean			HandleKeyPress(
 									const EventRecord& 	inKeyEvent);
 	
@@ -98,4 +98,3 @@ PP_End_Namespace_PowerPlant
 #endif
 
 #endif
-
