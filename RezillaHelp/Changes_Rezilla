@@ -32,9 +32,11 @@ $Date$
 = 1.0.4a9	                             last update: 
 ================================================================================
 ¥ Debugging and testing phase before release.
-¥ Added a "Display filler fields in templates" pref.
+¥ Added "Display filler fields in templates" and 
+  "Enable filler fields in templates" preferences.
 ¥ Built categorized templates for testing. Tested all the tags.
 ¥ Built Samples Suite to test the templates against.
+¥ Implemented localized error string messages.
 
 ================================================================================
 = 1.0.4a8	                             last update: 2004-09-17 10:55:56

@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2004-10-04 22:22:23
+//             Last modification : 2004-10-06 09:03:43
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -165,6 +165,7 @@ const ResIDT	rPPob_TmplKeyPicker			= 8800;
 const ResIDT	rPPob_SimpleMessage			= 9500;
 const ResIDT	rPPob_AskIfMessage			= 9510;
 const ResIDT	rPPob_AskYesNoMessage		= 9520;
+const ResIDT	rPPob_ExplainedError		= 9530;
 const ResIDT	rPPob_AskUniqueID			= 9550;
 const ResIDT	rPPob_TmplEditorWindow		= 10100;
 const ResIDT	rPPob_TextEditorWindow		= 10200;
