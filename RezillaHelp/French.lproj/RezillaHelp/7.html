@@ -1,43 +1,107 @@
 <HTML>
 <HEAD>
-<TITLE>Copier, Couper et Coller</TITLE>
+<TITLE>Éditeur de gabaritsRezilla est capable d'analyser des ressources au moyen de gabarits</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="6.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="8.html">Suiv</A><HR><P>&nbsp;</P>
-<H2>Copier, Couper et Coller</H2>
-Les fonctions de Copier, Couper et Coller peuvent avoir différentes
-significations selon le contexte.
+<H2>Éditeur de gabarits</H2><P>Rezilla est capable d'analyser des ressources au moyen de gabarits
+descriptifs et de construire à partir de là des interfaces graphiques
+permettant d'éditer et de modifier facilement les divers éléments de la
+ressource. L'image ci-dessous montre, par exemple, comment Rezilla éditera
+une ressource de type MPSR contenant des informations relatives aux polices
+et dimensions utilisées dans un document.<P>Il y a trois emplacements où les ressources TMPL peuvent être palcées.
+Ils sont décrits en détail dans les sous-sections qui suivent: 
 <UL>
-	<LI> Dans la table de ressources, il est possible de copier des ressources
-multiples. Si la copie se fait à l'intérieur de l'application, on peut
-copier autant de ressources que l'on veut à la fois, pas nécessairement du
-même type. Si l'on commute vers une autre application au contraire,
-seulement une ressource de chaque type sera copiée dans le presse-papier:
-chaque type correspond à un type de données <I>(flavor)</I> sur le presse-papier.
-Si l'on colle dans une table de ressources de Rezilla des données qui
-proviennent d'une autre application, une nouvelle ressource sera créée pour
-chaque type de donnée <I>(flavor)</I> figurant dans le presse-papier: le type de
-donnée est utilisé comme type pour la ressource. 
-<P> Par exemple, si l'on copie
-une image dans un programme tel que <A HREF="http://www.lemkesoft.de/en/graphcon.htm">GraphicConverter</A> et qu'on la colle dans
-Rezilla, une ressource PICT et une ressource Rect seront créées: la
-ressource PICT contient les octets définissant l'image et la ressource Rect
-contient ses dimensions. Cela résulte du fait que <I>GraphicConverter</I> place
-ces deux informations dans le presse-papier lorsqu'il effectue la copie. Ce
-mécanisme dépend donc de la façon dont les applications stockent leurs
-données dans le presse-papier. Réciproquement, on peut par exemple
-sélectionner une ressource TEXT dans une table de ressources de Rezilla et
-la coller dans un éditeur de texte: le contenu de la ressource sera inséré
-dans l'éditeur.<P>	<LI> Dans l'éditeur hexadécimal, on peut copier des sélections provenant
-d'un des panneaux. Pour coller les données du presse-papier dans le panneau
-de gauche, il faut évidemment qu'il s'agisse de données hexadécimales
-valides. Toutes données collées dans un des  panneaux sont aussi collées
-parallèlement dans l'autre panneau: par exemple, tout texte collé dans le 
-panneau droit est automatiquement converti en valeurs hexadécimales et
-inséré dans celui de gauche.</DL><P></UL><P>
+	<LI> les gabarits <I>internes</I> sont des gabarits prédéfinis qui sont stockés
+dans l'application. Rezilla est équipée de plus de 360 gabarits qui
+couvrent les types de ressources les plus couramment utilisés;
+	<LI> les gabarits <I>externes</I> sont des gabarits supplémentaires que l'on peut
+ajouter dans l'un des dossiers dits de support d'applications 
+(<I>Application Support</I>);
+	<LI> les gabarits <I>locaux</I> sont des ressources TMPL  présentes dans la table
+de ressource en cours d'édition.
+</UL><P>Lorsque Rezilla tente d'éditer une ressource au moyen d'un gabarit, elle
+recherche la définition du gabarit dans les trois emplacements mentionnés
+en procédant dans l'ordre suivant: local, externe, interne. Cela permet en 
+particulier de redéfinir un gabarit interne en plaçant une nouvelle
+définition dans les gabarits externes.<P><H3>Gabarits internes</H3><P>La version 1.0.4a9 de Rezilla incorpore 
+365 gabarits internes correspondant aux types de
+ressources suivants:<P><P><TABLE BORDER=0 CELLPADDING=1>
+<TR><TD>accl</TD><TD>ACfg </TD><TD>actb </TD><TD>acur </TD><TD>admn </TD><TD>aedt </TD><TD>aete </TD><TD>ALRT </TD><TD>alrx </TD><TD>APPL </TD></TR>
+<TR><TD>audt</TD><TD>badg </TD><TD>bMRM </TD><TD>BNDL </TD><TD>brws </TD><TD>bVal </TD><TD>Cals </TD><TD>caps </TD><TD>cbnd </TD><TD>CCI? </TD></TR>
+<TR><TD>cctb</TD><TD>cdci </TD><TD>cFIG </TD><TD>cfmt </TD><TD>cfrg </TD><TD>chCd </TD><TD>chCv </TD><TD>Chnl </TD><TD>CHOS </TD><TD>chrw </TD></TR>
+<TR><TD>ckid</TD><TD>Clmn </TD><TD>clr# </TD><TD>cltn </TD><TD>clut </TD><TD>CMDK </TD><TD>cmdo </TD><TD>cmnu </TD><TD>CNTL </TD><TD>Colr </TD></TR>
+<TR><TD>colw</TD><TD>comm </TD><TD>cool </TD><TD>CPPb </TD><TD>cpts </TD><TD>crst </TD><TD>CTY# </TD><TD>CTYP </TD><TD>CURS </TD><TD>cust </TD></TR>
+<TR><TD>CWid</TD><TD>dale </TD><TD>DBnf </TD><TD>dbug </TD><TD>dctb </TD><TD>dctl </TD><TD>desC </TD><TD>deta </TD><TD>detf </TD><TD>deti </TD></TR>
+<TR><TD>detk</TD><TD>detn </TD><TD>detp </TD><TD>dett </TD><TD>detv </TD><TD>detw </TD><TD>detx </TD><TD>dflg </TD><TD>dftb </TD><TD>DITL </TD></TR>
+<TR><TD>dJvU</TD><TD>DLGf </TD><TD>dlgx </TD><TD>dlle </TD><TD>DLOG </TD><TD>DRVR </TD><TD>DSAT </TD><TD>DSPC </TD><TD>EDDI </TD><TD>EDT# </TD></TR>
+<TR><TD>eopt</TD><TD>epcf </TD><TD>eppc </TD><TD>EQPS </TD><TD>EQST </TD><TD>ErrC </TD><TD>errs </TD><TD>EuFl </TD><TD>EuOM </TD><TD>EuRg </TD></TR>
+<TR><TD>exft</TD><TD>f2im </TD><TD>faps </TD><TD>fbnd </TD><TD>FBTN </TD><TD>FCMT </TD><TD>fctb </TD><TD>fdes </TD><TD>FDIR </TD><TD>FDlg </TD></TR>
+<TR><TD>fdmn</TD><TD>fFIG </TD><TD>FHLP </TD><TD>find </TD><TD>finf </TD><TD>fld# </TD><TD>FLOG </TD><TD>flst </TD><TD>fmap </TD><TD>fmn2 </TD></TR>
+<TR><TD>fmnu</TD><TD>FOND </TD><TD>FONT </TD><TD>FREF </TD><TD>FRSV </TD><TD>FSty </TD><TD>FTLS </TD><TD>FtSz </TD><TD>ftyp </TD><TD>fval </TD></TR>
+<TR><TD>FWID</TD><TD>gdir </TD><TD>gmcd </TD><TD>GNRL </TD><TD>GOBJ </TD><TD>HAlt </TD><TD>hdlg </TD><TD>hfdr </TD><TD>hmnu </TD><TD>hovr </TD></TR>
+<TR><TD>hrct</TD><TD>HTMB </TD><TD>hwin </TD><TD>ICLB </TD><TD>icmt </TD><TD>ICOX </TD><TD>ICx6 </TD><TD>inaa </TD><TD>inah </TD><TD>inat </TD></TR>
+<TR><TD>inbb</TD><TD>incd </TD><TD>indm </TD><TD>indo </TD><TD>inex </TD><TD>infa </TD><TD>inff </TD><TD>infm </TD><TD>INFO </TD><TD>infr </TD></TR>
+<TR><TD>infs</TD><TD>inpc </TD><TD>inpk </TD><TD>inpr </TD><TD>inr# </TD><TD>inra </TD><TD>inrf </TD><TD>inrl </TD><TD>inrm </TD><TD>insc </TD></TR>
+<TR><TD>insp</TD><TD>insz </TD><TD>intf </TD><TD>invc </TD><TD>invs </TD><TD>iobm </TD><TD>isys </TD><TD>ITEM </TD><TD>itl0 </TD><TD>ITL1 </TD></TR>
+<TR><TD>itl1</TD><TD>itl2 </TD><TD>itl4 </TD><TD>itlb </TD><TD>itlc </TD><TD>itlk </TD><TD>ITML </TD><TD>JPob </TD><TD>KBDN </TD><TD>KCAP </TD></TR>
+<TR><TD>KCHR</TD><TD>kind </TD><TD>KInf </TD><TD>KMAP </TD><TD>KRNL </TD><TD>KSWP </TD><TD>Labl </TD><TD>LAYO </TD><TD>LBEL </TD><TD>LBRK </TD></TR>
+<TR><TD>ldes</TD><TD>libi </TD><TD>libr </TD><TD>LIST </TD><TD>load </TD><TD>LOGD </TD><TD>look </TD><TD>mach </TD><TD>MACS </TD><TD>mapp </TD></TR>
+<TR><TD>MBAR</TD><TD>mcky </TD><TD>Mcmd </TD><TD>mctb </TD><TD>mcvs </TD><TD>mem! </TD><TD>MENA </TD><TD>MENU </TD><TD>mgrp </TD><TD>MIMA </TD></TR>
+<TR><TD>MIMD</TD><TD>mimp </TD><TD>mitq </TD><TD>MKEY </TD><TD>mntb </TD><TD>modm </TD><TD>mppc </TD><TD>MPSR </TD><TD>mVal </TD><TD>mxbc </TD></TR>
+<TR><TD>mxbi</TD><TD>mxbm </TD><TD>mxpr </TD><TD>mxst </TD><TD>mxwt </TD><TD>NFNT </TD><TD>nfnt </TD><TD>nmKy </TD><TD>nrct </TD><TD>Odds </TD></TR>
+<TR><TD>open</TD><TD>osiz </TD><TD>otdr </TD><TD>over </TD><TD>PANE </TD><TD>PANI </TD><TD>panl </TD><TD>PAPA </TD><TD>PAT  </TD><TD>PAT# </TD></TR>
+<TR><TD>PBUT</TD><TD>pdip </TD><TD>Pers </TD><TD>pfil </TD><TD>pfnt </TD><TD>PgSz </TD><TD>picb </TD><TD>PICK </TD><TD>PICT </TD><TD>PINF </TD></TR>
+<TR><TD>PLGN</TD><TD>pltt </TD><TD>plut </TD><TD>pnel </TD><TD>pnot </TD><TD>POST </TD><TD>ppat </TD><TD>ppcc </TD><TD>ppdA </TD><TD>ppdT </TD></TR>
+<TR><TD>PPob</TD><TD>PPRO </TD><TD>PRC0 </TD><TD>PRC3 </TD><TD>PRF2 </TD><TD>PRFS </TD><TD>prop </TD><TD>proz </TD><TD>PSAP </TD><TD>PSLD </TD></TR>
+<TR><TD>pslt</TD><TD>ptyp </TD><TD>puf! </TD><TD>qrsc </TD><TD>ramr </TD><TD>rdes </TD><TD>rdpf </TD><TD>rdws </TD><TD>RECT </TD><TD>RES! </TD></TR>
+<TR><TD>RES#</TD><TD>resf </TD><TD>resl </TD><TD>rgb  </TD><TD>RID# </TD><TD>RidL </TD><TD>RMAP </TD><TD>ropt </TD><TD>rout </TD><TD>ROv# </TD></TR>
+<TR><TD>rptw</TD><TD>RSCP </TD><TD>RSID </TD><TD>rst# </TD><TD>rstr </TD><TD>RTXT </TD><TD>RVEW </TD><TD>RZID </TD><TD>RZLE </TD><TD>sAbt </TD></TR>
+<TR><TD>sami</TD><TD>scan </TD><TD>scop </TD><TD>scrn </TD><TD>scsz </TD><TD>sect </TD><TD>sept </TD><TD>sig  </TD><TD>SIGN </TD><TD>SINF </TD></TR>
+<TR><TD>SIZE</TD><TD>Smly </TD><TD>Sods </TD><TD>SPLY </TD><TD>sReq </TD><TD>stab </TD><TD>stat </TD><TD>STCT </TD><TD>STR  </TD><TD>STR# </TD></TR>
+<TR><TD>stri</TD><TD>strn </TD><TD>STRT </TD><TD>styl </TD><TD>SUFX </TD><TD>Suit </TD><TD>sUnt </TD><TD>sVal </TD><TD>sysz </TD><TD>tab# </TD></TR>
+<TR><TD>taps</TD><TD>tdat </TD><TD>TEXT </TD><TD>thga </TD><TD>thn# </TD><TD>thnd </TD><TD>thng </TD><TD>thnr </TD><TD>THUM </TD><TD>tic# </TD></TR>
+<TR><TD>TMPL</TD><TD>TOOL </TD><TD>TPal </TD><TD>tray </TD><TD>trsl </TD><TD>TTBL </TD><TD>tVal </TD><TD>tvar </TD><TD>TxSt </TD><TD>Txtr </TD></TR>
+<TR><TD>TXTs</TD><TD>TYPs </TD><TD>url  </TD><TD>vers </TD><TD>VFlg </TD><TD>wctb </TD><TD>WIND </TD><TD>wstr </TD><TD>xdtl </TD><TD>Xmnu </TD></TR>
+<TR><TD>xMNU</TD><TD>xmnu </TD><TD>ZOOM </TD><TD>§DTD </TD><TD>µVal </TD><TD> </TD><TD> </TD><TD> </TD><TD> </TD><TD> </TD></TR>
+</TABLE></P><P><H3>Gabarits externes</H3>
+On peut ajouter de nouveaux gabarits en complément de ceux qui sont définis 
+de manière interne dans Rezilla. Les nouveaux gabarits doivent être placés 
+dans un des dossiers <I>Application Support</I>. Lorsque l'application
+Rezilla est lancée, elle crée, si jamais ils n'existent pas déjà, des
+sous-dossiers appelés <I>Rezilla</I> dans le dossier <I>Application
+Support</I> de l'utilisateur courant et dans le dossier <I>Application
+Support</I> du système lui-même, à l'intérieur du dossier <I>Bibliothèque</I>. 
+Dans ces dossiers sont créés des sous-dossiers appelés <I>Templates</I>
+(terme anglais pour gabarit) qui sont 
+destinés à recevoir les fichiers de ressources comportant les nouveaux gabarits.
+Ces deux emplacements sont habituellement désignés comme le domaine de
+l'utilisateur et le domaine local respectivement.
+Concrètement, les chemins d'accès de ces deux dossiers sont:
+<PRE>
+	~/Bibliothèque/Application Support/Rezilla/Templates
+	Bibliothèque/Application Support/Rezilla/Templates
+</PRE><P>Un fichier de définition de gabarit est simplement un fichier de ressources
+contenant des ressources de type TMPL. Les ressources peuvent se trouver
+dans la branche de données ou dans la branche de ressources du fichier,
+indifféremment.<P>Rezilla lit le contenu des dossiers <I>Application Support/Rezilla/Templates</I>
+au moment de son démarrage. Si vous ajoutez de nouveaux gabarits par la
+suite, il faudra quitter l'application puis la relancer pour qu'ils soient
+pris en compte.<P><H3>Gabarits locaux</H3>
+Certains fichiers de ressources comportent des ressources TMPL pour
+certains types. Lorsque l'on cherche à éditer une ressource d'un de ces
+types dans ce fichier, Rezilla utilise automatiquement le gabarit figurant 
+dans le fichier. Un tel gabarit est dit <I>local</I> car il se trouve dans la
+table de ressources couramment ouverte et qu'il ne sera plus disponible
+dès que la table aura été refermée.<P>Les gabarits sont utiles si l'on veut transmettre des ressources à une
+autre personne et que l'on veut être sûre qu'elle aura la possibilité de
+les lire dans l'éditeur de gabarit. Il suffit de placer une copie des
+ressource TMPL dans le fichier transmis.<P>L'éditeur de gabarits recherchera toujours une définition de gabarit
+localement avant d'aller chercher parmi les gabarits externes, puis
+internes.<P>
 
 </BODY>
 </HTML>

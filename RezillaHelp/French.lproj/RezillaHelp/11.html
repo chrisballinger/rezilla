@@ -1,19 +1,84 @@
 <HTML>
 <HEAD>
-<TITLE>Problèmes</TITLE>
+<TITLE>Préférences </TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="10.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="12.html">Suiv</A><HR><P>&nbsp;</P>
-<H2>Problèmes</H2>
-<P> Il est possible de contacter l'auteur pour toutes sortes de questions, 
-problèmes rencontrés etc. à l'adresse suivante:
-<P> <A HREF="mailto:bdesgraupes@users.sourceforge.net">bdesgraupes@users.sourceforge.net</A>
-<P> La page Web que voici comporte les informations les plus récentes concernant 
-Rezilla:
-<P> <A HREF="http://webperso.easyconnect.fr/bdesgraupes/rezilla.html">http://webperso.easyconnect.fr/bdesgraupes/rezilla.html</A><P>
+<H2>Préférences </H2>
+Rezilla permet de fixer diverses préférences. On accède aux préférences au 
+moyen de la commande <I>Préférences</I> dans le menu de l'application
+(menu Rezilla) ou au moyen du raccourci clavier <I>Command-,</I> (taper la 
+touche virgule en maintenant la touche commande enfoncée). Un dialogue
+multipage s'affiche comportant trois panneaux:
+<UL>
+	<LI> le panneau <I>General</I>
+	<LI> le panneau <I>Export</I>
+	<LI> le panneau <I>Compare</I>
+	<LI> le panneau <I>Interface</I>
+	<LI> le panneau <I>Editors</I>
+	<LI> le panneau <I>Misc</I>
+</UL>
+<P><IMG SRC="../../Images/rzil_preferences.gif" ALT="Fenêtre de préférences" ALIGN=bottom></P><P><H3>Panneau <I>General</I></H3>
+<P> Dans le panneau <I>General</I>, on peut fixer le nombre maximal
+d'articles contenus dans le menu <I>Recent Items</I> (par défaut 10). 
+Un bouton <I>Reset</I> permet d'effacer la liste actuelle. On peut aussi
+spécifier la branche qui sera utilisée par défaut pour créer une nouvelle
+table de ressources (cela correspond aux boutons radios affichés dans le
+dialogue <I>New Map</I>: ce choix par défaut peut être modifié plus tard
+dans le dialogue).<P><H3>Panneau <I>Export</I></H3>
+<P> Dans le panneau <I>Export</I>, on peut choisir la DTD à utiliser pour
+créer un export XML (voir à la section <I>Export</I> dans les fichiers
+d'aide). On peut également spécifier l'encodage à utiliser pour les données
+binaires: encodage Base64 ou représentation hexadécimale. La case à cocher
+<I>Include binary data in output</I> permet de spécifier si les données
+binaires de chaque ressource doivent être inclues dans les fichiers
+d'export: cela concerne pour le moment uniquement les formats Texte et XML,
+pas HTML.<P>Dans le champ appelé <I>Text editor signature</I>, on peut indiquer le
+créateur d'un éditeur de textes à attribuer aux fichiers produits afin que,
+par la suite, ceux-ci soient automatiquement ouverts dans cet éditeur
+lorsqu'on fait un double-clic sur leur icone.<P><H3>Panneau <I>Compare</I></H3>
+<P> Dans le panneau <I>Compare</I>, on peut fixer des valeurs par défaut 
+pour les critères de comparaison apparaissant dans le dialogue <I>Compare Maps</I>: 
+ces valeurs peuvent être modifiées par la suite dans le dialogue lui-même.
+On peut aussi fixer une valeur par défaut pour les boutons radios
+apparaissant au bas de la fenêtre <I>Compare Results</I> affichant les
+résultats d'une comparaison de tables de ressources et indiquant le format
+à utiliser pour afficher les données binaires des ressources (hexadécimal
+ou texte): ces valeurs peuvent êtremodifiées par la suite lorsque la
+fenêtre est affichée.<P><H3>Panneau <I>Interface</I></H3>
+<P> Dans le panneau <I>Interface</I>, on peut fixer la police et la
+taille utilisées pour afficher les représentations hexadécimales ou
+textuelles des données de ressources dans les fenêtres de l'éditeur
+hexadécimal ou dans les fenêtres de résultats de comparaison. Noter que
+seules les polices à espacement fixe (telles que <I>Monaco</I> ou <I>Courier</I>)
+garantissent un affichage en colonnes verticalement alignées.
+<P> Les préférences sont sauvegardées sur disque dans le fichier de
+préférences de l'utilisateur uniquement lorsque l'application quitte. Elles
+sont stockées dans un fichier nommé <I>net.sourceforge.rezilla.plist</I> situé
+dans le dossier de préférences de l'utilisateur.<P><H3>Panneau <I>Editors</I></H3>
+<P> Dans le panneau <I>Editors</I>, on peut choisir le symbole à utiliser
+pour représenter les nombres hexadécimaux: <B>$</B> ou <B>0x</B>. C'est
+le symbole qui est utilisé par l'éditeur de gabarits lorqu'il doit afficher 
+une valeur hexadécimale. Inversement si l'on doit saisir un nombre hexadécimal dans
+un champ, on peut utiliser indifféremment l'un des deux symboles. Rezilla
+accepte les deux.<P><P> Les lettres hexadécimales (a à f) peuvent être affichées en
+majuscules ou en minuscules. On fait ce choix au moyen de la préférence
+appelée <I>Hexadecimal digits</I>.<P><H3>Panneau <I>Misc</I></H3><P><P> Dans le panneau <I>Misc</I> (abréviation de <I>miscellaneous</I> qui
+signifie <I>divers</I>), on peut spécifier au moyen de la préférence <I>Set type and creator when closing</I> un type et une signature à attribuer
+à un fichier de ressources après qu'il a été édité par Rezilla et refermé.
+Les valeurs par défaut sont <I>rsrc</I> et <I>Rzil</I> respectivement.
+Cette préférence est à utiliser avec précaution car certains fichiers, tels
+que les fichiers d'applications, possèdent leur propre créateur qui ne doit
+pas être modifié. Il y a en outre une case à cocher appelée <I>Only files
+with .rsrc extension</I> qui permet de limiter la portée de cette
+préférence aux fichiers portant une extension <I>.rsrc</I>.<P><P> La préférence <I>Use Rezilla's signature for new maps</I> permet de
+décider si Rezilla doit attribuer sa proprre signature aux fichiers de
+ressources novellement créés. S'ils ont cette signature, ils seront, par la
+suite, ouverts automatiquement dans Rezilla en réponse à un double clic
+sur leur icone.<P>
 
 </BODY>
 </HTML>

@@ -13,16 +13,7 @@ affichée dans une fenêtre donnant la liste des divers types de ressources
 contenus dans le fichier: si l'on clique sur le petit triangle placé à la
 gauche du type, la table affiche, au second niveau, la liste des
 différentes ressources de ce type, avec leur numéro (ID), leur taille et
-leur nom (si elles en ont un).<P><P><IMG SRC="../../Images/rzil_rezmaptable.gif" ALT="Table de ressources" ALIGN=bottom></P><P>En double-cliquant sur une ressource dans la table, on appelle l'éditeur
-hexadécimal pour cette ressource. Cela équivaut à selectionner la
-ressource et choisir la commande <I>Edit</I> dans le Menu Ressource.<P><P> En cliquant, avec la touche option enfoncée, sur un ressource dans la
-table, on appelle la fenêtre de l'Inspecteur pour cette ressource. Cela équivaut 
-à selectionner la ressource et choisir le commande <I>Get Info</I> dans
-le Menu Ressource. Voir la section <I>fenêtre de l'Inspecteur</I> plus
-loin.<P><P> Noter que cliquer sur un des triangles avec la touche Option enfoncée
-permet d'agir sur tous les types de ressources à la fois: si le triangle
-était fermé, tous les types de ressources seront ouverts, et inversement si
-il était ouvert alors tous les types de ressources seront fermés.<P><P> Le bas de la table de ressources comporte des indicateurs affichant
+leur nom (si elles en ont un).<P><P><IMG SRC="../../Images/rzil_rezmaptable.gif" ALT="Table de ressources" ALIGN=bottom></P><P><P> Le bas de la table de ressources comporte des indicateurs affichant
 le nombre de types différents contenus dans cette table et le nombre total de
 ressources. Les lettres DF ou RF à droite du nombre de ressources indiquent
 si la table de ressources a été ouverte à partir de la branche de données
@@ -33,7 +24,69 @@ en mode lecture seule. Dans ce mode, on ne peut exécuter aucune commande
 d'édition: toutes les commandes de menu relatives aux fonctions d'édition
 de la table de ressources sont désactivées. On peut cependant visualiser le
 contenu d'une ressource au moyen de l'éditeur hexadécimal mais il sera en
-mode lecture seule lui aussi.<P>
+mode lecture seule lui aussi.<P><H3>Éditer une ressource</H3>
+En double-cliquant sur une ressource dans la table, on appelle un éditeur
+pour cette ressource. Cela équivaut à selectionner la
+ressource et choisir la commande <I>Edit</I> dans le Menu Ressource.
+Il existe principalement trois modes d'édition pour un type de resource 
+particulier faisant appel à trois types d'éditeurs:
+<UL>
+	<LI> un éditeur dédié
+	<LI> l'éditeur de gabarits
+	<LI> l'éditeur hexadécimal
+</UL><P>Quelques types de ressources possèdent un <I>éditeur dédié</I>: c'est en
+général un éditeur qui offre une interface graphique spécifique permettant
+d'éditer et de modifier facilement la ressource sans avoir à connaître quoi
+que ce soit de la façon dont elle est construite et stockée. L'éditeur de
+gabarits est aussi un éditeur graphique. Il fait appel à ce que l'on
+appelle un gabarit de ressource (en anglais <I>template</I>): un gabarit
+est une description abstraite de la structure d'une ressource qui est
+utilisée par Rezilla pour construire une interface graphique. De très
+nombreuses ressources possèdent un format prédéfini qui peut être décrit au
+moyen d'un gabarit. Rezilla possède plus de 150 gabarits et il est aussi
+possible d'installer des gabarits supplémentaires qui seront
+automatiquement pris en compte par Rezilla (voir la section <I>Éditeur de
+Gabarits</I> plus loin). L'éditeur hexadécimal enfin est disponible pour
+tous les types de ressources: les données binaires de la ressource sont
+éditées directement par leur valeur hexadécimale. C'est en quelque sorte un
+éditeur de bas niveau qui permet d'accéder directement au contenu binaire
+de la ressource (voir la section <I>Éditeur Hexadécimal</I> plus 
+loin).<P><P> Lorsque la commande <I>Edit</I> est invoquée pour une ressource 
+particulière, Rezilla recherche tout d'abord s'il existe un éditeur 
+dédié pour ce type de ressource. S'il n'en trouve aucun, il cherche 
+alors si un gabarit est disponible afin d'invoquer l'éditeur de 
+gabarits. En cas d'échec, il appellera en dernier recours l'éditeur
+hexadécimal.<P><H3>Types de remplacement</H3><P>Certains types de ressource ont des structures identiques. Par 
+exemple, une ressource de type <I>kcs4</I> décrivant une petite icone de
+clavier utilise le même format qu'une ressource de type <I>ics4</I>. 
+Ces types sont donc interchangeables du point de vue des éditeurs, 
+l'un pouvant être édité au moyen d'un éditeur de l'autre. Rezilla 
+connaît un certain nombre de situations de ce type et opère la 
+substitution automatiqument lorsque c'est nécessaire. Par exemple, s'il 
+ne trouve pas de gabarit pour une ressource <I>itl0</I>, il utilisera 
+celui des ressources <I>INTL</I> à la place.<P><P> On peut aussi forcer Rezilla à se servir d'un type à la place d'un
+autre. Il faut pour cela utiliser la commande <I>Save as type...</I> qui
+se trouve dans le menu <I>Resource</I>. Elle affiche un petit dialogue dans
+lequel on peut spécifier le type de remplacement soit à partir d'un menu,
+soit en le tapant directement dans le champ de saisie.<P><H3>Modificateurs</H3>
+<P> Lorsque l'on fait un double-clic sur une ressource dans la 
+table, on peut aussi enfoncer simultanément une touche modificatrice:
+<UL>
+	<LI> si la touche <I>Majuscule</I> est enfoncée pendant un double-clic, 
+l'éditeur de gabarits est appelé directement pour cette ressource. Si 
+aucun gabarit n'est disponible, l'éditeur hexadécimal est appelé à la 
+place.
+	<LI> si la touche <I>Option</I> est enfoncée pendant un double-clic, 
+l'éditeur hexadécimal est appelé directement pour cette ressource.
+</UL><P><P> Plusieurs ressources peuvent être sélectionnées simultanément dans la 
+table afin de les éditer.<P><P> En cliquant (simple clic) sur une ressource avec la
+touche <I>Contrôle</I> enfoncée, on appelle la fenêtre de l'Inspecteur
+pour cette ressource. Cela équivaut à selectionner la ressource et choisir
+le commande <I>Get Info</I> dans le Menu Ressource. Voir la section 
+<I>fenêtre de l'Inspecteur</I> plus loin.<P><P> Noter que cliquer sur un des triangles avec la touche Option enfoncée
+permet d'agir sur tous les types de ressources à la fois: si le triangle
+était fermé, tous les types de ressources seront ouverts, et inversement si
+il était ouvert alors tous les types de ressources seront fermés.<P>
 
 </BODY>
 </HTML>

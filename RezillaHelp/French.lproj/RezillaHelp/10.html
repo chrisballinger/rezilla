@@ -1,28 +1,32 @@
 <HTML>
 <HEAD>
-<TITLE>Historique</TITLE>
+<TITLE>Glisser-Déposer</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="9.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="11.html">Suiv</A><HR><P>&nbsp;</P>
-<H2>Historique</H2>
-Ce projet a démarré en mai 2003 et a été installé sur le site de
-<A HREF="http://sourceforge.net/projects/rezilla"> SourceForge</A> en juin 2003: c'est un projet qui est en cours de
-développement, il reste encore un certain nombre de fonctionnalités à
-installer. Voir le fichier <I>Changes_Rezilla</I> pour plus de détails
-concernant l'évolution du projet.
-<UL>
-	<LI> 2003-06-01 - 1.0.1a0, a1... - Stades successifs de développement du
-programme en phase alpha.
-	<LI> 2004-05-07 - 1.0.1a - Première version alpha publique du programme.
-Fonctions de base.
-	<LI> 2004-05-24 - 1.0.2a - Deuxième version alpha publique du programme.
-Préférences.
-	<LI> 2004-06-09 - 1.0.3a - Troisième version alpha publique du programme.
-Fenêtres redimensionnables. Préférences de style.
-</UL><P>
+<H2>Glisser-Déposer</H2>
+Rezilla supporte le Glisser-Déposer <I>(drag and drop)</I>. On peut faire
+glisser une sélection de ressources d'une table de ressources à une autre
+afin de les copier dans la table de destination. Si la table de destination
+est la même que celle de départ, les ressources sont simplement dupliquées.<P><P> Lorsque l'on fait glisser une sélection de ressources provenant d'une
+table de ressources jusqu'à la corbeille qui se trouve sur le Bureau, ces
+ressources sont supprimées de la table.<P><P> Si l'on fait glisser un morceau de texte depuis un éditeur de texte
+externe sur une table de ressources de Rezilla, une nouvelle ressource de
+type TEXT contenant ce texte est créée (la taille du texte est limitée à
+32k). Plus généralement, si l'on fait glisser une sélection d'un certain
+type <I>(flavor)</I> sur une table de ressources dans Rezilla, des
+ressources de même type sont créées. Par exemple, si l'on fait glisser une
+image sélectionnée dans un programme tel que
+<A HREF="http://www.lemkesoft.de/en/graphcon.htm">GraphicConverter</A> 
+jusqu'à Rezilla, deux ressources sont créées: une ressource de type Rect
+contenant les dimensions de l'image, une autre ressource de type PICT
+contenant une représentation au format PICT de cette image.<P><P> Dans le dialogue de Comparaison de Tables de ressources, il est
+possible de faire glisser l'icone d'un fichier depuis le Finder et de la
+déposer dans un des champs correspondant aux fichiers à comparer. Cela
+remplace la sélection du fichier au moyen des boutons <I>Set</I>.<P>
 
 </BODY>
 </HTML>

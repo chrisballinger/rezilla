@@ -112,18 +112,30 @@ ID, le nom et les attributs de la nouvelle ressource. Une ressource est
 alors créée ne contenant aucune donnée. Noter que cette ressource est créée
 en mémoire et qu'il faudra sauvegarder le fichier pour la rendre
 définitive.</DL><P><DT><B>Edit</B><DL><DT>
+Appelle un éditeur pour la ou les ressources sélectionnées dans la table de
+ressources courante. Si Rezilla ne trouve aucun éditeur dédié, il cherche
+si un gabarit est disponible afin d'invoquer l'éditeur de gabarits. En cas
+d'échec, il appelle l'éditeur hexadécimal. C'est équivalent à
+double-cliquer sur les ressources dans la table.</DL><P><DT><B>Template Editor</B><DL><DT>
+Appelle l'éditeur de gabarits pour la ou les ressources sélectionnées dans
+la table de ressources courante. Si Rezilla ne trouve aucun gabarit, il
+appelle l'éditeur hexadécimal. C'est équivalent à double-cliquer sur les
+ressources dans la table avec la touche Majuscule enfoncée.</DL><P><DT><B>Hexadecimal Editor</B><DL><DT>
 Appelle l'éditeur hexadécimal pour la ou les ressources sélectionnées dans
-la table de ressources courante. C'est équivalent à double-cliquer sur une
-ressource dans une table de ressources.</DL><P><DT><B>Get Info</B><DL><DT>
-Appelle la fenêtre <I>Inspecteur</I> pour le première ressource
-sélectionnée dans la table de ressources courante. C'est équivalent à
-cliquer sur une ressource dans une table de ressources en maintenant la
+la table de ressources courante. C'est équivalent à double-cliquer sur les
+ressources dans la table avec la touche Option enfoncée.</DL><P><DT><B>Edit as Type...</B><DL><DT>
+Force Rezilla à utiliser un type de remplaceement. Dans le dialogue
+affiché, on peut spécifier le type soit à partir d'un menu, soit en le
+tapant directement dans le champ de saisie.</DL><P><DT><B>Remove</B><DL><DT>
+Supprime toutes les ressources sélectionnées de la table de ressources.</DL>
 touche Option enfoncée.</DL><P><DT><B>Duplicate</B><DL><DT>
 Duplique la ou les ressources sélectionnées dans la table de ressources.
 Cette commande attribue un numéro unique d'identification (ID) aux
 ressources dupliquées. On peut modifer ces valeurs par la suite dans
-la fenêtre <I>Inspecteur</I>.</DL><P><DT><B>Remove</B><DL><DT>
-Supprime toutes les ressources sélectionnées de la table de ressources.</DL><P></DL>
+la fenêtre <I>Inspecteur</I>.</DL><P><DT><B>Get Info</B><DL><DT>
+Appelle la fenêtre <I>Inspecteur</I> pour le première ressource
+sélectionnée dans la table de ressources courante. C'est équivalent à
+cliquer sur une ressource dans une table de ressources en maintenant la<P></DL>
 </UL><P><H3>Menu Fenêtres </H3>
 <P> Ce menu comporte la liste des fenêtres couramment ouvertes dans
 Rezilla (tables de ressources, fenêtres d'édition etc.). En sélectionant un

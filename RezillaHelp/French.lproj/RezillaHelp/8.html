@@ -1,32 +1,28 @@
 <HTML>
 <HEAD>
-<TITLE>Glisser-Déposer</TITLE>
+<TITLE>Interfaces d'éditionLes interfaces d'édition sont des modes d'édition qui définissent une</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="7.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="9.html">Suiv</A><HR><P>&nbsp;</P>
-<H2>Glisser-Déposer</H2>
-Rezilla supporte le Glisser-Déposer <I>(drag and drop)</I>. On peut faire
-glisser une sélection de ressources d'une table de ressources à une autre
-afin de les copier dans la table de destination. Si la table de destination
-est la même que celle de départ, les ressources sont simplement dupliquées.<P><P> Lorsque l'on fait glisser une sélection de ressources provenant d'une
-table de ressources jusqu'à la corbeille qui se trouve sur le Bureau, ces
-ressources sont supprimées de la table.<P><P> Si l'on fait glisser un morceau de texte depuis un éditeur de texte
-externe sur une table de ressources de Rezilla, une nouvelle ressource de
-type TEXT contenant ce texte est créée (la taille du texte est limitée à
-32k). Plus généralement, si l'on fait glisser une sélection d'un certain
-type <I>(flavor)</I> sur une table de ressources dans Rezilla, des
-ressources de même type sont créées. Par exemple, si l'on fait glisser une
-image sélectionnée dans un programme tel que
-<A HREF="http://www.lemkesoft.de/en/graphcon.htm">GraphicConverter</A> 
-jusqu'à Rezilla, deux ressources sont créées: une ressource de type Rect
-contenant les dimensions de l'image, une autre ressource de type PICT
-contenant une représentation au format PICT de cette image.<P><P> Dans le dialogue de Comparaison de Tables de ressources, il est
-possible de faire glisser l'icone d'un fichier depuis le Finder et de la
-déposer dans un des champs correspondant aux fichiers à comparer. Cela
-remplace la sélection du fichier au moyen des boutons <I>Set</I>.<P>
+<H2>Interfaces d'édition</H2><P>Les interfaces d'édition sont des modes d'édition qui définissent une
+interface graphique dédiée spécifiquement à un type de ressources
+particulier (ou à une famille des types). Elles diffèrent de l'édition par
+gabarits en ce qu'elles ne reposent pas sur l'existence d'un gabarit
+descriptif prédéfini. Elles sont aussi en général plus puissantes que les
+gabarits car elles sont écrites spécifiquement pour tenir compte de toutes
+les particularité du type concerné. Par exemple, une interface d'édition
+pour les ressources de type 'TEXT' sera capable de gérer les éléments
+stylistiques, tels que le choix de polices, de taille, de style de
+caractères (gras, italique etc.): l'éditeur de gabarits est aussi capable 
+d'éditer une ressource de type 'TEXT' mais il ne peut pas tenir compte du
+style.<P>Depuis la version 1.0.4, Rezilla dispose justement d'un éditeur de textes
+qui permet d'éditer à la fois des ressources de type 'TEXT' et de type
+'styl' et gère les informations de police, taille et style.<P>De futures versions de Rezilla ajouteront d'autres interface d'édition, en
+particulier pour faciliter l'édition de ressources graphiques (icones,
+images).<P>
 
 </BODY>
 </HTML>
