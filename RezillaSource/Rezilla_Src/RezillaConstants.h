@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2004-04-19 16:38:33
+//             Last modification : 2004-05-17 10:02:14
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -56,6 +56,14 @@ enum
 	export_Derez
 } ;
 
+enum
+{	
+	export_KeyDtd = 1,		// Key-based DTD
+	export_AttrDtd = 2,		// Attrs-based DTD
+	export_HexEnc = 3,		// Hexadecimal encoding for binary data
+	export_Base64Enc = 4	// Base64 encoding for binary data
+} ;
+
 // Rez comparison results
 enum
 {	
@@ -65,6 +73,20 @@ enum
 	compare_nameDiff,
 	compare_flagDiff
 } ;
+
+enum
+{	
+	compare_hexDisplay = 0,
+	compare_txtDisplay
+} ;
+
+// The indices of the MultiPanel's views
+enum {
+  mpv_General = 1,
+  mpv_Export,
+  mpv_Compare
+};
+
 
 
 
@@ -86,6 +108,10 @@ const ResIDT	rPPob_AboutWindow			= 5000;
 const ResIDT	rPPob_LicenceWindow			= 5100;
 const ResIDT	rPPob_RezCompDialog			= 6000;
 const ResIDT	rPPob_RezCompWindow			= 6500;
+const ResIDT	rPPob_PrefsWindow			= 7000;
+const ResIDT	rPPob_PrefsGeneralPane		= 7100;
+const ResIDT	rPPob_PrefsExportPane		= 7200;
+const ResIDT	rPPob_PrefsComparePane		= 7300;
 const ResIDT	rPPob_FindDialog			= 8500;
 const ResIDT	rPPob_SimpleMessage			= 9500;
 const ResIDT	rPPob_AskIfMessage			= 9510;
@@ -266,7 +292,33 @@ const PaneIDT	item_CompResultOnlyNewTbl	= 15;
 // Ask Unique ID dialog
 // --------------------
 const PaneIDT	item_UidOtherConflicts		= 1;
-
+// Preferences
+// -----------
+const PaneIDT   item_PrefsOkButton			= 1;
+const PaneIDT   item_PrefsCancelButton		= 2;
+const PaneIDT   item_RevertPrefs			= 3;
+const PaneIDT   item_PrefsPageController	= FOUR_CHAR_CODE('PCTL') ;
+const PaneIDT   item_PrefsMultiPanelView	= FOUR_CHAR_CODE('PMPV') ;
+//     General Prefs Pane
+//     ------------------
+const PaneIDT	item_GenPrefsMaxRecent		= 2;
+const PaneIDT	item_GenPrefsResetRecent	= 3;
+//     Export Prefs Pane
+//     -----------------
+const PaneIDT	item_ExpPrefsDtdRgbx		= 2;
+const PaneIDT	item_ExpPrefsKeyDtd			= 3;
+const PaneIDT	item_ExpPrefsAttrDtd		= 4;
+const PaneIDT	item_ExpPrefsInclBinData	= 5;
+const PaneIDT	item_ExpPrefsEncRgbx		= 6;
+const PaneIDT	item_ExpPrefsHexEnc			= 7;
+const PaneIDT	item_ExpPrefsBase64Enc		= 8;
+//     Compare Prefs Pane
+//     ------------------
+const PaneIDT	item_CompPrefsIgnName		= 2;
+const PaneIDT	item_CompPrefsIgnAttr		= 3;
+const PaneIDT	item_CompPrefsIgnData		= 4;
+const PaneIDT	item_CompPrefsHexDisplay	= 5;
+const PaneIDT	item_CompPrefsTxtDisplay	= 6;
 
 // Navigation dialogs custom items
 // -------------------------------
@@ -349,6 +401,26 @@ const MessageT	msg_CompResultOnlyNewTbl	= rPPob_RezCompWindow + item_CompResultO
 // Ask Unique ID dialog
 // --------------------
 const MessageT	msg_UidOtherConflicts	= rPPob_AskUniqueID + item_UidOtherConflicts;
+// Preferences
+// -----------
+//     General Prefs Pane
+//     ------------------
+const MessageT  msg_GenPrefsMaxRecent       = rPPob_PrefsGeneralPane + item_GenPrefsMaxRecent;
+const MessageT	msg_GenPrefsResetRecent		= rPPob_PrefsGeneralPane + item_GenPrefsResetRecent;
+//     Export Prefs Pane
+//     -----------------
+const MessageT	msg_ExpPrefsKeyDtd			= rPPob_PrefsExportPane + item_ExpPrefsKeyDtd;
+const MessageT	msg_ExpPrefsAttrDtd			= rPPob_PrefsExportPane + item_ExpPrefsAttrDtd;
+const MessageT	msg_ExpPrefsInclBinData		= rPPob_PrefsExportPane + item_ExpPrefsInclBinData;
+const MessageT	msg_ExpPrefsHexEnc			= rPPob_PrefsExportPane + item_ExpPrefsHexEnc;
+const MessageT	msg_ExpPrefsBase64Enc		= rPPob_PrefsExportPane + item_ExpPrefsBase64Enc;
+//     Compare Prefs Pane
+//     ------------------
+const MessageT	msg_CompPrefsIgnName		= rPPob_PrefsComparePane + 2;
+const MessageT	msg_CompPrefsIgnAttr		= rPPob_PrefsComparePane + 3;
+const MessageT	msg_CompPrefsIgnData		= rPPob_PrefsComparePane + 4;
+const MessageT	msg_CompPrefsHexDisplay		= rPPob_PrefsComparePane + 5;
+const MessageT	msg_CompPrefsTxtDisplay		= rPPob_PrefsComparePane + 6;
 
 
 
