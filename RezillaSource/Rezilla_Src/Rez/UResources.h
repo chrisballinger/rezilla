@@ -2,11 +2,11 @@
 // UResources.h					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2004-03-15 18:56:38
+//             Last modification: 2004-11-16 06:49:51
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003, 2004
+// (c) Copyright : Bernard Desgraupes, 2003-2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -30,7 +30,6 @@ struct SResourceObjInfo {
 	Boolean		lock;
 	Boolean		protect;
 	Boolean		preload;
-	Boolean		compress;
 };
 
 typedef struct SResourceObjInfo SResourceObjInfo;
