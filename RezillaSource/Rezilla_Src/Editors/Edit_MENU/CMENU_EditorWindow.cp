@@ -120,6 +120,21 @@ void
 CMENU_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam ) 
 {	
 	switch (inMessage) {
+// 		case 'Glyf': 
+// 		Str255 theString;
+// 		SInt32 theGlyph;
+// 		
+// 		LEditText * theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(item_MenuEditGlyph));
+// 		ThrowIfNil_( theEditText );
+// 		theEditText->GetDescriptor(theString);
+// 		::StringToNum( theString, &theGlyph);
+// 		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(50));
+// 		ThrowIfNil_( theEditText );
+// 		theString[0] = 1;
+// 		theString[1] = (UInt32) theGlyph;
+// 		theEditText->SetDescriptor(theString);
+// 
+// 		break;
 		
 		default:
 		dynamic_cast<CMENU_EditorDoc *>(mOwnerDoc)->ListenToMessage(inMessage, ioParam);
