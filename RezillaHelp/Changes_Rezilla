@@ -48,6 +48,10 @@ Last modification: $Date$
 		'icl4', 'icl8', 'ics4', or 'ics8') in the Inspector Window
 	* fixed issue with null bytes in search code
 	* fix in hex to byte converter
+	* new application and documents icons
+	* doc was not marked as modified after a Remove or Duplicate action
+	* doc was not marked as non-modified after a simple Save
+	* 
 	* 
 
 ================================================================================
