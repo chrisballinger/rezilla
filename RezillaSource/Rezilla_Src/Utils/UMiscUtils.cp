@@ -454,6 +454,35 @@ UMiscUtils::SetTypeAndCreator(FSSpec inFSSpec, OSType inType, OSType inCreator)
 }
 
 
+// ---------------------------------------------------------------------------
+//	¥ HasExtension													[static]
+// ---------------------------------------------------------------------------
+
+Boolean 
+UMiscUtils::HasExtension(FSSpec * inFSSpec, char * inExtension)
+{
+	Boolean	hasExtension = false;
+	
+	CFURLRef nameUrl = CFURLCreateWithBytes(kCFAllocatorDefault, 
+											(const UInt8 * ) inFSSpec->name + 1, inFSSpec->name[0], 
+											kCFStringEncodingMacRoman, NULL);
+	if (nameUrl) {
+		CFStringRef fileExtRef = CFURLCopyPathExtension(nameUrl);
+		if (fileExtRef) {
+			CFStringRef inExtRef = CFStringCreateWithCString(kCFAllocatorDefault, inExtension, kCFStringEncodingMacRoman);
+			if (inExtRef) {
+				hasExtension = (CFStringCompare(fileExtRef, inExtRef, kCFCompareCaseInsensitive) == 0);
+				CFRelease(inExtRef);
+			} 
+			CFRelease(fileExtRef);
+		} 
+		CFRelease(nameUrl);
+	} 
+	
+	return hasExtension;
+}
+
+
 #pragma mark -
 
 // ---------------------------------------------------------------------------
