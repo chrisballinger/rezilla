@@ -933,7 +933,12 @@ CRezMapDoc::AskSaveAs(
 				}
 
 				if (replacing) {		// Delete existing file
-					ThrowIfOSErr_(::FSpDelete(&outFSSpec));
+					// Delete existing file
+					OSErr error = ::FSpDelete(&outFSSpec);
+					if (error) {
+						UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("CouldNotDeleteExistingFile"), PPob_SimpleMessage);
+						return saveOK;
+					} 
 				}
 
 				DoAESave(outFSSpec);
@@ -1109,8 +1114,13 @@ CRezMapDoc::AskExportAs(
 				} catch (...) { }
 			}
 
-			if (replacing) {		// Delete existing file
-				ThrowIfOSErr_(::FSpDelete(&outFSSpec));
+			if (replacing) {
+				// Delete existing file
+				OSErr error = ::FSpDelete(&outFSSpec);
+				if (error) {
+					UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("CouldNotDeleteExistingFile"), PPob_SimpleMessage);
+					return saveOK;
+				} 
 			}
 
 			DoAEExport(outFSSpec);
