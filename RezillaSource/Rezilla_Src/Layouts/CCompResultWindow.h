@@ -2,7 +2,7 @@
 // CCompResultWindow.h				
 // 
 //                       Created: 2004-03-02 14:18:16
-//             Last modification: 2004-03-17 17:30:06
+//             Last modification: 2004-03-18 19:23:27
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -36,6 +36,13 @@ enum
 class CCompResultWindow : public LWindow, public LListener {
 public:
 	enum { class_ID = 'RcrW' };
+
+	enum {	
+		compare_undefinedTbl = 0,
+		compare_onlyinOldTbl,
+		compare_onlyinNewTbl,
+		compare_differTbl
+	};
 
 							CCompResultWindow();
 							CCompResultWindow( const SWindowInfo &inWindowInfo );
@@ -71,6 +78,7 @@ protected:
 	CBroadcasterTableView *	mOnlyOldTable;
 	CBroadcasterTableView *	mOnlyNewTable;
 	CBroadcasterTableView *	mDifferTable;
+	SInt16					mActiveTable;
 	
 	virtual void		SetMaxScrollerValue();
 	SInt32				HexLineCount();

@@ -2,7 +2,7 @@
 // CHexEditorWindow.cp					
 // 
 //                       Created: 2004-03-02 14:18:16
-//             Last modification: 2004-03-17 17:29:56
+//             Last modification: 2004-03-18 19:19:14
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -322,17 +322,6 @@ CCompResultWindow::DoClose()
 }
 
 
-
-// // ---------------------------------------------------------------------------
-// //	¥ DisplayBothSelections											[protected]
-// // ---------------------------------------------------------------------------
-// 
-// void
-// CCompResultWindow::DisplayBothSelections(SInt32 inStart, SInt32 inEnd)
-// {
-// }
-
-
 // ---------------------------------------------------------------------------
 //	¥ IsDirty														[public]
 // ---------------------------------------------------------------------------
@@ -340,7 +329,7 @@ CCompResultWindow::DoClose()
 Boolean
 CCompResultWindow::IsDirty()
 {
-/* 	return (mHexDataWE->IsDirty() || mTxtDataWE->IsDirty()); */
+/* 	return (mOldHexDataWE->IsDirty() || mNewHexDataWE->IsDirty()); */
     return true;
 }
 
@@ -464,19 +453,27 @@ CCompResultWindow::HexLineCount()
 void
 CCompResultWindow::InsertHexContentsFromLine(SInt32 inFromLine)
 {
+	Handle theOldHandle = WEGetText( mOldHexDataWE->GetWasteRef() );
+	Handle theNewHandle = WEGetText( mNewHexDataWE->GetWasteRef() );
 	SInt32 oldByteCount = mOldHexDataWE->GetTextLength();
 	SInt32 newByteCount = mNewHexDataWE->GetTextLength();
-	SInt32 skipChars = 	(inFromLine - 1) * kRzilHexCompCharsPerLine;
-	
-	EraseHexPanes();
-	
-	if (oldByteCount > skipChars) {
-		mOldHexDataWE->InsertHexContents( *(mOldHexDataWE->GetTextHandle()) + skipChars, oldByteCount - skipChars);
+	SInt32 charOffset = (inFromLine - 1) * kRzilHexCompCharsPerLine;
+	SInt32 remainingChars;
+
+	remainingChars = oldByteCount - charOffset;
+
+	if (remainingChars > kRzilHexCompCharsPerPane) {
+		remainingChars = kRzilHexCompCharsPerPane;
 	} 
+	mOldHexDataWE->InsertHexContents( (*theOldHandle) + charOffset, remainingChars);
 	
-	if (newByteCount > skipChars) {
-		mNewHexDataWE->InsertHexContents( *(mNewHexDataWE->GetTextHandle()) + skipChars, newByteCount - skipChars);
+	remainingChars = newByteCount - charOffset;
+
+	if (remainingChars > kRzilHexCompCharsPerPane) {
+		remainingChars = kRzilHexCompCharsPerPane;
 	} 
+	mNewHexDataWE->InsertHexContents( (*theOldHandle) + charOffset, remainingChars);
+	
 	// Adjust the scrollbar
 	mScroller->SetValue(inFromLine-1);
 }
