@@ -63,15 +63,6 @@ public:
 									SInt32			inVertDelta,
 									Boolean			inRefresh);
 
-	virtual	OSErr			Insert(	const void*			inText,
-									SInt32				inLength,
-									StScrpHandle		inStyleH = nil,
-									Boolean				inRefresh = false );
-
-	virtual	OSErr			Insert(
-								   Str255       inString,
-								   Boolean      inRefresh );
-
 	virtual	void			InsertContents(Handle inHandle);
 	
 	virtual	void			InsertContents(

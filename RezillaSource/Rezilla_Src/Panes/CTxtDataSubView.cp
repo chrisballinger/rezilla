@@ -505,57 +505,6 @@ CTxtDataSubView::ScrollImageBy(
 
 
 // ---------------------------------------------------------------------------
-//	¥ Insert								[public, virtual]
-// ---------------------------------------------------------------------------
-//	Will optionally recalculate, autoscroll, and refresh the text if desired.
-
-OSErr
-CTxtDataSubView::Insert(
-					   const void*		inText,
-					   SInt32			inLength,
-					   StScrpHandle		inStyleH,
-					   Boolean			inRefresh )
-{
-	LongRect	oldDestRect ;
-	OSErr		err;
-	
-	StFocusAndClipIfHidden	focus(this);
-
-	WEGetDestRect(&oldDestRect,mWasteEditRef);
-	
-	if ( !mMonoStyled && (inStyleH != nil) ) {
-		err = WEInsert(inText, inLength, (StScrpHandle) inStyleH, nil, mWasteEditRef ) ;
-	} else {
-		err = WEInsert(inText, inLength, nil, nil, mWasteEditRef);
-	}
-	
-	// Force a redraw. The WasteEdit internals are updated, so we need to
-	// reflect this fact.
-	if ( inRefresh ) {
-		AdjustImageToText();
-		ForceAutoScroll( oldDestRect );
-		Refresh();
-	}
-	return err;
-}
-
-
-// ---------------------------------------------------------------------------
-//	¥ Insert								[public, virtual]
-// ---------------------------------------------------------------------------
-
-OSErr
-CTxtDataSubView::Insert(
-					   Str255 		inString,
-					   Boolean		inRefresh )
-{
-	char * theStr = new char[256];
-	CopyPascalStringToC(inString,theStr);	
-	return Insert(theStr, inRefresh);
-}
-
-
-// ---------------------------------------------------------------------------
 //	¥ InsertContents								[public, virtual]
 // ---------------------------------------------------------------------------
 

@@ -719,22 +719,6 @@ CDualDataView::AdaptToNewSurroundings()
 }
 
 
-// // ---------------------------------------------------------------------------
-// //	¥ ResetBounds
-// // ---------------------------------------------------------------------------
-// 
-// void
-// CDualDataView::ResetBounds()
-// {
-// 	ResizeDataPanes();
-// 	UpdatePaneCounts();
-// 	mCurrFirstLine = 1;
-// 	InstallContentsFromLine(mCurrFirstLine);
-// 	mScroller->SetValue(0);
-// 	SetMaxScrollerValue();				
-// }
-
-
 // ---------------------------------------------------------------------------
 //	¥ ResizeDataPanes												[public]
 // ---------------------------------------------------------------------------
@@ -762,7 +746,7 @@ CDualDataView::ResizeDataPanes()
 // 	Formulas:
 // 	Width
 // 	If nc is the number of chars per line:
-// 		fract = (TGBXw - 46) / (CHARw x 5)
+// 		fract = (TGBXw - extraW) / (CHARw x 5)
 // 		nc = E(fract)
 // 	==>  
 // 		HDSVw = nc x CHARw x 3
@@ -770,14 +754,14 @@ CDualDataView::ResizeDataPanes()
 // 
 // 	Height:
 // 	If nl is the number of lines in each panel:
-// 		fract = (TGBXh - 11) / CHARh
+// 		fract = (TGBXh - extraH) / CHARh
 // 		nl = E(fract)
 // 	==>  
 // 		HDSVh = TDSVh = nl x CHARh
 // 
 // 	We also have the following proportions:	
-// 		HDSVw = 3/5 (TGBXw - 46)
-// 		TDSVw = 2/5 (TGBXw - 46)
+// 		HDSVw = 3/5 (TGBXw - extraW)
+// 		TDSVw = 2/5 (TGBXw - extraW)
 
 void
 CDualDataView::CalcPanesPositions(SInt32 & hexLeft, SInt16 & hexWidth, SInt16 & hexHeight, 

@@ -1055,7 +1055,7 @@ CWasteEditView::Insert(
 {
 	char * theStr = new char[256];
 	CopyPascalStringToC(inString,theStr);	
-	return Insert(theStr, inRefresh);
+	return Insert(theStr, inString[0], NULL, inRefresh);
 }
 
 
