@@ -2,7 +2,7 @@
 // CInspectorWindow.h				
 // 
 //                       Created: 2003-05-02 07:33:06
-//             Last modification: 2004-11-16 06:52:35
+//             Last modification: 2004-11-22 14:26:14
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -23,6 +23,7 @@ class CRezIconPane;
 class LCheckBox;
 class LPushButton;
 class CRezObjItem;
+class CRezObj;
 
 class CInspectorWindow : public LWindow, public LListener {
 public:
@@ -46,6 +47,8 @@ public:
 	void			DoClose();
 
 	void			InstallValues(CRezObjItem * inRezObjItem);
+	
+	void			InstallValues(CRezObj * inRezObj);
 	
 	void			InstallValues();
 	

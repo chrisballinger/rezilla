@@ -2,11 +2,11 @@
 // CInspectorWindow.cp					
 // 
 //                       Created: 2003-05-02 07:33:10
-//             Last modification: 2004-04-15 15:00:03
+//             Last modification: 2004-11-22 14:37:48
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003, 2004
+// (c) Copyright : Bernard Desgraupes, 2003-2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -318,20 +318,31 @@ CInspectorWindow::InstallValues(CRezObjItem * inRezObjItem)
 	ThrowIfNil_(inRezObjItem);
 	
 	mRezObjItem = inRezObjItem;
-	CRezObj * theRezObj = inRezObjItem->GetRezObj();
+	InstallValues(inRezObjItem->GetRezObj());
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ InstallValues												[public]
+// ---------------------------------------------------------------------------
+
+void
+CInspectorWindow::InstallValues(CRezObj * inRezObj)
+{
+	ThrowIfNil_(inRezObj);
 	
 	// Fill the SResourceObjInfo
-	mSavedInfo.refnum = theRezObj->GetOwnerRefnum();
-	mSavedInfo.type = theRezObj->GetType();
-	mSavedInfo.size = theRezObj->GetSize();
-	mSavedInfo.id = theRezObj->GetID();
-	BlockMoveData(theRezObj->GetName(),&mSavedInfo.name,sizeof(Str255));
+	mSavedInfo.refnum = inRezObj->GetOwnerRefnum();
+	mSavedInfo.type = inRezObj->GetType();
+	mSavedInfo.size = inRezObj->GetSize();
+	mSavedInfo.id = inRezObj->GetID();
+	BlockMoveData(inRezObj->GetName(),&mSavedInfo.name,sizeof(Str255));
 	mSavedInfo.iconid = 0;
-	mSavedInfo.sysheap = theRezObj->HasAttribute(resSysHeap);
-	mSavedInfo.purge = theRezObj->HasAttribute(resPurgeable);
-	mSavedInfo.lock = theRezObj->HasAttribute(resLocked);
-	mSavedInfo.protect = theRezObj->HasAttribute(resProtected);
-	mSavedInfo.preload = theRezObj->HasAttribute(resPreload);
+	mSavedInfo.sysheap = inRezObj->HasAttribute(resSysHeap);
+	mSavedInfo.purge = inRezObj->HasAttribute(resPurgeable);
+	mSavedInfo.lock = inRezObj->HasAttribute(resLocked);
+	mSavedInfo.protect = inRezObj->HasAttribute(resProtected);
+	mSavedInfo.preload = inRezObj->HasAttribute(resPreload);
 
 	InstallValues();
 }
