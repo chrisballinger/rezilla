@@ -28,7 +28,16 @@ This changes log is in reverse chronological order (from bottom to top).
 $Date$
 
 ================================================================================
-= 1.0.4a 	                             last update: 2004-11-22 22:55:26
+= 1.0.5a1	                             last update: 
+================================================================================
+¥ Created Rezilla's Object Model for AppleScript scripting.
+¥ Added dictionary corresponding to the Object Model:: Rezilla Suite
+  and Resource Suite.
+¥ Added PICT resources viewer.
+¥ 
+
+================================================================================
+= 1.0.4a 	                             last update: 2004-11-23 18:02:28
 ================================================================================
 ¥ Fourth public alpha release.
 
