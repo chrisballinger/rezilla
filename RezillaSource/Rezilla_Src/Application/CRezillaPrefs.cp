@@ -140,6 +140,7 @@ CRezillaPrefs::SetDefaultPreferences()
 	// Interface pane
 	UTextTraits::LoadSystemTraits(mCurrPrefs.interface.traitsRecord);
 	mCurrPrefs.interface.traitsRecord.size = 10;
+	MetricsFromTraits( &mCurrPrefs.interface.traitsRecord );
 }
 
 
@@ -545,6 +546,7 @@ CRezillaPrefs::PrefsHaveChanged()
 void
 CRezillaPrefs::ApplyStylePrefs() 
 {
+	MetricsFromTraits( &mCurrPrefs.interface.traitsRecord );
 	BroadcastMessage(msg_StylePrefsChanged, &mCurrPrefs);
 }
 
@@ -909,4 +911,19 @@ CRezillaPrefs::SizeIndexFromSizeValue(LPopupButton * inPopup, SInt16 inSize)
 	return i;
 }
 
+
+// ---------------------------------------------------------------------------
+//	¥ MetricsFromTraits											[private]
+// ---------------------------------------------------------------------------
+void
+CRezillaPrefs::MetricsFromTraits(ConstTextTraitsPtr inTextTraits)
+{
+	FontInfo metrics;
+	
+	UTextTraits::SetPortTextTraits( inTextTraits );
+	::GetFontInfo( &metrics );
+
+	CRezillaApp::sBasics.charWidth = metrics.widMax;
+	CRezillaApp::sBasics.charHeight = metrics.ascent + metrics.descent + metrics.leading;
+}
 
