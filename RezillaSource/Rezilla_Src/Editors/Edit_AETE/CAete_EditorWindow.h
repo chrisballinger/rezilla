@@ -2,11 +2,11 @@
 // CAete_EditorWindow.h
 // 
 //                       Created: 2004-07-01 08:42:37
-//             Last modification: 2005-01-22 15:42:39
+//             Last modification: 2005-01-24 14:48:38
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004, 2005
+// (c) Copyright : Bernard Desgraupes, 2004-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -17,17 +17,22 @@
 #pragma once
 
 #include "CEditorWindow.h"
+#include "CAeteStream.h"
+#include "CAete.h"
+#include "CAeteSuite.h"
+#include "CAeteEvent.h"
+#include "CAeteParameter.h"
+#include "CAeteClass.h"
+#include "CAeteProperty.h"
+#include "CAeteElement.h"
+#include "CAeteCompOp.h"
+#include "CAeteEnumeration.h"
 
-#include <stdarg.h>
 
 class LPageController;
 class LMultiPanelView;
-class LSlider;
 class LPopupButton;
-class LScrollerView;
 class LStaticText;
-class CAete;
-class CAeteStream;
 
 
 class CAete_EditorWindow : public CEditorWindow {
@@ -61,10 +66,14 @@ public:
 	void				InstallResourceInfo();
 	void				InstallSuiteInfo();
 	void				InstallPanelValues();
-	void				InstallEventValues();
-	void				InstallClassValues();
-	void				InstallCompOpValues();
-	void				InstallEnumerationValues();
+	void				InstallEventValues(CAeteEvent * inEvent);
+	void				InstallParameterValues(CAeteParameter* inParameter);
+	void				InstallClassValues(CAeteClass * inClass);
+	void				InstallPropertyValues(CAeteProperty * inProperty);
+	void				InstallElementValues(CAeteElement * inElement);
+	void				InstallCompOpValues(CAeteCompOp * inCompOp);
+	void				InstallEnumerationValues(CAeteEnumeration * inEnum);
+	void				InstallEnumeratorValues(AeteEnumerator * inEnumerator);
 
 	void *				FindCurrentObject(SInt8 inKind);
 
@@ -76,24 +85,31 @@ public:
 	void				RetrieveCompOpValues();
 	void				RetrieveEnumerationValues();
 		
-	// Accessors
 
 	static LMenu		*sAeteMenu;
+	static Str31		sAddEventStr, sAddClassStr, sAddCompOpStr, sAddEnumerationStr,
+						sRemoveEventStr, sRemoveClassStr, sRemoveCompOpStr, sRemoveEnumerationStr;
 
 protected:
 	CAete *					mAete;
 	UInt8					mCurrentPanel;
 	LPageController *		mController;
 	LMultiPanelView *		mMultiPanel;
-	LSlider *				mMainSlider;
-	LStaticText *			mIndicator;
 	LPopupButton *			mSuitesPopup;
+	LView					*mEventPane,
+							*mClassPane,
+							*mCompOpPane,
+							*mEnumerationPane;
 	
 	virtual void		FinishCreateSelf();
 	virtual void		PutOnDuty(LCommander *inNewTarget);
 	virtual void		TakeOffDuty();
 
 private:
+	void				SetIndicator(LStaticText * inIndicator, SInt32 inValue, SInt32 inTotal);
+	void				UpdateSlider(SInt32 inSliderID, SInt32 inValue, SInt32 inTotal);
+	void				SetCurrentIndex(SInt32 inType, SInt32 inIndex);
+	
 };
 
 
