@@ -2,7 +2,7 @@
 // CRezCompare.cp					
 // 
 //                       Created: 2004-02-29 18:17:07
-//             Last modification: 2004-03-24 22:01:29
+//             Last modification: 2004-05-19 07:10:26
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -17,6 +17,7 @@
 #include "CRezType.h"
 #include "CRezObj.h"
 #include "CRezillaApp.h"
+#include "CRezillaPrefs.h"
 #include "CCompResultWindow.h"
 #include "RezillaConstants.h"
 #include "UDialogBoxHandler.h"
@@ -128,7 +129,6 @@ CRezCompare::AllowSubRemoval(
 void
 CRezCompare::RunRezCompareDialog()
 {
-	SInt32 			itemIndex;
 	Boolean			isIgnoreNames = false;
 	Boolean 		inRezCompLoop = true;
 	OSErr			error;
@@ -353,7 +353,6 @@ CRezCompare::CompareTwoResources(CRezType * inOldRezType, CRezType * inNewRezTyp
 								 short inID, SInt16 * outCompResult)
 {
 	CRezObj		*theOldRezObj, *theNewRezObj;
-	Handle		oldRezHandle, newRezHandle;
 	
 	theOldRezObj = new CRezObj(inOldRezType, inID);
 	theNewRezObj = new CRezObj(inNewRezType, inID);

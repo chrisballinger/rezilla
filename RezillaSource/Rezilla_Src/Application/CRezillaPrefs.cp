@@ -2,7 +2,7 @@
 // CRezillaPrefs.cp					
 // 
 //                       Created: 2004-05-17 08:52:16
-//             Last modification: 2004-05-18 20:20:21
+//             Last modification: 2004-05-19 08:02:38
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -16,6 +16,7 @@
 // Application Headers
 #include "CRezillaPrefs.h"
 #include "CRezillaApp.h"
+#include "CRezCompare.h"
 #include "RezillaConstants.h"
 #include "CRecentItemsMenu.h"
 #include "UDialogBoxHandler.h"
@@ -34,7 +35,6 @@
 #include <LPopupButton.h>
 #include <LPopupGroupBox.h>
 #include <LPushButton.h>
-#include <LRadioGroupView.h>
 #include <LRadioGroupView.h>
 #include <LStaticText.h>
 #include <LStdControl.h>
@@ -132,13 +132,17 @@ CRezillaPrefs::MakePrefsWindow()
 void
 CRezillaPrefs::StorePreferences()
 {
-	CFStringRef 	theKey;
 	CFNumberRef		theValue;
 	SInt32			theNumber;
 
 	theNumber = GetPrefValue( kPref_general_maxRecent );
 	theValue = CFNumberCreate(NULL, kCFNumberIntType, &theNumber); 
 	CFPreferencesSetAppValue(CFSTR("pref_general_maxRecent"), theValue, kCFPreferencesCurrentApplication);
+	if (theValue) CFRelease(theValue);
+
+	theNumber = GetPrefValue( kPref_general_newFork );
+	theValue = CFNumberCreate(NULL, kCFNumberIntType, &theNumber); 
+	CFPreferencesSetAppValue(CFSTR("pref_general_newFork"), theValue, kCFPreferencesCurrentApplication);
 	if (theValue) CFRelease(theValue);
 
 	theNumber = GetPrefValue( kPref_export_formatDtd );
@@ -171,7 +175,7 @@ CRezillaPrefs::StorePreferences()
 	CFPreferencesSetAppValue( CFSTR("pref_compare_ignoreData"), theValue, kCFPreferencesCurrentApplication);
 	if (theValue) CFRelease(theValue);	
 
-	theNumber = GetPrefValue( kPref_compare_dataDisplay );
+	theNumber = GetPrefValue( kPref_compare_dataDisplayAs );
 	theValue = CFNumberCreate(NULL, kCFNumberIntType, &theNumber);;
 	CFPreferencesSetAppValue( CFSTR("pref_compare_dataDisplay"), theValue, kCFPreferencesCurrentApplication);
 	if (theValue) CFRelease(theValue);
@@ -193,6 +197,10 @@ CRezillaPrefs::RetrievePreferences()
 	result = CFPreferencesGetAppIntegerValue(CFSTR("pref_general_maxRecent"), CFSTR(kRezillaIdentifier), &valueValid);
 	if (valueValid) {
 		SetPrefValue( result, kPref_general_maxRecent);
+	}
+	result = CFPreferencesGetAppIntegerValue(CFSTR("pref_general_newFork"), CFSTR(kRezillaIdentifier), &valueValid);
+	if (valueValid) {
+		SetPrefValue( result, kPref_general_newFork);
 	}
 	result = CFPreferencesGetAppIntegerValue(CFSTR("pref_export_formatDtd"), CFSTR(kRezillaIdentifier), &valueValid);
 	if (valueValid) {
@@ -220,7 +228,7 @@ CRezillaPrefs::RetrievePreferences()
 	}
 	result = CFPreferencesGetAppIntegerValue(CFSTR("pref_compare_dataDisplay"), CFSTR(kRezillaIdentifier), &valueValid);
 	if (valueValid) {
-		SetPrefValue( result, kPref_compare_dataDisplay);
+		SetPrefValue( result, kPref_compare_dataDisplayAs);
 	}
 }
 
@@ -239,6 +247,14 @@ CRezillaPrefs::SetPrefValue(SInt32 inPrefValue, SInt32 inConstant, SInt32 inPref
 			mTempPrefs.general.maxRecent = inPrefValue ;
 		} else {
 			mCurrPrefs.general.maxRecent = inPrefValue ;
+		}	
+		break;
+		
+	  case kPref_general_newFork:
+		if (inPrefType == prefsType_Temp) {
+			mTempPrefs.general.newFork = inPrefValue ;
+		} else {
+			mCurrPrefs.general.newFork = inPrefValue ;
 		}	
 		break;
 		
@@ -290,7 +306,7 @@ CRezillaPrefs::SetPrefValue(SInt32 inPrefValue, SInt32 inConstant, SInt32 inPref
 		}	
 		break;
 		
-	  case kPref_compare_dataDisplay:
+	  case kPref_compare_dataDisplayAs:
 		if (inPrefType == prefsType_Temp) {
 			mTempPrefs.compare.dataDisplay = inPrefValue ;
 		} else {
@@ -317,6 +333,14 @@ CRezillaPrefs::GetPrefValue(SInt32 inConstant, SInt32 inPrefType)
 			theValue = mTempPrefs.general.maxRecent;
 		} else {
 			theValue = mCurrPrefs.general.maxRecent;
+		}	
+		break;
+		
+	  case kPref_general_newFork:
+		if (inPrefType == prefsType_Temp) {
+			theValue = mTempPrefs.general.newFork;
+		} else {
+			theValue = mCurrPrefs.general.newFork;
 		}	
 		break;
 		
@@ -368,7 +392,7 @@ CRezillaPrefs::GetPrefValue(SInt32 inConstant, SInt32 inPrefType)
 		}	
 		break;
 		
-	  case kPref_compare_dataDisplay:
+	  case kPref_compare_dataDisplayAs:
 		if (inPrefType == prefsType_Temp) {
 			theValue = mTempPrefs.compare.dataDisplay;
 		} else {
@@ -424,11 +448,6 @@ void
 CRezillaPrefs::RunPrefsWindow()
 {
 	LCheckBox *		theCheckBox;
-	LPopupButton *	thePopup;
-	SInt32 			theCurrStyleCategory,
-					itemIndex,
-					theSize,
-					theFace = 0;
 	long			theLong;
 	Str255			theString;
 	Boolean 		inPrefsLoop = true;
@@ -461,6 +480,9 @@ CRezillaPrefs::RunPrefsWindow()
 	LView* theComparePane = theMPV->GetPanel(mpv_Compare);
 	ThrowIfNil_(theComparePane);
 	
+	LRadioGroupView * theNewMapRGV = dynamic_cast<LRadioGroupView *>(theGeneralPane->FindPaneByID( item_GenPrefsNewMapRgbx ));
+	ThrowIfNil_(theNewMapRGV);
+	
 	LRadioGroupView * theDtdRGV = dynamic_cast<LRadioGroupView *>(theExportPane->FindPaneByID( item_ExpPrefsDtdRgbx ));
 	ThrowIfNil_(theDtdRGV);
 	
@@ -487,9 +509,10 @@ CRezillaPrefs::RunPrefsWindow()
 		
 		//    Setup the controls values
 		// ----------------------------		
-		theDtdRGV->SetCurrentRadioID( GetPrefValue( kPref_export_formatDtd ) + 2 );
-		theEncodingRGV->SetCurrentRadioID( GetPrefValue( kPref_export_dataEncoding ) + 4 );
-		theDisplayRGV->SetCurrentRadioID( GetPrefValue( kPref_compare_dataDisplay ) + 6 );
+		theNewMapRGV->SetCurrentRadioID( GetPrefValue( kPref_general_newFork ) + item_GenPrefsNewMapRgbx );
+		theDtdRGV->SetCurrentRadioID( GetPrefValue( kPref_export_formatDtd ) + item_ExpPrefsDtdRgbx );
+		theEncodingRGV->SetCurrentRadioID( GetPrefValue( kPref_export_dataEncoding ) + item_ExpPrefsEncRgbx );
+		theDisplayRGV->SetCurrentRadioID( GetPrefValue( kPref_compare_dataDisplayAs ) + item_CompPrefsDisplayRgbx );
 
 		theEditField = dynamic_cast<LEditText *>(theGeneralPane->FindPaneByID( item_GenPrefsMaxRecent ));
 		ThrowIfNil_( theEditField );
@@ -568,15 +591,17 @@ CRezillaPrefs::RunPrefsWindow()
 						// is msg_ControlClicked. So we fail to receive the messages sent just before
 						// by the individual controls. 
 				  		PaneIDT theCurrentRadioID;
+						theCurrentRadioID = theNewMapRGV->GetCurrentRadioID();
+						SetPrefValue( theCurrentRadioID - item_GenPrefsNewMapRgbx, kPref_general_newFork, CRezillaPrefs::prefsType_Temp);
+
 						theCurrentRadioID = theDtdRGV->GetCurrentRadioID();
-						SetPrefValue( theCurrentRadioID - 2, kPref_export_formatDtd, CRezillaPrefs::prefsType_Temp);
+						SetPrefValue( theCurrentRadioID - item_ExpPrefsDtdRgbx, kPref_export_formatDtd, CRezillaPrefs::prefsType_Temp);
 
 						theCurrentRadioID = theEncodingRGV->GetCurrentRadioID();
-						SetPrefValue( theCurrentRadioID - 4, kPref_export_dataEncoding, CRezillaPrefs::prefsType_Temp);
-						break;
+						SetPrefValue( theCurrentRadioID - item_ExpPrefsEncRgbx, kPref_export_dataEncoding, CRezillaPrefs::prefsType_Temp);
 
 						theCurrentRadioID = theDisplayRGV->GetCurrentRadioID();
-						SetPrefValue( theCurrentRadioID - 6, kPref_compare_dataDisplay, CRezillaPrefs::prefsType_Temp);
+						SetPrefValue( theCurrentRadioID - item_CompPrefsDisplayRgbx, kPref_compare_dataDisplayAs, CRezillaPrefs::prefsType_Temp);
 						break;
 				  }
 				}	
@@ -586,13 +611,27 @@ CRezillaPrefs::RunPrefsWindow()
 		// if we hit ok, save the pref info
 		if (msg_OK == theMessage)
 		{
-			Boolean validate = ( memcmp( &mCurrPrefs, &mTempPrefs, sizeof(STElement) ) != 0 );
 			ValidateTempPrefs();
-			if (validate) {
-// 				ValidateStyleElements();
+			if ( PrefsHaveChanged() ) {
+				UpdateVars();
 			}
 		}
 	}
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ UpdateVars												[private]
+// ---------------------------------------------------------------------------
+
+void
+CRezillaPrefs::UpdateVars() 
+{
+	CRezCompare::sIgnoreNames = GetPrefValue(kPref_compare_ignoreName);
+	CRezCompare::sIgnoreAttrs = GetPrefValue(kPref_compare_ignoreAttributes);
+	CRezCompare::sIgnoreData = GetPrefValue(kPref_compare_ignoreData);
+	
+	CRezillaApp::sRecentItemsAttachment->SetMaxRecentItems( GetPrefValue(kPref_general_maxRecent) );
 }
 
 

@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2004-05-17 10:02:14
+//             Last modification : 2004-05-19 07:37:18
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -59,9 +59,13 @@ enum
 enum
 {	
 	export_KeyDtd = 1,		// Key-based DTD
-	export_AttrDtd = 2,		// Attrs-based DTD
-	export_Base64Enc = 3,	// Hexadecimal encoding for binary data
-	export_HexEnc = 4		// Base64 encoding for binary data
+	export_AttrDtd = 2		// Attrs-based DTD
+};
+
+enum
+{	
+	export_Base64Enc = 1,	// Base64 encoding for binary data
+	export_HexEnc = 2		// Hexadecimal encoding for binary data
 };
 
 // Rez comparison results
@@ -76,7 +80,7 @@ enum
 
 enum
 {	
-	compare_hexDisplay = 0,
+	compare_hexDisplay = 1,
 	compare_txtDisplay
 };
 
@@ -286,6 +290,7 @@ const PaneIDT	item_CompResultNewHex		= 5;
 const PaneIDT	item_CompResultHexRadio		= 6;
 const PaneIDT	item_CompResultTxtRadio		= 7;
 const PaneIDT	item_CompResultIgnStatic	= 8;
+const PaneIDT	item_CompResultShowAsRgbx	= 9;
 const PaneIDT	item_CompResultOnlyOldTbl	= 11;
 const PaneIDT	item_CompResultDifferingTbl	= 13;
 const PaneIDT	item_CompResultOnlyNewTbl	= 15;
@@ -303,6 +308,9 @@ const PaneIDT   item_PrefsMultiPanelView	= FOUR_CHAR_CODE('PMPV') ;
 //     ------------------
 const PaneIDT	item_GenPrefsMaxRecent		= 2;
 const PaneIDT	item_GenPrefsResetRecent	= 3;
+const PaneIDT	item_GenPrefsNewMapRgbx		= 5;
+const PaneIDT	item_GenPrefsDataFork		= 6;
+const PaneIDT	item_GenPrefsResourceFork	= 7;
 //     Export Prefs Pane
 //     -----------------
 const PaneIDT	item_ExpPrefsDtdRgbx		= 2;
@@ -409,6 +417,8 @@ const MessageT  msg_PrefsRevert                 = rPPob_PrefsWindow + 3;
 //     ------------------
 const MessageT  msg_GenPrefsMaxRecent       = rPPob_PrefsGeneralPane + item_GenPrefsMaxRecent;
 const MessageT	msg_GenPrefsResetRecent		= rPPob_PrefsGeneralPane + item_GenPrefsResetRecent;
+const MessageT	msg_GenPrefsDataFork		= rPPob_PrefsGeneralPane + item_GenPrefsDataFork;
+const MessageT	msg_GenPrefsResourceFork	= rPPob_PrefsGeneralPane + item_GenPrefsResourceFork;
 //     Export Prefs Pane
 //     -----------------
 const MessageT	msg_ExpPrefsKeyDtd			= rPPob_PrefsExportPane + item_ExpPrefsKeyDtd;

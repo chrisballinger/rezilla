@@ -235,6 +235,9 @@ CRezillaApp::Initialize()
 
 	mOpeningFork = fork_anyfork;
 	
+	// Set some defaults from preferences
+	sPrefs->UpdateVars();
+	
 	// TODO: replace by preference
 	sDefaultCreatingFork = fork_datafork;
 	mCreatingFork = sDefaultCreatingFork;

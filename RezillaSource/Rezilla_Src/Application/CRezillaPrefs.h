@@ -23,6 +23,7 @@
 //     General Prefs
 struct SGeneralPrefs {
 	SInt32			maxRecent;
+	SInt32			newFork;
 };
 
 //     Export Prefs
@@ -47,13 +48,14 @@ struct SRezillaPrefs {
 };
 
 enum {
-	kPref_compare_dataDisplay,
+	kPref_compare_dataDisplayAs,
 	kPref_compare_ignoreAttributes,
 	kPref_compare_ignoreData,
 	kPref_compare_ignoreName,
 	kPref_export_dataEncoding,
 	kPref_export_formatDtd,
 	kPref_export_includeBinary,
+	kPref_general_newFork,
 	kPref_general_maxRecent
 };
 
@@ -90,6 +92,7 @@ public:
 	void				InitTempPrefs();
 	virtual void		StorePreferences();
 	Boolean				PrefsHaveChanged();
+	void				UpdateVars();
 	
 	static LDialogBox *		sPrefsWindow;
 	
@@ -103,7 +106,6 @@ protected:
 
 private:
 	virtual void		RetrievePreferences();
-  
 };
 
 #endif // _H_CRezillaPrefs

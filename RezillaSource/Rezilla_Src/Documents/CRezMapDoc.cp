@@ -20,6 +20,8 @@ PP_Begin_Namespace_PowerPlant
 #endif
 
 #include "CRezMapDoc.h"
+#include "CRezillaApp.h"
+#include "CRezillaPrefs.h"
 #include "CRezFile.h"
 #include "CTextFileStream.h"
 #include "CRezMap.h"
@@ -29,7 +31,6 @@ PP_Begin_Namespace_PowerPlant
 #include "CRezObjItem.h"
 #include "CRezType.h"
 #include "CRezTypeItem.h"
-#include "CRezillaApp.h"
 #include "CInspectorWindow.h"
 #include "CHexEditorDoc.h"
 #include "CWindowMenu.h"
@@ -1003,15 +1004,22 @@ CRezMapDoc::WriteOutExport(SInt16 inExportFormat)
 	StRezExporter	exporter(mFileStream);
 	switch ( inExportFormat ) {
 		case export_Xml:
-		exporter.WriteOutXml(mRezMap);
+		exporter.WriteOutXml(mRezMap, 
+							 CRezillaApp::sPrefs->GetPrefValue(kPref_export_formatDtd),
+							 CRezillaApp::sPrefs->GetPrefValue(kPref_export_includeBinary),
+							 CRezillaApp::sPrefs->GetPrefValue(kPref_export_dataEncoding));
 		break;
 		
 		case export_Text:
-		exporter.WriteOutText(mRezMap);
+		exporter.WriteOutText(mRezMap, 
+							 CRezillaApp::sPrefs->GetPrefValue(kPref_export_includeBinary),
+							 CRezillaApp::sPrefs->GetPrefValue(kPref_export_dataEncoding));
 		break;
 		
 		case export_Html:
-		exporter.WriteOutHtml(mRezMap);
+		exporter.WriteOutHtml(mRezMap, 
+							 CRezillaApp::sPrefs->GetPrefValue(kPref_export_includeBinary),
+							 CRezillaApp::sPrefs->GetPrefValue(kPref_export_dataEncoding));
 		break;
 
 		case export_Derez:

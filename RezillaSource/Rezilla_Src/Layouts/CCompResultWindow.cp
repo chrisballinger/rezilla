@@ -16,6 +16,7 @@
 #include "CRezObj.h"
 #include "CRezMap.h"
 #include "CRezillaApp.h"
+#include "CRezillaPrefs.h"
 #include "CRezCompare.h"
 #include "CRezClipboard.h"
 #include "CWindowMenu.h"
@@ -27,6 +28,7 @@
 #include "UMiscUtils.h"
 #include "UMessageDialogs.h"
 
+#include <LRadioGroupView.h>
 #include <LScrollBar.h>
 #include <LStaticText.h>
 #include <LUndoer.h>
@@ -185,6 +187,10 @@ CCompResultWindow::FinishCreateSelf()
 	}	
 	
 	theStaticText->SetDescriptor(optionString);
+	
+	LRadioGroupView * theRGV = dynamic_cast<LRadioGroupView *>(this->FindPaneByID( item_CompResultShowAsRgbx ));
+	ThrowIfNil_(theRGV);
+	theRGV->SetCurrentRadioID( CRezillaApp::sPrefs->GetPrefValue( kPref_compare_dataDisplayAs ) + item_CompResultHexRadio );
 	
 	// Link the broadcasters.
     UReanimator::LinkListenerToControls( this, this, rRidL_RezCompWindow );

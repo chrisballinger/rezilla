@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezClipboard.cp					
 //                       Created: 2003-05-11 21:05:08
-//             Last modification: 2004-03-22 07:31:50
+//             Last modification: 2004-05-19 07:09:02
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -324,7 +324,6 @@ CRezClipboard::ExportSelf()
 	short	numTypes;
 	ResType theType;
 	Handle	theRezHandle;
-	short	theAttrs;
 	OSErr	error = noErr;
 
 	// Clear the data on the scrap and get a new scrapRef
@@ -334,7 +333,6 @@ CRezClipboard::ExportSelf()
 	if (error != noErr || numTypes == 0) {return;}
 	
 	for (UInt16 i = 1; i <= numTypes; i++ ) {
-		CRezObj *	theRezObj;
 		
 		// Read in each data type
 		sScrapRezMap->GetTypeAtIndex(i, theType);
@@ -381,6 +379,7 @@ CRezClipboard::SetDataInScrapRezMap(
 	SInt32		inDataLength,
 	Boolean		inReset)
 {
+#pragma unused(inDataType, inDataLength)
 	LArray* theArray = (LArray*) inDataPtr;
 	LArrayIterator	iterator(*theArray);
 	CRezObjItem *	theItem = nil;	
