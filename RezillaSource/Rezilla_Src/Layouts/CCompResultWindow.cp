@@ -186,6 +186,8 @@ void
 CCompResultWindow::ListenToMessage( MessageT inMessage, void *ioParam ) 
 {
 #pragma unused(ioParam)
+	CRezTypId * theTypid;
+	STableCell theCell;
 	
 	switch (inMessage) {
 		
@@ -197,24 +199,45 @@ CCompResultWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		InsertContentsFromLine(mScroller->GetValue() + 1);
 		break;
 		
-		case msg_CompResultOnlyOldTbl: 
-		mActiveTable = compare_onlyinOldTbl;
-		mOnlyNewTable->UnselectAllCells();
-		mDifferTable->UnselectAllCells();
-		EraseHexPanes();
-		break;
+		case msg_CompResultOnlyOldTbl: {
+			mActiveTable = compare_onlyinOldTbl;
+			mOnlyNewTable->UnselectAllCells();
+			mDifferTable->UnselectAllCells();
+			
+			theCell = mOnlyOldTable->GetFirstSelectedCell();		
+			mRezCompare->GetOnlyInOldList()->FetchItemAt( theCell.row, theTypid);
+			
+			mRezCompare->GetOldMap()->GetWithID(theTypid->mType, theTypid->mID, mOldData, false);
+			if (mOldData == nil) {
+				return;
+			}
+			
+			EraseHexPanes();
+			InsertContentsFromLine(1);
+			SetMaxScrollerValue();
+			break;
+		}
 		
-		case msg_CompResultOnlyNewTbl: 
-		mActiveTable = compare_onlyinNewTbl;
-		mOnlyOldTable->UnselectAllCells();
-		mDifferTable->UnselectAllCells();
-		EraseHexPanes();
-		break;
+		case msg_CompResultOnlyNewTbl: {
+			mActiveTable = compare_onlyinNewTbl;
+			mOnlyOldTable->UnselectAllCells();
+			mDifferTable->UnselectAllCells();
+			
+			theCell = mOnlyNewTable->GetFirstSelectedCell();		
+			mRezCompare->GetOnlyInNewList()->FetchItemAt( theCell.row, theTypid);
+			
+			mRezCompare->GetNewMap()->GetWithID(theTypid->mType, theTypid->mID, mNewData, false);
+			if (mNewData == nil) {
+				return;
+			} 
+			
+			EraseHexPanes();
+			InsertContentsFromLine(1);
+			SetMaxScrollerValue();
+			break;
+		}
 		
 		case msg_CompResultDifferingTbl: {
-			CRezTypId * theTypid;
-			STableCell theCell;
-			
 			mActiveTable = compare_differTbl;
 			mOnlyOldTable->UnselectAllCells();
 			mOnlyNewTable->UnselectAllCells();
@@ -224,15 +247,12 @@ CCompResultWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			
 			mRezCompare->GetOldMap()->GetWithID(theTypid->mType, theTypid->mID, mOldData, false);
 			mRezCompare->GetNewMap()->GetWithID(theTypid->mType, theTypid->mID, mNewData, false);
-			
-			EraseHexPanes();
-			
 			if (mOldData == nil || mNewData == nil) {
 				return;
 			} 
 			
-			InsertContentsFromLine(1);
-			
+			EraseHexPanes();
+			InsertContentsFromLine(1);			
 			SetMaxScrollerValue();
 			break;
 		}
@@ -241,12 +261,15 @@ CCompResultWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			LStdRadioButton * theRadio = dynamic_cast<LStdRadioButton *> (FindPaneByID( item_CompResultHexRadio ));
 			ThrowIfNil_(theRadio);
 			mDisplayDataFormat = 1 - theRadio->GetValue();
-			if (mActiveTable == compare_differTbl) {
+			if (mActiveTable == compare_onlyinOldTbl) {
+				ListenToMessage(msg_CompResultOnlyOldTbl, ioParam);
+			} else if (mActiveTable == compare_onlyinNewTbl) {
+				ListenToMessage(msg_CompResultOnlyNewTbl, ioParam);
+			} else if (mActiveTable == compare_differTbl) {
 				ListenToMessage(msg_CompResultDifferingTbl, ioParam);
 			} 
 			break;
 		}
-		
 		
 		// 		default:
 		// 		GetSuperCommander()->ListenToMessage(inMessage, ioParam);
@@ -474,21 +497,33 @@ CCompResultWindow::SetMaxScrollerValue()
 SInt32
 CCompResultWindow::LineCount() 
 {
-	SInt32 oldByteCount = ::GetHandleSize(mOldData);
-	SInt32 newByteCount = ::GetHandleSize(mNewData);
 	SInt32 bytesPerLineCount = BytesPerLineCount();
 	SInt32 oldLineCount = 0;
 	SInt32 newLineCount = 0;
 
-	if (oldByteCount) {
-		oldLineCount = oldByteCount / bytesPerLineCount;
-		oldLineCount += (oldByteCount % bytesPerLineCount == 0) ? 0:1 ;
-	} 
-	if (newByteCount) {
-		newLineCount = newByteCount / bytesPerLineCount;
-		newLineCount += (newByteCount % bytesPerLineCount == 0) ? 0:1 ;
-	} 
-	return ((oldLineCount > newLineCount) ? oldLineCount:newLineCount );
+	if (mActiveTable != compare_onlyinNewTbl) {
+		SInt32 oldByteCount = ::GetHandleSize(mOldData);
+		if (oldByteCount) {
+			oldLineCount = oldByteCount / bytesPerLineCount;
+			oldLineCount += (oldByteCount % bytesPerLineCount == 0) ? 0:1 ;
+		} 
+	}
+	
+	if (mActiveTable != compare_onlyinOldTbl) {
+		SInt32 newByteCount = ::GetHandleSize(mNewData);
+		if (newByteCount) {
+			newLineCount = newByteCount / bytesPerLineCount;
+			newLineCount += (newByteCount % bytesPerLineCount == 0) ? 0:1 ;
+		} 
+	}
+
+	if (mActiveTable == compare_onlyinOldTbl) {
+		return oldLineCount;
+	} else if (mActiveTable == compare_onlyinNewTbl) {
+		return newLineCount;
+	} else {
+		return ((oldLineCount > newLineCount) ? oldLineCount:newLineCount);
+	}
 }
 
 
@@ -546,39 +581,44 @@ CCompResultWindow::BytesPerPaneCount()
 CCompResultWindow::InsertContentsFromLine(SInt32 inFromLine)
 {
 	SInt32 remainingChars;
-	SInt32 oldByteCount = ::GetHandleSize(mOldData);
-	SInt32 newByteCount = ::GetHandleSize(mNewData);
 	SInt32 charOffset = (inFromLine - 1) * BytesPerLineCount();
 	SInt32 bytesPerPaneCount = BytesPerPaneCount();
 	
 	mOldRezDataWE->SetDataType(mDisplayDataFormat);
 	mNewRezDataWE->SetDataType(mDisplayDataFormat);
 	
-	// Left pane
-	remainingChars = oldByteCount - charOffset;
+	if (mActiveTable != compare_onlyinNewTbl) {
+		// Left pane
+		SInt32 oldByteCount = ::GetHandleSize(mOldData);
+		remainingChars = oldByteCount - charOffset;
+		
+		if (remainingChars > bytesPerPaneCount) {
+			remainingChars = bytesPerPaneCount;
+		} 
+		if (remainingChars < 0) {
+			remainingChars = 0;
+			mOldRezDataWE->InsertContents( (*mOldData), remainingChars);
+		} else {
+			mOldRezDataWE->InsertContents( (*mOldData) + charOffset, remainingChars);
+		}
+		
+	} 	
 	
-	if (remainingChars > bytesPerPaneCount) {
-		remainingChars = bytesPerPaneCount;
-	} 
-	if (remainingChars < 0) {
-		remainingChars = 0;
-		mOldRezDataWE->InsertContents( (*mOldData), remainingChars);
-	} else {
-		mOldRezDataWE->InsertContents( (*mOldData) + charOffset, remainingChars);
-	}
-	
-	// Right pane
-	remainingChars = newByteCount - charOffset;
-	
-	if (remainingChars > bytesPerPaneCount) {
-		remainingChars = bytesPerPaneCount;
-	} 
-	if (remainingChars < 0) {
-		remainingChars = 0;
-		mNewRezDataWE->InsertContents( (*mNewData), remainingChars);
-	} else {
-		mNewRezDataWE->InsertContents( (*mNewData) + charOffset, remainingChars);
-	}
+	if (mActiveTable != compare_onlyinOldTbl) {
+		// Right pane
+		SInt32 newByteCount = ::GetHandleSize(mNewData);
+		remainingChars = newByteCount - charOffset;
+		
+		if (remainingChars > bytesPerPaneCount) {
+			remainingChars = bytesPerPaneCount;
+		} 
+		if (remainingChars < 0) {
+			remainingChars = 0;
+			mNewRezDataWE->InsertContents( (*mNewData), remainingChars);
+		} else {
+			mNewRezDataWE->InsertContents( (*mNewData) + charOffset, remainingChars);
+		}
+	} 	
 }
 
 
