@@ -866,15 +866,15 @@ OSErr
 CRezillaApp::PreOpen(FSSpec & inFileSpec, SInt16 & outFork, short & outRefnum, SInt16 inWantedFork)
 {
 	OSErr		error;
-	FSRef		inFileRef;
+	FSRef		theFileRef;
 	
 	StRezReferenceSaver saver( ::CurResFile() );
 		
 	if (inWantedFork != fork_rezfork) {
 		// Try to open the file as a datafork resource file
-		error = FSpMakeFSRef( &inFileSpec, &inFileRef );
+		error = FSpMakeFSRef( &inFileSpec, &theFileRef );
 		SetResLoad( false );
-		error = FSOpenResourceFile( &inFileRef, 0, nil, sReadOnlyNavFlag ? fsRdPerm : fsRdWrPerm, &outRefnum );
+		error = FSOpenResourceFile( &theFileRef, 0, nil, sReadOnlyNavFlag ? fsRdPerm : fsRdWrPerm, &outRefnum );
 		SetResLoad( true );
 		
 		if (error == noErr) {
