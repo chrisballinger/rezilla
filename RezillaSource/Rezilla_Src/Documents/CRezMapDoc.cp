@@ -1606,8 +1606,8 @@ CRezMapDoc::CreateNewRes(ResType inType, short inID, Str255* inName, short inAtt
 			RemoveResource(oldRezObjItem);
 		} else {
 			// Just remove the resource from memory
-			CRezObj * theRezObj = new CRezObj(theRezType, inID );
-			theRezObj->Remove();
+			CRezObj theRezObj(theRezType, inID );
+			theRezObj.Remove();
 		}
 	} 
 	
