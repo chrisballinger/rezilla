@@ -39,7 +39,7 @@ CWindow_Picture::OpenPaintWindow(CRezObj * inRezObj, ResIDT inPPobID )
 	}
 	catch( ... )
 	{
-		delete theWindow;
+		if (theWindow) { delete theWindow; } 
 		throw;
 	}
 	
@@ -147,8 +147,10 @@ CWindow_Picture::InitializeFromBuffer( COffscreen *inBuffer )
 // ---------------------------------------------------------------------------
 
 void
-CWindow_Picture::SaveAsResource( CRezMap * /* inMap */, ResIDT /* inResID */ )
+CWindow_Picture::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 {
+#pragma unused(inMap, inResID)
+
 	COffscreen	*theBuffer = this->GetCombinedBuffer();
 	if ( !theBuffer ) return;
 		

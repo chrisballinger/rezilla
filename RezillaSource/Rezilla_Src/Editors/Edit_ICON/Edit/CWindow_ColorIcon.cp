@@ -43,7 +43,7 @@ CWindow_ColorIcon::OpenPaintWindow(CRezObj * inRezObj, ResIDT inPPobID )
 	}
 	catch( ... )
 	{
-		delete theWindow;
+		if (theWindow) { delete theWindow; } 
 		throw;
 	}
 	
@@ -307,6 +307,8 @@ CWindow_ColorIcon::ParseColorIcon( CRezObj * inRezObj,
 void
 CWindow_ColorIcon::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 {
+#pragma unused(inMap, inResID)
+
 	ThrowIf_( !mColorSample || !mBWSample || !mMaskSample );
 	
 	COffscreen	*colorBuffer = mColorSample->GetBuffer();

@@ -44,7 +44,7 @@ CWindow_IconFamily::OpenPaintWindow( ResIDT inPPobID, CRezMap *inMap, ResIDT inR
 	}
 	catch( ... )
 	{
-		delete theWindow;
+		if (theWindow) { delete theWindow; } 
 		throw;
 	}
 	
@@ -95,8 +95,9 @@ CWindow_IconFamily::FinishCreateSelf()
 {
 	CIcon_EditorWindow::FinishCreateSelf();
 
-	// Link the broadcasters
-	UReanimator::LinkListenerToBroadcasters( this, this, PPob_IconFamilyEditor );
+	// Link the broadcasters (using GetPaneID() makes the distinction
+	// between PPob_IconFamilyEditor and PPob_ICONEditor)
+	UReanimator::LinkListenerToBroadcasters( this, this, this->GetPaneID() );
 }
 
 
@@ -188,6 +189,7 @@ CWindow_IconFamily::InitializeOneMember( CRezMap *inMap, ResType inResType, ResI
 				isUsed = true;
 			}
 			delete theRes;
+			theRes = nil;
 		}
 
 		// Initialize the sample pane

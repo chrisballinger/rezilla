@@ -44,7 +44,7 @@ CWindow_Pattern::OpenPaintWindow( CRezObj * inRezObj, ResIDT inPPobID )
 	}
 	catch( ... )
 	{
-		delete theWindow;
+		if (theWindow) { delete theWindow; } 
 		throw;
 	}
 	
@@ -277,8 +277,10 @@ CWindow_Pattern::ResizeSampleWell( SInt32 inPatternWidth, SInt32 inPatternHeight
 // ---------------------------------------------------------------------------
 
 void
-CWindow_Pattern::SaveAsResource( CRezMap *inMap, ResIDT inResID  )
+CWindow_Pattern::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 {
+#pragma unused(inMap, inResID)
+
 	Handle		h = nil;
 	
 	ThrowIfNil_( mBWSample );

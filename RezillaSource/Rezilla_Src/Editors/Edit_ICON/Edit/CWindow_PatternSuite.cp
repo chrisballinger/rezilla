@@ -45,7 +45,7 @@ CWindow_PatternSuite::OpenPaintWindow( CRezObj * inRezObj, ResIDT inPPobID )
 	}
 	catch( ... )
 	{
-		delete theWindow;
+		if (theWindow) { delete theWindow; } 
 		throw;
 	}
 	
@@ -107,6 +107,8 @@ CWindow_PatternSuite::FinishCreateSelf()
 void
 CWindow_PatternSuite::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 {
+#pragma unused(inMap, inResID)
+
 	// Store the current pattern's data.
 	ImageToNthBitmap(mCurrentIndex);
 	

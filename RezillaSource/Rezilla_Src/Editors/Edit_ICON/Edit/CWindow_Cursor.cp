@@ -68,7 +68,7 @@ CWindow_Cursor::OpenPaintWindow( CRezObj * inRezObj, ResIDT inPPobID )
 	}
 	catch( ... )
 	{
-		delete theWindow;
+		if (theWindow) { delete theWindow; } 
 		throw;
 	}
 	
@@ -230,7 +230,7 @@ CWindow_Cursor::ParseBWCursor( CRezObj * inRezObj,
 		ThrowIfNil_( h );
 		::HLock( (Handle) h );
 
-		// 2 rowBytes x 16 rows x 2 images + sizeof(Point)
+		// 2 rowBytes x 16 rows x 2 images + sizeof(Point) = 68
 		if ( ::GetHandleSize( (Handle) h ) != kBWCursorBytes )
 			throw( err_IconCorruptedResource );
 		
@@ -284,7 +284,7 @@ CWindow_Cursor::ParseColorCursor( CRezObj * inRezObj,
 	{
 		// Get an empty default icon if the size is 0
 		if (inRezObj->GetSize() == 0) {
-			UIconMisc::GetDefaultBitmap(inRezObj, ImgType_Cursor, true );	
+			UIconMisc::GetDefaultBitmap(inRezObj, ImgType_ColorCursor, true );	
 		} 
 		
 		// Get the raw resource handle. This isn't the usual way of loading
@@ -377,6 +377,8 @@ CWindow_Cursor::ParseColorCursor( CRezObj * inRezObj,
 void
 CWindow_Cursor::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 {
+#pragma unused(inMap, inResID)
+	
 	Handle		h = nil;
 	
 	ThrowIf_( !mBWSample || !mMaskSample );
