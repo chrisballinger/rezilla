@@ -2,7 +2,7 @@
 // CIcon_EditorWindow.cp
 // 
 //                       Created: 2004-12-10 17:23:05
-//             Last modification: 2005-01-03 09:36:26
+//             Last modification: 2005-01-08 12:04:16
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -924,7 +924,7 @@ CIcon_EditorWindow::HandleCanvasDraw()
 // ---------------------------------------------------------------------------
 // 	Returns the current image buffer with the current selection blitted on
 // 	top of it. The buffer is only valid until the next call into the
-// 	PaintView. Returns nil if no buffers have been allocated (startup,
+// 	Editor Window. Returns nil if no buffers have been allocated (startup,
 // 	out-of-memory, etc).
 
 COffscreen *CIcon_EditorWindow::GetCombinedBuffer()
@@ -1308,7 +1308,7 @@ CIcon_EditorWindow::SelectNone()
 	if ( !mCurrentImage ) return;
 	
 	this->CommitSelection();
-	// Erase the selection (draw over it) rather than Refresh()
+	// Erase the selection: draw over it rather than Refresh()
 	this->HandleCanvasDraw();
 	// Clear the region
 	mCurrentSelection->SelectNone();
@@ -1391,7 +1391,6 @@ CIcon_EditorWindow::EraseAreaUnderSelection()
 		mCurrentImage->BeginDrawing();
 			StColorPenState		aPenState;
 			aPenState.Normalize();
-			// PmBackColor( mBackColor );
 			mCurrentImage->SetBackColor( mBackColor );
 			EraseRgn( mCurrentSelection->GetRegion() );		
 		mCurrentImage->EndDrawing();
@@ -1639,36 +1638,8 @@ CDraggableTargetView *CIcon_EditorWindow::GetTargetView()
 // 	EstablishPort
 // ---------------------------------------------------------------------------
 // 	PowerPlant's EstablishPort() routine doesn't set the current GDevice.
-// 	This is NASTY because the current port's color table doesn't match the
+// 	This is nasty because the current port's color table doesn't match the
 // 	current GDevice's color table and drawing sometimes doesn't take place.
-
-// Boolean
-// CIcon_EditorWindow::EstablishPort()
-// {
-// 	Rect	theRect;
-// 	GrafPtr	thePort = GetMacPort();
-// 	
-// 	if ( !mMacWindowP ) return( false );
-// 	if ( !thePort ) return( false );
-// 	
-// 	GDHandle mainDevice = ::GetMainDevice();
-// 	if ( GetGDevice() != mainDevice )
-// 		::SetGDevice( mainDevice );
-// 			
-// 	if ( UQDGlobals::GetCurrentPort() != thePort )
-// 	{
-// 		::SetPort( thePort );
-// 	}
-// 	
-// 	::SetOrigin( 0, 0 );					
-// 	::GetPortBounds(thePort, &theRect);
-// 	::ClipRect( &theRect );
-// 		
-// 	LView::OutOfFocus( nil );	
-// 	
-// 	return( true );	
-// }
-
 
 Boolean
 CIcon_EditorWindow::EstablishPort()
