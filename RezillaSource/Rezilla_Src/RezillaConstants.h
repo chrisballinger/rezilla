@@ -960,7 +960,8 @@ const UInt32	kRezFileType		= FOUR_CHAR_CODE('rsrc');
 #define  kRzilDefaultLineHeight	11
 
 // Drag and drop
-const UInt32	kRzilDragFlavor		= FOUR_CHAR_CODE('Rzil');
+const UInt32	DragFlavor_Rzil			= FOUR_CHAR_CODE('Rzil');  // kRzilDragFlavor
+const UInt32	DragFlavor_Offscreen	= FOUR_CHAR_CODE('OfSc');
 
 // For the Icon editor's clipboard and Drag&Drop
 const OSType	ResourceType_Region	= FOUR_CHAR_CODE('RgN ');
