@@ -124,7 +124,9 @@ CWindow_PatternSuite::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 		**(UInt16 **) outHandle = mTotalCount;
 		::BlockMoveData( *srcHandle, (*outHandle) + 2, totalSize );
 		
-		CRezObj * theRes = inMap->FindResource( ImgType_PatternSuite, inResID, false );
+		CRezObj * theRes = inMap->FindResource( ImgType_PatternSuite, inResID, 
+													false /* loadIt */, 
+													true  /* createIt */ );
 		ThrowIfNil_( theRes );
 		theRes->SetData( outHandle );
 
