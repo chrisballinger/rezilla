@@ -168,4 +168,3 @@ CRezObj::SetOneAttribute(
 
 #endif
 
-

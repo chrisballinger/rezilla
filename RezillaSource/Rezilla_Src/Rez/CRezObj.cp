@@ -471,4 +471,3 @@ CRezObj::SetData(Handle srcHandle)
 
 
 
-

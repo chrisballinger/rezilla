@@ -72,6 +72,12 @@ protected:
 	virtual void		ExportSelf();
 
 private:
+	virtual void		SetDataInScrapRezMap(
+								ResType		inDataType,
+								Ptr			inDataPtr,
+								SInt32		inDataLength,
+								Boolean		inReset);
+
 	OSErr				InitScrapRezMap();
 };
 
@@ -83,5 +89,3 @@ PP_End_Namespace_PowerPlant
 #endif
 
 #endif
-
-

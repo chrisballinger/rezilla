@@ -979,4 +979,3 @@ CRezillaApp::HandleOpenDocsEvent(
 
 
 
-

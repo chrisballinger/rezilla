@@ -101,6 +101,7 @@ const ResIDT	rRidL_AboutWindow			= rPPob_AboutWindow;
 const ResIDT	rRidL_FindDialog			= rPPob_FindDialog;
 const ResIDT	rRidL_RezCompDialog			= rPPob_RezCompDialog;
 const ResIDT	rRidL_RezCompWindow			= rPPob_RezCompWindow;
+const ResIDT	rRidL_AskUniqueID			= rPPob_AskUniqueID;
 
 
 const ResIDT	STRx_RzilErrorStrings		= 1000;
@@ -256,6 +257,9 @@ const PaneIDT	item_CompResultStatus		= 6;
 const PaneIDT	item_CompResultOnlyOldTbl	= 11;
 const PaneIDT	item_CompResultDifferingTbl	= 13;
 const PaneIDT	item_CompResultOnlyNewTbl	= 15;
+// Ask Unique ID dialog
+// --------------------
+const PaneIDT	item_UidOtherConflicts		= 1;
 
 
 // Navigation dialogs custom items
@@ -334,6 +338,10 @@ const MessageT	msg_CompResultScroller		= rPPob_RezCompWindow + item_CompResultSc
 const MessageT	msg_CompResultOnlyOldTbl	= rPPob_RezCompWindow + item_CompResultOnlyOldTbl;
 const MessageT	msg_CompResultDifferingTbl	= rPPob_RezCompWindow + item_CompResultDifferingTbl;
 const MessageT	msg_CompResultOnlyNewTbl	= rPPob_RezCompWindow + item_CompResultOnlyNewTbl;
+// Ask Unique ID dialog
+// --------------------
+const MessageT	msg_UidOtherConflicts	= rPPob_AskUniqueID + item_UidOtherConflicts;
+
 
 // -----------------------------------------------------------------------
 // -----------------------------------------------------------------------
@@ -403,6 +411,4 @@ const ResType	ResType_DITL = FOUR_CHAR_CODE('DITL');
 
 // #define  kFirstSizeMenuItem	1
 // #define  kLastSizeMenuItem	9
-
-
 

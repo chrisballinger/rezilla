@@ -360,5 +360,3 @@ CRezMap::DeleteAll()
 }
 
 
-
-

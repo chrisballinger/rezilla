@@ -382,18 +382,7 @@ CRezMapDoc::ObeyCommand(
 
 		case cmd_Paste: {
 			CRezClipboard::SetScrapContext(scrap_rezmap);
-			ResType theType;
-			short theID;
-			Handle theHandle = ::NewHandle(0);
-			
-			if ( UMiscUtils::GetTypeFromScrap(theType) == noErr 
-				&& mRezMap->UniqueID(theType, theID) == noErr) {
-				UScrap::GetData(theType, theHandle);
-				PasteResource(theType, theID, theHandle);
-			} 
-			if (theHandle != nil) {
-				::DisposeHandle(theHandle);
-			} 
+			mRezFile->CopyFromRezMap(CRezClipboard::GetScrapRezMap());
 			break;
 		}
 
@@ -1515,7 +1504,7 @@ CRezMapDoc::PasteResource(ResType inType, short inID, Handle inHandle, Str255* i
 	theRezObjItem->GetRezObj()->SetData( inHandle );
 	
 	// Set mSize
-	theRezObjItem->GetRezObj()->SetSize( ::GetHandleSize( inHandle ) );
+	theRezObjItem->GetRezObj()->SetSize( ::GetHandleSize(inHandle) );
 
 	// Add the resource to the resource map
 	theRezObjItem->GetRezObj()->Add();
@@ -1575,7 +1564,5 @@ CRezMapDoc::UpdateRefNum(short newRefNum)
 
 
 PP_End_Namespace_PowerPlant
-
-
 
 
