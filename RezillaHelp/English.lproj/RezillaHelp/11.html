@@ -18,6 +18,7 @@ panels:
 	<LI> the Export panel
 	<LI> the Compare panel
 	<LI> the Interface panel
+	<LI> the Templates panel
 	<LI> the Editors panel
 	<LI> the Misc panel
 </UL>
@@ -51,8 +52,8 @@ the window is displayed.<P><H3>Interface panel</H3>
 display the hexadecimal and textual representations of the data resources
 in windows such as the hexadecimal editor windows or the comparison results
 windows. Note that only monospaced fonts (like <I>Monaco</I>, <I>Courier</I> etc.) will
-guarantee a nice display with a correct vertical alignment.<P><H3>Editors panel</H3>
-<P> In the <I>Editors</I> panel, one can select the symbol to use to
+guarantee a nice display with a correct vertical alignment.<P><H3>Templates panel</H3>
+<P> In the <I>Templates</I> panel, one can select the symbol to use to
 represent hexadecimal values: either <B>$</B> or <B>0x</B>. This is the
 symbol which will be used by the template editor when it displays a hex
 number. If you write an hexadecimal value in a field, you can use any of
@@ -64,7 +65,12 @@ Template editor will display all the tags corresponding to filling data
 (see the subsection <I>Phantom fields</I> in the <I>Templates Syntax</I>
 section below). Otherwise these values are hidden. Furthermore, if the 
 <I>Enable filler fields in templates</I> checkbox is on, these fields will be
-editable, otherwise they will be disabled and displayed in grey.<P><H3>Misc panel</H3>
+editable, otherwise they will be disabled and displayed in grey.<P><H3>Editors panel</H3>
+<P> In the <I>Editors</I> panel, one can set properties concerning 
+specific editors.<P>The preferences <I>Use 8-bit colors</I> and <I>Use Full Color Tables</I> 
+are related to the Bitmap editor.<P>The <I>Do Font SUbstitution</I> preference is related to the Unicode
+editor. If it is checked, Rezilla will automatically display Unicode text
+using the right fonts corresponding to the scripts used in the resource.<P><H3>Misc panel</H3>
 <P> In the <I>Misc</I> panel, one can use the <I>Set type and creator
 when closing</I> preference to specify a type and signature to attribute to
 a resource file after it has been edited by Rezilla. The default values are

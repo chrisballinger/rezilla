@@ -18,6 +18,7 @@ multipage s'affiche comportant trois panneaux:
 	<LI> le panneau <I>Export</I>
 	<LI> le panneau <I>Compare</I>
 	<LI> le panneau <I>Interface</I>
+	<LI> le panneau <I>Templates</I>
 	<LI> le panneau <I>Editors</I>
 	<LI> le panneau <I>Misc</I>
 </UL>
@@ -58,8 +59,8 @@ taille utilisées pour afficher les représentations hexadécimales ou
 textuelles des données de ressources dans les fenêtres de l'éditeur
 hexadécimal ou dans les fenêtres de résultats de comparaison. Noter que
 seules les polices à espacement fixe (telles que <I>Monaco</I> ou <I>Courier</I>)
-garantissent un affichage en colonnes verticalement alignées.<P><H3>Panneau <I>Editors</I></H3>
-<P> Dans le panneau <I>Editors</I>, on peut choisir le symbole à utiliser
+garantissent un affichage en colonnes verticalement alignées.<P><H3>Panneau <I>Templates</I></H3>
+<P> Dans le panneau <I>Templates</I>, on peut choisir le symbole à utiliser
 pour représenter les nombres hexadécimaux: <B>$</B> ou <B>0x</B>. C'est
 le symbole qui est utilisé par l'éditeur de gabarits lorsqu'il doit afficher 
 une valeur hexadécimale. Inversement si l'on doit saisir un nombre hexadécimal dans
@@ -74,7 +75,13 @@ aux balises de remplissage (voir la sous-section <I>Champs fantômes</I>
 dans la section <I>Syntaxe des gabarits</I>). Autrement, ces
 valeurs seront cachées. De plus, si la case à cocher appelée <I>Enable
 filler fields in templates</I> est sélectionnée, ces champs seront rendus
-éditables, autrement ils sont désactivés et apparaissent en gris.<P><H3>Panneau <I>Misc</I></H3><P><P> Dans le panneau <I>Misc</I> (abréviation de <I>miscellaneous</I> qui
+éditables, autrement ils sont désactivés et apparaissent en gris.<P><H3>Panneau <I>Editors</I></H3>
+<P> Dans le panneau <I>Editors</I>, on peut spécifier des propriétés 
+concernant certains éditeurs particuliers.<P>Les préférences <I>Use 8-bit colors</I> et <I>Use Full Color Tables</I> 
+sont liées à l'éditeur d'images.<P>La préférence <I>Do Font SUbstitution</I> est liée à l'éditeur Unicode. 
+Si elle est activée, Rezilla affichera automatiquement le texte Unicode 
+en se servant des polices de caractères appropriées correspondant aux scripts
+utilisés dans la ressource.<P><H3>Panneau <I>Misc</I></H3><P><P> Dans le panneau <I>Misc</I> (abréviation de <I>miscellaneous</I> qui
 signifie <I>divers</I>), on peut spécifier au moyen de la préférence <I>Set type and creator when closing</I> un type et une signature à attribuer
 à un fichier de ressources après qu'il a été édité par Rezilla et refermé.
 Les valeurs par défaut sont <I>rsrc</I> et <I>Rzil</I> respectivement.
