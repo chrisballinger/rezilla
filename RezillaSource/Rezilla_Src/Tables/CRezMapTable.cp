@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezMapTable.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2005-01-13 09:56:27
+//             Last modification: 2005-02-16 16:44:31
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -646,7 +646,6 @@ CRezMapTable::TrackDrag(
 	StRegion		outlineRgn, tempRgn;
 	Rect			theCellFrame;
 	STableCell		theCell;
-	Rect			itemBounds;
 	void * 			thePtr;
 	ItemReference	itemCount = 1;
 	OSErr			error;
@@ -782,28 +781,30 @@ CRezMapTable::ReceiveDragItem(DragReference inDragRef,
 							 ItemReference inItemRef, 
 							 Rect & inItemBounds)
 {
-	FlavorFlags theFlags;
-	OSErr 		error;
-	ResType		theType;
-	short 		theID;
-	Size 		theSize;
-	UInt16		index;
-	SInt16		answer;
-	void * 		theAdr;
-	CRezObjItem	*newRezObjItem, *oldRezObjItem;
+#pragma unused(inDragAttrs, inItemBounds)
+	
+	FlavorFlags 	theFlags;
+	OSErr 			error;
+	ResType			theType;
+	short 			theID;
+	Size 			theSize;
+	UInt16			index;
+	SInt16			answer;
+	void * 			theAdr;
+	CRezObjItem	*	rezObjItem;
 	
 	if (::GetFlavorFlags(inDragRef, inItemRef, DragFlavor_Rezilla, &theFlags) == noErr) {
 		// Data coming from inside the application: pointer to the sending rezmap table.
 		error = ::GetFlavorDataSize(inDragRef, inItemRef, DragFlavor_Rezilla, &theSize);
 		
 		error = ::GetFlavorData(inDragRef, inItemRef, DragFlavor_Rezilla, &theAdr, &theSize, 0);
-		newRezObjItem = (CRezObjItem *) NewPtr( sizeof(CRezObjItem) );
-		BlockMoveData( theAdr, (void *) newRezObjItem, sizeof(CRezObjItem));
+		rezObjItem = (CRezObjItem *) NewPtr( sizeof(CRezObjItem) );
+		BlockMoveData( theAdr, (void *) rezObjItem, sizeof(CRezObjItem));
 		
-		if (error == noErr && newRezObjItem != nil) {
+		if (error == noErr && rezObjItem != nil) {
 			Boolean replace = false;
 			// Check for conflicting IDs
-			CRezObj * theRezObj = newRezObjItem->GetRezObj();
+			CRezObj * theRezObj = rezObjItem->GetRezObj();
 			theType = theRezObj->GetType();
 			theID = theRezObj->GetID();
 			if ( mRezMap->ResourceExists(theType, theID) ) {
@@ -833,8 +834,8 @@ CRezMapTable::ReceiveDragItem(DragReference inDragRef,
 										 replace);			
 		 }
 		 
-		 if (newRezObjItem != nil) {
-			 ::DisposePtr( (char*) newRezObjItem);
+		 if (rezObjItem != nil) {
+			 ::DisposePtr( (char*) rezObjItem);
 		 } 
 		 
 	 } else if (::GetFlavorFlags(inDragRef, inItemRef, flavorTypeHFS, &theFlags) == noErr) {
@@ -944,3 +945,42 @@ static Boolean DoKeyCheck( const EventRecord &inKeyEvent )
 }
 
 
+// ---------------------------------------------------------------------------
+//  ¥ CreateItemIfNecessary										[public]
+// ---------------------------------------------------------------------------
+	
+CRezObjItem *
+CRezMapTable::CreateItemIfNecessary(ResType inType, short inID, Str255* inName)
+{
+	CRezTypeItem *	rezTypeItem;
+	CRezObjItem 	*oldRezItem, *newRezItem = NULL;
+	CRezType *		theRezType;
+	
+	oldRezItem = GetRezObjItem(inType, inID);
+	
+	if ( oldRezItem != NULL ) { return oldRezItem; } 
+	
+	if ( ! TypeExists(inType, rezTypeItem) ) {
+		// If the type does not already exist, create a new ResTypeItem
+		theRezType = new CRezType(inType, mRezMap);
+		rezTypeItem = new CRezTypeItem( theRezType );
+		InsertRezTypeItem( rezTypeItem );
+	} else {
+		theRezType = rezTypeItem->GetRezType();
+	}
+	
+	// Expand the RezType item now
+	if ( ! rezTypeItem->IsExpanded() ) {
+		rezTypeItem->Expand();
+	}
+	
+	// Create a new RezObjItem
+	newRezItem = new CRezObjItem( theRezType, inID, inName);
+	ThrowIfNil_(newRezItem);
+		
+	// Install the item in the table
+	InsertRezObjItem( newRezItem, rezTypeItem );
+
+	return newRezItem;
+}
+ 

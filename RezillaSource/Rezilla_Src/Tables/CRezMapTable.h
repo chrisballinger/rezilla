@@ -1,11 +1,11 @@
 // ===========================================================================
 // CRezMapTable.h					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2005-01-01 16:14:52
+//             Last modification: 2005-02-16 16:25:49
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003-2004, 2005
+// © Copyright: Bernard Desgraupes 2003-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -60,6 +60,10 @@ public:
 	
 	void					RemoveAllItems();
 
+	CRezObjItem *			CreateItemIfNecessary(ResType inType, 
+												  short inID, 
+												  Str255* inName);
+	
 	CRezTypeItem *			GetRezTypeItem(ResType inType);
 	CRezObjItem *			GetRezObjItem(ResType inType, short inID);
 
