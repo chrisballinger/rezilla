@@ -194,18 +194,17 @@ CRezClipboard::GetDataSelf(
 	SInt32 dataSize = 0;
 	
 	switch (sScrapContext) {
-	  case scrap_rezmap:
-	  // Do nothing. The bulk of the work is accomplished by CRezMapDoc::PasteRezMap().
+		case scrap_rezmap:
+		// Do nothing. The bulk of the work is accomplished by CRezMapDoc::PasteRezMap().
 		break;
 		
-	  case scrap_hexeditHexdata:
+		case scrap_hexeditHexdata:
+		case scrap_hexeditTxtdata:
 		break;
 		
-	  case scrap_hexeditTxtdata:
-		break;
-		
-	  default:
-	  dataSize = UScrap::GetData(inDataType, ioDataH);
+		case scrap_default:
+		default:
+		dataSize = UScrap::GetData(inDataType, ioDataH);
 		break;
 		
 	}
@@ -230,14 +229,15 @@ CRezClipboard::SetDataSelf(
 	Boolean		inReset)
 {
 	switch (sScrapContext) {
-	  case scrap_rezmap: 
-	  SetDataInScrapRezMap(inDataType, inDataPtr, inDataLength, inReset);
-	  // mExportPending must not be reset to false in this case.
+		case scrap_rezmap: 
+		SetDataInScrapRezMap(inDataType, inDataPtr, inDataLength, inReset);
+		// mExportPending must not be reset to false in this case.
 		break;
 		
-	  case scrap_hexeditHexdata:
-	  case scrap_hexeditTxtdata:
-	  default:
+		case scrap_default:
+		case scrap_hexeditHexdata:
+		case scrap_hexeditTxtdata:
+		default:
 		UScrap::SetData(inDataType, inDataPtr, inDataLength, inReset);
 		mExportPending = false;
 		break;
