@@ -2,7 +2,7 @@
 // CAete_EditorWindow.h
 // 
 //                       Created: 2004-07-01 08:42:37
-//             Last modification: 2005-02-03 09:21:41
+//             Last modification: 2005-02-04 23:59:44
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -29,8 +29,6 @@
 #include "CAeteEnumeration.h"
 
 
-class LPageController;
-class LMultiPanelView;
 class LPopupButton;
 class LStaticText;
 
@@ -74,8 +72,6 @@ public:
 protected:
 	CAete *					mAete;
 	UInt8					mCurrentPanel;
-	LPageController *		mController;
-	LMultiPanelView *		mMultiPanel;
 	LPopupButton *			mSuitesPopup;
 	LView					*mEventPane,
 							*mClassPane,
@@ -91,7 +87,6 @@ private:
 	ArrayIndexT			GetCurrentIndex(SInt8 inKind);
 	void				SetCurrentIndex(SInt8 inKind, ArrayIndexT inIndex);
 	SInt32				GetCurrentCount(SInt8 inKind);
-	void				MakeListeners();
 	
 	void				InstallResourceInfo();
 	void				InstallSuiteValues();
