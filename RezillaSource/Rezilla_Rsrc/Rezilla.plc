@@ -20,8 +20,8 @@
 #define kBundleShortInfoString __OUTPUT_FILENAME__ " "  REZILLA_PLC_VERSION
 
 // String to display in the Finder's Get Info window (\U00A9 = ©)
-#define kBundleLongInfo_EN kBundleShortInfoString ", Copyright © 2003-2004 by Bernard Desgraupes. All rights reserved."
-#define kBundleLongInfo_FR kBundleShortInfoString ", Copyright © 2003-2004 par Bernard Desgraupes. Tous droits réservés."
+#define kBundleLongInfo_EN kBundleShortInfoString ", Copyright © 2003-2005 by Bernard Desgraupes. All rights reserved."
+#define kBundleLongInfo_FR kBundleShortInfoString ", Copyright © 2003-2005 par Bernard Desgraupes. Tous droits réservés."
 
 plist
 {
