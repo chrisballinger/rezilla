@@ -43,7 +43,7 @@ CRezClipboard::CRezClipboard()
 	: LClipboard()
 {
 	sScrapContext = scrap_default;
-	CRezClipboard::CreateNewScrap();
+	CRezClipboard::NewLocalScrap();
 }
 
 
@@ -73,13 +73,13 @@ CRezClipboard::~CRezClipboard()
 
 
 // ---------------------------------------------------------------------------
-//	¥ CreateNewScrap										   [protected]
+//	¥ NewLocalScrap										   [protected]
 // ---------------------------------------------------------------------------
 // /Developer/Examples/Printing/App/BasicPrintLoop/PrintLoop/Source/main.c
 // /Developer/Examples/Printing/Printer/Plugins/SamplePM/Source/RasterUtils.cp
 
 OSErr
-CRezClipboard::CreateNewScrap()
+CRezClipboard::NewLocalScrap()
 {
 	CFBundleRef 	mainBundleRef;
 	CFURLRef 		mainBundleURL, scrapRezMapURL, resDirUrl;
@@ -144,11 +144,11 @@ CRezClipboard::CreateNewScrap()
 
 
 // ---------------------------------------------------------------------------
-//	¥ DeleteScrap												   [protected]
+//	¥ DeleteLocalScrap												   [protected]
 // ---------------------------------------------------------------------------
 
 OSErr
-CRezClipboard::DeleteScrap()
+CRezClipboard::DeleteLocalScrap()
 {
 	OSErr error = noErr;
 	
@@ -193,12 +193,14 @@ CRezClipboard::GetDataSelf(
 		// Do nothing. The bulk of the work is accomplished by CRezMapDoc::PasteRezMap().
 		break;
 		
-		case scrap_hexeditHex:
-		case scrap_hexeditTxt:
+		case scrap_bitmap:
+		dataSize = UScrap::GetData(inDataType, ioDataH);
+// 		DeleteLocalScrap();
 		break;
 		
 		case scrap_default:
-		case scrap_bitmap:
+		case scrap_hexeditHex:
+		case scrap_hexeditTxt:
 		default:
 		dataSize = UScrap::GetData(inDataType, ioDataH);
 		break;
@@ -226,17 +228,24 @@ CRezClipboard::SetDataSelf(
 {
 	switch (sScrapContext) {
 		case scrap_rezmap: 
-		SetDataInScrapRezMap(inDataType, inDataPtr, inDataLength, inReset);
+		DataArrayToScrapRezMap(inDataType, inDataPtr, inDataLength, inReset);
 		// mExportPending must not be reset to false in this case.
 		break;
 		
+		case scrap_bitmap:
+		UScrap::SetData(inDataType, inDataPtr, inDataLength, inReset);
+		DeleteLocalScrap();
+		mExportPending = false;
+		mImportPending = false;
+		break;
+
 		case scrap_default:
 		case scrap_hexeditHex:
 		case scrap_hexeditTxt:
-		case scrap_bitmap:
 		default:
 		UScrap::SetData(inDataType, inDataPtr, inDataLength, inReset);
 		mExportPending = false;
+		mImportPending = true;
 		break;
 		
 	}
@@ -258,6 +267,11 @@ CRezClipboard::ImportSelf()
 	OSStatus			error = noErr;
 	UInt32				theCount, idx;
 	
+	// Import only if a RezMapDoc is active
+	if (sScrapContext != scrap_rezmap) {
+		return;
+	} 
+	
 	error = ::GetScrapFlavorCount(mScrapRef, &theCount);
 	
 	if (error == noErr && theCount)  {
@@ -268,8 +282,8 @@ CRezClipboard::ImportSelf()
 		Size		byteCount;
 		
 		// Reset the scrap rez map
-		DeleteScrap();
-		CreateNewScrap();
+		DeleteLocalScrap();
+		NewLocalScrap();
 		
 		// Get the list of all flavors found in the global scrap
 		infoList = (ScrapFlavorInfo*) NewPtrClear( theCount * sizeof(ScrapFlavorInfo) );
@@ -298,14 +312,15 @@ CRezClipboard::ImportSelf()
 					error = theRezObj->Add();
 					error = theRezObj->Changed();
 				}
-				
-				if (theRezType != nil) {
-					delete theRezType;
-					theRezType = nil;
-				} 
+				// The RezObj must be deleted before the RezType because 
+				// of the associated objects model.
 				if (theRezObj != nil) {
 					delete theRezObj;
 					theRezObj = nil;
+				} 
+				if (theRezType != nil) {
+					delete theRezType;
+					theRezType = nil;
 				} 
 			}
 		}
@@ -380,7 +395,7 @@ CRezClipboard::ContentsIsValidHex()
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetDataInScrapRezMap											[private]
+//	¥ DataArrayToScrapRezMap											[private]
 // ---------------------------------------------------------------------------
 //	Set the ScrapRezMap contents to the data specified by a pointer and length.
 //
@@ -388,7 +403,7 @@ CRezClipboard::ContentsIsValidHex()
 //	ScrapRezMap before storing the new data.
 
 void
-CRezClipboard::SetDataInScrapRezMap(
+CRezClipboard::DataArrayToScrapRezMap(
 	ResType		inDataType,
 	Ptr			inDataPtr,
 	SInt32		inDataLength,
@@ -404,8 +419,8 @@ CRezClipboard::SetDataInScrapRezMap(
 	
 	if (inReset) {
 		// Reset the scrap rez map
-		DeleteScrap();
-		CreateNewScrap();
+		DeleteLocalScrap();
+		NewLocalScrap();
 	} 
 	
 	while (iterator.Next(&theItem)) {

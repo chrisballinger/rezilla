@@ -75,14 +75,14 @@ protected:
 	virtual void		ExportSelf();
 
 private:
-	virtual void		SetDataInScrapRezMap(
+	virtual void		DataArrayToScrapRezMap(
 								ResType		inDataType,
 								Ptr			inDataPtr,
 								SInt32		inDataLength,
 								Boolean		inReset);
 
-	OSErr				DeleteScrap();
-	OSErr				CreateNewScrap();
+	OSErr				DeleteLocalScrap();
+	OSErr				NewLocalScrap();
 };
 
 
