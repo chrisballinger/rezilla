@@ -2,11 +2,11 @@
 // CWasteEditView.cp 
 // 
 // Created : 2001-09-05 18:22:04 
-// Last modification : 2003-05-03 19:50:17
+// Last modification : 2004-06-07 09:13:04
 // Author: Bernard Desgraupes 
 // e-mail: <bdesgraupes@easyconnect.fr> 
 // www: <http://webperso.easyconnect.fr/bdesgraupes/> 
-// © Copyright: Bernard Desgraupes 2001-2003
+// © Copyright: Bernard Desgraupes 2001-2003, 2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -1273,7 +1273,7 @@ CWasteEditView::ResizeFrameBy(
 	LView::ResizeFrameBy(inWidthDelta, inHeightDelta, Refresh_No);
 
 	// If word wrap is on, the Image width must be the same as the Frame width.
-	if (mWordWrap ) {
+	if (mWordWrap) {
 		ResizeImageTo(mFrameSize.width, mImageSize.height, Refresh_No);
 	}
 
@@ -2084,19 +2084,49 @@ CWasteEditView::BuildTextAttributes()
 }
 
 
+// // ---------------------------------------------------------------------------
+// //	¥ ApplyStylePrefs
+// // ---------------------------------------------------------------------------
+// 
+// void
+// CWasteEditView::ApplyStylePrefs(UInt16 theSize, UInt16 theFont)
+// {
+// 	SInt32 saveStart, saveEnd;
+// 	LongRect theOldRect;
+// 	TextStyle theStyle;
+// 	
+// 	WEGetDestRect( &theOldRect, mWasteEditRef);
+// 	WEFeatureFlag( weFReadOnly, weBitClear, mWasteEditRef );
+// 	WEGetSelection( & saveStart, & saveEnd, mWasteEditRef);
+// 	WESetSelection( 0, 0x7FFFFFFF, mWasteEditRef );
+// 	
+// 	theStyle.tsSize = theSize;
+// 	WESetStyle( weDoSize, &theStyle, mWasteEditRef );
+// 	
+// 	theStyle.tsFont = theFont;
+// 	WESetStyle( weDoFont, &theStyle, mWasteEditRef );
+// 	
+// 	WESetSelection( saveStart, saveEnd, mWasteEditRef );
+// 	WEFeatureFlag( weFReadOnly, weBitSet, mWasteEditRef );
+// 	
+// 	AlignWERects();
+// 	AdjustImageToText();
+// 	ForceAutoScroll(theOldRect);
+// 	Refresh();
+// }
+
+
 // ---------------------------------------------------------------------------
-//	¥ ApplyStylePrefs
+//	¥ ApplyStyleValues
 // ---------------------------------------------------------------------------
 
 void
-CWasteEditView::ApplyStylePrefs(UInt16 theSize, UInt16 theFont)
+CWasteEditView::ApplyStyleValues(UInt16 theSize, UInt16 theFont)
 {
 	SInt32 saveStart, saveEnd;
-	LongRect theOldRect;
 	TextStyle theStyle;
 	
-	WEGetDestRect( &theOldRect, mWasteEditRef);
-	WEFeatureFlag( weFReadOnly, weBitClear, mWasteEditRef );
+	int saveBit = WEFeatureFlag( weFReadOnly, weBitClear, mWasteEditRef );
 	WEGetSelection( & saveStart, & saveEnd, mWasteEditRef);
 	WESetSelection( 0, 0x7FFFFFFF, mWasteEditRef );
 	
@@ -2107,11 +2137,9 @@ CWasteEditView::ApplyStylePrefs(UInt16 theSize, UInt16 theFont)
 	WESetStyle( weDoFont, &theStyle, mWasteEditRef );
 	
 	WESetSelection( saveStart, saveEnd, mWasteEditRef );
-	WEFeatureFlag( weFReadOnly, weBitSet, mWasteEditRef );
+	WEFeatureFlag( weFReadOnly, saveBit, mWasteEditRef );
 	
-	AlignWERects();
 	AdjustImageToText();
-	ForceAutoScroll(theOldRect);
 	Refresh();
 }
 

@@ -2,7 +2,7 @@
 //	CWasteEditView.h
 //	
 //                       Created: 2001-09-05 18:22:04
-//             Last modification: 2004-04-12 18:26:38
+//             Last modification: 2004-06-07 09:12:53
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -303,7 +303,8 @@ public:
 
 	virtual void			ActivateSelf();
 	
-	void					ApplyStylePrefs(UInt16 theSize, UInt16 theFont);
+// 	void					ApplyStylePrefs(UInt16 theSize, UInt16 theFont);
+	void					ApplyStyleValues(UInt16 theSize, UInt16 theFont);
 
 	Boolean					IsDirty() const {return mIsDirty;}
 	void					SetDirty( Boolean inDirty ) {mIsDirty = inDirty;}
