@@ -195,7 +195,8 @@ CEditorWindow::ObeyCommand(
 // ---------------------------------------------------------------------------
 //	¥ RevertContents												  [public]
 // ---------------------------------------------------------------------------
-// Override in subclasses to redraw the contents virw.
+// Override in subclasses to redraw the contents view with the last saved 
+// data.
 
 void
 CEditorWindow::RevertContents()
