@@ -500,6 +500,10 @@ CRezillaApp::ObeyCommand(
 					theComparator->DisplayResults();
 				} else {
 					UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("RezMapsDoNotDiffer"), PPob_SimpleMessage);
+					// Here we must delete because no result window has
+					// been displayed (otherwise the comparator is deleted
+					// when the window is closed).
+					delete theComparator;
 				}
 			} 
 			break;
