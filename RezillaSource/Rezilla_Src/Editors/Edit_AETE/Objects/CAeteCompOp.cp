@@ -25,7 +25,7 @@
 CAeteCompOp::CAeteCompOp()
 {
 	mName[0] = 0;
-	mType = 0;
+	mID = 0;
 	mDescription[0] = 0;
 }
 
@@ -35,10 +35,10 @@ CAeteCompOp::CAeteCompOp()
 // ---------------------------------------------------------------------------
 
 CAeteCompOp::CAeteCompOp(Str255 inName, 
-						 OSType inType, 
+						 OSType inID, 
 						 Str255 inDescription)
 {
-	SetValues( inName, inType, inDescription);
+	SetValues( inName, inID, inDescription);
 }
 
 
@@ -71,7 +71,7 @@ CAeteCompOp::InstallDataStream(CAeteStream * inStream)
 	*inStream >> mName;
 	inStream->AlignBytesRead();
 
-	*inStream >> mType;
+	*inStream >> mID;
 	
 	*inStream >> mDescription;
 	inStream->AlignBytesRead();
@@ -87,7 +87,7 @@ CAeteCompOp::SendDataToStream(CAeteStream * outStream)
 {
 	*outStream << mName;
 	outStream->AlignBytesWrite();
-	*outStream << mType;
+	*outStream << mID;
 	*outStream << mDescription;
 	outStream->AlignBytesWrite();
 }
@@ -98,11 +98,11 @@ CAeteCompOp::SendDataToStream(CAeteStream * outStream)
 // ---------------------------------------------------------------------------
 
 void
-CAeteCompOp::GetValues(Str255 outName, OSType & outType, Str255 outDescription)
+CAeteCompOp::GetValues(Str255 outName, OSType & outID, Str255 outDescription)
 {
 	LString::CopyPStr(mName, outName);
 	LString::CopyPStr(mDescription, outDescription);
-	outType = mType;
+	outID = mID;
 }
  
 
@@ -111,11 +111,11 @@ CAeteCompOp::GetValues(Str255 outName, OSType & outType, Str255 outDescription)
 // ---------------------------------------------------------------------------
 
 void
-CAeteCompOp::SetValues(Str255 inName, OSType inType, Str255 inDescription)
+CAeteCompOp::SetValues(Str255 inName, OSType inID, Str255 inDescription)
 {
 	LString::CopyPStr(inName, mName);
 	LString::CopyPStr(inDescription, mDescription);
-	mType = inType;
+	mID = inID;
 }
 
 
@@ -140,7 +140,7 @@ CAeteCompOp::GetDataFromXml(CFXMLTreeRef inTreeNode)
 		if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("CompOpName"), 0) ) {
 			UMiscUtils::GetStringFromXml(xmlTree, mName);
 		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("CompOpID"), 0) ) {
-			UMiscUtils::GetOSTypeFromXml(xmlTree, mType);
+			UMiscUtils::GetOSTypeFromXml(xmlTree, mID);
 		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("CompOpDescription"), 0) ) {
 			UMiscUtils::GetStringFromXml(xmlTree, mDescription);
 		} 

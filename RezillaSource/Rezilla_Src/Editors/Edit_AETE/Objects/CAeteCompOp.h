@@ -25,7 +25,7 @@ class CAeteCompOp {
 public:
 				CAeteCompOp();
 				CAeteCompOp(Str255 inName, 
-							OSType inType, 
+							OSType inID, 
 							Str255 inDescription);
 				CAeteCompOp(CAeteStream *	inStream);
 				~CAeteCompOp();
@@ -35,13 +35,13 @@ public:
 
 		OSErr		GetDataFromXml(CFXMLTreeRef inTreeNode);
 		
-		void		GetValues(Str255 outName, OSType & outType, Str255 outDescription);
+		void		GetValues(Str255 outName, OSType & outID, Str255 outDescription);
 		
-		void 		SetValues(Str255 inName, OSType inType, Str255 inDescription);
+		void 		SetValues(Str255 inName, OSType inID, Str255 inDescription);
 
 protected:
 		Str255		mName;
-		OSType		mType;
+		OSType		mID;
 		Str255		mDescription;
 
 private:
