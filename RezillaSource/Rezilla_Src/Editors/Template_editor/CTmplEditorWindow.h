@@ -2,7 +2,7 @@
 // CTmplEditorWindow.h
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-08-20 19:22:10
+//             Last modification: 2004-08-22 17:36:31
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -109,6 +109,8 @@ protected:
 	PaneIDT				mLastID;
 	SInt32				mIndent;
 	SInt32				mSkipOffset;
+	SInt32				mListCountMark;
+	ResType				mCountType;
 	short				mItemsCount;
 	Boolean				mIsDirty;
 	Boolean				mFixedCount;
@@ -256,7 +258,9 @@ private:
 									UInt16 & ioBitsCount, 
 									UInt16 & ioBytesLen);
 	
-	void			RetrieveBitField(UInt16 inBitCount, UInt16 inBytesLen);
+	OSErr			RetrieveBitField(UInt16 inBitCount, UInt16 inBytesLen);
+	
+	OSErr			RetrieveCountValue();
 	
 	void			KeyValueToString(ResType inType, Str255 keyString);
 	

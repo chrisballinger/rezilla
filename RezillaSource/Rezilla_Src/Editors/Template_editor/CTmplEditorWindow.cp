@@ -2,7 +2,7 @@
 // CTmplEditorWindow.cp					
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-08-20 18:44:23
+//             Last modification: 2004-08-22 17:36:25
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -155,6 +155,7 @@ CTmplEditorWindow::FinishCreateSelf()
 	mItemsCount			= 0;
 	mIndent				= 0;
 	mSkipOffset			= 0;
+	mListCountMark		= 0;
 	mBitSeqInProgress	= false;
 	mBitSeqValue		= 0;
 	mBitSeqBytesLen		= 0;
@@ -323,7 +324,6 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			mYCoord = kTmplVertSep;
 			DoParseWithTemplate(startMark, true, currListItemView);
 			currListItemView->mLastItemID = mCurrentID - 1;
-// 			mYCoord += kTmplVertSkip;
 			currListItemView->ResizeFrameBy(0, mYCoord, false);
 
 			mIndent -= kTmplListIndent * sublevel;
@@ -560,7 +560,7 @@ CTmplEditorWindow::DoParseWithTemplate(SInt32 inRecursionMark, Boolean inDrawCon
 		*mTemplateStream >> theString;
 		*mTemplateStream >> theType;
 		
-		if (theType == 'OCNT' || theType == 'WCNT' || theType == 'ZCNT' 
+		if (theType == 'OCNT' || theType == 'ZCNT' || theType == 'WCNT' || theType == 'BCNT' 
 			|| theType == 'FCNT' || theType == 'LCNT' || theType == 'LZCT') {
 			LString::CopyPStr(theString, countLabel);
 			mFixedCount = (theType == 'FCNT');
@@ -1471,10 +1471,13 @@ CTmplEditorWindow::DoRetrieveWithTemplate(SInt32 inRecursionMark)
 		*mTemplateStream >> theString;
 		*mTemplateStream >> theType;
 		
-		if (theType == 'OCNT' || theType == 'WCNT' || theType == 'ZCNT' 
+		if (theType == 'OCNT' || theType == 'ZCNT' || theType == 'WCNT' || theType == 'BCNT' 
 			|| theType == 'FCNT' || theType == 'LCNT' || theType == 'LZCT') {
 			error = RetrieveDataForType(theType);
 		} else if (theType == 'LSTB' || theType == 'LSTC' || theType == 'LSTZ') {
+			if (theType == 'LSTC') {
+				RetrieveCountValue();
+			} 
 			// Skip the Plus and Minus buttons
 			mCurrentID += 2;
 			error = RetrieveList(mTemplateStream->GetMarker(), theType, mItemsCount);
@@ -1611,16 +1614,11 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		break;
 
 		case 'BCNT':
-		// Byte count for LSTC lists
-		theStaticText = dynamic_cast<LStaticText *>(this->FindPaneByID(mCurrentID));
-		theStaticText->GetDescriptor(theString);	
-		::StringToNum( theString, &theLong);
-		*mOutStream << (UInt8) theLong;
-		if (theLong > 7) {
-			theLong = 7;
-		} 
-		mItemsCount = (UInt16) theLong;
-		mCurrentID++;
+		// Byte count for LSTC lists. Reserve a space for the count. It
+		// will be filled later when the LSTC tag is met.
+		*mOutStream << (UInt8) 0x00;
+		mListCountMark = mOutStream->GetMarker();
+		mCountType = inType;
 		break;
 
 		case 'BFLG':
@@ -1908,17 +1906,11 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		break;
 
 		case 'LCNT':
-		// One-based long count for LSTC lists
-		theStaticText = dynamic_cast<LStaticText *>(this->FindPaneByID(mCurrentID));
-		theStaticText->GetDescriptor(theString);	
-		::StringToNum( theString, &theLong);
-		if (theLong < 0xffff) {
-			mItemsCount = theLong;
-		} else {
-			error = err_TmplListCountTooBig;
-		}
-		*mOutStream << theLong;
-		mCurrentID++;
+		// One-based long count for LSTC lists. Reserve a space for the count. It
+		// will be filled later when the LSTC tag is met.
+		*mOutStream << (UInt32) 0x00000000;
+		mListCountMark = mOutStream->GetMarker();
+		mCountType = inType;
 		break;
 
 		case 'LFLG':
@@ -1985,36 +1977,21 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		break;
 		
 		case 'LZCT':
-		// Zero-based count for LSTC lists
-		theStaticText = dynamic_cast<LStaticText *>(this->FindPaneByID(mCurrentID));
-		theStaticText->GetDescriptor(theString);	
-		::StringToNum( theString, &theLong);
-		mItemsCount = (UInt16) theLong;
-		if (theLong < 0xffff) {
-			if (!theLong) {
-				theUInt16 = 0xffff;
-			} else {
-				theUInt16 = (UInt16) --theLong;
-			}
-			*mOutStream << theUInt16;
-		} else {
-			error = err_TmplListCountTooBig;
-		}
-		mCurrentID++;
+		// Zero-based count for LSTC lists. Reserve a space for the count. It
+		// will be filled later when the LSTC tag is met.
+		*mOutStream << (UInt32) 0x00000000;
+		mListCountMark = mOutStream->GetMarker();
+		mCountType = inType;
 		break;
 
 		case 'OCNT':
 		case 'FCNT':
 		case 'WCNT':
-		// One-based count for LSTC lists
-		theStaticText = dynamic_cast<LStaticText *>(this->FindPaneByID(mCurrentID));
-		theStaticText->GetDescriptor(theString);	
-		::StringToNum( theString, &theLong);
-		mItemsCount = (UInt16) theLong;
-		if (inType != 'FCNT') {
-			*mOutStream << mItemsCount;
-		} 
-		mCurrentID++;
+		// One-based count for LSTC lists. Reserve a space for the count. It
+		// will be filled later when the LSTC tag is met.
+		*mOutStream << (UInt16) 0x0000;
+		mListCountMark = mOutStream->GetMarker();
+		mCountType = inType;
 		break;
 
 		case 'OCST':
@@ -2210,18 +2187,11 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		break;
 
 		case 'ZCNT':
-		// Zero-based count for LSTC lists
-		theStaticText = dynamic_cast<LStaticText *>(this->FindPaneByID(mCurrentID));
-		theStaticText->GetDescriptor(theString);	
-		::StringToNum( theString, &theLong);
-		mItemsCount = (UInt16) theLong;
-		if (!theLong) {
-			theUInt16 = 0xffff;
-		} else {
-			theUInt16 = (UInt16) --theLong;
-		}
-		*mOutStream << theUInt16;
-		mCurrentID++;
+		// Zero-based count for LSTC lists. Reserve a space for the count. It
+		// will be filled later when the LSTC tag is met.
+		*mOutStream << (UInt16) 0x0000;
+		mListCountMark = mOutStream->GetMarker();
+		mCountType = inType;
 		break;
 
 	  default:
@@ -2338,9 +2308,10 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 //	¥ RetrieveBitField											[public]
 // ---------------------------------------------------------------------------
 
-void
+OSErr
 CTmplEditorWindow::RetrieveBitField(UInt16 inBitCount, UInt16 inBytesLen)
 {
+	OSErr	error = noErr;
 	UInt16	i, val;
 	long	theLong;
 	Str255	numStr;
@@ -2375,6 +2346,96 @@ CTmplEditorWindow::RetrieveBitField(UInt16 inBitCount, UInt16 inBytesLen)
 		mBitSeqInProgress = false;
 		*mOutStream << mBitSeqValue;
 	} 
+	
+	return error;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ RetrieveCountValue											[public]
+// ---------------------------------------------------------------------------
+
+OSErr
+CTmplEditorWindow::RetrieveCountValue()
+{
+	OSErr	error = noErr;
+	SInt32	currMark;
+	long	theLong;
+	Str255	theString;
+	UInt8	theUInt8 = 0;
+	UInt16	theUInt16 = 0;
+	UInt32	theUInt32 = 0;
+	LStaticText	*		theStaticText;
+
+	currMark = mOutStream->GetMarker();
+	mOutStream->SetMarker(mListCountMark, streamFrom_Start);
+	
+	theStaticText = dynamic_cast<LStaticText *>(this->FindPaneByID(mCurrentID));
+	theStaticText->GetDescriptor(theString);	
+	::StringToNum( theString, &theLong);
+	
+	switch (mCountType) {
+		
+		case 'BCNT':
+		// Byte count for LSTC lists
+		*mOutStream << (UInt8) theLong;
+		if (theLong > 7) {
+			theLong = 7;
+		} 
+		mItemsCount = (UInt16) theLong;
+		break;
+		
+		case 'LCNT':
+		// One-based long count for LSTC lists
+		if (theLong < 0xffff) {
+			mItemsCount = theLong;
+		} else {
+			error = err_TmplListCountTooBig;
+		}
+		*mOutStream << theLong;
+		break;
+		
+		case 'LZCT':
+		// Zero-based count for LSTC lists
+		mItemsCount = (UInt16) theLong;
+		if (theLong < 0xffff) {
+			if (!theLong) {
+				theUInt16 = 0xffff;
+			} else {
+				theUInt16 = (UInt16) --theLong;
+			}
+			*mOutStream << theUInt16;
+		} else {
+			error = err_TmplListCountTooBig;
+		}
+		break;
+		
+		case 'OCNT':
+		case 'FCNT':
+		case 'WCNT':
+		// One-based count for LSTC lists
+		mItemsCount = (UInt16) theLong;
+		if (mCountType != 'FCNT') {
+			*mOutStream << mItemsCount;
+		} 
+		break;
+		
+		case 'ZCNT':
+		// Zero-based count for LSTC lists
+		mItemsCount = (UInt16) theLong;
+		if (!theLong) {
+			theUInt16 = 0xffff;
+		} else {
+			theUInt16 = (UInt16) --theLong;
+		}
+		*mOutStream << theUInt16;
+		break;
+		
+	}
+	
+	mCurrentID++;
+	mOutStream->SetMarker(currMark, streamFrom_Start);
+	return error;
 }
 
 
