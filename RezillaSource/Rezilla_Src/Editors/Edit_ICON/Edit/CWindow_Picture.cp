@@ -1,7 +1,7 @@
 // ===========================================================================
 // CWindow_Picture.cp
 //                       Created: 2004-12-11 18:50:22
-//             Last modification: 2005-01-19 09:27:07
+//             Last modification: 2005-02-06 19:20:39
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -74,6 +74,17 @@ CWindow_Picture::CWindow_Picture( LStream *inStream ) : CIcon_EditorWindow( inSt
 // ---------------------------------------------------------------------------
 CWindow_Picture::~CWindow_Picture()
 {
+}
+
+
+// ---------------------------------------------------------------------------
+// 	FinishCreateSelf
+// ---------------------------------------------------------------------------
+void
+CWindow_Picture::FinishCreateSelf()
+{
+	// Link the broadcasters
+	UReanimator::LinkListenerToBroadcasters( this, this, PPob_PictEditor );
 }
 
 

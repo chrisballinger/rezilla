@@ -1,7 +1,7 @@
 // ===========================================================================
 // CWindow_Pattern.cp
 //                       Created: 2004-12-11 18:50:21
-//             Last modification: 2005-01-19 09:26:14
+//             Last modification: 2005-02-06 19:20:20
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -118,6 +118,8 @@ CWindow_Pattern::FinishCreateSelf()
 		mInitialSampleWellSize.height = 0;
 	}
 
+	// Link the broadcasters
+	UReanimator::LinkListenerToBroadcasters( this, this, PPob_PatternEditor );
 	this->BecomeListenerTo( mNumSamplePanes, mSamplePaneList );
 }
 

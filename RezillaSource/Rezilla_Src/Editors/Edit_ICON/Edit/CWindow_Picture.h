@@ -1,11 +1,11 @@
 // ===========================================================================
 // CWindow_Picture.h
 //                       Created: 2004-12-11 18:56:32
-//             Last modification: 2005-01-09 08:17:29
+//             Last modification: 2005-02-06 19:10:31
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes 2004, 2005
+// (c) Copyright: Bernard Desgraupes 2004-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -29,6 +29,8 @@ class CWindow_Picture : public CIcon_EditorWindow {
 		
 		static CWindow_Picture *	OpenPaintWindow( ResIDT inPPobID, CRezMap *, ResIDT );
 		static CWindow_Picture *	CreateFromStream( LStream *inStream );
+		
+		virtual void				FinishCreateSelf();
 		
 		virtual void				InitializeFromResource( CRezMap *, ResIDT );
 		virtual void				InitializeFromBuffer( COffscreen * );

@@ -1,7 +1,7 @@
 // ===========================================================================
 // CWindow_IconFamily.h
 //                       Created: 2004-12-11 18:56:28
-//             Last modification: 2005-01-09 08:16:42
+//             Last modification: 2005-02-06 19:11:05
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -64,6 +64,8 @@ class CWindow_IconFamily : public CIcon_EditorWindow {
 		
 		static CWindow_IconFamily *	OpenPaintWindow( ResIDT inPPobID, CRezMap *inMap, ResIDT );
 		static CWindow_IconFamily *	CreateFromStream( LStream *inStream );
+		
+		virtual void			FinishCreateSelf();
 		
 		virtual void			InitializeFromResource( CRezMap *inMap, ResIDT );
 		virtual void			SaveAsResource( CRezMap *, ResIDT );

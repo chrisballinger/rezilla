@@ -1,7 +1,7 @@
 // ===========================================================================
 // CWindow_IconFamily.cp
 //                       Created: 2004-12-11 18:50:16
-//             Last modification: 2005-01-19 09:26:52
+//             Last modification: 2005-02-06 19:20:12
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -81,6 +81,17 @@ CWindow_IconFamily *
 CWindow_IconFamily::CreateFromStream( LStream *inStream )
 {
 	return new CWindow_IconFamily( inStream );
+}
+
+
+// ---------------------------------------------------------------------------
+// 	FinishCreateSelf
+// ---------------------------------------------------------------------------
+void
+CWindow_IconFamily::FinishCreateSelf()
+{
+	// Link the broadcasters
+	UReanimator::LinkListenerToBroadcasters( this, this, PPob_IconFamilyEditor );
 }
 
 

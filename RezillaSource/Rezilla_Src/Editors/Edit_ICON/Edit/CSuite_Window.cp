@@ -1,7 +1,7 @@
 // ===========================================================================
 // CSuite_Window.cp
 //                       Created: 2005-01-10 21:23:57
-//             Last modification: 2005-01-16 19:11:52
+//             Last modification: 2005-02-06 19:19:57
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -143,6 +143,7 @@ void
 CSuite_Window::FinishCreateSelf()
 {
 	CIcon_EditorWindow::FinishCreateSelf();
+	mTotalCount = 0;
 
 	mSlider = dynamic_cast<CSuiteSlider *>(this->FindPaneByID( item_IconSuiteSlider ));
 	ThrowIfNil_( mSlider );

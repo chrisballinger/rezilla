@@ -1,7 +1,7 @@
 // ===========================================================================
 // CWindow_ColorIcon.cp
 //                       Created: 2004-12-11 18:50:11
-//             Last modification: 2005-01-19 09:26:23
+//             Last modification: 2005-02-06 19:19:45
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -106,6 +106,8 @@ CWindow_ColorIcon::FinishCreateSelf()
 		mInitialSampleWellSize.height = 0;
 	}
 
+	// Link the broadcasters
+	UReanimator::LinkListenerToBroadcasters( this, this, PPob_CICNEditor );
 	// We need to listen to these controls (click and/or drop operations)
 	this->BecomeListenerTo( mNumSamplePanes, mSamplePaneList );
 }

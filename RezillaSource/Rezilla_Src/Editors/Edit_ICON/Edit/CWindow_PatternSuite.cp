@@ -1,7 +1,7 @@
 // ===========================================================================
 // CWindow_PatternSuite.cp
 //                       Created: 2005-01-09 10:38:27
-//             Last modification: 2005-01-19 09:27:14
+//             Last modification: 2005-02-06 19:20:05
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -93,6 +93,8 @@ CWindow_PatternSuite::FinishCreateSelf()
 	ThrowIfNil_( mSample );
 	mSamplePaneList[ mNumSamplePanes++ ] = mSample;
 	
+	// Link the broadcasters
+	UReanimator::LinkListenerToBroadcasters( this, this, PPob_PatternSuiteEditor );
 	// We need to listen to the sample pane (click and/or drop operations)
 	this->BecomeListenerTo( mNumSamplePanes, mSamplePaneList );
 }
@@ -163,19 +165,25 @@ CWindow_PatternSuite::ParseBitmapSuite( Handle inHandle, COffscreen **outBW  )
 	
 	StHandleLocker	locker( (Handle) inHandle );
 
-	mTotalCount = **(UInt16 **) inHandle;
-	if (mTotalCount * 8 + 2 != theSize) {
-		Throw_( err_IconCorruptedResource );
-	} 
-	mCurrentIndex = 1;
-	
-	p = (Pattern *) (*inHandle + 2);
-	
-	for ( offset = 0; offset < mTotalCount; offset++ ) {
-		mPatternsArray.AddItem( *(p + offset) );
+	if (theSize > 0) {
+		mTotalCount = **(UInt16 **) inHandle;
+		if (mTotalCount * 8 + 2 != theSize) {
+			Throw_( err_IconCorruptedResource );
+		} 
+		
+		p = (Pattern *) (*inHandle + 2);
+		
+		for ( offset = 0; offset < mTotalCount; offset++ ) {
+			mPatternsArray.AddItem( *(p + offset) );
+		}
+		
+		*outBW = CWindow_Pattern::BWPatternToOffscreen(*p);
+	} else {
+		mTotalCount = 0;
+		AddNewBitmap();
 	}
 	
-	*outBW = CWindow_Pattern::BWPatternToOffscreen(*p);
+	mCurrentIndex = 1;
 }
 
 

@@ -1,7 +1,7 @@
 // ===========================================================================
 // CWindow_Cursor.cp
 //                       Created: 2004-12-11 18:50:15
-//             Last modification: 2005-01-19 09:27:00
+//             Last modification: 2005-02-06 19:20:32
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -130,6 +130,8 @@ CWindow_Cursor::FinishCreateSelf()
 	mSamplePaneList[ mNumSamplePanes++ ] = mBWSample;
 	mSamplePaneList[ mNumSamplePanes++ ] = mMaskSample;
 
+	// Link the broadcasters
+	UReanimator::LinkListenerToBroadcasters( this, this, PPob_CursorEditor );
 	// We need to listen to the sample panes (click and/or drop operations)
 	this->BecomeListenerTo( mNumSamplePanes, mSamplePaneList );
 }

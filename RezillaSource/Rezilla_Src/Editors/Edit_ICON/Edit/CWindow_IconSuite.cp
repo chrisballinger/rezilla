@@ -1,7 +1,7 @@
 // ===========================================================================
 // CWindow_IconSuite.cp
 //                       Created: 2005-01-10 21:23:57
-//             Last modification: 2005-01-19 09:27:23
+//             Last modification: 2005-02-06 19:19:52
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -94,6 +94,8 @@ CWindow_IconSuite::FinishCreateSelf()
 	ThrowIfNil_( mSample );
 	mSamplePaneList[ mNumSamplePanes++ ] = mSample;
 	
+	// Link the broadcasters
+	UReanimator::LinkListenerToBroadcasters( this, this, PPob_IconSuiteEditor );
 	// We need to listen to the sample pane (click and/or drop operations)
 	this->BecomeListenerTo( mNumSamplePanes, mSamplePaneList );
 }
@@ -162,22 +164,28 @@ CWindow_IconSuite::ParseBitmapSuite( Handle inHandle, COffscreen **outBW  )
 	SInt32		offset;	
 	SICN *		p;
 	
-	if (theSize % 32) {
-		Throw_( err_IconCorruptedResource );
-	} 
-	
-	StHandleLocker	locker( (Handle) inHandle );
+	if (theSize > 0) {
+		if (theSize % 32) {
+			Throw_( err_IconCorruptedResource );
+		} 
+		
+		StHandleLocker	locker( (Handle) inHandle );
 
-	mTotalCount = theSize / 32;
-	mCurrentIndex = 1;
-	
-	p = (SICN *) *inHandle;
-	
-	for ( offset = 0; offset < mTotalCount; offset++ ) {
-		mBitmapsArray.AddItem( *(p + offset) );
+		mTotalCount = theSize / 32;
+		
+		p = (SICN *) *inHandle;
+		
+		for ( offset = 0; offset < mTotalCount; offset++ ) {
+			mBitmapsArray.AddItem( *(p + offset) );
+		}
+		
+		*outBW = IconToOffscreen(p);
+	} else {
+		mTotalCount = 0;
+		AddNewBitmap();
 	}
 	
-	*outBW = IconToOffscreen(p);
+	mCurrentIndex = 1;
 }
 
 
