@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2004-09-24 15:18:46
+//             Last modification : 2004-09-26 17:28:02
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -684,7 +684,8 @@ enum RezillaErrors
 	err_TmplValueTooLargeInBitsField,
 	err_TmplTextOverflow,
 	err_TmplWrongFixedCount,
-	err_TmplZeroListNotEndingWithNull,
+	err_TmplZeroListNotTerminated,
+	err_TmplZeroListEndingWithNonNull,
 	err_TmplListCountTooBig,
 	err_TmplExpectedEvenLengthString,
 	err_TmplUnexpectedTag,
