@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2005-03-12 12:00:08
+//             Last modification : 2005-03-15 07:19:55
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -842,7 +842,8 @@ const PaneIDT   item_MenuEditEncoding		= 30;
 const PaneIDT   item_MenuEditRefcon1		= 31;
 const PaneIDT   item_MenuEditRefcon2		= 32;
 const PaneIDT   item_MenuEditFontID			= 33;
-const PaneIDT   item_MenuEditGlyph			= 34;
+const PaneIDT   item_MenuEditGlyphField		= 34;
+const PaneIDT   item_MenuEditGlyphBox		= 35;
 
 
 // Common elements for Editor Windows
@@ -1053,7 +1054,10 @@ const MessageT    msg_MenuEditEncoding		= PPob_MenuEditorWindow + item_MenuEditE
 const MessageT    msg_MenuEditRefcon1		= PPob_MenuEditorWindow + item_MenuEditRefcon1;
 const MessageT    msg_MenuEditRefcon2		= PPob_MenuEditorWindow + item_MenuEditRefcon2;
 const MessageT    msg_MenuEditFontID		= PPob_MenuEditorWindow + item_MenuEditFontID;
-const MessageT    msg_MenuEditGlyph			= PPob_MenuEditorWindow + item_MenuEditGlyph;
+const MessageT    msg_MenuEditGlyphField	= PPob_MenuEditorWindow + item_MenuEditGlyphField;
+const MessageT    msg_MenuEditGlyphPopup	= FOUR_CHAR_CODE('Glyf');
+const MessageT    msg_MenuEditScriptPopup	= FOUR_CHAR_CODE('Scrp');
+const MessageT    msg_MenuEditUpdateGlyph	= FOUR_CHAR_CODE('UpGl');
 
 
 // Other general purpose messages
