@@ -2,7 +2,7 @@
 // CMenuItem.cp
 // 
 //                       Created: 2005-03-10 09:12:57
-//             Last modification: 2005-03-11 16:42:27
+//             Last modification: 2005-03-11 21:57:36
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -201,6 +201,41 @@ CMenuItem::SetValues(Str255 inTitle, UInt8 inIconID, UInt8 inShortcut,
 	mStyle = inStyle;
 }
 
+
+// ---------------------------------------------------------------------------
+//  GetExtendedValues												[public]
+// ---------------------------------------------------------------------------
+
+void
+CMenuItem::GetExtendedValues(UInt8 & outModifiers, SInt32 & outEncoding,
+					   SInt32 & outRefcon1, SInt32 & outRefcon2, 
+					   SInt16 & outFontID, SInt16 & outSubstituteGlyph ) 
+{
+	outModifiers = mModifiers;
+	outEncoding = mEncoding;
+	outRefcon1 = mRefcon1;
+	outRefcon2 = mRefcon2;
+	outFontID = mFontID;
+	outSubstituteGlyph = mSubstituteGlyph;	
+}
+					   
+
+// ---------------------------------------------------------------------------
+//  SetExtendedValues												[public]
+// ---------------------------------------------------------------------------
+
+void
+CMenuItem::SetExtendedValues(UInt8 inModifiers, SInt32 inEncoding, 
+							 SInt32 inRefcon1, SInt32 inRefcon2, 
+							 SInt16 inFontID, SInt16 inSubstituteGlyph )
+{
+	mModifiers = inModifiers;
+	mEncoding = inEncoding;
+	mRefcon1 = inRefcon1;
+	mRefcon2 = inRefcon2;
+	mFontID = inFontID;
+	mSubstituteGlyph = inSubstituteGlyph;
+}
 
 
 

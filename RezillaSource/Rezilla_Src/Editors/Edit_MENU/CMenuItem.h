@@ -2,7 +2,7 @@
 // CMenuItem.h
 // 
 //                       Created: 2005-03-10 09:12:57
-//             Last modification: 2005-03-10 18:52:23
+//             Last modification: 2005-03-11 21:57:47
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -43,8 +43,18 @@ public:
 		void 		SetValues(Str255 inTitle, UInt8 inIconID, UInt8 inShortcut, 
 					   UInt8 inMark, UInt8 inStyle);
 
+		void		GetExtendedValues(UInt8 & outModifiers, SInt32 & outEncoding,
+							   SInt32 & outRefcon1, SInt32 & outRefcon2, 
+							   SInt16 & outFontID, SInt16 & outSubstituteGlyph );
+		
+		void		SetExtendedValues(UInt8 inModifiers, SInt32 inEncoding, SInt32 inRefcon1, 
+							   SInt32 inRefcon2, SInt16 inFontID, SInt16 inSubstituteGlyph );
+
+		SInt16		GetEntryType() { return mEntryType;}
+		void		SetEntryType(SInt16 inEntryType) {mEntryType = inEntryType;}
+
 protected:
-		// Extended info from 'MENU'
+		// Basic info from 'MENU'
 		Str255		mTitle;
 		UInt8		mIconID;
 		UInt8		mShortcut;
@@ -53,8 +63,7 @@ protected:
 		// Extended info from 'xmnu'
 		SInt16		mEntryType;			// 0 for separator, 1 otherwise
 		SInt32		mCommandID;			// a four char code
-		UInt8		mModifiers;			// four low bits: no-cmd (8), 
-		     		           			// ctrl (4), opt (2), shift (1)
+		UInt8		mModifiers;			// four low bits: no-cmd (8), ctrl (4), opt (2), shift (1)
 		UInt8		mIconType;			// Icon type placeholder
 		UInt32		mIconHandle;		// Icon handle placeholder
 		SInt32		mEncoding;			// Current script=-2 (fffffffe)/ system script=-1
