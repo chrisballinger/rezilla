@@ -674,6 +674,8 @@ enum RezillaErrors
 	err_OpenForkError,
 	err_UnderVersionControl,
 	err_TmplError			= 2000,
+	err_TmplGetDataStreamFailed,
+	err_TmplParsingAborted,
 	err_TmplTextOverflow,
 	err_TmplWrongFixedCount,
 	err_TmplListCountTooBig,
