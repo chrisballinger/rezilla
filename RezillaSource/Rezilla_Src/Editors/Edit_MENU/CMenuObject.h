@@ -44,8 +44,8 @@ public:
 		SInt32	NewItem();
 		SInt32	DeleteItem();
 
-		void	InstallDataStream(LHandleStream * inStream);
-		void	SendDataToStream(LHandleStream * outStream);
+		void	InstallData(LHandleStream * inStream);
+		void	SendData(LHandleStream * outStream);
 		
 		void	GetValues( 
 						  ResIDT & outID, ResIDT & outMDEF, 

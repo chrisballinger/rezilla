@@ -52,7 +52,7 @@ CMenuObject::CMenuObject(ResIDT	inID,
 
 CMenuObject::CMenuObject(LHandleStream * inStream)
 {
-	InstallDataStream(inStream);
+	InstallData(inStream);
 }
 
 
@@ -127,11 +127,11 @@ CMenuObject::RemoveItem( ArrayIndexT inAtIndex )
 
 
 // ---------------------------------------------------------------------------
-//  InstallDataStream												[public]
+//  InstallData												[public]
 // ---------------------------------------------------------------------------
 
 void
-CMenuObject::InstallDataStream(LHandleStream * inStream)
+CMenuObject::InstallData(LHandleStream * inStream)
 {
 	UInt16		theUInt16, theCount = 0;
 	CMenuItem *	theItem;
@@ -157,11 +157,11 @@ CMenuObject::InstallDataStream(LHandleStream * inStream)
 
 
 // ---------------------------------------------------------------------------
-//  SendDataToStream												[public]
+//  SendData												[public]
 // ---------------------------------------------------------------------------
 
 void
-CMenuObject::SendDataToStream(LHandleStream * outStream)
+CMenuObject::SendData(LHandleStream * outStream)
 {
 	*outStream << mID;
 	*outStream << (UInt16) 0;
@@ -176,7 +176,7 @@ CMenuObject::SendDataToStream(LHandleStream * outStream)
 	CMenuItem *	theItem;
 	
 	while (iterator.Next(theItem)) {
-		theItem->SendDataToStream(outStream);
+		theItem->SendData(outStream);
 	}
 	
 	// Ending NULL byte (LSTZ list)
