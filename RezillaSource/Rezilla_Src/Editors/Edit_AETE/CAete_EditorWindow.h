@@ -2,7 +2,7 @@
 // CAete_EditorWindow.h
 // 
 //                       Created: 2004-07-01 08:42:37
-//             Last modification: 2005-02-04 23:59:44
+//             Last modification: 2005-02-05 14:41:39
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -77,6 +77,7 @@ protected:
 							*mClassPane,
 							*mCompOpPane,
 							*mEnumerationPane;
+	Boolean					mIgnoreSliderMessage;
 	
 	virtual void		FinishCreateSelf();
 	virtual void		PutOnDuty(LCommander *inNewTarget);
@@ -125,7 +126,8 @@ private:
 	void				UpdateSlider(SInt32 inSliderID, 
 									 SInt32 inValue, 
 									 SInt32 inTotal, 
-									 Boolean inOnlyIndicator = false);
+									 Boolean inOnlyIndicator = false, 
+									 Boolean inIgnoreBroadcast = false);
 	void				HandleSliderMessage(SInt32 inKind, SInt32 inValue);
 	void				HandleOptionsPopup(SInt32 inKind, SInt32 inIndex);
 	
