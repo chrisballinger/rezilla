@@ -1,11 +1,11 @@
 // ===========================================================================
 // UColorUtils.cp
 //                       Created: 2004-12-11 18:52:48
-//             Last modification: 2004-12-15 13:12:02
+//             Last modification: 2005-01-07 09:16:18
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes 2004
+// (c) Copyright: Bernard Desgraupes 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -77,14 +77,9 @@ UColorUtils::NumColorsToDepth( SInt32 inColors )
 
 // ---------------------------------------------------------------------------
 // 	CalcRGBDistance
-// 	
-// 	Returns:
-// 	The sum of the squares of the differences in the red, green, 
-// 	   & blue components of the passed colors
-// 	
-// 	Note:
-// 	Eventually, it would be nice to do an optical comparison using HSL colorspace???
 // ---------------------------------------------------------------------------
+// 	Returns the sum of the squares of the differences in the red, green, &
+// 	blue components of the passed colors
 
 double
 UColorUtils::CalcRGBDistance( const RGBColor &x, const RGBColor &y )
@@ -100,28 +95,24 @@ UColorUtils::CalcRGBDistance( const RGBColor &x, const RGBColor &y )
 
 // ---------------------------------------------------------------------------
 // 	IsColorInTable
-// 	
-// 	Returns true if the passed RGBColor is in the color table.
-// 	Also returns the index (0..255).
-// 	If the color is not in the table, we return the closest color index.
 // ---------------------------------------------------------------------------
+// 	Returns true if the passed RGBColor is in the color table. Also returns
+// 	the index (0..255). If the color is not in the table, we return the
+// 	closest color index.
 
 Boolean
 UColorUtils::IsColorInTable( CTabHandle inTable, const RGBColor &inColor, UInt8 *outIndex )
 {
-			// validate parameters
-
+	// Validate parameters
 	if ( outIndex ) *outIndex = 0;					// in case of error
 	if ( !inTable || !*inTable ) return( false );
 	
-			// lock the table down and prepare to scan it
-
-	StHandleLocker		lock1( (Handle) inTable );
+	// Lock the table down and prepare to scan it
+	StHandleLocker		locker( (Handle) inTable );
 	SInt32				numItems = (**inTable).ctSize + 1;
 	ColorSpecPtr		colorArray = (**inTable).ctTable;
 	
-			// first try for an exact match
-
+	// First try for an exact match
 	SInt32 count;
 	for ( count = 0; count < numItems; count++ )
 		if ( UColorUtils::EqualRGB( inColor, colorArray[count].rgb ) )
@@ -130,8 +121,7 @@ UColorUtils::IsColorInTable( CTabHandle inTable, const RGBColor &inColor, UInt8 
 			return( true );
 		}
 	
-			// no exact match -- find the closest color
-
+	// No exact match -- find the closest color
 	SInt32 		bestIndex = 0;
 	double		bestValue = 0;			// lowest value is best
 	double		newValue;
@@ -154,10 +144,8 @@ UColorUtils::IsColorInTable( CTabHandle inTable, const RGBColor &inColor, UInt8 
 
 // ---------------------------------------------------------------------------
 // 	NewColorTableByEntries
-// 	
-// 	Note:
-// 	The RGB values are not set, except for black & white.
 // ---------------------------------------------------------------------------
+// 	The RGB values are not set, except for black & white.
 
 CTabHandle
 UColorUtils::NewColorTableByEntries( SInt32 inNumEntries )
@@ -172,14 +160,12 @@ UColorUtils::NewColorTableByEntries( SInt32 inNumEntries )
 	p->ctFlags = 0;								// hi bit = 0 for pixmaps, 1 for gdevices
 	p->ctSize = inNumEntries - 1;
 	
-			// put b&w in the table or quickdraw gets mad
-
+	// Put b&w in the table or quickdraw gets mad
 	p->ctTable[ 0 ].rgb = Color_White;
 	p->ctTable[ p->ctSize ].rgb = Color_Black;
 	
-			// might as well set the value fields while we're here in case they
-		// are ever used
-
+	// Might as well set the value fields while we're here in case they are
+	// ever used
 	for ( SInt32 count = 0; count < inNumEntries; count++ )
 		p->ctTable[ count ].value = count;
 
@@ -189,10 +175,8 @@ UColorUtils::NewColorTableByEntries( SInt32 inNumEntries )
 
 // ---------------------------------------------------------------------------
 // 	NewColorTableByDepth
-// 	
-// 	Note:
-// 	The RGB values are not set, except for black & white.
 // ---------------------------------------------------------------------------
+// 	The RGB values are not set, except for black & white.
 
 CTabHandle
 UColorUtils::NewColorTableByDepth( SInt32 depth )
@@ -200,8 +184,7 @@ UColorUtils::NewColorTableByDepth( SInt32 depth )
 	CTabHandle	theTable;
 	SInt32		numEntries;
 	
-			// direct color requires some special attention
-
+	// Direct color requires some special attention
 	if ( (depth == 16) || (depth == 32) )
 	{
 			// is this ok ???
@@ -213,9 +196,8 @@ UColorUtils::NewColorTableByDepth( SInt32 depth )
 		return( theTable );
 	}
 	
-			// now handle 1,2,4,8 bit tables
-		// note: 34, 36, 40 are grayscale versions of 2, 4, 8
-
+	// Now handle 1,2,4,8 bit tables.
+	// Note: 34, 36, 40 are grayscale versions of 2, 4, 8.
 	switch( depth )
 	{
 		case 1:
@@ -241,19 +223,15 @@ UColorUtils::NewColorTableByDepth( SInt32 depth )
 
 // ---------------------------------------------------------------------------
 // 	GetColorTable
-// 	
-// 	Description:
+// ---------------------------------------------------------------------------
 // 	Same as the toolbox GetCTable(), with 3 differences:
 // 	(1) We change the current resource file to the application to avoid
 // 		grabbing tables out of documents.
 // 	(2) We work on 32-bit and 16-bit depths, returning dummy tables
-// 		rather than nil (doh!).
+// 		rather than nil.
 // 	(3) We throw an error rather than returning nil.
-// 	
-// 	Note:
-// 	"inResourceID" is typically the bit-depth of the buffer you want
-// 	  a color table for.
-// ---------------------------------------------------------------------------
+// 	Note: inResourceID is typically the bit-depth of the buffer you want
+// 	      a color table for.
 
 CTabHandle
 UColorUtils::GetColorTable( SInt32 inResourceID )
@@ -287,19 +265,15 @@ UColorUtils::FixColorTableBW( CTabHandle aTable, Boolean inAddToTableIfNeeded )
 	CTabPtr			p = *aTable;
 	Boolean			blackDone = false, whiteDone = false;
 
-	/*
-		see if black & white are already where they belong
-	*/
+	// See if black & white are already where they belong
 	if ( UColorUtils::EqualRGB( Color_Black, p->ctTable[ p->ctSize ].rgb ) )
 		blackDone = true;
 	
 	if ( UColorUtils::EqualRGB( Color_White, p->ctTable[ 0 ].rgb ) )
 		whiteDone = true;
 	
-	/*
-		loop through the table and find black & white.
-		note that we ignore the first & last positions in the for loop
-	*/
+	// Loop through the table and find black & white. Note that we ignore
+	// the first & last positions in the for loop.
 	for ( SInt32 count = 1; count < p->ctSize; count++ )
 	{
 		if ( whiteDone && blackDone ) return;
@@ -325,10 +299,8 @@ UColorUtils::FixColorTableBW( CTabHandle aTable, Boolean inAddToTableIfNeeded )
 		}
 	}
 	
-	/*
-		black and white weren't in the table.
-		if the color wanted us to, force the colors into it
-	*/
+	// Black and white weren't in the table. If the color wanted us to,
+	// force the colors into it.
 	if ( !whiteDone && inAddToTableIfNeeded )
 		p->ctTable[ 0 ].rgb = Color_White;
 
@@ -340,11 +312,9 @@ UColorUtils::FixColorTableBW( CTabHandle aTable, Boolean inAddToTableIfNeeded )
 
 // ---------------------------------------------------------------------------
 // 	CalcRowBytes
-// 	
-// 	Note:
-// 	This will return the minimum number of rowBytes, rounded to an even
-// 		number, not the most optimal for speed.
 // ---------------------------------------------------------------------------
+// 	This will return the minimum number of rowBytes, rounded to an even
+// 	number, not the most optimal for speed.
 
 UInt16
 UColorUtils::CalcRowBytes( SInt32 width, SInt32 depth )
@@ -398,12 +368,10 @@ UColorUtils::CalcPixmapRowBytes( SInt32 width, SInt32 depth )
 
 // ---------------------------------------------------------------------------
 // 	NewColorTableFromPtr
-// 	
-// 	Note:
-// 	This is needed because Quickdraw requires a full-sized color table
-// 	 but the various image resources (cicn, ppat, etc) sometimes have
-// 	 minimized color tables.
 // ---------------------------------------------------------------------------
+// 	This is needed because Quickdraw requires a full-sized color table but
+// 	the various image resources (cicn, ppat, etc) sometimes have minimized
+// 	color tables.
 
 CTabHandle
 UColorUtils::NewColorTableFromPtr( SInt32 depth, UInt8 *sourceData )
@@ -418,22 +386,17 @@ UColorUtils::NewColorTableFromPtr( SInt32 depth, UInt8 *sourceData )
 	for ( SInt32 count = 0; count < numEntries; count++ )
 		(**theTable).ctTable[count] = sourceTable->ctTable[count];
 	
-		// should we put b&w in the correct places ??? tough call.
-		// what about other colors ???
-		
 	return( theTable );
 }
 
 
 // ---------------------------------------------------------------------------
 // 	Color32ToRGB
-// 	
-// 	Note:
-// 	See IM VI p. 17-7+ for more info. 
-// 	Each component is duplicated in both the high and low byte of
-// 	  the output RGB component. This way, 0xFFFF remains 0xFFFF,
-// 	  0x0000 remains 0x0000 and everything in between scales.
 // ---------------------------------------------------------------------------
+// 	See IM VI p. 17-7+ for more info. 
+// 	Each component is duplicated in both the high and low byte of the
+// 	output RGB component. This way, 0xFFFF remains 0xFFFF, 0x0000 remains
+// 	0x0000 and everything in between scales.
 
 RGBColor
 UColorUtils::Color32ToRGB( Color32 inColor )
@@ -455,24 +418,20 @@ UColorUtils::Color32ToRGB( Color32 inColor )
 
 // ---------------------------------------------------------------------------
 // 	Color16ToRGB
-// 
-// 	See IM VI p. 17-9 for more info (or above routine).
-// 	Each component is mapped 3 times into the destination and then the
-// 		high bit is mapped one additional time into the low bit.
 // ---------------------------------------------------------------------------
+// 	See IM VI p. 17-9 for more info (or above routine). Each component is
+// 	mapped 3 times into the destination and then the high bit is mapped one
+// 	additional time into the low bit.
 
 RGBColor
 UColorUtils::Color16ToRGB( Color32 inColor )
 {
-	/*
-		for each component, we'll first shift it to the rightmost position
-		in the temp variable and then clear the other component fields.
-		then we duplicate the component 3 times in the destination and
-		tack on the high bit into the destination's low bit. 
-		
-		note: this could be sped up by eliminating the first shift in 
-		each area and changing the shift values.
-	*/
+	// For each component, we'll first shift it to the rightmost position
+	// in the temp variable and then clear the other component fields. then
+	// we duplicate the component 3 times in the destination and tack on
+	// the high bit into the destination's low bit. 
+	// Note: this could be sped up by eliminating the first shift in each
+	// area and changing the shift values.
 	RGBColor	theRGB;
 	
 	Color32 temp1 = (inColor >> 10) & 0x001F;	
@@ -534,7 +493,7 @@ UColorUtils::EqualRGB( const RGBColor &x, const RGBColor &y )
 Boolean
 UColorUtils::EqualColor32( Color32 x, Color32 y )
 {
-		// ignore hi byte
+	// Ignore hi byte
 	return( (x & 0x00FFFFFF) == (y & 0x00FFFFFF) );
 }
 
@@ -546,16 +505,15 @@ UColorUtils::EqualColor32( Color32 x, Color32 y )
 Boolean
 UColorUtils::EqualColor16( Color32 x, Color32 y )
 {
-		// ignore hi bit
+	// Ignore hi bit
 	return( (x & 0x7FFF) == (y & 0x7FFF) );
 }
 
 
 // ---------------------------------------------------------------------------
 // 	SetForeColor32
-// 	
-// 	is there a more exact way of doing this than using RGBForeColor???
 // ---------------------------------------------------------------------------
+// 	Is there a more exact way of doing this than using RGBForeColor???
 
 void
 UColorUtils::SetForeColor32( Color32 inColor )
@@ -567,10 +525,8 @@ UColorUtils::SetForeColor32( Color32 inColor )
 
 // ---------------------------------------------------------------------------
 // 	SetBackColor32
-// 
-// 	
-// 	is there a more exact way of doing this than using RGBBackColor???
 // ---------------------------------------------------------------------------
+// 	Is there a more exact way of doing this than using RGBBackColor???
 
 void
 UColorUtils::SetBackColor32( Color32 inColor )
