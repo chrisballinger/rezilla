@@ -11,60 +11,61 @@
 // $Revision$
 // ===========================================================================
 
-
 #include "CRezillaApp.h"
 #include "CRezillaPrefs.h"
-#include "CTemplatesController.h"
-#include "CEditorsController.h"
 #include "CEditTable.h"
-#include "CRezMapDoc.h"
-#include "CRezMap.h"
+#include "CEditorsController.h"
+#include "CInspectorWindow.h"
+#include "CRecentItemsMenu.h"
+#include "CRezClipboard.h"
+#include "CRezCompare.h"
 #include "CRezFile.h"
+#include "CRezMap.h"
+#include "CRezMapDoc.h"
 #include "CRezMapTable.h"
 #include "CRezMapWindow.h"
-#include "CRezCompare.h"
-#include "CRezClipboard.h"
+#include "CTemplatesController.h"
 #include "CWindowMenu.h"
-#include "CRecentItemsMenu.h"
-#include "CInspectorWindow.h"
+#include "NavServicesCallbacks.h"
+#include "UDialogBoxHandler.h"
+#include "UMessageDialogs.h"
+#include "UNavigationDialogs.h"
+
+// Classes for registration
+#include "CAete_EditorWindow.h"
+#include "CBiDataWE.h"
+#include "CBroadcasterTableView.h"
+#include "CCategoriesListBox.h"
+#include "CCompResultWindow.h"
+#include "CDraggableTargetView.h"
+#include "CDropStaticText.h"
+#include "CDualDataView.h"
+#include "CHexDataSubView.h"
 #include "CHexEditorWindow.h"
-#include "CTmplEditorWindow.h"
 #include "CIcon_EditorView.h"
 #include "CIcon_EditorWindow.h"
 #include "CPICT_EditorView.h"
 #include "CPICT_EditorWindow.h"
+#include "CPatternTargetView.h"
+#include "CRangeEditText.h"
+#include "CRezIconPane.h"
+#include "CSingleScrollBar.h"
+#include "CStaticTextURL.h"
 #include "CTEXT_EditorView.h"
 #include "CTEXT_EditorWindow.h"
+#include "CTmplBevelButton.h"
+#include "CTmplEditorWindow.h"
+#include "CTxtDataSubView.h"
 #include "CUtxt_EditorDoc.h"
 #include "CUtxt_EditorView.h"
 #include "CUtxt_EditorWindow.h"
-#include "CIconView_Picture.h"
-#include "CIconView_Pattern.h"
-#include "CIconView_Cursor.h"
-#include "CIconView_Family.h"
-#include "CIconView_ColorIcon.h"
 #include "CWasteEditView.h"
-#include "CBiDataWE.h"
-#include "CDualDataView.h"
-#include "CHexDataSubView.h"
-#include "CTxtDataSubView.h"
-#include "CDropStaticText.h"
-#include "CBroadcasterTableView.h"
-#include "CSingleScrollBar.h"
-#include "CRezIconPane.h"
-#include "CCompResultWindow.h"
-#include "CRangeEditText.h"
-#include "CStaticTextURL.h"
-#include "CAete_EditorWindow.h"
-#include "CCategoriesListBox.h"
-#include "CTmplBevelButton.h"
-#include "UNavigationDialogs.h"
-#include "NavServicesCallbacks.h"
-#include "UMessageDialogs.h"
-#include "UDialogBoxHandler.h"
+#include "CWindow_ColorIcon.h"
+#include "CWindow_Cursor.h"
+#include "CWindow_Family.h"
+#include "CWindow_Pattern.h"
+#include "CWindow_Picture.h"
 // #include "ABalloon.h"
-#include "CDraggableTargetBox.h"
-#include "CPatternTargetBox.h"
 
 // PP Classes for registration
 #include <Appearance.h>
@@ -363,11 +364,11 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(CEditorWindow);
 	RegisterClass_(CHexDataSubView);
 	RegisterClass_(CHexEditorWindow);
-	RegisterClass_(CIconView_ColorIcon);
-	RegisterClass_(CIconView_Cursor);
-	RegisterClass_(CIconView_Family);
-	RegisterClass_(CIconView_Pattern);
-	RegisterClass_(CIconView_Picture);
+	RegisterClass_(CWindow_ColorIcon);
+	RegisterClass_(CWindow_Cursor);
+	RegisterClass_(CWindow_Family);
+	RegisterClass_(CWindow_Pattern);
+	RegisterClass_(CWindow_Picture);
 	RegisterClass_(CIcon_EditorView);
 	RegisterClass_(CIcon_EditorWindow);
 	RegisterClass_(CInspectorWindow);
@@ -387,8 +388,8 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(CUtxt_EditorView);
 	RegisterClass_(CUtxt_EditorWindow);
 	RegisterClass_(CWasteEditView);
-	RegisterClass_(CDraggableTargetBox);
-	RegisterClass_(CPatternTargetBox);
+	RegisterClass_(CDraggableTargetView);
+	RegisterClass_(CPatternTargetView);
 // #include "ABalloon.h"
 
 // 	RegisterClass_(ATag);
