@@ -309,7 +309,7 @@ CMENU_EditorWindow::InstallMenuValues()
 
 	theCheckBox = dynamic_cast<LCheckBox *>(this->FindPaneByID( item_MenuEditMenuEnabled ));
 	ThrowIfNil_( theCheckBox );
-	theEditText->SetValue( (theEnableFlag & 1) );
+	theCheckBox->SetValue( (theEnableFlag & 1) );
 
 }
 
@@ -340,12 +340,14 @@ CMENU_EditorWindow::InstallItemValuesAtIndex( ArrayIndexT inAtIndex )
 {
 	CMenuItem * theItem;
 	if (mMenuObj->GetItems()->FetchItemAt(inAtIndex, theItem)) {
-		Str255		theString;
-		UInt8		theIconID, theShortcut, theMark, theStyle;
-		MenuRef		theMenuH;
-		LEditText * theEditText;
-		LCheckBox *	theCheckBox;
+		Str255			theString;
+		UInt8			i, theIconID, theShortcut, theMark, theStyle;
+		UInt32			theEnableFlag;
+		MenuRef			theMenuH;
+		LEditText * 	theEditText;
+		LCheckBox *		theCheckBox;
 		LPopupButton *	thePopup;
+		Boolean			enableIt;
 
 		theItem->GetValues(theString, theIconID, theShortcut, theMark, theStyle);
 		
@@ -370,25 +372,89 @@ CMENU_EditorWindow::InstallItemValuesAtIndex( ArrayIndexT inAtIndex )
 
 		theCheckBox = dynamic_cast<LCheckBox *>(this->FindPaneByID( item_MenuEditItemEnabled ));
 		ThrowIfNil_( theCheckBox );
-// 		theEditText->SetValue( (theEnableFlag & 1) );
+		theEnableFlag = mMenuObj->GetEnableFlag();
+		// Bits 1Ð31 indicate if the corresponding menu item is disabled or
+		// enabled, and bit 0 indicates whether the menu is enabled or
+		// disabled. The Menu Manager automatically enables menu items
+		// greater than 31 when a menu is created.
+		enableIt = (inAtIndex < 32) ? ( (theEnableFlag & (1 << inAtIndex)) > 0) : 1;
+		theCheckBox->SetValue(enableIt);
 		
-		// popup
+		// Style popup
+//   normal       = 0,
+//   bold         = 1,
+//   italic       = 2,
+//   underline    = 4,
+//   outline      = 8,
+//   shadow       = 0x10,
+//   condense     = 0x20,
+//   extend       = 0x40
+
 		thePopup = dynamic_cast<LPopupButton *>(this->FindPaneByID( item_MenuEditStylePopup ));
 		ThrowIfNil_(thePopup);
 		theMenuH = thePopup->GetMacMenuH();
-// 		for ( i = 0; i < theCount; i++) {
-// 			::MacCheckMenuItem(theMenuH, i+2, ( (inFlags & (1 << flagsArray[i])) > 0 ) );
-// 		}
+		if (theStyle == 0) {
+			::MacCheckMenuItem(theMenuH, 2, 1 );
+			for ( i = 0; i < 7; i++) {
+				::MacCheckMenuItem(theMenuH, i + 2, 0 );
+			}
+		} else {
+			::MacCheckMenuItem(theMenuH, 2, 0);
+			for ( i = 0; i < 7; i++) {
+				::MacCheckMenuItem(theMenuH, i + 2, ( (theStyle & (1 << i)) > 0 ) );
+			}
+		}
+		
+		if (mHasXmnu) {
+			UInt8	theMods;
+			SInt32	theEncoding, theRefcon1, theRefcon2;
+			SInt16	theFontID, theGlyph;
+			
+			theItem->GetExtendedValues(theMods, theEncoding,
+									   theRefcon1, theRefcon2, 
+									   theFontID, theGlyph);
+			
+			theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditEncoding ));
+			ThrowIfNil_( theEditText );
+			::NumToString( theEncoding, theString);
+			theEditText->SetDescriptor(theString);
 
-		if (hasXmnu) {
-			UInt8 theModifiers;
-			SInt32 theEncoding, theRefcon1, theRefcon2, theFontID, theSubstituteGlyph;
-			
-			GetExtendedValues(theModifiers, theEncoding,
-							   theRefcon1, theRefcon2, 
-							   theFontID, theSubstituteGlyph );
-			
-			
+			theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditRefcon1 ));
+			ThrowIfNil_( theEditText );
+			::NumToString( theRefcon1, theString);
+			theEditText->SetDescriptor(theString);
+
+			theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditRefcon2 ));
+			ThrowIfNil_( theEditText );
+			::NumToString( theRefcon2, theString);
+			theEditText->SetDescriptor(theString);
+
+			theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditFontID ));
+			ThrowIfNil_( theEditText );
+			::NumToString( theFontID, theString);
+			theEditText->SetDescriptor(theString);
+
+			theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditGlyph ));
+			ThrowIfNil_( theEditText );
+			::NumToString( theGlyph, theString);
+			theEditText->SetDescriptor(theString);
+
+			// Modifiers. If bit 3 is on, it means that command key is _not_ used.
+			theCheckBox = dynamic_cast<LCheckBox *>(this->FindPaneByID( item_MenuEditCmdModifier ));
+			ThrowIfNil_( theCheckBox );
+			theCheckBox->SetValue( ((theMods & 8) == 0) );
+
+			theCheckBox = dynamic_cast<LCheckBox *>(this->FindPaneByID( item_MenuEditCtrlModifier ));
+			ThrowIfNil_( theCheckBox );
+			theCheckBox->SetValue( ((theMods & 4) > 0) );
+
+			theCheckBox = dynamic_cast<LCheckBox *>(this->FindPaneByID( item_MenuEditOptModifier ));
+			ThrowIfNil_( theCheckBox );
+			theCheckBox->SetValue( ((theMods & 2) > 0) );
+
+			theCheckBox = dynamic_cast<LCheckBox *>(this->FindPaneByID( item_MenuEditShiftModifier ));
+			ThrowIfNil_( theCheckBox );
+			theCheckBox->SetValue( ((theMods & 1) > 0) );	
 			
 		} 
 	} 
