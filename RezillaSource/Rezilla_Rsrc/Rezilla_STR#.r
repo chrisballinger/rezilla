@@ -1,11 +1,11 @@
 // ===========================================================================
 // Rezilla_STR#.r					
 //                       Created: 2004-02-28 22:51:23
-//             Last modification: 2004-12-27 14:45:47
+//             Last modification: 2005-01-06 07:16:35
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003-2004
+// © Copyright: Bernard Desgraupes 2003-2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -406,11 +406,4 @@ resource 'STR#' (1701, "Paint Undo", purgeable) {
 	}
 };
 
-resource 'STR#' (1702, "Paint Cut/Copy/etc", purgeable) {
-	{		
-/* [1] */	"Cut",
-/* [2] */	"Copy",
-/* [3] */	"Paste",
-/* [4] */	"Clear"
-	}
-};
+
