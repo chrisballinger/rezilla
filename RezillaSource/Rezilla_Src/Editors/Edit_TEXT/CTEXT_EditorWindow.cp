@@ -2,16 +2,15 @@
 // CTEXT_EditorWindow.cp					
 // 
 //                       Created: 2004-06-17 12:46:55
-//             Last modification: 2004-12-06 09:08:02
+//             Last modification: 2005-01-08 17:16:54
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004
+// (c) Copyright : Bernard Desgraupes, 2004-2005
 // All rights reserved.
 // $Date$
 // $Revision$
 // ===========================================================================
-
 
 #include "CTEXT_EditorDoc.h"
 #include "CTEXT_EditorWindow.h"
@@ -29,11 +28,15 @@
 #include <LScrollBar.h>
 #include <LStaticText.h>
 #include <LEditText.h>
-#include <LPopupButton.h>
 #include <LScrollerView.h>
 #include <UMemoryMgr.h>
 
 #include <stdio.h>
+
+// Statics
+LMenu *		CTEXT_EditorWindow::sTextFontMenu = nil;
+LMenu *		CTEXT_EditorWindow::sTextSizeMenu = nil;
+LMenu *		CTEXT_EditorWindow::sTextStyleMenu = nil;
 
 
 // ---------------------------------------------------------------------------
@@ -86,6 +89,8 @@ CTEXT_EditorWindow::CTEXT_EditorWindow(
 
 CTEXT_EditorWindow::~CTEXT_EditorWindow()
 {
+	this->RemoveTextMenus();
+	
 	// Remove the window from the list of listeners to the prefs object
 	CRezillaApp::sPrefs->RemoveListener(this);
 }
@@ -108,20 +113,16 @@ CTEXT_EditorWindow::FinishCreateSelf()
 	mContentsView->SetOwnerWindow(this);
 	
 	SwitchTarget(mContentsView);
-
-	// The font, size and style popups
-	mFontPopup = dynamic_cast<LPopupButton *> (this->FindPaneByID( item_TextEditFontMenu ));
-	ThrowIfNil_( mFontPopup );
-
-	mSizePopup = dynamic_cast<LPopupButton *> (this->FindPaneByID( item_TextEditSizeMenu ));
-	ThrowIfNil_( mSizePopup );
-
-	mStylePopup = dynamic_cast<LPopupButton *> (this->FindPaneByID( item_TextEditStyleMenu ));
-	ThrowIfNil_( mStylePopup );
 	
 	// The total length field
 	mLengthField = dynamic_cast<LStaticText *> (this->FindPaneByID( item_TextEditLength ));
 	ThrowIfNil_( mLengthField );
+	
+	// Install the name of the resource if it has one
+	LStaticText * theStaticText = dynamic_cast<LStaticText *>(this->FindPaneByID( item_NameStaticText ));
+	ThrowIfNil_( theStaticText );
+	Str255 * strPtr = dynamic_cast<CTEXT_EditorDoc *>(GetSuperCommander())->GetRezObj()->GetName();
+	theStaticText->SetDescriptor(*strPtr);	
 	
 	// Link the broadcasters
 	UReanimator::LinkListenerToControls( this, this, PPob_TextEditorWindow );
@@ -129,6 +130,81 @@ CTEXT_EditorWindow::FinishCreateSelf()
 	// Make the window a listener to the prefs object
 	CRezillaApp::sPrefs->AddListener(this);
 
+}
+
+
+// ---------------------------------------------------------------------------
+// 	PutOnDuty
+// ---------------------------------------------------------------------------
+
+void
+CTEXT_EditorWindow::PutOnDuty(LCommander *inNewTarget)
+{
+	LWindow::PutOnDuty(inNewTarget);
+
+	// Put up our menus when on duty
+	{
+		if ( !sTextFontMenu )
+		{
+			sTextFontMenu = new LMenu( MENU_TextFonts );
+			ThrowIfNil_( sTextFontMenu );
+
+			MenuHandle	macH = sTextFontMenu->GetMacMenuH();
+			if ( macH ) {
+				::AppendResMenu( macH, 'FONT' );
+			}
+		}
+		
+		if ( !sTextSizeMenu )
+		{
+			sTextSizeMenu = new LMenu( MENU_TextSize );
+			ThrowIfNil_( sTextSizeMenu );
+		}
+		
+		if ( !sTextStyleMenu )
+		{
+			sTextStyleMenu = new LMenu( MENU_TextStyle );
+			ThrowIfNil_( sTextStyleMenu );
+		}
+	}
+	
+	// Update the menu bar
+	LMenuBar	*theBar = LMenuBar::GetCurrentMenuBar();
+	theBar->InstallMenu( sTextFontMenu, MENU_OpenedWindows );	
+	theBar->InstallMenu( sTextSizeMenu, MENU_OpenedWindows );
+	theBar->InstallMenu( sTextStyleMenu, MENU_OpenedWindows );
+}
+
+
+// ---------------------------------------------------------------------------
+// 	TakeOffDuty
+// ---------------------------------------------------------------------------
+
+void
+CTEXT_EditorWindow::TakeOffDuty()
+{		
+	LWindow::TakeOffDuty();
+	this->RemoveTextMenus();
+}
+
+
+// ---------------------------------------------------------------------------
+// 	RemoveTextMenus
+// ---------------------------------------------------------------------------
+
+void
+CTEXT_EditorWindow::RemoveTextMenus()
+{
+	LMenuBar	*theBar = LMenuBar::GetCurrentMenuBar();
+	
+	if ( sTextFontMenu )
+		theBar->RemoveMenu( sTextFontMenu );
+	
+	if ( sTextSizeMenu )
+		theBar->RemoveMenu( sTextSizeMenu );
+		
+	if ( sTextStyleMenu )
+		theBar->RemoveMenu( sTextStyleMenu );
 }
 
 
@@ -149,54 +225,7 @@ CTEXT_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 	} 
 	
 	switch (inMessage) {
-		case msg_TextEditFontMenu:
-		// Get the name of the font.
-		::GetMenuItemText( mFontPopup->GetMacMenuH(), mFontPopup->GetValue(), theString );
-		::GetFNum(theString, &theFontNum);
-		mContentsView->SetFont(theFontNum);
-		break;
-
 		
-		case msg_TextEditSizeMenu:
-		// Get the value of the item.
-		theIndex = mSizePopup->GetValue();
-		if (theIndex == kLastSizeMenuItem + 2) {
-			// This is the 'Other' item
-			if (UModalDialogs::AskForOneNumber(this, PPob_FontSizeDialog, item_SizeField, theSize)) {
-				if (theSize == 0) {theSize = 10;}
-				// If they match, no need to use 'Other' item
-				if (UMiscUtils::FontSizeExists(mSizePopup, theSize, theIndex)) {
-					mSizePopup->SetValue(theIndex);
-					::SetMenuItemText( mSizePopup->GetMacMenuH(), kLastSizeMenuItem + 2, LStr255("\pOtherÉ"));					
-				} else {
-					// Modify the text of the 'Other' item.
-					Str255	theSizeString;
-					theLine = "\pOther (" ;
-					::NumToString( theSize, theSizeString );
-					// Append the current size
-					theLine += theSizeString;
-					theLine += "\p)É";
-					// Set the menu item text.
-					::SetMenuItemText( mSizePopup->GetMacMenuH(), kLastSizeMenuItem + 2, theLine );					
-				}
-			}
-		} else {
-			::GetMenuItemText( mSizePopup->GetMacMenuH(), mSizePopup->GetValue(), theString );
-			::StringToNum( theString, &theSize );
-			::SetMenuItemText( mSizePopup->GetMacMenuH(), kLastSizeMenuItem + 2, LStr255("\pOtherÉ"));					
-		}
-		mContentsView->SetSize(theSize);
-		break;
-		
-		
-		case msg_TextEditStyleMenu:
-		// Get the values of all the items
-		theIndex = mStylePopup->GetValue();
-// 		mContentsView->ProcessCommand(cmd_Plain + theIndex - 2, NULL);
-		ObeyCommand(cmd_Plain + theIndex - 2, NULL);
-		break;
-		
-			
 		default:
 		dynamic_cast<CTEXT_EditorDoc *>(mOwnerDoc)->ListenToMessage(inMessage, ioParam);
 		break;
@@ -239,31 +268,6 @@ CTEXT_EditorWindow::ObeyCommand(
 	Boolean		cmdHandled = true;
 	
 	switch (inCommand) {
-		case cmd_Plain:
-			mContentsView->SetStyle(normal);
-			for (UInt8 i = 0; i < 7; i++) {
-				::MacCheckMenuItem(mStylePopup->GetMacMenuH(), i+3, 0);
-			}
-			break;
-		
-		case cmd_Bold:
-		case cmd_Italic:
-		case cmd_Underline:
-		case cmd_Outline:
-		case cmd_Shadow:
-		case cmd_Condense:
-		case cmd_Extend: {
-			Style theStyle;
-			UInt8 i = inCommand - cmd_Plain - 1;
-			mContentsView->GetStyle(theStyle);
-			theStyle ^= (1 << i);
-			mContentsView->SetStyle(theStyle);
-			for (i = 0; i < 7; i++) {
-				::MacCheckMenuItem(mStylePopup->GetMacMenuH(), i+3, theStyle & (1 << i));
-			}
-			::MacCheckMenuItem(mStylePopup->GetMacMenuH(), 2, (theStyle == 0));
-			break;
-		}
 
 		default:
 			cmdHandled = LCommander::ObeyCommand(inCommand, ioParam);
@@ -296,61 +300,61 @@ CTEXT_EditorWindow::InstallText(Handle inTextHandle, StScrpHandle inScrapHandle)
 void
 CTEXT_EditorWindow::AdjustMenusToSelection()
 {
-	SInt16	theFontNum, theSize;
-	SInt32	theIndex;
-	UInt8	i;
-	Style	theStyle;
-	Boolean	result;
-	LStr255	theLine( "\p" );
-	SInt16	theStart = (**(mContentsView->GetMacTEH())).selStart;
-	SInt16	theEnd   = (**(mContentsView->GetMacTEH())).selEnd;
-	
-	mIsAdjustingMenus = true;
-	
-	result = mContentsView->GetFont(theFontNum);
-	if (result) {
-		theIndex = UMiscUtils::FontIndexFromFontNum(mFontPopup, theFontNum);
-		mFontPopup->SetValue(theIndex);
-// 		::MacCheckMenuItem(mFontPopup->GetMacMenuH(), theIndex, 1);
-	}
-	
-	result = mContentsView->GetSize(theSize);
-	if (result) {
-		theIndex = UMiscUtils::SizeIndexFromSizeValue(mSizePopup, theSize);
-		if (theIndex == kLastSizeMenuItem + 2) {
-			// This is the 'Other' item
-			Str255	theSizeString;
-			theLine = "\pOther (" ;
-			::NumToString( theSize, theSizeString );
-			// Append the current size
-			theLine += theSizeString;
-			theLine += "\p)É";
-			// Set the menu item text.
-			::SetMenuItemText( mSizePopup->GetMacMenuH(), kLastSizeMenuItem + 2, theLine );					
-		} else {
-			::SetMenuItemText( mSizePopup->GetMacMenuH(), kLastSizeMenuItem + 2, LStr255("\pOtherÉ"));					
-		}
-		mSizePopup->SetValue(theIndex);
-// 		::MacCheckMenuItem(mSizePopup->GetMacMenuH(), theIndex, 1);
-	}
-	
-	result = mContentsView->GetStyle(theStyle);
-	if (result) {
-		for (i = 0; i < 7; i++) {
-			::MacCheckMenuItem(mStylePopup->GetMacMenuH(), i+3, theStyle & (1 << i));
-		}
-		::MacCheckMenuItem(mStylePopup->GetMacMenuH(), 2, (theStyle == 0));
-	} else {
-		// Not a continuous style. Uncheck all items.
-		for (i = 0; i < 7; i++) {
-			::MacCheckMenuItem(mStylePopup->GetMacMenuH(), i+3, 0);
-		}
-		::MacCheckMenuItem(mStylePopup->GetMacMenuH(), 2, 0);
-	}
-	
-	mStylePopup->SetValue(1);
-
-	mIsAdjustingMenus = false;
+// 	SInt16	theFontNum, theSize;
+// 	SInt32	theIndex;
+// 	UInt8	i;
+// 	Style	theStyle;
+// 	Boolean	result;
+// 	LStr255	theLine( "\p" );
+// 	SInt16	theStart = (**(mContentsView->GetMacTEH())).selStart;
+// 	SInt16	theEnd   = (**(mContentsView->GetMacTEH())).selEnd;
+// 	
+// 	mIsAdjustingMenus = true;
+// 	
+// 	result = mContentsView->GetFont(theFontNum);
+// 	if (result) {
+// 		theIndex = UMiscUtils::FontIndexFromFontNum(mFontPopup, theFontNum);
+// 		mFontPopup->SetValue(theIndex);
+// // 		::MacCheckMenuItem(mFontPopup->GetMacMenuH(), theIndex, 1);
+// 	}
+// 	
+// 	result = mContentsView->GetSize(theSize);
+// 	if (result) {
+// 		theIndex = UMiscUtils::SizeIndexFromSizeValue(mSizePopup, theSize);
+// 		if (theIndex == kLastSizeMenuItem + 2) {
+// 			// This is the 'Other' item
+// 			Str255	theSizeString;
+// 			theLine = "\pOther (" ;
+// 			::NumToString( theSize, theSizeString );
+// 			// Append the current size
+// 			theLine += theSizeString;
+// 			theLine += "\p)É";
+// 			// Set the menu item text.
+// 			::SetMenuItemText( mSizePopup->GetMacMenuH(), kLastSizeMenuItem + 2, theLine );					
+// 		} else {
+// 			::SetMenuItemText( mSizePopup->GetMacMenuH(), kLastSizeMenuItem + 2, LStr255("\pOtherÉ"));					
+// 		}
+// 		mSizePopup->SetValue(theIndex);
+// // 		::MacCheckMenuItem(mSizePopup->GetMacMenuH(), theIndex, 1);
+// 	}
+// 	
+// 	result = mContentsView->GetStyle(theStyle);
+// 	if (result) {
+// 		for (i = 0; i < 7; i++) {
+// 			::MacCheckMenuItem(mStylePopup->GetMacMenuH(), i+3, theStyle & (1 << i));
+// 		}
+// 		::MacCheckMenuItem(mStylePopup->GetMacMenuH(), 2, (theStyle == 0));
+// 	} else {
+// 		// Not a continuous style. Uncheck all items.
+// 		for (i = 0; i < 7; i++) {
+// 			::MacCheckMenuItem(mStylePopup->GetMacMenuH(), i+3, 0);
+// 		}
+// 		::MacCheckMenuItem(mStylePopup->GetMacMenuH(), 2, 0);
+// 	}
+// 	
+// 	mStylePopup->SetValue(1);
+// 
+// 	mIsAdjustingMenus = false;
 }
 
 

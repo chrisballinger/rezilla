@@ -2,11 +2,11 @@
 // CTEXT_EditorWindow.h
 // 
 //                       Created: 2004-06-17 12:46:55
-//             Last modification: 2004-12-06 09:08:11
+//             Last modification: 2005-01-08 17:16:45
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004
+// (c) Copyright : Bernard Desgraupes, 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -25,7 +25,6 @@
 class CTEXT_EditorDoc;
 class CTEXT_EditorView;
 class CRezObj;
-class LPopupButton;
 class LStaticText;
 
 
@@ -43,15 +42,15 @@ public:
 	virtual void	ListenToMessage( MessageT inMessage,void *ioParam);
 
 	virtual void	FindCommandStatus(
-								CommandT			inCommand,
-								Boolean&			outEnabled,
-								Boolean&			outUsesMark,
-								UInt16&				outMark,
-								Str255				outName);
+								CommandT	inCommand,
+								Boolean&	outEnabled,
+								Boolean&	outUsesMark,
+								UInt16&		outMark,
+								Str255		outName);
 
 	virtual Boolean	ObeyCommand(
-							CommandT			inCommand,
-							void*				ioParam);
+							CommandT		inCommand,
+							void*			ioParam);
 
 	void			InstallText(Handle inTextHandle, StScrpHandle inScrapHandle);
 
@@ -64,17 +63,21 @@ public:
 	virtual Boolean		GetHasStyleResource() { return mHasStyleResource;}
 	void				SetHasStyleResource(Boolean inHasStyleResource) {mHasStyleResource = inHasStyleResource;}
 
+	static LMenu		*sTextFontMenu, 
+						*sTextSizeMenu, 
+						*sTextStyleMenu;
+
 protected:
 	CTEXT_EditorView *	mContentsView;
 	Boolean				mHasStyleResource;
 	Boolean				mIsAdjustingMenus;
-	LPopupButton *		mFontPopup;
-	LPopupButton *		mSizePopup;
-	LPopupButton *		mStylePopup;
 	LStaticText *		mLengthField;
-
+						
 	virtual void	FinishCreateSelf();
-	
+	virtual void	PutOnDuty(LCommander *inNewTarget);
+	virtual void	TakeOffDuty();
+	virtual void	RemoveTextMenus();
+
 private:
 
 };
