@@ -1046,7 +1046,7 @@ const MessageT    msg_MenuEditIconID		= PPob_MenuEditorWindow + item_MenuEditIco
 const MessageT    msg_MenuEditShortcut		= PPob_MenuEditorWindow + item_MenuEditShortcut;
 const MessageT    msg_MenuEditMarkChar		= PPob_MenuEditorWindow + item_MenuEditMarkChar;
 const MessageT    msg_MenuEditStylePopup	= PPob_MenuEditorWindow + item_MenuEditStylePopup;
-const MessageT    msg_MenuEditCharactPopup	= PPob_MenuEditorWindow + item_MenuEditCharactPopup;
+const MessageT    msg_MenuEditPropertyPopup	= PPob_MenuEditorWindow + item_MenuEditCharactPopup;
 const MessageT    msg_MenuEditCmdModifier	= PPob_MenuEditorWindow + item_MenuEditCmdModifier;
 const MessageT    msg_MenuEditShiftModifier	= PPob_MenuEditorWindow + item_MenuEditShiftModifier;
 const MessageT    msg_MenuEditOptModifier	= PPob_MenuEditorWindow + item_MenuEditOptModifier;
@@ -1058,7 +1058,7 @@ const MessageT    msg_MenuEditFontID		= PPob_MenuEditorWindow + item_MenuEditFon
 const MessageT    msg_MenuEditGlyphField	= PPob_MenuEditorWindow + item_MenuEditGlyphField;
 const MessageT    msg_MenuEditGlyphPopup	= FOUR_CHAR_CODE('Glyf');
 const MessageT    msg_MenuEditScriptPopup	= FOUR_CHAR_CODE('Scrp');
-const MessageT    msg_MenuEditUpdateGlyph	= FOUR_CHAR_CODE('UpGl');
+const MessageT    msg_MenuTableClicked		= FOUR_CHAR_CODE('TClc');
 
 
 // Other general purpose messages
@@ -1072,6 +1072,8 @@ const MessageT	msg_MinusButton					= FOUR_CHAR_CODE('Mins');
 const MessageT	msg_PlusButton					= FOUR_CHAR_CODE('Plus');
 const MessageT	msg_TmplCasePopup				= FOUR_CHAR_CODE('Case');
 const MessageT	msg_PopupEditField				= FOUR_CHAR_CODE('PopF');
+const MessageT	msg_DragMoveAction				= FOUR_CHAR_CODE('DMov');
+const MessageT	msg_DragCopyAction				= FOUR_CHAR_CODE('DCpy');
 // Icon editor
 const MessageT	msg_TargetViewClicked			= FOUR_CHAR_CODE('Tclk');
 const MessageT	msg_ImageDroppedOnTargetView	= FOUR_CHAR_CODE('IDrp');
