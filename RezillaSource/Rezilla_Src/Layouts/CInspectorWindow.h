@@ -2,11 +2,11 @@
 // CInspectorWindow.h				
 // 
 //                       Created: 2003-05-02 07:33:06
-//             Last modification: 2003-05-02 17:24:14
+//             Last modification: 2004-11-16 06:52:35
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003
+// (c) Copyright : Bernard Desgraupes, 2003-2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -42,26 +42,26 @@ public:
 	virtual void	ListenToMessage( MessageT inMessage,void *ioParam);
 
 	void			AttemptClose();
+	
 	void			DoClose();
 
-	void			InstallValues(SResourceObjInfoPtr inRezInfoPtr);
 	void			InstallValues(CRezObjItem * inRezObjItem);
+	
 	void			InstallValues();
+	
 	void			ClearValues();
 
-	SResourceObjInfoPtr		GetSavedRezInfo() { return &mSavedRezInfo;}
-	void					SetSavedRezInfo(SResourceObjInfoPtr inRezInfoPtr);
+	SResourceObjInfoPtr		GetSavedInfo() { return &mSavedInfo;}
+	void					SetSavedInfo(SResourceObjInfoPtr inRezInfoPtr);
 
 	virtual CRezObjItem*	GetRezObjItem() { return mRezObjItem;}
 	void					SetRezObjItem(CRezObjItem* inRezObjItem) {mRezObjItem = inRezObjItem;}
 
 protected:
-	SResourceObjInfo	mSavedRezInfo;
+	SResourceObjInfo	mSavedInfo;
 	CRezObjItem *		mRezObjItem;
 	LStaticText *		mTypeItem;
-	LStaticText *		mIDItem;
 	LStaticText *		mSizeItem;
-// 	LStaticText *		mMapItem;
 	LEditText *			mIDEdit;
 	LEditText *			mNameEdit;
 	CRezIconPane *		mIconItem;
@@ -70,15 +70,12 @@ protected:
 	LCheckBox *			mLockedItem;
 	LCheckBox *			mProtectedItem;
 	LCheckBox *			mPreloadItem;
-	LCheckBox *			mCompressedItem;
 	LPushButton *		mRevertButton;
 	LPushButton *		mModifyButton;
 	
-	
 	virtual void		FinishCreateSelf();
 	virtual void		ShowSelf();
-	void				RetrieveValues(SResourceObjInfo & outRezInfo);
-	void				RetrieveValues();
+	void				SaveValues();
 
 private:
 	void				InitializeRezInfo();

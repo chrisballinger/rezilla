@@ -106,9 +106,6 @@ CInspectorWindow::FinishCreateSelf()
 	mTypeItem = dynamic_cast<LStaticText *>(this->FindPaneByID( item_InspType ));
 	ThrowIfNil_( mTypeItem );
 		
-	mIDItem = dynamic_cast<LStaticText *>(this->FindPaneByID( item_InspOrigID ));
-	ThrowIfNil_( mIDItem );
-		
 	mSizeItem = dynamic_cast<LStaticText *>(this->FindPaneByID( item_InspSize ));
 	ThrowIfNil_( mSizeItem );
 		
@@ -137,9 +134,6 @@ CInspectorWindow::FinishCreateSelf()
 	
 	mPreloadItem = dynamic_cast<LCheckBox *>(this->FindPaneByID( item_InspPreload ));
 	ThrowIfNil_( mPreloadItem );
-	
-	mCompressedItem = dynamic_cast<LCheckBox *>(this->FindPaneByID( item_InspCompressed ));
-	ThrowIfNil_( mCompressedItem );
 	
 	// Buttons
 	mRevertButton = dynamic_cast<LPushButton *>(this->FindPaneByID( item_InspRevert ));
@@ -209,9 +203,8 @@ CInspectorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		
 		case msg_InspModify: 
 		if (mRezObjItem == nil) {return;} 
-		RetrieveValues();
-		InstallValues();
-		// Update the resource properties in memory accordingly 
+		SaveValues();
+		// Update the resource properties in memory 
 		UpdateRezObj();
 		// Refresh the rezmap table
 		mRezObjItem->GetOwnerRezMapTable()->Refresh();
@@ -235,7 +228,6 @@ CInspectorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		case msg_InspLocked:
 		case msg_InspProtected:
 		case msg_InspPreload:
-		case msg_InspCompressed:
 		mRevertButton->Enable();
 		mModifyButton->Enable();
 		break;
@@ -292,28 +284,27 @@ CInspectorWindow::DoClose()
 void
 CInspectorWindow::InitializeRezInfo()
 {
-	mSavedRezInfo.type = 0;
-	mSavedRezInfo.size = 0;
-	mSavedRezInfo.id = 0;
-	BlockMoveData("\p",&mSavedRezInfo.name,sizeof(Str255));
-	mSavedRezInfo.iconid = 0;
-	mSavedRezInfo.sysheap = 0;
-	mSavedRezInfo.purge = 0;
-	mSavedRezInfo.lock = 0;
-	mSavedRezInfo.protect = 0;
-	mSavedRezInfo.preload = 0;
-	mSavedRezInfo.compress = 0;
+	mSavedInfo.type = 0;
+	mSavedInfo.size = 0;
+	mSavedInfo.id = 0;
+	mSavedInfo.name[0] = 0;
+	mSavedInfo.iconid = 0;
+	mSavedInfo.sysheap = 0;
+	mSavedInfo.purge = 0;
+	mSavedInfo.lock = 0;
+	mSavedInfo.protect = 0;
+	mSavedInfo.preload = 0;
 }
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetSavedRezInfo												[protected]
+//	¥ SetSavedInfo												[protected]
 // ---------------------------------------------------------------------------
 
 void
-CInspectorWindow::SetSavedRezInfo(SResourceObjInfoPtr inRezInfoPtr)
+CInspectorWindow::SetSavedInfo(SResourceObjInfoPtr inRezInfoPtr)
 {
-	BlockMoveData(inRezInfoPtr,&mSavedRezInfo,sizeof(SResourceObjInfo));
+	BlockMoveData(inRezInfoPtr,&mSavedInfo,sizeof(SResourceObjInfo));
 }
 
 
@@ -330,18 +321,17 @@ CInspectorWindow::InstallValues(CRezObjItem * inRezObjItem)
 	CRezObj * theRezObj = inRezObjItem->GetRezObj();
 	
 	// Fill the SResourceObjInfo
-	mSavedRezInfo.refnum = theRezObj->GetOwnerRefnum();
-	mSavedRezInfo.type = theRezObj->GetType();
-	mSavedRezInfo.size = theRezObj->GetSize();
-	mSavedRezInfo.id = theRezObj->GetID();
-	BlockMoveData(theRezObj->GetName(),&mSavedRezInfo.name,sizeof(Str255));
-	mSavedRezInfo.iconid = 0;
-	mSavedRezInfo.sysheap = theRezObj->HasAttribute(resSysHeap);
-	mSavedRezInfo.purge = theRezObj->HasAttribute(resPurgeable);
-	mSavedRezInfo.lock = theRezObj->HasAttribute(resLocked);
-	mSavedRezInfo.protect = theRezObj->HasAttribute(resProtected);
-	mSavedRezInfo.preload = theRezObj->HasAttribute(resPreload);
-	mSavedRezInfo.compress = 0;
+	mSavedInfo.refnum = theRezObj->GetOwnerRefnum();
+	mSavedInfo.type = theRezObj->GetType();
+	mSavedInfo.size = theRezObj->GetSize();
+	mSavedInfo.id = theRezObj->GetID();
+	BlockMoveData(theRezObj->GetName(),&mSavedInfo.name,sizeof(Str255));
+	mSavedInfo.iconid = 0;
+	mSavedInfo.sysheap = theRezObj->HasAttribute(resSysHeap);
+	mSavedInfo.purge = theRezObj->HasAttribute(resPurgeable);
+	mSavedInfo.lock = theRezObj->HasAttribute(resLocked);
+	mSavedInfo.protect = theRezObj->HasAttribute(resProtected);
+	mSavedInfo.preload = theRezObj->HasAttribute(resPreload);
 
 	InstallValues();
 }
@@ -354,51 +344,37 @@ CInspectorWindow::InstallValues(CRezObjItem * inRezObjItem)
 void
 CInspectorWindow::InstallValues()
 {
-	InstallValues(&mSavedRezInfo);
-}
-
-
-// ---------------------------------------------------------------------------
-//	¥ InstallValues												[public]
-// ---------------------------------------------------------------------------
-
-void
-CInspectorWindow::InstallValues(SResourceObjInfoPtr inRezInfoPtr)
-{
 	Str255		theString, theType;
 
 	// Static texts
-	UMiscUtils::OSTypeToPString(inRezInfoPtr->type, theType);	
+	UMiscUtils::OSTypeToPString(mSavedInfo.type, theType);	
 	mTypeItem->SetDescriptor(theType);
-	::NumToString(inRezInfoPtr->size, theString);
+	::NumToString(mSavedInfo.size, theString);
 	mSizeItem->SetDescriptor(theString);
-	::NumToString(inRezInfoPtr->id, theString);
-	mIDItem->SetDescriptor(theString);
 
 	// Editable texts
-	mNameEdit->SetDescriptor(inRezInfoPtr->name);
-	::NumToString(inRezInfoPtr->id,theString);
+	mNameEdit->SetDescriptor(mSavedInfo.name);
+	::NumToString(mSavedInfo.id,theString);
 	mIDEdit->SetDescriptor(theString);
 
 	// Check boxes
-	mSysHeapItem->SetValue(inRezInfoPtr->sysheap);
-	mPurgeableItem->SetValue(inRezInfoPtr->purge);
-	mLockedItem->SetValue(inRezInfoPtr->lock);
-	mProtectedItem->SetValue(inRezInfoPtr->protect);
-	mPreloadItem->SetValue(inRezInfoPtr->preload);
-	mCompressedItem->SetValue(inRezInfoPtr->compress);
+	mSysHeapItem->SetValue(mSavedInfo.sysheap);
+	mPurgeableItem->SetValue(mSavedInfo.purge);
+	mLockedItem->SetValue(mSavedInfo.lock);
+	mProtectedItem->SetValue(mSavedInfo.protect);
+	mPreloadItem->SetValue(mSavedInfo.preload);
 	
 	// Icon
 	// To use PlotIconID(), the icon resource must be of resource type 
 	// 'ICN#', 'ics#', 'icl4', 'icl8', 'ics4', or 'ics8'.
-	mIconItem->SetIconID(inRezInfoPtr->id);
+	mIconItem->SetIconID(mSavedInfo.id);
 	if ( ! ::strncmp( (const char *) theType + 1, "ics8", 4)
 		|| ! ::strncmp( (const char *) theType + 1, "ics4", 4)
 		|| ! ::strncmp( (const char *) theType + 1, "icl8", 4)
 		|| ! ::strncmp( (const char *) theType + 1, "icl4", 4)
 		|| ! ::strncmp( (const char *) theType + 1, "ics#", 4)
 		|| ! ::strncmp( (const char *) theType + 1, "ICN#", 4) ) {
-		mIconItem->SetCurrentRefNum(inRezInfoPtr->refnum);
+		mIconItem->SetCurrentRefNum(mSavedInfo.refnum);
 		mIconItem->SetVisibleState(triState_Off);
 		mIconItem->Show();
 	} else {
@@ -410,57 +386,43 @@ CInspectorWindow::InstallValues(SResourceObjInfoPtr inRezInfoPtr)
 	mRevertButton->Disable();
 	mModifyButton->Disable();
 	
-	if (mRezObjItem == nil) {
-		return;
+	if (mRezObjItem != nil) {
+		// Install the rez map name
+		LStaticText * theStaticText = dynamic_cast<LStaticText *>(this->FindPaneByID( item_InspMapName ));
+		ThrowIfNil_( theStaticText );
+		mRezObjItem->GetOwnerRezMapTable()->GetOwnerWindow()->GetDescriptor(theString);
+		theStaticText->SetDescriptor(theString);
 	} 
-	LStaticText * theStaticText = dynamic_cast<LStaticText *>(this->FindPaneByID( item_InspMapName ));
-	ThrowIfNil_( theStaticText );
-	mRezObjItem->GetOwnerRezMapTable()->GetOwnerWindow()->GetDescriptor(theString);
-	theStaticText->SetDescriptor(theString);
 }
 
 
 // ---------------------------------------------------------------------------
-//	¥ RetrieveOptions											[protected]
+//	¥ SaveValues											[protected]
 // ---------------------------------------------------------------------------
 
 void
-CInspectorWindow::RetrieveValues()
-{
-	RetrieveValues(mSavedRezInfo);
-}
-
-
-// ---------------------------------------------------------------------------
-//	¥ RetrieveOptions											[protected]
-// ---------------------------------------------------------------------------
-
-void
-CInspectorWindow::RetrieveValues(SResourceObjInfo & outRezInfo)
+CInspectorWindow::SaveValues()
 {
 	Str255		theString;
 	char * theType = new char[5];
 
 	// Static texts
 	mTypeItem->GetDescriptor(theString);
-	UMiscUtils::PStringToOSType(theString, outRezInfo.type);	
+	UMiscUtils::PStringToOSType(theString, mSavedInfo.type);	
 	mSizeItem->GetDescriptor(theString);
-	::StringToNum(theString,&outRezInfo.size);
-	mIDItem->GetDescriptor(theString);
-	::StringToNum(theString,&outRezInfo.id);
+	::StringToNum(theString,&mSavedInfo.size);
 
 	// Editable texts
-	mNameEdit->GetDescriptor(outRezInfo.name);
+	mNameEdit->GetDescriptor(mSavedInfo.name);
 	mIDEdit->GetDescriptor(theString);
-	::StringToNum(theString,&outRezInfo.id);
+	::StringToNum(theString,&mSavedInfo.id);
 
 	// Check boxes
-	outRezInfo.sysheap	= mSysHeapItem->GetValue();
-	outRezInfo.purge	= mPurgeableItem->GetValue();
-	outRezInfo.lock		= mLockedItem->GetValue();
-	outRezInfo.protect	= mProtectedItem->GetValue();
-	outRezInfo.preload	= mPreloadItem->GetValue();
-	outRezInfo.compress	= mCompressedItem->GetValue();
+	mSavedInfo.sysheap	= mSysHeapItem->GetValue();
+	mSavedInfo.purge	= mPurgeableItem->GetValue();
+	mSavedInfo.lock		= mLockedItem->GetValue();
+	mSavedInfo.protect	= mProtectedItem->GetValue();
+	mSavedInfo.preload	= mPreloadItem->GetValue();
 }
 
 
@@ -471,22 +433,27 @@ CInspectorWindow::RetrieveValues(SResourceObjInfo & outRezInfo)
 void
 CInspectorWindow::UpdateRezObj()
 {
-	CRezObj * theRezObj = mRezObjItem->GetRezObj();
-	theRezObj->SetID(mSavedRezInfo.id);
-	theRezObj->SetName(&mSavedRezInfo.name);
-	OSErr error = theRezObj->SetInfoInMap();
-
+	OSErr error;
 	short theAttrs = 0;
-	theRezObj->GetAttributesFromMap(theAttrs);
-	// Modify the mAttributes data member
-	theRezObj->SetOneAttribute(resLocked, mSavedRezInfo.lock);
-	theRezObj->SetOneAttribute(resPreload, mSavedRezInfo.preload);
-	theRezObj->SetOneAttribute(resProtected, mSavedRezInfo.protect);
-	theRezObj->SetOneAttribute(resPurgeable, mSavedRezInfo.purge);
-	theRezObj->SetOneAttribute(resSysHeap, mSavedRezInfo.sysheap);
+	
+	Assert_(mRezObjItem != nil);
+	
+	CRezObj * theRezObj = mRezObjItem->GetRezObj();
+	theRezObj->SetID(mSavedInfo.id);
+	theRezObj->SetName(&mSavedInfo.name);
+	error = theRezObj->SetInfoInMap();
+
+	// Deal with the attributes
+	theAttrs |= mSavedInfo.lock ? resLocked : 0;
+	theAttrs |= mSavedInfo.preload ? resPreload : 0;
+	theAttrs |= mSavedInfo.protect ? resProtected : 0;
+	theAttrs |= mSavedInfo.purge ? resPurgeable : 0;
+	theAttrs |= mSavedInfo.sysheap ? resSysHeap : 0;
 	// Put the value in the rezmap
-	error = theRezObj->SetAttributes( theRezObj->GetAttributes() );
-	error = theRezObj->Changed();
+	error = theRezObj->SetAttributes(theAttrs);
+	if (error == noErr) {
+		theRezObj->Changed();
+	} 
 }
 
 	
@@ -499,7 +466,6 @@ CInspectorWindow::ClearValues()
 {
 	// Text fields
 	mTypeItem->SetDescriptor("\p");
-	mIDItem->SetDescriptor("\p");
 	mSizeItem->SetDescriptor("\p");
 	mNameEdit->SetDescriptor("\p");
 	mIDEdit->SetDescriptor("\p");
@@ -510,7 +476,6 @@ CInspectorWindow::ClearValues()
 	mLockedItem->SetValue(0);
 	mProtectedItem->SetValue(0);
 	mPreloadItem->SetValue(0);
-	mCompressedItem->SetValue(0);
 	
 	// Icon
 	mIconItem->Hide();
