@@ -106,10 +106,6 @@ CUtxt_EditorDoc::Initialize()
 		Handle rezData = mRezObj->GetData();
 		
 		if (rezData != nil) {
-// 			Handle			theScrapHandle = NULL; -->
-// 			StResource		initialStyleRes; -->
-// 			CRezMap *		theRezMap = mRezMapTable->GetRezMap(); -->
-
 			mUtxtEditWindow->InstallText(rezData);			
 		} 
 	} 
