@@ -15,7 +15,7 @@
 #include "CIcon_EditorView.h"
 #include "CIcon_EditorWindow.h"
 #include "COffscreen.h"
-#include "CDraggableTargetBox.h"
+#include "CDraggableTargetView.h"
 
 
 // ---------------------------------------------------------------------------
@@ -26,7 +26,7 @@ CIconDeleteImageAction::CIconDeleteImageAction( const SPaintAction &inAction )
 	: CIconAction( inAction, index_UndoDeleteImage )
 {
 	this->ThrowIfFileLocked();
-	mTargetBox = inAction.thePaintView->GetTargetBox();
+	mTargetView = inAction.thePaintView->GetTargetView();
 }
 
 
@@ -46,7 +46,7 @@ CIconDeleteImageAction::~CIconDeleteImageAction()
 void
 CIconDeleteImageAction::DoIt()
 {
-	if ( !mTargetBox || !mTargetBox->IsUsed() )				// shouldn't happen
+	if ( !mTargetView || !mTargetView->IsUsed() )				// shouldn't happen
 	{
 		delete this;
 		return;
@@ -70,7 +70,7 @@ CIconDeleteImageAction::DoIt()
 void
 CIconDeleteImageAction::RedoSelf()
 {
-	if ( !mTargetBox ) return;
+	if ( !mTargetView ) return;
 	
 	mSettings.thePaintView->CopyToUndo();
 	mSettings.thePaintView->SelectNone();
@@ -80,10 +80,10 @@ CIconDeleteImageAction::RedoSelf()
 	// to get the correct one from the paint view.
 	COffscreen	*imageBuffer = mSettings.thePaintView->GetImageBuffer();
 	imageBuffer->EraseToWhite();
-	mTargetBox->CopyBufferFrom( imageBuffer, redraw_Dont );
+	mTargetView->CopyBufferFrom( imageBuffer, redraw_Dont );
 
 	// The target is now unused
-	mTargetBox->SetUsedFlag( false, redraw_Now );
+	mTargetView->SetUsedFlag( false, redraw_Now );
 	
 	// Update the screen
 	mSettings.thePaintView->HandleCanvasDraw();

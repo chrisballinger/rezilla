@@ -28,7 +28,7 @@
 class CColorCursorCache;
 class CColorPane;
 class CColorTableChoice;
-class CDraggableTargetBox;
+class CDraggableTargetView;
 class CIconSelection;
 class CIconTextAction;
 class CIcon_EditorDoc;
@@ -76,7 +76,7 @@ public:
 
 	// Getting our sample panes
 	virtual SInt32				GetSamplePaneCount();
-	virtual CDraggableTargetBox *GetNthSamplePane( SInt32 index ); // 1..n
+	virtual CDraggableTargetView *GetNthSamplePane( SInt32 index ); // 1..n
 
 	// Misc flags
 	virtual void				SetChangedFlag( Boolean );
@@ -123,8 +123,8 @@ public:
 	virtual Boolean				CanvasPointInSelection( Point canvasPt );
 
 	// Target box
-	virtual void				SetTargetBox( CDraggableTargetBox *, ERedrawOptions = redraw_Later );
-	virtual CDraggableTargetBox *GetTargetBox();
+	virtual void				SetTargetView( CDraggableTargetView *, ERedrawOptions = redraw_Later );
+	virtual CDraggableTargetView *GetTargetView();
 
 	// Misc
 	virtual void				ChangeTool( OSType toWhat );
@@ -182,8 +182,8 @@ protected:
 	CIconTextAction				*mTextAction;
 	CSharedPalette				*mSharedPalette;
 	CColorTableChoice			*mColorTableChoice;
-	CDraggableTargetBox			*mCurrentSamplePane;
-	CDraggableTargetBox			*mSamplePaneList[ kMaxIconSamplePanes ];
+	CDraggableTargetView			*mCurrentSamplePane;
+	CDraggableTargetView			*mSamplePaneList[ kMaxIconSamplePanes ];
 	SInt32						mNumSamplePanes;
 // 	LClipboard					mClipboard;			// only need one of these ???
 	static LMenu				*sIconActionsMenu, 
@@ -223,7 +223,7 @@ protected:
 	virtual void				TakeOffDuty();
 	virtual void				ThrowIfInvalidDepth( SInt32 inDepth );
 	virtual void				RemovePaintMenus();
-	virtual void				BecomeListenerTo( SInt32 inCount, CDraggableTargetBox **inList );
+	virtual void				BecomeListenerTo( SInt32 inCount, CDraggableTargetView **inList );
 
 	virtual void				FinishCreateSelf();
 	

@@ -18,7 +18,7 @@
 #include "CIcon_EditorWindow.h"
 #include "CIcon_EditorView.h"
 #include "COffscreen.h"
-#include "CDraggableTargetBox.h"
+#include "CDraggableTargetView.h"
 #include "UIconMisc.h"
 
 

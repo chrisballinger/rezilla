@@ -26,7 +26,7 @@
 
 CIconDragToTargetAction::CIconDragToTargetAction( 
 								const SPaintAction &inAction, 
-								SImageDropOnTargetBox *inDropInfo )
+								SImageDropOnTargetView *inDropInfo )
 	: CIconAction( inAction, index_UndoDrag )
 {
 	mDropInfo = *inDropInfo;
@@ -56,8 +56,8 @@ void
 CIconDragToTargetAction::DoIt()
 {
 	CIcon_EditorWindow 			*thePaintView = mSettings.thePaintView;
-	CDraggableTargetBox 	*oldBox = thePaintView->GetTargetBox();
-	CDraggableTargetBox	*newBox = mDropInfo.thePane;
+	CDraggableTargetView 	*oldBox = thePaintView->GetTargetView();
+	CDraggableTargetView	*newBox = mDropInfo.thePane;
 	COffscreen				*downSampledBuffer = nil, *sourceBuffer = nil;
 	Boolean					deleteSourceBuffer = false;
 	
@@ -95,7 +95,7 @@ CIconDragToTargetAction::DoIt()
 		// to use CopyToUndo. This may change the current buffer, so don't
 		// use mSettings.currentBuffer, etc after this point.
 		if ( newBox != oldBox )
-			thePaintView->SetTargetBox( mDropInfo.thePane, redraw_Later );
+			thePaintView->SetTargetView( mDropInfo.thePane, redraw_Later );
 		
 		thePaintView->CopyToUndo();
 	

@@ -24,11 +24,11 @@ PP_Begin_Namespace_PowerPlant
 #include "CIcon_EditorView.h"
 #include "CEditorsController.h"
 #include "RezillaConstants.h"
-#include "CIconView_Picture.h"
-#include "CIconView_Pattern.h"
-#include "CIconView_Cursor.h"
-#include "CIconView_Family.h"
-#include "CIconView_ColorIcon.h"
+#include "CWindow_Picture.h"
+#include "CWindow_Pattern.h"
+#include "CWindow_Cursor.h"
+#include "CWindow_Family.h"
+#include "CWindow_ColorIcon.h"
 #include "CRezMap.h"
 #include "CRezMapTable.h"
 #include "CRezMapDoc.h"
@@ -102,7 +102,7 @@ CIcon_EditorDoc::Initialize()
 	switch (mSubstType) {
 		// 'ICON'
 		case ImgType_LargeIcon:
-			theWindow = CIconView_Family::OpenPaintWindow( PPob_ICONEditor, 
+			theWindow = CWindow_Family::OpenPaintWindow( PPob_ICONEditor, 
 									  mRezMapTable->GetRezMap(), mRezObj->GetID() );
 			break;
 
@@ -116,47 +116,47 @@ CIcon_EditorDoc::Initialize()
 		case ImgType_MiniIconWithMask:
 		case ImgType_Mini4BitIcon:
 		case ImgType_Mini8BitIcon:
-			theWindow = CIconView_Family::OpenPaintWindow( PPob_IconSuiteEditor,
+			theWindow = CWindow_Family::OpenPaintWindow( PPob_IconSuiteEditor,
 										mRezMapTable->GetRezMap(), mRezObj->GetID() );
 			break;
 			
 		// 'cicn'
 		case ImgType_ColorIcon:
-			theWindow = CIconView_ColorIcon::OpenPaintWindow( PPob_CICNEditor,
+			theWindow = CWindow_ColorIcon::OpenPaintWindow( PPob_CICNEditor,
 										mRezMapTable->GetRezMap(), mRezObj->GetID() );
 			break;
 			
 		// 'CURS'
 		case ImgType_Cursor:
-			theWindow = CIconView_Cursor::OpenPaintWindow( PPob_CursorEditor,
+			theWindow = CWindow_Cursor::OpenPaintWindow( PPob_CursorEditor,
 										mRezMapTable->GetRezMap(), ImgType_Cursor,
 										mRezObj->GetID() );
 			break;
 
 		// 'crsr'
 		case ImgType_ColorCursor:
-			theWindow = CIconView_Cursor::OpenPaintWindow( PPob_ColorCursorEditor,
+			theWindow = CWindow_Cursor::OpenPaintWindow( PPob_ColorCursorEditor,
 										mRezMapTable->GetRezMap(), ImgType_ColorCursor,
 										mRezObj->GetID() );
 			break;
 			
 		// 'PAT '
 		case ImgType_Pattern:
-			theWindow = CIconView_Pattern::OpenPaintWindow( PPob_PatternEditor,
+			theWindow = CWindow_Pattern::OpenPaintWindow( PPob_PatternEditor,
 										mRezMapTable->GetRezMap(), ImgType_Pattern,
 										mRezObj->GetID() );
 			break;
 			
 		// 'ppat'
 		case ImgType_PixPat:
-			theWindow = CIconView_Pattern::OpenPaintWindow( PPob_PixPatEditor,
+			theWindow = CWindow_Pattern::OpenPaintWindow( PPob_PixPatEditor,
 										mRezMapTable->GetRezMap(), ImgType_PixPat,
 										mRezObj->GetID() );
 			break;
 
 		// 'PICT'
 		case ImgType_Picture:
-			theWindow = CIconView_Picture::OpenPaintWindow( PPob_PictEditor,
+			theWindow = CWindow_Picture::OpenPaintWindow( PPob_PictEditor,
 										mRezMapTable->GetRezMap(), mRezObj->GetID() );
 			break;
 	}

@@ -20,7 +20,7 @@
 #include "CColorCursorCache.h"
 #include "CColorPane.h"
 #include "CColorTableChoice.h"
-#include "CDraggableTargetBox.h"
+#include "CDraggableTargetView.h"
 #include "CIconActions.h"
 #include "CIconDragToTargetAction.h"
 #include "CIconEditActions.h"
@@ -365,11 +365,7 @@ CIcon_EditorWindow::FinishCreateSelf()
 	
 	mContentsView->SetOwnerWindow(this);
 	
-
-	
-	
-	
-	LWindow::FinishCreateSelf();
+// 	LWindow::FinishCreateSelf();   // Not using Carbon events
 	
 	mColorTableChoice = new CColorTableChoice( this, mPrefersIconColors );
 	ThrowIfMemFail_( mColorTableChoice );
@@ -387,15 +383,13 @@ CIcon_EditorWindow::FinishCreateSelf()
 	ThrowIfMemFail_( anUndoer );
 	this->AddAttachment( anUndoer, nil, true );
 	
-	mCanvas = (CIcon_EditorView*) this->FindPaneByID( CIcon_EditorView::class_ID );
+	mCanvas = (CIcon_EditorView*) this->FindPaneByID( item_EditorContents );
 	ThrowIfNil_( mCanvas );
 
 	mPatternPane = (CPatternPane*) this->FindPaneByID( tool_Pattern );
 	ThrowIfNil_( mPatternPane );
 	mPatternPane->GetCurrentPattern( &mCurrentPattern );
 	
-	UIconMisc::LinkListenerToControls( this, this, RidL_ToolList );
-
 	mColorPane = (CColorPane*) this->FindPaneByID( tool_ForeColor );
 	mBackColorPane = (CColorPane*) this->FindPaneByID( tool_BackColor );
 	ThrowIfNil_( mColorPane );
@@ -404,31 +398,16 @@ CIcon_EditorWindow::FinishCreateSelf()
 	// This may or may not exist depending on the editor
 	mSampleWell = this->FindPaneByID( item_IconSampleWell );
 
-	
-	
-	
-	
-	
-	
 	// Should 'this' be a LCommander ?
 // 	SwitchTarget(mContentsView);
-
-// 	// The font, size and style popups
-// 	mFontPopup = dynamic_cast<LPopupButton *> (this->FindPaneByID( item_TextEditFontMenu ));
-// 	ThrowIfNil_( mFontPopup );
-// 
-// 	mSizePopup = dynamic_cast<LPopupButton *> (this->FindPaneByID( item_TextEditSizeMenu ));
-// 	ThrowIfNil_( mSizePopup );
-// 
-// 	mStylePopup = dynamic_cast<LPopupButton *> (this->FindPaneByID( item_TextEditStyleMenu ));
-// 	ThrowIfNil_( mStylePopup );
 	
 	// The total length field
 	mCoordsField = dynamic_cast<LStaticText *> (this->FindPaneByID( item_IconCoords ));
 	ThrowIfNil_( mCoordsField );
 	
 	// Link the broadcasters
-	UReanimator::LinkListenerToControls( this, this, PPob_IconEditorWindow );
+// 	UReanimator::LinkListenerToControls( this, this, PPob_IconEditorWindow );
+	UIconMisc::LinkListenerToControls( this, this, RidL_ToolList );
 	
 	// Make the window a listener to the prefs object
 	CRezillaApp::sPrefs->AddListener(this);
@@ -495,12 +474,12 @@ CIcon_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			this->ResetPatternPaneColors( redraw_Now );
 			break;
 		
-		case msg_TargetBoxClicked:
-			this->ObeyCommand( msg_TargetBoxClicked, ioParam );
+		case msg_TargetViewClicked:
+			this->ObeyCommand( msg_TargetViewClicked, ioParam );
 			break;
 		
-		case msg_ImageDroppedOnTargetBox:
-			this->ObeyCommand( msg_ImageDroppedOnTargetBox, ioParam );
+		case msg_ImageDroppedOnTargetView:
+			this->ObeyCommand( msg_ImageDroppedOnTargetView, ioParam );
 			break;
 			
 		case msg_TextActionDied:
@@ -669,8 +648,8 @@ CIcon_EditorWindow::ObeyCommand(
 			case cmd_IconTransparent:
 			case cmd_IconDragImage:
 			case cmd_IconRecolorCurrentImage:
-			case msg_TargetBoxClicked:
-			case msg_ImageDroppedOnTargetBox:
+			case msg_TargetViewClicked:
+			case msg_ImageDroppedOnTargetView:
 			case cmd_IconResizeImage:
 			case cmd_IconDeleteImage:
 			case tool_Lasso:			// double-click on lasso
@@ -1051,11 +1030,11 @@ CIcon_EditorWindow::CreateNewAction( OSType inActionType, void *ioParam )
 			case cmd_IconRecolorCurrentImage:
 				return new CIconRecolorAction( actionSettings, (CTabHandle) ioParam );
 			
-			case msg_ImageDroppedOnTargetBox:
-				return new CIconDragToTargetAction( actionSettings, (SImageDropOnTargetBox*) ioParam );
+			case msg_ImageDroppedOnTargetView:
+				return new CIconDragToTargetAction( actionSettings, (SImageDropOnTargetView*) ioParam );
 			
-			case msg_TargetBoxClicked:
-				return new CIconTargetClickedAction( actionSettings, (CDraggableTargetBox*) ioParam );
+			case msg_TargetViewClicked:
+				return new CIconTargetClickedAction( actionSettings, (CDraggableTargetView*) ioParam );
 			
 			case cmd_IconResizeImage:
 				return new CIconResizeImageAction( actionSettings );
@@ -1601,13 +1580,13 @@ CIcon_EditorWindow::ThrowIfInvalidDepth( SInt32 inDepth )
 
 
 // ---------------------------------------------------------------------------
-// 	SetTargetBox
+// 	SetTargetView
 // ---------------------------------------------------------------------------
 // Does not commit the previous selection to the buffer, so do so before
 // calling this if you want.
 
 void
-CIcon_EditorWindow::SetTargetBox( CDraggableTargetBox *inBox, ERedrawOptions inRedrawHow )
+CIcon_EditorWindow::SetTargetView( CDraggableTargetView *inBox, ERedrawOptions inRedrawHow )
 {
 	if ( inBox == mCurrentSamplePane ) return;
 	if ( !inBox ) return;				// shouldn't happen
@@ -1624,10 +1603,10 @@ CIcon_EditorWindow::SetTargetBox( CDraggableTargetBox *inBox, ERedrawOptions inR
 
 
 // ---------------------------------------------------------------------------
-// 	GetTargetBox
+// 	GetTargetView
 // ---------------------------------------------------------------------------
 
-CDraggableTargetBox *CIcon_EditorWindow::GetTargetBox()
+CDraggableTargetView *CIcon_EditorWindow::GetTargetView()
 {
 	return( mCurrentSamplePane );
 }
@@ -1751,7 +1730,7 @@ CIcon_EditorWindow::ImageSizeChangeUndone( SInt32 /*inWidth*/, SInt32 /*inHeight
 // ---------------------------------------------------------------------------
 
 void
-CIcon_EditorWindow::BecomeListenerTo( SInt32 inNumPanes, CDraggableTargetBox **inList )
+CIcon_EditorWindow::BecomeListenerTo( SInt32 inNumPanes, CDraggableTargetView **inList )
 {
 	for ( SInt32 count = 0; count < inNumPanes; count++ )
 	{
@@ -1777,7 +1756,7 @@ CIcon_EditorWindow::GetSamplePaneCount()
 // 	GetSamplePaneCount
 // ---------------------------------------------------------------------------
 
-CDraggableTargetBox *
+CDraggableTargetView *
 CIcon_EditorWindow::GetNthSamplePane( SInt32 inIndex )
 {
 	if ( (inIndex < 1) || (inIndex > mNumSamplePanes) )
@@ -1811,7 +1790,7 @@ CIcon_EditorWindow::SetLockFlag( Boolean inFlag )
 	
 	// Enable/disable Drag&Drop to our target panes
 	SInt32 				numSamplePanes = this->GetSamplePaneCount();
-	CDraggableTargetBox	*theTarget;
+	CDraggableTargetView	*theTarget;
 	
 	for ( SInt32 count = 1; count <= numSamplePanes; count++ )
 	{

@@ -20,12 +20,12 @@
 // 	Constructor
 // ---------------------------------------------------------------------------
 
-CIconTargetClickedAction::CIconTargetClickedAction( const SPaintAction &inAction, CDraggableTargetBox *inTargetHit )
+CIconTargetClickedAction::CIconTargetClickedAction( const SPaintAction &inAction, CDraggableTargetView *inTargetHit )
 	: CIconAction( inAction, index_UndoGeneric ) 
 
 {
 	mAffectsUndoState = false;			// since we're not undoable
-	mTargetBoxHit = inTargetHit;
+	mTargetViewHit = inTargetHit;
 }
 
 
@@ -46,9 +46,9 @@ void
 CIconTargetClickedAction::DoIt()
 {
 	CIcon_EditorWindow 			*thePaintView = mSettings.thePaintView;
-	CDraggableTargetBox 	*oldBox = thePaintView->GetTargetBox();
+	CDraggableTargetView 	*oldBox = thePaintView->GetTargetView();
 	
-	if ( oldBox != mTargetBoxHit )
+	if ( oldBox != mTargetViewHit )
 	{
 		//thePaintView->CopyToUndo();
 		
@@ -59,7 +59,7 @@ CIconTargetClickedAction::DoIt()
 		thePaintView->PostAction( nil );
 		
 		// Change the target box, current image, etc, and return
-		thePaintView->SetTargetBox( mTargetBoxHit, redraw_Later );
+		thePaintView->SetTargetView( mTargetViewHit, redraw_Later );
 		this->PostAsAction();
 	}
 	else

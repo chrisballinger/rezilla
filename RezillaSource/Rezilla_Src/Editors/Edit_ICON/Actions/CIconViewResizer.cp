@@ -15,7 +15,7 @@
 #include "CIconViewResizer.h"
 #include "CIcon_EditorWindow.h"
 #include "UIconMisc.h"
-#include "CDraggableTargetBox.h"
+#include "CDraggableTargetView.h"
 
 
 // ---------------------------------------------------------------------------
@@ -55,7 +55,7 @@ CIconViewResizer::Initialize( CIcon_EditorWindow *pv )
 	mNumSamplePanes = pv->GetSamplePaneCount();
 	for ( SInt32 count = 1; count <= mNumSamplePanes; count++ )
 	{
-		CDraggableTargetBox	*aTarget = pv->GetNthSamplePane( count );
+		CDraggableTargetView	*aTarget = pv->GetNthSamplePane( count );
 		ThrowIfNil_( aTarget );
 		this->GetPaneInfo( (LPane*) aTarget, true, &mSamplePaneInfo[ count - 1 ] );
 	}
@@ -141,7 +141,7 @@ CIconViewResizer::DeleteAllBuffers()
 		SSavedPaneInfo &info = mSamplePaneInfo[ count ];
 		if ( info.buffer )
 		{
-			CDraggableTargetBox	*aTarget = dynamic_cast<CDraggableTargetBox*>( info.thePane );
+			CDraggableTargetView	*aTarget = dynamic_cast<CDraggableTargetView*>( info.thePane );
 			if ( aTarget && (aTarget->GetBuffer() != info.buffer) )
 				delete info.buffer;
 		}
@@ -154,9 +154,9 @@ CIconViewResizer::DeleteAllBuffers()
 // ---------------------------------------------------------------------------
 
 void
-CIconViewResizer::GetPaneInfoByID( PaneIDT inPaneID, Boolean isTargetBox, SSavedPaneInfo *outInfo )
+CIconViewResizer::GetPaneInfoByID( PaneIDT inPaneID, Boolean isTargetView, SSavedPaneInfo *outInfo )
 {
-	this->GetPaneInfo( mPaintView->FindPaneByID( inPaneID ), isTargetBox, outInfo );
+	this->GetPaneInfo( mPaintView->FindPaneByID( inPaneID ), isTargetView, outInfo );
 }
 
 
@@ -165,7 +165,7 @@ CIconViewResizer::GetPaneInfoByID( PaneIDT inPaneID, Boolean isTargetBox, SSaved
 // ---------------------------------------------------------------------------
 
 void
-CIconViewResizer::GetPaneInfo( LPane *inPane, Boolean isTargetBox, SSavedPaneInfo *outInfo )
+CIconViewResizer::GetPaneInfo( LPane *inPane, Boolean isTargetView, SSavedPaneInfo *outInfo )
 {
 	outInfo->thePane = inPane;
 	if ( !inPane ) return;				// no sample well in the PICT editor, for example
@@ -181,8 +181,8 @@ CIconViewResizer::GetPaneInfo( LPane *inPane, Boolean isTargetBox, SSavedPaneInf
 	outInfo->width = frameSize.width;
 	outInfo->height = frameSize.height;
 	
-	if ( isTargetBox ) {
-		CDraggableTargetBox *theTarget = dynamic_cast<CDraggableTargetBox*>( inPane );
+	if ( isTargetView ) {
+		CDraggableTargetView *theTarget = dynamic_cast<CDraggableTargetView*>( inPane );
 		ThrowIfNil_( theTarget );
 		
 		outInfo->buffer = theTarget->GetBuffer();
@@ -210,7 +210,7 @@ CIconViewResizer::SetPaneInfo( SSavedPaneInfo &info )
 
 	// Set the buffer if it's a target pane
 	if ( info.buffer ) {
-		CDraggableTargetBox *theTarget = dynamic_cast<CDraggableTargetBox*>( info.thePane );
+		CDraggableTargetView *theTarget = dynamic_cast<CDraggableTargetView*>( info.thePane );
 		ThrowIfNil_( theTarget );
 		theTarget->SetRawBuffer( info.buffer );
 	}

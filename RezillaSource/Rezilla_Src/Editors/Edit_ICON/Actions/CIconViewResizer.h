@@ -43,8 +43,8 @@ class CIconViewResizer {
 		SInt32				mNumSamplePanes;
 		SSavedPaneInfo		mSamplePaneInfo[ kMaxIconSamplePanes ];
 		
-		virtual void		GetPaneInfoByID( PaneIDT, Boolean isTargetBox, SSavedPaneInfo * );
-		virtual void		GetPaneInfo( LPane *, Boolean isTargetBox, SSavedPaneInfo * );
+		virtual void		GetPaneInfoByID( PaneIDT, Boolean isTargetView, SSavedPaneInfo * );
+		virtual void		GetPaneInfo( LPane *, Boolean isTargetView, SSavedPaneInfo * );
 		virtual void		SetPaneInfo( SSavedPaneInfo & );
 };
 

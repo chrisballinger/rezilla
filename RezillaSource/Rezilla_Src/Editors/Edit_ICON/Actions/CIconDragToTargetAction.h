@@ -15,7 +15,7 @@
 #define _H_CIconDragToTargetAction
 
 #include "CIconActions.h"
-#include "CDraggableTargetBox.h"
+#include "CDraggableTargetView.h"
 
 
 // ---------------------------------------------------------------------------
@@ -26,12 +26,12 @@ class CIconDragToTargetAction : public CIconAction
 {
 	public:
 								CIconDragToTargetAction( const SPaintAction &inAction, 
-														SImageDropOnTargetBox * );
+														SImageDropOnTargetView * );
 		virtual					~CIconDragToTargetAction();
 		virtual void			DoIt();
 		
 	protected:
-		SImageDropOnTargetBox	mDropInfo;
+		SImageDropOnTargetView	mDropInfo;
 		
 		virtual void			GenerateMask( COffscreen *inSource, COffscreen *inDest );
 };

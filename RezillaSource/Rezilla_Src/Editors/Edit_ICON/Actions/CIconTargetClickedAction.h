@@ -16,19 +16,19 @@
 #include "CIconActions.h"
 
 
-class CDraggableTargetBox;
+class CDraggableTargetView;
 
 class CIconTargetClickedAction : public CIconAction
 {
 	public:
 								CIconTargetClickedAction( const SPaintAction &inAction, 
-														CDraggableTargetBox * );
+														CDraggableTargetView * );
 		virtual					~CIconTargetClickedAction();
 		
 		virtual void			DoIt();
 		
 	protected:
-		CDraggableTargetBox	*mTargetBoxHit;
+		CDraggableTargetView	*mTargetViewHit;
 };
 
 #endif // _H_CIconTargetClickedAction

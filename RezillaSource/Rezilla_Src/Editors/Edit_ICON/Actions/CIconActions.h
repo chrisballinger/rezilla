@@ -23,7 +23,7 @@ class CIcon_EditorView;
 class COffscreen;
 class CIconSelection;
 class CColorPane;
-class CDraggableTargetBox;
+class CDraggableTargetView;
 
 
 // This struct is passed to each paint action's constructor and contains
@@ -435,7 +435,7 @@ class CIconDeleteImageAction : public CIconAction {
 		virtual void			DoIt();
 		
 	protected:
-		CDraggableTargetBox *	mTargetBox;
+		CDraggableTargetView *	mTargetView;
 		virtual void			RedoSelf();
 };
 
