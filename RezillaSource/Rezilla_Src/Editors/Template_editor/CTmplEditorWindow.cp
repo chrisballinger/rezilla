@@ -61,7 +61,7 @@
 ResIDT CTmplEditorWindow::sCommentTraitsID = Txtr_MonacoBlueNineCenter;
 ResIDT CTmplEditorWindow::sLeftLabelTraitsID = Txtr_GenevaTenBoldLeft;
 ResIDT CTmplEditorWindow::sRightLabelTraitsID = Txtr_GenevaTenBoldRight;
-ResIDT CTmplEditorWindow::sEditTraitsID = Txtr_GenevaTen;
+ResIDT CTmplEditorWindow::sEditTraitsID = Txtr_MonacoNineDefault;
 ResIDT CTmplEditorWindow::sHeaderTraitsID = Txtr_GenevaTenBoldUl;
 SPaneInfo CTmplEditorWindow::sEditPaneInfo;
 SPaneInfo CTmplEditorWindow::sStaticPaneInfo;
