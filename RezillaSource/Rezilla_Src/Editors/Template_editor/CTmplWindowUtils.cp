@@ -2,7 +2,7 @@
 // CTmplWindowUtils.cp					
 // 
 //                       Created: 2004-08-20 16:45:08
-//             Last modification: 2004-09-28 07:20:40
+//             Last modification: 2004-09-29 07:25:47
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -451,16 +451,95 @@ CTmplEditorWindow::KeyValueToString(ResType inType, Str255 keyString)
 
 
 // ---------------------------------------------------------------------------
+//	¥ KeyStringToValue										[private]
+// ---------------------------------------------------------------------------
+// The value of the key tag was obtained from the user via the
+// SelectKeyValueFromKeyCases() dialog. Convert it to an SInt32 and store
+// it in the mKeyedValuesList for faster validation.
+
+OSErr
+CTmplEditorWindow::KeyStringToValue(ResType inType, Str255 keyString)
+{
+	OSErr	error = noErr;
+	char 	charString[256];
+	char 	formatString[16];
+	OSType	theOSType;
+	long	theLong;
+	
+	switch (inType) {
+		case 'KBYT':
+		case 'KLNG':
+		case 'KUBT':
+		case 'KULG':
+		case 'KUWD':
+		case 'KWRD':
+		::StringToNum( keyString, &theLong);
+		mKeyedValuesList.AddItem(theLong);
+		break;
+
+		case 'KCHR':
+		mKeyedValuesList.AddItem( (SInt32) keyString[1]);
+		break;
+
+		case 'KHBT':
+		CopyPascalStringToC(keyString, charString);
+		::LowercaseText(charString, strlen(charString), (ScriptCode)0);
+		error = BuildScanString(charString, formatString, 2);
+		if (error == noErr) {
+			sscanf(charString, formatString, &theLong);
+			mKeyedValuesList.AddItem(theLong);
+		}
+		break;
+
+		case 'KHLG':
+		CopyPascalStringToC(keyString, charString);
+		::LowercaseText(charString, strlen(charString), (ScriptCode)0);
+		error = BuildScanString(charString, formatString, 8);
+		if (error == noErr) {
+			sscanf(charString, formatString, &theLong);
+			mKeyedValuesList.AddItem(theLong);
+		}
+		break;
+
+		case 'KHWD':
+		CopyPascalStringToC(keyString, charString);
+		::LowercaseText(charString, strlen(charString), (ScriptCode)0);
+		error = BuildScanString(charString, formatString, 4);
+		if (error == noErr) {
+			sscanf(charString, formatString, &theLong);
+			mKeyedValuesList.AddItem(theLong);
+		}
+		break;
+
+		case 'KRID':
+		::StringToNum( keyString, &theLong);
+		if (theLong != GetOwnerDoc()->GetRezObj()->GetID()) {
+			UMessageDialogs::AlertWithValue(CFSTR("WrongIdForSelectedTemplate"), theLong);
+		} 
+		mKeyedValuesList.AddItem(theLong);
+		break;		
+		
+		case 'KTYP':
+			UMiscUtils::PStringToOSType(keyString, theOSType);
+			mKeyedValuesList.AddItem( (SInt32) theOSType);
+			break;
+	}
+	return error;
+}
+
+
+// ---------------------------------------------------------------------------
 //	¥ FindKeyStartForValue											[private]
 // ---------------------------------------------------------------------------
 // The marker is positionned after the last CASE statement. Scan the 
 // keyed sections until the corresponding key is found.
 
 OSErr
-CTmplEditorWindow::FindKeyStartForValue(Str255 keyString, SInt32 * outStart)
+CTmplEditorWindow::FindKeyStartForValue(ResType inType, Str255 keyString, SInt32 * outStart)
 {	
 	OSErr	error = noErr;
 	Boolean	found = false;
+	Boolean	nocase = (inType == 'KHBT' || inType == 'KHWD' || inType == 'KHLG');
 	SInt32	currMark, maxPos;
 	Str255	theString;
 	ResType	theType;
@@ -480,7 +559,8 @@ CTmplEditorWindow::FindKeyStartForValue(Str255 keyString, SInt32 * outStart)
 		} 
 		
 		// Is it the case corresponding to our keyString?
-		if ( ::EqualString(theString, keyString, true, true) ) {
+		// For hexadecimal types, the comparison must be case insensitive.
+		if ( ::EqualString(theString, keyString, ! nocase, true) ) {
 			found = true;
 			break;
 		} 
@@ -493,7 +573,11 @@ CTmplEditorWindow::FindKeyStartForValue(Str255 keyString, SInt32 * outStart)
 	}
 	
 	if (!found) {
-		error = err_TmplCantFindKeyStartForValue;
+		if (inType == 'KRID') {
+			error = err_TmplUnsupportedResourceId;
+		} else {
+			error = err_TmplCantFindKeyStartForValue;
+		}
 	} else {
 		*outStart = currMark;
 		// Store the value for future validation
@@ -542,7 +626,7 @@ CTmplEditorWindow::WriteOutKeyValue(ResType inType)
 		break;
 
 		case 'KRID':
-		*mOutStream << (SInt16) keyValue;
+		// Nothing written in the resource. The key is its ID.
 		break;
 
 		case 'KTYP': 
@@ -726,6 +810,9 @@ CTmplEditorWindow::SelectKeyValueFromKeyCases(Str255 inLabelString,
 		return noErr;
 	} 
 
+	// Reset index to the first item
+	index = 1;
+	
 	while (inPickerLoop) {
 		MessageT theMessage;
 		
