@@ -2,7 +2,7 @@
 // CTemplatesController.cp					
 // 
 //                       Created: 2004-08-06 12:57:55
-//             Last modification: 2004-10-12 23:38:53
+//             Last modification: 2004-11-05 23:55:38
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -26,6 +26,7 @@
 #include "UMiscUtils.h"
 
 // PowerPlant Headers
+#include <LString.h>
 #include <PP_Messages.h>
 #include <PP_Resources.h>
 
@@ -381,7 +382,7 @@ CTemplatesController::HasLocalTemplateForType(Str255 inName, CRezMap * inRezMap)
 		for ( UInt16 i = 1; i <= theCount; i++ ) {
 			if (theRezTRype->GetNameAtIndex(i, theName) == noErr 
 				&& 
-				UMiscUtils::CompareStr255( (Str255 *) &theName, (Str255 *) &inName) == 0) {
+				LString::CompareBytes(theName + 1, inName + 1, theName[0], inName[0]) == 0) {
 					hasTMPL = true;
 					break;
 			} 
