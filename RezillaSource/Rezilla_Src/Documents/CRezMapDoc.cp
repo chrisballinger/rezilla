@@ -2,7 +2,7 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2004-08-09 10:43:45
+//             Last modification: 2004-08-12 17:37:36
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -33,6 +33,7 @@ PP_Begin_Namespace_PowerPlant
 #include "CRezObjItem.h"
 #include "CRezType.h"
 #include "CRezTypeItem.h"
+#include "CRezTypePicker.h"
 #include "CInspectorWindow.h"
 #include "CHexEditorDoc.h"
 #include "CTmplEditorDoc.h"
@@ -163,9 +164,7 @@ CRezMapDoc::~CRezMapDoc()
 	} 
 	mRezMap->GetMapAttributes(theattrs);
 	
-	mRezFile->CloseFile();
-	ThrowIfOSErr_( mRezFile->CloseFile() );
-	
+	// CloseFile() is called from the destructor
 	if (mRezFile != nil) {
 		delete mRezFile;
 	} 
@@ -311,8 +310,14 @@ CRezMapDoc::ObeyCommand(
 		}
 
 		case cmd_NewRez: 
-		NewResDialog();
-		mRezMapWindow->RecalcCountFields();
+		CRezObjItem * theRezObjItem = NewResDialog();
+		if (theRezObjItem != NULL) {
+			int		count = 0;
+			mRezMapWindow->RecalcCountFields();
+			// Select the newly created item 
+			mRezMapWindow->GetRezMapTable()->UnselectAllCells();
+			TryEdit(theRezObjItem, cmd_EditRez, count);
+		} 
 		break;
 		
 		case cmd_GetRezInfo: {
@@ -356,23 +361,49 @@ CRezMapDoc::ObeyCommand(
 		
 		case cmd_EditRez:
 		case cmd_TmplEditRez:
-		case cmd_HexEditRez: {
-			ResType theType;
+		case cmd_HexEditRez:
+		case cmd_EditRezAsType: {
+			ResType theType, asType = 0;
 			short 	theID;
 			LArray* theArray = new LArray( sizeof(LOutlineItem*) );
 			CEditorDoc * theRezEditor;
 			int		countEdited = 0;
+			UInt32	countItems;
 			
 			mRezMapWindow->GetRezMapTable()->GetAllSelectedRezObjItems(theArray);
+			countItems = theArray->GetCount();
 			LArrayIterator iterator(*theArray);
 			CRezObjItem * theItem = nil;
 			
+			if (inCommand == cmd_EditRezAsType) {
+				CRezTypePicker * rezPicker = new CRezTypePicker();
+				if (rezPicker != NULL) {
+					if (rezPicker->RunDialog() == noErr) {
+						asType = rezPicker->GetChosenType();
+					} 
+					delete rezPicker;
+				} 
+			} 
+			
 			while (iterator.Next(&theItem)) {
-				TryEdit(theItem, inCommand, countEdited);
+				TryEdit(theItem, inCommand, countEdited, asType);
 			}
 
 			if (countEdited != 0) {
-				UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("SomeResourcesAreAlreadyEdited"), rPPob_SimpleMessage);
+				if (countEdited == 1 && countItems == 1) {
+						UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("ThisResourceEditedInOtherMode"), rPPob_SimpleMessage);
+				} else {
+					CFStringRef formatStr = NULL, messageStr = NULL;
+					formatStr = ::CFCopyLocalizedString(CFSTR("SomeResourcesEditedInOtherMode"), NULL);
+					if (formatStr != NULL) {
+						messageStr = ::CFStringCreateWithFormat(NULL, NULL, formatStr, countEdited);
+						CFRelease(formatStr);                             
+						if (messageStr != NULL) {
+							UMessageDialogs::SimpleMessageFromLocalizable(messageStr, rPPob_SimpleMessage);
+							CFRelease(messageStr);                     
+						}
+					}
+				}
 			}
 
 			delete theArray;
@@ -387,7 +418,7 @@ CRezMapDoc::ObeyCommand(
 			mRezMapWindow->GetRezMapTable()->GetAllSelectedRezObjItems(theArray);
 			
 			if ( theArray != nil ) {
-				CRezClipboard::GetClipboard()->SetData(kRezillaType, (Ptr) theArray,
+				CRezClipboard::GetClipboard()->SetData(kRezillaClipType, (Ptr) theArray,
 													   theArray->GetCount(), 
 													   true);
 				if (inCommand == cmd_Cut) {
@@ -403,7 +434,7 @@ CRezMapDoc::ObeyCommand(
 
 		case cmd_Paste: {
 			CRezClipboard::SetScrapContext(scrap_rezmap);
-			CRezClipboard::GetClipboard()->GetData(kRezillaType, nil);
+			CRezClipboard::GetClipboard()->GetData(kRezillaClipType, nil);
 			// The call to GetData() ensures that CRezClipboard::ImportSelf() is 
 			// called when appropriate, but GetDataSelf() is empty and all the work 
 			// is done by the following:
@@ -442,7 +473,7 @@ CRezMapDoc::ObeyCommand(
 // ---------------------------------------------------------------------------------
 
 void
-CRezMapDoc::TryEdit(CRezObjItem * inRezObjItem, CommandT inCommand, int & outCountEdited)
+CRezMapDoc::TryEdit(CRezObjItem * inRezObjItem, CommandT inCommand, int & outCountEdited, ResType asType)
 {	
 	short		theID = inRezObjItem->GetRezObj()->GetID();
 	ResType		theType = inRezObjItem->GetRezObj()->GetType();
@@ -459,8 +490,13 @@ CRezMapDoc::TryEdit(CRezObjItem * inRezObjItem, CommandT inCommand, int & outCou
 		 return;
 	} 
 	
+	if (asType != 0) {
+		theType = asType;
+	} 
+	
 	switch (inCommand) {		
 		case cmd_EditRez:
+		case cmd_EditRezAsType:
 		if ( CEditorsController::HasEditorForType(theType, &substType) ) {
 			
 			// call the right GUI editor
@@ -1028,7 +1064,7 @@ CRezMapDoc::DesignateExportFile( FSSpec& outFileSpec, bool & outReplacing)
 // ---------------------------------------------------------------------------------
 //		¥ DoAEExport
 // ---------------------------------------------------------------------------------
-
+// mCurrPrefs.exporting.editorSig
 void
 CRezMapDoc::DoAEExport(
 	FSSpec	&inFileSpec)
@@ -1047,7 +1083,7 @@ CRezMapDoc::DoAEExport(
 	OSType	theFileType = 'TEXT';
 
 	// Make new file on disk (we use TextEdit's creator).
-	mFileStream->CreateNewDataFile( keyEditorSignature, theFileType );
+	mFileStream->CreateNewDataFile( (OSType) CRezillaApp::sPrefs->GetPrefValue(kPref_export_editorSig), theFileType );
 	
 	// Write out the data.
 	DoExport();
@@ -1136,6 +1172,7 @@ CRezMapDoc::FindCommandStatus(
 			break;
 		
 		case cmd_EditRez:
+		case cmd_EditRezAsType:
 		case cmd_TmplEditRez:
 		case cmd_HexEditRez:
 		case cmd_GetRezInfo:
@@ -1244,7 +1281,7 @@ CRezMapDoc::GetFirstSelected()
 // ---------------------------------------------------------------------------
 // Note: Linking Listeners and Broadcasters is done in the StDialogBoxHandler constructor
 
-void
+CRezObjItem *
 CRezMapDoc::NewResDialog()
 {
 	LCheckBox *		theCheckBox;
@@ -1257,6 +1294,7 @@ CRezMapDoc::NewResDialog()
 	Boolean			isModified, inLoop;
 	Str255			theString;
 	short			theAttrs = 0;
+	CRezObjItem *	theRezObjItem = NULL;
 	
 	StDialogBoxHandler	theHandler(rPPob_NewRezDialog, this);
 	LDialogBox *		theDialog = theHandler.GetDialog();
@@ -1355,7 +1393,7 @@ CRezMapDoc::NewResDialog()
 						theAttrs |= resPreload;
 					} 
 					
-					CreateNewRes(theType, theID, &theString, theAttrs);
+					theRezObjItem = CreateNewRes(theType, theID, &theString, theAttrs);
 					SetModified(true);
 
 				} else {
@@ -1368,6 +1406,7 @@ CRezMapDoc::NewResDialog()
 			}
 		}
 	}
+	return theRezObjItem;
 }
 
 

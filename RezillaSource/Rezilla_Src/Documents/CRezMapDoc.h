@@ -2,7 +2,7 @@
 // CRezMapDoc.h				
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2004-04-18 10:38:33
+//             Last modification: 2004-08-13 16:17:34
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -130,7 +130,8 @@ public:
 
 	void				TryEdit(CRezObjItem * inRezObjItem, 
 								CommandT inCommand, 
-								int & outCountEdited);
+								int & outCountEdited,
+								ResType asType = 0);
 	
 	Boolean				IsReadOnly() { return mReadOnly;}
 	void				SetReadOnly(Boolean inReadOnlyDoc) {mReadOnly = inReadOnlyDoc;}
@@ -150,7 +151,7 @@ protected:
 	SInt16					mExportFormat;
 	
 	void				NameNewDoc();
-	void				NewResDialog();
+	CRezObjItem *		NewResDialog();
 	void				UpdateRefNum(short newRefNum);
 	void				WriteOutExport(SInt16 inExportFormat);
 	
