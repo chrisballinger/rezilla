@@ -154,6 +154,9 @@ CTmplEditorWindow::FinishCreateSelf()
 	Str255 * strPtr = dynamic_cast<CTmplEditorDoc *>(GetSuperCommander())->GetRezObj()->GetName();
 	theStaticText->SetDescriptor(*strPtr);	
 	
+	// Link the broadcasters
+	UReanimator::LinkListenerToControls( this, this, rRidL_TmplEditorWindow );
+	
 	// Make the window a listener to the prefs object
 	CRezillaApp::sPrefs->AddListener(this);
 
@@ -931,14 +934,14 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		} 
 		// Edit the first bit
 		AddStaticField(inLabelString, inContainer);
-		AddCheckField( ((theChar & 1<<7) > 0), inType, rPPob_TmplEditorWindow + mCurrentID, inContainer);	
+		AddCheckField( ((theChar & 1<<7) > 0), inType, inContainer);	
 		for (i = 6; i >= 0 ; i--) {
 			// Consume the next 7 pairs in the template to get the
 			// corresponding labels.
 			*mTemplateStream >> theString;
 			*mTemplateStream >> theOSType;
 			AddStaticField(theString, inContainer);
-			AddCheckField( ((theChar & (1 << i)) > 0), inType, rPPob_TmplEditorWindow + mCurrentID, inContainer);	
+			AddCheckField( ((theChar & (1 << i)) > 0), inType, inContainer);	
 		}
 		break;
 
@@ -948,7 +951,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 			*mRezStream >> theBool;
 		} 
 		AddStaticField(inLabelString, inContainer);
-		AddCheckField( theBool, inType, rPPob_TmplEditorWindow + mCurrentID, inContainer);		
+		AddCheckField( theBool, inType, inContainer);		
 		break;
 
 		case 'BOOL':
@@ -979,7 +982,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 			theString[0] = 0;
 		}
 		AddStaticField(inLabelString, inContainer);
-		AddEditField(theString, inType, rPPob_TmplEditorWindow + mCurrentID, 1, 0, 
+		AddEditField(theString, inType, 1, 0, 
 					 UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar), inContainer);
 		break;
 
@@ -998,7 +1001,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		} 
 		::NumToString( (long) theUInt8, numStr);
 		AddStaticField(inLabelString, inContainer);
-		AddEditField(numStr, inType, rPPob_TmplEditorWindow + mCurrentID, 3, 0, 
+		AddEditField(numStr, inType, 3, 0, 
 					 UKeyFilters::SelectTEKeyFilter(keyFilter_Integer), inContainer);
 		break;
 
@@ -1009,7 +1012,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		} 
 		::NumToString( (long) theUInt32, numStr);
 		AddStaticField(inLabelString, inContainer);
-		AddEditField(numStr, inType, rPPob_TmplEditorWindow + mCurrentID, 5, 0, 
+		AddEditField(numStr, inType, 5, 0, 
 					 UKeyFilters::SelectTEKeyFilter(keyFilter_Integer), inContainer);
 		break;
 
@@ -1020,7 +1023,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		} 
 		::NumToString( (long) theUInt16, numStr);
 		AddStaticField(inLabelString, inContainer);
-		AddEditField(numStr, inType, rPPob_TmplEditorWindow + mCurrentID, 10, 0, 
+		AddEditField(numStr, inType, 10, 0, 
 					 UKeyFilters::SelectTEKeyFilter(keyFilter_Integer), inContainer);
 		break;
 
@@ -1047,7 +1050,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 			theString[0] = 0;
 		}
 		AddStaticField(inLabelString, inContainer);
-		AddEditField(theString, inType, rPPob_TmplEditorWindow + mCurrentID, 255, 0, 
+		AddEditField(theString, inType, 255, 0, 
 					 UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar), inContainer);
 		
 		break;
@@ -1081,7 +1084,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		sprintf(charString, "$%.2x%c", theChar, NULL);
 		CopyCStringToPascal(charString, theString);
 		AddStaticField(inLabelString, inContainer);
-		AddEditField(theString, inType, rPPob_TmplEditorWindow + mCurrentID, 2, 0, 
+		AddEditField(theString, inType, 2, 0, 
 					 &UHexFilters::HexadecimalField, inContainer);
 		break;
 
@@ -1100,7 +1103,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		sprintf(charString, "$%.8x%c", theUInt32, NULL);
 		CopyCStringToPascal(charString, theString);
 		AddStaticField(inLabelString, inContainer);
-		AddEditField(theString, inType, rPPob_TmplEditorWindow + mCurrentID, 8, 0, 
+		AddEditField(theString, inType, 8, 0, 
 					 &UHexFilters::HexadecimalField, inContainer);
 		break;
 
@@ -1112,7 +1115,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		sprintf(charString, "$%.4x%c", theUInt16, NULL);
 		CopyCStringToPascal(charString, theString);
 		AddStaticField(inLabelString, inContainer);
-		AddEditField(theString, inType, rPPob_TmplEditorWindow + mCurrentID, 4, 0, 
+		AddEditField(theString, inType, 4, 0, 
 					 &UHexFilters::HexadecimalField, inContainer);
 		break;
 
@@ -1172,7 +1175,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 			theString[0] = 0;
 		}
 		AddStaticField(inLabelString, inContainer);
-		AddEditField(theString, inType, rPPob_TmplEditorWindow + mCurrentID, 255, 0, 
+		AddEditField(theString, inType, 255, 0, 
 					 UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar), inContainer);
 		break;
 
@@ -1184,7 +1187,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 			theString[0] = 0;
 		}
 		AddStaticField(inLabelString, inContainer);
-		AddEditField(theString, inType, rPPob_TmplEditorWindow + mCurrentID, 255, 0, 
+		AddEditField(theString, inType, 255, 0, 
 					 UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar), inContainer);
 		break;
 
@@ -1200,7 +1203,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 			mYCoord += kTmplRectVertSkip;
 			AddStaticField(inLabelString, inContainer);
 			mYCoord -= kTmplRectVertSkip;
-			AddRectField(theTop, theLeft, theBottom, theRight, inType, rPPob_TmplEditorWindow + mCurrentID, 5, 0, 
+			AddRectField(theTop, theLeft, theBottom, theRight, inType, 5, 0, 
 						 UKeyFilters::SelectTEKeyFilter(keyFilter_Integer), inContainer);
 			break;
 		}
@@ -1214,7 +1217,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 			theString[0] = 0;
 		}
 		AddStaticField(inLabelString, inContainer);
-		AddEditField(theString, inType, rPPob_TmplEditorWindow + mCurrentID, 4, 0, 
+		AddEditField(theString, inType, 4, 0, 
 					 UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar), inContainer);
 		break;
 
@@ -1268,7 +1271,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 			theString[0] = 0;
 		}
 		AddStaticField(inLabelString, inContainer);
-		AddEditField(theString, inType, rPPob_TmplEditorWindow + mCurrentID, length, 0, 
+		AddEditField(theString, inType, length, 0, 
 					   UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar), inContainer);	  	
 	  } else {
 		  // Unrecognized type
@@ -1307,7 +1310,6 @@ CTmplEditorWindow::AddStaticField(Str255 inLabel, LView * inContainer, ResIDT in
 void
 CTmplEditorWindow::AddEditField(Str255 inValue, 
 								OSType inType,
-								MessageT inMessage,
 								SInt16 inMaxChars, 
 								UInt8 inAttributes,
 								TEKeyFilterFunc inKeyFilter, 
@@ -1323,7 +1325,7 @@ CTmplEditorWindow::AddEditField(Str255 inValue,
 	mEditPaneInfo.superView	= inContainer;
 
 	LEditText * theEditText = new LEditText(mEditPaneInfo, this, inValue, mEditTraitsID, 
-											inMessage, inMaxChars, inAttributes, inKeyFilter);
+											msg_TmplModified, inMaxChars, inAttributes, inKeyFilter);
 	ThrowIfNil_(theEditText);
 
 	// Store the template's type in the userCon field
@@ -1372,7 +1374,7 @@ CTmplEditorWindow::AddBooleanField(Boolean inValue,
 	mRadioPaneInfo.paneID		= mCurrentID;
 	mRadioPaneInfo.superView	= theRGV;
 
-	theRadio = new LStdRadioButton(mRadioPaneInfo, rPPob_TmplEditorWindow + mCurrentID, 
+	theRadio = new LStdRadioButton(mRadioPaneInfo, msg_TmplModified, 
 								   inValue, mLeftLabelTraitsID, (UInt8 *)(inTitleType ? "\pOn":"\pYes"));
 	ThrowIfNil_(theRadio);
 	
@@ -1384,7 +1386,7 @@ CTmplEditorWindow::AddBooleanField(Boolean inValue,
 	mRadioPaneInfo.left += kTmplRadioWidth + kTmplHorizSep;
 	mRadioPaneInfo.paneID = mCurrentID;
 
-	theRadio = new LStdRadioButton(mRadioPaneInfo, rPPob_TmplEditorWindow + mCurrentID, 
+	theRadio = new LStdRadioButton(mRadioPaneInfo, msg_TmplModified, 
 								   1 - inValue, mLeftLabelTraitsID, (UInt8 *)(inTitleType ? "\pOff":"\pNo"));
 	ThrowIfNil_(theRadio);
 	
@@ -1405,7 +1407,6 @@ CTmplEditorWindow::AddBooleanField(Boolean inValue,
 void
 CTmplEditorWindow::AddCheckField(Boolean inValue,
 								   OSType inType,
-								   SInt16 inMessageValue, 
 								   LView * inContainer)
 {
 	mCheckPaneInfo.left			= kTmplLeftMargin + kTmplLabelWidth + kTmplHorizSep;;
@@ -1413,7 +1414,7 @@ CTmplEditorWindow::AddCheckField(Boolean inValue,
 	mCheckPaneInfo.paneID		= mCurrentID;
 	mCheckPaneInfo.superView	= inContainer;
 
-	LCheckBox * theCheck = new LCheckBox(mCheckPaneInfo, inMessageValue, inValue);
+	LCheckBox * theCheck = new LCheckBox(mCheckPaneInfo, msg_TmplModified, inValue);
 	ThrowIfNil_(theCheck);
 		
 	// Advance the counters
@@ -1724,7 +1725,6 @@ CTmplEditorWindow::AddRectField(SInt16 inTop,
 								SInt16 inBottom, 
 								SInt16 inRight, 
 								OSType inType,
-								MessageT inMessage,
 								SInt16 inMaxChars, 
 								UInt8 inAttributes,
 								TEKeyFilterFunc inKeyFilter,
@@ -1753,7 +1753,7 @@ CTmplEditorWindow::AddRectField(SInt16 inTop,
 	mRectPaneInfo.paneID = mCurrentID;
 	::NumToString( (long) inTop, numStr);
 	theEditText = new LEditText(mRectPaneInfo, this, numStr, mEditTraitsID, 
-											inMessage, inMaxChars, inAttributes, inKeyFilter);
+								msg_TmplModified, inMaxChars, inAttributes, inKeyFilter);
 	ThrowIfNil_(theEditText);
 	theEditText->SetUserCon(inType);
 	mCurrentID++;
@@ -1766,7 +1766,7 @@ CTmplEditorWindow::AddRectField(SInt16 inTop,
 	mRectPaneInfo.paneID = mCurrentID;
 	::NumToString( (long) inLeft, numStr);
 	theEditText = new LEditText(mRectPaneInfo, this, numStr, mEditTraitsID, 
-											inMessage, inMaxChars, inAttributes, inKeyFilter);
+								msg_TmplModified, inMaxChars, inAttributes, inKeyFilter);
 	ThrowIfNil_(theEditText);
 	theEditText->SetUserCon(inType);
 	mCurrentID++;
@@ -1779,7 +1779,7 @@ CTmplEditorWindow::AddRectField(SInt16 inTop,
 	mRectPaneInfo.paneID = mCurrentID;
 	::NumToString( (long) inBottom, numStr);
 	theEditText = new LEditText(mRectPaneInfo, this, numStr, mEditTraitsID, 
-											inMessage, inMaxChars, inAttributes, inKeyFilter);
+								msg_TmplModified, inMaxChars, inAttributes, inKeyFilter);
 	ThrowIfNil_(theEditText);
 	theEditText->SetUserCon(inType);
 	mCurrentID++;
@@ -1792,7 +1792,7 @@ CTmplEditorWindow::AddRectField(SInt16 inTop,
 	mRectPaneInfo.paneID = mCurrentID;
 	::NumToString( (long) inRight, numStr);
 	theEditText = new LEditText(mRectPaneInfo, this, numStr, mEditTraitsID, 
-											inMessage, inMaxChars, inAttributes, inKeyFilter);
+								msg_TmplModified, inMaxChars, inAttributes, inKeyFilter);
 	ThrowIfNil_(theEditText);
 	theEditText->SetUserCon(inType);
 	mCurrentID++;

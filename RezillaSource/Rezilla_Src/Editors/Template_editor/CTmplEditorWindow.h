@@ -130,7 +130,6 @@ private:
 	
 	void			AddEditField(Str255 inValue, 
 								OSType inType,
-								MessageT inMessage,
 								SInt16 inMaxChars, 
 								UInt8 inAttributes,
 								TEKeyFilterFunc inKeyFilter, 
@@ -143,7 +142,6 @@ private:
 	
 	void			AddCheckField(Boolean inValue,
 								   OSType inType,
-								   SInt16 inMessageValue, 
 								   LView * inContainer);
 	
 	void			AddWasteField(OSType inType, 
@@ -157,7 +155,6 @@ private:
 									SInt16 inBottom, 
 									SInt16 inRight, 
 									OSType inType,
-									MessageT inMessage,
 									SInt16 inMaxChars, 
 									UInt8 inAttributes,
 									TEKeyFilterFunc inKeyFilter, 
