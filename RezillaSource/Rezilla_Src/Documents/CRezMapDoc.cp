@@ -2,7 +2,7 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2004-08-25 12:35:15
+//             Last modification: 2004-10-12 22:27:03
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -483,6 +483,7 @@ CRezMapDoc::TryEdit(CRezObjItem * inRezObjItem, CommandT inCommand, int & outCou
 	
 	if (asType != 0) {
 		theType = asType;
+		substType = asType;
 	} 
 	
 	switch (inCommand) {		
