@@ -374,28 +374,50 @@ CTmplEditorWindow::CreateTemplateStream()
  
 
 // ---------------------------------------------------------------------------
-//	¥ ParseTemplate														[public]
+//	¥ ParseWithTemplate												[public]
 // ---------------------------------------------------------------------------
 
 void
 CTmplEditorWindow::ParseWithTemplate(Handle inHandle)
 {
-	Str255		theString;
-	ResType		theType;
-
 	// Get a handle to the template resource and create a stream to parse it
 	CreateTemplateStream();
 	
 	// Create a stream to parse the data
 	mRezStream = new LHandleStream(inHandle);	
 
-// 	SetMarker(0, streamFrom_Start);
+	// Parse the template stream
+	DoParseTemplate();
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ DoParseTemplate													[public]
+// ---------------------------------------------------------------------------
+
+void
+CTmplEditorWindow::DoParseTemplate()
+{
+	Str255		theString;
+	ResType		theType;
 
 	while (mTemplateStream->GetMarker() < mTemplateStream->GetLength() ) {
 		*mTemplateStream >> theString;
 		*mTemplateStream >> theType;
-		// Create controls according to the type declared in the template
-		ParseDataForType(theType, theString);
+		
+		if (theType == 'LSTB') {
+			CTmplList theList = CTmplList(mTemplateStream->GetMarker(), mTemplateStream->GetLength(), mTemplateStream, tmpl_listLSTB);
+			theList.ProcessFromPos(mTemplateStream->GetMarker());
+		} else if (theType == 'LSTC') {
+			CTmplList theList = CTmplList(mTemplateStream->GetMarker(), mTemplateStream->GetLength(), mTemplateStream, tmpl_listLSTC);
+			theList.ProcessFromPos(mTemplateStream->GetMarker());
+		} else if (theType == 'LSTZ') {
+			CTmplList theList = CTmplList(mTemplateStream->GetMarker(), mTemplateStream->GetLength(), mTemplateStream, tmpl_listLSTZ);
+			theList.ProcessFromPos(mTemplateStream->GetMarker());
+		} else {
+			// Create controls according to the type declared in the template
+			ParseDataForType(theType, theString);
+		}
 	}
 }
 
@@ -407,23 +429,6 @@ CTmplEditorWindow::ParseWithTemplate(Handle inHandle)
 // TODO:
 //   - add error checking: insufficient data, required null bytes
 //   - insert in try blocks and catch exceptions
-
-// 		UKeyFilters::SelectTEKeyFilter(keyFilter_AlphaNumeric)
-// 		UKeyFilters::SelectTEKeyFilter(keyFilter_Integer)
-// 		UKeyFilters::SelectTEKeyFilter(keyFilter_NegativeInteger)
-// 		UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar)
-// 		UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingCharAndCR)
-		
-// Base integer types for all target OS's and CPU's
-// 
-// 	UInt8            8-bit unsigned integer 
-// 	SInt8            8-bit signed integer
-// 	UInt16          16-bit unsigned integer 
-// 	SInt16          16-bit signed integer           
-// 	UInt32          32-bit unsigned integer 
-// 	SInt32          32-bit signed integer   
-// 	UInt64          64-bit unsigned integer 
-// 	SInt64          64-bit signed integer   
 
 OSErr
 CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
@@ -631,7 +636,13 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 		case 'OCNT':
 		// One Count. Terminated by a one-based word count that starts 
 		// the sequence (as in 'STR#' resources).
-		
+		*mRezStream >> mListCount;
+		mListType = tmpl_listLSTC;
+		::NumToString( (long) mListCount, numStr);
+		AddStaticField(inLabelString);
+		AddEditField(numStr, inType, rPPob_TmplEditorWindow + mCurrentID, 255, 0, 
+					 UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar));
+
 		break;
 
 		case 'OCST':
@@ -1130,4 +1141,56 @@ CTmplEditorWindow::ReadValues()
 	
 	return theHandle;
 }
+
+
+
+
+// Utility CTmplList class to handle template lists
+// ================================================
+
+
+// ---------------------------------------------------------------------------
+//		¥ CTmplList													[public]
+// ---------------------------------------------------------------------------
+
+CTmplList::CTmplList(SInt32 inStartPos, SInt32 inEndPos, LHandleStream * inTmplStream, SInt16 inListType, SInt8 inNestingLevel)
+{
+	mStartPos = inStartPos;
+	mEndPos = inEndPos;
+	mListType = inListType;
+	mTmplStream = inTmplStream;
+	mNestingLevel = inNestingLevel;
+}
+
+
+// ---------------------------------------------------------------------------
+//		¥ ~CTmplList												[public]
+// ---------------------------------------------------------------------------
+
+CTmplList::~CTmplList()
+{	
+}
+
+
+// ---------------------------------------------------------------------------
+//		¥ ProcessFromPos											[public]
+// ---------------------------------------------------------------------------
+
+OSErr
+CTmplList::ProcessFromPos(SInt32 inPos)
+{	
+	mTmplStream->SetMarker(inPos, streamFrom_Start);
+
+	for (SInt32 i = 0 ; i < mCount; i++) {
+		
+	}
+	
+}
+
+
+
+
+
+
+
 

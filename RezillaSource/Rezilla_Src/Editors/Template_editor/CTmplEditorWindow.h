@@ -23,6 +23,7 @@
 
 class CTmplEditorDoc;
 class CRezObj;
+class CTmplList;
 
 enum {
 	tmpl_titleYesNo = 0,
@@ -31,9 +32,17 @@ enum {
 	tmpl_flushLeft
 };
 
+enum {
+	tmpl_listLSTZ = 0,		// Zero List
+	tmpl_listLSTC,			// Count List
+	tmpl_listLSTB			// Plain List
+};
+
+
 class CTmplEditorWindow : public CEditorWindow {
 public:
 	enum { class_ID = 'TmpW' };
+	friend class CTmplList;
 
 							CTmplEditorWindow();
 							CTmplEditorWindow( const SWindowInfo &inWindowInfo );
@@ -64,10 +73,14 @@ public:
 
 	void				CreateTemplateStream();
 	
+// 	void				SetTemplateMarker(SInt32 inPos) { mTemplateStream->SetMarker(inPos, streamFrom_Start); }
+	
 	virtual SInt32		GetCurrFirstID() { return mCurrFirstID;}
 	void				SetCurrFirstID(SInt32 theCurrFirstLine) {mCurrFirstID = theCurrFirstLine ;}
 
 	LView*		GetContentsView() const { return mContentsView;}
+
+// 	static LHandleStream*		GetTemplateStream() { return mTemplateStream;}
 
 // 	virtual SInt32		GetCurrentSubView() { return mCurrentSubView;}
 // 	void				SetCurrentSubView(SInt32 inCurrentSubView) {mCurrentSubView = inCurrentSubView;}
@@ -81,6 +94,8 @@ protected:
 	SInt32				mIndent;
 	SInt32				mXCoord;
 	SInt32				mYCoord;
+	SInt16				mListType;
+	short				mListCount;
 	SPaneInfo			mEditPaneInfo;
 	SPaneInfo			mStaticPaneInfo;
 	SPaneInfo			mRgvPaneInfo;
@@ -130,7 +145,50 @@ private:
 									TEKeyFilterFunc inKeyFilter);
 
 	ExceptionCode	AlignBytes(UInt8 inStep);
-
+	
+	void			DoParseTemplate();
+	
 };
 
+
+// Utility class to handle iteration lists
+// =======================================
+
+class CTmplList {
+public:
+	friend class CTmplEditorWindow;
+
+							CTmplList(SInt32 inStartPos,
+									  SInt32 inEndPos,
+									  LHandleStream * inTmplStream,
+									  SInt16 inListType,
+									  SInt8 inNestingLevel = 1);
+							~CTmplList();
+
+	virtual SInt32		GetStartPos() { return mStartPos;}
+	void				SetStartPos(SInt32 inStartPos) {mStartPos = inStartPos;}
+
+	virtual SInt32		GetEndPos() { return mEndPos;}
+	void				SetEndPos(SInt32 inEndPos) {mEndPos = inEndPos;}
+
+	virtual SInt32		GetCount() { return mCount;}
+	void				SetCount(SInt32 inCount) {mCount = inCount;}
+
+	virtual SInt8		GetNestingLevel() { return mNestingLevel;}
+	void				SetNestingLevel(SInt8 inNestingLevel) {mNestingLevel = inNestingLevel;}
+
+protected:
+	SInt32			mStartPos;
+	SInt32			mEndPos;
+	SInt32			mCount;
+	SInt16			mListType;
+	SInt8			mNestingLevel;  // level=1 means a first level list
+	LHandleStream *	mTmplStream;
+	CTmplList *		mParent;
+	
+	OSErr		Process();
+	OSErr		ProcessFromPos(SInt32 inPos);
+	
+
+};
 
