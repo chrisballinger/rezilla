@@ -25,18 +25,19 @@ public:
 				CAeteElement(CAeteStream *	inStream);
 				~CAeteElement();
 
-		ArrayIndexT	AddKeyForm( OSType inKey = 0);
-		void		RemoveKeyForm( ArrayIndexT inAtIndex );
 		void		InstallDataStream(CAeteStream * inStream);
 		void		SendDataToStream(CAeteStream *	outStream);
 
+		ArrayIndexT	AddKeyForm( OSType inKey = 0);
+		void		RemoveKeyForm( ArrayIndexT inAtIndex );
+		
 		OSType		GetID() { return mID;}
 		void		SetID(OSType inID) {mID = inID;}
 
 		ArrayIndexT	GetKeyFormIndex() { return mKeyFormIndex;}
 		void		SetKeyFormIndex(ArrayIndexT inKeyFormIndex) {mKeyFormIndex = inKeyFormIndex;}
 
-		SInt32			CountKeyForms() { return mKeyForms.GetCount(); }
+		SInt32		CountKeyForms() { return mKeyForms.GetCount(); }
 	
 		TArray<OSType> *	GetKeyForms() { return &mKeyForms;}
 
