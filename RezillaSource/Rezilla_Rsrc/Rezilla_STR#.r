@@ -1,7 +1,7 @@
 // ===========================================================================
 // Rezilla_STR#.r					
 //                       Created: 2004-02-28 22:51:23
-//             Last modification: 2004-03-02 16:51:34
+//             Last modification: 2004-06-17 12:09:05
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -27,7 +27,11 @@ resource 'STR#' (1500, "New doc titles", purgeable) {
 		/* [5] */
 		"Comparison window [1]",
 		/* [6] */
-		"Comparison window"
+		"Comparison window",
+		/* [7] */
+		"untitled template editor [1]",
+		/* [8] */
+		"untitled template editor"
 	}
 };
 
@@ -85,6 +89,7 @@ resource 'STR#' (1503, "File extensions") {
 		".icns"
 	}
 };
+
 
 resource 'STR#' (1100, "Help Tags") {
 	{	/* array StringArray */
