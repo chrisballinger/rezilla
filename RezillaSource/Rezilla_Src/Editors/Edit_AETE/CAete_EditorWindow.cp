@@ -2,11 +2,11 @@
 // CAete_EditorWindow.cp
 // 
 //                       Created: 2004-07-01 08:42:37
-//             Last modification: 2005-01-20 22:39:51
+//             Last modification: 2005-01-21 14:45:53
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes, 2004, 2005
+// (c) Copyright: Bernard Desgraupes, 2004-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -17,11 +17,16 @@
 #include "CAete_EditorDoc.h"
 #include "CRezillaApp.h"
 #include "RezillaConstants.h"
-// #include "CAppleScript.h"
+#include "CAete.h"
 
 // PP headers
+#include <LPageController.h>
+#include <LMultiPanelView.h>
+#include <LSlider.h>
 #include <LStaticText.h>
 #include <LPopupButton.h>
+#include <LWindow.h>
+
 
 // Standard headers
 // #include <stdlib.h>
@@ -36,6 +41,9 @@
 // 	"\pComparison Ops: ",
 // 	"\pEnumerations: "
 // };
+
+// Statics
+LMenu *		CAete_EditorWindow::sAeteMenu = nil;
 
 
 // ---------------------------------------------------------------------------
@@ -95,22 +103,6 @@ CAete_EditorWindow::~CAete_EditorWindow()
 // ---------------------------------------------------------------------------
 //		¥ FinishCreateSelf											[protected]
 // ---------------------------------------------------------------------------
-
-void
-CAete_EditorWindow::FinishCreateSelf()
-{    
-//     mContentsScroller = dynamic_cast<LScrollerView *>(this->FindPaneByID( item_EditorScroller ));
-//     ThrowIfNil_(mContentsScroller);
-// 	
-//     mContentsView = dynamic_cast<LView *>(this->FindPaneByID( item_EditorContents ));
-//     ThrowIfNil_(mContentsView);
-
-	mSuitesPopup = dynamic_cast<LPopupButton *> (this->FindPaneByID( item_AeteSuitesPopup ));
-	ThrowIfNil_( mSuitesPopup );
-	
-// 	mCategoriesListBox = dynamic_cast<CCategoriesListBox *> (this->FindPaneByID( item_AeteCategories ));
-// 	ThrowIfNil_( mCategoriesListBox );
-			
 // 	ListHandle theListH = mCategoriesListBox->GetMacListH();
 // 	Cell theCell = {0,0};
 // 	::LAddColumn(1, 0, theListH);
@@ -130,6 +122,30 @@ CAete_EditorWindow::FinishCreateSelf()
 // 
 // 	mDictTermsTable->InsertCols(1, 0);
 
+void
+CAete_EditorWindow::FinishCreateSelf()
+{    
+//     mContentsScroller = dynamic_cast<LScrollerView *>(this->FindPaneByID( item_EditorScroller ));
+//     ThrowIfNil_(mContentsScroller);
+// 	
+//     mContentsView = dynamic_cast<LView *>(this->FindPaneByID( item_EditorContents ));
+//     ThrowIfNil_(mContentsView);
+
+	mSuitesPopup = dynamic_cast<LPopupButton *> (this->FindPaneByID( item_AeteSuitePopup ));
+	ThrowIfNil_( mSuitesPopup );
+	
+	mController = dynamic_cast<LPageController *> (this->FindPaneByID( item_AetePanelController ));
+	ThrowIfNil_( mController );
+			
+	mMultiPanel = dynamic_cast<LMultiPanelView *> (this->FindPaneByID( item_AeteMultiPanelView ));
+	ThrowIfNil_( mMultiPanel );
+	
+	mMainSlider = dynamic_cast<LSlider *> (this->FindPaneByID( item_AeteItemSlider ));
+	ThrowIfNil_( mMainSlider );
+
+	mIndicator = dynamic_cast<LStaticText *> (this->FindPaneByID( item_AeteItemIndicator ));
+	ThrowIfNil_( mIndicator );
+	
 	// Link the broadcasters
 	UReanimator::LinkListenerToControls( this, this, PPob_AeteEditorWindow );
 	
@@ -155,8 +171,60 @@ CAete_EditorWindow::FindCommandStatus(
 	UInt16		&outMark,
 	Str255		outName)
 {
+	outEnabled = true;
+	outUsesMark = false;
+	outMark = 0;
+	outName[0] = 0;
+	
 	switch (inCommand) {
-		
+		case cmd_AeteAddSuite:
+		break;
+
+		case cmd_AeteRemoveSuite:
+		break;
+
+		case cmd_AeteAddItem:
+		break;
+
+		case cmd_AeteRemoveItem:
+		break;
+
+		case cmd_AeteAddParameter:
+		break;
+
+		case cmd_AeteRemoveParameter:
+		break;
+
+		case cmd_AeteAddProperty:
+		break;
+
+		case cmd_AeteRemoveProperty:
+		break;
+
+		case cmd_AeteAddElement:
+		break;
+
+		case cmd_AeteRemoveElement:
+		break;
+
+		case cmd_AeteAddKeyForm:
+		break;
+
+		case cmd_AeteRemoveKeyForm:
+		break;
+
+		case cmd_AeteAddEnumerator:
+		break;
+
+		case cmd_AeteRemoveEnumerator:
+		break;
+
+		case cmd_AeteImport:
+		break;
+
+		case cmd_AeteExport:
+		break;
+
 		default:
 		CEditorWindow::FindCommandStatus(inCommand, outEnabled,
 									  outUsesMark, outMark, outName);
@@ -166,7 +234,44 @@ CAete_EditorWindow::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------
-//		¥ ListenToMessage				[public]
+// 	PutOnDuty
+// ---------------------------------------------------------------------------
+
+void
+CAete_EditorWindow::PutOnDuty(LCommander *inNewTarget)
+{
+	LWindow::PutOnDuty(inNewTarget);
+
+	// Put up our menus when on duty
+	if ( !sAeteMenu )
+	{
+		sAeteMenu = new LMenu( MENU_AeteTerminology );
+		ThrowIfNil_( sAeteMenu );
+	}
+	
+	// Update the menu bar
+	LMenuBar *	theBar = LMenuBar::GetCurrentMenuBar();
+	theBar->InstallMenu( sAeteMenu, MENU_OpenedWindows );	
+}
+
+
+// ---------------------------------------------------------------------------
+// 	TakeOffDuty
+// ---------------------------------------------------------------------------
+
+void
+CAete_EditorWindow::TakeOffDuty()
+{		
+	LWindow::TakeOffDuty();
+	
+	LMenuBar *	theBar = LMenuBar::GetCurrentMenuBar();
+	if ( sAeteMenu )
+		theBar->RemoveMenu( sAeteMenu );
+}
+
+
+// ---------------------------------------------------------------------------
+//		¥ ListenToMessage										[public]
 // ---------------------------------------------------------------------------
 
 void
