@@ -1,0 +1,42 @@
+<HTML>
+<HEAD>
+<TITLE>Copier, Couper et Coller</TITLE>
+<META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
+<META NAME=GENERATOR CONTENT="Aida Mode">
+</HEAD>
+<BODY>
+
+<A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="6.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="8.html">Suiv</A><HR><P>&nbsp;</P>
+<H2>Copier, Couper et Coller</H2>
+Les fonctions de Copier, Couper et Coller peuvent avoir différentes
+significations selon le contexte.
+<UL>
+	<LI> Dans la table de ressources, il est possible de copier des ressources
+multiples. Si la copie se fait à l'intérieur de l'application, on peut
+copier autant de ressources que l'on veut à la fois, pas nécessairement du
+même type. Si l'on commute vers une autre application au contraire,
+seulement une ressource de chaque type sera copiée dans le presse-papier:
+chaque type correspond à un type de données (flavor) sur le presse-papier.
+Si l'on colle dans une table de ressources de Rezilla des données qui
+provennent d'une autre application, une nouvelle ressource sera créée pour
+chaque type de donnée (flavor) figurant dans le presse-papier: le type de
+donnée est utilisé comme type pour ressource. Par exemple, si l'on copie
+une image dans un programme tel que <A HREF="http://www.lemkesoft.de/en/graphcon.htm">GraphicConverter</A> et qu'on la colle dans
+Rezilla, une ressource PICT et une ressource Rect seront créses: la
+ressource PICT contient les octets définissant l'image et la ressource Rect
+contient ses dimensions. Cela résulte du fait que <A HREF="http://www.lemkesoft.de/en/graphcon.htm">GraphicConverter</A> place
+ces deux informations dans le presse-papier lorsqu'il effectue la copie. Ce
+mécanisme dépend donc de la façon dont les applications stockent leurs
+données dans le presse-papier. Réciproquement, on peut par exemple
+sélectionner une ressource TEXT dans une table de ressources de Rezilla et
+la coller dans un éditeur de texte: le contenu de la ressource sera inséré
+dans l'éditeur.<P>	<LI> Dans l'éditeur hexadécimal, on peut copier des sélections provenant
+d'un des panneaux. Pour coller les données du presse-papier dans le panneau
+de gauche, il faut évidemment qu'il s'agisse de données hexadécimales
+valides. Toutes données collées dans un des  panneaux sont aussi collées
+parallèlement dans l'autre panneau: par exemple, tout texte collé dans le 
+panneau droit est automatiquement converti en valeurs hexadécimales et
+inséré dans celui de gauche.</DL><P></UL><P>
+
+</BODY>
+</HTML>

@@ -1,0 +1,52 @@
+<HTML>
+<HEAD>
+<TITLE>Export</TITLE>
+<META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
+<META NAME=GENERATOR CONTENT="Aida Mode">
+</HEAD>
+<BODY>
+
+<A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="8.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="10.html">Suiv</A><HR><P>&nbsp;</P>
+<H2>Export</H2>
+La fonction d'export de Rezilla permet de générer un fichier XML contenant
+toutes les données relative à une table de ressources. Le code binaire de
+chaque ressource est encodé en encodage 
+Base64 (qui est le format utilisé sur MacOSX pour d'autres fichiers XML
+comportant des données binaires, comme les 
+fichiers de préférences, les fichiers de listes de propriétés etc.). 
+Voici un exemple de ce que produit la commande <I>Export</I>:<P><PRE>
+ &lt;Type&gt;
+ 	&lt;TypeCode&gt;ALRT&lt;/TypeCode&gt;
+ 	&lt;ressourcesArray&gt;
+ 		&lt;ressource&gt;
+ 			&lt;ressourceID&gt;204&lt;/ressourceID&gt;
+ 			&lt;ressourceName&gt;Low Memory Warning&lt;/ressourceName&gt;
+ 			&lt;ressourceFlags&gt;20&lt;/ressourceFlags&gt;
+ 			&lt;ressourceSize&gt;14&lt;/ressourceSize&gt;
+ 			&lt;ressourceData&gt;
+ 			AGgAggDNAegAzEREMAo=
+ 			&lt;/ressourceData&gt;
+ 		&lt;/ressource&gt;
+ 	&lt;/ressourcesArray&gt;
+ &lt;/Type&gt;
+ &lt;Type&gt;
+ 	&lt;TypeCode&gt;DITL&lt;/TypeCode&gt;
+ 	&lt;ressourcesArray&gt;
+ 		&lt;ressource&gt;
+ 			&lt;ressourceID&gt;204&lt;/ressourceID&gt;
+ 			&lt;ressourceName&gt;&lt;/ressourceName&gt;
+ 			&lt;ressourceFlags&gt;20&lt;/ressourceFlags&gt;
+ 			&lt;ressourceSize&gt;120&lt;/ressourceSize&gt;
+ 			&lt;ressourceData&gt;
+ 			AAEAAAAAAEcBIABbAVwEAk9LAAAAAAAKAEsAOgFciFdNZW1v
+ 			cnkgaXMgZ2V0dGluZyBmdWxsLiBQbGVhc2UgdHJ5IHRvIGFs
+ 			bGV2aWF0ZSB0aGUgcHJvYmxlbSBieSBjbG9zaW5nIHNvbWUg
+ 			ZG9jdW1lbnRzLiDl
+ 			&lt;/ressourceData&gt;
+ 		&lt;/ressource&gt;
+ 	&lt;/ressourcesArray&gt;
+ &lt;/Type&gt;
+</PRE><P>
+
+</BODY>
+</HTML>
