@@ -227,7 +227,9 @@ CRezMapDoc::Initialize(FSSpec * inFileSpec, short inRefnum)
 	mRezMapWindow = dynamic_cast<CRezMapWindow *>(LWindow::CreateWindow( rPPob_RezMapWindow, this ));
 	Assert_( mRezMapWindow != nil );
 
+	// Make this document the supercommander of the RezMapWindow
 	mRezMapWindow->SetSuperCommander(this);
+	
 	// The RezMapTable keeps a pointer to the RezMap object
 	mRezMapWindow->GetRezMapTable()->SetRezMap(mRezMap);
 

@@ -5,7 +5,7 @@
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// Â© Copyright: Bernard Desgraupes 2003
+// © Copyright: Bernard Desgraupes 2003
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -448,7 +448,7 @@ CRezMapTable::CollapseAll() {
 CRezMapDoc *
 CRezMapTable::GetOwnerDoc()
 {
-	CRezMapDoc * theOwnerDoc = dynamic_cast<CRezMapDoc*>(GetOwnerWindow()->GetOwnerDoc());
+	CRezMapDoc * theOwnerDoc = GetOwnerWindow()->GetOwnerDoc();
 	return theOwnerDoc;
 }
 
@@ -460,17 +460,7 @@ CRezMapTable::GetOwnerDoc()
 CRezMapWindow *
 CRezMapTable::GetOwnerWindow()
 {
-	CRezMapDoc * theOwnerDoc = nil;
-	LView *  theView = (LView *) this;
-	
-	while (1) {
-		if (theView->GetSuperView() == nil) {
-			break;
-		} 
-		theView = theView->GetSuperView();
-	}
-	
-	CRezMapWindow *theRezMapWindow = dynamic_cast<CRezMapWindow*>(theView);
+	CRezMapWindow *theRezMapWindow = dynamic_cast<CRezMapWindow*>( GetSuperCommander() );
 	return theRezMapWindow;
 }
 

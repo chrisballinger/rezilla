@@ -34,7 +34,7 @@
 // #include <AppleHelp.h>
 
 // ---------------------------------------------------------------------------
-//  ¬€ CRezMapWindow				[public]
+//  ¥ CRezMapWindow				[public]
 // ---------------------------------------------------------------------------
 
 CRezMapWindow::CRezMapWindow()
@@ -43,7 +43,7 @@ CRezMapWindow::CRezMapWindow()
 
 
 // ---------------------------------------------------------------------------
-//  ¬€ CRezMapWindow				[public]
+//  ¥ CRezMapWindow				[public]
 // ---------------------------------------------------------------------------
 
 CRezMapWindow::CRezMapWindow(
@@ -54,7 +54,7 @@ CRezMapWindow::CRezMapWindow(
 
 
 // ---------------------------------------------------------------------------
-//  ¬€ CRezMapWindow				[public]
+//  ¥ CRezMapWindow				[public]
 // ---------------------------------------------------------------------------
 
 CRezMapWindow::CRezMapWindow(
@@ -67,7 +67,7 @@ CRezMapWindow::CRezMapWindow(
 
 
 // ---------------------------------------------------------------------------
-//  ¬€ CRezMapWindow				[public]
+//  ¥ CRezMapWindow				[public]
 // ---------------------------------------------------------------------------
 
 CRezMapWindow::CRezMapWindow(
@@ -78,7 +78,7 @@ CRezMapWindow::CRezMapWindow(
 
 
 // ---------------------------------------------------------------------------
-//  ¬€ ~CRezMapWindow				[public]
+//  ¥ ~CRezMapWindow				[public]
 // ---------------------------------------------------------------------------
 
 CRezMapWindow::~CRezMapWindow()
@@ -87,7 +87,7 @@ CRezMapWindow::~CRezMapWindow()
 
 
 // ---------------------------------------------------------------------------
-//  ¬€ FinishCreateSelf											[protected]
+//  ¥ FinishCreateSelf											[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -98,6 +98,9 @@ CRezMapWindow::FinishCreateSelf()
 	mRezMapTable = dynamic_cast<CRezMapTable *>(this->FindPaneByID( item_OutlineTable ));
 	ThrowIfNil_( mRezMapTable );
 	
+	// Make this window the supercommander of the table
+	mRezMapTable->SetSuperCommander(this);
+
 	// Fill in the bottom fields
 	LStaticText *	theStaticText;
 	short			theCount;
@@ -120,7 +123,7 @@ CRezMapWindow::FinishCreateSelf()
 
 
 // ---------------------------------------------------------------------------
-//  ¬€ ListenToMessage											[public]
+//  ¥ ListenToMessage											[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -139,7 +142,7 @@ CRezMapWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 
 
 // // ---------------------------------------------------------------------------------
-// //  ¬€ FindCommandStatus
+// //  ¥ FindCommandStatus
 // // ---------------------------------------------------------------------------------
 // 
 // void
@@ -173,7 +176,7 @@ CRezMapWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 
 
 // ---------------------------------------------------------------------------
-//	¬€ HandleKeyPress												  [public]
+//	¥ HandleKeyPress												  [public]
 // ---------------------------------------------------------------------------
 //	DialogBox handles keyboard equivalents for hitting the ApplyLeft and ApplyRight Buttons
 //  and Slider movements.
@@ -230,7 +233,7 @@ CRezMapWindow::HandleKeyPress(
 
 
 // ---------------------------------------------------------------------------
-//  ¬€ InstallCountTypeValue											[public]
+//  ¥ InstallCountTypeValue											[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -243,7 +246,7 @@ CRezMapWindow::InstallCountTypeValue(short inCount)
 
 
 // ---------------------------------------------------------------------------
-//  ¬€ InstallCountRezValue											[public]
+//  ¥ InstallCountRezValue											[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -256,7 +259,7 @@ CRezMapWindow::InstallCountRezValue(short inCount)
 
 
 // ---------------------------------------------------------------------------
-//  ¬€ UpdateCountFields												[public]
+//  ¥ UpdateCountFields												[public]
 // ---------------------------------------------------------------------------
 // Update the count fields at the bottom of the rezmap window
 
@@ -274,7 +277,7 @@ CRezMapWindow::UpdateCountFields()
 
 
 // ---------------------------------------------------------------------------
-//  ¬€ InstallWhichForkField											[public]
+//  ¥ InstallWhichForkField											[public]
 // ---------------------------------------------------------------------------
 
 void
