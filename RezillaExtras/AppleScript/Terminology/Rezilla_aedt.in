@@ -1,0 +1,54 @@
+
+resource 'aedt' (128, "Required Suite")
+aevt	oapp	1001
+aevt	odoc	1002
+aevt	pdoc	1003
+aevt	quit	1004
+aevt	rapp	1005
+aevt	pref	1006
+
+
+resource 'aedt' (129, "Core Suite")
+core	clon	2001
+core	clos	2002
+core	cnte	2003
+core	crel	2004
+core	delo	2005
+core	doex	2006
+core	qobj	2007
+core	getd	2008
+core	dsiz	2009
+core	gtei	2010
+core	move	2011
+core	save	2012
+core	setd	2013
+
+
+resource 'aedt' (130, "Misc Standards")
+aevt	obit	3001
+misc	begi	3002
+misc	copy	3003
+misc	cpub	3004
+misc	cut 	3005
+misc	dosc	3006
+misc	edit	3007
+misc	endt	3008
+misc	imgr	3009
+misc	isun	3010
+misc	mvis	3011
+misc	past	3012
+misc	redo	3013
+misc	rvrt	3014
+misc	ttrm	3015
+misc	undo	3016
+misc	slct	3017
+
+
+resource 'aedt' (131, "PowerPlant Suite")
+ppnt	sttg	3018
+
+
+resource 'aedt' (1000, "Rezilla Suite")
+Get version number
+Rzil	Vers	5010
+
