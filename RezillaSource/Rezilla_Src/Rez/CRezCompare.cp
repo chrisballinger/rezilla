@@ -2,7 +2,7 @@
 // CRezCompare.cp					
 // 
 //                       Created: 2004-02-29 18:17:07
-//             Last modification: 2005-02-28 11:45:19
+//             Last modification: 2005-03-09 06:56:39
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -19,6 +19,7 @@
 #include "CRezillaApp.h"
 #include "CRezillaPrefs.h"
 #include "CCompResultWindow.h"
+#include "CThreeButtonsBox.h"
 #include "RezillaConstants.h"
 #include "UDialogBoxHandler.h"
 #include "UMessageDialogs.h"
@@ -172,7 +173,7 @@ CRezCompare::RunRezCompareDialog()
 	FSSpec			nilFSSpec = {0, 0, "\p"};		// Invalid specifiers	
 
 	StDialogBoxHandler	theHandler(PPob_RezCompDialog, mSuperCommander);
-	LDialogBox *		theDialog = theHandler.GetDialog();
+	CThreeButtonsBox *	theDialog = theHandler.GetDialog();
 	Assert_(theDialog != nil);
 	
 	LBevelButton * theSetOld = dynamic_cast<LBevelButton *>(theDialog->FindPaneByID( item_RezCompSetOld ));
