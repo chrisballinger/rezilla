@@ -31,6 +31,10 @@ $Date$
 ================================================================================
 = 1.0.4a7	                             last update: 
 ================================================================================
+¥ Implemented hex data representation according to prefs (lower or 
+  upper case, 0x or $ prefix).
+¥ Fixed sscanf related bug when retreiving hex values from template.
+¥ Added hexadecimal filter to take prefix into account.
 ¥ 
 
 ================================================================================
