@@ -2,7 +2,7 @@
 // CAete_EditorDoc.cp
 // 
 //                       Created: 2004-07-01 08:42:37
-//             Last modification: 2005-02-04 04:29:30
+//             Last modification: 2005-02-08 17:48:57
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -368,50 +368,12 @@ CAete_EditorDoc::DesignateExportFile( FSSpec & outFileSpec, Boolean & outReplaci
 void
 CAete_EditorDoc::DoExport(FSSpec & inFileSpec, SInt16 inFormat)
 {
-	CAeteStream * theStream = new CAeteStream();
-	if (theStream != nil) {
-		mAeteEditWindow->GetAete()->SendDataToStream(theStream);	
-
-		StAeteExporter exporter(theStream, mAeteEditWindow->GetAete(), inFileSpec, inFormat);
-		
-		exporter.SetRezObj(mRezObj);
-		exporter.WriteOut();
-		delete theStream;
-	} 	
+	StAeteExporter exporter(mAeteEditWindow->GetAete(), inFileSpec, inFormat);
+	
+	exporter.SetRezObj(mRezObj);
+	exporter.WriteOut();
 }
 
-
-// // ---------------------------------------------------------------------------------
-// //  DoExport
-// // ---------------------------------------------------------------------------------
-// 
-// void
-// CAete_EditorDoc::DoExport(FSSpec & inFileSpec, SInt16 inFormat)
-// {
-// 	// Make a new file object
-// 	CTextFileStream *	fileStream = new CTextFileStream( inFileSpec );
-// 
-// 	if (fileStream != nil) {
-// 		// Get the proper file type.
-// 		OSType	theFileType = 'TEXT';
-// 		
-// 		// Make new file on disk (we use TextEdit's creator).
-// 		fileStream->CreateNewDataFile( (OSType) CRezillaPrefs::GetPrefValue(kPref_export_editorSig), theFileType );
-// 		
-// 		// Open the data fork for writing
-// 		fileStream->OpenDataFork( fsWrPerm );
-// 		
-// 		// Export the data
-// 		mAeteEditWindow->GetAete()->ExportData(fileStream, inFormat);
-// 		
-// 		// Close the data fork.
-// 		fileStream->CloseDataFork();
-// 		
-// 		// Free memory which we don't need anymore
-// 		delete fileStream;
-// 	}	
-// 
-// }
 
 
 
