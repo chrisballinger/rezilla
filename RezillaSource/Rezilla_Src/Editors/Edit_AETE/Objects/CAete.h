@@ -2,7 +2,7 @@
 // CAete.h
 // 
 //                       Created: 2005-01-21 07:27:26
-//             Last modification: 2005-01-30 20:57:01
+//             Last modification: 2005-02-19 13:25:13
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -15,6 +15,8 @@
 #ifndef _H_CAete
 #define _H_CAete
 #pragma once
+
+#include <CFXMLNode.h>
 
 class CAeteStream;
 class CAeteSuite;
@@ -39,6 +41,8 @@ public:
 		void		InstallDataStream(CAeteStream * inStream);
 		void		SendDataToStream(CAeteStream * outStream);
 
+		OSErr		GetDataFromXml(CFXMLTreeRef inTreeNode);
+		
 		void		GetValues(UInt8 & outMajorVersion, UInt8 & outMinorVersion,
 							SInt16 & outLanguage, SInt16 & outScript);
 		

@@ -16,6 +16,7 @@
 #include "CAeteStream.h"
 #include "CAeteSuite.h"
 #include "RezillaConstants.h"
+#include "UMiscUtils.h"
 
 
 // ---------------------------------------------------------------------------
@@ -205,6 +206,46 @@ CAete::AdjustSuiteIndex()
 	} else if ( mSuiteIndex > mSuites.GetCount() ) {
 		mSuiteIndex = mSuites.GetCount();
 	} 
+}
+
+
+// ---------------------------------------------------------------------------
+//  GetDataFromXml												[public]
+// ---------------------------------------------------------------------------
+
+OSErr
+CAete::GetDataFromXml(CFXMLTreeRef inTreeNode)
+{
+	OSErr			error = noErr;
+	int             childCount, subCount, suiteCount;
+	CFXMLTreeRef    xmlTree;
+	CFXMLNodeRef    xmlNode;
+	int             index;
+	SInt32			theLong;
+	
+	childCount = CFTreeGetChildCount(inTreeNode);
+	for (index = 0; index < childCount; index++) {
+		xmlTree = CFTreeGetChildAtIndex(inTreeNode, index);
+		xmlNode = CFXMLTreeGetNode(xmlTree);
+
+		if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("MajorVersion"), 0) ) {
+			UMiscUtils::GetValueFromXml(xmlTree, theLong);
+			mMajorVersion = theLong;			
+		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("MinorVersion"), 0) ) {
+			UMiscUtils::GetValueFromXml(xmlTree, theLong);
+			mMinorVersion = theLong;
+		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("LanguageCode"), 0) ) {
+			UMiscUtils::GetValueFromXml(xmlTree, theLong);
+			mLanguage = theLong;
+		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ScriptCode"), 0) ) {
+			UMiscUtils::GetValueFromXml(xmlTree, theLong);
+			mScript = theLong;
+		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ArraySuites"), 0) ) {
+			suiteCount = CFTreeGetChildCount(xmlTree);
+		} 
+	}
+	
+	return error;
 }
 
 
