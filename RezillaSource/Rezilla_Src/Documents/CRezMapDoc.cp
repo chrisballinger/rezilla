@@ -292,13 +292,12 @@ CRezMapDoc::ObeyCommand(
 			break;
 		}
 
-// 		case cmd_Revert: {
-// 			if (AskConfirmRevert()) {
-// 				SendSelfAE(kAEMiscStandards, kAERevert, ExecuteAE_No);
-// 				DoRevert();
-// 			}
-// 			break;
-// 		}
+		case cmd_Revert: 
+		if (AskConfirmRevert()) {
+			SendSelfAE(kAEMiscStandards, kAERevert, ExecuteAE_No);
+			DoRevert();
+		}
+			break;
 
 		case cmd_ExportMap: {
 			FSSpec	theFSSpec;
@@ -659,6 +658,7 @@ CRezMapDoc::DoSave()
 	mRezMap->Update();
 }
 
+
 // ---------------------------------------------------------------------------
 //	¥ AskSaveAs														  [public]
 // ---------------------------------------------------------------------------
@@ -704,6 +704,31 @@ CRezMapDoc::AskSaveAs(
 	}
 
 	return saveOK;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ DoRevert														  [public]
+// ---------------------------------------------------------------------------
+//	Revert a Document to its last saved version
+
+void
+CRezMapDoc::DoRevert()
+{
+	
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ AskConfirmRevert												  [public]
+// ---------------------------------------------------------------------------
+//	Ask user to confirm discarding changes and reverting to the last
+//	saved version of the RezMapDoc
+
+bool
+CRezMapDoc::AskConfirmRevert()
+{
+	return UMessageDialogs::AskIfFromLocalizable(CFSTR("ConfirmRevertRezMapDoc"), rPPob_AskIfMessage);
 }
 
 
@@ -972,6 +997,10 @@ CRezMapDoc::FindCommandStatus(
 // 			  }
 			break;		
 		
+		case cmd_Revert:
+			outEnabled = IsModified();
+			break;
+								
 		case cmd_Copy: 
 		case cmd_Cut:
 		case cmd_Clear:	{
@@ -1416,13 +1445,11 @@ CRezMapDoc::PasteRezMap(CRezMap * srcRezMap)
 		for (UInt16 j = 1; j <= numResources; j++) {
 			// Get the data handle
 			error = srcRezMap->GetResourceAtIndex(theType, j, theRezHandle);
-// 			HUnlock(theRezHandle);
 			
 			// Make a rez object out of it
 			try {
 					theRezObj = new CRezObj(theRezHandle, theSrcRefNum);
 					theAttrs = theRezObj->GetAttributes();
-// 					error = HandToHand(&theRezHandle);
 					theID = theRezObj->GetID();
 					
 					if (error == noErr) {

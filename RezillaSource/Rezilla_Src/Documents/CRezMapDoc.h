@@ -87,8 +87,11 @@ public:
 
 	virtual SInt16		AskSaveChanges( bool inQuitting );
 
+	virtual bool		AskConfirmRevert();
+
 	virtual void		DoAESave( FSSpec &inFileSpec);
 	virtual void		DoSave();
+	virtual void		DoRevert();
 	
 	virtual void		DoAEExport( FSSpec &inFileSpec);
 	virtual void		DoExport();
@@ -154,3 +157,5 @@ PP_End_Namespace_PowerPlant
 #endif
 
 #endif
+
+
