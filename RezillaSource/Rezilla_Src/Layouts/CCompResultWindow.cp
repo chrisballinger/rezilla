@@ -308,6 +308,11 @@ CCompResultWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			break;
 		}
 		
+		case msg_StylePrefsChanged: {
+ 
+			break;
+		}
+		
 		// 		default:
 		// 		GetSuperCommander()->ListenToMessage(inMessage, ioParam);
 		// 		break;
