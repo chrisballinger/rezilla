@@ -150,6 +150,11 @@ CRezObj::Add()
 // if this parameter doesn’t contain a handle to a resource,  the  function
 // does  nothing,  and  the  ResError  function  returns  the  result  code
 // rmvResFailed. 
+// 
+// "The RemoveResource function does not dispose of the handle you  pass  into
+// it; to do so you must call the Memory Manager function DisposeHandle  after
+// calling RemoveResource. You should  dispose  the  handle  if  you  want  to
+// release the memory before updating or closing the resource fork."
 
 OSErr
 CRezObj::Remove()
@@ -157,6 +162,7 @@ CRezObj::Remove()
     StRezReferenceSaver saver(mOwnerRefnum);
 	if (mData != nil) {
 		::RemoveResource(mData);
+		::DisposeHandle(mData);
 	} 
 	return ::ResError();
 }
@@ -420,9 +426,9 @@ CRezObj::SetData(Handle srcHandle)
 {
 	// Copy to resource data handle
 	Size theSize = ::GetHandleSize( srcHandle );
+	::SetHandleSize(mData, theSize);
 	StHandleLocker	lockSrc(srcHandle);
 	StHandleLocker	lockTrgt(mData);
-	::SetHandleSize(mData, theSize );
 	::BlockMoveData( *srcHandle, *mData, theSize);
 }
 

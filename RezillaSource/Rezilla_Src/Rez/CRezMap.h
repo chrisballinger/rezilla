@@ -44,6 +44,8 @@ public:
 	OSErr	SetFileAttrs(short inResFileAttrs);
 	OSErr	UnsetFileAttrs(short inResFileAttrs);
 
+	Boolean	ResourceExists(ResType inType, short inID);
+	
 	virtual short	GetRefnum() { return mRefnum;}
 	void			SetRefnum(short theRefnum) {mRefnum = theRefnum;}
 

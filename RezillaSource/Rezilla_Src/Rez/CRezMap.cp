@@ -121,6 +121,27 @@ CRezMap::GetResourceAtIndex(ResType inType, short inIdx, Handle & outHandle)
 
 
 // ---------------------------------------------------------------------------
+//  ¥ ResourceExists													[public]
+// ---------------------------------------------------------------------------
+// Check whether a resource of a given type with a given ID
+// exists in the current resource map.
+
+Boolean
+CRezMap::ResourceExists(ResType inType, short inID)
+{
+	OSErr error;
+	Handle theHandle;
+	
+    StRezReferenceSaver saver(mRefnum);
+	::SetResLoad(false);
+    theHandle = ::Get1Resource(inType, inID);
+	error = ::ResError();
+	::SetResLoad(true);
+    return (::ResError() == noErr);
+}
+
+
+// ---------------------------------------------------------------------------
 //  ¥ GetWithID													[public]
 // ---------------------------------------------------------------------------
 // Get a handle to a resource of a given type with a given ID

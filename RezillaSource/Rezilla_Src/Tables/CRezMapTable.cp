@@ -175,11 +175,11 @@ CRezMapTable::TypeExists(ResType inType, CRezTypeItem * & outRezTypeItem)
 {
 	Boolean existing = false;
 	
-	// Iterate among first level items
 	LArrayIterator iterator(mFirstLevelItems);
 	LOutlineItem *theItem = nil;	
 	CRezTypeItem *theRezTypeItem = nil;	
 	
+	// Iterate among first level items
 	while (iterator.Next(&theItem)) {
 		theRezTypeItem = dynamic_cast<CRezTypeItem *>(theItem);
 		
@@ -630,8 +630,6 @@ CRezMapTable::ItemIsAcceptable(DragReference inDragRef, ItemReference inItemRef)
 // ---------------------------------------------------------------------------
 //	¥ ReceiveDragItem										  [protected]
 // ---------------------------------------------------------------------------
-// Retrieve the dragged item's file system specification
-// and insert the full path in the static text pane.
 
 void 
 CRezMapTable::ReceiveDragItem(DragReference inDragRef, 
@@ -670,9 +668,9 @@ CRezMapTable::ReceiveDragItem(DragReference inDragRef,
 		} 
 		
 	} else if (::GetFlavorFlags(inDragRef, inItemRef, flavorTypeHFS, &theFlags) == noErr) {
-		
+		// Drag from the Finder
+		// What to do ?
 	} else {
-		if (::GetFlavorFlags(inDragRef, inItemRef, kRzilDragFlavor, &theFlags) == noErr) {return;}
 		UInt16      theFlavorsCount;
 		error = ::CountDragItemFlavors(inDragRef, inItemRef, &theFlavorsCount);
 		if (error == noErr) {
@@ -681,7 +679,6 @@ CRezMapTable::ReceiveDragItem(DragReference inDragRef,
 				error = ::GetFlavorDataSize(inDragRef, inItemRef, theType, &theSize);
 				
 				if (theType == 'TEXT' && theSize > 32*1024) {
-// 	enum { kMaxChars = 31 * 1024L };	// Just under 32K
 					theSize = 32*1024;  // kMaxChars
 				} 
 				 

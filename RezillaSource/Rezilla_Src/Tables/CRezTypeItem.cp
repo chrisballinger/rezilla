@@ -1,11 +1,11 @@
 // ===========================================================================
 // CRezTypeItem.cp				
 //                       Created: 2003-04-18 09:34:02
-//             Last modification: 2003-05-13 20:32:09
+//             Last modification: 2004-03-08 09:42:24
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// Â© Copyright: Bernard Desgraupes 2003
+// © Copyright: Bernard Desgraupes 2003-2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -15,6 +15,7 @@
 
 #include "CRezTypeItem.h"
 #include "CRezObjItem.h"
+#include "CRezObj.h"
 #include "CRezType.h"
 #include "CRezMapTable.h"
 #include "RezillaConstants.h"
@@ -258,15 +259,46 @@ CRezTypeItem::TrackDisclosureTriangle(
 {
 	LOutlineItem::TrackDisclosureTriangle(inMouseDown);
 	if (inMouseDown.macEvent.modifiers & optionKey) {
-// 		CRezMapTable *theRezMapTable = dynamic_cast<CRezMapTable*>(mOutlineTable);
 		if ( IsExpanded() ) {
-// 			theRezMapTable->ExpandAll();
 			GetOwnerRezMapTable()->ExpandAll();
 		} else {
-// 			theRezMapTable->CollapseAll();
 			GetOwnerRezMapTable()->CollapseAll();
 		}
 	}
 }
+
+
+// ---------------------------------------------------------------------------
+//  ¥ ExistsItemForID												[public]
+// ---------------------------------------------------------------------------
+// Looks in the table to see if the ID already exists. This is different 
+// from looking in the resource map in memory. An ID could have been already 
+// added to the rezmap table and not be saved yet.
+
+Boolean
+CRezTypeItem::ExistsItemForID(short inID, CRezObjItem * & outRezObjItem)
+{
+	Boolean existing = false;
+	CRezObjItem *theRezObjItem = nil;	
+	
+	if ( IsExpanded() ) {
+		LArrayIterator iterator(*mSubItems);
+		LOutlineItem *theItem = nil;	
+		
+		// Iterate among subitems
+		while (iterator.Next(&theItem)) {
+			theRezObjItem = dynamic_cast<CRezObjItem *>(theItem);
+			
+			if ( theRezObjItem->GetRezObj()->GetID() == inID ) {
+				outRezObjItem = theRezObjItem;
+				existing = true;
+				break;
+			} 
+		}
+	}
+	
+	return existing;
+}
+
 
 

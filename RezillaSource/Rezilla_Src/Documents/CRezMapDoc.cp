@@ -1245,6 +1245,7 @@ CRezMapDoc::NewResDialog()
 				if (theString[0]) {
 					::StringToNum(theString, &theLong);
 					theID = (short) theLong;
+					
 					// Get the name
 					theNameField->GetDescriptor(theString);
 					
@@ -1299,31 +1300,64 @@ void
 CRezMapDoc::CreateNewRes(ResType inType, short inID, Str255* inName, short inAttrs)
 {
 	CRezTypeItem * theRezTypeItem;
+	CRezObjItem *oldRezObjItem, *newRezObjItem;
 	CRezType * theRezType;
+	Boolean replacing = false;
+	
+	if ( mRezMap->ResourceExists(inType, inID) ) {
+		SInt16 result = UMessageDialogs::AskYesNoFromLocalizable(CFSTR("AlreadyExistingID"), rPPob_AskUniqueID);
+		
+		switch (result) {
+			case answer_Do:
+			// Unique ID
+			mRezMap->UniqueID(inType, inID);
+			break;
+			
+			case answer_Dont:
+			// Replace existing
+			replacing = true;
+			break;
+			
+			case answer_Cancel:
+			return;
+			break;
+		}
+	} 
 	
 	if ( ! mRezMapWindow->GetRezMapTable()->TypeExists(inType, theRezTypeItem) ) {
 		// If the type does not already exist, create a new ResTypeItem
 		theRezType = new CRezType(inType, mRezMap);
-		theRezTypeItem =  new CRezTypeItem( theRezType );
+		theRezTypeItem = new CRezTypeItem( theRezType );
 		mRezMapWindow->GetRezMapTable()->InsertItem( theRezTypeItem, nil, nil );
 	} else {
 		theRezType = theRezTypeItem->GetRezType();
 	}
 
+	if (replacing) {
+		if ( theRezTypeItem->ExistsItemForID(inID, oldRezObjItem) ) {
+			// Found a rez obj item: remove it from the table (and from the map in memory)
+			RemoveResource(oldRezObjItem);
+		} else {
+			// Just remove the resource from memory
+			CRezObj * theRezObj = new CRezObj(theRezType, inID );
+			theRezObj->Remove();
+		}
+	} 
+	
 	// Now create a new RezObjItem
-	CRezObjItem *theRezObjItem = new CRezObjItem( theRezType, inID, inName);
-	ThrowIfNil_(theRezObjItem);
+	newRezObjItem = new CRezObjItem( theRezType, inID, inName);
+	ThrowIfNil_(newRezObjItem);
 		
 	// Add the resource to the resource map (err -194 = addResFailed)
-	OSErr error = theRezObjItem->GetRezObj()->Add();
+	OSErr error = newRezObjItem->GetRezObj()->Add();
 	
 	// Set the attributes
-	dynamic_cast<CRezObjItem *>(theRezObjItem)->GetRezObj()->SetAttributes(inAttrs);
+	dynamic_cast<CRezObjItem *>(newRezObjItem)->GetRezObj()->SetAttributes(inAttrs);
 
 	// Refresh the view
 	if ( theRezTypeItem->IsExpanded() ) {
 		// Install the item in the table
-		mRezMapWindow->GetRezMapTable()->InsertItem( theRezObjItem, theRezTypeItem, nil );
+		mRezMapWindow->GetRezMapTable()->InsertItem( newRezObjItem, theRezTypeItem, nil );
 	} else {
 		theRezTypeItem->Expand();
 	}
@@ -1411,7 +1445,7 @@ CRezMapDoc::DuplicateResource(CRezObj* inRezObj)
 // ---------------------------------------------------------------------------
 //  ¥ RemoveResource												[public]
 // ---------------------------------------------------------------------------
-// The RemoveResource function does not dispose of the handle  you  pass  into
+// "The RemoveResource function does not dispose of the handle you  pass  into
 // it; to do so you must call the Memory Manager function DisposeHandle  after
 // calling RemoveResource. You should  dispose  the  handle  if  you  want  to
 // release the memory before updating or closing the resource fork.
@@ -1420,7 +1454,7 @@ CRezMapDoc::DuplicateResource(CRezObj* inRezObj)
 // resource map when it updates the resource fork, and all changes made to the
 // resource map become permanent. If  you  want  any  of  the  changes  to  be
 // temporary, you should restore the original information before the  Resource
-// Manager updates the resource fork.
+// Manager updates the resource fork."
 
 void
 CRezMapDoc::RemoveResource(CRezObjItem* inRezObjItem)
@@ -1429,12 +1463,11 @@ CRezMapDoc::RemoveResource(CRezObjItem* inRezObjItem)
 	OSErr error;
 	ResType theType = inRezObjItem->GetRezObj()->GetType();
 	
-	// If the resProtected flag in on (error rmvResFailed)
+// 	// If the resProtected flag in on (error rmvResFailed)
 // 	if (inRezObjItem->GetRezObj()->HasAttribute(resProtected)) {
 // 		inRezObjItem->GetRezObj()->ToggleAttribute(resProtected);
 // }
 	
-	StRezReferenceSaver saver(GetRefnum());
 	// Remove the resource from the rez map
 	inRezObjItem->GetRezObj()->Remove();
 	
@@ -1442,7 +1475,7 @@ CRezMapDoc::RemoveResource(CRezObjItem* inRezObjItem)
 	LOutlineItem* theSuperItem =  inRezObjItem->GetSuperItem();
 	mRezMapWindow->GetRezMapTable()->RemoveItem(inRezObjItem);
 	
-	// If there is no more resource of this type, remove the type item
+	// If there are no more resources of this type, remove the type item
 	error = mRezMap->CountForType(theType, theCount);
 	if (theCount == 0) {
 		mRezMapWindow->GetRezMapTable()->RemoveItem(theSuperItem);
@@ -1474,16 +1507,19 @@ CRezMapDoc::PasteResource(ResType inType, short inID, Handle inHandle, Str255* i
 	// Now create a new RezObjItem
 	CRezObjItem *theRezObjItem = new CRezObjItem( theRezTypeItem->GetRezType(), inID, inName);
 	ThrowIfNil_(theRezObjItem);
+
+	// Copy the data to the mData handle
+	theRezObjItem->GetRezObj()->SetData( inHandle );
 	
+	// Set mSize
+	theRezObjItem->GetRezObj()->SetSize( ::GetHandleSize( inHandle ) );
+
 	// Add the resource to the resource map
 	theRezObjItem->GetRezObj()->Add();
 	
 	// Copy the attributes of the duplicated resource
 	theRezObjItem->GetRezObj()->SetAttributes(inAttrs);
-
-	// Copy the data handle
-	theRezObjItem->GetRezObj()->SetData( inHandle );
-
+	
 	// Mark the resource as modified in the rez map
 	theRezObjItem->GetRezObj()->Changed();
 	
@@ -1497,7 +1533,6 @@ CRezMapDoc::PasteResource(ResType inType, short inID, Handle inHandle, Str255* i
 	} else {
 		theRezTypeItem->Expand();
 	}
-	theRezObjItem->GetRezObj()->SetSize( ::GetHandleSize( inHandle ) );
 	mRezMapWindow->Refresh();
 }
 
