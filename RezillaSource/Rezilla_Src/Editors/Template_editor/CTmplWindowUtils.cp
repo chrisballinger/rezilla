@@ -2,11 +2,11 @@
 // CTmplWindowUtils.cp
 // 
 //                       Created: 2004-08-20 16:45:08
-//             Last modification: 2005-03-01 09:42:41
+//             Last modification: 2005-03-09 06:57:21
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes, 2004, 2005
+// (c) Copyright: Bernard Desgraupes, 2004-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -22,6 +22,7 @@
 #include "CRezillaPrefs.h"
 #include "CRezObj.h"
 #include "CWasteEditView.h"
+#include "CThreeButtonsBox.h"
 #include "RezillaConstants.h"
 #include "UDialogBoxHandler.h"
 #include "UMessageDialogs.h"
@@ -735,7 +736,7 @@ CTmplEditorWindow::SelectKeyValueFromKeyCases(Str255 inLabelString,
 	CFStringRef		formatStr = NULL, messageStr = NULL;
 
 	StDialogBoxHandler	theHandler(PPob_TmplKeyPicker, this);
-	LDialogBox *		theDialog = theHandler.GetDialog();
+	CThreeButtonsBox *	theDialog = theHandler.GetDialog();
 	Assert_(theDialog != nil);
 	
 	// Template type field

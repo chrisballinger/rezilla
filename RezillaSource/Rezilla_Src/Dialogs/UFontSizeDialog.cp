@@ -1,20 +1,22 @@
 // ===========================================================================
 // UFontSizeDialog.cp
 //                       Created: 2004-12-11 18:57:26
-//             Last modification: 2004-12-24 00:01:06
+//             Last modification: 2005-03-09 07:11:06
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes 2004
+// (c) Copyright: Bernard Desgraupes 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
 // ===========================================================================
 
+#include "CThreeButtonsBox.h"
 #include "UModalDialogs.h"
 #include "UFontSizeDialog.h"
 #include "UIconMisc.h"
 #include "UMessageDialogs.h"
+#include "UDialogBoxHandler.h"
 
 
 // ---------------------------------------------------------------------------
@@ -31,8 +33,8 @@ UFontSizeDialog::DoSizeDialog( SInt16 inSize, SInt16 *outSize )
 		::SetGDevice( ::GetMainDevice() );
 		
 		// Create the dialog
-		StDialogHandler			theHandler( PPob_FontSizeDialog, LCommander::GetTopCommander() );
-		LWindow	*				theWindow = theHandler.GetDialog();
+		StDialogBoxHandler		theHandler( PPob_FontSizeDialog, LCommander::GetTopCommander() );
+		CThreeButtonsBox	*	theWindow = theHandler.GetDialog();
 		LEditField *			sizeField =  (LEditField*) theWindow->FindPaneByID( item_SizeField );
 		ThrowIfNil_( sizeField );
 		

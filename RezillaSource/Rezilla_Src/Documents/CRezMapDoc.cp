@@ -39,6 +39,7 @@ PP_Begin_Namespace_PowerPlant
 #include "CTmplEditorDoc.h"
 #include "CWindowMenu.h"
 #include "CRezClipboard.h"
+#include "CThreeButtonsBox.h"
 #include "CRecentItemsMenu.h"
 #include "RezillaConstants.h"
 #include "UDialogBoxHandler.h"
@@ -1386,7 +1387,7 @@ CRezMapDoc::NewResDialog()
 	CRezObjItem *	theRezObjItem = NULL;
 	
 	StDialogBoxHandler	theHandler(PPob_NewRezDialog, this);
-	LDialogBox *		theDialog = theHandler.GetDialog();
+	CThreeButtonsBox *	theDialog = theHandler.GetDialog();
 	Assert_(theDialog != nil);
 	
 	theTypeField = dynamic_cast<LEditText *>(theDialog->FindPaneByID( item_NewType ));

@@ -2,7 +2,7 @@
 // CRezillaPrefs.h					
 // 
 //                       Created: 2004-05-17 08:52:16
-//             Last modification: 2005-01-15 19:49:58
+//             Last modification: 2005-03-09 06:48:27
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -115,7 +115,7 @@ enum {
 };
 
 
-class LDialogBox;
+class CThreeButtonsBox;
 class LPopupButton;
 
 class CRezillaPrefs : public LCommander, public LBroadcaster {
@@ -147,8 +147,8 @@ public:
 										SInt32 inPrefType = prefsType_Curr);
 	void				LoadStyleElement(TextTraitsPtr inTraitsRecPtr);
 
-	LDialogBox *		GetPrefsWindow() { return sPrefsWindow;}
-	void				SetPrefsWindow(LDialogBox * inPrefsWindow) {sPrefsWindow = inPrefsWindow ;}
+	CThreeButtonsBox *	GetPrefsWindow() { return sPrefsWindow;}
+	void				SetPrefsWindow(CThreeButtonsBox * inPrefsWindow) {sPrefsWindow = inPrefsWindow ;}
 	
 	void				ValidateTempPrefs();
 	void				InitTempPrefs();
@@ -156,10 +156,10 @@ public:
 	Boolean				PrefsHaveChanged();
 	void				UpdateVars();
 	
-	static LDialogBox *		sPrefsWindow;
-	static ArrayIndexT		sCurrentPrefsPane;
-	static SRezillaPrefs	sTempPrefs;
-	static SRezillaPrefs	sCurrPrefs;
+	static CThreeButtonsBox *	sPrefsWindow;
+	static ArrayIndexT			sCurrentPrefsPane;
+	static SRezillaPrefs		sTempPrefs;
+	static SRezillaPrefs		sCurrPrefs;
 	
 protected:
 	

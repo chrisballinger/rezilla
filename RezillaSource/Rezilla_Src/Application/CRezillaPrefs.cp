@@ -2,7 +2,7 @@
 // CRezillaPrefs.cp					
 // 
 //                       Created: 2004-05-17 08:52:16
-//             Last modification: 2005-01-15 19:49:51
+//             Last modification: 2005-03-09 06:53:20
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -21,6 +21,7 @@
 #include "CRecentItemsMenu.h"
 #include "UDialogBoxHandler.h"
 #include "UMiscUtils.h"
+#include "CThreeButtonsBox.h"
 
 // PowerPlant Headers
 #include <PP_Messages.h>
@@ -29,7 +30,6 @@
 #include <LCaption.h>
 #include <LCheckBox.h>
 #include <LCheckBoxGroupBox.h>
-#include <LDialogBox.h>
 #include <LEditText.h>
 #include <LMultiPanelView.h>
 #include <LPageController.h>
@@ -54,7 +54,7 @@
 #include <string.h>
 
 
-LDialogBox *	CRezillaPrefs::sPrefsWindow;
+CThreeButtonsBox *	CRezillaPrefs::sPrefsWindow;
 ArrayIndexT		CRezillaPrefs::sCurrentPrefsPane = 1;
 SRezillaPrefs	CRezillaPrefs::sTempPrefs;
 SRezillaPrefs	CRezillaPrefs::sCurrPrefs;
@@ -123,7 +123,7 @@ CRezillaPrefs::Initialize()
 void
 CRezillaPrefs::MakePrefsWindow()
 {	
-	sPrefsWindow = (LDialogBox *) (LWindow::CreateWindow( PPob_PrefsWindow, this ));
+	sPrefsWindow = (CThreeButtonsBox *) (LWindow::CreateWindow( PPob_PrefsWindow, this ));
 	ThrowIfNil_(sPrefsWindow);
 }
 
@@ -995,7 +995,7 @@ CRezillaPrefs::RunPrefsDialog()
 	TextTraitsRecord theCurrTraits;
 	
 	StDialogBoxHandler	theHandler(PPob_PrefsWindow, this);
-	LDialogBox *		theDialog = theHandler.GetDialog();
+	CThreeButtonsBox *		theDialog = theHandler.GetDialog();
 	Assert_(theDialog != nil);
 	SetPrefsWindow(theDialog);
 

@@ -15,6 +15,7 @@
 #include "UMessageDialogs.h"
 #include "UDialogBoxHandler.h"
 #include "RezillaConstants.h"
+#include "CThreeButtonsBox.h"
 
 #include <CFString.h>
 #include <LThemeTextBox.h>
@@ -30,7 +31,7 @@ void
 UMessageDialogs::SimpleMessage(LStr255 inString, ResIDT inPpobID)
 {
 	StDialogBoxHandler dialog(inPpobID, LCommander::GetTopCommander());		
-	LDialogBox * theDialog = dialog.GetDialog();
+	CThreeButtonsBox * theDialog = dialog.GetDialog();
 	Assert_(theDialog != nil);
 	
 	LCaption * theCaption = (LCaption *)theDialog->FindPaneByID( item_MessageField );
@@ -53,7 +54,7 @@ SInt16
 UMessageDialogs::AskIfMessage(LStr255 inString, ResIDT inPpobID)
 {
 	StDialogBoxHandler dialog(inPpobID, LCommander::GetTopCommander());		
-	LDialogBox * theDialog = dialog.GetDialog();
+	CThreeButtonsBox * theDialog = dialog.GetDialog();
 	Assert_(theDialog != nil);
 	
 	LCaption * theCaption = (LCaption *)theDialog->FindPaneByID( item_MessageField );
@@ -83,7 +84,7 @@ UMessageDialogs::AskYesNoMessage(LStr255 inString, ResIDT inPpobID)
 {
 
 	StDialogBoxHandler dialog(inPpobID, LCommander::GetTopCommander());		
-	LDialogBox * theDialog = dialog.GetDialog();
+	CThreeButtonsBox * theDialog = dialog.GetDialog();
 	Assert_(theDialog != nil);
 	
 	LCaption * theCaption = (LCaption *)theDialog->FindPaneByID( item_MessageField );
@@ -115,7 +116,7 @@ void
 UMessageDialogs::SimpleMessageFromRes(ResIDT inSTRxResID, SInt32 inIndex, ResIDT inPpobID)
 {
 	StDialogBoxHandler dialog(inPpobID, LCommander::GetTopCommander());		
-	LDialogBox * theDialog = dialog.GetDialog();
+	CThreeButtonsBox * theDialog = dialog.GetDialog();
 	Assert_(theDialog != nil);
 	
 	Str255	theTxt;
@@ -140,7 +141,7 @@ SInt16
 UMessageDialogs::AskIfFromRes(ResIDT inSTRxResID, SInt32 inIndex, ResIDT inPpobID)
 {
 	StDialogBoxHandler dialog(inPpobID, LCommander::GetTopCommander());		
-	LDialogBox * theDialog = dialog.GetDialog();
+	CThreeButtonsBox * theDialog = dialog.GetDialog();
 	Assert_(theDialog != nil);
 	
 	Str255	theTxt;
@@ -171,7 +172,7 @@ SInt16
 UMessageDialogs::AskYesNoFromRes(ResIDT inSTRxResID, SInt32 inIndex, ResIDT inPpobID)
 {
 	StDialogBoxHandler dialog(inPpobID, LCommander::GetTopCommander());		
-	LDialogBox * theDialog = dialog.GetDialog();
+	CThreeButtonsBox * theDialog = dialog.GetDialog();
 	Assert_(theDialog != nil);
 	
 	Str255	theTxt;
@@ -205,7 +206,7 @@ void
 UMessageDialogs::SimpleMessageFromLocalizable(CFStringRef inCFStringRef, ResIDT inPpobID)
 {
 	StDialogBoxHandler dialog(inPpobID, LCommander::GetTopCommander());		
-	LDialogBox * theDialog = dialog.GetDialog();
+	CThreeButtonsBox * theDialog = dialog.GetDialog();
 	Assert_(theDialog != nil);
 	
 	CFStringRef ourCFString = NULL;
@@ -239,7 +240,7 @@ SInt16
 UMessageDialogs::AskIfFromLocalizable(CFStringRef inCFStringRef, ResIDT inPpobID)
 {
 	StDialogBoxHandler dialog(inPpobID, LCommander::GetTopCommander());		
-	LDialogBox * theDialog = dialog.GetDialog();
+	CThreeButtonsBox * theDialog = dialog.GetDialog();
 	Assert_(theDialog != nil);
 	
 	CFStringRef ourCFString = NULL;
@@ -280,7 +281,7 @@ SInt16
 UMessageDialogs::AskYesNoFromLocalizable(CFStringRef inCFStringRef, ResIDT inPpobID)
 {
 	StDialogBoxHandler dialog(inPpobID, LCommander::GetTopCommander());		
-	LDialogBox * theDialog = dialog.GetDialog();
+	CThreeButtonsBox * theDialog = dialog.GetDialog();
 	Assert_(theDialog != nil);
 	
 	CFStringRef ourCFString = NULL;
@@ -325,7 +326,7 @@ void
 UMessageDialogs::ErrorMessage(LStr255 inString, OSErr inError, ResIDT inPpobID)
 {
 	StDialogBoxHandler dialog(inPpobID, LCommander::GetTopCommander());		
-	LDialogBox * theDialog = dialog.GetDialog();
+	CThreeButtonsBox * theDialog = dialog.GetDialog();
 	Assert_(theDialog != nil);
 	
 	inString += "\p (err ";
@@ -352,7 +353,7 @@ void
 UMessageDialogs::ErrorMessageFromRes(ResIDT inSTRxResID, SInt32 inIndex, OSErr inError, ResIDT inPpobID)
 {
 	StDialogBoxHandler dialog(inPpobID, LCommander::GetTopCommander());		
-	LDialogBox * theDialog = dialog.GetDialog();
+	CThreeButtonsBox * theDialog = dialog.GetDialog();
 	Assert_(theDialog != nil);
 	
 	Str255	theTxt;
@@ -382,7 +383,7 @@ void
 UMessageDialogs::ErrorMessageFromLocalizable(CFStringRef inCFStringRef, OSErr inError, ResIDT inPpobID)
 {
 	StDialogBoxHandler dialog(inPpobID, LCommander::GetTopCommander());		
-	LDialogBox * theDialog = dialog.GetDialog();
+	CThreeButtonsBox * theDialog = dialog.GetDialog();
 	Assert_(theDialog != nil);
 	
 	CFStringRef ourCFString = NULL;
@@ -431,7 +432,7 @@ UMessageDialogs::AskSolveUidConflicts(ResType inType,
 	char *		theType = new char[5];
 	
 	StDialogBoxHandler dialog(PPob_AskUniqueID, LCommander::GetTopCommander());		
-	LDialogBox * theDialog = dialog.GetDialog();
+	CThreeButtonsBox * theDialog = dialog.GetDialog();
 	Assert_(theDialog != nil);
 	
 	*(OSType*)theType = inType;
@@ -554,7 +555,7 @@ UMessageDialogs::ErrorWithString(CFStringRef inCFStringRef, SInt32 inError)
 	} 
 	
 	StDialogBoxHandler dialog(PPob_ExplainedError, LCommander::GetTopCommander());		
-	LDialogBox * theDialog = dialog.GetDialog();
+	CThreeButtonsBox * theDialog = dialog.GetDialog();
 	Assert_(theDialog != nil);
 	
 	formatStr = CFCopyLocalizedString(inCFStringRef, NULL);
