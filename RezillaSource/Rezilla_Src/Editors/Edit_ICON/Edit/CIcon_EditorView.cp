@@ -740,10 +740,10 @@ CIcon_EditorView::ResizeFrameBy( SInt16 dh, SInt16 dv, Boolean inRedraw )
 	// Call our parent class to resize the frame
 	LView::ResizeFrameBy( dh, dv, inRedraw );
 
-	// Resize the GBox surrounding us
-	LPane *theBox = UIconMisc::FindSiblingPaneByID( this, item_BoxAroundCanvas );
-	if ( theBox )
-		theBox->ResizeFrameBy( dh, dv, inRedraw );
+// 	// Resize the GBox surrounding us
+// 	LPane *theBox = UIconMisc::FindSiblingPaneByID( this, item_BoxAroundCanvas );
+// 	if ( theBox )
+// 		theBox->ResizeFrameBy( dh, dv, inRedraw );
 }
 
 
