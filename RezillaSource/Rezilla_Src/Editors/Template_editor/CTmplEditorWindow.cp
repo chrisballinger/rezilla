@@ -153,8 +153,9 @@ void
 CTmplEditorWindow::FinishCreateSelf()
 {	
 	mCurrentID			= 1;
+	mPaneIndex			= 1;
 	mLastID				= 0;
-	mItemsCount			= 0;
+	mListCount			= 0;
 	mIndent				= 0;
 	mSkipOffset			= 0;
 	mListCountMark		= 0;
@@ -211,13 +212,13 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 	Rect				theFrame;
 	CTmplListItemView 	*prevListItemView, *currListItemView;
 	CTmplListButton 	*theMinusButton, *thePlusButton;
-	PaneIDT 			thePaneID, oldLastID, newFirstID;
+	PaneIDT 			thePaneID, saveID, startID;
 	LView				*theContainer, *theView;
 	SInt32 				startMark, theHeight;
 	ResType				theType;
 	int					sublevel = 1;
 
-	oldLastID = mCurrentID;
+	saveID = mCurrentID;
 	
 	switch (inMessage) {
 		
@@ -256,11 +257,13 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			AdjustCounterField(thePaneID - 1, -1);
 
 			// Adjust all IDs and positions
-			RenumberSubPanes(mContentsView, currListItemView->mLastItemID, currListItemView->mFirstItemID, false);
+			AdjustListOfPaneIDs(currListItemView, currListItemView->mFirstItemID, 0, false);
+// 			AdjustListOfPaneIDs(saveID, startID, true);
+// 			RenumberSubPanes(mContentsView, currListItemView->mLastItemID, currListItemView->mFirstItemID, false);
 			theContainer->PortToLocalPoint(topLeft(theFrame));
 			RecalcPositions(currListItemView, theFrame.top, -theHeight);
-			mCurrentID -= currListItemView->mLastItemID - currListItemView->mFirstItemID + 1;
-			mLastID = mCurrentID;
+// 			mCurrentID -= currListItemView->mLastItemID - currListItemView->mFirstItemID + 1;
+// 			mLastID = mCurrentID;
 			
 			// Now delete the object
 			prevListItemView = currListItemView->mPrevItem;
@@ -298,11 +301,11 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 					currListItemView = currListItemView->mNextItem;
 				}
 				currListItemView->CalcPortFrameRect(theFrame);
-				newFirstID = currListItemView->mLastItemID + 1;
+				startID = currListItemView->mFirstItemID;
 			} else {
 				mYCoord += kTmplVertSkip;
 				thePlusButton->CalcPortFrameRect(theFrame);
-				newFirstID = thePlusButton->GetPaneID() + 1;
+				startID = thePlusButton->GetPaneID();
 			}
 			
 			// Calculate the insertion position of the new list item
@@ -325,7 +328,7 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			} 
 			mYCoord = kTmplVertSep;
 			DoParseWithTemplate(startMark, true, currListItemView);
-			currListItemView->mLastItemID = mCurrentID - 1;
+// 			currListItemView->mLastItemID = mCurrentID - 1;
 			currListItemView->ResizeFrameBy(0, mYCoord, false);
 
 			mIndent -= kTmplListIndent * sublevel;
@@ -336,7 +339,8 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			AdjustCounterField(thePaneID - 2, 1);
 			
 			// Adjust all IDs and positions
-			RenumberSubPanes(mContentsView, oldLastID, newFirstID, true);
+			AdjustListOfPaneIDs(prevListItemView, startID, saveID, true);
+// 			RenumberSubPanes(mContentsView, saveID, startID, true);
 			RecalcPositions(currListItemView, theFrame.bottom + kTmplVertSkip, mYCoord + kTmplVertSkip);
 			mLastID = mCurrentID;
 
@@ -579,11 +583,11 @@ CTmplEditorWindow::DoParseWithTemplate(SInt32 inRecursionMark, Boolean inDrawCon
 			error = ParseDataForType(theType, theString, inContainer);
 		} else if (theType == 'LSTB' || theType == 'LSTC' || theType == 'LSTZ') {
 			if (inDrawControls) {
-				theID = AddListHeaderField(theString, mItemsCount, countLabel, inContainer, mFixedCount);
+				theID = AddListHeaderField(theString, mListCount, countLabel, inContainer, mFixedCount);
 			} else {
 				theID = 0;
 			}
-			error = ParseList(mTemplateStream->GetMarker(), theType, mItemsCount, inContainer, theID);
+			error = ParseList(mTemplateStream->GetMarker(), theType, mListCount, inContainer, theID);
 		} else if (theType == 'LSTE') {
 			break;
 		} else {
@@ -647,7 +651,7 @@ CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount,
 				return error;
 			} 
 			if (drawCtrl) {
-				currListItemView->mLastItemID = mCurrentID - 1;
+// 				currListItemView->mLastItemID = mCurrentID - 1;
 				currListItemView->ResizeFrameBy(0, mYCoord, false);
 				outYCoord += mYCoord + kTmplVertSkip;
 				mYCoord = outYCoord;
@@ -679,7 +683,7 @@ CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount,
 				} 
 				mYCoord = kTmplVertSep;
 				error = DoParseWithTemplate(inStartMark, true, theContainer);
-				currListItemView->mLastItemID = mCurrentID - 1;
+// 				currListItemView->mLastItemID = mCurrentID - 1;
 				currListItemView->ResizeFrameBy(0, mYCoord, false);
 				outYCoord += mYCoord + kTmplVertSkip;
 				mYCoord = outYCoord;
@@ -844,7 +848,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		if (mRezStream->GetMarker() < mRezStream->GetLength()) {
 			*mRezStream >> theUInt8;
 		} 
-		mItemsCount = theUInt8;
+		mListCount = theUInt8;
 		break;
 
 		case 'BFLG':
@@ -1027,7 +1031,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 			if (p != inLabelString + 1 ) {
 				inLabelString[0] = p - inLabelString - 1;
 				::StringToNum( inLabelString, &theLong);
-				mItemsCount = theLong;
+				mListCount = theLong;
 			} else {
 				error = err_TmplWrongFixedCount;
 			}
@@ -1117,7 +1121,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 			*mRezStream >> theUInt32;
 		} 
 		if (theUInt32 < 0xffff) {
-			mItemsCount = theUInt32;
+			mListCount = theUInt32;
 		} else {
 			error = err_TmplListCountTooBig;
 		}
@@ -1139,7 +1143,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		if (mRezStream->GetMarker() < mRezStream->GetLength() - 3) {
 			*mRezStream >> theUInt32;
 		} 
-// 		mOffsetTypesList.AddItem(inType);
+// 		mOffsetTypes.AddItem(inType);
 		break;
 
 		case 'LNGC':
@@ -1204,12 +1208,12 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		if (mRezStream->GetMarker() < mRezStream->GetLength() ) {
 			*mRezStream >> theUInt32;
 			if (theUInt32 < 0xffff || theUInt32 == 0xffffffff) {
-				mItemsCount = theUInt32 + 1;
+				mListCount = theUInt32 + 1;
 			} else {
 				error = err_TmplListCountTooBig;
 			}
 		} else {
-			mItemsCount = 0;
+			mListCount = 0;
 		}
 		break;
 
@@ -1220,7 +1224,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		if (mRezStream->GetMarker() < mRezStream->GetLength() - 1) {
 			*mRezStream >> theUInt16;
 		} 
-		mItemsCount = theUInt16;
+		mListCount = theUInt16;
 		break;
 
 		case 'OCST':
@@ -1396,7 +1400,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		if (mRezStream->GetMarker() < mRezStream->GetLength() - 1) {
 			*mRezStream >> theUInt16;
 		} 
-// 		mOffsetTypesList.AddItem(inType);
+// 		mOffsetTypes.AddItem(inType);
 		break;
 
 		case 'WSTR':
@@ -1411,9 +1415,9 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		// the sequence (as in 'DITL' resources).
 		if (mRezStream->GetMarker() < mRezStream->GetLength() ) {
 			*mRezStream >> theUInt16;
-			mItemsCount = theUInt16 + 1;
+			mListCount = theUInt16 + 1;
 		} else {
-			mItemsCount = 0;
+			mListCount = 0;
 		}
 		break;
 
@@ -1500,8 +1504,8 @@ CTmplEditorWindow::RetrieveDataWithTemplate()
 	} 
 	mOutStream = new LHandleStream( ::NewHandle(0) );
 	mCurrentID = 1;
-
-	mItemsCount = 0;
+	mPaneIndex = 1;
+	mListCount = 0;
 	
 	// Reinitialize the bit sequence globals
 	mBitSeqInProgress	= false;
@@ -1541,8 +1545,8 @@ CTmplEditorWindow::DoRetrieveWithTemplate(SInt32 inRecursionMark, Boolean inRead
 		} else if (theType == 'LSTB' || theType == 'LSTC' || theType == 'LSTZ') {
 			RetrieveCountValue();
 			// Skip the count field, and the Plus and Minus buttons
-			mCurrentID += 3;
-			error = RetrieveList(mTemplateStream->GetMarker(), theType, mItemsCount);
+			mPaneIndex += 3;
+			error = RetrieveList(mTemplateStream->GetMarker(), theType, mListCount);
 		} else if (theType == 'LSTE') {
 			break;
 		} else {
@@ -1569,10 +1573,10 @@ CTmplEditorWindow::RetrieveList(SInt32 inStartMark, ResType inType, SInt32 inCou
 	switch (inType) {
 		case 'LSTB':
 		case 'LSTZ':
-		Boolean readCtrl = (mCurrentID < mLastID);
+		Boolean readCtrl = (mPaneIndex < mLastID);
 		do {
 			error = DoRetrieveWithTemplate(inStartMark, readCtrl);
-		} while (mCurrentID < mLastID && error == noErr);
+		} while (mPaneIndex < mLastID && error == noErr);
 		// An LSTZ list is terminated by a NULL
 		if (inType == 'LSTZ') {
 			*mOutStream << (UInt8) 0x00;
@@ -1583,7 +1587,7 @@ CTmplEditorWindow::RetrieveList(SInt32 inStartMark, ResType inType, SInt32 inCou
 		if (inCount == 0) {
 			error = DoRetrieveWithTemplate(inStartMark, false);
 		} else {
-			mItemsCount = 0;
+			mListCount = 0;
 			for (short i = 0 ; i < inCount; i++) {
 				error = DoRetrieveWithTemplate(inStartMark, true);
 				if (error != noErr) {
@@ -1613,7 +1617,7 @@ CTmplEditorWindow::RetrieveKeyedSection(ResType inType)
 	WriteOutKeyValue(inType);
 	
 	// Get the corresponding position in the template
-	mKeyedMarksList.RemoveLastItem(sectionStart);
+	mKeyMarks.RemoveLastItem(sectionStart);
 	
 	// Parse the section
 	error = DoRetrieveWithTemplate(sectionStart, true);
@@ -1652,6 +1656,8 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 	CFStringRef		formatStr = NULL, messageStr = NULL;
 
 	formatString[0] = 0;
+	
+	mPaneIDs.FetchItemAt(mPaneIndex, mCurrentID);
 	
 	switch (inType) {
 		case 'ALNG':
@@ -1695,7 +1701,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		// Boolean (one byte: 0x01 for true, 0x00 for false)
 		theCheckBox = dynamic_cast<LCheckBox *>(this->FindPaneByID(mCurrentID));
 		*mOutStream << (UInt8) theCheckBox->GetValue();
-		mCurrentID++;
+		mPaneIndex++;
 		break;
 
 		case 'BOOL':
@@ -1708,22 +1714,22 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 			*mOutStream << (UInt16) 0x0000;
 		}
 		// The RGV and both radiobuttons have an ID. That makes three.
-		mCurrentID += 3;
+		mPaneIndex += 3;
 		break;
 
 		case 'BSIZ':
 		case 'BSKP':
 		// Offset to SKPE in byte (BSIZ:exclusive or BSKP:inclusive)
 		// Cache the current type and position
-		mOffsetTypesList.AddItem(inType);
-		mOffsetMarksList.AddItem(mOutStream->GetMarker());
+		mOffsetTypes.AddItem(inType);
+		mOffsetMarks.AddItem(mOutStream->GetMarker());
 		// Temporarily fill with null to create the place holder
 		*mOutStream << (UInt8) 0x00;
 		break;
 
 		case 'CASE':
 		// Increment the current pane ID to skip the case popup
-		mCurrentID++;
+		mPaneIndex++;
 		// Skip the following CASE statements
 		error = SkipNextKeyCases(1);
 		break;
@@ -1737,7 +1743,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		} else {
 			*mOutStream << (UInt8) theString[1];
 		}
-		mCurrentID++;
+		mPaneIndex++;
 		break;
 
 		case 'COLR': {
@@ -1749,7 +1755,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 			*mOutStream << theRGB.red;
 			*mOutStream << theRGB.green;
 			*mOutStream << theRGB.blue;
-			mCurrentID++;
+			mPaneIndex++;
 			break;
 		}
 		
@@ -1763,7 +1769,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		mOutStream->PutBytes(*theHandle, theLength);		
 		// End with a NULL byte
 		*mOutStream << (UInt8) 0x00;
-		mCurrentID++;
+		mPaneIndex++;
 		break;
 
 		case 'DATE':
@@ -1774,7 +1780,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 			error = err_TmplParseDateFailed;
 		} 
 		*mOutStream << theSInt32;
-		mCurrentID++;
+		mPaneIndex++;
 		break;
 		
 		case 'DBYT':
@@ -1783,7 +1789,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		theEditText->GetDescriptor(numStr);	
 		::StringToNum( numStr, &theLong);
 		*mOutStream << (SInt8) theLong;
-		mCurrentID++;
+		mPaneIndex++;
 		break;
 
 		case 'DLNG':
@@ -1792,7 +1798,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		theEditText->GetDescriptor(numStr);	
 		::StringToNum( numStr, &theLong);
 		*mOutStream << (SInt32) theLong;
-		mCurrentID++;
+		mPaneIndex++;
 		break;
 
 		case 'DVDR':
@@ -1806,7 +1812,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		theEditText->GetDescriptor(numStr);	
 		::StringToNum( numStr, &theLong);
 		*mOutStream << (SInt16) theLong;
-		mCurrentID++;
+		mPaneIndex++;
 		break;
 
 		case 'ECST':
@@ -1823,7 +1829,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		if (theLength % 2 == 0) {
 			*mOutStream << (UInt8) 0x00;
 		} 
-		mCurrentID++;
+		mPaneIndex++;
 		break;
 
 		case 'ESTR':
@@ -1835,7 +1841,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 			// if the length is even, padd the string with a NULL byte.
 			*mOutStream << (UInt8) 0x00;
 		} 
-		mCurrentID++;
+		mPaneIndex++;
 		break;
 
 		case 'FBYT':
@@ -1849,7 +1855,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		if (error == noErr) {
 			sscanf(charString, formatString, &theLong);
 			*mOutStream << (UInt8) theLong;
-			mCurrentID++;
+			mPaneIndex++;
 		} 
 		break;
 
@@ -1926,7 +1932,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		}	
 		
 		mOutStream->PutBytes(*theHandle, theLength);
-		mCurrentID++;
+		mPaneIndex++;
 		break;
 
 		case 'FLNG':
@@ -1940,7 +1946,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		if (error == noErr) {
 			sscanf(charString, formatString, &theLong);
 			*mOutStream << (UInt32) theLong;
-			mCurrentID++;
+			mPaneIndex++;
 		}
 		break;
 
@@ -1955,7 +1961,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		if (error == noErr) {
 			sscanf(charString, formatString, &theLong);
 			*mOutStream << (UInt16) theLong;
-			mCurrentID++;
+			mPaneIndex++;
 		}
 		break;
 
@@ -2008,15 +2014,15 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 			*mOutStream << (UInt32) 0x00000000;
 		}
 		// The RGV and both radiobuttons have an ID. That makes three.
-		mCurrentID += 3;
+		mPaneIndex += 3;
 		break;
 
 		case 'LSIZ':
 		case 'LSKP':
 		// Offset to SKPE in long (LSIZ:exclusive or LSKP:inclusive)
 		// Cache the current type and position
-		mOffsetTypesList.AddItem(inType);
-		mOffsetMarksList.AddItem(mOutStream->GetMarker());
+		mOffsetTypes.AddItem(inType);
+		mOffsetMarks.AddItem(mOutStream->GetMarker());
 		// Temporarily fill with null to create the place holder
 		*mOutStream << 0L;
 		break;
@@ -2029,7 +2035,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		::StringToNum( numStr, &theLong);
 		*mOutStream << (SInt16) theLong;
 		// Skip the field and the bevel popup button
-		mCurrentID += 2;
+		mPaneIndex += 2;
 		break;
 
 		case 'LSTB':
@@ -2054,7 +2060,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 
 		locker.Adopt(theHandle);
 		mOutStream->PutBytes(*theHandle, theLength);
-		mCurrentID++;
+		mPaneIndex++;
 		break;
 
 		case 'LSTZ':
@@ -2092,7 +2098,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		if (theLength % 2 == 1) {
 			*mOutStream << (UInt8) 0x00;
 		} 
-		mCurrentID++;
+		mPaneIndex++;
 		break;
 
 		case 'OSTR':
@@ -2104,7 +2110,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 			// if the length is odd, padd the string with a NULL byte.
 			*mOutStream << (UInt8) 0x00;
 		} 
-		mCurrentID++;
+		mPaneIndex++;
 		break;
 
 		case 'PNT ':
@@ -2114,7 +2120,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 			theEditText->GetDescriptor(numStr);	
 			::StringToNum( numStr, &theLong);
 			*mOutStream << (SInt16) theLong;
-			mCurrentID++;
+			mPaneIndex++;
 		}
 		break;
 
@@ -2129,7 +2135,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 			theString[theLength + 1] = 0;
 		} 
 		*mOutStream << theString;
-		mCurrentID++;
+		mPaneIndex++;
 		break;
 
 		case 'PSTR':
@@ -2138,7 +2144,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
 		theEditText->GetDescriptor(theString);	
 		*mOutStream << theString;
-		mCurrentID++;
+		mPaneIndex++;
 		break;
 
 		case 'RECT':
@@ -2148,7 +2154,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 			theEditText->GetDescriptor(numStr);	
 			::StringToNum( numStr, &theLong);
 			*mOutStream << (SInt16) theLong;
-			mCurrentID++;
+			mPaneIndex++;
 		}
 		break;
 
@@ -2159,7 +2165,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		case 'SKPE':
 		// End of Skip or Sizeof.
 		currMark = mOutStream->GetMarker();
-		if (mOffsetTypesList.RemoveLastItem(theType) && mOffsetMarksList.RemoveLastItem(oldMark)) {
+		if (mOffsetTypes.RemoveLastItem(theType) && mOffsetMarks.RemoveLastItem(oldMark)) {
 			theLength = currMark - oldMark;
 			mOutStream->SetMarker(oldMark, streamFrom_Start);
 			switch (theType) {
@@ -2202,7 +2208,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		theEditText->GetDescriptor(theString);	
 		UMiscUtils::PStringToOSType(theString, theOSType);
 		*mOutStream << theOSType;
-		mCurrentID++;
+		mPaneIndex++;
 		break;
 
 		case 'UBYT':
@@ -2211,7 +2217,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		theEditText->GetDescriptor(numStr);	
 		::StringToNum( numStr, &theLong);
 		*mOutStream << (UInt8) theLong;
-		mCurrentID++;
+		mPaneIndex++;
 		break;
 
 		case 'ULNG':
@@ -2220,7 +2226,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		theEditText->GetDescriptor(numStr);	
 		::StringToNum( numStr, &theLong);
 		*mOutStream << (UInt32) theLong;
-		mCurrentID++;
+		mPaneIndex++;
 		break;
 
 		case 'UWRD':
@@ -2229,7 +2235,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		theEditText->GetDescriptor(numStr);	
 		::StringToNum( numStr, &theLong);
 		*mOutStream << (UInt16) theLong;
-		mCurrentID++;
+		mPaneIndex++;
 		break;
 
 		case 'WBIT':
@@ -2247,7 +2253,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 			*mOutStream << (UInt16) 0x0000;
 		}
 		// The RGV and both radiobuttons have an ID. That makes three.
-		mCurrentID += 3;
+		mPaneIndex += 3;
 		break;
 
 		case 'WSIZ':
@@ -2255,8 +2261,8 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		case 'SKIP':
 		// Offset to SKPE in word (WSIZ:exclusive or WSKP/SKIP:inclusive)
 		// Cache the current type and position
-		mOffsetTypesList.AddItem(inType);
-		mOffsetMarksList.AddItem(mOutStream->GetMarker());
+		mOffsetTypes.AddItem(inType);
+		mOffsetMarks.AddItem(mOutStream->GetMarker());
 		// Temporarily fill with null to create the place holder
 		*mOutStream << (UInt16) 0x0000;
 		break;
@@ -2270,7 +2276,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 
 		locker.Adopt(theHandle);
 		mOutStream->PutBytes(*theHandle, theLength);
-		mCurrentID++;
+		mPaneIndex++;
 		break;
 
 		case 'ZCNT':
@@ -2301,7 +2307,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		  
 		  locker.Adopt(theHandle);
 		  mOutStream->PutBytes(*theHandle, reqLength);
-		  mCurrentID++;
+		  mPaneIndex++;
 		  
 	  } else if (inType >> 24 == 'F') {
 		  
@@ -2325,7 +2331,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 				  *mOutStream << (UInt8) 0x00;
 			  }
 		  } 
-		  mCurrentID++;
+		  mPaneIndex++;
 		  
 	  } else if (inType >> 24 == 'C') {
 		  
@@ -2351,7 +2357,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		  } 
 		  // Now the ending NULL byte
 		  *mOutStream << (UInt8) 0x00;
-		  mCurrentID++;
+		  mPaneIndex++;
 		  
 	  } else if (inType >> 24 == 'T') {
 		  
@@ -2374,7 +2380,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 				  *mOutStream << (UInt8) 0x00;
 			  }
 		  } 
-		  mCurrentID++;
+		  mPaneIndex++;
 
 	  } else if ( inType >> 16 == 'P0') {
 		  
@@ -2396,7 +2402,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 				  *mOutStream << (UInt8) 0x00;
 			  }
 		  } 
-		  mCurrentID++;
+		  mPaneIndex++;
 
 	  } else if ( IsValidBitField(inType, typeStr, bitCount, bytesLen) ) {
 		  
@@ -2425,6 +2431,8 @@ CTmplEditorWindow::RetrieveBitField(UInt16 inBitCount, UInt16 inBytesLen)
 	long	theLong;
 	Str255	numStr;
 	
+	mPaneIDs.FetchItemAt(mPaneIndex, mCurrentID);
+	
 	if (!mBitSeqInProgress) {
 		mBitSeqInProgress = true;
 		mBitSeqBytesLen = inBytesLen;
@@ -2449,7 +2457,7 @@ CTmplEditorWindow::RetrieveBitField(UInt16 inBitCount, UInt16 inBytesLen)
 		mBitSeqIndex -= inBitCount;
 	}
 	
-	mCurrentID++;
+	mPaneIndex++;
 	
 	if (mBitSeqIndex < 0) {
 		mBitSeqInProgress = false;
@@ -2489,6 +2497,8 @@ CTmplEditorWindow::RetrieveCountValue()
 	UInt32	theUInt32 = 0;
 	LStaticText	*	theStaticText;
 
+	mPaneIDs.FetchItemAt(mPaneIndex, mCurrentID);
+	
 	currMark = mOutStream->GetMarker();
 	mOutStream->SetMarker(mListCountMark, streamFrom_Start);
 	
@@ -2504,18 +2514,18 @@ CTmplEditorWindow::RetrieveCountValue()
 		if (theLong > 7) {
 			theLong = 7;
 		} 
-		mItemsCount = (UInt16) theLong;
+		mListCount = (UInt16) theLong;
 		break;
 		
 		case 'FCNT':
 		// Do nothing. The count is hardcoded in the label of the FCNT tag 
 		// and the Plus/Minus buttons are hidden
-		mItemsCount = (UInt16) theLong;
+		mListCount = (UInt16) theLong;
 		break;
 		
 		case 'LCNT':
 		// One-based long count for LSTC lists
-		mItemsCount = (UInt16) theLong;
+		mListCount = (UInt16) theLong;
 		if (theLong < 0xffff) {
 			theUInt32 = (UInt32) theLong;
 		} else {
@@ -2526,7 +2536,7 @@ CTmplEditorWindow::RetrieveCountValue()
 		
 		case 'LZCT':
 		// Zero-based count for LSTC lists
-		mItemsCount = (UInt16) theLong;
+		mListCount = (UInt16) theLong;
 		if (theLong < 0xffff) {
 			if (!theLong) {
 				theUInt32 = 0xffffffff;
@@ -2542,13 +2552,13 @@ CTmplEditorWindow::RetrieveCountValue()
 		case 'OCNT':
 		case 'WCNT':
 		// One-based count for LSTC lists
-		mItemsCount = (UInt16) theLong;
-		*mOutStream << mItemsCount;
+		mListCount = (UInt16) theLong;
+		*mOutStream << mListCount;
 		break;
 		
 		case 'ZCNT':
 		// Zero-based count for LSTC lists
-		mItemsCount = (UInt16) theLong;
+		mListCount = (UInt16) theLong;
 		if (!theLong) {
 			theUInt16 = 0xffff;
 		} else {
@@ -2577,10 +2587,11 @@ CTmplEditorWindow::RevertWithTemplate()
 	// Delete all the sub panes in the contents view
 	mContentsView->DeleteAllSubPanes();
 	
-	// Reset the basic values
+	// Reset the variables
 	mCurrentID			= 1;
+	mPaneIndex			= 1;
 	mLastID				= 0;
-	mItemsCount			= 0;
+	mListCount			= 0;
 	mIndent				= 0;
 	mSkipOffset			= 0;
 	mListCountMark		= 0;

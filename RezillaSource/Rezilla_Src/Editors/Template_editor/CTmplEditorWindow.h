@@ -103,7 +103,11 @@ public:
 						
 	static void			InitPaneInfos();
 	
-	static Boolean	SplitCaseValue(Str255 inString, Str255 ** outRightPtr);
+	static Boolean		SplitCaseValue(Str255 inString, 
+									   Str255 ** outRightPtr);
+	
+	static UInt32		CountAllSubPanes(LView * inView);
+	
 	
 protected:
 	LView *				mContentsView;
@@ -116,23 +120,23 @@ protected:
 	SInt32				mSkipOffset;
 	SInt32				mListCountMark;
 	ResType				mCountType;
-	short				mItemsCount;
+	short				mListCount;
 	Boolean				mIsDirty;
 	Boolean				mFixedCount;
 	LHandleStream *		mTemplateStream;
 	LHandleStream *		mRezStream;
 	LHandleStream *		mOutStream;
-	TArray<CWasteEditView *>	mWasteFieldsList;
-	TArray<SInt32>		mPaneIDsList;
-	TArray<ResType>		mOffsetTypesList;
-	TArray<SInt32>		mOffsetMarksList;
-	TArray<SInt32>		mKeyedValuesList;
-	TArray<SInt32>		mKeyedMarksList;
+	TArray<CWasteEditView *>	mWasteFields;
+	TArray<PaneIDT>		mPaneIDs;
+	TArray<ResType>		mOffsetTypes;
+	TArray<SInt32>		mOffsetMarks;
+	TArray<SInt32>		mKeyValues;
+	TArray<SInt32>		mKeyMarks;
+	TArray<PaneIDT>		mKeyIDs;
 	Boolean				mBitSeqInProgress;
 	UInt32				mBitSeqValue;
 	UInt8				mBitSeqBytesLen;
 	SInt8				mBitSeqIndex;
-// 	UInt8				mBitSeqMax;
 
 	virtual void	FinishCreateSelf();
 
@@ -253,10 +257,15 @@ private:
 	OSErr			DoRetrieveWithTemplate(SInt32 inRecursionMark, 
 										   Boolean inReadControls);
 	
-	void			RenumberSubPanes(LView * inView, 
-									 PaneIDT inOldLastID, 
-									 PaneIDT inNewFirstID, 
-									 Boolean adding);
+// 	void			RenumberSubPanes(LView * inView, 
+// 									 PaneIDT inOldLastID, 
+// 									 PaneIDT inNewFirstID, 
+// 									 Boolean adding);
+	
+	void			AdjustListOfPaneIDs(LView * inView,
+									PaneIDT inStartID, 
+									PaneIDT inPrevCurrID,
+									Boolean adding);
 	
 	void			RecalcPositions(LView * inView, 
 									SInt32 inVertPos, 

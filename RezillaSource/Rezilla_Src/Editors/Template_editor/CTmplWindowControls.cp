@@ -300,6 +300,7 @@ CTmplEditorWindow::AddEditField(Str255 inValue,
 	if (incrY) {
 		mYCoord += sEditPaneInfo.height + kTmplVertSep;
 	} 
+	mPaneIDs.AddItem(mCurrentID);
 	mCurrentID++;
 }
 
@@ -332,6 +333,7 @@ CTmplEditorWindow::AddBooleanField(Boolean inValue,
 	// Store the template's type in the userCon field
 	theRGV->SetUserCon(inType);
 	
+	mPaneIDs.AddItem(mCurrentID);
 	mCurrentID++;
 
 	// Create two radiobuttons in this group
@@ -351,6 +353,7 @@ CTmplEditorWindow::AddBooleanField(Boolean inValue,
 	// Let the window listen to this button
 	theRadio->AddListener(this);
 	
+	mPaneIDs.AddItem(mCurrentID);
 	mCurrentID++;
 
 	//     "No/Off" radiobutton
@@ -371,6 +374,7 @@ CTmplEditorWindow::AddBooleanField(Boolean inValue,
 	
 	// Advance the counters
 	mYCoord += sRgvPaneInfo.height + kTmplVertSep;
+	mPaneIDs.AddItem(mCurrentID);
 	mCurrentID++;
 }
 
@@ -477,6 +481,7 @@ CTmplEditorWindow::AddCheckField(Boolean inValue,
 
 	// Advance the counters
 	mYCoord += sCheckPaneInfo.height + kTmplVertSep;
+	mPaneIDs.AddItem(mCurrentID);
 	mCurrentID++;
 }
 
@@ -536,8 +541,8 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 	CWasteEditView * theWasteEdit = new CWasteEditView(sWastePaneInfo, theViewInfo, 0, sEditTraitsID);
 	ThrowIfNil_(theWasteEdit);
 
-	// Add to the mWasteFieldsList
-	mWasteFieldsList.AddItem(theWasteEdit);
+	// Add to the mWasteFields
+	mWasteFields.AddItem(theWasteEdit);
 	
 	theScroller->InstallView(theWasteEdit);
 	
@@ -671,6 +676,7 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 	
 	// Advance the counters
 	mYCoord += sTgbPaneInfo.height + kTmplVertSep;
+	mPaneIDs.AddItem(mCurrentID);
 	mCurrentID++;
 }
 
@@ -738,9 +744,9 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 	CTxtDataSubView * theTxtWE = new CTxtDataSubView(sWastePaneInfo, theViewInfo, 0, sEditTraitsID);
 	ThrowIfNil_(theTxtWE);
 	
-	// Add to the mWasteFieldsList
-	mWasteFieldsList.AddItem(theHexWE);
-	mWasteFieldsList.AddItem(theTxtWE);
+	// Add to the mWasteFields
+	mWasteFields.AddItem(theHexWE);
+	mWasteFields.AddItem(theTxtWE);
 	
 	// Install the subpanes and the scroller in the dual view
 	theTGB->InstallSubViews(theHexWE, theTxtWE, theScroller, mOwnerDoc->IsReadOnly() );
@@ -891,6 +897,7 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 	if (incrY) {
 		mYCoord += sTgbPaneInfo.height + kTmplVertSep;
 	} 
+	mPaneIDs.AddItem(mCurrentID);
 	mCurrentID++;
 }
 
@@ -936,6 +943,7 @@ CTmplEditorWindow::AddPointField(SInt16 inX,
 	theEditText->SetUserCon(inType);
 	// Let the window listen to this field
 	theEditText->AddListener(this);
+	mPaneIDs.AddItem(mCurrentID);
 	mCurrentID++;
 
 	// Y coord
@@ -951,6 +959,7 @@ CTmplEditorWindow::AddPointField(SInt16 inX,
 	theEditText->SetUserCon(inType);
 	// Let the window listen to this field
 	theEditText->AddListener(this);
+	mPaneIDs.AddItem(mCurrentID);
 	mCurrentID++;
 
 	// Advance the counters
@@ -1001,6 +1010,7 @@ CTmplEditorWindow::AddRectField(SInt16 inTop,
 	theEditText->SetUserCon(inType);
 	// Let the window listen to this field
 	theEditText->AddListener(this);
+	mPaneIDs.AddItem(mCurrentID);
 	mCurrentID++;
 
 	// Left
@@ -1016,6 +1026,7 @@ CTmplEditorWindow::AddRectField(SInt16 inTop,
 	theEditText->SetUserCon(inType);
 	// Let the window listen to this field
 	theEditText->AddListener(this);
+	mPaneIDs.AddItem(mCurrentID);
 	mCurrentID++;
 
 	// Bottom
@@ -1031,6 +1042,7 @@ CTmplEditorWindow::AddRectField(SInt16 inTop,
 	theEditText->SetUserCon(inType);
 	// Let the window listen to this field
 	theEditText->AddListener(this);
+	mPaneIDs.AddItem(mCurrentID);
 	mCurrentID++;
 
 	// Right
@@ -1046,6 +1058,7 @@ CTmplEditorWindow::AddRectField(SInt16 inTop,
 	theEditText->SetUserCon(inType);
 	// Let the window listen to this field
 	theEditText->AddListener(this);
+	mPaneIDs.AddItem(mCurrentID);
 	mCurrentID++;
 
 	// Advance the counters
@@ -1100,6 +1113,7 @@ CTmplEditorWindow::AddListHeaderField(Str255 inLabel,
 	} 	
 	sStaticPaneInfo.paneID = 0;
 	theCountPane = mCurrentID;
+	mPaneIDs.AddItem(mCurrentID);
 	mCurrentID++;
 
 	// Create the buttons
@@ -1117,6 +1131,7 @@ CTmplEditorWindow::AddListHeaderField(Str255 inLabel,
 	if (isFixedCount) {
 		thePushButton->Hide();
 	} 
+	mPaneIDs.AddItem(mCurrentID);
 	mCurrentID++;
 	
 	sPushPaneInfo.left		+= kTmplCountWidth + kTmplHorizSep;
@@ -1130,7 +1145,7 @@ CTmplEditorWindow::AddListHeaderField(Str255 inLabel,
 	if (isFixedCount) {
 		thePushButton->Hide();
 	} 
-
+	mPaneIDs.AddItem(mCurrentID);
 	mCurrentID++;
 
 	// Advance the counters
@@ -1187,10 +1202,8 @@ CTmplEditorWindow::AddSeparatorLine(LView * inContainer)
 	SDimension16	theFrame;
 
 	inContainer->GetFrameSize(theFrame);
-// 	sSeparatorPaneInfo.left			= kTmplLabelWidth + kTmplLeftMargin;
 	sSeparatorPaneInfo.left			= kTmplLeftMargin;
 	sSeparatorPaneInfo.top			= mYCoord;
-// 	sSeparatorPaneInfo.width		= theFrame.width - kTmplLabelWidth - kTmplLeftMargin * 2;
 	sSeparatorPaneInfo.width		= theFrame.width - kTmplLeftMargin * 2;
 	sSeparatorPaneInfo.superView	= inContainer;
 
@@ -1277,6 +1290,7 @@ CTmplEditorWindow::AddCasePopup(ResType inType, Str255 inLabel, SInt32 inStartMa
 	}
 	
 	// Advance the counters. mYCoord has already been increased by the edit field
+	mPaneIDs.AddItem(mCurrentID);
 	mCurrentID++;
 }
 
@@ -1320,6 +1334,7 @@ CTmplEditorWindow::AddEditPopup(Str255 inValue,
 	theEditText->AddListener(this);
 
 	// Incr the pane ID
+	mPaneIDs.AddItem(mCurrentID);
 	mCurrentID++;
 
 	// Now build the popup
@@ -1369,6 +1384,7 @@ CTmplEditorWindow::AddEditPopup(Str255 inValue,
 
 	// Advance the counters
 	mYCoord += sEditPaneInfo.height + kTmplVertSep;
+	mPaneIDs.AddItem(mCurrentID);
 	mCurrentID++;
 }
 
@@ -1394,6 +1410,7 @@ CTmplEditorWindow::AddColorPane(LView * inContainer,
 
 	// Advance the counters
 	mYCoord += sColorPaneInfo.height + kTmplVertSep;
+	mPaneIDs.AddItem(mCurrentID);
 	mCurrentID++;
 }
 

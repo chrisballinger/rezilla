@@ -59,9 +59,9 @@ Boolean
 CTmplEditorWindow::IsDirty()
 {	
 	if (!mIsDirty) {
-		// The mWasteFieldsList contains all the Waste views. Check if they
+		// The mWasteFields list contains all the Waste views. Check if they
 		// are modified.
-		TArrayIterator<CWasteEditView *> iterator(mWasteFieldsList);
+		TArrayIterator<CWasteEditView *> iterator(mWasteFields);
 		CWasteEditView *	theWasteView = nil;
 		
 		while (iterator.Next(theWasteView)) {
@@ -183,73 +183,121 @@ CTmplEditorWindow::AdjustCounterField(PaneIDT inPaneID, SInt32 inDelta) {
 }
 
 
-// ---------------------------------------------------------------------------
-//	¥ RenumberSubPanes
-// ---------------------------------------------------------------------------
-// If a new list item has been inserted, its subpanes are numbered from
-// (inOldLastID) to (mCurrentID - 1). The argument (inNewFirstID) is the ID
-// which should normally be affected to the first numbered subpane of the new 
-// list item. So there are three possibilities when a subpane is visited:
-// - if its ID is < (inNewFirstID), leave it unchanged
-// - if its value is >= (inNewFirstID) and < (inOldLastID), increase it by 
-//   (mCurrentID - inOldLastID)
-// - if its value is >= (inOldLastID), decrease it by (inOldLastID - inNewFirstID)
+// // ---------------------------------------------------------------------------
+// //	¥ RenumberSubPanes
+// // ---------------------------------------------------------------------------
+// // If a new list item has been inserted, its subpanes are numbered from
+// // (inOldLastID) to (mCurrentID - 1). The argument (inNewFirstID) is the ID
+// // which should normally be affected to the first numbered subpane of the new 
+// // list item. So there are three possibilities when a subpane is visited:
+// // - if its ID is < (inNewFirstID), leave it unchanged
+// // - if its value is >= (inNewFirstID) and < (inOldLastID), increase it by 
+// //   (mCurrentID - inOldLastID)
+// // - if its value is >= (inOldLastID), decrease it by (inOldLastID - inNewFirstID)
+// // 
+// // If a list item has been deleted, all the IDs of its subpanes will be
+// // removed. They are numbered between inNewFirstID and inOldLastID
+// // inclusive. There are two possibilities:
+// // - if an ID is < (inNewFirstID), leave it unchanged
+// // - otherwise, decrease it by (inOldLastID - inNewFirstID + 1)
+// //   Note that the IDs between inNewFirstID and inOldLastID won't be found since 
+// //   the object has already been removed from the list of subpanes. Last
+// //   mCurrentID has to be adjusted likewise.
 // 
-// If a list item has been deleted, all the IDs of its subpanes will be
-// removed. They are numbered between inNewFirstID and inOldLastID
-// inclusive. There are two possibilities:
-// - if an ID is < (inNewFirstID), leave it unchanged
-// - otherwise, decrease it by (inOldLastID - inNewFirstID + 1)
-//   Note that the IDs between inNewFirstID and inOldLastID won't be found since 
-//   the object has already been removed from the list of subpanes. Last
-//   mCurrentID has to be adjusted likewise.
+// void
+// CTmplEditorWindow::RenumberSubPanes(LView * inView, PaneIDT inOldLastID, PaneIDT inNewFirstID, Boolean adding) 
+// {
+// 	PaneIDT	theID;
+// 	LView *	theView;
+// 	
+// 	if (adding) {
+// 		// We've been inserting a list item
+// 		TArrayIterator<LPane *> iterator( inView->GetSubPanes() );
+// 		LPane	* theSub;
+// 		while (iterator.Next(theSub)) {
+// 			theID = theSub->GetPaneID();
+// 			if (theID) {
+// 				if (theID < inNewFirstID) {
+// 					// Do nothing
+// 				} else if (theID < inOldLastID) {
+// 					theID += mCurrentID - inOldLastID;
+// 					theSub->SetPaneID(theID);
+// 				} else {
+// 					theID -= inOldLastID - inNewFirstID;
+// 					theSub->SetPaneID(theID);
+// 				}
+// 			} 
+// 			theView = dynamic_cast<LView *>(theSub);
+// 			if (theView) {
+// 				RenumberSubPanes(theView, inOldLastID, inNewFirstID, adding);
+// 			} 
+// 		}
+// 
+// 	} else {
+// 		
+// 		// We've been removing a list item
+// 		TArrayIterator<LPane *> iterator( inView->GetSubPanes() );
+// 		LPane	* theSub;
+// 		while (iterator.Next(theSub)) {
+// 			theID = theSub->GetPaneID();
+// 			if (theID > inOldLastID) {
+// 				theID -= inOldLastID - inNewFirstID + 1;
+// 				theSub->SetPaneID(theID);
+// 			} 
+// 			theView = dynamic_cast<LView *>(theSub);
+// 			if (theView) {
+// 				RenumberSubPanes(theView, inOldLastID, inNewFirstID, adding);
+// 			} 
+// 		}
+// 		
+// 	}
+// }
+
+
+// ---------------------------------------------------------------------------
+//	¥ AdjustListOfPaneIDs
+// ---------------------------------------------------------------------------
+// The mPaneIDs list must reflect the visual graphical order of the panes.
+// 
+// If a new list item has been inserted, its subpanes are numbered from
+// (inOldLastID) to (mCurrentID - 1) and they have been appended to the 
+// mPaneIDs list. They must be moved to the position just after the
+// inPrevLastID's position in the list.
+// 
+// If a list item has been deleted, all the IDs of its subpanes must be
+// removed. They are located between inPrevLastID and inOldLastID
+// inclusive. 
+
 
 void
-CTmplEditorWindow::RenumberSubPanes(LView * inView, PaneIDT inOldLastID, PaneIDT inNewFirstID, Boolean adding) 
+CTmplEditorWindow::AdjustListOfPaneIDs(LView * inView, PaneIDT inStartID, PaneIDT inPrevCurrID, Boolean adding) 
 {
-	PaneIDT	theID;
-	LView *	theView;
+	PaneIDT		theID;
+	LView *		theView;
+	ArrayIndexT	index;
+	SInt32		i;
 	
+	// If adding is true, we've been inserting a list item, otherwise we've
+	// been removing one.
 	if (adding) {
-		// We've been inserting a list item
-		TArrayIterator<LPane *> iterator( inView->GetSubPanes() );
-		LPane	* theSub;
-		while (iterator.Next(theSub)) {
-			theID = theSub->GetPaneID();
-			if (theID) {
-				if (theID < inNewFirstID) {
-					// Do nothing
-				} else if (theID < inOldLastID) {
-					theID += mCurrentID - inOldLastID;
-					theSub->SetPaneID(theID);
-				} else {
-					theID -= inOldLastID - inNewFirstID;
-					theSub->SetPaneID(theID);
-				}
-			} 
-			theView = dynamic_cast<LView *>(theSub);
-			if (theView) {
-				RenumberSubPanes(theView, inOldLastID, inNewFirstID, adding);
-			} 
+		// Find the index of inStartID
+		index = mPaneIDs.FetchIndexOf(inStartID);
+		if (inView != NULL) {
+			index += CountAllSubPanes(inView) - 1;
+		} 
+		// Move the newly added items from the end of the list. There are 
+		// (mCurrentID - inPrevCurrID) of them.
+		for (i = inPrevCurrID; i < mCurrentID; i++) {
+			mPaneIDs.RemoveLastItem(theID);
+			mPaneIDs.InsertItemsAt(1, index + 1, theID);
 		}
-
 	} else {
-		
-		// We've been removing a list item
-		TArrayIterator<LPane *> iterator( inView->GetSubPanes() );
-		LPane	* theSub;
-		while (iterator.Next(theSub)) {
-			theID = theSub->GetPaneID();
-			if (theID > inOldLastID) {
-				theID -= inOldLastID - inNewFirstID + 1;
-				theSub->SetPaneID(theID);
-			} 
-			theView = dynamic_cast<LView *>(theSub);
-			if (theView) {
-				RenumberSubPanes(theView, inOldLastID, inNewFirstID, adding);
-			} 
+		// Find the index of inStartID
+		index = mPaneIDs.FetchIndexOf(inStartID);
+		// Remove all the IDs of the itemView's subpanes
+		if (index != LArray::index_Bad) {
+			mPaneIDs.RemoveItemsAt( CountAllSubPanes(inView), index);		
 		}
-		
 	}
 }
 
@@ -347,8 +395,10 @@ CTmplEditorWindow::AlignBytesWrite(UInt8 inStep)
 // ---------------------------------------------------------------------------
 //	¥ KeyValueToString											[private]
 // ---------------------------------------------------------------------------
-// The value of the key tag is stored as an SInt32 in the mKeyedValuesList 
-// for faster validation.
+// The value of the key tag is stored as an SInt32 in the mKeyValues 
+// for faster validation. Build a parallel mKeyIDs list which will be used 
+// to determine the index in the mKeyValues and mKeyMarks lists when
+// validating.
 
 void
 CTmplEditorWindow::KeyValueToString(ResType inType, Str255 keyString)
@@ -364,23 +414,26 @@ CTmplEditorWindow::KeyValueToString(ResType inType, Str255 keyString)
 	char 	formatString[16];
 	OSType	theOSType;
 	
+	// Store the current ID
+	mKeyIDs.AddItem(mCurrentID);
+	
 	switch (inType) {
 		case 'KBYT':
 		*mRezStream >> theSInt8;
-		mKeyedValuesList.AddItem( (SInt32) theSInt8);
+		mKeyValues.AddItem( (SInt32) theSInt8);
 		::NumToString( (long) theSInt8, keyString);
 		break;
 
 		case 'KCHR':
 		*mRezStream >> theChar;
-		mKeyedValuesList.AddItem( (SInt32) theChar);
+		mKeyValues.AddItem( (SInt32) theChar);
 		keyString[0] = 1;
 		keyString[1] = theChar;
 		break;
 
 		case 'KHBT':
 		*mRezStream >> theUInt8;
-		mKeyedValuesList.AddItem( (SInt32) theUInt8);
+		mKeyValues.AddItem( (SInt32) theUInt8);
 		BuildFormatString(formatString, 2);
 		sprintf(charString, formatString, theUInt8, NULL);
 		CopyCStringToPascal(charString, keyString);
@@ -388,7 +441,7 @@ CTmplEditorWindow::KeyValueToString(ResType inType, Str255 keyString)
 
 		case 'KHLG':
 		*mRezStream >> theUInt32;
-		mKeyedValuesList.AddItem( (SInt32) theUInt32);
+		mKeyValues.AddItem( (SInt32) theUInt32);
 		BuildFormatString(formatString, 8);
 		sprintf(charString, formatString, theUInt32, NULL);
 		CopyCStringToPascal(charString, keyString);
@@ -396,7 +449,7 @@ CTmplEditorWindow::KeyValueToString(ResType inType, Str255 keyString)
 
 		case 'KHWD':
 		*mRezStream >> theUInt16;
-		mKeyedValuesList.AddItem( (SInt32) theUInt16);
+		mKeyValues.AddItem( (SInt32) theUInt16);
 		BuildFormatString(formatString, 4);
 		sprintf(charString, formatString, theUInt16, NULL);
 		CopyCStringToPascal(charString, keyString);
@@ -404,20 +457,20 @@ CTmplEditorWindow::KeyValueToString(ResType inType, Str255 keyString)
 
 		case 'KLNG':
 		*mRezStream >> theSInt32;
-		mKeyedValuesList.AddItem( (SInt32) theSInt32);
+		mKeyValues.AddItem( (SInt32) theSInt32);
 		::NumToString( (long) theSInt32, keyString);
 		break;
 
 		case 'KRID':
 		theSInt16 = GetOwnerDoc()->GetRezObj()->GetID();
-		mKeyedValuesList.AddItem( (SInt32) theSInt16);
+		mKeyValues.AddItem( (SInt32) theSInt16);
 		::NumToString( (long) theSInt16, keyString);	
 		break;
 
 		case 'KTYP': {
 			Str255 tempString;
 			*mRezStream >> theOSType;
-			mKeyedValuesList.AddItem( (SInt32) theOSType);
+			mKeyValues.AddItem( (SInt32) theOSType);
 			UMiscUtils::OSTypeToPString(theOSType, tempString);
 			LString::CopyPStr(tempString, keyString);
 			break;
@@ -425,25 +478,25 @@ CTmplEditorWindow::KeyValueToString(ResType inType, Str255 keyString)
 		
 		case 'KUBT':
 		*mRezStream >> theUInt8;
-		mKeyedValuesList.AddItem( (SInt32) theUInt8);
+		mKeyValues.AddItem( (SInt32) theUInt8);
 		::NumToString( (long) theUInt8, keyString);
 		break;
 
 		case 'KULG':
 		*mRezStream >> theUInt32;
-		mKeyedValuesList.AddItem( (SInt32) theUInt32);
+		mKeyValues.AddItem( (SInt32) theUInt32);
 		::NumToString( (long) theUInt32, keyString);
 		break;
 
 		case 'KUWD':
 		*mRezStream >> theUInt16;
-		mKeyedValuesList.AddItem( (SInt32) theUInt16);
+		mKeyValues.AddItem( (SInt32) theUInt16);
 		::NumToString( (long) theUInt16, keyString);
 		break;
 
 		case 'KWRD':
 		*mRezStream >> theSInt16;
-		mKeyedValuesList.AddItem( (SInt32) theSInt16);
+		mKeyValues.AddItem( (SInt32) theSInt16);
 		::NumToString( (long) theSInt16, keyString);
 		break;
 	}
@@ -455,7 +508,7 @@ CTmplEditorWindow::KeyValueToString(ResType inType, Str255 keyString)
 // ---------------------------------------------------------------------------
 // The value of the key tag was obtained from the user via the
 // SelectKeyValueFromKeyCases() dialog. Convert it to an SInt32 and store
-// it in the mKeyedValuesList for faster validation.
+// it in the mKeyValues for faster validation.
 
 OSErr
 CTmplEditorWindow::KeyStringToValue(ResType inType, Str255 keyString)
@@ -466,6 +519,9 @@ CTmplEditorWindow::KeyStringToValue(ResType inType, Str255 keyString)
 	OSType	theOSType;
 	long	theLong;
 	
+	// Store the current ID
+	mKeyIDs.AddItem(mCurrentID);
+
 	switch (inType) {
 		case 'KBYT':
 		case 'KLNG':
@@ -474,11 +530,11 @@ CTmplEditorWindow::KeyStringToValue(ResType inType, Str255 keyString)
 		case 'KUWD':
 		case 'KWRD':
 		::StringToNum( keyString, &theLong);
-		mKeyedValuesList.AddItem(theLong);
+		mKeyValues.AddItem(theLong);
 		break;
 
 		case 'KCHR':
-		mKeyedValuesList.AddItem( (SInt32) keyString[1]);
+		mKeyValues.AddItem( (SInt32) keyString[1]);
 		break;
 
 		case 'KHBT':
@@ -487,7 +543,7 @@ CTmplEditorWindow::KeyStringToValue(ResType inType, Str255 keyString)
 		error = BuildScanString(charString, formatString, 2);
 		if (error == noErr) {
 			sscanf(charString, formatString, &theLong);
-			mKeyedValuesList.AddItem(theLong);
+			mKeyValues.AddItem(theLong);
 		}
 		break;
 
@@ -497,7 +553,7 @@ CTmplEditorWindow::KeyStringToValue(ResType inType, Str255 keyString)
 		error = BuildScanString(charString, formatString, 8);
 		if (error == noErr) {
 			sscanf(charString, formatString, &theLong);
-			mKeyedValuesList.AddItem(theLong);
+			mKeyValues.AddItem(theLong);
 		}
 		break;
 
@@ -507,7 +563,7 @@ CTmplEditorWindow::KeyStringToValue(ResType inType, Str255 keyString)
 		error = BuildScanString(charString, formatString, 4);
 		if (error == noErr) {
 			sscanf(charString, formatString, &theLong);
-			mKeyedValuesList.AddItem(theLong);
+			mKeyValues.AddItem(theLong);
 		}
 		break;
 
@@ -516,12 +572,12 @@ CTmplEditorWindow::KeyStringToValue(ResType inType, Str255 keyString)
 		if (theLong != GetOwnerDoc()->GetRezObj()->GetID()) {
 			UMessageDialogs::AlertWithValue(CFSTR("WrongIdForSelectedTemplate"), theLong);
 		} 
-		mKeyedValuesList.AddItem(theLong);
+		mKeyValues.AddItem(theLong);
 		break;		
 		
 		case 'KTYP':
 			UMiscUtils::PStringToOSType(keyString, theOSType);
-			mKeyedValuesList.AddItem( (SInt32) theOSType);
+			mKeyValues.AddItem( (SInt32) theOSType);
 			break;
 	}
 	return error;
@@ -581,7 +637,7 @@ CTmplEditorWindow::FindKeyStartForValue(ResType inType, Str255 keyString, SInt32
 	} else {
 		*outStart = currMark;
 		// Store the value for future validation
-		mKeyedMarksList.AddItem(currMark);
+		mKeyMarks.AddItem(currMark);
 	}
 	
 	return error;
@@ -591,14 +647,14 @@ CTmplEditorWindow::FindKeyStartForValue(ResType inType, Str255 keyString, SInt32
 // ---------------------------------------------------------------------------
 //	¥ WriteOutKeyValue											[private]
 // ---------------------------------------------------------------------------
-// The value of the key tag has been stored as an SInt32 in the mKeyedValuesList.
+// The value of the key tag has been stored as an SInt32 in the mKeyValues.
 
 void
 CTmplEditorWindow::WriteOutKeyValue(ResType inType)
 {
 	SInt32	keyValue;
 	
-	mKeyedValuesList.RemoveLastItem(keyValue);
+	mKeyValues.RemoveLastItem(keyValue);
 	
 	switch (inType) {
 		case 'KBYT':
@@ -908,5 +964,30 @@ CTmplEditorWindow::SplitCaseValue(Str255 inString, Str255 ** outRightPtr)
 		} 
 	}	
 	return split;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ CountAllSubPanes												[static]
+// ---------------------------------------------------------------------------
+
+UInt32
+CTmplEditorWindow::CountAllSubPanes(LView * inView)
+{
+	UInt32	count = 0;
+	LPane *	theSub;
+	LView *	theView;
+	
+	TArrayIterator<LPane *> iterator( inView->GetSubPanes() );
+	while (iterator.Next(theSub)) {
+		theView = dynamic_cast<LView *>(theSub);
+		if (theView) {
+			count += CountAllSubPanes(theView);
+		} else {
+			count++;
+		}
+	}
+	
+	return count;
 }
 
