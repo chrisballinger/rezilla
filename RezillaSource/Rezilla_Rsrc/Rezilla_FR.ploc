@@ -53,6 +53,7 @@ localize "French" as "Localizable.strings"
 	key "ThisResourceEditedInOtherMode" value string "Cette ressource est déjà éditée dans un autre mode d'édition. Fermer la fenêtre d'édition correspondante et réessayer."
 	key "TypeFieldIsEmpty" value string "Le type ne peut être vide: c'est un code à quatre caractères."
 	key "UnknownTemplateTag" value string "Balise de gabarit inconnue '%s'."
+	key "WritePermissionError" value string "Fichier '%s': erreur d'autorisation d'accès en écriture. Essayez de l'ouvrir en lecture seule."
 	key "WrongIdForSelectedTemplate" value string "Étant donné le gabarit choisi, le numéro de cette ressource devrait être '%d'. S'il n'est pas corrigé, l'éditeur de gabarit ne pourra ouvrir cette ressource."
 }
 
