@@ -2,7 +2,7 @@
 // CAete_EditorWindow.cp
 // 
 //                       Created: 2004-07-01 08:42:37
-//             Last modification: 2005-02-04 23:38:50
+//             Last modification: 2005-02-06 00:04:10
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -114,6 +114,7 @@ void
 CAete_EditorWindow::FinishCreateSelf()
 {    
 	mAete = nil;
+	mIgnoreSliderMessage = false;
 	mCurrentPanel = mpv_AeteEvent;
 	
 	mSuitesPopup = dynamic_cast<LPopupButton *>(this->FindPaneByID( item_AeteSuitePopup ));
@@ -153,9 +154,11 @@ CAete_EditorWindow::FinishCreateSelf()
 		::GetIndString(sRemoveEnumerationStr, STRx_AeteRemove, kind_AeteEnum);
 	}
 
-	// Link to the broadcasters
-	theController->AddListener(this);
+	// Link to the broadcasters. Note that it is very important that the 
+	// MultiPanelView be declared _before_ the window so that we switch 
+	// panels before our ListenToMessage is called.
 	theController->AddListener(theMultiPanel);
+	theController->AddListener(this);
 	UReanimator::LinkListenerToBroadcasters( this, this, PPob_AeteEditorWindow );
 	UReanimator::LinkListenerToBroadcasters( this, mEventPane, PPob_AeteEventPane );
 	UReanimator::LinkListenerToBroadcasters( this, mClassPane, PPob_AeteClassPane );
@@ -419,8 +422,8 @@ CAete_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		if (newIndex != mCurrentPanel) {
 			RetrievePanelValues();
 			mCurrentPanel = newIndex;
+			UpdateSlider(item_AeteItemSlider, GetCurrentIndex(mCurrentPanel), GetCurrentCount(mCurrentPanel), false, true);
 			InstallPanelValues();
-			UpdateSlider(item_AeteItemSlider, GetCurrentIndex(mCurrentPanel), GetCurrentCount(mCurrentPanel));
 		}
 		break;
 		
@@ -434,14 +437,21 @@ CAete_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		break;
 
 		
-		case item_AeteElementSlider:
-		case item_AeteEnumSlider:
-		case item_AeteItemSlider:
-		case item_AeteKeyFormSlider:
 		case item_AeteParamSlider:
 		case item_AetePropertySlider:
+		case item_AeteElementSlider:
+		case item_AeteKeyFormSlider:
+		case item_AeteEnumSlider:
 		newIndex = *(ArrayIndexT *) ioParam;
 		HandleSliderMessage(inMessage, newIndex);
+		break;
+		
+		
+		case item_AeteItemSlider:
+		if (!mIgnoreSliderMessage) {
+			newIndex = *(ArrayIndexT *) ioParam;
+			HandleSliderMessage(inMessage, newIndex);
+		} 
 		break;
 
 		
@@ -988,7 +998,8 @@ CAete_EditorWindow::SetIndicator(LStaticText * inIndicator, SInt32 inValue, SInt
 // ---------------------------------------------------------------------------
 
 void
-CAete_EditorWindow::UpdateSlider(SInt32 inSliderID, SInt32 inValue, SInt32 inTotal, Boolean inOnlyIndicator)
+CAete_EditorWindow::UpdateSlider(SInt32 inSliderID, SInt32 inValue, SInt32 inTotal, 
+								 Boolean inOnlyIndicator, Boolean inIgnoreBroadcast)
 {
 	LSlider *		theSlider = nil;
 	LStaticText *	theIndicator = nil;
@@ -1034,6 +1045,9 @@ CAete_EditorWindow::UpdateSlider(SInt32 inSliderID, SInt32 inValue, SInt32 inTot
 	
 	// Set the slider
 	if (!inOnlyIndicator) {
+		if (inSliderID == item_AeteItemSlider) {
+			mIgnoreSliderMessage = inIgnoreBroadcast;
+		} 
 		theSlider->SetMaxValue(inTotal);
 		if ( theSlider->GetMinValue() > 0 ) {
 			theSlider->SetMinValue( (inTotal > 0) && (inValue > 0) );
@@ -1056,8 +1070,11 @@ CAete_EditorWindow::UpdateSlider(SInt32 inSliderID, SInt32 inValue, SInt32 inTot
 		if (inValue > 0) {
 			theSlider->SetMinValue(1);
 		} 
+		if (inSliderID == item_AeteItemSlider) {
+			mIgnoreSliderMessage = false;
+		} 
 	} 
-	
+
 	if (inTotal > 1) {
 		theSlider->Show();
 	} else {
