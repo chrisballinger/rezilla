@@ -98,6 +98,8 @@ CAete_EditorWindow::~CAete_EditorWindow()
 	if (mAete) {
 		delete mAete;
 	} 
+	
+	RemoveAeteMenu();
 }
 
 
@@ -441,7 +443,17 @@ void
 CAete_EditorWindow::TakeOffDuty()
 {		
 	LWindow::TakeOffDuty();
-	
+	RemoveAeteMenu();
+}
+
+
+// ---------------------------------------------------------------------------
+// 	RemoveAeteMenu
+// ---------------------------------------------------------------------------
+
+void
+CAete_EditorWindow::RemoveAeteMenu()
+{
 	LMenuBar *	theBar = LMenuBar::GetCurrentMenuBar();
 	if ( sAeteMenu )
 		theBar->RemoveMenu( sAeteMenu );

@@ -118,6 +118,8 @@ private:
 	void				RetrieveEnumeratorValues(AeteEnumerator & outEnumerator);
 	void				RetrieveFlags(SInt32 inKind, UInt16 & outFlags);
 
+	void				RemoveAeteMenu();
+	
 };
 
 
