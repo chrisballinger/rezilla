@@ -2,7 +2,7 @@
 // CAeteClass.h
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-22 11:02:47
+//             Last modification: 2005-01-26 06:55:57
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -58,8 +58,10 @@ public:
 		ArrayIndexT		GetElementIndex() { return mElementIndex;}
 		void			SetElementIndex(ArrayIndexT inElementIndex) {mElementIndex = inElementIndex;}
 
-		TArray<CAeteProperty*> *	GetProperties() { return &mProperties;}
+		SInt32			CountProperties() { return mProperties.GetCount(); }
+		SInt32			CountElements() { return mElements.GetCount(); }
 
+		TArray<CAeteProperty*> *	GetProperties() { return &mProperties;}
 		TArray<CAeteElement*> *		GetElements() { return &mElements;}
 
 protected:
