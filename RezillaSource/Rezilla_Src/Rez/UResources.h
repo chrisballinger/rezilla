@@ -19,6 +19,7 @@
 // -------------------------------------------------------------
 
 struct SResourceObjInfo {
+	short		refnum;
 	ResType		type;
 	SInt32		size;
 	SInt32		id;
@@ -102,4 +103,3 @@ public:
 
 
 #endif
-
