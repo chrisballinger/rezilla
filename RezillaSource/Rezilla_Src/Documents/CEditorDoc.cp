@@ -2,7 +2,7 @@
 // CEditorDoc.cp
 // 
 //                       Created: 2003-05-04 19:16:00
-//             Last modification: 2004-11-08 07:20:14
+//             Last modification: 2004-11-15 18:11:49
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -184,7 +184,7 @@ CEditorDoc::FindCommandStatus(
 // ---------------------------------------------------------------------------
 
 void
-CEditorDoc::ListenToMessage( MessageT inMessage, void *ioParam ) 
+CEditorDoc::ListenToMessage( MessageT inMessage, void * /* ioParam */) 
 {
 	switch (inMessage) {
 		case msg_EditorValidate:
@@ -237,7 +237,7 @@ CEditorDoc::CanSaveChanges()
 
 Boolean
 CEditorDoc::AllowSubRemoval(
-	LCommander*		inSub)
+	LCommander* /* inSub */)
 {
 	return true;
 }
