@@ -2,7 +2,7 @@
 // CHexEditorWindow.cp					
 // 
 //                       Created: 2004-03-02 14:18:16
-//             Last modification: 2004-03-05 14:58:25
+//             Last modification: 2004-03-17 17:29:56
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -394,19 +394,24 @@ CCompResultWindow::FillTableView( TArray<CRezTypId *> inList, SInt16 inWhichList
 void
 CCompResultWindow::SetMaxScrollerValue()
 {
-	SInt32 linesPerPane, theLineCount;
+	SInt32 linesPerPane, theLineDelta;
+	SInt16 lineHeight;
 	SDimension16	theSize;
 
 	// How many lines fit in the hex panes
 	mOldHexDataWE->GetFrameSize(theSize);
-	linesPerPane = theSize.height / mOldHexDataWE->GetLineHeight();
-
-	theLineCount = HexLineCount(linesPerPane) - linesPerPane + 1;
-	
-	if (theLineCount < 0) {
-		theLineCount = 0;
+	lineHeight = mOldHexDataWE->GetLineHeight();
+	if (lineHeight == 0) {
+		lineHeight = kRzilDefaultLineHeight;
 	} 
-	mScroller->SetMaxValue(theLineCount);
+	linesPerPane = theSize.height / lineHeight;
+
+	theLineDelta = HexLineCount() - linesPerPane + 1;
+	
+	if (theLineDelta < 0) {
+		theLineDelta = 0;
+	} 
+	mScroller->SetMaxValue(theLineDelta);
 }
 
 
@@ -416,7 +421,7 @@ CCompResultWindow::SetMaxScrollerValue()
 // Find the max number of lines among the two panes
 
 SInt32
-CCompResultWindow::HexLineCount(SInt32 inLinesPerPane) 
+CCompResultWindow::HexLineCount() 
 {
 	SInt32 oldByteCount = WEGetTextLength( mOldHexDataWE->GetWasteRef() );
 	SInt32 newByteCount = WEGetTextLength( mNewHexDataWE->GetWasteRef() );
@@ -424,12 +429,12 @@ CCompResultWindow::HexLineCount(SInt32 inLinesPerPane)
 	SInt32 newLineCount = 0;
 
 	if (oldByteCount) {
-		oldLineCount = oldByteCount / inLinesPerPane;
-		oldLineCount += (oldByteCount % kRzilHexPerLine == 0) ? 0:1 ;
+		oldLineCount = oldByteCount / kRzilHexCompCharsPerLine;
+		oldLineCount += (oldByteCount % kRzilHexCompCharsPerLine == 0) ? 0:1 ;
 	} 
 	if (newByteCount) {
-		newLineCount = newByteCount / inLinesPerPane;
-		newLineCount += (newByteCount % kRzilHexPerLine == 0) ? 0:1 ;
+		newLineCount = newByteCount / kRzilHexCompCharsPerLine;
+		newLineCount += (newByteCount % kRzilHexCompCharsPerLine == 0) ? 0:1 ;
 	} 
 	return ((oldLineCount > newLineCount) ? oldLineCount:newLineCount );
 }

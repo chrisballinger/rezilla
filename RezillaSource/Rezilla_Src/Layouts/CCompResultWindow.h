@@ -2,7 +2,7 @@
 // CCompResultWindow.h				
 // 
 //                       Created: 2004-03-02 14:18:16
-//             Last modification: 2004-03-17 10:05:05
+//             Last modification: 2004-03-17 17:30:06
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -76,7 +76,7 @@ protected:
 	
 	
 	virtual void		SetMaxScrollerValue();
-	SInt32				HexLineCount(SInt32 inLinesPerPane);
+	SInt32				HexLineCount();
 	virtual void		FinishCreateSelf();
 };
 
