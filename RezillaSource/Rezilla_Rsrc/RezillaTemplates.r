@@ -144,7 +144,7 @@ resource 'TMPL' (1002, "actb", protected) {
 	}
 };
 
-resource 'TMPL' (1003, "acur", protected) {
+resource 'TMPL' (1003, "acur") {
 	{	/* array: 6 elements */
 		/* [1] */
 		"Count:",
@@ -156,10 +156,10 @@ resource 'TMPL' (1003, "acur", protected) {
 		"Cursor frames",
 		'LSTC',
 		/* [4] */
-		"'CURS' resource ID for frame",
+		"'CURS' resource ID for a frame",
 		'RSID',
 		/* [5] */
-		"Filler (pad word to make longint)",
+		"Filler",
 		'FWRD',
 		/* [6] */
 		"*****",
@@ -184,10 +184,10 @@ resource 'TMPL' (1004, "admn", protected) {
 	}
 };
 
-resource 'TMPL' (1005, "aedt", protected) {
+resource 'TMPL' (1005, "aedt") {
 	{	/* array: 21 elements */
 		/* [1] */
-		"Apple Events",
+		"Apple Events dispatch table",
 		'LSTB',
 		/* [2] */
 		"Event class",
@@ -447,18 +447,18 @@ resource 'TMPL' (1008, "APPL", protected) {
 	}
 };
 
-resource 'TMPL' (1009, "atms", protected) {
-	{	/* array: 57 elements */
+resource 'TMPL' (1009, "atms") {
+	{	/* array: 56 elements */
 		/* [1] */
 		"Resource for the creation of parameter d"
 		"escription atoms",
 		'DVDR',
 		/* [2] */
-		"Count:",
-		'LCNT',
+		"Root atom count",
+		'DLNG',
 		/* [3] */
 		"List of atoms",
-		'LSTC',
+		'LSTB',
 		/* [4] */
 		"Atom type",
 		'TNAM',
@@ -598,27 +598,24 @@ resource 'TMPL' (1009, "atms", protected) {
 		"lstr",
 		'KEYB',
 		/* [50] */
-		"Length",
-		'DLNG',
+		"Hex data with initial size",
+		'LSHX',
 		/* [51] */
-		"Hexadecimal data",
-		'HEXD',
-		/* [52] */
 		"",
 		'KEYE',
-		/* [53] */
+		/* [52] */
 		"osty",
 		'KEYB',
-		/* [54] */
+		/* [53] */
 		"Data",
 		'PSTR',
-		/* [55] */
+		/* [54] */
 		"",
 		'KEYE',
-		/* [56] */
+		/* [55] */
 		"*****",
 		'LSTE',
-		/* [57] */
+		/* [56] */
 		"*****",
 		'LSTE'
 	}
@@ -4994,13 +4991,13 @@ resource 'TMPL' (1051, "CTYP", protected) {
 	}
 };
 
-resource 'TMPL' (1052, "CURS", protected) {
+resource 'TMPL' (1052, "CURS") {
 	{	/* array: 3 elements */
 		/* [1] */
-		"Image bits (32 bytes)",
+		"Image bits",
 		'H020',
 		/* [2] */
-		"Mask bits (32 bytes)",
+		"Mask bits",
 		'H020',
 		/* [3] */
 		"Hot spot",
@@ -17930,7 +17927,7 @@ resource 'TMPL' (1172, "itl0", protected) {
 	}
 };
 
-resource 'TMPL' (1173, "itl1", protected) {
+resource 'TMPL' (1173, "itl1") {
 	{	/* array: 131 elements */
 		/* [1] */
 		"Day 1",
@@ -18020,19 +18017,19 @@ resource 'TMPL' (1173, "itl1", protected) {
 		"Abbreviation length",
 		'UBYT',
 		/* [30] */
-		"String 0 (precedes 1st element)",
+		"String 0 separating 1st element",
 		'T004',
 		/* [31] */
-		"String 1 (separates 1st and 2nd)",
+		"String 1 separating 1st and 2nd",
 		'T004',
 		/* [32] */
-		"String 2 (separates 2nd and 3rd)",
+		"String 2 separating 2nd and 3rd",
 		'T004',
 		/* [33] */
-		"String 3 (separates 3rd and 4th)",
+		"String 3 separating 3rd and 4th",
 		'T004',
 		/* [34] */
-		"String 4 (follows 4th element)",
+		"String 4 following 4th element",
 		'T004',
 		/* [35] */
 		"Region code",
@@ -23587,10 +23584,10 @@ resource 'TMPL' (1241, "PAPA", protected) {
 	}
 };
 
-resource 'TMPL' (1242, "PAT ", protected) {
+resource 'TMPL' (1242, "PAT ") {
 	{	/* array: 1 elements */
 		/* [1] */
-		"Pattern (8 hex string)",
+		"Pattern",
 		'H008'
 	}
 };
