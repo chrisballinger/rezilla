@@ -38,8 +38,6 @@ CWindow_IconFamily::OpenPaintWindow( ResIDT inPPobID, CRezMap *inMap, ResIDT inR
 	{
 		theWindow = (CWindow_IconFamily*) CIcon_EditorWindow::CreatePaintWindow( inPPobID );
 		theWindow->InitializeFromResource( inMap, inResID );
-		theWindow->DebugPortSelf();
-
 	}
 	catch( ... )
 	{
