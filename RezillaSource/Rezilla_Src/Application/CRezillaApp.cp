@@ -296,7 +296,7 @@ CRezillaApp::Initialize()
 // ---------------------------------------------------------------------------
 //	¥ InitMLTE													[private]
 // ---------------------------------------------------------------------------
-//	Last chance to initialize the application before processing events
+// You MUST call LMLTEPane::Initialize() at the beginning of your program
 
 void
 CRezillaApp::InitMLTE()
