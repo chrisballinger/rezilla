@@ -2,11 +2,11 @@
 // CTEXT_EditorDoc.cp
 // 
 //                       Created: 2004-06-17 12:46:55
-//             Last modification: 2005-01-09 08:21:44
+//             Last modification: 2005-02-25 07:04:05
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004, 2005
+// (c) Copyright : Bernard Desgraupes, 2004-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -219,6 +219,8 @@ CTEXT_EditorDoc::AskSaveChanges(
 Handle
 CTEXT_EditorDoc::GetModifiedResource(Boolean &releaseIt) 
 {
+#pragma unused(releaseIt)
+	
 	return mTextEditWindow->GetContentsView()->GetModifiedText();
 }
 
