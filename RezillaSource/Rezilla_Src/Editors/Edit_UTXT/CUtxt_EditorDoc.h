@@ -46,7 +46,7 @@ public:
 							Boolean &outEnabled, Boolean &outUsesMark,
 							UInt16 &outMark, Str255 outName );
 
-	virtual Boolean		IsModified();
+// 	virtual Boolean		IsModified();
 
 	virtual StringPtr	GetDescriptor( Str255 outDescriptor ) const;
 

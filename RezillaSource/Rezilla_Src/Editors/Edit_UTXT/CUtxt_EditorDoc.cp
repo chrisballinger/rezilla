@@ -196,17 +196,17 @@ CUtxt_EditorDoc::AskSaveChanges(
 }
 
 
-// ---------------------------------------------------------------------------------
-//  ¥ IsModified
-// ---------------------------------------------------------------------------------
-
-Boolean
-CUtxt_EditorDoc::IsModified()
-{
-	// Document has changed if the text views are dirty
-	mIsModified = mUtxtEditWindow->IsDirty();
-	return mIsModified;
-}
+// // ---------------------------------------------------------------------------------
+// //  ¥ IsModified
+// // ---------------------------------------------------------------------------------
+// 
+// Boolean
+// CUtxt_EditorDoc::IsModified()
+// {
+// 	// Document has changed if the text views are dirty
+// 	mIsModified = mUtxtEditWindow->IsDirty();
+// 	return mIsModified;
+// }
 
 
 // // ---------------------------------------------------------------------------

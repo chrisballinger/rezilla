@@ -192,34 +192,6 @@ CAete_EditorDoc::AllowSubRemoval(
 
 
 // ---------------------------------------------------------------------------------
-//  IsModified
-// ---------------------------------------------------------------------------------
-// Consider a Dict as a modified document.
-
-Boolean
-CAete_EditorDoc::IsModified()
-{
-	// Document has changed if the controls have been invoked
-	mIsModified = mAeteEditWindow->IsDirty();
-	return mIsModified;
-}
-
-
-// // ---------------------------------------------------------------------------
-// //	¥ AskSaveChanges												  [public]
-// // ---------------------------------------------------------------------------
-// //	Ask user whether to save changes before closing the Dict. 
-// //	There is a global pref sAskSaveDictOnClose to control this.
-// 
-// SInt16
-// CAete_EditorDoc::AskSaveChanges(
-// 	bool /* inQuitting */)
-// {
-// 	return UMessageDialogs::AskYesNoFromLocalizable(CFSTR("SaveAeteEditorWindow"), PPob_AskYesNoMessage);
-// }
-
-
-// ---------------------------------------------------------------------------------
 //  FindCommandStatus
 // ---------------------------------------------------------------------------------
 

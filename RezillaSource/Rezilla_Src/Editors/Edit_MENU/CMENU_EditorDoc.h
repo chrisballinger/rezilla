@@ -2,7 +2,7 @@
 // CMENU_EditorDoc.h				
 // 
 //                       Created: 2005-03-09 17:16:53
-//             Last modification: 2005-03-11 22:17:47
+//             Last modification: 2005-03-23 09:07:59
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -48,7 +48,6 @@ public:
 	virtual StringPtr	GetDescriptor( Str255 outDescriptor ) const;
 
 	virtual Boolean		AllowSubRemoval( LCommander* inSub );
-// 	virtual SInt16		AskSaveChanges( bool inQuitting );
 
 	void				SaveXmnuResource(Handle inXmnuHandle);
 	

@@ -2,7 +2,7 @@
 // CMENU_EditorDoc.cp
 // 
 //                       Created: 2005-03-09 17:16:53
-//             Last modification: 2005-03-16 10:24:10
+//             Last modification: 2005-03-23 09:08:20
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -128,10 +128,10 @@ CMENU_EditorDoc::Initialize()
 	} catch (...) {
 		delete this;
 		if (error == err_MoreDataThanExpected) {
-				UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("ResourceLongerThanExpected"), PPob_SimpleMessage);
-			} else if (error != userCanceledErr) {
-				UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("ErrorWhileParsingResource"), error);
-			} 
+			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("ResourceLongerThanExpected"), PPob_SimpleMessage);
+		} else if (error != userCanceledErr) {
+			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("ErrorWhileParsingResource"), error);
+		} 
 		return;
 	}
 
@@ -162,7 +162,7 @@ CMENU_EditorDoc::GetDescriptor(
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ FindCommandStatus
+//   FindCommandStatus
 // ---------------------------------------------------------------------------------
 
 void
@@ -202,21 +202,8 @@ CMENU_EditorDoc::AllowSubRemoval(
 }
 
 
-// // ---------------------------------------------------------------------------
-// //  AskSaveChanges												  [public]
-// // ---------------------------------------------------------------------------
-// //	Ask user whether to save changes before closing the Document.
-// 
-// SInt16
-// CMENU_EditorDoc::AskSaveChanges(
-// 	bool /* inQuitting */)
-// {
-// 	return UMessageDialogs::AskYesNoFromLocalizable(CFSTR("SaveMenuEditorWindow"), PPob_AskYesNoMessage);
-// }
-
-
 // ---------------------------------------------------------------------------
-//  ¥ GetModifiedResource										[protected]
+//   GetModifiedResource										[protected]
 // ---------------------------------------------------------------------------
 // The returned handle should not be released by the caller so leave
 // releaseIt to false (its default).
@@ -231,13 +218,17 @@ CMENU_EditorDoc::GetModifiedResource(Boolean &releaseIt)
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ SaveXmnuResource
+//   SaveXmnuResource
 // ---------------------------------------------------------------------------------
 
 void
 CMENU_EditorDoc::SaveXmnuResource(Handle inXmnuHandle)
 {
-	// Open or create a 'xmnu' resource and save the StScrpHandle therein
+	if (inXmnuHandle == NULL) {
+		return;
+	} 
+	
+	// Open or create a 'xmnu' resource and save the extended data therein
 	CRezObj * xmnuRezObj = NULL;
 	
 	CEditorsController::OpenOrCreateWithTypeAndID(mRezMapTable, ResType_ExtendedMenu, mRezObj->GetID(), &xmnuRezObj);
@@ -259,13 +250,3 @@ CMENU_EditorDoc::SaveXmnuResource(Handle inXmnuHandle)
 
 
 PP_End_Namespace_PowerPlant
-
-
-// struct MenuInfo {
-//   MenuID              menuID;                 /* in Carbon use Get/SetMenuID*/
-//   short               menuWidth;              /* in Carbon use Get/SetMenuWidth*/
-//   short               menuHeight;             /* in Carbon use Get/SetMenuHeight*/
-//   Handle              menuProc;               /* not supported in Carbon*/
-//   long                enableFlags;            /* in Carbon use Enable/DisableMenuItem, IsMenuItemEnable*/
-//   Str255              menuData;               /* in Carbon use Get/SetMenuTitle*/
-// };

@@ -138,21 +138,6 @@ CTmplEditorDoc::Initialize()
 }
 
 
-// ---------------------------------------------------------------------------------
-//  ¥ IsModified
-// ---------------------------------------------------------------------------------
-// // Compare original handle with modified handle
-// mIsModified = ! UCompareUtils::HandlesAreIdentical(mRezObj->GetData(), mTmplEditWindow->RetrieveDataWithTemplate() );
-
-Boolean
-CTmplEditorDoc::IsModified()
-{
-	// Document has changed if the controls have been invoked
-	mIsModified = mTmplEditWindow->IsDirty();
-	return mIsModified;
-}
-
-
 // ---------------------------------------------------------------------------
 //	¥ GetDescriptor													  [public]
 // ---------------------------------------------------------------------------

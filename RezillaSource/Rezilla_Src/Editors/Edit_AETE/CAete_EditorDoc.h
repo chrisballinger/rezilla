@@ -48,8 +48,6 @@ public:
 									void*		ioParam);
 
 	virtual Boolean			AllowSubRemoval( LCommander* inSub );
-
-	virtual Boolean			IsModified();
 	
 	static Boolean			DesignateExportFile(FSSpec& outFileSpec, 
 												Boolean & outReplacing, 
