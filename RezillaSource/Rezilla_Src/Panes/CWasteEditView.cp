@@ -52,44 +52,6 @@ CWasteEditView::CWasteEditView()
 
 
 // ---------------------------------------------------------------------------
-//	¥ CWasteEditView						Copy Constructor		  [public]
-// ---------------------------------------------------------------------------
-
-CWasteEditView::CWasteEditView(
-	   const CWasteEditView&	inOriginal )
-{
-	CWasteEditView * outWasteEdit = new CWasteEditView();
-	outWasteEdit->mTypingAction				= inOriginal.mTypingAction ;
-	outWasteEdit->mWasteEditRef				= inOriginal.mWasteEditRef ;
-	outWasteEdit->mTextTraitsID				= inOriginal.mTextTraitsID ;
-	outWasteEdit->mTextAttributes			= inOriginal.mTextAttributes ;
-	outWasteEdit->mIsDirty					= inOriginal.mIsDirty ;
-	outWasteEdit->mAutoScroll				= inOriginal.mAutoScroll ;
-	outWasteEdit->mOutlineHilite			= inOriginal.mOutlineHilite ;
-	outWasteEdit->mMonoStyled				= inOriginal.mMonoStyled ;
-	outWasteEdit->mReadOnly					= inOriginal.mReadOnly ;
-	outWasteEdit->mDragAndDrop				= inOriginal.mDragAndDrop ;
-	outWasteEdit->mUndo						= inOriginal.mUndo ;
-	outWasteEdit->mMultipleUndo				= inOriginal.mMultipleUndo ;
-	outWasteEdit->mIntCutAndPaste			= inOriginal.mIntCutAndPaste ;
-	outWasteEdit->mDrawOffscreen			= inOriginal.mDrawOffscreen ;
-	outWasteEdit->mInhibitRecal				= inOriginal.mInhibitRecal ;
-	outWasteEdit->mInhibitRedraw			= inOriginal.mInhibitRedraw ;
-	outWasteEdit->mInhibitICSupport			= inOriginal.mInhibitICSupport ;
-	outWasteEdit->mInhibitColor				= inOriginal.mInhibitColor ;
-	outWasteEdit->mUseTempMem				= inOriginal.mUseTempMem ;
-	outWasteEdit->mNoKeyboardSync			= inOriginal.mNoKeyboardSync ;
-	outWasteEdit->mWordWrap					= inOriginal.mWordWrap ;
-	outWasteEdit->mSelectable				= inOriginal.mSelectable ;
-	outWasteEdit->mLineHeight				= inOriginal.mLineHeight ;
-	outWasteEdit->mClickLoopUPP				= inOriginal.mClickLoopUPP ;
-
-// 	InitView();
-// 	InitStyle(0);
-}
-
-
-// ---------------------------------------------------------------------------
 //	¥ CWasteEditView						Parameterized Constructor [public]
 // ---------------------------------------------------------------------------
 
@@ -113,6 +75,33 @@ CWasteEditView::CWasteEditView(
 	
 	InitView();
 	InitStyle(inTextTraitsID);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ CWasteEditView						Parameterized Constructor [public]
+// ---------------------------------------------------------------------------
+
+CWasteEditView::CWasteEditView(
+	   LCommander *		inSuper,
+	   const SPaneInfo&	inPaneInfo,
+	   const SViewInfo&	inViewInfo,
+	   UInt16			inTextAttributes,
+	   TextTraitsPtr	inTextTraitsPtr,
+	   Boolean			inWordWrap,
+	   Boolean			inReadOnly,
+	   Boolean			inSelectable)
+
+	: LView(inPaneInfo, inViewInfo),
+	  LCommander(inSuper)
+{
+	mReadOnly = inReadOnly;
+	mWordWrap = inWordWrap;
+	mSelectable = inSelectable;
+	mTextAttributes = inTextAttributes;
+		
+	InitView();
+	ApplyTextTraits(inTextTraitsPtr, mWasteEditRef);
 }
 
 
@@ -155,29 +144,8 @@ CWasteEditView::CWasteEditView(
 		
 	InitView();
 	InitStyle(textTraitsID);
+	InitText(initialTextID);
 
-	StResource	initialTextRes(ResType_Text, initialTextID, false);
-
-	if (initialTextRes.mResourceH != nil) {
-
-		StResource	initialStyleRes;
-		if ( !mMonoStyled ) {
-			initialStyleRes.GetResource(ResType_TextStyle, initialTextID, false);
-		}
-
-		Size textLength = ::GetHandleSize(initialTextRes);
-
-		SetTextHandle(initialTextRes,
-					(StScrpHandle) initialStyleRes.mResourceH);
-
-		WESetSelection(0, 0, mWasteEditRef);
-		AlignWERects();
-		AdjustImageToText();
-    }
-	
-	// Set the readOnly option now. It has been postponed until after
-	// the text resource has been inserted
-	WEFeatureFlag(weFReadOnly,mReadOnly,mWasteEditRef);
 }
 
 
@@ -276,61 +244,50 @@ CWasteEditView::InitView()
 void
 CWasteEditView::InitStyle(ResIDT inTextTraitsID )
 {
-	WEReference		we = nil ;
-	OSStatus		err = noErr ;
+	SPoint32	scrollUnit;
 
-	mTextTraitsID	= inTextTraitsID;
-		
 	if (!mMonoStyled) {
-		
-		// TextTraits are not used in multi-style text edit, however
-		// they are used this once to set the initial text traits
-		// for the WasteEdit instance.
-		
 		mTextTraitsID = -1;
-		TextTraitsH theTxtrH = UTextTraits::LoadTextTraits(inTextTraitsID);
+	} else {
+		mTextTraitsID = inTextTraitsID;
+	}
+	
+	// Set the initial text traits
+	ApplyTextTraits(inTextTraitsID, mWasteEditRef);
+
+	scrollUnit.h = 4;
+	scrollUnit.v = mLineHeight;
+	SetScrollUnit(scrollUnit);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ InitText													[private]
+// ---------------------------------------------------------------------------
+
+void
+CWasteEditView::InitText(ResIDT inTextID )
+{
+	StResource	initialTextRes(ResType_Text, inTextID, false);
+
+	if (initialTextRes.mResourceH != nil) {
+		StResource	initialStyleRes;
+		Size textLength;
 		
-		TextStyle		theStyle;
-		WEAlignment		justification = weFlushDefault;
-		
-		if ( theTxtrH != nil ) {
-			theStyle.tsFont		= (*theTxtrH)->fontNumber;
-			theStyle.tsFace		= static_cast<UInt8>((*theTxtrH)->style);
-			theStyle.tsSize		= (*theTxtrH)->size;
-			theStyle.tsColor	= (*theTxtrH)->color;
-			justification		= (*theTxtrH)->justification;
-			
-			::ReleaseResource(reinterpret_cast<Handle>(theTxtrH));
-		} else {
-			// We'll just use some basic defaults
-			
-			theStyle.tsFont			= ::GetAppFont();
-			theStyle.tsFace			= normal;
-			theStyle.tsSize			= ::GetDefFontSize();
-			theStyle.tsColor.red	= 0;
-			theStyle.tsColor.green	= 0;
-			theStyle.tsColor.blue	= 0;
+		// Just in case the doc is read-only
+		int saveBit = WEFeatureFlag( weFReadOnly, weBitClear, mWasteEditRef );
+
+		if ( !mMonoStyled ) {
+			initialStyleRes.GetResource(ResType_TextStyle, inTextID, false);
 		}
 
-		// Set Port Font and Size so WE uses the correct
-		// settings for its internal tables
-		::TextFont(theStyle.tsFont);		
-		::TextSize(theStyle.tsSize);
-		
-		// weDoAll = weDoFont | weDoFace | weDoSize | weDoColor
-		WESetStyle(weDoAll,&theStyle,mWasteEditRef);
-		WESetAlignment( justification, mWasteEditRef );
-		
-		SetLineHeight( GetLineHeightFromStyle(theStyle) );
-		
-	} else {
-		// Set the initial text traits
-		ApplyTextTraits(mTextTraitsID, mWasteEditRef);
-		
-		SPoint32	scrollUnit;
-		scrollUnit.h = 4;
-		scrollUnit.v = mLineHeight;
-		SetScrollUnit(scrollUnit);
+		textLength = ::GetHandleSize(initialTextRes);
+		SetTextHandle(initialTextRes, (StScrpHandle) initialStyleRes.mResourceH);
+
+		WESetSelection(0, 0, mWasteEditRef);
+		WEFeatureFlag( weFReadOnly, saveBit, mWasteEditRef );
+		AlignWERects();
+		AdjustImageToText();
 	}
 }
 
@@ -347,7 +304,7 @@ CWasteEditView::FlagsFromAttributes() {
 	theFlags |= HasAttribute(weAttr_AutoScroll) ?		weDoAutoScroll : 0 ;
 	theFlags |= HasAttribute(weAttr_OutlineHilite) ?	weDoOutlineHilite : 0 ;
 	theFlags |= HasAttribute(weAttr_MonoStyled) ?		weDoMonoStyled : 0 ;
-// 	theFlags |= HasAttribute(weAttr_ReadOnly) ?			weDoReadOnly : 0 ;
+	theFlags |= HasAttribute(weAttr_ReadOnly) ?			weDoReadOnly : 0 ;
 	theFlags |= HasAttribute(weAttr_DragAndDrop) ?		weDoDragAndDrop : 0 ;
 	theFlags |= HasAttribute(weAttr_Undo) ?				weDoUndo : 0 ;
 	theFlags |= HasAttribute(weAttr_MultipleUndo) ?		weDoMultipleUndo : 0 ;
