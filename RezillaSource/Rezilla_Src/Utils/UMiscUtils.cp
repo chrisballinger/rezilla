@@ -1,7 +1,7 @@
 // ===========================================================================
 // UMiscUtils.cp					
 //                       Created: 2003-05-13 20:06:23
-//             Last modification: 2005-02-19 16:26:12
+//             Last modification: 2005-02-20 16:20:58
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -292,9 +292,15 @@ UMiscUtils::GetValueFromXml(CFXMLTreeRef inXmlTree, SInt32 & outValue)
 	CFXMLTreeRef    valueTree;
 	CFXMLNodeRef    valueNode;
 
+	outValue = 0;
+	
 	valueTree = CFTreeGetFirstChild(inXmlTree);
-	valueNode = CFXMLTreeGetNode(valueTree);
-	outValue = CFStringGetIntValue( CFXMLNodeGetString(valueNode) );
+	if (valueTree) {
+		valueNode = CFXMLTreeGetNode(valueTree);
+		if (valueNode) {
+			outValue = CFStringGetIntValue( CFXMLNodeGetString(valueNode) );
+		} 
+	} 
 }
 
 
@@ -303,14 +309,20 @@ UMiscUtils::GetValueFromXml(CFXMLTreeRef inXmlTree, SInt32 & outValue)
 // ---------------------------------------------------------------------------
 
 void
-UMiscUtils::GetStringFromXml(CFXMLTreeRef inXmlTree, Str255 outString)
+UMiscUtils::GetStringFromXml(CFXMLTreeRef inXmlTree, Str255 & outString)
 {
 	CFXMLTreeRef    valueTree;
 	CFXMLNodeRef    valueNode;
 
+	outString[0] = 0;
+	
 	valueTree = CFTreeGetFirstChild(inXmlTree);
-	valueNode = CFXMLTreeGetNode(valueTree);
-	CFStringGetPascalString( CFXMLNodeGetString(valueNode), outString, sizeof(outString), NULL);
+	if (valueTree) {
+		valueNode = CFXMLTreeGetNode(valueTree);
+		if (valueNode) {
+			CFStringGetPascalString( CFXMLNodeGetString(valueNode), outString, sizeof(outString), NULL);
+		} 
+	} 
 }
 
 
@@ -318,13 +330,21 @@ UMiscUtils::GetStringFromXml(CFXMLTreeRef inXmlTree, Str255 outString)
 // 	GetOSTypeFromXml
 // ---------------------------------------------------------------------------
 
-void
-UMiscUtils::GetOSTypeFromXml(CFXMLTreeRef inXmlTree, OSType outType)
+OSErr
+UMiscUtils::GetOSTypeFromXml(CFXMLTreeRef inXmlTree, OSType & outType)
 {
-	Str255 theString;
+	OSErr	error = noErr;
+	Str255	theString;
 	
-	GetStringFromXml( inXmlTree, theString);
-	PStringToOSType( theString, outType);
+	GetStringFromXml(inXmlTree, theString);
+	if (theString[0] != 4) {
+		error = err_ImportInvalidOSType;
+	} 
+	if (error == noErr) {
+		PStringToOSType( theString, outType);	
+	} 
+	
+	return error;
 }
 
 
