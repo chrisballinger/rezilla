@@ -2,7 +2,7 @@
 // UCodeTranslator.cp					
 // 
 //                       Created: 2003-05-04 16:40:47
-//             Last modification: 2004-06-08 08:43:28
+//             Last modification: 2004-08-16 10:51:21
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -18,6 +18,8 @@
 #endif
 
 #include "UCodeTranslator.h"
+#include "CRezillaPrefs.h"
+#include "RezillaConstants.h"
 
 #include <LString.h>
 #include <UMemoryMgr.h>
@@ -127,7 +129,7 @@ UCodeTranslator::ConvertByteToSegmentedText(char* srcString, char* trgtString, S
 
 
 // ---------------------------------------------------------------------------
-//	¥ ConvertByteToSeparatedHex												[public]
+//	¥ ConvertByteToSeparatedHex										[public]
 // ---------------------------------------------------------------------------
 // This function supposes that the src and trgt streams are properly allocated. 
 // The size of trgtDataStream should be three times the size of srcDataStream.
@@ -139,10 +141,17 @@ UCodeTranslator::ConvertByteToSeparatedHex( LDataStream* srcDataStream, LDataStr
 	UInt8 readChar;
 	char * buffer = new char[3];
 	SInt32 length = srcDataStream->GetLength();
+	char * formatStr = new char[32];
+
+	if (CRezillaPrefs::GetPrefValue(kPref_editors_hexCase) == hex_uppercase) {
+		sprintf(formatStr, "%s.2X %c", "%", 0);
+	} else {
+		sprintf(formatStr, "%s.2x %c", "%", 0);
+	}
 	
 	for (UInt32 i = 1; i <= length; i++) {
 		*srcDataStream >> readChar;
-		sprintf(buffer, "%.2x ", readChar);
+		sprintf(buffer, formatStr, readChar);
 		trgtDataStream->WriteBlock(buffer,3);
 	}
 }
@@ -159,9 +168,16 @@ UCodeTranslator::ConvertByteToSeparatedHex(char* srcString, char* trgtString )
 {
 	char * buffer = new char[3];
 	SInt32 pos = 0;
+	char * formatStr = new char[32];
+
+	if (CRezillaPrefs::GetPrefValue(kPref_editors_hexCase) == hex_uppercase) {
+		sprintf(formatStr, "%s.2X %c", "%", 0);
+	} else {
+		sprintf(formatStr, "%s.2x %c", "%", 0);
+	}
 	
 	do {
-		sprintf(buffer, "%.2x ", (UInt8) *srcString);
+		sprintf(buffer, formatStr, (UInt8) *srcString);
 		::BlockMoveData(buffer, trgtString + pos, 3);
 		pos += 3;
 	} while (*srcString++);
@@ -182,10 +198,17 @@ UCodeTranslator::ConvertByteToSegmentedHex( LDataStream* srcDataStream, LDataStr
 	UInt8 readChar;
 	char * buffer = new char[3];
 	SInt32 length = srcDataStream->GetLength();
+	char * formatStr = new char[32];
+
+	if (CRezillaPrefs::GetPrefValue(kPref_editors_hexCase) == hex_uppercase) {
+		sprintf(formatStr, "%s.2X%c", "%", 0);
+	} else {
+		sprintf(formatStr, "%s.2x%c", "%", 0);
+	}
 	
 	for (UInt32 i = 1; i <= length; i++) {
 		*srcDataStream >> readChar;
-		sprintf(buffer, "%.2x", readChar);
+		sprintf(buffer, formatStr, readChar);
 		trgtDataStream->WriteBlock(buffer,2);
 		*trgtDataStream << ((i % inSegment) ? (char) 0x20 : (char) 0x0D);
 	}
@@ -206,9 +229,16 @@ UCodeTranslator::ConvertByteToSegmentedHex(char* srcString, char* trgtString, SI
 	char * buffer = new char[3];
 	SInt32 pos = 0;
 	SInt32 period = 3 * inSegment;
+	char * formatStr = new char[32];
+
+	if (CRezillaPrefs::GetPrefValue(kPref_editors_hexCase) == hex_uppercase) {
+		sprintf(formatStr, "%s.2X%ss%c", "%", "%", 0);
+	} else {
+		sprintf(formatStr, "%s.2x%ss%c", "%", "%", 0);
+	}
 	
 	do {
-		sprintf(buffer, "%.2x%s", (UInt8) *srcString, ((pos % period) ? (char) 0x20 : (char) 0x0D));
+		sprintf(buffer, formatStr, (UInt8) *srcString, ((pos % period) ? (char) 0x20 : (char) 0x0D));
 		::BlockMoveData(buffer, trgtString + pos, 3);
 		pos += 3;
 	} while (*srcString++);
@@ -228,10 +258,17 @@ UCodeTranslator::ConvertByteToHex( LDataStream* srcDataStream, LDataStream* trgt
 	UInt8 readChar;
 	char * buffer = new char[2];
 	SInt32 length = srcDataStream->GetLength();
+	char * formatStr = new char[32];
+
+	if (CRezillaPrefs::GetPrefValue(kPref_editors_hexCase) == hex_uppercase) {
+		sprintf(formatStr, "%s.2X%c", "%", 0);
+	} else {
+		sprintf(formatStr, "%s.2x%c", "%", 0);
+	}
 	
 	for (UInt32 i = 1; i <= length; i++) {
 		*srcDataStream >> readChar;
-		sprintf(buffer, "%.2x", readChar);
+		sprintf(buffer, formatStr, readChar);
 		trgtDataStream->WriteBlock(buffer,2);
 	}
 }
@@ -248,9 +285,17 @@ UCodeTranslator::ConvertByteToHex(char* srcString, char* trgtString )
 {
 	char * buffer = new char[2];
 	SInt32 pos = 0;
+	char * formatStr = new char[32];
+
+	if (CRezillaPrefs::GetPrefValue(kPref_editors_hexCase) == hex_uppercase) {
+		sprintf(formatStr, "%s.2X%c", "%", 0);
+	} else {
+		sprintf(formatStr, "%s.2x%c", "%", 0);
+	}
+	
 	
 	do {
-		sprintf(buffer, "%.2x", (UInt8) *srcString);
+		sprintf(buffer, formatStr, (UInt8) *srcString);
 		::BlockMoveData(buffer, trgtString + pos, 2);
 		pos += 2;
 	} while (*srcString++);
