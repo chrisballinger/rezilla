@@ -72,6 +72,8 @@ public:
 		void		GetTitle(Str255 outTitle);
 		void 		SetTitle(Str255 inTitle);
 
+		UInt8		GetStyle() { return mStyle;}
+
 		SInt16		GetEntryType() { return mEntryType;}
 		void		SetEntryType(SInt16 inEntryType) {mEntryType = inEntryType;}
 
