@@ -59,10 +59,10 @@
 
 // Statics
 ResIDT CTmplEditorWindow::sCommentTraitsID = Txtr_MonacoBlueNineCenter;
-ResIDT CTmplEditorWindow::sLeftLabelTraitsID = Txtr_GenevaTenBoldUlLeft;
-ResIDT CTmplEditorWindow::sRightLabelTraitsID = Txtr_GenevaTenBoldUlRight;
+ResIDT CTmplEditorWindow::sLeftLabelTraitsID = Txtr_GenevaTenBoldLeft;
+ResIDT CTmplEditorWindow::sRightLabelTraitsID = Txtr_GenevaTenBoldRight;
 ResIDT CTmplEditorWindow::sEditTraitsID = Txtr_GenevaTen;
-ResIDT CTmplEditorWindow::sHeaderTraitsID = Txtr_GenevaTenBold;
+ResIDT CTmplEditorWindow::sHeaderTraitsID = Txtr_GenevaTenBoldUl;
 SPaneInfo CTmplEditorWindow::sEditPaneInfo;
 SPaneInfo CTmplEditorWindow::sStaticPaneInfo;
 SPaneInfo CTmplEditorWindow::sRgvPaneInfo;
