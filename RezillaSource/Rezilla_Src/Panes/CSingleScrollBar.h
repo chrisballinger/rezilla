@@ -2,7 +2,7 @@
 // CSingleScrollBar.h				
 // 
 //                       Created: 2004-03-19 13:49:48
-//             Last modification: 2004-03-19 13:49:53
+//             Last modification: 2004-03-20 07:26:18
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -50,12 +50,6 @@ public:
 	virtual void		DoTrackAction(
 								SInt16				inHotSpot,
 								SInt32				inValue);
-
-protected:
-
-	virtual void		DoneTracking(
-								SInt16				inHotSpot,
-								Boolean				inGoodTrack);
 
 private:
 	void				InitScrollBar();

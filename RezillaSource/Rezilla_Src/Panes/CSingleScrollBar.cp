@@ -2,7 +2,7 @@
 // CSingleScrollBar.cp					
 // 
 //                       Created: 2004-03-19 13:49:48
-//             Last modification: 2004-03-19 13:49:53
+//             Last modification: 2004-03-20 07:25:40
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -64,7 +64,6 @@ CSingleScrollBar::~CSingleScrollBar()
 {
 }
 
-#pragma mark -
 
 // ---------------------------------------------------------------------------
 //	¥ DoTrackAction													  [public]
@@ -98,7 +97,9 @@ CSingleScrollBar::DoTrackAction(
 				++inValue;
 				break;
 		}
-		LControl::SetValue(inValue);
+		// Caveat: here call SetValue (i-e LControlPane::SetValue) 
+		// and not LControl::SetValue
+		SetValue(inValue);
 	}
 }
 
