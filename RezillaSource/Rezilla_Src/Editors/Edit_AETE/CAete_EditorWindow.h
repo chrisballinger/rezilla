@@ -36,7 +36,8 @@ public:
 							CAete_EditorWindow();
 							CAete_EditorWindow( const SWindowInfo &inWindowInfo );
 							CAete_EditorWindow( ResIDT inWINDid,
-								UInt32 inAttributes, LCommander *inSuperCommander );
+											   UInt32 inAttributes, 
+											   LCommander *inSuperCommander );
 							CAete_EditorWindow( LStream *inStream );
 							~CAete_EditorWindow();
 
@@ -51,19 +52,20 @@ public:
 
 // 	virtual void		Activate();
 	
-	static void			InstallAete(Handle inHandle);
+	void				InstallAete(Handle inHandle);
 
-// 	void				FillInSuitesPopup();
-// 	void				FillInCategoriesLBox(SInt32 inCatNum[4]);
-// 	void				FillInTermsTable(SInt32 inType);
+	void				FillSuitePopup();
+	void				InstallSuiteValues();
+	void				InstallPanelValues();
 	
-	void				EmptyContents();
+	void				InstallValuesInPane();
+	void				RetrieveValuesFromPane();
 		
 	// Accessors
 
 	static LMenu		*sAeteMenu;
 
-  protected:
+protected:
 	CAete *					mAete;
 	UInt8					mCurrentPanel;
 	LPageController *		mController;

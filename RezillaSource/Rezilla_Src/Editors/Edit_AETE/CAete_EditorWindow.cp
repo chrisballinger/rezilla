@@ -18,6 +18,8 @@
 #include "CRezillaApp.h"
 #include "RezillaConstants.h"
 #include "CAete.h"
+#include "CAeteSuite.h"
+#include "CAeteStream.h"
 
 // PP headers
 #include <LPageController.h>
@@ -47,7 +49,7 @@ LMenu *		CAete_EditorWindow::sAeteMenu = nil;
 
 
 // ---------------------------------------------------------------------------
-//		¥ CAete_EditorWindow										[public]
+//  CAete_EditorWindow										[public]
 // ---------------------------------------------------------------------------
 
 CAete_EditorWindow::CAete_EditorWindow()
@@ -57,7 +59,7 @@ CAete_EditorWindow::CAete_EditorWindow()
 
 
 // ---------------------------------------------------------------------------
-//		¥ CAete_EditorWindow										[public]
+//  CAete_EditorWindow										[public]
 // ---------------------------------------------------------------------------
 
 CAete_EditorWindow::CAete_EditorWindow(
@@ -68,7 +70,7 @@ CAete_EditorWindow::CAete_EditorWindow(
 
 
 // ---------------------------------------------------------------------------
-//		¥ CAete_EditorWindow										[public]
+//  CAete_EditorWindow										[public]
 // ---------------------------------------------------------------------------
 
 CAete_EditorWindow::CAete_EditorWindow(
@@ -81,7 +83,7 @@ CAete_EditorWindow::CAete_EditorWindow(
 
 
 // ---------------------------------------------------------------------------
-//		¥ CAete_EditorWindow										[public]
+//  CAete_EditorWindow										[public]
 // ---------------------------------------------------------------------------
 
 CAete_EditorWindow::CAete_EditorWindow(
@@ -92,16 +94,19 @@ CAete_EditorWindow::CAete_EditorWindow(
 
 
 // ---------------------------------------------------------------------------
-//		¥ ~CAete_EditorWindow										[public]
+//  ~CAete_EditorWindow										[public]
 // ---------------------------------------------------------------------------
 
 CAete_EditorWindow::~CAete_EditorWindow()
 {
+	if (mAete) {
+		delete mAete;
+	} 
 }
 
 
 // ---------------------------------------------------------------------------
-//		¥ FinishCreateSelf											[protected]
+//  FinishCreateSelf											[protected]
 // ---------------------------------------------------------------------------
 // 	ListHandle theListH = mCategoriesListBox->GetMacListH();
 // 	Cell theCell = {0,0};
@@ -125,12 +130,9 @@ CAete_EditorWindow::~CAete_EditorWindow()
 void
 CAete_EditorWindow::FinishCreateSelf()
 {    
-//     mContentsScroller = dynamic_cast<LScrollerView *>(this->FindPaneByID( item_EditorScroller ));
-//     ThrowIfNil_(mContentsScroller);
-// 	
-//     mContentsView = dynamic_cast<LView *>(this->FindPaneByID( item_EditorContents ));
-//     ThrowIfNil_(mContentsView);
-
+	mAete = nil;
+	mCurrentPanel = mpv_AeteEvents;
+	
 	mSuitesPopup = dynamic_cast<LPopupButton *> (this->FindPaneByID( item_AeteSuitePopup ));
 	ThrowIfNil_( mSuitesPopup );
 	
@@ -271,7 +273,7 @@ CAete_EditorWindow::TakeOffDuty()
 
 
 // ---------------------------------------------------------------------------
-//		¥ ListenToMessage										[public]
+//  ListenToMessage										[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -284,28 +286,77 @@ CAete_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 // 	  case msg_DictSaveButton:
 // 		ObeyCommand(cmd_SaveDict,nil);
 // 		break;
-				
-		
+	
 	}
 }
 
 
 // ---------------------------------------------------------------------------
-//		¥ InstallAete											[public]
+//  InstallAete														[public]
 // ---------------------------------------------------------------------------
 
 void
 CAete_EditorWindow::InstallAete(Handle inHandle) 
 {
+	StHandleLocker lock(inHandle);
+	
+	CAeteStream * theStream = new CAeteStream(inHandle);
+	
+	mAete = new CAete(theStream);
+	delete theStream;
+	
+	FillSuitePopup();
+	InstallSuiteValues();
+	InstallPanelValues();
 }
 
 
 // ---------------------------------------------------------------------------
-//		¥ EmptyContents											[public]
+//  FillSuitePopup													[public]
+// ---------------------------------------------------------------------------
+// Note: LMenuController::AppendMenu() takes care of updating the
+// MenuMinMax values whereas a direct call to ToolBox's ::AppendMenu()
+// does not.
+
+void
+CAete_EditorWindow::FillSuitePopup()
+{
+	MenuRef    theMenuH = mSuitesPopup->GetMacMenuH();
+	ThrowIfNil_(theMenuH);
+	
+	TArrayIterator<CAeteSuite*>	iterator( *mAete->GetSuites() );
+	CAeteSuite *	theSuite;
+	Str255			theString;
+
+	while (iterator.Next(theSuite)) {
+		theSuite->GetName(theString);
+		
+		if ( theString[0] ) {
+			mSuitesPopup->AppendMenu(theString);
+		} else {
+			mSuitesPopup->AppendMenu("\p<unnamed suite>");
+		}
+	}
+	mSuitesPopup->SetMacMenuH(theMenuH);
+}
+
+
+// ---------------------------------------------------------------------------
+//  InstallSuiteValues												[public]
 // ---------------------------------------------------------------------------
 
 void
-CAete_EditorWindow::EmptyContents()
+CAete_EditorWindow::InstallSuiteValues()
+{
+}
+
+
+// ---------------------------------------------------------------------------
+//  InstallPanelValues												[public]
+// ---------------------------------------------------------------------------
+
+void
+CAete_EditorWindow::InstallPanelValues()
 {
 }
 
