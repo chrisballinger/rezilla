@@ -2105,38 +2105,6 @@ CWasteEditView::BuildTextAttributes()
 }
 
 
-// // ---------------------------------------------------------------------------
-// //	¥ ApplyStylePrefs
-// // ---------------------------------------------------------------------------
-// 
-// void
-// CWasteEditView::ApplyStylePrefs(UInt16 theSize, UInt16 theFont)
-// {
-// 	SInt32 saveStart, saveEnd;
-// 	LongRect theOldRect;
-// 	TextStyle theStyle;
-// 	
-// 	WEGetDestRect( &theOldRect, mWasteEditRef);
-// 	WEFeatureFlag( weFReadOnly, weBitClear, mWasteEditRef );
-// 	WEGetSelection( & saveStart, & saveEnd, mWasteEditRef);
-// 	WESetSelection( 0, 0x7FFFFFFF, mWasteEditRef );
-// 	
-// 	theStyle.tsSize = theSize;
-// 	WESetStyle( weDoSize, &theStyle, mWasteEditRef );
-// 	
-// 	theStyle.tsFont = theFont;
-// 	WESetStyle( weDoFont, &theStyle, mWasteEditRef );
-// 	
-// 	WESetSelection( saveStart, saveEnd, mWasteEditRef );
-// 	WEFeatureFlag( weFReadOnly, weBitSet, mWasteEditRef );
-// 	
-// 	AlignWERects();
-// 	AdjustImageToText();
-// 	ForceAutoScroll(theOldRect);
-// 	Refresh();
-// }
-
-
 // ---------------------------------------------------------------------------
 //	¥ ApplyStyleValues
 // ---------------------------------------------------------------------------

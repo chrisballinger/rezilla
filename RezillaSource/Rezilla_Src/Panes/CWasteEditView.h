@@ -309,7 +309,6 @@ public:
 
 	virtual void			ActivateSelf();
 	
-// 	void					ApplyStylePrefs(UInt16 theSize, UInt16 theFont);
 	void					ApplyStyleValues(UInt16 theSize, UInt16 theFont);
 
 	Boolean					IsDirty() const {return mIsDirty;}
