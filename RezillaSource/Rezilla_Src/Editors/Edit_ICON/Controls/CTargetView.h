@@ -24,7 +24,7 @@
 
 class CTargetView : public LView, public LBroadcaster {
 	public:
-		enum { class_ID = FOUR_CHAR_CODE('TgBx') };
+		enum { class_ID = FOUR_CHAR_CODE('TgVw') };
 		
 							CTargetView( LStream * );
 		virtual				~CTargetView();

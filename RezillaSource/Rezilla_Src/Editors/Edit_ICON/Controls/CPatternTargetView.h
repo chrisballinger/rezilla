@@ -19,7 +19,7 @@
 
 class CPatternTargetView : public CDraggableTargetView {
 	public:
-		enum { class_ID = FOUR_CHAR_CODE('PTBx') };
+		enum { class_ID = FOUR_CHAR_CODE('PTVw') };
 		
 										CPatternTargetView( LStream * );
 		virtual							~CPatternTargetView();

@@ -48,7 +48,7 @@ typedef struct
 class CDraggableTargetView : public CTargetView, 
 							public CImageDragDrop {
 	public:
-		enum { class_ID = FOUR_CHAR_CODE('DTBx') };
+		enum { class_ID = FOUR_CHAR_CODE('DTVw') };
 		
 								CDraggableTargetView( LStream * );
 		virtual					~CDraggableTargetView();
