@@ -2,7 +2,7 @@
 // CRezFile.cp					
 // 
 //                       Created: 2003-04-24 14:17:20
-//             Last modification: 2004-08-15 20:06:33
+//             Last modification: 2004-09-09 09:38:15
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -300,7 +300,7 @@ CRezFile::CloseFile()
 	}
 	// Set the type and creator if the corresponding pref is on
 	if ( CRezillaPrefs::GetPrefValue(kPref_misc_setSigOnClose) ) {
-		if ( ! (CRezillaPrefs::GetPrefValue(kPref_misc_onlyRsrcExt) && UMiscUtils::HasExtension(&mFileSpec, ".rsrc")) ) {
+		if ( !CRezillaPrefs::GetPrefValue(kPref_misc_onlyRsrcExt) || UMiscUtils::HasExtension(&mFileSpec, ".rsrc") ) {
 			UMiscUtils::SetTypeAndCreator(mFileSpec,
 										  (OSType) CRezillaPrefs::GetPrefValue(kPref_misc_closingType),
 										  (OSType) CRezillaPrefs::GetPrefValue(kPref_misc_closingCreator));
