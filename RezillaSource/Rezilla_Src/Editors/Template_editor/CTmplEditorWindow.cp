@@ -2,7 +2,7 @@
 // CTmplEditorWindow.cp					
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-08-16 15:10:59
+//             Last modification: 2004-08-20 13:46:11
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -2841,14 +2841,12 @@ CTmplEditorWindow::AddColorPane(OSType inType,
 								LView * inContainer, 
 								RGBColor * inRGB)
 {
-	PenState state;
-	
 	sColorPaneInfo.left			= kTmplLeftMargin + kTmplLabelWidth + kTmplHorizSep;
 	sColorPaneInfo.top			= mYCoord;
 	sColorPaneInfo.superView	= inContainer;
 	sColorPaneInfo.paneID		= mCurrentID;
 	
-	CColorWell * thePane = new CColorWell(sColorPaneInfo, inRGB, inRGB);
+	CColorWell * thePane = new CColorWell(sColorPaneInfo, inRGB);
 	ThrowIfNil_(thePane);
 
 	// Advance the counters
@@ -3122,6 +3120,19 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		mCurrentID++;
 		break;
 
+		case 'COLR': {
+			// QuickDraw color RGB triplet
+			RGBColor theRGB;
+			CColorWell * colorWell = dynamic_cast<CColorWell *>(this->FindPaneByID(mCurrentID));
+			ThrowIfNil_( colorWell );
+			colorWell->GetColor(theRGB);
+			*mOutStream << theRGB.red;
+			*mOutStream << theRGB.green;
+			*mOutStream << theRGB.blue;
+			mCurrentID++;
+			break;
+		}
+		
 		case 'CSTR':
 		// C string
 		theWasteEdit = dynamic_cast<CWasteEditView *>(this->FindPaneByID(mCurrentID));
