@@ -1,0 +1,226 @@
+Scripting terminology for "Rezilla.rsrc"
+
+Version: 1.0
+Language code: 0
+Script code: 0
+Number of Suites: 5
+
+SUITE 1
+Required Suite ('reqd', level 1, version 1)
+  Terms that every application should support
+
+SUITE 2
+Standard Suite ('CoRe', level 1, version 1)
+  Common terms for most applications
+
+  10 Terms
+
+	close  ('core'/'clos') -- Close an object
+		Direct parameter type: 'obj '  -- the objects to close
+		It is required. Single item not enumerated 
+		Reply ('null') -- 
+		It is optional. Single item not enumerated 
+		Additional Parameters
+		  saving (keyword 'savo',  type 'savo')
+			-- specifies whether or not changes should be saved before closing
+			It is optional. Single item enumerated 
+		  in (keyword 'kfil',  type 'alis')
+			-- the file in which to save the object
+			It is optional. Single item not enumerated 
+
+	count  ('core'/'cnte') -- Return the number of elements of a particular class within an object
+		Direct parameter type: 'obj '  -- the object whose elements are to be counted
+		It is required. Single item not enumerated 
+		Reply ('long') -- the number of elements
+		It is required. Single item not enumerated 
+		Additional Parameters
+		  each (keyword 'kocl',  type 'type')
+			-- the class of the elements to be counted
+			It is required. Single item not enumerated 
+
+	data size  ('core'/'dsiz') -- Return the size in bytes of an object
+		Direct parameter type: 'obj '  -- the object whose data size is to be returned
+		It is required. Single item not enumerated 
+		Reply ('long') -- the size of the object in bytes
+		It is required. Single item not enumerated 
+
+	exists  ('core'/'doex') -- Verify if an object exists
+		Direct parameter type: 'null'  -- 
+		It is required. Single item not enumerated 
+		Reply ('bool') -- true if it exists, false if not
+		It is required. Single item not enumerated 
+
+	get  ('core'/'getd') -- Get the data for an object
+		Direct parameter type: 'obj '  -- the object whose data is to be returned
+		It is required. Single item not enumerated 
+		Reply ('****') -- The data from the object
+		It is required. Single item not enumerated 
+
+	make  ('core'/'crel') -- Make a new element
+		Direct parameter type: 'null'  -- 
+		It is optional. Single item not enumerated 
+		Reply ('obj ') -- Object specifier for the new element
+		It is required. Single item not enumerated 
+		Additional Parameters
+		  new (keyword 'kocl',  type 'type')
+			-- the class of the new element
+			It is required. Single item not enumerated 
+		  at (keyword 'insh',  type 'insl')
+			-- the location at which to insert the element
+			It is optional. Single item not enumerated 
+		  with data (keyword 'data',  type '****')
+			-- the initial data for the element
+			It is optional. Single item not enumerated 
+		  with properties (keyword 'prdt',  type 'reco')
+			-- the initial values for the properties of the element
+			It is optional. Single item not enumerated 
+
+	open  ('aevt'/'odoc') -- Open the specified object(s)
+		Direct parameter type: 'obj '  -- Objects to open. Can be a list of files or an object specifier.
+		It is required. Single item not enumerated 
+		Reply ('null') -- 
+		It is optional. Single item not enumerated 
+
+	print  ('aevt'/'pdoc') -- Print the specified object(s)
+		Direct parameter type: 'obj '  -- Objects to print. Can be a list of files or an object specifier.
+		It is required. Single item not enumerated 
+		Reply ('null') -- 
+		It is optional. Single item not enumerated 
+
+	save  ('core'/'save') -- save a set of objects
+		Direct parameter type: 'obj '  -- Objects to save.
+		It is required. Single item not enumerated 
+		Reply ('null') -- 
+		It is required. Single item not enumerated 
+		Additional Parameters
+		  in (keyword 'kfil',  type 'alis')
+			-- the file in which to save the object(s)
+			It is optional. Single item not enumerated 
+		  as (keyword 'fltp',  type 'type')
+			-- the file type of the document in which to save the data
+			It is optional. Single item not enumerated 
+
+	set  ('core'/'setd') -- Set an object’s data
+		Direct parameter type: 'obj '  -- the object to change
+		It is required. Single item not enumerated 
+		Reply ('null') -- 
+		It is optional. Single item not enumerated 
+		Additional Parameters
+		  to (keyword 'data',  type '****')
+			-- the new value
+			It is required. Single item not enumerated 
+
+  3 Classes
+
+		Class "application" ('capp')  -- An application program
+		Elements
+			Class element ID: 'cwin'
+			3 Key Forms: 
+			  'indx'
+			  'name'
+			  'rele'
+			Class element ID: 'docu'
+			1 Key Forms: 
+			  'name'
+
+		Class "window" ('cwin')  -- A Window
+		Properties
+			bounds  ('pbnd'/'qdrt') -- the boundary rectangle for the window
+			Single item not enumerated [r/w]
+
+			closeable  ('hclb'/'bool') -- Does the window have a close box?
+			Single item not enumerated [r/o]
+
+			titled  ('ptit'/'bool') -- Does the window have a title bar?
+			Single item not enumerated [r/o]
+
+			index  ('pidx'/'long') -- the number of the window
+			Single item not enumerated [r/w]
+
+			floating  ('isfl'/'bool') -- Does the window float?
+			Single item not enumerated [r/o]
+
+			modal  ('pmod'/'bool') -- Is the window modal?
+			Single item not enumerated [r/o]
+
+			resizable  ('prsz'/'bool') -- Is the window resizable?
+			Single item not enumerated [r/o]
+
+			zoomable  ('iszm'/'bool') -- Is the window zoomable?
+			Single item not enumerated [r/o]
+
+			zoomed  ('pzum'/'bool') -- Is the window zoomed?
+			Single item not enumerated [r/w]
+
+			name  ('pnam'/'itxt') -- the title of the window
+			Single item not enumerated [r/w]
+
+			visible  ('pvis'/'bool') -- is the window visible?
+			Single item not enumerated [r/o]
+
+			position  ('ppos'/'QDpt') -- upper left coordinates of window
+			Single item not enumerated [r/o]
+
+
+		Class "document" ('docu')  -- A Document
+		Properties
+			name  ('pnam'/'itxt') -- the title of the document
+			Single item not enumerated [r/o]
+
+			modified  ('imod'/'bool') -- Has the document been modified since the last save?
+			Single item not enumerated [r/o]
+
+
+  1 Enumerations
+
+		Enum 'savo'
+		Enumerators:
+		  "yes"  ('yes ') -- Save objects now
+		  "no"  ('no  ') -- Do not save objects
+		  "ask"  ('ask ') -- Ask the user whether to save
+
+SUITE 3
+Miscellaneous Standards ('misc', level 0, version 0)
+  Useful events that aren’t in any other suite
+
+  1 Terms
+
+	revert  ('misc'/'rvrt') -- Revert an object to the most recently saved version
+		Direct parameter type: 'obj '  -- object to revert
+		It is required. Single item not enumerated 
+		Reply ('null') -- 
+		It is optional. Single item not enumerated 
+
+SUITE 4
+odds and ends ('Odds', level 1, version 1)
+  Things that should be in some standard suite, but aren’t
+
+  2 Terms
+
+	SetTellTarget  ('ppnt'/'sttg') -- Makes an object the “focus” of AppleEvents
+		Direct parameter type: 'null'  -- 
+		It is required. Single item not enumerated 
+		Reply ('null') -- 
+		It is required. Single item not enumerated 
+		Additional Parameters
+		  to (keyword 'data',  type 'obj ')
+			-- reference to new focus of AppleEvents
+			It is optional. Single item not enumerated 
+
+	select  ('misc'/'slct') -- Select the specified object
+		Direct parameter type: 'obj '  -- the object to select
+		It is optional. Single item not enumerated 
+		Reply ('null') -- 
+		It is optional. Single item not enumerated 
+
+SUITE 5
+Rezilla suite ('Rzil', level 1, version 1)
+  Rezilla specifics
+
+  1 Terms
+
+	get version  ('Rzil'/'Vers') -- 
+		Direct parameter type: 'null'  -- 
+		It is optional. Single item not enumerated 
+		Reply ('TEXT') -- Rezilla's version number
+		It is required. Single item not enumerated 
