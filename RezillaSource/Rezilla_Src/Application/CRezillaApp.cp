@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2004-06-12 08:50:09
+//             Last modification: 2004-06-16 22:46:06
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -30,6 +30,7 @@
 #include "CTmplEditorWindow.h"
 #include "CWasteEditView.h"
 #include "CBiDataWE.h"
+#include "CDualDataView.h"
 #include "CHexDataSubView.h"
 #include "CTxtDataSubView.h"
 #include "CDropStaticText.h"
@@ -291,17 +292,18 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(CBroadcasterTableView);
 	RegisterClass_(CCompResultWindow);
 	RegisterClass_(CDropStaticText);
+	RegisterClass_(CDualDataView);
 	RegisterClass_(CEditTable);
-	RegisterClass_(CHexDataSubView);
 	RegisterClass_(CEditorWindow);
+	RegisterClass_(CHexDataSubView);
 	RegisterClass_(CHexEditorWindow);
-	RegisterClass_(CTmplEditorWindow);
 	RegisterClass_(CInspectorWindow);
 	RegisterClass_(CRangeEditText);
 	RegisterClass_(CRezIconPane);
 	RegisterClass_(CRezMapTable);
 	RegisterClass_(CRezMapWindow);
 	RegisterClass_(CSingleScrollBar);
+	RegisterClass_(CTmplEditorWindow);
 	RegisterClass_(CTxtDataSubView);
 	RegisterClass_(CWasteEditView);
 
