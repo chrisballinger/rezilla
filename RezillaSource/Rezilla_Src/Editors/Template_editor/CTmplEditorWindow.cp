@@ -2,7 +2,7 @@
 // CTmplEditorWindow.cp					
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-08-22 17:36:25
+//             Last modification: 2004-09-17 16:37:28
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -1352,7 +1352,8 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 
 		case 'WSIZ':
 		case 'WSKP':
-		// Offset to SKPE in word (WSIZ:exclusive or WSKP:inclusive)
+		case 'SKIP':
+		// Offset to SKPE in word (WSIZ:exclusive or WSKP/SKIP:inclusive)
 		if (mRezStream->GetMarker() < mRezStream->GetLength() - 1) {
 			*mRezStream >> theUInt16;
 		} 
@@ -1672,8 +1673,12 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		case 'CHAR':
 		// A single character
 		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
-		theEditText->GetDescriptor(theString);		
-		*mOutStream << (char) (theString + 1);
+		theEditText->GetDescriptor(theString);
+		if (theString[0] == 0) {
+			*mOutStream << 0x00;
+		} else {
+			*mOutStream << (char) (theString + 1);
+		}
 		mCurrentID++;
 		break;
 
@@ -2115,6 +2120,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 				break;
 				
 				case 'WSKP':
+				case 'SKIP':
 				*mOutStream << (UInt16) theLength;
 				break;
 				
@@ -2179,7 +2185,8 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 
 		case 'WSIZ':
 		case 'WSKP':
-		// Offset to SKPE in word (WSIZ:exclusive or WSKP:inclusive)
+		case 'SKIP':
+		// Offset to SKPE in word (WSIZ:exclusive or WSKP/SKIP:inclusive)
 		// Cache the current position
 		mOffsetMarksList.AddItem(mOutStream->GetMarker());
 		// Temporarily fill with null to create the place holder
