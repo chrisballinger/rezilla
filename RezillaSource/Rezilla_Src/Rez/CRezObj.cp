@@ -380,15 +380,19 @@ OSErr
 CRezObj::SetAttributes(short inAttributes)
 {
 	OSErr error = noErr;
-    StRezReferenceSaver saver(mOwnerRefnum);
-	if (mData != nil) {
-		::SetResAttrs(mData, inAttributes);
-		error = ::ResError();
-		if (error == noErr) {
-			// Keep object in sync
-			mAttributes = inAttributes;
+	
+	if (mAttributes != inAttributes) {
+		StRezReferenceSaver saver(mOwnerRefnum);
+		if (mData != nil) {
+			::SetResAttrs(mData, inAttributes);
+			error = ::ResError();
+			if (error == noErr) {
+				// Keep object in sync
+				mAttributes = inAttributes;
+			} 
 		} 
 	} 
+	
 	return error;
 }
 
