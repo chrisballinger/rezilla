@@ -2,7 +2,7 @@
 // CEditorsController.cp					
 // 
 //                       Created: 2004-06-11 10:48:38
-//             Last modification: 2004-11-08 15:35:14
+//             Last modification: 2004-11-19 06:56:48
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -160,6 +160,7 @@ CEditorsController::HasEditorForType(ResType inType, ResType * substType)
 		case 'styl':
 		case 'thng':
 		case 'thga':
+		*substType = inType;
 		result = true;
 		break;
 	}
@@ -174,15 +175,16 @@ CEditorsController::HasEditorForType(ResType inType, ResType * substType)
 
 void
 CEditorsController::InvokeCustomEditor(CRezMapDoc* inRezMapDoc, 
-									   CRezObjItem * inRezObjItem)
+									   CRezObjItem * inRezObjItem,
+									   ResType inUseType)
 {
 	CRezMapTable *	inSuperMap = inRezMapDoc->GetRezMapWindow()->GetRezMapTable();
 	CRezObj *		inRezObj = inRezObjItem->GetRezObj();
 	Boolean			inReadOnly = inRezMapDoc->IsReadOnly();
-	ResType			theType = inRezObj->GetType();
+	ResType			theType;
 	Size			theSize;
 	
-	switch (theType) {
+	switch (inUseType) {
 		case 'styl':
 		// Check if there is an associated TEXT resource
 		CRezObj * textRezObj = NULL;

@@ -2,7 +2,7 @@
 // CEditorsController.h				
 // 
 //                       Created: 2004-06-11 10:48:38
-//             Last modification: 2004-11-08 14:43:57
+//             Last modification: 2004-11-19 06:56:43
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -32,7 +32,8 @@ public:
 	static Boolean	HasEditorForType(ResType inType, ResType * substType);
 
 	static void		InvokeCustomEditor(CRezMapDoc* inRezMapDoc, 
-									   CRezObjItem * inRezObjItem);
+									   CRezObjItem * inRezObjItem,
+									   ResType inUseType);
 
 	static OSErr	OpenOrCreateWithTypeAndID(
 							CRezMapTable* inSuperMap, 
