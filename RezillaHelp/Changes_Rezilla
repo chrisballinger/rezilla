@@ -27,10 +27,17 @@ This changes log is in reverse chronological order (from bottom to top).
 
 Last modification: $Date$
 
+
 ================================================================================
-= 1.0.1a4 	                             last update: 
+= 1.0.1a5 	                             last update: 
 ================================================================================
-¥ Resource maps comparison window.
+¥ 
+
+================================================================================
+= 1.0.1a4 	                             last update: 2004-03-05 15:02:29
+================================================================================
+¥ Resource maps comparison window. Display lists.
+¥ Hexadecimal contents of common resources in comparison window.
 
 ================================================================================
 = 1.0.1a3 	                             last update: 2004-03-02 14:56:57
