@@ -40,6 +40,10 @@ public:
 							CommandT			inCommand,
 							void*				ioParam);
 	
+	virtual void		ListenToMessage(
+							MessageT		inMessage,
+							void*			ioParam);
+
 	virtual Boolean	IsModified();
 	
 	virtual Boolean	AllowSubRemoval( LCommander* inSub );
@@ -50,14 +54,14 @@ public:
 
 	CRezObj *		GetRezObj() { return mRezObj; }
 		
-	Boolean			GetReadOnlyDoc() { return mReadOnlyDoc;}
-	void			SetReadOnlyDoc(Boolean inReadOnlyDoc) {mReadOnlyDoc = inReadOnlyDoc;}
+	Boolean			IsReadOnly() { return mReadOnly;}
+	void			SetReadOnly(Boolean inReadOnlyDoc) {mReadOnly = inReadOnlyDoc;}
 
 protected:
 	CRezObj *				mRezObj;
 	CRezMapTable *			mOwnerRezMapTable;
 	short					mRefNum;
-	Boolean					mReadOnlyDoc;
+	Boolean					mReadOnly;
 
 	virtual Handle	GetModifiedResource();
 	virtual void	NameNewEditorDoc();

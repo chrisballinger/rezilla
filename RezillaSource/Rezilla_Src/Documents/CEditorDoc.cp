@@ -2,7 +2,7 @@
 // CEditorDoc.cp
 // 
 //                       Created: 2003-05-04 19:16:00
-//             Last modification: 2004-06-12 07:52:53
+//             Last modification: 2004-06-12 16:11:10
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -48,7 +48,7 @@ CEditorDoc::CEditorDoc(LCommander* inSuper,
 	mRezObj = inRezObj;
 	mOwnerRezMapTable = inSuperMap;
 	mRefNum = mOwnerRezMapTable->GetOwnerRefnum();
-	mReadOnlyDoc = inReadOnly;
+	mReadOnly = inReadOnly;
 	Register();
 }
 
@@ -123,11 +123,9 @@ CEditorDoc::ObeyCommand(
 		break;
 				
 		case cmd_Find:
-// 		FindDialog();
 		break;
 				
 		case cmd_FindNext:
-// 		FindInPane(mSearchWhichPane, mIgnoreCase, true);
 		break;
 				
 		default: {
@@ -157,11 +155,12 @@ CEditorDoc::FindCommandStatus(
 	
 		case cmd_Save:
 		case cmd_SaveAs:
+		case cmd_Find:
+		case cmd_FindNext:
 			outEnabled = false;
 		break;
 
 		case cmd_Close : 
-		case cmd_Find:
 			outEnabled = true;
 			break;
 								
@@ -173,6 +172,22 @@ CEditorDoc::FindCommandStatus(
 		}
 		break;
 
+	}
+}
+
+
+// ---------------------------------------------------------------------------
+//  ¥ ListenToMessage													[public]
+// ---------------------------------------------------------------------------
+
+void
+CEditorDoc::ListenToMessage( MessageT inMessage, void *ioParam ) 
+{
+	switch (inMessage) {
+		case msg_StylePrefsChanged:
+		 
+			break;
+		
 	}
 }
 
