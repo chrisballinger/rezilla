@@ -1,7 +1,7 @@
 // ===========================================================================
 // CWindow_PatternSuite.cp
 //                       Created: 2005-01-09 10:38:27
-//             Last modification: 2005-01-09 13:57:17
+//             Last modification: 2005-01-10 08:18:44
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -15,6 +15,7 @@
 #include "CDraggableTargetView.h"
 #include "CIcon_EditorDoc.h"
 #include "CIcon_EditorWindow.h"
+#include "CSuiteSlider.h"
 #include "CWindow_Pattern.h"
 #include "CPatternTargetView.h"
 #include "COffscreen.h"
@@ -22,13 +23,11 @@
 #include "CRezObj.h"
 #include "CRezillaApp.h"
 #include "RezillaConstants.h"
-#include "UColorUtils.h"
 #include "UGraphicConversion.h"
 #include "UIconMisc.h"
 #include "UMiscUtils.h"
 #include "UResourceMgr.h"
 
-#include <LSlider.h>
 #include <LStaticText.h>
 #include <LPushButton.h>
 
@@ -91,9 +90,11 @@ CWindow_PatternSuite::FinishCreateSelf()
 {
 	CIcon_EditorWindow::FinishCreateSelf();
 
-	mSlider = dynamic_cast<LSlider *>(this->FindPaneByID( item_IconSuiteSlider ));
+	mSlider = dynamic_cast<CSuiteSlider *>(this->FindPaneByID( item_IconSuiteSlider ));
 	ThrowIfNil_( mSlider );
 
+	mSlider->SetOwnerWindow(this);
+	
 	mBWSample = (CPatternTargetView *) this->FindPaneByID( item_IconEditBWSample );
 	ThrowIfNil_( mBWSample );
 	mSamplePaneList[ mNumSamplePanes++ ] = mBWSample;
@@ -128,30 +129,17 @@ CWindow_PatternSuite::ListenToMessage( MessageT inMessage, void *ioParam )
 		case msg_IconSuiteSlider:
 		SInt32 val = mSlider->GetValue();
 		SetCountField(val, mTotalCount);
-		
-		if ( not ::StillDown()) {
-			// Store the state of the current pattern
-			BitmapToNthPattern(mCurrentIndex);
-			
-			// Switch to the new pattern
-			SetNthPattern(val);
-
-			SetCountField(mCurrentIndex, mTotalCount);
-			
-		}
-		
-		
 		break;
 		
 		case msg_PlusButton:
-		AddNewPattern();
-		SetCountField(mCurrentIndex, mTotalCount);
+		ArrayIndexT index = AddNewPattern();
+		SetNthPattern(index);
 		AdjustSlider();
 		break;
 		
 		case msg_MinusButton:
 		RemovePattern(mCurrentIndex);
-		SetCountField(mCurrentIndex, mTotalCount);
+		SetNthPattern(mCurrentIndex);
 		AdjustSlider();
 		break;
 		
@@ -194,7 +182,6 @@ CWindow_PatternSuite::InitializeFromResource( CRezMap *inMap, ResIDT inResID )
 
 		mSlider->SetValue(mCurrentIndex);
 		mSlider->SetMaxValue(mTotalCount);
-		SetCountField(mCurrentIndex, mTotalCount);
 		AdjustSlider();
 		
 	}
@@ -270,11 +257,9 @@ CWindow_PatternSuite::SetCountField( SInt32 inCurrIndex, SInt32 inTotalCount )
 	
 	::NumToString( inCurrIndex, theString);
 	theLine.Append(theString);
-	if ( inCurrIndex != inTotalCount ) {
-		theLine += "\p/";
-		::NumToString( inTotalCount, theString);
-		theLine.Append(theString);
-	} 
+	theLine += "\p/";
+	::NumToString( inTotalCount, theString);
+	theLine.Append(theString);
 	mCountField->SetDescriptor(theLine);
 }
 
@@ -291,6 +276,8 @@ CWindow_PatternSuite::AdjustSlider()
 	} else {
 		mSlider->Show();
 	}
+	mSlider->SetValue(mCurrentIndex);
+	SetCountField(mCurrentIndex, mTotalCount);
 }
 
 
@@ -304,12 +291,23 @@ CWindow_PatternSuite::SetNthPattern( SInt32 inPatternIndex )
 	if (mCurrentIndex == inPatternIndex) {
 		return;
 	} 
-	
-	
-	
-	
-	mCurrentIndex = inPatternIndex;
+	Pattern pat;
 
+	// Store the state of the current pattern
+	BitmapToNthPattern(mCurrentIndex);
+	
+	// Switch to the new pattern
+	if ( mPatternsArray.FetchItemAt(inPatternIndex, pat) ) {
+		COffscreen * bwImage = CWindow_Pattern::BWPatternToOffscreen(pat);
+		this->SetImage( bwImage, resize_None, redraw_Later );
+		mBWSample->SetTarget( true, redraw_Dont );
+	
+		mBWSample->SetBuffer( bwImage, redraw_Dont );
+		// It belongs to the sample pane now
+		bwImage = nil;	
+
+		mCurrentIndex = inPatternIndex;
+	}
 }
 
 
@@ -317,13 +315,15 @@ CWindow_PatternSuite::SetNthPattern( SInt32 inPatternIndex )
 // 	AddNewPattern
 // ---------------------------------------------------------------------------
 
-void
+ArrayIndexT
 CWindow_PatternSuite::AddNewPattern()
 {
-	Pattern	pat = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
+	Pattern	pat = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+	ArrayIndexT index;
 	
-	mCurrentIndex = mPatternsArray.AddItem(pat);
+	index = mPatternsArray.AddItem(pat);
 	mTotalCount++;
+	return index;
 }
 
 
@@ -331,13 +331,15 @@ CWindow_PatternSuite::AddNewPattern()
 // 	AddNewPattern
 // ---------------------------------------------------------------------------
 
-void
+ArrayIndexT
 CWindow_PatternSuite::AddNewPattern( SInt32 inAtIndex )
 {
-	Pattern	pat = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
+	Pattern	pat = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+	ArrayIndexT index;
 	
-	mCurrentIndex = mPatternsArray.InsertItemsAt(1, inAtIndex, pat);
+	index = mPatternsArray.InsertItemsAt(1, inAtIndex, pat);
 	mTotalCount++;
+	return index;
 }
 
 

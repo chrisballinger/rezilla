@@ -1,7 +1,7 @@
 // ===========================================================================
 // CWindow_PatternSuite.h
 //                       Created: 2005-01-09 10:38:27
-//             Last modification: 2005-01-09 14:09:02
+//             Last modification: 2005-01-10 08:18:54
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -17,18 +17,12 @@
 
 #include "CIcon_EditorWindow.h"
 
-class CRezMap;
-class LSlider;
 class LStaticText;
 class LPushButton;
+class CRezMap;
+class CSuiteSlider;
 class CPatternTargetView;
 
-// 		struct Pattern {
-// 		  UInt8               pat[8];
-// 		};
-// 		typedef struct Pattern     Pattern;
-// 		typedef Pattern *          PatPtr;
-// 		typedef PatPtr *           PatHandle;
 
 // ----------------------------------------------------------------------------
 
@@ -50,12 +44,14 @@ class CWindow_PatternSuite : public CIcon_EditorWindow {
 	
 		SInt32				GetZoomFactor( SInt32, SInt32, Boolean *outShowGrid );
 			
+		void				SetNthPattern( SInt32 inPatternIndex );
+		
 	protected:
 		SInt32					mCurrentIndex;
 		SInt32					mTotalCount;
 		TArray<Pattern>			mPatternsArray;
 		CPatternTargetView *	mBWSample;
-		LSlider *				mSlider;
+		CSuiteSlider *			mSlider;
 		LStaticText *			mCountField;
 		LPushButton *			mPlusButton;
 		LPushButton *			mMinusButton;
@@ -67,9 +63,8 @@ class CWindow_PatternSuite : public CIcon_EditorWindow {
 		void				SetCountField( SInt32 inCurrIndex, SInt32 inTotalCount );
 		void				AdjustSlider();
 		
-		void				SetNthPattern( SInt32 inPatternIndex );
-		void				AddNewPattern();
-		void				AddNewPattern( SInt32 inAfterIndex );
+		ArrayIndexT			AddNewPattern();
+		ArrayIndexT			AddNewPattern( SInt32 inAfterIndex );
 		void				RemovePattern( SInt32 inPatternIndex );
 		void				BitmapToNthPattern( SInt32 inPatternIndex );
 
