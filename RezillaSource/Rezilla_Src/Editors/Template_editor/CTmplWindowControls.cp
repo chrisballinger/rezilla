@@ -513,18 +513,31 @@ CTmplEditorWindow::AddCheckField(Boolean inValue,
 // ---------------------------------------------------------------------------
 // C string. This should be either characters followed by a null or all
 // the chars until the end of the stream if there is no null byte.
+// The height of the WE depends on the estimated number of lines. Moreover,
+// if the size is fixed and the text fits in the frame, we don't need a
+// scrollbar. 
+// The strategy is to first create the WE inside the container in order to
+// get an estimate of the number of lines. Then we decide if a scrollbar is
+// necessary: if yes, 
+// 
+// the WE does not necessarily have to be a subpane of
+// the scrollbar (it is just its associated scrolling view) but its
+// position is slightly readjusted.
 
 void
 CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 {
-	SInt32		oldPos, newPos, nextPos, totalLength;
+	SInt32		oldPos, newPos, nextPos, reqLength = 0;
 	Handle		theHandle;
-	char 		theChar;
-	Boolean		isFixed = false;
+	Boolean		isFixed = false, hasText, canReduce;
 	SViewInfo	theViewInfo;
 	SDimension16	theFrame;
-	SInt16		boxHeight = sTgbPaneInfo.height, delta;
+	SInt16		boxHeight = sTgbPaneInfo.height, delta = 0;
 	
+	// Calculate the limits of the text	to insert
+	hasText = CalcTextPositions(inType, oldPos, newPos, nextPos, reqLength, isFixed);
+	
+	// Install the overall container
 	inContainer->GetFrameSize(theFrame);
 
 	theViewInfo.imageSize.width		= theViewInfo.imageSize.height	= 0 ;
@@ -541,178 +554,60 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 	LTextGroupBox * theTGB = new LTextGroupBox(sTgbPaneInfo, theViewInfo, false);
 	ThrowIfNil_(theTGB);
 
-	sScrollPaneInfo.left			= kTmplTextInset;
-	sScrollPaneInfo.top				= kTmplTextInset;
-	sScrollPaneInfo.width			= sTgbPaneInfo.width - kTmplTextInset * 2;
-	sScrollPaneInfo.height			= boxHeight - kTmplTextInset * 2;
-	sScrollPaneInfo.bindings.left	= true;
-	sScrollPaneInfo.paneID			= 0;
-	sScrollPaneInfo.superView		= theTGB;
-
-	LScrollerView * theScroller = new LScrollerView(sScrollPaneInfo, theViewInfo, 0, 15, 0, 15, 16, NULL, true);
-	ThrowIfNil_(theScroller);
-
-	sWastePaneInfo.left				= 0;
-	sWastePaneInfo.top				= 0;
-	sWastePaneInfo.width			= sScrollPaneInfo.width - kTmplScrollWidth;
-	sWastePaneInfo.height			= sScrollPaneInfo.height - kTmplTextFootHeight;
+	// Install the WasteEdit view
+	sWastePaneInfo.left				= kTmplTextInset;
+	sWastePaneInfo.top				= kTmplTextHeadHeight;
+	sWastePaneInfo.width			= sTgbPaneInfo.width - kTmplTextInset * 2 - kTmplScrollWidth;
+	sWastePaneInfo.height			= boxHeight - kTmplTextHeadHeight - kTmplTextFootHeight;
 	sWastePaneInfo.bindings.left	= true;
 	sWastePaneInfo.bindings.right	= true;
 	sWastePaneInfo.paneID			= mCurrentID;
-	sWastePaneInfo.superView		= theScroller;
+	sWastePaneInfo.superView		= inContainer;
 	
 	// Make the Waste edit writable, not wrapping, selectable
 	CWasteEditView * theWasteEdit = new CWasteEditView(sWastePaneInfo, theViewInfo, 0, sEditTraitsID);
 	ThrowIfNil_(theWasteEdit);
-
 	// Add to the mWasteFields
 	mWasteFields.AddItem(theWasteEdit);
-	
-	theScroller->InstallView(theWasteEdit);
-	
 	// Store the template's type in the userCon field
 	theWasteEdit->SetUserCon(inType);
-	totalLength = mRezStream->GetLength();
 	
-	oldPos = mRezStream->GetMarker();
-	newPos = oldPos;
-	
-	// Prepare for the insertion of the text
-	if (oldPos < totalLength) {
-		// We are not creating an empty new resource
-		switch (inType) {
-			case 'CSTR':
-				// Is there a NULL byte marking the end of the string?
-				newPos = totalLength;
-				while (mRezStream->GetMarker() < totalLength ) {
-					*mRezStream >> theChar;
-					if (theChar == 0) {
-						// Don't take the ending NULL
-						newPos = mRezStream->GetMarker() - 1;
-						break;
-					} 
-				}
-				nextPos = mRezStream->GetMarker();
-			break;
-
-			case 'LSTR': {
-				UInt32		theUInt32 = 0;
-				// Long string (long  length followed by the characters)
-				if (mRezStream->GetMarker() < totalLength - 3) {
-					*mRezStream >> theUInt32;
-				}
-				oldPos += 4;
-				newPos = oldPos + theUInt32;
-				nextPos = newPos;
-				break;
-			}
-			
-			case 'WSTR': {
-				UInt16		theUInt16 = 0;
-				// Same as LSTR, but a word rather than a long word
-				if (mRezStream->GetMarker() < totalLength - 1) {
-					*mRezStream >> theUInt16;
-				}
-				oldPos += 2;
-				newPos = oldPos + theUInt16;
-				nextPos = newPos;
-				break;
-			}
-
-			case 'ECST':
-			case 'OCST':
-				// Is there a NULL byte marking the end of the string?
-				newPos = totalLength;
-				while (mRezStream->GetMarker() < totalLength ) {
-					*mRezStream >> theChar;
-					if (theChar == 0) {
-						newPos = mRezStream->GetMarker();
-						// If the total length, including ending NULL, is odd
-						// (with ESTR) or even (with OSTR), the string is padded, 
-						// so skip one byte.
-						if ( (newPos < totalLength) && ( 
-							   ( ((newPos - oldPos) % 2) && (inType == 'ECST') ) 
-							   ||
-							   ( ((newPos - oldPos) % 2 == 0) && (inType == 'OCST') ) )) {
-						   // Skip one byte.
-						   if (mRezStream->GetMarker() < totalLength ) {
-							   *mRezStream >> theChar;
-						   }
-						} 
-						// Don't take the ending NULL
-						newPos--;
-						break;
-					} 
-				}
-				nextPos = mRezStream->GetMarker();
-			break;
-
-			default: {
-				SInt32 reqLength;
-				isFixed = true;
-				
-				UMiscUtils::HexNumStringToDecimal(&inType, &reqLength);
-
-				if (inType >> 24 == 'C') {
-					// Cnnn: a C string that is $nnn hex bytes long. The last byte is always a 0, 
-					// so the string itself occupies the first $nnn-1 bytes (possibly less
-					// if a null is encountered before the end).
-
-					nextPos = oldPos + reqLength;
-					newPos = nextPos - 1;
-					// Look for a NULL byte in this range
-					while (mRezStream->GetMarker() < nextPos ) {
-						*mRezStream >> theChar;
-						if (theChar == 0) {
-							newPos = mRezStream->GetMarker() - 1;
-							break;
-						}
-					}
-				} else if (inType >> 24 == 'T') {
-					// Tnnn: a text string with fixed padding that is $nnn hex bytes long 
-					nextPos = oldPos + reqLength;
-					newPos = nextPos;
-					// Look for a NULL byte in this range
-					while (mRezStream->GetMarker() < nextPos ) {
-						*mRezStream >> theChar;
-						if (theChar == 0) {
-							newPos = mRezStream->GetMarker() - 1;
-							break;
-						}
-					}
-				}
-			}
-		}
-
-		if (oldPos > totalLength) {
-			oldPos = totalLength;
-		} 
-		if (newPos > totalLength) {
-			newPos = totalLength;
-		} 
-		if (newPos < oldPos) {
-			newPos = oldPos;
-		} 
-		
+	// Insert the text
+	if (hasText) {
 		theHandle = mRezStream->GetDataHandle();
 		HLock(theHandle);
 		theWasteEdit->Insert( (*theHandle) + oldPos , newPos - oldPos, NULL, true);
 		HUnlock(theHandle);
 		mRezStream->SetMarker(nextPos, streamFrom_Start);
-	} 	
+	} 
 	
 	// Adjust the height of the TextGroupBox
-	delta = RecalcTextBoxHeight(newPos - oldPos, theWasteEdit, isFixed);
-	if (delta != 0) {
+	canReduce = RecalcTextBoxHeight(isFixed ? reqLength : (newPos - oldPos), theWasteEdit, isFixed, delta);
+	
+	// If we have a fixed size and it does not exceed the frame, we don't
+	// need a scrollbar. 
+	if (!canReduce || !isFixed) {
+		sScrollPaneInfo.left			= kTmplTextInset;
+		sScrollPaneInfo.top				= kTmplTextHeadHeight;
+		sScrollPaneInfo.width			= sTgbPaneInfo.width - kTmplTextInset * 2;
+		sScrollPaneInfo.height			= boxHeight - kTmplTextHeadHeight - kTmplTextFootHeight;
+		sScrollPaneInfo.bindings.left	= true;
+		sScrollPaneInfo.paneID			= 0;
+		sScrollPaneInfo.superView		= theTGB;
+
+		LScrollerView * theScroller = new LScrollerView(sScrollPaneInfo, theViewInfo, 0, 15, 0, 15, 16, NULL, true);
+		ThrowIfNil_(theScroller);
+
+		inContainer->RemoveSubPane(theWasteEdit);
+		theScroller->AddSubPane(theWasteEdit);
+		theScroller->InstallView(theWasteEdit);
+		// Inside the scroller's frame, the WE is at top=0 and left=0.
+		theWasteEdit->MoveBy(-kTmplTextInset, -kTmplTextHeadHeight, false);
+	} 
+	
+	if (delta < 0) {
 		theTGB->ResizeFrameBy(0, delta, false);
 		boxHeight += delta;
-		if (isFixed) {
-			// We have a fixed size and the box has been reduced. We
-			// can hide the scrollbar
-			theScroller->Hide();
-		} else {
-// 			theScroller->SetMaxValue(theLineCount);
-		}
 	} 
 	
 	// Advance the counters
@@ -721,6 +616,10 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 	mCurrentID++;
 }
 
+// 			SDimension16 frameSize;		
+// 			theScroller->Hide();
+// 			theScroller->GetFrameSize(frameSize);
+// 			theScroller->ResizeFrameTo(0, frameSize.height, false);
 
 // ---------------------------------------------------------------------------
 //	¥ AddHexDumpField													[public]
@@ -729,16 +628,20 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 void
 CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 {
-	SInt32		oldPos, newPos, totalLength;
-	Boolean		incrY = true, isFixed = false;
+	SInt32		oldPos, newPos, nextPos, reqLength;
+	Boolean		incrY = true, isFixed = false, hasText, canReduce;
 	Handle		theHandle;
 	UInt8		theUInt8 = 0;
 	UInt16		theUInt16 = 0;
 	UInt32		theUInt32 = 0;
 	SViewInfo	theViewInfo;
 	SDimension16	theFrame;
-	SInt16		boxHeight = sTgbPaneInfo.height, delta;
+	SInt16		boxHeight = sTgbPaneInfo.height, delta = 0;
 
+	// Calculate the limits of the text	to insert
+	hasText = CalcTextPositions(inType, oldPos, newPos, nextPos, reqLength, isFixed);
+	
+	// Install the UI elements
 	inContainer->GetFrameSize(theFrame);
 	mOwnerDoc = dynamic_cast<CTmplEditorDoc*>(GetSuperCommander());
 
@@ -808,109 +711,8 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 	
 	// Store the template's type in the userCon field
 	theTGB->SetUserCon(inType);
-	
-	// Insert the text
-	totalLength = mRezStream->GetLength();
-	oldPos = mRezStream->GetMarker();
-	newPos = oldPos;
-		
-	if (oldPos < totalLength) {
-		switch (inType) {
-			case 'HEXD':
-			// This is always the last code in a template. Go to the end of the
-			// resource data.
-			newPos = totalLength;
-			break;
 			
-			case 'BHEX': {
-				// ByteLength Hex Dump
-				if (mRezStream->GetMarker() < totalLength) {
-					*mRezStream >> theUInt8;
-				}
-				oldPos += 1;
-				newPos = oldPos + theUInt8;
-				break;
-			}
-			
-			case 'BSHX': {
-				// (ByteLength - 1) Hex Dump
-				if (mRezStream->GetMarker() < totalLength) {
-					*mRezStream >> theUInt8;
-				}
-				if (theUInt8 < 1) {
-					theUInt8 = 1;
-				} 
-				oldPos += 1;
-				newPos = oldPos + theUInt8 - 1;
-				break;
-			}
-			
-			case 'LHEX': {
-				// LongLength Hex Dump
-				if (mRezStream->GetMarker() < totalLength - 3) {
-					*mRezStream >> theUInt32;
-				}
-				oldPos += 4;
-				newPos = oldPos + theUInt32;
-				break;
-			}
-			
-			case 'LSHX': {
-				// (LongLength - 4) Hex Dump
-				if (mRezStream->GetMarker() < totalLength - 3) {
-					*mRezStream >> theUInt32;
-				}
-				if (theUInt32 < 4) {
-					theUInt32 = 4;
-				} 
-				oldPos += 4;
-				newPos = oldPos + theUInt32 - 4;
-				break;
-			}
-			
-			case 'WHEX': {
-				// WordLength Hex Dump
-				if (mRezStream->GetMarker() < totalLength - 1) {
-					*mRezStream >> theUInt16;
-				}
-				oldPos += 2;
-				newPos = oldPos + theUInt16;
-				break;
-			}
-			
-			case 'WSHX': {
-				// (WordLength - 2) Hex Dump
-				if (mRezStream->GetMarker() < totalLength - 1) {
-					*mRezStream >> theUInt16;
-				}
-				if (theUInt16 < 2) {
-					theUInt16 = 2;
-				} 
-				oldPos += 2;
-				newPos = oldPos + theUInt16 - 2;
-				break;
-			}
-			
-			default:
-			if (inType >> 24 == 'H' || inType >> 24 == 'F') {
-				// Hnnn: a 3-digit hex number; displays $nnn bytes in hex format
-				SInt32 numbytes;
-				isFixed = true;
-				UMiscUtils::HexNumStringToDecimal(&inType, &numbytes);
-				newPos = oldPos + numbytes;
-			}
-		}	
-			
-		if (oldPos > totalLength) {
-			oldPos = totalLength;
-		} 
-		if (newPos > totalLength) {
-			newPos = totalLength;
-		} 
-		if (newPos < oldPos) {
-			newPos = oldPos;
-		} 
-		
+	if (hasText) {
 		theHandle = mRezStream->GetDataHandle();
 		HLock(theHandle);
 		theTGB->InstallBackStoreData((*theHandle) + oldPos, newPos - oldPos);
@@ -920,8 +722,8 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 
 		WESetSelection(0, 0, theTGB->GetInMemoryWasteRef());
 		mRezStream->SetMarker(newPos, streamFrom_Start);
-	} 
-	
+	}
+		
 	// Fnnn filler hex strings can be invisible or disabled
 	if (inType >> 24 == 'F') {
 		if ( ! CRezillaPrefs::GetPrefValue(kPref_editors_dispFillers) ) {
@@ -936,12 +738,12 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 	// Advance the counters
 	if (incrY) {
 		// Adjust the height of the TextGroupBox
-		delta = RecalcTextBoxHeight(newPos - oldPos, theHexWE, isFixed, 3);
+		canReduce = RecalcTextBoxHeight(newPos - oldPos, theHexWE, isFixed, delta, 3);
 		if (delta != 0) {
 			theTGB->ResizeFrameBy(0, delta, false);
 			boxHeight += delta;
 			if (isFixed) {
-				// We have a fixed size and the box has been reduced. We
+				// We have a fixed size and the box has been reduced, so we
 				// can hide the scrollbar
 				theScroller->Hide();
 			} else {
