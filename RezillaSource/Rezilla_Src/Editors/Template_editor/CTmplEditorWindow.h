@@ -2,7 +2,7 @@
 // CTmplEditorWindow.h
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-10-12 13:40:40
+//             Last modification: 2004-10-14 09:08:21
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -173,7 +173,7 @@ private:
 	void			AddStaticField(OSType inType, 
 								   Str255 inLabel, 
 								   LView * inContainer, 
-								   ResIDT inTextTraitsID = Txtr_GenevaTenBoldUlRight);
+								   ResIDT inTextTraitsID = Txtr_GenevaTenBoldRight);
 	
 	void			AddEditField(Str255 inValue, 
 								OSType inType,
@@ -265,11 +265,6 @@ private:
 	OSErr			DoRetrieveWithTemplate(SInt32 inRecursionMark, 
 										   Boolean inReadControls);
 	
-// 	void			RenumberSubPanes(LView * inView, 
-// 									 PaneIDT inOldLastID, 
-// 									 PaneIDT inNewFirstID, 
-// 									 Boolean adding);
-	
 	void			AdjustListOfPaneIDs(CTmplListItemView * inView,
 									PaneIDT inStartID, 
 									PaneIDT inPrevCurrID,
@@ -278,6 +273,11 @@ private:
 	void			RecalcPositions(LView * inView, 
 									SInt32 inVertPos, 
 									SInt32 inPosDelta);
+
+	SInt16			RecalcTextBoxHeight(SInt32 inTextSize, 
+										CWasteEditView * inWEView,
+										Boolean isFixed,
+										UInt8 inBytesPerChar = 1);
 
 	Boolean			IsValidBitField(OSType inType, 
 									Str255 ioString, 

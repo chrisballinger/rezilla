@@ -184,77 +184,6 @@ CTmplEditorWindow::AdjustCounterField(PaneIDT inPaneID, SInt32 inDelta) {
 }
 
 
-// // ---------------------------------------------------------------------------
-// //	¥ RenumberSubPanes
-// // ---------------------------------------------------------------------------
-// // If a new list item has been inserted, its subpanes are numbered from
-// // (inOldLastID) to (mCurrentID - 1). The argument (inNewFirstID) is the ID
-// // which should normally be affected to the first numbered subpane of the new 
-// // list item. So there are three possibilities when a subpane is visited:
-// // - if its ID is < (inNewFirstID), leave it unchanged
-// // - if its value is >= (inNewFirstID) and < (inOldLastID), increase it by 
-// //   (mCurrentID - inOldLastID)
-// // - if its value is >= (inOldLastID), decrease it by (inOldLastID - inNewFirstID)
-// // 
-// // If a list item has been deleted, all the IDs of its subpanes will be
-// // removed. They are numbered between inNewFirstID and inOldLastID
-// // inclusive. There are two possibilities:
-// // - if an ID is < (inNewFirstID), leave it unchanged
-// // - otherwise, decrease it by (inOldLastID - inNewFirstID + 1)
-// //   Note that the IDs between inNewFirstID and inOldLastID won't be found since 
-// //   the object has already been removed from the list of subpanes. Last
-// //   mCurrentID has to be adjusted likewise.
-// 
-// void
-// CTmplEditorWindow::RenumberSubPanes(LView * inView, PaneIDT inOldLastID, PaneIDT inNewFirstID, Boolean adding) 
-// {
-// 	PaneIDT	theID;
-// 	LView *	theView;
-// 	
-// 	if (adding) {
-// 		// We've been inserting a list item
-// 		TArrayIterator<LPane *> iterator( inView->GetSubPanes() );
-// 		LPane	* theSub;
-// 		while (iterator.Next(theSub)) {
-// 			theID = theSub->GetPaneID();
-// 			if (theID) {
-// 				if (theID < inNewFirstID) {
-// 					// Do nothing
-// 				} else if (theID < inOldLastID) {
-// 					theID += mCurrentID - inOldLastID;
-// 					theSub->SetPaneID(theID);
-// 				} else {
-// 					theID -= inOldLastID - inNewFirstID;
-// 					theSub->SetPaneID(theID);
-// 				}
-// 			} 
-// 			theView = dynamic_cast<LView *>(theSub);
-// 			if (theView) {
-// 				RenumberSubPanes(theView, inOldLastID, inNewFirstID, adding);
-// 			} 
-// 		}
-// 
-// 	} else {
-// 		
-// 		// We've been removing a list item
-// 		TArrayIterator<LPane *> iterator( inView->GetSubPanes() );
-// 		LPane	* theSub;
-// 		while (iterator.Next(theSub)) {
-// 			theID = theSub->GetPaneID();
-// 			if (theID > inOldLastID) {
-// 				theID -= inOldLastID - inNewFirstID + 1;
-// 				theSub->SetPaneID(theID);
-// 			} 
-// 			theView = dynamic_cast<LView *>(theSub);
-// 			if (theView) {
-// 				RenumberSubPanes(theView, inOldLastID, inNewFirstID, adding);
-// 			} 
-// 		}
-// 		
-// 	}
-// }
-
-
 // ---------------------------------------------------------------------------
 //	¥ AdjustListOfPaneIDs
 // ---------------------------------------------------------------------------
@@ -1023,5 +952,44 @@ CTmplEditorWindow::CountAllSubPanes(LView * inView)
 	}
 	
 	return count;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ RecalcTextBoxHeight											[private]
+// ---------------------------------------------------------------------------
+// Recalculate the height of the TextGroupBox containing a Waste field or a
+// HexDump field depending on the size of the data expected. If it is a
+// fixed length field, set to the exact number of lines necessary.
+// Otherwise, there is a minimum height (corresponding to five lines) and a
+// maximum (corresponding to seventeen lines).
+
+SInt16
+CTmplEditorWindow::RecalcTextBoxHeight(SInt32 inTextSize, CWasteEditView * inWEView, 
+									   Boolean isFixed, UInt8 inBytesPerChar)
+{
+	SInt32			bytesPerLine, linesPerPane, linesCount;
+	SInt16			linesHeight, minHeight = kTmplTextMinHeight, delta = 0;
+	SDimension16	theSize;
+	
+	if (inTextSize || isFixed) {
+		inWEView->GetFrameSize(theSize);
+		bytesPerLine = theSize.width / (CRezillaApp::sBasics.charWidth * inBytesPerChar);
+		linesCount = inTextSize / bytesPerLine + (inTextSize % bytesPerLine != 0) ;
+		if (linesCount == 0) {
+			linesCount = 1;
+		} 
+		
+		linesHeight = CRezillaApp::sBasics.charHeight * linesCount;	
+		if (linesHeight < theSize.height ) {
+			if (linesHeight < kTmplTextMinHeight && !isFixed) {
+				delta = kTmplTextMinHeight - theSize.height;
+			} else {
+				delta = linesHeight - theSize.height;
+			}
+		} 
+	} 
+	
+	return delta;
 }
 
