@@ -355,9 +355,10 @@ const ResIDT	MENU_IconFonts				= 302;
 const ResIDT	MENU_IconStyle				= 303;
 
 // Aete editor
-const ResIDT	MENU_AeteTerminology		= 161;
+const ResIDT	MENU_AeteTerminology		= 160;
+const ResIDT	MENU_AeteDirectOptions		= 161;
 const ResIDT	MENU_AeteReplyOptions		= 162;
-const ResIDT	MENU_AeteDirectOptions		= 163;
+const ResIDT	MENU_AeteParameterOptions	= 163;
 const ResIDT	MENU_AetePropertyOptions	= 164;
 
 // Icon resources
@@ -753,11 +754,11 @@ const PaneIDT   item_AeteSuiteDescr			= 6;
 const PaneIDT   item_AeteSuiteID			= 7;
 const PaneIDT   item_AeteSuiteLevel			= 8;
 const PaneIDT   item_AeteSuiteVersion		= 9;
-const PaneIDT   item_AeteSuitesPopup		= FOUR_CHAR_CODE('SUIT');
-const PaneIDT   item_AeteItemsSlider		= FOUR_CHAR_CODE('SLID');
-const PaneIDT   item_AeteItemsIndicator		= FOUR_CHAR_CODE('SIDC');
-const PaneIDT   item_AetePanelsController	= FOUR_CHAR_CODE('ACTL');
-const PaneIDT   item_AeteMultiPanelsView	= FOUR_CHAR_CODE('AMPV');
+const PaneIDT   item_AeteSuitePopup			= FOUR_CHAR_CODE('SUIT');
+const PaneIDT   item_AetePanelController	= FOUR_CHAR_CODE('ACTL');
+const PaneIDT   item_AeteMultiPanelView		= FOUR_CHAR_CODE('AMPV');
+const PaneIDT   item_AeteItemSlider			= FOUR_CHAR_CODE('SLID');
+const PaneIDT   item_AeteItemIndicator		= FOUR_CHAR_CODE('SIDC');
 //    Events panel
 const PaneIDT   item_AeteEventName			= 1;
 const PaneIDT   item_AeteEventClass			= 2;
