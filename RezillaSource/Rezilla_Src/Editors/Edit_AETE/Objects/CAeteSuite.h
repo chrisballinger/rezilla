@@ -82,16 +82,16 @@ public:
 							  UInt16 inLevel, UInt16 inVersion);
 			
 		ArrayIndexT		GetEventIndex() { return mEventIndex;}
-		void			GetEventIndex(ArrayIndexT inEventIndex) {mEventIndex = inEventIndex;}
+		void			SetEventIndex(ArrayIndexT inEventIndex) {mEventIndex = inEventIndex;}
 
 		ArrayIndexT		GetClassIndex() { return mClassIndex;}
-		void			GetClassIndex(ArrayIndexT inClassIndex) {mClassIndex = inClassIndex;}
+		void			SetClassIndex(ArrayIndexT inClassIndex) {mClassIndex = inClassIndex;}
 
 		ArrayIndexT		GetCompOpIndex() { return mCompOpIndex;}
-		void			GetCompOpIndex(ArrayIndexT inCompOpIndex) {mCompOpIndex = inCompOpIndex;}
+		void			SetCompOpIndex(ArrayIndexT inCompOpIndex) {mCompOpIndex = inCompOpIndex;}
 
 		ArrayIndexT		GetEnumerationIndex() { return mEnumerationIndex;}
-		void			GetEnumerationIndex(ArrayIndexT inEnumerationIndex) {mEnumerationIndex = inEnumerationIndex;}
+		void			SetEnumerationIndex(ArrayIndexT inEnumerationIndex) {mEnumerationIndex = inEnumerationIndex;}
 
 		TArray<CAeteEvent*> *	GetEvents() { return &mEvents;}
 

@@ -62,7 +62,7 @@ public:
 					   OSType inDirectType, Str255 inDirectDescription, UInt16 inDirectFlags);
 
 		ArrayIndexT		GetParameterIndex() { return mParameterIndex;}
-		void			GetParameterIndex(ArrayIndexT inParameterIndex) {mParameterIndex = inParameterIndex;}
+		void			SetParameterIndex(ArrayIndexT inParameterIndex) {mParameterIndex = inParameterIndex;}
 
 		TArray<CAeteParameter*> *	GetParameters() { return &mParameters;}
 
