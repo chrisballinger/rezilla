@@ -2,7 +2,7 @@
 // CRezMap.cp					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2004-03-15 19:23:08
+//             Last modification: 2004-03-16 15:44:40
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -25,7 +25,6 @@
 CRezMap::CRezMap(short inRefnum)
 {
     mRefNum	= inRefnum;
-    mMapAttributes	= 0;
 }
 
 
@@ -298,27 +297,30 @@ CRezMap::UniqueID(ResType inType, short & outID)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetFileAttrs													[public]
+//  ¥ GetMapAttributes													[public]
 // ---------------------------------------------------------------------------
 // 		  mapReadOnlyBit	= 7
 // 		  mapCompactBit		= 6
 // 		  mapChangedBit		= 5
 
 OSErr
-CRezMap::GetFileAttrs(short & outResFileAttrs)
+CRezMap::GetMapAttributes(short & outResFileAttrs)
 {
+	OSErr error;
+	
     StRezReferenceSaver saver(mRefNum);
     outResFileAttrs = ::GetResFileAttrs(mRefNum);
-    return ::ResError();
+    error = ::ResError();
+	return error;
 }
 
 
 // ---------------------------------------------------------------------------
-//  ¥ SetFileAttrs													[public]
+//  ¥ SetMapAttributes													[public]
 // ---------------------------------------------------------------------------
 
 OSErr
-CRezMap::SetFileAttrs(short inResFileAttrs)
+CRezMap::SetMapAttributes(short inResFileAttrs)
 {
     StRezReferenceSaver saver(mRefNum);
     ::SetResFileAttrs(mRefNum, inResFileAttrs);
@@ -378,7 +380,6 @@ CRezMap::DeleteAll()
 	} 
 	return error;
 }
-
 
 
 

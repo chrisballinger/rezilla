@@ -2,7 +2,7 @@
 // CRezMap.h					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2004-03-15 18:53:03
+//             Last modification: 2004-03-16 15:44:46
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -52,25 +52,21 @@ public:
 
 	OSErr	UniqueID(ResType inType, short & outID);
 
-	OSErr	GetFileAttrs(short & outResFileAttrs);
-	OSErr	SetFileAttrs(short inResFileAttrs);
 	OSErr	UnsetFileAttrs(short inResFileAttrs);
 
 	Boolean	ResourceExists(ResType inType, short inID);
 	
 	virtual short	GetRefnum() { return mRefNum;}
-	void			SetRefnum(short theRefnum) {mRefNum = theRefnum;}
+	void			SetRefnum(short theRefNum) {mRefNum = theRefNum;}
 
-	virtual short	GetMapAttributes() { return mMapAttributes;}
-	void			SetMapAttributes(short inMapAttributes) {mMapAttributes = inMapAttributes;}
+	OSErr			GetMapAttributes(short & outResFileAttrs);
+	OSErr			SetMapAttributes(short inMapAttributes);
 
 protected:
 
 	short		mRefNum;
-	short		mMapAttributes;
-	
+
 };
 
 
 #endif
-
