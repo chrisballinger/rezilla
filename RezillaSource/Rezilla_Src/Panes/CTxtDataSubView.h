@@ -102,7 +102,7 @@ public:
 	CHexDataSubView*		GetSiblingView() { return mHexSiblingView;}
 	void					SetSiblingView(CHexDataSubView* theSiblingView) {mHexSiblingView = theSiblingView ;}
 
-	CDualDataView*		GetOwnerDualView() { return mOwnerDualView;}
+	CDualDataView*			GetOwnerDualView() { return mOwnerDualView;}
 	void					SetOwnerDualView(CDualDataView* theOwnerDualView) {mOwnerDualView = theOwnerDualView ;}
 	
 	void					SetSynchronizing(Boolean theIsSynchronizing) {mIsSynchronizing = theIsSynchronizing ;}

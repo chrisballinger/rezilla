@@ -80,6 +80,10 @@ CHexDataSubView::CHexDataSubView(
 	: CWasteEditView(inPaneInfo, inViewInfo, inTextAttributes, 
 					 inTextTraitsID, inReadOnly, inWordWrap, inSelectable)
 {
+	mTxtSiblingView = nil;
+	mIsSynchronizing = false;
+	mEditingPos = 0;
+	mOneOfTwoInserted = false;
 }
 
 

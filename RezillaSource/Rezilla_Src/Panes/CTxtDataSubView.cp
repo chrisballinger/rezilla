@@ -74,6 +74,8 @@ CTxtDataSubView::CTxtDataSubView(
 	: CWasteEditView(inPaneInfo, inViewInfo, inTextAttributes, 
 					 inTextTraitsID, inReadOnly, inWordWrap, inSelectable)
 {
+	mHexSiblingView = nil;
+	mIsSynchronizing = false;
 }
 
 
