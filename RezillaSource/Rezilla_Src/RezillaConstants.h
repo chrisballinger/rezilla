@@ -665,17 +665,18 @@ const long	aeRzil_Version				= 5010;
 // Error constants
 enum
 {
-	err_NoRezInDataFork = 1001,
+	err_NoRezInDataFork		= 1001,
 	err_NoRezInRezFork,
 	err_NoRezInAnyFork,
 	err_NoOpenPermission,
 	err_OpenForkError,
 	err_UnderVersionControl,
-	err_TmplError = 2000,
+	err_TmplError			= 2000,
 	err_TmplTextOverflow,
 	err_TmplWrongFixedCount,
 	err_TmplListCountTooBig,
 	err_TmplWrongEvenValue,
+	err_TmplUnexpectedTag,
 	err_TmplMalformedHexValue,
 	err_TmplMalformedDateValue,
 	err_TmplCantGetDateFormat,
