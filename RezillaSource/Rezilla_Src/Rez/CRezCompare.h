@@ -30,7 +30,7 @@ public:
 		mType = inType;
 		mID = inID;
 	}
-	~CRezTypId();
+	~CRezTypId() {}
 
 	ResType	mType;
 	short	mID;
@@ -105,6 +105,8 @@ protected:
 
 		void		AddTypeToArray(ResType inType, SInt16 inWhichList);
 		void		AddResourceToArray(ResType inType, short inID, SInt16 inWhichList);
+		void		DeleteList(TArray<CRezTypId *>	inList);
+		
 };
 
 
