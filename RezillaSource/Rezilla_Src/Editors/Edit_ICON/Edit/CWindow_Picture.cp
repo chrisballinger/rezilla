@@ -1,7 +1,7 @@
 // ===========================================================================
 // CWindow_Picture.cp
 //                       Created: 2004-12-11 18:50:22
-//             Last modification: 2005-02-06 19:20:39
+//             Last modification: 2005-02-15 07:00:31
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -103,7 +103,8 @@ CWindow_Picture::InitializeFromResource( CRezMap * /* inMap */, ResIDT /* inResI
 // #if 0
 // 	try
 // 	{
-// 		theRes = inMap->FindResource( ImgType_Picture, inResID, true );
+// 	// 		theRes = inMap->FindResource( ImgType_Picture, inResID, true );
+// 		theRes = UIconMisc::FindBitmapResource(inMap, ImgType_Picture, inResID, true );
 // 		if ( !theRes ) throw( resNotFound );
 // 		thePict = (PicHandle) theRes->GetResData();
 // 		if ( !thePict ) throw( resNotFound );

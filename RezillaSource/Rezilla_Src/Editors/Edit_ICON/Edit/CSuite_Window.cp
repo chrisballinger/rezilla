@@ -1,7 +1,7 @@
 // ===========================================================================
 // CSuite_Window.cp
 //                       Created: 2005-01-10 21:23:57
-//             Last modification: 2005-02-06 19:19:57
+//             Last modification: 2005-02-15 07:01:23
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -97,7 +97,8 @@ CSuite_Window::InitializeFromResource( CRezMap *inMap, ResType inResType, ResIDT
 	try
 	{	
 		// Get the raw resource handle
-		theRes = inMap->FindResource( inResType, inResID, true );
+// 		theRes = inMap->FindResource( inResType, inResID, true );
+		theRes = UIconMisc::FindBitmapResource(inMap, inResType, inResID, true );
 		ThrowIfNil_( theRes );
 		h = theRes->GetData();
 		ThrowIfNil_( h );

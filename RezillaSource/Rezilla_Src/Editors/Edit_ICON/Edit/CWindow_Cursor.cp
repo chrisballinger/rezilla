@@ -1,7 +1,7 @@
 // ===========================================================================
 // CWindow_Cursor.cp
 //                       Created: 2004-12-11 18:50:15
-//             Last modification: 2005-02-06 19:20:32
+//             Last modification: 2005-02-15 07:02:29
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -221,7 +221,8 @@ CWindow_Cursor::ParseBWCursor( CRezMap *inMap, ResIDT inResID,
 	try
 	{
 		// Get the raw resource handle
-		theRes = inMap->FindResource( ImgType_Cursor, inResID, true );
+// 		theRes = inMap->FindResource( ImgType_Cursor, inResID, true );
+		theRes = UIconMisc::FindBitmapResource(inMap, ImgType_Cursor, inResID, true );
 		ThrowIfNil_( theRes );
 		h = (CursHandle) theRes->GetData();
 		ThrowIfNil_( h );
@@ -285,7 +286,8 @@ CWindow_Cursor::ParseColorCursor( CRezMap *inMap, ResIDT inResID,
 		// Get the raw resource handle. This isn't the usual way of loading
 		// color cursors, so the fields will be raw and not filled in (as
 		// when GetCCursor is used).
-		theRes = inMap->FindResource( ImgType_ColorCursor, inResID, true );
+// 		theRes = inMap->FindResource( ImgType_ColorCursor, inResID, true );
+		theRes = UIconMisc::FindBitmapResource(inMap, ImgType_ColorCursor, inResID, true );
 		ThrowIfNil_( theRes );
 		h = (CCrsrHandle) theRes->GetData();
 		ThrowIfNil_( h );

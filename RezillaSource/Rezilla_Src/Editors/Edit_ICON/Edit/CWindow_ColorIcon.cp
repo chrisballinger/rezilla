@@ -198,7 +198,8 @@ CWindow_ColorIcon::ParseColorIcon( CRezMap *inMap, ResIDT inResID,
 	try
 	{
 		// Get the raw resource handle
-		theRes = inMap->FindResource( ImgType_ColorIcon, inResID, true );
+		theRes = UIconMisc::FindBitmapResource(inMap, ImgType_ColorIcon, inResID, true );
+// 		theRes = inMap->FindResource( ImgType_ColorIcon, inResID, true );
 		ThrowIfNil_( theRes );
 		h = theRes->GetData();
 		ThrowIfNil_( h );
