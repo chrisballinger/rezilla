@@ -3,6 +3,7 @@
 
 localize "French" as "Localizable.strings" 
 {
+	key "AevtOdocError" value string "Impossible d'ouvrir certains fichiers de ressources."
 	key "AlreadyExistTypeAndID" value string "Il existe déjà une ressource '%s' de numéro %d. Voulez-vous la remplacer ou en créer une avec un nouveau numéro (Unique ID) ?"
 	key "AlreadyExistingID" value string "Il existe une ressource de même numéro. Voulez-vous remplacer la ressource existante ou en créer une nouvelle avec un nouveau numéro (Unique ID) ?"
 	key "AskRemoveProtectedBit" value string "Cette ressource est protégée. Voulez-vous ôter la protection ? Vous pouvez aussi la déprotéger plus tard dans l'Inspecteur avant de sauvegarder la table."
@@ -53,6 +54,7 @@ localize "French" as "Localizable.strings"
 	key "ResourceLongerThanTemplate" value string "Il y a plus de données dans la ressource que ce qui est prévu par le gabarit. Les données excédentaires seront perdues si vous validez les modifications."
 	key "RezMapAlreadyOpened" value string "Une table de ressources est déjà ouverte pour ce fichier."
 	key "RezMapsDoNotDiffer" value string "Les tables de ressources sont identiques compte-tenu des critères de comparaison."
+	key "RezPickerNotAvailable" value string "Désolé. Impossible d'ouvrir le sélectionneur de types."
 	key "SaveBitmapEditorWindow" value string "Voulez-vous sauvegarder les modifications faites avec l'éditeur d'images ?"
 	key "SaveEditedResource" value string "Voulez-vous sauvegarder les modifications faites avec l'éditeur de ressources ?"
 	key "SaveHexWindow" value string "Voulez-vous sauvegarder les modifications faites avec l'éditeur hexadécimal ?"
@@ -74,7 +76,6 @@ localize "French" as "Localizable.strings"
 	key "ValidateEditedResBeforeSaveAs" value string "Certaines ressources éditées sont modifiées. Refermez-les avant de sauvegarder la table de ressources."
 	key "WritePermissionError" value string "Impossible d'ouvrir le fichier en écriture. Voulez-vous essayer en lecture seule?"
 	key "WrongIdForSelectedTemplate" value string "Étant donné le gabarit choisi, le numéro de cette ressource devrait être '%d'. S'il n'est pas corrigé, l'éditeur de gabarit ne pourra ouvrir cette ressource."
- 	key "AevtOdocError" value string "Impossible d'ouvrir certains fichiers de ressources."
 }
 
 
