@@ -2,7 +2,7 @@
 // CTmplEditorWindow.cp					
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-08-20 13:46:11
+//             Last modification: 2004-08-20 18:44:23
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -532,9 +532,10 @@ CTmplEditorWindow::ParseDataWithTemplate(Handle inHandle)
 // ---------------------------------------------------------------------------
 // If 'inRezStream' is nil, an empty template is built with default values.
 
-void
+OSErr
 CTmplEditorWindow::DoParseWithTemplate(SInt32 inRecursionMark, Boolean inDrawControls, LView * inContainer)
 {
+	OSErr		error = noErr;
 	Str255		theString, countLabel;
 	ResType		theType;
 
@@ -548,21 +549,23 @@ CTmplEditorWindow::DoParseWithTemplate(SInt32 inRecursionMark, Boolean inDrawCon
 			|| theType == 'FCNT' || theType == 'LCNT' || theType == 'LZCT') {
 			LString::CopyPStr(theString, countLabel);
 			mFixedCount = (theType == 'FCNT');
-			ParseDataForType(theType, theString, inContainer);
+			error = ParseDataForType(theType, theString, inContainer);
 		} else if (theType == 'LSTB' || theType == 'LSTC' || theType == 'LSTZ') {
 			if (inDrawControls) {
 				AddListHeaderField(theType, theString, mItemsCount, countLabel, inContainer, mFixedCount);
 			}
-			ParseList(mTemplateStream->GetMarker(), theType, mItemsCount, inContainer);
+			error = ParseList(mTemplateStream->GetMarker(), theType, mItemsCount, inContainer);
 		} else if (theType == 'LSTE') {
 			break;
 		} else {
 			if (inDrawControls) {
 				// Create controls according to the type declared in the template
-				ParseDataForType(theType, theString, inContainer);
+				error = ParseDataForType(theType, theString, inContainer);
 			} 
 		}
 	}
+
+	return error;
 }
 
 
@@ -570,9 +573,11 @@ CTmplEditorWindow::DoParseWithTemplate(SInt32 inRecursionMark, Boolean inDrawCon
 //	¥ ParseList													[public]
 // ---------------------------------------------------------------------------
 
-void
+OSErr
 CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount, LView * inContainer)
 {
+	OSErr	error = noErr;
+
 	mIndent += kTmplListIndent;
 	
 	CTmplListItemView * prevListItemView = nil;
@@ -597,7 +602,7 @@ CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount,
 				} 
 			}
 			mYCoord = kTmplVertSep;
-			DoParseWithTemplate(inStartMark, drawCtrl, theContainer);
+			error = DoParseWithTemplate(inStartMark, drawCtrl, theContainer);
 			currListItemView->mLastItemID = mCurrentID - 1;
 			if (drawCtrl) {
 				currListItemView->ResizeFrameBy(0, mYCoord, false);
@@ -621,7 +626,7 @@ CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount,
 					thePlusButton->SetUserCon( (long) currListItemView);
 				} 
 				mYCoord = kTmplVertSep;
-				DoParseWithTemplate(inStartMark, true, theContainer);
+				error = DoParseWithTemplate(inStartMark, true, theContainer);
 				currListItemView->mLastItemID = mCurrentID - 1;
 				currListItemView->ResizeFrameBy(0, mYCoord, false);
 				outYCoord += mYCoord + kTmplVertSkip;
@@ -633,6 +638,8 @@ CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount,
 	}
 	
 	mIndent -= kTmplListIndent;
+	
+	return error;
 }
 
 
@@ -672,6 +679,46 @@ CTmplEditorWindow::EndOfList(ResType inType)
 		
 	}
 	return result;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ ParseKeyedSection												[private]
+// ---------------------------------------------------------------------------
+
+OSErr
+CTmplEditorWindow::ParseKeyedSection(ResType inType, Str255 inLabelString, LView * inContainer)
+{
+	OSErr		error = noErr;
+	Str255		keyString;
+	SInt32		sectionStart;
+	Boolean		inDrawControls;
+	
+	// Get the key value
+	if (mRezStream->GetMarker() < mRezStream->GetLength()) {
+		KeyValueToString(inType, keyString);
+		inDrawControls = true;
+	} else {
+		if ( ! SelectValueFromKeyCases(inLabelString) ) {
+			error = err_TmplCreateNewAborted;
+			return error;
+		} 
+		inDrawControls = false;
+	}
+	
+	// Find the corresponding KEYB tag
+	error = GetKeyedSectionStart(&sectionStart);
+	
+	if (error == noErr) {
+		// Parse the section
+		error = DoParseWithTemplate(sectionStart, inDrawControls, inContainer);
+		if (error == noErr) {
+			// Jump to end of section
+			error = GotoKeyedSectionEnd();
+		} 
+	} 
+
+	return error;
 }
 
 
@@ -967,6 +1014,22 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		AddHexDumpField(inType, inContainer);
 		break;
 
+		case 'KBYT':
+		case 'KHBT':
+		case 'KHLG':
+		case 'KHWD':
+		case 'KLNG':
+		case 'KRID':
+		case 'KTYP':
+		case 'KWRD':
+		case 'KCHR':
+		case 'KUBT':
+		case 'KULG':
+		case 'KUWD':
+		// Keyed lists switches
+		ParseKeyedSection(inType, inLabelString, inContainer);
+		break;
+		
 		case 'LABL':
 		// Insert a comment
 		AddStaticField(inType, inLabelString, inContainer, sCommentTraitsID);
@@ -1363,9 +1426,10 @@ CTmplEditorWindow::RetrieveDataWithTemplate()
 // // // LPane::GetUserCon() const
 // // // GetPaneID()
 
-void
+OSErr
 CTmplEditorWindow::DoRetrieveWithTemplate(SInt32 inRecursionMark)
 {
+	OSErr	error = noErr;
 	Str255		theString;
 	ResType		theType;
 	
@@ -1389,6 +1453,8 @@ CTmplEditorWindow::DoRetrieveWithTemplate(SInt32 inRecursionMark)
 			RetrieveDataForType(theType);
 		}
 	}
+	
+	return error;
 }
 
 
@@ -1396,14 +1462,16 @@ CTmplEditorWindow::DoRetrieveWithTemplate(SInt32 inRecursionMark)
 //	¥ RetrieveList													[public]
 // ---------------------------------------------------------------------------
 
-void
+OSErr
 CTmplEditorWindow::RetrieveList(SInt32 inStartMark, ResType inType, SInt32 inCount)
 {
+	OSErr	error = noErr;
+	
 	switch (inType) {
 		case 'LSTB':
 		case 'LSTZ':
 		do {
-			DoRetrieveWithTemplate(inStartMark);
+			error = DoRetrieveWithTemplate(inStartMark);
 		} while (mCurrentID < mLastID);
 		break;
 		
@@ -1411,19 +1479,34 @@ CTmplEditorWindow::RetrieveList(SInt32 inStartMark, ResType inType, SInt32 inCou
 		if (inCount != 0) {
 			mItemsCount = 0;
 			for (short i = 0 ; i < inCount; i++) {
-				DoRetrieveWithTemplate(inStartMark);
+				error = DoRetrieveWithTemplate(inStartMark);
 			}
 		}
 		break;
 		
 	}
+	return error;
 }
 
 
 // ---------------------------------------------------------------------------
-//	¥ RetrieveDataForType												[public]
+//	¥ RetrieveKeyedSection											[public]
 // ---------------------------------------------------------------------------
 
+OSErr
+CTmplEditorWindow::RetrieveKeyedSection(ResType inType)
+{
+	OSErr	error = noErr;
+
+	
+	
+	return error;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ RetrieveDataForType											[public]
+// ---------------------------------------------------------------------------
 
 OSErr
 CTmplEditorWindow::RetrieveDataForType(ResType inType)
@@ -1436,7 +1519,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 	Str255	numStr, typeStr, theString;
 	SInt32	theLength, reqLength, currMark, oldMark;
 	UInt8	theUInt8 = 0;
-	UInt16	theUInt16 = 0, bitCount = 0, bytesLen = 0;;
+	UInt16	theUInt16 = 0, bitCount = 0, bytesLen = 0;
 	UInt32	theUInt32 = 0;
 	SInt8	i;
 	OSType	theOSType;
@@ -1761,6 +1844,22 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		}
 		break;
 
+		case 'KBYT':
+		case 'KHBT':
+		case 'KHLG':
+		case 'KHWD':
+		case 'KLNG':
+		case 'KRID':
+		case 'KTYP':
+		case 'KWRD':
+		case 'KCHR':
+		case 'KUBT':
+		case 'KULG':
+		case 'KUWD':
+		// Keyed lists switches
+		error = RetrieveKeyedSection(inType);
+		break;
+		
 		case 'LABL':
 		// It is a comment. Just skip it.
 		break;
@@ -1963,29 +2062,29 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 			switch (theType) {
 				case 'BSIZ':
 				theLength -= 1;
-				*mOutStream << (UInt8) theLength;;
+				*mOutStream << (UInt8) theLength;
 				break;
 				
 				case 'BSKP':
-				*mOutStream << (UInt8) theLength;;
+				*mOutStream << (UInt8) theLength;
 				break;
 				
 				case 'LSIZ':
 				theLength -= 4;
-				*mOutStream << (UInt32) theLength;;
+				*mOutStream << (UInt32) theLength;
 				break;
 				
 				case 'LSKP':
-				*mOutStream << (UInt32) theLength;;
+				*mOutStream << (UInt32) theLength;
 				break;
 				
 				case 'WSIZ':
 				theLength -= 2;
-				*mOutStream << (UInt16) theLength;;
+				*mOutStream << (UInt16) theLength;
 				break;
 				
 				case 'WSKP':
-				*mOutStream << (UInt16) theLength;;
+				*mOutStream << (UInt16) theLength;
 				break;
 				
 			}
@@ -2053,7 +2152,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		// Cache the current position
 		mOffsetMarksList.AddItem(mOutStream->GetMarker());
 		// Temporarily fill with null to create the place holder
-		*mOutStream << (UInt16) 0x0000;;
+		*mOutStream << (UInt16) 0x0000;
 		break;
 
 		case 'WSTR':

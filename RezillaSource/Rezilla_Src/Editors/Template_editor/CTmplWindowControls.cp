@@ -426,7 +426,7 @@ CTmplEditorWindow::AddCheckField(Boolean inValue,
 								   OSType inType,
 								   LView * inContainer)
 {
-	sCheckPaneInfo.left			= kTmplLeftMargin + kTmplLabelWidth + kTmplHorizSep;;
+	sCheckPaneInfo.left			= kTmplLeftMargin + kTmplLabelWidth + kTmplHorizSep;
 	sCheckPaneInfo.top			= mYCoord - 2;
 	sCheckPaneInfo.paneID		= mCurrentID;
 	sCheckPaneInfo.superView	= inContainer;

@@ -2,7 +2,7 @@
 // CTmplEditorWindow.h
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-07-02 06:44:10
+//             Last modification: 2004-08-20 19:22:10
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -130,14 +130,20 @@ private:
 	OSErr			ParseDataForType(ResType inType, Str255 inLabelString, LView * inContainer);
 	OSErr			RetrieveDataForType(ResType inType);
 	
-	void			ParseList(SInt32 inStartMark, 
+	OSErr			ParseList(SInt32 inStartMark, 
 							  ResType inType, 
 							  SInt32 inCount, 
 							  LView * inContainer);
 
-	void			RetrieveList(SInt32 inStartMark, 
+	OSErr			RetrieveList(SInt32 inStartMark, 
 								 ResType inType, 
 								 SInt32 inCount);
+
+	OSErr			ParseKeyedSection(ResType inType, 
+								   Str255 inLabelString, 
+								   LView * inContainer);
+
+	OSErr			RetrieveKeyedSection(ResType inType);
 
 	Boolean			EndOfList(ResType inType);
 	
@@ -229,8 +235,11 @@ private:
 
 	OSErr			BuildScanString(char * inString, char * ioFormat, UInt8 inLength);
 	
-	void			DoParseWithTemplate(SInt32 inRecursionMark, Boolean inDrawControls, LView * inContainer);
-	void			DoRetrieveWithTemplate(SInt32 inRecursionMark);
+	OSErr			DoParseWithTemplate(SInt32 inRecursionMark, 
+										Boolean inDrawControls, 
+										LView * inContainer);
+
+	OSErr			DoRetrieveWithTemplate(SInt32 inRecursionMark);
 	
 	void			RenumberSubPanes(LView * inView, 
 									 PaneIDT inOldLastID, 
@@ -247,6 +256,14 @@ private:
 									UInt16 & ioBytesLen);
 	
 	void			RetrieveBitField(UInt16 inBitCount, UInt16 inBytesLen);
+	
+	void			KeyValueToString(ResType inType, Str255 keyString);
+	
+	OSErr			GetKeyedSectionStart(SInt32 * outStart);
+	
+	OSErr			GotoKeyedSectionEnd();
+
+	Boolean			SelectValueFromKeyCases();
 	
 };
 

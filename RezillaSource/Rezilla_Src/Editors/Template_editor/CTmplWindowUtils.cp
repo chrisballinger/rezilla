@@ -2,7 +2,7 @@
 // CTmplWindowUtils.cp					
 // 
 //                       Created: 2004-08-20 16:45:08
-//             Last modification: 2004-08-20 17:03:48
+//             Last modification: 2004-08-20 19:22:22
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -335,5 +335,100 @@ CTmplEditorWindow::AlignBytesWrite(UInt8 inStep)
 		}
 	
 	return err;
+}
+
+
+#pragma mark -
+
+// ---------------------------------------------------------------------------
+//	¥ KeyValueToString											[private]
+// ---------------------------------------------------------------------------
+
+void
+CTmplEditorWindow::KeyValueToString(ResType inType, Str255 keyString)
+{
+	UInt8	theUInt8 = 0;
+	UInt16	theUInt16 = 0;
+	UInt32	theUInt32 = 0;
+
+	switch (inType) {
+		case 'KBYT':
+		*mRezStream >> theUInt8;
+		break;
+
+		case 'KHBT':
+		break;
+
+		case 'KHLG':
+		break;
+
+		case 'KHWD':
+		break;
+
+		case 'KLNG':
+		break;
+
+		case 'KRID':
+		break;
+
+		case 'KTYP':
+		break;
+
+		case 'KWRD':
+		break;
+
+		case 'KCHR':
+		break;
+
+		case 'KUBT':
+		break;
+
+		case 'KULG':
+		break;
+
+		case 'KUWD':
+		break;
+	}
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ GetKeyedSectionStart											[private]
+// ---------------------------------------------------------------------------
+
+OSErr
+CTmplEditorWindow::GetKeyedSectionStart(SInt32 * outStart)
+{	
+	OSErr	error = noErr;
+
+	return error;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ GotoKeyedSectionEnd											[private]
+// ---------------------------------------------------------------------------
+
+OSErr
+CTmplEditorWindow::GotoKeyedSectionEnd()
+{	
+	OSErr	error = noErr;
+
+	return error;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ SelectValueFromKeyCases										[private]
+// ---------------------------------------------------------------------------
+
+Boolean
+CTmplEditorWindow::SelectValueFromKeyCases(Str255 inLabelString)
+{
+	Boolean selected;
+	
+	// If there is only one CASE, choose it without asking
+	
+	return selected;
 }
 
