@@ -1,7 +1,7 @@
 // ===========================================================================
 // CPatternPane.cp
 //                       Created: 2004-12-11 18:53:08
-//             Last modification: 2004-12-28 15:17:18
+//             Last modification: 2004-12-31 08:29:48
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -35,8 +35,8 @@ CPatternPane::CPatternPane( LStream *inStream )
 	// The refCon is formatted as follows:
 	//    the low word has the PAT# resource id (-1 if no default).
 	//    the high word has 0 -> application file, 1 -> system file
-	SInt32		theRefCon = this->GetUserCon();
-	ResIDT		theResID = LoWord( theRefCon );
+	SInt32	theRefCon = this->GetUserCon();
+	ResIDT	theResID = LoWord( theRefCon );
 	SInt16	theFileID;
 	
 	if ( theResID != -1 )
@@ -175,12 +175,16 @@ CPatternPane::SetColors( Color32 inFore, Color32 inBack, RedrawOptions inRedraw 
 void
 CPatternPane::DrawSelf()
 {
-	Rect	r, swatchR;
+	Rect	localR, swatchR;
 	
-	CalcLocalFrameRect( r );
-	UPopupDrawing::DrawPopup( r, false /* not hilited */, IsEnabled() );
+	// Call inherited
+	LBevelButton::DrawSelf();
 
-	UPopupDrawing::CalculateSwatchArea( r, &swatchR );
+	CalcLocalFrameRect( localR );
+// 	UPopupDrawing::DrawPopup( localR, false /* not hilited */, IsEnabled() );
+	UPopupDrawing::DrawPopupArrow( localR, false /* not hilited */, IsEnabled() );
+
+	UPopupDrawing::CalculateSwatchArea( localR, &swatchR );
 	this->DrawSwatchSelf( swatchR );
 }
 
@@ -229,11 +233,15 @@ CPatternPane::DrawPopup( Boolean inHilited, Boolean inEnabled )
 {
 	Rect	localR, swatchR;
 
+	// Call inherited
+	LBevelButton::DrawSelf();
+
 	this->FocusDraw();
 	this->CalcLocalFrameRect( localR );
 	
-	UPopupDrawing::DrawPopup( localR, inHilited, inEnabled );
-	
+// 	UPopupDrawing::DrawPopup( localR, inHilited, inEnabled );
+	UPopupDrawing::DrawPopupArrow( localR, inHilited, inEnabled );
+
 	UPopupDrawing::CalculateSwatchArea( localR, &swatchR );
 	this->DrawSwatchSelf( swatchR );
 }
