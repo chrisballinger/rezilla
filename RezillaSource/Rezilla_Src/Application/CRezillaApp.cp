@@ -27,6 +27,7 @@
 #include "CRecentItemsMenu.h"
 #include "CInspectorWindow.h"
 #include "CHexEditorWindow.h"
+#include "CTmplEditorWindow.h"
 #include "CWasteEditView.h"
 #include "CBiDataWE.h"
 #include "CHexDataSubView.h"
@@ -294,7 +295,7 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(CHexDataSubView);
 	RegisterClass_(CEditorWindow);
 	RegisterClass_(CHexEditorWindow);
-// 	RegisterClass_(CTmplEditorWindow);
+	RegisterClass_(CTmplEditorWindow);
 	RegisterClass_(CInspectorWindow);
 	RegisterClass_(CRangeEditText);
 	RegisterClass_(CRezIconPane);
@@ -457,7 +458,8 @@ CRezillaApp::FindCommandStatus(
 		case cmd_ExportMap:
 		case cmd_FindNext:
 		case cmd_NewRez:
-		case cmd_GuiEditRez:
+		case cmd_EditRez:
+		case cmd_TmplEditRez:
 		case cmd_HexEditRez:
 		case cmd_GetRezInfo:
 		case cmd_RemoveRez:

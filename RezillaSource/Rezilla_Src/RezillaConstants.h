@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2004-06-11 10:16:31
+//             Last modification : 2004-06-14 12:58:31
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -119,7 +119,7 @@ const ResIDT	PPob_EditTable				= 1129;
 const ResIDT	rPPob_RezMapWindow			= 1000;
 const ResIDT	rPPob_InspectorWindow		= 2000;
 const ResIDT	rPPob_NewRezDialog			= 2100;
-const ResIDT	rPPob_HexEditWindow			= 3000;
+const ResIDT	rPPob_HexEditorWindow		= 3000;
 const ResIDT	rPPob_AboutWindow			= 5000;
 const ResIDT	rPPob_LicenceWindow			= 5100;
 const ResIDT	rPPob_RezCompDialog			= 6000;
@@ -141,7 +141,9 @@ const ResIDT	rPPob_TextEditorWindow		= 10200;
 const ResIDT	rRidL_RezMapWindow			= rPPob_RezMapWindow;
 const ResIDT	rRidL_InspectorWindow		= rPPob_InspectorWindow;
 const ResIDT	rRidL_NewRezDialog			= rPPob_NewRezDialog;
-const ResIDT	rRidL_HexEditWindow			= rPPob_HexEditWindow;
+const ResIDT	rRidL_HexEditorWindow		= rPPob_HexEditorWindow;
+const ResIDT	rRidL_TmplEditorWindow		= rPPob_TmplEditorWindow;
+const ResIDT	rRidL_TextEditorWindow		= rPPob_TextEditorWindow;
 const ResIDT	rRidL_AboutWindow			= rPPob_AboutWindow;
 const ResIDT	rRidL_FindDialog			= rPPob_FindDialog;
 const ResIDT	rRidL_RezCompDialog			= rPPob_RezCompDialog;
@@ -158,7 +160,12 @@ const ResIDT	STRx_RzilWinMenuItem		= 1501;
 const ResIDT	STRx_NavStrings				= 1502;
 const ResIDT	STRx_FileExtensions			= 1503;
 
+// Text traits resources
 const ResIDT	Txtr_MonacoNineDefault		= 139;
+const ResIDT	Txtr_MonacoNineGray			= 133;
+const ResIDT	Txtr_GenevaTen				= 140;
+const ResIDT	Txtr_GenevaTenBold			= 131;
+const ResIDT	Txtr_GenevaTenBoldUlRight	= 144;
 
 // Menu resources
 	// rMENU_Window is not a resource. It is built  
@@ -216,7 +223,7 @@ const MessageT	cmd_Help					= 3000;
 const MessageT	cmd_ShowInspector			= 2001;	
 // Resource menu items
 const MessageT	cmd_NewRez				= baseMENU_Resource + 1;	
-const MessageT	cmd_GuiEditRez			= baseMENU_Resource + 2;	
+const MessageT	cmd_EditRez				= baseMENU_Resource + 2;	
 const MessageT	cmd_TmplEditRez			= baseMENU_Resource + 3;	
 const MessageT	cmd_HexEditRez			= baseMENU_Resource + 4;	
 const MessageT	cmd_RemoveRez			= baseMENU_Resource + 10;	
@@ -262,7 +269,6 @@ const PaneIDT	item_HexDataWE				= 2;
 const PaneIDT	item_TxtDataWE				= 3;
 const PaneIDT	item_HexLineEdit			= 4;
 const PaneIDT	item_HexOffsetEdit			= 5;
-const PaneIDT	item_NameStaticText			= 6;
 const PaneIDT	item_HexEditGroupBox		= 10;
 // New Resource Window
 // -------------------
@@ -369,6 +375,7 @@ const PaneIDT   item_TextEditStyleMenu	= 3 ;
 // The Lock icon
 // -------------
 const PaneIDT	item_ReadOnlyIcon		= FOUR_CHAR_CODE('Lock');
+const PaneIDT	item_NameStaticText		= FOUR_CHAR_CODE('Name');
 
 // 'Other size' dialog
 // -------------------
@@ -423,9 +430,9 @@ const MessageT	msg_NewCompressed		= rPPob_NewRezDialog + item_NewCompressed;
 const MessageT	msg_NewUniqueID			= rPPob_NewRezDialog + item_NewUniqueID;
 // Hex Edit Window
 // ---------------
-const MessageT	msg_HexScroller			= rPPob_HexEditWindow + item_HexScroller;
-const MessageT	msg_HexLineEdit			= rPPob_HexEditWindow + item_HexLineEdit;
-const MessageT	msg_HexOffsetEdit		= rPPob_HexEditWindow + item_HexOffsetEdit;
+const MessageT	msg_HexScroller			= rPPob_HexEditorWindow + item_HexScroller;
+const MessageT	msg_HexLineEdit			= rPPob_HexEditorWindow + item_HexLineEdit;
+const MessageT	msg_HexOffsetEdit		= rPPob_HexEditorWindow + item_HexOffsetEdit;
 // About box
 // ---------
 const MessageT	msg_AboutOkButton		= rPPob_AboutWindow + item_AboutOkButton;
@@ -559,10 +566,10 @@ const SInt16	kRzilColWidth		= 100;
 // Constants for the Rez Hex editor
 // Used in HexEdit windows to recalculate the edit panes. It is the extra 
 // size of the TextGroupBox around the panes.
-const SInt16	kRzilHexEditExtraWidth = 46;
-const SInt16	kRzilHexEditExtraHeight = 11;
-const SInt16	kRzilHexEditLeftRidge = 6;
-const SInt16	kRzilHexEditTopRidge = 5;
+const SInt16	kRzilHexEditExtraWidth		= 46;
+const SInt16	kRzilHexEditExtraHeight		= 11;
+const SInt16	kRzilHexEditLeftRidge		= 6;
+const SInt16	kRzilHexEditTopRidge		= 5;
 
 // Constants for the Rez Compare results window
 // Used in ResCompare windows to recalculate the edit panes. It is the extra 
@@ -579,4 +586,15 @@ const ResType	ResType_DITL = FOUR_CHAR_CODE('DITL');
 // Used by size popup menu in Interface preferences
 #define  kFirstSizeMenuItem	1
 #define  kLastSizeMenuItem	9
+
+// Constants used by the template editor
+const SInt16	kTmplLeftMargin			= 10;
+const SInt16	kTmplVertSkip			= 10;
+const SInt16	kTmplHorizSep			= 10;
+const SInt16	kTmplEditHeight			= 22;
+const SInt16	kTmplEditWidth			= 200;
+const SInt16	kTmplStaticHeight		= 22;
+const SInt16	kTmplStaticWidth		= 100;
+const SInt16	kTmplWasteHeight		= 200;
+const SInt16	kTmplWasteWidth			= 300;
 

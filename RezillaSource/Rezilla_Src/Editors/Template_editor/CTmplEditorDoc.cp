@@ -26,10 +26,6 @@ PP_Begin_Namespace_PowerPlant
 #include "CRezMap.h"
 #include "CRezMapDoc.h"
 #include "CRezObj.h"
-#include "CRezMapTable.h"
-#include "CRezMapWindow.h"
-#include "CHexDataSubView.h"
-#include "CTxtDataSubView.h"
 #include "CRezillaApp.h"
 #include "CWindowMenu.h"
 #include "UCodeTranslator.h"
@@ -43,17 +39,13 @@ PP_Begin_Namespace_PowerPlant
 #include <LRadioGroupView.h>
 #include <LCheckBox.h>
 #include <LEditField.h>
+#include <LDataStream.h>
 
 #include <LString.h>
 #include <PP_Messages.h>
 
-#include <AEInteraction.h>
-#include <AERegistry.h>
-#include <AEObjects.h>
-#include <AEPackObject.h>
-
-// Standard headers
-#include <string.h>
+// // Standard headers
+// #include <string.h>
 
 
 extern CWindowMenu * gWindowMenu;
@@ -104,11 +96,13 @@ CTmplEditorDoc::Initialize()
 // 	mIgnoreCase = true;
 	
 	// Create window for our document.
-	mTmplEditWindow = dynamic_cast<CTmplEditorWindow *>(LWindow::CreateWindow( rPPob_HexEditWindow, this ));
+	mTmplEditWindow = dynamic_cast<CTmplEditorWindow *>(LWindow::CreateWindow( rPPob_TmplEditorWindow, this ));
 	Assert_( mTmplEditWindow != nil );
 	
 	mTmplEditWindow->SetSuperCommander(this);
-	
+	mTmplEditWindow->SetOwnerDoc(this);
+	mTmplEditWindow->InstallReadOnlyIcon();
+
 	NameNewEditorDoc();
 	
 	// Add the window to the window menu.
@@ -119,9 +113,7 @@ CTmplEditorDoc::Initialize()
 		Handle rezData = mRezObj->GetData();
 		
 		if (rezData != nil) {
-// 			mTmplEditWindow->InstallBackStoreData(rezData);						
-// 			mTmplEditWindow->InstallContentsFromLine(1);
-// 			mTmplEditWindow->SetDirty( false );
+			mTmplEditWindow->ParseWithTemplate(rezData);						
 		} 
 	} 
 	

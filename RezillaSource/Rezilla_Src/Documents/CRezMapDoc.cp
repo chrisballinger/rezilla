@@ -23,6 +23,7 @@ PP_Begin_Namespace_PowerPlant
 #include "CRezillaApp.h"
 #include "CRezillaPrefs.h"
 #include "CRezFile.h"
+#include "CRezEditor.h"
 #include "CTextFileStream.h"
 #include "CRezMap.h"
 #include "CRezMapTable.h"
@@ -33,6 +34,7 @@ PP_Begin_Namespace_PowerPlant
 #include "CRezTypeItem.h"
 #include "CInspectorWindow.h"
 #include "CHexEditorDoc.h"
+#include "CTmplEditorDoc.h"
 #include "CWindowMenu.h"
 #include "CRezClipboard.h"
 #include "CRecentItemsMenu.h"
@@ -325,23 +327,58 @@ CRezMapDoc::ObeyCommand(
 		break;		
 		}
 		
-		case cmd_GuiEditRez: 
-		case cmd_HexEditRez: 
+		case cmd_EditRez:
+		case cmd_TmplEditRez:
+		case cmd_HexEditRez:
 		case cmd_RemoveRez:
-		case cmd_Clear: 
+		case cmd_Clear:
 		case cmd_DuplicateRez: {
+			ResType theType;
 			LArray* theArray = new LArray( sizeof(LOutlineItem*) );
+			
 			mRezMapWindow->GetRezMapTable()->GetAllSelectedRezObjItems(theArray);
 			LArrayIterator iterator(*theArray);
 			CRezObjItem *theItem = nil;	
 			while (iterator.Next(&theItem)) {
+				theType = theItem->GetRezObj()->GetType();
+				
 				switch (inCommand) {		
-					case cmd_HexEditRez:
-						new CHexEditorDoc(this, mRezMapWindow->GetRezMapTable(), theItem->GetRezObj(), mReadOnly);
-						break;
 					
-					case cmd_GuiEditRez:
+					case cmd_EditRez:
+					if ( CRezEditor::HasEditorForType(theType) ) {
+						
+						// call the right GUI editor
+						
 						break;
+					} // else fall through to template editing...
+									
+					case cmd_TmplEditRez:
+					if ( CRezEditor::HasTemplateForType(theType) ) {
+						new CTmplEditorDoc(this, mRezMapWindow->GetRezMapTable(), theItem->GetRezObj(), mReadOnly);
+						break;
+					} else {
+						if (inCommand == cmd_TmplEditRez) {
+							CFStringRef formatStr = NULL, messageStr = NULL;
+							formatStr = CFCopyLocalizedString(CFSTR("NoTemplateForThisType"), NULL);
+							if (formatStr != NULL) {
+								char typeStr[5];
+								*(OSType*)typeStr = theType;
+								typeStr[4] = 0;
+								messageStr = ::CFStringCreateWithFormat(NULL, NULL, formatStr, typeStr);
+								if (messageStr != NULL) {
+									UMessageDialogs::SimpleMessageFromLocalizable(messageStr, rPPob_SimpleMessage);
+									CFRelease(messageStr);                     
+								}
+								CFRelease(formatStr);                             
+							}
+							break;
+						} 
+						// else fall through to hexadecimal editing...
+					}
+
+					case cmd_HexEditRez:
+					new CHexEditorDoc(this, mRezMapWindow->GetRezMapTable(), theItem->GetRezObj(), mReadOnly);
+					break;
 						
 					case cmd_RemoveRez:
 					case cmd_Clear: 
@@ -1062,7 +1099,8 @@ CRezMapDoc::FindCommandStatus(
 			outEnabled = true;
 			break;
 		
-		case cmd_GuiEditRez:
+		case cmd_EditRez:
+		case cmd_TmplEditRez:
 		case cmd_HexEditRez:
 		case cmd_GetRezInfo:
 			outEnabled = HasSelection();

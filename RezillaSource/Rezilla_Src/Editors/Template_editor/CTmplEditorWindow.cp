@@ -2,7 +2,7 @@
 // CTmplEditorWindow.cp					
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-06-12 16:07:41
+//             Last modification: 2004-06-14 12:17:02
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -15,16 +15,20 @@
 
 #include "CTmplEditorWindow.h"
 #include "CTmplEditorDoc.h"
+#include "CRezEditor.h"
 #include "CRezObj.h"
 #include "CRezillaApp.h"
 #include "CRezillaPrefs.h"
+#include "CWasteEditView.h"
 #include "RezillaConstants.h"
+#include "UMiscUtils.h"
 #include "UMessageDialogs.h"
+#include "UHexFilters.h"
 
 #include <LScrollBar.h>
 #include <LStaticText.h>
 #include <LIconPane.h>
-#include <LTextGroupBox.h>
+#include <LEditText.h>
 #include <LUndoer.h>
 #include <UExtractFromAEDesc.h>
 #include <UAppleEventsMgr.h>
@@ -83,6 +87,12 @@ CTmplEditorWindow::CTmplEditorWindow(
 
 CTmplEditorWindow::~CTmplEditorWindow()
 {
+	if (mTemplateStream != nil) {
+		delete mTemplateStream;
+	} 
+	if (mRezStream != nil) {
+		delete mRezStream;
+	} 
 }
 
 
@@ -93,35 +103,57 @@ CTmplEditorWindow::~CTmplEditorWindow()
 void
 CTmplEditorWindow::FinishCreateSelf()
 {	
-// 	OSStatus		error = noErr ;
-
-	mCurrFirstID = 1;
-	mCurrentItemID = 0;
-	mOwnerDoc = dynamic_cast<CTmplEditorDoc*>(GetSuperCommander());
+	mCurrFirstID		= 1;
+	mCurrentID			= mCurrFirstID;
+	mItemsCount			= 0;
+	mIndent				= 0;
+	mLabelTraitsID		= Txtr_GenevaTenBoldUlRight;
+	mEditTraitsID		= Txtr_GenevaTen;
+	mXCoord				= kTmplLeftMargin;
+	mYCoord				= kTmplVertSkip;
+	mTemplateStream		= nil;
+	mRezStream			= nil;
 	
 	// Waste edit subviews
 	mContentsView = dynamic_cast<LView *>(this->FindPaneByID(item_TmplEditContents));
 	ThrowIfNil_( mContentsView );
 		
-	InstallReadOnlyIcon();
-		
 	// Install the name of the resource if it has one
 	LStaticText * theStaticText = dynamic_cast<LStaticText *>(this->FindPaneByID( item_NameStaticText ));
 	ThrowIfNil_( theStaticText );
 	Str255 * strPtr = dynamic_cast<CTmplEditorDoc *>(GetSuperCommander())->GetRezObj()->GetName();
-	theStaticText->SetDescriptor(*strPtr);
+	theStaticText->SetDescriptor(*strPtr);	
 	
-// 	// Let the window listen to the text edit fields
-// 	mLineField->AddListener(this);	
-// 	mOffsetField->AddListener(this);	
-
 	// Make the window a listener to the prefs object
 	CRezillaApp::sPrefs->AddListener(this);
 	
+	mEditPaneInfo.paneID			= mCurrentID;
+	mEditPaneInfo.width				= kTmplEditWidth;
+	mEditPaneInfo.height			= kTmplEditHeight;
+	mEditPaneInfo.visible			= true;
+	mEditPaneInfo.enabled			= true;
+	mEditPaneInfo.bindings.left		= true;
+	mEditPaneInfo.bindings.top		= true;
+	mEditPaneInfo.bindings.right	= false;
+	mEditPaneInfo.bindings.bottom	= false;
+	mEditPaneInfo.userCon			= 0;
+	mEditPaneInfo.superView			= mContentsView;
+
+	mStaticPaneInfo.paneID			= 0;
+	mStaticPaneInfo.width			= kTmplStaticWidth;
+	mStaticPaneInfo.height			= kTmplStaticHeight;
+	mStaticPaneInfo.visible			= true;
+	mStaticPaneInfo.enabled			= true;
+	mStaticPaneInfo.bindings.left	= true;
+	mStaticPaneInfo.bindings.top	= true;
+	mStaticPaneInfo.bindings.right	= false;
+	mStaticPaneInfo.bindings.bottom = false;
+	mStaticPaneInfo.userCon			= 0;
+	mStaticPaneInfo.superView		= mContentsView;
+
 // 	// Attach an LUndoer to each of the subpanes
 // 	mHexDataWE->AddAttachment( new LUndoer );
 // 	mTxtDataWE->AddAttachment( new LUndoer );
-
 }
 	
 
@@ -157,7 +189,8 @@ CTmplEditorWindow::FindCommandStatus(
 {
 	switch (inCommand) {
 
-		case cmd_GuiEditRez:
+		case cmd_EditRez:
+		case cmd_TmplEditRez:
 		case cmd_HexEditRez:
 		case cmd_RemoveRez:
 		case cmd_DuplicateRez:
@@ -235,20 +268,502 @@ CTmplEditorWindow::IsDirty()
 
 
 // ---------------------------------------------------------------------------
+//	¥ CreateTemplateStream									[private]
+// ---------------------------------------------------------------------------
+
+void
+CTmplEditorWindow::CreateTemplateStream()
+{
+	Handle theHandle = CRezEditor::GetTemplateHandle( mOwnerDoc->GetRezObj()->GetType() );
+	mTemplateStream = LHandleStream(theHandle);	
+}
+ 
+
+// ---------------------------------------------------------------------------
 //	¥ ParseTemplate														[public]
 // ---------------------------------------------------------------------------
 
 void
-CTmplEditorWindow::ParseTemplate(Handle inHandle)
+CTmplEditorWindow::ParseWithTemplate(Handle inHandle)
 {
+	Str255		theString;
+	ResType		theType;
+
+	// Get a handle to the template resource and create a stream to parse it
+	CreateTemplateStream();
+	
+	// Create a stream to parse the data
+	mRezStream = LHandleStream(inHandle);	
+
+	while (mTemplateStream.GetMarker() < mTemplateStream.GetLength() ) {
+		mTemplateStream >> theString;
+		mTemplateStream >> theType;
+
+		ParseDataForType(theType, theString);
+	}
 }
+
+
+// ---------------------------------------------------------------------------
+//	¥ ParseDataForType												[public]
+// ---------------------------------------------------------------------------
+
+// TODO:
+// - CSTR should not use an editfield limited to 255 chars
+// - add more error checking: insufficient data, required null bytes
+// - insert in try block and catch exceptions
+
+// 	
+// 		UKeyFilters::SelectTEKeyFilter(keyFilter_AlphaNumeric)
+// 		UKeyFilters::SelectTEKeyFilter(keyFilter_Integer)
+// 		UKeyFilters::SelectTEKeyFilter(keyFilter_NegativeInteger)
+// 		UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar)
+// 		UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingCharAndCR)
+		
+// Base integer types for all target OS's and CPU's
+// 
+// 	UInt8            8-bit unsigned integer 
+// 	SInt8            8-bit signed integer
+// 	UInt16          16-bit unsigned integer 
+// 	SInt16          16-bit signed integer           
+// 	UInt32          32-bit unsigned integer 
+// 	SInt32          32-bit signed integer   
+// 	UInt64          64-bit unsigned integer 
+// 	SInt64          64-bit signed integer   
+
+OSErr
+CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
+{
+	OSErr	error = noErr;
+	char	theChar;
+	char 	charString[256];
+	char *	theCString;
+	short	theShort;
+	Str255	numStr, theString;
+	SInt32	theSInt32, theRest, theLength, oldYCoord;
+	UInt16	theUInt16;
+	UInt32	theUInt32;
+	OSType	theOSType;
+	
+	// Store the type in the userCon field
+	oldYCoord = mYCoord;
+	
+	switch (inType) {
+		case 'ALNG':
+		// Long align
+		AlignBytes(4);
+		break;
+
+		case 'AWRD':
+		// Word align
+		AlignBytes(2);
+		break;
+
+		case 'BBIT':
+		// 
+		
+		break;
+
+		case 'BOOL':
+		// 
+		// // BOOL is two bytes long, false == 0x0000, true == 0x0100
+		
+		break;
+
+		case 'CHAR':
+		// A single character
+		mRezStream >> theChar;
+		theString[0] = 1;
+		theString[1] = theChar;
+		AddStaticField(inLabelString);
+		AddEditField(theString, inType, rPPob_TmplEditorWindow + mCurrentID, 1, 0, 
+					 UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar));
+		break;
+
+		case 'CSTR':
+		// C string (characters followed by a null)
+		mRezStream >> theCString;
+		CopyCStringToPascal(theCString, theString);
+		AddStaticField(inLabelString);
+		AddEditField(theString, inType, rPPob_TmplEditorWindow + mCurrentID, 255, 0, NULL);
+		break;
+
+		case 'DBYT':
+		// Decimal byte
+		mRezStream >> theChar;
+		::NumToString( (long) theChar, numStr);
+		AddStaticField(inLabelString);
+		AddEditField(numStr, inType, rPPob_TmplEditorWindow + mCurrentID, 3, 0, 
+					 UKeyFilters::SelectTEKeyFilter(keyFilter_Integer));
+		break;
+
+		case 'DLNG':
+		// Decimal long word
+		mRezStream >> theUInt32;
+		::NumToString( (long) theUInt32, numStr);
+		AddStaticField(inLabelString);
+		AddEditField(numStr, inType, rPPob_TmplEditorWindow + mCurrentID, 5, 0, 
+					 UKeyFilters::SelectTEKeyFilter(keyFilter_Integer));
+		break;
+
+		case 'DWRD':
+		// Decimal word
+		mRezStream >> theUInt16;
+		::NumToString( (long) theUInt16, numStr);
+		AddStaticField(inLabelString);
+		AddEditField(numStr, inType, rPPob_TmplEditorWindow + mCurrentID, 10, 0, 
+					 UKeyFilters::SelectTEKeyFilter(keyFilter_Integer));
+		break;
+
+		case 'ECST':
+		// Even-padded C string, or odd-padded C string (padded with nulls)
+		
+		break;
+
+		case 'ESTR':
+		// Pascal string padded to even length (needed for DITL resources)
+		mRezStream >> theString;
+		theLength = theString[0];
+		if ((theLength % 2 == 0) && (theString[theLength] == 0)) {
+			// if the length is even and the last char is a null, it means the string has 
+			// been padded. So ignore the last char.
+			theString[0] -= 1;
+		} 
+		AddStaticField(inLabelString);
+		AddEditField(theString, inType, rPPob_TmplEditorWindow + mCurrentID, 255, 0, 
+					 UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar));
+		
+		break;
+
+		case 'FBYT':
+		// Byte fill (with 0)
+		mTemplateStream.SetMarker(1, streamFrom_Marker);
+		break;
+
+		case 'FLNG':
+		// Long fill (with 0)
+		mTemplateStream.SetMarker(4, streamFrom_Marker);
+		break;
+
+		case 'FWRD':
+		// Word fill (with 0)
+		mTemplateStream.SetMarker(2, streamFrom_Marker);
+		break;
+
+		case 'HBYT':
+		// Hex byte
+		mRezStream >> theChar;
+// 		sprintf();
+		
+		::NumToString( (long) theChar, numStr);
+		AddStaticField(inLabelString);
+		AddEditField(numStr, inType, rPPob_TmplEditorWindow + mCurrentID, 2, 0, 
+					 &UHexFilters::HexadecimalField);
+		break;
+
+		case 'HEXD':
+		// Hex dump of remaining bytes in resource (this can only be the last type in a resource)
+		
+		break;
+
+		case 'HLNG':
+		// Hex long word
+		mRezStream >> theSInt32;
+		::NumToString( (long) theSInt32, numStr);
+		AddStaticField(inLabelString);
+		AddEditField(numStr, inType, rPPob_TmplEditorWindow + mCurrentID, 8, 0, 
+					 &UHexFilters::HexadecimalField);
+		break;
+
+		case 'HWRD':
+		// Hex word
+		mRezStream >> theShort;
+		::NumToString( (long) theShort, numStr);
+		AddStaticField(inLabelString);
+		AddEditField(numStr, inType, rPPob_TmplEditorWindow + mCurrentID, 4, 0, 
+					 &UHexFilters::HexadecimalField);
+		break;
+
+		case 'LSTB':
+		// List Begin. Ends at the end of the resource.
+		
+		break;
+
+		case 'LSTC':
+		// List Count. Terminated by a zero-based word count that starts 
+		// the sequence (as in 'DITL' resources).
+		// // repeats recursionTotal times
+		
+		break;
+
+		case 'LSTE':
+		// List end
+		
+		break;
+
+		case 'LSTR':
+		// Long string (length long followed by the characters)
+		// // one to 4,294,967,296 bytes
+		
+		break;
+
+		case 'LSTZ':
+		// List Zero. Terminated by a 0 byte (as in 'MENU' resources).
+		// // repeats until 0x00 is encountered as first byte of next block
+		
+		break;
+
+		case 'OCNT':
+		// One Count. Terminated by a one-based word count that starts 
+		// the sequence (as in 'STR#' resources).
+		
+		break;
+
+		case 'OCST':
+		// Odd-padded C string (padded with nulls)
+		
+		break;
+
+		case 'OSTR':
+		// Pascal string padded to odd length (needed for DITL resources)
+		mRezStream >> theString;
+		theLength = theString[0];
+		if ((theLength % 2) && (theString[theLength] == 0)) {
+			// if the length is odd and the last char is a null, it means the string has 
+			// been padded. So ignore the last char.
+			theString[0] -= 1;
+		} 
+		AddStaticField(inLabelString);
+		AddEditField(theString, inType, rPPob_TmplEditorWindow + mCurrentID, 255, 0, 
+					 UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar));
+		break;
+
+		case 'PSTR':
+		// Pascal string
+		mRezStream >> theString;
+		AddStaticField(inLabelString);
+		AddEditField(theString, inType, rPPob_TmplEditorWindow + mCurrentID, 255, 0, 
+					 UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar));
+		break;
+
+		case 'RECT': {
+		// An 8-byte rectangle
+		SInt16 theTop, theLeft, theBottom, theRight;
+		mRezStream >> theTop;
+		mRezStream >> theLeft;
+		mRezStream >> theBottom;
+		mRezStream >> theRight;
+		AddStaticField(inLabelString);
+		AddRectField(theTop, theLeft, theBottom, theRight, inType, rPPob_TmplEditorWindow + mCurrentID, 255, 0, 
+					 UKeyFilters::SelectTEKeyFilter(keyFilter_Integer));
+		break;
+		}
+
+		case 'TNAM':
+		// Type name (four characters, like OSType and ResType)
+		mRezStream >> theOSType;
+		UMiscUtils::OSTypeToPString(theOSType, theString);
+		AddStaticField(inLabelString);
+		AddEditField(theString, inType, rPPob_TmplEditorWindow + mCurrentID, 4, 0, 
+					 UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar));
+		break;
+
+		case 'WSTR':
+		// Same as LSTR, but a word rather than a long word
+		// // one to 65,536 bytes
+		
+		break;
+
+		case 'ZCNT':
+		// Zero Count. Terminated by a zero-based word count that starts 
+		// the sequence (as in 'DITL' resources).
+		
+		break;
+
+	  default:
+	  // Handle Hnnn, Cnnn, P0nn cases here or unrecognized type
+	  break;
+	}
+
+	mContentsView->ResizeImageBy(0, mYCoord - oldYCoord, true);
+
+	return error;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ AddStaticField													[public]
+// ---------------------------------------------------------------------------
+
+void
+CTmplEditorWindow::AddStaticField(Str255 inLabel)
+{
+	mStaticPaneInfo.left = kTmplLeftMargin + mIndent;
+	mStaticPaneInfo.top = mYCoord;
+	
+	LStaticText * theStaticText = new LStaticText(mStaticPaneInfo, inLabel, mLabelTraitsID);
+	ThrowIfNil_(theStaticText);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ AddEditField														[public]
+// ---------------------------------------------------------------------------
+
+// 		enum {
+// 	editAttr_Box			= 0x80,
+// 	editAttr_WordWrap		= 0x40,
+// 	editAttr_AutoScroll		= 0x20,
+// 	editAttr_TextBuffer		= 0x10,
+// 	editAttr_OutlineHilite	= 0x08,
+// 	editAttr_InlineInput	= 0x04,
+// 	editAttr_TextServices	= 0x02
+// };
+// 		attributes |= editAttr_WordWrap;
+
+void
+CTmplEditorWindow::AddEditField(Str255 inValue, 
+								OSType inType,
+								MessageT inMessage,
+								SInt16 inMaxChars, 
+								UInt8 inAttributes,
+								TEKeyFilterFunc inKeyFilter)
+{
+	mEditPaneInfo.left = kTmplLeftMargin + kTmplStaticWidth + kTmplHorizSep + mIndent;
+	mEditPaneInfo.top = mYCoord;
+	mEditPaneInfo.paneID = mCurrentID;
+
+	LEditText * theEditText = new LEditText(mEditPaneInfo, this, inValue, mEditTraitsID, 
+											inMessage, inMaxChars, inAttributes, inKeyFilter);
+	ThrowIfNil_(theEditText);
+
+	// Store the template's type in the userCon field
+	theEditText->SetUserCon(inType);
+	
+	// Advance the counters
+	mYCoord += mEditPaneInfo.height + kTmplVertSkip;
+	mCurrentID += 1;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ AddWasteField													[public]
+// ---------------------------------------------------------------------------
+
+// CWasteEditView::CWasteEditView(
+// 	const SPaneInfo&	inPaneInfo,
+// 	const SViewInfo&	inViewInfo,
+// 	UInt16				inTextAttributes,
+// 	ResIDT				inTextTraitsID)
+// 
+// 	: LView(inPaneInfo, inViewInfo)
+// {
+// 	mTextAttributes = inTextAttributes;
+// 	InitWasteEditView(inTextTraitsID);
+// }
+// typedef struct	SViewInfo {
+// 	SDimension32	imageSize;
+// 	SPoint32		scrollPos;
+// 	SPoint32		scrollUnit;
+// 	SInt16			reconcileOverhang;
+// } SViewInfo;
+// 
+// struct SDimension32 {
+// 	SInt32	width;
+// 	SInt32	height;
+// };
+// 
+// struct SPoint32 {
+// 	SInt32	h;
+// 	SInt32	v;
+// };
+
+
+void
+CTmplEditorWindow::AddWasteField(OSType inType)
+{
+	SViewInfo	theViewInfo;
+	
+	mEditPaneInfo.left = kTmplLeftMargin + mIndent;
+	mEditPaneInfo.top = mYCoord;
+	mEditPaneInfo.paneID = mCurrentID;
+	
+	CWasteEditView * theWasteEdit = new CWasteEditView(mEditPaneInfo, theViewInfo, 0, mEditTraitsID);
+	ThrowIfNil_(theWasteEdit);
+
+	// Store the template's type in the userCon field
+	theWasteEdit->SetUserCon(inType);
+	
+	// Advance the counters
+	mYCoord += mEditPaneInfo.top + kTmplVertSkip;
+	mCurrentID += 1;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ AddRectField													[public]
+// ---------------------------------------------------------------------------
+// 		AddRectField(theTop, theLeft, theBottom, theRight, inType, rPPob_TmplEditorWindow + mCurrentID, 255, 0, 
+// 					 UKeyFilters::SelectTEKeyFilter(keyFilter_Integer));
+
+void
+CTmplEditorWindow::AddRectField(SInt16 inTop, 
+								SInt16 inLeft, 
+								SInt16 inBottom, 
+								SInt16 inRight, 
+								OSType inType,
+								MessageT inMessage,
+								SInt16 inMaxChars, 
+								UInt8 inAttributes,
+								TEKeyFilterFunc inKeyFilter)
+{
+
+// 	ThrowIfNil_(  );
+
+	// Store the template's type in the userCon field
+	
+	// Advance the counters
+
+}
+
+
+// // ---------------------------------------------------------------------------
+// //	¥ AlignBytes											[public]
+// // ---------------------------------------------------------------------------
+
+ExceptionCode
+CTmplEditorWindow::AlignBytes(UInt8 inStep)
+{
+	ExceptionCode	err = noErr;
+	
+	SInt32 theSInt32 = mTemplateStream.GetMarker();
+	SInt32 theRest = theSInt32 % inStep;
+
+	if (theRest != 0) {
+		if (theSInt32 + theRest > mTemplateStream.GetLength()) {
+			err = writErr;
+		} else {
+			mTemplateStream.SetMarker(theRest, streamFrom_Marker);
+		}
+	}
+	
+	return err;
+}
+
 
 
 // ---------------------------------------------------------------------------
 //	¥ ReadValues														[public]
 // ---------------------------------------------------------------------------
 
+// LPane::GetUserCon()
+
 Handle
 CTmplEditorWindow::ReadValues()
 {
+	Handle theHandle = nil;
+	
+	
+	return theHandle;
 }
+

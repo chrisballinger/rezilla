@@ -57,7 +57,6 @@ public:
 	virtual CEditorDoc*		GetOwnerDoc() { return mOwnerDoc;}
 	void					SetOwnerDoc(CEditorDoc* theOwnerDoc) {mOwnerDoc = theOwnerDoc ;}
 
-
 protected:
 	CEditorDoc *		mOwnerDoc;
 	
