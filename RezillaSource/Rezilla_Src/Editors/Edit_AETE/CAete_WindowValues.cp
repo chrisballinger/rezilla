@@ -2,7 +2,7 @@
 // CAete_WindowValues.cp
 // 
 //                       Created: 2005-01-25 09:01:07
-//             Last modification: 2005-01-25 09:19:23
+//             Last modification: 2005-01-27 07:05:46
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -749,6 +749,8 @@ CAete_EditorWindow::RetrieveEventValues(CAeteEvent * inEvent)
 	ThrowIfNil_( theEditText );
 	theEditText->GetDescriptor(theDirectDescription);
 
+	RetrieveFlags(item_AeteDirectOptions, theDirectFlags);
+
 	// Reply
 	theEditText = dynamic_cast<LEditText *> (mEventPane->FindPaneByID( item_AeteReplyType ));
 	ThrowIfNil_( theEditText );
@@ -758,6 +760,8 @@ CAete_EditorWindow::RetrieveEventValues(CAeteEvent * inEvent)
 	theEditText = dynamic_cast<LEditText *> (mEventPane->FindPaneByID( item_AeteReplyDescr ));
 	ThrowIfNil_( theEditText );
 	theEditText->GetDescriptor(theReplyDescription);
+
+	RetrieveFlags(item_AeteReplyOptions, theReplyFlags);
 
 	inEvent->SetValues(theName, theDescription, theClass, theID,
 						theReplyType, theReplyDescription, theReplyFlags, 
@@ -803,6 +807,8 @@ CAete_EditorWindow::RetrieveParameterValues(CAeteParameter* inParameter)
 	ThrowIfNil_( theEditText );
 	theEditText->GetDescriptor(theDescription);
 		
+	RetrieveFlags(item_AeteOtherOptions, theFlags);
+
 	inParameter->SetValues(theName, theKeyword, theType,
 								theDescription, theFlags);
 }
@@ -887,6 +893,8 @@ CAete_EditorWindow::RetrievePropertyValues(CAeteProperty * inProperty)
 	ThrowIfNil_( theEditText );
 	theEditText->GetDescriptor(theDescription);
 	
+	RetrieveFlags(item_AetePropertyOptions, theFlags);
+
 	inProperty->SetValues(theName, theKeyword, theType,
 							theDescription, theFlags);
 
@@ -1074,7 +1082,7 @@ CAete_EditorWindow::InstallFlags(SInt32 inKind, UInt16 inFlags)
 		theMenuH = thePopup->GetMacMenuH();
 		theCount = sizeof(AeteReplyFlag)/sizeof(UInt16);
 		for ( i = 0; i < theCount; i++) {
-			::MacCheckMenuItem(theMenuH, i+2, ( (inFlags & (1 << AeteReplyFlag[i])) > 0 )? 1:0 );
+			::MacCheckMenuItem(theMenuH, i+2, ( (inFlags & (1 << AeteReplyFlag[i])) > 0 ) );
 		}
 		break;
 		
@@ -1084,7 +1092,7 @@ CAete_EditorWindow::InstallFlags(SInt32 inKind, UInt16 inFlags)
 		theMenuH = thePopup->GetMacMenuH();
 		theCount = sizeof(AeteOtherFlag)/sizeof(UInt16);
 		for ( i = 0; i < theCount; i++) {
-			::MacCheckMenuItem(theMenuH, i+2, ( (inFlags & (1 << AeteOtherFlag[i])) > 0 )? 1:0 );
+			::MacCheckMenuItem(theMenuH, i+2, ( (inFlags & (1 << AeteOtherFlag[i])) > 0 ) );
 		}
 		break;
 		
@@ -1094,13 +1102,11 @@ CAete_EditorWindow::InstallFlags(SInt32 inKind, UInt16 inFlags)
 		theMenuH = thePopup->GetMacMenuH();
 		theCount = sizeof(AetePropertyFlag)/sizeof(UInt16);
 		for ( i = 0; i < theCount; i++) {
-			::MacCheckMenuItem(theMenuH, i+2, ( (inFlags & (1 << AetePropertyFlag[i])) > 0 )? 1:0 );
+			::MacCheckMenuItem(theMenuH, i+2, ( (inFlags & (1 << AetePropertyFlag[i])) > 0 ) );
 		}
 		break;
 		
 	}
-	
-// 	thePopup->SetValue(1);
 }
 
 
@@ -1108,11 +1114,60 @@ CAete_EditorWindow::InstallFlags(SInt32 inKind, UInt16 inFlags)
 //  RetrieveFlags													[public]
 // ---------------------------------------------------------------------------
 
-UInt16
-CAete_EditorWindow::RetrieveFlags(SInt32 inKind)
+void
+CAete_EditorWindow::RetrieveFlags(SInt32 inKind, UInt16 & outFlags)
 {
-	UInt16	theFlags = 0;
+	SInt32			theCount, i;
+	MenuHandle		theMenuH;
+	LPopupButton *	thePopup;
+	CharParameter	markChar = 0;
+
+	outFlags = 0;
 	
-	
-	return theFlags;
+	switch (inKind) {
+		case item_AeteDirectOptions:
+		thePopup = dynamic_cast<LPopupButton *> (mEventPane->FindPaneByID( inKind ));
+		ThrowIfNil_(thePopup);
+		theMenuH = thePopup->GetMacMenuH();
+		theCount = sizeof(AeteDirectFlag)/sizeof(UInt16);
+		for ( i = 0; i < theCount; i++) {
+			GetItemMark( theMenuH, i+2, &markChar);
+			outFlags |= (markChar == 0) ? 0:(1 << AeteDirectFlag[i]) ;
+		}
+		break;
+		
+		case item_AeteReplyOptions:
+		thePopup = dynamic_cast<LPopupButton *> (mEventPane->FindPaneByID( inKind ));
+		ThrowIfNil_(thePopup);
+		theMenuH = thePopup->GetMacMenuH();
+		theCount = sizeof(AeteReplyFlag)/sizeof(UInt16);
+		for ( i = 0; i < theCount; i++) {
+			GetItemMark( theMenuH, i+2, &markChar);
+			outFlags |= (markChar == 0) ? 0:(1 << AeteReplyFlag[i]) ;
+		}
+		break;
+		
+		case item_AeteOtherOptions:
+		thePopup = dynamic_cast<LPopupButton *> (mEventPane->FindPaneByID( inKind ));
+		ThrowIfNil_(thePopup);
+		theMenuH = thePopup->GetMacMenuH();
+		theCount = sizeof(AeteOtherFlag)/sizeof(UInt16);
+		for ( i = 0; i < theCount; i++) {
+			GetItemMark( theMenuH, i+2, &markChar);
+			outFlags |= (markChar == 0) ? 0:(1 << AeteOtherFlag[i]) ;
+		}
+		break;
+		
+		case item_AetePropertyOptions:
+		thePopup = dynamic_cast<LPopupButton *> (mClassPane->FindPaneByID( inKind ));
+		ThrowIfNil_(thePopup);
+		theMenuH = thePopup->GetMacMenuH();
+		theCount = sizeof(AetePropertyFlag)/sizeof(UInt16);
+		for ( i = 0; i < theCount; i++) {
+			GetItemMark( theMenuH, i+2, &markChar);
+			outFlags |= (markChar == 0) ? 0:(1 << AetePropertyFlag[i]) ;
+		}
+		break;
+		
+	}
 }
