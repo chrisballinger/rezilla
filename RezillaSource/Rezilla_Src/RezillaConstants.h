@@ -293,6 +293,7 @@ const MessageT	cmd_EditRezAsType		= baseMENU_Resource + 5;
 const MessageT	cmd_RemoveRez			= baseMENU_Resource + 10;	
 const MessageT	cmd_DuplicateRez		= baseMENU_Resource + 11;	
 const MessageT	cmd_GetRezInfo			= baseMENU_Resource + 15;
+const MessageT	cmd_TmplEditAsRez		= baseMENU_Resource + 99;	
 // File menu items
 const MessageT	cmd_ExportMap			= baseMENU_File + 1;	
 const MessageT	cmd_RecentItems			= baseMENU_File + 2;	
