@@ -19,7 +19,7 @@
 
 class LStaticText;
 class LEditText;
-class LIconPane;
+class CRezIconPane;
 class LCheckBox;
 class LPushButton;
 class CRezObjItem;
@@ -66,7 +66,7 @@ protected:
 // 	LStaticText *		mMapItem;
 	LEditText *			mIDEdit;
 	LEditText *			mNameEdit;
-	LIconPane *			mIconItem;
+	CRezIconPane *		mIconItem;
 	LCheckBox *			mSysHeapItem;
 	LCheckBox *			mPurgeableItem;
 	LCheckBox *			mLockedItem;
@@ -87,6 +87,5 @@ private:
 	void				UpdateRezObj();
 	
 };
-
 
 

@@ -2,11 +2,11 @@
 // CInspectorWindow.cp					
 // 
 //                       Created: 2003-05-02 07:33:10
-//             Last modification: 2003-06-10 15:01:19
+//             Last modification: 2004-04-15 15:00:03
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003
+// (c) Copyright : Bernard Desgraupes, 2003, 2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -21,12 +21,12 @@
 #include "CRezMapTable.h"
 #include "CRezObj.h"
 #include "CRezObjItem.h"
+#include "CRezIconPane.h"
 #include "UMiscUtils.h"
 #include "CWindowMenu.h"
-
+#include "UResources.h"
 
 #include <LWindow.h>
-#include <LIconPane.h>
 #include <LPushButton.h>
 #include <LCheckBox.h>
 #include <LEditText.h>
@@ -37,6 +37,7 @@
 
 #include <AppleHelp.h>
 
+#include <string.h>
 
 // ---------------------------------------------------------------------------
 //		¥ CInspectorWindow				[public]
@@ -118,7 +119,7 @@ CInspectorWindow::FinishCreateSelf()
 	mNameEdit = dynamic_cast<LEditText *>(this->FindPaneByID( item_InspEditName ));
 	ThrowIfNil_( mNameEdit );
 		
-	mIconItem = dynamic_cast<LIconPane *>(this->FindPaneByID( item_InspIcon ));
+	mIconItem = dynamic_cast<CRezIconPane *>(this->FindPaneByID( item_InspIcon ));
 	ThrowIfNil_( item_InspIcon );
 	
 	// CheckBoxes
@@ -354,6 +355,7 @@ CInspectorWindow::InstallValues(CRezObjItem * inRezObjItem)
 	CRezObj * theRezObj = inRezObjItem->GetRezObj();
 	
 	// Fill the SResourceObjInfo
+	mSavedRezInfo.refnum = theRezObj->GetOwnerRefnum();
 	mSavedRezInfo.type = theRezObj->GetType();
 	mSavedRezInfo.size = theRezObj->GetSize();
 	mSavedRezInfo.id = theRezObj->GetID();
@@ -388,14 +390,14 @@ CInspectorWindow::InstallValues()
 void
 CInspectorWindow::InstallValues(SResourceObjInfoPtr inRezInfoPtr)
 {
-	Str255		theString;
+	Str255		theString, theType;
 
 	// Static texts
-	UMiscUtils::OSTypeToPString(inRezInfoPtr->type, theString);	
-	mTypeItem->SetDescriptor(theString);
-	::NumToString(inRezInfoPtr->size,theString);
+	UMiscUtils::OSTypeToPString(inRezInfoPtr->type, theType);	
+	mTypeItem->SetDescriptor(theType);
+	::NumToString(inRezInfoPtr->size, theString);
 	mSizeItem->SetDescriptor(theString);
-	::NumToString(inRezInfoPtr->id,theString);
+	::NumToString(inRezInfoPtr->id, theString);
 	mIDItem->SetDescriptor(theString);
 
 	// Editable texts
@@ -410,6 +412,24 @@ CInspectorWindow::InstallValues(SResourceObjInfoPtr inRezInfoPtr)
 	mProtectedItem->SetValue(inRezInfoPtr->protect);
 	mPreloadItem->SetValue(inRezInfoPtr->preload);
 	mCompressedItem->SetValue(inRezInfoPtr->compress);
+	
+	// Icon
+	// To use PlotIconID(), the icon resource must be of resource type 
+	// 'ICN#', 'ics#', 'icl4', 'icl8', 'ics4', or 'ics8'.
+	mIconItem->SetIconID(inRezInfoPtr->id);
+	if ( ! ::strncmp( (const char *) theType + 1, "ics8", 4)
+		|| ! ::strncmp( (const char *) theType + 1, "ics4", 4)
+		|| ! ::strncmp( (const char *) theType + 1, "icl8", 4)
+		|| ! ::strncmp( (const char *) theType + 1, "icl4", 4)
+		|| ! ::strncmp( (const char *) theType + 1, "ics#", 4)
+		|| ! ::strncmp( (const char *) theType + 1, "ICN#", 4) ) {
+		mIconItem->SetCurrentRefNum(inRezInfoPtr->refnum);
+		mIconItem->SetVisibleState(triState_Off);
+		mIconItem->Show();
+	} else {
+		mIconItem->SetCurrentRefNum(UResources::refNum_Undef);
+		mIconItem->Hide();
+	}
 	
 	// Disable the buttons
 	mRevertButton->Disable();
@@ -517,8 +537,11 @@ CInspectorWindow::ClearValues()
 	mPreloadItem->SetValue(0);
 	mCompressedItem->SetValue(0);
 	
+	// Icon
+	mIconItem->Hide();
+
+	// Invalidate the reference to the associated RezObjItem
 	mRezObjItem = nil;
 }
-
 
 

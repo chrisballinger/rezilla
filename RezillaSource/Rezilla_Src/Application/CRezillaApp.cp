@@ -34,7 +34,7 @@
 #include "CDropStaticText.h"
 #include "CBroadcasterTableView.h"
 #include "CSingleScrollBar.h"
-// #include "CModifierBevelButton.h"
+#include "CRezIconPane.h"
 #include "CCompResultWindow.h"
 #include "CRangeEditText.h"
 #include "UNavigationDialogs.h"
@@ -287,7 +287,7 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(CBroadcasterTableView);
 	RegisterClass_(CCompResultWindow);
 	RegisterClass_(CSingleScrollBar);
-// 	RegisterClass_(CModifierBevelButton);
+	RegisterClass_(CRezIconPane);
 // 	RegisterClass_(COutBorderAttachment);
 
 	RegisterClass_(ATag);
