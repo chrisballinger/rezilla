@@ -2,7 +2,7 @@
 // CTmplEditorWindow.cp					
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-11-09 07:21:25
+//             Last modification: 2004-11-15 07:53:35
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -888,6 +888,11 @@ CTmplEditorWindow::ParseKeyedSection(ResType inType, Str255 inLabelString, LView
 	
 	if (error == noErr) {
 		// Parse the section
+		LStr255		caseString(inLabelString);
+		caseString += "\p: ";
+		caseString.Append(keyString);
+		AddStaticField(inType, caseString, inContainer, sLeftLabelTraitsID);
+		mYCoord += kTmplLabelVertSkip;
 		error = DoParseWithTemplate(sectionStart, true, inContainer);
 	} 
 
@@ -899,7 +904,7 @@ CTmplEditorWindow::ParseKeyedSection(ResType inType, Str255 inLabelString, LView
 
 
 // ---------------------------------------------------------------------------
-//	¥ ParseDataForType												[public]
+//	¥ ParseDataForType												[private]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -1029,7 +1034,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		// C string. This should be either characters followed by a null or all
 		// the chars until the end of the stream if there is no null byte.
 		AddStaticField(inType, inLabelString, inContainer, sLeftLabelTraitsID);
-		mYCoord += kTmplLabelHeight + kTmplLabelInterline;
+		mYCoord += kTmplLabelVertSkip;
 		AddWasteField(inType, inContainer);
  		break;
 
@@ -1089,7 +1094,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		case 'ECST':
 		// Even-padded C string (padded with nulls)
 		AddStaticField(inType, inLabelString, inContainer, sLeftLabelTraitsID);
-		mYCoord += kTmplLabelHeight + kTmplLabelInterline;
+		mYCoord += kTmplLabelVertSkip;
 		// Padding is handled there
 		AddWasteField(inType, inContainer);
 		break;
@@ -1189,7 +1194,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		case 'WSHX':
 		// Hex dump of remaining bytes in resource (this can only be the last type in a resource)
 		AddStaticField(inType, inLabelString, inContainer, sLeftLabelTraitsID);
-		mYCoord += kTmplLabelHeight + kTmplLabelInterline;
+		mYCoord += kTmplLabelVertSkip;
 		AddHexDumpField(inType, inContainer);
 		break;
 
@@ -1212,7 +1217,6 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		case 'KEYB':
 		// Beginning of keyed segment. This is normally a segment
 		// corresponding to remaining cases just after the matching segment. 
-		// We must skip it.
 		error = FindMatchingKeyEnd(&theSInt32);
 		break;
 
@@ -1303,7 +1307,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		case 'LSTR':
 		// Long string (long  length followed by the characters)
 		AddStaticField(inType, inLabelString, inContainer, sLeftLabelTraitsID);
-		mYCoord += kTmplLabelHeight + kTmplLabelInterline;
+		mYCoord += kTmplLabelVertSkip;
 		AddWasteField(inType, inContainer);
 		break;
 
@@ -1340,7 +1344,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		case 'OCST':
 		// Odd-padded C string (padded with nulls)
 		AddStaticField(inType, inLabelString, inContainer, sLeftLabelTraitsID);
-		mYCoord += kTmplLabelHeight + kTmplLabelInterline;
+		mYCoord += kTmplLabelVertSkip;
 		// Padding is handled there
 		AddWasteField(inType, inContainer);
 		break;
@@ -1521,7 +1525,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		case 'WSTR':
 		// Same as LSTR, but a word rather than a long word
 		AddStaticField(inType, inLabelString, inContainer, sLeftLabelTraitsID);
-		mYCoord += kTmplLabelHeight + kTmplLabelInterline;
+		mYCoord += kTmplLabelVertSkip;
 		AddWasteField(inType, inContainer);
  		break;
 
@@ -1554,7 +1558,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		   if (inType >> 24 != 'F' || 
 			   CRezillaPrefs::GetPrefValue(kPref_editors_dispFillers) ) {
 					AddStaticField(inType, inLabelString, inContainer, sLeftLabelTraitsID, reqLength);
-					mYCoord += kTmplLabelHeight + kTmplLabelInterline;
+					mYCoord += kTmplLabelVertSkip;
 			} 
 				
 			if (inType >> 24 == 'H' || inType >> 24 == 'F') {
@@ -1638,7 +1642,7 @@ CTmplEditorWindow::RetrieveDataWithTemplate()
 
 
 // ---------------------------------------------------------------------------
-//	¥ DoRetrieveWithTemplate													[public]
+//	¥ DoRetrieveWithTemplate													[private]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -1754,7 +1758,7 @@ CTmplEditorWindow::RetrieveKeyedSection(ResType inType)
 
 
 // ---------------------------------------------------------------------------
-//	¥ RetrieveDataForType											[public]
+//	¥ RetrieveDataForType											[private]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -2558,7 +2562,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 
 
 // ---------------------------------------------------------------------------
-//	¥ RetrieveBitField											[public]
+//	¥ RetrieveBitField											[private]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -2619,7 +2623,7 @@ DONE:
 
 
 // ---------------------------------------------------------------------------
-//	¥ RetrieveCountValue											[public]
+//	¥ RetrieveCountValue											[private]
 // ---------------------------------------------------------------------------
 
 OSErr
