@@ -791,6 +791,7 @@ const SInt16	kTmplPopupFieldWidth	= 75;
 const SInt16	kTmplHexPaneWidth		= 288;
 const SInt16	kTmplLabelHeight		= 26;
 const SInt16	kTmplLabelWidth			= 150;
+const SInt16	kTmplLabelInterline		= -3;
 const SInt16	kTmplListHeaderHeight	= 18;
 const SInt16	kTmplListHeaderWidth	= 250;
 const SInt16	kTmplRadioHeight		= 16;
