@@ -276,7 +276,8 @@ private:
 
 	Boolean			RecalcTextBoxHeight(SInt32 inTextSize, 
 										CWasteEditView * inWEView,
-										Boolean isFixed,
+										Boolean isFixed, 
+										SInt32 inReqSize,
 										SInt16 & delta);
 
 	Boolean			CalcTextPositions(OSType inType, 

@@ -966,16 +966,22 @@ CTmplEditorWindow::CountAllSubPanes(LView * inView)
 
 Boolean
 CTmplEditorWindow::RecalcTextBoxHeight(SInt32 inTextSize, CWasteEditView * inWEView,
-									   Boolean isFixed, SInt16 & delta)
+									   Boolean isFixed, SInt32 inReqSize, SInt16 & delta)
 {
 	Boolean			reduce = false;
-	SInt32			linesCount;
+	SInt32			bytesPerLine, linesCount;
 	SInt16			linesHeight, minHeight = kTmplTextMinHeight;
 	SDimension16	theSize;
 	
 	if (inTextSize || isFixed) {
 		inWEView->GetFrameSize(theSize);
-		linesCount = inWEView->CountLines() ;
+		if (inTextSize) {
+			linesCount = inWEView->CountLines() ;
+		} else {
+			bytesPerLine = theSize.width / CRezillaApp::sBasics.charWidth;
+			linesCount = inReqSize / bytesPerLine + ((inReqSize % bytesPerLine) > 0) ;
+		}
+		
 		if (linesCount == 0) {
 			linesCount = 1;
 		} 

@@ -1661,7 +1661,6 @@ OSErr
 CTmplEditorWindow::RetrieveKeyedSection(ResType inType)
 {
 	OSErr		error = noErr;
-	Str255		keyString;
 	SInt32		sectionStart;
 	ArrayIndexT	index;
 	

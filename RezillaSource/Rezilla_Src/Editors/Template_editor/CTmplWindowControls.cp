@@ -579,7 +579,7 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 	} 
 	
 	// Adjust the height of the TextGroupBox
-	canReduce = RecalcTextBoxHeight(isFixed ? reqLength : (newPos - oldPos), theWasteEdit, isFixed, delta);
+	canReduce = RecalcTextBoxHeight(newPos - oldPos, theWasteEdit, isFixed, reqLength, delta);
 	
 	// If we have a fixed size and it does not exceed the frame, we don't
 	// need a scrollbar. 
@@ -737,9 +737,13 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 	
 	// Advance the counters
 	if (incrY) {
-		// Adjust the height of the TextGroupBox
-		canReduce = RecalcTextBoxHeight(newPos - oldPos, theHexWE, isFixed, delta);
-		if (delta != 0) {
+		// Adjust the height of the TextGroupBox. 
+		// In case of fixed size, we multiply by three (3 chars per byte).
+		// Otherwise the text is already installed and the number of lines
+		// will be calculated directly.
+		reqLength *= 3;
+		canReduce = RecalcTextBoxHeight(newPos - oldPos, theHexWE, isFixed, reqLength, delta);
+		if (delta < 0) {
 			theTGB->ResizeFrameBy(0, delta, false);
 			boxHeight += delta;
 			if (isFixed) {
