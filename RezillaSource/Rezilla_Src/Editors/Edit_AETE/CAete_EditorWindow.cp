@@ -2,7 +2,7 @@
 // CAete_EditorWindow.cp
 // 
 //                       Created: 2004-07-01 08:42:37
-//             Last modification: 2005-02-04 04:18:12
+//             Last modification: 2005-02-04 23:38:50
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -109,24 +109,6 @@ CAete_EditorWindow::~CAete_EditorWindow()
 // ---------------------------------------------------------------------------
 //  FinishCreateSelf											[protected]
 // ---------------------------------------------------------------------------
-// 	ListHandle theListH = mCategoriesListBox->GetMacListH();
-// 	Cell theCell = {0,0};
-// 	::LAddColumn(1, 0, theListH);
-// 	for (SInt16 theIndex = 0; theIndex < 4; theIndex++) {
-// 		::LAddRow(1,theCell.v,theListH);
-// 		++theCell.v;
-// 	}
-// 
-// 	// Build the table elements
-// 	mDictTermsTable = dynamic_cast<CBroadcasterTableView *>(mAeteEditWindow->FindPaneByID( item_AeteTermsTable ));
-// 	ThrowIfNil_( mDictTermsTable );
-// 	
-// 	// Set Geometry and Selector TableView members.
-// 	mDictTermsTable->SetTableGeometry(new LTableMonoGeometry(mDictTermsTable, kAeteTableWidth, kAeteTableHeight));
-// 	mDictTermsTable->SetTableSelector(new LTableSingleSelector(mDictTermsTable));
-// 	mDictTermsTable->SetTableStorage(new LTableArrayStorage(mDictTermsTable, sizeof(Str255)));
-// 
-// 	mDictTermsTable->InsertCols(1, 0);
 
 void
 CAete_EditorWindow::FinishCreateSelf()
@@ -137,25 +119,25 @@ CAete_EditorWindow::FinishCreateSelf()
 	mSuitesPopup = dynamic_cast<LPopupButton *>(this->FindPaneByID( item_AeteSuitePopup ));
 	ThrowIfNil_( mSuitesPopup );
 	
-	mController = dynamic_cast<LPageController *>(this->FindPaneByID( item_AetePanelController ));
-	ThrowIfNil_( mController );
+	LPageController * theController = dynamic_cast<LPageController *>(this->FindPaneByID( item_AetePanelController ));
+	ThrowIfNil_( theController );
 			
-	mMultiPanel = dynamic_cast<LMultiPanelView *>(this->FindPaneByID( item_AeteMultiPanelView ));
-	ThrowIfNil_( mMultiPanel );
+	LMultiPanelView * theMultiPanel = dynamic_cast<LMultiPanelView *>(this->FindPaneByID( item_AeteMultiPanelView ));
+	ThrowIfNil_( theMultiPanel );
 	
 	// Create the panels before we call them
-	mMultiPanel->CreateAllPanels();
+	theMultiPanel->CreateAllPanels();
 	
-	mEventPane = mMultiPanel->GetPanel(mpv_AeteEvent);
+	mEventPane = theMultiPanel->GetPanel(mpv_AeteEvent);
 	ThrowIfNil_(mEventPane);
 	
-	mClassPane = mMultiPanel->GetPanel(mpv_AeteClass);
+	mClassPane = theMultiPanel->GetPanel(mpv_AeteClass);
 	ThrowIfNil_(mClassPane);
 	
-	mCompOpPane = mMultiPanel->GetPanel(mpv_AeteCompOp);
+	mCompOpPane = theMultiPanel->GetPanel(mpv_AeteCompOp);
 	ThrowIfNil_(mCompOpPane);
 	
-	mEnumerationPane = mMultiPanel->GetPanel(mpv_AeteEnum);
+	mEnumerationPane = theMultiPanel->GetPanel(mpv_AeteEnum);
 	ThrowIfNil_(mEnumerationPane);
 		
 	// Edit menu strings. Load these once only.
@@ -172,22 +154,9 @@ CAete_EditorWindow::FinishCreateSelf()
 	}
 
 	// Link to the broadcasters
-	MakeListeners();
-
-}
-
-
-// ---------------------------------------------------------------------------
-//  MakeListeners
-// ---------------------------------------------------------------------------
-
-void
-CAete_EditorWindow::MakeListeners()
-{
+	theController->AddListener(this);
+	theController->AddListener(theMultiPanel);
 	UReanimator::LinkListenerToBroadcasters( this, this, PPob_AeteEditorWindow );
-	mController->AddListener(mMultiPanel);
-	mController->AddListener(this);
-	
 	UReanimator::LinkListenerToBroadcasters( this, mEventPane, PPob_AeteEventPane );
 	UReanimator::LinkListenerToBroadcasters( this, mClassPane, PPob_AeteClassPane );
 	UReanimator::LinkListenerToBroadcasters( this, mCompOpPane, PPob_AeteCompOpPane );
@@ -530,7 +499,6 @@ CAete_EditorWindow::ObeyCommand(
 					UpdateSlider(item_AeteItemSlider, count, count);
 				} else {
 					count = theSuite->DeleteItem(mCurrentPanel);	
-					InstallPanelValues();
 					UpdateSlider(item_AeteItemSlider, -1, count);
 				}
 				break;
@@ -547,8 +515,6 @@ CAete_EditorWindow::ObeyCommand(
 				} else {
 					count = theEvent->DeleteParameter();
 					UpdateSlider(item_AeteParamSlider, -1, count);
-					CAeteParameter * theParameter = static_cast<CAeteParameter *>( FindCurrentObject( kind_AeteParameter ) );
-					InstallParameterValues(theParameter);
 				}
 				break;
 			}
@@ -560,12 +526,10 @@ CAete_EditorWindow::ObeyCommand(
 				if (!theClass) { return cmdHandled; }
 				if (inCommand == cmd_AeteAddProperty) {
 					count = theClass->NewProperty();
-					UpdateSlider(item_AeteParamSlider, count, count);
+					UpdateSlider(item_AetePropertySlider, count, count);
 				} else {
 					count = theClass->DeleteProperty();
 					UpdateSlider(item_AetePropertySlider, -1, count);
-					CAeteProperty * theProperty = static_cast<CAeteProperty *>( FindCurrentObject( kind_AeteProperty ) );
-					InstallPropertyValues(theProperty);
 				}
 				break;
 			}
@@ -577,12 +541,10 @@ CAete_EditorWindow::ObeyCommand(
 				if (!theClass) { return cmdHandled; }
 				if (inCommand == cmd_AeteAddElement) {
 					count = theClass->NewElement();
-					UpdateSlider(item_AeteParamSlider, count, count);
+					UpdateSlider(item_AeteElementSlider, count, count);
 				} else {
 					count = theClass->DeleteElement();
 					UpdateSlider(item_AeteElementSlider, -1, count);
-					CAeteElement * theElement = static_cast<CAeteElement *>( FindCurrentObject( kind_AeteElement ) );
-					InstallElementValues(theElement);
 				}
 				break;
 			}
@@ -611,11 +573,11 @@ CAete_EditorWindow::ObeyCommand(
 					count = theEnum->NewEnumerator();
 					UpdateSlider(item_AeteEnumSlider, count, count);
 				} else {
-					AeteEnumerator		enumerator;
+// 					AeteEnumerator		enumerator;
 					count = theEnum->DeleteEnumerator();
 					UpdateSlider(item_AeteEnumSlider, -1, count);
-					theEnum->GetEnumerator(count, enumerator);
-					InstallEnumeratorValues(enumerator);
+// 					theEnum->GetEnumerator(count, enumerator);
+// 					InstallEnumeratorValues(enumerator);
 				}
 				break;
 			}
@@ -1079,7 +1041,11 @@ CAete_EditorWindow::UpdateSlider(SInt32 inSliderID, SInt32 inValue, SInt32 inTot
 		if (inValue == -1) {
 			// This is the case when an item is removed
 			inValue = (inTotal > 0);
-			if (theSlider->GetValue() == 1) {
+			if (theSlider->GetValue() == 1 && inValue == 1) {
+				// We removed the first item, so the slider is already
+				// positionned on 1. Calling SetValue with value 1 would
+				// not broadcast anything and HandleSliderMessage would not
+				// be called, so we call it directly here.
 				HandleSliderMessage(inSliderID, inValue);
 			} else {
 				theSlider->SetValue(inValue);

@@ -2,7 +2,7 @@
 // CAete_WindowValues.cp
 // 
 //                       Created: 2005-01-25 09:01:07
-//             Last modification: 2005-02-03 09:21:16
+//             Last modification: 2005-02-04 23:39:09
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -1250,6 +1250,7 @@ CAete_EditorWindow::HandleOptionsPopup(SInt32 inKind, SInt32 inIndex)
 // ---------------------------------------------------------------------------
 //  HandleSliderMessage												[public]
 // ---------------------------------------------------------------------------
+// && inValue != 0
 
 void
 CAete_EditorWindow::HandleSliderMessage(SInt32 inKind, SInt32 inValue)
@@ -1260,13 +1261,13 @@ CAete_EditorWindow::HandleSliderMessage(SInt32 inKind, SInt32 inValue)
 	CAeteElement *		theElement;
 	AeteEnumerator		enumerator;
 	CAeteEnumeration *	theEnum ;
-	
+
 
 	switch (inKind) {
 		
 		case item_AeteItemSlider:
 		oldIndex = GetCurrentIndex(mCurrentPanel);
-		if (inValue != oldIndex && inValue != 0) {
+		if (inValue != oldIndex) {
 			if (oldIndex != -1) {				
 				RetrievePanelValues();
 			} 
