@@ -373,7 +373,7 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			if (mYCoord < kTmplMinListItemWidth) {
 				mYCoord = kTmplMinListItemWidth;
 			} 
-			currListItemView->ResizeFrameBy(0, mYCoord, false);
+			currListItemView->ResizeFrameBy(0, mYCoord, true);
 
 			mIndent -= kTmplListIndent * sublevel;
 
@@ -388,7 +388,11 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			mLastID = mPaneIDs.GetCount();
 
 			mContentsView->ResizeImageBy(0, mYCoord + kTmplVertSkip, true);
+// 			mContentsView->Hide();
 			mContentsView->Show();
+			
+// 			Refresh();
+	
 			mContentsView->Enable();
 			mContentsView->Activate();
 			if (mSelectedListItem != NULL) {
