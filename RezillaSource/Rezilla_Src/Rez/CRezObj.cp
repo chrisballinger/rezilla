@@ -561,20 +561,28 @@ CRezObj::SetSizeOnDisk(Size inSize)
 // ---------------------------------------------------------------------------
 //  ¥ SetData														[public]
 // ---------------------------------------------------------------------------
+// Double strategy to set data: first try to resize the existing handle and
+// then copy the new data into it. Sometimes this fails with error
+// memFullErr (-108). In that case, try removing the resource from the
+// resource map and add a new one instead. In some circumstances, removing
+// fails with error rmvResFailed (-196), dunno why.
 
 void
 CRezObj::SetData(Handle srcHandle)
 {
-	OSErr error = noErr;
-	Size theSize;
-	Boolean addIt = false;
-
+	OSErr	error = noErr;
+	Boolean	addIt = false;
+	Size	theSize;
+	short	oldAttrs;
+	
 	// Copy to resource data handle
 	theSize = ::GetHandleSize( srcHandle );
 	::SetHandleSize(mData, theSize);
 	error = ::MemError();
 	if (error != noErr) {
-		short oldAttrs = mAttributes;
+		oldAttrs = mAttributes;
+		// Clear the attributes (RemoveResource does not work is
+		// resProtected is on)
 		SetAttributesInMap(0);
 		error = Remove();
 		if (error == noErr || error == resNotFound) {
@@ -582,21 +590,25 @@ CRezObj::SetData(Handle srcHandle)
 			mData = ::NewHandleClear( theSize );
 			ThrowIfMemFail_( mData );
 			addIt = true;
-		} 
-		SetAttributesInMap(oldAttrs);
+		} else {
+			SetAttributesInMap(oldAttrs);
+		}
+		ThrowIfOSErr_( error );
 	} 
 	if (error == noErr) {
 		StHandleLocker	lockSrc(srcHandle);
 		StHandleLocker	lockTrgt(mData);
 		::BlockMoveData( *srcHandle, *mData, theSize);
-		// Update the mSize class member
-		mSize = ::GetHandleSize(mData);
-		// Tell the map the resource changed
-		this->Changed();
 	} 
 	if (addIt) {
 		error = Add();
+		ThrowIfOSErr_(error);
+		SetAttributesInMap(oldAttrs);
 	} 	
+	// Update the mSize class member
+	mSize = ::GetHandleSize(mData);
+	// Tell the map the resource changed
+	this->Changed();
 }
 
 
