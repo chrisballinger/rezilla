@@ -71,17 +71,24 @@ plist
 localize "English"
 {
 	comment "Localized versions of Info.plist keys"
+	key "CFBundleName" value string __OUTPUT_FILENAME__
 	key "CFBundleGetInfoString" value string kBundleLongInfo_EN
+	key "CFBundleShortVersionString" value string kBundleShortInfoString
 }
 
 localize "French"
 {
-	comment "French localized versions of Info.plist keys"
+	comment "Localized versions of Info.plist keys"
+	key "CFBundleName" value string __OUTPUT_FILENAME__
 	key "CFBundleGetInfoString" value string kBundleLongInfo_FR
+	key "CFBundleShortVersionString" value string kBundleShortInfoString
 	key "CFBundleHelpBookFolder" value string "RezillaHelp"
 	key "CFBundleHelpBookName" value string "Aide Rezilla"
 }
 
 #include "Rezilla_EN.ploc"
 #include "Rezilla_FR.ploc"
+
+#include "RezillaErrors_EN.ploc"
+#include "RezillaErrors_FR.ploc"
 
