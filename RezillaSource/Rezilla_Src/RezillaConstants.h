@@ -86,11 +86,19 @@ enum
 
 // The indices of the MultiPanel's views
 enum {
-  mpv_General = 1,
-  mpv_Export,
-  mpv_Compare
+	mpv_General = 1,
+	mpv_Export,
+	mpv_Compare,
+	mpv_Interface
 };
 
+// Pref style element constants
+enum
+{	
+	style_fontType = 1,
+	style_sizeType,
+	style_faceType
+};
 
 
 
@@ -118,6 +126,7 @@ const ResIDT	rPPob_PrefsExportPane		= 7200;
 const ResIDT	rPPob_PrefsComparePane		= 7300;
 const ResIDT	rPPob_PrefsInterfacePane	= 7400;
 const ResIDT	rPPob_FindDialog			= 8500;
+const ResIDT	rPPob_OtherSize				= 8600;
 const ResIDT	rPPob_SimpleMessage			= 9500;
 const ResIDT	rPPob_AskIfMessage			= 9510;
 const ResIDT	rPPob_AskYesNoMessage		= 9520;
@@ -333,6 +342,8 @@ const PaneIDT	item_CompPrefsTxtDisplay	= 7;
 //     --------------------
 const PaneIDT	item_UIPrefsFontsMenu		= 2;
 const PaneIDT	item_UIPrefsSizeMenu		= 3;
+// 'Other size' dialog
+const PaneIDT   item_OtherSizeField			= 1 ;
 
 // Navigation dialogs custom items
 // -------------------------------
@@ -433,15 +444,15 @@ const MessageT	msg_ExpPrefsHexEnc			= rPPob_PrefsExportPane + item_ExpPrefsHexEn
 const MessageT	msg_ExpPrefsBase64Enc		= rPPob_PrefsExportPane + item_ExpPrefsBase64Enc;
 //     Compare Prefs Pane
 //     ------------------
-const MessageT	msg_CompPrefsIgnName		= rPPob_PrefsComparePane + 2;
-const MessageT	msg_CompPrefsIgnAttr		= rPPob_PrefsComparePane + 3;
-const MessageT	msg_CompPrefsIgnData		= rPPob_PrefsComparePane + 4;
-const MessageT	msg_CompPrefsHexDisplay		= rPPob_PrefsComparePane + 5;
-const MessageT	msg_CompPrefsTxtDisplay		= rPPob_PrefsComparePane + 6;
+const MessageT	msg_CompPrefsIgnName		= rPPob_PrefsComparePane + item_CompPrefsIgnName;
+const MessageT	msg_CompPrefsIgnAttr		= rPPob_PrefsComparePane + item_CompPrefsIgnAttr;
+const MessageT	msg_CompPrefsIgnData		= rPPob_PrefsComparePane + item_CompPrefsIgnData;
+const MessageT	msg_CompPrefsHexDisplay		= rPPob_PrefsComparePane + item_CompPrefsHexDisplay;
+const MessageT	msg_CompPrefsTxtDisplay		= rPPob_PrefsComparePane + item_CompPrefsTxtDisplay;
 //     Interface Prefs Pane
 //     --------------------
-const MessageT	msg_UIPrefsFontsMenu		= rPPob_PrefsInterfacePane + 2;
-const MessageT	msg_UIPrefsSizeMenu			= rPPob_PrefsInterfacePane + 2;
+const MessageT	msg_UIPrefsFontsMenu		= rPPob_PrefsInterfacePane + item_UIPrefsFontsMenu;
+const MessageT	msg_UIPrefsSizeMenu			= rPPob_PrefsInterfacePane + item_UIPrefsSizeMenu;
 
 
 const MessageT	msg_Close					= 	FOUR_CHAR_CODE('Clos');
