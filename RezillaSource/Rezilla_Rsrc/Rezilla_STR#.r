@@ -74,8 +74,10 @@ resource 'STR#' (1503, "File extensions") {
 		/* [4] */
 		".txt",
 		/* [5] */
-		".r",
+		".html",
 		/* [6] */
+		".r",
+		/* [7] */
 		".icns"
 	}
 };

@@ -18,6 +18,7 @@ localize "English" as "Localizable.strings"
 	key "PermissionError" value string "File '%s': access permission error."
 	key "OpenForkError" value string "Error opening resource fork."
 	key "SystemError" value string "System error"
+	key "MapsNotSelected" value string "Both resource maps must be selected."
 }
 
 
