@@ -1,11 +1,11 @@
 // ===========================================================================
 // CTxtDataSubView.cp 
 //                       Created: 2003-05-06 06:04:42
-//             Last modification: 2004-10-20 08:51:08
+//             Last modification: 2005-03-24 09:30:44
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003-2004
+// © Copyright: Bernard Desgraupes 2003-2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -650,7 +650,7 @@ CTxtDataSubView::UserChangedText(
 	DisplaySelectionRange(newPos, newPos);
 	// Synchronize sibling
 	mHexSiblingView->SyncPositionsWithSibling(PosToCharPos(newPos), PosToCharPos(newPos));
-	// Set the window sirty
+	// Set the window dirty
 	::SetWindowModified(mOwnerDualView->GetWindowRef(), true);
 }
 
