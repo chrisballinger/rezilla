@@ -2,7 +2,7 @@
 // CTEXT_EditorView.cp
 // 
 //                       Created: 2004-06-19 13:23:32
-//             Last modification: 2005-03-08 19:40:11
+//             Last modification: 2005-03-08 22:31:03
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -373,7 +373,15 @@ CTEXT_EditorView::ObeyCommand(
 		
 		case cmd_MenuTextWrap:
 		ToggleAttribute(textAttr_WordWrap, ! HasAttribute(textAttr_WordWrap) );
-		
+		if (HasAttribute(textAttr_WordWrap) ) {
+			ResizeImageTo(mFrameSize.width, mImageSize.height, Refresh_No);
+
+		} else {
+			ResizeImageTo(kMaxTextWidth, mImageSize.height, Refresh_No);
+		}
+		AlignTextEditRects();
+		AdjustImageToText();
+		Refresh();
 		break;
 		
 		default:
