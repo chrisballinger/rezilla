@@ -700,6 +700,7 @@ enum RezillaErrors
 	err_TmplNoCaseInKeySection,
 	err_TmplMalformedCaseSection,
 	err_TmplMalformedKeySection,
+	err_TmplCasePopupNotRelatedToField,
 	err_TmplCantFindKeyedSectionStart,
 	err_TmplCantFindKeyStartForValue,
 	err_TmplCantFindKeyIndex,
