@@ -7,7 +7,9 @@
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
 // (c) Copyright : Bernard Desgraupes, 2002-2004
-//         All rights reserved.
+// All rights reserved.
+// $Date$
+// $Revision$
 // ===========================================================================
 
 #include "CBroadcasterTableView.h"
@@ -148,6 +150,5 @@ CBroadcasterTableView::ClickCell(
 {
 	BroadcastMessage(mValueMessage,this);
 }
-
 
 

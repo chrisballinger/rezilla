@@ -2,7 +2,7 @@
 // CTEXT_EditorView.cp
 // 
 //                       Created: 2004-06-19 13:23:32k
-//             Last modification: 2004-06-20 18:42:25
+//             Last modification: 2004-07-02 18:06:48
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -19,6 +19,8 @@
 #include "CTEXT_EditorView.h"
 #include "CTEXT_EditorWindow.h"
 #include "CRezObj.h"
+#include "CRezillaApp.h"
+#include "CRezillaPrefs.h"
 #include "CRezMapDoc.h"
 #include "CRezEditor.h"
 #include "CTEXT_EditorDoc.h"
@@ -57,12 +59,29 @@ CTEXT_EditorView::CTEXT_EditorView(
 // ---------------------------------------------------------------------------
 //	¥ CTEXT_EditorView							Stream Constructor		  [public]
 // ---------------------------------------------------------------------------
+// Use the Preference interface settings when creating a new TEXT resource.
 
 CTEXT_EditorView::CTEXT_EditorView(
 	LStream*	inStream)
 
 	: LTextEditView(inStream)
 {
+	TextTraitsRecord theTraits = CRezillaApp::sPrefs->GetStyleElement( CRezillaPrefs::prefsType_Curr );
+	TextStyle	theStyle;
+	SInt16		justification = teFlushDefault;
+
+	theStyle.tsFont			= theTraits.fontNumber;
+	theStyle.tsFace			= static_cast<UInt8>(theTraits.style);
+	theStyle.tsSize			= theTraits.size;
+	theStyle.tsColor		= theTraits.color;
+	justification			= theTraits.justification;
+
+	::TextFont(theStyle.tsFont);		// Set Port Font and Size so TE
+	::TextSize(theStyle.tsSize);		// uses the correct settings for
+										// its internal tables.
+
+	::TESetStyle( doAll, &theStyle, false, mTextEditH );
+	::TESetAlignment( justification, mTextEditH );
 }
 
 

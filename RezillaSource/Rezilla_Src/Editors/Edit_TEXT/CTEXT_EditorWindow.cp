@@ -2,7 +2,7 @@
 // CTEXT_EditorWindow.cp					
 // 
 //                       Created: 2004-06-17 12:46:55
-//             Last modification: 2004-06-21 22:21:32
+//             Last modification: 2004-07-01 18:13:09
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -225,14 +225,6 @@ CTEXT_EditorWindow::FindCommandStatus(
 	Str255		outName)
 {
 	switch (inCommand) {
-		
-		case cmd_EditRez:
-		case cmd_TmplEditRez:
-		case cmd_HexEditRez:
-		case cmd_RemoveRez:
-		case cmd_DuplicateRez:
-		outEnabled = false;
-		break;		
 		
 		default:
 		CEditorWindow::FindCommandStatus(inCommand, outEnabled,

@@ -2,7 +2,7 @@
 // CEditorWindow.cp
 // 
 //                       Created: 2004-06-10 14:50:31
-//             Last modification: 2004-06-12 08:51:02
+//             Last modification: 2004-07-01 18:12:41
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -116,6 +116,14 @@ CEditorWindow::FindCommandStatus(
 	Str255		outName)
 {
 	switch (inCommand) {
+		
+		case cmd_EditRez:
+		case cmd_TmplEditRez:
+		case cmd_HexEditRez:
+		case cmd_RemoveRez:
+		case cmd_DuplicateRez:
+		outEnabled = false;
+		break;		
 		
 		default:
 		mOwnerDoc->FindCommandStatus(inCommand, outEnabled,

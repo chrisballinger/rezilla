@@ -2,7 +2,7 @@
 // CTmplEditorDoc.cp					
 // 
 //                       Created: 2004-06-12 10:06:22
-//             Last modification: 2004-06-12 15:16:01
+//             Last modification: 2004-07-01 18:12:31
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -92,7 +92,8 @@ CTmplEditorDoc::Initialize()
 // 	mMatchEnd = 0;
 // 	mSearchWhichPane = item_FindInHexRadio;
 // 	mIgnoreCase = true;
-	
+	mKind = editor_kindTmpl;
+
 	// Create window for our document.
 	mTmplEditWindow = dynamic_cast<CTmplEditorWindow *>(LWindow::CreateWindow( rPPob_TmplEditorWindow, this ));
 	Assert_( mTmplEditWindow != nil );
@@ -100,6 +101,7 @@ CTmplEditorDoc::Initialize()
 	mTmplEditWindow->SetSuperCommander(this);
 	mTmplEditWindow->SetOwnerDoc(this);
 	mTmplEditWindow->InstallReadOnlyIcon();
+	SetMainWindow( dynamic_cast<LWindow *>(mTmplEditWindow) );
 
 	NameNewEditorDoc();
 	
@@ -110,6 +112,9 @@ CTmplEditorDoc::Initialize()
 	if (mRezObj != nil) {
 		Handle rezData = mRezObj->GetData();
 		if (rezData != nil) {
+			// Work with a copy of the handle
+			::HandToHand(&rezData);
+			
 			mTmplEditWindow->ParseDataWithTemplate(rezData);						
 		} 
 	} 
@@ -151,11 +156,13 @@ CTmplEditorDoc::ObeyCommand(
 // ---------------------------------------------------------------------------------
 //  ¥ IsModified
 // ---------------------------------------------------------------------------------
+// // Compare original handle with modified handle
+// mIsModified = ! UMiscUtils::HandlesAreIdentical(mRezObj->GetData(), mTmplEditWindow->RetrieveDataWithTemplate() );
 
 Boolean
 CTmplEditorDoc::IsModified()
 {
-	// Document has changed if the text views are dirty
+	// Document has changed if the controls have been invoked
 	mIsModified = mTmplEditWindow->IsDirty();
 	return mIsModified;
 }
@@ -194,21 +201,12 @@ CTmplEditorDoc::FindCommandStatus(
 	UInt16		&outMark,
 	Str255		outName )
 {
-
 	switch ( inCommand ) {
 	
-		case cmd_Save:
-		case cmd_SaveAs:
-		case cmd_ExportMap:
-			outEnabled = false;
-		break;
-								
 	  default:
-		{
 			// Call inherited.
-			LDocument::FindCommandStatus( inCommand,
+		CEditorDoc::FindCommandStatus( inCommand,
 				outEnabled, outUsesMark, outMark, outName );
-		}
 		break;
 
 	}
@@ -254,7 +252,7 @@ CTmplEditorDoc::AskSaveChanges(
 Handle
 CTmplEditorDoc::GetModifiedResource() 
 {
-	return mTmplEditWindow->RetrieveDataWithTemplate();
+	return mTmplEditWindow->GetOutStream()->GetDataHandle();
 }
 
 
@@ -274,22 +272,30 @@ CTmplEditorDoc::NameNewEditorDoc()
 }
 
 
-// // ---------------------------------------------------------------------------
-// //  ¥ ListenToMessage													[public]
-// // ---------------------------------------------------------------------------
-// 
-// void
-// CTmplEditorDoc::ListenToMessage( MessageT inMessage, void *ioParam ) 
-// {
-// 	switch (inMessage) {
-// 		case msg_StylePrefsChanged: {
-// 		 
-// 			break;
-// 		
-// 	}
-// }
-// 
-// 
+// ---------------------------------------------------------------------------
+//  ¥ ListenToMessage											[public]
+// ---------------------------------------------------------------------------
+
+void
+CTmplEditorDoc::ListenToMessage( MessageT inMessage, void *ioParam ) 
+{
+	switch (inMessage) {
+		case msg_OK:
+		mTmplEditWindow->RetrieveDataWithTemplate();
+		DoSaveChanges();
+		// Fall through...
+		
+		case msg_Cancel:
+		Close();
+		break;
+		
+		case cmd_Revert:
+		break;
+		
+	}
+}
+
+
 
 PP_End_Namespace_PowerPlant
 

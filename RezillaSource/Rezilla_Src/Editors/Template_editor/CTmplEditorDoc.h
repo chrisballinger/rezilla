@@ -6,7 +6,7 @@
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004
+// (c) Copyright: Bernard Desgraupes, 2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -50,9 +50,9 @@ public:
 							CommandT			inCommand,
 							void*				ioParam = nil);	
 
-// 	virtual void		ListenToMessage(
-// 							MessageT		inMessage,
-// 							void*			ioParam);
+	virtual void		ListenToMessage(
+							MessageT		inMessage,
+							void*			ioParam);
 
 	virtual Boolean		IsModified();
 	

@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezObjItem.cp					
 //                       Created: 2003-04-18 09:34:02
-//             Last modification: 2004-04-12 18:37:52
+//             Last modification: 2004-06-26 08:56:34
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -194,8 +194,10 @@ CRezObjItem::SingleClick(
 // ---------------------------------------------------------------------------
 //	¥ DoubleClick
 // ---------------------------------------------------------------------------
-// If the option key is down during a double click, open the inspector window 
-// otherwise edit the resource.
+// During a double click:
+// - if the shift key is down, try to edit with the template editor.
+// - if the option key is down, try to edit with the hex editor.
+// - otherwise try any editor in the usual order (gui, tmpl, hex).
 
 void
 CRezObjItem::DoubleClick(
@@ -204,18 +206,15 @@ CRezObjItem::DoubleClick(
 	const SOutlineDrawContents&	/* inDrawContents */,
 	Boolean						/* inHitText */)
 {
+	int countEdit;
+	CRezMapTable *theRezMapTable = dynamic_cast<CRezMapTable*>(mOutlineTable);
+	
 	if (inMouseDown.macEvent.modifiers & optionKey) {
-		CRezillaApp::sInspectorWindow->Show();
-		CRezillaApp::sInspectorWindow->InstallValues(this);
-		// Bring the window to the front.
-		UDesktop::SelectDeskWindow( CRezillaApp::sInspectorWindow );
+		theRezMapTable->GetOwnerDoc()->TryEdit(this, cmd_HexEditRez, countEdit);
+	} else if (inMouseDown.macEvent.modifiers & shiftKey) {
+		theRezMapTable->GetOwnerDoc()->TryEdit(this, cmd_TmplEditRez, countEdit);
 	} else {
-		CRezMapTable *theRezMapTable = dynamic_cast<CRezMapTable*>(mOutlineTable);
-		CRezMapWindow * theRezMapWindow = dynamic_cast<CRezMapWindow*>( UDesktop::FetchTopRegular() );
-		new CHexEditorDoc(theRezMapWindow->GetSuperCommander(), theRezMapTable,
-						  mRezObj, theRezMapWindow->GetOwnerDoc()->IsReadOnly());
+		theRezMapTable->GetOwnerDoc()->TryEdit(this, cmd_EditRez, countEdit);
 	}
 }
-
-
 

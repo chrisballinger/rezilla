@@ -7,7 +7,9 @@
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
 // (c) Copyright : Bernard Desgraupes, 2002-2003, 2004
-//         All rights reserved.
+// All rights reserved.
+// $Date$
+// $Revision$
 // ===========================================================================
 
 #ifndef _H_CBroadcasterTableView

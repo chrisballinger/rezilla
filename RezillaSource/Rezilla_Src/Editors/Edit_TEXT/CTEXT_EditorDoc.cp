@@ -2,7 +2,7 @@
 // CTEXT_EditorDoc.cp
 // 
 //                       Created: 2004-06-17 12:46:55
-//             Last modification: 2004-06-20 09:57:19
+//             Last modification: 2004-07-01 18:12:45
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -104,6 +104,7 @@ CTEXT_EditorDoc::Initialize()
 	mTextEditWindow->SetSuperCommander(this);
 	mTextEditWindow->SetOwnerDoc(this);
 	mTextEditWindow->InstallReadOnlyIcon();
+	SetMainWindow( dynamic_cast<LWindow *>(mTextEditWindow) );
 
 	NameNewEditorDoc();
 	
@@ -115,18 +116,21 @@ CTEXT_EditorDoc::Initialize()
 		Handle rezData = mRezObj->GetData();
 		
 		if (rezData != nil) {
-			StScrpHandle	theScrapHandle = NULL;
+// 			StScrpHandle	theScrapHandle = NULL;
+			Handle			theScrapHandle = NULL;
 			StResource		initialStyleRes;
 			CRezMap *		theRezMap = mRezMapTable->GetRezMap();
 
 			// Look for a 'styl' resource with same ID
-			Boolean hasStyle = theRezMap->HasResourceWithTypeAndId( ResType_TextStyle, mRezObj->GetID()) ;
-			if (hasStyle) {
-				initialStyleRes.GetResource(ResType_TextStyle, mRezObj->GetID(), false, true);
-				theScrapHandle = (StScrpHandle) initialStyleRes.mResourceH;
+// 			Boolean hasStyle = theRezMap->HasResourceWithTypeAndId( ResType_TextStyle, mRezObj->GetID()) ;
+			OSErr error = theRezMap->GetWithID(ResType_TextStyle, mRezObj->GetID(), theScrapHandle, false);
+			
+			if (error == noErr) {
+// 				initialStyleRes.GetResource(ResType_TextStyle, mRezObj->GetID(), false, true);
+// 				theScrapHandle = (StScrpHandle) initialStyleRes.mResourceH;
 				mTextEditWindow->SetHasStyleResource(true);
 			}
-			mTextEditWindow->InstallText(rezData, theScrapHandle);			
+			mTextEditWindow->InstallText(rezData, (StScrpHandle) theScrapHandle);			
 		} 
 	} 
 	
@@ -211,21 +215,12 @@ CTEXT_EditorDoc::FindCommandStatus(
 	UInt16		&outMark,
 	Str255		outName )
 {
-
 	switch ( inCommand ) {
 	
-		case cmd_Save:
-		case cmd_SaveAs:
-		case cmd_ExportMap:
-			outEnabled = false;
-		break;
-								
 	  default:
-		{
 			// Call inherited.
-			LDocument::FindCommandStatus( inCommand,
+		CEditorDoc::FindCommandStatus( inCommand,
 				outEnabled, outUsesMark, outMark, outName );
-		}
 		break;
 
 	}
@@ -311,7 +306,7 @@ CTEXT_EditorDoc::NameNewEditorDoc()
 	Str255 theTitle;
 	
 	// Build the title
-	BuildDocumentTitle(theTitle, index_TmplEditUntitled);
+	BuildDocumentTitle(theTitle, index_TEXTEditUntitled);
 	// Set window title
 	mTextEditWindow->SetDescriptor(theTitle);
 }

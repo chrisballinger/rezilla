@@ -2,11 +2,11 @@
 // CTmplEditorWindow.h
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-06-22 18:48:48
+//             Last modification: 2004-07-02 06:44:10
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004
+// (c) Copyright: Bernard Desgraupes, 2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -24,7 +24,6 @@
 
 class CTmplEditorDoc;
 class CRezObj;
-class CTmplList;
 class LStaticText;
 class LScrollerView;
 
@@ -35,10 +34,12 @@ enum {
 };
 
 
+class CTmplListItemView;
+
+
 class CTmplEditorWindow : public CEditorWindow {
 public:
 	enum { class_ID = 'TmpW' };
-	friend class CTmplList;
 
 							CTmplEditorWindow();
 							CTmplEditorWindow( const SWindowInfo &inWindowInfo );
@@ -67,48 +68,55 @@ public:
 		
 	void			InstallReadOnlyIcon();
 
-	void			CreateTemplateStream();
-		
+	void			AdjustCounterField(PaneIDT inPaneID, SInt32 inDelta);
+	
 	LView*			GetContentsView() const { return mContentsView;}
+	
+	LHandleStream*		GetOutStream() { return mOutStream;}
 
 
 protected:
 	LView *				mContentsView;
 	LScrollerView *		mContentsScroller;
 	SInt32				mYCoord;
-	SInt32				mCurrentID;
-	SInt32				mLastID;
+	PaneIDT				mCurrentID;
+	PaneIDT				mLastID;
 	SInt32				mIndent;
 	short				mItemsCount;
-	Boolean				mStopList;
-	SPaneInfo			mEditPaneInfo;
-	SPaneInfo			mStaticPaneInfo;
-	SPaneInfo			mRgvPaneInfo;
-	SPaneInfo			mRadioPaneInfo;
-	SPaneInfo			mRectLabelInfo;
-	SPaneInfo			mRectPaneInfo;
-	SPaneInfo			mScrollPaneInfo;
-	SPaneInfo			mTgbPaneInfo;
-	SPaneInfo			mWastePaneInfo;
-	SPaneInfo			mPushPaneInfo;
+	SPaneInfo			mEditPaneInfo,
+						mStaticPaneInfo,
+						mRgvPaneInfo,
+						mRadioPaneInfo,
+						mCheckPaneInfo,
+						mRectLabelInfo,
+						mRectPaneInfo,
+						mScrollPaneInfo,
+						mTgbPaneInfo,
+						mWastePaneInfo,
+						mPushPaneInfo,
+						mListItemInfo,
+						mSeparatorPaneInfo,
+						mBevelPaneInfo;
 	LHandleStream *		mTemplateStream;
 	LHandleStream *		mRezStream;
 	LHandleStream *		mOutStream;
-	ResIDT				mLeftLabelTraitsID;
-	ResIDT				mRightLabelTraitsID;
-	ResIDT				mHeaderTraitsID;
-	ResIDT				mEditTraitsID;
+	ResIDT				mLeftLabelTraitsID,
+						mRightLabelTraitsID,
+						mHeaderTraitsID,
+						mEditTraitsID;
 
 	virtual void	FinishCreateSelf();
 
+	void			CreateTemplateStream();
+		
 private:
-	OSErr			ParseDataForType(ResType inType, Str255 inString);
+	OSErr			ParseDataForType(ResType inType, Str255 inLabelString, LView * inContainer);
 	OSErr			RetrieveDataForType(ResType inType);
 	
 	void			ParseList(SInt32 inStartMark, 
 							  ResType inType, 
-							  Str255 inLabel, 
-							  SInt32 inCount);
+							  SInt32 inCount, 
+							  LView * inContainer);
 
 	void			RetrieveList(SInt32 inStartMark, 
 								 ResType inType, 
@@ -116,22 +124,33 @@ private:
 
 	Boolean			EndOfList(ResType inType);
 	
-	void			AddStaticField(Str255 inLabel, ResIDT inTextTraitsID = Txtr_GenevaTenBoldUlRight);
+	void			AddStaticField(Str255 inLabel, 
+								   LView * inContainer, 
+								   ResIDT inTextTraitsID = Txtr_GenevaTenBoldUlRight);
 	
 	void			AddEditField(Str255 inValue, 
 								OSType inType,
 								MessageT inMessage,
 								SInt16 inMaxChars, 
-								UInt8 inAttributes = 0,
-								TEKeyFilterFunc inKeyFilter = NULL);
+								UInt8 inAttributes,
+								TEKeyFilterFunc inKeyFilter, 
+								LView * inContainer);
 	
 	void			AddBooleanField(Boolean inValue,
-									  OSType inType,
-									  SInt16 inTitleType);
+									OSType inType,
+									SInt16 inTitleType, 
+									LView * inContainer);
 	
-	void			AddWasteField(OSType inType);
+	void			AddCheckField(Boolean inValue,
+								   OSType inType,
+								   SInt16 inMessageValue, 
+								   LView * inContainer);
 	
-	void			AddHexDumpField(OSType inType);
+	void			AddWasteField(OSType inType, 
+								  LView * inContainer);
+	
+	void			AddHexDumpField(OSType inType, 
+									LView * inContainer);
 	
 	void			AddRectField(SInt16 inTop, 
 									SInt16 inLeft, 
@@ -141,20 +160,37 @@ private:
 									MessageT inMessage,
 									SInt16 inMaxChars, 
 									UInt8 inAttributes,
-									TEKeyFilterFunc inKeyFilter);
+									TEKeyFilterFunc inKeyFilter, 
+								 	LView * inContainer);
 
 	void			AddListHeaderField(OSType inType, 
 								  Str255 inLabel, 
 								  short inCount, 
-								  Str255 inCountLabel);
+								  Str255 inCountLabel, LView * inContainer);
+	
+	CTmplListItemView *	AddListItemView(CTmplListItemView * inPrevListItemView, LView * inContainer);
+	
+	void				AddSeparatorLine(LView * inContainer);
+
+	void				AddPopupField(ResType inType, 
+									  Str255 inLabel, 
+									  LView * inContainer);
 	
 	ExceptionCode	AlignBytesRead(UInt8 inStep);
 	
 	ExceptionCode	AlignBytesWrite(UInt8 inStep);
 	
-	void			DoParseWithTemplate(SInt32 inRecursionMark);
+	void			DoParseWithTemplate(SInt32 inRecursionMark, Boolean inDrawControls, LView * inContainer);
 	void			DoRetrieveWithTemplate(SInt32 inRecursionMark);
 	
+	void			RenumberSubPanes(LView * inView, 
+									 PaneIDT inOldLastID, 
+									 PaneIDT inNewFirstID, 
+									 Boolean adding);
+	
+	void			RecalcPositions(LView * inView, 
+									SInt32 inVertPos, 
+									SInt32 inPosDelta);
 };
 
 
