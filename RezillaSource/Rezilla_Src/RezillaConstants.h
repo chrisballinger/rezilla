@@ -660,7 +660,10 @@ enum
 	err_UnderVersionControl,
 	err_TmplError = 2000,
 	err_TmplTextOverflow,
-	err_TmplWrongFixedCount
+	err_TmplWrongFixedCount,
+	err_TmplListCountTooBig,
+	err_TmplWrongEvenValue,
+	err_TmplMalformedHexValue
 };
 
 
