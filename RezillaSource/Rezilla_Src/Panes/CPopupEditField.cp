@@ -178,10 +178,10 @@ CPopupEditField::FillPopup(ResIDT inStringListID)
 		}
 	}	
 
-	// Finally add the Unknown item
+	// Finally add the "Unknown" item
 	mPopup->AppendMenu(mUnknownItem);
 
-	mPopup->SetMacMenuH(theMenuH);
+// 	mPopup->SetMacMenuH(theMenuH);
 	
 	mPopup->Refresh();
 }
@@ -222,15 +222,14 @@ CPopupEditField::AdjustPopupWithValue(Str255 inString)
 {
 	SInt16 foundIdx = FindInPopup(inString);
 	
-	// Mark the item corresponding to the value or remove any mark
+	// Mark the item corresponding to the value or the last item
 	if (foundIdx != -1) {
 		mPopup->SetCurrentMenuItem(foundIdx);						
 	} else {
 		SInt16 val = mPopup->GetCurrentMenuItem();
 		UInt16 count = ::CountMenuItems(mPopup->GetMacMenuH());
 		mPopup->SetCurrentMenuItem(count);
-// 		::MacCheckMenuItem(mPopup->GetMacMenuH(), mPopup->GetCurrentMenuItem(), 0);
-		::SetItemMark(mPopup->GetMacMenuH(), val, 0);
+// 		::SetItemMark(mPopup->GetMacMenuH(), val, 0);
 	}
 	
 	return foundIdx;
@@ -238,8 +237,9 @@ CPopupEditField::AdjustPopupWithValue(Str255 inString)
 
 
 // ---------------------------------------------------------------------------
-//	 FindInPopup											[public]
+//	 FindInPopup													[public]
 // ---------------------------------------------------------------------------
+// If nothing is found, return -1.
 
 SInt16
 CPopupEditField::FindInPopup(Str255 inString) 
@@ -249,6 +249,9 @@ CPopupEditField::FindInPopup(Str255 inString)
 	Str255		itemString;
 	Str255 *	rightPtr;
 
+	// Ignore the last item
+	num--;
+	
 	while (num > 0) {
 		::GetIndString(itemString, mStringsID, num);
 		if (UMiscUtils::SplitCaseValue(itemString, &rightPtr)) {
@@ -265,7 +268,7 @@ CPopupEditField::FindInPopup(Str255 inString)
 
 
 // ---------------------------------------------------------------------------
-//	¥ UserChangedText
+//	 UserChangedText
 // ---------------------------------------------------------------------------
 
 void
@@ -277,7 +280,8 @@ CPopupEditField::UserChangedText()
 	GetDescriptor(theString);
 	index = AdjustPopupWithValue(theString);
 	if (index == -1) {
-		// Pass NULL as ioParam to tell that no item was found in list
+		// Pass NULL as ioParam to tell that no item was found in list. 
+		// Another listener could be interested to know that.
 		BroadcastMessage(mValueMessage, NULL);
 	} else {
 		LEditText::UserChangedText();
@@ -286,7 +290,7 @@ CPopupEditField::UserChangedText()
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetUnknownItem												  [public]
+//	 GetUnknownItem												  [public]
 // ---------------------------------------------------------------------------
 // The mUnknownItem string is a menu item appended at the end of the menu. 
 // Its purpose is to designate a value which does not correspond to any 
@@ -300,7 +304,7 @@ CPopupEditField::GetUnknownItem( Str31 outString ) const
 		
 
 // ---------------------------------------------------------------------------
-//	¥ SetUnknownItem												  [public]
+//	 SetUnknownItem												  [public]
 // ---------------------------------------------------------------------------
 
 void
