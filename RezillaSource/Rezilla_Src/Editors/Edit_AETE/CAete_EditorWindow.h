@@ -63,6 +63,8 @@ public:
 	void				InstallAete(Handle inHandle);
 	void				RetrieveAete(CAeteStream * outStream);
 		
+	virtual void		RevertContents();
+
 	CAete *				GetAete() {return mAete;}
 
 	static LMenu		*sAeteMenu;

@@ -2,7 +2,7 @@
 // CAete_EditorWindow.cp
 // 
 //                       Created: 2004-07-01 08:42:37
-//             Last modification: 2005-01-31 08:58:20
+//             Last modification: 2005-02-02 06:29:50
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -15,6 +15,7 @@
 #include "CAete_EditorWindow.h"
 #include "CAete_EditorDoc.h"
 #include "CRezillaApp.h"
+#include "CRezObj.h"
 #include "RezillaConstants.h"
 #include "UMiscUtils.h"
 #include "UAeteTranslator.h"
@@ -30,6 +31,9 @@
 #include <LEditField.h>
 #include <LTextColumn.h>
 #include <LTextGroupBox.h>
+// #include <LTableMonoGeometry.h>
+// #include <LTableSingleSelector.h>
+// #include <LTableArrayStorage.h>
 
 
 // Statics
@@ -143,7 +147,6 @@ CAete_EditorWindow::FinishCreateSelf()
 	
 	// Create the panels before we call them
 	mMultiPanel->CreateAllPanels();
-// 	mMultiPanel->SwitchToPanel(1);
 	
 	mEventPane = mMultiPanel->GetPanel(mpv_AeteEvent);
 	ThrowIfNil_(mEventPane);
@@ -156,7 +159,16 @@ CAete_EditorWindow::FinishCreateSelf()
 	
 	mEnumerationPane = mMultiPanel->GetPanel(mpv_AeteEnum);
 	ThrowIfNil_(mEnumerationPane);
-		
+	
+// 	// Settings for the KeyForms table
+// 	LTextColumn * theTable = dynamic_cast<LTextColumn *> (mClassPane->FindPaneByID( item_AeteKeyFormsTable ));
+// 	ThrowIfNil_( theTable );
+// 	theTable->SetTableGeometry(new LTableMonoGeometry(theTable, kAeteTableWidth, kAeteTableHeight));
+// 	theTable->SetTableSelector(new LTableSingleSelector(theTable));
+// 	theTable->SetTableStorage(new LTableArrayStorage(theTable, sizeof(OSType)));
+// 
+// 	theTable->InsertCols(1, 0);
+	
 	// Edit menu strings. Load these once only.
 	if ( sAddEventStr[0] == 0 )
 	{
@@ -172,14 +184,7 @@ CAete_EditorWindow::FinishCreateSelf()
 
 	// Link to the broadcasters
 	MakeListeners();
-	
-// 	// Make the DictDoc a listener of mCategoriesListBox
-// 	mCategoriesListBox->AddListener(this);
-// 	mDictTermsTable->AddListener(this);
-	
-// 	mAeteStreamsArrayPtr = new TArray<CAeteStream*>();
 
-//     SwitchTarget(mContentsView);
 }
 
 
@@ -433,6 +438,11 @@ CAete_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 	
 	switch (inMessage) {
 		
+		case msg_EditorModifiedItem:
+			SetDirty(true);
+			break;
+		
+		
 		case item_AeteSuitePopup:
 		newIndex = *(ArrayIndexT *) ioParam;
 		oldIndex = GetCurrentIndex(kind_AeteSuite);
@@ -515,6 +525,21 @@ CAete_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		break;
 		
 		
+		case item_AeteKeyFormSlider:
+		CAeteElement * theElement;
+		
+		newIndex = *(ArrayIndexT *) ioParam;
+		oldIndex = GetCurrentIndex(kind_AeteKeyForm);
+		if (newIndex != oldIndex) {
+// 			theElement = static_cast<CAeteElement *>( FindCurrentObject( kind_AeteElement ) );
+// 			RetrieveElementValues(theElement);
+// 			SetCurrentIndex(kind_AeteElement, newIndex);
+// 			theElement = static_cast<CAeteElement *>( FindCurrentObject( kind_AeteElement ) );
+// 			InstallElementValues(theElement);
+		} 
+		break;
+		
+		
 		case item_AeteEnumSlider:
 		AeteEnumerator		enumerator;
 		CAeteEnumeration *	theEnum ;
@@ -530,6 +555,15 @@ CAete_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			InstallEnumeratorValues(enumerator);
 		} 
 		break;
+		
+		
+		case msg_AeteSuiteName:
+			break;
+		
+		
+		default:
+		CEditorWindow::ListenToMessage(inMessage, ioParam);
+		break;		
 		
 	}
 }
@@ -700,6 +734,36 @@ void
 CAete_EditorWindow::RetrieveAete(CAeteStream * outStream) 
 {	
 	mAete->SendDataToStream(outStream);	
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ RevertContents												  [public]
+// ---------------------------------------------------------------------------
+
+void
+CAete_EditorWindow::RevertContents()
+{
+	if (mAete) {
+		delete mAete;
+		mAete = nil;
+	} 
+	mCurrentPanel = mpv_AeteEvent;
+
+	CRezObj * theRezObj = mOwnerDoc->GetRezObj();
+	// Reinstall the contents
+	if (theRezObj != nil) {
+		Handle rezData = theRezObj->GetData();
+		
+		if (rezData != nil) {
+			// Work with a copy of the handle
+			::HandToHand(&rezData);
+			InstallAete(rezData);
+			Refresh();  // Draw(nil);
+		} 
+	} 
+
+	SetDirty(false);
 }
 
 
@@ -885,6 +949,9 @@ CAete_EditorWindow::FindCurrentObject(SInt8 inKind)
 {
 	void * theObj = NULL;
 	CAeteSuite * theSuite;
+	
+	if (!mAete) return theObj;
+	
 	ArrayIndexT index = mAete->GetSuiteIndex();
 	
 	if ( mAete->GetSuites()->FetchItemAt(index, theSuite) ) {
