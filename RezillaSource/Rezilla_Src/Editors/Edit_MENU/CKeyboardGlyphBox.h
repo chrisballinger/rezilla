@@ -43,6 +43,9 @@ public:
 								
 	virtual				~CKeyboardGlyphBox();
 	
+	LCFString			GetString() { return mString;}
+ 	void				SetString(StringPtr inString);
+
 protected:
 	virtual void		ActivateSelf();
 	

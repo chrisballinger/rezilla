@@ -87,7 +87,7 @@ CKeyboardGlyphBox::CKeyboardGlyphBox(
 	*inStream >> boolValue;
 	mDimWhenDisabled = boolValue;
 	
-	mString.Append(ConstStringPtr(str), kTextEncodingMacKeyboardGlyphs);
+	mString.Append(str, kTextEncodingMacKeyboardGlyphs);
 }
 
 
@@ -152,9 +152,10 @@ void
 CKeyboardGlyphBox::DrawSelf()
 {
 	Rect	frame;
-	CalcLocalFrameRect(frame);
 	
+	CalcLocalFrameRect(frame);
 	ApplyForeAndBackColors();
+	::EraseRect(&frame);
 
 	if (CFM_AddressIsResolved_(::DrawThemeTextBox)) {
 	
@@ -190,6 +191,17 @@ CKeyboardGlyphBox::DrawSelf()
 							nil );
 							
 	}
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ SetString													   [protected]
+// ---------------------------------------------------------------------------
+
+void
+CKeyboardGlyphBox::SetString(StringPtr inString) {
+	CFRelease(mString);
+	mString = *(new LCFString(inString, kTextEncodingMacKeyboardGlyphs));
 }
 
 
