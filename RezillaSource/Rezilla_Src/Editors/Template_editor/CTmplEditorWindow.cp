@@ -1144,6 +1144,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
  		break;
 
 		case 'DATE':
+		case 'MDAT':
 		// Date/Time
 		if (mRezStream->GetMarker() < mRezStream->GetLength() - 3) {
 			*mRezStream >> theSInt32;
@@ -1603,20 +1604,19 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 	  default:
 	  UMiscUtils::OSTypeToPString(inType, typeStr);
 	  // Handle Hnnn, Cnnn, P0nn, BB0n etc cases here or unrecognized type
-	  if (inType >> 24 == 'H' && UMiscUtils::IsValidHexadecimal( (Ptr) typeStr + 2, 3) ) {
-		  
+	  if ( (inType >> 24 == 'H' && UMiscUtils::IsValidHexadecimal( (Ptr) typeStr + 2, 3) )
+		  ||
+		  ( inType >> 24 == 'C' && UMiscUtils::IsValidHexadecimal( (Ptr) typeStr + 2, 3) )
+		  ||
+		  ( inType >> 24 == 'T' && UMiscUtils::IsValidHexadecimal( (Ptr) typeStr + 2, 3) ) ) {
+			  
 		  // Hnnn: a 3-digit hex number; displays nnn bytes in hex format.
+		  // Cnnn: a C string that is nnn hex bytes long (the last byte is always a 0, 
+		  //       so the string itself occupies the first nnn-1 bytes.)
+		  // Tnnn: a text string with fixed padding that is nnn hex bytes long 
 		  AddStaticField(inType, inLabelString, inContainer, sLeftLabelTraitsID);
 		  mYCoord += kTmplLabelHeight + kTmplVertSkip;
 		  AddHexDumpField(inType, inContainer);
-		  
-	  } else if (inType >> 24 == 'C' && UMiscUtils::IsValidHexadecimal( (Ptr) typeStr + 2, 3) ) {
-		  
-		  // Cnnn: a C string that is nnn hex bytes long (the last byte is always a 0, 
-		  // so the string itself occupies the first nnn-1 bytes.)
-		  AddStaticField(inType, inLabelString, inContainer, sLeftLabelTraitsID);
-		  mYCoord += kTmplLabelHeight + kTmplVertSkip;
-		  AddWasteField(inType, inContainer);
 		  
 	  } else if ( inType >> 16 == 'P0' && UMiscUtils::IsValidHexadecimal( (Ptr) typeStr + 3, 2)) {
 		  
@@ -2101,26 +2101,28 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 			nextPos = mRezStream->GetMarker();
 		break;
 
-		default:
-		if (inType >> 24 == 'C') {
-			// Cnnn: a C string that is nnn hex bytes long (The last byte is always a 0, 
-			// so the string itself occupies the first nnn-1 bytes.)
+		default: {
 			SInt32 length;
-			char str[4];
-			char * p = (char*) &inType;
-			sprintf(str, "%c%c%c%c", *(p+1), *(p+2), *(p+3), 0);
-			::LowercaseText(str, 3, (ScriptCode)0);
-			sscanf(str, "%3x", &length);
+			UMiscUtils::HexNumStringToDecimal(&inType, &length);
 
-			nextPos = oldPos + length;
-			newPos = nextPos - 1;
-			// Look for a NULL byte in this range
-			while (mRezStream->GetMarker() <= nextPos ) {
-				*mRezStream >> theChar;
-				if (theChar == 0) {
-					newPos = mRezStream->GetMarker() - 1;
-					break;
+			if (inType >> 24 == 'C') {
+				// Cnnn: a C string that is nnn hex bytes long (The last byte is always a 0, 
+				// so the string itself occupies the first nnn-1 bytes.)
+
+				nextPos = oldPos + length;
+				newPos = nextPos - 1;
+				// Look for a NULL byte in this range
+				while (mRezStream->GetMarker() <= nextPos ) {
+					*mRezStream >> theChar;
+					if (theChar == 0) {
+						newPos = mRezStream->GetMarker() - 1;
+						break;
+					}
 				}
+			} else if (inType >> 24 == 'T') {
+				// Tnnn: a text string with fixed padding that is nnn hex bytes long 
+				nextPos = oldPos + length;
+				newPos = nextPos;
 			}
 		}
 	}
@@ -2322,11 +2324,7 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 		if (inType >> 24 == 'H') {
 			// Hnnn: a 3-digit hex number; displays nnn bytes in hex format
 			SInt32 numbytes;
-			char str[4];
-			char * p = (char*) &inType;
-			sprintf(str, "%c%c%c%c", *(p+1), *(p+2), *(p+3), 0);
-			::LowercaseText(str, 3, (ScriptCode)0);
-			sscanf(str, "%3x", &numbytes);
+			UMiscUtils::HexNumStringToDecimal(&inType, &numbytes);
 			newPos = oldPos + numbytes;
 		}
 	}	
@@ -3087,6 +3085,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		break;
 
 		case 'DATE':
+		case 'MDAT':
 		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
 		theEditText->GetDescriptor(numStr);	
 		if ( ! UMiscUtils::ParseDateString(numStr, &theUInt32)) {
@@ -3607,7 +3606,26 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		  
 	  } else if (inType >> 24 == 'C') {
 		  
-		  // Cnnn: a C string that is nnn hex bytes long (The last byte is always a 0, so the string itself occupies the first nnn-1 bytes.)
+		  // Cnnn: a C string that is nnn hex bytes long (The last byte is always a 0, 
+		  // so the string itself occupies the first nnn-1 bytes.)
+		  theWasteEdit = dynamic_cast<CWasteEditView *>(this->FindPaneByID(mCurrentID));
+		  theHandle = theWasteEdit->GetTextHandle();
+		  theLength = theWasteEdit->GetTextLength();
+		  reqLength = (inType << 8 & 0xffffff00) - 1;
+
+		  if (theLength < reqLength) {
+			  UMessageDialogs::AlertForValue(CFSTR("StringShorterThanRequired"), reqLength);
+		  } else {
+			  locker.Adopt(theHandle);
+			  mOutStream->PutBytes(*theHandle, reqLength);		
+			  // End with a NULL byte
+			  *mOutStream << (UInt8) 0x00;
+		  }
+		  mCurrentID++;
+
+	  } else if (inType >> 24 == 'T') {
+		  
+		  // Tnnn: a text string with fixed padding that is nnn hex bytes long 
 		  theWasteEdit = dynamic_cast<CWasteEditView *>(this->FindPaneByID(mCurrentID));
 		  theHandle = theWasteEdit->GetTextHandle();
 		  theLength = theWasteEdit->GetTextLength();
@@ -3625,7 +3643,8 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 
 	  } else if ( inType >> 16 == 'P0') {
 		  
-		  // P0nn: a Pascal string that is nn hex bytes long (The length byte is not included in nn, so the string occupies the entire specified length.)
+		  // P0nn: a Pascal string that is nn hex bytes long (The length byte is not included in nn, 
+		  // so the string occupies the entire specified length.)
 		  theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
 		  theEditText->GetDescriptor(theString);	
 		  theLength = theString[0];
