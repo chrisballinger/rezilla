@@ -2,11 +2,11 @@
 // CIcon_EditorWindow.h
 // 
 //                       Created: 2004-12-10 17:23:05
-//             Last modification: 2004-12-31 14:33:42
+//             Last modification: 2005-01-01 21:45:02
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004
+// (c) Copyright : Bernard Desgraupes, 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -204,7 +204,7 @@ protected:
 
 	// Event handling		
 	virtual void				HandleToolClick(PaneIDT inPaneID);
-	virtual void				HandleToolDoubleClick(PaneIDT inPaneID);
+	virtual void				HandleToolDoubleClick( LPane *thePane );
 	virtual void				ForceBlackAndWhite();
 	virtual void				SwapColors();
 	

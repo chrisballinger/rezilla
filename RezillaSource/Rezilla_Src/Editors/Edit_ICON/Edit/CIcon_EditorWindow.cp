@@ -2,11 +2,11 @@
 // CIcon_EditorWindow.cp
 // 
 //                       Created: 2004-12-10 17:23:05
-//             Last modification: 2005-01-01 14:01:33
+//             Last modification: 2005-01-01 21:45:19
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004, 2005
+// (c) Copyright : Bernard Desgraupes, 2004-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -456,7 +456,7 @@ CIcon_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			break;
 	
 		case msg_DoubleClick:
-			this->HandleToolDoubleClick(inMessage);
+			this->HandleToolDoubleClick( (LPane*) ioParam );
 			break;
 			
 		case tool_Pattern:
@@ -1138,7 +1138,7 @@ CIcon_EditorWindow::CopyToUndo()
 // ---------------------------------------------------------------------------
 // 	HandleToolClick
 // ---------------------------------------------------------------------------
-// LPane *thePane 
+
 void
 CIcon_EditorWindow::HandleToolClick(PaneIDT inPaneID)
 {
@@ -1180,11 +1180,12 @@ CIcon_EditorWindow::HandleToolClick(PaneIDT inPaneID)
 // ---------------------------------------------------------------------------
 
 void
-CIcon_EditorWindow::HandleToolDoubleClick(PaneIDT inPaneID)
+CIcon_EditorWindow::HandleToolDoubleClick( LPane *thePane )
 {
+	ThrowIfNil_( thePane );
 	if ( !mCurrentImage ) return;
 	
-	switch(inPaneID)
+	switch( thePane->GetPaneID() )
 	{
 		case tool_Eraser:
 			this->EraseAll();
