@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2004-10-06 09:03:43
+//             Last modification : 2004-10-14 07:04:54
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -202,14 +202,17 @@ const ResIDT	STRx_RegionCodes			= 1602;
 const ResIDT	STRx_ScriptCodes			= 1603;
 
 // Text traits resources
+const ResIDT    Txtr_GenevaTenBold          = 131;
 const ResIDT	Txtr_MonacoNineDefault		= 139;
 const ResIDT	Txtr_MonacoNineGray			= 133;
 const ResIDT	Txtr_GenevaTen				= 140;
-const ResIDT	Txtr_GenevaTenBold			= 131;
 const ResIDT	Txtr_MonacoBlueNineCenter	= 141;
 const ResIDT	Txtr_GenevaTenBoldUlLeft	= 144;
 const ResIDT	Txtr_GenevaTenBoldUlRight	= 145;
 const ResIDT	Txtr_UrlHyperlink			= 146;
+const ResIDT	Txtr_GenevaTenBoldLeft		= 149;
+const ResIDT	Txtr_GenevaTenBoldRight		= 150;
+const ResIDT	Txtr_GenevaTenBoldUl		= 151;
 
 // Menu resources
 	// rMENU_Window is not a resource. It is built  
@@ -678,7 +681,7 @@ enum RezillaErrors
 	err_NoRezInAnyFork,
 	err_NoOpenPermission,
 	err_OpenForkError,
-	err_UnderVersionControl,
+	err_UnderVersionControlSystem,
 	err_TmplTemplateError			= 2000,
 	err_TmplGetDataStreamFailed,
 	err_TmplUnrecognizedTag,
@@ -700,7 +703,7 @@ enum RezillaErrors
 	err_TmplNoCaseInKeySection,
 	err_TmplMalformedCaseSection,
 	err_TmplMalformedKeySection,
-	err_TmplCasePopupNotRelatedToField,
+	err_TmplPopupNotConnectedToEditField,
 	err_TmplCantFindKeyedSectionStart,
 	err_TmplCantFindKeyStartForValue,
 	err_TmplCantFindKeyIndex,
@@ -794,7 +797,9 @@ const SInt16	kTmplRectWidth			= 60;
 const SInt16	kTmplRgvHeight			= 22;
 const SInt16	kTmplRgvWidth			= 150;
 const SInt16	kTmplScrollWidth		= 15;
-const SInt16	kTmplTextHeight			= 206;
+const SInt16	kTmplTextMaxHeight		= 206;
+const SInt16	kTmplTextMinHeight		= 74;
+const SInt16	kTmplTextFootHeight		= 11;
 const SInt16	kTmplTextInset			= 4;
 const SInt16	kTmplTextMargin			= 20;
 const SInt16	kTmplTxtPaneLeft		= 294;
