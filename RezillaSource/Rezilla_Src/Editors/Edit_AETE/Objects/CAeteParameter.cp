@@ -20,7 +20,6 @@
 //  CAeteParameter												[public]
 // ---------------------------------------------------------------------------
 
-void
 CAeteParameter::CAeteParameter(CAeteStream * inStream)
 {
 	*inStream >> mName;
@@ -40,7 +39,6 @@ CAeteParameter::CAeteParameter(CAeteStream * inStream)
 //  ~CAeteParameter												[public]
 // ---------------------------------------------------------------------------
 
-void
 CAeteParameter::~CAeteParameter()
 {
 }

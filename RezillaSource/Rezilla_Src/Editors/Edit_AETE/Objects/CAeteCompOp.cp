@@ -20,7 +20,6 @@
 //  CAeteCompOp												[public]
 // ---------------------------------------------------------------------------
 
-void
 CAeteCompOp::CAeteCompOp(CAeteStream * inStream)
 {
 	*inStream >> mName;
@@ -37,7 +36,6 @@ CAeteCompOp::CAeteCompOp(CAeteStream * inStream)
 //  ~CAeteCompOp												[public]
 // ---------------------------------------------------------------------------
 
-void
 CAeteCompOp::~CAeteCompOp()
 {
 }

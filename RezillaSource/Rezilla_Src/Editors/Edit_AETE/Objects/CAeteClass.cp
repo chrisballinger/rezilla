@@ -2,7 +2,7 @@
 // CAeteClass.cp
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-20 14:48:32
+//             Last modification: 2005-01-21 07:27:26
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -22,12 +22,9 @@
 //  CAeteClass												[public]
 // ---------------------------------------------------------------------------
 
-void
 CAeteClass::CAeteClass(CAeteStream * inStream)
 {
 	UInt16	theCount, i;
-	OSType	theType;
-	Str255	theName, theDescr;
 	CAeteProperty *	theProperty;
 	CAeteElement *	theElement;
 	
@@ -45,6 +42,8 @@ CAeteClass::CAeteClass(CAeteStream * inStream)
 		theProperty = new CAeteProperty(inStream);
 		AddProperty(theProperty);
 	}
+	// Initialize to 1 if there are parameters, 0 otherwise
+	mCurrPropertyIndex = (theCount > 0);
 
 	// Get the count of elements
 	*inStream >> theCount;
@@ -52,6 +51,8 @@ CAeteClass::CAeteClass(CAeteStream * inStream)
 		theElement = new CAeteElement(inStream);
 		AddElement(theElement);
 	}
+	// Initialize to 1 if there are parameters, 0 otherwise
+	mCurrElementIndex = (theCount > 0);
 }
 
 
@@ -59,7 +60,6 @@ CAeteClass::CAeteClass(CAeteStream * inStream)
 //  ~CAeteClass												[public]
 // ---------------------------------------------------------------------------
 
-void
 CAeteClass::~CAeteClass()
 {
 }
@@ -81,8 +81,8 @@ CAeteClass::AddProperty( CAeteProperty * inProperty )
 
 void
 CAeteClass::AddProperty(Str255	inName,
-						ResType	inID, 
-						ResType	inType, 
+						OSType	inID, 
+						OSType	inType, 
 						Str255	inDescription, 
 						UInt16	inFlags)
 {
@@ -96,6 +96,13 @@ CAeteClass::AddProperty(Str255	inName,
 void
 CAeteClass::RemoveProperty( ArrayIndexT inAtIndex )
 {
+	CAeteProperty *	theProperty;
+	if ( mProperties.FetchItemAt( inAtIndex, theProperty) ) {
+		if (theProperty != NULL) {
+			delete theProperty;
+		} 
+		mProperties.RemoveItemsAt(1, inAtIndex);
+	} 
 }
 
 
@@ -136,6 +143,13 @@ CAeteClass::AddElement()
 void
 CAeteClass::RemoveElement( ArrayIndexT inAtIndex )
 {
+	CAeteElement *	theElement;
+	if ( mElements.FetchItemAt( inAtIndex, theElement) ) {
+		if (theElement != NULL) {
+			delete theElement;
+		} 
+		mElements.RemoveItemsAt(1, inAtIndex);
+	} 
 }
 
 

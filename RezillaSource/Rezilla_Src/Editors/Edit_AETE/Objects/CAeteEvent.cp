@@ -2,7 +2,7 @@
 // CAeteEvent.cp
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-20 15:01:04
+//             Last modification: 2005-01-21 07:26:48
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -21,7 +21,6 @@
 //  CAeteEvent												[public]
 // ---------------------------------------------------------------------------
 
-void
 CAeteEvent::CAeteEvent(CAeteStream * inStream)
 {
 	UInt16	theCount, i;
@@ -46,6 +45,9 @@ CAeteEvent::CAeteEvent(CAeteStream * inStream)
 		theParameter = new CAeteParameter(inStream);
 		AddParameter(theParameter);
 	}
+
+	// Initialize to 1 if there are parameters, 0 otherwise
+	mCurrParameterIndex = (theCount > 0);
 }
 
 
@@ -53,7 +55,6 @@ CAeteEvent::CAeteEvent(CAeteStream * inStream)
 //  ~CAeteEvent												[public]
 // ---------------------------------------------------------------------------
 
-void
 CAeteEvent::~CAeteEvent()
 {
 }
@@ -75,8 +76,8 @@ CAeteEvent::AddParameter(CAeteParameter * inParameter)
 
 void
 CAeteEvent::AddParameter(Str255	inName,
-						ResType	inKeyword, 
-						ResType	inType, 
+						OSType	inKeyword, 
+						OSType	inType, 
 						Str255	inDescription, 
 						UInt16	inFlags)
 {
@@ -90,6 +91,13 @@ CAeteEvent::AddParameter(Str255	inName,
 void
 CAeteEvent::RemoveParameter( ArrayIndexT inAtIndex )
 {
+	CAeteParameter *	theParameter;
+	if ( mParameters.FetchItemAt( inAtIndex, theParameter) ) {
+		if (theParameter != NULL) {
+			delete theParameter;
+		} 
+		mParameters.RemoveItemsAt(1, inAtIndex);
+	} 
 }
 
 

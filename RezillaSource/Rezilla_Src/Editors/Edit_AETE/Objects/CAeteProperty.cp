@@ -20,7 +20,6 @@
 //  CAeteProperty												[public]
 // ---------------------------------------------------------------------------
 
-void
 CAeteProperty::CAeteProperty(CAeteStream * inStream)
 {
 	*inStream >> mName;
@@ -40,7 +39,6 @@ CAeteProperty::CAeteProperty(CAeteStream * inStream)
 //  ~CAeteProperty												[public]
 // ---------------------------------------------------------------------------
 
-void
 CAeteProperty::~CAeteProperty()
 {
 }

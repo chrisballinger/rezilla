@@ -2,7 +2,7 @@
 // CAeteEnumeration.cp
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-20 12:31:28
+//             Last modification: 2005-01-21 06:32:01
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -20,7 +20,6 @@
 //  CAeteEnumeration												[public]
 // ---------------------------------------------------------------------------
 
-void
 CAeteEnumeration::CAeteEnumeration(CAeteStream * inStream)
 {
 	UInt16	theCount, i;
@@ -40,6 +39,9 @@ CAeteEnumeration::CAeteEnumeration(CAeteStream * inStream)
 		
 		AddEnumerator(theName, theType, theDescr);
 	}
+
+	// Initialize to 1 if there are parameters, 0 otherwise
+	mCurrEnumeratorIndex = (theCount > 0);
 }
 
 
@@ -47,7 +49,6 @@ CAeteEnumeration::CAeteEnumeration(CAeteStream * inStream)
 //  ~CAeteEnumeration												[public]
 // ---------------------------------------------------------------------------
 
-void
 CAeteEnumeration::~CAeteEnumeration()
 {
 }
@@ -58,12 +59,12 @@ CAeteEnumeration::~CAeteEnumeration()
 // ---------------------------------------------------------------------------
 
 ArrayIndexT
-CAeteEnumeration::AddEnumerator(Str255 inName, ResType inType, Str255 inDescription)
+CAeteEnumeration::AddEnumerator(Str255 inName, OSType inType, Str255 inDescription)
 {
 	AeteEnumerator	numerator;
 	
 	numerator.type = inType;
-	LString::CopyPStr(inName, numerator.name):
+	LString::CopyPStr(inName, numerator.name);
 	LString::CopyPStr(inDescription, numerator.description);
 	
 	return ( mEnumerators.AddItem(numerator) );
