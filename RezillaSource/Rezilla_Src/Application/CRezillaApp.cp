@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2004-03-02 13:13:47
+//             Last modification: 2004-03-03 16:19:39
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -30,12 +30,14 @@
 #include "CTxtDataSubView.h"
 #include "CDropStaticText.h"
 #include "CBroadcasterTableView.h"
+#include "CModifierBevelButton.h"
 #include "CCompResultWindow.h"
 #include "CRangeEditText.h"
 #include "UNavigationDialogs.h"
 #include "NavServicesCallbacks.h"
 #include "UMessageDialogs.h"
 #include "UDialogBoxHandler.h"
+#include "ABalloon.h"
 // #include "COutBorderAttachment.h"
 
 // PP Classes for registration
@@ -215,9 +217,9 @@ CRezillaApp::Initialize()
 	theAttachment = new CWindowMenuAttachment( gWindowMenu );
 	AddAttachment( theAttachment , nil, true );
 	
-// 	// Help tags settings
-// 	ABalloonBase::EnableControlKeyPop();
-// 	ABalloonBase::SetAutoPopDelay(20);
+	// Help tags settings
+	ABalloonBase::EnableControlKeyPop();
+	ABalloonBase::SetAutoPopDelay(20);
 
 	mOpeningFork = fork_anyfork;
 	mIsReadOnly = false;
@@ -274,9 +276,10 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(CDropStaticText);
 	RegisterClass_(CBroadcasterTableView);
 	RegisterClass_(CCompResultWindow);
+	RegisterClass_(CModifierBevelButton);
 // 	RegisterClass_(COutBorderAttachment);
 
-// 	RegisterClass_(ATag);
+	RegisterClass_(ATag);
 
 	// AM always present on Carbon
 	UControlRegistry::RegisterAMClasses();
