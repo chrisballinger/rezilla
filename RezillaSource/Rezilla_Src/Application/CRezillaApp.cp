@@ -319,6 +319,7 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(LEditField);
 	RegisterClass_(LIconPane);
 	RegisterClass_(LPageController);
+	RegisterClass_(LPane);
 	RegisterClass_(LPicture);
 	RegisterClass_(LPopupButton);
 	RegisterClass_(LPushButton);
