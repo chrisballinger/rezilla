@@ -610,7 +610,7 @@ const SInt16	kTmplRadioHeight		= 16;
 const SInt16	kTmplRadioWidth			= 50;
 const SInt16	kTmplRectHeight			= 40;
 const SInt16	kTmplRectWidth			= 60;
-const SInt16	kTmplRectVertSkip		= 20;
+const SInt16	kTmplRectVertSkip		= 18;
 const SInt16	kTmplWasteHeight		= 200;
 const SInt16	kTmplWasteWidth			= 300;
 
