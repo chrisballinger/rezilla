@@ -49,18 +49,15 @@ Cette commande permet d'exporter la structure et le contenu d'une table de
 ressources dans des fichiers selon divers formats. Les formats disponibles
 sont:
 <UL>
-	<LI> Text
+	<LI> Texte
 	<LI> HTML 
 	<LI> XML 
 	<LI> DeRez
 </UL>
-En format XML, les données binaires de chaque ressource sont encodées en
-encodage Base64 comme il est usuel en XML lorsque l'on a besoin de stocker
-des données binaires (les fichiers <I>plist</I> sous OSX par exemple
-utilisent cet encodage). En format texte au contraire, les données binaires
-de chaque ressource sont encodées sous forme hexadécimale (chaque octet est
-représenté par deux nombres hexadécimaux comme dans un éditeur
-hexadécimal).<P>DeRez est un format qui ne concerne que les développeurs: c'est le format
+En formats XML et texte, il est possible de décider d'inclure les données
+binaires de chaque ressource ou pas. Celles-ci peuvent être représentées
+soit en encodage Base64, soit sous forme hexadécimale (comme dans un
+éditeur hexadécimal). Voir la section <I>Export</I> plus loin.<P>DeRez est un format qui ne concerne que les développeurs: c'est le format
 utilisé par les outils Rez et DeRez. Les données de ressources sont
 exportées de façon identique à ce que produit l'outil DeRez lorsqu'aucun
 modèle particulier de ressources n'est spécifé (format <I>data</I>).</DL>
