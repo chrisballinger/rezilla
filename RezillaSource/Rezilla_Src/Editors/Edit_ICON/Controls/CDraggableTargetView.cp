@@ -1,11 +1,11 @@
 // ===========================================================================
 // CDraggableTargetView.cp
 //                       Created: 2004-12-11 18:53:16
-//             Last modification: 2004-12-23 00:01:44
+//             Last modification: 2005-01-08 11:49:01
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes 2004
+// (c) Copyright: Bernard Desgraupes 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -207,6 +207,11 @@ CDraggableTargetView::DrawSelf()
 {
 	CTargetView::DrawSelf();
 	this->DrawBuffer();
+	if (mHasTarget) {
+		DrawBorder();
+	} else {
+		EraseBorder();
+	}
 }
 
 
@@ -318,37 +323,7 @@ CDraggableTargetView::GetCenteredBufferArea( SInt32 inWidth, SInt32 inHeight,
 }
 
 
-// #ifdef OLD_VERSION_CW10
-// // ---------------------------------------------------------------------------
-// // 	GetCenteredBufferArea
-// // 	
-// // 	Description:
-// // 	Returns a rectangle centered on mBorderRect, in port coordinates (for CopyBits).
-// // ---------------------------------------------------------------------------
-// 
-// void CDraggableTargetView::GetCenteredBufferArea( SInt32 inWidth, SInt32 inHeight, 
-// 												Rect *outLocalRect, Rect *outPortRect )
-// {
-// 	SInt32	paneWidth = mBorderRect.right - mBorderRect.left;
-// 	SInt32	paneHeight = mBorderRect.bottom - mBorderRect.top;	
-// 
-// 	Rect	localR;
-// 	localR.left = mBorderRect.left + (paneWidth - inWidth)/2;
-// 	localR.right = localR.left + inWidth;
-// 	localR.top = mBorderRect.top + (paneHeight - inHeight)/2;
-// 	localR.bottom = localR.top + inHeight;
-// 		
-// 	if ( outLocalRect )
-// 		*outLocalRect = localR;
-// 		
-// 	if ( outPortRect )
-// 	{
-// 		*outPortRect = localR;
-// 		LocalToPortPoint( topLeft(*outPortRect) );
-// 		LocalToPortPoint( botRight(*outPortRect) );
-// 	}
-// }
-
+#pragma mark -
 
 // ---------------------------------------------------------------------------
 // 	IsMask
