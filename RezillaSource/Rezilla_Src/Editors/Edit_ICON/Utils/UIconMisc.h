@@ -43,7 +43,7 @@ class UIconMisc {
 		static LPane*		FindSiblingPaneByID( LPane *, PaneIDT );
 
 		static void 		LinkListenerToControls( LListener *, LView *, ResIDT );
-		static void			RedrawPaneAsIndicated( LPane *, ERedrawOptions );
+		static void			RedrawPaneAsIndicated( LPane *, RedrawOptions );
 		static LWindow*		CreatePPWindow( ResIDT inWindowID );
 		
 		static GDHandle		FindDeviceViaPoint( Point inGlobalPt );

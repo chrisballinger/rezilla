@@ -15,7 +15,7 @@
 #define _H_CColorPane
 #pragma once
 
-#include "RezillaConstants.h"		// just for ERedrawOptions
+#include "RezillaConstants.h"		// just for RedrawOptions
 #include <LPane.h>
 /* public LBevelButton */
 
@@ -30,11 +30,11 @@ class CColorPane : public LPane, public LBroadcaster {
 		
 			// get/set color
 		virtual Color32			GetColor();
-		virtual void			SetColor( Color32, ERedrawOptions = redraw_Later );
+		virtual void			SetColor( Color32, RedrawOptions = redraw_Later );
 
 			// get/set color table
 		virtual CTabHandle		GetColorTable();
-		virtual void			SetColorTable( CTabHandle, Boolean inChangeColorToo = true, ERedrawOptions = redraw_Later );
+		virtual void			SetColorTable( CTabHandle, Boolean inChangeColorToo = true, RedrawOptions = redraw_Later );
 		virtual void			AllowPickerOption( Boolean inOption );
 		
 		virtual void			DrawSelf();

@@ -58,18 +58,18 @@ class CDraggableTargetView : public CTargetView,
 		virtual void			AdjustMouseSelf( Point, const EventRecord &, RgnHandle );
 		virtual void 			ClickSelf( const SMouseDownEvent &inMouseDown );
 		virtual void			DrawSelf();
-		virtual void			RedrawBufferAsIndicated( ERedrawOptions inRedraw );
+		virtual void			RedrawBufferAsIndicated( RedrawOptions inRedraw );
 
-		virtual void			SetBuffer( COffscreen *, ERedrawOptions );
+		virtual void			SetBuffer( COffscreen *, RedrawOptions );
 		virtual void			SetRawBuffer( COffscreen * );
-		virtual void			CopyBufferFrom( COffscreen *, ERedrawOptions );
+		virtual void			CopyBufferFrom( COffscreen *, RedrawOptions );
 		virtual COffscreen *	GetBuffer();
 		
 		virtual Boolean			IsMask();
 		virtual void			SetMask( Boolean );
 		
 		virtual Boolean			IsUsed();
-		virtual void			SetUsedFlag( Boolean, ERedrawOptions );
+		virtual void			SetUsedFlag( Boolean, RedrawOptions );
 		
 		virtual Boolean			CanBeDeleted();
 		virtual void			SetCanBeDeletedFlag( Boolean );

@@ -1166,7 +1166,7 @@ const ResType	ResType_PaneResizer		= FOUR_CHAR_CODE('RSIZ');
 const ResType	ResType_IconFamilyInfo	= FOUR_CHAR_CODE('RzII');
 
 // Three ways to redraw
-enum ERedrawOptions
+enum RedrawOptions
 {
 	redraw_Now,
 	redraw_Later,

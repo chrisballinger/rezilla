@@ -312,7 +312,7 @@ UIconMisc::LinkListenerToControls(
 // ---------------------------------------------------------------------------
 
 void
-UIconMisc::RedrawPaneAsIndicated( LPane *inPane, ERedrawOptions inOptions )
+UIconMisc::RedrawPaneAsIndicated( LPane *inPane, RedrawOptions inOptions )
 {
 	if ( inOptions == redraw_Now )
 		inPane->Draw( nil );

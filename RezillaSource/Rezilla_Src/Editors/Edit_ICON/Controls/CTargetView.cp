@@ -52,7 +52,7 @@ CTargetView::CreateFromStream( LStream *inStream )
 // ---------------------------------------------------------------------------
 
 void
-CTargetView::SetTarget( Boolean inTarget, ERedrawOptions inRedraw )
+CTargetView::SetTarget( Boolean inTarget, RedrawOptions inRedraw )
 {
 	if ( mHasTarget == inTarget ) return;
 	

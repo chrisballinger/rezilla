@@ -630,7 +630,7 @@ CIcon_EditorView::HandleDroppedOffscreen( COffscreen *inOffscreen, DragReference
 
 void 
 CIcon_EditorView::Reinitialize( COffscreen *	inOffscreen, 
-								ERedrawOptions 	inRedraw,
+								RedrawOptions 	inRedraw,
 								SInt32	inResize )
 {
 	ThrowIfNil_( inOffscreen );

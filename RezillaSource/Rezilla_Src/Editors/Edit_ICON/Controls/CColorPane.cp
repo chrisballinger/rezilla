@@ -131,7 +131,7 @@ CColorPane::CalcClipRegionForOverlap()
 // ---------------------------------------------------------------------------
 
 void
-CColorPane::SetColor( Color32 inColor, ERedrawOptions inRedrawHow )
+CColorPane::SetColor( Color32 inColor, RedrawOptions inRedrawHow )
 {
 	// Only redraw if we need to (prevents flicker)
 	if ( !UColorUtils::EqualColor32( inColor, mCurrentColor ) )
@@ -176,7 +176,7 @@ CColorPane::GetColorTable()
 // 	Nil is ok if you want to disassociate a table with this pane.
 
 void
-CColorPane::SetColorTable( CTabHandle inTable, Boolean inChangeColorToo, ERedrawOptions inRedrawHow )
+CColorPane::SetColorTable( CTabHandle inTable, Boolean inChangeColorToo, RedrawOptions inRedrawHow )
 {
 	Handle	copyOfTable = inTable ? UIconMisc::DuplicateHandle((Handle)inTable) : nil;
 

@@ -11,6 +11,18 @@
 // $Date$
 // $Revision$
 // ===========================================================================
+// mPixelArea:		in PP "local" coords, relative to the containing view this is
+//           		where we blit pixels to. Does not include top & left
+//					margins, but does include bottom & right ones (so all rows &
+// 					columns are the same size)
+// mFirstRect:		in PP "local" coords - does not include spacing on any side
+// mHotSpot:		this is -1,-1 for most images, but used for cursors
+// mCellWidth:		cell width & height (in pixels), not including spacing
+// mSpaceBetween:	number of pixels in between rows & columns
+// mImageWidth:		width of source image (pixels)
+// mImageHeight:	height of source image (pixels)
+// sBigScratchBuffer	single buffer for all of the canvas panes
+// ---------------------------------------------------------------------------
 
 #ifndef _H_CIcon_EditorView
 #define _H_CIcon_EditorView
@@ -31,19 +43,6 @@ PP_Begin_Namespace_PowerPlant
 class CIcon_EditorWindow;
 class COffscreen;
 
-// ---------------------------------------------------------------------------
-// mPixelArea:		in PP "local" coords, relative to the containing view this is
-//           		where we blit pixels to. Does not include top & left
-//					margins, but does include bottom & right ones (so all rows &
-// 					columns are the same size)
-// mFirstRect:		in PP local coords - does not include spacing on any side
-// mHotSpot:		this is -1,-1 for most images, but used for cursors
-// mCellWidth:		cell width & height (in pixels), not including spacing
-// mSpaceBetween:	number of pixels in between rows & columns
-// mImageWidth:		width of source image (pixels)
-// mImageHeight:	height of source image (pixels)
-// sBigScratchBuffer	single buffer for all of the canvas panes
-// ---------------------------------------------------------------------------
 
 
 class CIcon_EditorView :	public LView, public CImageDragDrop {
@@ -58,6 +57,8 @@ public:
 									LStream*			inStream );
 	virtual					~CIcon_EditorView();
 
+	static CIcon_EditorView *		CreatePaintCanvasStream( LStream * );
+	
 	virtual Boolean			HandleKeyPress(
 									const EventRecord& 	inKeyEvent);
 
@@ -67,12 +68,11 @@ public:
 	
 	virtual void			UserChangedBitmap();
 
-	static CIcon_EditorView *		CreatePaintCanvasStream( LStream * );
 	virtual void			FinishCreateSelf();
 	
 	virtual void	 		Reinitialize( 
 								COffscreen *	inOffscreen, 
-								ERedrawOptions 	inRedraw = redraw_Later,
+								RedrawOptions 	inRedraw = redraw_Later,
 								SInt32	inResize = resize_Canvas );
 								
 	virtual void			DrawSelf();
@@ -116,7 +116,7 @@ protected:
 		Rect					mFirstRect;
 		Point					mHotSpot;
 
-		static COffscreen *	sBigScratchBuffer;	
+		static COffscreen *		sBigScratchBuffer;	
 		static SInt32			sNumWindows;
 
 	// Drag & Drop

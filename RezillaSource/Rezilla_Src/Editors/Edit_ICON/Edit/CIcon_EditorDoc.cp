@@ -90,14 +90,15 @@ CIcon_EditorDoc::~CIcon_EditorDoc()
 void
 CIcon_EditorDoc::Initialize()
 {
-	LWindow	* theWindow = nil;
-
-	// Create window for our document. This sets this doc as the SuperCommander of the window.
+	LWindow	*	theWindow = nil;
+	CRezMap *	theMap = mRezMapTable->GetRezMap();
+	ResIDT		theID = mRezObj->GetID();
+	
+	// Create the document window
 	switch (mSubstType) {
 		// 'ICON'
 		case ImgType_LargeIcon:
-			theWindow = CWindow_IconFamily::OpenPaintWindow( PPob_ICONEditor, 
-									  mRezMapTable->GetRezMap(), mRezObj->GetID() );
+			theWindow = CWindow_IconFamily::OpenPaintWindow( PPob_ICONEditor, theMap, theID );
 			break;
 
 		// 'ICN#', 'icl4', 'icl8', 'ics#', 'ics4', 'ics8', 'icm#', 'icm4', 'icm8'
@@ -110,48 +111,41 @@ CIcon_EditorDoc::Initialize()
 		case ImgType_MiniIconWithMask:
 		case ImgType_Mini4BitIcon:
 		case ImgType_Mini8BitIcon:
-			theWindow = CWindow_IconFamily::OpenPaintWindow( PPob_IconSuiteEditor,
-										mRezMapTable->GetRezMap(), mRezObj->GetID() );
+			theWindow = CWindow_IconFamily::OpenPaintWindow( PPob_IconSuiteEditor, theMap, theID );
 			break;
 			
 		// 'cicn'
 		case ImgType_ColorIcon:
-			theWindow = CWindow_ColorIcon::OpenPaintWindow( PPob_CICNEditor,
-										mRezMapTable->GetRezMap(), mRezObj->GetID() );
-			break;
-			
-		// 'CURS'
-		case ImgType_Cursor:
-			theWindow = CWindow_Cursor::OpenPaintWindow( PPob_CursorEditor,
-										mRezMapTable->GetRezMap(), ImgType_Cursor,
-										mRezObj->GetID() );
-			break;
-
-		// 'crsr'
-		case ImgType_ColorCursor:
-			theWindow = CWindow_Cursor::OpenPaintWindow( PPob_ColorCursorEditor,
-										mRezMapTable->GetRezMap(), ImgType_ColorCursor,
-										mRezObj->GetID() );
-			break;
-			
-		// 'PAT '
-		case ImgType_Pattern:
-			theWindow = CWindow_Pattern::OpenPaintWindow( PPob_PatternEditor,
-										mRezMapTable->GetRezMap(), ImgType_Pattern,
-										mRezObj->GetID() );
-			break;
-			
-		// 'ppat'
-		case ImgType_PixPat:
-			theWindow = CWindow_Pattern::OpenPaintWindow( PPob_PixPatEditor,
-										mRezMapTable->GetRezMap(), ImgType_PixPat,
-										mRezObj->GetID() );
+			theWindow = CWindow_ColorIcon::OpenPaintWindow( PPob_CICNEditor, theMap, theID );
 			break;
 
 		// 'PICT'
 		case ImgType_Picture:
-			theWindow = CWindow_Picture::OpenPaintWindow( PPob_PictEditor,
-										mRezMapTable->GetRezMap(), mRezObj->GetID() );
+			theWindow = CWindow_Picture::OpenPaintWindow( PPob_PictEditor, theMap, theID );
+			break;
+			
+		// 'CURS'
+		case ImgType_Cursor:
+			theWindow = CWindow_Cursor::OpenPaintWindow( PPob_CursorEditor, theMap, 
+														ImgType_Cursor, theID );
+			break;
+
+		// 'crsr'
+		case ImgType_ColorCursor:
+			theWindow = CWindow_Cursor::OpenPaintWindow( PPob_ColorCursorEditor, theMap, 
+														ImgType_ColorCursor, theID );
+			break;
+			
+		// 'PAT '
+		case ImgType_Pattern:
+			theWindow = CWindow_Pattern::OpenPaintWindow( PPob_PatternEditor, theMap, 
+														 ImgType_Pattern, theID );
+			break;
+			
+		// 'ppat'
+		case ImgType_PixPat:
+			theWindow = CWindow_Pattern::OpenPaintWindow( PPob_PixPatEditor, theMap, 
+														 ImgType_PixPat, theID );
 			break;
 	}
 	
@@ -168,7 +162,7 @@ CIcon_EditorDoc::Initialize()
 	// Add the window to the window menu.
 	gWindowMenu->InsertWindow( mIconEditWindow );
 		
-// 	// Install the contents according to the TMPL
+// 	// Install the contents
 // 	if (mRezObj != nil) {
 // 		Handle rezData = mRezObj->GetData();
 // 		

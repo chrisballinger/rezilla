@@ -15,7 +15,7 @@
 #define _H_CPatternPane
 #pragma once
 
-#include "RezillaConstants.h"		// just for ERedrawOptions
+#include "RezillaConstants.h"		// just for RedrawOptions
 #include "CPatternPopup.h"			// for SPatternListH
 
 /* public LPane, public LBroadcaster */
@@ -31,12 +31,12 @@ class CPatternPane : public LBevelButton
 		static	CPatternPane *	CreateFromStream( LStream * );
 		
 		virtual SInt32			GetPatternIndex();
-		virtual void			SetPatternIndex( SInt32 inIndex, ERedrawOptions = redraw_Later );
+		virtual void			SetPatternIndex( SInt32 inIndex, RedrawOptions = redraw_Later );
 		virtual void			GetCurrentPattern( Pattern * );
 		
-		virtual void			SetPatternList( SPatternListH inHandle, ERedrawOptions = redraw_Later );
-		virtual void 			SetPatternList( SInt16 inFileID, ResIDT inResID, ERedrawOptions = redraw_Later );
-		virtual void 			SetColors( Color32, Color32, ERedrawOptions = redraw_Later );
+		virtual void			SetPatternList( SPatternListH inHandle, RedrawOptions = redraw_Later );
+		virtual void 			SetPatternList( SInt16 inFileID, ResIDT inResID, RedrawOptions = redraw_Later );
+		virtual void 			SetColors( Color32, Color32, RedrawOptions = redraw_Later );
 
 		virtual void			DrawSelf();
 		virtual void 			ClickSelf( const SMouseDownEvent & );

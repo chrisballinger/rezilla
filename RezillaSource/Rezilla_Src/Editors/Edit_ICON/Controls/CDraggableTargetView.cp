@@ -123,7 +123,7 @@ CDraggableTargetView::ClickSelf( const SMouseDownEvent &inMouseDown )
 // Once this call is made, this object takes complete control of the buffer.
 
 void
-CDraggableTargetView::SetBuffer( COffscreen *inBuffer, ERedrawOptions inRedraw )
+CDraggableTargetView::SetBuffer( COffscreen *inBuffer, RedrawOptions inRedraw )
 {
 	if ( mBuffer == inBuffer ) return;		// drag to ourselves
 	
@@ -154,7 +154,7 @@ CDraggableTargetView::SetRawBuffer( COffscreen *inBuffer )
 // redraw the pane frame or title.
 
 void
-CDraggableTargetView::RedrawBufferAsIndicated( ERedrawOptions inRedraw )
+CDraggableTargetView::RedrawBufferAsIndicated( RedrawOptions inRedraw )
 {
 	StGWorldSaver		aSaver;
 	StColorPenState		save2;
@@ -178,7 +178,7 @@ CDraggableTargetView::RedrawBufferAsIndicated( ERedrawOptions inRedraw )
 // ---------------------------------------------------------------------------
 
 void
-CDraggableTargetView::CopyBufferFrom( COffscreen *inBuffer, ERedrawOptions inRedraw )
+CDraggableTargetView::CopyBufferFrom( COffscreen *inBuffer, RedrawOptions inRedraw )
 {
 	if ( !mBuffer ) return;
 	mBuffer->CopyFrom( inBuffer );
@@ -388,7 +388,7 @@ CDraggableTargetView::IsUsed()
 // ---------------------------------------------------------------------------
 
 void
-CDraggableTargetView::SetUsedFlag( Boolean inUsed, ERedrawOptions inRedraw )
+CDraggableTargetView::SetUsedFlag( Boolean inUsed, RedrawOptions inRedraw )
 {
 	if ( mIsUsed == inUsed ) return;
 	

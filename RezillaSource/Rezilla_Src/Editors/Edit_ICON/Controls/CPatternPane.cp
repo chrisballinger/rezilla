@@ -88,7 +88,7 @@ CPatternPane::GetPatternIndex()
 // ---------------------------------------------------------------------------
 
 void
-CPatternPane::SetPatternIndex( SInt32 inIndex, ERedrawOptions inRedraw )
+CPatternPane::SetPatternIndex( SInt32 inIndex, RedrawOptions inRedraw )
 {
 	if ( inIndex != mCurrentIndex )
 	{
@@ -119,7 +119,7 @@ CPatternPane::GetCurrentPattern( Pattern *outPattern )
 // ---------------------------------------------------------------------------
 
 void
-CPatternPane::SetPatternList( SInt16 inFileID, ResIDT inResID, ERedrawOptions inRedraw )
+CPatternPane::SetPatternList( SInt16 inFileID, ResIDT inResID, RedrawOptions inRedraw )
 {
 	Handle		theHandle = NULL;
 	
@@ -134,7 +134,7 @@ CPatternPane::SetPatternList( SInt16 inFileID, ResIDT inResID, ERedrawOptions in
 // ---------------------------------------------------------------------------
 
 void
-CPatternPane::SetPatternList( SPatternListH inHandle, ERedrawOptions inRedraw )
+CPatternPane::SetPatternList( SPatternListH inHandle, RedrawOptions inRedraw )
 {
 	if ( inHandle )
 		inHandle = (SPatternListH) UIconMisc::DuplicateHandle( (Handle) inHandle );
@@ -160,7 +160,7 @@ CPatternPane::SetPatternList( SPatternListH inHandle, ERedrawOptions inRedraw )
 // ---------------------------------------------------------------------------
 
 void
-CPatternPane::SetColors( Color32 inFore, Color32 inBack, ERedrawOptions inRedraw )
+CPatternPane::SetColors( Color32 inFore, Color32 inBack, RedrawOptions inRedraw )
 {
 	mForeColor = UColorUtils::Color32ToRGB( inFore );
 	mBackColor = UColorUtils::Color32ToRGB( inBack );

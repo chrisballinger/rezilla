@@ -31,7 +31,7 @@ class CTargetView : public LView, public LBroadcaster {
 	
 		static CTargetView *	CreateFromStream( LStream *inStream );
 		
-		virtual void		SetTarget( Boolean inTarget, ERedrawOptions inRedraw );
+		virtual void		SetTarget( Boolean inTarget, RedrawOptions inRedraw );
 		
 	protected:
 		Boolean				mHasTarget;
