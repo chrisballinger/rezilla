@@ -17,6 +17,7 @@
 #include "COffscreen.h"
 #include "CColorTableBuilder.h"
 #include "CRezillaPrefs.h"
+#include "CRezClipboard.h"
 #include "RezillaConstants.h"
 #include "UIconMisc.h"
 #include "UMiscUtils.h"
@@ -103,9 +104,9 @@ UGraphicConversion::OffscreenToPicture( COffscreen *inBuffer, RgnHandle inSelect
 void
 UGraphicConversion::OffscreenToClipboard( COffscreen *inBuffer, RgnHandle inSelection )
 {
-	PicHandle			thePict = nil;
-	LClipboard			*theClipboard = LClipboard::GetClipboard();
-	StGWorldSaver		aSaver;				// save/restore gworld
+	PicHandle		thePict = nil;
+	LClipboard *	theClipboard = CRezClipboard::GetClipboard();
+	StGWorldSaver	aSaver;				// save/restore gworld
 	
 	// Convert the offscreen buffer to a picture
 	thePict = OffscreenToPicture( inBuffer, inSelection );
@@ -131,7 +132,7 @@ UGraphicConversion::GetPictFromClipboard()
 {
 	PicHandle		thePict = nil;
 	SInt32			numBytes;
-	LClipboard		*theClipboard = LClipboard::GetClipboard();
+	LClipboard *	theClipboard = CRezClipboard::GetClipboard();
 
 	try
 	{
@@ -163,7 +164,7 @@ UGraphicConversion::GetRegionFromClipboard()
 {
 	RgnHandle		theRegion = nil;
 	SInt32			numBytes;
-	LClipboard		*theClipboard = LClipboard::GetClipboard();
+	LClipboard *	theClipboard = CRezClipboard::GetClipboard();
 
 	numBytes = theClipboard->GetData( ResType_Region, nil );
 	if ( numBytes <= 0 ) return( nil );

@@ -1,16 +1,15 @@
 // ===========================================================================
 // CRezClipboard.cp					
 //                       Created: 2003-05-11 21:05:08
-//             Last modification: 2005-01-06 14:05:00
+//             Last modification: 2005-01-12 17:46:53
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003-2004, 2005
+// © Copyright: Bernard Desgraupes 2003-2005
 // All rights reserved.
 // $Date$
 // $Revision$
 // ===========================================================================
-
 
 #include "CRezClipboard.h"
 #include "CRezMapDoc.h"
@@ -194,11 +193,12 @@ CRezClipboard::GetDataSelf(
 		// Do nothing. The bulk of the work is accomplished by CRezMapDoc::PasteRezMap().
 		break;
 		
-		case scrap_hexeditHexdata:
-		case scrap_hexeditTxtdata:
+		case scrap_hexeditHex:
+		case scrap_hexeditTxt:
 		break;
 		
 		case scrap_default:
+		case scrap_bitmap:
 		default:
 		dataSize = UScrap::GetData(inDataType, ioDataH);
 		break;
@@ -231,8 +231,9 @@ CRezClipboard::SetDataSelf(
 		break;
 		
 		case scrap_default:
-		case scrap_hexeditHexdata:
-		case scrap_hexeditTxtdata:
+		case scrap_hexeditHex:
+		case scrap_hexeditTxt:
+		case scrap_bitmap:
 		default:
 		UScrap::SetData(inDataType, inDataPtr, inDataLength, inReset);
 		mExportPending = false;
@@ -320,6 +321,17 @@ CRezClipboard::ImportSelf()
 //
 //	Take the first resource of each type and put the data in the 
 //	global scrap using the same type.
+
+// 		switch (sScrapContext) {
+// 			case scrap_rezmap: 
+// 			break;
+// 			
+// 			case scrap_bitmap:
+// 			break;
+// 			
+// 			default:
+// 			break;
+// 		}
 
 void
 CRezClipboard::ExportSelf()
@@ -413,6 +425,49 @@ CRezClipboard::SetDataInScrapRezMap(
 		error = theRezObj->Changed();
 	}
 	error = sScrapRezMap->Update();
+}
+
+
+// ===========================================================================
+//	StClipboardContext stack-based class
+// ===========================================================================
+//
+// Constructor saves current clipboard context. Destructor restores it or
+// sets it to the default value.
+
+
+StClipboardContext::StClipboardContext()
+{
+	mOriginalContext = CRezClipboard::GetScrapContext();
+	mResetPrevious = false;
+	
+	CRezClipboard::SetScrapContext(scrap_default);
+}
+
+
+StClipboardContext::StClipboardContext( SInt32 inContext, Boolean inResetPrevious )
+{
+	mOriginalContext = CRezClipboard::GetScrapContext();
+	mResetPrevious = inResetPrevious;
+	
+	CRezClipboard::SetScrapContext(inContext);
+}
+
+
+StClipboardContext::~StClipboardContext()
+{
+	Restore();
+}
+
+
+void
+StClipboardContext::Restore()
+{
+	if (mResetPrevious) {
+		CRezClipboard::SetScrapContext(mOriginalContext);
+	} else {
+		CRezClipboard::SetScrapContext(scrap_default);
+	}
 }
 
 

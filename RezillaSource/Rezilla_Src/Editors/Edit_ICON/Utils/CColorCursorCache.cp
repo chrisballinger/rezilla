@@ -1,11 +1,11 @@
 // ===========================================================================
 // CColorCursorCache.cp
 //                       Created: 2004-12-11 18:56:37
-//             Last modification: 2004-12-23 15:20:52
+//             Last modification: 2005-01-12 17:24:35
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes 2004
+// (c) Copyright: Bernard Desgraupes 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -45,7 +45,7 @@ CColorCursorCache::~CColorCursorCache()
 	
 	// Important to release everything in this destructor rather than
 	// waiting for the CResourceCache destructor because it will call its
-	// own DisposeRawResource() method rather than ours. [blech]
+	// own DisposeRawResource() method rather than ours.
 	for ( SInt32 count = 0; count < mNumElements; count++ )
 	{
 		if ( mCacheArray[count].theResource )
@@ -80,10 +80,8 @@ CColorCursorCache::SetColorCursor( ResIDT inResID )
 {
 	CCrsrHandle		theCursor = nil;
 	
-	/*
-		since this is called at idle time, it's best not to put
-		up error messages over and over and over, so catch the errors.
-	*/
+	// Since this is called at idle time, it's best not to put up error
+	// messages over and over and over, so catch the errors.
 	try
 	{
 		theCursor = (CCrsrHandle) this->GetResource( inResID );
@@ -126,7 +124,7 @@ CColorCursorCache::LoadRawResource( ResIDT inResID )
 	}
 	else
 	{
-		// note: GetCCursor will use resource chain, so check file first
+		// GetCCursor will use resource chain, so check file first
 		if ( UResources::MapHasResource( mResFileID, ResType_ColorCursor, inResID ) )
 		{
 			::UseResFile( mResFileID );

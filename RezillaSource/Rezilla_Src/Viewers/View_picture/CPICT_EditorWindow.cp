@@ -159,7 +159,8 @@ CPICT_EditorWindow::ObeyCommand(
 		case cmd_Copy:
 		case cmd_Cut:
 		case cmd_Clear: {
-			CRezClipboard::SetScrapContext(scrap_default);
+			StClipboardContext	scrapContext();
+			
 			// Copy the image to the clipboard with 'PICT' flavor
 			UScrap::SetData('PICT',(Handle) mContentsView->GetPictureH());
 			if (inCommand == cmd_Cut && ! GetOwnerDoc()->IsReadOnly() ) {
@@ -172,7 +173,8 @@ CPICT_EditorWindow::ObeyCommand(
 			if (GetOwnerDoc()->IsReadOnly()) {
 				break;
 			} 
-			CRezClipboard::SetScrapContext(scrap_default);
+			StClipboardContext	scrapContext();
+
 			// If the clipboard contains data with 'PICT' flavor,
 			// replace the current image.
 			Handle scrapDataH = ::NewHandle(0);

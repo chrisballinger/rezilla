@@ -422,8 +422,8 @@ CRezMapDoc::ObeyCommand(
 		
 		case cmd_Copy: 
 		case cmd_Cut: {
-			CRezClipboard::SetScrapContext(scrap_rezmap);
-
+			StClipboardContext	scrapContext(scrap_rezmap);
+			
 			LArray* theArray = new LArray( sizeof(LOutlineItem*) );
 			mRezMapWindow->GetRezMapTable()->GetAllSelectedRezObjItems(theArray);
 			
@@ -443,7 +443,8 @@ CRezMapDoc::ObeyCommand(
 		}
 
 		case cmd_Paste: {
-			CRezClipboard::SetScrapContext(scrap_rezmap);
+			StClipboardContext	scrapContext(scrap_rezmap);
+			
 			CRezClipboard::GetClipboard()->GetData(kRezillaClipType, nil);
 			// The call to GetData() ensures that CRezClipboard::ImportSelf() is 
 			// called when appropriate, but GetDataSelf() is empty and all the work 

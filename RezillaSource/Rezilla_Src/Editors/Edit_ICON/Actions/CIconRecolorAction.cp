@@ -53,7 +53,7 @@ CIconRecolorAction::~CIconRecolorAction()
 
 
 // ---------------------------------------------------------------------------
-// 	HandleMouseDown
+// 	DoIt
 // ---------------------------------------------------------------------------
 
 void
@@ -67,7 +67,7 @@ CIconRecolorAction::DoIt()
 		mSettings.thePaintView->SelectNone();
 	
 		// Create a new buffer the same size as the image but with a depth
-		// of 8-bits. use the specified color table as the color table.
+		// of 8-bits. Use the specified color table as the color table.
 		SInt32	width = currentBuffer->GetWidth();
 		SInt32	height = currentBuffer->GetHeight();
 		
@@ -92,12 +92,12 @@ CIconRecolorAction::DoIt()
 
 
 // ---------------------------------------------------------------------------
-// 	HandleMouseDown
+// 	CreateResizedTable
 // ---------------------------------------------------------------------------
 // Creates a new ColorTable for kRecolorDepth and copies the rgb values from
 // a provided source table.
 // This is needed because inTable might have fewer entries than 256 and QD
-// doesn't like this. is this really true here ???
+// doesn't like this. Is this really true here ???
 
 CTabHandle
 CIconRecolorAction::CreateResizedTable( CTabHandle inTable )

@@ -23,11 +23,11 @@ class CIconSelection {
 								CIconSelection();
 		virtual					~CIconSelection();
 
-			// getting the region		
+			// Getting the region		
 		virtual RgnHandle		GetRegion();
 		virtual RgnHandle		GetCopyOfRegion();
 
-			// changing the region
+			// Changing the region
 		virtual void			SelectAll( COffscreen * );
 		virtual void			SelectNone();
 		
@@ -35,22 +35,22 @@ class CIconSelection {
 		virtual void			SetSelection( COffscreen *, const Rect & );
 		virtual void			SetSelection( CIconSelection * );
 		
-			// change the region, but do not affect the bits
+			// Change the region, but do not affect the bits
 		virtual void			SetRawSelection( RgnHandle );
 		
-			// copy/paste
+			// Copy/paste
 		virtual void			CopyToClipboard();
 		virtual void			PasteFromClipboard( COffscreen *parentOffscreen );
 		virtual void			PastePicture( COffscreen *parentOffscreen, PicHandle, RgnHandle = nil );
 		virtual void 			PasteOffscreenBuffer( COffscreen *inParentBuffer, COffscreen *inBuffer, RgnHandle = nil );
 		
-			// display
+			// Display
 		virtual void			DrawInto( COffscreen * );
 		
-			// this is used by flip & rotation code
+			// Used by flip & rotation code
 		virtual COffscreen		*GetImageBuffer();
 				
-			// misc
+			// Misc
 		virtual Boolean			IsEmpty();
 		virtual Boolean			PointInSelection( SInt32 left, SInt32 top );
 		virtual void			Offset( SInt32 dh, SInt32 dv );

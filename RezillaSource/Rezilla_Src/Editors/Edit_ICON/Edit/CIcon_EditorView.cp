@@ -416,7 +416,7 @@ CIcon_EditorView::GetPixelRect( SInt32 inHoriz, SInt32 inVert, Rect *outRect,
 // ---------------------------------------------------------------------------
 // 	inPoint is in local coordinates (0,0 at top/left of superview). Returns
 // 	true if point is within the canvas. If point is outside the canvas,
-// 	outH & outV will contain values outside the canvas. this is useful for
+// 	outH & outV will contain values outside the canvas. This is useful for
 // 	continuing to track the mouse while it's down.
 
 Boolean 

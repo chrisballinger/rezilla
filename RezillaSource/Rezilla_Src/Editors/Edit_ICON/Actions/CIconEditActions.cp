@@ -1,11 +1,11 @@
 // ===========================================================================
 // CIconEditActions.cp
 //                       Created: 2004-12-11 18:52:17
-//             Last modification: 2004-12-22 16:42:51
+//             Last modification: 2005-01-12 17:35:16
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes 2004
+// (c) Copyright: Bernard Desgraupes 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -16,6 +16,7 @@
 #include "CIconEditActions.h"
 #include "CIcon_EditorWindow.h"
 #include "CIconSelection.h"
+#include "CRezClipboard.h"
 #include "UIconMisc.h"
 
 
@@ -52,6 +53,7 @@ void
 CIconCutAction::DoIt()
 {
 	StGWorldSaver		aSaver;
+	StClipboardContext	scrapContext(scrap_bitmap);
 	
 	if ( mSettings.theSelection->IsEmpty() )	// shouldn't happen
 	{
@@ -102,6 +104,8 @@ CIconCopyAction::~CIconCopyAction()
 void
 CIconCopyAction::DoIt()
 {
+	StClipboardContext	scrapContext(scrap_bitmap);
+	
 	mSettings.theSelection->CopyToClipboard();
 	this->PostAsAction();		// will delete this object (mAffectsUndoState == false)
 }
@@ -140,6 +144,8 @@ CIconPasteAction::~CIconPasteAction()
 void
 CIconPasteAction::DoIt()
 {
+	StClipboardContext	scrapContext(scrap_bitmap);
+	
 	mSettings.thePaintView->CopyToUndo();
 	
 	mSettings.thePaintView->CommitSelection();
@@ -192,6 +198,8 @@ CIconClearAction::DoIt()
 		return;
 	}
 
+	StClipboardContext	scrapContext(scrap_bitmap);
+	
 	mSettings.thePaintView->CopyToUndo();
 	
 	mSettings.theSelection->SelectNone();		// bypassing paint view

@@ -30,8 +30,8 @@ enum
 	scrap_default = 0,
 	scrap_rezmap,
 	scrap_pictedit,
-	scrap_hexeditHexdata,
-	scrap_hexeditTxtdata,
+	scrap_hexeditHex,
+	scrap_hexeditTxt,
 	scrap_bitmap
 };
 
@@ -84,6 +84,33 @@ private:
 	OSErr				DeleteScrap();
 	OSErr				CreateNewScrap();
 };
+
+
+// ===========================================================================
+//	¥ Stack-based class
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+//  ¥ class StClipboardContext
+// ---------------------------------------------------------------------------
+
+class StClipboardContext {
+public:
+						StClipboardContext();
+						StClipboardContext( SInt32 inContext, Boolean inResetPrevious = false );
+						~StClipboardContext();
+
+	void		SetContext( SInt32 inContext ) { mOriginalContext = inContext; }
+	
+	void		Restore();
+	
+private:
+	SInt16		mOriginalContext;
+	Boolean		mResetPrevious;
+
+};
+
+
 
 PP_End_Namespace_PowerPlant
 
