@@ -108,6 +108,7 @@ CPICT_EditorView::SetPictureH(PicHandle inPictureH)
 	if (mPictureH != nil) {
 		::DisposeHandle( (Handle) mPictureH);	
 	}
+
 	mPictureH = inPictureH;
 	ErasePicture();
 	AdaptPicture();
