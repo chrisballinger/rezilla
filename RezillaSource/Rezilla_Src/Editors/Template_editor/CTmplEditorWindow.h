@@ -180,8 +180,9 @@ private:
 	void			AddSeparatorLine(LView * inContainer);
 
 	void			AddCasePopup(ResType inType, 
-									  Str255 inLabel, 
-									  LView * inContainer);
+									 Str255 inLabel, 
+									 SInt32 inStartMark,
+									 LView * inContainer);
 	
 	void			AddEditPopup(Str255 inValue, 
 									OSType inType,

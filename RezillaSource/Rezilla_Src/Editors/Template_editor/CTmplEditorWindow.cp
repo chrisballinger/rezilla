@@ -507,12 +507,68 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		break;
 		
 		
-		case msg_TmplCasePopup:
-		STmplBevelInfo theBevelInfo = *((STmplBevelInfo *) ioParam);								
-// 		theBevelInfo.menuChoice
-// 		theBevelInfo.selfPtr
+		case msg_TmplCasePopup: {
+			register char *	p;
+			STmplBevelInfo	theBevelInfo = *((STmplBevelInfo *) ioParam);								
+			LEditText *		theEditText;
+			CTmplBevelButton *	theBevel;
+			SInt32			firstMark, currMark;
+			Str255			theString;
+			char 			charString[256];
+			ResType			theType;
+			SInt16			i, choice;
+			SInt32			len;
+			
+			choice = theBevelInfo.menuChoice;
+			theBevel = dynamic_cast<CTmplBevelButton *>(theBevelInfo.selfPtr);
+			theEditText = (LEditText *) theBevel->GetUserCon();
+			
+			firstMark = theEditText->GetUserCon();
+			currMark = mTemplateStream->GetMarker();
+			mTemplateStream->SetMarker(firstMark, streamFrom_Start);
 
-		break;
+			for ( i = 0; i < choice ; i++) {
+				*mTemplateStream >> theString;
+				*mTemplateStream >> theType;
+			}
+			CopyPascalStringToC(theString, charString);
+			p = strrchr((char *) charString, '=');
+			if (p != nil) {
+				len = (p - (char *) charString) + 1;
+				CopyCStringToPascal(charString + len, theString);
+				theEditText->SetDescriptor(theString);
+			} 
+			mTemplateStream->SetMarker(currMark, streamFrom_Start);
+			break;
+		}
+		
+		
+		case msg_TmplPopupField: {
+			register char *	p;
+			STmplBevelInfo	theBevelInfo = *((STmplBevelInfo *) ioParam);								
+			CTmplBevelButton *	theBevel;
+			LEditText *		theEditText;
+			Str255			theString;
+			char 			charString[256];
+			SInt16			choice;
+			SInt32			len;
+			ResIDT			resID;
+			
+			choice = theBevelInfo.menuChoice;
+			theBevel = dynamic_cast<CTmplBevelButton *>(theBevelInfo.selfPtr);
+			theEditText = (LEditText *) theBevel->GetUserCon();
+			resID = (ResIDT) theEditText->GetUserCon();
+			
+			GetIndString(theString, resID, choice);
+			CopyPascalStringToC(theString, charString);
+			p = strrchr((char *) charString, '=');
+			if (p != nil) {
+				len = (p - (char *) charString) + 1;
+				CopyCStringToPascal(charString + len, theString);
+				theEditText->SetDescriptor(theString);
+			} 
+			break;
+		}
 		
 		
 		default:
@@ -770,6 +826,10 @@ void
 CTmplEditorWindow::CreateTemplateStream()
 {
 	Handle theHandle = CTemplatesController::GetTemplateHandle( mOwnerDoc->GetSubstType() );
+	if (theHandle == NULL) {
+		UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("CouldNotGetTemplateData"), rPPob_SimpleMessage);
+// 		UMessageDialogs::AlertForType(CFSTR("CouldNotGetTemplateDataForType"), mOwnerDoc->GetSubstType());
+	} 
 	mTemplateStream = new LHandleStream(theHandle);	
 }
  
@@ -1046,8 +1106,10 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		break;
 
 		case 'CASE':
-		// Switch with predefined values
-		AddCasePopup(inType, inLabelString, inContainer);		
+		// Switch with predefined values. Remember the position mark of the
+		// first CASE in the template stream
+		theSInt32 = mTemplateStream->GetMarker() - inLabelString[0] - 5;
+		AddCasePopup(inType, inLabelString, theSInt32, inContainer);		
 		break;
 
 		case 'CHAR':
@@ -1306,6 +1368,29 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 					 UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar), inContainer);
 		break;
 
+		case 'PPST':
+		// Pascal string padded to even length (needed for MPSR 1007 resources)
+		if (mRezStream->GetMarker() < mRezStream->GetLength() ) {
+			*mRezStream >> theString;
+			theLength = theString[0];
+			if (theLength % 2) {
+				// Look at the last byte: if it is 0, the string was padded and 
+				// theLength should be decremented
+				if ( theString[theLength] == 0) {
+					theString[0] = theLength - 1;
+				}
+			} else {
+				// theLength should never be even
+				error = paramErr;
+			}
+		} else {
+			theString[0] = 0;
+		}
+		AddStaticField(inType, inLabelString, inContainer);
+		AddEditField(theString, inType, 255, 0, 
+					 UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar), inContainer);
+		break;
+
 		case 'BSTR':
 		case 'PSTR':
 		// Pascal string
@@ -1347,6 +1432,15 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		AddStaticField(inType, inLabelString, inContainer);
 		AddEditField(theString, inType, 4, 0, 
 					 UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar), inContainer);
+		break;
+
+		case 'WFLG':
+		// Word Boolean flag in low-order bit (two bytes: 0x0001 for true, 0x0000 for false)
+		if (mRezStream->GetMarker() < mRezStream->GetLength() - 1) {
+			*mRezStream >> theUInt16;
+		} 
+		AddStaticField(inType, inLabelString, inContainer);
+		AddBooleanField( (Boolean) theUInt16, inType, tmpl_titleYesNo, inContainer);		
 		break;
 
 		case 'WSTR':
@@ -2161,7 +2255,7 @@ CTmplEditorWindow::AddSeparatorLine(LView * inContainer)
 // ---------------------------------------------------------------------------
 
 void
-CTmplEditorWindow::AddCasePopup(ResType inType, Str255 inLabel, LView * inContainer)
+CTmplEditorWindow::AddCasePopup(ResType inType, Str255 inLabel, SInt32 inStartMark, LView * inContainer)
 {
 	register char *	p;
 	SDimension16	theFrame;
@@ -2172,7 +2266,7 @@ CTmplEditorWindow::AddCasePopup(ResType inType, Str255 inLabel, LView * inContai
 	char 			charString[256];
 
 	inContainer->GetFrameSize(theFrame);
-	sBevelPaneInfo.left			= theFrame.width - sBevelPaneInfo.width - 2;
+	sBevelPaneInfo.left			= theFrame.width - sBevelPaneInfo.width - 5;
 	sBevelPaneInfo.top			= mYCoord - sEditPaneInfo.height -kTmplVertSep -1;
 	sBevelPaneInfo.paneID		= mCurrentID;
 	sBevelPaneInfo.superView	= inContainer;
@@ -2216,6 +2310,8 @@ CTmplEditorWindow::AddCasePopup(ResType inType, Str255 inLabel, LView * inContai
 	// Store a pointer to the associated edit field
 	LEditText * theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID - 1));
 	theBevelButton->SetUserCon( (long) theEditText);
+	// Store the position mark of the first CASE in the userCon of the edit field
+	theEditText->SetUserCon(inStartMark);
 	
 	// Advance the counters. mYCoord has already been increased by the edit field
 	mCurrentID++;
@@ -2239,8 +2335,7 @@ CTmplEditorWindow::AddEditPopup(Str255 inValue,
 	register char *	p;
 	SDimension16	theFrame;
 	SInt16			index = 1;
-	ResType			theType;
-	SInt32			currMark, theLength = mTemplateStream->GetLength();
+	SInt32			theLength = mTemplateStream->GetLength();
 	Str255			theString;
 	char 			charString[256];
 
@@ -2266,7 +2361,7 @@ CTmplEditorWindow::AddEditPopup(Str255 inValue,
 	mCurrentID++;
 
 	// Now build the popup
-	sBevelPaneInfo.left			= sEditPaneInfo.left + kTmplHorizSep;
+	sBevelPaneInfo.left			= sEditPaneInfo.left + inWidth + kTmplHorizSep;
 	sBevelPaneInfo.top			= sEditPaneInfo.top + 1;
 	sBevelPaneInfo.paneID		= mCurrentID;
 	sBevelPaneInfo.superView	= inContainer;
@@ -2299,6 +2394,8 @@ CTmplEditorWindow::AddEditPopup(Str255 inValue,
 	
 	// Store a pointer to the associated edit field
 	theBevelButton->SetUserCon( (long) theEditText);
+	// Store the STR# resource ID in the userCon of the edit field
+	theEditText->SetUserCon(inResourceID);
 	
 	// Advance the counters
 	mYCoord += sEditPaneInfo.height + kTmplVertSep;
@@ -2543,6 +2640,10 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		mCurrentID += 3;
 		break;
 
+		case 'CASE':
+		// Do nothing
+		break;
+
 		case 'CHAR':
 		// A single character
 		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
@@ -2771,6 +2872,20 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		mCurrentID++;
 		break;
 
+		case 'PPST': 
+		// Pascal string padded to even length (including the padd)
+		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
+		theEditText->GetDescriptor(theString);
+		theLength = theString[0];
+		if (theLength % 2 == 0) {
+			// if the length is even, padd the string with a NULL byte.
+			theString[0] = theLength + 1;
+			theString[theLength] = 0;
+		} 
+		*mOutStream << theString;
+		mCurrentID++;
+		break;
+
 		case 'BSTR':
 		case 'PSTR':
 		// Pascal string
@@ -2798,6 +2913,19 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		UMiscUtils::PStringToOSType(theString, theOSType);
 		*mOutStream << theOSType;
 		mCurrentID++;
+		break;
+
+		case 'WFLG':
+		// Word Boolean flag in low-order bit (two bytes: 0x0001 for true, 0x0000 for false)
+		theRGV = dynamic_cast<LRadioGroupView *>(this->FindPaneByID(mCurrentID));
+		theCurrentRadioID = theRGV->GetCurrentRadioID();
+		if ( (theCurrentRadioID - mCurrentID) % 2 ) {
+			*mOutStream << (UInt16) 0x0001;
+		} else {
+			*mOutStream << (UInt16) 0x0000;
+		}
+		// The RGV and both radiobuttons have an ID. That makes three.
+		mCurrentID += 3;
 		break;
 
 		case 'WSTR':
