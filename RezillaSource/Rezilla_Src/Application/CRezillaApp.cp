@@ -57,6 +57,7 @@
 #include "CSuite_Window.h"
 #include "CTEXT_EditorView.h"
 #include "CTEXT_EditorWindow.h"
+#include "CThreeButtonsBox.h"
 #include "CTmplBevelButton.h"
 #include "CTmplEditorWindow.h"
 #include "CTxtDataSubView.h"
@@ -294,6 +295,7 @@ CRezillaApp::Initialize()
 	sPrefs->UpdateVars();
 	
 	mCreatingFork = sPrefs->GetPrefValue(kPref_general_newFork);
+	
 }
 
 
@@ -391,6 +393,7 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(CSuite_Window);
 	RegisterClass_(CTEXT_EditorView);
 	RegisterClass_(CTEXT_EditorWindow);
+	RegisterClass_(CThreeButtonsBox);
 	RegisterClass_(CTmplBevelButton);
 	RegisterClass_(CTmplEditorWindow);
 	RegisterClass_(CTxtDataSubView);
@@ -454,7 +457,7 @@ CRezillaApp::ObeyCommand(
 	
 	switch (inCommand) {
 		
-		case cmd_New: {
+		case cmd_New: {	
 			FSSpec	theFileSpec;
 			bool	replacing;
 			if ( DesignateNewMap(theFileSpec, replacing) ) {
