@@ -1,7 +1,7 @@
 // ===========================================================================
 // UMiscUtils.cp					
 //                       Created: 2003-05-13 20:06:23
-//             Last modification: 2004-03-05 07:10:30
+//             Last modification: 2004-06-09 09:54:36
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -34,7 +34,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//  ¥ PStringToOSType
+//  ¥ PStringToOSType											[static]
 // ---------------------------------------------------------------------------
 
 void
@@ -48,7 +48,7 @@ UMiscUtils::PStringToOSType(Str255 inString, OSType & outType)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ OSTypeToPString
+//  ¥ OSTypeToPString											[static]
 // ---------------------------------------------------------------------------
 
 void
@@ -62,7 +62,7 @@ UMiscUtils::OSTypeToPString(OSType inType, Str255 & outString)
 
 
 // ------------------------------------------------------------------------------
-//  ¥  HFSNameToUnicodeName
+//  ¥  HFSNameToUnicodeName										[static]
 // ------------------------------------------------------------------------------
 // Borrowed and adapted from MoreFilesX.c
 
@@ -99,23 +99,20 @@ UMiscUtils::HFSNameToUnicodeName(
 
 
 // ---------------------------------------------------------------------------
-//	¥ MakePath										[private]
+//	¥ MakePath												[static]
 // ---------------------------------------------------------------------------
 
 OSErr
 UMiscUtils::MakePath(FSSpec* inFileSpec, Str255 outPath, short inWidth)
 {
-	FSRef			theFSRef;
-	CFURLRef 		fileNameUrl = NULL;   
-	CFStringRef		cfString = NULL;
-	Str255			thePath;
-	short 			pathLength;
-	char 			pathName[256];
-	OSErr 			error;
+	FSRef		theFSRef;
+	short 		pathLength;
+	char 		pathName[256];
+	OSErr		error;
 	
 	error = FSpMakeFSRef(inFileSpec, &theFSRef);
-	error = FSRefMakePath(&theFSRef, (UInt8 *) pathName, 255);
-	
+	error = FSRefMakePath(&theFSRef, (UInt8 *) pathName, 255);	
+	pathName[255] = 0;
 	if (error == noErr) {
 		pathLength = strlen(pathName);
 		::TruncText(inWidth, pathName, &pathLength, truncMiddle) ;
@@ -126,7 +123,7 @@ UMiscUtils::MakePath(FSSpec* inFileSpec, Str255 outPath, short inWidth)
 
 
 // ---------------------------------------------------------------------------
-//	¥ CopyFSSpec										[private]
+//	¥ CopyFSSpec											[static]
 // ---------------------------------------------------------------------------
 
 void
@@ -139,7 +136,7 @@ UMiscUtils::CopyFSSpec(FSSpec& srcFileSpec, FSSpec& trgtFileSpec)
 
 
 // ------------------------------------------------------------------------------
-//  ¥  GetTypeFromScrap
+//  ¥  GetTypeFromScrap										[static]
 // ------------------------------------------------------------------------------
 
 OSErr
@@ -159,7 +156,7 @@ UMiscUtils::GetTypeFromScrap(ResType & outType)
 
 
 // ---------------------------------------------------------------------------
-//	¥ IsValidHexadecimal										  
+//	¥ IsValidHexadecimal										[static]				  
 // ---------------------------------------------------------------------------
 
 Boolean 
@@ -186,7 +183,7 @@ UMiscUtils::IsValidHexadecimal(Ptr inPtr, ByteCount inByteCount)
 
 
 // ---------------------------------------------------------------------------
-//	¥ IsValidHexadecimal										  
+//	¥ IsValidHexadecimal										[static]
 // ---------------------------------------------------------------------------
 
 Boolean 
@@ -199,7 +196,7 @@ UMiscUtils::IsValidHexadecimal(Handle inHandle)
 
 
 // ---------------------------------------------------------------------------
-//	¥ CompareStr255										  
+//	¥ CompareStr255												[static]
 // ---------------------------------------------------------------------------
 
 SInt16 
@@ -210,7 +207,7 @@ UMiscUtils::CompareStr255(Str255 * leftString, Str255 * rightString)
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetDragFileData										  
+//	¥ GetDragFileData										[static]
 // ---------------------------------------------------------------------------
 // If the flavour data is an HFSFlavor structure, retrieve it.
 
