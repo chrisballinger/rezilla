@@ -2,11 +2,11 @@
 // CUtxt_EditorDoc.cp
 // 
 //                       Created: 2004-12-08 18:21:21
-//             Last modification: 2005-01-14 21:27:21
+//             Last modification: 2005-01-20 22:29:02
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004, 2005
+// (c) Copyright : Bernard Desgraupes, 2004-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -101,14 +101,14 @@ CUtxt_EditorDoc::Initialize()
 	// Add the window to the window menu.
 	gWindowMenu->InsertWindow( mUtxtEditWindow );
 		
-	// Install the contents according to the TMPL
+	// Install the contents
 	if (mRezObj != nil) {
 		Handle rezData = mRezObj->GetData();
 		
 		if (rezData != nil) {
-			Handle			theScrapHandle = NULL;
-			StResource		initialStyleRes;
-			CRezMap *		theRezMap = mRezMapTable->GetRezMap();
+// 			Handle			theScrapHandle = NULL; -->
+// 			StResource		initialStyleRes; -->
+// 			CRezMap *		theRezMap = mRezMapTable->GetRezMap(); -->
 
 			mUtxtEditWindow->InstallText(rezData);			
 		} 
