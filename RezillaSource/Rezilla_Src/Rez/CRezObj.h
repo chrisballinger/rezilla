@@ -52,9 +52,6 @@ public:
 		virtual ResType		GetType() { return mType;}
 		void				SetType(ResType theType) {mType = theType ;}
 
-		virtual CRezType*	GetOwnerRezType() { return mOwnerRezType;}
-		void				SetOwnerRezType(CRezType* theOwnerRezType) {mOwnerRezType = theOwnerRezType ;}
-
 		virtual short		GetOwnerRefnum() { return mOwnerRefnum;}
 		void				SetOwnerRefnum(short theOwnerRefnum) {mOwnerRefnum = theOwnerRefnum ;}
 		
@@ -83,7 +80,6 @@ public:
 		void			SetOneAttribute(UInt32 inAttribute, Boolean inSetting);
 
 protected:
-	CRezType *		mOwnerRezType;
 	short			mOwnerRefnum;
 	ResType			mType;
 	short			mID;
@@ -97,8 +93,8 @@ protected:
 
 
 
-// 		ReadPartial();
-// 		WritePartial();
+// 		ReadPartial(long offset, const void * buffer, long count);
+// 		WritePartial(long offset, const void * buffer, long count);
 
 
 

@@ -360,13 +360,13 @@ CRezMap::DeleteAll()
 				error = CountForType(theType, numResources);
 				if (error == noErr) {
 					for (UInt16 j = 1; j <= numResources; j++ ) {
-						if (theRezObj != nil) {
-							delete theRezObj;
-						} 
-						error = GetResourceAtIndex(theType, j, theHandle);
-						theRezObj = new CRezObj(theHandle, mRefNum);
+    theHandle = ::Get1IndResource(theType, j);
+	error =  ::ResError();
+// 						error = GetResourceAtIndex(theType, j, theHandle);
 						if (error == noErr) {
-							error = theRezObj->Remove();
+		::RemoveResource(theHandle);
+		::DisposeHandle(theHandle);
+		error = ::ResError();
 						} 
 					}
 				} 
@@ -375,6 +375,42 @@ CRezMap::DeleteAll()
 	} 
 	return error;
 }
+
+// OSErr
+// CRezMap::DeleteAll()
+// {
+// 	short		numTypes, numResources;
+// 	ResType		theType;
+// 	Handle		theHandle;
+// 	CRezObj *	theRezObj = nil;
+// 	OSErr error;
+// 	
+// // 	StRezReferenceSaver saver(mRefNum);
+// 	error = CountAllTypes(numTypes);
+// 	
+// 	if (error == noErr) {
+// 		for (UInt16 i = 1; i <= numTypes; i++ ) {
+// 			error = GetTypeAtIndex(i, theType);
+// 			if (error == noErr) {
+// 				error = CountForType(theType, numResources);
+// 				if (error == noErr) {
+// 					for (UInt16 j = 1; j <= numResources; j++ ) {
+// 						if (theRezObj != nil) {
+// 							delete theRezObj;
+// 						} 
+// 						error = GetResourceAtIndex(theType, j, theHandle);
+// 						theRezObj = new CRezObj(theHandle, mRefNum);
+// 						if (error == noErr) {
+// // 							error = theRezObj->Changed();
+// 							error = theRezObj->Remove();
+// 						} 
+// 					}
+// 				} 
+// 			} 
+// 		}
+// 	} 
+// 	return error;
+// }
 
 
 

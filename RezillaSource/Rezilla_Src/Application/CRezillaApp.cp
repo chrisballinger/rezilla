@@ -655,7 +655,7 @@ CRezillaApp::ChooseAFile(FSSpec & outFileSpec)
 						   + kNavDontAutoTranslate
 						   + kNavSupportPackages
 						   + kNavAllowOpenPackages);
-// 	
+
 	chooser.SetUserData( (void *) &theUserData);
 	
 	openOK = chooser.AskOpenFile(fileTypes);
@@ -776,7 +776,7 @@ CRezillaApp::PreOpen(FSSpec & inFileSpec, SInt16 & outFork, short & outRefnum, S
 		// If this failed (mapReadErr), try to open as a resourcefork resource file
 		SetResLoad( false );
 		outRefnum = FSpOpenResFile( &inFileSpec, fsRdWrPerm);
-		error = ResError();
+		error = ::ResError();
 		SetResLoad( true );
 		if (error == noErr) {
 			openOK = true;

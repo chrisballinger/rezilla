@@ -133,7 +133,23 @@ CRezClipboard::InitScrapRezMap()
 		sScrapRefnum = scrapRefNum;
 	} 
 short		numTypes;
+short	numResources;
+ResType		theType;
+Handle theHandle;
 error = sScrapRezMap->CountAllTypes(numTypes);
+for (UInt16 i = 1; i <= numTypes; i++) {
+	error = sScrapRezMap->GetTypeAtIndex(i, theType);
+	if (error == noErr) {
+		sScrapRezMap->CountForType(theType, numResources);
+		if (error == noErr) {
+			for (UInt16 j = 1; j <= numResources; j++) {
+				theHandle = ::Get1IndResource(theType, j);
+				error = ::ResError();
+			}
+		
+		} 
+	} 
+}
 		
 	bail:
 	if (mainBundleRef != NULL) CFRelease(mainBundleRef);

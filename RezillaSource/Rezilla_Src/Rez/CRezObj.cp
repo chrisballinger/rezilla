@@ -31,7 +31,6 @@ CRezObj::CRezObj(Handle inResHandle, short inRefnum)
 	error = GetInfoFromMap();
 	ThrowIfOSErr_(error);
 	
-	mOwnerRezType = new CRezType(mType, nil);
 	GetSizeOnDisk(mSize);
 	GetAttributesFromMap(mAttributes);
 }
@@ -47,9 +46,8 @@ CRezObj::CRezObj(CRezType * inRezType,
 				short inID)
 {
 	Str255	theName;
-	mOwnerRezType = inRezType;
-	mType = mOwnerRezType->GetType();
-	mOwnerRefnum = mOwnerRezType->GetOwnerMap()->GetRefnum();
+	mType = inRezType->GetType();
+	mOwnerRefnum = inRezType->GetOwnerMap()->GetRefnum();
 	mID = inID;
 	
 	// Get the handle of the resource. There should be no error.
@@ -78,9 +76,8 @@ CRezObj::CRezObj(CRezType * inRezType,
 				short inID, 
 				Str255* inName)
 {
-	mOwnerRezType = inRezType;
-	mType = mOwnerRezType->GetType();
-	mOwnerRefnum = mOwnerRezType->GetOwnerMap()->GetRefnum();
+	mType = inRezType->GetType();
+	mOwnerRefnum = inRezType->GetOwnerMap()->GetRefnum();
 	mID = inID;
 	SetName(inName);
 	// Get the handle of the resource
@@ -102,7 +99,6 @@ CRezObj::CRezObj(CRezType * inRezType)
 {
 	Str255 theName = "\p";
 	
-	mOwnerRezType = inRezType;
 	mType = inRezType->GetType();
 	mOwnerRefnum = inRezType->GetOwnerMap()->GetRefnum();
 	// Generate an unique ID
@@ -120,14 +116,11 @@ CRezObj::CRezObj(CRezType * inRezType)
 
 CRezObj::CRezObj(CRezObj& inOriginal)
 {
-// 	mOwnerRezType = inOriginal.GetOwnerRezType();
 	mOwnerRefnum = inOriginal.GetOwnerRefnum();
 	mType = inOriginal.GetType();
 	mID = inOriginal.GetID();
 	mSize = inOriginal.GetSize();
 	mAttributes = inOriginal.GetAttributes();	
-	mOwnerRezType = new CRezType(mType);
-	mOwnerRezType->SetOwnerMap( inOriginal.GetOwnerRezType()->GetOwnerMap() );
 	
 	this->SetName(inOriginal.GetName());
 	mData = ::NewHandle(0);
@@ -143,9 +136,6 @@ CRezObj::CRezObj(CRezObj& inOriginal)
 // RemoveResource
 CRezObj::~CRezObj()
 {
-// 	if (mOwnerRezType != nil) {
-// 		delete mOwnerRezType;
-// 	} 
 }
 
 
@@ -480,7 +470,7 @@ CRezObj::SetData(Handle srcHandle)
 // //  ¥ ReadPartial												[public]
 // // ---------------------------------------------------------------------------
 // 
-// CRezObj::ReadPartial()
+// CRezObj::ReadPartial(long offset, const void * buffer, long count)
 // {
 // }
 // 
@@ -489,10 +479,9 @@ CRezObj::SetData(Handle srcHandle)
 // //  ¥ WritePartial												[public]
 // // ---------------------------------------------------------------------------
 // 
-// CRezObj::WritePartial()
+// CRezObj::WritePartial(long offset, const void * buffer, long count)
 // {
 // }
-
 
 
 
