@@ -562,7 +562,7 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 	sWastePaneInfo.bindings.left	= true;
 	sWastePaneInfo.bindings.right	= true;
 	sWastePaneInfo.paneID			= mCurrentID;
-	sWastePaneInfo.superView		= inContainer;
+	sWastePaneInfo.superView		= theTGB;
 	
 	// Make the Waste edit writable, not wrapping, selectable
 	CWasteEditView * theWasteEdit = new CWasteEditView(sWastePaneInfo, theViewInfo, 0, sEditTraitsID);
@@ -595,14 +595,13 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 		sScrollPaneInfo.paneID			= 0;
 		sScrollPaneInfo.superView		= theTGB;
 
-		LScrollerView * theScroller = new LScrollerView(sScrollPaneInfo, theViewInfo, 0, 15, 0, 15, 16, NULL, true);
+		LScrollerView * theScroller = new LScrollerView(sScrollPaneInfo, theViewInfo, 0, 15, 0, 0, 16, NULL, true);
 		ThrowIfNil_(theScroller);
 
-		inContainer->RemoveSubPane(theWasteEdit);
-		theScroller->AddSubPane(theWasteEdit);
+		theWasteEdit->PutInside(theScroller);
 		theScroller->InstallView(theWasteEdit);
 		// Inside the scroller's frame, the WE is at top=0 and left=0.
-		theWasteEdit->MoveBy(-kTmplTextInset, -kTmplTextHeadHeight, false);
+// 		theWasteEdit->MoveBy(-kTmplTextInset, -kTmplTextHeadHeight, false);
 	} 
 	
 	if (delta < 0) {
@@ -616,10 +615,6 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 	mCurrentID++;
 }
 
-// 			SDimension16 frameSize;		
-// 			theScroller->Hide();
-// 			theScroller->GetFrameSize(frameSize);
-// 			theScroller->ResizeFrameTo(0, frameSize.height, false);
 
 // ---------------------------------------------------------------------------
 //	¥ AddHexDumpField													[public]
