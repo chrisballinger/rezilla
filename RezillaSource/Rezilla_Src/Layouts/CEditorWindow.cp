@@ -137,7 +137,10 @@ CEditorWindow::FindCommandStatus(
 		if (mOwnerDoc) {
 			mOwnerDoc->FindCommandStatus(inCommand, outEnabled,
 												outUsesMark, outMark, outName);
-		} 
+		} else {
+			LCommander::FindCommandStatus(inCommand, outEnabled,
+												outUsesMark, outMark, outName);
+		}
 		break;
 	}
 }
@@ -158,17 +161,14 @@ CEditorWindow::ObeyCommand(
 
 		case cmd_Copy: 
 		case cmd_Cut: {
-
 			break;
 		}
 
 		case cmd_Clear: {
-
 			break;
 		}
 
 		case cmd_Paste: {
-			
 			break;
 		}
 
@@ -180,8 +180,9 @@ CEditorWindow::ObeyCommand(
 		}
 
 		default:
-			cmdHandled = LCommander::ObeyCommand(inCommand, ioParam);
-			break;
+// 		cmdHandled = LCommander::ObeyCommand(inCommand, ioParam);
+		cmdHandled = mOwnerDoc->ObeyCommand(inCommand, ioParam);
+		break;
 	}
 
 	return cmdHandled;
