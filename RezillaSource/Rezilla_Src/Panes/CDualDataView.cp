@@ -710,6 +710,7 @@ CDualDataView::IsDirty()
 void
 CDualDataView::AdaptToNewSurroundings()
 {
+	CalcRevealedRect();
 	ResizeDataPanes();
 	UpdatePaneCounts();
 	mCurrFirstLine = 1;
