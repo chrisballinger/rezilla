@@ -31,6 +31,7 @@
 #include <UScrap.h>
 #include <UMemoryMgr.h>
 #include <UDrawingState.h>
+#include <UTextTraits.h>
 #include <LStream.h>
 #include <TArrayIterator.h>
 #include <PP_Messages.h>
@@ -77,17 +78,6 @@ enum
 	kStyleExtended			= 8
 };
 
-/* defined in UTextEdit.h
- * ----------------------
- * enum {
- *     textAttr_MultiStyle         = 0x8000,
- *     textAttr_Editable           = 0x4000,
- *     textAttr_Selectable         = 0x2000,
- *     textAttr_WordWrap           = 0x1000,
- *     textAttr_AutoScroll         = 0x0800,
- *     textAttr_OutlineHilite      = 0x0400
- * };
- */
 
 // ---------------------------------------------------------------------------
 //	Macros for accessing the top-left and bottom-right corners of a LongRect
@@ -121,19 +111,23 @@ public:
 	enum { class_ID = FOUR_CHAR_CODE('WeVw') };
 
 							CWasteEditView();
-							CWasteEditView(
-									const CWasteEditView&	inOriginal );
-							CWasteEditView(
-										   LCommander * inSuper,
-										   const SPaneInfo&	inPaneInfo,
-										   const SViewInfo&	inViewInfo,
-										   UInt16				inTextAttributes,
-										   ResIDT				inTextTraitsID,
-										   Boolean				inWordWrap = false,
-										   Boolean				inReadOnly = false,
-										   Boolean				inSelectable = true);
-							CWasteEditView(
-									LStream*			inStream );
+							CWasteEditView(LCommander * inSuper,
+										   const SPaneInfo& inPaneInfo,
+										   const SViewInfo& inViewInfo,
+										   UInt16 inTextAttributes,
+										   ResIDT inTextTraitsID,
+										   Boolean inWordWrap = false,
+										   Boolean inReadOnly = false,
+										   Boolean inSelectable = true);
+							CWasteEditView(LCommander * inSuper,
+										   const SPaneInfo& inPaneInfo,
+										   const SViewInfo& inViewInfo,
+										   UInt16 inTextAttributes,
+										   TextTraitsPtr inTextTraitsPtr,
+										   Boolean inWordWrap = false,
+										   Boolean inReadOnly = false,
+										   Boolean inSelectable = true);
+							CWasteEditView(LStream* inStream );
 	virtual					~CWasteEditView();
 
 	virtual Boolean			HandleKeyPress(
@@ -302,8 +296,8 @@ public:
 									RGBColor&			outColor );
 		
 	virtual void			ApplyTextTraits(
-									ConstTextTraitsPtr	inTextTraits,
-									WEReference			inWERef);
+									TextTraitsPtr	inTextTraits,
+									WEReference		inWERef);
 
 	virtual void			ApplyTextTraits(
 									ResIDT		inTextTraitsID,
@@ -330,11 +324,10 @@ public:
 	static CWasteEditView *	sWasteEditViewP;
 
 protected:
-
 				CWEViewTypingAction *	mTypingAction;
 				WEReference				mWasteEditRef;
 				ResIDT					mTextTraitsID;
-				TextTraitsRecord		mTextTraitsRec;
+// 				TextTraitsRecord		mTextTraitsRec;
 				UInt16					mTextAttributes;
 				Boolean					mIsDirty;
 				Boolean					mAutoScroll;
@@ -374,14 +367,16 @@ protected:
 	virtual SWasteEditUndoH	SaveStateForUndo();
 
 private:
-void			InitView();
+	void	InitView();
 
-void			InitStyle(ResIDT inTextTraitsID );
+	void	InitStyle(ResIDT inTextTraitsID );
 
-			// defensive programming
+	void	InitText(ResIDT inTextID );
 
-			CWasteEditView&	operator=(
-									const CWasteEditView&	inOriginal );
+	// defensive programming
+
+		CWasteEditView&	operator=(
+								const CWasteEditView&	inOriginal );
 };
 
 
