@@ -29,6 +29,7 @@ enum
 {	
 	scrap_default = 0,
 	scrap_rezmap,
+	scrap_pictedit,
 	scrap_hexeditHexdata,
 	scrap_hexeditTxtdata
 };
@@ -91,4 +92,3 @@ PP_End_Namespace_PowerPlant
 #endif
 
 #endif
-
