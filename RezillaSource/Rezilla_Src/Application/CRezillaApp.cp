@@ -1146,6 +1146,7 @@ CRezillaApp::HandleAppleEvent(
 // ---------------------------------------------------------------------------
 //	¥ HandleAppleEvent												  [public]
 // ---------------------------------------------------------------------------
+// err = AEPutParamDesc(outReply, keyErrorString, &param);
 
 void
 CRezillaApp::HandleOpenDocsEvent(
@@ -1153,14 +1154,15 @@ CRezillaApp::HandleOpenDocsEvent(
 	AppleEvent&			outAEReply,
 	AEDesc&				outResult)
 {
-#pragma unused( outAEReply, outResult )
+#pragma unused( outResult )
+
 	OSErr			error;
-	AEDesc			theDocList;
+	AEDescList		theDocList, errorList;
 	AEKeyword		theKey;
 	DescType		theType;
 	FSSpec			theFileSpec;
 	Size			theSize;
-	SInt32			numDocs;
+	SInt32			numDocs, errCount = 0;
 	
 	error = ::AEGetParamDesc(&inAppleEvent, keyDirectObject,
 							 typeAEList, &theDocList);
@@ -1168,6 +1170,8 @@ CRezillaApp::HandleOpenDocsEvent(
 	error = ::AECountItems(&theDocList, &numDocs);
 	ThrowIfOSErr_(error);
 	
+	::AEInitializeDesc(&errorList);
+
 	for ( UInt16 i = 1; i <= numDocs; i++ ) {
 	    error = ::AEGetNthPtr(&theDocList, i, typeFSS, &theKey, &theType,
 						      (Ptr) &theFileSpec, sizeof(FSSpec), &theSize);
@@ -1178,10 +1182,21 @@ CRezillaApp::HandleOpenDocsEvent(
 		if (error == noErr) {
 			// Register to the Recent Items menu
 			sRecentItemsAttachment->AddFile(theFileSpec, true);
+		} else {
+			errCount++;
+			error = ::AEPutPtr(&errorList, errCount, typeFSS, (Ptr) &theFileSpec, sizeof(FSSpec)) ;
 		}
 	}
 	
+	if (errCount > 0) {
+		error = err_OpenDocsAEFailed;
+		// OSErr is SInt16 (keyErrorString)
+		error = ::AEPutParamPtr(&outAEReply, keyErrorNumber, typeSInt16, &error, sizeof(OSErr));
+		error = ::AEPutParamDesc(&outAEReply, keyAERezillaReplyBuffer, &errorList);
+	} 
+
 	if (theDocList.descriptorType != typeNull) ::AEDisposeDesc(&theDocList);
+	if (errorList.descriptorType != typeNull) ::AEDisposeDesc(&errorList);
 }
 
 
