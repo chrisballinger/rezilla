@@ -413,12 +413,11 @@ CRezCompare::DisplayResults()
 	// Create window for the results
 	mResultWindow = dynamic_cast<CCompResultWindow *>(LWindow::CreateWindow( rPPob_RezCompWindow, this ));
 	Assert_( mResultWindow != nil );
-	
+
+	// Populate the tables
 	mResultWindow->FillTableView(mOnlyInOldList, list_OnlyInOld);
 	mResultWindow->FillTableView(mOnlyInNewList, list_OnlyInNew);
-	mResultWindow->FillTableView(mDifferingList, list_Differing);
-	
-	mResultWindow->UpdatePort();
+	mResultWindow->FillTableView(mDifferingList, list_Differing);		
 }
 
 

@@ -77,8 +77,11 @@ public:
 		ConstStringPtr		GetOldPath() const;
 		ConstStringPtr		GetNewPath() const;
 
-			virtual TArray<CRezTypId*>*		GetOnlyInOldList() { return &mOnlyInOldList;}
+		virtual TArray<CRezTypId*>*		GetOnlyInOldList() { return &mOnlyInOldList;}
+		virtual TArray<CRezTypId*>*		GetDifferingList() { return &mDifferingList;}
 
+		virtual CRezMap*		GetOldMap() { return mOldMap;}
+		virtual CRezMap*		GetNewMap() { return mNewMap;}
 		
 protected:
 		CCompResultWindow*	mResultWindow;

@@ -32,9 +32,13 @@ public:
 								LStream				*inStream);
 	virtual				~CBroadcasterTableView();
 	
-protected:
-	MessageT	mValueMessage;
+	virtual StyleParameter		GetFaceStyle() { return mFaceStyle;}
+	void				SetFaceStyle(StyleParameter inFaceStyle) {mFaceStyle = inFaceStyle;}
 
+protected:
+	MessageT		mValueMessage;
+	StyleParameter	mFaceStyle;
+	
 	virtual void		ClickCell(
 								const STableCell&		inCell,
 								const SMouseDownEvent&	inMouseDown);

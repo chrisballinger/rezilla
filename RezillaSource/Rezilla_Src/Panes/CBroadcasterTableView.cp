@@ -27,6 +27,8 @@ CBroadcasterTableView::CBroadcasterTableView(
 	*inStream >> mUseDragSelect;
 	*inStream >> mCustomHilite;
 	*inStream >> mDeferAdjustment;
+	
+	mFaceStyle = normal;
 }
 
 
@@ -51,7 +53,7 @@ CBroadcasterTableView::DrawCell(
 {
 	TextFont(1);
 	TextSize(9);
-	TextFace(italic);
+	TextFace(mFaceStyle);
 	
 	Str255	theString;
 	UInt32	dataSize = sizeof(Str255);

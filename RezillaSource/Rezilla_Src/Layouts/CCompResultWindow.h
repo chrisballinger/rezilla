@@ -2,7 +2,7 @@
 // CCompResultWindow.h				
 // 
 //                       Created: 2004-03-02 14:18:16
-//             Last modification: 2004-03-02 14:26:23
+//             Last modification: 2004-03-05 14:59:02
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -22,7 +22,7 @@ class CRezObj;
 class LScrollBar;
 class CRezCompare;
 class CRezTypId;
-class CWasteEditView;
+class CHexDataWE;
 class CBroadcasterTableView;
 
 enum
@@ -31,7 +31,7 @@ enum
 	compare_newhexpane
 };
 
-// 'RcrW' Rez comparison result window
+// 'RcrW': Rez comparison result window
 
 class CCompResultWindow : public LWindow, public LListener {
 public:
@@ -63,24 +63,12 @@ public:
 	Boolean			IsDirty();
 	
 	void			FillTableView( TArray<CRezTypId *> inList, SInt16 inWhichList);
-
-// 	void			DisplayBothSelections(SInt32 inStart, SInt32 inEnd);
-
-// 		virtual CWasteEditView*		GetOldHexDataWE() { return mOldHexDataWE;}
-// 	void				SetOldHexDataWE(CWasteEditView* inOldHexDataWE) {mOldHexDataWE = inOldHexDataWE;}
-// 
-// 
-// 		virtual CWasteEditView*		GetNewHexDataWE() { return mNewHexDataWE;}
-// 	void				SetNewHexDataWE(CWasteEditView* inNewHexDataWE) {mNewHexDataWE = inNewHexDataWE;}
-// 
-// 	virtual CBroadcasterTableView*		GetOnlyOldTable() { return mOnlyOldTable;}
-// 	void				SetOnlyOldTable(CBroadcasterTableView* inOnlyOldTable) {mOnlyOldTable = inOnlyOldTable;}
-
+	
 		
 protected:
 	CRezCompare *			mRezCompare;
-	CWasteEditView *		mOldHexDataWE;
-	CWasteEditView *		mNewHexDataWE;
+	CHexDataWE *			mOldHexDataWE;
+	CHexDataWE *			mNewHexDataWE;
 	CBroadcasterTableView *	mOnlyOldTable;
 	CBroadcasterTableView *	mOnlyNewTable;
 	CBroadcasterTableView *	mDifferTable;

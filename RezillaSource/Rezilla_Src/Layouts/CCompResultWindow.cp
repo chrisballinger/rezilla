@@ -2,7 +2,7 @@
 // CHexEditorWindow.cp					
 // 
 //                       Created: 2004-03-02 14:18:16
-//             Last modification: 2004-03-02 14:26:17
+//             Last modification: 2004-03-05 14:58:25
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -14,11 +14,12 @@
 
 #include "CCompResultWindow.h"
 #include "CRezObj.h"
+#include "CRezMap.h"
 #include "CRezillaApp.h"
 #include "CRezCompare.h"
 #include "CRezClipboard.h"
 #include "CWindowMenu.h"
-#include "CWasteEditView.h"
+#include "CHexDataWE.h"
 #include "CBroadcasterTableView.h"
 #include "RezillaConstants.h"
 #include "UCodeTranslator.h"
@@ -106,10 +107,10 @@ CCompResultWindow::FinishCreateSelf()
 	SetSuperCommander(mRezCompare->GetSuperCommander());
 	
 	// Build the hex editing elements
-	mOldHexDataWE = dynamic_cast<CWasteEditView *> (FindPaneByID( item_CompResultOldHex ));
+	mOldHexDataWE = dynamic_cast<CHexDataWE *> (FindPaneByID( item_CompResultOldHex ));
 	ThrowIfNil_(mOldHexDataWE);
 			
-	mNewHexDataWE = dynamic_cast<CWasteEditView *> (FindPaneByID( item_CompResultNewHex ));
+	mNewHexDataWE = dynamic_cast<CHexDataWE *> (FindPaneByID( item_CompResultNewHex ));
 	ThrowIfNil_(mNewHexDataWE);
 	
 	// Build the table elements
@@ -130,6 +131,7 @@ CCompResultWindow::FinishCreateSelf()
 	mDifferTable->SetTableSelector(new LTableSingleSelector(mDifferTable));
 	mDifferTable->SetTableStorage(new LTableArrayStorage(mDifferTable, sizeof(Str255)));
 	mDifferTable->InsertCols(1, 0);
+	mDifferTable->SetFaceStyle(italic);
 
 		// Right table
 	mOnlyNewTable = dynamic_cast<CBroadcasterTableView *> (FindPaneByID( item_CompResultOnlyNewTbl ));
@@ -147,9 +149,6 @@ CCompResultWindow::FinishCreateSelf()
 	theStaticText = dynamic_cast<LStaticText *>(FindPaneByID( item_CompResultNewStatic ));
 	ThrowIfNil_(theStaticText);
 	theStaticText->SetDescriptor(mRezCompare->GetNewPath());
-	
-	// Populate the tables
-	
 	
 	// Link the broadcasters.
     UReanimator::LinkListenerToControls( this, this, rRidL_RezCompWindow );
@@ -187,6 +186,20 @@ CCompResultWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		Hide();
 		break;
 		
+	  case msg_CompResultDifferingTbl: {
+		Handle	oldHandle, newHandle;
+	    CRezTypId * theTypid;
+	  
+		STableCell theCell = mDifferTable->GetFirstSelectedCell();		
+		mRezCompare->GetDifferingList()->FetchItemAt( theCell.row, theTypid);
+		
+		mRezCompare->GetOldMap()->GetWithID(theTypid->mType, theTypid->mID, oldHandle, false);
+		mRezCompare->GetNewMap()->GetWithID(theTypid->mType, theTypid->mID, newHandle, false);
+		
+		mOldHexDataWE->InsertHexContents( *oldHandle, ::GetHandleSize(oldHandle));
+		mNewHexDataWE->InsertHexContents( *newHandle, ::GetHandleSize(newHandle));
+		break;
+	  }
 
 // 		default:
 // 		GetSuperCommander()->ListenToMessage(inMessage, ioParam);
@@ -346,7 +359,6 @@ CCompResultWindow::FillTableView( TArray<CRezTypId *> inList, SInt16 inWhichList
 	}
 	
 	TArrayIterator<CRezTypId*> iterator(inList);	
-// 	iterator.ResetTo(0);
 	
 	for (SInt16 i = 1; i <= theCount; ++i) {
 		iterator.Next(theTypId);
