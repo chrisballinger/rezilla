@@ -2,7 +2,7 @@
 // CEditorDoc.h				
 // 
 //                       Created: 2004-02-23 17:57:59
-//             Last modification: 2005-02-17 07:02:31
+//             Last modification: 2005-03-23 05:46:12
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -46,6 +46,8 @@ public:
 							void*			ioParam);
 
 	virtual Boolean	AllowSubRemoval( LCommander* inSub );
+
+	virtual Boolean			IsModified();
 
 	virtual SInt16	AskSaveChanges( bool inQuitting );
 
