@@ -117,7 +117,7 @@ CMENU_EditorDoc::Initialize()
 				::HandToHand(&rezData);
 
 				// Look for a 'xmnu' resource with same ID 
-				error = theRezMap->GetWithID(ResType_ExtendedMenu, mRezObj->GetID(), xmnuData, false);
+				error = theRezMap->GetWithID(ResType_ExtendedMenu, mRezObj->GetID(), xmnuData, true);
 				if (xmnuData != nil) {
 					::HandToHand(&xmnuData);
 				} 			
