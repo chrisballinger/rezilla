@@ -54,8 +54,6 @@ public:
 	virtual StringPtr		GetDescriptor( Str255 outDescriptor ) const;
 
 	CAete_EditorWindow*		GetAeteEditWindow() { return mAeteEditWindow;}
-
-	TArray<CAeteStream *> *		GetAeteStreamsArrayPtr() { return mAeteStreamsArrayPtr;}
 	
 protected:
 	CAete_EditorWindow*			mAeteEditWindow;

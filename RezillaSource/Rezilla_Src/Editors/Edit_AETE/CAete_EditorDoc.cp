@@ -2,7 +2,7 @@
 // CAete_EditorDoc.cp
 // 
 //                       Created: 2004-07-01 08:42:37
-//             Last modification: 2005-01-22 11:58:05
+//             Last modification: 2005-01-23 10:30:35
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -220,13 +220,19 @@ CAete_EditorDoc::FindCommandStatus(
 // ---------------------------------------------------------------------------
 //  GetModifiedResource										[protected]
 // ---------------------------------------------------------------------------
-// The returned handle should not be released by the caller so leave
-// releaseIt to false (its default).
+// The returned handle should be released by the caller.
 
 Handle
 CAete_EditorDoc::GetModifiedResource(Boolean &releaseIt) 
 {
-	return NULL;
+	CAeteStream * theStream = new CAeteStream();
+
+	Handle theHandle = NULL;
+	
+	mAeteEditWindow->RetrieveAete(theStream);
+// // 	releaseIt = true;
+	
+	return theHandle;
 }
 
 
