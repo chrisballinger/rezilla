@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2004-09-26 17:28:02
+//             Last modification : 2004-09-29 15:28:44
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -398,8 +398,9 @@ const PaneIDT	item_TypePickerMenu			= 2;
 // Template Key Picker
 // -------------------
 const PaneIDT	item_TmplKeyPickerType		= 1;
-const PaneIDT	item_TmplKeyPickerLabel		= 2;
-const PaneIDT	item_TmplKeyPickerMenu		= 3;
+const PaneIDT	item_TmplKeyPickerMessage	= 2;
+const PaneIDT	item_TmplKeyPickerLabel		= 3;
+const PaneIDT	item_TmplKeyPickerMenu		= 4;
 
 // Preferences
 // -----------
