@@ -2,7 +2,7 @@
 // CRezillaPrefs.cp					
 // 
 //                       Created: 2004-05-17 08:52:16
-//             Last modification: 2004-06-18 16:10:32
+//             Last modification: 2004-08-15 00:26:54
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -28,6 +28,7 @@
 
 #include <LCaption.h>
 #include <LCheckBox.h>
+#include <LCheckBoxGroupBox.h>
 #include <LClipboard.h>
 #include <LDialogBox.h>
 #include <LEditText.h>
@@ -121,7 +122,7 @@ CRezillaPrefs::MakePrefsWindow()
 
 
 // ---------------------------------------------------------------------------
-//	• SetDefaultPreferences												[public]
+//	• SetDefaultPreferences											[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -135,7 +136,8 @@ CRezillaPrefs::SetDefaultPreferences()
 	mCurrPrefs.exporting.includeBinary	= true;
 	mCurrPrefs.exporting.formatDtd		= export_KeyDtd;
 	mCurrPrefs.exporting.binaryEncoding	= export_Base64Enc;
-	
+	mCurrPrefs.exporting.editorSig		= kTextEditSig;
+
 	// Comparison pane
 	mCurrPrefs.compare.ignoreName		= false;
 	mCurrPrefs.compare.ignoreAttributes	= true;
@@ -146,7 +148,14 @@ CRezillaPrefs::SetDefaultPreferences()
 	// retreiving preferences
 
 	// Editors pane
-	mCurrPrefs.editors.labelWidth		= 150;
+	mCurrPrefs.editors.hexSymbol		= hex_SymbDollar;
+	mCurrPrefs.editors.hexCase			= hex_lowercase;
+
+	// Misc pane
+	mCurrPrefs.misc.setSigOnClose		= true;
+	mCurrPrefs.misc.closingType			= kRezFileType;
+	mCurrPrefs.misc.closingCreator		= kRezillaSig;
+	mCurrPrefs.misc.setSigOnCreate		= true;
 }
 
 
@@ -171,9 +180,14 @@ CRezillaPrefs::StorePreferences()
 	CFPreferencesSetAppValue(CFSTR("pref_general_newFork"), theValue, kCFPreferencesCurrentApplication);
 	if (theValue) CFRelease(theValue);
 
-	theNumber = GetPrefValue( kPref_editors_labelWidth );
+	theNumber = GetPrefValue( kPref_editors_hexSymbol );
 	theValue = CFNumberCreate(NULL, kCFNumberIntType, &theNumber); 
-	CFPreferencesSetAppValue( CFSTR("pref_editors_labelWidth"), theValue, kCFPreferencesCurrentApplication);
+	CFPreferencesSetAppValue( CFSTR("pref_editors_hexSymbol"), theValue, kCFPreferencesCurrentApplication);
+	if (theValue) CFRelease(theValue);
+
+	theNumber = GetPrefValue( kPref_editors_hexCase );
+	theValue = CFNumberCreate(NULL, kCFNumberIntType, &theNumber); 
+	CFPreferencesSetAppValue( CFSTR("pref_editors_hexCase"), theValue, kCFPreferencesCurrentApplication);
 	if (theValue) CFRelease(theValue);
 
 	theNumber = GetPrefValue( kPref_export_formatDtd );
@@ -189,6 +203,11 @@ CRezillaPrefs::StorePreferences()
 	theNumber = GetPrefValue( kPref_export_dataEncoding );
 	theValue = CFNumberCreate(NULL, kCFNumberIntType, &theNumber); 
 	CFPreferencesSetAppValue( CFSTR("pref_export_dataEncoding"), theValue, kCFPreferencesCurrentApplication);
+	if (theValue) CFRelease(theValue);
+
+	theNumber = GetPrefValue( kPref_export_editorSig );
+	theValue = CFNumberCreate(NULL, kCFNumberSInt32Type, &theNumber); 
+	CFPreferencesSetAppValue( CFSTR("pref_export_editorSig"), theValue, kCFPreferencesCurrentApplication);
 	if (theValue) CFRelease(theValue);
 
 	theNumber = GetPrefValue( kPref_compare_ignoreName );
@@ -211,6 +230,26 @@ CRezillaPrefs::StorePreferences()
 	CFPreferencesSetAppValue( CFSTR("pref_compare_dataDisplayAs"), theValue, kCFPreferencesCurrentApplication);
 	if (theValue) CFRelease(theValue);
 	
+	theNumber = GetPrefValue( kPref_misc_setSigOnClose );
+	theValue = CFNumberCreate(NULL, kCFNumberIntType, &theNumber); 
+	CFPreferencesSetAppValue( CFSTR("pref_misc_setSigOnClose"), theValue, kCFPreferencesCurrentApplication);
+	if (theValue) CFRelease(theValue);
+
+	theNumber = GetPrefValue( kPref_misc_closingType );
+	theValue = CFNumberCreate(NULL, kCFNumberSInt32Type, &theNumber); 
+	CFPreferencesSetAppValue( CFSTR("pref_misc_closingType"), theValue, kCFPreferencesCurrentApplication);
+	if (theValue) CFRelease(theValue);
+
+	theNumber = GetPrefValue( kPref_misc_closingCreator );
+	theValue = CFNumberCreate(NULL, kCFNumberSInt32Type, &theNumber); 
+	CFPreferencesSetAppValue( CFSTR("pref_misc_closingCreator"), theValue, kCFPreferencesCurrentApplication);
+	if (theValue) CFRelease(theValue);
+
+	theNumber = GetPrefValue( kPref_misc_setSigOnCreate );
+	theValue = CFNumberCreate(NULL, kCFNumberIntType, &theNumber); 
+	CFPreferencesSetAppValue( CFSTR("pref_misc_setSigOnCreate"), theValue, kCFPreferencesCurrentApplication);
+	if (theValue) CFRelease(theValue);
+
 	theData = CFDataCreate(NULL, (const UInt8 *)&(mCurrPrefs.interface.traitsRecord), sizeof(TextTraitsRecord));
 	CFPreferencesSetAppValue( CFSTR("pref_interface_traitsRecord"), theData, kCFPreferencesCurrentApplication);
 	if (theData) CFRelease(theData);
@@ -230,6 +269,7 @@ CRezillaPrefs::RetrievePreferences()
 	Boolean 			valueValid, result;
 	CFPropertyListRef	theData;
 	CFIndex				theSize;
+	SInt32				theSInt32;
 	const UInt8 *		thePtr;
 	
 	result = CFPreferencesGetAppIntegerValue(CFSTR("pref_general_maxRecent"), CFSTR(kRezillaIdentifier), &valueValid);
@@ -240,9 +280,13 @@ CRezillaPrefs::RetrievePreferences()
 	if (valueValid) {
 		SetPrefValue( result, kPref_general_newFork);
 	}
-	result = CFPreferencesGetAppIntegerValue(CFSTR("pref_editors_labelWidth"), CFSTR(kRezillaIdentifier), &valueValid);
+	result = CFPreferencesGetAppIntegerValue(CFSTR("pref_editors_hexSymbol"), CFSTR(kRezillaIdentifier), &valueValid);
 	if (valueValid) {
-		SetPrefValue( result, kPref_editors_labelWidth);
+		SetPrefValue( result, kPref_editors_hexSymbol);
+	}
+	result = CFPreferencesGetAppIntegerValue(CFSTR("pref_editors_hexCase"), CFSTR(kRezillaIdentifier), &valueValid);
+	if (valueValid) {
+		SetPrefValue( result, kPref_editors_hexCase);
 	}
 	result = CFPreferencesGetAppIntegerValue(CFSTR("pref_export_formatDtd"), CFSTR(kRezillaIdentifier), &valueValid);
 	if (valueValid) {
@@ -256,6 +300,13 @@ CRezillaPrefs::RetrievePreferences()
 	if (valueValid) {
 		SetPrefValue( result, kPref_export_dataEncoding);
 	}	
+	theData = CFPreferencesCopyAppValue(CFSTR("pref_export_editorSig"), CFSTR(kRezillaIdentifier));
+	if (theData) {		
+		if (CFNumberGetValue( (CFNumberRef) theData, kCFNumberSInt32Type, (void *) &theSInt32)) {
+			SetPrefValue( theSInt32, kPref_export_editorSig);
+		} 
+		CFRelease(theData);
+	}
 	result = CFPreferencesGetAppBooleanValue(CFSTR("pref_compare_ignoreName"), CFSTR(kRezillaIdentifier), &valueValid);
 	if (valueValid) {
 		SetPrefValue( result, kPref_compare_ignoreName);
@@ -272,6 +323,28 @@ CRezillaPrefs::RetrievePreferences()
 	if (valueValid) {
 		SetPrefValue( result, kPref_compare_dataDisplayAs);
 	}
+	result = CFPreferencesGetAppBooleanValue(CFSTR("pref_misc_setSigOnClose"), CFSTR(kRezillaIdentifier), &valueValid);
+	if (valueValid) {
+		SetPrefValue( result, kPref_misc_setSigOnClose);
+	}	
+	theData = CFPreferencesCopyAppValue(CFSTR("pref_misc_closingType"), CFSTR(kRezillaIdentifier));
+	if (theData) {		
+		if (CFNumberGetValue( (CFNumberRef) theData, kCFNumberSInt32Type, (void *) &theSInt32)) {
+			SetPrefValue( theSInt32, kPref_misc_closingType);
+		} 
+		CFRelease(theData);
+	}
+	theData = CFPreferencesCopyAppValue(CFSTR("pref_misc_closingCreator"), CFSTR(kRezillaIdentifier));
+	if (theData) {		
+		if (CFNumberGetValue( (CFNumberRef) theData, kCFNumberSInt32Type, (void *) &theSInt32)) {
+			SetPrefValue( theSInt32, kPref_misc_closingCreator);
+		} 
+		CFRelease(theData);
+	}
+	result = CFPreferencesGetAppBooleanValue(CFSTR("pref_misc_setSigOnCreate"), CFSTR(kRezillaIdentifier), &valueValid);
+	if (valueValid) {
+		SetPrefValue( result, kPref_misc_setSigOnCreate);
+	}	
 	theData = CFPreferencesCopyAppValue(CFSTR("pref_interface_traitsRecord"), CFSTR(kRezillaIdentifier));
 	if (theData) {
 		theSize = CFDataGetLength( (CFDataRef) theData);
@@ -314,11 +387,19 @@ CRezillaPrefs::SetPrefValue(SInt32 inPrefValue, SInt32 inConstant, SInt32 inPref
 		}	
 		break;
 		
-		case kPref_editors_labelWidth:
+		case kPref_editors_hexSymbol:
 		if (inPrefType == prefsType_Temp) {
-			mTempPrefs.editors.labelWidth = inPrefValue ;
+			mTempPrefs.editors.hexSymbol = inPrefValue ;
 		} else {
-			mCurrPrefs.editors.labelWidth = inPrefValue ;
+			mCurrPrefs.editors.hexSymbol = inPrefValue ;
+		}	
+		break;
+		
+		case kPref_editors_hexCase:
+		if (inPrefType == prefsType_Temp) {
+			mTempPrefs.editors.hexCase = inPrefValue ;
+		} else {
+			mCurrPrefs.editors.hexCase = inPrefValue ;
 		}	
 		break;
 		
@@ -343,6 +424,14 @@ CRezillaPrefs::SetPrefValue(SInt32 inPrefValue, SInt32 inConstant, SInt32 inPref
 			mTempPrefs.exporting.binaryEncoding = inPrefValue ;
 		} else {
 			mCurrPrefs.exporting.binaryEncoding = inPrefValue ;
+		}	
+		break;
+		
+		case kPref_export_editorSig:
+		if (inPrefType == prefsType_Temp) {
+			mTempPrefs.exporting.editorSig = (OSType) inPrefValue ;
+		} else {
+			mCurrPrefs.exporting.editorSig = (OSType) inPrefValue ;
 		}	
 		break;
 		
@@ -377,6 +466,39 @@ CRezillaPrefs::SetPrefValue(SInt32 inPrefValue, SInt32 inConstant, SInt32 inPref
 			mCurrPrefs.compare.displayAs = inPrefValue ;
 		}	
 		break;
+
+		case kPref_misc_setSigOnClose:
+		if (inPrefType == prefsType_Temp) {
+			mTempPrefs.misc.setSigOnClose = inPrefValue ;
+		} else {
+			mCurrPrefs.misc.setSigOnClose = inPrefValue ;
+		}	
+		break;
+		
+		case kPref_misc_closingType:
+		if (inPrefType == prefsType_Temp) {
+			mTempPrefs.misc.closingType = (OSType) inPrefValue ;
+		} else {
+			mCurrPrefs.misc.closingType = (OSType) inPrefValue ;
+		}	
+		break;
+		
+		case kPref_misc_closingCreator:
+		if (inPrefType == prefsType_Temp) {
+			mTempPrefs.misc.closingCreator = (OSType) inPrefValue ;
+		} else {
+			mCurrPrefs.misc.closingCreator = (OSType) inPrefValue ;
+		}	
+		break;
+		
+		case kPref_misc_setSigOnCreate:
+		if (inPrefType == prefsType_Temp) {
+			mTempPrefs.misc.setSigOnCreate = inPrefValue ;
+		} else {
+			mCurrPrefs.misc.setSigOnCreate = inPrefValue ;
+		}	
+		break;
+		
 	}	
 }
 
@@ -408,11 +530,19 @@ CRezillaPrefs::GetPrefValue(SInt32 inConstant, SInt32 inPrefType)
 		}	
 		break;
 		
-		case kPref_editors_labelWidth:
+		case kPref_editors_hexSymbol:
 		if (inPrefType == prefsType_Temp) {
-			theValue = mTempPrefs.editors.labelWidth;
+			theValue = mTempPrefs.editors.hexSymbol;
 		} else {
-			theValue = mCurrPrefs.editors.labelWidth;
+			theValue = mCurrPrefs.editors.hexSymbol;
+		}	
+		break;
+		
+		case kPref_editors_hexCase:
+		if (inPrefType == prefsType_Temp) {
+			theValue = mTempPrefs.editors.hexCase;
+		} else {
+			theValue = mCurrPrefs.editors.hexCase;
 		}	
 		break;
 		
@@ -437,6 +567,14 @@ CRezillaPrefs::GetPrefValue(SInt32 inConstant, SInt32 inPrefType)
 			theValue = mTempPrefs.exporting.binaryEncoding;
 		} else {
 			theValue = mCurrPrefs.exporting.binaryEncoding;
+		}	
+		break;
+		
+		case kPref_export_editorSig:
+		if (inPrefType == prefsType_Temp) {
+			theValue = (SInt32) mTempPrefs.exporting.editorSig;
+		} else {
+			theValue = (SInt32) mCurrPrefs.exporting.editorSig;
 		}	
 		break;
 		
@@ -469,6 +607,38 @@ CRezillaPrefs::GetPrefValue(SInt32 inConstant, SInt32 inPrefType)
 			theValue = mTempPrefs.compare.displayAs;
 		} else {
 			theValue = mCurrPrefs.compare.displayAs;
+		}	
+		break;
+		
+		case kPref_misc_setSigOnClose:
+		if (inPrefType == prefsType_Temp) {
+			theValue = mTempPrefs.misc.setSigOnClose;
+		} else {
+			theValue = mCurrPrefs.misc.setSigOnClose;
+		}	
+		break;
+		
+		case kPref_misc_closingType:
+		if (inPrefType == prefsType_Temp) {
+			theValue = (SInt32) mTempPrefs.misc.closingType;
+		} else {
+			theValue = (SInt32) mCurrPrefs.misc.closingType;
+		}	
+		break;
+		
+		case kPref_misc_closingCreator:
+		if (inPrefType == prefsType_Temp) {
+			theValue = (SInt32) mTempPrefs.misc.closingCreator;
+		} else {
+			theValue = (SInt32) mCurrPrefs.misc.closingCreator;
+		}	
+		break;
+		
+		case kPref_misc_setSigOnCreate:
+		if (inPrefType == prefsType_Temp) {
+			theValue = mTempPrefs.misc.setSigOnCreate;
+		} else {
+			theValue = mCurrPrefs.misc.setSigOnCreate;
 		}	
 		break;
 	}	
@@ -589,14 +759,15 @@ CRezillaPrefs::ApplyStylePrefs()
 
 
 // ---------------------------------------------------------------------------
-//	• RunPrefsWindow											[public]
+//	• RunPrefsDialog											[public]
 // ---------------------------------------------------------------------------
 //	Display the preferences window for the application
 
 void
-CRezillaPrefs::RunPrefsWindow()
+CRezillaPrefs::RunPrefsDialog()
 {
 	LCheckBox *		theCheckBox;
+	LCheckBoxGroupBox *	theCheckGroupBox;
 	LPopupButton *	thePopup;
 	long			theLong;
 	Str255			theString;
@@ -605,6 +776,7 @@ CRezillaPrefs::RunPrefsWindow()
 	LEditText *		theEditField;
 	SInt32 			theSize, itemIndex;
 	SInt16			theFontNum;
+	OSType			theType;
 	TextTraitsRecord theCurrTraits;
 	
 	StDialogBoxHandler	theHandler(rPPob_PrefsWindow, this);
@@ -637,6 +809,12 @@ CRezillaPrefs::RunPrefsWindow()
 	LView* theInterfacePane = theMPV->GetPanel(mpv_Interface);
 	ThrowIfNil_(theInterfacePane);
 	
+	LView* theEditorPane = theMPV->GetPanel(mpv_Editor);
+	ThrowIfNil_(theEditorPane);
+	
+	LView* theMiscPane = theMPV->GetPanel(mpv_Misc);
+	ThrowIfNil_(theMiscPane);
+	
 	LRadioGroupView * theNewMapRGV = dynamic_cast<LRadioGroupView *>(theGeneralPane->FindPaneByID( item_GenPrefsNewMapRgbx ));
 	ThrowIfNil_(theNewMapRGV);
 	
@@ -648,6 +826,12 @@ CRezillaPrefs::RunPrefsWindow()
 	
 	LRadioGroupView * theDisplayRGV = dynamic_cast<LRadioGroupView *>(theComparePane->FindPaneByID( item_CompPrefsDisplayRgbx ));
 	ThrowIfNil_(theDisplayRGV);
+	
+	LRadioGroupView * theHexSymbRGV = dynamic_cast<LRadioGroupView *>(theEditorPane->FindPaneByID( item_EditPrefsHexSymRgbx ));
+	ThrowIfNil_(theHexSymbRGV);
+	
+	LRadioGroupView * theHexCaseRGV = dynamic_cast<LRadioGroupView *>(theEditorPane->FindPaneByID( item_EditPrefsHexCaseRgbx ));
+	ThrowIfNil_(theHexCaseRGV);
 	
 	theCurrTraits = GetStyleElement( prefsType_Curr );
 
@@ -664,6 +848,8 @@ CRezillaPrefs::RunPrefsWindow()
 	UReanimator::LinkListenerToBroadcasters( &theHandler, theExportPane, rPPob_PrefsExportPane );
 	UReanimator::LinkListenerToBroadcasters( &theHandler, theComparePane, rPPob_PrefsComparePane );
 	UReanimator::LinkListenerToBroadcasters( &theHandler, theInterfacePane, rPPob_PrefsInterfacePane );
+	UReanimator::LinkListenerToBroadcasters( &theHandler, theEditorPane, rPPob_PrefsInterfacePane );
+	UReanimator::LinkListenerToBroadcasters( &theHandler, theMiscPane, rPPob_PrefsInterfacePane );
 	
 	while (inPrefsLoop) {
 		
@@ -673,10 +859,27 @@ CRezillaPrefs::RunPrefsWindow()
 		theDtdRGV->SetCurrentRadioID( GetPrefValue( kPref_export_formatDtd ) + item_ExpPrefsDtdRgbx );
 		theEncodingRGV->SetCurrentRadioID( GetPrefValue( kPref_export_dataEncoding ) + item_ExpPrefsEncRgbx );
 		theDisplayRGV->SetCurrentRadioID( GetPrefValue( kPref_compare_dataDisplayAs ) + item_CompPrefsDisplayRgbx );
+		theHexSymbRGV->SetCurrentRadioID( GetPrefValue( kPref_editors_hexSymbol ) + item_EditPrefsHexSymRgbx );
+		theHexCaseRGV->SetCurrentRadioID( GetPrefValue( kPref_editors_hexCase ) + item_EditPrefsHexCaseRgbx );
 
 		theEditField = dynamic_cast<LEditText *>(theGeneralPane->FindPaneByID( item_GenPrefsMaxRecent ));
 		ThrowIfNil_( theEditField );
 		theEditField->SetValue(  GetPrefValue( kPref_general_maxRecent ) );
+
+		theEditField = dynamic_cast<LEditText *>(theExportPane->FindPaneByID( item_ExpPrefsEditSig ));
+		ThrowIfNil_( theEditField );
+		UMiscUtils::OSTypeToPString( (OSType) GetPrefValue(kPref_export_editorSig), theString);
+		theEditField->SetText( theLine.Assign(theString) );
+
+		theEditField = dynamic_cast<LEditText *>(theMiscPane->FindPaneByID( item_MiscPrefsClosingType ));
+		ThrowIfNil_( theEditField );
+		UMiscUtils::OSTypeToPString( (OSType) GetPrefValue(kPref_misc_closingType), theString);
+		theEditField->SetText( theLine.Assign(theString) );
+
+		theEditField = dynamic_cast<LEditText *>(theMiscPane->FindPaneByID( item_MiscPrefsClosingCreator ));
+		ThrowIfNil_( theEditField );
+		UMiscUtils::OSTypeToPString( (OSType) GetPrefValue(kPref_misc_closingCreator), theString);
+		theEditField->SetText( theLine.Assign(theString) );
 
 		theCheckBox = dynamic_cast<LCheckBox *>(theExportPane->FindPaneByID( item_ExpPrefsInclBinData ));
 		ThrowIfNil_( theCheckBox );
@@ -693,6 +896,14 @@ CRezillaPrefs::RunPrefsWindow()
 		theCheckBox = dynamic_cast<LCheckBox *>(theComparePane->FindPaneByID( item_CompPrefsIgnData ));
 		ThrowIfNil_( theCheckBox );
 		theCheckBox->SetValue(  GetPrefValue( kPref_compare_ignoreData ) );
+
+		theCheckGroupBox = dynamic_cast<LCheckBoxGroupBox *>(theMiscPane->FindPaneByID( item_MiscPrefsSetSigOnClose ));
+		ThrowIfNil_( theCheckGroupBox );
+		theCheckGroupBox->SetValue(  GetPrefValue( kPref_misc_setSigOnClose ) );
+
+		theCheckBox = dynamic_cast<LCheckBox *>(theMiscPane->FindPaneByID( item_MiscPrefsSetSigOnCreate ));
+		ThrowIfNil_( theCheckBox );
+		theCheckBox->SetValue(  GetPrefValue( kPref_misc_setSigOnCreate ) );
 
 		thePopup = dynamic_cast<LPopupButton *> (theInterfacePane->FindPaneByID( item_UIPrefsFontsMenu ));
 		ThrowIfNil_( thePopup );
@@ -720,75 +931,10 @@ CRezillaPrefs::RunPrefsWindow()
 			} else {
 				switch (theMessage) {
 					
-				  case msg_CompPrefsIgnName:
-					theCheckBox = dynamic_cast<LCheckBox *>(theComparePane->FindPaneByID( theMessage - rPPob_PrefsComparePane ));
-					SetPrefValue( theCheckBox->GetValue(), kPref_compare_ignoreName, prefsType_Temp);
-					break;
-																				
-				  case msg_CompPrefsIgnAttr:
-					theCheckBox = dynamic_cast<LCheckBox *>(theComparePane->FindPaneByID( theMessage - rPPob_PrefsComparePane ));
-					SetPrefValue( theCheckBox->GetValue(), kPref_compare_ignoreAttributes, prefsType_Temp);
-					break;
-																				
-				  case msg_CompPrefsIgnData:
-					theCheckBox = dynamic_cast<LCheckBox *>(theComparePane->FindPaneByID( theMessage - rPPob_PrefsComparePane ));
-					SetPrefValue( theCheckBox->GetValue(), kPref_compare_ignoreData, prefsType_Temp);
-					break;
-																				
-				  case msg_ExpPrefsInclBinData:
-					theCheckBox = dynamic_cast<LCheckBox *>(theExportPane->FindPaneByID( theMessage - rPPob_PrefsExportPane ));
-					SetPrefValue( theCheckBox->GetValue(), kPref_export_includeBinary, prefsType_Temp);
-					break;
-																				
 				  case msg_GenPrefsResetRecent:
 					CRezillaApp::sRecentItemsAttachment->Reset();
-				    break;
-																				
-				  case msg_GenPrefsMaxRecent:
-					theEditField = dynamic_cast<LEditText *>(theGeneralPane->FindPaneByID( item_GenPrefsMaxRecent ));
-					theEditField->GetDescriptor(theString);
-					if (theString[0]) {
-						::StringToNum(theString, &theLong);
-					} else {
-						theLong = 10;
-					}
-					SetPrefValue( theLong, kPref_general_maxRecent, prefsType_Temp);
-				    break;
-																				
-				  case msg_ControlClicked:
-				  case msg_ExpPrefsKeyDtd:
-				  case msg_ExpPrefsAttrDtd:
-				  case msg_ExpPrefsHexEnc:
-				  case msg_ExpPrefsBase64Enc: {
-						// DoDialog() returns the *last* message which, in the case of a RadioGroup,
-						// is msg_ControlClicked. So we fail to receive the messages sent just before
-						// by the individual controls. 
-				  		PaneIDT theCurrentRadioID;
-						theCurrentRadioID = theNewMapRGV->GetCurrentRadioID();
-						SetPrefValue( theCurrentRadioID - item_GenPrefsNewMapRgbx, kPref_general_newFork, prefsType_Temp);
-
-						theCurrentRadioID = theDtdRGV->GetCurrentRadioID();
-						SetPrefValue( theCurrentRadioID - item_ExpPrefsDtdRgbx, kPref_export_formatDtd, prefsType_Temp);
-
-						theCurrentRadioID = theEncodingRGV->GetCurrentRadioID();
-						SetPrefValue( theCurrentRadioID - item_ExpPrefsEncRgbx, kPref_export_dataEncoding, prefsType_Temp);
-
-						theCurrentRadioID = theDisplayRGV->GetCurrentRadioID();
-						SetPrefValue( theCurrentRadioID - item_CompPrefsDisplayRgbx, kPref_compare_dataDisplayAs, prefsType_Temp);
-						break;
-				  }
-				  
-				  case msg_UIPrefsFontsMenu:
-					// Get the popup menu.
-					thePopup = dynamic_cast<LPopupButton *> (theInterfacePane->FindPaneByID( item_UIPrefsFontsMenu ));
-					ThrowIfNil_( thePopup );
-					// Get the name of the font.
-					::GetMenuItemText( thePopup->GetMacMenuH(), thePopup->GetValue(), theString );
-					LString::CopyPStr(theString, mTempPrefs.interface.traitsRecord.fontName);
-					::GetFNum(theString, &theFontNum);
-					SetStyleElement(theFontNum, style_fontType, prefsType_Temp);
 					break;
-					
+																				  
 				  case msg_UIPrefsSizeMenu:
 					theSize = GetStyleElement().size;
 					// Get the popup menu.
@@ -803,7 +949,7 @@ CRezillaPrefs::RunPrefsWindow()
 							// If they match, no need to use 'Other' item
 							if (UMiscUtils::FontSizeExists(thePopup, theSize, itemIndex)) {
 								thePopup->SetValue(itemIndex);
-								::SetMenuItemText( thePopup->GetMacMenuH(), kLastSizeMenuItem + 2, LStr255("\pOther…"));					
+								::SetMenuItemText( thePopup->GetMacMenuH(), kLastSizeMenuItem + 2, theLine.Assign("\pOther…"));					
 							} else {
 								// Modify the text of the 'Other' item.
 								Str255	theSizeString;
@@ -819,7 +965,7 @@ CRezillaPrefs::RunPrefsWindow()
 					} else {
 						::GetMenuItemText( thePopup->GetMacMenuH(), thePopup->GetValue(), theString );
 						::StringToNum( theString, &theSize );
-						::SetMenuItemText( thePopup->GetMacMenuH(), kLastSizeMenuItem + 2, LStr255("\pOther…"));					
+						::SetMenuItemText( thePopup->GetMacMenuH(), kLastSizeMenuItem + 2, theLine.Assign("\pOther…"));					
 					}
 					SetStyleElement( (SInt16) theSize, style_sizeType, prefsType_Temp);
 					break;
@@ -831,6 +977,102 @@ CRezillaPrefs::RunPrefsWindow()
 
 		// if we hit ok, save the pref info
 		if (msg_OK == theMessage) {
+			PaneIDT theCurrentRadioID;
+			
+			//    Retreive the controls values
+			// -------------------------------		
+			
+			// CompPrefsIgnName
+			theCheckBox = dynamic_cast<LCheckBox *>(theComparePane->FindPaneByID( item_CompPrefsIgnName ));
+			SetPrefValue( theCheckBox->GetValue(), kPref_compare_ignoreName, prefsType_Temp);
+			
+			// CompPrefsIgnAttr
+			theCheckBox = dynamic_cast<LCheckBox *>(theComparePane->FindPaneByID( item_CompPrefsIgnAttr ));
+			SetPrefValue( theCheckBox->GetValue(), kPref_compare_ignoreAttributes, prefsType_Temp);
+			
+			// CompPrefsIgnData
+			theCheckBox = dynamic_cast<LCheckBox *>(theComparePane->FindPaneByID( item_CompPrefsIgnData ));
+			SetPrefValue( theCheckBox->GetValue(), kPref_compare_ignoreData, prefsType_Temp);
+			
+			// ExpPrefsInclBinData
+			theCheckBox = dynamic_cast<LCheckBox *>(theExportPane->FindPaneByID( item_ExpPrefsInclBinData ));
+			SetPrefValue( theCheckBox->GetValue(), kPref_export_includeBinary, prefsType_Temp);
+			
+			// MiscPrefsSetSigOnClose
+			theCheckGroupBox = dynamic_cast<LCheckBoxGroupBox *>(theMiscPane->FindPaneByID( item_MiscPrefsSetSigOnClose ));
+			SetPrefValue( theCheckGroupBox->GetValue(), kPref_misc_setSigOnClose, prefsType_Temp);
+			
+			// MiscPrefsSetSigOnCreate
+			theCheckBox = dynamic_cast<LCheckBox *>(theMiscPane->FindPaneByID( item_MiscPrefsSetSigOnCreate ));
+			SetPrefValue( theCheckGroupBox->GetValue(), kPref_misc_setSigOnCreate, prefsType_Temp);
+			
+			// GenPrefsMaxRecent
+			theEditField = dynamic_cast<LEditText *>(theGeneralPane->FindPaneByID( item_GenPrefsMaxRecent ));
+			theEditField->GetDescriptor(theString);
+			if (theString[0]) {
+				::StringToNum(theString, &theLong);
+			} else {
+				theLong = 10;
+			}
+			SetPrefValue( theLong, kPref_general_maxRecent, prefsType_Temp);
+			
+			// GenPrefsDataFork / GenPrefsResourceFork
+			theCurrentRadioID = theNewMapRGV->GetCurrentRadioID();
+			SetPrefValue( theCurrentRadioID - item_GenPrefsNewMapRgbx, kPref_general_newFork, prefsType_Temp);
+			
+			// ExpPrefsKeyDtd / ExpPrefsAttrDtd
+			theCurrentRadioID = theDtdRGV->GetCurrentRadioID();
+			SetPrefValue( theCurrentRadioID - item_ExpPrefsDtdRgbx, kPref_export_formatDtd, prefsType_Temp);
+			
+			// ExpPrefsHexEnc / ExpPrefsBase64Enc
+			theCurrentRadioID = theEncodingRGV->GetCurrentRadioID();
+			SetPrefValue( theCurrentRadioID - item_ExpPrefsEncRgbx, kPref_export_dataEncoding, prefsType_Temp);
+			
+			// CompPrefsHexDisplay / CompPrefsTxtDisplay
+			theCurrentRadioID = theDisplayRGV->GetCurrentRadioID();
+			SetPrefValue( theCurrentRadioID - item_CompPrefsDisplayRgbx, kPref_compare_dataDisplayAs, prefsType_Temp);
+			
+			// EditPrefsHexSym0x / EditPrefsHexSymDollar
+			theCurrentRadioID = theHexSymbRGV->GetCurrentRadioID();
+			SetPrefValue( theCurrentRadioID - item_EditPrefsHexSymRgbx, kPref_editors_hexSymbol, prefsType_Temp);
+			
+			// EditPrefsHexLowercase / EditPrefsHexUppercase
+			theCurrentRadioID = theHexCaseRGV->GetCurrentRadioID();
+			SetPrefValue( theCurrentRadioID - item_EditPrefsHexCaseRgbx, kPref_editors_hexCase, prefsType_Temp);
+			
+			// UIPrefsFontsMenu
+			// Get the popup menu.
+			thePopup = dynamic_cast<LPopupButton *> (theInterfacePane->FindPaneByID( item_UIPrefsFontsMenu ));
+			ThrowIfNil_( thePopup );
+			// Get the name of the font.
+			::GetMenuItemText( thePopup->GetMacMenuH(), thePopup->GetValue(), theString );
+			LString::CopyPStr(theString, mTempPrefs.interface.traitsRecord.fontName);
+			::GetFNum(theString, &theFontNum);
+			SetStyleElement(theFontNum, style_fontType, prefsType_Temp);
+			
+			// ExpPrefsEditSig
+			theEditField = dynamic_cast<LEditText *>(theExportPane->FindPaneByID( item_ExpPrefsEditSig ));
+			ThrowIfNil_( theEditField );
+			theEditField->GetText( theLine );
+			UMiscUtils::PStringToOSType( theLine, theType);
+			SetPrefValue(theType, kPref_export_editorSig, prefsType_Temp);
+			
+			// MiscPrefsClosingType
+			theEditField = dynamic_cast<LEditText *>(theMiscPane->FindPaneByID( item_MiscPrefsClosingType ));
+			ThrowIfNil_( theEditField );
+			theEditField->GetText( theLine );
+			UMiscUtils::PStringToOSType( theLine, theType);
+			SetPrefValue(theType, kPref_misc_closingType, prefsType_Temp);
+			
+			// MiscPrefsClosingCreator
+			theEditField = dynamic_cast<LEditText *>(theMiscPane->FindPaneByID( item_MiscPrefsClosingCreator ));
+			ThrowIfNil_( theEditField );
+			theEditField->GetText( theLine );
+			UMiscUtils::PStringToOSType( theLine, theType);
+			SetPrefValue(theType, kPref_misc_closingCreator, prefsType_Temp);
+
+			// Record the changes
+			// ------------------
 			if ( PrefsHaveChanged() ) {
 				Boolean stylechanged = (memcmp( &mCurrPrefs.interface, &mTempPrefs.interface, sizeof(SInterfacePrefs) ) != 0);
 				ValidateTempPrefs();

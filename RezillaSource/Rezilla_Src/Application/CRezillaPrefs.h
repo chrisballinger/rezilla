@@ -2,7 +2,7 @@
 // CRezillaPrefs.h					
 // 
 //                       Created: 2004-05-17 08:52:16
-//             Last modification: 2004-05-18 19:07:58
+//             Last modification: 2004-08-15 00:34:32
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -31,6 +31,7 @@ struct SExportPrefs {
 	Boolean			includeBinary;
 	SInt32			formatDtd;
 	SInt32			binaryEncoding;
+	OSType			editorSig;
 };
 
 //     Comparison Prefs
@@ -48,7 +49,16 @@ struct SInterfacePrefs {
 
 //     Editors Prefs
 struct SEditorsPrefs {
-	SInt32			labelWidth;
+	SInt32			hexSymbol;
+	SInt32			hexCase;
+};
+
+//     Misc Prefs
+struct SMiscPrefs {
+	Boolean			setSigOnClose;
+	ResType			closingType;
+	ResType			closingCreator;
+	Boolean			setSigOnCreate;
 };
 
 struct SRezillaPrefs {
@@ -57,6 +67,7 @@ struct SRezillaPrefs {
 	SComparePrefs		compare;
 	SInterfacePrefs		interface;
 	SEditorsPrefs		editors;
+	SMiscPrefs			misc;
 };
 
 enum {
@@ -64,13 +75,19 @@ enum {
 	kPref_compare_ignoreAttributes,
 	kPref_compare_ignoreData,
 	kPref_compare_ignoreName,
-	kPref_editors_labelWidth,
+	kPref_editors_hexSymbol,
+	kPref_editors_hexCase,
 	kPref_export_dataEncoding,
 	kPref_export_formatDtd,
 	kPref_export_includeBinary,
+	kPref_export_editorSig,
 	kPref_interface_traitsRecord,
 	kPref_general_newFork,
-	kPref_general_maxRecent
+	kPref_general_maxRecent,
+	kPref_misc_setSigOnClose,
+	kPref_misc_closingType,
+	kPref_misc_closingCreator,
+	kPref_misc_setSigOnCreate
 };
 
 
@@ -87,7 +104,7 @@ public:
 							CRezillaPrefs( LCommander* inSuper );
 			virtual			~CRezillaPrefs();
 
-	void				RunPrefsWindow();
+	void				RunPrefsDialog();
 
 	virtual SRezillaPrefs	GetRezillaPreferences() { return mCurrPrefs;}
 	void					SetRezillaPreferences(SRezillaPrefs inRezillaPreferences) {
