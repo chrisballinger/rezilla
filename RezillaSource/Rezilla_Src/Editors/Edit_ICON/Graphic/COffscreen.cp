@@ -13,7 +13,7 @@
 
 #include "RezillaConstants.h"
 #include "COffscreen.h"
-#include "CColorUtils.h"
+#include "UColorUtils.h"
 #include "CSharedPalette.h"
 #include "UBitUtils.h"
 #include "UIconMisc.h"
@@ -75,7 +75,7 @@ COffscreen::COffscreen( SInt32 inWidth, SInt32 inHeight, SInt32 inDepth,
 	}
 	
 	// find the getpixel/setpixel functions	for this depth
-	CPixelHelper::GetPixelFunctions( inDepth, &mPixelGetter, &mPixelSetter );
+	UPixelHelper::GetPixelFunctions( inDepth, &mPixelGetter, &mPixelSetter );
 	
 	try
 	{
@@ -321,7 +321,7 @@ Color32 COffscreen::PixelValueToColor32( PixelValue thePixelValue )
 		return( thePixelValue );			// already in the correct format
 	
 	RGBColor	theColor = this->PixelValueToRGB( thePixelValue );
-	return( CColorUtils::RGBToColor32( theColor ) );
+	return( UColorUtils::RGBToColor32( theColor ) );
 }
 
 
@@ -334,7 +334,7 @@ PixelValue COffscreen::Color32ToPixelValue( Color32 theColor32 )
 	if ( mDepth == 32 )
 		return( theColor32 );			// already in the correct format
 	
-	RGBColor	theRGB = CColorUtils::Color32ToRGB( theColor32 );
+	RGBColor	theRGB = UColorUtils::Color32ToRGB( theColor32 );
 	return this->RGBToPixelValue( theRGB );
 }
 
@@ -354,9 +354,9 @@ RGBColor COffscreen::PixelValueToRGB( PixelValue thePixelValue )
 		case 1:
 			return thePixelValue ? Color_Black : Color_White;
 		case 16:
-			return CColorUtils::Color16ToRGB( thePixelValue );
+			return UColorUtils::Color16ToRGB( thePixelValue );
 		case 32:
-			return CColorUtils::Color32ToRGB( thePixelValue );
+			return UColorUtils::Color32ToRGB( thePixelValue );
 		
 		default:
 			CTabHandle	theTable = this->GetColorTable();
@@ -379,13 +379,13 @@ PixelValue COffscreen::RGBToPixelValue( const RGBColor &inColor )
 	switch( mDepth )
 	{
 		case 1:
-			return( CColorUtils::EqualRGB(inColor, Color_White) ? 0 : 1 );
+			return( UColorUtils::EqualRGB(inColor, Color_White) ? 0 : 1 );
 			break;
 		case 16:
-			return CColorUtils::RGBToColor16( inColor );
+			return UColorUtils::RGBToColor16( inColor );
 			break;
 		case 32:
-			return CColorUtils::RGBToColor32( inColor );
+			return UColorUtils::RGBToColor32( inColor );
 			break;
 	}
 
@@ -399,16 +399,16 @@ PixelValue COffscreen::RGBToPixelValue( const RGBColor &inColor )
 	CTabHandle	theTable = this->GetColorTable();
 	SInt32		tableEntries = (**theTable).ctSize + 1;
 	
-	if ( CColorUtils::EqualRGB( inColor, Color_White ) )
+	if ( UColorUtils::EqualRGB( inColor, Color_White ) )
 		return( 0 );
 	
-	if ( CColorUtils::EqualRGB( inColor, Color_Black ) )
+	if ( UColorUtils::EqualRGB( inColor, Color_Black ) )
 		return( tableEntries - 1 );
 		
 	for ( SInt32 count = 0; count < tableEntries; count++ )
 	{
 		RGBColor	tempColor = (**theTable).ctTable[ count ].rgb;
-		if ( CColorUtils::EqualRGB( tempColor, inColor ) )
+		if ( UColorUtils::EqualRGB( tempColor, inColor ) )
 			return( count );
 	}
 	
@@ -815,7 +815,7 @@ void COffscreen::CopyFromAndDownSample( COffscreen *inSource,
 		for ( long colCount = 0; colCount < width; colCount++ )
 		{
 			sourceColor = inSource->GetPixelColor( colCount, rowCount );
-			if ( !CColorUtils::EqualColor32( sourceColor, inMatchColor ) )
+			if ( !UColorUtils::EqualColor32( sourceColor, inMatchColor ) )
 				this->SetPixel( colCount, rowCount, destPixel );
 		}
 		
@@ -846,7 +846,7 @@ void COffscreen::SetForeColor( Color32 inColor )
 {
 	StSaveAndDraw	aSaver( this );
 	
-	RGBColor	theRGB = CColorUtils::Color32ToRGB( inColor );
+	RGBColor	theRGB = UColorUtils::Color32ToRGB( inColor );
 	::RGBForeColor( &theRGB );
 }
 
@@ -859,7 +859,7 @@ void COffscreen::SetBackColor( Color32 inColor )
 {
 	StSaveAndDraw	aSaver( this );
 	
-	RGBColor	theRGB = CColorUtils::Color32ToRGB( inColor );
+	RGBColor	theRGB = UColorUtils::Color32ToRGB( inColor );
 	::RGBBackColor( &theRGB );
 }
 
@@ -915,7 +915,7 @@ Boolean COffscreen::IsErased()
 		for ( SInt32 colCount = 0; colCount < mWidth; colCount++ )
 		{
 			Color32 thePixelColor = this->GetPixelColor( colCount, rowCount );
-			if ( !CColorUtils::EqualColor32( thePixelColor, kWhiteColor32 ) )
+			if ( !UColorUtils::EqualColor32( thePixelColor, kWhiteColor32 ) )
 				return( false );
 		}
 	}

@@ -1,7 +1,7 @@
 // ===========================================================================
 // UGraphicConversion.cp
 //                       Created: 2004-12-11 18:52:47
-//             Last modification: 2004-12-15 10:49:08
+//             Last modification: 2004-12-15 13:12:15
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -14,14 +14,12 @@
 #include "UGraphicConversion.h"
 #include "COffscreen.h"
 #include "CColorTableBuilder.h"
-#include "CColorUtils.h"
-#include "CDisposeOnExit.h"
 #include "CPrefs.h"
-#include "CSaveResFile.h"
 #include "RezillaConstants.h"
-#include "UFileUtils.h"
 #include "UIconMisc.h"
 #include "UResources.h"
+
+#include <UMemoryMgr.h>
 
 #include <stdio.h>
 
@@ -55,7 +53,7 @@ PicHandle UGraphicConversion::OffscreenToPicture( COffscreen *inBuffer, RgnHandl
 		 
 		if ( inSelectionRgn )
 		{
-			maskRgn = UIconMisc::NewRegionFromRegion( inSelectionRgn );
+			maskRgn = URegionMisc::NewRegionFromRegion( inSelectionRgn );
 			::GetRegionBounds(maskRgn, &bounds);
 			::OffsetRgn( maskRgn, -bounds.left, -bounds.top );
 			sourceR = bounds;
@@ -108,7 +106,7 @@ void UGraphicConversion::OffscreenToClipboard( COffscreen *inBuffer, RgnHandle i
 	thePict = OffscreenToPicture( inBuffer, inSelection );
 	
 	// Delete the picture on exit (handles case when errors are thrown)
-	StDisposeHandle		aDeleter( (Handle) thePict );  // StHandleBlock ?
+	StHandleBlock		aDeleter( (Handle) thePict );
 	
 	// Write the picture 
 	theClipboard->SetData( ImageType_Picture, (Handle) thePict, true /* reset */ );

@@ -14,7 +14,7 @@
 #pragma once
 
 #include "RezillaConstants.h"
-#include "CPixelHelper.h"
+#include "UPixelHelper.h"
 
 #include <QDOffscreen.h>	
 

@@ -34,8 +34,9 @@
 #include "RezillaConstants.h"
 #include "COffscreen.h"
 #include "CColorTableBuilder.h"
-#include "CColorUtils.h"
 #include "CColorHash.h"
+#include "UColorUtils.h"
+
 #include <PictUtils.h>
 
 
@@ -182,7 +183,7 @@ CTabHandle CColorTableBuilder::GetColorTable( SInt32 inMaxDepth, SInt32 *outDept
 			// find out how much depth we need to display all of the pixels correctly
 
 	SInt32 	uniqueColors = this->GetColorCount();
-	SInt32	depthForActualColors = CColorUtils::NumColorsToDepth( uniqueColors );
+	SInt32	depthForActualColors = UColorUtils::NumColorsToDepth( uniqueColors );
 
 			// limit the destination depth depending on inMaxDepth
 
@@ -192,7 +193,7 @@ CTabHandle CColorTableBuilder::GetColorTable( SInt32 inMaxDepth, SInt32 *outDept
 				// is this correct??? prob doesn't matter since we only call
 				// this with depths of 8 or 32-bits
 			*outDepth = 1;
-			return( CColorUtils::GetColorTable( 1 ) );		// 1-bit -> no thinking
+			return( UColorUtils::GetColorTable( 1 ) );		// 1-bit -> no thinking
 		
 		case 2:
 			*outDepth = MIN( 2, depthForActualColors );
@@ -226,14 +227,14 @@ CTabHandle CColorTableBuilder::GetColorTable( SInt32 inMaxDepth, SInt32 *outDept
 	if ( (*outDepth == 16) || (*outDepth == 32) )
 	{
 		mUseCopyBits = true;
-		return( CColorUtils::GetColorTable( *outDepth ) );
+		return( UColorUtils::GetColorTable( *outDepth ) );
 	}
 	
 			// if there are too many colors in the image, call Apple's
 		// Pict Utils to create a color table for us. Otherwise, just
 		// generate a table from mColorArray.
 
-	SInt32 			maxColors = CColorUtils::DepthToNumColors( *outDepth );
+	SInt32 			maxColors = UColorUtils::DepthToNumColors( *outDepth );
 	CTabHandle		theTable = nil;
 
 	if ( uniqueColors > maxColors )
