@@ -4,7 +4,7 @@ Rezilla
 Rezilla is a resource forks editor for the Macintosh. 
 This is version 1.0.4a.
 
-The Rezilla project is a work in progress. This release is an alpha
+The Rezilla project is a work in progress. This release is still an alpha
 release, provided for people who want to give it a try at the current stage
 of its development. It comes with no guarantee and you use it at your own risk.
 That said, the present version has been thoroughly tested and has proven
@@ -12,7 +12,7 @@ quite stable and reliable.
 
 This new version adds the following features:
     ¥ it now has a template editor which is able to edit with a nice user
-  interface more than 365 resource types;
+  interface more than 370 resource types;
     ¥ additional templates can be defined in the Application Support folder;
     ¥ many new preferences have been added to customize the application;
     ¥ it is now possible to edit a resource using an another type's editor.

@@ -28,7 +28,7 @@ This changes log is in reverse chronological order (from bottom to top).
 $Date$
 
 ================================================================================
-= 1.0.4a 	                             last update: 
+= 1.0.4a 	                             last update: 2004-11-22 22:55:26
 ================================================================================
 ¥ Fourth public alpha release.
 
@@ -63,7 +63,12 @@ $Date$
 ¥ No double alert message when error thrown from stream parsing.
 ¥ Fixed display glitch when reactivating a hex editing window.
 ¥ Test samples file. Test suite templates.
-¥ If opening failed with write permission, ask to try again in read-only access.
+¥ If opening failed with write permission, ask to try again with
+  read-only access.
+¥ Inspector window's info updated correctly when the corresponding resource
+  is modified.
+¥ Close edited resources upon Save and SaveAs operations.
+¥ Better handling of resProtected bit upon saving.
 
 ================================================================================
 = 1.0.4a8	                             last update: 2004-09-17 10:55:56
