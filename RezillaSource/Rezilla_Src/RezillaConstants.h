@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2004-11-09 05:13:27
+//             Last modification : 2004-11-10 17:11:25
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -791,7 +791,7 @@ const SInt16	kTmplPopupFieldWidth	= 75;
 const SInt16	kTmplHexPaneWidth		= 288;
 const SInt16	kTmplLabelHeight		= 26;
 const SInt16	kTmplLabelWidth			= 150;
-const SInt16	kTmplLabelInterline		= -3;
+const SInt16	kTmplLabelInterline		= -5;
 const SInt16	kTmplListHeaderHeight	= 18;
 const SInt16	kTmplListHeaderWidth	= 250;
 const SInt16	kTmplRadioHeight		= 16;
