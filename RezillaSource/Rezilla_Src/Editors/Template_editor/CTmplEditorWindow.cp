@@ -2,7 +2,7 @@
 // CTmplEditorWindow.cp					
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-10-12 13:40:18
+//             Last modification: 2004-11-04 09:18:41
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -2644,9 +2644,14 @@ CTmplEditorWindow::RetrieveCountValue()
 OSErr
 CTmplEditorWindow::RevertWithTemplate()
 {
-	OSErr		error = noErr;
-	SInt32		oldYCoord = mYCoord;
-
+	OSErr			error = noErr;
+	SInt32			oldYCoord;
+	UInt32			theCount;
+	SDimension32	theSize;
+	
+	mContentsView->GetImageSize(theSize);
+	oldYCoord = theSize.height;
+	
 	// Delete all the sub panes in the contents view
 	mContentsView->DeleteAllSubPanes();
 	
@@ -2665,7 +2670,18 @@ CTmplEditorWindow::RevertWithTemplate()
 	mFixedCount			= false;
 	mYCoord             = kTmplVertSkip;
 	
+	// Reset the arrays
+	mWasteFields.RemoveAllItemsAfter(0);
+	mPaneIDs.RemoveAllItemsAfter(0);
+	mOffsetTypes.RemoveAllItemsAfter(0);
+	mOffsetMarks.RemoveAllItemsAfter(0);
+	mKeyValues.RemoveAllItemsAfter(0);
+	mKeyMarks.RemoveAllItemsAfter(0);
+	mKeyIDs.RemoveAllItemsAfter(0);
+	
 	mRezStream->SetMarker(0, streamFrom_Start);
+
+	mContentsView->Hide();
 
 	// Parse the template stream
 	error = DoParseWithTemplate(0, true, mContentsView);
@@ -2681,6 +2697,9 @@ CTmplEditorWindow::RevertWithTemplate()
 // 		mContentsView->Refresh();
 	} 
 	
+	mContentsView->Show();
+	mContentsView->Enable();
+	mContentsView->Activate();
 	Refresh();
 
 	return  error;
