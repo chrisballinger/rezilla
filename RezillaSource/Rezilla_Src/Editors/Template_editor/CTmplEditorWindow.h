@@ -76,7 +76,8 @@ public:
 	
 	LHandleStream*		GetOutStream() { return mOutStream;}
 
-	static ResIDT		sLeftLabelTraitsID,
+	static ResIDT		sCommentTraitsID,
+						sLeftLabelTraitsID,
 						sRightLabelTraitsID,
 						sHeaderTraitsID,
 						sEditTraitsID;
@@ -132,7 +133,8 @@ private:
 
 	Boolean			EndOfList(ResType inType);
 	
-	void			AddStaticField(Str255 inLabel, 
+	void			AddStaticField(OSType inType, 
+								   Str255 inLabel, 
 								   LView * inContainer, 
 								   ResIDT inTextTraitsID = Txtr_GenevaTenBoldUlRight);
 	

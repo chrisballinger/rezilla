@@ -52,6 +52,7 @@
 #include <string.h>
 
 // Statics
+ResIDT CTmplEditorWindow::sCommentTraitsID = Txtr_MonacoBlueNineCenter;
 ResIDT CTmplEditorWindow::sLeftLabelTraitsID = Txtr_GenevaTenBoldUlLeft;
 ResIDT CTmplEditorWindow::sRightLabelTraitsID = Txtr_GenevaTenBoldUlRight;
 ResIDT CTmplEditorWindow::sEditTraitsID = Txtr_GenevaTen;
@@ -976,6 +977,10 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		AlignBytesRead(4);
 		break;
 
+		case 'ALRT':
+		// Post an alert with description string
+		break;
+
 		case 'AWRD':
 		// Word align
 		AlignBytesRead(2);
@@ -988,14 +993,14 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 			*mRezStream >> theUInt8;
 		} 
 		// Edit the first bit
-		AddStaticField(inLabelString, inContainer);
+		AddStaticField(inType, inLabelString, inContainer);
 		AddCheckField( ((theUInt8 & 1<<7) > 0), inType, inContainer);	
 		for (i = 6; i >= 0 ; i--) {
 			// Consume the next 7 pairs in the template to get the
 			// corresponding labels.
 			*mTemplateStream >> theString;
 			*mTemplateStream >> theOSType;
-			AddStaticField(theString, inContainer);
+			AddStaticField(inType, theString, inContainer);
 			AddCheckField( ((theUInt8 & (1 << i)) > 0), inType, inContainer);	
 		}
 		break;
@@ -1005,7 +1010,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		if (mRezStream->GetMarker() < mRezStream->GetLength() ) {
 			*mRezStream >> theBool;
 		} 
-		AddStaticField(inLabelString, inContainer);
+		AddStaticField(inType, inLabelString, inContainer);
 		AddCheckField( theBool, inType, inContainer);		
 		break;
 
@@ -1014,7 +1019,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		if (mRezStream->GetMarker() < mRezStream->GetLength() ) {
 			*mRezStream >> theBool;
 		} 
-		AddStaticField(inLabelString, inContainer);
+		AddStaticField(inType, inLabelString, inContainer);
 		AddBooleanField( theBool, inType, tmpl_titleYesNo, inContainer);		
 		// BOOL template type is two bytes long, so let's consume one more byte
 		if (mRezStream->GetMarker() < mRezStream->GetLength() ) {
@@ -1036,7 +1041,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		} else {
 			theString[0] = 0;
 		}
-		AddStaticField(inLabelString, inContainer);
+		AddStaticField(inType, inLabelString, inContainer);
 		AddEditField(theString, inType, 1, 0, 
 					 UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar), inContainer);
 		break;
@@ -1044,7 +1049,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		case 'CSTR':
 		// C string. This should be either characters followed by a null or all
 		// the chars until the end of the stream if there is no null byte.
-		AddStaticField(inLabelString, inContainer, sLeftLabelTraitsID);
+		AddStaticField(inType, inLabelString, inContainer, sLeftLabelTraitsID);
 		mYCoord += kTmplLabelHeight + kTmplVertSkip;
 		AddWasteField(inType, inContainer);
  		break;
@@ -1055,7 +1060,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 			*mRezStream >> theUInt8;
 		} 
 		::NumToString( (long) theUInt8, numStr);
-		AddStaticField(inLabelString, inContainer);
+		AddStaticField(inType, inLabelString, inContainer);
 		AddEditField(numStr, inType, 3, 0, 
 					 UKeyFilters::SelectTEKeyFilter(keyFilter_Integer), inContainer);
 		break;
@@ -1066,9 +1071,14 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 			*mRezStream >> theUInt32;
 		} 
 		::NumToString( (long) theUInt32, numStr);
-		AddStaticField(inLabelString, inContainer);
+		AddStaticField(inType, inLabelString, inContainer);
 		AddEditField(numStr, inType, 5, 0, 
 					 UKeyFilters::SelectTEKeyFilter(keyFilter_Integer), inContainer);
+		break;
+
+		case 'DVDR':
+		// Divider
+		AddSeparatorLine(inContainer);
 		break;
 
 		case 'DWRD':
@@ -1077,14 +1087,14 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 			*mRezStream >> theUInt16;
 		} 
 		::NumToString( (long) theUInt16, numStr);
-		AddStaticField(inLabelString, inContainer);
+		AddStaticField(inType, inLabelString, inContainer);
 		AddEditField(numStr, inType, 10, 0, 
 					 UKeyFilters::SelectTEKeyFilter(keyFilter_Integer), inContainer);
 		break;
 
 		case 'ECST':
 		// Even-padded C string (padded with nulls)
-		AddStaticField(inLabelString, inContainer, sLeftLabelTraitsID);
+		AddStaticField(inType, inLabelString, inContainer, sLeftLabelTraitsID);
 		mYCoord += kTmplLabelHeight + kTmplVertSkip;
 		// Padding is handled there
 		AddWasteField(inType, inContainer);
@@ -1104,7 +1114,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		} else {
 			theString[0] = 0;
 		}
-		AddStaticField(inLabelString, inContainer);
+		AddStaticField(inType, inLabelString, inContainer);
 		AddEditField(theString, inType, 255, 0, 
 					 UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar), inContainer);
 		
@@ -1140,14 +1150,14 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		BuildFormatString(formatString, 2);
 		sprintf(charString, formatString, theUInt8, NULL);
 		CopyCStringToPascal(charString, theString);
-		AddStaticField(inLabelString, inContainer);
+		AddStaticField(inType, inLabelString, inContainer);
 		AddEditField(theString, inType, 2 + CRezillaPrefs::GetPrefValue(kPref_editors_hexSymbol), 0, 
 					 &UHexFilters::HexTemplateField, inContainer);
 		break;
 
 		case 'HEXD':
 		// Hex dump of remaining bytes in resource (this can only be the last type in a resource)
-		AddStaticField(inLabelString, inContainer, sLeftLabelTraitsID);
+		AddStaticField(inType, inLabelString, inContainer, sLeftLabelTraitsID);
 		mYCoord += kTmplLabelHeight + kTmplVertSkip;
 		AddHexDumpField(inType, inContainer);
 		break;
@@ -1161,7 +1171,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		BuildFormatString(formatString, 8);
 		sprintf(charString, formatString, theUInt32, NULL);
 		CopyCStringToPascal(charString, theString);
-		AddStaticField(inLabelString, inContainer);
+		AddStaticField(inType, inLabelString, inContainer);
 		AddEditField(theString, inType, 8 + CRezillaPrefs::GetPrefValue(kPref_editors_hexSymbol), 0, 
 					 &UHexFilters::HexTemplateField, inContainer);
 		break;
@@ -1175,9 +1185,14 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		BuildFormatString(formatString, 4);
 		sprintf(charString, formatString, theUInt16, NULL);
 		CopyCStringToPascal(charString, theString);
-		AddStaticField(inLabelString, inContainer);
+		AddStaticField(inType, inLabelString, inContainer);
 		AddEditField(theString, inType, 4 + CRezillaPrefs::GetPrefValue(kPref_editors_hexSymbol), 0, 
 					 &UHexFilters::HexTemplateField, inContainer);
+		break;
+
+		case 'LABL':
+		// Insert a comment
+		AddStaticField(inType, inLabelString, inContainer, sCommentTraitsID);
 		break;
 
 		case 'LSTB':
@@ -1195,7 +1210,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 
 		case 'LSTR':
 		// Long string (length long followed by the characters)
-		AddStaticField(inLabelString, inContainer, sLeftLabelTraitsID);
+		AddStaticField(inType, inLabelString, inContainer, sLeftLabelTraitsID);
 		mYCoord += kTmplLabelHeight + kTmplVertSkip;
 		AddWasteField(inType, inContainer);
 		break;
@@ -1215,7 +1230,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 
 		case 'OCST':
 		// Odd-padded C string (padded with nulls)
-		AddStaticField(inLabelString, inContainer, sLeftLabelTraitsID);
+		AddStaticField(inType, inLabelString, inContainer, sLeftLabelTraitsID);
 		mYCoord += kTmplLabelHeight + kTmplVertSkip;
 		// Padding is handled there
 		AddWasteField(inType, inContainer);
@@ -1235,7 +1250,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		} else {
 			theString[0] = 0;
 		}
-		AddStaticField(inLabelString, inContainer);
+		AddStaticField(inType, inLabelString, inContainer);
 		AddEditField(theString, inType, 255, 0, 
 					 UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar), inContainer);
 		break;
@@ -1247,7 +1262,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		} else {
 			theString[0] = 0;
 		}
-		AddStaticField(inLabelString, inContainer);
+		AddStaticField(inType, inLabelString, inContainer);
 		AddEditField(theString, inType, 255, 0, 
 					 UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar), inContainer);
 		break;
@@ -1262,7 +1277,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 				*mRezStream >> theRight;
 			} 
 			mYCoord += kTmplRectVertSkip;
-			AddStaticField(inLabelString, inContainer);
+			AddStaticField(inType, inLabelString, inContainer);
 			mYCoord -= kTmplRectVertSkip;
 			AddRectField(theTop, theLeft, theBottom, theRight, inType, 5, 0, 
 						 UKeyFilters::SelectTEKeyFilter(keyFilter_Integer), inContainer);
@@ -1277,14 +1292,14 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		} else {
 			theString[0] = 0;
 		}
-		AddStaticField(inLabelString, inContainer);
+		AddStaticField(inType, inLabelString, inContainer);
 		AddEditField(theString, inType, 4, 0, 
 					 UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar), inContainer);
 		break;
 
 		case 'WSTR':
 		// Same as LSTR, but a word rather than a long word
-		AddStaticField(inLabelString, inContainer, sLeftLabelTraitsID);
+		AddStaticField(inType, inLabelString, inContainer, sLeftLabelTraitsID);
 		mYCoord += kTmplLabelHeight + kTmplVertSkip;
 		AddWasteField(inType, inContainer);
  		break;
@@ -1305,12 +1320,12 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 	  if (inType >> 24 == 'H') {
 		  // Hnnn A 3-digit hex number; displays nnn bytes in hex format
 		  // 0xfff = 4095
-		  AddStaticField(inLabelString, inContainer, sLeftLabelTraitsID);
+		  AddStaticField(inType, inLabelString, inContainer, sLeftLabelTraitsID);
 		  mYCoord += kTmplLabelHeight + kTmplVertSkip;
 		  AddHexDumpField(inType, inContainer);
 	  } else if (inType >> 24 == 'C') {
 		  // Cnnn A C string that is nnn hex bytes long (The last byte is always a 0, so the string itself occupies the first nnn-1 bytes.)
-		  AddStaticField(inLabelString, inContainer, sLeftLabelTraitsID);
+		  AddStaticField(inType, inLabelString, inContainer, sLeftLabelTraitsID);
 		  mYCoord += kTmplLabelHeight + kTmplVertSkip;
 		  AddWasteField(inType, inContainer);
 	  } else if ( inType >> 16 == 'P0') {
@@ -1331,7 +1346,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		  } else {
 			theString[0] = 0;
 		}
-		AddStaticField(inLabelString, inContainer);
+		AddStaticField(inType, inLabelString, inContainer);
 		AddEditField(theString, inType, length, 0, 
 					   UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar), inContainer);	  	
 	  } else {
@@ -1397,12 +1412,19 @@ CTmplEditorWindow::BuildScanString(char * inString, char * ioFormat, UInt8 inLen
 // ---------------------------------------------------------------------------
 
 void
-CTmplEditorWindow::AddStaticField(Str255 inLabel, LView * inContainer, ResIDT inTextTraitsID)
+CTmplEditorWindow::AddStaticField(OSType inType, Str255 inLabel, LView * inContainer, ResIDT inTextTraitsID)
 {
 	sStaticPaneInfo.left		= kTmplLeftMargin;
 	sStaticPaneInfo.top			= mYCoord;
-	sStaticPaneInfo.width		= kTmplLabelWidth;
 	sStaticPaneInfo.superView	= inContainer;
+	
+	if (inType == 'LABL') {
+		SDimension16	theFrame;
+		inContainer->GetFrameSize(theFrame);
+		sStaticPaneInfo.width = theFrame.width - kTmplLeftMargin * 2;
+	} else {
+		sStaticPaneInfo.width = kTmplLabelWidth;
+	}
 
 	LStaticText * theStaticText = new LStaticText(sStaticPaneInfo, inLabel, inTextTraitsID);
 	ThrowIfNil_(theStaticText);
