@@ -502,7 +502,6 @@ CRezillaApp::ObeyCommand(
 					UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("RezMapsDoNotDiffer"), PPob_SimpleMessage);
 				}
 			} 
-// 			delete theComparator;
 			break;
 		}
 		
