@@ -2,11 +2,11 @@
 // CRezMapWindow.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2004-10-13 09:33:56
+//             Last modification: 2005-03-22 12:54:08
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003-2004
+// (c) Copyright : Bernard Desgraupes, 2003-2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -131,63 +131,6 @@ CRezMapWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 {
 #pragma unused( ioParam, inMessage )
 	
-}
-
-
-// ---------------------------------------------------------------------------
-//	¥ HandleKeyPress												  [public]
-// ---------------------------------------------------------------------------
-//	DialogBox handles keyboard equivalents for hitting the ApplyLeft and ApplyRight Buttons
-//  and Slider movements.
-
-Boolean
-CRezMapWindow::HandleKeyPress(
-	const EventRecord&	inKeyEvent)
-{
-	Boolean		keyHandled	= true;
-	LControl*	keyButton	= nil;
-	UInt8		theChar		= (UInt8) (inKeyEvent.message & charCodeMask);
-// 	
-// 	if (inKeyEvent.modifiers & cmdKey) {
-// 		if ( theChar == char_LeftArrow) {
-// 			keyButton = dynamic_cast<LControl*>(mToOldArrow);		
-// 		} else if ( theChar == char_RightArrow ) {
-// 			keyButton = dynamic_cast<LControl*>(mToNewArrow);		
-// 		} 
-// 	} else {
-// 		SInt32 theValue;
-// 		theValue = mSlider->GetValue();
-// 		
-// 		if ( (theChar == char_UpArrow) || (theChar == char_PageUp) ) {
-// 			--theValue;
-// 			if (theValue == 0) {
-// 				return keyHandled;
-// 			} 
-// 		} else if ( (theChar == char_DownArrow) || (theChar == char_PageDown) ) {
-// 			++theValue;
-// 			if (theValue > mOwnerDoc->GetDiffsCount()) {
-// 				return keyHandled;
-// 			} 
-// 		}  else if ( theChar == char_Home ) {
-// 			theValue = 1;
-// 		}
-// 		 else if ( theChar == char_End ) {
-// 			theValue = mOwnerDoc->GetDiffsCount();
-// 		 }
-// 		 
-// 		mSlider->SetValue(theValue);
-// 		mOwnerDoc->AdjustInfoLine(theValue);
-// 		DisplayCountField(theValue);
-// 		mOwnerDoc->AdjustBothSelections(theValue);
-// 	}
-// 	
-// 	if (keyButton != nil) {
-// 		keyButton->SimulateHotSpotClick(kControlButtonPart);
-// 	} else {
-// 		keyHandled = LWindow::HandleKeyPress(inKeyEvent);
-// 	}
-	
-	return keyHandled;
 }
 
 

@@ -2,11 +2,11 @@
 // CRezMapWindow.h				
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2004-04-11 21:49:12
+//             Last modification: 2005-03-22 12:53:54
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003-2004
+// (c) Copyright : Bernard Desgraupes, 2003-2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -34,8 +34,6 @@ public:
 
 	
 	virtual void		ListenToMessage( MessageT inMessage, void *ioParam);
-
-	virtual Boolean			HandleKeyPress( const EventRecord&	inKeyEvent);
 
 	virtual CRezMapTable*	GetRezMapTable() { return mRezMapTable;}
 	void					SetRezMapTable(CRezMapTable* theRezMapTable) {mRezMapTable = theRezMapTable ;}
