@@ -281,9 +281,8 @@ CRezMap::FindResource(ResType inType, short inID, Boolean loadIt, Boolean create
 			CRezType *	theRezType = new CRezType(inType, this);
 			Str255		name = "\p";
 			
-			theRez = new CRezObj(theRezType, inID, &name);
+			theRez = new CRezObj(mRefNum, inType, inID, &name);
 			error = theRez->Add();
-			delete theRezType;
 		} 
 	} else {
 		theRez = new CRezObj(theHandle, mRefNum);
@@ -295,6 +294,43 @@ CRezMap::FindResource(ResType inType, short inID, Boolean loadIt, Boolean create
 	
 	return theRez;
 }
+
+
+// CRezObj *
+// CRezMap::FindResource(ResType inType, short inID, Boolean loadIt, Boolean createIt)
+// {
+// 	OSErr		error;
+// 	CRezObj *	theRez = NULL;
+// 	Handle		theHandle = NULL;
+// 	
+// 	StRezRefSaver saver(mRefNum);
+// 	if (!loadIt) {
+// 		::SetResLoad(false);
+// 	} 
+// 	
+// 	theHandle = ::Get1Resource(inType, inID);
+// 	error = ::ResError();
+// 	
+// 	if (theHandle == NULL) {
+// 		if (createIt) {
+// 			// The resource does not exist. Create it now.
+// 			CRezType *	theRezType = new CRezType(inType, this);
+// 			Str255		name = "\p";
+// 			
+// 			theRez = new CRezObj(theRezType, inID, &name);
+// 			error = theRez->Add();
+// 			delete theRezType;
+// 		} 
+// 	} else {
+// 		theRez = new CRezObj(theHandle, mRefNum);
+// 	}
+// 	
+// 	if (!loadIt) {
+// 		::SetResLoad(true);
+// 	} 
+// 	
+// 	return theRez;
+// }
 
 
 // ---------------------------------------------------------------------------
