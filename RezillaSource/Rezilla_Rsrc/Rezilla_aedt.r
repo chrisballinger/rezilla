@@ -1,5 +1,6 @@
 #include "AppleEvents.r"
 
+
 resource 'aedt' (128, "Required Suite") {
 	{
 /* 'aevt', 'oapp' */	1634039412, 1868656752, 1001,
