@@ -574,7 +574,7 @@ const MessageT	msg_DualViewEdited			= 	FOUR_CHAR_CODE('DuEd');
 const MessageT	msg_TmplMinusButton			= 	FOUR_CHAR_CODE('Mins');
 const MessageT	msg_TmplPlusButton			= 	FOUR_CHAR_CODE('Plus');
 const MessageT	msg_TmplCasePopup			= 	FOUR_CHAR_CODE('Case');
-const MessageT	msg_TmplModified			= 	FOUR_CHAR_CODE('TmMd');
+const MessageT	msg_TmplModifiedItem		= 	FOUR_CHAR_CODE('TmMd');
 
 
 
