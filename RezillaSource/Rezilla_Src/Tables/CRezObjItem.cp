@@ -213,7 +213,7 @@ CRezObjItem::DoubleClick(
 		CRezMapTable *theRezMapTable = dynamic_cast<CRezMapTable*>(mOutlineTable);
 		CRezMapWindow * theRezMapWindow = dynamic_cast<CRezMapWindow*>( UDesktop::FetchTopRegular() );
 		new CHexEditorDoc(theRezMapWindow->GetSuperCommander(), theRezMapTable,
-						  mRezObj, theRezMapWindow->GetOwnerDoc()->GetReadOnlyDoc());
+						  mRezObj, theRezMapWindow->GetOwnerDoc()->IsReadOnly());
 	}
 }
 

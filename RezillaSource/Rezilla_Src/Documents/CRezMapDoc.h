@@ -128,8 +128,8 @@ public:
 
 	TArray<CEditorDoc *>*	GetOpenedEditors() { return mOpenedEditors ;}
 	
-	Boolean				GetReadOnlyDoc() { return mReadOnlyDoc;}
-	void				SetReadOnlyDoc(Boolean inReadOnlyDoc) {mReadOnlyDoc = inReadOnlyDoc;}
+	Boolean				IsReadOnly() { return mReadOnly;}
+	void				SetReadOnly(Boolean inReadOnlyDoc) {mReadOnly = inReadOnlyDoc;}
 
 protected:
 	SInt16					mFork;
@@ -142,7 +142,7 @@ protected:
 	                 		                  	// dependent from this doc (all edit 
 	                 		                  	// windows for resources in this map)
 	Boolean					mUpdateOnClose;
-	Boolean					mReadOnlyDoc;
+	Boolean					mReadOnly;
 	SInt16					mExportFormat;
 	
 	void				NameNewDoc();

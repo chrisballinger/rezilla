@@ -202,7 +202,7 @@ CRezMapDoc::Initialize(FSSpec * inFileSpec, short inRefnum)
 	mUpdateOnClose = true;
 	mExportFormat = export_Xml;
 	mFileStream   = nil;
-	mReadOnlyDoc = false;
+	mReadOnly = false;
 	
 	if (mRezFile == nil) {
 		if (inFileSpec != nil) {
@@ -337,7 +337,7 @@ CRezMapDoc::ObeyCommand(
 			while (iterator.Next(&theItem)) {
 				switch (inCommand) {		
 					case cmd_HexEditRez:
-						new CHexEditorDoc(this, mRezMapWindow->GetRezMapTable(), theItem->GetRezObj(), mReadOnlyDoc);
+						new CHexEditorDoc(this, mRezMapWindow->GetRezMapTable(), theItem->GetRezObj(), mReadOnly);
 						break;
 					
 					case cmd_GuiEditRez:
@@ -1080,12 +1080,12 @@ CRezMapDoc::FindCommandStatus(
 		case cmd_Clear:
 		case cmd_RemoveRez:
 		case cmd_DuplicateRez:
-			outEnabled = ( !mReadOnlyDoc && HasSelection() );
+			outEnabled = ( !mReadOnly && HasSelection() );
 			break;
 
 		case cmd_Paste:
 		case cmd_NewRez:
-			outEnabled = !mReadOnlyDoc ;
+			outEnabled = !mReadOnly ;
 			break;
 		
 // 		case cmd_SelectAll:	{		// Check if the rezmap is not empty
@@ -1406,7 +1406,7 @@ CRezMapDoc::DuplicateResource(CRezObj* inRezObj)
 	CRezTypeItem * theRezTypeItem;
 	Str255 theName;
 	
-	if (mReadOnlyDoc) {
+	if (mReadOnly) {
 		return;
 	} 
 	
@@ -1484,7 +1484,7 @@ CRezMapDoc::RemoveResource(CRezObjItem* inRezObjItem)
 	short theCount;
 	OSErr error;
 
-	if (mReadOnlyDoc) {
+	if (mReadOnly) {
 		return;
 	} 
 	
@@ -1542,7 +1542,7 @@ CRezMapDoc::PasteRezMap(CRezMap * srcRezMap)
 	MessageT 	theAction = answer_Do;
 	CRezObj *	theRezObj;
 	
-	if (mReadOnlyDoc) {
+	if (mReadOnly) {
 		::SysBeep(3);
 		return;
 	} 
@@ -1614,7 +1614,7 @@ CRezMapDoc::PasteResource(ResType inType, short inID, Handle inHandle,
 	CRezType *		theRezType;
 	CRezObjItem *	theRezObjItem;
 
-	if (mReadOnlyDoc) {
+	if (mReadOnly) {
 		return;
 	} 
 	

@@ -718,7 +718,7 @@ CRezMapTable::ItemIsAcceptable(DragReference inDragRef, ItemReference inItemRef)
 	FlavorFlags	theFlags;
 	Boolean isDirectory = false;
 	
-	if ( GetOwnerDoc()->GetReadOnlyDoc() ) {
+	if ( GetOwnerDoc()->IsReadOnly() ) {
 		return false;
 	} 
 	
