@@ -2,11 +2,11 @@
 // CTmplEditorWindow.cp					
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2005-01-15 09:55:33
+//             Last modification: 2005-03-25 14:19:27
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes, 2004, 2005
+// (c) Copyright: Bernard Desgraupes, 2004-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -399,52 +399,13 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			
 			
 		case msg_EditorModifiedItem:
-			SetDirty(true);
-			break;
-		
-		
-		case msg_TmplCasePopup: {
-			STmplBevelInfo	theBevelInfo = *((STmplBevelInfo *) ioParam);								
-			LEditText *		theEditText;
-			CTmplCasePopup *	theBevel;
-			SInt32			firstMark, currMark;
-			Str255			theString;
-			Str255 * 		rightPtr;
-			ResType			theType;
-			SInt16			i, choice;
-			
-			choice = theBevelInfo.menuChoice;
-			theBevel = dynamic_cast<CTmplCasePopup *>(theBevelInfo.selfPtr);
-			if (theBevel != NULL) {
-				theEditText = (LEditText *) theBevel->GetUserCon();
-				
-				firstMark = theEditText->GetUserCon();
-				currMark = mTemplateStream->GetMarker();
-				mTemplateStream->SetMarker(firstMark, streamFrom_Start);
-
-				for ( i = 0; i < choice ; i++) {
-					*mTemplateStream >> theString;
-					*mTemplateStream >> theType;
-				}
-
-				if ( UMiscUtils::SplitCaseValue(theString, &rightPtr) ) {
-					theEditText->SetDescriptor(*rightPtr);
-				} 
-				mTemplateStream->SetMarker(currMark, streamFrom_Start);
-			}
-			
+		case msg_TmplCasePopup: 
+		case msg_PopupEditField: 
 			// Window has been modified
 			SetDirty(true);
 			break;
-		}
-		
-		
-		case msg_PopupEditField: 
-		// Window has been modified
-		SetDirty(true);
-		break;
-		
 
+			
 		default:
 		CEditorWindow::ListenToMessage(inMessage, ioParam);
 		break;
