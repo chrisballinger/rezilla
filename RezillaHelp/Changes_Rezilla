@@ -28,7 +28,15 @@ This changes log is in reverse chronological order (from bottom to top).
 $Date$
 
 ================================================================================
-= 1.0.5a3	                             last update: 
+= 1.0.5a4	                             last update: 
+================================================================================
+¥ Completed Unicode editor.
+¥ Added "Do Font Substitution" preference for Unicode editor.
+¥ Split Templates and Editors preferences in two separate panes.
+¥ 
+
+================================================================================
+= 1.0.5a3	                             last update: 2005-01-15 09:36:39
 ================================================================================
 ¥ Modified Text editors menus. They are now in the menu bar rather than in 
   popup menus at the top of every text editing window.
@@ -38,14 +46,13 @@ $Date$
   field in the window header).
 ¥ Added pattern suite ('PAT#') support in the bitmap editor.
 ¥ Added icon suite ('SICN') support in the bitmap editor (Clarus is back!).
-¥ 
 
 ================================================================================
 = 1.0.5a2	                             last update: 2005-01-08 12:10:31
 ================================================================================
 ¥ Added a bitmap editor for resources of type:
 	  'cicn', 'crsr', 'CURS', 'icl4', 'icl8', 'icm#', 'icm4', 'icm8',
-	  'ICN#', 'ICON', 'ics#', 'ics4', 'ics8', 'PAT ', 'ppat'
+	  'ICN#', 'ICON', 'ics#', 'ics4', 'ics8', 'PAT ', 'ppat'.
 ¥ Added bitmap editor doc in the help files.
 ¥ Added Text editor doc in the help files.
 ¥ Added templates for 11 icon types:
