@@ -2,7 +2,7 @@
 // CWasteEditText.cp
 // 
 // Created: 2001-09-05 18:22:04 
-// Last modification: 2004-11-06 11:45:19
+// Last modification: 2004-11-10 17:11:41
 // Author: Bernard Desgraupes 
 // e-mail: <bdesgraupes@easyconnect.fr> 
 // www: <http://webperso.easyconnect.fr/bdesgraupes/> 
@@ -215,19 +215,19 @@ CWasteEditView::ApplyTextTraits(TextTraitsPtr	inTextTraits,
 	short			theMode;
 	RGBColor		theColor = Color_Black;
 	TextStyle		theStyle ;
-
+	
 	// Define the attributes
 	if (inTextTraits == nil) {
 		// Use default font settings
 		theStyle.tsFont = ::GetAppFont();
 		theStyle.tsSize = ::GetDefFontSize();;
 		theStyle.tsFace = 0;
-		theMode = srcOr;
+		theMode = srcOr;  // not srcCopy otherwise hiliting is incorrect
 	} else {
 		// Set characteristics from TextTraits. The font number is cached
 		// in the TextTraits so that future references will be faster.
 		UTextTraits::LoadTextTraits(inTextTraits);
-
+		
 		theStyle.tsFont = inTextTraits->fontNumber;
 		theStyle.tsSize = inTextTraits->size;
 		theStyle.tsFace = (UInt8) inTextTraits->style;
@@ -236,31 +236,25 @@ CWasteEditView::ApplyTextTraits(TextTraitsPtr	inTextTraits,
 		theJustification = inTextTraits->justification;
 	}
 	
+	// Set Port Font and Size so WE uses the correct
+	// settings for its internal tables. Not sure we need that.
+	::TextFont(theStyle.tsFont);		
+	::TextSize(theStyle.tsSize);
+	
 	// Set the attributes
-	WESetOneAttribute(0, 0x7FFFFFFF, weTagTETextStyle,
-					  & theStyle, sizeof ( theStyle ), inWERef) ;
-	WESetSelection( 0, 0x7FFFFFFF, inWERef) ;
-	WESetAlignment( theJustification, inWERef);
-	WESetOneAttribute(0, 0x7FFFFFFF, weTagTransferMode,
-					  & theMode, sizeof ( theMode ), inWERef) ;
-	WESetOneAttribute( 0, 0x7FFFFFFF, weTagTextColor,
-					  & theColor, sizeof ( theColor ), inWERef) ;
+	// weDoAll = weDoFont | weDoFace | weDoSize | weDoColor
+	WESetStyle(weDoAll,&theStyle,mWasteEditRef);
+	WESetAlignment( theJustification, mWasteEditRef );
+	WESetOneAttribute(0, 0x7FFFFFFF, weTagTransferMode, & theMode, sizeof ( theMode ), inWERef) ;
+	WESetOneAttribute( 0, 0x7FFFFFFF, weTagTextColor, & theColor, sizeof ( theColor ), inWERef) ;
 	
 	// Calculate a default line spacing based on Font
 	SetLineHeight( GetLineHeightFromStyle(theStyle) );
-
+	
 	// Reflow text
 	WECalText(inWERef);			
 }
 
-// // Set Port Font and Size so WE uses the correct
-// // settings for its internal tables
-// ::TextFont(theStyle.tsFont);		
-// ::TextSize(theStyle.tsSize);
-// 
-// // weDoAll = weDoFont | weDoFace | weDoSize | weDoColor
-// WESetStyle(weDoAll,&theStyle,mWasteEditRef);
-// WESetAlignment( justification, mWasteEditRef );
 
 #pragma mark -
 
