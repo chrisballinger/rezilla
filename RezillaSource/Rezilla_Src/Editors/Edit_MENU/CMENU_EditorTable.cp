@@ -80,31 +80,50 @@ CMENU_EditorTable::HandleKeyPress(
 	
 	if (inKeyEvent.modifiers & cmdKey) {
 		keyHandled = LCommander::HandleKeyPress(inKeyEvent);
-	} else {
-		SInt32 theValue = 0;
-		// 		theValue = mSlider->GetValue();
-
-		if ( (theChar == char_UpArrow) || (theChar == char_PageUp) ) {
+	} else if (mRows > 0) {
+		TableCellT	theCell;
+		SInt32		theValue;
+		
+		GetSelectedCell( theCell );
+		theValue = theCell.row;
+		
+		switch (theChar) {
+			case char_UpArrow:
 			--theValue;
-// 			if (theValue == 0) {
-// 				return keyHandled;
-// 			} 
-		} else if ( (theChar == char_DownArrow) || (theChar == char_PageDown) ) {
+			if (theValue == 0) {theValue = mRows;} 
+			break;
+			
+			case char_DownArrow:
 			++theValue;
-// 			if (theValue > theCount) {
-// 				return keyHandled;
-// 			} 
-		}  else if ( theChar == char_Home ) {
+			if (theValue > mRows) {theValue = 1;} 
+			break;
+			
+			case char_PageUp:
+			--theValue;
+			if (theValue == 0) {return keyHandled;} 
+			break;
+			
+			case char_PageDown:
+			++theValue;
+			if (theValue > mRows) {return keyHandled;} 
+			break;
+			
+			case char_Home:
 			theValue = 1;
+			break;
+			
+			case char_End:
+			theValue = mRows;
+			break;
 		}
-		 else if ( theChar == char_End ) {
-// 			theValue = theCount;
-		 }
+		
+		theCell.row = theValue;
+		SelectCell(theCell);
+		BroadcastMessage(msg_MenuTableClicked,this);
 	}
-
+	
 	return keyHandled;
 }
-
 
 // ---------------------------------------------------------------------------------
 //   Click
