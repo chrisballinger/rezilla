@@ -26,6 +26,8 @@
 #include "UMiscUtils.h"
 
 #include <LControlImp.h>
+#include <LStaticText.h>
+#include <LThemeTextBox.h>
 
 PP_Begin_Namespace_PowerPlant
 
@@ -222,6 +224,23 @@ CPopupEditField::ListenToMessage( MessageT inMessage, void *ioParam )
 		if ( UMiscUtils::SplitCaseValue(theString, &rightPtr) ) {
 			SetDescriptor(*rightPtr);
 		} 
+		Str255 theString;
+		SInt32 theGlyph;
+		
+		::StringToNum( *rightPtr, &theGlyph);
+		// /_In Progress/_Text Classes/LThemeTextBox
+// 		LThemeTextBox * theStaticText = dynamic_cast<LThemeTextBox *>(GetSuperView()->FindPaneByID(50));
+// 		ThrowIfNil_( theStaticText );
+// 		theString[0] = 255;
+// 		for ( SInt16 index = 1; index <= 16; index++ ) {
+// 			theString[index] = 32;
+// 		}
+// 		for ( SInt16 index = 17; index <= 255; index++ ) {
+// 			theString[index] = index;
+// 		}
+// 		
+// 		theStaticText->SetDescriptor(theString);
+
 		return;
 	} 
 	
