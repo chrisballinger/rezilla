@@ -2,7 +2,7 @@
 // CTEXT_EditorView.cp
 // 
 //                       Created: 2004-06-19 13:23:32
-//             Last modification: 2005-01-27 18:10:17
+//             Last modification: 2005-03-08 19:40:11
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -62,6 +62,7 @@ CTEXT_EditorView::CTEXT_EditorView(
 
 	: LTextEditView(inStream)
 {
+
 	TextTraitsRecord theTraits = CRezillaPrefs::GetStyleElement( CRezillaPrefs::prefsType_Curr );
 	TextStyle	theStyle;
 	SInt16		justification = teFlushDefault;
@@ -208,6 +209,14 @@ CTEXT_EditorView::FindCommandStatus(
 			outName[0] = 0;
 			return;
 		}
+		
+		if ( inCommand == cmd_MenuTextWrap )
+		{
+			outEnabled = true;
+			outMark = HasAttribute(textAttr_WordWrap) ? checkMark : 0;
+			outUsesMark = true;
+			return;
+		}		
 		
 		// Other commands
 		switch( inCommand )
@@ -360,6 +369,11 @@ CTEXT_EditorView::ObeyCommand(
 				SetSize(theSize);
 			}
 		}
+		break;
+		
+		case cmd_MenuTextWrap:
+		ToggleAttribute(textAttr_WordWrap, ! HasAttribute(textAttr_WordWrap) );
+		
 		break;
 		
 		default:

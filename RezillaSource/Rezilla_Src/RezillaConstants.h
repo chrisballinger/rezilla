@@ -452,7 +452,8 @@ const CommandT	cmd_MenuResourceBase		= 1200;
 // const CommandT	cmd_MenuWindowsBase			= 1300;  // reserved
 // Text editor
 const CommandT	cmd_MenuTextSizeBase		= 1400;		// font sizes are (cmdID - 1400)
-const CommandT	cmd_MenuTextSizeLast		= 1499;		// and within this range
+const CommandT	cmd_MenuTextSizeLast		= 1489;		// and within this range
+const CommandT	cmd_MenuTextWrap			= 1490;
 // Unicode editor
 const CommandT	cmd_MenuUtxtSizeBase		= 1500;		// font sizes are (cmdID - 1400)
 const CommandT	cmd_MenuUtxtSizeLast		= 1599;		// and within this range
@@ -688,15 +689,13 @@ const PaneIDT	item_MiscPrefsSetSigOnCreate	= 5;
 const PaneIDT	item_MiscPrefsOnlyRsrcExt		= 6;
 // Text Editor Window
 // ------------------
-const PaneIDT   item_TextEditFontMenu	= 1;
-const PaneIDT   item_TextEditSizeMenu	= 2;
-const PaneIDT   item_TextEditStyleMenu	= 3;
-const PaneIDT   item_TextEditLength		= 4;
+const PaneIDT   item_TextEditLength		= 1;
+const PaneIDT   item_TextEditWrap		= 2;
 // Pict Viewer Window
 // ------------------
-const PaneIDT   item_PictEditSize			= 1;
-const PaneIDT   item_PictEditWidth			= 2;
-const PaneIDT   item_PictEditHeight			= 3;
+const PaneIDT   item_PictEditSize		= 1;
+const PaneIDT   item_PictEditWidth		= 2;
+const PaneIDT   item_PictEditHeight		= 3;
 // Utxt Editor Window
 // ------------------
 const PaneIDT   item_UtxtEditFontMenu	= 1;
@@ -972,9 +971,7 @@ const MessageT	msg_EditorCancel			= msg_Cancel;
 const MessageT	msg_EditorRevert			= cmd_Revert;
 // Text Editor Window
 // ------------------
-const MessageT	msg_TextEditFontMenu		= PPob_TextEditorWindow + item_TextEditFontMenu;
-const MessageT	msg_TextEditSizeMenu		= PPob_TextEditorWindow + item_TextEditSizeMenu;
-const MessageT	msg_TextEditStyleMenu		= PPob_TextEditorWindow + item_TextEditStyleMenu;
+const MessageT	msg_TextEditWrap			= PPob_TextEditorWindow + item_TextEditWrap;
 // Text Editor Window
 // ------------------
 const MessageT	msg_UtxtEditFontMenu		= PPob_UtxtEditorWindow + item_UtxtEditFontMenu;
