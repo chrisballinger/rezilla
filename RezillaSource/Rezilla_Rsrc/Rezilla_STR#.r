@@ -1,7 +1,7 @@
 // ===========================================================================
 // Rezilla_STR#.r					
 //                       Created: 2004-02-28 22:51:23
-//             Last modification: 2004-12-13 13:50:06
+//             Last modification: 2004-12-27 14:45:47
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -18,16 +18,10 @@ resource 'STR#' (1500, "New doc titles", purgeable) {
 	{	
 /* [1] */	"untitled rez map [1]",
 /* [2] */	"untitled rez map",
-/* [3] */	"untitled hex [1]",
-/* [4] */	"untitled hex",
-/* [5] */	"Comparison window [1]",
-/* [6] */	"Comparison window",
-/* [7] */	"untitled template editor [1]",
-/* [8] */	"untitled template editor",
-/* [9] */	"untitled TEXT editor [1]",
-/* [10] */	"untitled TEXT editor",
-/* [11] */	"untitled Aete editor [1]",
-/* [12] */	"untitled Aete editor"
+/* [3] */	"Comparison window [1]",
+/* [4] */	"Comparison window",
+/* [5] */	"untitled [1]",
+/* [6] */	"untitled"
 	}
 };
 

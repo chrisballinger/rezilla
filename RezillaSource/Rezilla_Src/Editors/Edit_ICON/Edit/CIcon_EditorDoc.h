@@ -51,18 +51,14 @@ public:
 
 	virtual Boolean		AllowSubRemoval( LCommander* inSub );
 	virtual SInt16		AskSaveChanges( bool inQuitting );
-
-	void				SaveStylResource(StScrpHandle inScrapHandle);
 	
 protected:
 	CIcon_EditorWindow *		mIconEditWindow;
-// 	mDepth
 
 	virtual Handle		GetModifiedResource();
 
 private:
 	void				Initialize();
-	void				NameNewEditorDoc();
 };
 
 

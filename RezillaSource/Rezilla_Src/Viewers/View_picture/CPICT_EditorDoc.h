@@ -2,7 +2,7 @@
 // CPICT_EditorDoc.h				
 // 
 //                       Created: 2004-12-06 14:54:09
-//             Last modification: 2004-12-08 00:38:32
+//             Last modification: 2004-12-27 14:49:33
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -59,7 +59,6 @@ protected:
 
 private:
 	void				Initialize();
-	void				NameNewEditorDoc();
 };
 
 

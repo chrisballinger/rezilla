@@ -2,7 +2,7 @@
 // CUtxt_EditorDoc.h
 // 
 //                       Created: 2004-12-08 18:21:21
-//             Last modification: 2004-12-09 07:37:40
+//             Last modification: 2004-12-27 14:49:17
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -60,7 +60,6 @@ protected:
 
 private:
 	void				Initialize();
-	void				NameNewEditorDoc();
 };
 
 

@@ -294,16 +294,10 @@ const ResIDT	ColorTable_UsePicker	= 0;
 // Indices of STR# 1500: untitled windows names
 const SInt16	index_RezMapUntitled		= 1;
 const SInt16	index_RezMapUntitledX		= 2;
-const SInt16	index_HexEditUntitled		= 3;
-const SInt16	index_HexEditUntitledX		= 4;
-const SInt16	index_CompWinUntitled		= 5;
-const SInt16	index_CompWinUntitledX		= 6;
-const SInt16	index_TmplEditUntitled		= 7;
-const SInt16	index_TmplEditUntitledX		= 8;
-const SInt16	index_TEXTEditUntitled		= 9;
-const SInt16	index_TEXTEditUntitledX		= 10;
-const SInt16	index_AeteEditUntitled		= 11;
-const SInt16	index_AeteEditUntitledX		= 12;
+const SInt16	index_CompWinUntitled		= 3;
+const SInt16	index_CompWinUntitledX		= 4;
+const SInt16	index_EditorDocUntitled		= 5;
+const SInt16	index_EditorDocUntitledX	= 6;
 // Indices of STR# 1501: windows menu items
 const SInt16	index_WinMenuInspector		= 1;
 const SInt16	index_WinMenuTypeInspector	= 2;

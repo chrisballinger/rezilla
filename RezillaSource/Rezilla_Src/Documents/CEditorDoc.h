@@ -2,7 +2,7 @@
 // CEditorDoc.h				
 // 
 //                       Created: 2004-02-23 17:57:59
-//             Last modification: 2004-12-07 08:43:25
+//             Last modification: 2004-12-27 14:58:18
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -88,6 +88,7 @@ protected:
 	SInt16					mKind;
 
 	virtual Handle	GetModifiedResource();
+	void			NameNewEditorDoc();
 	void			BuildDocumentTitle(Str255 & outTitle, SInt16 whichString);
 	void			Register();
 	void			Unregister();

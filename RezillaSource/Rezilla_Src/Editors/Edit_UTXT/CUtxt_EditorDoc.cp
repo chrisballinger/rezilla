@@ -2,7 +2,7 @@
 // CUtxt_EditorDoc.cp
 // 
 //                       Created: 2004-12-08 18:21:21
-//             Last modification: 2004-12-09 07:37:31
+//             Last modification: 2004-12-27 14:43:26
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -208,48 +208,6 @@ CUtxt_EditorDoc::GetModifiedResource()
 	return mUtxtEditWindow->GetContentsView()->GetModifiedText();
 }
 
-
-// // ---------------------------------------------------------------------------------
-// //  ¥ SaveStylResource
-// // ---------------------------------------------------------------------------------
-// 
-// void
-// CUtxt_EditorDoc::SaveStylResource(StScrpHandle	inScrapHandle)
-// {
-// 	// Open or create a 'styl' resource and save the StScrpHandle therein
-// 	CRezObj * stylRezObj = NULL;
-// 	
-// 	CEditorsController::OpenOrCreateWithTypeAndID(mRezMapTable, 'styl', mRezObj->GetID(), &stylRezObj);
-// 	if (stylRezObj != NULL) {
-// 		// Copy to resource's data handle
-// 		stylRezObj->SetData( (Handle) inScrapHandle);
-// 
-// 		// Mark the resource as modified in the rez map
-// 		stylRezObj->Changed();
-// 
-// 		// Tell the rezmap doc that there has been a modification
-// 		mRezMapTable->GetOwnerDoc()->SetModified(true);
-// 		// Refresh the view
-// 		stylRezObj->SetSize( ::GetHandleSize( (Handle) inScrapHandle) );
-// 		mRezMapTable->Refresh();
-// 	} 
-// }
-
-
-// ---------------------------------------------------------------------------------
-//  ¥ NameNewEditorDoc
-// ---------------------------------------------------------------------------------
-
-void
-CUtxt_EditorDoc::NameNewEditorDoc()
-{
-	Str255 theTitle;
-	
-	// Build the title
-	BuildDocumentTitle(theTitle, index_TEXTEditUntitled);
-	// Set window title
-	mUtxtEditWindow->SetDescriptor(theTitle);
-}
 
 
 PP_End_Namespace_PowerPlant

@@ -2,7 +2,7 @@
 // CTEXT_EditorDoc.h				
 // 
 //                       Created: 2004-06-17 12:46:55
-//             Last modification: 2004-11-06 08:24:39
+//             Last modification: 2004-12-27 14:48:56
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -61,7 +61,6 @@ protected:
 
 private:
 	void				Initialize();
-	void				NameNewEditorDoc();
 };
 
 

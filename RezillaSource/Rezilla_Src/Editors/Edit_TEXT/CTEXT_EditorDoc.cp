@@ -2,7 +2,7 @@
 // CTEXT_EditorDoc.cp
 // 
 //                       Created: 2004-06-17 12:46:55
-//             Last modification: 2004-11-06 08:24:49
+//             Last modification: 2004-12-27 14:43:45
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -249,21 +249,6 @@ CTEXT_EditorDoc::SaveStylResource(StScrpHandle	inScrapHandle)
 	} 
 }
 
-
-// ---------------------------------------------------------------------------------
-//  ¥ NameNewEditorDoc
-// ---------------------------------------------------------------------------------
-
-void
-CTEXT_EditorDoc::NameNewEditorDoc()
-{
-	Str255 theTitle;
-	
-	// Build the title
-	BuildDocumentTitle(theTitle, index_TEXTEditUntitled);
-	// Set window title
-	mTextEditWindow->SetDescriptor(theTitle);
-}
 
 
 PP_End_Namespace_PowerPlant

@@ -205,48 +205,6 @@ CIcon_EditorDoc::GetModifiedResource()
 }
 
 
-// ---------------------------------------------------------------------------------
-//  ¥ SaveStylResource
-// ---------------------------------------------------------------------------------
-
-void
-CIcon_EditorDoc::SaveStylResource(StScrpHandle	inScrapHandle)
-{
-	// Open or create a 'styl' resource and save the StScrpHandle therein
-	CRezObj * stylRezObj = NULL;
-	
-	CEditorsController::OpenOrCreateWithTypeAndID(mRezMapTable, 'styl', mRezObj->GetID(), &stylRezObj);
-	if (stylRezObj != NULL) {
-		// Copy to resource's data handle
-		stylRezObj->SetData( (Handle) inScrapHandle);
-
-		// Mark the resource as modified in the rez map
-		stylRezObj->Changed();
-
-		// Tell the rezmap doc that there has been a modification
-		mRezMapTable->GetOwnerDoc()->SetModified(true);
-		// Refresh the view
-		stylRezObj->SetSize( ::GetHandleSize( (Handle) inScrapHandle) );
-		mRezMapTable->Refresh();
-	} 
-}
-
-
-// ---------------------------------------------------------------------------------
-//  ¥ NameNewEditorDoc
-// ---------------------------------------------------------------------------------
-
-void
-CIcon_EditorDoc::NameNewEditorDoc()
-{
-	Str255 theTitle;
-	
-	// Build the title
-	BuildDocumentTitle(theTitle, index_TEXTEditUntitled);
-	// Set window title
-	mIconEditWindow->SetDescriptor(theTitle);
-}
-
 
 PP_End_Namespace_PowerPlant
 

@@ -2,7 +2,7 @@
 // CEditorDoc.cp
 // 
 //                       Created: 2003-05-04 19:16:00
-//             Last modification: 2004-12-07 08:43:37
+//             Last modification: 2004-12-27 14:58:25
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -72,6 +72,22 @@ CEditorDoc::~CEditorDoc()
 
 
 // ---------------------------------------------------------------------------------
+//  ¥ NameNewEditorDoc
+// ---------------------------------------------------------------------------------
+
+void
+CEditorDoc::NameNewEditorDoc()
+{
+	Str255 theTitle;
+	
+	// Build the title
+	BuildDocumentTitle(theTitle, index_EditorDocUntitled);
+	// Set window title
+	mMainWindow->SetDescriptor(theTitle);
+}
+
+
+// ---------------------------------------------------------------------------------
 //  ¥ BuildDocumentTitle
 // ---------------------------------------------------------------------------------
 
@@ -92,7 +108,7 @@ CEditorDoc::BuildDocumentTitle(Str255 & outTitle, SInt16 whichString)
 		::NumToString(mRezObj->GetID(), theString);
 		theTitle.Append(theString);
 	} else {
-		// Start with the default name ("untitled rez [1]")
+		// Start with the default name ("untitled [1]")
 		theTitle.Assign(STRx_DefaultDocTitles, whichString);
 		// If an existing window has this name, append a count and
 		// keep incrementing the count until we find a unique name.

@@ -198,21 +198,6 @@ CPICT_EditorDoc::GetModifiedResource()
 }
 
 
-// ---------------------------------------------------------------------------------
-//  ¥ NameNewEditorDoc
-// ---------------------------------------------------------------------------------
-
-void
-CPICT_EditorDoc::NameNewEditorDoc()
-{
-	Str255 theTitle;
-	
-	// Build the title
-	BuildDocumentTitle(theTitle, index_TEXTEditUntitled);
-	// Set window title
-	mPictWindow->SetDescriptor(theTitle);
-}
-
 
 PP_End_Namespace_PowerPlant
 
