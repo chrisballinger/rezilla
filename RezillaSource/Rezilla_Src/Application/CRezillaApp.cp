@@ -109,8 +109,8 @@ CWindowMenu	*		gWindowMenu;	// This is the window menu.
 
 // Static variables
 CRezillaPrefs *			CRezillaApp::sPrefs = nil;
-CEditorsController *			CRezillaApp::sEditController = nil;
-CTemplatesController *	CRezillaApp::sTypesController = nil;
+CEditorsController *	CRezillaApp::sEditController = nil;
+CTemplatesController *	CRezillaApp::sTemplatesController = nil;
 Rzil_basics				CRezillaApp::sBasics;
 CInspectorWindow *		CRezillaApp::sInspectorWindow = nil;
 const LStr255			CRezillaApp::sVersionNumber( VersionFromPlist() );
@@ -227,11 +227,12 @@ CRezillaApp::Initialize()
 	// Create an instance of CRezillaPrefs
 	sPrefs = new CRezillaPrefs(this);
 
-	// Create an instance of the editors controller
+	// Create an instance of the editors controller. It must come before 
+	// the templates controller.
 	sEditController = new CEditorsController();
 	
 	// Create an instance of the templates controller
-	sTypesController = new CTemplatesController();
+	sTemplatesController = new CTemplatesController();
 	
 	// Install the window menu.
 	InstallWindowMenu();	
@@ -254,6 +255,8 @@ CRezillaApp::Initialize()
 // 	ABalloonBase::EnableControlKeyPop();
 // 	ABalloonBase::SetAutoPopDelay(20);
 
+// 	ModifyResourcesMenu();
+	
 	mOpeningFork = fork_anyfork;
 	
 	// Set some defaults from preferences
@@ -478,6 +481,7 @@ CRezillaApp::FindCommandStatus(
 		case cmd_FindNext:
 		case cmd_NewRez:
 		case cmd_EditRez:
+		case cmd_EditRezAsType:
 		case cmd_TmplEditRez:
 		case cmd_HexEditRez:
 		case cmd_GetRezInfo:
@@ -623,6 +627,40 @@ CRezillaApp::InstallWindowMenu()
 	LMenuBar * theMBar = LMenuBar::GetCurrentMenuBar();
 	ThrowIfNil_( theMBar );
 	theMBar->InstallMenu( gWindowMenu, 0 );
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ ModifyResourcesMenu									[protected]
+// ---------------------------------------------------------------------------
+// Attempt to make the "Edit as Type..." menu item dynamic.
+
+void
+CRezillaApp::ModifyResourcesMenu()
+{
+	int			attributes = 0;
+	SInt16		theIndex;
+	OSStatus	error;
+	
+	LMenu * theMenu = new LMenu( baseMENU_Resource );
+
+	MenuHandle theMenuHndl = theMenu->GetMacMenuH();
+
+	theIndex = theMenu->IndexFromCommand(cmd_EditRez);
+// 	if (GetMenuItemAttributes(theMenuHndl, theIndex, &attributes) == noErr) {
+// 		attributes |= kMenuItemAttrNotPreviousAlternate;
+// 	} 
+	if (theIndex > 0) {
+		error = ::ChangeMenuItemAttributes(theMenuHndl, theIndex, 
+		kMenuItemAttrNotPreviousAlternate | kMenuItemAttrDynamic, 0);
+	} 
+	theIndex = theMenu->IndexFromCommand(cmd_EditRezAsType);
+	if (theIndex > 0) {
+		error = ::ChangeMenuItemAttributes(theMenuHndl, theIndex, kMenuItemAttrDynamic, 0);
+		error = ::SetMenuItemModifiers(theMenuHndl, theIndex, kMenuControlModifier);
+	} 
+	error = ::UpdateInvalidMenuItems(theMenuHndl);
+	
 }
 
 
@@ -930,24 +968,24 @@ CRezillaApp::ReportOpenForkError(OSErr inError, FSSpec * inFileSpecPtr)
 
 	switch (inError) {
 	  case err_NoRezInDataFork:
-		formatStr = CFCopyLocalizedString(CFSTR("NoRezInDataFork"), NULL);
+		formatStr = ::CFCopyLocalizedString(CFSTR("NoRezInDataFork"), NULL);
 		break;
 		
 	  case err_NoRezInRezFork:
-		formatStr = CFCopyLocalizedString(CFSTR("NoRezInRezFork"), NULL);
+		formatStr = ::CFCopyLocalizedString(CFSTR("NoRezInRezFork"), NULL);
 		break;
 		
 	  case err_NoRezInAnyFork:
-		formatStr = CFCopyLocalizedString(CFSTR("NoRezInAnyFork"), NULL);
+		formatStr = ::CFCopyLocalizedString(CFSTR("NoRezInAnyFork"), NULL);
 		break;
 		
 	  case opWrErr:
-		formatStr = CFCopyLocalizedString(CFSTR("NoOpenWritePermission"), NULL);
+		formatStr = ::CFCopyLocalizedString(CFSTR("NoOpenWritePermission"), NULL);
 		UMessageDialogs::ErrorMessageFromLocalizable(CFSTR("SystemError"), inError, rPPob_SimpleMessage);
 		break;
 		
 	  case permErr:
-		formatStr = CFCopyLocalizedString(CFSTR("PermissionError"), NULL);
+		formatStr = ::CFCopyLocalizedString(CFSTR("PermissionError"), NULL);
 		break;
 		
 	  default:
@@ -956,7 +994,7 @@ CRezillaApp::ReportOpenForkError(OSErr inError, FSSpec * inFileSpecPtr)
 	}
 	
 	if (formatStr != NULL) {
-		messageStr = CFStringCreateWithFormat(NULL, NULL, formatStr, theCStr);
+		messageStr = ::CFStringCreateWithFormat(NULL, NULL, formatStr, theCStr);
 		if (messageStr != NULL)
 		{
 			UMessageDialogs::SimpleMessageFromLocalizable(messageStr, rPPob_SimpleMessage);
@@ -1125,7 +1163,7 @@ CRezillaApp::HandleOpenDocsEvent(
 void
 CRezillaApp::DoPreferences()
 {
-	sPrefs->RunPrefsWindow();
+	sPrefs->RunPrefsDialog();
 }
 
 

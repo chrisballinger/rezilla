@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.h					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2004-05-18 20:19:37
+//             Last modification: 2004-08-11 16:58:49
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -99,8 +99,8 @@ public:
 	static CRecentItemsMenu*	GetRecentItemsAttachment() { return sRecentItemsAttachment;}
 
 	static CRezillaPrefs *			sPrefs;
-	static CEditorsController *				sEditController;
-	static CTemplatesController *	sTypesController;
+	static CEditorsController *		sEditController;
+	static CTemplatesController *	sTemplatesController;
 	static Rzil_basics				sBasics;
 	static const LStr255			sVersionNumber;
 	static short					sOwnRefNum;
@@ -120,7 +120,7 @@ protected:
 	OSStatus			RegisterHelpBook();
 	void				MakeAboutWindow();
 	virtual void		DoPreferences();
-
+	void				ModifyResourcesMenu();
 
 private:
 	void				InstallWindowMenu();
