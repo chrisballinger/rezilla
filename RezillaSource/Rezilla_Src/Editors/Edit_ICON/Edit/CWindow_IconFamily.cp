@@ -1,11 +1,11 @@
 // ===========================================================================
 // CWindow_IconFamily.cp
 //                       Created: 2004-12-11 18:50:16
-//             Last modification: 2005-01-02 15:46:04
+//             Last modification: 2005-01-03 12:57:34
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes 2004, 2005
+// (c) Copyright: Bernard Desgraupes 2004-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -37,9 +37,9 @@ CWindow_IconFamily::OpenPaintWindow( ResIDT inPPobID, CRezMap *inMap, ResIDT inR
 	try
 	{
 		theWindow = (CWindow_IconFamily*) CIcon_EditorWindow::CreatePaintWindow( inPPobID );
+		theWindow->InitializeFromResource( inMap, inResID );
 		theWindow->DebugPortSelf();
 
-		theWindow->InitializeFromResource( inMap, inResID );
 	}
 	catch( ... )
 	{
@@ -87,37 +87,15 @@ CWindow_IconFamily::CreateFromStream( LStream *inStream )
 
 
 // ---------------------------------------------------------------------------
-// 	FinishCreateSelf
-// ---------------------------------------------------------------------------
-void
-CWindow_IconFamily::FinishCreateSelf()
-{
-	CIcon_EditorWindow::FinishCreateSelf();
-
-	DebugPortSelf();
-// 	// Default to 8-bit large color icon
-// 	if ( (**mFamilyListH).defaultPane )
-// 	{
-// 		mCurrentSamplePane = (CDraggableTargetView*) this->FindPaneByID( (**mFamilyListH).defaultPane );
-// 		ThrowIfNil_( mCurrentSamplePane );
-// 		mCurrentSamplePane->SetTarget( true, redraw_Dont );
-// 	}
-	
-}
-
-
-// ---------------------------------------------------------------------------
 // 	InitializeFromResource
 // ---------------------------------------------------------------------------
 
 void
 CWindow_IconFamily::InitializeFromResource( CRezMap *inMap, ResIDT inResID )
 {
-	StGWorldSaver		aSaver2;
+	StGWorldSaver		aSaver;
 	SInt32				numTypes = GetFamilyMemberCount();
 	
-	DebugPortSelf();
-
 	// Initialize each family member 
 	for ( SInt32 count = 1; count <= numTypes; count++ )
 	{
@@ -182,7 +160,7 @@ CWindow_IconFamily::InitializeOneMember( CRezMap *inMap, ResType inResType, ResI
 		theBuffer = COffscreen::CreateBuffer( inWidth, inHeight, inDepth, theTable );
 		
 		// If we have a resource, load the data into the offscreen buffer
-		CRezObj * theResource = inMap->FindResource( inResType, inResID, false );
+		CRezObj * theResource = inMap->FindResource( inResType, inResID, true );
 		if ( theResource )
 		{
 			Handle h = theResource->GetData();
