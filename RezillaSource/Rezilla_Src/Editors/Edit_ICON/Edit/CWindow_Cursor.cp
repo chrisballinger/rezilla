@@ -15,11 +15,25 @@
 // 		Mask Image Bits (same)
 // 		HotSpot (Point)
 // 		
-// 	Color cursor structure: (see also IM V-78):
-// 		CCrsr structure (see Quickdraw.h)
+// 	Color cursor structure (see also IM V-78):
+// 		CCrsr structure (defined in Quickdraw.h)
 // 		PixMap
 // 		Color Pixel Data
 // 		Color Table Data
+// 		
+// 		struct CCrsr {
+// 		  short               crsrType;        /*type of cursor*/
+// 		  PixMapHandle        crsrMap;         /*the cursor's pixmap*/
+// 		  Handle              crsrData;        /*cursor's data*/
+// 		  Handle              crsrXData;       /*expanded cursor data*/
+// 		  short               crsrXValid;      /*depth of expanded data (0 if none)*/
+// 		  Handle              crsrXHandle;     /*future use*/
+// 		  Bits16              crsr1Data;       /*one-bit cursor*/
+// 		  Bits16              crsrMask;        /*cursor's mask*/
+// 		  Point               crsrHotSpot;     /*cursor's hotspot*/
+// 		  long                crsrXTable;      /*private*/
+// 		  long                crsrID;          /*private*/
+// 		};
 // ===========================================================================
 
 #include "CWindow_Cursor.h"
@@ -271,16 +285,14 @@ CWindow_Cursor::ParseColorCursor( CRezMap *inMap, ResIDT inResID,
 		::HLock( (Handle) h );
 		p = (UInt8*) *h;
 		
-				// validate the handle a little bit
-
+		// Validate the handle a little bit
 		if ( (UInt16) (**h).crsrType != (UInt16) 0x8001 )	// cast *is* needed - crsrType is signed
 			throw( err_IconInvalidImageFormat );
 		
 		if ( ::GetHandleSize( (Handle) h ) < sizeof(CCrsr) )
 			throw( err_IconCorruptedResource );
 	
-				// get some info about the cursor
-
+		// Get some info about the cursor
 		cMap = (PixMapPtr) (p + (SInt32) (**h).crsrMap);
 
 		if ( cMap->pixelType != 0 )
@@ -296,8 +308,7 @@ CWindow_Cursor::ParseColorCursor( CRezMap *inMap, ResIDT inResID,
 		if ( (depth != 1) && (depth != 2) && (depth != 4) && (depth != 8) )
 			throw( err_IconInvalidImageDepth );
 		
-				// create the bwBuffer and maskBuffer
-
+		// Create the bwBuffer and maskBuffer
 		bwBuffer = COffscreen::CreateBuffer( kCursorWidth, kCursorHeight, 1 );
 		ThrowIfMemFail_( bwBuffer );
 		bwBuffer->CopyFromRawData( (UInt8*) &(**h).crsr1Data, kBWCursorRowBytes );
@@ -306,23 +317,21 @@ CWindow_Cursor::ParseColorCursor( CRezMap *inMap, ResIDT inResID,
 		ThrowIfMemFail_( maskBuffer );
 		maskBuffer->CopyFromRawData( (UInt8*) &(**h).crsrMask, kBWCursorRowBytes );
 
-				// allocate the color table. note that the resource may have a minimal
-		// color table and QuickDraw doesn't work with anything but a full-sized one.
-
+		// Allocate the color table. note that the resource may have a
+		// minimal color table and QuickDraw doesn't work with anything but
+		// a full-sized one.
 		if ( cMap->pmTable == 0 )			// probably won't happen, but can't hurt to check
 			theTable = UColorUtils::NewColorTableByDepth( depth );
 		else
 			theTable = UColorUtils::NewColorTableFromPtr( depth, p + (SInt32) cMap->pmTable );
 				
-				// allocate the color bitmap
-
+		// Allocate the color bitmap
 		tempBuffer = COffscreen::CreateBuffer( width, height, depth, theTable );
 		SInt32	rowBytes = cMap->rowBytes & 0x3FFF;			// clear flag bits
 		if ( rowBytes != 0 )
 			tempBuffer->CopyFromRawData( p + (SInt32) (**h).crsrData, rowBytes );
 
-				// now switch it to a 32-bit offscreen
-
+		// Now switch it to a 32-bit offscreen
 		cBuffer = COffscreen::CreateBuffer( width, height, 32 );
 		cBuffer->CopyFrom( tempBuffer );
 	}
@@ -336,13 +345,13 @@ CWindow_Cursor::ParseColorCursor( CRezMap *inMap, ResIDT inResID,
 		UIconMisc::DisposeHandle( h );
 	}
 	
-		// return buffers and info to the caller
+	// Return buffers and info to the caller
 	*outColor = cBuffer;
 	*outBW = bwBuffer;
 	*outMask = maskBuffer;
 	*outHotSpot = (**h).crsrHotSpot;
 
-		// don't need the color table because the offscreen makes a copy of it
+	// Don't need the color table because the offscreen makes a copy of it
 	if ( theTable ) ::DisposeCTable( theTable );
 	UIconMisc::DisposeHandle( h );
 	delete tempBuffer;
@@ -418,10 +427,9 @@ CWindow_Cursor::CreateBWCursor( COffscreen *inImage, COffscreen *inMask, Point i
 
 // ---------------------------------------------------------------------------
 // 	CreateColorCursor
-// 	
-// 	Note:
-// 	See description of CCrsr structure above.
 // ---------------------------------------------------------------------------
+// 	See description of CCrsr structure above.
+
 Handle
 CWindow_Cursor::CreateColorCursor( COffscreen *inColor, COffscreen *inBW, 
 										COffscreen *inMask, Point inHotSpot )
@@ -434,8 +442,7 @@ CWindow_Cursor::CreateColorCursor( COffscreen *inColor, COffscreen *inBW,
 	
 	try
 	{
-				// downsample the color buffer to a more reasonable depth
-
+		// Downsample the color buffer to a more reasonable depth
 		if ( inColor->GetDepth() >= 16 )
 		{
 			inColor = CColorTableBuilder::DownSampleBuffer( 
@@ -448,14 +455,12 @@ CWindow_Cursor::CreateColorCursor( COffscreen *inColor, COffscreen *inBW,
 			deleteBuffer = true;							// since we created it
 		}
 	
-				// Get the color table from the color buffer
-
+		// Get the color table from the color buffer
 		CTabHandle	sourceTable = inColor->GetColorTable();
 		ThrowIfNil_( sourceTable );
 		SInt32		colorTableBytes = ::GetHandleSize( (Handle) sourceTable );
 		
-				// do some calculations
-
+		// Do some calculations
 		SInt32		depth = inColor->GetDepth();
 		SInt32		pixelRowBytes = UColorUtils::CalcRowBytes( kCursorWidth, depth );
 		SInt32		pixelBytes = pixelRowBytes * kCursorHeight;
@@ -465,8 +470,7 @@ CWindow_Cursor::CreateColorCursor( COffscreen *inColor, COffscreen *inBW,
 		SInt32		offsetToPixelData = sizeof(CCrsr) + sizeof(PixMap);
 		SInt32		offsetToColorTable = sizeof(CCrsr) + sizeof(PixMap) + pixelBytes;
 		
-				// Allocate the cursor
-
+		// Allocate the cursor
 		h = ::NewHandleClear( totalBytes ); 
 		ThrowIfMemFail_( h );
 		::HLock( h );
@@ -474,8 +478,7 @@ CWindow_Cursor::CreateColorCursor( COffscreen *inColor, COffscreen *inBW,
 		CCrsr 	*p = (CCrsr *) *h;
 		PixMap 	*theMap = (PixMap*) (*h + offsetToPixmap);
 		
-				// Fill up the structure (note: fields are already zeroed)
-
+		// Fill up the structure (note: fields are already zeroed)
 		p->crsrType = 0x8001;						// magic number for cursors
 		p->crsrMap = (PixMapHandle) offsetToPixmap;
 		p->crsrData = (Handle) offsetToPixelData;
@@ -512,7 +515,6 @@ CWindow_Cursor::CreateColorCursor( COffscreen *inColor, COffscreen *inBW,
 	::HUnlock( h );
 	return( h );
 }
-
 
 
 // ---------------------------------------------------------------------------
