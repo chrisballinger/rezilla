@@ -513,51 +513,6 @@
 			</Event>
 
 			<Event>
-				<EventName>print</EventName>
-				<EventDescription>Print the specified object(s)</EventDescription>
-				<EventClass>aevt</EventClass>
-				<EventID>pdoc</EventID>
-				<ReplyDirectParamType>null</ReplyDirectParamType>
-				<ReplyDirectParamDescription></ReplyDirectParamDescription>
-				<IsReplyRequired>replyOptional</IsReplyRequired>
-				<IsReplyList>singleItem</IsReplyList>
-				<IsReplyEnumerated>notEnumerated</IsReplyEnumerated>
-				<HasTightBindingPrecedence>notTightBindingFunction</HasTightBindingPrecedence>
-				<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
-				<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
-				<ReplyIsValueOrRef>replyIsValue</ReplyIsValueOrRef>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
-				<IsVerbEvent>verbEvent</IsVerbEvent>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
-				<DirectParamType>obj </DirectParamType>
-				<DirectParmDescription>Objects to print. Can be a list of files or an object specifier.</DirectParmDescription>
-				<IsDirectParamRequired>directParamRequired</IsDirectParamRequired>
-				<IsDirectParamList>singleItem</IsDirectParamList>
-				<IsDirectParamEnumerated>notEnumerated</IsDirectParamEnumerated>
-				<ChangeState>doesntChangeState</ChangeState>
-				<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
-				<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
-				<DirectParamIsValueOrRef>directParamIsValue</DirectParamIsValueOrRef>
-				<IsDirectParamTarget>directParamIsTarget</IsDirectParamTarget>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
-				<ArrayOtherParams>
-				</ArrayOtherParams>
-			</Event>
-
-			<Event>
 				<EventName>save</EventName>
 				<EventDescription>save a set of objects</EventDescription>
 				<EventClass>core</EventClass>
@@ -812,7 +767,7 @@
 				</ArrayProperties>
 				<ArrayElements>
 					<ClassElement>
-						<ClassElementID>docu</ClassElementID>
+						<ClassElementID>cwin</ClassElementID>
 						<ArrayKeyForms>
 							<KeyFormID>indx</KeyFormID>
 							<KeyFormID>name</KeyFormID>
@@ -824,87 +779,6 @@
 						<ArrayKeyForms>
 							<KeyFormID>indx</KeyFormID>
 							<KeyFormID>name</KeyFormID>
-							<KeyFormID>rang</KeyFormID>
-						</ArrayKeyForms>
-					</ClassElement>
-					<ClassElement>
-						<ClassElementID>EdiD</ClassElementID>
-						<ArrayKeyForms>
-							<KeyFormID>indx</KeyFormID>
-							<KeyFormID>name</KeyFormID>
-							<KeyFormID>rang</KeyFormID>
-						</ArrayKeyForms>
-					</ClassElement>
-					<ClassElement>
-						<ClassElementID>GuiD</ClassElementID>
-						<ArrayKeyForms>
-							<KeyFormID>indx</KeyFormID>
-							<KeyFormID>name</KeyFormID>
-							<KeyFormID>rang</KeyFormID>
-						</ArrayKeyForms>
-					</ClassElement>
-					<ClassElement>
-						<ClassElementID>TmpD</ClassElementID>
-						<ArrayKeyForms>
-							<KeyFormID>indx</KeyFormID>
-							<KeyFormID>name</KeyFormID>
-							<KeyFormID>rang</KeyFormID>
-						</ArrayKeyForms>
-					</ClassElement>
-					<ClassElement>
-						<ClassElementID>HexD</ClassElementID>
-						<ArrayKeyForms>
-							<KeyFormID>indx</KeyFormID>
-							<KeyFormID>name</KeyFormID>
-							<KeyFormID>rang</KeyFormID>
-						</ArrayKeyForms>
-					</ClassElement>
-					<ClassElement>
-						<ClassElementID>cwin</ClassElementID>
-						<ArrayKeyForms>
-							<KeyFormID>indx</KeyFormID>
-							<KeyFormID>name</KeyFormID>
-							<KeyFormID>rang</KeyFormID>
-						</ArrayKeyForms>
-					</ClassElement>
-					<ClassElement>
-						<ClassElementID>MapW</ClassElementID>
-						<ArrayKeyForms>
-							<KeyFormID>indx</KeyFormID>
-							<KeyFormID>name</KeyFormID>
-							<KeyFormID>rang</KeyFormID>
-						</ArrayKeyForms>
-					</ClassElement>
-					<ClassElement>
-						<ClassElementID>EdiW</ClassElementID>
-						<ArrayKeyForms>
-							<KeyFormID>indx</KeyFormID>
-							<KeyFormID>name</KeyFormID>
-							<KeyFormID>rang</KeyFormID>
-						</ArrayKeyForms>
-					</ClassElement>
-					<ClassElement>
-						<ClassElementID>GuiW</ClassElementID>
-						<ArrayKeyForms>
-							<KeyFormID>indx</KeyFormID>
-							<KeyFormID>name</KeyFormID>
-							<KeyFormID>rang</KeyFormID>
-						</ArrayKeyForms>
-					</ClassElement>
-					<ClassElement>
-						<ClassElementID>TmpW</ClassElementID>
-						<ArrayKeyForms>
-							<KeyFormID>indx</KeyFormID>
-							<KeyFormID>name</KeyFormID>
-							<KeyFormID>rang</KeyFormID>
-						</ArrayKeyForms>
-					</ClassElement>
-					<ClassElement>
-						<ClassElementID>HexW</ClassElementID>
-						<ArrayKeyForms>
-							<KeyFormID>indx</KeyFormID>
-							<KeyFormID>name</KeyFormID>
-							<KeyFormID>rang</KeyFormID>
 						</ArrayKeyForms>
 					</ClassElement>
 					<ClassElement>
@@ -1105,28 +979,6 @@
 						<IsPropertyList>singleItem</IsPropertyList>
 						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
 						<IsReadOnlyProperty>readWrite</IsReadOnlyProperty>
-						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
-						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
-						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
-						<Reserved/>
-						<Reserved/>
-						<Reserved/>
-						<Reserved/>
-						<Reserved/>
-						<IsApostrophe>noApostrophe</IsApostrophe>
-						<IsFeminine>notFeminine</IsFeminine>
-						<IsMasculine>notMasculine</IsMasculine>
-						<SingularOrPlural>singular</SingularOrPlural>
-					</ClassProperty>
-					<ClassProperty>
-						<PropertyName>document</PropertyName>
-						<PropertyID>docu</PropertyID>
-						<PropertyClass>docu</PropertyClass>
-						<PropertyDescription>the document that owns this window</PropertyDescription>
-						<Reserved/>
-						<IsPropertyList>singleItem</IsPropertyList>
-						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
-						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
 						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
 						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
 						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
@@ -1687,7 +1539,7 @@
 					</ClassProperty>
 					<ClassProperty>
 						<PropertyName>refnum</PropertyName>
-						<PropertyID>pREF</PropertyID>
+						<PropertyID>pRFN</PropertyID>
 						<PropertyClass>shor</PropertyClass>
 						<PropertyDescription>the refnum of the map in memory</PropertyDescription>
 						<Reserved/>
@@ -1849,7 +1701,7 @@
 						<PropertyName>kind</PropertyName>
 						<PropertyID>pKND</PropertyID>
 						<PropertyClass>EKND</PropertyClass>
-						<PropertyDescription>the refnum of the map in memory</PropertyDescription>
+						<PropertyDescription>the kind of the editor (gui, template, hexadecimal)</PropertyDescription>
 						<Reserved/>
 						<IsPropertyList>singleItem</IsPropertyList>
 						<IsPropertyEnumerated>enumerated</IsPropertyEnumerated>
@@ -1893,7 +1745,7 @@
 						<PropertyName>map</PropertyName>
 						<PropertyID>pOMD</PropertyID>
 						<PropertyClass>MAPD</PropertyClass>
-						<PropertyDescription>the owner map document this document depends from</PropertyDescription>
+						<PropertyDescription>the map document that owns this editor document</PropertyDescription>
 						<Reserved/>
 						<IsPropertyList>singleItem</IsPropertyList>
 						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
@@ -1957,7 +1809,7 @@
 						<PropertyName>inherits</PropertyName>
 						<PropertyID>c@#^</PropertyID>
 						<PropertyClass>EdiD</PropertyClass>
-						<PropertyDescription>all properties of the 'document' class</PropertyDescription>
+						<PropertyDescription>all properties of the 'editor document' class</PropertyDescription>
 						<Reserved/>
 						<IsPropertyList>singleItem</IsPropertyList>
 						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
@@ -2020,8 +1872,8 @@
 					<ClassProperty>
 						<PropertyName>inherits</PropertyName>
 						<PropertyID>c@#^</PropertyID>
-						<PropertyClass>TmpD</PropertyClass>
-						<PropertyDescription>all properties of the 'document' class</PropertyDescription>
+						<PropertyClass>EdiD</PropertyClass>
+						<PropertyDescription>all properties of the 'editor document' class</PropertyDescription>
 						<Reserved/>
 						<IsPropertyList>singleItem</IsPropertyList>
 						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
@@ -2084,8 +1936,8 @@
 					<ClassProperty>
 						<PropertyName>inherits</PropertyName>
 						<PropertyID>c@#^</PropertyID>
-						<PropertyClass>HexD</PropertyClass>
-						<PropertyDescription>all properties of the 'document' class</PropertyDescription>
+						<PropertyClass>EdiD</PropertyClass>
+						<PropertyDescription>all properties of the 'editor document' class</PropertyDescription>
 						<Reserved/>
 						<IsPropertyList>singleItem</IsPropertyList>
 						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
@@ -2205,70 +2057,6 @@
 			</Class>
 
 			<Class>
-				<ClassName>editor window</ClassName>
-				<ClassID>EdiW</ClassID>
-				<ClassDescription>a resource editor window</ClassDescription>
-				<ArrayProperties>
-					<ClassProperty>
-						<PropertyName>inherits</PropertyName>
-						<PropertyID>c@#^</PropertyID>
-						<PropertyClass>MapW</PropertyClass>
-						<PropertyDescription>all properties of the 'map window' class</PropertyDescription>
-						<Reserved/>
-						<IsPropertyList>singleItem</IsPropertyList>
-						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
-						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
-						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
-						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
-						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
-						<Reserved/>
-						<Reserved/>
-						<Reserved/>
-						<Reserved/>
-						<Reserved/>
-						<IsApostrophe>noApostrophe</IsApostrophe>
-						<IsFeminine>notFeminine</IsFeminine>
-						<IsMasculine>notMasculine</IsMasculine>
-						<SingularOrPlural>singular</SingularOrPlural>
-					</ClassProperty>
-				</ArrayProperties>
-				<ArrayElements>
-				</ArrayElements>
-			</Class>
-
-			<Class>
-				<ClassName>editor windows</ClassName>
-				<ClassID>EdiW</ClassID>
-				<ClassDescription>every editor window</ClassDescription>
-				<ArrayProperties>
-					<ClassProperty>
-						<PropertyName></PropertyName>
-						<PropertyID>c@#!</PropertyID>
-						<PropertyClass>type</PropertyClass>
-						<PropertyDescription></PropertyDescription>
-						<Reserved/>
-						<IsPropertyList>singleItem</IsPropertyList>
-						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
-						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
-						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
-						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
-						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
-						<Reserved/>
-						<Reserved/>
-						<Reserved/>
-						<Reserved/>
-						<Reserved/>
-						<IsApostrophe>noApostrophe</IsApostrophe>
-						<IsFeminine>notFeminine</IsFeminine>
-						<IsMasculine>notMasculine</IsMasculine>
-						<SingularOrPlural>plural</SingularOrPlural>
-					</ClassProperty>
-				</ArrayProperties>
-				<ArrayElements>
-				</ArrayElements>
-			</Class>
-
-			<Class>
 				<ClassName>GUI window</ClassName>
 				<ClassID>GuiW</ClassID>
 				<ClassDescription>a GUI custom editor window</ClassDescription>
@@ -2276,8 +2064,8 @@
 					<ClassProperty>
 						<PropertyName>inherits</PropertyName>
 						<PropertyID>c@#^</PropertyID>
-						<PropertyClass>MapW</PropertyClass>
-						<PropertyDescription>all properties of the 'map window' class</PropertyDescription>
+						<PropertyClass>cwin</PropertyClass>
+						<PropertyDescription>all properties of the 'window' class</PropertyDescription>
 						<Reserved/>
 						<IsPropertyList>singleItem</IsPropertyList>
 						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
@@ -2340,8 +2128,8 @@
 					<ClassProperty>
 						<PropertyName>inherits</PropertyName>
 						<PropertyID>c@#^</PropertyID>
-						<PropertyClass>MapW</PropertyClass>
-						<PropertyDescription>all properties of the 'map window' class</PropertyDescription>
+						<PropertyClass>cwin</PropertyClass>
+						<PropertyDescription>all properties of the 'window' class</PropertyDescription>
 						<Reserved/>
 						<IsPropertyList>singleItem</IsPropertyList>
 						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
@@ -2404,8 +2192,8 @@
 					<ClassProperty>
 						<PropertyName>inherits</PropertyName>
 						<PropertyID>c@#^</PropertyID>
-						<PropertyClass>MapW</PropertyClass>
-						<PropertyDescription>all properties of the 'map window' class</PropertyDescription>
+						<PropertyClass>cwin</PropertyClass>
+						<PropertyDescription>all properties of the 'window' class</PropertyDescription>
 						<Reserved/>
 						<IsPropertyList>singleItem</IsPropertyList>
 						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
@@ -2780,7 +2568,7 @@
 					</ClassProperty>
 					<ClassProperty>
 						<PropertyName>refnum</PropertyName>
-						<PropertyID>pREF</PropertyID>
+						<PropertyID>pRFN</PropertyID>
 						<PropertyClass>shor</PropertyClass>
 						<PropertyDescription>the refnum of the map in memory</PropertyDescription>
 						<Reserved/>
@@ -3014,7 +2802,7 @@
 					</ClassProperty>
 					<ClassProperty>
 						<PropertyName>refnum</PropertyName>
-						<PropertyID>pREF</PropertyID>
+						<PropertyID>pRFN</PropertyID>
 						<PropertyClass>shor</PropertyClass>
 						<PropertyDescription>the refnum of the map it belongs to</PropertyDescription>
 						<Reserved/>
@@ -3107,28 +2895,6 @@
 						<SingularOrPlural>singular</SingularOrPlural>
 					</ClassProperty>
 					<ClassProperty>
-						<PropertyName>ID</PropertyName>
-						<PropertyID>ID  </PropertyID>
-						<PropertyClass>shor</PropertyClass>
-						<PropertyDescription>the ID of the resource</PropertyDescription>
-						<Reserved/>
-						<IsPropertyList>singleItem</IsPropertyList>
-						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
-						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
-						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
-						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
-						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
-						<Reserved/>
-						<Reserved/>
-						<Reserved/>
-						<Reserved/>
-						<Reserved/>
-						<IsApostrophe>noApostrophe</IsApostrophe>
-						<IsFeminine>notFeminine</IsFeminine>
-						<IsMasculine>notMasculine</IsMasculine>
-						<SingularOrPlural>singular</SingularOrPlural>
-					</ClassProperty>
-					<ClassProperty>
 						<PropertyName>type</PropertyName>
 						<PropertyID>pTYP</PropertyID>
 						<PropertyClass>TEXT</PropertyClass>
@@ -3151,8 +2917,52 @@
 						<SingularOrPlural>singular</SingularOrPlural>
 					</ClassProperty>
 					<ClassProperty>
+						<PropertyName>ID</PropertyName>
+						<PropertyID>ID  </PropertyID>
+						<PropertyClass>shor</PropertyClass>
+						<PropertyDescription>the ID of the resource</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+					<ClassProperty>
+						<PropertyName>specifier</PropertyName>
+						<PropertyID>pSPE</PropertyID>
+						<PropertyClass>TyId</PropertyClass>
+						<PropertyDescription>the (type,ID) pair (which can be useful to characterize this resource)</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+					<ClassProperty>
 						<PropertyName>refnum</PropertyName>
-						<PropertyID>pREF</PropertyID>
+						<PropertyID>pRFN</PropertyID>
 						<PropertyClass>shor</PropertyClass>
 						<PropertyDescription>the refnum of the map it belongs to</PropertyDescription>
 						<Reserved/>
