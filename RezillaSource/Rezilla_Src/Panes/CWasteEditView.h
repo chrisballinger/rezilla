@@ -309,6 +309,8 @@ public:
 	void					SetDirty( Boolean inDirty ) {mIsDirty = inDirty;}
 
 	SInt16					GetLineHeight() { return mLineHeight;}	
+	void					SetLineHeight(SInt16 inLineHeight) {mLineHeight = inLineHeight;}
+	SInt16					GetLineHeightFromStyle(TextStyle theStyle);
 	
 	static CWasteEditView *	sWasteEditViewP;
 

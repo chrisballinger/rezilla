@@ -6,14 +6,14 @@
 // Author: Bernard Desgraupes 
 // e-mail: <bdesgraupes@easyconnect.fr> 
 // www: <http://webperso.easyconnect.fr/bdesgraupes/> 
-// ¬© Copyright: Bernard Desgraupes 2001-2003
+// © Copyright: Bernard Desgraupes 2001-2003
 // All rights reserved.
 // $Date$
 // $Revision$
 // 
 // Description : CWaste is a class designed to interface between 
-// the Waste Edit text engine (¬©1993-2000 by Marco Piovanelli)
-// and CodeWarrior's PowerPlant 2.1 library (¬©1993-2000 Metrowerks Inc.) 
+// the Waste Edit text engine (©1993-2000 by Marco Piovanelli)
+// and CodeWarrior's PowerPlant 2.1 library (©1993-2000 Metrowerks Inc.) 
 // 
 // This file is part of the CWasteEditView package vs 1.6
 // ===========================================================================
@@ -40,7 +40,7 @@ CWasteEditView *			CWasteEditView::sWasteEditViewP;
 
 
 // ---------------------------------------------------------------------------
-//	¬€ CWasteEditView						Default Constructor		  [public]
+//	¥ CWasteEditView						Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CWasteEditView::CWasteEditView()
@@ -51,7 +51,7 @@ CWasteEditView::CWasteEditView()
 
 
 // ---------------------------------------------------------------------------
-//	¬€ CWasteEditView						Copy Constructor		  [public]
+//	¥ CWasteEditView						Copy Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CWasteEditView::CWasteEditView(
@@ -88,7 +88,7 @@ CWasteEditView::CWasteEditView(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ CWasteEditView						Parameterized Constructor [public]
+//	¥ CWasteEditView						Parameterized Constructor [public]
 // ---------------------------------------------------------------------------
 
 CWasteEditView::CWasteEditView(
@@ -105,7 +105,7 @@ CWasteEditView::CWasteEditView(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ CWasteEditView						Stream Constructor		  [public]
+//	¥ CWasteEditView						Stream Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CWasteEditView::CWasteEditView(
@@ -169,7 +169,7 @@ CWasteEditView::CWasteEditView(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ ~CWasteEditView						Destructor				  [public]
+//	¥ ~CWasteEditView						Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CWasteEditView::~CWasteEditView()
@@ -197,7 +197,7 @@ CWasteEditView::~CWasteEditView()
 
 
 // ---------------------------------------------------------------------------
-//	¬€ InitWasteEditView												[private]
+//	¥ InitWasteEditView												[private]
 // ---------------------------------------------------------------------------
 //	Private initializer
 
@@ -271,6 +271,8 @@ CWasteEditView::InitWasteEditView(
 		WESetStyle(weDoAll,&theStyle,mWasteEditRef);
 		WESetAlignment( justification, mWasteEditRef );
 		
+		SetLineHeight( GetLineHeightFromStyle(theStyle) );
+		
 	} else {
 		// Set the initial text traits
 		SetWETextTraits(mTextTraitsID, mWasteEditRef);
@@ -308,7 +310,7 @@ CWasteEditView::InitWasteEditView(
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¬€ ClickSelf											[protected, virtual]
+//	¥ ClickSelf											[protected, virtual]
 // ---------------------------------------------------------------------------
 
 void
@@ -362,7 +364,7 @@ CWasteEditView::ClickSelf(
 
 
 // // ---------------------------------------------------------------------------
-// //	¬€ MyClickLoop											[static, public]
+// //	¥ MyClickLoop											[static, public]
 // // ---------------------------------------------------------------------------
 // //	This is the clikLoop callback used to help autoscrolling while
 // //	selecting
@@ -413,7 +415,7 @@ CWasteEditView::ClickSelf(
 // 
 // 
 // // ---------------------------------------------------------------------------
-// //	¬€ SetClickLoop							[public, virtual]
+// //	¥ SetClickLoop							[public, virtual]
 // // ---------------------------------------------------------------------------
 // //	Allows you to specify your own clikLoop.  Disposes of the existing
 // //	clikLoop, if any.  Also since the point of a clikLoop is for autoscrolling
@@ -454,7 +456,7 @@ CWasteEditView::ClickSelf(
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¬€ ForceAutoScroll						[protected, virtual]
+//	¥ ForceAutoScroll						[protected, virtual]
 // ---------------------------------------------------------------------------
 //	This routine works with WasteEdit's autoscrolling capabilities
 //	to keep all things (e.g. the scrollbars) in sync
@@ -501,7 +503,7 @@ CWasteEditView::ForceAutoScroll(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ ClickAutoScroll						[protected, virtual]
+//	¥ ClickAutoScroll						[protected, virtual]
 // ---------------------------------------------------------------------------
 //	This is the routine ultimately used in the clikLoop to perform
 //	the scrolling while clicking.
@@ -519,7 +521,7 @@ CWasteEditView::ClickAutoScroll(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ HandleKeyPress							[public, virtual]
+//	¥ HandleKeyPress							[public, virtual]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -661,7 +663,7 @@ CWasteEditView::HandleKeyPress(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ ObeyCommand							[public, virtual]
+//	¥ ObeyCommand							[public, virtual]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -754,7 +756,7 @@ CWasteEditView::ObeyCommand(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ FindCommandStatus							[public, virtual]
+//	¥ FindCommandStatus							[public, virtual]
 // ---------------------------------------------------------------------------
 
 void
@@ -801,7 +803,7 @@ CWasteEditView::FindCommandStatus(
 }
 
 // ---------------------------------------------------------------------------
-//	¬€ SetValue												[public, virtual]
+//	¥ SetValue												[public, virtual]
 // ---------------------------------------------------------------------------
 //	Set the text in the WasteEditView to the string representation of the
 //	specified integer number.
@@ -817,7 +819,7 @@ CWasteEditView::SetValue(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ GetValue												[public, virtual]
+//	¥ GetValue												[public, virtual]
 // ---------------------------------------------------------------------------
 //	Return the integer value represented by the contents of a WasteEditView.
 //
@@ -839,7 +841,7 @@ CWasteEditView::GetValue() const
 
 
 // ---------------------------------------------------------------------------
-//	¬€ SetDescriptor											[public, virtual]
+//	¥ SetDescriptor											[public, virtual]
 // ---------------------------------------------------------------------------
 //	Will set the text to the given string, replacing any and all text
 //	already there
@@ -853,7 +855,7 @@ CWasteEditView::SetDescriptor(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ GetDescriptor											[public, virtual]
+//	¥ GetDescriptor											[public, virtual]
 // ---------------------------------------------------------------------------
 //	Return up to the first 255 characters of the WasteEditView as a Pascal
 //	string. Caller must allocate a Str255 variable for storing the string.
@@ -877,7 +879,7 @@ CWasteEditView::GetDescriptor(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ SetTextHandle							[public, virtual]
+//	¥ SetTextHandle							[public, virtual]
 // ---------------------------------------------------------------------------
 //	Set the text in the CWasteEditView to the contents of the specified Handle
 //
@@ -895,7 +897,7 @@ CWasteEditView::SetTextHandle(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ SetTextPtr							[public, virtual]
+//	¥ SetTextPtr							[public, virtual]
 // ---------------------------------------------------------------------------
 
 void
@@ -941,7 +943,7 @@ CWasteEditView::SetTextPtr(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ GetTextHandle							[public]
+//	¥ GetTextHandle							[public]
 // ---------------------------------------------------------------------------
 //	Return a Handle to the text in the CWasteEditView.
 
@@ -953,7 +955,7 @@ CWasteEditView::GetTextHandle()
 
 
 // ---------------------------------------------------------------------------
-//	¬€ GetTextLength								[public]
+//	¥ GetTextLength								[public]
 // ---------------------------------------------------------------------------
 
 SInt32
@@ -964,7 +966,7 @@ CWasteEditView::GetTextLength()
 
 
 // ---------------------------------------------------------------------------
-//	¬€ CountLines								[public]
+//	¥ CountLines								[public]
 // ---------------------------------------------------------------------------
 
 SInt32
@@ -975,7 +977,7 @@ CWasteEditView::CountLines()
 
 
 // ---------------------------------------------------------------------------
-//	¬€ GetLineRange								[public]
+//	¥ GetLineRange								[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -986,7 +988,7 @@ CWasteEditView::GetLineRange(SInt32 inLineIndex, SInt32 & outLineStart, SInt32 &
 
 
 // ---------------------------------------------------------------------------
-//	¬€ PosToLine								[public]
+//	¥ PosToLine								[public]
 // ---------------------------------------------------------------------------
 // Note that Waste line numbers are 0-based 
 
@@ -998,7 +1000,7 @@ CWasteEditView::PosToLine(SInt32 inPos)
 
 
 // ---------------------------------------------------------------------------
-//	¬€ Insert								[public, virtual]
+//	¥ Insert								[public, virtual]
 // ---------------------------------------------------------------------------
 //	Will optionally recalculate, autoscroll, and refresh the text if desired.
 
@@ -1034,7 +1036,7 @@ CWasteEditView::Insert(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ Insert								[public, virtual]
+//	¥ Insert								[public, virtual]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -1049,7 +1051,7 @@ CWasteEditView::Insert(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ CalcWEHeight							[public, virtual]
+//	¥ CalcWEHeight							[public, virtual]
 // ---------------------------------------------------------------------------
 //	Calculates the height of the WasteEdit record.
 
@@ -1063,7 +1065,7 @@ CWasteEditView::CalcWEHeight()
 
 
 // ---------------------------------------------------------------------------
-//	¬€ FocusDraw								[public, virtual]
+//	¥ FocusDraw								[public, virtual]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -1085,7 +1087,7 @@ CWasteEditView::FocusDraw(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ DrawSelf								[protected, virtual]
+//	¥ DrawSelf								[protected, virtual]
 // ---------------------------------------------------------------------------
 //	Draw a WasteEdit
 
@@ -1111,7 +1113,7 @@ CWasteEditView::DrawSelf()
 
 
 // ---------------------------------------------------------------------------
-//	¬€ ApplyForeAndBackColors
+//	¥ ApplyForeAndBackColors
 // ---------------------------------------------------------------------------
 
 void
@@ -1126,7 +1128,7 @@ CWasteEditView::ApplyForeAndBackColors() const
 
 
 // ---------------------------------------------------------------------------
-//	¬€ HideSelf											[protected, virtual]
+//	¥ HideSelf											[protected, virtual]
 // ---------------------------------------------------------------------------
 //	Hide the CWasteEditView. An invisible CWasteEditView can't be OnDuty.
 
@@ -1140,7 +1142,7 @@ CWasteEditView::HideSelf()
 
 
 // ---------------------------------------------------------------------------
-//	¬€ AdjustMouseSelf						[protected, virtual]
+//	¥ AdjustMouseSelf						[protected, virtual]
 // ---------------------------------------------------------------------------
 //	WasteEdit uses the standard I-Beam cursor
 
@@ -1159,7 +1161,7 @@ CWasteEditView::AdjustMouseSelf(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ SelectAll								[public, virtual]
+//	¥ SelectAll								[public, virtual]
 // ---------------------------------------------------------------------------
 //	Select entire contents of a WasteEdit
 
@@ -1176,7 +1178,7 @@ CWasteEditView::SelectAll()
 
 
 // ---------------------------------------------------------------------------
-//	¬€ DeleteAll								[public, virtual]
+//	¥ DeleteAll								[public, virtual]
 // ---------------------------------------------------------------------------
 //	Delete entire contents of the WasteEdit
 
@@ -1199,7 +1201,7 @@ CWasteEditView::DeleteAll()
 
 
 // ---------------------------------------------------------------------------
-//	¬€ DeleteTextRange								[public]
+//	¥ DeleteTextRange								[public]
 // ---------------------------------------------------------------------------
 // Delete the text in a specified range and update.
 // If autoscrolling is on.
@@ -1227,7 +1229,7 @@ CWasteEditView::DeleteTextRange( SInt32 inStartPos, SInt32 inEndPos)
 
 
 // ---------------------------------------------------------------------------
-//	¬€ AlignWERects									[public, virtual]
+//	¥ AlignWERects									[public, virtual]
 // ---------------------------------------------------------------------------
 //	Sync WasteEdit's view and dest rectangles with the PowerPlant LView.
 
@@ -1259,7 +1261,7 @@ CWasteEditView::AlignWERects()
 
 
 // ---------------------------------------------------------------------------
-//	¬€ ResizeFrameBy							[public, virtual]
+//	¥ ResizeFrameBy							[public, virtual]
 // ---------------------------------------------------------------------------
 
 void
@@ -1290,7 +1292,7 @@ CWasteEditView::ResizeFrameBy(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ AdjustImageToText									[public, virtual]
+//	¥ AdjustImageToText									[public, virtual]
 // ---------------------------------------------------------------------------
 	
 void
@@ -1301,7 +1303,7 @@ CWasteEditView::AdjustImageToText()
 
 
 // ---------------------------------------------------------------------------
-//	¬€ MoveBy								[public, virtual]
+//	¥ MoveBy								[public, virtual]
 // ---------------------------------------------------------------------------
 //	Move the location of the Frame by the specified amounts
 //
@@ -1322,7 +1324,7 @@ CWasteEditView::MoveBy(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ ScrollImageBy							[public, virtual]
+//	¥ ScrollImageBy							[public, virtual]
 // ---------------------------------------------------------------------------
 //	Scroll the Text
 
@@ -1341,7 +1343,7 @@ CWasteEditView::ScrollImageBy(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ ActivateSelf
+//	¥ ActivateSelf
 // ---------------------------------------------------------------------------
 //	Pane is being Activated
 //
@@ -1356,7 +1358,7 @@ CWasteEditView::ActivateSelf()
 
 
 // ---------------------------------------------------------------------------
-//	¬€ BeTarget								[protected, virtual]
+//	¥ BeTarget								[protected, virtual]
 // ---------------------------------------------------------------------------
 //	WasteEdit is becoming the Target
 
@@ -1377,7 +1379,7 @@ CWasteEditView::BeTarget()
 
 
 // ---------------------------------------------------------------------------
-//	¬€ DontBeTarget							[protected, virtual]
+//	¥ DontBeTarget							[protected, virtual]
 // ---------------------------------------------------------------------------
 //	WasteEdit is no longer the Target
 //
@@ -1397,7 +1399,7 @@ CWasteEditView::DontBeTarget()
 
 
 // ---------------------------------------------------------------------------
-//	¬€ SpendTime								[public, virtual]
+//	¥ SpendTime								[public, virtual]
 // ---------------------------------------------------------------------------
 //	Idle time: blink the insertion cursor
 
@@ -1414,7 +1416,7 @@ CWasteEditView::SpendTime(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ UserChangedText						[public, virtual]
+//	¥ UserChangedText						[public, virtual]
 // ---------------------------------------------------------------------------
 //	Text of WasteEdit has changed as a result of user action
 
@@ -1434,7 +1436,7 @@ CWasteEditView::UserChangedText()
 
 
 // ---------------------------------------------------------------------------
-//	¬€ GetSelection
+//	¥ GetSelection
 // ---------------------------------------------------------------------------
 //	Passes back an AEDesc of the currently selected text
 
@@ -1460,7 +1462,7 @@ CWasteEditView::GetSelection(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ GetSelectionRange
+//	¥ GetSelectionRange
 // ---------------------------------------------------------------------------
 
 void
@@ -1473,7 +1475,7 @@ CWasteEditView::GetSelectionRange(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ SetSelectionRange
+//	¥ SetSelectionRange
 // ---------------------------------------------------------------------------
 
 void
@@ -1505,7 +1507,7 @@ CWasteEditView::SetSelectionRange(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ DisplaySelectionRange
+//	¥ DisplaySelectionRange
 // ---------------------------------------------------------------------------
 
 void
@@ -1534,7 +1536,7 @@ CWasteEditView::DisplaySelectionRange(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ ScrollToCharOffset
+//	¥ ScrollToCharOffset
 // ---------------------------------------------------------------------------
 // Force bring a charOffset in view temporarily enabling mAutoScroll
 // in case it is not set. The View understands mAutoScroll and Waste
@@ -1560,7 +1562,7 @@ CWasteEditView::ScrollToCharOffset( SInt32	inPos )
 
 
 // ---------------------------------------------------------------------------
-//	¬€ SaveStateForUndo						[protected, virtual]
+//	¥ SaveStateForUndo						[protected, virtual]
 // ---------------------------------------------------------------------------
 
 SWasteEditUndoH
@@ -1585,7 +1587,7 @@ CWasteEditView::SaveStateForUndo()
 
 
 // ---------------------------------------------------------------------------
-//	¬€ SavePlace								[public, virtual]
+//	¥ SavePlace								[public, virtual]
 // ---------------------------------------------------------------------------
 // Override function in LView class
 
@@ -1608,7 +1610,7 @@ CWasteEditView::SavePlace(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ RestorePlace								[public, virtual]
+//	¥ RestorePlace								[public, virtual]
 // ---------------------------------------------------------------------------
 // Override function in LView class
 
@@ -1631,7 +1633,7 @@ CWasteEditView::RestorePlace(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ SetFont									[public, virtual]
+//	¥ SetFont									[public, virtual]
 // ---------------------------------------------------------------------------
 //	Given a font number, set the font
 
@@ -1647,7 +1649,7 @@ CWasteEditView::SetFont(
 }
 
 // ---------------------------------------------------------------------------
-//	¬€ SetFont									[public, virtual]
+//	¥ SetFont									[public, virtual]
 // ---------------------------------------------------------------------------
 //	Given a font name, set the font
 
@@ -1663,7 +1665,7 @@ CWasteEditView::SetFont(
 }
 
 // ---------------------------------------------------------------------------
-//	¬€ GetFont									[public, virtual]
+//	¥ GetFont									[public, virtual]
 // ---------------------------------------------------------------------------
 //	Determine the font over the selection range, passing back the font number.
 
@@ -1682,7 +1684,7 @@ CWasteEditView::GetFont(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ GetFont									[public, virtual]
+//	¥ GetFont									[public, virtual]
 // ---------------------------------------------------------------------------
 //	Determine the font over the selection range, passing back the font name
 
@@ -1701,7 +1703,7 @@ CWasteEditView::GetFont(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ SetSize									[public, virtual]
+//	¥ SetSize									[public, virtual]
 // ---------------------------------------------------------------------------
 
 void
@@ -1716,7 +1718,7 @@ CWasteEditView::SetSize(
 }
 
 // ---------------------------------------------------------------------------
-//	¬€ GetSize									[public, virtual]
+//	¥ GetSize									[public, virtual]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -1734,7 +1736,7 @@ CWasteEditView::GetSize(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ ChangeFontSizeBy							[public, virtual]
+//	¥ ChangeFontSizeBy							[public, virtual]
 // ---------------------------------------------------------------------------
 //	Will only work if the font over the selection range is constant.  Returns
 //	true if change was successful.
@@ -1755,7 +1757,7 @@ CWasteEditView::ChangeFontSizeBy(
 
 
 // ---------------------------------------------------------------------------------
-//		¬€ SetStyle								[public, virtual]
+//		¥ SetStyle								[public, virtual]
 // ---------------------------------------------------------------------------------
 
 void
@@ -1771,7 +1773,7 @@ CWasteEditView::SetStyle(
 
 
 // ---------------------------------------------------------------------------------
-//		¬€ GetStyle								[public, virtual]
+//		¥ GetStyle								[public, virtual]
 // ---------------------------------------------------------------------------------
 
 Boolean
@@ -1788,7 +1790,7 @@ CWasteEditView::GetStyle(
 
 
 // ---------------------------------------------------------------------------------
-//		¬€ ToggleStyleAttribute					[public, virtual]
+//		¥ ToggleStyleAttribute					[public, virtual]
 // ---------------------------------------------------------------------------------
 
 void
@@ -1804,7 +1806,7 @@ CWasteEditView::ToggleStyleAttribute(
 
 
 // ---------------------------------------------------------------------------------
-//		¬€ SetAlignment							[public, virtual]
+//		¥ SetAlignment							[public, virtual]
 // ---------------------------------------------------------------------------------
 // Alignment can work for monostyled text
 
@@ -1818,7 +1820,7 @@ CWasteEditView::SetAlignment(
 
 
 // ---------------------------------------------------------------------------------
-//		¬€ GetAlignment							[public, virtual]
+//		¥ GetAlignment							[public, virtual]
 // ---------------------------------------------------------------------------------
 
 WEAlignment
@@ -1829,7 +1831,7 @@ CWasteEditView::GetAlignment()
 
 
 // ---------------------------------------------------------------------------------
-//		¬€ SetColor								[public, virtual]
+//		¥ SetColor								[public, virtual]
 // ---------------------------------------------------------------------------------
 
 void
@@ -1845,7 +1847,7 @@ CWasteEditView::SetColor(
 }
 
 // ---------------------------------------------------------------------------------
-//		¬€ GetColor								[public, virtual]
+//		¥ GetColor								[public, virtual]
 // ---------------------------------------------------------------------------------
 
 Boolean
@@ -1863,7 +1865,7 @@ CWasteEditView::GetColor(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ SetTextTraitsID						[public, virtual]
+//	¥ SetTextTraitsID						[public, virtual]
 // ---------------------------------------------------------------------------
 //	Specify the resource ID of the TextTraits for a WasteEdit
 //
@@ -1900,7 +1902,7 @@ CWasteEditView::SetTextTraitsID(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ SetWETextTraits												  [public]
+//	¥ SetWETextTraits												  [public]
 // ---------------------------------------------------------------------------
 //	Set the text characteristics of a mono-styled Waste Edit View.
 //	If inTextTraits is nil, the standard System font traits are used.
@@ -1949,22 +1951,7 @@ CWasteEditView::SetWETextTraits(
 					  & theColor, sizeof ( theColor ), inWERef) ;
 	
 	// Calculate a default line spacing based on Font
-	FMInput		fontSpecs;
-
-	fontSpecs.family	= theStyle.tsFont;
-	fontSpecs.size		= theStyle.tsSize;
-	fontSpecs.face		= theStyle.tsFace;
-	fontSpecs.needBits	= false;
-	fontSpecs.device	= 0;
-	fontSpecs.numer.h	= 1;
-	fontSpecs.numer.v	= 1;
-	fontSpecs.denom.h	= 1;
-	fontSpecs.denom.v	= 1;
-
-	FMOutPtr info = ::FMSwapFont(&fontSpecs);
-
-	// Set line spacing based on Font
-	mLineHeight = (SInt16) (info->ascent + info->descent + info->leading);
+	SetLineHeight( GetLineHeightFromStyle(theStyle) );
 
 	// Reflow text
 	WECalText(inWERef);			
@@ -1972,7 +1959,7 @@ CWasteEditView::SetWETextTraits(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ SetWETextTraits												  [public]
+//	¥ SetWETextTraits												  [public]
 // ---------------------------------------------------------------------------
 //	Set the text characteristics of a mono-style WasteEdit Record (created
 //	by WENew)
@@ -1996,7 +1983,35 @@ CWasteEditView::SetWETextTraits(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ IsSelection													  [public]
+//	¥ GetLineHeightFromStyle									  [public]
+// ---------------------------------------------------------------------------
+
+SInt16
+CWasteEditView::GetLineHeightFromStyle(TextStyle inStyle)
+ {
+	// Calculate a default line spacing based on Font
+	FMInput		fontSpecs;
+
+	fontSpecs.family	= inStyle.tsFont;
+	fontSpecs.size		= inStyle.tsSize;
+	fontSpecs.face		= inStyle.tsFace;
+	fontSpecs.needBits	= false;
+	fontSpecs.device	= 0;
+	fontSpecs.numer.h	= 1;
+	fontSpecs.numer.v	= 1;
+	fontSpecs.denom.h	= 1;
+	fontSpecs.denom.v	= 1;
+
+	FMOutPtr info = ::FMSwapFont(&fontSpecs);
+
+	// Set line spacing based on Font
+	return (SInt16) (info->ascent + info->descent + info->leading);
+ }
+ 
+
+
+// ---------------------------------------------------------------------------
+//	¥ IsSelection													  [public]
 // ---------------------------------------------------------------------------
 // Check if selection is empty (0) or not (1).
 
@@ -2011,7 +2026,7 @@ CWasteEditView::IsSelection() {
 
 
 // ---------------------------------------------------------------------------
-//	¬€ InitWasteAttributes											  [public]
+//	¥ InitWasteAttributes											  [public]
 // ---------------------------------------------------------------------------
 // Initialize the attributes of the WasteEditeView set in Constructor.
 
@@ -2039,7 +2054,7 @@ CWasteEditView::InitWasteAttributes() {
 }
 
 // ---------------------------------------------------------------------------
-//	¬€ BuildTextAttributes											  [public]
+//	¥ BuildTextAttributes											  [public]
 // ---------------------------------------------------------------------------
 // Initialize the mTextAttributes data member. Don't set the weAttr_ReadOnly
 // attribute too early : if there is an initial text (from a TEXT resource), 
@@ -2070,7 +2085,7 @@ CWasteEditView::BuildTextAttributes()
 
 
 // ---------------------------------------------------------------------------
-//	¬€ ApplyStylePrefs
+//	¥ ApplyStylePrefs
 // ---------------------------------------------------------------------------
 
 void
@@ -2102,4 +2117,3 @@ CWasteEditView::ApplyStylePrefs(UInt16 theSize, UInt16 theFont)
 
 
 PP_End_Namespace_PowerPlant
-
