@@ -252,12 +252,10 @@ const ResIDT	MENU_Help					= 2000;
 const ResIDT	MENU_RecentItems			= 140;  
 const ResIDT	MENU_TemplateCases			= 150;  
 const ResIDT	MENU_TextFonts				= 250;  
+const ResIDT	MENU_TextSize				= 251;  
+const ResIDT	MENU_TextStyle				= 252;  
 const ResIDT	MENU_UnicodeFonts			= 255;  
 const ResIDT	MENU_StartHierMenuID		= 500;  
-// Values the PP menu commands are based on
-const ResIDT	base_MenuFile				= 1000;
-const ResIDT	base_MenuEdit				= 1100;
-const ResIDT	base_MenuResource			= 1200;
 
 // Icon editor
 const ResIDT	Txtr_PaintFont				= Txtr_GenevaNine;
@@ -352,27 +350,39 @@ const SInt16	index_UndoText				= 22;
 // ======================================================================
 // Menu commands
 // ======================================================================
+// Values the PP menu commands are based on
+const CommandT	cmd_MenuFileBase			= 1000;
+const CommandT	cmd_MenuEditBase			= 1100;
+const CommandT	cmd_MenuResourceBase		= 1200;
+// Text editor
+const CommandT	cmd_MenuTextSizeBase		= 1400;		// font sizes are (cmdID - 1400)
+const CommandT	cmd_MenuTextSizeLast		= 1499;		// and within this range
+// Bitmap editor
+const CommandT	cmd_IconFontSizeBase		= 9100;		// font sizes are (cmdID - 9100)
+const CommandT	cmd_IconFontSizeLast		= 9300;		// and within this range
+
+
 // Help menu commands
 const CommandT	cmd_Help					= 3000;	
 // Window menu commands
 const CommandT	cmd_ShowInspector			= 2001;	
 // Resource menu commands
-const CommandT	cmd_NewRez				= base_MenuResource + 1;	
-const CommandT	cmd_EditRez				= base_MenuResource + 2;	
-const CommandT	cmd_TmplEditRez			= base_MenuResource + 3;	
-const CommandT	cmd_HexEditRez			= base_MenuResource + 4;	
-const CommandT	cmd_EditRezAsType		= base_MenuResource + 5;	
-const CommandT	cmd_RemoveRez			= base_MenuResource + 10;	
-const CommandT	cmd_DuplicateRez		= base_MenuResource + 11;	
-const CommandT	cmd_GetRezInfo			= base_MenuResource + 15;
-const CommandT	cmd_TmplEditAsRez		= base_MenuResource + 99;	
+const CommandT	cmd_NewRez				= cmd_MenuResourceBase + 1;	
+const CommandT	cmd_EditRez				= cmd_MenuResourceBase + 2;	
+const CommandT	cmd_TmplEditRez			= cmd_MenuResourceBase + 3;	
+const CommandT	cmd_HexEditRez			= cmd_MenuResourceBase + 4;	
+const CommandT	cmd_EditRezAsType		= cmd_MenuResourceBase + 5;	
+const CommandT	cmd_RemoveRez			= cmd_MenuResourceBase + 10;	
+const CommandT	cmd_DuplicateRez		= cmd_MenuResourceBase + 11;	
+const CommandT	cmd_GetRezInfo			= cmd_MenuResourceBase + 15;
+const CommandT	cmd_TmplEditAsRez		= cmd_MenuResourceBase + 99;	
 // File menu commands
-const CommandT	cmd_ExportMap			= base_MenuFile + 1;	
-const CommandT	cmd_RecentItems			= base_MenuFile + 2;	
+const CommandT	cmd_ExportMap			= cmd_MenuFileBase + 1;	
+const CommandT	cmd_RecentItems			= cmd_MenuFileBase + 2;	
 // Edit menu commands
-const CommandT	cmd_Find				= base_MenuEdit + 1;	
-const CommandT	cmd_FindNext			= base_MenuEdit + 2;	
-const CommandT	cmd_RezCompare			= base_MenuEdit + 3;	
+const CommandT	cmd_Find				= cmd_MenuEditBase + 1;	
+const CommandT	cmd_FindNext			= cmd_MenuEditBase + 2;	
+const CommandT	cmd_RezCompare			= cmd_MenuEditBase + 3;	
 
 // Icon editor commands
 const CommandT	cmd_IconMoveSelection		= FOUR_CHAR_CODE('MOVE');
@@ -397,11 +407,9 @@ const CommandT	cmd_ColorTableApple16		= FOUR_CHAR_CODE('CLT4');
 const CommandT	cmd_ColorTableApple16Gray	= FOUR_CHAR_CODE('CLT5');
 const CommandT	cmd_ColorTableApple4Gray	= FOUR_CHAR_CODE('CLT6');
 const CommandT	cmd_ColorTablePicker		= FOUR_CHAR_CODE('CLT7');
-const CommandT	cmd_ColorTableApple2		= FOUR_CHAR_CODE('CLT8');  // not in the menu, but used in the code
+const CommandT	cmd_ColorTableApple2		= FOUR_CHAR_CODE('CLT8');  // Not in the menu, but used in the code
 const MessageT	msg_TextActionDied			= FOUR_CHAR_CODE('TxDi');
-const CommandT	cmd_IconBaseFontSize		= 9100;		// font sizes are (cmdID - 9100)
-const CommandT	cmd_IconLastFontSize		= 9300;		// and within this range
-const CommandT	cmd_IconOtherFontSize		= 9100;
+const CommandT	cmd_IconOtherFontSize		= cmd_IconFontSizeBase;
 
 
 // ======================================================================
