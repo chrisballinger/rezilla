@@ -110,7 +110,6 @@ protected:
 
 	virtual void            AdjustCursorPos();
 	virtual void			ClickSelf(const SMouseDownEvent & inMouseDown);
-	virtual void			BeTarget();
 };
 
 
