@@ -190,12 +190,14 @@ CSuite_Window::ListenToMessage( MessageT inMessage, void *ioParam )
 		ArrayIndexT index = AddNewBitmap();
 		SetNthBitmap(index);
 		AdjustSlider();
+		SetDirty(true);
 		break;
 		
 		case msg_MinusButton:
 		RemoveBitmap(mCurrentIndex);
 		SetNthBitmap(mCurrentIndex);
 		AdjustSlider();
+		SetDirty(true);
 		break;
 		
 		default:
