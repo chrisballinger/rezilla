@@ -31,7 +31,7 @@ Last modification: $Date$
 ================================================================================
 = 1.0.1a8 	                             last update: 
 ================================================================================
-¥ No real new features, only fixes, debugging and small improvements.
+¥ No real new features, only fixes, debugging and small improvements:
 	* count fields correctly updated when a drag/copy etc action occurs
 	* ask in case of conflicting IDs when dropping resources rather than
 	  automatically attributing an unique ID
@@ -46,6 +46,8 @@ Last modification: $Date$
 	* fixed issue with SaveAs when some resources were not loaded in memory
 	* display the icon for standard icon resource types ('ICN#', 'ics#', 
 		'icl4', 'icl8', 'ics4', or 'ics8') in the Inspector Window
+	* fixed issue with null bytes in search code
+	* fix in hex to byte converter
 	* 
 
 ================================================================================
