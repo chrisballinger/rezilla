@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2004-12-08 19:00:47
+//             Last modification : 2004-12-11 13:12:13
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -126,6 +126,34 @@ enum
 	editor_kindHex
 };
 
+// Supported image types
+enum
+{	
+	img_LargeIcon			= FOUR_CHAR_CODE('ICON'),
+	
+	img_LargeIconWithMask	= FOUR_CHAR_CODE('ICN#'),
+	img_LargeIconMask		= FOUR_CHAR_CODE('ICN#'),
+	img_Large4BitIcon		= FOUR_CHAR_CODE('icl4'),
+	img_Large8BitIcon		= FOUR_CHAR_CODE('icl8'),
+	
+	img_SmallIconWithMask	= FOUR_CHAR_CODE('ics#'),
+	img_SmallIconMask		= FOUR_CHAR_CODE('ics#'),
+	img_Small4BitIcon		= FOUR_CHAR_CODE('ics4'),
+	img_Small8BitIcon		= FOUR_CHAR_CODE('ics8'),
+	
+	img_MiniIconWithMask	= FOUR_CHAR_CODE('icm#'),
+	img_MiniIconMask		= FOUR_CHAR_CODE('icm#'),
+	img_Mini4BitIcon		= FOUR_CHAR_CODE('icm4'),
+	img_Mini8BitIcon		= FOUR_CHAR_CODE('icm8'),
+	
+	img_ColorIcon			= FOUR_CHAR_CODE('cicn'),
+	img_Picture				= FOUR_CHAR_CODE('PICT'),
+	
+	img_Pattern				= FOUR_CHAR_CODE('PAT '),
+	img_PixPat				= FOUR_CHAR_CODE('ppat'),
+	img_Cursor				= FOUR_CHAR_CODE('CURS'),
+	img_ColorCursor			= FOUR_CHAR_CODE('crsr')
+};
 
 
 // Resource ID's
@@ -167,6 +195,7 @@ const ResIDT	rPPob_TextEditorWindow		= 10200;
 const ResIDT	rPPob_AeteEditorWindow		= 10300;
 const ResIDT	rPPob_PictEditorWindow		= 10400;
 const ResIDT	rPPob_UtxtEditorWindow		= 10500;
+const ResIDT	rPPob_IconEditorWindow		= 10600;
 const ResIDT	rRidL_RezMapWindow			= rPPob_RezMapWindow;
 const ResIDT	rRidL_InspectorWindow		= rPPob_InspectorWindow;
 const ResIDT	rRidL_NewRezDialog			= rPPob_NewRezDialog;
@@ -175,6 +204,7 @@ const ResIDT	rRidL_TmplEditorWindow		= rPPob_TmplEditorWindow;
 const ResIDT	rRidL_TextEditorWindow		= rPPob_TextEditorWindow;
 const ResIDT	rRidL_AeteEditorWindow		= rPPob_AeteEditorWindow;
 const ResIDT	rRidL_UtxtEditorWindow		= rPPob_UtxtEditorWindow;
+const ResIDT	rRidL_IconEditorWindow		= rPPob_IconEditorWindow;
 const ResIDT	rRidL_AboutWindow			= rPPob_AboutWindow;
 const ResIDT	rRidL_FindDialog			= rPPob_FindDialog;
 const ResIDT	rRidL_RezCompDialog			= rPPob_RezCompDialog;
@@ -185,8 +215,6 @@ const ResIDT	rRidL_TmplKeyPickerPicker	= rPPob_TmplKeyPicker;
 
 const ResIDT	ics8_Unlocked				= 1500;
 const ResIDT	ics8_Locked					= 1501;
-
-const ResIDT	CURS_HandCursor				= 1000;
 
 const ResIDT	STRx_RzilErrorStrings		= 1000;
 const ResIDT	STRx_PrefsCtrlList			= 1004;
@@ -230,6 +258,21 @@ const ResIDT	baseMENU_Resource			= 1200;
 // Icon resources
 const ResIDT	ICN_WindowMenu				= 3100;
 
+// Cursors
+const ResIDT	CURS_HandOneFinger	= 1000;
+const ResIDT	CURS_Lasso			= 9000;
+const ResIDT	CURS_Eraser			= 9001;
+const ResIDT	CURS_Pencil			= 9002;
+const ResIDT	CURS_Dropper		= 9003;
+const ResIDT	CURS_HandFingers	= 9004;
+const ResIDT	CURS_Plus			= 9005;
+const ResIDT	CURS_Bucket			= 9006;
+const ResIDT	CURS_TextBeam		= 9007;
+const ResIDT	CURS_HandNoFinger	= 9010;
+const ResIDT	CURS_HotSpot		= 9011;
+const ResIDT	CURS_Square			= 9012;
+const ResIDT	CURS_Cross			= 9013;
+
 // Indices in STR# resources
 // -------------------------
 // Indices of STR# 1500: untitled windows names
@@ -268,19 +311,6 @@ const SInt16	index_ExtText				= 4;
 const SInt16	index_ExtHtml				= 5;
 const SInt16	index_ExtR					= 6;
 const SInt16	index_ExtIcns				= 7;
-// Indices of STR# 1503: internet urls for about box
-/* 
- * const SInt16    index_urlProjCaption        = 1;
- * const SInt16    index_urlProjURL            = 2;
- * const SInt16    index_urlBinsCaption        = 3;
- * const SInt16    index_urlBinsUEL            = 4;
- * const SInt16    index_urlCvsCaption            = 5;
- * const SInt16    index_urlCvsUEL                = 6;
- * const SInt16    index_urlBugCaption            = 7;
- * const SInt16    index_urlBugUEL                = 8;
- * const SInt16    index_urlMailCaption        = 9;
- * const SInt16    index_urlMailURL            = 10;
- */
 
 
 
@@ -307,6 +337,16 @@ const MessageT	cmd_RecentItems			= baseMENU_File + 2;
 const MessageT	cmd_Find				= baseMENU_Edit + 1;	
 const MessageT	cmd_FindNext			= baseMENU_Edit + 2;	
 const MessageT	cmd_RezCompare			= baseMENU_Edit + 3;	
+
+// Icon editor commands
+const CommandT	cmd_IconEraseAll			= FOUR_CHAR_CODE('ERAL');
+const CommandT	cmd_IconFlipVertical		= FOUR_CHAR_CODE('FLPV');
+const CommandT	cmd_IconFlipHorizontal		= FOUR_CHAR_CODE('FLPH');
+const CommandT	cmd_IconRotate				= FOUR_CHAR_CODE('ROTA');
+const CommandT	cmd_IconTransparent			= FOUR_CHAR_CODE('TRAN');
+const CommandT	cmd_IconShowBitmap			= FOUR_CHAR_CODE('BITM');
+const CommandT	cmd_IconShowMask			= FOUR_CHAR_CODE('MASK');
+
 
 // Control ID's
 // ============
@@ -486,6 +526,33 @@ const PaneIDT   item_UtxtEditFontMenu	= 1;
 const PaneIDT   item_UtxtEditSizeMenu	= 2;
 const PaneIDT   item_UtxtEditStyleMenu	= 3;
 const PaneIDT   item_UtxtEditLength		= 4;
+// Icon Editor Window
+// ------------------
+// Same values are used for the pane ID and 
+// for the message it broadcasts.
+const PaneIDT	tool_None				= 0;
+const PaneIDT	tool_Lasso				= FOUR_CHAR_CODE('tLAS');
+const PaneIDT	tool_Selection			= FOUR_CHAR_CODE('tSEL');
+const PaneIDT	tool_Text				= FOUR_CHAR_CODE('tTXT');
+const PaneIDT	tool_Pencil				= FOUR_CHAR_CODE('tPEN');
+const PaneIDT	tool_Eraser				= FOUR_CHAR_CODE('tERA');
+const PaneIDT	tool_Bucket				= FOUR_CHAR_CODE('tBUC');
+const PaneIDT	tool_Dropper			= FOUR_CHAR_CODE('tDRO');
+const PaneIDT	tool_Line				= FOUR_CHAR_CODE('tLIN');
+const PaneIDT	tool_Rect				= FOUR_CHAR_CODE('tREC');
+const PaneIDT	tool_FilledRect			= FOUR_CHAR_CODE('tFRC');
+const PaneIDT	tool_RoundRect			= FOUR_CHAR_CODE('tRRC');
+const PaneIDT	tool_FilledRoundRect	= FOUR_CHAR_CODE('tFRR');
+const PaneIDT	tool_Oval				= FOUR_CHAR_CODE('tOVL');
+const PaneIDT	tool_FilledOval			= FOUR_CHAR_CODE('tFOV');
+const PaneIDT	tool_HotSpot			= FOUR_CHAR_CODE('tHOT');
+const PaneIDT	tool_BlackAndWhite		= FOUR_CHAR_CODE('tBnW');
+const PaneIDT	tool_Rotate				= FOUR_CHAR_CODE('tROT');
+const PaneIDT	tool_SwapColors			= FOUR_CHAR_CODE('tSWA');
+const PaneIDT	item_Pattern			= FOUR_CHAR_CODE('PATT');
+const PaneIDT	item_ForeColor			= FOUR_CHAR_CODE('FCOL');
+const PaneIDT	item_BackColor			= FOUR_CHAR_CODE('BCOL');		
+const PaneIDT	item_IconPreview		= FOUR_CHAR_CODE('IPRV');		
 
 
 // Common elements for Editor Windows
@@ -523,8 +590,8 @@ enum {
 };
 
 
-// Messages ID's
-// =============
+// Message IDs
+// ===========
 // Inspector Window
 // ----------------
 const MessageT	msg_InspEditID			= rPPob_InspectorWindow + item_InspEditID;
@@ -663,8 +730,8 @@ const MessageT	msg_TmplPlusButton			= 	FOUR_CHAR_CODE('Plus');
 const MessageT	msg_TmplCasePopup			= 	FOUR_CHAR_CODE('Case');
 const MessageT	msg_TmplPopupField			= 	FOUR_CHAR_CODE('PopF');
 const MessageT	msg_TmplModifiedItem		= 	FOUR_CHAR_CODE('TmMd');
-const MessageT	msg_EditScroller		= FOUR_CHAR_CODE('Scrl');
-const MessageT	msg_EditContents		= FOUR_CHAR_CODE('Cnts');
+const MessageT	msg_EditScroller			= FOUR_CHAR_CODE('Scrl');
+const MessageT	msg_EditContents			= FOUR_CHAR_CODE('Cnts');
 
 
 
