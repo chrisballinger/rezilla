@@ -2,7 +2,7 @@
 // CTmplWindowUtils.cp					
 // 
 //                       Created: 2004-08-20 16:45:08
-//             Last modification: 2004-11-07 12:27:15
+//             Last modification: 2004-11-09 07:21:19
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -1145,11 +1145,8 @@ CTmplEditorWindow::CalcTextPositions(OSType inType, SInt32 & oldPos, SInt32 & ne
 			default: {
 				isFixed = true;
 				
-				UMiscUtils::HexNumStringToDecimal(&inType, &reqLength);
-
 				if (inType >> 24 == 'H' || inType >> 24 == 'F') {
 					// Hnnn: a 3-digit hex number; displays $nnn bytes in hex format
-					UMiscUtils::HexNumStringToDecimal(&inType, &reqLength);
 					newPos = oldPos + reqLength;
 				} else if (inType >> 24 == 'C') {
 					// Cnnn: a C string that is $nnn hex bytes long. The last byte is always a 0, 
@@ -1195,7 +1192,6 @@ CTmplEditorWindow::CalcTextPositions(OSType inType, SInt32 & oldPos, SInt32 & ne
 	} else {
 		if (inType >> 24 == 'H' || inType >> 24 == 'F' || inType >> 24 == 'C' || inType >> 24 == 'T') {
 			isFixed = true;
-			UMiscUtils::HexNumStringToDecimal(&inType, &reqLength);
 			if (inType >> 24 == 'C') {
 				// Don't count the NULL byte
 				reqLength--;
