@@ -1,5 +1,5 @@
 // ===========================================================================
-// Rezilla_vers.r					
+// Rezilla_DITL.r
 //                       Created: 2004-02-25 10:57:56
 //             Last modification: 2004-02-25 10:58:34
 // Author: Bernard Desgraupes
