@@ -29,16 +29,32 @@ $Date$
 
 
 ================================================================================
-= 1.0.4a7	                             last update: 
+= 1.0.4a8	                             last update: 
+================================================================================
+¥ Implemented keyed sections in templates.
+¥ Added 18 new templates.
+¥ Introduced extended tags in 63 already existing templates.
+¥ Added a preference to set creator and type only for files with 
+  .rsrc extension.
+¥ Take account of templates located inside the currently edited map.
+¥ Look for external templates before internal ones to allow for overrides.
+¥ Added 30 new templates (total 360).
+¥ Created TestSamples.
+¥ Syntax validation Tcl scripts.
+¥ The resProtected bit is set on internal TMPL resources.
+¥ 
+
+================================================================================
+= 1.0.4a7	                             last update: 2004-08-20 16:24:25
 ================================================================================
 ¥ Implemented hex data representation according to prefs (lower or 
   upper case, 0x or $ prefix).
 ¥ Fixed sscanf related bug when retreiving hex values from template.
+¥ Disambiguated options-clicks. Now using control-click to call Inspector.
 ¥ Added hexadecimal filter to take prefix into account.
 ¥ Implemented most of the extended Template tags (as found for 
-  instance in Resorcerer): case lists, keyed lists, extended types, 
-  skip offsets etc.
-¥ 
+  instance in Resorcerer): case lists, extended types, skip offsets etc.
+¥ Color and date controls in templates.
 
 ================================================================================
 = 1.0.4a6	                             last update: 2004-08-16 00:40:51
