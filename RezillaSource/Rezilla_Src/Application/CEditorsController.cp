@@ -2,7 +2,7 @@
 // CEditorsController.cp					
 // 
 //                       Created: 2004-06-11 10:48:38
-//             Last modification: 2004-12-08 18:26:36
+//             Last modification: 2004-12-12 07:16:59
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -24,6 +24,7 @@ PP_Begin_Namespace_PowerPlant
 #include "CUtxt_EditorDoc.h"
 #include "CPICT_EditorDoc.h"
 #include "CSnd_EditorDoc.h"
+#include "CIcon_EditorDoc.h"
 #include "CTemplatesController.h"
 #include "CRezMap.h"
 #include "CRezMapDoc.h"
@@ -214,21 +215,39 @@ CEditorsController::InvokeCustomEditor(CRezMapDoc* inRezMapDoc,
 		break;
 
 		case 'TEXT':
-		  new CTEXT_EditorDoc( (LCommander *) inRezMapDoc, inSuperMap, inRezObj, 'TEXT', inReadOnly);
+		  new CTEXT_EditorDoc( (LCommander *) inRezMapDoc, inSuperMap, inRezObj, inUseType, inReadOnly);
 		break;
 		
 		case 'utxt':
-		  new CUtxt_EditorDoc( (LCommander *) inRezMapDoc, inSuperMap, inRezObj, 'TEXT', inReadOnly);
+		  new CUtxt_EditorDoc( (LCommander *) inRezMapDoc, inSuperMap, inRezObj, inUseType, inReadOnly);
 		break;
 		
 		case 'PICT':
-		  new CPICT_EditorDoc( (LCommander *) inRezMapDoc, inSuperMap, inRezObj, 'PICT', inReadOnly);
+		  new CPICT_EditorDoc( (LCommander *) inRezMapDoc, inSuperMap, inRezObj, inUseType, inReadOnly);
 		break;
 		
 		case 'snd ':
-		  new CSnd_EditorDoc( (LCommander *) inRezMapDoc, inSuperMap, inRezObj, 'snd ', true);
+		  new CSnd_EditorDoc( (LCommander *) inRezMapDoc, inSuperMap, inRezObj, inUseType, true);
 		break;
 		
+		case 'CURS':
+		case 'ICN#':
+		case 'ICON':
+		case 'PAT ':
+		case 'cicn':
+		case 'crsr':
+		case 'icl4':
+		case 'icl8':
+		case 'icm#':
+		case 'icm4':
+		case 'icm8':
+		case 'ics#':
+		case 'ics4':
+		case 'ics8':
+		case 'ppat':
+		new CIcon_EditorDoc( (LCommander *) inRezMapDoc, inSuperMap, inRezObj, inUseType, inReadOnly);
+	  break;
+
 		case 'thng':
 		// A 'thng' resource has three different formats but contains 
 		// no field to determine its version: 
