@@ -2,7 +2,7 @@
 // CMenuItem.h
 // 
 //                       Created: 2005-03-10 09:12:57
-//             Last modification: 2005-03-11 21:57:47
+//             Last modification: 2005-03-12 13:24:42
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -38,7 +38,7 @@ public:
 		void		SendExtendedData(LHandleStream * outStream);
 				
 		void		GetValues(Str255 outTitle, UInt8 & outIconID, UInt8 & outShortcut, 
-					   UInt8 outMark, UInt8 & outStyle);
+					   UInt8 & outMark, UInt8 & outStyle);
 		
 		void 		SetValues(Str255 inTitle, UInt8 inIconID, UInt8 inShortcut, 
 					   UInt8 inMark, UInt8 inStyle);
@@ -63,7 +63,7 @@ protected:
 		// Extended info from 'xmnu'
 		SInt16		mEntryType;			// 0 for separator, 1 otherwise
 		SInt32		mCommandID;			// a four char code
-		UInt8		mModifiers;			// four low bits: no-cmd (8), ctrl (4), opt (2), shift (1)
+		UInt8		mModifiers;			// bits 3-0: no-cmd (8), ctrl (4), opt (2), shift (1)
 		UInt8		mIconType;			// Icon type placeholder
 		UInt32		mIconHandle;		// Icon handle placeholder
 		SInt32		mEncoding;			// Current script=-2 (fffffffe)/ system script=-1

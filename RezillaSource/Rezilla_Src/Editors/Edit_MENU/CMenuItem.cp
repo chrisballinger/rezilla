@@ -176,7 +176,7 @@ CMenuItem::SendExtendedData(LHandleStream * outStream)
 
 void
 CMenuItem::GetValues(Str255 outTitle, UInt8 & outIconID, UInt8 & outShortcut, 
-					   UInt8 outMark, UInt8 & outStyle)
+					   UInt8 & outMark, UInt8 & outStyle)
 {
 	LString::CopyPStr(mTitle, outTitle);
 	outIconID = mIconID;
