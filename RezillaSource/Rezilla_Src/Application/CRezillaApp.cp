@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2004-04-14 11:42:46
+//             Last modification: 2004-05-17 13:58:45
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -13,6 +13,7 @@
 
 
 #include "CRezillaApp.h"
+#include "CRezillaPrefs.h"
 #include "CEditTable.h"
 #include "CRezMapDoc.h"
 #include "CRezMap.h"
@@ -42,7 +43,6 @@
 #include "UMessageDialogs.h"
 #include "UDialogBoxHandler.h"
 #include "ABalloon.h"
-// #include "COutBorderAttachment.h"
 
 // PP Classes for registration
 #include <Appearance.h>
@@ -63,6 +63,7 @@
 #include <LGAPushButtonImp.h>
 #include <LGAWindowHeaderImp.h>
 #include <LIconPane.h>
+#include <LPageController.h>
 #include <LPicture.h>
 #include <LPopupButton.h>
 #include <LPushButton.h>
@@ -99,6 +100,7 @@
 CWindowMenu	*		gWindowMenu;	// This is the window menu.
 
 // Static variables
+CRezillaPrefs *			CRezillaApp::sPrefs = nil;
 CInspectorWindow *		CRezillaApp::sInspectorWindow = nil;
 const LStr255			CRezillaApp::sVersionNumber( VersionFromResource() );
 SInt16					CRezillaApp::sOwnRefNum;
@@ -106,6 +108,7 @@ TArray<CRezMapDoc *>	CRezillaApp::sRezMapDocList;
 SInt16					CRezillaApp::sDefaultCreatingFork;
 CRecentItemsMenu *		CRezillaApp::sRecentItemsAttachment;
 Boolean					CRezillaApp::sReadOnlyNavFlag = false;
+
 
 // ===========================================================================
 //  ¥ Main Program
@@ -206,8 +209,8 @@ CRezillaApp::Initialize()
 	// Create the about window
 	MakeAboutWindow();
 	
-// // 	// Create an instance of CRezillaPrefs
-// // 	sPrefs = new CRezillaPrefs(this);
+	// Create an instance of CRezillaPrefs
+	sPrefs = new CRezillaPrefs(this);
 
 	// Install the window menu.
 	InstallWindowMenu();	
@@ -253,42 +256,44 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(LDialogBox);
 	RegisterClass_(LEditField);
 	RegisterClass_(LIconPane);
+	RegisterClass_(LPageController);
 	RegisterClass_(LPicture);
 	RegisterClass_(LPopupButton);
 	RegisterClass_(LPushButton);
 	RegisterClass_(LRadioGroup);
+	RegisterClass_(LRadioGroupView);
 	RegisterClass_(LScrollBar);
 	RegisterClass_(LScrollerView);
 	RegisterClass_(LStaticText);
+	RegisterClass_(LStdButton);
 	RegisterClass_(LStdPopupMenu);
 	RegisterClass_(LStdRadioButton);
 	RegisterClass_(LTabGroupView);
 	RegisterClass_(LTextEditView);
+	RegisterClass_(LUndoer);
 	RegisterClass_(LView);
 	RegisterClass_(LWindow);
 	RegisterClass_(LWindowHeader);
  	RegisterClass_(LBorderAttachment);
-	RegisterClass_(LUndoer);
 
 	// Register Rezilla custom classes.
-	RegisterClass_(CEditTable);
-	RegisterClass_(CRezMapTable);
-	RegisterClass_(CRezMapWindow);
-	RegisterClass_(CInspectorWindow);
-	RegisterClass_(CHexEditorWindow);
-	RegisterClass_(CWasteEditView);
-	RegisterClass_(CHexDataWE);
-	RegisterClass_(CTxtDataWE);
 	RegisterClass_(CBiDataWE);
-	RegisterClass_(CHexDataSubView);
-	RegisterClass_(CTxtDataSubView);
-	RegisterClass_(CRangeEditText);
-	RegisterClass_(CDropStaticText);
 	RegisterClass_(CBroadcasterTableView);
 	RegisterClass_(CCompResultWindow);
-	RegisterClass_(CSingleScrollBar);
+	RegisterClass_(CDropStaticText);
+	RegisterClass_(CEditTable);
+	RegisterClass_(CHexDataSubView);
+	RegisterClass_(CHexDataWE);
+	RegisterClass_(CHexEditorWindow);
+	RegisterClass_(CInspectorWindow);
+	RegisterClass_(CRangeEditText);
 	RegisterClass_(CRezIconPane);
-// 	RegisterClass_(COutBorderAttachment);
+	RegisterClass_(CRezMapTable);
+	RegisterClass_(CRezMapWindow);
+	RegisterClass_(CSingleScrollBar);
+	RegisterClass_(CTxtDataSubView);
+	RegisterClass_(CTxtDataWE);
+	RegisterClass_(CWasteEditView);
 
 	RegisterClass_(ATag);
 
@@ -416,7 +421,8 @@ CRezillaApp::FindCommandStatus(
 		case cmd_RecentItems:
 		case cmd_ShowInspector:
 		case cmd_RezCompare:
-		outEnabled = true;
+		case cmd_Preferences:
+			outEnabled = true;
 			break;		
 		
 		case cmd_Revert:
@@ -427,12 +433,12 @@ CRezillaApp::FindCommandStatus(
 		case cmd_GetRezInfo:
 		case cmd_RemoveRez:
 		case cmd_DuplicateRez:
-		outEnabled = false;
+			outEnabled = false;
 			break;		
 		
 		case cmd_Find:
-		LString::CopyPStr( "\pFindÉ", outName);
-		outEnabled = false;
+			LString::CopyPStr( "\pFindÉ", outName);
+			outEnabled = false;
 			break;		
 		
 		default:
@@ -1017,6 +1023,17 @@ CRezillaApp::HandleOpenDocsEvent(
 	if (theDocList.descriptorType != typeNull) ::AEDisposeDesc(&theDocList);
 }
 
+
+// ---------------------------------------------------------------------------
+//	¥ DoPreferences												   [protected]
+// ---------------------------------------------------------------------------
+//	Handle Preferences settings
+
+void
+CRezillaApp::DoPreferences()
+{
+	sPrefs->RunPrefsWindow();
+}
 
 
 

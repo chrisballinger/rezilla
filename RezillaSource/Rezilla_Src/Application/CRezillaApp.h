@@ -27,6 +27,7 @@ typedef struct Rzil_OpenFileUD{
 class CInspectorWindow;
 class CRezMapDoc;
 class CRecentItemsMenu;
+class CRezillaPrefs;
 
 
 class CRezillaApp : public LDocApplication, public LListener {
@@ -77,6 +78,7 @@ public:
 	
 	static CRecentItemsMenu*	GetRecentItemsAttachment() { return sRecentItemsAttachment;}
 
+	static CRezillaPrefs *		sPrefs;
 	static const LStr255		sVersionNumber;
 	static short				sOwnRefNum;
 	static CInspectorWindow *	sInspectorWindow;
@@ -95,7 +97,7 @@ protected:
 	void				RegisterClasses();
 	OSStatus			RegisterHelpBook();
 	void				MakeAboutWindow();
-// 	virtual void			DoPreferences();
+	virtual void		DoPreferences();
 
 
 private:
