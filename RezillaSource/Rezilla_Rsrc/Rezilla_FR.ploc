@@ -19,7 +19,7 @@ localize "French" as "Localizable.strings"
 	key "OpenForkError" value string "Erreur à l'ouverture de la branche de ressource."
 	key "SystemError" value string "Erreur système"
 	key "MapsNotSelected" value string "Les deux branches de ressources doivent être sélectionnées."
-	key "AlreadyExistingID" value string "Il y a déjà une ressource avec ce numéro. Voulez-vous remplacer la ressource existante ou en créer une nouvelle avec un nouveau numéro (Unique ID) ?"
+	key "AlreadyExistingID" value string "Il existe une ressource de même numéro. Voulez-vous remplacer la ressource existante ou en créer une nouvelle avec un nouveau numéro (Unique ID) ?"
 	key "ConfirmRevertRezMapDoc" value string "OK pour revenir à la dernière version sauvegardée ? Les modifications faites depuis la dernière sauvegarde seront perdues."
 }
 
