@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2004-12-09 08:55:16
+//             Last modification: 2004-12-11 07:10:32
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -29,6 +29,8 @@
 #include "CInspectorWindow.h"
 #include "CHexEditorWindow.h"
 #include "CTmplEditorWindow.h"
+#include "CIcon_EditorView.h"
+#include "CIcon_EditorWindow.h"
 #include "CPICT_EditorView.h"
 #include "CPICT_EditorWindow.h"
 #include "CTEXT_EditorView.h"
@@ -349,6 +351,8 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(CEditorWindow);
 	RegisterClass_(CHexDataSubView);
 	RegisterClass_(CHexEditorWindow);
+	RegisterClass_(CIcon_EditorView);
+	RegisterClass_(CIcon_EditorWindow);
 	RegisterClass_(CInspectorWindow);
 	RegisterClass_(CPICT_EditorView);
 	RegisterClass_(CPICT_EditorWindow);
