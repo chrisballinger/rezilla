@@ -50,7 +50,7 @@ public:
 	static OSErr	CountAllResources(short & outCount);
 		
 	static OSErr	GetWithID(ResType inType, short inID, Handle & outHandle);
-	static OSErr	GetNamed(ResType inType, ConstStr255Param inName, Handle & outHandle);
+	static OSErr	GetWithName(ResType inType, ConstStr255Param inName, Handle & outHandle);
 	static OSErr	GetAllTypes( TArray<ResType>* & outArray );
 
 	static const SInt16	refNum_Undef = -1;
@@ -59,11 +59,11 @@ public:
 
 
 // ===========================================================================
-//	¬€ Stack-based classes
+//	¥ Stack-based classes
 // ===========================================================================
 
 // ---------------------------------------------------------------------------
-//  ¬€ class StRezReferenceSaver
+//  ¥ class StRezReferenceSaver
 // ---------------------------------------------------------------------------
 class StRezReferenceSaver {
 public:
@@ -82,7 +82,7 @@ private:
 
 
 // ---------------------------------------------------------------------------
-//  ¬€ class StRezLoadSaver
+//  ¥ class StRezLoadSaver
 // ---------------------------------------------------------------------------
 class StRezLoadSaver {
 public:

@@ -31,7 +31,7 @@ public:
 	Boolean	HasResourceWithTypeAndName(ResType inType, ConstStr255Param inName);
 	
 	OSErr	GetWithID(ResType inType, short inID, Handle & outHandle, Boolean loadIt = false);
-	OSErr	GetNamed(ResType inType, ConstStr255Param inName, Handle & outHandle, Boolean loadIt = false);
+	OSErr	GetWithName(ResType inType, ConstStr255Param inName, Handle & outHandle, Boolean loadIt = false);
 	OSErr	GetAllTypes( TArray<ResType>* & outArray );
 	OSErr	GetTypeAtIndex(short inIdx, ResType & outType);
 	OSErr	GetResourceAtIndex(ResType inType, short inIdx, Handle & outHandle);

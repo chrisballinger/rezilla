@@ -18,7 +18,7 @@
 
 
 // ---------------------------------------------------------------------------
-//  ¬€ CRezMap														[public]
+//  ¥ CRezMap														[public]
 // ---------------------------------------------------------------------------
 
 CRezMap::CRezMap(short inRefnum)
@@ -29,7 +29,7 @@ CRezMap::CRezMap(short inRefnum)
 
 
 // ---------------------------------------------------------------------------
-//  ¬€ ~CRezMap														[public]
+//  ¥ ~CRezMap														[public]
 // ---------------------------------------------------------------------------
 
 CRezMap::~CRezMap()
@@ -38,7 +38,7 @@ CRezMap::~CRezMap()
 
 
 // ---------------------------------------------------------------------------
-//  ¬€ UpdateResFile														[public]
+//  ¥ UpdateResFile														[public]
 // ---------------------------------------------------------------------------
 // 		ThrowIfResError_();
 
@@ -51,7 +51,7 @@ CRezMap::Update()
 
 
 // ---------------------------------------------------------------------------
-//  ¬€ CountForType													[public]
+//  ¥ CountForType													[public]
 // ---------------------------------------------------------------------------
 // Count the number of resources of a given type in current resource map.
 
@@ -65,7 +65,7 @@ CRezMap::CountForType(ResType inType, short & outCount)
 
 
 // ---------------------------------------------------------------------------
-//  ¬€ CountAllTypes													[public]
+//  ¥ CountAllTypes													[public]
 // ---------------------------------------------------------------------------
 // Count the number of types in current resource map.
 
@@ -79,7 +79,7 @@ CRezMap::CountAllTypes(short & outCount)
 
 
 // ---------------------------------------------------------------------------
-//  ¬€ CountAllResources												[public]
+//  ¥ CountAllResources												[public]
 // ---------------------------------------------------------------------------
 // Count the number of resources of any type in current resource map.
 
@@ -107,7 +107,7 @@ CRezMap::CountAllResources(short & outCount)
 
 
 // ---------------------------------------------------------------------------
-//  ¬€ GetResourceAtIndex											[public]
+//  ¥ GetResourceAtIndex											[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -121,7 +121,7 @@ CRezMap::GetResourceAtIndex(ResType inType, short inIdx, Handle & outHandle)
 
 
 // ---------------------------------------------------------------------------
-//  ¬€ GetWithID													[public]
+//  ¥ GetWithID													[public]
 // ---------------------------------------------------------------------------
 // Get a handle to a resource of a given type with a given ID
 // from current resource map.
@@ -144,13 +144,13 @@ CRezMap::GetWithID(ResType inType, short inID, Handle & outHandle, Boolean loadI
 
 
 // ---------------------------------------------------------------------------
-//  ¬€ GetNamed														[public]
+//  ¥ GetWithName														[public]
 // ---------------------------------------------------------------------------
 // Get a handle to a resource of a given type with a given name
 // from current resource map.
 
 OSErr
-CRezMap::GetNamed(ResType inType, ConstStr255Param inName, Handle & outHandle, Boolean loadIt)
+CRezMap::GetWithName(ResType inType, ConstStr255Param inName, Handle & outHandle, Boolean loadIt)
 {
 	OSErr error;
     StRezReferenceSaver saver(mRefnum);
@@ -167,7 +167,7 @@ CRezMap::GetNamed(ResType inType, ConstStr255Param inName, Handle & outHandle, B
 
 
 // ---------------------------------------------------------------------------
-//  ¬€ HasResourceWithTypeAndId											[public]
+//  ¥ HasResourceWithTypeAndId											[public]
 // ---------------------------------------------------------------------------
 // Looks in the resource map to see if an entry with the specified type and the
 // specified ID already exists. 
@@ -181,7 +181,7 @@ CRezMap::HasResourceWithTypeAndId(ResType inType, short inID)
 
 
 // ---------------------------------------------------------------------------
-//  ¬€ HasResourceWithTypeAndName										[public]
+//  ¥ HasResourceWithTypeAndName										[public]
 // ---------------------------------------------------------------------------
 // Looks in the resource map to see if an entry with the specified type and the
 // specified name already exists. 
@@ -190,12 +190,12 @@ Boolean
 CRezMap::HasResourceWithTypeAndName(ResType inType, ConstStr255Param inName)
 {
 	Handle theHandle = nil;
-	return ( GetNamed(inType, inName, theHandle) != resNotFound );
+	return ( GetWithName(inType, inName, theHandle) != resNotFound );
 }
 
 
 // ---------------------------------------------------------------------------
-//  ¬€ GetAllTypes													[public]
+//  ¥ GetAllTypes													[public]
 // ---------------------------------------------------------------------------
 // Get an array of all types current resource map.
 
@@ -224,7 +224,7 @@ CRezMap::GetAllTypes( TArray<ResType>* & outArray )
 
 
 // ---------------------------------------------------------------------------
-//  ¬€ GetTypeAtIndex													[public]
+//  ¥ GetTypeAtIndex													[public]
 // ---------------------------------------------------------------------------
 // Get the type given an index.
 
@@ -238,7 +238,7 @@ CRezMap::GetTypeAtIndex(short inIdx, ResType & outType)
 
 
 // ---------------------------------------------------------------------------
-//  ¬€ UniqueID														[public]
+//  ¥ UniqueID														[public]
 // ---------------------------------------------------------------------------
 // typedef		SInt16			ResIDT;
 // typedef unsigned short                  UInt16;
@@ -254,7 +254,7 @@ CRezMap::UniqueID(ResType inType, short & outID)
 
 
 // ---------------------------------------------------------------------------
-//  ¬€ GetFileAttrs														[public]
+//  ¥ GetFileAttrs														[public]
 // ---------------------------------------------------------------------------
 // 		  mapReadOnlyBit	= 7
 // 		  mapCompactBit		= 6
@@ -270,7 +270,7 @@ CRezMap::GetFileAttrs(short & outResFileAttrs)
 
 
 // ---------------------------------------------------------------------------
-//  ¬€ SetFileAttrs														[public]
+//  ¥ SetFileAttrs														[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -283,7 +283,7 @@ CRezMap::SetFileAttrs(short inResFileAttrs)
 
 
 // ---------------------------------------------------------------------------
-//  ¬€ UnsetFileAttrs														[public]
+//  ¥ UnsetFileAttrs														[public]
 // ---------------------------------------------------------------------------
 
 OSErr
