@@ -109,6 +109,8 @@ CAete_EditorDoc::Initialize()
 {
 	OSErr error;
 
+	mOutStream = nil;
+	
 	// Create window for our document
 	mAeteEditWindow = dynamic_cast<CAete_EditorWindow *>(LWindow::CreateWindow( PPob_AeteEditorWindow, this ));
 	Assert_( mAeteEditWindow != nil );
@@ -128,8 +130,8 @@ CAete_EditorDoc::Initialize()
 		// Install the contents
 		if (mRezObj != nil) {
 			Handle rezData = mRezObj->GetData();
-			
-			if (rezData != nil && mRezObj->GetSize() > 0) {
+
+			if (rezData != nil) {
 				// Work with a copy of the handle
 				::HandToHand(&rezData);
 				error = mAeteEditWindow->InstallAete(rezData);
