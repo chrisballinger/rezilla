@@ -414,9 +414,12 @@ const SInt16	kRzilHexCompLineCount		= 12;
 const SInt16	kRzilHexCompCharsPerLine	= 48;
 const SInt16	kRzilHexCompCharsPerPane	= kRzilHexCompLineCount * kRzilHexCompCharsPerLine;
 // Constants for the Rez Hex editor
+//     kRzilHexEditBytesPerLine and kRzilHexEditBytesPerPane are counts of bytes 
+//     which have to be multiplied by 3 (two hex digits + space) or by 2 in text
+//     representation (one char + space)
 const SInt16	kRzilHexEditLineCount		= 32;
-const SInt16	kRzilHexEditCharsPerLine	= 16;
-const SInt16	kRzilHexEditCharsPerPane	= kRzilHexEditLineCount * kRzilHexEditCharsPerLine;
+const SInt16	kRzilHexEditBytesPerLine	= 16;
+const SInt16	kRzilHexEditBytesPerPane	= kRzilHexEditLineCount * kRzilHexEditBytesPerLine;
 // Max number of items in the Recent Items menu
 const SInt16	kRzilMaxRecentItems	= 10;
 

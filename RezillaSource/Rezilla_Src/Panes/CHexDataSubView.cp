@@ -240,16 +240,16 @@ CHexDataSubView::CursorMoved(SInt32 inPos)
 		// the scrollbar emits its message.
 		mEditorWindow->GetScroller()->SetValue(firstLine);
 		// Update the cursor's pos
-		newHexPos = HexPosToPos(kRzilHexEditCharsPerLine) + inPos;
+		newHexPos = HexPosToPos(kRzilHexEditBytesPerLine) + inPos;
 		DisplaySelectionRange( newHexPos, newHexPos);
-	} else if (PosToHexPos(inPos) > kRzilHexEditCharsPerPane) {
+	} else if (PosToHexPos(inPos) > kRzilHexEditBytesPerPane) {
 		if (firstLine > lastLine - kRzilHexEditLineCount) return;
 		firstLine += 1;
 		// Sync the scrollbar: this provokes a redraw because 
 		// the scrollbar emits its message.
 		mEditorWindow->GetScroller()->SetValue(firstLine);
 		// Update the cursor's pos
-		newHexPos = inPos - HexPosToPos(kRzilHexEditCharsPerLine);
+		newHexPos = inPos - HexPosToPos(kRzilHexEditBytesPerLine);
 		DisplaySelectionRange( newHexPos, newHexPos);
 	} else {
 		newHexPos = inPos;
@@ -302,17 +302,17 @@ CHexDataSubView::UserChangedText(
 		if (firstLine > 1) {
 			firstLine -= 1;
 			mEditorWindow->SetCurrFirstLine(firstLine);
-			inStartPos += HexPosToPos(kRzilHexEditCharsPerLine);
+			inStartPos += HexPosToPos(kRzilHexEditBytesPerLine);
 		} else {
 			inStartPos = 0;
 		}
 	} 
 	// If the cursor was at the end of the frame and we insert chars, bring the 
 	// next line in view. Create it if necessary.
-	if ( inStartPos == HexPosToPos(kRzilHexEditCharsPerPane) && inBytesCount > 0) {
+	if ( inStartPos == HexPosToPos(kRzilHexEditBytesPerPane) && inBytesCount > 0) {
 		firstLine += 1;
 		mEditorWindow->SetCurrFirstLine(firstLine);
-		inStartPos -= HexPosToPos(kRzilHexEditCharsPerLine);
+		inStartPos -= HexPosToPos(kRzilHexEditBytesPerLine);
 		if (mOneOfTwoInserted) {
 			mEditingPos = inStartPos + inBytesCount;
 		} 
@@ -360,8 +360,8 @@ CHexDataSubView::SyncContentsWithMemory(SInt32 inStartPos,
 										SInt32 inBytesCount, 
 										SInt32 inLineOffset)
 {
-	SInt32 startOffset = (inLineOffset - 1) * kRzilHexEditCharsPerLine + PosToHexPos(inStartPos);
-	SInt32 endOffset = (inLineOffset - 1) * kRzilHexEditCharsPerLine + PosToHexPos(inEndPos);
+	SInt32 startOffset = (inLineOffset - 1) * kRzilHexEditBytesPerLine + PosToHexPos(inStartPos);
+	SInt32 endOffset = (inLineOffset - 1) * kRzilHexEditBytesPerLine + PosToHexPos(inEndPos);
 
 	WEReference we = mEditorWindow->GetInMemoryWasteRef();
 	WESetSelection( startOffset, endOffset, we );
