@@ -332,7 +332,9 @@ CUtxt_EditorView::SpendTime( const EventRecord& inMacEvent)
 {	
 	mOwnerWindow->SetLengthField( GetDataSize() );
 
+#if PP_MLTE_Manual_Idle
 	LMLTEPane::SpendTime(inMacEvent);
+#endif
 }
 
 
