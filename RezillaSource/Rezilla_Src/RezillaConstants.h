@@ -218,7 +218,9 @@ enum {
 	kind_AeteEnum,
 	kind_AeteParameter,
 	kind_AeteProperty,
-	kind_AeteElement
+	kind_AeteElement,
+	kind_AeteKeyForm,
+	kind_AeteEnumerator
 };
 
 enum {
@@ -786,7 +788,6 @@ const PaneIDT   item_AetePropertyKeyword	= 12;
 const PaneIDT   item_AetePropertyType		= 13;
 const PaneIDT   item_AetePropertyOptions	= 14;
 const PaneIDT   item_AetePropertyDescr		= 15;
-const PaneIDT   item_AeteElementName		= 21;
 const PaneIDT   item_AeteElementID			= 22;
 const PaneIDT   item_AeteKeyFormsTable		= 24;
 const PaneIDT   item_AetePropertySlider		= FOUR_CHAR_CODE('PSLI');
@@ -800,9 +801,8 @@ const PaneIDT   item_AeteCompDescr			= 3;
 //    Enums panel
 const PaneIDT   item_AeteEnumerationID		= 1;
 const PaneIDT   item_AeteEnumName			= 2;
-const PaneIDT   item_AeteEnumKeyword		= 3;
-const PaneIDT   item_AeteEnumType			= 4;
-const PaneIDT   item_AeteEnumDescr			= 5;
+const PaneIDT   item_AeteEnumType			= 3;
+const PaneIDT   item_AeteEnumDescr			= 4;
 const PaneIDT   item_AeteEnumSlider			= FOUR_CHAR_CODE('NSLI');
 const PaneIDT   item_AeteEnumIndicator		= FOUR_CHAR_CODE('NIDC');
 
@@ -1021,7 +1021,6 @@ const MessageT    msg_AeteOtherOptions		= PPob_AeteEventsPane + item_AeteOtherOp
 // const MessageT    msg_AetePropertyType		= PPob_AeteClassesPane + item_AetePropertyType;
 const MessageT    msg_AetePropertyOptions	= PPob_AeteClassesPane + item_AetePropertyOptions;
 // const MessageT    msg_AetePropertyDescr		= PPob_AeteClassesPane + item_AetePropertyDescr;
-// const MessageT    msg_AeteElementName		= PPob_AeteClassesPane + item_AeteElementName;
 // const MessageT    msg_AeteElementID			= PPob_AeteClassesPane + item_AeteElementID;
 // const MessageT    msg_AeteKeyFormsTable		= PPob_AeteClassesPane + item_AeteKeyFormsTable;
 // //    CompOps panel
@@ -1031,7 +1030,6 @@ const MessageT    msg_AetePropertyOptions	= PPob_AeteClassesPane + item_AeteProp
 // //    Enums panel
 // const MessageT    msg_AeteEnumerationID		= PPob_AeteEnumsPane + item_AeteEnumerationID;
 // const MessageT    msg_AeteEnumName			= PPob_AeteEnumsPane + item_AeteEnumName;
-// const MessageT    msg_AeteEnumKeyword		= PPob_AeteEnumsPane + item_AeteEnumKeyword;
 // const MessageT    msg_AeteEnumType			= PPob_AeteEnumsPane + item_AeteEnumType;
 // const MessageT    msg_AeteEnumDescr			= PPob_AeteEnumsPane + item_AeteEnumDescr;
 
