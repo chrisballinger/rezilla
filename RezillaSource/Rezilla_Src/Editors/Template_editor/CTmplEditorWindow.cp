@@ -1141,8 +1141,8 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		sprintf(charString, formatString, theChar, NULL);
 		CopyCStringToPascal(charString, theString);
 		AddStaticField(inLabelString, inContainer);
-		AddEditField(theString, inType, 2, 0, 
-					 &UHexFilters::HexadecimalField, inContainer);
+		AddEditField(theString, inType, 2 + CRezillaPrefs::GetPrefValue(kPref_editors_hexSymbol), 0, 
+					 &UHexFilters::HexTemplateField, inContainer);
 		break;
 
 		case 'HEXD':
@@ -1162,8 +1162,8 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		sprintf(charString, formatString, theUInt32, NULL);
 		CopyCStringToPascal(charString, theString);
 		AddStaticField(inLabelString, inContainer);
-		AddEditField(theString, inType, 8, 0, 
-					 &UHexFilters::HexadecimalField, inContainer);
+		AddEditField(theString, inType, 8 + CRezillaPrefs::GetPrefValue(kPref_editors_hexSymbol), 0, 
+					 &UHexFilters::HexTemplateField, inContainer);
 		break;
 
 		case 'FWRD':
@@ -1176,8 +1176,8 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		sprintf(charString, formatString, theUInt16, NULL);
 		CopyCStringToPascal(charString, theString);
 		AddStaticField(inLabelString, inContainer);
-		AddEditField(theString, inType, 4, 0, 
-					 &UHexFilters::HexadecimalField, inContainer);
+		AddEditField(theString, inType, 4 + CRezillaPrefs::GetPrefValue(kPref_editors_hexSymbol), 0, 
+					 &UHexFilters::HexTemplateField, inContainer);
 		break;
 
 		case 'LSTB':
@@ -1355,17 +1355,38 @@ CTmplEditorWindow::BuildFormatString(char * ioString, UInt8 inLength)
 {
 	if (CRezillaPrefs::GetPrefValue(kPref_editors_hexSymbol) == hex_Symb0x) {
 		if (CRezillaPrefs::GetPrefValue(kPref_editors_hexCase) == hex_uppercase) {
-			sprintf(ioString, "0x%s.%dX%sc", "%", inLength, "%", 0);
+			sprintf(ioString, "0x%s.%dX%sc%c", "%", inLength, "%", 0);
 		} else {
-			sprintf(ioString, "0x%s.%dx%sc", "%", inLength, "%", 0);
+			sprintf(ioString, "0x%s.%dx%sc%c", "%", inLength, "%", 0);
 		}
 	} else {
 		if (CRezillaPrefs::GetPrefValue(kPref_editors_hexCase) == hex_uppercase) {
-			sprintf(ioString, "$%s.%dX%sc", "%", inLength, "%", 0);
+			sprintf(ioString, "$%s.%dX%sc%c", "%", inLength, "%", 0);
 		} else {
-			sprintf(ioString, "$%s.%dx%sc", "%", inLength, "%", 0);
+			sprintf(ioString, "$%s.%dx%sc%c", "%", inLength, "%", 0);
 		}
 	}
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ BuildScanString													[public]
+// ---------------------------------------------------------------------------
+
+OSErr
+CTmplEditorWindow::BuildScanString(char * inString, char * ioFormat, UInt8 inLength)
+{
+	OSErr error;
+	
+	if (inString[0] == '$') {
+		sprintf(ioFormat, "$%s%dx%c", "%", inLength, "%", 0);
+	} else if (inString[0] == '0' && inString[1] == 'x') {
+		sprintf(ioFormat, "0x%s%dx%c", "%", inLength, "%", 0);		
+	} else {
+		// alert
+		error = paramErr;
+	}
+	return error;
 }
 
 
@@ -2280,6 +2301,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 	OSErr	error = noErr;
 	char	theChar = 0;
 	char 	charString[256];
+	char 	formatString[16];
 	long	theLong;
 	Str255	numStr, theString;
 	SInt32	theLength, reqLength;
@@ -2297,6 +2319,8 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 	StHandleLocker	locker(nil);
 	CFStringRef		formatStr = NULL, messageStr = NULL;
 
+	formatString[0] = 0;
+	
 	switch (inType) {
 		case 'ALNG':
 		// Long align
@@ -2435,9 +2459,12 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		// Hex byte
 		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
 		theEditText->GetDescriptor(numStr);	
-		CopyPascalStringToC(theString, charString);
+		CopyPascalStringToC(numStr, charString);
 		::LowercaseText(charString, strlen(charString), (ScriptCode)0);
-		sscanf(charString, "$%2x", &theChar);
+		error = BuildScanString(charString, formatString, 2);
+		
+// 		sscanf(charString, "$%2x", &theChar);
+		sscanf(charString, formatString, &theChar);
 		*mOutStream << theChar;
 		mCurrentID++;
 		break;
@@ -2459,9 +2486,11 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		// Hex long word
 		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
 		theEditText->GetDescriptor(numStr);	
-		CopyPascalStringToC(theString, charString);
+		CopyPascalStringToC(numStr, charString);
 		::LowercaseText(charString, strlen(charString), (ScriptCode)0);
-		sscanf(charString, "$%8x", &theUInt32);
+		error = BuildScanString(charString, formatString, 8);
+// 		sscanf(charString, "$%8x", &theUInt32);
+		sscanf(charString, formatString, &theUInt32);
 		*mOutStream << theUInt32;
 		mCurrentID++;
 		break;
@@ -2471,9 +2500,11 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		// Hex word
 		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
 		theEditText->GetDescriptor(numStr);	
-		CopyPascalStringToC(theString, charString);
+		CopyPascalStringToC(numStr, charString);
 		::LowercaseText(charString, strlen(charString), (ScriptCode)0);
-		sscanf(charString, "$%4x", &theUInt16);
+		error = BuildScanString(charString, formatString, 4);
+// 		sscanf(charString, "$%4x", &theUInt16);
+		sscanf(charString, formatString, &theUInt16);
 		*mOutStream << theUInt16;
 		mCurrentID++;
 		break;
