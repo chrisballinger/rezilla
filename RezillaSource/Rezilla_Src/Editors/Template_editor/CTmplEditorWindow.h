@@ -95,7 +95,8 @@ public:
 						sPushPaneInfo,
 						sListItemInfo,
 						sSeparatorPaneInfo,
-						sBevelPaneInfo;
+						sBevelPaneInfo,
+						sColorPaneInfo;
 						
 	static void			InitPaneInfos();
 	
@@ -215,6 +216,10 @@ private:
 									TEKeyFilterFunc inKeyFilter, 
 									ResIDT inResourceID,
 									LView * inContainer);
+	
+	void			AddColorPane(OSType inType, 
+									LView * inContainer, 
+									RGBColor * inRGB);
 	
 	ExceptionCode	AlignBytesRead(UInt8 inStep);
 	

@@ -75,6 +75,7 @@ SPaneInfo CTmplEditorWindow::sPushPaneInfo;
 SPaneInfo CTmplEditorWindow::sListItemInfo;
 SPaneInfo CTmplEditorWindow::sSeparatorPaneInfo;
 SPaneInfo CTmplEditorWindow::sBevelPaneInfo;
+SPaneInfo CTmplEditorWindow::sColorPaneInfo;
 
 
 // ---------------------------------------------------------------------------
@@ -352,6 +353,18 @@ CTmplEditorWindow::InitPaneInfos()
 	sBevelPaneInfo.bindings.right	= true;
 	sBevelPaneInfo.bindings.bottom 	= false;
 	sBevelPaneInfo.userCon			= 0;
+
+	// Color panes basic values
+	sColorPaneInfo.width			= kTmplColorWidth;
+	sColorPaneInfo.height			= kTmplColorHeight;
+	sColorPaneInfo.visible			= true;
+	sColorPaneInfo.enabled			= true;
+	sColorPaneInfo.bindings.left	= true;
+	sColorPaneInfo.bindings.top		= false;
+	sColorPaneInfo.bindings.right	= false;
+	sColorPaneInfo.bindings.bottom 	= false;
+	sColorPaneInfo.userCon			= 0;
+	
 }
 
 
@@ -1136,6 +1149,19 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 					 UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar), inContainer);
 		break;
 
+		case 'COLR': {
+			// QuickDraw color RGB triplet
+			RGBColor theRGB;
+			if (mRezStream->GetMarker() < mRezStream->GetLength() - 2) {
+				*mRezStream >> theRGB.red;
+				*mRezStream >> theRGB.green;
+				*mRezStream >> theRGB.blue;
+			} 
+			AddStaticField(inType, inLabelString, inContainer);
+			AddColorPane(inType, inContainer, &theRGB);		
+			break;
+		}
+		
 		case 'CSTR':
 		// C string. This should be either characters followed by a null or all
 		// the chars until the end of the stream if there is no null byte.
@@ -2161,7 +2187,7 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 void
 CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 {
-	SInt32		oldPos, newPos, nextPos, totalLength;
+	SInt32		oldPos, newPos, totalLength;
 	Handle		theHandle;
 	SViewInfo	theViewInfo;
 	SDimension16	theFrame;
@@ -2801,6 +2827,36 @@ CTmplEditorWindow::AddEditPopup(Str255 inValue,
 	
 	// Advance the counters
 	mYCoord += sEditPaneInfo.height + kTmplVertSep;
+	mCurrentID++;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ AddColorPane													[public]
+// ---------------------------------------------------------------------------
+
+void
+CTmplEditorWindow::AddColorPane(OSType inType, 
+								LView * inContainer, 
+								RGBColor * inRGB)
+{
+	PenState state;
+	
+	sColorPaneInfo.left			= kTmplLeftMargin + kTmplLabelWidth + kTmplHorizSep;
+	sColorPaneInfo.top			= mYCoord;
+	sColorPaneInfo.superView	= inContainer;
+	sColorPaneInfo.paneID		= mCurrentID;
+	
+	LPane * thePane = new LPane(sColorPaneInfo);
+	ThrowIfNil_(thePane);
+
+	::GetPenState(&state);
+	LPaintAttachment * painter = new LPaintAttachment(&state, inRGB, inRGB, nil);
+	ThrowIfNil_(painter);
+	thePane->AddAttachment(painter);
+
+	// Advance the counters
+	mYCoord += sColorPaneInfo.height + kTmplVertSep;
 	mCurrentID++;
 }
 
