@@ -335,7 +335,6 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			// Adjust all IDs and positions
 			AdjustListOfPaneIDs(prevListItemView, thePlusButton->GetPaneID(), saveID, true);
 			RecalcPositions(currListItemView, theFrame.bottom + kTmplVertSkip, mYCoord + kTmplVertSkip);
-// 			mLastID = mCurrentID;
 			mLastID = mPaneIDs.GetCount();
 
 			mContentsView->ResizeImageBy(0, mYCoord + kTmplVertSkip, true);
@@ -538,7 +537,7 @@ CTmplEditorWindow::ParseDataWithTemplate(Handle inHandle)
 			if (mRezStream->GetMarker() < mRezStream->GetLength() ) {
 				UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("ResourceLongerThanTemplate"), rPPob_SimpleMessage);
 			} 
-			mLastID = mCurrentID;
+			mLastID = mCurrentID - 1;
 			mContentsView->ResizeImageBy(0, mYCoord - oldYCoord, true);
 			mContentsScroller->AdjustScrollBars();
 		} 
@@ -1564,11 +1563,11 @@ CTmplEditorWindow::RetrieveList(SInt32 inStartMark, ResType inType, SInt32 inCou
 	switch (inType) {
 		case 'LSTB':
 		case 'LSTZ':
-		Boolean readCtrl = (mPaneIndex < mLastID);
+		Boolean readCtrl = (mPaneIndex <= mLastID);
 		
 		do {
 			error = DoRetrieveWithTemplate(inStartMark, readCtrl);
-		} while (mPaneIndex < mLastID && error == noErr);
+		} while (mPaneIndex <= mLastID && error == noErr);
 		
 		// An LSTZ list is terminated by a NULL
 		if (inType == 'LSTZ') {
@@ -2614,7 +2613,7 @@ CTmplEditorWindow::RevertWithTemplate()
 		if (mRezStream->GetMarker() < mRezStream->GetLength() ) {
 			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("ResourceLongerThanTemplate"), rPPob_SimpleMessage);
 		} 
-		mLastID = mCurrentID;
+		mLastID = mCurrentID - 1;
 		mContentsView->ResizeImageBy(0, mYCoord - oldYCoord, true);
 		mContentsScroller->AdjustScrollBars();
 // 		mContentsView->Refresh();
