@@ -2,7 +2,7 @@
 //	CWasteEditView.h
 //	
 //                       Created: 2001-09-05 18:22:04
-//             Last modification: 2004-11-06 11:38:00
+//             Last modification: 2004-11-10 06:18:10
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -11,11 +11,11 @@
 // $Date$
 // $Revision$
 //	
-//	Description : CWaste is a class designed to interface between 
+//	Description: CWaste is a class designed to interface between 
 //	the Waste Edit text engine (©1993-2000 by Marco Piovanelli)
 //  and CodeWarrior's PowerPlant 2.1 library (©1993-2000 Metrowerks Inc.)
 //  
-// This file is part of the CWasteEditView package vs 1.7
+// This file is part of the CWasteEditView package vs-1.8
 // ===========================================================================
 
 #ifndef _H_CWasteEditView
@@ -261,7 +261,7 @@ public:
 	
 	Boolean					IsSelection();
 	
-	UInt32					InitWasteAttributes();
+	UInt32					FlagsFromAttributes();
 	
 	virtual void			SavePlace(
 									LStream* 			outPlace);
@@ -301,11 +301,11 @@ public:
 	virtual	Boolean			GetColor(
 									RGBColor&			outColor );
 		
-	virtual void			SetWETextTraits(
+	virtual void			ApplyTextTraits(
 									ConstTextTraitsPtr	inTextTraits,
 									WEReference			inWERef);
 
-	virtual void			SetWETextTraits(
+	virtual void			ApplyTextTraits(
 									ResIDT		inTextTraitsID,
 									WEReference	inWERef);
 
@@ -334,6 +334,7 @@ protected:
 				CWEViewTypingAction *	mTypingAction;
 				WEReference				mWasteEditRef;
 				ResIDT					mTextTraitsID;
+				TextTraitsRecord		mTextTraitsRec;
 				UInt16					mTextAttributes;
 				Boolean					mIsDirty;
 				Boolean					mAutoScroll;
@@ -373,8 +374,9 @@ protected:
 	virtual SWasteEditUndoH	SaveStateForUndo();
 
 private:
-			void			InitWasteEditView(
-									ResIDT				inTextTraitsID );
+void			InitView();
+
+void			InitStyle(ResIDT inTextTraitsID );
 
 			// defensive programming
 

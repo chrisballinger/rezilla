@@ -2,16 +2,16 @@
 //	CWEViewActions.h
 //	
 //                       Created: 2001-09-08 07:05:27
-//             Last modification: 2004-02-22 19:29:08
+//             Last modification: 2004-11-10 08:01:22
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2001-2003, 2004
+// © Copyright: Bernard Desgraupes 2001-2004
 // All rights reserved.
 // $Date$
 // $Revision$
 //	
-// This file is part of the CWasteEditView package vs 1.6
+// This file is part of the CWasteEditView package vs-1.8
 // ===========================================================================
 
 

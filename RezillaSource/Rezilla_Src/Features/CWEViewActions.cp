@@ -2,11 +2,11 @@
 //	CWEViewActions.cp
 //	
 //                       Created: 2001-09-08 07:05:27
-//             Last modification: 2004-02-22 19:29:21
+//             Last modification: 2004-11-10 08:01:14
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2001-2003, 2004
+// © Copyright: Bernard Desgraupes 2001-2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -15,7 +15,7 @@
 //	the Waste Edit text engine (©1993-2000 by Marco Piovanelli)
 //  and CodeWarrior's PowerPlant 2.1 library (©1993-2000 Metrowerks Inc.)
 //  
-// This file is part of the CWasteEditView package vs 1.6
+// This file is part of the CWasteEditView package vs-1.8
 // ===========================================================================
 //
 //	Undoable Actions associated with a WasteEdit record
