@@ -240,7 +240,8 @@ CTmplEditorWindow::AddStaticField(OSType inType, Str255 inLabel, LView * inConta
 	sStaticPaneInfo.top			= mYCoord;
 	sStaticPaneInfo.superView	= inContainer;
 	
-	if (inType == 'LABL') {
+	// For a comment label (DVDR) extend the width to the entire window.
+	if (inType == 'DVDR') {
 		SDimension16	theFrame;
 		inContainer->GetFrameSize(theFrame);
 		sStaticPaneInfo.width = theFrame.width - kTmplLeftMargin * 2;

@@ -913,8 +913,8 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		break;
 
 		case 'DVDR':
-		// Divider
-		AddSeparatorLine(inContainer);
+		// Insert a comment
+		AddStaticField(inType, inLabelString, inContainer, sCommentTraitsID);
 		break;
 
 		case 'DWRD':
@@ -1056,11 +1056,6 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		case 'KEYE':
 		// End of keyed segment. We shoould never reach here.
 		error = err_TmplUnexpectedTag;
-		break;
-
-		case 'LABL':
-		// Insert a comment
-		AddStaticField(inType, inLabelString, inContainer, sCommentTraitsID);
 		break;
 
 		case 'LBIT':
@@ -1273,6 +1268,11 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 						 UKeyFilters::SelectTEKeyFilter(keyFilter_NegativeInteger), inContainer);
 			break;
 		}
+
+		case 'SEPA':
+		// Separator.
+		AddSeparatorLine(inContainer);
+		break;
 
 		case 'SKPE':
 		// End of Skip or Sizeof. Do nothing.
@@ -1722,7 +1722,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		break;
 
 		case 'DVDR':
-		// Divider line. Just skip it.
+		// It is a comment. Just skip it.
 		break;
 
 		case 'DWRD':
@@ -1900,10 +1900,6 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 
 		case 'KEYE':
 		// End of keyed segment
-		break;
-
-		case 'LABL':
-		// It is a comment. Just skip it.
 		break;
 
 		case 'LBIT':
@@ -2093,6 +2089,10 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 			*mOutStream << (SInt16) theLong;
 			mCurrentID++;
 		}
+		break;
+
+		case 'SEPA':
+		// Separator. Just skip it.
 		break;
 
 		case 'SKPE':
