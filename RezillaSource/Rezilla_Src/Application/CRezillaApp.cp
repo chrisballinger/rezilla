@@ -30,6 +30,7 @@
 #include "CTxtDataSubView.h"
 #include "CDropStaticText.h"
 #include "CBroadcasterTableView.h"
+#include "CCompResultWindow.h"
 #include "CRangeEditText.h"
 #include "UNavigationDialogs.h"
 #include "NavServicesCallbacks.h"
@@ -272,6 +273,7 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(CRangeEditText);
 	RegisterClass_(CDropStaticText);
 	RegisterClass_(CBroadcasterTableView);
+	RegisterClass_(CCompResultWindow);
 // 	RegisterClass_(COutBorderAttachment);
 
 // 	RegisterClass_(ATag);
@@ -346,7 +348,10 @@ CRezillaApp::ObeyCommand(
 			CRezCompare * theComparator = new CRezCompare(this);
 			ThrowIfNil_(theComparator);
 			theComparator->RunRezCompareDialog();
-			delete theComparator;
+			if (theComparator->HasDifferences()) {
+				theComparator->DisplayResults();
+			} 
+// 			delete theComparator;
 			break;
 		}
 		

@@ -18,6 +18,7 @@
 
 class CRezMap;
 class CRezType;
+class CCompResultWindow;
 
 
 // -------------------------------------------------------------------------------------------------
@@ -39,7 +40,7 @@ protected:
 
 // -------------------------------------------------------------------------------------------------
 
-class CRezCompare {
+class CRezCompare : public LCommander {
 	
 public:
 	enum {
@@ -66,6 +67,7 @@ public:
 											SInt16 * outCompResult);
 
 		Boolean			HasDifferences();
+		void			DisplayResults();
 		
 		virtual Boolean		GetIgnoreNames() { return mIgnoreNames;}
         void                SetIgnoreNames(Boolean inIgnoreNames) {mIgnoreNames = inIgnoreNames;}
@@ -73,8 +75,11 @@ public:
 		virtual Boolean		GetIgnoreAttrs() { return mIgnoreAttrs;}
 		void				SetIgnoreAttrs(Boolean inIgnoreAttrs) {mIgnoreAttrs = inIgnoreAttrs;}
 
+		ConstStringPtr		GetOldPath() const;
+		ConstStringPtr		GetNewPath() const;
+
 protected:
-		LCommander* 		mSuperCommander;
+		CCompResultWindow*	mResultWindow;
 		Boolean				mIgnoreNames;
 		Boolean				mIgnoreAttrs;
 		Boolean				mIgnoreData;
@@ -83,11 +88,35 @@ protected:
 		TArray<CRezTypId *>	mOnlyInOldList;
 		TArray<CRezTypId *>	mOnlyInNewList;
 		TArray<CRezTypId *>	mDifferingList;
+		Str255				mOldPath;
+		Str255				mNewPath;
 
 		void		AddTypeToArray(ResType inType, SInt16 inWhichList);
 		void		AddResourceToArray(ResType inType, short inID, SInt16 inWhichList);
-		
 };
+
+
+// ---------------------------------------------------------------------------
+//	¥ GetOldPath										 [inline] [public]
+// ---------------------------------------------------------------------------
+
+inline ConstStringPtr
+CRezCompare::GetOldPath() const
+{
+	return mOldPath;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ GetNewPath										 [inline] [public]
+// ---------------------------------------------------------------------------
+
+inline ConstStringPtr
+CRezCompare::GetNewPath() const
+{
+	return mNewPath;
+}
+
 
 
 #endif

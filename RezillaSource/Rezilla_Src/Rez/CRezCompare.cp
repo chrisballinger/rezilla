@@ -17,6 +17,7 @@
 #include "CRezType.h"
 #include "CRezObj.h"
 #include "CRezillaApp.h"
+#include "CCompResultWindow.h"
 #include "RezillaConstants.h"
 #include "UDialogBoxHandler.h"
 #include "UMessageDialogs.h"
@@ -32,8 +33,9 @@
 // ---------------------------------------------------------------------------
 
 CRezCompare::CRezCompare(LCommander* inSuper)
+		: LCommander( inSuper )
 {
-	mSuperCommander = inSuper;
+	mResultWindow = nil;
     mIgnoreNames = false;
     mIgnoreAttrs = true;
 	mIgnoreData = false;
@@ -49,8 +51,9 @@ CRezCompare::CRezCompare(LCommander* inSuper)
 CRezCompare::CRezCompare(LCommander* inSuper, 
 						 CRezMap * inOldMap, 
 						 CRezMap * inNewMap)
+		: LCommander( inSuper )
 {
-	mSuperCommander = inSuper;
+	mResultWindow = nil;
     mIgnoreNames = false;
     mIgnoreAttrs = true;
 	mIgnoreData = false;
@@ -66,12 +69,13 @@ CRezCompare::CRezCompare(LCommander* inSuper,
 CRezCompare::CRezCompare(LCommander* inSuper, 
 						 FSSpec& inOldFileSpec, 
 						 FSSpec& inNewFileSpec)
+		: LCommander( inSuper )
 {
 	SInt16 oldFork, newFork;
 	short oldRefnum, newRefnum;
 	OSErr error;
 	
-	mSuperCommander = inSuper;
+	mResultWindow = nil;
 	mIgnoreNames = false;
 	mIgnoreAttrs = true;
 	mIgnoreData = false;
@@ -190,6 +194,7 @@ CRezCompare::RunRezCompareDialog()
 							if ( UMiscUtils::MakePath(&theFSSpec, thePath, 650) == noErr ) {
 								theOldStaticText->SetDescriptor(thePath);
 							} 
+							LString::CopyPStr(thePath, mOldPath);
 							mOldMap = new CRezMap(theRefnum);
 							break;
 						
@@ -197,6 +202,7 @@ CRezCompare::RunRezCompareDialog()
 							if ( UMiscUtils::MakePath(&theFSSpec, thePath, 450) == noErr ) {
 								theNewStaticText->SetDescriptor(thePath);
 							} 
+							LString::CopyPStr(thePath, mNewPath);
 							mNewMap = new CRezMap(theRefnum);
 							break;
 						}
@@ -394,6 +400,24 @@ CRezCompare::HasDifferences()
     return ( (mOnlyInOldList.GetCount() 
 			+ mOnlyInNewList.GetCount()
 			+ mDifferingList.GetCount()) > 0);
+}
+
+
+// ---------------------------------------------------------------------------------
+//  ¥ DisplayResults
+// ---------------------------------------------------------------------------------
+
+void
+CRezCompare::DisplayResults()
+{
+	CWasteEditView * theWEView;
+	CBroadcasterTableView * theTableView;
+	
+	// Create window for the results
+	mResultWindow = dynamic_cast<CCompResultWindow *>(LWindow::CreateWindow( rPPob_RezCompWindow, this ));
+	Assert_( mResultWindow != nil );
+	
+	
 }
 
 

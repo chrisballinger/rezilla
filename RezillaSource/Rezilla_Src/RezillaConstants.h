@@ -392,6 +392,10 @@ const SInt16	kRzilColWidth		= 100;
 const SInt16	kRzilHexLineCount	= 32;
 const SInt16	kRzilHexPerLine		= 16;
 const SInt16	kRzilHexPerPane		= 512;
+// Width of the three tables in the comparison results window
+#define  kCompTableWidth	183
+// Height of a row in these tables
+#define  kCompTableHeight	14
 
 
 const ResType	ResType_DITL = FOUR_CHAR_CODE('DITL');

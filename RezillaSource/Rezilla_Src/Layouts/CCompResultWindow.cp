@@ -12,12 +12,14 @@
 // $Revision$
 // ===========================================================================
 
-
 #include "CCompResultWindow.h"
 #include "CRezObj.h"
 #include "CRezillaApp.h"
+#include "CRezCompare.h"
 #include "CRezClipboard.h"
 #include "CWindowMenu.h"
+#include "CWasteEditView.h"
+#include "CBroadcasterTableView.h"
 #include "RezillaConstants.h"
 #include "UCodeTranslator.h"
 #include "UMessageDialogs.h"
@@ -25,6 +27,9 @@
 #include <LScrollBar.h>
 #include <LStaticText.h>
 #include <LUndoer.h>
+#include <LTableMonoGeometry.h>
+#include <LTableSingleSelector.h>
+#include <LTableArrayStorage.h>
 
 // Global
 extern CWindowMenu * gWindowMenu;
@@ -92,18 +97,76 @@ CCompResultWindow::~CCompResultWindow()
 void
 CCompResultWindow::FinishCreateSelf()
 {	
+	LStaticText * theStaticText;
+	
+	// The RezCompare owner was passed in the inSuperCommander argument
+	mRezCompare = dynamic_cast<CRezCompare *>(GetSuperCommander());
+	// Now set the SuperCommander to be CRezillaApp itself
+	SetSuperCommander(mRezCompare->GetSuperCommander());
+	
+	// Build the hex editing elements
+	mOldHexDataWE = dynamic_cast<CWasteEditView *> (FindPaneByID( item_CompResultOldHex ));
+	ThrowIfNil_(mOldHexDataWE);
+			
+	mNewHexDataWE = dynamic_cast<CWasteEditView *> (FindPaneByID( item_CompResultNewHex ));
+	ThrowIfNil_(mNewHexDataWE);
+	
+	// Build the table elements
+		// Left table
+	mOnlyOldTable = dynamic_cast<CBroadcasterTableView *> (FindPaneByID( item_CompResultOnlyOldTbl ));
+	ThrowIfNil_(mOnlyOldTable);
+	// Set Geometry and Selector TableView members.
+	mOnlyOldTable->SetTableGeometry(new LTableMonoGeometry(mOnlyOldTable, kCompTableWidth, kCompTableHeight));
+	mOnlyOldTable->SetTableSelector(new LTableSingleSelector(mOnlyOldTable));
+	mOnlyOldTable->SetTableStorage(new LTableArrayStorage(mOnlyOldTable, sizeof(Str255)));
+	mOnlyOldTable->InsertCols(1, 0);
 
-// 	// Let the window listen to the text edit fields
-// 	mLineField->AddListener(this);	
-// 	mOffsetField->AddListener(this);	
-// 	mScroller->AddListener(this);	
-// 
-// 	// Attach an LUndoer to each of the subpanes
-// 	mHexDataWE->AddAttachment( new LUndoer );
-// 	mTxtDataWE->AddAttachment( new LUndoer );
+		// Center table
+	mDifferTable = dynamic_cast<CBroadcasterTableView *> (FindPaneByID( item_CompResultDifferingTbl ));
+	ThrowIfNil_(mDifferTable);
+	// Set Geometry and Selector TableView members
+	mDifferTable->SetTableGeometry(new LTableMonoGeometry(mDifferTable, kCompTableWidth, kCompTableHeight));
+	mDifferTable->SetTableSelector(new LTableSingleSelector(mDifferTable));
+	mDifferTable->SetTableStorage(new LTableArrayStorage(mDifferTable, sizeof(Str255)));
+	mDifferTable->InsertCols(1, 0);
 
-	// Add self to the window menu.
+		// Right table
+	mOnlyNewTable = dynamic_cast<CBroadcasterTableView *> (FindPaneByID( item_CompResultOnlyNewTbl ));
+	ThrowIfNil_(mOnlyNewTable);
+	// Set Geometry and Selector TableView members
+	mOnlyNewTable->SetTableGeometry(new LTableMonoGeometry(mOnlyNewTable, kCompTableWidth, kCompTableHeight));
+	mOnlyNewTable->SetTableSelector(new LTableSingleSelector(mOnlyNewTable));
+	mOnlyNewTable->SetTableStorage(new LTableArrayStorage(mOnlyNewTable, sizeof(Str255)));
+	mOnlyNewTable->InsertCols(1, 0);
+	
+	theStaticText = dynamic_cast<LStaticText *>(FindPaneByID( item_CompResultOldStatic ));
+	ThrowIfNil_(theStaticText);
+	theStaticText->SetDescriptor(mRezCompare->GetOldPath());
+
+	theStaticText = dynamic_cast<LStaticText *>(FindPaneByID( item_CompResultNewStatic ));
+	ThrowIfNil_(theStaticText);
+	theStaticText->SetDescriptor(mRezCompare->GetNewPath());
+	
+	// Populate the tables
+	
+	
+	// Link the broadcasters.
+    UReanimator::LinkListenerToControls( this, this, rRidL_RezCompWindow );
+	
+	// Let the window listen to the tables
+	mOnlyOldTable->AddListener(this);	
+	mDifferTable->AddListener(this);	
+	mOnlyNewTable->AddListener(this);	
+
+	// Attach an LUndoer to each of the subpanes
+	mOldHexDataWE->AddAttachment( new LUndoer );
+	mNewHexDataWE->AddAttachment( new LUndoer );
+
+	// Add self to the windows menu
 	gWindowMenu->InsertWindow(this);
+	
+	// Make the window visible
+	Show();
 }
 
 
@@ -147,12 +210,19 @@ CCompResultWindow::FindCommandStatus(
 {
 	switch (inCommand) {
 
-// 		case cmd_EditRez:
-// 		case cmd_RemoveRez:
-// 		case cmd_DuplicateRez:
-// 		outEnabled = false;
-// 			break;		
-		
+		case cmd_Save:
+		case cmd_SaveAs:
+		{
+			outEnabled = false;
+		}
+		break;
+
+		case cmd_Close:
+		{
+			outEnabled = true;
+		}
+		break;
+
 		default:
 			LCommander::FindCommandStatus(inCommand, outEnabled,
 									outUsesMark, outMark, outName);
@@ -177,12 +247,20 @@ CCompResultWindow::ObeyCommand(
 	
 	switch (inCommand) {
 
-		case cmd_Cut: {}
+		case cmd_Cut:
+		break;
 
-		case cmd_Paste: {}
+		case cmd_Paste:
+		break;
 
-		case cmd_Clear: {}
+		case cmd_Clear:
+		break;
 
+		case cmd_Close:
+		
+		delete this;
+		break;
+				
 		default:
 			cmdHandled = LCommander::ObeyCommand(inCommand, ioParam);
 			break;
@@ -225,4 +303,36 @@ CCompResultWindow::IsDirty()
 /* 	return (mHexDataWE->IsDirty() || mTxtDataWE->IsDirty()); */
     return true;
 }
+
+
+// ---------------------------------------------------------------------------
+//	¥ FillTableView														[public]
+// ---------------------------------------------------------------------------
+
+void
+CCompResultWindow::FillTableView( TArray<CRezTypId *> inList, SInt16 inWhichList)
+{
+// 	ListHandle theListH = mCategoriesListBox->GetMacListH();
+// 	Cell theCell = {0,0};
+// 
+// 	::LSetDrawingMode(false, theListH);
+// 	for (SInt16 theIndex = 0; theIndex < 4; theIndex++) {
+// 		LStr255 theString(categoryNames[theIndex]);
+// 		Str255	theNumStr;
+// 		::NumToString( inCatNum[theIndex], theNumStr );
+// 		theString += theNumStr ;
+// 		mCategoriesListBox->SelectOneCell(theCell);
+// 		mCategoriesListBox->SetDescriptor(theString);
+// 		++theCell.v;
+// 	}
+// 	::LSetDrawingMode(true, theListH);
+// 	mCategoriesListBox->Refresh();
+// 	
+// 	char	theStatus[255];
+// 	sprintf(theStatus,"%i events - %i classes - %i comparison operators - %i enumerations", 
+// 			inCatNum[0], inCatNum[1], inCatNum[2], inCatNum[3]);
+// 	mWindow->DisplayStatus(theStatus);
+}
+
+
 
