@@ -1,7 +1,7 @@
 // ===========================================================================
 // UMiscUtils.cp					
 //                       Created: 2003-05-13 20:06:23
-//             Last modification: 2005-02-20 16:20:58
+//             Last modification: 2005-03-08 07:41:56
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -18,8 +18,10 @@
 
 #include "CRezType.h"
 #include "CRezillaApp.h"
+#include "CRezTypePicker.h"
 #include "RezillaConstants.h"
 #include "UMiscUtils.h"
+#include "UMessageDialogs.h"
 
 #include <PP_KeyCodes.h>
 
@@ -160,6 +162,30 @@ UMiscUtils::CopyFSSpec(FSSpec& srcFileSpec, FSSpec& trgtFileSpec)
 	trgtFileSpec.vRefNum = srcFileSpec.vRefNum;
 	trgtFileSpec.parID = srcFileSpec.parID;
 	LString::CopyPStr(srcFileSpec.name, trgtFileSpec.name);
+}
+
+
+// ------------------------------------------------------------------------------
+//  ¥  SelectType													[static]
+// ------------------------------------------------------------------------------
+
+Boolean
+UMiscUtils::SelectType(ResType & outType)
+{
+	Boolean result = false;
+	CRezTypePicker * rezPicker = new CRezTypePicker();
+
+	if (rezPicker != NULL) {
+		if (rezPicker->RunDialog() == noErr) {
+			outType = rezPicker->GetChosenType();
+			result = true;
+		} 
+		delete rezPicker;
+	} else {
+		UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("RezPickerNotAvailable"), PPob_SimpleMessage);
+	}
+	
+	return result;
 }
 
 

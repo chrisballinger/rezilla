@@ -1,7 +1,7 @@
 // ===========================================================================
 // UMiscUtils.h					
 //                       Created: 2003-05-13 20:06:23
-//             Last modification: 2005-02-20 17:40:22
+//             Last modification: 2005-03-08 07:37:41
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -37,6 +37,8 @@ public:
 	static void		OSTypeToPString(OSType inType, Str255 & outString);
 	static OSErr	HFSNameToUnicodeName(ConstStr31Param hfsName, HFSUniStr255 *unicodeName);
 	static OSErr	GetTypeFromScrap(ResType & outType);
+	static void		PaddTypeIfNecessary(Str255 inTypeStr);
+	static Boolean	SelectType(ResType & outType);
 	static OSErr	MakePath(FSSpec* inFileSpec, Str255 outPath, short inWidth);
 	static Boolean	GetDragFileData(DragReference inDragRef, ItemReference inItemRef, HFSFlavor& fileData);
 	static Boolean	IsValidHexadecimal(Handle inHandle);
@@ -49,7 +51,6 @@ public:
 	static Boolean	FontSizeExists(LPopupButton * inPopup, SInt32 inSize, SInt32 &outItemIndex);
 	static SInt32	FontIndexFromFontNum(LPopupButton * inPopup, SInt16 inFNum);
 	static SInt32	SizeIndexFromSizeValue(LPopupButton * inPopup, SInt16 inSize);
-	static void		PaddTypeIfNecessary(Str255 inTypeStr);
 	static void 	SetTypeAndCreator(FSSpec inFSSpec, OSType inType, OSType inCreator);
 	static void		HexNumStringToDecimal(ResType * inTypePtr, SInt32 * outNum);
 	static void		ClearMemory( void *, UInt32 inNumBytes );
