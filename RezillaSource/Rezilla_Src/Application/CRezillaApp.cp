@@ -16,8 +16,6 @@
 #include "CRezillaPrefs.h"
 #include "CTemplatesController.h"
 #include "CEditorsController.h"
-#include "CPICT_EditorWindow.h"
-#include "CTEXT_EditorWindow.h"
 #include "CEditTable.h"
 #include "CRezMapDoc.h"
 #include "CRezMap.h"
@@ -31,7 +29,10 @@
 #include "CInspectorWindow.h"
 #include "CHexEditorWindow.h"
 #include "CTmplEditorWindow.h"
+#include "CPICT_EditorView.h"
+#include "CPICT_EditorWindow.h"
 #include "CTEXT_EditorView.h"
+#include "CTEXT_EditorWindow.h"
 #include "CWasteEditView.h"
 #include "CBiDataWE.h"
 #include "CDualDataView.h"
@@ -315,6 +316,7 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(CHexDataSubView);
 	RegisterClass_(CHexEditorWindow);
 	RegisterClass_(CInspectorWindow);
+	RegisterClass_(CPICT_EditorView);
 	RegisterClass_(CPICT_EditorWindow);
 	RegisterClass_(CRangeEditText);
 	RegisterClass_(CRezIconPane);
