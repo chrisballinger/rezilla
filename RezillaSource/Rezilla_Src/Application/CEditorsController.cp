@@ -172,6 +172,7 @@ CEditorsController::HasEditorForType(ResType inType, ResType * substType)
 		case 'ICON':
 		case 'PAT ':
 		case 'PAT#':
+		case 'SICN':
 		case 'cicn':
 		case 'crsr':
 		case 'icl4':
@@ -236,6 +237,7 @@ CEditorsController::InvokeCustomEditor(CRezMapDoc* inRezMapDoc,
 		case 'ICON':
 		case 'PAT ':
 		case 'PAT#':
+		case 'SICN':
 		case 'cicn':
 		case 'crsr':
 		case 'icl4':
