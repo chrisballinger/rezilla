@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2004-03-13 10:53:47
+//             Last modification: 2004-04-11 21:33:57
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -229,7 +229,7 @@ CRezillaApp::Initialize()
 	ABalloonBase::SetAutoPopDelay(20);
 
 	mOpeningFork = fork_anyfork;
-	mIsReadOnly = false;
+	mReadOnlyNavFlag = false;
 	
 	// TODO: replace by preference
 	sDefaultCreatingFork = fork_datafork;
@@ -675,7 +675,7 @@ CRezillaApp::ChooseAFile(FSSpec & outFileSpec)
 	if (openOK) {
 		chooser.GetFileSpec(1, outFileSpec);
 		mOpeningFork = theUserData.whichFork;
-		mIsReadOnly = theUserData.isReadOnly;
+		mReadOnlyNavFlag = theUserData.isReadOnly;
 	}
 
     // Activate the desktop.
@@ -741,7 +741,9 @@ CRezillaApp::OpenFork(FSSpec & inFileSpec)
 	} 
 	error = PreOpen(inFileSpec, theFork, theRefNum, mOpeningFork);
 	if ( error == noErr ) {
-		new CRezMapDoc(this, &inFileSpec, theFork, theRefNum);
+		theRezMapDocPtr = new CRezMapDoc(this, &inFileSpec, theFork, theRefNum);
+		theRezMapDocPtr->SetReadOnlyDoc(mReadOnlyNavFlag);
+		theRezMapDocPtr->GetRezMapWindow()->InstallReadOnlyField();
 	} 
 	
 	return error;

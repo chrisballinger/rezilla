@@ -189,6 +189,7 @@ const PaneIDT   item_OutlineTable			= FOUR_CHAR_CODE('TABL');
 const PaneIDT	item_TypesNum				= 1;
 const PaneIDT	item_ResourcesNum			= 2;
 const PaneIDT	item_WhichFork				= 3;
+const PaneIDT	item_ReadOnly				= 4;
 // Inspector Window
 // ----------------
 const PaneIDT	item_InspType				= 1;

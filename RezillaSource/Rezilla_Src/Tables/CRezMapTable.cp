@@ -718,6 +718,10 @@ CRezMapTable::ItemIsAcceptable(DragReference inDragRef, ItemReference inItemRef)
 	FlavorFlags	theFlags;
 	Boolean isDirectory = false;
 	
+	if ( GetOwnerDoc()->GetReadOnlyDoc() ) {
+		return false;
+	} 
+	
 	if (::GetFlavorFlags(inDragRef, inItemRef, flavorTypeHFS, &theFlags) == noErr)
 	{
 		CInfoPBRec theInfo;

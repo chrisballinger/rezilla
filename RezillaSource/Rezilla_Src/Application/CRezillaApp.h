@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.h					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2004-02-29 22:58:46
+//             Last modification: 2004-04-11 21:34:15
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -86,7 +86,7 @@ protected:
 	LDialogBox *		mAboutWindow;
 	SInt16				mCreatingFork;
 	SInt16				mOpeningFork;
-	Boolean				mIsReadOnly;
+	Boolean				mReadOnlyNavFlag;
 	CRecentItemsMenu *	mRecentItemsAttachment;
 
 	virtual void		StartUp();
@@ -101,7 +101,5 @@ private:
 	void				InstallWindowMenu()	;
 	
 };
-
-
 
 

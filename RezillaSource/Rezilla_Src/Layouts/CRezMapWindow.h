@@ -2,7 +2,7 @@
 // CRezMapWindow.h				
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2004-03-24 08:18:56
+//             Last modification: 2004-04-11 21:49:12
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -49,6 +49,7 @@ public:
 	void					SetCountRezField(long inCount);
 
 	void					InstallWhichForkField();
+	void					InstallReadOnlyField();
 	void					RecalcCountFields();
 	
 protected:

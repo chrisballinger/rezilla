@@ -2,11 +2,11 @@
 // CRezMapDoc.h				
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2003-06-02 21:09:44
+//             Last modification: 2004-04-11 21:33:39
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003
+// (c) Copyright : Bernard Desgraupes, 2003-2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -127,6 +127,9 @@ public:
 
 	TArray<CRezEditor *>*	GetOpenedEditors() { return mOpenedEditors ;}
 	
+	Boolean				GetReadOnlyDoc() { return mReadOnlyDoc;}
+	void				SetReadOnlyDoc(Boolean inReadOnlyDoc) {mReadOnlyDoc = inReadOnlyDoc;}
+
 protected:
 	SInt16					mFork;
 	CRezMap *				mRezMap;
@@ -138,6 +141,7 @@ protected:
 	                 		                  	// dependent from this doc (all edit 
 	                 		                  	// windows for resources in this map)
 	Boolean					mUpdateOnClose;
+	Boolean					mReadOnlyDoc;
 	SInt16					mExportFormat;
 	
 	void				NameNewDoc();
@@ -157,4 +161,3 @@ PP_End_Namespace_PowerPlant
 #endif
 
 #endif
-

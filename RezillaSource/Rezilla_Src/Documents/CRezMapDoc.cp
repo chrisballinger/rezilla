@@ -2,7 +2,7 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2004-03-26 07:25:19
+//             Last modification: 2004-04-11 21:33:24
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -200,6 +200,7 @@ CRezMapDoc::Initialize(FSSpec * inFileSpec, short inRefnum)
 	mUpdateOnClose = true;
 	mExportFormat = export_Xml;
 	mFileStream   = nil;
+	mReadOnlyDoc = false;
 	
 	if (mRezFile == nil) {
 		if (inFileSpec != nil) {
@@ -1031,8 +1032,7 @@ CRezMapDoc::FindCommandStatus(
 
 	switch ( inCommand ) {
 	
-		case cmd_NewRez:
-		case cmd_Close: 
+		case cmd_Close:
 			outEnabled = true;
 			break;
 								
@@ -1044,11 +1044,9 @@ CRezMapDoc::FindCommandStatus(
 		case cmd_ExportMap:
 			outEnabled = true;
 			break;
-								
+		
 		case cmd_EditRez:
 		case cmd_GetRezInfo:
-		case cmd_RemoveRez:
-		case cmd_DuplicateRez:
 		outEnabled = HasSelection();
 			break;		
 		
@@ -1056,17 +1054,21 @@ CRezMapDoc::FindCommandStatus(
 			outEnabled = IsModified();
 			break;
 								
-		case cmd_Copy: 
-		case cmd_Cut:
-		case cmd_Clear:	{
+		case cmd_Copy:
 			outEnabled = HasSelection();
 			break;
-		}
 
-		case cmd_Paste: {
-			outEnabled = true;
+		case cmd_Cut:
+		case cmd_Clear:
+		case cmd_RemoveRez:
+		case cmd_DuplicateRez:
+			outEnabled = ( !mReadOnlyDoc && HasSelection() );
 			break;
-		}
+
+		case cmd_Paste:
+		case cmd_NewRez:
+			outEnabled = !mReadOnlyDoc ;
+			break;
 		
 // 		case cmd_SelectAll:	{		// Check if the rezmap is not empty
 // 			short theCount;
@@ -1385,6 +1387,11 @@ CRezMapDoc::DuplicateResource(CRezObj* inRezObj)
 {
 	CRezTypeItem * theRezTypeItem;
 	Str255 theName;
+	
+	if (mReadOnlyDoc) {
+		return;
+	} 
+	
 	ResType theType = inRezObj->GetType();
 	short theAttrs = inRezObj->GetAttributes();
 	
@@ -1455,6 +1462,11 @@ CRezMapDoc::RemoveResource(CRezObjItem* inRezObjItem)
 {
 	short theCount;
 	OSErr error;
+
+	if (mReadOnlyDoc) {
+		return;
+	} 
+	
 	ResType theType = inRezObjItem->GetRezObj()->GetType();
 	
 // 	// If the resProtected flag in on (error rmvResFailed)
@@ -1500,6 +1512,11 @@ CRezMapDoc::PasteRezMap(CRezMap * srcRezMap)
 	MessageT 	theAction = answer_Do;
 	CRezObj *	theRezObj;
 	CRezObjItem * theRezObjItem;
+	
+	if (mReadOnlyDoc) {
+		::SysBeep(3);
+		return;
+	} 
 	
 	error = srcRezMap->CountAllTypes(numTypes);
 	if (error != noErr || numTypes == 0) {return;}
@@ -1566,6 +1583,10 @@ CRezMapDoc::PasteResource(ResType inType, short inID, Handle inHandle, Str255* i
 {
 	CRezTypeItem * theRezTypeItem;
 	CRezType * theRezType;
+	
+	if (mReadOnlyDoc) {
+		return;
+	} 
 	
 	// Find if there is already a CRezTypeItem for the specified type. If not, create one. 
 	if ( ! mRezMapWindow->GetRezMapTable()->TypeExists(inType, theRezTypeItem) ) {

@@ -2,7 +2,7 @@
 // CRezMapWindow.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2004-03-24 08:18:24
+//             Last modification: 2004-04-11 21:49:03
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -278,6 +278,21 @@ CRezMapWindow::InstallWhichForkField()
 	} else {
 		theField->SetDescriptor("\pDF");
 	}
+}
+
+
+// ---------------------------------------------------------------------------
+//  ¥ InstallReadOnlyField											[public]
+// ---------------------------------------------------------------------------
+
+void
+CRezMapWindow::InstallReadOnlyField() 
+{
+	LStaticText * theField = dynamic_cast<LStaticText *>(this->FindPaneByID( item_ReadOnly ));
+	ThrowIfNil_( theField );
+	if (mOwnerDoc->GetReadOnlyDoc()) {
+		theField->SetDescriptor("\pRO!");
+	} 
 }
 
 
