@@ -184,19 +184,24 @@ CRezillaApp::Initialize()
 
 	SInt32 theOsVersion = UEnvironment::GetOSVersion();
 	// Check that we are running on OS9 or greater
+#if TARGET_RT_MAC_MACHO
+	if ( theOsVersion < 0x01000) {
+		UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("RequireSystemTen"), rPPob_SimpleMessage);
+		SendAEQuit();
+	}
+#else
 	if ( theOsVersion < 0x00900) {
 		UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("RequireSystemNine"), rPPob_SimpleMessage);
 		SendAEQuit();
-	}
-	
+	}	
+#endif
 	// Install an item in the Finder's Help menu
 	err	= RegisterHelpBook();
 	if ( err == noErr )									
 	{
 		//	Add custom Help Menu items
 		err	= ::HMGetHelpMenu( &menuHandle, &customItemIndex );
-		if ( err == noErr )
-		{
+		if ( err == noErr ) {
 			// MacOS 8/9 bundled applications must manually add and handle their help menu
 			if ( theOsVersion < 0x0920)	{
 				InsertMenuItem( menuHandle, "\pRezilla Help", customItemIndex - 1 );
