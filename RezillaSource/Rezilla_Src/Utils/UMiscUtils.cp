@@ -1,7 +1,7 @@
 // ===========================================================================
 // UMiscUtils.cp					
 //                       Created: 2003-05-13 20:06:23
-//             Last modification: 2005-02-01 15:03:14
+//             Last modification: 2005-02-19 16:26:12
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -311,6 +311,20 @@ UMiscUtils::GetStringFromXml(CFXMLTreeRef inXmlTree, Str255 outString)
 	valueTree = CFTreeGetFirstChild(inXmlTree);
 	valueNode = CFXMLTreeGetNode(valueTree);
 	CFStringGetPascalString( CFXMLNodeGetString(valueNode), outString, sizeof(outString), NULL);
+}
+
+
+// ---------------------------------------------------------------------------
+// 	GetOSTypeFromXml
+// ---------------------------------------------------------------------------
+
+void
+UMiscUtils::GetOSTypeFromXml(CFXMLTreeRef inXmlTree, OSType outType)
+{
+	Str255 theString;
+	
+	GetStringFromXml( inXmlTree, theString);
+	PStringToOSType( theString, outType);
 }
 
 

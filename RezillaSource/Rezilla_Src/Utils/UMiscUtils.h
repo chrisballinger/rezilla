@@ -1,11 +1,11 @@
 // ===========================================================================
 // UMiscUtils.h					
 //                       Created: 2003-05-13 20:06:23
-//             Last modification: 2005-01-02 15:23:51
+//             Last modification: 2005-02-19 16:26:06
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003-2004, 2005
+// © Copyright: Bernard Desgraupes 2003-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -60,6 +60,7 @@ public:
 	static Boolean	IsOptionKey();
 	static void		GetValueFromXml(CFXMLTreeRef inXmlTree, SInt32 & outValue);
 	static void		GetStringFromXml(CFXMLTreeRef inXmlTree, Str255 outString);
+	static void		GetOSTypeFromXml(CFXMLTreeRef inXmlTree, OSType outType);
 	
 };
 
