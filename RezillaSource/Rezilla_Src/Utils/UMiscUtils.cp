@@ -49,7 +49,7 @@ UMiscUtils::PStringToOSType(Str255 inString, OSType & outType)
 		len = 4;
 	} 
 	CopyPascalStringToC(inString, theStr);
-	for (UInt8 i = 4; i >= len; i--) {
+	for (SInt8 i = 4; i >= len; i--) {
 		theStr[i] = 0;
 	}
 	outType = *(OSType*) theStr;
