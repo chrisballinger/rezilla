@@ -2,11 +2,11 @@
 // CUtxt_EditorWindow.h
 // 
 //                       Created: 2004-12-08 18:21:21
-//             Last modification: 2004-12-09 23:07:37
+//             Last modification: 2005-01-08 21:31:35
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004
+// (c) Copyright : Bernard Desgraupes, 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -20,7 +20,6 @@
 
 class CUtxt_EditorView;
 class LStaticText;
-class LPopupButton;
 
 
 class CUtxt_EditorWindow : public CEditorWindow {
@@ -55,8 +54,6 @@ public:
 
 protected:
 	CUtxt_EditorView *	mContentsView;
-	LPopupButton *		mSizePopup;
-	LPopupButton *		mStylePopup;
 	LStaticText *		mLengthField;
 
 	virtual void	FinishCreateSelf();
