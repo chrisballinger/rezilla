@@ -135,6 +135,7 @@ CRezMapDoc::~CRezMapDoc()
 	
 	// Clear the Inspector if it contains info about a resource in this rezmap
 	if (CRezillaApp::sInspectorWindow != nil &&
+		CRezillaApp::sInspectorWindow->GetRezObjItem() != nil &&
 		CRezillaApp::sInspectorWindow->GetRezObjItem()->GetOwnerRezMapTable()->GetOwnerDoc() == this
 	) {
 		CRezillaApp::sInspectorWindow->ClearValues();
