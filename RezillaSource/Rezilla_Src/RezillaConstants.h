@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2004-10-02 16:36:07
+//             Last modification : 2004-10-04 22:22:23
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -161,7 +161,7 @@ const ResIDT	rPPob_PrefsMiscPane			= 7600;
 const ResIDT	rPPob_FindDialog			= 8500;
 const ResIDT	rPPob_OtherSize				= 8600;
 const ResIDT	rPPob_RezTypePicker			= 8700;
-const ResIDT	rPPob_TmplKeyPickerPicker	= 8800;
+const ResIDT	rPPob_TmplKeyPicker			= 8800;
 const ResIDT	rPPob_SimpleMessage			= 9500;
 const ResIDT	rPPob_AskIfMessage			= 9510;
 const ResIDT	rPPob_AskYesNoMessage		= 9520;
@@ -182,7 +182,7 @@ const ResIDT	rRidL_RezCompDialog			= rPPob_RezCompDialog;
 const ResIDT	rRidL_RezCompWindow			= rPPob_RezCompWindow;
 const ResIDT	rRidL_AskUniqueID			= rPPob_AskUniqueID;
 const ResIDT	rRidL_RezTypePicker			= rPPob_RezTypePicker;
-const ResIDT	rRidL_TmplKeyPickerPicker	= rPPob_TmplKeyPickerPicker;
+const ResIDT	rRidL_TmplKeyPickerPicker	= rPPob_TmplKeyPicker;
 
 const ResIDT	ics8_Unlocked				= 1500;
 const ResIDT	ics8_Locked					= 1501;
@@ -574,7 +574,7 @@ const MessageT	msg_TypePickerField			= rPPob_RezTypePicker + item_TypePickerFiel
 const MessageT	msg_TypePickerMenu			= rPPob_RezTypePicker + item_TypePickerMenu;
 // Template Option Picker
 // ----------------------
-const MessageT	msg_TmplKeyPickerMenu		= rPPob_TmplKeyPickerPicker + item_TmplKeyPickerMenu;
+const MessageT	msg_TmplKeyPickerMenu		= rPPob_TmplKeyPicker + item_TmplKeyPickerMenu;
 
 // Preferences
 // -----------
