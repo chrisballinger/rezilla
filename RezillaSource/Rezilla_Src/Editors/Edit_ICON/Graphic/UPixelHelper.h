@@ -20,6 +20,10 @@
 // (3) These routines will blindly trash memory if you pass in invalid
 // pointers, so be very very careful when using them.
 
+#ifndef _H_UPixelHelper
+#define _H_UPixelHelper
+
+
 #include "RezillaConstants.h"
 
 typedef Color32		(*SUPixelGetter)( RawPtr rowPtr, SInt32 h );
@@ -237,3 +241,4 @@ inline void UPixelHelper::SetColor1( RawPtr rowPtr, SInt32 h, Color32 inColor )
 		*( (UInt8*) rowPtr + byteIndex ) &= ~bitMask;		// clear bit
 }
 
+#endif // _H_UPixelHelper

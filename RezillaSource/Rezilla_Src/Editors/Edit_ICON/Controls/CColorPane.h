@@ -11,6 +11,8 @@
 // $Revision$
 // ===========================================================================
 
+#ifndef _H_CColorPane
+#define _H_CColorPane
 #pragma once
 
 #include "RezillaConstants.h"		// just for ERedrawOptions
@@ -56,3 +58,4 @@ class CColorPane : public LPane, public LBroadcaster
 		virtual void			DisposeCurrentTable();
 };
 
+#endif // _H_CColorPane

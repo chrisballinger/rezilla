@@ -11,6 +11,9 @@
 // $Revision$
 // ===========================================================================
 
+#ifndef _H_CColorTableChoice
+#define _H_CColorTableChoice
+
 class PTPaintView;
 
 
@@ -38,3 +41,5 @@ class CColorTableChoice {
 		void			ChangePopupColorTables( ResIDT inResID );
 		void			DisposeCurrentTable();
 };
+
+#endif // _H_CColorTableChoice

@@ -11,14 +11,14 @@
 // $Revision$
 // ===========================================================================
 
-#include "RezillaConstants.h"
 #include "CIconActions.h"
+#include "CIconSelection.h"
+#include "CColorPane.h"
+#include "CSnapTo.h"
 #include "CIcon_EditorWindow.h"
 #include "CIcon_EditorView.h"
 #include "COffscreen.h"
-#include "CIconSelection.h"
-#include "CColorPane.h"
-// #include "CDraggableTargetBox.h"
+#include "CDraggableTargetBox.h"
 #include "UIconMisc.h"
 
 
@@ -31,7 +31,7 @@ CIconAction::CIconAction( const SPaintAction &inSettings, SInt16 inStringIndex, 
 {
 	mSettings = inSettings;
 	mActionType = 0;
-	mAffectsUndoState = true;					// assume undo-able
+	mAffectsUndoState = true;	// assume undoable
 }
 
 

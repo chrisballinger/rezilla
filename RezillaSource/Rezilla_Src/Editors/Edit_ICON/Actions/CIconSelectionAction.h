@@ -10,6 +10,8 @@
 // $Date$
 // $Revision$
 // ===========================================================================
+#ifndef _H_CIconSelectionAction
+#define _H_CIconSelectionAction
 
 #include "CIconActions.h"
 #include "CMarchingAnts.h"
@@ -52,3 +54,4 @@ class CIconSelectionAction : public CIconTrackingPaintAction
 		virtual void		EraseOldRect();
 };
 
+#endif // _H_CIconSelectionAction

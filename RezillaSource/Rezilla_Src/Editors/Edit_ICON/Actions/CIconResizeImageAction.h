@@ -10,6 +10,10 @@
 // $Date$
 // $Revision$
 // ===========================================================================
+
+#ifndef _H_CIconResizeImageAction
+#define _H_CIconResizeImageAction
+
 #include "CIconActions.h"
 #include "CResizer.h"
 
@@ -28,3 +32,4 @@ class CIconResizeImageAction : public CIconAction
 		virtual void		RedoSelf();
 };
 
+#endif // _H_CIconResizeImageAction

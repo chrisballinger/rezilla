@@ -12,6 +12,8 @@
 // ===========================================================================
 
  
+#ifndef _H_CIconUndoer
+#define _H_CIconUndoer
 #pragma once
 
 const CommandT		cmd_GetLastCommand		= 'LCMD';
@@ -23,3 +25,4 @@ class CIconUndoer : public LUndoer
 		virtual void ExecuteSelf( MessageT inMessage, void *ioParam );
 };
 
+#endif // _H_CIconUndoer

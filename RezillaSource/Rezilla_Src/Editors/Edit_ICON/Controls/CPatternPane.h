@@ -11,6 +11,8 @@
 // $Revision$
 // ===========================================================================
 
+#ifndef _H_CPatternPane
+#define _H_CPatternPane
 #pragma once
 
 #include "RezillaConstants.h"			// just for ERedrawOptions
@@ -50,3 +52,4 @@ class CPatternPane : public LPane, public LBroadcaster
 
 };
 
+#endif // _H_CPatternPane

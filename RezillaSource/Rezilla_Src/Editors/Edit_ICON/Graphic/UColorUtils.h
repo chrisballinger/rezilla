@@ -11,6 +11,8 @@
 // $Revision$
 // ===========================================================================
 
+#ifndef _H_UColorUtils
+#define _H_UColorUtils
 #pragma once
 
 #include "RezillaConstants.h"
@@ -47,3 +49,4 @@ class UColorUtils
 };
 
 
+#endif // _H_UColorUtils

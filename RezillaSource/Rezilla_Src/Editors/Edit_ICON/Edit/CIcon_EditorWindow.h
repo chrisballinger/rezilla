@@ -12,12 +12,14 @@
 // $Revision$
 // ===========================================================================
 
+#ifndef _H_CIcon_EditorWindow
+#define _H_CIcon_EditorWindow
 #pragma once
 
 #include "CEditorWindow.h"
 #include "UResources.h"
+#include "RezillaConstants.h"
 
-#include <CEditorWindow.h>
 #include <LPane.h>
 #include <LView.h>
 #include <LBroadcaster.h>
@@ -26,12 +28,13 @@
 
 class CIcon_EditorDoc;
 class CIcon_EditorView;
-class CRezObj;
+class COffscreen;
+class CRezMap;
 class LPopupButton;
 class LStaticText;
 
-
-// mScratchBuffer: should this be static since we only need one for all windows ???
+// mScratchBuffer: this should be static since we only need one for all 
+// windows.
 
 
 class CIcon_EditorWindow : public CEditorWindow, public LBroadcaster, public LPeriodical {
@@ -47,7 +50,7 @@ public:
 
 	static CIcon_EditorWindow*			CreatePaintStream( LStream *inStream );
 
-	virtual void				SetImage( COffscreen *, SInt32 = resize_None,,
+	virtual void				SetImage( COffscreen *, SInt32 = resize_None,
 											ERedrawOptions = redraw_Later );
 											
 	// Getting our buffers
@@ -115,7 +118,7 @@ public:
 
 	// Misc
 	virtual void				ChangeTool( OSType toWhat );
-	virtual void				SaveAsResource( RFMap *inMap, ResIDT inResID );	// == 0 ???
+	virtual void				SaveAsResource( CRezMap *inMap, ResIDT inResID );	// == 0 ???
 	virtual Boolean				GetLockFlag();
 	virtual void				SetLockFlag( Boolean );
 		
@@ -218,3 +221,4 @@ private:
 };
 
 
+#endif // _H_CIcon_EditorWindow

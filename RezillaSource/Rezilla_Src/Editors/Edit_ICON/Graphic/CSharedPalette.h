@@ -11,6 +11,8 @@
 // $Revision$
 // ===========================================================================
 
+#ifndef _H_CSharedPalette
+#define _H_CSharedPalette
 #pragma once
 
 #include "CRefCount.h"
@@ -33,3 +35,4 @@ class CSharedPalette : public CRefCount
 		PaletteHandle			mPaletteH;
 };
 
+#endif // _H_CSharedPalette

@@ -11,6 +11,8 @@
 // $Revision$
 // ===========================================================================
 
+#ifndef _H_COffscreen
+#define _H_COffscreen
 #pragma once
 
 #include "RezillaConstants.h"
@@ -240,3 +242,4 @@ inline Boolean COffscreen::HasDirectPixels()
 	return( mHasDirectPixels );
 }
 
+#endif // _H_COffscreen

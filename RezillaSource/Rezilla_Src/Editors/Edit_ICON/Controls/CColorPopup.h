@@ -11,6 +11,8 @@
 // $Revision$
 // ===========================================================================
 
+#ifndef _H_CColorPopup
+#define _H_CColorPopup
 #pragma once
 
 #include "CPopupWindow.h"
@@ -31,3 +33,4 @@ class CColorPopup : protected CPopupWindow
 		virtual void		DrawOneCell( SInt32 inIndex, Boolean inHilited = false );
 };
 
+#endif // _H_CColorPopup

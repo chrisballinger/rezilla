@@ -11,6 +11,9 @@
 // $Revision$
 // ===========================================================================
 
+#ifndef _H_CIconLassoAction
+#define _H_CIconLassoAction
+
 #include "CIconActions.h"
 #include "CMarchingAnts.h"
 
@@ -67,3 +70,4 @@ class CIconLassoAction : public CIconTrackingPaintAction
 		virtual void		CopyAndDownSample( COffscreen *src, COffscreen *dst, RgnHandle selRgn );
 };
 
+#endif // _H_CIconLassoAction

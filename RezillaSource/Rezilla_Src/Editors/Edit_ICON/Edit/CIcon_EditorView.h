@@ -139,4 +139,4 @@ PP_End_Namespace_PowerPlant
 	#pragma import reset
 #endif
 
-#endif
+#endif // _H_CIcon_EditorView

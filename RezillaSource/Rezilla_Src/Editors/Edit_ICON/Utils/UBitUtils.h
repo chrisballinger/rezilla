@@ -10,6 +10,8 @@
 // $Date$
 // $Revision$
 // ===========================================================================
+#ifndef _H_UBitUtils
+#define _H_UBitUtils
 
 	
 class UBitUtils
@@ -25,3 +27,4 @@ class UBitUtils
 		static void			SetTwoBits( void *firstByte, SInt32 index, UInt8 inValue );
 };
 
+#endif // _H_UBitUtils

@@ -10,6 +10,9 @@
 // $Date$
 // $Revision$
 // ===========================================================================
+
+#ifndef _H_UPopupDrawing
+#define _H_UPopupDrawing
 #pragma once
 
 class UPopupDrawing {
@@ -38,3 +41,4 @@ class UPopupDrawing {
 
 };
 
+#endif // _H_UPopupDrawing

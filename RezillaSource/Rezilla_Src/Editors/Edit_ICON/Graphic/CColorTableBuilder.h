@@ -11,6 +11,8 @@
 // $Revision$
 // ===========================================================================
 
+#ifndef _H_CColorTableBuilder
+#define _H_CColorTableBuilder
 #pragma once
 
 #include "RezillaConstants.h"
@@ -67,3 +69,4 @@ class CColorTableBuilder
 };
 
 
+#endif // _H_CColorTableBuilder

@@ -11,6 +11,9 @@
 // $Revision$
 // ===========================================================================
 
+#ifndef _H_CIconDragToTargetAction
+#define _H_CIconDragToTargetAction
+
 #include "CIconActions.h"
 #include "CDraggableTargetBox.h"
 
@@ -33,3 +36,4 @@ class CIconDragToTargetAction : public CIconAction
 		virtual void			GenerateMask( COffscreen *inSource, COffscreen *inDest );
 };
 
+#endif // _H_CIconDragToTargetAction

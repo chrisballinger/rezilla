@@ -11,6 +11,8 @@
 // $Revision$
 // ===========================================================================
 
+#ifndef _H_CPatternPopup
+#define _H_CPatternPopup
 #pragma once
 
 #include "RezillaConstants.h"
@@ -47,3 +49,6 @@ class CPatternPopup : protected CPopupWindow {
 		virtual void		DrawInitialState();
 		virtual void		DrawOneCell( SInt32 inIndex, Boolean inHilited = false );
 };
+
+
+#endif // _H_CPatternPopup

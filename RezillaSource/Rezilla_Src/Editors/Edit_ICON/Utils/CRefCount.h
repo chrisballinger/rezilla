@@ -11,6 +11,8 @@
 // $Revision$
 // ===========================================================================
 
+#ifndef _H_CRefCount
+#define _H_CRefCount
 #pragma once
 
 class CRefCount
@@ -26,3 +28,4 @@ class CRefCount
 		UInt32			mRefCount;
 };
 
+#endif // _H_CRefCount

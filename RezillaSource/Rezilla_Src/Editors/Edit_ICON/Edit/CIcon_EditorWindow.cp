@@ -20,7 +20,6 @@
 #include "CRezillaApp.h"
 #include "CRezMap.h"
 #include "CRezillaPrefs.h"
-#include "RezillaConstants.h"
 // #include "UIconMisc.h"
 #include "UMessageDialogs.h"
 #include "UHexFilters.h"
@@ -42,6 +41,7 @@
 #include "CIconTargetClickedAction.h"
 #include "CIconTextAction.h"
 #include "CIconUndoer.h"
+#include "COffscreen.h"
 // #include "CIconResizeDialog.h"
 // #include "SUFileUtils.h"
 // #include "SUSaveResFile.h"
@@ -1573,7 +1573,7 @@ void CIcon_EditorWindow::SetTargetBox( CDraggableTargetBox *inBox, ERedrawOption
 	if ( !inBox ) return;				// shouldn't happen
 	
 	// Set our current image
-	this->SetImage( inBox->GetBuffer(), resize_Canvas,, inRedrawHow );
+	this->SetImage( inBox->GetBuffer(), resize_Canvas, inRedrawHow );
 	
 	// Change the hiliting of the target box
 	if ( mCurrentSamplePane )
@@ -1837,7 +1837,7 @@ CIcon_EditorWindow::SetCoordsField(SInt16 inXCoord, SInt16 inYCoord)
 // 	SaveAsResource												[public]
 // ---------------------------------------------------------------------------
 
-void PTPaintView::SaveAsResource( RFMap *inMap, ResIDT inResID  )
+void PTPaintView::SaveAsResource( CRezMap *inMap, ResIDT inResID  )
 {
 	// Subclasses should define
 }

@@ -11,6 +11,8 @@
 // $Revision$
 // ===========================================================================
 
+#ifndef _H_CIconTextAction
+#define _H_CIconTextAction
 #pragma once
 
 #include "CIconActions.h"
@@ -80,3 +82,4 @@ class CIconTextAction : public CIconTrackingPaintAction, public LBroadcaster
 		virtual SInt32		CalcTextAreaHeight();
 };
 
+#endif // _H_CIconTextAction

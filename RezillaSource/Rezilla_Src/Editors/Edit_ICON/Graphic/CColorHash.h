@@ -11,6 +11,9 @@
 // $Revision$
 // ===========================================================================
 
+#ifndef _H_CColorHash
+#define _H_CColorHash
+
 #include "RezillaConstants.h"
 
 // Most of these routines are inline because they are called for every
@@ -57,3 +60,4 @@ class CColorHash {
 };
 
 
+#endif // _H_CColorHash

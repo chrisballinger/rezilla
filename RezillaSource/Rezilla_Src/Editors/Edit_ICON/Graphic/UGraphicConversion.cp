@@ -239,7 +239,7 @@ PicHandle UGraphicConversion::GetPictFromFile( const FSSpec &inSpec )
 // // is present in RAM.
 // 
 // void UGraphicConversion::SaveOffscreenAsResource( 
-// 								RFMap *inMap, ResType inResType, ResIDT inResID,
+// 								CRezMap *inMap, ResType inResType, ResIDT inResID,
 // 								COffscreen *inBuffer, SInt32 rowBytes,
 // 								COffscreen *inMask, SInt32 maskOffset, SInt32 maskRowBytes )
 // {

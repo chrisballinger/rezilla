@@ -2,7 +2,7 @@
 // CIcon_EditorDoc.h				
 // 
 //                       Created: 2004-12-11 23:33:03
-//             Last modification: 2004-12-11 23:33:06
+//             Last modification: 2004-12-14 23:33:06
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -72,4 +72,4 @@ PP_End_Namespace_PowerPlant
 	#pragma import reset
 #endif
 
-#endif
+#endif // _H_CIcon_EditorDoc

@@ -11,10 +11,11 @@
 // $Revision$
 // ===========================================================================
 
+#ifndef _H_CMarchingAnts
+#define _H_CMarchingAnts
 #pragma once
 
-class CMarchingAnts
-{
+class CMarchingAnts {
 	public:
 							CMarchingAnts();
 							
@@ -31,3 +32,4 @@ class CMarchingAnts
 		static UInt32		sNextMarchTime;
 };
 
+#endif // _H_CMarchingAnts

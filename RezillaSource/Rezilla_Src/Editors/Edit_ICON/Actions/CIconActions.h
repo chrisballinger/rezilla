@@ -11,10 +11,11 @@
 // $Revision$
 // ===========================================================================
 
+#ifndef _H_CIconActions
+#define _H_CIconActions
 #pragma once
 
 #include "RezillaConstants.h"
-#include "CSnapTo.h"
 
 class CIcon_EditorWindow;
 class CIcon_EditorView;
@@ -22,6 +23,7 @@ class COffscreen;
 class CIconSelection;
 class CColorPane;
 class CDraggableTargetBox;
+class CSnapTo;
 
 
 // This struct is passed to each paint action's constructor and contains
@@ -438,3 +440,4 @@ class CIconDeleteImageAction : public CIconAction {
 		virtual void			RedoSelf();
 };
 
+#endif // _H_CIconActions

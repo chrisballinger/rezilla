@@ -11,7 +11,8 @@
 // $Revision$
 // ===========================================================================
 
-
+#ifndef _H_CPopupWindow
+#define _H_CPopupWindow
 #pragma once
 
 	// note: items are numbered from 0..n-1, -1 indicates "nothing hit"
@@ -47,3 +48,4 @@ class CPopupWindow {
 		virtual WindowPtr	CreateMacWindow();
 };
 
+#endif // _H_CPopupWindow

@@ -2,7 +2,7 @@
 // CIcon_EditorDoc.cp
 // 
 //                       Created: 2004-12-11 23:33:03
-//             Last modification: 2004-12-14 23:33:06
+//             Last modification: 2004-12-16 12:09:07
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>

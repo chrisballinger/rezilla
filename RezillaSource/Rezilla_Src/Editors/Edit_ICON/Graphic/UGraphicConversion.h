@@ -11,10 +11,12 @@
 // $Revision$
 // ===========================================================================
 
+#ifndef _H_UGraphicConversion
+#define _H_UGraphicConversion
 #pragma once
 
 class COffscreen;
-// class RFMap;
+// class CRezMap;
 
 class UGraphicConversion
 {
@@ -31,9 +33,10 @@ class UGraphicConversion
 	static COffscreen *		PictureToOffscreen( PicHandle inPict );
 	
 // 	static void					SaveOffscreenAsResource( 
-// 										RFMap *, ResType inResType, ResIDT inResID,
+// 										CRezMap *, ResType inResType, ResIDT inResID,
 // 										COffscreen *inBuffer, SInt32 rowBytes = -1,
 // 										COffscreen *maskBuffer = nil, SInt32 maskOffset = 0,
 // 										SInt32 maskRowBytes = -1 );
 };
 
+#endif // _H_UGraphicConversion

@@ -11,6 +11,8 @@
 // $Revision$
 // ===========================================================================
 
+#ifndef _H_CIconSelection
+#define _H_CIconSelection
 #pragma once
 
 class COffscreen;
@@ -61,3 +63,4 @@ class CIconSelection {
 		void					DisposeBuffer();
 };
 
+#endif // _H_CIconSelection

@@ -10,6 +10,10 @@
 // $Date$
 // $Revision$
 // ===========================================================================
+
+#ifndef _H_CIconRecolorAction
+#define _H_CIconRecolorAction
+
 #include "CIconActions.h"
 
 class CIconRecolorAction : public CIconAction
@@ -26,3 +30,4 @@ class CIconRecolorAction : public CIconAction
 		virtual CTabHandle	CreateResizedTable( CTabHandle inSource );
 };
 
+#endif // _H_CIconRecolorAction

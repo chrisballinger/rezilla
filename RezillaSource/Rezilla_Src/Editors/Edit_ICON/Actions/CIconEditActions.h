@@ -11,6 +11,8 @@
 // $Revision$
 // ===========================================================================
 
+#ifndef _H_CIconEditActions
+#define _H_CIconEditActions
 #pragma once
 
 #include "CIconActions.h"
@@ -51,3 +53,4 @@ class CIconClearAction : public CIconAction {
 		virtual void	DoIt();
 };
 
+#endif // _H_CIconEditActions

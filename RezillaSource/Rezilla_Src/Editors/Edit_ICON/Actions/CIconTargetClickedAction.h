@@ -10,6 +10,8 @@
 // $Date$
 // $Revision$
 // ===========================================================================
+#ifndef _H_CIconTargetClickedAction
+#define _H_CIconTargetClickedAction
 
 #include "CIconActions.h"
 
@@ -29,3 +31,4 @@ class CIconTargetClickedAction : public CIconAction
 		CDraggableTargetBox	*mTargetBoxHit;
 };
 
+#endif // _H_CIconTargetClickedAction
