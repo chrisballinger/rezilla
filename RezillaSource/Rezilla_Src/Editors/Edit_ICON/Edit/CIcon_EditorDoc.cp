@@ -118,48 +118,42 @@ CIcon_EditorDoc::Initialize()
 			
 		// 'cicn'
 		case ImgType_ColorIcon:
-			theWindow = CWindow_ColorIcon::OpenPaintWindow( PPob_CICNEditor, theMap, theID );
+			theWindow = CWindow_ColorIcon::OpenPaintWindow( mRezObj, PPob_CICNEditor );
 			break;
 
 		// 'PICT'
 		case ImgType_Picture:
-			theWindow = CWindow_Picture::OpenPaintWindow( PPob_PictEditor, theMap, theID );
+			theWindow = CWindow_Picture::OpenPaintWindow( mRezObj, PPob_PictEditor );
 			break;
 			
 		// 'PAT#'
 		case ImgType_PatternSuite:
-			theWindow = CWindow_PatternSuite::OpenPaintWindow( PPob_PatternSuiteEditor, theMap, 
-															  ImgType_PatternSuite, theID );
+			theWindow = CWindow_PatternSuite::OpenPaintWindow( mRezObj, PPob_PatternSuiteEditor );
 			break;
 				
 		// 'SICN'
 		case ImgType_IconSuite:
-			theWindow = CWindow_IconSuite::OpenPaintWindow( PPob_IconSuiteEditor, theMap, 
-															  ImgType_IconSuite, theID );
+			theWindow = CWindow_IconSuite::OpenPaintWindow( mRezObj, PPob_IconSuiteEditor );
 			break;
 				
 		// 'CURS'
 		case ImgType_Cursor:
-			theWindow = CWindow_Cursor::OpenPaintWindow( PPob_CursorEditor, theMap, 
-														ImgType_Cursor, theID );
+			theWindow = CWindow_Cursor::OpenPaintWindow( mRezObj, PPob_CursorEditor );
 			break;
 
 		// 'crsr'
 		case ImgType_ColorCursor:
-			theWindow = CWindow_Cursor::OpenPaintWindow( PPob_ColorCursorEditor, theMap, 
-														ImgType_ColorCursor, theID );
+			theWindow = CWindow_Cursor::OpenPaintWindow( mRezObj, PPob_ColorCursorEditor );
 			break;
 			
 		// 'PAT '
 		case ImgType_Pattern:
-			theWindow = CWindow_Pattern::OpenPaintWindow( PPob_PatternEditor, theMap, 
-														 ImgType_Pattern, theID );
+			theWindow = CWindow_Pattern::OpenPaintWindow( mRezObj, PPob_PatternEditor );
 			break;
 			
 		// 'ppat'
 		case ImgType_PixPat:
-			theWindow = CWindow_Pattern::OpenPaintWindow( PPob_PixPatEditor, theMap, 
-														 ImgType_PixPat, theID );
+			theWindow = CWindow_Pattern::OpenPaintWindow( mRezObj, PPob_PixPatEditor );
 			break;
 
 	}
@@ -260,16 +254,24 @@ CIcon_EditorDoc::AskSaveChanges(
 // ---------------------------------------------------------------------------
 //  ¥ GetModifiedResource										[protected]
 // ---------------------------------------------------------------------------
+// 		CRezTypeItem *
+// 	GetRezTypeItem(ResType inType)
+// 		CRezObjItem *
+// 		CRezMapTable::GetRezObjItem(ResType inType, short inID)
+// 	theRezObjItem = CreateNewRes(theType, theID, &theString, theAttrs);
+// 	SetModified(true);
 
 Handle
 CIcon_EditorDoc::GetModifiedResource(Boolean &releaseIt) 
 {
 #pragma unused(releaseIt)
+	// The resource is saved directly
 	mIconEditWindow->SaveAsResource( mRezMapTable->GetRezMap(), mRezObj->GetID() );
 	
 	// Refresh the view to update the size field
 	mRezMapTable->Refresh();
 
+	// Return a NULL handle because the resource is already saved
 	return (Handle) NULL;
 }
 
