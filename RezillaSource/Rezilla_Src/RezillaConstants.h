@@ -1192,7 +1192,6 @@ const Pattern	Pattern_Black = { { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF
 // For the Icon editor's clipboard and Drag&Drop
 const OSType	ResType_Region			= FOUR_CHAR_CODE('RgN ');
 const OSType	ResType_ColorCursor 	= FOUR_CHAR_CODE('crsr');
-const ResType	ResType_PaneResizer		= FOUR_CHAR_CODE('RSIZ');
 const ResType	ResType_IconFamilyInfo	= FOUR_CHAR_CODE('RzII');
 
 // Three ways to redraw
