@@ -831,7 +831,7 @@
 				</ArrayProperties>
 				<ArrayElements>
 					<Element>
-						<ElementID>cwin</ElementID>
+						<ElementClass>cwin</ElementClass>
 						<ArrayKeyForms>
 							<KeyFormID>indx</KeyFormID>
 							<KeyFormID>name</KeyFormID>
@@ -839,14 +839,14 @@
 						</ArrayKeyForms>
 					</Element>
 					<Element>
-						<ElementID>MapD</ElementID>
+						<ElementClass>MapD</ElementClass>
 						<ArrayKeyForms>
 							<KeyFormID>indx</KeyFormID>
 							<KeyFormID>name</KeyFormID>
 						</ArrayKeyForms>
 					</Element>
 					<Element>
-						<ElementID>cMAP</ElementID>
+						<ElementClass>cMAP</ElementClass>
 						<ArrayKeyForms>
 							<KeyFormID>indx</KeyFormID>
 							<KeyFormID>name</KeyFormID>
@@ -1758,7 +1758,7 @@
 				</ArrayProperties>
 				<ArrayElements>
 					<Element>
-						<ElementID>EdiD</ElementID>
+						<ElementClass>EdiD</ElementClass>
 						<ArrayKeyForms>
 							<KeyFormID>indx</KeyFormID>
 							<KeyFormID>name</KeyFormID>
@@ -2924,14 +2924,14 @@
 				</ArrayProperties>
 				<ArrayElements>
 					<Element>
-						<ElementID>cTYP</ElementID>
+						<ElementClass>cTYP</ElementClass>
 						<ArrayKeyForms>
 							<KeyFormID>indx</KeyFormID>
 							<KeyFormID>name</KeyFormID>
 						</ArrayKeyForms>
 					</Element>
 					<Element>
-						<ElementID>cRSC</ElementID>
+						<ElementClass>cRSC</ElementClass>
 						<ArrayKeyForms>
 							<KeyFormID>indx</KeyFormID>
 							<KeyFormID>name</KeyFormID>
@@ -3030,7 +3030,7 @@
 				</ArrayProperties>
 				<ArrayElements>
 					<Element>
-						<ElementID>cRSC</ElementID>
+						<ElementClass>cRSC</ElementClass>
 						<ArrayKeyForms>
 							<KeyFormID>indx</KeyFormID>
 							<KeyFormID>name</KeyFormID>

@@ -12,7 +12,13 @@ Templates are resources of type TMPL which use a very simple syntax: they
 are made of a list of label/tag pairs describing the type of a particular
 value in the resource. A template thus describes all the values in a
 particular resource: to edit it, the template editor reads the resource's
-data from left to right and compares it with the template.<P><H3>A simple example</H3>
+data from left to right and compares it with the template.
+<UL>
+	<LI> <A HREF="#tmplexample">A simple example</A>
+	<LI> <A HREF="#tmpledit">Editing a template</A>
+	<LI> <A HREF="#tmpltags">Template tags</A>
+</UL><P><A NAME="tmplexample"></A>
+<H3>A simple example</H3>
 Let's take an example. A 'FREF' resource is a standard type used by the
 Finder to associate icons to certain types of files. It contains three
 elements which are a Finder type, a decimal value corresponding to the ID
@@ -64,7 +70,8 @@ data it has just read from the resource. There is a wealth of tags which
 allow you to describe a wide variety of data. More elaborate templates
 would involve the use of lists, of key-controlled sections, of dynamically
 computed values etc. All the tags available with Rezilla are described in the section
-<I>Template tags</I> below.<P><H3>Editing a template</H3><P>Good news! There is a template for the TMPL resource types. It means
+<I>Template tags</I> below.<P><A NAME="tmpledit"></A>
+<H3>Editing a template</H3><P>Good news! There is a template for the TMPL resource types. It means
 that one can edit a TMPL resource using the... template editor! It presents
 the list of tag/label strings, allows you to add or remove some pairs, to
 modify them etc. The only thing you have to know really is which tags to
@@ -72,7 +79,8 @@ choose. This is explained in the next section.<P>Now that the structure of templ
 precise concerning the format of a TMPL resource: the resource which stores
 a template definition is a series of pairs of four-characters codes and
 Pascal strings, in other words a sequence of data of type TNAM and PSTR
-alternately.<P><H3>Template tags</H3><P>The venerable <B>ResEdit</B> application which was Apple's resource editor on
+alternately.<P><A NAME="tmpltags"></A>
+<H3>Template tags</H3><P>The venerable <B>ResEdit</B> application which was Apple's resource editor on
 systems prior to OSX has defined the first syntax for templates by
 providing a set of basic tags. Other editors (mainly <B>Resorcerer</B> from 
 <A HREF="www.mathemaesthetics.com"> Mathemaesthetics</A>) have 

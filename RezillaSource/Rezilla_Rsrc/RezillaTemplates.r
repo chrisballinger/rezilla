@@ -5,7 +5,7 @@ type 'TMPL' {
 	};
 };
 
-resource 'TMPL' (1000, "accl", protected) {
+resource 'TMPL' (1000, "accl") {
 	{	/* array: 10 elements */
 		/* [1] */
 		"Device identifier or device class",
@@ -41,7 +41,7 @@ resource 'TMPL' (1000, "accl", protected) {
 	}
 };
 
-resource 'TMPL' (1001, "ACfg", protected) {
+resource 'TMPL' (1001, "ACfg") {
 	{	/* array: 19 elements */
 		/* [1] */
 		"International sorting",
@@ -103,7 +103,7 @@ resource 'TMPL' (1001, "ACfg", protected) {
 	}
 };
 
-resource 'TMPL' (1002, "actb", protected) {
+resource 'TMPL' (1002, "actb") {
 	{	/* array: 12 elements */
 		/* [1] */
 		"Alert color seed",
@@ -167,7 +167,7 @@ resource 'TMPL' (1003, "acur") {
 	}
 };
 
-resource 'TMPL' (1004, "admn", protected) {
+resource 'TMPL' (1004, "admn") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Version",
@@ -187,7 +187,7 @@ resource 'TMPL' (1004, "admn", protected) {
 resource 'TMPL' (1005, "aedt") {
 	{	/* array: 21 elements */
 		/* [1] */
-		"Apple Events dispatch table",
+		"Apple Events Dispatch Table",
 		'LSTB',
 		/* [2] */
 		"Event class",
@@ -252,7 +252,7 @@ resource 'TMPL' (1005, "aedt") {
 	}
 };
 
-resource 'TMPL' (1006, "ALRT", protected) {
+resource 'TMPL' (1006, "ALRT") {
 	{	/* array: 26 elements */
 		/* [1] */
 		"Bounds rect",
@@ -335,7 +335,7 @@ resource 'TMPL' (1006, "ALRT", protected) {
 	}
 };
 
-resource 'TMPL' (1007, "alrx", protected) {
+resource 'TMPL' (1007, "alrx") {
 	{	/* array: 29 elements */
 		/* [1] */
 		"Version",
@@ -427,7 +427,7 @@ resource 'TMPL' (1007, "alrx", protected) {
 	}
 };
 
-resource 'TMPL' (1008, "APPL", protected) {
+resource 'TMPL' (1008, "APPL") {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Applications",
@@ -621,7 +621,7 @@ resource 'TMPL' (1009, "atms") {
 	}
 };
 
-resource 'TMPL' (1010, "audt", protected) {
+resource 'TMPL' (1010, "audt") {
 	{	/* array: 42 elements */
 		/* [1] */
 		"Event constants",
@@ -752,7 +752,7 @@ resource 'TMPL' (1010, "audt", protected) {
 	}
 };
 
-resource 'TMPL' (1011, "avvc", protected) {
+resource 'TMPL' (1011, "avvc") {
 	{	/* array: 3 elements */
 		/* [1] */
 		"Compressors AVI file four cc's",
@@ -766,7 +766,7 @@ resource 'TMPL' (1011, "avvc", protected) {
 	}
 };
 
-resource 'TMPL' (1012, "avvd", protected) {
+resource 'TMPL' (1012, "avvd") {
 	{	/* array: 3 elements */
 		/* [1] */
 		"Decompressors AVI file four cc's",
@@ -780,7 +780,7 @@ resource 'TMPL' (1012, "avvd", protected) {
 	}
 };
 
-resource 'TMPL' (1013, "badg", protected) {
+resource 'TMPL' (1013, "badg") {
 	{	/* array: 17 elements */
 		/* [1] */
 		"Version",
@@ -836,7 +836,7 @@ resource 'TMPL' (1013, "badg", protected) {
 	}
 };
 
-resource 'TMPL' (1014, "bMRM", protected) {
+resource 'TMPL' (1014, "bMRM") {
 	{	/* array: 19 elements */
 		/* [1] */
 		"\"Fetch\" resource template",
@@ -899,7 +899,7 @@ resource 'TMPL' (1014, "bMRM", protected) {
 	}
 };
 
-resource 'TMPL' (1015, "BNDL", protected) {
+resource 'TMPL' (1015, "BNDL") {
 	{	/* array: 11 elements */
 		/* [1] */
 		"Signature",
@@ -937,7 +937,7 @@ resource 'TMPL' (1015, "BNDL", protected) {
 	}
 };
 
-resource 'TMPL' (1016, "brws", protected) {
+resource 'TMPL' (1016, "brws") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Version",
@@ -954,7 +954,7 @@ resource 'TMPL' (1016, "brws", protected) {
 	}
 };
 
-resource 'TMPL' (1017, "bVal", protected) {
+resource 'TMPL' (1017, "bVal") {
 	{	/* array: 2 elements */
 		/* [1] */
 		"\"AfterDark\" resource format",
@@ -965,7 +965,7 @@ resource 'TMPL' (1017, "bVal", protected) {
 	}
 };
 
-resource 'TMPL' (1018, "Cals", protected) {
+resource 'TMPL' (1018, "Cals") {
 	{	/* array: 8 elements */
 		/* [1] */
 		"\"AfterDark\" resource format",
@@ -994,7 +994,7 @@ resource 'TMPL' (1018, "Cals", protected) {
 	}
 };
 
-resource 'TMPL' (1019, "caps", protected) {
+resource 'TMPL' (1019, "caps") {
 	{	/* array: 139 elements */
 		/* [1] */
 		"Count:",
@@ -1416,7 +1416,7 @@ resource 'TMPL' (1019, "caps", protected) {
 	}
 };
 
-resource 'TMPL' (1020, "cbnd", protected) {
+resource 'TMPL' (1020, "cbnd") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Count:",
@@ -1456,7 +1456,7 @@ resource 'TMPL' (1021, "CCIª") {
 	}
 };
 
-resource 'TMPL' (1022, "ccop", protected) {
+resource 'TMPL' (1022, "ccop") {
 	{	/* array: 3 elements */
 		/* [1] */
 		"Codec compression options",
@@ -1470,7 +1470,7 @@ resource 'TMPL' (1022, "ccop", protected) {
 	}
 };
 
-resource 'TMPL' (1023, "cctb", protected) {
+resource 'TMPL' (1023, "cctb") {
 	{	/* array: 22 elements */
 		/* [1] */
 		"Control color seed",
@@ -1541,7 +1541,7 @@ resource 'TMPL' (1023, "cctb", protected) {
 	}
 };
 
-resource 'TMPL' (1024, "cdci", protected) {
+resource 'TMPL' (1024, "cdci") {
 	{	/* array: 53 elements */
 		/* [1] */
 		"Description/name",
@@ -1706,7 +1706,7 @@ resource 'TMPL' (1024, "cdci", protected) {
 	}
 };
 
-resource 'TMPL' (1025, "cFIG", protected) {
+resource 'TMPL' (1025, "cFIG") {
 	{	/* array: 29 elements */
 		/* [1] */
 		"Tool version",
@@ -1798,7 +1798,7 @@ resource 'TMPL' (1025, "cFIG", protected) {
 	}
 };
 
-resource 'TMPL' (1026, "cfmt", protected) {
+resource 'TMPL' (1026, "cfmt") {
 	{	/* array: 12 elements */
 		/* [1] */
 		"Column1 width",
@@ -1839,7 +1839,7 @@ resource 'TMPL' (1026, "cfmt", protected) {
 	}
 };
 
-resource 'TMPL' (1027, "cfrg", protected) {
+resource 'TMPL' (1027, "cfrg") {
 	{	/* array: 26 elements */
 		/* [1] */
 		"(private)",
@@ -1922,7 +1922,7 @@ resource 'TMPL' (1027, "cfrg", protected) {
 	}
 };
 
-resource 'TMPL' (1028, "chCd", protected) {
+resource 'TMPL' (1028, "chCd") {
 	{	/* array: 5 elements */
 		/* [1] */
 		"\"Finale\" resource format",
@@ -1942,7 +1942,7 @@ resource 'TMPL' (1028, "chCd", protected) {
 	}
 };
 
-resource 'TMPL' (1029, "chCv", protected) {
+resource 'TMPL' (1029, "chCv") {
 	{	/* array: 3 elements */
 		/* [1] */
 		"\"Finale\" resource format",
@@ -1956,7 +1956,7 @@ resource 'TMPL' (1029, "chCv", protected) {
 	}
 };
 
-resource 'TMPL' (1030, "Chnl", protected) {
+resource 'TMPL' (1030, "Chnl") {
 	{	/* array: 3 elements */
 		/* [1] */
 		"\"AfterDark\" resource format",
@@ -1970,7 +1970,7 @@ resource 'TMPL' (1030, "Chnl", protected) {
 	}
 };
 
-resource 'TMPL' (1031, "CHOS", protected) {
+resource 'TMPL' (1031, "CHOS") {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Serial device",
@@ -1990,7 +1990,7 @@ resource 'TMPL' (1031, "CHOS", protected) {
 	}
 };
 
-resource 'TMPL' (1032, "chrw", protected) {
+resource 'TMPL' (1032, "chrw") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Number of characters per 50 pixels",
@@ -1998,7 +1998,7 @@ resource 'TMPL' (1032, "chrw", protected) {
 	}
 };
 
-resource 'TMPL' (1033, "ckid", protected) {
+resource 'TMPL' (1033, "ckid") {
 	{	/* array: 27 elements */
 		/* [1] */
 		"Checksum",
@@ -2084,7 +2084,7 @@ resource 'TMPL' (1033, "ckid", protected) {
 	}
 };
 
-resource 'TMPL' (1034, "Clmn", protected) {
+resource 'TMPL' (1034, "Clmn") {
 	{	/* array: 35 elements */
 		/* [1] */
 		"\"SuitCase\" resource format",
@@ -2194,7 +2194,7 @@ resource 'TMPL' (1034, "Clmn", protected) {
 	}
 };
 
-resource 'TMPL' (1035, "clr#", protected) {
+resource 'TMPL' (1035, "clr#") {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Appearance Color List Resource (ID 384)",
@@ -2214,7 +2214,7 @@ resource 'TMPL' (1035, "clr#", protected) {
 	}
 };
 
-resource 'TMPL' (1036, "cltn", protected) {
+resource 'TMPL' (1036, "cltn") {
 	{	/* array: 14 elements */
 		/* [1] */
 		"Count:",
@@ -2261,7 +2261,7 @@ resource 'TMPL' (1036, "cltn", protected) {
 	}
 };
 
-resource 'TMPL' (1037, "clut", protected) {
+resource 'TMPL' (1037, "clut") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Color table seed",
@@ -2293,7 +2293,7 @@ resource 'TMPL' (1037, "clut", protected) {
 	}
 };
 
-resource 'TMPL' (1038, "CMDK", protected) {
+resource 'TMPL' (1038, "CMDK") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Command Keys",
@@ -2301,7 +2301,7 @@ resource 'TMPL' (1038, "CMDK", protected) {
 	}
 };
 
-resource 'TMPL' (1039, "cmdo", protected) {
+resource 'TMPL' (1039, "cmdo") {
 	{	/* array: 315 elements */
 		/* [1] */
 		"Commando version",
@@ -3251,7 +3251,7 @@ resource 'TMPL' (1039, "cmdo", protected) {
 	}
 };
 
-resource 'TMPL' (1040, "cmnu", protected) {
+resource 'TMPL' (1040, "cmnu") {
 	{	/* array: 72 elements */
 		/* [1] */
 		"Menu ID",
@@ -3472,7 +3472,7 @@ resource 'TMPL' (1040, "cmnu", protected) {
 	}
 };
 
-resource 'TMPL' (1041, "CNTL", protected) {
+resource 'TMPL' (1041, "CNTL") {
 	{	/* array: 16 elements */
 		/* [1] */
 		"Bounds Rect",
@@ -3525,7 +3525,7 @@ resource 'TMPL' (1041, "CNTL", protected) {
 	}
 };
 
-resource 'TMPL' (1042, "Colr", protected) {
+resource 'TMPL' (1042, "Colr") {
 	{	/* array: 6 elements */
 		/* [1] */
 		"Version",
@@ -3549,7 +3549,7 @@ resource 'TMPL' (1042, "Colr", protected) {
 	}
 };
 
-resource 'TMPL' (1043, "colw", protected) {
+resource 'TMPL' (1043, "colw") {
 	{	/* array: 12 elements */
 		/* [1] */
 		"Name col default width",
@@ -3590,7 +3590,7 @@ resource 'TMPL' (1043, "colw", protected) {
 	}
 };
 
-resource 'TMPL' (1044, "comm", protected) {
+resource 'TMPL' (1044, "comm") {
 	{	/* array: 96 elements */
 		/* [1] */
 		"Printer connection",
@@ -3887,7 +3887,7 @@ resource 'TMPL' (1044, "comm", protected) {
 	}
 };
 
-resource 'TMPL' (1045, "cool", protected) {
+resource 'TMPL' (1045, "cool") {
 	{	/* array: 27 elements */
 		/* [1] */
 		"Alert type",
@@ -3973,7 +3973,7 @@ resource 'TMPL' (1045, "cool", protected) {
 	}
 };
 
-resource 'TMPL' (1046, "cpix", protected) {
+resource 'TMPL' (1046, "cpix") {
 	{	/* array: 3 elements */
 		/* [1] */
 		"Compressors supported compress pixel for"
@@ -3988,7 +3988,7 @@ resource 'TMPL' (1046, "cpix", protected) {
 	}
 };
 
-resource 'TMPL' (1047, "CPPb", protected) {
+resource 'TMPL' (1047, "CPPb") {
 	{	/* array: 58 elements */
 		/* [1] */
 		"Object Type",
@@ -4167,7 +4167,7 @@ resource 'TMPL' (1047, "CPPb", protected) {
 	}
 };
 
-resource 'TMPL' (1048, "cpts", protected) {
+resource 'TMPL' (1048, "cpts") {
 	{	/* array: 13 elements */
 		/* [1] */
 		"Type of capture string",
@@ -4211,7 +4211,7 @@ resource 'TMPL' (1048, "cpts", protected) {
 	}
 };
 
-resource 'TMPL' (1049, "crst", protected) {
+resource 'TMPL' (1049, "crst") {
 	{	/* array: 8 elements */
 		/* [1] */
 		"Color space",
@@ -4240,7 +4240,7 @@ resource 'TMPL' (1049, "crst", protected) {
 	}
 };
 
-resource 'TMPL' (1050, "CTY#", protected) {
+resource 'TMPL' (1050, "CTY#") {
 	{	/* array: 10 elements */
 		/* [1] */
 		"Num cities",
@@ -4275,7 +4275,7 @@ resource 'TMPL' (1050, "CTY#", protected) {
 	}
 };
 
-resource 'TMPL' (1051, "CTYP", protected) {
+resource 'TMPL' (1051, "CTYP") {
 	{	/* array: 237 elements */
 		/* [1] */
 		"Template for Constructor CWPro4",
@@ -5005,7 +5005,7 @@ resource 'TMPL' (1052, "CURS") {
 	}
 };
 
-resource 'TMPL' (1053, "cust", protected) {
+resource 'TMPL' (1053, "cust") {
 	{	/* array: 15 elements */
 		/* [1] */
 		"Horizontal resolution (dots/inch)",
@@ -5057,7 +5057,7 @@ resource 'TMPL' (1053, "cust", protected) {
 	}
 };
 
-resource 'TMPL' (1054, "CWid", protected) {
+resource 'TMPL' (1054, "CWid") {
 	{	/* array: 47 elements */
 		/* [1] */
 		"Minimum column width",
@@ -5203,7 +5203,7 @@ resource 'TMPL' (1054, "CWid", protected) {
 	}
 };
 
-resource 'TMPL' (1055, "dale", protected) {
+resource 'TMPL' (1055, "dale") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Count:",
@@ -5220,7 +5220,7 @@ resource 'TMPL' (1055, "dale", protected) {
 	}
 };
 
-resource 'TMPL' (1056, "DBnf", protected) {
+resource 'TMPL' (1056, "DBnf") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"\"SuitCase\" resource format",
@@ -5252,7 +5252,7 @@ resource 'TMPL' (1056, "DBnf", protected) {
 	}
 };
 
-resource 'TMPL' (1057, "dbug", protected) {
+resource 'TMPL' (1057, "dbug") {
 	{	/* array: 12 elements */
 		/* [1] */
 		"Debug window bounds",
@@ -5293,7 +5293,7 @@ resource 'TMPL' (1057, "dbug", protected) {
 	}
 };
 
-resource 'TMPL' (1058, "dctb", protected) {
+resource 'TMPL' (1058, "dctb") {
 	{	/* array: 12 elements */
 		/* [1] */
 		"Dialog color seed",
@@ -5334,7 +5334,7 @@ resource 'TMPL' (1058, "dctb", protected) {
 	}
 };
 
-resource 'TMPL' (1059, "dctl", protected) {
+resource 'TMPL' (1059, "dctl") {
 	{	/* array: 103 elements */
 		/* [1] */
 		"Maximum item count",
@@ -5649,7 +5649,7 @@ resource 'TMPL' (1059, "dctl", protected) {
 	}
 };
 
-resource 'TMPL' (1060, "desC", protected) {
+resource 'TMPL' (1060, "desC") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Count:",
@@ -5681,7 +5681,7 @@ resource 'TMPL' (1060, "desC", protected) {
 	}
 };
 
-resource 'TMPL' (1061, "deta", protected) {
+resource 'TMPL' (1061, "deta") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Aspect template",
@@ -5713,7 +5713,7 @@ resource 'TMPL' (1061, "deta", protected) {
 	}
 };
 
-resource 'TMPL' (1062, "detf", protected) {
+resource 'TMPL' (1062, "detf") {
 	{	/* array: 2 elements */
 		/* [1] */
 		"Version",
@@ -5724,7 +5724,7 @@ resource 'TMPL' (1062, "detf", protected) {
 	}
 };
 
-resource 'TMPL' (1063, "deti", protected) {
+resource 'TMPL' (1063, "deti") {
 	{	/* array: 18 elements */
 		/* [1] */
 		"Version",
@@ -5783,7 +5783,7 @@ resource 'TMPL' (1063, "deti", protected) {
 	}
 };
 
-resource 'TMPL' (1064, "detk", protected) {
+resource 'TMPL' (1064, "detk") {
 	{	/* array: 2 elements */
 		/* [1] */
 		"Version",
@@ -5794,7 +5794,7 @@ resource 'TMPL' (1064, "detk", protected) {
 	}
 };
 
-resource 'TMPL' (1065, "detn", protected) {
+resource 'TMPL' (1065, "detn") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"A decimal number",
@@ -5802,7 +5802,7 @@ resource 'TMPL' (1065, "detn", protected) {
 	}
 };
 
-resource 'TMPL' (1066, "detp", protected) {
+resource 'TMPL' (1066, "detp") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Count:",
@@ -5819,7 +5819,7 @@ resource 'TMPL' (1066, "detp", protected) {
 	}
 };
 
-resource 'TMPL' (1067, "dett", protected) {
+resource 'TMPL' (1067, "dett") {
 	{	/* array: 56 elements */
 		/* [1] */
 		"Attribute pattern table",
@@ -5993,7 +5993,7 @@ resource 'TMPL' (1067, "dett", protected) {
 	}
 };
 
-resource 'TMPL' (1068, "detv", protected) {
+resource 'TMPL' (1068, "detv") {
 	{	/* array: 104 elements */
 		/* [1] */
 		"Filler",
@@ -6310,7 +6310,7 @@ resource 'TMPL' (1068, "detv", protected) {
 	}
 };
 
-resource 'TMPL' (1069, "detw", protected) {
+resource 'TMPL' (1069, "detw") {
 	{	/* array: 6 elements */
 		/* [1] */
 		"If top of bounds is 0, use standard plac"
@@ -6335,7 +6335,7 @@ resource 'TMPL' (1069, "detw", protected) {
 	}
 };
 
-resource 'TMPL' (1070, "detx", protected) {
+resource 'TMPL' (1070, "detx") {
 	{	/* array: 6 elements */
 		/* [1] */
 		"Version",
@@ -6358,7 +6358,7 @@ resource 'TMPL' (1070, "detx", protected) {
 	}
 };
 
-resource 'TMPL' (1071, "dflg", protected) {
+resource 'TMPL' (1071, "dflg") {
 	{	/* array: 3 elements */
 		/* [1] */
 		"Version",
@@ -6372,7 +6372,7 @@ resource 'TMPL' (1071, "dflg", protected) {
 	}
 };
 
-resource 'TMPL' (1072, "dftb", protected) {
+resource 'TMPL' (1072, "dftb") {
 	{	/* array: 49 elements */
 		/* [1] */
 		"Version",
@@ -6524,7 +6524,7 @@ resource 'TMPL' (1072, "dftb", protected) {
 	}
 };
 
-resource 'TMPL' (1073, "DITL", protected) {
+resource 'TMPL' (1073, "DITL") {
 	{	/* array: 13 elements */
 		/* [1] */
 		"Count:",
@@ -6568,7 +6568,7 @@ resource 'TMPL' (1073, "DITL", protected) {
 	}
 };
 
-resource 'TMPL' (1074, "dJvU", protected) {
+resource 'TMPL' (1074, "dJvU") {
 	{	/* array: 7 elements */
 		/* [1] */
 		"\"Eudora\" resource format",
@@ -6594,7 +6594,7 @@ resource 'TMPL' (1074, "dJvU", protected) {
 	}
 };
 
-resource 'TMPL' (1075, "DLGf", protected) {
+resource 'TMPL' (1075, "DLGf") {
 	{	/* array: 8 elements */
 		/* [1] */
 		"\"Finale\" resource format",
@@ -6623,7 +6623,7 @@ resource 'TMPL' (1075, "DLGf", protected) {
 	}
 };
 
-resource 'TMPL' (1076, "dlgx", protected) {
+resource 'TMPL' (1076, "dlgx") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Version",
@@ -6655,7 +6655,7 @@ resource 'TMPL' (1076, "dlgx", protected) {
 	}
 };
 
-resource 'TMPL' (1077, "dlle", protected) {
+resource 'TMPL' (1077, "dlle") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"String used for multi-platform things",
@@ -6663,7 +6663,7 @@ resource 'TMPL' (1077, "dlle", protected) {
 	}
 };
 
-resource 'TMPL' (1078, "DLOG", protected) {
+resource 'TMPL' (1078, "DLOG") {
 	{	/* array: 28 elements */
 		/* [1] */
 		"BoundsRect",
@@ -6752,7 +6752,7 @@ resource 'TMPL' (1078, "DLOG", protected) {
 	}
 };
 
-resource 'TMPL' (1079, "DRVR", protected) {
+resource 'TMPL' (1079, "DRVR") {
 	{	/* array: 35 elements */
 		/* [1] */
 		"Unused (should be 0)",
@@ -6862,7 +6862,7 @@ resource 'TMPL' (1079, "DRVR", protected) {
 	}
 };
 
-resource 'TMPL' (1080, "DSAT", protected) {
+resource 'TMPL' (1080, "DSAT") {
 	{	/* array: 6 elements */
 		/* [1] */
 		"Alerts",
@@ -6885,7 +6885,7 @@ resource 'TMPL' (1080, "DSAT", protected) {
 	}
 };
 
-resource 'TMPL' (1081, "DSPC", protected) {
+resource 'TMPL' (1081, "DSPC") {
 	{	/* array: 271 elements */
 		/* [1] */
 		"Version Number",
@@ -7703,7 +7703,7 @@ resource 'TMPL' (1081, "DSPC", protected) {
 	}
 };
 
-resource 'TMPL' (1082, "EDDI", protected) {
+resource 'TMPL' (1082, "EDDI") {
 	{	/* array: 14 elements */
 		/* [1] */
 		"\"Resurrection\" resource format",
@@ -7750,7 +7750,7 @@ resource 'TMPL' (1082, "EDDI", protected) {
 	}
 };
 
-resource 'TMPL' (1083, "EDT#", protected) {
+resource 'TMPL' (1083, "EDT#") {
 	{	/* array: 34 elements */
 		/* [1] */
 		"Last modified",
@@ -7857,7 +7857,24 @@ resource 'TMPL' (1083, "EDT#", protected) {
 	}
 };
 
-resource 'TMPL' (1084, "eopt", protected) {
+resource 'TMPL' (1084, "EMap") {
+	{	/* array: 4 elements */
+		/* [1] */
+		"PowerPaint errors mapping",
+		'LSTB',
+		/* [2] */
+		"MacOS error number (src)",
+		'DLNG',
+		/* [3] */
+		"PowerPaint error number (dst)",
+		'DLNG',
+		/* [4] */
+		"",
+		'LSTE'
+	}
+};
+
+resource 'TMPL' (1085, "eopt") {
 	{	/* array: 6 elements */
 		/* [1] */
 		"Execute during imaging",
@@ -7880,7 +7897,7 @@ resource 'TMPL' (1084, "eopt", protected) {
 	}
 };
 
-resource 'TMPL' (1085, "epcf", protected) {
+resource 'TMPL' (1086, "epcf") {
 	{	/* array: 16 elements */
 		/* [1] */
 		"Version",
@@ -7933,7 +7950,7 @@ resource 'TMPL' (1085, "epcf", protected) {
 	}
 };
 
-resource 'TMPL' (1086, "eppc", protected) {
+resource 'TMPL' (1087, "eppc") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Flags",
@@ -7950,7 +7967,7 @@ resource 'TMPL' (1086, "eppc", protected) {
 	}
 };
 
-resource 'TMPL' (1087, "EQPS", protected) {
+resource 'TMPL' (1088, "EQPS") {
 	{	/* array: 25 elements */
 		/* [1] */
 		"Version (0)",
@@ -8030,7 +8047,7 @@ resource 'TMPL' (1087, "EQPS", protected) {
 	}
 };
 
-resource 'TMPL' (1088, "EQST", protected) {
+resource 'TMPL' (1089, "EQST") {
 	{	/* array: 33 elements */
 		/* [1] */
 		"eqEnabled",
@@ -8134,7 +8151,7 @@ resource 'TMPL' (1088, "EQST", protected) {
 	}
 };
 
-resource 'TMPL' (1089, "ErrC", protected) {
+resource 'TMPL' (1090, "ErrC") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Error description",
@@ -8142,7 +8159,7 @@ resource 'TMPL' (1089, "ErrC", protected) {
 	}
 };
 
-resource 'TMPL' (1090, "errs", protected) {
+resource 'TMPL' (1091, "errs") {
 	{	/* array: 8 elements */
 		/* [1] */
 		"List of errors",
@@ -8171,7 +8188,7 @@ resource 'TMPL' (1090, "errs", protected) {
 	}
 };
 
-resource 'TMPL' (1091, "EuFl", protected) {
+resource 'TMPL' (1092, "EuFl") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"\"Eudora\" resource format",
@@ -8188,7 +8205,7 @@ resource 'TMPL' (1091, "EuFl", protected) {
 	}
 };
 
-resource 'TMPL' (1092, "EuOM", protected) {
+resource 'TMPL' (1093, "EuOM") {
 	{	/* array: 17 elements */
 		/* [1] */
 		"\"Eudora\" resource format",
@@ -8244,7 +8261,7 @@ resource 'TMPL' (1092, "EuOM", protected) {
 	}
 };
 
-resource 'TMPL' (1093, "EuRg", protected) {
+resource 'TMPL' (1094, "EuRg") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"\"Eudora\" resource format",
@@ -8261,7 +8278,7 @@ resource 'TMPL' (1093, "EuRg", protected) {
 	}
 };
 
-resource 'TMPL' (1094, "exft", protected) {
+resource 'TMPL' (1095, "exft") {
 	{	/* array: 148 elements */
 		/* [1] */
 		"Count:",
@@ -8710,7 +8727,7 @@ resource 'TMPL' (1094, "exft", protected) {
 	}
 };
 
-resource 'TMPL' (1095, "f2im", protected) {
+resource 'TMPL' (1096, "f2im") {
 	{	/* array: 6 elements */
 		/* [1] */
 		"\"SuitCase\" resource format",
@@ -8733,7 +8750,7 @@ resource 'TMPL' (1095, "f2im", protected) {
 	}
 };
 
-resource 'TMPL' (1096, "faps", protected) {
+resource 'TMPL' (1097, "faps") {
 	{	/* array: 27 elements */
 		/* [1] */
 		"File Transfer tool capabilities list",
@@ -8819,7 +8836,7 @@ resource 'TMPL' (1096, "faps", protected) {
 	}
 };
 
-resource 'TMPL' (1097, "fbnd", protected) {
+resource 'TMPL' (1098, "fbnd") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Count:",
@@ -8851,7 +8868,7 @@ resource 'TMPL' (1097, "fbnd", protected) {
 	}
 };
 
-resource 'TMPL' (1098, "FBTN", protected) {
+resource 'TMPL' (1099, "FBTN") {
 	{	/* array: 7 elements */
 		/* [1] */
 		"Count:",
@@ -8877,7 +8894,7 @@ resource 'TMPL' (1098, "FBTN", protected) {
 	}
 };
 
-resource 'TMPL' (1099, "FCMT", protected) {
+resource 'TMPL' (1100, "FCMT") {
 	{	/* array: 2 elements */
 		/* [1] */
 		"Comment string",
@@ -8888,7 +8905,7 @@ resource 'TMPL' (1099, "FCMT", protected) {
 	}
 };
 
-resource 'TMPL' (1100, "fctb", protected) {
+resource 'TMPL' (1101, "fctb") {
 	{	/* array: 7 elements */
 		/* [1] */
 		"Seed",
@@ -8914,7 +8931,7 @@ resource 'TMPL' (1100, "fctb", protected) {
 	}
 };
 
-resource 'TMPL' (1101, "fdes", protected) {
+resource 'TMPL' (1102, "fdes") {
 	{	/* array: 46 elements */
 		/* [1] */
 		"Go Mixed Mode Trap",
@@ -9057,7 +9074,7 @@ resource 'TMPL' (1101, "fdes", protected) {
 	}
 };
 
-resource 'TMPL' (1102, "FDIR", protected) {
+resource 'TMPL' (1103, "FDIR") {
 	{	/* array: 3 elements */
 		/* [1] */
 		"*****",
@@ -9071,7 +9088,7 @@ resource 'TMPL' (1102, "FDIR", protected) {
 	}
 };
 
-resource 'TMPL' (1103, "FDlg", protected) {
+resource 'TMPL' (1104, "FDlg") {
 	{	/* array: 14 elements */
 		/* [1] */
 		"\"Finale\" resource format",
@@ -9118,7 +9135,7 @@ resource 'TMPL' (1103, "FDlg", protected) {
 	}
 };
 
-resource 'TMPL' (1104, "fdmn", protected) {
+resource 'TMPL' (1105, "fdmn") {
 	{	/* array: 8 elements */
 		/* [1] */
 		"Menu ID",
@@ -9147,7 +9164,7 @@ resource 'TMPL' (1104, "fdmn", protected) {
 	}
 };
 
-resource 'TMPL' (1105, "fFIG", protected) {
+resource 'TMPL' (1106, "fFIG") {
 	{	/* array: 25 elements */
 		/* [1] */
 		"Tool version",
@@ -9227,7 +9244,7 @@ resource 'TMPL' (1105, "fFIG", protected) {
 	}
 };
 
-resource 'TMPL' (1106, "FHLP", protected) {
+resource 'TMPL' (1107, "FHLP") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Fetch Help Text",
@@ -9235,7 +9252,7 @@ resource 'TMPL' (1106, "FHLP", protected) {
 	}
 };
 
-resource 'TMPL' (1107, "find", protected) {
+resource 'TMPL' (1108, "find") {
 	{	/* array: 12 elements */
 		/* [1] */
 		"Find text",
@@ -9276,7 +9293,7 @@ resource 'TMPL' (1107, "find", protected) {
 	}
 };
 
-resource 'TMPL' (1108, "finf", protected) {
+resource 'TMPL' (1109, "finf") {
 	{	/* array: 14 elements */
 		/* [1] */
 		"Count:",
@@ -9323,7 +9340,7 @@ resource 'TMPL' (1108, "finf", protected) {
 	}
 };
 
-resource 'TMPL' (1109, "fld#", protected) {
+resource 'TMPL' (1110, "fld#") {
 	{	/* array: 18 elements */
 		/* [1] */
 		"Folders",
@@ -9382,7 +9399,7 @@ resource 'TMPL' (1109, "fld#", protected) {
 	}
 };
 
-resource 'TMPL' (1110, "FLOG", protected) {
+resource 'TMPL' (1111, "FLOG") {
 	{	/* array: 3 elements */
 		/* [1] */
 		"File creator for font log",
@@ -9396,7 +9413,7 @@ resource 'TMPL' (1110, "FLOG", protected) {
 	}
 };
 
-resource 'TMPL' (1111, "flst", protected) {
+resource 'TMPL' (1112, "flst") {
 	{	/* array: 16 elements */
 		/* [1] */
 		"Count:",
@@ -9449,7 +9466,7 @@ resource 'TMPL' (1111, "flst", protected) {
 	}
 };
 
-resource 'TMPL' (1112, "fmap", protected) {
+resource 'TMPL' (1113, "fmap") {
 	{	/* array: 5 elements */
 		/* [1] */
 		"The last list item must be a pair of NUL"
@@ -9470,7 +9487,7 @@ resource 'TMPL' (1112, "fmap", protected) {
 	}
 };
 
-resource 'TMPL' (1113, "fmn2", protected) {
+resource 'TMPL' (1114, "fmn2") {
 	{	/* array: 18 elements */
 		/* [1] */
 		"Menu name",
@@ -9529,7 +9546,7 @@ resource 'TMPL' (1113, "fmn2", protected) {
 	}
 };
 
-resource 'TMPL' (1114, "fmnu", protected) {
+resource 'TMPL' (1115, "fmnu") {
 	{	/* array: 18 elements */
 		/* [1] */
 		"Auto-initialize",
@@ -9588,7 +9605,7 @@ resource 'TMPL' (1114, "fmnu", protected) {
 	}
 };
 
-resource 'TMPL' (1115, "FOND", protected) {
+resource 'TMPL' (1116, "FOND") {
 	{	/* array: 37 elements */
 		/* [1] */
 		"Proportional or fixed width",
@@ -9704,7 +9721,7 @@ resource 'TMPL' (1115, "FOND", protected) {
 	}
 };
 
-resource 'TMPL' (1116, "FONT", protected) {
+resource 'TMPL' (1117, "FONT") {
 	{	/* array: 29 elements */
 		/* [1] */
 		"Reserved (on)",
@@ -9796,7 +9813,7 @@ resource 'TMPL' (1116, "FONT", protected) {
 	}
 };
 
-resource 'TMPL' (1117, "FREF", protected) {
+resource 'TMPL' (1118, "FREF") {
 	{	/* array: 3 elements */
 		/* [1] */
 		"File type",
@@ -9810,7 +9827,7 @@ resource 'TMPL' (1117, "FREF", protected) {
 	}
 };
 
-resource 'TMPL' (1118, "FRSV", protected) {
+resource 'TMPL' (1119, "FRSV") {
 	{	/* array: 12 elements */
 		/* [1] */
 		"Count:",
@@ -9851,7 +9868,7 @@ resource 'TMPL' (1118, "FRSV", protected) {
 	}
 };
 
-resource 'TMPL' (1119, "FSty", protected) {
+resource 'TMPL' (1120, "FSty") {
 	{	/* array: 12 elements */
 		/* [1] */
 		"\"Finale\" resource format",
@@ -9892,7 +9909,7 @@ resource 'TMPL' (1119, "FSty", protected) {
 	}
 };
 
-resource 'TMPL' (1120, "FTLS", protected) {
+resource 'TMPL' (1121, "FTLS") {
 	{	/* array: 5 elements */
 		/* [1] */
 		"\"SuitCase\" resource format",
@@ -9912,7 +9929,7 @@ resource 'TMPL' (1120, "FTLS", protected) {
 	}
 };
 
-resource 'TMPL' (1121, "FtSz", protected) {
+resource 'TMPL' (1122, "FtSz") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Font size or other pref value",
@@ -9920,7 +9937,7 @@ resource 'TMPL' (1121, "FtSz", protected) {
 	}
 };
 
-resource 'TMPL' (1122, "ftyp", protected) {
+resource 'TMPL' (1123, "ftyp") {
 	{	/* array: 5 elements */
 		/* [1] */
 		"\"SuitCase\" resource format",
@@ -9940,7 +9957,7 @@ resource 'TMPL' (1122, "ftyp", protected) {
 	}
 };
 
-resource 'TMPL' (1123, "fval", protected) {
+resource 'TMPL' (1124, "fval") {
 	{	/* array: 34 elements */
 		/* [1] */
 		"Version",
@@ -10047,7 +10064,7 @@ resource 'TMPL' (1123, "fval", protected) {
 	}
 };
 
-resource 'TMPL' (1124, "FWID", protected) {
+resource 'TMPL' (1125, "FWID") {
 	{	/* array: 17 elements */
 		/* [1] */
 		"Font type",
@@ -10103,7 +10120,7 @@ resource 'TMPL' (1124, "FWID", protected) {
 	}
 };
 
-resource 'TMPL' (1125, "gdir", protected) {
+resource 'TMPL' (1126, "gdir") {
 	{	/* array: 2 elements */
 		/* [1] */
 		"Type",
@@ -10114,7 +10131,7 @@ resource 'TMPL' (1125, "gdir", protected) {
 	}
 };
 
-resource 'TMPL' (1126, "gmcd", protected) {
+resource 'TMPL' (1127, "gmcd") {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Count:",
@@ -10134,7 +10151,7 @@ resource 'TMPL' (1126, "gmcd", protected) {
 	}
 };
 
-resource 'TMPL' (1127, "GNRL", protected) {
+resource 'TMPL' (1128, "GNRL") {
 	{	/* array: 23 elements */
 		/* [1] */
 		"Show sys warn",
@@ -10208,7 +10225,7 @@ resource 'TMPL' (1127, "GNRL", protected) {
 	}
 };
 
-resource 'TMPL' (1128, "GOBJ", protected) {
+resource 'TMPL' (1129, "GOBJ") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"",
@@ -10240,7 +10257,7 @@ resource 'TMPL' (1128, "GOBJ", protected) {
 	}
 };
 
-resource 'TMPL' (1129, "HAlt", protected) {
+resource 'TMPL' (1130, "HAlt") {
 	{	/* array: 36 elements */
 		/* [1] */
 		"Version number",
@@ -10357,7 +10374,7 @@ resource 'TMPL' (1129, "HAlt", protected) {
 	}
 };
 
-resource 'TMPL' (1130, "hdlg", protected) {
+resource 'TMPL' (1131, "hdlg") {
 	{	/* array: 142 elements */
 		/* [1] */
 		"Balloon help version",
@@ -10793,7 +10810,7 @@ resource 'TMPL' (1130, "hdlg", protected) {
 	}
 };
 
-resource 'TMPL' (1131, "hfdr", protected) {
+resource 'TMPL' (1132, "hfdr") {
 	{	/* array: 53 elements */
 		/* [1] */
 		"Balloon help version",
@@ -10962,7 +10979,7 @@ resource 'TMPL' (1131, "hfdr", protected) {
 	}
 };
 
-resource 'TMPL' (1132, "hmnu", protected) {
+resource 'TMPL' (1133, "hmnu") {
 	{	/* array: 179 elements */
 		/* [1] */
 		"Balloon help version",
@@ -11512,7 +11529,7 @@ resource 'TMPL' (1132, "hmnu", protected) {
 	}
 };
 
-resource 'TMPL' (1133, "hovr", protected) {
+resource 'TMPL' (1134, "hovr") {
 	{	/* array: 91 elements */
 		/* [1] */
 		"Balloon help version",
@@ -11799,7 +11816,7 @@ resource 'TMPL' (1133, "hovr", protected) {
 	}
 };
 
-resource 'TMPL' (1134, "hrct", protected) {
+resource 'TMPL' (1135, "hrct") {
 	{	/* array: 114 elements */
 		/* [1] */
 		"Balloon help version",
@@ -12151,7 +12168,7 @@ resource 'TMPL' (1134, "hrct", protected) {
 	}
 };
 
-resource 'TMPL' (1135, "HTMB", protected) {
+resource 'TMPL' (1136, "HTMB") {
 	{	/* array: 8 elements */
 		/* [1] */
 		"Button kind",
@@ -12180,7 +12197,7 @@ resource 'TMPL' (1135, "HTMB", protected) {
 	}
 };
 
-resource 'TMPL' (1136, "hwin", protected) {
+resource 'TMPL' (1137, "hwin") {
 	{	/* array: 17 elements */
 		/* [1] */
 		"Balloon help version",
@@ -12236,7 +12253,29 @@ resource 'TMPL' (1136, "hwin", protected) {
 	}
 };
 
-resource 'TMPL' (1137, "ICLB", protected) {
+resource 'TMPL' (1138, "icl4") {
+	{	/* array: 2 elements */
+		/* [1] */
+		"4-bit large icon no mask",
+		'DVDR',
+		/* [2] */
+		"Image data",
+		'H200'
+	}
+};
+
+resource 'TMPL' (1139, "icl8") {
+	{	/* array: 2 elements */
+		/* [1] */
+		"8-bit large icon no mask",
+		'DVDR',
+		/* [2] */
+		"Image data",
+		'H400'
+	}
+};
+
+resource 'TMPL' (1140, "ICLB") {
 	{	/* array: 26 elements */
 		/* [1] */
 		"\"MacZoop\" resource format",
@@ -12319,7 +12358,43 @@ resource 'TMPL' (1137, "ICLB", protected) {
 	}
 };
 
-resource 'TMPL' (1138, "icmt", protected) {
+resource 'TMPL' (1141, "icm#") {
+	{	/* array: 3 elements */
+		/* [1] */
+		"Mini icon with mask",
+		'DVDR',
+		/* [2] */
+		"Image data",
+		'H018',
+		/* [3] */
+		"Mask data",
+		'H018'
+	}
+};
+
+resource 'TMPL' (1142, "icm4") {
+	{	/* array: 2 elements */
+		/* [1] */
+		"4-bit mini icon no mask",
+		'DVDR',
+		/* [2] */
+		"Image data",
+		'H060'
+	}
+};
+
+resource 'TMPL' (1143, "icm8") {
+	{	/* array: 2 elements */
+		/* [1] */
+		"8-bit mini icon no mask",
+		'DVDR',
+		/* [2] */
+		"Image data",
+		'H0C0'
+	}
+};
+
+resource 'TMPL' (1144, "icmt") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Version release date",
@@ -12336,7 +12411,32 @@ resource 'TMPL' (1138, "icmt", protected) {
 	}
 };
 
-resource 'TMPL' (1139, "ICOX", protected) {
+resource 'TMPL' (1145, "ICN#") {
+	{	/* array: 3 elements */
+		/* [1] */
+		"Icons list",
+		'LSTB',
+		/* [2] */
+		"Icon data",
+		'H080',
+		/* [3] */
+		"*****",
+		'LSTE'
+	}
+};
+
+resource 'TMPL' (1146, "ICON") {
+	{	/* array: 2 elements */
+		/* [1] */
+		"Black and White Icon",
+		'DVDR',
+		/* [2] */
+		"Image data",
+		'H080'
+	}
+};
+
+resource 'TMPL' (1147, "ICOX") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"",
@@ -12368,7 +12468,43 @@ resource 'TMPL' (1139, "ICOX", protected) {
 	}
 };
 
-resource 'TMPL' (1140, "ICx6", protected) {
+resource 'TMPL' (1148, "ics#") {
+	{	/* array: 3 elements */
+		/* [1] */
+		"Small icon with mask",
+		'DVDR',
+		/* [2] */
+		"Image data",
+		'H020',
+		/* [3] */
+		"Mask data",
+		'H020'
+	}
+};
+
+resource 'TMPL' (1149, "ics4") {
+	{	/* array: 2 elements */
+		/* [1] */
+		"4-bit small icon no mask",
+		'DVDR',
+		/* [2] */
+		"Image data",
+		'H080'
+	}
+};
+
+resource 'TMPL' (1150, "ics8") {
+	{	/* array: 2 elements */
+		/* [1] */
+		"8-bit small icon no mask",
+		'DVDR',
+		/* [2] */
+		"Image data",
+		'H100'
+	}
+};
+
+resource 'TMPL' (1151, "ICx6") {
 	{	/* array: 28 elements */
 		/* [1] */
 		"",
@@ -12457,7 +12593,7 @@ resource 'TMPL' (1140, "ICx6", protected) {
 	}
 };
 
-resource 'TMPL' (1141, "inaa", protected) {
+resource 'TMPL' (1152, "inaa") {
 	{	/* array: 50 elements */
 		/* [1] */
 		"Action Atom format version",
@@ -12615,7 +12751,7 @@ resource 'TMPL' (1141, "inaa", protected) {
 	}
 };
 
-resource 'TMPL' (1142, "inah", protected) {
+resource 'TMPL' (1153, "inah") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Action Handler format version",
@@ -12647,7 +12783,7 @@ resource 'TMPL' (1142, "inah", protected) {
 	}
 };
 
-resource 'TMPL' (1143, "inat", protected) {
+resource 'TMPL' (1154, "inat") {
 	{	/* array: 39 elements */
 		/* [1] */
 		"Audit Trail format version",
@@ -12769,7 +12905,7 @@ resource 'TMPL' (1143, "inat", protected) {
 	}
 };
 
-resource 'TMPL' (1144, "inbb", protected) {
+resource 'TMPL' (1155, "inbb") {
 	{	/* array: 120 elements */
 		/* [1] */
 		"Boot Block format version",
@@ -13135,7 +13271,7 @@ resource 'TMPL' (1144, "inbb", protected) {
 	}
 };
 
-resource 'TMPL' (1145, "incd", protected) {
+resource 'TMPL' (1156, "incd") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Creation date & time",
@@ -13143,7 +13279,7 @@ resource 'TMPL' (1145, "incd", protected) {
 	}
 };
 
-resource 'TMPL' (1146, "indm", protected) {
+resource 'TMPL' (1157, "indm") {
 	{	/* array: 37 elements */
 		/* [1] */
 		"Format version",
@@ -13259,7 +13395,7 @@ resource 'TMPL' (1146, "indm", protected) {
 	}
 };
 
-resource 'TMPL' (1147, "indo", protected) {
+resource 'TMPL' (1158, "indo") {
 	{	/* array: 19 elements */
 		/* [1] */
 		"Disk Order resource version",
@@ -13321,7 +13457,7 @@ resource 'TMPL' (1147, "indo", protected) {
 	}
 };
 
-resource 'TMPL' (1148, "inex", protected) {
+resource 'TMPL' (1159, "inex") {
 	{	/* array: 21 elements */
 		/* [1] */
 		"Atom Extender format version",
@@ -13389,7 +13525,7 @@ resource 'TMPL' (1148, "inex", protected) {
 	}
 };
 
-resource 'TMPL' (1149, "infa", protected) {
+resource 'TMPL' (1160, "infa") {
 	{	/* array: 84 elements */
 		/* [1] */
 		"File Atom format version",
@@ -13651,7 +13787,7 @@ resource 'TMPL' (1149, "infa", protected) {
 	}
 };
 
-resource 'TMPL' (1150, "inff", protected) {
+resource 'TMPL' (1161, "inff") {
 	{	/* array: 206 elements */
 		/* [1] */
 		"Font Family resource atom flags",
@@ -14281,7 +14417,7 @@ resource 'TMPL' (1150, "inff", protected) {
 	}
 };
 
-resource 'TMPL' (1151, "infm", protected) {
+resource 'TMPL' (1162, "infm") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Folder Merge format version",
@@ -14313,7 +14449,7 @@ resource 'TMPL' (1151, "infm", protected) {
 	}
 };
 
-resource 'TMPL' (1152, "INFO", protected) {
+resource 'TMPL' (1163, "INFO") {
 	{	/* array: 15 elements */
 		/* [1] */
 		"Color type",
@@ -14364,7 +14500,7 @@ resource 'TMPL' (1152, "INFO", protected) {
 	}
 };
 
-resource 'TMPL' (1153, "infr", protected) {
+resource 'TMPL' (1164, "infr") {
 	{	/* array: 18 elements */
 		/* [1] */
 		"Rule Framework format version",
@@ -14423,7 +14559,7 @@ resource 'TMPL' (1153, "infr", protected) {
 	}
 };
 
-resource 'TMPL' (1154, "infs", protected) {
+resource 'TMPL' (1165, "infs") {
 	{	/* array: 7 elements */
 		/* [1] */
 		"File type",
@@ -14450,7 +14586,7 @@ resource 'TMPL' (1154, "infs", protected) {
 	}
 };
 
-resource 'TMPL' (1155, "inpc", protected) {
+resource 'TMPL' (1166, "inpc") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Package Comment format version",
@@ -14482,7 +14618,7 @@ resource 'TMPL' (1155, "inpc", protected) {
 	}
 };
 
-resource 'TMPL' (1156, "inpk", protected) {
+resource 'TMPL' (1167, "inpk") {
 	{	/* array: 27 elements */
 		/* [1] */
 		"Package format version",
@@ -14568,7 +14704,7 @@ resource 'TMPL' (1156, "inpk", protected) {
 	}
 };
 
-resource 'TMPL' (1157, "inpr", protected) {
+resource 'TMPL' (1168, "inpr") {
 	{	/* array: 22 elements */
 		/* [1] */
 		"Preference format version",
@@ -14641,7 +14777,7 @@ resource 'TMPL' (1157, "inpr", protected) {
 	}
 };
 
-resource 'TMPL' (1158, "inr#", protected) {
+resource 'TMPL' (1169, "inr#") {
 	{	/* array: 47 elements */
 		/* [1] */
 		"Resource Atom List version",
@@ -14790,7 +14926,7 @@ resource 'TMPL' (1158, "inr#", protected) {
 	}
 };
 
-resource 'TMPL' (1159, "inra", protected) {
+resource 'TMPL' (1170, "inra") {
 	{	/* array: 76 elements */
 		/* [1] */
 		"Resource Atom format version",
@@ -15027,7 +15163,7 @@ resource 'TMPL' (1159, "inra", protected) {
 	}
 };
 
-resource 'TMPL' (1160, "inrf", protected) {
+resource 'TMPL' (1171, "inrf") {
 	{	/* array: 10 elements */
 		/* [1] */
 		"Rule Function format version",
@@ -15062,7 +15198,7 @@ resource 'TMPL' (1160, "inrf", protected) {
 	}
 };
 
-resource 'TMPL' (1161, "inrl", protected) {
+resource 'TMPL' (1172, "inrl") {
 	{	/* array: 407 elements */
 		/* [1] */
 		"Rules format version",
@@ -16289,7 +16425,7 @@ resource 'TMPL' (1161, "inrl", protected) {
 	}
 };
 
-resource 'TMPL' (1162, "inrm", protected) {
+resource 'TMPL' (1173, "inrm") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Resource Merge format version",
@@ -16321,7 +16457,7 @@ resource 'TMPL' (1162, "inrm", protected) {
 	}
 };
 
-resource 'TMPL' (1163, "insc", protected) {
+resource 'TMPL' (1174, "insc") {
 	{	/* array: 53 elements */
 		/* [1] */
 		"Format",
@@ -16485,7 +16621,7 @@ resource 'TMPL' (1163, "insc", protected) {
 	}
 };
 
-resource 'TMPL' (1164, "insp", protected) {
+resource 'TMPL' (1175, "insp") {
 	{	/* array: 10 elements */
 		/* [1] */
 		"Search Procedure format version",
@@ -16520,7 +16656,7 @@ resource 'TMPL' (1164, "insp", protected) {
 	}
 };
 
-resource 'TMPL' (1165, "insz", protected) {
+resource 'TMPL' (1176, "insz") {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Script Size format version",
@@ -16540,7 +16676,7 @@ resource 'TMPL' (1165, "insz", protected) {
 	}
 };
 
-resource 'TMPL' (1166, "intf", protected) {
+resource 'TMPL' (1177, "intf") {
 	{	/* array: 46 elements */
 		/* [1] */
 		"Target FileSpec format version",
@@ -16686,7 +16822,7 @@ resource 'TMPL' (1166, "intf", protected) {
 	}
 };
 
-resource 'TMPL' (1167, "invc", protected) {
+resource 'TMPL' (1178, "invc") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Version Compare format version",
@@ -16718,7 +16854,7 @@ resource 'TMPL' (1167, "invc", protected) {
 	}
 };
 
-resource 'TMPL' (1168, "invs", protected) {
+resource 'TMPL' (1179, "invs") {
 	{	/* array: 14 elements */
 		/* [1] */
 		"Version format version",
@@ -16765,7 +16901,7 @@ resource 'TMPL' (1168, "invs", protected) {
 	}
 };
 
-resource 'TMPL' (1169, "iobm", protected) {
+resource 'TMPL' (1180, "iobm") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Communications options",
@@ -16798,7 +16934,7 @@ resource 'TMPL' (1169, "iobm", protected) {
 	}
 };
 
-resource 'TMPL' (1170, "isys", protected) {
+resource 'TMPL' (1181, "isys") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Resource type of imaging system to selec"
@@ -16807,7 +16943,7 @@ resource 'TMPL' (1170, "isys", protected) {
 	}
 };
 
-resource 'TMPL' (1171, "ITEM", protected) {
+resource 'TMPL' (1182, "ITEM") {
 	{	/* array: 260 elements */
 		/* [1] */
 		"Item type",
@@ -17592,7 +17728,7 @@ resource 'TMPL' (1171, "ITEM", protected) {
 	}
 };
 
-resource 'TMPL' (1172, "itl0", protected) {
+resource 'TMPL' (1183, "itl0") {
 	{	/* array: 110 elements */
 		/* [1] */
 		"Decimal point separator",
@@ -17927,7 +18063,7 @@ resource 'TMPL' (1172, "itl0", protected) {
 	}
 };
 
-resource 'TMPL' (1173, "itl1") {
+resource 'TMPL' (1184, "itl1") {
 	{	/* array: 131 elements */
 		/* [1] */
 		"Day 1",
@@ -18326,7 +18462,7 @@ resource 'TMPL' (1173, "itl1") {
 	}
 };
 
-resource 'TMPL' (1174, "ITL1", protected) {
+resource 'TMPL' (1185, "ITL1") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Use short dates before system",
@@ -18334,7 +18470,7 @@ resource 'TMPL' (1174, "ITL1", protected) {
 	}
 };
 
-resource 'TMPL' (1175, "itl2", protected) {
+resource 'TMPL' (1186, "itl2") {
 	{	/* array: 43 elements */
 		/* [1] */
 		"Init hook offset",
@@ -18468,7 +18604,7 @@ resource 'TMPL' (1175, "itl2", protected) {
 	}
 };
 
-resource 'TMPL' (1176, "itl4", protected) {
+resource 'TMPL' (1187, "itl4") {
 	{	/* array: 37 elements */
 		/* [1] */
 		"Flags",
@@ -18584,7 +18720,7 @@ resource 'TMPL' (1176, "itl4", protected) {
 	}
 };
 
-resource 'TMPL' (1177, "itlb", protected) {
+resource 'TMPL' (1188, "itlb") {
 	{	/* array: 68 elements */
 		/* [1] */
 		"'itl0' (Numbers) resource ID",
@@ -18796,7 +18932,7 @@ resource 'TMPL' (1177, "itlb", protected) {
 	}
 };
 
-resource 'TMPL' (1178, "itlc", protected) {
+resource 'TMPL' (1189, "itlc") {
 	{	/* array: 24 elements */
 		/* [1] */
 		"System script code",
@@ -18874,7 +19010,7 @@ resource 'TMPL' (1178, "itlc", protected) {
 	}
 };
 
-resource 'TMPL' (1179, "itlk", protected) {
+resource 'TMPL' (1190, "itlk") {
 	{	/* array: 10 elements */
 		/* [1] */
 		"Count:",
@@ -18909,7 +19045,7 @@ resource 'TMPL' (1179, "itlk", protected) {
 	}
 };
 
-resource 'TMPL' (1180, "ITML", protected) {
+resource 'TMPL' (1191, "ITML") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Count:",
@@ -18926,7 +19062,7 @@ resource 'TMPL' (1180, "ITML", protected) {
 	}
 };
 
-resource 'TMPL' (1181, "JPob", protected) {
+resource 'TMPL' (1192, "JPob") {
 	{	/* array: 378 elements */
 		/* [1] */
 		"Version Number",
@@ -20065,7 +20201,7 @@ resource 'TMPL' (1181, "JPob", protected) {
 	}
 };
 
-resource 'TMPL' (1182, "KBDN", protected) {
+resource 'TMPL' (1193, "KBDN") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Keyboard name",
@@ -20073,7 +20209,7 @@ resource 'TMPL' (1182, "KBDN", protected) {
 	}
 };
 
-resource 'TMPL' (1183, "KCAP", protected) {
+resource 'TMPL' (1194, "KCAP") {
 	{	/* array: 16 elements */
 		/* [1] */
 		"Bounds rect",
@@ -20126,7 +20262,7 @@ resource 'TMPL' (1183, "KCAP", protected) {
 	}
 };
 
-resource 'TMPL' (1184, "KCHR", protected) {
+resource 'TMPL' (1195, "KCHR") {
 	{	/* array: 35 elements */
 		/* [1] */
 		"Version",
@@ -20236,7 +20372,7 @@ resource 'TMPL' (1184, "KCHR", protected) {
 	}
 };
 
-resource 'TMPL' (1185, "kind", protected) {
+resource 'TMPL' (1196, "kind") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Application signature",
@@ -20268,7 +20404,7 @@ resource 'TMPL' (1185, "kind", protected) {
 	}
 };
 
-resource 'TMPL' (1186, "KInf", protected) {
+resource 'TMPL' (1197, "KInf") {
 	{	/* array: 6 elements */
 		/* [1] */
 		"\"SuitCase\" resource format",
@@ -20291,7 +20427,7 @@ resource 'TMPL' (1186, "KInf", protected) {
 	}
 };
 
-resource 'TMPL' (1187, "KMAP", protected) {
+resource 'TMPL' (1198, "KMAP") {
 	{	/* array: 135 elements */
 		/* [1] */
 		"ID ( 2=, 5=)",
@@ -20701,7 +20837,7 @@ resource 'TMPL' (1187, "KMAP", protected) {
 	}
 };
 
-resource 'TMPL' (1188, "KRNL", protected) {
+resource 'TMPL' (1199, "KRNL") {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Use FilterBits?",
@@ -20721,7 +20857,7 @@ resource 'TMPL' (1188, "KRNL", protected) {
 	}
 };
 
-resource 'TMPL' (1189, "KSWP", protected) {
+resource 'TMPL' (1200, "KSWP") {
 	{	/* array: 32 elements */
 		/* [1] */
 		"Don't change the last list item, it is a"
@@ -20823,7 +20959,7 @@ resource 'TMPL' (1189, "KSWP", protected) {
 	}
 };
 
-resource 'TMPL' (1190, "Labl", protected) {
+resource 'TMPL' (1201, "Labl") {
 	{	/* array: 6 elements */
 		/* [1] */
 		"Count:",
@@ -20846,7 +20982,7 @@ resource 'TMPL' (1190, "Labl", protected) {
 	}
 };
 
-resource 'TMPL' (1191, "LAYO", protected) {
+resource 'TMPL' (1202, "LAYO") {
 	{	/* array: 40 elements */
 		/* [1] */
 		"Font ID",
@@ -20971,7 +21107,7 @@ resource 'TMPL' (1191, "LAYO", protected) {
 	}
 };
 
-resource 'TMPL' (1192, "LBEL", protected) {
+resource 'TMPL' (1203, "LBEL") {
 	{	/* array: 6 elements */
 		/* [1] */
 		"\"Resurrection\" resource format",
@@ -20994,7 +21130,7 @@ resource 'TMPL' (1192, "LBEL", protected) {
 	}
 };
 
-resource 'TMPL' (1193, "LBRK", protected) {
+resource 'TMPL' (1204, "LBRK") {
 	{	/* array: 12 elements */
 		/* [1] */
 		"\"Eudora\" resource format",
@@ -21035,7 +21171,7 @@ resource 'TMPL' (1193, "LBRK", protected) {
 	}
 };
 
-resource 'TMPL' (1194, "ldes", protected) {
+resource 'TMPL' (1205, "ldes") {
 	{	/* array: 12 elements */
 		/* [1] */
 		"Version",
@@ -21076,7 +21212,7 @@ resource 'TMPL' (1194, "ldes", protected) {
 	}
 };
 
-resource 'TMPL' (1195, "libi", protected) {
+resource 'TMPL' (1206, "libi") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Format version",
@@ -21108,7 +21244,7 @@ resource 'TMPL' (1195, "libi", protected) {
 	}
 };
 
-resource 'TMPL' (1196, "libr", protected) {
+resource 'TMPL' (1207, "libr") {
 	{	/* array: 50 elements */
 		/* [1] */
 		"Libraries",
@@ -21263,7 +21399,7 @@ resource 'TMPL' (1196, "libr", protected) {
 	}
 };
 
-resource 'TMPL' (1197, "LIST", protected) {
+resource 'TMPL' (1208, "LIST") {
 	{	/* array: 19 elements */
 		/* [1] */
 		"\"MacZoop\" resource format",
@@ -21325,7 +21461,7 @@ resource 'TMPL' (1197, "LIST", protected) {
 	}
 };
 
-resource 'TMPL' (1198, "load", protected) {
+resource 'TMPL' (1209, "load") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Load priority",
@@ -21342,7 +21478,7 @@ resource 'TMPL' (1198, "load", protected) {
 	}
 };
 
-resource 'TMPL' (1199, "LOGD", protected) {
+resource 'TMPL' (1210, "LOGD") {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Maximum log file size",
@@ -21363,7 +21499,7 @@ resource 'TMPL' (1199, "LOGD", protected) {
 	}
 };
 
-resource 'TMPL' (1200, "look", protected) {
+resource 'TMPL' (1211, "look") {
 	{	/* array: 8 elements */
 		/* [1] */
 		"Default looker",
@@ -21392,7 +21528,7 @@ resource 'TMPL' (1200, "look", protected) {
 	}
 };
 
-resource 'TMPL' (1201, "mach", protected) {
+resource 'TMPL' (1212, "mach") {
 	{	/* array: 3 elements */
 		/* [1] */
 		"Machine type: cdev filtering",
@@ -21406,7 +21542,7 @@ resource 'TMPL' (1201, "mach", protected) {
 	}
 };
 
-resource 'TMPL' (1202, "MACS", protected) {
+resource 'TMPL' (1213, "MACS") {
 	{	/* array: 2 elements */
 		/* [1] */
 		"String",
@@ -21417,7 +21553,7 @@ resource 'TMPL' (1202, "MACS", protected) {
 	}
 };
 
-resource 'TMPL' (1203, "mapp", protected) {
+resource 'TMPL' (1214, "mapp") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"",
@@ -21449,7 +21585,7 @@ resource 'TMPL' (1203, "mapp", protected) {
 	}
 };
 
-resource 'TMPL' (1204, "MBAR", protected) {
+resource 'TMPL' (1215, "MBAR") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Count:",
@@ -21466,7 +21602,7 @@ resource 'TMPL' (1204, "MBAR", protected) {
 	}
 };
 
-resource 'TMPL' (1205, "mcfg", protected) {
+resource 'TMPL' (1216, "mcfg") {
 	{	/* array: 47 elements */
 		/* [1] */
 		"Importer MIME configuration info",
@@ -21612,7 +21748,7 @@ resource 'TMPL' (1205, "mcfg", protected) {
 	}
 };
 
-resource 'TMPL' (1206, "mcky", protected) {
+resource 'TMPL' (1217, "mcky") {
 	{	/* array: 8 elements */
 		/* [1] */
 		"Threshold 1",
@@ -21641,7 +21777,7 @@ resource 'TMPL' (1206, "mcky", protected) {
 	}
 };
 
-resource 'TMPL' (1207, "Mcmd", protected) {
+resource 'TMPL' (1218, "Mcmd") {
 	{	/* array: 44 elements */
 		/* [1] */
 		"Count:",
@@ -21778,7 +21914,7 @@ resource 'TMPL' (1207, "Mcmd", protected) {
 	}
 };
 
-resource 'TMPL' (1208, "mctb", protected) {
+resource 'TMPL' (1219, "mctb") {
 	{	/* array: 12 elements */
 		/* [1] */
 		"Count:",
@@ -21819,7 +21955,7 @@ resource 'TMPL' (1208, "mctb", protected) {
 	}
 };
 
-resource 'TMPL' (1209, "mcvs", protected) {
+resource 'TMPL' (1220, "mcvs") {
 	{	/* array: 25 elements */
 		/* [1] */
 		"Version",
@@ -21899,7 +22035,7 @@ resource 'TMPL' (1209, "mcvs", protected) {
 	}
 };
 
-resource 'TMPL' (1210, "mem!", protected) {
+resource 'TMPL' (1221, "mem!") {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Add to the size of heap space",
@@ -21919,7 +22055,7 @@ resource 'TMPL' (1210, "mem!", protected) {
 	}
 };
 
-resource 'TMPL' (1211, "MENA", protected) {
+resource 'TMPL' (1222, "MENA") {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Number of keys",
@@ -21939,7 +22075,7 @@ resource 'TMPL' (1211, "MENA", protected) {
 	}
 };
 
-resource 'TMPL' (1212, "MENU", protected) {
+resource 'TMPL' (1223, "MENU") {
 	{	/* array: 59 elements */
 		/* [1] */
 		"MenuID",
@@ -22121,7 +22257,7 @@ resource 'TMPL' (1212, "MENU", protected) {
 	}
 };
 
-resource 'TMPL' (1213, "mgrp", protected) {
+resource 'TMPL' (1224, "mgrp") {
 	{	/* array: 11 elements */
 		/* [1] */
 		"Importer MIME configuration info",
@@ -22159,7 +22295,7 @@ resource 'TMPL' (1213, "mgrp", protected) {
 	}
 };
 
-resource 'TMPL' (1214, "MIMA", protected) {
+resource 'TMPL' (1225, "MIMA") {
 	{	/* array: 13 elements */
 		/* [1] */
 		"Count:",
@@ -22203,7 +22339,7 @@ resource 'TMPL' (1214, "MIMA", protected) {
 	}
 };
 
-resource 'TMPL' (1215, "MIMD", protected) {
+resource 'TMPL' (1226, "MIMD") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Count:",
@@ -22235,7 +22371,7 @@ resource 'TMPL' (1215, "MIMD", protected) {
 	}
 };
 
-resource 'TMPL' (1216, "mimp", protected) {
+resource 'TMPL' (1227, "mimp") {
 	{	/* array: 6 elements */
 		/* [1] */
 		"Resource version",
@@ -22258,7 +22394,7 @@ resource 'TMPL' (1216, "mimp", protected) {
 	}
 };
 
-resource 'TMPL' (1217, "mitq", protected) {
+resource 'TMPL' (1228, "mitq") {
 	{	/* array: 3 elements */
 		/* [1] */
 		"Queue size for 3 bit inverse table",
@@ -22272,7 +22408,7 @@ resource 'TMPL' (1217, "mitq", protected) {
 	}
 };
 
-resource 'TMPL' (1218, "MKEY", protected) {
+resource 'TMPL' (1229, "MKEY") {
 	{	/* array: 7 elements */
 		/* [1] */
 		"Count:",
@@ -22298,7 +22434,7 @@ resource 'TMPL' (1218, "MKEY", protected) {
 	}
 };
 
-resource 'TMPL' (1219, "mntb", protected) {
+resource 'TMPL' (1230, "mntb") {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Menu table",
@@ -22318,7 +22454,7 @@ resource 'TMPL' (1219, "mntb", protected) {
 	}
 };
 
-resource 'TMPL' (1220, "modm", protected) {
+resource 'TMPL' (1231, "modm") {
 	{	/* array: 22 elements */
 		/* [1] */
 		"Version",
@@ -22389,7 +22525,7 @@ resource 'TMPL' (1220, "modm", protected) {
 	}
 };
 
-resource 'TMPL' (1221, "mppc", protected) {
+resource 'TMPL' (1232, "mppc") {
 	{	/* array: 3 elements */
 		/* [1] */
 		"Information passed to DRVR",
@@ -22403,7 +22539,7 @@ resource 'TMPL' (1221, "mppc", protected) {
 	}
 };
 
-resource 'TMPL' (1222, "MPSR", protected) {
+resource 'TMPL' (1233, "MPSR") {
 	{	/* array: 46 elements */
 		/* [1] */
 		"Type of data (by resource ID)",
@@ -22546,7 +22682,7 @@ resource 'TMPL' (1222, "MPSR", protected) {
 	}
 };
 
-resource 'TMPL' (1223, "mVal", protected) {
+resource 'TMPL' (1234, "mVal") {
 	{	/* array: 2 elements */
 		/* [1] */
 		"\"AfterDark\" resource format",
@@ -22557,7 +22693,7 @@ resource 'TMPL' (1223, "mVal", protected) {
 	}
 };
 
-resource 'TMPL' (1224, "mxbc", protected) {
+resource 'TMPL' (1235, "mxbc") {
 	{	/* array: 2 elements */
 		/* [1] */
 		"Background RGB color",
@@ -22568,7 +22704,7 @@ resource 'TMPL' (1224, "mxbc", protected) {
 	}
 };
 
-resource 'TMPL' (1225, "mxbi", protected) {
+resource 'TMPL' (1236, "mxbi") {
 	{	/* array: 3 elements */
 		/* [1] */
 		"Number of traps recorded",
@@ -22582,7 +22718,7 @@ resource 'TMPL' (1225, "mxbi", protected) {
 	}
 };
 
-resource 'TMPL' (1226, "mxbm", protected) {
+resource 'TMPL' (1237, "mxbm") {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Count:",
@@ -22602,7 +22738,7 @@ resource 'TMPL' (1226, "mxbm", protected) {
 	}
 };
 
-resource 'TMPL' (1227, "mxpr", protected) {
+resource 'TMPL' (1238, "mxpr") {
 	{	/* array: 16 elements */
 		/* [1] */
 		"Version",
@@ -22655,7 +22791,7 @@ resource 'TMPL' (1227, "mxpr", protected) {
 	}
 };
 
-resource 'TMPL' (1228, "mxst", protected) {
+resource 'TMPL' (1239, "mxst") {
 	{	/* array: 12 elements */
 		/* [1] */
 		"Version",
@@ -22696,7 +22832,7 @@ resource 'TMPL' (1228, "mxst", protected) {
 	}
 };
 
-resource 'TMPL' (1229, "mxwt", protected) {
+resource 'TMPL' (1240, "mxwt") {
 	{	/* array: 10 elements */
 		/* [1] */
 		"Count:",
@@ -22731,7 +22867,7 @@ resource 'TMPL' (1229, "mxwt", protected) {
 	}
 };
 
-resource 'TMPL' (1230, "nfnt", protected) {
+resource 'TMPL' (1241, "nfnt") {
 	{	/* array: 14 elements */
 		/* [1] */
 		"Font type",
@@ -22778,7 +22914,7 @@ resource 'TMPL' (1230, "nfnt", protected) {
 	}
 };
 
-resource 'TMPL' (1231, "nmKy", protected) {
+resource 'TMPL' (1242, "nmKy") {
 	{	/* array: 11 elements */
 		/* [1] */
 		"\"Finale\" resource format",
@@ -22816,7 +22952,7 @@ resource 'TMPL' (1231, "nmKy", protected) {
 	}
 };
 
-resource 'TMPL' (1232, "nrct", protected) {
+resource 'TMPL' (1243, "nrct") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Count:",
@@ -22833,7 +22969,7 @@ resource 'TMPL' (1232, "nrct", protected) {
 	}
 };
 
-resource 'TMPL' (1233, "Odds", protected) {
+resource 'TMPL' (1244, "Odds") {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Resource ID of Equivalent 'Sods'",
@@ -22853,7 +22989,7 @@ resource 'TMPL' (1233, "Odds", protected) {
 	}
 };
 
-resource 'TMPL' (1234, "open", protected) {
+resource 'TMPL' (1245, "open") {
 	{	/* array: 7 elements */
 		/* [1] */
 		"Application signature",
@@ -22880,7 +23016,7 @@ resource 'TMPL' (1234, "open", protected) {
 	}
 };
 
-resource 'TMPL' (1235, "osiz", protected) {
+resource 'TMPL' (1246, "osiz") {
 	{	/* array: 6 elements */
 		/* [1] */
 		"Don't open resource file",
@@ -22903,7 +23039,7 @@ resource 'TMPL' (1235, "osiz", protected) {
 	}
 };
 
-resource 'TMPL' (1236, "otdr", protected) {
+resource 'TMPL' (1247, "otdr") {
 	{	/* array: 10 elements */
 		/* [1] */
 		"Version (should be 1)",
@@ -22938,7 +23074,7 @@ resource 'TMPL' (1236, "otdr", protected) {
 	}
 };
 
-resource 'TMPL' (1237, "over", protected) {
+resource 'TMPL' (1248, "over") {
 	{	/* array: 123 elements */
 		/* [1] */
 		"Count:",
@@ -23315,7 +23451,7 @@ resource 'TMPL' (1237, "over", protected) {
 	}
 };
 
-resource 'TMPL' (1238, "PANE", protected) {
+resource 'TMPL' (1249, "PANE") {
 	{	/* array: 51 elements */
 		/* [1] */
 		"\"MacZoop\" resource format",
@@ -23473,7 +23609,7 @@ resource 'TMPL' (1238, "PANE", protected) {
 	}
 };
 
-resource 'TMPL' (1239, "PANI", protected) {
+resource 'TMPL' (1250, "PANI") {
 	{	/* array: 12 elements */
 		/* [1] */
 		"Version",
@@ -23514,7 +23650,7 @@ resource 'TMPL' (1239, "PANI", protected) {
 	}
 };
 
-resource 'TMPL' (1240, "panl", protected) {
+resource 'TMPL' (1251, "panl") {
 	{	/* array: 15 elements */
 		/* [1] */
 		"Bounds",
@@ -23564,7 +23700,7 @@ resource 'TMPL' (1240, "panl", protected) {
 	}
 };
 
-resource 'TMPL' (1241, "PAPA", protected) {
+resource 'TMPL' (1252, "PAPA") {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Name",
@@ -23584,7 +23720,7 @@ resource 'TMPL' (1241, "PAPA", protected) {
 	}
 };
 
-resource 'TMPL' (1242, "PAT ") {
+resource 'TMPL' (1253, "PAT ") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Pattern",
@@ -23592,8 +23728,8 @@ resource 'TMPL' (1242, "PAT ") {
 	}
 };
 
-resource 'TMPL' (1243, "PAT#", protected) {
-	{	/* array: 9 elements */
+resource 'TMPL' (1254, "PAT#") {
+	{	/* array: 4 elements */
 		/* [1] */
 		"Count:",
 		'OCNT',
@@ -23602,29 +23738,14 @@ resource 'TMPL' (1243, "PAT#", protected) {
 		'LSTC',
 		/* [3] */
 		"Pattern",
-		'HLNG',
+		'H008',
 		/* [4] */
-		"white=$FFFFFFFFFFFFFFFF",
-		'CASE',
-		/* [5] */
-		"lightGray=$1144114411441144",
-		'CASE',
-		/* [6] */
-		"gray=$AA55AA55AA55AA55",
-		'CASE',
-		/* [7] */
-		"darkGray=$77DD77DD77DD77DD",
-		'CASE',
-		/* [8] */
-		"black=$0000000000000000",
-		'CASE',
-		/* [9] */
 		"*****",
 		'LSTE'
 	}
 };
 
-resource 'TMPL' (1244, "PBUT", protected) {
+resource 'TMPL' (1255, "PBUT") {
 	{	/* array: 14 elements */
 		/* [1] */
 		"Image \"PICT\" Resource ID",
@@ -23671,7 +23792,7 @@ resource 'TMPL' (1244, "PBUT", protected) {
 	}
 };
 
-resource 'TMPL' (1245, "pdip", protected) {
+resource 'TMPL' (1256, "pdip") {
 	{	/* array: 26 elements */
 		/* [1] */
 		"PostScript language level",
@@ -23754,7 +23875,7 @@ resource 'TMPL' (1245, "pdip", protected) {
 	}
 };
 
-resource 'TMPL' (1246, "Pers", protected) {
+resource 'TMPL' (1257, "Pers") {
 	{	/* array: 17 elements */
 		/* [1] */
 		"\"Eudora\" resource format",
@@ -23810,7 +23931,7 @@ resource 'TMPL' (1246, "Pers", protected) {
 	}
 };
 
-resource 'TMPL' (1247, "pfil", protected) {
+resource 'TMPL' (1258, "pfil") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Count:",
@@ -23827,7 +23948,7 @@ resource 'TMPL' (1247, "pfil", protected) {
 	}
 };
 
-resource 'TMPL' (1248, "pfnt", protected) {
+resource 'TMPL' (1259, "pfnt") {
 	{	/* array: 166 elements */
 		/* [1] */
 		"Memory usage",
@@ -24330,7 +24451,7 @@ resource 'TMPL' (1248, "pfnt", protected) {
 	}
 };
 
-resource 'TMPL' (1249, "PgSz", protected) {
+resource 'TMPL' (1260, "PgSz") {
 	{	/* array: 6 elements */
 		/* [1] */
 		"\"Finale\" resource format",
@@ -24353,7 +24474,7 @@ resource 'TMPL' (1249, "PgSz", protected) {
 	}
 };
 
-resource 'TMPL' (1250, "picb", protected) {
+resource 'TMPL' (1261, "picb") {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Version",
@@ -24373,7 +24494,7 @@ resource 'TMPL' (1250, "picb", protected) {
 	}
 };
 
-resource 'TMPL' (1251, "PICK", protected) {
+resource 'TMPL' (1262, "PICK") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Which type",
@@ -24405,11 +24526,11 @@ resource 'TMPL' (1251, "PICK", protected) {
 	}
 };
 
-resource 'TMPL' (1252, "PICT", protected) {
+resource 'TMPL' (1263, "PICT") {
 	{	/* array: 3 elements */
 		/* [1] */
-		"Picture size",
-		'DWRD',
+		"Picture size (vers 1)",
+		'UWRD',
 		/* [2] */
 		"Picture frame",
 		'RECT',
@@ -24419,7 +24540,7 @@ resource 'TMPL' (1252, "PICT", protected) {
 	}
 };
 
-resource 'TMPL' (1253, "PLGN", protected) {
+resource 'TMPL' (1264, "PLGN") {
 	{	/* array: 6 elements */
 		/* [1] */
 		"Count:",
@@ -24442,7 +24563,7 @@ resource 'TMPL' (1253, "PLGN", protected) {
 	}
 };
 
-resource 'TMPL' (1254, "pltt", protected) {
+resource 'TMPL' (1265, "pltt") {
 	{	/* array: 25 elements */
 		/* [1] */
 		"Count:",
@@ -24522,7 +24643,7 @@ resource 'TMPL' (1254, "pltt", protected) {
 	}
 };
 
-resource 'TMPL' (1255, "plut", protected) {
+resource 'TMPL' (1266, "plut") {
 	{	/* array: 17 elements */
 		/* [1] */
 		"Pattern Lookup Table",
@@ -24578,7 +24699,7 @@ resource 'TMPL' (1255, "plut", protected) {
 	}
 };
 
-resource 'TMPL' (1256, "pnel", protected) {
+resource 'TMPL' (1267, "pnel") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Panel name",
@@ -24595,7 +24716,7 @@ resource 'TMPL' (1256, "pnel", protected) {
 	}
 };
 
-resource 'TMPL' (1257, "pnot", protected) {
+resource 'TMPL' (1268, "pnot") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Modification date",
@@ -24612,7 +24733,7 @@ resource 'TMPL' (1257, "pnot", protected) {
 	}
 };
 
-resource 'TMPL' (1258, "POST", protected) {
+resource 'TMPL' (1269, "POST") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"NumStrings",
@@ -24629,7 +24750,7 @@ resource 'TMPL' (1258, "POST", protected) {
 	}
 };
 
-resource 'TMPL' (1259, "ppat", protected) {
+resource 'TMPL' (1270, "ppat") {
 	{	/* array: 23 elements */
 		/* [1] */
 		"Pattern type",
@@ -24703,7 +24824,7 @@ resource 'TMPL' (1259, "ppat", protected) {
 	}
 };
 
-resource 'TMPL' (1260, "ppcc", protected) {
+resource 'TMPL' (1271, "ppcc") {
 	{	/* array: 7 elements */
 		/* [1] */
 		"NBP lookup interval",
@@ -24730,7 +24851,7 @@ resource 'TMPL' (1260, "ppcc", protected) {
 	}
 };
 
-resource 'TMPL' (1261, "ppdA", protected) {
+resource 'TMPL' (1272, "ppdA") {
 	{	/* array: 25 elements */
 		/* [1] */
 		"Signature",
@@ -24810,7 +24931,7 @@ resource 'TMPL' (1261, "ppdA", protected) {
 	}
 };
 
-resource 'TMPL' (1262, "ppdT", protected) {
+resource 'TMPL' (1273, "ppdT") {
 	{	/* array: 52 elements */
 		/* [1] */
 		"Signature",
@@ -24971,7 +25092,7 @@ resource 'TMPL' (1262, "ppdT", protected) {
 	}
 };
 
-resource 'TMPL' (1263, "PPob", protected) {
+resource 'TMPL' (1274, "PPob") {
 	{	/* array: 3820 elements */
 		/* [1] */
 		"Template for PowerPlant 2.5",
@@ -36436,7 +36557,7 @@ resource 'TMPL' (1263, "PPob", protected) {
 	}
 };
 
-resource 'TMPL' (1264, "PPRO", protected) {
+resource 'TMPL' (1275, "PPRO") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"\"Fetch\" resource template",
@@ -36468,7 +36589,7 @@ resource 'TMPL' (1264, "PPRO", protected) {
 	}
 };
 
-resource 'TMPL' (1265, "PRC0", protected) {
+resource 'TMPL' (1276, "PRC0") {
 	{	/* array: 37 elements */
 		/* [1] */
 		"iPrVersion",
@@ -36584,7 +36705,7 @@ resource 'TMPL' (1265, "PRC0", protected) {
 	}
 };
 
-resource 'TMPL' (1266, "PRC3", protected) {
+resource 'TMPL' (1277, "PRC3") {
 	{	/* array: 20 elements */
 		/* [1] */
 		"Number of Buttons",
@@ -36649,7 +36770,7 @@ resource 'TMPL' (1266, "PRC3", protected) {
 	}
 };
 
-resource 'TMPL' (1267, "PREC", protected) {
+resource 'TMPL' (1278, "PREC") {
 	{	/* array: 138 elements */
 		/* [1] */
 		"Type of resource",
@@ -37068,7 +37189,7 @@ resource 'TMPL' (1267, "PREC", protected) {
 	}
 };
 
-resource 'TMPL' (1268, "PRF2", protected) {
+resource 'TMPL' (1279, "PRF2") {
 	{	/* array: 16 elements */
 		/* [1] */
 		"Create papToDisk file",
@@ -37124,7 +37245,7 @@ resource 'TMPL' (1268, "PRF2", protected) {
 	}
 };
 
-resource 'TMPL' (1269, "PRFS", protected) {
+resource 'TMPL' (1280, "PRFS") {
 	{	/* array: 32 elements */
 		/* [1] */
 		"Full PPD dialog",
@@ -37230,7 +37351,7 @@ resource 'TMPL' (1269, "PRFS", protected) {
 	}
 };
 
-resource 'TMPL' (1270, "prop", protected) {
+resource 'TMPL' (1281, "prop") {
 	{	/* array: 7 elements */
 		/* [1] */
 		"Enable quality",
@@ -37256,7 +37377,7 @@ resource 'TMPL' (1270, "prop", protected) {
 	}
 };
 
-resource 'TMPL' (1271, "proz", protected) {
+resource 'TMPL' (1282, "proz") {
 	{	/* array: 3 elements */
 		/* [1] */
 		"",
@@ -37270,7 +37391,7 @@ resource 'TMPL' (1271, "proz", protected) {
 	}
 };
 
-resource 'TMPL' (1272, "PSAP", protected) {
+resource 'TMPL' (1283, "PSAP") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"String",
@@ -37278,7 +37399,7 @@ resource 'TMPL' (1272, "PSAP", protected) {
 	}
 };
 
-resource 'TMPL' (1273, "PSLD", protected) {
+resource 'TMPL' (1284, "PSLD") {
 	{	/* array: 15 elements */
 		/* [1] */
 		"Picture resource ID",
@@ -37328,7 +37449,7 @@ resource 'TMPL' (1273, "PSLD", protected) {
 	}
 };
 
-resource 'TMPL' (1274, "pslt", protected) {
+resource 'TMPL' (1285, "pslt") {
 	{	/* array: 17 elements */
 		/* [1] */
 		"Slot orientation is as seen from the fro"
@@ -37393,7 +37514,54 @@ resource 'TMPL' (1274, "pslt", protected) {
 	}
 };
 
-resource 'TMPL' (1275, "ptyp", protected) {
+resource 'TMPL' (1286, "PTFM") {
+	{	/* array: 14 elements */
+		/* [1] */
+		"Default pane",
+		'TNAM',
+		/* [2] */
+		"Count:",
+		'LCNT',
+		/* [3] */
+		"Entries",
+		'LSTC',
+		/* [4] */
+		"Resource type",
+		'TNAM',
+		/* [5] */
+		"Flags",
+		'DLNG',
+		/* [6] */
+		"Width",
+		'DLNG',
+		/* [7] */
+		"Height",
+		'DLNG',
+		/* [8] */
+		"Depth",
+		'DLNG',
+		/* [9] */
+		"Row bytes",
+		'DLNG',
+		/* [10] */
+		"Sample pane ID",
+		'TNAM',
+		/* [11] */
+		"Mask offset",
+		'DLNG',
+		/* [12] */
+		"Mask row bytes",
+		'DLNG',
+		/* [13] */
+		"Mask sample pane ID",
+		'TNAM',
+		/* [14] */
+		"",
+		'LSTE'
+	}
+};
+
+resource 'TMPL' (1287, "ptyp") {
 	{	/* array: 46 elements */
 		/* [1] */
 		"Paper type name",
@@ -37536,7 +37704,7 @@ resource 'TMPL' (1275, "ptyp", protected) {
 	}
 };
 
-resource 'TMPL' (1276, "puf!", protected) {
+resource 'TMPL' (1288, "puf!") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"",
@@ -37553,7 +37721,7 @@ resource 'TMPL' (1276, "puf!", protected) {
 	}
 };
 
-resource 'TMPL' (1277, "qrsc", protected) {
+resource 'TMPL' (1289, "qrsc") {
 	{	/* array: 13 elements */
 		/* [1] */
 		"Version",
@@ -37597,7 +37765,7 @@ resource 'TMPL' (1277, "qrsc", protected) {
 	}
 };
 
-resource 'TMPL' (1278, "ramr", protected) {
+resource 'TMPL' (1290, "ramr") {
 	{	/* array: 7 elements */
 		/* [1] */
 		"Amt to indent 1st colum/title",
@@ -37623,7 +37791,7 @@ resource 'TMPL' (1278, "ramr", protected) {
 	}
 };
 
-resource 'TMPL' (1279, "rdes", protected) {
+resource 'TMPL' (1291, "rdes") {
 	{	/* array: 31 elements */
 		/* [1] */
 		"Go Mixed Mode Trap",
@@ -37721,7 +37889,7 @@ resource 'TMPL' (1279, "rdes", protected) {
 	}
 };
 
-resource 'TMPL' (1280, "rdpf", protected) {
+resource 'TMPL' (1292, "rdpf") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Count:",
@@ -37738,7 +37906,7 @@ resource 'TMPL' (1280, "rdpf", protected) {
 	}
 };
 
-resource 'TMPL' (1281, "rdws", protected) {
+resource 'TMPL' (1293, "rdws") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"String",
@@ -37746,7 +37914,7 @@ resource 'TMPL' (1281, "rdws", protected) {
 	}
 };
 
-resource 'TMPL' (1282, "RECT", protected) {
+resource 'TMPL' (1294, "RECT") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Rectangle",
@@ -37754,7 +37922,7 @@ resource 'TMPL' (1282, "RECT", protected) {
 	}
 };
 
-resource 'TMPL' (1283, "RES!", protected) {
+resource 'TMPL' (1295, "RES!") {
 	{	/* array: 2 elements */
 		/* [1] */
 		"\"Resurrection\" resource format",
@@ -37765,7 +37933,7 @@ resource 'TMPL' (1283, "RES!", protected) {
 	}
 };
 
-resource 'TMPL' (1284, "RES#", protected) {
+resource 'TMPL' (1296, "RES#") {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Count:",
@@ -37785,7 +37953,7 @@ resource 'TMPL' (1284, "RES#", protected) {
 	}
 };
 
-resource 'TMPL' (1285, "resf", protected) {
+resource 'TMPL' (1297, "resf") {
 	{	/* array: 10 elements */
 		/* [1] */
 		"Count:",
@@ -37820,7 +37988,7 @@ resource 'TMPL' (1285, "resf", protected) {
 	}
 };
 
-resource 'TMPL' (1286, "resl", protected) {
+resource 'TMPL' (1298, "resl") {
 	{	/* array: 11 elements */
 		/* [1] */
 		"Range type",
@@ -37858,7 +38026,7 @@ resource 'TMPL' (1286, "resl", protected) {
 	}
 };
 
-resource 'TMPL' (1287, "rgb ", protected) {
+resource 'TMPL' (1299, "rgb ") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Color",
@@ -37866,7 +38034,7 @@ resource 'TMPL' (1287, "rgb ", protected) {
 	}
 };
 
-resource 'TMPL' (1288, "RID#", protected) {
+resource 'TMPL' (1300, "RID#") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Count:",
@@ -37883,7 +38051,7 @@ resource 'TMPL' (1288, "RID#", protected) {
 	}
 };
 
-resource 'TMPL' (1289, "RidL", protected) {
+resource 'TMPL' (1301, "RidL") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Count:",
@@ -37900,7 +38068,7 @@ resource 'TMPL' (1289, "RidL", protected) {
 	}
 };
 
-resource 'TMPL' (1290, "RMAP", protected) {
+resource 'TMPL' (1302, "RMAP") {
 	{	/* array: 8 elements */
 		/* [1] */
 		"MapTo type",
@@ -37929,7 +38097,7 @@ resource 'TMPL' (1290, "RMAP", protected) {
 	}
 };
 
-resource 'TMPL' (1291, "ropt", protected) {
+resource 'TMPL' (1303, "ropt") {
 	{	/* array: 28 elements */
 		/* [1] */
 		"Start page 'wstr' ID",
@@ -38018,7 +38186,7 @@ resource 'TMPL' (1291, "ropt", protected) {
 	}
 };
 
-resource 'TMPL' (1292, "rout", protected) {
+resource 'TMPL' (1304, "rout") {
 	{	/* array: 27 elements */
 		/* [1] */
 		"Array for folder routing",
@@ -38104,7 +38272,7 @@ resource 'TMPL' (1292, "rout", protected) {
 	}
 };
 
-resource 'TMPL' (1293, "ROv#", protected) {
+resource 'TMPL' (1305, "ROv#") {
 	{	/* array: 6 elements */
 		/* [1] */
 		"Version",
@@ -38127,7 +38295,7 @@ resource 'TMPL' (1293, "ROv#", protected) {
 	}
 };
 
-resource 'TMPL' (1294, "rptw", protected) {
+resource 'TMPL' (1306, "rptw") {
 	{	/* array: 6 elements */
 		/* [1] */
 		"Name column width",
@@ -38150,7 +38318,7 @@ resource 'TMPL' (1294, "rptw", protected) {
 	}
 };
 
-resource 'TMPL' (1295, "RSCP", protected) {
+resource 'TMPL' (1307, "RSCP") {
 	{	/* array: 21 elements */
 		/* [1] */
 		"Resource Spec Current Version (should be"
@@ -38220,7 +38388,7 @@ resource 'TMPL' (1295, "RSCP", protected) {
 	}
 };
 
-resource 'TMPL' (1296, "RSID", protected) {
+resource 'TMPL' (1308, "RSID") {
 	{	/* array: 13 elements */
 		/* [1] */
 		"\"Resurrection\" resource format",
@@ -38264,7 +38432,7 @@ resource 'TMPL' (1296, "RSID", protected) {
 	}
 };
 
-resource 'TMPL' (1297, "rst#", protected) {
+resource 'TMPL' (1309, "rst#") {
 	{	/* array: 8 elements */
 		/* [1] */
 		"Size of the following data",
@@ -38293,7 +38461,7 @@ resource 'TMPL' (1297, "rst#", protected) {
 	}
 };
 
-resource 'TMPL' (1298, "rstr", protected) {
+resource 'TMPL' (1310, "rstr") {
 	{	/* array: 2 elements */
 		/* [1] */
 		"Script region code",
@@ -38304,7 +38472,7 @@ resource 'TMPL' (1298, "rstr", protected) {
 	}
 };
 
-resource 'TMPL' (1299, "RTXT", protected) {
+resource 'TMPL' (1311, "RTXT") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"TrueType rotated text?",
@@ -38321,7 +38489,7 @@ resource 'TMPL' (1299, "RTXT", protected) {
 	}
 };
 
-resource 'TMPL' (1300, "RVEW", protected) {
+resource 'TMPL' (1312, "RVEW") {
 	{	/* array: 2 elements */
 		/* [1] */
 		"View by",
@@ -38332,7 +38500,7 @@ resource 'TMPL' (1300, "RVEW", protected) {
 	}
 };
 
-resource 'TMPL' (1301, "RZID", protected) {
+resource 'TMPL' (1313, "RZID") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Resources",
@@ -38349,7 +38517,7 @@ resource 'TMPL' (1301, "RZID", protected) {
 	}
 };
 
-resource 'TMPL' (1302, "RZLE", protected) {
+resource 'TMPL' (1314, "RZLE") {
 	{	/* array: 8 elements */
 		/* [1] */
 		"Count:",
@@ -38378,7 +38546,7 @@ resource 'TMPL' (1302, "RZLE", protected) {
 	}
 };
 
-resource 'TMPL' (1303, "sAbt", protected) {
+resource 'TMPL' (1315, "sAbt") {
 	{	/* array: 11 elements */
 		/* [1] */
 		"\"SuitCase\" resource format",
@@ -38416,7 +38584,7 @@ resource 'TMPL' (1303, "sAbt", protected) {
 	}
 };
 
-resource 'TMPL' (1304, "sami", protected) {
+resource 'TMPL' (1316, "sami") {
 	{	/* array: 10 elements */
 		/* [1] */
 		"Maximum number of directories/slots",
@@ -38451,7 +38619,7 @@ resource 'TMPL' (1304, "sami", protected) {
 	}
 };
 
-resource 'TMPL' (1305, "scan", protected) {
+resource 'TMPL' (1317, "scan") {
 	{	/* array: 72 elements */
 		/* [1] */
 		"Owner count",
@@ -38672,7 +38840,7 @@ resource 'TMPL' (1305, "scan", protected) {
 	}
 };
 
-resource 'TMPL' (1306, "scop", protected) {
+resource 'TMPL' (1318, "scop") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Count:",
@@ -38689,7 +38857,7 @@ resource 'TMPL' (1306, "scop", protected) {
 	}
 };
 
-resource 'TMPL' (1307, "scrn", protected) {
+resource 'TMPL' (1319, "scrn") {
 	{	/* array: 23 elements */
 		/* [1] */
 		"Count:",
@@ -38763,7 +38931,7 @@ resource 'TMPL' (1307, "scrn", protected) {
 	}
 };
 
-resource 'TMPL' (1308, "scsz", protected) {
+resource 'TMPL' (1320, "scsz") {
 	{	/* array: 10 elements */
 		/* [1] */
 		"Launch to get terminology",
@@ -38798,7 +38966,7 @@ resource 'TMPL' (1308, "scsz", protected) {
 	}
 };
 
-resource 'TMPL' (1309, "sect", protected) {
+resource 'TMPL' (1321, "sect") {
 	{	/* array: 11 elements */
 		/* [1] */
 		"Version",
@@ -38836,7 +39004,7 @@ resource 'TMPL' (1309, "sect", protected) {
 	}
 };
 
-resource 'TMPL' (1310, "sept", protected) {
+resource 'TMPL' (1322, "sept") {
 	{	/* array: 256 elements */
 		/* [1] */
 		"0x01",
@@ -39609,7 +39777,21 @@ resource 'TMPL' (1310, "sept", protected) {
 	}
 };
 
-resource 'TMPL' (1311, "sig ", protected) {
+resource 'TMPL' (1323, "SICN") {
+	{	/* array: 3 elements */
+		/* [1] */
+		"Small icons array",
+		'LSTB',
+		/* [2] */
+		"Icon data",
+		'H020',
+		/* [3] */
+		"*****",
+		'LSTE'
+	}
+};
+
+resource 'TMPL' (1324, "sig ") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Creator type of file",
@@ -39617,7 +39799,7 @@ resource 'TMPL' (1311, "sig ", protected) {
 	}
 };
 
-resource 'TMPL' (1312, "SIGN", protected) {
+resource 'TMPL' (1325, "SIGN") {
 	{	/* array: 2 elements */
 		/* [1] */
 		"Key word",
@@ -39628,7 +39810,7 @@ resource 'TMPL' (1312, "SIGN", protected) {
 	}
 };
 
-resource 'TMPL' (1313, "SINF", protected) {
+resource 'TMPL' (1326, "SINF") {
 	{	/* array: 6 elements */
 		/* [1] */
 		"Internet Config resource format",
@@ -39651,7 +39833,7 @@ resource 'TMPL' (1313, "SINF", protected) {
 	}
 };
 
-resource 'TMPL' (1314, "SIZE", protected) {
+resource 'TMPL' (1327, "SIZE") {
 	{	/* array: 16 elements */
 		/* [1] */
 		"Save screen (obsolete)",
@@ -39704,7 +39886,7 @@ resource 'TMPL' (1314, "SIZE", protected) {
 	}
 };
 
-resource 'TMPL' (1315, "Smly", protected) {
+resource 'TMPL' (1328, "Smly") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Count:",
@@ -39736,7 +39918,7 @@ resource 'TMPL' (1315, "Smly", protected) {
 	}
 };
 
-resource 'TMPL' (1316, "Sods", protected) {
+resource 'TMPL' (1329, "Sods") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Version",
@@ -39768,7 +39950,7 @@ resource 'TMPL' (1316, "Sods", protected) {
 	}
 };
 
-resource 'TMPL' (1317, "SPLY", protected) {
+resource 'TMPL' (1330, "SPLY") {
 	{	/* array: 8 elements */
 		/* [1] */
 		"Playlist name",
@@ -39797,7 +39979,7 @@ resource 'TMPL' (1317, "SPLY", protected) {
 	}
 };
 
-resource 'TMPL' (1318, "sReq", protected) {
+resource 'TMPL' (1331, "sReq") {
 	{	/* array: 6 elements */
 		/* [1] */
 		"\"AfterDark\" resource format",
@@ -39820,7 +40002,7 @@ resource 'TMPL' (1318, "sReq", protected) {
 	}
 };
 
-resource 'TMPL' (1319, "stab", protected) {
+resource 'TMPL' (1332, "stab") {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Values in reduction table should be in a"
@@ -39841,7 +40023,7 @@ resource 'TMPL' (1319, "stab", protected) {
 	}
 };
 
-resource 'TMPL' (1320, "stat", protected) {
+resource 'TMPL' (1333, "stat") {
 	{	/* array: 20 elements */
 		/* [1] */
 		"Status owner",
@@ -39906,7 +40088,7 @@ resource 'TMPL' (1320, "stat", protected) {
 	}
 };
 
-resource 'TMPL' (1321, "STCT", protected) {
+resource 'TMPL' (1334, "STCT") {
 	{	/* array: 8 elements */
 		/* [1] */
 		"\"Fetch\" resource template",
@@ -39935,7 +40117,7 @@ resource 'TMPL' (1321, "STCT", protected) {
 	}
 };
 
-resource 'TMPL' (1322, "STR ", protected) {
+resource 'TMPL' (1335, "STR ") {
 	{	/* array: 2 elements */
 		/* [1] */
 		"String",
@@ -39946,7 +40128,7 @@ resource 'TMPL' (1322, "STR ", protected) {
 	}
 };
 
-resource 'TMPL' (1323, "STR#", protected) {
+resource 'TMPL' (1336, "STR#") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Count:",
@@ -39963,7 +40145,7 @@ resource 'TMPL' (1323, "STR#", protected) {
 	}
 };
 
-resource 'TMPL' (1324, "stri", protected) {
+resource 'TMPL' (1337, "stri") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"String used for component info resources",
@@ -39971,7 +40153,7 @@ resource 'TMPL' (1324, "stri", protected) {
 	}
 };
 
-resource 'TMPL' (1325, "strn", protected) {
+resource 'TMPL' (1338, "strn") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"String used for component name resources",
@@ -39979,7 +40161,7 @@ resource 'TMPL' (1325, "strn", protected) {
 	}
 };
 
-resource 'TMPL' (1326, "STRT", protected) {
+resource 'TMPL' (1339, "STRT") {
 	{	/* array: 6 elements */
 		/* [1] */
 		"\"Resurrection\" resource format",
@@ -40002,7 +40184,7 @@ resource 'TMPL' (1326, "STRT", protected) {
 	}
 };
 
-resource 'TMPL' (1327, "styl", protected) {
+resource 'TMPL' (1340, "styl") {
 	{	/* array: 13 elements */
 		/* [1] */
 		"Count:",
@@ -40046,7 +40228,7 @@ resource 'TMPL' (1327, "styl", protected) {
 	}
 };
 
-resource 'TMPL' (1328, "SUFX", protected) {
+resource 'TMPL' (1341, "SUFX") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"\"Fetch\" resource template",
@@ -40078,7 +40260,7 @@ resource 'TMPL' (1328, "SUFX", protected) {
 	}
 };
 
-resource 'TMPL' (1329, "Suit", protected) {
+resource 'TMPL' (1342, "Suit") {
 	{	/* array: 11 elements */
 		/* [1] */
 		"\"SuitCase\" resource format",
@@ -40116,7 +40298,7 @@ resource 'TMPL' (1329, "Suit", protected) {
 	}
 };
 
-resource 'TMPL' (1330, "sUnt", protected) {
+resource 'TMPL' (1343, "sUnt") {
 	{	/* array: 6 elements */
 		/* [1] */
 		"\"AfterDark\" resource format",
@@ -40139,7 +40321,7 @@ resource 'TMPL' (1330, "sUnt", protected) {
 	}
 };
 
-resource 'TMPL' (1331, "sVal", protected) {
+resource 'TMPL' (1344, "sVal") {
 	{	/* array: 2 elements */
 		/* [1] */
 		"\"AfterDark\" resource format",
@@ -40150,7 +40332,7 @@ resource 'TMPL' (1331, "sVal", protected) {
 	}
 };
 
-resource 'TMPL' (1332, "sysz", protected) {
+resource 'TMPL' (1345, "sysz") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Memory allocated (in bytes)",
@@ -40158,7 +40340,7 @@ resource 'TMPL' (1332, "sysz", protected) {
 	}
 };
 
-resource 'TMPL' (1333, "tab#", protected) {
+resource 'TMPL' (1346, "tab#") {
 	{	/* array: 11 elements */
 		/* [1] */
 		"Version",
@@ -40196,7 +40378,7 @@ resource 'TMPL' (1333, "tab#", protected) {
 	}
 };
 
-resource 'TMPL' (1334, "taps", protected) {
+resource 'TMPL' (1347, "taps") {
 	{	/* array: 19 elements */
 		/* [1] */
 		"Terminal tool capabilities list",
@@ -40258,7 +40440,7 @@ resource 'TMPL' (1334, "taps", protected) {
 	}
 };
 
-resource 'TMPL' (1335, "tdat", protected) {
+resource 'TMPL' (1348, "tdat") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Theme Data (ID 1)",
@@ -40291,7 +40473,7 @@ resource 'TMPL' (1335, "tdat", protected) {
 	}
 };
 
-resource 'TMPL' (1336, "TEXT", protected) {
+resource 'TMPL' (1349, "TEXT") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Text",
@@ -40299,7 +40481,7 @@ resource 'TMPL' (1336, "TEXT", protected) {
 	}
 };
 
-resource 'TMPL' (1337, "thg0", protected) {
+resource 'TMPL' (1350, "thg0") {
 	{	/* array: 19 elements */
 		/* [1] */
 		"Initial version of Thing resource",
@@ -40361,7 +40543,7 @@ resource 'TMPL' (1337, "thg0", protected) {
 	}
 };
 
-resource 'TMPL' (1338, "thga", protected) {
+resource 'TMPL' (1351, "thga") {
 	{	/* array: 23 elements */
 		/* [1] */
 		"Type of component",
@@ -40435,7 +40617,7 @@ resource 'TMPL' (1338, "thga", protected) {
 	}
 };
 
-resource 'TMPL' (1339, "thn#", protected) {
+resource 'TMPL' (1352, "thn#") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Component Manager thing load order depen"
@@ -40453,7 +40635,7 @@ resource 'TMPL' (1339, "thn#", protected) {
 	}
 };
 
-resource 'TMPL' (1340, "thn0", protected) {
+resource 'TMPL' (1353, "thn0") {
 	{	/* array: 19 elements */
 		/* [1] */
 		"Version 0 of Component Manager thing",
@@ -40516,7 +40698,7 @@ resource 'TMPL' (1340, "thn0", protected) {
 	}
 };
 
-resource 'TMPL' (1341, "thn1", protected) {
+resource 'TMPL' (1354, "thn1") {
 	{	/* array: 44 elements */
 		/* [1] */
 		"Version 1 of Component Manager thing",
@@ -40655,7 +40837,7 @@ resource 'TMPL' (1341, "thn1", protected) {
 	}
 };
 
-resource 'TMPL' (1342, "thnd", protected) {
+resource 'TMPL' (1355, "thnd") {
 	{	/* array: 8 elements */
 		/* [1] */
 		"Count:",
@@ -40684,7 +40866,7 @@ resource 'TMPL' (1342, "thnd", protected) {
 	}
 };
 
-resource 'TMPL' (1343, "thng", protected) {
+resource 'TMPL' (1356, "thng") {
 	{	/* array: 45 elements */
 		/* [1] */
 		"Type of component",
@@ -40826,7 +41008,7 @@ resource 'TMPL' (1343, "thng", protected) {
 	}
 };
 
-resource 'TMPL' (1344, "thnr", protected) {
+resource 'TMPL' (1357, "thnr") {
 	{	/* array: 8 elements */
 		/* [1] */
 		"Components public resource maps",
@@ -40855,7 +41037,7 @@ resource 'TMPL' (1344, "thnr", protected) {
 	}
 };
 
-resource 'TMPL' (1345, "THUM", protected) {
+resource 'TMPL' (1358, "THUM") {
 	{	/* array: 6 elements */
 		/* [1] */
 		"\"AfterDark\" resource format",
@@ -40878,7 +41060,7 @@ resource 'TMPL' (1345, "THUM", protected) {
 	}
 };
 
-resource 'TMPL' (1346, "tic#", protected) {
+resource 'TMPL' (1359, "tic#") {
 	{	/* array: 6 elements */
 		/* [1] */
 		"Theme File Icon List (ID 384)",
@@ -40901,7 +41083,7 @@ resource 'TMPL' (1346, "tic#", protected) {
 	}
 };
 
-resource 'TMPL' (1347, "TMPL", protected) {
+resource 'TMPL' (1360, "TMPL") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"List of template fields",
@@ -40918,7 +41100,7 @@ resource 'TMPL' (1347, "TMPL", protected) {
 	}
 };
 
-resource 'TMPL' (1348, "TOOL", protected) {
+resource 'TMPL' (1361, "TOOL") {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Tools per row",
@@ -40938,7 +41120,7 @@ resource 'TMPL' (1348, "TOOL", protected) {
 	}
 };
 
-resource 'TMPL' (1349, "TPal", protected) {
+resource 'TMPL' (1362, "TPal") {
 	{	/* array: 13 elements */
 		/* [1] */
 		"\"Finale\" resource format",
@@ -40983,7 +41165,7 @@ resource 'TMPL' (1349, "TPal", protected) {
 	}
 };
 
-resource 'TMPL' (1350, "tray", protected) {
+resource 'TMPL' (1363, "tray") {
 	{	/* array: 2 elements */
 		/* [1] */
 		"Tray count",
@@ -40994,7 +41176,7 @@ resource 'TMPL' (1350, "tray", protected) {
 	}
 };
 
-resource 'TMPL' (1351, "trsl", protected) {
+resource 'TMPL' (1364, "trsl") {
 	{	/* array: 44 elements */
 		/* [1] */
 		"To convert from all text, set all 16 fol"
@@ -41136,7 +41318,7 @@ resource 'TMPL' (1351, "trsl", protected) {
 	}
 };
 
-resource 'TMPL' (1352, "TTBL", protected) {
+resource 'TMPL' (1365, "TTBL") {
 	{	/* array: 6 elements */
 		/* [1] */
 		"\"SuitCase\" resource format",
@@ -41159,7 +41341,7 @@ resource 'TMPL' (1352, "TTBL", protected) {
 	}
 };
 
-resource 'TMPL' (1353, "tVal", protected) {
+resource 'TMPL' (1366, "tVal") {
 	{	/* array: 2 elements */
 		/* [1] */
 		"\"AfterDark\" resource format",
@@ -41170,7 +41352,7 @@ resource 'TMPL' (1353, "tVal", protected) {
 	}
 };
 
-resource 'TMPL' (1354, "tvar", protected) {
+resource 'TMPL' (1367, "tvar") {
 	{	/* array: 10 elements */
 		/* [1] */
 		"Theme Variants (must have ID 128)",
@@ -41205,7 +41387,7 @@ resource 'TMPL' (1354, "tvar", protected) {
 	}
 };
 
-resource 'TMPL' (1355, "TxSt", protected) {
+resource 'TMPL' (1368, "TxSt") {
 	{	/* array: 12 elements */
 		/* [1] */
 		"Unused",
@@ -41246,7 +41428,7 @@ resource 'TMPL' (1355, "TxSt", protected) {
 	}
 };
 
-resource 'TMPL' (1356, "Txtr", protected) {
+resource 'TMPL' (1369, "Txtr") {
 	{	/* array: 43 elements */
 		/* [1] */
 		"Size",
@@ -41380,7 +41562,7 @@ resource 'TMPL' (1356, "Txtr", protected) {
 	}
 };
 
-resource 'TMPL' (1357, "TXTs", protected) {
+resource 'TMPL' (1370, "TXTs") {
 	{	/* array: 2 elements */
 		/* [1] */
 		"\"Fetch\" resource template",
@@ -41391,7 +41573,24 @@ resource 'TMPL' (1357, "TXTs", protected) {
 	}
 };
 
-resource 'TMPL' (1358, "TYPs", protected) {
+resource 'TMPL' (1371, "typ#") {
+	{	/* array: 4 elements */
+		/* [1] */
+		"Count:",
+		'OCNT',
+		/* [2] */
+		"Types list",
+		'LSTC',
+		/* [3] */
+		"Type",
+		'TNAM',
+		/* [4] */
+		"*****",
+		'LSTE'
+	}
+};
+
+resource 'TMPL' (1372, "TYPs") {
 	{	/* array: 3 elements */
 		/* [1] */
 		"\"Fetch\" resource template",
@@ -41405,7 +41604,7 @@ resource 'TMPL' (1358, "TYPs", protected) {
 	}
 };
 
-resource 'TMPL' (1359, "url ", protected) {
+resource 'TMPL' (1373, "url ") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"URL string",
@@ -41413,7 +41612,7 @@ resource 'TMPL' (1359, "url ", protected) {
 	}
 };
 
-resource 'TMPL' (1360, "vers", protected) {
+resource 'TMPL' (1374, "vers") {
 	{	/* array: 11 elements */
 		/* [1] */
 		"Version number",
@@ -41451,7 +41650,7 @@ resource 'TMPL' (1360, "vers", protected) {
 	}
 };
 
-resource 'TMPL' (1361, "VFlg", protected) {
+resource 'TMPL' (1375, "VFlg") {
 	{	/* array: 2 elements */
 		/* [1] */
 		"Obey DIV \"align\" tag",
@@ -41462,7 +41661,7 @@ resource 'TMPL' (1361, "VFlg", protected) {
 	}
 };
 
-resource 'TMPL' (1362, "view", protected) {
+resource 'TMPL' (1376, "view") {
 	{	/* array: 909 elements */
 		/* [1] */
 		"Views",
@@ -44194,7 +44393,7 @@ resource 'TMPL' (1362, "view", protected) {
 	}
 };
 
-resource 'TMPL' (1363, "wctb", protected) {
+resource 'TMPL' (1377, "wctb") {
 	{	/* array: 20 elements */
 		/* [1] */
 		"Window color seed",
@@ -44259,7 +44458,7 @@ resource 'TMPL' (1363, "wctb", protected) {
 	}
 };
 
-resource 'TMPL' (1364, "WIND", protected) {
+resource 'TMPL' (1378, "WIND") {
 	{	/* array: 27 elements */
 		/* [1] */
 		"BoundsRect",
@@ -44345,7 +44544,7 @@ resource 'TMPL' (1364, "WIND", protected) {
 	}
 };
 
-resource 'TMPL' (1365, "wstr", protected) {
+resource 'TMPL' (1379, "wstr") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Query",
@@ -44353,7 +44552,7 @@ resource 'TMPL' (1365, "wstr", protected) {
 	}
 };
 
-resource 'TMPL' (1366, "xdtl", protected) {
+resource 'TMPL' (1380, "xdtl") {
 	{	/* array: 63 elements */
 		/* [1] */
 		"Count:",
@@ -44547,7 +44746,81 @@ resource 'TMPL' (1366, "xdtl", protected) {
 	}
 };
 
-resource 'TMPL' (1367, "xmnu", protected) {
+resource 'TMPL' (1381, "xMNU") {
+	{	/* array: 23 elements */
+		/* [1] */
+		"Menu title",
+		'P100',
+		/* [2] */
+		"Menu name",
+		'TNAM',
+		/* [3] */
+		"Reserved flag 1",
+		'BFLG',
+		/* [4] */
+		"Reserved flag 2",
+		'BFLG',
+		/* [5] */
+		"Reserved",
+		'F04C',
+		/* [6] */
+		"Count:",
+		'OCNT',
+		/* [7] */
+		"List of items",
+		'LSTC',
+		/* [8] */
+		"",
+		'WSIZ',
+		/* [9] */
+		"Internal Command",
+		'TNAM',
+		/* [10] */
+		"Key",
+		'CHAR',
+		/* [11] */
+		"None=$00",
+		'CASE',
+		/* [12] */
+		"Mark",
+		'CHAR',
+		/* [13] */
+		"Glyph",
+		'HWRD',
+		/* [14] */
+		"External command",
+		'TNAM',
+		/* [15] */
+		"Ref constant",
+		'HLNG',
+		/* [16] */
+		"Modifiers",
+		'HBYT',
+		/* [17] */
+		"Reserved flag 1",
+		'BFLG',
+		/* [18] */
+		"Reserved flag 2",
+		'BFLG',
+		/* [19] */
+		"Key is virtual key code",
+		'BFLG',
+		/* [20] */
+		"Reserved",
+		'F048',
+		/* [21] */
+		"Name",
+		'ESTR',
+		/* [22] */
+		"",
+		'SKPE',
+		/* [23] */
+		"*****",
+		'LSTE'
+	}
+};
+
+resource 'TMPL' (1382, "xmnu") {
 	{	/* array: 33 elements */
 		/* [1] */
 		"Version",
@@ -44651,81 +44924,7 @@ resource 'TMPL' (1367, "xmnu", protected) {
 	}
 };
 
-resource 'TMPL' (1368, "xMNU", protected) {
-	{	/* array: 23 elements */
-		/* [1] */
-		"Menu title",
-		'P100',
-		/* [2] */
-		"Menu name",
-		'TNAM',
-		/* [3] */
-		"Reserved flag 1",
-		'BFLG',
-		/* [4] */
-		"Reserved flag 2",
-		'BFLG',
-		/* [5] */
-		"Reserved",
-		'F04C',
-		/* [6] */
-		"Count:",
-		'OCNT',
-		/* [7] */
-		"List of items",
-		'LSTC',
-		/* [8] */
-		"",
-		'WSIZ',
-		/* [9] */
-		"Internal Command",
-		'TNAM',
-		/* [10] */
-		"Key",
-		'CHAR',
-		/* [11] */
-		"None=$00",
-		'CASE',
-		/* [12] */
-		"Mark",
-		'CHAR',
-		/* [13] */
-		"Glyph",
-		'HWRD',
-		/* [14] */
-		"External command",
-		'TNAM',
-		/* [15] */
-		"Ref constant",
-		'HLNG',
-		/* [16] */
-		"Modifiers",
-		'HBYT',
-		/* [17] */
-		"Reserved flag 1",
-		'BFLG',
-		/* [18] */
-		"Reserved flag 2",
-		'BFLG',
-		/* [19] */
-		"Key is virtual key code",
-		'BFLG',
-		/* [20] */
-		"Reserved",
-		'F048',
-		/* [21] */
-		"Name",
-		'ESTR',
-		/* [22] */
-		"",
-		'SKPE',
-		/* [23] */
-		"*****",
-		'LSTE'
-	}
-};
-
-resource 'TMPL' (1369, "ZOOM", protected) {
+resource 'TMPL' (1383, "ZOOM") {
 	{	/* array: 21 elements */
 		/* [1] */
 		"Doing zooming rectangles?",
@@ -44793,7 +44992,7 @@ resource 'TMPL' (1369, "ZOOM", protected) {
 	}
 };
 
-resource 'TMPL' (1370, "¤DTD") {
+resource 'TMPL' (1384, "¤DTD") {
 	{	/* array: 30 elements */
 		/* [1] */
 		"Version (should be 1 as of 980622)",
@@ -44890,7 +45089,7 @@ resource 'TMPL' (1370, "¤DTD") {
 	}
 };
 
-resource 'TMPL' (1371, "µVal") {
+resource 'TMPL' (1385, "µVal") {
 	{	/* array: 14 elements */
 		/* [1] */
 		"\"AfterDark\" resource format",

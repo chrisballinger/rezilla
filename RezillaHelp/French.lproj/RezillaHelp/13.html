@@ -14,7 +14,13 @@ d'une étiquette et d'une balise décrivant le type d'une valeur particulière
 dans la ressource. Un gabarit décrit ainsi, les unes après les autres,
 toutes les valeurs d'une ressource de type donné : pour l'éditer, l'éditeur
 de gabarits lit les données de la ressource séquentiellement et les compare
-avec le gabarit.<P><H3>Un exemple simple</H3>
+avec le gabarit.
+<UL>
+	<LI> <A HREF="#tmplexample">Un exemple simple</A>
+	<LI> <A HREF="#tmpledit">Éditer un gabarit</A>
+	<LI> <A HREF="#tmpltags">Balises de gabarit</A>
+</UL><P><A NAME="tmplexample"></A>
+<H3>Un exemple simple</H3>
 Prenons un exemple. Une ressource 'FREF' est un type standard de ressource
 utilisé par le Finder pour associer une icone à un certain type de fichier.
 Elle est constituée de trois éléments qui sont un type, une valeur décimale
@@ -69,7 +75,8 @@ balises qui permettent de décrire une grande variété de données. Des
 gabarits plus sophistiqués auront recours à des listes, des sections
 contrôlées par des valeurs-clés, des valeurs calculées dynamiquement etc.
 Toutes les balises disponibles avec Rezilla sont décrites dans la
-section <I>Balises de gabarit</I> ci-dessous.<P><H3>Éditer un gabarit</H3><P>Bonne nouvelle ! Il existe un gabarit pour les ressources de type TMPL.
+section <I>Balises de gabarit</I> ci-dessous.<P><A NAME="tmpledit"></A>
+<H3>Éditer un gabarit</H3><P>Bonne nouvelle ! Il existe un gabarit pour les ressources de type TMPL.
 Cela signifie que l'on peut éditer ces ressources au moyen de... l'éditeur
 de gabarits ! Celui-ci présente une liste de paires balise/étiquette sous
 forme de chaînes de caractères, et permet d'ajouter ou de retirer
@@ -79,7 +86,8 @@ cette question.<P>Maintenant que la structure des gabarits a été expliquée, il e
 de décrire avec davantage de précision le format d'une ressource TMPL. Il
 s'agit d'une liste de paires comportant un code de quatre caractères et une
 chaîne de Pascal ; en d'autres termes, c'est une série de données de type TNAM et
-PSTR alternativement.<P><H3>Balises de gabarit</H3><P>Les balises sont les codes de quatre caractères qui désignent les types de
+PSTR alternativement.<P><A NAME="tmpltags"></A>
+<H3>Balises de gabarit</H3><P>Les balises sont les codes de quatre caractères qui désignent les types de
 données des gabarits (comme par exemple, TNAM, DWRD et PSTR). La vénérable
 application <B>ResEdit</B>, qui était l'éditeur de ressources fourni par
 Apple sur les systèmes MacOS antérieurs au système OSX, a établi une
