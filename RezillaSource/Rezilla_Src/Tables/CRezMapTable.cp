@@ -781,7 +781,7 @@ CRezMapTable::ReceiveDragItem(DragReference inDragRef,
 			theID = theRezObj->GetID();
 			if ( mRezMap->ResourceExists(theType, theID) ) {
 				if (!sApplyToOthers) {
-					answer = UMessageDialogs::AskSolveUidConflicts(sApplyToOthers);
+					answer = UMessageDialogs::AskSolveUidConflicts(theType, theID, sApplyToOthers);
 					sConflictAction = answer;
 				} else {
 					answer = sConflictAction;
