@@ -10,7 +10,7 @@ localize "French" as "Localizable.strings"
 	key "CouldNotFindTemplates" value string "Impossible de trouver les ressources TMPL. L'édition par gabarits ne fonctionnera pas correctement."
 	key "CouldNotGetTemplateData" value string "Désolé. Impossible d'obtenir la définition du gabarit pour ce type. Vous devriez signaler ce problème et utiliser l'éditeur hexadécimal à la place."
 	key "CouldNotOpenTemplates" value string "Impossible d'ouvrir les ressources TMPL. L'édition par gabarits ne fonctionnera pas correctement."
-	key "ErrorWhileParsingTemplate" value string "Une erreur s'est produite au cours de l'analyse de la ressource avec le gabarit (erreur '%d'). Utiliser l'éditeur hexadécimal à la place."
+	key "ErrorWhileParsingTemplate" value string "Une erreur '%d' s'est produite au cours de l'analyse de la ressource avec le gabarit. Utiliser l'éditeur hexadécimal à la place."
 	key "ErrorWhileSavingTemplateWindow" value string "Une erreur s'est produite au cours de la validation du gabarit (erreur '%d'). La ressource originale n'a pas été modifiée."
 	key "HaveReadPermission" value string "Impossible d'enregistrer le fichier. Vérifiez que vous possédez bien les droits d'accès en lecture."
 	key "HaveWritePermission" value string "Impossible d'enregistrer le fichier. Vérifiez que vous possédez bien les droits d'accès en écriture."
@@ -47,6 +47,7 @@ localize "French" as "Localizable.strings"
 	key "ThisResourceEditedInOtherMode" value string "Cette ressource est déjà éditée dans un autre mode d'édition. Fermer la fenêtre d'édition correspondante et réessayer."
 	key "TypeFieldIsEmpty" value string "Le type ne peut être vide: c'est un code à quatre caractères."
 	key "UnknownTemplateTag" value string "Balise de gabarit inconnue '%s'."
+	key "WrongIdForSelectedTemplate" value string "Étant donné le gabarit choisi, le numéro de cette ressource devrait être '%d'. S'il n'est pas corrigé, l'éditeur de gabarit ne pourra ouvrir cette ressource."
 }
 
 
