@@ -2,7 +2,7 @@
 // CAeteEnumeration.h
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-02-19 15:09:19
+//             Last modification: 2005-02-20 14:50:40
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -38,7 +38,7 @@ public:
 
 		ArrayIndexT		AddEnumerator();
 		ArrayIndexT		AddEnumerator(Str255 inName, OSType inType, Str255 inDescription);
-		ArrayIndexT		AddEnumerator(CFXMLTreeRef inTreeNode);
+		OSErr			AddEnumerator(CFXMLTreeRef inTreeNode);
 		void			RemoveEnumerator( ArrayIndexT inAtIndex );
 
 		SInt32			NewEnumerator();

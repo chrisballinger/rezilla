@@ -2,7 +2,7 @@
 // CAeteClass.h
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-02-19 15:09:00
+//             Last modification: 2005-02-20 12:42:47
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -40,13 +40,13 @@ public:
 								OSType	inType, 
 								Str255	inDescription, 
 								UInt16	inFlags);
-		void		AddProperty(CFXMLTreeRef inTreeNode);
+		OSErr		AddProperty(CFXMLTreeRef inTreeNode);
 		void		RemoveProperty( ArrayIndexT inAtIndex );
 
 		void		AddElement();
 		void		AddElement( CAeteElement * inElement );
 		void		AddElement( OSType inKeyForms[], UInt16 inCount = 1 );
-		void		AddElement(CFXMLTreeRef inTreeNode);
+		OSErr		AddElement(CFXMLTreeRef inTreeNode);
 		void		RemoveElement( ArrayIndexT inAtIndex );
 
 		SInt32		NewProperty();
@@ -60,6 +60,8 @@ public:
 
 		OSErr		GetDataFromXml(CFXMLTreeRef inTreeNode);
 		
+		OSErr		GetArrayFromXml(CFXMLTreeRef inTreeRef, SInt8 inKind);
+
 		void		GetValues(Str255 outName, OSType & outID, Str255 outDescription);
 		
 		void 		SetValues(Str255 inName, OSType inID, Str255 inDescription);
@@ -69,6 +71,8 @@ public:
 
 		ArrayIndexT		GetElementIndex() { return mElementIndex;}
 		void			SetElementIndex(ArrayIndexT inElementIndex) {mElementIndex = inElementIndex;}
+
+		void			AdjustCurrentIndex(SInt8 inKind);
 
 		SInt32			CountProperties() { return mProperties.GetCount(); }
 		SInt32			CountElements() { return mElements.GetCount(); }

@@ -36,7 +36,7 @@ public:
 							 OSType		inID, 
 							 UInt16		inLevel,
 							 UInt16		inVersion);
-		void		AddSuite(CFXMLTreeRef inTreeNode);
+		OSErr		AddSuite(CFXMLTreeRef inTreeNode);
 		void		RemoveSuite( ArrayIndexT inAtIndex );
 
 		void		InstallDataStream(CAeteStream * inStream);

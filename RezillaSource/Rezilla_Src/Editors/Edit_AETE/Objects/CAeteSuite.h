@@ -51,7 +51,7 @@ public:
 						   OSType	inDirectType,
 						   Str255	inDirectDescription,
 						   UInt16	inDirectFlags);
-		void		AddEvent(CFXMLTreeRef inTreeNode);
+		OSErr		AddEvent(CFXMLTreeRef inTreeNode);
 		void		RemoveEvent( ArrayIndexT inAtIndex );
 		
 		void		AddClass();
@@ -59,7 +59,7 @@ public:
 		void		AddClass(Str255	inName,
 							OSType	inID,
 							Str255	inDescription);
-		void		AddClass(CFXMLTreeRef inTreeNode);
+		OSErr		AddClass(CFXMLTreeRef inTreeNode);
 		void		RemoveClass( ArrayIndexT inAtIndex );
 		
 		void		AddCompOp();
@@ -67,13 +67,13 @@ public:
 		void		AddCompOp(Str255 inName, 
 							 OSType inType, 
 							 Str255 inDescription);
-		void		AddCompOp(CFXMLTreeRef inTreeNode);
+		OSErr		AddCompOp(CFXMLTreeRef inTreeNode);
 		void		RemoveCompOp( ArrayIndexT inAtIndex );
 		
 		void		AddEnumeration();
 		void		AddEnumeration(CAeteEnumeration * inEnum);
 		void		AddEnumeration(OSType inID);
-		void		AddEnumeration(CFXMLTreeRef inTreeNode);
+		OSErr		AddEnumeration(CFXMLTreeRef inTreeNode);
 		void		RemoveEnumeration( ArrayIndexT inAtIndex );
 
 		SInt32		NewItem(SInt8 inKind);
@@ -84,6 +84,8 @@ public:
 
 		OSErr		GetDataFromXml(CFXMLTreeRef inTreeNode);
 		
+		OSErr		GetArrayFromXml(CFXMLTreeRef inTreeRef, SInt8 inKind);
+
 		StringPtr	GetName( Str255	outName ) const;
 	
 		void		GetValues(Str255 outName, Str255 outDescription, OSType & outID, 
@@ -94,6 +96,7 @@ public:
 			
 		ArrayIndexT		GetCurrentIndex(SInt8 inKind);
 		void			SetCurrentIndex(SInt8 inKind, ArrayIndexT inIndex);
+		void			AdjustCurrentIndex(SInt8 inKind);
 
 		ArrayIndexT		GetEventIndex() { return mEventIndex;}
 		void			SetEventIndex(ArrayIndexT inEventIndex) {mEventIndex = inEventIndex;}

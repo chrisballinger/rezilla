@@ -46,7 +46,7 @@ public:
 								OSType	inType, 
 								Str255	inDescription, 
 								UInt16	inFlags);
-		void	AddParameter(CFXMLTreeRef inTreeNode);
+		OSErr	AddParameter(CFXMLTreeRef inTreeNode);
 		void	RemoveParameter( ArrayIndexT inAtIndex );
 		
 		SInt32		NewParameter();

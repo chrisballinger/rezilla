@@ -152,19 +152,26 @@ CAeteParameter::GetDataFromXml(CFXMLTreeRef inTreeNode)
 	childCount = CFTreeGetChildCount(inTreeNode);
 	for (index = 0; index < childCount; index++) {
 		xmlTree = CFTreeGetChildAtIndex(inTreeNode, index);
-		xmlNode = CFXMLTreeGetNode(xmlTree);
-
-		if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ParameterName"), 0) ) {
-			UMiscUtils::GetStringFromXml(xmlTree, mName);
-		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ParameterID"), 0) ) {
-			UMiscUtils::GetOSTypeFromXml(xmlTree, mKeyword);
-		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ParameterType"), 0) ) {
-			UMiscUtils::GetOSTypeFromXml(xmlTree, mType);
-		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ParameterDescription"), 0) ) {
-			UMiscUtils::GetStringFromXml(xmlTree, mDescription);
-		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ParameterFlags"), 0) ) {
-			UMiscUtils::GetValueFromXml(xmlTree, theLong);
-			mFlags = theLong;
+		if (xmlTree) {
+			xmlNode = CFXMLTreeGetNode(xmlTree);
+			if (xmlNode) {
+				if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ParameterName"), 0) ) {
+					UMiscUtils::GetStringFromXml(xmlTree, mName);
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ParameterID"), 0) ) {
+					error = UMiscUtils::GetOSTypeFromXml(xmlTree, mKeyword);
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ParameterType"), 0) ) {
+					error = UMiscUtils::GetOSTypeFromXml(xmlTree, mType);
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ParameterDescription"), 0) ) {
+					UMiscUtils::GetStringFromXml(xmlTree, mDescription);
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ParameterFlags"), 0) ) {
+					UMiscUtils::GetValueFromXml(xmlTree, theLong);
+					mFlags = theLong;
+				} else {
+					error = err_ImportUnknownAeteParameterTag;	
+				}
+				
+				if (error != noErr) { break; } 
+			} 
 		} 
 	}
 	

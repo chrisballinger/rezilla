@@ -63,14 +63,19 @@ CAeteElement::AddKeyForm( OSType inKey )
 //  AddKeyForm														[public]
 // ---------------------------------------------------------------------------
 
-ArrayIndexT
+OSErr
 CAeteElement::AddKeyForm(CFXMLTreeRef inTreeNode)
 {
+	OSErr	error = noErr;
 	OSType	theKey = 0;
 	
-	UMiscUtils::GetOSTypeFromXml(inTreeNode, theKey);
+	error = UMiscUtils::GetOSTypeFromXml(inTreeNode, theKey);
 
-	return ( mKeyForms.AddItem(theKey) );
+	if (error == noErr) {
+		mKeyForms.AddItem(theKey);
+	} 
+	
+	return error;
 }
 
 
@@ -201,20 +206,32 @@ CAeteElement::GetDataFromXml(CFXMLTreeRef inTreeNode)
 	childCount = CFTreeGetChildCount(inTreeNode);
 	for (index = 0; index < childCount; index++) {
 		xmlTree = CFTreeGetChildAtIndex(inTreeNode, index);
-		xmlNode = CFXMLTreeGetNode(xmlTree);
+		if (xmlTree) {
+			xmlNode = CFXMLTreeGetNode(xmlTree);
+			if (xmlNode) {
+				if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ElementClass"), 0) ) {
+					error = UMiscUtils::GetOSTypeFromXml(xmlTree, mID);
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ArrayKeyForms"), 0) ) {
+					subCount = CFTreeGetChildCount(xmlTree);
+					for (subIndex = 0; subIndex < subCount; subIndex++) {
+						subTree = CFTreeGetChildAtIndex(xmlTree, subIndex);
+						if (subTree) {
+							subNode = CFXMLTreeGetNode(subTree);
+							if (subNode) {
+								if ( ! CFStringCompare( CFXMLNodeGetString(subNode), CFSTR("KeyFormID"), 0) ) {
+									error = AddKeyForm(subTree);
+									if (error != noErr) { break; } 
+								}
+							} 
+						} 
+					}
+				} else {
+					error = err_ImportUnknownAeteElementTag;	
+				} 
 
-		if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ElementClass"), 0) ) {
-			UMiscUtils::GetOSTypeFromXml(xmlTree, mID);
-		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ArrayKeyForms"), 0) ) {
-			subCount = CFTreeGetChildCount(xmlTree);
-			for (subIndex = 0; subIndex < subCount; subIndex++) {
-				subTree = CFTreeGetChildAtIndex(xmlTree, subIndex);
-				subNode = CFXMLTreeGetNode(subTree);
-				if ( ! CFStringCompare( CFXMLNodeGetString(subNode), CFSTR("KeyFormID"), 0) ) {
-					AddKeyForm(subTree);
-				}
-			}
-		}
+				if (error != noErr) { break; } 
+			} 
+		} 
 	}
 	
 	return error;

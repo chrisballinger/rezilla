@@ -135,14 +135,21 @@ CAeteCompOp::GetDataFromXml(CFXMLTreeRef inTreeNode)
 	childCount = CFTreeGetChildCount(inTreeNode);
 	for (index = 0; index < childCount; index++) {
 		xmlTree = CFTreeGetChildAtIndex(inTreeNode, index);
-		xmlNode = CFXMLTreeGetNode(xmlTree);
-
-		if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("CompOpName"), 0) ) {
-			UMiscUtils::GetStringFromXml(xmlTree, mName);
-		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("CompOpID"), 0) ) {
-			UMiscUtils::GetOSTypeFromXml(xmlTree, mID);
-		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("CompOpDescription"), 0) ) {
-			UMiscUtils::GetStringFromXml(xmlTree, mDescription);
+		if (xmlTree) {
+			xmlNode = CFXMLTreeGetNode(xmlTree);
+			if (xmlNode) {
+				if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("CompOpName"), 0) ) {
+					UMiscUtils::GetStringFromXml(xmlTree, mName);
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("CompOpID"), 0) ) {
+					error = UMiscUtils::GetOSTypeFromXml(xmlTree, mID);
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("CompOpDescription"), 0) ) {
+					UMiscUtils::GetStringFromXml(xmlTree, mDescription);
+				} else {
+					error = err_ImportUnknownAeteCompOpTag;	
+				}
+				
+				if (error != noErr) { break; } 
+			} 
 		} 
 	}
 	

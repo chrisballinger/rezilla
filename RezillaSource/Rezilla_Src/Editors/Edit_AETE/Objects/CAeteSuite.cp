@@ -153,12 +153,14 @@ CAeteSuite::AddEvent(
 //  AddEvent												[public]
 // ---------------------------------------------------------------------------
 
-void
+OSErr
 CAeteSuite::AddEvent(CFXMLTreeRef inTreeNode)
 {
+	OSErr	error = noErr;
 	CAeteEvent * theEvent = new CAeteEvent();
 	mEvents.AddItem(theEvent);
-	theEvent->GetDataFromXml(inTreeNode);
+	error = theEvent->GetDataFromXml(inTreeNode);
+	return error;
 }
 
 
@@ -218,12 +220,14 @@ CAeteSuite::AddClass(Str255	inName,
 //  AddClass												[public]
 // ---------------------------------------------------------------------------
 
-void
+OSErr
 CAeteSuite::AddClass(CFXMLTreeRef inTreeNode)
 {
+	OSErr	error = noErr;
 	CAeteClass * theClass = new CAeteClass();
 	mClasses.AddItem(theClass);
-	theClass->GetDataFromXml(inTreeNode);
+	error = theClass->GetDataFromXml(inTreeNode);
+	return error;
 }
 
 
@@ -283,12 +287,14 @@ CAeteSuite::AddCompOp(Str255 inName,
 //  AddCompOp												[public]
 // ---------------------------------------------------------------------------
 
-void
+OSErr
 CAeteSuite::AddCompOp(CFXMLTreeRef inTreeNode)
 {
+	OSErr	error = noErr;
 	CAeteCompOp * theCompOp = new CAeteCompOp();
 	mCompOps.AddItem(theCompOp);
-	theCompOp->GetDataFromXml(inTreeNode);
+	error = theCompOp->GetDataFromXml(inTreeNode);
+	return error;
 }
 
 
@@ -346,12 +352,14 @@ CAeteSuite::AddEnumeration(OSType inID)
 //  AddEnumeration												[public]
 // ---------------------------------------------------------------------------
 
-void
+OSErr
 CAeteSuite::AddEnumeration(CFXMLTreeRef inTreeNode)
 {
+	OSErr	error = noErr;
 	CAeteEnumeration * theEnum = new CAeteEnumeration();
 	mEnumerations.AddItem(theEnum);
-	theEnum->GetDataFromXml(inTreeNode);
+	error = theEnum->GetDataFromXml(inTreeNode);
+	return error;
 }
 
 
@@ -616,6 +624,21 @@ CAeteSuite::GetCurrentCount(SInt8 inKind)
  
 
 // ---------------------------------------------------------------------------
+//  AdjustCurrentIndex												[public]
+// ---------------------------------------------------------------------------
+
+void
+CAeteSuite::AdjustCurrentIndex(SInt8 inKind)
+{
+	if ( GetCurrentIndex(inKind) == 0 ) {
+		SetCurrentIndex(inKind, (GetCurrentCount(inKind) > 0));
+	} else if ( GetCurrentIndex(inKind) > GetCurrentCount(inKind) ) {
+		SetCurrentIndex(inKind, GetCurrentCount(inKind));
+	} 
+}
+ 
+
+// ---------------------------------------------------------------------------
 //  NewItem															[public]
 // ---------------------------------------------------------------------------
 // Returns the new count of items after addition. This is also the index 
@@ -688,71 +711,105 @@ OSErr
 CAeteSuite::GetDataFromXml(CFXMLTreeRef inTreeNode)
 {
 	OSErr			error = noErr;
-	int             childCount, subCount;
-	CFXMLTreeRef    xmlTree, subTree;
-	CFXMLNodeRef    xmlNode, subNode;
-	int             index, subIndex;
+	int             childCount;
+	CFXMLTreeRef    xmlTree;
+	CFXMLNodeRef    xmlNode;
+	int             index;
 	SInt32			theLong;
+	Boolean			gotArrayEvents = false, 
+					gotArrayClasses = false, 
+					gotArrayCompOps = false, 
+					gotArrayEnums = false;
 	
 	childCount = CFTreeGetChildCount(inTreeNode);
 	for (index = 0; index < childCount; index++) {
 		xmlTree = CFTreeGetChildAtIndex(inTreeNode, index);
-		xmlNode = CFXMLTreeGetNode(xmlTree);
-
-		if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("SuiteName"), 0) ) {
-			UMiscUtils::GetStringFromXml(xmlTree, mName);
-		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("SuiteDescription"), 0) ) {
-			UMiscUtils::GetStringFromXml(xmlTree, mDescription);
-		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("SuiteID"), 0) ) {
-			UMiscUtils::GetOSTypeFromXml(xmlTree, mID);
-		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("SuiteLevel"), 0) ) {
-			UMiscUtils::GetValueFromXml(xmlTree, theLong);
-			mLevel = theLong;
-		}  else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("SuiteVersion"), 0) ) {
-			UMiscUtils::GetValueFromXml(xmlTree, theLong);
-			mVersion = theLong;
-		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ArrayEvents"), 0) ) {
-			subCount = CFTreeGetChildCount(xmlTree);
-			for (subIndex = 0; subIndex < subCount; subIndex++) {
-				subTree = CFTreeGetChildAtIndex(xmlTree, subIndex);
-				subNode = CFXMLTreeGetNode(subTree);
-				if ( ! CFStringCompare( CFXMLNodeGetString(subNode), CFSTR("Event"), 0) ) {
-					AddEvent(subTree);
+		if (xmlTree) {
+			xmlNode = CFXMLTreeGetNode(xmlTree);
+			if (xmlNode) {
+				if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("SuiteName"), 0) ) {
+					UMiscUtils::GetStringFromXml(xmlTree, mName);
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("SuiteDescription"), 0) ) {
+					UMiscUtils::GetStringFromXml(xmlTree, mDescription);
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("SuiteID"), 0) ) {
+					error = UMiscUtils::GetOSTypeFromXml(xmlTree, mID);
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("SuiteLevel"), 0) ) {
+					UMiscUtils::GetValueFromXml(xmlTree, theLong);
+					mLevel = theLong;
+				}  else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("SuiteVersion"), 0) ) {
+					UMiscUtils::GetValueFromXml(xmlTree, theLong);
+					mVersion = theLong;
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ArrayEvents"), 0) ) {
+					error = GetArrayFromXml(xmlTree, kind_AeteEvent);
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ArrayClasses"), 0) ) {
+					error = GetArrayFromXml(xmlTree, kind_AeteClass);
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ArrayComparisonOps"), 0) ) {
+					error = GetArrayFromXml(xmlTree, kind_AeteCompOp);
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ArrayEnumerations"), 0) ) {
+					error = GetArrayFromXml(xmlTree, kind_AeteEnum);
+				} else {
+					error = err_ImportUnknownAeteSuiteTag;	
 				}
-			}
-		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ArrayClasses"), 0) ) {
-			subCount = CFTreeGetChildCount(xmlTree);
-			for (subIndex = 0; subIndex < subCount; subIndex++) {
-				subTree = CFTreeGetChildAtIndex(xmlTree, subIndex);
-				subNode = CFXMLTreeGetNode(subTree);
-				if ( ! CFStringCompare( CFXMLNodeGetString(subNode), CFSTR("Class"), 0) ) {
-					AddClass(subTree);
-				}
-			}
-		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ArrayComparisonOps"), 0) ) {
-			subCount = CFTreeGetChildCount(xmlTree);
-			for (subIndex = 0; subIndex < subCount; subIndex++) {
-				subTree = CFTreeGetChildAtIndex(xmlTree, subIndex);
-				subNode = CFXMLTreeGetNode(subTree);
-				if ( ! CFStringCompare( CFXMLNodeGetString(subNode), CFSTR("ComparisonOp"), 0) ) {
-					AddCompOp(subTree);
-				}
-			}
-		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ArrayEnumerations"), 0) ) {
-			subCount = CFTreeGetChildCount(xmlTree);
-			for (subIndex = 0; subIndex < subCount; subIndex++) {
-				subTree = CFTreeGetChildAtIndex(xmlTree, subIndex);
-				subNode = CFXMLTreeGetNode(subTree);
-				if ( ! CFStringCompare( CFXMLNodeGetString(subNode), CFSTR("Enumeration"), 0) ) {
-					AddEnumeration(subTree);
-				}
-			}
+				
+				if (error != noErr) { break; } 
+			} 
 		} 
-
-
-
 	}
-	
+
+	return error;
+}
+
+
+// ---------------------------------------------------------------------------
+//  GetArrayFromXml												[public]
+// ---------------------------------------------------------------------------
+
+OSErr
+CAeteSuite::GetArrayFromXml(CFXMLTreeRef inTreeRef, SInt8 inKind)
+{
+	OSErr			error = noErr;
+	int             childCount;
+	CFXMLTreeRef    xmlTree;
+	CFXMLNodeRef    xmlNode;
+	int             index;
+
+	childCount = CFTreeGetChildCount(inTreeRef);
+	for (index = 0; index < childCount; index++) {
+		xmlTree = CFTreeGetChildAtIndex(inTreeRef, index);
+		if (xmlTree) {
+			xmlNode = CFXMLTreeGetNode(xmlTree);
+			if (xmlNode) {
+				switch (inKind) {
+					case kind_AeteEvent:
+					if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("Event"), 0) ) {
+						error = AddEvent(xmlTree);
+					}
+					break;
+					
+					case kind_AeteClass:
+					if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("Class"), 0) ) {
+						error = AddClass(xmlTree);
+					}
+					break;
+					
+					case kind_AeteCompOp:
+					if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ComparisonOp"), 0) ) {
+						error = AddCompOp(xmlTree);
+					}
+					break;
+					
+					case kind_AeteEnum:
+					if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("Enumeration"), 0) ) {
+						error = AddEnumeration(xmlTree);
+					}
+					break;
+				}	
+			} 			
+		} 
+		if (error != noErr) { break; } 
+	}
+	AdjustCurrentIndex(inKind);
+
 	return error;
 }
 

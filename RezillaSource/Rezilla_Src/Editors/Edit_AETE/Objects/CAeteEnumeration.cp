@@ -86,30 +86,46 @@ CAeteEnumeration::AddEnumerator(Str255 inName, OSType inType, Str255 inDescripti
 //  AddEnumerator												[public]
 // ---------------------------------------------------------------------------
 
-ArrayIndexT
+OSErr
 CAeteEnumeration::AddEnumerator(CFXMLTreeRef inTreeNode)
 {
+	OSErr	error = noErr;
 	AeteEnumerator	numerator;
 	int             childCount;
 	CFXMLTreeRef    xmlTree;
 	CFXMLNodeRef    xmlNode;
 	int             index;
 	
+	numerator.type = 0;
+	numerator.name[0] = 0;
+	numerator.description[0] = 0;
+
 	childCount = CFTreeGetChildCount(inTreeNode);
 	for (index = 0; index < childCount; index++) {
 		xmlTree = CFTreeGetChildAtIndex(inTreeNode, index);
-		xmlNode = CFXMLTreeGetNode(xmlTree);
-
-		if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("EnumeratorName"), 0) ) {
-			UMiscUtils::GetStringFromXml(xmlTree, numerator.name);
-		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("EnumeratorID"), 0) ) {
-			UMiscUtils::GetOSTypeFromXml(xmlTree, numerator.type);
-		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("EnumeratorDescription"), 0) ) {
-			UMiscUtils::GetStringFromXml(xmlTree, numerator.description);
-		}
+		if (xmlTree) {
+			xmlNode = CFXMLTreeGetNode(xmlTree);
+			if (xmlNode) {
+				if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("EnumeratorName"), 0) ) {
+					UMiscUtils::GetStringFromXml(xmlTree, numerator.name);
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("EnumeratorID"), 0) ) {
+					error = UMiscUtils::GetOSTypeFromXml(xmlTree, numerator.type);
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("EnumeratorDescription"), 0) ) {
+					UMiscUtils::GetStringFromXml(xmlTree, numerator.description);
+				} else {
+					error = err_ImportUnknownAeteEnumeratorTag;	
+				}
+				
+				if (error != noErr) { break; } 
+			} 
+		} 
 	}
 	
-	return ( mEnumerators.AddItem(numerator) );
+	if (error == noErr) {
+		mEnumerators.AddItem(numerator);
+	} 
+
+	return error;
 }
 
 
@@ -255,19 +271,31 @@ CAeteEnumeration::GetDataFromXml(CFXMLTreeRef inTreeNode)
 	childCount = CFTreeGetChildCount(inTreeNode);
 	for (index = 0; index < childCount; index++) {
 		xmlTree = CFTreeGetChildAtIndex(inTreeNode, index);
-		xmlNode = CFXMLTreeGetNode(xmlTree);
-
-		if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("EnumerationID"), 0) ) {
-			UMiscUtils::GetOSTypeFromXml(xmlTree, mEnumerationID);
-		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ArrayEnumerators"), 0) ) {
-			subCount = CFTreeGetChildCount(xmlTree);
-			for (subIndex = 0; subIndex < subCount; subIndex++) {
-				subTree = CFTreeGetChildAtIndex(xmlTree, subIndex);
-				subNode = CFXMLTreeGetNode(subTree);
-				if ( ! CFStringCompare( CFXMLNodeGetString(subNode), CFSTR("Enumerator"), 0) ) {
-					AddEnumerator(subTree);
+		if (xmlTree) {
+			xmlNode = CFXMLTreeGetNode(xmlTree);
+			if (xmlNode) {
+				if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("EnumerationID"), 0) ) {
+					error = UMiscUtils::GetOSTypeFromXml(xmlTree, mEnumerationID);
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ArrayEnumerators"), 0) ) {
+					subCount = CFTreeGetChildCount(xmlTree);
+					for (subIndex = 0; subIndex < subCount; subIndex++) {
+						subTree = CFTreeGetChildAtIndex(xmlTree, subIndex);
+						if (subTree) {
+							subNode = CFXMLTreeGetNode(subTree);
+							if (subNode) {
+								if ( ! CFStringCompare( CFXMLNodeGetString(subNode), CFSTR("Enumerator"), 0) ) {
+									error = AddEnumerator(subTree);
+									if (error != noErr) { break; } 
+								}
+							} 
+						} 
+					}
+				} else {
+					error = err_ImportUnknownAeteEnumerationTag;	
 				}
-			}
+				
+				if (error != noErr) { break; } 
+			} 
 		} 
 	}
 	

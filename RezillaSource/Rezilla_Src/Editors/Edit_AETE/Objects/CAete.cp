@@ -101,12 +101,14 @@ CAete::AddSuite(Str255	inName,
 //  AddSuite												[public]
 // ---------------------------------------------------------------------------
 
-void
+OSErr
 CAete::AddSuite(CFXMLTreeRef inTreeNode)
 {
+	OSErr	error = noErr;
 	CAeteSuite * theSuite = new CAeteSuite();
 	mSuites.AddItem(theSuite);
-	theSuite->GetDataFromXml(inTreeNode);
+	error = theSuite->GetDataFromXml(inTreeNode);
+	return error;
 }
 
 
@@ -239,32 +241,45 @@ CAete::GetDataFromXml(CFXMLTreeRef inTreeNode)
 	childCount = CFTreeGetChildCount(inTreeNode);
 	for (index = 0; index < childCount; index++) {
 		xmlTree = CFTreeGetChildAtIndex(inTreeNode, index);
-		xmlNode = CFXMLTreeGetNode(xmlTree);
+		if (xmlTree) {
+			xmlNode = CFXMLTreeGetNode(xmlTree);
+			if (xmlNode) {
+				if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("MajorVersion"), 0) ) {
+					UMiscUtils::GetValueFromXml(xmlTree, theLong);
+					mMajorVersion = theLong;			
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("MinorVersion"), 0) ) {
+					UMiscUtils::GetValueFromXml(xmlTree, theLong);
+					mMinorVersion = theLong;
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("LanguageCode"), 0) ) {
+					UMiscUtils::GetValueFromXml(xmlTree, theLong);
+					mLanguage = theLong;
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ScriptCode"), 0) ) {
+					UMiscUtils::GetValueFromXml(xmlTree, theLong);
+					mScript = theLong;
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ArraySuites"), 0) ) {
+					subCount = CFTreeGetChildCount(xmlTree);
+					for (subIndex = 0; subIndex < subCount; subIndex++) {
+						subTree = CFTreeGetChildAtIndex(xmlTree, subIndex);
+						if (subTree) {
+							subNode = CFXMLTreeGetNode(subTree);
+							if (subNode) {
+								if ( ! CFStringCompare( CFXMLNodeGetString(subNode), CFSTR("Suite"), 0) ) {
+									error = AddSuite(subTree);
+									if (error != noErr) { break; } 
+								}
+							} 
+						} 
+					}
+					AdjustSuiteIndex();
+				} else {
+					error = err_ImportUnknownAeteResourceTag;	
+				} 
 
-		if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("MajorVersion"), 0) ) {
-			UMiscUtils::GetValueFromXml(xmlTree, theLong);
-			mMajorVersion = theLong;			
-		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("MinorVersion"), 0) ) {
-			UMiscUtils::GetValueFromXml(xmlTree, theLong);
-			mMinorVersion = theLong;
-		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("LanguageCode"), 0) ) {
-			UMiscUtils::GetValueFromXml(xmlTree, theLong);
-			mLanguage = theLong;
-		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ScriptCode"), 0) ) {
-			UMiscUtils::GetValueFromXml(xmlTree, theLong);
-			mScript = theLong;
-		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ArraySuites"), 0) ) {
-			subCount = CFTreeGetChildCount(xmlTree);
-			for (subIndex = 0; subIndex < subCount; subIndex++) {
-				subTree = CFTreeGetChildAtIndex(xmlTree, subIndex);
-				subNode = CFXMLTreeGetNode(subTree);
-				if ( ! CFStringCompare( CFXMLNodeGetString(subNode), CFSTR("Suite"), 0) ) {
-					AddSuite(subTree);
-				}
-			}
+				if (error != noErr) { break; } 
+			} 
 		} 
 	}
-	
+
 	return error;
 }
 

@@ -2,7 +2,7 @@
 // CAeteClass.cp
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-02-04 06:06:26
+//             Last modification: 2005-02-20 12:42:55
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -122,12 +122,14 @@ CAeteClass::AddProperty(Str255	inName,
 //  AddProperty												[public]
 // ---------------------------------------------------------------------------
 
-void
+OSErr
 CAeteClass::AddProperty(CFXMLTreeRef inTreeNode)
 {
+	OSErr	error = noErr;
 	CAeteProperty * theProperty = new CAeteProperty();
 	mProperties.AddItem(theProperty);
-	theProperty->GetDataFromXml(inTreeNode);
+	error = theProperty->GetDataFromXml(inTreeNode);
+	return error;
 }
 
 
@@ -190,12 +192,14 @@ CAeteClass::AddElement( OSType inKeyForms[], UInt16 inCount )
 //  AddElement												[public]
 // ---------------------------------------------------------------------------
 
-void
+OSErr
 CAeteClass::AddElement(CFXMLTreeRef inTreeNode)
 {
+	OSErr	error = noErr;
 	CAeteElement * theElement = new CAeteElement();
 	mElements.AddItem(theElement);
-	theElement->GetDataFromXml(inTreeNode);
+	error = theElement->GetDataFromXml(inTreeNode);
+	return error;
 }
 
 
@@ -375,6 +379,34 @@ CAeteClass::DeleteElement()
  
 
 // ---------------------------------------------------------------------------
+//  AdjustCurrentIndex												[public]
+// ---------------------------------------------------------------------------
+
+void
+CAeteClass::AdjustCurrentIndex(SInt8 inKind)
+{
+	switch (inKind) {
+		case kind_AeteProperty:
+		if ( mPropertyIndex == 0 ) {
+			mPropertyIndex = (CountProperties() > 0);
+		} else if ( mPropertyIndex > CountProperties() ) {
+			mPropertyIndex = CountProperties();
+		} 
+		break;
+		
+		case kind_AeteElement:
+		if ( mElementIndex == 0 ) {
+			mElementIndex = (CountElements() > 0);
+		} else if ( mElementIndex > CountElements() ) {
+			mElementIndex = CountElements();
+		} 
+		break;
+		
+	}	
+}
+ 
+
+// ---------------------------------------------------------------------------
 //  GetDataFromXml												[public]
 // ---------------------------------------------------------------------------
 
@@ -382,44 +414,81 @@ OSErr
 CAeteClass::GetDataFromXml(CFXMLTreeRef inTreeNode)
 {
 	OSErr			error = noErr;
-	int             childCount, subCount;
-	CFXMLTreeRef    xmlTree, subTree;
-	CFXMLNodeRef    xmlNode, subNode;
-	int             index, subIndex;
+	int             childCount;
+	CFXMLTreeRef    xmlTree;
+	CFXMLNodeRef    xmlNode;
+	int             index;
 	
 	childCount = CFTreeGetChildCount(inTreeNode);
 	for (index = 0; index < childCount; index++) {
 		xmlTree = CFTreeGetChildAtIndex(inTreeNode, index);
-		xmlNode = CFXMLTreeGetNode(xmlTree);
-
-		if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ClassName"), 0) ) {
-			UMiscUtils::GetStringFromXml(xmlTree, mName);
-		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ClassID"), 0) ) {
-			UMiscUtils::GetOSTypeFromXml(xmlTree, mID);
-		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ClassDescription"), 0) ) {
-			UMiscUtils::GetStringFromXml(xmlTree, mDescription);
-		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ArrayProperties"), 0) ) {
-			subCount = CFTreeGetChildCount(xmlTree);
-			for (subIndex = 0; subIndex < subCount; subIndex++) {
-				subTree = CFTreeGetChildAtIndex(xmlTree, subIndex);
-				subNode = CFXMLTreeGetNode(subTree);
-				if ( ! CFStringCompare( CFXMLNodeGetString(subNode), CFSTR("Property"), 0) ) {
-					AddProperty(subTree);
+		if (xmlTree) {
+			xmlNode = CFXMLTreeGetNode(xmlTree);
+			if (xmlNode) {
+				if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ClassName"), 0) ) {
+					UMiscUtils::GetStringFromXml(xmlTree, mName);
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ClassID"), 0) ) {
+					error = UMiscUtils::GetOSTypeFromXml(xmlTree, mID);
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ClassDescription"), 0) ) {
+					UMiscUtils::GetStringFromXml(xmlTree, mDescription);
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ArrayProperties"), 0) ) {
+					error = GetArrayFromXml(xmlTree, kind_AeteProperty);
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ArrayElements"), 0) ) {
+					error = GetArrayFromXml(xmlTree, kind_AeteElement);
+				} else {
+					error = err_ImportUnknownAeteClassTag;	
 				}
-			}
-		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ArrayElements"), 0) ) {
-			subCount = CFTreeGetChildCount(xmlTree);
-			for (subIndex = 0; subIndex < subCount; subIndex++) {
-				subTree = CFTreeGetChildAtIndex(xmlTree, subIndex);
-				subNode = CFXMLTreeGetNode(subTree);
-				if ( ! CFStringCompare( CFXMLNodeGetString(subNode), CFSTR("Element"), 0) ) {
-					AddElement(subTree);
-				}
-			}
-		}
+				
+				if (error != noErr) { break; } 
+			} 
+		} 
 	}
 	
 	return error;
 }
+
+
+// ---------------------------------------------------------------------------
+//  GetArrayFromXml												[public]
+// ---------------------------------------------------------------------------
+
+OSErr
+CAeteClass::GetArrayFromXml(CFXMLTreeRef inTreeRef, SInt8 inKind)
+{
+	OSErr			error = noErr;
+	int             childCount;
+	CFXMLTreeRef    xmlTree;
+	CFXMLNodeRef    xmlNode;
+	int             index;
+
+	childCount = CFTreeGetChildCount(inTreeRef);
+	for (index = 0; index < childCount; index++) {
+		xmlTree = CFTreeGetChildAtIndex(inTreeRef, index);
+		if (xmlTree) {
+			xmlNode = CFXMLTreeGetNode(xmlTree);
+			if (xmlNode) {
+				switch (inKind) {
+					case kind_AeteProperty:
+					if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("Property"), 0) ) {
+						error = AddProperty(xmlTree);
+					}
+					break;
+					
+					case kind_AeteElement:
+					if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("Element"), 0) ) {
+						error = AddElement(xmlTree);
+					}
+					break;
+					
+				}	
+			} 			
+		} 
+		if (error != noErr) { break; } 
+	}
+	AdjustCurrentIndex(inKind);
+
+	return error;
+}
+
 
 
