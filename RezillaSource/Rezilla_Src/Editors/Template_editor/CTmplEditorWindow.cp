@@ -370,10 +370,10 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			} 
 			mYCoord = kTmplVertSep;
 			DoParseWithTemplate(startMark, true, currListItemView);
-			if (mYCoord < kTmplMinListItemWidth) {
-				mYCoord = kTmplMinListItemWidth;
+			if (mYCoord < kTmplMinListItemHeight) {
+				mYCoord = kTmplMinListItemHeight;
 			} 
-			currListItemView->ResizeFrameBy(0, mYCoord, true);
+			currListItemView->ResizeFrameBy(0, mYCoord, false);
 
 			mIndent -= kTmplListIndent * sublevel;
 
@@ -387,12 +387,8 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			RecalcPositions(currListItemView, theFrame.bottom + kTmplVertSkip, mYCoord + kTmplVertSkip);
 			mLastID = mPaneIDs.GetCount();
 
-			mContentsView->ResizeImageBy(0, mYCoord + kTmplVertSkip, true);
-// 			mContentsView->Hide();
+			mContentsView->ResizeImageBy(0, mYCoord + kTmplVertSkip, false);
 			mContentsView->Show();
-			
-// 			Refresh();
-	
 			mContentsView->Enable();
 			mContentsView->Activate();
 			if (mSelectedListItem != NULL) {
@@ -699,8 +695,8 @@ CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount,
 				return error;
 			} 
 			if (drawCtrl) {
-				if (mYCoord < kTmplMinListItemWidth) {
-					mYCoord = kTmplMinListItemWidth;
+				if (mYCoord < kTmplMinListItemHeight) {
+					mYCoord = kTmplMinListItemHeight;
 				} 
 				currListItemView->ResizeFrameBy(0, mYCoord, false);
 				outYCoord += mYCoord + kTmplVertSkip;
@@ -709,7 +705,7 @@ CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount,
 		} while (! EndOfList(inType, &error) );
 		if (error && !drawCtrl) {
 			// If we create a new resource, the previous call to EndOfList() 
-			// will report an error since we are posityioned at the end of
+			// will report an error since we are positioned at the end of
 			// the RezStream. Ignore it: a malformed resource would already
 			// have been detected by the first call to EndOfList() above.
 			error = noErr;
@@ -732,8 +728,8 @@ CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount,
 				} 
 				mYCoord = kTmplVertSep;
 				error = DoParseWithTemplate(inStartMark, true, theContainer);
-				if (mYCoord < kTmplMinListItemWidth) {
-					mYCoord = kTmplMinListItemWidth;
+				if (mYCoord < kTmplMinListItemHeight) {
+					mYCoord = kTmplMinListItemHeight;
 				} 
 				currListItemView->ResizeFrameBy(0, mYCoord, false);
 				outYCoord += mYCoord + kTmplVertSkip;

@@ -816,5 +816,5 @@ const SInt16	kTmplCountWidth			= 40;
 const SInt16	kTmplSeparatorHeight	= 3;
 const SInt16	kTmplColorHeight		= 16;
 const SInt16	kTmplColorWidth			= 24;
-const SInt16	kTmplMinListItemWidth	= 16;
+const SInt16	kTmplMinListItemHeight	= 16;
 
