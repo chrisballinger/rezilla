@@ -2,11 +2,11 @@
 // CRezFile.cp					
 // 
 //                       Created: 2003-04-24 14:17:20
-//             Last modification: 2004-03-15 09:03:01
+//             Last modification: 2004-05-19 19:25:41
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003, 2004
+// (c) Copyright : Bernard Desgraupes, 2003-2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -19,6 +19,7 @@
 
 #include "CRezFile.h"
 #include "CRezillaApp.h"
+#include "CRezillaPrefs.h"
 // #include "RezillaConstants.h"
 #include "UMiscUtils.h"
 #include "CRezMap.h"
@@ -40,7 +41,7 @@ CRezFile::CRezFile()
     mFileSpec.parID		= 0;
     mFileSpec.name[0]	= 0;
     mRefNum				= kResFileNotOpened;
-	mUsedFork			= CRezillaApp::sDefaultCreatingFork;
+	mUsedFork			= CRezillaApp::sPrefs->GetPrefValue(kPref_general_newFork);
 }
 
 
@@ -69,7 +70,7 @@ CRezFile::CRezFile(const FSSpec& inFileSpec)
 {
     mFileSpec	= inFileSpec;
     mRefNum		= kResFileNotOpened;
-    mUsedFork	= CRezillaApp::sDefaultCreatingFork;
+    mUsedFork	= CRezillaApp::sPrefs->GetPrefValue(kPref_general_newFork);
 // 	FSpMakeFSRef( &mFileSpec, &mFileRef );
 }
 

@@ -89,7 +89,7 @@ extern const Str255 Rzil_NavExportItems[] = {
 CRezMapDoc::CRezMapDoc(LCommander *inSuper)
 	: LDocument( inSuper )
 {
-	mFork = CRezillaApp::sDefaultCreatingFork;
+	mFork = CRezillaApp::sPrefs->GetPrefValue(kPref_general_newFork);
 	mRezFile = nil;
 	
 	Initialize(nil, kResFileNotOpened);
@@ -104,7 +104,7 @@ CRezMapDoc::CRezMapDoc(LCommander *inSuper,
 						 FSSpec * inFileSpec)
 	: LDocument( inSuper )
 {
-	mFork = CRezillaApp::sDefaultCreatingFork;
+	mFork = CRezillaApp::sPrefs->GetPrefValue(kPref_general_newFork);
 	mRezFile = nil;
 	
 	Initialize(inFileSpec, kResFileNotOpened);
