@@ -232,7 +232,7 @@ CTmplEditorWindow::InitPaneInfos()
 
 void
 CTmplEditorWindow::AddStaticField(OSType inType, Str255 inLabel, LView * inContainer, 
-								  ResIDT inTextTraitsID, SInt32 inReqLength)
+								  ResIDT inTextTraitsID, SInt32 inReqLength, Boolean fullWidth)
 {
 	Str255		theString;
 	LStr255		theLabel(inLabel);
@@ -243,7 +243,7 @@ CTmplEditorWindow::AddStaticField(OSType inType, Str255 inLabel, LView * inConta
 	
 	// For a comment label (DVDR) extend the width to the entire window.
 	// Ditto for a sized hex/txt field to ensure the extended label fits in.
-	if (inType == 'DVDR' || inReqLength > 0) {
+	if (inType == 'DVDR' || inReqLength > 0 || fullWidth) {
 		SDimension16	theFrame;
 		inContainer->GetFrameSize(theFrame);
 		sStaticPaneInfo.width = theFrame.width - kTmplLeftMargin * 2;

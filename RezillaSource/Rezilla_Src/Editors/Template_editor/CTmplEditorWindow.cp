@@ -891,7 +891,7 @@ CTmplEditorWindow::ParseKeyedSection(ResType inType, Str255 inLabelString, LView
 		LStr255		caseString(inLabelString);
 		caseString += "\p: ";
 		caseString.Append(keyString);
-		AddStaticField(inType, caseString, inContainer, sLeftLabelTraitsID);
+		AddStaticField(inType, caseString, inContainer, sLeftLabelTraitsID, 0, true);
 		mYCoord += kTmplLabelVertSkip;
 		error = DoParseWithTemplate(sectionStart, true, inContainer);
 	} 

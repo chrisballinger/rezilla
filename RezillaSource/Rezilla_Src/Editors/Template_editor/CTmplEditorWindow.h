@@ -174,7 +174,8 @@ private:
 								   Str255 inLabel, 
 								   LView * inContainer,
 								   ResIDT inTextTraitsID = Txtr_GenevaTenBoldRight, 
-								   SInt32 inReqLength = 0);
+								   SInt32 inReqLength = 0,
+								   Boolean fullWidth = false);
 	
 	void			AddEditField(Str255 inValue, 
 								OSType inType,
