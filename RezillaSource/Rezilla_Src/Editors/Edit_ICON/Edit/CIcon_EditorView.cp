@@ -2,11 +2,11 @@
 // CIcon_EditorView.cp
 // 
 //                       Created: 2004-12-10 17:23:05
-//             Last modification: 2005-01-02 15:01:20
+//             Last modification: 2005-01-10 18:16:00
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004, 2005
+// (c) Copyright : Bernard Desgraupes, 2004-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -733,15 +733,14 @@ CIcon_EditorView::Reinitialize( COffscreen *	inOffscreen,
 // ---------------------------------------------------------------------------
 // 	MoveSamplePanes
 // ---------------------------------------------------------------------------
-// mOwnerWindow
+
 void 
 CIcon_EditorView::MoveSamplePanes( SInt16 dh, SInt16 /*dv*/, Boolean inRedraw )
 {
 	LPane *samplePane = mOwnerWindow->FindPaneByID( item_IconSampleWell );
-
-// 	LPane *samplePane = UIconMisc::FindSiblingPaneByID( this, item_IconSampleWell );
-	if ( samplePane )
+	if ( samplePane ) {
 		samplePane->MoveBy( dh, 0, inRedraw );
+	}
 }
 
 
@@ -757,18 +756,15 @@ CIcon_EditorView::DrawFrom( COffscreen *inBuffer, const Rect *inSourceRect )
 	
 	if ( !inBuffer ) return;
 	
-			// get ready to draw
-
+	// Get ready to draw
 	SInt32 	totalCellWidth = mCellWidth + mSpaceBetween;
 	SInt32 	totalCellHeight = totalCellWidth;
 	
-			// figure out where everything comes from and goes
-
-	
-		// the source is 0,0 relative and _not_ fatbits
+	// Figure out where everything comes from and goes.
+	// The source is 0,0 relative and _not_ fatbits.
 	if ( inSourceRect )
 	{
-			// make sure we pin sourceRect to the buffer (damn callers)
+		// Make sure we pin sourceRect to the buffer
 		sourceR.left = MAX( 0, inSourceRect->left );
 		sourceR.right = MIN( mImageWidth, inSourceRect->right );
 		sourceR.top = MAX( 0, inSourceRect->top );
@@ -777,7 +773,7 @@ CIcon_EditorView::DrawFrom( COffscreen *inBuffer, const Rect *inSourceRect )
 	else
 		::SetRect( &sourceR, 0, 0, mImageWidth, mImageHeight );
 		
-		// the offscreen is 0,0-relative and fatbits
+	// The offscreen is 0,0-relative and fatbits
 	offscreenR.left = sourceR.left * totalCellWidth;
 	offscreenR.right = sourceR.right * totalCellWidth + kIconSideMargin;
 	offscreenR.top = sourceR.top * totalCellHeight;

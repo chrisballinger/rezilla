@@ -292,7 +292,7 @@ CWindow_Pattern::SaveAsResource( CRezMap *inMap, ResIDT inResID  )
 	}
 	
 	( h );
-	this->SetChangedFlag( false );
+	this->SetDirty( false );
 }
 
 

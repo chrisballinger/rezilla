@@ -401,7 +401,7 @@ CWindow_Cursor::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 		throw;
 	}
 	
-	this->SetChangedFlag( false );
+	this->SetDirty( false );
 	( h );
 }
 

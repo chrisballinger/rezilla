@@ -24,9 +24,6 @@ class CSuiteSlider;
 class CPatternTargetView;
 
 
-// ----------------------------------------------------------------------------
-
-
 class CWindow_PatternSuite : public CIcon_EditorWindow {
 	public:
 		enum { class_ID = FOUR_CHAR_CODE('PaSV') };
@@ -39,18 +36,20 @@ class CWindow_PatternSuite : public CIcon_EditorWindow {
 		
 		virtual void		ListenToMessage(MessageT inMessage, void *ioParam);
 
+		virtual Boolean		HandleKeyPress( const EventRecord&	inKeyEvent);
+
 		virtual void		InitializeFromResource( CRezMap *inMap, ResIDT inID);
 		virtual void		SaveAsResource( CRezMap *inMap, ResIDT inID);
 	
 		SInt32				GetZoomFactor( SInt32, SInt32, Boolean *outShowGrid );
 			
-		void				SetNthPattern( SInt32 inPatternIndex );
+		void				SwitchToNthPattern( SInt32 inPatternIndex );
 		
 	protected:
-		SInt32					mCurrentIndex;
-		SInt32					mTotalCount;
+		UInt16					mCurrentIndex;
+		UInt16					mTotalCount;
 		TArray<Pattern>			mPatternsArray;
-		CPatternTargetView *	mBWSample;
+		CPatternTargetView *	mSample;
 		CSuiteSlider *			mSlider;
 		LStaticText *			mCountField;
 		LPushButton *			mPlusButton;
@@ -66,6 +65,7 @@ class CWindow_PatternSuite : public CIcon_EditorWindow {
 		ArrayIndexT			AddNewPattern();
 		ArrayIndexT			AddNewPattern( SInt32 inAfterIndex );
 		void				RemovePattern( SInt32 inPatternIndex );
+		void				SetNthPattern( SInt32 inPatternIndex );
 		void				BitmapToNthPattern( SInt32 inPatternIndex );
 
 };

@@ -239,7 +239,7 @@ CIconTextAction::HandleKeyDown( const EventRecord &inEvent )
 	if ( isArrowKey )
 		this->DrawInsertionPoint( true );
 	else
-		mSettings.thePaintView->SetChangedFlag( true );
+		mSettings.thePaintView->SetDirty( true );
 }
 
 
@@ -323,7 +323,7 @@ CIconTextAction::ChangeTextTraits( const TextTraitsRecord &inTraits )
 	this->CopyMainBufferToCanvas( &r );
 	
 	// Tell the paint view we've changed
-	mSettings.thePaintView->SetChangedFlag( true );
+	mSettings.thePaintView->SetDirty( true );
 }
 
 

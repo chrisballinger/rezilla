@@ -86,19 +86,17 @@ CPatternTargetView::DrawBuffer()
 		return;
 	}
 	
-		// find out how many rows & columns to draw to fill in the space
-		// for the pattern. round upward to the next whole number and clip
-		// to prevent overdrawing the area we're drawing to
+	// Find out how many rows & columns to draw to fill in the space for
+	// the pattern. Round upward to the next whole number and clip to
+	// prevent overdrawing the area we're drawing to.
 	SInt32 numRows = destHeight / imageHeight;
 	if ( destHeight % imageHeight ) ++numRows;
 	
 	SInt32 numCols = destWidth / imageWidth;
 	if ( destWidth % imageWidth ) ++numCols;
 	
-	/*
-		the CopyTo() method below clears the clip region, so the only
-		way to clip is to pass a mask region to CopyTo
-	*/
+	// The CopyTo() method below clears the clip region, so the only way to
+	// clip is to pass a mask region to CopyTo.
 	RgnHandle	maskRgn = nil;
 	
 	try
@@ -120,7 +118,7 @@ CPatternTargetView::DrawBuffer()
 	}
 	catch( ... )
 	{
-		// don't throw errors because it would cause an infinite recursion
+		// Don't throw errors because it would cause an infinite recursion
 	}
 	
 	URegionMisc::DisposeRegion( maskRgn );

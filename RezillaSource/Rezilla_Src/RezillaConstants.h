@@ -402,7 +402,6 @@ const CommandT	cmd_IconTransparent			= FOUR_CHAR_CODE('TRAN');
 const CommandT	cmd_IconShowBitmap			= FOUR_CHAR_CODE('BITM');
 const CommandT	cmd_IconShowMask			= FOUR_CHAR_CODE('MASK');
 const CommandT	cmd_IconDragImage			= FOUR_CHAR_CODE('DRAG');
-const CommandT	cmd_IconPaintModified		= FOUR_CHAR_CODE('PMOD');
 const CommandT	cmd_IconRecolorCurrentImage	= FOUR_CHAR_CODE('RWCT');  // Recolor With Current Table
 const CommandT	cmd_IconResizeImage			= FOUR_CHAR_CODE('RSZI');
 const CommandT	cmd_IconDeleteImage			= FOUR_CHAR_CODE('DELI');

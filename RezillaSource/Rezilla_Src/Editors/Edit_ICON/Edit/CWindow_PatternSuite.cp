@@ -95,9 +95,9 @@ CWindow_PatternSuite::FinishCreateSelf()
 
 	mSlider->SetOwnerWindow(this);
 	
-	mBWSample = (CPatternTargetView *) this->FindPaneByID( item_IconEditBWSample );
-	ThrowIfNil_( mBWSample );
-	mSamplePaneList[ mNumSamplePanes++ ] = mBWSample;
+	mSample = (CPatternTargetView *) this->FindPaneByID( item_IconEditBWSample );
+	ThrowIfNil_( mSample );
+	mSamplePaneList[ mNumSamplePanes++ ] = mSample;
 	
 	mCountField = (LStaticText *) this->FindPaneByID( item_IconCountField );
 	ThrowIfNil_( mCountField );
@@ -151,6 +151,63 @@ CWindow_PatternSuite::ListenToMessage( MessageT inMessage, void *ioParam )
 
 
 // ---------------------------------------------------------------------------
+//	¥ HandleKeyPress												  [public]
+// ---------------------------------------------------------------------------
+// The PageUp and PageDown arrows move the slider by 1 unit (recall that
+// the simple arrow keys are used by the Text tool to nudge the selection
+// in the canvas). The Home key moves the slider to the min value, the End
+// key to the max value. Pressing the + or - key together with the Command
+// key simulate the plus and minus buttons.
+
+Boolean
+CWindow_PatternSuite::HandleKeyPress(
+	const EventRecord&	inKeyEvent)
+{
+	Boolean		keyHandled	= true;
+	LControl*	keyButton	= nil;
+	UInt8		theChar		= (UInt8) (inKeyEvent.message & charCodeMask);
+	
+	if (inKeyEvent.modifiers & cmdKey) {
+		if ( theChar == 0x2B) {
+			// The + char
+			keyButton = dynamic_cast<LControl*>(mPlusButton);		
+		} else if ( theChar == 0x2D ) {
+			// The - char
+			keyButton = dynamic_cast<LControl*>(mMinusButton);		
+		} 
+	} else {
+		SInt32 theValue;
+		theValue = mSlider->GetValue();
+		
+		if (theChar == char_PageDown) {
+			if (theValue > 1) {
+				--theValue;
+			} 
+		} else if (theChar == char_PageUp) {
+			if (theValue < mTotalCount) {
+				++theValue;
+			} 
+		} else if ( theChar == char_Home ) {
+			theValue = 1;
+		} else if ( theChar == char_End ) {
+			theValue = mTotalCount;
+		}
+		
+		mSlider->SetValue(theValue);
+		SetNthPattern(theValue);
+	}
+	
+	if (keyButton != nil) {
+		keyButton->SimulateHotSpotClick(kControlButtonPart);
+	} else {
+		keyHandled = CIcon_EditorWindow::HandleKeyPress(inKeyEvent);
+	}
+	
+	return keyHandled;
+}
+
+
+// ---------------------------------------------------------------------------
 // 	InitializeFromResource
 // ---------------------------------------------------------------------------
 
@@ -171,19 +228,15 @@ CWindow_PatternSuite::InitializeFromResource( CRezMap *inMap, ResIDT inResID )
 		h = theRes->GetData();
 		ThrowIfNil_( h );
 		
-		// Draw the pattern(s) into bitmaps
+		// Parse the resource to build the patterns array
 		this->ParseBWPatternSuite( h, &bwImage );
 		
-		this->SetImage( bwImage, resize_None, redraw_Later );
-		mBWSample->SetTarget( true, redraw_Dont );
-	
-		mBWSample->SetBuffer( bwImage, redraw_Dont );
-		bwImage = nil;			// because it belongs to the sample pane now
+		SetNthPattern(1);
 
 		mSlider->SetValue(mCurrentIndex);
+		mSlider->SetMinValue(1);
 		mSlider->SetMaxValue(mTotalCount);
 		AdjustSlider();
-		
 	}
 	catch( ... )
 	{
@@ -203,6 +256,35 @@ CWindow_PatternSuite::InitializeFromResource( CRezMap *inMap, ResIDT inResID )
 void
 CWindow_PatternSuite::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 {
+	// Store the current pattern's data.
+	BitmapToNthPattern(mCurrentIndex);
+	
+	Size totalSize = mTotalCount * sizeof(Pattern);
+	Handle	srcHandle = mPatternsArray.GetItemsHandle();
+	// First two bytes to store the patterns count
+	Handle	outHandle = ::NewHandle(totalSize + 2);
+	ThrowIfMemFail_( outHandle );
+	
+	try
+	{
+		StHandleLocker	srcLocker(srcHandle);
+		StHandleLocker	outLocker(outHandle);
+		
+		**(UInt16 **) outHandle = mTotalCount;
+		::BlockMoveData( *srcHandle, (*outHandle) + 2, totalSize );
+		
+		CRezObj * theResource = inMap->FindResource( ImgType_PatternSuite, inResID, false );
+		ThrowIfNil_( theResource );
+		theResource->SetData( outHandle );
+	}
+	catch( ... )
+	{
+		::DisposeHandle(outHandle);
+		throw;
+	}
+
+	::DisposeHandle(outHandle);
+	this->SetDirty( false );
 }
 
 
@@ -224,20 +306,21 @@ CWindow_PatternSuite::GetZoomFactor( SInt32, SInt32, Boolean *outShowGrid )
 void
 CWindow_PatternSuite::ParseBWPatternSuite( Handle inHandle, COffscreen **outBW  )
 {
-	Size	theSize = GetHandleSize(inHandle);
-	SInt32	offset;
-	
-	Pattern * p;
+	Size		theSize = GetHandleSize(inHandle);
+	SInt32		offset;	
+	Pattern *	p;
 	
 	StHandleLocker	locker( (Handle) inHandle );
 
-	mTotalCount = theSize / 8;
+	mTotalCount = **(UInt16 **) inHandle;
+	if (mTotalCount * 8 + 2 != theSize) {
+		Throw_( err_IconCorruptedResource );
+	} 
 	mCurrentIndex = 1;
 	
-	p = (Pattern *) *inHandle;
+	p = (Pattern *) (*inHandle + 2);
 	
-	for ( offset = 0; offset < mTotalCount; offset++ )
-	{
+	for ( offset = 0; offset < mTotalCount; offset++ ) {
 		mPatternsArray.AddItem( *(p + offset) );
 	}
 	
@@ -282,27 +365,40 @@ CWindow_PatternSuite::AdjustSlider()
 
 
 // ---------------------------------------------------------------------------
+// 	SwitchToNthPattern
+// ---------------------------------------------------------------------------
+
+void
+CWindow_PatternSuite::SwitchToNthPattern( SInt32 inPatternIndex )
+{
+	if (mCurrentIndex == inPatternIndex) {
+		return;
+	} 
+
+	// Store the state of the current pattern
+	BitmapToNthPattern(mCurrentIndex);
+	
+	// Set the new pattern
+	SetNthPattern(inPatternIndex);
+}
+
+
+// ---------------------------------------------------------------------------
 // 	SetNthPattern
 // ---------------------------------------------------------------------------
 
 void
 CWindow_PatternSuite::SetNthPattern( SInt32 inPatternIndex )
 {
-	if (mCurrentIndex == inPatternIndex) {
-		return;
-	} 
 	Pattern pat;
 
-	// Store the state of the current pattern
-	BitmapToNthPattern(mCurrentIndex);
-	
-	// Switch to the new pattern
 	if ( mPatternsArray.FetchItemAt(inPatternIndex, pat) ) {
 		COffscreen * bwImage = CWindow_Pattern::BWPatternToOffscreen(pat);
 		this->SetImage( bwImage, resize_None, redraw_Later );
-		mBWSample->SetTarget( true, redraw_Dont );
+		mCurrentSamplePane = mSample;	
+		mSample->SetTarget( true, redraw_Dont );
 	
-		mBWSample->SetBuffer( bwImage, redraw_Dont );
+		mSample->SetBuffer( bwImage, redraw_Now );
 		// It belongs to the sample pane now
 		bwImage = nil;	
 
@@ -323,6 +419,7 @@ CWindow_PatternSuite::AddNewPattern()
 	
 	index = mPatternsArray.AddItem(pat);
 	mTotalCount++;
+	mSlider->SetMaxValue(mTotalCount);
 	return index;
 }
 
@@ -339,6 +436,7 @@ CWindow_PatternSuite::AddNewPattern( SInt32 inAtIndex )
 	
 	index = mPatternsArray.InsertItemsAt(1, inAtIndex, pat);
 	mTotalCount++;
+	mSlider->SetMaxValue(mTotalCount);
 	return index;
 }
 
@@ -355,6 +453,7 @@ CWindow_PatternSuite::RemovePattern( SInt32 inPatternIndex )
 	if ( mPatternsArray.FetchItemAt(inPatternIndex, pat) ) {
 		mPatternsArray.RemoveItemsAt(1, inPatternIndex);
 		mTotalCount--;
+		mSlider->SetMaxValue(mTotalCount);
 	}
 	
 	if (mCurrentIndex > mTotalCount) {
@@ -374,7 +473,7 @@ CWindow_PatternSuite::BitmapToNthPattern( SInt32 inPatternIndex )
 	} 
 	
 	Pattern	pat;
-	COffscreen	*bwBuffer = mBWSample->GetBuffer();
+	COffscreen	*bwBuffer = mSample->GetBuffer();
 	ThrowIfNil_( bwBuffer );
 
 	bwBuffer->CopyToRawData( (UInt8*) &pat, kBWPatternRowBytes );

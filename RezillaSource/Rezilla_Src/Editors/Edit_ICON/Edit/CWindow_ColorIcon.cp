@@ -319,7 +319,7 @@ CWindow_ColorIcon::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 		throw;
 	}
 	
-	this->SetChangedFlag( false );
+	this->SetDirty( false );
 	( h );
 }
 

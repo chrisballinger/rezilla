@@ -153,7 +153,6 @@ CIcon_EditorWindow::Initialize()
 {		
 	mCurrentImage = mUndoBuffer = mScratchBuffer = nil;
 	mColorTableChoice = nil;
-	mChanged = false;
 	mLockedFlag = false;
 	mCanvas = nil;
 	mForeColor = kBlackColor32;
@@ -415,29 +414,6 @@ CIcon_EditorWindow::FinishCreateSelf()
 	
 	// Make the window a listener to the prefs object
 	CRezillaApp::sPrefs->AddListener(this);
-}
-
-
-// ---------------------------------------------------------------------------
-//  SetChangedFlag
-// ---------------------------------------------------------------------------
-
-void
-CIcon_EditorWindow::SetChangedFlag( Boolean inChanged )
-{
-	this->ProcessCommand( cmd_IconPaintModified, (void*) inChanged );
-	mChanged = inChanged;
-}
-
-
-// ---------------------------------------------------------------------------
-//  GetChangedFlag
-// ---------------------------------------------------------------------------
-
-Boolean
-CIcon_EditorWindow::GetChangedFlag()
-{
-	return( mChanged );
 }
 
 
@@ -1110,7 +1086,7 @@ CIcon_EditorWindow::SwapUndoState()
 	mCurrentSelection = mUndoSelection;
 	mUndoSelection = tempSelection;
 	
-	this->SetChangedFlag( true );
+	this->SetDirty( true );
 	
 	this->HandleCanvasDraw();
 	this->RedrawSampleView( nil );

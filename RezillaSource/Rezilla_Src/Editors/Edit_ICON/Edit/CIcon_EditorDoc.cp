@@ -2,11 +2,11 @@
 // CIcon_EditorDoc.cp
 // 
 //                       Created: 2004-12-11 23:33:03
-//             Last modification: 2005-01-09 15:50:23
+//             Last modification: 2005-01-10 19:49:31
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004, 2005
+// (c) Copyright : Bernard Desgraupes, 2004-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -257,9 +257,11 @@ Handle
 CIcon_EditorDoc::GetModifiedResource(Boolean &releaseIt) 
 {
 #pragma unused(releaseIt)
-	
 	mIconEditWindow->SaveAsResource( mRezMapTable->GetRezMap(), mRezObj->GetID() );
 	
+	// Refresh the view to update the size field
+	mRezMapTable->Refresh();
+
 	return (Handle) NULL;
 }
 

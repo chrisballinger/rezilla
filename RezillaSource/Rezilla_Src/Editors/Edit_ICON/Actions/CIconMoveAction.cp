@@ -131,7 +131,7 @@ CIconMoveAction::MoveTo( SInt32 left, SInt32 top )
 	
 	// In the case where the user saves while a move is in progress (using
 	// the arrow keys), this flag wasn't being set.
-	thePaintView->SetChangedFlag( true );
+	thePaintView->SetDirty( true );
 }
 
 

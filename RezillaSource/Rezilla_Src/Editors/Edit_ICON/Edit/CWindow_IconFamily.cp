@@ -315,7 +315,7 @@ CWindow_IconFamily::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 		}
 	}	
 
-	this->SetChangedFlag( false );
+	this->SetDirty( false );
 }
 
 

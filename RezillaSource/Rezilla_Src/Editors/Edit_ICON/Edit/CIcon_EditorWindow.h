@@ -78,8 +78,6 @@ public:
 	virtual CDraggableTargetView *GetNthSamplePane( SInt32 index ); // 1..n
 
 	// Misc flags
-	virtual void				SetChangedFlag( Boolean );
-	virtual Boolean				GetChangedFlag();
 	virtual void				RedrawSampleView( Rect *r = nil );
 
 	// Events
@@ -159,7 +157,6 @@ protected:
 	CIcon_EditorView *			mContentsView;
 	LStaticText *				mCoordsField;
 
-	Boolean						mChanged;
 	Boolean						mLockedFlag;
 	RgnHandle					mSpareRgn;
 	OSType						mCurrentTool;

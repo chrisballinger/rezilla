@@ -67,7 +67,7 @@ CSuiteSlider::HotSpotResult(
 	SInt16	/* inHotSpot */)
 {
 	if (mOwnerWindow != NULL) {
-		mOwnerWindow->SetNthPattern(mValue);
+		mOwnerWindow->SwitchToNthPattern(mValue);
 	} 
 }
 

@@ -66,7 +66,7 @@ CTargetView::SetTarget( Boolean inHasTarget, RedrawOptions inRedraw )
 // ---------------------------------------------------------------------------
 //	¥ DrawBorder
 // ---------------------------------------------------------------------------
-//  Border around a Sample pane is outset from the interior by 3 pixels.
+//  Border around a Sample pane is outset from the interior by 1 pixel.
 
 void
 CTargetView::DrawBorder()

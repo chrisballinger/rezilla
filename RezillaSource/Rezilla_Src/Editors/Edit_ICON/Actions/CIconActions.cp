@@ -75,14 +75,14 @@ CIconAction::PostAsAction()
 {
 	if ( mSettings.thePaintView )
 	{
-			// all undo-able actions set the changed flag
+		// All undo-able actions set the changed flag
 		if ( this->IsPostable() )
 		{
-			mSettings.thePaintView->SetChangedFlag( true );	
+			mSettings.thePaintView->SetDirty( true );	
 			mSettings.thePaintView->RedrawSampleView();
 		}
 	
-			// note: PostAction might delete "this"
+		// Note: PostAction might delete "this"
 		mSettings.thePaintView->PostAction( this );
 	}
 }
