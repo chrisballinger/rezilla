@@ -2426,8 +2426,6 @@ OSErr
 CTmplEditorWindow::RetrieveBitField(UInt16 inBitCount, UInt16 inBytesLen)
 {
 	OSErr	error = noErr;
-	SInt8	i;
-	UInt32	val;
 	long	theLong;
 	Str255	numStr;
 	

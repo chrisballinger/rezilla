@@ -387,7 +387,7 @@ CTmplEditorWindow::AddBitField(OSType inType,
 							   LView * inContainer)
 {
 	SInt8	i;
-	UInt8	theUInt8, offset;
+	UInt8	theUInt8;
 	UInt16	theUInt16;
 	UInt32	val;
 	Str255	numStr;
@@ -751,6 +751,9 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 	theTGB->UpdatePaneCounts();
 	theHexWE->ApplyStyleValues( theTraits.size, theTraits.fontNumber);
 	theTxtWE->ApplyStyleValues( theTraits.size, theTraits.fontNumber);
+
+	theScroller->SetMinValue(1);	
+	theScroller->SetLinesPerPage( theTGB->GetPaneCount(count_LinesPerPane) - 1);
 	
 	// Store the template's type in the userCon field
 	theTGB->SetUserCon(inType);
