@@ -22,6 +22,7 @@
 #include "CBroadcasterTableView.h"
 #include "RezillaConstants.h"
 #include "UCodeTranslator.h"
+#include "UMiscUtils.h"
 #include "UMessageDialogs.h"
 
 #include <LScrollBar.h>
@@ -283,14 +284,14 @@ CCompResultWindow::DoClose()
 
 
 
-// ---------------------------------------------------------------------------
-//	¥ DisplayBothSelections											[protected]
-// ---------------------------------------------------------------------------
-
-void
-CCompResultWindow::DisplayBothSelections(SInt32 inStart, SInt32 inEnd)
-{
-}
+// // ---------------------------------------------------------------------------
+// //	¥ DisplayBothSelections											[protected]
+// // ---------------------------------------------------------------------------
+// 
+// void
+// CCompResultWindow::DisplayBothSelections(SInt32 inStart, SInt32 inEnd)
+// {
+// }
 
 
 // ---------------------------------------------------------------------------
@@ -312,26 +313,60 @@ CCompResultWindow::IsDirty()
 void
 CCompResultWindow::FillTableView( TArray<CRezTypId *> inList, SInt16 inWhichList)
 {
-// 	ListHandle theListH = mCategoriesListBox->GetMacListH();
-// 	Cell theCell = {0,0};
-// 
-// 	::LSetDrawingMode(false, theListH);
-// 	for (SInt16 theIndex = 0; theIndex < 4; theIndex++) {
-// 		LStr255 theString(categoryNames[theIndex]);
-// 		Str255	theNumStr;
-// 		::NumToString( inCatNum[theIndex], theNumStr );
-// 		theString += theNumStr ;
-// 		mCategoriesListBox->SelectOneCell(theCell);
-// 		mCategoriesListBox->SetDescriptor(theString);
-// 		++theCell.v;
-// 	}
-// 	::LSetDrawingMode(true, theListH);
-// 	mCategoriesListBox->Refresh();
-// 	
-// 	char	theStatus[255];
-// 	sprintf(theStatus,"%i events - %i classes - %i comparison operators - %i enumerations", 
-// 			inCatNum[0], inCatNum[1], inCatNum[2], inCatNum[3]);
-// 	mWindow->DisplayStatus(theStatus);
+	SInt32 		theCount;
+	TableIndexT	theRows, theCols;
+	STableCell	cell(0,1);
+	Str255		theString;
+	LStr255		thePString;
+	TableIndexT	thePos = 0;
+	CRezTypId *	theTypId;
+	CBroadcasterTableView * theTable;
+	
+	switch (inWhichList) {
+		case CRezCompare::list_OnlyInOld :
+		theTable = mOnlyOldTable;
+		break;
+		
+		case CRezCompare::list_OnlyInNew :
+		theTable = mOnlyNewTable;
+		break;
+		
+		case CRezCompare::list_Differing :
+		theTable = mDifferTable;
+		break;
+		
+	}
+	
+	
+	theCount = mRezCompare->GetOnlyInOldList()->GetCount() ;
+	theTable->GetTableSize(theRows, theCols);
+	if (theRows < theCount) {
+		theTable->InsertRows(theCount-theRows, theRows, nil, 0, Refresh_Yes);
+	} else if (theRows > theCount) {
+		theTable->RemoveRows(theRows-theCount, theCount+1, Refresh_Yes);
+	}
+	
+	TArray<CRezTypId*>* theTypidsArray = mRezCompare->GetOnlyInOldList();
+	TArrayIterator<CRezTypId*> iterator(*theTypidsArray);
+	
+	iterator.ResetTo(0);
+	
+	for (SInt16 i = 1; i <= theCount; ++i) {
+		iterator.Next(theTypId);
+		cell.row = i;
+		UMiscUtils::OSTypeToPString(theTypId->mType, theString);
+		thePString += theString;
+		::NumToString(theTypId->mType, theString);
+		thePString += "\p ";
+		thePString += theString;
+		theTable->SetCellData(cell, &thePString, sizeof(Str255));
+	}
+	
+	
+	STableCell	topCell(0,1);
+	STableCell	botCell(theCount,1);
+	theTable->RefreshCellRange(topCell, botCell);
+	
 }
 
 

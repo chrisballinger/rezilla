@@ -409,15 +409,16 @@ CRezCompare::HasDifferences()
 
 void
 CRezCompare::DisplayResults()
-{
-	CWasteEditView * theWEView;
-	CBroadcasterTableView * theTableView;
-	
+{	
 	// Create window for the results
 	mResultWindow = dynamic_cast<CCompResultWindow *>(LWindow::CreateWindow( rPPob_RezCompWindow, this ));
 	Assert_( mResultWindow != nil );
 	
+	mResultWindow->FillTableView(mOnlyInOldList, list_OnlyInOld);
+	mResultWindow->FillTableView(mOnlyInNewList, list_OnlyInNew);
+	mResultWindow->FillTableView(mDifferingList, list_Differing);
 	
+	mResultWindow->UpdatePort();
 }
 
 

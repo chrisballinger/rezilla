@@ -31,8 +31,7 @@ public:
 		mID = inID;
 	}
 	~CRezTypId();
-	
-protected:
+
 	ResType	mType;
 	short	mID;
 };
@@ -78,6 +77,9 @@ public:
 		ConstStringPtr		GetOldPath() const;
 		ConstStringPtr		GetNewPath() const;
 
+			virtual TArray<CRezTypId*>*		GetOnlyInOldList() { return &mOnlyInOldList;}
+
+		
 protected:
 		CCompResultWindow*	mResultWindow;
 		Boolean				mIgnoreNames;

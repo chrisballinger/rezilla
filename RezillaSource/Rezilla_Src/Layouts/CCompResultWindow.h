@@ -62,7 +62,9 @@ public:
 
 	Boolean			IsDirty();
 	
-	void			DisplayBothSelections(SInt32 inStart, SInt32 inEnd);
+	void			FillTableView( TArray<CRezTypId *> inList, SInt16 inWhichList);
+
+// 	void			DisplayBothSelections(SInt32 inStart, SInt32 inEnd);
 
 // 		virtual CWasteEditView*		GetOldHexDataWE() { return mOldHexDataWE;}
 // 	void				SetOldHexDataWE(CWasteEditView* inOldHexDataWE) {mOldHexDataWE = inOldHexDataWE;}
@@ -80,13 +82,11 @@ protected:
 	CWasteEditView *		mOldHexDataWE;
 	CWasteEditView *		mNewHexDataWE;
 	CBroadcasterTableView *	mOnlyOldTable;
-	CBroadcasterTableView *	mDifferTable;
 	CBroadcasterTableView *	mOnlyNewTable;
+	CBroadcasterTableView *	mDifferTable;
 	
 	
 	virtual void		FinishCreateSelf();
-	void				FillTableView( TArray<CRezTypId *> inList, SInt16 inWhichList);
-
 };
 
 
