@@ -83,6 +83,8 @@ CWindow_Picture::~CWindow_Picture()
 void
 CWindow_Picture::FinishCreateSelf()
 {
+	CIcon_EditorWindow::FinishCreateSelf();
+
 	// Link the broadcasters
 	UReanimator::LinkListenerToBroadcasters( this, this, PPob_PictEditor );
 }
