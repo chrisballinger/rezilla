@@ -2,7 +2,7 @@
 //	CWasteEditView.h
 //	
 //                       Created: 2001-09-05 18:22:04
-//             Last modification: 2004-11-03 21:46:18
+//             Last modification: 2004-11-06 11:38:00
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -25,6 +25,7 @@
 #include <LCommander.h>
 #include <LPeriodical.h>
 #include <LView.h>
+#include <LBroadcaster.h>
 #include <UTextTraits.h>
 #include <UCursor.h>
 #include <UScrap.h>
@@ -114,7 +115,8 @@ class CWEViewTypingAction ;
 
 class CWasteEditView :	public LView,
 						public LCommander,
-						public LPeriodical {
+						public LPeriodical,
+						public LBroadcaster {
 public:
 	enum { class_ID = FOUR_CHAR_CODE('WeVw') };
 
@@ -321,6 +323,10 @@ public:
 	virtual Boolean			GetReadOnly() { return mReadOnly;}
 	void					SetReadOnly(Boolean inReadOnly) {mReadOnly = inReadOnly;}
 
+	MessageT				GetChangesMessage() const	{ return mChangesMessage; }
+
+	void					SetChangesMessage( MessageT inChangesMessage ) {mChangesMessage = inChangesMessage;}
+
 	static CWasteEditView *	sWasteEditViewP;
 
 protected:
@@ -348,6 +354,7 @@ protected:
 				Boolean					mWordWrap;
 				Boolean					mSelectable;
 				SInt16					mLineHeight;
+				MessageT				mChangesMessage;
 				WEClickLoopUPP			mClickLoopUPP;
 
 	virtual void            DrawSelf();

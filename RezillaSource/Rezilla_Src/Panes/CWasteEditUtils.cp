@@ -2,7 +2,7 @@
 // CWasteEditUtils.cp
 // 
 // Created : 2001-09-05 18:22:04 
-// Last modification : 2004-11-03 22:09:09
+// Last modification : 2004-11-06 11:45:19
 // Author: Bernard Desgraupes 
 // e-mail: <bdesgraupes@easyconnect.fr> 
 // www: <http://webperso.easyconnect.fr/bdesgraupes/> 
@@ -279,6 +279,10 @@ CWasteEditView::UserChangedText()
 		// Set the dirty flag.
 		SetDirty( true );
 
+		if (mChangesMessage != msg_Nothing) {
+			// Identify ourself in the ioParam argument
+			BroadcastMessage(mChangesMessage, this);
+		}
 	}
 }
 

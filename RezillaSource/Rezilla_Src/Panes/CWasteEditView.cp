@@ -219,6 +219,7 @@ CWasteEditView::InitWasteEditView(
 	LongRect		theLongRect ;
 	OSStatus		err = noErr ;
 	
+	mChangesMessage	= msg_Nothing;
 	mTypingAction	= nil;
 	mTextTraitsID	= inTextTraitsID;
 	mClickLoopUPP	= nil;
