@@ -31,9 +31,12 @@ public:
 				CMenuItem(LHandleStream * inStream);
 				~CMenuItem();
 
-		void		InstallDataStream(LHandleStream * inStream);
-		void		SendDataToStream(LHandleStream * outStream);
+		void		InstallData(LHandleStream * inStream);
+		void		SendData(LHandleStream * outStream);
 		
+		OSErr		InstallExtendedData(LHandleStream * inStream);
+		void		SendExtendedData(LHandleStream * outStream);
+				
 		void		GetValues(Str255 outTitle, UInt8 & outIconID, UInt8 & outShortcut, 
 					   UInt8 outMark, UInt8 & outStyle);
 		
@@ -41,14 +44,29 @@ public:
 					   UInt8 inMark, UInt8 inStyle);
 
 protected:
+		// Extended info from 'MENU'
 		Str255		mTitle;
 		UInt8		mIconID;
 		UInt8		mShortcut;
 		UInt8		mMark;
 		UInt8		mStyle;
-
+		// Extended info from 'xmnu'
+		SInt16		mEntryType;			// 0 for separator, 1 otherwise
+		SInt32		mCommandID;			// a four char code
+		UInt8		mModifiers;			// four low bits: no-cmd (8), 
+		     		           			// ctrl (4), opt (2), shift (1)
+		UInt8		mIconType;			// Icon type placeholder
+		UInt32		mIconHandle;		// Icon handle placeholder
+		SInt32		mEncoding;			// Current script=-2 (fffffffe)/ system script=-1
+		SInt32		mRefcon1;			// a four char code
+		SInt32		mRefcon2;			// a four char code
+		ResIDT		mSubmenuID;			// Hierarchical 'MENU' ID
+		SInt16		mFontID;			// System font is 0
+		SInt16		mSubstituteGlyph;	// 0 for natural glyph
+		
+		
 private:
-
+		void		InitExtendedData();
 
 };
 
