@@ -2,7 +2,7 @@
 // CRezMapWindow.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2004-04-11 21:49:03
+//             Last modification: 2004-10-13 09:33:56
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -28,9 +28,8 @@
 
 #include <UExtractFromAEDesc.h>
 #include <UAppleEventsMgr.h>
+#include <UProcessMgr.h>
 
-
-// #include <AppleHelp.h>
 
 // ---------------------------------------------------------------------------
 //  ¥ CRezMapWindow				[public]
