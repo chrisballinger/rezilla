@@ -998,7 +998,6 @@ enum RezillaErrors
 	err_TmplCantFindKeyPosition,
 	err_TmplUnsupportedResourceId,
 	err_TmplCantFindMatchingKeyEnd,
-	err_FirstError = 3000,   // Used by Icon editor
 	err_IconGeneric					= 3000,	
 	err_IconInvalidImageDepth,
 	err_IconInvalidImageFormat,
@@ -1016,7 +1015,7 @@ enum RezillaErrors
 	err_IconResizeFormatString,
 	err_IconFileLocked,
 	err_IconBadFontSize,
-	err_LastError					= 3099,   // Used by Icon editor
+	err_IconNoPictOnClipboard,
 	err_RezillaErrorEnd
 };
 
