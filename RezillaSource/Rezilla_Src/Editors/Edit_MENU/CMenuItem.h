@@ -2,7 +2,7 @@
 // CMenuItem.h
 // 
 //                       Created: 2005-03-10 09:12:57
-//             Last modification: 2005-03-10 09:56:26
+//             Last modification: 2005-03-10 18:52:23
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -23,29 +23,29 @@ class CMenuItem {
 
 public:
 				CMenuItem();
-				CMenuItem(Str255	inName,
-							OSType	inKeyword, 
-							OSType	inType, 
-							Str255	inDescription, 
-							UInt16	inFlags);
+				CMenuItem(Str255	inTitle,
+							UInt8	inIconID, 
+							UInt8	inShortcut, 
+							UInt8	inMark, 
+							UInt8	inStyle);
 				CMenuItem(LHandleStream * inStream);
 				~CMenuItem();
 
 		void		InstallDataStream(LHandleStream * inStream);
 		void		SendDataToStream(LHandleStream * outStream);
 		
-		void		GetValues(Str255 outName, OSType & outKeyword, OSType & outType, 
-					   Str255 outDescription, UInt16 & outFlags);
+		void		GetValues(Str255 outTitle, UInt8 & outIconID, UInt8 & outShortcut, 
+					   UInt8 outMark, UInt8 & outStyle);
 		
-		void 		SetValues(Str255 inName, OSType inKeyword, OSType inType, 
-					   Str255 inDescription, UInt16 inFlags);
+		void 		SetValues(Str255 inTitle, UInt8 inIconID, UInt8 inShortcut, 
+					   UInt8 inMark, UInt8 inStyle);
 
 protected:
-		Str255		mName;
-		OSType		mKeyword;
-		OSType		mType;
-		Str255		mDescription;
-		UInt16		mFlags;
+		Str255		mTitle;
+		UInt8		mIconID;
+		UInt8		mShortcut;
+		UInt8		mMark;
+		UInt8		mStyle;
 
 private:
 

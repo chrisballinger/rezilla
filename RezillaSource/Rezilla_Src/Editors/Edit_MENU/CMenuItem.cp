@@ -25,11 +25,11 @@
 
 CMenuItem::CMenuItem()
 {
-	mName[0] = 0;
-	mKeyword = 0;
-	mType = 0;
-	mDescription[0] = 0;
-	mFlags = 0;
+	mTitle[0] = 0;
+	mIconID = 0;
+	mShortcut = 0;
+	mMark = 0;
+	mStyle = 0;
 }
 
 
@@ -37,13 +37,13 @@ CMenuItem::CMenuItem()
 //  CMenuItem												[public]
 // ---------------------------------------------------------------------------
 
-CMenuItem::CMenuItem(Str255	inName,
-							OSType	inKeyword, 
-							OSType	inType, 
-							Str255	inDescription, 
-							UInt16	inFlags)
+CMenuItem::CMenuItem(Str255	inTitle,
+							UInt8	inIconID, 
+							UInt8	inShortcut, 
+							UInt8	inMark, 
+							UInt8	inStyle)
 {
-	SetValues( inName, inKeyword, inType, inDescription, inFlags);
+	SetValues( inTitle, inIconID, inShortcut, inMark, inStyle);
 }
 
 
@@ -73,14 +73,11 @@ CMenuItem::~CMenuItem()
 void
 CMenuItem::InstallDataStream(LHandleStream * inStream)
 {
-	*inStream >> mName;
-
-	*inStream >> mKeyword;
-	*inStream >> mType;
-	
-	*inStream >> mDescription;
-
-	*inStream >> mFlags;
+	*inStream >> mTitle;
+	*inStream >> mIconID;
+	*inStream >> mShortcut;
+	*inStream >> mMark;
+	*inStream >> mStyle;
 }
 
 
@@ -91,11 +88,11 @@ CMenuItem::InstallDataStream(LHandleStream * inStream)
 void
 CMenuItem::SendDataToStream(LHandleStream * outStream)
 {
-	*outStream << mName;
-	*outStream << mKeyword;
-	*outStream << mType;
-	*outStream << mDescription;
-	*outStream << mFlags;
+	*outStream << mTitle;
+	*outStream << mIconID;
+	*outStream << mShortcut;
+	*outStream << mMark;
+	*outStream << mStyle;
 }
 
 
@@ -104,14 +101,14 @@ CMenuItem::SendDataToStream(LHandleStream * outStream)
 // ---------------------------------------------------------------------------
 
 void
-CMenuItem::GetValues(Str255 outName, OSType & outKeyword, OSType & outType, 
-					   Str255 outDescription, UInt16 & outFlags)
+CMenuItem::GetValues(Str255 outTitle, UInt8 & outIconID, UInt8 & outShortcut, 
+					   UInt8 outMark, UInt8 & outStyle)
 {
-	LString::CopyPStr(mName, outName);
-	LString::CopyPStr(mDescription, outDescription);
-	outKeyword = mKeyword;
-	outType = mType;
-	outFlags = mFlags;
+	LString::CopyPStr(mTitle, outTitle);
+	outIconID = mIconID;
+	outShortcut = mShortcut;
+	outMark = mMark;
+	outStyle = mStyle;
 }
  
 
@@ -120,14 +117,14 @@ CMenuItem::GetValues(Str255 outName, OSType & outKeyword, OSType & outType,
 // ---------------------------------------------------------------------------
 
 void
-CMenuItem::SetValues(Str255 inName, OSType inKeyword, OSType inType, 
-					   Str255 inDescription, UInt16 inFlags)
+CMenuItem::SetValues(Str255 inTitle, UInt8 inIconID, UInt8 inShortcut, 
+					   UInt8 inMark, UInt8 inStyle)
 {
-	LString::CopyPStr(inName, mName);
-	LString::CopyPStr(inDescription, mDescription);
-	mKeyword = inKeyword;
-	mType = inType;
-	mFlags = inFlags;
+	LString::CopyPStr(inTitle, mTitle);
+	mIconID = inIconID;
+	mShortcut = inShortcut;
+	mMark = inMark;
+	mStyle = inStyle;
 }
 
 
