@@ -104,6 +104,7 @@ CMENU_EditorWindow::FinishCreateSelf()
 {	
 	mHasXmnu = false;
 	mNeedsXmnu = false;
+	mInstallValue = false;
 
 	// The main view containing the labels and editing panes
 	mItemsTable = dynamic_cast<CMENU_EditorTable *>(this->FindPaneByID(item_EditorContents));
@@ -514,17 +515,17 @@ CMENU_EditorWindow::InstallItemValues( ArrayIndexT inAtIndex )
 	Str255			theString;
 	UInt8			i, theIconID = 0, theShortcut = 0, theMark = 0, theStyle = 0, theMods = 0;
 	SInt16			theFontID = 0, theGlyph = 0;
-	SInt32			theEncoding = 0, theRefcon1 = 0, theRefcon2 = 0;
+	SInt32			theEncoding = 0, theRefcon1 = 0, theRefcon2 = 0, theKind;
 	UInt32			theEnableFlag;
 	MenuRef			theMenuH;
 	LEditText * 	theEditText;
 	LCheckBox *		theCheckBox;
 	LPopupButton *	thePopup;
-	Boolean			enableIt = false;
+	Boolean			enableIt = false, updateProperty = true;
 	
 	if (inAtIndex == 0) {
 		theString[0] = 0;
-		mMenuObject->SetStyleAtIndex(0, mMenuObj->GetItemIndex());
+		mMenuObj->SetStyleAtIndex(0, mMenuObj->GetItemIndex());
 	} else if (mMenuObj->GetItems()->FetchItemAt(inAtIndex, theItem)) {
 		theItem->GetValues(theString, theIconID, theShortcut, theMark, theStyle);
 	} else {
@@ -536,7 +537,9 @@ CMENU_EditorWindow::InstallItemValues( ArrayIndexT inAtIndex )
 	theEditText->SetDescriptor(theString);
 	
 	if (theString[0] && theString[1] == '-') {
+		mInstallValue = true;
 		mPopup->SetValue(kind_MenuIsSeparator);
+		mInstallValue = false;
 		return;
 	} 
 
@@ -638,6 +641,27 @@ CMENU_EditorWindow::InstallItemValues( ArrayIndexT inAtIndex )
 	theCheckBox->SetValue( ((theMods & 1) > 0) );	
 	enableIt = ((theMods & 1) > 0);
 
+	if (theShortcut == 0x1b) {
+		theKind = kind_MenuHasSubmenu;
+	} else if (theShortcut == 0x1c) {
+		theKind = kind_MenuNonSystemScript;
+	} else if (theShortcut == 0x1d) {
+		theKind = kind_MenuUsesICON;
+	} else if (theShortcut == 0x1e) {
+		theKind = kind_MenuUsesSICN;
+	} else if (theIconID != 0 && theShortcut == 0) {
+		theKind = kind_MenuUsesCicn;
+	} else {
+		updateProperty = false;
+	}
+	
+	if (updateProperty) {
+		mInstallValue = true;
+		mPopup->SetValue(theKind);
+		mInstallValue = false;
+	} else {
+		mPopup->SetValue(kind_MenuNoProperty);
+	}
 }
 
 
@@ -893,7 +917,6 @@ CMENU_EditorWindow::HandlePropertyPopup(SInt32 inIndex)
 	LEditText * 	theEditText;
 	LStaticText 	*theMarkCharLabel, *theIconIdLabel;
 	LTabGroupView *	theTGV;
-// 	LCheckBox *		theCheckBox;
 
 	theTGV = dynamic_cast<LTabGroupView *>(this->FindPaneByID( item_MenuEditItemGroupVIew ));
 	theTGV->Enable();
@@ -913,18 +936,14 @@ CMENU_EditorWindow::HandlePropertyPopup(SInt32 inIndex)
 	if (inIndex != kind_MenuNonSystemScript) {
 		theIconIdLabel->SetDescriptor(sIconIDStr);
 	}
-
-	if (inIndex > 1) {
-		
+	
+	if (!mInstallValue) {
 		switch (inIndex) {
 			case kind_MenuIsSeparator:
 			ClearItemValues();
 			theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditItemTitle ));
 			theEditText->SetDescriptor("\p-");
 			theTGV->Disable();
-	// 		// Uncheck the "Item Enabled" checkbox   <--  done in ClearItemValues()
-	// 		theCheckBox = dynamic_cast<LCheckBox *>(this->FindPaneByID( item_MenuEditItemEnabled ));
-	// 		theCheckBox->SetValue(0);
 			// This will update the table
 			ListenToMessage(msg_MenuEditItemTitle, NULL);
 			break;
@@ -937,9 +956,9 @@ CMENU_EditorWindow::HandlePropertyPopup(SInt32 inIndex)
 			::NumToString(0x1b, theString);
 			mShortcutField->SetDescriptor(theString);
 			mShortcutField->Disable();
-			// The marking char field is renamed and should receive the ID of the submenu
+			// The marking char field is renamed and should specify the ID of the submenu
 			theMarkCharLabel->SetDescriptor(sSubmenuIDStr);
-			mMarkCharField->SetDescriptor("\p");
+	// 		mMarkCharField->SetDescriptor("\p");
 			SwitchTarget(mMarkCharField);
 			break;
 
@@ -973,6 +992,7 @@ CMENU_EditorWindow::HandlePropertyPopup(SInt32 inIndex)
 			break;
 		}		
 	} 
+
 	Refresh();
 	
 }

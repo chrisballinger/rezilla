@@ -72,7 +72,8 @@ protected:
 						*mShortcutField,
 						*mMarkCharField;
 	Boolean				mHasXmnu,
-						mNeedsXmnu;
+						mNeedsXmnu,
+						mInstallValue;
 	
 	static Str31		sMarkCharStr, 
 						sSubmenuIDStr, 
