@@ -18077,401 +18077,10 @@ resource 'TMPL' (1168, "itl1", protected) {
 };
 
 resource 'TMPL' (1169, "ITL1", protected) {
-	{	/* array: 131 elements */
+	{	/* array: 1 elements */
 		/* [1] */
-		"Day 1",
-		'P010',
-		/* [2] */
-		"Day 2",
-		'P010',
-		/* [3] */
-		"Day 3",
-		'P010',
-		/* [4] */
-		"Day 4",
-		'P010',
-		/* [5] */
-		"Day 5",
-		'P010',
-		/* [6] */
-		"Day 6",
-		'P010',
-		/* [7] */
-		"Day 7",
-		'P010',
-		/* [8] */
-		"Month 1",
-		'P010',
-		/* [9] */
-		"Month 2",
-		'P010',
-		/* [10] */
-		"Month 3",
-		'P010',
-		/* [11] */
-		"Month 4",
-		'P010',
-		/* [12] */
-		"Month 5",
-		'P010',
-		/* [13] */
-		"Month 6",
-		'P010',
-		/* [14] */
-		"Month 7",
-		'P010',
-		/* [15] */
-		"Month 8",
-		'P010',
-		/* [16] */
-		"Month 9",
-		'P010',
-		/* [17] */
-		"Month 10",
-		'P010',
-		/* [18] */
-		"Month 11",
-		'P010',
-		/* [19] */
-		"Month 12",
-		'P010',
-		/* [20] */
-		"Day name",
-		'UBYT',
-		/* [21] */
-		"Has it=0",
-		'CASE',
-		/* [22] */
-		"Suppress it=255",
-		'CASE',
-		/* [23] */
-		"Long date format",
-		'HBYT',
-		/* [24] */
-		"Day/Month/Year=$00",
-		'CASE',
-		/* [25] */
-		"Month/Day/Year=$FF",
-		'CASE',
-		/* [26] */
-		"Day has leading 0",
-		'UBYT',
-		/* [27] */
-		"No=0",
-		'CASE',
-		/* [28] */
-		"Yes=255",
-		'CASE',
-		/* [29] */
-		"Abbreviation length",
-		'UBYT',
-		/* [30] */
-		"String 0 (precedes 1st element)",
-		'T004',
-		/* [31] */
-		"String 1 (separates 1st and 2nd)",
-		'T004',
-		/* [32] */
-		"String 2 (separates 2nd and 3rd)",
-		'T004',
-		/* [33] */
-		"String 3 (separates 3rd and 4th)",
-		'T004',
-		/* [34] */
-		"String 4 (follows 4th element)",
-		'T004',
-		/* [35] */
-		"Region code",
-		'UBYT',
-		/* [36] */
-		"United States=0",
-		'CASE',
-		/* [37] */
-		"France=1",
-		'CASE',
-		/* [38] */
-		"Britain=2",
-		'CASE',
-		/* [39] */
-		"Germany=3",
-		'CASE',
-		/* [40] */
-		"Italy=4",
-		'CASE',
-		/* [41] */
-		"Netherlands=5",
-		'CASE',
-		/* [42] */
-		"Belgium/Luxembourg=6",
-		'CASE',
-		/* [43] */
-		"Sweden=7",
-		'CASE',
-		/* [44] */
-		"Spain=8",
-		'CASE',
-		/* [45] */
-		"Denmark=9",
-		'CASE',
-		/* [46] */
-		"Portugal=10",
-		'CASE',
-		/* [47] */
-		"French Canada=11",
-		'CASE',
-		/* [48] */
-		"Norway=12",
-		'CASE',
-		/* [49] */
-		"Israel=13",
-		'CASE',
-		/* [50] */
-		"Japan=14",
-		'CASE',
-		/* [51] */
-		"Australia=15",
-		'CASE',
-		/* [52] */
-		"Arabia=16",
-		'CASE',
-		/* [53] */
-		"Finland=17",
-		'CASE',
-		/* [54] */
-		"French Swiss=18",
-		'CASE',
-		/* [55] */
-		"German Swiss=19",
-		'CASE',
-		/* [56] */
-		"Greece=20",
-		'CASE',
-		/* [57] */
-		"Iceland=21",
-		'CASE',
-		/* [58] */
-		"Malta=22",
-		'CASE',
-		/* [59] */
-		"Cyprus=23",
-		'CASE',
-		/* [60] */
-		"Turkey=24",
-		'CASE',
-		/* [61] */
-		"Yugoslavia=25",
-		'CASE',
-		/* [62] */
-		"India=33",
-		'CASE',
-		/* [63] */
-		"Pakistan=34",
-		'CASE',
-		/* [64] */
-		"Lithuania=41",
-		'CASE',
-		/* [65] */
-		"Poland=42",
-		'CASE',
-		/* [66] */
-		"Hungary=43",
-		'CASE',
-		/* [67] */
-		"Estonia=44",
-		'CASE',
-		/* [68] */
-		"Latvia=45",
-		'CASE',
-		/* [69] */
-		"Lapland=46",
-		'CASE',
-		/* [70] */
-		"Faroe Islands=47",
-		'CASE',
-		/* [71] */
-		"Iran=48",
-		'CASE',
-		/* [72] */
-		"Russia=49",
-		'CASE',
-		/* [73] */
-		"Ireland=50",
-		'CASE',
-		/* [74] */
-		"Korea=51",
-		'CASE',
-		/* [75] */
-		"China=52",
-		'CASE',
-		/* [76] */
-		"Taiwan=53",
-		'CASE',
-		/* [77] */
-		"Thailand=54",
-		'CASE',
-		/* [78] */
-		"Version",
-		'UBYT',
-		/* [79] */
-		"First instruction of obsolete sorting ro"
-		"utine",
-		'KHWD',
-		/* [80] */
-		"Unextended long-date format=$4E75",
-		'CASE',
-		/* [81] */
-		"Extended long-date format=$A89F",
-		'CASE',
-		/* [82] */
-		"$4E75",
-		'KEYB',
-		/* [83] */
-		"",
-		'KEYE',
-		/* [84] */
-		"$A89F",
-		'KEYB',
-		/* [85] */
-		"Version",
-		'HWRD',
-		/* [86] */
-		"Format",
-		'DWRD',
-		/* [87] */
-		"Original=0",
-		'CASE',
-		/* [88] */
-		"Calendar code",
-		'DWRD',
-		/* [89] */
-		"Gregorian=0",
-		'CASE',
-		/* [90] */
-		"Arabic civil=1",
-		'CASE',
-		/* [91] */
-		"Arabic lunar=2",
-		'CASE',
-		/* [92] */
-		"Japanese=3",
-		'CASE',
-		/* [93] */
-		"Jewish=4",
-		'CASE',
-		/* [94] */
-		"Coptic=5",
-		'CASE',
-		/* [95] */
-		"Persian=6",
-		'CASE',
-		/* [96] */
-		"Offset of Extra Days table",
-		'FLNG',
-		/* [97] */
-		"Length of Extra Days table",
-		'FLNG',
-		/* [98] */
-		"Offset of Extra Months table",
-		'FLNG',
-		/* [99] */
-		"Length of Extra Months table",
-		'FLNG',
-		/* [100] */
-		"Offset to Day Abbrev table",
-		'FLNG',
-		/* [101] */
-		"Length of Day Abbrev table",
-		'FLNG',
-		/* [102] */
-		"Offset to Month Abbrev table",
-		'FLNG',
-		/* [103] */
-		"Length of Month Abbrev table",
-		'FLNG',
-		/* [104] */
-		"Offset to Extra Sep table",
-		'FLNG',
-		/* [105] */
-		"Length of Extra Sep table",
-		'FLNG',
-		/* [106] */
-		"Count:",
-		'OCNT',
-		/* [107] */
-		"Extra days",
-		'LSTC',
-		/* [108] */
-		"Day name",
-		'PSTR',
-		/* [109] */
-		"*****",
-		'LSTE',
-		/* [110] */
-		"Align",
-		'AWRD',
-		/* [111] */
-		"Count:",
-		'OCNT',
-		/* [112] */
-		"Extra months",
-		'LSTC',
-		/* [113] */
-		"Month name",
-		'PSTR',
-		/* [114] */
-		"*****",
-		'LSTE',
-		/* [115] */
-		"Align",
-		'AWRD',
-		/* [116] */
-		"Count:",
-		'OCNT',
-		/* [117] */
-		"Day abbreviations",
-		'LSTC',
-		/* [118] */
-		"Day abbrev.",
-		'PSTR',
-		/* [119] */
-		"*****",
-		'LSTE',
-		/* [120] */
-		"Align",
-		'AWRD',
-		/* [121] */
-		"Count:",
-		'OCNT',
-		/* [122] */
-		"Month abbreviations",
-		'LSTC',
-		/* [123] */
-		"Month abbrev.",
-		'PSTR',
-		/* [124] */
-		"*****",
-		'LSTE',
-		/* [125] */
-		"Align",
-		'AWRD',
-		/* [126] */
-		"Count:",
-		'OCNT',
-		/* [127] */
-		"Extra separators",
-		'LSTC',
-		/* [128] */
-		"Separator",
-		'PSTR',
-		/* [129] */
-		"*****",
-		'LSTE',
-		/* [130] */
-		"Align",
-		'AWRD',
-		/* [131] */
-		"",
-		'KEYE'
+		"Use short dates before system",
+		'HWRD'
 	}
 };
 
@@ -40345,68 +39954,71 @@ resource 'TMPL' (1331, "TEXT", protected) {
 };
 
 resource 'TMPL' (1332, "thg0", protected) {
-	{	/* array: 18 elements */
+	{	/* array: 19 elements */
 		/* [1] */
-		"Type",
-		'TNAM',
+		"Initial version of Thing resource",
+		'DVDR',
 		/* [2] */
-		"Subtype",
+		"Type of component",
 		'TNAM',
 		/* [3] */
-		"Manufacturer",
-		'TNAM',
-		/* [4] */
-		"Component flags",
-		'HLNG',
-		/* [5] */
-		"Component flags mask",
-		'HLNG',
-		/* [6] */
-		"Code type",
-		'TNAM',
-		/* [7] */
-		"Code ID",
-		'DWRD',
-		/* [8] */
-		"Name type",
-		'TNAM',
-		/* [9] */
-		"Name ID",
-		'DWRD',
-		/* [10] */
-		"Info type",
-		'TNAM',
-		/* [11] */
-		"Info ID",
-		'DWRD',
-		/* [12] */
-		"Icon type",
-		'TNAM',
-		/* [13] */
-		"Icon ID",
-		'DWRD',
-		/* [14] */
-		"Type",
-		'TNAM',
-		/* [15] */
 		"Subtype",
 		'TNAM',
-		/* [16] */
+		/* [4] */
 		"Manufacturer",
 		'TNAM',
-		/* [17] */
+		/* [5] */
 		"Component flags",
 		'HLNG',
+		/* [6] */
+		"Component flags mask",
+		'HLNG',
+		/* [7] */
+		"Code type",
+		'TNAM',
+		/* [8] */
+		"Code resource ID",
+		'RSID',
+		/* [9] */
+		"Name type",
+		'TNAM',
+		/* [10] */
+		"Name resource ID",
+		'RSID',
+		/* [11] */
+		"Info type",
+		'TNAM',
+		/* [12] */
+		"Info resource ID",
+		'RSID',
+		/* [13] */
+		"Icon type",
+		'TNAM',
+		/* [14] */
+		"Icon resource ID",
+		'RSID',
+		/* [15] */
+		"Type",
+		'TNAM',
+		/* [16] */
+		"Subtype",
+		'TNAM',
+		/* [17] */
+		"Manufacturer",
+		'TNAM',
 		/* [18] */
+		"Component flags",
+		'HLNG',
+		/* [19] */
 		"Component flags mask",
 		'HLNG'
 	}
 };
 
 resource 'TMPL' (1333, "thga", protected) {
-	{	/* array: 21 elements */
+	{	/* array: 23 elements */
 		/* [1] */
-		"Type",
+		"Type of component",
 		'TNAM',
 		/* [2] */
 		"Subtype",
@@ -40424,26 +40036,26 @@ resource 'TMPL' (1333, "thga", protected) {
 		"Code type",
 		'TNAM',
 		/* [7] */
-		"Code ID",
-		'DWRD',
+		"Code resource ID",
+		'RSID',
 		/* [8] */
 		"Name type",
 		'TNAM',
 		/* [9] */
-		"Name ID",
-		'DWRD',
+		"Name resource ID",
+		'RSID',
 		/* [10] */
 		"Info type",
 		'TNAM',
 		/* [11] */
-		"Info ID",
-		'DWRD',
+		"Info resource ID",
+		'RSID',
 		/* [12] */
 		"Icon type",
 		'TNAM',
 		/* [13] */
-		"Icon ID",
-		'DWRD',
+		"Icon resource ID",
+		'RSID',
 		/* [14] */
 		"Type",
 		'TNAM',
@@ -40464,10 +40076,16 @@ resource 'TMPL' (1333, "thga", protected) {
 		'TNAM',
 		/* [20] */
 		"Resource map ID",
-		'DWRD',
+		'RSID',
 		/* [21] */
 		"Thing alias flags",
-		'DWRD'
+		'DWRD',
+		/* [22] */
+		"No flags=0",
+		'CASE',
+		/* [23] */
+		"Only this file=1",
+		'CASE'
 	}
 };
 
@@ -40490,118 +40108,202 @@ resource 'TMPL' (1334, "thn#", protected) {
 };
 
 resource 'TMPL' (1335, "thn0", protected) {
-	{	/* array: 13 elements */
+	{	/* array: 19 elements */
 		/* [1] */
-		"Type",
-		'TNAM',
+		"Version 0 of Component Manager thing",
+		'DVDR',
 		/* [2] */
-		"Subtype",
+		"Type of component",
 		'TNAM',
 		/* [3] */
-		"Manufacturer",
+		"Subtype",
 		'TNAM',
 		/* [4] */
-		"Component flags",
-		'HLNG',
+		"Manufacturer",
+		'TNAM',
 		/* [5] */
+		"Component wants to be registered at star"
+		"tup",
+		'LB01',
+		/* [6] */
+		"Use fast dispatch when calling component",
+		'LB01',
+		/* [7] */
+		"Reserved",
+		'LB06',
+		/* [8] */
+		"Type flags",
+		'LB08',
+		/* [9] */
+		"Sub-type flags",
+		'LB08',
+		/* [10] */
+		"Manufacturer flags",
+		'LB08',
+		/* [11] */
 		"Component flags mask",
 		'HLNG',
-		/* [6] */
+		/* [12] */
 		"Code resource type",
 		'TNAM',
-		/* [7] */
+		/* [13] */
 		"Code resource ID",
-		'DWRD',
-		/* [8] */
+		'RSID',
+		/* [14] */
 		"Name resource type",
 		'TNAM',
-		/* [9] */
+		/* [15] */
 		"Name resource ID",
-		'DWRD',
-		/* [10] */
+		'RSID',
+		/* [16] */
 		"Info resource type",
 		'TNAM',
-		/* [11] */
+		/* [17] */
 		"Info resource ID",
-		'DWRD',
-		/* [12] */
+		'RSID',
+		/* [18] */
 		"Icon resource type",
 		'TNAM',
-		/* [13] */
+		/* [19] */
 		"Icon resource ID",
-		'DWRD'
+		'RSID'
 	}
 };
 
 resource 'TMPL' (1336, "thn1", protected) {
-	{	/* array: 23 elements */
+	{	/* array: 44 elements */
 		/* [1] */
-		"Type",
-		'TNAM',
+		"Version 1 of Component Manager thing",
+		'DVDR',
 		/* [2] */
-		"Subtype",
+		"Type of component",
 		'TNAM',
 		/* [3] */
-		"Manufacturer",
+		"Subtype",
 		'TNAM',
 		/* [4] */
-		"Component flags",
-		'HLNG',
+		"Manufacturer",
+		'TNAM',
 		/* [5] */
+		"Component wants to be registered at star"
+		"tup",
+		'LB01',
+		/* [6] */
+		"Use fast dispatch when calling component",
+		'LB01',
+		/* [7] */
+		"Reserved",
+		'LB06',
+		/* [8] */
+		"Type flags",
+		'LB08',
+		/* [9] */
+		"Sub-type flags",
+		'LB08',
+		/* [10] */
+		"Manufacturer flags",
+		'LB08',
+		/* [11] */
 		"Component flags mask",
 		'HLNG',
-		/* [6] */
-		"Code resource type",
-		'TNAM',
-		/* [7] */
-		"Code resource ID",
-		'DWRD',
-		/* [8] */
-		"Name resource type",
-		'TNAM',
-		/* [9] */
-		"Name resource ID",
-		'DWRD',
-		/* [10] */
-		"Info resource type",
-		'TNAM',
-		/* [11] */
-		"Info resource ID",
-		'DWRD',
 		/* [12] */
-		"Icon resource type",
+		"Code resource type",
 		'TNAM',
 		/* [13] */
-		"Icon resource ID",
-		'DWRD',
+		"Code resource ID",
+		'RSID',
 		/* [14] */
+		"Name resource type",
+		'TNAM',
+		/* [15] */
+		"Name resource ID",
+		'RSID',
+		/* [16] */
+		"Info resource type",
+		'TNAM',
+		/* [17] */
+		"Info resource ID",
+		'RSID',
+		/* [18] */
+		"Icon resource type",
+		'TNAM',
+		/* [19] */
+		"Icon resource ID",
+		'RSID',
+		/* [20] */
 		"Version of Component",
 		'HLNG',
-		/* [15] */
+		/* [21] */
 		"Registration flags",
-		'DLNG',
-		/* [16] */
+		'DVDR',
+		/* [22] */
+		"Reserved",
+		'LB28',
+		/* [23] */
+		"Has code for multiple platforms",
+		'LBIT',
+		/* [24] */
+		"Use component flags in search",
+		'LBIT',
+		/* [25] */
+		"Call component when un-registered",
+		'LBIT',
+		/* [26] */
+		"Use only latest version",
+		'LBIT',
+		/* [27] */
 		"Resource ID of icon family",
-		'DWRD',
-		/* [17] */
+		'RSID',
+		/* [28] */
 		"Count:",
-		'OCNT',
-		/* [18] */
+		'LCNT',
+		/* [29] */
 		"Component Platform Info records",
 		'LSTC',
-		/* [19] */
-		"Component flags",
-		'HLNG',
-		/* [20] */
+		/* [30] */
+		"Component wants to be registered at star"
+		"tup",
+		'LB01',
+		/* [31] */
+		"Use fast dispatch when calling component",
+		'LB01',
+		/* [32] */
+		"Reserved",
+		'LB06',
+		/* [33] */
+		"Type flags",
+		'LB08',
+		/* [34] */
+		"Sub-type flags",
+		'LB08',
+		/* [35] */
+		"Manufacturer flags",
+		'LB08',
+		/* [36] */
 		"Code resource type",
 		'TNAM',
-		/* [21] */
+		/* [37] */
 		"Code resource ID",
-		'DWRD',
-		/* [22] */
+		'RSID',
+		/* [38] */
 		"Platform type (gestaltComponentPlatform)",
 		'DWRD',
-		/* [23] */
+		/* [39] */
+		"68K=1",
+		'CASE',
+		/* [40] */
+		"PowerPC=2",
+		'CASE',
+		/* [41] */
+		"Interpreted=3",
+		'CASE',
+		/* [42] */
+		"Win32=4",
+		'CASE',
+		/* [43] */
+		"PPCNativeEntryPoint=5",
+		'CASE',
+		/* [44] */
 		"-----",
 		'LSTE'
 	}
@@ -40637,9 +40339,9 @@ resource 'TMPL' (1337, "thnd", protected) {
 };
 
 resource 'TMPL' (1338, "thng", protected) {
-	{	/* array: 25 elements */
+	{	/* array: 45 elements */
 		/* [1] */
-		"Type",
+		"Type of component",
 		'TNAM',
 		/* [2] */
 		"Subtype",
@@ -40648,71 +40350,133 @@ resource 'TMPL' (1338, "thng", protected) {
 		"Manufacturer",
 		'TNAM',
 		/* [4] */
-		"Component flags",
-		'HLNG',
+		"Component wants to be registered at star"
+		"tup",
+		'LB01',
 		/* [5] */
+		"Use fast dispatch when calling component",
+		'LB01',
+		/* [6] */
+		"Reserved",
+		'LB06',
+		/* [7] */
+		"Type flags",
+		'LB08',
+		/* [8] */
+		"Sub-type flags",
+		'LB08',
+		/* [9] */
+		"Manufacturer flags",
+		'LB08',
+		/* [10] */
 		"Component flags mask",
 		'HLNG',
-		/* [6] */
+		/* [11] */
 		"Code resource type",
 		'TNAM',
-		/* [7] */
+		/* [12] */
 		"Code resource ID",
-		'DWRD',
-		/* [8] */
+		'RSID',
+		/* [13] */
 		"Name resource type",
 		'TNAM',
-		/* [9] */
+		/* [14] */
 		"Name resource ID",
-		'DWRD',
-		/* [10] */
+		'RSID',
+		/* [15] */
 		"Info resource type",
 		'TNAM',
-		/* [11] */
+		/* [16] */
 		"Info resource ID",
-		'DWRD',
-		/* [12] */
+		'RSID',
+		/* [17] */
 		"Icon resource type",
 		'TNAM',
-		/* [13] */
+		/* [18] */
 		"Icon resource ID",
-		'DWRD',
-		/* [14] */
+		'RSID',
+		/* [19] */
 		"Version of Component",
 		'HLNG',
-		/* [15] */
+		/* [20] */
 		"Registration flags",
-		'DLNG',
-		/* [16] */
+		'DVDR',
+		/* [21] */
+		"Reserved",
+		'LB28',
+		/* [22] */
+		"Has code for multiple platforms",
+		'LBIT',
+		/* [23] */
+		"Use component flags in search",
+		'LBIT',
+		/* [24] */
+		"Call component when un-registered",
+		'LBIT',
+		/* [25] */
+		"Use only latest version",
+		'LBIT',
+		/* [26] */
 		"Resource ID of icon family",
-		'DWRD',
-		/* [17] */
+		'RSID',
+		/* [27] */
 		"Count:",
-		'OCNT',
-		/* [18] */
+		'LCNT',
+		/* [28] */
 		"Component Platform Info records",
 		'LSTC',
-		/* [19] */
-		"Component flags",
-		'HLNG',
-		/* [20] */
+		/* [29] */
+		"Component wants to be registered at star"
+		"tup",
+		'LB01',
+		/* [30] */
+		"Use fast dispatch when calling component",
+		'LB01',
+		/* [31] */
+		"Reserved",
+		'LB06',
+		/* [32] */
+		"Type flags",
+		'LB08',
+		/* [33] */
+		"Sub-type flags",
+		'LB08',
+		/* [34] */
+		"Manufacturer flags",
+		'LB08',
+		/* [35] */
 		"Code resource type",
 		'TNAM',
-		/* [21] */
+		/* [36] */
 		"Code resource ID",
-		'DWRD',
-		/* [22] */
+		'RSID',
+		/* [37] */
 		"Platform type (gestaltComponentPlatform)",
 		'DWRD',
-		/* [23] */
+		/* [38] */
+		"68K=1",
+		'CASE',
+		/* [39] */
+		"PowerPC=2",
+		'CASE',
+		/* [40] */
+		"Interpreted=3",
+		'CASE',
+		/* [41] */
+		"Win32=4",
+		'CASE',
+		/* [42] */
+		"PPCNativeEntryPoint=5",
+		'CASE',
+		/* [43] */
 		"-----",
 		'LSTE',
-		/* [24] */
+		/* [44] */
 		"Resource map type",
 		'TNAM',
-		/* [25] */
+		/* [45] */
 		"Resource map ID",
-		'DWRD'
+		'RSID'
 	}
 };
 
@@ -41705,419 +41469,105 @@ resource 'TMPL' (1360, "xdtl", protected) {
 	}
 };
 
-resource 'TMPL' (1361, "Xmnu", protected) {
-	{	/* array: 68 elements */
+resource 'TMPL' (1361, "xmnu", protected) {
+	{	/* array: 33 elements */
 		/* [1] */
 		"Version",
 		'KWRD',
 		/* [2] */
-		"Version Zero=0",
+		"Latest=0",
 		'CASE',
 		/* [3] */
-		"Version One=1",
-		'CASE',
-		/* [4] */
 		"0",
 		'KEYB',
-		/* [5] */
+		/* [4] */
 		"Count:",
 		'OCNT',
-		/* [6] */
+		/* [5] */
 		"List of Item extensions",
 		'LSTC',
-		/* [7] */
+		/* [6] */
 		"Entry Type",
 		'KWRD',
+		/* [7] */
+		"Skip=0",
+		'CASE',
 		/* [8] */
-		"SkipItem=0",
+		"Data=1",
 		'CASE',
 		/* [9] */
-		"DataItem=1",
-		'CASE',
-		/* [10] */
 		"0",
 		'KEYB',
-		/* [11] */
+		/* [10] */
 		"",
 		'KEYE',
-		/* [12] */
+		/* [11] */
 		"1",
 		'KEYB',
-		/* [13] */
+		/* [12] */
 		"Command ID",
 		'TNAM',
-		/* [14] */
+		/* [13] */
 		"Reserved",
 		'BB04',
-		/* [15] */
+		/* [14] */
 		"No command key modifier",
+		'BBIT',
+		/* [15] */
+		"Control key modifier",
 		'BBIT',
 		/* [16] */
-		"Control key modifier",
+		"Option key modifier",
 		'BBIT',
 		/* [17] */
-		"Option key modifier",
+		"Shift key modifier",
 		'BBIT',
 		/* [18] */
-		"Shift key modifier",
-		'BBIT',
-		/* [19] */
 		"Icon type placeholder",
 		'FBYT',
-		/* [20] */
-		"Icon handle placeholder",
-		'FLNG',
-		/* [21] */
-		"Text encoding",
-		'DLNG',
-		/* [22] */
-		"Current script=-2",
-		'CASE',
-		/* [23] */
-		"System script=-1",
-		'CASE',
-		/* [24] */
-		"Reference constant 1",
-		'TNAM',
-		/* [25] */
-		"Reference constant 2",
-		'TNAM',
-		/* [26] */
-		"Hierarchical 'MENU' ID",
-		'RSID',
-		/* [27] */
-		"None=0",
-		'CASE',
-		/* [28] */
-		"Font ID",
-		'DWRD',
-		/* [29] */
-		"System font=0",
-		'CASE',
-		/* [30] */
-		"Keyboard Glyph",
-		'DWRD',
-		/* [31] */
-		"Natural Glyph=0",
-		'CASE',
-		/* [32] */
-		"",
-		'KEYE',
-		/* [33] */
-		"*****",
-		'LSTE',
-		/* [34] */
-		"",
-		'KEYE',
-		/* [35] */
-		"1",
-		'KEYB',
-		/* [36] */
-		"Count:",
-		'OCNT',
-		/* [37] */
-		"List of Item extensions",
-		'LSTC',
-		/* [38] */
-		"Entry Type",
-		'KWRD',
-		/* [39] */
-		"SkipItem=0",
-		'CASE',
-		/* [40] */
-		"DataItem=1",
-		'CASE',
-		/* [41] */
-		"0",
-		'KEYB',
-		/* [42] */
-		"",
-		'KEYE',
-		/* [43] */
-		"1",
-		'KEYB',
-		/* [44] */
-		"Command ID",
-		'TNAM',
-		/* [45] */
-		"Reserved",
-		'BB04',
-		/* [46] */
-		"No command key modifier",
-		'BBIT',
-		/* [47] */
-		"Control key modifier",
-		'BBIT',
-		/* [48] */
-		"Option key modifier",
-		'BBIT',
-		/* [49] */
-		"Shift key modifier",
-		'BBIT',
-		/* [50] */
-		"Virtual keycode for command key",
-		'HBYT',
-		/* [51] */
-		"No virtual key=0",
-		'CASE',
-		/* [52] */
-		"Menu item attributes",
-		'HLNG',
-		/* [53] */
-		"No attributes=0",
-		'CASE',
-		/* [54] */
-		"Text encoding",
-		'ULNG',
-		/* [55] */
-		"Current script=-2",
-		'CASE',
-		/* [56] */
-		"System script=-1",
-		'CASE',
-		/* [57] */
-		"RefCon",
-		'TNAM',
-		/* [58] */
-		"Indent",
-		'TNAM',
-		/* [59] */
-		"No indent=0",
-		'CASE',
-		/* [60] */
-		"Hierarchical 'MENU' ID",
-		'RSID',
-		/* [61] */
-		"None=0",
-		'CASE',
-		/* [62] */
-		"Font ID",
-		'DWRD',
-		/* [63] */
-		"System font=0",
-		'CASE',
-		/* [64] */
-		"Keyboard Glyph",
-		'DWRD',
-		/* [65] */
-		"Natural Glyph=0",
-		'CASE',
-		/* [66] */
-		"",
-		'KEYE',
-		/* [67] */
-		"*****",
-		'LSTE',
-		/* [68] */
-		"",
-		'KEYE'
-	}
-};
-
-resource 'TMPL' (1362, "xmnu", protected) {
-	{	/* array: 68 elements */
-		/* [1] */
-		"Version",
-		'KWRD',
-		/* [2] */
-		"Version Zero=0",
-		'CASE',
-		/* [3] */
-		"Version One=1",
-		'CASE',
-		/* [4] */
-		"0",
-		'KEYB',
-		/* [5] */
-		"Count:",
-		'OCNT',
-		/* [6] */
-		"List of Item extensions",
-		'LSTC',
-		/* [7] */
-		"Entry Type",
-		'KWRD',
-		/* [8] */
-		"SkipItem=0",
-		'CASE',
-		/* [9] */
-		"DataItem=1",
-		'CASE',
-		/* [10] */
-		"0",
-		'KEYB',
-		/* [11] */
-		"",
-		'KEYE',
-		/* [12] */
-		"1",
-		'KEYB',
-		/* [13] */
-		"Command ID",
-		'TNAM',
-		/* [14] */
-		"Reserved",
-		'BB04',
-		/* [15] */
-		"No command key modifier",
-		'BBIT',
-		/* [16] */
-		"Control key modifier",
-		'BBIT',
-		/* [17] */
-		"Option key modifier",
-		'BBIT',
-		/* [18] */
-		"Shift key modifier",
-		'BBIT',
 		/* [19] */
-		"Icon type placeholder",
-		'FBYT',
-		/* [20] */
 		"Icon handle placeholder",
 		'FLNG',
-		/* [21] */
+		/* [20] */
 		"Text encoding",
 		'DLNG',
-		/* [22] */
+		/* [21] */
 		"Current script=-2",
+		'CASE',
+		/* [22] */
+		"System script=-1",
 		'CASE',
 		/* [23] */
-		"System script=-1",
-		'CASE',
-		/* [24] */
 		"Reference constant 1",
 		'TNAM',
-		/* [25] */
+		/* [24] */
 		"Reference constant 2",
 		'TNAM',
+		/* [25] */
+		"Hierarchical 'MENU' ID",
+		'RSID',
 		/* [26] */
-		"Hierarchical 'MENU' ID",
-		'RSID',
+		"None=0",
+		'CASE',
 		/* [27] */
-		"None=0",
-		'CASE',
+		"Font ID",
+		'DWRD',
 		/* [28] */
-		"Font ID",
-		'DWRD',
+		"System font=0",
+		'CASE',
 		/* [29] */
-		"System font=0",
-		'CASE',
+		"Substitute Glyph",
+		'DWRD',
 		/* [30] */
-		"Keyboard Glyph",
-		'DWRD',
+		"Natural Glyph=0",
+		'CASE',
 		/* [31] */
-		"Natural Glyph=0",
-		'CASE',
+		"",
+		'KEYE',
 		/* [32] */
-		"",
-		'KEYE',
+		"*****",
+		'LSTE',
 		/* [33] */
-		"*****",
-		'LSTE',
-		/* [34] */
-		"",
-		'KEYE',
-		/* [35] */
-		"1",
-		'KEYB',
-		/* [36] */
-		"Count:",
-		'OCNT',
-		/* [37] */
-		"List of Item extensions",
-		'LSTC',
-		/* [38] */
-		"Entry Type",
-		'KWRD',
-		/* [39] */
-		"SkipItem=0",
-		'CASE',
-		/* [40] */
-		"DataItem=1",
-		'CASE',
-		/* [41] */
-		"0",
-		'KEYB',
-		/* [42] */
-		"",
-		'KEYE',
-		/* [43] */
-		"1",
-		'KEYB',
-		/* [44] */
-		"Command ID",
-		'TNAM',
-		/* [45] */
-		"Reserved",
-		'BB04',
-		/* [46] */
-		"No command key modifier",
-		'BBIT',
-		/* [47] */
-		"Control key modifier",
-		'BBIT',
-		/* [48] */
-		"Option key modifier",
-		'BBIT',
-		/* [49] */
-		"Shift key modifier",
-		'BBIT',
-		/* [50] */
-		"Virtual keycode for command key",
-		'HBYT',
-		/* [51] */
-		"No virtual key=0",
-		'CASE',
-		/* [52] */
-		"Menu item attributes",
-		'HLNG',
-		/* [53] */
-		"No attributes=0",
-		'CASE',
-		/* [54] */
-		"Text encoding",
-		'ULNG',
-		/* [55] */
-		"Current script=-2",
-		'CASE',
-		/* [56] */
-		"System script=-1",
-		'CASE',
-		/* [57] */
-		"RefCon",
-		'TNAM',
-		/* [58] */
-		"Indent",
-		'TNAM',
-		/* [59] */
-		"No indent=0",
-		'CASE',
-		/* [60] */
-		"Hierarchical 'MENU' ID",
-		'RSID',
-		/* [61] */
-		"None=0",
-		'CASE',
-		/* [62] */
-		"Font ID",
-		'DWRD',
-		/* [63] */
-		"System font=0",
-		'CASE',
-		/* [64] */
-		"Keyboard Glyph",
-		'DWRD',
-		/* [65] */
-		"Natural Glyph=0",
-		'CASE',
-		/* [66] */
-		"",
-		'KEYE',
-		/* [67] */
-		"*****",
-		'LSTE',
-		/* [68] */
 		"",
 		'KEYE'
 	}
@@ -42127,7 +41577,7 @@ resource 'TMPL' (1363, "xMNU", protected) {
 	{	/* array: 23 elements */
 		/* [1] */
 		"Menu title",
-		'PSTR',
+		'P100',
 		/* [2] */
 		"Menu name",
 		'TNAM',
