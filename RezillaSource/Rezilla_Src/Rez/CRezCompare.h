@@ -99,6 +99,7 @@ protected:
 		TArray<CRezTypId *>	mOnlyInOldList;
 		TArray<CRezTypId *>	mOnlyInNewList;
 		TArray<CRezTypId *>	mDifferingList;
+		TArray<CRezTypId *>	mIdenticalList;
 		Str255				mOldPath;
 		Str255				mNewPath;
 
