@@ -2,7 +2,7 @@
 // CRezObj.h					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2004-11-18 19:52:20
+//             Last modification: 2004-11-29 06:41:24
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -16,10 +16,12 @@
 #define _H_CRezObj
 #pragma once
 
+#include <LModelObject.h>
+
 class CRezType;
 
 
-class CRezObj {
+class CRezObj : public LModelObject {
 
 public:
 				CRezObj(Handle inResHandle, short inRefnum);

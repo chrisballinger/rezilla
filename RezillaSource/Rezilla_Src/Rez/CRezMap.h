@@ -2,7 +2,7 @@
 // CRezMap.h					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2004-03-16 15:44:46
+//             Last modification: 2004-11-29 06:24:40
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -16,8 +16,10 @@
 #define _H_CRezMap
 #pragma once
 
+#include <LModelObject.h>
 
-class CRezMap {
+
+class CRezMap : public LModelObject {
 
 public:
 			CRezMap(short inRefnum);

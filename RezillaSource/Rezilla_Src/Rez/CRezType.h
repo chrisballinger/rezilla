@@ -2,11 +2,11 @@
 // CRezType.h					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2004-03-02 07:33:25
+//             Last modification: 2004-11-29 06:24:47
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003, 2004
+// (c) Copyright : Bernard Desgraupes, 2003-2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -16,10 +16,12 @@
 #define _H_CRezType
 #pragma once
 
+#include <LModelObject.h>
+
 class CRezMap;
 
 
-class CRezType {
+class CRezType : public LModelObject {
 
 public:
 				CRezType(ResType inResType);

@@ -2,7 +2,7 @@
 // CRezType.cp					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2004-11-09 04:06:57
+//             Last modification: 2004-11-29 06:30:51
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -23,9 +23,13 @@
 // ---------------------------------------------------------------------------
 
 CRezType::CRezType(ResType inResType)
+	: LModelObject(NULL, rzil_cType)
 {
     mType = inResType;
     mOwnerMap = nil;
+
+	// Don't use PP's list model
+	SetUseSubModelList(false);
 }
 
 
@@ -34,9 +38,13 @@ CRezType::CRezType(ResType inResType)
 // ---------------------------------------------------------------------------
 
 CRezType::CRezType(ResType inResType, CRezMap * inOwnerMap)
-: mType(inResType), mOwnerMap(inOwnerMap)
+	: LModelObject(inOwnerMap, rzil_cType),
+		mType(inResType), mOwnerMap(inOwnerMap)
 {
     // 	SignalStringLiteral_("OwnerMap not specified");
+
+	// Don't use PP's list model
+	SetUseSubModelList(false);
 }
 
 

@@ -2,7 +2,7 @@
 // CRezObj.cp					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2004-11-18 19:52:29
+//             Last modification: 2004-11-29 06:41:12
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -16,6 +16,7 @@
 #include "CRezType.h"
 #include "CRezMap.h"
 #include "UResources.h"
+#include "RezillaConstants.h"
 
 // #include <LString.h>
 
@@ -24,6 +25,7 @@
 // ---------------------------------------------------------------------------
 
 CRezObj::CRezObj(Handle inResHandle, short inRefnum)
+	: LModelObject(NULL, rzil_cResource)
 {
 	OSErr error;
 	
@@ -34,6 +36,9 @@ CRezObj::CRezObj(Handle inResHandle, short inRefnum)
 	
 	GetSizeOnDisk(mSize);
 	GetAttributesFromMap(mAttributes);
+
+	// Don't use PP's list model
+	SetUseSubModelList(false);
 }
 
 
@@ -43,13 +48,13 @@ CRezObj::CRezObj(Handle inResHandle, short inRefnum)
 // Call this constructor for an already existing resource whose type and ID 
 // are known.
 
-CRezObj::CRezObj(CRezType * inRezType,
-				short inID)
+CRezObj::CRezObj(CRezType * inRezType, short inID)
+	: LModelObject(inRezType, rzil_cResource),
+		mID(inID)
 {
 	Str255	theName;
 	mType = inRezType->GetType();
 	mOwnerRefnum = inRezType->GetOwnerMap()->GetRefnum();
-	mID = inID;
 	
 	// Get the handle of the resource. There should be no error.
 	OSErr error = GetRezHandle();
@@ -63,6 +68,9 @@ CRezObj::CRezObj(CRezType * inRezType,
 	SetName(&theName);
 	// Get the attributes of the resource
 	mAttributes = ::GetResAttrs(mData);
+
+	// Don't use PP's list model
+	SetUseSubModelList(false);
 }
 
 
@@ -76,6 +84,7 @@ CRezObj::CRezObj(CRezType * inRezType,
 CRezObj::CRezObj(CRezType * inRezType,
 				short inID, 
 				Str255* inName)
+	: LModelObject(inRezType, rzil_cResource)
 {
 	mType = inRezType->GetType();
 	mOwnerRefnum = inRezType->GetOwnerMap()->GetRefnum();
@@ -89,6 +98,9 @@ CRezObj::CRezObj(CRezType * inRezType,
 	}
 	mSize = 0;
 	mAttributes = 0;
+
+	// Don't use PP's list model
+	SetUseSubModelList(false);
 }
 
 
@@ -97,6 +109,7 @@ CRezObj::CRezObj(CRezType * inRezType,
 // ---------------------------------------------------------------------------
 
 CRezObj::CRezObj(CRezType * inRezType)
+	: LModelObject(inRezType, rzil_cResource)
 {
 	Str255 theName = "\p";
 	
@@ -108,6 +121,9 @@ CRezObj::CRezObj(CRezType * inRezType)
 	mData = ::NewHandle(0);
 	mSize = 0;
 	mAttributes = 0;
+
+	// Don't use PP's list model
+	SetUseSubModelList(false);
 }
 
 
@@ -116,6 +132,7 @@ CRezObj::CRezObj(CRezType * inRezType)
 // ---------------------------------------------------------------------------
 
 CRezObj::CRezObj(CRezObj& inOriginal)
+	: LModelObject(inOriginal.GetSuperModel(), rzil_cResource)
 {
 	mOwnerRefnum = inOriginal.GetOwnerRefnum();
 	mType = inOriginal.GetType();
@@ -126,6 +143,9 @@ CRezObj::CRezObj(CRezObj& inOriginal)
 	this->SetName(inOriginal.GetName());
 	mData = ::NewHandle(0);
 	this->SetData(inOriginal.GetData());
+
+	// Don't use PP's list model
+	SetUseSubModelList(false);
 }
 
 
