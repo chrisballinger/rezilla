@@ -97,6 +97,7 @@ CTmplEditorDoc::Initialize()
 	Assert_( mTmplEditWindow != nil );
 	
 	mTmplEditWindow->SetOwnerDoc(this);
+	mTmplEditWindow->InstallResourceNameField();
 	mTmplEditWindow->InstallReadOnlyIcon();
 	SetMainWindow( dynamic_cast<CEditorWindow *>(mTmplEditWindow) );
 

@@ -2,11 +2,11 @@
 // CEditorWindow.h				
 // 
 //                       Created: 2004-06-10 14:44:33
-//             Last modification: 2004-11-06 07:24:32
+//             Last modification: 2005-01-09 00:05:13
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004
+// (c) Copyright : Bernard Desgraupes, 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -53,6 +53,8 @@ public:
 	virtual void	SetDirty(Boolean inDirty);
 
 	void			InstallReadOnlyIcon();
+
+	void			InstallResourceNameField();
 
 	virtual CEditorDoc*		GetOwnerDoc() { return mOwnerDoc;}
 	void					SetOwnerDoc(CEditorDoc* theOwnerDoc) {mOwnerDoc = theOwnerDoc ;}

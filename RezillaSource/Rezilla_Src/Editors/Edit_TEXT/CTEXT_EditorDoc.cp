@@ -102,6 +102,7 @@ CTEXT_EditorDoc::Initialize()
 	Assert_( mTextEditWindow != nil );
 	
 	mTextEditWindow->SetOwnerDoc(this);
+	mTextEditWindow->InstallResourceNameField();
 	mTextEditWindow->InstallReadOnlyIcon();
 	SetMainWindow( dynamic_cast<CEditorWindow *>(mTextEditWindow) );
 

@@ -180,11 +180,11 @@ CTmplEditorWindow::FinishCreateSelf()
 	mContentsScroller = dynamic_cast<LScrollerView *>(this->FindPaneByID(item_EditorScroller));
 	ThrowIfNil_( mContentsScroller );
 		
-	// Install the name of the resource if it has one
-	LStaticText * theStaticText = dynamic_cast<LStaticText *>(this->FindPaneByID( item_NameStaticText ));
-	ThrowIfNil_( theStaticText );
-	Str255 * strPtr = dynamic_cast<CTmplEditorDoc *>(GetSuperCommander())->GetRezObj()->GetName();
-	theStaticText->SetDescriptor(*strPtr);	
+// 	// Install the name of the resource if it has one
+// 	LStaticText * theStaticText = dynamic_cast<LStaticText *>(this->FindPaneByID( item_NameStaticText ));
+// 	ThrowIfNil_( theStaticText );
+// 	Str255 * strPtr = dynamic_cast<CTmplEditorDoc *>(GetSuperCommander())->GetRezObj()->GetName();
+// 	theStaticText->SetDescriptor(*strPtr);	
 	
 	// Link the broadcasters
 	UReanimator::LinkListenerToControls( this, this, PPob_TmplEditorWindow );

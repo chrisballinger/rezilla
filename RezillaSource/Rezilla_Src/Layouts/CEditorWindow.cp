@@ -2,11 +2,11 @@
 // CEditorWindow.cp
 // 
 //                       Created: 2004-06-10 14:50:31
-//             Last modification: 2004-11-06 07:54:30
+//             Last modification: 2005-01-08 22:33:30
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004
+// (c) Copyright : Bernard Desgraupes, 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -15,9 +15,11 @@
 
 #include "CEditorWindow.h"
 #include "CEditorDoc.h"
+#include "CRezObj.h"
 #include "RezillaConstants.h"
 
 #include <LIconPane.h>
+#include <LStaticText.h>
 
 // ---------------------------------------------------------------------------
 //		¥ CEditorWindow				[public]
@@ -83,6 +85,7 @@ CEditorWindow::~CEditorWindow()
 void
 CEditorWindow::FinishCreateSelf()
 {
+ 	InstallResourceNameField();
 	InstallReadOnlyIcon();
 }
 	
@@ -214,6 +217,25 @@ CEditorWindow::InstallReadOnlyIcon()
 		} else {
 			theIcon->SetIconID(ics8_Unlocked);
 		}
+	} 
+}
+
+
+// ---------------------------------------------------------------------------
+//  ¥ InstallResourceNameField											[public]
+// ---------------------------------------------------------------------------
+
+void
+CEditorWindow::InstallResourceNameField() 
+{
+	// Install the name of the resource if it has one
+	LStaticText * theStaticText = dynamic_cast<LStaticText *>(this->FindPaneByID( item_NameStaticText ));
+	if (theStaticText != nil) {
+		CEditorDoc * theDoc = dynamic_cast<CEditorDoc *>(GetSuperCommander());
+		if (theDoc != nil) {
+			Str255 * strPtr = theDoc->GetRezObj()->GetName();
+			theStaticText->SetDescriptor(*strPtr);	
+		} 
 	} 
 }
 

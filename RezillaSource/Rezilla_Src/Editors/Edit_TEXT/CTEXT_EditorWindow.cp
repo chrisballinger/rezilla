@@ -118,12 +118,6 @@ CTEXT_EditorWindow::FinishCreateSelf()
 	mLengthField = dynamic_cast<LStaticText *> (this->FindPaneByID( item_TextEditLength ));
 	ThrowIfNil_( mLengthField );
 	
-	// Install the name of the resource if it has one
-	LStaticText * theStaticText = dynamic_cast<LStaticText *>(this->FindPaneByID( item_NameStaticText ));
-	ThrowIfNil_( theStaticText );
-	Str255 * strPtr = dynamic_cast<CTEXT_EditorDoc *>(GetSuperCommander())->GetRezObj()->GetName();
-	theStaticText->SetDescriptor(*strPtr);	
-	
 	// Link the broadcasters
 	UReanimator::LinkListenerToControls( this, this, PPob_TextEditorWindow );
 	
@@ -215,11 +209,6 @@ CTEXT_EditorWindow::RemoveTextMenus()
 void
 CTEXT_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam ) 
 {	
-	Str255			theString;
-	SInt16			theFontNum;
-	SInt32 			theSize = 10, theIndex, theFace = 0;
-	LStr255			theLine( "\p" );
-
 	if (mIsAdjustingMenus) {
 		return;
 	} 

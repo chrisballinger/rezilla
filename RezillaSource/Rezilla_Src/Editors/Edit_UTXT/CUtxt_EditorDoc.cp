@@ -85,15 +85,12 @@ CUtxt_EditorDoc::~CUtxt_EditorDoc()
 void
 CUtxt_EditorDoc::Initialize()
 {
-// 	if (sUnicodeFontsMenu == NULL) {
-// 		sUnicodeFontsMenu = new LMenu(MENU_UnicodeFonts);
-// 	} 	
-	
 	// Create window for our document. This sets this doc as the SuperCommander of the window.
 	mUtxtEditWindow = dynamic_cast<CUtxt_EditorWindow *>(LWindow::CreateWindow( PPob_UtxtEditorWindow, this ));
 	Assert_( mUtxtEditWindow != nil );
 	
 	mUtxtEditWindow->SetOwnerDoc(this);
+	mUtxtEditWindow->InstallResourceNameField();
 	mUtxtEditWindow->InstallReadOnlyIcon();
 	SetMainWindow( dynamic_cast<CEditorWindow *>(mUtxtEditWindow) );
 
