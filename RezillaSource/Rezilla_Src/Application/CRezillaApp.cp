@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2004-06-20 20:28:11
+//             Last modification: 2004-07-01 09:26:47
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -42,6 +42,9 @@
 #include "CCompResultWindow.h"
 #include "CRangeEditText.h"
 #include "CStaticTextURL.h"
+#include "CAete_EditorWindow.h"
+#include "CCategoriesListBox.h"
+#include "CTmplBevelButton.h"
 #include "UNavigationDialogs.h"
 #include "NavServicesCallbacks.h"
 #include "UMessageDialogs.h"
@@ -291,8 +294,10 @@ CRezillaApp::RegisterClasses()
  	RegisterClass_(LBorderAttachment);
 
 	// Register Rezilla custom classes.
+// 	RegisterClass_(CAete_EditorWindow);
 	RegisterClass_(CBiDataWE);
 	RegisterClass_(CBroadcasterTableView);
+	RegisterClass_(CCategoriesListBox);
 	RegisterClass_(CCompResultWindow);
 	RegisterClass_(CDropStaticText);
 	RegisterClass_(CDualDataView);
@@ -306,12 +311,13 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(CRezMapTable);
 	RegisterClass_(CRezMapWindow);
 	RegisterClass_(CSingleScrollBar);
+	RegisterClass_(CStaticTextURL);
+	RegisterClass_(CTEXT_EditorView);
+	RegisterClass_(CTEXT_EditorWindow);
 	RegisterClass_(CTmplEditorWindow);
+	RegisterClass_(CTmplBevelButton);
 	RegisterClass_(CTxtDataSubView);
 	RegisterClass_(CWasteEditView);
-	RegisterClass_(CTEXT_EditorWindow);
-	RegisterClass_(CTEXT_EditorView);
-	RegisterClass_(CStaticTextURL);
 
 // 	RegisterClass_(ATag);
 
