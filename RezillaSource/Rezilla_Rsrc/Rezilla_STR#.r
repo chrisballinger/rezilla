@@ -439,33 +439,23 @@ resource 'STR#' (1702, "icns elements", purgeable) {
 };
 
 
-// resource 'STR#' (1702, "icns elements", purgeable) {
-// 	{	
-// /* [1] */	"Thumbnail 32 Bit Data ('it32')",
-// /* [2] */	"Thumbnail 8 Bit Mask ('t8mk')",
-// /* [3] */	"Huge 1 Bit Mask ('ich#')",
-// /* [4] */	"Huge 4 Bit Data ('ich4')",
-// /* [5] */	"Huge 8 Bit Data ('ich8')",
-// /* [6] */	"Huge 32 Bit Data ('ih32')",
-// /* [7] */	"Huge 8 Bit Mask ('h8mk')",
-// /* [8] */	"Large 1 Bit Mask ('ICN#')",
-// /* [9] */	"Large 4 Bit Data ('icl4')",
-// /* [10] */	"Large 8 Bit Data ('icl8')",
-// /* [11] */	"Large 32 Bit Data ('il32')",
-// /* [12] */	"Large 8 Bit Mask ('l8mk')",
-// /* [13] */	"Small 1 Bit Mask ('ics#')",
-// /* [14] */	"Small 4 Bit Data ('ics4')",
-// /* [15] */	"Small 8 Bit Data ('ics8')",
-// /* [16] */	"Small 32 Bit Data ('is32')",
-// /* [17] */	"Small 8 Bit Mask ('s8mk')",
-// /* [18] */	"Mini 1 Bit Mask ('icm#')",
-// /* [19] */	"Mini 4 Bit Data ('icm4')",
-// /* [20] */	"Mini 8 Bit Data ('icm8')",
-// /* [21] */	"Tile Icon Variant ('tile')",
-// /* [22] */	"Rollover Icon Variant ('over')",
-// /* [23] */	"Drop Icon Variant ('drop')",
-// /* [24] */	"Open Icon Variant ('open')",
-// /* [25] */	"Open Drop Icon Variant ('odrp')"
-// 	}
-// };
+resource 'STR#' (1710, "Aete Add", purgeable) {
+	{	
+/* [1] */	"Add Event",
+/* [2] */	"Add Class",
+/* [3] */	"Add Comparison Operator",
+/* [4] */	"Add Enumeration"
+	}
+};
+
+
+resource 'STR#' (1711, "Aete Remove", purgeable) {
+	{	
+/* [1] */	"Remove Event",
+/* [2] */	"Remove Class",
+/* [3] */	"Remove Comparison Operator",
+/* [4] */	"Remove Enumeration"
+	}
+};
+
 
