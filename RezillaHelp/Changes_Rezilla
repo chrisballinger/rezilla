@@ -29,10 +29,30 @@ Last modification: $Date$
 
 
 ================================================================================
-= 1.0.1a6 	                             last update: 
+= 1.0.1a8 	                             last update: 
 ================================================================================
-¥ Diffs between resources in rezmap comparison.
-¥ 
+¥ No new feature, only fixes and debugging.
+	* count fields correctly updated when a drag/copy etc action occurs
+	* ask in case of conflicting IDs when dropping resources rather than
+	  automatically attributing an unique ID
+	* update the size in SetData
+	* 
+
+================================================================================
+= 1.0.1a7 	                             last update: 2004-03-23 23:23:57
+================================================================================
+¥ SelectAll working in HexEditor windows. Copy/cut/clear/paste adapted accordingly.
+¥ Xml export encodes resource data in Base64 encoding.
+¥ Text export includes the resource data as hexadecimal string.
+¥ Added DeRez export format.
+
+================================================================================
+= 1.0.1a6 	                             last update: 2004-03-22 09:51:10
+================================================================================
+¥ Rezmap comparison results window fully working.
+¥ Added radio buttons to select display format.
+¥ Data displayed as hexadecimal values or as readable text.
+¥ Left and right tables also display the resource data.
 
 ================================================================================
 = 1.0.1a5 	                             last update: 2004-03-16 20:46:56
