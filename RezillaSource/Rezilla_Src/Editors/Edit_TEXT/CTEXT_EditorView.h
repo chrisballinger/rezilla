@@ -30,7 +30,7 @@ class CTEXT_EditorWindow;
 
 // ---------------------------------------------------------------------------
 
-class CTEXT_EditorView :	public LTextEditView {
+class CTEXT_EditorView : public LTextEditView {
 public:
 	enum { class_ID = FOUR_CHAR_CODE('TXTV') };
 
@@ -51,6 +51,13 @@ public:
 									CommandT			inCommand,
 									void*				ioParam);
 	
+	virtual void 			FindCommandStatus(
+									CommandT			inCommand,
+									Boolean&			outEnabled,
+									Boolean&			outUsesMark,
+									UInt16&				outMark,
+									Str255				outName);
+
 	virtual void			UserChangedText();
 
 	CTEXT_EditorWindow*		GetOwnerWindow() { return mOwnerWindow;}
@@ -61,8 +68,7 @@ public:
 protected:
 		CTEXT_EditorWindow *	mOwnerWindow;
 
-	virtual void			ClickSelf(
-									const SMouseDownEvent&	inMouseDown);
+	virtual void			ClickSelf(const SMouseDownEvent& inMouseDown);
 									
 
 };
