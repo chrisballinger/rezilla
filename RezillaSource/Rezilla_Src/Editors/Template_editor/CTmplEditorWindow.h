@@ -185,6 +185,8 @@ private:
 	
 	ExceptionCode	AlignBytesWrite(UInt8 inStep);
 	
+	void			BuildFormatString(char * ioString, UInt8 inLength);
+
 	void			DoParseWithTemplate(SInt32 inRecursionMark, Boolean inDrawControls, LView * inContainer);
 	void			DoRetrieveWithTemplate(SInt32 inRecursionMark);
 	
