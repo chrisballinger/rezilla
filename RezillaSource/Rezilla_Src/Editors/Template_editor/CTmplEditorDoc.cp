@@ -2,7 +2,7 @@
 // CTmplEditorDoc.cp					
 // 
 //                       Created: 2004-06-12 10:06:22
-//             Last modification: 2004-07-01 18:12:31
+//             Last modification: 2004-10-01 17:08:57
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -313,8 +313,7 @@ CTmplEditorDoc::ListenToMessage( MessageT inMessage, void *ioParam )
 		break;
 		
 		case cmd_Revert:
-		// todo...
-		
+		mTmplEditWindow->RevertWithTemplate();
 		mTmplEditWindow->SetDirty(false);
 		break;
 		
