@@ -54,7 +54,7 @@ public:
 
 	CRezObj *		GetRezObj() { return mRezObj; }
 	
-	CRezMapTable*	GetOwnerRezMapTable() { return mRezMapTable;}
+	CRezMapTable*	GetRezMapTable() { return mRezMapTable;}
 	
 	Boolean			IsReadOnly() { return mReadOnly;}
 	void			SetReadOnly(Boolean inReadOnlyDoc) {mReadOnly = inReadOnlyDoc;}

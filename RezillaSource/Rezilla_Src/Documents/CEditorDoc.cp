@@ -290,6 +290,7 @@ CEditorDoc::DoSaveChanges()
 // ---------------------------------------------------------------------------
 //  ¥ GetModifiedResource										[public]
 // ---------------------------------------------------------------------------
+// Override in subclasses to collect the proper modified data.
 
 Handle
 CEditorDoc::GetModifiedResource() 

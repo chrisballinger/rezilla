@@ -2,7 +2,7 @@
 // CRezObj.cp					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2004-03-14 21:44:01
+//             Last modification: 2004-06-20 08:52:20
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -17,6 +17,7 @@
 #include "CRezMap.h"
 #include "UResources.h"
 
+// #include <LString.h>
 
 // ---------------------------------------------------------------------------
 //  ¥ CRezObj														[public]

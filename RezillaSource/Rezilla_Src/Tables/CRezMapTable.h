@@ -59,6 +59,7 @@ public:
 	
 	void					RemoveAllItems();
 
+	CRezTypeItem *			GetRezTypeItem(ResType inType);
 	CRezObjItem *			GetRezObjItem(ResType inType, short inID);
 
 	virtual CRezMap*		GetRezMap() { return mRezMap;}

@@ -412,6 +412,8 @@ CTmplEditorWindow::DoParseTemplate(SInt32 inRecursionMark)
 	Str255		theString, countLabel;
 	ResType		theType, currType;
 	
+	mTemplateStream->SetMarker(inRecursionMark, streamFrom_Start);
+
 	while (mTemplateStream->GetMarker() < mTemplateStream->GetLength() ) {
 		*mTemplateStream >> theString;
 		*mTemplateStream >> theType;
@@ -453,7 +455,7 @@ CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount)
 		
 		case 'LSTC':
 		for (short i = 0 ; i < inCount; i++) {
-			mTemplateStream->SetMarker(inStartMark, streamFrom_Start);
+// 			mTemplateStream->SetMarker(inStartMark, streamFrom_Start);
 			DoParseTemplate(inStartMark);
 		}
 		break;

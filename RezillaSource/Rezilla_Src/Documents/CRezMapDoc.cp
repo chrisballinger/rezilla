@@ -1341,7 +1341,7 @@ CRezMapDoc::NewResDialog()
 //  ¥ CreateNewRes												[public]
 // ---------------------------------------------------------------------------
 
-void
+CRezObjItem *
 CRezMapDoc::CreateNewRes(ResType inType, short inID, Str255* inName, short inAttrs)
 {
 	CRezTypeItem * theRezTypeItem;
@@ -1397,7 +1397,8 @@ CRezMapDoc::CreateNewRes(ResType inType, short inID, Str255* inName, short inAtt
 	OSErr error = newRezObjItem->GetRezObj()->Add();
 	
 	// Set the attributes
-	dynamic_cast<CRezObjItem *>(newRezObjItem)->GetRezObj()->SetAttributes(inAttrs);
+// 	dynamic_cast<CRezObjItem *>(newRezObjItem)->GetRezObj()->SetAttributes(inAttrs);
+	newRezObjItem->GetRezObj()->SetAttributes(inAttrs);
 
 	// Refresh the view
 	if ( theRezTypeItem->IsExpanded() ) {
@@ -1408,6 +1409,8 @@ CRezMapDoc::CreateNewRes(ResType inType, short inID, Str255* inName, short inAtt
 	}
 	// Redraw
 	mRezMapWindow->Refresh();
+	
+	return newRezObjItem;
 }
 
 

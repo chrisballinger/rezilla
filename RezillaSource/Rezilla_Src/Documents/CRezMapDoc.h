@@ -113,7 +113,7 @@ public:
 	virtual CRezFile*	GetRezFile() { return mRezFile;}
 	void				SetRezFile(CRezFile* theRezFile) {mRezFile = theRezFile ;}
 
-	void				CreateNewRes(ResType inType, short inID, Str255* inName, short inAttrs);
+	CRezObjItem *		CreateNewRes(ResType inType, short inID, Str255* inName, short inAttrs);
 	void				DuplicateResource(CRezObj* inRezObj);
 	void				RemoveResource(CRezObjItem* inRezObjItem);
 	void				PasteResource(ResType inType,

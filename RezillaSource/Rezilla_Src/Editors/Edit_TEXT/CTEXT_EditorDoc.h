@@ -2,7 +2,7 @@
 // CTEXT_EditorDoc.h				
 // 
 //                       Created: 2004-06-17 12:46:55
-//             Last modification: 2004-06-17 12:48:07
+//             Last modification: 2004-06-20 09:57:25
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -50,10 +50,6 @@ public:
 							CommandT			inCommand,
 							void*				ioParam = nil);	
 
-// 	virtual void		ListenToMessage(
-// 							MessageT		inMessage,
-// 							void*			ioParam);
-
 	virtual Boolean		IsModified();
 	
 	virtual StringPtr	GetDescriptor( Str255 outDescriptor ) const;
@@ -61,6 +57,7 @@ public:
 	virtual Boolean		AllowSubRemoval( LCommander* inSub );
 	virtual SInt16		AskSaveChanges( bool inQuitting );
 
+	void				SaveStylResource(StScrpHandle inScrapHandle);
 	
 protected:
 	CTEXT_EditorWindow *		mTextEditWindow;

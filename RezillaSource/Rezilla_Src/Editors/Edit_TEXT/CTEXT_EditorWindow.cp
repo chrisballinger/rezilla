@@ -2,7 +2,7 @@
 // CTEXT_EditorWindow.cp					
 // 
 //                       Created: 2004-06-17 12:46:55
-//             Last modification: 2004-06-19 14:16:01
+//             Last modification: 2004-06-20 10:00:06
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -115,10 +115,7 @@ CTEXT_EditorWindow::FinishCreateSelf()
 	
 	mContentsView->SetOwnerWindow(this);
 	
-	// The scroller controlling the contents view
-	mContentsScroller = dynamic_cast<LActiveScroller *>(this->FindPaneByID(item_EditorScroller));
-	ThrowIfNil_( mContentsScroller );
-	
+	// The font, size and style popups
 	mFontPopup = dynamic_cast<LPopupButton *> (this->FindPaneByID( item_TextEditFontMenu ));
 	ThrowIfNil_( mFontPopup );
 
@@ -128,10 +125,11 @@ CTEXT_EditorWindow::FinishCreateSelf()
 	mStylePopup = dynamic_cast<LPopupButton *> (this->FindPaneByID( item_TextEditStyleMenu ));
 	ThrowIfNil_( mStylePopup );
 	
+	// The total length field
 	mLengthField = dynamic_cast<LStaticText *> (this->FindPaneByID( item_TextEditLength ));
 	ThrowIfNil_( mLengthField );
 	
-	// Link the broadcasters.
+	// Link the broadcasters
 	UReanimator::LinkListenerToControls( this, this, rRidL_TextEditorWindow );
 	
 	// Make the window a listener to the prefs object
@@ -357,7 +355,7 @@ CTEXT_EditorWindow::InstallReadOnlyIcon()
 Boolean
 CTEXT_EditorWindow::IsDirty()
 {
-	return false;
+	return mContentsView->IsDirty();
 }
 
 
@@ -370,7 +368,7 @@ CTEXT_EditorWindow::InstallText(Handle inTextHandle, StScrpHandle inScrapHandle)
 {
 	StHandleLocker	lock(inTextHandle);
 	mContentsView->Insert(*inTextHandle, ::GetHandleSize(inTextHandle), inScrapHandle, true);
-	
+	mContentsView->SetDirty(false);
 }
 
 

@@ -65,19 +65,17 @@ public:
 	
 	CTEXT_EditorView *		GetContentsView() const { return mContentsView;}
 
-// 	virtual SInt32		GetCurrentSubView() { return mCurrentSubView;}
-// 	void				SetCurrentSubView(SInt32 inCurrentSubView) {mCurrentSubView = inCurrentSubView;}
+	virtual Boolean		GetHasStyleResource() { return mHasStyleResource;}
+	void				SetHasStyleResource(Boolean inHasStyleResource) {mHasStyleResource = inHasStyleResource;}
 
 protected:
 	CTEXT_EditorView *	mContentsView;
-	LActiveScroller *	mContentsScroller;
 	Boolean				mHasStyleResource;
 	Boolean				mIsAdjustingMenus;
 	LPopupButton *		mFontPopup;
 	LPopupButton *		mSizePopup;
 	LPopupButton *		mStylePopup;
 	LStaticText *		mLengthField;
-	
 
 	virtual void	FinishCreateSelf();
 	

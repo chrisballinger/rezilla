@@ -485,8 +485,6 @@ CRezMapTable::GetFirstSelectedRezObjItem(CRezObjItem* & outRezObjItem)
 // ---------------------------------------------------------------------------
 //  ¥ GetRezObjItem											[public]
 // ---------------------------------------------------------------------------
-// Stores all the selected RezObjItem's in the LArray provided. Returns the 
-// number of elements found.
 	
 CRezObjItem *
 CRezMapTable::GetRezObjItem(ResType inType, short inID)
@@ -513,6 +511,29 @@ CRezMapTable::GetRezObjItem(ResType inType, short inID)
 		} 
 	}
 	return outRezObjItem;
+}
+
+
+// ---------------------------------------------------------------------------
+//  ¥ GetRezTypeItem											[public]
+// ---------------------------------------------------------------------------
+	
+CRezTypeItem *
+CRezMapTable::GetRezTypeItem(ResType inType)
+{	
+	CRezTypeItem * outRezTypeItem = nil;
+	
+	// Iterate among first level items
+	LArrayIterator rezTypeIterator(mFirstLevelItems);
+	LOutlineItem *theRezTypeItem = nil;	
+	
+	while (rezTypeIterator.Next(&theRezTypeItem)) {
+		outRezTypeItem = dynamic_cast<CRezTypeItem*>(theRezTypeItem);
+		if (outRezTypeItem->GetRezType()->GetType() == inType) {
+			break;			
+		} 
+	}
+	return outRezTypeItem;
 }
 
 

@@ -2,7 +2,7 @@
 // CTEXT_EditorDoc.cp
 // 
 //                       Created: 2004-06-17 12:46:55
-//             Last modification: 2004-06-19 15:31:45
+//             Last modification: 2004-06-20 09:57:19
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -125,9 +125,9 @@ CTEXT_EditorDoc::Initialize()
 			if (hasStyle) {
 				initialStyleRes.GetResource(ResType_TextStyle, mRezObj->GetID(), false, true);
 				theScrapHandle = (StScrpHandle) initialStyleRes.mResourceH;
+				mTextEditWindow->SetHasStyleResource(true);
 			}
-						
-			mTextEditWindow->InstallText(rezData, theScrapHandle);						
+			mTextEditWindow->InstallText(rezData, theScrapHandle);			
 		} 
 	} 
 	
@@ -259,19 +259,46 @@ SInt16
 CTEXT_EditorDoc::AskSaveChanges(
 	bool /* inQuitting */)
 {
-	return UMessageDialogs::AskYesNoFromLocalizable(CFSTR("SaveTemplateWindow"), rPPob_AskYesNoMessage);
+	return UMessageDialogs::AskYesNoFromLocalizable(CFSTR("SaveTextEditorWindow"), rPPob_AskYesNoMessage);
 }
 
 
-
 // ---------------------------------------------------------------------------
-//  ¥ GetModifiedResource										[public]
+//  ¥ GetModifiedResource										[protected]
 // ---------------------------------------------------------------------------
 
 Handle
 CTEXT_EditorDoc::GetModifiedResource() 
 {
-	return mTextEditWindow->ReadValues();
+	return mTextEditWindow->GetContentsView()->GetModifiedText();
+}
+
+
+// ---------------------------------------------------------------------------------
+//  ¥ SaveStylResource
+// ---------------------------------------------------------------------------------
+
+void
+CTEXT_EditorDoc::SaveStylResource(StScrpHandle	inScrapHandle)
+{
+	// Open or create a 'styl' resource and save the StScrpHandle therein
+	CRezObj * stylRezObj = NULL;
+	CRezMapTable * theSuperMap = mOwnerWindow->GetOwnerDoc()->GetRezMapTable();
+	
+	CRezEditor::OpenOrCreateWithTypeAndID(theSuperMap, 'styl', mRezObj->GetID(), stylRezObj);
+	if (stylRezObj != NULL) {
+		// Copy to resource's data handle
+		stylRezObj->SetData( (Handle) inScrapHandle);
+
+		// Mark the resource as modified in the rez map
+		stylRezObj->Changed();
+
+		// Tell the rezmap doc that there has been a modification
+		mRezMapTable->GetOwnerDoc()->SetModified(true);
+		// Refresh the view
+		stylRezObj->SetSize( ::GetHandleSize( (Handle) inScrapHandle) );
+
+	} 
 }
 
 
@@ -290,23 +317,6 @@ CTEXT_EditorDoc::NameNewEditorDoc()
 	mTextEditWindow->SetDescriptor(theTitle);
 }
 
-
-// // ---------------------------------------------------------------------------
-// //  ¥ ListenToMessage													[public]
-// // ---------------------------------------------------------------------------
-// 
-// void
-// CTEXT_EditorDoc::ListenToMessage( MessageT inMessage, void *ioParam ) 
-// {
-// 	switch (inMessage) {
-// 		case msg_StylePrefsChanged: {
-// 		 
-// 			break;
-// 		
-// 	}
-// }
-// 
-// 
 
 PP_End_Namespace_PowerPlant
 
