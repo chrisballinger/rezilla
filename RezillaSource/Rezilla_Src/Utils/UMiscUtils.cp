@@ -294,7 +294,7 @@ UMiscUtils::BuildDateString(UInt32 inTime, Str255 inString)
 
 
 Boolean 
-UMiscUtils::ParseDateString(Str255 inString, UInt32 * outAbsTime)
+UMiscUtils::ParseDateString(Str255 inString, SInt32 * outAbsTime)
 {
 	Boolean result = false;
 
@@ -350,8 +350,8 @@ UMiscUtils::ParseDateString(Str255 inString, UInt32 * outAbsTime)
 	
 	if ( ::re_search(&regex, theBuffer, dataSize, startpos, dataSize, &regs) >= 0 ) {
 		LongDateRec		dateTimeRec;
-		DateCacheRecord	cache;
 		LongDateTime	longDate;
+		DateCacheRecord	cache;
 		
 		error = ::InitDateCache(&cache);
 		
@@ -362,7 +362,7 @@ UMiscUtils::ParseDateString(Str255 inString, UInt32 * outAbsTime)
 		result = ( (dateStatus & longDateFound) && (timeStatus & longDateFound) );
 		
 		::LongDateToSeconds(&dateTimeRec, &longDate);
-		*outAbsTime = (UInt32) longDate;
+		*outAbsTime = (SInt32) longDate;
 		
 	}
 	regfree(&regex);
@@ -372,7 +372,6 @@ UMiscUtils::ParseDateString(Str255 inString, UInt32 * outAbsTime)
 	return result;
 }
 
-// #define HiWord(x) ((short)((long)(x) >> 16))
 
 // ---------------------------------------------------------------------------
 //	¥ IdenticalHandles												[static]

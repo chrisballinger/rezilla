@@ -42,7 +42,7 @@ public:
 	static Boolean	IsValidHexadecimal(Handle inHandle);
 	static Boolean	IsValidHexadecimal(Ptr inPtr, ByteCount inByteCount);
 	static Boolean	BuildDateString(UInt32 inTime, Str255 inString);
-	static Boolean	ParseDateString(Str255 inString, UInt32 * outAbsTime);
+	static Boolean	ParseDateString(Str255 inString, SInt32 * outAbsTime);
 	static SInt16	CompareStr255(Str255 * leftString, Str255 * rightString);
 	static Boolean	HandlesAreIdentical(const Handle leftHndl, const Handle rightHndl);
 	static void		CopyFSSpec(FSSpec& srcFileSpec, FSSpec& trgtFileSpec);
