@@ -39,11 +39,22 @@ CPopupEditField::CPopupEditField(
 	ClassIDT	inImpID)
 
 	: LEditText(inStream, inImpID)
-{}
+{
+	MessageT 	popupMessage;
+	ResIDT		stringListID;
+	Boolean		leftSide;
+	
+	*inStream >> popupMessage;
+	*inStream >> stringListID;
+	*inStream >> leftSide;
+	
+	CreatePopup(stringListID, popupMessage, leftSide);
+
+}
 
 
 // ---------------------------------------------------------------------------
-//	 CPopupEditField							Parameterized Constructor [public]
+//	 CPopupEditField						Parameterized Constructor [public]
 // ---------------------------------------------------------------------------
 
 CPopupEditField::CPopupEditField(
@@ -86,6 +97,8 @@ CPopupEditField::CreatePopup(ResIDT inStringListID, MessageT inPopupMsg, Boolean
 {
 	SPaneInfo	pi;
 	Rect		frame;
+		
+	CalcLocalFrameRect(frame);
 	
 	// Popup button fields basic values
 	pi.width			= kPopupEditWidth;
@@ -105,10 +118,6 @@ CPopupEditField::CreatePopup(ResIDT inStringListID, MessageT inPopupMsg, Boolean
 	pi.top				= frame.top + 2;
 	pi.paneID			= 0;  // or mPaneID + 1
 	pi.superView		= this->GetSuperView();
-
-	FocusDraw();
-	
-	CalcLocalFrameRect(frame);
 	
 	//	Constructor for a BevelButton with menu
 	mPopup = new LBevelButton(pi, inPopupMsg, kControlBevelButtonSmallBevelProc,
@@ -126,6 +135,18 @@ CPopupEditField::CreatePopup(ResIDT inStringListID, MessageT inPopupMsg, Boolean
 //	 FillPopup													[public]
 // ---------------------------------------------------------------------------
 // Pass in the STR# resource with the popup items.
+// 
+// 	SInt16 index = 1, foundIdx = -1;
+// 	if (foundIdx == -1 && rightPtr != NULL && UCompareUtils::CompareStr255( (Str255 *) inValue, rightPtr) == 0) {
+// 		foundIdx = index;
+// 	} 
+// 	index++;
+// Mark the item corresponding to the value
+// if (foundIdx != -1) {
+// 	theBevelButton->SetCurrentMenuItem(foundIdx);						
+// } else {
+// 	::MacCheckMenuItem(theBevelButton->GetMacMenuH(), theBevelButton->GetCurrentMenuItem(), 0);
+// }
 
 void
 CPopupEditField::FillPopup(ResIDT inStringListID) 
@@ -145,18 +166,23 @@ CPopupEditField::FillPopup(ResIDT inStringListID)
 		SInt16		count = * (SInt16*) *stringListH.mResourceH;
 
 		if ( count > 0 ) {
-			Str255	itemStr;
+			Str255		itemStr;
+			Str255 *	rightPtr;
+			
 			for ( SInt16 index = 1; index <= count; index++ ) {
 				// Get the string from the list
 				::GetIndString ( itemStr, inStringListID, index );
-
+				
 				// Ignore empty items
 				if ( itemStr[0] ) {
-					mPopup->AppendMenu(itemStr);
+					if ( UMiscUtils::SplitCaseValue(itemStr, &rightPtr) ) {
+						mPopup->AppendMenu(itemStr);
+					}
 				}
 			}
 		}
-	}
+	}	
+
 	mPopup->SetMacMenuH(theMenuH);
 	
 	mPopup->Refresh();
