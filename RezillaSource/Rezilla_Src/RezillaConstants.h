@@ -679,7 +679,7 @@ enum RezillaErrors
 	err_TmplTextOverflow,
 	err_TmplWrongFixedCount,
 	err_TmplListCountTooBig,
-	err_TmplWrongEvenValue,
+	err_TmplExpectedEvenLengthString,
 	err_TmplUnexpectedTag,
 	err_TmplMalformedHexValue,
 	err_TmplMalformedDateValue,
