@@ -2,7 +2,7 @@
 // CTmplWindowUtils.cp					
 // 
 //                       Created: 2004-08-20 16:45:08
-//             Last modification: 2004-11-09 07:21:19
+//             Last modification: 2004-12-06 09:07:09
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -29,27 +29,9 @@
 
 #include <LPopupButton.h>
 #include <LStaticText.h>
-#include <LIconPane.h>
 
 #include <stdio.h>
 #include <string.h>
-
-
-// ---------------------------------------------------------------------------
-//  ¥ InstallReadOnlyIcon											[public]
-// ---------------------------------------------------------------------------
-
-void
-CTmplEditorWindow::InstallReadOnlyIcon() 
-{
-	LIconPane * theIcon = dynamic_cast<LIconPane *>(this->FindPaneByID( item_ReadOnlyIcon ));
-	ThrowIfNil_( theIcon );
-	if (mOwnerDoc->IsReadOnly()) {
-		theIcon->SetIconID(ics8_Locked);
-	} else {
-		theIcon->SetIconID(ics8_Unlocked);
-	}
-}
 
 
 // ---------------------------------------------------------------------------
