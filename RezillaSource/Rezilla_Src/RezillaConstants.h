@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2004-12-11 13:12:13
+//             Last modification : 2004-12-15 17:43:33
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -500,6 +500,8 @@ const PaneIDT	item_EditPrefsHexLowercase	= 6;
 const PaneIDT	item_EditPrefsHexUppercase	= 7;
 const PaneIDT	item_EditPrefsDispFillers	= 8;
 const PaneIDT	item_EditPrefsEnableFillers	= 9;
+const PaneIDT	item_EditPrefsUse8Bits		= 10;
+const PaneIDT	item_EditPrefsUseFullTables	= 11;
 //     Misc Prefs Pane
 //     ---------------
 const PaneIDT	item_MiscPrefsSetSigOnClose		= 2;
@@ -704,6 +706,8 @@ const MessageT	msg_EditPrefsHexLowercase	= rPPob_PrefsEditorsPane + item_EditPre
 const MessageT	msg_EditPrefsHexUppercase	= rPPob_PrefsEditorsPane + item_EditPrefsHexUppercase;
 const MessageT	msg_EditPrefsDispFillers	= rPPob_PrefsEditorsPane + item_EditPrefsDispFillers;
 const MessageT	msg_EditPrefsEnableFillers	= rPPob_PrefsEditorsPane + item_EditPrefsEnableFillers;
+const MessageT	msg_EditPrefsUse8Bits		= rPPob_PrefsEditorsPane + item_EditPrefsUse8Bits;
+const MessageT	msg_EditPrefsUseFullTables	= rPPob_PrefsEditorsPane + item_EditPrefsUseFullTables;
 //     Misc Prefs Pane
 //     ---------------
 const MessageT	msg_MiscPrefsSetSigOnClose	= rPPob_PrefsMiscPane + item_MiscPrefsSetSigOnClose;
@@ -1063,9 +1067,6 @@ const SInt16	kTmplMinListItemHeight	= 16;
 
 // Definitions for the Icon editor
 // ===============================
-typedef SInt16		VolIDT;
-typedef SInt32		DirIDT;
-typedef SInt16		FileIDT;
 typedef SInt16		ResFileIDT;
 
 // HFS volumes may break the 32-bit limit, so we might as well make it
