@@ -2,7 +2,7 @@
 // CUtxt_EditorView.h
 // 
 //                       Created: 2004-12-08 18:21:21
-//             Last modification: 2005-01-14 21:28:13
+//             Last modification: 2005-01-16 12:56:37
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -36,11 +36,6 @@ public:
 								CUtxt_EditorView();
 								CUtxt_EditorView( LStream* inStream );
 		virtual					~CUtxt_EditorView();
-
-	/* 
-	 * virtual Boolean            HandleKeyPress(
-	 *                                 const EventRecord&    inKeyEvent);
-	 */
 
 	virtual Boolean			ObeyCommand(
 									CommandT			inCommand,
