@@ -738,6 +738,7 @@ CRezMapDoc::AskSaveChanges(
 // ---------------------------------------------------------------------------------
 //  ¥ DoAESave
 // ---------------------------------------------------------------------------------
+// Called when doing a SaveAs.
 
 void
 CRezMapDoc::DoAESave(
@@ -758,25 +759,29 @@ CRezMapDoc::DoAESave(
 	error = theFile->CreateNewFile();
 	if (error == noErr) {
 		// Open the resource file.
-		theFile->OpenFile(fsRdWrPerm);
-
-		// Write out the data.
-		theFile->CopyFromRezMap(mRezMap);
-
-		// Set window title to the name of the file.
-		mRezMapWindow->SetDescriptor(inFileSpec.name);
-
-		// Register to the Recent Items menu
-		CRezillaApp::GetRecentItemsAttachment()->AddFile(inFileSpec, true);
+		error = theFile->OpenFile(fsRdWrPerm);
 		
-		// Document now has a specified file. 
-		SetSpecified(true);
-		SetModified(false);
-		UpdateRefNum( theFile->GetRefNum() );
-		if (mRezFile->GetUsedFork() != mFork) {
-			mRezFile->SetUsedFork(mFork);
-			mRezMapWindow->InstallWhichForkField();
-		} 
+		if (error == noErr) {
+			// Write out the data.
+			theFile->CopyFromRezMap(mRezMap);
+			
+			// Set window title to the name of the file.
+			mRezMapWindow->SetDescriptor(inFileSpec.name);
+			
+			// Register to the Recent Items menu
+			CRezillaApp::GetRecentItemsAttachment()->AddFile(inFileSpec, true);
+			
+			// Document now has a specified file. 
+			SetSpecified(true);
+			SetModified(false);
+			UpdateRefNum( theFile->GetRefNum() );
+			if (mRezFile->GetUsedFork() != mFork) {
+				mRezFile->SetUsedFork(mFork);
+				mRezMapWindow->InstallWhichForkField();
+			} 
+		} else {
+			UMessageDialogs::AlertWithValue(CFSTR("CantOpenRezFileForWriting"), error);
+		}
 	} else {
 		UMessageDialogs::AlertWithValue(CFSTR("CantCreateNewRezFile"), error);
 		return;
