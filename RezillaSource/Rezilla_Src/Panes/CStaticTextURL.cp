@@ -19,13 +19,11 @@
 #include "CStaticTextURL.h"
 #include "RezillaConstants.h"
 
-// #include <UDesktop.h>
 #include <LString.h>
 
 // Standard headers
 #include <string.h>
 
-#include <AEHelpers.h>
 #include <LaunchServices.h>
 
 PP_Begin_Namespace_PowerPlant
