@@ -1,7 +1,7 @@
 // ===========================================================================
 //	CBiDataWE.h
 //                       Created: 2004-03-21 12:08:32
-//             Last modification: 2004-06-08 20:07:21
+//             Last modification: 2004-11-13 23:07:07
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -57,15 +57,6 @@ public:
 
 	virtual Boolean			HandleKeyPress(
 									const EventRecord& 	inKeyEvent);
-
-	virtual	OSErr			Insert(	const void*			inText,
-									SInt32				inLength,
-									StScrpHandle		inStyleH = nil,
-									Boolean				inRefresh = false );
-
-	virtual	OSErr			Insert(
-                                   Str255       inString,
-                                   Boolean      inRefresh );
 
 	virtual	void			InsertContents(Handle inHandle);
 	

@@ -1,7 +1,7 @@
 // ===========================================================================
 // CBiDataWE.cp 
 //                       Created: 2004-03-21 12:08:03
-//             Last modification: 2004-06-08 20:07:15
+//             Last modification: 2004-11-13 23:07:14
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -292,37 +292,6 @@ CBiDataWE::HandleKeyPress(
 {
 	Boolean keyHandled = true;
 	return keyHandled;
-}
-
-
-// ---------------------------------------------------------------------------
-//	¥ Insert								[public, virtual]
-// ---------------------------------------------------------------------------
-//	Will optionally recalculate, autoscroll, and refresh the text if desired.
-
-OSErr
-CBiDataWE::Insert(
-					   const void*		inText,
-					   SInt32			inLength,
-					   StScrpHandle		inStyleH,
-					   Boolean			inRefresh )
-{
-	OSErr result = noErr;
-	return result;
-}
-
-
-// ---------------------------------------------------------------------------
-//	¥ Insert								[public, virtual]
-// ---------------------------------------------------------------------------
-
-OSErr
-CBiDataWE::Insert(
-				   Str255 		inString,
-				   Boolean		inRefresh )
-{
-	OSErr result = noErr;
-	return result;
 }
 
 
