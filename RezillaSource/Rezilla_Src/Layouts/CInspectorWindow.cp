@@ -2,11 +2,11 @@
 // CInspectorWindow.cp					
 // 
 //                       Created: 2003-05-02 07:33:10
-//             Last modification: 2004-11-22 14:37:48
+//             Last modification: 2005-01-16 19:10:46
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003-2004
+// (c) Copyright : Bernard Desgraupes, 2003-2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -375,22 +375,36 @@ CInspectorWindow::InstallValues()
 	mProtectedItem->SetValue(mSavedInfo.protect);
 	mPreloadItem->SetValue(mSavedInfo.preload);
 	
-	// Icon
-	// To use PlotIconID(), the icon resource must be of resource type 
-	// 'ICN#', 'ics#', 'icl4', 'icl8', 'ics4', or 'ics8'.
+	// Icon pane
+	// To use PlotIconID(), the icon resource must be of type 
+	// 'ICN#', 'icl4', 'icl8', 'icm#', 'icm4', 'icm8', 'ics#', 'ics4', or 'ics8'.
 	mIconItem->SetIconID(mSavedInfo.id);
-	if ( ! ::strncmp( (const char *) theType + 1, "ics8", 4)
-		|| ! ::strncmp( (const char *) theType + 1, "ics4", 4)
-		|| ! ::strncmp( (const char *) theType + 1, "icl8", 4)
-		|| ! ::strncmp( (const char *) theType + 1, "icl4", 4)
-		|| ! ::strncmp( (const char *) theType + 1, "ics#", 4)
-		|| ! ::strncmp( (const char *) theType + 1, "ICN#", 4) ) {
+	
+	switch (mSavedInfo.type) {
+		case 'ICN#':
+		case 'icl4':
+		case 'icl8':
+		case 'icm#':
+		case 'icm4':
+		case 'icm8':
+		case 'ics#':
+		case 'ics4':
+		case 'ics8':
 		mIconItem->SetCurrentRefNum(mSavedInfo.refnum);
 		mIconItem->SetVisibleState(triState_Off);
 		mIconItem->Show();
-	} else {
+		break;
+		
+		// 	case 'crsr':
+		// 	case 'cicn':
+		// 	case 'ICON':
+		// 	case 'PAT ':
+
+		default:
 		mIconItem->SetCurrentRefNum(UResources::refNum_Undef);
 		mIconItem->Hide();
+		break;
+		
 	}
 	
 	// Disable the buttons
