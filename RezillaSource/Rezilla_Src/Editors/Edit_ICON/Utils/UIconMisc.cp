@@ -1,7 +1,7 @@
 // ===========================================================================
 // UIconMisc.cp
 //                       Created: 2004-12-11 18:52:00
-//             Last modification: 2005-02-14 08:45:11
+//             Last modification: 2005-02-15 06:55:36
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -44,7 +44,7 @@ UIconMisc::FindBitmapResource(CRezMap *inMap, ResType inType, short inID,
 			
 			error = UResources::GetResourceInMap( CRezillaApp::GetOwnRefNum(), inType, IconEditor_EmptyDefaults, theHandle, true );
 
-			if (error == noErr &&theHandle != NULL) {
+			if (error == noErr && theHandle != NULL) {
 				::DetachResource(theHandle);
 				theRes->SetData(theHandle);
 			} 
