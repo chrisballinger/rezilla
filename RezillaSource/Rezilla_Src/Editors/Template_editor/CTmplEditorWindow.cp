@@ -262,6 +262,8 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			RenumberSubPanes(mContentsView, currListItemView->mLastItemID, currListItemView->mFirstItemID, false);
 			theContainer->PortToLocalPoint(topLeft(theFrame));
 			RecalcPositions(currListItemView, theFrame.top, -theHeight);
+			mCurrentID -= currListItemView->mLastItemID - currListItemView->mFirstItemID + 1;
+			mLastID = mCurrentID;
 			
 			// Now delete the object
 			prevListItemView = currListItemView->mPrevItem;
@@ -301,6 +303,7 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 				currListItemView->CalcPortFrameRect(theFrame);
 				newFirstID = currListItemView->mLastItemID + 1;
 			} else {
+				mYCoord += kTmplVertSkip;
 				thePlusButton->CalcPortFrameRect(theFrame);
 				newFirstID = thePlusButton->GetPaneID() + 1;
 			}
@@ -340,7 +343,8 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			// Adjust all IDs and positions
 			RenumberSubPanes(mContentsView, oldLastID, newFirstID, true);
 			RecalcPositions(currListItemView, theFrame.bottom + kTmplVertSkip, mYCoord + kTmplVertSkip);
-			
+			mLastID = mCurrentID;
+
 			mContentsView->ResizeImageBy(0, mYCoord + kTmplVertSkip, true);
 			mContentsView->Show();
 			mContentsView->Enable();
@@ -630,8 +634,8 @@ CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount,
 			}
 			mYCoord = kTmplVertSep;
 			error = DoParseWithTemplate(inStartMark, drawCtrl, theContainer);
-			currListItemView->mLastItemID = mCurrentID - 1;
 			if (drawCtrl) {
+				currListItemView->mLastItemID = mCurrentID - 1;
 				currListItemView->ResizeFrameBy(0, mYCoord, false);
 				outYCoord += mYCoord + kTmplVertSkip;
 				mYCoord = outYCoord;
@@ -1468,7 +1472,7 @@ CTmplEditorWindow::RetrieveDataWithTemplate()
 	if (mOutStream != nil) {
 		delete mOutStream;
 	} 
-	mOutStream = new LHandleStream();
+	mOutStream = new LHandleStream( ::NewHandle(0) );
 	mCurrentID = 1;
 
 	mItemsCount = 0;
@@ -1481,7 +1485,7 @@ CTmplEditorWindow::RetrieveDataWithTemplate()
 	mBitSeqMax			= 0;
 
 	// Parse the template stream
-	error = DoRetrieveWithTemplate(0);
+	error = DoRetrieveWithTemplate(0, true);
 	
 	return error;
 }
@@ -1492,7 +1496,7 @@ CTmplEditorWindow::RetrieveDataWithTemplate()
 // ---------------------------------------------------------------------------
 
 OSErr
-CTmplEditorWindow::DoRetrieveWithTemplate(SInt32 inRecursionMark)
+CTmplEditorWindow::DoRetrieveWithTemplate(SInt32 inRecursionMark, Boolean inReadControls)
 {
 	OSErr	error = noErr;
 	Str255		theString;
@@ -1519,8 +1523,10 @@ CTmplEditorWindow::DoRetrieveWithTemplate(SInt32 inRecursionMark)
 		} else if (theType == 'LSTE') {
 			break;
 		} else {
-			// Create controls according to the type declared in the template
-			error = RetrieveDataForType(theType);
+			if (inReadControls) {
+				// Read controls according to the type declared in the template
+				error = RetrieveDataForType(theType);
+			}
 		}
 	}
 	
@@ -1540,16 +1546,22 @@ CTmplEditorWindow::RetrieveList(SInt32 inStartMark, ResType inType, SInt32 inCou
 	switch (inType) {
 		case 'LSTB':
 		case 'LSTZ':
+		Boolean readCtrl = (mCurrentID < mLastID);
 		do {
-			error = DoRetrieveWithTemplate(inStartMark);
-		} while (mCurrentID < mLastID);
+			error = DoRetrieveWithTemplate(inStartMark, readCtrl);
+		} while (mCurrentID < mLastID && error == noErr);
 		break;
 		
 		case 'LSTC':
-		if (inCount != 0) {
+		if (inCount == 0) {
+			error = DoRetrieveWithTemplate(inStartMark, false);
+		} else {
 			mItemsCount = 0;
 			for (short i = 0 ; i < inCount; i++) {
-				error = DoRetrieveWithTemplate(inStartMark);
+				error = DoRetrieveWithTemplate(inStartMark, true);
+				if (error != noErr) {
+					break;
+				} 
 			}
 		}
 		break;
@@ -1580,7 +1592,7 @@ CTmplEditorWindow::RetrieveKeyedSection(ResType inType)
 	FindKeyStartForValue(keyString, &sectionStart);
 	
 	// Parse the section
-	error = DoRetrieveWithTemplate(sectionStart);
+	error = DoRetrieveWithTemplate(sectionStart, true);
 
 	return error;
 }

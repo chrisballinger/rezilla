@@ -2,7 +2,7 @@
 // CTmplEditorWindow.h
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-09-21 14:53:54
+//             Last modification: 2004-09-24 08:55:33
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -245,7 +245,8 @@ private:
 										Boolean inDrawControls, 
 										LView * inContainer);
 
-	OSErr			DoRetrieveWithTemplate(SInt32 inRecursionMark);
+	OSErr			DoRetrieveWithTemplate(SInt32 inRecursionMark, 
+										   Boolean inReadControls);
 	
 	void			RenumberSubPanes(LView * inView, 
 									 PaneIDT inOldLastID, 
