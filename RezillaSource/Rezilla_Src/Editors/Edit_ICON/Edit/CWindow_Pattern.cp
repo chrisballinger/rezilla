@@ -1,11 +1,11 @@
 // ===========================================================================
 // CWindow_Pattern.cp
 //                       Created: 2004-12-11 18:50:21
-//             Last modification: 2005-01-02 15:46:13
+//             Last modification: 2005-01-19 09:26:14
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes 2004, 2005
+// (c) Copyright: Bernard Desgraupes 2004-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -25,6 +25,7 @@
 #include "UResourceMgr.h"
 #include "RezillaConstants.h"
 
+#include <LStaticText.h>
 
 // ---------------------------------------------------------------------------
 // 	OpenPaintWindow
@@ -132,6 +133,7 @@ CWindow_Pattern::InitializeFromResource( CRezMap *inMap, ResType inResType, ResI
 	StRezRefSaver		aSaver2;
 
 	COffscreen			*colorImage = nil, *bwImage = nil;
+	CRezObj 			*theRes = nil;
 	Handle				h = nil;
 	
 	try
@@ -139,7 +141,7 @@ CWindow_Pattern::InitializeFromResource( CRezMap *inMap, ResType inResType, ResI
 		mResourceType = inResType;
 	
 		// Get the raw resource handle
-		CRezObj * theRes = inMap->FindResource( inResType, inResID, true );
+		theRes = inMap->FindResource( inResType, inResID, true );
 		ThrowIfNil_( theRes );
 		h = theRes->GetData();
 		ThrowIfNil_( h );
@@ -188,11 +190,14 @@ CWindow_Pattern::InitializeFromResource( CRezMap *inMap, ResType inResType, ResI
 		
 		mBWSample->SetBuffer( bwImage, redraw_Dont );
 		bwImage = nil;			// because it belongs to the sample pane now
+
+		delete theRes;
 	}
 	catch( ... )
 	{
-		delete( colorImage );
-		delete( bwImage );
+		if ( bwImage ) delete( bwImage );
+		if ( colorImage ) delete( colorImage );
+		if ( theRes ) delete( theRes );
 		( h );
 		throw;
 	}
@@ -203,10 +208,8 @@ CWindow_Pattern::InitializeFromResource( CRezMap *inMap, ResType inResType, ResI
 
 // ---------------------------------------------------------------------------
 // 	ResizeSampleWell
-// 	
-// 	Note:
-// 	Only the color pattern size can change.
 // ---------------------------------------------------------------------------
+// 	Only the color pattern size can change.
 
 void
 CWindow_Pattern::ResizeSampleWell( SInt32 inPatternWidth, SInt32 inPatternHeight )
@@ -217,6 +220,7 @@ CWindow_Pattern::ResizeSampleWell( SInt32 inPatternWidth, SInt32 inPatternHeight
 	SDimension16	minColorSize;
 	SInt32			dh = inPatternWidth - 8;		// since samples are sized for 8+8 initially
 	SInt32			dv = inPatternHeight - 8;
+	LStaticText *	theLabel;
 
 	mColorSample->GetInitialPaneSize( &initialColorSize );
 	mColorSample->GetMinPaneSize( &minColorSize );
@@ -242,9 +246,20 @@ CWindow_Pattern::ResizeSampleWell( SInt32 inPatternWidth, SInt32 inPatternHeight
 	mBWSample->GetFrameLocation( currentLoc );
 	mBWSample->MoveBy( 0, initialLoc.v + 2 * dv - currentLoc.v, true );
 
+	// Move the labels too
+	theLabel = dynamic_cast<LStaticText *> (this->FindPaneByID( item_IconLabelName1 ));
+	if (theLabel) {
+		theLabel->MoveBy( 0, initialLoc.v + 2 * dv - currentLoc.v, true );
+	} 
+
+	theLabel = dynamic_cast<LStaticText *> (this->FindPaneByID( item_IconLabelName2 ));
+	if (theLabel) {
+		theLabel->MoveBy( 0, initialLoc.v + 2 * dv - currentLoc.v, true );
+	} 
+
 	// The sample well contains both samples and needs to be resized
 	// accordingly. Never allow it to get tiny or things may get cut-off.
-	// The numbers should probably be read from a resource???
+	// The numbers should probably be read from a resource.
 	if ( mSampleWell )
 		mSampleWell->ResizeFrameTo( MAX( 50, mInitialSampleWellSize.width + 2 * dh ),
 									MAX( 140, mInitialSampleWellSize.height + 3 * dv),
@@ -263,7 +278,7 @@ CWindow_Pattern::SaveAsResource( CRezMap *inMap, ResIDT inResID  )
 	
 	ThrowIfNil_( mBWSample );
 	COffscreen	*bwBuffer = mBWSample->GetBuffer();
-	
+
 	try
 	{
 		switch( mResourceType )
@@ -281,11 +296,13 @@ CWindow_Pattern::SaveAsResource( CRezMap *inMap, ResIDT inResID  )
 				throw( err_IconInvalidImageFormat );
 		}
 
-		CRezObj * theResource = inMap->FindResource( mResourceType, inResID, 
+		CRezObj * theRes = inMap->FindResource( mResourceType, inResID, 
 													false /* loadIt */, 
 													true  /* createIt */ );
-		ThrowIfNil_( theResource );
-		theResource->SetData( h );
+		ThrowIfNil_( theRes );
+		theRes->SetData( h );
+
+		delete theRes;
 	}
 	catch( ... )
 	{
