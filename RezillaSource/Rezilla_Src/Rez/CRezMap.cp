@@ -57,7 +57,12 @@ CRezMap::Close()
 // ---------------------------------------------------------------------------
 //  ¥ Update														[public]
 // ---------------------------------------------------------------------------
-// 		ThrowIfResError_();
+// From doc: If the mapCompactBit bit is set to 1, the Resource Manager
+// compacts the resource fork when it updates the file. The Resource Manager
+// sets this attribute when a resource is removed or when a resource is made
+// larger and thus must be written at the end of a resource fork. You may want
+// to set the mapCompactBit attribute to force the Resource Manager to compact
+// a resource fork when your changes have made resources smaller.
 
 OSErr
 CRezMap::Update()
