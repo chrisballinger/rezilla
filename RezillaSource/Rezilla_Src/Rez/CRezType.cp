@@ -2,11 +2,11 @@
 // CRezType.cp					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2003-05-24 07:05:56
+//             Last modification: 2004-03-02 07:33:34
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003
+// (c) Copyright : Bernard Desgraupes, 2003-2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -18,7 +18,7 @@
 
 
 // ---------------------------------------------------------------------------
-//  ¬€ CRezType														[public]
+//  ¥ CRezType														[public]
 // ---------------------------------------------------------------------------
 
 CRezType::CRezType(ResType inResType)
@@ -29,19 +29,18 @@ CRezType::CRezType(ResType inResType)
 
 
 // ---------------------------------------------------------------------------
-//  ¬€ CRezType														[public]
+//  ¥ CRezType														[public]
 // ---------------------------------------------------------------------------
 
 CRezType::CRezType(ResType inResType, CRezMap * inOwnerMap)
 : mType(inResType), mOwnerMap(inOwnerMap)
 {
     // 	SignalStringLiteral_("OwnerMap not specified");
-//     ThrowIfNil_(mOwnerMap);
 }
 
 
 // ---------------------------------------------------------------------------
-//  ¬€ ~CRezType														[public]
+//  ¥ ~CRezType														[public]
 // ---------------------------------------------------------------------------
 
 CRezType::~CRezType()
@@ -50,7 +49,7 @@ CRezType::~CRezType()
 
 
 // ---------------------------------------------------------------------------
-//  ¬€ CountTypes														[public]
+//  ¥ CountResources														[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -63,7 +62,7 @@ CRezType::CountResources(short & outCount)
 
 
 // ---------------------------------------------------------------------------
-//  ¬€ GetWithID													[public]
+//  ¥ GetWithID													[public]
 // ---------------------------------------------------------------------------
 // Get a handle to a resource of a given type with a given ID
 // from current resource map.
@@ -78,13 +77,13 @@ CRezType::GetWithID(short inID, Handle & outHandle)
 
 
 // ---------------------------------------------------------------------------
-//  ¬€ GetNamed														[public]
+//  ¥ GetWithName														[public]
 // ---------------------------------------------------------------------------
 // Get a handle to a resource of a given type with a given name
 // from current resource map.
 
 OSErr
-CRezType::GetNamed(ConstStr255Param inName, Handle & outHandle)
+CRezType::GetWithName(ConstStr255Param inName, Handle & outHandle)
 {
     StRezReferenceSaver saver(GetOwnerMap()->GetRefnum());
     outHandle = ::Get1NamedResource(mType, inName);
@@ -93,7 +92,7 @@ CRezType::GetNamed(ConstStr255Param inName, Handle & outHandle)
 
 
 // ---------------------------------------------------------------------------
-//  ¬€ GetAllResources													[public]
+//  ¥ GetAllResources													[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -102,9 +101,9 @@ CRezType::GetAllResources( TArray<Handle>* & outArray )
     short numResources;
     Handle theHandle;
     
-    OSErr error = CountResources(numResources);
     StRezReferenceSaver saver(GetOwnerMap()->GetRefnum());
-    
+    OSErr error = CountResources(numResources);
+   
     if (error == noErr) {
 	for ( UInt16 i = 1; i <= numResources; i++ )
 	{
@@ -121,7 +120,43 @@ CRezType::GetAllResources( TArray<Handle>* & outArray )
 
 
 // ---------------------------------------------------------------------------
-//  ¬€ GetResourceAtIndex											[public]
+//  ¥ GetAllRezIDs													[public]
+// ---------------------------------------------------------------------------
+
+OSErr
+CRezType::GetAllRezIDs( TArray<short>* & outArray )
+{
+    short numResources;
+    Handle theHandle;
+	short theID;
+	ResType theType;
+	Str255	theName;
+    
+    StRezReferenceSaver saver(GetOwnerMap()->GetRefnum());
+    OSErr error = CountResources(numResources);
+   
+    if (error == noErr) {
+	for ( UInt16 i = 1; i <= numResources; i++ )
+	{
+	    theHandle = ::Get1IndResource( mType, i );
+	    error = ::ResError();
+	    if (error != noErr) {
+			break;
+	    } 
+		::GetResInfo(theHandle, &theID, &theType, (unsigned char *) theName);
+	    error = ::ResError();
+	    if (error != noErr) {
+			break;
+	    } 
+	    outArray->AddItem(theID);
+	}
+    } 
+    return error;
+}
+
+
+// ---------------------------------------------------------------------------
+//  ¥ GetResourceAtIndex											[public]
 // ---------------------------------------------------------------------------
 
 OSErr
