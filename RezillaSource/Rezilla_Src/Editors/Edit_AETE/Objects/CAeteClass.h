@@ -2,7 +2,7 @@
 // CAeteClass.h
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-20 14:38:21
+//             Last modification: 2005-01-21 06:45:13
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -29,8 +29,8 @@ public:
 
 		void		AddProperty( CAeteProperty * inProperty );
 		void		AddProperty(Str255	inName,
-								ResType	inID, 
-								ResType	inType, 
+								OSType	inID, 
+								OSType	inType, 
 								Str255	inDescription, 
 								UInt16	inFlags);
 		void		RemoveProperty( ArrayIndexT inAtIndex );
@@ -48,6 +48,9 @@ protected:
 		Str255					mName;
 		OSType					mID;		// like capp, docu, cwin etc.
 		Str255					mDescription;
+		
+		ArrayIndexT				mCurrPropertyIndex;
+		ArrayIndexT				mCurrElementIndex;
 		TArray<CAeteProperty*>	mProperties;
 		TArray<CAeteElement*>	mElements;
 

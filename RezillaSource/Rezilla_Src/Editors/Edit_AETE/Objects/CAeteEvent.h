@@ -2,7 +2,7 @@
 // CAeteEvent.h
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-20 15:04:11
+//             Last modification: 2005-01-21 07:26:30
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -27,8 +27,8 @@ public:
 
 		void		AddParameter(CAeteParameter * inParameter);
 		void		AddParameter(Str255	inName,
-								ResType	inKeyword, 
-								ResType	inType, 
+								OSType	inKeyword, 
+								OSType	inType, 
 								Str255	inDescription, 
 								UInt16	inFlags);
 		void		RemoveParameter( ArrayIndexT inAtIndex );
@@ -41,8 +41,9 @@ protected:
 		Str255					mDescription;
 		OSType					mClass;		// like aevt, core, misc etc.
 		OSType					mID;		// like odoc, clon, slct etc.
+		UInt16					mFlags;
+		ArrayIndexT				mCurrParameterIndex;		
 		TArray<CAeteParameter*>	mParameters;
-
 
 private:
 

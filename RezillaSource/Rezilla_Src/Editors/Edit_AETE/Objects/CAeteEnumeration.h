@@ -2,7 +2,7 @@
 // CAeteEnumeration.h
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-20 12:27:37
+//             Last modification: 2005-01-21 07:40:51
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -30,13 +30,14 @@ public:
 				CAeteEnumeration(CAeteStream *	inStream);
 				~CAeteEnumeration();
 
-		ArrayIndexT		AddEnumerator(Str255 inName, ResType inType, Str255 inDescription);
+		ArrayIndexT		AddEnumerator(Str255 inName, OSType inType, Str255 inDescription);
 		void			RemoveEnumerator( ArrayIndexT inAtIndex );
 		void			InstallDataStream();
 		void			SendDataToStream(CAeteStream *	outStream);
 
 protected:
 		OSType					mEnumerationID;
+		ArrayIndexT				mCurrEnumeratorIndex;
 		TArray<AeteEnumerator>	mEnumerators;
 
 

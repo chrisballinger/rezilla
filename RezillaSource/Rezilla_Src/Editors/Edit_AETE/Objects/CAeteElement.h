@@ -2,7 +2,7 @@
 // CAeteElement.h
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-20 09:35:10
+//             Last modification: 2005-01-21 06:44:49
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -30,7 +30,9 @@ public:
 		void		SendDataToStream(CAeteStream *	outStream);
 
 protected:
-        TArray<OSType>  mKeyForms;
+	OSType			mID;
+	ArrayIndexT		mCurrKeyFormIndex;
+	TArray<OSType>  mKeyForms;
 
 
 private:
