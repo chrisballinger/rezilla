@@ -439,31 +439,10 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		}
 		
 		
-		case msg_PopupEditField: {
-			STmplBevelInfo	theBevelInfo = *((STmplBevelInfo *) ioParam);								
-			CTmplBevelButton *	theBevel;
-			LEditText *		theEditText;
-			Str255			theString;
-			Str255 * 		rightPtr;
-			SInt16			choice;
-			ResIDT			resID;
-			
-			choice = theBevelInfo.menuChoice;
-			theBevel = dynamic_cast<CTmplBevelButton *>(theBevelInfo.selfPtr);
-			if (theBevel != NULL) {
-				theEditText = (LEditText *) theBevel->GetUserCon();
-				resID = (ResIDT) theEditText->GetUserCon();
-				
-				::GetIndString(theString, resID, choice);
-				if ( UMiscUtils::SplitCaseValue(theString, &rightPtr) ) {
-					theEditText->SetDescriptor(*rightPtr);
-				} 
-			} 
-			
-			// Window has been modified
-			SetDirty(true);
-			break;
-		}
+		case msg_PopupEditField: 
+		// Window has been modified
+		SetDirty(true);
+		break;
 		
 
 		default:
