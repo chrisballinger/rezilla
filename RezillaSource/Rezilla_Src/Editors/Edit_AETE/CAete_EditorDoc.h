@@ -2,7 +2,7 @@
 // CAete_EditorDoc.h
 // 
 //                       Created: 2004-07-01 08:42:37
-//             Last modification: 2005-01-21 10:19:21
+//             Last modification: 2005-01-22 11:57:46
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -55,18 +55,17 @@ public:
 
 	CAete_EditorWindow*		GetAeteEditWindow() { return mAeteEditWindow;}
 
-	virtual TArray<CAeteStream *> *		GetAeteStreamsArrayPtr() { return mAeteStreamsArrayPtr;}
+	TArray<CAeteStream *> *		GetAeteStreamsArrayPtr() { return mAeteStreamsArrayPtr;}
 	
 protected:
 	CAete_EditorWindow*			mAeteEditWindow;
 
 	SInt32						mTotalCount[5];
 	SInt32						mCurrCategory;
-	TArray<CAeteStream*> *      mAeteStreamsArrayPtr;
 	CAeteStream *               mCurrentStreamPtr;
 	CAeteSuite *                mCurrentSuitePtr;
 	
-/* 	virtual Handle		GetModifiedResource(Boolean &releaseIt); */
+	virtual Handle		GetModifiedResource(Boolean &releaseIt);
 
 private:
 

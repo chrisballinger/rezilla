@@ -2,11 +2,11 @@
 // CAete_EditorDoc.cp
 // 
 //                       Created: 2004-07-01 08:42:37
-//             Last modification: 2005-01-20 22:28:47
+//             Last modification: 2005-01-22 11:58:05
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004, 2005
+// (c) Copyright : Bernard Desgraupes, 2004-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -120,7 +120,7 @@ CAete_EditorDoc::Initialize()
 		Handle rezData = mRezObj->GetData();
 		
 		if (rezData != nil) {
-// 			mAeteEditWindow->InstallAete(rezData);			
+			mAeteEditWindow->InstallAete(rezData);			
 		} 
 	} 
 	
@@ -168,7 +168,7 @@ CAete_EditorDoc::AllowSubRemoval(
 
 
 // ---------------------------------------------------------------------------------
-//		¥ IsModified
+//  IsModified
 // ---------------------------------------------------------------------------------
 // Consider a Dict as a modified document.
 
@@ -194,7 +194,7 @@ CAete_EditorDoc::IsModified()
 
 
 // ---------------------------------------------------------------------------------
-//		¥ FindCommandStatus
+//  FindCommandStatus
 // ---------------------------------------------------------------------------------
 
 void
@@ -208,12 +208,25 @@ CAete_EditorDoc::FindCommandStatus(
 	switch ( inCommand ) {
 	
 	  default:
-			// Call inherited.
+		// Call inherited.
 		CEditorDoc::FindCommandStatus( inCommand,
 				outEnabled, outUsesMark, outMark, outName );
 		break;
 
 	}
+}
+
+
+// ---------------------------------------------------------------------------
+//  GetModifiedResource										[protected]
+// ---------------------------------------------------------------------------
+// The returned handle should not be released by the caller so leave
+// releaseIt to false (its default).
+
+Handle
+CAete_EditorDoc::GetModifiedResource(Boolean &releaseIt) 
+{
+	return NULL;
 }
 
 
