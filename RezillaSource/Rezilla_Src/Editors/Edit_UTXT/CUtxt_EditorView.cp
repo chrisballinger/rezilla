@@ -101,20 +101,6 @@ CUtxt_EditorView::FinishCreateSelf()
 	}
 }
 
-// // ---------------------------------------------------------------------------
-// //	¥ HandleKeyPress										[public, virtual]
-// // ---------------------------------------------------------------------------
-// 
-// Boolean
-// CUtxt_EditorView::HandleKeyPress(
-// 	const EventRecord	&inKeyEvent)
-// {
-// 	Boolean		keyHandled = LMLTEPane::HandleKeyPress(inKeyEvent);
-// 	
-// 	mOwnerWindow->SetLengthField( GetDataSize() );
-// 	return keyHandled;
-// }
-
 
 // ---------------------------------------------------------------------------
 // 	FindCommandStatus
@@ -235,21 +221,27 @@ CUtxt_EditorView::ObeyCommand(
 		break;
 
 		case cmd_FontLarger: {	
-			Fixed	theSize;
-			GetFontSize(theSize);
-			if (theSize < cmd_MenuUtxtSizeLast - cmd_MenuUtxtSizeBase) {
-				theSize++;
-				SetFontSize(theSize);
+			Fixed	longSize;
+			Size	shortSize;
+			
+			GetFontSize(longSize);
+			shortSize = longSize >> 16;
+			if ( shortSize < cmd_MenuUtxtSizeLast - cmd_MenuUtxtSizeBase) {
+				shortSize++;
+				SetFontSize(shortSize  << 16);
 			}
 			break;
 		}
 		
 		case cmd_FontSmaller: {
-			Fixed	theSize;
-			GetFontSize(theSize);
-			if (theSize > 1) {
-				theSize--;
-				SetFontSize(theSize);
+			Fixed	longSize;
+			Size	shortSize;
+			
+			GetFontSize(longSize);
+			shortSize = longSize >> 16;
+			if (shortSize > 1) {
+				shortSize--;
+				SetFontSize(shortSize  << 16);
 			} 
 			break;
 		}
@@ -313,7 +305,6 @@ CUtxt_EditorView::PutOnDuty(LCommander *inNewTarget)
 	
 	// Update the menu bar
 	LMenuBar	*theBar = LMenuBar::GetCurrentMenuBar();
-// 	theBar->InstallMenu( sUtxtFontMenu, MENU_OpenedWindows );	
 	theBar->InstallMenu( sUtxtSizeMenu, MENU_OpenedWindows );
 	theBar->InstallMenu( sUtxtStyleMenu, MENU_OpenedWindows );
 	::MacInsertMenu(fontMenuH, MENU_OpenedWindows);
@@ -374,9 +365,6 @@ CUtxt_EditorView::RemoveUnicodeMenus()
 // have stripped it off from its data buffer. As a consequence, if the 
 // insertBOM preference is off and there was originally a BOM, it will 
 // disappear upon saving.
-
-// 		UniChar 		bom = 0xFEFF;
-// 		if ( ::memcmp( (const char *) *dataH, &bom, 2) ) {}
 
 Handle
 CUtxt_EditorView::GetModifiedText() 
