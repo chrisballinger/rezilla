@@ -2,7 +2,7 @@
 // CMenuObject.cp
 // 
 //                       Created: 2005-03-10 09:12:57
-//             Last modification: 2005-03-10 18:56:44
+//             Last modification: 2005-03-16 10:23:36
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -133,6 +133,7 @@ CMenuObject::RemoveItem( ArrayIndexT inAtIndex )
 void
 CMenuObject::InstallData(LHandleStream * inStream)
 {
+	UInt8		theUInt8;
 	UInt16		theUInt16, theCount = 0;
 	CMenuItem *	theItem;
 	
@@ -144,12 +145,19 @@ CMenuObject::InstallData(LHandleStream * inStream)
 	*inStream >> mEnableFlag;
 	*inStream >> mTitle;
 
-	// Get the count of Items. Each item record is at least 5 bytes long.
-	while (inStream->GetMarker() < inStream->GetLength() - 4) {
+	// Get the count of Items. Each item record is at least 5 bytes long +
+	// the last NULL.
+	while (inStream->GetMarker() < inStream->GetLength() - 5) {
 		theItem = new CMenuItem(inStream);
 		AddItem(theItem);
 		theCount++;
 	}
+
+	// The last item in the resource should be a NULL (LSTZ list).
+	*inStream >> theUInt8;
+	if (theUInt8 != 0x00) {
+		// Should we signal the error ?
+	} 
 
 	// Initialize to 1 if there are Items, 0 otherwise
 	mItemIndex = (theCount > 0);
