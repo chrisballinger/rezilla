@@ -2,7 +2,7 @@
 // CMENU_EditorWindow.h
 // 
 //                       Created: 2005-03-09 17:16:53
-//             Last modification: 2005-03-15 17:25:14
+//             Last modification: 2005-03-16 19:17:13
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -66,7 +66,8 @@ public:
 protected:
 	CMenuObject *		mMenuObj;
 	CMENU_EditorTable *	mItemsTable;
-	Boolean				mHasXmnu;
+	Boolean				mHasXmnu,
+						mNeedsXmnu;
 						
 	virtual void	FinishCreateSelf();
 
@@ -75,11 +76,15 @@ private:
 	Handle			RetrieveXmnuData();
 	
 	void			ClearItemValues();
-	void			InstallCurrentItemValues();
-	void			InstallItemValuesAtIndex( ArrayIndexT inAtIndex );
+	
+	void			InstallCurrentValues();
+	void			InstallItemValues( ArrayIndexT inAtIndex );
 	void			InstallMenuValues();
 	void			InstallTableValues();
 	void			InstallKeyboardGlyph(UInt8 inValue);
+	
+	void			RetrieveCurrentValues();
+	void			RetrieveItemValues( ArrayIndexT inAtIndex );
 
 };
 
