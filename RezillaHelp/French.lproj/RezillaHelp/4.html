@@ -5,17 +5,18 @@
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
+
 <A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="3.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="5.html">Suiv</A><HR><P>&nbsp;</P>
 <H2>Description des articles des menus</H2><P><H3>Menu Fichier</H3>
 <UL>
 <DL><P><DT><B>New Map</B><DL><DT>
 Permet de créer un nouveau fichier de ressources. Un dialogue standard
 permet d'indiquer le nom et l'emplacement du nouveau fichier de ressources
-à créer; deux boutons-radios permettent de specifier si la table de ressources
+à créer; deux boutons-radios permettent de spécifier si la table de ressources
 doit être stockée dans la branche de données ou dans la branche de
 ressources du fichier.</DL><P><DT><B>Open...</B><DL><DT>
 Présente un dialogue standard pour ouvrir une table de ressources. Dans ce
-dialogue, trois boutons-radios permettent de specifier la branche dans
+dialogue, trois boutons-radios permettent de spécifier la branche dans
 laquelle rechercher les ressources. Les options proposées sont:
 <UL>
 	<LI> <I>"any fork"</I>: dans ce cas, Rezilla cherche en premier une table de ressources 
@@ -44,7 +45,7 @@ spécifier dans quelle branche stocker la table. Les options proposées sont:
 	<LI> <I>"data fork"</I>: sauvegarder dans la branche de données.
 	<LI> <I>"resource fork"</I>: sauvegarder dans la branche de ressources.
 </UL></DL><P><DT><B>Export...</B><DL><DT>
-Cette commande permet d'exporter la structure et le contenu d'unz table de
+Cette commande permet d'exporter la structure et le contenu d'une table de
 ressources dans des fichiers selon divers formats. Les formats disponibles
 sont:
 <UL>
@@ -56,7 +57,7 @@ sont:
 En format XML, les données binaires de chaque ressource sont encodées en
 encodage Base64 comme il est usuel en XML lorsque l'on a besoin de stocker
 des données binaires (les fichiers <I>plist</I> sous OSX par exemple
-utilisent cet encodage). En format text au contraire, les données binaires
+utilisent cet encodage). En format texte au contraire, les données binaires
 de chaque ressource sont encodées sous forme hexadécimale (chaque octet est
 représenté par deux nombres hexadécimaux comme dans un éditeur
 hexadécimal).<P>DeRez est un format qui ne concerne que les développeurs: c'est le format
@@ -72,7 +73,7 @@ Coller</I> plus loin.<P><DT><B>Clear</B><DL><DT>
 Détruit la sélection. Cette fonction peut avoir différentes significations
 selon le contexte. Si une table de ressources est active et que des
 ressources y sont sélectionnées, elles sont supprimées de la table; si une
-fenêtre d'éditeur hexadécimal être est active et que du texte est
+fenêtre d'éditeur hexadécimal est active et que du texte est
 sélectionné dans un des cadres, cette sélection est détruite.</DL><P><DT><B>Select all</B><DL><DT>
 Cette commande permet de tout sélectionner: toutes les ressources dans une 
 table de ressource, tout le texte dans une fenêtre de texte etc.</DL><P><DT><B>Find...</B><DL><DT>
@@ -81,51 +82,57 @@ on peut entrer une chaîne de caractères à rechercher. Deux boutons-radios
 permettent de spécifier dans quel panneau la recherche doit s'opérer. Si
 l'on recherche dans le panneau de droite, une case à cocher permet en plus
 de spécifier si la recherche doit tenir compte de la casse des caractères.</DL><P><DT><B>Find again</B><DL><DT>
-Cette commande recherche, depuis position courante, la chaîne entrée dans
+Cette commande recherche, depuis la position courante, la chaîne entrée dans
 le dialogue de recherche (appelé par la commande Find). Elle utilise les
 mêmes critères que ceux qui ont été sélectionnés dans ce dialogue. Si le
 dialogue Find contient une chaîne vide, la commande est désactivée.</DL><P><DT><B>Compare maps...</B><DL><DT>
 Cette commande permet de comparer deux tables de ressources. Cela peut être
 utile si l'on veut voir les changements entre deux versions successives
-d'une application ou d'un fichier. Les résultats sont affichés dans une
-fenêtre comportant trois listes: la liste de gauche contient les ressources
-trouvées dans la première table de ressources et absentes de la seconde, la
-liste de droite contient les ressources trouvées dans la seconde table de
-ressources et absentes de la première. La liste du milieu contient les
-ressources communes aux deux tables de ressources et qui diffèrent selon
-l'un des critères de comparaison. En cliquant sur une ressource dans cette
-liste, les données hexadécimales de la ressource sont affichées dans deux
-panneaux parallèles au bas de la fenêtre afin de les comparer: à gauche,
-les données provenant de la première table de ressources, et à droite, les
-données provenant de la deuxième. Les données peuvent être vues ou bien en
-format hexadécimal ou bien en format texte au moyen des deux boutons-radios
-au bas de la fenêtre.</DL><P></DL>
-</UL><P><H3>Menu Resource</H3>
-<P><IMG SRC="../../Images/rzil_ressourcemenu.gif" ALT="Menu resource" ALIGN=bottom></P><P><UL>
+d'une application ou d'un fichier. Le dialogue permettant de sélectionner
+les deux fichiers dont on veut comparer les ressources comporte aussi
+quelques cases à cocher grâce auxquelles on peut ajouter des options de
+comparaisons: il est possible d'ignorer les différences relatives au nom des
+ressources, à leurs attributs et à leurs données binaires.
+<P> Les résultats sont affichés dans une fenêtre comportant trois listes:
+la liste de gauche contient les ressources trouvées dans la première table
+de ressources et absentes de la seconde, la liste de droite contient les
+ressources trouvées dans la seconde table de ressources et absentes de la
+première. La liste du milieu contient les ressources communes aux deux
+tables de ressources et qui diffèrent selon les critères de comparaison. En
+cliquant sur une ressource dans cette liste, les données hexadécimales de
+la ressource sont affichées dans deux panneaux parallèles au bas de la
+fenêtre afin de les comparer: à gauche, les données provenant de la
+première table de ressources, et à droite, les données provenant de la
+deuxième. Les données peuvent être visualisées ou bien en format
+hexadécimal, ou bien en format texte au moyen des deux boutons-radios au
+bas de la fenêtre.</DL><P></DL>
+</UL><P><H3>Menu Ressource</H3>
+<P><IMG SRC="../../Images/rzil_resourcemenu.gif" ALT="Menu resource" ALIGN=bottom></P><P><UL>
 <DL><P><DT><B>New resource</B><DL><DT>
-Permet de créer une nouvelle ressource dans la table de ressources courante. Une
-fenêtre de dialogue permet de spécifier le type, le numéro ID, le nom et
-les attributs de la nouvelle ressource. Une ressource est alors créée ne
-contenant aucune donnée: la ressource est créée en mémoire et il faudra
-sauvegarder le fichier pour la rendre définitive.</DL><P><DT><B>Edit</B><DL><DT>
-Appelle l'éditeur hexadécimal pour toutes les ressources sélectionnées dans
+Permet de créer une nouvelle ressource dans la table de ressources
+courante. Une fenêtre de dialogue permet de spécifier le type, le numéro
+ID, le nom et les attributs de la nouvelle ressource. Une ressource est
+alors créée ne contenant aucune donnée. Noter que cette ressource est créée
+en mémoire et qu'il faudra sauvegarder le fichier pour la rendre
+définitive.</DL><P><DT><B>Edit</B><DL><DT>
+Appelle l'éditeur hexadécimal pour la ou les ressources sélectionnées dans
 la table de ressources courante. C'est équivalent à double-cliquer sur une
 ressource dans une table de ressources.</DL><P><DT><B>Get Info</B><DL><DT>
 Appelle la fenêtre <I>Inspecteur</I> pour le première ressource
 sélectionnée dans la table de ressources courante. C'est équivalent à
 cliquer sur une ressource dans une table de ressources en maintenant la
-touche option enfoncée.</DL><P><DT><B>Duplicate</B><DL><DT>
-Duplique toutes les ressources sélectionnées dans la table de ressources.
+touche Option enfoncée.</DL><P><DT><B>Duplicate</B><DL><DT>
+Duplique la ou les ressources sélectionnées dans la table de ressources.
 Cette commande attribue un numéro unique d'identification (ID) aux
-ressources dupliquées. On peut changemodifer ces valeurs par la suite dans
+ressources dupliquées. On peut modifer ces valeurs par la suite dans
 la fenêtre <I>Inspecteur</I>.</DL><P><DT><B>Remove</B><DL><DT>
 Supprime toutes les ressources sélectionnées de la table de ressources.</DL><P></DL>
 </UL><P><H3>Menu Fenêtres </H3>
-<P> Ce menu comporte la liste les fenêtres couramment ouvertes dans
+<P> Ce menu comporte la liste des fenêtres couramment ouvertes dans
 Rezilla (tables de ressources, fenêtres d'édition etc.). En sélectionant un
 article dans ce menu, on amène au premier-plan la fenêtre correspondante.<P><H3>Menu Aide</H3>
-<P> Le menu <I>Aide</I> contient une commande appelée "Aide Rezilla"qui permet
-d'accéder directement à la documentation de Rezilla et de la lire en
+<P> Le menu <I>Aide</I> contient une commande appelée <I>Aide Rezilla</I> qui permet
+d'accéder directement à la documentation de Rezilla et de la lire en 
 utilisant le Visualisateur d'Aide du Système MacOS.<P>
 
 </BODY>
