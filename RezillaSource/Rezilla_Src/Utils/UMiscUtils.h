@@ -1,7 +1,7 @@
 // ===========================================================================
 // UMiscUtils.h					
 //                       Created: 2003-05-13 20:06:23
-//             Last modification: 2005-02-19 16:26:06
+//             Last modification: 2005-02-20 17:40:22
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -58,10 +58,12 @@ public:
 	static void		DisposeHandle( void *h );
 	static Boolean	IsShiftKey();
 	static Boolean	IsOptionKey();
-	static void		GetValueFromXml(CFXMLTreeRef inXmlTree, SInt32 & outValue);
-	static void		GetStringFromXml(CFXMLTreeRef inXmlTree, Str255 & outString);
-	static OSErr	GetOSTypeFromXml(CFXMLTreeRef inXmlTree, OSType & outType);
-	
+	static void		GetValueFromXml(CFXMLTreeRef inTreeRef, SInt32 & outValue);
+	static Boolean	GetBooleanFromXml(CFXMLTreeRef inTreeRef);
+	static void		GetStringFromXml(CFXMLTreeRef inTreeRef, Str255 & outString);
+	static OSErr	GetOSTypeFromXml(CFXMLTreeRef inTreeRef, OSType & outType);
+	static OSErr	GetFlagsFromXml(CFXMLTreeRef inTreeRef, UInt16 & outFlags);
+
 };
 
 

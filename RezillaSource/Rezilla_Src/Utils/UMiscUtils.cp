@@ -287,14 +287,14 @@ UMiscUtils::IsOptionKey( void )
 // ---------------------------------------------------------------------------
 
 void
-UMiscUtils::GetValueFromXml(CFXMLTreeRef inXmlTree, SInt32 & outValue)
+UMiscUtils::GetValueFromXml(CFXMLTreeRef inTreeRef, SInt32 & outValue)
 {
 	CFXMLTreeRef    valueTree;
 	CFXMLNodeRef    valueNode;
 
 	outValue = 0;
 	
-	valueTree = CFTreeGetFirstChild(inXmlTree);
+	valueTree = CFTreeGetFirstChild(inTreeRef);
 	if (valueTree) {
 		valueNode = CFXMLTreeGetNode(valueTree);
 		if (valueNode) {
@@ -305,18 +305,42 @@ UMiscUtils::GetValueFromXml(CFXMLTreeRef inXmlTree, SInt32 & outValue)
 
 
 // ---------------------------------------------------------------------------
+// 	GetBooleanFromXml
+// ---------------------------------------------------------------------------
+
+Boolean
+UMiscUtils::GetBooleanFromXml(CFXMLTreeRef inTreeRef)
+{
+	CFXMLTreeRef    valueTree;
+	CFXMLNodeRef    valueNode;
+	Boolean			theBool = false;
+	SInt32			theValue = 0;
+	
+	valueTree = CFTreeGetFirstChild(inTreeRef);
+	if (valueTree) {
+		valueNode = CFXMLTreeGetNode(valueTree);
+		if (valueNode) {
+			theBool = ( CFStringGetIntValue( CFXMLNodeGetString(valueNode) ) != 0);
+		} 
+	} 
+	
+	return theBool;
+}
+
+
+// ---------------------------------------------------------------------------
 // 	GetStringFromXml
 // ---------------------------------------------------------------------------
 
 void
-UMiscUtils::GetStringFromXml(CFXMLTreeRef inXmlTree, Str255 & outString)
+UMiscUtils::GetStringFromXml(CFXMLTreeRef inTreeRef, Str255 & outString)
 {
 	CFXMLTreeRef    valueTree;
 	CFXMLNodeRef    valueNode;
 
 	outString[0] = 0;
 	
-	valueTree = CFTreeGetFirstChild(inXmlTree);
+	valueTree = CFTreeGetFirstChild(inTreeRef);
 	if (valueTree) {
 		valueNode = CFXMLTreeGetNode(valueTree);
 		if (valueNode) {
@@ -331,18 +355,95 @@ UMiscUtils::GetStringFromXml(CFXMLTreeRef inXmlTree, Str255 & outString)
 // ---------------------------------------------------------------------------
 
 OSErr
-UMiscUtils::GetOSTypeFromXml(CFXMLTreeRef inXmlTree, OSType & outType)
+UMiscUtils::GetOSTypeFromXml(CFXMLTreeRef inTreeRef, OSType & outType)
 {
 	OSErr	error = noErr;
 	Str255	theString;
 	
-	GetStringFromXml(inXmlTree, theString);
+	GetStringFromXml(inTreeRef, theString);
 	if (theString[0] != 4) {
 		error = err_ImportInvalidOSType;
 	} 
 	if (error == noErr) {
 		PStringToOSType( theString, outType);	
 	} 
+	
+	return error;
+}
+
+
+// ---------------------------------------------------------------------------
+// 	GetFlagsFromXml
+// ---------------------------------------------------------------------------
+
+OSErr
+UMiscUtils::GetFlagsFromXml(CFXMLTreeRef inTreeRef, UInt16 & outFlags)
+{
+	OSErr			error = noErr;
+	int             childCount;
+	CFXMLTreeRef    xmlTree;
+	CFXMLNodeRef    xmlNode;
+	int             index;
+	Str255			theString;
+	Boolean			theBool;
+
+	outFlags = 0;
+
+	childCount = CFTreeGetChildCount(inTreeRef);
+	for (index = 0; index < childCount; index++) {
+		xmlTree = CFTreeGetChildAtIndex(inTreeRef, index);
+		if (xmlTree) {
+			xmlNode = CFXMLTreeGetNode(xmlTree);
+			if (xmlNode) {
+				theBool = UMiscUtils::GetBooleanFromXml(xmlTree);
+				if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ChangeState"), 0) ) {
+					outFlags |= theBool ? (1 << kAEUTChangesState): 0;
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("DirectParamIsReference"), 0) ) {
+					outFlags |= theBool ? (1 << kAEUTDirectParamIsReference): 0;
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("EnumIsExclusive"), 0) ) {
+					outFlags |= theBool ? (1 << kAEUTEnumListIsExclusive): 0;
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("EnumsAreTypes"), 0) ) {
+					outFlags |= theBool ? (1 << kAEUTEnumsAreTypes): 0;
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("IsApostrophe"), 0) ) {
+					outFlags |= theBool ? (1 << kAEUTApostrophe): 0;
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("IsEnumerated"), 0) ) {
+					outFlags |= theBool ? (1 << kAEUTEnumerated): 0;
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("IsFeminine"), 0) ) {
+					outFlags |= theBool ? (1 << kAEUTFeminine): 0;
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("IsListOfItems"), 0) ) {
+					outFlags |= theBool ? (1 << kAEUTlistOfItems): 0;
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("IsMasculine"), 0) ) {
+					outFlags |= theBool ? (1 << kAEUTMasculine): 0;
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("IsOptional"), 0) ) {
+					outFlags |= theBool ? (1 << kAEUTOptional): 0;
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("IsReadWrite"), 0) ) {
+					outFlags |= theBool ? (1 << kAEUTReadWrite): 0;
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("LabeledParam"), 0) ) {
+					outFlags |= theBool ? (1 << aeut_LabeledParam): 0;
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("NonVerbEvent"), 0) ) {
+					outFlags |= theBool ? (1 << aeut_NonVerbEvent ): 0;
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("NotDirectParamIsTarget"), 0) ) {
+					outFlags |= theBool ? (1 << kAEUTNotDirectParamIsTarget ): 0;
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ParamIsReference"), 0) ) {
+					outFlags |= theBool ? (1 << kAEUTParamIsReference): 0;
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ParamIsTarget"), 0) ) {
+					outFlags |= theBool ? (1 << kAEUTParamIsTarget): 0;
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("Plural"), 0) ) {
+					outFlags |= theBool ? (1 << kAEUTPlural): 0;
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("PropertyIsReference"), 0) ) {
+					outFlags |= theBool ? (1 << kAEUTPropertyIsReference): 0;
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ReplyIsReference"), 0) ) {
+					outFlags |= theBool ? (1 << kAEUTReplyIsReference): 0;
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("TightBindingFunction"), 0) ) {
+					outFlags |= theBool ? (1 << kAEUTTightBindingFunction): 0;
+				} else {
+					error = err_ImportUnknownFlagsTag;	
+				}
+				
+				if (error != noErr) { break; } 
+			}
+		}
+	}
 	
 	return error;
 }
