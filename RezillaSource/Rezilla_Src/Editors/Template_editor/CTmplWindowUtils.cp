@@ -2,7 +2,7 @@
 // CTmplWindowUtils.cp					
 // 
 //                       Created: 2004-08-20 16:45:08
-//             Last modification: 2004-09-23 18:06:22
+//             Last modification: 2004-09-23 21:45:26
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -311,7 +311,7 @@ CTmplEditorWindow::AlignBytesRead(UInt8 inStep)
 		if (theSInt32 + theRest > mRezStream->GetLength()) {
 			error = writErr;
 		} else {
-			mRezStream->SetMarker(theRest, streamFrom_Marker);
+			mRezStream->SetMarker(inStep - theRest, streamFrom_Marker);
 		}
 	}
 	
