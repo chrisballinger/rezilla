@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2004-08-20 19:19:38
+//             Last modification : 2004-09-22 15:15:35
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -446,6 +446,7 @@ const PaneIDT	item_EditPrefsHexSymDollar	= 4;
 const PaneIDT	item_EditPrefsHexCaseRgbx	= 5;
 const PaneIDT	item_EditPrefsHexLowercase	= 6;
 const PaneIDT	item_EditPrefsHexUppercase	= 7;
+const PaneIDT	item_EditPrefsDispFillers	= 8;
 //     Misc Prefs Pane
 //     ---------------
 const PaneIDT	item_MiscPrefsSetSigOnClose		= 2;
@@ -608,6 +609,7 @@ const MessageT	msg_EditPrefsHexSym0x		= rPPob_PrefsEditorsPane + item_EditPrefsH
 const MessageT	msg_EditPrefsHexSymDollar	= rPPob_PrefsEditorsPane + item_EditPrefsHexSymDollar;
 const MessageT	msg_EditPrefsHexLowercase	= rPPob_PrefsEditorsPane + item_EditPrefsHexLowercase;
 const MessageT	msg_EditPrefsHexUppercase	= rPPob_PrefsEditorsPane + item_EditPrefsHexUppercase;
+const MessageT	msg_EditPrefsDispFillers	= rPPob_PrefsEditorsPane + item_EditPrefsDispFillers;
 //     Misc Prefs Pane
 //     ---------------
 const MessageT	msg_MiscPrefsSetSigOnClose	= rPPob_PrefsMiscPane + item_MiscPrefsSetSigOnClose;
@@ -677,6 +679,7 @@ enum RezillaErrors
 	err_TmplGetDataStreamFailed,
 	err_TmplUnrecognizedTag,
 	err_TmplParsingAborted,
+	err_TmplValueTooLargeInBitsField,
 	err_TmplTextOverflow,
 	err_TmplWrongFixedCount,
 	err_TmplListCountTooBig,
