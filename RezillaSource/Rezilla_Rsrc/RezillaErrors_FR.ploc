@@ -1,7 +1,7 @@
 // ===========================================================================
 // RezillaErrors_FR.ploc
 //                       Created: 2004-10-05 15:00:32
-//             Last modification: 2004-10-08 14:53:43
+//             Last modification: 2004-10-13 17:29:55
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -16,7 +16,7 @@ localize "French" as "Errors.strings"
 	key "1001" value string "Pas de ressources dans la branche de données"
 	key "1002" value string "Pas de ressources dans la branche de ressources"
 	key "1003" value string "Pas de ressources dans aucune branche"
-	key "1004" value string "Pas d'autorisation d'ouverture"
+	key "1004" value string "Impossible de trouver la position d'une clé"
 	key "1005" value string "Erreur à l'ouverture des ressources"
 	key "1006" value string "Fichier sous Système de Contrôle de Version (VCS)"
 	key "2000" value string "Erreur de l'éditeur de gabarits"
@@ -29,10 +29,10 @@ localize "French" as "Errors.strings"
 	key "2007" value string "Liste LSTZ sans le code nul de terminaison"
 	key "2008" value string "Liste LSTZ terminée par un code non nul"
 	key "2009" value string "Compteur de liste trop grand"
-	key "2010" value string "Longueur de chaîne doit être paire"
+	key "2010" value string "Date mal formée"
 	key "2011" value string "Balise inopinée"
 	key "2012" value string "Valeur hexadécimale mal formée"
-	key "2013" value string "Date mal formée"
+	key "2013" value string "Longueur de chaîne doit être paire"
 	key "2014" value string "Impossible d'obtenir le format de date"
 	key "2015" value string "L'analyse de la date a échoué"
 	key "2016" value string "La taille ne correspond pas à la valeur requise"
@@ -40,13 +40,18 @@ localize "French" as "Errors.strings"
 	key "2018" value string "Aucun cas spécifié dans une section à clés"
 	key "2019" value string "Cas de section à clés mal formé"
 	key "2020" value string "Section à clés mal formée"
-	key "2021" value string "Impossible de trouver le début de la section à clés"
-	key "2022" value string "Impossible de trouver la clé spécifiée"
-	key "2023" value string "Impossible de trouver l'indice d'une clé"
-	key "2024" value string "Impossible de trouver la valeur d'une clé"
-	key "2025" value string "Impossible de trouver la position d'une clé"
-	key "2026" value string "Ce numéro de ressource est inconnu du gabarit"
-	key "2027" value string "Impossible de trouver la fin de clé correspondante"
+	key "2021" value string "Menu non connecté à un champ de saisie"
+	key "2022" value string "Impossible de trouver le début de la section à clés"
+	key "2023" value string "Impossible de trouver la clé spécifiée"
+	key "2024" value string "Impossible de trouver l'indice d'une clé"
+	key "2025" value string "Impossible de trouver la valeur d'une clé"
+	key "2026" value string "Pas d'autorisation d'ouverture"
+	key "2027" value string "Ce numéro de ressource est inconnu du gabarit"
+	key "2028" value string "Impossible de trouver la fin de clé correspondante"
 }
 
 
+/* Errors redefined */
+//	key "2009" value string "Compteur de liste trop grand"
+//	key "2015" value string "L'analyse de la date a échoué"
+//	key "2020" value string "Section à clés mal formée"
