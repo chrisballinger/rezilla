@@ -164,6 +164,14 @@ UHexFilters::HexTemplateField(
 //		> Accept letters x or $ (depending on kPref_editors_hexSymbol)
 //		> Reject all other printing characters
 //		> PassUp all other characters
+	// EKeyStatus	status = keyStatus_Input;
+	// 
+	// if ( ((**inMacTEH).selStart != 0)  ||		// Check for first character
+	// 	 (ioCharCode != '$') ) {					//   being a dollar sign
+	// 
+	// 	status = HexTemplateField(inMacTEH, inKeyCode, ioCharCode, inModifiers);
+	// }
+	// return status;
 
 EKeyStatus
 UHexFilters::HexTemplateField(
