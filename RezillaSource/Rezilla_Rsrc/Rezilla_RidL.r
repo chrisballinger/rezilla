@@ -1,7 +1,7 @@
 // ===========================================================================
 // Rezilla_RidL.r
 //                       Created: 2004-12-28 08:17:46
-//             Last modification: 2004-12-28 08:55:55
+//             Last modification: 2004-12-28 15:03:26
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -48,6 +48,7 @@ resource 'RidL' (300, "Icon editor broadcasters (tools)") {
 	}
 };
 
+
 resource 'RidL' (301, "Icon editor broadcasters (cicn)") {
 	{	/* array ResourceIDList: 3 elements */
 /* [1] cicn */	1667851118,
@@ -55,6 +56,7 @@ resource 'RidL' (301, "Icon editor broadcasters (cicn)") {
 /* [3] MASK */	1296126795
 	}
 };
+
 
 resource 'RidL' (302, "Icon editor broadcasters (fam)") {
 	{	/*  array ResourceIDList: 12 elements */
@@ -73,30 +75,3 @@ resource 'RidL' (302, "Icon editor broadcasters (fam)") {
 	}
 };
 
-
-// resource 'RidL' (300, "Icon editor broadcasters (tools)") {
-// 	{	/* array ResourceIDList: 22 elements */
-// /* [1] PNTG */	1347310663,
-// /* [2] LASS */	1279349587,
-// /* [3] TEXT */	1413830740,
-// /* [4] SELE */	1397050437,
-// /* [5] ERAS */	1163018579,
-// /* [6] PEN  */	1346719264,
-// /* [7] EYED */	1163478340,
-// /* [8] BUCK */	1112884043,
-// /* [9] LINE */	1279872581,
-// /* [10] RECT */	1380270932,
-// /* [11] FREC */	1179796803,
-// /* [12] RREC */	1381123395,
-// /* [13] FRRE */	1179800133,
-// /* [14] OVAL */	1331052876,
-// /* [15] FOVA */	1179604545,
-// /* [16] FORE */	1179603525,
-// /* [17] BACK */	1111573323,
-// /* [18] PAT  */	1346458656,
-// /* [19] BWBW */	1113014871,
-// /* [20] SWAP */	1398227280,
-// /* [21] tBOX */	1950502744,
-// /* [22] HOTS */	1213158483
-// 	}
-// };
