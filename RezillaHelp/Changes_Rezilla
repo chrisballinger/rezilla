@@ -33,13 +33,20 @@ $Date$
 ¥ Fifth public release of Rezilla. Beta stage now.
 
 ================================================================================
-= 1.0.5b2	                             last update: 2005-02-10 10:07:34
+= 1.0.5b3	                             last update: 2005-02-17 11:36:58
 ================================================================================
 ¥ Debugging and testing phase before 1.0.5b release
+
+================================================================================
+= 1.0.5b2	                             last update: 2005-02-10 10:07:34
+================================================================================
 ¥ Added Sdef (Scripting Definition File) export format in the Aete editor.
 ¥ Rewritten code to export Aete in Xml, DeRez, Text and Html formats.
 ¥ Added empty container resources used when creating new bitmap resources.
 ¥ Added support for importing Aete data from an Xml file.
+¥ Fixed memory deallocation issues in Rez comparison. 
+¥ Aete export in XML, Sdef and HTML format is UTF-8 encoded. In Text and
+  DeRez format it is MacRoman encoded.
 
 ================================================================================
 = 1.0.5b1	                             last update: 2005-02-04 07:44:16
