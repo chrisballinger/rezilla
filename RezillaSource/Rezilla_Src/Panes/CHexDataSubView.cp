@@ -65,6 +65,25 @@ CHexDataSubView::CHexDataSubView(CTxtDataSubView * inSiblingView)
 
 
 // ---------------------------------------------------------------------------
+//	¥ CHexDataSubView						Parameterized Constructor [public]
+// ---------------------------------------------------------------------------
+
+CHexDataSubView::CHexDataSubView(
+	const SPaneInfo&	inPaneInfo,
+	const SViewInfo&	inViewInfo,
+	UInt16				inTextAttributes,
+	ResIDT				inTextTraitsID,
+	Boolean				inReadOnly,
+	Boolean				inWordWrap,
+	Boolean				inSelectable)
+
+	: CWasteEditView(inPaneInfo, inViewInfo, inTextAttributes, 
+					 inTextTraitsID, inReadOnly, inWordWrap, inSelectable)
+{
+}
+
+
+// ---------------------------------------------------------------------------
 //	¥ CHexDataSubView						Stream Constructor		  [public]
 // ---------------------------------------------------------------------------
 

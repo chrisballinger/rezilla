@@ -40,6 +40,14 @@ public:
 
 							CHexDataSubView();
 							CHexDataSubView(CTxtDataSubView * inSiblingView);
+							CHexDataSubView(
+											const SPaneInfo&	inPaneInfo,
+											const SViewInfo&	inViewInfo,
+											UInt16				inTextAttributes,
+											ResIDT				inTextTraitsID,
+											Boolean				inReadOnly = false,
+											Boolean				inWordWrap = false,
+											Boolean				inSelectable = true);
 							CHexDataSubView(LStream * inStream );
 	virtual					~CHexDataSubView();
 

@@ -154,7 +154,7 @@ CTmplEditorWindow::FinishCreateSelf()
 	
 	// Edit fields basic values
 	mEditPaneInfo.paneID			= 0;
-	mEditPaneInfo.width				= theFrame.width - kTmplLeftMargin - kTmplLabelWidth - kTmplHorizSep - 10;
+	mEditPaneInfo.width				= theFrame.width - kTmplLeftMargin * 2 - kTmplLabelWidth - kTmplHorizSep;
 	mEditPaneInfo.height			= kTmplEditHeight;
 	mEditPaneInfo.visible			= true;
 	mEditPaneInfo.enabled			= true;
@@ -222,18 +222,8 @@ CTmplEditorWindow::FinishCreateSelf()
 	mScrollPaneInfo.bindings.left	= true;
 	mScrollPaneInfo.bindings.top	= true;
 	mScrollPaneInfo.bindings.right	= true;
-	mScrollPaneInfo.bindings.bottom	= false;
+	mScrollPaneInfo.bindings.bottom	= true;
 	mScrollPaneInfo.userCon			= 0;
-
-// 	// Single scrollers basic values
-// 	mSingleScrollInfo.paneID			= 0;
-// 	mSingleScrollInfo.visible			= true;
-// 	mSingleScrollInfo.enabled			= true;
-// 	mSingleScrollInfo.bindings.left		= true;
-// 	mSingleScrollInfo.bindings.top		= true;
-// 	mSingleScrollInfo.bindings.right	= true;
-// 	mSingleScrollInfo.bindings.bottom	= false;
-// 	mSingleScrollInfo.userCon			= 0;
 
 	// Text group box for text views basic values
 	mTgbPaneInfo.paneID				= 0;
@@ -255,12 +245,9 @@ CTmplEditorWindow::FinishCreateSelf()
 	mWastePaneInfo.bindings.left	= true;
 	mWastePaneInfo.bindings.top		= true;
 	mWastePaneInfo.bindings.right	= true;
-	mWastePaneInfo.bindings.bottom	= false;
+	mWastePaneInfo.bindings.bottom	= true;
 	mWastePaneInfo.userCon			= 0;
-
-// 	// Attach an LUndoer to each of the subpanes
-// 	mHexDataWE->AddAttachment( new LUndoer );
-// 	mTxtDataWE->AddAttachment( new LUndoer );
+	
 }
 	
 
@@ -418,10 +405,9 @@ CTmplEditorWindow::ParseWithTemplate(Handle inHandle)
 // ---------------------------------------------------------------------------
 
 // TODO:
-// - add more error checking: insufficient data, required null bytes
-// - insert in try block and catch exceptions
+//   - add error checking: insufficient data, required null bytes
+//   - insert in try blocks and catch exceptions
 
-// 	
 // 		UKeyFilters::SelectTEKeyFilter(keyFilter_AlphaNumeric)
 // 		UKeyFilters::SelectTEKeyFilter(keyFilter_Integer)
 // 		UKeyFilters::SelectTEKeyFilter(keyFilter_NegativeInteger)
@@ -445,12 +431,11 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString)
 	OSErr	error = noErr;
 	char	theChar;
 	char 	charString[256];
-	char *	theCString;
 	short	theShort;
 	Str255	numStr, theString;
 	SInt8	theSInt8;
 	SInt16	theSInt16;
-	SInt32	theSInt32, theRest, theLength, oldYCoord;
+	SInt32	theSInt32, theLength, oldYCoord;
 	UInt16	theUInt16;
 	UInt32	theUInt32;
 	Boolean	theBool;
@@ -795,20 +780,20 @@ CTmplEditorWindow::AddBooleanControls(Boolean inValue,
 	mRgvPaneInfo.top	= mYCoord - 2;
 	mRgvPaneInfo.paneID	= mCurrentID;
 
-// 	LRadioGroupView * theRGV = new LRadioGroupView(mEditPaneInfo, theViewInfo);
-// 	ThrowIfNil_(theRGV);
-// 
-// 	// Store the template's type in the userCon field
-// 	theRGV->SetUserCon(inType);
+	LRadioGroupView * theRGV = new LRadioGroupView(mRgvPaneInfo, theViewInfo);
+	ThrowIfNil_(theRGV);
+
+	// Store the template's type in the userCon field
+	theRGV->SetUserCon(inType);
 	
 	mCurrentID++;
 
 	// Create two radiobuttons in this group
 	//     "Yes/On" radiobutton
-	mRadioPaneInfo.left			= 2;
-	mRadioPaneInfo.top			= mYCoord + 2;
+	mRadioPaneInfo.left			= 0;
+	mRadioPaneInfo.top			= 0;
 	mRadioPaneInfo.paneID		= mCurrentID;
-	mRadioPaneInfo.superView	= mContentsView;
+	mRadioPaneInfo.superView	= theRGV;
 
 	theRadio = new LStdRadioButton(mRadioPaneInfo, rPPob_TmplEditorWindow + mCurrentID, 
 								   inValue, mLeftLabelTraitsID, (UInt8 *)(inTitleType ? "\pOn":"\pYes"));
@@ -824,7 +809,7 @@ CTmplEditorWindow::AddBooleanControls(Boolean inValue,
 								   1 - inValue, mLeftLabelTraitsID, (UInt8 *)(inTitleType ? "\pOff":"\pNo"));
 	ThrowIfNil_(theRadio);
 	
-// 	theRGV->SetCurrentRadioID( inValue ?  mCurrentID - 1 : mCurrentID );
+	theRGV->SetCurrentRadioID( inValue ?  mCurrentID - 1 : mCurrentID );
 	
 	// Advance the counters
 	mYCoord += mRgvPaneInfo.height + kTmplVertSep;
@@ -872,7 +857,8 @@ CTmplEditorWindow::AddWasteField(OSType inType)
 	mScrollPaneInfo.superView	= theTGB;
 
 	LScrollerView * theScroller = new LScrollerView(mScrollPaneInfo, theViewInfo, 0, 15, 0, 15, 16, NULL, true);
-	
+	ThrowIfNil_(theScroller);
+
 	mWastePaneInfo.left			= 0;
 	mWastePaneInfo.top			= 0;
 	mWastePaneInfo.width		= mScrollPaneInfo.width - 15;
@@ -885,6 +871,7 @@ CTmplEditorWindow::AddWasteField(OSType inType)
 	ThrowIfNil_(theWasteEdit);
 
 	theScroller->InstallView(theWasteEdit);
+// 	theScroller->AddListener(this);
 	
 	// Store the template's type in the userCon field
 	theWasteEdit->SetUserCon(inType);
@@ -943,8 +930,8 @@ CTmplEditorWindow::AddHexDumpField(OSType inType)
 {
 	SInt32		oldPos, newPos;
 	Handle		theHandle;
-	char 		theChar;
 	SViewInfo	theViewInfo;
+	mOwnerDoc = dynamic_cast<CTmplEditorDoc*>(GetSuperCommander());
 
 	theViewInfo.imageSize.width		= theViewInfo.imageSize.height	= 0 ;
 	theViewInfo.scrollPos.h			= theViewInfo.scrollPos.v		= 0;
@@ -958,6 +945,7 @@ CTmplEditorWindow::AddHexDumpField(OSType inType)
 	CDualDataView * theTGB = new CDualDataView(mTgbPaneInfo, theViewInfo, false);
 	ThrowIfNil_(theTGB);
 
+	// Make the single vertical scroll bar
 	mScrollPaneInfo.left		= mTgbPaneInfo.width - kTmplTextInset - kTmplScrollWidth;
 	mScrollPaneInfo.top			= kTmplTextInset;
 	mScrollPaneInfo.width		= kTmplScrollWidth;
@@ -966,7 +954,10 @@ CTmplEditorWindow::AddHexDumpField(OSType inType)
 	mScrollPaneInfo.superView	= theTGB;
 
 	CSingleScrollBar * theScroller = new CSingleScrollBar(mScrollPaneInfo, 'HScr', 0, 0, 0, true);
-	
+	ThrowIfNil_(theScroller);
+
+	// Make the Waste edit panes (no wrapping, selectable). The read only
+	// property is set by InstallSubViews() below.
 	mWastePaneInfo.left			= kTmplTextInset;
 	mWastePaneInfo.top			= kTmplTextInset;
 	mWastePaneInfo.width		= kTmplHexPaneWidth;
@@ -974,50 +965,40 @@ CTmplEditorWindow::AddHexDumpField(OSType inType)
 	mWastePaneInfo.paneID		= 0;
 	mWastePaneInfo.superView	= theTGB;
 
-	// Make the Waste edit (writable, no wrapping, selectable)
 	CHexDataSubView * theHexWE = new CHexDataSubView(mWastePaneInfo, theViewInfo, 0, mEditTraitsID);
 	ThrowIfNil_(theHexWE);
 
 	mWastePaneInfo.left			= kTmplTxtPaneLeft;
 	mWastePaneInfo.width		= kTmplTxtPaneWidth;
-	CTxtDataSubView * theTxtWE = new CHexDataSubView(mWastePaneInfo, theViewInfo, 0, mEditTraitsID);
+	
+	CTxtDataSubView * theTxtWE = new CTxtDataSubView(mWastePaneInfo, theViewInfo, 0, mEditTraitsID);
 	ThrowIfNil_(theTxtWE);
 	
-	
-	
-	
-// 	theScroller->InstallView(theWasteEdit);
+	// Install the subpanes and the scroller in the dual view
+	theTGB->InstallSubViews(theHexWE, theTxtWE, theScroller, mOwnerDoc->IsReadOnly() );
+
+	// Adjust to the style specified in the preferences
+	TextTraitsRecord theTraits = CRezillaApp::sPrefs->GetStyleElement( CRezillaPrefs::prefsType_Curr );
+	theTGB->ResizeDataPanes();
+	theTGB->UpdatePaneCounts();
+	theHexWE->ApplyStyleValues( theTraits.size, theTraits.fontNumber);
+	theTxtWE->ApplyStyleValues( theTraits.size, theTraits.fontNumber);
 	
 	// Store the template's type in the userCon field
-	theWasteEdit->SetUserCon(inType);
+	theTGB->SetUserCon(inType);
 	
 	// Insert the text
 	oldPos = mRezStream->GetMarker();
 	newPos = mRezStream->GetLength();
-
-	
-	
-	
-	
 	
 	theHandle = mRezStream->GetDataHandle();
 	HLock(theHandle);
-	
-	
-	StSegmHexTranslator translator((*theHandle) + oldPos , newPos - oldPos, 8);
-	translator.Convert();
-	
-	// Put the contents in the hex view and clear the dirty flag.
-	theWasteEdit->SetTextHandle( translator.GetOutHandle() );
-// 	WESetSelection(0, 0, mWasteEditRef);
-	
-	
-	
-	
-	
-	
-// 	theWasteEdit->Insert( (*theHandle) + oldPos , newPos - oldPos, NULL, true);
+	theTGB->InstallBackStoreData((*theHandle) + oldPos , newPos - oldPos);
+	theTGB->SetMaxScrollerValue();
+	theTGB->InstallContentsFromLine(1);
 	HUnlock(theHandle);
+
+	WESetSelection(0, 0, theTGB->GetInMemoryWasteRef());
 	
 	// Advance the counters
 	mYCoord += mScrollPaneInfo.height + kTmplVertSep;

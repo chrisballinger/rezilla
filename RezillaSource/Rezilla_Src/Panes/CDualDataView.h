@@ -54,7 +54,8 @@ public:
 							CommandT			inCommand,
 							void*				ioParam);
 
-	virtual void	InstallBackStoreData(Handle inHandle);
+	void			InstallBackStoreData(Handle inHandle);
+	void			InstallBackStoreData(const void * inPtr, SInt32 inByteCount);
 
 	virtual void	InstallHexContents(Handle inHandle);
 	virtual void	InstallHexContents(const void * inPtr, SInt32 inByteCount);
@@ -126,6 +127,8 @@ protected:
 	
 	virtual void		FinishCreateSelf();
 	void				Initialize();
+	void				DeclareListeners();
+	
 };
 
 

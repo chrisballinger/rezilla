@@ -1,7 +1,7 @@
 // ===========================================================================
 // CTxtDataSubView.cp 
 //                       Created: 2003-05-06 06:04:42
-//             Last modification: 2004-06-17 01:24:36
+//             Last modification: 2004-06-17 10:01:00
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -55,6 +55,25 @@ CTxtDataSubView::CTxtDataSubView(CHexDataSubView * inSiblingView)
 {
 	mHexSiblingView = inSiblingView;
 	mIsSynchronizing = false;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ CTxtDataSubView						Parameterized Constructor [public]
+// ---------------------------------------------------------------------------
+
+CTxtDataSubView::CTxtDataSubView(
+	const SPaneInfo&	inPaneInfo,
+	const SViewInfo&	inViewInfo,
+	UInt16				inTextAttributes,
+	ResIDT				inTextTraitsID,
+	Boolean				inReadOnly,
+	Boolean				inWordWrap,
+	Boolean				inSelectable)
+
+	: CWasteEditView(inPaneInfo, inViewInfo, inTextAttributes, 
+					 inTextTraitsID, inReadOnly, inWordWrap, inSelectable)
+{
 }
 
 

@@ -100,7 +100,8 @@ CDualDataView::Initialize()
 	// since it will never be displayed directly. 
 	CalcPortFrameRect(theRect);
 	WERectToLongRect( &theRect, &theLongRect) ;
-	error = WENew( &theLongRect, &theLongRect, initFlags , &mInMemoryWasteRef) ;
+	error = WENew( &theLongRect, &theLongRect, initFlags , &mInMemoryWasteRef);
+	
 }
 
 
@@ -117,8 +118,7 @@ CDualDataView::FinishCreateSelf()
 	mCurrentSubView = hex_nopane;
 	mSelectingAll = false;
 	
-	// Make the window a listener to the prefs object
-	CRezillaApp::sPrefs->AddListener(this);
+	DeclareListeners();
 }
 
 
@@ -144,8 +144,24 @@ CDualDataView::InstallSubViews(CHexDataSubView * inHexDataWE,
 
 	mHexView->SetReadOnly(inReadOnly);
 	mTxtView->SetReadOnly(inReadOnly);
+	
+	DeclareListeners();
 }
  
+
+// ---------------------------------------------------------------------------
+//		¥ DeclareListeners										[protected]
+// ---------------------------------------------------------------------------
+
+void
+CDualDataView::DeclareListeners()
+{
+	// The view must listen to the scroller's message
+	mScroller->AddListener(this);
+	// Make the view a listener to the prefs object
+	CRezillaApp::sPrefs->AddListener(this);
+}
+
 
 // ---------------------------------------------------------------------------
 //		¥ ListenToMessage				[public]
@@ -165,19 +181,14 @@ CDualDataView::ListenToMessage( MessageT inMessage, void *ioParam )
 			TextTraitsRecord theTraits = CRezillaApp::sPrefs->GetStyleElement( CRezillaPrefs::prefsType_Curr );
 			ResizeDataPanes();
 			UpdatePaneCounts();
-			mHexView->ApplyStyleValues( theTraits.size, theTraits.fontNumber);
-			mTxtView->ApplyStyleValues( theTraits.size, theTraits.fontNumber);
+			mHexView->ApplyStyleValues(theTraits.size, theTraits.fontNumber);
+			mTxtView->ApplyStyleValues(theTraits.size, theTraits.fontNumber);
 			mCurrFirstLine = 1;
 			InstallContentsFromLine(mCurrFirstLine);
 			mScroller->SetValue(0);
 			SetMaxScrollerValue();				
 			break;
 		}
-			
-		default:
-		dynamic_cast<CHexEditorDoc *>(GetSuperCommander())->ListenToMessage(inMessage, ioParam);
-		break;
-				
 	}
 }
 
@@ -444,7 +455,18 @@ CDualDataView::ObeyCommand(
 void
 CDualDataView::InstallBackStoreData(Handle inHandle)
 {
-	WEInsert(*inHandle, ::GetHandleSize(inHandle), nil, nil, mInMemoryWasteRef ) ;
+	WEInsert(*inHandle, ::GetHandleSize(inHandle), nil, nil, mInMemoryWasteRef);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ InstallBackStoreData										[protected]
+// ---------------------------------------------------------------------------
+
+void
+CDualDataView::InstallBackStoreData(const void * inPtr, SInt32 inByteCount)
+{
+	WEInsert(inPtr, inByteCount, nil, nil, mInMemoryWasteRef);
 }
 
 
