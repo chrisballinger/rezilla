@@ -1248,13 +1248,6 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 					 &UHexFilters::HexTemplateField, inContainer);
 		break;
 
-		case 'HEXD':
-		// Hex dump of remaining bytes in resource (this can only be the last type in a resource)
-		AddStaticField(inType, inLabelString, inContainer, sLeftLabelTraitsID);
-		mYCoord += kTmplLabelHeight + kTmplVertSkip;
-		AddHexDumpField(inType, inContainer);
-		break;
-
 		case 'FCNT': {
 			// Fixed count of list items (0 bytes). The count should be the
 			// beginning of the label string
@@ -1299,6 +1292,19 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		AddStaticField(inType, inLabelString, inContainer);
 		AddEditField(theString, inType, 4 + CRezillaPrefs::GetPrefValue(kPref_editors_hexSymbol), 0, 
 					 &UHexFilters::HexTemplateField, inContainer);
+		break;
+
+		case 'HEXD':
+		case 'BHEX':
+		case 'BSHX':
+		case 'LHEX':
+		case 'LSHX':
+		case 'WHEX':
+		case 'WSHX':
+		// Hex dump of remaining bytes in resource (this can only be the last type in a resource)
+		AddStaticField(inType, inLabelString, inContainer, sLeftLabelTraitsID);
+		mYCoord += kTmplLabelHeight + kTmplVertSkip;
+		AddHexDumpField(inType, inContainer);
 		break;
 
 		case 'LABL':
@@ -1360,7 +1366,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		break;
 
 		case 'LSTR':
-		// Long string (length long followed by the characters)
+		// Long string (long  length followed by the characters)
 		AddStaticField(inType, inLabelString, inContainer, sLeftLabelTraitsID);
 		mYCoord += kTmplLabelHeight + kTmplVertSkip;
 		AddWasteField(inType, inContainer);
@@ -1871,7 +1877,7 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 
 		case 'LSTR': {
 			UInt32		theUInt32 = 0;
-			// Long string (length long followed by the characters)
+			// Long string (long  length followed by the characters)
 			if (mRezStream->GetMarker() < theLength - 3) {
 				*mRezStream >> theUInt32;
 			}
@@ -1974,7 +1980,7 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 void
 CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 {
-	SInt32		oldPos, newPos, theLength;
+	SInt32		oldPos, newPos, nextPos, theLength;
 	Handle		theHandle;
 	SViewInfo	theViewInfo;
 	SDimension16	theFrame;
@@ -2049,21 +2055,108 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 	// Insert the text
 	theLength = mRezStream->GetLength();
 	oldPos = mRezStream->GetMarker();
-	if (inType == 'HEXD') {
+
+	switch (inType) {
+		case 'HEXD':
 		// This is always the last code in a template. Go to the end of the
 		// resource data.
 		newPos = theLength;
-	} else if (inType >> 24 == 'H') {
-	  // Hnnn: a 3-digit hex number; displays nnn bytes in hex format
-		SInt32 numbytes;
-		char str[4];
-		char * p = (char*) &inType;
-		sprintf(str, "%c%c%c%c", *(p+1), *(p+2), *(p+3), 0);
-		::LowercaseText(str, 3, (ScriptCode)0);
-		sscanf(str, "%3x", &numbytes);
-		newPos = oldPos + numbytes;
-	}
-	
+		break;
+		
+		case 'BHEX': {
+			UInt32		theUInt8 = 0;
+			// ByteLength Hex Dump
+			if (mRezStream->GetMarker() < theLength) {
+				*mRezStream >> theUInt8;
+			}
+			oldPos += 1;
+			newPos = oldPos + theUInt8;
+			nextPos = newPos;
+			break;
+		}
+		
+		case 'BSHX': {
+			UInt32		theUInt8 = 0;
+			// (ByteLength - 1) Hex Dump
+			if (mRezStream->GetMarker() < theLength) {
+				*mRezStream >> theUInt8;
+			}
+			if (theUInt8 < 1) {
+				theUInt8 = 1;
+			} 
+			oldPos += 1;
+			newPos = oldPos + theUInt8 - 1;
+			nextPos = newPos;
+			break;
+		}
+		
+		case 'LHEX': {
+			UInt32		theUInt32 = 0;
+			// LongLength Hex Dump
+			if (mRezStream->GetMarker() < theLength - 3) {
+				*mRezStream >> theUInt32;
+			}
+			oldPos += 4;
+			newPos = oldPos + theUInt32;
+			nextPos = newPos;
+			break;
+		}
+		
+		case 'LSHX': {
+			UInt32		theUInt32 = 0;
+			// (LongLength - 4) Hex Dump
+			if (mRezStream->GetMarker() < theLength - 3) {
+				*mRezStream >> theUInt32;
+			}
+			if (theUInt32 < 4) {
+				theUInt32 = 4;
+			} 
+			oldPos += 4;
+			newPos = oldPos + theUInt32 - 4;
+			nextPos = newPos;
+			break;
+		}
+		
+		case 'WHEX': {
+			UInt16		theUInt16 = 0;
+			// WordLength Hex Dump
+			if (mRezStream->GetMarker() < theLength - 1) {
+				*mRezStream >> theUInt16;
+			}
+			oldPos += 2;
+			newPos = oldPos + theUInt16;
+			nextPos = newPos;
+			break;
+		}
+		
+		case 'WSHX': {
+			UInt16		theUInt16 = 0;
+			// (WordLength - 2) Hex Dump
+			if (mRezStream->GetMarker() < theLength - 1) {
+				*mRezStream >> theUInt16;
+			}
+			if (theUInt16 < 2) {
+				theUInt16 = 2;
+			} 
+			oldPos += 2;
+			newPos = oldPos + theUInt16 - 2;
+			nextPos = newPos;
+			break;
+		}
+		
+		default:
+		if (inType >> 24 == 'H') {
+			// Hnnn: a 3-digit hex number; displays nnn bytes in hex format
+			SInt32 numbytes;
+			char str[4];
+			char * p = (char*) &inType;
+			sprintf(str, "%c%c%c%c", *(p+1), *(p+2), *(p+3), 0);
+			::LowercaseText(str, 3, (ScriptCode)0);
+			sscanf(str, "%3x", &numbytes);
+			newPos = oldPos + numbytes;
+		}
+	}	
+		
 	if (oldPos > theLength) {
 		oldPos = theLength;
 	} 
@@ -2755,6 +2848,9 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		theStaticText->GetDescriptor(theString);	
 		::StringToNum( theString, &theLong);
 		*mOutStream << (UInt8) theLong;
+		if (theLong > 7) {
+			theLong = 7;
+		} 
 		mItemsCount = (UInt16) theLong;
 		mCurrentID++;
 		break;
@@ -2785,9 +2881,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		// Cache the current position
 		mOffsetMarksList.AddItem(mOutStream->GetMarker());
 		// Temporarily fill with null to create the place holder
-		if (mRezStream->GetMarker() < mRezStream->GetLength()) {
-			*mOutStream << (UInt8) 0x00;
-		} 
+		*mOutStream << (UInt8) 0x00;
 		break;
 
 		case 'CASE':
@@ -2915,13 +3009,69 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		break;
 
 		case 'HEXD':
-		// Hex dump of remaining bytes in resource (this can only be the last type in a resource)
+		case 'BHEX':
+		case 'BSHX':
+		case 'LHEX':
+		case 'LSHX':
+		case 'WHEX':
+		case 'WSHX': 
+		// Hex dump of following bytes
 		CDualDataView * theTGB = dynamic_cast<CDualDataView *>(this->FindPaneByID(mCurrentID));
 		WEReference theWE = theTGB->GetInMemoryWasteRef();
-		theHandle = static_cast<Handle>(::WEGetText(theWE));
 		theLength = ::WEGetTextLength(theWE);
-		
+		theHandle = static_cast<Handle>(::WEGetText(theWE));
 		locker.Adopt(theHandle);
+		
+		switch (inType) {
+			case 'BHEX': {
+				if (theLength > 0xff) {
+					theLength = 0xff;
+				} 
+				*mOutStream << (UInt8) theLength;
+				break;
+			}
+			
+			case 'BSHX': {
+				if (theLength >= 0xff) {
+					theLength = 0xfe;
+				} 
+				*mOutStream << (UInt8) (theLength + 1);
+				break;
+			}
+			
+			case 'LHEX': {
+				if (theLength > 0xffffffff) {
+					theLength = 0xffffffff;
+				} 
+				*mOutStream << (UInt32) theLength;
+				break;
+			}
+			
+			case 'LSHX': {
+				if (theLength >= 0xffffffff) {
+					theLength = 0xfffffffb;
+				} 
+				*mOutStream << (UInt32) (theLength + 4);
+				break;
+			}
+			
+			case 'WHEX': {
+				if (theLength > 0xffff) {
+					theLength = 0xffff;
+				} 
+				*mOutStream << (UInt16) theLength;
+				break;
+			}
+			
+			case 'WSHX': {
+				if (theLength >= 0xffff) {
+					theLength = 0xfffd;
+				} 
+				*mOutStream << (UInt16) (theLength + 2);
+				break;
+			}
+		}	
+		
 		mOutStream->PutBytes(*theHandle, theLength);
 		mCurrentID++;
 		break;
@@ -2962,9 +3112,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		// Cache the current position
 		mOffsetMarksList.AddItem(mOutStream->GetMarker());
 		// Temporarily fill with null to create the place holder
-		if (mRezStream->GetMarker() < mRezStream->GetLength()) {
-			*mOutStream << 0L;
-		} 
+		*mOutStream << 0L;
 		break;
 
 		case 'LNGC':
@@ -2992,7 +3140,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		break;
 
 		case 'LSTR':
-		// Long string (length long followed by the characters)
+		// Long string (long  length followed by the characters)
 		theWasteEdit = dynamic_cast<CWasteEditView *>(this->FindPaneByID(mCurrentID));
 		theHandle = theWasteEdit->GetTextHandle();
 		theLength = theWasteEdit->GetTextLength();
@@ -3097,11 +3245,11 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		// End of Skip or Sizeof.
 		currMark = mOutStream->GetMarker();
 		if (mOffsetTypesList.RemoveLastItem(theType) && mOffsetMarksList.RemoveLastItem(oldMark)) {
-			theLength = mRezStream->GetMarker() - currMark;
+			theLength = currMark - oldMark;
 			mOutStream->SetMarker(oldMark, streamFrom_Start);
 			switch (theType) {
 				case 'BSIZ':
-				theLength += 4;
+				theLength -= 1;
 				*mOutStream << (UInt8) theLength;;
 				break;
 				
@@ -3110,7 +3258,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 				break;
 				
 				case 'LSIZ':
-				theLength += 4;
+				theLength -= 4;
 				*mOutStream << (UInt32) theLength;;
 				break;
 				
@@ -3119,7 +3267,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 				break;
 				
 				case 'WSIZ':
-				theLength += 4;
+				theLength -= 2;
 				*mOutStream << (UInt16) theLength;;
 				break;
 				
@@ -3147,9 +3295,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		// Cache the current position
 		mOffsetMarksList.AddItem(mOutStream->GetMarker());
 		// Temporarily fill with null to create the place holder
-		if (mRezStream->GetMarker() < mRezStream->GetLength()) {
-			*mOutStream << (UInt16) 0x0000;;
-		} 
+		*mOutStream << (UInt16) 0x0000;;
 		break;
 
 		case 'WFLG':
