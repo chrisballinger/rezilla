@@ -2,7 +2,7 @@
 // CTmplWindowUtils.cp					
 // 
 //                       Created: 2004-08-20 16:45:08
-//             Last modification: 2004-08-20 13:46:11
+//             Last modification: 2004-09-21 14:34:43
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -1214,8 +1214,7 @@ CTmplEditorWindow::AddCasePopup(ResType inType, Str255 inLabel, SInt32 inStartMa
 	if (foundIdx != -1) {
 		theBevelButton->SetCurrentMenuItem(foundIdx);						
 	} else {
-		
-// 		theBevelButton->SetCurrentMenuItem(-1);						
+		::MacCheckMenuItem(theBevelButton->GetMacMenuH(), theBevelButton->GetCurrentMenuItem(), 0);
 	}
 	
 	// Advance the counters. mYCoord has already been increased by the edit field
@@ -1302,8 +1301,10 @@ CTmplEditorWindow::AddEditPopup(Str255 inValue,
 	// Mark the item corresponding to the value
 	if (foundIdx != -1) {
 		theBevelButton->SetCurrentMenuItem(foundIdx);						
-	} 
-	
+	} else {
+		::MacCheckMenuItem(theBevelButton->GetMacMenuH(), theBevelButton->GetCurrentMenuItem(), 0);
+	}
+
 	// Advance the counters
 	mYCoord += sEditPaneInfo.height + kTmplVertSep;
 	mCurrentID++;
