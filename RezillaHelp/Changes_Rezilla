@@ -1,0 +1,40 @@
+Changes Log for the Rezilla project
+===================================
+
+Rezilla is a resource forks editor for the Macintosh.
+
+This is an Open Source project. The source code for this application can be 
+found on the SourceForge site at: <http://sourceforge.net/projects/rezilla>
+
+Rezilla binary releases are available at
+<http://sourceforge.net/project/showfiles.php?group_id=83267> or on my web 
+page at <http://webperso.easyconnect.fr/bdesgraupes/rezilla.html>
+
+The code is under CVS control. You can retrieve the latest stage of 
+development using any CVS client. See instructions at:
+<http://sourceforge.net/cvs/?group_id=83267>
+
+You can also browse the cvs repository online at
+<http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/rezilla> 
+
+Download a nightly tarball from
+<http://cvs.sourceforge.net/cvstarballs/rezilla-cvsroot.tar.bz2>
+
+Please e-mail about any problems you might encounter: 
+<bdesgraupes@users.sourceforge.net> 
+
+This changes log is in reverse chronological order (from bottom to top).
+
+Last modification: $Date$
+
+================================================================================
+= 1.0.1a1 	                             last update: 2004-02-27 16:54:25
+================================================================================
+
+================================================================================
+= 1.0.1a0                                    last update: 2003-06-01 18:16:31
+================================================================================
+¬€ First alpha release.
+
+
+
