@@ -2,7 +2,7 @@
 // CAete_EditorWindow.cp
 // 
 //                       Created: 2004-07-01 08:42:37
-//             Last modification: 2005-02-03 09:21:27
+//             Last modification: 2005-02-03 19:15:28
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -646,13 +646,17 @@ CAete_EditorWindow::InstallAete(Handle inHandle)
 	
 	CAeteStream * theStream = new CAeteStream(inHandle);
 	
-	mAete = new CAete(theStream);
+	if ( theStream->GetLength() == 0 ) {
+		// We are creating a new resource
+		mAete = new CAete();
+	} else {
+		mAete = new CAete(theStream);
+	}
 	
 	// Check that all the data have been parsed
 	if (theStream->GetMarker() < theStream->GetLength() ) {
 		error = err_MoreDataThanExpected;
 	} 
-	
 	delete theStream;
 	
 	if (error == noErr) {
