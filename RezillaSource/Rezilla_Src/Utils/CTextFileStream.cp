@@ -2,11 +2,11 @@
 // CTextFileStream.cp					
 // 
 //                       Created : 2002-06-09 19:38:34
-//             Last modification : 2005-02-07 23:40:11
+//             Last modification : 2005-02-08 15:24:45
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2002-2004, 2005
+// © Copyright: Bernard Desgraupes 2002-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -79,7 +79,7 @@ CTextFileStream::~CTextFileStream()
 // ---------------------------------------------------------------------------
 //	Write a Pascal string to a Stream as a text string (ie strips the first
 //	length byte)
-//	Returns the number of bytes written
+//	Return the number of bytes written
 
 SInt32
 CTextFileStream::WriteOSType(OSType inType)
@@ -96,11 +96,61 @@ CTextFileStream::WriteOSType(OSType inType)
 
 
 // ---------------------------------------------------------------------------
+//	¥ WriteOSTypeWithTag
+// ---------------------------------------------------------------------------
+//	Write an OSType to a Stream as a text string.
+//	Return the number of bytes written.
+
+SInt32
+CTextFileStream::WriteOSTypeWithTag(
+		OSType inType,
+		ConstStringPtr	inTag)
+{
+	SInt32	bytesToWrite = WritePString("\p<");
+	bytesToWrite += WritePString(inTag);
+	bytesToWrite += WritePString("\p>");
+	
+	bytesToWrite += WriteOSType(inType);
+	
+	bytesToWrite += WritePString("\p</");
+	bytesToWrite += WritePString(inTag);
+	bytesToWrite += WritePString("\p>\r");
+
+	return bytesToWrite;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ WriteOSTypeWithTag
+// ---------------------------------------------------------------------------
+//	Write an OSType to a Stream as a text string.
+//	Return the number of bytes written.
+
+SInt32
+CTextFileStream::WriteOSTypeWithTag(
+		OSType inType,
+		const char *inTag)
+{
+	SInt32	bytesToWrite = WriteCString("<");
+	bytesToWrite += WriteCString(inTag);
+	bytesToWrite += WriteCString(">");
+	
+	bytesToWrite += WriteOSType(inType);
+	
+	bytesToWrite += WriteCString("</");
+	bytesToWrite += WriteCString(inTag);
+	bytesToWrite += WriteCString(">\r");
+
+	return bytesToWrite;
+}
+
+
+// ---------------------------------------------------------------------------
 //	¥ WritePString
 // ---------------------------------------------------------------------------
 //	Write a Pascal string to a Stream as a text string (ie strips the first
 //	length byte)
-//	Returns the number of bytes written
+//	Return the number of bytes written
 
 SInt32
 CTextFileStream::WritePString(
@@ -118,7 +168,7 @@ CTextFileStream::WritePString(
 //	¥ WritePStringWithTag
 // ---------------------------------------------------------------------------
 //	Write a Pascal string enclosed in an xml-like pair of tags
-//	Returns the number of bytes written
+//	Return the number of bytes written
 
 SInt32
 CTextFileStream::WritePStringWithTag(
@@ -141,7 +191,7 @@ CTextFileStream::WritePStringWithTag(
 //	¥ WriteCString
 // ---------------------------------------------------------------------------
 //	Write a C string to a Stream as a text string (ie strips the ending null-byte)
-//	Returns the number of bytes written.
+//	Return the number of bytes written.
 
 SInt32
 CTextFileStream::WriteCString(
@@ -164,7 +214,7 @@ CTextFileStream::WriteCString(
 //	¥ WriteCStringWithTag
 // ---------------------------------------------------------------------------
 //	Write a Pascal string enclosed in an xml-like pair of tags
-//	Returns the number of bytes written
+//	Return the number of bytes written
 
 SInt32
 CTextFileStream::WriteCStringWithTag(
@@ -187,7 +237,7 @@ CTextFileStream::WriteCStringWithTag(
 //	¥ WriteSInt32WithTag
 // ---------------------------------------------------------------------------
 //	Write a SInt32 number enclosed in an xml-like pair of tags
-//	Returns the number of bytes written
+//	Return the number of bytes written
 
 SInt32
 CTextFileStream::WriteSInt32WithTag(
@@ -205,7 +255,7 @@ CTextFileStream::WriteSInt32WithTag(
 //	¥ WriteSInt32WithTag
 // ---------------------------------------------------------------------------
 //	Write a SInt32 number enclosed in an xml-like pair of tags
-//	Returns the number of bytes written
+//	Return the number of bytes written
 
 SInt32
 CTextFileStream::WriteSInt32WithTag(
@@ -231,7 +281,7 @@ CTextFileStream::WriteSInt32WithTag(
 //	¥ WriteBooleanWithTag
 // ---------------------------------------------------------------------------
 //	Write a Boolean value enclosed in an xml-like pair of tags
-//	Returns the number of bytes written
+//	Return the number of bytes written
 
 SInt32
 CTextFileStream::WriteBooleanWithTag(
@@ -250,7 +300,7 @@ CTextFileStream::WriteBooleanWithTag(
 //	¥ WriteBooleanWithTag
 // ---------------------------------------------------------------------------
 //	Write a Boolean value enclosed in an xml-like pair of tags
-//	Returns the number of bytes written
+//	Return the number of bytes written
 
 SInt32
 CTextFileStream::WriteBooleanWithTag(
@@ -274,7 +324,7 @@ CTextFileStream::WriteBooleanWithTag(
 // ---------------------------------------------------------------------------
 //	Write a C string to a Stream as a text string cut down into pieces 
 //	separated by a specified separator.
-//	Returns the number of bytes written.
+//	Return the number of bytes written.
 
 SInt32
 CTextFileStream::WriteByChunks(

@@ -67,12 +67,16 @@ public:
 
 	SInt32			WriteOSType(OSType inType);
 	
+	SInt32			WriteOSTypeWithTag(OSType inType, ConstStringPtr inTag);
+
+	SInt32			WriteOSTypeWithTag(OSType inType, const char *inTag);
+
 	SInt32			WritePString( ConstStringPtr inString );
+	
+	SInt32			WritePStringWithTag( ConstStringPtr inString, ConstStringPtr inTag);
 	
 	SInt32			WriteCString( const char* inString );
 
-	SInt32			WritePStringWithTag( ConstStringPtr inString, ConstStringPtr inTag);
-	
 	SInt32			WriteCStringWithTag( const char *inString, const char *inTag);
 
 	SInt32			WriteSInt32WithTag( SInt32 inNum, ConstStringPtr inTag);
