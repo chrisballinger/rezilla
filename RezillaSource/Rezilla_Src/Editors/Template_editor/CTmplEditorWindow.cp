@@ -2,7 +2,7 @@
 // CTmplEditorWindow.cp					
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-09-20 09:38:13
+//             Last modification: 2004-09-22 06:45:31
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -278,7 +278,6 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 
 			// Window has been modified
 			SetDirty(true);
-
 			break;
 		
 		
@@ -348,13 +347,12 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			
 			// Window has been modified
 			SetDirty(true);
-			
 			break;
 			
 			
 		case msg_TmplModifiedItem:
-		SetDirty(true);
-		break;
+			SetDirty(true);
+			break;
 		
 		
 		case msg_TmplCasePopup: {
@@ -386,6 +384,9 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 				} 
 				mTemplateStream->SetMarker(currMark, streamFrom_Start);
 			}
+			
+			// Window has been modified
+			SetDirty(true);
 			break;
 		}
 		
@@ -410,6 +411,9 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 					theEditText->SetDescriptor(*rightPtr);
 				} 
 			} 
+			
+			// Window has been modified
+			SetDirty(true);
 			break;
 		}
 		
@@ -501,10 +505,10 @@ CTmplEditorWindow::CreateTemplateStream()
 	}
 	
 	if (theHandle == NULL) {
-		UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("CouldNotGetTemplateData"), rPPob_SimpleMessage);
-// 		UMessageDialogs::AlertWithType(CFSTR("CouldNotGetTemplateDataForType"), mOwnerDoc->GetSubstType());
-	} 
-	mTemplateStream = new LHandleStream(theHandle);	
+		error = err_TmplGetDataStreamFailed;
+	} else {
+		mTemplateStream = new LHandleStream(theHandle);	
+	}
 
 	return error;
 }
@@ -539,7 +543,9 @@ CTmplEditorWindow::ParseDataWithTemplate(Handle inHandle)
 			mContentsView->ResizeImageBy(0, mYCoord - oldYCoord, true);
 			mContentsScroller->AdjustScrollBars();
 		} 
-	}
+	} else {
+// 		UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("CouldNotGetTemplateData"), rPPob_SimpleMessage);
+	}	
 	
 	return error;
 }
@@ -2211,7 +2217,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 	  default:
 	  UMiscUtils::OSTypeToPString(inType, typeStr);
 	  // Handle Hnnn, Cnnn, P0nn, BB0n etc cases here or unrecognized type
-	  if (inType >> 24 == 'H' || inType >> 24 == 'F') {
+	  if (inType >> 24 == 'H') {
 		  
 		  // Hnnn: a 3-digit hex number; displays $nnn bytes in hex format
 		  CDualDataView * theTGB = dynamic_cast<CDualDataView *>(this->FindPaneByID(mCurrentID));
@@ -2228,6 +2234,30 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		  
 		  locker.Adopt(theHandle);
 		  mOutStream->PutBytes(*theHandle, reqLength);
+		  mCurrentID++;
+		  
+	  } else if (inType >> 24 == 'F') {
+		  
+		  // Fnnn: a 3-digit hex number; fills with $nnn bytes in hex format
+		  CDualDataView * theTGB = dynamic_cast<CDualDataView *>(this->FindPaneByID(mCurrentID));
+		  WEReference theWE = theTGB->GetInMemoryWasteRef();
+		  theHandle = static_cast<Handle>(::WEGetText(theWE));
+		  theLength = ::WEGetTextLength(theWE);
+		  UMiscUtils::HexNumStringToDecimal(&inType, &reqLength);
+
+		  // Truncate if we have more.
+		  if (theLength > reqLength) {
+			  theLength = reqLength;
+		  } 
+		  
+		  locker.Adopt(theHandle);
+		  mOutStream->PutBytes(*theHandle, theLength);
+		  if (theLength < reqLength) {
+			  // Padd with null bytes
+			  for (theSInt32 = 0; theSInt32 < reqLength - theLength; theSInt32++) {
+				  *mOutStream << (UInt8) 0x00;
+			  }
+		  } 
 		  mCurrentID++;
 		  
 	  } else if (inType >> 24 == 'C') {
@@ -2248,13 +2278,12 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		  mOutStream->PutBytes(*theHandle, theLength);
 		  if (theLength < reqLength) {
 			  // Padd with null bytes
-			  for (i = 0; i < reqLength - theLength - 1; i++) {
+			  for (theSInt32 = 0; theSInt32 < reqLength - theLength - 1; theSInt32++) {
 				  *mOutStream << (UInt8) 0x00;
 			  }
 		  } 
 		  // Now the ending NULL byte
 		  *mOutStream << (UInt8) 0x00;
-		  
 		  mCurrentID++;
 		  
 	  } else if (inType >> 24 == 'T') {
@@ -2271,10 +2300,10 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		  } 
 		  		  
 		  locker.Adopt(theHandle);
-		  mOutStream->PutBytes(*theHandle, reqLength);		
+		  mOutStream->PutBytes(*theHandle, theLength);		
 		  if (theLength < reqLength) {
 			  // Padd with null bytes
-			  for (i = 0; i < reqLength - theLength; i++) {
+			  for (theSInt32 = 0; theSInt32 < reqLength - theLength; theSInt32++) {
 				  *mOutStream << (UInt8) 0x00;
 			  }
 		  } 
@@ -2296,11 +2325,10 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		  *mOutStream << theString;
 		  if (theLength < reqLength) {
 			  // Padd with null bytes
-			  for (i = 0; i < reqLength - theLength - 1; i++) {
+			  for (theSInt32 = 0; theSInt32 < reqLength - theLength - 1; theSInt32++) {
 				  *mOutStream << (UInt8) 0x00;
 			  }
 		  } 
-			  
 		  mCurrentID++;
 
 	  } else if ( IsValidBitField(inType, typeStr, bitCount, bytesLen) ) {
