@@ -208,8 +208,7 @@ CWasteEditView::ApplyTextTraits(
 //	If inTextTraits is nil, the standard System font traits are used.
 
 void
-CWasteEditView::ApplyTextTraits(
-								ConstTextTraitsPtr	inTextTraits,
+CWasteEditView::ApplyTextTraits(TextTraitsPtr	inTextTraits,
 								WEReference			inWERef)
 {
 	WEAlignment		theJustification = weFlushDefault;
@@ -219,17 +218,15 @@ CWasteEditView::ApplyTextTraits(
 
 	// Define the attributes
 	if (inTextTraits == nil) {
-		// Use default System font traits
-		theStyle.tsFont = systemFont,
-		theStyle.tsSize = 0;
+		// Use default font settings
+		theStyle.tsFont = ::GetAppFont();
+		theStyle.tsSize = ::GetDefFontSize();;
 		theStyle.tsFace = 0;
 		theMode = srcOr;
 	} else {
-		// Set characteristics from TextTraits
-		// Cast away "const" here. Logically, the TextTraits Record
-		// is not changed -- the font number is cached so that future
-		// references will be faster.
-		UTextTraits::LoadTextTraits(const_cast<TextTraitsPtr>(inTextTraits));
+		// Set characteristics from TextTraits. The font number is cached
+		// in the TextTraits so that future references will be faster.
+		UTextTraits::LoadTextTraits(inTextTraits);
 
 		theStyle.tsFont = inTextTraits->fontNumber;
 		theStyle.tsSize = inTextTraits->size;
@@ -256,6 +253,14 @@ CWasteEditView::ApplyTextTraits(
 	WECalText(inWERef);			
 }
 
+// // Set Port Font and Size so WE uses the correct
+// // settings for its internal tables
+// ::TextFont(theStyle.tsFont);		
+// ::TextSize(theStyle.tsSize);
+// 
+// // weDoAll = weDoFont | weDoFace | weDoSize | weDoColor
+// WESetStyle(weDoAll,&theStyle,mWasteEditRef);
+// WESetAlignment( justification, mWasteEditRef );
 
 #pragma mark -
 
