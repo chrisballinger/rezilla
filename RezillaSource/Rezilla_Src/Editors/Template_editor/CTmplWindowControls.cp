@@ -1140,7 +1140,7 @@ CTmplEditorWindow::AddCasePopup(ResType inType, Str255 inLabel, SInt32 inStartMa
 	theEditText->AddListener(theBevelButton);
 
 	// Populate the popup with all the successive cases
-	if ( SplitCaseValue(inLabel, &rightPtr) ) {
+	if ( UMiscUtils::SplitCaseValue(inLabel, &rightPtr) ) {
 		theBevelButton->InsertMenuItem(inLabel, index, true);
 		if (rightPtr != NULL && UCompareUtils::CompareStr255( (Str255 *) theValue, rightPtr) == 0) {
 			foundIdx = index;
@@ -1157,7 +1157,7 @@ CTmplEditorWindow::AddCasePopup(ResType inType, Str255 inLabel, SInt32 inStartMa
 		} 
 		currMark = mTemplateStream->GetMarker();
 		index++;
-		if ( SplitCaseValue(theString, &rightPtr) ) {
+		if ( UMiscUtils::SplitCaseValue(theString, &rightPtr) ) {
 			theBevelButton->InsertMenuItem(theString, index, true);
 			if (foundIdx == -1 && rightPtr != NULL && UCompareUtils::CompareStr255( (Str255 *) theValue, rightPtr) == 0) {
 				foundIdx = index;
@@ -1228,7 +1228,7 @@ CTmplEditorWindow::AddEditPopup(Str255 inValue,
 	sBevelPaneInfo.paneID		= mCurrentID;
 	sBevelPaneInfo.superView	= inContainer;
 
-	CTmplBevelButton * theBevelButton = new CTmplBevelButton(sBevelPaneInfo, msg_TmplPopupField, kControlBevelButtonSmallBevelProc,
+	CTmplBevelButton * theBevelButton = new CTmplBevelButton(sBevelPaneInfo, msg_PopupEditField, kControlBevelButtonSmallBevelProc,
 													 MENU_TemplateCases, kControlBevelButtonMenuOnBottom, 
 													 kControlContentTextOnly, 0, 0, Str_Empty, 1, 
 													 kControlBevelButtonPlaceNormally, teFlushDefault, 0, 
@@ -1241,7 +1241,7 @@ CTmplEditorWindow::AddEditPopup(Str255 inValue,
 	// Populate the popup with the items from the STR# resource with ID inResourceID
 	while (true) {
 		GetIndString(theString, inResourceID, index);
-		if ( SplitCaseValue(theString, &rightPtr) ) {
+		if ( UMiscUtils::SplitCaseValue(theString, &rightPtr) ) {
 			theBevelButton->InsertMenuItem(theString, index, true);
 			if (foundIdx == -1 && rightPtr != NULL && UCompareUtils::CompareStr255( (Str255 *) inValue, rightPtr) == 0) {
 				foundIdx = index;

@@ -45,6 +45,7 @@ public:
 	static Boolean	IsValidHexadecimal(Ptr inPtr, ByteCount inByteCount);
 	static Boolean	BuildDateString(UInt32 inTime, Str255 inString);
 	static Boolean	ParseDateString(Str255 inString, SInt32 * outAbsTime);
+	static Boolean	SplitCaseValue(Str255 inString, Str255 ** outRightPtr);
 	static void		CopyFSSpec(FSSpec& srcFileSpec, FSSpec& trgtFileSpec);
 	static void		MetricsFromTraits(ConstTextTraitsPtr inTextTraits);
 	static void		MetricsFromTraits(ResIDT inTraitsID);

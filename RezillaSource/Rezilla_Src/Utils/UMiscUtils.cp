@@ -615,6 +615,39 @@ UMiscUtils::ParseDateString(Str255 inString, SInt32 * outAbsTime)
 
 
 // ---------------------------------------------------------------------------
+//	¥ SplitCaseValue												[static]
+// ---------------------------------------------------------------------------
+// This function makes two adjacent Pascal strings out of one. It is used 
+// in popup menus to handle CASE values. For instance:
+//         9abcde=fgh will become 5abcde3fgh.
+// On output, it stores a pointer to the RH string. If splitting was successful, 
+// the function returns true.
+
+Boolean
+UMiscUtils::SplitCaseValue(Str255 inString, Str255 ** outRightPtr)
+{
+	Boolean split = false;
+
+	if (inString[0]) {
+		register char *	p;
+		char 	str[256];
+		SInt32	len;
+		
+		CopyPascalStringToC(inString, str);
+		p = strrchr((char *) str, '=');
+		if (p != nil) {
+			split = true;
+			len = p - (char *) str;
+			inString[len+1] = inString[0] - len - 1;
+			inString[0] = len;
+			*outRightPtr = (Str255 *) &inString[len+1];
+		} 
+	}	
+	return split;
+}
+
+
+// ---------------------------------------------------------------------------
 //	¥ GetDragFileData										[static]
 // ---------------------------------------------------------------------------
 // If the flavour data is an HFSFlavor structure, retrieve it.

@@ -794,14 +794,14 @@ CTmplEditorWindow::SelectKeyValueFromKeyCases(Str255 inLabelString,
 		} 
 		countCases++;
 		currMark = mTemplateStream->GetMarker();
-		if ( SplitCaseValue(theString, &rightPtr) ) {
+		if ( UMiscUtils::SplitCaseValue(theString, &rightPtr) ) {
 			thePopup->InsertMenuItem(theString, index, true);
 			index++;
 		} 
 	}
 	
 	if (index == 0) {
-		// Means that SplitCaseValue() failed on all cases
+		// Means that UMiscUtils::SplitCaseValue() failed on all cases
 		return err_TmplMalformedCaseSection;
 	} 
 	
@@ -841,7 +841,7 @@ CTmplEditorWindow::SelectKeyValueFromKeyCases(Str255 inLabelString,
 				*mTemplateStream >> theString;
 				*mTemplateStream >> theType;
 			}
-			SplitCaseValue(theString, &rightPtr);
+			UMiscUtils::SplitCaseValue(theString, &rightPtr);
 			LString::CopyPStr(*rightPtr, outKeyString);
 			// Now get out of the outer 'while'
 			inPickerLoop = false;
@@ -849,38 +849,6 @@ CTmplEditorWindow::SelectKeyValueFromKeyCases(Str255 inLabelString,
 	}
 	mTemplateStream->SetMarker(currMark, streamFrom_Start);
 	return error;
-}
-
-
-// ---------------------------------------------------------------------------
-//	¥ SplitCaseValue												[static]
-// ---------------------------------------------------------------------------
-// This function makes two adjacent Pascal strings out of one. For instance:
-//         9abcde=fgh will become 5abcde3fgh.
-// On output, it stores a pointer to the RH string. If splitting was successful, 
-// the function returns true.
-
-Boolean
-CTmplEditorWindow::SplitCaseValue(Str255 inString, Str255 ** outRightPtr)
-{
-	Boolean split = false;
-
-	if (inString[0]) {
-		register char *	p;
-		char 	str[256];
-		SInt32	len;
-		
-		CopyPascalStringToC(inString, str);
-		p = strrchr((char *) str, '=');
-		if (p != nil) {
-			split = true;
-			len = p - (char *) str;
-			inString[len+1] = inString[0] - len - 1;
-			inString[0] = len;
-			*outRightPtr = (Str255 *) &inString[len+1];
-		} 
-	}	
-	return split;
 }
 
 
