@@ -2,7 +2,7 @@
 // CUtxt_EditorWindow.h
 // 
 //                       Created: 2004-12-08 18:21:21
-//             Last modification: 2005-01-14 17:15:55
+//             Last modification: 2005-01-15 12:16:25
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -46,14 +46,15 @@ public:
 
 	Boolean			IsDirty();
 	
-	void			SetLengthField();
+	void			SetLengthField(ByteCount theLength);
 					
 	CUtxt_EditorView *	GetContentsView() const { return mContentsView;}
 
 protected:
 	CUtxt_EditorView *	mContentsView;
 	LStaticText *		mLengthField;
-
+	ByteCount			mOldSize;
+	
 	virtual void	FinishCreateSelf();
 	
 private:

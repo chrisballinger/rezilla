@@ -2,7 +2,7 @@
 // CUtxt_EditorWindow.cp					
 // 
 //                       Created: 2004-12-08 18:21:21
-//             Last modification: 2005-01-14 09:53:48
+//             Last modification: 2005-01-15 12:33:50
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -35,7 +35,7 @@
 
 
 // ---------------------------------------------------------------------------
-//		¥ CUtxt_EditorWindow				[public]
+//  CUtxt_EditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CUtxt_EditorWindow::CUtxt_EditorWindow()
@@ -44,7 +44,7 @@ CUtxt_EditorWindow::CUtxt_EditorWindow()
 
 
 // ---------------------------------------------------------------------------
-//		¥ CUtxt_EditorWindow				[public]
+//  CUtxt_EditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CUtxt_EditorWindow::CUtxt_EditorWindow(
@@ -55,7 +55,7 @@ CUtxt_EditorWindow::CUtxt_EditorWindow(
 
 
 // ---------------------------------------------------------------------------
-//		¥ CUtxt_EditorWindow										[public]
+//  CUtxt_EditorWindow										[public]
 // ---------------------------------------------------------------------------
 
 CUtxt_EditorWindow::CUtxt_EditorWindow(
@@ -68,7 +68,7 @@ CUtxt_EditorWindow::CUtxt_EditorWindow(
 
 
 // ---------------------------------------------------------------------------
-//		¥ CUtxt_EditorWindow										[public]
+//  CUtxt_EditorWindow										[public]
 // ---------------------------------------------------------------------------
 
 CUtxt_EditorWindow::CUtxt_EditorWindow(
@@ -79,7 +79,7 @@ CUtxt_EditorWindow::CUtxt_EditorWindow(
 
 
 // ---------------------------------------------------------------------------
-//		¥ ~CUtxt_EditorWindow										[public]
+//  ~CUtxt_EditorWindow										[public]
 // ---------------------------------------------------------------------------
 
 CUtxt_EditorWindow::~CUtxt_EditorWindow()
@@ -90,13 +90,15 @@ CUtxt_EditorWindow::~CUtxt_EditorWindow()
 
 
 // ---------------------------------------------------------------------------
-//		¥ FinishCreateSelf											[protected]
+//  FinishCreateSelf											[protected]
 // ---------------------------------------------------------------------------
 // TXNFind
 
 void
 CUtxt_EditorWindow::FinishCreateSelf()
 {		
+	mOldSize = 0;
+	
 	// The main view containing the labels and editing panes
 	mContentsView = dynamic_cast<CUtxt_EditorView *>(this->FindPaneByID(item_EditorContents));
 	ThrowIfNil_( mContentsView );
@@ -119,7 +121,7 @@ CUtxt_EditorWindow::FinishCreateSelf()
 
 
 // ---------------------------------------------------------------------------
-//		¥ ListenToMessage				[public]
+//  ListenToMessage				[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -177,7 +179,11 @@ CUtxt_EditorWindow::InstallText(Handle inTextHandle)
 Boolean
 CUtxt_EditorWindow::IsDirty()
 {
-	mIsDirty = (::TXNGetChangeCount(mContentsView->GetTextObject()) > 0);
+	ByteCount	theCount = 0;
+	mContentsView->CountChanges(theCount);
+	
+	mIsDirty = ( theCount > 0) ;
+		
 	return mIsDirty;
 }
 
@@ -187,15 +193,18 @@ CUtxt_EditorWindow::IsDirty()
 // ---------------------------------------------------------------------------
 
 void
-CUtxt_EditorWindow::SetLengthField()
+CUtxt_EditorWindow::SetLengthField(ByteCount theLength)
 {
 	Str255		theString;
-	ByteCount	theLength = 0;
 
-	theLength = ::TXNDataSize(mContentsView->GetTextObject());
-
-	::NumToString(theLength, theString);
-	mLengthField->SetDescriptor(theString);
+	if (theLength != mOldSize) {
+		::NumToString(theLength, theString);
+		mLengthField->SetDescriptor(theString);
+		mOldSize = theLength;
+		SetDirty(true);
+	} 
 }
+
+
 
 
