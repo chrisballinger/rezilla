@@ -18,7 +18,7 @@
 
 #include "CRezType.h"
 #include "UMiscUtils.h"
-#include "FullPath.h"
+//#include "FullPath.h"
 
 #include <PP_KeyCodes.h>
 

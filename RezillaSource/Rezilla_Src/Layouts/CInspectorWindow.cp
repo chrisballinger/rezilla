@@ -203,20 +203,19 @@ CInspectorWindow::FindCommandStatus(
 		case cmd_NewRez:
 		case cmd_Find:
 		case cmd_FindNext:
-		case cmd_EditRez:
+		case cmd_GuiEditRez:
+		case cmd_HexEditRez:
 		case cmd_GetRezInfo:
 		case cmd_RemoveRez:
 		case cmd_DuplicateRez:
 		case cmd_ShowInspector:
-		outEnabled = false;
+			outEnabled = false;
 			break;		
 		
 		default:
-		{
 			LWindow::FindCommandStatus(inCommand, outEnabled,
 												outUsesMark, outMark, outName);
 			break;
-		}
 	}
 }
 

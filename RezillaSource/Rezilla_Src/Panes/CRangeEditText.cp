@@ -5,7 +5,7 @@
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// ¬© Copyright: Bernard Desgraupes 2003
+// © Copyright: Bernard Desgraupes 2003
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -31,7 +31,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¬€ CRangeEditText						Stream Constructor		  [public]
+//	¥ CRangeEditText						Stream Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CRangeEditText::CRangeEditText(
@@ -44,7 +44,7 @@ CRangeEditText::CRangeEditText(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ CRangeEditText						Parameterized Constructor [public]
+//	¥ CRangeEditText						Parameterized Constructor [public]
 // ---------------------------------------------------------------------------
 
 CRangeEditText::CRangeEditText(
@@ -68,7 +68,7 @@ CRangeEditText::CRangeEditText(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ InitRangeEditText							Initializer		   [protected]
+//	¥ InitRangeEditText							Initializer		   [protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -79,7 +79,7 @@ CRangeEditText::InitRangeEditText()
 
 
 // ---------------------------------------------------------------------------
-//	¬€ ~CRangeEditText							Destructor			  [public]
+//	¥ ~CRangeEditText							Destructor			  [public]
 // ---------------------------------------------------------------------------
 
 CRangeEditText::~CRangeEditText()
@@ -89,7 +89,7 @@ CRangeEditText::~CRangeEditText()
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¬€ HandleKeyPress												  [public]
+//	¥ HandleKeyPress												  [public]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -110,7 +110,7 @@ CRangeEditText::HandleKeyPress(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ UserChangedText
+//	¥ UserChangedText
 // ---------------------------------------------------------------------------
 //	Text of EditText has changed as a result of user action
 
@@ -122,7 +122,7 @@ CRangeEditText::UserChangedText()
 
 
 // ---------------------------------------------------------------------------
-//	¬€ GetRangeValues												  [public]
+//	¥ GetRangeValues												  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -190,4 +190,3 @@ CRangeEditText::GetRangeValues(SInt32 & outRangeStart, SInt32 & outRangeEnd)
 
 
 PP_End_Namespace_PowerPlant
-

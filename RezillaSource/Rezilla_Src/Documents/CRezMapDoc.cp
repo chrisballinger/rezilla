@@ -325,7 +325,8 @@ CRezMapDoc::ObeyCommand(
 		break;		
 		}
 		
-		case cmd_EditRez: 
+		case cmd_GuiEditRez: 
+		case cmd_HexEditRez: 
 		case cmd_RemoveRez:
 		case cmd_Clear: 
 		case cmd_DuplicateRez: {
@@ -335,10 +336,13 @@ CRezMapDoc::ObeyCommand(
 			CRezObjItem *theItem = nil;	
 			while (iterator.Next(&theItem)) {
 				switch (inCommand) {		
-					case cmd_EditRez:
+					case cmd_HexEditRez:
 						new CHexEditorDoc(this, mRezMapWindow->GetRezMapTable(), theItem->GetRezObj(), mReadOnlyDoc);
 						break;
 					
+					case cmd_GuiEditRez:
+						break;
+						
 					case cmd_RemoveRez:
 					case cmd_Clear: 
 						RemoveResource( theItem );
@@ -1058,9 +1062,10 @@ CRezMapDoc::FindCommandStatus(
 			outEnabled = true;
 			break;
 		
-		case cmd_EditRez:
+		case cmd_GuiEditRez:
+		case cmd_HexEditRez:
 		case cmd_GetRezInfo:
-		outEnabled = HasSelection();
+			outEnabled = HasSelection();
 			break;		
 		
 		case cmd_Revert:

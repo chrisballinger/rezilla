@@ -213,10 +213,11 @@ const MessageT	cmd_Help					= 3000;
 const MessageT	cmd_ShowInspector			= 2001;	
 // Resource menu items
 const MessageT	cmd_NewRez				= baseMENU_Resource + 1;	
-const MessageT	cmd_EditRez				= baseMENU_Resource + 2;	
-const MessageT	cmd_GetRezInfo			= baseMENU_Resource + 3;
+const MessageT	cmd_GuiEditRez			= baseMENU_Resource + 2;	
+const MessageT	cmd_HexEditRez			= baseMENU_Resource + 3;	
 const MessageT	cmd_RemoveRez			= baseMENU_Resource + 4;	
 const MessageT	cmd_DuplicateRez		= baseMENU_Resource + 5;	
+const MessageT	cmd_GetRezInfo			= baseMENU_Resource + 6;
 // File menu items
 const MessageT	cmd_ExportMap			= baseMENU_File + 1;	
 const MessageT	cmd_RecentItems			= baseMENU_File + 2;	
