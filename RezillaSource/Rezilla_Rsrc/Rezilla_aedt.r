@@ -9,7 +9,7 @@ resource 'aedt' (128, "Required Suite") {
 /* 'aevt', 'rapp' */	1634039412, 1918988400, 1005,
 /* 'aevt', 'pref' */	1634039412, 1886545254, 1006
 	}
-}
+};
 
 resource 'aedt' (129, "Core Suite") {
 	{
@@ -27,7 +27,7 @@ resource 'aedt' (129, "Core Suite") {
 /* 'core', 'save' */	1668248165, 1935767141, 2012,
 /* 'core', 'setd' */	1668248165, 1936028772, 2013
 	}
-}
+};
 
 resource 'aedt' (130, "Misc Standards") {
 	{
@@ -49,17 +49,17 @@ resource 'aedt' (130, "Misc Standards") {
 /* 'misc', 'undo' */	1835627363, 1970168943, 3016,
 /* 'misc', 'slct' */	1835627363, 1936483188, 3017
 	}
-}
+};
 
 resource 'aedt' (131, "PowerPlant Suite") {
 	{
 /* 'ppnt', 'sttg' */	1886416500, 1937011815, 3018
 	}
-}
+};
 
 resource 'aedt' (1000, "Rezilla Suite") {
 	{
 /* 'Rzil', 'Vers' */	1383754092, 1449489011, 5010
 	}
-}
+};
 
