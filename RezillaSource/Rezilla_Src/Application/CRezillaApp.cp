@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2005-01-09 20:29:31
+//             Last modification: 2005-01-10 09:06:13
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -54,6 +54,7 @@
 #include "CRezIconPane.h"
 #include "CSingleScrollBar.h"
 #include "CStaticTextURL.h"
+#include "CSuiteSlider.h"
 #include "CTEXT_EditorView.h"
 #include "CTEXT_EditorWindow.h"
 #include "CTmplBevelButton.h"
@@ -384,6 +385,7 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(CRezMapWindow);
 	RegisterClass_(CSingleScrollBar);
 	RegisterClass_(CStaticTextURL);
+	RegisterClass_(CSuiteSlider);
 	RegisterClass_(CTEXT_EditorView);
 	RegisterClass_(CTEXT_EditorWindow);
 	RegisterClass_(CTmplBevelButton);
