@@ -26,6 +26,8 @@
 #include <LComparator.h>
 #include <Drag.h>
 
+#include <string.h>
+
 
 PP_Begin_Namespace_PowerPlant
 
@@ -103,23 +105,23 @@ UMiscUtils::HFSNameToUnicodeName(
 OSErr
 UMiscUtils::MakePath(FSSpec* inFileSpec, Str255 outPath, short inWidth)
 {
-	short pathLength;
-	Handle pathHndl = NULL;
-	char * pathName;
-	OSErr err = ::FSpGetFullPath(inFileSpec, &pathLength, &pathHndl);
-	if (err == noErr) {
-		HLock(pathHndl);
-		pathName = new char[pathLength + 1];
-		BlockMoveData(*pathHndl, pathName, pathLength);
-		pathName[pathLength] = 0;
-		HUnlock(pathHndl);
-		DisposeHandle(pathHndl);			
+	FSRef			theFSRef;
+	CFURLRef 		fileNameUrl = NULL;   
+	CFStringRef		cfString = NULL;
+	Str255			thePath;
+	short 			pathLength;
+	char 			pathName[256];
+	OSErr 			error;
+	
+	error = FSpMakeFSRef(inFileSpec, &theFSRef);
+	error = FSRefMakePath(&theFSRef, (UInt8 *) pathName, 255);
+	
+	if (error == noErr) {
+		pathLength = strlen(pathName);
 		::TruncText(inWidth, pathName, &pathLength, truncMiddle) ;
-		// On output pathLength has the new length
-		pathName[pathLength] = 0;
-		CopyCStringToPascal(pathName, outPath);	
-	} 
-	return err;
+		CopyCStringToPascal(pathName, outPath);
+	}
+	return error;
 }
 
 
