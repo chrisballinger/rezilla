@@ -2,7 +2,7 @@
 // CAete_WindowValues.cp
 // 
 //                       Created: 2005-01-25 09:01:07
-//             Last modification: 2005-02-04 23:39:09
+//             Last modification: 2005-02-05 14:41:56
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -139,7 +139,7 @@ CAete_EditorWindow::InstallSuiteValues()
 	theEditText->SetDescriptor(theString);
 
 	// Update the main slider
-	UpdateSlider(item_AeteItemSlider, theValue, theTotal);
+	UpdateSlider(item_AeteItemSlider, theValue, theTotal, false, true);
 }
 
 
