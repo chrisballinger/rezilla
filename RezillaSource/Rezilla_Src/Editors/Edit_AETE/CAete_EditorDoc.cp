@@ -60,11 +60,11 @@ PP_Begin_Namespace_PowerPlant
 extern CWindowMenu * gWindowMenu;
 extern const Str15 Rzil_AeteExportItems[] = {
 	"\pXML",
-	"\pDeRez"
+	"\pDeRez",
+	"\pTEXT",
+	"\pHTML"
 };
 // "\pSdef",
-// "\pHTML",
-// "\pTEXT",
 
 
 // ---------------------------------------------------------------------------
@@ -237,6 +237,7 @@ CAete_EditorDoc::ObeyCommand(
 	void*		ioParam)
 {
 	Boolean		cmdHandled = true;
+	
 	if (inCommand == cmd_AeteExport) {
 		FSSpec	theFSSpec;
 		SInt16	exportFormat;
@@ -245,7 +246,11 @@ CAete_EditorDoc::ObeyCommand(
 		if ( DesignateExportFile(theFSSpec, replacing, exportFormat) ) {
 			if (replacing) {
 				// Delete existing file
-				ThrowIfOSErr_(::FSpDelete(&theFSSpec));
+				OSErr error = ::FSpDelete(&theFSSpec);
+				if (error) {
+					UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("CouldNotDeleteExistingFile"), PPob_SimpleMessage);
+					return cmdHandled;
+				} 
 			}
 
 			DoExport(theFSSpec, exportFormat);
