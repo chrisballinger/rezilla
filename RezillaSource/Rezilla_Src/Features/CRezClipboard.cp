@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezClipboard.cp					
 //                       Created: 2003-05-11 21:05:08
-//             Last modification: 2004-03-15 22:03:22
+//             Last modification: 2004-03-22 07:31:50
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -65,7 +65,9 @@ CRezClipboard::~CRezClipboard()
 		mExportPending = false;
 	}
 	// Close the Scrap Rez Map
-	error = sScrapRezMap->Close();
+	if (sScrapRezMap != nil) {
+		error = sScrapRezMap->Close();
+	} 
 	// Delete the scrap file
 	if (sScrapRezFile != nil) {
 		 FSSpec theFileSpec ;
@@ -414,5 +416,3 @@ CRezClipboard::SetDataInScrapRezMap(
 
 
 PP_End_Namespace_PowerPlant
-
-
