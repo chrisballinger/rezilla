@@ -93,7 +93,7 @@ extern const Str255 Rzil_NavExportItems[] = {
 CRezMapDoc::CRezMapDoc(LCommander *inSuper)
 	: LDocument( inSuper )
 {
-	mFork = CRezillaApp::sPrefs->GetPrefValue(kPref_general_newFork);
+	mFork = CRezillaPrefs::GetPrefValue(kPref_general_newFork);
 	mRezFile = nil;
 	
 	Initialize(nil, kResFileNotOpened);
@@ -108,7 +108,7 @@ CRezMapDoc::CRezMapDoc(LCommander *inSuper,
 						 FSSpec * inFileSpec)
 	: LDocument( inSuper )
 {
-	mFork = CRezillaApp::sPrefs->GetPrefValue(kPref_general_newFork);
+	mFork = CRezillaPrefs::GetPrefValue(kPref_general_newFork);
 	mRezFile = nil;
 	
 	Initialize(inFileSpec, kResFileNotOpened);
@@ -1064,7 +1064,7 @@ CRezMapDoc::DesignateExportFile( FSSpec& outFileSpec, bool & outReplacing)
 // ---------------------------------------------------------------------------------
 //		¥ DoAEExport
 // ---------------------------------------------------------------------------------
-// mCurrPrefs.exporting.editorSig
+
 void
 CRezMapDoc::DoAEExport(
 	FSSpec	&inFileSpec)
@@ -1083,7 +1083,7 @@ CRezMapDoc::DoAEExport(
 	OSType	theFileType = 'TEXT';
 
 	// Make new file on disk (we use TextEdit's creator).
-	mFileStream->CreateNewDataFile( (OSType) CRezillaApp::sPrefs->GetPrefValue(kPref_export_editorSig), theFileType );
+	mFileStream->CreateNewDataFile( (OSType) CRezillaPrefs::GetPrefValue(kPref_export_editorSig), theFileType );
 	
 	// Write out the data.
 	DoExport();
@@ -1118,21 +1118,21 @@ CRezMapDoc::WriteOutExport(SInt16 inExportFormat)
 	switch ( inExportFormat ) {
 		case export_Xml:
 		exporter.WriteOutXml(mRezMap, 
-							 CRezillaApp::sPrefs->GetPrefValue(kPref_export_formatDtd),
-							 CRezillaApp::sPrefs->GetPrefValue(kPref_export_includeBinary),
-							 CRezillaApp::sPrefs->GetPrefValue(kPref_export_dataEncoding));
+							 CRezillaPrefs::GetPrefValue(kPref_export_formatDtd),
+							 CRezillaPrefs::GetPrefValue(kPref_export_includeBinary),
+							 CRezillaPrefs::GetPrefValue(kPref_export_dataEncoding));
 		break;
 		
 		case export_Text:
 		exporter.WriteOutText(mRezMap, 
-							 CRezillaApp::sPrefs->GetPrefValue(kPref_export_includeBinary),
-							 CRezillaApp::sPrefs->GetPrefValue(kPref_export_dataEncoding));
+							 CRezillaPrefs::GetPrefValue(kPref_export_includeBinary),
+							 CRezillaPrefs::GetPrefValue(kPref_export_dataEncoding));
 		break;
 		
 		case export_Html:
 		exporter.WriteOutHtml(mRezMap, 
-							 CRezillaApp::sPrefs->GetPrefValue(kPref_export_includeBinary),
-							 CRezillaApp::sPrefs->GetPrefValue(kPref_export_dataEncoding));
+							 CRezillaPrefs::GetPrefValue(kPref_export_includeBinary),
+							 CRezillaPrefs::GetPrefValue(kPref_export_dataEncoding));
 		break;
 
 		case export_Derez:

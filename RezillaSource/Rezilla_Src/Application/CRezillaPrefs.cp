@@ -57,6 +57,8 @@
 
 LDialogBox *	CRezillaPrefs::sPrefsWindow;
 ArrayIndexT		CRezillaPrefs::sCurrentPrefsPane = 1;
+SRezillaPrefs	CRezillaPrefs::sTempPrefs;
+SRezillaPrefs	CRezillaPrefs::sCurrPrefs;
 
 
 // ---------------------------------------------------------------------------
@@ -99,7 +101,6 @@ void
 CRezillaPrefs::Initialize()
 {
 	sPrefsWindow = nil;
-	mFile = nil;
 
 	// Ensure default values
 	SetDefaultPreferences();
@@ -129,33 +130,33 @@ void
 CRezillaPrefs::SetDefaultPreferences()
 {
 	// General pane
-	mCurrPrefs.general.maxRecent		= 10;
-	mCurrPrefs.general.newFork			= fork_datafork;
+	sCurrPrefs.general.maxRecent		= 10;
+	sCurrPrefs.general.newFork			= fork_datafork;
 	
 	// Exporting pane
-	mCurrPrefs.exporting.includeBinary	= true;
-	mCurrPrefs.exporting.formatDtd		= export_KeyDtd;
-	mCurrPrefs.exporting.binaryEncoding	= export_Base64Enc;
-	mCurrPrefs.exporting.editorSig		= kTextEditSig;
+	sCurrPrefs.exporting.includeBinary	= true;
+	sCurrPrefs.exporting.formatDtd		= export_KeyDtd;
+	sCurrPrefs.exporting.binaryEncoding	= export_Base64Enc;
+	sCurrPrefs.exporting.editorSig		= kTextEditSig;
 
 	// Comparison pane
-	mCurrPrefs.compare.ignoreName		= false;
-	mCurrPrefs.compare.ignoreAttributes	= true;
-	mCurrPrefs.compare.ignoreData		= false;
-	mCurrPrefs.compare.displayAs		= compare_displayAsHex;
+	sCurrPrefs.compare.ignoreName		= false;
+	sCurrPrefs.compare.ignoreAttributes	= true;
+	sCurrPrefs.compare.ignoreData		= false;
+	sCurrPrefs.compare.displayAs		= compare_displayAsHex;
 
 	// Interface pane: default text trait loaded if necessary while
 	// retreiving preferences
 
 	// Editors pane
-	mCurrPrefs.editors.hexSymbol		= hex_SymbDollar;
-	mCurrPrefs.editors.hexCase			= hex_lowercase;
+	sCurrPrefs.editors.hexSymbol		= hex_SymbDollar;
+	sCurrPrefs.editors.hexCase			= hex_lowercase;
 
 	// Misc pane
-	mCurrPrefs.misc.setSigOnClose		= true;
-	mCurrPrefs.misc.closingType			= kRezFileType;
-	mCurrPrefs.misc.closingCreator		= kRezillaSig;
-	mCurrPrefs.misc.setSigOnCreate		= true;
+	sCurrPrefs.misc.setSigOnClose		= true;
+	sCurrPrefs.misc.closingType			= kRezFileType;
+	sCurrPrefs.misc.closingCreator		= kRezillaSig;
+	sCurrPrefs.misc.setSigOnCreate		= true;
 }
 
 
@@ -250,7 +251,7 @@ CRezillaPrefs::StorePreferences()
 	CFPreferencesSetAppValue( CFSTR("pref_misc_setSigOnCreate"), theValue, kCFPreferencesCurrentApplication);
 	if (theValue) CFRelease(theValue);
 
-	theData = CFDataCreate(NULL, (const UInt8 *)&(mCurrPrefs.interface.traitsRecord), sizeof(TextTraitsRecord));
+	theData = CFDataCreate(NULL, (const UInt8 *)&(sCurrPrefs.interface.traitsRecord), sizeof(TextTraitsRecord));
 	CFPreferencesSetAppValue( CFSTR("pref_interface_traitsRecord"), theData, kCFPreferencesCurrentApplication);
 	if (theData) CFRelease(theData);
 	
@@ -349,16 +350,16 @@ CRezillaPrefs::RetrievePreferences()
 	if (theData) {
 		theSize = CFDataGetLength( (CFDataRef) theData);
 		thePtr = CFDataGetBytePtr( (CFDataRef) theData);
-		BlockMoveData(thePtr, &(mCurrPrefs.interface.traitsRecord), theSize);
+		BlockMoveData(thePtr, &(sCurrPrefs.interface.traitsRecord), theSize);
 		// Update the font number according to the font name
-		::GetFNum(mCurrPrefs.interface.traitsRecord.fontName, &mCurrPrefs.interface.traitsRecord.fontNumber);
+		::GetFNum(sCurrPrefs.interface.traitsRecord.fontName, &sCurrPrefs.interface.traitsRecord.fontNumber);
 		CFRelease(theData);
 	} else {
-		mCurrPrefs.interface.traitsRecord.fontNumber = UTextTraits::fontNumber_Unknown;
-		UTextTraits::LoadTextTraits(Txtr_MonacoNineDefault, mCurrPrefs.interface.traitsRecord);
+		sCurrPrefs.interface.traitsRecord.fontNumber = UTextTraits::fontNumber_Unknown;
+		UTextTraits::LoadTextTraits(Txtr_MonacoNineDefault, sCurrPrefs.interface.traitsRecord);
 	}
 	// Calculate some global metrics after the Text Traits
-	UMiscUtils::MetricsFromTraits( &mCurrPrefs.interface.traitsRecord );	
+	UMiscUtils::MetricsFromTraits( &sCurrPrefs.interface.traitsRecord );	
 }
 
 
@@ -373,129 +374,129 @@ CRezillaPrefs::SetPrefValue(SInt32 inPrefValue, SInt32 inConstant, SInt32 inPref
 		
 		case kPref_general_maxRecent:
 		if (inPrefType == prefsType_Temp) {
-			mTempPrefs.general.maxRecent = inPrefValue ;
+			sTempPrefs.general.maxRecent = inPrefValue ;
 		} else {
-			mCurrPrefs.general.maxRecent = inPrefValue ;
+			sCurrPrefs.general.maxRecent = inPrefValue ;
 		}	
 		break;
 		
 		case kPref_general_newFork:
 		if (inPrefType == prefsType_Temp) {
-			mTempPrefs.general.newFork = inPrefValue ;
+			sTempPrefs.general.newFork = inPrefValue ;
 		} else {
-			mCurrPrefs.general.newFork = inPrefValue ;
+			sCurrPrefs.general.newFork = inPrefValue ;
 		}	
 		break;
 		
 		case kPref_editors_hexSymbol:
 		if (inPrefType == prefsType_Temp) {
-			mTempPrefs.editors.hexSymbol = inPrefValue ;
+			sTempPrefs.editors.hexSymbol = inPrefValue ;
 		} else {
-			mCurrPrefs.editors.hexSymbol = inPrefValue ;
+			sCurrPrefs.editors.hexSymbol = inPrefValue ;
 		}	
 		break;
 		
 		case kPref_editors_hexCase:
 		if (inPrefType == prefsType_Temp) {
-			mTempPrefs.editors.hexCase = inPrefValue ;
+			sTempPrefs.editors.hexCase = inPrefValue ;
 		} else {
-			mCurrPrefs.editors.hexCase = inPrefValue ;
+			sCurrPrefs.editors.hexCase = inPrefValue ;
 		}	
 		break;
 		
 		case kPref_export_formatDtd:
 		if (inPrefType == prefsType_Temp) {
-			mTempPrefs.exporting.formatDtd = inPrefValue ;
+			sTempPrefs.exporting.formatDtd = inPrefValue ;
 		} else {
-			mCurrPrefs.exporting.formatDtd = inPrefValue ;
+			sCurrPrefs.exporting.formatDtd = inPrefValue ;
 		}	
 		break;
 		
 		case kPref_export_includeBinary:
 		if (inPrefType == prefsType_Temp) {
-			mTempPrefs.exporting.includeBinary = inPrefValue ;
+			sTempPrefs.exporting.includeBinary = inPrefValue ;
 		} else {
-			mCurrPrefs.exporting.includeBinary = inPrefValue ;
+			sCurrPrefs.exporting.includeBinary = inPrefValue ;
 		}	
 		break;
 		
 		case kPref_export_dataEncoding:
 		if (inPrefType == prefsType_Temp) {
-			mTempPrefs.exporting.binaryEncoding = inPrefValue ;
+			sTempPrefs.exporting.binaryEncoding = inPrefValue ;
 		} else {
-			mCurrPrefs.exporting.binaryEncoding = inPrefValue ;
+			sCurrPrefs.exporting.binaryEncoding = inPrefValue ;
 		}	
 		break;
 		
 		case kPref_export_editorSig:
 		if (inPrefType == prefsType_Temp) {
-			mTempPrefs.exporting.editorSig = (OSType) inPrefValue ;
+			sTempPrefs.exporting.editorSig = (OSType) inPrefValue ;
 		} else {
-			mCurrPrefs.exporting.editorSig = (OSType) inPrefValue ;
+			sCurrPrefs.exporting.editorSig = (OSType) inPrefValue ;
 		}	
 		break;
 		
 		case kPref_compare_ignoreName:
 		if (inPrefType == prefsType_Temp) {
-			mTempPrefs.compare.ignoreName = inPrefValue ;
+			sTempPrefs.compare.ignoreName = inPrefValue ;
 		} else {
-			mCurrPrefs.compare.ignoreName = inPrefValue ;
+			sCurrPrefs.compare.ignoreName = inPrefValue ;
 		}	
 		break;
 		
 		case kPref_compare_ignoreAttributes:
 		if (inPrefType == prefsType_Temp) {
-			mTempPrefs.compare.ignoreAttributes = inPrefValue ;
+			sTempPrefs.compare.ignoreAttributes = inPrefValue ;
 		} else {
-			mCurrPrefs.compare.ignoreAttributes = inPrefValue ;
+			sCurrPrefs.compare.ignoreAttributes = inPrefValue ;
 		}	
 		break;
 		
 		case kPref_compare_ignoreData:
 		if (inPrefType == prefsType_Temp) {
-			mTempPrefs.compare.ignoreData = inPrefValue ;
+			sTempPrefs.compare.ignoreData = inPrefValue ;
 		} else {
-			mCurrPrefs.compare.ignoreData = inPrefValue ;
+			sCurrPrefs.compare.ignoreData = inPrefValue ;
 		}	
 		break;
 		
 		case kPref_compare_dataDisplayAs:
 		if (inPrefType == prefsType_Temp) {
-			mTempPrefs.compare.displayAs = inPrefValue ;
+			sTempPrefs.compare.displayAs = inPrefValue ;
 		} else {
-			mCurrPrefs.compare.displayAs = inPrefValue ;
+			sCurrPrefs.compare.displayAs = inPrefValue ;
 		}	
 		break;
 
 		case kPref_misc_setSigOnClose:
 		if (inPrefType == prefsType_Temp) {
-			mTempPrefs.misc.setSigOnClose = inPrefValue ;
+			sTempPrefs.misc.setSigOnClose = inPrefValue ;
 		} else {
-			mCurrPrefs.misc.setSigOnClose = inPrefValue ;
+			sCurrPrefs.misc.setSigOnClose = inPrefValue ;
 		}	
 		break;
 		
 		case kPref_misc_closingType:
 		if (inPrefType == prefsType_Temp) {
-			mTempPrefs.misc.closingType = (OSType) inPrefValue ;
+			sTempPrefs.misc.closingType = (OSType) inPrefValue ;
 		} else {
-			mCurrPrefs.misc.closingType = (OSType) inPrefValue ;
+			sCurrPrefs.misc.closingType = (OSType) inPrefValue ;
 		}	
 		break;
 		
 		case kPref_misc_closingCreator:
 		if (inPrefType == prefsType_Temp) {
-			mTempPrefs.misc.closingCreator = (OSType) inPrefValue ;
+			sTempPrefs.misc.closingCreator = (OSType) inPrefValue ;
 		} else {
-			mCurrPrefs.misc.closingCreator = (OSType) inPrefValue ;
+			sCurrPrefs.misc.closingCreator = (OSType) inPrefValue ;
 		}	
 		break;
 		
 		case kPref_misc_setSigOnCreate:
 		if (inPrefType == prefsType_Temp) {
-			mTempPrefs.misc.setSigOnCreate = inPrefValue ;
+			sTempPrefs.misc.setSigOnCreate = inPrefValue ;
 		} else {
-			mCurrPrefs.misc.setSigOnCreate = inPrefValue ;
+			sCurrPrefs.misc.setSigOnCreate = inPrefValue ;
 		}	
 		break;
 		
@@ -516,129 +517,129 @@ CRezillaPrefs::GetPrefValue(SInt32 inConstant, SInt32 inPrefType)
 		
 		case kPref_general_maxRecent:
 		if (inPrefType == prefsType_Temp) {
-			theValue = mTempPrefs.general.maxRecent;
+			theValue = sTempPrefs.general.maxRecent;
 		} else {
-			theValue = mCurrPrefs.general.maxRecent;
+			theValue = sCurrPrefs.general.maxRecent;
 		}	
 		break;
 		
 		case kPref_general_newFork:
 		if (inPrefType == prefsType_Temp) {
-			theValue = mTempPrefs.general.newFork;
+			theValue = sTempPrefs.general.newFork;
 		} else {
-			theValue = mCurrPrefs.general.newFork;
+			theValue = sCurrPrefs.general.newFork;
 		}	
 		break;
 		
 		case kPref_editors_hexSymbol:
 		if (inPrefType == prefsType_Temp) {
-			theValue = mTempPrefs.editors.hexSymbol;
+			theValue = sTempPrefs.editors.hexSymbol;
 		} else {
-			theValue = mCurrPrefs.editors.hexSymbol;
+			theValue = sCurrPrefs.editors.hexSymbol;
 		}	
 		break;
 		
 		case kPref_editors_hexCase:
 		if (inPrefType == prefsType_Temp) {
-			theValue = mTempPrefs.editors.hexCase;
+			theValue = sTempPrefs.editors.hexCase;
 		} else {
-			theValue = mCurrPrefs.editors.hexCase;
+			theValue = sCurrPrefs.editors.hexCase;
 		}	
 		break;
 		
 		case kPref_export_formatDtd:
 		if (inPrefType == prefsType_Temp) {
-			theValue = mTempPrefs.exporting.formatDtd;
+			theValue = sTempPrefs.exporting.formatDtd;
 		} else {
-			theValue = mCurrPrefs.exporting.formatDtd;
+			theValue = sCurrPrefs.exporting.formatDtd;
 		}	
 		break;
 		
 		case kPref_export_includeBinary:
 		if (inPrefType == prefsType_Temp) {
-			theValue = mTempPrefs.exporting.includeBinary;
+			theValue = sTempPrefs.exporting.includeBinary;
 		} else {
-			theValue = mCurrPrefs.exporting.includeBinary;
+			theValue = sCurrPrefs.exporting.includeBinary;
 		}	
 		break;
 		
 		case kPref_export_dataEncoding:
 		if (inPrefType == prefsType_Temp) {
-			theValue = mTempPrefs.exporting.binaryEncoding;
+			theValue = sTempPrefs.exporting.binaryEncoding;
 		} else {
-			theValue = mCurrPrefs.exporting.binaryEncoding;
+			theValue = sCurrPrefs.exporting.binaryEncoding;
 		}	
 		break;
 		
 		case kPref_export_editorSig:
 		if (inPrefType == prefsType_Temp) {
-			theValue = (SInt32) mTempPrefs.exporting.editorSig;
+			theValue = (SInt32) sTempPrefs.exporting.editorSig;
 		} else {
-			theValue = (SInt32) mCurrPrefs.exporting.editorSig;
+			theValue = (SInt32) sCurrPrefs.exporting.editorSig;
 		}	
 		break;
 		
 		case kPref_compare_ignoreName:
 		if (inPrefType == prefsType_Temp) {
-			theValue = mTempPrefs.compare.ignoreName;
+			theValue = sTempPrefs.compare.ignoreName;
 		} else {
-			theValue = mCurrPrefs.compare.ignoreName;
+			theValue = sCurrPrefs.compare.ignoreName;
 		}	
 		break;
 		
 		case kPref_compare_ignoreAttributes:
 		if (inPrefType == prefsType_Temp) {
-			theValue = mTempPrefs.compare.ignoreAttributes;
+			theValue = sTempPrefs.compare.ignoreAttributes;
 		} else {
-			theValue = mCurrPrefs.compare.ignoreAttributes;
+			theValue = sCurrPrefs.compare.ignoreAttributes;
 		}	
 		break;
 		
 		case kPref_compare_ignoreData:
 		if (inPrefType == prefsType_Temp) {
-			theValue = mTempPrefs.compare.ignoreData;
+			theValue = sTempPrefs.compare.ignoreData;
 		} else {
-			theValue = mCurrPrefs.compare.ignoreData;
+			theValue = sCurrPrefs.compare.ignoreData;
 		}	
 		break;
 		
 		case kPref_compare_dataDisplayAs:
 		if (inPrefType == prefsType_Temp) {
-			theValue = mTempPrefs.compare.displayAs;
+			theValue = sTempPrefs.compare.displayAs;
 		} else {
-			theValue = mCurrPrefs.compare.displayAs;
+			theValue = sCurrPrefs.compare.displayAs;
 		}	
 		break;
 		
 		case kPref_misc_setSigOnClose:
 		if (inPrefType == prefsType_Temp) {
-			theValue = mTempPrefs.misc.setSigOnClose;
+			theValue = sTempPrefs.misc.setSigOnClose;
 		} else {
-			theValue = mCurrPrefs.misc.setSigOnClose;
+			theValue = sCurrPrefs.misc.setSigOnClose;
 		}	
 		break;
 		
 		case kPref_misc_closingType:
 		if (inPrefType == prefsType_Temp) {
-			theValue = (SInt32) mTempPrefs.misc.closingType;
+			theValue = (SInt32) sTempPrefs.misc.closingType;
 		} else {
-			theValue = (SInt32) mCurrPrefs.misc.closingType;
+			theValue = (SInt32) sCurrPrefs.misc.closingType;
 		}	
 		break;
 		
 		case kPref_misc_closingCreator:
 		if (inPrefType == prefsType_Temp) {
-			theValue = (SInt32) mTempPrefs.misc.closingCreator;
+			theValue = (SInt32) sTempPrefs.misc.closingCreator;
 		} else {
-			theValue = (SInt32) mCurrPrefs.misc.closingCreator;
+			theValue = (SInt32) sCurrPrefs.misc.closingCreator;
 		}	
 		break;
 		
 		case kPref_misc_setSigOnCreate:
 		if (inPrefType == prefsType_Temp) {
-			theValue = mTempPrefs.misc.setSigOnCreate;
+			theValue = sTempPrefs.misc.setSigOnCreate;
 		} else {
-			theValue = mCurrPrefs.misc.setSigOnCreate;
+			theValue = sCurrPrefs.misc.setSigOnCreate;
 		}	
 		break;
 	}	
@@ -656,9 +657,9 @@ TextTraitsRecord
 CRezillaPrefs::GetStyleElement(SInt32 inPrefType)
 {
 	if (inPrefType == prefsType_Temp) {
-		return mTempPrefs.interface.traitsRecord;
+		return sTempPrefs.interface.traitsRecord;
 	} else {
-		return mCurrPrefs.interface.traitsRecord;
+		return sCurrPrefs.interface.traitsRecord;
 	}	
 }
 
@@ -670,7 +671,7 @@ CRezillaPrefs::GetStyleElement(SInt32 inPrefType)
 void
 CRezillaPrefs::LoadStyleElement(TextTraitsPtr inTraitsRecPtr)
 {
-	::BlockMoveData(inTraitsRecPtr, &mCurrPrefs.interface.traitsRecord, sizeof(TextTraitsRecord));
+	::BlockMoveData(inTraitsRecPtr, &sCurrPrefs.interface.traitsRecord, sizeof(TextTraitsRecord));
 }
 
 
@@ -687,25 +688,25 @@ CRezillaPrefs::SetStyleElement(SInt16 inStyleValue,
 		
 	  case style_fontType:
 		if (inPrefType == prefsType_Temp) {
-			mTempPrefs.interface.traitsRecord.fontNumber = inStyleValue ;
+			sTempPrefs.interface.traitsRecord.fontNumber = inStyleValue ;
 		} else {
-			mCurrPrefs.interface.traitsRecord.fontNumber = inStyleValue ;
+			sCurrPrefs.interface.traitsRecord.fontNumber = inStyleValue ;
 		}	
 		break;
 		
 	  case style_sizeType:
 		if (inPrefType == prefsType_Temp) {
-			mTempPrefs.interface.traitsRecord.size = inStyleValue ;
+			sTempPrefs.interface.traitsRecord.size = inStyleValue ;
 		} else {
-			mCurrPrefs.interface.traitsRecord.size = inStyleValue ;
+			sCurrPrefs.interface.traitsRecord.size = inStyleValue ;
 		}	
 		break;
 		
 	  case style_faceType:
 		if (inPrefType == prefsType_Temp) {
-			mTempPrefs.interface.traitsRecord.style = inStyleValue ;
+			sTempPrefs.interface.traitsRecord.style = inStyleValue ;
 		} else {
-			mCurrPrefs.interface.traitsRecord.style = inStyleValue ;
+			sCurrPrefs.interface.traitsRecord.style = inStyleValue ;
 		}	
 		break;
 	}
@@ -719,7 +720,7 @@ CRezillaPrefs::SetStyleElement(SInt16 inStyleValue,
 void
 CRezillaPrefs::ValidateTempPrefs() 
 {
-	::BlockMoveData(&mTempPrefs, &mCurrPrefs, sizeof(SRezillaPrefs));
+	::BlockMoveData(&sTempPrefs, &sCurrPrefs, sizeof(SRezillaPrefs));
 }
 
 
@@ -730,7 +731,7 @@ CRezillaPrefs::ValidateTempPrefs()
 void
 CRezillaPrefs::InitTempPrefs() 
 {
-	::BlockMoveData(&mCurrPrefs, &mTempPrefs, sizeof(SRezillaPrefs));
+	::BlockMoveData(&sCurrPrefs, &sTempPrefs, sizeof(SRezillaPrefs));
 }
 
 
@@ -741,7 +742,7 @@ CRezillaPrefs::InitTempPrefs()
 Boolean
 CRezillaPrefs::PrefsHaveChanged() 
 {
-	return ( memcmp( &mCurrPrefs, &mTempPrefs, sizeof(SRezillaPrefs) ) != 0);
+	return ( memcmp( &sCurrPrefs, &sTempPrefs, sizeof(SRezillaPrefs) ) != 0);
 }
 
 
@@ -753,8 +754,8 @@ CRezillaPrefs::PrefsHaveChanged()
 void
 CRezillaPrefs::ApplyStylePrefs() 
 {
-	UMiscUtils::MetricsFromTraits( &mCurrPrefs.interface.traitsRecord );
-	BroadcastMessage(msg_StylePrefsChanged, &mCurrPrefs);
+	UMiscUtils::MetricsFromTraits( &sCurrPrefs.interface.traitsRecord );
+	BroadcastMessage(msg_StylePrefsChanged, &sCurrPrefs);
 }
 
 
@@ -1046,7 +1047,7 @@ CRezillaPrefs::RunPrefsDialog()
 			ThrowIfNil_( thePopup );
 			// Get the name of the font.
 			::GetMenuItemText( thePopup->GetMacMenuH(), thePopup->GetValue(), theString );
-			LString::CopyPStr(theString, mTempPrefs.interface.traitsRecord.fontName);
+			LString::CopyPStr(theString, sTempPrefs.interface.traitsRecord.fontName);
 			::GetFNum(theString, &theFontNum);
 			SetStyleElement(theFontNum, style_fontType, prefsType_Temp);
 			
@@ -1074,7 +1075,7 @@ CRezillaPrefs::RunPrefsDialog()
 			// Record the changes
 			// ------------------
 			if ( PrefsHaveChanged() ) {
-				Boolean stylechanged = (memcmp( &mCurrPrefs.interface, &mTempPrefs.interface, sizeof(SInterfacePrefs) ) != 0);
+				Boolean stylechanged = (memcmp( &sCurrPrefs.interface, &sTempPrefs.interface, sizeof(SInterfacePrefs) ) != 0);
 				ValidateTempPrefs();
 				if (stylechanged) {
 					ApplyStylePrefs();

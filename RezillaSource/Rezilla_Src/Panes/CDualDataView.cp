@@ -182,7 +182,7 @@ CDualDataView::ListenToMessage( MessageT inMessage, void *ioParam )
 			break;
 
 		case msg_StylePrefsChanged: {
-			TextTraitsRecord theTraits = CRezillaApp::sPrefs->GetStyleElement( CRezillaPrefs::prefsType_Curr );
+			TextTraitsRecord theTraits = CRezillaPrefs::GetStyleElement( CRezillaPrefs::prefsType_Curr );
 			ResizeDataPanes();
 			UpdatePaneCounts();
 			mHexView->ApplyStyleValues(theTraits.size, theTraits.fontNumber);

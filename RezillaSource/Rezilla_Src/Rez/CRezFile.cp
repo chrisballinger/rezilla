@@ -41,7 +41,7 @@ CRezFile::CRezFile()
     mFileSpec.parID		= 0;
     mFileSpec.name[0]	= 0;
     mRefNum				= kResFileNotOpened;
-	mUsedFork			= CRezillaApp::sPrefs->GetPrefValue(kPref_general_newFork);
+	mUsedFork			= CRezillaPrefs::GetPrefValue(kPref_general_newFork);
 }
 
 
@@ -70,7 +70,7 @@ CRezFile::CRezFile(const FSSpec& inFileSpec)
 {
     mFileSpec	= inFileSpec;
     mRefNum		= kResFileNotOpened;
-    mUsedFork	= CRezillaApp::sPrefs->GetPrefValue(kPref_general_newFork);
+    mUsedFork	= CRezillaPrefs::GetPrefValue(kPref_general_newFork);
 // 	FSpMakeFSRef( &mFileSpec, &mFileRef );
 }
 
@@ -215,7 +215,7 @@ CRezFile::CreateNewFile()
 	OSErr 			error = noErr;
 	OSType			fileType = 0, fileCreator = 0;
 	
-	if ( CRezillaApp::sPrefs->GetPrefValue(kPref_misc_setSigOnCreate) ) {
+	if ( CRezillaPrefs::GetPrefValue(kPref_misc_setSigOnCreate) ) {
 		// Rezilla's signature for resource files is Rzil/rsrc
 		fileType = kRezFileType;
 		fileCreator = kRezillaSig;
@@ -299,10 +299,10 @@ CRezFile::CloseFile()
 		::FlushVol(nil, mFileSpec.vRefNum);
     }
 	// Set the type and creator if the corresponding pref is on
-	if ( CRezillaApp::sPrefs->GetPrefValue(kPref_misc_setSigOnClose) ) {
+	if ( CRezillaPrefs::GetPrefValue(kPref_misc_setSigOnClose) ) {
 		UMiscUtils::SetTypeAndCreator(mFileSpec,
-									  (OSType) CRezillaApp::sPrefs->GetPrefValue(kPref_misc_closingType),
-									  (OSType) CRezillaApp::sPrefs->GetPrefValue(kPref_misc_closingCreator));
+									  (OSType) CRezillaPrefs::GetPrefValue(kPref_misc_closingType),
+									  (OSType) CRezillaPrefs::GetPrefValue(kPref_misc_closingCreator));
 	} 
 	
 	return error;

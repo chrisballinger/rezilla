@@ -106,22 +106,22 @@ public:
 
 	void				RunPrefsDialog();
 
-	virtual SRezillaPrefs	GetRezillaPreferences() { return mCurrPrefs;}
+	virtual SRezillaPrefs	GetRezillaPreferences() { return sCurrPrefs;}
 	void					SetRezillaPreferences(SRezillaPrefs inRezillaPreferences) {
-														mCurrPrefs = inRezillaPreferences ;}
+														sCurrPrefs = inRezillaPreferences ;}
 				
-	SInt32				GetPrefValue(SInt32 inConstant, 
+	static SInt32		GetPrefValue(SInt32 inConstant, 
 									 SInt32 inPrefType = prefsType_Curr);
 	void				SetPrefValue(SInt32 inPrefValue, 
 									 SInt32 inConstant, 
 									 SInt32 inPrefType = prefsType_Curr);
 	
-	virtual TextTraitsRecord	GetStyleElement(SInt32 inPrefType = prefsType_Temp);
+	static TextTraitsRecord	GetStyleElement(SInt32 inPrefType = prefsType_Temp);
 	
-	virtual void		SetStyleElement(SInt16 inStyleValue, 
+	void				SetStyleElement(SInt16 inStyleValue, 
 										SInt32 inElementType,
 										SInt32 inPrefType = prefsType_Curr);
-	virtual void		LoadStyleElement(TextTraitsPtr inTraitsRecPtr);
+	void				LoadStyleElement(TextTraitsPtr inTraitsRecPtr);
 
 	LDialogBox *		GetPrefsWindow() { return sPrefsWindow;}
 	void				SetPrefsWindow(LDialogBox * inPrefsWindow) {sPrefsWindow = inPrefsWindow ;}
@@ -134,11 +134,10 @@ public:
 	
 	static LDialogBox *		sPrefsWindow;
 	static ArrayIndexT		sCurrentPrefsPane;
+	static SRezillaPrefs	sTempPrefs;
+	static SRezillaPrefs	sCurrPrefs;
 	
 protected:
-	SRezillaPrefs			mTempPrefs;
-	SRezillaPrefs			mCurrPrefs;
-	LPreferencesFile *		mFile;
 	
 	virtual void		Initialize();
 	void                MakePrefsWindow();

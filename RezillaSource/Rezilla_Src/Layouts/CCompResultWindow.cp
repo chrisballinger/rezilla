@@ -109,7 +109,7 @@ CCompResultWindow::FinishCreateSelf()
 	LStaticText * theStaticText;
 	LStr255		optionString("\p");
 
-	mDisplayDataFormat = CRezillaApp::sPrefs->GetPrefValue(kPref_compare_dataDisplayAs);
+	mDisplayDataFormat = CRezillaPrefs::GetPrefValue(kPref_compare_dataDisplayAs);
 	mActiveTable = compare_undefinedTbl;
 	
 	// The RezCompare owner was passed in the inSuperCommander argument
@@ -129,7 +129,7 @@ CCompResultWindow::FinishCreateSelf()
 	mNewRezDataWE->SetCompareWindow(this);
 
 	// Use the style specified in the preferences an calculate the capacities of the editing panes
-	TextTraitsRecord theTraits = CRezillaApp::sPrefs->GetStyleElement( CRezillaPrefs::prefsType_Curr );
+	TextTraitsRecord theTraits = CRezillaPrefs::GetStyleElement( CRezillaPrefs::prefsType_Curr );
 	ResizeDataPanes();
 	UpdatePaneCounts();
 	mOldRezDataWE->ApplyStyleValues( theTraits.size, theTraits.fontNumber);
@@ -205,7 +205,7 @@ CCompResultWindow::FinishCreateSelf()
 	
 	LRadioGroupView * theRGV = dynamic_cast<LRadioGroupView *>(this->FindPaneByID( item_CompResultShowAsRgbx ));
 	ThrowIfNil_(theRGV);
-	theRGV->SetCurrentRadioID( CRezillaApp::sPrefs->GetPrefValue( kPref_compare_dataDisplayAs ) + item_CompResultShowAsRgbx );
+	theRGV->SetCurrentRadioID( CRezillaPrefs::GetPrefValue( kPref_compare_dataDisplayAs ) + item_CompResultShowAsRgbx );
 	
 	// Link the broadcasters.
     UReanimator::LinkListenerToControls( this, this, rRidL_RezCompWindow );
@@ -328,7 +328,7 @@ CCompResultWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		}
 		
 		case msg_StylePrefsChanged: {
-			TextTraitsRecord theTraits = CRezillaApp::sPrefs->GetStyleElement( CRezillaPrefs::prefsType_Curr );
+			TextTraitsRecord theTraits = CRezillaPrefs::GetStyleElement( CRezillaPrefs::prefsType_Curr );
 			ResizeDataPanes();
 			UpdatePaneCounts();
 			mOldRezDataWE->ApplyStyleValues( theTraits.size, theTraits.fontNumber);
