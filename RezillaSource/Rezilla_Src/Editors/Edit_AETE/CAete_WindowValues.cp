@@ -2,7 +2,7 @@
 // CAete_WindowValues.cp
 // 
 //                       Created: 2005-01-25 09:01:07
-//             Last modification: 2005-02-02 06:06:35
+//             Last modification: 2005-02-03 09:21:16
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -27,7 +27,7 @@
 #include <LWindow.h>
 #include <LEditText.h>
 #include <LEditField.h>
-#include <LTextColumn.h>
+// #include <LTextColumn.h>
 #include <LTextGroupBox.h>
 
 const UInt16 AeteDirectFlag[] = { kAEUTOptional, kAEUTlistOfItems, kAEUTEnumerated, kAEUTChangesState, 
@@ -59,22 +59,22 @@ CAete_EditorWindow::InstallResourceInfo()
 	
 	mAete->GetValues(theMajorVersion, theMinorVersion, theLanguage, theScript);
 
-	theEditText = dynamic_cast<LEditText *> (this->FindPaneByID( item_AeteMajorVersion ));
+	theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_AeteMajorVersion ));
 	ThrowIfNil_( theEditText );
 	::NumToString( theMajorVersion, theString);
 	theEditText->SetDescriptor(theString);
 
-	theEditText = dynamic_cast<LEditText *> (this->FindPaneByID( item_AeteMinorVersion ));
+	theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_AeteMinorVersion ));
 	ThrowIfNil_( theEditText );
 	::NumToString( theMinorVersion, theString);
 	theEditText->SetDescriptor(theString);
 
-	theEditText = dynamic_cast<LEditText *> (this->FindPaneByID( item_AeteLanguageID ));
+	theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_AeteLanguageID ));
 	ThrowIfNil_( theEditText );
 	::NumToString( theLanguage, theString);
 	theEditText->SetDescriptor(theString);
 
-	theEditText = dynamic_cast<LEditText *> (this->FindPaneByID( item_AeteScriptCode ));
+	theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_AeteScriptCode ));
 	ThrowIfNil_( theEditText );
 	::NumToString( theScript, theString);
 	theEditText->SetDescriptor(theString);
@@ -91,51 +91,55 @@ CAete_EditorWindow::InstallSuiteValues()
 	Str255		theString, theName, theDescription;
 	UInt16		theLevel = 0, theVersion = 0;
 	OSType		theID;
+	SInt32		theValue, theTotal;
 	LEditText *	theEditText;
 	Boolean		disableIt = false;
 	
 	CAeteSuite * theSuite = static_cast<CAeteSuite *>( FindCurrentObject( kind_AeteSuite ) );
-	LTextGroupBox * theTGB = dynamic_cast<LTextGroupBox *> (this->FindPaneByID( item_AeteSuiteBox ));
+	LTextGroupBox * theTGB = dynamic_cast<LTextGroupBox *>(this->FindPaneByID( item_AeteSuiteBox ));
 
 	if (theSuite) {
 		theSuite->GetValues(theName, theDescription, theID, theLevel, theVersion);
+		theValue = theSuite->GetCurrentIndex(mCurrentPanel);
+		theTotal = theSuite->GetCurrentCount(mCurrentPanel);
 		theTGB->Enable();
 	} else {
 		theString[0] = 0;
 		theName[0] = 0;
 		theDescription[0] = 0;
+		theValue = 0;
+		theTotal = 0;
 		disableIt = true;
 		theTGB->Disable();
 	}
 
-	theEditText = dynamic_cast<LEditText *> (this->FindPaneByID( item_AeteSuiteName ));
+	theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_AeteSuiteName ));
 	ThrowIfNil_( theEditText );
 	theEditText->SetDescriptor(theName);
 
-	theEditText = dynamic_cast<LEditText *> (this->FindPaneByID( item_AeteSuiteDescr ));
+	theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_AeteSuiteDescr ));
 	ThrowIfNil_( theEditText );
 	theEditText->SetDescriptor(theDescription);
 
-	theEditText = dynamic_cast<LEditText *> (this->FindPaneByID( item_AeteSuiteID ));
+	theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_AeteSuiteID ));
 	ThrowIfNil_( theEditText );
 	if (!disableIt) {
 		UMiscUtils::OSTypeToPString(theID, theString);
 	} 
 	theEditText->SetDescriptor(theString);
 
-	theEditText = dynamic_cast<LEditText *> (this->FindPaneByID( item_AeteSuiteLevel ));
+	theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_AeteSuiteLevel ));
 	ThrowIfNil_( theEditText );
 	::NumToString( theLevel, theString);
 	theEditText->SetDescriptor(theString);
 
-	theEditText = dynamic_cast<LEditText *> (this->FindPaneByID( item_AeteSuiteVersion ));
+	theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_AeteSuiteVersion ));
 	ThrowIfNil_( theEditText );
 	::NumToString( theVersion, theString);
 	theEditText->SetDescriptor(theString);
 
-	// Update the main slider: pass 0, the true values are calculated in 
-	// the UpdateSlider function.
-	UpdateSlider(item_AeteItemSlider, 0, 0);
+	// Update the main slider
+	UpdateSlider(item_AeteItemSlider, theValue, theTotal);
 }
 
 
@@ -184,8 +188,8 @@ CAete_EditorWindow::InstallEventValues(CAeteEvent * inEvent)
 	SInt32			theValue, theTotal;
 	LEditText *		theEditText;
 	LTextGroupBox * theTGB;
-	CAeteParameter*	theParameter;
-	ArrayIndexT		index;
+	CAeteParameter*	theParameter = nil;
+	ArrayIndexT		index = 0;
 	Boolean			disableIt = false;
 	
 	if (inEvent) {
@@ -199,53 +203,52 @@ CAete_EditorWindow::InstallEventValues(CAeteEvent * inEvent)
 		return;
 	}
 	
-	theEditText = dynamic_cast<LEditText *> (mEventPane->FindPaneByID( item_AeteEventName ));
+	theEditText = dynamic_cast<LEditText *>(mEventPane->FindPaneByID( item_AeteEventName ));
 	ThrowIfNil_( theEditText );
 	theEditText->SetDescriptor(theName);
 
-	theEditText = dynamic_cast<LEditText *> (mEventPane->FindPaneByID( item_AeteEventDescr ));
+	theEditText = dynamic_cast<LEditText *>(mEventPane->FindPaneByID( item_AeteEventDescr ));
 	ThrowIfNil_( theEditText );
 	theEditText->SetDescriptor(theDescription);
 
-	theEditText = dynamic_cast<LEditText *> (mEventPane->FindPaneByID( item_AeteEventClass ));
+	theEditText = dynamic_cast<LEditText *>(mEventPane->FindPaneByID( item_AeteEventClass ));
 	ThrowIfNil_( theEditText );
 	UMiscUtils::OSTypeToPString(theClass, theString);
 	theEditText->SetDescriptor(theString);
 
-	theEditText = dynamic_cast<LEditText *> (mEventPane->FindPaneByID( item_AeteEventID ));
+	theEditText = dynamic_cast<LEditText *>(mEventPane->FindPaneByID( item_AeteEventID ));
 	ThrowIfNil_( theEditText );
 	UMiscUtils::OSTypeToPString(theID, theString);
 	theEditText->SetDescriptor(theString);
 
 	// Direct parameter
-	theEditText = dynamic_cast<LEditText *> (mEventPane->FindPaneByID( item_AeteDirectType ));
+	theEditText = dynamic_cast<LEditText *>(mEventPane->FindPaneByID( item_AeteDirectType ));
 	ThrowIfNil_( theEditText );
 	UMiscUtils::OSTypeToPString(theDirectType, theString);
 	theEditText->SetDescriptor(theString);
 
-	theEditText = dynamic_cast<LEditText *> (mEventPane->FindPaneByID( item_AeteDirectDescr ));
+	theEditText = dynamic_cast<LEditText *>(mEventPane->FindPaneByID( item_AeteDirectDescr ));
 	ThrowIfNil_( theEditText );
 	theEditText->SetDescriptor(theDirectDescription);
 
 	InstallFlags(item_AeteDirectOptions, theDirectFlags);
 
 	// Reply
-	theEditText = dynamic_cast<LEditText *> (mEventPane->FindPaneByID( item_AeteReplyType ));
+	theEditText = dynamic_cast<LEditText *>(mEventPane->FindPaneByID( item_AeteReplyType ));
 	ThrowIfNil_( theEditText );
 	UMiscUtils::OSTypeToPString(theReplyType, theString);
 	theEditText->SetDescriptor(theString);
 
-	theEditText = dynamic_cast<LEditText *> (mEventPane->FindPaneByID( item_AeteReplyDescr ));
+	theEditText = dynamic_cast<LEditText *>(mEventPane->FindPaneByID( item_AeteReplyDescr ));
 	ThrowIfNil_( theEditText );
 	theEditText->SetDescriptor(theReplyDescription);
 	
 	InstallFlags(item_AeteReplyOptions, theReplyFlags);
 
 	// Current parameter
-	theTGB = dynamic_cast<LTextGroupBox *> (mEventPane->FindPaneByID( item_AeteParamBox ));
+	theTGB = dynamic_cast<LTextGroupBox *>(mEventPane->FindPaneByID( item_AeteParamBox ));
 
 	if (inEvent && inEvent->GetParameters()->FetchItemAt(index, theParameter) ) {
-		InstallParameterValues(theParameter);
 		theTGB->Enable();
 		theValue = index;
 		theTotal = inEvent->CountParameters();
@@ -255,6 +258,7 @@ CAete_EditorWindow::InstallEventValues(CAeteEvent * inEvent)
 		theTotal = 0;
 	}
 	
+	InstallParameterValues(theParameter);
 	UpdateSlider(item_AeteParamSlider, theValue, theTotal);	
 }
 
@@ -284,25 +288,25 @@ CAete_EditorWindow::InstallParameterValues(CAeteParameter*	inParameter)
 		disableIt = true;
 	}
 		
-	theEditText = dynamic_cast<LEditText *> (mEventPane->FindPaneByID( item_AeteParamName ));
+	theEditText = dynamic_cast<LEditText *>(mEventPane->FindPaneByID( item_AeteParamName ));
 	ThrowIfNil_( theEditText );
 	theEditText->SetDescriptor(theName);
 
-	theEditText = dynamic_cast<LEditText *> (mEventPane->FindPaneByID( item_AeteParamKeyword ));
+	theEditText = dynamic_cast<LEditText *>(mEventPane->FindPaneByID( item_AeteParamKeyword ));
 	ThrowIfNil_( theEditText );
 	if (!disableIt) {
 		UMiscUtils::OSTypeToPString(theKeyword, theString);
 	} 
 	theEditText->SetDescriptor(theString);
 
-	theEditText = dynamic_cast<LEditText *> (mEventPane->FindPaneByID( item_AeteParamType ));
+	theEditText = dynamic_cast<LEditText *>(mEventPane->FindPaneByID( item_AeteParamType ));
 	ThrowIfNil_( theEditText );
 	if (!disableIt) {
 		UMiscUtils::OSTypeToPString(theType, theString);
 	} 
 	theEditText->SetDescriptor(theString);
 
-	theEditText = dynamic_cast<LEditText *> (mEventPane->FindPaneByID( item_AeteParamDescr ));
+	theEditText = dynamic_cast<LEditText *>(mEventPane->FindPaneByID( item_AeteParamDescr ));
 	ThrowIfNil_( theEditText );
 	theEditText->SetDescriptor(theDescription);
 	
@@ -323,9 +327,9 @@ CAete_EditorWindow::InstallClassValues(CAeteClass * inClass)
 	OSType 			theID;
 	SInt32			theValue, theTotal;
 	LEditText *		theEditText;
-	ArrayIndexT		propIndex, elemIndex;
-	CAeteProperty *	theProperty;
-	CAeteElement *	theElement;
+	ArrayIndexT		propIndex = 0, elemIndex = 0;
+	CAeteProperty *	theProperty = nil;
+	CAeteElement *	theElement = nil;
 	LTextGroupBox * theTGB;
 
 	if (inClass) {
@@ -338,24 +342,23 @@ CAete_EditorWindow::InstallClassValues(CAeteClass * inClass)
 		return;
 	}
 		
-	theEditText = dynamic_cast<LEditText *> (mClassPane->FindPaneByID( item_AeteClassName ));
+	theEditText = dynamic_cast<LEditText *>(mClassPane->FindPaneByID( item_AeteClassName ));
 	ThrowIfNil_( theEditText );
 	theEditText->SetDescriptor(theName);
 
-	theEditText = dynamic_cast<LEditText *> (mClassPane->FindPaneByID( item_AeteClassID ));
+	theEditText = dynamic_cast<LEditText *>(mClassPane->FindPaneByID( item_AeteClassID ));
 	ThrowIfNil_( theEditText );
 	UMiscUtils::OSTypeToPString(theID, theString);
 	theEditText->SetDescriptor(theString);
 
-	theEditText = dynamic_cast<LEditText *> (mClassPane->FindPaneByID( item_AeteClassDescr ));
+	theEditText = dynamic_cast<LEditText *>(mClassPane->FindPaneByID( item_AeteClassDescr ));
 	ThrowIfNil_( theEditText );
 	theEditText->SetDescriptor(theDescription);
 
 	// Current property
-	theTGB = dynamic_cast<LTextGroupBox *> (mClassPane->FindPaneByID( item_AetePropertyBox ));
+	theTGB = dynamic_cast<LTextGroupBox *>(mClassPane->FindPaneByID( item_AetePropertyBox ));
 	
 	if (inClass && inClass->GetProperties()->FetchItemAt(propIndex, theProperty) ) {
-		InstallPropertyValues(theProperty);
 		theTGB->Enable();
 		theValue = propIndex;
 		theTotal = inClass->CountProperties();
@@ -365,13 +368,13 @@ CAete_EditorWindow::InstallClassValues(CAeteClass * inClass)
 		theTotal = 0;
 	}
 	
+	InstallPropertyValues(theProperty);
 	UpdateSlider(item_AetePropertySlider, theValue, theTotal);
 
 	// Current element
-	theTGB = dynamic_cast<LTextGroupBox *> (mClassPane->FindPaneByID( item_AeteElementBox ));
+	theTGB = dynamic_cast<LTextGroupBox *>(mClassPane->FindPaneByID( item_AeteElementBox ));
 
 	if (inClass && inClass->GetElements()->FetchItemAt(elemIndex, theElement) ) {
-		InstallElementValues(theElement);
 		theTGB->Enable();
 		theValue = elemIndex;
 		theTotal = inClass->CountElements();
@@ -381,6 +384,7 @@ CAete_EditorWindow::InstallClassValues(CAeteClass * inClass)
 		theTotal = 0;
 	}
 	
+	InstallElementValues(theElement);
 	UpdateSlider(item_AeteElementSlider, theValue, theTotal);
 }
 
@@ -390,7 +394,7 @@ CAete_EditorWindow::InstallClassValues(CAeteClass * inClass)
 // ---------------------------------------------------------------------------
 
 void
-CAete_EditorWindow::InstallPropertyValues(CAeteProperty *	inProperty)
+CAete_EditorWindow::InstallPropertyValues(CAeteProperty * inProperty)
 {
 	Str255			theString;
 	Str255 			theName, theDescription;		
@@ -410,25 +414,25 @@ CAete_EditorWindow::InstallPropertyValues(CAeteProperty *	inProperty)
 		disableIt = true;
 	}
 	
-	theEditText = dynamic_cast<LEditText *> (mClassPane->FindPaneByID( item_AetePropertyName ));
+	theEditText = dynamic_cast<LEditText *>(mClassPane->FindPaneByID( item_AetePropertyName ));
 	ThrowIfNil_( theEditText );
 	theEditText->SetDescriptor(theName);
 
-	theEditText = dynamic_cast<LEditText *> (mClassPane->FindPaneByID( item_AetePropertyKeyword ));
+	theEditText = dynamic_cast<LEditText *>(mClassPane->FindPaneByID( item_AetePropertyKeyword ));
 	ThrowIfNil_( theEditText );
 	if (!disableIt) {
 		UMiscUtils::OSTypeToPString(theKeyword, theString);
 	} 
 	theEditText->SetDescriptor(theString);
 
-	theEditText = dynamic_cast<LEditText *> (mClassPane->FindPaneByID( item_AetePropertyType ));
+	theEditText = dynamic_cast<LEditText *>(mClassPane->FindPaneByID( item_AetePropertyType ));
 	ThrowIfNil_( theEditText );
 	if (!disableIt) {
 		UMiscUtils::OSTypeToPString(theType, theString);
 	} 
 	theEditText->SetDescriptor(theString);
 
-	theEditText = dynamic_cast<LEditText *> (mClassPane->FindPaneByID( item_AetePropertyDescr ));
+	theEditText = dynamic_cast<LEditText *>(mClassPane->FindPaneByID( item_AetePropertyDescr ));
 	ThrowIfNil_( theEditText );
 	theEditText->SetDescriptor(theDescription);
 
@@ -440,58 +444,71 @@ CAete_EditorWindow::InstallPropertyValues(CAeteProperty *	inProperty)
 // ---------------------------------------------------------------------------
 //  InstallElementValues											[public]
 // ---------------------------------------------------------------------------
-// 	STableCell theCell = theTable->GetFirstSelectedCell();
 
 void
 CAete_EditorWindow::InstallElementValues(CAeteElement *	inElement)
 {
 	Str255			theString;
-	OSType 			theID, theKeyForm;
+	OSType 			theID, theKeyForm = 0;
 	LEditText *		theEditText;
-	LTextColumn *	theTable;
+	SInt32			theValue, theTotal;
+	ArrayIndexT		index = 0;
 	Boolean			disableIt = false;
-	SInt32			theCount;
-	TableIndexT		theRows, theCols;
-	STableCell		theCell(0,1);
 
 	if (inElement) {
 		theID = inElement->GetID();				
+		index = inElement->GetKeyFormIndex();
 		disableIt = false;
-		theCount = inElement->CountKeyForms();
 	}  else {
 		theString[0] = 0;
 		disableIt = true;
-		theCount = 0;
 	}
 	
-	theEditText = dynamic_cast<LEditText *> (mClassPane->FindPaneByID( item_AeteElementID ));
+	theEditText = dynamic_cast<LEditText *>(mClassPane->FindPaneByID( item_AeteElementID ));
 	ThrowIfNil_( theEditText );
 	if (!disableIt) {
 		UMiscUtils::OSTypeToPString(theID, theString);
 	} 
 	theEditText->SetDescriptor(theString);
 
-	// KeyForms table
-// 	theTable = dynamic_cast<LTextColumn *> (mClassPane->FindPaneByID( item_AeteKeyFormsTable ));
-// 	ThrowIfNil_( theTable );
-// 
-// 	// 	Resize the table
-// 	theTable->GetTableSize(theRows, theCols);
-// 	if (theRows < theCount) {
-// 		theTable->InsertRows(theCount-theRows, theRows, nil, 0, Refresh_Yes);
-// 	} else if (theRows > theCount) {
-// 		theTable->RemoveRows(theRows-theCount, theCount+1, Refresh_Yes);
-// 	}
-// 	// Populate
-// 	for (SInt16 i = 1; i <= theCount; ++i) {
-// 		theCell.row = i;
-// 		if ( inElement->GetKeyForms()->FetchItemAt(i, theKeyForm) ) {
-// 			UMiscUtils::OSTypeToPString( theKeyForm, theString);
-// 		} else {
-// 			theString[0] = 0;
-// 		}
-// 		theTable->SetCellData(theCell, &theString, sizeof(Str255));
-// 	}
+	// KeyForms
+	if ( inElement && inElement->GetCurrentKeyForm(theKeyForm) ) {
+		theEditText->Enable();
+		disableIt = false;
+		theValue = index;
+		theTotal = inElement->CountKeyForms();
+	} else {
+		theString[0] = 0;
+		theEditText->Disable();
+		disableIt = true;
+		theValue = 0;
+		theTotal = 0;
+	} 
+	
+	InstallKeyFormValues(theKeyForm);
+	UpdateSlider(item_AeteKeyFormSlider, theValue, theTotal);
+}
+
+
+// ---------------------------------------------------------------------------
+//  InstallKeyFormValues											[public]
+// ---------------------------------------------------------------------------
+
+void
+CAete_EditorWindow::InstallKeyFormValues(OSType inKeyForm)
+{
+	Str255			theString;
+	LEditText *		theEditText;
+
+	if (inKeyForm != 0) {
+		UMiscUtils::OSTypeToPString(inKeyForm, theString);
+	} else {
+		theString[0] = 0;
+	}
+	
+	theEditText = dynamic_cast<LEditText *>(mClassPane->FindPaneByID( item_AeteKeyFormID ));
+	ThrowIfNil_( theEditText );
+	theEditText->SetDescriptor(theString);
 }
 
 
@@ -515,16 +532,16 @@ CAete_EditorWindow::InstallCompOpValues(CAeteCompOp * inCompOp)
 		return;
 	}
 	
-	theEditText = dynamic_cast<LEditText *> (mCompOpPane->FindPaneByID( item_AeteCompName ));
+	theEditText = dynamic_cast<LEditText *>(mCompOpPane->FindPaneByID( item_AeteCompName ));
 	ThrowIfNil_( theEditText );
 	theEditText->SetDescriptor(theName);
 
-	theEditText = dynamic_cast<LEditText *> (mCompOpPane->FindPaneByID( item_AeteCompID ));
+	theEditText = dynamic_cast<LEditText *>(mCompOpPane->FindPaneByID( item_AeteCompID ));
 	ThrowIfNil_( theEditText );
 	UMiscUtils::OSTypeToPString(theID, theString);
 	theEditText->SetDescriptor(theString);
 
-	theEditText = dynamic_cast<LEditText *> (mCompOpPane->FindPaneByID( item_AeteCompDescr ));
+	theEditText = dynamic_cast<LEditText *>(mCompOpPane->FindPaneByID( item_AeteCompDescr ));
 	ThrowIfNil_( theEditText );
 	theEditText->SetDescriptor(theDescription);
 
@@ -543,7 +560,7 @@ CAete_EditorWindow::InstallEnumerationValues(CAeteEnumeration * inEnum)
 	SInt32			theValue, theTotal;
 	LEditText *		theEditText;
 	LTextGroupBox * theTGB;
-	ArrayIndexT		index;
+	ArrayIndexT		index = 0;
 	AeteEnumerator	enumerator;
 
 	if (inEnum) {
@@ -559,13 +576,13 @@ CAete_EditorWindow::InstallEnumerationValues(CAeteEnumeration * inEnum)
 	enumerator.type = 0;
 	enumerator.description[0] = 0;
 
-	theEditText = dynamic_cast<LEditText *> (mEnumerationPane->FindPaneByID( item_AeteEnumerationID ));
+	theEditText = dynamic_cast<LEditText *>(mEnumerationPane->FindPaneByID( item_AeteEnumerationID ));
 	ThrowIfNil_( theEditText );
 	UMiscUtils::OSTypeToPString(theID, theString);
 	theEditText->SetDescriptor(theString);
 
 	// Current enumerator
-	theTGB = dynamic_cast<LTextGroupBox *> (mEnumerationPane->FindPaneByID( item_AeteEnumBox ));
+	theTGB = dynamic_cast<LTextGroupBox *>(mEnumerationPane->FindPaneByID( item_AeteEnumBox ));
 	
 	if ( inEnum && inEnum->GetEnumerator(index, enumerator) ) {
 		theTGB->Enable();
@@ -595,18 +612,18 @@ CAete_EditorWindow::InstallEnumeratorValues(AeteEnumerator inEnumerator)
 	
 	theString[0] = 0;
 		
-	theEditText = dynamic_cast<LEditText *> (mEnumerationPane->FindPaneByID( item_AeteEnumName ));
+	theEditText = dynamic_cast<LEditText *>(mEnumerationPane->FindPaneByID( item_AeteEnumName ));
 	ThrowIfNil_( theEditText );
 	theEditText->SetDescriptor(inEnumerator.name);
 
-	theEditText = dynamic_cast<LEditText *> (mEnumerationPane->FindPaneByID( item_AeteEnumType ));
+	theEditText = dynamic_cast<LEditText *>(mEnumerationPane->FindPaneByID( item_AeteEnumType ));
 	ThrowIfNil_( theEditText );
 	if (inEnumerator.type != 0) {
 		UMiscUtils::OSTypeToPString(inEnumerator.type, theString);
 	} 
 	theEditText->SetDescriptor(theString);
 
-	theEditText = dynamic_cast<LEditText *> (mEnumerationPane->FindPaneByID( item_AeteEnumDescr ));
+	theEditText = dynamic_cast<LEditText *>(mEnumerationPane->FindPaneByID( item_AeteEnumDescr ));
 	ThrowIfNil_( theEditText );
 	theEditText->SetDescriptor(inEnumerator.description);
 }
@@ -627,22 +644,22 @@ CAete_EditorWindow::RetrieveResourceInfo()
 	SInt32		theLanguage, theScript;
 	LEditText * theEditText;
 
-	theEditText = dynamic_cast<LEditText *> (this->FindPaneByID( item_AeteMajorVersion ));
+	theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_AeteMajorVersion ));
 	ThrowIfNil_( theEditText );
 	theEditText->GetDescriptor(theString);
 	::StringToNum( theString, &theMajorVersion);
 
-	theEditText = dynamic_cast<LEditText *> (this->FindPaneByID( item_AeteMinorVersion ));
+	theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_AeteMinorVersion ));
 	ThrowIfNil_( theEditText );
 	theEditText->GetDescriptor(theString);
 	::StringToNum( theString, &theMinorVersion);
 
-	theEditText = dynamic_cast<LEditText *> (this->FindPaneByID( item_AeteLanguageID ));
+	theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_AeteLanguageID ));
 	ThrowIfNil_( theEditText );
 	theEditText->GetDescriptor(theString);
 	::StringToNum( theString, &theLanguage);
 
-	theEditText = dynamic_cast<LEditText *> (this->FindPaneByID( item_AeteScriptCode ));
+	theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_AeteScriptCode ));
 	ThrowIfNil_( theEditText );
 	theEditText->GetDescriptor(theString);
 	::StringToNum( theString, &theScript);
@@ -667,25 +684,25 @@ CAete_EditorWindow::RetrieveSuiteValues()
 	
 	if (!theSuite) return;
 
-	theEditText = dynamic_cast<LEditText *> (this->FindPaneByID( item_AeteSuiteName ));
+	theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_AeteSuiteName ));
 	ThrowIfNil_( theEditText );
 	theEditText->GetDescriptor(theName);
 
-	theEditText = dynamic_cast<LEditText *> (this->FindPaneByID( item_AeteSuiteDescr ));
+	theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_AeteSuiteDescr ));
 	ThrowIfNil_( theEditText );
 	theEditText->GetDescriptor(theDescription);
 
-	theEditText = dynamic_cast<LEditText *> (this->FindPaneByID( item_AeteSuiteID ));
+	theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_AeteSuiteID ));
 	ThrowIfNil_( theEditText );
 	theEditText->GetDescriptor(theString);
 	UMiscUtils::PStringToOSType( theString, theID);
 
-	theEditText = dynamic_cast<LEditText *> (this->FindPaneByID( item_AeteSuiteLevel ));
+	theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_AeteSuiteLevel ));
 	ThrowIfNil_( theEditText );
 	theEditText->GetDescriptor(theString);
 	::StringToNum( theString, &theLevel);
 
-	theEditText = dynamic_cast<LEditText *> (this->FindPaneByID( item_AeteSuiteVersion ));
+	theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_AeteSuiteVersion ));
 	ThrowIfNil_( theEditText );
 	theEditText->GetDescriptor(theString);
 	::StringToNum( theString, &theVersion);
@@ -742,43 +759,43 @@ CAete_EditorWindow::RetrieveEventValues(CAeteEvent * inEvent)
 	
 	if (!inEvent) return;
 
-	theEditText = dynamic_cast<LEditText *> (mEventPane->FindPaneByID( item_AeteEventName ));
+	theEditText = dynamic_cast<LEditText *>(mEventPane->FindPaneByID( item_AeteEventName ));
 	ThrowIfNil_( theEditText );
 	theEditText->GetDescriptor(theName);
 
-	theEditText = dynamic_cast<LEditText *> (mEventPane->FindPaneByID( item_AeteEventDescr ));
+	theEditText = dynamic_cast<LEditText *>(mEventPane->FindPaneByID( item_AeteEventDescr ));
 	ThrowIfNil_( theEditText );
 	theEditText->GetDescriptor(theDescription);
 
-	theEditText = dynamic_cast<LEditText *> (mEventPane->FindPaneByID( item_AeteEventClass ));
+	theEditText = dynamic_cast<LEditText *>(mEventPane->FindPaneByID( item_AeteEventClass ));
 	ThrowIfNil_( theEditText );
 	theEditText->GetDescriptor(theString);
 	UMiscUtils::PStringToOSType( theString, theClass);
 
-	theEditText = dynamic_cast<LEditText *> (mEventPane->FindPaneByID( item_AeteEventID ));
+	theEditText = dynamic_cast<LEditText *>(mEventPane->FindPaneByID( item_AeteEventID ));
 	ThrowIfNil_( theEditText );
 	theEditText->GetDescriptor(theString);
 	UMiscUtils::PStringToOSType( theString, theID);
 
 	// Direct parameter
-	theEditText = dynamic_cast<LEditText *> (mEventPane->FindPaneByID( item_AeteDirectType ));
+	theEditText = dynamic_cast<LEditText *>(mEventPane->FindPaneByID( item_AeteDirectType ));
 	ThrowIfNil_( theEditText );
 	theEditText->GetDescriptor(theString);
 	UMiscUtils::PStringToOSType( theString, theDirectType);
 
-	theEditText = dynamic_cast<LEditText *> (mEventPane->FindPaneByID( item_AeteDirectDescr ));
+	theEditText = dynamic_cast<LEditText *>(mEventPane->FindPaneByID( item_AeteDirectDescr ));
 	ThrowIfNil_( theEditText );
 	theEditText->GetDescriptor(theDirectDescription);
 
 	RetrieveFlags(item_AeteDirectOptions, theDirectFlags);
 
 	// Reply
-	theEditText = dynamic_cast<LEditText *> (mEventPane->FindPaneByID( item_AeteReplyType ));
+	theEditText = dynamic_cast<LEditText *>(mEventPane->FindPaneByID( item_AeteReplyType ));
 	ThrowIfNil_( theEditText );
 	theEditText->GetDescriptor(theString);
 	UMiscUtils::PStringToOSType( theString, theReplyType);
 
-	theEditText = dynamic_cast<LEditText *> (mEventPane->FindPaneByID( item_AeteReplyDescr ));
+	theEditText = dynamic_cast<LEditText *>(mEventPane->FindPaneByID( item_AeteReplyDescr ));
 	ThrowIfNil_( theEditText );
 	theEditText->GetDescriptor(theReplyDescription);
 
@@ -810,28 +827,29 @@ CAete_EditorWindow::RetrieveParameterValues(CAeteParameter* inParameter)
 	UInt16 			theFlags;
 	LEditText *		theEditText;
 	
-	theEditText = dynamic_cast<LEditText *> (mEventPane->FindPaneByID( item_AeteParamName ));
+	if (!inParameter) return;
+
+	theEditText = dynamic_cast<LEditText *>(mEventPane->FindPaneByID( item_AeteParamName ));
 	ThrowIfNil_( theEditText );
 	theEditText->GetDescriptor(theName);
 
-	theEditText = dynamic_cast<LEditText *> (mEventPane->FindPaneByID( item_AeteParamKeyword ));
+	theEditText = dynamic_cast<LEditText *>(mEventPane->FindPaneByID( item_AeteParamKeyword ));
 	ThrowIfNil_( theEditText );
 	theEditText->GetDescriptor(theString);
 	UMiscUtils::PStringToOSType( theString, theKeyword);
 
-	theEditText = dynamic_cast<LEditText *> (mEventPane->FindPaneByID( item_AeteParamType ));
+	theEditText = dynamic_cast<LEditText *>(mEventPane->FindPaneByID( item_AeteParamType ));
 	ThrowIfNil_( theEditText );
 	theEditText->GetDescriptor(theString);
 	UMiscUtils::PStringToOSType( theString, theType);
 
-	theEditText = dynamic_cast<LEditText *> (mEventPane->FindPaneByID( item_AeteParamDescr ));
+	theEditText = dynamic_cast<LEditText *>(mEventPane->FindPaneByID( item_AeteParamDescr ));
 	ThrowIfNil_( theEditText );
 	theEditText->GetDescriptor(theDescription);
 		
 	RetrieveFlags(item_AeteParamOptions, theFlags);
 
-	inParameter->SetValues(theName, theKeyword, theType,
-								theDescription, theFlags);
+	inParameter->SetValues(theName, theKeyword, theType, theDescription, theFlags);
 }
 
 
@@ -852,16 +870,16 @@ CAete_EditorWindow::RetrieveClassValues(CAeteClass * inClass)
 	
 	if (!inClass) return;
 
-	theEditText = dynamic_cast<LEditText *> (mClassPane->FindPaneByID( item_AeteClassName ));
+	theEditText = dynamic_cast<LEditText *>(mClassPane->FindPaneByID( item_AeteClassName ));
 	ThrowIfNil_( theEditText );
 	theEditText->GetDescriptor(theName);
 
-	theEditText = dynamic_cast<LEditText *> (mClassPane->FindPaneByID( item_AeteClassID ));
+	theEditText = dynamic_cast<LEditText *>(mClassPane->FindPaneByID( item_AeteClassID ));
 	ThrowIfNil_( theEditText );
 	theEditText->GetDescriptor(theString);
 	UMiscUtils::PStringToOSType( theString, theID);
 
-	theEditText = dynamic_cast<LEditText *> (mClassPane->FindPaneByID( item_AeteClassDescr ));
+	theEditText = dynamic_cast<LEditText *>(mClassPane->FindPaneByID( item_AeteClassDescr ));
 	ThrowIfNil_( theEditText );
 	theEditText->GetDescriptor(theDescription);
 
@@ -896,28 +914,29 @@ CAete_EditorWindow::RetrievePropertyValues(CAeteProperty * inProperty)
 	UInt16 			theFlags;
 	LEditText *		theEditText;	
 
-	theEditText = dynamic_cast<LEditText *> (mClassPane->FindPaneByID( item_AetePropertyName ));
+	if (!inProperty) return;
+
+	theEditText = dynamic_cast<LEditText *>(mClassPane->FindPaneByID( item_AetePropertyName ));
 	ThrowIfNil_( theEditText );
 	theEditText->GetDescriptor(theName);
 
-	theEditText = dynamic_cast<LEditText *> (mClassPane->FindPaneByID( item_AetePropertyKeyword ));
+	theEditText = dynamic_cast<LEditText *>(mClassPane->FindPaneByID( item_AetePropertyKeyword ));
 	ThrowIfNil_( theEditText );
 	theEditText->GetDescriptor(theString);
 	UMiscUtils::PStringToOSType( theString, theKeyword);
 
-	theEditText = dynamic_cast<LEditText *> (mClassPane->FindPaneByID( item_AetePropertyType ));
+	theEditText = dynamic_cast<LEditText *>(mClassPane->FindPaneByID( item_AetePropertyType ));
 	ThrowIfNil_( theEditText );
 	theEditText->GetDescriptor(theString);
 	UMiscUtils::PStringToOSType( theString, theType);
 
-	theEditText = dynamic_cast<LEditText *> (mClassPane->FindPaneByID( item_AetePropertyDescr ));
+	theEditText = dynamic_cast<LEditText *>(mClassPane->FindPaneByID( item_AetePropertyDescr ));
 	ThrowIfNil_( theEditText );
 	theEditText->GetDescriptor(theDescription);
 	
 	RetrieveFlags(item_AetePropertyOptions, theFlags);
 
-	inProperty->SetValues(theName, theKeyword, theType,
-							theDescription, theFlags);
+	inProperty->SetValues(theName, theKeyword, theType, theDescription, theFlags);
 
 }
 
@@ -932,31 +951,36 @@ CAete_EditorWindow::RetrieveElementValues(CAeteElement * inElement)
 	Str255			theString;
 	OSType 			theID, theKeyForm;
 	LEditText *		theEditText;
-	LTextColumn *	theTable;
-	UInt32			theSize;
-	TableIndexT		theRows, theCols;
-	STableCell		theCell(0,1);
 
-	theEditText = dynamic_cast<LEditText *> (mClassPane->FindPaneByID( item_AeteElementID ));
+	if (!inElement) return;
+
+	theEditText = dynamic_cast<LEditText *>(mClassPane->FindPaneByID( item_AeteElementID ));
 	ThrowIfNil_( theEditText );
 	theEditText->GetDescriptor(theString);
 	UMiscUtils::PStringToOSType( theString, theID);
 
 	inElement->SetID(theID);
 	
-// 	theTable = dynamic_cast<LTextColumn *> (mClassPane->FindPaneByID( item_AeteKeyFormsTable ));
-// 	ThrowIfNil_( theTable );
-// 
-// 	// 	Rebuild the KeyForms array
-// 	inElement->GetKeyForms()->RemoveAllItemsAfter(0);
-// 	theTable->GetTableSize(theRows, theCols);
-// 	for (SInt16 i = 1; i <= theRows; ++i) {
-// 		theSize = sizeof(Str255);
-// 		theCell.row = i;
-// 		theTable->GetCellData(theCell, theString, theSize);
-// 		UMiscUtils::PStringToOSType( theString, theKeyForm);
-// 		inElement->AddKeyForm(theKeyForm);
-// 	}
+	// KeyForms
+	RetrieveKeyFormValues(theKeyForm);
+	inElement->SetCurrentKeyForm(theKeyForm);
+}
+
+
+// ---------------------------------------------------------------------------
+//  RetrieveKeyFormValues											[public]
+// ---------------------------------------------------------------------------
+
+void
+CAete_EditorWindow::RetrieveKeyFormValues(OSType & outKeyForm)
+{
+	Str255			theString;
+	LEditText *		theEditText;
+
+	theEditText = dynamic_cast<LEditText *>(mClassPane->FindPaneByID( item_AeteKeyFormID ));
+	ThrowIfNil_( theEditText );
+	theEditText->GetDescriptor(theString);
+	UMiscUtils::PStringToOSType(theString, outKeyForm);
 }
 
 
@@ -973,16 +997,16 @@ CAete_EditorWindow::RetrieveCompOpValues(CAeteCompOp * inCompOp)
 	
 	if (!inCompOp) return;
 
-	theEditText = dynamic_cast<LEditText *> (mCompOpPane->FindPaneByID( item_AeteCompName ));
+	theEditText = dynamic_cast<LEditText *>(mCompOpPane->FindPaneByID( item_AeteCompName ));
 	ThrowIfNil_( theEditText );
 	theEditText->GetDescriptor(theName);
 
-	theEditText = dynamic_cast<LEditText *> (mCompOpPane->FindPaneByID( item_AeteCompID ));
+	theEditText = dynamic_cast<LEditText *>(mCompOpPane->FindPaneByID( item_AeteCompID ));
 	ThrowIfNil_( theEditText );
 	theEditText->GetDescriptor(theString);
 	UMiscUtils::PStringToOSType( theString, theID);
 
-	theEditText = dynamic_cast<LEditText *> (mCompOpPane->FindPaneByID( item_AeteCompDescr ));
+	theEditText = dynamic_cast<LEditText *>(mCompOpPane->FindPaneByID( item_AeteCompDescr ));
 	ThrowIfNil_( theEditText );
 	theEditText->GetDescriptor(theDescription);
 
@@ -1005,7 +1029,7 @@ CAete_EditorWindow::RetrieveEnumerationValues(CAeteEnumeration * inEnum)
 	
 	if (!inEnum) return;
 
-	theEditText = dynamic_cast<LEditText *> (mEnumerationPane->FindPaneByID( item_AeteEnumerationID ));
+	theEditText = dynamic_cast<LEditText *>(mEnumerationPane->FindPaneByID( item_AeteEnumerationID ));
 	ThrowIfNil_( theEditText );
 	theEditText->GetDescriptor(theString);
 	UMiscUtils::PStringToOSType( theString, theID);
@@ -1031,16 +1055,16 @@ CAete_EditorWindow::RetrieveEnumeratorValues(AeteEnumerator & outEnumerator)
 	Str255			theString;
 	LEditText *		theEditText;
 
-	theEditText = dynamic_cast<LEditText *> (mEnumerationPane->FindPaneByID( item_AeteEnumName ));
+	theEditText = dynamic_cast<LEditText *>(mEnumerationPane->FindPaneByID( item_AeteEnumName ));
 	ThrowIfNil_( theEditText );
 	theEditText->GetDescriptor(outEnumerator.name);
 
-	theEditText = dynamic_cast<LEditText *> (mEnumerationPane->FindPaneByID( item_AeteEnumType ));
+	theEditText = dynamic_cast<LEditText *>(mEnumerationPane->FindPaneByID( item_AeteEnumType ));
 	ThrowIfNil_( theEditText );
 	theEditText->GetDescriptor(theString);
 	UMiscUtils::PStringToOSType( theString, outEnumerator.type );
 
-	theEditText = dynamic_cast<LEditText *> (mEnumerationPane->FindPaneByID( item_AeteEnumDescr ));
+	theEditText = dynamic_cast<LEditText *>(mEnumerationPane->FindPaneByID( item_AeteEnumDescr ));
 	ThrowIfNil_( theEditText );
 	theEditText->GetDescriptor(outEnumerator.description);
 }
@@ -1095,56 +1119,44 @@ CAete_EditorWindow::RebuildSuitePopup()
 void
 CAete_EditorWindow::InstallFlags(SInt32 inKind, UInt16 inFlags)
 {
-	SInt32			theCount, i, val;
+	SInt32			theCount, i;
 	MenuHandle		theMenuH;
+	LView *			thePane;
 	LPopupButton *	thePopup;
-	Boolean			markIt;
+	const UInt16 *	flagsArray;
 	
 	switch (inKind) {
 		case item_AeteDirectOptions:
-		thePopup = dynamic_cast<LPopupButton *> (mEventPane->FindPaneByID( inKind ));
-		ThrowIfNil_(thePopup);
-		theMenuH = thePopup->GetMacMenuH();
+		thePane = mEventPane;
 		theCount = sizeof(AeteDirectFlag)/sizeof(UInt16);
-		for ( i = 0; i < theCount; i++) {
-			val = inFlags & (1 << AeteDirectFlag[i]);
-			
-			markIt =  ( val > 0 );
-			
-			::MacCheckMenuItem(theMenuH, i+2, markIt );
-		}
+		flagsArray = AeteDirectFlag;
 		break;
 		
 		case item_AeteReplyOptions:
-		thePopup = dynamic_cast<LPopupButton *> (mEventPane->FindPaneByID( inKind ));
-		ThrowIfNil_(thePopup);
-		theMenuH = thePopup->GetMacMenuH();
+		thePane = mEventPane;
 		theCount = sizeof(AeteReplyFlag)/sizeof(UInt16);
-		for ( i = 0; i < theCount; i++) {
-			::MacCheckMenuItem(theMenuH, i+2, ( (inFlags & (1 << AeteReplyFlag[i])) > 0 ) );
-		}
+		flagsArray = AeteReplyFlag;
 		break;
 		
 		case item_AeteParamOptions:
-		thePopup = dynamic_cast<LPopupButton *> (mEventPane->FindPaneByID( inKind ));
-		ThrowIfNil_(thePopup);
-		theMenuH = thePopup->GetMacMenuH();
+		thePane = mEventPane;
 		theCount = sizeof(AeteParamFlag)/sizeof(UInt16);
-		for ( i = 0; i < theCount; i++) {
-			::MacCheckMenuItem(theMenuH, i+2, ( (inFlags & (1 << AeteParamFlag[i])) > 0 ) );
-		}
+		flagsArray = AeteParamFlag;
 		break;
 		
 		case item_AetePropertyOptions:
-		thePopup = dynamic_cast<LPopupButton *> (mClassPane->FindPaneByID( inKind ));
-		ThrowIfNil_(thePopup);
-		theMenuH = thePopup->GetMacMenuH();
+		thePane = mClassPane;
 		theCount = sizeof(AetePropertyFlag)/sizeof(UInt16);
-		for ( i = 0; i < theCount; i++) {
-			::MacCheckMenuItem(theMenuH, i+2, ( (inFlags & (1 << AetePropertyFlag[i])) > 0 ) );
-		}
+		flagsArray = AetePropertyFlag;
 		break;
 		
+	}
+	
+	thePopup = dynamic_cast<LPopupButton *>(thePane->FindPaneByID( inKind ));
+	ThrowIfNil_(thePopup);
+	theMenuH = thePopup->GetMacMenuH();
+	for ( i = 0; i < theCount; i++) {
+		::MacCheckMenuItem(theMenuH, i+2, ( (inFlags & (1 << flagsArray[i])) > 0 ) );
 	}
 }
 
@@ -1158,55 +1170,174 @@ CAete_EditorWindow::RetrieveFlags(SInt32 inKind, UInt16 & outFlags)
 {
 	SInt32			theCount, i;
 	MenuHandle		theMenuH;
+	LView *			thePane;
 	LPopupButton *	thePopup;
 	CharParameter	markChar = 0;
+	const UInt16 *	flagsArray;
 
 	outFlags = 0;
 	
 	switch (inKind) {
 		case item_AeteDirectOptions:
-		thePopup = dynamic_cast<LPopupButton *> (mEventPane->FindPaneByID( inKind ));
-		ThrowIfNil_(thePopup);
-		theMenuH = thePopup->GetMacMenuH();
+		thePane = mEventPane;
 		theCount = sizeof(AeteDirectFlag)/sizeof(UInt16);
-		for ( i = 0; i < theCount; i++) {
-			::GetItemMark( theMenuH, i+2, &markChar);
-			outFlags |= (markChar == 0) ? 0:(1 << AeteDirectFlag[i]);
-		}
+		flagsArray = AeteDirectFlag;
 		break;
 		
 		case item_AeteReplyOptions:
-		thePopup = dynamic_cast<LPopupButton *> (mEventPane->FindPaneByID( inKind ));
-		ThrowIfNil_(thePopup);
-		theMenuH = thePopup->GetMacMenuH();
+		thePane = mEventPane;
 		theCount = sizeof(AeteReplyFlag)/sizeof(UInt16);
-		for ( i = 0; i < theCount; i++) {
-			::GetItemMark( theMenuH, i+2, &markChar);
-			outFlags |= (markChar == 0) ? 0:(1 << AeteReplyFlag[i]);
-		}
+		flagsArray = AeteReplyFlag;
 		break;
 		
 		case item_AeteParamOptions:
-		thePopup = dynamic_cast<LPopupButton *> (mEventPane->FindPaneByID( inKind ));
-		ThrowIfNil_(thePopup);
-		theMenuH = thePopup->GetMacMenuH();
+		thePane = mEventPane;
 		theCount = sizeof(AeteParamFlag)/sizeof(UInt16);
-		for ( i = 0; i < theCount; i++) {
-			::GetItemMark( theMenuH, i+2, &markChar);
-			outFlags |= (markChar == 0) ? 0:(1 << AeteParamFlag[i]);
-		}
+		flagsArray = AeteParamFlag;
 		break;
 		
 		case item_AetePropertyOptions:
-		thePopup = dynamic_cast<LPopupButton *> (mClassPane->FindPaneByID( inKind ));
-		ThrowIfNil_(thePopup);
-		theMenuH = thePopup->GetMacMenuH();
+		thePane = mClassPane;
 		theCount = sizeof(AetePropertyFlag)/sizeof(UInt16);
-		for ( i = 0; i < theCount; i++) {
-			::GetItemMark( theMenuH, i+2, &markChar);
-			outFlags |= (markChar == 0) ? 0:(1 << AetePropertyFlag[i]);
-		}
+		flagsArray = AetePropertyFlag;
 		break;
 		
 	}
+	
+	thePopup = dynamic_cast<LPopupButton *>(thePane->FindPaneByID( inKind ));
+	ThrowIfNil_(thePopup);
+	theMenuH = thePopup->GetMacMenuH();
+	for ( i = 0; i < theCount; i++) {
+		::GetItemMark( theMenuH, i+2, &markChar);
+		outFlags |= (markChar == 0) ? 0:(1 << flagsArray[i]);
+	}
+}
+
+
+// ---------------------------------------------------------------------------
+//  HandleOptionsPopup												[public]
+// ---------------------------------------------------------------------------
+
+void
+CAete_EditorWindow::HandleOptionsPopup(SInt32 inKind, SInt32 inIndex)
+{
+	LView *			thePane;
+	LPopupButton *	thePopup;
+	MenuHandle		theMenuH;
+	CharParameter	markChar = 0;
+
+	if (inIndex < 2) { return; }
+	
+	if (inKind == item_AetePropertyOptions) {
+		thePane = mClassPane;
+		inKind -= PPob_AeteClassPane;
+	} else {
+		thePane = mEventPane;
+		inKind -= PPob_AeteEventPane;
+	}
+	
+	thePopup = dynamic_cast<LPopupButton *>(thePane->FindPaneByID( inKind ));
+	ThrowIfNil_(thePopup);
+	theMenuH = thePopup->GetMacMenuH();
+	
+	::GetItemMark( theMenuH, inIndex, &markChar);
+	::MacCheckMenuItem(theMenuH, inIndex, (markChar == 0) );
+	thePopup->SetValue(1);
+	SetDirty(true);
+}
+
+
+// ---------------------------------------------------------------------------
+//  HandleSliderMessage												[public]
+// ---------------------------------------------------------------------------
+
+void
+CAete_EditorWindow::HandleSliderMessage(SInt32 inKind, SInt32 inValue)
+{
+	ArrayIndexT			oldIndex;
+	CAeteParameter *	theParameter;
+	CAeteProperty *		theProperty;
+	CAeteElement *		theElement;
+	AeteEnumerator		enumerator;
+	CAeteEnumeration *	theEnum ;
+	
+
+	switch (inKind) {
+		
+		case item_AeteItemSlider:
+		oldIndex = GetCurrentIndex(mCurrentPanel);
+		if (inValue != oldIndex && inValue != 0) {
+			RetrievePanelValues();
+			SetCurrentIndex(mCurrentPanel, inValue);
+			InstallPanelValues();
+			// Update only the indicator
+			UpdateSlider(inKind, inValue, GetCurrentCount(mCurrentPanel), true);
+		}
+		break;
+		
+		
+		case item_AeteParamSlider:
+		oldIndex = GetCurrentIndex(kind_AeteParameter);
+		if (inValue != oldIndex) {
+			theParameter = static_cast<CAeteParameter *>( FindCurrentObject( kind_AeteParameter ) );
+			RetrieveParameterValues(theParameter);
+			SetCurrentIndex(kind_AeteParameter, inValue);
+			theParameter = static_cast<CAeteParameter *>( FindCurrentObject( kind_AeteParameter ) );
+			InstallParameterValues(theParameter);
+			UpdateSlider(inKind, inValue,  GetCurrentCount(kind_AeteParameter), true);
+		} 
+		break;
+		
+		
+		case item_AetePropertySlider:
+		oldIndex = GetCurrentIndex(kind_AeteProperty);
+		if (inValue != oldIndex) {
+			theProperty = static_cast<CAeteProperty *>( FindCurrentObject( kind_AeteProperty ) );
+			RetrievePropertyValues(theProperty);
+			SetCurrentIndex(kind_AeteProperty, inValue);
+			theProperty = static_cast<CAeteProperty *>( FindCurrentObject( kind_AeteProperty ) );
+			InstallPropertyValues(theProperty);
+			UpdateSlider(inKind, inValue,  GetCurrentCount(kind_AeteProperty), true);
+		} 
+		break;
+		
+		
+		case item_AeteElementSlider:
+		oldIndex = GetCurrentIndex(kind_AeteElement);
+		if (inValue != oldIndex) {
+			theElement = static_cast<CAeteElement *>( FindCurrentObject( kind_AeteElement ) );
+			RetrieveElementValues(theElement);
+			SetCurrentIndex(kind_AeteElement, inValue);
+			theElement = static_cast<CAeteElement *>( FindCurrentObject( kind_AeteElement ) );
+			InstallElementValues(theElement);
+			UpdateSlider(inKind, inValue,  GetCurrentCount(kind_AeteElement), true);
+		} 
+		break;
+		
+		
+		case item_AeteKeyFormSlider:
+		oldIndex = GetCurrentIndex(kind_AeteKeyForm);
+		theElement = static_cast<CAeteElement *>( FindCurrentObject( kind_AeteElement ) );
+		if (inValue != oldIndex) {
+			RetrieveElementValues(theElement);
+			SetCurrentIndex(kind_AeteKeyForm, inValue);
+			InstallElementValues(theElement);
+		} 
+		break;
+		
+		
+		case item_AeteEnumSlider:
+		theEnum = static_cast<CAeteEnumeration *>( FindCurrentObject( kind_AeteEnum ) );
+		oldIndex = GetCurrentIndex(kind_AeteEnumerator);
+		if (inValue != oldIndex) {
+			RetrieveEnumeratorValues(enumerator);
+			theEnum->SetEnumerator(oldIndex, enumerator);
+			SetCurrentIndex(kind_AeteEnumerator, inValue);
+			theEnum->GetEnumerator(inValue, enumerator);
+			InstallEnumeratorValues(enumerator);
+			UpdateSlider(inKind, inValue,  GetCurrentCount(kind_AeteEnum), true);
+		} 
+		break;
+		
+	}	
 }
