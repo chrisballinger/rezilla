@@ -2,7 +2,7 @@
 // CTEXT_EditorWindow.cp					
 // 
 //                       Created: 2004-06-17 12:46:55
-//             Last modification: 2004-06-20 18:41:25
+//             Last modification: 2004-06-21 22:21:32
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -395,22 +395,6 @@ CTEXT_EditorWindow::AdjustMenusToSelection()
 	mStylePopup->SetValue(1);
 
 	mIsAdjustingMenus = false;
-}
-
-
-// ---------------------------------------------------------------------------
-//	¥ ReadValues													[public]
-// ---------------------------------------------------------------------------
-
-// LPane::GetUserCon()
-
-Handle
-CTEXT_EditorWindow::ReadValues()
-{
-	Handle theHandle = nil;
-	
-	
-	return theHandle;
 }
 
 
