@@ -27,6 +27,7 @@
 #include "UIconMisc.h"
 #include "UMiscUtils.h"
 #include "UResourceMgr.h"
+#include "UMessageDialogs.h"
 
 #include <LStaticText.h>
 #include <LPushButton.h>
@@ -46,7 +47,7 @@ CSuite_Window::OpenPaintWindow( CRezObj * inRezObj, ResIDT inPPobID )
 	}
 	catch( ... )
 	{
-		delete theWindow;
+		if (theWindow) { delete theWindow; } 
 		throw;
 	}
 	
@@ -133,8 +134,9 @@ CSuite_Window::InitializeFromResource(CRezObj * inRezObj)
 // 	SaveAsResource
 // ---------------------------------------------------------------------------
 void
-CSuite_Window::SaveAsResource( CRezMap * /* inMap */, ResIDT /* inResID */ )
+CSuite_Window::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 {
+#pragma unused(inMap, inResID)
 }
 
 
