@@ -58,12 +58,15 @@ CRezClipboard::CRezClipboard()
 
 CRezClipboard::~CRezClipboard()
 {
+	OSErr error;
+	
 	if (mExportPending) {
 // 		ExportSelf();
 		mExportPending = false;
 	}
 	// Close the Scrap Rez Map
-	sScrapRezMap->Close();
+	error = sScrapRezMap->Update();
+	error = sScrapRezMap->Close();
 }
 
 
@@ -254,7 +257,7 @@ CRezClipboard::ImportSelf()
 		
 		// Reset the scrap rez map
 		error = sScrapRezMap->DeleteAll();
-		error = sScrapRezMap->Update();
+// 		error = sScrapRezMap->Update();
 		
 		// Get the list of all flavors found in the global scrap
 		infoList = (ScrapFlavorInfo*) NewPtrClear( theCount * sizeof(ScrapFlavorInfo) );
@@ -287,7 +290,7 @@ CRezClipboard::ImportSelf()
 				delete theRezObj;
 			} 
 		}
-		error = sScrapRezMap->Update();
+// 		error = sScrapRezMap->Update();
 	}	
 }
 	
@@ -376,7 +379,7 @@ short		numTypes;
 error = sScrapRezMap->CountAllTypes(numTypes);
 	if (inReset) {
 		error = sScrapRezMap->DeleteAll();
-		error = sScrapRezMap->Update();
+// 		error = sScrapRezMap->Update();
 	} 
 error = sScrapRezMap->CountAllTypes(numTypes);
 	
@@ -397,7 +400,7 @@ error = sScrapRezMap->CountAllTypes(numTypes);
 		} 
 		error = theRezObj->Changed();
 	}
-	error = sScrapRezMap->Update();
+// 	error = sScrapRezMap->Update();
 
 
 short	numResources;
@@ -410,10 +413,8 @@ for (UInt16 i = 1; i <= numTypes; i++) {
 		sScrapRezMap->CountForType(theType, numResources);
 		if (error == noErr) {
 			for (UInt16 j = 1; j <= numResources; j++) {
-				theHandle = ::Get1IndResource(theType, j);
-				error = ::ResError();
+				error = sScrapRezMap->GetResourceAtIndex(theType, j, theHandle);
 			}
-		
 		} 
 	} 
 }

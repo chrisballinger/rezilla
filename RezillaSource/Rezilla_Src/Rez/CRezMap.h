@@ -2,11 +2,11 @@
 // CRezMap.h					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2004-03-10 22:54:52
+//             Last modification: 2004-03-15 18:53:03
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003, 2004
+// (c) Copyright : Bernard Desgraupes, 2003-2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -30,11 +30,20 @@ public:
 	Boolean	HasResourceWithTypeAndId(ResType inType, short inID);
 	Boolean	HasResourceWithTypeAndName(ResType inType, ConstStr255Param inName);
 	
-	OSErr	GetWithID(ResType inType, short inID, Handle & outHandle, Boolean loadIt = false);
-	OSErr	GetWithName(ResType inType, ConstStr255Param inName, Handle & outHandle, Boolean loadIt = false);
+	OSErr	GetResourceAtIndex(ResType inType, 
+							   short inIdx, 
+							   Handle & outHandle, 
+							   Boolean loadIt = false);
+	OSErr	GetWithID(ResType inType, 
+					  short inID, 
+					  Handle & outHandle, 
+					  Boolean loadIt = false);
+	OSErr	GetWithName(ResType inType, 
+						ConstStr255Param inName,
+						Handle & outHandle, 
+						Boolean loadIt = false);
 	OSErr	GetAllTypes( TArray<ResType>* & outArray );
 	OSErr	GetTypeAtIndex(short inIdx, ResType & outType);
-	OSErr	GetResourceAtIndex(ResType inType, short inIdx, Handle & outHandle);
 
 	OSErr	DeleteAll();
 	

@@ -2,11 +2,11 @@
 // UResources.cp					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2003-04-24 07:15:17
+//             Last modification: 2004-03-15 18:56:49
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003
+// (c) Copyright : Bernard Desgraupes, 2003, 2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -88,9 +88,15 @@ UResources::CountAllResources(short & outCount)
 // from any of the opened resource maps.
 
 OSErr
-UResources::GetWithID(ResType inType, short inID, Handle & outHandle)
+UResources::GetWithID(ResType inType, short inID, Handle & outHandle, Boolean loadIt)
 {
+	if (!loadIt) {
+		::SetResLoad(false);
+	} 
 	outHandle = ::GetResource(inType, inID);
+	if (!loadIt) {
+		::SetResLoad(true);
+	} 
 	return ::ResError();
 }
 
@@ -102,9 +108,15 @@ UResources::GetWithID(ResType inType, short inID, Handle & outHandle)
 // from any of the opened resource maps.
 
 OSErr
-UResources::GetWithName(ResType inType, ConstStr255Param inName, Handle & outHandle)
+UResources::GetWithName(ResType inType, ConstStr255Param inName, Handle & outHandle, Boolean loadIt)
 {
+	if (!loadIt) {
+		::SetResLoad(false);
+	} 
 	outHandle = ::GetNamedResource(inType, inName);
+	if (!loadIt) {
+		::SetResLoad(true);
+	} 
 	return ::ResError();
 }
 

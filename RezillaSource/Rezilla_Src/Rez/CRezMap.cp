@@ -126,19 +126,6 @@ CRezMap::CountAllResources(short & outCount)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetResourceAtIndex											[public]
-// ---------------------------------------------------------------------------
-
-OSErr
-CRezMap::GetResourceAtIndex(ResType inType, short inIdx, Handle & outHandle)
-{
-    StRezReferenceSaver saver(mRefNum);
-    outHandle = ::Get1IndResource( inType, inIdx );
-	return ::ResError();
-}
-
-
-// ---------------------------------------------------------------------------
 //  ¥ ResourceExists													[public]
 // ---------------------------------------------------------------------------
 // Check whether a resource of a given type with a given ID
@@ -156,6 +143,25 @@ CRezMap::ResourceExists(ResType inType, short inID)
 	error = ::ResError();
 	::SetResLoad(true);
     return (theHandle != nil && ::ResError() == noErr);
+}
+
+
+// ---------------------------------------------------------------------------
+//  ¥ GetResourceAtIndex											[public]
+// ---------------------------------------------------------------------------
+
+OSErr
+CRezMap::GetResourceAtIndex(ResType inType, short inIdx, Handle & outHandle, Boolean loadIt)
+{
+    StRezReferenceSaver saver(mRefNum);
+	if (!loadIt) {
+		::SetResLoad(false);
+	} 
+    outHandle = ::Get1IndResource(inType, inIdx);
+	if (!loadIt) {
+		::SetResLoad(true);
+	} 
+	return ::ResError();
 }
 
 
@@ -250,7 +256,7 @@ CRezMap::GetAllTypes( TArray<ResType>* & outArray )
     if (error == noErr) {
 	for ( UInt16 i = 1; i <= numTypes; i++ )
 	{
-	    ::Get1IndType( &theType, i );
+	    ::Get1IndType(&theType, i);
 	    error = ::ResError();
 	    if (error != noErr) {
 		break;
@@ -271,7 +277,7 @@ OSErr
 CRezMap::GetTypeAtIndex(short inIdx, ResType & outType)
 {
     StRezReferenceSaver saver(mRefNum);
-   ::Get1IndType( &outType, inIdx );
+   ::Get1IndType( &outType, inIdx);
     return ::ResError();
 }
 
@@ -360,13 +366,13 @@ CRezMap::DeleteAll()
 				error = CountForType(theType, numResources);
 				if (error == noErr) {
 					for (UInt16 j = 1; j <= numResources; j++ ) {
-    theHandle = ::Get1IndResource(theType, j);
-	error =  ::ResError();
-// 						error = GetResourceAtIndex(theType, j, theHandle);
+//     theHandle = ::Get1IndResource(theType, j);
+// 	error =  ::ResError();
+						error = GetResourceAtIndex(theType, j, theHandle);
 						if (error == noErr) {
 		::RemoveResource(theHandle);
-		::DisposeHandle(theHandle);
-		error = ::ResError();
+// 		::DisposeHandle(theHandle);
+// 		error = ::ResError();
 						} 
 					}
 				} 
