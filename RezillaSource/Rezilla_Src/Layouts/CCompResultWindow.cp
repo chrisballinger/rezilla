@@ -319,8 +319,8 @@ CCompResultWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			TextTraitsRecord theTraits = CRezillaApp::sPrefs->GetStyleElement( CRezillaPrefs::prefsType_Curr );
 			ResizeDataPanes();
 			UpdatePaneCounts();
-			mOldRezDataWE->ApplyStylePrefs( theTraits.size, theTraits.fontNumber);
-			mNewRezDataWE->ApplyStylePrefs( theTraits.size, theTraits.fontNumber);
+			mOldRezDataWE->ApplyStyleValues( theTraits.size, theTraits.fontNumber);
+			mNewRezDataWE->ApplyStyleValues( theTraits.size, theTraits.fontNumber);
 			break;
 		}
 		
