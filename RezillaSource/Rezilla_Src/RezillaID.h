@@ -1,7 +1,7 @@
 // ===========================================================================
 // RezillaID.h					
 //                       Created: 2004-02-23 15:26:13
-//             Last modification: 2004-05-07 07:07:42
+//             Last modification: 2004-05-09 18:56:33
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -14,9 +14,9 @@
 
 #define REZILLA_MAJOR 		1
 #define REZILLA_MINOR		0
-#define REZILLA_SUBMINOR	1
+#define REZILLA_SUBMINOR	2
 #define REZILLA_STAGE 		alphaStage
-#define REZILLA_DEVEL		0
+#define REZILLA_DEVEL		1
 
 // developStage	0x20
 // alphaStage	0x40
@@ -24,4 +24,4 @@
 // finalStage	0x80
 
 // Version number string
-#define REZILLA_PLC_VERSION "1.0.1a"
+#define REZILLA_PLC_VERSION "1.0.2a1"
