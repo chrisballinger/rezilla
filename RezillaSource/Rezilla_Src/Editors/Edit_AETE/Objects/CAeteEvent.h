@@ -2,7 +2,7 @@
 // CAeteEvent.h
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-22 09:36:04
+//             Last modification: 2005-01-26 06:53:53
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -63,6 +63,8 @@ public:
 
 		ArrayIndexT		GetParameterIndex() { return mParameterIndex;}
 		void			SetParameterIndex(ArrayIndexT inParameterIndex) {mParameterIndex = inParameterIndex;}
+
+		SInt32			CountParameters() { return mParameters.GetCount(); }
 
 		TArray<CAeteParameter*> *	GetParameters() { return &mParameters;}
 
