@@ -1,11 +1,11 @@
 // ===========================================================================
 // CRezillaApp.h					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2004-12-08 18:13:32
+//             Last modification: 2005-03-08 15:48:19
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2002-2004
+// © Copyright: Bernard Desgraupes 2002-2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -46,7 +46,7 @@ public:
 	
 	virtual Boolean		ObeyCommand(CommandT inCommand, void* ioParam);	
 			
-	virtual void		ListenToMessage( MessageT inMessage, void *ioParam);
+	virtual void        ListenToMessage( MessageT inMessage, void *ioParam);
 
 	virtual Boolean		AttemptQuitSelf( SInt32	 inSaveOption );
 	
@@ -57,8 +57,6 @@ public:
 	virtual void		OpenDocument( FSSpec* inFSSpec );
 
 	Boolean				ChooseAFile(FSSpec & fileSpec);
-
-	Boolean				ChooseAFile(const LFileTypeList & inFileTypes, FSSpec & fileSpec);
 
 	Boolean				DesignateNewMap( FSSpec& outFileSpec, bool & outReplacing);
 	
@@ -122,7 +120,6 @@ public:
 	static Boolean					sReadOnlyNavFlag;
 
 protected:
-	LDialogBox *		mAboutWindow;
 	SInt16				mCreatingFork;
 	SInt16				mOpeningFork;
 
