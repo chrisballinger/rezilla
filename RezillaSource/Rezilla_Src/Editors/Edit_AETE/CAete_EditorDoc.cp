@@ -68,7 +68,7 @@ extern const Str15 Rzil_AeteExportItems[] = {
 
 
 // ---------------------------------------------------------------------------
-//	¥ CAete_EditorDoc							Default Constructor		  [public]
+//	¥ CAete_EditorDoc						Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CAete_EditorDoc::CAete_EditorDoc(LCommander* inSuper,
@@ -83,7 +83,7 @@ CAete_EditorDoc::CAete_EditorDoc(LCommander* inSuper,
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CAete_EditorDoc							Destructor				  [public]
+//	¥ ~CAete_EditorDoc						Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CAete_EditorDoc::~CAete_EditorDoc()
@@ -127,10 +127,9 @@ CAete_EditorDoc::Initialize()
 		Handle rezData = mRezObj->GetData();
 		
 		if (rezData != nil) {
-			OSErr	error = mRezObj->Detach();
-			if (error == noErr) {
-				mAeteEditWindow->InstallAete(rezData);			
-			}
+			// Work with a copy of the handle
+			::HandToHand(&rezData);
+			mAeteEditWindow->InstallAete(rezData);			
 		} 
 	} 
 	
@@ -185,6 +184,8 @@ CAete_EditorDoc::AllowSubRemoval(
 Boolean
 CAete_EditorDoc::IsModified()
 {
+	// Document has changed if the controls have been invoked
+	mIsModified = mAeteEditWindow->IsDirty();
 	return mIsModified;
 }
 
