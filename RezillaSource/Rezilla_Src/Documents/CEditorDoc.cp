@@ -226,7 +226,9 @@ CEditorDoc::ListenToMessage( MessageT inMessage, void * /* ioParam */)
 		break;
 		
 		case msg_EditorRevert:
-		DoRevert();
+		if ( UMessageDialogs::AskIfFromLocalizable(CFSTR("ConfirmRevert"), PPob_AskIfMessage) == true) {
+			DoRevert();
+		}
 		break;
 				
 		default:
