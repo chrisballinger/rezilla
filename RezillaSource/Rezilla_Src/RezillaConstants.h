@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2005-02-07 16:21:08
+//             Last modification : 2005-02-14 08:44:26
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -378,7 +378,7 @@ const ResIDT	CURS_Cross			= 9013;
 
 // Phony ID used to indicate "the color picker" in the Icon editor
 const ResIDT	ColorTable_UsePicker		= 0;
-// const ResIDT	IconEditor_EmptyDefaults	= 9200;
+const ResIDT	IconEditor_EmptyDefaults	= 9200;
 
 
 // Indices in STR# resources
