@@ -464,6 +464,7 @@ CTxtDataSubView::ObeyCommand(
 		case cmd_SelectAll: {
 			mOwnerDualView->SetSelectingAll(true);
 			SelectAll();
+			mHexSiblingView->SelectAll();
 			AdjustImageToText();
 			ForceAutoScroll(oldDestRect);
 			break;
