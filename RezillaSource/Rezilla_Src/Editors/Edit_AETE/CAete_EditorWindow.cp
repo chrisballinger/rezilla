@@ -2,7 +2,7 @@
 // CAete_EditorWindow.cp
 // 
 //                       Created: 2004-07-01 08:42:37
-//             Last modification: 2005-01-26 07:11:37
+//             Last modification: 2005-01-27 07:06:17
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -464,6 +464,7 @@ CAete_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		oldIndex = GetCurrentIndex(kind_AeteSuite);
 		if (newIndex != oldIndex) {
 			RetrieveSuiteValues();
+			RetrievePanelValues();
 			mAete->SetSuiteIndex(newIndex);
 			InstallSuiteValues();
 			InstallPanelValues();
@@ -473,8 +474,7 @@ CAete_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		
 		case item_AetePanelController:
 		newIndex = *(SInt32 *) ioParam;
-		oldIndex = GetCurrentIndex(mCurrentPanel);
-		if (newIndex != oldIndex) {
+		if (newIndex != mCurrentPanel) {
 			RetrievePanelValues();
 			mCurrentPanel = newIndex;
 			InstallPanelValues();
@@ -485,9 +485,13 @@ CAete_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		
 		case item_AeteItemSlider:
 		newIndex = *(SInt32 *) ioParam;
-		RetrievePanelValues();
-		SetCurrentIndex(mCurrentPanel, newIndex);
-		InstallPanelValues();
+		oldIndex = GetCurrentIndex(mCurrentPanel);
+		if (newIndex != oldIndex) {
+			RetrievePanelValues();
+			SetCurrentIndex(mCurrentPanel, newIndex);
+			InstallPanelValues();
+			UpdateSlider(item_AeteItemSlider, 0, 0);
+		}
 		break;
 		
 		
@@ -886,7 +890,7 @@ CAete_EditorWindow::UpdateSlider(SInt32 inSliderID, SInt32 inValue, SInt32 inTot
 	
 	// Set the slider
 	if (inTotal > 1) {
-		theSlider->SetMinValue(1);
+// 		theSlider->SetMinValue(1);
 		theSlider->SetValue(inValue);
 		theSlider->SetMaxValue(inTotal);
 		theSlider->Show();

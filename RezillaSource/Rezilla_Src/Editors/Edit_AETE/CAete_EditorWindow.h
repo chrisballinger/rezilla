@@ -2,7 +2,7 @@
 // CAete_EditorWindow.h
 // 
 //                       Created: 2004-07-01 08:42:37
-//             Last modification: 2005-01-25 09:24:38
+//             Last modification: 2005-01-27 07:05:58
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -116,7 +116,7 @@ private:
 	void				RetrieveCompOpValues(CAeteCompOp * inCompOp);
 	void				RetrieveEnumerationValues(CAeteEnumeration * inEnum);
 	void				RetrieveEnumeratorValues(AeteEnumerator & outEnumerator);
-	UInt16				RetrieveFlags(SInt32 inKind);
+	void				RetrieveFlags(SInt32 inKind, UInt16 & outFlags);
 
 };
 
