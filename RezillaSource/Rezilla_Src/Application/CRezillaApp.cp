@@ -1,11 +1,11 @@
 // ===========================================================================
 // CRezillaApp.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2005-01-01 20:55:51
+//             Last modification: 2005-01-09 20:29:31
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003-2004, 2005
+// © Copyright: Bernard Desgraupes 2003-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -68,6 +68,7 @@
 #include "CWindow_IconFamily.h"
 #include "CWindow_Pattern.h"
 #include "CWindow_Picture.h"
+#include "CWindow_PatternSuite.h"
 // #include "ABalloon.h"
 
 // PP Classes for registration
@@ -396,6 +397,7 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(CWindow_IconFamily);
 	RegisterClass_(CWindow_Pattern);
 	RegisterClass_(CWindow_Picture);
+	RegisterClass_(CWindow_PatternSuite);
 // #include "ABalloon.h"
 
 // 	RegisterClass_(ATag);
