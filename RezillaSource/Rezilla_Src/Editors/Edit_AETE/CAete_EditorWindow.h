@@ -60,7 +60,7 @@ public:
 
 	virtual void		ListenToMessage( MessageT inMessage,void *ioParam);
 	
-	void				InstallAete(Handle inHandle);
+	OSErr				InstallAete(Handle inHandle);
 	void				RetrieveAete(CAeteStream * outStream);
 		
 	virtual void		RevertContents();

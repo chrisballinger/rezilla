@@ -638,20 +638,31 @@ CAete_EditorWindow::ObeyCommand(
 //  InstallAete														[public]
 // ---------------------------------------------------------------------------
 
-void
+OSErr
 CAete_EditorWindow::InstallAete(Handle inHandle) 
 {
+	OSErr		error = noErr;
 	StHandleLocker lock(inHandle);
 	
 	CAeteStream * theStream = new CAeteStream(inHandle);
 	
 	mAete = new CAete(theStream);
+	
+	// Check that all the data have been parsed
+	if (theStream->GetMarker() < theStream->GetLength() ) {
+		error = err_MoreDataThanExpected;
+	} 
+	
 	delete theStream;
 	
-	RebuildSuitePopup();
-	InstallResourceInfo();
-	InstallSuiteValues();
-	InstallPanelValues();
+	if (error == noErr) {
+		RebuildSuitePopup();
+		InstallResourceInfo();
+		InstallSuiteValues();
+		InstallPanelValues();
+	} 
+	
+	return error;
 }
 
 
