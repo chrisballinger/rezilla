@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2004-11-10 17:11:25
+//             Last modification : 2004-11-15 22:49:41
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -656,8 +656,9 @@ const MessageT	msg_TmplModifiedItem		= 	FOUR_CHAR_CODE('TmMd');
 // AE event class and ID
 enum
 {
-	keyAERezillaClass			=    FOUR_CHAR_CODE('Rzil'),
-	keyAERezillaReplyBuffer 	=	 FOUR_CHAR_CODE('Repl')
+	kAERzilClass			=    FOUR_CHAR_CODE('Rzil'),
+	kAERzilReply	 		=	 FOUR_CHAR_CODE('Repl'),
+	kAERzilFilesList	 	=	 FOUR_CHAR_CODE('LFil')
 };
 
 
