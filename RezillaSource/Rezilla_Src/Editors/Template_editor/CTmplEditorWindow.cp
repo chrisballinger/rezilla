@@ -1368,19 +1368,22 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 	  default:
 	  UMiscUtils::OSTypeToPString(inType, typeStr);
 	  // Handle Hnnn, Cnnn, P0nn, BB0n etc cases here or unrecognized type
-	  if ( (inType >> 24 == 'H' && UMiscUtils::IsValidHexadecimal( (Ptr) typeStr + 2, 3) )
-		  ||
-		  ( inType >> 24 == 'C' && UMiscUtils::IsValidHexadecimal( (Ptr) typeStr + 2, 3) )
-		  ||
-		  ( inType >> 24 == 'T' && UMiscUtils::IsValidHexadecimal( (Ptr) typeStr + 2, 3) ) ) {
+	  if ( (inType >> 24 == 'H' || inType >> 24 == 'C' || inType >> 24 == 'F' || inType >> 24 == 'T') 
+		  && 
+		   UMiscUtils::IsValidHexadecimal( (Ptr) typeStr + 2, 3) ) {
 			  
 		  // Hnnn: a 3-digit hex number; displays $nnn bytes in hex format.
 		  // Cnnn: a C string that is $nnn hex bytes long (the last byte is always a 0, 
 		  //       so the string itself occupies the first $nnn-1 bytes.)
+		  // Fnnn: an uneditable filler hexadecimal string that is $nnn hex bytes long 
 		  // Tnnn: a text string with fixed padding that is $nnn hex bytes long 
 		  AddStaticField(inType, inLabelString, inContainer, sLeftLabelTraitsID);
 		  mYCoord += kTmplLabelHeight + kTmplVertSkip;
-		  AddHexDumpField(inType, inContainer);
+		  if (inType >> 24 == 'H' || inType >> 24 == 'F') {
+			   AddHexDumpField(inType, inContainer);
+		  } else {
+			   AddWasteField(inType, inContainer);
+		  }
 		  
 	  } else if ( inType >> 16 == 'P0' && UMiscUtils::IsValidHexadecimal( (Ptr) typeStr + 3, 2)) {
 		  
@@ -2224,7 +2227,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 	  default:
 	  UMiscUtils::OSTypeToPString(inType, typeStr);
 	  // Handle Hnnn, Cnnn, P0nn, BB0n etc cases here or unrecognized type
-	  if (inType >> 24 == 'H') {
+	  if (inType >> 24 == 'H' || inType >> 24 == 'F') {
 		  
 		  // Hnnn: a 3-digit hex number; displays $nnn bytes in hex format
 		  CDualDataView * theTGB = dynamic_cast<CDualDataView *>(this->FindPaneByID(mCurrentID));

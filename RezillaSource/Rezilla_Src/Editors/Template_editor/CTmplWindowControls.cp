@@ -284,6 +284,11 @@ CTmplEditorWindow::AddEditField(Str255 inValue,
 	// Let the window listen to this field
 	theEditText->AddListener(this);
 
+	// Filler types are not editable
+	if (inType == 'FBYT' || inType == 'FLNG' || inType == 'FWRD') {
+		theEditText->Disable();
+	} 
+	
 	// Advance the counters
 	mYCoord += sEditPaneInfo.height + kTmplVertSep;
 	mCurrentID++;
@@ -801,7 +806,7 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 		}
 		
 		default:
-		if (inType >> 24 == 'H') {
+		if (inType >> 24 == 'H' || inType >> 24 == 'F') {
 			// Hnnn: a 3-digit hex number; displays $nnn bytes in hex format
 			SInt32 numbytes;
 			UMiscUtils::HexNumStringToDecimal(&inType, &numbytes);
@@ -828,6 +833,11 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 
 	WESetSelection(0, 0, theTGB->GetInMemoryWasteRef());
 
+	// Fnnn filler hex strings are uneditable
+	if (inType >> 24 == 'F') {
+		theTGB->Disable();
+	} 
+	
 	// Advance the counters
 	mRezStream->SetMarker(newPos, streamFrom_Start);
 	mYCoord += sTgbPaneInfo.height + kTmplVertSep;
