@@ -149,8 +149,10 @@ adopts the extended convention, so what would have been written as P00F in
 a ResEdit template should be P010 with Rezilla (and with any resource
 editor supporting the extended syntax, such as 
 <A HREF="www.mathemaesthetics.com"> Resorcerer</A>).<P>Note that, despite the P0<I>nn</I> notation which limits <I>nn</I> to the
-hexadecimal value <I>FF</I>, the P100 tag is also accepted by Rezilla.
-With the convention just mentioned, P100 is synonym of PSTR.<P><P><TABLE BORDER=1 CELLPADDING=1>
+hexadecimal value <I>FF</I>, the P100 tag is also accepted by Rezilla. As
+an exception to the convention just mentioned, P100 is synonym of P0FF,
+that is to say designates a Pascal string padded with zeros in order to
+occupy exactly 256 bytes (inhcluding the length byte).<P><P><TABLE BORDER=1 CELLPADDING=1>
 <TR><TD><I>Tag</I></TD><TD><I>Description</I></TD><TD><I>Size</I></TD><TD></TD></TR>
 <TR><TD>PSTR</TD><TD>Pascal string</TD><TD>1 to 256</TD><TD></TD></TR>
 <TR><TD>ESTR</TD><TD>Even-Padded Pascal string</TD><TD>2 to 256</TD><TD></TD></TR>
@@ -162,7 +164,7 @@ With the convention just mentioned, P100 is synonym of PSTR.<P><P><TABLE BORDER=
 <TR><TD>BSTR</TD><TD>Byte length string</TD><TD>1 to 256</TD><TD>x</TD></TR>
 <TR><TD>WSTR</TD><TD>Word length string</TD><TD>2 to 65KB</TD><TD></TD></TR>
 <TR><TD>LSTR</TD><TD>Long length string</TD><TD>4 to 4MB</TD><TD></TD></TR>
-<TR><TD>P100</TD><TD>Synonym of PSTR</TD><TD>1 to 256</TD><TD></TD></TR>
+<TR><TD>P100</TD><TD>Pascal string padded to 256 bytes</TD><TD>256 bytes</TD><TD></TD></TR>
 <TR><TD>P0<I>nn</I></TD><TD>Pascal string with fixed padding</TD><TD><I>$nn</I> bytes</TD><TD></TD></TR>
 <TR><TD>C<I>nnn</I></TD><TD>C string with fixed padding</TD><TD><I>$nnn</I> bytes</TD><TD>x</TD></TR>
 <TR><TD>T<I>nnn</I></TD><TD>Text with fixed padding</TD><TD><I>$nnn</I> bytes</TD><TD>x</TD></TR>
