@@ -2,7 +2,7 @@
 // CAete_EditorWindow.h
 // 
 //                       Created: 2004-07-01 08:42:37
-//             Last modification: 2005-01-30 12:25:15
+//             Last modification: 2005-02-03 09:21:41
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -101,6 +101,7 @@ private:
 	void				InstallClassValues(CAeteClass * inClass);
 	void				InstallPropertyValues(CAeteProperty * inProperty);
 	void				InstallElementValues(CAeteElement * inElement);
+	void				InstallKeyFormValues(OSType inKeyForm);
 	void				InstallCompOpValues(CAeteCompOp * inCompOp);
 	void				InstallEnumerationValues(CAeteEnumeration * inEnum);
 	void				InstallEnumeratorValues(AeteEnumerator inEnumerator);
@@ -114,6 +115,7 @@ private:
 	void				RetrieveClassValues(CAeteClass * inClass);
 	void				RetrievePropertyValues(CAeteProperty * inProperty);
 	void				RetrieveElementValues(CAeteElement * inElement);
+	void				RetrieveKeyFormValues(OSType & outKeyForm);
 	void				RetrieveCompOpValues(CAeteCompOp * inCompOp);
 	void				RetrieveEnumerationValues(CAeteEnumeration * inEnum);
 	void				RetrieveEnumeratorValues(AeteEnumerator & outEnumerator);
@@ -129,6 +131,8 @@ private:
 									 SInt32 inValue, 
 									 SInt32 inTotal, 
 									 Boolean inOnlyIndicator = false);
+	void				HandleSliderMessage(SInt32 inKind, SInt32 inValue);
+	void				HandleOptionsPopup(SInt32 inKind, SInt32 inIndex);
 	
 };
 
