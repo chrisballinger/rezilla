@@ -2,7 +2,7 @@
 // CTmplWindowUtils.cp					
 // 
 //                       Created: 2004-08-20 16:45:08
-//             Last modification: 2004-09-21 14:43:16
+//             Last modification: 2004-09-23 18:06:22
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -302,20 +302,20 @@ CTmplEditorWindow::RecalcPositions(LView * inView, SInt32 inVertPos, SInt32 inPo
 ExceptionCode
 CTmplEditorWindow::AlignBytesRead(UInt8 inStep)
 {
-	ExceptionCode	err = noErr;
+	ExceptionCode	error = noErr;
 	
 	SInt32 theSInt32 = mRezStream->GetMarker();
 	SInt32 theRest = theSInt32 % inStep;
 
 	if (theRest != 0) {
 		if (theSInt32 + theRest > mRezStream->GetLength()) {
-			err = writErr;
+			error = writErr;
 		} else {
 			mRezStream->SetMarker(theRest, streamFrom_Marker);
 		}
 	}
 	
-	return err;
+	return error;
 }
 
 
@@ -326,18 +326,18 @@ CTmplEditorWindow::AlignBytesRead(UInt8 inStep)
 ExceptionCode
 CTmplEditorWindow::AlignBytesWrite(UInt8 inStep)
 {
-	ExceptionCode	err = noErr;
+	ExceptionCode	error = noErr;
 	
 	SInt32 theSInt32 = mOutStream->GetMarker();
 	SInt32 theRest = theSInt32 % inStep;
 
 	if (theRest != 0) {	
-		for (UInt8 i = theRest; i < 4; i++) {
+		for (UInt8 i = theRest; i < inStep; i++) {
 				*mOutStream << (UInt8) 0x00;
 			}
 		}
 	
-	return err;
+	return error;
 }
 
 
