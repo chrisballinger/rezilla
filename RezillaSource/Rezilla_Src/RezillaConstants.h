@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2004-04-12 10:08:42
+//             Last modification : 2004-04-19 16:38:33
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -259,6 +259,7 @@ const PaneIDT	item_CompResultOldHex		= 4;
 const PaneIDT	item_CompResultNewHex		= 5;
 const PaneIDT	item_CompResultHexRadio		= 6;
 const PaneIDT	item_CompResultTxtRadio		= 7;
+const PaneIDT	item_CompResultIgnStatic	= 8;
 const PaneIDT	item_CompResultOnlyOldTbl	= 11;
 const PaneIDT	item_CompResultDifferingTbl	= 13;
 const PaneIDT	item_CompResultOnlyNewTbl	= 15;
@@ -385,7 +386,8 @@ enum
 	err_NoRezInRezFork,
 	err_NoRezInAnyFork,
 	err_NoOpenPermission,
-	err_OpenForkError
+	err_OpenForkError,
+	err_UnderVersionControl
 };
 
 

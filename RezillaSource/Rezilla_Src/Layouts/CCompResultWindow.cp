@@ -2,7 +2,7 @@
 // CHexEditorWindow.cp					
 // 
 //                       Created: 2004-03-02 14:18:16
-//             Last modification: 2004-03-20 22:40:56
+//             Last modification: 2004-04-19 17:01:39
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -101,6 +101,8 @@ void
 CCompResultWindow::FinishCreateSelf()
 {	
 	LStaticText * theStaticText;
+	LStr255		optionString("\p");
+
 	mDisplayDataFormat = compare_displayAsHex;
 	mActiveTable = compare_undefinedTbl;
 	
@@ -150,6 +152,7 @@ CCompResultWindow::FinishCreateSelf()
 	mOnlyNewTable->SetTableStorage(new LTableArrayStorage(mOnlyNewTable, sizeof(Str255)));
 	mOnlyNewTable->InsertCols(1, 0);
 	
+	// Static text fields
 	theStaticText = dynamic_cast<LStaticText *>(FindPaneByID( item_CompResultOldStatic ));
 	ThrowIfNil_(theStaticText);
 	theStaticText->SetDescriptor(mRezCompare->GetOldPath());
@@ -157,6 +160,31 @@ CCompResultWindow::FinishCreateSelf()
 	theStaticText = dynamic_cast<LStaticText *>(FindPaneByID( item_CompResultNewStatic ));
 	ThrowIfNil_(theStaticText);
 	theStaticText->SetDescriptor(mRezCompare->GetNewPath());
+	
+	theStaticText = dynamic_cast<LStaticText *>(FindPaneByID( item_CompResultIgnStatic ));
+	ThrowIfNil_(theStaticText);
+	if (CRezCompare::sIgnoreNames + CRezCompare::sIgnoreAttrs + CRezCompare::sIgnoreData == 0) {
+		optionString.Assign("\pNo options");
+	} else {
+		SInt8 count = 0;
+		optionString.Assign("\pIgnoring ");
+		if (CRezCompare::sIgnoreNames) {
+			optionString += "\pname";
+			count++;
+		}		
+		if (CRezCompare::sIgnoreAttrs) {
+			optionString += count ? "\p, " : "\p ";
+			optionString += "\pattribute";
+			count++;
+		}		
+		if (CRezCompare::sIgnoreData) {
+			optionString += count ? "\p, " : "\p ";
+			optionString += "\pdata";
+		}		
+		optionString += "\p differences";
+	}	
+	
+	theStaticText->SetDescriptor(optionString);
 	
 	// Link the broadcasters.
     UReanimator::LinkListenerToControls( this, this, rRidL_RezCompWindow );
