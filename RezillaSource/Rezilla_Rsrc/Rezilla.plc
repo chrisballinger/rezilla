@@ -49,7 +49,7 @@ plist
 		[
 			dictionary
 			{
-				key "CFBundleTypeName" value string "NSStringPboardType"
+				key "CFBundleTypeName" value string "Rezilla Resource File"
 				key "CFBundleTypeIconFile" value string "RezillaDocs.icns"
 				key "CFBundleTypeRole" value string "Viewer"
 				key "CFBundleTypeOSTypes" value array
