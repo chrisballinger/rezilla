@@ -2,7 +2,7 @@
 // CTmplEditorWindow.cp					
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-08-01 22:54:24
+//             Last modification: 2004-08-04 22:27:43
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -50,6 +50,26 @@
 
 #include <stdio.h>
 #include <string.h>
+
+// Statics
+ResIDT CTmplEditorWindow::sLeftLabelTraitsID = Txtr_GenevaTenBoldUlLeft;
+ResIDT CTmplEditorWindow::sRightLabelTraitsID = Txtr_GenevaTenBoldUlRight;
+ResIDT CTmplEditorWindow::sEditTraitsID = Txtr_GenevaTen;
+ResIDT CTmplEditorWindow::sHeaderTraitsID = Txtr_GenevaTenBold;
+SPaneInfo CTmplEditorWindow::sEditPaneInfo;
+SPaneInfo CTmplEditorWindow::sStaticPaneInfo;
+SPaneInfo CTmplEditorWindow::sRgvPaneInfo;
+SPaneInfo CTmplEditorWindow::sRadioPaneInfo;
+SPaneInfo CTmplEditorWindow::sCheckPaneInfo;
+SPaneInfo CTmplEditorWindow::sRectLabelInfo;
+SPaneInfo CTmplEditorWindow::sRectPaneInfo;
+SPaneInfo CTmplEditorWindow::sScrollPaneInfo;
+SPaneInfo CTmplEditorWindow::sTgbPaneInfo;
+SPaneInfo CTmplEditorWindow::sWastePaneInfo;
+SPaneInfo CTmplEditorWindow::sPushPaneInfo;
+SPaneInfo CTmplEditorWindow::sListItemInfo;
+SPaneInfo CTmplEditorWindow::sSeparatorPaneInfo;
+SPaneInfo CTmplEditorWindow::sBevelPaneInfo;
 
 
 // ---------------------------------------------------------------------------
@@ -130,10 +150,6 @@ CTmplEditorWindow::FinishCreateSelf()
 	mIndent				= 0;
 	mIsDirty			= false;
 	mYCoord             = kTmplVertSkip;
-	mLeftLabelTraitsID	= Txtr_GenevaTenBoldUlLeft;
-	mRightLabelTraitsID	= Txtr_GenevaTenBoldUlRight;
-	mEditTraitsID		= Txtr_GenevaTen;
-	mHeaderTraitsID		= Txtr_GenevaTenBold;
 	mTemplateStream		= nil;
 	mRezStream			= nil;
 	mOutStream			= nil;
@@ -161,165 +177,175 @@ CTmplEditorWindow::FinishCreateSelf()
 	// Make the window a listener to the prefs object
 	CRezillaApp::sPrefs->AddListener(this);
 
-	// Label fields basic values
-	mStaticPaneInfo.paneID			= 0;
-	mStaticPaneInfo.height			= kTmplLabelHeight;
-	mStaticPaneInfo.visible			= true;
-	mStaticPaneInfo.enabled			= true;
-	mStaticPaneInfo.bindings.left	= true;
-	mStaticPaneInfo.bindings.top	= false;
-	mStaticPaneInfo.bindings.right	= false;
-	mStaticPaneInfo.bindings.bottom = false;
-	mStaticPaneInfo.userCon			= 0;
-	
-	// Edit fields basic values
-	mEditPaneInfo.paneID			= 0;
-	mEditPaneInfo.height			= kTmplEditHeight;
-	mEditPaneInfo.visible			= true;
-	mEditPaneInfo.enabled			= true;
-	mEditPaneInfo.bindings.left		= true;
-	mEditPaneInfo.bindings.top		= false;
-	mEditPaneInfo.bindings.right	= true;
-	mEditPaneInfo.bindings.bottom	= false;
-	mEditPaneInfo.userCon			= 0;
-
-	// Radio group view basic values
-	mRgvPaneInfo.paneID				= 0;
-	mRgvPaneInfo.width				= kTmplRgvWidth;
-	mRgvPaneInfo.height				= kTmplRgvHeight;
-	mRgvPaneInfo.visible			= true;
-	mRgvPaneInfo.enabled			= true;
-	mRgvPaneInfo.bindings.left		= true;
-	mRgvPaneInfo.bindings.top		= false;
-	mRgvPaneInfo.bindings.right		= false;
-	mRgvPaneInfo.bindings.bottom	= false;
-	mRgvPaneInfo.userCon			= 0;
-	
-	// Radio buttons basic values
-	mRadioPaneInfo.paneID			= 0;
-	mRadioPaneInfo.width			= kTmplRadioWidth;
-	mRadioPaneInfo.height			= kTmplRadioHeight;
-	mRadioPaneInfo.visible			= true;
-	mRadioPaneInfo.enabled			= true;
-	mRadioPaneInfo.bindings.left	= true;
-	mRadioPaneInfo.bindings.top		= false;
-	mRadioPaneInfo.bindings.right	= false;
-	mRadioPaneInfo.bindings.bottom	= false;
-	mRadioPaneInfo.userCon			= 0;
-
-	// Check boxes basic values
-	mCheckPaneInfo.paneID			= 0;
-	mCheckPaneInfo.width			= kTmplCheckWidth;
-	mCheckPaneInfo.height			= kTmplCheckHeight;
-	mCheckPaneInfo.visible			= true;
-	mCheckPaneInfo.enabled			= true;
-	mCheckPaneInfo.bindings.left	= true;
-	mCheckPaneInfo.bindings.top		= false;
-	mCheckPaneInfo.bindings.right	= false;
-	mCheckPaneInfo.bindings.bottom	= false;
-	mCheckPaneInfo.userCon			= 0;
-
-	// Rectangle labels basic values
-	mRectLabelInfo.paneID			= 0;
-	mRectLabelInfo.width			= kTmplRectWidth;
-	mRectLabelInfo.height			= kTmplRectHeight;
-	mRectLabelInfo.visible			= true;
-	mRectLabelInfo.enabled			= true;
-	mRectLabelInfo.bindings.left	= true;
-	mRectLabelInfo.bindings.top		= false;
-	mRectLabelInfo.bindings.right	= false;
-	mRectLabelInfo.bindings.bottom	= false;
-	mRectLabelInfo.userCon			= 0;
-
-	// Rectangle edit basic values
-	mRectPaneInfo.width				= kTmplRectWidth;
-	mRectPaneInfo.height			= kTmplEditHeight;
-	mRectPaneInfo.visible			= true;
-	mRectPaneInfo.enabled			= true;
-	mRectPaneInfo.bindings.left		= true;
-	mRectPaneInfo.bindings.top		= false;
-	mRectPaneInfo.bindings.right	= false;
-	mRectPaneInfo.bindings.bottom	= false;
-	mRectPaneInfo.userCon			= 0;
-	
-	// Active scrollers basic values
-	mScrollPaneInfo.paneID			= 0;
-	mScrollPaneInfo.visible			= true;
-	mScrollPaneInfo.enabled			= true;
-	mScrollPaneInfo.bindings.left	= false;
-	mScrollPaneInfo.bindings.top	= true;
-	mScrollPaneInfo.bindings.right	= true;
-	mScrollPaneInfo.bindings.bottom	= true;
-	mScrollPaneInfo.userCon			= 0;
-
-	// Text group box for text views basic values
-	mTgbPaneInfo.height				= kTmplTextHeight;
-	mTgbPaneInfo.visible			= true;
-	mTgbPaneInfo.enabled			= true;
-	mTgbPaneInfo.bindings.left		= true;
-	mTgbPaneInfo.bindings.top		= false;
-	mTgbPaneInfo.bindings.right		= true;
-	mTgbPaneInfo.bindings.bottom	= false;
-	mTgbPaneInfo.userCon			= 0;
-
-	// Text views basic values
-	mWastePaneInfo.paneID			= 0;
-	mWastePaneInfo.visible			= true;
-	mWastePaneInfo.enabled			= true;
-	mWastePaneInfo.bindings.left	= true;
-	mWastePaneInfo.bindings.top		= false;
-	mWastePaneInfo.bindings.right	= true;
-	mWastePaneInfo.bindings.bottom	= true;
-	mWastePaneInfo.userCon			= 0;
-	
-	// Push buttons basic values
-	mPushPaneInfo.width				= kTmplPushWidth;
-	mPushPaneInfo.height			= kTmplPushHeight;
-	mPushPaneInfo.visible			= true;
-	mPushPaneInfo.enabled			= true;
-	mPushPaneInfo.bindings.left		= false;
-	mPushPaneInfo.bindings.top		= false;
-	mPushPaneInfo.bindings.right	= false;
-	mPushPaneInfo.bindings.bottom	= false;
-	mPushPaneInfo.userCon			= 0;
-	
-	// List item views basic values
-	mListItemInfo.height			= 0;
-	mListItemInfo.visible			= true;
-	mListItemInfo.enabled			= true;
-	mListItemInfo.bindings.left		= true;
-	mListItemInfo.bindings.top		= false;
-	mListItemInfo.bindings.right	= true;
-	mListItemInfo.bindings.bottom	= false;
-	mListItemInfo.userCon			= 0;
-	
-	// Separator horizontal line basic values
-	mSeparatorPaneInfo.paneID			= 0;
-	mSeparatorPaneInfo.height			= kTmplSeparatorHeight;
-	mSeparatorPaneInfo.visible			= true;
-	mSeparatorPaneInfo.enabled			= true;
-	mSeparatorPaneInfo.bindings.left	= true;
-	mSeparatorPaneInfo.bindings.top		= false;
-	mSeparatorPaneInfo.bindings.right	= true;
-	mSeparatorPaneInfo.bindings.bottom = false;
-	mSeparatorPaneInfo.userCon			= 0;
-	
-	// Popup button fields basic values
-	mBevelPaneInfo.width			= kTmplBevelWidth;
-	mBevelPaneInfo.height			= kTmplBevelHeight;
-	mBevelPaneInfo.visible			= true;
-	mBevelPaneInfo.enabled			= true;
-	mBevelPaneInfo.bindings.left	= false;
-	mBevelPaneInfo.bindings.top		= false;
-	mBevelPaneInfo.bindings.right	= true;
-	mBevelPaneInfo.bindings.bottom 	= false;
-	mBevelPaneInfo.userCon			= 0;
-
+	InitPaneInfos();
 }
 	
 
 // ---------------------------------------------------------------------------
-//		¥ ListenToMessage				[public]
+//		¥ InitPaneInfos												[static]
+// ---------------------------------------------------------------------------
+
+void
+CTmplEditorWindow::InitPaneInfos()
+{
+	// Label fields basic values
+	sStaticPaneInfo.paneID			= 0;
+	sStaticPaneInfo.height			= kTmplLabelHeight;
+	sStaticPaneInfo.visible			= true;
+	sStaticPaneInfo.enabled			= true;
+	sStaticPaneInfo.bindings.left	= true;
+	sStaticPaneInfo.bindings.top	= false;
+	sStaticPaneInfo.bindings.right	= false;
+	sStaticPaneInfo.bindings.bottom = false;
+	sStaticPaneInfo.userCon			= 0;
+	
+	// Edit fields basic values
+	sEditPaneInfo.paneID			= 0;
+	sEditPaneInfo.height			= kTmplEditHeight;
+	sEditPaneInfo.visible			= true;
+	sEditPaneInfo.enabled			= true;
+	sEditPaneInfo.bindings.left		= true;
+	sEditPaneInfo.bindings.top		= false;
+	sEditPaneInfo.bindings.right	= true;
+	sEditPaneInfo.bindings.bottom	= false;
+	sEditPaneInfo.userCon			= 0;
+
+	// Radio group view basic values
+	sRgvPaneInfo.paneID				= 0;
+	sRgvPaneInfo.width				= kTmplRgvWidth;
+	sRgvPaneInfo.height				= kTmplRgvHeight;
+	sRgvPaneInfo.visible			= true;
+	sRgvPaneInfo.enabled			= true;
+	sRgvPaneInfo.bindings.left		= true;
+	sRgvPaneInfo.bindings.top		= false;
+	sRgvPaneInfo.bindings.right		= false;
+	sRgvPaneInfo.bindings.bottom	= false;
+	sRgvPaneInfo.userCon			= 0;
+	
+	// Radio buttons basic values
+	sRadioPaneInfo.paneID			= 0;
+	sRadioPaneInfo.width			= kTmplRadioWidth;
+	sRadioPaneInfo.height			= kTmplRadioHeight;
+	sRadioPaneInfo.visible			= true;
+	sRadioPaneInfo.enabled			= true;
+	sRadioPaneInfo.bindings.left	= true;
+	sRadioPaneInfo.bindings.top		= false;
+	sRadioPaneInfo.bindings.right	= false;
+	sRadioPaneInfo.bindings.bottom	= false;
+	sRadioPaneInfo.userCon			= 0;
+
+	// Check boxes basic values
+	sCheckPaneInfo.paneID			= 0;
+	sCheckPaneInfo.width			= kTmplCheckWidth;
+	sCheckPaneInfo.height			= kTmplCheckHeight;
+	sCheckPaneInfo.visible			= true;
+	sCheckPaneInfo.enabled			= true;
+	sCheckPaneInfo.bindings.left	= true;
+	sCheckPaneInfo.bindings.top		= false;
+	sCheckPaneInfo.bindings.right	= false;
+	sCheckPaneInfo.bindings.bottom	= false;
+	sCheckPaneInfo.userCon			= 0;
+
+	// Rectangle labels basic values
+	sRectLabelInfo.paneID			= 0;
+	sRectLabelInfo.width			= kTmplRectWidth;
+	sRectLabelInfo.height			= kTmplRectHeight;
+	sRectLabelInfo.visible			= true;
+	sRectLabelInfo.enabled			= true;
+	sRectLabelInfo.bindings.left	= true;
+	sRectLabelInfo.bindings.top		= false;
+	sRectLabelInfo.bindings.right	= false;
+	sRectLabelInfo.bindings.bottom	= false;
+	sRectLabelInfo.userCon			= 0;
+
+	// Rectangle edit basic values
+	sRectPaneInfo.width				= kTmplRectWidth;
+	sRectPaneInfo.height			= kTmplEditHeight;
+	sRectPaneInfo.visible			= true;
+	sRectPaneInfo.enabled			= true;
+	sRectPaneInfo.bindings.left		= true;
+	sRectPaneInfo.bindings.top		= false;
+	sRectPaneInfo.bindings.right	= false;
+	sRectPaneInfo.bindings.bottom	= false;
+	sRectPaneInfo.userCon			= 0;
+	
+	// Active scrollers basic values
+	sScrollPaneInfo.paneID			= 0;
+	sScrollPaneInfo.visible			= true;
+	sScrollPaneInfo.enabled			= true;
+	sScrollPaneInfo.bindings.left	= false;
+	sScrollPaneInfo.bindings.top	= true;
+	sScrollPaneInfo.bindings.right	= true;
+	sScrollPaneInfo.bindings.bottom	= true;
+	sScrollPaneInfo.userCon			= 0;
+
+	// Text group box for text views basic values
+	sTgbPaneInfo.height				= kTmplTextHeight;
+	sTgbPaneInfo.visible			= true;
+	sTgbPaneInfo.enabled			= true;
+	sTgbPaneInfo.bindings.left		= true;
+	sTgbPaneInfo.bindings.top		= false;
+	sTgbPaneInfo.bindings.right		= true;
+	sTgbPaneInfo.bindings.bottom	= false;
+	sTgbPaneInfo.userCon			= 0;
+
+	// Text views basic values
+	sWastePaneInfo.paneID			= 0;
+	sWastePaneInfo.visible			= true;
+	sWastePaneInfo.enabled			= true;
+	sWastePaneInfo.bindings.left	= true;
+	sWastePaneInfo.bindings.top		= false;
+	sWastePaneInfo.bindings.right	= true;
+	sWastePaneInfo.bindings.bottom	= true;
+	sWastePaneInfo.userCon			= 0;
+	
+	// Push buttons basic values
+	sPushPaneInfo.width				= kTmplPushWidth;
+	sPushPaneInfo.height			= kTmplPushHeight;
+	sPushPaneInfo.visible			= true;
+	sPushPaneInfo.enabled			= true;
+	sPushPaneInfo.bindings.left		= false;
+	sPushPaneInfo.bindings.top		= false;
+	sPushPaneInfo.bindings.right	= false;
+	sPushPaneInfo.bindings.bottom	= false;
+	sPushPaneInfo.userCon			= 0;
+	
+	// List item views basic values
+	sListItemInfo.height			= 0;
+	sListItemInfo.visible			= true;
+	sListItemInfo.enabled			= true;
+	sListItemInfo.bindings.left		= true;
+	sListItemInfo.bindings.top		= false;
+	sListItemInfo.bindings.right	= true;
+	sListItemInfo.bindings.bottom	= false;
+	sListItemInfo.userCon			= 0;
+	
+	// Separator horizontal line basic values
+	sSeparatorPaneInfo.paneID			= 0;
+	sSeparatorPaneInfo.height			= kTmplSeparatorHeight;
+	sSeparatorPaneInfo.visible			= true;
+	sSeparatorPaneInfo.enabled			= true;
+	sSeparatorPaneInfo.bindings.left	= true;
+	sSeparatorPaneInfo.bindings.top		= false;
+	sSeparatorPaneInfo.bindings.right	= true;
+	sSeparatorPaneInfo.bindings.bottom = false;
+	sSeparatorPaneInfo.userCon			= 0;
+	
+	// Popup button fields basic values
+	sBevelPaneInfo.width			= kTmplBevelWidth;
+	sBevelPaneInfo.height			= kTmplBevelHeight;
+	sBevelPaneInfo.visible			= true;
+	sBevelPaneInfo.enabled			= true;
+	sBevelPaneInfo.bindings.left	= false;
+	sBevelPaneInfo.bindings.top		= false;
+	sBevelPaneInfo.bindings.right	= true;
+	sBevelPaneInfo.bindings.bottom 	= false;
+	sBevelPaneInfo.userCon			= 0;
+}
+
+
+// ---------------------------------------------------------------------------
+//		¥ ListenToMessage											[public]
 // ---------------------------------------------------------------------------
 // The Plus button stores a pointer to the first list item in its UserCon
 // field. The Minus button stores the marker to the beginning of the list
@@ -397,6 +423,10 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			
 			mContentsView->ResizeImageBy(0, -theHeight, true);
 			mContentsView->Refresh();
+
+			// Window has been modified
+			SetDirty(true);
+
 			break;
 		
 		
@@ -464,10 +494,14 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			mContentsView->Show();
 			mContentsView->Enable();
 			mContentsView->Activate();
+			
+			// Window has been modified
+			SetDirty(true);
+			
 			break;
 			
 			
-		case msg_TmplModified:
+		case msg_TmplModifiedItem:
 		SetDirty(true);
 		break;
 		
@@ -1009,7 +1043,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		case 'CSTR':
 		// C string. This should be either characters followed by a null or all
 		// the chars until the end of the stream if there is no null byte.
-		AddStaticField(inLabelString, inContainer, mLeftLabelTraitsID);
+		AddStaticField(inLabelString, inContainer, sLeftLabelTraitsID);
 		mYCoord += kTmplLabelHeight + kTmplVertSkip;
 		AddWasteField(inType, inContainer);
  		break;
@@ -1049,7 +1083,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 
 		case 'ECST':
 		// Even-padded C string (padded with nulls)
-		AddStaticField(inLabelString, inContainer, mLeftLabelTraitsID);
+		AddStaticField(inLabelString, inContainer, sLeftLabelTraitsID);
 		mYCoord += kTmplLabelHeight + kTmplVertSkip;
 		// Padding is handled there
 		AddWasteField(inType, inContainer);
@@ -1110,7 +1144,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 
 		case 'HEXD':
 		// Hex dump of remaining bytes in resource (this can only be the last type in a resource)
-		AddStaticField(inLabelString, inContainer, mLeftLabelTraitsID);
+		AddStaticField(inLabelString, inContainer, sLeftLabelTraitsID);
 		mYCoord += kTmplLabelHeight + kTmplVertSkip;
 		AddHexDumpField(inType, inContainer);
 		break;
@@ -1154,7 +1188,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 
 		case 'LSTR':
 		// Long string (length long followed by the characters)
-		AddStaticField(inLabelString, inContainer, mLeftLabelTraitsID);
+		AddStaticField(inLabelString, inContainer, sLeftLabelTraitsID);
 		mYCoord += kTmplLabelHeight + kTmplVertSkip;
 		AddWasteField(inType, inContainer);
 		break;
@@ -1174,7 +1208,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 
 		case 'OCST':
 		// Odd-padded C string (padded with nulls)
-		AddStaticField(inLabelString, inContainer, mLeftLabelTraitsID);
+		AddStaticField(inLabelString, inContainer, sLeftLabelTraitsID);
 		mYCoord += kTmplLabelHeight + kTmplVertSkip;
 		// Padding is handled there
 		AddWasteField(inType, inContainer);
@@ -1243,7 +1277,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 
 		case 'WSTR':
 		// Same as LSTR, but a word rather than a long word
-		AddStaticField(inLabelString, inContainer, mLeftLabelTraitsID);
+		AddStaticField(inLabelString, inContainer, sLeftLabelTraitsID);
 		mYCoord += kTmplLabelHeight + kTmplVertSkip;
 		AddWasteField(inType, inContainer);
  		break;
@@ -1264,12 +1298,12 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 	  if (inType >> 24 == 'H') {
 		  // Hnnn A 3-digit hex number; displays nnn bytes in hex format
 		  // 0xfff = 4095
-		  AddStaticField(inLabelString, inContainer, mLeftLabelTraitsID);
+		  AddStaticField(inLabelString, inContainer, sLeftLabelTraitsID);
 		  mYCoord += kTmplLabelHeight + kTmplVertSkip;
 		  AddHexDumpField(inType, inContainer);
 	  } else if (inType >> 24 == 'C') {
 		  // Cnnn A C string that is nnn hex bytes long (The last byte is always a 0, so the string itself occupies the first nnn-1 bytes.)
-		  AddStaticField(inLabelString, inContainer, mLeftLabelTraitsID);
+		  AddStaticField(inLabelString, inContainer, sLeftLabelTraitsID);
 		  mYCoord += kTmplLabelHeight + kTmplVertSkip;
 		  AddWasteField(inType, inContainer);
 	  } else if ( inType >> 16 == 'P0') {
@@ -1312,12 +1346,12 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 void
 CTmplEditorWindow::AddStaticField(Str255 inLabel, LView * inContainer, ResIDT inTextTraitsID)
 {
-	mStaticPaneInfo.left		= kTmplLeftMargin;
-	mStaticPaneInfo.top			= mYCoord;
-	mStaticPaneInfo.width		= kTmplLabelWidth;
-	mStaticPaneInfo.superView	= inContainer;
+	sStaticPaneInfo.left		= kTmplLeftMargin;
+	sStaticPaneInfo.top			= mYCoord;
+	sStaticPaneInfo.width		= kTmplLabelWidth;
+	sStaticPaneInfo.superView	= inContainer;
 
-	LStaticText * theStaticText = new LStaticText(mStaticPaneInfo, inLabel, inTextTraitsID);
+	LStaticText * theStaticText = new LStaticText(sStaticPaneInfo, inLabel, inTextTraitsID);
 	ThrowIfNil_(theStaticText);
 }
 
@@ -1337,21 +1371,24 @@ CTmplEditorWindow::AddEditField(Str255 inValue,
 	SDimension16	theFrame;
 	inContainer->GetFrameSize(theFrame);
 
-	mEditPaneInfo.left		= kTmplLeftMargin + kTmplLabelWidth + kTmplHorizSep;
-	mEditPaneInfo.width		= theFrame.width - kTmplLeftMargin * 2 - kTmplLabelWidth - kTmplHorizSep - kTmplHorizSkip;
-	mEditPaneInfo.top		= mYCoord - 3;
-	mEditPaneInfo.paneID	= mCurrentID;
-	mEditPaneInfo.superView	= inContainer;
+	sEditPaneInfo.left		= kTmplLeftMargin + kTmplLabelWidth + kTmplHorizSep;
+	sEditPaneInfo.width		= theFrame.width - kTmplLeftMargin * 2 - kTmplLabelWidth - kTmplHorizSep - kTmplHorizSkip;
+	sEditPaneInfo.top		= mYCoord - 3;
+	sEditPaneInfo.paneID	= mCurrentID;
+	sEditPaneInfo.superView	= inContainer;
 
-	LEditText * theEditText = new LEditText(mEditPaneInfo, this, inValue, mEditTraitsID, 
-											msg_TmplModified, inMaxChars, inAttributes, inKeyFilter);
+	LEditText * theEditText = new LEditText(sEditPaneInfo, this, inValue, sEditTraitsID, 
+											msg_TmplModifiedItem, inMaxChars, inAttributes, inKeyFilter);
 	ThrowIfNil_(theEditText);
 
 	// Store the template's type in the userCon field
 	theEditText->SetUserCon(inType);
 	
+	// Let the window listen to this button
+	theEditText->AddListener(this);
+
 	// Advance the counters
-	mYCoord += mEditPaneInfo.height + kTmplVertSep;
+	mYCoord += sEditPaneInfo.height + kTmplVertSep;
 	mCurrentID++;
 }
 
@@ -1373,12 +1410,12 @@ CTmplEditorWindow::AddBooleanField(Boolean inValue,
 	theViewInfo.scrollUnit.h		= theViewInfo.scrollUnit.v		= 1;
 	theViewInfo.reconcileOverhang	= false;
 	
-	mRgvPaneInfo.left		= kTmplLeftMargin + kTmplLabelWidth + kTmplHorizSep;
-	mRgvPaneInfo.top		= mYCoord - 2;
-	mRgvPaneInfo.paneID		= mCurrentID;
-	mRgvPaneInfo.superView	= inContainer;
+	sRgvPaneInfo.left		= kTmplLeftMargin + kTmplLabelWidth + kTmplHorizSep;
+	sRgvPaneInfo.top		= mYCoord - 2;
+	sRgvPaneInfo.paneID		= mCurrentID;
+	sRgvPaneInfo.superView	= inContainer;
 
-	LRadioGroupView * theRGV = new LRadioGroupView(mRgvPaneInfo, theViewInfo);
+	LRadioGroupView * theRGV = new LRadioGroupView(sRgvPaneInfo, theViewInfo);
 	ThrowIfNil_(theRGV);
 
 	// Store the template's type in the userCon field
@@ -1388,13 +1425,13 @@ CTmplEditorWindow::AddBooleanField(Boolean inValue,
 
 	// Create two radiobuttons in this group
 	//     "Yes/On" radiobutton
-	mRadioPaneInfo.left			= 0;
-	mRadioPaneInfo.top			= 0;
-	mRadioPaneInfo.paneID		= mCurrentID;
-	mRadioPaneInfo.superView	= theRGV;
+	sRadioPaneInfo.left			= 0;
+	sRadioPaneInfo.top			= 0;
+	sRadioPaneInfo.paneID		= mCurrentID;
+	sRadioPaneInfo.superView	= theRGV;
 
-	theRadio = new LStdRadioButton(mRadioPaneInfo, msg_TmplModified, 
-								   inValue, mLeftLabelTraitsID, (UInt8 *)(inTitleType ? "\pOn":"\pYes"));
+	theRadio = new LStdRadioButton(sRadioPaneInfo, msg_TmplModifiedItem, 
+								   inValue, sLeftLabelTraitsID, (UInt8 *)(inTitleType ? "\pOn":"\pYes"));
 	ThrowIfNil_(theRadio);
 	
 	// Add to the radio-group
@@ -1406,11 +1443,11 @@ CTmplEditorWindow::AddBooleanField(Boolean inValue,
 	mCurrentID++;
 
 	//     "No/Off" radiobutton
-	mRadioPaneInfo.left += kTmplRadioWidth + kTmplHorizSep;
-	mRadioPaneInfo.paneID = mCurrentID;
+	sRadioPaneInfo.left += kTmplRadioWidth + kTmplHorizSep;
+	sRadioPaneInfo.paneID = mCurrentID;
 
-	theRadio = new LStdRadioButton(mRadioPaneInfo, msg_TmplModified, 
-								   1 - inValue, mLeftLabelTraitsID, (UInt8 *)(inTitleType ? "\pOff":"\pNo"));
+	theRadio = new LStdRadioButton(sRadioPaneInfo, msg_TmplModifiedItem, 
+								   1 - inValue, sLeftLabelTraitsID, (UInt8 *)(inTitleType ? "\pOff":"\pNo"));
 	ThrowIfNil_(theRadio);
 	
 	// Add to the radio-group
@@ -1422,7 +1459,7 @@ CTmplEditorWindow::AddBooleanField(Boolean inValue,
 	theRGV->SetCurrentRadioID( inValue ?  mCurrentID - 1 : mCurrentID );
 	
 	// Advance the counters
-	mYCoord += mRgvPaneInfo.height + kTmplVertSep;
+	mYCoord += sRgvPaneInfo.height + kTmplVertSep;
 	mCurrentID++;
 }
 
@@ -1436,12 +1473,12 @@ CTmplEditorWindow::AddCheckField(Boolean inValue,
 								   OSType inType,
 								   LView * inContainer)
 {
-	mCheckPaneInfo.left			= kTmplLeftMargin + kTmplLabelWidth + kTmplHorizSep;;
-	mCheckPaneInfo.top			= mYCoord - 2;
-	mCheckPaneInfo.paneID		= mCurrentID;
-	mCheckPaneInfo.superView	= inContainer;
+	sCheckPaneInfo.left			= kTmplLeftMargin + kTmplLabelWidth + kTmplHorizSep;;
+	sCheckPaneInfo.top			= mYCoord - 2;
+	sCheckPaneInfo.paneID		= mCurrentID;
+	sCheckPaneInfo.superView	= inContainer;
 
-	LCheckBox * theCheck = new LCheckBox(mCheckPaneInfo, msg_TmplModified, inValue);
+	LCheckBox * theCheck = new LCheckBox(sCheckPaneInfo, msg_TmplModifiedItem, inValue);
 	ThrowIfNil_(theCheck);
 		
 	// Store the template's type in the userCon field
@@ -1451,7 +1488,7 @@ CTmplEditorWindow::AddCheckField(Boolean inValue,
 	theCheck->AddListener(this);
 
 	// Advance the counters
-	mYCoord += mCheckPaneInfo.height + kTmplVertSep;
+	mYCoord += sCheckPaneInfo.height + kTmplVertSep;
 	mCurrentID++;
 }
 
@@ -1485,35 +1522,35 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 	theViewInfo.scrollUnit.h		= theViewInfo.scrollUnit.v		= 1;
 	theViewInfo.reconcileOverhang	= false;
 	
-	mTgbPaneInfo.paneID				= 0;
-	mTgbPaneInfo.top				= mYCoord;
-	mTgbPaneInfo.left				= kTmplTextMargin;
-	mTgbPaneInfo.width				= theFrame.width - kTmplTextMargin * 2;
-	mTgbPaneInfo.superView			= inContainer;
+	sTgbPaneInfo.paneID				= 0;
+	sTgbPaneInfo.top				= mYCoord;
+	sTgbPaneInfo.left				= kTmplTextMargin;
+	sTgbPaneInfo.width				= theFrame.width - kTmplTextMargin * 2;
+	sTgbPaneInfo.superView			= inContainer;
 
-	LTextGroupBox * theTGB = new LTextGroupBox(mTgbPaneInfo, theViewInfo, false);
+	LTextGroupBox * theTGB = new LTextGroupBox(sTgbPaneInfo, theViewInfo, false);
 	ThrowIfNil_(theTGB);
 
-	mScrollPaneInfo.left			= kTmplTextInset;
-	mScrollPaneInfo.top				= kTmplTextInset;
-	mScrollPaneInfo.width			= mTgbPaneInfo.width - kTmplTextInset * 2;
-	mScrollPaneInfo.height			= mTgbPaneInfo.height - kTmplTextInset * 2;
-	mScrollPaneInfo.bindings.left	= true;
-	mScrollPaneInfo.paneID			= 0;
-	mScrollPaneInfo.superView		= theTGB;
+	sScrollPaneInfo.left			= kTmplTextInset;
+	sScrollPaneInfo.top				= kTmplTextInset;
+	sScrollPaneInfo.width			= sTgbPaneInfo.width - kTmplTextInset * 2;
+	sScrollPaneInfo.height			= sTgbPaneInfo.height - kTmplTextInset * 2;
+	sScrollPaneInfo.bindings.left	= true;
+	sScrollPaneInfo.paneID			= 0;
+	sScrollPaneInfo.superView		= theTGB;
 
-	LScrollerView * theScroller = new LScrollerView(mScrollPaneInfo, theViewInfo, 0, 15, 0, 15, 16, NULL, true);
+	LScrollerView * theScroller = new LScrollerView(sScrollPaneInfo, theViewInfo, 0, 15, 0, 15, 16, NULL, true);
 	ThrowIfNil_(theScroller);
 
-	mWastePaneInfo.left				= 0;
-	mWastePaneInfo.top				= 0;
-	mWastePaneInfo.width			= mScrollPaneInfo.width - 15;
-	mWastePaneInfo.height			= mScrollPaneInfo.height - 15;
-	mWastePaneInfo.paneID			= mCurrentID;
-	mWastePaneInfo.superView		= theScroller;
+	sWastePaneInfo.left				= 0;
+	sWastePaneInfo.top				= 0;
+	sWastePaneInfo.width			= sScrollPaneInfo.width - 15;
+	sWastePaneInfo.height			= sScrollPaneInfo.height - 15;
+	sWastePaneInfo.paneID			= mCurrentID;
+	sWastePaneInfo.superView		= theScroller;
 
 	// Make the Waste edit writable, not wrapping, selectable
-	CWasteEditView * theWasteEdit = new CWasteEditView(mWastePaneInfo, theViewInfo, 0, mEditTraitsID);
+	CWasteEditView * theWasteEdit = new CWasteEditView(sWastePaneInfo, theViewInfo, 0, sEditTraitsID);
 	ThrowIfNil_(theWasteEdit);
 
 	// Add to the mWasteFieldsList
@@ -1634,7 +1671,7 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 	HUnlock(theHandle);
 	
 	// Advance the counters
-	mYCoord += mTgbPaneInfo.height + kTmplVertSep;
+	mYCoord += sTgbPaneInfo.height + kTmplVertSep;
 	mCurrentID++;
 }
 
@@ -1659,42 +1696,42 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 	theViewInfo.scrollUnit.h		= theViewInfo.scrollUnit.v		= 1;
 	theViewInfo.reconcileOverhang	= false;
 	
-	mTgbPaneInfo.top				= mYCoord;
-	mTgbPaneInfo.left				= kTmplTextMargin;
-	mTgbPaneInfo.width				= theFrame.width - kTmplTextMargin * 2;
-	mTgbPaneInfo.paneID				= mCurrentID;
-	mTgbPaneInfo.superView			= inContainer;
-	CDualDataView * theTGB = new CDualDataView(mTgbPaneInfo, theViewInfo, false);
+	sTgbPaneInfo.top				= mYCoord;
+	sTgbPaneInfo.left				= kTmplTextMargin;
+	sTgbPaneInfo.width				= theFrame.width - kTmplTextMargin * 2;
+	sTgbPaneInfo.paneID				= mCurrentID;
+	sTgbPaneInfo.superView			= inContainer;
+	CDualDataView * theTGB = new CDualDataView(sTgbPaneInfo, theViewInfo, false);
 	ThrowIfNil_(theTGB);
 
 	// Make the single vertical scroll bar
-	mScrollPaneInfo.left			= mTgbPaneInfo.width - kTmplTextInset - kTmplScrollWidth;
-	mScrollPaneInfo.top				= kTmplTextInset;
-	mScrollPaneInfo.width			= kTmplScrollWidth;
-	mScrollPaneInfo.height			= mTgbPaneInfo.height - kTmplTextInset * 2;
-	mScrollPaneInfo.bindings.left	= false;
-	mScrollPaneInfo.paneID			= 0;
-	mScrollPaneInfo.superView		= theTGB;
+	sScrollPaneInfo.left			= sTgbPaneInfo.width - kTmplTextInset - kTmplScrollWidth;
+	sScrollPaneInfo.top				= kTmplTextInset;
+	sScrollPaneInfo.width			= kTmplScrollWidth;
+	sScrollPaneInfo.height			= sTgbPaneInfo.height - kTmplTextInset * 2;
+	sScrollPaneInfo.bindings.left	= false;
+	sScrollPaneInfo.paneID			= 0;
+	sScrollPaneInfo.superView		= theTGB;
 
-	CSingleScrollBar * theScroller = new CSingleScrollBar(mScrollPaneInfo, 'HScr', 0, 0, 0, true);
+	CSingleScrollBar * theScroller = new CSingleScrollBar(sScrollPaneInfo, 'HScr', 0, 0, 0, true);
 	ThrowIfNil_(theScroller);
 
 	// Make the Waste edit panes (no wrapping, selectable). The read only
 	// property is set by InstallSubViews() below.
-	mWastePaneInfo.left				= kTmplTextInset;
-	mWastePaneInfo.top				= kTmplTextInset;
-	mWastePaneInfo.width			= kTmplHexPaneWidth;
-	mWastePaneInfo.height			= mScrollPaneInfo.height;
-	mWastePaneInfo.paneID			= 0;
-	mWastePaneInfo.superView		= theTGB;
+	sWastePaneInfo.left				= kTmplTextInset;
+	sWastePaneInfo.top				= kTmplTextInset;
+	sWastePaneInfo.width			= kTmplHexPaneWidth;
+	sWastePaneInfo.height			= sScrollPaneInfo.height;
+	sWastePaneInfo.paneID			= 0;
+	sWastePaneInfo.superView		= theTGB;
 
-	CHexDataSubView * theHexWE = new CHexDataSubView(mWastePaneInfo, theViewInfo, 0, mEditTraitsID);
+	CHexDataSubView * theHexWE = new CHexDataSubView(sWastePaneInfo, theViewInfo, 0, sEditTraitsID);
 	ThrowIfNil_(theHexWE);
 
-	mWastePaneInfo.left				= kTmplTxtPaneLeft;
-	mWastePaneInfo.width			= kTmplTxtPaneWidth;
+	sWastePaneInfo.left				= kTmplTxtPaneLeft;
+	sWastePaneInfo.width			= kTmplTxtPaneWidth;
 	
-	CTxtDataSubView * theTxtWE = new CTxtDataSubView(mWastePaneInfo, theViewInfo, 0, mEditTraitsID);
+	CTxtDataSubView * theTxtWE = new CTxtDataSubView(sWastePaneInfo, theViewInfo, 0, sEditTraitsID);
 	ThrowIfNil_(theTxtWE);
 	
 	// Add to the mWasteFieldsList
@@ -1749,7 +1786,7 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 	WESetSelection(0, 0, theTGB->GetInMemoryWasteRef());
 	
 	// Advance the counters
-	mYCoord += mTgbPaneInfo.height + kTmplVertSep;
+	mYCoord += sTgbPaneInfo.height + kTmplVertSep;
 	mCurrentID++;
 }
 
@@ -1779,21 +1816,21 @@ CTmplEditorWindow::AddRectField(SInt16 inTop,
 	theViewInfo.scrollUnit.h		= theViewInfo.scrollUnit.v		= 1;
 	theViewInfo.reconcileOverhang	= false;
 
-	mRectLabelInfo.top			= mYCoord;
-	mRectLabelInfo.left 		= kTmplLeftMargin + kTmplLabelWidth + kTmplHorizSep;
-	mRectLabelInfo.superView	= inContainer;
+	sRectLabelInfo.top			= mYCoord;
+	sRectLabelInfo.left 		= kTmplLeftMargin + kTmplLabelWidth + kTmplHorizSep;
+	sRectLabelInfo.superView	= inContainer;
 
-	mRectPaneInfo.top		= mYCoord + kTmplRectHeight;
-	mRectPaneInfo.left		= mRectLabelInfo.left;
-	mRectPaneInfo.superView	= inContainer;
+	sRectPaneInfo.top		= mYCoord + kTmplRectHeight;
+	sRectPaneInfo.left		= sRectLabelInfo.left;
+	sRectPaneInfo.superView	= inContainer;
 
 	// Top
-	theStaticText = new LStaticText(mRectLabelInfo, "\pTop", mEditTraitsID);
+	theStaticText = new LStaticText(sRectLabelInfo, "\pTop", sEditTraitsID);
 	ThrowIfNil_(theStaticText);
-	mRectPaneInfo.paneID = mCurrentID;
+	sRectPaneInfo.paneID = mCurrentID;
 	::NumToString( (long) inTop, numStr);
-	theEditText = new LEditText(mRectPaneInfo, this, numStr, mEditTraitsID, 
-								msg_TmplModified, inMaxChars, inAttributes, inKeyFilter);
+	theEditText = new LEditText(sRectPaneInfo, this, numStr, sEditTraitsID, 
+								msg_TmplModifiedItem, inMaxChars, inAttributes, inKeyFilter);
 	ThrowIfNil_(theEditText);
 	theEditText->SetUserCon(inType);
 	// Let the window listen to this field
@@ -1801,14 +1838,14 @@ CTmplEditorWindow::AddRectField(SInt16 inTop,
 	mCurrentID++;
 
 	// Left
-	mRectLabelInfo.left += kTmplRectWidth + kTmplHorizSep;
-	theStaticText = new LStaticText(mRectLabelInfo, "\pLeft", mEditTraitsID);
+	sRectLabelInfo.left += kTmplRectWidth + kTmplHorizSep;
+	theStaticText = new LStaticText(sRectLabelInfo, "\pLeft", sEditTraitsID);
 	ThrowIfNil_(theStaticText);
-	mRectPaneInfo.left += kTmplRectWidth + kTmplHorizSep;
-	mRectPaneInfo.paneID = mCurrentID;
+	sRectPaneInfo.left += kTmplRectWidth + kTmplHorizSep;
+	sRectPaneInfo.paneID = mCurrentID;
 	::NumToString( (long) inLeft, numStr);
-	theEditText = new LEditText(mRectPaneInfo, this, numStr, mEditTraitsID, 
-								msg_TmplModified, inMaxChars, inAttributes, inKeyFilter);
+	theEditText = new LEditText(sRectPaneInfo, this, numStr, sEditTraitsID, 
+								msg_TmplModifiedItem, inMaxChars, inAttributes, inKeyFilter);
 	ThrowIfNil_(theEditText);
 	theEditText->SetUserCon(inType);
 	// Let the window listen to this field
@@ -1816,14 +1853,14 @@ CTmplEditorWindow::AddRectField(SInt16 inTop,
 	mCurrentID++;
 
 	// Bottom
-	mRectLabelInfo.left += kTmplRectWidth + kTmplHorizSep;
-	theStaticText = new LStaticText(mRectLabelInfo, "\pBottom", mEditTraitsID);
+	sRectLabelInfo.left += kTmplRectWidth + kTmplHorizSep;
+	theStaticText = new LStaticText(sRectLabelInfo, "\pBottom", sEditTraitsID);
 	ThrowIfNil_(theStaticText);
-	mRectPaneInfo.left += kTmplRectWidth + kTmplHorizSep;
-	mRectPaneInfo.paneID = mCurrentID;
+	sRectPaneInfo.left += kTmplRectWidth + kTmplHorizSep;
+	sRectPaneInfo.paneID = mCurrentID;
 	::NumToString( (long) inBottom, numStr);
-	theEditText = new LEditText(mRectPaneInfo, this, numStr, mEditTraitsID, 
-								msg_TmplModified, inMaxChars, inAttributes, inKeyFilter);
+	theEditText = new LEditText(sRectPaneInfo, this, numStr, sEditTraitsID, 
+								msg_TmplModifiedItem, inMaxChars, inAttributes, inKeyFilter);
 	ThrowIfNil_(theEditText);
 	theEditText->SetUserCon(inType);
 	// Let the window listen to this field
@@ -1831,14 +1868,14 @@ CTmplEditorWindow::AddRectField(SInt16 inTop,
 	mCurrentID++;
 
 	// Right
-	mRectLabelInfo.left += kTmplRectWidth + kTmplHorizSep;
-	theStaticText = new LStaticText(mRectLabelInfo, "\pRight", mEditTraitsID);
+	sRectLabelInfo.left += kTmplRectWidth + kTmplHorizSep;
+	theStaticText = new LStaticText(sRectLabelInfo, "\pRight", sEditTraitsID);
 	ThrowIfNil_(theStaticText);
-	mRectPaneInfo.left += kTmplRectWidth + kTmplHorizSep;
-	mRectPaneInfo.paneID = mCurrentID;
+	sRectPaneInfo.left += kTmplRectWidth + kTmplHorizSep;
+	sRectPaneInfo.paneID = mCurrentID;
 	::NumToString( (long) inRight, numStr);
-	theEditText = new LEditText(mRectPaneInfo, this, numStr, mEditTraitsID, 
-								msg_TmplModified, inMaxChars, inAttributes, inKeyFilter);
+	theEditText = new LEditText(sRectPaneInfo, this, numStr, sEditTraitsID, 
+								msg_TmplModifiedItem, inMaxChars, inAttributes, inKeyFilter);
 	ThrowIfNil_(theEditText);
 	theEditText->SetUserCon(inType);
 	// Let the window listen to this field
@@ -1862,41 +1899,41 @@ CTmplEditorWindow::AddListHeaderField(OSType inType, Str255 inLabel, short inCou
 	CTmplListButton *	thePushButton;
 	
 	// This is the label of the list (usually "*****")
-	mStaticPaneInfo.left		= kTmplLeftMargin;
-	mStaticPaneInfo.top			= mYCoord;
-	mStaticPaneInfo.width		= kTmplLabelWidth;
-	mStaticPaneInfo.superView	= inContainer;
+	sStaticPaneInfo.left		= kTmplLeftMargin;
+	sStaticPaneInfo.top			= mYCoord;
+	sStaticPaneInfo.width		= kTmplLabelWidth;
+	sStaticPaneInfo.superView	= inContainer;
 
-	theStaticText = new LStaticText(mStaticPaneInfo, inLabel, mHeaderTraitsID);
+	theStaticText = new LStaticText(sStaticPaneInfo, inLabel, sHeaderTraitsID);
 	ThrowIfNil_(theStaticText);
 
 	if (inType == 'LSTC') {
 		mYCoord += kTmplEditHeight;
 		// This is the label of the OCNT or ZCNT count
-// 		mStaticPaneInfo.left 	= mIndent;
-		mStaticPaneInfo.top		= mYCoord;
-		mStaticPaneInfo.width	= kTmplLabelWidth;
-		theStaticText = new LStaticText(mStaticPaneInfo, inCountLabel, mRightLabelTraitsID);
+// 		sStaticPaneInfo.left 	= mIndent;
+		sStaticPaneInfo.top		= mYCoord;
+		sStaticPaneInfo.width	= kTmplLabelWidth;
+		theStaticText = new LStaticText(sStaticPaneInfo, inCountLabel, sRightLabelTraitsID);
 		ThrowIfNil_(theStaticText);
 		
 		// This is the value of the OCNT or ZCNT count
-		mStaticPaneInfo.left 	+= mStaticPaneInfo.width + kTmplHorizSep;
-		mStaticPaneInfo.width	= kTmplCountWidth;
-		mStaticPaneInfo.paneID 	= mCurrentID;
+		sStaticPaneInfo.left 	+= sStaticPaneInfo.width + kTmplHorizSep;
+		sStaticPaneInfo.width	= kTmplCountWidth;
+		sStaticPaneInfo.paneID 	= mCurrentID;
 		::NumToString( (long) inCount, numStr);
-		theStaticText = new LStaticText(mStaticPaneInfo, numStr, mHeaderTraitsID);
+		theStaticText = new LStaticText(sStaticPaneInfo, numStr, sHeaderTraitsID);
 		ThrowIfNil_(theStaticText);
 		
-		mStaticPaneInfo.paneID = 0;
+		sStaticPaneInfo.paneID = 0;
 		mCurrentID++;
 	}
 	
-	mPushPaneInfo.top		= mStaticPaneInfo.top - 3;
-	mPushPaneInfo.left		= mStaticPaneInfo.left + mStaticPaneInfo.width + kTmplHorizSep;
-	mPushPaneInfo.paneID	= mCurrentID;
-	mPushPaneInfo.superView	= inContainer;
+	sPushPaneInfo.top		= sStaticPaneInfo.top - 3;
+	sPushPaneInfo.left		= sStaticPaneInfo.left + sStaticPaneInfo.width + kTmplHorizSep;
+	sPushPaneInfo.paneID	= mCurrentID;
+	sPushPaneInfo.superView	= inContainer;
 	
-	thePushButton = new CTmplListButton(mPushPaneInfo, msg_TmplMinusButton, "\p-");
+	thePushButton = new CTmplListButton(sPushPaneInfo, msg_TmplMinusButton, "\p-");
 	ThrowIfNil_(thePushButton);
 	// Store the current position in the template stream
 	thePushButton->SetUserCon( mTemplateStream->GetMarker());
@@ -1905,9 +1942,9 @@ CTmplEditorWindow::AddListHeaderField(OSType inType, Str255 inLabel, short inCou
 
 	mCurrentID++;
 	
-	mPushPaneInfo.left		+= kTmplCountWidth + kTmplHorizSep;
-	mPushPaneInfo.paneID	= mCurrentID;
-	thePushButton = new CTmplListButton(mPushPaneInfo, msg_TmplPlusButton, "\p+");
+	sPushPaneInfo.left		+= kTmplCountWidth + kTmplHorizSep;
+	sPushPaneInfo.paneID	= mCurrentID;
+	thePushButton = new CTmplListButton(sPushPaneInfo, msg_TmplPlusButton, "\p+");
 	ThrowIfNil_(thePushButton);
 	// The UserCon field will contain a pointer to the first ListItemView. Initialize with nil.
 	thePushButton->SetUserCon(nil);
@@ -1917,7 +1954,7 @@ CTmplEditorWindow::AddListHeaderField(OSType inType, Str255 inLabel, short inCou
 	mCurrentID++;
 
 	// Advance the counters
-	mYCoord += mStaticPaneInfo.height + kTmplVertSep + kTmplVertSkip;
+	mYCoord += sStaticPaneInfo.height + kTmplVertSep + kTmplVertSkip;
 }
  
 
@@ -1938,13 +1975,13 @@ CTmplEditorWindow::AddListItemView(CTmplListItemView * inPrevListItemView, LView
 	
 	inContainer->GetFrameSize(theFrame);
 
-	mListItemInfo.paneID			= 0;
-	mListItemInfo.top				= mYCoord;
-	mListItemInfo.left				= kTmplTextMargin + mIndent;
-	mListItemInfo.width				= theFrame.width - mListItemInfo.left - kTmplHorizSep;
-	mListItemInfo.superView			= inContainer;
+	sListItemInfo.paneID			= 0;
+	sListItemInfo.top				= mYCoord;
+	sListItemInfo.left				= kTmplTextMargin + mIndent;
+	sListItemInfo.width				= theFrame.width - sListItemInfo.left - kTmplHorizSep;
+	sListItemInfo.superView			= inContainer;
 	
-	CTmplListItemView * theLIV = new CTmplListItemView(mListItemInfo, theViewInfo, false);
+	CTmplListItemView * theLIV = new CTmplListItemView(sListItemInfo, theViewInfo, false);
 	ThrowIfNil_(theLIV);
 
 	theLIV->mPrevItem = inPrevListItemView;
@@ -1968,16 +2005,16 @@ CTmplEditorWindow::AddSeparatorLine(LView * inContainer)
 	SDimension16	theFrame;
 
 	inContainer->GetFrameSize(theFrame);
-	mSeparatorPaneInfo.left			= kTmplLabelWidth + kTmplLeftMargin;
-	mSeparatorPaneInfo.top			= mYCoord;
-	mSeparatorPaneInfo.width		= theFrame.width - kTmplLabelWidth - kTmplLeftMargin * 2;
-	mSeparatorPaneInfo.superView	= inContainer;
+	sSeparatorPaneInfo.left			= kTmplLabelWidth + kTmplLeftMargin;
+	sSeparatorPaneInfo.top			= mYCoord;
+	sSeparatorPaneInfo.width		= theFrame.width - kTmplLabelWidth - kTmplLeftMargin * 2;
+	sSeparatorPaneInfo.superView	= inContainer;
 
-	LSeparatorLine * theSeparator = new LSeparatorLine(mSeparatorPaneInfo);
+	LSeparatorLine * theSeparator = new LSeparatorLine(sSeparatorPaneInfo);
 	ThrowIfNil_(theSeparator);
 	
 	// Advance the counters
-	mYCoord += mSeparatorPaneInfo.height + kTmplVertSep;
+	mYCoord += sSeparatorPaneInfo.height + kTmplVertSep;
 }
 
 
@@ -1997,12 +2034,12 @@ CTmplEditorWindow::AddPopupField(ResType inType, Str255 inLabel, LView * inConta
 	char 			charString[256];
 
 	inContainer->GetFrameSize(theFrame);
-	mBevelPaneInfo.left			= theFrame.width - mBevelPaneInfo.width - 2;
-	mBevelPaneInfo.top			= mYCoord - mEditPaneInfo.height -kTmplVertSep -1;
-	mSeparatorPaneInfo.paneID	= mCurrentID;
-	mBevelPaneInfo.superView	= inContainer;
+	sBevelPaneInfo.left			= theFrame.width - sBevelPaneInfo.width - 2;
+	sBevelPaneInfo.top			= mYCoord - sEditPaneInfo.height -kTmplVertSep -1;
+	sSeparatorPaneInfo.paneID	= mCurrentID;
+	sBevelPaneInfo.superView	= inContainer;
 
-	CTmplBevelButton * theBevelButton = new CTmplBevelButton(mBevelPaneInfo, msg_TmplCasePopup, kControlBevelButtonSmallBevelProc,
+	CTmplBevelButton * theBevelButton = new CTmplBevelButton(sBevelPaneInfo, msg_TmplCasePopup, kControlBevelButtonSmallBevelProc,
 													 rMENU_TemplateCases, kControlBevelButtonMenuOnBottom, 
 													 kControlContentTextOnly, 0, 0, Str_Empty, 1, 
 													 kControlBevelButtonPlaceNormally, teFlushDefault, 0, 

@@ -76,7 +76,28 @@ public:
 	
 	LHandleStream*		GetOutStream() { return mOutStream;}
 
+	static ResIDT		sLeftLabelTraitsID,
+						sRightLabelTraitsID,
+						sHeaderTraitsID,
+						sEditTraitsID;
 
+	static SPaneInfo	sEditPaneInfo,
+						sStaticPaneInfo,
+						sRgvPaneInfo,
+						sRadioPaneInfo,
+						sCheckPaneInfo,
+						sRectLabelInfo,
+						sRectPaneInfo,
+						sScrollPaneInfo,
+						sTgbPaneInfo,
+						sWastePaneInfo,
+						sPushPaneInfo,
+						sListItemInfo,
+						sSeparatorPaneInfo,
+						sBevelPaneInfo;
+						
+	static void			InitPaneInfos();
+	
 protected:
 	LView *				mContentsView;
 	LScrollerView *		mContentsScroller;
@@ -86,27 +107,9 @@ protected:
 	SInt32				mIndent;
 	short				mItemsCount;
 	Boolean				mIsDirty;
-	SPaneInfo			mEditPaneInfo,
-						mStaticPaneInfo,
-						mRgvPaneInfo,
-						mRadioPaneInfo,
-						mCheckPaneInfo,
-						mRectLabelInfo,
-						mRectPaneInfo,
-						mScrollPaneInfo,
-						mTgbPaneInfo,
-						mWastePaneInfo,
-						mPushPaneInfo,
-						mListItemInfo,
-						mSeparatorPaneInfo,
-						mBevelPaneInfo;
 	LHandleStream *		mTemplateStream;
 	LHandleStream *		mRezStream;
 	LHandleStream *		mOutStream;
-	ResIDT				mLeftLabelTraitsID,
-						mRightLabelTraitsID,
-						mHeaderTraitsID,
-						mEditTraitsID;
 	TArray<CWasteEditView *>	mWasteFieldsList;
 
 
