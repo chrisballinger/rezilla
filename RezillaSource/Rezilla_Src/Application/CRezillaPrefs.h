@@ -53,10 +53,11 @@ struct SEditorsPrefs {
 	SInt32			hexCase;
 	Boolean			dispFillers;
 	Boolean			enableFillers;
-	Boolean			use8Bits;		// 8-bit instead of 32 ?
+	Boolean			use8BitPicts;	// 8-bit instead of 32 ?
+	Boolean			use8BitIcons;	// 8-bit instead of 32 ?
 	Boolean			fullTables;		// default to 256 colors rather than 36 ?
 };
-
+/* CRezillaPrefs::GetPrefValue(kPref_editors_use8BitPicts)  */
 //     Misc Prefs
 struct SMiscPrefs {
 	Boolean			setSigOnClose;
@@ -84,7 +85,7 @@ enum {
 	kPref_editors_hexCase,
 	kPref_editors_dispFillers,
 	kPref_editors_enableFillers,
-	kPref_editors_use8Bits,
+	kPref_editors_use8BitPicts,
 	kPref_editors_fullTables,
 	kPref_export_dataEncoding,
 	kPref_export_formatDtd,

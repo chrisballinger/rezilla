@@ -14,11 +14,12 @@
 #include "UPixelHelper.h"
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	GetPixelFunctions
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void UPixelHelper::GetPixelFunctions( SInt32 inDepth, SUPixelGetter *outGetter, SUPixelSetter *outSetter )
+void
+UPixelHelper::GetPixelFunctions( SInt32 inDepth, SUPixelGetter *outGetter, SUPixelSetter *outSetter )
 {
 	switch( inDepth )
 	{

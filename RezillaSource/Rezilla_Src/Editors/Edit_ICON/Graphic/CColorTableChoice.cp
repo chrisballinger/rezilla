@@ -1,7 +1,7 @@
 // ===========================================================================
 // CColorTableChoice.cp
 //                       Created: 2004-12-11 18:50:13
-//             Last modification: 2004-12-16 07:18:01
+//             Last modification: 2004-12-17 11:42:24
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -10,63 +10,32 @@
 // $Date$
 // $Revision$
 // ===========================================================================
+// 	Â¥ 	Most of the color resource types are edited using 32-bit buffers.
+// 		This means that they support all of the various color table choices.
+// 		
+// 	Â¥	B&W buffers (including masks) don't support any choices (b&w only).
+// 	
+// 	Â¥	Icon families are the only place where the editor uses 4 & 8-bit
+// 		buffers. Things are enabled as follows for them:
+// 		  icl8, ics8, icm8	-> Apple 256 table or Apple Icon Colors
+// 		  icl4, ics4, icm4	-> Apple 16 table
+// 		  b&w				-> No tables
 
-
-	
-
-
-
-
-#include "PT_Headers.h"
+#include "CColorPane.h"
 #include "CColorTableChoice.h"
-#include "SUSaveResFile.h"
-#include "SUFileUtils.h"
-#include "SUColorPane.h"
-#include "PTPrefs.h"
-
-/*
-	Notes:
-	
-	¥ 	Most of the color resource types are edited using 32-bit buffers.
-		This means that they support all of the various color table choices.
-		
-	¥	B&W buffers (including masks) don't support any choices (b&w only).
-	
-	¥	Icon families are the only place where the editor uses 4 & 8-bit
-		buffers. Things are enabled as follows for them:
-		  icl8, ics8, icm8	-> Apple 256 table or Apple Icon Colors
-		  icl4, ics4, icm4	-> Apple 16 table
-		  b&w				-> No tables
-	
-*/
+#include "CIcon_EditorWindow.h"
+#include "CRezillaPrefs.h"
+#include "RezillaConstants.h"
+#include "UColorUtils.h"
+#include "UIconMisc.h"
+#include "UResources.h"
 
 
-// ============================================================
-// 	Color Menu Command IDs
-// ============================================================
-
-const CommandT		cmd_ColorTableAppleIcon		=	'CLT1';
-const CommandT		cmd_ColorTableApple256		=	'CLT2';
-const CommandT		cmd_ColorTableApple256Gray	=	'CLT3';
-const CommandT		cmd_ColorTableApple16		=	'CLT4';
-const CommandT		cmd_ColorTableApple16Gray	=	'CLT5';
-const CommandT		cmd_ColorTableApple4Gray	=	'CLT6';
-const CommandT		cmd_ColorTablePicker		=	'CLT7';
-
-	// this isn't in the menu, but is used below
-const CommandT		cmd_ColorTableApple2		=	'CLT8';
-
-	// this is a phony id used to indicate "the color picker"
-const ResIDT		ColorTable_UsePicker		=	0;
-
-
-
-
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	Constructor
-// ============================================================
+// ---------------------------------------------------------------------------
 
-CColorTableChoice::CColorTableChoice( PTPaintView *inPaintView, Boolean inUsesIconColors )
+CColorTableChoice::CColorTableChoice( CIcon_EditorWindow *inPaintView, Boolean inUsesIconColors )
 {
 	mPaintView = inPaintView;
 	mCurrentTable = nil;
@@ -74,39 +43,34 @@ CColorTableChoice::CColorTableChoice( PTPaintView *inPaintView, Boolean inUsesIc
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	Destructor
-// ============================================================
+// ---------------------------------------------------------------------------
 
 CColorTableChoice::~CColorTableChoice()
 {
 	this->DisposeCurrentTable();
 }
 
-#ifdef NOT_USED_DONE_ANOTHER_WAY
-void CColorTableChoice::SetPrefersIconColors( Boolean inPrefersIconColors )
-{
-	mPrefersIconColors = true;
-}
 
-
-
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	GetCurrentTable
-// ============================================================
+// ---------------------------------------------------------------------------
 
-CTabHandle CColorTableChoice::GetCurrentTable()
+CTabHandle
+CColorTableChoice::GetCurrentTable()
 {
 	return( mCurrentTable );
 }
 
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	FindCommandStatus
-// ============================================================
+// ---------------------------------------------------------------------------
 
-Boolean CColorTableChoice::FindCommandStatus( SInt32 inDepth, CommandT inCommand, 
+Boolean
+CColorTableChoice::FindCommandStatus( SInt32 inDepth, CommandT inCommand, 
 										Boolean &outEnabled, Boolean &outUsesMark, 
 										UInt16 &outMark, Str255  )
 {
@@ -118,39 +82,45 @@ Boolean CColorTableChoice::FindCommandStatus( SInt32 inDepth, CommandT inCommand
 	switch( inCommand )
 	{
 		case cmd_ColorTableAppleIcon:
-			outEnabled = (inDepth >= 8) && !isLocked;
-			handled = true;
-			break;	
+		outEnabled = (inDepth >= 8) && !isLocked;
+		handled = true;
+		break;	
+		
 		case cmd_ColorTableApple256:
-			outEnabled = (inDepth >= 8) && !isLocked;;
-			handled = true;
-			break;	
+		outEnabled = (inDepth >= 8) && !isLocked;;
+		handled = true;
+		break;	
+		
 		case cmd_ColorTableApple16:
-			outEnabled = (inDepth >= 16) && !isLocked;;
-			handled = true;
-			break;	
+		outEnabled = (inDepth >= 16) && !isLocked;;
+		handled = true;
+		break;	
+		
 		case cmd_ColorTableApple256Gray:
-			outEnabled = (inDepth >= 16) && !isLocked;;
-			handled = true;
-			break;	
+		outEnabled = (inDepth >= 16) && !isLocked;;
+		handled = true;
+		break;	
+		
 		case cmd_ColorTableApple16Gray:
-			outEnabled = (inDepth >= 16) && !isLocked;;
-			handled = true;
-			break;	
+		outEnabled = (inDepth >= 16) && !isLocked;;
+		handled = true;
+		break;	
+		
 		case cmd_ColorTableApple4Gray:
-			outEnabled = (inDepth >= 16) && !isLocked;;
-			handled = true;
-			break;	
+		outEnabled = (inDepth >= 16) && !isLocked;;
+		handled = true;
+		break;	
+		
 		case cmd_ColorTablePicker:
-			outEnabled = (inDepth >= 16) && !isLocked;;
-			handled = true;
-			break;	
-
-		case cmd_RecolorCurrentImage:
-			Boolean usingPicker = (mTableCommands[inDepth] == cmd_ColorTablePicker);
-			outEnabled = (inDepth >=16) && !usingPicker && !isLocked;
-			handled = true;
-			break;	
+		outEnabled = (inDepth >= 16) && !isLocked;;
+		handled = true;
+		break;	
+		
+		case cmd_IconRecolorCurrentImage:
+		Boolean usingPicker = (mTableCommands[inDepth] == cmd_ColorTablePicker);
+		outEnabled = (inDepth >=16) && !usingPicker && !isLocked;
+		handled = true;
+		break;	
 	}
 	
 	if ( handled )
@@ -173,11 +143,12 @@ Boolean CColorTableChoice::FindCommandStatus( SInt32 inDepth, CommandT inCommand
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	ObeyCommand
-// ============================================================
+// ---------------------------------------------------------------------------
 
-Boolean CColorTableChoice::ObeyCommand( SInt32 inDepth, CommandT inCommand )
+Boolean
+CColorTableChoice::ObeyCommand( SInt32 inDepth, CommandT inCommand )
 {
 	Boolean		didIt = false;
 	ResIDT		theID;
@@ -192,10 +163,10 @@ Boolean CColorTableChoice::ObeyCommand( SInt32 inDepth, CommandT inCommand )
 	{
 		busy = true;
 
-		if ( inCommand == cmd_RecolorCurrentImage )
+		if ( inCommand == cmd_IconRecolorCurrentImage )
 		{
 			if ( mCurrentTable )
-				mPaintView->ObeyCommand( cmd_RecolorCurrentImage, mCurrentTable );
+				mPaintView->ObeyCommand( cmd_IconRecolorCurrentImage, mCurrentTable );
 			didIt = true;
 		}
 		else
@@ -219,18 +190,19 @@ Boolean CColorTableChoice::ObeyCommand( SInt32 inDepth, CommandT inCommand )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	MapCommandToTableID
-// ============================================================
+// ---------------------------------------------------------------------------
 
-Boolean CColorTableChoice::MapCommandToTableID( CommandT inCommand, ResIDT *outResID )
+Boolean
+CColorTableChoice::MapCommandToTableID( CommandT inCommand, ResIDT *outResID )
 {
 	ResIDT		returnID = 0;
 	
 	switch( inCommand )
 	{
 		case cmd_ColorTableAppleIcon:
-			*outResID = ColorTable_IconColors;
+			*outResID = Clut_IconColors;
 			return( true );
 			
 		case cmd_ColorTableApple256:
@@ -266,13 +238,14 @@ Boolean CColorTableChoice::MapCommandToTableID( CommandT inCommand, ResIDT *outR
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	ChangePopupColorTables
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void CColorTableChoice::ChangePopupColorTables( ResIDT inResID )
+void
+CColorTableChoice::ChangePopupColorTables( ResIDT inResID )
 {
-	StSaveResFile	aSaver;
+	StRezRefSaver	aSaver;
 	CTabHandle		theTable = nil;
 	
 	this->DisposeCurrentTable();
@@ -280,17 +253,13 @@ void CColorTableChoice::ChangePopupColorTables( ResIDT inResID )
 	if ( inResID == ColorTable_UsePicker )
 		mCurrentTable = nil;
 	else
-		mCurrentTable = SUColorUtils::GetColorTable( inResID );
+		mCurrentTable = UColorUtils::GetColorTable( inResID );
 
-	/*
-		change the color table popups.
-		
-		if this results in a change of the current color, they will
-		broadcast a message to the paint view which will also redraw
-		the pattern popup.
-	*/
-	SUColorPane		*forePane = (SUColorPane*) mPaintView->FindPaneByID( Tool_ForegroundColor );
-	SUColorPane		*backPane = (SUColorPane*) mPaintView->FindPaneByID( Tool_BackgroundColor );
+	// Change the color table popups. If this results in a change of the
+	// current color, they will broadcast a message to the paint view which
+	// will also redraw the pattern popup.
+	CColorPane *	forePane = (CColorPane*) mPaintView->FindPaneByID( item_IconEditForeColor );
+	CColorPane *	backPane = (CColorPane*) mPaintView->FindPaneByID( item_IconEditBackColor );
 	
 	if ( forePane )
 		forePane->SetColorTable( mCurrentTable, true, redraw_Now );
@@ -302,26 +271,26 @@ void CColorTableChoice::ChangePopupColorTables( ResIDT inResID )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	ImageChanged
-// 	
-// 	Description:
+// ---------------------------------------------------------------------------
 // 	Whenever the displayed image is changed, we may have to change
 // 	the color table to a more suitable one.
-// ============================================================
 
-void CColorTableChoice::ImageChanged( SInt32 inNewDepth )
+void
+CColorTableChoice::ImageChanged( SInt32 inNewDepth )
 {
 	this->ObeyCommand( inNewDepth, mTableCommands[ inNewDepth ] );
 	LCommander::SetUpdateCommandStatus(true);
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	DisposeCurrentTable
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void CColorTableChoice::DisposeCurrentTable()
+void
+CColorTableChoice::DisposeCurrentTable()
 {
 	if ( mCurrentTable )
 		::DisposeCTable( mCurrentTable );
@@ -330,20 +299,19 @@ void CColorTableChoice::DisposeCurrentTable()
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	InitTableCommands
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void CColorTableChoice::InitTableCommands( Boolean inIcon )
+void
+CColorTableChoice::InitTableCommands( Boolean inIcon )
 {
 	CommandT	preferredCmd;
 	
-	SUMiscUtils::ClearMemory( mTableCommands, sizeof( mTableCommands ) );	// ???
+	UIconMisc::ClearMemory( mTableCommands, sizeof( mTableCommands ) );
 	
-	/*
-		icons default to Apple's preferred icon colors
-	*/
-	if ( inIcon && !PTPrefs::DefaultToFullColorTable() )
+	// Icons default to Apple's preferred icon colors
+	if ( inIcon && ! CRezillaPrefs::GetPrefValue(kPref_editors_fullTables)  )
 		preferredCmd = cmd_ColorTableAppleIcon;
 	else
 		preferredCmd = cmd_ColorTableApple256;

@@ -143,7 +143,7 @@ CRezFile::SetSpecifier( const FSSpec& inFileSpec)
 bool
 CRezFile::UsesSpecifier(const FSSpec& inFileSpec) const
 {
-    return EqualFileSpec(mFileSpec, inFileSpec);
+    return LFile::EqualFileSpec(mFileSpec, inFileSpec);
 }
 
 
@@ -159,25 +159,6 @@ CRezFile::SpecifierExists() const
     FInfo	finderInfo;
     
     return (::FSpGetFInfo(&mFileSpec, &finderInfo) == noErr);
-}
-
-
-// ---------------------------------------------------------------------------
-//  ¥ EqualFileSpec													  [static]
-// ---------------------------------------------------------------------------
-//    Compare two FSSpec structs for equality: compare each  field  in  FSSpec
-//    struct. EqualString() [case insensitive, diacritical sensitive]  is  the
-//    same comparison used by the File System
-
-bool
-CRezFile::EqualFileSpec(
-	const FSSpec&	inFileSpecA,
-	const FSSpec&	inFileSpecB)
-{
-
-	return (inFileSpecA.vRefNum == inFileSpecB.vRefNum) &&
-		   (inFileSpecA.parID == inFileSpecB.parID) &&
-		   ::EqualString(inFileSpecA.name, inFileSpecB.name, false, true);
 }
 
 
@@ -343,8 +324,6 @@ CRezFile::ReadFile()
 // ---------------------------------------------------------------------------
 //  ¥ WriteFile
 // ---------------------------------------------------------------------------
-// Write to the data fork of a File from a buffer
-//
 // The buffer contents completely replace any existing data
 
 SInt32
@@ -414,14 +393,33 @@ CRezFile::CopyFromRezMap(CRezMap * srcRezmap)
 			delete theRezObj;
 		}
 	}
-	
-// 	::CloseResFile( srcRefnum );
-// 	error = ::ResError();
-// 	::UpdateResFile(mRefNum);
 
 	return error;
 }
 
+
+// ============================================================
+// 	GetResourceFileVolume
+// ============================================================
+// 	Returns the volume id for a given resource file.
+// 	Throws an error if the fileID is invalid.
+
+short
+CRezFile::GetResourceFileVolume( SInt16 inFileID )
+{
+	FCBPBRec		pb;
+	OSErr			err = noErr;
+	// Note: ioFCBIndx = 0 -> use ioRefNum
+	UIconMisc::ClearMemory( &pb, sizeof(pb) );
+	pb.ioRefNum = inFileID;
+	
+	// Note that PBGetFCBInfo works on both resource files and file mgr files.
+	err = PBGetFCBInfoSync( &pb );
+	ThrowIfOSErr_( err );
+
+	// Return "hard" volumeID
+	return( pb.ioFCBVRefNum );
+}
 
 
 

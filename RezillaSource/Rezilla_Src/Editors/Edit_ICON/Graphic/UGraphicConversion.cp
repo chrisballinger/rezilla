@@ -1,7 +1,7 @@
 // ===========================================================================
 // UGraphicConversion.cp
 //                       Created: 2004-12-11 18:52:47
-//             Last modification: 2004-12-15 13:12:15
+//             Last modification: 2004-12-17 11:25:12
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -14,7 +14,7 @@
 #include "UGraphicConversion.h"
 #include "COffscreen.h"
 #include "CColorTableBuilder.h"
-#include "CPrefs.h"
+#include "CRezillaPrefs.h"
 #include "RezillaConstants.h"
 #include "UIconMisc.h"
 #include "UResources.h"
@@ -24,14 +24,15 @@
 #include <stdio.h>
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	OffscreenToPicture
-// ============================================================
+// ---------------------------------------------------------------------------
 // The selection region is relative to the painting itself and not the
 // selection buffer. This allows us to restore the original image position
 // on a "paste".
 
-PicHandle UGraphicConversion::OffscreenToPicture( COffscreen *inBuffer, RgnHandle inSelectionRgn )
+PicHandle
+UGraphicConversion::OffscreenToPicture( COffscreen *inBuffer, RgnHandle inSelectionRgn )
 {
 	StGWorldSaver		aSaver;					// save/restore gworld
 	PicHandle			thePict = nil;
@@ -92,11 +93,12 @@ PicHandle UGraphicConversion::OffscreenToPicture( COffscreen *inBuffer, RgnHandl
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	OffscreenToClipboard
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void UGraphicConversion::OffscreenToClipboard( COffscreen *inBuffer, RgnHandle inSelection )
+void
+UGraphicConversion::OffscreenToClipboard( COffscreen *inBuffer, RgnHandle inSelection )
 {
 	PicHandle			thePict = nil;
 	LClipboard			*theClipboard = LClipboard::GetClipboard();
@@ -109,19 +111,20 @@ void UGraphicConversion::OffscreenToClipboard( COffscreen *inBuffer, RgnHandle i
 	StHandleBlock		aDeleter( (Handle) thePict );
 	
 	// Write the picture 
-	theClipboard->SetData( ImageType_Picture, (Handle) thePict, true /* reset */ );
+	theClipboard->SetData( img_Picture, (Handle) thePict, true /* reset */ );
 
 	if ( inSelection )
 		theClipboard->SetData( ResourceType_Region, (Handle) inSelection, false );
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	GetPictFromClipboard
-// ============================================================
+// ---------------------------------------------------------------------------
 // Throws an error if there's no pict on the clipboard.
 
-PicHandle UGraphicConversion::GetPictFromClipboard()
+PicHandle
+UGraphicConversion::GetPictFromClipboard()
 {
 	PicHandle		thePict = nil;
 	SInt32			numBytes;
@@ -132,7 +135,7 @@ PicHandle UGraphicConversion::GetPictFromClipboard()
 		thePict = (PicHandle) ::NewHandle( 0 );
 		ThrowIfMemFail_( thePict );
 		
-		numBytes = theClipboard->GetData( ImageType_Picture, (Handle) thePict );
+		numBytes = theClipboard->GetData( img_Picture, (Handle) thePict );
 		if ( numBytes < sizeof(Picture) )
 			Throw_( noTypeErr );
 	}
@@ -146,13 +149,14 @@ PicHandle UGraphicConversion::GetPictFromClipboard()
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	GetRegionFromClipboard
-// ============================================================
+// ---------------------------------------------------------------------------
 // Returns nil if the clipboard doesn't have a region rather than throwing
 // an error.
 
-RgnHandle UGraphicConversion::GetRegionFromClipboard()
+RgnHandle
+UGraphicConversion::GetRegionFromClipboard()
 {
 	RgnHandle		theRegion = nil;
 	SInt32			numBytes;
@@ -180,11 +184,12 @@ RgnHandle UGraphicConversion::GetRegionFromClipboard()
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	GetPictFromFile
-// ============================================================
+// ---------------------------------------------------------------------------
 
-PicHandle UGraphicConversion::GetPictFromFile( const FSSpec &inSpec )
+PicHandle
+UGraphicConversion::GetPictFromFile( const FSSpec &inSpec )
 {
 	PicHandle	thePict = nil;
 	long		numBytes;
@@ -230,9 +235,9 @@ PicHandle UGraphicConversion::GetPictFromFile( const FSSpec &inSpec )
 }
 
 
-// // ============================================================
+// // ---------------------------------------------------------------------------
 // // 	SaveOffscreenAsResource
-// // ============================================================
+// // ---------------------------------------------------------------------------
 // // Saves the passed offscreen buffer as a raw image resource. This is
 // // useful for ICON, icl8, icl4, etc.
 // // Throws an error on i/o problem. May unlock the resource if it already
@@ -267,7 +272,7 @@ PicHandle UGraphicConversion::GetPictFromFile( const FSSpec &inSpec )
 // 				// Allocate the buffer to write
 // 
 // 		numBytes = (rowBytes + maskRowBytes) * inBuffer->GetHeight();
-// 		h = (Uint8**) ::NewHandle( numBytes );
+// 		h = (UInt8**) ::NewHandle( numBytes );
 // 		ThrowIfMemFail_( h );
 // 		::HLock( (Handle) h );
 // 		
@@ -294,9 +299,9 @@ PicHandle UGraphicConversion::GetPictFromFile( const FSSpec &inSpec )
 // }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	PictureToOffscreen
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	Creates an offscreen buffer and draws the picture into it.
 
 COffscreen *UGraphicConversion::PictureToOffscreen( PicHandle inPict )
@@ -313,10 +318,10 @@ COffscreen *UGraphicConversion::PictureToOffscreen( PicHandle inPict )
 	Rect	r;
 	SetRect( &r, 0, 0, width, height );
 	
-	if ( CPrefs::Use32BitBuffersForPicts() )
-		depth = 32;
-	else
+	if ( CRezillaPrefs::GetPrefValue(kPref_editors_use8BitPicts) )
 		depth = 8;
+	else
+		depth = 32;
 	
 	COffscreen *theBuffer = COffscreen::CreateBuffer( width, height, depth );
 	
@@ -327,5 +332,5 @@ COffscreen *UGraphicConversion::PictureToOffscreen( PicHandle inPict )
 	return( theBuffer );
 }
 
-
+ 
 

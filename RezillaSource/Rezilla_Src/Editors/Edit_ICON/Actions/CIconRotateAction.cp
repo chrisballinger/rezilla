@@ -25,9 +25,9 @@
 #include "UIconMisc.h"
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	Constructor
-// ============================================================
+// ---------------------------------------------------------------------------
 
 CIconRotateAction::CIconRotateAction( const SPaintAction &inAction, SInt32 degrees )
 				: CIconAction( inAction, index_UndoRotate )
@@ -37,9 +37,9 @@ CIconRotateAction::CIconRotateAction( const SPaintAction &inAction, SInt32 degre
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	DoIt
-// ============================================================
+// ---------------------------------------------------------------------------
 
 void CIconRotateAction::DoIt()
 {
@@ -155,14 +155,14 @@ void CIconRotateAction::DoIt()
 
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	TransformTheBits
 // 	
 // 	Note:
 // 	This won't work if the destination is a different depth than the
 // 	source since we use pixel indices rather than RGB values. We *will*
 // 	work with 1-bit destinations, however, since we need this ability.
-// ============================================================
+// ---------------------------------------------------------------------------
 
 void CIconRotateAction::TransformTheBits( COffscreen *source, COffscreen *dest, 
 										SInt32 sourceWidth, SInt32 sourceHeight )

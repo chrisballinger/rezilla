@@ -55,11 +55,7 @@ public:
 	virtual void		SetSpecifier( const FSSpec& inFileSpec );
 	bool				UsesSpecifier( const FSSpec& inFileSpec ) const;	
 	bool				SpecifierExists() const;
-	static bool			EqualFileSpec(
-								const FSSpec &inFileSpecA,
-								const FSSpec &inFileSpecB);
 
-	
 	virtual AliasHandle	MakeAlias( FSSpec* inFromFile = nil );
 
 	virtual OSErr		CreateNewFile();
@@ -83,6 +79,9 @@ public:
 
 	virtual SInt16		GetUsedFork() { return mUsedFork;}
 
+	// static class function
+	static short		GetResourceFileVolume( SInt16 inFileID );
+	
 protected:
 		CRezMapDoc *	mOwnerDoc;
 		FSSpec			mFileSpec;

@@ -22,9 +22,9 @@
 #include "UColorUtils.h"
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CIconTransparentAction Constructor
-// ============================================================
+// ---------------------------------------------------------------------------
 
 CIconTransparentAction::CIconTransparentAction( const SPaintAction &inAction )
 					: CIconAction( inAction, index_UndoTransparent )
@@ -33,9 +33,9 @@ CIconTransparentAction::CIconTransparentAction( const SPaintAction &inAction )
 };
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CIconTransparentAction::DoIt
-// ============================================================
+// ---------------------------------------------------------------------------
 
 void CIconTransparentAction::DoIt()
 {

@@ -22,11 +22,12 @@ const SInt16 gsPopup_ArrowHeight	= 	3;	// 4 Actual height of the arrow
 const SInt16 gsPopup_ArrowWidth		= 	5;	// 7 Actual width of the arrow at widest
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	DrawPopup
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void UPopupDrawing::DrawPopup( const Rect &inBounds, Boolean inHilited, Boolean inEnabled )
+void
+UPopupDrawing::DrawPopup( const Rect &inBounds, Boolean inHilited, Boolean inEnabled )
 {
 	SInt16				theDepth;
 	StDeviceLoop		theLoop( inBounds );
@@ -64,11 +65,12 @@ void UPopupDrawing::DrawPopup( const Rect &inBounds, Boolean inHilited, Boolean 
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	DrawPopupNormalBW
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void UPopupDrawing::DrawPopupNormalBW( const Rect &inBounds )
+void
+UPopupDrawing::DrawPopupNormalBW( const Rect &inBounds )
 {
 	Rect	localFrame = inBounds;
 	
@@ -88,11 +90,12 @@ void UPopupDrawing::DrawPopupNormalBW( const Rect &inBounds )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	DrawPopupNormalColor
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void UPopupDrawing::DrawPopupNormalColor( const Rect &inBounds )
+void
+UPopupDrawing::DrawPopupNormalColor( const Rect &inBounds )
 {
 	// Get the frame for the control
 	Rect	localFrame = inBounds;
@@ -162,11 +165,12 @@ void UPopupDrawing::DrawPopupNormalColor( const Rect &inBounds )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	DrawPopupHilitedBW
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void UPopupDrawing::DrawPopupHilitedBW( const Rect &inBounds )
+void
+UPopupDrawing::DrawPopupHilitedBW( const Rect &inBounds )
 {
 	Rect		localFrame = inBounds;
 	
@@ -177,11 +181,12 @@ void UPopupDrawing::DrawPopupHilitedBW( const Rect &inBounds )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	DrawPopupHilitedColor
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void UPopupDrawing::DrawPopupHilitedColor( const Rect &inBounds )
+void
+UPopupDrawing::DrawPopupHilitedColor( const Rect &inBounds )
 {
 	Rect localFrame = inBounds;
 	
@@ -253,11 +258,12 @@ void UPopupDrawing::DrawPopupHilitedColor( const Rect &inBounds )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	DrawPopupDimmedBW
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void UPopupDrawing::DrawPopupDimmedBW( const Rect &inBounds )
+void
+UPopupDrawing::DrawPopupDimmedBW( const Rect &inBounds )
 {
 	// Get the frame for the control
 	Rect	localFrame = inBounds;
@@ -278,11 +284,12 @@ void UPopupDrawing::DrawPopupDimmedBW( const Rect &inBounds )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	DrawPopupDimmedColor
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void UPopupDrawing::DrawPopupDimmedColor( const Rect &inBounds )
+void
+UPopupDrawing::DrawPopupDimmedColor( const Rect &inBounds )
 {
 	// Get the frame for the control
 	Rect	localFrame = inBounds;
@@ -348,11 +355,12 @@ void UPopupDrawing::DrawPopupDimmedColor( const Rect &inBounds )
 
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	DrawPopupArrow
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void UPopupDrawing::DrawPopupArrow( const Rect &inBounds, SInt16 inDepth, 
+void
+UPopupDrawing::DrawPopupArrow( const Rect &inBounds, SInt16 inDepth, 
 									Boolean inHilited, Boolean inEnabled )
 {
 	// Find the color to draw the arrow in
@@ -375,11 +383,12 @@ void UPopupDrawing::DrawPopupArrow( const Rect &inBounds, SInt16 inDepth,
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	GetArrowColor
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void UPopupDrawing::GetArrowColor( SInt16 inDepth, 
+void
+UPopupDrawing::GetArrowColor( SInt16 inDepth, 
 									Boolean inHilited, Boolean inEnabled,
 									RGBColor *outColor )
 {
@@ -397,11 +406,12 @@ void UPopupDrawing::GetArrowColor( SInt16 inDepth,
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CalculateSwatchArea
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void UPopupDrawing::CalculateSwatchArea( const Rect &inBounds, Rect *outBounds )
+void
+UPopupDrawing::CalculateSwatchArea( const Rect &inBounds, Rect *outBounds )
 {
 	*outBounds = inBounds;
 	outBounds->right -= (gsPopup_ArrowWidth + 6 + 4); // was + 3

@@ -2,7 +2,7 @@
 // CIcon_EditorWindow.cp
 // 
 //                       Created: 2004-12-10 17:23:05
-//             Last modification: 2004-12-16 08:47:03
+//             Last modification: 2004-12-17 23:13:05
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -20,11 +20,12 @@
 #include "CRezillaApp.h"
 #include "CRezMap.h"
 #include "CRezillaPrefs.h"
-// #include "UIconMisc.h"
+#include "RezillaConstants.h"
 #include "UMessageDialogs.h"
 #include "UHexFilters.h"
 #include "UCodeTranslator.h"
-
+#include "UIconMisc.h"
+#include "UResourceMgr.h"
 #include "CColorCursorCache.h"
 #include "CColorPane.h"
 #include "CColorTableChoice.h"
@@ -43,10 +44,6 @@
 #include "CIconUndoer.h"
 #include "COffscreen.h"
 // #include "CIconResizeDialog.h"
-// #include "SUFileUtils.h"
-// #include "SUSaveResFile.h"
-// #include "CPrefs.h"
-// #include "LGAIconButton.h"				// for doubleClick
 
 #include <LScrollBar.h>
 #include <LStaticText.h>
@@ -179,7 +176,7 @@ CIcon_EditorWindow::Initialize()
 	mSharedPalette = nil;
 	
 	// use the app's resource fork, but save/restore the previous file
-	StSaveResFile	aSaver( SUFileUtils::GetMainResourceFile() );
+	StRezRefSaver	aSaver( SUFileUtils::GetMainResourceFile() );
 
 	TextTraitsRecord **textTraitsH = UTextTraits::LoadTextTraits( Txtr_PaintFont );
 	if ( textTraitsH )
@@ -226,7 +223,8 @@ CIcon_EditorWindow::Initialize()
 // 	pattern pane, because it needs to resize to the bigger of either the
 // 	b&w or color pattern.
 
-void CIcon_EditorWindow::SetImage( COffscreen *inBuffer, SInt32 inResize, ERedrawOptions inRedraw )
+void
+CIcon_EditorWindow::SetImage( COffscreen *inBuffer, SInt32 inResize, ERedrawOptions inRedraw )
 {
 	ThrowIfNil_( inBuffer );
 	
@@ -279,7 +277,8 @@ void CIcon_EditorWindow::SetImage( COffscreen *inBuffer, SInt32 inResize, ERedra
 // 	ResetPatternPaneColors
 // ---------------------------------------------------------------------------
 
-void CIcon_EditorWindow::ResetPatternPaneColors( ERedrawOptions inRedraw )
+void
+CIcon_EditorWindow::ResetPatternPaneColors( ERedrawOptions inRedraw )
 {
 	mPatternPane->SetColors( mColorPane->GetColor(), mBackColorPane->GetColor(), inRedraw );
 }
@@ -323,7 +322,8 @@ COffscreen *CIcon_EditorWindow::GetUndoBuffer()
 // ---------------------------------------------------------------------------
 // 	Low level call. Doesn't do a lot of stuff you might want it to.
 
-void CIcon_EditorWindow::SetRawImageBuffer( COffscreen *inBuffer )
+void
+CIcon_EditorWindow::SetRawImageBuffer( COffscreen *inBuffer )
 {
 	mCurrentImage = inBuffer;
 }
@@ -334,7 +334,8 @@ void CIcon_EditorWindow::SetRawImageBuffer( COffscreen *inBuffer )
 // ---------------------------------------------------------------------------
 // 	Low level call. Doesn't do a lot of stuff you might want it to.
 
-void CIcon_EditorWindow::SetRawScratchBuffer( COffscreen *inBuffer )
+void
+CIcon_EditorWindow::SetRawScratchBuffer( COffscreen *inBuffer )
 {
 	mScratchBuffer = inBuffer;
 }
@@ -345,7 +346,8 @@ void CIcon_EditorWindow::SetRawScratchBuffer( COffscreen *inBuffer )
 // ---------------------------------------------------------------------------
 // 	Low level call. Doesn't do a lot of stuff you might want it to.
 
-void CIcon_EditorWindow::SetRawUndoBuffer( COffscreen *inBuffer )
+void
+CIcon_EditorWindow::SetRawUndoBuffer( COffscreen *inBuffer )
 {
 	mUndoBuffer = inBuffer;
 }
@@ -440,7 +442,8 @@ CIcon_EditorWindow::FinishCreateSelf()
 //  SetChangedFlag
 // ---------------------------------------------------------------------------
 
-void CIcon_EditorWindow::SetChangedFlag( Boolean inChanged )
+void
+CIcon_EditorWindow::SetChangedFlag( Boolean inChanged )
 {
 	this->ProcessCommand( cmd_PaintModified, (void*) inChanged );
 	mChanged = inChanged;
@@ -451,7 +454,8 @@ void CIcon_EditorWindow::SetChangedFlag( Boolean inChanged )
 //  GetChangedFlag
 // ---------------------------------------------------------------------------
 
-Boolean CIcon_EditorWindow::GetChangedFlag()
+Boolean
+CIcon_EditorWindow::GetChangedFlag()
 {
 	return( mChanged );
 }
@@ -483,7 +487,7 @@ CIcon_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			this->ResetPatternPaneColors( redraw_Now );
 			
 			// Change the text color too
-			mTextTraits.color = SUColorUtils::Color32ToRGB( mForeColor );
+			mTextTraits.color = UColorUtils::Color32ToRGB( mForeColor );
 			if ( mTextAction )
 				mTextAction->ChangeTextTraits( mTextTraits );
 			break;
@@ -502,7 +506,7 @@ CIcon_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			break;
 			
 		case msg_TextActionDied:
-			if ( mTextAction == (CTextAction*) ioParam )
+			if ( mTextAction == (CIconTextAction*) ioParam )
 				mTextAction->DrawInsertionPoint( false );
 			mTextAction = nil;
 			break;
@@ -543,7 +547,7 @@ CIcon_EditorWindow::FindCommandStatus(
 			}								
 			
 			// See if the command belongs to the text editor
-			if ( CTextAction::FindCommandStatus(	mTextTraits, inCommand, 
+			if ( CIconTextAction::FindCommandStatus(	mTextTraits, inCommand, 
 													outEnabled, outUsesMark,
 													outMark, outName, sFontMenu ) ) {
 				return;
@@ -576,7 +580,7 @@ CIcon_EditorWindow::FindCommandStatus(
 					{
 						LClipboard *theClip = LClipboard::GetClipboard();
 						if ( theClip )
-							enableIt = ( theClip->GetData( ImageType_Picture, nil ) > 0 );
+							enableIt = ( theClip->GetData( img_Picture, nil ) > 0 );
 					}
 					break;
 					
@@ -627,7 +631,7 @@ CIcon_EditorWindow::FindCommandStatus(
 // ---------------------------------------------------------------------------
 // 	ObeyCommand							[public, virtual]
 // ---------------------------------------------------------------------------
-// Don't use an StSaveGWorld here because SelectAll() may destroy the
+// Don't use an StGWorldSaver here because SelectAll() may destroy the
 // current GWorld and then we'd set it back to a deleted one. (crash)
 
 Boolean
@@ -645,7 +649,7 @@ CIcon_EditorWindow::ObeyCommand(
 			return(  LWindow::ObeyCommand( inCommand, ioParam ) );
 		
 		// First offer the event to the text handler
-		if ( CTextAction::ObeyCommand( this, mTextAction, inCommand, &mTextTraits, nil ) )
+		if ( CIconTextAction::ObeyCommand( this, mTextAction, inCommand, &mTextTraits, nil ) )
 			return( true );
 		
 		// Next offer the event to the color table code
@@ -705,7 +709,8 @@ CIcon_EditorWindow::ObeyCommand(
 //  HandleKeyPress
 // ---------------------------------------------------------------------------
 
-Boolean CIcon_EditorWindow::HandleKeyPress( const EventRecord &inKeyEvent )
+Boolean
+CIcon_EditorWindow::HandleKeyPress( const EventRecord &inKeyEvent )
 {
 	Boolean		handledIt = false;
 	UInt8 		theChar = inKeyEvent.message & charCodeMask;
@@ -717,9 +722,9 @@ Boolean CIcon_EditorWindow::HandleKeyPress( const EventRecord &inKeyEvent )
 		{
 			// Increase/decrease the font size if Cmd-up/down arrow hit
 			if ( theChar == char_UpArrow )
-				CTextAction::ObeyCommand( this, mTextAction, cmd_FontLarger, &mTextTraits, nil );
+				CIconTextAction::ObeyCommand( this, mTextAction, cmd_FontLarger, &mTextTraits, nil );
 			else if ( theChar == char_DownArrow )
-				CTextAction::ObeyCommand( this, mTextAction, cmd_FontSmaller, &mTextTraits, nil );
+				CIconTextAction::ObeyCommand( this, mTextAction, cmd_FontSmaller, &mTextTraits, nil );
 
 			// The Style menu's size checkmark will be changed
 			LCommander::SetUpdateCommandStatus( true );
@@ -770,7 +775,8 @@ Boolean CIcon_EditorWindow::HandleKeyPress( const EventRecord &inKeyEvent )
 // 	NudgeSelection
 // ---------------------------------------------------------------------------
 
-void CIcon_EditorWindow::NudgeSelection( SInt32 dh, SInt32 dv )
+void
+CIcon_EditorWindow::NudgeSelection( SInt32 dh, SInt32 dv )
 {
 	if ( !mCurrentImage ) return;
 	
@@ -784,7 +790,8 @@ void CIcon_EditorWindow::NudgeSelection( SInt32 dh, SInt32 dv )
 // 	AdjustCursorInCanvas
 // ---------------------------------------------------------------------------
 
-void CIcon_EditorWindow::AdjustCursorInCanvas( Point pt, const EventRecord& inMacEvent )
+void
+CIcon_EditorWindow::AdjustCursorInCanvas( Point pt, const EventRecord& inMacEvent )
 {
 	SInt32		newCursorID = 0;
 	Boolean		isOptionKey = ( inMacEvent.modifiers & optionKey ) ? true : false;
@@ -804,18 +811,18 @@ void CIcon_EditorWindow::AdjustCursorInCanvas( Point pt, const EventRecord& inMa
 			else switch( mCurrentTool )
 			{
 				case Tool_Lasso:
-					newCursorID = isInSelection ? CURS_Hand : CURS_Lasso;
+					newCursorID = isInSelection ? CURS_HandFingers : CURS_Lasso;
 					break;
 					
 				case Tool_Selection:
-					newCursorID = isInSelection ? CURS_Hand : CURS_Plus;
+					newCursorID = isInSelection ? CURS_HandFingers : CURS_Plus;
 					break;
 					
 				case Tool_Eraser:
 					newCursorID = CURS_Eraser;
 					break;
 				case Tool_Pen:
-					newCursorID = CURS_Pen;
+					newCursorID = CURS_Pencil;
 					break;
 				case Tool_Bucket:
 					newCursorID = CURS_Bucket;
@@ -830,7 +837,7 @@ void CIcon_EditorWindow::AdjustCursorInCanvas( Point pt, const EventRecord& inMa
 					break;
 					
 				case Tool_Text:
-					newCursorID = CURS_Text;
+					newCursorID = CURS_TextBeam;
 					break;
 					
 				case Tool_Line:			
@@ -854,7 +861,8 @@ void CIcon_EditorWindow::AdjustCursorInCanvas( Point pt, const EventRecord& inMa
 // 	CanvasPointInSelection
 // ---------------------------------------------------------------------------
 
-Boolean CIcon_EditorWindow::CanvasPointInSelection( Point canvasPt )
+Boolean
+CIcon_EditorWindow::CanvasPointInSelection( Point canvasPt )
 {
 	SInt32	theRow, theCol;
 	
@@ -870,7 +878,8 @@ Boolean CIcon_EditorWindow::CanvasPointInSelection( Point canvasPt )
 // 	HandleMouseDownInCanvas
 // ---------------------------------------------------------------------------
 
-void CIcon_EditorWindow::HandleMouseDownInCanvas( const SMouseDownEvent &inEvent )
+void
+CIcon_EditorWindow::HandleMouseDownInCanvas( const SMouseDownEvent &inEvent )
 {			
 	OSType	theTool = mCurrentTool;
 	
@@ -892,7 +901,8 @@ void CIcon_EditorWindow::HandleMouseDownInCanvas( const SMouseDownEvent &inEvent
 // 	HandleCanvasDraw
 // ---------------------------------------------------------------------------
 
-void CIcon_EditorWindow::HandleCanvasDraw()
+void
+CIcon_EditorWindow::HandleCanvasDraw()
 {
 	COffscreen *theBuffer = this->GetCombinedBuffer();
 	if ( theBuffer )
@@ -924,7 +934,8 @@ COffscreen *CIcon_EditorWindow::GetCombinedBuffer()
 // 	GetActionSettings
 // ---------------------------------------------------------------------------
 
-void CIcon_EditorWindow::GetActionSettings( SPaintAction *outSettings )
+void
+CIcon_EditorWindow::GetActionSettings( SPaintAction *outSettings )
 {
 	UIconMisc::ClearMemory( outSettings, sizeof(SPaintAction) );
 	outSettings->theForeColor = mForeColor;
@@ -1048,7 +1059,7 @@ CIconAction *CIcon_EditorWindow::CreateNewAction( OSType inActionType, void *ioP
 				return new CIconDeleteImageAction( actionSettings );
 			
 			case Tool_Text:
-				return new CTextAction( actionSettings );
+				return new CIconTextAction( actionSettings );
 				
 			default:
 				return( nil );
@@ -1060,7 +1071,7 @@ CIconAction *CIcon_EditorWindow::CreateNewAction( OSType inActionType, void *ioP
 	}
 	catch( ... )
 	{
-		SUErrors::DisplayError( err_Generic );
+		SUErrors::DisplayError( err_IconGeneric );
 	}
 	
 	return( nil );
@@ -1071,7 +1082,8 @@ CIconAction *CIcon_EditorWindow::CreateNewAction( OSType inActionType, void *ioP
 // 	SwapUndoState
 // ---------------------------------------------------------------------------
 
-void CIcon_EditorWindow::SwapUndoState()
+void
+CIcon_EditorWindow::SwapUndoState()
 {
 	ThrowIf_( !mCurrentImage || !mUndoBuffer || !mScratchBuffer || !mCanvas );
 	
@@ -1094,7 +1106,8 @@ void CIcon_EditorWindow::SwapUndoState()
 // 	CopyToUndo
 // ---------------------------------------------------------------------------
 
-void CIcon_EditorWindow::CopyToUndo()
+void
+CIcon_EditorWindow::CopyToUndo()
 {
 	ThrowIfNil_( mCurrentImage );
 	ThrowIfNil_( mUndoBuffer );
@@ -1111,7 +1124,8 @@ void CIcon_EditorWindow::CopyToUndo()
 // 	HandleControlClick
 // ---------------------------------------------------------------------------
 
-void CIcon_EditorWindow::HandleControlClick( LPane *thePane )
+void
+CIcon_EditorWindow::HandleControlClick( LPane *thePane )
 {
 	ThrowIfNil_( thePane );
 	
@@ -1146,7 +1160,8 @@ void CIcon_EditorWindow::HandleControlClick( LPane *thePane )
 // 	HandleControlDoubleClick
 // ---------------------------------------------------------------------------
 
-void CIcon_EditorWindow::HandleControlDoubleClick( LPane *thePane )
+void
+CIcon_EditorWindow::HandleControlDoubleClick( LPane *thePane )
 {
 	ThrowIfNil_( thePane );
 	if ( !mCurrentImage ) return;
@@ -1170,14 +1185,15 @@ void CIcon_EditorWindow::HandleControlDoubleClick( LPane *thePane )
 // 	EraseAll
 // ---------------------------------------------------------------------------
 
-void CIcon_EditorWindow::EraseAll()
+void
+CIcon_EditorWindow::EraseAll()
 {
 	if ( !mCurrentImage ) return;
 
 	CIconEraseAllAction	*theAction = (CIconEraseAllAction*) this->CreateNewAction( cmd_EraseAll );
 	if ( !theAction ) return;
 	
-	StSaveGWorld		aSaver;
+	StGWorldSaver		aSaver;
 	
 	theAction->DoIt();
 	// Revert to previous tool
@@ -1189,7 +1205,8 @@ void CIcon_EditorWindow::EraseAll()
 // 	ChangeTool
 // ---------------------------------------------------------------------------
 
-void CIcon_EditorWindow::ChangeTool( OSType toWhat )
+void
+CIcon_EditorWindow::ChangeTool( OSType toWhat )
 {
 	if ( toWhat == Tool_None ) return;
 	
@@ -1216,7 +1233,8 @@ void CIcon_EditorWindow::ChangeTool( OSType toWhat )
 // 	ActivateSelf
 // ---------------------------------------------------------------------------
 
-void CIcon_EditorWindow::ActivateSelf()
+void
+CIcon_EditorWindow::ActivateSelf()
 {
 	LWindow::ActivateSelf();
 	// To draw selection area
@@ -1228,7 +1246,8 @@ void CIcon_EditorWindow::ActivateSelf()
 // 	DeactivateSelf
 // ---------------------------------------------------------------------------
 
-void CIcon_EditorWindow::DeactivateSelf()
+void
+CIcon_EditorWindow::DeactivateSelf()
 {
 	LWindow::DeactivateSelf();
 
@@ -1246,7 +1265,8 @@ void CIcon_EditorWindow::DeactivateSelf()
 // 	SelectAll
 // ---------------------------------------------------------------------------
 
-void CIcon_EditorWindow::SelectAll()
+void
+CIcon_EditorWindow::SelectAll()
 {
 	if ( !mCurrentImage ) return;
 
@@ -1261,7 +1281,8 @@ void CIcon_EditorWindow::SelectAll()
 // 	SelectNone
 // ---------------------------------------------------------------------------
 
-void CIcon_EditorWindow::SelectNone()
+void
+CIcon_EditorWindow::SelectNone()
 {
 	if ( !mCurrentImage ) return;
 	
@@ -1277,7 +1298,8 @@ void CIcon_EditorWindow::SelectNone()
 // 	CommitSelection
 // ---------------------------------------------------------------------------
 
-void CIcon_EditorWindow::CommitSelection()
+void
+CIcon_EditorWindow::CommitSelection()
 {
 	if ( !mCurrentImage ) return;
 
@@ -1299,7 +1321,8 @@ void CIcon_EditorWindow::CommitSelection()
 // 	SetSelection
 // ---------------------------------------------------------------------------
 
-void CIcon_EditorWindow::SetSelection( const Rect &r, Boolean toLasso )
+void
+CIcon_EditorWindow::SetSelection( const Rect &r, Boolean toLasso )
 {
 	if ( !mCurrentImage ) return;
 
@@ -1318,7 +1341,8 @@ void CIcon_EditorWindow::SetSelection( const Rect &r, Boolean toLasso )
 // ---------------------------------------------------------------------------
 // 	We duplicate the region.
 
-void CIcon_EditorWindow::SetSelection( RgnHandle inRgn, Boolean toLasso )
+void
+CIcon_EditorWindow::SetSelection( RgnHandle inRgn, Boolean toLasso )
 {
 	if ( !mCurrentImage ) return;
 
@@ -1336,11 +1360,12 @@ void CIcon_EditorWindow::SetSelection( RgnHandle inRgn, Boolean toLasso )
 // 	EraseAreaUnderSelection
 // ---------------------------------------------------------------------------
 
-void CIcon_EditorWindow::EraseAreaUnderSelection()
+void
+CIcon_EditorWindow::EraseAreaUnderSelection()
 {
 	if ( !mCurrentSelection->IsEmpty() )
 	{
-		StSaveGWorld		aSaver;
+		StGWorldSaver		aSaver;
 		
 		mCurrentImage->BeginDrawing();
 			StColorPenState		aPenState;
@@ -1357,14 +1382,15 @@ void CIcon_EditorWindow::EraseAreaUnderSelection()
 // 	SpendTime
 // ---------------------------------------------------------------------------
 
-void CIcon_EditorWindow::SpendTime( const EventRecord & )
+void
+CIcon_EditorWindow::SpendTime( const EventRecord & )
 {
 	if ( !this->IsActive() || !mCurrentImage ) return;
 	
 	Boolean hasSelection = !mCurrentSelection->IsEmpty();
 	if ( !hasSelection && !mTextAction ) return;
 	
-	StSaveGWorld		aSaver;
+	StGWorldSaver		aSaver;
 	mCanvas->FocusDraw();
 	
 	StColorPenState		penSaver;
@@ -1398,7 +1424,8 @@ void CIcon_EditorWindow::SpendTime( const EventRecord & )
 // 	RedrawSampleView
 // ---------------------------------------------------------------------------
 
-void CIcon_EditorWindow::RedrawSampleView( Rect * )
+void
+CIcon_EditorWindow::RedrawSampleView( Rect * )
 {
 	if ( !mCurrentSamplePane ) return;
 	
@@ -1425,7 +1452,8 @@ LWindow *CIcon_EditorWindow::CreatePaintWindow( ResIDT inWindowID )
 // 	SwapColors
 // ---------------------------------------------------------------------------
 
-void CIcon_EditorWindow::SwapColors()
+void
+CIcon_EditorWindow::SwapColors()
 {
 	Color32		oldFore = mColorPane->GetColor();
 	Color32		oldBack = mBackColorPane->GetColor();
@@ -1440,7 +1468,8 @@ void CIcon_EditorWindow::SwapColors()
 // 	ForceBlackAndWhite
 // ---------------------------------------------------------------------------
 
-void CIcon_EditorWindow::ForceBlackAndWhite()
+void
+CIcon_EditorWindow::ForceBlackAndWhite()
 {
 	// Note that these trigger broadcasts which we hear
 	mColorPane->SetColor( kBlackColor32, redraw_Now );
@@ -1452,7 +1481,8 @@ void CIcon_EditorWindow::ForceBlackAndWhite()
 // 	PutOnDuty
 // ---------------------------------------------------------------------------
 
-void CIcon_EditorWindow::PutOnDuty(LCommander *inNewTarget)
+void
+CIcon_EditorWindow::PutOnDuty(LCommander *inNewTarget)
 {
 	// Flush pending mouseDown events because Constructor has "set front
 	// clicks" flag set and users don't expect to accidentally start
@@ -1510,7 +1540,8 @@ void CIcon_EditorWindow::PutOnDuty(LCommander *inNewTarget)
 // 	TakeOffDuty
 // ---------------------------------------------------------------------------
 
-void CIcon_EditorWindow::TakeOffDuty()
+void
+CIcon_EditorWindow::TakeOffDuty()
 {
 	if ( mTextAction )
 		mTextAction->DrawInsertionPoint( false );		// erase text insertion point
@@ -1525,7 +1556,8 @@ void CIcon_EditorWindow::TakeOffDuty()
 // 	RemovePaintMenus
 // ---------------------------------------------------------------------------
 
-void CIcon_EditorWindow::RemovePaintMenus()
+void
+CIcon_EditorWindow::RemovePaintMenus()
 {
 	LMenuBar	*theBar = LMenuBar::GetCurrentMenuBar();
 	
@@ -1547,7 +1579,8 @@ void CIcon_EditorWindow::RemovePaintMenus()
 // 	ThrowIfInvalidDepth
 // ---------------------------------------------------------------------------
 
-void CIcon_EditorWindow::ThrowIfInvalidDepth( SInt32 inDepth )
+void
+CIcon_EditorWindow::ThrowIfInvalidDepth( SInt32 inDepth )
 {
 	switch( inDepth )
 	{
@@ -1556,7 +1589,7 @@ void CIcon_EditorWindow::ThrowIfInvalidDepth( SInt32 inDepth )
 			return;
 			
 		default:
-			throw( err_InvalidImageDepth );
+			throw( err_IconInvalidImageDepth );
 	}
 }
 
@@ -1567,7 +1600,8 @@ void CIcon_EditorWindow::ThrowIfInvalidDepth( SInt32 inDepth )
 // Does not commit the previous selection to the buffer, so do so before
 // calling this if you want.
 
-void CIcon_EditorWindow::SetTargetBox( CDraggableTargetBox *inBox, ERedrawOptions inRedrawHow )
+void
+CIcon_EditorWindow::SetTargetBox( CDraggableTargetBox *inBox, ERedrawOptions inRedrawHow )
 {
 	if ( inBox == mCurrentSamplePane ) return;
 	if ( !inBox ) return;				// shouldn't happen
@@ -1600,7 +1634,8 @@ CDraggableTargetBox *CIcon_EditorWindow::GetTargetBox()
 // 	This is NASTY because the current port's color table doesn't match the
 // 	current GDevice's color table and drawing sometimes doesn't take place.
 
-Boolean CIcon_EditorWindow::EstablishPort()
+Boolean
+CIcon_EditorWindow::EstablishPort()
 {
 	if ( !mMacWindowP ) return( false );
 
@@ -1614,9 +1649,10 @@ Boolean CIcon_EditorWindow::EstablishPort()
 // 	UpdatePort
 // ---------------------------------------------------------------------------
 
-void CIcon_EditorWindow::UpdatePort()
+void
+CIcon_EditorWindow::UpdatePort()
 {
-	StSaveGWorld	aSaver;
+	StGWorldSaver	aSaver;
 	
 	// This sets GDevice too
 	UIconMisc::SetPort( mMacWindowP );
@@ -1628,22 +1664,26 @@ void CIcon_EditorWindow::UpdatePort()
 // 	Min & Max routines
 // ---------------------------------------------------------------------------
 
-SInt32 CIcon_EditorWindow::GetMinImageHeight()
+SInt32
+CIcon_EditorWindow::GetMinImageHeight()
 {
 	return( mMinImageHeight );
 }
 
-SInt32 CIcon_EditorWindow::GetMaxImageHeight()
+SInt32
+CIcon_EditorWindow::GetMaxImageHeight()
 {
 	return( mMaxImageHeight );
 }
 
-SInt32 CIcon_EditorWindow::GetMinImageWidth()
+SInt32
+CIcon_EditorWindow::GetMinImageWidth()
 {
 	return( mMinImageWidth );
 }
 
-SInt32 CIcon_EditorWindow::GetMaxImageWidth()
+SInt32
+CIcon_EditorWindow::GetMaxImageWidth()
 {
 	return( mMaxImageWidth );
 }
@@ -1653,7 +1693,8 @@ SInt32 CIcon_EditorWindow::GetMaxImageWidth()
 // 	GetZoomFactor
 // ---------------------------------------------------------------------------
 
-SInt32 CIcon_EditorWindow::GetZoomFactor( SInt32 inWidth, SInt32 inHeight, Boolean *outShowGrid )
+SInt32
+CIcon_EditorWindow::GetZoomFactor( SInt32 inWidth, SInt32 inHeight, Boolean *outShowGrid )
 {
 	SInt32	maxSize = MAX( inWidth, inHeight );
 	SInt32	result;
@@ -1680,7 +1721,8 @@ SInt32 CIcon_EditorWindow::GetZoomFactor( SInt32 inWidth, SInt32 inHeight, Boole
 // 	ChangeImageSize
 // ---------------------------------------------------------------------------
 
-void CIcon_EditorWindow::ChangeImageSize( SInt32 /*inWidth*/, SInt32 /*inHeight*/, Boolean /*inStretch*/ )
+void
+CIcon_EditorWindow::ChangeImageSize( SInt32 /*inWidth*/, SInt32 /*inHeight*/, Boolean /*inStretch*/ )
 {
 		// sub-classes do all the work here
 }
@@ -1690,7 +1732,8 @@ void CIcon_EditorWindow::ChangeImageSize( SInt32 /*inWidth*/, SInt32 /*inHeight*
 // 	ImageSizeChangeUndone
 // ---------------------------------------------------------------------------
 
-void CIcon_EditorWindow::ImageSizeChangeUndone( SInt32 /*inWidth*/, SInt32 /*inHeight*/ )
+void
+CIcon_EditorWindow::ImageSizeChangeUndone( SInt32 /*inWidth*/, SInt32 /*inHeight*/ )
 {
 		// sub-classes do all the work here
 }
@@ -1701,7 +1744,8 @@ void CIcon_EditorWindow::ImageSizeChangeUndone( SInt32 /*inWidth*/, SInt32 /*inH
 // 	BecomeListenerTo
 // ---------------------------------------------------------------------------
 
-void CIcon_EditorWindow::BecomeListenerTo( SInt32 inNumPanes, CDraggableTargetBox **inList )
+void
+CIcon_EditorWindow::BecomeListenerTo( SInt32 inNumPanes, CDraggableTargetBox **inList )
 {
 	for ( SInt32 count = 0; count < inNumPanes; count++ )
 	{
@@ -1716,7 +1760,8 @@ void CIcon_EditorWindow::BecomeListenerTo( SInt32 inNumPanes, CDraggableTargetBo
 // 	GetSamplePaneCount
 // ---------------------------------------------------------------------------
 
-SInt32 CIcon_EditorWindow::GetSamplePaneCount()
+SInt32
+CIcon_EditorWindow::GetSamplePaneCount()
 {
 	return( mNumSamplePanes );
 }
@@ -1726,7 +1771,8 @@ SInt32 CIcon_EditorWindow::GetSamplePaneCount()
 // 	GetSamplePaneCount
 // ---------------------------------------------------------------------------
 
-CDraggableTargetBox * CIcon_EditorWindow::GetNthSamplePane( SInt32 inIndex )
+CDraggableTargetBox *
+CIcon_EditorWindow::GetNthSamplePane( SInt32 inIndex )
 {
 	if ( (inIndex < 1) || (inIndex > mNumSamplePanes) )
 		return( nil );
@@ -1739,7 +1785,8 @@ CDraggableTargetBox * CIcon_EditorWindow::GetNthSamplePane( SInt32 inIndex )
 // 	GetLockedFlag
 // ---------------------------------------------------------------------------
 
-Boolean CIcon_EditorWindow::GetLockFlag()
+Boolean
+CIcon_EditorWindow::GetLockFlag()
 {
 	return( mLockedFlag );
 }
@@ -1749,7 +1796,8 @@ Boolean CIcon_EditorWindow::GetLockFlag()
 // 	SetLockFlag
 // ---------------------------------------------------------------------------
 
-void CIcon_EditorWindow::SetLockFlag( Boolean inFlag )
+void
+CIcon_EditorWindow::SetLockFlag( Boolean inFlag )
 {
 	if ( inFlag == mLockedFlag ) return;
 	
@@ -1793,7 +1841,8 @@ CIconAction *CIcon_EditorWindow::GetLastAction()
 // 	SetTextAction
 // ---------------------------------------------------------------------------
 
-void CIcon_EditorWindow::SetTextAction( CTextAction *inAction )
+void
+CIcon_EditorWindow::SetTextAction( CIconTextAction *inAction )
 {
 	mTextAction = inAction;
 }
@@ -1804,7 +1853,8 @@ void CIcon_EditorWindow::SetTextAction( CTextAction *inAction )
 // 	GetTextTraits
 // ---------------------------------------------------------------------------
 
-void CIcon_EditorWindow::GetTextTraits( struct TextTraitsRecord *outRec )
+void
+CIcon_EditorWindow::GetTextTraits( struct TextTraitsRecord *outRec )
 {
 	*outRec = mTextTraits;
 }
@@ -1837,7 +1887,8 @@ CIcon_EditorWindow::SetCoordsField(SInt16 inXCoord, SInt16 inYCoord)
 // 	SaveAsResource												[public]
 // ---------------------------------------------------------------------------
 
-void PTPaintView::SaveAsResource( CRezMap *inMap, ResIDT inResID  )
+void 
+CIcon_EditorWindow::SaveAsResource( CRezMap *inMap, ResIDT inResID  )
 {
 	// Subclasses should define
 }

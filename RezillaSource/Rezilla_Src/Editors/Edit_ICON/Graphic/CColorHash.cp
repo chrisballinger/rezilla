@@ -20,9 +20,9 @@
 #include "UColorUtils.h"
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	Constructor
-// ============================================================
+// ---------------------------------------------------------------------------
 
 CColorHash::CColorHash( Boolean forceBW )
 {
@@ -42,20 +42,21 @@ CColorHash::CColorHash( Boolean forceBW )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	Destructor
-// ============================================================
+// ---------------------------------------------------------------------------
 
 CColorHash::~CColorHash()
 {
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	BuildColorTable
-// ============================================================
+// ---------------------------------------------------------------------------
 
-CTabHandle CColorHash::BuildColorTable( Boolean inMinimal )
+CTabHandle
+CColorHash::BuildColorTable( Boolean inMinimal )
 {
 	CTabHandle	theTable;
 	
@@ -96,11 +97,12 @@ CTabHandle CColorHash::BuildColorTable( Boolean inMinimal )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	FindAssociatedValue
-// ============================================================
+// ---------------------------------------------------------------------------
 
-SInt32 CColorHash::FindAssociatedValueIndex( SInt32 inAssoc )
+SInt32
+CColorHash::FindAssociatedValueIndex( SInt32 inAssoc )
 {
 	for ( long count = 0; count < kHashArrayLimit; count++ )
 		if ( (mHashArray[count].theColor != kEmptyColorSlot) && 
@@ -113,14 +115,15 @@ SInt32 CColorHash::FindAssociatedValueIndex( SInt32 inAssoc )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	FixBlackAndWhite
-// ============================================================
+// ---------------------------------------------------------------------------
 // White needs slot #0 in the color table. Black needs the last slot. We'll
 // find whatever colors are currently using those pixel values and swap the
 // pixel values whatever black & white have been given.
 
-void CColorHash::FixBlackAndWhite( Boolean inMinimalTable )
+void
+CColorHash::FixBlackAndWhite( Boolean inMinimalTable )
 {
 	if ( mBWCompleted ) return;			// already fixed it
 	
@@ -169,11 +172,12 @@ void CColorHash::FixBlackAndWhite( Boolean inMinimalTable )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	AddColorToHash
-// ============================================================
+// ---------------------------------------------------------------------------
 
-inline void CColorHash::AddColorToHash( Color32 inColor )
+inline void
+CColorHash::AddColorToHash( Color32 inColor )
 {
 	inColor &= 0x00FFFFFF;			// clear hi byte because kEmptyColorSlot might conflict
 	
@@ -204,13 +208,14 @@ inline void CColorHash::AddColorToHash( Color32 inColor )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	IsRecentOne
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	This is used both for lookups and adding elements to the array.
 // inline ?
 
-SInt32 CColorHash::IsRecentOne( Color32 inColor )
+SInt32
+CColorHash::IsRecentOne( Color32 inColor )
 {
 	if ( mRecent1.theColor == inColor )
 		return( mRecent1.associatedNumber );
@@ -222,12 +227,13 @@ SInt32 CColorHash::IsRecentOne( Color32 inColor )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	AddToRecentOne
-// ============================================================
+// ---------------------------------------------------------------------------
 // inline ?
 
-void CColorHash::AddToRecentOne( Color32 inColor, SInt32 inAssociate )
+void
+CColorHash::AddToRecentOne( Color32 inColor, SInt32 inAssociate )
 {
 	mRecent2 = mRecent1;
 	mRecent1.theColor = inColor;
@@ -235,11 +241,12 @@ void CColorHash::AddToRecentOne( Color32 inColor, SInt32 inAssociate )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	LookupAssociatedNumber
-// ============================================================
+// ---------------------------------------------------------------------------
 
-SInt32 CColorHash::LookupAssociatedNumber( Color32 inColor )
+SInt32
+CColorHash::LookupAssociatedNumber( Color32 inColor )
 {
 	SInt32	associatedNumber;
 	SInt32	theIndex;
@@ -264,12 +271,13 @@ SInt32 CColorHash::LookupAssociatedNumber( Color32 inColor )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	GetHashStartingPoint
-// ============================================================
+// ---------------------------------------------------------------------------
 // inline ?
 
-SInt32 CColorHash::GetHashStartingPoint( Color32 inColor )
+SInt32
+CColorHash::GetHashStartingPoint( Color32 inColor )
 {
 	// Start searching the color list based on a hash formula.
 	// (the low 3 bits will tend to change rapidly, so use the
@@ -284,12 +292,13 @@ SInt32 CColorHash::GetHashStartingPoint( Color32 inColor )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	GetIndex
-// ============================================================
+// ---------------------------------------------------------------------------
 // inline ?
 
-Boolean CColorHash::GetIndex( Color32 inColor, SInt32 *outIndex )
+Boolean
+CColorHash::GetIndex( Color32 inColor, SInt32 *outIndex )
 {
 	SInt32	hashStartingPoint = this->GetHashStartingPoint( inColor );
 	SInt32	hashCount = hashStartingPoint;

@@ -25,13 +25,23 @@
 #include <LBroadcaster.h>
 #include <LPeriodical.h>
 
-
+class CColorCursorCache;
+class CColorPane;
+class CColorTableChoice;
+class CDraggableTargetBox;
+class CIconSelection;
+class CIconTextAction;
 class CIcon_EditorDoc;
 class CIcon_EditorView;
 class COffscreen;
+class CPatternPane;
 class CRezMap;
+class CSharedPalette;
+class LMenu;
+class LPane;
 class LPopupButton;
 class LStaticText;
+class CIconAction;
 
 // mScratchBuffer: this should be static since we only need one for all 
 // windows.
@@ -97,7 +107,7 @@ public:
 										UInt16&				outMark,
 										Str255				outName);
 	virtual CIconAction *			GetLastAction();
-	virtual void				SetTextAction( CTextAction * = nil );
+	virtual void				SetTextAction( CIconTextAction * = nil );
 	virtual void				GetTextTraits( struct TextTraitsRecord * );
 	//virtual void				SetTextTraits( struct TextTraitsRecord * );	
 
@@ -162,16 +172,18 @@ protected:
 	Boolean						mPrefersIconColors;	// true for icons, false for PICTs & others
 	Pattern						mCurrentPattern;
 	CPatternPane				*mPatternPane;
-	CIcon_EditorView					*mCanvas;
+	CIcon_EditorView			*mCanvas;
 	LPane						*mSampleWell;
-	COffscreen					*mCurrentImage, *mUndoBuffer;
-	CIconSelection			*mCurrentSelection, *mUndoSelection;
+	COffscreen					*mCurrentImage,
+								*mUndoBuffer;
+	CIconSelection				*mCurrentSelection,
+								*mUndoSelection;
 	TextTraitsRecord			mTextTraits;
-	CTextAction				*mTextAction;
+	CIconTextAction				*mTextAction;
 	CSharedPalette				*mSharedPalette;
 	CColorTableChoice			*mColorTableChoice;
-	CDraggableTargetBox		*mCurrentSamplePane;
-	CDraggableTargetBox		*mSamplePaneList[ kMaxIconSamplePanes ];
+	CDraggableTargetBox			*mCurrentSamplePane;
+	CDraggableTargetBox			*mSamplePaneList[ kMaxIconSamplePanes ];
 	SInt32						mNumSamplePanes;
 // 	LClipboard					mClipboard;			// only need one of these ???
 	static LMenu				*sOptionsMenu, 

@@ -14,12 +14,13 @@
 #include "UBitUtils.h"
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	GetBit
-// ============================================================
+// ---------------------------------------------------------------------------
 // Returns 0..1
 
-UInt8 UBitUtils::GetBit( void *firstByte, SInt32 flagNo )
+UInt8
+UBitUtils::GetBit( void *firstByte, SInt32 flagNo )
 {
 	SInt32 	byteIndex = (flagNo >> 3);
 	SInt32	bitNo = flagNo & 0x07;
@@ -32,11 +33,12 @@ UInt8 UBitUtils::GetBit( void *firstByte, SInt32 flagNo )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	SetBit
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void UBitUtils::SetBit( void *firstByte, SInt32 flagNo, UInt8 inValue )
+void
+UBitUtils::SetBit( void *firstByte, SInt32 flagNo, UInt8 inValue )
 {
 	ThrowIf_( inValue >= 2 );
 
@@ -51,12 +53,13 @@ void UBitUtils::SetBit( void *firstByte, SInt32 flagNo, UInt8 inValue )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	GetNibble
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	Returns 0..15
 
-UInt8 UBitUtils::GetNibble( void *firstByte, SInt32 nibbleNo )
+UInt8
+UBitUtils::GetNibble( void *firstByte, SInt32 nibbleNo )
 {
 	UInt8	theValue;
 	
@@ -68,12 +71,13 @@ UInt8 UBitUtils::GetNibble( void *firstByte, SInt32 nibbleNo )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	SetNibble
-// ============================================================
+// ---------------------------------------------------------------------------
 // nibbleValue is 0..15
 
-void UBitUtils::SetNibble( void *firstByte, SInt32 nibbleNo, UInt8 nibbleValue )
+void
+UBitUtils::SetNibble( void *firstByte, SInt32 nibbleNo, UInt8 nibbleValue )
 {
 	ThrowIf_( nibbleValue >= 16 );
 
@@ -86,12 +90,13 @@ void UBitUtils::SetNibble( void *firstByte, SInt32 nibbleNo, UInt8 nibbleValue )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	GetTwoBits
-// ============================================================
+// ---------------------------------------------------------------------------
 // Returns 0..3
 
-UInt8 UBitUtils::GetTwoBits( void *firstByte, SInt32 index )
+UInt8
+UBitUtils::GetTwoBits( void *firstByte, SInt32 index )
 {
 	UInt8			theValue;
 	static UInt8	shifts[] = { 6, 4, 2, 0 };
@@ -101,12 +106,13 @@ UInt8 UBitUtils::GetTwoBits( void *firstByte, SInt32 index )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	SetTwoBits
-// ============================================================
+// ---------------------------------------------------------------------------
 // nibbleValue is 0..3
 
-void UBitUtils::SetTwoBits( void *firstByte, SInt32 index, UInt8 inValue )
+void
+UBitUtils::SetTwoBits( void *firstByte, SInt32 index, UInt8 inValue )
 {
 	static UInt8	shifts[] = { 6, 4, 2, 0 };
 

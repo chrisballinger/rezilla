@@ -19,9 +19,9 @@
 //#define USE_RECTS_FOR_ERASER
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	Constructor
-// ============================================================
+// ---------------------------------------------------------------------------
 
 CIconEraserAction::CIconEraserAction( const SPaintAction &inAction ) : 
 		CIconTrackingPaintAction( inAction, index_UndoEraser )
@@ -45,22 +45,22 @@ CIconEraserAction::CIconEraserAction( const SPaintAction &inAction ) :
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	Destructor
-// ============================================================
+// ---------------------------------------------------------------------------
 
 CIconEraserAction::~CIconEraserAction()
 {
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	MouseInitial
 // 	
 // 	Notes:
 // 	Determines whether we will be drawing in the foreground or background
 // 	  color.
-// ============================================================
+// ---------------------------------------------------------------------------
 
 void CIconEraserAction::MouseInitial( const SMouseDownEvent &inEvent, SInt32 /* newCol */, SInt32 /* newRow */ )
 {
@@ -74,9 +74,9 @@ void CIconEraserAction::MouseInitial( const SMouseDownEvent &inEvent, SInt32 /* 
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	MouseStillDown
-// ============================================================
+// ---------------------------------------------------------------------------
 
 void CIconEraserAction::MouseStillDown( const SMouseDownEvent &, 
 											Point /*prevMousePt*/, Point /*newMousePt*/,
@@ -158,9 +158,9 @@ void CIconEraserAction::MouseStillDown( const SMouseDownEvent &,
 
 #ifdef PREV_VERSION
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	MouseStillDown
-// ============================================================
+// ---------------------------------------------------------------------------
 
 void CIconEraserAction::MouseStillDown( const SMouseDownEvent &, 
 											Point /*prevMousePt*/, Point /*newMousePt*/,

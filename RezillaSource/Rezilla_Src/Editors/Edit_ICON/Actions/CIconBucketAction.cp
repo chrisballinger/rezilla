@@ -38,9 +38,9 @@
 #include "UIconMisc.h"
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	FillArea  -- used by the fill algorithm
-// ============================================================
+// ---------------------------------------------------------------------------
 
 typedef struct 
 {		/* window: a discrete 2-D rectangle */
@@ -49,25 +49,25 @@ typedef struct
 } FillArea;
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	PatternMap -- maps a pixel in an 8x8 grid to a color
-// ============================================================
+// ---------------------------------------------------------------------------
 
 typedef PixelValue		PatternMap[8][8];		// maps row/col to a color in a pattern
 
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	Internal routines
-// ============================================================
+// ---------------------------------------------------------------------------
 
 static void seedfillgem( COffscreen *, COffscreen *, short x, short y, FillArea *win, PixelValue nv, PatternMap );
 
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	Constructor
-// ============================================================
+// ---------------------------------------------------------------------------
 
 CIconBucketAction::CIconBucketAction( const SPaintAction &inAction ) : CIconTrackingPaintAction( inAction, index_UndoBucket )
 {
@@ -75,18 +75,18 @@ CIconBucketAction::CIconBucketAction( const SPaintAction &inAction ) : CIconTrac
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	Destructor
-// ============================================================
+// ---------------------------------------------------------------------------
 
 CIconBucketAction::~CIconBucketAction()
 {
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	HandleMouseDown
-// ============================================================
+// ---------------------------------------------------------------------------
 
 void CIconBucketAction::HandleMouseDown( const SMouseDownEvent &inEvent )
 {
@@ -150,7 +150,7 @@ void CIconBucketAction::HandleMouseDown( const SMouseDownEvent &inEvent )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	seedfillgem
 // 	
 // 	Description:
@@ -161,7 +161,7 @@ void CIconBucketAction::HandleMouseDown( const SMouseDownEvent &inEvent )
 // 	This really should do compares in rgb space for indexed buffers
 // 	if we support custom color tables, since they can have duplicated colors
 // 	with different index values.
-// ============================================================
+// ---------------------------------------------------------------------------
 
 static void seedfillgem( COffscreen *theImageBuffer, COffscreen *theSpareBuffer, short x, short y, 
 							FillArea *win, PixelValue nv, PatternMap patmap )

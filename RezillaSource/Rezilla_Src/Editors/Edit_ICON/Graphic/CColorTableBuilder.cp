@@ -1,7 +1,7 @@
 // ===========================================================================
 // CColorTableBuilder.cp
 //                       Created: 2004-12-11 18:52:47
-//             Last modification: 2004-12-14 18:52:47
+//             Last modification: 2004-12-17 11:30:04
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -41,13 +41,11 @@
 
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	DownSampleBuffer (static routine)
-// 	
-// 	Note:
+/// ---------------------------------------------------------------------------
 // 	Returns nil instead of allocating a 32-bit buffer since we would
 // 	just be wasting RAM. This only happens if inMaxDepth is 32.
-// ============================================================
 
 COffscreen *CColorTableBuilder::DownSampleBuffer( COffscreen *inSource, SInt32 inMaxDepth,
 													Boolean inIncludeBW, Boolean inMinimizeTable, 
@@ -81,9 +79,9 @@ COffscreen *CColorTableBuilder::DownSampleBuffer( COffscreen *inSource, SInt32 i
 
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	Constructor
-// ============================================================
+// ---------------------------------------------------------------------------
 
 CColorTableBuilder::CColorTableBuilder( Boolean inIncludeBW )
 {
@@ -100,9 +98,9 @@ CColorTableBuilder::CColorTableBuilder( Boolean inIncludeBW )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	Destructor
-// ============================================================
+// ---------------------------------------------------------------------------
 
 CColorTableBuilder::~CColorTableBuilder()
 {
@@ -110,88 +108,91 @@ CColorTableBuilder::~CColorTableBuilder()
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	SetBuffer
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void CColorTableBuilder::SetBuffer( COffscreen *inBuffer )
+void
+CColorTableBuilder::SetBuffer( COffscreen *inBuffer )
 {
 	mBuffer = inBuffer;
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	SetIncludeBW
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void CColorTableBuilder::SetIncludeBW( Boolean inBW )
+void
+CColorTableBuilder::SetIncludeBW( Boolean inBW )
 {
 	mIncludeBW = inBW;
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	SetMinimizeTable
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void CColorTableBuilder::SetMinimizeTable( Boolean inMinimizeTable )
+void
+CColorTableBuilder::SetMinimizeTable( Boolean inMinimizeTable )
 {
 	mMinimizeTable = inMinimizeTable;
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	SetPictUtilMethod
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void CColorTableBuilder::SetPictUtilMethod( short inMethod )
+void
+CColorTableBuilder::SetPictUtilMethod( short inMethod )
 {
 	mPictUtilMethod = inMethod;
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	SetLargerInverseTable
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void CColorTableBuilder::SetLargerInverseTable( Boolean inValue )
+void
+CColorTableBuilder::SetLargerInverseTable( Boolean inValue )
 {
 	mLargerInverseTable = inValue;
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CountUniqueColors
-// ============================================================
+// ---------------------------------------------------------------------------
 
-SInt32 CColorTableBuilder::GetColorCount()
+SInt32
+CColorTableBuilder::GetColorCount()
 {
 	this->DoScan();
 	return( mColorHash->GetColorCount() );
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	GetColorTable
-// 	
-// 	Note:
-// 	Caller is responsible for getting rid of the table (using ::DisposeCTable).
-// ============================================================
+// ---------------------------------------------------------------------------
+// 	Caller is responsible for getting rid of the table (using
+// 	::DisposeCTable).
 
-CTabHandle CColorTableBuilder::GetColorTable( SInt32 inMaxDepth, SInt32 *outDepth )
+CTabHandle
+CColorTableBuilder::GetColorTable( SInt32 inMaxDepth, SInt32 *outDepth )
 {
-			// find out how much depth we need to display all of the pixels correctly
-
+	// Find out how much depth we need to display all of the pixels correctly
 	SInt32 	uniqueColors = this->GetColorCount();
 	SInt32	depthForActualColors = UColorUtils::NumColorsToDepth( uniqueColors );
 
-			// limit the destination depth depending on inMaxDepth
-
+	// Limit the destination depth depending on inMaxDepth
 	switch( inMaxDepth )
 	{
 		case 1:
-				// is this correct??? prob doesn't matter since we only call
-				// this with depths of 8 or 32-bits
+			// In fact we only call this with depths of 8 or 32-bits
 			*outDepth = 1;
 			return( UColorUtils::GetColorTable( 1 ) );		// 1-bit -> no thinking
 		
@@ -221,19 +222,17 @@ CTabHandle CColorTableBuilder::GetColorTable( SInt32 inMaxDepth, SInt32 *outDept
 			throw( paramErr );
 	}
 	
-			// for 16 & 32-bit pixmaps, we'll use CopyBits but there's no need
-		// to build up a color table or anything.
-
+	// For 16 & 32-bit pixmaps, we'll use CopyBits but there's no need
+	// to build up a color table or anything.
 	if ( (*outDepth == 16) || (*outDepth == 32) )
 	{
 		mUseCopyBits = true;
 		return( UColorUtils::GetColorTable( *outDepth ) );
 	}
 	
-			// if there are too many colors in the image, call Apple's
-		// Pict Utils to create a color table for us. Otherwise, just
-		// generate a table from mColorArray.
-
+	// If there are too many colors in the image, call Apple's Pict Utils
+	// to create a color table for us. Otherwise, just generate a table
+	// from mColorArray.
 	SInt32 			maxColors = UColorUtils::DepthToNumColors( *outDepth );
 	CTabHandle		theTable = nil;
 
@@ -252,8 +251,8 @@ CTabHandle CColorTableBuilder::GetColorTable( SInt32 inMaxDepth, SInt32 *outDept
 
 		theTable = info.theColorTable;
 		
-			// we need to use CopyBits since we didn't generate the
-			// color table and can't use the hash lookup
+		// We need to use CopyBits since we didn't generate the color table
+		// and can't use the hash lookup
 		mUseCopyBits = true;
 	}
 	else
@@ -266,11 +265,12 @@ CTabHandle CColorTableBuilder::GetColorTable( SInt32 inMaxDepth, SInt32 *outDept
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	DoScan
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void CColorTableBuilder::DoScan()
+void
+CColorTableBuilder::DoScan()
 {
 	if ( mScanIsDone ) return;
 	ThrowIfNil_( mBuffer );
@@ -300,12 +300,11 @@ void CColorTableBuilder::DoScan()
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CreateDownSampledBuffer
-// 	
-// 	Note:
-// 	returns nil instead of a 32-bit buffer. This only happens if inMaxDepth is 32.
-// ============================================================
+// ---------------------------------------------------------------------------
+// Returns nil instead of a 32-bit buffer. This only happens if inMaxDepth
+// is 32.
 
 COffscreen *CColorTableBuilder::CreateDownSampledBuffer( SInt32 inMaxDepth )
 {
@@ -320,24 +319,22 @@ COffscreen *CColorTableBuilder::CreateDownSampledBuffer( SInt32 inMaxDepth )
 	
 	try
 	{
-			// get the depth & color table
+		// Get the depth & color table
 		theTable = this->GetColorTable( inMaxDepth, &depth );
 		
-			// no need to allocate 32-bit buffers -- waste of RAM because
-			// the source buffer can be used instead of this one
+		// No need to allocate 32-bit buffers -- waste of RAM because
+		// the source buffer can be used instead of this one
 		if ( depth == 32 )
 		{
 			::DisposeCTable( theTable );
 			return( nil );
 		}
 		
-			// allocate the buffer to downsample into
+		// Allocate the buffer to downsample into
 		destBuffer = COffscreen::CreateBuffer( width, height, depth, theTable );
 		
-		/*
-			if we had too many colors to do an exact match, use CopyBits
-			instead of the color hash.
-		*/
+		// If we had too many colors to do an exact match, use CopyBits
+		// instead of the color hash.
 		if ( mUseCopyBits )
 		{
 			if ( mLargerInverseTable && (depth < 16) )

@@ -2,17 +2,20 @@
 // UResources.cp					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2004-03-15 18:56:49
+//             Last modification: 2004-12-17 20:31:51
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003, 2004
+// (c) Copyright : Bernard Desgraupes, 2003-2004
 // All rights reserved.
 // $Date$
 // $Revision$
 // ===========================================================================
 
 #include "UResources.h"
+#include "CRezMap.h"
+
+#include <UResourceMgr.h>
 
 
 // ---------------------------------------------------------------------------
@@ -157,6 +160,35 @@ UResources::UniqueID(ResType inType, short & outID)
 {
 	outID = ::UniqueID(inType);
 	return ::ResError();
+}
+
+
+// ---------------------------------------------------------------------------
+// 	MapHasResource
+// ---------------------------------------------------------------------------
+
+Boolean
+UResources::MapHasResource( short inRefnum, ResType inType, ResIDT inID )
+{
+	StRezRefSaver	saver;				// save/restore current refnum
+	StResLoad		loader( false );	// prevent loading the resource
+	
+	::UseResFile( inRefnum );
+	Handle h = ::Get1Resource( inType, inID );
+	return( h != nil );
+}
+
+
+// ---------------------------------------------------------------------------
+// 	GetResourceInMap
+// ---------------------------------------------------------------------------
+
+OSErr
+UResources::GetResourceInMap( short inRefnum, ResType inType, ResIDT inID, Handle & outHandle,  Boolean loadIt )
+{
+	CRezMap theMap(inRefnum);
+	
+	return theMap.GetWithID(inType, inID, outHandle, loadIt);
 }
 
 

@@ -29,9 +29,9 @@
 SInt32	COffscreen::sNumBuffers = 0;
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CreateBuffer
-// ============================================================
+// ---------------------------------------------------------------------------
 // Erases the buffer to white. Caller may dispose of the color table after
 // this call, but not the GDevice (if any).
 
@@ -43,9 +43,9 @@ COffscreen *COffscreen::CreateBuffer( SInt32 inWidth, SInt32 inHeight, SInt32 in
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	Constructor
-// ============================================================
+// ---------------------------------------------------------------------------
 
 COffscreen::COffscreen( SInt32 inWidth, SInt32 inHeight, SInt32 inDepth,
 										CTabHandle inTable, GDHandle inDevice, 
@@ -97,13 +97,14 @@ COffscreen::COffscreen( SInt32 inWidth, SInt32 inHeight, SInt32 inDepth,
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	SetupRowArray
-// ============================================================
+// ---------------------------------------------------------------------------
 // Requires mPixMap, mHeight, and mRowBytes to be correct. Pixmap bits must
 // remain locked at all times or these values will be wrong.
 
-void COffscreen::SetupRowArray()
+void
+COffscreen::SetupRowArray()
 {
 	mRowArray = (RawPtr*) ::NewPtr( sizeof(RawPtr) * mHeight );
 	ThrowIfMemFail_( mRowArray );
@@ -117,13 +118,14 @@ void COffscreen::SetupRowArray()
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CreateGWorld
-// ============================================================
+// ---------------------------------------------------------------------------
 // Erases the buffer to white. Leaves the pixels locked. The ColorTable is
 // copied, so caller can delete it.
 
-GWorldPtr COffscreen::CreateGWorld( SInt32 inWidth, SInt32 inHeight, SInt32 inDepth,
+GWorldPtr
+COffscreen::CreateGWorld( SInt32 inWidth, SInt32 inHeight, SInt32 inDepth,
 							CTabHandle inTable, GDHandle inDevice, Boolean inKeepLocal,
 							SInt32 *outRowBytes )
 {
@@ -171,9 +173,9 @@ GWorldPtr COffscreen::CreateGWorld( SInt32 inWidth, SInt32 inHeight, SInt32 inDe
 
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	COffscreen Destructor
-// ============================================================
+// ---------------------------------------------------------------------------
 
 COffscreen::~COffscreen()
 {
@@ -216,23 +218,25 @@ COffscreen::~COffscreen()
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	GetColorTable
-// ============================================================
+// ---------------------------------------------------------------------------
 
-CTabHandle COffscreen::GetColorTable()
+CTabHandle
+COffscreen::GetColorTable()
 {
 	return( (**this->GetPixMap()).pmTable );
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	GetPixel
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	The pixel value can be either an index to a color table (2,4,8 bits)
 // 	or a direct color (1,16,32 bits).
 
-Color32 COffscreen::GetPixel( SInt32 h, SInt32 v )
+Color32
+COffscreen::GetPixel( SInt32 h, SInt32 v )
 {
 	if ( (h < 0) || (h >= mWidth) || (v < 0) || (v >= mHeight) )
 		throw( paramErr );
@@ -241,11 +245,12 @@ Color32 COffscreen::GetPixel( SInt32 h, SInt32 v )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	SetPixel
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void COffscreen::SetPixel( SInt32 h, SInt32 v, PixelValue inPixel )
+void
+COffscreen::SetPixel( SInt32 h, SInt32 v, PixelValue inPixel )
 {
 	if ( (h < 0) || (h >= mWidth) || (v < 0) || (v >= mHeight) )
 		throw( paramErr );
@@ -255,34 +260,37 @@ void COffscreen::SetPixel( SInt32 h, SInt32 v, PixelValue inPixel )
 
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	GetPixelColor
-// ============================================================
+// ---------------------------------------------------------------------------
 // This differs from GetPixel() in that GetPixel() returns the value from
 // the offscreen, which may be an index to a color, while this function
 // converts that index into a real Color32.
 
-Color32 COffscreen::GetPixelColor( SInt32 h, SInt32 v )
+Color32
+COffscreen::GetPixelColor( SInt32 h, SInt32 v )
 {
 	return this->PixelValueToColor32( this->GetPixel( h, v ) );
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	GetPixelRGB
-// ============================================================
+// ---------------------------------------------------------------------------
 
-RGBColor COffscreen::GetPixelRGB( SInt32 h, SInt32 v )
+RGBColor
+COffscreen::GetPixelRGB( SInt32 h, SInt32 v )
 {
 	return this->PixelValueToRGB( this->GetPixel( h, v ) );
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	RawGetPixelColor
-// ============================================================
+// ---------------------------------------------------------------------------
 
-Color32 COffscreen::RawGetPixelColor( RawPtr inRowPtr, SInt32 h )
+Color32
+COffscreen::RawGetPixelColor( RawPtr inRowPtr, SInt32 h )
 {
 	PixelValue	thePixel = this->RawGetPixel( inRowPtr, h );
 	
@@ -293,11 +301,12 @@ Color32 COffscreen::RawGetPixelColor( RawPtr inRowPtr, SInt32 h )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	RawSetPixelColor
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void COffscreen::RawSetPixelColor( RawPtr inRowPtr, SInt32 h, Color32 inColor )
+void
+COffscreen::RawSetPixelColor( RawPtr inRowPtr, SInt32 h, Color32 inColor )
 {
 	if ( mDepth == 32 )
 	{
@@ -311,11 +320,12 @@ void COffscreen::RawSetPixelColor( RawPtr inRowPtr, SInt32 h, Color32 inColor )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	PixelValueToColor32
-// ============================================================
+// ---------------------------------------------------------------------------
 
-Color32 COffscreen::PixelValueToColor32( PixelValue thePixelValue )
+Color32
+COffscreen::PixelValueToColor32( PixelValue thePixelValue )
 {
 	if ( mDepth == 32 )
 		return( thePixelValue );			// already in the correct format
@@ -325,11 +335,12 @@ Color32 COffscreen::PixelValueToColor32( PixelValue thePixelValue )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	Color32ToPixelValue
-// ============================================================
+// ---------------------------------------------------------------------------
 
-PixelValue COffscreen::Color32ToPixelValue( Color32 theColor32 )
+PixelValue
+COffscreen::Color32ToPixelValue( Color32 theColor32 )
 {
 	if ( mDepth == 32 )
 		return( theColor32 );			// already in the correct format
@@ -342,12 +353,13 @@ PixelValue COffscreen::Color32ToPixelValue( Color32 theColor32 )
 
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	PixelValueToRGB
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	Doesn't check for out-of-bounds conditions.
 
-RGBColor COffscreen::PixelValueToRGB( PixelValue thePixelValue )
+RGBColor
+COffscreen::PixelValueToRGB( PixelValue thePixelValue )
 {
 	switch( mDepth )
 	{
@@ -365,13 +377,14 @@ RGBColor COffscreen::PixelValueToRGB( PixelValue thePixelValue )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	RGBToPixelValue
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	For b&w, everything that's not white becomes black (ie, no luminance
 // 	matching).
 
-PixelValue COffscreen::RGBToPixelValue( const RGBColor &inColor )
+PixelValue
+COffscreen::RGBToPixelValue( const RGBColor &inColor )
 {
 	/*
 		the direct buffers are easiest
@@ -421,11 +434,12 @@ PixelValue COffscreen::RGBToPixelValue( const RGBColor &inColor )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	BeginDrawing
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void COffscreen::BeginDrawing()
+void
+COffscreen::BeginDrawing()
 {
 	::SetGWorld( mWorld, nil );
 
@@ -433,23 +447,25 @@ void COffscreen::BeginDrawing()
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	EndDrawing
-// ============================================================
+// ---------------------------------------------------------------------------
 // This used to unlock the pixels, but now we leave them locked because
 // it's faster and simplifies the code a lot.
 
-void COffscreen::EndDrawing()
+void
+COffscreen::EndDrawing()
 {
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CopyTo
-// ============================================================
+// ---------------------------------------------------------------------------
 // May change the fore/back color. destR is in port-relative coordinates.
 
-void COffscreen::CopyTo( GrafPtr inDestPort, const Rect *inDestR, 
+void
+COffscreen::CopyTo( GrafPtr inDestPort, const Rect *inDestR, 
 						 const Rect *inSourceR, SInt16 inMode, 
 						 RgnHandle inMaskRgn )
 {
@@ -486,12 +502,13 @@ void COffscreen::CopyTo( GrafPtr inDestPort, const Rect *inDestR,
 
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CopyTo
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	May change the fore/back color.
 
-void COffscreen::CopyTo( COffscreen *inDest, const Rect *inDestR, 
+void
+COffscreen::CopyTo( COffscreen *inDest, const Rect *inDestR, 
 						 const Rect *inSourceR, SInt16 inMode, 
 						 RgnHandle inMaskRgn )
 {
@@ -534,11 +551,12 @@ void COffscreen::CopyTo( COffscreen *inDest, const Rect *inDestR,
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CopyFrom
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void COffscreen::CopyFrom( COffscreen *inSource, const Rect *destR,
+void
+COffscreen::CopyFrom( COffscreen *inSource, const Rect *destR,
 							const Rect *sourceR, SInt16 xferMode,
 							RgnHandle inMaskRgn )
 {
@@ -548,11 +566,12 @@ void COffscreen::CopyFrom( COffscreen *inSource, const Rect *destR,
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	ResetColors
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void COffscreen::ResetColors()
+void
+COffscreen::ResetColors()
 {
 	StSaveAndDraw		aDraw( this );
 	
@@ -560,24 +579,26 @@ void COffscreen::ResetColors()
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	ResetColorsSelf
-// ============================================================
+// ---------------------------------------------------------------------------
 // Sets foreground to black, background to white. For speed, use this call
 // instead of ResetColors. This one doesn't set the gdevice, etc.
 
-void COffscreen::ResetColorsSelf()
+void
+COffscreen::ResetColorsSelf()
 {
 	::RGBForeColor( &Color_Black );
 	::RGBBackColor( &Color_White );
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CreateSimilarOffscreen
-// ============================================================
+// ---------------------------------------------------------------------------
 
-COffscreen * COffscreen::CreateSimilarOffscreen( Boolean inUseSameDevice, SInt32 newWidth, SInt32 newHeight )
+COffscreen *
+COffscreen::CreateSimilarOffscreen( Boolean inUseSameDevice, SInt32 newWidth, SInt32 newHeight )
 {
 	StGWorldSaver		aSaver;
 	COffscreen			*theNewBuffer = nil;
@@ -608,9 +629,9 @@ COffscreen * COffscreen::CreateSimilarOffscreen( Boolean inUseSameDevice, SInt32
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	GetPalette
-// ============================================================
+// ---------------------------------------------------------------------------
 
 CSharedPalette *COffscreen::GetPalette()
 {
@@ -618,12 +639,13 @@ CSharedPalette *COffscreen::GetPalette()
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	AssignPalette
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	Caller can destroy the color table once this call returns.
 
-void COffscreen::AssignPalette( CTabHandle inTable )
+void
+COffscreen::AssignPalette( CTabHandle inTable )
 {
 	ThrowIfNil_( inTable );
 	ThrowIfNil_( mWorld );
@@ -638,13 +660,14 @@ void COffscreen::AssignPalette( CTabHandle inTable )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	AssignPalette
-// ============================================================
+// ---------------------------------------------------------------------------
 // Caller should not destroy the passed palette, but may decrement its
 // reference count by one.
 
-void COffscreen::AssignPalette( CSharedPalette *inPalette )
+void
+COffscreen::AssignPalette( CSharedPalette *inPalette )
 {
 	ThrowIfNil_( mWorld );
 
@@ -666,11 +689,12 @@ void COffscreen::AssignPalette( CSharedPalette *inPalette )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	ConvertToRegion
-// ============================================================
+// ---------------------------------------------------------------------------
 
-RgnHandle COffscreen::ConvertToRegion()
+RgnHandle
+COffscreen::ConvertToRegion()
 {
 	RgnHandle			theRgn = nil;
 	COffscreen			*tempBuffer = nil;
@@ -712,11 +736,12 @@ RgnHandle COffscreen::ConvertToRegion()
 
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	EraseToWhite
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void COffscreen::EraseToWhite()
+void
+COffscreen::EraseToWhite()
 {
 	StSaveAndDraw		saver( this );		// set port, etc
 	StColorPenState		aPenState;
@@ -728,14 +753,15 @@ void COffscreen::EraseToWhite()
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CopyFromRawData
-// ============================================================
+// ---------------------------------------------------------------------------
 // Copies data row-by-row into this offscreen buffer. This is useful when
 // the rowBytes value of the source is not the same as our buffer. Depth,
 // height, & width should be the same. RowBytes can be different.
 
-void COffscreen::CopyFromRawData( UInt8 *sourceData, SInt32 sourceRowBytes )
+void
+COffscreen::CopyFromRawData( UInt8 *sourceData, SInt32 sourceRowBytes )
 {
 	sourceRowBytes = FixRowBytes( sourceRowBytes );		// in case the high 2 bits are set
 	
@@ -751,14 +777,15 @@ void COffscreen::CopyFromRawData( UInt8 *sourceData, SInt32 sourceRowBytes )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CopyToRawData
-// ============================================================
+// ---------------------------------------------------------------------------
 // Copies data row-by-row from this offscreen buffer. This is useful when
 // the rowBytes value of the destination is not the same as our buffer.
 // Depth, height, & width should be the same. RowBytes can be different.
 
-void COffscreen::CopyToRawData( UInt8 *destData, SInt32 destRowBytes )
+void
+COffscreen::CopyToRawData( UInt8 *destData, SInt32 destRowBytes )
 {
 	destRowBytes = FixRowBytes( destRowBytes );	// in case the high 2 bits are set
 	
@@ -773,15 +800,16 @@ void COffscreen::CopyToRawData( UInt8 *destData, SInt32 destRowBytes )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CopyFromAndDownSample
-// ============================================================
+// ---------------------------------------------------------------------------
 // Copies the passed source buffer into our buffer, replacing every pixel
 // that doesn't match inMatchColor to inDestColor. (Useful for masks &
 // lassos). This routine can probably be replaced by CopyBits & a custom
 // searchproc.
 
-void COffscreen::CopyFromAndDownSample( COffscreen *inSource, 
+void
+COffscreen::CopyFromAndDownSample( COffscreen *inSource, 
 										 Color32 inMatchColor,
 										 Color32 inDestColor )
 {
@@ -825,11 +853,12 @@ void COffscreen::CopyFromAndDownSample( COffscreen *inSource,
 
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	ResetPen
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void COffscreen::ResetPen()
+void
+COffscreen::ResetPen()
 {
 	StSaveAndDraw	aSaver( this );
 	
@@ -838,11 +867,12 @@ void COffscreen::ResetPen()
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	SetForeColor
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void COffscreen::SetForeColor( Color32 inColor )
+void
+COffscreen::SetForeColor( Color32 inColor )
 {
 	StSaveAndDraw	aSaver( this );
 	
@@ -851,11 +881,12 @@ void COffscreen::SetForeColor( Color32 inColor )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	SetBackColor
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void COffscreen::SetBackColor( Color32 inColor )
+void
+COffscreen::SetBackColor( Color32 inColor )
 {
 	StSaveAndDraw	aSaver( this );
 	
@@ -864,11 +895,12 @@ void COffscreen::SetBackColor( Color32 inColor )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	SetForePixelValue
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void COffscreen::SetForePixelValue( PixelValue inColor )
+void
+COffscreen::SetForePixelValue( PixelValue inColor )
 {
 	StSaveAndDraw	aSaver( this );
 	
@@ -884,11 +916,12 @@ void COffscreen::SetForePixelValue( PixelValue inColor )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	SetBackPixelValue
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void COffscreen::SetBackPixelValue( PixelValue inColor )
+void
+COffscreen::SetBackPixelValue( PixelValue inColor )
 {
 	StSaveAndDraw	save( this );
 	
@@ -904,11 +937,12 @@ void COffscreen::SetBackPixelValue( PixelValue inColor )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	IsErased
-// ============================================================
+// ---------------------------------------------------------------------------
 
-Boolean COffscreen::IsErased()
+Boolean
+COffscreen::IsErased()
 {
 	for ( SInt32 rowCount = 0; rowCount < mHeight; rowCount++ )
 	{
@@ -924,14 +958,15 @@ Boolean COffscreen::IsErased()
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	IncreaseInverseTableSize
-// ============================================================
+// ---------------------------------------------------------------------------
 // Increases the size of the gworld.gdevice's inverse table to 5-bits of
 // resolution. This increases the size from 4K to 32K, but improves the
 // color matching quality (from RGB -> index value).
 
-void COffscreen::IncreaseInverseTableSize()
+void
+COffscreen::IncreaseInverseTableSize()
 {
 	ThrowIfNil_( mWorld );
 
@@ -952,21 +987,23 @@ void COffscreen::IncreaseInverseTableSize()
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	GetBufferCount
-// ============================================================
+// ---------------------------------------------------------------------------
 
-SInt32 COffscreen::GetBufferCount()
+SInt32
+COffscreen::GetBufferCount()
 {
 	return sNumBuffers;
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	DebugShowInWindow
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void COffscreen::DebugShowInWindow()
+void
+COffscreen::DebugShowInWindow()
 {
 	StGWorldSaver	aSaver;
 	Rect			r, tempR;
@@ -1012,9 +1049,9 @@ void COffscreen::DebugShowInWindow()
 *   StSaveAndDraw   *
 *                   *
 ********************/
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	StSaveAndDraw Constructor
-// ============================================================
+// ---------------------------------------------------------------------------
 
 StSaveAndDraw::StSaveAndDraw( COffscreen *inBuffer )
 {
@@ -1023,9 +1060,9 @@ StSaveAndDraw::StSaveAndDraw( COffscreen *inBuffer )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	StSaveAndDraw Destructor
-// ============================================================
+// ---------------------------------------------------------------------------
 
 StSaveAndDraw::~StSaveAndDraw()
 {
@@ -1038,9 +1075,9 @@ StSaveAndDraw::~StSaveAndDraw()
 *   StBufferLeakDetector   *
 *                          *
 ***************************/
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	StBufferLeakDetector Constructor
-// ============================================================
+// ---------------------------------------------------------------------------
 
 StBufferLeakDetector::StBufferLeakDetector()
 {
@@ -1048,9 +1085,9 @@ StBufferLeakDetector::StBufferLeakDetector()
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	StBufferLeakDetector Destructor
-// ============================================================
+// ---------------------------------------------------------------------------
 
 StBufferLeakDetector::~StBufferLeakDetector()
 {

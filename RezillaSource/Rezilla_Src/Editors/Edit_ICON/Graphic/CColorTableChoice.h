@@ -1,7 +1,7 @@
 // ===========================================================================
 // CColorTableChoice.h
 //                       Created: 2004-12-11 18:56:24
-//             Last modification: 2004-12-16 07:18:31
+//             Last modification: 2004-12-17 11:58:00
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -14,12 +14,12 @@
 #ifndef _H_CColorTableChoice
 #define _H_CColorTableChoice
 
-class PTPaintView;
+class CIcon_EditorWindow;
 
 
 class CColorTableChoice {
 	public:
-						CColorTableChoice( PTPaintView *, Boolean inUsesIconColors );
+						CColorTableChoice( CIcon_EditorWindow *, Boolean inUsesIconColors );
 						~CColorTableChoice();
 					
 		Boolean			FindCommandStatus( SInt32 inDepth, CommandT inCommand, 
@@ -31,10 +31,9 @@ class CColorTableChoice {
 		CTabHandle		GetCurrentTable();
 	
 	protected:
-		CommandT		mTableCommands[ 33 ];	// we use the bit depth as an index
-		
-		CTabHandle		mCurrentTable;
-		PTPaintView		*mPaintView;
+		CommandT			mTableCommands[ 33 ];	// we use the bit depth as an index
+		CTabHandle			mCurrentTable;
+		CIcon_EditorWindow	*mPaintView;
 		
 		void			InitTableCommands( Boolean inIcon );
 		Boolean			MapCommandToTableID( CommandT, ResIDT * );

@@ -22,9 +22,9 @@
 
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CTransformAction Constructor
-// ============================================================
+// ---------------------------------------------------------------------------
 
 CTransformAction::CTransformAction( const SPaintAction &inAction, SInt16 inStringIndex )
 					: CIconAction( inAction, inStringIndex )
@@ -33,9 +33,9 @@ CTransformAction::CTransformAction( const SPaintAction &inAction, SInt16 inStrin
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CTransformAction::DoIt
-// ============================================================
+// ---------------------------------------------------------------------------
 
 void CTransformAction::DoIt()
 {
@@ -78,9 +78,9 @@ void CTransformAction::DoIt()
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CTransformAction::CalcNewSelectionRegion
-// ============================================================
+// ---------------------------------------------------------------------------
 
 RgnHandle CTransformAction::CalcNewSelectionRegion()
 {
@@ -135,9 +135,9 @@ RgnHandle CTransformAction::CalcNewSelectionRegion()
 // ---------------------- Horizontal ------------------------
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CFlipHorizontalAction Constructor
-// ============================================================
+// ---------------------------------------------------------------------------
 
 CFlipHorizontalAction::CFlipHorizontalAction( const SPaintAction &inAction )
 						: CTransformAction( inAction, index_UndoFlip )
@@ -145,9 +145,9 @@ CFlipHorizontalAction::CFlipHorizontalAction( const SPaintAction &inAction )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CFlipHorizontalAction::TransformTheBits
-// ============================================================
+// ---------------------------------------------------------------------------
 
 void CFlipHorizontalAction::TransformTheBits( COffscreen *theBuffer )
 {
@@ -182,9 +182,9 @@ void CFlipHorizontalAction::TransformTheBits( COffscreen *theBuffer )
 // ---------------------- Vertical ------------------------
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CFlipVerticalAction Constructor
-// ============================================================
+// ---------------------------------------------------------------------------
 
 CFlipVerticalAction::CFlipVerticalAction( const SPaintAction &inAction )
 						: CTransformAction( inAction, index_UndoFlip )
@@ -192,9 +192,9 @@ CFlipVerticalAction::CFlipVerticalAction( const SPaintAction &inAction )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CFlipVerticalAction::TransformTheBits
-// ============================================================
+// ---------------------------------------------------------------------------
 
 void CFlipVerticalAction::TransformTheBits( COffscreen *theBuffer )
 {

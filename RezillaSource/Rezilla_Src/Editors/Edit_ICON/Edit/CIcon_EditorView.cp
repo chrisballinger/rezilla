@@ -2,7 +2,7 @@
 // CIcon_EditorView.cp
 // 
 //                       Created: 2004-12-10 17:23:05
-//             Last modification: 2004-12-15 23:44:11
+//             Last modification: 2004-12-17 22:42:51
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -22,6 +22,9 @@
 #include "CRezObj.h"
 #include "CRezillaPrefs.h"
 #include "RezillaConstants.h"
+#include "UPaneResizer.h"
+#include "UIconMisc.h"
+#include "UResourceMgr.h"
 
 
 PP_Begin_Namespace_PowerPlant
@@ -324,7 +327,7 @@ CIcon_EditorView::SetHotSpot( Point inHotSpot )
 void 
 CIcon_EditorView::DrawHotSpot( COffscreen *inSourceBuffer )
 {
-	StSaveGWorld		aSaver;
+	StGWorldSaver		aSaver;
 	Rect				r;
 	
 	if ( this->GetPixelRect( mHotSpot.h, mHotSpot.v, &r, false ) )
@@ -352,7 +355,7 @@ CIcon_EditorView::DrawHotSpotSelf( Color32 inPixelColor, const Rect &inRect )
 	// if the source pixel is dark, draw the hot spot in white.
 	
 	HSLColor	pixelHSL;
-	RGBColor	pixelRGB = SUColorUtils::Color32ToRGB( inPixelColor );
+	RGBColor	pixelRGB = UColorUtils::Color32ToRGB( inPixelColor );
 	::RGB2HSL( &pixelRGB, &pixelHSL );
 	if ( pixelHSL.lightness > 0x8000 )
 	{
@@ -562,7 +565,7 @@ CIcon_EditorView::DrawOnePixel( SInt32 inHoriz, SInt32 inVert, COffscreen *inBuf
 		Color32		thePixelColor = inBuffer->GetPixelColor( inHoriz, inVert );
 		
 		this->FocusDraw();
-		SUColorUtils::SetForeColor32( thePixelColor );
+		UColorUtils::SetForeColor32( thePixelColor );
 		::PaintRect( &r );	
 
 		if ( (mHotSpot.h == inHoriz) && (mHotSpot.v == inVert) )
@@ -620,7 +623,7 @@ CIcon_EditorView::HandleDroppedPicture( PicHandle inPict, DragReference inDragRe
 	if ( mOwnerWindow )
 	{
 		SDragImageInfo	dragInfo;
-		dragInfo.imageType = ImageType_Picture;
+		dragInfo.imageType = img_Picture;
 		dragInfo.data = (void*) inPict;
 		dragInfo.dragRef = inDragRef;
 		dragInfo.dragAttribs = inAttribs;
@@ -718,8 +721,8 @@ CIcon_EditorView::Reinitialize( 	COffscreen *	inOffscreen,
 		}
 	
 	
-		SInt16	dh = neededWidth - currentWidth;	// ¥Æ JPL 6/16/97	
-		SInt16	dv = neededHeight - currentHeight;	// ¥Æ JPL 6/16/97	
+		SInt16	dh = neededWidth - currentWidth;
+		SInt16	dv = neededHeight - currentHeight;
 		if ( (dh != 0) || (dv != 0) )
 		{
 			this->ResizeFrameBy( dh, dv, inRedraw == redraw_Later );
@@ -729,9 +732,9 @@ CIcon_EditorView::Reinitialize( 	COffscreen *	inOffscreen,
 
 			if ( inResize & resize_Window, )
 			{
-				LWindow *theWindow = dynamic_cast< LWindow * >( SUMiscUtils::GetTopView( this ) );
+				LWindow *theWindow = dynamic_cast< LWindow * >( UIconMisc::GetTopView( this ) );
 				if ( theWindow )
-					SUPaneResizer::ResizeWindowIfNeeded( theWindow, PaintWindowMargin_h, PaintWindowMargin_v );
+					UPaneResizer::ResizeWindowIfNeeded( theWindow, PaintWindowMargin_h, PaintWindowMargin_v );
 			}
 			
 			CalcLocalFrameRect( localFrame );			// this may have been changed
@@ -740,22 +743,19 @@ CIcon_EditorView::Reinitialize( 	COffscreen *	inOffscreen,
 	}
 	
 	
-			// calculate the new pixel location information
-
+	// Calculate the new pixel location information
 	pixelArea.left = localFrame.left;
 	pixelArea.right = pixelArea.left + (numVGridlines * spaceBetween) + (cellWidth * imageWidth);
 	pixelArea.top = localFrame.top;
 	pixelArea.bottom = pixelArea.top + (numHGridlines * spaceBetween) + (cellWidth * imageHeight);
 	
-			// the first pixel is drawn here
-
+	// The first pixel is drawn here
 	firstRect.left = pixelArea.left + kIconSideMargin;
 	firstRect.right = firstRect.left + cellWidth;
 	firstRect.top = pixelArea.top + kIconSideMargin;
 	firstRect.bottom = firstRect.top + cellWidth;
 
-			// everything was successful, so update our instance variables
-
+	// Everything was successful, so update our instance variables
 	mCellWidth = cellWidth;
 	mSpaceBetween = spaceBetween;
 	mPixelArea = pixelArea;
@@ -763,9 +763,8 @@ CIcon_EditorView::Reinitialize( 	COffscreen *	inOffscreen,
 	mImageWidth = imageWidth;
 	mImageHeight = imageHeight;
 	
-			// redraw as desired
-
-	SUMiscUtils::RedrawPaneAsIndicated( this, inRedraw );
+	// Redraw as desired
+	UIconMisc::RedrawPaneAsIndicated( this, inRedraw );
 }
 
 
@@ -776,11 +775,11 @@ CIcon_EditorView::Reinitialize( 	COffscreen *	inOffscreen,
 void 
 CIcon_EditorView::ResizeFrameBy( SInt16 dh, SInt16 dv, Boolean inRedraw )
 {
-		// call our parent class to resize the frame
+	// Call our parent class to resize the frame
 	LView::ResizeFrameBy( dh, dv, inRedraw );
 
-		// resize the GBox surrounding us
-	LPane *theBox = SUMiscUtils::FindSibblingPaneByID( this, PaneID_BoxAroundCanvas );
+	// Resize the GBox surrounding us
+	LPane *theBox = UIconMisc::FindSibblingPaneByID( this, PaneID_BoxAroundCanvas );
 	if ( theBox )
 		theBox->ResizeFrameBy( dh, dv, inRedraw );
 }
@@ -793,15 +792,15 @@ CIcon_EditorView::ResizeFrameBy( SInt16 dh, SInt16 dv, Boolean inRedraw )
 void 
 CIcon_EditorView::MoveSamplePanes( SInt16 dh, SInt16 /*dv*/, Boolean inRedraw )
 {
-	LPane *samplePane = SUMiscUtils::FindSibblingPaneByID( this, PaneID_SampleWell );
+	LPane *samplePane = UIconMisc::FindSibblingPaneByID( this, PaneID_SampleWell );
 	if ( samplePane )
 		samplePane->MoveBy( dh, 0, inRedraw );
 
-	#ifdef NOW_DONE_ABOVE
-		// our window is probably too small now, so resize it
-	LWindow *ourWindow = dynamic_cast< LWindow * >( SUMiscUtils::GetTopView( this ) );
-	if ( ourWindow )
-		SUPaneResizer::ResizeWindowIfNeeded( ourWindow, PaintWindowMargin_h, PaintWindowMargin_v );
+// 	#ifdef NOW_DONE_ABOVE
+// 	// Our window is probably too small now, so resize it
+// 	LWindow *ourWindow = dynamic_cast< LWindow * >( UIconMisc::GetTopView( this ) );
+// 	if ( ourWindow )
+// 		UPaneResizer::ResizeWindowIfNeeded( ourWindow, PaintWindowMargin_h, PaintWindowMargin_v );
 	
 	
 }
@@ -814,7 +813,7 @@ CIcon_EditorView::MoveSamplePanes( SInt16 dh, SInt16 /*dv*/, Boolean inRedraw )
 void 
 CIcon_EditorView::DrawFrom( COffscreen *inBuffer, const Rect *inSourceRect )
 {
-	StSaveGWorld		aSaver;
+	StGWorldSaver		aSaver;
 	Rect				sourceR, offscreenR, windowR, tempDestR;
 	
 	if ( !inBuffer ) return;

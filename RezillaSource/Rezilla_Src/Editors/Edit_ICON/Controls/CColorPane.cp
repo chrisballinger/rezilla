@@ -1,7 +1,7 @@
 // ===========================================================================
 // CColorPane.cp
 //                       Created: 2004-12-11 18:53:05
-//             Last modification: 2004-12-14 14:59:13
+//             Last modification: 2004-12-17 10:44:00
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -18,9 +18,9 @@
 #include "UPopupDrawing.h"
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CColorPane
-// ============================================================
+// ---------------------------------------------------------------------------
 
 CColorPane::CColorPane( LStream *inStream ) : LPane( inStream )
 {
@@ -29,12 +29,8 @@ CColorPane::CColorPane( LStream *inStream ) : LPane( inStream )
 	mColorTable = nil;	
 	mClippedRgn = nil;
 	
-	/*
-		read in the default color and whether we clip (from the PPob resource).
-		note: Constructor for CW10 used the userCon field for the color -- CW11
-				uses the stream data instead.
-	*/
-	inStream->ReadData( &anRGB, sizeof(RGBColor) );
+	// Read in the default color and whether we clip (from the PPob
+	// resource). inStream->ReadData( &anRGB, sizeof(RGBColor) );
 	mCurrentColor = UColorUtils::RGBToColor32( anRGB );
 	
 	inStream->ReadData( &mClipsToSibblings, sizeof(mClipsToSibblings) );
@@ -42,9 +38,9 @@ CColorPane::CColorPane( LStream *inStream ) : LPane( inStream )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CreateColorStream
-// ============================================================
+// ---------------------------------------------------------------------------
 
 CColorPane *CColorPane::CreateFromStream( LStream *inStream )
 {
@@ -53,20 +49,21 @@ CColorPane *CColorPane::CreateFromStream( LStream *inStream )
 
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	FinishCreateSelf
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void CColorPane::FinishCreateSelf()
+void
+CColorPane::FinishCreateSelf()
 {
-		// (note: this is non-dynamic, but ok since we don't move panes around)
+	// This is non-dynamic, but ok since we don't move panes around
 	this->CalcClipRegionForOverlap();
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	Destructor
-// ============================================================
+// ---------------------------------------------------------------------------
 
 CColorPane::~CColorPane()
 {
@@ -77,18 +74,18 @@ CColorPane::~CColorPane()
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CColorPane::CalcClipRegionForOverlap
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void CColorPane::CalcClipRegionForOverlap()
+void
+CColorPane::CalcClipRegionForOverlap()
 {
-	// see if we are behind any other views and set our clip region
-
+	// See if we are behind any other views and set our clip region
 	Rect		ourRect, peerRect, dummyRect;
 	RgnHandle	peerRgn = nil;
 	
-		// assume we don't clip at all -- get our entire region	
+	// Assume we don't clip at all -- get our entire region	
 	mClippedRgn = ::NewRgn();
 	ThrowIfMemFail_( mClippedRgn );
 
@@ -102,14 +99,13 @@ void CColorPane::CalcClipRegionForOverlap()
 
 	if ( mClipsToSibblings )
 	{
-			// iterate through our parent view's list of panes
-			// should we make this a recursive search ???
+		// Iterate through our parent view's list of panes
 		LPane	*peerItem;
 		
 		LArrayIterator	anIterator( parentView->GetSubPanes() );
 		
-			// loop until we're done with the list or (more likely) we hit ourselves
-			// since we draw on top of everything after us
+		// Loop until we're done with the list or (more likely) we hit
+		// ourselves since we draw on top of everything after us
 		while( anIterator.Next( &peerItem ) && (peerItem != this) )
 		{
 			peerItem->CalcPortFrameRect( peerRect );
@@ -121,29 +117,28 @@ void CColorPane::CalcClipRegionForOverlap()
 		}
 	}
 	
-		// when we draw, the origin is the top/left of our superview,
-		//  so offset the region accordingly
+	// When we draw, the origin is the top/left of our superview, so offset
+	// the region accordingly
 	parentView->CalcPortFrameRect( dummyRect );
 	::OffsetRgn( mClippedRgn, -dummyRect.left, -dummyRect.top );
 	::DisposeRgn( peerRgn );
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	SetColor
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void CColorPane::SetColor( Color32 inColor, ERedrawOptions inRedrawHow )
+void
+CColorPane::SetColor( Color32 inColor, ERedrawOptions inRedrawHow )
 {
-	/*
-		only redraw if we need to (prevents flicker)
-	*/
+	// Only redraw if we need to (prevents flicker)
 	if ( !UColorUtils::EqualColor32( inColor, mCurrentColor ) )
 	{
 		mCurrentColor = inColor;
 
 		if ( inRedrawHow == redraw_Now )
-			this->DrawSwatch();				// prevent flicker -- just redraw swatch
+			this->DrawSwatch();
 		else
 			UIconMisc::RedrawPaneAsIndicated( this, inRedrawHow );
 
@@ -152,42 +147,44 @@ void CColorPane::SetColor( Color32 inColor, ERedrawOptions inRedrawHow )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	GetColor
-// ============================================================
+// ---------------------------------------------------------------------------
 
-Color32 CColorPane::GetColor()
+Color32
+CColorPane::GetColor()
 {
 	return( mCurrentColor );
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	GetColorTable
-// ============================================================
+// ---------------------------------------------------------------------------
 
-CTabHandle CColorPane::GetColorTable()
+CTabHandle
+CColorPane::GetColorTable()
 {
 	return( mColorTable );
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	SetColorTable
 // 	
 // 	Note:
 // 	Nil is ok if you want to disassociate a table with this pane.
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void CColorPane::SetColorTable( CTabHandle inTable, Boolean inChangeColorToo, ERedrawOptions inRedrawHow )
+void
+CColorPane::SetColorTable( CTabHandle inTable, Boolean inChangeColorToo, ERedrawOptions inRedrawHow )
 {
 	Handle	copyOfTable = inTable ? UIconMisc::DuplicateHandle((Handle)inTable) : nil;
 
 	this->DisposeCurrentTable();
 	mColorTable = (CTabHandle) copyOfTable;
 	
-		// change the currently displayed color if it's not in the
-		// new table
+	// Change the currently displayed color if it's not in the new table
 	if ( mColorTable && inChangeColorToo )
 	{
 		UInt8		newIndex;
@@ -202,11 +199,12 @@ void CColorPane::SetColorTable( CTabHandle inTable, Boolean inChangeColorToo, ER
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	DisposeCurrentTable
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void CColorPane::DisposeCurrentTable()
+void
+CColorPane::DisposeCurrentTable()
 {
 	if ( mColorTable )
 	{
@@ -216,18 +214,16 @@ void CColorPane::DisposeCurrentTable()
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	DrawSelf
-// 	
-// 	Note:
-// 	ColorPanes often overlap. This wouldn't be a problem except that we need
-// 	to redraw the pane outside of the event loop if the application tells us
-// 	to change our color (while the dropper tool is being used, for example).
-// 	
-// 	So we clip.
-// ============================================================
+// ---------------------------------------------------------------------------
+// 	ColorPanes often overlap. This wouldn't be a problem except that we
+// 	need to redraw the pane outside of the event loop if the application
+// 	tells us to change our color (while the dropper tool is being used, for
+// 	example). So we clip.
 
-void CColorPane::DrawSelf()
+void
+CColorPane::DrawSelf()
 {
 	Rect				r, swatchR;
 	StClipRgnState		aClipObject( mClippedRgn );		// clip us to prevent overlap
@@ -241,11 +237,12 @@ void CColorPane::DrawSelf()
 
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	ClickSelf
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void CColorPane::ClickSelf( const SMouseDownEvent &inEvent )
+void
+CColorPane::ClickSelf( const SMouseDownEvent &inEvent )
 {
 	Rect		portR, localR;
 	Point		pt;
@@ -254,16 +251,16 @@ void CColorPane::ClickSelf( const SMouseDownEvent &inEvent )
 	this->CalcPortFrameRect( portR );
 	this->CalcLocalFrameRect( localR );
 
-		// find the bottom/left of the control in global coordinates
+	// Find the bottom/left of the control in global coordinates
 	this->PortToGlobalPoint( topLeft(portR) );
 	this->PortToGlobalPoint( botRight(portR) );
 	pt.h = portR.left;
 	pt.v = portR.bottom;
 
-		// hilite the control
+	// Hilite the control
 	this->DrawPopup( true /* hilited */, true /* enabled */ );
 	
-		// prepare for drawing, clip to prevent overlap with other color pane
+	// Prepare for drawing, clip to prevent overlap with other color pane
 	this->FocusDraw();
 	StClipRgnState		aClipObject( mClippedRgn );	
 	
@@ -278,11 +275,11 @@ void CColorPane::ClickSelf( const SMouseDownEvent &inEvent )
 		SInt32	defaultItem = this->GetColorIndex( mCurrentColor );
 		SInt32	newColorIndex = CColorPopup::DoColorPopup( pt, mColorTable, defaultItem );
 		
-			// save the new value (broadcast, redraw, etc)
-			// note: ColorIndex is only a Byte and newColor may be -1, so watch out
+		// Save the new value (broadcast, redraw, etc).
+		// ColorIndex is only a Byte and newColor may be -1, so watch out
 		if ( newColorIndex != -1 )
 		{
-				// convert newColorIndex to a Color32
+			// Convert newColorIndex to a Color32
 			RGBColor	colorChosenRGB = (**mColorTable).ctTable[ newColorIndex ].rgb;
 			colorChosen = UColorUtils::RGBToColor32( colorChosenRGB );
 
@@ -290,16 +287,17 @@ void CColorPane::ClickSelf( const SMouseDownEvent &inEvent )
 		}
 	}
 
-		// unhilite the control
+	// Unhilite the control
 	this->DrawPopup( false /* not hilited */, true /* enabled */ );
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	DoAppleColorPicker
-// ============================================================
+// ---------------------------------------------------------------------------
 
-Boolean CColorPane::DoAppleColorPicker( Color32 *outColor )
+Boolean
+CColorPane::DoAppleColorPicker( Color32 *outColor )
 {
 	Point		pt = { -1, -1 };			// picker will choose location
 	RGBColor	currentRGB = UColorUtils::Color32ToRGB( mCurrentColor );
@@ -320,11 +318,12 @@ Boolean CColorPane::DoAppleColorPicker( Color32 *outColor )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	DrawPopup
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void CColorPane::DrawPopup( Boolean inHilited, Boolean inEnabled )
+void
+CColorPane::DrawPopup( Boolean inHilited, Boolean inEnabled )
 {
 	Rect	localR, swatchR;
 
@@ -340,11 +339,12 @@ void CColorPane::DrawPopup( Boolean inHilited, Boolean inEnabled )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	DrawSwatch
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void CColorPane::DrawSwatch()
+void
+CColorPane::DrawSwatch()
 {
 	Rect	localR, swatchR;
 	
@@ -358,11 +358,12 @@ void CColorPane::DrawSwatch()
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	DrawSwatchSelf
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void CColorPane::DrawSwatchSelf( const Rect &swatchR )
+void
+CColorPane::DrawSwatchSelf( const Rect &swatchR )
 {
 	RGBColor swatchRGB = UColorUtils::Color32ToRGB( mCurrentColor );
 	
@@ -372,17 +373,16 @@ void CColorPane::DrawSwatchSelf( const Rect &swatchR )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	PointIsInFrame
-// 	
-// 	Notes:
+// ---------------------------------------------------------------------------
 // 	This is here because the user can click in the overlapped portion of 2
-// 	  panes and PP selects the wrong one by default.
-// 	Incoming points are in port coordinates.
-// 	mClippedRgn is in local (superview relative) coordinates.
-// ============================================================
+// 	panes and PP selects the wrong one by default. Incoming points are in
+// 	port coordinates. mClippedRgn is in local (superview relative)
+// 	coordinates.
 
-Boolean CColorPane::PointIsInFrame( SInt32 inHoriz, SInt32 inVert) const
+Boolean
+CColorPane::PointIsInFrame( SInt32 inHoriz, SInt32 inVert) const
 {
 	Point	pt = { inVert, inHoriz };
 	
@@ -397,11 +397,12 @@ Boolean CColorPane::PointIsInFrame( SInt32 inHoriz, SInt32 inVert) const
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	GetColorIndex
-// ============================================================
+// ---------------------------------------------------------------------------
 
-SInt32 CColorPane::GetColorIndex( Color32 inColor )
+SInt32
+CColorPane::GetColorIndex( Color32 inColor )
 {
 	if ( !mColorTable ) return( -1 );
 	
@@ -415,11 +416,12 @@ SInt32 CColorPane::GetColorIndex( Color32 inColor )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	AllowPickerOption
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void CColorPane::AllowPickerOption( Boolean inOption )
+void
+CColorPane::AllowPickerOption( Boolean inOption )
 {
 	mUsePickerOption = inOption;
 }

@@ -17,14 +17,15 @@
 #include <math.h>
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CColorPopup::DoColorPopup
-// ============================================================
+// ---------------------------------------------------------------------------
 // This is the main (and only) entry point into the Color Popup code. It
 // opens the popup window, handles user selection, and returns the item
 // chosen by the user (0..n-1) or -1 if nothing.
 
-SInt32 CColorPopup::DoColorPopup( Point inTopLeft, CTabHandle inTable, SInt32 defaultItem )
+SInt32
+CColorPopup::DoColorPopup( Point inTopLeft, CTabHandle inTable, SInt32 defaultItem )
 {
 	CColorPopup		thePopup( inTable );		// note: object on stack
 	
@@ -32,9 +33,9 @@ SInt32 CColorPopup::DoColorPopup( Point inTopLeft, CTabHandle inTable, SInt32 de
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CColorPopup Constructor
-// ============================================================
+// ---------------------------------------------------------------------------
 
 CColorPopup::CColorPopup( CTabHandle inTable )
 {
@@ -42,22 +43,23 @@ CColorPopup::CColorPopup( CTabHandle inTable )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CColorPopup Destructor
-// ============================================================
+// ---------------------------------------------------------------------------
 
 CColorPopup::~CColorPopup()
 {
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CColorPopup::Prepare
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	Must set: mItems, mRows, mCols, mFirstitemRect, mCellWidth,
 // 	mCellHeight, mWindowRect
 
-void CColorPopup::Prepare( Point inTopLeft )
+void
+CColorPopup::Prepare( Point inTopLeft )
 {
 	ThrowIfNil_( mColorTable );
 	
@@ -96,22 +98,24 @@ void CColorPopup::Prepare( Point inTopLeft )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CColorPopup::DrawInitialState
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void CColorPopup::DrawInitialState()
+void
+CColorPopup::DrawInitialState()
 {
 	for ( SInt32 count = 0; count < mItems; count++ )
 		this->DrawOneCell( count );
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CColorPopup::DrawOneCell
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void CColorPopup::DrawOneCell( SInt32 inIndex, Boolean inHilited )
+void
+CColorPopup::DrawOneCell( SInt32 inIndex, Boolean inHilited )
 {
 	Rect		r, itemR;
 

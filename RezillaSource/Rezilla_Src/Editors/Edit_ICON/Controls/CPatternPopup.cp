@@ -17,14 +17,15 @@
 #include <UDrawingState.h>
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CPatternPopup::DoPatternPopup
-// ============================================================
+// ---------------------------------------------------------------------------
 // This is the main (and only) entry point into the Pattern Popup code. It
 // opens the popup window, handles user selection, and returns the item
 // chosen by the user (0..n-1) or -1 if nothing.
 
-SInt32 CPatternPopup::DoPatternPopup( Point inTopLeft, SPatternListH inPatterns, SInt32 defaultItem,
+SInt32
+CPatternPopup::DoPatternPopup( Point inTopLeft, SPatternListH inPatterns, SInt32 defaultItem,
 										const RGBColor &inFore, const RGBColor &inBack )
 {
 	CPatternPopup	thePopup( inPatterns, inFore, inBack );		// note: object on stack
@@ -33,9 +34,9 @@ SInt32 CPatternPopup::DoPatternPopup( Point inTopLeft, SPatternListH inPatterns,
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CPatternPopup Constructor
-// ============================================================
+// ---------------------------------------------------------------------------
 
 CPatternPopup::CPatternPopup( SPatternListH inPatterns, const RGBColor &inFore, const RGBColor &inBack )
 {
@@ -45,22 +46,23 @@ CPatternPopup::CPatternPopup( SPatternListH inPatterns, const RGBColor &inFore, 
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CPatternPopup Destructor
-// ============================================================
+// ---------------------------------------------------------------------------
 
 CPatternPopup::~CPatternPopup()
 {
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	Prepare
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	Must set: mItems, mRows, mCols, mFirstitemRect, mCellWidth, 
 // 	mCellHeight, mWindowRect.
 
-void CPatternPopup::Prepare( Point inTopLeft )
+void
+CPatternPopup::Prepare( Point inTopLeft )
 {
 	ThrowIfNil_( mPatternList );
 	
@@ -80,11 +82,12 @@ void CPatternPopup::Prepare( Point inTopLeft )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CPatternPopup::DrawInitialState
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void CPatternPopup::DrawInitialState()
+void
+CPatternPopup::DrawInitialState()
 {
 	ThrowIfNil_( mPatternList );
 	
@@ -96,11 +99,12 @@ void CPatternPopup::DrawInitialState()
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CPatternPopup::DrawOneCell
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void CPatternPopup::DrawOneCell( SInt32 inIndex, Boolean inHilited )
+void
+CPatternPopup::DrawOneCell( SInt32 inIndex, Boolean inHilited )
 {
 	Rect		r, itemR;
 

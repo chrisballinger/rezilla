@@ -43,7 +43,8 @@ CIconSelection::~CIconSelection()
 // 	DisposeBuffer
 // ============================================================
 
-void CIconSelection::DisposeBuffer()
+void
+CIconSelection::DisposeBuffer()
 {
 	if ( mSelectionBuffer )
 	{
@@ -57,7 +58,8 @@ void CIconSelection::DisposeBuffer()
 // 	SelectAll
 // ============================================================
 
-void CIconSelection::SelectAll( COffscreen *inBuffer )
+void
+CIconSelection::SelectAll( COffscreen *inBuffer )
 {
 	Rect	r;
 	SetRect( &r, 0, 0, inBuffer->GetWidth(), inBuffer->GetHeight() );
@@ -69,7 +71,8 @@ void CIconSelection::SelectAll( COffscreen *inBuffer )
 // 	SelectNone
 // ============================================================
 
-void CIconSelection::SelectNone()
+void
+CIconSelection::SelectNone()
 {
 	::SetEmptyRgn( mRegion );
 	this->DisposeBuffer();
@@ -80,7 +83,8 @@ void CIconSelection::SelectNone()
 // 	SetSelection
 // ============================================================
 
-void CIconSelection::SetSelection( COffscreen *inBuffer, const Rect &inRect )
+void
+CIconSelection::SetSelection( COffscreen *inBuffer, const Rect &inRect )
 {
 	RgnHandle	theRgn = URegionMisc::NewRegionFromRect( inRect );
 	this->SetSelection( inBuffer, theRgn );
@@ -93,7 +97,8 @@ void CIconSelection::SetSelection( COffscreen *inBuffer, const Rect &inRect )
 // ============================================================
 // 	Copy the region and allocate a new selection buffer.
 
-void CIconSelection::SetSelection( COffscreen *inBuffer, RgnHandle inRegion )
+void
+CIconSelection::SetSelection( COffscreen *inBuffer, RgnHandle inRegion )
 {
 	ThrowIfNil_( inBuffer );
 	ThrowIfNil_( inRegion );
@@ -137,7 +142,8 @@ void CIconSelection::SetSelection( COffscreen *inBuffer, RgnHandle inRegion )
 // 	SetSelection
 // ============================================================
 
-void CIconSelection::SetSelection( CIconSelection *inSource )
+void
+CIconSelection::SetSelection( CIconSelection *inSource )
 {
 	if ( inSource->IsEmpty() )
 	{
@@ -173,7 +179,8 @@ void CIconSelection::SetSelection( CIconSelection *inSource )
 // 	Does not affect the offscreen bitmap at all.
 // ============================================================
 
-void CIconSelection::SetRawSelection( RgnHandle inRgn )
+void
+CIconSelection::SetRawSelection( RgnHandle inRgn )
 {
 	if ( !inRgn )
 		::SetEmptyRgn( mRegion );
@@ -190,7 +197,8 @@ void CIconSelection::SetRawSelection( RgnHandle inRgn )
 // 	DrawInto
 // ============================================================
 
-void CIconSelection::DrawInto( COffscreen *destBuffer )
+void
+CIconSelection::DrawInto( COffscreen *destBuffer )
 {
 	if ( !mSelectionBuffer || this->IsEmpty() ) return;
 	
@@ -218,7 +226,8 @@ COffscreen *CIconSelection::GetImageBuffer()
 // 	CopyToClipboard
 // ============================================================
 
-void CIconSelection::CopyToClipboard()
+void
+CIconSelection::CopyToClipboard()
 {
 	if ( !mSelectionBuffer || this->IsEmpty() ) return;
 	
@@ -230,7 +239,8 @@ void CIconSelection::CopyToClipboard()
 // 	PasteFromClipboard
 // ============================================================
 
-void CIconSelection::PasteFromClipboard( COffscreen *inParentBuffer )
+void
+CIconSelection::PasteFromClipboard( COffscreen *inParentBuffer )
 {
 	PicHandle		thePict = nil;
 	RgnHandle		theRegion = nil;
@@ -268,7 +278,8 @@ void CIconSelection::PasteFromClipboard( COffscreen *inParentBuffer )
 // 	PastePicture
 // ============================================================
 
-void CIconSelection::PastePicture( COffscreen *inParentBuffer, PicHandle inPict, RgnHandle inRegion )
+void
+CIconSelection::PastePicture( COffscreen *inParentBuffer, PicHandle inPict, RgnHandle inRegion )
 {
 	ThrowIfNil_( inParentBuffer );
 	ThrowIfNil_( inPict );
@@ -323,7 +334,8 @@ void CIconSelection::PastePicture( COffscreen *inParentBuffer, PicHandle inPict,
 // 	PasteOffscreenBuffer
 // ============================================================
 
-void CIconSelection::PasteOffscreenBuffer( COffscreen *inParentBuffer, COffscreen *inBuffer, RgnHandle inRegion )
+void
+CIconSelection::PasteOffscreenBuffer( COffscreen *inParentBuffer, COffscreen *inBuffer, RgnHandle inRegion )
 {
 	ThrowIfNil_( inParentBuffer );
 	ThrowIfNil_( inBuffer );
@@ -373,7 +385,8 @@ void CIconSelection::PasteOffscreenBuffer( COffscreen *inParentBuffer, COffscree
 // 	IsEmpty
 // ============================================================
 
-Boolean CIconSelection::IsEmpty()
+Boolean
+CIconSelection::IsEmpty()
 {
 	if ( !mRegion || EmptyRgn(mRegion) )
 		return( true );
@@ -389,7 +402,8 @@ Boolean CIconSelection::IsEmpty()
 // 	Does not affect the image.
 // ============================================================
 
-void CIconSelection::Offset( SInt32 dh, SInt32 dv )
+void
+CIconSelection::Offset( SInt32 dh, SInt32 dv )
 {
 	::OffsetRgn( mRegion, dh, dv );
 }
@@ -402,7 +416,8 @@ void CIconSelection::Offset( SInt32 dh, SInt32 dv )
 // 	Does not affect the image.
 // ============================================================
 
-void CIconSelection::MoveTo( SInt32 left, SInt32 top )
+void
+CIconSelection::MoveTo( SInt32 left, SInt32 top )
 {
 	Rect	bounds;
 
@@ -415,7 +430,8 @@ void CIconSelection::MoveTo( SInt32 left, SInt32 top )
 // 	GetRegion
 // ============================================================
 
-RgnHandle CIconSelection::GetRegion()
+RgnHandle
+CIconSelection::GetRegion()
 {
 	return( mRegion );
 }
@@ -425,7 +441,8 @@ RgnHandle CIconSelection::GetRegion()
 // 	GetCopyOfRegion
 // ============================================================
 
-RgnHandle CIconSelection::GetCopyOfRegion()
+RgnHandle
+CIconSelection::GetCopyOfRegion()
 {
 	return URegionMisc::NewRegionFromRegion( mRegion );
 }
@@ -436,7 +453,8 @@ RgnHandle CIconSelection::GetCopyOfRegion()
 // 	PointInSelection
 // ============================================================
 
-Boolean CIconSelection::PointInSelection( SInt32 h, SInt32 v )
+Boolean
+CIconSelection::PointInSelection( SInt32 h, SInt32 v )
 {
 	// if ( this->IsEmpty() ) return( false );
 	

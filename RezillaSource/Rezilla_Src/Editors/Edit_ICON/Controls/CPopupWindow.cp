@@ -16,9 +16,9 @@
 #include "UIconMisc.h"
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CPopupWindow Constructor
-// ============================================================
+// ---------------------------------------------------------------------------
 
 CPopupWindow::CPopupWindow()
 {
@@ -29,23 +29,24 @@ CPopupWindow::CPopupWindow()
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CPopupWindow Destructor
-// ============================================================
+// ---------------------------------------------------------------------------
 
 CPopupWindow::~CPopupWindow()
 {
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CPopupWindow::DoPopup
-// ============================================================
+// ---------------------------------------------------------------------------
 // Returns the item number selected (0..n). Returns the default item number
 // if nothing is selected. -1 means nothing selected and no default was
 // specified.
 
-SInt32 CPopupWindow::DoPopup( Point inTopLeft, SInt32 defaultItem )
+SInt32
+CPopupWindow::DoPopup( Point inTopLeft, SInt32 defaultItem )
 {
 	SInt32			result = -1;
 	WindowPtr		macWindow = nil;
@@ -71,12 +72,13 @@ SInt32 CPopupWindow::DoPopup( Point inTopLeft, SInt32 defaultItem )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CPopupWindow::CreateMacWindow
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	Sets the current port to the window.
 
-WindowPtr CPopupWindow::CreateMacWindow()
+WindowPtr
+CPopupWindow::CreateMacWindow()
 {
 	WindowPtr	theWindow = nil;
 	Rect		windowR;
@@ -113,11 +115,12 @@ WindowPtr CPopupWindow::CreateMacWindow()
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CPopupWindow::TrackMouse
-// ============================================================
+// ---------------------------------------------------------------------------
 
-SInt32 CPopupWindow::TrackMouse()
+SInt32
+CPopupWindow::TrackMouse()
 {
 	SInt32		currentItem = -1, prevItem = -1;
 	Point		pt;
@@ -152,20 +155,21 @@ SInt32 CPopupWindow::TrackMouse()
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CPopupWindow::HiliteItem
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void CPopupWindow::HiliteItem( SInt32 theItem, Boolean inHilited )
+void
+CPopupWindow::HiliteItem( SInt32 theItem, Boolean inHilited )
 {
 	this->DrawOneCell( theItem, inHilited );
 }
 
 // #ifdef OLDWAY
 // 
-// // ============================================================
+// // ---------------------------------------------------------------------------
 // // 	CPopupWindow::HiliteItem
-// // ============================================================
+// // ---------------------------------------------------------------------------
 // 
 // void CPopupWindow::HiliteItem( SInt32 theItem, Boolean inHilited )
 // {
@@ -201,9 +205,9 @@ void CPopupWindow::HiliteItem( SInt32 theItem, Boolean inHilited )
 // 
 // #ifdef OLDWAY
 // 
-// // ============================================================
+// // ---------------------------------------------------------------------------
 // // 	CPopupWindow::HiliteItem
-// // ============================================================
+// // ---------------------------------------------------------------------------
 // 
 // void CPopupWindow::HiliteItem( SInt32 theItem, Boolean /* hiliteIt */ )
 // {
@@ -220,11 +224,12 @@ void CPopupWindow::HiliteItem( SInt32 theItem, Boolean inHilited )
 
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CPopupWindow::LocalPointToIndex
-// ============================================================
+// ---------------------------------------------------------------------------
 
-SInt32 CPopupWindow::LocalPointToIndex( Point pt )
+SInt32
+CPopupWindow::LocalPointToIndex( Point pt )
 {
 	SInt32		index;
 	GrafPtr		theGrafPort;
@@ -254,11 +259,12 @@ SInt32 CPopupWindow::LocalPointToIndex( Point pt )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CPopupWindow::GetItemRect
-// ============================================================
+// ---------------------------------------------------------------------------
 
-Boolean CPopupWindow::GetItemRect( SInt32 inItem, Rect *outR )
+Boolean
+CPopupWindow::GetItemRect( SInt32 inItem, Rect *outR )
 {
 	if ( (inItem < 0) || (inItem >= mItems) || (mCols == 0) || (mRows == 0) )
 		return( false );
@@ -275,11 +281,12 @@ Boolean CPopupWindow::GetItemRect( SInt32 inItem, Rect *outR )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CPopupWindow::FlashItem
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void CPopupWindow::FlashItem( SInt32 theItem )
+void
+CPopupWindow::FlashItem( SInt32 theItem )
 {
 	Rect		r;
 	SInt32		numFlashes;

@@ -36,9 +36,9 @@
 static CaretHookUPP		sCaretUPP = nil;
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	Constructor
-// ============================================================
+// ---------------------------------------------------------------------------
 
 CIconTextAction::CIconTextAction( const SPaintAction &inAction ) : 
 	CIconTrackingPaintAction( inAction, index_UndoText )
@@ -66,9 +66,9 @@ CIconTextAction::CIconTextAction( const SPaintAction &inAction ) :
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	Destructor
-// ============================================================
+// ---------------------------------------------------------------------------
 
 CIconTextAction::~CIconTextAction()
 {
@@ -100,9 +100,9 @@ CIconTextAction::~CIconTextAction()
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	UndoSelf
-// ============================================================
+// ---------------------------------------------------------------------------
 
 void CIconTextAction::UndoSelf()
 {
@@ -111,9 +111,9 @@ void CIconTextAction::UndoSelf()
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	HandleMouseDown
-// ============================================================
+// ---------------------------------------------------------------------------
 
 void CIconTextAction::HandleMouseDown( const SMouseDownEvent &inEvent )
 {
@@ -211,9 +211,9 @@ void CIconTextAction::HandleMouseDown( const SMouseDownEvent &inEvent )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	HandleKeyDown
-// ============================================================
+// ---------------------------------------------------------------------------
 
 void CIconTextAction::HandleKeyDown( const EventRecord &inEvent )
 {
@@ -275,9 +275,9 @@ void CIconTextAction::HandleKeyDown( const EventRecord &inEvent )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	Idle
-// ============================================================
+// ---------------------------------------------------------------------------
 
 void CIconTextAction::Idle()
 {
@@ -289,9 +289,9 @@ void CIconTextAction::Idle()
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CloseEditSession
-// ============================================================
+// ---------------------------------------------------------------------------
 
 void CIconTextAction::CloseEditSession()
 {
@@ -311,9 +311,9 @@ void CIconTextAction::CloseEditSession()
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	ChangeTextTraits
-// ============================================================
+// ---------------------------------------------------------------------------
 
 void CIconTextAction::ChangeTextTraits( const TextTraitsRecord &inTraits )
 {
@@ -357,13 +357,13 @@ void CIconTextAction::ChangeTextTraits( const TextTraitsRecord &inTraits )
 
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	RestoreMainBufferFromUndoBuffer
 // 	
 // 	Description:
 // 	Restores the main buffer from the undo buffer. For speed, only copies the
 // 	 currently used portion of the buffer.
-// ============================================================
+// ---------------------------------------------------------------------------
 
 void CIconTextAction::RestoreMainBufferFromUndoBuffer()
 {
@@ -375,9 +375,9 @@ void CIconTextAction::RestoreMainBufferFromUndoBuffer()
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CopyTextBufferToMainBuffer
-// ============================================================
+// ---------------------------------------------------------------------------
 
 void CIconTextAction::CopyTextBufferToMainBuffer()
 {
@@ -390,9 +390,9 @@ void CIconTextAction::CopyTextBufferToMainBuffer()
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CopyMainBufferToCanvas
-// ============================================================
+// ---------------------------------------------------------------------------
 
 void CIconTextAction::CopyMainBufferToCanvas( Rect *inDestR )
 {
@@ -410,9 +410,9 @@ void CIconTextAction::CopyMainBufferToCanvas( Rect *inDestR )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CopyAndColorize
-// ============================================================
+// ---------------------------------------------------------------------------
 
 void CIconTextAction::CopyAndColorize( COffscreen *inSource, COffscreen *inDest,
 									const Rect &inSourceR, const Rect &inDestR,
@@ -468,9 +468,9 @@ void CIconTextAction::CopyAndColorize( COffscreen *inSource, COffscreen *inDest,
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	GetRectRelativeToTextBuffer
-// ============================================================
+// ---------------------------------------------------------------------------
 
 Boolean CIconTextAction::GetRectRelativeToTextBuffer( Rect *outR )
 {
@@ -491,9 +491,9 @@ Boolean CIconTextAction::GetRectRelativeToTextBuffer( Rect *outR )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CalcTextAreaHeight
-// ============================================================
+// ---------------------------------------------------------------------------
 
 SInt32 CIconTextAction::CalcTextAreaHeight()
 {
@@ -515,9 +515,9 @@ SInt32 CIconTextAction::CalcTextAreaHeight()
 
 #ifdef OLDWAY_TOO_SLOW
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	GetRectRelativeToTextBuffer
-// ============================================================
+// ---------------------------------------------------------------------------
 
 Boolean CIconTextAction::GetRectRelativeToTextBuffer( Rect *outR )
 {
@@ -540,9 +540,9 @@ Boolean CIconTextAction::GetRectRelativeToTextBuffer( Rect *outR )
 
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	GetRectRelativeToImageBuffer
-// ============================================================
+// ---------------------------------------------------------------------------
 
 Boolean CIconTextAction::GetRectRelativeToImageBuffer( Rect *outR )
 {
@@ -552,11 +552,11 @@ Boolean CIconTextAction::GetRectRelativeToImageBuffer( Rect *outR )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	DrawInsertionPoint
 // 	
 // 	Draws or erases the insertion point.
-// ============================================================
+// ---------------------------------------------------------------------------
 
 void CIconTextAction::DrawInsertionPoint( Boolean inDraw )
 {
@@ -604,13 +604,13 @@ void CIconTextAction::DrawInsertionPoint( Boolean inDraw )
 
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	GetInsertionPoint
 // 	
 // 	Description:
 // 	Returns a rectangle which indicates where the insertion point is (rel to text).
 // 	Returns false if no insertion point can be drawn.
-// ============================================================
+// ---------------------------------------------------------------------------
 
 Boolean CIconTextAction::GetInsertionPoint( Rect *outR )
 {
@@ -636,7 +636,7 @@ Boolean CIconTextAction::GetInsertionPoint( Rect *outR )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	MyCaretHook
 // 	
 // 	Description:
@@ -649,7 +649,7 @@ Boolean CIconTextAction::GetInsertionPoint( Rect *outR )
 // 	is passed on the stack *after* the return address and TEPtr is in
 // 	D3, I think. blech. blech. See TextEdit.h and TextEditControl.c on
 // 	the "Tools" CD from Apple.
-// ============================================================
+// ---------------------------------------------------------------------------
 
 #if GENERATINGCFM
 static pascal void MyCaretHook( const Rect *, TEPtr )		// CFM version

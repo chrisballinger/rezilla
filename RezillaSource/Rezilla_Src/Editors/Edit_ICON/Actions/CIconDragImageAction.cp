@@ -1,7 +1,7 @@
 // ===========================================================================
 // CIconDragImageAction.cp
 //                       Created: 2004-12-11 18:52:14
-//             Last modification: 2004-12-15 06:42:40
+//             Last modification: 2004-12-17 23:06:18
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -11,7 +11,7 @@
 // $Revision$
 // ===========================================================================
 
-#include "RezillaConstants.h"
+// #include "RezillaConstants.h"
 #include "CIconActions.h"
 #include "COffscreenDragTask.h"
 
@@ -24,9 +24,9 @@ CIconDragImageAction::CIconDragImageAction( const SPaintAction &inAction, SDragI
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	DoIt
-// ============================================================
+// ---------------------------------------------------------------------------
 void CIconDragImageAction::DoIt()
 {
 	CIcon_EditorWindow			*thePaintView = mSettings.thePaintView;
@@ -39,7 +39,7 @@ void CIconDragImageAction::DoIt()
 	
 	switch( mDragInfo.imageType )
 	{
-		case ImageType_Picture:
+		case img_Picture:
 			thePaintView->SelectNone();
 			thePaintView->ChangeTool( Tool_Selection );
 			theSelection->PastePicture( currentBuffer, (PicHandle) mDragInfo.data );

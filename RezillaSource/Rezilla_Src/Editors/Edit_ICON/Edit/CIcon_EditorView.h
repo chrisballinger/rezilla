@@ -70,7 +70,7 @@ public:
 	virtual void	 		Reinitialize( 
 								COffscreen *	inOffscreen, 
 								ERedrawOptions 	inRedraw = redraw_Later,
-								SInt32	inResize = resize_Canvas, );
+								SInt32	inResize = resize_Canvas );
 								
 	virtual void			DrawSelf();
 	virtual void			DrawFrom( COffscreen *, const Rect *subArea = nil );

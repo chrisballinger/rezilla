@@ -1,7 +1,7 @@
 // ===========================================================================
 // CPatternPane.cp
 //                       Created: 2004-12-11 18:53:08
-//             Last modification: 2004-12-15 13:11:38
+//             Last modification: 2004-12-17 19:45:28
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -11,16 +11,18 @@
 // $Revision$
 // ===========================================================================
 
-#include "UIconMisc.h"
 #include "CPatternPane.h"
 #include "CPatternPopup.h"
-#include "UPopupDrawing.h"
+#include "CRezillaApp.h"
 #include "UColorUtils.h"
+#include "UIconMisc.h"
+#include "UPopupDrawing.h"
+#include "UResources.h"
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CPatternPane
-// ============================================================
+// ---------------------------------------------------------------------------
 
 CPatternPane::CPatternPane( LStream *inStream ) : LPane( inStream )
 {
@@ -39,7 +41,7 @@ CPatternPane::CPatternPane( LStream *inStream ) : LPane( inStream )
 	if ( theResID != -1 )
 	{
 		if ( HiWord( theRefCon ) == 0 )
-			theFileID = UFileUtils::GetMainResourceFile();
+			theFileID = CRezillaApp::GetOwnRefNum();
 		else
 			theFileID = kSystemResFile;
 			
@@ -48,9 +50,9 @@ CPatternPane::CPatternPane( LStream *inStream ) : LPane( inStream )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CreateColorStream
-// ============================================================
+// ---------------------------------------------------------------------------
 
 CPatternPane *CPatternPane::CreateFromStream( LStream *inStream )
 {
@@ -59,9 +61,9 @@ CPatternPane *CPatternPane::CreateFromStream( LStream *inStream )
 
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	Destructor
-// ============================================================
+// ---------------------------------------------------------------------------
 
 CPatternPane::~CPatternPane()
 {
@@ -69,21 +71,23 @@ CPatternPane::~CPatternPane()
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	GetPatternIndex
-// ============================================================
+// ---------------------------------------------------------------------------
 
-SInt32 CPatternPane::GetPatternIndex()
+SInt32
+CPatternPane::GetPatternIndex()
 {
 	return( mCurrentIndex );
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	SetPatternIndex
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void CPatternPane::SetPatternIndex( SInt32 inIndex, ERedrawOptions inRedraw )
+void
+CPatternPane::SetPatternIndex( SInt32 inIndex, ERedrawOptions inRedraw )
 {
 	if ( inIndex != mCurrentIndex )
 	{
@@ -95,11 +99,12 @@ void CPatternPane::SetPatternIndex( SInt32 inIndex, ERedrawOptions inRedraw )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	GetCurrentPattern
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void CPatternPane::GetCurrentPattern( Pattern *outPattern )
+void
+CPatternPane::GetCurrentPattern( Pattern *outPattern )
 {
 	ThrowIfNil_( mPatternListH );
 	ThrowIf_( (mCurrentIndex < 0) || (mCurrentIndex >= (**mPatternListH).numPatterns) );
@@ -108,27 +113,27 @@ void CPatternPane::GetCurrentPattern( Pattern *outPattern )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	SetPatternList
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void CPatternPane::SetPatternList( SInt16 inFileID, ResIDT inResID, ERedrawOptions inRedraw )
+void
+CPatternPane::SetPatternList( SInt16 inFileID, ResIDT inResID, ERedrawOptions inRedraw )
 {
-	Boolean		wasLoaded;
+	Handle		theHandle = NULL;
 	
-	Handle h = UFileUtils::GetResource( inFileID, 'PAT#', inResID, &wasLoaded );
-	this->SetPatternList( (SPatternListH) h, inRedraw );
+	OSErr error = UResources::GetResourceInMap( inFileID, 'PAT#', inResID, theHandle, false);
 	
-	if ( !wasLoaded )
-		UIconMisc::DisposeHandle( h );
+	this->SetPatternList( (SPatternListH) theHandle, inRedraw );
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	SetPatternList
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void CPatternPane::SetPatternList( SPatternListH inHandle, ERedrawOptions inRedraw )
+void
+CPatternPane::SetPatternList( SPatternListH inHandle, ERedrawOptions inRedraw )
 {
 	if ( inHandle )
 		inHandle = (SPatternListH) UIconMisc::DuplicateHandle( (Handle) inHandle );
@@ -148,11 +153,12 @@ void CPatternPane::SetPatternList( SPatternListH inHandle, ERedrawOptions inRedr
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	SetColors
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void CPatternPane::SetColors( Color32 inFore, Color32 inBack, ERedrawOptions inRedraw )
+void
+CPatternPane::SetColors( Color32 inFore, Color32 inBack, ERedrawOptions inRedraw )
 {
 	mForeColor = UColorUtils::Color32ToRGB( inFore );
 	mBackColor = UColorUtils::Color32ToRGB( inBack );
@@ -160,13 +166,14 @@ void CPatternPane::SetColors( Color32 inFore, Color32 inBack, ERedrawOptions inR
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	DrawSelf
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void CPatternPane::DrawSelf()
+void
+CPatternPane::DrawSelf()
 {
-	Rect				r, swatchR;
+	Rect	r, swatchR;
 	
 	CalcLocalFrameRect( r );
 	UPopupDrawing::DrawPopup( r, false /* not hilited */, IsEnabled() );
@@ -176,45 +183,47 @@ void CPatternPane::DrawSelf()
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	ClickSelf
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void CPatternPane::ClickSelf( const SMouseDownEvent & )
+void
+CPatternPane::ClickSelf( const SMouseDownEvent & )
 {
 	if ( !mPatternListH ) return;
 	
 	Rect	r;
 	Point	pt;
 
-		// find the bottom/left of the control
+	// Find the bottom/left of the control
 	this->CalcPortFrameRect( r );
 	this->PortToGlobalPoint( topLeft(r) );
 	this->PortToGlobalPoint( botRight(r) );
 	pt.h = r.left;
 	pt.v = r.bottom;
 	
-		// hilite the control
+	// Hilite the control
 	this->DrawPopup( true /* hilited */, true /* enabled */ );
 
-		// show the popup & track the user's actions
+	// show the popup & track the user's actions
 	SInt32 newIndex = CPatternPopup::DoPatternPopup( pt, mPatternListH, mCurrentIndex,
 										mForeColor, mBackColor );
 
-		// note: ColorIndex is only a Byte and newColor may be -1, so watch out
+	// ColorIndex is only a Byte and newColor may be -1, so watch out
 	if ( newIndex != -1 )
 		this->SetPatternIndex( newIndex );
 
-		// unhilite the control
+	// Unhilite the control
 	this->DrawPopup( false /* not hilited */, true /* enabled */ );
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	DrawPopup
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void CPatternPane::DrawPopup( Boolean inHilited, Boolean inEnabled )
+void
+CPatternPane::DrawPopup( Boolean inHilited, Boolean inEnabled )
 {
 	Rect	localR, swatchR;
 
@@ -228,11 +237,12 @@ void CPatternPane::DrawPopup( Boolean inHilited, Boolean inEnabled )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	DrawSwatch
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void CPatternPane::DrawSwatch()
+void
+CPatternPane::DrawSwatch()
 {
 	Rect	localR, swatchR;
 	
@@ -244,11 +254,12 @@ void CPatternPane::DrawSwatch()
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	DrawSwatchSelf
-// ============================================================
+// ---------------------------------------------------------------------------
 
-void CPatternPane::DrawSwatchSelf( const Rect &swatchR )
+void
+CPatternPane::DrawSwatchSelf( const Rect &swatchR )
 {
 	if ( !mPatternListH || (mCurrentIndex < 0) || (mCurrentIndex >= (**mPatternListH).numPatterns) ) return;
 	

@@ -252,6 +252,7 @@ const ResIDT	baseMENU_Resource			= 1200;
 
 // Icon resources
 const ResIDT	ICN_WindowMenu				= 3100;
+const ResIDT	Clut_IconColors 			= 9000;
 
 // Cursors
 const ResIDT	CURS_HandOneFinger	= 1000;
@@ -267,6 +268,10 @@ const ResIDT	CURS_HandNoFinger	= 9010;
 const ResIDT	CURS_HotSpot		= 9011;
 const ResIDT	CURS_Square			= 9012;
 const ResIDT	CURS_Cross			= 9013;
+
+// Phony id used to indicate "the color picker" in the Icon editor
+const ResIDT	ColorTable_UsePicker	= 0;
+
 
 // Indices in STR# resources
 // -------------------------
@@ -335,26 +340,26 @@ const SInt16	index_UndoText				= 22;
 // Menu commands
 // =============
 // Help menu items
-const MessageT	cmd_Help					= 3000;	
+const CommandT	cmd_Help					= 3000;	
 // Window menu items
-const MessageT	cmd_ShowInspector			= 2001;	
+const CommandT	cmd_ShowInspector			= 2001;	
 // Resource menu items
-const MessageT	cmd_NewRez				= baseMENU_Resource + 1;	
-const MessageT	cmd_EditRez				= baseMENU_Resource + 2;	
-const MessageT	cmd_TmplEditRez			= baseMENU_Resource + 3;	
-const MessageT	cmd_HexEditRez			= baseMENU_Resource + 4;	
-const MessageT	cmd_EditRezAsType		= baseMENU_Resource + 5;	
-const MessageT	cmd_RemoveRez			= baseMENU_Resource + 10;	
-const MessageT	cmd_DuplicateRez		= baseMENU_Resource + 11;	
-const MessageT	cmd_GetRezInfo			= baseMENU_Resource + 15;
-const MessageT	cmd_TmplEditAsRez		= baseMENU_Resource + 99;	
+const CommandT	cmd_NewRez				= baseMENU_Resource + 1;	
+const CommandT	cmd_EditRez				= baseMENU_Resource + 2;	
+const CommandT	cmd_TmplEditRez			= baseMENU_Resource + 3;	
+const CommandT	cmd_HexEditRez			= baseMENU_Resource + 4;	
+const CommandT	cmd_EditRezAsType		= baseMENU_Resource + 5;	
+const CommandT	cmd_RemoveRez			= baseMENU_Resource + 10;	
+const CommandT	cmd_DuplicateRez		= baseMENU_Resource + 11;	
+const CommandT	cmd_GetRezInfo			= baseMENU_Resource + 15;
+const CommandT	cmd_TmplEditAsRez		= baseMENU_Resource + 99;	
 // File menu items
-const MessageT	cmd_ExportMap			= baseMENU_File + 1;	
-const MessageT	cmd_RecentItems			= baseMENU_File + 2;	
+const CommandT	cmd_ExportMap			= baseMENU_File + 1;	
+const CommandT	cmd_RecentItems			= baseMENU_File + 2;	
 // Edit menu items
-const MessageT	cmd_Find				= baseMENU_Edit + 1;	
-const MessageT	cmd_FindNext			= baseMENU_Edit + 2;	
-const MessageT	cmd_RezCompare			= baseMENU_Edit + 3;	
+const CommandT	cmd_Find				= baseMENU_Edit + 1;	
+const CommandT	cmd_FindNext			= baseMENU_Edit + 2;	
+const CommandT	cmd_RezCompare			= baseMENU_Edit + 3;	
 
 // Icon editor commands
 const CommandT	cmd_IconEraseAll			= FOUR_CHAR_CODE('ERAL');
@@ -364,6 +369,21 @@ const CommandT	cmd_IconRotate				= FOUR_CHAR_CODE('ROTA');
 const CommandT	cmd_IconTransparent			= FOUR_CHAR_CODE('TRAN');
 const CommandT	cmd_IconShowBitmap			= FOUR_CHAR_CODE('BITM');
 const CommandT	cmd_IconShowMask			= FOUR_CHAR_CODE('MASK');
+const CommandT	cmd_IconDragImage			= FOUR_CHAR_CODE('DRAG');
+const CommandT	cmd_IconPaintModified		= FOUR_CHAR_CODE('PMOD');
+const CommandT	cmd_IconRecolorCurrentImage	= FOUR_CHAR_CODE('PTRC');
+const CommandT	cmd_IconResizeImage			= FOUR_CHAR_CODE('PTSZ');
+const CommandT	cmd_IconDeleteImage			= FOUR_CHAR_CODE('PTDL');
+// 	Color Menu Command IDs
+const CommandT	cmd_ColorTableAppleIcon		= FOUR_CHAR_CODE('CLT1');
+const CommandT	cmd_ColorTableApple256		= FOUR_CHAR_CODE('CLT2');
+const CommandT	cmd_ColorTableApple256Gray	= FOUR_CHAR_CODE('CLT3');
+const CommandT	cmd_ColorTableApple16		= FOUR_CHAR_CODE('CLT4');
+const CommandT	cmd_ColorTableApple16Gray	= FOUR_CHAR_CODE('CLT5');
+const CommandT	cmd_ColorTableApple4Gray	= FOUR_CHAR_CODE('CLT6');
+const CommandT	cmd_ColorTablePicker		= FOUR_CHAR_CODE('CLT7');
+// this isn't in the menu, but is used in the code
+const CommandT	cmd_ColorTableApple2		= FOUR_CHAR_CODE('CLT8');
 
 
 // Control ID's
@@ -509,7 +529,7 @@ const PaneIDT	item_EditPrefsHexLowercase	= 6;
 const PaneIDT	item_EditPrefsHexUppercase	= 7;
 const PaneIDT	item_EditPrefsDispFillers	= 8;
 const PaneIDT	item_EditPrefsEnableFillers	= 9;
-const PaneIDT	item_EditPrefsUse8Bits		= 10;
+const PaneIDT	item_EditPrefsUse8BitPicts	= 10;
 const PaneIDT	item_EditPrefsUseFullTables	= 11;
 //     Misc Prefs Pane
 //     ---------------
@@ -715,7 +735,7 @@ const MessageT	msg_EditPrefsHexLowercase	= rPPob_PrefsEditorsPane + item_EditPre
 const MessageT	msg_EditPrefsHexUppercase	= rPPob_PrefsEditorsPane + item_EditPrefsHexUppercase;
 const MessageT	msg_EditPrefsDispFillers	= rPPob_PrefsEditorsPane + item_EditPrefsDispFillers;
 const MessageT	msg_EditPrefsEnableFillers	= rPPob_PrefsEditorsPane + item_EditPrefsEnableFillers;
-const MessageT	msg_EditPrefsUse8Bits		= rPPob_PrefsEditorsPane + item_EditPrefsUse8Bits;
+const MessageT	msg_EditPrefsUse8BitPicts	= rPPob_PrefsEditorsPane + item_EditPrefsUse8BitPicts;
 const MessageT	msg_EditPrefsUseFullTables	= rPPob_PrefsEditorsPane + item_EditPrefsUseFullTables;
 //     Misc Prefs Pane
 //     ---------------
@@ -755,17 +775,20 @@ const MessageT	msg_IconEditTypeMask		= rPPob_IconEditorWindow + item_IconEditTyp
 
 // Other general purpose messages
 // ------------------------------
-const MessageT	msg_Close					= 	FOUR_CHAR_CODE('Clos');
-const MessageT	msg_StylePrefsChanged		= 	FOUR_CHAR_CODE('StPC');
-const MessageT	msg_HexScroller				=	FOUR_CHAR_CODE('HScr');
-const MessageT	msg_DualViewEdited			= 	FOUR_CHAR_CODE('DuEd');
-const MessageT	msg_TmplMinusButton			= 	FOUR_CHAR_CODE('Mins');
-const MessageT	msg_TmplPlusButton			= 	FOUR_CHAR_CODE('Plus');
-const MessageT	msg_TmplCasePopup			= 	FOUR_CHAR_CODE('Case');
-const MessageT	msg_TmplPopupField			= 	FOUR_CHAR_CODE('PopF');
-const MessageT	msg_TmplModifiedItem		= 	FOUR_CHAR_CODE('TmMd');
+const MessageT	msg_Close					= FOUR_CHAR_CODE('Clos');
+const MessageT	msg_StylePrefsChanged		= FOUR_CHAR_CODE('StPC');
+const MessageT	msg_HexScroller				= FOUR_CHAR_CODE('HScr');
+const MessageT	msg_DualViewEdited			= FOUR_CHAR_CODE('DuEd');
+const MessageT	msg_TmplMinusButton			= FOUR_CHAR_CODE('Mins');
+const MessageT	msg_TmplPlusButton			= FOUR_CHAR_CODE('Plus');
+const MessageT	msg_TmplCasePopup			= FOUR_CHAR_CODE('Case');
+const MessageT	msg_TmplPopupField			= FOUR_CHAR_CODE('PopF');
+const MessageT	msg_TmplModifiedItem		= FOUR_CHAR_CODE('TmMd');
 const MessageT	msg_EditScroller			= FOUR_CHAR_CODE('Scrl');
 const MessageT	msg_EditContents			= FOUR_CHAR_CODE('Cnts');
+// Icon editor
+const MessageT	msg_TargetBoxClicked		= FOUR_CHAR_CODE('Tclk');
+const MessageT	msg_ImageDroppedOnTargetBox	= FOUR_CHAR_CODE('IDrp');
 
 
 
@@ -978,7 +1001,6 @@ const UInt32	DragFlavor_Offscreen	= FOUR_CHAR_CODE('OfSc');
 
 // For the Icon editor's clipboard and Drag&Drop
 const OSType	ResourceType_Region	= FOUR_CHAR_CODE('RgN ');
-const OSType	ImageType_Picture	= FOUR_CHAR_CODE('PICT');
 
 // Constants for the Rezmap tables
 const SInt16	kRzilColWidth		= 100;

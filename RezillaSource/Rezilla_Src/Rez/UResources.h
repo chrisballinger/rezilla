@@ -48,16 +48,26 @@ public:
 	static OSErr	CountForType(ResType inType, short & outCount);
 	static OSErr	CountAllTypes(short & outCount);
 	static OSErr	CountAllResources(short & outCount);
-		
+	
+	static OSErr	GetResourceInMap( short inRefnum, 
+								ResType inType, 
+								ResIDT inID, 
+								Handle & outHandle,  
+								Boolean loadIt );
+
 	static OSErr	GetWithID(ResType inType, 
 							  short inID, 
 							  Handle & outHandle, 
 							  Boolean loadIt);
+	
 	static OSErr	GetWithName(ResType inType, 
 								ConstStr255Param inName, 
 								Handle & outHandle, 
 								Boolean loadIt);
+	
 	static OSErr	GetAllTypes( TArray<ResType>* & outArray );
+
+	static Boolean	MapHasResource( short inRefnum, ResType rezType, ResIDT rezID );
 
 	static const SInt16	refNum_Undef = -1;
 

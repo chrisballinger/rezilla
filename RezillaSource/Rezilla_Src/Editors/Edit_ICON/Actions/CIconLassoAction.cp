@@ -43,9 +43,9 @@
 
 #include <UDrawingState.h>
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	Constructor
-// ============================================================
+// ---------------------------------------------------------------------------
 
 CIconLassoAction::CIconLassoAction( const SPaintAction &inAction ) : CIconTrackingPaintAction( inAction )
 {
@@ -62,9 +62,9 @@ CIconLassoAction::CIconLassoAction( const SPaintAction &inAction ) : CIconTracki
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	Destructor
-// ============================================================
+// ---------------------------------------------------------------------------
 
 CIconLassoAction::~CIconLassoAction()
 {
@@ -73,9 +73,9 @@ CIconLassoAction::~CIconLassoAction()
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	HandleMouseDown
-// ============================================================
+// ---------------------------------------------------------------------------
 
 void CIconLassoAction::HandleMouseDown( const SMouseDownEvent &inEvent )
 {
@@ -102,9 +102,9 @@ void CIconLassoAction::HandleMouseDown( const SMouseDownEvent &inEvent )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	MouseInitial
-// ============================================================
+// ---------------------------------------------------------------------------
 
 void CIconLassoAction::MouseInitial( const SMouseDownEvent &inEvent, SInt32, SInt32 )
 {
@@ -135,9 +135,9 @@ void CIconLassoAction::MouseInitial( const SMouseDownEvent &inEvent, SInt32, SIn
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	MouseStillDown
-// ============================================================
+// ---------------------------------------------------------------------------
 
 void CIconLassoAction::MouseStillDown( const SMouseDownEvent &, 
 										Point, Point currentPt,
@@ -218,7 +218,8 @@ void CIconLassoAction::MouseStillDown( const SMouseDownEvent &,
 			if ( mSettings.theCanvas->GetPixelRect( newCol, newRow, &newRect ) &&
 				 mSettings.theCanvas->GetPixelRect( prevCol, prevRow, &prevRect) )
 			{
-				::PenPat( &qd.dkGray );
+				Pattern aPat;
+				::PenPat( UQDGlobals::GetDarkGrayPat(&aPat) );
 				::MoveTo( prevRect.left, prevRect.top );
 				::LineTo( newRect.left, newRect.top );
 			}
@@ -226,45 +227,10 @@ void CIconLassoAction::MouseStillDown( const SMouseDownEvent &,
 	
 }
 
-#ifdef OLD_WAY_NOT_USED		// did it this way up until post CW11
 
-// ============================================================
-// 	MouseStillDown
-// ============================================================
-
-void CIconLassoAction::MouseStillDown( const SMouseDownEvent &, 
-										Point, Point,
-										SInt32 prevCol, SInt32 prevRow,
-										SInt32 newCol, SInt32 newRow )
-{
-	if ( (newCol == prevCol) && (newRow == prevRow) )
-		return;
-	
-	if ( this->AddPointToArray( newCol, newRow ) )
-		if ( mNumPoints > 1 )
-		{
-					// draw a single pixel line in the canvas from
-		// the previous point to the current point.
-		// The line needs to be between pixels.
-
-			Rect	prevRect, newRect;
-			
-				// canvas is already focused
-			if ( mSettings.theCanvas->GetPixelRect( newCol, newRow, &newRect ) &&
-				 mSettings.theCanvas->GetPixelRect( prevCol, prevRow, &prevRect) )
-			{
-				::PenPat( &qd.dkGray );
-				::MoveTo( prevRect.left, prevRect.top );
-				::LineTo( newRect.left, newRect.top );
-			}
-		}
-}
-
-
-
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	MouseFinal
-// ============================================================
+// ---------------------------------------------------------------------------
 
 Boolean CIconLassoAction::MouseFinal( const SMouseDownEvent &, 
 									Point, Point,
@@ -291,12 +257,12 @@ Boolean CIconLassoAction::MouseFinal( const SMouseDownEvent &,
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	AddPointToArray
 // 	
 // 	Now maps the point to the image bounds and always returns true
 // 	unless the buffer is full.
-// ============================================================
+// ---------------------------------------------------------------------------
 
 Boolean CIconLassoAction::AddPointToArray( SInt32 newCol, SInt32 newRow )
 {
@@ -319,9 +285,9 @@ Boolean CIconLassoAction::AddPointToArray( SInt32 newCol, SInt32 newRow )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	ConvertArrayToRegion
-// ============================================================
+// ---------------------------------------------------------------------------
 
 RgnHandle CIconLassoAction::ConvertArrayToRegion()
 {
@@ -352,7 +318,7 @@ RgnHandle CIconLassoAction::ConvertArrayToRegion()
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	RestrictRegion
 // 	
 // 	Theory of operation:
@@ -369,7 +335,7 @@ RgnHandle CIconLassoAction::ConvertArrayToRegion()
 // 	Note that we can't just use CalcCMask with a custom color seach proc
 // 	because we want *every* color to serve as seed value except the background,
 // 	while CalcCMask assumes that only a single color will be the seed value.
-// ============================================================
+// ---------------------------------------------------------------------------
 
 void CIconLassoAction::RestrictRegion( RgnHandle selectionRgn )
 {
@@ -432,13 +398,13 @@ void CIconLassoAction::RestrictRegion( RgnHandle selectionRgn )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	CIconLassoAction::CopyAndDownSample
 // 	
 // 	Description:
 // 	Copies the source buffer into the destination, but maps all pixels
 // 	to black except where the source pixel is the background color.
-// ============================================================
+// ---------------------------------------------------------------------------
 
 void CIconLassoAction::CopyAndDownSample( COffscreen *source, COffscreen *dest, RgnHandle selectionRgn )
 {
@@ -466,7 +432,7 @@ void CIconLassoAction::CopyAndDownSample( COffscreen *source, COffscreen *dest, 
 
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	IsArrayLinear
 // 	
 // 	Description:
@@ -474,7 +440,7 @@ void CIconLassoAction::CopyAndDownSample( COffscreen *source, COffscreen *dest, 
 // 	This means that there is no enclosed area.
 // 	
 // 	Is there a better way of doing this??
-// ============================================================
+// ---------------------------------------------------------------------------
 
 Boolean CIconLassoAction::IsArrayLinear()
 {
@@ -524,7 +490,7 @@ Boolean CIconLassoAction::IsArrayLinear()
 
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	DoIt
 // 	
 // 	Note:
@@ -534,7 +500,7 @@ Boolean CIconLassoAction::IsArrayLinear()
 // 	 
 // 	The lasso "select all" is different from the rectangular "select all"
 // 	in that we inset the selection to find the enclosed objects.
-// ============================================================
+// ---------------------------------------------------------------------------
 
 void CIconLassoAction::DoIt()
 {
@@ -555,11 +521,11 @@ void CIconLassoAction::DoIt()
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	FindClosestNode
 // 	
 // 	Returns the closest node (point between cells).
-// ============================================================
+// ---------------------------------------------------------------------------
 
 void CIconLassoAction::FindClosestNode( const Point &inLocal, SInt32 *outH, SInt32 *outV )
 {
@@ -572,9 +538,9 @@ void CIconLassoAction::FindClosestNode( const Point &inLocal, SInt32 *outH, SInt
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	RemovePointFromArray
-// ============================================================
+// ---------------------------------------------------------------------------
 
 void CIconLassoAction::RemovePointFromArray()
 {
@@ -583,13 +549,13 @@ void CIconLassoAction::RemovePointFromArray()
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	DrawSegment
 // 	
 // 	Note:
 // 	Segments are numbered from 0..n-1
 // 	Draws in current pen state, so this can be used to draw, erase, or xor
-// ============================================================
+// ---------------------------------------------------------------------------
 
 void CIconLassoAction::DrawSegment( SInt32 inSegmentNo )
 {
@@ -608,9 +574,9 @@ void CIconLassoAction::DrawSegment( SInt32 inSegmentNo )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	DrawArray
-// ============================================================
+// ---------------------------------------------------------------------------
 
 void CIconLassoAction::DrawArray()
 {
@@ -622,9 +588,9 @@ void CIconLassoAction::DrawArray()
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	AnimateArray
-// ============================================================
+// ---------------------------------------------------------------------------
 
 void CIconLassoAction::AnimateArray()
 {
