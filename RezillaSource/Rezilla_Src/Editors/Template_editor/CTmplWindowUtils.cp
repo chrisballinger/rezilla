@@ -228,7 +228,7 @@ CTmplEditorWindow::RenumberSubPanes(LView * inView, PaneIDT inOldLastID, PaneIDT
 				RenumberSubPanes(theView, inOldLastID, inNewFirstID, adding);
 			} 
 		}
-		
+
 	} else {
 		
 		// We've been removing a list item
@@ -236,19 +236,16 @@ CTmplEditorWindow::RenumberSubPanes(LView * inView, PaneIDT inOldLastID, PaneIDT
 		LPane	* theSub;
 		while (iterator.Next(theSub)) {
 			theID = theSub->GetPaneID();
-			if (theID) {
-				if (theID < inNewFirstID) {
-					// Do nothing
-				} else if (theID > inOldLastID) {
-					theID -= inOldLastID - inNewFirstID + 1;
-					theSub->SetPaneID(theID);
-				}
+			if (theID > inOldLastID) {
+				theID -= inOldLastID - inNewFirstID + 1;
+				theSub->SetPaneID(theID);
 			} 
 			theView = dynamic_cast<LView *>(theSub);
 			if (theView) {
 				RenumberSubPanes(theView, inOldLastID, inNewFirstID, adding);
 			} 
 		}
+		
 	}
 }
 
