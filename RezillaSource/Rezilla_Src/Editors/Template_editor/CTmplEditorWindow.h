@@ -2,7 +2,7 @@
 // CTmplEditorWindow.h
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-11-09 07:21:32
+//             Last modification: 2004-12-06 09:08:34
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -74,9 +74,7 @@ public:
 	OSErr			RetrieveDataWithTemplate();
 	
 	OSErr			RevertWithTemplate();
-			
-	void			InstallReadOnlyIcon();
-
+	
 	void			AdjustCounterField(PaneIDT inPaneID, SInt32 inDelta);
 	
 	static void			InitPaneInfos();

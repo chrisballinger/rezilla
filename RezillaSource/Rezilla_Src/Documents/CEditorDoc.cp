@@ -276,7 +276,7 @@ CEditorDoc::AttemptClose(
 	Boolean		closeIt = true;
 	SInt16 		answer;
 	
-	if (IsModified()) {
+	if (IsModified() && !mReadOnly) {
 		
 		answer = AskSaveChanges(SaveWhen_Closing);
 		

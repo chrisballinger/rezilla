@@ -17,6 +17,7 @@
 #include "CEditorDoc.h"
 #include "RezillaConstants.h"
 
+#include <LIconPane.h>
 
 // ---------------------------------------------------------------------------
 //		¥ CEditorWindow				[public]
@@ -81,7 +82,9 @@ CEditorWindow::~CEditorWindow()
 
 void
 CEditorWindow::FinishCreateSelf()
-{}
+{
+	InstallReadOnlyIcon();
+}
 	
 
 // ---------------------------------------------------------------------------
@@ -203,13 +206,14 @@ CEditorWindow::RevertContents()
 void
 CEditorWindow::InstallReadOnlyIcon() 
 {
-// 	LIconPane * theIcon = dynamic_cast<LIconPane *>(this->FindPaneByID( item_ReadOnlyIcon ));
-// 	ThrowIfNil_( theIcon );
-// 	if (mOwnerDoc->IsReadOnly()) {
-// 		theIcon->SetIconID(ics8_Locked);
-// 	} else {
-// 		theIcon->SetIconID(ics8_Unlocked);
-// 	}
+	LIconPane * theIcon = dynamic_cast<LIconPane *>(this->FindPaneByID( item_ReadOnlyIcon ));
+	if (theIcon != NULL) {
+		if (mOwnerDoc->IsReadOnly()) {
+			theIcon->SetIconID(ics8_Locked);
+		} else {
+			theIcon->SetIconID(ics8_Unlocked);
+		}
+	} 
 }
 
 

@@ -2,7 +2,7 @@
 // CTEXT_EditorWindow.h
 // 
 //                       Created: 2004-06-17 12:46:55
-//             Last modification: 2004-11-06 08:29:03
+//             Last modification: 2004-12-06 09:08:11
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -56,9 +56,7 @@ public:
 	void			InstallText(Handle inTextHandle, StScrpHandle inScrapHandle);
 
 	void			SetLengthField();
-			
-	void			InstallReadOnlyIcon();
-	
+				
 	void			AdjustMenusToSelection();
 	
 	CTEXT_EditorView *		GetContentsView() const { return mContentsView;}

@@ -37,7 +37,6 @@
 
 #include <LScrollBar.h>
 #include <LStaticText.h>
-#include <LIconPane.h>
 #include <LEditText.h>
 #include <LTextGroupBox.h>
 #include <LCheckBox.h>

@@ -2,7 +2,7 @@
 // CTEXT_EditorWindow.cp					
 // 
 //                       Created: 2004-06-17 12:46:55
-//             Last modification: 2004-11-06 08:28:25
+//             Last modification: 2004-12-06 09:08:02
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -35,7 +35,6 @@
 
 #include <LScrollBar.h>
 #include <LStaticText.h>
-#include <LIconPane.h>
 #include <LEditText.h>
 #include <LPopupButton.h>
 #include <LScrollerView.h>
@@ -278,23 +277,6 @@ CTEXT_EditorWindow::ObeyCommand(
 	}
 
 	return cmdHandled;
-}
-
-
-// ---------------------------------------------------------------------------
-//  ¥ InstallReadOnlyIcon											[public]
-// ---------------------------------------------------------------------------
-
-void
-CTEXT_EditorWindow::InstallReadOnlyIcon() 
-{
-	LIconPane * theIcon = dynamic_cast<LIconPane *>(this->FindPaneByID( item_ReadOnlyIcon ));
-	ThrowIfNil_( theIcon );
-	if (mOwnerDoc->IsReadOnly()) {
-		theIcon->SetIconID(ics8_Locked);
-	} else {
-		theIcon->SetIconID(ics8_Unlocked);
-	}
 }
 
 
