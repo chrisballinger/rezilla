@@ -2,7 +2,7 @@
 // CTmplWindowUtils.cp					
 // 
 //                       Created: 2004-08-20 16:45:08
-//             Last modification: 2004-09-21 14:34:43
+//             Last modification: 2004-10-12 23:48:53
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -1082,7 +1082,7 @@ CTmplEditorWindow::AddListHeaderField(Str255 inLabel,
 	// This is the label of the list
 	sStaticPaneInfo.left		= kTmplLeftMargin;
 	sStaticPaneInfo.top			= mYCoord;
-	sStaticPaneInfo.width		= kTmplLabelWidth;
+	sStaticPaneInfo.width		= kTmplLabelWidth * 2;
 	sStaticPaneInfo.superView	= inContainer;
 
 	theStaticText = new LStaticText(sStaticPaneInfo, inLabel, sHeaderTraitsID);
