@@ -2,7 +2,7 @@
 // CTmplWindowUtils.cp					
 // 
 //                       Created: 2004-08-20 16:45:08
-//             Last modification: 2004-11-06 12:01:58
+//             Last modification: 2004-11-09 07:21:10
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -231,8 +231,12 @@ CTmplEditorWindow::InitPaneInfos()
 // ---------------------------------------------------------------------------
 
 void
-CTmplEditorWindow::AddStaticField(OSType inType, Str255 inLabel, LView * inContainer, ResIDT inTextTraitsID)
+CTmplEditorWindow::AddStaticField(OSType inType, Str255 inLabel, LView * inContainer, 
+								  ResIDT inTextTraitsID, SInt32 inReqLength)
 {
+	Str255		theString;
+	LStr255		theLabel(inLabel);
+	
 	sStaticPaneInfo.left		= kTmplLeftMargin;
 	sStaticPaneInfo.top			= mYCoord;
 	sStaticPaneInfo.superView	= inContainer;
@@ -246,7 +250,13 @@ CTmplEditorWindow::AddStaticField(OSType inType, Str255 inLabel, LView * inConta
 		sStaticPaneInfo.width = kTmplLabelWidth;
 	}
 
-	LStaticText * theStaticText = new LStaticText(sStaticPaneInfo, inLabel, inTextTraitsID);
+	if (inReqLength > 0) {
+		::NumToString( inReqLength, theString);
+		theLabel += "\p (";
+		theLabel.Append(theString);
+		theLabel += "\p bytes)";
+	} 
+	LStaticText * theStaticText = new LStaticText(sStaticPaneInfo, theLabel, inTextTraitsID);
 	ThrowIfNil_(theStaticText);
 }
 
@@ -520,9 +530,9 @@ CTmplEditorWindow::AddCheckField(Boolean inValue,
 // its associated scrolling view.
 
 void
-CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
+CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer, SInt32 inReqLength)
 {
-	SInt32		oldPos, newPos, nextPos, reqLength = 0;
+	SInt32		oldPos, newPos, nextPos, reqLength = inReqLength;
 	Handle		theHandle;
 	Boolean		isFixed = false, hasText, canReduce;
 	SViewInfo	theViewInfo;
@@ -619,9 +629,9 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 // ---------------------------------------------------------------------------
 
 void
-CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
+CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer, SInt32 inReqLength)
 {
-	SInt32		oldPos, newPos, nextPos, reqLength;
+	SInt32		oldPos, newPos, nextPos, reqLength = inReqLength;
 	SInt16		hexWidth, hexHeight, txtWidth, txtHeight;
 	SInt32		hexLeft, txtLeft;
 	Boolean		incrY = true, isFixed = false, hasText, canReduce;
