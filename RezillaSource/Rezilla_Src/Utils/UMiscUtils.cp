@@ -267,6 +267,8 @@ UMiscUtils::BuildDateString(UInt32 inTime, Str255 inString)
 		} else {
 			absTime = CFAbsoluteTimeGetCurrent();
 		}
+		// kCFDateFormatterNoStyle, kCFDateFormatterShortStyle, kCFDateFormatterMediumStyle, 
+		// kCFDateFormatterLongStyle, kCFDateFormatterFullStyle
 		CFDateFormatterRef formatter = CFDateFormatterCreate(kCFAllocatorDefault, NULL, 
 										  kCFDateFormatterShortStyle, kCFDateFormatterLongStyle);
 		if (formatter) {
@@ -282,6 +284,7 @@ UMiscUtils::BuildDateString(UInt32 inTime, Str255 inString)
 #else
 		Str255      dateStr, timeStr;
 		LStr255     datimStr("\p");
+		// shortDate, longDate, abbrevDate
 		DateString(inTime, shortDate, dateStr, NULL);
 		TimeString(inTime, true, timeStr, NULL);
 		datimStr += dateStr;
@@ -365,7 +368,7 @@ UMiscUtils::ParseDateString(Str255 inString, SInt32 * outAbsTime)
 		dateStatus = ::StringToDate(theBuffer + regs.start[1], regs.end[1] - regs.start[1], &cache, &lengthUsed, &dateTimeRec);
 		// Convert time to num
 		timeStatus = ::StringToTime(theBuffer + regs.start[2], regs.end[2] - regs.start[2], &cache, &lengthUsed, &dateTimeRec);
-		result = ( (dateStatus & longDateFound) && (timeStatus & longDateFound) );
+		result = ( dateStatus <= longDateFound && timeStatus <= longDateFound );
 		
 		::LongDateToSeconds(&dateTimeRec, &longDate);
 		*outAbsTime = (SInt32) longDate;
