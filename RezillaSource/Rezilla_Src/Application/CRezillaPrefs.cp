@@ -137,7 +137,7 @@ CRezillaPrefs::SetDefaultPreferences()
 	mCurrPrefs.compare.ignoreName		= false;
 	mCurrPrefs.compare.ignoreAttributes	= true;
 	mCurrPrefs.compare.ignoreData		= false;
-	mCurrPrefs.compare.dataDisplay		= compare_hexDisplay;
+	mCurrPrefs.compare.displayAs		= compare_displayAsHex;
 	// Interface pane: default text trait loaded if necessary while
 	// retreiving preferences
 }
@@ -196,7 +196,7 @@ CRezillaPrefs::StorePreferences()
 
 	theNumber = GetPrefValue( kPref_compare_dataDisplayAs );
 	theValue = CFNumberCreate(NULL, kCFNumberIntType, &theNumber);
-	CFPreferencesSetAppValue( CFSTR("pref_compare_dataDisplay"), theValue, kCFPreferencesCurrentApplication);
+	CFPreferencesSetAppValue( CFSTR("pref_compare_dataDisplayAs"), theValue, kCFPreferencesCurrentApplication);
 	if (theValue) CFRelease(theValue);
 	
 	theData = CFDataCreate(NULL, (const UInt8 *)&(mCurrPrefs.interface.traitsRecord), sizeof(TextTraitsRecord));
@@ -252,7 +252,7 @@ CRezillaPrefs::RetrievePreferences()
 	if (valueValid) {
 		SetPrefValue( result, kPref_compare_ignoreData);
 	}
-	result = CFPreferencesGetAppIntegerValue(CFSTR("pref_compare_dataDisplay"), CFSTR(kRezillaIdentifier), &valueValid);
+	result = CFPreferencesGetAppIntegerValue(CFSTR("pref_compare_dataDisplayAs"), CFSTR(kRezillaIdentifier), &valueValid);
 	if (valueValid) {
 		SetPrefValue( result, kPref_compare_dataDisplayAs);
 	}
@@ -348,9 +348,9 @@ CRezillaPrefs::SetPrefValue(SInt32 inPrefValue, SInt32 inConstant, SInt32 inPref
 		
 	  case kPref_compare_dataDisplayAs:
 		if (inPrefType == prefsType_Temp) {
-			mTempPrefs.compare.dataDisplay = inPrefValue ;
+			mTempPrefs.compare.displayAs = inPrefValue ;
 		} else {
-			mCurrPrefs.compare.dataDisplay = inPrefValue ;
+			mCurrPrefs.compare.displayAs = inPrefValue ;
 		}	
 		break;
 	}	
@@ -434,9 +434,9 @@ CRezillaPrefs::GetPrefValue(SInt32 inConstant, SInt32 inPrefType)
 		
 	  case kPref_compare_dataDisplayAs:
 		if (inPrefType == prefsType_Temp) {
-			theValue = mTempPrefs.compare.dataDisplay;
+			theValue = mTempPrefs.compare.displayAs;
 		} else {
-			theValue = mCurrPrefs.compare.dataDisplay;
+			theValue = mCurrPrefs.compare.displayAs;
 		}	
 		break;
 	}	

@@ -2,7 +2,7 @@
 // CCompResultWindow.h				
 // 
 //                       Created: 2004-03-02 14:18:16
-//             Last modification: 2004-06-06 21:35:34
+//             Last modification: 2004-06-08 19:33:57
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -41,11 +41,6 @@ public:
 		compare_onlyinOldTbl,
 		compare_onlyinNewTbl,
 		compare_differTbl
-	};
-
-	enum {	
-		compare_displayAsHex = 0,
-		compare_displayAsTxt
 	};
 
 							CCompResultWindow();
@@ -93,8 +88,7 @@ protected:
 	SInt32					mLinesPerPane;
 	SInt32					mHexBytesPerLine;
 	SInt32					mTxtBytesPerLine;
-	SInt32					mBytesPerPane;
-	
+
 	void				NameNewCompWindow();
 	virtual void		SetMaxScrollerValue();
 	SInt32				LineCount();

@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2004-06-06 22:07:53
+//             Last modification : 2004-06-08 18:55:18
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -77,10 +77,9 @@ enum
 	compare_flagDiff
 };
 
-enum
-{	
-	compare_hexDisplay = 1,
-	compare_txtDisplay
+enum {	
+	compare_displayAsHex = 1,
+	compare_displayAsTxt
 };
 
 // The indices of the MultiPanel's views
@@ -267,7 +266,6 @@ const PaneIDT	item_HexEditGroupBox		= 10;
 const PaneIDT	item_NewType				= 1;
 const PaneIDT	item_NewID					= 3;
 const PaneIDT	item_NewName				= 4;
-// const PaneIDT	item_NewIcon					= 5;
 const PaneIDT	item_NewSysHeap				= 11;
 const PaneIDT	item_NewPurgeable			= 12;
 const PaneIDT	item_NewLocked				= 13;
@@ -305,14 +303,14 @@ const PaneIDT	item_CompResultOldStatic	= 2;
 const PaneIDT	item_CompResultNewStatic	= 3;
 const PaneIDT	item_CompResultOldHex		= 4;
 const PaneIDT	item_CompResultNewHex		= 5;
-const PaneIDT	item_CompResultHexRadio		= 6;
-const PaneIDT	item_CompResultTxtRadio		= 7;
 const PaneIDT	item_CompResultIgnStatic	= 8;
-const PaneIDT	item_CompResultShowAsRgbx	= 9;
 const PaneIDT	item_CompResultOnlyOldTbl	= 11;
 const PaneIDT	item_CompResultDifferingTbl	= 13;
 const PaneIDT	item_CompResultOnlyNewTbl	= 15;
 const PaneIDT	item_CompResultEditGroupBox	= 20;
+const PaneIDT	item_CompResultShowAsRgbx	= 25;
+const PaneIDT	item_CompResultHexRadio		= 26;
+const PaneIDT	item_CompResultTxtRadio		= 27;
 // Ask Unique ID dialog
 // --------------------
 const PaneIDT	item_UidOtherConflicts		= 1;

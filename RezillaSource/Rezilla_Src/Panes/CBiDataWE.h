@@ -1,7 +1,7 @@
 // ===========================================================================
 //	CBiDataWE.h
 //                       Created: 2004-03-21 12:08:32
-//             Last modification: 2004-06-06 22:09:56
+//             Last modification: 2004-06-08 20:07:21
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -25,6 +25,7 @@
 
 PP_Begin_Namespace_PowerPlant
 
+class CCompResultWindow;
 
 // ---------------------------------------------------------------------------
 
@@ -33,7 +34,7 @@ public:
 	enum { class_ID = FOUR_CHAR_CODE('BiWV') };
 
 	enum {	
-		bidata_hexType = 0,
+		bidata_hexType = 1,
 		bidata_txtType
 	};
 							CBiDataWE();
@@ -73,10 +74,12 @@ public:
 	virtual SInt16			GetDataType() { return mDataType;}
 	void					SetDataType(SInt16 inDataType) {mDataType = inDataType;}
 
-	
-protected:
-			SInt16		mDataType;
+	virtual CCompResultWindow*	GetCompareWindow() { return mCompareWindow;}
+	void						SetCompareWindow(CCompResultWindow* inCompareWindow) {mCompareWindow = inCompareWindow;}
 
+protected:
+			SInt16				mDataType;
+			CCompResultWindow *	mCompareWindow;
 };
 
 

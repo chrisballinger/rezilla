@@ -38,7 +38,7 @@ struct SComparePrefs {
 	Boolean			ignoreName;
 	Boolean			ignoreAttributes;
 	Boolean			ignoreData;
-	SInt32			dataDisplay;
+	SInt32			displayAs;
 };
 
 //     Interface Prefs

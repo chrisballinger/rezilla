@@ -1,7 +1,7 @@
 // ===========================================================================
 // CBiDataWE.cp 
 //                       Created: 2004-03-21 12:08:03
-//             Last modification: 2004-06-06 22:09:39
+//             Last modification: 2004-06-08 20:07:15
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -23,6 +23,7 @@
 #include <Sound.h>
 
 #include "CBiDataWE.h"
+#include "CCompResultWindow.h"
 #include "UHexFilters.h"
 #include "UCodeTranslator.h"
 #include "RezillaConstants.h"
@@ -209,7 +210,7 @@ CBiDataWE::InsertContents(Handle inHandle)
 {
 	switch (mDataType) {
 		case bidata_hexType: {
-			StSepHexTranslator translator(inHandle);
+			StSegmHexTranslator translator(inHandle, mCompareWindow->GetPaneCount(count_BytesPerLine) );
 			translator.Convert();
 			
 			// Empty the Waste edit
@@ -221,7 +222,7 @@ CBiDataWE::InsertContents(Handle inHandle)
 		break;
 		
 		case bidata_txtType: {
-			StSepTextTranslator translator(inHandle);
+			StSegmTextTranslator translator(inHandle, mCompareWindow->GetPaneCount(count_BytesPerLine) );
 			translator.Convert();
 			
 			// Empty the Waste edit
@@ -244,7 +245,7 @@ CBiDataWE::InsertContents(const void * inPtr, SInt32 inByteCount)
 {
 	switch (mDataType) {
 		case bidata_hexType: {
-			StSepHexTranslator translator(inPtr, inByteCount);
+			StSegmHexTranslator translator(inPtr, inByteCount, mCompareWindow->GetPaneCount(count_BytesPerLine));
 			translator.Convert();
 			
 			// Empty the Waste edit
@@ -256,7 +257,7 @@ CBiDataWE::InsertContents(const void * inPtr, SInt32 inByteCount)
 		break;
 		
 		case bidata_txtType: {
-			StSepTextTranslator translator(inPtr, inByteCount);
+			StSegmTextTranslator translator(inPtr, inByteCount, mCompareWindow->GetPaneCount(count_BytesPerLine));
 			translator.Convert();
 			
 			// Empty the Waste edit

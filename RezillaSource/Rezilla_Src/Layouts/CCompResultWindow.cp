@@ -2,7 +2,7 @@
 // CHexEditorWindow.cp					
 // 
 //                       Created: 2004-03-02 14:18:16
-//             Last modification: 2004-06-06 21:35:24
+//             Last modification: 2004-06-08 18:24:07
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -106,7 +106,7 @@ CCompResultWindow::FinishCreateSelf()
 	LStaticText * theStaticText;
 	LStr255		optionString("\p");
 
-	mDisplayDataFormat = compare_displayAsHex;
+	mDisplayDataFormat = CRezillaApp::sPrefs->GetPrefValue(kPref_compare_dataDisplayAs);
 	mActiveTable = compare_undefinedTbl;
 	
 	// The RezCompare owner was passed in the inSuperCommander argument
@@ -118,11 +118,19 @@ CCompResultWindow::FinishCreateSelf()
 	mOldRezDataWE = dynamic_cast<CBiDataWE *> (FindPaneByID( item_CompResultOldHex ));
 	ThrowIfNil_(mOldRezDataWE);
 			
+	mOldRezDataWE->SetCompareWindow(this);
+
 	mNewRezDataWE = dynamic_cast<CBiDataWE *> (FindPaneByID( item_CompResultNewHex ));
 	ThrowIfNil_(mNewRezDataWE);
 	
-	// Cache the capacities of the editing panes
+	mNewRezDataWE->SetCompareWindow(this);
+
+	// Use the style specified in the preferences an calculate the capacities of the editing panes
+	TextTraitsRecord theTraits = CRezillaApp::sPrefs->GetStyleElement( CRezillaPrefs::prefsType_Curr );
+	ResizeDataPanes();
 	UpdatePaneCounts();
+	mOldRezDataWE->ApplyStyleValues( theTraits.size, theTraits.fontNumber);
+	mNewRezDataWE->ApplyStyleValues( theTraits.size, theTraits.fontNumber);
 	
 	// Cache a pointer to the scrollbar separating the data panes
 	mScroller = dynamic_cast<CSingleScrollBar *> (FindPaneByID( item_CompResultScroller ));
@@ -194,7 +202,7 @@ CCompResultWindow::FinishCreateSelf()
 	
 	LRadioGroupView * theRGV = dynamic_cast<LRadioGroupView *>(this->FindPaneByID( item_CompResultShowAsRgbx ));
 	ThrowIfNil_(theRGV);
-	theRGV->SetCurrentRadioID( CRezillaApp::sPrefs->GetPrefValue( kPref_compare_dataDisplayAs ) + item_CompResultHexRadio );
+	theRGV->SetCurrentRadioID( CRezillaApp::sPrefs->GetPrefValue( kPref_compare_dataDisplayAs ) + item_CompResultShowAsRgbx );
 	
 	// Link the broadcasters.
     UReanimator::LinkListenerToControls( this, this, rRidL_RezCompWindow );
@@ -304,7 +312,7 @@ CCompResultWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		case msg_CompResultHexRadio: {
 			LStdRadioButton * theRadio = dynamic_cast<LStdRadioButton *> (FindPaneByID( item_CompResultHexRadio ));
 			ThrowIfNil_(theRadio);
-			mDisplayDataFormat = 1 - theRadio->GetValue();
+			mDisplayDataFormat = theRadio->GetValue() ?  compare_displayAsHex : compare_displayAsTxt ;
 			if (mActiveTable == compare_onlyinOldTbl) {
 				ListenToMessage(msg_CompResultOnlyOldTbl, ioParam);
 			} else if (mActiveTable == compare_onlyinNewTbl) {
@@ -321,6 +329,9 @@ CCompResultWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			UpdatePaneCounts();
 			mOldRezDataWE->ApplyStyleValues( theTraits.size, theTraits.fontNumber);
 			mNewRezDataWE->ApplyStyleValues( theTraits.size, theTraits.fontNumber);
+			InsertContentsFromLine(1);
+			mScroller->SetValue(0);
+			SetMaxScrollerValue();				
 			break;
 		}
 		
@@ -346,24 +357,24 @@ CCompResultWindow::FindCommandStatus(
 	Str255		outName)
 {
 	switch (inCommand) {
-
+		
 		case cmd_Save:
 		case cmd_SaveAs:
-		{
-			outEnabled = false;
-		}
+		case cmd_Cut:
+		case cmd_Paste:
+		case cmd_Clear:
+		case cmd_SelectAll: 
+		outEnabled = false;
 		break;
-
+		
 		case cmd_Close:
-		{
-			outEnabled = true;
-		}
+		outEnabled = true;
 		break;
-
+		
 		default:
-			LCommander::FindCommandStatus(inCommand, outEnabled,
-									outUsesMark, outMark, outName);
-			break;
+		LCommander::FindCommandStatus(inCommand, outEnabled,
+									  outUsesMark, outMark, outName);
+		break;
 	}
 }
 
@@ -371,6 +382,7 @@ CCompResultWindow::FindCommandStatus(
 // ---------------------------------------------------------------------------
 //	¥ ObeyCommand							[public, virtual]
 // ---------------------------------------------------------------------------
+// Cut, Paste and Clear are disabled.
 
 Boolean
 CCompResultWindow::ObeyCommand(
@@ -385,11 +397,7 @@ CCompResultWindow::ObeyCommand(
 	switch (inCommand) {
 
 		case cmd_Cut:
-		break;
-
 		case cmd_Paste:
-		break;
-
 		case cmd_Clear:
 		break;
 
@@ -586,12 +594,12 @@ CCompResultWindow::LineCount()
 // All the counts in this proc are counts of bytes in the resource data. 
 // InsertContents() takes care of converting the bytes to their (hex or char)+space representation.
 
- void
+void
 CCompResultWindow::InsertContentsFromLine(SInt32 inFromLine)
 {
 	SInt32 remainingChars;
-	SInt32 charOffset = (inFromLine - 1) * GetPaneCount(count_BytesPerPane);
-	SInt32 bytesPerPaneCount = GetPaneCount(count_BytesPerLine);
+	SInt32 charOffset = (inFromLine - 1) * GetPaneCount(count_BytesPerLine);
+	SInt32 bytesPerPaneCount = GetPaneCount(count_BytesPerPane);
 	
 	mOldRezDataWE->SetDataType(mDisplayDataFormat);
 	mNewRezDataWE->SetDataType(mDisplayDataFormat);
@@ -656,7 +664,9 @@ CCompResultWindow::DoSetBounds(
 	LWindow::DoSetBounds(inBounds);
 	ResizeDataPanes();
 	UpdatePaneCounts();
-	Refresh();
+	InsertContentsFromLine(1);
+	mScroller->SetValue(0);
+	SetMaxScrollerValue();				
 }
 
 
