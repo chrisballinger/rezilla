@@ -85,6 +85,22 @@ public:
 								AppleEvent			&outAEReply,
 								AEDesc				&outResult);
 									
+	virtual SInt32		CountSubModels( DescType inModelID ) const;
+
+	virtual void		GetSubModelByPosition(
+								DescType			inModelID,
+								SInt32				inPosition,
+								AEDesc&				outToken) const;
+
+	virtual void		GetSubModelByName(
+								DescType			inModelID,
+								Str255				inName,
+								AEDesc&				outToken) const;
+
+	virtual SInt32		GetPositionOfSubModel(
+								DescType			inModelID,
+								const LModelObject*	inSubModel) const;
+
 	static LStr255		VersionFromResource();
 	static LStr255		VersionFromPlist();
 
