@@ -38,6 +38,11 @@
 #include "CUtxt_EditorDoc.h"
 #include "CUtxt_EditorView.h"
 #include "CUtxt_EditorWindow.h"
+#include "CIconView_Picture.h"
+#include "CIconView_Pattern.h"
+#include "CIconView_Cursor.h"
+#include "CIconView_Family.h"
+#include "CIconView_ColorIcon.h"
 #include "CWasteEditView.h"
 #include "CBiDataWE.h"
 #include "CDualDataView.h"
@@ -58,6 +63,8 @@
 #include "UMessageDialogs.h"
 #include "UDialogBoxHandler.h"
 // #include "ABalloon.h"
+#include "CDraggableTargetBox.h"
+#include "CPatternTargetBox.h"
 
 // PP Classes for registration
 #include <Appearance.h>
@@ -356,6 +363,11 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(CEditorWindow);
 	RegisterClass_(CHexDataSubView);
 	RegisterClass_(CHexEditorWindow);
+	RegisterClass_(CIconView_ColorIcon);
+	RegisterClass_(CIconView_Cursor);
+	RegisterClass_(CIconView_Family);
+	RegisterClass_(CIconView_Pattern);
+	RegisterClass_(CIconView_Picture);
 	RegisterClass_(CIcon_EditorView);
 	RegisterClass_(CIcon_EditorWindow);
 	RegisterClass_(CInspectorWindow);
@@ -369,12 +381,15 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(CStaticTextURL);
 	RegisterClass_(CTEXT_EditorView);
 	RegisterClass_(CTEXT_EditorWindow);
-	RegisterClass_(CTmplEditorWindow);
 	RegisterClass_(CTmplBevelButton);
+	RegisterClass_(CTmplEditorWindow);
 	RegisterClass_(CTxtDataSubView);
 	RegisterClass_(CUtxt_EditorView);
 	RegisterClass_(CUtxt_EditorWindow);
 	RegisterClass_(CWasteEditView);
+	RegisterClass_(CDraggableTargetBox);
+	RegisterClass_(CPatternTargetBox);
+// #include "ABalloon.h"
 
 // 	RegisterClass_(ATag);
 
