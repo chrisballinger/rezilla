@@ -29,7 +29,12 @@ Last modification: $Date$
 
 
 ================================================================================
-= 1.0.1a8 	                             last update: 
+= 1.0.1a 	                             last update: 2004-05-07 07:24:37
+================================================================================
+¥ First public alpha release.
+
+================================================================================
+= 1.0.1a8 	                             last update: 2004-05-06 07:24:31
 ================================================================================
 ¥ No real new features, only debugging, fixes and small improvements:
 	* count fields correctly updated when a drag/copy etc action occurs
@@ -57,9 +62,6 @@ Last modification: $Date$
 	* hexadecimal strings must have an even number of digits in search
 	* fixed memory leak when closing a comparison results window
 	* reminder of the comparison options in the results window
-	* 
-	* 
-	* 
 ¥ Added Help files to the package to be viewed with Apple Help Viewer.
 
 ================================================================================

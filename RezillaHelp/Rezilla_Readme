@@ -1,15 +1,21 @@
+
 Rezilla
-=======
 
-Rezilla is a resource forks editor for the Macintosh.
+Rezilla is a resource forks editor for the Macintosh. 
+This is version 1.0.1a.
 
-The project is a work on progress. This beta release is provided for
+The project is a work on progress. This alpha release is provided for
 people who want to test it at the current stage of development. It comes
 with no guarantee. Use it at your own risk.
 
-Please read the info in the Rezilla Help file.
+That said, the present version contains all the basic features and has
+proven quite stable and reliable.
 
-Rezilla is free software. 
+Please read the doc contained in the Rezilla Help file. It is also
+accessible via the "Rezilla Help" command in the Help menu when Rezilla is
+running.
+
+Rezilla is free software.
 See the licensing terms in the Licence.terms file or click on the "License"
 button in the About box.
 
@@ -19,7 +25,7 @@ The official home page for the project is at SourceForge:
 Please e-mail me any problem you encounter with this software:
 <bdesgraupes@users.sourceforge.net>
 
-© Copyright: Bernard Desgraupes, 2003-2004
+(c) Copyright: Bernard Desgraupes, 2003-2004
 All rights reserved.
 
 $Date$
