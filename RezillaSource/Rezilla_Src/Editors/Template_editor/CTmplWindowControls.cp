@@ -571,9 +571,9 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 						// (with ESTR) or even (with OSTR), the string is padded, 
 						// so skip one byte.
 						if ( (newPos < totalLength) && ( 
-							   ( (newPos - oldPos) % 2 && (inType = 'ECST') ) 
+							   ( ((newPos - oldPos) % 2) && (inType == 'ECST') ) 
 							   ||
-							   ( (newPos - oldPos) % 2 == 0 && (inType = 'OCST') ) )) {
+							   ( ((newPos - oldPos) % 2 == 0) && (inType == 'OCST') ) )) {
 						   // Skip one byte.
 						   if (mRezStream->GetMarker() < totalLength ) {
 							   *mRezStream >> theChar;
@@ -610,6 +610,14 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 					// Tnnn: a text string with fixed padding that is $nnn hex bytes long 
 					nextPos = oldPos + reqLength;
 					newPos = nextPos;
+					// Look for a NULL byte in this range
+					while (mRezStream->GetMarker() <= nextPos ) {
+						*mRezStream >> theChar;
+						if (theChar == 0) {
+							newPos = mRezStream->GetMarker() - 1;
+							break;
+						}
+					}
 				}
 			}
 		}

@@ -1241,7 +1241,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 				}
 			} else {
 				// theLength should never be even
-				error = err_TmplWrongEvenValue;
+				error = err_TmplExpectedEvenLengthString;
 				break;
 			}
 		} else {
@@ -2060,7 +2060,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		if (theLength % 2 == 0) {
 			// if the length is even, padd the string with a NULL byte.
 			theString[0] = theLength + 1;
-			theString[theLength] = 0;
+			theString[theLength + 1] = 0;
 		} 
 		*mOutStream << theString;
 		mCurrentID++;
