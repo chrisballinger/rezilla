@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezMapTable.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2004-03-26 07:25:27
+//             Last modification: 2004-04-18 16:47:45
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -775,6 +775,7 @@ CRezMapTable::ReceiveDragItem(DragReference inDragRef,
 		BlockMoveData( theAdr, (void *) newRezObjItem, sizeof(CRezObjItem));
 		
 		if (error == noErr && newRezObjItem != nil) {
+			Boolean replace = false;
 			// Check for conflicting IDs
 			CRezObj * theRezObj = newRezObjItem->GetRezObj();
 			theType = theRezObj->GetType();
@@ -792,11 +793,7 @@ CRezMapTable::ReceiveDragItem(DragReference inDragRef,
 					break;
 					
 					case answer_Dont:
-					// Remove the corresponding entry from the table if it is visible
-					oldRezObjItem = GetRezObjItem(theType, theID);
-					if (oldRezObjItem) {
-						GetOwnerDoc()->RemoveResource(oldRezObjItem);
-					} 
+					replace = true;
 					break;
 					
 					case answer_Cancel:
@@ -806,7 +803,8 @@ CRezMapTable::ReceiveDragItem(DragReference inDragRef,
 			GetOwnerDoc()->PasteResource(theType, theID, 
 										 theRezObj->GetData(), 
 										 theRezObj->GetName(), 
-										 theRezObj->GetAttributes() );			
+										 theRezObj->GetAttributes(),
+										 replace);			
 		 }
 		 
 		 if (newRezObjItem != nil) {
@@ -834,7 +832,7 @@ CRezMapTable::ReceiveDragItem(DragReference inDragRef,
 					 
 					 if (error == noErr) {
 						 mRezMap->UniqueID(theType, theID);
-						 GetOwnerDoc()->PasteResource(theType, theID, theHandle, nil, 0 );			
+						 GetOwnerDoc()->PasteResource(theType, theID, theHandle, nil, 0, false);			
 					 }
 					 
 					 if (theHandle != nil) {
