@@ -47,10 +47,6 @@ public:
 							Boolean &outEnabled, Boolean &outUsesMark,
 							UInt16 &outMark, Str255 outName );
 
-// 	virtual void		ListenToMessage(
-// 							MessageT		inMessage,
-// 							void*			ioParam);
-
 	virtual Boolean		IsModified();
 	
 	virtual StringPtr	GetDescriptor( Str255 outDescriptor ) const;
