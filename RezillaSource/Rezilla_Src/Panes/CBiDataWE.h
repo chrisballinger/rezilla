@@ -44,6 +44,17 @@ public:
 									LStream*			inStream );
 	virtual					~CBiDataWE();
 
+	virtual void	FindCommandStatus(
+								CommandT			inCommand,
+								Boolean&			outEnabled,
+								Boolean&			outUsesMark,
+								UInt16&				outMark,
+								Str255				outName);
+
+	virtual Boolean	ObeyCommand(
+							CommandT			inCommand,
+							void*				ioParam);
+
 	virtual Boolean			HandleKeyPress(
 									const EventRecord& 	inKeyEvent);
 
@@ -63,6 +74,7 @@ public:
 								  SInt32 inByteCount);
 	
 	void					GetCurrCharPos(SInt32 & outCharSelStart, SInt32 & outCharSelEnd);
+	SInt32					NearestTruePos(SInt32 inPos);
 	SInt32					PosToCharPos(SInt32 inPos);
 	SInt32					CharPosToPos(SInt32 inCharPos);
 	SInt32					CharPosToLine(SInt32 inCharPos);
@@ -80,6 +92,9 @@ public:
 protected:
 			SInt16				mDataType;
 			CCompResultWindow *	mCompareWindow;
+
+	virtual void            AdjustCursorPos();
+	virtual void			ClickSelf(const SMouseDownEvent&	inMouseDown);
 };
 
 

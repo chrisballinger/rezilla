@@ -368,6 +368,7 @@ CCompResultWindow::FindCommandStatus(
 		break;
 		
 		case cmd_Close:
+		case cmd_Copy:
 		outEnabled = true;
 		break;
 		

@@ -80,6 +80,131 @@ CBiDataWE::~CBiDataWE()
 
 
 // ---------------------------------------------------------------------------
+//	¥ FindCommandStatus							[public, virtual]
+// ---------------------------------------------------------------------------
+
+void
+CBiDataWE::FindCommandStatus(
+	CommandT	inCommand,
+	Boolean		&outEnabled,
+	Boolean		&outUsesMark,
+	UInt16		&outMark,
+	Str255		outName)
+{
+	mCompareWindow->FindCommandStatus(inCommand, outEnabled,
+							outUsesMark, outMark, outName);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ ObeyCommand							[public, virtual]
+// ---------------------------------------------------------------------------
+// Cut, Paste and Clear are disabled.
+
+Boolean
+CBiDataWE::ObeyCommand(
+	CommandT	inCommand,
+	void*		ioParam)
+{
+	Boolean		cmdHandled = true;
+
+	switch (inCommand) {
+
+		case cmd_Copy: {
+			Handle txtData = nil;
+			SInt32 theStartPos, theEndPos;
+			UInt16 thePeriod;
+			
+			switch (mDataType) {
+				case bidata_hexType:
+				thePeriod = 3;
+				break;
+				
+				case bidata_txtType:
+				thePeriod = 2;
+				break;
+			}
+			GetSelectionRange(theStartPos, theEndPos);
+			
+			// Put selected text on clipboard
+			txtData = ::NewHandle(theEndPos - theStartPos);
+			WEStreamRange(theStartPos, theEndPos, kTypeText, 0, txtData, mWasteEditRef) ;
+			StStripPeriodicalTranslator blankstripper(txtData, thePeriod);
+			blankstripper.FilterOutPeriodical();
+			UScrap::SetData(ResType_Text, blankstripper.GetOutHandle());
+									
+			if (txtData != nil) {
+				::DisposeHandle(txtData);
+			} 
+			break;
+		}
+				
+		default:
+			cmdHandled = mCompareWindow->ObeyCommand(inCommand, ioParam);
+			break;
+	}
+
+	return cmdHandled;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ ClickSelf											[protected, virtual]
+// ---------------------------------------------------------------------------
+
+void
+CBiDataWE::ClickSelf(
+	const SMouseDownEvent	&inMouseDown)
+{
+	CWasteEditView::ClickSelf(inMouseDown);
+	AdjustCursorPos();
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ AdjustCursorPos											[protected, virtual]
+// ---------------------------------------------------------------------------
+
+void
+CBiDataWE::AdjustCursorPos()
+{
+	SInt32  selStart;
+	SInt32  selEnd;
+	
+	WEGetSelection( & selStart, & selEnd, mWasteEditRef ) ;
+	WESetSelection( NearestTruePos(selStart), NearestTruePos(selEnd), mWasteEditRef);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ NearestTruePos											[protected, virtual]
+// ---------------------------------------------------------------------------
+// Returns the nearest pos just before or after a hexadecimal or textual value
+
+SInt32
+CBiDataWE::NearestTruePos(SInt32 inPos)
+{
+	SInt32  thePos = inPos;
+
+	switch (mDataType) {
+		case bidata_hexType:
+		SInt32  rest = inPos % 3;
+		if (rest == 1) {
+			thePos -= 1;
+		} else if (rest == 2) {
+			thePos += 1;
+		} 
+		break;
+		
+		case bidata_txtType:
+		thePos = inPos + (inPos % 2);
+		break;
+	}
+	return thePos;
+}
+
+
+// ---------------------------------------------------------------------------
 //	¥ GetCurrCharPos											[public]
 // ---------------------------------------------------------------------------
 
