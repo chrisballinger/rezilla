@@ -49,7 +49,9 @@ CTmplEditorWindow::IsValidBitField(OSType inType, Str255 inStr,
 	Boolean isValid = false;
 	long	theLong;
 	
-	if ( (inType >> 8) == '0BB0' ) { // CWPro9 does not accept just 'BB0' (05-03-01)
+	// CWPro9 does not accept just 'BB0', so replaced it by the 
+	// corresponding hex value 0x424230 (05-03-01).
+	if ( (inType >> 8) == 0x424230 ) {
 		if (inStr[4] > '0' && inStr[4] < '8') {
 			ioBitsCount = inStr[4] - '0';
 			ioBytesLen = 1;
