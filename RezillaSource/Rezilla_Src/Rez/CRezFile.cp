@@ -228,12 +228,16 @@ CRezFile::CreateNewFile()
 			::FSpDelete(&mFileSpec);
 		} 
 		error = ::FSpCreate(&mFileSpec, fileCreator, fileType, smSystemScript);
-		// Get an FSRef
-		error = FSpMakeFSRef( &mFileSpec, &mFileRef );
-		// Get parentRef
-		error = FSGetCatalogInfo(&mFileRef, kFSCatInfoNodeID, &catalogInfo, NULL, NULL, &parentRef);
-		error = UMiscUtils::HFSNameToUnicodeName(mFileSpec.name, &unicodeName);
-		error = FSCreateResourceFile(&parentRef, unicodeName.length, unicodeName.unicode, kFSCatInfoNone, NULL, 0, NULL, &mFileRef, &mFileSpec);
+		if (error == noErr) {
+			// Get an FSRef
+			error = FSpMakeFSRef( &mFileSpec, &mFileRef );
+			// Get parentRef
+			error = FSGetCatalogInfo(&mFileRef, kFSCatInfoNodeID, &catalogInfo, NULL, NULL, &parentRef);
+			if (error == noErr) {
+				error = UMiscUtils::HFSNameToUnicodeName(mFileSpec.name, &unicodeName);
+				error = FSCreateResourceFile(&parentRef, unicodeName.length, unicodeName.unicode, kFSCatInfoNone, NULL, 0, NULL, &mFileRef, &mFileSpec);
+			}
+		} 
 		break;
 		
 		case rezfile_rezfork:
@@ -376,23 +380,22 @@ CRezFile::CopyFromRezMap(CRezMap * srcRezmap)
 	Handle	theRezHandle;
 	short	theAttrs;
 	CRezObj *	theRezObj;
-		
+	short	srcRefnum = srcRezmap->GetRefnum();
+	
 	error = srcRezmap->CountAllTypes(numTypes);
 	if (error != noErr || numTypes == 0) {return error;}
 	
-	for ( i = 1; i <= numTypes; i++ )
-	{
+	for ( i = 1; i <= numTypes; i++ ) {
 		// Read in each data type
 		srcRezmap->GetTypeAtIndex( i, theType );
 		error = srcRezmap->CountForType( theType, numResources);
 
-		for ( j = 1; j <= numResources; j++ )
-		{
+		for ( j = 1; j <= numResources; j++ ) {
 			// Get the data handle
 			error = srcRezmap->GetResourceAtIndex(theType, j, theRezHandle, true);
 			
 			// Make a rez object out of it
-			theRezObj = new CRezObj(theRezHandle, srcRezmap->GetRefnum());
+			theRezObj = new CRezObj(theRezHandle, srcRefnum);
 			error = theRezObj->GetAttributesFromMap(theAttrs);
 			// Detach the handle before adding it
 			error = theRezObj->Detach();
@@ -412,9 +415,9 @@ CRezFile::CopyFromRezMap(CRezMap * srcRezmap)
 		}
 	}
 	
-	::CloseResFile( srcRezmap->GetRefnum() );
-	error = ::ResError();
-	::UpdateResFile(mRefNum);
+// 	::CloseResFile( srcRefnum );
+// 	error = ::ResError();
+// 	::UpdateResFile(mRefNum);
 
 	return error;
 }
