@@ -315,7 +315,6 @@ CRezillaApp::ObeyCommand(
 		
 		case cmd_New: {
 			FSSpec	theFileSpec;
-			SInt16	theFork;
 			short	theRefnum;
 			bool	replacing;
 			if ( DesignateNewMap(theFileSpec, replacing) ) {
@@ -325,7 +324,7 @@ CRezillaApp::ObeyCommand(
 					// todo...
 
 					UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("RezMapAlreadyOpened"), rPPob_SimpleMessage);
-					return;
+					return true;
 				} 
 				// Make a new file object.
 				CRezFile * theFile = new CRezFile( theFileSpec, refnum_undefined, mOpeningFork );
@@ -334,7 +333,7 @@ CRezillaApp::ObeyCommand(
 					// Open the resource file.
 					theFile->OpenFile(fsRdWrPerm);
 				}
-				new CRezMapDoc(this, &theFileSpec, theFork, theFile->GetRefNum() );
+				new CRezMapDoc(this, &theFileSpec, mOpeningFork, theFile->GetRefNum() );
 				delete theFile;
 			}
 			break;
@@ -595,7 +594,7 @@ CRezillaApp::ChooseAFile(FSSpec & outFileSpec)
 	LFileTypeList fileTypes(fileTypes_All);
 	bool	openOK = false;
 	
-	mOpeningFork == from_anyfork;
+	mOpeningFork = from_anyfork;
 	
 	// Build the forks popup
 	NavMenuItemSpecHandle	theMenuItemHandle ;
