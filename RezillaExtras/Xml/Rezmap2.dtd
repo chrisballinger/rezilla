@@ -1,0 +1,31 @@
+<!-- This is a preliminary draft version! -->
+<!--
+ |                          Created: 2004-03-01 04:12:43
+ |                Last modification: 2004-03-01 04:30:54
+ | Author: Bernard Desgraupes
+ | E-mail: bdesgraupes@easyconnect.fr
+ | Web: http://webperso.easyconnect.fr/bdesgraupes/
+ | Description: DTD to formalize the structure of a resource map. 
+ | Characteristics of an element are defined as tag attributes.
+-->
+
+<!ELEMENT RezMap (Type*)>
+<!ATTLIST RezMap
+		name CDATA #IMPLIED
+		flags CDATA #IMPLIED
+>
+
+<!ELEMENT Type (Resource*)>
+<!ATTLIST Type 
+		code CDATA #REQUIRED
+>
+
+<!ELEMENT Resource (ResourceSize?, ResourceData?)>
+<!ATTLIST Resource 
+		id CDATA #REQUIRED
+		name CDATA #IMPLIED
+		flags CDATA #IMPLIED
+>
+
+<!ELEMENT ResourceSize (#PCDATA)>
+<!ELEMENT ResourceData (#PCDATA)>
