@@ -2,7 +2,7 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2004-10-12 22:27:03
+//             Last modification: 2004-11-06 00:49:58
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -256,7 +256,8 @@ CRezMapDoc::Initialize(FSSpec * inFileSpec, short inRefnum)
 
 	// Link the window to the file's data (icon, creator, type)
 	::SetWindowProxyFSSpec(mRezMapWindow->GetMacWindow(), inFileSpec);
-
+	::SetWindowModified(mRezMapWindow->GetMacWindow(), false);
+	
 // 	// Let's make the document a listener to the prefs object
 // 	CRezillaApp::sPrefs->AddListener(this);
 		
@@ -564,6 +565,18 @@ CRezMapDoc::IsModified()
 	
 	docModified = (mIsModified  || (theResFileAttrs & mapChangedBit) );
 	return docModified;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ SetModified													  [public]
+// ---------------------------------------------------------------------------
+
+void
+CRezMapDoc::SetModified(Boolean	inModified)
+{
+	LDocument::SetModified(inModified);
+	::SetWindowModified(mRezMapWindow->GetMacWindow(), inModified);	
 }
 
 
