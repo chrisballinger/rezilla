@@ -28,13 +28,19 @@ This changes log is in reverse chronological order (from bottom to top).
 $Date$
 
 ================================================================================
-= 1.0.5a4	                             last update: 
+= 1.0.5b1	                             last update: 
+================================================================================
+¥ Bumping to beta stage.
+¥ Debugging and testing phase before 1.0.5b release.
+¥ 
+
+================================================================================
+= 1.0.5a4	                             last update: 2005-01-16 19:49:24
 ================================================================================
 ¥ Completed Unicode editor.
 ¥ Added "Do Font Substitution" preference for Unicode editor.
 ¥ Split Templates and Editors preferences in two separate panes.
 ¥ Added "Insert Byte Order Mark" preference for Unicode editor.
-¥ 
 
 ================================================================================
 = 1.0.5a3	                             last update: 2005-01-15 09:36:39
@@ -63,7 +69,7 @@ $Date$
 = 1.0.5a1	                             last update: 2004-12-16 10:24:52
 ================================================================================
 ¥ Installed Rezilla's Object Model for AppleScript scripting.
-¥ Added dictionary corresponding to the Object Model:: Rezilla Suite
+¥ Added dictionary corresponding to the Object Model: Rezilla Suite
   and Resource Suite.
 ¥ Added a 'PICT' resource viewer.
 ¥ Added a 'snd ' resource player.
