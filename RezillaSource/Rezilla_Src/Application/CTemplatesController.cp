@@ -2,7 +2,7 @@
 // CTemplatesController.cp					
 // 
 //                       Created: 2004-08-06 12:57:55
-//             Last modification: 2004-08-10 21:57:55
+//             Last modification: 2004-08-10 22:26:00
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -153,7 +153,7 @@ CTemplatesController::BuildExternalTemplatesDictionary()
 	static const SInt16 kFolderDomains[] = {kUserDomain, kLocalDomain, kSystemDomain, 0};
 	
 	// Create a mutable dictionary
-	theDict = CFDictionaryCreateMutable(NULL, 0, NULL, NULL);
+	theDict = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
 	
 	if (theDict) {
 		domainIndex = 0;
@@ -272,9 +272,9 @@ CTemplatesController::AddTemplatesToDictionary(FSRef * inFileRef, CFMutableDicti
 						
 						// Add to the dictionary
 						CFDictionaryAddValue(inDict, theKey, theArray);
-// 						CFRelease(theArray);
+						CFRelease(theArray);
 					} 
-// 					CFRelease(theKey);
+					CFRelease(theKey);
 				} 
 			} 
 			delete rezMap;
@@ -353,20 +353,16 @@ CTemplatesController::HasExternalTemplateForType(ResType inType, FSRef * outFile
 				for (i = 0; i < dictCount; i++) {
 					if (theKeys[i] && theVals[i] ) {
 						theArrayRef = (CFArrayRef) theVals[i];
-						CFIndex retcount = CFGetRetainCount(theArrayRef);
-						CFTypeID thetypeid = CFGetTypeID(theArrayRef);
-						thetypeid = CFArrayGetTypeID();
-						
-						CFIndex countidx = CFArrayGetCount(theArrayRef);
-
-						
-						hasTMPL = CFArrayContainsValue(theArrayRef, CFRangeMake(0, CFArrayGetCount(theArrayRef)), typeRef);
-						if (hasTMPL) {
-							theFileRef = (CFDataRef) theKeys[i];
-							if (CFDataGetLength(theFileRef) == sizeof(FSRef)) {
-								BlockMoveData(CFDataGetBytePtr(theFileRef), outFileRef, sizeof(FSRef));
+						// Let's be paranoid
+						if (CFGetTypeID(theArrayRef) == CFArrayGetTypeID()) {
+							hasTMPL = CFArrayContainsValue(theArrayRef, CFRangeMake(0, CFArrayGetCount(theArrayRef)), typeRef);
+							if (hasTMPL) {
+								theFileRef = (CFDataRef) theKeys[i];
+								if (CFDataGetLength(theFileRef) == sizeof(FSRef)) {
+									BlockMoveData(CFDataGetBytePtr(theFileRef), outFileRef, sizeof(FSRef));
+								} 
+								break;
 							} 
-							break;
 						} 
 					} 
 				}
