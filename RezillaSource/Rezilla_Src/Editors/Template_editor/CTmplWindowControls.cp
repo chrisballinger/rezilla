@@ -1054,19 +1054,19 @@ CTmplEditorWindow::AddRectField(SInt16 inTop,
 //	¥ AddListHeaderField											[public]
 // ---------------------------------------------------------------------------
 
-void
-CTmplEditorWindow::AddListHeaderField(OSType inType, 
-									  Str255 inLabel, 
+PaneIDT
+CTmplEditorWindow::AddListHeaderField(Str255 inLabel, 
 									  short inCount, 
 									  Str255 inCountLabel, 
 									  LView * inContainer, 
 									  Boolean isFixedCount)
 {
 	Str255			numStr;
+	PaneIDT			theCountPane;
 	LStaticText *	theStaticText;
 	CTmplListButton *	thePushButton;
 	
-	// This is the label of the list (usually "*****")
+	// This is the label of the list
 	sStaticPaneInfo.left		= kTmplLeftMargin;
 	sStaticPaneInfo.top			= mYCoord;
 	sStaticPaneInfo.width		= kTmplLabelWidth;
@@ -1075,26 +1075,31 @@ CTmplEditorWindow::AddListHeaderField(OSType inType,
 	theStaticText = new LStaticText(sStaticPaneInfo, inLabel, sHeaderTraitsID);
 	ThrowIfNil_(theStaticText);
 
-	if (inType == 'LSTC') {
-		mYCoord += kTmplEditHeight;
-		// This is the label of the OCNT, ZCNT or FCNT counts
-		sStaticPaneInfo.top		= mYCoord;
-		sStaticPaneInfo.width	= kTmplLabelWidth;
-		theStaticText = new LStaticText(sStaticPaneInfo, inCountLabel, sRightLabelTraitsID);
-		ThrowIfNil_(theStaticText);
-		
-		// This is the value of the OCNT, ZCNT or FCNT counts
-		sStaticPaneInfo.left 	+= sStaticPaneInfo.width + kTmplHorizSep;
-		sStaticPaneInfo.width	= kTmplCountWidth;
-		sStaticPaneInfo.paneID 	= mCurrentID;
-		::NumToString( (long) inCount, numStr);
-		theStaticText = new LStaticText(sStaticPaneInfo, numStr, sHeaderTraitsID);
-		ThrowIfNil_(theStaticText);
-		
-		sStaticPaneInfo.paneID = 0;
-		mCurrentID++;
-	}
+	mYCoord += kTmplEditHeight;
+
+	// This is the label of the count field (BCNT, FCNT, LCNT, LZCT, OCNT, WCNT, ZCNT)
+	sStaticPaneInfo.top		= mYCoord;
+	sStaticPaneInfo.width	= kTmplLabelWidth;
+	theStaticText = new LStaticText(sStaticPaneInfo, inCountLabel, sRightLabelTraitsID);
+	ThrowIfNil_(theStaticText);
 	
+	// This is the value of the counts
+	sStaticPaneInfo.left 	+= sStaticPaneInfo.width + kTmplHorizSep;
+	sStaticPaneInfo.width	= kTmplCountWidth;
+	sStaticPaneInfo.paneID 	= mCurrentID;
+	::NumToString( (long) inCount, numStr);
+	theStaticText = new LStaticText(sStaticPaneInfo, numStr, sHeaderTraitsID);
+	ThrowIfNil_(theStaticText);
+	if (isFixedCount) {
+		// If it is a fixed count list, don't show the count field because the
+		// info is already in the label.
+		theStaticText->Hide();
+	} 	
+	sStaticPaneInfo.paneID = 0;
+	theCountPane = mCurrentID;
+	mCurrentID++;
+
+	// Create the buttons
 	sPushPaneInfo.top		= sStaticPaneInfo.top - 3;
 	sPushPaneInfo.left		= sStaticPaneInfo.left + sStaticPaneInfo.width + kTmplHorizSep;
 	sPushPaneInfo.paneID	= mCurrentID;
@@ -1107,7 +1112,7 @@ CTmplEditorWindow::AddListHeaderField(OSType inType,
 	// Let the window listen to this button
 	thePushButton->AddListener(this);
 	if (isFixedCount) {
-		thePushButton->Disable();
+		thePushButton->Hide();
 	} 
 	mCurrentID++;
 	
@@ -1120,13 +1125,15 @@ CTmplEditorWindow::AddListHeaderField(OSType inType,
 	// Let the window listen to this button
 	thePushButton->AddListener(this);
 	if (isFixedCount) {
-		thePushButton->Disable();
+		thePushButton->Hide();
 	} 
 
 	mCurrentID++;
 
 	// Advance the counters
 	mYCoord += sStaticPaneInfo.height + kTmplVertSep + kTmplVertSkip;
+	
+	return theCountPane;
 }
  
 
@@ -1368,8 +1375,7 @@ CTmplEditorWindow::AddEditPopup(Str255 inValue,
 // ---------------------------------------------------------------------------
 
 void
-CTmplEditorWindow::AddColorPane(OSType inType, 
-								LView * inContainer, 
+CTmplEditorWindow::AddColorPane(LView * inContainer, 
 								RGBColor * inRGB)
 {
 	sColorPaneInfo.left			= kTmplLeftMargin + kTmplLabelWidth + kTmplHorizSep;

@@ -2,7 +2,7 @@
 // CTmplEditorWindow.cp					
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-09-24 15:18:54
+//             Last modification: 2004-09-26 07:54:34
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -251,13 +251,10 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 				theContainer->GetSubPanes().RemoveItemsAt(1, theIndex);
 			} 
 			
-			// Update the value of the counter in the case of an LSTC list
+			// Update the value of the counter
 			mTemplateStream->SetMarker(startMark-4, streamFrom_Start);
 			*mTemplateStream >> theType;
-			
-			if (theType == 'LSTC') {
-				AdjustCounterField(thePaneID - 1, -1);
-			} 
+			AdjustCounterField(thePaneID - 1, -1);
 
 			// Adjust all IDs and positions
 			RenumberSubPanes(mContentsView, currListItemView->mLastItemID, currListItemView->mFirstItemID, false);
@@ -334,12 +331,10 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 
 			mIndent -= kTmplListIndent * sublevel;
 
-			// Update the value of the counter in the case of an LSTC list
+			// Update the value of the counter
 			mTemplateStream->SetMarker(startMark-4, streamFrom_Start);
 			*mTemplateStream >> theType;
-			if (theType == 'LSTC') {
-				AdjustCounterField(thePaneID - 2, 1);
-			} 
+			AdjustCounterField(thePaneID - 2, 1);
 			
 			// Adjust all IDs and positions
 			RenumberSubPanes(mContentsView, oldLastID, newFirstID, true);
@@ -565,8 +560,9 @@ OSErr
 CTmplEditorWindow::DoParseWithTemplate(SInt32 inRecursionMark, Boolean inDrawControls, LView * inContainer)
 {
 	OSErr		error = noErr;
-	Str255		theString, countLabel;
+	Str255		theString, countLabel = "\pCount:";
 	ResType		theType;
+	PaneIDT		theID;
 
 	mTemplateStream->SetMarker(inRecursionMark, streamFrom_Start);
 	mFixedCount = false;
@@ -584,9 +580,11 @@ CTmplEditorWindow::DoParseWithTemplate(SInt32 inRecursionMark, Boolean inDrawCon
 			error = ParseDataForType(theType, theString, inContainer);
 		} else if (theType == 'LSTB' || theType == 'LSTC' || theType == 'LSTZ') {
 			if (inDrawControls) {
-				AddListHeaderField(theType, theString, mItemsCount, countLabel, inContainer, mFixedCount);
+				theID = AddListHeaderField(theString, mItemsCount, countLabel, inContainer, mFixedCount);
+			} else {
+				theID = 0;
 			}
-			error = ParseList(mTemplateStream->GetMarker(), theType, mItemsCount, inContainer);
+			error = ParseList(mTemplateStream->GetMarker(), theType, mItemsCount, inContainer, theID);
 		} else if (theType == 'LSTE') {
 			break;
 		} else {
@@ -606,7 +604,8 @@ CTmplEditorWindow::DoParseWithTemplate(SInt32 inRecursionMark, Boolean inDrawCon
 // ---------------------------------------------------------------------------
 
 OSErr
-CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount, LView * inContainer)
+CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount, 
+							 LView * inContainer, PaneIDT inCountPane)
 {
 	OSErr	error = noErr;
 	UInt8	theChar;
@@ -623,10 +622,12 @@ CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount,
 	switch (inType) {
 		case 'LSTB':
 		case 'LSTZ':
+		SInt32	listCount = 0;
 		Boolean drawCtrl = (mRezStream->GetMarker() < mRezStream->GetLength());
 		mYCoord = outYCoord;
 		do {
 			if (drawCtrl) {
+				listCount++;
 				currListItemView = AddListItemView(prevListItemView, inContainer);
 				prevListItemView = currListItemView;
 				theContainer = currListItemView;
@@ -644,11 +645,14 @@ CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount,
 			} 
 		} while (! EndOfList(inType) );
 		// An LSTZ list must be terminated by a NULL
-		if (inType == 'LSTZ') {
+		if (inType == 'LSTZ' && drawCtrl) {
 			*mRezStream >> theChar;
 			if (theChar != 0) {
 				error = err_TmplZeroListNotEndingWithNull;
 			}
+		} 
+		if (inCountPane != 0) {
+			AdjustCounterField(inCountPane, listCount);
 		} 
 		break;
 		
@@ -849,7 +853,6 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		if (mRezStream->GetMarker() < mRezStream->GetLength()) {
 			*mRezStream >> theUInt8;
 		} 
-// 		mOffsetTypesList.AddItem(inType);
 		break;
 
 		case 'CASE':
@@ -882,7 +885,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 				*mRezStream >> theRGB.blue;
 			} 
 			AddStaticField(inType, inLabelString, inContainer);
-			AddColorPane(inType, inContainer, &theRGB);		
+			AddColorPane(inContainer, &theRGB);		
 			break;
 		}
 		
@@ -1001,7 +1004,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 			}
 			if (p != inLabelString + 1 ) {
 				inLabelString[0] = p - inLabelString - 1;
-				::StringToNum( theString, &theLong);
+				::StringToNum( inLabelString, &theLong);
 				mItemsCount = theLong;
 			} else {
 				error = err_TmplWrongFixedCount;
@@ -1514,11 +1517,11 @@ CTmplEditorWindow::DoRetrieveWithTemplate(SInt32 inRecursionMark, Boolean inRead
 			|| theType == 'FCNT' || theType == 'LCNT' || theType == 'LZCT') {
 			error = RetrieveDataForType(theType);
 		} else if (theType == 'LSTB' || theType == 'LSTC' || theType == 'LSTZ') {
-			if (theType == 'LSTC') {
+// 			if (theType == 'LSTC') {
 				RetrieveCountValue();
-			} 
-			// Skip the Plus and Minus buttons
-			mCurrentID += 2;
+// 			} 
+			// Skip the count field, and the Plus and Minus buttons
+			mCurrentID += 3;
 			error = RetrieveList(mTemplateStream->GetMarker(), theType, mItemsCount);
 		} else if (theType == 'LSTE') {
 			break;
@@ -1833,6 +1836,14 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		} 
 		break;
 
+		case 'FCNT':
+		// One-based fixed count for LSTC lists. No space to reserve. The
+		// count is hardcoded in the label of the template, not in the
+		// resource it self.
+		mListCountMark = mOutStream->GetMarker();
+		mCountType = inType;
+		break;
+
 		case 'HEXD':
 		case 'BHEX':
 		case 'BSHX':
@@ -2042,7 +2053,6 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		break;
 
 		case 'OCNT':
-		case 'FCNT':
 		case 'WCNT':
 		// One-based count for LSTC lists. Reserve a space for the count. It
 		// will be filled later when the LSTC tag is met.
@@ -2486,6 +2496,12 @@ CTmplEditorWindow::RetrieveCountValue()
 		mItemsCount = (UInt16) theLong;
 		break;
 		
+		case 'FCNT':
+		// Do nothing. The count is hardcoded in the label of the FCNT tag 
+		// and the Plus/Minus buttons are hidden
+		mItemsCount = (UInt16) theLong;
+		break;
+		
 		case 'LCNT':
 		// One-based long count for LSTC lists
 		if (theLong < 0xffff) {
@@ -2512,13 +2528,12 @@ CTmplEditorWindow::RetrieveCountValue()
 		break;
 		
 		case 'OCNT':
-		case 'FCNT':
 		case 'WCNT':
 		// One-based count for LSTC lists
 		mItemsCount = (UInt16) theLong;
-		if (mCountType != 'FCNT') {
+// 		if (mCountType != 'FCNT') {
 			*mOutStream << mItemsCount;
-		} 
+// 		} 
 		break;
 		
 		case 'ZCNT':
@@ -2534,7 +2549,7 @@ CTmplEditorWindow::RetrieveCountValue()
 		
 	}
 	
-	mCurrentID++;
+// 	mCurrentID++;
 	mOutStream->SetMarker(currMark, streamFrom_Start);
 	return error;
 }

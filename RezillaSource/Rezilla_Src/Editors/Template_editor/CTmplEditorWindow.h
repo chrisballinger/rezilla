@@ -139,7 +139,8 @@ private:
 	OSErr			ParseList(SInt32 inStartMark, 
 							  ResType inType, 
 							  SInt32 inCount, 
-							  LView * inContainer);
+							  LView * inContainer, 
+							  PaneIDT inCountPane);
 
 	OSErr			RetrieveList(SInt32 inStartMark, 
 								 ResType inType, 
@@ -204,8 +205,7 @@ private:
 									TEKeyFilterFunc inKeyFilter, 
 								 	LView * inContainer);
 
-	void			AddListHeaderField(OSType inType, 
-								   Str255 inLabel, 
+	PaneIDT			AddListHeaderField(Str255 inLabel, 
 								   short inCount, 
 								   Str255 inCountLabel, 
 								   LView * inContainer,
@@ -229,9 +229,8 @@ private:
 									ResIDT inResourceID,
 									LView * inContainer);
 	
-	void			AddColorPane(OSType inType, 
-									LView * inContainer, 
-									RGBColor * inRGB);
+	void			AddColorPane(LView * inContainer, 
+								RGBColor * inRGB);
 	
 	ExceptionCode	AlignBytesRead(UInt8 inStep);
 	
