@@ -88,6 +88,7 @@ public:
 								AEDesc				&outResult);
 									
 	static LStr255		VersionFromResource();
+	static LStr255		VersionFromPlist();
 
 	static SInt16		GetOwnRefNum() { return sOwnRefNum;}
 

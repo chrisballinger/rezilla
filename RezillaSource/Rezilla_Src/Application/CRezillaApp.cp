@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2004-05-18 20:19:50
+//             Last modification: 2004-06-07 09:15:03
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -101,7 +101,7 @@ CWindowMenu	*		gWindowMenu;	// This is the window menu.
 CRezillaPrefs *			CRezillaApp::sPrefs = nil;
 Rzil_basics				CRezillaApp::sBasics;
 CInspectorWindow *		CRezillaApp::sInspectorWindow = nil;
-const LStr255			CRezillaApp::sVersionNumber( VersionFromResource() );
+const LStr255			CRezillaApp::sVersionNumber( VersionFromPlist() );
 SInt16					CRezillaApp::sOwnRefNum;
 TArray<CRezMapDoc *>	CRezillaApp::sRezMapDocList;
 CRecentItemsMenu *		CRezillaApp::sRecentItemsAttachment;
@@ -667,6 +667,35 @@ CRezillaApp::VersionFromResource()
 		}
 	}
 	return  theString;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ VersionFromPlist										  [public]
+// ---------------------------------------------------------------------------
+// Retrieve the version number from the 'Info.plist' file.
+
+LStr255
+CRezillaApp::VersionFromPlist()
+{
+	OSErr		error = noErr;
+	CFStringRef	text;
+	CFBundleRef	appBundle;
+	Str255		theVers;
+	LStr255		theString( "\p" );
+	
+	appBundle = CFBundleGetMainBundle();
+	text = (CFStringRef) CFBundleGetValueForInfoDictionaryKey( appBundle, CFSTR("CFBundleVersion") );           
+	
+	if ( (text == CFSTR(" ")) || (text == NULL) ) {
+		text = CFSTR("n/a");
+	}
+	
+	if ( CFStringGetPascalString(text, theVers, sizeof(theVers), NULL) ) {
+		theString += theVers;
+	}
+	
+	return theString;
 }
 
 
