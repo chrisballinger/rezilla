@@ -18,7 +18,9 @@
 #define _H_CHexDataSubView
 #pragma once
 
-#include "CHexDataWE.h"
+#include "CWasteEditView.h"
+
+#include <stdio.h>
 
 
 #if PP_Uses_Pragma_Import
@@ -32,7 +34,7 @@ class CHexEditorWindow;
 
 // ---------------------------------------------------------------------------
 
-class CHexDataSubView :	public CHexDataWE {
+class CHexDataSubView :	public CWasteEditView {
 public:
 	enum { class_ID = FOUR_CHAR_CODE('HDSV') };
 
@@ -52,6 +54,21 @@ public:
 									SInt32			inVertDelta,
 									Boolean			inRefresh);
 
+	virtual	OSErr			Insert(	const void*			inText,
+									SInt32				inLength,
+									StScrpHandle		inStyleH = nil,
+									Boolean				inRefresh = false );
+
+	virtual	OSErr			Insert(
+								   Str255       inString,
+								   Boolean      inRefresh );
+
+	virtual	void			InsertContents(Handle inHandle);
+	
+	virtual	void			InsertContents(
+								  const void * inPtr, 
+								  SInt32 inByteCount);
+	
 	virtual	void			CursorMoved(SInt32 inPos);
 
 	virtual void			UserChangedText();
@@ -69,6 +86,14 @@ public:
 													SInt32 inVertDelta,
 													Boolean inRefresh);
 
+	void					GetCurrHexPos(SInt32 & outHexSelStart, SInt32 & outHexSelEnd);
+	SInt32					NearestHexPos(SInt32 inPos);
+	SInt32					PosToHexPos(SInt32 inPos);
+	SInt32					HexPosToPos(SInt32 inHexPos);
+	SInt32					HexPosToLine(SInt32 inHexPos);
+	SInt32					GetCurrLine();
+	void					GetCurrLines(SInt32 & outfirstLine, SInt32 & outlastLine);
+		
 	CTxtDataSubView*		GetSiblingView() { return mTxtSiblingView;}
 	void					SetSiblingView(CTxtDataSubView* theSiblingView) {mTxtSiblingView = theSiblingView ;}
 
@@ -76,13 +101,17 @@ public:
 	void					SetEditorWindow(CHexEditorWindow* theEditorWindow) {mEditorWindow = theEditorWindow ;}
 	
 	void					SetSynchronizing(Boolean theIsSynchronizing) {mIsSynchronizing = theIsSynchronizing ;}
-	
+
+	SInt32		mEditingPos;
+	Boolean		mOneOfTwoInserted;
+
 protected:
 
 		CHexEditorWindow *			mEditorWindow;
 		CTxtDataSubView *			mTxtSiblingView;
 		Boolean						mIsSynchronizing;
 
+	virtual void            AdjustCursorPos();
 	virtual void			ClickSelf(const SMouseDownEvent & inMouseDown);
 	virtual void			BeTarget();
 };

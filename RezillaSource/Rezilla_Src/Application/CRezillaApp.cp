@@ -27,8 +27,6 @@
 #include "CInspectorWindow.h"
 #include "CHexEditorWindow.h"
 #include "CWasteEditView.h"
-#include "CHexDataWE.h"
-#include "CTxtDataWE.h"
 #include "CBiDataWE.h"
 #include "CHexDataSubView.h"
 #include "CTxtDataSubView.h"
@@ -284,7 +282,6 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(CDropStaticText);
 	RegisterClass_(CEditTable);
 	RegisterClass_(CHexDataSubView);
-	RegisterClass_(CHexDataWE);
 	RegisterClass_(CHexEditorWindow);
 	RegisterClass_(CInspectorWindow);
 	RegisterClass_(CRangeEditText);
@@ -293,7 +290,6 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(CRezMapWindow);
 	RegisterClass_(CSingleScrollBar);
 	RegisterClass_(CTxtDataSubView);
-	RegisterClass_(CTxtDataWE);
 	RegisterClass_(CWasteEditView);
 
 // 	RegisterClass_(ATag);

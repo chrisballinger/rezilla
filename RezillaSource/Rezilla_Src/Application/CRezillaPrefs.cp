@@ -54,6 +54,7 @@
 
 
 LDialogBox *	CRezillaPrefs::sPrefsWindow;
+ArrayIndexT		CRezillaPrefs::sCurrentPrefsPane = 1;
 
 
 // ---------------------------------------------------------------------------
@@ -137,10 +138,8 @@ CRezillaPrefs::SetDefaultPreferences()
 	mCurrPrefs.compare.ignoreAttributes	= true;
 	mCurrPrefs.compare.ignoreData		= false;
 	mCurrPrefs.compare.dataDisplay		= compare_hexDisplay;
-	// Interface pane
-	UTextTraits::LoadSystemTraits(mCurrPrefs.interface.traitsRecord);
-	mCurrPrefs.interface.traitsRecord.size = 10;
-	MetricsFromTraits( &mCurrPrefs.interface.traitsRecord );
+	// Interface pane: default text trait loaded if necessary while
+	// retreiving preferences
 }
 
 
@@ -262,9 +261,15 @@ CRezillaPrefs::RetrievePreferences()
 		theSize = CFDataGetLength( (CFDataRef) theData);
 		thePtr = CFDataGetBytePtr( (CFDataRef) theData);
 		BlockMoveData(thePtr, &(mCurrPrefs.interface.traitsRecord), theSize);
+		// Update the font number according to the font name
 		::GetFNum(mCurrPrefs.interface.traitsRecord.fontName, &mCurrPrefs.interface.traitsRecord.fontNumber);
 		CFRelease(theData);
+	} else {
+		mCurrPrefs.interface.traitsRecord.fontNumber = UTextTraits::fontNumber_Unknown;
+		UTextTraits::LoadTextTraits(Txtr_MonacoNineDefault, mCurrPrefs.interface.traitsRecord);
 	}
+	// Calculate some global metrics after the Text Traits
+	MetricsFromTraits( &mCurrPrefs.interface.traitsRecord );	
 }
 
 
@@ -667,6 +672,8 @@ CRezillaPrefs::RunPrefsWindow()
 		theSize = theCurrTraits.size;
 		thePopup->SetValue( SizeIndexFromSizeValue(thePopup, theSize) );
 
+		thePageCtrl->SetValue(sCurrentPrefsPane);
+		
 		theDialog->Show();
 		
 		MessageT theMessage;
@@ -786,6 +793,8 @@ CRezillaPrefs::RunPrefsWindow()
 			}
 		}
 		
+		sCurrentPrefsPane = thePageCtrl->GetCurrentPageIndex();
+
 		// if we hit ok, save the pref info
 		if (msg_OK == theMessage) {
 			if ( PrefsHaveChanged() ) {

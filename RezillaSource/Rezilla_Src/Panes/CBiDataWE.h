@@ -1,7 +1,7 @@
 // ===========================================================================
 //	CBiDataWE.h
 //                       Created: 2004-03-21 12:08:32
-//             Last modification: 2004-03-21 20:46:35
+//             Last modification: 2004-06-06 22:09:56
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -69,13 +69,9 @@ public:
 	void					GetCurrHexPos(SInt32 & outHexSelStart, SInt32 & outHexSelEnd);
 	SInt32					PosToHexPos(SInt32 inPos);
 	SInt32					HexPosToPos(SInt32 inHexPos);
-	SInt32					HexPosToLine(SInt32 inHexPos);
 
-	SInt32					GetCurrLine();
-	void					GetCurrLines(SInt32 & outfirstLine, SInt32 & outlastLine);
-
-	virtual SInt16		GetDataType() { return mDataType;}
-	void				SetDataType(SInt16 inDataType) {mDataType = inDataType;}
+	virtual SInt16			GetDataType() { return mDataType;}
+	void					SetDataType(SInt16 inDataType) {mDataType = inDataType;}
 
 	
 protected:

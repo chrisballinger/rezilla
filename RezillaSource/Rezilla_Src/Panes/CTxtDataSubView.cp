@@ -23,8 +23,10 @@
 #include "CWEViewActions.h"
 #include "CHexEditorActions.h"
 #include "UCodeTranslator.h"
+#include "UHexFilters.h"
 #include "RezillaConstants.h"
 
+#include <UDesktop.h>
 #include <LScrollBar.h>
 #include <UKeyFilters.h>
 
@@ -32,13 +34,12 @@
 PP_Begin_Namespace_PowerPlant
 
 
-
 // ---------------------------------------------------------------------------
 //	¥ CTxtDataSubView						Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CTxtDataSubView::CTxtDataSubView()
-	: CTxtDataWE()
+	: CWasteEditView()
 {
 	mHexSiblingView = nil;
 	mIsSynchronizing = false;
@@ -50,7 +51,7 @@ CTxtDataSubView::CTxtDataSubView()
 // ---------------------------------------------------------------------------
 
 CTxtDataSubView::CTxtDataSubView(CHexDataSubView * inSiblingView)
-	: CTxtDataWE()
+	: CWasteEditView()
 {
 	mHexSiblingView = inSiblingView;
 	mIsSynchronizing = false;
@@ -63,7 +64,7 @@ CTxtDataSubView::CTxtDataSubView(CHexDataSubView * inSiblingView)
 
 CTxtDataSubView::CTxtDataSubView(
 	LStream*	inStream)
-	: CTxtDataWE(inStream)
+	: CWasteEditView(inStream)
 {
 	mHexSiblingView = nil;
 	mIsSynchronizing = false;
@@ -91,7 +92,8 @@ CTxtDataSubView::ClickSelf(
 	SInt32	startPos,	endPos;
 	
 	mEditorWindow->SetSelectingAll(false);
-	CTxtDataWE::ClickSelf(inMouseDown);
+	CWasteEditView::ClickSelf(inMouseDown);
+	AdjustCursorPos();
 
 	// Synchronize sibling
 	WEGetSelection(& startPos, & endPos, mWasteEditRef);
@@ -104,6 +106,118 @@ CTxtDataSubView::ClickSelf(
 
 
 // ---------------------------------------------------------------------------
+//	¥ AdjustCursorPos											[protected, virtual]
+// ---------------------------------------------------------------------------
+
+void
+CTxtDataSubView::AdjustCursorPos()
+{
+	SInt32  selStart;
+	SInt32  selEnd;
+	
+	WEGetSelection( & selStart, & selEnd, mWasteEditRef ) ;
+	WESetSelection( NearestCharPos(selStart), NearestCharPos(selEnd), mWasteEditRef);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ NearestCharPos											[protected, virtual]
+// ---------------------------------------------------------------------------
+// Returns the nearest pos just before a char value
+
+SInt32
+CTxtDataSubView::NearestCharPos(SInt32 inPos)
+{
+	return (inPos + (inPos % 2));
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ GetCurrCharPos											[public]
+// ---------------------------------------------------------------------------
+
+void
+CTxtDataSubView::GetCurrCharPos(SInt32 & outCharSelStart, SInt32 & outCharSelEnd)
+{
+	SInt32  selStart;
+	SInt32  selEnd;
+	WEGetSelection( & selStart, & selEnd, mWasteEditRef ) ;
+	outCharSelStart = PosToCharPos(selStart);
+	outCharSelEnd = PosToCharPos(selEnd);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ PosToCharPos											[protected, virtual]
+// ---------------------------------------------------------------------------
+
+SInt32
+CTxtDataSubView::PosToCharPos(SInt32 inPos)
+{
+	SInt32  rest = inPos % 2;
+	return ( inPos - rest )/2 ;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ CharPosToPos											[protected, virtual]
+// ---------------------------------------------------------------------------
+
+SInt32
+CTxtDataSubView::CharPosToPos(SInt32 inCharPos)
+{
+	return (2 * inCharPos);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ CharPosToLine											[protected, virtual]
+// ---------------------------------------------------------------------------
+
+SInt32
+CTxtDataSubView::CharPosToLine(SInt32 inCharPos)
+{
+	SInt32 bytesPerline = mEditorWindow->GetPaneCount(count_BytesPerLine);
+	SInt32 theRest = inCharPos % bytesPerline;
+	
+	return (((inCharPos - theRest) / bytesPerline) + 1);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ GetCurrLine											[public]
+// ---------------------------------------------------------------------------
+
+SInt32
+CTxtDataSubView::GetCurrLine()
+{
+	SInt32 theCharSelStart, theCharSelEnd;
+	
+	GetCurrCharPos(theCharSelStart, theCharSelEnd);
+	
+	return CharPosToLine(theCharSelStart);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ GetCurrLines											[public]
+// ---------------------------------------------------------------------------
+
+void
+CTxtDataSubView::GetCurrLines(SInt32 & outFirstLine, SInt32 & outLastLine)
+{
+	SInt32 theCharSelStart, theCharSelEnd;
+	
+	GetCurrCharPos(theCharSelStart, theCharSelEnd);
+	
+	outFirstLine = CharPosToLine(theCharSelStart);
+	outLastLine = CharPosToLine(theCharSelEnd);
+}
+
+
+#pragma mark -
+
+// ---------------------------------------------------------------------------
 //	¥ HandleKeyPress							[public, virtual]
 // ---------------------------------------------------------------------------
 
@@ -111,15 +225,178 @@ Boolean
 CTxtDataSubView::HandleKeyPress(
 	const EventRecord	&inKeyEvent)
 {
-	Boolean retval;
-	UInt16 theChar = (UInt16) (inKeyEvent.message & charCodeMask);
+	Boolean		keyHandled	 = true;
+	EKeyStatus	theKeyStatus = keyStatus_Input;
+	SInt16		theKey		 = (SInt16) (inKeyEvent.message & charCodeMask);
+	LCommander*	theTarget	 = GetTarget();
+
+	if (inKeyEvent.modifiers & cmdKey) {	// Always pass up when the
+		theKeyStatus = keyStatus_PassUp;	// command key is down
+	} else {
+
+		theKeyStatus = UKeyFilters::PrintingCharField(inKeyEvent);
+	}
+
+// 	if ((theKeyStatus == keyStatus_PassUp) && (theKey == char_Return)) {
+// 		theKeyStatus = keyStatus_Input;		// Special case for Return key
+// 	}
+
+	if ((theKeyStatus == keyStatus_PassUp) && (theKey == ' ')) {
+		// Accept space char anyway
+		theKeyStatus = keyStatus_Input;
+	}
+
+	if (mReadOnly) {
+		// Disallow editing
+		theKeyStatus = keyStatus_PassUp;
+	}
+
+	SInt32	lineCount = WECountLines(mWasteEditRef);
+	LongRect	oldDestRect ;
+	WEGetDestRect(&oldDestRect,mWasteEditRef);
+
+	SInt32	theSelStart;
+	SInt32	theSelEnd;
+	WEGetSelection( & theSelStart, & theSelEnd, mWasteEditRef);
 	
-	retval = CTxtDataWE::HandleKeyPress(inKeyEvent);
+	StFocusAndClipIfHidden	focus(this);
+
+	switch (theKeyStatus) {
+		
+		case keyStatus_Input: {
+			if (mTypingAction == nil) {
+				mTypingAction = new CHexEditorTypingAction(mWasteEditRef, this, this);
+				PostAction(mTypingAction);
+			}
+			
+			if (mTypingAction != nil) {
+				try {
+					mTypingAction->InputCharacter();
+				} catch(...) {
+					PostAction(nil);
+				}
+			}
+			
+			WEKey(theKey,inKeyEvent.modifiers, mWasteEditRef);
+			WEKey(' ',inKeyEvent.modifiers, mWasteEditRef);			
+			UserChangedText(theSelStart, theSelEnd, 2);
+			break;
+		}
+		
+	  
+		case keyStatus_TEDelete: {
+
+			if (theSelEnd > 0) {
+				if (mTypingAction == nil) {
+					mTypingAction = new CHexEditorTypingAction(mWasteEditRef, this, this);
+					PostAction(mTypingAction);
+				}
+				
+				if (mTypingAction != nil) {
+					try {
+						mTypingAction->BackwardErase();
+					} catch (...) {
+						PostAction(nil);
+					}
+				}
+				
+				if (theSelStart == theSelEnd && theSelStart >= 2) {
+					theSelStart -= 2;
+					WESetSelection( theSelStart, theSelEnd, mWasteEditRef ) ;
+				}
+				WEDelete(mWasteEditRef);
+				ForceAutoScroll(oldDestRect);
+				UserChangedText(theSelStart, theSelEnd, 0);
+			}
+			break;
+		}
+		
+		case keyStatus_TECursor: {
+			if (theSelStart != theSelEnd) {
+				if (theKey == char_RightArrow || theKey == char_DownArrow) {
+					WESetSelection( theSelEnd, theSelEnd, mWasteEditRef);
+				} else {
+					WESetSelection( theSelStart, theSelStart, mWasteEditRef);
+				}
+			} else {
+				
+				switch (theKey) {
+					case char_LeftArrow:
+					theSelStart -= 2;
+					break;
+					
+					case char_RightArrow:
+					theSelStart += 2;
+					break;
+					
+					case char_DownArrow:
+					theSelStart += CharPosToPos(mEditorWindow->GetPaneCount(count_BytesPerLine));
+					break;
+					
+					case char_UpArrow:
+					theSelStart -= CharPosToPos(mEditorWindow->GetPaneCount(count_BytesPerLine));
+					break;
+				}
+				if (theSelStart >= 0 && PosToCharPos(theSelStart) <= mEditorWindow->GetPaneCount(count_BytesPerPane)) {
+					WESetSelection( theSelStart, theSelStart, mWasteEditRef);
+				}
+				CursorMoved(theSelStart);
+			}
+			break;
+		}
+
+		case keyStatus_ExtraEdit: {
+			if (theKey == char_FwdDelete) {
+
+				if (theSelStart < WEGetTextLength(mWasteEditRef)) {
+					if (mTypingAction == nil) {
+						mTypingAction = new CHexEditorTypingAction(mWasteEditRef, this, this);
+						PostAction(mTypingAction);
+					}
+
+					if (mTypingAction != nil) {
+						try {
+							mTypingAction->ForwardErase();
+						} catch (...) {
+							PostAction(nil);
+						}
+					}
+
+					if (theSelStart == theSelEnd) {
+						theSelEnd += 2;
+						WESetSelection(theSelStart,theSelEnd, mWasteEditRef);
+					}
+
+					WEDelete(mWasteEditRef);
+					ForceAutoScroll(oldDestRect);
+					UserChangedText(theSelStart, theSelEnd, 0);
+				}
+			} else {
+				keyHandled = LCommander::HandleKeyPress(inKeyEvent);
+			}
+			break;
+		}
+
+		case keyStatus_Reject: {
+			::SysBeep(1);
+			break;
+		}
+
+		case keyStatus_PassUp: {
+			keyHandled = LCommander::HandleKeyPress(inKeyEvent);
+			break;
+		}
+	}
+
+	if ((theTarget == GetTarget()) && (lineCount != WECountLines(mWasteEditRef))) {
+		AdjustImageToText();
+	}
+
 	// Update the window's fields
 	mEditorWindow->SetLineValues();
 	mEditorWindow->SetOffsetValues();
 
-	return retval;
+	return keyHandled;
 }
 
 
@@ -207,6 +484,93 @@ CTxtDataSubView::ScrollImageBy(
 
 
 // ---------------------------------------------------------------------------
+//	¥ Insert								[public, virtual]
+// ---------------------------------------------------------------------------
+//	Will optionally recalculate, autoscroll, and refresh the text if desired.
+
+OSErr
+CTxtDataSubView::Insert(
+					   const void*		inText,
+					   SInt32			inLength,
+					   StScrpHandle		inStyleH,
+					   Boolean			inRefresh )
+{
+	LongRect	oldDestRect ;
+	OSErr		err;
+	
+	StFocusAndClipIfHidden	focus(this);
+
+	WEGetDestRect(&oldDestRect,mWasteEditRef);
+	
+	if ( !mMonoStyled && (inStyleH != nil) ) {
+		err = WEInsert(inText, inLength, (StScrpHandle) inStyleH, nil, mWasteEditRef ) ;
+	} else {
+		err = WEInsert(inText, inLength, nil, nil, mWasteEditRef);
+	}
+	
+	// Force a redraw. The WasteEdit internals are updated, so we need to
+	// reflect this fact.
+	if ( inRefresh ) {
+		AdjustImageToText();
+		ForceAutoScroll( oldDestRect );
+		Refresh();
+	}
+	return err;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ Insert								[public, virtual]
+// ---------------------------------------------------------------------------
+
+OSErr
+CTxtDataSubView::Insert(
+					   Str255 		inString,
+					   Boolean		inRefresh )
+{
+	char * theStr = new char[256];
+	CopyPascalStringToC(inString,theStr);	
+	return Insert(theStr, inRefresh);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ InsertContents								[public, virtual]
+// ---------------------------------------------------------------------------
+
+void
+CTxtDataSubView::InsertContents(Handle inHandle)
+{
+	StSepTextTranslator translator(inHandle);
+	translator.Convert();
+	
+	// Empty the Waste edit
+	DeleteAll();
+	// Put the contents in the hex view and clear the dirty flag.
+	SetTextHandle( translator.GetOutHandle() );
+	WESetSelection(0, 0, mWasteEditRef);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ InsertContents								[public, virtual]
+// ---------------------------------------------------------------------------
+
+void
+CTxtDataSubView::InsertContents(const void * inPtr, SInt32 inByteCount)
+{
+	StSepTextTranslator translator(inPtr, inByteCount);
+	translator.Convert();
+	
+	// Empty the Waste edit
+	DeleteAll();
+	// Put the contents in the hex view and clear the dirty flag.
+	SetTextHandle( translator.GetOutHandle() );
+	WESetSelection(0, 0, mWasteEditRef);
+}
+
+
+// ---------------------------------------------------------------------------
 //	¥ CursorMoved							[public, virtual]
 // ---------------------------------------------------------------------------
 
@@ -224,16 +588,16 @@ CTxtDataSubView::CursorMoved(SInt32 inPos)
 		// the scrollbar emits its message.
 		mEditorWindow->GetScroller()->SetValue(firstLine);
 		// Update the cursor's pos
-		newTxtPos = CharPosToPos(kRzilHexEditBytesPerLine) + inPos;
+		newTxtPos = CharPosToPos(mEditorWindow->GetPaneCount(count_BytesPerLine)) + inPos;
 		DisplaySelectionRange( newTxtPos, newTxtPos);
-	} else if (PosToCharPos(inPos) > kRzilHexEditBytesPerPane) {
-		if (firstLine > lastLine - kRzilHexEditLineCount) return;
+	} else if (PosToCharPos(inPos) > mEditorWindow->GetPaneCount(count_BytesPerPane)) {
+		if (firstLine > lastLine - mEditorWindow->GetPaneCount(count_LinesPerPane)) return;
 		firstLine += 1;
 		// Sync the scrollbar: this provokes a redraw because 
 		// the scrollbar emits its message.
 		mEditorWindow->GetScroller()->SetValue(firstLine);
 		// Update the cursor's pos
-		newTxtPos = inPos - CharPosToPos(kRzilHexEditBytesPerLine);
+		newTxtPos = inPos - CharPosToPos(mEditorWindow->GetPaneCount(count_BytesPerLine));
 		DisplaySelectionRange( newTxtPos, newTxtPos);
 	} else {
 		newTxtPos = inPos;
@@ -286,17 +650,17 @@ CTxtDataSubView::UserChangedText(
 		if (firstLine > 1) {
 			firstLine -= 1;
 			mEditorWindow->SetCurrFirstLine(firstLine);
-			inStartPos += CharPosToPos(kRzilHexEditBytesPerLine);
+			inStartPos += CharPosToPos(mEditorWindow->GetPaneCount(count_BytesPerLine));
 		} else {
 			inStartPos = 0;
 		}
 	} 
 	// If the cursor was at the end of the frame and we insert chars, bring the 
 	// next line in view. Create it if necessary.
-	if ( inStartPos == CharPosToPos(kRzilHexEditBytesPerPane) && inBytesCount > 0) {
+	if ( inStartPos == CharPosToPos(mEditorWindow->GetPaneCount(count_BytesPerPane)) && inBytesCount > 0) {
 		firstLine += 1;
 		mEditorWindow->SetCurrFirstLine(firstLine);
-		inStartPos -= CharPosToPos(kRzilHexEditBytesPerLine);
+		inStartPos -= CharPosToPos(mEditorWindow->GetPaneCount(count_BytesPerLine));
 	} 
 
 	if (oldLineCount == newLineCount) {
@@ -341,8 +705,9 @@ CTxtDataSubView::SyncContentsWithMemory(SInt32 inStartPos,
 										SInt32 inBytesCount, 
 										SInt32 inLineOffset)
 {
-	SInt32 startOffset = (inLineOffset - 1) * kRzilHexEditBytesPerLine + PosToCharPos(inStartPos);
-	SInt32 endOffset = (inLineOffset - 1) * kRzilHexEditBytesPerLine + PosToCharPos(inEndPos);
+	SInt32 bytesPerLine = mEditorWindow->GetPaneCount(count_BytesPerLine);
+	SInt32 startOffset = (inLineOffset - 1) * bytesPerLine + PosToCharPos(inStartPos);
+	SInt32 endOffset = (inLineOffset - 1) * bytesPerLine + PosToCharPos(inEndPos);
 
 	WEReference we = mEditorWindow->GetInMemoryWasteRef();
 	WESetSelection( startOffset, endOffset, we );

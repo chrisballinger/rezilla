@@ -1,7 +1,7 @@
 // ===========================================================================
 // CBiDataWE.cp 
 //                       Created: 2004-03-21 12:08:03
-//             Last modification: 2004-03-21 19:55:52
+//             Last modification: 2004-06-06 22:09:39
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -117,19 +117,6 @@ CBiDataWE::CharPosToPos(SInt32 inCharPos)
 
 
 // ---------------------------------------------------------------------------
-//	¥ CharPosToLine											[protected, virtual]
-// ---------------------------------------------------------------------------
-
-SInt32
-CBiDataWE::CharPosToLine(SInt32 inCharPos)
-{
-	SInt32 theRest = inCharPos % kRzilHexEditBytesPerLine;
-	
-	return (((inCharPos - theRest) / kRzilHexEditBytesPerLine) + 1);
-}
-
-
-// ---------------------------------------------------------------------------
 //	¥ GetCurrHexPos											[public]
 // ---------------------------------------------------------------------------
 
@@ -164,70 +151,6 @@ SInt32
 CBiDataWE::HexPosToPos(SInt32 inHexPos)
 {
 	return (3 * inHexPos);
-}
-
-
-// ---------------------------------------------------------------------------
-//	¥ HexPosToLine											[protected, virtual]
-// ---------------------------------------------------------------------------
-
-SInt32
-CBiDataWE::HexPosToLine(SInt32 inHexPos)
-{
-	SInt32 theRest = inHexPos % kRzilHexEditBytesPerLine;
-	
-	return (((inHexPos - theRest) / kRzilHexEditBytesPerLine) + 1);
-}
-
-
-// ---------------------------------------------------------------------------
-//	¥ GetCurrLine											[public]
-// ---------------------------------------------------------------------------
-
-SInt32
-CBiDataWE::GetCurrLine()
-{
-	SInt32 result;
-	
-	switch (mDataType) {
-		case bidata_hexType:
-		SInt32 theHexSelStart, theHexSelEnd;	
-		GetCurrHexPos(theHexSelStart, theHexSelEnd);
-		result = HexPosToLine(theHexSelStart);
-		break;
-		
-		case bidata_txtType:
-		SInt32 theCharSelStart, theCharSelEnd;
-		GetCurrCharPos(theCharSelStart, theCharSelEnd);
-		result = CharPosToLine(theCharSelStart);
-		break;
-	}
-	return result;
-}
-
-
-// ---------------------------------------------------------------------------
-//	¥ GetCurrLines											[public]
-// ---------------------------------------------------------------------------
-
-void
-CBiDataWE::GetCurrLines(SInt32 & outFirstLine, SInt32 & outLastLine)
-{
-	switch (mDataType) {
-		case bidata_hexType:
-		SInt32 theHexSelStart, theHexSelEnd;
-		GetCurrHexPos(theHexSelStart, theHexSelEnd);
-		outFirstLine = HexPosToLine(theHexSelStart);
-		outLastLine = HexPosToLine(theHexSelEnd);
-		break;
-		
-		case bidata_txtType:
-		SInt32 theCharSelStart, theCharSelEnd;
-		GetCurrCharPos(theCharSelStart, theCharSelEnd);	
-		outFirstLine = CharPosToLine(theCharSelStart);
-		outLastLine = CharPosToLine(theCharSelEnd);
-		break;
-	}	
 }
 
 

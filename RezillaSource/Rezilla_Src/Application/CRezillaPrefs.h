@@ -109,6 +109,7 @@ public:
 	void				UpdateVars();
 	
 	static LDialogBox *		sPrefsWindow;
+	static ArrayIndexT		sCurrentPrefsPane;
 	
 protected:
 	SRezillaPrefs			mTempPrefs;

@@ -2,7 +2,7 @@
 // CCompResultWindow.h				
 // 
 //                       Created: 2004-03-02 14:18:16
-//             Last modification: 2004-03-24 22:52:56
+//             Last modification: 2004-06-06 21:35:34
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -74,6 +74,10 @@ public:
 	
 	void			FillTableView( TArray<CRezTypId *> inList, SInt16 inWhichList);
 	
+	virtual void	DoSetBounds(const Rect& inBounds);
+
+	SInt32			GetPaneCount(SInt16 whichValue);
+	
 protected:
 	CRezCompare *			mRezCompare;
 	CBiDataWE *				mOldRezDataWE;
@@ -86,15 +90,19 @@ protected:
 	CBroadcasterTableView *	mDifferTable;
 	SInt16					mActiveTable;
 	SInt16					mDisplayDataFormat;
+	SInt32					mLinesPerPane;
+	SInt32					mHexBytesPerLine;
+	SInt32					mTxtBytesPerLine;
+	SInt32					mBytesPerPane;
 	
 	void				NameNewCompWindow();
 	virtual void		SetMaxScrollerValue();
 	SInt32				LineCount();
-	SInt32				BytesPerLineCount();
-	SInt32				BytesPerPaneCount();
 	virtual void		FinishCreateSelf();
 	void				InsertContentsFromLine(SInt32 inFromLine);
 	void				EraseHexPanes();
+	void				ResizeDataPanes();
+	void				UpdatePaneCounts();
 };
 
 

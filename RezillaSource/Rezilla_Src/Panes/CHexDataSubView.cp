@@ -23,9 +23,11 @@
 #include "CWEViewActions.h"
 #include "CHexEditorActions.h"
 #include "UCodeTranslator.h"
+#include "UHexFilters.h"
 #include "RezillaConstants.h"
 
 #include <LScrollBar.h>
+#include <UDesktop.h>
 #include <UKeyFilters.h>
 // #include <Quickdraw.h>
 // #include <Sound.h>
@@ -39,10 +41,12 @@ PP_Begin_Namespace_PowerPlant
 // ---------------------------------------------------------------------------
 
 CHexDataSubView::CHexDataSubView()
-	: CHexDataWE()
+	: CWasteEditView()
 {
 	mTxtSiblingView = nil;
 	mIsSynchronizing = false;
+	mEditingPos = 0;
+	mOneOfTwoInserted = false;
 }
 
 
@@ -51,10 +55,12 @@ CHexDataSubView::CHexDataSubView()
 // ---------------------------------------------------------------------------
 
 CHexDataSubView::CHexDataSubView(CTxtDataSubView * inSiblingView)
-	: CHexDataWE()
+	: CWasteEditView()
 {
 	mTxtSiblingView = inSiblingView;
 	mIsSynchronizing = false;
+	mEditingPos = 0;
+	mOneOfTwoInserted = false;
 }
 
 
@@ -64,10 +70,12 @@ CHexDataSubView::CHexDataSubView(CTxtDataSubView * inSiblingView)
 
 CHexDataSubView::CHexDataSubView(
 	LStream*	inStream)
-	: CHexDataWE(inStream)
+	: CWasteEditView(inStream)
 {
 	mTxtSiblingView = nil;
 	mIsSynchronizing = false;
+	mEditingPos = 0;
+	mOneOfTwoInserted = false;
 }
 
 
@@ -92,7 +100,8 @@ CHexDataSubView::ClickSelf(
 	SInt32 startPos, endPos;
 
 	mEditorWindow->SetSelectingAll(false);
-	CHexDataWE::ClickSelf(inMouseDown);
+	CWasteEditView::ClickSelf(inMouseDown);
+	AdjustCursorPos();
 
 	// Synchronize sibling
 	WEGetSelection(& startPos, & endPos, mWasteEditRef);
@@ -104,6 +113,124 @@ CHexDataSubView::ClickSelf(
 }
 
 
+
+// ---------------------------------------------------------------------------
+//	¥ AdjustCursorPos											[protected, virtual]
+// ---------------------------------------------------------------------------
+
+void
+CHexDataSubView::AdjustCursorPos()
+{
+	SInt32  selStart;
+	SInt32  selEnd;
+	
+	WEGetSelection( & selStart, & selEnd, mWasteEditRef ) ;
+	WESetSelection( NearestHexPos(selStart), NearestHexPos(selEnd), mWasteEditRef);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ NearestHexPos											[protected, virtual]
+// ---------------------------------------------------------------------------
+// Returns the nearest pos just before a hexadecimal value
+
+SInt32
+CHexDataSubView::NearestHexPos(SInt32 inPos)
+{
+	SInt32  rest = inPos % 3;
+	SInt32  thePos = inPos;
+
+	if (rest == 1) {
+		thePos -= 1;
+	} else if (rest == 2) {
+		thePos += 1;
+	} 
+	return thePos;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ GetCurrHexPos											[public]
+// ---------------------------------------------------------------------------
+
+void
+CHexDataSubView::GetCurrHexPos(SInt32 & outHexSelStart, SInt32 & outHexSelEnd)
+{
+	SInt32  selStart;
+	SInt32  selEnd;
+	WEGetSelection( & selStart, & selEnd, mWasteEditRef ) ;
+	outHexSelStart = PosToHexPos(selStart);
+	outHexSelEnd = PosToHexPos(selEnd);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ PosToHexPos											[protected, virtual]
+// ---------------------------------------------------------------------------
+
+SInt32
+CHexDataSubView::PosToHexPos(SInt32 inPos)
+{
+	SInt32  rest = inPos % 3;
+	return ( inPos - rest )/3 ;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ HexPosToPos											[protected, virtual]
+// ---------------------------------------------------------------------------
+
+SInt32
+CHexDataSubView::HexPosToPos(SInt32 inHexPos)
+{
+	return (3 * inHexPos);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ HexPosToLine											[protected, virtual]
+// ---------------------------------------------------------------------------
+
+SInt32
+CHexDataSubView::HexPosToLine(SInt32 inHexPos)
+{
+	SInt32 bytesPerline = mEditorWindow->GetPaneCount(count_BytesPerLine);
+	SInt32 theRest = inHexPos % bytesPerline;
+	
+	return (((inHexPos - theRest) / bytesPerline) + 1);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ GetCurrLine											[public]
+// ---------------------------------------------------------------------------
+
+SInt32
+CHexDataSubView::GetCurrLine()
+{
+	SInt32 theHexSelStart, theHexSelEnd;
+	
+	GetCurrHexPos(theHexSelStart, theHexSelEnd);
+	
+	return HexPosToLine(theHexSelStart);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ GetCurrLines											[public]
+// ---------------------------------------------------------------------------
+
+void
+CHexDataSubView::GetCurrLines(SInt32 & outFirstLine, SInt32 & outLastLine)
+{
+	SInt32 theHexSelStart, theHexSelEnd;
+	
+	GetCurrHexPos(theHexSelStart, theHexSelEnd);
+	
+	outFirstLine = HexPosToLine(theHexSelStart);
+	outLastLine = HexPosToLine(theHexSelEnd);
+}
+
 // ---------------------------------------------------------------------------
 //	¥ HandleKeyPress							[public, virtual]
 // ---------------------------------------------------------------------------
@@ -111,16 +238,191 @@ CHexDataSubView::ClickSelf(
 Boolean
 CHexDataSubView::HandleKeyPress(
 	const EventRecord	&inKeyEvent)
-{	
-	Boolean retval;
-	UInt16 theChar = (UInt16) (inKeyEvent.message & charCodeMask);
+{
+	Boolean		keyHandled	 = true;
+	EKeyStatus	theKeyStatus = keyStatus_Input;
+	SInt16		theKey		 = (SInt16) (inKeyEvent.message & charCodeMask);
+	LCommander*	theTarget	 = GetTarget();
+
+	if (inKeyEvent.modifiers & cmdKey) {	// Always pass up when the
+		theKeyStatus = keyStatus_PassUp;	// command key is down
+	} else {
+		theKeyStatus = UHexFilters::HexadecimalField(inKeyEvent);
+	}
+
+	if ((theKeyStatus == keyStatus_PassUp) && (theKey == ' ')) {
+		// Accept space char anyway
+		theKeyStatus = keyStatus_Input;
+	}
+
+	if (mReadOnly) {
+		// Disallow editing
+		theKeyStatus = keyStatus_PassUp;
+	}
+
+	SInt32	lineCount = WECountLines(mWasteEditRef);
+	LongRect	oldDestRect ;
+	WEGetDestRect(&oldDestRect,mWasteEditRef);
+
+	SInt32	theSelStart;
+	SInt32	theSelEnd;
+	WEGetSelection( & theSelStart, & theSelEnd, mWasteEditRef);
 	
-	retval = CHexDataWE::HandleKeyPress(inKeyEvent);
+	StFocusAndClipIfHidden	focus(this);
+
+	switch (theKeyStatus) {
+		
+		case keyStatus_Input: {
+			if (mTypingAction == nil) {
+				mTypingAction = new CHexEditorTypingAction(mWasteEditRef, this, this);
+				PostAction(mTypingAction);
+			}
+			
+			if (mTypingAction != nil) {
+				try {
+					mTypingAction->InputCharacter();
+				} catch(...) {
+					PostAction(nil);
+				}
+			}
+			
+			char * buffer = new char[3];
+			
+			if (!mOneOfTwoInserted) {
+				sprintf(buffer, "0%.1x ", UCodeTranslator::ConvertHexToValue(theKey));
+				Insert(buffer,3);
+				mEditingPos = theSelStart + 3;
+				mOneOfTwoInserted = true;
+			} else {
+				if (mEditingPos == theSelStart) {
+					WESetSelection( mEditingPos - 3, mEditingPos - 2, mWasteEditRef);
+					WEDelete(mWasteEditRef);
+					WESetSelection( mEditingPos - 2, mEditingPos - 2, mWasteEditRef);
+					sprintf(buffer, "%.1x", UCodeTranslator::ConvertHexToValue(theKey));
+					Insert(buffer,1);
+					WESetSelection( mEditingPos, mEditingPos, mWasteEditRef);
+					theSelStart -= 3;
+				} 
+				mOneOfTwoInserted = false;
+			}
+// 			ForceAutoScroll(oldDestRect);
+			UserChangedText(theSelStart, theSelEnd, 3);
+			break;
+		}
+		
+	  
+		case keyStatus_TEDelete: {
+				if (mTypingAction == nil) {
+					mTypingAction = new CHexEditorTypingAction(mWasteEditRef, this, this);
+					PostAction(mTypingAction);
+				}
+				
+				if (mTypingAction != nil) {
+					try {
+						mTypingAction->BackwardErase();
+					} catch (...) {
+						PostAction(nil);
+					}
+				}
+				
+				if (theSelStart == theSelEnd) {
+					theSelStart -= 3;
+					WESetSelection( theSelStart, theSelEnd, mWasteEditRef ) ;
+				}
+				WEDelete(mWasteEditRef);
+				UserChangedText(theSelStart, theSelEnd, 0);
+				mOneOfTwoInserted = false;
+			break;
+		}
+		
+		case keyStatus_TECursor: {
+			if (theSelStart != theSelEnd) {
+				if (theKey == char_RightArrow || theKey == char_DownArrow) {
+					WESetSelection( theSelEnd, theSelEnd, mWasteEditRef);
+				} else {
+					WESetSelection( theSelStart, theSelStart, mWasteEditRef);
+				}
+			} else {
+				
+				switch (theKey) {
+					case char_LeftArrow:
+					theSelStart -= 3;
+					break;
+					
+					case char_RightArrow:
+					theSelStart += 3;
+					break;
+					
+					case char_DownArrow:
+					theSelStart += HexPosToPos(mEditorWindow->GetPaneCount(count_BytesPerLine));
+					break;
+					
+					case char_UpArrow:
+					theSelStart -= HexPosToPos(mEditorWindow->GetPaneCount(count_BytesPerLine));
+					break;
+				}
+				if (theSelStart >= 0 && PosToHexPos(theSelStart) <= mEditorWindow->GetPaneCount(count_BytesPerPane)) {
+					WESetSelection( theSelStart, theSelStart, mWasteEditRef);
+				}
+				CursorMoved(theSelStart);
+			}
+			mOneOfTwoInserted = false;
+			break;
+		}
+
+		case keyStatus_ExtraEdit: {
+			if (theKey == char_FwdDelete) {
+
+				if (theSelStart < WEGetTextLength(mWasteEditRef)) {
+					if (mTypingAction == nil) {
+						mTypingAction = new CHexEditorTypingAction(mWasteEditRef, this, this);
+						PostAction(mTypingAction);
+					}
+
+					if (mTypingAction != nil) {
+						try {
+							mTypingAction->ForwardErase();
+						} catch (...) {
+							PostAction(nil);
+						}
+					}
+
+					if (theSelStart == theSelEnd) {
+						theSelEnd += 3;
+						WESetSelection(theSelStart,theSelEnd, mWasteEditRef);
+					}
+
+					WEDelete(mWasteEditRef);
+// 					ForceAutoScroll(oldDestRect);
+					UserChangedText(theSelStart, theSelEnd, 0);
+				}
+			} else {
+				keyHandled = LCommander::HandleKeyPress(inKeyEvent);
+			}
+			mOneOfTwoInserted = false;
+			break;
+		}
+
+		case keyStatus_Reject: {
+			::SysBeep(1);
+			break;
+		}
+
+		case keyStatus_PassUp: {
+			keyHandled = LCommander::HandleKeyPress(inKeyEvent);
+			break;
+		}
+	}
+
+	if ((theTarget == GetTarget()) && (lineCount != WECountLines(mWasteEditRef))) {
+		AdjustImageToText();
+	}
+
 	// Update the window's fields
 	mEditorWindow->SetLineValues();
 	mEditorWindow->SetOffsetValues();
 
-	return retval;
+	return keyHandled;
 }
 
 
@@ -223,16 +525,16 @@ CHexDataSubView::CursorMoved(SInt32 inPos)
 		// the scrollbar emits its message.
 		mEditorWindow->GetScroller()->SetValue(firstLine);
 		// Update the cursor's pos
-		newHexPos = HexPosToPos(kRzilHexEditBytesPerLine) + inPos;
+		newHexPos = HexPosToPos(mEditorWindow->GetPaneCount(count_BytesPerLine)) + inPos;
 		DisplaySelectionRange( newHexPos, newHexPos);
-	} else if (PosToHexPos(inPos) > kRzilHexEditBytesPerPane) {
-		if (firstLine > lastLine - kRzilHexEditLineCount) return;
+	} else if (PosToHexPos(inPos) > mEditorWindow->GetPaneCount(count_BytesPerPane)) {
+		if (firstLine > lastLine - mEditorWindow->GetPaneCount(count_LinesPerPane)) return;
 		firstLine += 1;
 		// Sync the scrollbar: this provokes a redraw because 
 		// the scrollbar emits its message.
 		mEditorWindow->GetScroller()->SetValue(firstLine);
 		// Update the cursor's pos
-		newHexPos = inPos - HexPosToPos(kRzilHexEditBytesPerLine);
+		newHexPos = inPos - HexPosToPos(mEditorWindow->GetPaneCount(count_BytesPerLine));
 		DisplaySelectionRange( newHexPos, newHexPos);
 	} else {
 		newHexPos = inPos;
@@ -243,6 +545,93 @@ CHexDataSubView::CursorMoved(SInt32 inPos)
 	// Update the window's fields
 	mEditorWindow->SetLineValues();
 	mEditorWindow->SetOffsetValues();
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ Insert								[public, virtual]
+// ---------------------------------------------------------------------------
+//	Will optionally recalculate, autoscroll, and refresh the text if desired.
+
+OSErr
+CHexDataSubView::Insert(
+					   const void*		inText,
+					   SInt32			inLength,
+					   StScrpHandle		inStyleH,
+					   Boolean			inRefresh )
+{
+	LongRect	oldDestRect ;
+	OSErr		err;
+	
+	StFocusAndClipIfHidden	focus(this);
+
+	WEGetDestRect(&oldDestRect,mWasteEditRef);
+	
+	if ( !mMonoStyled && (inStyleH != nil) ) {
+		err = WEInsert(inText, inLength, (StScrpHandle) inStyleH, nil, mWasteEditRef ) ;
+	} else {
+		err = WEInsert(inText, inLength, nil, nil, mWasteEditRef);
+	}
+	
+	// Force a redraw. The WasteEdit internals are updated, so we need to
+	// reflect this fact.
+	if ( inRefresh ) {
+		AdjustImageToText();
+		ForceAutoScroll( oldDestRect );
+		Refresh();
+	}
+	return err;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ Insert								[public, virtual]
+// ---------------------------------------------------------------------------
+
+OSErr
+CHexDataSubView::Insert(
+					   Str255 		inString,
+					   Boolean		inRefresh )
+{
+	char * theStr = new char[256];
+	CopyPascalStringToC(inString,theStr);	
+	return Insert(theStr, inRefresh);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ InsertContents								[public, virtual]
+// ---------------------------------------------------------------------------
+
+void
+CHexDataSubView::InsertContents(Handle inHandle)
+{
+	StSepHexTranslator translator(inHandle);
+	translator.Convert();
+	
+	// Empty the Waste edit
+	DeleteAll();
+	// Put the contents in the hex view and clear the dirty flag.
+	SetTextHandle( translator.GetOutHandle() );
+	WESetSelection(0, 0, mWasteEditRef);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ InsertContents								[public, virtual]
+// ---------------------------------------------------------------------------
+
+void
+CHexDataSubView::InsertContents(const void * inPtr, SInt32 inByteCount)
+{
+	StSepHexTranslator translator(inPtr, inByteCount);
+	translator.Convert();
+	
+	// Empty the Waste edit
+	DeleteAll();
+	// Put the contents in the hex view and clear the dirty flag.
+	SetTextHandle( translator.GetOutHandle() );
+	WESetSelection(0, 0, mWasteEditRef);
 }
 
 
@@ -285,17 +674,17 @@ CHexDataSubView::UserChangedText(
 		if (firstLine > 1) {
 			firstLine -= 1;
 			mEditorWindow->SetCurrFirstLine(firstLine);
-			inStartPos += HexPosToPos(kRzilHexEditBytesPerLine);
+			inStartPos += HexPosToPos(mEditorWindow->GetPaneCount(count_BytesPerLine));
 		} else {
 			inStartPos = 0;
 		}
 	} 
 	// If the cursor was at the end of the frame and we insert chars, bring the 
 	// next line in view. Create it if necessary.
-	if ( inStartPos == HexPosToPos(kRzilHexEditBytesPerPane) && inBytesCount > 0) {
+	if ( inStartPos == HexPosToPos(mEditorWindow->GetPaneCount(count_BytesPerPane)) && inBytesCount > 0) {
 		firstLine += 1;
 		mEditorWindow->SetCurrFirstLine(firstLine);
-		inStartPos -= HexPosToPos(kRzilHexEditBytesPerLine);
+		inStartPos -= HexPosToPos(mEditorWindow->GetPaneCount(count_BytesPerLine));
 		if (mOneOfTwoInserted) {
 			mEditingPos = inStartPos + inBytesCount;
 		} 
@@ -343,8 +732,9 @@ CHexDataSubView::SyncContentsWithMemory(SInt32 inStartPos,
 										SInt32 inBytesCount, 
 										SInt32 inLineOffset)
 {
-	SInt32 startOffset = (inLineOffset - 1) * kRzilHexEditBytesPerLine + PosToHexPos(inStartPos);
-	SInt32 endOffset = (inLineOffset - 1) * kRzilHexEditBytesPerLine + PosToHexPos(inEndPos);
+	SInt32 bytesPerLine = mEditorWindow->GetPaneCount(count_BytesPerLine);
+	SInt32 startOffset = (inLineOffset - 1) * bytesPerLine + PosToHexPos(inStartPos);
+	SInt32 endOffset = (inLineOffset - 1) * bytesPerLine + PosToHexPos(inEndPos);
 
 	WEReference we = mEditorWindow->GetInMemoryWasteRef();
 	WESetSelection( startOffset, endOffset, we );

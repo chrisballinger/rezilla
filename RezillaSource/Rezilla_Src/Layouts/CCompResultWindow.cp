@@ -2,7 +2,7 @@
 // CHexEditorWindow.cp					
 // 
 //                       Created: 2004-03-02 14:18:16
-//             Last modification: 2004-04-19 17:01:39
+//             Last modification: 2004-06-06 21:35:24
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -31,6 +31,7 @@
 #include <LRadioGroupView.h>
 #include <LScrollBar.h>
 #include <LStaticText.h>
+#include <LTextGroupBox.h>
 #include <LUndoer.h>
 #include <LTableMonoGeometry.h>
 #include <LTableSingleSelector.h>
@@ -120,10 +121,13 @@ CCompResultWindow::FinishCreateSelf()
 	mNewRezDataWE = dynamic_cast<CBiDataWE *> (FindPaneByID( item_CompResultNewHex ));
 	ThrowIfNil_(mNewRezDataWE);
 	
-	// Cache a pointer to the scrollbar separating the hex panes
+	// Cache the capacities of the editing panes
+	UpdatePaneCounts();
+	
+	// Cache a pointer to the scrollbar separating the data panes
 	mScroller = dynamic_cast<CSingleScrollBar *> (FindPaneByID( item_CompResultScroller ));
 	ThrowIfNil_(mScroller);
-	mScroller->SetLinesPerPage(kRzilRezCompLineCount - 1);
+	mScroller->SetLinesPerPage(GetPaneCount(count_LinesPerPane) - 1);
 	
 	// Build the table elements
 		// Left table
@@ -200,6 +204,9 @@ CCompResultWindow::FinishCreateSelf()
 	mDifferTable->AddListener(this);	
 	mOnlyNewTable->AddListener(this);	
 
+	// Make the window a listener to the prefs object
+	CRezillaApp::sPrefs->AddListener(this);
+	
 	// Attach an LUndoer to each of the subpanes
 	mOldRezDataWE->AddAttachment( new LUndoer );
 	mNewRezDataWE->AddAttachment( new LUndoer );
@@ -309,7 +316,11 @@ CCompResultWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		}
 		
 		case msg_StylePrefsChanged: {
- 
+			TextTraitsRecord theTraits = CRezillaApp::sPrefs->GetStyleElement( CRezillaPrefs::prefsType_Curr );
+			ResizeDataPanes();
+			UpdatePaneCounts();
+			mOldRezDataWE->ApplyStylePrefs( theTraits.size, theTraits.fontNumber);
+			mNewRezDataWE->ApplyStylePrefs( theTraits.size, theTraits.fontNumber);
 			break;
 		}
 		
@@ -522,7 +533,7 @@ CCompResultWindow::SetMaxScrollerValue()
 // 	} 
 // 	linesPerPane = theSize.height / lineHeight;
 
-	theLineDelta = LineCount() - kRzilRezCompLineCount + 1;
+	theLineDelta = LineCount() - GetPaneCount(count_LinesPerPane) + 1;
 	
 	if (theLineDelta < 0) {
 		theLineDelta = 0;
@@ -539,7 +550,7 @@ CCompResultWindow::SetMaxScrollerValue()
 SInt32
 CCompResultWindow::LineCount() 
 {
-	SInt32 bytesPerLineCount = BytesPerLineCount();
+	SInt32 bytesPerLineCount = GetPaneCount(count_BytesPerLine);
 	SInt32 oldLineCount = 0;
 	SInt32 newLineCount = 0;
 
@@ -570,50 +581,6 @@ CCompResultWindow::LineCount()
 
 
 // ---------------------------------------------------------------------------
-//	¥ BytesPerLineCount										[protected]
-// ---------------------------------------------------------------------------
-
-SInt32
-CCompResultWindow::BytesPerLineCount() 
-{
-	SInt32 result = 0;
-	
-	switch (mDisplayDataFormat) {
-		case compare_displayAsHex:
-		result = kRzilHexCompBytesPerLine;
-		break;
-		
-		case compare_displayAsTxt:
-		result = kRzilTxtCompBytesPerLine;
-		break;
-	}
-	return result;
-}
-
-
-// ---------------------------------------------------------------------------
-//	¥ BytesPerPaneCount										[protected]
-// ---------------------------------------------------------------------------
-
-SInt32
-CCompResultWindow::BytesPerPaneCount() 
-{
-	SInt32 result = 0;
-	
-	switch (mDisplayDataFormat) {
-		case compare_displayAsHex:
-		result = kRzilRezCompLineCount * kRzilHexCompBytesPerLine;
-		break;
-		
-		case compare_displayAsTxt:
-		result = kRzilRezCompLineCount * kRzilTxtCompBytesPerLine;
-		break;
-	}
-	return result;
-}
-
-
-// ---------------------------------------------------------------------------
 //	¥ InsertContentsFromLine										[protected]
 // ---------------------------------------------------------------------------
 // All the counts in this proc are counts of bytes in the resource data. 
@@ -623,8 +590,8 @@ CCompResultWindow::BytesPerPaneCount()
 CCompResultWindow::InsertContentsFromLine(SInt32 inFromLine)
 {
 	SInt32 remainingChars;
-	SInt32 charOffset = (inFromLine - 1) * BytesPerLineCount();
-	SInt32 bytesPerPaneCount = BytesPerPaneCount();
+	SInt32 charOffset = (inFromLine - 1) * GetPaneCount(count_BytesPerPane);
+	SInt32 bytesPerPaneCount = GetPaneCount(count_BytesPerLine);
 	
 	mOldRezDataWE->SetDataType(mDisplayDataFormat);
 	mNewRezDataWE->SetDataType(mDisplayDataFormat);
@@ -675,5 +642,125 @@ CCompResultWindow::EraseHexPanes()
 	mNewRezDataWE->DeleteAll();
 
 	mScroller->SetMaxValue(0);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ DoSetBounds
+// ---------------------------------------------------------------------------
+
+void
+CCompResultWindow::DoSetBounds(
+	const Rect&		inBounds)
+{
+	LWindow::DoSetBounds(inBounds);
+	ResizeDataPanes();
+	UpdatePaneCounts();
+	Refresh();
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ ResizeDataPanes												[public]
+// ---------------------------------------------------------------------------
+// 	Formulas:
+// 	Width
+// 	The number of chars should be a multiple of 6
+// in order to group them by two or by three.
+// If nc is the number of chars per line:
+// 		fract = (TGBXw - 29) / (CHARw x 12)
+// 		nc = E(fract)
+// 	==>  
+// 		HDSVw = TDSVw = nc x CHARw x 6
+// 
+// 	Height:
+// 	If nl is the number of lines in each panel:
+// 		fract = TGBXh / CHARh
+// 		nl = E(fract)
+// 	==>  
+// 		HDSVh = TDSVh = nl x CHARh
+
+void
+CCompResultWindow::ResizeDataPanes()
+{
+	SDimension16	theSize;
+	SInt16			theWidth, theHeight;
+	SInt16			numChar, numLine;
+	
+	LTextGroupBox * theTGBX = dynamic_cast<LTextGroupBox *>(this->FindPaneByID( item_CompResultEditGroupBox ));
+	ThrowIfNil_( theTGBX );
+	theTGBX->GetFrameSize(theSize);
+	numChar = (theSize.width - kRzilResCompExtraWidth) / (CRezillaApp::sBasics.charWidth * 12);
+	numLine = (theSize.height - kRzilResCompExtraHeight) / CRezillaApp::sBasics.charHeight;
+	
+	// Left and right panes (hexadecimal and readable representations) have
+	// the same dimensions. 
+	theWidth = numChar * CRezillaApp::sBasics.charWidth * 6;
+	theHeight = numLine * CRezillaApp::sBasics.charHeight;
+	mOldRezDataWE->ResizeFrameTo(theWidth, theHeight, true);
+	mNewRezDataWE->ResizeFrameTo(theWidth, theHeight, true);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ GetPaneCount												[public]
+// ---------------------------------------------------------------------------
+// Return various capacities.
+
+SInt32
+CCompResultWindow::GetPaneCount(SInt16 whichValue)
+{
+	SInt32			result = 0;
+	
+	switch (whichValue) {
+		case count_LinesPerPane:
+		result = mLinesPerPane;
+		break;
+		
+		case count_BytesPerLine:
+		switch (mDisplayDataFormat) {
+			case compare_displayAsHex:
+			result = mHexBytesPerLine;
+			break;
+			
+			case compare_displayAsTxt:
+			result = mTxtBytesPerLine;
+			break;
+		}
+		break;
+		
+		case count_BytesPerPane:
+		switch (mDisplayDataFormat) {
+			case compare_displayAsHex:
+			result = mLinesPerPane * mHexBytesPerLine;
+			break;
+			
+			case compare_displayAsTxt:
+			result = mLinesPerPane * mTxtBytesPerLine;
+			break;
+		}
+		break;
+		
+	}
+	return result;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ UpdatePaneCounts												[public]
+// ---------------------------------------------------------------------------
+// 	mBytesPerLine is a count of virtual bytes which has to be multiplied
+// 	by 3 (two hex digits + space) in hex representation or by 2 in text
+// 	representation (one char + space)
+
+void
+CCompResultWindow::UpdatePaneCounts()
+{
+	SDimension16	theSize;
+	
+	mOldRezDataWE->GetFrameSize(theSize);
+	mLinesPerPane = theSize.height / CRezillaApp::sBasics.charHeight;
+	mHexBytesPerLine = theSize.width / (CRezillaApp::sBasics.charWidth * 3);
+	mTxtBytesPerLine = theSize.width / (CRezillaApp::sBasics.charWidth * 2);
 }
 

@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2004-06-02 09:05:06
+//             Last modification : 2004-06-06 22:07:53
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -27,7 +27,6 @@ enum
 	fork_rezfork,
 	fork_datafork
 };
-
 
 // App strings indices
 enum
@@ -100,6 +99,12 @@ enum
 	style_faceType
 };
 
+// Types of values returned by GetPaneCount() functions
+enum {
+	count_LinesPerPane,
+	count_BytesPerLine,
+	count_BytesPerPane
+};
 
 
 // Resource ID's
@@ -150,6 +155,8 @@ const ResIDT	STRx_DefaultDocTitles		= 1500;
 const ResIDT	STRx_RzilWinMenuItem		= 1501;
 const ResIDT	STRx_NavStrings				= 1502;
 const ResIDT	STRx_FileExtensions			= 1503;
+
+const ResIDT	Txtr_MonacoNineDefault		= 139;
 
 // Menu resources
 	// rMENU_Window is not a resource. It is built  
@@ -254,6 +261,7 @@ const PaneIDT	item_HexLineEdit			= 4;
 const PaneIDT	item_HexOffsetEdit			= 5;
 const PaneIDT	item_NameStaticText			= 6;
 const PaneIDT	item_HexReadOnlyIcon		= 7;
+const PaneIDT	item_HexEditGroupBox		= 10;
 // New Resource Window
 // -------------------
 const PaneIDT	item_NewType				= 1;
@@ -304,6 +312,7 @@ const PaneIDT	item_CompResultShowAsRgbx	= 9;
 const PaneIDT	item_CompResultOnlyOldTbl	= 11;
 const PaneIDT	item_CompResultDifferingTbl	= 13;
 const PaneIDT	item_CompResultOnlyNewTbl	= 15;
+const PaneIDT	item_CompResultEditGroupBox	= 20;
 // Ask Unique ID dialog
 // --------------------
 const PaneIDT	item_UidOtherConflicts		= 1;
@@ -513,25 +522,26 @@ enum
 const SInt16	kRzilDragFlavor		= FOUR_CHAR_CODE('Rzil');
 
 // Constants for the Rezmap tables
-const SInt16	kRzilColWidth				= 100;
-// Constants for the Rez Compare results window
-//     kRzilHexCompBytesPerLine and kRzilTxtCompBytesPerLine are counts of virtual bytes 
-//     which have to be multiplied by 3 (two hex digits + space) or by 2 (one char + space) resp.
-const SInt16	kRzilRezCompLineCount		= 12;
-const SInt16	kRzilHexCompBytesPerLine	= 16;
-const SInt16	kRzilTxtCompBytesPerLine	= 24;
+const SInt16	kRzilColWidth		= 100;
+
 // Constants for the Rez Hex editor
-//     kRzilHexEditBytesPerLine and kRzilHexEditBytesPerPane are counts of virtual bytes 
-//     which have to be multiplied by 3 (two hex digits + space) in hex
-//     representation or by 2 in text representation (one char + space)
-const SInt16	kRzilHexEditLineCount		= 32;
-const SInt16	kRzilHexEditBytesPerLine	= 16;
-const SInt16	kRzilHexEditBytesPerPane	= kRzilHexEditLineCount * kRzilHexEditBytesPerLine;
+// Used in HexEdit windows to recalculate the edit panes. It is the extra 
+// size of the TextGroupBox around the panes.
+const SInt16	kRzilHexEditExtraWidth = 46;
+const SInt16	kRzilHexEditExtraHeight = 11;
+const SInt16	kRzilHexEditLeftRidge = 6;
+const SInt16	kRzilHexEditTopRidge = 5;
+
+// Constants for the Rez Compare results window
+// Used in ResCompare windows to recalculate the edit panes. It is the extra 
+// size of the TextGroupBox around the panes.
+const SInt16	kRzilResCompExtraWidth = 29;
+const SInt16	kRzilResCompExtraHeight = 12;
+
 // Max number of items in the Recent Items menu
 const SInt16	kRzilMaxRecentItems	= 10;
 
-
-
+// Used in NavServicesCallbacks
 const ResType	ResType_DITL = FOUR_CHAR_CODE('DITL');
 
 // Used by size popup menu in Interface preferences
