@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2005-01-09 12:24:58
+//             Last modification : 2005-01-14 09:09:22
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -272,7 +272,7 @@ const ResIDT	MENU_IconFonts				= 302;
 const ResIDT	MENU_IconStyle				= 303;
 
 // Icon resources
-const ResIDT	ICN_WindowMenu				= 3100;
+const ResIDT	Icon_WindowsMenu			= 3100;
 const ResIDT	Clut_IconColors 			= 9000;
 
 // Cursors
@@ -292,7 +292,7 @@ const ResIDT	CURS_Cross			= 9013;
 
 // Phony ID used to indicate "the color picker" in the Icon editor
 const ResIDT	ColorTable_UsePicker		= 0;
-const ResIDT	IconEditor_EmptyDefaults	= 9200;
+// const ResIDT	IconEditor_EmptyDefaults	= 9200;
 
 
 // Indices in STR# resources
@@ -360,6 +360,7 @@ const SInt16	index_UndoText				= 22;
 const CommandT	cmd_MenuFileBase			= 1000;
 const CommandT	cmd_MenuEditBase			= 1100;
 const CommandT	cmd_MenuResourceBase		= 1200;
+// const CommandT	cmd_MenuWindowsBase			= 1300;  // reserved
 // Text editor
 const CommandT	cmd_MenuTextSizeBase		= 1400;		// font sizes are (cmdID - 1400)
 const CommandT	cmd_MenuTextSizeLast		= 1499;		// and within this range
@@ -384,7 +385,7 @@ const CommandT	cmd_EditRezAsType		= cmd_MenuResourceBase + 5;
 const CommandT	cmd_RemoveRez			= cmd_MenuResourceBase + 10;	
 const CommandT	cmd_DuplicateRez		= cmd_MenuResourceBase + 11;	
 const CommandT	cmd_GetRezInfo			= cmd_MenuResourceBase + 15;
-const CommandT	cmd_TmplEditAsRez		= cmd_MenuResourceBase + 99;	
+const CommandT	cmd_TmplEditAsRez		= cmd_MenuResourceBase + 99;	// Phony Cmd used for redirection
 // File menu commands
 const CommandT	cmd_ExportMap			= cmd_MenuFileBase + 1;	
 const CommandT	cmd_RecentItems			= cmd_MenuFileBase + 2;	
@@ -1012,7 +1013,7 @@ enum RezillaErrors
 	err_IconDiskFull,
 	err_IconFileNotFound,
 	err_IconIOError,
-	err_IconResizeFormatString,
+	err_IconResizeFormatString,  // not used. Can be reaffected.
 	err_IconFileLocked,
 	err_IconBadFontSize,
 	err_IconNoPictOnClipboard,
