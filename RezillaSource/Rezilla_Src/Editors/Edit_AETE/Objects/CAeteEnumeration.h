@@ -2,7 +2,7 @@
 // CAeteEnumeration.h
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-21 07:40:51
+//             Last modification: 2005-01-22 10:24:17
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -37,14 +37,20 @@ public:
 		void			InstallDataStream();
 		void			SendDataToStream(CAeteStream *	outStream);
 
+		OSType			GetEnumerationID() { return mEnumerationID;}
+		void			SetEnumerationID(OSType inEnumerationID) {mEnumerationID = inEnumerationID;}
+
+		ArrayIndexT		GetEnumeratorIndex() { return mEnumeratorIndex;}
+		void			SetEnumeratorIndex(ArrayIndexT inEnumeratorIndex) {mEnumeratorIndex = inEnumeratorIndex;}
+
+		TArray<AeteEnumerator> *	GetEnumerators() { return &mEnumerators;}
+
 protected:
 		OSType					mEnumerationID;
-		ArrayIndexT				mCurrEnumeratorIndex;
+		ArrayIndexT				mEnumeratorIndex;
 		TArray<AeteEnumerator>	mEnumerators;
 
-
 private:
-
 
 };
 

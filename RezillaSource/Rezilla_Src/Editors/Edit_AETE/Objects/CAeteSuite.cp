@@ -2,7 +2,7 @@
 // CAeteSuite.cp
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-21 10:04:54
+//             Last modification: 2005-01-22 09:35:55
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -31,10 +31,10 @@ CAeteSuite::CAeteSuite()
 	mID = 0;
 	mLevel = 0;
 	mVersion = 0;
-	mCurrEventIndex = 0;
-	mCurrClassIndex = 0;
-	mCurrCompOpIndex = 0;
-	mCurrEnumerationIndex = 0;
+	mEventIndex = 0;
+	mClassIndex = 0;
+	mCompOpIndex = 0;
+	mEnumerationIndex = 0;
 }
 
 
@@ -48,15 +48,11 @@ CAeteSuite::CAeteSuite(Str255	inName,
 					 UInt16	inLevel,
 					 UInt16	inVersion)
 {
-	LString::CopyPStr(inName, mName);
-	LString::CopyPStr(inDescription, mDescription);
-	mID = inID;
-	mLevel = inLevel;
-	mVersion = inVersion;
-	mCurrEventIndex = 0;
-	mCurrClassIndex = 0;
-	mCurrCompOpIndex = 0;
-	mCurrEnumerationIndex = 0;
+	SetValues( inName, inDescription, inID, inLevel, inVersion);
+	mEventIndex = 0;
+	mClassIndex = 0;
+	mCompOpIndex = 0;
+	mEnumerationIndex = 0;
 }
 
 
@@ -86,7 +82,7 @@ CAeteSuite::CAeteSuite(CAeteStream * inStream)
 		theEvent = new CAeteEvent(inStream);
 		AddEvent(theEvent);
 	}
-	mCurrEventIndex = (theCount > 0);
+	mEventIndex = (theCount > 0);
 
 	// Get the count of classes
 	*inStream >> theCount;
@@ -94,7 +90,7 @@ CAeteSuite::CAeteSuite(CAeteStream * inStream)
 		theClass = new CAeteClass(inStream);
 		AddClass(theClass);
 	}
-	mCurrClassIndex = (theCount > 0);
+	mClassIndex = (theCount > 0);
 
 	// Get the count of comparison operators
 	*inStream >> theCount;
@@ -102,7 +98,7 @@ CAeteSuite::CAeteSuite(CAeteStream * inStream)
 		theCompOp = new CAeteCompOp(inStream);
 		AddCompOp(theCompOp);
 	}
-	mCurrCompOpIndex = (theCount > 0);
+	mCompOpIndex = (theCount > 0);
 
 	// Get the count of enumerations
 	*inStream >> theCount;
@@ -110,7 +106,7 @@ CAeteSuite::CAeteSuite(CAeteStream * inStream)
 		theEnumeration = new CAeteEnumeration(inStream);
 		AddEnumeration(theEnumeration);
 	}
-	mCurrEnumerationIndex = (theCount > 0);
+	mEnumerationIndex = (theCount > 0);
 
 }
 
@@ -178,14 +174,21 @@ CAeteSuite::AddEvent(CAeteEvent * inEvent)
 // ---------------------------------------------------------------------------
 
 void
-CAeteSuite::AddEvent(Str255	inName,
-							Str255	inDescription,
-							OSType	inClass, 
-							OSType	inID,
-							UInt16	inFlags)
+CAeteSuite::AddEvent(
+				   Str255	inName,
+				   Str255	inDescription,
+				   OSType	inClass, 
+				   OSType	inID,
+				   OSType	inReplyType,
+				   Str255	inReplyDescription,
+				   UInt16	inReplyFlags,
+				   OSType	inDirectType,
+				   Str255	inDirectDescription,
+				   UInt16	inDirectFlags)
 {
-	mEvents.AddItem( new CAeteEvent( inName, inDescription, 
-									inClass, inID, inFlags) );
+	mEvents.AddItem( new CAeteEvent( inName, inDescription, inClass, inID,
+									inReplyType, inReplyDescription, inReplyFlags, 
+									inDirectType, inDirectDescription, inDirectFlags) );
 }
 
 
@@ -379,4 +382,47 @@ CAeteSuite::SendDataToStream(CAeteStream * outStream)
 {
 }
 
+
+// ---------------------------------------------------------------------------
+//	¥ GetName											[public, virtual]
+// ---------------------------------------------------------------------------
+
+StringPtr
+CAeteSuite::GetName(
+	Str255	outName ) const
+{
+	return LString::CopyPStr( mName, outName);
+}
+
+
+// ---------------------------------------------------------------------------
+//  GetValues												[public]
+// ---------------------------------------------------------------------------
+
+void
+CAeteSuite::GetValues(Str255 outName, Str255 outDescription, OSType & outID, 
+							  UInt16 & outLevel, UInt16 & outVersion)
+{
+	LString::CopyPStr(mName, outName);
+	LString::CopyPStr(mDescription, outDescription);
+	outID = mID;
+	outLevel = mLevel;
+	outVersion = mVersion;
+}
+ 
+
+// ---------------------------------------------------------------------------
+//  SetValues												[public]
+// ---------------------------------------------------------------------------
+
+void
+CAeteSuite::SetValues(Str255 inName, Str255 inDescription, OSType inID, 
+							  UInt16 inLevel, UInt16 inVersion)
+{
+	LString::CopyPStr(inName, mName);
+	LString::CopyPStr(inDescription, mDescription);
+	mID = inID;
+	mLevel = inLevel;
+	mVersion = inVersion;
+}
 

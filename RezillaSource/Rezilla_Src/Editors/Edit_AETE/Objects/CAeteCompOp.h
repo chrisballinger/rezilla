@@ -2,7 +2,7 @@
 // CAeteCompOp.h
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-21 08:45:01
+//             Last modification: 2005-01-22 10:53:06
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -31,13 +31,16 @@ public:
 		void		InstallDataStream();
 		void		SendDataToStream(CAeteStream * outStream);
 
+		void		GetValues(Str255 outName, OSType & outType, Str255 outDescription);
+		
+		void 		SetValues(Str255 inName, OSType inType, Str255 inDescription);
+
 protected:
 		Str255		mName;
 		OSType		mType;
 		Str255		mDescription;
 
 private:
-
 
 };
 

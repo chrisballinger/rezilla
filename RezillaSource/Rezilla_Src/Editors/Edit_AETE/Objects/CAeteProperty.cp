@@ -2,7 +2,7 @@
 // CAeteProperty.cp
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-21 09:19:48
+//             Last modification: 2005-01-22 10:41:28
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -35,16 +35,12 @@ CAeteProperty::CAeteProperty()
 // ---------------------------------------------------------------------------
 
 CAeteProperty::CAeteProperty(Str255 inName, 
-							  OSType inId, 
+							  OSType inID, 
 							  OSType inType, 
 							  Str255 inDescription, 
 							  UInt16 inFlags)
 {
-	LString::CopyPStr(inName, mName);
-	LString::CopyPStr(inDescription, mDescription);
-	mID = inId;
-	mType = inType;
-	mFlags = inFlags;
+	SetValues( inName, inID, inType, inDescription, inFlags);
 }
 
 
@@ -95,4 +91,35 @@ CAeteProperty::SendDataToStream(CAeteStream * outStream)
 {
 }
 
+
+// ---------------------------------------------------------------------------
+//  GetValues												[public]
+// ---------------------------------------------------------------------------
+
+void
+CAeteProperty::GetValues(Str255 outName, OSType & outID, OSType & outType, 
+					   Str255 outDescription, UInt16 & outFlags)
+{
+	LString::CopyPStr(mName, outName);
+	LString::CopyPStr(mDescription, outDescription);
+	outID = mID;
+	outType = mType;
+	outFlags = mFlags;
+}
+ 
+
+// ---------------------------------------------------------------------------
+//  SetValues												[public]
+// ---------------------------------------------------------------------------
+
+void
+CAeteProperty::SetValues(Str255 inName, OSType inID, OSType inType, 
+					   Str255 inDescription, UInt16 inFlags)
+{
+	LString::CopyPStr(inName, mName);
+	LString::CopyPStr(inDescription, mDescription);
+	mID = inID;
+	mType = inType;
+	mFlags = inFlags;
+}
 

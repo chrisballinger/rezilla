@@ -23,7 +23,7 @@
 CAeteEnumeration::CAeteEnumeration(OSType inID)
 {
 	mEnumerationID = inID;
-	mCurrEnumeratorIndex = 0;
+	mEnumeratorIndex = 0;
 }
 
 
@@ -52,7 +52,7 @@ CAeteEnumeration::CAeteEnumeration(CAeteStream * inStream)
 	}
 
 	// Initialize to 1 if there are parameters, 0 otherwise
-	mCurrEnumeratorIndex = (theCount > 0);
+	mEnumeratorIndex = (theCount > 0);
 }
 
 

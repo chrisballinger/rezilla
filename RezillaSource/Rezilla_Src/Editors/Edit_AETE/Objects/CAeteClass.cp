@@ -2,7 +2,7 @@
 // CAeteClass.cp
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-21 07:27:26
+//             Last modification: 2005-01-22 10:57:54
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -27,8 +27,8 @@ CAeteClass::CAeteClass()
 	mName[0] = 0;
 	mID = 0;
 	mDescription[0] = 0;
-	mCurrPropertyIndex = 0;
-	mCurrElementIndex = 0;
+	mPropertyIndex = 0;
+	mElementIndex = 0;
 }
 
 
@@ -40,11 +40,9 @@ CAeteClass::CAeteClass(	Str255	inName,
 						OSType	inID,
 						Str255	inDescription)
 {
-	LString::CopyPStr(inName, mName);
-	LString::CopyPStr(inDescription, mDescription);
-	mID = inID;
-	mCurrPropertyIndex = 0;
-	mCurrElementIndex = 0;
+	SetValues( inName, inID, inDescription);
+	mPropertyIndex = 0;
+	mElementIndex = 0;
 }
 
 
@@ -73,7 +71,7 @@ CAeteClass::CAeteClass(CAeteStream * inStream)
 		AddProperty(theProperty);
 	}
 	// Initialize to 1 if there are parameters, 0 otherwise
-	mCurrPropertyIndex = (theCount > 0);
+	mPropertyIndex = (theCount > 0);
 
 	// Get the count of elements
 	*inStream >> theCount;
@@ -82,7 +80,7 @@ CAeteClass::CAeteClass(CAeteStream * inStream)
 		AddElement(theElement);
 	}
 	// Initialize to 1 if there are parameters, 0 otherwise
-	mCurrElementIndex = (theCount > 0);
+	mElementIndex = (theCount > 0);
 }
 
 
@@ -237,4 +235,29 @@ CAeteClass::SendDataToStream(CAeteStream * outStream)
 {
 }
 
+
+// ---------------------------------------------------------------------------
+//  GetValues												[public]
+// ---------------------------------------------------------------------------
+
+void
+CAeteClass::GetValues(Str255 outName, OSType & outID, Str255 outDescription)
+{
+	LString::CopyPStr(mName, outName);
+	LString::CopyPStr(mDescription, outDescription);
+	outID = mID;
+}
+ 
+
+// ---------------------------------------------------------------------------
+//  SetValues												[public]
+// ---------------------------------------------------------------------------
+
+void
+CAeteClass::SetValues(Str255 inName, OSType inID, Str255 inDescription)
+{
+	LString::CopyPStr(inName, mName);
+	LString::CopyPStr(inDescription, mDescription);
+	mID = inID;
+}
 

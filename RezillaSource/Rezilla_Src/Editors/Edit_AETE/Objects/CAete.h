@@ -2,7 +2,7 @@
 // CAete.h
 // 
 //                       Created: 2005-01-21 07:27:26
-//             Last modification: 2005-01-21 07:45:06
+//             Last modification: 2005-01-22 10:15:11
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -39,16 +39,25 @@ public:
 		void		InstallDataStream();
 		void		SendDataToStream(CAeteStream * outStream);
 
+		void		GetValues(UInt8 & outMajorVersion, UInt8 & outMinorVersion,
+							SInt16 & outLanguage, SInt16 & outMScript);
+		
+		void		SetValues(UInt8 inMajorVersion, UInt8 inMinorVersion,
+							SInt16 inLanguage, SInt16 inMScript);
+			
+		ArrayIndexT		GetSuiteIndex() { return mSuiteIndex;}
+		void			SetSuiteIndex(ArrayIndexT inSuiteIndex) {mSuiteIndex = inSuiteIndex;}
+
+		TArray<CAeteSuite*> *	GetSuites() { return &mSuites;}
 
 protected:
 		UInt8					mMajorVersion;
 		UInt8					mMinorVersion;
 		SInt16					mLanguage;
 		SInt16					mMScript;
-		
-		ArrayIndexT				mCurrSuiteIndex;
+		ArrayIndexT				mSuiteIndex;
 		TArray<CAeteSuite*>		mSuites;
-
+		
 
 private:
 

@@ -27,7 +27,7 @@ CAete::CAete()
 	mMinorVersion = 0;
 	mLanguage = 0;			// 0 is English
 	mMScript = 0;			// 0 is Roman
-	mCurrSuiteIndex = 0;
+	mSuiteIndex = 0;
 }
 
 
@@ -52,7 +52,7 @@ CAete::CAete(CAeteStream * inStream)
 		AddSuite(theSuite);
 	}
 	// Initialize to 1 if there are parameters, 0 otherwise
-	mCurrSuiteIndex = (theCount > 0);
+	mSuiteIndex = (theCount > 0);
 
 }
 
@@ -147,4 +147,33 @@ CAete::SendDataToStream(CAeteStream * outStream)
 {
 }
 
+
+// ---------------------------------------------------------------------------
+//  GetValues												[public]
+// ---------------------------------------------------------------------------
+
+void
+CAete::GetValues(UInt8 & outMajorVersion, UInt8 & outMinorVersion,
+					SInt16 & outLanguage, SInt16 & outMScript)
+{
+	outMajorVersion = mMajorVersion;
+	outMinorVersion = mMinorVersion;
+	outLanguage = mLanguage;
+	outMScript = mMScript;
+}
+ 
+
+// ---------------------------------------------------------------------------
+//  SetValues												[public]
+// ---------------------------------------------------------------------------
+
+void
+CAete::SetValues(UInt8 inMajorVersion, UInt8 inMinorVersion,
+					SInt16 inLanguage, SInt16 inMScript)
+{
+	mMajorVersion = inMajorVersion;
+	mMinorVersion = inMinorVersion;
+	mLanguage = inLanguage;
+	mMScript = inMScript;
+}
 

@@ -23,7 +23,7 @@
 CAeteElement::CAeteElement(OSType inID)
 {
 	mID = inID;
-	mCurrKeyFormIndex = 0;
+	mKeyFormIndex = 0;
 }
 
 
@@ -45,7 +45,7 @@ CAeteElement::CAeteElement(CAeteStream * inStream)
 	}
 
 	// Initialize to 1 if there are parameters, 0 otherwise
-	mCurrKeyFormIndex = (theCount > 0);
+	mKeyFormIndex = (theCount > 0);
 }
 
 

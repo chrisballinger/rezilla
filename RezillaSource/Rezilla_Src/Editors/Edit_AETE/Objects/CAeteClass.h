@@ -2,7 +2,7 @@
 // CAeteClass.h
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-21 06:45:13
+//             Last modification: 2005-01-22 11:02:47
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -48,14 +48,27 @@ public:
 		void		InstallDataStream();
 		void		SendDataToStream(CAeteStream * outStream);
 
+		void		GetValues(Str255 outName, OSType & outID, Str255 outDescription);
+		
+		void 		SetValues(Str255 inName, OSType inID, Str255 inDescription);
+
+		ArrayIndexT		GetPropertyIndex() { return mPropertyIndex;}
+		void			SetPropertyIndex(ArrayIndexT inPropertyIndex) {mPropertyIndex = inPropertyIndex;}
+
+		ArrayIndexT		GetElementIndex() { return mElementIndex;}
+		void			SetElementIndex(ArrayIndexT inElementIndex) {mElementIndex = inElementIndex;}
+
+		TArray<CAeteProperty*> *	GetProperties() { return &mProperties;}
+
+		TArray<CAeteElement*> *		GetElements() { return &mElements;}
 
 protected:
 		Str255					mName;
 		OSType					mID;		// like capp, docu, cwin etc.
 		Str255					mDescription;
 		
-		ArrayIndexT				mCurrPropertyIndex;
-		ArrayIndexT				mCurrElementIndex;
+		ArrayIndexT				mPropertyIndex;
+		ArrayIndexT				mElementIndex;
 		TArray<CAeteProperty*>	mProperties;
 		TArray<CAeteElement*>	mElements;
 

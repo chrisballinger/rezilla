@@ -2,7 +2,7 @@
 // CAeteEvent.cp
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-21 07:26:48
+//             Last modification: 2005-01-22 11:13:21
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -27,8 +27,13 @@ CAeteEvent::CAeteEvent()
 	mDescription[0] = 0;
 	mClass = 0;
 	mID = 0;
-	mFlags = 0;
-	mCurrParameterIndex = 0;	
+	mReplyType = 0;
+	mReplyDescription[0] = 0;
+	mReplyFlags = 0;
+	mDirectType = 0;
+	mDirectDescription[0] = 0;
+	mDirectFlags = 0;
+	mParameterIndex = 0;	
 }
 
 
@@ -40,14 +45,17 @@ CAeteEvent::CAeteEvent(	Str255	inName,
 						Str255	inDescription,
 						OSType	inClass, 
 						OSType	inID,
-						UInt16	inFlags)
+						OSType	inReplyType,
+						Str255	inReplyDescription,
+						UInt16	inReplyFlags,
+						OSType	inDirectType,
+						Str255	inDirectDescription,
+						UInt16	inDirectFlags)
 {
-	LString::CopyPStr(inName, mName);
-	LString::CopyPStr(inDescription, mDescription);
-	mClass = inClass;
-	mID = inID;
-	mFlags = inFlags;
-	mCurrParameterIndex = 0;	
+	SetValues(inName, inDescription, inClass, inID, 
+			  inReplyType, inReplyDescription, inReplyFlags,
+			  inDirectType, inDirectDescription, inDirectFlags);
+	mParameterIndex = 0;	
 }
 
 
@@ -57,21 +65,25 @@ CAeteEvent::CAeteEvent(	Str255	inName,
 
 CAeteEvent::CAeteEvent(CAeteStream * inStream)
 {
-	UInt16	theCount, i;
-	OSType	theType;
-	Str255	theName, theDescr;
+	UInt16				theCount, i;
 	CAeteParameter *	theParameter;
 	
 	*inStream >> mName;
-	inStream->AlignBytes();
-
 	*inStream >> mDescription;
 	inStream->AlignBytes();
 	
 	*inStream >> mClass;
 	*inStream >> mID;
 
-	*inStream >> mFlags;
+	*inStream >> mReplyType;
+	*inStream >> mReplyDescription;
+	inStream->AlignBytes();
+	*inStream >> mReplyFlags;
+
+	*inStream >> mDirectType;
+	*inStream >> mDirectDescription;
+	inStream->AlignBytes();
+	*inStream >> mDirectFlags;
 
 	// Get the count of parameters
 	*inStream >> theCount;
@@ -81,7 +93,7 @@ CAeteEvent::CAeteEvent(CAeteStream * inStream)
 	}
 
 	// Initialize to 1 if there are parameters, 0 otherwise
-	mCurrParameterIndex = (theCount > 0);
+	mParameterIndex = (theCount > 0);
 }
 
 
@@ -174,4 +186,49 @@ CAeteEvent::SendDataToStream(CAeteStream * outStream)
 {
 }
 
+
+// ---------------------------------------------------------------------------
+//  GetValues												[public]
+// ---------------------------------------------------------------------------
+
+void
+CAeteEvent::GetValues( Str255 & outName, Str255 outDescription,
+					   OSType & outClass, OSType & outID,
+					   OSType & outReplyType, Str255 outReplyDescription, UInt16 & outReplyFlags,
+					   OSType & outDirectType, Str255 outDirectDescription, UInt16 & outDirectFlags)
+{
+	LString::CopyPStr(mName, outName);
+	LString::CopyPStr(mDescription, outDescription);
+	LString::CopyPStr(mReplyDescription, outReplyDescription);
+	LString::CopyPStr(mDirectDescription, outDirectDescription);
+	outClass = mClass;
+	outID = mID;
+	outReplyType = mReplyType;
+	outReplyFlags = mReplyFlags;
+	outDirectType = mDirectType;
+	outDirectFlags = mDirectFlags;
+}
+ 
+
+// ---------------------------------------------------------------------------
+//  SetValues												[public]
+// ---------------------------------------------------------------------------
+
+void
+CAeteEvent::SetValues( Str255 inName, Str255 inDescription,
+					   OSType inClass, OSType inID,
+					   OSType inReplyType, Str255 inReplyDescription, UInt16 inReplyFlags,
+					   OSType inDirectType, Str255 inDirectDescription, UInt16 inDirectFlags)
+{
+	LString::CopyPStr(inName, mName);
+	LString::CopyPStr(inDescription, mDescription);
+	LString::CopyPStr(inReplyDescription, mReplyDescription);
+	LString::CopyPStr(inDirectDescription, mDirectDescription);
+	mClass = inClass;
+	mID = inID;
+	mReplyType = inReplyType;
+	mReplyFlags = inReplyFlags;
+	mDirectType = inDirectType;
+	mDirectFlags = inDirectFlags;
+}
 
