@@ -790,6 +790,7 @@ const SInt16	kTmplEditUnitWidth		= 8;
 const SInt16	kTmplPopupFieldWidth	= 75;
 const SInt16	kTmplHexPaneWidth		= 288;
 const SInt16	kTmplLabelHeight		= 26;
+const SInt16	kTmplLabelVertSkip		= 17;
 const SInt16	kTmplLabelWidth			= 150;
 const SInt16	kTmplLabelInterline		= -5;
 const SInt16	kTmplListHeaderHeight	= 18;
