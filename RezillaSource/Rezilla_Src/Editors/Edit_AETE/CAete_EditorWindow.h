@@ -54,6 +54,10 @@ public:
 								UInt16&				outMark,
 								Str255				outName);
 
+	virtual Boolean	ObeyCommand(
+							CommandT			inCommand,
+							void*				ioParam);
+
 	virtual void		ListenToMessage( MessageT inMessage,void *ioParam);
 
 // 	virtual void		Activate();
@@ -90,7 +94,7 @@ private:
 	
 	void *				FindCurrentObject(SInt8 inKind);
 
-	void				FillSuitePopup();
+	void				RebuildSuitePopup();
 	
 	void				InstallResourceInfo();
 	void				InstallSuiteValues();
