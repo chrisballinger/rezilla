@@ -581,7 +581,7 @@ CRezObj::SetData(Handle srcHandle)
 	error = ::MemError();
 	if (error != noErr) {
 		oldAttrs = mAttributes;
-		// Clear the attributes (RemoveResource does not work is
+		// Clear the attributes (RemoveResource does not work if
 		// resProtected is on)
 		SetAttributesInMap(0);
 		error = Remove();
