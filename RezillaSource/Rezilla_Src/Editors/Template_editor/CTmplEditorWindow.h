@@ -2,7 +2,7 @@
 // CTmplEditorWindow.h
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-11-06 07:24:26
+//             Last modification: 2004-11-08 07:33:18
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -64,6 +64,8 @@ public:
 	virtual Boolean	ObeyCommand(
 							CommandT			inCommand,
 							void*				ioParam);
+
+	virtual void	RevertContents();
 
 	virtual Boolean	HandleKeyPress( const EventRecord& inKeyEvent );
 

@@ -2,7 +2,7 @@
 // CEditorDoc.cp
 // 
 //                       Created: 2003-05-04 19:16:00
-//             Last modification: 2004-11-06 06:55:11
+//             Last modification: 2004-11-08 07:20:14
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -187,11 +187,47 @@ void
 CEditorDoc::ListenToMessage( MessageT inMessage, void *ioParam ) 
 {
 	switch (inMessage) {
+		case msg_EditorValidate:
+		if ( CanSaveChanges() ) {
+			DoSaveChanges();
+		} 
+		// Fall through...
 		
+		case msg_EditorCancel:
+		Close();
+		break;
+		
+		case msg_EditorRevert:
+		DoRevert();
+		break;
+				
 		default:
 		break;
 		
 	}
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ CanSaveChanges												  [public]
+// ---------------------------------------------------------------------------
+
+Boolean
+CEditorDoc::CanSaveChanges()
+{
+	Boolean canSave = true;
+	SInt16 	answer;
+	
+	if (mRezObj->HasAttribute(resProtected)) {
+		answer = UMessageDialogs::AskYesNoFromLocalizable(CFSTR("AskRemoveProtectedBit"), rPPob_AskYesNoMessage);
+		if (answer == answer_Do) {
+			mRezObj->ToggleAttribute(resProtected);
+		} else if (answer == answer_Cancel) {
+			canSave = false;
+		} 
+	}
+
+	return canSave;
 }
 
 
@@ -242,7 +278,9 @@ CEditorDoc::AttemptClose(
 		answer = AskSaveChanges(SaveWhen_Closing);
 		
 		if (answer == answer_Save) {
-			DoSaveChanges();
+			if ( CanSaveChanges() ) {
+				DoSaveChanges();
+			} 
 		} else if (answer == answer_Cancel) {
 			closeIt = false;
 		}
@@ -293,6 +331,20 @@ Handle
 CEditorDoc::GetModifiedResource() 
 {
 	return mRezObj->GetData();
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ DoRevert														  [public]
+// ---------------------------------------------------------------------------
+//	Revert a Document to its last saved version
+
+void
+CEditorDoc::DoRevert()
+{
+	if (mMainWindow != nil) {
+		mMainWindow->RevertContents();
+	} 
 }
 
 

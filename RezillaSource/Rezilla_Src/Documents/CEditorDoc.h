@@ -2,7 +2,7 @@
 // CEditorDoc.h				
 // 
 //                       Created: 2004-02-23 17:57:59
-//             Last modification: 2004-11-06 06:54:51
+//             Last modification: 2004-11-08 07:27:52
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -51,8 +51,12 @@ public:
 
 	virtual void	AttemptClose( Boolean inRecordIt );
 	
+	Boolean			CanSaveChanges();
+	
 	virtual void	DoSaveChanges();
 	
+	virtual void	DoRevert();
+
 	void			SelectMainWindow();
 
 	CRezObj *		GetRezObj() { return mRezObj; }

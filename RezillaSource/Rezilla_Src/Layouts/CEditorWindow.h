@@ -46,9 +46,7 @@ public:
 							CommandT			inCommand,
 							void*				ioParam);
 
-// 	virtual void	DoClose();
-
-// 	virtual SInt32	InstallContentsFromLine(SInt32 inFromLine);
+	virtual void	RevertContents();
 	
 	virtual Boolean	IsDirty();
 

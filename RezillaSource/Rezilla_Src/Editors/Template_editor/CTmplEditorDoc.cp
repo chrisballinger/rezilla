@@ -2,7 +2,7 @@
 // CTmplEditorDoc.cp					
 // 
 //                       Created: 2004-06-12 10:06:22
-//             Last modification: 2004-11-07 22:00:12
+//             Last modification: 2004-11-08 07:36:11
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -266,35 +266,6 @@ CTmplEditorDoc::NameNewEditorDoc()
 	// Set window title
 	mTmplEditWindow->SetDescriptor(theTitle);
 }
-
-
-// ---------------------------------------------------------------------------
-//  ¥ ListenToMessage											[public]
-// ---------------------------------------------------------------------------
-
-void
-CTmplEditorDoc::ListenToMessage( MessageT inMessage, void *ioParam ) 
-{
-#pragma unused(ioParam)
-	
-	switch (inMessage) {
-		case msg_OK:
-		DoSaveChanges();
-		
-		// Fall through...
-		
-		case msg_Cancel:
-		Close();
-		break;
-		
-		case cmd_Revert:
-		mTmplEditWindow->RevertWithTemplate();
-		mTmplEditWindow->SetDirty(false);
-		break;
-		
-	}
-}
-
 
 
 PP_End_Namespace_PowerPlant

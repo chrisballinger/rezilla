@@ -2,7 +2,7 @@
 // CTmplEditorWindow.cp					
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-11-06 07:51:46
+//             Last modification: 2004-11-08 07:33:32
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -398,6 +398,7 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			SetDirty(true);
 			break;
 			
+			
 		case msg_TmplModifiedItem:
 			SetDirty(true);
 			break;
@@ -465,10 +466,10 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			break;
 		}
 		
-		
+
 		default:
-			dynamic_cast<CTmplEditorDoc *>(GetSuperCommander())->ListenToMessage(inMessage, ioParam);
-			break;
+		CEditorWindow::ListenToMessage(inMessage, ioParam);
+		break;
 		
 	}
 }
@@ -570,6 +571,18 @@ CTmplEditorWindow::HandleKeyPress(
 	}
 	
 	return keyHandled;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ RevertContents												  [public]
+// ---------------------------------------------------------------------------
+
+void
+CTmplEditorWindow::RevertContents()
+{
+	RevertWithTemplate();
+	SetDirty(false);
 }
 
 

@@ -2,7 +2,7 @@
 // CTmplEditorDoc.h				
 // 
 //                       Created: 2004-06-12 10:06:22
-//             Last modification: 2004-08-10 11:21:58
+//             Last modification: 2004-11-08 07:35:31
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -47,9 +47,9 @@ public:
 							Boolean &outEnabled, Boolean &outUsesMark,
 							UInt16 &outMark, Str255 outName );
 
-	virtual void		ListenToMessage(
-							MessageT		inMessage,
-							void*			ioParam);
+// 	virtual void		ListenToMessage(
+// 							MessageT		inMessage,
+// 							void*			ioParam);
 
 	virtual Boolean		IsModified();
 	
