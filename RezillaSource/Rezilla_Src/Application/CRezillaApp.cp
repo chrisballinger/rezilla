@@ -55,6 +55,7 @@
 #include "CSingleScrollBar.h"
 #include "CStaticTextURL.h"
 #include "CSuiteSlider.h"
+#include "CSuite_Window.h"
 #include "CTEXT_EditorView.h"
 #include "CTEXT_EditorWindow.h"
 #include "CTmplBevelButton.h"
@@ -67,6 +68,7 @@
 #include "CWindow_ColorIcon.h"
 #include "CWindow_Cursor.h"
 #include "CWindow_IconFamily.h"
+#include "CWindow_IconSuite.h"
 #include "CWindow_Pattern.h"
 #include "CWindow_Picture.h"
 #include "CWindow_PatternSuite.h"
@@ -386,6 +388,7 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(CSingleScrollBar);
 	RegisterClass_(CStaticTextURL);
 	RegisterClass_(CSuiteSlider);
+	RegisterClass_(CSuite_Window);
 	RegisterClass_(CTEXT_EditorView);
 	RegisterClass_(CTEXT_EditorWindow);
 	RegisterClass_(CTmplBevelButton);
@@ -397,9 +400,10 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(CWindow_ColorIcon);
 	RegisterClass_(CWindow_Cursor);
 	RegisterClass_(CWindow_IconFamily);
+	RegisterClass_(CWindow_IconSuite);
 	RegisterClass_(CWindow_Pattern);
-	RegisterClass_(CWindow_Picture);
 	RegisterClass_(CWindow_PatternSuite);
+	RegisterClass_(CWindow_Picture);
 // #include "ABalloon.h"
 
 // 	RegisterClass_(ATag);
