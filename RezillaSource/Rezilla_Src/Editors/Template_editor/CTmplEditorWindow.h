@@ -277,7 +277,8 @@ private:
 	
 	void			WriteOutKeyValue(ResType inType);
 	
-	Boolean			SelectValueFromKeyCases(Str255 inLabelString);
+	OSErr			SelectKeyValueFromKeyCases(Str255 inLabelString,
+										   Str255 outKeyString);
 	
 };
 

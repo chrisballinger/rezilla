@@ -758,7 +758,7 @@ CTmplEditorWindow::ParseKeyedSection(ResType inType, Str255 inLabelString, LView
 		// Skip all the CASE statements
 		SkipNextKeyCases(0);
 	} else {
-		if ( ! SelectValueFromKeyCases(inLabelString) ) {
+		if ( ! SelectKeyValueFromKeyCases(inLabelString, keyString) ) {
 			error = err_TmplCreateEmptyNewAborted;
 			return error;
 		} 
