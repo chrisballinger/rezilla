@@ -9,7 +9,12 @@ It does not contain codes emitted by the System.
 1003	No Rez In Any Fork
 1004	No Open Permission
 1005	Open Fork Error
-1006	Under Version Control
+1006	Open Succeeded Read Only
+1007	Open Docs AEFailed
+1008	Under Version Control System
+1009	Exception Parsing Template
+1010	No Resource For Type
+1011	No Resource With Name
 2000	Tmpl Template Error
 2001	Tmpl Get Data Stream Failed
 2002	Tmpl Unrecognized Tag
@@ -30,14 +35,33 @@ It does not contain codes emitted by the System.
 2017	Tmpl Create Empty New Aborted
 2018	Tmpl No Case In Key Section
 2019	Tmpl Malformed Case Section
-2020	Tmpl Malformed Key Section
-2021	Tmpl Cant Find Keyed Section Start
-2022	Tmpl Cant Find Key Start For Value
-2023	Tmpl Cant Find Key Index
-2024	Tmpl Cant Find Key Value
-2025	Tmpl Cant Find Key Position
-2026	Tmpl Unsupported Resource Id
-2027	Tmpl Cant Find Matching Key End
+2020	Tmpl Unknown Key Value In Resource
+2021	Tmpl Popup Not Connected To Edit Field
+2022	Tmpl Cant Find Keyed Section Start
+2023	Tmpl Cant Find Key Start For Value
+2024	Tmpl Cant Find Key Index
+2025	Tmpl Cant Find Key Value
+2026	Tmpl Cant Find Key Position
+2027	Tmpl Unsupported Resource Id
+2028	Tmpl Cant Find Matching Key End
+3000	Icon Generic
+3001	Icon Invalid Image Depth
+3002	Icon Invalid Image Format
+3003	Icon Invalid Image Size
+3004	Icon Corrupted Resource
+3005	Icon Corrupted File
+3006	Icon Unknown Data Type
+3007	Icon Assertion Proxy
+3008	Icon Nil Pointer Proxy
+3009	Icon Out Of Memory
+3010	Icon Resource Not Found
+3011	Icon Disk Full
+3012	Icon File Not Found
+3013	Icon IOError
+3014	Icon Resize Format String
+3015	Icon File Locked
+3016	Icon Bad Font Size
+3017	Icon No Pict On Clipboard
 
 --------
-Last updated 2004-10-06 15:23:47
+Last updated 2005-01-13 21:02:02
