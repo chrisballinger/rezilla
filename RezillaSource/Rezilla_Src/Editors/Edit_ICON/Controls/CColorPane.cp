@@ -233,7 +233,6 @@ CColorPane::DrawSelf()
 // 	StClipRgnState		aClipObject( mClippedRgn );
 	
 	CalcLocalFrameRect( localR );
-// 	UPopupDrawing::DrawPopup( r, false /* not hilited */, IsEnabled() );
 	UPopupDrawing::DrawPopupArrow( localR, false /* not hilited */, IsEnabled() );
 	
 	UPopupDrawing::CalculateSwatchArea( localR, &swatchR );
@@ -339,7 +338,6 @@ CColorPane::DrawPopup( Boolean inHilited, Boolean inEnabled )
 	
 // 	StClipRgnState	aClip( mClippedRgn );		// don't draw on overlapped popup
 	
-// 	UPopupDrawing::DrawPopup( localR, inHilited, inEnabled );
 	UPopupDrawing::DrawPopupArrow( localR, inHilited, inEnabled );
 	
 	UPopupDrawing::CalculateSwatchArea( localR, &swatchR );
