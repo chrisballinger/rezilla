@@ -2,7 +2,7 @@
 // CAete_WindowValues.cp
 // 
 //                       Created: 2005-01-25 09:01:07
-//             Last modification: 2005-01-27 07:05:46
+//             Last modification: 2005-01-28 09:19:29
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -118,7 +118,7 @@ CAete_EditorWindow::InstallSuiteValues()
 
 	theEditText = dynamic_cast<LEditText *> (this->FindPaneByID( item_AeteSuiteID ));
 	ThrowIfNil_( theEditText );
-	if (disableIt) {
+	if (!disableIt) {
 		UMiscUtils::OSTypeToPString(theID, theString);
 	} 
 	theEditText->SetDescriptor(theString);
@@ -1020,18 +1020,25 @@ CAete_EditorWindow::RetrieveEnumeratorValues(AeteEnumerator & outEnumerator)
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//  FillSuitePopup													[public]
+//  RebuildSuitePopup													[public]
 // ---------------------------------------------------------------------------
 // Note: LMenuController::AppendMenu() takes care of updating the
 // MenuMinMax values whereas a direct call to ToolBox's ::AppendMenu()
 // does not.
 
 void
-CAete_EditorWindow::FillSuitePopup()
+CAete_EditorWindow::RebuildSuitePopup()
 {
 	MenuRef    theMenuH = mSuitesPopup->GetMacMenuH();
 	ThrowIfNil_(theMenuH);
 	
+	// Empty the menu
+	UInt16 theCount = ::CountMenuItems( theMenuH );
+	while ( theCount > 0 ) {	
+		::DeleteMenuItem( theMenuH, theCount-- );
+	}
+	
+	// Install the suite names
 	TArrayIterator<CAeteSuite*>	iterator( *mAete->GetSuites() );
 	CAeteSuite *	theSuite;
 	Str255			theString;
@@ -1046,6 +1053,8 @@ CAete_EditorWindow::FillSuitePopup()
 		}
 	}
 	mSuitesPopup->SetMacMenuH(theMenuH);
+	
+	mSuitesPopup->Refresh();
 }
 
 
