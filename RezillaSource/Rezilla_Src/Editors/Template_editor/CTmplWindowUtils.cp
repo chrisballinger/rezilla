@@ -2,7 +2,7 @@
 // CTmplWindowUtils.cp					
 // 
 //                       Created: 2004-08-20 16:45:08
-//             Last modification: 2004-10-16 10:08:40
+//             Last modification: 2004-11-03 23:01:38
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -979,7 +979,7 @@ CTmplEditorWindow::RecalcTextBoxHeight(SInt32 inTextSize, CWasteEditView * inWEV
 			linesCount = inWEView->CountLines() ;
 		} else {
 			bytesPerLine = theSize.width / CRezillaApp::sBasics.charWidth;
-			linesCount = inReqSize / bytesPerLine + ((inReqSize % bytesPerLine) > 0) ;
+			linesCount = (inReqSize / bytesPerLine) + ((inReqSize % bytesPerLine) > 0) ;
 		}
 		
 		if (linesCount == 0) {
@@ -1230,27 +1230,4 @@ CTmplEditorWindow::CalcTextPositions(OSType inType, SInt32 & oldPos, SInt32 & ne
 	return hasText;
 }
 
-
-// ---------------------------------------------------------------------------
-//	¥ RecalcRevealedRects											[private]
-// ---------------------------------------------------------------------------
-// Recalculate the revealed rects of all the subpanes included in a list
-// item view after the list item view has been resized to its definitive
-// dimensions.
-
-void
-CTmplEditorWindow::RecalcRevealedRects(CTmplListItemView * inListItemView)
-{
-	LPane *	theSub;
-	LView *	theView;
-	inListItemView->CalcRevealedRect();
-	
-	TArrayIterator<LPane *> iterator( inListItemView->GetSubPanes() );
-	while (iterator.Next(theSub)) {
-		theView = dynamic_cast<LView *>(theSub);
-		if (theView) {
-			theView->CalcRevealedRect();
-		}
-	}
-}
 
