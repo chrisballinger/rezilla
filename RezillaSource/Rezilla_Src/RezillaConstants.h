@@ -1251,7 +1251,9 @@ const UInt32	DragFlavor_Offscreen	= FOUR_CHAR_CODE('OfSc');
 // Constants for the Rezmap tables
 const SInt16	kRzilColWidth		= 100;
 
-// Constants for the Rez Hex editor
+// ======================================================================
+// Constants for the Hexadecimal editor
+// ======================================================================
 // Used in HexEdit windows to recalculate the edit panes. It is the extra 
 // size of the TextGroupBox around the panes.
 const SInt16	kRzilHexEditExtraWidth		= 46;
@@ -1397,5 +1399,10 @@ enum RedrawOptions
 	redraw_Dont
 };
 
+
+// ======================================================================
+// Constants for the Text editor
+// ======================================================================
+const SInt32		kMaxTextWidth		= 32768;	
 
 
