@@ -1,11 +1,11 @@
 // ===========================================================================
 // CHexDataSubView.cp 
 //                       Created: 2003-05-06 06:04:42
-//             Last modification: 2004-06-08 08:50:19
+//             Last modification: 2004-06-17 01:24:29
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003, 2004
+// © Copyright: Bernard Desgraupes 2003-2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -18,7 +18,7 @@
 
 #include "CHexDataSubView.h"
 #include "CTxtDataSubView.h"
-#include "CHexEditorWindow.h"
+#include "CDualDataView.h"
 #include "CSingleScrollBar.h"
 #include "CWEViewActions.h"
 #include "CHexEditorActions.h"
@@ -99,17 +99,16 @@ CHexDataSubView::ClickSelf(
 {
 	SInt32 startPos, endPos;
 
-	mEditorWindow->SetSelectingAll(false);
+	mOwnerDualView->SetSelectingAll(false);
 	CWasteEditView::ClickSelf(inMouseDown);
 	AdjustCursorPos();
 
 	// Synchronize sibling
 	WEGetSelection(& startPos, & endPos, mWasteEditRef);
-	mTxtSiblingView->SyncPositionsWithSibling(PosToHexPos(startPos), 
-											  PosToHexPos(endPos));
-	// Update the window's fields
-	mEditorWindow->SetLineValues();
-	mEditorWindow->SetOffsetValues();
+	mTxtSiblingView->SyncPositionsWithSibling(PosToHexPos(startPos), PosToHexPos(endPos));
+	
+	// Notify the dual view
+	mOwnerDualView->BroadcastMessage(msg_DualViewEdited, this);
 }
 
 
@@ -194,7 +193,7 @@ CHexDataSubView::HexPosToPos(SInt32 inHexPos)
 SInt32
 CHexDataSubView::HexPosToLine(SInt32 inHexPos)
 {
-	SInt32 bytesPerline = mEditorWindow->GetPaneCount(count_BytesPerLine);
+	SInt32 bytesPerline = mOwnerDualView->GetPaneCount(count_BytesPerLine);
 	SInt32 theRest = inHexPos % bytesPerline;
 	
 	return (((inHexPos - theRest) / bytesPerline) + 1);
@@ -354,14 +353,14 @@ CHexDataSubView::HandleKeyPress(
 					break;
 					
 					case char_DownArrow:
-					theSelStart += HexPosToPos(mEditorWindow->GetPaneCount(count_BytesPerLine));
+					theSelStart += HexPosToPos(mOwnerDualView->GetPaneCount(count_BytesPerLine));
 					break;
 					
 					case char_UpArrow:
-					theSelStart -= HexPosToPos(mEditorWindow->GetPaneCount(count_BytesPerLine));
+					theSelStart -= HexPosToPos(mOwnerDualView->GetPaneCount(count_BytesPerLine));
 					break;
 				}
-				if (theSelStart >= 0 && PosToHexPos(theSelStart) <= mEditorWindow->GetPaneCount(count_BytesPerPane)) {
+				if (theSelStart >= 0 && PosToHexPos(theSelStart) <= mOwnerDualView->GetPaneCount(count_BytesPerPane)) {
 					WESetSelection( theSelStart, theSelStart, mWasteEditRef);
 				}
 				CursorMoved(theSelStart);
@@ -418,9 +417,8 @@ CHexDataSubView::HandleKeyPress(
 		AdjustImageToText();
 	}
 
-	// Update the window's fields
-	mEditorWindow->SetLineValues();
-	mEditorWindow->SetOffsetValues();
+	// Notify the dual view
+	mOwnerDualView->BroadcastMessage(msg_DualViewEdited, this);
 
 	return keyHandled;
 }
@@ -449,8 +447,8 @@ CHexDataSubView::ObeyCommand(
 		case cmd_Cut: 
 		case cmd_Clear:
 		case cmd_Paste:  {
-			mEditorWindow->SetCurrentSubView(hex_hexpane);
-			cmdHandled = mEditorWindow->ObeyCommand(inCommand, ioParam);
+			mOwnerDualView->SetCurrentSubView(hex_hexpane);
+			cmdHandled = mOwnerDualView->ObeyCommand(inCommand, ioParam);
 			break;
 		}
 
@@ -469,7 +467,7 @@ CHexDataSubView::ObeyCommand(
 		}
 
 		case cmd_SelectAll: {
-			mEditorWindow->SetSelectingAll(true);
+			mOwnerDualView->SetSelectingAll(true);
 			SelectAll();
 			AdjustImageToText();
 			ForceAutoScroll(oldDestRect);
@@ -514,8 +512,8 @@ CHexDataSubView::ScrollImageBy(
 void
 CHexDataSubView::CursorMoved(SInt32 inPos)
 {
-	SInt32 firstLine = mEditorWindow->GetCurrFirstLine();
-	SInt32 lastLine = mEditorWindow->HexLineCount();
+	SInt32 firstLine = mOwnerDualView->GetCurrFirstLine();
+	SInt32 lastLine = mOwnerDualView->HexLineCount();
 	SInt32 newHexPos, newTxtPos;
 	
 	if (inPos < 0) {
@@ -523,18 +521,18 @@ CHexDataSubView::CursorMoved(SInt32 inPos)
 		firstLine -= 1;
 		// Sync the scrollbar: this provokes a redraw because 
 		// the scrollbar emits its message.
-		mEditorWindow->GetScroller()->SetValue(firstLine);
+		mOwnerDualView->GetScroller()->SetValue(firstLine);
 		// Update the cursor's pos
-		newHexPos = HexPosToPos(mEditorWindow->GetPaneCount(count_BytesPerLine)) + inPos;
+		newHexPos = HexPosToPos(mOwnerDualView->GetPaneCount(count_BytesPerLine)) + inPos;
 		DisplaySelectionRange( newHexPos, newHexPos);
-	} else if (PosToHexPos(inPos) > mEditorWindow->GetPaneCount(count_BytesPerPane)) {
-		if (firstLine > lastLine - mEditorWindow->GetPaneCount(count_LinesPerPane)) return;
+	} else if (PosToHexPos(inPos) > mOwnerDualView->GetPaneCount(count_BytesPerPane)) {
+		if (firstLine > lastLine - mOwnerDualView->GetPaneCount(count_LinesPerPane)) return;
 		firstLine += 1;
 		// Sync the scrollbar: this provokes a redraw because 
 		// the scrollbar emits its message.
-		mEditorWindow->GetScroller()->SetValue(firstLine);
+		mOwnerDualView->GetScroller()->SetValue(firstLine);
 		// Update the cursor's pos
-		newHexPos = inPos - HexPosToPos(mEditorWindow->GetPaneCount(count_BytesPerLine));
+		newHexPos = inPos - HexPosToPos(mOwnerDualView->GetPaneCount(count_BytesPerLine));
 		DisplaySelectionRange( newHexPos, newHexPos);
 	} else {
 		newHexPos = inPos;
@@ -542,9 +540,8 @@ CHexDataSubView::CursorMoved(SInt32 inPos)
 	// Sync the sibling
 	newTxtPos = mTxtSiblingView->CharPosToPos( PosToHexPos(newHexPos) );
 	mTxtSiblingView->DisplaySelectionRange(newTxtPos, newTxtPos);
-	// Update the window's fields
-	mEditorWindow->SetLineValues();
-	mEditorWindow->SetOffsetValues();
+// 	// Notify the dual view
+// 	mOwnerDualView->BroadcastMessage(msg_DualViewEdited, this);
 }
 
 
@@ -606,7 +603,7 @@ CHexDataSubView::Insert(
 void
 CHexDataSubView::InsertContents(Handle inHandle)
 {
-	StSegmHexTranslator translator(inHandle, mEditorWindow->GetPaneCount(count_BytesPerLine) );
+	StSegmHexTranslator translator(inHandle, mOwnerDualView->GetPaneCount(count_BytesPerLine) );
 	translator.Convert();
 	
 	// Empty the Waste edit
@@ -624,7 +621,7 @@ CHexDataSubView::InsertContents(Handle inHandle)
 void
 CHexDataSubView::InsertContents(const void * inPtr, SInt32 inByteCount)
 {
-	StSegmHexTranslator translator(inPtr, inByteCount, mEditorWindow->GetPaneCount(count_BytesPerLine));
+	StSegmHexTranslator translator(inPtr, inByteCount, mOwnerDualView->GetPaneCount(count_BytesPerLine));
 	translator.Convert();
 	
 	// Empty the Waste edit
@@ -660,31 +657,31 @@ CHexDataSubView::UserChangedText(
 {
 	CWasteEditView::UserChangedText();
 	
-	SInt32 firstLine = mEditorWindow->GetCurrFirstLine();
-	SInt32 oldLineCount = mEditorWindow->HexLineCount();
+	SInt32 firstLine = mOwnerDualView->GetCurrFirstLine();
+	SInt32 oldLineCount = mOwnerDualView->HexLineCount();
 	
 	// Synchronize in-memory Waste
 	SyncContentsWithMemory(inStartPos, inEndPos, inBytesCount, firstLine);
 	
-	SInt32 newLineCount = mEditorWindow->HexLineCount();
+	SInt32 newLineCount = mOwnerDualView->HexLineCount();
 	
 	// If the cursor was at the beginning of the frame and we moved back, bring the 
 	// previous line (if any) in view.
 	if (inStartPos < 0) {
 		if (firstLine > 1) {
 			firstLine -= 1;
-			mEditorWindow->SetCurrFirstLine(firstLine);
-			inStartPos += HexPosToPos(mEditorWindow->GetPaneCount(count_BytesPerLine));
+			mOwnerDualView->SetCurrFirstLine(firstLine);
+			inStartPos += HexPosToPos(mOwnerDualView->GetPaneCount(count_BytesPerLine));
 		} else {
 			inStartPos = 0;
 		}
 	} 
 	// If the cursor was at the end of the frame and we insert chars, bring the 
 	// next line in view. Create it if necessary.
-	if ( inStartPos == HexPosToPos(mEditorWindow->GetPaneCount(count_BytesPerPane)) && inBytesCount > 0) {
+	if ( inStartPos == HexPosToPos(mOwnerDualView->GetPaneCount(count_BytesPerPane)) && inBytesCount > 0) {
 		firstLine += 1;
-		mEditorWindow->SetCurrFirstLine(firstLine);
-		inStartPos -= HexPosToPos(mEditorWindow->GetPaneCount(count_BytesPerLine));
+		mOwnerDualView->SetCurrFirstLine(firstLine);
+		inStartPos -= HexPosToPos(mOwnerDualView->GetPaneCount(count_BytesPerLine));
 		if (mOneOfTwoInserted) {
 			mEditingPos = inStartPos + inBytesCount;
 		} 
@@ -692,16 +689,16 @@ CHexDataSubView::UserChangedText(
 	// Redraw accordingly
 	if (oldLineCount == newLineCount) {
 		// Redraw subviews
-		mEditorWindow->InstallContentsFromLine(firstLine);
+		mOwnerDualView->InstallContentsFromLine(firstLine);
 	} else if (oldLineCount < newLineCount) {
 		// Update the scrollbar's max value
-		mEditorWindow->SetMaxScrollerValue();
+		mOwnerDualView->SetMaxScrollerValue();
 		// Provoke a redraw of the subviews
-		mEditorWindow->GetScroller()->SetValue(firstLine);
+		mOwnerDualView->GetScroller()->SetValue(firstLine);
 	} else {
 		// Update the scrollbar's max value. Since it is smaller, 
 		// the scrollbar provokes a redraw.
-		mEditorWindow->SetMaxScrollerValue();
+		mOwnerDualView->SetMaxScrollerValue();
 	}
 	// Re-position the cursor
 	SInt32 newPos = inStartPos + inBytesCount;
@@ -732,11 +729,11 @@ CHexDataSubView::SyncContentsWithMemory(SInt32 inStartPos,
 										SInt32 inBytesCount, 
 										SInt32 inLineOffset)
 {
-	SInt32 bytesPerLine = mEditorWindow->GetPaneCount(count_BytesPerLine);
+	SInt32 bytesPerLine = mOwnerDualView->GetPaneCount(count_BytesPerLine);
 	SInt32 startOffset = (inLineOffset - 1) * bytesPerLine + PosToHexPos(inStartPos);
 	SInt32 endOffset = (inLineOffset - 1) * bytesPerLine + PosToHexPos(inEndPos);
 
-	WEReference we = mEditorWindow->GetInMemoryWasteRef();
+	WEReference we = mOwnerDualView->GetInMemoryWasteRef();
 	WESetSelection( startOffset, endOffset, we );
 	WEDelete(we);
 
@@ -758,20 +755,6 @@ CHexDataSubView::SyncContentsWithMemory(SInt32 inStartPos,
 		} 
 	} 
 }
-
-
-// ---------------------------------------------------------------------------
-//	¥ SyncImageWithSibling
-// ---------------------------------------------------------------------------
-
-void
-CHexDataSubView::SyncImageWithSibling(SInt32		inHorizDelta,
-										SInt32		inVertDelta,
-										Boolean		inRefresh)
-{
-	mIsSynchronizing = true;
-}
-
 
 
 // ---------------------------------------------------------------------------

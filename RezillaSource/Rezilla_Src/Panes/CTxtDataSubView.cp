@@ -1,11 +1,11 @@
 // ===========================================================================
 // CTxtDataSubView.cp 
 //                       Created: 2003-05-06 06:04:42
-//             Last modification: 2004-06-08 08:50:12
+//             Last modification: 2004-06-17 01:24:36
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003, 2004
+// © Copyright: Bernard Desgraupes 2003-2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -18,7 +18,7 @@
 
 #include "CTxtDataSubView.h"
 #include "CHexDataSubView.h"
-#include "CHexEditorWindow.h"
+#include "CDualDataView.h"
 #include "CSingleScrollBar.h"
 #include "CWEViewActions.h"
 #include "CHexEditorActions.h"
@@ -91,7 +91,7 @@ CTxtDataSubView::ClickSelf(
 {
 	SInt32	startPos,	endPos;
 	
-	mEditorWindow->SetSelectingAll(false);
+	mOwnerDualView->SetSelectingAll(false);
 	CWasteEditView::ClickSelf(inMouseDown);
 	AdjustCursorPos();
 
@@ -99,9 +99,8 @@ CTxtDataSubView::ClickSelf(
 	WEGetSelection(& startPos, & endPos, mWasteEditRef);
 	mHexSiblingView->SyncPositionsWithSibling(PosToCharPos(startPos), 
 											  PosToCharPos(endPos));
-	// Update the window's fields
-	mEditorWindow->SetLineValues();
-	mEditorWindow->SetOffsetValues();
+	// Notify the dual view
+	mOwnerDualView->BroadcastMessage(msg_DualViewEdited, this);
 }
 
 
@@ -177,7 +176,7 @@ CTxtDataSubView::CharPosToPos(SInt32 inCharPos)
 SInt32
 CTxtDataSubView::CharPosToLine(SInt32 inCharPos)
 {
-	SInt32 bytesPerline = mEditorWindow->GetPaneCount(count_BytesPerLine);
+	SInt32 bytesPerline = mOwnerDualView->GetPaneCount(count_BytesPerLine);
 	SInt32 theRest = inCharPos % bytesPerline;
 	
 	return (((inCharPos - theRest) / bytesPerline) + 1);
@@ -330,14 +329,14 @@ CTxtDataSubView::HandleKeyPress(
 					break;
 					
 					case char_DownArrow:
-					theSelStart += CharPosToPos(mEditorWindow->GetPaneCount(count_BytesPerLine));
+					theSelStart += CharPosToPos(mOwnerDualView->GetPaneCount(count_BytesPerLine));
 					break;
 					
 					case char_UpArrow:
-					theSelStart -= CharPosToPos(mEditorWindow->GetPaneCount(count_BytesPerLine));
+					theSelStart -= CharPosToPos(mOwnerDualView->GetPaneCount(count_BytesPerLine));
 					break;
 				}
-				if (theSelStart >= 0 && PosToCharPos(theSelStart) <= mEditorWindow->GetPaneCount(count_BytesPerPane)) {
+				if (theSelStart >= 0 && PosToCharPos(theSelStart) <= mOwnerDualView->GetPaneCount(count_BytesPerPane)) {
 					WESetSelection( theSelStart, theSelStart, mWasteEditRef);
 				}
 				CursorMoved(theSelStart);
@@ -392,9 +391,8 @@ CTxtDataSubView::HandleKeyPress(
 		AdjustImageToText();
 	}
 
-	// Update the window's fields
-	mEditorWindow->SetLineValues();
-	mEditorWindow->SetOffsetValues();
+	// Notify the dual view
+	mOwnerDualView->BroadcastMessage(msg_DualViewEdited, this);
 
 	return keyHandled;
 }
@@ -417,7 +415,7 @@ CTxtDataSubView::ObeyCommand(
 	LongRect	oldDestRect ;
 	WEGetDestRect(&oldDestRect,mWasteEditRef);
 
-	mEditorWindow->SetCurrentSubView(hex_txtpane);
+	mOwnerDualView->SetCurrentSubView(hex_txtpane);
 	
 	switch (inCommand) {
 
@@ -425,8 +423,8 @@ CTxtDataSubView::ObeyCommand(
 		case cmd_Cut: 
 		case cmd_Clear:
 		case cmd_Paste:  {
-			mEditorWindow->SetCurrentSubView(hex_txtpane);
-			cmdHandled = mEditorWindow->ObeyCommand(inCommand, ioParam);
+			mOwnerDualView->SetCurrentSubView(hex_txtpane);
+			cmdHandled = mOwnerDualView->ObeyCommand(inCommand, ioParam);
 			break;
 		}
 
@@ -445,7 +443,7 @@ CTxtDataSubView::ObeyCommand(
 		}
 
 		case cmd_SelectAll: {
-			mEditorWindow->SetSelectingAll(true);
+			mOwnerDualView->SetSelectingAll(true);
 			SelectAll();
 			AdjustImageToText();
 			ForceAutoScroll(oldDestRect);
@@ -453,7 +451,7 @@ CTxtDataSubView::ObeyCommand(
 		}
 
 		default:
-			cmdHandled = mEditorWindow->ObeyCommand(inCommand, ioParam);
+			cmdHandled = mOwnerDualView->ObeyCommand(inCommand, ioParam);
 			break;
 	}
 
@@ -541,7 +539,7 @@ CTxtDataSubView::Insert(
 void
 CTxtDataSubView::InsertContents(Handle inHandle)
 {
-	StSegmTextTranslator translator(inHandle, mEditorWindow->GetPaneCount(count_BytesPerLine) );
+	StSegmTextTranslator translator(inHandle, mOwnerDualView->GetPaneCount(count_BytesPerLine) );
 	translator.Convert();
 	
 	// Empty the Waste edit
@@ -559,7 +557,7 @@ CTxtDataSubView::InsertContents(Handle inHandle)
 void
 CTxtDataSubView::InsertContents(const void * inPtr, SInt32 inByteCount)
 {
-	StSegmTextTranslator translator(inPtr, inByteCount, mEditorWindow->GetPaneCount(count_BytesPerLine));
+	StSegmTextTranslator translator(inPtr, inByteCount, mOwnerDualView->GetPaneCount(count_BytesPerLine));
 	translator.Convert();
 	
 	// Empty the Waste edit
@@ -577,8 +575,8 @@ CTxtDataSubView::InsertContents(const void * inPtr, SInt32 inByteCount)
 void
 CTxtDataSubView::CursorMoved(SInt32 inPos)
 {
-	SInt32 firstLine = mEditorWindow->GetCurrFirstLine();
-	SInt32 lastLine = mEditorWindow->HexLineCount();
+	SInt32 firstLine = mOwnerDualView->GetCurrFirstLine();
+	SInt32 lastLine = mOwnerDualView->HexLineCount();
 	SInt32 newHexPos, newTxtPos;
 	
 	if (inPos < 0) {
@@ -586,18 +584,18 @@ CTxtDataSubView::CursorMoved(SInt32 inPos)
 		firstLine -= 1;
 		// Sync the scrollbar: this provokes a redraw because 
 		// the scrollbar emits its message.
-		mEditorWindow->GetScroller()->SetValue(firstLine);
+		mOwnerDualView->GetScroller()->SetValue(firstLine);
 		// Update the cursor's pos
-		newTxtPos = CharPosToPos(mEditorWindow->GetPaneCount(count_BytesPerLine)) + inPos;
+		newTxtPos = CharPosToPos(mOwnerDualView->GetPaneCount(count_BytesPerLine)) + inPos;
 		DisplaySelectionRange( newTxtPos, newTxtPos);
-	} else if (PosToCharPos(inPos) > mEditorWindow->GetPaneCount(count_BytesPerPane)) {
-		if (firstLine > lastLine - mEditorWindow->GetPaneCount(count_LinesPerPane)) return;
+	} else if (PosToCharPos(inPos) > mOwnerDualView->GetPaneCount(count_BytesPerPane)) {
+		if (firstLine > lastLine - mOwnerDualView->GetPaneCount(count_LinesPerPane)) return;
 		firstLine += 1;
 		// Sync the scrollbar: this provokes a redraw because 
 		// the scrollbar emits its message.
-		mEditorWindow->GetScroller()->SetValue(firstLine);
+		mOwnerDualView->GetScroller()->SetValue(firstLine);
 		// Update the cursor's pos
-		newTxtPos = inPos - CharPosToPos(mEditorWindow->GetPaneCount(count_BytesPerLine));
+		newTxtPos = inPos - CharPosToPos(mOwnerDualView->GetPaneCount(count_BytesPerLine));
 		DisplaySelectionRange( newTxtPos, newTxtPos);
 	} else {
 		newTxtPos = inPos;
@@ -605,9 +603,8 @@ CTxtDataSubView::CursorMoved(SInt32 inPos)
 	// Sync the sibling
 	newHexPos = mHexSiblingView->HexPosToPos( PosToCharPos(newTxtPos) );
 	mHexSiblingView->DisplaySelectionRange(newHexPos, newHexPos);
-	// Update the window's fields
-	mEditorWindow->SetLineValues();
-	mEditorWindow->SetOffsetValues();
+// 	// Notify the dual view
+// 	mOwnerDualView->BroadcastMessage(msg_DualViewEdited, this);
 }
 
 
@@ -636,45 +633,45 @@ CTxtDataSubView::UserChangedText(
 {
 	CWasteEditView::UserChangedText();
 	
-	SInt32 firstLine = mEditorWindow->GetCurrFirstLine();
-	SInt32 oldLineCount = mEditorWindow->HexLineCount();
+	SInt32 firstLine = mOwnerDualView->GetCurrFirstLine();
+	SInt32 oldLineCount = mOwnerDualView->HexLineCount();
 
 	// Synchronize in-memory Waste
 	SyncContentsWithMemory(inStartPos, inEndPos, inBytesCount, firstLine);
 
-	SInt32 newLineCount = mEditorWindow->HexLineCount();
+	SInt32 newLineCount = mOwnerDualView->HexLineCount();
 	
 	// If the cursor was at the beginning of the frame and we moved back, bring the 
 	// previous line (if any) in view.
 	if (inStartPos < 0) {
 		if (firstLine > 1) {
 			firstLine -= 1;
-			mEditorWindow->SetCurrFirstLine(firstLine);
-			inStartPos += CharPosToPos(mEditorWindow->GetPaneCount(count_BytesPerLine));
+			mOwnerDualView->SetCurrFirstLine(firstLine);
+			inStartPos += CharPosToPos(mOwnerDualView->GetPaneCount(count_BytesPerLine));
 		} else {
 			inStartPos = 0;
 		}
 	} 
 	// If the cursor was at the end of the frame and we insert chars, bring the 
 	// next line in view. Create it if necessary.
-	if ( inStartPos == CharPosToPos(mEditorWindow->GetPaneCount(count_BytesPerPane)) && inBytesCount > 0) {
+	if ( inStartPos == CharPosToPos(mOwnerDualView->GetPaneCount(count_BytesPerPane)) && inBytesCount > 0) {
 		firstLine += 1;
-		mEditorWindow->SetCurrFirstLine(firstLine);
-		inStartPos -= CharPosToPos(mEditorWindow->GetPaneCount(count_BytesPerLine));
+		mOwnerDualView->SetCurrFirstLine(firstLine);
+		inStartPos -= CharPosToPos(mOwnerDualView->GetPaneCount(count_BytesPerLine));
 	} 
 
 	if (oldLineCount == newLineCount) {
 		// Redraw subviews
-		mEditorWindow->InstallContentsFromLine(firstLine);
+		mOwnerDualView->InstallContentsFromLine(firstLine);
 	} else if (oldLineCount < newLineCount) {
 		// Update the scrollbar's max value
-		mEditorWindow->SetMaxScrollerValue();
+		mOwnerDualView->SetMaxScrollerValue();
 		// Provoke a redraw of the subviews
-		mEditorWindow->GetScroller()->SetValue(firstLine);
+		mOwnerDualView->GetScroller()->SetValue(firstLine);
 	} else {
 		// Update the scrollbar's max value. Since it is smaller, 
 		// the scrollbar provokes a redraw.
-		mEditorWindow->SetMaxScrollerValue();
+		mOwnerDualView->SetMaxScrollerValue();
 	}
 	// Re-position the cursor
 	SInt32 newPos = inStartPos + inBytesCount;
@@ -705,11 +702,11 @@ CTxtDataSubView::SyncContentsWithMemory(SInt32 inStartPos,
 										SInt32 inBytesCount, 
 										SInt32 inLineOffset)
 {
-	SInt32 bytesPerLine = mEditorWindow->GetPaneCount(count_BytesPerLine);
+	SInt32 bytesPerLine = mOwnerDualView->GetPaneCount(count_BytesPerLine);
 	SInt32 startOffset = (inLineOffset - 1) * bytesPerLine + PosToCharPos(inStartPos);
 	SInt32 endOffset = (inLineOffset - 1) * bytesPerLine + PosToCharPos(inEndPos);
 
-	WEReference we = mEditorWindow->GetInMemoryWasteRef();
+	WEReference we = mOwnerDualView->GetInMemoryWasteRef();
 	WESetSelection( startOffset, endOffset, we );
 	WEDelete(we);
 
@@ -728,20 +725,6 @@ CTxtDataSubView::SyncContentsWithMemory(SInt32 inStartPos,
 		} 
 	} 
 }
-
-
-// ---------------------------------------------------------------------------
-//	¥ SyncImageWithSibling
-// ---------------------------------------------------------------------------
-
-void
-CTxtDataSubView::SyncImageWithSibling(SInt32 inHorizDelta,
-									  SInt32 inVertDelta,
-									  Boolean inRefresh)
-{
-	mIsSynchronizing = true;
-}
-
 
 
 

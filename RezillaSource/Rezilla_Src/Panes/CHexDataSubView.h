@@ -30,7 +30,7 @@
 PP_Begin_Namespace_PowerPlant
 
 class CTxtDataSubView;
-class CHexEditorWindow;
+class CDualDataView;
 
 // ---------------------------------------------------------------------------
 
@@ -82,9 +82,6 @@ public:
 													SInt32 inEndPos, 
 													SInt32 inBytesCount, 
 													SInt32 inLineOffset);
-	void					SyncImageWithSibling(SInt32 inHorizDelta,
-													SInt32 inVertDelta,
-													Boolean inRefresh);
 
 	void					GetCurrHexPos(SInt32 & outHexSelStart, SInt32 & outHexSelEnd);
 	SInt32					NearestHexPos(SInt32 inPos);
@@ -97,8 +94,8 @@ public:
 	CTxtDataSubView*		GetSiblingView() { return mTxtSiblingView;}
 	void					SetSiblingView(CTxtDataSubView* theSiblingView) {mTxtSiblingView = theSiblingView ;}
 
-	CHexEditorWindow*		GetEditorWindow() { return mEditorWindow;}
-	void					SetEditorWindow(CHexEditorWindow* theEditorWindow) {mEditorWindow = theEditorWindow ;}
+	CDualDataView*			GetOwnerDualView() { return mOwnerDualView;}
+	void					SetOwnerDualView(CDualDataView* theOwnerDualView) {mOwnerDualView = theOwnerDualView ;}
 	
 	void					SetSynchronizing(Boolean theIsSynchronizing) {mIsSynchronizing = theIsSynchronizing ;}
 
@@ -107,7 +104,7 @@ public:
 
 protected:
 
-		CHexEditorWindow *			mEditorWindow;
+		CDualDataView *				mOwnerDualView;
 		CTxtDataSubView *			mTxtSiblingView;
 		Boolean						mIsSynchronizing;
 
