@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2004-06-18 08:23:41
+//             Last modification : 2004-06-21 08:04:36
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -153,12 +153,15 @@ const ResIDT	rRidL_AskUniqueID			= rPPob_AskUniqueID;
 const ResIDT	ics8_Unlocked				= 1500;
 const ResIDT	ics8_Locked					= 1501;
 
+const ResIDT	CURS_HandCursor				= 1000;
+
 const ResIDT	STRx_RzilErrorStrings		= 1000;
 const ResIDT	STRx_PrefsCtrlList			= 1004;
 const ResIDT	STRx_DefaultDocTitles		= 1500;
 const ResIDT	STRx_RzilWinMenuItem		= 1501;
 const ResIDT	STRx_NavStrings				= 1502;
 const ResIDT	STRx_FileExtensions			= 1503;
+const ResIDT	STRx_InternetUrls			= 1504;
 
 // Text traits resources
 const ResIDT	Txtr_MonacoNineDefault		= 139;
@@ -167,6 +170,7 @@ const ResIDT	Txtr_GenevaTen				= 140;
 const ResIDT	Txtr_GenevaTenBold			= 131;
 const ResIDT	Txtr_GenevaTenBoldUlLeft	= 144;
 const ResIDT	Txtr_GenevaTenBoldUlRight	= 145;
+const ResIDT	Txtr_UrlHyperlink			= 146;
 
 // Menu resources
 	// rMENU_Window is not a resource. It is built  
@@ -216,6 +220,18 @@ const SInt16	index_ExtText				= 4;
 const SInt16	index_ExtHtml				= 5;
 const SInt16	index_ExtR					= 6;
 const SInt16	index_ExtIcns				= 7;
+// Indices of STR# 1503: internet urls for about box
+const SInt16	index_urlProjCaption		= 1;
+const SInt16	index_urlProjURL			= 2;
+const SInt16	index_urlBinsCaption		= 3;
+const SInt16	index_urlBinsUEL			= 4;
+const SInt16	index_urlCvsCaption			= 5;
+const SInt16	index_urlCvsUEL				= 6;
+const SInt16	index_urlBugCaption			= 7;
+const SInt16	index_urlBugUEL				= 8;
+const SInt16	index_urlMailCaption		= 9;
+const SInt16	index_urlMailURL			= 10;
+
 
 
 // Menu commands
@@ -289,8 +305,10 @@ const PaneIDT	item_NewUniqueID			= 20;
 // ---------
 const PaneIDT	item_AboutOkButton			= 1;
 const PaneIDT	item_AboutVersCaption		= 2;
-const PaneIDT	item_AboutWasteView			= 3;
+const PaneIDT	item_AboutAuthorView		= 3;
 const PaneIDT	item_AboutLicenceButton		= 4;
+const PaneIDT	item_AboutFreeView			= 5;
+const PaneIDT	item_AboutUrlsBase			= 11;
 // Find Dialog
 // -----------
 const PaneIDT	item_FindSearchField		= 1;
