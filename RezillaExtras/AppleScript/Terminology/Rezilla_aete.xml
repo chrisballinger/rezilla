@@ -880,6 +880,28 @@
 						<SingularOrPlural>singular</SingularOrPlural>
 					</ClassProperty>
 					<ClassProperty>
+						<PropertyName>readOnly</PropertyName>
+						<PropertyID>pRDO</PropertyID>
+						<PropertyClass>bool</PropertyClass>
+						<PropertyDescription>Is this document read-only?</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readWrite</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+					<ClassProperty>
 						<PropertyName>modified</PropertyName>
 						<PropertyID>imod</PropertyID>
 						<PropertyClass>bool</PropertyClass>
@@ -1338,8 +1360,8 @@
 	</Suite>
 
 	<Suite>
-	<SuiteName>Miscellaneous Standards</SuiteName>
-	<SuiteDescription>Useful events that aren't in any other suite</SuiteDescription>
+	<SuiteName>Miscellaneous Suite</SuiteName>
+	<SuiteDescription>Useful events that aren't in standard suite</SuiteDescription>
 	<SuiteID>misc</SuiteID>
 	<SuiteLevel>0</SuiteLevel>
 	<SuiteVersion>0</SuiteVersion>
@@ -1389,25 +1411,6 @@
 				</ArrayOtherParams>
 			</Event>
 
-		</ArrayEvents>
-
-		<ArrayClasses>
-		</ArrayClasses>
-
-		<ArrayComparisonOps>
-		</ArrayComparisonOps>
-
-		<ArrayEnumerations>
-		</ArrayEnumerations>
-	</Suite>
-
-	<Suite>
-	<SuiteName>odds and ends</SuiteName>
-	<SuiteDescription>Things that should be in some standard suite, but aren't</SuiteDescription>
-	<SuiteID>Odds</SuiteID>
-	<SuiteLevel>1</SuiteLevel>
-	<SuiteVersion>1</SuiteVersion>
-		<ArrayEvents>
 			<Event>
 				<EventName>SetTellTarget</EventName>
 				<EventDescription>Makes an object the 'focus' of AppleEvents</EventDescription>
@@ -1588,6 +1591,328 @@
 		</ArrayEvents>
 		
 		<ArrayClasses>
+			<Class>
+				<ClassName>map document</ClassName>
+				<ClassID>MapD</ClassID>
+				<ClassDescription>a Rezilla's resource map document</ClassDescription>
+				<ArrayProperties>
+					<ClassProperty>
+						<PropertyName>inherits</PropertyName>
+						<PropertyID>c@#^</PropertyID>
+						<PropertyClass>docu</PropertyClass>
+						<PropertyDescription>all properties of the 'document' class</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+					<ClassProperty>
+						<PropertyName>refnum</PropertyName>
+						<PropertyID>pREF</PropertyID>
+						<PropertyClass>shor</PropertyClass>
+						<PropertyDescription>the refnum of the map in memory</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+					<ClassProperty>
+						<PropertyName>fork</PropertyName>
+						<PropertyID>pFRK</PropertyID>
+						<PropertyClass>FKND</PropertyClass>
+						<PropertyDescription>the fork this document is editing (data fork or resource fork)</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>enumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+					<ClassProperty>
+						<PropertyName>map</PropertyName>
+						<PropertyID>pMAP</PropertyID>
+						<PropertyClass>cMAP</PropertyClass>
+						<PropertyDescription>the resource map edited in this document</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+					<ClassProperty>
+						<PropertyName>file</PropertyName>
+						<PropertyID>pFIL</PropertyID>
+						<PropertyClass>fss </PropertyClass>
+						<PropertyDescription>the file on disk corresponding to this resource map document</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readWrite</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+				</ArrayProperties>
+				<ArrayElements>
+					<ClassElement>
+						<ClassElementID>EdiD</ClassElementID>
+						<ArrayKeyForms>
+							<KeyFormID>indx</KeyFormID>
+							<KeyFormID>name</KeyFormID>
+							<KeyFormID>list</KeyFormID>
+						</ArrayKeyForms>
+					</ClassElement>
+				</ArrayElements>
+			</Class>
+
+			<Class>
+				<ClassName>editor document</ClassName>
+				<ClassID>EdiD</ClassID>
+				<ClassDescription>an editor document for a single resource</ClassDescription>
+				<ArrayProperties>
+					<ClassProperty>
+						<PropertyName>inherits</PropertyName>
+						<PropertyID>c@#^</PropertyID>
+						<PropertyClass>docu</PropertyClass>
+						<PropertyDescription>all properties of the 'document' class</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+					<ClassProperty>
+						<PropertyName>kind</PropertyName>
+						<PropertyID>pKND</PropertyID>
+						<PropertyClass>EKND</PropertyClass>
+						<PropertyDescription>the refnum of the map in memory</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>enumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+					<ClassProperty>
+						<PropertyName>resource</PropertyName>
+						<PropertyID>pRSC</PropertyID>
+						<PropertyClass>cRSC</PropertyClass>
+						<PropertyDescription>the resource edited by this document</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+					<ClassProperty>
+						<PropertyName>map</PropertyName>
+						<PropertyID>pOMD</PropertyID>
+						<PropertyClass>MAPD</PropertyClass>
+						<PropertyDescription>the owner map document this document depends from</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+				</ArrayProperties>
+				<ArrayElements>
+				</ArrayElements>
+			</Class>
+
+			<Class>
+				<ClassName>GUI editor</ClassName>
+				<ClassID>GuiD</ClassID>
+				<ClassDescription>a GUI editor document for a resource</ClassDescription>
+				<ArrayProperties>
+					<ClassProperty>
+						<PropertyName>inherits</PropertyName>
+						<PropertyID>c@#^</PropertyID>
+						<PropertyClass>EdiD</PropertyClass>
+						<PropertyDescription>all properties of the 'document' class</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+				</ArrayProperties>
+				<ArrayElements>
+				</ArrayElements>
+			</Class>
+
+			<Class>
+				<ClassName>template editor</ClassName>
+				<ClassID>GuiD</ClassID>
+				<ClassDescription>a template editor document for a resource</ClassDescription>
+				<ArrayProperties>
+					<ClassProperty>
+						<PropertyName>inherits</PropertyName>
+						<PropertyID>c@#^</PropertyID>
+						<PropertyClass>TmpD</PropertyClass>
+						<PropertyDescription>all properties of the 'document' class</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+				</ArrayProperties>
+				<ArrayElements>
+				</ArrayElements>
+			</Class>
+
+			<Class>
+				<ClassName>hex editor</ClassName>
+				<ClassID>GuiD</ClassID>
+				<ClassDescription>an hexadecimal editor document for a resource</ClassDescription>
+				<ArrayProperties>
+					<ClassProperty>
+						<PropertyName>inherits</PropertyName>
+						<PropertyID>c@#^</PropertyID>
+						<PropertyClass>HexD</PropertyClass>
+						<PropertyDescription>all properties of the 'document' class</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+				</ArrayProperties>
+				<ArrayElements>
+				</ArrayElements>
+			</Class>
+
 		</ArrayClasses>
 		
 		<ArrayComparisonOps>
@@ -1636,7 +1961,7 @@
 						<SingularOrPlural>singular</SingularOrPlural>
 					</ClassProperty>
 					<ClassProperty>
-						<PropertyName>refNum</PropertyName>
+						<PropertyName>refnum</PropertyName>
 						<PropertyID>pREF</PropertyID>
 						<PropertyClass>shor</PropertyClass>
 						<PropertyDescription>the refnum of the map in memory</PropertyDescription>
@@ -1666,6 +1991,28 @@
 						<IsPropertyList>singleItem</IsPropertyList>
 						<IsPropertyEnumerated>enumerated</IsPropertyEnumerated>
 						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
+						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
+						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
+						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<Reserved/>
+						<IsApostrophe>noApostrophe</IsApostrophe>
+						<IsFeminine>notFeminine</IsFeminine>
+						<IsMasculine>notMasculine</IsMasculine>
+						<SingularOrPlural>singular</SingularOrPlural>
+					</ClassProperty>
+					<ClassProperty>
+						<PropertyName>attributes</PropertyName>
+						<PropertyID>pATR</PropertyID>
+						<PropertyClass>shor</PropertyClass>
+						<PropertyDescription>the global value of the map attributes (sum of the individual flags)</PropertyDescription>
+						<Reserved/>
+						<IsPropertyList>singleItem</IsPropertyList>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
+						<IsReadOnlyProperty>readWrite</IsReadOnlyProperty>
 						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
 						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
 						<PropertyIsValueOrRef>propertyIsValue</PropertyIsValueOrRef>
@@ -1884,7 +2231,7 @@
 						<PropertyDescription>the ID of the resource</PropertyDescription>
 						<Reserved/>
 						<IsPropertyList>singleItem</IsPropertyList>
-						<IsPropertyEnumerated>enumerated</IsPropertyEnumerated>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
 						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
 						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
 						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
@@ -1906,7 +2253,7 @@
 						<PropertyDescription>the type of the resource</PropertyDescription>
 						<Reserved/>
 						<IsPropertyList>singleItem</IsPropertyList>
-						<IsPropertyEnumerated>enumerated</IsPropertyEnumerated>
+						<IsPropertyEnumerated>notEnumerated</IsPropertyEnumerated>
 						<IsReadOnlyProperty>readOnly</IsReadOnlyProperty>
 						<EnumConstantOrType>enumsAreConstants</EnumConstantOrType>
 						<CanEnumListRepeat>enumListCanRepeat</CanEnumListRepeat>
