@@ -1,19 +1,21 @@
 // ===========================================================================
 // CTargetView.cp
 //                       Created: 2004-12-11 18:53:22
-//             Last modification: 2004-12-16 22:23:22
+//             Last modification: 2005-01-08 07:10:13
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes 2004
+// (c) Copyright: Bernard Desgraupes 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
 // ===========================================================================
 
 #include "CTargetView.h"
-#include "UGAColorRamp.h"
+#include "RezillaConstants.h"
 #include "UIconMisc.h"
+
+#include <UGAColorRamp.h>
 
 
 // ---------------------------------------------------------------------------
@@ -52,51 +54,62 @@ CTargetView::CreateFromStream( LStream *inStream )
 // ---------------------------------------------------------------------------
 
 void
-CTargetView::SetTarget( Boolean inTarget, RedrawOptions inRedraw )
+CTargetView::SetTarget( Boolean inHasTarget, RedrawOptions inRedraw )
 {
-	if ( mHasTarget == inTarget ) return;
+	if ( mHasTarget == inHasTarget ) return;
 	
-	mHasTarget = inTarget;
+	mHasTarget = inHasTarget;
 	UIconMisc::RedrawPaneAsIndicated( this, inRedraw );
 }
 
 
 // ---------------------------------------------------------------------------
-// 	GetBackgroundColor
+//	¥ DrawBorder
 // ---------------------------------------------------------------------------
-// 	Returns the superview's background color.
+//  Border around a Sample pane is outset from the interior by 3 pixels.
 
 void
-CTargetView::GetBackgroundColor( RGBColor *outColor )
+CTargetView::DrawBorder()
 {
-	StColorPenState		thePenState;		// save/restore pen state
+	StColorState	saveColors;			// Preserve color state
+	StGrafPortSaver	savePort;
+	Rect			frame;
+	RGBColor		redColor = Color_Red;
+
+	FocusDraw();
 	
-	this->ApplyForeAndBackColors();
-	::GetBackColor( outColor );
+	CalcLocalFrameRect(frame);
+	::MacInsetRect(&frame, 1, 1);
+	::RGBForeColor(&redColor);
+// // 	::DrawThemeFocusRegion(StRegion(frame), true);
+	
+	::PenNormal();
+	::PenSize(1, 1);
+	
+	// Draw border around the view
+	::RGBForeColor(&redColor);
+	::FrameRect( &frame );
 }
 
 
 // ---------------------------------------------------------------------------
-// 	DrawTargettedFrame
+//	¥ EraseBorder
 // ---------------------------------------------------------------------------
 
 void
-CTargetView::DrawTargettedFrame( const Rect &inBorderRect, Boolean inColor )
+CTargetView::EraseBorder()
 {
-	StColorPenState		thePenState;
-	thePenState.Normalize();
-
-	if ( !mHasTarget )
-	{
-		RGBColor	backColor;
-		if ( inColor )
-			this->GetBackgroundColor( &backColor );
-		else
-			backColor = UGAColorRamp::GetWhiteColor();
-		::RGBForeColor( &backColor );
-	}
+	StColorState	saveColors;			// Preserve color state
+	StGrafPortSaver	savePort;
+	Rect			frame;
 	
-	::PenSize( 2, 2 );
-	::FrameRect( &inBorderRect );
+	FocusDraw();
+	
+	CalcLocalFrameRect(frame);
+// 	::MacInsetRect(&frame, 1, 1);
+	::DrawThemeFocusRegion(StRegion(frame), false);
 }
+
+
+
 

@@ -1,11 +1,11 @@
 // ===========================================================================
 // CTargetView.h
 //                       Created: 2004-12-11 18:57:50
-//             Last modification: 2004-12-28 10:01:47
+//             Last modification: 2005-01-08 07:10:03
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes 2004
+// (c) Copyright: Bernard Desgraupes 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -31,14 +31,14 @@ class CTargetView : public LView, public LBroadcaster {
 	
 		static CTargetView *	CreateFromStream( LStream *inStream );
 		
-		virtual void		SetTarget( Boolean inTarget, RedrawOptions inRedraw );
+		virtual void		SetTarget( Boolean inHasTarget, RedrawOptions inRedraw );
 		
+		virtual void		DrawBorder();
+		virtual void		EraseBorder();
+
 	protected:
 		Boolean				mHasTarget;
 		
-		virtual void		DrawTargettedFrame( const Rect &inBorderRect, Boolean inColor = true );
-
-		virtual void		GetBackgroundColor( RGBColor *outColor );
 };
 
 
