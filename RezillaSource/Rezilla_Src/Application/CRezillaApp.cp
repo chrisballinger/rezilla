@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2005-01-13 10:00:52
+//             Last modification: 2005-01-21 10:14:13
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -34,7 +34,6 @@
 #include "CAete_EditorWindow.h"
 #include "CBiDataWE.h"
 #include "CBroadcasterTableView.h"
-#include "CCategoriesListBox.h"
 #include "CColorPane.h"
 #include "CCompResultWindow.h"
 #include "CDoubleClickButton.h"
@@ -359,7 +358,7 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(LMLTEPane);
 
 	// Register Rezilla custom classes.
-// 	RegisterClass_(CAete_EditorWindow);
+	RegisterClass_(CAete_EditorWindow);
 	RegisterClass_(CBiDataWE);
 	RegisterClass_(CBroadcasterTableView);
 	RegisterClass_(CCategoriesListBox);
