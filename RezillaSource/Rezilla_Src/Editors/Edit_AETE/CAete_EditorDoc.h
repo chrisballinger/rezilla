@@ -55,9 +55,6 @@ public:
 	
 protected:
 	CAete_EditorWindow*			mAeteEditWindow;
-
-	SInt32						mTotalCount[5];
-	SInt32						mCurrCategory;
 	CAeteStream *				mOutStream;
 	
 	virtual Handle		GetModifiedResource(Boolean &releaseIt);

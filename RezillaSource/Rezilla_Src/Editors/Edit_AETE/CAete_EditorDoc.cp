@@ -98,12 +98,6 @@ CAete_EditorDoc::~CAete_EditorDoc()
 void
 CAete_EditorDoc::Initialize()
 {
-	mCurrCategory	= 1;
-	
-	for (SInt16	index = 0; index <= 4; index++) {
-		mTotalCount[index] = 0;
-	}
-
 	// Create window for our document
 	mAeteEditWindow = dynamic_cast<CAete_EditorWindow *>(LWindow::CreateWindow( PPob_AeteEditorWindow, this ));
 	Assert_( mAeteEditWindow != nil );
