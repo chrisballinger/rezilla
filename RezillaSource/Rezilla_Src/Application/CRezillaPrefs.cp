@@ -153,7 +153,7 @@ CRezillaPrefs::SetDefaultPreferences()
 	sCurrPrefs.editors.hexCase			= hex_lowercase;
 
 	// Misc pane
-	sCurrPrefs.misc.setSigOnClose		= true;
+	sCurrPrefs.misc.setSigOnClose		= false;
 	sCurrPrefs.misc.closingType			= kRezFileType;
 	sCurrPrefs.misc.closingCreator		= kRezillaSig;
 	sCurrPrefs.misc.setSigOnCreate		= true;
