@@ -17,7 +17,7 @@
 #include "CTmplEditorDoc.h"
 #include "CTmplListItemView.h"
 #include "CTmplListButton.h"
-#include "CTmplBevelButton.h"
+#include "CTmplCasePopup.h"
 #include "CTemplatesController.h"
 #include "CRezMapTable.h"
 #include "CRezMap.h"
@@ -406,7 +406,7 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		case msg_TmplCasePopup: {
 			STmplBevelInfo	theBevelInfo = *((STmplBevelInfo *) ioParam);								
 			LEditText *		theEditText;
-			CTmplBevelButton *	theBevel;
+			CTmplCasePopup *	theBevel;
 			SInt32			firstMark, currMark;
 			Str255			theString;
 			Str255 * 		rightPtr;
@@ -414,7 +414,7 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			SInt16			i, choice;
 			
 			choice = theBevelInfo.menuChoice;
-			theBevel = dynamic_cast<CTmplBevelButton *>(theBevelInfo.selfPtr);
+			theBevel = dynamic_cast<CTmplCasePopup *>(theBevelInfo.selfPtr);
 			if (theBevel != NULL) {
 				theEditText = (LEditText *) theBevel->GetUserCon();
 				

@@ -19,7 +19,7 @@
 #include "CTmplEditorDoc.h"
 #include "CTmplListItemView.h"
 #include "CTmplListButton.h"
-#include "CTmplBevelButton.h"
+#include "CTmplCasePopup.h"
 #include "CTemplatesController.h"
 #include "CRezObj.h"
 #include "CRezillaApp.h"
@@ -1120,58 +1120,21 @@ CTmplEditorWindow::AddCasePopup(ResType inType, Str255 inLabel, SInt32 inStartMa
 	sBevelPaneInfo.paneID			= mCurrentID;
 	sBevelPaneInfo.superView		= inContainer;
 
-	CTmplBevelButton * theBevelButton = new CTmplBevelButton(sBevelPaneInfo, msg_TmplCasePopup, kControlBevelButtonSmallBevelProc,
+	CTmplCasePopup * theCasePopup = new CTmplCasePopup(sBevelPaneInfo, msg_TmplCasePopup, theEditText,
 													 MENU_TemplateCases, kControlBevelButtonMenuOnBottom, 
-													 kControlContentTextOnly, 0, 0, Str_Empty, 1, 
-													 kControlBevelButtonPlaceNormally, teFlushDefault, 0, 
-													 kControlBevelButtonAlignCenter, Point_00, true);													 
-	ThrowIfNil_(theBevelButton);
+													 0, Str_Empty, 1,
+													   mTemplateStream, inStartMark);													 
+	ThrowIfNil_(theCasePopup);
 
 	// Let the window listen to this menu
-	theBevelButton->AddListener(this);
+	theCasePopup->AddListener(this);
 	
 	// Store the pointer to the associated edit field
-	theBevelButton->SetUserCon( (long) theEditText);
+	theCasePopup->SetUserCon( (long) theEditText);
 	// Store the position mark of the first CASE in the userCon of the edit field
 	theEditText->SetUserCon(inStartMark);
 	// Retrieve the value of the associated edit field
 	theEditText->GetDescriptor(theValue);
-	
-	// Let the popup listen to the edit field
-	theEditText->AddListener(theBevelButton);
-
-	// Populate the popup with all the successive cases
-	if ( UMiscUtils::SplitCaseValue(inLabel, &rightPtr) ) {
-		theBevelButton->InsertMenuItem(inLabel, index, true);
-		if (rightPtr != NULL && UCompareUtils::CompareStr255( (Str255 *) theValue, rightPtr) == 0) {
-			foundIdx = index;
-		} 
-	} 
-	currMark = mTemplateStream->GetMarker();
-	while (currMark < totalLength) {
-		*mTemplateStream >> theString;
-		*mTemplateStream >> theType;
-		if (theType != inType) {
-			// We went too far. Reposition the stream marker.
-			mTemplateStream->SetMarker(currMark, streamFrom_Start);
-			break;
-		} 
-		currMark = mTemplateStream->GetMarker();
-		index++;
-		if ( UMiscUtils::SplitCaseValue(theString, &rightPtr) ) {
-			theBevelButton->InsertMenuItem(theString, index, true);
-			if (foundIdx == -1 && rightPtr != NULL && UCompareUtils::CompareStr255( (Str255 *) theValue, rightPtr) == 0) {
-				foundIdx = index;
-			} 
-		} 
-	}
-	
-	// Mark the item corresponding to the value
-	if (foundIdx != -1) {
-		theBevelButton->SetCurrentMenuItem(foundIdx);						
-	} else {
-		::MacCheckMenuItem(theBevelButton->GetMacMenuH(), theBevelButton->GetCurrentMenuItem(), 0);
-	}
 	
 	// Advance the counters. mYCoord has already been increased by the edit field
 	mPaneIDs.AddItem(mCurrentID);
