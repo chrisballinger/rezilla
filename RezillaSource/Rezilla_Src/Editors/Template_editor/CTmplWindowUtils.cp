@@ -1231,3 +1231,26 @@ CTmplEditorWindow::CalcTextPositions(OSType inType, SInt32 & oldPos, SInt32 & ne
 }
 
 
+// ---------------------------------------------------------------------------
+//	¥ RecalcRevealedRects											[private]
+// ---------------------------------------------------------------------------
+// Recalculate the revealed rects of all the subpanes included in a list
+// item view after the list item view has been resized to its definitive
+// dimensions.
+
+void
+CTmplEditorWindow::RecalcRevealedRects(CTmplListItemView * inListItemView)
+{
+	LPane *	theSub;
+	LView *	theView;
+	inListItemView->CalcRevealedRect();
+	
+	TArrayIterator<LPane *> iterator( inListItemView->GetSubPanes() );
+	while (iterator.Next(theSub)) {
+		theView = dynamic_cast<LView *>(theSub);
+		if (theView) {
+			theView->CalcRevealedRect();
+		}
+	}
+}
+

@@ -280,6 +280,8 @@ private:
 										SInt32 inReqSize,
 										SInt16 & delta);
 
+	void			RecalcRevealedRects(CTmplListItemView * inListItemView);
+
 	Boolean			CalcTextPositions(OSType inType, 
 									  SInt32 & oldPos, 
 									  SInt32 & newPos, 
