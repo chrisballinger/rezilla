@@ -464,7 +464,7 @@ CAete_EditorWindow::InstallElementValues(CAeteElement *	inElement)
 		disableIt = true;
 	}
 	
-	theEditText = dynamic_cast<LEditText *>(mClassPane->FindPaneByID( item_AeteElementID ));
+	theEditText = dynamic_cast<LEditText *>(mClassPane->FindPaneByID( item_AeteElementClass ));
 	ThrowIfNil_( theEditText );
 	if (!disableIt) {
 		UMiscUtils::OSTypeToPString(theID, theString);
@@ -958,7 +958,7 @@ CAete_EditorWindow::RetrieveElementValues(CAeteElement * inElement)
 
 	if (!inElement) return;
 
-	theEditText = dynamic_cast<LEditText *>(mClassPane->FindPaneByID( item_AeteElementID ));
+	theEditText = dynamic_cast<LEditText *>(mClassPane->FindPaneByID( item_AeteElementClass ));
 	ThrowIfNil_( theEditText );
 	theEditText->GetDescriptor(theString);
 	UMiscUtils::PStringToOSType( theString, theID);

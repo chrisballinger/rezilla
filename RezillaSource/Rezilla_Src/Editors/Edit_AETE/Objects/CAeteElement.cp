@@ -203,7 +203,7 @@ CAeteElement::GetDataFromXml(CFXMLTreeRef inTreeNode)
 		xmlTree = CFTreeGetChildAtIndex(inTreeNode, index);
 		xmlNode = CFXMLTreeGetNode(xmlTree);
 
-		if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ElementID"), 0) ) {
+		if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ElementClass"), 0) ) {
 			UMiscUtils::GetOSTypeFromXml(xmlTree, mID);
 		} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ArrayKeyForms"), 0) ) {
 			subCount = CFTreeGetChildCount(xmlTree);
