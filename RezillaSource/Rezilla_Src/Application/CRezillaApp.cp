@@ -324,6 +324,10 @@ CRezillaApp::ObeyCommand(
 {
 	Boolean		cmdHandled = true;
 	
+	if (inCommand == 1324679167) {
+		inCommand = 27;
+	} 
+	
 	switch (inCommand) {
 		
 		case cmd_New: {
