@@ -679,6 +679,8 @@ CHexDataSubView::UserChangedText(
 	DisplaySelectionRange(newPos, newPos);
 	// Synchronize sibling
 	mTxtSiblingView->SyncPositionsWithSibling(PosToHexPos(newPos), PosToHexPos(newPos));
+	// Set the window sirty
+	::SetWindowModified(mOwnerDualView->GetWindowRef(), true);
 }
 
 
