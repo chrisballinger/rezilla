@@ -1,7 +1,7 @@
 // ===========================================================================
 // CSuite_Window.cp
 //                       Created: 2005-01-10 21:23:57
-//             Last modification: 2005-01-11 07:42:53
+//             Last modification: 2005-01-16 19:11:52
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -176,6 +176,7 @@ CSuite_Window::ListenToMessage( MessageT inMessage, void *ioParam )
 		break;
 		
 		case msg_PlusButton:
+		ImageToNthBitmap(mCurrentIndex);
 		ArrayIndexT index = AddNewBitmap();
 		SetNthBitmap(index);
 		AdjustSlider();

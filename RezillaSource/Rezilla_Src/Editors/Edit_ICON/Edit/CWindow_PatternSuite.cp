@@ -1,7 +1,7 @@
 // ===========================================================================
 // CWindow_PatternSuite.cp
 //                       Created: 2005-01-09 10:38:27
-//             Last modification: 2005-01-11 13:46:40
+//             Last modification: 2005-01-16 19:11:40
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -256,7 +256,7 @@ CWindow_PatternSuite::RemoveBitmap( SInt32 inBitmapIndex )
 }
 
 // ---------------------------------------------------------------------------
-// 	BitmapToNthPattern
+// 	ImageToNthBitmap
 // ---------------------------------------------------------------------------
 
 void

@@ -137,7 +137,9 @@ CWindow_Picture::SaveAsResource( CRezMap * /* inMap */, ResIDT /* inResID */ )
 // 	try
 // 	{
 // 		h = (Handle) UGraphicConversion::OffscreenToPicture( theBuffer );
-// 		CRezObj * theResource = inMap->FindResource( ImgType_Picture, inResID, false );
+// 		CRezObj * theResource = inMap->FindResource( ImgType_Picture, inResID, 
+// 													false /* loadIt */, 
+// 													true  /* createIt */ );
 // 		ThrowIfNil_( theResource );
 // 		theResource->SetResData( h );
 // 	}

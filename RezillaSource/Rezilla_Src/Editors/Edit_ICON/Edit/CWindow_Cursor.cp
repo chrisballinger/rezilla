@@ -390,7 +390,9 @@ CWindow_Cursor::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 				throw( err_IconInvalidImageFormat );
 		}
 
-		CRezObj * theResource = inMap->FindResource( mResourceType, inResID, false );
+		CRezObj * theResource = inMap->FindResource( mResourceType, inResID, 
+													false /* loadIt */, 
+													true  /* createIt */ );
 		ThrowIfNil_( theResource );
 		theResource->SetData( h );
 	}

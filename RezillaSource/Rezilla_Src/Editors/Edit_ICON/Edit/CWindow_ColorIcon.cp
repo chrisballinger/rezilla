@@ -311,7 +311,9 @@ CWindow_ColorIcon::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 	
 	try
 	{
-		CRezObj * theResource = inMap->FindResource( ImgType_ColorIcon, inResID, false );
+		CRezObj * theResource = inMap->FindResource( ImgType_ColorIcon, inResID, 
+													false /* loadIt */, 
+													true  /* createIt */ );
 		ThrowIfNil_( theResource );
 		theResource->SetData( h );
 	}
