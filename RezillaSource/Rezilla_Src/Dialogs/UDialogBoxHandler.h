@@ -31,7 +31,7 @@
 
 PP_Begin_Namespace_PowerPlant
 
-class	LDialogBox;
+class	CThreeButtonsBox;
 
 // ===========================================================================
 #pragma mark StDialogBoxHandler
@@ -45,14 +45,14 @@ public:
 								LCommander*		inSuper);
 
 						StDialogBoxHandler(
-								LDialogBox*		inWindow,
+								CThreeButtonsBox*		inWindow,
 								LCommander*		inSuper);
 
 	virtual				~StDialogBoxHandler();
 
 	virtual MessageT	DoDialog();
 
-	LDialogBox*			GetDialog() const	{ return mDialog; }
+	CThreeButtonsBox*	GetDialog() const	{ return mDialog; }
 
 	void				SetSleepTime(
 								UInt32			inSleepTime)
@@ -75,9 +75,9 @@ public:
 								void*			ioParam);
 
 protected:
-	LDialogBox *	mDialog;
-	MessageT		mMessage;
-	UInt32			mSleepTime;
+	CThreeButtonsBox *	mDialog;
+	MessageT			mMessage;
+	UInt32				mSleepTime;
 
 	void				InitDialogHandler();
 };

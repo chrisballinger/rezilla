@@ -26,12 +26,12 @@
 #include "CRezillaApp.h"
 #include "UDialogBoxHandler.h"
 #include "UResources.h"
+#include "CThreeButtonsBox.h"
 
 #include <LControl.h>
 #include <LEditField.h>
 #include <LPeriodical.h>
 #include <LUndoer.h>
-#include <LDialogBox.h>
 #include <PP_KeyCodes.h>
 #include <PP_Messages.h>
 #include <PP_Resources.h>
@@ -56,7 +56,7 @@ StDialogBoxHandler::StDialogBoxHandler(
 
 	: LCommander(inSuper)
 {
-	mDialog = dynamic_cast<LDialogBox*>(LWindow::CreateWindow(inDialogResID, this));
+	mDialog = dynamic_cast<CThreeButtonsBox*>(LWindow::CreateWindow(inDialogResID, this));
 
 	UReanimator::LinkListenerToBroadcasters(this, mDialog, inDialogResID);
 
@@ -67,15 +67,15 @@ StDialogBoxHandler::StDialogBoxHandler(
 // ---------------------------------------------------------------------------
 //	¥ StDialogBoxHandler						Constructor				  [public]
 // ---------------------------------------------------------------------------
-//	Take ownership of a LDialogBox to use as a moveable modal dialog box
+//	Take ownership of a CThreeButtonsBox to use as a moveable modal dialog box
 //
 //	If you wish to set up a Broadcaster/Listener relationship between
 //	the Controls in the Window (such as the OK and Cancel buttons) and the
 //	DialogHandler, you must do so explicitly.
 
 StDialogBoxHandler::StDialogBoxHandler(
-	LDialogBox*		inWindow,			// Window to use for dialog
-	LCommander*		inSuper)
+	CThreeButtonsBox*		inWindow,			// Window to use for dialog
+	LCommander*				inSuper)
 
 	: LCommander(inSuper)
 {
