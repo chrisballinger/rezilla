@@ -222,9 +222,10 @@ protected:
 
 	virtual void				FinishCreateSelf();
 	
+	void					DebugPortSelf();
+	
 private:
 	void						Initialize();
-
 };
 
 

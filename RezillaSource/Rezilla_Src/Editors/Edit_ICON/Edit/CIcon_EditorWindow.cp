@@ -2,7 +2,7 @@
 // CIcon_EditorWindow.cp
 // 
 //                       Created: 2004-12-10 17:23:05
-//             Last modification: 2005-01-02 15:45:35
+//             Last modification: 2005-01-03 09:36:26
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -212,11 +212,11 @@ CIcon_EditorWindow::Initialize()
 LWindow *
 CIcon_EditorWindow::CreatePaintWindow( ResIDT inWindowID )
 {
-	StGWorldSaver			aSaver;
-	LWindow 				*theWindow = nil;
+	LWindow *	theWindow = nil;
 	
+	// Bug in Mac toolbox requires this
+	::SetGDevice( GetMainDevice() );
 	// Create the window
-	::SetGDevice( GetMainDevice() );				// bug in Mac toolbox requires this
 	theWindow = LWindow::CreateWindow( inWindowID, LCommander::GetTopCommander() );
 	return( theWindow );
 }
@@ -234,7 +234,7 @@ void
 CIcon_EditorWindow::SetImage( COffscreen *inBuffer, SInt32 inResize, RedrawOptions inRedraw )
 {
 	ThrowIfNil_( inBuffer );
-	
+
 	COffscreen		*scratchBuffer = nil, *undoBuffer = nil, *imageBuffer = nil;
 
 	// If we have a current selection, commit it and remove the selection.
@@ -417,6 +417,7 @@ CIcon_EditorWindow::FinishCreateSelf()
 	// Make the window a listener to the prefs object
 	CRezillaApp::sPrefs->AddListener(this);
 
+	DebugPortSelf();
 }
 
 
@@ -530,7 +531,6 @@ CIcon_EditorWindow::FindCommandStatus(
 	UInt16		&outMark,
 	Str255		outName)
 {
-
 	Boolean		enableIt = false;
 	Boolean		fileLocked = this->GetLockFlag();
 	
@@ -541,7 +541,7 @@ CIcon_EditorWindow::FindCommandStatus(
 			// See if the command belongs to the Colors menu
 			SInt32	currentDepth = mCurrentImage ? mCurrentImage->GetDepth() : 0;
 
-			if ( mColorTableChoice->FindCommandStatus( currentDepth, inCommand, outEnabled,
+			if (mColorTableChoice->FindCommandStatus( currentDepth, inCommand, outEnabled,
 														outUsesMark, outMark, outName ) ) {
 				return;
 			}								
@@ -1644,6 +1644,34 @@ CDraggableTargetView *CIcon_EditorWindow::GetTargetView()
 // 	This is NASTY because the current port's color table doesn't match the
 // 	current GDevice's color table and drawing sometimes doesn't take place.
 
+// Boolean
+// CIcon_EditorWindow::EstablishPort()
+// {
+// 	Rect	theRect;
+// 	GrafPtr	thePort = GetMacPort();
+// 	
+// 	if ( !mMacWindowP ) return( false );
+// 	if ( !thePort ) return( false );
+// 	
+// 	GDHandle mainDevice = ::GetMainDevice();
+// 	if ( GetGDevice() != mainDevice )
+// 		::SetGDevice( mainDevice );
+// 			
+// 	if ( UQDGlobals::GetCurrentPort() != thePort )
+// 	{
+// 		::SetPort( thePort );
+// 	}
+// 	
+// 	::SetOrigin( 0, 0 );					
+// 	::GetPortBounds(thePort, &theRect);
+// 	::ClipRect( &theRect );
+// 		
+// 	LView::OutOfFocus( nil );	
+// 	
+// 	return( true );	
+// }
+
+
 Boolean
 CIcon_EditorWindow::EstablishPort()
 {
@@ -1956,14 +1984,14 @@ CIcon_EditorWindow::GetContainedWidth(SInt32 &outWidth)
 	LPane *			thePane;
 	SDimension16	frameSize;
 
-	thePane = dynamic_cast<CIcon_EditorView *>(this->FindPaneByID(item_CanvasEncloser));
+	thePane = this->FindPaneByID(item_CanvasEncloser);
 	ThrowIfNil_( thePane );
 	thePane->GetFrameSize( frameSize );
 	totalWidth += frameSize.width ;
 	
 	// If there is a samples view, add its width (only PICT editing windows
 	// do not have one).
-	thePane = dynamic_cast<CIcon_EditorView *>(this->FindPaneByID(item_IconSampleWell));
+	thePane = this->FindPaneByID(item_IconSampleWell);
 	if (thePane) {
 		thePane->GetFrameSize( frameSize );
 		totalWidth += frameSize.width ;
@@ -1974,3 +2002,47 @@ CIcon_EditorWindow::GetContainedWidth(SInt32 &outWidth)
 	outWidth = totalWidth;
 }
 
+
+// ---------------------------------------------------------------------------
+// 	DebugPortSelf
+// ---------------------------------------------------------------------------
+// Temp debugging code
+
+void
+CIcon_EditorWindow::DebugPortSelf()
+{
+	GrafPtr		beforePort;		// Verify Port setting
+	::GetPort(&beforePort);
+
+	EstablishPort();
+
+	GrafPtr		afterPort;
+	::GetPort(&afterPort);
+
+	SignalIf_( beforePort != afterPort );
+
+								// Verify Port origin
+	Rect	afterBounds;
+	::GetPortBounds(afterPort, &afterBounds);
+	SignalIf_( mPortOrigin.h != afterBounds.left );
+	SignalIf_( mPortOrigin.v != afterBounds.top );
+
+								// Verify Clipping region
+	Rect	clipR = mRevealedRect;
+	PortToLocalPoint(topLeft(clipR));
+	PortToLocalPoint(botRight(clipR));
+	StRegion	testClip = clipR;
+
+		// Current clipping region can be different from
+		// the one set by focusing, but if it is it must
+		// not contain any area that's not in the focus one.
+		// Therefore, the intersection of the focus region
+		// with the current clip region must equal the
+		// current clip region.
+
+	StRegion	afterClip;
+	::GetClip(afterClip);
+	testClip &= afterClip;
+
+	SignalIf_ ( !::MacEqualRgn(testClip, afterClip) );
+}

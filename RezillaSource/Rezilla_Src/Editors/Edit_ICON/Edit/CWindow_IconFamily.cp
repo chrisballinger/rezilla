@@ -37,6 +37,8 @@ CWindow_IconFamily::OpenPaintWindow( ResIDT inPPobID, CRezMap *inMap, ResIDT inR
 	try
 	{
 		theWindow = (CWindow_IconFamily*) CIcon_EditorWindow::CreatePaintWindow( inPPobID );
+		theWindow->DebugPortSelf();
+
 		theWindow->InitializeFromResource( inMap, inResID );
 	}
 	catch( ... )
@@ -91,7 +93,8 @@ void
 CWindow_IconFamily::FinishCreateSelf()
 {
 	CIcon_EditorWindow::FinishCreateSelf();
-	
+
+	DebugPortSelf();
 // 	// Default to 8-bit large color icon
 // 	if ( (**mFamilyListH).defaultPane )
 // 	{
@@ -113,6 +116,8 @@ CWindow_IconFamily::InitializeFromResource( CRezMap *inMap, ResIDT inResID )
 	StGWorldSaver		aSaver2;
 	SInt32				numTypes = GetFamilyMemberCount();
 	
+	DebugPortSelf();
+
 	// Initialize each family member 
 	for ( SInt32 count = 1; count <= numTypes; count++ )
 	{
