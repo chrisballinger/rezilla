@@ -2,11 +2,11 @@
 // CRezMap.h					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2004-12-23 09:58:10
+//             Last modification: 2005-01-16 16:02:19
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003-2004
+// (c) Copyright : Bernard Desgraupes, 2003-2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -49,7 +49,10 @@ public:
 						Handle & outHandle, 
 						Boolean loadIt = false);
 	
-	CRezObj *	FindResource(ResType inType, short inID, Boolean loadIt);
+	CRezObj *	FindResource(ResType inType, 
+							 short inID, 
+							 Boolean loadIt, 
+							 Boolean createIt = false);
 
 	OSErr	GetAllTypes( TArray<ResType>* & outArray );
 	

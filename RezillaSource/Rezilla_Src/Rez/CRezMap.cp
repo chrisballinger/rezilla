@@ -2,11 +2,11 @@
 // CRezMap.cp					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2004-11-29 06:25:11
+//             Last modification: 2005-01-16 15:39:33
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003-2004
+// (c) Copyright : Bernard Desgraupes, 2003-2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -14,6 +14,7 @@
 
 #include "CRezMap.h"
 #include "CRezObj.h"
+#include "CRezType.h"
 #include "UResources.h"
 #include "RezillaConstants.h"
 
@@ -253,13 +254,18 @@ CRezMap::GetWithName(ResType inType, ConstStr255Param inName, Handle & outHandle
 // ---------------------------------------------------------------------------
 //  ¥ FindResource										[public]
 // ---------------------------------------------------------------------------
+// If the createIt argument is true, FindResource will create a resource of
+// the given type and ID if none exists already: this can occur when an
+// icon family is edited and some member of the family was initially
+// missing from the map. If createIt is false and no resource exists, the 
+// function returns NULL.
 
 CRezObj *
-CRezMap::FindResource(ResType inType, short inID, Boolean loadIt)
+CRezMap::FindResource(ResType inType, short inID, Boolean loadIt, Boolean createIt)
 {
 	OSErr		error;
 	CRezObj *	theRez = NULL;
-	Handle		theHandle;
+	Handle		theHandle = NULL;
 	
 	StRezRefSaver saver(mRefNum);
 	if (!loadIt) {
@@ -269,9 +275,19 @@ CRezMap::FindResource(ResType inType, short inID, Boolean loadIt)
 	theHandle = ::Get1Resource(inType, inID);
 	error = ::ResError();
 	
-	if (error == noErr) {
+	if (theHandle == NULL) {
+		if (createIt) {
+			// The resource does not exist. Create it now.
+			CRezType *	theRezType = new CRezType(inType, this);
+			Str255		name = "\p";
+			
+			theRez = new CRezObj(theRezType, inID, &name);
+			error = theRez->Add();
+			delete theRezType;
+		} 
+	} else {
 		theRez = new CRezObj(theHandle, mRefNum);
-	} 
+	}
 	
 	if (!loadIt) {
 		::SetResLoad(true);
