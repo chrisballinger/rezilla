@@ -128,6 +128,7 @@ CTmplEditorWindow::FinishCreateSelf()
 	mLastID				= 0;
 	mItemsCount			= 0;
 	mIndent				= 0;
+	mIsDirty			= false;
 	mYCoord             = kTmplVertSkip;
 	mLeftLabelTraitsID	= Txtr_GenevaTenBoldUlLeft;
 	mRightLabelTraitsID	= Txtr_GenevaTenBoldUlRight;
@@ -590,7 +591,6 @@ void
 CTmplEditorWindow::RecalcPositions(LView * inView, SInt32 inVertPos, SInt32 inPosDelta) 
 {
 	Rect	theFrame;
-	PaneIDT	theID;
 	LPane *	theSub;
 	SInt32	thePos = inVertPos;
 	LView *	theContainer = inView->GetSuperView();
@@ -701,9 +701,24 @@ CTmplEditorWindow::InstallReadOnlyIcon()
 
 Boolean
 CTmplEditorWindow::IsDirty()
-{
-	return false;
+{	
+	if (!mIsDirty) {
+		// The mWasteFieldsList contains all the Waste views. Check if they
+		// are modified.
+		TArrayIterator<CWasteEditView *> iterator(mWasteFieldsList);
+		CWasteEditView *	theWasteView = nil;
+		
+		while (iterator.Next(theWasteView)) {
+			mIsDirty = theWasteView->IsDirty();
+			if (mIsDirty) {
+				break;
+			} 
+		}
+	} 
+
+	return mIsDirty;
 }
+
 
 #pragma mark -
 
@@ -1254,7 +1269,6 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		  AddWasteField(inType, inContainer);
 	  } else if ( inType >> 16 == 'P0') {
 		  SInt32 length = 255;
-		  Str255 numStr;
 		  // P0nn A Pascal string that is nn hex bytes long (The length byte is not included in nn, so the string occupies the entire specified length.)
 		  if (mRezStream->GetMarker() < mRezStream->GetLength() ) {
 			  SInt32 length;
@@ -1417,6 +1431,9 @@ CTmplEditorWindow::AddCheckField(Boolean inValue,
 	LCheckBox * theCheck = new LCheckBox(mCheckPaneInfo, msg_TmplModified, inValue);
 	ThrowIfNil_(theCheck);
 		
+	// Store the template's type in the userCon field
+	theCheck->SetUserCon(inType);
+	
 	// Advance the counters
 	mYCoord += mCheckPaneInfo.height + kTmplVertSep;
 	mCurrentID++;
@@ -1483,6 +1500,9 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 	CWasteEditView * theWasteEdit = new CWasteEditView(mWastePaneInfo, theViewInfo, 0, mEditTraitsID);
 	ThrowIfNil_(theWasteEdit);
 
+	// Add to the mWasteFieldsList
+	mWasteFieldsList.AddItem(theWasteEdit);
+	
 	theScroller->InstallView(theWasteEdit);
 	
 	// Store the template's type in the userCon field
@@ -1660,6 +1680,10 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 	
 	CTxtDataSubView * theTxtWE = new CTxtDataSubView(mWastePaneInfo, theViewInfo, 0, mEditTraitsID);
 	ThrowIfNil_(theTxtWE);
+	
+	// Add to the mWasteFieldsList
+	mWasteFieldsList.AddItem(theHexWE);
+	mWasteFieldsList.AddItem(theTxtWE);
 	
 	// Install the subpanes and the scroller in the dual view
 	theTGB->InstallSubViews(theHexWE, theTxtWE, theScroller, mOwnerDoc->IsReadOnly() );
