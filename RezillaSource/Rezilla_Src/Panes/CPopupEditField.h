@@ -2,7 +2,7 @@
 // CPopupEditField.h
 // 
 //                       Created: 2005-03-12 07:58:12
-//             Last modification: 2005-03-12 07:59:31
+//             Last modification: 2005-03-15 06:44:33
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -76,13 +76,13 @@ public:
 
 	void			FillPopup(ResIDT inStringListID);
 	
+	LBevelButton*		GetPopup() { return mPopup;}
+
 protected:
 		LBevelButton *	mPopup;
 		ResIDT			mStringsID;
 							
 	virtual void	FinishCreateSelf();		
-
-	virtual void	HotSpotResult( SInt16 inHotSpot );
 	
 private:
 	void			CreatePopup(MessageT inPopupMsg, Boolean inLeftSide);

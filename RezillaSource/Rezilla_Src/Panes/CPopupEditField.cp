@@ -2,7 +2,7 @@
 // CPopupEditField.h
 // 
 //                       Created: 2005-03-12 07:58:12
-//             Last modification: 2005-03-12 07:59:31
+//             Last modification: 2005-03-15 07:18:10
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -11,7 +11,6 @@
 // $Date$
 // $Revision$
 // ===========================================================================
-
 // Subclass only to broadcast the pointer to "this" instead of the value of
 // the control.
 
@@ -27,7 +26,6 @@
 
 #include <LControlImp.h>
 #include <LStaticText.h>
-#include <LThemeTextBox.h>
 
 PP_Begin_Namespace_PowerPlant
 
@@ -43,7 +41,6 @@ CPopupEditField::CPopupEditField(
 	: LEditText(inStream, inImpID)
 {
 	MessageT 	popupMessage;
-	ResIDT		stringListID;
 	Boolean		leftSide;
 	
 	*inStream >> popupMessage;
@@ -218,29 +215,13 @@ CPopupEditField::ListenToMessage( MessageT inMessage, void *ioParam )
 	
 	if (inMessage == mPopup->GetValueMessage()) {
 		SInt32		choice = *(SInt32 *) ioParam;
+		Str255 		theString;
 		Str255 *	rightPtr;
 	
 		::GetIndString(theString, mStringsID, choice);
 		if ( UMiscUtils::SplitCaseValue(theString, &rightPtr) ) {
 			SetDescriptor(*rightPtr);
 		} 
-		Str255 theString;
-		SInt32 theGlyph;
-		
-		::StringToNum( *rightPtr, &theGlyph);
-		// /_In Progress/_Text Classes/LThemeTextBox
-// 		LThemeTextBox * theStaticText = dynamic_cast<LThemeTextBox *>(GetSuperView()->FindPaneByID(50));
-// 		ThrowIfNil_( theStaticText );
-// 		theString[0] = 255;
-// 		for ( SInt16 index = 1; index <= 16; index++ ) {
-// 			theString[index] = 32;
-// 		}
-// 		for ( SInt16 index = 17; index <= 255; index++ ) {
-// 			theString[index] = index;
-// 		}
-// 		
-// 		theStaticText->SetDescriptor(theString);
-
 		return;
 	} 
 	
@@ -258,31 +239,6 @@ CPopupEditField::ListenToMessage( MessageT inMessage, void *ioParam )
 		break;
 		
 	}
-}
-
-
-// ---------------------------------------------------------------------------
-//	 HotSpotResult
-// ---------------------------------------------------------------------------
-//	Respond to a click in a BevelButton
-
-void
-CPopupEditField::HotSpotResult(
-	SInt16	/* inHotSpot */)
-{
-	// Popup Menu broadcasts message with pointer to this and 
-	// selected item number
-		SInt16	choice;	
-// 		STmplBevelInfo theBevelInfo;
-
-		mControlImp->GetDataTag(0, kControlBevelButtonMenuValueTag,
-								sizeof(SInt16), &choice);
-								mPopup->SetCurrentMenuItem(choice);						
-								
-// 		theBevelInfo.menuChoice = mMenuChoice;
-// 		theBevelInfo.selfPtr = this;
-// 		BroadcastMessage(mValueMessage, &theBevelInfo);
-		BroadcastMessage(mValueMessage, this);
 }
 
 
