@@ -608,7 +608,6 @@ CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount,
 							 LView * inContainer, PaneIDT inCountPane)
 {
 	OSErr	error = noErr;
-	UInt8	theChar;
 
 	mIndent += kTmplListIndent;
 	
@@ -625,18 +624,12 @@ CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount,
 		SInt32	listCount = 0;
 		Boolean drawCtrl = true;
 		
-		if ( EndOfList(inType) ) {
-			// An LSTZ list must be terminated by a NULL
-			if (inType == 'LSTZ') {
-				if ( mRezStream->GetLength() > O && mRezStream->GetMarker() == mRezStream->GetLength() - 1 ) {
-					*mRezStream >> theChar;
-					if (theChar != 0) {
-						return err_TmplZeroListNotEndingWithNull;
-					}
-				}
-			} 
-			mRezStream->SetMarker(O, streamFrom_End);
-			drawCtrl = false;
+		if ( EndOfList(inType, &error) ) {
+			if (error == noErr) {
+				drawCtrl = false;
+			} else {
+				return error;
+			}
 		} 
 		mYCoord = outYCoord;
 		do {
@@ -648,17 +641,20 @@ CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount,
 				if (thePlusButton->GetUserCon() == nil) {
 					thePlusButton->SetUserCon( (long) currListItemView);
 				} 
+				mYCoord = kTmplVertSep;
 			}
-			mYCoord = kTmplVertSep;
 			error = DoParseWithTemplate(inStartMark, drawCtrl, theContainer);
+			if (error != noErr) {
+				return error;
+			} 
 			if (drawCtrl) {
 				currListItemView->mLastItemID = mCurrentID - 1;
 				currListItemView->ResizeFrameBy(0, mYCoord, false);
 				outYCoord += mYCoord + kTmplVertSkip;
 				mYCoord = outYCoord;
 			} 
-		} while (! EndOfList(inType) );
-		if (inCountPane != 0) {
+		} while (! EndOfList(inType, &error) );
+		if (error == noErr && inCountPane != 0) {
 			AdjustCounterField(inCountPane, listCount);
 		} 
 		break;
@@ -668,7 +664,7 @@ CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount,
 			error = DoParseWithTemplate(inStartMark, false, theContainer);
 		} else {
 			mYCoord = outYCoord;
-			for (short i = 0 ; i < inCount; i++) {
+			for (short i = 0 ; i < inCount && error == noErr; i++) {
 				currListItemView = AddListItemView(prevListItemView, inContainer);
 				prevListItemView = currListItemView;
 				theContainer = currListItemView;
@@ -698,7 +694,7 @@ CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount,
 // ---------------------------------------------------------------------------
 
 Boolean
-CTmplEditorWindow::EndOfList(ResType inType)
+CTmplEditorWindow::EndOfList(ResType inType, OSErr * outError)
 {
 	Boolean result = false;
 
@@ -715,7 +711,21 @@ CTmplEditorWindow::EndOfList(ResType inType)
 		
 		case 'LSTZ':
 		if ( mRezStream->GetMarker() >= mRezStream->GetLength() - 1 ) {
+			UInt8	theChar;
+			
 			result = true;
+			// An LSTZ list must be terminated by a NULL
+			if ( mRezStream->GetLength() > 0 ) {
+				if (mRezStream->GetMarker() == mRezStream->GetLength() - 1) {
+					*mRezStream >> theChar;
+					if (theChar != 0) {
+						*outError = err_TmplZeroListEndingWithNonNull;
+					}
+				} else {
+					*outError = err_TmplZeroListNotTerminated;
+				}
+			}
+// 			mRezStream->SetMarker(0, streamFrom_End);
 		} 
 		break;
 		

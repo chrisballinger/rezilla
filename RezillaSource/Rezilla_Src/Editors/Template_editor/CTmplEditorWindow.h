@@ -152,7 +152,7 @@ private:
 
 	OSErr			RetrieveKeyedSection(ResType inType);
 
-	Boolean			EndOfList(ResType inType);
+	Boolean			EndOfList(ResType inType, OSErr * outError);
 	
 	void			AddStaticField(OSType inType, 
 								   Str255 inLabel, 
