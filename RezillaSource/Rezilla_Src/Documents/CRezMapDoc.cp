@@ -671,28 +671,30 @@ CRezMapDoc::AttemptClose(
 	FSSpec		fileSpec = {0, 0, "\p"};		// Invalid specifier
 	
 	if (IsModified()) {
-
-		SInt16 answer = AskSaveChanges(SaveWhen_Closing);
-
-		if (answer == answer_Save) {
-			if (IsSpecified()) {
-				DoSave();
-				saveOption = kAEYes;
-
-			} else {
-				closeIt = AskSaveAs(fileSpec, RecordAE_No);
-				saveOption = kAEYes;
-			}
-
-		} else if (answer == answer_Cancel) {
-			closeIt = false;
+		if (mReadOnly) {
+			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("CantSaveReadOnly"), rPPob_SimpleMessage);
 		} else {
-			mUpdateOnClose = false;
+			SInt16 answer = AskSaveChanges(SaveWhen_Closing);
+
+			if (answer == answer_Save) {
+				if (IsSpecified()) {
+					DoSave();
+					saveOption = kAEYes;
+
+				} else {
+					closeIt = AskSaveAs(fileSpec, RecordAE_No);
+					saveOption = kAEYes;
+				}
+
+			} else if (answer == answer_Cancel) {
+				closeIt = false;
+			} else {
+				mUpdateOnClose = false;
+			}
 		}
 	}
 
 	if (closeIt) {
-
 		if (inRecordIt) {
 			try {
 				SendAEClose(saveOption, fileSpec, ExecuteAE_No);
@@ -779,9 +781,14 @@ CRezMapDoc::DoAESave(
 void
 CRezMapDoc::DoSave()
 {
-	mRezMap->Update();
-	// Mark the document as non modified
-	SetModified(false);
+	OSErr error = mRezMap->Update();
+	
+	if (error != noErr) {
+		UMessageDialogs::ErrorWithString(CFSTR("ErrorSavingRezMapDoc"), error);
+	} else {
+		// Mark the document as non modified
+		SetModified(false);
+	}
 }
 
 
@@ -1167,6 +1174,10 @@ CRezMapDoc::FindCommandStatus(
 			outEnabled = true;
 			break;
 								
+		case cmd_Save:
+			outEnabled = !mReadOnly && (IsModified() or not IsSpecified());
+			break;
+
 		case cmd_Find:
 			LString::CopyPStr( "\pFind in Map…", outName);
 			outEnabled = true;
