@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2005-01-31 23:59:01
+//             Last modification : 2005-02-02 05:49:10
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -787,13 +787,15 @@ const PaneIDT   item_AetePropertyType		= 13;
 const PaneIDT   item_AetePropertyOptions	= 14;
 const PaneIDT   item_AetePropertyDescr		= 15;
 const PaneIDT   item_AeteElementID			= 22;
-const PaneIDT   item_AeteKeyFormsTable		= 24;
+const PaneIDT   item_AeteKeyFormID			= 24;
 const PaneIDT   item_AetePropertyBox		= FOUR_CHAR_CODE('PROP');
 const PaneIDT   item_AeteElementBox			= FOUR_CHAR_CODE('ELEM');
 const PaneIDT   item_AetePropertySlider		= FOUR_CHAR_CODE('PSLI');
 const PaneIDT   item_AetePropertyIndicator	= FOUR_CHAR_CODE('PIDC');
 const PaneIDT   item_AeteElementSlider		= FOUR_CHAR_CODE('ESLI');
 const PaneIDT   item_AeteElementIndicator	= FOUR_CHAR_CODE('EIDC');
+const PaneIDT   item_AeteKeyFormSlider		= FOUR_CHAR_CODE('KSLI');
+const PaneIDT   item_AeteKeyFormIndicator	= FOUR_CHAR_CODE('KIDC');
 //    CompOps panel
 const PaneIDT   item_AeteCompName			= 1;
 const PaneIDT   item_AeteCompID				= 2;
@@ -989,51 +991,13 @@ const MessageT	msg_IconShowAsBitmap		= PPob_IconEditorWindow + item_IconShowAsBi
 const MessageT	msg_IconShowAsMask			= PPob_IconEditorWindow + item_IconShowAsMask;
 // // Aete Editor Window
 // // ------------------
-// const MessageT    msg_AeteMajorVersion		= PPob_AeteEditorWindow + item_AeteMajorVersion;
-// const MessageT    msg_AeteMinorVersion		= PPob_AeteEditorWindow + item_AeteMinorVersion;
-// const MessageT    msg_AeteLanguageID		= PPob_AeteEditorWindow + item_AeteLanguageID;
-// const MessageT    msg_AeteScriptCode		= PPob_AeteEditorWindow + item_AeteScriptCode;
-// const MessageT    msg_AeteSuiteName			= PPob_AeteEditorWindow + item_AeteSuiteName;
-// const MessageT    msg_AeteSuiteDescr		= PPob_AeteEditorWindow + item_AeteSuiteDescr;
-// const MessageT    msg_AeteSuiteID			= PPob_AeteEditorWindow + item_AeteSuiteID;
-// const MessageT    msg_AeteSuiteLevel		= PPob_AeteEditorWindow + item_AeteSuiteLevel;
-// const MessageT    msg_AeteSuiteVersion		= PPob_AeteEditorWindow + item_AeteSuiteVersion;
-// //    Events panel
-// const MessageT    msg_AeteEventName			= PPob_AeteEventsPane + item_AeteEventName;
-// const MessageT    msg_AeteEventClass		= PPob_AeteEventsPane + item_AeteEventClass;
-// const MessageT    msg_AeteEventID			= PPob_AeteEventsPane + item_AeteEventID;
-// const MessageT    msg_AeteEventDescr		= PPob_AeteEventsPane + item_AeteEventDescr;
-// const MessageT    msg_AeteDirectType		= PPob_AeteEventsPane + item_AeteDirectType;
-const MessageT    msg_AeteDirectOptions		= PPob_AeteEventsPane + item_AeteDirectOptions;
-// const MessageT    msg_AeteDirectDescr		= PPob_AeteEventsPane + item_AeteDirectDescr;
-// const MessageT    msg_AeteReplyType			= PPob_AeteEventsPane + item_AeteReplyType;
-const MessageT    msg_AeteReplyOptions		= PPob_AeteEventsPane + item_AeteReplyOptions;
-// const MessageT    msg_AeteReplyDescr		= PPob_AeteEventsPane + item_AeteReplyDescr;
-// const MessageT    msg_AeteParamName			= PPob_AeteEventsPane + item_AeteParamName;
-// const MessageT    msg_AeteParamKeyword		= PPob_AeteEventsPane + item_AeteParamKeyword;
-// const MessageT    msg_AeteParamType			= PPob_AeteEventsPane + item_AeteParamType;
-const MessageT    msg_AeteParamOptions		= PPob_AeteEventsPane + item_AeteParamOptions;
-// const MessageT    msg_AeteParamDescr		= PPob_AeteEventsPane + item_AeteParamDescr;
-// //    Classes panel
-// const MessageT    msg_AeteClassName			= PPob_AeteClassesPane + item_AeteClassName;
-// const MessageT    msg_AeteClassID			= PPob_AeteClassesPane + item_AeteClassID;
-// const MessageT    msg_AeteClassDescr		= PPob_AeteClassesPane + item_AeteClassDescr;
-// const MessageT    msg_AetePropertyName		= PPob_AeteClassesPane + item_AetePropertyName;
-// const MessageT    msg_AetePropertyKeyword	= PPob_AeteClassesPane + item_AetePropertyKeyword;
-// const MessageT    msg_AetePropertyType		= PPob_AeteClassesPane + item_AetePropertyType;
-const MessageT    msg_AetePropertyOptions	= PPob_AeteClassesPane + item_AetePropertyOptions;
-// const MessageT    msg_AetePropertyDescr		= PPob_AeteClassesPane + item_AetePropertyDescr;
-// const MessageT    msg_AeteElementID			= PPob_AeteClassesPane + item_AeteElementID;
-// const MessageT    msg_AeteKeyFormsTable		= PPob_AeteClassesPane + item_AeteKeyFormsTable;
-// //    CompOps panel
-// const MessageT    msg_AeteCompName			= PPob_AeteCompOpsPane + item_AeteCompName;
-// const MessageT    msg_AeteCompID			= PPob_AeteCompOpsPane + item_AeteCompID;
-// const MessageT    msg_AeteCompDescr			= PPob_AeteCompOpsPane + item_AeteCompDescr;
-// //    Enums panel
-// const MessageT    msg_AeteEnumerationID		= PPob_AeteEnumsPane + item_AeteEnumerationID;
-// const MessageT    msg_AeteEnumName			= PPob_AeteEnumsPane + item_AeteEnumName;
-// const MessageT    msg_AeteEnumType			= PPob_AeteEnumsPane + item_AeteEnumType;
-// const MessageT    msg_AeteEnumDescr			= PPob_AeteEnumsPane + item_AeteEnumDescr;
+const MessageT    msg_AeteSuiteName			= PPob_AeteEditorWindow + item_AeteSuiteName;
+//   All the other edit fields as well as the option popups broadcast a
+//   msg_EditorModifiedItem message.
+// Events panel
+// Classes panel
+// CompOps panel
+// Enums panel
 
 
 // Other general purpose messages
@@ -1042,7 +1006,7 @@ const MessageT	msg_Close						= FOUR_CHAR_CODE('Clos');
 const MessageT	msg_StylePrefsChanged			= FOUR_CHAR_CODE('StPC');
 const MessageT	msg_HexScroller					= FOUR_CHAR_CODE('HScr');
 const MessageT	msg_DualViewEdited				= FOUR_CHAR_CODE('DuEd');
-const MessageT	msg_EditorItemModified			= FOUR_CHAR_CODE('EdMd');
+const MessageT	msg_EditorModifiedItem			= FOUR_CHAR_CODE('EdMd');
 const MessageT	msg_MinusButton					= FOUR_CHAR_CODE('Mins');
 const MessageT	msg_PlusButton					= FOUR_CHAR_CODE('Plus');
 const MessageT	msg_TmplCasePopup				= FOUR_CHAR_CODE('Case');
@@ -1414,4 +1378,11 @@ enum RedrawOptions
 	redraw_Later,
 	redraw_Dont
 };
+
+// ======================================================================
+// Constants used by the Aete Editor
+// ======================================================================
+const SInt16	kAeteTableWidth			= 81;
+const SInt16	kAeteTableHeight		= 11;
+
 

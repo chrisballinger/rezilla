@@ -309,7 +309,7 @@ CTmplEditorWindow::AddEditField(Str255 inValue,
 	}
 	
 	LEditText * theEditText = new LEditText(sEditPaneInfo, this, inValue, sEditTraitsID, 
-											msg_EditorItemModified, inMaxChars, 0, inKeyFilter);
+											msg_EditorModifiedItem, inMaxChars, 0, inKeyFilter);
 	ThrowIfNil_(theEditText);
 
 	// Store the template's type in the userCon field
@@ -375,7 +375,7 @@ CTmplEditorWindow::AddBooleanField(Boolean inValue,
 	sRadioPaneInfo.paneID		= mCurrentID;
 	sRadioPaneInfo.superView	= theRGV;
 
-	theRadio = new LStdRadioButton(sRadioPaneInfo, msg_EditorItemModified, 
+	theRadio = new LStdRadioButton(sRadioPaneInfo, msg_EditorModifiedItem, 
 								   inValue, sLeftLabelTraitsID, (UInt8 *)(inTitleType ? "\pOn":"\pYes"));
 	ThrowIfNil_(theRadio);
 	
@@ -392,7 +392,7 @@ CTmplEditorWindow::AddBooleanField(Boolean inValue,
 	sRadioPaneInfo.left += kTmplRadioWidth + kTmplHorizSep;
 	sRadioPaneInfo.paneID = mCurrentID;
 
-	theRadio = new LStdRadioButton(sRadioPaneInfo, msg_EditorItemModified, 
+	theRadio = new LStdRadioButton(sRadioPaneInfo, msg_EditorModifiedItem, 
 								   1 - inValue, sLeftLabelTraitsID, (UInt8 *)(inTitleType ? "\pOff":"\pNo"));
 	ThrowIfNil_(theRadio);
 	
@@ -502,7 +502,7 @@ CTmplEditorWindow::AddCheckField(Boolean inValue,
 	sCheckPaneInfo.paneID		= mCurrentID;
 	sCheckPaneInfo.superView	= inContainer;
 
-	LCheckBox * theCheck = new LCheckBox(sCheckPaneInfo, msg_EditorItemModified, inValue);
+	LCheckBox * theCheck = new LCheckBox(sCheckPaneInfo, msg_EditorModifiedItem, inValue);
 	ThrowIfNil_(theCheck);
 		
 	// Store the template's type in the userCon field
@@ -582,7 +582,7 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer, SInt32 inRe
 	theWE->ApplyStyleValues( theTraits.size, theTraits.fontNumber);
 
 	// Install the ChangesMessage and let the window listen
-	theWE->SetChangesMessage(msg_EditorItemModified);
+	theWE->SetChangesMessage(msg_EditorModifiedItem);
 	theWE->AddListener(this);
 
 	// Insert the text
@@ -721,8 +721,8 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer, SInt32 in
 	theScroller->SetLinesPerPage( theTGB->GetPaneCount(count_LinesPerPane) - 1);
 	
 	// Install the ChangesMessage and let the window listen
-	theHexWE->SetChangesMessage(msg_EditorItemModified);
-	theTxtWE->SetChangesMessage(msg_EditorItemModified);
+	theHexWE->SetChangesMessage(msg_EditorModifiedItem);
+	theTxtWE->SetChangesMessage(msg_EditorModifiedItem);
 	theHexWE->AddListener(this);
 	theTxtWE->AddListener(this);
 
@@ -810,7 +810,7 @@ CTmplEditorWindow::AddPointField(SInt16 inX,
 	sRectPaneInfo.paneID = mCurrentID;
 	::NumToString( (long) inX, numStr);
 	theEditText = new LEditText(sRectPaneInfo, this, numStr, sEditTraitsID, 
-								msg_EditorItemModified, inMaxChars, inAttributes, inKeyFilter);
+								msg_EditorModifiedItem, inMaxChars, inAttributes, inKeyFilter);
 	ThrowIfNil_(theEditText);
 	theEditText->SetUserCon(inType);
 	// Let the window listen to this field
@@ -826,7 +826,7 @@ CTmplEditorWindow::AddPointField(SInt16 inX,
 	sRectPaneInfo.paneID = mCurrentID;
 	::NumToString( (long) inY, numStr);
 	theEditText = new LEditText(sRectPaneInfo, this, numStr, sEditTraitsID, 
-								msg_EditorItemModified, inMaxChars, inAttributes, inKeyFilter);
+								msg_EditorModifiedItem, inMaxChars, inAttributes, inKeyFilter);
 	ThrowIfNil_(theEditText);
 	theEditText->SetUserCon(inType);
 	// Let the window listen to this field
@@ -872,7 +872,7 @@ CTmplEditorWindow::AddRectField(SInt16 inTop,
 	sRectPaneInfo.paneID = mCurrentID;
 	::NumToString( (long) inTop, numStr);
 	theEditText = new LEditText(sRectPaneInfo, this, numStr, sEditTraitsID, 
-								msg_EditorItemModified, inMaxChars, inAttributes, inKeyFilter);
+								msg_EditorModifiedItem, inMaxChars, inAttributes, inKeyFilter);
 	ThrowIfNil_(theEditText);
 	theEditText->SetUserCon(inType);
 	// Let the window listen to this field
@@ -888,7 +888,7 @@ CTmplEditorWindow::AddRectField(SInt16 inTop,
 	sRectPaneInfo.paneID = mCurrentID;
 	::NumToString( (long) inLeft, numStr);
 	theEditText = new LEditText(sRectPaneInfo, this, numStr, sEditTraitsID, 
-								msg_EditorItemModified, inMaxChars, inAttributes, inKeyFilter);
+								msg_EditorModifiedItem, inMaxChars, inAttributes, inKeyFilter);
 	ThrowIfNil_(theEditText);
 	theEditText->SetUserCon(inType);
 	// Let the window listen to this field
@@ -904,7 +904,7 @@ CTmplEditorWindow::AddRectField(SInt16 inTop,
 	sRectPaneInfo.paneID = mCurrentID;
 	::NumToString( (long) inBottom, numStr);
 	theEditText = new LEditText(sRectPaneInfo, this, numStr, sEditTraitsID, 
-								msg_EditorItemModified, inMaxChars, inAttributes, inKeyFilter);
+								msg_EditorModifiedItem, inMaxChars, inAttributes, inKeyFilter);
 	ThrowIfNil_(theEditText);
 	theEditText->SetUserCon(inType);
 	// Let the window listen to this field
@@ -920,7 +920,7 @@ CTmplEditorWindow::AddRectField(SInt16 inTop,
 	sRectPaneInfo.paneID = mCurrentID;
 	::NumToString( (long) inRight, numStr);
 	theEditText = new LEditText(sRectPaneInfo, this, numStr, sEditTraitsID, 
-								msg_EditorItemModified, inMaxChars, inAttributes, inKeyFilter);
+								msg_EditorModifiedItem, inMaxChars, inAttributes, inKeyFilter);
 	ThrowIfNil_(theEditText);
 	theEditText->SetUserCon(inType);
 	// Let the window listen to this field
@@ -1209,7 +1209,7 @@ CTmplEditorWindow::AddEditPopup(Str255 inValue,
 	sEditPaneInfo.superView	= inContainer;
 
 	LEditText * theEditText = new LEditText(sEditPaneInfo, this, inValue, sEditTraitsID, 
-											msg_EditorItemModified, inMaxChars, inAttributes, inKeyFilter);
+											msg_EditorModifiedItem, inMaxChars, inAttributes, inKeyFilter);
 	ThrowIfNil_(theEditText);
 
 	// Store the template's type in the userCon field
@@ -1287,7 +1287,7 @@ CTmplEditorWindow::AddColorPane(LView * inContainer,
 	sColorPaneInfo.superView	= inContainer;
 	sColorPaneInfo.paneID		= mCurrentID;
 	
-	CColorWell * theWell = new CColorWell(sColorPaneInfo, inRGB, msg_EditorItemModified);
+	CColorWell * theWell = new CColorWell(sColorPaneInfo, inRGB, msg_EditorModifiedItem);
 	ThrowIfNil_(theWell);
 
 	// Let the window listen to this control

@@ -398,7 +398,7 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			break;
 			
 			
-		case msg_EditorItemModified:
+		case msg_EditorModifiedItem:
 			SetDirty(true);
 			break;
 		
