@@ -2,7 +2,7 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2004-11-20 19:21:53
+//             Last modification: 2004-11-21 09:04:19
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -146,7 +146,7 @@ CRezMapDoc::CRezMapDoc(LCommander *inSuper,
 	mRezFile = inRezFile;
 	inRezFile->GetSpecifier(theFileSpec);
 	
-	Initialize(&theFileSpec, inRezFile->GetRefNum());
+	Initialize(&theFileSpec, inRezFile->GetRefnum());
 }
 
 
@@ -761,50 +761,120 @@ CRezMapDoc::DoAESave(
 	FSSpec	&inFileSpec)
 {
 	OSErr error;
+	SInt16 oldFork = mRezFile->GetUsedFork();
+	CRezMapTable* theRezMapTable = mRezMapWindow->GetRezMapTable();
 	
-// 	short oldRefnum = GetRefnum();
 	if (mFork == fork_samefork) {
 		mFork = mRezFile->GetUsedFork();
 	} 
 	
-	// Make a new file object.
-	CRezFile * theFile = new CRezFile( inFileSpec, kResFileNotOpened, mFork );
-	theFile->SetOwnerDoc(this);
+	// Make a new file object
+	CRezFile * theNewFile = new CRezFile( inFileSpec, kResFileNotOpened, mFork );
+	ThrowIfNil_(theNewFile);
+	
+	theNewFile->SetOwnerDoc(this);
 	
 	// Make new resource file on disk
-	error = theFile->CreateNewFile();
+	error = theNewFile->CreateNewFile();
 	if (error == noErr) {
-		// Open the resource file.
-		error = theFile->OpenFile(fsRdWrPerm);
+		// Open the resource file. This sets the new refnum in the new
+		// CRezFile object.
+		error = theNewFile->OpenFile(fsRdWrPerm);
 		
 		if (error == noErr) {
-			// Write out the data.
-			theFile->CopyFromRezMap(mRezMap);
+			// Write out the data
+			theNewFile->CopyFromRezMap(mRezMap);
 			
+			// Delete the old CRezFile. This closes the old rez map.
+			delete mRezFile;
+			mRezFile = theNewFile;
+			
+			// Delete the old RezMap and create a new one
+			delete mRezMap;
+			mRezMap = new CRezMap( theNewFile->GetRefnum() );
+
 			// Set window title to the name of the file.
 			mRezMapWindow->SetDescriptor(inFileSpec.name);
 			
 			// Register to the Recent Items menu
 			CRezillaApp::GetRecentItemsAttachment()->AddFile(inFileSpec, true);
 			
-			// Document now has a specified file. 
+			// Document has a specified file
 			SetSpecified(true);
+			
+			// Mark as unmodified
 			SetModified(false);
-			UpdateRefNum( theFile->GetRefNum() );
-			if (mRezFile->GetUsedFork() != mFork) {
-				mRezFile->SetUsedFork(mFork);
+			
+			if (mRezFile->GetUsedFork() != oldFork) {
 				mRezMapWindow->InstallWhichForkField();
 			} 
+			
+			// Rebuild the RezMapTable and redraw
+			theRezMapTable->SetOwnerRefnum( mRezMap->GetRefnum() );
+			theRezMapTable->RemoveAllItems();
+			theRezMapTable->Populate(mTypesArray);
+			mRezMapWindow->Refresh();
+			
 		} else {
 			UMessageDialogs::AlertWithValue(CFSTR("CantOpenRezFileForWriting"), error);
+			return;
 		}
 	} else {
 		UMessageDialogs::AlertWithValue(CFSTR("CantCreateNewRezFile"), error);
 		return;
 	}
-	
-	delete theFile;
 }
+
+
+// void
+// CRezMapDoc::DoAESave(
+// 	FSSpec	&inFileSpec)
+// {
+// 	OSErr error;
+// 	
+// // 	short oldRefnum = GetRefnum();
+// 	if (mFork == fork_samefork) {
+// 		mFork = mRezFile->GetUsedFork();
+// 	} 
+// 	
+// 	// Make a new file object.
+// 	CRezFile * theFile = new CRezFile( inFileSpec, kResFileNotOpened, mFork );
+// 	theFile->SetOwnerDoc(this);
+// 	
+// 	// Make new resource file on disk
+// 	error = theFile->CreateNewFile();
+// 	if (error == noErr) {
+// 		// Open the resource file.
+// 		error = theFile->OpenFile(fsRdWrPerm);
+// 		
+// 		if (error == noErr) {
+// 			// Write out the data.
+// 			theFile->CopyFromRezMap(mRezMap);
+// 			
+// 			// Set window title to the name of the file.
+// 			mRezMapWindow->SetDescriptor(inFileSpec.name);
+// 			
+// 			// Register to the Recent Items menu
+// 			CRezillaApp::GetRecentItemsAttachment()->AddFile(inFileSpec, true);
+// 			
+// 			// Document now has a specified file. 
+// 			SetSpecified(true);
+// 			SetModified(false);
+// 			UpdateRefNum( theFile->GetRefnum() );
+// 			if (mRezFile->GetUsedFork() != mFork) {
+// 				mRezFile->SetUsedFork(mFork);
+// 				mRezMapWindow->InstallWhichForkField();
+// 			} 
+// 		} else {
+// 			UMessageDialogs::AlertWithValue(CFSTR("CantOpenRezFileForWriting"), error);
+// 		}
+// 	} else {
+// 		UMessageDialogs::AlertWithValue(CFSTR("CantCreateNewRezFile"), error);
+// 		return;
+// 	}
+// 	
+// 	delete theFile;
+// }
 
 
 // ---------------------------------------------------------------------------------
@@ -840,7 +910,19 @@ CRezMapDoc::AskSaveAs(
 	bool		replacing;
 
 	if ( DesignateOutFile(outFSSpec, replacing) ) {
-
+		// Try to save and close all the editor windows related to this rezmap
+		if (mOpenedEditors != nil) {
+			TArrayIterator<CEditorDoc *> iterator(*mOpenedEditors, LArrayIterator::from_End);
+			CEditorDoc* theRezEditor = nil;
+			while (iterator.Previous(theRezEditor)) {
+				if (theRezEditor->AskSaveBeforeClose() == false) {
+					UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("CouldNotSaveAndCloseEditedRez"), rPPob_SimpleMessage);
+					return saveOK;
+				}
+				mOpenedEditors->RemoveItemsAt(1, iterator.GetCurrentIndex());
+			}
+		} 
+		
 		if (replacing && UsesFileSpec(outFSSpec)) {
 									// User chose to replace the file with
 									//   one of the same name. This is the
@@ -921,25 +1003,25 @@ CRezMapDoc::DoRevert()
 		delete mRezMap;
 	} 
 	mRezMap = new CRezMap(theRefNum);
-	mRezMapWindow->GetRezMapTable()->SetRezMap(mRezMap);
-
-	// Erase the RezMapTable
-	mRezMapWindow->GetRezMapTable()->RemoveAllItems();
 	
-	// Rebuild it
+	// Rebuild the rez map table
+	CRezMapTable* theRezMapTable = mRezMapWindow->GetRezMapTable();
+
+	theRezMapTable->SetRezMap(mRezMap);
+	theRezMapTable->RemoveAllItems();
 	if (mTypesArray != nil) {
 		delete mTypesArray;
 	} 
 	CTypeComparator* theComparator = new CTypeComparator;
 	mTypesArray = new TArray<ResType>( theComparator, true);
 	mRezMap->GetAllTypes(mTypesArray);
-	mRezMapWindow->GetRezMapTable()->Populate(mTypesArray);
-	
-	// Mark the document as non modified
-	SetModified(false);
+	theRezMapTable->Populate(mTypesArray);
 
 	// Redraw
 	mRezMapWindow->Refresh();
+	
+	// Mark the document as non modified
+	SetModified(false);
 }
 
 
