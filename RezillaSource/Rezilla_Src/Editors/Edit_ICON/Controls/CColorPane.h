@@ -1,7 +1,7 @@
 // ===========================================================================
 // CColorPane.h
 //                       Created: 2004-12-11 18:57:33
-//             Last modification: 2004-12-27 10:44:13
+//             Last modification: 2004-12-31 08:29:41
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -16,10 +16,10 @@
 #pragma once
 
 #include "RezillaConstants.h"		// just for RedrawOptions
-#include <LPane.h>
-/* public LBevelButton */
+#include <LBevelButton.h>
+/* public LPane, public LBroadcaster  */
 
-class CColorPane : public LPane, public LBroadcaster {
+class CColorPane : public LBevelButton {
 	public:
 		enum { class_ID = FOUR_CHAR_CODE('ColP') };
 		
@@ -47,7 +47,7 @@ class CColorPane : public LPane, public LBroadcaster {
 		Color32					mCurrentColor;
 		CTabHandle				mColorTable;
 		RgnHandle				mClippedRgn;
-		Boolean					mClipsToSibblings;
+		Boolean					mClipsToSiblings;
 		Boolean					mUsePickerOption;
 		
 		virtual void			CalcClipRegionForOverlap();

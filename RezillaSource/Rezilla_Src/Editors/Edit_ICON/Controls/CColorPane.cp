@@ -1,7 +1,7 @@
 // ===========================================================================
 // CColorPane.cp
 //                       Created: 2004-12-11 18:53:05
-//             Last modification: 2004-12-27 10:44:23
+//             Last modification: 2004-12-31 10:28:44
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -23,19 +23,17 @@
 // ---------------------------------------------------------------------------
 
 CColorPane::CColorPane( LStream *inStream ) 
-		: LPane( inStream )
+		: LBevelButton( inStream )
 {
-	RGBColor	anRGB;
+	RGBColor	theRGB;
+	inStream->ReadData( &theRGB, sizeof(RGBColor) );
+	mCurrentColor = UColorUtils::RGBToColor32( theRGB );
+	
+	inStream->ReadData( &mClipsToSiblings, sizeof(mClipsToSiblings) );
+	inStream->ReadData( &mUsePickerOption, sizeof(mUsePickerOption) );
 	
 	mColorTable = nil;	
 	mClippedRgn = nil;
-	
-	// Read in the default color and whether we clip (from the PPob
-	// resource). inStream->ReadData( &anRGB, sizeof(RGBColor) );
-	mCurrentColor = UColorUtils::RGBToColor32( anRGB );
-	
-	inStream->ReadData( &mClipsToSibblings, sizeof(mClipsToSibblings) );
-	inStream->ReadData( &mUsePickerOption, sizeof(mUsePickerOption) );
 }
 
 
@@ -98,7 +96,7 @@ CColorPane::CalcClipRegionForOverlap()
 
 	LView	*parentView = this->GetSuperView();
 
-	if ( mClipsToSibblings )
+	if ( mClipsToSiblings )
 	{
 		// Iterate through our parent view's list of panes
 		LPane	*peerItem;
@@ -110,8 +108,7 @@ CColorPane::CalcClipRegionForOverlap()
 		while( anIterator.Next( &peerItem ) && (peerItem != this) )
 		{
 			peerItem->CalcPortFrameRect( peerRect );
-			if ( ::SectRect( &ourRect, &peerRect, &dummyRect ) )
-			{
+			if ( ::SectRect( &ourRect, &peerRect, &dummyRect ) ) {
 				::RectRgn( peerRgn, &peerRect );
 				::DiffRgn( mClippedRgn, peerRgn, mClippedRgn );
 			}
@@ -138,11 +135,13 @@ CColorPane::SetColor( Color32 inColor, RedrawOptions inRedrawHow )
 	{
 		mCurrentColor = inColor;
 
-		if ( inRedrawHow == redraw_Now )
+		if ( inRedrawHow == redraw_Now ) {
 			this->DrawSwatch();
-		else
+		} else {
 			UIconMisc::RedrawPaneAsIndicated( this, inRedrawHow );
+		}
 
+		// The message is the same as the pane ID
 		this->BroadcastMessage( this->GetPaneID(), (void*) inColor );
 	}
 }
@@ -224,13 +223,19 @@ CColorPane::DisposeCurrentTable()
 void
 CColorPane::DrawSelf()
 {
-	Rect				r, swatchR;
-	StClipRgnState		aClipObject( mClippedRgn );		// clip us to prevent overlap
+	Rect	localR, swatchR;
 	
-	CalcLocalFrameRect( r );
-	UPopupDrawing::DrawPopup( r, false /* not hilited */, IsEnabled() );
-
-	UPopupDrawing::CalculateSwatchArea( r, &swatchR );
+	// Call inherited
+	LBevelButton::DrawSelf();
+	
+	// Don't draw on overlapped popup, so clip us
+// 	StClipRgnState		aClipObject( mClippedRgn );
+	
+	CalcLocalFrameRect( localR );
+// 	UPopupDrawing::DrawPopup( r, false /* not hilited */, IsEnabled() );
+	UPopupDrawing::DrawPopupArrow( localR, false /* not hilited */, IsEnabled() );
+	
+	UPopupDrawing::CalculateSwatchArea( localR, &swatchR );
 	this->DrawSwatchSelf( swatchR );
 }
 
@@ -270,14 +275,13 @@ CColorPane::ClickSelf( const SMouseDownEvent &inEvent )
 	}
 	else
 	{
-			// show the popup & track the user's actions
+		// Show the popup & track the user's actions
 		SInt32	defaultItem = this->GetColorIndex( mCurrentColor );
 		SInt32	newColorIndex = CColorPopup::DoColorPopup( pt, mColorTable, defaultItem );
 		
-		// Save the new value (broadcast, redraw, etc).
-		// ColorIndex is only a Byte and newColor may be -1, so watch out
-		if ( newColorIndex != -1 )
-		{
+		// Save the new value (broadcast, redraw, etc). ColorIndex is only
+		// a Byte and newColor may be -1, so watch out.
+		if ( newColorIndex != -1 ) {
 			// Convert newColorIndex to a Color32
 			RGBColor	colorChosenRGB = (**mColorTable).ctTable[ newColorIndex ].rgb;
 			colorChosen = UColorUtils::RGBToColor32( colorChosenRGB );
@@ -329,9 +333,13 @@ CColorPane::DrawPopup( Boolean inHilited, Boolean inEnabled )
 	this->FocusDraw();
 	this->CalcLocalFrameRect( localR );
 	
-	StClipRgnState	aClip( mClippedRgn );		// don't draw on overlapped popup
+	// Call inherited
+	LBevelButton::DrawSelf();
 	
-	UPopupDrawing::DrawPopup( localR, inHilited, inEnabled );
+// 	StClipRgnState	aClip( mClippedRgn );		// don't draw on overlapped popup
+	
+// 	UPopupDrawing::DrawPopup( localR, inHilited, inEnabled );
+	UPopupDrawing::DrawPopupArrow( localR, inHilited, inEnabled );
 	
 	UPopupDrawing::CalculateSwatchArea( localR, &swatchR );
 	this->DrawSwatchSelf( swatchR );
