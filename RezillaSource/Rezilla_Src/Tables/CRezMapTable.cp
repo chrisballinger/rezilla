@@ -490,22 +490,23 @@ CRezObjItem *
 CRezMapTable::GetRezObjItem(ResType inType, short inID)
 {	
 	CRezObjItem * outRezObjItem = nil;
+	CRezObjItem * theRezObjItem;
 	
 	// Iterate among first level items
 	LArrayIterator rezTypeIterator(mFirstLevelItems);
-	LOutlineItem *theRezTypeItem = nil;	
-	LOutlineItem *theRezObjItem = nil;	
+	LOutlineItem *typeItem = nil;	
+	LOutlineItem *objItem = nil;	
 	
-	while (rezTypeIterator.Next(&theRezTypeItem)) {
+	while (rezTypeIterator.Next(&typeItem)) {
 		
-		if (theRezTypeItem->IsExpanded() && dynamic_cast<CRezTypeItem*>(theRezTypeItem)->GetRezType()->GetType() == inType) {
+		if (typeItem->IsExpanded() && dynamic_cast<CRezTypeItem*>(typeItem)->GetRezType()->GetType() == inType) {
 			// Now iterate among sub items of this RezTypeItem
-			LArrayIterator rezObjIterator( *(theRezTypeItem->GetSubItems()) );
+			LArrayIterator rezObjIterator( *(typeItem->GetSubItems()) );
 			
-			while (rezObjIterator.Next(&theRezObjItem)) {
-				outRezObjItem = dynamic_cast<CRezObjItem*>(theRezObjItem);
-				if (outRezObjItem->GetRezObj()->GetID() == inID) {
-					return outRezObjItem;
+			while (rezObjIterator.Next(&objItem)) {
+				theRezObjItem = dynamic_cast<CRezObjItem*>(objItem);
+				if (theRezObjItem->GetRezObj()->GetID() == inID) {
+					return theRezObjItem;
 				} 
 			}
 		} 
@@ -522,14 +523,16 @@ CRezTypeItem *
 CRezMapTable::GetRezTypeItem(ResType inType)
 {	
 	CRezTypeItem * outRezTypeItem = nil;
+	CRezTypeItem * theRezTypeItem;
 	
 	// Iterate among first level items
 	LArrayIterator rezTypeIterator(mFirstLevelItems);
-	LOutlineItem *theRezTypeItem = nil;	
+	LOutlineItem *typeItem = nil;	
 	
-	while (rezTypeIterator.Next(&theRezTypeItem)) {
-		outRezTypeItem = dynamic_cast<CRezTypeItem*>(theRezTypeItem);
-		if (outRezTypeItem->GetRezType()->GetType() == inType) {
+	while (rezTypeIterator.Next(&typeItem)) {
+		theRezTypeItem = dynamic_cast<CRezTypeItem*>(typeItem);
+		if (theRezTypeItem->GetRezType()->GetType() == inType) {
+			outRezTypeItem = theRezTypeItem;
 			break;			
 		} 
 	}

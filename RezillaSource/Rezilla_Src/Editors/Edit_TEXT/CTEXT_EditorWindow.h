@@ -2,7 +2,7 @@
 // CTEXT_EditorWindow.h
 // 
 //                       Created: 2004-06-17 12:46:55
-//             Last modification: 2004-06-19 13:57:47
+//             Last modification: 2004-06-20 18:41:32
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -59,7 +59,6 @@ public:
 	
 	Boolean			IsDirty();
 		
-	void			InstallDefaults();
 	void			InstallReadOnlyIcon();
 	void			AdjustMenusToSelection();
 	

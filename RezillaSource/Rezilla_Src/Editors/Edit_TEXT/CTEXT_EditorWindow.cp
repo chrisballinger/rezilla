@@ -2,7 +2,7 @@
 // CTEXT_EditorWindow.cp					
 // 
 //                       Created: 2004-06-17 12:46:55
-//             Last modification: 2004-06-20 10:00:06
+//             Last modification: 2004-06-20 18:41:25
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -115,6 +115,8 @@ CTEXT_EditorWindow::FinishCreateSelf()
 	
 	mContentsView->SetOwnerWindow(this);
 	
+	SwitchTarget(mContentsView);
+
 	// The font, size and style popups
 	mFontPopup = dynamic_cast<LPopupButton *> (this->FindPaneByID( item_TextEditFontMenu ));
 	ThrowIfNil_( mFontPopup );
@@ -136,55 +138,11 @@ CTEXT_EditorWindow::FinishCreateSelf()
 	CRezillaApp::sPrefs->AddListener(this);
 
 }
-// SetItemMark(
-//   MenuRef         theMenu,
-//   short           item,
-//   CharParameter   markChar)
-
-// SetItemMark(curr->menu, i, '¥');
-// // CharParameter markChar = 0;
-// // GetItemMark(mr, i, &markChar);
-
-
-// ---------------------------------------------------------------------------
-//		¥ InstallDefaults											[public]
-// ---------------------------------------------------------------------------
-
-void
-CTEXT_EditorWindow::InstallDefaults()
-{
-	// Retrieve the default font and size
-	TextTraitsRecord theTraits = CRezillaApp::sPrefs->GetStyleElement( CRezillaPrefs::prefsType_Curr );
-	
-	UTextTraits::SetTETextTraits(&theTraits, mContentsView->GetMacTEH());
-
-	// Set the style elements
-// 	mContentsView->SelectAll();
-// 	mContentsView->SetFont(theTraits.fontNumber);
-// 	mContentsView->SetSize(theTraits.size);
-// 	mContentsView->SetSelectionRange(0,0);
-	
-	// Install preference values in the popups
-	mFontPopup->SetValue( UMiscUtils::FontIndexFromFontNum(mFontPopup, theTraits.fontNumber) );
-	mSizePopup->SetValue( UMiscUtils::SizeIndexFromSizeValue(mSizePopup, theTraits.size) );
-	
-	// Check the 'plain' style item
-	::MacCheckMenuItem(mStylePopup->GetMacMenuH(), 2, 1);
-}
- 
 
 
 // ---------------------------------------------------------------------------
 //		¥ ListenToMessage				[public]
 // ---------------------------------------------------------------------------
-// 		  normal                        = 0,
-// 		  bold                          = 1,
-// 		  italic                        = 2,
-// 		  underline                     = 4,
-// 		  outline                       = 8,
-// 		  shadow                        = 0x10,
-// 		  condense                      = 0x20,
-// 		  extend                        = 0x40
 
 void
 CTEXT_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam ) 
@@ -360,14 +318,15 @@ CTEXT_EditorWindow::IsDirty()
 
 
 // ---------------------------------------------------------------------------
-//	¥ InstallText														[public]
+//	¥ InstallText													[public]
 // ---------------------------------------------------------------------------
 
 void
 CTEXT_EditorWindow::InstallText(Handle inTextHandle, StScrpHandle inScrapHandle)
 {
 	StHandleLocker	lock(inTextHandle);
-	mContentsView->Insert(*inTextHandle, ::GetHandleSize(inTextHandle), inScrapHandle, true);
+// 	mContentsView->Insert(*inTextHandle, ::GetHandleSize(inTextHandle), inScrapHandle, true);
+	mContentsView->SetTextHandle(inTextHandle, inScrapHandle);
 	mContentsView->SetDirty(false);
 }
 
