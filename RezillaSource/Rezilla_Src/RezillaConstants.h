@@ -211,14 +211,14 @@ enum {
 
 // Terminology objects
 enum {
-	type_AeteSuite = 0,
-	type_AeteEvent = 1,
-	type_AeteClass,
-	type_AeteCompOp,
-	type_AeteEnum,
-	type_AeteParameter,
-	type_AeteProperty,
-	type_AeteElement
+	kind_AeteSuite = 0,
+	kind_AeteEvent = 1,
+	kind_AeteClass,
+	kind_AeteCompOp,
+	kind_AeteEnum,
+	kind_AeteParameter,
+	kind_AeteProperty,
+	kind_AeteElement
 };
 
 enum {
