@@ -2,7 +2,7 @@
 // CAeteCompOp.cp
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-22 10:53:13
+//             Last modification: 2005-01-23 10:27:32
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -46,13 +46,7 @@ CAeteCompOp::CAeteCompOp(Str255 inName,
 
 CAeteCompOp::CAeteCompOp(CAeteStream * inStream)
 {
-	*inStream >> mName;
-	inStream->AlignBytes();
-
-	*inStream >> mType;
-	
-	*inStream >> mDescription;
-	inStream->AlignBytes();
+	InstallDataStream(inStream);
 }
 
 
@@ -70,8 +64,15 @@ CAeteCompOp::~CAeteCompOp()
 // ---------------------------------------------------------------------------
 
 void
-CAeteCompOp::InstallDataStream()
+CAeteCompOp::InstallDataStream(CAeteStream * inStream)
 {
+	*inStream >> mName;
+	inStream->AlignBytesRead();
+
+	*inStream >> mType;
+	
+	*inStream >> mDescription;
+	inStream->AlignBytesRead();
 }
 
 
@@ -82,6 +83,11 @@ CAeteCompOp::InstallDataStream()
 void
 CAeteCompOp::SendDataToStream(CAeteStream * outStream)
 {
+	*outStream << mName;
+	outStream->AlignBytesWrite();
+	*outStream << mType;
+	*outStream << mDescription;
+	outStream->AlignBytesWrite();
 }
 
 

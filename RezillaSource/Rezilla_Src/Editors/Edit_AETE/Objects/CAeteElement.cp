@@ -2,7 +2,7 @@
 // CAeteElement.cp
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-21 06:40:03
+//             Last modification: 2005-01-23 10:28:05
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -33,19 +33,7 @@ CAeteElement::CAeteElement(OSType inID)
 
 CAeteElement::CAeteElement(CAeteStream * inStream)
 {
-	UInt16	theCount, i;
-	OSType	theType;
-
-	*inStream >> mID;
-
-	*inStream >> theCount;
-	for (i = 0 ; i < theCount; i++) {
-		*inStream >> theType;
-		AddKeyForm(theType);
-	}
-
-	// Initialize to 1 if there are parameters, 0 otherwise
-	mKeyFormIndex = (theCount > 0);
+	InstallDataStream(inStream);
 }
 
 
@@ -85,8 +73,21 @@ CAeteElement::RemoveKeyForm( ArrayIndexT inAtIndex )
 // ---------------------------------------------------------------------------
 
 void
-CAeteElement::InstallDataStream()
+CAeteElement::InstallDataStream(CAeteStream * inStream)
 {
+	UInt16	theCount, i;
+	OSType	theType;
+
+	*inStream >> mID;
+
+	*inStream >> theCount;
+	for (i = 0 ; i < theCount; i++) {
+		*inStream >> theType;
+		AddKeyForm(theType);
+	}
+
+	// Initialize to 1 if there are parameters, 0 otherwise
+	mKeyFormIndex = (theCount > 0);
 }
 
 
@@ -97,6 +98,17 @@ CAeteElement::InstallDataStream()
 void
 CAeteElement::SendDataToStream(CAeteStream * outStream)
 {
+	*outStream << mID;
+	
+	// KeyForms data
+	*outStream << (UInt16) mKeyForms.GetCount();
+
+	TArrayIterator<OSType> iterator( mKeyForms );
+	OSType 	theKeyForm;
+	
+	while (iterator.Next(theKeyForm)) {
+		*outStream << theKeyForm;
+	}
 }
 
 

@@ -36,14 +36,14 @@ public:
 							 UInt16		inVersion);
 		void		RemoveSuite( ArrayIndexT inAtIndex );
 
-		void		InstallDataStream();
+		void		InstallDataStream(CAeteStream * inStream);
 		void		SendDataToStream(CAeteStream * outStream);
 
 		void		GetValues(UInt8 & outMajorVersion, UInt8 & outMinorVersion,
-							SInt16 & outLanguage, SInt16 & outMScript);
+							SInt16 & outLanguage, SInt16 & outScript);
 		
 		void		SetValues(UInt8 inMajorVersion, UInt8 inMinorVersion,
-							SInt16 inLanguage, SInt16 inMScript);
+							SInt16 inLanguage, SInt16 inScript);
 			
 		ArrayIndexT		GetSuiteIndex() { return mSuiteIndex;}
 		void			SetSuiteIndex(ArrayIndexT inSuiteIndex) {mSuiteIndex = inSuiteIndex;}
@@ -54,7 +54,7 @@ protected:
 		UInt8					mMajorVersion;
 		UInt8					mMinorVersion;
 		SInt16					mLanguage;
-		SInt16					mMScript;
+		SInt16					mScript;
 		ArrayIndexT				mSuiteIndex;
 		TArray<CAeteSuite*>		mSuites;
 		

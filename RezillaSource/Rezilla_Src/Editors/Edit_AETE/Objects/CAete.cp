@@ -26,7 +26,7 @@ CAete::CAete()
 	mMajorVersion = 1;
 	mMinorVersion = 0;
 	mLanguage = 0;			// 0 is English
-	mMScript = 0;			// 0 is Roman
+	mScript = 0;			// 0 is Roman
 	mSuiteIndex = 0;
 }
 
@@ -37,23 +37,7 @@ CAete::CAete()
 
 CAete::CAete(CAeteStream * inStream)
 {
-	UInt16			theCount, i;
-	CAeteSuite *	theSuite;
-	
-	*inStream >> mMajorVersion;
-	*inStream >> mMinorVersion;
-	*inStream >> mLanguage;
-	*inStream >> mMScript;
-		
-	// Get the count of suites
-	*inStream >> theCount;
-	for (i = 0 ; i < theCount; i++) {
-		theSuite = new CAeteSuite(inStream);
-		AddSuite(theSuite);
-	}
-	// Initialize to 1 if there are parameters, 0 otherwise
-	mSuiteIndex = (theCount > 0);
-
+	InstallDataStream(inStream);
 }
 
 
@@ -133,8 +117,24 @@ CAete::RemoveSuite( ArrayIndexT inAtIndex )
 // ---------------------------------------------------------------------------
 
 void
-CAete::InstallDataStream()
-{
+CAete::InstallDataStream(CAeteStream * inStream)
+{	
+	UInt16			theCount, i;
+	CAeteSuite *	theSuite;
+	
+	*inStream >> mMajorVersion;
+	*inStream >> mMinorVersion;
+	*inStream >> mLanguage;
+	*inStream >> mScript;
+		
+	// Get the count of suites
+	*inStream >> theCount;
+	for (i = 0 ; i < theCount; i++) {
+		theSuite = new CAeteSuite(inStream);
+		AddSuite(theSuite);
+	}
+	// Initialize to 1 if there are parameters, 0 otherwise
+	mSuiteIndex = (theCount > 0);
 }
 
 
@@ -145,6 +145,20 @@ CAete::InstallDataStream()
 void
 CAete::SendDataToStream(CAeteStream * outStream)
 {
+	*outStream << mMajorVersion;
+	*outStream << mMinorVersion;
+	*outStream << mLanguage;
+	*outStream << mScript;
+	
+	// Suites data
+	*outStream << (UInt16) mSuites.GetCount();
+
+	TArrayIterator<CAeteSuite*> iteraror( mSuites );
+	CAeteSuite *	theSuite;
+	
+	while (iteraror.Next(theSuite)) {
+		theSuite->SendDataToStream(outStream);
+	}
 }
 
 
@@ -154,12 +168,12 @@ CAete::SendDataToStream(CAeteStream * outStream)
 
 void
 CAete::GetValues(UInt8 & outMajorVersion, UInt8 & outMinorVersion,
-					SInt16 & outLanguage, SInt16 & outMScript)
+					SInt16 & outLanguage, SInt16 & outScript)
 {
 	outMajorVersion = mMajorVersion;
 	outMinorVersion = mMinorVersion;
 	outLanguage = mLanguage;
-	outMScript = mMScript;
+	outScript = mScript;
 }
  
 
@@ -169,11 +183,11 @@ CAete::GetValues(UInt8 & outMajorVersion, UInt8 & outMinorVersion,
 
 void
 CAete::SetValues(UInt8 inMajorVersion, UInt8 inMinorVersion,
-					SInt16 inLanguage, SInt16 inMScript)
+					SInt16 inLanguage, SInt16 inScript)
 {
 	mMajorVersion = inMajorVersion;
 	mMinorVersion = inMinorVersion;
 	mLanguage = inLanguage;
-	mMScript = inMScript;
+	mScript = inScript;
 }
 

@@ -2,7 +2,7 @@
 // CAeteClass.cp
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-22 10:57:54
+//             Last modification: 2005-01-23 10:27:20
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -52,35 +52,7 @@ CAeteClass::CAeteClass(	Str255	inName,
 
 CAeteClass::CAeteClass(CAeteStream * inStream)
 {
-	UInt16	theCount, i;
-	CAeteProperty *	theProperty;
-	CAeteElement *	theElement;
-	
-	*inStream >> mName;
-	inStream->AlignBytes();
-
-	*inStream >> mID;
-	
-	*inStream >> mDescription;
-	inStream->AlignBytes();
-	
-	// Get the count of properties
-	*inStream >> theCount;
-	for (i = 0 ; i < theCount; i++) {
-		theProperty = new CAeteProperty(inStream);
-		AddProperty(theProperty);
-	}
-	// Initialize to 1 if there are parameters, 0 otherwise
-	mPropertyIndex = (theCount > 0);
-
-	// Get the count of elements
-	*inStream >> theCount;
-	for (i = 0 ; i < theCount; i++) {
-		theElement = new CAeteElement(inStream);
-		AddElement(theElement);
-	}
-	// Initialize to 1 if there are parameters, 0 otherwise
-	mElementIndex = (theCount > 0);
+	InstallDataStream(inStream);
 }
 
 
@@ -221,8 +193,37 @@ CAeteClass::RemoveElement( ArrayIndexT inAtIndex )
 // ---------------------------------------------------------------------------
 
 void
-CAeteClass::InstallDataStream()
+CAeteClass::InstallDataStream(CAeteStream * inStream)
 {
+	UInt16	theCount, i;
+	CAeteProperty *	theProperty;
+	CAeteElement *	theElement;
+	
+	*inStream >> mName;
+	inStream->AlignBytesRead();
+
+	*inStream >> mID;
+	
+	*inStream >> mDescription;
+	inStream->AlignBytesRead();
+	
+	// Get the count of properties
+	*inStream >> theCount;
+	for (i = 0 ; i < theCount; i++) {
+		theProperty = new CAeteProperty(inStream);
+		AddProperty(theProperty);
+	}
+	// Initialize to 1 if there are parameters, 0 otherwise
+	mPropertyIndex = (theCount > 0);
+
+	// Get the count of elements
+	*inStream >> theCount;
+	for (i = 0 ; i < theCount; i++) {
+		theElement = new CAeteElement(inStream);
+		AddElement(theElement);
+	}
+	// Initialize to 1 if there are parameters, 0 otherwise
+	mElementIndex = (theCount > 0);
 }
 
 
@@ -233,6 +234,31 @@ CAeteClass::InstallDataStream()
 void
 CAeteClass::SendDataToStream(CAeteStream * outStream)
 {
+	*outStream << mName;
+	outStream->AlignBytesWrite();
+	*outStream << mID;
+	*outStream << mDescription;
+	outStream->AlignBytesWrite();
+	
+	// Properties data
+	*outStream << (UInt16) mProperties.GetCount();
+
+	TArrayIterator<CAeteProperty*> iterProp( mProperties );
+	CAeteProperty *	theProperty;
+	
+	while (iterProp.Next(theProperty)) {
+		theProperty->SendDataToStream(outStream);
+	}
+
+	// Elements data
+	*outStream << (UInt16) mElements.GetCount();
+
+	TArrayIterator<CAeteElement*> iterElem( mElements );
+	CAeteElement *	theElement;
+	
+	while (iterElem.Next(theElement)) {
+		theElement->SendDataToStream(outStream);
+	}
 }
 
 

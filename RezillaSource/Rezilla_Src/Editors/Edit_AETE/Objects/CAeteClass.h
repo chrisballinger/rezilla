@@ -45,7 +45,7 @@ public:
 		void		AddElement( OSType inKeyForms[], UInt16 inCount = 1 );
 		void		RemoveElement( ArrayIndexT inAtIndex );
 
-		void		InstallDataStream();
+		void		InstallDataStream(CAeteStream * inStream);
 		void		SendDataToStream(CAeteStream * outStream);
 
 		void		GetValues(Str255 outName, OSType & outID, Str255 outDescription);

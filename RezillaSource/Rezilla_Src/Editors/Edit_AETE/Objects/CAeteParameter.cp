@@ -2,7 +2,7 @@
 // CAeteParameter.cp
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-22 10:49:04
+//             Last modification: 2005-01-23 10:26:52
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -51,16 +51,7 @@ CAeteParameter::CAeteParameter(Str255	inName,
 
 CAeteParameter::CAeteParameter(CAeteStream * inStream)
 {
-	*inStream >> mName;
-	inStream->AlignBytes();
-
-	*inStream >> mKeyword;
-	*inStream >> mType;
-	
-	*inStream >> mDescription;
-	inStream->AlignBytes();
-
-	*inStream >> mFlags;
+	InstallDataStream(inStream);
 }
 
 
@@ -78,8 +69,18 @@ CAeteParameter::~CAeteParameter()
 // ---------------------------------------------------------------------------
 
 void
-CAeteParameter::InstallDataStream()
+CAeteParameter::InstallDataStream(CAeteStream * inStream)
 {
+	*inStream >> mName;
+	inStream->AlignBytesRead();
+
+	*inStream >> mKeyword;
+	*inStream >> mType;
+	
+	*inStream >> mDescription;
+	inStream->AlignBytesRead();
+
+	*inStream >> mFlags;
 }
 
 
@@ -90,6 +91,13 @@ CAeteParameter::InstallDataStream()
 void
 CAeteParameter::SendDataToStream(CAeteStream * outStream)
 {
+	*outStream << mName;
+	outStream->AlignBytesWrite();
+	*outStream << mKeyword;
+	*outStream << mType;
+	*outStream << mDescription;
+	outStream->AlignBytesWrite();
+	*outStream << mFlags;
 }
 
 

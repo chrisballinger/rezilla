@@ -34,7 +34,7 @@ public:
 		ArrayIndexT		AddEnumerator();
 		ArrayIndexT		AddEnumerator(Str255 inName, OSType inType, Str255 inDescription);
 		void			RemoveEnumerator( ArrayIndexT inAtIndex );
-		void			InstallDataStream();
+		void			InstallDataStream(CAeteStream * inStream);
 		void			SendDataToStream(CAeteStream *	outStream);
 
 		OSType			GetEnumerationID() { return mEnumerationID;}

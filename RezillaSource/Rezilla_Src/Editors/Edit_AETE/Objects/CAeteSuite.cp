@@ -2,7 +2,7 @@
 // CAeteSuite.cp
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-22 09:35:55
+//             Last modification: 2005-01-23 10:28:15
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -62,52 +62,7 @@ CAeteSuite::CAeteSuite(Str255	inName,
 
 CAeteSuite::CAeteSuite(CAeteStream * inStream)
 {
-	UInt16				theCount, i;
-	CAeteEvent *		theEvent;
-	CAeteClass *		theClass;
-	CAeteCompOp *		theCompOp;
-	CAeteEnumeration *	theEnumeration;
-	
-	*inStream >> mName;
-	*inStream >> mDescription;
-	inStream->AlignBytes();
-	
-	*inStream >> mID;
-	*inStream >> mLevel;
-	*inStream >> mVersion;
-	
-	// Get the count of events
-	*inStream >> theCount;
-	for (i = 0 ; i < theCount; i++) {
-		theEvent = new CAeteEvent(inStream);
-		AddEvent(theEvent);
-	}
-	mEventIndex = (theCount > 0);
-
-	// Get the count of classes
-	*inStream >> theCount;
-	for (i = 0 ; i < theCount; i++) {
-		theClass = new CAeteClass(inStream);
-		AddClass(theClass);
-	}
-	mClassIndex = (theCount > 0);
-
-	// Get the count of comparison operators
-	*inStream >> theCount;
-	for (i = 0 ; i < theCount; i++) {
-		theCompOp = new CAeteCompOp(inStream);
-		AddCompOp(theCompOp);
-	}
-	mCompOpIndex = (theCount > 0);
-
-	// Get the count of enumerations
-	*inStream >> theCount;
-	for (i = 0 ; i < theCount; i++) {
-		theEnumeration = new CAeteEnumeration(inStream);
-		AddEnumeration(theEnumeration);
-	}
-	mEnumerationIndex = (theCount > 0);
-
+	InstallDataStream(inStream);
 }
 
 
@@ -368,8 +323,53 @@ CAeteSuite::RemoveEnumeration( ArrayIndexT inAtIndex )
 // ---------------------------------------------------------------------------
 
 void
-CAeteSuite::InstallDataStream()
+CAeteSuite::InstallDataStream(CAeteStream * inStream)
 {
+	UInt16				theCount, i;
+	CAeteEvent *		theEvent;
+	CAeteClass *		theClass;
+	CAeteCompOp *		theCompOp;
+	CAeteEnumeration *	theEnumeration;
+	
+	*inStream >> mName;
+	*inStream >> mDescription;
+	inStream->AlignBytesRead();
+	
+	*inStream >> mID;
+	*inStream >> mLevel;
+	*inStream >> mVersion;
+	
+	// Get the count of events
+	*inStream >> theCount;
+	for (i = 0 ; i < theCount; i++) {
+		theEvent = new CAeteEvent(inStream);
+		AddEvent(theEvent);
+	}
+	mEventIndex = (theCount > 0);
+
+	// Get the count of classes
+	*inStream >> theCount;
+	for (i = 0 ; i < theCount; i++) {
+		theClass = new CAeteClass(inStream);
+		AddClass(theClass);
+	}
+	mClassIndex = (theCount > 0);
+
+	// Get the count of comparison operators
+	*inStream >> theCount;
+	for (i = 0 ; i < theCount; i++) {
+		theCompOp = new CAeteCompOp(inStream);
+		AddCompOp(theCompOp);
+	}
+	mCompOpIndex = (theCount > 0);
+
+	// Get the count of enumerations
+	*inStream >> theCount;
+	for (i = 0 ; i < theCount; i++) {
+		theEnumeration = new CAeteEnumeration(inStream);
+		AddEnumeration(theEnumeration);
+	}
+	mEnumerationIndex = (theCount > 0);
 }
 
 
@@ -380,6 +380,53 @@ CAeteSuite::InstallDataStream()
 void
 CAeteSuite::SendDataToStream(CAeteStream * outStream)
 {
+	*outStream << mName;
+	*outStream << mDescription;
+	outStream->AlignBytesWrite();
+	
+	*outStream << mID;
+	*outStream << mLevel;
+	*outStream << mVersion;
+	
+	// Events data
+	*outStream << (UInt16) mEvents.GetCount();
+
+	TArrayIterator<CAeteEvent*> iterEv( mEvents );
+	CAeteEvent *	theEvent;
+	
+	while (iterEv.Next(theEvent)) {
+		theEvent->SendDataToStream(outStream);
+	}
+
+	// Classes data
+	*outStream << (UInt16) mClasses.GetCount();
+
+	TArrayIterator<CAeteClass*> iterCl( mClasses );
+	CAeteClass *	theClass;
+	
+	while (iterCl.Next(theClass)) {
+		theClass->SendDataToStream(outStream);
+	}
+
+	// CompOps data
+	*outStream << (UInt16) mCompOperators.GetCount();
+
+	TArrayIterator<CAeteCompOp*> iterCo( mCompOperators );
+	CAeteCompOp *	theCompOp;
+	
+	while (iterCo.Next(theCompOp)) {
+		theCompOp->SendDataToStream(outStream);
+	}
+
+	// Enumerations data
+	*outStream << (UInt16) mEnumerations.GetCount();
+
+	TArrayIterator<CAeteEnumeration*> iterEn( mEnumerations );
+	CAeteEnumeration *	theEnumeration;
+	
+	while (iterEn.Next(theEnumeration)) {
+		theEnumeration->SendDataToStream(outStream);
+	}
 }
 
 

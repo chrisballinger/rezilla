@@ -2,7 +2,7 @@
 // CAeteEnumeration.cp
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-21 06:32:01
+//             Last modification: 2005-01-23 10:27:46
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -33,26 +33,7 @@ CAeteEnumeration::CAeteEnumeration(OSType inID)
 
 CAeteEnumeration::CAeteEnumeration(CAeteStream * inStream)
 {
-	UInt16	theCount, i;
-	OSType	theType;
-	Str255	theName, theDescr;
-	
-	*inStream >> mEnumerationID;
-	*inStream >> theCount;
-	for (i = 0 ; i < theCount; i++) {
-		*inStream >> theName;
-		inStream->AlignBytes();
-
-		*inStream >> theType;
-		
-		*inStream >> theDescr;
-		inStream->AlignBytes();
-		
-		AddEnumerator(theName, theType, theDescr);
-	}
-
-	// Initialize to 1 if there are parameters, 0 otherwise
-	mEnumeratorIndex = (theCount > 0);
+	InstallDataStream(inStream);
 }
 
 
@@ -115,8 +96,28 @@ CAeteEnumeration::RemoveEnumerator( ArrayIndexT inAtIndex )
 // ---------------------------------------------------------------------------
 
 void
-CAeteEnumeration::InstallDataStream()
+CAeteEnumeration::InstallDataStream(CAeteStream * inStream)
 {
+	UInt16	theCount, i;
+	OSType	theType;
+	Str255	theName, theDescr;
+	
+	*inStream >> mEnumerationID;
+	*inStream >> theCount;
+	for (i = 0 ; i < theCount; i++) {
+		*inStream >> theName;
+		inStream->AlignBytesRead();
+
+		*inStream >> theType;
+		
+		*inStream >> theDescr;
+		inStream->AlignBytesRead();
+		
+		AddEnumerator(theName, theType, theDescr);
+	}
+
+	// Initialize to 1 if there are parameters, 0 otherwise
+	mEnumeratorIndex = (theCount > 0);
 }
 
 
@@ -127,6 +128,22 @@ CAeteEnumeration::InstallDataStream()
 void
 CAeteEnumeration::SendDataToStream(CAeteStream * outStream)
 {
+	*outStream << mEnumerationID;
+	
+	// KeyForms data
+	*outStream << (UInt16) mEnumerators.GetCount();
+	
+	TArrayIterator<AeteEnumerator> iterator( mEnumerators );
+	AeteEnumerator 	numerator;
+	
+	while (iterator.Next(numerator)) {
+		*outStream << numerator.name;
+		outStream->AlignBytesWrite();
+		*outStream << numerator.type;
+		*outStream << numerator.description;
+		outStream->AlignBytesWrite();
+	}
+	
 }
 
 

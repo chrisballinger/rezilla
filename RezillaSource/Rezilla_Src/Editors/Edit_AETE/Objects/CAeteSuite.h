@@ -70,7 +70,7 @@ public:
 		void		AddEnumeration(OSType inID);
 		void		RemoveEnumeration( ArrayIndexT inAtIndex );
 
-		void		InstallDataStream();
+		void		InstallDataStream(CAeteStream * inStream);
 		void		SendDataToStream(CAeteStream * outStream);
 
 		StringPtr	GetName( Str255	outName ) const;

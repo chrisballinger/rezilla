@@ -2,7 +2,7 @@
 // CAeteEvent.cp
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-22 11:13:21
+//             Last modification: 2005-01-23 10:27:08
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -65,35 +65,7 @@ CAeteEvent::CAeteEvent(	Str255	inName,
 
 CAeteEvent::CAeteEvent(CAeteStream * inStream)
 {
-	UInt16				theCount, i;
-	CAeteParameter *	theParameter;
-	
-	*inStream >> mName;
-	*inStream >> mDescription;
-	inStream->AlignBytes();
-	
-	*inStream >> mClass;
-	*inStream >> mID;
-
-	*inStream >> mReplyType;
-	*inStream >> mReplyDescription;
-	inStream->AlignBytes();
-	*inStream >> mReplyFlags;
-
-	*inStream >> mDirectType;
-	*inStream >> mDirectDescription;
-	inStream->AlignBytes();
-	*inStream >> mDirectFlags;
-
-	// Get the count of parameters
-	*inStream >> theCount;
-	for (i = 0 ; i < theCount; i++) {
-		theParameter = new CAeteParameter(inStream);
-		AddParameter(theParameter);
-	}
-
-	// Initialize to 1 if there are parameters, 0 otherwise
-	mParameterIndex = (theCount > 0);
+	InstallDataStream(inStream);
 }
 
 
@@ -172,8 +144,37 @@ CAeteEvent::RemoveParameter( ArrayIndexT inAtIndex )
 // ---------------------------------------------------------------------------
 
 void
-CAeteEvent::InstallDataStream()
+CAeteEvent::InstallDataStream(CAeteStream * inStream)
 {
+	UInt16				theCount, i;
+	CAeteParameter *	theParameter;
+	
+	*inStream >> mName;
+	*inStream >> mDescription;
+	inStream->AlignBytesRead();
+	
+	*inStream >> mClass;
+	*inStream >> mID;
+
+	*inStream >> mReplyType;
+	*inStream >> mReplyDescription;
+	inStream->AlignBytesRead();
+	*inStream >> mReplyFlags;
+
+	*inStream >> mDirectType;
+	*inStream >> mDirectDescription;
+	inStream->AlignBytesRead();
+	*inStream >> mDirectFlags;
+
+	// Get the count of parameters
+	*inStream >> theCount;
+	for (i = 0 ; i < theCount; i++) {
+		theParameter = new CAeteParameter(inStream);
+		AddParameter(theParameter);
+	}
+
+	// Initialize to 1 if there are parameters, 0 otherwise
+	mParameterIndex = (theCount > 0);
 }
 
 
@@ -184,6 +185,31 @@ CAeteEvent::InstallDataStream()
 void
 CAeteEvent::SendDataToStream(CAeteStream * outStream)
 {
+	*outStream << mName;
+	*outStream << mDescription;
+	outStream->AlignBytesWrite();
+	
+	*outStream << mClass;
+	*outStream << mID;
+	*outStream << mReplyType;
+	*outStream << mReplyDescription;
+	outStream->AlignBytesWrite();
+	*outStream << mReplyFlags;
+	
+	*outStream << mDirectType;
+	*outStream << mDirectDescription;
+	outStream->AlignBytesWrite();
+	*outStream << mDirectFlags;
+
+	// Parameters data
+	*outStream << (UInt16) mParameters.GetCount();
+
+	TArrayIterator<CAeteParameter*> iterator( mParameters );
+	CAeteParameter *	theParameter;
+	
+	while (iterator.Next(theParameter)) {
+		theParameter->SendDataToStream(outStream);
+	}
 }
 
 

@@ -30,7 +30,7 @@ public:
 				CAeteParameter(CAeteStream * inStream);
 				~CAeteParameter();
 
-		void		InstallDataStream();
+		void		InstallDataStream(CAeteStream * inStream);
 		void		SendDataToStream(CAeteStream * outStream);
 
 		void		GetValues(Str255 outName, OSType & outKeyword, OSType & outType, 

@@ -2,7 +2,7 @@
 // CAeteProperty.cp
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-22 10:41:28
+//             Last modification: 2005-01-23 10:28:34
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -50,16 +50,7 @@ CAeteProperty::CAeteProperty(Str255 inName,
 
 CAeteProperty::CAeteProperty(CAeteStream * inStream)
 {
-	*inStream >> mName;
-	inStream->AlignBytes();
-
-	*inStream >> mID;
-	*inStream >> mType;
-	
-	*inStream >> mDescription;
-	inStream->AlignBytes();
-
-	*inStream >> mFlags;
+	InstallDataStream(inStream);
 }
 
 
@@ -77,8 +68,18 @@ CAeteProperty::~CAeteProperty()
 // ---------------------------------------------------------------------------
 
 void
-CAeteProperty::InstallDataStream()
+CAeteProperty::InstallDataStream(CAeteStream * inStream)
 {
+	*inStream >> mName;
+	inStream->AlignBytesRead();
+
+	*inStream >> mID;
+	*inStream >> mType;
+	
+	*inStream >> mDescription;
+	inStream->AlignBytesRead();
+
+	*inStream >> mFlags;
 }
 
 
@@ -89,6 +90,13 @@ CAeteProperty::InstallDataStream()
 void
 CAeteProperty::SendDataToStream(CAeteStream * outStream)
 {
+	*outStream << mName;
+	outStream->AlignBytesWrite();
+	*outStream << mID;
+	*outStream << mType;
+	*outStream << mDescription;
+	outStream->AlignBytesWrite();
+	*outStream << mFlags;
 }
 
 

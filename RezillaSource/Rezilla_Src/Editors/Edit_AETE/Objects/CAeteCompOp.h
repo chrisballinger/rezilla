@@ -28,7 +28,7 @@ public:
 				CAeteCompOp(CAeteStream *	inStream);
 				~CAeteCompOp();
 
-		void		InstallDataStream();
+		void		InstallDataStream(CAeteStream * inStream);
 		void		SendDataToStream(CAeteStream * outStream);
 
 		void		GetValues(Str255 outName, OSType & outType, Str255 outDescription);

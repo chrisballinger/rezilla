@@ -27,7 +27,7 @@ public:
 
 		ArrayIndexT	AddKeyForm( OSType inKey = 0);
 		void		RemoveKeyForm( ArrayIndexT inAtIndex );
-		void		InstallDataStream();
+		void		InstallDataStream(CAeteStream * inStream);
 		void		SendDataToStream(CAeteStream *	outStream);
 
 		OSType		GetID() { return mID;}
