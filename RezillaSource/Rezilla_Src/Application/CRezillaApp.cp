@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2004-07-01 09:26:47
+//             Last modification: 2004-08-06 19:17:45
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -14,6 +14,7 @@
 
 #include "CRezillaApp.h"
 #include "CRezillaPrefs.h"
+#include "CRezTypesController.h"
 #include "CRezEditor.h"
 #include "CTEXT_EditorWindow.h"
 #include "CEditTable.h"
@@ -109,6 +110,7 @@ CWindowMenu	*		gWindowMenu;	// This is the window menu.
 // Static variables
 CRezillaPrefs *			CRezillaApp::sPrefs = nil;
 CRezEditor *			CRezillaApp::sEditController = nil;
+CRezTypesController *	CRezillaApp::sTypesController = nil;
 Rzil_basics				CRezillaApp::sBasics;
 CInspectorWindow *		CRezillaApp::sInspectorWindow = nil;
 const LStr255			CRezillaApp::sVersionNumber( VersionFromPlist() );
@@ -227,6 +229,9 @@ CRezillaApp::Initialize()
 
 	// Create an instance of the editors controller
 	sEditController = new CRezEditor();
+	
+	// Create an instance of the templates controller
+	sTypesController = new CRezTypesController();
 	
 	// Install the window menu.
 	InstallWindowMenu();	
