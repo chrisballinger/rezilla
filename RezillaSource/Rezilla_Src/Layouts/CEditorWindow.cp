@@ -2,7 +2,7 @@
 // CEditorWindow.cp
 // 
 //                       Created: 2004-06-10 14:50:31
-//             Last modification: 2004-08-10 12:20:06
+//             Last modification: 2004-08-12 17:24:22
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -118,6 +118,7 @@ CEditorWindow::FindCommandStatus(
 	switch (inCommand) {
 		
 		case cmd_EditRez:
+		case cmd_EditRezAsType:
 		case cmd_TmplEditRez:
 		case cmd_HexEditRez:
 		case cmd_RemoveRez:
@@ -180,16 +181,16 @@ CEditorWindow::ObeyCommand(
 }
 
 
-// ---------------------------------------------------------------------------
-//	¥ DoClose
-// ---------------------------------------------------------------------------
-//	Close the inspector window: hide it but keep it in memory
-
-void
-CEditorWindow::DoClose()
-{
-	Hide();
-}
+// // ---------------------------------------------------------------------------
+// //	¥ DoClose
+// // ---------------------------------------------------------------------------
+// //	Close the window: hide it but keep it in memory
+// 
+// void
+// CEditorWindow::DoClose()
+// {
+// 	Hide();
+// }
 
 
 // ---------------------------------------------------------------------------

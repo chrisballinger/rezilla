@@ -178,6 +178,7 @@ CInspectorWindow::FindCommandStatus(
 		case cmd_Find:
 		case cmd_FindNext:
 		case cmd_EditRez:
+		case cmd_EditRezAsType:
 		case cmd_TmplEditRez:
 		case cmd_HexEditRez:
 		case cmd_GetRezInfo:

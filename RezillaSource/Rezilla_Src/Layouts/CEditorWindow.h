@@ -2,7 +2,7 @@
 // CEditorWindow.h				
 // 
 //                       Created: 2004-06-10 14:44:33
-//             Last modification: 2004-06-12 08:50:35
+//             Last modification: 2004-08-12 17:24:16
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -46,7 +46,7 @@ public:
 							CommandT			inCommand,
 							void*				ioParam);
 
-	virtual void	DoClose();
+// 	virtual void	DoClose();
 
 // 	virtual SInt32	InstallContentsFromLine(SInt32 inFromLine);
 	
