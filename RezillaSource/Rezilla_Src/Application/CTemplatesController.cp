@@ -446,19 +446,49 @@ CTemplatesController::GetTemplateHandle(ResType inType)
 {
 	Handle		theHandle = nil;
 	Str255		typeName;
+	OSErr		error;
+	
+	UMiscUtils::OSTypeToPString(inType, typeName);
 	
 	switch (sTemplateKind) {
 		case tmpl_internal:
 		CRezType *	theRezType = new CRezType('TMPL', sTemplatesMap);
 		
-		UMiscUtils::OSTypeToPString(inType, typeName);
-		theRezType->GetWithName(typeName, theHandle);
-		::DetachResource(theHandle);
+		if (theRezType != NULL) {
+			error = theRezType->GetWithName(typeName, theHandle);
+			if (error == noErr) {
+				::DetachResource(theHandle);
+			}
+			delete theRezType;
+		} 
 		break;
 		
-		case tmpl_external:
-		break;
-		
+		case tmpl_external: {
+			FSSpec		theFileSpec;
+			SInt16		theFork;
+			short		theRefnum;
+
+			// Get the FSSpec from the FSRef
+			error = FSGetCatalogInfo(&sTemplateFile, kFSCatInfoNone, NULL, NULL, &theFileSpec, NULL);
+			if (error == noErr) {
+				error = CRezillaApp::PreOpen(theFileSpec, theFork, theRefnum, fork_anyfork);
+				if (error == noErr) {
+					CRezMap * rezMap = new CRezMap(theRefnum);
+					if (rezMap) {
+						CRezType * theRezType = new CRezType('TMPL', rezMap);
+						if (theRezType) {
+							error = theRezType->GetWithName(typeName, theHandle);
+							if (error == noErr) {
+								::DetachResource(theHandle);
+							}
+							delete theRezType;
+						}
+						delete rezMap;
+					}
+				}
+			}
+			break;
+		}
 	}
 	
 	return theHandle;
