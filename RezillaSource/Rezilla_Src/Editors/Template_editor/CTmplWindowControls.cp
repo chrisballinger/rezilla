@@ -567,6 +567,10 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 	// Store the template's type in the userCon field
 	theWasteEdit->SetUserCon(inType);
 	
+	// Adjust to the style specified in the preferences
+	TextTraitsRecord theTraits = CRezillaPrefs::GetStyleElement( CRezillaPrefs::prefsType_Curr );
+	theWasteEdit->ApplyStyleValues( theTraits.size, theTraits.fontNumber);
+
 	// Insert the text
 	if (hasText) {
 		theHandle = mRezStream->GetDataHandle();
@@ -925,7 +929,7 @@ CTmplEditorWindow::AddListHeaderField(Str255 inLabel,
 									  Boolean isFixedCount)
 {
 	Str255			numStr;
-	PaneIDT			theCountPane;
+	PaneIDT			theCountPaneID;
 	LStaticText *	theStaticText;
 	CTmplListButton *	thePushButton;
 	
@@ -959,7 +963,7 @@ CTmplEditorWindow::AddListHeaderField(Str255 inLabel,
 		theStaticText->Hide();
 	} 	
 	sStaticPaneInfo.paneID = 0;
-	theCountPane = mCurrentID;
+	theCountPaneID = mCurrentID;
 	mPaneIDs.AddItem(mCurrentID);
 	mCurrentID++;
 
@@ -998,7 +1002,7 @@ CTmplEditorWindow::AddListHeaderField(Str255 inLabel,
 	// Advance the counters    kTmplVertSep
 	mYCoord += sStaticPaneInfo.height + kTmplVertSkip;
 	
-	return theCountPane;
+	return theCountPaneID;
 }
  
 
@@ -1007,7 +1011,10 @@ CTmplEditorWindow::AddListHeaderField(Str255 inLabel,
 // ---------------------------------------------------------------------------
 
 CTmplListItemView *
-CTmplEditorWindow::AddListItemView(CTmplListItemView * inPrevListItemView, CTmplListItemView * inNextListItemView, LView * inContainer)
+CTmplEditorWindow::AddListItemView(CTmplListItemView * inPrevListItemView, 
+								   CTmplListItemView * inNextListItemView, 
+								   CTmplListButton * inMinusButton,
+								   LView * inContainer)
 {
 	SDimension16	theFrame;
 	
@@ -1037,6 +1044,7 @@ CTmplEditorWindow::AddListItemView(CTmplListItemView * inPrevListItemView, CTmpl
 		inPrevListItemView->mNextItem = theLIV;
 	} 
 
+	theLIV->mMinusButton = inMinusButton;
 	theLIV->mFirstItemID = mCurrentID;
 
 	return theLIV;
