@@ -1086,7 +1086,7 @@ CAete_EditorWindow::RebuildSuitePopup()
 	MenuRef    theMenuH = mSuitesPopup->GetMacMenuH();
 	ThrowIfNil_(theMenuH);
 	
-	// Empty the menu
+	// Empty the menu	mSuitesPopup->DeleteAllMenuItems();
 	UInt16 theCount = ::CountMenuItems( theMenuH );
 	while ( theCount > 0 ) {	
 		::DeleteMenuItem( theMenuH, theCount-- );
@@ -1267,7 +1267,9 @@ CAete_EditorWindow::HandleSliderMessage(SInt32 inKind, SInt32 inValue)
 		case item_AeteItemSlider:
 		oldIndex = GetCurrentIndex(mCurrentPanel);
 		if (inValue != oldIndex && inValue != 0) {
-			RetrievePanelValues();
+			if (oldIndex != -1) {				
+				RetrievePanelValues();
+			} 
 			SetCurrentIndex(mCurrentPanel, inValue);
 			InstallPanelValues();
 			// Update only the indicator
@@ -1279,12 +1281,14 @@ CAete_EditorWindow::HandleSliderMessage(SInt32 inKind, SInt32 inValue)
 		case item_AeteParamSlider:
 		oldIndex = GetCurrentIndex(kind_AeteParameter);
 		if (inValue != oldIndex) {
-			theParameter = static_cast<CAeteParameter *>( FindCurrentObject( kind_AeteParameter ) );
-			RetrieveParameterValues(theParameter);
+			if (oldIndex != -1) {				
+				theParameter = static_cast<CAeteParameter *>( FindCurrentObject( kind_AeteParameter ) );
+				RetrieveParameterValues(theParameter);
+			} 
 			SetCurrentIndex(kind_AeteParameter, inValue);
 			theParameter = static_cast<CAeteParameter *>( FindCurrentObject( kind_AeteParameter ) );
 			InstallParameterValues(theParameter);
-			UpdateSlider(inKind, inValue,  GetCurrentCount(kind_AeteParameter), true);
+			UpdateSlider(inKind, inValue, GetCurrentCount(kind_AeteParameter), true);
 		} 
 		break;
 		
@@ -1292,12 +1296,14 @@ CAete_EditorWindow::HandleSliderMessage(SInt32 inKind, SInt32 inValue)
 		case item_AetePropertySlider:
 		oldIndex = GetCurrentIndex(kind_AeteProperty);
 		if (inValue != oldIndex) {
-			theProperty = static_cast<CAeteProperty *>( FindCurrentObject( kind_AeteProperty ) );
-			RetrievePropertyValues(theProperty);
+			if (oldIndex != -1) {				
+				theProperty = static_cast<CAeteProperty *>( FindCurrentObject( kind_AeteProperty ) );
+				RetrievePropertyValues(theProperty);
+			} 
 			SetCurrentIndex(kind_AeteProperty, inValue);
 			theProperty = static_cast<CAeteProperty *>( FindCurrentObject( kind_AeteProperty ) );
 			InstallPropertyValues(theProperty);
-			UpdateSlider(inKind, inValue,  GetCurrentCount(kind_AeteProperty), true);
+			UpdateSlider(inKind, inValue, GetCurrentCount(kind_AeteProperty), true);
 		} 
 		break;
 		
@@ -1305,12 +1311,14 @@ CAete_EditorWindow::HandleSliderMessage(SInt32 inKind, SInt32 inValue)
 		case item_AeteElementSlider:
 		oldIndex = GetCurrentIndex(kind_AeteElement);
 		if (inValue != oldIndex) {
-			theElement = static_cast<CAeteElement *>( FindCurrentObject( kind_AeteElement ) );
-			RetrieveElementValues(theElement);
+			if (oldIndex != -1) {				
+				theElement = static_cast<CAeteElement *>( FindCurrentObject( kind_AeteElement ) );
+				RetrieveElementValues(theElement);
+			} 
 			SetCurrentIndex(kind_AeteElement, inValue);
 			theElement = static_cast<CAeteElement *>( FindCurrentObject( kind_AeteElement ) );
 			InstallElementValues(theElement);
-			UpdateSlider(inKind, inValue,  GetCurrentCount(kind_AeteElement), true);
+			UpdateSlider(inKind, inValue, GetCurrentCount(kind_AeteElement), true);
 		} 
 		break;
 		
@@ -1319,7 +1327,9 @@ CAete_EditorWindow::HandleSliderMessage(SInt32 inKind, SInt32 inValue)
 		oldIndex = GetCurrentIndex(kind_AeteKeyForm);
 		theElement = static_cast<CAeteElement *>( FindCurrentObject( kind_AeteElement ) );
 		if (inValue != oldIndex) {
-			RetrieveElementValues(theElement);
+			if (oldIndex != -1) {				
+				RetrieveElementValues(theElement);
+			} 
 			SetCurrentIndex(kind_AeteKeyForm, inValue);
 			InstallElementValues(theElement);
 		} 
@@ -1330,12 +1340,14 @@ CAete_EditorWindow::HandleSliderMessage(SInt32 inKind, SInt32 inValue)
 		theEnum = static_cast<CAeteEnumeration *>( FindCurrentObject( kind_AeteEnum ) );
 		oldIndex = GetCurrentIndex(kind_AeteEnumerator);
 		if (inValue != oldIndex) {
-			RetrieveEnumeratorValues(enumerator);
-			theEnum->SetEnumerator(oldIndex, enumerator);
+			if (oldIndex != -1) {				
+				RetrieveEnumeratorValues(enumerator);
+				theEnum->SetEnumerator(oldIndex, enumerator);
+			} 
 			SetCurrentIndex(kind_AeteEnumerator, inValue);
 			theEnum->GetEnumerator(inValue, enumerator);
 			InstallEnumeratorValues(enumerator);
-			UpdateSlider(inKind, inValue,  GetCurrentCount(kind_AeteEnum), true);
+			UpdateSlider(inKind, inValue, GetCurrentCount(kind_AeteEnumerator), true);
 		} 
 		break;
 		
