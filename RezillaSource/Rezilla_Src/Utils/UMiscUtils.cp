@@ -283,6 +283,38 @@ UMiscUtils::IsOptionKey( void )
 
 
 // ---------------------------------------------------------------------------
+// 	GetValueFromXml
+// ---------------------------------------------------------------------------
+
+void
+UMiscUtils::GetValueFromXml(CFXMLTreeRef inXmlTree, SInt32 & outValue)
+{
+	CFXMLTreeRef    valueTree;
+	CFXMLNodeRef    valueNode;
+
+	valueTree = CFTreeGetFirstChild(inXmlTree);
+	valueNode = CFXMLTreeGetNode(valueTree);
+	outValue = CFStringGetIntValue( CFXMLNodeGetString(valueNode) );
+}
+
+
+// ---------------------------------------------------------------------------
+// 	GetStringFromXml
+// ---------------------------------------------------------------------------
+
+void
+UMiscUtils::GetStringFromXml(CFXMLTreeRef inXmlTree, Str255 outString)
+{
+	CFXMLTreeRef    valueTree;
+	CFXMLNodeRef    valueNode;
+
+	valueTree = CFTreeGetFirstChild(inXmlTree);
+	valueNode = CFXMLTreeGetNode(valueTree);
+	CFStringGetPascalString( CFXMLNodeGetString(valueNode), outString, sizeof(outString), NULL);
+}
+
+
+// ---------------------------------------------------------------------------
 //	¥ BuildDateString												[static]
 // ---------------------------------------------------------------------------
 

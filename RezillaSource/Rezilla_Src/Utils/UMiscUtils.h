@@ -58,6 +58,9 @@ public:
 	static void		DisposeHandle( void *h );
 	static Boolean	IsShiftKey();
 	static Boolean	IsOptionKey();
+	static void		GetValueFromXml(CFXMLTreeRef inXmlTree, SInt32 & outValue);
+	static void		GetStringFromXml(CFXMLTreeRef inXmlTree, Str255 outString);
+	
 };
 
 
