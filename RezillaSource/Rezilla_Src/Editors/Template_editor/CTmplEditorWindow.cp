@@ -1402,6 +1402,9 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		AddStaticField(inType, inLabelString, inContainer);
 		AddEditField(theString, inType, 255, 0, 
 					 UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar), inContainer);
+		if (inType == 'P100') {
+			mRezStream->SetMarker(255 - theString[0], streamFrom_Marker);
+		} 
 		break;
 
 		case 'RECT': {
@@ -2255,6 +2258,12 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
 		theEditText->GetDescriptor(theString);	
 		*mOutStream << theString;
+		if (inType == 'P100') {
+			// Padd with null bytes
+			for (theSInt32 = 0; theSInt32 < 255 - theString[0]; theSInt32++) {
+				*mOutStream << (UInt8) 0x00;
+			}
+		} 
 		mPaneIndex++;
 		break;
 
