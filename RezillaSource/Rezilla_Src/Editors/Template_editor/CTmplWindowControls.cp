@@ -30,6 +30,7 @@
 #include "CTxtDataSubView.h"
 #include "CWasteEditView.h"
 #include "CColorWell.h"
+#include "CPopupEditField.h"
 #include "UCompareUtils.h"
 #include "UMiscUtils.h"
 #include "UMessageDialogs.h"
@@ -1194,13 +1195,8 @@ CTmplEditorWindow::AddEditPopup(Str255 inValue,
 								ResIDT inResourceID,
 								LView * inContainer)
 {
-	SDimension16	theFrame;
-	SInt16			index = 1, foundIdx = -1;
-	SInt32			totalLength = mTemplateStream->GetLength();
-	Str255			theString;
-	Str255 * 		rightPtr;
-
-	inContainer->GetFrameSize(theFrame);
+#pragma unused(inType)
+	LBevelButton *	theBevelButton;
 
 	sEditPaneInfo.left		= kTmplLeftMargin + kTmplLabelWidth + kTmplHorizSep;
 	sEditPaneInfo.width		= inWidth;
@@ -1208,64 +1204,23 @@ CTmplEditorWindow::AddEditPopup(Str255 inValue,
 	sEditPaneInfo.paneID	= mCurrentID;
 	sEditPaneInfo.superView	= inContainer;
 
-	LEditText * theEditText = new LEditText(sEditPaneInfo, this, inValue, sEditTraitsID, 
-											msg_EditorModifiedItem, inMaxChars, inAttributes, inKeyFilter);
+	CPopupEditField * theEditText = new CPopupEditField(sEditPaneInfo, this, inValue, sEditTraitsID, 
+													msg_EditorModifiedItem, msg_PopupEditField, inMaxChars, 
+													inAttributes, inKeyFilter, inResourceID);
 	ThrowIfNil_(theEditText);
 
-	// Store the template's type in the userCon field
-	theEditText->SetUserCon(inType);
-	
-	// Let the window listen to this field
-	theEditText->AddListener(this);
+	theBevelButton = theEditText->GetPopup();
 
 	// Incr the pane ID
 	mPaneIDs.AddItem(mCurrentID);
 	mCurrentID++;
-
-	// Now build the popup
-	sBevelPaneInfo.left			= sEditPaneInfo.left + inWidth + kTmplHorizSep;
-	sBevelPaneInfo.top			= sEditPaneInfo.top + 2;
-	sBevelPaneInfo.paneID		= mCurrentID;
-	sBevelPaneInfo.superView	= inContainer;
-
-	CTmplBevelButton * theBevelButton = new CTmplBevelButton(sBevelPaneInfo, msg_PopupEditField, kControlBevelButtonSmallBevelProc,
-													 MENU_TemplateCases, kControlBevelButtonMenuOnBottom, 
-													 kControlContentTextOnly, 0, 0, Str_Empty, 1, 
-													 kControlBevelButtonPlaceNormally, teFlushDefault, 0, 
-													 kControlBevelButtonAlignCenter, Point_00, true);													 
-	ThrowIfNil_(theBevelButton);
-
-	// Let the window listen to this menu
-	theBevelButton->AddListener(this);
+	theBevelButton->SetPaneID(mCurrentID);
 	
-	// Populate the popup with the items from the STR# resource with ID inResourceID
-	while (true) {
-		GetIndString(theString, inResourceID, index);
-		if ( UMiscUtils::SplitCaseValue(theString, &rightPtr) ) {
-			theBevelButton->InsertMenuItem(theString, index, true);
-			if (foundIdx == -1 && rightPtr != NULL && UCompareUtils::CompareStr255( (Str255 *) inValue, rightPtr) == 0) {
-				foundIdx = index;
-			} 
-			index++;
-		} else {
-			break;
-		}
-	} 
-	
-	// Store a pointer to the associated edit field
-	theBevelButton->SetUserCon( (long) theEditText);
-	// Store the STR# resource ID in the userCon of the edit field
-	theEditText->SetUserCon(inResourceID);
-	
-	// Let the popup listen to the edit field
-	theEditText->AddListener(theBevelButton);
-
 	// Mark the item corresponding to the value
-	if (foundIdx != -1) {
-		theBevelButton->SetCurrentMenuItem(foundIdx);						
-	} else {
-		::MacCheckMenuItem(theBevelButton->GetMacMenuH(), theBevelButton->GetCurrentMenuItem(), 0);
-	}
+	theEditText->AdjustPopupWithValue(inValue);
+
+	// Let the window listen to this edit field and the popup
+	theEditText->AddListener(this);
 
 	// Advance the counters
 	mYCoord += sEditPaneInfo.height + kTmplVertSep;
