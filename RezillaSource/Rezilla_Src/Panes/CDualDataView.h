@@ -133,10 +133,15 @@ public:
 	void			GetGeometry(DualGeometry& outGeometry) const;
 	void			SetGeometry(const DualGeometry& inGeometry);
 	
+	WindowRef		GetWindowRef() { return mWindowRef;}
+	void			SetWindowRef(WindowRef inWindowRef) {mWindowRef = inWindowRef;}
+
+
 protected:
 	CHexDataSubView *	mHexView;
 	CTxtDataSubView *	mTxtView;
 	CSingleScrollBar *	mScroller;
+	WindowRef			mWindowRef;
 	WEReference			mInMemoryWasteRef;
 	SInt32				mLinesPerPane;
 	SInt32				mBytesPerLine;
