@@ -2,7 +2,7 @@
 // CMenuObject.cp
 // 
 //                       Created: 2005-03-10 09:12:57
-//             Last modification: 2005-03-16 10:23:36
+//             Last modification: 2005-03-21 07:18:58
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -244,6 +244,21 @@ CMenuObject::NewItem()
  
 
 // ---------------------------------------------------------------------------
+//  NewItem												[public]
+// ---------------------------------------------------------------------------
+
+SInt32
+CMenuObject::NewItem(TableIndexT inAfterRow)
+{
+	SInt32 theCount;
+	AddItem();
+	theCount = mItems.GetCount();
+	mItems.MoveItem(theCount, inAfterRow + 1);
+	return theCount;
+}
+
+
+// ---------------------------------------------------------------------------
 // DeleteItem 													[public]
 // ---------------------------------------------------------------------------
 // Deletes the Item at current index. Returns the new count of
@@ -255,6 +270,23 @@ CMenuObject::DeleteItem()
 	RemoveItem(mItemIndex);
 // 	mItemIndex = -1;
 	return CountItems();
+}
+ 
+
+// ---------------------------------------------------------------------------
+//  GetStyleAtIndex												[public]
+// ---------------------------------------------------------------------------
+
+Style
+CMenuObject::GetStyleAtIndex( ArrayIndexT inAtIndex )
+{
+	Style theStyle = 0;
+	CMenuItem *	theItem;
+	if ( mItems.FetchItemAt( inAtIndex, theItem) ) {
+		theStyle = theItem->GetStyle();
+	} 
+	
+	return theStyle;
 }
  
 

@@ -2,7 +2,7 @@
 // CMenuObject.h
 // 
 //                       Created: 2005-03-10 09:12:57
-//             Last modification: 2005-03-10 19:10:30
+//             Last modification: 2005-03-21 07:18:49
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -42,10 +42,13 @@ public:
 		void	RemoveItem( ArrayIndexT inAtIndex );
 		
 		SInt32	NewItem();
+		SInt32	NewItem(TableIndexT inAfterRow);
 		SInt32	DeleteItem();
-
+		
 		void	InstallData(LHandleStream * inStream);
 		void	SendData(LHandleStream * outStream);
+		
+		Style	GetStyleAtIndex( ArrayIndexT inAtIndex );
 		
 		void	GetValues( 
 						  ResIDT & outID, ResIDT & outMDEF, 
