@@ -86,15 +86,11 @@ protected:
 	virtual void		TakeOffDuty();
 
 private:
-	void				SetIndicator(LStaticText * inIndicator, SInt32 inValue, SInt32 inTotal);
-	void				UpdateSlider(SInt32 inSliderID, SInt32 inValue, SInt32 inTotal);
-	SInt32				GetCurrentIndex(SInt8 inKind);
-	void				SetCurrentIndex(SInt8 inKind, SInt32 inIndex);
-	void				MakeListeners();
-	
-	void *				FindCurrentObject(SInt8 inKind);
 
-	void				RebuildSuitePopup();
+	ArrayIndexT			GetCurrentIndex(SInt8 inKind);
+	void				SetCurrentIndex(SInt8 inKind, ArrayIndexT inIndex);
+	SInt32				GetCurrentCount(SInt8 inKind);
+	void				MakeListeners();
 	
 	void				InstallResourceInfo();
 	void				InstallSuiteValues();
@@ -122,7 +118,16 @@ private:
 	void				RetrieveEnumeratorValues(AeteEnumerator & outEnumerator);
 	void				RetrieveFlags(SInt32 inKind, UInt16 & outFlags);
 
+	void *				FindCurrentObject(SInt8 inKind);
+	void				RebuildSuitePopup();
 	void				RemoveAeteMenu();
+	void				SetIndicator(LStaticText * inIndicator, 
+									 SInt32 inValue, 
+									 SInt32 inTotal);
+	void				UpdateSlider(SInt32 inSliderID, 
+									 SInt32 inValue, 
+									 SInt32 inTotal, 
+									 Boolean inOnlyIndicator = false);
 	
 };
 

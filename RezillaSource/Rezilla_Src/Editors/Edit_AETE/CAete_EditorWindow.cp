@@ -2,7 +2,7 @@
 // CAete_EditorWindow.cp
 // 
 //                       Created: 2004-07-01 08:42:37
-//             Last modification: 2005-01-27 07:06:17
+//             Last modification: 2005-01-30 09:03:42
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -17,6 +17,7 @@
 #include "CRezillaApp.h"
 #include "RezillaConstants.h"
 #include "UMiscUtils.h"
+#include "UAeteTranslator.h"
 
 // PP headers
 #include <LPageController.h>
@@ -115,7 +116,7 @@ CAete_EditorWindow::~CAete_EditorWindow()
 // 	}
 // 
 // 	// Build the table elements
-// 	mDictTermsTable = dynamic_cast<CBroadcasterTableView *> (mAeteEditWindow->FindPaneByID( item_AeteTermsTable ));
+// 	mDictTermsTable = dynamic_cast<CBroadcasterTableView *>(mAeteEditWindow->FindPaneByID( item_AeteTermsTable ));
 // 	ThrowIfNil_( mDictTermsTable );
 // 	
 // 	// Set Geometry and Selector TableView members.
@@ -131,13 +132,13 @@ CAete_EditorWindow::FinishCreateSelf()
 	mAete = nil;
 	mCurrentPanel = mpv_AeteEvent;
 	
-	mSuitesPopup = dynamic_cast<LPopupButton *> (this->FindPaneByID( item_AeteSuitePopup ));
+	mSuitesPopup = dynamic_cast<LPopupButton *>(this->FindPaneByID( item_AeteSuitePopup ));
 	ThrowIfNil_( mSuitesPopup );
 	
-	mController = dynamic_cast<LPageController *> (this->FindPaneByID( item_AetePanelController ));
+	mController = dynamic_cast<LPageController *>(this->FindPaneByID( item_AetePanelController ));
 	ThrowIfNil_( mController );
 			
-	mMultiPanel = dynamic_cast<LMultiPanelView *> (this->FindPaneByID( item_AeteMultiPanelView ));
+	mMultiPanel = dynamic_cast<LMultiPanelView *>(this->FindPaneByID( item_AeteMultiPanelView ));
 	ThrowIfNil_( mMultiPanel );
 	
 	// Create the panels before we call them
@@ -275,7 +276,8 @@ CAete_EditorWindow::FindCommandStatus(
 			break;
 
 			case cmd_AeteAddParameter:
-			outEnabled = (mCurrentPanel == mpv_AeteEvent);
+			outEnabled = (mCurrentPanel == mpv_AeteEvent
+				&& theSuite->CountEvents() > 0);
 			break;
 
 			case cmd_AeteRemoveParameter:
@@ -289,7 +291,8 @@ CAete_EditorWindow::FindCommandStatus(
 			break;
 
 			case cmd_AeteAddProperty:
-			outEnabled = (mCurrentPanel == mpv_AeteClass);
+			outEnabled = (mCurrentPanel == mpv_AeteClass
+				&& theSuite->CountClasses() > 0);
 			break;
 
 			case cmd_AeteRemoveProperty:
@@ -303,7 +306,8 @@ CAete_EditorWindow::FindCommandStatus(
 			break;
 
 			case cmd_AeteAddElement:
-			outEnabled = (mCurrentPanel == mpv_AeteClass);
+			outEnabled = (mCurrentPanel == mpv_AeteClass
+				&& theSuite->CountClasses() > 0);
 			break;
 
 			case cmd_AeteRemoveElement:
@@ -343,21 +347,19 @@ CAete_EditorWindow::FindCommandStatus(
 			break;
 				
 			case cmd_AeteAddEnumerator:
-			outEnabled = (mCurrentPanel == mpv_AeteEnum);
+			outEnabled = (mCurrentPanel == mpv_AeteEnum
+				&& theSuite->CountEnumerations() > 0);
 			break;
 
 			case cmd_AeteRemoveEnumerator:
 			if (mCurrentPanel != mpv_AeteEnum
-				|| theSuite->CountClasses() == 0) {
+				|| theSuite->CountEnumerations() == 0) {
 				outEnabled = false;
 			} else {
 				CAeteEnumeration * theEnum = static_cast<CAeteEnumeration *>( FindCurrentObject( kind_AeteEnum ) );
 				outEnabled = (theEnum && theEnum->CountEnumerators() > 0);
 			}
 			break;
-
-	// 		case cmd_AeteImport:
-	// 		break;
 
 			case cmd_AeteExport:
 			outEnabled = true;
@@ -427,12 +429,12 @@ CAete_EditorWindow::RemoveAeteMenu()
 void
 CAete_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam ) 
 {
-	SInt32 newIndex, oldIndex;
+	ArrayIndexT newIndex, oldIndex;
 	
 	switch (inMessage) {
 		
 		case item_AeteSuitePopup:
-		newIndex = *(SInt32 *) ioParam;
+		newIndex = *(ArrayIndexT *) ioParam;
 		oldIndex = GetCurrentIndex(kind_AeteSuite);
 		if (newIndex != oldIndex) {
 			RetrieveSuiteValues();
@@ -445,7 +447,7 @@ CAete_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		
 		
 		case item_AetePanelController:
-		newIndex = *(SInt32 *) ioParam;
+		newIndex = *(ArrayIndexT *) ioParam;
 		if (newIndex != mCurrentPanel) {
 			RetrievePanelValues();
 			mCurrentPanel = newIndex;
@@ -456,21 +458,22 @@ CAete_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		
 		
 		case item_AeteItemSlider:
-		newIndex = *(SInt32 *) ioParam;
+		newIndex = *(ArrayIndexT *) ioParam;
 		oldIndex = GetCurrentIndex(mCurrentPanel);
-		if (newIndex != oldIndex) {
+		if (newIndex != oldIndex && newIndex != 0) {
 			RetrievePanelValues();
 			SetCurrentIndex(mCurrentPanel, newIndex);
 			InstallPanelValues();
-			UpdateSlider(item_AeteItemSlider, 0, 0);
+			// Update only the indicator
+			UpdateSlider(item_AeteItemSlider, 0, 0, true);
 		}
 		break;
 		
 		
-		case item_AeteOtherSlider:
+		case item_AeteParamSlider:
 		CAeteParameter * theParameter;
 		
-		newIndex = *(SInt32 *) ioParam;
+		newIndex = *(ArrayIndexT *) ioParam;
 		oldIndex = GetCurrentIndex(kind_AeteParameter);
 		if (newIndex != oldIndex) {
 			theParameter = static_cast<CAeteParameter *>( FindCurrentObject( kind_AeteParameter ) );
@@ -485,7 +488,7 @@ CAete_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		case item_AetePropertySlider:
 		CAeteProperty * theProperty;
 		
-		newIndex = *(SInt32 *) ioParam;
+		newIndex = *(ArrayIndexT *) ioParam;
 		oldIndex = GetCurrentIndex(kind_AeteProperty);
 		if (newIndex != oldIndex) {
 			theProperty = static_cast<CAeteProperty *>( FindCurrentObject( kind_AeteProperty ) );
@@ -500,7 +503,7 @@ CAete_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		case item_AeteElementSlider:
 		CAeteElement * theElement;
 		
-		newIndex = *(SInt32 *) ioParam;
+		newIndex = *(ArrayIndexT *) ioParam;
 		oldIndex = GetCurrentIndex(kind_AeteElement);
 		if (newIndex != oldIndex) {
 			theElement = static_cast<CAeteElement *>( FindCurrentObject( kind_AeteElement ) );
@@ -517,7 +520,7 @@ CAete_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		CAeteEnumeration *	theEnum ;
 		
 		theEnum = static_cast<CAeteEnumeration *>( FindCurrentObject( kind_AeteEnum ) );
-		newIndex = *(SInt32 *) ioParam;
+		newIndex = *(ArrayIndexT *) ioParam;
 		oldIndex = GetCurrentIndex(kind_AeteEnumerator);
 		if (newIndex != oldIndex) {
 			RetrieveEnumeratorValues(enumerator);
@@ -557,10 +560,17 @@ CAete_EditorWindow::ObeyCommand(
 		InstallPanelValues();
 		RebuildSuitePopup();
 	} else if (inCommand == cmd_AeteExport) {
+// 		UAeteTranslator::ExportTerminology();
+// 		FSSpec	theFSSpec;
+// 		AskExportAs(theFSSpec, RecordAE_Yes);
+	
+// 		mAete->ExportData(outFileStream);	
 
 	} else {
-		CAeteSuite * theSuite = static_cast<CAeteSuite *>( FindCurrentObject( kind_AeteSuite ) );
-
+		CAeteSuite *	theSuite = static_cast<CAeteSuite *>( FindCurrentObject( kind_AeteSuite ) );
+		LSlider *		theSlider;
+		ArrayIndexT		index;
+		
 		if (!theSuite) { return cmdHandled; }
 		
 		switch (inCommand) {
@@ -569,66 +579,131 @@ CAete_EditorWindow::ObeyCommand(
 			switch (mCurrentPanel) {
 				case mpv_AeteEvent:
 				theSuite->AddEvent();
-				theSuite->SetEventIndex( theSuite->CountEvents() );
-				InstallEventValues(NULL);
+				index = theSuite->CountEvents();
 				break;
 				
 				case mpv_AeteClass:
 				theSuite->AddClass();
-				theSuite->SetClassIndex( theSuite->CountClasses() );
-				InstallClassValues(NULL);
+				index = theSuite->CountClasses();
 				break;
 				
 				case mpv_AeteCompOp:
 				theSuite->AddCompOp();
-				theSuite->SetCompOpIndex( theSuite->CountCompOps() );
-				InstallCompOpValues(NULL);
+				index = theSuite->CountCompOps();
 				break;
 				
 				case mpv_AeteEnum:
 				theSuite->AddEnumeration();
-				theSuite->SetEnumerationIndex( theSuite->CountEnumerations() );
-				InstallEnumerationValues(NULL);
+				index = theSuite->CountEnumerations();
 				break;
 			}	
+			UpdateSlider(item_AeteItemSlider, index, index);
 			break;
 
+			
 			case cmd_AeteRemoveItem:
+			switch (mCurrentPanel) {
+				case mpv_AeteEvent:
+				index = theSuite->GetEventIndex();
+				theSuite->RemoveEvent(index);
+				theSuite->SetEventIndex( (theSuite->CountEvents() > 0) );	
+				break;
+				
+				case mpv_AeteClass:
+				index = theSuite->GetClassIndex();
+				theSuite->RemoveClass(index);
+				theSuite->SetClassIndex( (theSuite->CountClasses() > 0) );	
+				break;
+				
+				case mpv_AeteCompOp:
+				index = theSuite->GetCompOpIndex();
+				theSuite->RemoveCompOp(index);
+				theSuite->SetCompOpIndex( (theSuite->CountCompOps() > 0) );	
+				break;
+				
+				case mpv_AeteEnum:
+				index = theSuite->GetEnumerationIndex();
+				theSuite->RemoveEnumeration(index);
+				theSuite->SetEnumerationIndex( (theSuite->CountEnumerations() > 0) );	
+				break;
+			}	
+			theSlider = dynamic_cast<LSlider *>(this->FindPaneByID( item_AeteItemSlider ));
+			theSlider->SetMaxValue(--index);
+			theSlider->SetValue(1);
 			break;
 
-			case cmd_AeteAddParameter:
-			break;
+			
+			case cmd_AeteAddParameter: {
+				CAeteEvent * theEvent = static_cast<CAeteEvent *>( FindCurrentObject( kind_AeteEvent ) );
+				if (!theEvent) { return cmdHandled; }
+				theEvent->AddParameter();
+				index = theEvent->CountParameters();
+				theEvent->SetParameterIndex(index);
+				UpdateSlider(item_AeteParamSlider, index, index);
+				break;
+			}
 
+			
 			case cmd_AeteRemoveParameter:
 			break;
 
-			case cmd_AeteAddProperty:
-			break;
+			
+			case cmd_AeteAddProperty: {
+				CAeteClass * theClass = static_cast<CAeteClass *>( FindCurrentObject( kind_AeteClass ) );
+				if (!theClass) { return cmdHandled; }
+				theClass->AddProperty();
+				index = theClass->CountProperties();
+				theClass->SetPropertyIndex(index);
+				UpdateSlider(item_AetePropertySlider, index, index);
+				break;
+			}
 
+			
 			case cmd_AeteRemoveProperty:
 			break;
 
-			case cmd_AeteAddElement:
-			break;
+			
+			case cmd_AeteAddElement: {
+				CAeteClass * theClass = static_cast<CAeteClass *>( FindCurrentObject( kind_AeteClass ) );
+				if (!theClass) { return cmdHandled; }
+				theClass->AddElement();
+				index = theClass->CountElements();
+				theClass->SetElementIndex(index);
+				UpdateSlider(item_AeteElementSlider, index, index);
+				break;
+			}
 
+			
 			case cmd_AeteRemoveElement:
 			break;
 
+			
 			case cmd_AeteAddKeyForm:
+			CAeteElement * theElement = static_cast<CAeteElement *>( FindCurrentObject( kind_AeteElement ) );
+			if (!theElement) { return cmdHandled; }
+			theElement->AddKeyForm();
+			theElement->SetKeyFormIndex( theElement->CountKeyForms() );
 			break;
 
+			
 			case cmd_AeteRemoveKeyForm:
 			break;
 
+			
 			case cmd_AeteAddEnumerator:
+			CAeteEnumeration * theEnum = static_cast<CAeteEnumeration *>( FindCurrentObject( kind_AeteEnum ) );
+			if (!theEnum) { return cmdHandled; }
+			theEnum->AddEnumerator();
+			index = theEnum->CountEnumerators();
+			theEnum->SetEnumeratorIndex(index);
+			UpdateSlider(item_AeteEnumSlider, index, index);
 			break;
 
+			
 			case cmd_AeteRemoveEnumerator:
 			break;
 
-	// 		case cmd_AeteImport:
-	// 		break;
-
+			
 			default:
 			cmdHandled = CEditorWindow::ObeyCommand(inCommand, ioParam);
 			break;
@@ -676,10 +751,10 @@ CAete_EditorWindow::RetrieveAete(CAeteStream * outStream)
 //  GetCurrentIndex												[public]
 // ---------------------------------------------------------------------------
 
-SInt32
+ArrayIndexT
 CAete_EditorWindow::GetCurrentIndex(SInt8 inKind)
 {	
-	SInt32	index = 0;
+	ArrayIndexT	index = 0;
 	
 	switch (inKind) {
 		case kind_AeteSuite:
@@ -736,7 +811,7 @@ CAete_EditorWindow::GetCurrentIndex(SInt8 inKind)
 // ---------------------------------------------------------------------------
 
 void
-CAete_EditorWindow::SetCurrentIndex(SInt8 inKind, SInt32 inIndex)
+CAete_EditorWindow::SetCurrentIndex(SInt8 inKind, ArrayIndexT inIndex)
 {
 	if (inIndex <= 0) return;
 	
@@ -783,6 +858,65 @@ CAete_EditorWindow::SetCurrentIndex(SInt8 inKind, SInt32 inIndex)
 		
 	}
 	
+}
+
+
+// ---------------------------------------------------------------------------
+//  GetCurrentCount												[public]
+// ---------------------------------------------------------------------------
+
+SInt32
+CAete_EditorWindow::GetCurrentCount(SInt8 inKind)
+{	
+	SInt32	count = 0;
+	
+	switch (inKind) {
+		case kind_AeteSuite:
+		count = mAete->GetSuiteIndex();
+		break;
+		
+		case kind_AeteEvent: 
+		case kind_AeteClass: 
+		case kind_AeteCompOp: 
+		case kind_AeteEnum: 
+		CAeteSuite * theSuite = static_cast<CAeteSuite *>( FindCurrentObject( kind_AeteSuite ) );
+		if (theSuite) {
+			count = theSuite->GetCurrentCount(inKind);
+		}
+		break;
+		
+		case kind_AeteParameter:
+		CAeteEvent * theEvent = static_cast<CAeteEvent *>( FindCurrentObject( kind_AeteEvent ) );
+		if (theEvent) {
+			count = theEvent->CountParameters();
+		}
+		break;
+		
+		case kind_AeteProperty: {
+			CAeteClass * theClass = static_cast<CAeteClass *>( FindCurrentObject( kind_AeteClass ) );
+			if (theClass) {
+				count = theClass->CountProperties();
+			}
+			break;
+		}
+		
+		case kind_AeteElement: {
+			CAeteClass * theClass = static_cast<CAeteClass *>( FindCurrentObject( kind_AeteClass ) );
+			if (theClass) {
+				count = theClass->CountElements();
+			}
+			break;
+		}
+		
+		case kind_AeteEnumerator:
+		CAeteEnumeration * theEnum = static_cast<CAeteEnumeration *>( FindCurrentObject( kind_AeteEnum ) );
+		if (theEnum) {
+			count = theEnum->CountEnumerators();
+		}
+		break;
+		
+	}
+	return count;
 }
 
 
@@ -848,7 +982,8 @@ CAete_EditorWindow::FindCurrentObject(SInt8 inKind)
 					case kind_AeteKeyForm:
 					CAeteElement * theElement;
 					index = theClass->GetElementIndex();
-					if (theClass->GetElements()->FetchItemAt(index, theElement)) {
+					if (inKind == kind_AeteElement
+						&& theClass->GetElements()->FetchItemAt(index, theElement)) {
 						theObj = (void *) theElement;
 					} 
 					break;
@@ -907,83 +1042,81 @@ CAete_EditorWindow::SetIndicator(LStaticText * inIndicator, SInt32 inValue, SInt
 // ---------------------------------------------------------------------------
 //  UpdateSlider													[public]
 // ---------------------------------------------------------------------------
+// Passing 0 for inValue and for inTotal forces a recalc for the main 
+// slider's values.
 
 void
-CAete_EditorWindow::UpdateSlider(SInt32 inSliderID, SInt32 inValue, SInt32 inTotal)
+CAete_EditorWindow::UpdateSlider(SInt32 inSliderID, SInt32 inValue, SInt32 inTotal, Boolean inOnlyIndicator)
 {
 	LSlider *		theSlider = nil;
 	LStaticText *	theIndicator = nil;
+	LTextGroupBox * theTGB = nil;
 	
 	switch (inSliderID) {
 		case item_AeteItemSlider: {
 			CAeteSuite * theSuite = static_cast<CAeteSuite *>( FindCurrentObject( kind_AeteSuite ) );
-			if (theSuite) {
-				switch (mCurrentPanel) {
-					case mpv_AeteEvent:
-					inValue = theSuite->GetEventIndex();
-					inTotal = theSuite->CountEvents();
-					break;
-					
-					case mpv_AeteClass:
-					inValue = theSuite->GetClassIndex();
-					inTotal = theSuite->CountClasses();
-					break;
-					
-					case mpv_AeteCompOp:
-					inValue = theSuite->GetCompOpIndex();
-					inTotal = theSuite->CountCompOps();
-					break;
-					
-					case mpv_AeteEnum:
-					inValue = theSuite->GetEnumerationIndex();
-					inTotal = theSuite->CountEnumerations();
-					break;
-				}	
+			if (theSuite && !inTotal && !inValue) {
+				inTotal = theSuite->GetCurrentCount(mCurrentPanel);
+				inValue = theSuite->GetCurrentIndex(mCurrentPanel);
 			}		
-			theSlider = dynamic_cast<LSlider *> (this->FindPaneByID( inSliderID ));
-			theIndicator = dynamic_cast<LStaticText *> (this->FindPaneByID( item_AeteItemIndicator ));
+			theSlider = dynamic_cast<LSlider *>(this->FindPaneByID( inSliderID ));
+			theIndicator = dynamic_cast<LStaticText *>(this->FindPaneByID( item_AeteItemIndicator ));
 			break;
 		}
 		
-		case item_AeteOtherSlider:
-		theSlider = dynamic_cast<LSlider *> (mEventPane->FindPaneByID( inSliderID ));
-		theIndicator = dynamic_cast<LStaticText *> (mEventPane->FindPaneByID( item_AeteOtherIndicator ));
+		case item_AeteParamSlider:
+		theSlider = dynamic_cast<LSlider *>(mEventPane->FindPaneByID( inSliderID ));
+		theIndicator = dynamic_cast<LStaticText *>(mEventPane->FindPaneByID( item_AeteParamIndicator ));
+		theTGB = dynamic_cast<LTextGroupBox *>(mEventPane->FindPaneByID( item_AeteParamBox ));
 		break;
 		
 		case item_AetePropertySlider:
-		theSlider = dynamic_cast<LSlider *> (mClassPane->FindPaneByID( inSliderID ));
-		theIndicator = dynamic_cast<LStaticText *> (mClassPane->FindPaneByID( item_AetePropertyIndicator ));
+		theSlider = dynamic_cast<LSlider *>(mClassPane->FindPaneByID( inSliderID ));
+		theIndicator = dynamic_cast<LStaticText *>(mClassPane->FindPaneByID( item_AetePropertyIndicator ));
+		theTGB = dynamic_cast<LTextGroupBox *>(mClassPane->FindPaneByID( item_AetePropertyBox ));
 		break;
 		
 		case item_AeteElementSlider:
-		theSlider = dynamic_cast<LSlider *> (mClassPane->FindPaneByID( inSliderID ));
-		theIndicator = dynamic_cast<LStaticText *> (mClassPane->FindPaneByID( item_AeteElementIndicator ));
+		theSlider = dynamic_cast<LSlider *>(mClassPane->FindPaneByID( inSliderID ));
+		theIndicator = dynamic_cast<LStaticText *>(mClassPane->FindPaneByID( item_AeteElementIndicator ));
+		theTGB = dynamic_cast<LTextGroupBox *>(mClassPane->FindPaneByID( item_AeteElementBox ));
 		break;
 		
 		case item_AeteEnumSlider:
-		theSlider = dynamic_cast<LSlider *> (mEnumerationPane->FindPaneByID( inSliderID ));
-		theIndicator = dynamic_cast<LStaticText *> (mEnumerationPane->FindPaneByID( item_AeteEnumIndicator ));
+		theSlider = dynamic_cast<LSlider *>(mEnumerationPane->FindPaneByID( inSliderID ));
+		theIndicator = dynamic_cast<LStaticText *>(mEnumerationPane->FindPaneByID( item_AeteEnumIndicator ));
+		theTGB = dynamic_cast<LTextGroupBox *>(mEnumerationPane->FindPaneByID( item_AeteEnumBox ));
 		break;
 	}
 	
 	if (!theSlider || !theIndicator) return;
 	
 	// Set the slider
-	if (inTotal > 1) {
-// 		theSlider->SetMinValue(1);
-		theSlider->SetValue(inValue);
+	if (!inOnlyIndicator) {
 		theSlider->SetMaxValue(inTotal);
+		if ( theSlider->GetMinValue() > 0 ) {
+			theSlider->SetMinValue( (inTotal > 0) && (inValue > 0) );
+		} 
+		theSlider->SetValue(inValue);
+		if (inValue > 0) {
+			theSlider->SetMinValue(1);
+		} 
+	} 
+	
+	if (inTotal > 1) {
 		theSlider->Show();
 	} else {
 		theSlider->Hide();
 	}
+	
 	// Set the indicator
 	if (inTotal == 0) {
 		theIndicator->Hide();
+		if (theTGB) theTGB->Disable();
 	} else {
 		SetIndicator(theIndicator, inValue, inTotal);
 		theIndicator->Show();
+		if (theTGB) theTGB->Enable();
 	}
 }
-
 
