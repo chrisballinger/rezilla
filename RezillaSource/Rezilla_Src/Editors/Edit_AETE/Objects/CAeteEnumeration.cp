@@ -2,7 +2,7 @@
 // CAeteEnumeration.cp
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-23 10:27:46
+//             Last modification: 2005-01-26 06:55:45
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -91,6 +91,29 @@ CAeteEnumeration::RemoveEnumerator( ArrayIndexT inAtIndex )
 }
 
 
+// ---------------------------------------------------------------------------
+//  GetEnumerator												[public]
+// ---------------------------------------------------------------------------
+
+Boolean
+CAeteEnumeration::GetEnumerator(ArrayIndexT inAtIndex, AeteEnumerator & outEnumerator)
+{
+	return mEnumerators.FetchItemAt(inAtIndex, outEnumerator);
+}
+
+
+// ---------------------------------------------------------------------------
+//  SetEnumerator												[public]
+// ---------------------------------------------------------------------------
+
+void
+CAeteEnumeration::SetEnumerator(ArrayIndexT inAtIndex, AeteEnumerator inEnumerator)
+{
+	RemoveEnumerator(inAtIndex);
+	mEnumerators.InsertItemsAt(1, inAtIndex, inEnumerator);
+}
+
+	
 // ---------------------------------------------------------------------------
 //  InstallDataStream												[public]
 // ---------------------------------------------------------------------------

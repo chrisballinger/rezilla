@@ -2,7 +2,7 @@
 // CAeteEnumeration.h
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-01-22 10:24:17
+//             Last modification: 2005-01-26 06:53:36
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -42,6 +42,11 @@ public:
 
 		ArrayIndexT		GetEnumeratorIndex() { return mEnumeratorIndex;}
 		void			SetEnumeratorIndex(ArrayIndexT inEnumeratorIndex) {mEnumeratorIndex = inEnumeratorIndex;}
+
+		Boolean			GetEnumerator(ArrayIndexT inAtIndex, AeteEnumerator & outEnumerator);
+		void			SetEnumerator(ArrayIndexT inAtIndex, AeteEnumerator inEnumerator);
+	
+		SInt32			CountEnumerators() { return mEnumerators.GetCount(); }
 
 		TArray<AeteEnumerator> *	GetEnumerators() { return &mEnumerators;}
 
