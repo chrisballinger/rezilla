@@ -15,13 +15,14 @@ drop resources, compare resource maps etc.
 On the other hand, the custom editors and the plugin architecture are not
 implemented yet.
 
-Please read the doc contained in the Rezilla Help file. It is also
-accessible via the "Rezilla Help" command in the Help menu
-when Rezilla is running.
+Please read the doc contained in the help files. It is accessible via the
+"Rezilla Help" command in the Help menu when Rezilla is running. You can
+also read it online at
+<http://webperso.easyconnect.fr/bdesgraupes/DocHTML/RezillaHelp/index.html>.
 
 Rezilla is free software.
-See the licensing terms in the Licence.terms file or click on the
-"License" button in the About box.
+See the licensing terms in the Licence.terms file or click on the "License"
+button in the About box.
 
 The official home page for the project is at SourceForge:
 <http://sourceforge.net/projects/rezilla>
