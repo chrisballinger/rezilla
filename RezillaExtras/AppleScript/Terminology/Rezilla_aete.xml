@@ -1762,7 +1762,6 @@
 						<ArrayKeyForms>
 							<KeyFormID>indx</KeyFormID>
 							<KeyFormID>name</KeyFormID>
-							<KeyFormID>list</KeyFormID>
 						</ArrayKeyForms>
 					</Element>
 				</ArrayElements>
@@ -2629,7 +2628,7 @@
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
-							<IsEnumerated>enumerated</IsEnumerated>
+							<IsEnumerated>notEnumerated</IsEnumerated>
 							<IsReadWrite>readOnly</IsReadWrite>
 							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
 							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
@@ -2929,7 +2928,6 @@
 						<ArrayKeyForms>
 							<KeyFormID>indx</KeyFormID>
 							<KeyFormID>name</KeyFormID>
-							<KeyFormID>list</KeyFormID>
 						</ArrayKeyForms>
 					</Element>
 					<Element>
@@ -2937,7 +2935,6 @@
 						<ArrayKeyForms>
 							<KeyFormID>indx</KeyFormID>
 							<KeyFormID>name</KeyFormID>
-							<KeyFormID>list</KeyFormID>
 						</ArrayKeyForms>
 					</Element>
 				</ArrayElements>
@@ -3037,7 +3034,6 @@
 						<ArrayKeyForms>
 							<KeyFormID>indx</KeyFormID>
 							<KeyFormID>name</KeyFormID>
-							<KeyFormID>list</KeyFormID>
 						</ArrayKeyForms>
 					</Element>
 				</ArrayElements>
