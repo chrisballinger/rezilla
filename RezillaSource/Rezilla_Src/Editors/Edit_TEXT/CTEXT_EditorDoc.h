@@ -57,7 +57,7 @@ public:
 protected:
 	CTEXT_EditorWindow *		mTextEditWindow;
 	
-	virtual Handle		GetModifiedResource();
+	virtual Handle		GetModifiedResource(Boolean &releaseIt);
 
 private:
 	void				Initialize();

@@ -1,11 +1,11 @@
 // ===========================================================================
 // CWindow_ColorIcon.cp
 //                       Created: 2004-12-11 18:50:11
-//             Last modification: 2005-01-02 15:45:30
+//             Last modification: 2005-01-09 08:20:26
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes 2004, 2005
+// (c) Copyright: Bernard Desgraupes 2004-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -291,6 +291,7 @@ CWindow_ColorIcon::ParseColorIcon( CRezMap *inMap, ResIDT inResID,
 // ---------------------------------------------------------------------------
 // 	SaveAsResource
 // ---------------------------------------------------------------------------
+
 void
 CWindow_ColorIcon::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 {

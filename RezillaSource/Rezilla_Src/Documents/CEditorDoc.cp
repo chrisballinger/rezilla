@@ -239,6 +239,7 @@ CEditorDoc::ListenToMessage( MessageT inMessage, void * /* ioParam */)
 // ---------------------------------------------------------------------------
 //	¥ CanSaveChanges												  [public]
 // ---------------------------------------------------------------------------
+// Deals with the resProtected attribute
 
 Boolean
 CEditorDoc::CanSaveChanges()
@@ -320,49 +321,16 @@ CEditorDoc::AttemptClose(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AskSaveBeforeClose										  [public]
-// ---------------------------------------------------------------------------
-// This is called when doing a SaveAs in the RezMapDoc: ask to save changes
-// and close anyway. If the user wants to save but it fails (resProtected
-// resource), then return false to abort
-// the operation.
-
-Boolean
-CEditorDoc::AskSaveBeforeClose()
-{
-	Boolean success = true;
-	
-	if (IsModified()) {
-		SInt16 		answer;
-		
-		SelectMainWindow();
-		answer = AskSaveChanges(SaveWhen_Closing);
-		
-		if (answer == answer_Save) {
-			if ( CanSaveChanges() ) {
-				DoSaveChanges();
-			} else {
-				success = false;
-			}
-		} 
-	}
-
-	if (success) {
-		Close();
-	} 
-	
-	return success;
-}
-
-
-// ---------------------------------------------------------------------------
 //  ¥ DoSaveChanges													[public]
 // ---------------------------------------------------------------------------
+// The callee should set the shouldWeRelease variable to tell us if the 
+// handle we receive should be released here.
 
 void
 CEditorDoc::DoSaveChanges() 
 {
-	Handle theHandle = GetModifiedResource();
+	Boolean shouldWeRelease = false;
+	Handle theHandle = GetModifiedResource(shouldWeRelease);
 	
 	if (theHandle != NULL) {
 		// Copy to resource's data handle
@@ -388,6 +356,10 @@ CEditorDoc::DoSaveChanges()
 			&& CRezillaApp::sInspectorWindow->GetRezObjItem()->GetRezObj() == mRezObj) {
 			CRezillaApp::sInspectorWindow->InstallValues(mRezObj);
 		} 		
+		
+		if (shouldWeRelease) {
+			::DisposeHandle(theHandle);
+		} 
 	} 
 }
 
@@ -413,17 +385,15 @@ CEditorDoc::GetDescriptor(
 }
 
 
-
-
 // ---------------------------------------------------------------------------
 //  ¥ GetModifiedResource										[public]
 // ---------------------------------------------------------------------------
 // Override in subclasses to collect the proper modified data.
 
 Handle
-CEditorDoc::GetModifiedResource() 
+CEditorDoc::GetModifiedResource(Boolean &releaseIt) 
 {
-	return mRezObj->GetData();
+	return NULL;
 }
 
 

@@ -2,11 +2,11 @@
 // CIcon_EditorDoc.h				
 // 
 //                       Created: 2004-12-11 23:33:03
-//             Last modification: 2004-12-14 23:33:06
+//             Last modification: 2005-01-09 09:06:16
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004
+// (c) Copyright : Bernard Desgraupes, 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -55,7 +55,7 @@ public:
 protected:
 	CIcon_EditorWindow *		mIconEditWindow;
 
-	virtual Handle		GetModifiedResource();
+	virtual Handle		GetModifiedResource(Boolean &releaseIt);
 
 private:
 	void				Initialize();

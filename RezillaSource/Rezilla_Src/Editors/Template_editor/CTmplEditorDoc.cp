@@ -233,9 +233,11 @@ CTmplEditorDoc::AskSaveChanges(
 // ---------------------------------------------------------------------------
 //  ¥ GetModifiedResource										[public]
 // ---------------------------------------------------------------------------
+// The returned handle should not be released by the caller so leave
+// releaseIt to false (its default).
 
 Handle
-CTmplEditorDoc::GetModifiedResource() 
+CTmplEditorDoc::GetModifiedResource(Boolean &releaseIt) 
 {
 	Handle theHandle = NULL;
 	OSErr error = mTmplEditWindow->RetrieveDataWithTemplate();

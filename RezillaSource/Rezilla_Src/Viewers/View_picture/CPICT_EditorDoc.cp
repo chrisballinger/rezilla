@@ -190,9 +190,11 @@ CPICT_EditorDoc::AskSaveChanges(
 // ---------------------------------------------------------------------------
 //  ¥ GetModifiedResource										[protected]
 // ---------------------------------------------------------------------------
+// The returned handle should not be released by the caller so leave
+// releaseIt to false (its default).
 
 Handle
-CPICT_EditorDoc::GetModifiedResource() 
+CPICT_EditorDoc::GetModifiedResource(Boolean &releaseIt) 
 {
 	return (Handle) mPictWindow->GetContentsView()->GetPictureH();
 }

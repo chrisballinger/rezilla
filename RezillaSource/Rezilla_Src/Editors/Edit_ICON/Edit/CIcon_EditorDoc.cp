@@ -247,9 +247,11 @@ CIcon_EditorDoc::AskSaveChanges(
 // ---------------------------------------------------------------------------
 
 Handle
-CIcon_EditorDoc::GetModifiedResource() 
+CIcon_EditorDoc::GetModifiedResource(Boolean &releaseIt) 
 {
-	return mIconEditWindow->GetContentsView()->GetModifiedBitmap();
+	mIconEditWindow->SaveAsResource( mRezMapTable->GetRezMap(), mRezObj->GetID() );
+	
+	return (Handle) NULL;
 }
 
 

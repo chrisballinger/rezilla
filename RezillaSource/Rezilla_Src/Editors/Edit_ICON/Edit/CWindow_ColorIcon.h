@@ -1,11 +1,11 @@
 // ===========================================================================
 // CWindow_ColorIcon.h
 //                       Created: 2004-12-11 18:56:23
-//             Last modification: 2004-12-30 09:45:27
+//             Last modification: 2005-01-09 08:20:10
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes 2004
+// (c) Copyright: Bernard Desgraupes 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -39,7 +39,7 @@ class CWindow_ColorIcon : public CIcon_EditorWindow {
 											COffscreen *inColor, COffscreen *inBW, 
 											COffscreen *inMask, Boolean bwIsEmpty );
 		
-		virtual void				SaveAsResource( CRezMap *, ResIDT );
+		virtual void				SaveAsResource( CRezMap *inMap, ResIDT inResID );
 		
 		virtual void				ChangeImageSize( SInt32 inWidth, SInt32 inHeight, Boolean inStretch );
 		

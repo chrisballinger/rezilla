@@ -2,7 +2,7 @@
 // CIcon_EditorWindow.cp
 // 
 //                       Created: 2004-12-10 17:23:05
-//             Last modification: 2005-01-08 12:04:16
+//             Last modification: 2005-01-09 08:20:52
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -11,7 +11,6 @@
 // $Date$
 // $Revision$
 // ===========================================================================
-
 
 #include "CIcon_EditorDoc.h"
 #include "CIcon_EditorWindow.h"
@@ -1897,9 +1896,9 @@ CIcon_EditorWindow::SetCoordsField(SInt16 inXCoord, SInt16 inYCoord)
 // ---------------------------------------------------------------------------
 
 void 
-CIcon_EditorWindow::SaveAsResource( CRezMap *inMap, ResIDT inResID  )
+CIcon_EditorWindow::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 {
-	// Subclasses should define
+	// Subclasses should override
 }
 
 

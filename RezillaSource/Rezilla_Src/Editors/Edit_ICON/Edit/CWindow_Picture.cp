@@ -125,6 +125,7 @@ CWindow_Picture::InitializeFromBuffer( COffscreen *inBuffer )
 // ---------------------------------------------------------------------------
 // 	SaveAsResource
 // ---------------------------------------------------------------------------
+
 void
 CWindow_Picture::SaveAsResource( CRezMap * /* inMap */, ResIDT /* inResID */ )
 {

@@ -1,11 +1,11 @@
 // ===========================================================================
 // CWindow_IconFamily.h
 //                       Created: 2004-12-11 18:56:28
-//             Last modification: 2005-01-03 12:58:10
+//             Last modification: 2005-01-09 08:16:42
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes 2004, 2005
+// (c) Copyright: Bernard Desgraupes 2004-2005
 // All rights reserved.
 // $Date$
 // $Revision$

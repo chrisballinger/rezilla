@@ -2,11 +2,11 @@
 // CUtxt_EditorDoc.h
 // 
 //                       Created: 2004-12-08 18:21:21
-//             Last modification: 2004-12-27 14:49:17
+//             Last modification: 2005-01-09 09:07:06
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004
+// (c) Copyright : Bernard Desgraupes, 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -56,7 +56,7 @@ public:
 protected:
 	CUtxt_EditorWindow *		mUtxtEditWindow;
 	
-	virtual Handle		GetModifiedResource();
+	virtual Handle		GetModifiedResource(Boolean &releaseIt);
 
 private:
 	void				Initialize();

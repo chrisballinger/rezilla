@@ -2,11 +2,11 @@
 // CEditorDoc.h				
 // 
 //                       Created: 2004-02-23 17:57:59
-//             Last modification: 2004-12-27 14:58:18
+//             Last modification: 2005-01-09 08:46:08
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003-2004
+// (c) Copyright : Bernard Desgraupes, 2003-2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -50,9 +50,7 @@ public:
 	virtual SInt16	AskSaveChanges( bool inQuitting );
 
 	virtual void	AttemptClose( Boolean inRecordIt );
-	
-	Boolean			AskSaveBeforeClose();
-	
+		
 	Boolean			CanSaveChanges();
 	
 	virtual void	DoSaveChanges();
@@ -87,7 +85,7 @@ protected:
 	Boolean					mReadOnly;
 	SInt16					mKind;
 
-	virtual Handle	GetModifiedResource();
+	virtual Handle	GetModifiedResource(Boolean &releaseIt);
 	void			NameNewEditorDoc();
 	void			BuildDocumentTitle(Str255 & outTitle, SInt16 whichString);
 	void			Register();

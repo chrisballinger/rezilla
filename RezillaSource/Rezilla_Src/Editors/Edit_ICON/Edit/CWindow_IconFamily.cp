@@ -1,7 +1,7 @@
 // ===========================================================================
 // CWindow_IconFamily.cp
 //                       Created: 2004-12-11 18:50:16
-//             Last modification: 2005-01-03 12:57:34
+//             Last modification: 2005-01-09 08:16:29
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>

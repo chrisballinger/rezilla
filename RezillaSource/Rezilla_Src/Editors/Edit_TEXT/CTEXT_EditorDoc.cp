@@ -2,11 +2,11 @@
 // CTEXT_EditorDoc.cp
 // 
 //                       Created: 2004-06-17 12:46:55
-//             Last modification: 2004-12-27 14:43:45
+//             Last modification: 2005-01-09 08:21:44
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004
+// (c) Copyright : Bernard Desgraupes, 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -34,8 +34,6 @@ PP_Begin_Namespace_PowerPlant
 #include "UDialogBoxHandler.h"
 #include "UMessageDialogs.h"
 #include "UMiscUtils.h"
-// #include "CRezFile.h"
-// #include "CRezillaApp.h"
 
 #include <LWindow.h>
 #include <LFile.h>
@@ -216,9 +214,11 @@ CTEXT_EditorDoc::AskSaveChanges(
 // ---------------------------------------------------------------------------
 //  ¥ GetModifiedResource										[protected]
 // ---------------------------------------------------------------------------
+// The returned handle should not be released by the caller so leave
+// releaseIt to false (its default).
 
 Handle
-CTEXT_EditorDoc::GetModifiedResource() 
+CTEXT_EditorDoc::GetModifiedResource(Boolean &releaseIt) 
 {
 	return mTextEditWindow->GetContentsView()->GetModifiedText();
 }

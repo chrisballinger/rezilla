@@ -200,7 +200,7 @@ CUtxt_EditorDoc::AskSaveChanges(
 // ---------------------------------------------------------------------------
 
 Handle
-CUtxt_EditorDoc::GetModifiedResource() 
+CUtxt_EditorDoc::GetModifiedResource(Boolean &releaseIt) 
 {
 	return mUtxtEditWindow->GetContentsView()->GetModifiedText();
 }

@@ -2,11 +2,11 @@
 // CTmplEditorDoc.h				
 // 
 //                       Created: 2004-06-12 10:06:22
-//             Last modification: 2004-11-08 07:35:31
+//             Last modification: 2005-01-09 09:07:38
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes, 2004
+// (c) Copyright: Bernard Desgraupes, 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -58,7 +58,7 @@ public:
 protected:
 	CTmplEditorWindow *		mTmplEditWindow;
 	
-	virtual Handle		GetModifiedResource();
+	virtual Handle		GetModifiedResource(Boolean &releaseIt);
 
 private:
 	void				Initialize();
