@@ -16,18 +16,19 @@
 	#include PowerPlant_PCH
 #endif
 
-#include <LScrollBar.h>
-#include <UKeyFilters.h>
-#include <Quickdraw.h>
-#include <Sound.h>
-
 #include "CHexDataSubView.h"
 #include "CTxtDataSubView.h"
 #include "CHexEditorWindow.h"
+#include "CSingleScrollBar.h"
 #include "CWEViewActions.h"
 #include "CHexEditorActions.h"
 #include "UCodeTranslator.h"
 #include "RezillaConstants.h"
+
+#include <LScrollBar.h>
+#include <UKeyFilters.h>
+// #include <Quickdraw.h>
+// #include <Sound.h>
 
 PP_Begin_Namespace_PowerPlant
 
