@@ -107,6 +107,7 @@ CRezObjItem::GetDrawContentsSelf(
 			ioDrawContents.outHasIcon = false;
 			// 			ioDrawContents.outIconSuite = mIconH;
 			ioDrawContents.outTextTraits.style = 0;
+// 			ioDrawContents.outTextTraits.justification = teJustRight;
 			
 			LString::CopyPStr(tempString, ioDrawContents.outTextString);
 			
@@ -171,8 +172,10 @@ CRezObjItem::GetOwnerRezMapTable()
 // ---------------------------------------------------------------------------
 //	¥ SingleClick												   [protected]
 // ---------------------------------------------------------------------------
-// If the control key is down, open the inspector window and display the 
-// corresponding info about the resource
+// If the command key is down, open the inspector window and display the
+// corresponding info about the resource. Versions prior to 1.0.5b
+// (included) used the control key but this should be reserved for the
+// contextual menus.
 
 void
 CRezObjItem::SingleClick(
@@ -182,7 +185,7 @@ CRezObjItem::SingleClick(
 	Boolean						/* inHitText */)
 {
 // 	LOutlineItem::SingleClick(inCell, inMouseDown, inDrawContents, inHitText);
-	if (inMouseDown.macEvent.modifiers & controlKey) {
+	if (inMouseDown.macEvent.modifiers & cmdKey) {
 		CRezillaApp::sInspectorWindow->Show();
 		CRezillaApp::sInspectorWindow->InstallValues(this);
 		// Bring the window to the front.
