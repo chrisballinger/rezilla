@@ -125,7 +125,7 @@ CTmplEditorDoc::Initialize()
 		if (error == err_ExceptionParsingTemplate) {
 			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("TemplateParsingException"), PPob_SimpleMessage);
 		} else if (error != userCanceledErr) {
-			UMessageDialogs::ErrorWithString(CFSTR("ErrorWhileParsingTemplate"), error);
+			UMessageDialogs::ErrorWithString(CFSTR("ErrorParsingWithTemplate"), error);
 		} 
 		delete this;
 		return;
