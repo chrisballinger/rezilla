@@ -565,16 +565,38 @@ CRezObj::SetSizeOnDisk(Size inSize)
 void
 CRezObj::SetData(Handle srcHandle)
 {
+	OSErr error = noErr;
+	Size theSize;
+	Boolean addIt = false;
+
 	// Copy to resource data handle
-	Size theSize = ::GetHandleSize( srcHandle );
+	theSize = ::GetHandleSize( srcHandle );
 	::SetHandleSize(mData, theSize);
-	StHandleLocker	lockSrc(srcHandle);
-	StHandleLocker	lockTrgt(mData);
-	::BlockMoveData( *srcHandle, *mData, theSize);
-	// Update the mSize class member
-	mSize = ::GetHandleSize(mData);
-	// Tell the map the resource changed
-	this->Changed();
+	error = ::MemError();
+	if (error != noErr) {
+		short oldAttrs = mAttributes;
+		SetAttributesInMap(0);
+		error = Remove();
+		if (error == noErr || error == resNotFound) {
+			error = noErr;
+			mData = ::NewHandleClear( theSize );
+			ThrowIfMemFail_( mData );
+			addIt = true;
+		} 
+		SetAttributesInMap(oldAttrs);
+	} 
+	if (error == noErr) {
+		StHandleLocker	lockSrc(srcHandle);
+		StHandleLocker	lockTrgt(mData);
+		::BlockMoveData( *srcHandle, *mData, theSize);
+		// Update the mSize class member
+		mSize = ::GetHandleSize(mData);
+		// Tell the map the resource changed
+		this->Changed();
+	} 
+	if (addIt) {
+		error = Add();
+	} 	
 }
 
 
