@@ -15,6 +15,8 @@
 #include "CDraggableTargetView.h"
 #include "CIcon_EditorWindow.h"
 #include "COffscreen.h"
+#include "CRezMapTable.h"
+#include "CEditorDoc.h"
 #include "CRezMap.h"
 #include "CRezObj.h"
 #include "CRezillaApp.h"
@@ -329,6 +331,10 @@ CWindow_IconFamily::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 				theRes->Remove();
 			}
 			delete theRes;
+		} else {
+			// Make sure there is a corresponding RezObjItem in the table. 
+			// This is the case if a resource has been created in the bitmap editor.			
+			mOwnerDoc->GetRezMapTable()->CreateItemIfNecessary(memberInfo.resourceType, inResID, NULL);
 		}
 	}	
 
