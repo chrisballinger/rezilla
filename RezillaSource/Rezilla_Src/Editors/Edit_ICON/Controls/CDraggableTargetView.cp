@@ -44,8 +44,8 @@ CDraggableTargetView::CDraggableTargetView( LStream *inStream )
 	// These are for resizing support
 	this->GetFrameSize( mInitialPaneSize );
 	this->GetFrameLocation( mInitialPaneLocation );
-	mMinPaneSize.width = kMinTargetWidth;
-	mMinPaneSize.height = kMinTargetHeight;
+	mMinPaneSize.width = kIconMinTargetWidth;
+	mMinPaneSize.height = kIconMinTargetHeight;
 	
 	mDropEnabled = true;
 }

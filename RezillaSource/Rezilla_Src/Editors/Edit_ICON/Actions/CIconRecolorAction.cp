@@ -71,7 +71,7 @@ CIconRecolorAction::DoIt()
 		SInt32	width = currentBuffer->GetWidth();
 		SInt32	height = currentBuffer->GetHeight();
 		
-		COffscreen *newBuffer = COffscreen::CreateBuffer( width, height, kRecolorDepth, mTable );
+		COffscreen *newBuffer = COffscreen::CreateBuffer( width, height, kIconRecolorDepth, mTable );
 
 		// Increase the inverse table size from 4 to 5 bits. This gives
 		// substantially better color matching.
@@ -94,7 +94,7 @@ CIconRecolorAction::DoIt()
 // ---------------------------------------------------------------------------
 // 	CreateResizedTable
 // ---------------------------------------------------------------------------
-// Creates a new ColorTable for kRecolorDepth and copies the rgb values from
+// Creates a new ColorTable for kIconRecolorDepth and copies the rgb values from
 // a provided source table.
 // This is needed because inTable might have fewer entries than 256 and QD
 // doesn't like this. Is this really true here ???
@@ -102,7 +102,7 @@ CIconRecolorAction::DoIt()
 CTabHandle
 CIconRecolorAction::CreateResizedTable( CTabHandle inTable )
 {
-	CTabHandle		destTable = UColorUtils::NewColorTableByDepth( kRecolorDepth );
+	CTabHandle		destTable = UColorUtils::NewColorTableByDepth( kIconRecolorDepth );
 	
 	StHandleLocker	lock1( (Handle) inTable );
 	StHandleLocker	lock2( (Handle) destTable );
