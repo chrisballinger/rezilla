@@ -149,6 +149,7 @@ CTmplEditorWindow::FinishCreateSelf()
 	mLastID				= 0;
 	mItemsCount			= 0;
 	mIndent				= 0;
+	mSkipOffset			= 0;
 	mIsDirty			= false;
 	mYCoord             = kTmplVertSkip;
 	mTemplateStream		= nil;
@@ -1105,6 +1106,15 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		} 
 		break;
 
+		case 'BSIZ':
+		case 'BSKP':
+		// Offset to SKPE in byte (BSIZ:exclusive or BSKP:inclusive)
+		if (mRezStream->GetMarker() < mRezStream->GetLength()) {
+			*mRezStream >> theUInt8;
+		} 
+		mOffsetTypesList.AddItem(inType);
+		break;
+
 		case 'CASE':
 		// Switch with predefined values. Remember the position mark of the
 		// first CASE in the template stream
@@ -1276,6 +1286,15 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		AddStaticField(inType, inLabelString, inContainer, sCommentTraitsID);
 		break;
 
+		case 'LSIZ':
+		case 'LSKP':
+		// Offset to SKPE in long (LSIZ:exclusive or LSKP:inclusive)
+		if (mRezStream->GetMarker() < mRezStream->GetLength() - 3) {
+			*mRezStream >> theUInt32;
+		} 
+		mOffsetTypesList.AddItem(inType);
+		break;
+
 		case 'LNGC':
 		case 'RGNC':
 		case 'SCPC': {
@@ -1421,6 +1440,10 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 			break;
 		}
 
+		case 'SKPE':
+		// End of Skip or Sizeof. Do nothing.
+		break;
+
 		case 'TNAM':
 		// Type name (four characters, like OSType and ResType)
 		if (mRezStream->GetMarker() < mRezStream->GetLength() - 3) {
@@ -1441,6 +1464,15 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		} 
 		AddStaticField(inType, inLabelString, inContainer);
 		AddBooleanField( (Boolean) theUInt16, inType, tmpl_titleYesNo, inContainer);		
+		break;
+
+		case 'WSIZ':
+		case 'WSKP':
+		// Offset to SKPE in word (WSIZ:exclusive or WSKP:inclusive)
+		if (mRezStream->GetMarker() < mRezStream->GetLength() - 1) {
+			*mRezStream >> theUInt16;
+		} 
+		mOffsetTypesList.AddItem(inType);
 		break;
 
 		case 'WSTR':
@@ -2362,7 +2394,7 @@ CTmplEditorWindow::AddEditPopup(Str255 inValue,
 
 	// Now build the popup
 	sBevelPaneInfo.left			= sEditPaneInfo.left + inWidth + kTmplHorizSep;
-	sBevelPaneInfo.top			= sEditPaneInfo.top + 1;
+	sBevelPaneInfo.top			= sEditPaneInfo.top + 2;
 	sBevelPaneInfo.paneID		= mCurrentID;
 	sBevelPaneInfo.superView	= inContainer;
 
@@ -2550,11 +2582,12 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 	char 	formatString[16];
 	long	theLong;
 	Str255	numStr, theString;
-	SInt32	theLength, reqLength;
+	SInt32	theLength, reqLength, currMark, oldMark;
 	UInt8	theUInt8 = 0;
 	UInt16	theUInt16 = 0;
 	UInt32	theUInt32 = 0;
 	OSType	theOSType;
+	ResType	theType;
 	SInt8	i;	
 	LRadioGroupView *	theRGV;
 	LStaticText	*		theStaticText;
@@ -2624,7 +2657,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		// Boolean (one byte: 0x01 for true, 0x00 for false)
 		theCheckBox = dynamic_cast<LCheckBox *>(this->FindPaneByID(mCurrentID));
 		*mOutStream << (UInt8) theCheckBox->GetValue();
-		mCurrentID += 1;
+		mCurrentID++;
 		break;
 
 		case 'BOOL':
@@ -2640,8 +2673,33 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		mCurrentID += 3;
 		break;
 
+		case 'BSIZ':
+		case 'BSKP':
+		// Offset to SKPE in byte (BSIZ:exclusive or BSKP:inclusive)
+		// Cache the current position
+		mOffsetMarksList.AddItem(mOutStream->GetMarker());
+		// Temporarily fill with null to create the place holder
+		if (mRezStream->GetMarker() < mRezStream->GetLength()) {
+			*mOutStream << (UInt8) 0x00;
+		} 
+		break;
+
 		case 'CASE':
-		// Do nothing
+		// Increment the current pane ID to skip the case popup
+		mCurrentID++;
+		// Skip the next CASE statements
+		currMark = mTemplateStream->GetMarker();
+		theLength = mTemplateStream->GetLength();
+		while (currMark < theLength) {
+			*mTemplateStream >> theString;
+			*mTemplateStream >> theType;
+			if (theType != inType) {
+				// We went too far. Reposition the stream marker.
+				mTemplateStream->SetMarker(currMark, streamFrom_Start);
+				break;
+			} 
+			currMark = mTemplateStream->GetMarker();
+		}
 		break;
 
 		case 'CHAR':
@@ -2789,7 +2847,18 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		break;
 
 		case 'LABL':
-		// It is a comment. Just skip.
+		// It is a comment. Just skip it.
+		break;
+
+		case 'LSIZ':
+		case 'LSKP':
+		// Offset to SKPE in long (LSIZ:exclusive or LSKP:inclusive)
+		// Cache the current position
+		mOffsetMarksList.AddItem(mOutStream->GetMarker());
+		// Temporarily fill with null to create the place holder
+		if (mRezStream->GetMarker() < mRezStream->GetLength()) {
+			*mOutStream << 0L;
+		} 
 		break;
 
 		case 'LNGC':
@@ -2886,8 +2955,8 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		mCurrentID++;
 		break;
 
-		case 'BSTR':
 		case 'PSTR':
+		case 'BSTR':
 		// Pascal string
 		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
 		theEditText->GetDescriptor(theString);	
@@ -2906,6 +2975,45 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		}
 		break;
 
+		case 'SKPE':
+		// End of Skip or Sizeof.
+		currMark = mOutStream->GetMarker();
+		if (mOffsetTypesList.RemoveLastItem(theType) && mOffsetMarksList.RemoveLastItem(oldMark)) {
+			theLength = mRezStream->GetMarker() - currMark;
+			mOutStream->SetMarker(oldMark, streamFrom_Start);
+			switch (theType) {
+				case 'BSIZ':
+				theLength += 4;
+				*mOutStream << (UInt8) theLength;;
+				break;
+				
+				case 'BSKP':
+				*mOutStream << (UInt8) theLength;;
+				break;
+				
+				case 'LSIZ':
+				theLength += 4;
+				*mOutStream << (UInt32) theLength;;
+				break;
+				
+				case 'LSKP':
+				*mOutStream << (UInt32) theLength;;
+				break;
+				
+				case 'WSIZ':
+				theLength += 4;
+				*mOutStream << (UInt16) theLength;;
+				break;
+				
+				case 'WSKP':
+				*mOutStream << (UInt16) theLength;;
+				break;
+				
+			}
+			mOutStream->SetMarker(currMark, streamFrom_Start);
+		} 
+		break;
+
 		case 'TNAM':
 		// Type name (four characters, like OSType and ResType)
 		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
@@ -2913,6 +3021,17 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		UMiscUtils::PStringToOSType(theString, theOSType);
 		*mOutStream << theOSType;
 		mCurrentID++;
+		break;
+
+		case 'WSIZ':
+		case 'WSKP':
+		// Offset to SKPE in word (WSIZ:exclusive or WSKP:inclusive)
+		// Cache the current position
+		mOffsetMarksList.AddItem(mOutStream->GetMarker());
+		// Temporarily fill with null to create the place holder
+		if (mRezStream->GetMarker() < mRezStream->GetLength()) {
+			*mOutStream << (UInt16) 0x0000;;
+		} 
 		break;
 
 		case 'WFLG':

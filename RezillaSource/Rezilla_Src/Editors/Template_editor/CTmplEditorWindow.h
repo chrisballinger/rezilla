@@ -106,12 +106,15 @@ protected:
 	PaneIDT				mCurrentID;
 	PaneIDT				mLastID;
 	SInt32				mIndent;
+	SInt32				mSkipOffset;
 	short				mItemsCount;
 	Boolean				mIsDirty;
 	LHandleStream *		mTemplateStream;
 	LHandleStream *		mRezStream;
 	LHandleStream *		mOutStream;
 	TArray<CWasteEditView *>	mWasteFieldsList;
+	TArray<ResType>		mOffsetTypesList;
+	TArray<SInt32>		mOffsetMarksList;
 
 
 	virtual void	FinishCreateSelf();
