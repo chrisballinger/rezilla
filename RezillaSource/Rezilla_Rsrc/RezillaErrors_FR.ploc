@@ -1,11 +1,11 @@
 // ===========================================================================
 // RezillaErrors_FR.ploc
 //                       Created: 2004-10-05 15:00:32
-//             Last modification: 2005-01-13 21:14:22
+//             Last modification: 2005-02-20 16:07:25
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes, 2004, 2005
+// (c) Copyright: Bernard Desgraupes, 2004-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -22,6 +22,21 @@ localize "French" as "Errors.strings"
 	key "1007" value string "Exception lors de l'analyse du gabarit"
 	key "1008" value string "Pas de ressource de ce type"
 	key "1009" value string "Pas de ressource avec ce nom"
+	key "1900" value string "Erreur générique d'importation"
+	key "1901" value string "OSType invalide. Un type doit comporter 4 caractères."
+	key "1902" value string "Impossible d'obtenir les données Xml"
+	key "1903" value string "Impossible de construire l'arbre Xml"
+	key "1904" value string "Impossible d'obtenir le noeud racine"
+	key "1905" value string "Balise inconnue dans un objet 'AeteResource'"
+	key "1906" value string "Balise inconnue dans un objet 'Suite'"
+	key "1907" value string "Balise inconnue dans un objet 'Event'"
+	key "1908" value string "Balise inconnue dans un objet 'Parameter'"
+	key "1909" value string "Balise inconnue dans un objet 'Class'"
+	key "1910" value string "Balise inconnue dans un objet 'Property'"
+	key "1911" value string "Balise inconnue dans un objet 'Element'"
+	key "1912" value string "Balise inconnue dans un objet 'ComparisonOperator'"
+	key "1913" value string "Balise inconnue dans un objet 'Enumeration'"
+	key "1914" value string "Balise inconnue dans un objet 'Enumerator'"
 	key "2000" value string "Erreur de l'éditeur de gabarits"
 	key "2001" value string "Impossible d'obtenir les données de la ressource"
 	key "2002" value string "Balise inconnue"
