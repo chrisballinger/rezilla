@@ -27,6 +27,7 @@
 #include "CSingleScrollBar.h"
 #include "CTxtDataSubView.h"
 #include "CWasteEditView.h"
+#include "CColorWell.h"
 #include "UMiscUtils.h"
 #include "UMessageDialogs.h"
 #include "UHexFilters.h"
@@ -2847,13 +2848,8 @@ CTmplEditorWindow::AddColorPane(OSType inType,
 	sColorPaneInfo.superView	= inContainer;
 	sColorPaneInfo.paneID		= mCurrentID;
 	
-	LPane * thePane = new LPane(sColorPaneInfo);
+	CColorWell * thePane = new CColorWell(sColorPaneInfo, inRGB, inRGB);
 	ThrowIfNil_(thePane);
-
-	::GetPenState(&state);
-	LPaintAttachment * painter = new LPaintAttachment(&state, inRGB, inRGB, nil);
-	ThrowIfNil_(painter);
-	thePane->AddAttachment(painter);
 
 	// Advance the counters
 	mYCoord += sColorPaneInfo.height + kTmplVertSep;
