@@ -69,6 +69,9 @@ public:
 		UInt32		GetEnableFlag() { return mEnableFlag;}
 		void		SetEnableFlag(UInt32 inEnableFlag) {mEnableFlag = inEnableFlag;}
 
+		ResIDT		GetMDEF() { return mMDEF;}
+		void		SetMDEF(ResIDT inMDEF) {mMDEF = inMDEF;}
+		
 protected:
 		ResIDT					mID;
 		ResIDT					mMDEF;
