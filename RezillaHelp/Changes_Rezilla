@@ -35,6 +35,9 @@ $Date$
   upper case, 0x or $ prefix).
 ¥ Fixed sscanf related bug when retreiving hex values from template.
 ¥ Added hexadecimal filter to take prefix into account.
+¥ Implemented most of the extended Template tags (as found for 
+  instance in Resorcerer): case lists, keyed lists, extended types, 
+  skip offsets etc.
 ¥ 
 
 ================================================================================
