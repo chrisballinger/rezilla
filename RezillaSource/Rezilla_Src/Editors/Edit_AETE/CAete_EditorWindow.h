@@ -2,11 +2,11 @@
 // CAete_EditorWindow.h
 // 
 //                       Created: 2004-07-01 08:42:37
-//             Last modification: 2004-07-01 18:12:55
+//             Last modification: 2005-01-22 15:42:39
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004
+// (c) Copyright : Bernard Desgraupes, 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -27,6 +27,7 @@ class LPopupButton;
 class LScrollerView;
 class LStaticText;
 class CAete;
+class CAeteStream;
 
 
 class CAete_EditorWindow : public CEditorWindow {
@@ -53,13 +54,27 @@ public:
 // 	virtual void		Activate();
 	
 	void				InstallAete(Handle inHandle);
-
-	void				FillSuitePopup();
-	void				InstallSuiteValues();
-	void				InstallPanelValues();
+	void				RetrieveAete(CAeteStream * outStream);
 	
-	void				InstallValuesInPane();
-	void				RetrieveValuesFromPane();
+	void				FillSuitePopup();
+	
+	void				InstallResourceInfo();
+	void				InstallSuiteInfo();
+	void				InstallPanelValues();
+	void				InstallEventValues();
+	void				InstallClassValues();
+	void				InstallCompOpValues();
+	void				InstallEnumerationValues();
+
+	void *				FindCurrentObject(SInt8 inKind);
+
+	void				RetrieveResourceInfo();
+	void				RetrieveSuiteInfo();
+	void				RetrievePanelValues();
+	void				RetrieveEventValues();
+	void				RetrieveClassValues();
+	void				RetrieveCompOpValues();
+	void				RetrieveEnumerationValues();
 		
 	// Accessors
 
