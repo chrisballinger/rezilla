@@ -560,7 +560,10 @@ CTmplEditorWindow::HandleKeyPress(
 		break;
 		
 		default: 
-		if (theKey == char_Return) {
+		// Enable the Enter key to simulate a click in the Validate button
+		// (but not the Return button which is used in text fields and can
+		// be pressed inadvertently). IsTarget()
+		if (theKey == char_Enter) {
 			mOwnerDoc->ListenToMessage(msg_OK, NULL);
 		} 
 		break;
@@ -568,6 +571,7 @@ CTmplEditorWindow::HandleKeyPress(
 	
 	return keyHandled;
 }
+
 
 
 #pragma mark -
