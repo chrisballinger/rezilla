@@ -699,6 +699,7 @@ enum RezillaErrors
 	err_TmplMalformedKeySection,
 	err_TmplCantFindKeyedSectionStart,
 	err_TmplCantFindKeyStartForValue,
+	err_TmplUnsupportedResourceId,
 	err_TmplCantFindMatchingKeyEnd
 };
 
