@@ -1,12 +1,14 @@
 // ===========================================================================
 // CHexEditorActions.h 
-//                       Created : 2003-05-29 21:13:13
-//             Last modification : 2003-05-29 21:20:20
-// Author : Bernard Desgraupes
-// e-mail : <bdesgraupes@easyconnect.fr>
-// www : <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright : Bernard Desgraupes 2003
+//                       Created: 2003-05-29 21:13:13
+//             Last modification: 2004-02-22 19:30:01
+// Author: Bernard Desgraupes
+// e-mail: <bdesgraupes@easyconnect.fr>
+// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// ¬© Copyright: Bernard Desgraupes 2003, 2004
 // All rights reserved.
+// $Date$
+// $Revision$
 // ===========================================================================
 
 
@@ -107,4 +109,5 @@ protected:
 #endif
 
 #endif
+
 

@@ -2,12 +2,14 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2003-10-03 16:54:49
+//             Last modification : 2004-02-25 15:57:30
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003
+// (c) Copyright : Bernard Desgraupes, 2003-2004
 // All rights reserved.
+// $Date$
+// $Revision$
 // ===========================================================================
 
 #pragma once
@@ -19,23 +21,11 @@
 // Fork indices
 enum
 {	
-	from_anyfork = 0,
-	from_rezfork,
-	from_datafork
-};
-
-enum
-{	
-	to_undefinedfork = -1,
-	to_samefork = 0,
-	to_rezfork,
-	to_datafork
-};
-
-enum
-{	
-	new_rezfork = 0,
-	new_datafork
+	fork_undefinedfork = -1,
+	fork_anyfork = 0,
+	fork_samefork = 0,
+	fork_rezfork,
+	fork_datafork
 };
 
 
@@ -72,6 +62,10 @@ const ResIDT	icon_Folder					= 10000;
 const ResIDT	icon_Document				= 20000;
 const ResIDT	icon_App					= 25000;
 
+const ResIDT	DITL_NewMap					= 10001;
+const ResIDT	DITL_OpenMap				= 10002;
+const ResIDT	DITL_SaveMap				= 10003;
+
 const ResIDT	PPob_SelectVolDialog		= 1128;
 const ResIDT	PPob_EditTable				= 1129;
 
@@ -96,20 +90,20 @@ const ResIDT	STRx_DefaultScriptTitle		= 1500;
 
 const ResIDT	STRx_RzilErrorStrings		= 1000;
 const ResIDT	STRx_RzilMessageStrings		= 1001;
-const ResIDT	STRx_NavServStrings			= 1002;
+const ResIDT	STRx_NavStrings				= 1002;
 const ResIDT	STRx_FileExtensions			= 1003;
 const ResIDT	STRx_PrefsCtrlList			= 1004;
 const ResIDT	STRx_DefaultDocTitles		= 1500;
 const ResIDT	STRx_RzilWinMenuItem		= 1510;
 
 // Menu resources
-const ResIDT	rMENU_File					= 1000;
-const ResIDT	rMENU_Edit					= 1100;
+const ResIDT	baseMENU_File				= 1000;
+const ResIDT	baseMENU_Edit				= 1100;
 const ResIDT	rMENU_Resource				= 1200;
+const ResIDT	rMENU_Export				= 140;
 	// rMENU_Window is not a resource. It is built  
 	// in CRezillaApp::InstallWindowMenu()
 const ResIDT	rMENU_Window				= 1300;  
-const ResIDT	rMENU_Export				= 1400;
 const ResIDT	rMENU_Help					= 2000;
 
 // Icon resources
@@ -156,9 +150,10 @@ const MessageT	cmd_GetRezInfo			= rMENU_Resource + 3;
 const MessageT	cmd_RemoveRez			= rMENU_Resource + 4;	
 const MessageT	cmd_DuplicateRez		= rMENU_Resource + 5;	
 // File menu items
+const MessageT	cmd_ExportSubMenu		= baseMENU_File + 1;	
 // Edit menu items
-const MessageT	cmd_Find				= rMENU_Edit + 1;	
-const MessageT	cmd_FindNext			= rMENU_Edit + 2;	
+const MessageT	cmd_Find				= baseMENU_Edit + 1;	
+const MessageT	cmd_FindNext			= baseMENU_Edit + 2;	
 // Export submenu items
 const MessageT	cmd_ExportAsText		= rMENU_Export + 1;	
 const MessageT	cmd_ExportAsXML			= rMENU_Export + 2;	
@@ -223,6 +218,26 @@ const PaneIDT	item_FindInTxtRadio			= 3;
 const PaneIDT	item_FindIgnoreCase			= 4;
 const PaneIDT	item_FindRegexp				= 5;
 const PaneIDT	item_FindInPaneRGV			= 6;
+
+// Navigation dialogs custom items
+// -------------------------------
+enum {
+	DITLitm_NewMapRF	= 1,
+	DITLitm_NewMapDF	= 2
+};
+
+enum {
+	DITLitm_OpenMapAny	= 1,
+	DITLitm_OpenMapRF	= 2,
+	DITLitm_OpenMapDF	= 3,
+	DITLitm_OpenMapRO	= 4
+};
+
+enum {
+	DITLitm_SaveMapSame	= 1,
+	DITLitm_SaveMapRF	= 2,
+	DITLitm_SaveMapDF	= 3
+};
 
 
 // Messages ID's
@@ -293,6 +308,18 @@ enum
 const long	ae_Version				= 5001;
 
 
+// Error constants
+enum
+{
+	err_NoRezInDataFork = 1001,
+	err_NoRezInRezFork,
+	err_NoRezInAnyFork,
+	err_NoOpenPermission,
+	err_OpenForkError
+};
+
+
+
 // Misc constants
 // ==============
 // Signatures
@@ -312,8 +339,11 @@ const SInt16	kRzilColWidth		= 100;
 const SInt16	kRzilHexLineCount	= 32;
 const SInt16	kRzilHexPerLine		= 16;
 const SInt16	kRzilHexPerPane		= 512;
- 
+
+
+const ResType	ResType_DITL = FOUR_CHAR_CODE('DITL');
 
 // #define  kFirstSizeMenuItem	1
 // #define  kLastSizeMenuItem	9
+
 

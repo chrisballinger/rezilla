@@ -1,13 +1,15 @@
 // ===========================================================================
 // CRezMapWindow.cp					
 // 
-//                       Created : 2003-04-29 07:11:00
-//             Last modification : 2003-05-01 18:53:37
-// Author : Bernard Desgraupes
-// e-mail : <bdesgraupes@easyconnect.fr>
-// www : <http://webperso.easyconnect.fr/bdesgraupes/>
+//                       Created: 2003-04-29 07:11:00
+//             Last modification: 2003-05-01 18:53:37
+// Author: Bernard Desgraupes
+// e-mail: <bdesgraupes@easyconnect.fr>
+// www: <http://webperso.easyconnect.fr/bdesgraupes/>
 // (c) Copyright : Bernard Desgraupes, 2003
 // All rights reserved.
+// $Date$
+// $Revision$
 // ===========================================================================
 
 
@@ -32,7 +34,7 @@
 // #include <AppleHelp.h>
 
 // ---------------------------------------------------------------------------
-//  € CRezMapWindow				[public]
+//  ¬€ CRezMapWindow				[public]
 // ---------------------------------------------------------------------------
 
 CRezMapWindow::CRezMapWindow()
@@ -41,7 +43,7 @@ CRezMapWindow::CRezMapWindow()
 
 
 // ---------------------------------------------------------------------------
-//  € CRezMapWindow				[public]
+//  ¬€ CRezMapWindow				[public]
 // ---------------------------------------------------------------------------
 
 CRezMapWindow::CRezMapWindow(
@@ -52,7 +54,7 @@ CRezMapWindow::CRezMapWindow(
 
 
 // ---------------------------------------------------------------------------
-//  € CRezMapWindow				[public]
+//  ¬€ CRezMapWindow				[public]
 // ---------------------------------------------------------------------------
 
 CRezMapWindow::CRezMapWindow(
@@ -65,7 +67,7 @@ CRezMapWindow::CRezMapWindow(
 
 
 // ---------------------------------------------------------------------------
-//  € CRezMapWindow				[public]
+//  ¬€ CRezMapWindow				[public]
 // ---------------------------------------------------------------------------
 
 CRezMapWindow::CRezMapWindow(
@@ -76,7 +78,7 @@ CRezMapWindow::CRezMapWindow(
 
 
 // ---------------------------------------------------------------------------
-//  € ~CRezMapWindow				[public]
+//  ¬€ ~CRezMapWindow				[public]
 // ---------------------------------------------------------------------------
 
 CRezMapWindow::~CRezMapWindow()
@@ -85,7 +87,7 @@ CRezMapWindow::~CRezMapWindow()
 
 
 // ---------------------------------------------------------------------------
-//  € FinishCreateSelf											[protected]
+//  ¬€ FinishCreateSelf											[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -118,7 +120,7 @@ CRezMapWindow::FinishCreateSelf()
 
 
 // ---------------------------------------------------------------------------
-//  € ListenToMessage											[public]
+//  ¬€ ListenToMessage											[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -137,7 +139,7 @@ CRezMapWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 
 
 // // ---------------------------------------------------------------------------------
-// //  € FindCommandStatus
+// //  ¬€ FindCommandStatus
 // // ---------------------------------------------------------------------------------
 // 
 // void
@@ -171,7 +173,7 @@ CRezMapWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 
 
 // ---------------------------------------------------------------------------
-//	€ HandleKeyPress												  [public]
+//	¬€ HandleKeyPress												  [public]
 // ---------------------------------------------------------------------------
 //	DialogBox handles keyboard equivalents for hitting the ApplyLeft and ApplyRight Buttons
 //  and Slider movements.
@@ -228,7 +230,7 @@ CRezMapWindow::HandleKeyPress(
 
 
 // ---------------------------------------------------------------------------
-//  € InstallCountTypeValue											[public]
+//  ¬€ InstallCountTypeValue											[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -241,7 +243,7 @@ CRezMapWindow::InstallCountTypeValue(short inCount)
 
 
 // ---------------------------------------------------------------------------
-//  € InstallCountRezValue											[public]
+//  ¬€ InstallCountRezValue											[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -254,7 +256,7 @@ CRezMapWindow::InstallCountRezValue(short inCount)
 
 
 // ---------------------------------------------------------------------------
-//  € UpdateCountFields												[public]
+//  ¬€ UpdateCountFields												[public]
 // ---------------------------------------------------------------------------
 // Update the count fields at the bottom of the rezmap window
 
@@ -272,7 +274,7 @@ CRezMapWindow::UpdateCountFields()
 
 
 // ---------------------------------------------------------------------------
-//  € InstallWhichForkField											[public]
+//  ¬€ InstallWhichForkField											[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -280,12 +282,13 @@ CRezMapWindow::InstallWhichForkField()
 {
 	LStaticText * theField = dynamic_cast<LStaticText *>(this->FindPaneByID( item_WhichFork ));
 	ThrowIfNil_( theField );
-	if (mOwnerDoc->GetFork() == from_rezfork) {
+	if (mOwnerDoc->GetFork() == fork_rezfork) {
 		theField->SetDescriptor("\pRF");
 	} else {
 		theField->SetDescriptor("\pDF");
 	}
 }
+
 
 
 

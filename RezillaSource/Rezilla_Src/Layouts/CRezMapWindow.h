@@ -1,13 +1,15 @@
 // ===========================================================================
 // CRezMapWindow.h				
 // 
-//                       Created : 2003-04-29 07:11:00
-//             Last modification : 2003-04-29 07:18:18
-// Author : Bernard Desgraupes
-// e-mail : <bdesgraupes@easyconnect.fr>
-// www : <http://webperso.easyconnect.fr/bdesgraupes/>
+//                       Created: 2003-04-29 07:11:00
+//             Last modification: 2003-04-29 07:18:18
+// Author: Bernard Desgraupes
+// e-mail: <bdesgraupes@easyconnect.fr>
+// www: <http://webperso.easyconnect.fr/bdesgraupes/>
 // (c) Copyright : Bernard Desgraupes, 2003
 // All rights reserved.
+// $Date$
+// $Revision$
 // ===========================================================================
 
 #pragma once
@@ -62,5 +64,6 @@ protected:
 	virtual void		FinishCreateSelf();
 // 	Boolean				AskReplaceAll(SInt32 inSide);
 };
+
 
 

@@ -1,5 +1,7 @@
+// $Date$
+// $Revision$
 // =================================================================================
-//	UDragAndDropUtils.h				©1995-2000 Metrowerks Inc. All rights reserved.
+//	UDragAndDropUtils.h				¬©1995-2000 Metrowerks Inc. All rights reserved.
 // =================================================================================
 
 #pragma once
@@ -12,3 +14,4 @@ public:
 	static Boolean	CheckForOptionKey( DragReference inDragRef );
 	static Boolean	CheckIfViewIsAlsoSender( DragReference inDragRef );
 };
+

@@ -8,6 +8,8 @@
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
 // (c) Copyright : Bernard Desgraupes, 2003
 // All rights reserved.
+// $Date$
+// $Revision$
 // ===========================================================================
 
 #ifndef _H_URESOURCES
@@ -57,11 +59,11 @@ public:
 
 
 // ===========================================================================
-//	€ Stack-based classes
+//	¬€ Stack-based classes
 // ===========================================================================
 
 // ---------------------------------------------------------------------------
-//  € class StRezReferenceSaver
+//  ¬€ class StRezReferenceSaver
 // ---------------------------------------------------------------------------
 class StRezReferenceSaver {
 public:
@@ -80,7 +82,7 @@ private:
 
 
 // ---------------------------------------------------------------------------
-//  € class StRezLoadSaver
+//  ¬€ class StRezLoadSaver
 // ---------------------------------------------------------------------------
 class StRezLoadSaver {
 public:
@@ -94,3 +96,4 @@ public:
 
 
 #endif
+

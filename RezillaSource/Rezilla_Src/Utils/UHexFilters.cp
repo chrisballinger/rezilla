@@ -1,12 +1,14 @@
 // ===========================================================================
 // UHexFilters.cp					
-//                       Created : 2003-05-07 18:35:01
-//             Last modification : 2003-05-08 08:07:13
-// Author : Bernard Desgraupes
-// e-mail : <bdesgraupes@easyconnect.fr>
-// www : <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright : Bernard Desgraupes 2003
+//                       Created: 2003-05-07 18:35:01
+//             Last modification: 2003-05-08 08:07:13
+// Author: Bernard Desgraupes
+// e-mail: <bdesgraupes@easyconnect.fr>
+// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// ¬© Copyright: Bernard Desgraupes 2003
 // All rights reserved.
+// $Date$
+// $Revision$
 // ===========================================================================
 
 // Complements to PowerPlant's UKeyFilters utility class to deal 
@@ -25,7 +27,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//  € HexadecimalField
+//  ¬€ HexadecimalField
 // ---------------------------------------------------------------------------
 //	Key Filter for Hexadecimal Integer characters
 //
@@ -70,7 +72,7 @@ UHexFilters::HexadecimalField(
 
 
 // ---------------------------------------------------------------------------
-//  € HexadecimalField
+//  ¬€ HexadecimalField
 // ---------------------------------------------------------------------------
 //	Key Filter for Hexadecimal Integer characters
 //
@@ -111,7 +113,7 @@ UHexFilters::HexadecimalField(
 }
 
 // ---------------------------------------------------------------------------
-//  € IntegerRangeField
+//  ¬€ IntegerRangeField
 // ---------------------------------------------------------------------------
 //	Key Filter for Hexadecimal Integer characters
 //
@@ -156,7 +158,7 @@ UHexFilters::IntegerRangeField(
 
 
 // ---------------------------------------------------------------------------
-//  € IntegerRangeField
+//  ¬€ IntegerRangeField
 // ---------------------------------------------------------------------------
 //	Key Filter for Hexadecimal Integer characters
 //
@@ -198,7 +200,7 @@ UHexFilters::IntegerRangeField(
 
 
 // ---------------------------------------------------------------------------
-//  € IsLeftRightArrowKey
+//  ¬€ IsLeftRightArrowKey
 // ---------------------------------------------------------------------------
 
 bool
@@ -220,7 +222,7 @@ UHexFilters::IsLeftRightArrowKey(
 
 
 // ---------------------------------------------------------------------------
-//  € IsUpDownArrowKey
+//  ¬€ IsUpDownArrowKey
 // ---------------------------------------------------------------------------
 // 		case char_Home:
 // 		case char_End:
@@ -246,7 +248,7 @@ UHexFilters::IsUpDownArrowKey(
 
 
 // ---------------------------------------------------------------------------
-//  € IsHexadecimalChar
+//  ¬€ IsHexadecimalChar
 // ---------------------------------------------------------------------------
 
 bool
@@ -259,7 +261,7 @@ UHexFilters::IsHexadecimalChar(UInt16 inChar)
 
 
 // ---------------------------------------------------------------------------
-//  € IsIntegerRangeChar
+//  ¬€ IsIntegerRangeChar
 // ---------------------------------------------------------------------------
 
 bool
@@ -271,3 +273,4 @@ UHexFilters::IsIntegerRangeChar(UInt16 inChar)
 
 
 PP_End_Namespace_PowerPlant
+

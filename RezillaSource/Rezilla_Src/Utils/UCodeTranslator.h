@@ -1,12 +1,16 @@
 // ===========================================================================
 // UCodeTranslator.h					
 // 
-// © 2002, Bernard Desgraupes, All rights reserved.
-//                       Created : 2003-05-04 16:40:47
-//             Last modification : 2003-05-20 21:59:47
-// Author : Bernard Desgraupes
-// e-mail : <bdesgraupes@easyconnect.fr>
-// www : <http://webperso.easyconnect.fr/bdesgraupes/>
+// ¬© 2002, Bernard Desgraupes, All rights reserved.
+//                       Created: 2003-05-04 16:40:47
+//             Last modification: 2004-02-22 19:49:55
+// Author: Bernard Desgraupes
+// e-mail: <bdesgraupes@easyconnect.fr>
+// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// ¬© Copyright: Bernard Desgraupes 2003, 2004
+// All rights reserved.
+// $Date$
+// $Revision$
 // ===========================================================================
 
 
@@ -63,11 +67,11 @@ public:
 
 
 // ===========================================================================
-//	€ Stack-based classes
+//	¬€ Stack-based classes
 // ===========================================================================
 
 // ---------------------------------------------------------------------------
-//  € class StHexTranslator
+//  ¬€ class StHexTranslator
 // ---------------------------------------------------------------------------
 class StHexTranslator {
 public:
@@ -91,7 +95,7 @@ private:
 
 
 // ---------------------------------------------------------------------------
-//  € class StHexToCodeTranslator
+//  ¬€ class StHexToCodeTranslator
 // ---------------------------------------------------------------------------
 class StHexToCodeTranslator {
 public:
@@ -114,7 +118,7 @@ private:
 
 
 // ---------------------------------------------------------------------------
-//  € class StReadableTranslator
+//  ¬€ class StReadableTranslator
 // ---------------------------------------------------------------------------
 class StReadableTranslator {
 public:
@@ -136,7 +140,7 @@ public:
 
 
 // ---------------------------------------------------------------------------
-//  € class StStripBlanksTranslator
+//  ¬€ class StStripBlanksTranslator
 // ---------------------------------------------------------------------------
 class StStripBlanksTranslator {
 public:
@@ -156,7 +160,7 @@ public:
 
 
 // ---------------------------------------------------------------------------
-//  € class StStripPeriodicalTranslator
+//  ¬€ class StStripPeriodicalTranslator
 // ---------------------------------------------------------------------------
 class StStripPeriodicalTranslator {
 public:
@@ -187,3 +191,4 @@ PP_End_Namespace_PowerPlant
 #endif
 
 #endif
+

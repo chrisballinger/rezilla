@@ -1,12 +1,16 @@
 // ===========================================================================
 // UCodeTranslator.cp					
 // 
-// © 2002, Bernard Desgraupes, All rights reserved.
-//                       Created : 2003-05-04 16:40:47
-//             Last modification : 2003-06-02 18:58:13
-// Author : Bernard Desgraupes
-// e-mail : <bdesgraupes@easyconnect.fr>
-// www : <http://webperso.easyconnect.fr/bdesgraupes/>
+// ¨© 2002, Bernard Desgraupes, All rights reserved.
+//                       Created: 2003-05-04 16:40:47
+//             Last modification: 2004-02-22 19:50:17
+// Author: Bernard Desgraupes
+// e-mail: <bdesgraupes@easyconnect.fr>
+// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// ¨© Copyright: Bernard Desgraupes 2003, 2004
+// All rights reserved.
+// $Date$
+// $Revision$
 // ===========================================================================
 
 
@@ -27,10 +31,10 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	Ä ConvertAsciiToReadable											[public]
+//	¨Ä ConvertAsciiToReadable											[public]
 // ---------------------------------------------------------------------------
-// 0xF6 (246) is ñ and 0xFF (255) is ù.
-// 0x5E (94) is ñ too.
+// 0xF6 (246) is àè and 0xFF (255) is à¯.
+// 0x5E (94) is àè too.
 
 void
 UCodeTranslator::ConvertAsciiToReadable( LDataStream* srcDataStream, LDataStream* trgtDataStream )
@@ -55,7 +59,7 @@ UCodeTranslator::ConvertAsciiToReadable( LDataStream* srcDataStream, LDataStream
 
 
 // ---------------------------------------------------------------------------
-//	Ä ConvertAsciiToReadable										[public]
+//	¨Ä ConvertAsciiToReadable										[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -65,7 +69,7 @@ UCodeTranslator::ConvertAsciiToReadable(char* srcString, char* trgtString )
 
 
 // // ---------------------------------------------------------------------------
-// //	Ä ConvertAsciiToReadable									[public]
+// //	¨Ä ConvertAsciiToReadable									[public]
 // // ---------------------------------------------------------------------------
 // 
 // void
@@ -75,7 +79,7 @@ UCodeTranslator::ConvertAsciiToReadable(char* srcString, char* trgtString )
 
 
 // ---------------------------------------------------------------------------
-//	Ä ConvertAsciiToHex												[public]
+//	¨Ä ConvertAsciiToHex												[public]
 // ---------------------------------------------------------------------------
 // This function supposes that the src and trgt streams are properly allocated. 
 // The size of trgtDataStream should be three times the size of srcDataStream.
@@ -97,7 +101,7 @@ UCodeTranslator::ConvertAsciiToHex( LDataStream* srcDataStream, LDataStream* trg
 
 
 // ---------------------------------------------------------------------------
-//	Ä ConvertAsciiToHex												[public]
+//	¨Ä ConvertAsciiToHex												[public]
 // ---------------------------------------------------------------------------
 // This function supposes that the src and trgt strings are properly allocated. 
 // The size of trgtString should be three times the size of srcString.
@@ -117,7 +121,7 @@ UCodeTranslator::ConvertAsciiToHex(char* srcString, char* trgtString )
 
 
 // ---------------------------------------------------------------------------
-//	Ä ConvertHexToCode												[public]
+//	¨Ä ConvertHexToCode												[public]
 // ---------------------------------------------------------------------------
 // This function converts a stream of hex data to their UInt8 values. If the 
 // size of the srcDataStream is odd, the last char is discarded. 
@@ -146,7 +150,7 @@ UCodeTranslator::ConvertHexToCode( LDataStream* srcDataStream, LDataStream* trgt
 
 
 // ---------------------------------------------------------------------------
-//	Ä ConvertHexToValue												[public]
+//	¨Ä ConvertHexToValue												[public]
 // ---------------------------------------------------------------------------
 
 UInt8
@@ -165,7 +169,7 @@ UCodeTranslator::ConvertHexToValue(UInt8 inHex)
 
 
 // ---------------------------------------------------------------------------
-//	Ä ConvertHexToCode												[public]
+//	¨Ä ConvertHexToCode												[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -181,7 +185,7 @@ UCodeTranslator::ConvertHexToCode(char* srcString, char* trgtString)
 
 
 // ---------------------------------------------------------------------------
-//	Ä StripBlanks													[public]
+//	¨Ä StripBlanks													[public]
 // ---------------------------------------------------------------------------
 // Returns the number of copied bytes.
 
@@ -204,7 +208,7 @@ UCodeTranslator::StripBlanks( LDataStream* srcDataStream, LDataStream* trgtDataS
 
 
 // ---------------------------------------------------------------------------
-//	Ä StripBlanks													[public]
+//	¨Ä StripBlanks													[public]
 // ---------------------------------------------------------------------------
 // This function supposes that the src and trgt strings are properly allocated. 
 // The size of trgtString should be at least the size of srcString. Returns 
@@ -227,7 +231,7 @@ UCodeTranslator::StripBlanks(char* srcString, char* trgtString )
 
 
 // ---------------------------------------------------------------------------
-//	Ä StripPeriodical												[public]
+//	¨Ä StripPeriodical												[public]
 // ---------------------------------------------------------------------------
 // Strips one char every n chars out of the stream. Returns the number of copied bytes.
 
@@ -251,7 +255,7 @@ UCodeTranslator::StripPeriodical( LDataStream* srcDataStream, LDataStream* trgtD
 
 
 // ===========================================================================
-//	Ä Stack-based classes
+//	¨Ä Stack-based classes
 // ===========================================================================
 
 // =====================================
@@ -259,7 +263,7 @@ UCodeTranslator::StripPeriodical( LDataStream* srcDataStream, LDataStream* trgtD
 // =====================================
 
 // ---------------------------------------------------------------------------
-//	Ä StHexTranslator							Constructor			  [public]
+//	¨Ä StHexTranslator							Constructor			  [public]
 // ---------------------------------------------------------------------------
 
 StHexTranslator::StHexTranslator(Handle inHandle)
@@ -273,7 +277,7 @@ StHexTranslator::StHexTranslator(Handle inHandle)
 
 
 // ---------------------------------------------------------------------------
-//	Ä StHexTranslator							Constructor			  [public]
+//	¨Ä StHexTranslator							Constructor			  [public]
 // ---------------------------------------------------------------------------
 
 StHexTranslator::StHexTranslator(const void * inPtr, SInt32 inByteCount)
@@ -288,7 +292,7 @@ StHexTranslator::StHexTranslator(const void * inPtr, SInt32 inByteCount)
 
 
 // ---------------------------------------------------------------------------
-//	Ä ~StHexTranslator						Destructor				  [public]
+//	¨Ä ~StHexTranslator						Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 StHexTranslator::~StHexTranslator()
@@ -323,7 +327,7 @@ StHexTranslator::ConvertToHex()
 // =====================================
 
 // ---------------------------------------------------------------------------
-//	Ä StHexToCodeTranslator							Constructor		  [public]
+//	¨Ä StHexToCodeTranslator							Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 StHexToCodeTranslator::StHexToCodeTranslator(Handle inHandle)
@@ -337,7 +341,7 @@ StHexToCodeTranslator::StHexToCodeTranslator(Handle inHandle)
 
 
 // ---------------------------------------------------------------------------
-//	Ä ~StHexToCodeTranslator						Destructor		  [public]
+//	¨Ä ~StHexToCodeTranslator						Destructor		  [public]
 // ---------------------------------------------------------------------------
 
 StHexToCodeTranslator::~StHexToCodeTranslator()
@@ -371,7 +375,7 @@ StHexToCodeTranslator::HexToCode()
 // =====================================
 
 // ---------------------------------------------------------------------------
-//	Ä StReadableTranslator					Constructor			  [public]
+//	¨Ä StReadableTranslator					Constructor			  [public]
 // ---------------------------------------------------------------------------
 
 StReadableTranslator::StReadableTranslator(Handle inHandle)
@@ -386,7 +390,7 @@ StReadableTranslator::StReadableTranslator(Handle inHandle)
 
 
 // ---------------------------------------------------------------------------
-//	Ä StReadableTranslator					Constructor			  [public]
+//	¨Ä StReadableTranslator					Constructor			  [public]
 // ---------------------------------------------------------------------------
 
 StReadableTranslator::StReadableTranslator(const void * inPtr, SInt32 inByteCount)
@@ -402,7 +406,7 @@ StReadableTranslator::StReadableTranslator(const void * inPtr, SInt32 inByteCoun
 
 
 // ---------------------------------------------------------------------------
-//	Ä ~StReadableTranslator					Destructor			  [public]
+//	¨Ä ~StReadableTranslator					Destructor			  [public]
 // ---------------------------------------------------------------------------
 
 StReadableTranslator::~StReadableTranslator()
@@ -415,7 +419,7 @@ StReadableTranslator::~StReadableTranslator()
 
 
 // ---------------------------------------------------------------------------
-//	Ä FilterReadable													[public]
+//	¨Ä FilterReadable													[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -437,7 +441,7 @@ StReadableTranslator::FilterReadable()
 // =====================================
 
 // ---------------------------------------------------------------------------
-//	Ä StStripBlanksTranslator					Constructor			  [public]
+//	¨Ä StStripBlanksTranslator					Constructor			  [public]
 // ---------------------------------------------------------------------------
 
 StStripBlanksTranslator::StStripBlanksTranslator(Handle inHandle)
@@ -450,7 +454,7 @@ StStripBlanksTranslator::StStripBlanksTranslator(Handle inHandle)
 
 
 // ---------------------------------------------------------------------------
-//	Ä ~StStripBlanksTranslator					Destructor			  [public]
+//	¨Ä ~StStripBlanksTranslator					Destructor			  [public]
 // ---------------------------------------------------------------------------
 
 StStripBlanksTranslator::~StStripBlanksTranslator()
@@ -463,7 +467,7 @@ StStripBlanksTranslator::~StStripBlanksTranslator()
 
 
 // ---------------------------------------------------------------------------
-//	Ä StripAscii													[public]
+//	¨Ä StripAscii													[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -487,7 +491,7 @@ StStripBlanksTranslator::FilterOutBlanks()
 // =====================================
 
 // ---------------------------------------------------------------------------
-//	Ä StStripPeriodicalTranslator					Constructor			  [public]
+//	¨Ä StStripPeriodicalTranslator					Constructor			  [public]
 // ---------------------------------------------------------------------------
 
 StStripPeriodicalTranslator::StStripPeriodicalTranslator(Handle inHandle, UInt16 inPeriod)
@@ -501,7 +505,7 @@ StStripPeriodicalTranslator::StStripPeriodicalTranslator(Handle inHandle, UInt16
 
 
 // ---------------------------------------------------------------------------
-//	Ä ~StStripPeriodicalTranslator					Destructor			  [public]
+//	¨Ä ~StStripPeriodicalTranslator					Destructor			  [public]
 // ---------------------------------------------------------------------------
 
 StStripPeriodicalTranslator::~StStripPeriodicalTranslator()
@@ -514,7 +518,7 @@ StStripPeriodicalTranslator::~StStripPeriodicalTranslator()
 
 
 // ---------------------------------------------------------------------------
-//	Ä StripAscii													[public]
+//	¨Ä StripAscii													[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -534,3 +538,4 @@ StStripPeriodicalTranslator::FilterOutPeriodical()
 
 
 PP_End_Namespace_PowerPlant
+

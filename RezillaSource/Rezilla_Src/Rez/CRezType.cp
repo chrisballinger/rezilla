@@ -8,6 +8,8 @@
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
 // (c) Copyright : Bernard Desgraupes, 2003
 // All rights reserved.
+// $Date$
+// $Revision$
 // ===========================================================================
 
 #include "CRezType.h"
@@ -16,7 +18,7 @@
 
 
 // ---------------------------------------------------------------------------
-//  € CRezType														[public]
+//  ¬€ CRezType														[public]
 // ---------------------------------------------------------------------------
 
 CRezType::CRezType(ResType inResType)
@@ -27,7 +29,7 @@ CRezType::CRezType(ResType inResType)
 
 
 // ---------------------------------------------------------------------------
-//  € CRezType														[public]
+//  ¬€ CRezType														[public]
 // ---------------------------------------------------------------------------
 
 CRezType::CRezType(ResType inResType, CRezMap * inOwnerMap)
@@ -39,7 +41,7 @@ CRezType::CRezType(ResType inResType, CRezMap * inOwnerMap)
 
 
 // ---------------------------------------------------------------------------
-//  € ~CRezType														[public]
+//  ¬€ ~CRezType														[public]
 // ---------------------------------------------------------------------------
 
 CRezType::~CRezType()
@@ -48,7 +50,7 @@ CRezType::~CRezType()
 
 
 // ---------------------------------------------------------------------------
-//  € CountTypes														[public]
+//  ¬€ CountTypes														[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -61,7 +63,7 @@ CRezType::CountResources(short & outCount)
 
 
 // ---------------------------------------------------------------------------
-//  € GetWithID													[public]
+//  ¬€ GetWithID													[public]
 // ---------------------------------------------------------------------------
 // Get a handle to a resource of a given type with a given ID
 // from current resource map.
@@ -76,7 +78,7 @@ CRezType::GetWithID(short inID, Handle & outHandle)
 
 
 // ---------------------------------------------------------------------------
-//  € GetNamed														[public]
+//  ¬€ GetNamed														[public]
 // ---------------------------------------------------------------------------
 // Get a handle to a resource of a given type with a given name
 // from current resource map.
@@ -91,7 +93,7 @@ CRezType::GetNamed(ConstStr255Param inName, Handle & outHandle)
 
 
 // ---------------------------------------------------------------------------
-//  € GetAllResources													[public]
+//  ¬€ GetAllResources													[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -119,7 +121,7 @@ CRezType::GetAllResources( TArray<Handle>* & outArray )
 
 
 // ---------------------------------------------------------------------------
-//  € GetResourceAtIndex											[public]
+//  ¬€ GetResourceAtIndex											[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -129,6 +131,7 @@ CRezType::GetResourceAtIndex(short inIdx, Handle & outHandle)
     outHandle = ::Get1IndResource( mType, inIdx );
 	return ::ResError();
 }
+
 
 
 

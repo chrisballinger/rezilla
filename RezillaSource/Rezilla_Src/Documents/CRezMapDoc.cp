@@ -1,13 +1,15 @@
 // ===========================================================================
 // CRezMapDoc.cp					
 // 
-//                       Created : 2003-04-29 07:11:00
-//             Last modification : 2003-06-10 15:01:15
-// Author : Bernard Desgraupes
-// e-mail : <bdesgraupes@easyconnect.fr>
-// www : <http://webperso.easyconnect.fr/bdesgraupes/>
+//                       Created: 2003-04-29 07:11:00
+//             Last modification: 2003-06-10 15:01:15
+// Author: Bernard Desgraupes
+// e-mail: <bdesgraupes@easyconnect.fr>
+// www: <http://webperso.easyconnect.fr/bdesgraupes/>
 // (c) Copyright : Bernard Desgraupes, 2003
 // All rights reserved.
+// $Date$
+// $Revision$
 // ===========================================================================
 
 PP_Begin_Namespace_PowerPlant
@@ -65,25 +67,39 @@ PP_Begin_Namespace_PowerPlant
 
 
 extern CWindowMenu * gWindowMenu;
-extern const Str255 Rzil_NavSaveItems[];
 
 
 // ---------------------------------------------------------------------------
-//	€ CRezMapDoc							Constructor		  [public]
+//	¬€ CRezMapDoc							Default Constructor		  [public]
+// ---------------------------------------------------------------------------
+
+CRezMapDoc::CRezMapDoc(LCommander *inSuper)
+	: LDocument( inSuper )
+{
+	mFork = CRezillaApp::sDefaultCreatingFork;
+	mRezFile = nil;
+	
+	Initialize(nil, refnum_undefined);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¬€ CRezMapDoc							Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CRezMapDoc::CRezMapDoc(LCommander *inSuper, 
 						 FSSpec * inFileSpec)
 	: LDocument( inSuper )
 {
-	mFork = to_samefork;
+	mFork = CRezillaApp::sDefaultCreatingFork;
+	mRezFile = nil;
 	
 	Initialize(inFileSpec, refnum_undefined);
 }
 
 
 // ---------------------------------------------------------------------------
-//	€ CRezMapDoc							Constructor		  [public]
+//	¬€ CRezMapDoc							Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CRezMapDoc::CRezMapDoc(LCommander *inSuper, 
@@ -93,27 +109,32 @@ CRezMapDoc::CRezMapDoc(LCommander *inSuper,
 	: LDocument( inSuper )
 {
 	mFork = inFork;
+	mRezFile = nil;
 	
 	Initialize(inFileSpec, inRefnum);
 }
 
 
 // ---------------------------------------------------------------------------
-//	€ CRezMapDoc							Default Constructor		  [public]
+//	¬€ CRezMapDoc							Constructor		  [public]
 // ---------------------------------------------------------------------------
 
-CRezMapDoc::CRezMapDoc(LCommander *inSuper)
+CRezMapDoc::CRezMapDoc(LCommander *inSuper, 
+						CRezFile * inRezFile)
 	: LDocument( inSuper )
 {
-	mFork = to_samefork;
+	FSSpec	theFileSpec;
 	
-	Initialize(nil, refnum_undefined);
+	mFork = inRezFile->GetUsedFork();
+	mRezFile = inRezFile;
+	inRezFile->GetSpecifier(theFileSpec);
+	
+	Initialize(&theFileSpec, inRezFile->GetRefNum());
 }
 
 
-
 // ---------------------------------------------------------------------------
-//	€ ~CRezMapDoc							Destructor				  [public]
+//	¬€ ~CRezMapDoc							Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CRezMapDoc::~CRezMapDoc()
@@ -133,12 +154,24 @@ CRezMapDoc::~CRezMapDoc()
 		delete mRezFile;
 	} 
 	
-	// Clear the Inspector if it contains info about a resource in this rezmap
+	// Unregister from the static RezMapDocs list
+	CRezillaApp::sRezMapDocList.Remove(this);
+
+	// Clear the Inspector if it contains info about a resource belonging to this rezmap
 	if (CRezillaApp::sInspectorWindow != nil &&
 		CRezillaApp::sInspectorWindow->GetRezObjItem() != nil &&
 		CRezillaApp::sInspectorWindow->GetRezObjItem()->GetOwnerRezMapTable()->GetOwnerDoc() == this
 	) {
 		CRezillaApp::sInspectorWindow->ClearValues();
+	} 
+	
+	// Delete all the editor windows depending from this rezmap
+	if (mOpenedEditors != nil) {
+		TArrayIterator<CRezEditor *> iterator(*mOpenedEditors);
+		CRezEditor*	theRezEditor = nil;
+		while (iterator.Next(theRezEditor)) {
+			delete theRezEditor;
+		}
 	} 
 	
 	if (mRezMapWindow != nil) {
@@ -153,7 +186,7 @@ CRezMapDoc::~CRezMapDoc()
 
 
 // ---------------------------------------------------------------------------
-//	€ Initialize													  [public]
+//	¬€ Initialize													  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -161,15 +194,20 @@ CRezMapDoc::Initialize(FSSpec * inFileSpec, short inRefnum)
 {		
 	mUpdateOnClose = true;
 	
-	if (inFileSpec != nil) {
-		mRezFile = new CRezFile(*inFileSpec, inRefnum, mFork);
-		SetSpecified(true);
-	} else {
-		mRezFile = new CRezFile();
-	}
+	if (mRezFile == nil) {
+		if (inFileSpec != nil) {
+			mRezFile = new CRezFile(*inFileSpec, inRefnum, mFork);
+			SetSpecified(true);
+		} else {
+			mRezFile = new CRezFile();
+		}
+	} 
 
 	mRezFile->SetOwnerDoc(this);
 	
+	// Register to the static RezMapDocs list
+	CRezillaApp::sRezMapDocList.AddItem(this);
+
 	// Create the CRezMap class instance
 	mRezMap = new CRezMap(inRefnum);
 	
@@ -189,9 +227,12 @@ CRezMapDoc::Initialize(FSSpec * inFileSpec, short inRefnum)
 		mRezMapWindow->SetDescriptor( inFileSpec->name );
 	}
 
+	// Initialize the array of edited resources
+	mOpenedEditors = new TArray<CRezEditor *>();
+	
 	// Populate the RezTable
-	CTypeComparator* theCompare = new CTypeComparator;
-	mTypesArray = new TArray<ResType>( theCompare, true);
+	CTypeComparator* theComparator = new CTypeComparator;
+	mTypesArray = new TArray<ResType>( theComparator, true);
 	mRezMap->GetAllTypes(mTypesArray);
 	mRezMapWindow->GetRezMapTable()->Populate(mTypesArray);
 
@@ -210,7 +251,7 @@ CRezMapDoc::Initialize(FSSpec * inFileSpec, short inRefnum)
 
 
 // ---------------------------------------------------------------------------
-//	€ ObeyCommand									[public, virtual]
+//	¬€ ObeyCommand									[public, virtual]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -244,6 +285,9 @@ CRezMapDoc::ObeyCommand(
 // 			}
 // 			break;
 // 		}
+
+		case cmd_ExportSubMenu: 
+		break;
 
 		case cmd_NewRez: 
 		NewResDialog();
@@ -360,7 +404,7 @@ CRezMapDoc::ObeyCommand(
 
 
 // ---------------------------------------------------------------------------------
-//  € NameNewDoc
+//  ¬€ NameNewDoc
 // ---------------------------------------------------------------------------------
 
 void
@@ -386,7 +430,7 @@ CRezMapDoc::NameNewDoc()
 
 
 // ---------------------------------------------------------------------------------
-//  € IsModified
+//  ¬€ IsModified
 // ---------------------------------------------------------------------------------
 // The Resource Manager sets the mapChanged attribute for the resource fork
 // when you call the ChangedResource, the AddResource, or the RemoveResource
@@ -407,7 +451,7 @@ CRezMapDoc::IsModified()
 
 
 // ---------------------------------------------------------------------------
-//	€ GetDescriptor													  [public]
+//	¬€ GetDescriptor													  [public]
 // ---------------------------------------------------------------------------
 //	Pass back the name of a Document
 
@@ -427,7 +471,7 @@ CRezMapDoc::GetDescriptor(
 
 
 // ---------------------------------------------------------------------------
-//  € GetOwnerRefnum												[public]
+//  ¬€ GetOwnerRefnum												[public]
 // ---------------------------------------------------------------------------
 
 short
@@ -438,7 +482,7 @@ CRezMapDoc::GetRefnum()
 
 
 // ---------------------------------------------------------------------------
-//  € GetOwnerRefnum												[public]
+//  ¬€ GetOwnerRefnum												[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -449,7 +493,7 @@ CRezMapDoc::SetRefnum(short inRefnum)
 	
 
 // ---------------------------------------------------------------------------
-//	€ UsesFileSpec													  [public]
+//	¬€ UsesFileSpec													  [public]
 // ---------------------------------------------------------------------------
 //	Returns whether the Document's File has the given refnum
 
@@ -463,7 +507,7 @@ CRezMapDoc::SetRefnum(short inRefnum)
 
 
 // ---------------------------------------------------------------------------
-//	€ AttemptClose													  [public]
+//	¬€ AttemptClose													  [public]
 // ---------------------------------------------------------------------------
 //	Try to close an edited resource map.
 
@@ -512,7 +556,7 @@ CRezMapDoc::AttemptClose(
 
 
 // ---------------------------------------------------------------------------
-//	€ AskSaveChanges												  [public]
+//	¬€ AskSaveChanges												  [public]
 // ---------------------------------------------------------------------------
 //	Ask user whether to save changes before closing the Document or
 //	quitting the Application
@@ -533,7 +577,7 @@ CRezMapDoc::AskSaveChanges(
 
 
 // ---------------------------------------------------------------------------------
-//  € DoAESave
+//  ¬€ DoAESave
 // ---------------------------------------------------------------------------------
 
 void
@@ -541,7 +585,7 @@ CRezMapDoc::DoAESave(
 	FSSpec	&inFileSpec)
 {
 	short oldRefnum = GetRefnum();
-	if (mFork == to_samefork) {
+	if (mFork == fork_samefork) {
 		mFork = mRezFile->GetUsedFork();
 	} 
 	
@@ -575,7 +619,7 @@ CRezMapDoc::DoAESave(
 
 
 // ---------------------------------------------------------------------------------
-//  € DoSave
+//  ¬€ DoSave
 // ---------------------------------------------------------------------------------
 
 void
@@ -585,7 +629,7 @@ CRezMapDoc::DoSave()
 }
 
 // ---------------------------------------------------------------------------
-//	€ AskSaveAs														  [public]
+//	¬€ AskSaveAs														  [public]
 // ---------------------------------------------------------------------------
 //	Ask the user to save a Document and give it a name
 //	Returns false if the user cancels the operation
@@ -633,7 +677,7 @@ CRezMapDoc::AskSaveAs(
 
 
 // ---------------------------------------------------------------------------
-//	€ DesignateOutFile								[public static]
+//	¬€ DesignateOutFile								[public static]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -643,23 +687,8 @@ CRezMapDoc::DesignateOutFile( FSSpec& outFileSpec, bool & outReplacing)
 	bool	openOK = false;
 	Str255	theString;
 	
-	mFork = to_samefork;
+	mFork = fork_samefork;
 	
-	// Build the forks popup
-	NavMenuItemSpecHandle	theMenuItemHandle ;
-	NavMenuItemSpecPtr		theNavMenuItemSpecPtr;
-	
-	theMenuItemHandle = (NavMenuItemSpec**) NewHandleClear( 3 * sizeof(NavMenuItemSpec) );
-	if (theMenuItemHandle != NULL) {
-		for (SInt16 theIndex = 0; theIndex < 3; theIndex++) {
-			theNavMenuItemSpecPtr = *theMenuItemHandle + theIndex;
-			(*theNavMenuItemSpecPtr).version = kNavMenuItemSpecVersion;
-			(*theNavMenuItemSpecPtr).menuCreator = FOUR_CHAR_CODE('Rzil');
-			(*theNavMenuItemSpecPtr).menuType = 'TEXT';
-			BlockMoveData(Rzil_NavSaveItems[theIndex], (*theNavMenuItemSpecPtr).menuItemName, Rzil_NavSaveItems[theIndex][0] + 1);
-		}
-	}
-
 	// Deactivate the desktop.
 	::UDesktop::Deactivate();
 	
@@ -668,16 +697,15 @@ CRezMapDoc::DesignateOutFile( FSSpec& outFileSpec, bool & outReplacing)
 	
 	// File designator setup
 	designator.SetEventFilterProc(Rzil_SaveAsNavEventFilterUPP);
-	designator.SetPopupExtension(theMenuItemHandle);
 	designator.SetOptionFlags(kNavDontAutoTranslate);
 	designator.SetUserData( (void *) &mFork);
 
 	// Retrieve strings from STR# resource
-	GetIndString(theString, STRx_NavServStrings, index_RezillaAppName);
+	GetIndString(theString, STRx_NavStrings, index_RezillaAppName);
 	designator.SetClientName(theString);
-	GetIndString(theString, STRx_NavServStrings, index_SaveRezFileAs);
+	GetIndString(theString, STRx_NavStrings, index_SaveRezFileAs);
 	designator.SetMessage(theString);
-	GetIndString(theString, STRx_NavServStrings, index_SaveUntitledRsrc);
+	GetIndString(theString, STRx_NavStrings, index_SaveUntitledRsrc);
 	designator.SetSavedFileName(theString);
 	
 	openOK = designator.AskDesignateFile();
@@ -695,7 +723,7 @@ CRezMapDoc::DesignateOutFile( FSSpec& outFileSpec, bool & outReplacing)
 
 
 // ---------------------------------------------------------------------------------
-//  € FindCommandStatus
+//  ¬€ FindCommandStatus
 // ---------------------------------------------------------------------------------
 
 void
@@ -715,6 +743,7 @@ CRezMapDoc::FindCommandStatus(
 			break;
 								
 		case cmd_Find:
+		case cmd_ExportSubMenu:
 			outEnabled = false;
 			break;
 								
@@ -762,7 +791,7 @@ CRezMapDoc::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------
-//	€ AllowSubRemoval												  [public]
+//	¬€ AllowSubRemoval												  [public]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -779,7 +808,7 @@ CRezMapDoc::AllowSubRemoval(
 
 
 // // ---------------------------------------------------------------------------
-// //	€ AttemptClose													  [public]
+// //	¬€ AttemptClose													  [public]
 // // ---------------------------------------------------------------------------
 // //	Try to close a Document.
 // //
@@ -822,7 +851,7 @@ CRezMapDoc::AllowSubRemoval(
 
 
 // ---------------------------------------------------------------------------
-//	€ AskSaveOne												  [public]
+//	¬€ AskSaveOne												  [public]
 // ---------------------------------------------------------------------------
 //	Ask user whether to save changes before closing the Document or
 //	quitting the Application
@@ -859,7 +888,7 @@ CRezMapDoc::AllowSubRemoval(
 
 
 // ---------------------------------------------------------------------------
-//  € ListenToMessage				[public]
+//  ¬€ ListenToMessage				[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -885,7 +914,7 @@ CRezMapDoc::ListenToMessage( MessageT inMessage, void *ioParam )
 
 
 // ---------------------------------------------------------------------------
-//  € HasSelection												[public]
+//  ¬€ HasSelection												[public]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -896,7 +925,7 @@ CRezMapDoc::HasSelection()
 
 
 // ---------------------------------------------------------------------------
-//  € GetFirstSelected												[public]
+//  ¬€ GetFirstSelected												[public]
 // ---------------------------------------------------------------------------
 
 TableIndexT
@@ -908,7 +937,7 @@ CRezMapDoc::GetFirstSelected()
 
 
 // ---------------------------------------------------------------------------
-//  € NewResDialog												[public]
+//  ¬€ NewResDialog												[public]
 // ---------------------------------------------------------------------------
 // Note: Linking Listeners and Broadcasters is done in the StDialogBoxHandler constructor
 
@@ -1040,7 +1069,7 @@ CRezMapDoc::NewResDialog()
 
 
 // ---------------------------------------------------------------------------
-//  € CreateNewRes												[public]
+//  ¬€ CreateNewRes												[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -1080,7 +1109,31 @@ CRezMapDoc::CreateNewRes(ResType inType, short inID, Str255* inName, short inAtt
 
 
 // ---------------------------------------------------------------------------
-//  € DuplicateResource												[public]
+//  ¬€ GetRezEditor												[public]
+// ---------------------------------------------------------------------------
+// ResType is an unsigned long
+
+CRezEditor *
+CRezMapDoc::GetRezEditor(ResType inType, short inID)
+{
+	CRezEditor * result = nil;	
+	TArrayIterator<CRezEditor *> iterator(*mOpenedEditors);
+	CRezEditor*	theRezEditor = nil;
+	
+	// CRezillaApp class maintains a list of all CRezMapDoc's that we created
+	while (iterator.Next(theRezEditor)) {
+		if (inType == theRezEditor->GetRezObj()->GetType() && inID == theRezEditor->GetRezObj()->GetID() ) {
+			result = theRezEditor;
+			break;
+		} 
+	}
+	
+	return result;
+}
+
+
+// ---------------------------------------------------------------------------
+//  ¬€ DuplicateResource												[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -1133,14 +1186,14 @@ CRezMapDoc::DuplicateResource(CRezObj* inRezObj)
 
 
 // ---------------------------------------------------------------------------
-//  € RemoveResource												[public]
+//  ¬€ RemoveResource												[public]
 // ---------------------------------------------------------------------------
 // The RemoveResource function does not dispose of the handle  you  pass  into
 // it; to do so you must call the Memory Manager function DisposeHandle  after
 // calling RemoveResource. You should  dispose  the  handle  if  you  want  to
 // release the memory before updating or closing the resource fork.
 // 
-// If you¹ve removed a  resource,  the  Resource  Manager  writes  the  entire
+// If youˆïve removed a  resource,  the  Resource  Manager  writes  the  entire
 // resource map when it updates the resource fork, and all changes made to the
 // resource map become permanent. If  you  want  any  of  the  changes  to  be
 // temporary, you should restore the original information before the  Resource
@@ -1175,7 +1228,7 @@ CRezMapDoc::RemoveResource(CRezObjItem* inRezObjItem)
 
 
 // ---------------------------------------------------------------------------
-//  € PasteResource												[public]
+//  ¬€ PasteResource												[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -1227,7 +1280,7 @@ CRezMapDoc::PasteResource(ResType inType, short inID, Handle inHandle, Str255* i
 
 
 // ---------------------------------------------------------------------------
-//  € UpdateRefNum												[public]
+//  ¬€ UpdateRefNum												[public]
 // ---------------------------------------------------------------------------
 // Takes care of updating the refnum in all the sub objects which store a 
 // copy of this value:
@@ -1261,5 +1314,6 @@ CRezMapDoc::UpdateRefNum(short newRefNum)
 
 
 PP_End_Namespace_PowerPlant
+
 
 

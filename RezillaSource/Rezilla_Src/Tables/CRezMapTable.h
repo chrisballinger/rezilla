@@ -1,12 +1,14 @@
 // ===========================================================================
 // CRezMapTable.h					
-//                       Created : 2003-04-16 22:13:54
-//             Last modification : 2003-04-18 09:15:03
-// Author : Bernard Desgraupes
-// e-mail : <bdesgraupes@easyconnect.fr>
-// www : <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright : Bernard Desgraupes 2003
+//                       Created: 2003-04-16 22:13:54
+//             Last modification: 2003-04-18 09:15:03
+// Author: Bernard Desgraupes
+// e-mail: <bdesgraupes@easyconnect.fr>
+// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// ¬© Copyright: Bernard Desgraupes 2003
 // All rights reserved.
+// $Date$
+// $Revision$
 // ===========================================================================
 
 
@@ -62,7 +64,8 @@ public:
 	CRezMapDoc *			GetOwnerDoc();
 
 protected:
-	// Cache the rezmap of the owning document for faster retrieval
+	// Cache the rezmap of the owning document for faster retrieval. It is 
+	// set by the caller (ie when the CRezMapDoc is created).
 	CRezMap *			mRezMap;
 	
 	virtual void			DrawSelf();

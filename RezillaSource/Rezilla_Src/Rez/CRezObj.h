@@ -8,6 +8,8 @@
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
 // (c) Copyright : Bernard Desgraupes, 2003
 // All rights reserved.
+// $Date$
+// $Revision$
 // ===========================================================================
 
 #ifndef _H_CREZOBJ
@@ -39,7 +41,7 @@ public:
 		
 		// Getters and setters
 		
-		OSErr 			GetHandle();
+		OSErr 			GetRezHandle();
 
 		OSErr 			GetInfoFromMap();
 		OSErr 			SetInfoInMap();
@@ -100,9 +102,9 @@ protected:
 //        ================== INLINES =====================
 
 // ---------------------------------------------------------------------------
-//	€ HasAttribute													[inline]
+//	¬€ HasAttribute													[inline]
 // ---------------------------------------------------------------------------
-// Checks if a resource¹s attribute is on or off. The inFlag argument 
+// Checks if a resourceˆïs attribute is on or off. The inFlag argument 
 // is one of the following constants:
 // 		resSysHeap		In system or in application heap
 // 		resPurgeable	Purgeable or not
@@ -121,7 +123,7 @@ CRezObj::HasAttribute(
 
 
 // ---------------------------------------------------------------------------
-//	€ ToggleAttribute												[inline]
+//	¬€ ToggleAttribute												[inline]
 // ---------------------------------------------------------------------------
 //	Allows the toggling of an attribute setting. If you wish to change all
 //	attributes in one call, use SetAttributes instead.
@@ -141,7 +143,7 @@ CRezObj::ToggleAttribute(
 
 
 // ---------------------------------------------------------------------------
-//	€ SetOneAttribute												[inline]
+//	¬€ SetOneAttribute												[inline]
 // ---------------------------------------------------------------------------
 //	Allows the toggling of an attribute setting. If you wish to change all
 //	attributes in one call, use SetAttributes instead.
@@ -162,3 +164,4 @@ CRezObj::SetOneAttribute(
 
 
 #endif
+

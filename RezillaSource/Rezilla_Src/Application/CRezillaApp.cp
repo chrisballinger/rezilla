@@ -1,12 +1,14 @@
 // ===========================================================================
 // CRezillaApp.cp					
-//                       Created : 2003-04-16 22:13:54
-//             Last modification : 2003-06-10 07:02:44
-// Author : Bernard Desgraupes
-// e-mail : <bdesgraupes@easyconnect.fr>
-// www : <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright : Bernard Desgraupes 2003
+//                       Created: 2003-04-16 22:13:54
+//             Last modification: 2004-02-24 17:20:41
+// Author: Bernard Desgraupes
+// e-mail: <bdesgraupes@easyconnect.fr>
+// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// ¨© Copyright: Bernard Desgraupes 2003, 2004
 // All rights reserved.
+// $Date$
+// $Revision$
 // ===========================================================================
 
 
@@ -92,27 +94,17 @@ extern const Str255 Rzil_NavOpenItems[] = {
 	"\pfrom data fork"
 };
 
-extern const Str255 Rzil_NavSaveItems[] = {
-	"\pto same fork",
-	"\pto resource fork",
-	"\pto data fork"
-};
-
-extern const Str255 Rzil_NavNewItems[] = {
-	"\pin resource fork",
-	"\pin data fork"
-};
-
 
 
 // Statics
 CInspectorWindow *		CRezillaApp::sInspectorWindow = nil;
-const LStr255	CRezillaApp::sVersionNumber( VersionFromResource() );
-SInt16			CRezillaApp::sOwnRefNum;
-
+const LStr255			CRezillaApp::sVersionNumber( VersionFromResource() );
+SInt16					CRezillaApp::sOwnRefNum;
+TArray<CRezMapDoc *>	CRezillaApp::sRezMapDocList;
+SInt16					CRezillaApp::sDefaultCreatingFork;
 
 // ===========================================================================
-//  Ä Main Program
+//  ¨Ä Main Program
 // ===========================================================================
 
 int main()
@@ -144,7 +136,7 @@ int main()
 
 
 // ---------------------------------------------------------------------------
-//  Ä CRezillaApp
+//  ¨Ä CRezillaApp
 // ---------------------------------------------------------------------------
 //	Constructor
 
@@ -156,12 +148,11 @@ CRezillaApp::CRezillaApp()
 	}
 
 	RegisterClasses();
-
 }
 
 
 // ---------------------------------------------------------------------------
-//  Ä ~CRezillaApp
+//  ¨Ä ~CRezillaApp
 // ---------------------------------------------------------------------------
 //	Destructor
 //
@@ -173,7 +164,7 @@ CRezillaApp::~CRezillaApp()
 
 
 // ---------------------------------------------------------------------------
-//	Ä Initialize						[protected]
+//	¨Ä Initialize						[protected]
 // ---------------------------------------------------------------------------
 //	Last chance to initialize the application before processing events
 
@@ -232,13 +223,17 @@ CRezillaApp::Initialize()
 // 	ABalloonBase::EnableControlKeyPop();
 // 	ABalloonBase::SetAutoPopDelay(20);
 
-	mOpeningFork = from_anyfork;
-
+	mOpeningFork = fork_anyfork;
+	mIsReadOnly = false;
+	
+	// TODO: replace by preference
+	sDefaultCreatingFork = fork_datafork;
+	mCreatingFork = sDefaultCreatingFork;
 }
 
 
 // ---------------------------------------------------------------------------
-//	Ä RegisterClasses								[protected]
+//	¨Ä RegisterClasses								[protected]
 // ---------------------------------------------------------------------------
 //	To reduce clutter within the Application object's constructor, class
 //	registrations appear here in this seperate function for ease of use.
@@ -290,7 +285,7 @@ CRezillaApp::RegisterClasses()
 
 
 // ---------------------------------------------------------------------------
-//  Ä StartUp
+//  ¨Ä StartUp
 // ---------------------------------------------------------------------------
 
 void
@@ -301,7 +296,7 @@ CRezillaApp::StartUp()
 
 
 // ---------------------------------------------------------------------------
-//  Ä ObeyCommand
+//  ¨Ä ObeyCommand
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -315,26 +310,30 @@ CRezillaApp::ObeyCommand(
 		
 		case cmd_New: {
 			FSSpec	theFileSpec;
-			short	theRefnum;
 			bool	replacing;
 			if ( DesignateNewMap(theFileSpec, replacing) ) {
 				if (replacing) {
-					// Check if a rezmap is already opened for this file
-					
-					// todo...
-
-					UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("RezMapAlreadyOpened"), rPPob_SimpleMessage);
-					return true;
+					SInt16	theAnswer;
+					CRezMapDoc * theRezMapDocPtr = FetchRezMapDoc(&theFileSpec);
+					// Check if a RezMapDoc is already opened for this file and close it
+					if (theRezMapDocPtr != nil) {
+						theRezMapDocPtr->Close();
+					} 
+					theAnswer = UMessageDialogs::AskIfFromLocalizable(CFSTR("NewRezMapReplaceExisting"), rPPob_AskIfMessage);
+					if (theAnswer == answer_Cancel) {
+						return false;
+					} else {
+						FSpDelete(&theFileSpec);
+					}						
 				} 
 				// Make a new file object.
-				CRezFile * theFile = new CRezFile( theFileSpec, refnum_undefined, mOpeningFork );
+				CRezFile * theRezFile = new CRezFile( theFileSpec, refnum_undefined, mCreatingFork );
 				// Make new resource file on disk
-				if (theFile->CreateNewFile() == noErr) {
+				if (theRezFile->CreateNewFile() == noErr) {
 					// Open the resource file.
-					theFile->OpenFile(fsRdWrPerm);
+					theRezFile->OpenFile(fsRdWrPerm);
 				}
-				new CRezMapDoc(this, &theFileSpec, mOpeningFork, theFile->GetRefNum() );
-				delete theFile;
+				new CRezMapDoc(this, theRezFile);
 			}
 			break;
 		}
@@ -348,10 +347,12 @@ CRezillaApp::ObeyCommand(
 		
 		case cmd_Open: {	
 			FSSpec theFileSpec;
-			SInt16 theFork;
-			short theRefnum;
-			if ( ChooseAFile(theFileSpec) && PreOpen(theFileSpec, theFork, theRefnum)) {
-				new CRezMapDoc(this, &theFileSpec, theFork, theRefnum);
+			OSErr error;
+			if ( ChooseAFile(theFileSpec) ) {
+				error = OpenFork(theFileSpec);
+				if (error != noErr) {
+					ReportOpenForkError(error, &theFileSpec);
+				} 
 			}
 			break;
 		}
@@ -367,7 +368,7 @@ CRezillaApp::ObeyCommand(
 
 
 // ---------------------------------------------------------------------------
-//  Ä FindCommandStatus
+//  ¨Ä FindCommandStatus
 // ---------------------------------------------------------------------------
 
 void
@@ -387,6 +388,7 @@ CRezillaApp::FindCommandStatus(
 		outEnabled = true;
 			break;		
 		
+		case cmd_ExportSubMenu:
 		case cmd_Find:
 		case cmd_NewRez:
 		case cmd_EditRez:
@@ -407,7 +409,7 @@ CRezillaApp::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------
-//  Ä ListenToMessage												[public]
+//  ¨Ä ListenToMessage												[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -436,7 +438,7 @@ CRezillaApp::ListenToMessage( MessageT inMessage, void *ioParam )
 
 
 // ---------------------------------------------------------------------------
-//	Ä MakeAboutBox													  [public]
+//	¨Ä MakeAboutBox													  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -455,7 +457,7 @@ CRezillaApp::MakeAboutWindow()
 
 
 // ---------------------------------------------------------------------------
-//	Ä ShowAboutBox													  [public]
+//	¨Ä ShowAboutBox													  [public]
 // ---------------------------------------------------------------------------
 //	Display the About Box for the Application
 
@@ -468,7 +470,7 @@ CRezillaApp::ShowAboutBox()
 
 
 // ---------------------------------------------------------------------------
-//	Ä InstallWindowMenu								[protected]
+//	¨Ä InstallWindowMenu								[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -513,7 +515,7 @@ CRezillaApp::InstallWindowMenu()
 
 
 // ---------------------------------------------------------------------------
-//	Ä RegisterHelpBook											[private]
+//	¨Ä RegisterHelpBook											[private]
 // ---------------------------------------------------------------------------
 // Under Carbon and OSX, register a Help folder
 // 
@@ -549,7 +551,7 @@ bail:
 
 
 // ---------------------------------------------------------------------------
-//	Ä VersionFromResource										  [public]
+//	¨Ä VersionFromResource										  [public]
 // ---------------------------------------------------------------------------
 // Retrieve the version number from the 'vers' resources.
 
@@ -582,10 +584,11 @@ CRezillaApp::VersionFromResource()
 	}
 	return  theString;
 }
-
+// 01014000000007312e302e3161312752657a696c6c6120312e302e31613120a9203230303420627920422e2044657367726175706573
+// à¯à¯@à¯à¯à¯à¯1.0.1a1'Rezilla.1.0.1a1.àè.2004.by.B..Desgraupes
 
 // ---------------------------------------------------------------------------
-//	Ä ChooseAFile								[public static]
+//	¨Ä ChooseAFile								[public static]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -593,23 +596,10 @@ CRezillaApp::ChooseAFile(FSSpec & outFileSpec)
 {
 	LFileTypeList fileTypes(fileTypes_All);
 	bool	openOK = false;
+	struct Rzil_OpenFileUD	theUserData;
 	
-	mOpeningFork = from_anyfork;
-	
-	// Build the forks popup
-	NavMenuItemSpecHandle	theMenuItemHandle ;
-	NavMenuItemSpecPtr		theNavMenuItemSpecPtr;
-	
-	theMenuItemHandle = (NavMenuItemSpec**) NewHandleClear( 3 * sizeof(NavMenuItemSpec) );
-	if (theMenuItemHandle != NULL) {
-		for (SInt16 theIndex = 0; theIndex < 3; theIndex++) {
-			theNavMenuItemSpecPtr = *theMenuItemHandle + theIndex;
-			(*theNavMenuItemSpecPtr).version = kNavMenuItemSpecVersion;
-			(*theNavMenuItemSpecPtr).menuCreator = FOUR_CHAR_CODE('Rzil');
-			(*theNavMenuItemSpecPtr).menuType = 'TEXT';
-			BlockMoveData(Rzil_NavOpenItems[theIndex], (*theNavMenuItemSpecPtr).menuItemName, Rzil_NavOpenItems[theIndex][0] + 1);
-		}
-	}
+	theUserData.whichFork = fork_anyfork;
+	theUserData.isReadOnly = false;
 
 	// Deactivate the desktop.
 	::UDesktop::Deactivate();
@@ -617,14 +607,19 @@ CRezillaApp::ChooseAFile(FSSpec & outFileSpec)
 	// Browse for a document.
 	UNavigationDialogs::CNavFileChooser chooser;
 	chooser.SetEventFilterProc(Rzil_OpenNavEventFilterUPP);
-	chooser.SetPopupExtension(theMenuItemHandle);
-	chooser.SetOptionFlags(kNavAllowStationery + kNavDontAutoTranslate);
-	chooser.SetUserData( (void *) &mOpeningFork);
+	chooser.SetOptionFlags(kNavNoTypePopup 
+						   + kNavDontAutoTranslate
+						   + kNavSupportPackages
+						   + kNavAllowOpenPackages);
+// 	
+	chooser.SetUserData( (void *) &theUserData);
 	
 	openOK = chooser.AskOpenFile(fileTypes);
 
 	if (openOK) {
 		chooser.GetFileSpec(1, outFileSpec);
+		mOpeningFork = theUserData.whichFork;
+		mIsReadOnly = theUserData.isReadOnly;
 	}
 
     // Activate the desktop.
@@ -635,7 +630,7 @@ CRezillaApp::ChooseAFile(FSSpec & outFileSpec)
 
 
 // ---------------------------------------------------------------------------
-//	Ä ChooseAFile								[public static]
+//	¨Ä ChooseAFile								[public static]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -658,11 +653,64 @@ CRezillaApp::ChooseAFile(const LFileTypeList & inFileTypes, FSSpec & fileSpec)
 }
 
 
+
 // ---------------------------------------------------------------------------
-//	Ä PreOpen								[public static]
+//	¨Ä OpenFork								[public static]
 // ---------------------------------------------------------------------------
 
-Boolean
+OSErr
+CRezillaApp::OpenFork(FSSpec & inFileSpec)
+{
+	SInt16 theFork;
+	short theRefnum;
+	OSErr error;
+	
+	// Check if a RezMapDoc is already opened for this file
+	CRezMapDoc * theRezMapDocPtr = FetchRezMapDoc(&inFileSpec);
+	if (theRezMapDocPtr != nil) {
+		theRezMapDocPtr->GetRezMapWindow()->Select();
+		return true;
+	} 
+	error = PreOpen(inFileSpec, theFork, theRefnum);
+	if ( error == noErr ) {
+		new CRezMapDoc(this, &inFileSpec, theFork, theRefnum);
+	} else {
+	}
+	return error;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¨Ä PreOpen								[public static]
+// ---------------------------------------------------------------------------
+// 	theRefNum = OpenOrCreateResFile(WinFSSpecPtr(inWinP), fsRdWrPerm, &theErr);
+// 	if (kInvalidFileRefNum_ == theRefNum)
+// 	{
+// 		if (theErr == opWrErr || theErr == permErr) {
+// 			OSErrorAlert("\pResource fork is opened from another application. Could not save any extra information.", theErr);
+// 		} else {
+// 			OSErrorAlert("\pCould not save any extra information.", theErr);
+// 		}
+// 		goto RETURN;
+// 	}
+// file already open with write permission	
+// 		Str255	theTitle;
+// 		char * theCStr = new char[255];
+// 		CFStringRef formatStr = NULL, messageStr = NULL;
+// 		mWindow->GetDescriptor(theTitle);
+// 		CopyPascalStringToC(theTitle,theCStr);
+// 		formatStr =  CFCopyLocalizedString(CFSTR("SaveDictKey"), NULL);
+// 		if (formatStr != NULL) {
+// 			messageStr = CFStringCreateWithFormat(NULL, NULL, formatStr, theCStr);
+// 			if (messageStr != NULL)
+// 			{
+// 				theAnswer = UMessageDialogs::AskYesNoFromLocalizable(messageStr, rPPob_AskYesNoMessage);
+// 				CFRelease(messageStr);                     
+// 			}
+// 			CFRelease(formatStr);                             
+// 		}
+
+OSErr
 CRezillaApp::PreOpen(FSSpec & inFileSpec, SInt16 & outFork, short & outRefnum)
 {
 	Boolean		openOK = false;
@@ -671,7 +719,7 @@ CRezillaApp::PreOpen(FSSpec & inFileSpec, SInt16 & outFork, short & outRefnum)
 	
 	StRezReferenceSaver saver( ::CurResFile() );
 	
-	if (mOpeningFork != from_rezfork) {
+	if (mOpeningFork != fork_rezfork) {
 		// Try to open the file as a datafork resource file
 		error = FSpMakeFSRef( &inFileSpec, &inFileRef );
 		SetResLoad( false );
@@ -680,16 +728,21 @@ CRezillaApp::PreOpen(FSSpec & inFileSpec, SInt16 & outFork, short & outRefnum)
 		
 		if (error == noErr) {
 			openOK = true;
-			outFork = from_datafork;
+			outFork = fork_datafork;
 			goto done;
-		} else if (mOpeningFork == from_datafork) {
-			// If this failed (eofErr), the file has no resource in data fork
-			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("NoRezInDataFork"), rPPob_SimpleMessage);
-			goto done;			
-		} 
+		} else if (error == mapReadErr || error == eofErr) {
+			if (mOpeningFork == fork_datafork) {
+				// If this failed with mapReadErr or eofErr, the file has no resource 
+				// map in data fork or it is empty
+				error = err_NoRezInDataFork;
+				goto done;			
+			} 
+		} else {
+				goto done;			
+		}
 	} 
 	
-	if (mOpeningFork != from_datafork) {
+	if (mOpeningFork != fork_datafork) {
 		// If this failed (mapReadErr), try to open as a resourcefork resource file
 		SetResLoad( false );
 		outRefnum = FSpOpenResFile( &inFileSpec, fsRdWrPerm);
@@ -697,25 +750,91 @@ CRezillaApp::PreOpen(FSSpec & inFileSpec, SInt16 & outFork, short & outRefnum)
 		SetResLoad( true );
 		if (error == noErr) {
 			openOK = true;
-			outFork = from_rezfork;
-			goto done;
-		} else {
-			// If this failed (eofErr), the file has no resource in resource fork
-			if (mOpeningFork == from_anyfork) {
-				UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("NoRezInAnyFork"), rPPob_SimpleMessage);
+			outFork = fork_rezfork;
+		} else if (error == mapReadErr || error == eofErr) {
+			// If this failed with mapReadErr or eofErr, the file has no resource 
+			// map in resource fork or it is empty
+			if (mOpeningFork == fork_anyfork) {
+				error = err_NoRezInAnyFork;
 			} else {
-				UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("NoRezInRezFork"), rPPob_SimpleMessage);
+				error = err_NoRezInRezFork;
 			}
-		}
+		} 
 	} 
 	
 done:
-	return openOK;
+	return error;
 }
 
 
 // ---------------------------------------------------------------------------
-//	Ä DesignateNewMap								[public static]
+//	¨Ä ReportOpenForkError								[public static]
+// ---------------------------------------------------------------------------
+// 		Str255	theTitle;
+// 		char * theCStr = new char[255];
+// 		CFStringRef formatStr = NULL, messageStr = NULL;
+// 		mWindow->GetDescriptor(theTitle);
+// 		CopyPascalStringToC(theTitle,theCStr);
+// 		formatStr =  CFCopyLocalizedString(CFSTR("SaveDictKey"), NULL);
+// 		if (formatStr != NULL) {
+// 			messageStr = CFStringCreateWithFormat(NULL, NULL, formatStr, theCStr);
+// 			if (messageStr != NULL)
+// 			{
+// 				theAnswer = UMessageDialogs::AskYesNoFromLocalizable(messageStr, rPPob_AskYesNoMessage);
+// 				CFRelease(messageStr);                     
+// 			}
+// 			CFRelease(formatStr);                             
+// 		}
+
+void
+CRezillaApp::ReportOpenForkError(OSErr inError, FSSpec * inFileSpecPtr)
+{
+	char * theCStr = new char[255];
+	CFStringRef formatStr = NULL, messageStr = NULL;
+
+	CopyPascalStringToC(inFileSpecPtr->name,theCStr);
+
+	switch (inError) {
+	  case err_NoRezInDataFork:
+		formatStr =  CFCopyLocalizedString(CFSTR("NoRezInDataFork"), NULL);
+		break;
+		
+	  case err_NoRezInRezFork:
+		formatStr =  CFCopyLocalizedString(CFSTR("NoRezInRezFork"), NULL);
+		break;
+		
+	  case err_NoRezInAnyFork:
+		formatStr =  CFCopyLocalizedString(CFSTR("NoRezInAnyFork"), NULL);
+		break;
+		
+	  case opWrErr:
+		formatStr =  CFCopyLocalizedString(CFSTR("NoOpenWritePermission"), NULL);
+		break;
+		
+	  case permErr:
+		formatStr =  CFCopyLocalizedString(CFSTR("PermissionError"), NULL);
+		break;
+		
+	  default:
+		UMessageDialogs::ErrorMessageFromLocalizable(CFSTR("SystemError"), inError, rPPob_SimpleMessage);
+		return;
+	}
+	
+	if (formatStr != NULL) {
+		messageStr = CFStringCreateWithFormat(NULL, NULL, formatStr, theCStr);
+		if (messageStr != NULL)
+		{
+			UMessageDialogs::SimpleMessageFromLocalizable(messageStr, rPPob_SimpleMessage);
+			CFRelease(messageStr);                     
+		}
+		CFRelease(formatStr);                             
+	}
+}
+
+
+
+// ---------------------------------------------------------------------------
+//	¨Ä DesignateNewMap								[public static]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -725,21 +844,8 @@ CRezillaApp::DesignateNewMap( FSSpec& outFileSpec, bool & outReplacing)
 	bool	openOK = false;
 	Str255	theString;
 		
-	// Build the forks popup
-	NavMenuItemSpecHandle	theMenuItemHandle ;
-	NavMenuItemSpecPtr		theNavMenuItemSpecPtr;
+	mCreatingFork = sDefaultCreatingFork;
 	
-	theMenuItemHandle = (NavMenuItemSpec**) NewHandleClear( 2 * sizeof(NavMenuItemSpec) );
-	if (theMenuItemHandle != NULL) {
-		for (SInt16 theIndex = 0; theIndex < 2; theIndex++) {
-			theNavMenuItemSpecPtr = *theMenuItemHandle + theIndex;
-			(*theNavMenuItemSpecPtr).version = kNavMenuItemSpecVersion;
-			(*theNavMenuItemSpecPtr).menuCreator = FOUR_CHAR_CODE('Rzil');
-			(*theNavMenuItemSpecPtr).menuType = 'TEXT';
-			BlockMoveData(Rzil_NavNewItems[theIndex], (*theNavMenuItemSpecPtr).menuItemName, Rzil_NavNewItems[theIndex][0] + 1);
-		}
-	}
-
 	// Deactivate the desktop.
 	::UDesktop::Deactivate();
 	
@@ -748,16 +854,15 @@ CRezillaApp::DesignateNewMap( FSSpec& outFileSpec, bool & outReplacing)
 	
 	// File designator setup
 	designator.SetEventFilterProc(Rzil_NewMapNavEventFilterUPP);
-	designator.SetPopupExtension(theMenuItemHandle);
-	designator.SetOptionFlags(kNavDontAutoTranslate);
-	designator.SetUserData( (void *) &mOpeningFork);
+	designator.SetOptionFlags(kNavNoTypePopup + kNavDontAutoTranslate);
+	designator.SetUserData( (void *) &mCreatingFork);
 
 	// Retrieve strings from STR# resource
-	GetIndString(theString, STRx_NavServStrings, index_RezillaAppName);
+	GetIndString(theString, STRx_NavStrings, index_RezillaAppName);
 	designator.SetClientName(theString);
-	GetIndString(theString, STRx_NavServStrings, index_CreateNewRezMap);
+	GetIndString(theString, STRx_NavStrings, index_CreateNewRezMap);
 	designator.SetMessage(theString);
-	GetIndString(theString, STRx_NavServStrings, index_CreateUntitled);
+	GetIndString(theString, STRx_NavStrings, index_CreateUntitled);
 	designator.SetSavedFileName(theString);
 	
 	openOK = designator.AskDesignateFile();
@@ -772,6 +877,103 @@ CRezillaApp::DesignateNewMap( FSSpec& outFileSpec, bool & outReplacing)
 
 	return openOK;
 }
+
+
+// ---------------------------------------------------------------------------
+//	¨Ä FetchRezMapDoc												  [static]
+// ---------------------------------------------------------------------------
+//	Returns nil if no RezMapDoc exists corresponding to the given FSSpec
+
+CRezMapDoc*
+CRezillaApp::FetchRezMapDoc(FSSpec * inFileSpecPtr)
+{
+	CRezMapDoc*	result = nil;
+	
+	if (inFileSpecPtr != nil) {
+		TArrayIterator<CRezMapDoc *>	iterator(sRezMapDocList);
+		FSSpec 		theFileSpec;
+		CRezMapDoc*	theRezMapDoc = nil;
+		
+		// CRezillaApp class maintains a list of all CRezMapDoc's that we created
+		while (iterator.Next(theRezMapDoc)) {
+			theRezMapDoc->GetRezFile()->GetSpecifier(theFileSpec);
+			if ( LFile::EqualFileSpec(theFileSpec, *inFileSpecPtr) ) {
+				result = theRezMapDoc;
+				break;
+			} 
+		}
+	} 
+	
+	return result;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¨Ä HandleAppleEvent												  [public]
+// ---------------------------------------------------------------------------
+
+void
+CRezillaApp::HandleAppleEvent(
+	const AppleEvent&	inAppleEvent,
+	AppleEvent&			outAEReply,
+	AEDesc&				outResult,
+	long				inAENumber)
+{
+	OSErr			error, ignoreErr;
+	AEDesc			duplicateAppleEvent;
+	
+	switch (inAENumber) {
+		
+		case ae_OpenDoc:
+		HandleOpenDocsEvent(inAppleEvent, outAEReply, outResult);
+		break;
+		
+		case ae_ApplicationDied:
+		break;
+		
+		default:
+		LApplication::HandleAppleEvent(inAppleEvent, outAEReply, outResult, inAENumber);
+		break;
+	}
+}
+
+
+// ---------------------------------------------------------------------------
+//	¨Ä HandleAppleEvent												  [public]
+// ---------------------------------------------------------------------------
+
+void
+CRezillaApp::HandleOpenDocsEvent(
+	const AppleEvent&	inAppleEvent,
+	AppleEvent&			outAEReply,
+	AEDesc&				outResult)
+{
+	OSErr			error;
+	AEDesc			theDocList;
+	AEKeyword		theKey;
+	DescType		theType;
+	FSSpec			theFileSpec;
+	Size			theSize;
+	SInt32			numDocs;
+	
+	error = ::AEGetParamDesc(&inAppleEvent, keyDirectObject,
+							 typeAEList, &theDocList);
+	ThrowIfOSErr_(error);
+	error = ::AECountItems(&theDocList, &numDocs);
+	ThrowIfOSErr_(error);
+	
+	for ( UInt16 i = 1; i <= numDocs; i++ ) {
+	    error = ::AEGetNthPtr(&theDocList, i, typeFSS, &theKey, &theType,
+						      (Ptr) &theFileSpec, sizeof(FSSpec), &theSize);
+	    ThrowIfOSErr_(error);
+	
+	    OpenFork(theFileSpec);
+	}
+		
+	if (theDocList.descriptorType != typeNull) ::AEDisposeDesc(&theDocList);
+}
+
+
 
 
 

@@ -1,13 +1,15 @@
 // ===========================================================================
 // CInspectorWindow.h				
 // 
-//                       Created : 2003-05-02 07:33:06
-//             Last modification : 2003-05-02 17:24:14
-// Author : Bernard Desgraupes
-// e-mail : <bdesgraupes@easyconnect.fr>
-// www : <http://webperso.easyconnect.fr/bdesgraupes/>
+//                       Created: 2003-05-02 07:33:06
+//             Last modification: 2003-05-02 17:24:14
+// Author: Bernard Desgraupes
+// e-mail: <bdesgraupes@easyconnect.fr>
+// www: <http://webperso.easyconnect.fr/bdesgraupes/>
 // (c) Copyright : Bernard Desgraupes, 2003
 // All rights reserved.
+// $Date$
+// $Revision$
 // ===========================================================================
 
 #pragma once
@@ -85,5 +87,6 @@ private:
 	void				UpdateRezObj();
 	
 };
+
 
 

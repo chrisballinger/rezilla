@@ -1,12 +1,14 @@
 // ===========================================================================
 // CRezillaApp.h					
-//                       Created : 2003-04-16 22:13:54
-//             Last modification : 2003-04-12 14:28:53
-// Author : Bernard Desgraupes
-// e-mail : <bdesgraupes@easyconnect.fr>
-// www : <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright : Bernard Desgraupes 2002, 2003
+//                       Created: 2003-04-16 22:13:54
+//             Last modification: 2004-02-22 18:22:48
+// Author: Bernard Desgraupes
+// e-mail: <bdesgraupes@easyconnect.fr>
+// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// ¬© Copyright: Bernard Desgraupes 2002-2003, 2004
 // All rights reserved.
+// $Date$
+// $Revision$
 // ===========================================================================
 
 
@@ -14,7 +16,16 @@
 
 #include <LApplication.h>
 
+
+//Used Internally to implement Standard File System Open Dialog
+//the hook data is used to set the default location
+typedef struct Rzil_OpenFileUD{
+    UInt16		whichFork;
+    Boolean		isReadOnly;
+} Rzil_OpenFileUD;
+
 class CInspectorWindow;
+class CRezMapDoc;
 
 
 class	CRezillaApp : public LDocApplication, public LListener {
@@ -32,23 +43,43 @@ public:
 
 	Boolean				ChooseAFile(FSSpec & fileSpec);
 	Boolean				ChooseAFile(const LFileTypeList & inFileTypes, FSSpec & fileSpec);
-	Boolean				PreOpen(FSSpec & inFileSpec, SInt16 & outFork, short & outRefnum);
 	Boolean				DesignateNewMap( FSSpec& outFileSpec, bool & outReplacing);
+	OSErr				PreOpen(FSSpec & inFileSpec, SInt16 & outFork, short & outRefnum);
+	OSErr				OpenFork(FSSpec & inFileSpec);
 
 	virtual void		ShowAboutBox();
 	
+	
+	virtual void		HandleAppleEvent(
+								const AppleEvent	&inAppleEvent,
+								AppleEvent			&outAEReply,
+								AEDesc				&outResult,
+								SInt32				inAENumber);
+									
+	virtual void		HandleOpenDocsEvent(
+								const AppleEvent	&inAppleEvent,
+								AppleEvent			&outAEReply,
+								AEDesc				&outResult);
+									
 	static LStr255		VersionFromResource();
 
 	static SInt16		GetOwnRefNum() { return sOwnRefNum;}
 // 	static void			SetOwnRefNum(SInt16 theCurrentRefNum) {sOwnRefNum = theCurrentRefNum ;}
 
+	static CRezMapDoc*	FetchRezMapDoc(FSSpec *	inFileSpecPtr);
+
 	static const LStr255		sVersionNumber;
 	static short				sOwnRefNum;
 	static CInspectorWindow *	sInspectorWindow;
+	static TArray<CRezMapDoc *>	sRezMapDocList;
+	static SInt16				sDefaultCreatingFork;
+
 
 protected:
 	LDialogBox *		mAboutWindow;
+	SInt16				mCreatingFork;
 	SInt16				mOpeningFork;
+	Boolean				mIsReadOnly;
 
 
 	virtual void		StartUp();
@@ -60,7 +91,10 @@ protected:
 
 
 private:
-	void					InstallWindowMenu()	;
+	void				InstallWindowMenu()	;
+	void				ReportOpenForkError(OSErr inError, FSSpec * inFileSpecPtr);
+	
 };
+
 
 

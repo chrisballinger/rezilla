@@ -1,12 +1,14 @@
 // ===========================================================================
 // CRezClipboard.cp					
-//                       Created : 2003-05-11 21:05:08
-//             Last modification : 2003-05-29 09:26:13
-// Author : Bernard Desgraupes
-// e-mail : <bdesgraupes@easyconnect.fr>
-// www : <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright : Bernard Desgraupes 2003
+//                       Created: 2003-05-11 21:05:08
+//             Last modification: 2004-02-22 19:29:53
+// Author: Bernard Desgraupes
+// e-mail: <bdesgraupes@easyconnect.fr>
+// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// ¬© Copyright: Bernard Desgraupes 2003, 2004
 // All rights reserved.
+// $Date$
+// $Revision$
 // ===========================================================================
 
 
@@ -29,7 +31,7 @@ PP_Begin_Namespace_PowerPlant
 SInt32 CRezClipboard::sScrapContext = 0;
 
 // ---------------------------------------------------------------------------
-//	€ CRezClipboard							Default Constructor		  [public]
+//	¬€ CRezClipboard							Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CRezClipboard::CRezClipboard()
@@ -40,7 +42,7 @@ CRezClipboard::CRezClipboard()
 
 
 // ---------------------------------------------------------------------------
-//	€ ~CRezClipboard							Destructor			  [public]
+//	¬€ ~CRezClipboard							Destructor			  [public]
 // ---------------------------------------------------------------------------
 
 CRezClipboard::~CRezClipboard()
@@ -60,7 +62,7 @@ CRezClipboard::~CRezClipboard()
 
 
 // ---------------------------------------------------------------------------
-//	€ GetDataSelf												   [protected]
+//	¬€ GetDataSelf												   [protected]
 // ---------------------------------------------------------------------------
 //	Pass back the data in the Clipboard of the specified type in a Handle
 //	and return the size of the data
@@ -99,7 +101,7 @@ CRezClipboard::GetDataSelf(
 
 
 // ---------------------------------------------------------------------------
-//	€ SetDataSelf												   [protected]
+//	¬€ SetDataSelf												   [protected]
 // ---------------------------------------------------------------------------
 //	Set the Clipboard contents to the data specified by a pointer and length
 //
@@ -134,7 +136,7 @@ CRezClipboard::SetDataSelf(
 
 
 // ---------------------------------------------------------------------------
-//	€ ImportSelf												   [protected]
+//	¬€ ImportSelf												   [protected]
 // ---------------------------------------------------------------------------
 //	Import the data in the global scrap to a local scrap
 //
@@ -149,7 +151,7 @@ CRezClipboard::ImportSelf()
 
 
 // ---------------------------------------------------------------------------
-//	€ ExportSelf												   [protected]
+//	¬€ ExportSelf												   [protected]
 // ---------------------------------------------------------------------------
 //	Export the data in a local scrap to the global scrap
 //
@@ -164,7 +166,7 @@ CRezClipboard::ExportSelf()
 
 
 // ---------------------------------------------------------------------------
-//	€ ContentsIsValidHex												   [protected]
+//	¬€ ContentsIsValidHex												   [protected]
 // ---------------------------------------------------------------------------
 //	Check it the actual contents of the scrap are valid hexadecimal data 
 // (only 0-9, a-f, A-F).
@@ -181,3 +183,4 @@ CRezClipboard::ContentsIsValidHex()
 
 
 PP_End_Namespace_PowerPlant
+

@@ -1,12 +1,14 @@
 // ===========================================================================
 // UHexFilters.h					
-//                       Created : 2003-05-07 18:35:01
-//             Last modification : 2003-05-08 08:10:12
-// Author : Bernard Desgraupes
-// e-mail : <bdesgraupes@easyconnect.fr>
-// www : <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright : Bernard Desgraupes 2003
+//                       Created: 2003-05-07 18:35:01
+//             Last modification: 2003-05-08 08:10:12
+// Author: Bernard Desgraupes
+// e-mail: <bdesgraupes@easyconnect.fr>
+// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// ¬© Copyright: Bernard Desgraupes 2003
 // All rights reserved.
+// $Date$
+// $Revision$
 // ===========================================================================
 
 
@@ -61,3 +63,4 @@ PP_End_Namespace_PowerPlant
 #endif
 
 #endif
+

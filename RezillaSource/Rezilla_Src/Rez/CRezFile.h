@@ -8,6 +8,8 @@
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
 // (c) Copyright : Bernard Desgraupes, 2003
 // All rights reserved.
+// $Date$
+// $Revision$
 // ===========================================================================
 // A wrapper class for a Macintosh resource file ie a file storing its resources 
 // either in the data fork or in the resource fork
@@ -104,3 +106,4 @@ PP_End_Namespace_PowerPlant
 #endif
 
 #endif
+

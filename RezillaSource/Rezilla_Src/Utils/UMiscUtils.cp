@@ -1,12 +1,14 @@
 // ===========================================================================
 // UMiscUtils.cp					
-//                       Created : 2003-05-13 20:06:23
-//             Last modification : 2003-06-08 06:59:03
-// Author : Bernard Desgraupes
-// e-mail : <bdesgraupes@easyconnect.fr>
-// www : <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright : Bernard Desgraupes 2003
+//                       Created: 2003-05-13 20:06:23
+//             Last modification: 2003-06-08 06:59:03
+// Author: Bernard Desgraupes
+// e-mail: <bdesgraupes@easyconnect.fr>
+// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// ¬© Copyright: Bernard Desgraupes 2003
 // All rights reserved.
+// $Date$
+// $Revision$
 // ===========================================================================
 
 
@@ -27,7 +29,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//  € PStringToOSType
+//  ¬€ PStringToOSType
 // ---------------------------------------------------------------------------
 
 void
@@ -41,7 +43,7 @@ UMiscUtils::PStringToOSType(Str255 inString, OSType & outType)
 
 
 // ---------------------------------------------------------------------------
-//  € OSTypeToPString
+//  ¬€ OSTypeToPString
 // ---------------------------------------------------------------------------
 
 void
@@ -55,7 +57,7 @@ UMiscUtils::OSTypeToPString(OSType inType, Str255 & outString)
 
 
 // ------------------------------------------------------------------------------
-//  €  HFSNameToUnicodeName
+//  ¬€  HFSNameToUnicodeName
 // ------------------------------------------------------------------------------
 // Borrowed and adapted from MoreFilesX.c
 
@@ -92,7 +94,7 @@ UMiscUtils::HFSNameToUnicodeName(
 
 
 // ------------------------------------------------------------------------------
-//  €  GetTypeFromScrap
+//  ¬€  GetTypeFromScrap
 // ------------------------------------------------------------------------------
 
 OSErr
@@ -112,7 +114,7 @@ UMiscUtils::GetTypeFromScrap(ResType & outType)
 
 
 // ---------------------------------------------------------------------------
-//	€ IsValidHexadecimal										  
+//	¬€ IsValidHexadecimal										  
 // ---------------------------------------------------------------------------
 
 Boolean 
@@ -139,7 +141,7 @@ UMiscUtils::IsValidHexadecimal(Ptr inPtr, ByteCount inByteCount)
 
 
 // ---------------------------------------------------------------------------
-//	€ IsValidHexadecimal										  
+//	¬€ IsValidHexadecimal										  
 // ---------------------------------------------------------------------------
 
 Boolean 
@@ -152,7 +154,7 @@ UMiscUtils::IsValidHexadecimal(Handle inHandle)
 
 
 // ---------------------------------------------------------------------------
-//	€ GetDragFileData										  
+//	¬€ GetDragFileData										  
 // ---------------------------------------------------------------------------
 // If the flavour data is an HFSFlavor structure, retrieve it.
 
@@ -171,7 +173,7 @@ UMiscUtils::GetDragFileData(DragReference inDragRef, ItemReference inItemRef, HF
 
 
 // ================================================================
-//  €  Class CTypeComparator
+//  ¬€  Class CTypeComparator
 // ================================================================
 // String comparator class to build tables sorted alphabetically
 
@@ -193,3 +195,4 @@ CTypeComparator::Compare(
 
 
 PP_End_Namespace_PowerPlant
+

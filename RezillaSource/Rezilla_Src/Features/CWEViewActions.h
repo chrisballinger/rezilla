@@ -1,13 +1,15 @@
 // ===========================================================================
 //	CWEViewActions.h
 //	
-//                       Created : 2001-09-08 07:05:27
-//             Last modification : 2003-05-03 19:48:04
-// Author : Bernard Desgraupes
-// e-mail : <bdesgraupes@easyconnect.fr>
-// www : <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright : Bernard Desgraupes 2001-2003
+//                       Created: 2001-09-08 07:05:27
+//             Last modification: 2004-02-22 19:29:08
+// Author: Bernard Desgraupes
+// e-mail: <bdesgraupes@easyconnect.fr>
+// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// ¬© Copyright: Bernard Desgraupes 2001-2003, 2004
 // All rights reserved.
+// $Date$
+// $Revision$
 //	
 // This file is part of the CWasteEditView package vs 1.5
 // ===========================================================================
@@ -294,4 +296,5 @@ PP_End_Namespace_PowerPlant
 #endif
 
 #endif
+
 

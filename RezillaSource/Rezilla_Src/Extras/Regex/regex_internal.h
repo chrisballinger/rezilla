@@ -637,3 +637,4 @@ re_string_elem_size_at (pstr, idx)
 #endif /* RE_ENABLE_I18N */
 
 #endif /*  _REGEX_INTERNAL_H */
+

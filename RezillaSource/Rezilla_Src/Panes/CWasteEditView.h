@@ -1,17 +1,19 @@
 // ===========================================================================
 //	CWasteEditView.h
 //	
-//                       Created : 2001-09-05 18:22:04
-//             Last modification : 2003-05-03 19:49:26
-// Author : Bernard Desgraupes
-// e-mail : <bdesgraupes@easyconnect.fr>
-// www : <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright : Bernard Desgraupes 2001-2003
+//                       Created: 2001-09-05 18:22:04
+//             Last modification: 2003-05-03 19:49:26
+// Author: Bernard Desgraupes
+// e-mail: <bdesgraupes@easyconnect.fr>
+// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// ¬© Copyright: Bernard Desgraupes 2001-2003
 // All rights reserved.
+// $Date$
+// $Revision$
 //	
 //	Description : CWaste is a class designed to interface between 
-//	the Waste Edit text engine (©1993-2000 by Marco Piovanelli)
-//  and CodeWarrior's PowerPlant 2.1 library (©1993-2000 Metrowerks Inc.)
+//	the Waste Edit text engine (¬©1993-2000 by Marco Piovanelli)
+//  and CodeWarrior's PowerPlant 2.1 library (¬©1993-2000 Metrowerks Inc.)
 //  
 // This file is part of the CWasteEditView package vs 1.6
 // ===========================================================================
@@ -364,7 +366,7 @@ private:
 //================== INLINES =====================
 
 // ---------------------------------------------------------------------------
-//	€ GetWasteRef							[public]
+//	¬€ GetWasteRef							[public]
 // ---------------------------------------------------------------------------
 //	Return a WEReference to the Waste Edit Record associated with a 
 //	CWasteEditView.
@@ -380,7 +382,7 @@ CWasteEditView::GetWasteRef()
 }
 
 // ---------------------------------------------------------------------------
-//	€ SetWasteRef							[public]
+//	¬€ SetWasteRef							[public]
 // ---------------------------------------------------------------------------
 inline
 void
@@ -391,7 +393,7 @@ CWasteEditView::SetWasteRef(WEReference inWERef)
 
 
 // ---------------------------------------------------------------------------
-//	€ GetTextTraitsID						[public]
+//	¬€ GetTextTraitsID						[public]
 // ---------------------------------------------------------------------------
 
 inline
@@ -403,7 +405,7 @@ CWasteEditView::GetTextTraitsID() const
 
 
 // ---------------------------------------------------------------------------
-//	€ HasAttribute							[public]
+//	¬€ HasAttribute							[public]
 // ---------------------------------------------------------------------------
 // Utility routine to determine if a given CWasteEditView has the requested
 // attribute.
@@ -418,7 +420,7 @@ CWasteEditView::HasAttribute(
 
 
 // ---------------------------------------------------------------------------
-// 	€ GetAttributes							[public]
+// 	¬€ GetAttributes							[public]
 // ---------------------------------------------------------------------------
 //	Returns the raw attribute flags. Treat as read-only
 
@@ -430,7 +432,7 @@ CWasteEditView::GetAttributes() const
 }
 
 // ---------------------------------------------------------------------------
-//	€ SetAttributes							[public]
+//	¬€ SetAttributes							[public]
 // ---------------------------------------------------------------------------
 //	Allows the setting of the attributes. This does not toggle attributes
 //	but rather replaces all existing attributes with the value passed as
@@ -451,7 +453,7 @@ CWasteEditView::SetAttributes(
 
 
 // ---------------------------------------------------------------------------
-//	€ ToggleAttribute						[public]
+//	¬€ ToggleAttribute						[public]
 // ---------------------------------------------------------------------------
 //	Allows the toggling of an attribute setting. If you wish to change all
 //	attributes in one call, use SetAttributes instead.
@@ -481,3 +483,4 @@ PP_End_Namespace_PowerPlant
 #endif
 
 #endif
+

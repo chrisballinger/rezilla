@@ -1,12 +1,14 @@
 // ===========================================================================
 // UMiscUtils.h					
-//                       Created : 2003-05-13 20:06:23
-//             Last modification : 2003-06-08 06:58:57
-// Author : Bernard Desgraupes
-// e-mail : <bdesgraupes@easyconnect.fr>
-// www : <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright : Bernard Desgraupes 2003
+//                       Created: 2003-05-13 20:06:23
+//             Last modification: 2003-06-08 06:58:57
+// Author: Bernard Desgraupes
+// e-mail: <bdesgraupes@easyconnect.fr>
+// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// ¬© Copyright: Bernard Desgraupes 2003
 // All rights reserved.
+// $Date$
+// $Revision$
 // ===========================================================================
 
 
@@ -75,3 +77,4 @@ PP_End_Namespace_PowerPlant
 #endif
 
 #endif
+

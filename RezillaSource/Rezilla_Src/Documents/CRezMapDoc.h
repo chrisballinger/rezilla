@@ -1,13 +1,15 @@
 // ===========================================================================
 // CRezMapDoc.h				
 // 
-//                       Created : 2003-04-29 07:11:00
-//             Last modification : 2003-06-02 21:09:44
-// Author : Bernard Desgraupes
-// e-mail : <bdesgraupes@easyconnect.fr>
-// www : <http://webperso.easyconnect.fr/bdesgraupes/>
+//                       Created: 2003-04-29 07:11:00
+//             Last modification: 2003-06-02 21:09:44
+// Author: Bernard Desgraupes
+// e-mail: <bdesgraupes@easyconnect.fr>
+// www: <http://webperso.easyconnect.fr/bdesgraupes/>
 // (c) Copyright : Bernard Desgraupes, 2003
 // All rights reserved.
+// $Date$
+// $Revision$
 // ===========================================================================
 
 #ifndef _H_CRezMapDoc
@@ -29,18 +31,21 @@ class	CRezMap;
 class	CRezMapWindow;
 class	CRezObj;
 class	CRezObjItem;
+class	CRezEditor;
 
 // ---------------------------------------------------------------------------
 
 class CRezMapDoc : public LDocument, public LListener {
 public:
+						CRezMapDoc(LCommander* inSuper);
 						CRezMapDoc(LCommander* inSuper, 
 								   FSSpec* inFileSpec);
 						CRezMapDoc(LCommander *inSuper,
 								   FSSpec * inFileSpec,
 								   SInt16 inFork, 
 								   short inRefnum);
-						CRezMapDoc(LCommander* inSuper);
+						CRezMapDoc(LCommander *inSuper, 
+									CRezFile * inRezFile);
 
 						virtual ~CRezMapDoc();
 
@@ -102,12 +107,19 @@ public:
 									  Str255* inName = nil, 
 									  short inAttrs = 0);
 	
+	CRezEditor *		GetRezEditor(ResType inType, short inID);
+
+	TArray<CRezEditor *>*	GetOpenedEditors() { return mOpenedEditors ;}
+	
 protected:
 	SInt16					mFork;
 	CRezMap *				mRezMap;
 	CRezMapWindow *			mRezMapWindow;
 	CRezFile *				mRezFile;
 	TArray<ResType>*		mTypesArray;	// Maintain a sorted array of ResTypes
+	TArray<CRezEditor *> *	mOpenedEditors;	// Maintain an array of editor docs 
+	                 		                  	// dependent from this doc (all edit 
+	                 		                  	// windows for resources in this map)
 	Boolean					mUpdateOnClose;
 		
 	void				NameNewDoc();
@@ -126,3 +138,4 @@ PP_End_Namespace_PowerPlant
 #endif
 
 #endif
+

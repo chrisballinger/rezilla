@@ -1,12 +1,14 @@
 // ===========================================================================
 // CRezMapTable.cp					
-//                       Created : 2003-04-16 22:13:54
-//             Last modification : 2003-06-01 11:32:30
-// Author : Bernard Desgraupes
-// e-mail : <bdesgraupes@easyconnect.fr>
-// www : <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright : Bernard Desgraupes 2003
+//                       Created: 2003-04-16 22:13:54
+//             Last modification: 2003-06-01 11:32:30
+// Author: Bernard Desgraupes
+// e-mail: <bdesgraupes@easyconnect.fr>
+// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// ¬© Copyright: Bernard Desgraupes 2003
 // All rights reserved.
+// $Date$
+// $Revision$
 // ===========================================================================
 
 //	Subclass and concrete instantiation of LOutlineTable
@@ -33,7 +35,7 @@
 
 
 // ---------------------------------------------------------------------------
-//  € CRezMapTable						Default Constructor		  [public]
+//  ¬€ CRezMapTable						Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CRezMapTable::CRezMapTable(
@@ -66,7 +68,7 @@ CRezMapTable::CRezMapTable(
 
 
 // ---------------------------------------------------------------------------
-//  € ~CRezMapTable							Destructor				  [public]
+//  ¬€ ~CRezMapTable							Destructor				  [public]
 // ---------------------------------------------------------------------------
 CRezMapTable::~CRezMapTable()
 {
@@ -75,7 +77,7 @@ CRezMapTable::~CRezMapTable()
 
 
 // ---------------------------------------------------------------------------
-//  € FinishCreateSelf												[public]
+//  ¬€ FinishCreateSelf												[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -86,7 +88,7 @@ CRezMapTable::FinishCreateSelf()
 
 
 // ---------------------------------------------------------------------------
-//  € DrawSelf												[public]
+//  ¬€ DrawSelf												[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -118,7 +120,7 @@ CRezMapTable::DrawSelf()
 
 
 // ---------------------------------------------------------------------------
-//  € GetOwnerRefnum												[public]
+//  ¬€ GetOwnerRefnum												[public]
 // ---------------------------------------------------------------------------
 
 short
@@ -129,7 +131,7 @@ CRezMapTable::GetOwnerRefnum()
 
 
 // ---------------------------------------------------------------------------
-//  € GetOwnerRefnum												[public]
+//  ¬€ GetOwnerRefnum												[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -140,7 +142,7 @@ CRezMapTable::SetOwnerRefnum(short theOwnerRefnum)
 	
 
 // ---------------------------------------------------------------------------
-//  € Populate												[public]
+//  ¬€ Populate												[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -162,7 +164,7 @@ CRezMapTable::Populate(TArray<ResType>* inTypesArray)
 
 
 // ---------------------------------------------------------------------------
-//  € TypeExists												[public]
+//  ¬€ TypeExists												[public]
 // ---------------------------------------------------------------------------
 // Looks in the table to see if the type already exists. This is different 
 // from looking in the resource map in memory. A type could have been already 
@@ -193,7 +195,7 @@ CRezMapTable::TypeExists(ResType inType, CRezTypeItem * & outRezTypeItem)
 
 
 // ---------------------------------------------------------------------------
-//  € HasSelection												[public]
+//  ¬€ HasSelection												[public]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -204,7 +206,7 @@ CRezMapTable::HasSelection()
 
 
 // ---------------------------------------------------------------------------
-//  € HasSelectedRezTypeItems												[public]
+//  ¬€ HasSelectedRezTypeItems												[public]
 // ---------------------------------------------------------------------------
 // Returns true if there is at least one RezTypeItem selected.
 
@@ -228,7 +230,7 @@ CRezMapTable::HasSelectedRezTypeItems()
 
 
 // ---------------------------------------------------------------------------
-//  € CountSelectedRezTypeItems										[public]
+//  ¬€ CountSelectedRezTypeItems										[public]
 // ---------------------------------------------------------------------------
 // Returns the count of all the selected RezTypeItem's.
 	
@@ -251,7 +253,7 @@ CRezMapTable::CountSelectedRezTypeItems()
 
 
 // ---------------------------------------------------------------------------
-//  € GetSelectedRezTypeItems										[public]
+//  ¬€ GetSelectedRezTypeItems										[public]
 // ---------------------------------------------------------------------------
 // Stores the selected RezTypeItem's in the LArray provided. Returns the 
 // number of elements found.
@@ -276,7 +278,7 @@ CRezMapTable::GetSelectedRezTypeItems(LArray* & outArray)
 
 
 // ---------------------------------------------------------------------------
-//  € HasSelectedRezObjItems										[public]
+//  ¬€ HasSelectedRezObjItems										[public]
 // ---------------------------------------------------------------------------
 // Returns true if there is at least one RezObjItem selected.
 
@@ -309,7 +311,7 @@ CRezMapTable::HasSelectedRezObjItems()
 
 
 // ---------------------------------------------------------------------------
-//  € CountAllSelectedRezObjItems										[public]
+//  ¬€ CountAllSelectedRezObjItems										[public]
 // ---------------------------------------------------------------------------
 // Returns the count of all the selected RezObjItem's.
 	
@@ -340,7 +342,7 @@ CRezMapTable::CountAllSelectedRezObjItems()
 
 
 // ---------------------------------------------------------------------------
-//  € GetAllSelectedRezObjItems										[public]
+//  ¬€ GetAllSelectedRezObjItems										[public]
 // ---------------------------------------------------------------------------
 // Stores all the selected RezObjItem's in the LArray provided. Returns the 
 // number of elements found.
@@ -373,7 +375,7 @@ CRezMapTable::GetAllSelectedRezObjItems(LArray* & outArray)
 
 
 // ---------------------------------------------------------------------------
-//  € GetFirstSelectedRezObjItem										[public]
+//  ¬€ GetFirstSelectedRezObjItem										[public]
 // ---------------------------------------------------------------------------
 // Stores the first selected RezObjItem in the LArray provided. Returns the 
 // number of elements found.
@@ -406,7 +408,7 @@ CRezMapTable::GetFirstSelectedRezObjItem(CRezObjItem* & outRezObjItem)
 
 
 // ---------------------------------------------------------------------------
-//  € ExpandAll										[public]
+//  ¬€ ExpandAll										[public]
 // ---------------------------------------------------------------------------
 	
 void
@@ -423,7 +425,7 @@ CRezMapTable::ExpandAll() {
 
 
 // ---------------------------------------------------------------------------
-//  € CollapseAll										[public]
+//  ¬€ CollapseAll										[public]
 // ---------------------------------------------------------------------------
 	
 void
@@ -440,19 +442,19 @@ CRezMapTable::CollapseAll() {
 	
 
 // ---------------------------------------------------------------------------
-//  € GetOwnerDoc										[public]
+//  ¬€ GetOwnerDoc										[public]
 // ---------------------------------------------------------------------------
 	
 CRezMapDoc *
 CRezMapTable::GetOwnerDoc()
 {
-	CRezMapDoc * theOwnerDoc = dynamic_cast<CRezMapDoc*>(GetOwnerWindow()->GetSuperCommander());
+	CRezMapDoc * theOwnerDoc = dynamic_cast<CRezMapDoc*>(GetOwnerWindow()->GetOwnerDoc());
 	return theOwnerDoc;
 }
 
 
 // ---------------------------------------------------------------------------
-//  € GetOwnerWindow										[public]
+//  ¬€ GetOwnerWindow										[public]
 // ---------------------------------------------------------------------------
 	
 CRezMapWindow *
@@ -474,7 +476,7 @@ CRezMapTable::GetOwnerWindow()
 
 
 // ---------------------------------------------------------------------------
-//  € Click													[protected]
+//  ¬€ Click													[protected]
 // ---------------------------------------------------------------------------
 // If no cell is hit by the click, try drag selection.
 // In order to support dragging from an inactive window,
@@ -599,7 +601,7 @@ CRezMapTable::TrackDrag(
 
 
 // ---------------------------------------------------------------------------
-//	€ ItemIsAcceptable										  [protected]
+//	¬€ ItemIsAcceptable										  [protected]
 // ---------------------------------------------------------------------------
 // If flavor is of type flavorTypeHFS, accept only TEXT files. Otherwise, 
 // any flavor is accepted: a resource of the same type as the flavor will be 
@@ -636,7 +638,7 @@ CRezMapTable::ItemIsAcceptable(DragReference inDragRef, ItemReference inItemRef)
 
 
 // ---------------------------------------------------------------------------
-//	€ ReceiveDragItem										  [protected]
+//	¬€ ReceiveDragItem										  [protected]
 // ---------------------------------------------------------------------------
 // Retrieve the dragged item's file system specification
 // and insert the full path in the static text pane.
@@ -710,6 +712,7 @@ CRezMapTable::ReceiveDragItem(DragReference inDragRef,
 		}
 	}
 }
+
 
 
 

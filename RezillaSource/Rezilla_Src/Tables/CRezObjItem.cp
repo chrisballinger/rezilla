@@ -1,12 +1,14 @@
 // ===========================================================================
 // CRezObjItem.cp					
-//                       Created : 2003-04-18 09:34:02
-//             Last modification : 2003-06-10 15:01:34
-// Author : Bernard Desgraupes
-// e-mail : <bdesgraupes@easyconnect.fr>
-// www : <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright : Bernard Desgraupes 2003
+//                       Created: 2003-04-18 09:34:02
+//             Last modification: 2003-06-10 15:01:34
+// Author: Bernard Desgraupes
+// e-mail: <bdesgraupes@easyconnect.fr>
+// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// ¬© Copyright: Bernard Desgraupes 2003
 // All rights reserved.
+// $Date$
+// $Revision$
 // ===========================================================================
 // A concrete LOutlineItem for items of type "resource"
 
@@ -29,7 +31,7 @@
 #include <UDesktop.h>
 
 // ---------------------------------------------------------------------------
-//	€ CRezObjItem							Default Constructor		  [public]
+//	¬€ CRezObjItem							Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CRezObjItem::CRezObjItem(CRezType * inRezType,
@@ -42,7 +44,7 @@ CRezObjItem::CRezObjItem(CRezType * inRezType,
 
 
 // ---------------------------------------------------------------------------
-//	€ CRezObjItem							Default Constructor		  [public]
+//	¬€ CRezObjItem							Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CRezObjItem::CRezObjItem(Handle inResHandle, short inRefnum)
@@ -53,7 +55,7 @@ CRezObjItem::CRezObjItem(Handle inResHandle, short inRefnum)
 
 
 // ---------------------------------------------------------------------------
-//	€ CRezObjItem							Default Constructor		  [public]
+//	¬€ CRezObjItem							Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CRezObjItem::CRezObjItem(CRezObj * inRezObj)
@@ -64,7 +66,7 @@ CRezObjItem::CRezObjItem(CRezObj * inRezObj)
 
 
 // ---------------------------------------------------------------------------
-//	€ ~CRezObjItem							Destructor				  [public]
+//	¬€ ~CRezObjItem							Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CRezObjItem::~CRezObjItem()
@@ -82,7 +84,7 @@ CRezObjItem::~CRezObjItem()
 
 
 // ---------------------------------------------------------------------------
-//	€ GetDrawContentsSelf
+//	¬€ GetDrawContentsSelf
 // ---------------------------------------------------------------------------
 // this is the routine called to know what to draw within the
 // table cell. See the comments in LOutlineItem.cp for more info.
@@ -139,7 +141,7 @@ CRezObjItem::GetDrawContentsSelf(
 
 
 // ---------------------------------------------------------------------------
-//	€ DrawRowAdornments
+//	¬€ DrawRowAdornments
 // ---------------------------------------------------------------------------
 // just to be cute, we'll draw an adornment (again, see the LOutlineItem.cp
 // comments for more information). We'll draw a groovy gray background
@@ -153,7 +155,7 @@ CRezObjItem::DrawRowAdornments(
 
 
 // ---------------------------------------------------------------------------
-//	€ GetOwnerRezMapTable
+//	¬€ GetOwnerRezMapTable
 // ---------------------------------------------------------------------------
 
 CRezMapTable *
@@ -167,7 +169,7 @@ CRezObjItem::GetOwnerRezMapTable()
 
 
 // ---------------------------------------------------------------------------
-//	€ SingleClick												   [protected]
+//	¬€ SingleClick												   [protected]
 // ---------------------------------------------------------------------------
 // If the option key is down, open the inspector window and display the 
 // corresponding info about the resource
@@ -190,7 +192,7 @@ CRezObjItem::SingleClick(
 
 
 // ---------------------------------------------------------------------------
-//	€ DoubleClick
+//	¬€ DoubleClick
 // ---------------------------------------------------------------------------
 // If the option key is down during a double click, open the inspector window 
 // otherwise edit the resource.
@@ -210,9 +212,10 @@ CRezObjItem::DoubleClick(
 	} else {
 		CRezMapTable *theRezMapTable = dynamic_cast<CRezMapTable*>(mOutlineTable);
 		CRezMapWindow * theRezMapWindow = dynamic_cast<CRezMapWindow*>( UDesktop::FetchTopRegular() );
-		new CHexEditorDoc(theRezMapWindow->GetSuperCommander(),theRezMapTable, mRezObj);
+		new CHexEditorDoc(theRezMapWindow->GetSuperCommander(), theRezMapTable, mRezObj);
 	}
 }
+
 
 
 

@@ -1,12 +1,14 @@
 // ===========================================================================
 // CRezTypeItem.h				
-//                       Created : 2003-04-18 09:34:02
-//             Last modification : 2003-05-27 18:49:55
-// Author : Bernard Desgraupes
-// e-mail : <bdesgraupes@easyconnect.fr>
-// www : <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright : Bernard Desgraupes 2003
+//                       Created: 2003-04-18 09:34:02
+//             Last modification: 2003-05-27 18:49:55
+// Author: Bernard Desgraupes
+// e-mail: <bdesgraupes@easyconnect.fr>
+// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// ¬© Copyright: Bernard Desgraupes 2003
 // All rights reserved.
+// $Date$
+// $Revision$
 // ===========================================================================
 // A concrete LOutlineItem for items of type "resource category"
 
@@ -68,3 +70,4 @@ private:
 };
 
 // 		CRezMapTable *theRezMapTable = dynamic_cast<CRezMapTable*>(mOutlineTable);
+

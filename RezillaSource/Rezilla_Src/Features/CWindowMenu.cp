@@ -1,12 +1,14 @@
 // ===========================================================================
 // CWindowMenu.cp					
 // 
-// © 2002, Bernard Desgraupes, All rights reserved.
-//                       Created : 2002-04-19 13:40:15
-//             Last modification : 2002-04-19 13:40:19
-// Author : Bernard Desgraupes
-// e-mail : <bdesgraupes@easyconnect.fr>
-// www : <http://webperso.easyconnect.fr/bdesgraupes/>
+// ¬© 2002, Bernard Desgraupes, All rights reserved.
+//                       Created: 2002-04-19 13:40:15
+//             Last modification: 2002-04-19 13:40:19
+// Author: Bernard Desgraupes
+// e-mail: <bdesgraupes@easyconnect.fr>
+// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// $Date$
+// $Revision$
 // ===========================================================================
 // Adapted from PowerPlant's Book Code (chap. 15)
 
@@ -18,7 +20,7 @@
 #include "CWindowMenu.h"
 
 // ---------------------------------------------------------------------------------
-//  € CWindowMenu
+//  ¬€ CWindowMenu
 // ---------------------------------------------------------------------------------
 
 CWindowMenu::CWindowMenu()
@@ -28,7 +30,7 @@ CWindowMenu::CWindowMenu()
 
 
 // ---------------------------------------------------------------------------------
-//  € CWindowMenu
+//  ¬€ CWindowMenu
 // ---------------------------------------------------------------------------------
 
 CWindowMenu::CWindowMenu(
@@ -39,7 +41,7 @@ CWindowMenu::CWindowMenu(
 
 
 // ---------------------------------------------------------------------------------
-//  € CWindowMenu
+//  ¬€ CWindowMenu
 // ---------------------------------------------------------------------------------
 
 CWindowMenu::CWindowMenu(
@@ -51,7 +53,7 @@ CWindowMenu::CWindowMenu(
 
 
 // ---------------------------------------------------------------------------------
-//  € ~CWindowMenu
+//  ¬€ ~CWindowMenu
 // ---------------------------------------------------------------------------------
 
 CWindowMenu::~CWindowMenu()
@@ -60,7 +62,7 @@ CWindowMenu::~CWindowMenu()
 
 
 // ---------------------------------------------------------------------------------
-//  € InsertWindow
+//  ¬€ InsertWindow
 // ---------------------------------------------------------------------------------
 
 void
@@ -118,7 +120,7 @@ CWindowMenu::InsertWindow(
 
 
 // ---------------------------------------------------------------------------------
-//  € RemoveWindow
+//  ¬€ RemoveWindow
 // ---------------------------------------------------------------------------------
 
 void
@@ -148,7 +150,7 @@ CWindowMenu::RemoveWindow(
 
 
 // ---------------------------------------------------------------------------------
-//  € MenuItemToWindow
+//  ¬€ MenuItemToWindow
 // ---------------------------------------------------------------------------------
 
 LWindow *
@@ -165,7 +167,7 @@ CWindowMenu::MenuItemToWindow(
 
 
 // ---------------------------------------------------------------------------------
-//  € WindowToMenuItem
+//  ¬€ WindowToMenuItem
 // ---------------------------------------------------------------------------------
 
 SInt16
@@ -191,7 +193,7 @@ CWindowMenu::WindowToMenuItem(
 
 
 // ---------------------------------------------------------------------------------
-//  € SetCommandKeys
+//  ¬€ SetCommandKeys
 // ---------------------------------------------------------------------------------
 
 void
@@ -219,7 +221,7 @@ CWindowMenu::SetCommandKeys()
 // =================================================================================
 
 // ---------------------------------------------------------------------------------
-//  € CWindowMenuAttachment
+//  ¬€ CWindowMenuAttachment
 // ---------------------------------------------------------------------------------
 
 CWindowMenuAttachment::CWindowMenuAttachment(
@@ -230,7 +232,7 @@ CWindowMenuAttachment::CWindowMenuAttachment(
 
 
 // ---------------------------------------------------------------------------------
-//  € ~CWindowMenuAttachment
+//  ¬€ ~CWindowMenuAttachment
 // ---------------------------------------------------------------------------------
 
 CWindowMenuAttachment::~CWindowMenuAttachment()
@@ -239,7 +241,7 @@ CWindowMenuAttachment::~CWindowMenuAttachment()
 
 
 // ---------------------------------------------------------------------------------
-//  € ExecuteSelf
+//  ¬€ ExecuteSelf
 // ---------------------------------------------------------------------------------
 
 void
@@ -308,3 +310,4 @@ CWindowMenuAttachment::ExecuteSelf(
 		}
 	}
 }
+

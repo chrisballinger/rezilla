@@ -1,12 +1,14 @@
 // ===========================================================================
 // CTxtDataSubView.cp 
-//                       Created : 2003-05-06 06:04:42
-//             Last modification : 2003-06-07 15:56:53
-// Author : Bernard Desgraupes
-// e-mail : <bdesgraupes@easyconnect.fr>
-// www : <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright : Bernard Desgraupes 2003
+//                       Created: 2003-05-06 06:04:42
+//             Last modification: 2003-06-07 15:56:53
+// Author: Bernard Desgraupes
+// e-mail: <bdesgraupes@easyconnect.fr>
+// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// ¬© Copyright: Bernard Desgraupes 2003
 // All rights reserved.
+// $Date$
+// $Revision$
 // ===========================================================================
 
 
@@ -33,7 +35,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	€ CTxtDataSubView						Default Constructor		  [public]
+//	¬€ CTxtDataSubView						Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CTxtDataSubView::CTxtDataSubView()
@@ -45,7 +47,7 @@ CTxtDataSubView::CTxtDataSubView()
 
 
 // ---------------------------------------------------------------------------
-//	€ CTxtDataSubView						Constructor		  [public]
+//	¬€ CTxtDataSubView						Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CTxtDataSubView::CTxtDataSubView(CHexDataSubView * inSiblingView)
@@ -57,7 +59,7 @@ CTxtDataSubView::CTxtDataSubView(CHexDataSubView * inSiblingView)
 
 
 // ---------------------------------------------------------------------------
-//	€ CTxtDataSubView						Stream Constructor		  [public]
+//	¬€ CTxtDataSubView						Stream Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CTxtDataSubView::CTxtDataSubView(
@@ -70,7 +72,7 @@ CTxtDataSubView::CTxtDataSubView(
 
 
 // ---------------------------------------------------------------------------
-//	€ ~CTxtDataSubView						Destructor				  [public]
+//	¬€ ~CTxtDataSubView						Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CTxtDataSubView::~CTxtDataSubView()
@@ -80,7 +82,7 @@ CTxtDataSubView::~CTxtDataSubView()
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	€ ClickSelf											[protected, virtual]
+//	¬€ ClickSelf											[protected, virtual]
 // ---------------------------------------------------------------------------
 
 void
@@ -101,7 +103,7 @@ CTxtDataSubView::ClickSelf(
 
 
 // ---------------------------------------------------------------------------
-//	€ HandleKeyPress							[public, virtual]
+//	¬€ HandleKeyPress							[public, virtual]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -121,7 +123,7 @@ CTxtDataSubView::HandleKeyPress(
 
 
 // ---------------------------------------------------------------------------
-//	€ ObeyCommand											[public, virtual]
+//	¬€ ObeyCommand											[public, virtual]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -202,7 +204,7 @@ CTxtDataSubView::ObeyCommand(
 
 
 // ---------------------------------------------------------------------------
-//	€ ScrollImageBy											[public, virtual]
+//	¬€ ScrollImageBy											[public, virtual]
 // ---------------------------------------------------------------------------
 //	Scroll the Text
 
@@ -224,7 +226,7 @@ CTxtDataSubView::ScrollImageBy(
 
 
 // ---------------------------------------------------------------------------
-//	€ CursorMoved							[public, virtual]
+//	¬€ CursorMoved							[public, virtual]
 // ---------------------------------------------------------------------------
 
 void
@@ -265,7 +267,7 @@ CTxtDataSubView::CursorMoved(SInt32 inPos)
 
 
 // ---------------------------------------------------------------------------
-//	€ UserChangedText						[public, virtual]
+//	¬€ UserChangedText						[public, virtual]
 // ---------------------------------------------------------------------------
 //	Text of WasteEdit has changed as a result of user action
 
@@ -277,7 +279,7 @@ CTxtDataSubView::UserChangedText()
 
 
 // ---------------------------------------------------------------------------
-//	€ UserChangedText						[public, virtual]
+//	¬€ UserChangedText						[public, virtual]
 // ---------------------------------------------------------------------------
 //	Text of WasteEdit has changed as a result of user action
 
@@ -338,7 +340,7 @@ CTxtDataSubView::UserChangedText(
 
 
 // ---------------------------------------------------------------------------
-//	€ SyncPositionsWithSibling
+//	¬€ SyncPositionsWithSibling
 // ---------------------------------------------------------------------------
 
 void
@@ -349,7 +351,7 @@ CTxtDataSubView::SyncPositionsWithSibling(SInt32 inStartPos, SInt32 inEndPos)
 
 
 // ---------------------------------------------------------------------------
-//	€ SyncContentsWithMemory
+//	¬€ SyncContentsWithMemory
 // ---------------------------------------------------------------------------
 
 void
@@ -383,7 +385,7 @@ CTxtDataSubView::SyncContentsWithMemory(SInt32 inStartPos,
 
 
 // ---------------------------------------------------------------------------
-//	€ SyncImageWithSibling
+//	¬€ SyncImageWithSibling
 // ---------------------------------------------------------------------------
 
 void
@@ -399,3 +401,4 @@ CTxtDataSubView::SyncImageWithSibling(SInt32 inHorizDelta,
 
 
 PP_End_Namespace_PowerPlant
+
