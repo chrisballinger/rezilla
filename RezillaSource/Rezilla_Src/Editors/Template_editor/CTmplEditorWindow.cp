@@ -1550,6 +1550,10 @@ CTmplEditorWindow::RetrieveList(SInt32 inStartMark, ResType inType, SInt32 inCou
 		do {
 			error = DoRetrieveWithTemplate(inStartMark, readCtrl);
 		} while (mCurrentID < mLastID && error == noErr);
+		// An LSTZ list is terminated by a NULL
+		if (inType == 'LSTZ') {
+			*mOutStream << (UInt8) 0x00;
+		} 
 		break;
 		
 		case 'LSTC':
