@@ -2,7 +2,7 @@
 // CTmplWindowUtils.cp					
 // 
 //                       Created: 2004-08-20 16:45:08
-//             Last modification: 2004-09-29 07:25:47
+//             Last modification: 2004-09-29 15:27:48
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -742,6 +742,8 @@ CTmplEditorWindow::SkipNextKeyCases(UInt16 inPreCount)
 // ---------------------------------------------------------------------------
 //	¥ SelectKeyValueFromKeyCases										[private]
 // ---------------------------------------------------------------------------
+// key "CreateUsingTemplate" 
+// key "SelectKeyForTemplate" 
 
 OSErr
 CTmplEditorWindow::SelectKeyValueFromKeyCases(Str255 inLabelString,
@@ -756,25 +758,51 @@ CTmplEditorWindow::SelectKeyValueFromKeyCases(Str255 inLabelString,
 	Str255 * 		rightPtr;
 	SInt16			i, index = 0;
 	SInt32			currMark, origMark, totalLength = mTemplateStream->GetLength();
+	LStaticText *	theStaticField;
+	LPopupButton *	thePopup;
+	CFStringRef		formatStr = NULL, messageStr = NULL;
 
 	StDialogBoxHandler	theHandler(rPPob_TmplKeyPickerPicker, this);
 	LDialogBox *		theDialog = theHandler.GetDialog();
 	Assert_(theDialog != nil);
 	
-	UMiscUtils::OSTypeToPString(mOwnerDoc->GetSubstType(), theString);
-	
-	LStaticText * theTypeField = dynamic_cast<LStaticText *>(theDialog->FindPaneByID( item_TmplKeyPickerType ));
-	ThrowIfNil_(theTypeField);
-	
-	LStaticText * theLabelField = dynamic_cast<LStaticText *>(theDialog->FindPaneByID( item_TmplKeyPickerLabel ));
-	ThrowIfNil_(theLabelField);
-	
-	LPopupButton * thePopup = dynamic_cast<LPopupButton *>(theDialog->FindPaneByID( item_TmplKeyPickerMenu ));
+	// Template type field
+	theStaticField = dynamic_cast<LStaticText *>(theDialog->FindPaneByID( item_TmplKeyPickerType ));
+	ThrowIfNil_(theStaticField);
+	formatStr = CFCopyLocalizedString(CFSTR("CreateUsingTemplate"), NULL);
+	if (formatStr != NULL) {
+		char typeStr[5];
+		*(OSType*)typeStr = mOwnerDoc->GetSubstType();
+		typeStr[4] = 0;
+		messageStr = ::CFStringCreateWithFormat(NULL, NULL, formatStr, typeStr);
+		if (messageStr != NULL) {
+			if (::CFStringGetPascalString(messageStr, theString, sizeof(theString), ::GetApplicationTextEncoding())) {
+				theStaticField->SetDescriptor(theString);
+			}
+			CFRelease(messageStr);       
+		}
+		CFRelease(formatStr);                             
+	}		  	
+
+	// Explanatory message
+	theStaticField = dynamic_cast<LStaticText *>(theDialog->FindPaneByID( item_TmplKeyPickerMessage ));
+	ThrowIfNil_(theStaticField);
+	messageStr = CFCopyLocalizedString(CFSTR("SelectKeyForTemplate"), NULL);
+	if (messageStr != NULL) {
+		if (::CFStringGetPascalString(messageStr, theString, sizeof(theString), ::GetApplicationTextEncoding())) {
+			theStaticField->SetDescriptor(theString);
+		}
+		CFRelease(messageStr);       
+	}
+
+	// Label field: this is the label of the K*** tag
+	theStaticField = dynamic_cast<LStaticText *>(theDialog->FindPaneByID( item_TmplKeyPickerLabel ));
+	ThrowIfNil_(theStaticField);
+	theStaticField->SetDescriptor(inLabelString);
+
+	thePopup = dynamic_cast<LPopupButton *>(theDialog->FindPaneByID( item_TmplKeyPickerMenu ));
 	ThrowIfNil_(thePopup);
 	
-	theTypeField->SetDescriptor(theString);
-	theLabelField->SetDescriptor(inLabelString);
-
 	// Populate the popup with all the successive cases
 	currMark = mTemplateStream->GetMarker();
 	origMark = currMark;
