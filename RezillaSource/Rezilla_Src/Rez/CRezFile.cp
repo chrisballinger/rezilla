@@ -292,19 +292,21 @@ CRezFile::CloseFile()
 {
 	OSErr error = noErr;
 	
-    if (mRefNum != kResFileNotOpened) {
+	if (mRefNum != kResFileNotOpened) {
 		::CloseResFile(mRefNum);
 		error = ::ResError();
 		mRefNum = kResFileNotOpened;
 		::FlushVol(nil, mFileSpec.vRefNum);
-    }
+	}
 	// Set the type and creator if the corresponding pref is on
 	if ( CRezillaPrefs::GetPrefValue(kPref_misc_setSigOnClose) ) {
-		UMiscUtils::SetTypeAndCreator(mFileSpec,
-									  (OSType) CRezillaPrefs::GetPrefValue(kPref_misc_closingType),
-									  (OSType) CRezillaPrefs::GetPrefValue(kPref_misc_closingCreator));
+		if ( ! (CRezillaPrefs::GetPrefValue(kPref_misc_onlyRsrcExt) && UMiscUtils::HasExtension(&mFileSpec, ".rsrc")) ) {
+			UMiscUtils::SetTypeAndCreator(mFileSpec,
+										  (OSType) CRezillaPrefs::GetPrefValue(kPref_misc_closingType),
+										  (OSType) CRezillaPrefs::GetPrefValue(kPref_misc_closingCreator));
+		} 
 	} 
-	
+		
 	return error;
 }
 

@@ -154,6 +154,7 @@ CRezillaPrefs::SetDefaultPreferences()
 
 	// Misc pane
 	sCurrPrefs.misc.setSigOnClose		= false;
+	sCurrPrefs.misc.onlyRsrcExt			= true;
 	sCurrPrefs.misc.closingType			= kRezFileType;
 	sCurrPrefs.misc.closingCreator		= kRezillaSig;
 	sCurrPrefs.misc.setSigOnCreate		= true;
@@ -234,6 +235,11 @@ CRezillaPrefs::StorePreferences()
 	theNumber = GetPrefValue( kPref_misc_setSigOnClose );
 	theValue = CFNumberCreate(NULL, kCFNumberIntType, &theNumber); 
 	CFPreferencesSetAppValue( CFSTR("pref_misc_setSigOnClose"), theValue, kCFPreferencesCurrentApplication);
+	if (theValue) CFRelease(theValue);
+
+	theNumber = GetPrefValue( kPref_misc_onlyRsrcExt );
+	theValue = CFNumberCreate(NULL, kCFNumberIntType, &theNumber); 
+	CFPreferencesSetAppValue( CFSTR("pref_misc__onlyRsrcExt"), theValue, kCFPreferencesCurrentApplication);
 	if (theValue) CFRelease(theValue);
 
 	theNumber = GetPrefValue( kPref_misc_closingType );
@@ -327,6 +333,10 @@ CRezillaPrefs::RetrievePreferences()
 	result = CFPreferencesGetAppBooleanValue(CFSTR("pref_misc_setSigOnClose"), CFSTR(kRezillaIdentifier), &valueValid);
 	if (valueValid) {
 		SetPrefValue( result, kPref_misc_setSigOnClose);
+	}	
+	result = CFPreferencesGetAppBooleanValue(CFSTR("pref_misc_onlyRsrcExt"), CFSTR(kRezillaIdentifier), &valueValid);
+	if (valueValid) {
+		SetPrefValue( result, kPref_misc_onlyRsrcExt);
 	}	
 	theData = CFPreferencesCopyAppValue(CFSTR("pref_misc_closingType"), CFSTR(kRezillaIdentifier));
 	if (theData) {		
@@ -476,6 +486,14 @@ CRezillaPrefs::SetPrefValue(SInt32 inPrefValue, SInt32 inConstant, SInt32 inPref
 		}	
 		break;
 		
+		case kPref_misc_onlyRsrcExt:
+		if (inPrefType == prefsType_Temp) {
+			sTempPrefs.misc.onlyRsrcExt = inPrefValue ;
+		} else {
+			sCurrPrefs.misc.onlyRsrcExt = inPrefValue ;
+		}	
+		break;
+		
 		case kPref_misc_closingType:
 		if (inPrefType == prefsType_Temp) {
 			sTempPrefs.misc.closingType = (OSType) inPrefValue ;
@@ -616,6 +634,14 @@ CRezillaPrefs::GetPrefValue(SInt32 inConstant, SInt32 inPrefType)
 			theValue = sTempPrefs.misc.setSigOnClose;
 		} else {
 			theValue = sCurrPrefs.misc.setSigOnClose;
+		}	
+		break;
+		
+		case kPref_misc_onlyRsrcExt:
+		if (inPrefType == prefsType_Temp) {
+			theValue = sTempPrefs.misc.onlyRsrcExt;
+		} else {
+			theValue = sCurrPrefs.misc.onlyRsrcExt;
 		}	
 		break;
 		
@@ -902,6 +928,10 @@ CRezillaPrefs::RunPrefsDialog()
 		ThrowIfNil_( theCheckGroupBox );
 		theCheckGroupBox->SetValue(  GetPrefValue( kPref_misc_setSigOnClose ) );
 
+		theCheckBox = dynamic_cast<LCheckBox *>(theMiscPane->FindPaneByID( item_MiscPrefsOnlyRsrcExt ));
+		ThrowIfNil_( theCheckBox );
+		theCheckBox->SetValue(  GetPrefValue( kPref_misc_onlyRsrcExt ) );
+
 		theCheckBox = dynamic_cast<LCheckBox *>(theMiscPane->FindPaneByID( item_MiscPrefsSetSigOnCreate ));
 		ThrowIfNil_( theCheckBox );
 		theCheckBox->SetValue(  GetPrefValue( kPref_misc_setSigOnCreate ) );
@@ -1002,6 +1032,10 @@ CRezillaPrefs::RunPrefsDialog()
 			// MiscPrefsSetSigOnClose
 			theCheckGroupBox = dynamic_cast<LCheckBoxGroupBox *>(theMiscPane->FindPaneByID( item_MiscPrefsSetSigOnClose ));
 			SetPrefValue( theCheckGroupBox->GetValue(), kPref_misc_setSigOnClose, prefsType_Temp);
+			
+			// MiscPrefsOnlyRsrcExt
+			theCheckBox = dynamic_cast<LCheckBox *>(theMiscPane->FindPaneByID( item_MiscPrefsOnlyRsrcExt ));
+			SetPrefValue( theCheckBox->GetValue(), kPref_misc_onlyRsrcExt, prefsType_Temp);
 			
 			// MiscPrefsSetSigOnCreate
 			theCheckBox = dynamic_cast<LCheckBox *>(theMiscPane->FindPaneByID( item_MiscPrefsSetSigOnCreate ));

@@ -452,6 +452,7 @@ const PaneIDT	item_MiscPrefsSetSigOnClose		= 2;
 const PaneIDT	item_MiscPrefsClosingType		= 3;
 const PaneIDT	item_MiscPrefsClosingCreator	= 4;
 const PaneIDT	item_MiscPrefsSetSigOnCreate	= 5;
+const PaneIDT	item_MiscPrefsOnlyRsrcExt		= 6;
 // Text Editor Window
 // ------------------
 const PaneIDT   item_TextEditFontMenu	= 1;
@@ -613,6 +614,7 @@ const MessageT	msg_MiscPrefsSetSigOnClose	= rPPob_PrefsMiscPane + item_MiscPrefs
 const MessageT	msg_MiscPrefsClosingType	= rPPob_PrefsMiscPane + item_MiscPrefsClosingType;
 const MessageT	msg_MiscPrefsClosingCreator	= rPPob_PrefsMiscPane + item_MiscPrefsClosingCreator;
 const MessageT	msg_MiscPrefsSetSigOnCreate	= rPPob_PrefsMiscPane + item_MiscPrefsSetSigOnCreate;
+const MessageT	msg_MiscPrefsOnlyRsrcExt	= rPPob_PrefsMiscPane + item_MiscPrefsOnlyRsrcExt;
 // Tmpl Editor Window
 // ------------------
 const MessageT	msg_TmplEditValidate		= msg_OK;

@@ -56,6 +56,7 @@ struct SEditorsPrefs {
 //     Misc Prefs
 struct SMiscPrefs {
 	Boolean			setSigOnClose;
+	Boolean			onlyRsrcExt;
 	ResType			closingType;
 	ResType			closingCreator;
 	Boolean			setSigOnCreate;
@@ -85,6 +86,7 @@ enum {
 	kPref_general_newFork,
 	kPref_general_maxRecent,
 	kPref_misc_setSigOnClose,
+	kPref_misc_onlyRsrcExt,
 	kPref_misc_closingType,
 	kPref_misc_closingCreator,
 	kPref_misc_setSigOnCreate
