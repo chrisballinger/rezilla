@@ -1,11 +1,11 @@
 // ===========================================================================
 // NavServicesCallbacks.c					
 //                       Created: 2003-05-07 15:58:27
-//             Last modification: 2004-03-23 15:48:46
+//             Last modification: 2005-01-30 19:44:49
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003-2004
+// © Copyright: Bernard Desgraupes 2003-2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -15,7 +15,8 @@
 #include "RezillaConstants.h"
 #include "CRezillaApp.h"
 
-extern const Str255 Rzil_NavExportItems[];
+extern const Str15 Rzil_MapExportItems[];
+extern const Str15 Rzil_AeteExportItems[];
 
 #define kNavCustomDITLWidth 400
 #define kNavCustomDITLHeight 40
@@ -227,30 +228,32 @@ Rzil_SaveAsNavEventFilterUPP(NavEventCallbackMessage inCBSelector,
 
 
 // ---------------------------------------------------------------------------
-//  ¥ Rzil_ExportNavEventFilterUPP										
+//  ¥ Rzil_ExportMapEventFilterUPP										
 // ---------------------------------------------------------------------------
 
 pascal void
-Rzil_ExportNavEventFilterUPP(NavEventCallbackMessage inCBSelector, 
+Rzil_ExportMapEventFilterUPP(NavEventCallbackMessage inCBSelector, 
 						   NavCBRecPtr inCBParams, 
 						   void *ioCallBackUD)
 {
+#define NUM_MAP_EXPORT_ITEMS    4
+
 	SInt16				theOutputIndex = *(SInt16 *)ioCallBackUD;
 	NavMenuItemSpec		theMenuItemSpec;
 	Str255				theFileName;
-	static Str15		theExtension[4];
-	
+	static Str15		theExtension[NUM_MAP_EXPORT_ITEMS];
+
 	if (inCBSelector == kNavCBStart) {
 		// Get the filename extensions
 		GetIndString(theExtension[0], STRx_FileExtensions, index_ExtXml);
 		GetIndString(theExtension[1], STRx_FileExtensions, index_ExtText);
 		GetIndString(theExtension[2], STRx_FileExtensions, index_ExtHtml);
 		GetIndString(theExtension[3], STRx_FileExtensions, index_ExtR);
-		// Set Xml (i-e Rzil_NavExportItems[0]) as the default
+		// Set Xml (i-e Rzil_MapExportItems[0]) as the default
 		theMenuItemSpec.version = kNavMenuItemSpecVersion;
 		theMenuItemSpec.menuCreator = FOUR_CHAR_CODE('Rzil');
 		theMenuItemSpec.menuType = 'TEXT';
-		BlockMoveData(Rzil_NavExportItems[0], theMenuItemSpec.menuItemName, Rzil_NavExportItems[0][0] + 1);
+		::BlockMoveData(Rzil_MapExportItems[0], theMenuItemSpec.menuItemName, Rzil_MapExportItems[0][0] + 1);
 		::NavCustomControl(inCBParams->context, kNavCtlSelectCustomType, &theMenuItemSpec);
 		*(SInt16 *)ioCallBackUD = -1;
 	}
@@ -258,8 +261,77 @@ Rzil_ExportNavEventFilterUPP(NavEventCallbackMessage inCBSelector,
 	if (inCBSelector == kNavCBPopupMenuSelect) {
 		theMenuItemSpec = *(NavMenuItemSpec *)inCBParams->eventData.eventDataParms.param;
 		// Find the index of the selected item
-		for (theOutputIndex = 0; theOutputIndex < 4; theOutputIndex++) {
-			if (EqualString(theMenuItemSpec.menuItemName, Rzil_NavExportItems[theOutputIndex], true, false)) {
+		for (theOutputIndex = 0; theOutputIndex < NUM_MAP_EXPORT_ITEMS; theOutputIndex++) {
+			if (EqualString(theMenuItemSpec.menuItemName, Rzil_MapExportItems[theOutputIndex], true, false)) {
+				break;
+			}
+		}
+	}
+	
+	if (*(SInt16 *)ioCallBackUD != theOutputIndex) {
+		// the popup item selected
+		short			theIndex;
+		short			theCount;
+		
+		// get the current filename
+		NavCustomControl(inCBParams->context, kNavCtlGetEditFileName, &theFileName);
+		
+		// find the position of the last filename separator in the current filename
+		theIndex = theFileName[0];
+		while ((theFileName[theIndex] != kFileExtSeparator) && (theIndex > 0))
+		theIndex--;
+		
+		if (theIndex == 0) {
+			theIndex = theFileName[0]+1;
+			theFileName[theIndex] = kFileExtSeparator;
+		}			
+		for (theCount = 1; theCount <= theExtension[theOutputIndex][0]; theCount++)
+		theFileName[theIndex + theCount - 1] = theExtension[theOutputIndex][theCount];
+		
+		theFileName[0] = theIndex + theCount - 2;
+		NavCustomControl(inCBParams->context, kNavCtlSetEditFileName, &theFileName);
+		
+		*(SInt16 *)ioCallBackUD = theOutputIndex;
+	}
+}
+
+
+// ---------------------------------------------------------------------------
+//  ¥ Rzil_ExportAeteEventFilterUPP										
+// ---------------------------------------------------------------------------
+
+pascal void
+Rzil_ExportAeteEventFilterUPP(NavEventCallbackMessage inCBSelector, 
+						   NavCBRecPtr inCBParams, 
+						   void *ioCallBackUD)
+{
+#define NUM_AETE_EXPORT_ITEMS    2
+
+	SInt16				theOutputIndex = *(SInt16 *)ioCallBackUD;
+	NavMenuItemSpec		theMenuItemSpec;
+	Str255				theFileName;
+	static Str15		theExtension[NUM_AETE_EXPORT_ITEMS];
+
+	if (inCBSelector == kNavCBStart) {
+		// Get the filename extensions
+		GetIndString(theExtension[0], STRx_FileExtensions, index_ExtXml);
+		GetIndString(theExtension[1], STRx_FileExtensions, index_ExtR);
+// 		GetIndString(theExtension[2], STRx_FileExtensions, index_ExtHtml);
+// 		GetIndString(theExtension[3], STRx_FileExtensions, index_ExtText);
+		// Set Xml (i-e Rzil_AeteExportItems[0]) as the default
+		theMenuItemSpec.version = kNavMenuItemSpecVersion;
+		theMenuItemSpec.menuCreator = FOUR_CHAR_CODE('Rzil');
+		theMenuItemSpec.menuType = 'TEXT';
+		::BlockMoveData(Rzil_AeteExportItems[0], theMenuItemSpec.menuItemName, Rzil_AeteExportItems[0][0] + 1);
+		::NavCustomControl(inCBParams->context, kNavCtlSelectCustomType, &theMenuItemSpec);
+		*(SInt16 *)ioCallBackUD = -1;
+	}
+	
+	if (inCBSelector == kNavCBPopupMenuSelect) {
+		theMenuItemSpec = *(NavMenuItemSpec *)inCBParams->eventData.eventDataParms.param;
+		// Find the index of the selected item
+		for (theOutputIndex = 0; theOutputIndex < NUM_AETE_EXPORT_ITEMS; theOutputIndex++) {
+			if (EqualString(theMenuItemSpec.menuItemName, Rzil_AeteExportItems[theOutputIndex], true, false)) {
 				break;
 			}
 		}
