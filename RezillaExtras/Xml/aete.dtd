@@ -1,0 +1,313 @@
+<!-- This is a preliminary draft version! -->
+<!--
+ |                          Created : 2002-01-02 18:04:05
+ |                Last modification : 2002-01-02 19:15:31
+ | Author : Bernard Desgraupes
+ | e-mail : bdesgraupes@easyconnect.fr
+ | web : http://webperso.easyconnect.fr/bdesgraupes/
+ | Description : DTD to formalize the  structure  of  an  aete  (Apple  Events
+ | Terminology) resource. The format for  'aete'  resources  is  described  in
+ | "Apple Event Terminology Resources".
+ | See
+ | /Technical Publications/mac/pdf/Interapplication_Communication/AE_Term_Resources.pdf
+-->
+
+<!ELEMENT AETEREZ (
+		aeteRezNum,
+		aeteRezTitle,
+		MajorVersion,
+		MinorVersion,
+		LanguageCode,
+		ScriptCode,
+		ArraySuites
+		)
+>
+
+<!ELEMENT ArraySuites (Suite)+>
+<!ELEMENT Suite (ArrayEvents, ArrayClasses, ArrayComparisonOps, ArrayEnumerations)>
+<!ELEMENT ArrayEvents (Event*)>
+<!ELEMENT ArrayClasses (Class*)>
+<!ELEMENT ArrayComparisonOps (ComparisonOp*)>
+<!ELEMENT ArrayEnumerations (Enumeration*)>
+
+<!ELEMENT Event (
+		    EventName, 
+		    EventDescription, 
+		    EventClass, EventClass, 
+		    ReplyDirectParamType, 
+		    ReplyDirectParamDescription,
+		    IsReplyRequired,
+		    IsReplyList,
+		    IsReplyEnumerated,
+		    HasTightBindingPrecedence,
+		    EnumConstantOrType,
+		    CanEnumListRepeat,
+		    ReplyIsValueOrRef,
+		    Reserved,
+		    Reserved,
+		    Reserved,
+		    Reserved,
+		    Reserved,
+		    IsVerbEvent,
+		    Reserved,
+		    Reserved,
+		    Reserved,
+		    DirectParamType,
+		    DirectParmDescription,
+		    IsDirectParamRequired,
+		    IsDirectParamList,
+		    IsDirectParamEnumerated,
+		    ChangeState,
+		    EnumConstantOrType,
+		    CanEnumListRepeat,
+		    DirectParamIsValueOrRef,
+		    IsDirectParamTarget,
+		    Reserved,
+		    Reserved,
+		    Reserved,
+		    Reserved,
+		    Reserved,
+		    Reserved,
+		    Reserved,
+		    Reserved,
+		    ArrayOtherParams
+		    )
+>
+
+<!ELEMENT ArrayOtherParams (OtherParam*)>
+<!ELEMENT OtherParam (
+		    OtherParamName,
+		    OtherParamKeyword,
+		    OtherParamType,
+		    OtherParamDescription,
+		    IsOtherParamRequired,
+		    IsOtherParamList,
+		    IsOtherParamEnumerated,
+		    Reserved,
+		    EnumConstantOrType,
+		    CanEnumListRepeat,
+		    OtherParamIsValueOrRef,
+		    IsOtherParamTarget,
+		    Reserved,
+		    Reserved,
+		    Reserved,
+		    Reserved,
+		    PrepositionOrLabeled,
+		    IsFeminine,
+		    IsMasculine,
+		    SingularOrPlural
+		    )
+>
+
+<!ELEMENT Class (
+		    ClassName,
+		    ClassID,
+		    ClassDescription,
+		    ArrayProperties, 
+		    ArrayElements
+		    )
+>
+
+<!ELEMENT ArrayProperties (ClassProperty*)>
+<!ELEMENT ClassProperty (
+		    PropertyName,
+		    PropertyID,
+		    PropertyClass,
+		    PropertyDescription,
+		    Reserved,
+		    IsPropertyList,
+		    IsPropertyEnumerated,
+		    IsReadOnlyProperty,
+		    EnumConstantOrType,
+		    CanEnumListRepeat,
+		    PropertyIsValueOrRef,
+		    Reserved,
+		    Reserved,
+		    Reserved,
+		    Reserved,
+		    Reserved,
+		    IsApostrophe,
+		    IsFeminine,
+		    IsMasculine,
+		    SingularOrPlural
+		    )
+>
+
+
+<!ELEMENT ArrayElements (ClassElement*)>
+<!ELEMENT ClassElement (
+		    ClassElementID,
+		    ArrayKeyForms
+		    )
+>
+
+<!ELEMENT ArrayKeyForms (KeyFormID)*>
+
+<!ELEMENT ComparisonOp (
+		    ComparisonOpName,
+		    ComparisonOpID,
+		    ComparisonOpDescription
+		    )
+>
+
+<!ELEMENT Enumeration (
+		    EnumerationID,
+		    ArrayEnumerators
+		    )
+>
+
+<!ELEMENT ArrayEnumerators (Enumerator)*>
+<!ELEMENT Enumerator (
+		    EnumeratorName,
+		    EnumeratorID,
+		    EnumeratorDescription
+		    )
+>
+
+<!-- ==================================================================== -->
+<!--                       Atomic elements                                -->
+<!-- ==================================================================== -->
+<!--Boolean-->
+<!ELEMENT CanEnumListRepeat (enumListCanRepeat|enumListIsExclusive)>
+<!ELEMENT ChangeState (doesntChangeState|changesState)>
+<!ELEMENT DirectParamIsValueOrRef (directParamIsValue|directParamIsReference)>
+<!ELEMENT EnumsAre (enumsAreConstants|enumsAreTypes)>
+<!ELEMENT HasTightBindingPrecedence (notTightBindingFunction|tightBindingFunction)>
+<!ELEMENT IsApostrophe (noApostrophe|apostrophe)>
+<!ELEMENT IsDirectParamEnumerated (notEnumerated|enumerated)>
+<!ELEMENT IsDirectParamList (singleItem|listOfItems)>
+<!ELEMENT IsDirectParamRequired (directParamRequired|directParamOptional)>
+<!ELEMENT IsDirectParamTarget (directParamIsTarget|notDirectParamIsTarget)>
+<!ELEMENT IsFeminine (notFeminine|feminine)>
+<!ELEMENT IsMasculine (notMasculine|masculine)>
+<!ELEMENT IsOtherParamEnumerated (notEnumerated|enumerated)>
+<!ELEMENT IsOtherParamList (singleItem|listOfItems)>
+<!ELEMENT IsOtherParamRequired (required|optional)>
+<!ELEMENT IsOtherParamTarget (notParamIsTarget|paramIsTarget)>
+<!ELEMENT IsPropertyEnumerated (notEnumerated|enumerated)>
+<!ELEMENT IsPropertyList (singleItem|listOfItems)>
+<!ELEMENT IsReadOnlyProperty (readOnly|readWrite)>
+<!ELEMENT IsReplyEnumerated (notEnumerated|enumerated)>
+<!ELEMENT IsReplyList (singleItem|listOfItems)>
+<!ELEMENT IsReplyRequired (replyRequired|replyOptional)>
+<!ELEMENT IsVerbEvent (verbEvent|nonVerbEvent)>
+<!ELEMENT OtherParamIsValueOrRef (paramIsValue|paramIsReference)>
+<!ELEMENT PrepositionOrLabeled (prepositionParam|labeledParam)>
+<!ELEMENT PropertyIsValueOrRef (propertyIsValue|propertyIsReference)>
+<!ELEMENT ReplyIsValueOrRef (replyIsValue|replyIsReference)>
+<!ELEMENT SingularOrPlural (singular|plural)>
+
+
+<!--String-->
+<!ELEMENT aeteRezTitle (#PCDATA)>
+<!ELEMENT ClassDescription (#PCDATA)>
+<!ELEMENT ComparisonOpDescription (#PCDATA)>
+<!ELEMENT ComparisonOpName (#PCDATA)>
+<!ELEMENT Description (#PCDATA)>
+<!ELEMENT DirectParmDescription (#PCDATA)>
+<!ELEMENT EnumeratorDescription (#PCDATA)>
+<!ELEMENT EnumeratorName (#PCDATA)>
+<!ELEMENT EventDescription (#PCDATA)>
+<!ELEMENT EventName (#PCDATA)>
+<!ELEMENT OtherParamDescription (#PCDATA)>
+<!ELEMENT OtherParamName (#PCDATA)>
+<!ELEMENT PropertyDescription (#PCDATA)>
+<!ELEMENT PropertyName (#PCDATA)>
+<!ELEMENT ReplyDirectParamDescription (#PCDATA)>
+<!ELEMENT SuiteName (#PCDATA)>
+<!ELEMENT SuiteDescription (#PCDATA)>
+
+<!--Four char codes-->
+<!ELEMENT ObjectClassID (#PCDATA)>
+<!ELEMENT ClassElementID (#PCDATA)>
+<!ELEMENT ComparisonOpID (#PCDATA)>
+<!ELEMENT DirectParamType (#PCDATA)>
+<!ELEMENT EnumerationID (#PCDATA)>
+<!ELEMENT EnumeratorID (#PCDATA)>
+<!ELEMENT EventClass (#PCDATA)>
+<!ELEMENT EventID (#PCDATA)>
+<!ELEMENT KeyFormID (#PCDATA)>
+<!ELEMENT OtherParamKeyword (#PCDATA)>
+<!ELEMENT OtherParamType (#PCDATA)>
+<!ELEMENT PropertyClass (#PCDATA)>
+<!ELEMENT PropertyID (#PCDATA)>
+<!ELEMENT ReplyDirectParamType (#PCDATA)>
+<!ELEMENT SuiteID (#PCDATA)>
+
+<!--integer-->
+<!ELEMENT aeteRezNum (integer)>
+<!ELEMENT LanguageCode (integer)>
+<!ELEMENT ScriptCode (integer)>
+<!ELEMENT SuiteLevel (integer)>
+<!ELEMENT SuiteVersion (integer)>
+
+<!--hex byte-->
+<!ELEMENT MajorVersion (#PCDATA)>
+<!ELEMENT MinorVersion (#PCDATA)>
+
+
+<!ELEMENT Reserved EMPTY >
+<!ELEMENT true EMPTY >
+<!ELEMENT false EMPTY >
+<!ELEMENT bool (true|false) >
+<!ELEMENT integer (#PCDATA)>
+
+<!ELEMENT enumListCanRepeat (false)>
+<!ELEMENT doesntChangeState (false)>
+<!ELEMENT directParamIsValue (false)>
+<!ELEMENT enumsAreConstants (false)>
+<!ELEMENT notTightBindingFunction (false)>
+<!ELEMENT noApostrophe (false)>
+<!ELEMENT notEnumerated (false)>
+<!ELEMENT singleItem (false)>
+<!ELEMENT directParamRequired (false)>
+<!ELEMENT directParamIsTarget (false)>
+<!ELEMENT notFeminine (false)>
+<!ELEMENT notMasculine (false)>
+<!ELEMENT notEnumerated (false)>
+<!ELEMENT singleItem (false)>
+<!ELEMENT required (false)>
+<!ELEMENT notParamIsTarget (false)>
+<!ELEMENT notEnumerated (false)>
+<!ELEMENT singleItem (false)>
+<!ELEMENT readOnly (false)>
+<!ELEMENT notEnumerated (false)>
+<!ELEMENT singleItem (false)>
+<!ELEMENT replyRequired (false)>
+<!ELEMENT verbEvent (false)>
+<!ELEMENT paramIsValue (false)>
+<!ELEMENT prepositionParam (false)>
+<!ELEMENT propertyIsValue (false)>
+<!ELEMENT replyIsValue (false)>
+<!ELEMENT singular (false)>
+
+<!ELEMENT enumListIsExclusive (true)>
+<!ELEMENT changesState (true)>
+<!ELEMENT directParamIsReference (true)>
+<!ELEMENT enumsAreTypes (true)>
+<!ELEMENT tightBindingFunction (true)>
+<!ELEMENT apostrophe (true)>
+<!ELEMENT enumerated (true)>
+<!ELEMENT listOfItems (true)>
+<!ELEMENT directParamOptional (true)>
+<!ELEMENT notDirectParamIsTarget (true)>
+<!ELEMENT feminine (true)>
+<!ELEMENT masculine (true)>
+<!ELEMENT enumerated (true)>
+<!ELEMENT listOfItems (true)>
+<!ELEMENT optional (true)>
+<!ELEMENT paramIsTarget (true)>
+<!ELEMENT enumerated (true)>
+<!ELEMENT listOfItems (true)>
+<!ELEMENT readWrite (true)>
+<!ELEMENT enumerated (true)>
+<!ELEMENT listOfItems (true)>
+<!ELEMENT replyOptional (true)>
+<!ELEMENT nonVerbEvent (true)>
+<!ELEMENT paramIsReference (true)>
+<!ELEMENT labeledParam (true)>
+<!ELEMENT propertyIsReference (true)>
+<!ELEMENT replyIsReference (true)>
+<!ELEMENT plural (true)>
+
+
