@@ -76,12 +76,12 @@ alternately.<P><H3>Template tags</H3><P>The venerable <B>ResEdit</B> application
 systems prior to OSX has defined the first syntax for templates by
 providing a set of basic tags. Other editors (mainly <B>Resorcerer</B> from 
 <A HREF="www.mathemaesthetics.com"> Mathemaesthetics</A>) have 
-developped this syntax and added many new tags covering aspects which could
+developed this syntax and added many new tags covering aspects which could
 not be dealt with using the simple ResEdit's syntax. One could say that
 there is a <I>basic syntax</I> and an <I>extended syntax</I> for templates. Not all
 resource editors coming with a template editing mode support the extended
 syntax but all of them should understand the basic tags. <P>Rezilla supports the extended syntax and this section gives an exhaustive
-list of the tags, grouped in various categories. Conventionnally the term
+list of the tags, grouped in various categories. Conventionally the term
 <I>Byte</I> is used to designate a 1-byte value, <I>Word</I> to designate
 a 2-bytes value and <I>Long</I> to designate a 4-bytes value. They are
 found, abbreviated as BYT, WRD, or LNG, in the name of many tags (such as
@@ -152,7 +152,7 @@ editor supporting the extended syntax, such as
 hexadecimal value <I>FF</I>, the P100 tag is also accepted by Rezilla. As
 an exception to the convention just mentioned, P100 is synonym of P0FF,
 that is to say designates a Pascal string padded with zeros in order to
-occupy exactly 256 bytes (inhcluding the length byte).<P><P><TABLE BORDER=1 CELLPADDING=1>
+occupy exactly 256 bytes (including the length byte).<P><P><TABLE BORDER=1 CELLPADDING=1>
 <TR><TD><I>Tag</I></TD><TD><I>Description</I></TD><TD><I>Size</I></TD><TD></TD></TR>
 <TR><TD>PSTR</TD><TD>Pascal string</TD><TD>1 to 256</TD><TD></TD></TR>
 <TR><TD>ESTR</TD><TD>Even-Padded Pascal string</TD><TD>2 to 256</TD><TD></TD></TR>
@@ -206,7 +206,7 @@ It is possible to build lists with templates. There are two sorts of lists:
 counted or non counted. In the case of a counted list (tag LSTC), the
 number of items in the list is stored in the resource itself. In the case
 of a non counted list (tags LSTB or LSTZ), the number of items is not
-written in the resource: the list goes upto the end of the resource, the
+written in the resource: the list goes up to the end of the resource, the
 difference between LSTB and LSTZ being that the latter adds a NULL byte at
 the end of the resource.<P>In the case of counted lists, the count can be 0-based or 1-based. If the
 count value is 3 and if it is a 0-based count, there are actually 4 items in
