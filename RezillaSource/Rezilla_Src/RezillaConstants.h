@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2005-02-23 13:25:59
+//             Last modification : 2005-03-08 16:05:15
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -576,11 +576,9 @@ const PaneIDT	item_NewPreload				= 15;
 const PaneIDT	item_NewUniqueID			= 20;
 // About box
 // ---------
-const PaneIDT	item_AboutOkButton			= 1;
-const PaneIDT	item_AboutVersCaption		= 2;
-const PaneIDT	item_AboutAuthorView		= 3;
-const PaneIDT	item_AboutLicenceButton		= 4;
-const PaneIDT	item_AboutFreeView			= 5;
+const PaneIDT	item_AboutOkButton			= FOUR_CHAR_CODE('ok  ');
+const PaneIDT	item_AboutVersCaption		= FOUR_CHAR_CODE('Vers');
+const PaneIDT	item_AboutLicenceButton		= FOUR_CHAR_CODE('Lcnc');
 const PaneIDT	item_AboutUrlsBase			= 11;
 // Find Dialog
 // -----------
@@ -884,8 +882,8 @@ const MessageT	msg_HexLineEdit			= PPob_HexEditorWindow + item_HexLineEdit;
 const MessageT	msg_HexOffsetEdit		= PPob_HexEditorWindow + item_HexOffsetEdit;
 // About box
 // ---------
-const MessageT	msg_AboutOkButton		= PPob_AboutWindow + item_AboutOkButton;
-const MessageT	msg_AboutLicenceButton	= PPob_AboutWindow + item_AboutLicenceButton;
+const MessageT	msg_AboutOkButton		= item_AboutOkButton;		// 'ok  '
+const MessageT	msg_AboutLicenceButton	= item_AboutLicenceButton;	// 'Lcnc'
 // Find Dialog
 // -----------
 const MessageT	msg_FindSearchField		= PPob_FindDialog + item_FindSearchField;
