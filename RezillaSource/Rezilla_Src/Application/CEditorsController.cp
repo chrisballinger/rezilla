@@ -198,13 +198,13 @@ CEditorsController::InvokeCustomEditor(CRezMapDoc* inRezMapDoc,
 		// A 'thng' resource has three different formats but contains 
 		// no field to determine its version: 
 		// - version 0 had fixed a size of 44 bytes,
-		// - version 1 adds a list of 12 bytes item and 2 bytes for the
-		//     list count. Size = 44 + 12*n + 2
+		// - version 1 adds 10 bytes, a 4 bytes count and a list of 12 bytes items. 
+		//      Size = 44 + 10 + 2 + 12*n
 		// - version 2 adds 6 bytes. Size = 44 + 12*n + 2 + 6
 		theSize = inRezObjItem->GetRezObj()->GetSize();
 		if (theSize == 44) {
 			theType = 'thn0';
-		} else if ( ((theSize - 46) % 12) == 0 ) {
+		} else if ( ((theSize - 58) % 12) == 0 ) {
 			theType = 'thn1';
 		} 
 		inRezMapDoc->TryEdit(inRezObjItem, cmd_TmplEditAsRez, theType);
