@@ -65,7 +65,7 @@ CRezType::~CRezType()
 OSErr
 CRezType::CountResources(short & outCount)
 {
-    StRezReferenceSaver saver(GetOwnerMap()->GetRefnum());
+    StRezRefSaver saver(GetOwnerMap()->GetRefnum());
     outCount = ::Count1Resources(mType);
     return ::ResError();
 }
@@ -80,7 +80,7 @@ CRezType::CountResources(short & outCount)
 OSErr
 CRezType::GetWithID(short inID, Handle & outHandle)
 {
-    StRezReferenceSaver saver(GetOwnerMap()->GetRefnum());
+    StRezRefSaver saver(GetOwnerMap()->GetRefnum());
     outHandle = ::Get1Resource(mType, inID);
     return ::ResError();
 }
@@ -102,7 +102,7 @@ CRezType::GetWithName(ConstStr255Param inName, Handle & outHandle)
 	Str255	theName;
 	Boolean found = false;
 
-   StRezReferenceSaver saver(GetOwnerMap()->GetRefnum());
+   StRezRefSaver saver(GetOwnerMap()->GetRefnum());
    theCount = ::Count1Resources(mType);
    error = ::ResError();
    if (error == noErr) {
@@ -138,7 +138,7 @@ CRezType::GetAllResources( TArray<Handle>* & outArray )
     short numResources;
     Handle theHandle;
     
-    StRezReferenceSaver saver(GetOwnerMap()->GetRefnum());
+    StRezRefSaver saver(GetOwnerMap()->GetRefnum());
     OSErr error = CountResources(numResources);
    
     if (error == noErr) {
@@ -169,7 +169,7 @@ CRezType::GetAllRezIDs( TArray<short>* & outArray )
 	ResType theType;
 	Str255	theName;
     
-    StRezReferenceSaver saver(GetOwnerMap()->GetRefnum());
+    StRezRefSaver saver(GetOwnerMap()->GetRefnum());
     OSErr error = CountResources(numResources);
    
     if (error == noErr) {
@@ -198,7 +198,7 @@ CRezType::GetAllRezIDs( TArray<short>* & outArray )
 OSErr
 CRezType::GetResourceAtIndex(short inIdx, Handle & outHandle)
 {
-    StRezReferenceSaver saver(GetOwnerMap()->GetRefnum());
+    StRezRefSaver saver(GetOwnerMap()->GetRefnum());
     outHandle = ::Get1IndResource( mType, inIdx );
 	return ::ResError();
 }
@@ -216,7 +216,7 @@ CRezType::GetNameAtIndex(short inIdx, Str255 & outName)
 	ResType	theType;
 	OSErr	error;
 	
-	StRezReferenceSaver saver(GetOwnerMap()->GetRefnum());
+	StRezRefSaver saver(GetOwnerMap()->GetRefnum());
 	theHandle = ::Get1IndResource( mType, inIdx );
 	error = ::ResError();
 	if (error == noErr) {

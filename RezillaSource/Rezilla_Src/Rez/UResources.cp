@@ -162,18 +162,18 @@ UResources::UniqueID(ResType inType, short & outID)
 
 
 // ===========================================================================
-//	StRezReferenceSaver stack-based class
+//	StRezRefSaver stack-based class
 // ===========================================================================
 //
 //	Constructor saves current resource refnum. Destructor restores it.
 
-StRezReferenceSaver::StRezReferenceSaver()
+StRezRefSaver::StRezRefSaver()
 {
 	mOriginalRefNum = ::CurResFile();
 }
 
 
-StRezReferenceSaver::StRezReferenceSaver(
+StRezRefSaver::StRezRefSaver(
 	SInt16 inRefNum)
 {
 	mOriginalRefNum = ::CurResFile();
@@ -185,14 +185,14 @@ StRezReferenceSaver::StRezReferenceSaver(
 }
 
 
-StRezReferenceSaver::~StRezReferenceSaver()
+StRezRefSaver::~StRezRefSaver()
 {
 	Restore();
 }
 
 
 void
-StRezReferenceSaver::Restore()
+StRezRefSaver::Restore()
 {
 	::UseResFile(mOriginalRefNum);
 }

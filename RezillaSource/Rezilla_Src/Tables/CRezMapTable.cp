@@ -683,7 +683,7 @@ CRezMapTable::TrackDrag(
 		outlineRgn += tempRgn;
 		// Add the item to the drag
 		thePtr = (void *) theRezObjItem;
-		error = ::AddDragItemFlavor(theDragRef, itemCount, kRzilDragFlavor, 
+		error = ::AddDragItemFlavor(theDragRef, itemCount, DragFlavor_Rzil, 
 									&thePtr, sizeof(CRezObjItem*),
 									flavorSenderOnly);
 		error = ::SetDragItemBounds(theDragRef, itemCount, &theCellFrame);
@@ -792,11 +792,11 @@ CRezMapTable::ReceiveDragItem(DragReference inDragRef,
 	void * 		theAdr;
 	CRezObjItem	*newRezObjItem, *oldRezObjItem;
 	
-	if (::GetFlavorFlags(inDragRef, inItemRef, kRzilDragFlavor, &theFlags) == noErr) {
+	if (::GetFlavorFlags(inDragRef, inItemRef, DragFlavor_Rzil, &theFlags) == noErr) {
 		// Data coming from inside the application: pointer to the sending rezmap table.
-		error = ::GetFlavorDataSize(inDragRef, inItemRef, kRzilDragFlavor, &theSize);
+		error = ::GetFlavorDataSize(inDragRef, inItemRef, DragFlavor_Rzil, &theSize);
 		
-		error = ::GetFlavorData(inDragRef, inItemRef, kRzilDragFlavor, &theAdr, &theSize, 0);
+		error = ::GetFlavorData(inDragRef, inItemRef, DragFlavor_Rzil, &theAdr, &theSize, 0);
 		newRezObjItem = (CRezObjItem *) NewPtr( sizeof(CRezObjItem) );
 		BlockMoveData( theAdr, (void *) newRezObjItem, sizeof(CRezObjItem));
 		

@@ -173,7 +173,7 @@ CRezObj::~CRezObj()
 OSErr
 CRezObj::Add()
 {
-    StRezReferenceSaver saver(mOwnerRefnum);
+    StRezRefSaver saver(mOwnerRefnum);
 	::AddResource(mData, mType, mID, mName);
 	return ::ResError();
 }
@@ -197,7 +197,7 @@ OSErr
 CRezObj::Remove()
 {
 	OSErr error = noErr;
-    StRezReferenceSaver saver(mOwnerRefnum);
+    StRezRefSaver saver(mOwnerRefnum);
 	if (mData != nil) { 
 		::RemoveResource(mData);
 		::DisposeHandle(mData);
@@ -218,7 +218,7 @@ OSErr
 CRezObj::Changed()
 {
 	OSErr error = noErr;
-    StRezReferenceSaver saver(mOwnerRefnum);
+    StRezRefSaver saver(mOwnerRefnum);
 	if (mData != nil) {
 		::ChangedResource(mData);
 		error = ::ResError();
@@ -237,7 +237,7 @@ OSErr
 CRezObj::Detach()
 {
 	OSErr error = noErr;
-    StRezReferenceSaver saver(mOwnerRefnum);
+    StRezRefSaver saver(mOwnerRefnum);
 	if (mData != nil) {
 		::DetachResource(mData);
 		error = ::ResError();
@@ -255,7 +255,7 @@ OSErr
 CRezObj::Release()
 {
 	OSErr error = noErr;
-    StRezReferenceSaver saver(mOwnerRefnum);
+    StRezRefSaver saver(mOwnerRefnum);
 	if (mData != nil) {
 		::ReleaseResource(mData);
 		error = ::ResError();
@@ -277,7 +277,7 @@ OSErr
 CRezObj::Load()
 {
 	OSErr error = noErr;
-    StRezReferenceSaver saver(mOwnerRefnum);
+    StRezRefSaver saver(mOwnerRefnum);
 	if (mData != nil) {
 		::MacLoadResource(mData);
 		error = ::ResError();
@@ -302,7 +302,7 @@ OSErr
 CRezObj::Write()
 {
 	OSErr error = noErr;
-    StRezReferenceSaver saver(mOwnerRefnum);
+    StRezRefSaver saver(mOwnerRefnum);
 	if (mData != nil) {
 		::WriteResource(mData);
 		error = ::ResError();
@@ -320,7 +320,7 @@ CRezObj::Write()
 OSErr
 CRezObj::GetRezHandle()
 {
-    StRezReferenceSaver saver(mOwnerRefnum);
+    StRezRefSaver saver(mOwnerRefnum);
 	mData = ::Get1Resource(mType, mID);
 	return ::ResError();
 }
@@ -336,7 +336,7 @@ OSErr
 CRezObj::GetInfoFromMap()
 {
 	OSErr error = noErr;
-    StRezReferenceSaver saver(mOwnerRefnum);
+    StRezRefSaver saver(mOwnerRefnum);
 	if (mData != nil) {
 		::GetResInfo(mData, &mID, &mType, (unsigned char *) mName);
 		error = ::ResError();
@@ -354,7 +354,7 @@ OSErr
 CRezObj::SetInfoInMap()
 {
 	OSErr error = noErr;
-    StRezReferenceSaver saver(mOwnerRefnum);
+    StRezRefSaver saver(mOwnerRefnum);
 	if (mData != nil) {
 		::SetResInfo(mData, mID, mName);
 		error = ::ResError();
@@ -388,7 +388,7 @@ OSErr
 CRezObj::GetAttributesFromMap(short & outAttribute)
 {
 	OSErr error = noErr;
-    StRezReferenceSaver saver(mOwnerRefnum);
+    StRezRefSaver saver(mOwnerRefnum);
 	if (mData != nil) {
 		outAttribute = ::GetResAttrs(mData);
 		error = ::ResError();
@@ -407,7 +407,7 @@ CRezObj::SetAttributesInMap(short inAttributes)
 	OSErr error = noErr;
 	
 	if (mAttributes != inAttributes) {
-		StRezReferenceSaver saver(mOwnerRefnum);
+		StRezRefSaver saver(mOwnerRefnum);
 		if (mData != nil) {
 			::SetResAttrs(mData, inAttributes);
 			error = ::ResError();
@@ -477,7 +477,7 @@ OSErr
 CRezObj::GetMaxSize(Size & outSize)
 {
 	OSErr error = noErr;
-    StRezReferenceSaver saver(mOwnerRefnum);
+    StRezRefSaver saver(mOwnerRefnum);
 	if (mData != nil) {
 		outSize = ::GetMaxResourceSize(mData);
 		error = ::ResError();
@@ -494,7 +494,7 @@ OSErr
 CRezObj::GetSizeOnDisk(Size & outSize)
 {
 	OSErr error = noErr;
-    StRezReferenceSaver saver(mOwnerRefnum);
+    StRezRefSaver saver(mOwnerRefnum);
 	if (mData != nil) {
 		outSize = ::GetResourceSizeOnDisk(mData);
 		error = ::ResError();

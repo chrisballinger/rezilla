@@ -69,13 +69,13 @@ public:
 // ===========================================================================
 
 // ---------------------------------------------------------------------------
-//  ¥ class StRezReferenceSaver
+//  ¥ class StRezRefSaver
 // ---------------------------------------------------------------------------
-class StRezReferenceSaver {
+class StRezRefSaver {
 public:
-						StRezReferenceSaver();
-						StRezReferenceSaver( SInt16 inRefNum );
-						~StRezReferenceSaver();
+						StRezRefSaver();
+						StRezRefSaver( SInt16 inRefNum );
+						~StRezRefSaver();
 
 	void		SetRefnum( SInt16 inRefNum ) { mOriginalRefNum = inRefNum; }
 	

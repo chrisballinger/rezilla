@@ -193,7 +193,9 @@ CRezillaApp::~CRezillaApp()
 // ---------------------------------------------------------------------------
 //	¥ Initialize						[protected]
 // ---------------------------------------------------------------------------
-//	Last chance to initialize the application before processing events
+// In LowMem.h:
+//   EXTERN_API( SInt16 ) LMGetCurApRefNum(void);
+// 	 EXTERN_API( void ) LMSetCurApRefNum(SInt16 value);
 
 void
 CRezillaApp::Initialize()
@@ -202,8 +204,10 @@ CRezillaApp::Initialize()
 	MenuRef				menuHandle;
 	MenuItemIndex		customItemIndex;
 
+	// Cache our own refnum
 	UResources::GetCurrentResFile(sOwnRefNum);
 
+	// This must be done early but is used only by the 'utxt' editor
 	InitMLTE();
 	
 	SInt32 theOsVersion = UEnvironment::GetOSVersion();
@@ -928,7 +932,7 @@ CRezillaApp::PreOpen(FSSpec & inFileSpec,
 	OSErr		error;
 	FSRef		theFileRef;
 	
-	StRezReferenceSaver saver( ::CurResFile() );
+	StRezRefSaver saver( ::CurResFile() );
 		
 	if (inWantedFork != fork_rezfork) {
 		// Try to open the file as a datafork resource file

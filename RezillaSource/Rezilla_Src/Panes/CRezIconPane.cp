@@ -95,7 +95,7 @@ CRezIconPane::DrawSelf()
 	if (mCurrentRefNum != UResources::refNum_Undef) {
 		Rect	frame;
 		CalcLocalFrameRect(frame);
-		StRezReferenceSaver saver(mCurrentRefNum);		
+		StRezRefSaver saver(mCurrentRefNum);		
 		::PlotIconID(&frame, kAlignNone, kTransformNone, mIconID);
 	}
 }
