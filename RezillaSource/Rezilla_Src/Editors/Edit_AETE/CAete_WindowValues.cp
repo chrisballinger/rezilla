@@ -2,7 +2,7 @@
 // CAete_WindowValues.cp
 // 
 //                       Created: 2005-01-25 09:01:07
-//             Last modification: 2005-02-05 14:41:56
+//             Last modification: 2005-02-07 06:42:17
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -473,19 +473,17 @@ CAete_EditorWindow::InstallElementValues(CAeteElement *	inElement)
 
 	// KeyForms
 	if ( inElement && inElement->GetCurrentKeyForm(theKeyForm) ) {
-		theEditText->Enable();
 		disableIt = false;
 		theValue = index;
 		theTotal = inElement->CountKeyForms();
 	} else {
 		theString[0] = 0;
-		theEditText->Disable();
 		disableIt = true;
 		theValue = 0;
 		theTotal = 0;
 	} 
 	
-	InstallKeyFormValues(theKeyForm);
+	InstallKeyFormValues(theKeyForm, disableIt);
 	UpdateSlider(item_AeteKeyFormSlider, theValue, theTotal);
 }
 
@@ -495,7 +493,7 @@ CAete_EditorWindow::InstallElementValues(CAeteElement *	inElement)
 // ---------------------------------------------------------------------------
 
 void
-CAete_EditorWindow::InstallKeyFormValues(OSType inKeyForm)
+CAete_EditorWindow::InstallKeyFormValues(OSType inKeyForm, Boolean inDisable)
 {
 	Str255			theString;
 	LEditText *		theEditText;
@@ -509,6 +507,12 @@ CAete_EditorWindow::InstallKeyFormValues(OSType inKeyForm)
 	theEditText = dynamic_cast<LEditText *>(mClassPane->FindPaneByID( item_AeteKeyFormID ));
 	ThrowIfNil_( theEditText );
 	theEditText->SetDescriptor(theString);
+	if (inDisable) {
+		theEditText->Disable();
+	} else {
+		theEditText->Enable();
+	}
+	
 }
 
 
@@ -1103,7 +1107,7 @@ CAete_EditorWindow::RebuildSuitePopup()
 		if ( theString[0] ) {
 			mSuitesPopup->AppendMenu(theString);
 		} else {
-			mSuitesPopup->AppendMenu("\p<unnamed suite>");
+			mSuitesPopup->AppendMenu("\punnamed suite");
 		}
 	}
 	mSuitesPopup->SetMacMenuH(theMenuH);
@@ -1228,7 +1232,7 @@ CAete_EditorWindow::HandleOptionsPopup(SInt32 inKind, SInt32 inIndex)
 
 	if (inIndex < 2) { return; }
 	
-	if (inKind == item_AetePropertyOptions) {
+	if (inKind == msg_AetePropertyOptions) {
 		thePane = mClassPane;
 		inKind -= PPob_AeteClassPane;
 	} else {

@@ -2,7 +2,7 @@
 // CAete_EditorWindow.cp
 // 
 //                       Created: 2004-07-01 08:42:37
-//             Last modification: 2005-02-06 00:04:10
+//             Last modification: 2005-02-07 08:19:12
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -181,163 +181,155 @@ CAete_EditorWindow::FindCommandStatus(
 {
 	CAeteSuite * theSuite = static_cast<CAeteSuite *>( FindCurrentObject( kind_AeteSuite ) );
 
-	if (!theSuite) {
-		outEnabled = (inCommand == cmd_AeteAddSuite);
-		outUsesMark = false;
-		outMark = 0;
-		outName[0] = 0;
-	} else {
-		switch (inCommand) {
-			case cmd_AeteAddSuite:
-			outEnabled = true;
-			break;
+	switch (inCommand) {
+		case cmd_AeteAddSuite:
+		outEnabled = true;
+		break;
 
-			case cmd_AeteRemoveSuite:
-			outEnabled = (mAete->CountSuites() > 0);
-			break;
+		case cmd_AeteRemoveSuite:
+		outEnabled = (mAete->CountSuites() > 0);
+		break;
 
-			case cmd_AeteAddItem:
-			switch (mCurrentPanel) {
-				case mpv_AeteEvent:
-				LString::CopyPStr( sAddEventStr, outName );
-				break;
-				
-				case mpv_AeteClass:
-				LString::CopyPStr( sAddClassStr, outName );
-				break;
-				
-				case mpv_AeteCompOp:
-				LString::CopyPStr( sAddCompOpStr, outName );
-				break;
-				
-				case mpv_AeteEnum:
-				LString::CopyPStr( sAddEnumerationStr, outName );
-				break;
-			}	
-			outEnabled = true;
+		case cmd_AeteAddItem:
+		switch (mCurrentPanel) {
+			case mpv_AeteEvent:
+			LString::CopyPStr( sAddEventStr, outName );
 			break;
+			
+			case mpv_AeteClass:
+			LString::CopyPStr( sAddClassStr, outName );
+			break;
+			
+			case mpv_AeteCompOp:
+			LString::CopyPStr( sAddCompOpStr, outName );
+			break;
+			
+			case mpv_AeteEnum:
+			LString::CopyPStr( sAddEnumerationStr, outName );
+			break;
+		}	
+		outEnabled = (theSuite != nil);
+		break;
 
-			case cmd_AeteRemoveItem:
-			switch (mCurrentPanel) {
-				case mpv_AeteEvent:
-				LString::CopyPStr( sRemoveEventStr, outName );
-				outEnabled = ( theSuite->CountEvents() > 0 );
-				break;
-				
-				case mpv_AeteClass:
-				LString::CopyPStr( sRemoveClassStr, outName );
-				outEnabled = ( theSuite->CountClasses() > 0 );
-				break;
-				
-				case mpv_AeteCompOp:
-				LString::CopyPStr( sRemoveCompOpStr, outName );
-				outEnabled = ( theSuite->CountCompOps() > 0 );
-				break;
-				
-				case mpv_AeteEnum:
-				LString::CopyPStr( sRemoveEnumerationStr, outName );
-				outEnabled = ( theSuite->CountEnumerations() > 0 );
-				break;
-			}	
+		case cmd_AeteRemoveItem:
+		switch (mCurrentPanel) {
+			case mpv_AeteEvent:
+			LString::CopyPStr( sRemoveEventStr, outName );
+			outEnabled = ( theSuite && theSuite->CountEvents() > 0 );
 			break;
+			
+			case mpv_AeteClass:
+			LString::CopyPStr( sRemoveClassStr, outName );
+			outEnabled = ( theSuite && theSuite->CountClasses() > 0 );
+			break;
+			
+			case mpv_AeteCompOp:
+			LString::CopyPStr( sRemoveCompOpStr, outName );
+			outEnabled = ( theSuite && theSuite->CountCompOps() > 0 );
+			break;
+			
+			case mpv_AeteEnum:
+			LString::CopyPStr( sRemoveEnumerationStr, outName );
+			outEnabled = ( theSuite && theSuite->CountEnumerations() > 0 );
+			break;
+		}	
+		break;
 
-			case cmd_AeteAddParameter:
-			outEnabled = (mCurrentPanel == mpv_AeteEvent
-				&& theSuite->CountEvents() > 0);
-			break;
+		case cmd_AeteAddParameter:
+		outEnabled = (mCurrentPanel == mpv_AeteEvent
+			&& theSuite && theSuite->CountEvents() > 0);
+		break;
 
-			case cmd_AeteRemoveParameter:
-			if (mCurrentPanel != mpv_AeteEvent 
-				|| theSuite->CountEvents() == 0) {
-				outEnabled = false;
-			} else {
-				CAeteEvent * theEvent = static_cast<CAeteEvent *>( FindCurrentObject( kind_AeteEvent ) );
-				outEnabled = (theEvent && theEvent->CountParameters() > 0);
-			}
-			break;
-
-			case cmd_AeteAddProperty:
-			outEnabled = (mCurrentPanel == mpv_AeteClass
-				&& theSuite->CountClasses() > 0);
-			break;
-
-			case cmd_AeteRemoveProperty:
-			if (mCurrentPanel != mpv_AeteClass
-				|| theSuite->CountClasses() == 0) {
-				outEnabled = false;
-			} else {
-				CAeteClass * theClass = static_cast<CAeteClass *>( FindCurrentObject( kind_AeteClass ) );
-				outEnabled = (theClass && theClass->CountProperties() > 0);
-			}
-			break;
-
-			case cmd_AeteAddElement:
-			outEnabled = (mCurrentPanel == mpv_AeteClass
-				&& theSuite->CountClasses() > 0);
-			break;
-
-			case cmd_AeteRemoveElement:
-			if (mCurrentPanel != mpv_AeteClass
-				|| theSuite->CountClasses() == 0) {
-				outEnabled = false;
-			} else {
-				CAeteClass * theClass = static_cast<CAeteClass *>( FindCurrentObject( kind_AeteClass ) );
-				outEnabled = (theClass && theClass->CountElements() > 0);
-			}
-			break;
-
-			case cmd_AeteAddKeyForm:
-			if (mCurrentPanel != mpv_AeteClass
-				|| theSuite->CountClasses() == 0) {
-				outEnabled = false;
-			} else {
-				CAeteClass * theClass = static_cast<CAeteClass *>( FindCurrentObject( kind_AeteClass ) );
-				outEnabled = (theClass && theClass->CountElements() > 0);
-			}
-			break;
-
-			case cmd_AeteRemoveKeyForm:
-			if (mCurrentPanel != mpv_AeteClass
-				|| theSuite->CountClasses() == 0) {
-					outEnabled = false;
-			} else {
-				CAeteClass * theClass = static_cast<CAeteClass *>( FindCurrentObject( kind_AeteClass ) );
-				
-				if (!theClass || theClass->CountElements() == 0) {
-					outEnabled = false;
-				} else {
-					CAeteElement * theElement = static_cast<CAeteElement *>( FindCurrentObject( kind_AeteElement ) );
-					outEnabled = (theElement && theElement->CountKeyForms() > 0);
-				}
-			}
-			break;
-				
-			case cmd_AeteAddEnumerator:
-			outEnabled = (mCurrentPanel == mpv_AeteEnum
-				&& theSuite->CountEnumerations() > 0);
-			break;
-
-			case cmd_AeteRemoveEnumerator:
-			if (mCurrentPanel != mpv_AeteEnum
-				|| theSuite->CountEnumerations() == 0) {
-				outEnabled = false;
-			} else {
-				CAeteEnumeration * theEnum = static_cast<CAeteEnumeration *>( FindCurrentObject( kind_AeteEnum ) );
-				outEnabled = (theEnum && theEnum->CountEnumerators() > 0);
-			}
-			break;
-
-			case cmd_AeteExport:
-			outEnabled = true;
-			break;
-
-			default:
-			CEditorWindow::FindCommandStatus(inCommand, outEnabled,
-										  outUsesMark, outMark, outName);
-			break;
+		case cmd_AeteRemoveParameter:
+		if (mCurrentPanel != mpv_AeteEvent 
+			|| (theSuite && theSuite->CountEvents() == 0)) {
+			outEnabled = false;
+		} else {
+			CAeteEvent * theEvent = static_cast<CAeteEvent *>( FindCurrentObject( kind_AeteEvent ) );
+			outEnabled = (theEvent && theEvent->CountParameters() > 0);
 		}
+		break;
+
+		case cmd_AeteAddProperty:
+		outEnabled = (mCurrentPanel == mpv_AeteClass
+			&& theSuite && theSuite->CountClasses() > 0);
+		break;
+
+		case cmd_AeteRemoveProperty:
+		if (mCurrentPanel != mpv_AeteClass
+			|| (theSuite && theSuite->CountClasses() == 0)) {
+			outEnabled = false;
+		} else {
+			CAeteClass * theClass = static_cast<CAeteClass *>( FindCurrentObject( kind_AeteClass ) );
+			outEnabled = (theClass && theClass->CountProperties() > 0);
+		}
+		break;
+
+		case cmd_AeteAddElement:
+		outEnabled = (mCurrentPanel == mpv_AeteClass
+			&& theSuite && theSuite->CountClasses() > 0);
+		break;
+
+		case cmd_AeteRemoveElement:
+		if (mCurrentPanel != mpv_AeteClass
+			|| (theSuite && theSuite->CountClasses() == 0)) {
+			outEnabled = false;
+		} else {
+			CAeteClass * theClass = static_cast<CAeteClass *>( FindCurrentObject( kind_AeteClass ) );
+			outEnabled = (theClass && theClass->CountElements() > 0);
+		}
+		break;
+
+		case cmd_AeteAddKeyForm:
+		if (mCurrentPanel != mpv_AeteClass
+			|| (theSuite && theSuite->CountClasses() == 0)) {
+			outEnabled = false;
+		} else {
+			CAeteClass * theClass = static_cast<CAeteClass *>( FindCurrentObject( kind_AeteClass ) );
+			outEnabled = (theClass && theClass->CountElements() > 0);
+		}
+		break;
+
+		case cmd_AeteRemoveKeyForm:
+		if (mCurrentPanel != mpv_AeteClass
+			|| (theSuite && theSuite->CountClasses() == 0)) {
+				outEnabled = false;
+		} else {
+			CAeteClass * theClass = static_cast<CAeteClass *>( FindCurrentObject( kind_AeteClass ) );
+			
+			if (!theClass || theClass->CountElements() == 0) {
+				outEnabled = false;
+			} else {
+				CAeteElement * theElement = static_cast<CAeteElement *>( FindCurrentObject( kind_AeteElement ) );
+				outEnabled = (theElement && theElement->CountKeyForms() > 0);
+			}
+		}
+		break;
+			
+		case cmd_AeteAddEnumerator:
+		outEnabled = (mCurrentPanel == mpv_AeteEnum
+			&& theSuite && theSuite->CountEnumerations() > 0);
+		break;
+
+		case cmd_AeteRemoveEnumerator:
+		if (mCurrentPanel != mpv_AeteEnum
+			|| (theSuite && theSuite->CountEnumerations() == 0)) {
+			outEnabled = false;
+		} else {
+			CAeteEnumeration * theEnum = static_cast<CAeteEnumeration *>( FindCurrentObject( kind_AeteEnum ) );
+			outEnabled = (theEnum && theEnum->CountEnumerators() > 0);
+		}
+		break;
+
+		case cmd_AeteExport:
+		outEnabled = true;
+		break;
+
+		default:
+		CEditorWindow::FindCommandStatus(inCommand, outEnabled,
+									  outUsesMark, outMark, outName);
+		break;
 	}
-	
 }
 
 
@@ -460,7 +452,11 @@ CAete_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		LEditText *	theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_AeteSuiteName ));
 		ThrowIfNil_( theEditText );
 		theEditText->GetDescriptor(theName);
-		mSuitesPopup->SetMenuItemText(mSuitesPopup->GetCurrentMenuItem(), theName);
+		if (theName[0]) {
+			mSuitesPopup->SetMenuItemText(mSuitesPopup->GetCurrentMenuItem(), theName);
+		} else {
+			mSuitesPopup->SetMenuItemText(mSuitesPopup->GetCurrentMenuItem(), "\punnamed suite");
+		}
 		mSuitesPopup->Refresh();	
 		SetDirty(true);
 		break;
@@ -489,12 +485,14 @@ CAete_EditorWindow::ObeyCommand(
 		mAete->AddSuite();
 		RebuildSuitePopup();
 		mSuitesPopup->SetValue( mAete->CountSuites() );
+		SetDirty(true);
 	} else if (inCommand == cmd_AeteRemoveSuite) {
 		mAete->RemoveSuite( mAete->GetSuiteIndex() );
 		mAete->SetSuiteIndex( (mAete->CountSuites() > 0) );	
 		InstallSuiteValues();
 		InstallPanelValues();
 		RebuildSuitePopup();
+		SetDirty(true);
 	} else {
 		SInt32			count;
 		
@@ -511,6 +509,7 @@ CAete_EditorWindow::ObeyCommand(
 					count = theSuite->DeleteItem(mCurrentPanel);	
 					UpdateSlider(item_AeteItemSlider, -1, count);
 				}
+				SetDirty(true);
 				break;
 			}
 			
@@ -526,6 +525,7 @@ CAete_EditorWindow::ObeyCommand(
 					count = theEvent->DeleteParameter();
 					UpdateSlider(item_AeteParamSlider, -1, count);
 				}
+				SetDirty(true);
 				break;
 			}
 			
@@ -541,6 +541,7 @@ CAete_EditorWindow::ObeyCommand(
 					count = theClass->DeleteProperty();
 					UpdateSlider(item_AetePropertySlider, -1, count);
 				}
+				SetDirty(true);
 				break;
 			}
 			
@@ -556,6 +557,7 @@ CAete_EditorWindow::ObeyCommand(
 					count = theClass->DeleteElement();
 					UpdateSlider(item_AeteElementSlider, -1, count);
 				}
+				SetDirty(true);
 				break;
 			}
 			
@@ -571,6 +573,7 @@ CAete_EditorWindow::ObeyCommand(
 					count = theElement->DeleteKeyForm();
 					InstallElementValues(theElement);
 				}
+				SetDirty(true);
 				break;
 			}
 			
@@ -583,12 +586,10 @@ CAete_EditorWindow::ObeyCommand(
 					count = theEnum->NewEnumerator();
 					UpdateSlider(item_AeteEnumSlider, count, count);
 				} else {
-// 					AeteEnumerator		enumerator;
 					count = theEnum->DeleteEnumerator();
 					UpdateSlider(item_AeteEnumSlider, -1, count);
-// 					theEnum->GetEnumerator(count, enumerator);
-// 					InstallEnumeratorValues(enumerator);
 				}
+				SetDirty(true);
 				break;
 			}
 			

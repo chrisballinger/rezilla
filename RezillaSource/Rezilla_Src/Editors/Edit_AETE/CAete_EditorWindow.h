@@ -97,7 +97,7 @@ private:
 	void				InstallClassValues(CAeteClass * inClass);
 	void				InstallPropertyValues(CAeteProperty * inProperty);
 	void				InstallElementValues(CAeteElement * inElement);
-	void				InstallKeyFormValues(OSType inKeyForm);
+	void				InstallKeyFormValues(OSType inKeyForm, Boolean inDisable);
 	void				InstallCompOpValues(CAeteCompOp * inCompOp);
 	void				InstallEnumerationValues(CAeteEnumeration * inEnum);
 	void				InstallEnumeratorValues(AeteEnumerator inEnumerator);
