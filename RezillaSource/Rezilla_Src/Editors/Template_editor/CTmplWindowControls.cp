@@ -77,7 +77,6 @@ CTmplEditorWindow::InitPaneInfos()
 	sEditPaneInfo.enabled			= true;
 	sEditPaneInfo.bindings.left		= true;
 	sEditPaneInfo.bindings.top		= false;
-	sEditPaneInfo.bindings.right	= true;
 	sEditPaneInfo.bindings.bottom	= false;
 	sEditPaneInfo.userCon			= 0;
 
@@ -255,14 +254,25 @@ CTmplEditorWindow::AddStaticField(OSType inType, Str255 inLabel, LView * inConta
 
 
 // ---------------------------------------------------------------------------
-//	¥ AddEditField														[public]
+//	¥ AddEditField													[public]
 // ---------------------------------------------------------------------------
+// If the inWidth argument is not 0, it is used to impose the width of the
+// EditField. If it is 0, the width is calculated using the inMaxChars
+// argument:
+// - if (kTmplEditMinFixedChars <= inMaxChars <= kTmplEditMaxFixedChars),
+//   the width is calculated to fit exactly with this number of chars. The
+//   field is not bound to the right edge of the window.
+// - if (inMaxChars > kTmplEditMaxFixedChars), the width is calculated to
+//   extend to the right edge of the container and the field is bound to
+//   the right edge of the window.
+// - if (inMaxChars < kTmplEditMinFixedChars), the width is adjusted to
+//   kTmplEditMaxFixedChars and the field is not redimesionable.
 
 void
 CTmplEditorWindow::AddEditField(Str255 inValue, 
 								OSType inType,
 								SInt16 inMaxChars, 
-								UInt8 inAttributes,
+								SInt16 inWidth,
 								TEKeyFilterFunc inKeyFilter, 
 								LView * inContainer)
 {
@@ -270,14 +280,26 @@ CTmplEditorWindow::AddEditField(Str255 inValue,
 	Boolean			incrY = true;
 	inContainer->GetFrameSize(theFrame);
 
-	sEditPaneInfo.left		= kTmplLeftMargin + kTmplLabelWidth + kTmplHorizSep;
-	sEditPaneInfo.width		= theFrame.width - kTmplLeftMargin * 2 - kTmplLabelWidth - kTmplHorizSep - kTmplHorizSkip;
-	sEditPaneInfo.top		= mYCoord - 3;
-	sEditPaneInfo.paneID	= mCurrentID;
-	sEditPaneInfo.superView	= inContainer;
+	sEditPaneInfo.left				= kTmplLeftMargin + kTmplLabelWidth + kTmplHorizSep;
+	sEditPaneInfo.top				= mYCoord - 3;
+	sEditPaneInfo.paneID			= mCurrentID;
+	sEditPaneInfo.superView			= inContainer;
+	sEditPaneInfo.bindings.right	= true;
 
+	if (inWidth > 0) {
+		sEditPaneInfo.width = inWidth;
+	} else {
+		if (inMaxChars > kTmplEditMaxFixedChars) {
+			sEditPaneInfo.width = theFrame.width - kTmplLeftMargin * 2 - kTmplLabelWidth - kTmplHorizSep - kTmplHorizSkip;
+		} else {
+			// Add space for three more chars
+			sEditPaneInfo.width = kTmplEditUnitWidth * (((inMaxChars < kTmplEditMinFixedChars)? kTmplEditMinFixedChars : inMaxChars) + 3);
+			sEditPaneInfo.bindings.right = false;
+		}
+	}
+	
 	LEditText * theEditText = new LEditText(sEditPaneInfo, this, inValue, sEditTraitsID, 
-											msg_TmplModifiedItem, inMaxChars, inAttributes, inKeyFilter);
+											msg_TmplModifiedItem, inMaxChars, 0, inKeyFilter);
 	ThrowIfNil_(theEditText);
 
 	// Store the template's type in the userCon field
@@ -689,7 +711,7 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 			// can hide the scrollbar
 			theScroller->Hide();
 		} else {
-// 			theTGB->SetMaxScrollerValue();
+// 			theScroller->SetMaxValue(theLineCount);
 		}
 	} 
 	
@@ -923,7 +945,7 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 				// can hide the scrollbar
 				theScroller->Hide();
 			} else {
-// 			theTGB->SetMaxScrollerValue();
+				theScroller->SetLinesPerPage( theTGB->GetPaneCount(count_LinesPerPane) - 1);
 			}
 		} 
 		mYCoord += boxHeight + kTmplVertSep;
@@ -1258,18 +1280,27 @@ OSErr
 CTmplEditorWindow::AddCasePopup(ResType inType, Str255 inLabel, SInt32 inStartMark, LView * inContainer)
 {
 	OSErr			error = noErr;
-	SDimension16	theFrame;
+	Rect			theFrame;
 	SInt16			index = 1, foundIdx = -1;
 	ResType			theType;
 	SInt32			currMark, totalLength = mTemplateStream->GetLength();
 	Str255			theString, theValue;
 	Str255 * 		rightPtr;
 
-	inContainer->GetFrameSize(theFrame);
-	sBevelPaneInfo.left			= theFrame.width - sBevelPaneInfo.width - 5;
-	sBevelPaneInfo.top			= mYCoord - sEditPaneInfo.height -kTmplVertSep -1;
-	sBevelPaneInfo.paneID		= mCurrentID;
-	sBevelPaneInfo.superView	= inContainer;
+	// Get a pointer to the associated edit field
+	LEditText * theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID - 1));
+	if (theEditText == NULL) {
+		return err_TmplPopupNotConnectedToEditField;
+	} 
+	
+	theEditText->CalcPortFrameRect(theFrame);
+	inContainer->PortToLocalPoint(botRight(theFrame));
+	
+	sBevelPaneInfo.left				= theFrame.right + kTmplBevelSep;
+	sBevelPaneInfo.top				= mYCoord - sEditPaneInfo.height -kTmplVertSep -1;
+	sBevelPaneInfo.paneID			= mCurrentID;
+	sBevelPaneInfo.superView		= inContainer;
+	sEditPaneInfo.bindings.right	= true;
 
 	CTmplBevelButton * theBevelButton = new CTmplBevelButton(sBevelPaneInfo, msg_TmplCasePopup, kControlBevelButtonSmallBevelProc,
 													 rMENU_TemplateCases, kControlBevelButtonMenuOnBottom, 
@@ -1281,11 +1312,7 @@ CTmplEditorWindow::AddCasePopup(ResType inType, Str255 inLabel, SInt32 inStartMa
 	// Let the window listen to this menu
 	theBevelButton->AddListener(this);
 	
-	// Store a pointer to the associated edit field
-	LEditText * theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID - 1));
-	if (theEditText == NULL) {
-		return err_TmplPopupNotConnectedToEditField;
-	} 
+	// Store the pointer to the associated edit field
 	theBevelButton->SetUserCon( (long) theEditText);
 	// Store the position mark of the first CASE in the userCon of the edit field
 	theEditText->SetUserCon(inStartMark);
