@@ -27,6 +27,13 @@ class CTxtDataSubView;
 class CRezObj;
 class CSingleScrollBar;
 
+struct DualGeometry	{
+	SInt16	hinst;	// Horinzontal inset
+	SInt16	vinst;	// Vertical inset
+	SInt16	hsep;	// Horisontal interpanes space
+	SInt16	scrlw;	// Scrollbar width
+};
+
 enum
 {	
 	hex_nopane = 0,
@@ -43,8 +50,7 @@ public:
 							CDualDataView(
 								  const SPaneInfo&	inPaneInfo,
 								  const SViewInfo&	inViewInfo,
-								  SInt16			inExtraWidth,
-								  SInt16			inExtraHeight,
+								  const DualGeometry& inGeometry,
 								  Boolean			inPrimary = true,
 								  ResIDT			inTextTraitsID = 0,
 								  ConstStringPtr	inTitle = Str_Empty);
@@ -116,12 +122,9 @@ public:
 	virtual Boolean		GetSelectingAll() { return mSelectingAll;}
 	void				SetSelectingAll(Boolean inSelectingAll) {mSelectingAll = inSelectingAll;}
 
-	SInt16			GetExtraWidth() { return mExtraWidth;}
-	void			SetExtraWidth(SInt16 inExtraWidth) {mExtraWidth = inExtraWidth;}
-
-	SInt16			GetExtraHeight() { return mExtraHeight;}
-	void			SetExtraHeight(SInt16 inExtraHeight) {mExtraHeight = inExtraHeight;}
-
+	void			GetGeometry(DualGeometry& outGeometry) const;
+	void			SetGeometry(const DualGeometry& inGeometry);
+	
 protected:
 	CHexDataSubView *	mHexView;
 	CTxtDataSubView *	mTxtView;
@@ -132,8 +135,11 @@ protected:
 	SInt32				mCurrFirstLine;
 	SInt32				mCurrLocalOffset;
 	SInt32				mCurrentSubView;
-	SInt16				mExtraWidth;
-	SInt16				mExtraHeight;
+	DualGeometry		mGeometry;
+	/* 
+	 * SInt16                mExtraWidth;
+	 * SInt16                mExtraHeight;
+	 */
 	Boolean				mSelectingAll;
 	
 	virtual void		FinishCreateSelf();

@@ -48,15 +48,13 @@
 CDualDataView::CDualDataView(
 							 const SPaneInfo&	inPaneInfo,
 							 const SViewInfo&	inViewInfo,
-							 SInt16				inExtraWidth,
-							 SInt16				inExtraHeight,
+							 const DualGeometry& inGeometry,
 							 Boolean			inPrimary,
 							 ResIDT				inTextTraitsID,
 							 ConstStringPtr		inTitle)
 : LTextGroupBox(inPaneInfo, inViewInfo, inPrimary, inTextTraitsID, inTitle)
 {
-	mExtraWidth = inExtraWidth;
-	mExtraHeight = inExtraHeight;
+	SetGeometry(inGeometry);
 	
 	Initialize();
 }
@@ -86,6 +84,28 @@ CDualDataView::~CDualDataView()
 	}
 	// Remove the view from the list of listeners to the prefs object
 	CRezillaApp::sPrefs->RemoveListener(this);
+}
+
+
+// ---------------------------------------------------------------------------
+//		¥ CDualDataView												[public]
+// ---------------------------------------------------------------------------
+
+void
+CDualDataView::GetGeometry(DualGeometry& outGeometry) const
+{
+	BlockMoveData(&mGeometry, &outGeometry, sizeof(DualGeometry));
+}
+
+
+// ---------------------------------------------------------------------------
+//		¥ CDualDataView												[public]
+// ---------------------------------------------------------------------------
+
+void
+CDualDataView::SetGeometry(const DualGeometry& inGeometry)
+{
+	BlockMoveData(&inGeometry, &mGeometry, sizeof(DualGeometry));
 }
 
 
@@ -737,14 +757,18 @@ void
 CDualDataView::ResizeDataPanes()
 {
 	SDimension16	theSize;
-	SInt16			theWidth, theHeight;
+	SInt16			theWidth, theHeight, extraWidth, extraHeight;
 	SInt16			numChar, numLine;
 	SPoint32		theLocation;
 	
 	GetFrameSize(theSize);
 	GetFrameLocation(theLocation);
-	numChar = (theSize.width - mExtraWidth) / (CRezillaApp::sBasics.charWidth * 5);
-	numLine = (theSize.height - mExtraHeight) / CRezillaApp::sBasics.charHeight;
+
+	extraWidth = mGeometry.hinst * 3 + mGeometry.hsep + mGeometry.scrlw;
+	extraHeight = mGeometry.vinst * 2;
+	
+	numChar = (theSize.width - extraWidth) / (CRezillaApp::sBasics.charWidth * 5);
+	numLine = (theSize.height - extraHeight) / CRezillaApp::sBasics.charHeight;
 	
 	// LHS pane (hexadecimal representation)
 	theWidth = numChar * CRezillaApp::sBasics.charWidth * 3;
@@ -755,7 +779,7 @@ CDualDataView::ResizeDataPanes()
 	theWidth = numChar * CRezillaApp::sBasics.charWidth * 2;
 	// Relocate the RHS pane	
 	mTxtView->ResizeFrameTo(theWidth, theHeight, false);
-	mTxtView->PlaceInSuperImageAt(theSize.width - theWidth - kRzilHexEditLeftRidge - kTmplScrollWidth - theLocation.h, kRzilHexEditTopRidge, false);
+	mTxtView->PlaceInSuperImageAt(theSize.width - theWidth - mGeometry.hinst - mGeometry.scrlw - theLocation.h, mGeometry.vinst, false);
 }
 
 

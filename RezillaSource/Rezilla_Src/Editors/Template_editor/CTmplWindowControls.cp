@@ -629,7 +629,8 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 	SViewInfo	theViewInfo;
 	SDimension16	theFrame;
 	SInt16		boxHeight = sTgbPaneInfo.height, delta = 0;
-
+	DualGeometry geo;
+	
 	// Calculate the limits of the text	to insert
 	hasText = CalcTextPositions(inType, oldPos, newPos, nextPos, reqLength, isFixed);
 	
@@ -637,8 +638,11 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 	inContainer->GetFrameSize(theFrame);
 	mOwnerDoc = dynamic_cast<CTmplEditorDoc*>(GetSuperCommander());
 
-	extraWidth = kTmplTextInset * 3 + kTmplHorizSep + kTmplScrollWidth;
-	extraHeight = kTmplTextInset * 2;
+	geo.hinst = kTmplTextInset;
+	geo.vinst = kTmplTextInset;
+	geo.hsep = kTmplHorizSep;
+	geo.scrlw = kTmplScrollWidth;
+	
 	theViewInfo.imageSize.width		= theViewInfo.imageSize.height	= 0 ;
 	theViewInfo.scrollPos.h			= theViewInfo.scrollPos.v		= 0;
 	theViewInfo.scrollUnit.h		= theViewInfo.scrollUnit.v		= 1;
@@ -649,7 +653,7 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 	sTgbPaneInfo.width				= theFrame.width - kTmplTextMargin * 2;
 	sTgbPaneInfo.paneID				= mCurrentID;
 	sTgbPaneInfo.superView			= inContainer;
-	CDualDataView * theTGB = new CDualDataView(sTgbPaneInfo, theViewInfo, extraWidth, extraHeight, false);
+	CDualDataView * theTGB = new CDualDataView(sTgbPaneInfo, theViewInfo, geo, false);
 	ThrowIfNil_(theTGB);
 
 	// Make the single vertical scroll bar
