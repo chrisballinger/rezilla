@@ -26,15 +26,6 @@ typedef struct Rzil_OpenFileUD{
 } Rzil_OpenFileUD;
 
 
-// typedef struct TextTraitsRecord {
-// 	SInt16		size;
-// 	SInt16		style;
-// 	SInt16		justification;
-// 	SInt16		mode;
-// 	RGBColor	color;
-// 	SInt16		fontNumber;
-// 	Str255		fontName;
-// } TextTraitsRecord, *TextTraitsPtr, **TextTraitsH;
 typedef struct Rzil_basics{
 	SInt32				charWidth;
 	SInt32				charHeight;
@@ -66,17 +57,22 @@ public:
 	virtual void		OpenDocument( FSSpec* inFSSpec );
 
 	Boolean				ChooseAFile(FSSpec & fileSpec);
+
 	Boolean				ChooseAFile(const LFileTypeList & inFileTypes, FSSpec & fileSpec);
+
 	Boolean				DesignateNewMap( FSSpec& outFileSpec, bool & outReplacing);
+	
 	static OSErr		PreOpen(FSSpec & inFileSpec, 
 								SInt16 & outFork, 
 								short & outRefnum, 
-								SInt16 inWantedFork = fork_anyfork);
-	OSErr				OpenFork(FSSpec & inFileSpec);
+								SInt16 inWantedFork = fork_anyfork, 
+								Boolean askChangePerm = false);
+	
+	OSErr				OpenFork(FSSpec & inFileSpec, Boolean askChangePerm = false);
+	
 	static void			ReportOpenForkError(OSErr inError, FSSpec * inFileSpecPtr);
 
 	virtual void		ShowAboutBox();
-	
 	
 	virtual void		HandleAppleEvent(
 								const AppleEvent	&inAppleEvent,

@@ -433,7 +433,7 @@ CRezillaApp::ObeyCommand(
 			FSSpec theFileSpec;
 			OSErr error;
 			if ( ChooseAFile(theFileSpec) ) {
-				error = OpenFork(theFileSpec);
+				error = OpenFork(theFileSpec, true);
 				if (error != noErr) {
 					ReportOpenForkError(error, &theFileSpec);
 				} else {
@@ -872,7 +872,7 @@ CRezillaApp::OpenDocument(
 // ---------------------------------------------------------------------------
 
 OSErr
-CRezillaApp::OpenFork(FSSpec & inFileSpec)
+CRezillaApp::OpenFork(FSSpec & inFileSpec, Boolean askChangePerm)
 {
 	SInt16 theFork;
 	short theRefNum;
@@ -885,10 +885,16 @@ CRezillaApp::OpenFork(FSSpec & inFileSpec)
 		return true;
 	} 
 	
-	error = PreOpen(inFileSpec, theFork, theRefNum, mOpeningFork);
-	if ( error == noErr ) {
+	error = PreOpen(inFileSpec, theFork, theRefNum, mOpeningFork, true);
+	if ( error == noErr || error == err_OpenSucceededReadOnly) {
 		theRezMapDocPtr = new CRezMapDoc(this, &inFileSpec, theFork, theRefNum);
-		theRezMapDocPtr->SetReadOnly(sReadOnlyNavFlag);
+		if (error == err_OpenSucceededReadOnly) {
+			sReadOnlyNavFlag = false;
+			theRezMapDocPtr->SetReadOnly(true);
+			error = noErr;
+		} else {
+			theRezMapDocPtr->SetReadOnly(sReadOnlyNavFlag);
+		}
 		theRezMapDocPtr->GetRezMapWindow()->InstallReadOnlyIcon();
 	} 
 	
@@ -897,11 +903,15 @@ CRezillaApp::OpenFork(FSSpec & inFileSpec)
 
 
 // ---------------------------------------------------------------------------
-//	¥ PreOpen								[public static]
+//	¥ PreOpen												[public static]
 // ---------------------------------------------------------------------------
 
 OSErr
-CRezillaApp::PreOpen(FSSpec & inFileSpec, SInt16 & outFork, short & outRefnum, SInt16 inWantedFork)
+CRezillaApp::PreOpen(FSSpec & inFileSpec, 
+					 SInt16 & outFork, 
+					 short & outRefnum, 
+					 SInt16 inWantedFork, 
+					 Boolean askChangePerm)
 {
 	OSErr		error;
 	FSRef		theFileRef;
@@ -950,6 +960,18 @@ CRezillaApp::PreOpen(FSSpec & inFileSpec, SInt16 & outFork, short & outRefnum, S
 	} 
 	
 done:
+	if (error == wrPermErr && sReadOnlyNavFlag == false) {
+		// If opening failed with write permission, ask to try again in
+		// read-only access.
+		if (!askChangePerm || UMessageDialogs::AskIfFromLocalizable(CFSTR("WritePermissionError"), rPPob_AskIfMessage) == answer_Do) {
+			sReadOnlyNavFlag = true;
+			error = PreOpen(inFileSpec, outFork, outRefnum, inWantedFork);
+			if (error == noErr) {
+				error = err_OpenSucceededReadOnly;
+			} 
+		} 
+	} 
+	
 	return error;
 }
 
@@ -964,7 +986,7 @@ CRezillaApp::ReportOpenForkError(OSErr inError, FSSpec * inFileSpecPtr)
 	char * nameStr = new char[255];
 	CFStringRef formatStr = NULL, messageStr = NULL;
 
-	CopyPascalStringToC(inFileSpecPtr->name,nameStr);
+	CopyPascalStringToC(inFileSpecPtr->name, nameStr);
 
 	switch (inError) {
 	  case err_NoRezInDataFork:
@@ -988,8 +1010,8 @@ CRezillaApp::ReportOpenForkError(OSErr inError, FSSpec * inFileSpecPtr)
 		break;
 		
 	  case wrPermErr:
-		formatStr = ::CFCopyLocalizedString(CFSTR("WritePermissionError"), NULL);
-		break;
+	  // This error has already been intercepted in PreOpen()
+	  return;
 		  
 	  default:
 		UMessageDialogs::AlertWithValue(CFSTR("SystemError"), inError);
