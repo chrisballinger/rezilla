@@ -247,8 +247,8 @@ CAete_EditorWindow::InstallEventValues(CAeteEvent * inEvent)
 	if (inEvent && inEvent->GetParameters()->FetchItemAt(index, theParameter) ) {
 		InstallParameterValues(theParameter);
 		theTGB->Enable();
-		theValue = inEvent->GetParameterIndex();
-		theTotal = inEvent->GetParameters()->GetCount();
+		theValue = index;
+		theTotal = inEvent->CountParameters();
 	} else {
 		theTGB->Disable();
 		theValue = 0;
@@ -357,8 +357,8 @@ CAete_EditorWindow::InstallClassValues(CAeteClass * inClass)
 	if (inClass && inClass->GetProperties()->FetchItemAt(propIndex, theProperty) ) {
 		InstallPropertyValues(theProperty);
 		theTGB->Enable();
-		theValue = inClass->GetPropertyIndex();
-		theTotal = inClass->GetProperties()->GetCount();
+		theValue = propIndex;
+		theTotal = inClass->CountProperties();
 	}  else {
 		theTGB->Disable();
 		theValue = 0;
@@ -373,8 +373,8 @@ CAete_EditorWindow::InstallClassValues(CAeteClass * inClass)
 	if (inClass && inClass->GetElements()->FetchItemAt(elemIndex, theElement) ) {
 		InstallElementValues(theElement);
 		theTGB->Enable();
-		theValue = inClass->GetElementIndex();
-		theTotal = inClass->GetElements()->GetCount();
+		theValue = elemIndex;
+		theTotal = inClass->CountElements();
 	}  else {
 		theTGB->Disable();
 		theValue = 0;
@@ -546,10 +546,10 @@ CAete_EditorWindow::InstallEnumerationValues(CAeteEnumeration * inEnum)
 	// Current enumerator
 	theTGB = dynamic_cast<LTextGroupBox *> (mEnumerationPane->FindPaneByID( item_AeteEnumBox ));
 	
-	if ( inEnum && inEnum->GetEnumerators()->FetchItemAt(index, enumerator) ) {
+	if ( inEnum && inEnum->GetEnumerator(index, enumerator) ) {
 		theTGB->Enable();
-		theValue = inEnum->GetEnumeratorIndex();
-		theTotal = inEnum->GetEnumerators()->GetCount();
+		theValue = index;
+		theTotal = inEnum->CountEnumerators();
 	} else {
 		theTGB->Disable();
 		theValue = 0;
@@ -979,8 +979,32 @@ CAete_EditorWindow::RetrieveEnumerationValues(CAeteEnumeration * inEnum)
 	
 	RetrieveEnumeratorValues(enumerator);
 	
-	inEnum->GetEnumerators()->RemoveItemsAt(1, index);
-	inEnum->GetEnumerators()->InsertItemsAt(1, index, enumerator);
+	inEnum->SetEnumerator(index, enumerator);
+}
+
+
+// ---------------------------------------------------------------------------
+//  RetrieveEnumeratorValues										[public]
+// ---------------------------------------------------------------------------
+
+void
+CAete_EditorWindow::RetrieveEnumeratorValues(AeteEnumerator & outEnumerator)
+{
+	Str255			theString;
+	LEditText *		theEditText;
+
+	theEditText = dynamic_cast<LEditText *> (mEnumerationPane->FindPaneByID( item_AeteEnumName ));
+	ThrowIfNil_( theEditText );
+	theEditText->GetDescriptor(outEnumerator.name);
+
+	theEditText = dynamic_cast<LEditText *> (mEnumerationPane->FindPaneByID( item_AeteEnumType ));
+	ThrowIfNil_( theEditText );
+	theEditText->GetDescriptor(theString);
+	UMiscUtils::PStringToOSType( theString, outEnumerator.type );
+
+	theEditText = dynamic_cast<LEditText *> (mEnumerationPane->FindPaneByID( item_AeteEnumDescr ));
+	ThrowIfNil_( theEditText );
+	theEditText->GetDescriptor(outEnumerator.description);
 }
 
 
@@ -1014,31 +1038,6 @@ CAete_EditorWindow::FillSuitePopup()
 		}
 	}
 	mSuitesPopup->SetMacMenuH(theMenuH);
-}
-
-
-// ---------------------------------------------------------------------------
-//  RetrieveEnumerationValues										[public]
-// ---------------------------------------------------------------------------
-
-void
-CAete_EditorWindow::RetrieveEnumeratorValues(AeteEnumerator & outEnumerator)
-{
-	Str255			theString;
-	LEditText *		theEditText;
-
-	theEditText = dynamic_cast<LEditText *> (mEnumerationPane->FindPaneByID( item_AeteEnumName ));
-	ThrowIfNil_( theEditText );
-	theEditText->GetDescriptor(outEnumerator.name);
-
-	theEditText = dynamic_cast<LEditText *> (mEnumerationPane->FindPaneByID( item_AeteEnumType ));
-	ThrowIfNil_( theEditText );
-	theEditText->GetDescriptor(theString);
-	UMiscUtils::PStringToOSType( theString, outEnumerator.type );
-
-	theEditText = dynamic_cast<LEditText *> (mEnumerationPane->FindPaneByID( item_AeteEnumDescr ));
-	ThrowIfNil_( theEditText );
-	theEditText->GetDescriptor(outEnumerator.description);
 }
 
 
