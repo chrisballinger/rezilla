@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2004-03-15 09:06:10
+//             Last modification : 2004-03-17 16:22:31
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -402,13 +402,20 @@ enum
 #define  kCompTableWidth	183
 // Height of a row in these tables
 #define  kCompTableHeight	14
+// Height of a line in a WE view in case of null value
+#define  kRzilDefaultLineHeight	11
 
+// Drag and drop
 const SInt16	kRzilDragFlavor		= FOUR_CHAR_CODE('Rzil');
+
+// Constants for the Rezmap tables
+const SInt16	kRzilColWidth				= 100;
+// Constants for the Rez Compare results window
+const SInt16	kRzilHexCompCharsPerLine	= 48;
 // Constants for the Rez Hex editor
-const SInt16	kRzilColWidth		= 100;
-const SInt16	kRzilHexLineCount	= 32;
-const SInt16	kRzilHexPerLine		= 16;
-const SInt16	kRzilHexPerPane		= 512;
+const SInt16	kRzilHexEditLineCount		= 32;
+const SInt16	kRzilHexEditCharsPerLine	= 16;
+const SInt16	kRzilHexEditCharsPerPane	= 512;
 // Max number of items in the Recent Items menu
 const SInt16	kRzilMaxRecentItems	= 10;
 
@@ -418,5 +425,4 @@ const ResType	ResType_DITL = FOUR_CHAR_CODE('DITL');
 
 // #define  kFirstSizeMenuItem	1
 // #define  kLastSizeMenuItem	9
-
 

@@ -5,7 +5,7 @@
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// ¬© Copyright: Bernard Desgraupes 2003
+// © Copyright: Bernard Desgraupes 2003
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -35,7 +35,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¬€ CTxtDataSubView						Default Constructor		  [public]
+//	¥ CTxtDataSubView						Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CTxtDataSubView::CTxtDataSubView()
@@ -47,7 +47,7 @@ CTxtDataSubView::CTxtDataSubView()
 
 
 // ---------------------------------------------------------------------------
-//	¬€ CTxtDataSubView						Constructor		  [public]
+//	¥ CTxtDataSubView						Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CTxtDataSubView::CTxtDataSubView(CHexDataSubView * inSiblingView)
@@ -59,7 +59,7 @@ CTxtDataSubView::CTxtDataSubView(CHexDataSubView * inSiblingView)
 
 
 // ---------------------------------------------------------------------------
-//	¬€ CTxtDataSubView						Stream Constructor		  [public]
+//	¥ CTxtDataSubView						Stream Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CTxtDataSubView::CTxtDataSubView(
@@ -72,7 +72,7 @@ CTxtDataSubView::CTxtDataSubView(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ ~CTxtDataSubView						Destructor				  [public]
+//	¥ ~CTxtDataSubView						Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CTxtDataSubView::~CTxtDataSubView()
@@ -82,7 +82,7 @@ CTxtDataSubView::~CTxtDataSubView()
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¬€ ClickSelf											[protected, virtual]
+//	¥ ClickSelf											[protected, virtual]
 // ---------------------------------------------------------------------------
 
 void
@@ -103,7 +103,7 @@ CTxtDataSubView::ClickSelf(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ HandleKeyPress							[public, virtual]
+//	¥ HandleKeyPress							[public, virtual]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -123,7 +123,7 @@ CTxtDataSubView::HandleKeyPress(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ ObeyCommand											[public, virtual]
+//	¥ ObeyCommand											[public, virtual]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -204,7 +204,7 @@ CTxtDataSubView::ObeyCommand(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ ScrollImageBy											[public, virtual]
+//	¥ ScrollImageBy											[public, virtual]
 // ---------------------------------------------------------------------------
 //	Scroll the Text
 
@@ -226,7 +226,7 @@ CTxtDataSubView::ScrollImageBy(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ CursorMoved							[public, virtual]
+//	¥ CursorMoved							[public, virtual]
 // ---------------------------------------------------------------------------
 
 void
@@ -243,16 +243,16 @@ CTxtDataSubView::CursorMoved(SInt32 inPos)
 		// the scrollbar emits its message.
 		mEditorWindow->GetScroller()->SetValue(firstLine);
 		// Update the cursor's pos
-		newTxtPos = CharPosToPos(kRzilHexPerLine) + inPos;
+		newTxtPos = CharPosToPos(kRzilHexEditCharsPerLine) + inPos;
 		DisplaySelectionRange( newTxtPos, newTxtPos);
-	} else if (PosToCharPos(inPos) > kRzilHexPerPane) {
-		if (firstLine > lastLine - kRzilHexLineCount) return;
+	} else if (PosToCharPos(inPos) > kRzilHexEditCharsPerPane) {
+		if (firstLine > lastLine - kRzilHexEditLineCount) return;
 		firstLine += 1;
 		// Sync the scrollbar: this provokes a redraw because 
 		// the scrollbar emits its message.
 		mEditorWindow->GetScroller()->SetValue(firstLine);
 		// Update the cursor's pos
-		newTxtPos = inPos - CharPosToPos(kRzilHexPerLine);
+		newTxtPos = inPos - CharPosToPos(kRzilHexEditCharsPerLine);
 		DisplaySelectionRange( newTxtPos, newTxtPos);
 	} else {
 		newTxtPos = inPos;
@@ -267,7 +267,7 @@ CTxtDataSubView::CursorMoved(SInt32 inPos)
 
 
 // ---------------------------------------------------------------------------
-//	¬€ UserChangedText						[public, virtual]
+//	¥ UserChangedText						[public, virtual]
 // ---------------------------------------------------------------------------
 //	Text of WasteEdit has changed as a result of user action
 
@@ -279,7 +279,7 @@ CTxtDataSubView::UserChangedText()
 
 
 // ---------------------------------------------------------------------------
-//	¬€ UserChangedText						[public, virtual]
+//	¥ UserChangedText						[public, virtual]
 // ---------------------------------------------------------------------------
 //	Text of WasteEdit has changed as a result of user action
 
@@ -305,17 +305,17 @@ CTxtDataSubView::UserChangedText(
 		if (firstLine > 1) {
 			firstLine -= 1;
 			mEditorWindow->SetCurrFirstLine(firstLine);
-			inStartPos += CharPosToPos(kRzilHexPerLine);
+			inStartPos += CharPosToPos(kRzilHexEditCharsPerLine);
 		} else {
 			inStartPos = 0;
 		}
 	} 
 	// If the cursor was at the end of the frame and we insert chars, bring the 
 	// next line in view. Create it if necessary.
-	if ( inStartPos == CharPosToPos(kRzilHexPerPane) && inBytesCount > 0) {
+	if ( inStartPos == CharPosToPos(kRzilHexEditCharsPerPane) && inBytesCount > 0) {
 		firstLine += 1;
 		mEditorWindow->SetCurrFirstLine(firstLine);
-		inStartPos -= CharPosToPos(kRzilHexPerLine);
+		inStartPos -= CharPosToPos(kRzilHexEditCharsPerLine);
 	} 
 
 	if (oldLineCount == newLineCount) {
@@ -340,7 +340,7 @@ CTxtDataSubView::UserChangedText(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ SyncPositionsWithSibling
+//	¥ SyncPositionsWithSibling
 // ---------------------------------------------------------------------------
 
 void
@@ -351,7 +351,7 @@ CTxtDataSubView::SyncPositionsWithSibling(SInt32 inStartPos, SInt32 inEndPos)
 
 
 // ---------------------------------------------------------------------------
-//	¬€ SyncContentsWithMemory
+//	¥ SyncContentsWithMemory
 // ---------------------------------------------------------------------------
 
 void
@@ -360,8 +360,8 @@ CTxtDataSubView::SyncContentsWithMemory(SInt32 inStartPos,
 										SInt32 inBytesCount, 
 										SInt32 inLineOffset)
 {
-	SInt32 startOffset = (inLineOffset - 1) * kRzilHexPerLine + PosToCharPos(inStartPos);
-	SInt32 endOffset = (inLineOffset - 1) * kRzilHexPerLine + PosToCharPos(inEndPos);
+	SInt32 startOffset = (inLineOffset - 1) * kRzilHexEditCharsPerLine + PosToCharPos(inStartPos);
+	SInt32 endOffset = (inLineOffset - 1) * kRzilHexEditCharsPerLine + PosToCharPos(inEndPos);
 
 	WEReference we = mEditorWindow->GetInMemoryWasteRef();
 	WESetSelection( startOffset, endOffset, we );
@@ -385,7 +385,7 @@ CTxtDataSubView::SyncContentsWithMemory(SInt32 inStartPos,
 
 
 // ---------------------------------------------------------------------------
-//	¬€ SyncImageWithSibling
+//	¥ SyncImageWithSibling
 // ---------------------------------------------------------------------------
 
 void
@@ -401,4 +401,3 @@ CTxtDataSubView::SyncImageWithSibling(SInt32 inHorizDelta,
 
 
 PP_End_Namespace_PowerPlant
-

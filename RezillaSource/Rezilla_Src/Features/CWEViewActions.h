@@ -6,12 +6,12 @@
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// ¬© Copyright: Bernard Desgraupes 2001-2003, 2004
+// © Copyright: Bernard Desgraupes 2001-2003, 2004
 // All rights reserved.
 // $Date$
 // $Revision$
 //	
-// This file is part of the CWasteEditView package vs 1.5
+// This file is part of the CWasteEditView package vs 1.6
 // ===========================================================================
 
 
@@ -296,5 +296,4 @@ PP_End_Namespace_PowerPlant
 #endif
 
 #endif
-
 
