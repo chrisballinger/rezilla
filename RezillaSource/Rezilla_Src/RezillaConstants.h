@@ -55,9 +55,9 @@ enum
 {	
 	exportAete_Xml = 0,
 	exportAete_Derez,
-	exportMap_Sdef,
 	exportAete_Text,
-	exportAete_Html
+	exportAete_Html,
+	exportMap_Sdef
 };
 
 // DTDs
