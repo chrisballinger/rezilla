@@ -30,6 +30,15 @@ $Date$
 ================================================================================
 = 1.0.6b1	                             last update: 
 ================================================================================
+¥ The picture viewer alternately draws/erases a frame around the image 
+  upon clicking in the contents area.
+¥ Command-click calls the Inspector window instead of control-click.
+¥ Many minor GUI fixes to be more HIG compliant.
+¥ Fixed crash on double export.
+¥ Key equivalents (enter/return, cmd-period/escape etc.) for dialog
+  buttons fixed. The Dont/No button can be triggered by cmd-D or cmd-N.
+¥ Added a "Wrap Text" command to the Text editor.
+¥ Added more procIDs to CNTL resource template.
 ¥ 
 
 ================================================================================
