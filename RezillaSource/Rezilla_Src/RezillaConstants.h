@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2004-11-28 18:11:17
+//             Last modification : 2004-12-01 08:41:48
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -678,7 +678,6 @@ const DescType rzil_cHexEditDoc		= 'HexD';	// Hex editor document
 const DescType rzil_cCompareDoc		= 'CmpD';	// Compare document
 
 const DescType rzil_cRezMapWindow	= 'MapW';	// RezMap window
-const DescType rzil_cEditorWindow	= 'EdiW';	// RezEditor window
 const DescType rzil_cGuiWindow		= 'GuiW';	// Gui editor window
 const DescType rzil_cTmplWindow		= 'TmpW';	// Tmpl editor window
 const DescType rzil_cHexWindow		= 'HexW';	// Hex editor window
@@ -711,7 +710,7 @@ const DescType rzil_pRezFile		= 'pFIL';	// ResFile
 const DescType rzil_pEditedRsrcDocs	= 'pERD';	// Edited resources documents
 
 //    RezMap
-const DescType rzil_pRefNum			= 'pREF';		// RefNum
+const DescType rzil_pRefNum			= 'pRFN';		// RefNum
 const DescType rzil_pAttributes		= 'pATR';		// Attributes
 const DescType rzil_pReadOnly		= 'pRDO';		// mapReadOnly
 const DescType rzil_pCompact		= 'pCPT';		// mapCompact
@@ -723,6 +722,7 @@ const DescType rzil_pChanged		= pIsModified;	// mapChanged/resChanged ('imod')
 const DescType rzil_pResID			= pID;			// ID ('ID  ')			 
 const DescType rzil_pName			= pName;		// Name ('pnam')
 const DescType rzil_pType			= 'pTYP';		// Type
+const DescType rzil_pSpecifier		= 'pSPE';		// Specifier (type,ID)
 const DescType rzil_pSysHeap		= 'pSHP';		// resSysHeap
 const DescType rzil_pPurgeable		= 'pPUR';		// resPurgeable
 const DescType rzil_pLocked			= 'pLOC';		// resLocked
@@ -732,7 +732,8 @@ const DescType rzil_pSize			= 'pSIZ';		// Size
 const DescType rzil_pData			= pContents;	// Data ('pcnt', was 'pDAT')
 
 //    Specifier
-const DescType rzil_cTypeID			= 'TyId';	// Resource specifier (type, ID)
+const DescType rzil_cTypeID			= 'TyId';	// Resource specifier object: 
+                           			         	//   e-g (type:aete, ID  :128)
 
 //    Maps Comparison
 const DescType rzil_cMapComparison	= 'COMP';	// Maps Comparison 
