@@ -534,19 +534,7 @@ CCompResultWindow::FillTableView( TArray<CRezTypId *> inList, SInt16 inWhichList
 void
 CCompResultWindow::SetMaxScrollerValue()
 {
-	SInt32 linesPerPane, theLineDelta;
-	SInt16 lineHeight;
-	SDimension16	theSize;
-
-// 	// How many lines fit in the hex panes
-// 	mOldRezDataWE->GetFrameSize(theSize);
-// 	lineHeight = mOldRezDataWE->CWasteEditView::GetLineHeight();
-// 	if (lineHeight == 0) {
-// 		lineHeight = kRzilDefaultLineHeight;
-// 	} 
-// 	linesPerPane = theSize.height / lineHeight;
-
-	theLineDelta = LineCount() - GetPaneCount(count_LinesPerPane) + 1;
+	SInt32 theLineDelta = LineCount() - GetPaneCount(count_LinesPerPane) + 1;
 	
 	if (theLineDelta < 0) {
 		theLineDelta = 0;
