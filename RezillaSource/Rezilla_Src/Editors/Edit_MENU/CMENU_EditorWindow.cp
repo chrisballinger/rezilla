@@ -2,7 +2,7 @@
 // CMENU_EditorWindow.cp					
 // 
 //                       Created: 2005-03-09 17:16:53
-//             Last modification: 2005-03-09 17:16:57
+//             Last modification: 2005-03-11 22:17:36
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -21,11 +21,11 @@
 #include "RezillaConstants.h"
 #include "UMessageDialogs.h"
 
-#include <LScrollBar.h>
-#include <LStaticText.h>
+#include <LCheckBox.h>
 #include <LEditText.h>
-#include <LScrollerView.h>
-#include <UMemoryMgr.h>
+#include <LPopupButton.h>
+// #include <LScrollerView.h>
+// #include <UMemoryMgr.h>
 
 #include <stdio.h>
 
@@ -93,6 +93,8 @@ CMENU_EditorWindow::~CMENU_EditorWindow()
 void
 CMENU_EditorWindow::FinishCreateSelf()
 {	
+	mHasXmnu = false;
+
 	// The main view containing the labels and editing panes
 	mItemsTable = dynamic_cast<CMENU_EditorTable *>(this->FindPaneByID(item_EditorContents));
 	ThrowIfNil_( mItemsTable );
@@ -128,7 +130,7 @@ CMENU_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 
 
 // ---------------------------------------------------------------------------
-//	¥ FindCommandStatus
+//	 FindCommandStatus
 // ---------------------------------------------------------------------------
 
 void
@@ -150,7 +152,7 @@ CMENU_EditorWindow::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ObeyCommand							[public, virtual]
+//	 ObeyCommand							[public, virtual]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -172,7 +174,7 @@ CMENU_EditorWindow::ObeyCommand(
 
 
 // ---------------------------------------------------------------------------
-//	¥ InstallMenuData													[public]
+//	 InstallMenuData													[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -199,6 +201,8 @@ CMENU_EditorWindow::InstallMenuData(Handle inMenuHandle, Handle inXmnuHandle)
 	
 	try {
 		if (inXmnuHandle != nil) {
+			mHasXmnu = true;
+			
 			StHandleLocker	xmnulock(inXmnuHandle);
 			theStream = new LHandleStream(inXmnuHandle);
 			
@@ -215,14 +219,16 @@ CMENU_EditorWindow::InstallMenuData(Handle inMenuHandle, Handle inXmnuHandle)
 	catch (...) {
 		if (theStream != nil) {delete theStream;} 
 		if (ignoreErr) {
-			
+			// todo
 		} 
 		UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("ParseXmnuRezFailed"), PPob_SimpleMessage);
 	}
 	
 	
 	if (error == noErr) {
-// 		mItemsTable->InstallValues();  // mMenuObj->GetItemIndex()
+		InstallMenuValues();
+		InstallCurrentItemValues();
+		InstallTableValues();
 		SetDirty(false);
 	} 
 
@@ -272,7 +278,141 @@ CMENU_EditorWindow::RetrieveXmnuData()
 }
 
 
+// ---------------------------------------------------------------------------
+//	 InstallMenuValues
+// ---------------------------------------------------------------------------
 
+void
+CMENU_EditorWindow::InstallMenuValues()
+{
+	Str255		theString;
+	ResIDT		theID, theMDEF;
+	UInt32		theEnableFlag;
+	LEditText * theEditText;
+	LCheckBox *	theCheckBox;
+	
+	mMenuObj->GetValues( theID, theMDEF, theEnableFlag, theString);
+	
+	theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditMenuTitle ));
+	ThrowIfNil_( theEditText );
+	theEditText->SetDescriptor(theString);
+
+	theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditMenuID ));
+	ThrowIfNil_( theEditText );
+	::NumToString( theID, theString);
+	theEditText->SetDescriptor(theString);
+
+	theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditMDEF ));
+	ThrowIfNil_( theEditText );
+	::NumToString( theMDEF, theString);
+	theEditText->SetDescriptor(theString);
+
+	theCheckBox = dynamic_cast<LCheckBox *>(this->FindPaneByID( item_MenuEditMenuEnabled ));
+	ThrowIfNil_( theCheckBox );
+	theEditText->SetValue( (theEnableFlag & 1) );
+
+}
+
+
+// ---------------------------------------------------------------------------
+//	 InstallCurrentItemValues
+// ---------------------------------------------------------------------------
+
+void
+CMENU_EditorWindow::InstallCurrentItemValues()
+{
+	ArrayIndexT theIndex = mMenuObj->GetItemIndex();
+	
+	if (theIndex == 0) {
+		ClearItemValues();
+	} else {
+		InstallItemValuesAtIndex(theIndex);
+	}
+}
+
+
+// ---------------------------------------------------------------------------
+//	 InstallItemValuesAtIndex
+// ---------------------------------------------------------------------------
+
+void
+CMENU_EditorWindow::InstallItemValuesAtIndex( ArrayIndexT inAtIndex )
+{
+	CMenuItem * theItem;
+	if (mMenuObj->GetItems()->FetchItemAt(inAtIndex, theItem)) {
+		Str255		theString;
+		UInt8		theIconID, theShortcut, theMark, theStyle;
+		MenuRef		theMenuH;
+		LEditText * theEditText;
+		LCheckBox *	theCheckBox;
+		LPopupButton *	thePopup;
+
+		theItem->GetValues(theString, theIconID, theShortcut, theMark, theStyle);
+		
+		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditItemTitle ));
+		ThrowIfNil_( theEditText );
+		theEditText->SetDescriptor(theString);
+
+		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditIconID ));
+		ThrowIfNil_( theEditText );
+		::NumToString( theIconID, theString);
+		theEditText->SetDescriptor(theString);
+
+		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditShortcut ));
+		ThrowIfNil_( theEditText );
+		::NumToString( theShortcut, theString);
+		theEditText->SetDescriptor(theString);
+
+		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditMarkChar ));
+		ThrowIfNil_( theEditText );
+		::NumToString( theMark, theString);
+		theEditText->SetDescriptor(theString);
+
+		theCheckBox = dynamic_cast<LCheckBox *>(this->FindPaneByID( item_MenuEditItemEnabled ));
+		ThrowIfNil_( theCheckBox );
+// 		theEditText->SetValue( (theEnableFlag & 1) );
+		
+		// popup
+		thePopup = dynamic_cast<LPopupButton *>(this->FindPaneByID( item_MenuEditStylePopup ));
+		ThrowIfNil_(thePopup);
+		theMenuH = thePopup->GetMacMenuH();
+// 		for ( i = 0; i < theCount; i++) {
+// 			::MacCheckMenuItem(theMenuH, i+2, ( (inFlags & (1 << flagsArray[i])) > 0 ) );
+// 		}
+
+		if (hasXmnu) {
+			UInt8 theModifiers;
+			SInt32 theEncoding, theRefcon1, theRefcon2, theFontID, theSubstituteGlyph;
+			
+			GetExtendedValues(theModifiers, theEncoding,
+							   theRefcon1, theRefcon2, 
+							   theFontID, theSubstituteGlyph );
+			
+			
+			
+		} 
+	} 
+}
+
+
+// ---------------------------------------------------------------------------
+//	 ClearItemValues
+// ---------------------------------------------------------------------------
+
+void
+CMENU_EditorWindow::ClearItemValues()
+{
+}
+
+
+// ---------------------------------------------------------------------------
+//	 InstallTableValues
+// ---------------------------------------------------------------------------
+
+void
+CMENU_EditorWindow::InstallTableValues()
+{
+}
 
 
 

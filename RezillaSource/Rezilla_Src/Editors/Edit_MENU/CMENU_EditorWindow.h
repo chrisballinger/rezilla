@@ -2,7 +2,7 @@
 // CMENU_EditorWindow.h
 // 
 //                       Created: 2005-03-09 17:16:53
-//             Last modification: 2005-03-09 17:16:57
+//             Last modification: 2005-03-11 22:17:56
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -60,17 +60,25 @@ public:
 
 	CMenuObject*			GetMenuObj() { return mMenuObj;}
 
+	Boolean			GetHasXmnu() { return mHasXmnu;}
+	void			SetHasXmnu(Boolean inHasXmnu) {mHasXmnu = inHasXmnu;}
 
 protected:
 	CMenuObject *		mMenuObj;
 	CMENU_EditorTable *	mItemsTable;
-	LStaticText *		mLengthField;
+	Boolean				mHasXmnu;
 						
 	virtual void	FinishCreateSelf();
 
 private:
 	Handle			RetrieveMenuData();
 	Handle			RetrieveXmnuData();
+	
+	void			ClearItemValues();
+	void			InstallCurrentItemValues();
+	void			InstallItemValuesAtIndex( ArrayIndexT inAtIndex );
+	void			InstallMenuValues();
+	void			InstallTableValues();
 
 };
 
