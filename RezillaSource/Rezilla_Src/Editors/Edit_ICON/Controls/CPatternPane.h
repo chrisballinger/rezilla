@@ -15,20 +15,18 @@
 #define _H_CPatternPane
 #pragma once
 
-#include "RezillaConstants.h"			// just for ERedrawOptions
-#include "CPatternPopup.h"		// for SPatternListH
+#include "RezillaConstants.h"		// just for ERedrawOptions
+#include "CPatternPopup.h"			// for SPatternListH
 
 class CPatternPane : public LPane, public LBroadcaster
 {
 	public:
 		enum { class_ID = FOUR_CHAR_CODE('PatP') };
 
-			// construction/destruction
 								CPatternPane( LStream * );
 		virtual					~CPatternPane();
 		static	CPatternPane *	CreateFromStream( LStream * );
 		
-			// getting & setting the pattern
 		virtual SInt32			GetPatternIndex();
 		virtual void			SetPatternIndex( SInt32 inIndex, ERedrawOptions = redraw_Later );
 		virtual void			GetCurrentPattern( Pattern * );
@@ -37,7 +35,6 @@ class CPatternPane : public LPane, public LBroadcaster
 		virtual void 			SetPatternList( SInt16 inFileID, ResIDT inResID, ERedrawOptions = redraw_Later );
 		virtual void 			SetColors( Color32, Color32, ERedrawOptions = redraw_Later );
 
-			// events
 		virtual void			DrawSelf();
 		virtual void 			ClickSelf( const SMouseDownEvent & );
 	

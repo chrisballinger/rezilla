@@ -23,7 +23,7 @@
 // ---------------------------------------------------------------------------
 
 CColorPane::CColorPane( LStream *inStream ) 
-		: LBevelButton( inStream )
+		: LPane( inStream )
 {
 	RGBColor	anRGB;
 	
@@ -172,10 +172,8 @@ CColorPane::GetColorTable()
 
 // ---------------------------------------------------------------------------
 // 	SetColorTable
-// 	
-// 	Note:
-// 	Nil is ok if you want to disassociate a table with this pane.
 // ---------------------------------------------------------------------------
+// 	Nil is ok if you want to disassociate a table with this pane.
 
 void
 CColorPane::SetColorTable( CTabHandle inTable, Boolean inChangeColorToo, ERedrawOptions inRedrawHow )

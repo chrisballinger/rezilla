@@ -1,7 +1,7 @@
 // ===========================================================================
 // CPatternPane.cp
 //                       Created: 2004-12-11 18:53:08
-//             Last modification: 2004-12-17 19:45:28
+//             Last modification: 2004-12-28 15:17:18
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -122,7 +122,7 @@ CPatternPane::SetPatternList( SInt16 inFileID, ResIDT inResID, ERedrawOptions in
 {
 	Handle		theHandle = NULL;
 	
-	OSErr error = UResources::GetResourceInMap( inFileID, 'PAT#', inResID, theHandle, false);
+	OSErr error = UResources::GetResourceInMap( inFileID, 'PAT#', inResID, theHandle, true);
 	
 	this->SetPatternList( (SPatternListH) theHandle, inRedraw );
 }
@@ -138,17 +138,18 @@ CPatternPane::SetPatternList( SPatternListH inHandle, ERedrawOptions inRedraw )
 	if ( inHandle )
 		inHandle = (SPatternListH) UIconMisc::DuplicateHandle( (Handle) inHandle );
 	
-		// get rid of old pattern list (if any)
+	// Get rid of old pattern list (if any)
 	if ( mPatternListH )
 		UIconMisc::DisposeHandle( mPatternListH );
 		
-		// save the new list
+	// Save the new list
 	mPatternListH = inHandle;
 
-		// change the current pattern to number 0 -- this will broadcast our new value
+	// Change the current pattern to number 0. This will broadcast our new 
+	// value.
 	this->SetPatternIndex( 0, redraw_Dont );
 	
-		// redraw if needed
+	// Redraw if needed
 	UIconMisc::RedrawPaneAsIndicated( this, inRedraw );
 }
 

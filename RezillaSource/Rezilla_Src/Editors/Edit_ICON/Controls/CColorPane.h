@@ -16,10 +16,10 @@
 #pragma once
 
 #include "RezillaConstants.h"		// just for ERedrawOptions
-#include <LBevelButton.h>
+#include <LPane.h>
+/* public LBevelButton */
 
-
-class CColorPane : public LBevelButton {
+class CColorPane : public LPane, public LBroadcaster {
 	public:
 		enum { class_ID = FOUR_CHAR_CODE('ColP') };
 		
