@@ -28,11 +28,22 @@ This changes log is in reverse chronological order (from bottom to top).
 Last modification: $Date$
 
 ================================================================================
-= 1.0.1a2 	                             last update: 
+= 1.0.1a4 	                             last update: 
+================================================================================
+¥ Resource maps comparison window.
+
+================================================================================
+= 1.0.1a3 	                             last update: 2004-03-02 14:56:57
+================================================================================
+¥ HTML export.
+¥ Resource maps comparison code.
+
+================================================================================
+= 1.0.1a2 	                             last update: 2004-03-01 11:43:05
 ================================================================================
 ¥ Export feature.
-¥ Rezmap DTD for XML export.
-¥ Resource maps comparison.
+¥ Rezmap DTD for XML export. Two models.
+¥ Resource maps comparison (first experiments).
 
 ================================================================================
 = 1.0.1a1 	                             last update: 2004-02-27 16:54:25
@@ -47,6 +58,5 @@ Last modification: $Date$
 = 1.0.1a0                                    last update: 2003-06-01 18:16:31
 ================================================================================
 ¥ First alpha release.
-
 
 
