@@ -1,3 +1,6 @@
+// $Date$
+// $Revision$
+
 localize "English" as "Localizable.strings" 
 {
 	key "AlreadyExistTypeAndID" value string "There is already a '%s' resource with ID %d. Do you want to replace it or create one with a new ID (unique ID)?"
@@ -32,9 +35,11 @@ localize "English" as "Localizable.strings"
 	key "SaveRezMapWindow" value string "Do you want to save the resource map before closing?"
 	key "SaveTemplateWindow" value string "Do you want to save the changes made in the template editing window?"
 	key "SaveTextEditorWindow" value string "Do you want to save the changes made in the TEXT editing window?"
-	key "SomeResourcesAreAlreadyEdited" value string "Some resources are already edited with another kind of editor. Close the corresponding editing window first and try again."
+	key "SomeResourcesEditedInOtherMode" value string "%d resource(s) already edited in another editing mode. Close the corresponding editing window(s) first and try again."
 	key "StringShorterThanRequired" value string "String must be '%c' bytes long."
 	key "SystemError" value string "System error"
+	key "ThisResourceEditedInOtherMode" value string "This resource is already edited in another editing mode. Close the corresponding editing window first and try again."
+	key "TypeFieldIsEmpty" value string "Type can't be empty: it is a four-chars code."
 	key "UnknownTemplateType" value string "Unknown template type '%s'."
 }
 

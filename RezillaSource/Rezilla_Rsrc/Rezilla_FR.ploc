@@ -1,3 +1,6 @@
+// $Date$
+// $Revision$
+
 localize "French" as "Localizable.strings" 
 {
 	key "AlreadyExistTypeAndID" value string "Il existe déjà une ressource '%s' de numéro %d. Voulez-vous la remplacer ou en créer une avec un nouveau numéro (Unique ID) ?"
@@ -32,9 +35,11 @@ localize "French" as "Localizable.strings"
 	key "SaveRezMapWindow" value string "Voulez-vous sauvegarder les modifications avant de refermer la table de ressources ?"
 	key "SaveTemplateWindow" value string "Voulez-vous sauvegarder les modifications faites avec l'éditeur de gabarits ?"
 	key "SaveTextEditorWindow" value string "Voulez-vous sauvegarder les modifications faites avec l'éditeur de textes ?"
-	key "SomeResourcesAreAlreadyEdited" value string "Certaines ressources sont déjà éditées dans un autre mode d'édition. Fermer la fenêtre d'édition correspondante d'abord et réessayer."
+	key "SomeResourcesEditedInOtherMode" value string "%d ressource(s) déjà éditée(s) dans un autre mode d'édition. Fermer la ou les fenêtres d'édition correspondantes et réessayer."
 	key "StringShorterThanRequired" value string "La chaîone doit comporter '%c' octets."
 	key "SystemError" value string "Erreur système"
+	key "ThisResourceEditedInOtherMode" value string "Cette ressource est déjà éditée dans un autre mode d'édition. Fermer la fenêtre d'édition correspondantes et réessayer."
+	key "TypeFieldIsEmpty" value string "Le type ne peut être vide: c'est un code à quatre caractères."
 	key "UnknownTemplateType" value string "Code-type de gabarit inconnu '%s'."
 }
 
