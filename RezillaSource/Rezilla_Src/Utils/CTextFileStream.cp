@@ -6,7 +6,7 @@
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
-// Â© Copyright: Bernard Desgraupes 2002-2004
+// © Copyright: Bernard Desgraupes 2002-2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -249,6 +249,37 @@ CTextFileStream::WriteBooleanWithTag(
 
 
 // ---------------------------------------------------------------------------
+//	¥ WriteByChunks
+// ---------------------------------------------------------------------------
+//	Write a C string to a Stream as a text string cut down into pieces 
+//	separated by a specified separator.
+//	Returns the number of bytes written.
+
+SInt32
+CTextFileStream::WriteByChunks(
+		const char *inString, 
+		Str255	inSeparator, 
+		SInt32	inLen,
+		SInt32	inChunkSize)
+{
+	SInt32	bytesToWrite = inLen;
+	SInt32	bytesOffset = 0;
+	SInt32	chunksCount = inLen / inChunkSize;
+	
+	for (SInt32 i = 0; i < chunksCount; i++) {
+		bytesToWrite += WritePString(inSeparator);
+		WriteBlock(inString + bytesOffset, inChunkSize);
+		bytesOffset += inChunkSize;
+	}
+	if (bytesOffset > inLen) {
+		WriteBlock(inString + bytesOffset, inLen - bytesOffset);
+	} 
+
+	return bytesToWrite;
+}
+
+
+// ---------------------------------------------------------------------------
 //	¥ operator << (SInt32)
 // ---------------------------------------------------------------------------
 
@@ -279,4 +310,3 @@ CTextFileStream::operator << (Boolean inBool)
 
 
 PP_End_Namespace_PowerPlant
-

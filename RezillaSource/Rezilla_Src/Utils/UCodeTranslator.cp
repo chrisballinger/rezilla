@@ -3,11 +3,11 @@
 // 
 // © 2002, Bernard Desgraupes, All rights reserved.
 //                       Created: 2003-05-04 16:40:47
-//             Last modification: 2004-02-22 19:50:17
+//             Last modification: 2004-03-22 16:52:36
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003, 2004
+// © Copyright: Bernard Desgraupes 2003-2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -79,14 +79,14 @@ UCodeTranslator::ConvertAsciiToReadable(char* srcString, char* trgtString )
 
 
 // ---------------------------------------------------------------------------
-//	¥ ConvertBytesToSeparateHex												[public]
+//	¥ ConvertByteToSeparatedHex												[public]
 // ---------------------------------------------------------------------------
 // This function supposes that the src and trgt streams are properly allocated. 
 // The size of trgtDataStream should be three times the size of srcDataStream.
 // 	char nbsp = (char) 0xCA;	// nbsp
 
 void
-UCodeTranslator::ConvertBytesToSeparateHex( LDataStream* srcDataStream, LDataStream* trgtDataStream )
+UCodeTranslator::ConvertByteToSeparatedHex( LDataStream* srcDataStream, LDataStream* trgtDataStream )
 {
 	UInt8 readChar;
 	char * buffer = new char[3];
@@ -101,13 +101,13 @@ UCodeTranslator::ConvertBytesToSeparateHex( LDataStream* srcDataStream, LDataStr
 
 
 // ---------------------------------------------------------------------------
-//	¥ ConvertBytesToSeparateHex												[public]
+//	¥ ConvertByteToSeparatedHex												[public]
 // ---------------------------------------------------------------------------
 // This function supposes that the src and trgt strings are properly allocated. 
 // The size of trgtString should be three times the size of srcString.
 
 void
-UCodeTranslator::ConvertBytesToSeparateHex(char* srcString, char* trgtString )
+UCodeTranslator::ConvertByteToSeparatedHex(char* srcString, char* trgtString )
 {
 	char * buffer = new char[3];
 	SInt32 pos = 0;
@@ -121,14 +121,14 @@ UCodeTranslator::ConvertBytesToSeparateHex(char* srcString, char* trgtString )
 
 
 // ---------------------------------------------------------------------------
-//	¥ ConvertBytesToHex												[public]
+//	¥ ConvertByteToHex												[public]
 // ---------------------------------------------------------------------------
 // This function supposes that the src and trgt streams are properly allocated. 
 // The size of trgtDataStream should be twice the size of srcDataStream.
 // 	char nbsp = (char) 0xCA;	// nbsp
 
 void
-UCodeTranslator::ConvertBytesToHex( LDataStream* srcDataStream, LDataStream* trgtDataStream )
+UCodeTranslator::ConvertByteToHex( LDataStream* srcDataStream, LDataStream* trgtDataStream )
 {
 	UInt8 readChar;
 	char * buffer = new char[2];
@@ -143,13 +143,13 @@ UCodeTranslator::ConvertBytesToHex( LDataStream* srcDataStream, LDataStream* trg
 
 
 // ---------------------------------------------------------------------------
-//	¥ ConvertBytesToHex												[public]
+//	¥ ConvertByteToHex												[public]
 // ---------------------------------------------------------------------------
 // This function supposes that the src and trgt strings are properly allocated. 
 // The size of trgtString should be twice the size of srcString.
 
 void
-UCodeTranslator::ConvertBytesToHex(char* srcString, char* trgtString )
+UCodeTranslator::ConvertByteToHex(char* srcString, char* trgtString )
 {
 	char * buffer = new char[2];
 	SInt32 pos = 0;
@@ -163,13 +163,13 @@ UCodeTranslator::ConvertBytesToHex(char* srcString, char* trgtString )
 
 
 // ---------------------------------------------------------------------------
-//	¥ ConvertHexToCode												[public]
+//	¥ ConvertHexToByte												[public]
 // ---------------------------------------------------------------------------
 // This function converts a stream of hex data to their UInt8 values. If the 
 // size of the srcDataStream is odd, the last char is discarded. 
 
 void
-UCodeTranslator::ConvertHexToCode( LDataStream* srcDataStream, LDataStream* trgtDataStream )
+UCodeTranslator::ConvertHexToByte( LDataStream* srcDataStream, LDataStream* trgtDataStream )
 {
 	UInt8 readChar;
 	UInt8 val1 = 0;
@@ -192,6 +192,22 @@ UCodeTranslator::ConvertHexToCode( LDataStream* srcDataStream, LDataStream* trgt
 
 
 // ---------------------------------------------------------------------------
+//	¥ ConvertHexToByte												[public]
+// ---------------------------------------------------------------------------
+
+void
+UCodeTranslator::ConvertHexToByte(char* srcString, char* trgtString)
+{
+	SInt32	theLength = strlen(srcString);
+
+	LDataStream inStream(srcString, theLength);
+	LDataStream outStream(trgtString, theLength/2);
+	ConvertHexToByte(&inStream, &outStream);
+	trgtString[theLength/2] = 0;
+}
+
+
+// ---------------------------------------------------------------------------
 //	¥ ConvertHexToValue												[public]
 // ---------------------------------------------------------------------------
 
@@ -207,22 +223,6 @@ UCodeTranslator::ConvertHexToValue(UInt8 inHex)
 		val = inHex - 87;
 	}
 	return val;
-}
-
-
-// ---------------------------------------------------------------------------
-//	¥ ConvertHexToCode												[public]
-// ---------------------------------------------------------------------------
-
-void
-UCodeTranslator::ConvertHexToCode(char* srcString, char* trgtString)
-{
-	SInt32	theLength = strlen(srcString);
-
-	LDataStream inStream(srcString, theLength);
-	LDataStream outStream(trgtString, theLength/2);
-	ConvertHexToCode(&inStream, &outStream);
-	trgtString[theLength/2] = 0;
 }
 
 
@@ -301,14 +301,14 @@ UCodeTranslator::StripPeriodical( LDataStream* srcDataStream, LDataStream* trgtD
 // ===========================================================================
 
 // =====================================
-//  CLASS StHexTranslator
+//  CLASS StSepHexTranslator
 // =====================================
 
 // ---------------------------------------------------------------------------
-//	¥ StHexTranslator							Constructor			  [public]
+//	¥ StSepHexTranslator							Constructor			  [public]
 // ---------------------------------------------------------------------------
 
-StHexTranslator::StHexTranslator(Handle inHandle)
+StSepHexTranslator::StSepHexTranslator(Handle inHandle)
 {
 	mInHandle = inHandle;
 	mInSize = ::GetHandleSize(inHandle);
@@ -319,10 +319,10 @@ StHexTranslator::StHexTranslator(Handle inHandle)
 
 
 // ---------------------------------------------------------------------------
-//	¥ StHexTranslator							Constructor			  [public]
+//	¥ StSepHexTranslator							Constructor			  [public]
 // ---------------------------------------------------------------------------
 
-StHexTranslator::StHexTranslator(const void * inPtr, SInt32 inByteCount)
+StSepHexTranslator::StSepHexTranslator(const void * inPtr, SInt32 inByteCount)
 {
 	mInHandle = ::NewHandle(inByteCount);
 	mInSize = inByteCount;
@@ -334,10 +334,10 @@ StHexTranslator::StHexTranslator(const void * inPtr, SInt32 inByteCount)
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~StHexTranslator						Destructor				  [public]
+//	¥ ~StSepHexTranslator						Destructor				  [public]
 // ---------------------------------------------------------------------------
 
-StHexTranslator::~StHexTranslator()
+StSepHexTranslator::~StSepHexTranslator()
 {
 	// It should not be nil, but who knows...
 	if (mOutHandle != nil) {
@@ -351,42 +351,102 @@ StHexTranslator::~StHexTranslator()
 // ---------------------------------------------------------------------------
 
 void
-StHexTranslator::ConvertToHex()
+StSepHexTranslator::ConvertToHex()
 {
 	StHandleLocker locker(mInHandle);
 	
 	LDataStream inStream(*mInHandle, mInSize);
 	LDataStream outStream(*mOutHandle, mOutSize);
 	
-	UCodeTranslator::ConvertBytesToSeparateHex(&inStream, &outStream);
+	UCodeTranslator::ConvertByteToSeparatedHex(&inStream, &outStream);
 }
 
 
-
-
 // =====================================
-//  CLASS StHexToCodeTranslator
+//  CLASS StByteToHexTranslator
 // =====================================
 
 // ---------------------------------------------------------------------------
-//	¥ StHexToCodeTranslator							Constructor		  [public]
+//	¥ StByteToHexTranslator							Constructor			  [public]
 // ---------------------------------------------------------------------------
 
-StHexToCodeTranslator::StHexToCodeTranslator(Handle inHandle)
+StByteToHexTranslator::StByteToHexTranslator(Handle inHandle)
 {
 	mInHandle = inHandle;
 	mInSize = ::GetHandleSize(inHandle);
-	mOutSize = mInSize/2;
-	mOutHandle = ::NewHandle( mOutSize );
+	mOutSize = 2 * mInSize;
+	mOutHandle = ::NewHandle(mOutSize);
 	ThrowIfNil_(mOutHandle);
 }
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~StHexToCodeTranslator						Destructor		  [public]
+//	¥ StByteToHexTranslator							Constructor			  [public]
 // ---------------------------------------------------------------------------
 
-StHexToCodeTranslator::~StHexToCodeTranslator()
+StByteToHexTranslator::StByteToHexTranslator(const void * inPtr, SInt32 inByteCount)
+{
+	mInHandle = ::NewHandle(inByteCount);
+	mInSize = inByteCount;
+	BlockMoveData(inPtr, *mInHandle, inByteCount);
+	mOutSize = 2 * mInSize;
+	mOutHandle = ::NewHandle(mOutSize);
+	ThrowIfNil_(mOutHandle);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ ~StByteToHexTranslator						Destructor				  [public]
+// ---------------------------------------------------------------------------
+
+StByteToHexTranslator::~StByteToHexTranslator()
+{
+	// It should not be nil, but who knows...
+	if (mOutHandle != nil) {
+		::DisposeHandle(mOutHandle);
+	} 
+}
+
+
+// ---------------------------------------------------------------------------
+//	 ConvertToHex													[public]
+// ---------------------------------------------------------------------------
+
+void
+StByteToHexTranslator::ConvertToHex()
+{
+	StHandleLocker locker(mInHandle);
+	
+	LDataStream inStream(*mInHandle, mInSize);
+	LDataStream outStream(*mOutHandle, mOutSize);
+	
+	UCodeTranslator::ConvertByteToHex(&inStream, &outStream);
+}
+
+
+// =====================================
+//  CLASS StHexToByteTranslator
+// =====================================
+
+// ---------------------------------------------------------------------------
+//	¥ StHexToByteTranslator							Constructor		  [public]
+// ---------------------------------------------------------------------------
+
+StHexToByteTranslator::StHexToByteTranslator(Handle inHandle)
+{
+	mInHandle = inHandle;
+	mInSize = ::GetHandleSize(inHandle);
+	mOutSize = mInSize/2;
+	mOutHandle = ::NewHandle(mOutSize);
+	ThrowIfNil_(mOutHandle);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ ~StHexToByteTranslator						Destructor		  [public]
+// ---------------------------------------------------------------------------
+
+StHexToByteTranslator::~StHexToByteTranslator()
 {
 	// It should not be nil, but who knows...
 	if (mOutHandle != nil) {
@@ -400,7 +460,7 @@ StHexToCodeTranslator::~StHexToCodeTranslator()
 // ---------------------------------------------------------------------------
 
 void
-StHexToCodeTranslator::HexToCode()
+StHexToByteTranslator::HexToByte()
 {
 	StHandleLocker locker(mInHandle);
 	
@@ -408,7 +468,7 @@ StHexToCodeTranslator::HexToCode()
 	LDataStream outStream(*mOutHandle, mOutSize);
 // 	inStream.SetMarker(0L,streamFrom_Start);
 	
-	UCodeTranslator::ConvertHexToCode(&inStream, &outStream);
+	UCodeTranslator::ConvertHexToByte(&inStream, &outStream);
 }
 
 
@@ -578,5 +638,3 @@ StStripPeriodicalTranslator::FilterOutPeriodical()
 
 
 PP_End_Namespace_PowerPlant
-
-

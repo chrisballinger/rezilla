@@ -47,17 +47,17 @@ public:
 
 	static void		ConvertAsciiToReadable( char* srcString, char* trgtString );
 
-	static void		ConvertBytesToSeparateHex( LDataStream* srcDataStream, LDataStream* trgtDataStream );
+	static void		ConvertByteToSeparatedHex( LDataStream* srcDataStream, LDataStream* trgtDataStream );
 
-	static void		ConvertBytesToSeparateHex( char* srcString, char* trgtString );
+	static void		ConvertByteToSeparatedHex( char* srcString, char* trgtString );
 
-	static void		ConvertBytesToHex( LDataStream* srcDataStream, LDataStream* trgtDataStream );
+	static void		ConvertByteToHex( LDataStream* srcDataStream, LDataStream* trgtDataStream );
 
-	static void		ConvertBytesToHex( char* srcString, char* trgtString );
+	static void		ConvertByteToHex( char* srcString, char* trgtString );
 
-	static void		ConvertHexToCode(LDataStream* srcDataStream, LDataStream* trgtDataStream );
+	static void		ConvertHexToByte(LDataStream* srcDataStream, LDataStream* trgtDataStream );
 
-	static void		ConvertHexToCode( char* srcString, char* trgtString );
+	static void		ConvertHexToByte( char* srcString, char* trgtString );
 
 	static SInt32	StripBlanks(LDataStream* srcDataStream, LDataStream* trgtDataStream );
 
@@ -75,13 +75,13 @@ public:
 // ===========================================================================
 
 // ---------------------------------------------------------------------------
-//  ¥ class StHexTranslator
+//  ¥ class StSepHexTranslator
 // ---------------------------------------------------------------------------
-class StHexTranslator {
+class StSepHexTranslator {
 public:
-						StHexTranslator( Handle	inHandle );
-						StHexTranslator(const void * inPtr, SInt32 inByteCount);
-						~StHexTranslator();
+						StSepHexTranslator( Handle	inHandle );
+						StSepHexTranslator(const void * inPtr, SInt32 inByteCount);
+						~StSepHexTranslator();
 
 	void			ConvertToHex();
 
@@ -99,14 +99,38 @@ private:
 
 
 // ---------------------------------------------------------------------------
-//  ¥ class StHexToCodeTranslator
+//  ¥ class StByteToHexTranslator
 // ---------------------------------------------------------------------------
-class StHexToCodeTranslator {
+class StByteToHexTranslator {
 public:
-						StHexToCodeTranslator( Handle	inHandle );
-						~StHexToCodeTranslator();
+						StByteToHexTranslator( Handle	inHandle );
+						StByteToHexTranslator(const void * inPtr, SInt32 inByteCount);
+						~StByteToHexTranslator();
 
-	void			HexToCode();
+	void			ConvertToHex();
+
+	virtual Handle	GetOutHandle() { return mOutHandle;}
+
+	virtual Size	GetOutSize() { return mOutSize;}
+
+private:
+	Handle	mInHandle;
+	Handle	mOutHandle;
+	Size	mInSize;
+	Size	mOutSize;
+
+};
+
+
+// ---------------------------------------------------------------------------
+//  ¥ class StHexToByteTranslator
+// ---------------------------------------------------------------------------
+class StHexToByteTranslator {
+public:
+						StHexToByteTranslator( Handle	inHandle );
+						~StHexToByteTranslator();
+
+	void			HexToByte();
 
 	virtual Handle	GetOutHandle() { return mOutHandle;}
 
@@ -195,4 +219,3 @@ PP_End_Namespace_PowerPlant
 #endif
 
 #endif
-

@@ -286,7 +286,7 @@ CBiDataWE::InsertContents(Handle inHandle)
 {
 	switch (mDataType) {
 		case bidata_hexType: {
-			StHexTranslator translator(inHandle);
+			StSepHexTranslator translator(inHandle);
 			translator.ConvertToHex();
 			
 			// Empty the Waste edit
@@ -321,7 +321,7 @@ CBiDataWE::InsertContents(const void * inPtr, SInt32 inByteCount)
 {
 	switch (mDataType) {
 		case bidata_hexType: {
-			StHexTranslator translator(inPtr, inByteCount);
+			StSepHexTranslator translator(inPtr, inByteCount);
 			translator.ConvertToHex();
 			
 			// Empty the Waste edit

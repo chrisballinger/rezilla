@@ -376,8 +376,8 @@ CHexDataSubView::SyncContentsWithMemory(SInt32 inStartPos,
 		StStripPeriodicalTranslator blankstripper(txtData, 3);
 		blankstripper.FilterOutPeriodical();
 		// Convert ascii code to hex code
-		StHexToCodeTranslator translator(blankstripper.GetOutHandle());
-		translator.HexToCode();
+		StHexToByteTranslator translator(blankstripper.GetOutHandle());
+		translator.HexToByte();
 		WEInsert(*translator.GetOutHandle(), translator.GetOutSize(), nil, nil, we);
 	
 		if (txtData != nil) {

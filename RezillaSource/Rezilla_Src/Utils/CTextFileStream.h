@@ -6,7 +6,7 @@
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
-// Â© Copyright: Bernard Desgraupes 2002-2004
+// © Copyright: Bernard Desgraupes 2002-2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -81,6 +81,11 @@ public:
 
 	SInt32			WriteBooleanWithTag( Boolean inBool, const char *inTag);
 
+	SInt32			WriteByChunks(const char *inString, 
+								Str255	inSeparator, 
+								SInt32	inLen,
+								SInt32	inChunkSize);
+
 private:			// Copy and Assignment not allowed
 							CTextFileStream( const CTextFileStream& );
 
@@ -95,4 +100,3 @@ PP_End_Namespace_PowerPlant
 #endif
 
 #endif
-
