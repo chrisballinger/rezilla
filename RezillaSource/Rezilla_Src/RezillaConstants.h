@@ -161,7 +161,7 @@ const ResIDT	rPPob_PrefsMiscPane			= 7600;
 const ResIDT	rPPob_FindDialog			= 8500;
 const ResIDT	rPPob_OtherSize				= 8600;
 const ResIDT	rPPob_RezTypePicker			= 8700;
-const ResIDT	rPPob_TmplOptionPicker		= 8800;
+const ResIDT	rPPob_TmplKeyPickerPicker	= 8800;
 const ResIDT	rPPob_SimpleMessage			= 9500;
 const ResIDT	rPPob_AskIfMessage			= 9510;
 const ResIDT	rPPob_AskYesNoMessage		= 9520;
@@ -182,7 +182,7 @@ const ResIDT	rRidL_RezCompDialog			= rPPob_RezCompDialog;
 const ResIDT	rRidL_RezCompWindow			= rPPob_RezCompWindow;
 const ResIDT	rRidL_AskUniqueID			= rPPob_AskUniqueID;
 const ResIDT	rRidL_RezTypePicker			= rPPob_RezTypePicker;
-const ResIDT	rRidL_TmplOptionPicker		= rPPob_TmplOptionPicker;
+const ResIDT	rRidL_TmplKeyPickerPicker	= rPPob_TmplKeyPickerPicker;
 
 const ResIDT	ics8_Unlocked				= 1500;
 const ResIDT	ics8_Locked					= 1501;
@@ -395,12 +395,11 @@ const PaneIDT	item_UidOtherConflicts		= 1;
 // --------------------
 const PaneIDT	item_TypePickerField		= 1;
 const PaneIDT	item_TypePickerMenu			= 2;
-// Template Option Picker
-// ----------------------
-const PaneIDT	item_TmplOptionType			= 1;
-const PaneIDT	item_TmplOptionUsingType	= 2;
-const PaneIDT	item_TmplOptionLabel		= 3;
-const PaneIDT	item_TmplOptionMenu			= 4;
+// Template Key Picker
+// -------------------
+const PaneIDT	item_TmplKeyPickerType		= 1;
+const PaneIDT	item_TmplKeyPickerLabel		= 2;
+const PaneIDT	item_TmplKeyPickerMenu		= 3;
 
 // Preferences
 // -----------
@@ -574,7 +573,7 @@ const MessageT	msg_TypePickerField			= rPPob_RezTypePicker + item_TypePickerFiel
 const MessageT	msg_TypePickerMenu			= rPPob_RezTypePicker + item_TypePickerMenu;
 // Template Option Picker
 // ----------------------
-const MessageT	msg_TmplOptionMenu			= rPPob_TmplOptionPicker + item_TmplOptionMenu;
+const MessageT	msg_TmplKeyPickerMenu		= rPPob_TmplKeyPickerPicker + item_TmplKeyPickerMenu;
 
 // Preferences
 // -----------
@@ -695,6 +694,7 @@ enum RezillaErrors
 	err_TmplParseDateFailed,
 	err_TmplNotExpectedSize,
 	err_TmplCreateEmptyNewAborted,
+	err_TmplNoCaseInKeySection,
 	err_TmplMalformedCaseSection,
 	err_TmplMalformedKeySection,
 	err_TmplCantFindKeyedSectionStart,
