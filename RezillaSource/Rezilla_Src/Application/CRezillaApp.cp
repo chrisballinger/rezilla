@@ -724,7 +724,7 @@ OSErr
 CRezillaApp::OpenFork(FSSpec & inFileSpec)
 {
 	SInt16 theFork;
-	short theRefnum;
+	short theRefNum;
 	OSErr error;
 	
 	// Check if a RezMapDoc is already opened for this file
@@ -733,9 +733,9 @@ CRezillaApp::OpenFork(FSSpec & inFileSpec)
 		theRezMapDocPtr->GetRezMapWindow()->Select();
 		return true;
 	} 
-	error = PreOpen(inFileSpec, theFork, theRefnum, mOpeningFork);
+	error = PreOpen(inFileSpec, theFork, theRefNum, mOpeningFork);
 	if ( error == noErr ) {
-		new CRezMapDoc(this, &inFileSpec, theFork, theRefnum);
+		new CRezMapDoc(this, &inFileSpec, theFork, theRefNum);
 	} 
 	
 	return error;
@@ -1000,7 +1000,6 @@ CRezillaApp::HandleOpenDocsEvent(
 		
 	if (theDocList.descriptorType != typeNull) ::AEDisposeDesc(&theDocList);
 }
-
 
 
 

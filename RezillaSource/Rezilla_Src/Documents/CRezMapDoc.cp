@@ -150,12 +150,12 @@ CRezMapDoc::CRezMapDoc(LCommander *inSuper,
 CRezMapDoc::~CRezMapDoc()
 {
 	short theattrs;
-	mRezMap->GetFileAttrs(theattrs);
+	mRezMap->GetMapAttributes(theattrs);
 	
 	if (mUpdateOnClose == false) {
 		mRezMap->UnsetFileAttrs(1 << mapChangedBit);
 	} 
-	mRezMap->GetFileAttrs(theattrs);
+	mRezMap->GetMapAttributes(theattrs);
 	
 	mRezFile->CloseFile();
 	ThrowIfOSErr_( mRezFile->CloseFile() );
@@ -449,7 +449,7 @@ CRezMapDoc::IsModified()
 	short theResFileAttrs;
 	Boolean docModified;
 	
-	mRezMapWindow->GetRezMapTable()->GetRezMap()->GetFileAttrs(theResFileAttrs);
+	mRezMapWindow->GetRezMapTable()->GetRezMap()->GetMapAttributes(theResFileAttrs);
 	
 	docModified = (mIsModified  || (theResFileAttrs & mapChangedBit) );
 	return docModified;
@@ -709,10 +709,12 @@ CRezMapDoc::AskSaveAs(
 void
 CRezMapDoc::DoRevert()
 {
-	// 	Set the changedMap attribute to false, close and reopen the rezfile
-
-	// 	Close all the RezEditor windows which might be opened
-    
+	short		mapAttrs;
+	FSSpec		theFSSpec;
+	short		theRefNum;
+	SInt16		theFork;
+	OSErr		error;
+	
 	// Delete all the editor windows depending from this rezmap
     if (mOpenedEditors != nil) {
         TArrayIterator<CRezEditor *> iterator(*mOpenedEditors);
@@ -722,10 +724,45 @@ CRezMapDoc::DoRevert()
         }
     } 
 	
-	// 	Erase the RezMapTable
+	// Set the changedMap attribute to false
+	// mapChanged = 2^mapChangedBit
+	mRezMap->UnsetFileAttrs(mapChanged);
 
-	// 	Rebuild it
-		
+	// Close...
+	mRezFile->GetSpecifier(theFSSpec);
+	mRezFile->CloseFile();
+	// ... and reopen the rezfile
+	error = dynamic_cast<CRezillaApp *>(GetSuperCommander())->PreOpen(theFSSpec, theFork, theRefNum, mFork);
+
+	if (error == noErr) {
+		delete mRezFile;
+		mRezFile = new CRezFile(theFSSpec, theRefNum, mFork);
+		mRezFile->SetOwnerDoc(this);
+	} else {
+		dynamic_cast<CRezillaApp *>(GetSuperCommander())->ReportOpenForkError(error, &theFSSpec);
+		return;
+	}
+	
+	// Delete the RezMap object and create a new one
+	delete mRezMap;
+	mRezMap = new CRezMap(theRefNum);
+	mRezMapWindow->GetRezMapTable()->SetRezMap(mRezMap);
+
+	// Erase the RezMapTable
+	mRezMapWindow->GetRezMapTable()->RemoveAllItems();
+	
+	// Rebuild it
+	CTypeComparator* theComparator = new CTypeComparator;
+	delete mTypesArray;
+	mTypesArray = new TArray<ResType>( theComparator, true);
+	mRezMap->GetAllTypes(mTypesArray);
+	mRezMapWindow->GetRezMapTable()->Populate(mTypesArray);
+	
+	// Mark the document as non modified
+	SetModified(false);
+
+	// Redraw
+	mRezMapWindow->Refresh();
 }
 
 
@@ -1587,6 +1624,5 @@ CRezMapDoc::UpdateRefNum(short newRefNum)
 
 
 PP_End_Namespace_PowerPlant
-
 
 

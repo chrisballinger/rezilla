@@ -168,7 +168,7 @@ CRezCompare::RunRezCompareDialog()
 				// Select the files to compare
 				OSErr	error;
 				SInt16	theFork;
-				short	theRefnum;
+				short	theRefNum;
 				FSSpec	theFSSpec;
 				Str255	thePath;
 				LFileTypeList fileTypes(fileTypes_All);
@@ -184,7 +184,7 @@ CRezCompare::RunRezCompareDialog()
 				}
 				
 				if ( chooser.AskChooseOneFile(fileTypes, theFSSpec) ) {
-					error = CRezillaApp::PreOpen(theFSSpec, theFork, theRefnum);
+					error = CRezillaApp::PreOpen(theFSSpec, theFork, theRefNum);
 					
 					if (error != noErr) {
 						CRezillaApp::ReportOpenForkError(error, &theFSSpec);
@@ -195,7 +195,7 @@ CRezCompare::RunRezCompareDialog()
 								theOldStaticText->SetDescriptor(thePath);
 							} 
 							LString::CopyPStr(thePath, mOldPath);
-							mOldMap = new CRezMap(theRefnum);
+							mOldMap = new CRezMap(theRefNum);
 							break;
 						
 						  case msg_RezCompSetNew:
@@ -203,7 +203,7 @@ CRezCompare::RunRezCompareDialog()
 								theNewStaticText->SetDescriptor(thePath);
 							} 
 							LString::CopyPStr(thePath, mNewPath);
-							mNewMap = new CRezMap(theRefnum);
+							mNewMap = new CRezMap(theRefNum);
 							break;
 						}
 					}
@@ -419,6 +419,5 @@ CRezCompare::DisplayResults()
 	mResultWindow->FillTableView(mOnlyInNewList, list_OnlyInNew);
 	mResultWindow->FillTableView(mDifferingList, list_Differing);		
 }
-
 
 
