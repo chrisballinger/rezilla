@@ -813,7 +813,7 @@ CRezMapTable::ReceiveDragItem(DragReference inDragRef,
 				}
 				switch (answer) {
 					case answer_Do:
-					mRezMap->UniqueID(theType, theID);;
+					mRezMap->UniqueID(theType, theID);
 					break;
 					
 					case answer_Dont:

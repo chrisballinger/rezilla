@@ -980,7 +980,7 @@ CRezillaPrefs::RunPrefsDialog()
 		if (msg_OK == theMessage) {
 			PaneIDT theCurrentRadioID;
 			
-			//    Retreive the controls values
+			//    Retrieve the controls values
 			// -------------------------------		
 			
 			// CompPrefsIgnName

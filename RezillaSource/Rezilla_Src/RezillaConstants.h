@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2004-08-17 21:17:26
+//             Last modification : 2004-08-20 19:19:38
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -161,6 +161,7 @@ const ResIDT	rPPob_PrefsMiscPane			= 7600;
 const ResIDT	rPPob_FindDialog			= 8500;
 const ResIDT	rPPob_OtherSize				= 8600;
 const ResIDT	rPPob_RezTypePicker			= 8700;
+const ResIDT	rPPob_TmplOptionPicker		= 8800;
 const ResIDT	rPPob_SimpleMessage			= 9500;
 const ResIDT	rPPob_AskIfMessage			= 9510;
 const ResIDT	rPPob_AskYesNoMessage		= 9520;
@@ -181,6 +182,7 @@ const ResIDT	rRidL_RezCompDialog			= rPPob_RezCompDialog;
 const ResIDT	rRidL_RezCompWindow			= rPPob_RezCompWindow;
 const ResIDT	rRidL_AskUniqueID			= rPPob_AskUniqueID;
 const ResIDT	rRidL_RezTypePicker			= rPPob_RezTypePicker;
+const ResIDT	rRidL_TmplOptionPicker		= rPPob_TmplOptionPicker;
 
 const ResIDT	ics8_Unlocked				= 1500;
 const ResIDT	ics8_Locked					= 1501;
@@ -389,10 +391,17 @@ const PaneIDT	item_CompResultTxtRadio		= 27;
 // Ask Unique ID dialog
 // --------------------
 const PaneIDT	item_UidOtherConflicts		= 1;
-// Rez Type Picker dialog
-// ----------------------
+// Resource Type Picker
+// --------------------
 const PaneIDT	item_TypePickerField		= 1;
 const PaneIDT	item_TypePickerMenu			= 2;
+// Template Option Picker
+// ----------------------
+const PaneIDT	item_TmplOptionType			= 1;
+const PaneIDT	item_TmplOptionUsingType	= 2;
+const PaneIDT	item_TmplOptionLabel		= 3;
+const PaneIDT	item_TmplOptionMenu			= 4;
+
 // Preferences
 // -----------
 const PaneIDT   item_PrefsOkButton			= 1;
@@ -556,10 +565,14 @@ const MessageT	msg_CompResultOnlyNewTbl	= rPPob_RezCompWindow + item_CompResultO
 // Ask Unique ID dialog
 // --------------------
 const MessageT	msg_UidOtherConflicts		= rPPob_AskUniqueID + item_UidOtherConflicts;
-// Rez Type Picker dialog
-// ----------------------
+// Resource Type Picker
+// --------------------
 const MessageT	msg_TypePickerField			= rPPob_RezTypePicker + item_TypePickerField;
 const MessageT	msg_TypePickerMenu			= rPPob_RezTypePicker + item_TypePickerMenu;
+// Template Option Picker
+// ----------------------
+const MessageT	msg_TmplOptionMenu			= rPPob_TmplOptionPicker + item_TmplOptionMenu;
+
 // Preferences
 // -----------
 const MessageT  msg_PrefsRevert				= rPPob_PrefsWindow + 3;
@@ -667,7 +680,8 @@ enum
 	err_TmplMalformedDateValue,
 	err_TmplCantGetDateFormat,
 	err_TmplParseDateFailed,
-	err_TmplNotExpectedSize
+	err_TmplNotExpectedSize,
+	err_TmplCreateNewAborted
 };
 
 

@@ -1693,7 +1693,7 @@ CRezMapDoc::PasteRezMap(CRezMap * srcRezMap)
 						}
 						switch (answer) {
 							case answer_Do:
-							mRezMap->UniqueID(theType, theID);;
+							mRezMap->UniqueID(theType, theID);
 							break;
 							
 							case answer_Dont:
