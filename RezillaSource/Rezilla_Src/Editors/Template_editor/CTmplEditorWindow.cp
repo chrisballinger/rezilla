@@ -623,7 +623,21 @@ CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount,
 		case 'LSTB':
 		case 'LSTZ':
 		SInt32	listCount = 0;
-		Boolean drawCtrl = (mRezStream->GetMarker() < mRezStream->GetLength());
+		Boolean drawCtrl = true;
+		
+		if ( EndOfList(inType) ) {
+			// An LSTZ list must be terminated by a NULL
+			if (inType == 'LSTZ') {
+				if ( mRezStream->GetLength() > O && mRezStream->GetMarker() == mRezStream->GetLength() - 1 ) {
+					*mRezStream >> theChar;
+					if (theChar != 0) {
+						return err_TmplZeroListNotEndingWithNull;
+					}
+				}
+			} 
+			mRezStream->SetMarker(O, streamFrom_End);
+			drawCtrl = false;
+		} 
 		mYCoord = outYCoord;
 		do {
 			if (drawCtrl) {
@@ -644,13 +658,6 @@ CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount,
 				mYCoord = outYCoord;
 			} 
 		} while (! EndOfList(inType) );
-		// An LSTZ list must be terminated by a NULL
-		if (inType == 'LSTZ' && drawCtrl) {
-			*mRezStream >> theChar;
-			if (theChar != 0) {
-				error = err_TmplZeroListNotEndingWithNull;
-			}
-		} 
 		if (inCountPane != 0) {
 			AdjustCounterField(inCountPane, listCount);
 		} 
@@ -1177,10 +1184,12 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		break;
 		
 		case 'LZCT':
-		// Zero-based long count
+		// Zero-based long count. We put a limit to 0xffff elements (not
+		// even sure there could be that much controls). A value  0xffffffff
+		// means 0 items in fact.
 		if (mRezStream->GetMarker() < mRezStream->GetLength() ) {
 			*mRezStream >> theUInt32;
-			if (theUInt32 < 0xfffe) {
+			if (theUInt32 < 0xffff || theUInt32 == 0xffffffff) {
 				mItemsCount = theUInt32 + 1;
 			} else {
 				error = err_TmplListCountTooBig;
@@ -1517,9 +1526,7 @@ CTmplEditorWindow::DoRetrieveWithTemplate(SInt32 inRecursionMark, Boolean inRead
 			|| theType == 'FCNT' || theType == 'LCNT' || theType == 'LZCT') {
 			error = RetrieveDataForType(theType);
 		} else if (theType == 'LSTB' || theType == 'LSTC' || theType == 'LSTZ') {
-// 			if (theType == 'LSTC') {
-				RetrieveCountValue();
-// 			} 
+			RetrieveCountValue();
 			// Skip the count field, and the Plus and Minus buttons
 			mCurrentID += 3;
 			error = RetrieveList(mTemplateStream->GetMarker(), theType, mItemsCount);
@@ -1669,9 +1676,9 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		case 'BCNT':
 		// Byte count for LSTC lists. Reserve a space for the count. It
 		// will be filled later when the LSTC tag is met.
-		*mOutStream << (UInt8) 0x00;
 		mListCountMark = mOutStream->GetMarker();
 		mCountType = inType;
+		*mOutStream << (UInt8) 0x00;
 		break;
 
 		case 'BFLG':
@@ -1975,9 +1982,9 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		case 'LCNT':
 		// One-based long count for LSTC lists. Reserve a space for the count. It
 		// will be filled later when the LSTC tag is met.
-		*mOutStream << (UInt32) 0x00000000;
 		mListCountMark = mOutStream->GetMarker();
 		mCountType = inType;
+		*mOutStream << (UInt32) 0x00000000;
 		break;
 
 		case 'LFLG':
@@ -2047,18 +2054,18 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		case 'LZCT':
 		// Zero-based count for LSTC lists. Reserve a space for the count. It
 		// will be filled later when the LSTC tag is met.
-		*mOutStream << (UInt32) 0x00000000;
 		mListCountMark = mOutStream->GetMarker();
 		mCountType = inType;
+		*mOutStream << (UInt32) 0x00000000;
 		break;
 
 		case 'OCNT':
 		case 'WCNT':
 		// One-based count for LSTC lists. Reserve a space for the count. It
 		// will be filled later when the LSTC tag is met.
-		*mOutStream << (UInt16) 0x0000;
 		mListCountMark = mOutStream->GetMarker();
 		mCountType = inType;
+		*mOutStream << (UInt16) 0x0000;
 		break;
 
 		case 'OCST':
@@ -2259,9 +2266,9 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		case 'ZCNT':
 		// Zero-based count for LSTC lists. Reserve a space for the count. It
 		// will be filled later when the LSTC tag is met.
-		*mOutStream << (UInt16) 0x0000;
 		mListCountMark = mOutStream->GetMarker();
 		mCountType = inType;
+		*mOutStream << (UInt16) 0x0000;
 		break;
 
 	  default:
@@ -2504,12 +2511,13 @@ CTmplEditorWindow::RetrieveCountValue()
 		
 		case 'LCNT':
 		// One-based long count for LSTC lists
+		mItemsCount = (UInt16) theLong;
 		if (theLong < 0xffff) {
-			mItemsCount = theLong;
+			theUInt32 = (UInt32) theLong;
 		} else {
 			error = err_TmplListCountTooBig;
 		}
-		*mOutStream << theLong;
+		*mOutStream << theUInt32;
 		break;
 		
 		case 'LZCT':
@@ -2517,11 +2525,11 @@ CTmplEditorWindow::RetrieveCountValue()
 		mItemsCount = (UInt16) theLong;
 		if (theLong < 0xffff) {
 			if (!theLong) {
-				theUInt16 = 0xffff;
+				theUInt32 = 0xffffffff;
 			} else {
-				theUInt16 = (UInt16) --theLong;
+				theUInt32 = theLong - 1;
 			}
-			*mOutStream << theUInt16;
+			*mOutStream << theUInt32;
 		} else {
 			error = err_TmplListCountTooBig;
 		}
@@ -2531,9 +2539,7 @@ CTmplEditorWindow::RetrieveCountValue()
 		case 'WCNT':
 		// One-based count for LSTC lists
 		mItemsCount = (UInt16) theLong;
-// 		if (mCountType != 'FCNT') {
-			*mOutStream << mItemsCount;
-// 		} 
+		*mOutStream << mItemsCount;
 		break;
 		
 		case 'ZCNT':
@@ -2549,7 +2555,6 @@ CTmplEditorWindow::RetrieveCountValue()
 		
 	}
 	
-// 	mCurrentID++;
 	mOutStream->SetMarker(currMark, streamFrom_Start);
 	return error;
 }
