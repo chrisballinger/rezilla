@@ -210,6 +210,8 @@ const ResIDT	STRx_InternetUrls			= 1504;
 const ResIDT	STRx_LanguageCodes			= 1601;
 const ResIDT	STRx_RegionCodes			= 1602;
 const ResIDT	STRx_ScriptCodes			= 1603;
+const ResIDT	STRx_PaintUndo				= 7000;
+const ResIDT	STRx_PaintUndo				= 7001;
 
 // Text traits resources
 const ResIDT    Txtr_GenevaTenBold          = 131;
@@ -295,6 +297,29 @@ const SInt16	index_ExtText				= 4;
 const SInt16	index_ExtHtml				= 5;
 const SInt16	index_ExtR					= 6;
 const SInt16	index_ExtIcns				= 7;
+// Indices of STR# 7000 and 7001: undo/redo for icon editor
+const SInt16	index_UndoLine				= 1;
+const SInt16	index_UndoBucket			= 2;
+const SInt16	index_UndoRect				= 3;
+const SInt16	index_UndoRoundRect			= 4;
+const SInt16	index_UndoOval				= 5;
+const SInt16	index_UndoEraser			= 6;
+const SInt16	index_UndoPen				= 7;
+const SInt16	index_UndoMove				= 8;
+const SInt16	index_UndoFlip				= 9;
+const SInt16	index_UndoRotate			= 10;
+const SInt16	index_UndoGeneric			= 11;
+const SInt16	index_UndoEraseAll			= 12;
+const SInt16	index_UndoCut				= 13;
+const SInt16	index_UndoPaste				= 14;
+const SInt16	index_UndoClear				= 15;
+const SInt16	index_UndoTransparent		= 16;
+const SInt16	index_UndoDrag				= 17;
+const SInt16	index_UndoHotSpot			= 18;
+const SInt16	index_UndoRecolor			= 19;
+const SInt16	index_UndoResize			= 20;
+const SInt16	index_UndoDeleteImage		= 21;
+const SInt16	index_UndoText				= 22;
 
 
 
@@ -886,6 +911,25 @@ enum RezillaErrors
 	err_TmplCantFindKeyPosition,
 	err_TmplUnsupportedResourceId,
 	err_TmplCantFindMatchingKeyEnd,
+	err_FirstError = 3000;   // Used by Icon editor
+	err_IconGeneric					= 3000,	
+	err_IconInvalidImageDepth,
+	err_IconInvalidImageFormat,
+	err_IconInvalidImageSize,
+	err_IconCorruptedResource,
+	err_IconCorruptedFile,
+	err_IconUnknownDataType,
+	err_IconAssertionProxy,
+	err_IconNilPointerProxy,
+	err_IconOutOfMemory,
+	err_IconResourceNotFound,
+	err_IconDiskFull,
+	err_IconFileNotFound,
+	err_IconIOError,
+	err_IconResizeFormatString,
+	err_IconFileLocked,
+	err_IconBadFontSize,
+	err_LastError					= 3099,   // Used by Icon editor
 	err_RezillaErrorEnd
 };
 
@@ -994,4 +1038,53 @@ const SInt16	kTmplSeparatorHeight	= 3;
 const SInt16	kTmplColorHeight		= 16;
 const SInt16	kTmplColorWidth			= 24;
 const SInt16	kTmplMinListItemHeight	= 16;
+
+
+// Helpful macros
+// ==============
+#ifndef MIN
+	#define MIN(a,b) ( (a)<(b) ? a : b )
+
+
+#ifndef MAX
+	#define MAX(a,b) ( (a)<(b) ? b : a )
+
+
+#ifndef ABS
+	#define ABS(x)   ( (x) < 0 ?  -(x) : x )
+
+
+// Prov types for Icon editor
+// ==========================
+typedef SInt16		VolIDT;
+typedef SInt32		DirIDT;
+typedef SInt16		FileIDT;
+typedef SInt16		ResFileIDT;
+
+/*
+	HFS volumes may break the 32-bit limit, so we might as well
+	make it possible to find code dependent on the file size.
+*/
+typedef UInt32		DiskSizeT;
+typedef UInt32		FileSizeT;		
+typedef UInt32		MemSizeT;
+
+/*
+	a few other things shared by several pieces of code
+*/
+typedef UInt32		PixelValue;		// raw values within a bitmap/pixmap
+typedef UInt32		Color32;		// RGB color in a long (0:R:G:B)
+
+typedef UInt8 *		RawPtr;
+typedef UInt8		RawByte;
+
+/*
+	Three ways to redraw
+*/
+enum ERedrawOptions
+{
+	redraw_Now,
+	redraw_Later,
+	redraw_Dont
+};
 
