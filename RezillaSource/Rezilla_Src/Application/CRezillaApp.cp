@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2004-06-18 08:31:56
+//             Last modification: 2004-06-20 20:28:11
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -41,6 +41,7 @@
 #include "CRezIconPane.h"
 #include "CCompResultWindow.h"
 #include "CRangeEditText.h"
+#include "CStaticTextURL.h"
 #include "UNavigationDialogs.h"
 #include "NavServicesCallbacks.h"
 #include "UMessageDialogs.h"
@@ -310,6 +311,7 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(CWasteEditView);
 	RegisterClass_(CTEXT_EditorWindow);
 	RegisterClass_(CTEXT_EditorView);
+	RegisterClass_(CStaticTextURL);
 
 // 	RegisterClass_(ATag);
 
@@ -530,14 +532,29 @@ CRezillaApp::ListenToMessage( MessageT inMessage, void *ioParam )
 void
 CRezillaApp::MakeAboutWindow()
 {	
+	Str255	theString;
+	LStaticText *theCaption;	
+	CStaticTextURL *theUrlCaption;	
+
 	mAboutWindow = (LDialogBox *)(LWindow::CreateWindow( rPPob_AboutWindow, this ));
 	ThrowIfNil_(mAboutWindow);
 	
 	// Write the version number in the caption
-	LStaticText *theCaption;	
 	theCaption = dynamic_cast<LStaticText *>(mAboutWindow->FindPaneByID( item_AboutVersCaption ));
 	theCaption->SetDescriptor(sVersionNumber);
 
+	// Write the URLs
+	for (UInt8 i = 0; i < 5; i++) {
+		theUrlCaption = dynamic_cast<CStaticTextURL *>(mAboutWindow->FindPaneByID( item_AboutUrlsBase + i ));
+	
+		// Retrieve strings from STR# resource
+		::GetIndString(theString, STRx_InternetUrls, 2*i+1);
+		theUrlCaption->SetDescriptor(theString);
+		
+		::GetIndString(theString, STRx_InternetUrls, 2*i+2);
+		theUrlCaption->SetUrlString(theString);
+	}
+	
 	UReanimator::LinkListenerToControls( this, mAboutWindow, rRidL_AboutWindow );
 }
 
