@@ -220,7 +220,7 @@ CRezCompare::RunRezCompareDialog()
 						break;
 						
 						case msg_RezCompSetNew:
-						if ( UMiscUtils::MakePath(&theFSSpec, mNewPath, 450) == noErr ) {
+						if ( UMiscUtils::MakePath(&theFSSpec, mNewPath, 650) == noErr ) {
 							theNewStaticText->SetDescriptor(mNewPath);
 						} 
 						UMiscUtils::CopyFSSpec(theFSSpec, sNewFSSpec);
