@@ -41,19 +41,20 @@ enum
 	hex_txtpane
 };
 
-class CDualDataView : public LTextGroupBox, LCommander {
+class CDualDataView : public LTextGroupBox, public LCommander {
 public:
 	enum { class_ID = 'DuVw' };
 
 							CDualDataView(
 								LStream*		inStream);
 							CDualDataView(
-								  const SPaneInfo&	inPaneInfo,
-								  const SViewInfo&	inViewInfo,
-								  const DualGeometry& inGeometry,
-								  Boolean			inPrimary = true,
-								  ResIDT			inTextTraitsID = 0,
-								  ConstStringPtr	inTitle = Str_Empty);
+										  LCommander *		inSuper,
+										  const SPaneInfo&	inPaneInfo,
+										  const SViewInfo&	inViewInfo,
+										  const DualGeometry& inGeometry,
+										  Boolean			inPrimary = true,
+										  ResIDT			inTextTraitsID = 0,
+										  ConstStringPtr	inTitle = Str_Empty);
 							~CDualDataView();
 
 	virtual void	ListenToMessage( MessageT inMessage,void *ioParam);

@@ -1,11 +1,11 @@
 // ===========================================================================
 //	CHexDataSubView.h
 //                       Created: 2003-05-06 06:04:42
-//             Last modification: 2003-05-10 17:02:32
+//             Last modification: 2004-10-20 08:51:23
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003
+// © Copyright: Bernard Desgraupes 2003-2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -41,12 +41,13 @@ public:
 							CHexDataSubView();
 							CHexDataSubView(CTxtDataSubView * inSiblingView);
 							CHexDataSubView(
+											LCommander *		inSuper,
 											const SPaneInfo&	inPaneInfo,
 											const SViewInfo&	inViewInfo,
 											UInt16				inTextAttributes,
 											ResIDT				inTextTraitsID,
+											Boolean				inWordWrap = false,
 											Boolean				inReadOnly = false,
-											Boolean				inWordWrap = true,
 											Boolean				inSelectable = true);
 							CHexDataSubView(LStream * inStream );
 	virtual					~CHexDataSubView();

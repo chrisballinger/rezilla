@@ -2,11 +2,11 @@
 // CWasteEditView.cp 
 // 
 // Created : 2001-09-05 18:22:04 
-// Last modification : 2004-06-07 09:13:04
+// Last modification : 2004-10-20 08:51:29
 // Author: Bernard Desgraupes 
 // e-mail: <bdesgraupes@easyconnect.fr> 
 // www: <http://webperso.easyconnect.fr/bdesgraupes/> 
-// © Copyright: Bernard Desgraupes 2001-2003, 2004
+// © Copyright: Bernard Desgraupes 2001-2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -93,15 +93,17 @@ CWasteEditView::CWasteEditView(
 // ---------------------------------------------------------------------------
 
 CWasteEditView::CWasteEditView(
-	const SPaneInfo&	inPaneInfo,
-	const SViewInfo&	inViewInfo,
-	UInt16				inTextAttributes,
-	ResIDT				inTextTraitsID,
-	Boolean				inReadOnly,
-	Boolean				inWordWrap,
-	Boolean				inSelectable)
+	   LCommander *		inSuper,
+	   const SPaneInfo&	inPaneInfo,
+	   const SViewInfo&	inViewInfo,
+	   UInt16			inTextAttributes,
+	   ResIDT			inTextTraitsID,
+	   Boolean			inWordWrap,
+	   Boolean			inReadOnly,
+	   Boolean			inSelectable)
 
-	: LView(inPaneInfo, inViewInfo)
+	: LView(inPaneInfo, inViewInfo),
+	  LCommander(inSuper)
 {
 	mReadOnly = inReadOnly;
 	mWordWrap = inWordWrap;

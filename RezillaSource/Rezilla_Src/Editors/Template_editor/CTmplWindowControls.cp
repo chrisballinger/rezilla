@@ -2,7 +2,7 @@
 // CTmplWindowUtils.cp					
 // 
 //                       Created: 2004-08-20 16:45:08
-//             Last modification: 2004-10-16 10:09:10
+//             Last modification: 2004-10-20 08:50:07
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -539,15 +539,14 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 
 	theViewInfo.imageSize.width		= theViewInfo.imageSize.height	= 0 ;
 	theViewInfo.scrollPos.h			= theViewInfo.scrollPos.v		= 0;
-	theViewInfo.scrollUnit.h		= theViewInfo.scrollUnit.v		= 1;
+	theViewInfo.scrollUnit.h		= theViewInfo.scrollUnit.v		= CRezillaApp::sBasics.charHeight;
 	theViewInfo.reconcileOverhang	= false;
 	
-	sTgbPaneInfo.paneID				= 0;
 	sTgbPaneInfo.top				= mYCoord;
 	sTgbPaneInfo.left				= kTmplTextMargin;
 	sTgbPaneInfo.width				= theFrame.width - kTmplTextMargin * 2;
 	sTgbPaneInfo.superView			= inContainer;
-
+	sTgbPaneInfo.paneID				= 0;
 	LTextGroupBox * theTGB = new LTextGroupBox(sTgbPaneInfo, theViewInfo, false);
 	ThrowIfNil_(theTGB);
 
@@ -562,7 +561,7 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer)
 	sWastePaneInfo.superView		= theTGB;
 	
 	// Make the Waste edit writable, not wrapping, selectable
-	CWasteEditView * theWasteEdit = new CWasteEditView(sWastePaneInfo, theViewInfo, 0, sEditTraitsID);
+	CWasteEditView * theWasteEdit = new CWasteEditView(this, sWastePaneInfo, theViewInfo, 0, sEditTraitsID, true, mOwnerDoc->IsReadOnly());
 	ThrowIfNil_(theWasteEdit);
 	// Add to the mWasteFields
 	mWasteFields.AddItem(theWasteEdit);
@@ -636,7 +635,6 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 	
 	// Install the UI elements
 	inContainer->GetFrameSize(theFrame);
-	mOwnerDoc = dynamic_cast<CTmplEditorDoc*>(GetSuperCommander());
 
 	geo.hinst = kTmplTextInset;
 	geo.vinst = kTmplTextInset;
@@ -645,7 +643,7 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 	
 	theViewInfo.imageSize.width		= theViewInfo.imageSize.height	= 0 ;
 	theViewInfo.scrollPos.h			= theViewInfo.scrollPos.v		= 0;
-	theViewInfo.scrollUnit.h		= theViewInfo.scrollUnit.v		= 1;
+	theViewInfo.scrollUnit.h		= theViewInfo.scrollUnit.v		= CRezillaApp::sBasics.charHeight;
 	theViewInfo.reconcileOverhang	= false;
 	
 	sTgbPaneInfo.top				= mYCoord;
@@ -653,9 +651,10 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 	sTgbPaneInfo.width				= theFrame.width - kTmplTextMargin * 2;
 	sTgbPaneInfo.paneID				= mCurrentID;
 	sTgbPaneInfo.superView			= inContainer;
-	CDualDataView * theTGB = new CDualDataView(sTgbPaneInfo, theViewInfo, geo, false);
+	CDualDataView * theTGB = new CDualDataView(this, sTgbPaneInfo, theViewInfo, geo, false);
 	ThrowIfNil_(theTGB);
-
+// 	theTGB->ResizeImageTo(sTgbPaneInfo.width, sTgbPaneInfo.height, false);
+	
 	// Make the single vertical scroll bar
 	sScrollPaneInfo.left			= sTgbPaneInfo.width - kTmplTextInset - kTmplScrollWidth;
 	sScrollPaneInfo.top				= kTmplTextInset;
@@ -677,19 +676,19 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 	sWastePaneInfo.left				= hexLeft;
 	sWastePaneInfo.top				= kTmplTextInset;
 	sWastePaneInfo.width			= hexWidth;
-	sWastePaneInfo.height			= sScrollPaneInfo.height;
+	sWastePaneInfo.height			= hexHeight;
 	sWastePaneInfo.bindings.left	= false;
 	sWastePaneInfo.bindings.right	= false;
 	sWastePaneInfo.paneID			= 0;
 	sWastePaneInfo.superView		= theTGB;
 
-	CHexDataSubView * theHexWE = new CHexDataSubView(sWastePaneInfo, theViewInfo, 0, sEditTraitsID);
+	CHexDataSubView * theHexWE = new CHexDataSubView(theTGB, sWastePaneInfo, theViewInfo, 0, sEditTraitsID, true);
 	ThrowIfNil_(theHexWE);
 
 	sWastePaneInfo.left				= txtLeft;
 	sWastePaneInfo.width			= txtWidth;
 	
-	CTxtDataSubView * theTxtWE = new CTxtDataSubView(sWastePaneInfo, theViewInfo, 0, sEditTraitsID);
+	CTxtDataSubView * theTxtWE = new CTxtDataSubView(theTGB, sWastePaneInfo, theViewInfo, 0, sEditTraitsID, true);
 	ThrowIfNil_(theTxtWE);
 	
 	// Add to the mWasteFields
@@ -701,7 +700,7 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer)
 
 	// Adjust to the style specified in the preferences
 	TextTraitsRecord theTraits = CRezillaPrefs::GetStyleElement( CRezillaPrefs::prefsType_Curr );
-// 	theTGB->ResizeDataPanes();
+	theTGB->ResizeDataPanes();
 	theTGB->UpdatePaneCounts();
 	theHexWE->ApplyStyleValues( theTraits.size, theTraits.fontNumber);
 	theTxtWE->ApplyStyleValues( theTraits.size, theTraits.fontNumber);

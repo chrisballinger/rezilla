@@ -2,7 +2,7 @@
 //	CWasteEditView.h
 //	
 //                       Created: 2001-09-05 18:22:04
-//             Last modification: 2004-06-07 09:12:53
+//             Last modification: 2004-10-20 08:51:36
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -122,13 +122,14 @@ public:
 							CWasteEditView(
 									const CWasteEditView&	inOriginal );
 							CWasteEditView(
-									const SPaneInfo&	inPaneInfo,
-									const SViewInfo&	inViewInfo,
-									UInt16				inTextAttributes,
-									ResIDT				inTextTraitsID,
-									Boolean				inReadOnly = false,
-									Boolean				inWordWrap = false,
-									Boolean				inSelectable = true);
+										   LCommander * inSuper,
+										   const SPaneInfo&	inPaneInfo,
+										   const SViewInfo&	inViewInfo,
+										   UInt16				inTextAttributes,
+										   ResIDT				inTextTraitsID,
+										   Boolean				inWordWrap = false,
+										   Boolean				inReadOnly = false,
+										   Boolean				inSelectable = true);
 							CWasteEditView(
 									LStream*			inStream );
 	virtual					~CWasteEditView();

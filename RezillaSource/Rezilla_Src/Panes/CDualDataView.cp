@@ -46,13 +46,15 @@
 // ---------------------------------------------------------------------------
 
 CDualDataView::CDualDataView(
+							 LCommander * inSuper,
 							 const SPaneInfo&	inPaneInfo,
 							 const SViewInfo&	inViewInfo,
 							 const DualGeometry& inGeometry,
 							 Boolean			inPrimary,
 							 ResIDT				inTextTraitsID,
 							 ConstStringPtr		inTitle)
-: LTextGroupBox(inPaneInfo, inViewInfo, inPrimary, inTextTraitsID, inTitle)
+: LTextGroupBox(inPaneInfo, inViewInfo, inPrimary, inTextTraitsID, inTitle),
+  LCommander(inSuper)
 {
 	SetGeometry(inGeometry);
 	
@@ -117,8 +119,8 @@ void
 CDualDataView::Initialize()
 {	
 	OSErr 		error;
-	Rect		theRect ;
-	LongRect	theLongRect ;
+	Rect		theRect;
+	LongRect	theLongRect;
 
 	mCurrFirstLine = 1;
 	mCurrentSubView = hex_nopane;
@@ -161,6 +163,9 @@ CDualDataView::InstallSubViews(CHexDataSubView * inHexDataWE,
 	
 	mHexView->SetOwnerDualView(this);
 	mTxtView->SetOwnerDualView(this);
+	
+// 	mHexView->SetSuperCommander(this);
+// 	mTxtView->SetSuperCommander(this);
 	
 	mHexView->SetSiblingView(mTxtView);
 	mTxtView->SetSiblingView(mHexView);

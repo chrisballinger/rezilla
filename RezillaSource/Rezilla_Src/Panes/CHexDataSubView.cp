@@ -1,7 +1,7 @@
 // ===========================================================================
 // CHexDataSubView.cp 
 //                       Created: 2003-05-06 06:04:42
-//             Last modification: 2004-06-17 01:24:29
+//             Last modification: 2004-10-20 08:51:42
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -69,16 +69,17 @@ CHexDataSubView::CHexDataSubView(CTxtDataSubView * inSiblingView)
 // ---------------------------------------------------------------------------
 
 CHexDataSubView::CHexDataSubView(
-	const SPaneInfo&	inPaneInfo,
-	const SViewInfo&	inViewInfo,
-	UInt16				inTextAttributes,
-	ResIDT				inTextTraitsID,
-	Boolean				inReadOnly,
-	Boolean				inWordWrap,
-	Boolean				inSelectable)
+	 LCommander *		inSuper,
+	 const SPaneInfo&	inPaneInfo,
+	 const SViewInfo&	inViewInfo,
+	 UInt16				inTextAttributes,
+	 ResIDT				inTextTraitsID,
+	 Boolean			inWordWrap,
+	 Boolean			inReadOnly,
+	 Boolean			inSelectable)
 
-	: CWasteEditView(inPaneInfo, inViewInfo, inTextAttributes, 
-					 inTextTraitsID, inReadOnly, inWordWrap, inSelectable)
+	: CWasteEditView(inSuper, inPaneInfo, inViewInfo, inTextAttributes, 
+					 inTextTraitsID, inWordWrap, inReadOnly, inSelectable)
 {
 	mTxtSiblingView = nil;
 	mIsSynchronizing = false;

@@ -1,11 +1,11 @@
 // ===========================================================================
 //	CTxtDataSubView.h
 //                       Created: 2003-05-06 06:04:42
-//             Last modification: 2004-06-17 10:00:46
+//             Last modification: 2004-10-20 08:51:18
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003, 2004
+// © Copyright: Bernard Desgraupes 2003-2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -40,12 +40,13 @@ public:
 							CTxtDataSubView();
 							CTxtDataSubView(CHexDataSubView * inSiblingView);
 							CTxtDataSubView(
+											LCommander *		inSuper,
 											const SPaneInfo&	inPaneInfo,
 											const SViewInfo&	inViewInfo,
 											UInt16				inTextAttributes,
 											ResIDT				inTextTraitsID,
+											Boolean				inWordWrap = false,
 											Boolean				inReadOnly = false,
-											Boolean				inWordWrap = true,
 											Boolean				inSelectable = true);
 							CTxtDataSubView(LStream * inStream );
 	virtual					~CTxtDataSubView();
