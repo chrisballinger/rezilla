@@ -54,6 +54,9 @@ Last modification: $Date$
 	* when a resource is removed, close any edited window associated to it
 	* name was lost when replacing an existing resource during a Paste or a
 	  Drop action 
+	* hexadecimal strings must have an even number of digits in search
+	* fixed memory leak when closing a comparison results window
+	* reminder of the comparison options in the results window
 	* 
 	* 
 	* 
