@@ -17,17 +17,13 @@
 #include "CPICT_EditorWindow.h"
 #include "CPICT_EditorView.h"
 #include "CRezObj.h"
-#include "CRezillaApp.h"
-#include "CRezMapTable.h"
-#include "CRezMap.h"
-#include "CRezillaPrefs.h"
+#include "CRezClipboard.h"
 #include "RezillaConstants.h"
 #include "UMiscUtils.h"
 #include "UMessageDialogs.h"
 
 #include <LScrollBar.h>
 #include <LStaticText.h>
-// #include <LEditText.h>
 #include <LPicture.h>
 #include <LScrollerView.h>
 #include <UMemoryMgr.h>
@@ -158,15 +154,20 @@ CPICT_EditorWindow::ObeyCommand(
 	Boolean		cmdHandled = true;
 	
 	switch (inCommand) {
-		case cmd_Cut: {
-				break;
-			}
 		
-			case cmd_Copy: {
+			case cmd_Copy:
+			case cmd_Cut:{
+				CRezClipboard::SetScrapContext(scrap_rezmap);
+				// Copy the image to the clipboard with 'PICT' flavor
+				
 				break;
 			}
 
 			case cmd_Paste: {
+				CRezClipboard::SetScrapContext(scrap_rezmap);
+				// If the clipboard contains data with 'PICT' flavor,
+				// replace the current image.
+				
 				break;
 			}
 
