@@ -2,11 +2,11 @@
 // CRezMap.cp					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2004-03-10 22:54:59
+//             Last modification: 2004-03-15 19:23:08
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003, 2004
+// (c) Copyright : Bernard Desgraupes, 2003-2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -41,7 +41,6 @@ CRezMap::~CRezMap()
 // ---------------------------------------------------------------------------
 //  ¥ Close														[public]
 // ---------------------------------------------------------------------------
-// 		ThrowIfResError_();
 
 OSErr
 CRezMap::Close()
@@ -126,7 +125,7 @@ CRezMap::CountAllResources(short & outCount)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ ResourceExists													[public]
+//  ¥ ResourceExists												[public]
 // ---------------------------------------------------------------------------
 // Check whether a resource of a given type with a given ID
 // exists in the current resource map.
@@ -189,7 +188,7 @@ CRezMap::GetWithID(ResType inType, short inID, Handle & outHandle, Boolean loadI
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetWithName														[public]
+//  ¥ GetWithName													[public]
 // ---------------------------------------------------------------------------
 // Get a handle to a resource of a given type with a given name
 // from current resource map.
@@ -212,7 +211,7 @@ CRezMap::GetWithName(ResType inType, ConstStr255Param inName, Handle & outHandle
 
 
 // ---------------------------------------------------------------------------
-//  ¥ HasResourceWithTypeAndId											[public]
+//  ¥ HasResourceWithTypeAndId										[public]
 // ---------------------------------------------------------------------------
 // Looks in the resource map to see if an entry with the specified type and the
 // specified ID already exists. 
@@ -226,7 +225,7 @@ CRezMap::HasResourceWithTypeAndId(ResType inType, short inID)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ HasResourceWithTypeAndName										[public]
+//  ¥ HasResourceWithTypeAndName									[public]
 // ---------------------------------------------------------------------------
 // Looks in the resource map to see if an entry with the specified type and the
 // specified name already exists. 
@@ -269,7 +268,7 @@ CRezMap::GetAllTypes( TArray<ResType>* & outArray )
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetTypeAtIndex													[public]
+//  ¥ GetTypeAtIndex												[public]
 // ---------------------------------------------------------------------------
 // Get the type given an index.
 
@@ -299,7 +298,7 @@ CRezMap::UniqueID(ResType inType, short & outID)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetFileAttrs														[public]
+//  ¥ GetFileAttrs													[public]
 // ---------------------------------------------------------------------------
 // 		  mapReadOnlyBit	= 7
 // 		  mapCompactBit		= 6
@@ -315,7 +314,7 @@ CRezMap::GetFileAttrs(short & outResFileAttrs)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ SetFileAttrs														[public]
+//  ¥ SetFileAttrs													[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -354,25 +353,23 @@ CRezMap::DeleteAll()
 	ResType		theType;
 	Handle		theHandle;
 	CRezObj *	theRezObj = nil;
-	OSErr error;
+	OSErr		error;
 	
-	StRezReferenceSaver saver(mRefNum);
-	error = CountAllTypes(numTypes);
-	
+	error = CountAllTypes(numTypes);	
 	if (error == noErr) {
-		for (UInt16 i = 1; i <= numTypes; i++ ) {
+		for (UInt16 i = 1; i <= numTypes; i++) {
 			error = GetTypeAtIndex(i, theType);
 			if (error == noErr) {
 				error = CountForType(theType, numResources);
 				if (error == noErr) {
-					for (UInt16 j = 1; j <= numResources; j++ ) {
-//     theHandle = ::Get1IndResource(theType, j);
-// 	error =  ::ResError();
+					for (UInt16 j = 1; j <= numResources; j++) {
+						if (theRezObj != nil) {
+							delete theRezObj;
+						} 
 						error = GetResourceAtIndex(theType, j, theHandle);
-						if (error == noErr) {
-		::RemoveResource(theHandle);
-// 		::DisposeHandle(theHandle);
-// 		error = ::ResError();
+						if (theHandle) {
+							theRezObj = new CRezObj(theHandle, mRefNum);
+							error = theRezObj->Remove();
 						} 
 					}
 				} 
@@ -382,41 +379,6 @@ CRezMap::DeleteAll()
 	return error;
 }
 
-// OSErr
-// CRezMap::DeleteAll()
-// {
-// 	short		numTypes, numResources;
-// 	ResType		theType;
-// 	Handle		theHandle;
-// 	CRezObj *	theRezObj = nil;
-// 	OSErr error;
-// 	
-// // 	StRezReferenceSaver saver(mRefNum);
-// 	error = CountAllTypes(numTypes);
-// 	
-// 	if (error == noErr) {
-// 		for (UInt16 i = 1; i <= numTypes; i++ ) {
-// 			error = GetTypeAtIndex(i, theType);
-// 			if (error == noErr) {
-// 				error = CountForType(theType, numResources);
-// 				if (error == noErr) {
-// 					for (UInt16 j = 1; j <= numResources; j++ ) {
-// 						if (theRezObj != nil) {
-// 							delete theRezObj;
-// 						} 
-// 						error = GetResourceAtIndex(theType, j, theHandle);
-// 						theRezObj = new CRezObj(theHandle, mRefNum);
-// 						if (error == noErr) {
-// // 							error = theRezObj->Changed();
-// 							error = theRezObj->Remove();
-// 						} 
-// 					}
-// 				} 
-// 			} 
-// 		}
-// 	} 
-// 	return error;
-// }
 
 
 

@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezClipboard.cp					
 //                       Created: 2003-05-11 21:05:08
-//             Last modification: 2004-03-12 14:17:16
+//             Last modification: 2004-03-15 22:03:22
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -36,9 +36,9 @@
 PP_Begin_Namespace_PowerPlant
 
 SInt32		CRezClipboard::sScrapContext = 0;
-CRezFile *	CRezClipboard::sScrapRezFile;
-CRezMap *	CRezClipboard::sScrapRezMap;
-short		CRezClipboard::sScrapRefnum;
+CRezFile *	CRezClipboard::sScrapRezFile = nil;
+CRezMap *	CRezClipboard::sScrapRezMap = nil;
+short		CRezClipboard::sScrapRefnum = kResFileNotOpened;
 
 // ---------------------------------------------------------------------------
 //	¥ CRezClipboard							Default Constructor		  [public]
@@ -48,7 +48,7 @@ CRezClipboard::CRezClipboard()
 	: LClipboard()
 {
 	sScrapContext = scrap_default;
-	CRezClipboard::InitScrapRezMap();
+	CRezClipboard::CreateNewScrap();
 }
 
 
@@ -65,19 +65,18 @@ CRezClipboard::~CRezClipboard()
 		mExportPending = false;
 	}
 	// Close the Scrap Rez Map
-	error = sScrapRezMap->Update();
 	error = sScrapRezMap->Close();
 }
 
 
 // ---------------------------------------------------------------------------
-//	¥ InitScrapRezMap												   [protected]
+//	¥ CreateNewScrap										   [protected]
 // ---------------------------------------------------------------------------
 // /Developer/Examples/Printing/App/BasicPrintLoop/PrintLoop/Source/main.c
 // /Developer/Examples/Printing/Printer/Plugins/SamplePM/Source/RasterUtils.cp
 
 OSErr
-CRezClipboard::InitScrapRezMap()
+CRezClipboard::CreateNewScrap()
 {
 	CFBundleRef 	mainBundleRef;
 	CFURLRef 		mainBundleURL, scrapRezMapURL, resDirUrl;
@@ -97,7 +96,7 @@ CRezClipboard::InitScrapRezMap()
 	if (mainBundleRef == NULL) {
 		error = fnfErr; 
 		sScrapRezFile = nil;
-		goto bail;
+		return error;
 	}
 	
 	scrapRezMapURL = CFBundleCopyResourceURL(mainBundleRef, CFSTR("ScrapRezMap"), CFSTR("rsrc"), NULL);
@@ -134,28 +133,35 @@ CRezClipboard::InitScrapRezMap()
 		sScrapRezFile = new CRezFile(theFileSpec, scrapRefNum, fork_datafork);
 		sScrapRezMap = new CRezMap(scrapRefNum);
 		sScrapRefnum = scrapRefNum;
-	} 
-short		numTypes;
-short	numResources;
-ResType		theType;
-Handle theHandle;
-error = sScrapRezMap->CountAllTypes(numTypes);
-for (UInt16 i = 1; i <= numTypes; i++) {
-	error = sScrapRezMap->GetTypeAtIndex(i, theType);
-	if (error == noErr) {
-		sScrapRezMap->CountForType(theType, numResources);
-		if (error == noErr) {
-			for (UInt16 j = 1; j <= numResources; j++) {
-				theHandle = ::Get1IndResource(theType, j);
-				error = ::ResError();
-			}
-		
-		} 
-	} 
+	}
+	
+	return error;
 }
-		
-	bail:
-	if (mainBundleRef != NULL) CFRelease(mainBundleRef);
+
+
+// ---------------------------------------------------------------------------
+//	¥ DeleteScrap												   [protected]
+// ---------------------------------------------------------------------------
+
+OSErr
+CRezClipboard::DeleteScrap()
+{
+	OSErr error = noErr;
+	
+	if (sScrapRezMap != nil) {
+		// Close() sets the refnum to kResFileNotOpened
+		error = sScrapRezMap->Close();
+		delete sScrapRezMap;
+		sScrapRezMap = nil;
+	} 
+	if (sScrapRezFile != nil) {
+		 FSSpec theFileSpec ;
+		 
+		sScrapRezFile->GetSpecifier(theFileSpec);
+		error = FSpDelete(&theFileSpec);
+		delete sScrapRezFile;
+		sScrapRezFile = nil;
+	} 
 	return error;
 }
 
@@ -217,7 +223,7 @@ CRezClipboard::SetDataSelf(
 	switch (sScrapContext) {
 	  case scrap_rezmap: 
 	  SetDataInScrapRezMap(inDataType, inDataPtr, inDataLength, inReset);
-	  // mExportPending is not reset to false
+	  // mExportPending must not be reset to false in this case.
 		break;
 		
 	  case scrap_hexeditHexdata:
@@ -256,8 +262,8 @@ CRezClipboard::ImportSelf()
 		Size		byteCount;
 		
 		// Reset the scrap rez map
-		error = sScrapRezMap->DeleteAll();
-// 		error = sScrapRezMap->Update();
+		DeleteScrap();
+		CreateNewScrap();
 		
 		// Get the list of all flavors found in the global scrap
 		infoList = (ScrapFlavorInfo*) NewPtrClear( theCount * sizeof(ScrapFlavorInfo) );
@@ -290,7 +296,7 @@ CRezClipboard::ImportSelf()
 				delete theRezObj;
 			} 
 		}
-// 		error = sScrapRezMap->Update();
+		error = sScrapRezMap->Update();
 	}	
 }
 	
@@ -311,8 +317,6 @@ CRezClipboard::ExportSelf()
 	Handle	theRezHandle;
 	short	theAttrs;
 	OSErr	error = noErr;
-
-return;
 
 	// Clear the data on the scrap and get a new scrapRef
 	ClearData();
@@ -375,49 +379,29 @@ CRezClipboard::SetDataInScrapRezMap(
 	OSErr			error = noErr;
 	short			theAttrs;
 	
-short		numTypes;
-error = sScrapRezMap->CountAllTypes(numTypes);
 	if (inReset) {
-		error = sScrapRezMap->DeleteAll();
-// 		error = sScrapRezMap->Update();
+		// Reset the scrap rez map
+		DeleteScrap();
+		CreateNewScrap();
 	} 
-error = sScrapRezMap->CountAllTypes(numTypes);
 	
 	while (iterator.Next(&theItem)) {
 		if (theRezObj != nil) {
 			delete theRezObj;
 		} 
 		theRezObj = new CRezObj( *((CRezObjItem *)theItem)->GetRezObj() );
-// 		error = GetAttributesFromMap(theAttrs);
 		theAttrs = theRezObj->GetAttributes();
 		
 		theRezObj->SetOwnerRefnum(sScrapRefnum);
 		error = theRezObj->Add();
 		
 		if (theAttrs != 0) {
-			// Write the attributes in scrap rezmap
+			// Write the attributes in the scrap rezmap
 			error = theRezObj->SetAttributes(theAttrs);
 		} 
 		error = theRezObj->Changed();
 	}
-// 	error = sScrapRezMap->Update();
-
-
-short	numResources;
-ResType		theType;
-Handle theHandle;
-error = sScrapRezMap->CountAllTypes(numTypes);
-for (UInt16 i = 1; i <= numTypes; i++) {
-	error = sScrapRezMap->GetTypeAtIndex(i, theType);
-	if (error == noErr) {
-		sScrapRezMap->CountForType(theType, numResources);
-		if (error == noErr) {
-			for (UInt16 j = 1; j <= numResources; j++) {
-				error = sScrapRezMap->GetResourceAtIndex(theType, j, theHandle);
-			}
-		} 
-	} 
-}
+	error = sScrapRezMap->Update();
 }
 
 

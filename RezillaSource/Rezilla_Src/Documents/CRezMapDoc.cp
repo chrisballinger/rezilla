@@ -603,12 +603,6 @@ CRezMapDoc::AskSaveChanges(
 	bool /* inQuitting */)
 {
 // 	MakeCurrent();
-// 
-// 	Str255	docName;
-// 	LStr255	appName(STRx_Standards, str_ProgramName);
-// 
-// 	return UNavigationDialogs::AskSaveChanges(GetDescriptor(docName),
-// 										   appName, inQuitting);
 	return UMessageDialogs::AskYesNoFromLocalizable(CFSTR("SaveRezMapWindow"), rPPob_AskYesNoMessage);
 }
 
@@ -1026,86 +1020,6 @@ CRezMapDoc::AllowSubRemoval(
 }
 
 
-// // ---------------------------------------------------------------------------
-// //	¥ AttemptClose													  [public]
-// // ---------------------------------------------------------------------------
-// //	Try to close a Document.
-// //
-// //	The Document might not close if it is modified and the user cancels
-// //	the operation when asked whether to save the changes.
-// 
-// void
-// CRezMapDoc::AttemptClose(
-// 	Boolean	/* inRecordIt */)
-// {
-// // 	Boolean		closeIt = true;
-// // 	SInt16 		answer;
-// // 	
-// // 	if (mRezMapWindow->GetCollateWEView(collate_Old)->IsDirty()) {
-// // 		
-// // 		answer = AskSaveOne(collate_Old, SaveWhen_Closing);
-// // 		
-// // 		if (answer == answer_Save) {
-// // 			DoSaveOne(collate_Old);
-// // 		} else if (answer == answer_Cancel) {
-// // 			closeIt = false;
-// // 		}
-// // 	}
-// // 	
-// // 	if (closeIt && mRezMapWindow->GetCollateWEView(collate_New)->IsDirty()) {
-// // 		
-// // 		answer = AskSaveOne(collate_New, SaveWhen_Closing);
-// // 		
-// // 		if (answer == answer_Save) {
-// // 			DoSaveOne(collate_New);
-// // 		} else if (answer == answer_Cancel) {
-// // 			closeIt = false;
-// // 		}
-// // 	}
-// // 	
-// // 	if (closeIt) {
-// 		Close();
-// // 	}
-// }
-
-
-// ---------------------------------------------------------------------------
-//	¥ AskSaveOne												  [public]
-// ---------------------------------------------------------------------------
-//	Ask user whether to save changes before closing the Document or
-//	quitting the Application
-
-// SInt16
-// CRezMapDoc::AskSaveOne( SInt32 inSide, bool inQuitting )
-// {
-// 	FSSpec	fileSpec;
-// 	LStr255	appName("");
-// 	SInt16 retval = answer_DontSave;
-// 	
-// 	SDiffPatchPrefs theDiffPatchPrefs = CRezillaApp::sPrefs->GetDiffPatchPreferences();
-// 	
-// 	switch (inSide) {
-// 	  case collate_Old:
-// 		fileSpec = mFileSpec;
-// 		break;
-// 		
-// 	  case collate_New:
-// 		fileSpec = mFileSpec2;
-// 		break;
-// 	}
-// 	
-// 	if (inQuitting == SaveWhen_Closing && !theDiffPatchPrefs.saveonclose) {
-// 		retval = answer_DontSave;
-// 	} else if (inQuitting == SaveWhen_Quitting && !theDiffPatchPrefs.saveonquit) {
-// 		retval = answer_DontSave;
-// 	} else {
-// 		retval = PP_StandardDialogs::AskSaveChanges( fileSpec.name, appName, inQuitting);
-// 	}
-// 	
-// 	return retval;
-// }
-
-
 // ---------------------------------------------------------------------------
 //  ¥ ListenToMessage				[public]
 // ---------------------------------------------------------------------------
@@ -1118,14 +1032,6 @@ CRezMapDoc::ListenToMessage( MessageT inMessage, void *ioParam )
 	switch (inMessage) {
 		
 		case msg_StylePrefsChanged: {
-// 			SDiffPatchPrefs theDiffPatchPrefs = *((SDiffPatchPrefs *)ioParam);
-// 	
-// 			mRezMapWindow->GetCollateWEView(collate_Old)->ApplyStylePrefs(
-// 										theDiffPatchPrefs.styleElements.stSize, 
-// 										theDiffPatchPrefs.styleElements.stFont);
-// 			mRezMapWindow->GetCollateWEView(collate_New)->ApplyStylePrefs(
-// 										theDiffPatchPrefs.styleElements.stSize, 
-// 										theDiffPatchPrefs.styleElements.stFont);
 			break;
 		}
 	}
@@ -1506,13 +1412,18 @@ CRezMapDoc::PasteRezMap(CRezMap * srcRezMap)
 		for (UInt16 j = 1; j <= numResources; j++) {
 			// Get the data handle
 			error = srcRezMap->GetResourceAtIndex(theType, j, theRezHandle);
+			HUnlock(theRezHandle);
 			
 			// Make a rez object out of it
 			try {
 					theRezObj = new CRezObj(theRezHandle, theSrcRefNum);
-					theRezObj->GetAttributesFromMap(theAttrs);
-								
-					PasteResource(theType, theRezObj->GetID(), theRezHandle, theRezObj->GetName(), theAttrs);			
+					theAttrs = theRezObj->GetAttributes();
+// 					error = theRezObj->Detach();
+					error = HandToHand(&theRezHandle);
+					
+					if (error == noErr) {
+						PasteResource(theType, theRezObj->GetID(), theRezHandle, theRezObj->GetName(), theAttrs);			
+					} 
 					
 					delete theRezObj;
 			} catch (...) { }

@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezClipboard.h					
 //                       Created: 2003-05-11 21:05:08
-//             Last modification: 2004-03-10 19:42:25
+//             Last modification: 2004-03-15 20:26:44
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -79,7 +79,8 @@ private:
 								SInt32		inDataLength,
 								Boolean		inReset);
 
-	OSErr				InitScrapRezMap();
+	OSErr				DeleteScrap();
+	OSErr				CreateNewScrap();
 };
 
 PP_End_Namespace_PowerPlant
@@ -90,3 +91,4 @@ PP_End_Namespace_PowerPlant
 #endif
 
 #endif
+
