@@ -353,6 +353,7 @@ CAete_EditorDoc::DoExport(FSSpec & inFileSpec, SInt16 inFormat)
 
 		StAeteExporter exporter(theStream, inFileSpec, inFormat);
 		
+		exporter.SetRezObj(mRezObj);
 		exporter.WriteOut();
 		delete theStream;
 	} 	

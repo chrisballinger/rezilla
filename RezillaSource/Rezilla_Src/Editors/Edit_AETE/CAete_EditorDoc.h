@@ -60,19 +60,14 @@ public:
 	CAete_EditorWindow*		GetAeteEditWindow() { return mAeteEditWindow;}
 	
 protected:
-	CAete_EditorWindow*			mAeteEditWindow;
+	CAete_EditorWindow *		mAeteEditWindow;
 	CAeteStream *				mOutStream;
 	
 	virtual Handle		GetModifiedResource(Boolean &releaseIt);
 
 private:
-
 	void				Initialize();
 	void				DoExport(FSSpec	&inFileSpec, SInt16 inFormat);
-	/* 
-	 * void                WriteOutExport(CTextFileStream * inFileStream, SInt16 inExportFormat);
-	 */
-	
 
 };
 
