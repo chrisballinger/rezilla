@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2004-08-21 10:29:54
+//             Last modification: 2004-11-15 09:11:21
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -987,6 +987,10 @@ CRezillaApp::ReportOpenForkError(OSErr inError, FSSpec * inFileSpecPtr)
 		formatStr = ::CFCopyLocalizedString(CFSTR("PermissionError"), NULL);
 		break;
 		
+	  case wrPermErr:
+		formatStr = ::CFCopyLocalizedString(CFSTR("WritePermissionError"), NULL);
+		break;
+		  
 	  default:
 		UMessageDialogs::AlertWithValue(CFSTR("SystemError"), inError);
 		return;
