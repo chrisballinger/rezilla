@@ -113,6 +113,9 @@ CCompResultWindow::FinishCreateSelf()
 	mNewHexDataWE = dynamic_cast<CHexDataWE *> (FindPaneByID( item_CompResultNewHex ));
 	ThrowIfNil_(mNewHexDataWE);
 	
+	// Cache a pointer to the scrollbar separating the hex panes
+	mScroller = dynamic_cast<LScrollBar *> (FindPaneByID( item_CompResultScroller ));
+	
 	// Build the table elements
 		// Left table
 	mOnlyOldTable = dynamic_cast<CBroadcasterTableView *> (FindPaneByID( item_CompResultOnlyOldTbl ));
@@ -184,6 +187,9 @@ CCompResultWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		
 		case msg_Close:
 		Hide();
+		break;
+		
+		case msg_CompResultScroller:
 		break;
 		
 	  case msg_CompResultDifferingTbl: {
@@ -376,6 +382,5 @@ CCompResultWindow::FillTableView( TArray<CRezTypId *> inList, SInt16 inWhichList
 	STableCell	botCell(theCount,1);
 	theTable->RefreshCellRange(topCell, botCell);
 }
-
 
 
