@@ -2,7 +2,7 @@
 // CWasteEditView.cp 
 // 
 // Created: 2001-09-05 18:22:04 
-// Last modification: 2004-11-10 06:18:15
+// Last modification: 2004-11-13 22:33:25
 // Author: Bernard Desgraupes 
 // e-mail: <bdesgraupes@easyconnect.fr> 
 // www: <http://webperso.easyconnect.fr/bdesgraupes/> 
@@ -46,6 +46,7 @@ CWasteEditView::CWasteEditView()
 	mWordWrap = false;
 	mTextAttributes = (UInt32) weAttr_Default;
 	
+	SetPropertiesFromAttributes();
 	InitView();
 	InitStyle(0);
 }
@@ -73,6 +74,7 @@ CWasteEditView::CWasteEditView(
 	mSelectable = inSelectable;
 	mTextAttributes = inTextAttributes;
 	
+	SetPropertiesFromAttributes();
 	InitView();
 	InitStyle(inTextTraitsID);
 }
@@ -99,7 +101,8 @@ CWasteEditView::CWasteEditView(
 	mWordWrap = inWordWrap;
 	mSelectable = inSelectable;
 	mTextAttributes = inTextAttributes;
-		
+	
+	SetPropertiesFromAttributes();
 	InitView();
 	ApplyTextTraits(inTextTraitsPtr, mWasteEditRef);
 }
@@ -138,8 +141,7 @@ CWasteEditView::CWasteEditView(
 	*inStream >> textTraitsID;
 	*inStream >> initialTextID;
 		
-	mTextAttributes = BuildTextAttributes();
-	
+	SetAttributesFromProperties();
 	InitView();
 	InitStyle(textTraitsID);
 	InitText(initialTextID);
@@ -214,10 +216,11 @@ CWasteEditView::InitView()
 	if (mWordWrap || (mImageSize.width <= 0)) {
 		mImageSize.width = mFrameSize.width;
 	}
-	
 	// Outline hiliting
 	WEFeatureFlag(weFOutlineHilite,mOutlineHilite,mWasteEditRef);
 		
+	AlignWERects();
+
 	// Set the clickloop
 	if (mAutoScroll) {
 		sWasteEditViewP = this;
@@ -283,65 +286,6 @@ CWasteEditView::InitText(ResIDT inTextID )
 }
 
 
-// ---------------------------------------------------------------------------
-//	¥ FlagsFromAttributes										  [public]
-// ---------------------------------------------------------------------------
-// Build the WE flags from the mTextAttributes variable.
-
-UInt32
-CWasteEditView::FlagsFromAttributes() {
-	UInt32  theFlags = 0 ;
-	
-	theFlags |= HasAttribute(weAttr_AutoScroll) ?		weDoAutoScroll : 0 ;
-	theFlags |= HasAttribute(weAttr_OutlineHilite) ?	weDoOutlineHilite : 0 ;
-	theFlags |= HasAttribute(weAttr_MonoStyled) ?		weDoMonoStyled : 0 ;
-	theFlags |= HasAttribute(weAttr_ReadOnly) ?			weDoReadOnly : 0 ;
-	theFlags |= HasAttribute(weAttr_DragAndDrop) ?		weDoDragAndDrop : 0 ;
-	theFlags |= HasAttribute(weAttr_Undo) ?				weDoUndo : 0 ;
-	theFlags |= HasAttribute(weAttr_MultipleUndo) ?		weDoMultipleUndo : 0 ;
-	theFlags |= HasAttribute(weAttr_IntCutAndPaste) ?	weDoIntCutAndPaste : 0 ;
-	theFlags |= HasAttribute(weAttr_DrawOffscreen) ?	weDoDrawOffscreen : 0 ;
-	theFlags |= HasAttribute(weAttr_InhibitRecal) ?		weDoInhibitRecal : 0 ;
-	theFlags |= HasAttribute(weAttr_InhibitRedraw) ?	weDoInhibitRedraw : 0 ;
-	theFlags |= HasAttribute(weAttr_InhibitICSupport) ?	weDoInhibitICSupport : 0 ;
-	theFlags |= HasAttribute(weAttr_InhibitColor) ?		weDoInhibitColor : 0 ;
-	theFlags |= HasAttribute(weAttr_UseTempMem) ?		weDoUseTempMem : 0 ;
-	theFlags |= HasAttribute(weAttr_NoKeyboardSync) ?	weDoNoKeyboardSync : 0 ;
-	
-	return theFlags;
-}
-
-
-// ---------------------------------------------------------------------------
-//	¥ BuildTextAttributes											  [public]
-// ---------------------------------------------------------------------------
-// Initialize the mTextAttributes data member from the individual property 
-// values.
-
-UInt16
-CWasteEditView::BuildTextAttributes()
-{
-	UInt16  theTxtAttr = 0 ;
-	theTxtAttr |= mAutoScroll ?			weAttr_AutoScroll : 0 ;
-	theTxtAttr |= mOutlineHilite ?		weAttr_OutlineHilite : 0 ;
-	theTxtAttr |= mMonoStyled ?			weAttr_MonoStyled : 0 ;
-	theTxtAttr |= mReadOnly ?			weAttr_ReadOnly : 0 ;
-	theTxtAttr |= mDragAndDrop ?		weAttr_DragAndDrop : 0 ;
-	theTxtAttr |= mUndo ?				weAttr_Undo : 0 ;
-	theTxtAttr |= mMultipleUndo ?		weAttr_MultipleUndo : 0 ;
-	theTxtAttr |= mIntCutAndPaste ?		weAttr_IntCutAndPaste : 0 ;
-	theTxtAttr |= mDrawOffscreen ?		weAttr_DrawOffscreen : 0 ;
-	theTxtAttr |= mInhibitRecal ?		weAttr_InhibitRecal : 0 ;
-	theTxtAttr |= mInhibitRedraw ?		weAttr_InhibitRedraw : 0 ;
-	theTxtAttr |= mInhibitICSupport ?	weAttr_InhibitICSupport : 0 ;
-	theTxtAttr |= mInhibitColor ?		weAttr_InhibitColor : 0 ;
-	theTxtAttr |= mUseTempMem ?			weAttr_UseTempMem : 0 ;
-	theTxtAttr |= mNoKeyboardSync ?		weAttr_NoKeyboardSync : 0 ;
-	
-	return theTxtAttr;
-}
-
-
 #pragma mark -
 
 // ---------------------------------------------------------------------------
@@ -359,36 +303,34 @@ CWasteEditView::ClickSelf(
 	if (!IsTarget()) {				
 		// If not the Target, clicking in an WasteEdit makes it the Target
 		
-		// Since WEClick will set a new selection range, clear the current selection
-		// range to avoid an ugly selection flash
+		// Since WEClick will set a new selection range, clear the current
+		// selection range to avoid an ugly selection flash
 		FocusDraw();
 		
-		// If autoscrolling, WESetSelection can cause autoscrolling. That means well
-		// but can cause some cosmetic problems, especially if selStart is not
-		// visible (you'll see a jump)
+		// If autoscrolling, WESetSelection can cause autoscrolling. That
+		// means well but can cause some cosmetic problems, especially if
+		// selStart is not visible (you'll see a jump)
 		if ( mAutoScroll )
-		WEFeatureFlag( weFAutoScroll, weBitClear, mWasteEditRef );
+			WEFeatureFlag( weFAutoScroll, weBitClear, mWasteEditRef );
 		
 		WESetSelection(0, 0, mWasteEditRef);
 		
 		if ( mAutoScroll )
-		WEFeatureFlag( weFAutoScroll, weBitSet, mWasteEditRef );
+			WEFeatureFlag( weFAutoScroll, weBitSet, mWasteEditRef );
 		
 		// Resync everything
 		AlignWERects();
 		
 		// Force a redraw (to clean up the display). Draw(nil) causes a lot
-		// less flicker than Refresh()
+		// less flicker than Refresh().
 		Draw(nil);
-		
+
 		// Make ourselves the target
 		SwitchTarget(this);
 	}
 	
 	if (IsTarget()) {
 		FocusDraw();
-		Point	mouseLoc = inMouseDown.macEvent.where;
-		
 		WEClick(inMouseDown.whereLocal,
 				inMouseDown.macEvent.modifiers,
 				inMouseDown.macEvent.when,
@@ -806,13 +748,13 @@ CWasteEditView::FindCommandStatus(
 	switch (inCommand) {
 
 		case cmd_Copy: {			// Copy enabled if something is selected
-			outEnabled = IsSelection();
+			outEnabled = HasSelection();
 			break;
 		}
 
 		case cmd_Cut:				// Cut and Clear enabled if editabled
 		case cmd_Clear:	{			//   and something is selected
-			outEnabled = !mReadOnly && IsSelection();
+			outEnabled = !mReadOnly && HasSelection();
 			break;
 		}
 
@@ -850,10 +792,10 @@ CWasteEditView::FocusDraw(
 	Boolean	focused = LView::FocusDraw(inSubPane);
 	if (focused) {
 		StColorPenState::Normalize();
+		Pattern		whitePat;
+		::BackPat(UQDGlobals::GetWhitePat(&whitePat));
 		if ( mMonoStyled ) {
 			UTextTraits::SetPortTextTraits(mTextTraitsID);
-			Pattern		whitePat;
-			::BackPat(UQDGlobals::GetWhitePat(&whitePat));
 		}
 	}
 
@@ -862,7 +804,7 @@ CWasteEditView::FocusDraw(
 
 
 // ---------------------------------------------------------------------------
-//	¥ DrawSelf								[protected, virtual]
+//	¥ DrawSelf											[protected, virtual]
 // ---------------------------------------------------------------------------
 //	Draw a WasteEdit
 
@@ -871,7 +813,7 @@ CWasteEditView::DrawSelf()
 {
 	Rect	theFrame;
 	CalcLocalFrameRect(theFrame);
-	
+
 	ApplyForeAndBackColors();
 	::EraseRect(&theFrame);
 
@@ -933,18 +875,28 @@ CWasteEditView::AlignWERects()
 			FocusDraw() &&
 			CalcLocalFrameRect(textFrame)) {
 
-		LongRect	theLongViewRect ;
-		LongRect	theLongDestRect ;
-		// view rect same as frame in local coords
+		LongRect	theLongViewRect;
+		LongRect	theLongDestRect;
+		Rect		destRect;
+		SPoint32	imagePt;
+		
+		// View rect same as frame in local coords
 		WERectToLongRect(&textFrame, &theLongViewRect);
 		WESetViewRect(&theLongViewRect,mWasteEditRef);
 		
-		// dest rect same as image in local coords
-		theLongDestRect.top = mImageLocation.v + mPortOrigin.v;
-		theLongDestRect.left = mImageLocation.h + mPortOrigin.h;
-		theLongDestRect.bottom = theLongDestRect.top + mImageSize.height;
-		theLongDestRect.right = theLongDestRect.left + mImageSize.width;
+		// Dest rect same as image in local coords
+// 		theLongDestRect.top = mImageLocation.v + mPortOrigin.v;
+// 		theLongDestRect.left = mImageLocation.h + mPortOrigin.h;
+// 		theLongDestRect.bottom = theLongDestRect.top + mImageSize.height;
+// 		theLongDestRect.right = theLongDestRect.left + mImageSize.width;
+		imagePt.h = imagePt.v = 0;
+		ImageToLocalPoint(imagePt, topLeft(destRect));
 
+		// Bottom of dest rect is ignored
+		imagePt.h = mImageSize.width;
+		ImageToLocalPoint(imagePt, botRight(destRect));
+
+		WERectToLongRect(&destRect, &theLongDestRect);
 		WESetDestRect(&theLongDestRect,mWasteEditRef);
 		
 		WECalText(mWasteEditRef);
@@ -1049,21 +1001,6 @@ CWasteEditView::ScrollImageBy(
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ ActivateSelf
-// ---------------------------------------------------------------------------
-//	Pane is being Activated
-//
-//	Override for Pane classes that change appearance when activated.
-
-void
-CWasteEditView::ActivateSelf()
-{
-	WEActivate(mWasteEditRef);
-}
-
-
-
-// ---------------------------------------------------------------------------
 //	¥ BeTarget								[protected, virtual]
 // ---------------------------------------------------------------------------
 //	WasteEdit is becoming the Target
@@ -1075,7 +1012,8 @@ CWasteEditView::BeTarget()
 
 	WEActivate(mWasteEditRef);		// Show active selection
 
-	StartIdling();					// Idle time used to flash the cursor
+// 	StartIdling();					// Idle time used to flash the cursor
+	StartIdling( ::TicksToEventTime( ::GetCaretTime() ) );
 
 	sWasteEditViewP = nil;
 	if ( mAutoScroll ) {
@@ -1103,7 +1041,6 @@ CWasteEditView::DontBeTarget()
 	sWasteEditViewP = nil;			// To keep autoscrolling clean
 }
 
-
 // ---------------------------------------------------------------------------
 //	¥ SpendTime								[public, virtual]
 // ---------------------------------------------------------------------------
@@ -1113,10 +1050,12 @@ void
 CWasteEditView::SpendTime(
 	const EventRecord&	/* inMacEvent */)
 {
-	UInt32 sleepTime = 6;
+	StColorPortState	savePortState(GetMacPort());
 	
-	if (FocusExposed() && mSelectable) {
-		WEIdle(&sleepTime,mWasteEditRef);
+	if (mSelectable && not HasSelection() && FocusExposed()) {
+		UInt32 sleepTime = 6;
+		WEIdle(&sleepTime, mWasteEditRef);
+		OutOfFocus(nil);
 	}
 }
 
