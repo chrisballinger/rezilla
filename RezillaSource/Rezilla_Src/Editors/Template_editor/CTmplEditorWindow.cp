@@ -2350,6 +2350,13 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		*mOutStream << theChar;
 		break;
 
+		case 'BFLG':
+		// Boolean (one byte: 0x01 for true, 0x00 for false)
+		theCheckBox = dynamic_cast<LCheckBox *>(this->FindPaneByID(mCurrentID));
+		*mOutStream << (UInt8) theCheckBox->GetValue();
+		mCurrentID += 1;
+		break;
+
 		case 'BOOL':
 		// Boolean (two bytes: 0x0100 for true, 0x0000 for false)
 		theRGV = dynamic_cast<LRadioGroupView *>(this->FindPaneByID(mCurrentID));
@@ -2359,7 +2366,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		} else {
 			*mOutStream << (UInt16) 0x0000;
 		}
-		// The RGV and both radiobuttons have an ID
+		// The RGV and both radiobuttons have an ID. That makes three.
 		mCurrentID += 3;
 		break;
 
