@@ -1,7 +1,7 @@
 // ===========================================================================
 // CIconBucketAction.cp
 //                       Created: 2004-12-11 18:52:12
-//             Last modification: 2004-12-14 18:52:12
+//             Last modification: 2004-12-22 15:50:26
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -34,6 +34,9 @@
 // 	and the the image buffer with the correct color.
 
 #include "RezillaConstants.h"
+#include "CIcon_EditorView.h"
+#include "CIcon_EditorWindow.h"
+#include "COffscreen.h"
 #include "CIconActions.h"
 #include "UIconMisc.h"
 
@@ -88,7 +91,8 @@ CIconBucketAction::~CIconBucketAction()
 // 	HandleMouseDown
 // ---------------------------------------------------------------------------
 
-void CIconBucketAction::HandleMouseDown( const SMouseDownEvent &inEvent )
+void
+CIconBucketAction::HandleMouseDown( const SMouseDownEvent &inEvent )
 {
 	StGWorldSaver	aWorldSaver;
 	SInt32			h, v;

@@ -1,7 +1,7 @@
 // ===========================================================================
 // CIconActions.h
 //                       Created: 2004-12-11 18:52:12
-//             Last modification: 2004-12-15 19:05:18
+//             Last modification: 2004-12-23 15:12:49
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -16,6 +16,7 @@
 #pragma once
 
 #include "RezillaConstants.h"
+#include "CSnapTo.h"
 
 class CIcon_EditorWindow;
 class CIcon_EditorView;
@@ -23,7 +24,6 @@ class COffscreen;
 class CIconSelection;
 class CColorPane;
 class CDraggableTargetBox;
-class CSnapTo;
 
 
 // This struct is passed to each paint action's constructor and contains
@@ -46,10 +46,9 @@ typedef struct SPaintAction
 
 // ---------------------------------------------------------------------------
 // 	CIconAction 
-// 	
-// 	Superclass to all painting actions. DoIt() is used to perform the paint
-// 	action, except for tracking actions which use HandleMouseDown().
 // ---------------------------------------------------------------------------
+// Superclass to all painting actions. DoIt() is used to perform the paint
+// action, except for tracking actions which use HandleMouseDown().
 
 class CIconAction : public LAction {
 	public:
@@ -344,12 +343,12 @@ class CIconTransparentAction : public CIconAction {
 
 
 // ---------------------------------------------------------------------------
-// 	CTransformAction 
+// 	CIconTransformAction 
 // ---------------------------------------------------------------------------
 
-class CTransformAction : public CIconAction {
+class CIconTransformAction : public CIconAction {
 	public:
-							CTransformAction( const SPaintAction &, SInt16 inStringIndex );
+							CIconTransformAction( const SPaintAction &, SInt16 inStringIndex );
 		
 		virtual void		DoIt();
 		
@@ -363,7 +362,7 @@ class CTransformAction : public CIconAction {
 // 	CFlipVerticalAction 
 // ---------------------------------------------------------------------------
 
-class CFlipVerticalAction : public CTransformAction {
+class CFlipVerticalAction : public CIconTransformAction {
 	public:
 							CFlipVerticalAction( const SPaintAction & );
 		
@@ -376,7 +375,7 @@ class CFlipVerticalAction : public CTransformAction {
 // 	CFlipHorizontalAction 
 // ---------------------------------------------------------------------------
 
-class CFlipHorizontalAction : public CTransformAction {
+class CFlipHorizontalAction : public CIconTransformAction {
 	public:
 							CFlipHorizontalAction( const SPaintAction & );
 		
@@ -391,7 +390,7 @@ class CFlipHorizontalAction : public CTransformAction {
 
 typedef struct SDragImageInfo
 {
-	ResType				imageType;		// DragFlavor_Offscreen or img_Picture
+	ResType				imageType;		// DragFlavor_Offscreen or ImgType_Picture
 	void				*data;			// COffscreen * or Picture handle
 	DragReference		dragRef;
 	DragAttributes		dragAttribs;

@@ -1,7 +1,7 @@
 // ===========================================================================
 // CIconTargetClickedAction.cp
 //                       Created: 2004-12-11 18:57:10
-//             Last modification: 2004-12-14 18:57:10
+//             Last modification: 2004-12-22 18:19:46
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -13,21 +13,37 @@
 
 #include "RezillaConstants.h"
 #include "CIconTargetClickedAction.h"
+#include "CIcon_EditorWindow.h"
 
+
+// ---------------------------------------------------------------------------
+// 	Constructor
+// ---------------------------------------------------------------------------
 
 CIconTargetClickedAction::CIconTargetClickedAction( const SPaintAction &inAction, CDraggableTargetBox *inTargetHit )
 	: CIconAction( inAction, index_UndoGeneric ) 
 
 {
-	mAffectsUndoState = false;					// since we're not undoable
+	mAffectsUndoState = false;			// since we're not undoable
 	mTargetBoxHit = inTargetHit;
 }
+
+
+// ---------------------------------------------------------------------------
+// 	Destructor
+// ---------------------------------------------------------------------------
 
 CIconTargetClickedAction::~CIconTargetClickedAction()
 {
 }
 
-void CIconTargetClickedAction::DoIt()
+
+// ---------------------------------------------------------------------------
+// 	DoIt
+// ---------------------------------------------------------------------------
+
+void
+CIconTargetClickedAction::DoIt()
 {
 	CIcon_EditorWindow 			*thePaintView = mSettings.thePaintView;
 	CDraggableTargetBox 	*oldBox = thePaintView->GetTargetBox();
@@ -38,15 +54,11 @@ void CIconTargetClickedAction::DoIt()
 		
 		thePaintView->SelectNone();				// commit the current selection
 
-		/*
-			clear the current undo action because we can't undo once we
-			change buffers to a different sample pane.
-		*/
+		// Clear the current undo action because we can't undo once we
+		// change buffers to a different sample pane.
 		thePaintView->PostAction( nil );
 		
-		/*
-			change the target box, current image, etc, and return
-		*/
+		// Change the target box, current image, etc, and return
 		thePaintView->SetTargetBox( mTargetBoxHit, redraw_Later );
 		this->PostAsAction();
 	}

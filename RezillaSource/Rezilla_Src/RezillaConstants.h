@@ -15,8 +15,9 @@
 #pragma once
 
 
+// ======================================================================
 // Enums
-// =====
+// ======================================================================
 
 // Fork indices
 enum
@@ -129,30 +130,30 @@ enum
 // Supported image types
 enum
 {	
-	img_LargeIcon			= FOUR_CHAR_CODE('ICON'),
+	ImgType_LargeIcon			= FOUR_CHAR_CODE('ICON'),
 	
-	img_LargeIconWithMask	= FOUR_CHAR_CODE('ICN#'),
-	img_LargeIconMask		= FOUR_CHAR_CODE('ICN#'),
-	img_Large4BitIcon		= FOUR_CHAR_CODE('icl4'),
-	img_Large8BitIcon		= FOUR_CHAR_CODE('icl8'),
+	ImgType_LargeIconWithMask	= FOUR_CHAR_CODE('ICN#'),
+	ImgType_LargeIconMask		= FOUR_CHAR_CODE('ICN#'),
+	ImgType_Large4BitIcon		= FOUR_CHAR_CODE('icl4'),
+	ImgType_Large8BitIcon		= FOUR_CHAR_CODE('icl8'),
 	
-	img_SmallIconWithMask	= FOUR_CHAR_CODE('ics#'),
-	img_SmallIconMask		= FOUR_CHAR_CODE('ics#'),
-	img_Small4BitIcon		= FOUR_CHAR_CODE('ics4'),
-	img_Small8BitIcon		= FOUR_CHAR_CODE('ics8'),
+	ImgType_SmallIconWithMask	= FOUR_CHAR_CODE('ics#'),
+	ImgType_SmallIconMask		= FOUR_CHAR_CODE('ics#'),
+	ImgType_Small4BitIcon		= FOUR_CHAR_CODE('ics4'),
+	ImgType_Small8BitIcon		= FOUR_CHAR_CODE('ics8'),
 	
-	img_MiniIconWithMask	= FOUR_CHAR_CODE('icm#'),
-	img_MiniIconMask		= FOUR_CHAR_CODE('icm#'),
-	img_Mini4BitIcon		= FOUR_CHAR_CODE('icm4'),
-	img_Mini8BitIcon		= FOUR_CHAR_CODE('icm8'),
+	ImgType_MiniIconWithMask	= FOUR_CHAR_CODE('icm#'),
+	ImgType_MiniIconMask		= FOUR_CHAR_CODE('icm#'),
+	ImgType_Mini4BitIcon		= FOUR_CHAR_CODE('icm4'),
+	ImgType_Mini8BitIcon		= FOUR_CHAR_CODE('icm8'),
 	
-	img_ColorIcon			= FOUR_CHAR_CODE('cicn'),
-	img_Picture				= FOUR_CHAR_CODE('PICT'),
+	ImgType_ColorIcon			= FOUR_CHAR_CODE('cicn'),
+	ImgType_Picture				= FOUR_CHAR_CODE('PICT'),
 	
-	img_Pattern				= FOUR_CHAR_CODE('PAT '),
-	img_PixPat				= FOUR_CHAR_CODE('ppat'),
-	img_Cursor				= FOUR_CHAR_CODE('CURS'),
-	img_ColorCursor			= FOUR_CHAR_CODE('crsr')
+	ImgType_Pattern				= FOUR_CHAR_CODE('PAT '),
+	ImgType_PixPat				= FOUR_CHAR_CODE('ppat'),
+	ImgType_Cursor				= FOUR_CHAR_CODE('CURS'),
+	ImgType_ColorCursor			= FOUR_CHAR_CODE('crsr')
 };
 
 // Resizing options for Icon editor
@@ -165,8 +166,9 @@ enum {
 };
 
 
+// ======================================================================
 // Resource ID's
-// =============
+// ======================================================================
 
 const ResIDT	DITL_NewMap					= 10001;
 const ResIDT	DITL_OpenMap				= 10002;
@@ -249,6 +251,14 @@ const ResIDT	rMENU_StartHierMenuID		= 500;
 const ResIDT	baseMENU_File				= 1000;
 const ResIDT	baseMENU_Edit				= 1100;
 const ResIDT	baseMENU_Resource			= 1200;
+
+// Icon editor
+const ResIDT	Txtr_PaintFont		=	9000;		// default font/size/style for text tool
+const ResIDT	RidL_ToolList		=	9100;		// note: Constructor may create own Ridl 9000 -- don't conflict
+const ResIDT	MenuID_PaintOptions	=	9000;
+const ResIDT	MenuID_PaintColors	=	9001;
+const ResIDT	MenuID_PaintFont	=	9002;
+const ResIDT	MenuID_PaintStyle	=	9003;
 
 // Icon resources
 const ResIDT	ICN_WindowMenu				= 3100;
@@ -337,8 +347,9 @@ const SInt16	index_UndoText				= 22;
 
 
 
+// ======================================================================
 // Menu commands
-// =============
+// ======================================================================
 // Help menu items
 const CommandT	cmd_Help					= 3000;	
 // Window menu items
@@ -362,10 +373,12 @@ const CommandT	cmd_FindNext			= baseMENU_Edit + 2;
 const CommandT	cmd_RezCompare			= baseMENU_Edit + 3;	
 
 // Icon editor commands
+const CommandT	cmd_IconMoveSelection		= FOUR_CHAR_CODE('MOVE');
 const CommandT	cmd_IconEraseAll			= FOUR_CHAR_CODE('ERAL');
 const CommandT	cmd_IconFlipVertical		= FOUR_CHAR_CODE('FLPV');
 const CommandT	cmd_IconFlipHorizontal		= FOUR_CHAR_CODE('FLPH');
-const CommandT	cmd_IconRotate				= FOUR_CHAR_CODE('ROTA');
+const CommandT	cmd_IconRotateClockwise		= FOUR_CHAR_CODE('ROTA');
+const CommandT	cmd_IconRotateCounterClock	= FOUR_CHAR_CODE('ROTC');
 const CommandT	cmd_IconTransparent			= FOUR_CHAR_CODE('TRAN');
 const CommandT	cmd_IconShowBitmap			= FOUR_CHAR_CODE('BITM');
 const CommandT	cmd_IconShowMask			= FOUR_CHAR_CODE('MASK');
@@ -384,10 +397,12 @@ const CommandT	cmd_ColorTableApple4Gray	= FOUR_CHAR_CODE('CLT6');
 const CommandT	cmd_ColorTablePicker		= FOUR_CHAR_CODE('CLT7');
 // this isn't in the menu, but is used in the code
 const CommandT	cmd_ColorTableApple2		= FOUR_CHAR_CODE('CLT8');
+const MessageT	msg_TextActionDied			= FOUR_CHAR_CODE('TxDi');
 
 
+// ======================================================================
 // Control ID's
-// ============
+// ======================================================================
 // Rez Map Window
 // --------------
 const PaneIDT   item_OutlineTable			= FOUR_CHAR_CODE('TABL');
@@ -566,8 +581,8 @@ const PaneIDT   item_UtxtEditFontMenu	= 1;
 const PaneIDT   item_UtxtEditSizeMenu	= 2;
 const PaneIDT   item_UtxtEditStyleMenu	= 3;
 const PaneIDT   item_UtxtEditLength		= 4;
-// Icon Editor Window
-// ------------------
+// Icon Editor Windows
+// -------------------
 // Same values are used for the pane ID and 
 // for the message it broadcasts.
 const PaneIDT	tool_None					= 0;
@@ -597,6 +612,10 @@ const PaneIDT   item_IconEditCoords			= 8;
 const PaneIDT	item_IconEditPattern		= 10;
 const PaneIDT	item_IconEditForeColor		= 11;
 const PaneIDT	item_IconEditBackColor		= 12;		
+const PaneIDT	item_BoxAroundCanvas		= FOUR_CHAR_CODE('BACV');
+const PaneIDT	item_SampleWell				= FOUR_CHAR_CODE('SAMP');
+const PaneIDT	item_IconEditBWSample		= FOUR_CHAR_CODE('BWPT');
+const PaneIDT	item_IconEditMask			= FOUR_CHAR_CODE('MASK');
 
 
 // Common elements for Editor Windows
@@ -634,8 +653,9 @@ enum {
 };
 
 
+// ======================================================================
 // Message IDs
-// ===========
+// ======================================================================
 // Inspector Window
 // ----------------
 const MessageT	msg_InspEditID			= rPPob_InspectorWindow + item_InspEditID;
@@ -773,6 +793,8 @@ const MessageT	msg_IconEditTypeRgbx		= rPPob_IconEditorWindow + item_IconEditTyp
 const MessageT	msg_IconEditTypeBitmap		= rPPob_IconEditorWindow + item_IconEditTypeBitmap;
 const MessageT	msg_IconEditTypeMask		= rPPob_IconEditorWindow + item_IconEditTypeMask;
 
+
+
 // Other general purpose messages
 // ------------------------------
 const MessageT	msg_Close					= FOUR_CHAR_CODE('Clos');
@@ -789,11 +811,13 @@ const MessageT	msg_EditContents			= FOUR_CHAR_CODE('Cnts');
 // Icon editor
 const MessageT	msg_TargetBoxClicked		= FOUR_CHAR_CODE('Tclk');
 const MessageT	msg_ImageDroppedOnTargetBox	= FOUR_CHAR_CODE('IDrp');
+const MessageT	msg_DoubleClick				= FOUR_CHAR_CODE('DClk'); 
+const MessageT	msg_GetLastCommand			= FOUR_CHAR_CODE('LCMD');
 
 
-
-// AE CONSTANTS
-// ============
+// ======================================================================
+// AE Constants
+// ======================================================================
 // AE suites
 enum
 {
@@ -902,8 +926,9 @@ const DescType rzil_pTemplate		= 'pTMP';	// Template
 
 
 
-// ERROR CONSTANTS
-// ===============
+// ======================================================================
+// Error Constants
+// ======================================================================
 enum RezillaErrors
 {
 	err_RezillaErrorStart			= 1000,
@@ -971,8 +996,9 @@ enum RezillaErrors
 
 
 
-// Misc constants
-// ==============
+// ======================================================================
+// Misc Constants
+// ======================================================================
 // Signatures
 const UInt32	kTextEditSig		= FOUR_CHAR_CODE('ttxt');
 const UInt32	kSystemEventsSig	= FOUR_CHAR_CODE('sevs');
@@ -996,11 +1022,8 @@ const UInt32	kRezFileType		= FOUR_CHAR_CODE('rsrc');
 #define  kRzilDefaultLineHeight	11
 
 // Drag and drop
-const UInt32	DragFlavor_Rzil			= FOUR_CHAR_CODE('Rzil');  // kRzilDragFlavor
+const UInt32	DragFlavor_Rezilla		= FOUR_CHAR_CODE('Rzil');  // kRzilDragFlavor
 const UInt32	DragFlavor_Offscreen	= FOUR_CHAR_CODE('OfSc');
-
-// For the Icon editor's clipboard and Drag&Drop
-const OSType	ResourceType_Region	= FOUR_CHAR_CODE('RgN ');
 
 // Constants for the Rezmap tables
 const SInt16	kRzilColWidth		= 100;
@@ -1029,8 +1052,26 @@ const ResType	ResType_DITL = FOUR_CHAR_CODE('DITL');
 #define  kFirstSizeMenuItem	1
 #define  kLastSizeMenuItem	9
 
-// Constants used by the template editor
-// =====================================
+
+// ======================================================================
+// Helpful Macros
+// ======================================================================
+#ifndef MIN
+	#define MIN(a,b) ( (a)<(b) ? a : b )
+#endif
+
+#ifndef MAX
+	#define MAX(a,b) ( (a)<(b) ? b : a )
+#endif
+
+#ifndef ABS
+	#define ABS(x)   ( (x) < 0 ?  -(x) : x )
+#endif
+
+
+// ======================================================================
+// Constants used by the Template Editor
+// ======================================================================
 const SInt16	kTmplLeftMargin			= 15;
 const SInt16	kTmplListIndent			= 15;
 const SInt16	kTmplVertSkip			= 4;
@@ -1081,26 +1122,9 @@ const SInt16	kTmplColorWidth			= 24;
 const SInt16	kTmplMinListItemHeight	= 16;
 
 
-// Helpful macros
-// ==============
-#ifndef MIN
-	#define MIN(a,b) ( (a)<(b) ? a : b )
-#endif
-
-#ifndef MAX
-	#define MAX(a,b) ( (a)<(b) ? b : a )
-#endif
-
-#ifndef ABS
-	#define ABS(x)   ( (x) < 0 ?  -(x) : x )
-#endif
-
-
+// ======================================================================
 // Definitions for the Icon editor
-// ===============================
-
-// HFS volumes may break the 32-bit limit, so we might as well make it
-// possible to find code dependent on the file size.
+// ======================================================================
 typedef UInt32		PixelValue;		// raw values within a bitmap/pixmap
 typedef UInt32		Color32;		// RGB color in a long (0:R:G:B)
 typedef UInt8 *		RawPtr;
@@ -1115,7 +1139,14 @@ const SInt32		kIconSideMargin 	= 1;
 const SInt32		kIconSpaceBetween 	= 1;
 const SInt32		PaintWindowMargin_h	= 8;
 const SInt32		PaintWindowMargin_v	= 8;
+
 #define kMaxIconSamplePanes		20
+
+// For the Icon editor's clipboard and Drag&Drop
+const OSType	ResType_Region			= FOUR_CHAR_CODE('RgN ');
+const OSType	ResType_ColorCursor 	= FOUR_CHAR_CODE('crsr');
+const ResType	ResType_PaneResizer		= FOUR_CHAR_CODE('RSIZ');
+const ResType	ResType_PaintFamilyInfo	= FOUR_CHAR_CODE('PTFM');
 
 // Three ways to redraw
 enum ERedrawOptions

@@ -1,7 +1,7 @@
 // ===========================================================================
 // CIconResizeImageAction.cp
 //                       Created: 2004-12-11 18:52:32
-//             Last modification: 2004-12-14 18:52:32
+//             Last modification: 2004-12-22 18:03:51
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -13,6 +13,8 @@
 
 #include "CIconResizeImageAction.h"
 #include "CResizeDialog.h"
+#include "CIcon_EditorWindow.h"
+#include "COffscreen.h"
 
 
 // ---------------------------------------------------------------------------
@@ -47,7 +49,8 @@ CIconResizeImageAction::~CIconResizeImageAction()
 // 	DoIt
 // ---------------------------------------------------------------------------
 
-void CIconResizeImageAction::DoIt()
+void
+CIconResizeImageAction::DoIt()
 {
 	CIcon_EditorWindow		*pv = mSettings.thePaintView;
 	COffscreen		*cb = mSettings.currentBuffer;
@@ -98,7 +101,8 @@ void CIconResizeImageAction::DoIt()
 // 	UndoSelf
 // ---------------------------------------------------------------------------
 
-void CIconResizeImageAction::UndoSelf()
+void
+CIconResizeImageAction::UndoSelf()
 {
 	mBeforeState.RestoreWindowState();
 }
@@ -108,7 +112,8 @@ void CIconResizeImageAction::UndoSelf()
 // 	RedoSelf
 // ---------------------------------------------------------------------------
 
-void CIconResizeImageAction::RedoSelf()
+void
+CIconResizeImageAction::RedoSelf()
 {
 	mAfterState.RestoreWindowState();
 }

@@ -1,7 +1,7 @@
 // ===========================================================================
 // CIconFlipAction.cp
 //                       Created: 2004-12-11 18:52:22
-//             Last modification: 2004-12-14 18:52:22
+//             Last modification: 2004-12-22 16:50:29
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -11,22 +11,26 @@
 // $Revision$
 // ===========================================================================
 // 
-// 	Flipping a Region structure requires drawing it into a 1-bit buffer,
-// 	flipping the pixels, and then calling BitMapToRegion() on the buffer.
-// 	There isn't a better way to do this because the Region structure is not
-// 	documented. (Remember, the lasso isn't rectangular, so we can't assume
-// 	the region doesn't change).
+// Flipping a Region structure requires drawing it into a 1-bit buffer,
+// flipping the pixels, and then calling BitMapToRegion() on the buffer.
+// There isn't a better way to do this because the Region structure is not
+// documented. (Remember, the lasso isn't rectangular, so we can't assume
+// the region doesn't change).
 
 #include "RezillaConstants.h"
 #include "CIconActions.h"
-
+#include "CIcon_EditorView.h"
+#include "CIcon_EditorWindow.h"
+#include "COffscreen.h"
+#include "CIconSelection.h"
+#include "UIconMisc.h"
 
 
 // ---------------------------------------------------------------------------
-// 	CTransformAction Constructor
+// 	CIconTransformAction										 [constructor]
 // ---------------------------------------------------------------------------
 
-CTransformAction::CTransformAction( const SPaintAction &inAction, SInt16 inStringIndex )
+CIconTransformAction::CIconTransformAction( const SPaintAction &inAction, SInt16 inStringIndex )
 					: CIconAction( inAction, inStringIndex )
 {
 	this->ThrowIfFileLocked();
@@ -34,10 +38,11 @@ CTransformAction::CTransformAction( const SPaintAction &inAction, SInt16 inStrin
 
 
 // ---------------------------------------------------------------------------
-// 	CTransformAction::DoIt
+// 	CIconTransformAction::DoIt
 // ---------------------------------------------------------------------------
 
-void CTransformAction::DoIt()
+void
+CIconTransformAction::DoIt()
 {
 	RgnHandle		newSelectionRgn = nil;
 	StGWorldSaver	aSaver;
@@ -79,13 +84,15 @@ void CTransformAction::DoIt()
 
 
 // ---------------------------------------------------------------------------
-// 	CTransformAction::CalcNewSelectionRegion
+// 	CIconTransformAction::CalcNewSelectionRegion
 // ---------------------------------------------------------------------------
 
-RgnHandle CTransformAction::CalcNewSelectionRegion()
+RgnHandle
+CIconTransformAction::CalcNewSelectionRegion()
 {
 	SInt32			width, height;
 	SInt32			hOffset, vOffset;
+	Rect			theRect;
 	COffscreen		*oneBitBuffer = nil;
 	RgnHandle		origRgn = nil, maskRgn = nil;
 	OSErr			err = noErr;
@@ -96,12 +103,13 @@ RgnHandle CTransformAction::CalcNewSelectionRegion()
 
 	try
 	{
-		hOffset = (**origRgn).rgnBBox.left;
-		vOffset = (**origRgn).rgnBBox.top;
+		GetRegionBounds(origRgn, &theRect);
+		hOffset = theRect.left;
+		vOffset = theRect.top;
 		OffsetRgn( origRgn, -hOffset, -vOffset );	// 'cause it's relative to paintview, not selection
 	
-		width = (**origRgn).rgnBBox.right;
-		height = (**origRgn).rgnBBox.bottom;
+		width = theRect.right;
+		height = theRect.bottom;
 		
 			// draw the selection region into a 1-bit deep buffer
 		oneBitBuffer = COffscreen::CreateBuffer( width, height, 1 );
@@ -136,11 +144,11 @@ RgnHandle CTransformAction::CalcNewSelectionRegion()
 
 
 // ---------------------------------------------------------------------------
-// 	CFlipHorizontalAction Constructor
+// 	CFlipHorizontalAction											 [constructor]
 // ---------------------------------------------------------------------------
 
 CFlipHorizontalAction::CFlipHorizontalAction( const SPaintAction &inAction )
-						: CTransformAction( inAction, index_UndoFlip )
+						: CIconTransformAction( inAction, index_UndoFlip )
 {
 }
 
@@ -149,7 +157,8 @@ CFlipHorizontalAction::CFlipHorizontalAction( const SPaintAction &inAction )
 // 	CFlipHorizontalAction::TransformTheBits
 // ---------------------------------------------------------------------------
 
-void CFlipHorizontalAction::TransformTheBits( COffscreen *theBuffer )
+void
+CFlipHorizontalAction::TransformTheBits( COffscreen *theBuffer )
 {
 	Color32				leftPixel, rightPixel;
 	SInt32				colsToSwap;
@@ -183,11 +192,11 @@ void CFlipHorizontalAction::TransformTheBits( COffscreen *theBuffer )
 
 
 // ---------------------------------------------------------------------------
-// 	CFlipVerticalAction Constructor
+// 	CFlipVerticalAction											 [constructor]
 // ---------------------------------------------------------------------------
 
 CFlipVerticalAction::CFlipVerticalAction( const SPaintAction &inAction )
-						: CTransformAction( inAction, index_UndoFlip )
+						: CIconTransformAction( inAction, index_UndoFlip )
 {
 }
 
@@ -196,7 +205,8 @@ CFlipVerticalAction::CFlipVerticalAction( const SPaintAction &inAction )
 // 	CFlipVerticalAction::TransformTheBits
 // ---------------------------------------------------------------------------
 
-void CFlipVerticalAction::TransformTheBits( COffscreen *theBuffer )
+void
+CFlipVerticalAction::TransformTheBits( COffscreen *theBuffer )
 {
 	Color32				topPixel, bottomPixel;
 	SInt32				rowsToSwap;

@@ -2,7 +2,7 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2004-12-16 11:09:26
+//             Last modification: 2004-12-22 15:44:55
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -962,35 +962,33 @@ CRezMapDoc::AskSaveAs(
 		// Interrupt the operation if some of them are modified.
 		if (! CheckEditorsUnmodified(true) ) {
 			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("ValidateEditedResBeforeSaveAs"), rPPob_SimpleMessage);
-			return;
-		} 
-		
-		if (replacing && UsesFileSpec(outFSSpec)) {
-									// User chose to replace the file with
-									//   one of the same name. This is the
-									//   same thing as a regular save.
-			if (inRecordIt) {
-				SendSelfAE(kAECoreSuite, kAESave, ExecuteAE_No);
-			}
-
-			DoSave();
-			saveOK = true;
-
 		} else {
+			if (replacing && UsesFileSpec(outFSSpec)) {
+				// User chose to replace the file with one of the same
+				// name. This is the same thing as a regular save.
+				if (inRecordIt) {
+					SendSelfAE(kAECoreSuite, kAESave, ExecuteAE_No);
+				}
 
-			if (inRecordIt) {
-				try {
-					SendAESaveAs(outFSSpec, fileType_Default, ExecuteAE_No);
-				} catch (...) { }
+				DoSave();
+				saveOK = true;
+
+			} else {
+
+				if (inRecordIt) {
+					try {
+						SendAESaveAs(outFSSpec, fileType_Default, ExecuteAE_No);
+					} catch (...) { }
+				}
+
+				if (replacing) {		// Delete existing file
+					ThrowIfOSErr_(::FSpDelete(&outFSSpec));
+				}
+
+				DoAESave(outFSSpec);
+				saveOK = true;
 			}
-
-			if (replacing) {		// Delete existing file
-				ThrowIfOSErr_(::FSpDelete(&outFSSpec));
-			}
-
-			DoAESave(outFSSpec);
-			saveOK = true;
-		}
+		}		
 	}
 
 	return saveOK;

@@ -17,7 +17,7 @@
 
 
 // ---------------------------------------------------------------------------
-// 	CPopupWindow Constructor
+// 	CPopupWindow											 [constructor]
 // ---------------------------------------------------------------------------
 
 CPopupWindow::CPopupWindow()
@@ -30,7 +30,7 @@ CPopupWindow::CPopupWindow()
 
 
 // ---------------------------------------------------------------------------
-// 	CPopupWindow Destructor
+// 	CPopupWindow											 [destructor]
 // ---------------------------------------------------------------------------
 
 CPopupWindow::~CPopupWindow()

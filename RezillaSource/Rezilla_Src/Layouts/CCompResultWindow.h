@@ -34,7 +34,7 @@ enum
 
 class CCompResultWindow : public LWindow, public LListener {
 public:
-	enum { class_ID = 'RcrW' };
+	enum { class_ID = FOUR_CHAR_CODE('RcrW') };
 
 	enum {	
 		compare_undefinedTbl = 0,

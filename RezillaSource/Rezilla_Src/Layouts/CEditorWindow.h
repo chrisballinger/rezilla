@@ -24,7 +24,7 @@ class CRezObj;
 
 class CEditorWindow : public LWindow, public LListener {
 public:
-	enum { class_ID = 'EdiW' };
+	enum { class_ID = FOUR_CHAR_CODE('EdiW') };
 
 							CEditorWindow();
 							CEditorWindow( const SWindowInfo &inWindowInfo );

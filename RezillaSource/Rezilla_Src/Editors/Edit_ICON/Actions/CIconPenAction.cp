@@ -1,7 +1,7 @@
 // ===========================================================================
 // CIconPenAction.cp
 //                       Created: 2004-12-11 18:52:29
-//             Last modification: 2004-12-14 18:52:29
+//             Last modification: 2004-12-22 17:54:12
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -13,6 +13,8 @@
 
 #include "RezillaConstants.h"
 #include "CIconActions.h"
+#include "CIcon_EditorView.h"
+#include "COffscreen.h"
 #include "UColorUtils.h"
 
 
@@ -45,7 +47,8 @@ CIconPenAction::~CIconPenAction()
 // 	  color.
 // ---------------------------------------------------------------------------
 
-void CIconPenAction::MouseInitial( const SMouseDownEvent &inEvent, SInt32 /*newCol*/, SInt32 /*newRow*/ )
+void
+CIconPenAction::MouseInitial( const SMouseDownEvent &inEvent, SInt32 /*newCol*/, SInt32 /*newRow*/ )
 {
 	if ( inEvent.macEvent.modifiers & shiftKey )
 		mSnapTo.SetAngle( CSnapTo::kSnapTo90 );
@@ -74,7 +77,8 @@ void CIconPenAction::MouseInitial( const SMouseDownEvent &inEvent, SInt32 /*newC
 // 	MouseStillDown
 // ---------------------------------------------------------------------------
 
-void CIconPenAction::MouseStillDown( const SMouseDownEvent &, 
+void
+CIconPenAction::MouseStillDown( const SMouseDownEvent &, 
 											Point /*prevMousePt*/, Point /*newMousePt*/,
 											SInt32 prevCol, SInt32 prevRow,
 											SInt32 newCol, SInt32 newRow )

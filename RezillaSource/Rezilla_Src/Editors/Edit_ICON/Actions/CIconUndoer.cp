@@ -1,7 +1,7 @@
 // ===========================================================================
 // CIconUndoer.cp
 //                       Created: 2004-12-11 18:52:45
-//             Last modification: 2004-12-14 18:52:45
+//             Last modification: 2004-12-23 15:25:56
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -10,7 +10,6 @@
 // $Date$
 // $Revision$
 // ===========================================================================
-// 
 // This class is the same as LUndoer, but it supports one additional
 // message of use to the Icon Editor: "Get Last Command".
 // 
@@ -21,9 +20,10 @@
 #include "CIconUndoer.h"
 
 
-void CIconUndoer::ExecuteSelf( MessageT inMessage, void *ioParam )
+void
+CIconUndoer::ExecuteSelf( MessageT inMessage, void *ioParam )
 {
-	if ( inMessage == cmd_GetLastCommand )
+	if ( inMessage == msg_GetLastCommand )
 	{
 		*(LAction**) ioParam = mAction;
 		return;

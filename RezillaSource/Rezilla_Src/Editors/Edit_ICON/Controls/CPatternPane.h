@@ -21,7 +21,7 @@
 class CPatternPane : public LPane, public LBroadcaster
 {
 	public:
-		enum { class_ID = 'PAT ' };
+		enum { class_ID = FOUR_CHAR_CODE('PatP') };
 
 			// construction/destruction
 								CPatternPane( LStream * );

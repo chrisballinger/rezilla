@@ -1,7 +1,7 @@
 // ===========================================================================
 // CIconMoveAction.cp
 //                       Created: 2004-12-11 18:52:26
-//             Last modification: 2004-12-14 18:52:26
+//             Last modification: 2004-12-22 17:19:55
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -42,6 +42,11 @@
 #include "RezillaConstants.h"
 #include "CIconActions.h"
 #include "CIconUndoer.h"					// for cmd_GetLastCommand
+#include "CIcon_EditorView.h"
+#include "CIcon_EditorWindow.h"
+#include "COffscreen.h"
+#include "CIconSelection.h"
+#include "UIconMisc.h"
 
 
 // ---------------------------------------------------------------------------
@@ -53,21 +58,23 @@ CIconMoveAction::CIconMoveAction( const SPaintAction &inAction )
 {
 	this->ThrowIfFileLocked();
 
-	mActionType = cmd_MoveSelection;	// paintview looks at this to see if a move is already in progress
+	// Paint view looks at this to see if a move is already in progress
+	mActionType = cmd_IconMoveSelection;	
 	
-			// if previous action was also a move, this particular one will not
-		// be undoable because that one will be remembered instead.
-
+	// If previous action was also a move, this particular one will not be
+	// undoable because that one will be remembered instead.
 	LAction		*lastAction = nil;
 	mSettings.thePaintView->ProcessCommand( cmd_GetLastCommand, &lastAction );
 	
-	/*
-		NOTE: Constructor LActions don't have the GetActionType() method, so the dynamic
-				case below is necessary. If ourLastAction is nil, it isn't a CIconAction.
-	*/
+	// Constructor LActions don't have the GetActionType() method, so the
+	// dynamic case below is necessary. If ourLastAction is nil, it isn't a
+	// CIconAction.
 	CIconAction	*ourLastAction = dynamic_cast<CIconAction*>( lastAction );
-	if ( ourLastAction && (ourLastAction->GetActionType() == cmd_MoveSelection) && ourLastAction->IsDone() )
-		mAffectsUndoState = false;					// we're not undoable
+	if ( ourLastAction && (ourLastAction->GetActionType() == cmd_IconMoveSelection) 
+		&& ourLastAction->IsDone() ) {
+			// We're not undoable
+			mAffectsUndoState = false;
+		}
 }
 
 
@@ -84,7 +91,8 @@ CIconMoveAction::~CIconMoveAction()
 // 	Move
 // ---------------------------------------------------------------------------
 
-void CIconMoveAction::Move( SInt32 dh, SInt32 dv )
+void
+CIconMoveAction::Move( SInt32 dh, SInt32 dv )
 {
 	if ( mSettings.theSelection->IsEmpty() )
 	{
@@ -92,8 +100,10 @@ void CIconMoveAction::Move( SInt32 dh, SInt32 dv )
 		return;
 	}
 	
+	Rect		theRect;
 	RgnHandle	selRgn = mSettings.theSelection->GetRegion();
-	this->MoveTo( (**selRgn).rgnBBox.left + dh, (**selRgn).rgnBBox.top + dv );
+	GetRegionBounds(selRgn, &theRect);
+	this->MoveTo( theRect.left + dh, theRect.top + dv );
 }
 
 
@@ -101,7 +111,8 @@ void CIconMoveAction::Move( SInt32 dh, SInt32 dv )
 // 	MoveTo
 // ---------------------------------------------------------------------------
 
-void CIconMoveAction::MoveTo( SInt32 left, SInt32 top )
+void
+CIconMoveAction::MoveTo( SInt32 left, SInt32 top )
 {
 	if ( mSettings.theSelection->IsEmpty() )
 	{
@@ -116,12 +127,10 @@ void CIconMoveAction::MoveTo( SInt32 left, SInt32 top )
 		thePaintView->CopyToUndo();
 	
 	this->MoveToSelf( left, top );
-	this->PostAsAction();		// note: may destroy "this" (so don't use instance vars anymore)
+	this->PostAsAction();		// may destroy "this" (so don't use instance vars anymore)
 	
-	/*
-		in the case where the user saves while a move is in progress
-		(using the arrow keys), this flag wasn't being set.
-	*/
+	// In the case where the user saves while a move is in progress (using
+	// the arrow keys), this flag wasn't being set.
 	thePaintView->SetChangedFlag( true );
 }
 
@@ -130,18 +139,19 @@ void CIconMoveAction::MoveTo( SInt32 left, SInt32 top )
 // 	MoveToSelf
 // ---------------------------------------------------------------------------
 
-void CIconMoveAction::MoveToSelf( SInt32 left, SInt32 top )
+void
+CIconMoveAction::MoveToSelf( SInt32 left, SInt32 top )
 {
-		// move the selection region (internal change -- no visuals involved)
+	// Move the selection region (internal change -- no visuals involved)
 	mSettings.theSelection->MoveTo( left, top );
 	
-		// copy the "real" image to the scratch buffer
+	// Copy the "real" image to the scratch buffer
 	mSettings.currentBuffer->CopyTo( mSettings.scratchBuffer );
 	
-		// draw the selection buffer on top
+	// Draw the selection buffer on top
 	mSettings.theSelection->DrawInto( mSettings.scratchBuffer );
 
-		// blit the combination to the canvas
+	// Blit the combination to the canvas
 	mSettings.theCanvas->DrawFrom( mSettings.scratchBuffer );
 }
 
@@ -150,23 +160,25 @@ void CIconMoveAction::MoveToSelf( SInt32 left, SInt32 top )
 // 	MouseInitial
 // ---------------------------------------------------------------------------
 
-void CIconMoveAction::MouseInitial( const SMouseDownEvent &inEvent, SInt32 newCol, SInt32 newRow )
+void
+CIconMoveAction::MouseInitial( const SMouseDownEvent &inEvent, SInt32 newCol, SInt32 newRow )
 {
+	Rect		theRect;
 	RgnHandle	selectionRgn = mSettings.theSelection->GetRegion();
 	
 	ThrowIfNil_( selectionRgn );			// shouldn't happen
 	
-	mHOffsetWithinSelection = newCol - (**selectionRgn).rgnBBox.left;
-	mVOffsetWithinSelection = newRow - (**selectionRgn).rgnBBox.top;
+	GetRegionBounds(selectionRgn, &theRect);
+	mHOffsetWithinSelection = newCol - theRect.left;
+	mVOffsetWithinSelection = newRow - theRect.top;
 
 	if ( inEvent.macEvent.modifiers & shiftKey )
 		mSnapTo.SetAngle( CSnapTo::kSnapTo90 );
 	else
 		mSnapTo.SetAngle( CSnapTo::kDontSnap );
 	
-			// option-drag duplicates the current selection. the area underneath
-		// the selection has already been erased, so we'll "unerase" it.
-
+	// Option-drag duplicates the current selection. the area underneath
+	// the selection has already been erased, so we'll "unerase" it.
 	if ( inEvent.macEvent.modifiers & optionKey )
 		mSettings.theSelection->DrawInto( mSettings.currentBuffer );	
 }
@@ -176,7 +188,8 @@ void CIconMoveAction::MouseInitial( const SMouseDownEvent &inEvent, SInt32 newCo
 // 	MouseStillDown
 // ---------------------------------------------------------------------------
 
-void CIconMoveAction::MouseStillDown( const SMouseDownEvent &, 
+void
+CIconMoveAction::MouseStillDown( const SMouseDownEvent &, 
 									Point /*prevMousePt*/, Point /*newMousePt*/,
 									SInt32 prevCol, SInt32 prevRow,
 									SInt32 newCol, SInt32 newRow )
@@ -192,19 +205,18 @@ void CIconMoveAction::MouseStillDown( const SMouseDownEvent &,
 // 	PostAsAction
 // ---------------------------------------------------------------------------
 
-void CIconMoveAction::PostAsAction()
+void
+CIconMoveAction::PostAsAction()
 {
-	/*
-		the move action is a bit different than other actions in that
-		it may not be "undoable" but still modifies the image. this is
-		because we undo back to the first move rather than the latest
-		one. since it still modifies the image, we need to update the
-		sample icons. (If we're postable/undoable, the sample view is
-		automatically redrawn anyway, do don't bother to do it twice).
-	*/	
+	// The move action is a bit different than other actions in that it may
+	// not be "undoable" but still modifies the image. this is because we
+	// undo back to the first move rather than the latest one. since it
+	// still modifies the image, we need to update the sample icons. (If
+	// we're postable/undoable, the sample view is automatically redrawn
+	// anyway, do don't bother to do it twice).
 	CIcon_EditorWindow *thePaintView = this->IsPostable() ? nil : mSettings.thePaintView;
 	
-		// note: this call may destroy "this", so don't use instance variables afterwards
+	// This call may destroy "this", so don't use instance variables afterwards
 	CIconTrackingPaintAction::PostAsAction();
 	
 	if ( thePaintView )
@@ -216,15 +228,15 @@ void CIconMoveAction::PostAsAction()
 // 	MouseFinal
 // ---------------------------------------------------------------------------
 
-Boolean CIconMoveAction::MouseFinal( const SMouseDownEvent &, 
+Boolean
+CIconMoveAction::MouseFinal( const SMouseDownEvent &, 
 								Point, Point,
 								SInt32, SInt32,
 								SInt32, SInt32 )
 {
-			// whether we can undo depends on whether we copied ourselves into
-		// the undo buffer when we were created (if the previous action was
-		// anything but a move action).
-
+	// Whether we can undo depends on whether we copied ourselves into the
+	// undo buffer when we were created (if the previous action was
+	// anything but a move action).
 	return( mAffectsUndoState );
 }
 

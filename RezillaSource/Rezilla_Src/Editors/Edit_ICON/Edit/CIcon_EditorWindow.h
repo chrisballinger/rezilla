@@ -49,7 +49,7 @@ class CIconAction;
 
 class CIcon_EditorWindow : public CEditorWindow, public LBroadcaster, public LPeriodical {
 public:
-	enum { class_ID = 'ICNW' };
+	enum { class_ID = FOUR_CHAR_CODE('ICNW') };
 
 							CIcon_EditorWindow();
 							CIcon_EditorWindow( const SWindowInfo &inWindowInfo );

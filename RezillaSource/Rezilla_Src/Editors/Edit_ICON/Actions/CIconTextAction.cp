@@ -104,7 +104,8 @@ CIconTextAction::~CIconTextAction()
 // 	UndoSelf
 // ---------------------------------------------------------------------------
 
-void CIconTextAction::UndoSelf()
+void
+CIconTextAction::UndoSelf()
 {
 	this->CloseEditSession();
 	CIconTrackingPaintAction::UndoSelf();
@@ -115,7 +116,8 @@ void CIconTextAction::UndoSelf()
 // 	HandleMouseDown
 // ---------------------------------------------------------------------------
 
-void CIconTextAction::HandleMouseDown( const SMouseDownEvent &inEvent )
+void
+CIconTextAction::HandleMouseDown( const SMouseDownEvent &inEvent )
 {
 	StGWorldSaver	aWorldSaver;
 	Rect			destR, sourceR;
@@ -215,7 +217,8 @@ void CIconTextAction::HandleMouseDown( const SMouseDownEvent &inEvent )
 // 	HandleKeyDown
 // ---------------------------------------------------------------------------
 
-void CIconTextAction::HandleKeyDown( const EventRecord &inEvent )
+void
+CIconTextAction::HandleKeyDown( const EventRecord &inEvent )
 {
 	StGWorldSaver		aSaver;
 	Boolean				isArrowKey = false;
@@ -279,7 +282,8 @@ void CIconTextAction::HandleKeyDown( const EventRecord &inEvent )
 // 	Idle
 // ---------------------------------------------------------------------------
 
-void CIconTextAction::Idle()
+void
+CIconTextAction::Idle()
 {
 	if ( !mText ) return;
 	if ( mNextInsertionTime > (UInt32) TickCount() ) return;
@@ -293,7 +297,8 @@ void CIconTextAction::Idle()
 // 	CloseEditSession
 // ---------------------------------------------------------------------------
 
-void CIconTextAction::CloseEditSession()
+void
+CIconTextAction::CloseEditSession()
 {
 	if ( mText )
 	{
@@ -315,7 +320,8 @@ void CIconTextAction::CloseEditSession()
 // 	ChangeTextTraits
 // ---------------------------------------------------------------------------
 
-void CIconTextAction::ChangeTextTraits( const TextTraitsRecord &inTraits )
+void
+CIconTextAction::ChangeTextTraits( const TextTraitsRecord &inTraits )
 {
 	StGWorldSaver	aSaver;
 	Rect			bigR = { -1000, -1000, 3000, 3000 };
@@ -365,7 +371,8 @@ void CIconTextAction::ChangeTextTraits( const TextTraitsRecord &inTraits )
 // 	 currently used portion of the buffer.
 // ---------------------------------------------------------------------------
 
-void CIconTextAction::RestoreMainBufferFromUndoBuffer()
+void
+CIconTextAction::RestoreMainBufferFromUndoBuffer()
 {
 	if ( !mText || !mImageBuffer || !mUndoBuffer ) return;
 
@@ -379,7 +386,8 @@ void CIconTextAction::RestoreMainBufferFromUndoBuffer()
 // 	CopyTextBufferToMainBuffer
 // ---------------------------------------------------------------------------
 
-void CIconTextAction::CopyTextBufferToMainBuffer()
+void
+CIconTextAction::CopyTextBufferToMainBuffer()
 {
 	if ( !mText || !mImageBuffer || !mTextBuffer ) return;
 
@@ -394,7 +402,8 @@ void CIconTextAction::CopyTextBufferToMainBuffer()
 // 	CopyMainBufferToCanvas
 // ---------------------------------------------------------------------------
 
-void CIconTextAction::CopyMainBufferToCanvas( Rect *inDestR )
+void
+CIconTextAction::CopyMainBufferToCanvas( Rect *inDestR )
 {
 	if ( !mText || !mImageBuffer || !mTextBuffer ) return;
 	
@@ -414,7 +423,8 @@ void CIconTextAction::CopyMainBufferToCanvas( Rect *inDestR )
 // 	CopyAndColorize
 // ---------------------------------------------------------------------------
 
-void CIconTextAction::CopyAndColorize( COffscreen *inSource, COffscreen *inDest,
+void
+CIconTextAction::CopyAndColorize( COffscreen *inSource, COffscreen *inDest,
 									const Rect &inSourceR, const Rect &inDestR,
 									RGBColor &inRGBColor )
 {
@@ -472,7 +482,8 @@ void CIconTextAction::CopyAndColorize( COffscreen *inSource, COffscreen *inDest,
 // 	GetRectRelativeToTextBuffer
 // ---------------------------------------------------------------------------
 
-Boolean CIconTextAction::GetRectRelativeToTextBuffer( Rect *outR )
+Boolean
+CIconTextAction::GetRectRelativeToTextBuffer( Rect *outR )
 {
 	if ( !mText || !mImageBuffer )
 	{
@@ -495,7 +506,8 @@ Boolean CIconTextAction::GetRectRelativeToTextBuffer( Rect *outR )
 // 	CalcTextAreaHeight
 // ---------------------------------------------------------------------------
 
-SInt32 CIconTextAction::CalcTextAreaHeight()
+SInt32
+CIconTextAction::CalcTextAreaHeight()
 {
 	if ( !mText ) return( 0 );
 
@@ -519,7 +531,8 @@ SInt32 CIconTextAction::CalcTextAreaHeight()
 // 	GetRectRelativeToTextBuffer
 // ---------------------------------------------------------------------------
 
-Boolean CIconTextAction::GetRectRelativeToTextBuffer( Rect *outR )
+Boolean
+CIconTextAction::GetRectRelativeToTextBuffer( Rect *outR )
 {
 	if ( !mText || !mImageBuffer )
 	{
@@ -544,7 +557,8 @@ Boolean CIconTextAction::GetRectRelativeToTextBuffer( Rect *outR )
 // 	GetRectRelativeToImageBuffer
 // ---------------------------------------------------------------------------
 
-Boolean CIconTextAction::GetRectRelativeToImageBuffer( Rect *outR )
+Boolean
+CIconTextAction::GetRectRelativeToImageBuffer( Rect *outR )
 {
 	this->GetRectRelativeToTextBuffer( outR );	// will be 0,0-based here
 	::OffsetRect( outR, mTextLeft, mTextTop );
@@ -558,7 +572,8 @@ Boolean CIconTextAction::GetRectRelativeToImageBuffer( Rect *outR )
 // 	Draws or erases the insertion point.
 // ---------------------------------------------------------------------------
 
-void CIconTextAction::DrawInsertionPoint( Boolean inDraw )
+void
+CIconTextAction::DrawInsertionPoint( Boolean inDraw )
 {
 	StGWorldSaver		aSaver;
 	CIcon_EditorView 			*theCanvas = mSettings.theCanvas;
@@ -612,7 +627,8 @@ void CIconTextAction::DrawInsertionPoint( Boolean inDraw )
 // 	Returns false if no insertion point can be drawn.
 // ---------------------------------------------------------------------------
 
-Boolean CIconTextAction::GetInsertionPoint( Rect *outR )
+Boolean
+CIconTextAction::GetInsertionPoint( Rect *outR )
 {
 	if ( !mText )
 	{

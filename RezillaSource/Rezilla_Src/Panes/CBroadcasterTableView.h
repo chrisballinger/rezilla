@@ -28,7 +28,7 @@
 class CBroadcasterTableView : 	public LTableView,
 							public LBroadcaster {
 public:
-	enum				{ class_ID = 'BTbv' };
+	enum				{ class_ID = FOUR_CHAR_CODE('BTbv') };
 	
 						CBroadcasterTableView(
 								LStream				*inStream);

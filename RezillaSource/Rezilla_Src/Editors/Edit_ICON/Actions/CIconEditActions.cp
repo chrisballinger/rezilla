@@ -1,7 +1,7 @@
 // ===========================================================================
 // CIconEditActions.cp
 //                       Created: 2004-12-11 18:52:17
-//             Last modification: 2004-12-14 18:52:17
+//             Last modification: 2004-12-22 16:42:51
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -14,10 +14,18 @@
 #include "RezillaConstants.h"
 #include "CIconActions.h"
 #include "CIconEditActions.h"
+#include "CIcon_EditorWindow.h"
+#include "CIconSelection.h"
+#include "UIconMisc.h"
 
 
+/*********************
+*                    *
+*   CIconCutAction   *
+*                    *
+*********************/
 // ---------------------------------------------------------------------------
-// 	CutAction Constructor
+// 	CIconCutAction											 [constructor]
 // ---------------------------------------------------------------------------
 
 CIconCutAction::CIconCutAction( const SPaintAction &inSettings )
@@ -28,7 +36,7 @@ CIconCutAction::CIconCutAction( const SPaintAction &inSettings )
 
 
 // ---------------------------------------------------------------------------
-// 	CutAction Destructor
+// 	CIconCutAction 											 [destructor]
 // ---------------------------------------------------------------------------
 
 CIconCutAction::~CIconCutAction()
@@ -37,14 +45,15 @@ CIconCutAction::~CIconCutAction()
 
 
 // ---------------------------------------------------------------------------
-// 	CutAction::DoIt
+// 	DoIt
 // ---------------------------------------------------------------------------
 
-void CIconCutAction::DoIt()
+void
+CIconCutAction::DoIt()
 {
 	StGWorldSaver		aSaver;
 	
-	if ( mSettings.theSelection->IsEmpty() )		// shouldn't happen
+	if ( mSettings.theSelection->IsEmpty() )	// shouldn't happen
 	{
 		delete this;
 		return;
@@ -53,16 +62,21 @@ void CIconCutAction::DoIt()
 	mSettings.thePaintView->CopyToUndo();
 	
 	mSettings.theSelection->CopyToClipboard();
-	mSettings.theSelection->SelectNone();		// note: bypassing paint view
+	mSettings.theSelection->SelectNone();		// bypassing paint view
 	mSettings.thePaintView->HandleCanvasDraw();
 	
 	this->PostAsAction();
 }
 
-	// ------------------ CIconCopyAction --------------------
 
+
+/**********************
+*                     *
+*   CIconCopyAction   *
+*                     *
+**********************/
 // ---------------------------------------------------------------------------
-// 	CopyAction Constructor
+// 	CIconCopyAction												 [constructor]
 // ---------------------------------------------------------------------------
 
 CIconCopyAction::CIconCopyAction( const SPaintAction &inSettings )
@@ -73,7 +87,7 @@ CIconCopyAction::CIconCopyAction( const SPaintAction &inSettings )
 
 
 // ---------------------------------------------------------------------------
-// 	CopyAction Destructor
+// 	CIconCopyAction 											 [destructor]
 // ---------------------------------------------------------------------------
 
 CIconCopyAction::~CIconCopyAction()
@@ -82,19 +96,25 @@ CIconCopyAction::~CIconCopyAction()
 
 
 // ---------------------------------------------------------------------------
-// 	CopyAction::DoIt
+// 	DoIt
 // ---------------------------------------------------------------------------
 
-void CIconCopyAction::DoIt()
+void
+CIconCopyAction::DoIt()
 {
 	mSettings.theSelection->CopyToClipboard();
 	this->PostAsAction();		// will delete this object (mAffectsUndoState == false)
 }
 
-	// ------------------ CIconPasteAction --------------------
 
+
+/***********************
+*                      *
+*   CIconPasteAction   *
+*                      *
+***********************/
 // ---------------------------------------------------------------------------
-// 	CIconPasteAction Constructor
+// 	CIconPasteAction											 [constructor]
 // ---------------------------------------------------------------------------
 
 CIconPasteAction::CIconPasteAction( const SPaintAction &inSettings )
@@ -105,7 +125,7 @@ CIconPasteAction::CIconPasteAction( const SPaintAction &inSettings )
 
 
 // ---------------------------------------------------------------------------
-// 	CIconPasteAction Destructor
+// 	CIconPasteAction 											 [destructor]
 // ---------------------------------------------------------------------------
 
 CIconPasteAction::~CIconPasteAction()
@@ -114,28 +134,33 @@ CIconPasteAction::~CIconPasteAction()
 
 
 // ---------------------------------------------------------------------------
-// 	CIconPasteAction::DoIt
+// 	DoIt
 // ---------------------------------------------------------------------------
 
-void CIconPasteAction::DoIt()
+void
+CIconPasteAction::DoIt()
 {
 	mSettings.thePaintView->CopyToUndo();
 	
-	mSettings.thePaintView->CommitSelection();	// 8/29/96 ebs fix
-	mSettings.thePaintView->ChangeTool( Tool_Selection );
+	mSettings.thePaintView->CommitSelection();
+	mSettings.thePaintView->ChangeTool( tool_Selection );
 	mSettings.theSelection->PasteFromClipboard( mSettings.currentBuffer );
 	
-		// this erases the old marching ants as well as displaying
-		// the new selection
+	// This erases the old marching ants as well as displaying the new
+	// selection
 	mSettings.thePaintView->HandleCanvasDraw();
 	
 	this->PostAsAction();
 }
 
-	// ------------------ CIconClearAction --------------------
 
+/***********************
+*                      *
+*   CIconClearAction   *
+*                      *
+***********************/
 // ---------------------------------------------------------------------------
-// 	CIconClearAction Constructor
+// 	CIconClearAction											 [constructor]
 // ---------------------------------------------------------------------------
 
 CIconClearAction::CIconClearAction( const SPaintAction &inSettings )
@@ -146,7 +171,7 @@ CIconClearAction::CIconClearAction( const SPaintAction &inSettings )
 
 
 // ---------------------------------------------------------------------------
-// 	CIconClearAction Destructor
+// 	CIconClearAction 											 [destructor]
 // ---------------------------------------------------------------------------
 
 CIconClearAction::~CIconClearAction()
@@ -155,12 +180,13 @@ CIconClearAction::~CIconClearAction()
 
 
 // ---------------------------------------------------------------------------
-// 	CIconClearAction::DoIt
+// 	DoIt
 // ---------------------------------------------------------------------------
 
-void CIconClearAction::DoIt()
+void
+CIconClearAction::DoIt()
 {
-	if ( mSettings.theSelection->IsEmpty() )		// shouldn't happen
+	if ( mSettings.theSelection->IsEmpty() )	// shouldn't happen
 	{
 		delete this;
 		return;
@@ -168,7 +194,7 @@ void CIconClearAction::DoIt()
 
 	mSettings.thePaintView->CopyToUndo();
 	
-	mSettings.theSelection->SelectNone();		// note: bypassing paint view
+	mSettings.theSelection->SelectNone();		// bypassing paint view
 	mSettings.thePaintView->HandleCanvasDraw();	
 	this->PostAsAction();
 }

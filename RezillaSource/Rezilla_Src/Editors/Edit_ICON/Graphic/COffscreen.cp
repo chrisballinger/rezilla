@@ -174,7 +174,7 @@ COffscreen::CreateGWorld( SInt32 inWidth, SInt32 inHeight, SInt32 inDepth,
 
 
 // ---------------------------------------------------------------------------
-// 	COffscreen Destructor
+// 	COffscreen											 [destructor]
 // ---------------------------------------------------------------------------
 
 COffscreen::~COffscreen()
@@ -1050,7 +1050,7 @@ COffscreen::DebugShowInWindow()
 *                   *
 ********************/
 // ---------------------------------------------------------------------------
-// 	StSaveAndDraw Constructor
+// 	StSaveAndDraw											 [constructor]
 // ---------------------------------------------------------------------------
 
 StSaveAndDraw::StSaveAndDraw( COffscreen *inBuffer )
@@ -1061,7 +1061,7 @@ StSaveAndDraw::StSaveAndDraw( COffscreen *inBuffer )
 
 
 // ---------------------------------------------------------------------------
-// 	StSaveAndDraw Destructor
+// 	StSaveAndDraw											 [destructor]
 // ---------------------------------------------------------------------------
 
 StSaveAndDraw::~StSaveAndDraw()
@@ -1076,7 +1076,7 @@ StSaveAndDraw::~StSaveAndDraw()
 *                          *
 ***************************/
 // ---------------------------------------------------------------------------
-// 	StBufferLeakDetector Constructor
+// 	StBufferLeakDetector									 [constructor]
 // ---------------------------------------------------------------------------
 
 StBufferLeakDetector::StBufferLeakDetector()
@@ -1086,7 +1086,7 @@ StBufferLeakDetector::StBufferLeakDetector()
 
 
 // ---------------------------------------------------------------------------
-// 	StBufferLeakDetector Destructor
+// 	StBufferLeakDetector									 [destructor]
 // ---------------------------------------------------------------------------
 
 StBufferLeakDetector::~StBufferLeakDetector()

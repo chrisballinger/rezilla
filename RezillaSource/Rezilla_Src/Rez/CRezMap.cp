@@ -251,6 +251,37 @@ CRezMap::GetWithName(ResType inType, ConstStr255Param inName, Handle & outHandle
 
 
 // ---------------------------------------------------------------------------
+//  ¥ FindResource										[public]
+// ---------------------------------------------------------------------------
+
+CRezObj *
+CRezMap::FindResource(ResType inType, short inID, Boolean loadIt)
+{
+	OSErr		error;
+	CRezObj *	theRez = NULL;
+	Handle		theHandle;
+	
+	StRezRefSaver saver(mRefNum);
+	if (!loadIt) {
+		::SetResLoad(false);
+	} 
+	
+	theHandle = ::Get1Resource(inType, inID);
+	error = ::ResError();
+	
+	if (error == noErr) {
+		theRez = new CRezObj(theHandle, mRefNum);
+	} 
+	
+	if (!loadIt) {
+		::SetResLoad(true);
+	} 
+	
+	return theRez;
+}
+
+
+// ---------------------------------------------------------------------------
 //  ¥ HasResourceWithTypeAndId										[public]
 // ---------------------------------------------------------------------------
 // Looks in the resource map to see if an entry with the specified type and the

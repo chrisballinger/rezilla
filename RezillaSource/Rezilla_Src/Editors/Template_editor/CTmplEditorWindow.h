@@ -41,7 +41,7 @@ class CWasteEditView;
 
 class CTmplEditorWindow : public CEditorWindow {
 public:
-	enum { class_ID = 'TmpW' };
+	enum { class_ID = FOUR_CHAR_CODE('TmpW') };
 
 							CTmplEditorWindow();
 							CTmplEditorWindow( const SWindowInfo &inWindowInfo );

@@ -31,7 +31,7 @@ class LStaticText;
 
 class CTEXT_EditorWindow : public CEditorWindow {
 public:
-	enum { class_ID = 'TXTW' };
+	enum { class_ID = FOUR_CHAR_CODE('TXTW') };
 
 							CTEXT_EditorWindow();
 							CTEXT_EditorWindow( const SWindowInfo &inWindowInfo );

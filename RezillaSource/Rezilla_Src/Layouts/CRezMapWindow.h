@@ -23,7 +23,7 @@ class LStaticText;
 
 class CRezMapWindow : public LWindow, public LListener {
 public:
-	enum { class_ID = 'RzMW' };
+	enum { class_ID = FOUR_CHAR_CODE('RzMW') };
 
 									CRezMapWindow();
 									CRezMapWindow( const SWindowInfo &inWindowInfo );

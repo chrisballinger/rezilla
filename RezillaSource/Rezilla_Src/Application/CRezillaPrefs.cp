@@ -2,7 +2,7 @@
 // CRezillaPrefs.cp					
 // 
 //                       Created: 2004-05-17 08:52:16
-//             Last modification: 2004-12-15 17:55:35
+//             Last modification: 2004-12-22 15:38:27
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -219,6 +219,11 @@ CRezillaPrefs::StorePreferences()
 	CFPreferencesSetAppValue( CFSTR("pref_editors_use8BitPicts"), theValue, kCFPreferencesCurrentApplication);
 	if (theValue) CFRelease(theValue);
 
+	theNumber = GetPrefValue( kPref_editors_use8BitIcons );
+	theValue = CFNumberCreate(NULL, kCFNumberIntType, &theNumber); 
+	CFPreferencesSetAppValue( CFSTR("pref_editors_use8BitIcons"), theValue, kCFPreferencesCurrentApplication);
+	if (theValue) CFRelease(theValue);
+
 	theNumber = GetPrefValue( kPref_editors_fullTables );
 	theValue = CFNumberCreate(NULL, kCFNumberIntType, &theNumber); 
 	CFPreferencesSetAppValue( CFSTR("pref_editors_fullTables"), theValue, kCFPreferencesCurrentApplication);
@@ -338,6 +343,10 @@ CRezillaPrefs::RetrievePreferences()
 	result = CFPreferencesGetAppBooleanValue(CFSTR("pref_editors_use8BitPicts"), CFSTR(kRezillaIdentifier), &valueValid);
 	if (valueValid) {
 		SetPrefValue( result, kPref_editors_use8BitPicts);
+	}	
+	result = CFPreferencesGetAppBooleanValue(CFSTR("pref_editors_use8BitIcons"), CFSTR(kRezillaIdentifier), &valueValid);
+	if (valueValid) {
+		SetPrefValue( result, kPref_editors_use8BitIcons);
 	}	
 	result = CFPreferencesGetAppBooleanValue(CFSTR("pref_editors_fullTables"), CFSTR(kRezillaIdentifier), &valueValid);
 	if (valueValid) {
@@ -481,6 +490,14 @@ CRezillaPrefs::SetPrefValue(SInt32 inPrefValue, SInt32 inConstant, SInt32 inPref
 			sTempPrefs.editors.use8BitPicts = inPrefValue;
 		} else {
 			sCurrPrefs.editors.use8BitPicts = inPrefValue;
+		}	
+		break;
+		
+		case kPref_editors_use8BitIcons:
+		if (inPrefType == prefsType_Temp) {
+			sTempPrefs.editors.use8BitIcons = inPrefValue;
+		} else {
+			sCurrPrefs.editors.use8BitIcons = inPrefValue;
 		}	
 		break;
 		
@@ -664,6 +681,14 @@ CRezillaPrefs::GetPrefValue(SInt32 inConstant, SInt32 inPrefType)
 			theValue = sTempPrefs.editors.use8BitPicts;
 		} else {
 			theValue = sCurrPrefs.editors.use8BitPicts;
+		}	
+		break;
+		
+		case kPref_editors_use8BitIcons:
+		if (inPrefType == prefsType_Temp) {
+			theValue = sTempPrefs.editors.use8BitIcons;
+		} else {
+			theValue = sCurrPrefs.editors.use8BitIcons;
 		}	
 		break;
 		
@@ -1030,7 +1055,7 @@ CRezillaPrefs::RunPrefsDialog()
 		ThrowIfNil_( theCheckBox );
 		theCheckBox->SetValue(  GetPrefValue( kPref_editors_use8BitPicts ) );
 
-		theCheckBox = dynamic_cast<LCheckBox *>(theEditorPane->FindPaneByID( item_EditPrefsFullTables ));
+		theCheckBox = dynamic_cast<LCheckBox *>(theEditorPane->FindPaneByID( item_EditPrefsUseFullTables ));
 		ThrowIfNil_( theCheckBox );
 		theCheckBox->SetValue(  GetPrefValue( kPref_editors_fullTables ) );
 		
@@ -1152,7 +1177,7 @@ CRezillaPrefs::RunPrefsDialog()
 			SetPrefValue( theCheckBox->GetValue(), kPref_editors_use8BitPicts, prefsType_Temp);
 			
 			// EditPrefsFullTables
-			theCheckBox = dynamic_cast<LCheckBox *>(theEditorPane->FindPaneByID( item_EditPrefsFullTables ));
+			theCheckBox = dynamic_cast<LCheckBox *>(theEditorPane->FindPaneByID( item_EditPrefsUseFullTables ));
 			SetPrefValue( theCheckBox->GetValue(), kPref_editors_fullTables, prefsType_Temp);
 						
 			// CompPrefsIgnName

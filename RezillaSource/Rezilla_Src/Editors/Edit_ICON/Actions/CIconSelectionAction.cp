@@ -1,7 +1,7 @@
 // ===========================================================================
 // CIconSelectionAction.cp
 //                       Created: 2004-12-11 18:52:37
-//             Last modification: 2004-12-14 15:18:40
+//             Last modification: 2004-12-22 18:17:13
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -14,6 +14,10 @@
 #include "RezillaConstants.h"
 #include "CIconSelectionAction.h"
 #include "CMarchingAnts.h"
+#include "CIcon_EditorView.h"
+#include "CIcon_EditorWindow.h"
+#include "COffscreen.h"
+#include "CIconSelection.h"
 
 #include <UDrawingState.h>
 
@@ -42,7 +46,8 @@ CIconSelectionAction::~CIconSelectionAction()
 // 	HandleMouseDown
 // ---------------------------------------------------------------------------
 
-void CIconSelectionAction::HandleMouseDown( const SMouseDownEvent &inEvent )
+void
+CIconSelectionAction::HandleMouseDown( const SMouseDownEvent &inEvent )
 {
 	SInt32	rowHit, colHit;
 	
@@ -75,7 +80,8 @@ void CIconSelectionAction::HandleMouseDown( const SMouseDownEvent &inEvent )
 // 	MouseInitial
 // ---------------------------------------------------------------------------
 
-void CIconSelectionAction::MouseInitial( const SMouseDownEvent &inEvent, SInt32 /*newCol*/, SInt32 /*newRow*/ )
+void
+CIconSelectionAction::MouseInitial( const SMouseDownEvent &inEvent, SInt32 /*newCol*/, SInt32 /*newRow*/ )
 {
 	mMouseDownPt = inEvent.whereLocal;
 	mSettings.thePaintView->SelectNone();
@@ -99,7 +105,8 @@ void CIconSelectionAction::MouseInitial( const SMouseDownEvent &inEvent, SInt32 
 // 	MouseStillDown
 // ---------------------------------------------------------------------------
 
-void CIconSelectionAction::MouseStillDown( const SMouseDownEvent &, 
+void
+CIconSelectionAction::MouseStillDown( const SMouseDownEvent &, 
 										Point, Point currentPt,
 										SInt32 /*prevCol*/, SInt32 /*prevRow*/,
 										SInt32 /*newCol*/, SInt32 /*newRow*/ )
@@ -227,145 +234,14 @@ void CIconSelectionAction::MouseStillDown( const SMouseDownEvent &,
 	
 	mCurrentSelection = r;					// in source coords -- not canvas
 }
-#ifdef NOTUSED_XXX
-
-// ---------------------------------------------------------------------------
-// 	MouseStillDown
-// ---------------------------------------------------------------------------
-
-void CIconSelectionAction::MouseStillDown( const SMouseDownEvent &, 
-										Point, Point currentPt,
-										SInt32 /*prevCol*/, SInt32 /*prevRow*/,
-										SInt32 /*newCol*/, SInt32 /*newRow*/ )
-{
-	COffscreen		*theImageBuffer = mSettings.currentBuffer;
-	COffscreen		*theScratchBuffer = mSettings.scratchBuffer;
-	Rect			r, rectToDraw, clipR;
-	CIcon_EditorView		*theCanvas = mSettings.theCanvas;
-	Boolean			goingRight, goingDown;
-	Point			rawTopLeft, rawBotRight;
-	
-			// find the raw top-left and bottom-right of the selection area
-
-	if ( currentPt.h > mMouseDownPt.h )
-	{
-		goingRight = true;
-		rawTopLeft.h = mMouseDownPt.h;
-		rawBotRight.h = currentPt.h;
-	}
-	else
-	{
-		goingRight = false;
-		rawTopLeft.h = currentPt.h;
-		rawBotRight.h = mMouseDownPt.h;
-	}
-	
-	if ( currentPt.v > mMouseDownPt.v )
-	{
-		goingDown = true;
-		rawTopLeft.v = mMouseDownPt.v;
-		rawBotRight.v = currentPt.v;
-	}
-	else
-	{
-		goingDown = false;
-		rawTopLeft.v = currentPt.v;
-		rawBotRight.v = mMouseDownPt.v;
-	}
-	
-			// find the cell range that has been hit
-
-	SInt32 h, h2, v, v2;
-	theCanvas->MapPointToCell( rawTopLeft, &h, &v );
-	theCanvas->MapPointToCell( rawBotRight, &h2, &v2 );
-	
-			// do the tricky boundary fixes
-
-	Rect	topLeftCellR, botRightCellR;
-	SInt16	slop;
-	
-	theCanvas->GetPixelRect( h, v, &topLeftCellR, false );
-	theCanvas->GetPixelRect( h2, v2, &botRightCellR, false );
-	
-	Rect tempR;
-	theCanvas->GetPixelRect( 0, 0, &tempR );		// note: above rects may be empty
-	slop = MAX( 0, (tempR.right - tempR.left) / 3 );
-	
-	if ( goingRight )
-	{
-		if ( rawTopLeft.h + slop > topLeftCellR.right )
-			++h;
-	}
-	else	// left
-	{
-		if ( ::PtInRect( currentPt, &botRightCellR ) )
-		{
-			h = 0;
-			h2 = 0;
-		}
-	}
-	
-	if ( goingDown )
-	{
-		if ( rawTopLeft.v + slop > topLeftCellR.bottom )
-			++v;
-	}
-	else	// up
-	{
-		if ( ::PtInRect( currentPt, &botRightCellR ) )
-		{
-			v = 0;
-			v2 = 0;
-		}
-	}
-	
-			// never extend a selection beyond the buffer (except by 1 pixel since
-		// we need to enclose the selection)
-
-	r.left = MAX( 0, h );
-	r.right = MIN( 1 + mSettings.currentBuffer->GetWidth(), h2 );
-	r.top = MAX( 0, v );
-	r.bottom = MIN( 1 + mSettings.currentBuffer->GetHeight(), v2 );
-
-	theCanvas->MapRectToCanvas( r, &rectToDraw );
-
-	theCanvas->FocusDraw();
-	StColorPenState		aSaver;
-	aSaver.Normalize();
-	
-	theCanvas->GetInsideDrawingRect( &clipR );
-	StClipRgnState	saveSetAndRestore( clipR );
-
-			// even if the rect hasn't changed, we may have to march the ants
-
-	if ( ::EqualRect( &rectToDraw, &mPrevDrawnRect ) ) 
-	{
-		if ( mMarchingAnts.TimeToDraw() )
-		{
-			if ( mUseXorMode )				// less flicker if we don't erase (drawing on top anyway)
-				this->EraseOldRect();
-			this->DrawNewRect( rectToDraw );
-		}
-
-		mCurrentSelection = r;
-		return;
-	}
-	
-			// mouse has moved, so erase the old rect and draw the new one
-
-	this->EraseOldRect();
-	this->DrawNewRect( rectToDraw );
-	
-	mCurrentSelection = r;					// in source coords -- not canvas
-}
-
 
 
 // ---------------------------------------------------------------------------
 // 	EraseOldRect
 // ---------------------------------------------------------------------------
 
-void CIconSelectionAction::EraseOldRect()
+void
+CIconSelectionAction::EraseOldRect()
 {
 	StColorPenState		aPenState;
 	aPenState.Normalize();
@@ -395,7 +271,8 @@ void CIconSelectionAction::EraseOldRect()
 // 	DrawNewRect
 // ---------------------------------------------------------------------------
 
-void CIconSelectionAction::DrawNewRect( const Rect &inRect )
+void
+CIconSelectionAction::DrawNewRect( const Rect &inRect )
 {
 	StColorPenState		aPenState;
 	aPenState.Normalize();
@@ -419,7 +296,8 @@ void CIconSelectionAction::DrawNewRect( const Rect &inRect )
 // 	MouseFinal
 // ---------------------------------------------------------------------------
 
-Boolean CIconSelectionAction::MouseFinal( const SMouseDownEvent &, 
+Boolean
+CIconSelectionAction::MouseFinal( const SMouseDownEvent &, 
 									Point, Point,
 									SInt32, SInt32,
 									SInt32, SInt32 )

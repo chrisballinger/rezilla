@@ -1,7 +1,7 @@
 // ===========================================================================
 // CIconLineAction.cp
 //                       Created: 2004-12-11 18:52:25
-//             Last modification: 2004-12-14 18:52:25
+//             Last modification: 2004-12-22 17:18:46
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -13,15 +13,18 @@
 
 #include "RezillaConstants.h"
 #include "CIconActions.h"
+#include "CIcon_EditorView.h"
+#include "CIcon_EditorWindow.h"
+#include "COffscreen.h"
 
 
 
 // ---------------------------------------------------------------------------
-// 	CIconLineAction Constructor
+// 	CIconLineAction											 [constructor]
 // ---------------------------------------------------------------------------
 
-CIconLineAction::CIconLineAction( const SPaintAction &inAction ) : 
-		CIconTrackingPaintAction( inAction, index_UndoLine )
+CIconLineAction::CIconLineAction( const SPaintAction &inAction ) 
+		: CIconTrackingPaintAction( inAction, index_UndoLine )
 {
 	this->ThrowIfFileLocked();
 	mScratchBufferHasImage = false;				// no image drawn to scratch buffer yet
@@ -30,7 +33,7 @@ CIconLineAction::CIconLineAction( const SPaintAction &inAction ) :
 
 
 // ---------------------------------------------------------------------------
-// 	CIconLineAction Destructor
+// 	CIconLineAction											 [destructor]
 // ---------------------------------------------------------------------------
 
 CIconLineAction::~CIconLineAction()
@@ -69,7 +72,8 @@ static SInt32 Max3( SInt32 a, SInt32 b, SInt32 c )
 // 	CIconLineAction::MouseStillDown
 // ---------------------------------------------------------------------------
 
-void CIconLineAction::MouseStillDown( const SMouseDownEvent &, 
+void
+CIconLineAction::MouseStillDown( const SMouseDownEvent &, 
 									Point /*prevMousePt*/, Point /*newMousePt*/,
 									SInt32 prevCol, SInt32 prevRow,
 									SInt32 newCol, SInt32 newRow )
@@ -112,7 +116,8 @@ void CIconLineAction::MouseStillDown( const SMouseDownEvent &,
 // 	CIconLineAction::MouseFinal
 // ---------------------------------------------------------------------------
 
-Boolean CIconLineAction::MouseFinal( const SMouseDownEvent &, 
+Boolean
+CIconLineAction::MouseFinal( const SMouseDownEvent &, 
 								Point, Point,
 								SInt32, SInt32,
 								SInt32, SInt32 )

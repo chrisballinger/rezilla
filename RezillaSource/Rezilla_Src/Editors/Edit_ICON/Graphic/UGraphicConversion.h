@@ -1,7 +1,7 @@
 // ===========================================================================
 // UGraphicConversion.h
 //                       Created: 2004-12-11 18:52:47
-//             Last modification: 2004-12-15 09:17:47
+//             Last modification: 2004-12-18 07:40:14
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -16,7 +16,7 @@
 #pragma once
 
 class COffscreen;
-// class CRezMap;
+class CRezMap;
 
 class UGraphicConversion
 {
@@ -32,11 +32,11 @@ class UGraphicConversion
 
 	static COffscreen *		PictureToOffscreen( PicHandle inPict );
 	
-// 	static void					SaveOffscreenAsResource( 
-// 										CRezMap *, ResType inResType, ResIDT inResID,
-// 										COffscreen *inBuffer, SInt32 rowBytes = -1,
-// 										COffscreen *maskBuffer = nil, SInt32 maskOffset = 0,
-// 										SInt32 maskRowBytes = -1 );
+	static void					SaveOffscreenAsResource( 
+										CRezMap *, ResType inResType, ResIDT inResID,
+										COffscreen *inBuffer, SInt32 rowBytes = -1,
+										COffscreen *maskBuffer = nil, SInt32 maskOffset = 0,
+										SInt32 maskRowBytes = -1 );
 };
 
 #endif // _H_UGraphicConversion

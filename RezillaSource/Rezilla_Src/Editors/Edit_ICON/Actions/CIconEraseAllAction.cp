@@ -1,7 +1,7 @@
 // ===========================================================================
 // CIconEraseAllAction.cp
 //                       Created: 2004-12-11 18:52:19
-//             Last modification: 2004-12-14 18:52:19
+//             Last modification: 2004-12-22 16:44:19
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -13,6 +13,10 @@
 
 #include "RezillaConstants.h"
 #include "CIconActions.h"
+#include "CIcon_EditorView.h"
+#include "CIcon_EditorWindow.h"
+#include "COffscreen.h"
+#include "UIconMisc.h"
 
 
 // ---------------------------------------------------------------------------
@@ -38,7 +42,8 @@ CIconEraseAllAction::~CIconEraseAllAction()
 // 	DoIt
 // ---------------------------------------------------------------------------
 
-void CIconEraseAllAction::DoIt()
+void
+CIconEraseAllAction::DoIt()
 {
 	Rect			r;
 	COffscreen		*imageBuffer = mSettings.currentBuffer;

@@ -2,7 +2,7 @@
 // CRezillaPrefs.h					
 // 
 //                       Created: 2004-05-17 08:52:16
-//             Last modification: 2004-12-15 17:55:44
+//             Last modification: 2004-12-18 07:49:26
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -57,7 +57,10 @@ struct SEditorsPrefs {
 	Boolean			use8BitIcons;	// 8-bit instead of 32 ?
 	Boolean			fullTables;		// default to 256 colors rather than 36 ?
 };
-/* CRezillaPrefs::GetPrefValue(kPref_editors_use8BitPicts)  */
+// 	// 	One of these two should be #defined
+// 			#define USE_LINES_FOR_ERASER
+// 			//#define USE_RECTS_FOR_ERASER
+
 //     Misc Prefs
 struct SMiscPrefs {
 	Boolean			setSigOnClose;
@@ -86,6 +89,7 @@ enum {
 	kPref_editors_dispFillers,
 	kPref_editors_enableFillers,
 	kPref_editors_use8BitPicts,
+	kPref_editors_use8BitIcons,
 	kPref_editors_fullTables,
 	kPref_export_dataEncoding,
 	kPref_export_formatDtd,

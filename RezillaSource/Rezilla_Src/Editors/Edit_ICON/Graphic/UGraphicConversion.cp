@@ -1,7 +1,7 @@
 // ===========================================================================
 // UGraphicConversion.cp
 //                       Created: 2004-12-11 18:52:47
-//             Last modification: 2004-12-17 11:25:12
+//             Last modification: 2004-12-23 09:54:42
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -12,6 +12,8 @@
 // ===========================================================================
 
 #include "UGraphicConversion.h"
+#include "CRezObj.h"
+#include "CRezMap.h"
 #include "COffscreen.h"
 #include "CColorTableBuilder.h"
 #include "CRezillaPrefs.h"
@@ -111,10 +113,10 @@ UGraphicConversion::OffscreenToClipboard( COffscreen *inBuffer, RgnHandle inSele
 	StHandleBlock		aDeleter( (Handle) thePict );
 	
 	// Write the picture 
-	theClipboard->SetData( img_Picture, (Handle) thePict, true /* reset */ );
+	theClipboard->SetData( ImgType_Picture, (Handle) thePict, true /* reset */ );
 
 	if ( inSelection )
-		theClipboard->SetData( ResourceType_Region, (Handle) inSelection, false );
+		theClipboard->SetData( ResType_Region, (Handle) inSelection, false );
 }
 
 
@@ -135,7 +137,7 @@ UGraphicConversion::GetPictFromClipboard()
 		thePict = (PicHandle) ::NewHandle( 0 );
 		ThrowIfMemFail_( thePict );
 		
-		numBytes = theClipboard->GetData( img_Picture, (Handle) thePict );
+		numBytes = theClipboard->GetData( ImgType_Picture, (Handle) thePict );
 		if ( numBytes < sizeof(Picture) )
 			Throw_( noTypeErr );
 	}
@@ -162,7 +164,7 @@ UGraphicConversion::GetRegionFromClipboard()
 	SInt32			numBytes;
 	LClipboard		*theClipboard = LClipboard::GetClipboard();
 
-	numBytes = theClipboard->GetData( ResourceType_Region, nil );
+	numBytes = theClipboard->GetData( ResType_Region, nil );
 	if ( numBytes <= 0 ) return( nil );
 	
 	try
@@ -170,7 +172,7 @@ UGraphicConversion::GetRegionFromClipboard()
 		theRegion = (RgnHandle) ::NewHandle( numBytes );
 		ThrowIfMemFail_( theRegion );
 		
-		numBytes = theClipboard->GetData( ResourceType_Region, (Handle) theRegion );
+		numBytes = theClipboard->GetData( ResType_Region, (Handle) theRegion );
 		if ( numBytes <= 0 )
 			Throw_( noTypeErr );
 	}
@@ -235,68 +237,64 @@ UGraphicConversion::GetPictFromFile( const FSSpec &inSpec )
 }
 
 
-// // ---------------------------------------------------------------------------
-// // 	SaveOffscreenAsResource
-// // ---------------------------------------------------------------------------
-// // Saves the passed offscreen buffer as a raw image resource. This is
-// // useful for ICON, icl8, icl4, etc.
-// // Throws an error on i/o problem. May unlock the resource if it already
-// // is present in RAM.
-// 
-// void UGraphicConversion::SaveOffscreenAsResource( 
-// 								CRezMap *inMap, ResType inResType, ResIDT inResID,
-// 								COffscreen *inBuffer, SInt32 rowBytes,
-// 								COffscreen *inMask, SInt32 maskOffset, SInt32 maskRowBytes )
-// {
-// 	UInt8				**h = nil;
-// 	SInt32				numBytes;
-// 	
-// 			// save/restore various states
-// 
-// 	StRezRefSaver		saver1;
-// 	StGWorldSaver		saver2;
-// 	
-// 			// if the rowBytes (or maskRowBytes) isn't specified, use the
-// 		// buffer's rowBytes
-// 
-// 	if ( rowBytes == -1 )
-// 		rowBytes = inBuffer->GetRowBytes();
-// 	
-// 	if ( inMask && (maskRowBytes == -1) )
-// 	{
-// 		maskRowBytes = inMask->GetRowBytes();
-// 	}
-// 
-// 	try
-// 	{
-// 				// Allocate the buffer to write
-// 
-// 		numBytes = (rowBytes + maskRowBytes) * inBuffer->GetHeight();
-// 		h = (UInt8**) ::NewHandle( numBytes );
-// 		ThrowIfMemFail_( h );
-// 		::HLock( (Handle) h );
-// 		
-// 				// Copy the raw image & mask data to the resource
-// 
-// 		inBuffer->CopyToRawData( *h, rowBytes );
-// 		if ( inMask )
-// 			inMask->CopyToRawData( *h + maskOffset, maskRowBytes );
-// 
-// 				// Write out the resource
-// 
-// 		RFResource *theResource = inMap->FindResource( inResType, inResID, true );
-// 		ThrowIfNil_( theResource );
-// 		
-// 		theResource->SetResData( (Handle) h );
-// 	}
-// 	catch( ... )
-// 	{
-// 		UIconMisc::DisposeHandle( h );
-// 		throw;
-// 	}
-// 	
-// 	UIconMisc::DisposeHandle( h );
-// }
+// ---------------------------------------------------------------------------
+// 	SaveOffscreenAsResource
+// ---------------------------------------------------------------------------
+// Saves the passed offscreen buffer as a raw image resource. This is
+// useful for ICON, icl8, icl4, etc.
+// Throws an error on i/o problem. May unlock the resource if it already
+// is present in RAM.
+
+void UGraphicConversion::SaveOffscreenAsResource( 
+								CRezMap *inMap, ResType inResType, ResIDT inResID,
+								COffscreen *inBuffer, SInt32 rowBytes,
+								COffscreen *inMask, SInt32 maskOffset, SInt32 maskRowBytes )
+{
+	UInt8				**h = nil;
+	SInt32				numBytes;
+	
+	// Save/restore various states
+	StRezRefSaver		saver1;
+	StGWorldSaver		saver2;
+	
+	// If the rowBytes (or maskRowBytes) isn't specified, use the buffer's
+	// rowBytes
+
+	if ( rowBytes == -1 )
+		rowBytes = inBuffer->GetRowBytes();
+	
+	if ( inMask && (maskRowBytes == -1) )
+	{
+		maskRowBytes = inMask->GetRowBytes();
+	}
+
+	try
+	{
+		// Allocate the buffer to write
+		numBytes = (rowBytes + maskRowBytes) * inBuffer->GetHeight();
+		h = (UInt8**) ::NewHandle( numBytes );
+		ThrowIfMemFail_( h );
+		::HLock( (Handle) h );
+		
+		// Copy the raw image & mask data to the resource
+		inBuffer->CopyToRawData( *h, rowBytes );
+		if ( inMask )
+			inMask->CopyToRawData( *h + maskOffset, maskRowBytes );
+
+		// Write out the resource
+		CRezObj * theResource = inMap->FindResource( inResType, inResID, true );
+		ThrowIfNil_( theResource );
+		
+		theResource->SetData( (Handle) h );
+	}
+	catch( ... )
+	{
+		UIconMisc::DisposeHandle( h );
+		throw;
+	}
+	
+	UIconMisc::DisposeHandle( h );
+}
 
 
 // ---------------------------------------------------------------------------

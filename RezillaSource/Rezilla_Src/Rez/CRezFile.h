@@ -2,16 +2,16 @@
 // CRezFile.h					
 // 
 //                       Created: 2003-04-24 14:17:20
-//             Last modification: 2003-04-25 05:28:39
+//             Last modification: 2004-12-22 11:42:45
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003
+// (c) Copyright : Bernard Desgraupes, 2003-2004
 // All rights reserved.
 // $Date$
 // $Revision$
 // ===========================================================================
-// A wrapper class for a Macintosh resource file ie a file storing its resources 
+// A wrapper class for a Macintosh resource file i-e a file storing its resources 
 // either in the data fork or in the resource fork
 
 #ifndef _H_CRezFile
@@ -79,8 +79,7 @@ public:
 
 	virtual SInt16		GetUsedFork() { return mUsedFork;}
 
-	// static class function
-	static short		GetResourceFileVolume( SInt16 inFileID );
+	short				GetResourceFileVolume();
 	
 protected:
 		CRezMapDoc *	mOwnerDoc;

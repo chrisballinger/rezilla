@@ -1,7 +1,7 @@
 // ===========================================================================
 // CIconDragToTargetAction.cp
 //                       Created: 2004-12-11 18:52:15
-//             Last modification: 2004-12-14 09:39:52
+//             Last modification: 2004-12-22 16:32:23
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -13,7 +13,11 @@
 
 #include "RezillaConstants.h"
 #include "CIconDragToTargetAction.h"
+#include "CIcon_EditorView.h"
+#include "CIcon_EditorWindow.h"
+#include "COffscreen.h"
 #include "UGraphicConversion.h"
+#include "UMessageDialogs.h"
 
 
 // ---------------------------------------------------------------------------
@@ -48,7 +52,8 @@ CIconDragToTargetAction::~CIconDragToTargetAction()
 // We not delete the picture or passed offscreen buffer -- this is handled
 // by the drag & drop code.
 
-void CIconDragToTargetAction::DoIt()
+void
+CIconDragToTargetAction::DoIt()
 {
 	CIcon_EditorWindow 			*thePaintView = mSettings.thePaintView;
 	CDraggableTargetBox 	*oldBox = thePaintView->GetTargetBox();
@@ -61,8 +66,7 @@ void CIconDragToTargetAction::DoIt()
 		if ( thePaintView->GetLockFlag() )
 			Throw_( err_IconFileLocked );
 			
-				// if a picture was dropped, draw it into a buffer
-
+		// If a picture was dropped, draw it into a buffer
 		if ( mDropInfo.theBuffer )
 			sourceBuffer = mDropInfo.theBuffer;
 		else
@@ -71,10 +75,9 @@ void CIconDragToTargetAction::DoIt()
 			deleteSourceBuffer = true;
 		}
 		
-				// allocate a buffer with the same depth & color table as
-		// the pane the image was dropped on. this will map colors
-		// to the pane's depth & color table, plus scale the image.
-
+		// Allocate a buffer with the same depth & color table as the pane
+		// the image was dropped on. this will map colors to the pane's
+		// depth & color table, plus scale the image.
 		COffscreen *paneBuffer = mDropInfo.thePane->GetBuffer();
 		ThrowIfNil_( paneBuffer );
 		downSampledBuffer = paneBuffer->CreateSimilarOffscreen();
@@ -84,40 +87,34 @@ void CIconDragToTargetAction::DoIt()
 		else
 			downSampledBuffer->CopyFrom( sourceBuffer );
 	
-				// commit the current selection
-		// note: this can't be undone. is this ok?
-
+		// Commit the current selection
 		thePaintView->SelectNone();				// commit the current selection
 		thePaintView->PostAction( nil );		// in case of error -- can't undo anything right now
 
-		// Change the current sample pane -- this is needed up here in
-		// order to use CopyToUndo
-		// This may change the current buffer, so don't use
-		// mSettings.currentBuffer, etc after this point.
-
+		// Change the current sample pane: this is needed up here in order
+		// to use CopyToUndo. This may change the current buffer, so don't
+		// use mSettings.currentBuffer, etc after this point.
 		if ( newBox != oldBox )
 			thePaintView->SetTargetBox( mDropInfo.thePane, redraw_Later );
 		
 		thePaintView->CopyToUndo();
 	
-		// Copy to the main image.
-		// mSettings.currentBuffer can't be used.
-
+		// Copy to the main image. mSettings.currentBuffer can't be used.
 		COffscreen *latestImageBuffer = mSettings.thePaintView->GetImageBuffer();
 		if ( latestImageBuffer )
 			latestImageBuffer->CopyFrom( downSampledBuffer );
 		
-		#ifdef NOT_NEEDED
-		// This erases the old marching ants (if any) as well as displaying
-		// the new selection
-		thePaintView->HandleCanvasDraw();
+// 		#ifdef NOT_NEEDED
+// 		// This erases the old marching ants (if any) as well as displaying
+// 		// the new selection
+// 		thePaintView->HandleCanvasDraw();
 		
 		// Do a refresh rather than a draw here because the canvas might've
 		// changed size and we needed to post an update event anyway. this
 		// prevents drawing twice.
 		mSettings.theCanvas->Refresh();
 		
-		// and we're done
+		// Now we're done
 		this->PostAsAction();
 	}
 	catch( long inErr )
@@ -127,12 +124,12 @@ void CIconDragToTargetAction::DoIt()
 		
 		// We can't display errors during drag & drop, so we'll postpone it
 		// until idle time
-		SUErrors::DisplayPostponedError( inErr, nil );
+		UMessageDialogs::DisplayPostponedError(CFSTR("ErrorWithIconEditor"), inErr );
 	}
 	catch( ... )
 	{
 		// Somebody threw something we didn't understand...
-		SUErrors::DisplayPostponedError( err_IconGeneric, nil );
+		UMessageDialogs::DisplayPostponedError(CFSTR("ErrorWithIconEditor"), err_IconGeneric );
 	}
 	
 	if ( deleteSourceBuffer ) delete sourceBuffer;
@@ -145,7 +142,8 @@ void CIconDragToTargetAction::DoIt()
 // 	GenerateMask
 // ---------------------------------------------------------------------------
 
-void CIconDragToTargetAction::GenerateMask(	COffscreen *inSource, 
+void
+CIconDragToTargetAction::GenerateMask(	COffscreen *inSource, 
 												COffscreen *inDest )
 {
 	SInt32			sourceWidth = inSource->GetWidth();
@@ -170,7 +168,7 @@ void CIconDragToTargetAction::GenerateMask(	COffscreen *inSource,
 	else
 		sourceBuffer = inSource;
 	
-	// note: the extra braces below are needed because StHandleLocker will
+	// The extra braces below are needed because StHandleLocker will
 	// restore the handle flags and the buffer _may_ be deleted in the code
 	// just below this block.
 	{

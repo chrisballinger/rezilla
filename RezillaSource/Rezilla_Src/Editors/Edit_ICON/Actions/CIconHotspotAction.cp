@@ -13,6 +13,14 @@
 
 #include "RezillaConstants.h"
 #include "CIconActions.h"
+#include "CIcon_EditorView.h"
+// #include "CIcon_EditorWindow.h"
+#include "COffscreen.h"
+
+
+// ---------------------------------------------------------------------------
+// 	CIconHotSpotAction											 [constructor]
+// ---------------------------------------------------------------------------
 
 CIconHotSpotAction::CIconHotSpotAction( const SPaintAction &inSettings )
 	: CIconTrackingPaintAction( inSettings, index_UndoHotSpot )
@@ -20,11 +28,22 @@ CIconHotSpotAction::CIconHotSpotAction( const SPaintAction &inSettings )
 	this->ThrowIfFileLocked();
 }
 
+
+// ---------------------------------------------------------------------------
+// 	CIconHotSpotAction											 [destructor]
+// ---------------------------------------------------------------------------
+
 CIconHotSpotAction::~CIconHotSpotAction()
 {
 }
 
-void CIconHotSpotAction::MouseStillDown( const SMouseDownEvent &, 
+
+// ---------------------------------------------------------------------------
+// 	MouseStillDown
+// ---------------------------------------------------------------------------
+
+void 
+CIconHotSpotAction::MouseStillDown( const SMouseDownEvent &, 
 										Point, Point,
 										SInt32, SInt32,
 										SInt32 newCol, SInt32 newRow )

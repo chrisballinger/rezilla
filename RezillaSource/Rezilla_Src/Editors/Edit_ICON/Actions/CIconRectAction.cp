@@ -1,7 +1,7 @@
 // ===========================================================================
 // CIconRectAction.cp
 //                       Created: 2004-12-11 18:52:31
-//             Last modification: 2004-12-14 15:18:09
+//             Last modification: 2004-12-22 18:05:28
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -13,6 +13,8 @@
 
 #include "RezillaConstants.h"
 #include "CIconActions.h"
+#include "CIcon_EditorView.h"
+#include "COffscreen.h"
 
 #include <UDrawingState.h>
 
@@ -43,7 +45,8 @@ CIconRectAction::~CIconRectAction()
 // 	CIconRectAction::MouseStillDown
 // ---------------------------------------------------------------------------
 
-void CIconRectAction::MouseStillDown( const SMouseDownEvent &, 
+void
+CIconRectAction::MouseStillDown( const SMouseDownEvent &, 
 									Point /*prevMousePt*/, Point /*newMousePt*/,
 									SInt32 prevCol, SInt32 prevRow,
 									SInt32 newCol, SInt32 newRow )
@@ -94,7 +97,8 @@ void CIconRectAction::MouseStillDown( const SMouseDownEvent &,
 // 	CIconRectAction::DrawShape
 // ---------------------------------------------------------------------------
 
-void CIconRectAction::DrawShape( const Rect &r )
+void
+CIconRectAction::DrawShape( const Rect &r )
 {
 	if ( mFilled )
 	{
@@ -110,7 +114,8 @@ void CIconRectAction::DrawShape( const Rect &r )
 // 	CIconRectAction::MouseFinal
 // ---------------------------------------------------------------------------
 
-Boolean CIconRectAction::MouseFinal( const SMouseDownEvent &, 
+Boolean
+CIconRectAction::MouseFinal( const SMouseDownEvent &, 
 								Point, Point,
 								SInt32, SInt32,
 								SInt32, SInt32 )

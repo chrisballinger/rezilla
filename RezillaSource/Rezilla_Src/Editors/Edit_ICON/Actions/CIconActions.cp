@@ -23,7 +23,7 @@
 
 
 // ---------------------------------------------------------------------------
-// 	CIconAction Constructor
+// 	CIconAction											 [constructor]
 // ---------------------------------------------------------------------------
 
 CIconAction::CIconAction( const SPaintAction &inSettings, SInt16 inStringIndex, Boolean inDone ) : 
@@ -36,7 +36,7 @@ CIconAction::CIconAction( const SPaintAction &inSettings, SInt16 inStringIndex, 
 
 
 // ---------------------------------------------------------------------------
-// 	CIconAction Destructor
+// 	CIconAction											 [destructor]
 // ---------------------------------------------------------------------------
 
 CIconAction::~CIconAction()
@@ -48,7 +48,8 @@ CIconAction::~CIconAction()
 // 	RedoSelf
 // ---------------------------------------------------------------------------
 
-void CIconAction::RedoSelf()
+void
+CIconAction::RedoSelf()
 {
 	mSettings.thePaintView->SwapUndoState();
 }
@@ -58,7 +59,8 @@ void CIconAction::RedoSelf()
 // 	UndoSelf
 // ---------------------------------------------------------------------------
 
-void CIconAction::UndoSelf()
+void
+CIconAction::UndoSelf()
 {
 	mSettings.thePaintView->SwapUndoState();
 }
@@ -68,7 +70,8 @@ void CIconAction::UndoSelf()
 // 	PostAsAction
 // ---------------------------------------------------------------------------
 
-void CIconAction::PostAsAction()
+void
+CIconAction::PostAsAction()
 {
 	if ( mSettings.thePaintView )
 	{
@@ -89,7 +92,8 @@ void CIconAction::PostAsAction()
 // 	GetColorUnderPoint
 // ---------------------------------------------------------------------------
 
-Boolean CIconAction::GetColorUnderPoint( Point inLocal, Color32 *outColor )
+Boolean
+CIconAction::GetColorUnderPoint( Point inLocal, Color32 *outColor )
 {
 	SInt32		h, v;
 	
@@ -107,7 +111,8 @@ Boolean CIconAction::GetColorUnderPoint( Point inLocal, Color32 *outColor )
 // 	DoIt
 // ---------------------------------------------------------------------------
 
-void CIconAction::DoIt()
+void
+CIconAction::DoIt()
 {
 	Throw_( paramErr );			// this should never be called
 }
@@ -117,7 +122,8 @@ void CIconAction::DoIt()
 // 	GetActionType
 // ---------------------------------------------------------------------------
 
-MessageT CIconAction::GetActionType()
+MessageT
+CIconAction::GetActionType()
 {
 	return( mActionType );
 }
@@ -127,7 +133,8 @@ MessageT CIconAction::GetActionType()
 // 	IsPostable
 // ---------------------------------------------------------------------------
 
-Boolean CIconAction::IsPostable() const
+Boolean
+CIconAction::IsPostable() const
 {
 	return( mAffectsUndoState );
 }
@@ -137,7 +144,8 @@ Boolean CIconAction::IsPostable() const
 // 	ThrowIfFileLocked
 // ---------------------------------------------------------------------------
 
-void CIconAction::ThrowIfFileLocked()
+void
+CIconAction::ThrowIfFileLocked()
 {
 	if ( mSettings.thePaintView && mSettings.thePaintView->GetLockFlag() )
 		Throw_( err_IconFileLocked );
@@ -152,7 +160,7 @@ void CIconAction::ThrowIfFileLocked()
 *************************************/
 
 // ---------------------------------------------------------------------------
-// 	CIconTrackingPaintAction Constructor
+// 	CIconTrackingPaintAction											 [constructor]
 // ---------------------------------------------------------------------------
 
 CIconTrackingPaintAction::CIconTrackingPaintAction( const SPaintAction &inAction, SInt16 inStringIndex, Boolean isDone )
@@ -162,7 +170,7 @@ CIconTrackingPaintAction::CIconTrackingPaintAction( const SPaintAction &inAction
 
 
 // ---------------------------------------------------------------------------
-// 	CIconTrackingPaintAction Destructor
+// 	CIconTrackingPaintAction									 [destructor]
 // ---------------------------------------------------------------------------
 
 CIconTrackingPaintAction::~CIconTrackingPaintAction()
@@ -174,7 +182,8 @@ CIconTrackingPaintAction::~CIconTrackingPaintAction()
 // 	HandleMouseDown
 // ---------------------------------------------------------------------------
 
-void CIconTrackingPaintAction::HandleMouseDown( const SMouseDownEvent &inMouseDown )
+void
+CIconTrackingPaintAction::HandleMouseDown( const SMouseDownEvent &inMouseDown )
 {
 	Point				newMousePt, prevMousePt;
 	SInt32				prevRow = -1, prevCol = -1, newRow = -1, newCol = -1;
@@ -240,7 +249,8 @@ void CIconTrackingPaintAction::HandleMouseDown( const SMouseDownEvent &inMouseDo
 // 	MouseInitial
 // ---------------------------------------------------------------------------
 
-void CIconTrackingPaintAction::MouseInitial( const SMouseDownEvent &, SInt32, SInt32 )
+void
+CIconTrackingPaintAction::MouseInitial( const SMouseDownEvent &, SInt32, SInt32 )
 {
 }
 
@@ -249,7 +259,8 @@ void CIconTrackingPaintAction::MouseInitial( const SMouseDownEvent &, SInt32, SI
 // 	MouseStillDown
 // ---------------------------------------------------------------------------
 
-void CIconTrackingPaintAction::MouseStillDown( const SMouseDownEvent &, 
+void
+CIconTrackingPaintAction::MouseStillDown( const SMouseDownEvent &, 
 											Point, Point,
 											SInt32, SInt32,
 											SInt32, SInt32 )
@@ -261,7 +272,8 @@ void CIconTrackingPaintAction::MouseStillDown( const SMouseDownEvent &,
 // ---------------------------------------------------------------------------
 // 	Returns: true -> can undo, false -> can't undo
 
-Boolean CIconTrackingPaintAction::MouseFinal( const SMouseDownEvent &, 
+Boolean
+CIconTrackingPaintAction::MouseFinal( const SMouseDownEvent &, 
 											Point, Point,
 											SInt32, SInt32,
 											SInt32, SInt32 )

@@ -43,7 +43,7 @@ enum
 
 class CDualDataView : public LTextGroupBox, public LCommander {
 public:
-	enum { class_ID = 'DuVw' };
+	enum { class_ID = FOUR_CHAR_CODE('DuVw') };
 
 							CDualDataView(
 								LStream*		inStream);

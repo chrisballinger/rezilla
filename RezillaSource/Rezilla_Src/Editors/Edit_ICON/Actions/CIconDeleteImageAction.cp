@@ -1,7 +1,7 @@
 // ===========================================================================
 // CIconDeleteImageAction.cp
 //                       Created: 2004-12-11 18:56:54
-//             Last modification: 2004-12-14 18:56:54
+//             Last modification: 2004-12-22 15:50:18
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -12,6 +12,9 @@
 // ===========================================================================
 
 #include "CIconActions.h"
+#include "CIcon_EditorView.h"
+#include "CIcon_EditorWindow.h"
+#include "COffscreen.h"
 #include "CDraggableTargetBox.h"
 
 
@@ -40,7 +43,8 @@ CIconDeleteImageAction::~CIconDeleteImageAction()
 // 	DoIt
 // ---------------------------------------------------------------------------
 
-void CIconDeleteImageAction::DoIt()
+void
+CIconDeleteImageAction::DoIt()
 {
 	if ( !mTargetBox || !mTargetBox->IsUsed() )				// shouldn't happen
 	{
@@ -50,12 +54,8 @@ void CIconDeleteImageAction::DoIt()
 	
 	this->RedoSelf();
 	
-	/*
-		note:
-		can't call the normal "PostAsAction" here because it redraws
-		the sample pane and that triggers it to be used again.
-	*/
-	mSettings.thePaintView->SetChangedFlag( true );
+	// Can't call the normal "PostAsAction" here because it redraws the
+	// sample pane and that triggers it to be used again.
 	mSettings.thePaintView->PostAction( this );			
 }
 
@@ -67,28 +67,25 @@ void CIconDeleteImageAction::DoIt()
 // 	This deletes the target box.
 // ---------------------------------------------------------------------------
 
-void CIconDeleteImageAction::RedoSelf()
+void
+CIconDeleteImageAction::RedoSelf()
 {
 	if ( !mTargetBox ) return;
 	
 	mSettings.thePaintView->CopyToUndo();
 	mSettings.thePaintView->SelectNone();
 	
-	/*
-		erase the image in the main buffer and target box.
-		note that mSettings.theImageBuffer may no longer be correct here, so be
-		   sure to get the correct one from the paint view.
-	*/
+	// Erase the image in the main buffer and target box. Note that
+	// mSettings.theImageBuffer may no longer be correct here, so be sure
+	// to get the correct one from the paint view.
 	COffscreen	*imageBuffer = mSettings.thePaintView->GetImageBuffer();
 	imageBuffer->EraseToWhite();
 	mTargetBox->CopyBufferFrom( imageBuffer, redraw_Dont );
 
-	/*
-		the target is now unused
-	*/
+	// The target is now unused
 	mTargetBox->SetUsedFlag( false, redraw_Now );
 	
-		// update the screen
+	// Update the screen
 	mSettings.thePaintView->HandleCanvasDraw();
 }
 

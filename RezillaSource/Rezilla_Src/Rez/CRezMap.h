@@ -2,7 +2,7 @@
 // CRezMap.h					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2004-11-29 06:24:40
+//             Last modification: 2004-12-23 09:58:10
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -17,6 +17,8 @@
 #pragma once
 
 #include <LModelObject.h>
+
+class CRezObj;
 
 
 class CRezMap : public LModelObject {
@@ -36,20 +38,27 @@ public:
 							   short inIdx, 
 							   Handle & outHandle, 
 							   Boolean loadIt = false);
+	
 	OSErr	GetWithID(ResType inType, 
 					  short inID, 
 					  Handle & outHandle, 
 					  Boolean loadIt = false);
+	
 	OSErr	GetWithName(ResType inType, 
 						ConstStr255Param inName,
 						Handle & outHandle, 
 						Boolean loadIt = false);
+	
+	CRezObj *	FindResource(ResType inType, short inID, Boolean loadIt);
+
 	OSErr	GetAllTypes( TArray<ResType>* & outArray );
+	
 	OSErr	GetTypeAtIndex(short inIdx, ResType & outType);
 
 	OSErr	DeleteAll();
 	
 	OSErr	Update();
+	
 	OSErr	Close();
 
 	OSErr	UniqueID(ResType inType, short & outID);

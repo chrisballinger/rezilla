@@ -40,7 +40,8 @@ CIconRoundRectAction::~CIconRoundRectAction()
 // 	CIconRoundRectAction::DrawShape
 // ---------------------------------------------------------------------------
 
-void CIconRoundRectAction::DrawShape( const Rect &r )
+void
+CIconRoundRectAction::DrawShape( const Rect &r )
 {
 	#define kOvalWidth		10
 	#define kOvalHeight		10

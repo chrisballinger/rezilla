@@ -34,7 +34,7 @@ CColorPopup::DoColorPopup( Point inTopLeft, CTabHandle inTable, SInt32 defaultIt
 
 
 // ---------------------------------------------------------------------------
-// 	CColorPopup Constructor
+// 	CColorPopup											 [constructor]
 // ---------------------------------------------------------------------------
 
 CColorPopup::CColorPopup( CTabHandle inTable )
@@ -44,7 +44,7 @@ CColorPopup::CColorPopup( CTabHandle inTable )
 
 
 // ---------------------------------------------------------------------------
-// 	CColorPopup Destructor
+// 	CColorPopup											 [destructor]
 // ---------------------------------------------------------------------------
 
 CColorPopup::~CColorPopup()

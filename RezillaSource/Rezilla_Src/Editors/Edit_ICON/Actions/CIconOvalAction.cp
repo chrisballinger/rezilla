@@ -40,7 +40,8 @@ CIconOvalAction::~CIconOvalAction()
 // 	CIconOvalAction::DrawShape
 // ---------------------------------------------------------------------------
 
-void CIconOvalAction::DrawShape( const Rect &r )
+void
+CIconOvalAction::DrawShape( const Rect &r )
 {
 	if ( mFilled )
 	{

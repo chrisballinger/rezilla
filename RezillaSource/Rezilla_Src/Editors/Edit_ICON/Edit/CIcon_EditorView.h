@@ -2,7 +2,7 @@
 // CIcon_EditorView.h
 // 
 //                       Created: 2004-12-10 17:23:05
-//             Last modification: 2004-12-15 23:37:17
+//             Last modification: 2004-12-22 11:09:14
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -16,6 +16,8 @@
 #define _H_CIcon_EditorView
 #pragma once
 
+#include "RezillaConstants.h"
+#include "CImageDragDrop.h"
 
 #include <LTextEditView.h>
 
@@ -27,6 +29,7 @@
 PP_Begin_Namespace_PowerPlant
 
 class CIcon_EditorWindow;
+class COffscreen;
 
 // ---------------------------------------------------------------------------
 // mPixelArea:		in PP "local" coords, relative to the containing view this is
@@ -43,7 +46,7 @@ class CIcon_EditorWindow;
 // ---------------------------------------------------------------------------
 
 
-class CIcon_EditorView :	public LView {
+class CIcon_EditorView :	public LView, public CImageDragDrop {
 public:
 	enum { class_ID = FOUR_CHAR_CODE('ICNV') };
 

@@ -35,7 +35,7 @@ CPatternPopup::DoPatternPopup( Point inTopLeft, SPatternListH inPatterns, SInt32
 
 
 // ---------------------------------------------------------------------------
-// 	CPatternPopup Constructor
+// 	CPatternPopup											 [constructor]
 // ---------------------------------------------------------------------------
 
 CPatternPopup::CPatternPopup( SPatternListH inPatterns, const RGBColor &inFore, const RGBColor &inBack )
@@ -47,7 +47,7 @@ CPatternPopup::CPatternPopup( SPatternListH inPatterns, const RGBColor &inFore, 
 
 
 // ---------------------------------------------------------------------------
-// 	CPatternPopup Destructor
+// 	CPatternPopup											 [destructor]
 // ---------------------------------------------------------------------------
 
 CPatternPopup::~CPatternPopup()

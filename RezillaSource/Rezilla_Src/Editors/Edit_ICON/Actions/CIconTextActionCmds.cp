@@ -1,7 +1,7 @@
 // ===========================================================================
 // CIconTextActionCmds.cp
 //                       Created: 2004-12-11 18:57:13
-//             Last modification: 2004-12-14 18:57:13
+//             Last modification: 2004-12-23 12:15:21
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -12,14 +12,15 @@
 // ===========================================================================
 
 #include "CIconTextAction.h"
-#include "CFontSizeDialog.h"
+// #include "CFontSizeDialog.h"
 
 
 // ---------------------------------------------------------------------------
 // 	FindCommandStatus
 // ---------------------------------------------------------------------------
 
-Boolean CIconTextAction::FindCommandStatus( 
+Boolean
+CIconTextAction::FindCommandStatus( 
 						const TextTraitsRecord &inTraits,
 						CommandT inCommand, Boolean &outEnabled, 
 						Boolean &outUsesMark, UInt16 &outMark, 
@@ -27,9 +28,8 @@ Boolean CIconTextAction::FindCommandStatus(
 {
 	Boolean			handled = false;
 
-			// first check for font menu
-		// note: we get only one call for the entire font menu because it's synthetic
-
+	// First check for font menu. We get only one call for the entire font
+	// menu because it's synthetic.
 	ResIDT		theMenuID;
 	SInt16		theMenuItem;
 	Boolean		foundFontItem = false;
@@ -38,13 +38,9 @@ Boolean CIconTextAction::FindCommandStatus(
 	{
 		if ( !inFontMenu || (theMenuID != MenuID_PaintFont) ) return( false );
 		
-		/*
-			the font menu is shared between different windows, so we need to
-			uncheck the previous item and check the current one. The easiest
-			way to do this is to just run through the entire menu.
-			
-			is this fast enough??? 
-		*/
+		// The font menu is shared between different windows, so we need to
+		// uncheck the previous item and check the current one. The easiest
+		// way to do this is to just run through the entire menu.
 		MenuHandle	fontMenuH = inFontMenu->GetMacMenuH();
 		if ( !fontMenuH ) return( false );			// shouldn't happen
 		
@@ -53,33 +49,30 @@ Boolean CIconTextAction::FindCommandStatus(
 		outMark = 0;
 		outName[0] = 0;
 		
-		/*
-			inTraits has either the fontID, or if it is -1, the font name
-		*/
+		// inTraits has either the fontID, or if it is -1, the font name
 		Str255	menuItemName, fontName;
 		if ( inTraits.fontNumber == -1 )
 			LString::CopyPStr( inTraits.fontName, fontName );
 		else
 			::GetFontName( inTraits.fontNumber, fontName );
 			
-		SInt32 numItems = ::CountMItems( fontMenuH );
+		SInt32 numItems = ::CountMenuItems( fontMenuH );
 		for ( SInt32 count = 1; count <= numItems; count++ )
 		{
 			if ( foundFontItem )		// if we found the item already, just uncheck the rest
-				::CheckItem( fontMenuH, count, false );
+				::MacCheckMenuItem( fontMenuH, count, false );
 			else
 			{
 				::GetMenuItemText( fontMenuH, count, menuItemName );
 				foundFontItem = ::EqualString( menuItemName, fontName, false, true );
-				::CheckItem( fontMenuH, count, foundFontItem );
+				::MacCheckMenuItem( fontMenuH, count, foundFontItem );
 			}
 		}
 				
 		return( true );
 	}
 	
-			// 9100-9300 is for font sizes (1..200 pts), 9100 -> "other"
-
+	// 9100-9300 is for font sizes (1..200 pts), 9100 -> "other"
 	if ( (inCommand >= cmd_FirstFontSize) && (inCommand <= cmd_LastFontSize) )
 	{
 		outEnabled = true;							// font menu always enabled
@@ -89,12 +82,9 @@ Boolean CIconTextAction::FindCommandStatus(
 			// map "0" to default font size
 		SInt32 specifiedSize = (inTraits.size == 0) ? ::GetDefFontSize() : inTraits.size;
 
-		/*
-			note: this won't put a checkMark next to "other" if a non-standard
-					size is selected. is this a problem???
-				 
-				  we also don't outline installed sizes. should we???
-		*/
+		// This won't put a checkMark next to "other" if a non-standard
+		// size is selected. is this a problem??? We also don't outline
+		// installed sizes. should we???
 		SInt32 fontSize = (SInt32) inCommand - (SInt32) cmd_FirstFontSize;
 		if ( fontSize == specifiedSize )
 			outMark = checkMark;
@@ -104,8 +94,7 @@ Boolean CIconTextAction::FindCommandStatus(
 		return( true );
 	}
 	
-			// otherwise check for style & size menus
-
+	// Otherwise check for style and size menus
 	switch( inCommand )
 	{
 		case cmd_Plain:
@@ -204,7 +193,8 @@ static void ToggleBit( SInt16 &ioByte, SInt16 inBit )
 // 	ObeyCommand
 // ---------------------------------------------------------------------------
 
-Boolean CIconTextAction::ObeyCommand( 	CIcon_EditorWindow *,
+Boolean
+CIconTextAction::ObeyCommand( 	CIcon_EditorWindow *,
 									CIconTextAction *inTextAction,
 									MessageT inCommand, 
 									TextTraitsRecord *ioRec,
@@ -213,8 +203,7 @@ Boolean CIconTextAction::ObeyCommand( 	CIcon_EditorWindow *,
 	Boolean		handled = false;
 	Boolean		changed = false;
 
-			// first check for font menu
-
+	// First check for font menu
 	ResIDT	theMenuID;
 	SInt16	theMenuItem;
 	
@@ -234,8 +223,7 @@ Boolean CIconTextAction::ObeyCommand( 	CIcon_EditorWindow *,
 		}
 	}
 
-			// now for the font size
-
+	// Now for the font size
 	if ( !handled && (inCommand >= cmd_FirstFontSize) && (inCommand <= cmd_LastFontSize) )
 	{
 		if ( inCommand == cmd_OtherFontSize )
@@ -252,8 +240,7 @@ Boolean CIconTextAction::ObeyCommand( 	CIcon_EditorWindow *,
 		handled = true;
 	}
 
-			// check the other text commands
-
+	// Check the other text commands
 	if ( !handled )
 		switch( inCommand )
 		{
@@ -351,7 +338,7 @@ Boolean CIconTextAction::ObeyCommand( 	CIcon_EditorWindow *,
 	
 	if ( outChanged ) *outChanged = changed;
 
-		// this will redraw the text in the new font/size/style
+	// This will redraw the text in the new font/size/style
 	if ( changed && inTextAction )
 		inTextAction->ChangeTextTraits( *ioRec );
 	

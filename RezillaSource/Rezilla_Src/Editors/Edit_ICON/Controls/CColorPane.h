@@ -20,7 +20,7 @@
 class CColorPane : public LPane, public LBroadcaster
 {
 	public:
-		enum { class_ID = 'PTCL' };
+		enum { class_ID = FOUR_CHAR_CODE('ColP') };
 		
 								CColorPane( LStream * );
 		virtual					~CColorPane();

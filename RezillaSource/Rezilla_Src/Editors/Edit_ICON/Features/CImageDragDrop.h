@@ -1,7 +1,7 @@
 // ===========================================================================
 // CImageDragDrop.h
 //                       Created: 2004-12-11 18:57:42
-//             Last modification: 2004-12-17 10:47:00
+//             Last modification: 2004-12-22 11:25:36
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -19,7 +19,7 @@ class COffscreen;
 
 class CImageDragDrop : public LDragAndDrop {
 	public:
-							CImageDragDrop( GrafPtr, LPane * );
+							CImageDragDrop( WindowPtr inMacWindow, LPane *inPane );
 		
 	protected:
 		virtual Boolean		ItemIsAcceptable( DragReference, ItemReference );

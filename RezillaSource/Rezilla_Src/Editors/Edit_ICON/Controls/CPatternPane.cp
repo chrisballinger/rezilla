@@ -31,9 +31,9 @@ CPatternPane::CPatternPane( LStream *inStream ) : LPane( inStream )
 	mCurrentIndex = 0;
 	mPatternListH = nil;
 	
-	// the refCon is formatted as follows:
-	// 	the low word has the PAT# resource id (-1 if no default).
-	// 	the high word has 0 -> application file, 1 -> system file
+	// The refCon is formatted as follows:
+	//    the low word has the PAT# resource id (-1 if no default).
+	//    the high word has 0 -> application file, 1 -> system file
 	SInt32		theRefCon = this->GetUserCon();
 	ResIDT		theResID = LoWord( theRefCon );
 	SInt16	theFileID;
@@ -205,7 +205,7 @@ CPatternPane::ClickSelf( const SMouseDownEvent & )
 	// Hilite the control
 	this->DrawPopup( true /* hilited */, true /* enabled */ );
 
-	// show the popup & track the user's actions
+	// Show the popup & track the user's actions
 	SInt32 newIndex = CPatternPopup::DoPatternPopup( pt, mPatternListH, mCurrentIndex,
 										mForeColor, mBackColor );
 

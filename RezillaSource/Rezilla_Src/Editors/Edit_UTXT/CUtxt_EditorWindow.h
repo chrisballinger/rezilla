@@ -25,7 +25,7 @@ class LPopupButton;
 
 class CUtxt_EditorWindow : public CEditorWindow {
 public:
-	enum { class_ID = 'UTXW' };
+	enum { class_ID = FOUR_CHAR_CODE('UTXW') };
 
 							CUtxt_EditorWindow();
 							CUtxt_EditorWindow( const SWindowInfo &inWindowInfo );

@@ -2,7 +2,7 @@
 // CIcon_EditorView.cp
 // 
 //                       Created: 2004-12-10 17:23:05
-//             Last modification: 2004-12-17 22:42:51
+//             Last modification: 2004-12-22 11:18:04
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -19,10 +19,12 @@
 #include "CIcon_EditorDoc.h"
 #include "CIcon_EditorView.h"
 #include "CIcon_EditorWindow.h"
+#include "COffscreen.h"
 #include "CRezObj.h"
+#include "CIconActions.h"
 #include "CRezillaPrefs.h"
-#include "RezillaConstants.h"
 #include "UPaneResizer.h"
+#include "UColorUtils.h"
 #include "UIconMisc.h"
 #include "UResourceMgr.h"
 
@@ -35,13 +37,13 @@ SInt32 			CIcon_EditorView::sNumWindows = 0;
 COffscreen *	CIcon_EditorView::sBigScratchBuffer = nil;
 
 
-
 // ---------------------------------------------------------------------------
 // 	CIcon_EditorView							Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CIcon_EditorView::CIcon_EditorView()
-		: LView()
+		: LView(), 
+			CImageDragDrop( UQDGlobals::GetCurrentWindowPort(), this )
 {
 	Initialize();
 }
@@ -55,7 +57,8 @@ CIcon_EditorView::CIcon_EditorView(
 	const SPaneInfo&	inPaneInfo,
 	const SViewInfo&	inViewInfo)
 
-	: LView(inPaneInfo, inViewInfo)
+	: LView(inPaneInfo, inViewInfo), 
+	CImageDragDrop( UQDGlobals::GetCurrentWindowPort(), this )
 {
 	Initialize();
 }
@@ -69,7 +72,8 @@ CIcon_EditorView::CIcon_EditorView(
 CIcon_EditorView::CIcon_EditorView(
 	LStream*	inStream)
 
-	: LView(inStream)
+	: LView(inStream), 
+	CImageDragDrop( UQDGlobals::GetCurrentWindowPort(), this )
 {
 	Initialize();
 }
@@ -167,7 +171,7 @@ CIcon_EditorView::AdjustMouseSelf( Point inPortPt, const EventRecord &inMacEvent
 		mOwnerWindow->AdjustCursorInCanvas( inPortPt, inMacEvent );
 	}
 	else
-		::SetCursor( &UQDGlobals::GetQDGlobals()->arrow );
+		UCursor::SetArrow();
 }
 
 
@@ -240,7 +244,6 @@ void
 CIcon_EditorView::UserChangedBitmap()
 {
 	if ( ! mOwnerWindow->IsDirty() ) {
-
 		// Set the update menus flag.
 		LCommander::SetUpdateCommandStatus( true );
 		
@@ -275,9 +278,6 @@ CIcon_EditorView::DrawSelf()
 }
 
 
-
-
-
 // ---------------------------------------------------------------------------
 // 	HasHotSpot
 // ---------------------------------------------------------------------------
@@ -304,11 +304,9 @@ CIcon_EditorView::GetHotSpot()
 
 // ---------------------------------------------------------------------------
 // 	SetHotSpot
-// 	
-// 	Note:
-// 	Set to -1,-1 to remove it -- this is never done, though.
-// 	Does not redraw.
 // ---------------------------------------------------------------------------
+// 	Set to -1,-1 to remove it (this is never done, though).
+// 	Does not redraw.
 
 void 
 CIcon_EditorView::SetHotSpot( Point inHotSpot )
@@ -346,26 +344,24 @@ CIcon_EditorView::DrawHotSpot( COffscreen *inSourceBuffer )
 void 
 CIcon_EditorView::DrawHotSpotSelf( Color32 inPixelColor, const Rect &inRect )
 {
-	// make sure the pattern & mode are correct
-	
+	// Make sure the pattern and mode are correct
 	StColorPenState		thePenState;
 	thePenState.Normalize();
 	
-	// if the source pixel is light, draw the hot spot in black.
-	// if the source pixel is dark, draw the hot spot in white.
-	
+	// If the source pixel is light, draw the hot spot in black.
+	// If the source pixel is dark, draw the hot spot in white.
 	HSLColor	pixelHSL;
 	RGBColor	pixelRGB = UColorUtils::Color32ToRGB( inPixelColor );
 	::RGB2HSL( &pixelRGB, &pixelHSL );
 	if ( pixelHSL.lightness > 0x8000 )
 	{
-		::RGBForeColor( &kBlackColor );
-		::RGBBackColor( &kWhiteColor );
+		::RGBForeColor( &Color_Black );
+		::RGBBackColor( &Color_White );
 	}
 	else
 	{
-		::RGBForeColor( &kWhiteColor );
-		::RGBBackColor( &kBlackColor );
+		::RGBForeColor( &Color_White );
+		::RGBBackColor( &Color_Black );
 	}
 	
 	// Draw the target
@@ -391,11 +387,9 @@ CIcon_EditorView::DrawHotSpotSelf( Color32 inPixelColor, const Rect &inRect )
 
 // ---------------------------------------------------------------------------
 // 	GetPixelRect
-// 
-// 	Description:
-// 	Returns the rectangle for a given pixel, relative to either the superview
-// 	or the pixelArea.  Does not include any boundary whitespace.	
 // ---------------------------------------------------------------------------
+// 	Returns the rectangle for a given pixel, relative to either the
+// 	superview or the pixelArea. Does not include any boundary whitespace.
 
 Boolean 
 CIcon_EditorView::GetPixelRect( SInt32 inHoriz, SInt32 inVert, Rect *outRect, 
@@ -420,17 +414,11 @@ CIcon_EditorView::GetPixelRect( SInt32 inHoriz, SInt32 inVert, Rect *outRect,
 
 // ---------------------------------------------------------------------------
 // 	MapPointToCell
-// 	
-// 	Parameters:
-// 	inPoint is in local coordinates (0,0 at top/left of superview).
-// 	
-// 	Returns:
-// 	true if point is within the canvas
-// 
-// 	Notes:
-// 	if point is outside the canvas, outH & outV will contain values outside
-// 	  the canvas. this is useful for continuing to track the mouse while it's down.
 // ---------------------------------------------------------------------------
+// 	inPoint is in local coordinates (0,0 at top/left of superview). Returns
+// 	true if point is within the canvas. If point is outside the canvas,
+// 	outH & outV will contain values outside the canvas. this is useful for
+// 	continuing to track the mouse while it's down.
 
 Boolean 
 CIcon_EditorView::MapPointToCell( Point inPoint, SInt32 *outH, SInt32 *outV, Boolean roundNegsDown )
@@ -442,18 +430,17 @@ CIcon_EditorView::MapPointToCell( Point inPoint, SInt32 *outH, SInt32 *outV, Boo
 	*outH = dh / totalCellWidth;
 	*outV = dv / totalCellWidth;
 
-	#ifdef MARQUEE_FIX_NO_GOOD_HERE
-	if ( mSpaceBetween == 0 )
-	{
-		++*outH;
-		++*outV;
-	}
-	
+// 	#ifdef MARQUEE_FIX_NO_GOOD_HERE
+// 	if ( mSpaceBetween == 0 )
+// 	{
+// 		++*outH;
+// 		++*outV;
+// 	}
 	
 	if ( roundNegsDown )
 	{
-			// negative pixels should round to the left, not to zero
-			// (needed for PTSelectionAction to select the zero'th pixel)
+		// Negative pixels should round to the left, not to zero (needed
+		// for PTSelectionAction to select the zero'th pixel)
 		if ( dh < 0 )
 			--*outH;
 			
@@ -473,16 +460,13 @@ CIcon_EditorView::MapPointToCell( Point inPoint, SInt32 *outH, SInt32 *outV, Boo
 
 // ---------------------------------------------------------------------------
 // 	MapRectToCanvas
-// 
-// 	Description:
-// 	Given a rectangle in the source image (0,0-32,32 for icons), this
-// 	  function returns a rectangle in the canvas that encloses those pixels.
-// 	The area is in the white space between pixels (if there is any).
-// 	
-// 	Parameters:
-// 	inRect	- relative to pixmap (0,0 is top left)
-// 	outrect	- in PP local coords (relative to superview).
 // ---------------------------------------------------------------------------
+// 	Given a rectangle in the source image (0,0-32,32 for icons), this
+// 	function returns a rectangle in the canvas that encloses those pixels.
+// 	The area is in the white space between pixels (if there is any).
+// 	Parameters:
+// 	    inRect	- relative to pixmap (0,0 is top left)
+// 	    outrect	- in PP local coords (relative to superview).
 
 void 
 CIcon_EditorView::MapRectToCanvas( const Rect &inRect, Rect *outRect )
@@ -502,7 +486,7 @@ CIcon_EditorView::MapRectToCanvas( const Rect &inRect, Rect *outRect )
 	outRect->top = mFirstRect.top + inRect.top * totalCellWidth;
 	outRect->bottom = mFirstRect.top + inRect.bottom * totalCellWidth;
 	
-		// we want the returned rect to be _outside_ the pixels
+	// We want the returned rect to be _outside_ the pixels
 	--outRect->left;
 	--outRect->top;
 }
@@ -510,14 +494,11 @@ CIcon_EditorView::MapRectToCanvas( const Rect &inRect, Rect *outRect )
 
 // ---------------------------------------------------------------------------
 // 	MapRegionToCanvas
-// 
-// 	Description:
-// 	Returns a fat-bitted region mapped from the passed selection region.
-// 	 
-// 	Parameters:
-// 	inRgn 	- relative to pixmap (0,0 is top left)
-// 	outRgn	- in PP local coords (relative to the canvas since we're an LView).
 // ---------------------------------------------------------------------------
+// 	Returns a fat-bitted region mapped from the passed selection region.
+// 	Parameters:
+// 	    inRgn 	- relative to pixmap (0,0 is top left)
+// 	    outRgn	- in PP local coords (relative to the canvas since we're an LView).
 
 void 
 CIcon_EditorView::MapRegionToCanvas( RgnHandle inRgn, RgnHandle outRgn )
@@ -525,30 +506,27 @@ CIcon_EditorView::MapRegionToCanvas( RgnHandle inRgn, RgnHandle outRgn )
 	ThrowIfNil_( inRgn );
 	ThrowIfNil_( outRgn );				// should never happen
 	
-			// this is a hack, but MapRgn() always seemed to be one pixel
-		// off when we selected a rectangle using the PTSelectionAction
-		// class. It prevents flicker by *not* haveing the PTSelectionAction
-		// class erase it's final rectangle, but then the selection region
-		// must line up exactly and we were one pixel off.
-
-	if ( ::GetHandleSize( (Handle)inRgn ) == sizeof(Region) )		// just a rect?
+	// This is a hack, but MapRgn() always seemed to be one pixel off when
+	// we selected a rectangle using the CSelectionAction class. It
+	// prevents flicker by *not* having the CSelectionAction class erase
+	// it's final rectangle, but then the selection region must line up
+	// exactly and we were one pixel off.
+	if ( ::IsRegionRectangular(inRgn) )		// just a rect?
 	{
 		Rect	inRect, outRect;
 		
-		inRect = (**inRgn).rgnBBox;
+		::GetRegionBounds(inRgn, &inRect);
 		this->MapRectToCanvas( inRect, &outRect );
 		::RectRgn( outRgn, &outRect );
 		return;
+	} else {
+		Rect		sourceR;
+		::SetRect( &sourceR, 0, 0, mImageWidth, mImageHeight );
+
+		::CopyRgn( inRgn, outRgn );
+		::MapRgn( outRgn, &sourceR, &mPixelArea );
 	}
-	
-	Rect		sourceR;
-	::SetRect( &sourceR, 0, 0, mImageWidth, mImageHeight );
-
-	::CopyRgn( inRgn, outRgn );
-	::MapRgn( outRgn, &sourceR, &mPixelArea );
 }
-
-
 
 
 // ---------------------------------------------------------------------------
@@ -576,21 +554,15 @@ CIcon_EditorView::DrawOnePixel( SInt32 inHoriz, SInt32 inVert, COffscreen *inBuf
 
 // ---------------------------------------------------------------------------
 // 	GetInsideDrawingRect
-// 	
-// 	Used by the paint view to clip when drawing a selection area.
 // ---------------------------------------------------------------------------
+// 	Used by the paint view to clip when drawing a selection area.
 
 void 
 CIcon_EditorView::GetInsideDrawingRect( Rect *outRect )
 {
 	*outRect = mPixelArea;
 
-	#ifdef MARQUEE_FIX
-	/*
-		1/27/97 ebs bug fix w/selection marquee in 1x mode
-	*/
-	if ( this->GetSpaceBetween() == 0 )
-	{
+	if ( this->GetSpaceBetween() == 0 ) {
 		++outRect->right;
 		++outRect->bottom;
 	}
@@ -609,7 +581,7 @@ CIcon_EditorView::ItemIsAcceptable( DragReference inDragRef, ItemReference inIte
 	if ( mOwnerWindow->GetLockFlag() )
 		return( false );
 	
-	return( PTImageDragMixin::ItemIsAcceptable( inDragRef, inItemRef ) );
+	return( CImageDragDrop::ItemIsAcceptable( inDragRef, inItemRef ) );
 }
 
 
@@ -623,12 +595,12 @@ CIcon_EditorView::HandleDroppedPicture( PicHandle inPict, DragReference inDragRe
 	if ( mOwnerWindow )
 	{
 		SDragImageInfo	dragInfo;
-		dragInfo.imageType = img_Picture;
+		dragInfo.imageType = ImgType_Picture;
 		dragInfo.data = (void*) inPict;
 		dragInfo.dragRef = inDragRef;
 		dragInfo.dragAttribs = inAttribs;
 		
-		mOwnerWindow->ObeyCommand( cmd_DragImage, &dragInfo );	
+		mOwnerWindow->ObeyCommand( cmd_IconDragImage, &dragInfo );	
 	}
 }
 
@@ -648,20 +620,18 @@ CIcon_EditorView::HandleDroppedOffscreen( COffscreen *inOffscreen, DragReference
 		dragInfo.dragRef = inDragRef;
 		dragInfo.dragAttribs = inAttribs;
 		
-		mOwnerWindow->ObeyCommand( cmd_DragImage, &dragInfo );	
+		mOwnerWindow->ObeyCommand( cmd_IconDragImage, &dragInfo );	
 	}
 }
 
 
 // ---------------------------------------------------------------------------
 // 	Reinitialize
-// 	
-// 	Description:
-// 	Use this method to change canvas settings.
 // ---------------------------------------------------------------------------
+// 	Change canvas settings.
 
 void 
-CIcon_EditorView::Reinitialize( 	COffscreen *	inOffscreen, 
+CIcon_EditorView::Reinitialize( COffscreen *	inOffscreen, 
 								ERedrawOptions 	inRedraw,
 								SInt32	inResize )
 {
@@ -673,23 +643,19 @@ CIcon_EditorView::Reinitialize( 	COffscreen *	inOffscreen,
 	SInt32		imageWidth = inOffscreen->GetWidth();
 	SInt32		imageHeight = inOffscreen->GetHeight();
 
-			// these are new values for our instance variables
-		// 
-		// (We change the real instance variables only if everything was successful
-		// so we don't get caught in a funny state)
-
+	// These are new values for our instance variables: we change the real
+	// instance variables only if everything was successful so we don't get
+	// caught in a funny state.
 	COffscreen	*	scratchBuffer = nil;
 	SInt32			cellWidth, spaceBetween;
 	Rect			pixelArea, firstRect;
 	Boolean			showGridlines;
 	
-			// find the cell width & space between rows/columns
-
+	// Find the cell width & space between rows/columns
 	cellWidth = mOwnerWindow->GetZoomFactor( imageWidth, imageHeight, &showGridlines );
 	spaceBetween = showGridlines ? kIconSpaceBetween : 0;
 	
-			// find the number of rows of white lines we need
-
+	// Find the number of rows of white lines we need
 	if ( spaceBetween == 0 )
 	{
 		numHGridlines = 0;
@@ -703,23 +669,20 @@ CIcon_EditorView::Reinitialize( 	COffscreen *	inOffscreen,
 	
 	CalcLocalFrameRect( localFrame );
 	
-			// resize the pane if needed
-
-	if ( inResize & resize_Canvas, )
+	// Resize the pane if needed
+	if ( inResize & resize_Canvas )
 	{
 		SInt32	neededWidth = (numVGridlines * spaceBetween) + (cellWidth * imageWidth);
 		SInt32	neededHeight = (numHGridlines * spaceBetween) + (cellWidth * imageHeight);
 		SInt32	currentWidth = localFrame.right - localFrame.left;
 		SInt32	currentHeight = localFrame.bottom - localFrame.top;
 
-	#ifdef MARQUEE_FIX
-			// no gridline mode still requires one pixel of border space on each side
+		// No gridline mode still requires one pixel of border space on each side
 		if ( spaceBetween == 0 )
 		{
 			neededWidth += 2;
 			neededHeight += 2;
 		}
-	
 	
 		SInt16	dh = neededWidth - currentWidth;
 		SInt16	dv = neededHeight - currentHeight;
@@ -727,10 +690,10 @@ CIcon_EditorView::Reinitialize( 	COffscreen *	inOffscreen,
 		{
 			this->ResizeFrameBy( dh, dv, inRedraw == redraw_Later );
 
-			if ( inResize & resize_MoveSampleBox, )
+			if ( inResize & resize_MoveSampleBox )
 				this->MoveSamplePanes( dh, dv, inRedraw == redraw_Later );
 
-			if ( inResize & resize_Window, )
+			if ( inResize & resize_Window )
 			{
 				LWindow *theWindow = dynamic_cast< LWindow * >( UIconMisc::GetTopView( this ) );
 				if ( theWindow )
@@ -741,7 +704,6 @@ CIcon_EditorView::Reinitialize( 	COffscreen *	inOffscreen,
 		}
 	
 	}
-	
 	
 	// Calculate the new pixel location information
 	pixelArea.left = localFrame.left;
@@ -779,7 +741,7 @@ CIcon_EditorView::ResizeFrameBy( SInt16 dh, SInt16 dv, Boolean inRedraw )
 	LView::ResizeFrameBy( dh, dv, inRedraw );
 
 	// Resize the GBox surrounding us
-	LPane *theBox = UIconMisc::FindSibblingPaneByID( this, PaneID_BoxAroundCanvas );
+	LPane *theBox = UIconMisc::FindSiblingPaneByID( this, item_BoxAroundCanvas );
 	if ( theBox )
 		theBox->ResizeFrameBy( dh, dv, inRedraw );
 }
@@ -792,7 +754,7 @@ CIcon_EditorView::ResizeFrameBy( SInt16 dh, SInt16 dv, Boolean inRedraw )
 void 
 CIcon_EditorView::MoveSamplePanes( SInt16 dh, SInt16 /*dv*/, Boolean inRedraw )
 {
-	LPane *samplePane = UIconMisc::FindSibblingPaneByID( this, PaneID_SampleWell );
+	LPane *samplePane = UIconMisc::FindSiblingPaneByID( this, item_SampleWell );
 	if ( samplePane )
 		samplePane->MoveBy( dh, 0, inRedraw );
 
@@ -844,32 +806,27 @@ CIcon_EditorView::DrawFrom( COffscreen *inBuffer, const Rect *inSourceRect )
 	offscreenR.top = sourceR.top * totalCellHeight;
 	offscreenR.bottom = sourceR.bottom * totalCellHeight + kIconSideMargin;
 	
-		// the window area is port relative and fatbits
+	// The window area is port relative and fatbits
 	windowR = offscreenR;
 	::OffsetRect( &windowR, mPixelArea.left, mPixelArea.top );
 	LocalToPortPoint( topLeft( windowR ) );
 	LocalToPortPoint( botRight( windowR ) );
 	
-
-			// If we're not drawing gridlines, we can just CopyBits directly
-		// to the screen. This is much faster than copying twice (once to
-		// our offscreen buffer, once to the screen).
-
+	// If we're not drawing gridlines, we can just CopyBits directly to the
+	// screen. This is much faster than copying twice (once to our
+	// offscreen buffer, once to the screen).
 	if ( mSpaceBetween == 0 )
 	{
-	#ifdef MARQUEE_FIX
-			// make sure when we draw we overwrite the right/bottom pixel
-			// since the drawing code is often used to overwrite the selection
-			// marquee (1/27/97 ebs bug fix dealing with 1x mode and marquee)
+		// Make sure when we draw we overwrite the right/bottom pixel since
+		// the drawing code is often used to overwrite the selection marquee.
 		this->FocusDraw();
-		::RGBForeColor( &kWhiteColor );
+		::RGBForeColor( &Color_White );
 		::MoveTo( mPixelArea.right, mPixelArea.top );
 		::Line( 0, mPixelArea.bottom - mPixelArea.top );
 		::MoveTo( 0, mPixelArea.bottom );
 		::Line( mPixelArea.right - mPixelArea.left, 0 );
 	
-	
-			// the window rect is one pixel too big (it includes the side margin)
+		// The window rect is one pixel too big (it includes the side margin)
 		tempDestR = windowR;
 		tempDestR.right -= kIconSideMargin;
 		tempDestR.bottom -= kIconSideMargin;
@@ -881,12 +838,10 @@ CIcon_EditorView::DrawFrom( COffscreen *inBuffer, const Rect *inSourceRect )
 		return;
 	}
 	
-			// We are drawing gridlines, so we must copy the image into the
-		// big scratch buffer first. This stretches the image into fatbits.
-		// 
-		// it's possible that our scratch buffer isn't big enough, so we
-		// might have to call CopyBits more than once.
-
+	// We are drawing gridlines, so we must copy the image into the big
+	// scratch buffer first. This stretches the image into fatbits. It's
+	// possible that our scratch buffer isn't big enough, so we might have
+	// to call CopyBits more than once.
 	SInt32		scratchWidth = sBigScratchBuffer->GetWidth();
 	SInt32		scratchHeight = sBigScratchBuffer->GetHeight();
 	
@@ -929,9 +884,7 @@ CIcon_EditorView::DrawFrom( COffscreen *inBuffer, const Rect *inSourceRect )
 		}
 	}
 
-	#ifndef NEW_HOTSPOT_CODE
-			// Draw the hotspot.
-
+	// Draw the hotspot
 	if ( this->HasHotSpot() && ::PtInRect( mHotSpot, &sourceR ) )
 		this->DrawHotSpot( inBuffer );
 	
@@ -940,9 +893,8 @@ CIcon_EditorView::DrawFrom( COffscreen *inBuffer, const Rect *inSourceRect )
 
 // ---------------------------------------------------------------------------
 // 	DrawPortionOfBuffer
-// 	
-// 	Note: we actually draw 1 pixel of border outside of the inDestR parameter (right/bottom).
 // ---------------------------------------------------------------------------
+// 	We actually draw 1 pixel of border outside of the inDestR parameter (right/bottom).
 
 void 
 CIcon_EditorView::DrawPortionOfBuffer( COffscreen *inSource, const Rect &inSourceR, 
@@ -955,8 +907,7 @@ CIcon_EditorView::DrawPortionOfBuffer( COffscreen *inSource, const Rect &inSourc
 	
 	Rect	bufferR;
 	
-			// Expand the source image into the offscreen buffer
-
+	// Expand the source image into the offscreen buffer
 	bufferR.left = 0;
 	bufferR.right = totalCellWidth * sourceWidth;
 	bufferR.top = 0;
@@ -964,14 +915,12 @@ CIcon_EditorView::DrawPortionOfBuffer( COffscreen *inSource, const Rect &inSourc
 	
 	sBigScratchBuffer->CopyFrom( inSource, &bufferR, &inSourceR );
 
-			// Draw the horizontal gridlines.
-		// notes:
-		// (1) we are drawing into an offscreen, so draw relative to 0,0
-		// (2) we draw one more gridline than pixel
-
+	// Draw the horizontal gridlines.
+	//     (1) we are drawing into an offscreen, so draw relative to 0,0
+	//     (2) we draw one more gridline than pixel
 	sBigScratchBuffer->BeginDrawing();
 	
-	RGBForeColor( &kWhiteColor );
+	RGBForeColor( &Color_White );
 	
 	SInt32 v = bufferR.top;
 	for ( SInt32 rowCount = inSourceR.top; rowCount <= inSourceR.bottom; rowCount++ )
@@ -981,8 +930,7 @@ CIcon_EditorView::DrawPortionOfBuffer( COffscreen *inSource, const Rect &inSourc
 		v += totalCellWidth;
 	}
 	
-			// Draw the vertical gridlines.
-
+	// Draw the vertical gridlines.
 	SInt32 h = bufferR.left;
 	for ( SInt32 colCount = inSourceR.left; colCount <= inSourceR.right; colCount++ )
 	{
@@ -991,29 +939,25 @@ CIcon_EditorView::DrawPortionOfBuffer( COffscreen *inSource, const Rect &inSourc
 		h += totalCellWidth;
 	}
 
-			// Overlay the hotspot (if any)
-
-	#ifdef NEW_HOTSPOT_CODE
+	// Overlay the hotspot (if any)
 	if ( (mHotSpot.h >= inSourceR.left) && (mHotSpot.h < inSourceR.right) &&
 		 (mHotSpot.v >= inSourceR.top)  && (mHotSpot.v < inSourceR.bottom) )
 	{
 		Rect	hotSpotR;
 		
-			// get the rectangle and offset it to it hits our offscreen
-			// buffer in the correct spot
+		// Get the rectangle and offset it to it hits our offscreen buffer
+		// in the correct spot
 		this->GetPixelRect( mHotSpot.h, mHotSpot.v, &hotSpotR, false );
 		//::OffsetRect( &hotSpotR, -inDestR.left, -inDestR.top );
 		
 		Color32 theColor = inSource->GetPixelColor( mHotSpot.h, mHotSpot.v );
 		this->DrawHotSpotSelf( theColor, hotSpotR );
 	}
-	
 			
 	sBigScratchBuffer->EndDrawing();
 
-			// Copy the gridlined image to the screen.
-		// The one extra pixel in the source & destination is for the right/bottom gridline.
-
+	// Copy the gridlined image to the screen.
+	// The one extra pixel in the source & destination is for the right/bottom gridline.
 	++bufferR.right;
 	++bufferR.bottom;
 	Rect	tempDestR = inDestR;

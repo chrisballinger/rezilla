@@ -44,7 +44,7 @@ COffscreenDragTask::COffscreenDragTask( const EventRecord &inEvent, const Rect &
 		err = ::AddDragItemFlavor( mDragRef, (ItemReference) inOffscreen, DragFlavor_Offscreen, &inOffscreen, sizeof(inOffscreen), flavorSenderOnly );	
 		ThrowIfOSErr_( err );
 		
-		err = ::AddDragItemFlavor( mDragRef, (ItemReference) inOffscreen, img_Picture, nil, 0, 0 );	
+		err = ::AddDragItemFlavor( mDragRef, (ItemReference) inOffscreen, ImgType_Picture, nil, 0, 0 );	
 		ThrowIfOSErr_( err );
 		
 		// Add a sendproc that can translate the offscreen to a PICT
@@ -90,7 +90,7 @@ COffscreenDragTask::SendProc( FlavorType inFlavor, void * /*inRefCon*/, ItemRefe
 {
 	long	err = noErr;
 	
-	if ( inFlavor != img_Picture )
+	if ( inFlavor != ImgType_Picture )
 	{
 		return( noTypeErr );
 	}

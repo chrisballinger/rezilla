@@ -2,7 +2,7 @@
 // CIcon_EditorWindow.cp
 // 
 //                       Created: 2004-12-10 17:23:05
-//             Last modification: 2004-12-17 23:13:05
+//             Last modification: 2004-12-22 10:18:37
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -16,33 +16,66 @@
 #include "CIcon_EditorDoc.h"
 #include "CIcon_EditorWindow.h"
 #include "CIcon_EditorView.h"
-#include "CRezObj.h"
-#include "CRezillaApp.h"
-#include "CRezMap.h"
-#include "CRezillaPrefs.h"
 #include "RezillaConstants.h"
-#include "UMessageDialogs.h"
-#include "UHexFilters.h"
-#include "UCodeTranslator.h"
-#include "UIconMisc.h"
-#include "UResourceMgr.h"
 #include "CColorCursorCache.h"
 #include "CColorPane.h"
 #include "CColorTableChoice.h"
 #include "CDraggableTargetBox.h"
-#include "CPatternPane.h"
-#include "CSharedPalette.h"
 #include "CIconActions.h"
 #include "CIconDragToTargetAction.h"
 #include "CIconEditActions.h"
 #include "CIconLassoAction.h"
 #include "CIconRecolorAction.h"
 #include "CIconResizeImageAction.h"
+#include "CIconSelection.h"
 #include "CIconSelectionAction.h"
 #include "CIconTargetClickedAction.h"
 #include "CIconTextAction.h"
 #include "CIconUndoer.h"
 #include "COffscreen.h"
+#include "CPatternPane.h"
+#include "CRezMap.h"
+#include "CRezObj.h"
+#include "CRezillaApp.h"
+#include "CRezillaPrefs.h"
+#include "CSharedPalette.h"
+#include "UCodeTranslator.h"
+#include "UColorUtils.h"
+#include "UHexFilters.h"
+#include "UIconMisc.h"
+#include "UMessageDialogs.h"
+#include "UResourceMgr.h"
+// #include "CIconMoveAction.h"
+
+// #include "CFlipHorizontalAction.h"
+// #include "CFlipVerticalAction.h"
+// #include "CIconBucketAction.h"
+// #include "CIconClearAction.h"
+// #include "CIconCopyAction.h"
+// #include "CIconCutAction.h"
+// #include "CIconDeleteImageAction.h"
+// #include "CIconDragToTargetAction.h"
+// #include "CIconDropperAction.h"
+// #include "CIconEraseAllAction.h"
+// #include "CIconEraserAction.h"
+// #include "CIconHotSpotAction.h"
+// #include "CIconLassoAction.h"
+// #include "CIconLineAction.h"
+// #include "CIconMoveAction.h"
+// #include "CIconPasteAction.h"
+// #include "CIconPenAction.h"
+// #include "CIconRecolorAction.h"
+// #include "CIconRectAction.h"
+// #include "CIconResizeImageAction.h"
+// #include "CIconRotateAction.h"
+// #include "CIconRotateAction.h"
+// #include "CIconRoundRectAction.h"
+// #include "CIconSelectionAction.h"
+// #include "CIconTargetClickedAction.h"
+// #include "CIconTextAction.h"
+// #include "COvalAction.h"
+// #include "CTransparentAction.h"
+
 // #include "CIconResizeDialog.h"
 
 #include <LScrollBar.h>
@@ -168,15 +201,15 @@ CIcon_EditorWindow::Initialize()
 	mCurrentPattern = Pattern_Black;
 	
 	// Pencil tool is the default
-	mCurrentTool = Tool_Pen;
-	mPreviousTool = Tool_Pen;
+	mCurrentTool = tool_Pencil;
+	mPreviousTool = tool_Pencil;
 	
 	mTextAction = nil;
 
 	mSharedPalette = nil;
 	
 	// use the app's resource fork, but save/restore the previous file
-	StRezRefSaver	aSaver( SUFileUtils::GetMainResourceFile() );
+	StRezRefSaver	aSaver( CRezillaApp::GetOwnRefNum() );
 
 	TextTraitsRecord **textTraitsH = UTextTraits::LoadTextTraits( Txtr_PaintFont );
 	if ( textTraitsH )
@@ -193,7 +226,7 @@ CIcon_EditorWindow::Initialize()
 	// Sample panes
 	mCurrentSamplePane = nil;
 	mNumSamplePanes = 0;
-	for ( SInt32 count = 0; count < kMaxSamplePanes; count++ )
+	for ( SInt32 count = 0; count < kMaxIconSamplePanes; count++ )
 		mSamplePaneList[ count ] = nil;
 
 	mWindowIsActive = false;			// set later
@@ -207,7 +240,7 @@ CIcon_EditorWindow::Initialize()
 
 	if ( mColorCursorCache == nil )
 	{
-		mColorCursorCache = new CColorCursorCache( 12, SUFileUtils::GetMainResourceFile() );
+		mColorCursorCache = new CColorCursorCache( 12, CRezillaApp::GetOwnRefNum() );
 		ThrowIfMemFail_( mColorCursorCache );
 	}
 
@@ -392,19 +425,19 @@ CIcon_EditorWindow::FinishCreateSelf()
 	mCanvas = (CIcon_EditorView*) this->FindPaneByID( CIcon_EditorView::class_ID );
 	ThrowIfNil_( mCanvas );
 
-	mPatternPane = (CPatternPane*) this->FindPaneByID( Tool_Pattern );
+	mPatternPane = (CPatternPane*) this->FindPaneByID( item_IconEditPattern );
 	ThrowIfNil_( mPatternPane );
 	mPatternPane->GetCurrentPattern( &mCurrentPattern );
 	
 	UIconMisc::LinkListenerToControls( this, this, RidL_ToolList );
 
-	mColorPane = (CColorPane*) this->FindPaneByID( Tool_ForegroundColor );
-	mBackColorPane = (CColorPane*) this->FindPaneByID( Tool_BackgroundColor );
+	mColorPane = (CColorPane*) this->FindPaneByID( item_IconEditForeColor );
+	mBackColorPane = (CColorPane*) this->FindPaneByID( item_IconEditBackColor );
 	ThrowIfNil_( mColorPane );
 	ThrowIfNil_( mBackColorPane );
 	
 	// This may or may not exist depending on the editor
-	mSampleWell = this->FindPaneByID( PaneID_SampleWell );
+	mSampleWell = this->FindPaneByID( item_SampleWell );
 
 	
 	
@@ -445,7 +478,7 @@ CIcon_EditorWindow::FinishCreateSelf()
 void
 CIcon_EditorWindow::SetChangedFlag( Boolean inChanged )
 {
-	this->ProcessCommand( cmd_PaintModified, (void*) inChanged );
+	this->ProcessCommand( cmd_IconPaintModified, (void*) inChanged );
 	mChanged = inChanged;
 }
 
@@ -478,11 +511,11 @@ CIcon_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			this->HandleControlDoubleClick( (LPane*) ioParam );
 			break;
 			
-		case Tool_Pattern:
+		case item_IconEditPattern:
 			mPatternPane->GetCurrentPattern( &mCurrentPattern );
 			break;
 
-		case Tool_ForegroundColor:			// user changed the color
+		case item_IconEditForeColor:			// user changed the color
 			mForeColor = (Color32) ioParam;
 			this->ResetPatternPaneColors( redraw_Now );
 			
@@ -492,17 +525,17 @@ CIcon_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 				mTextAction->ChangeTextTraits( mTextTraits );
 			break;
 			
-		case Tool_BackgroundColor:			// user changed the background color
+		case item_IconEditBackColor:			// user changed the background color
 			mBackColor = (Color32) ioParam;
 			this->ResetPatternPaneColors( redraw_Now );
 			break;
 		
-		case cmd_TargetBoxClicked:
-			this->ObeyCommand( cmd_TargetBoxClicked, ioParam );
+		case msg_TargetBoxClicked:
+			this->ObeyCommand( msg_TargetBoxClicked, ioParam );
 			break;
 		
-		case cmd_ImageDroppedOnTargetBox:
-			this->ObeyCommand( cmd_ImageDroppedOnTargetBox, ioParam );
+		case msg_ImageDroppedOnTargetBox:
+			this->ObeyCommand( msg_ImageDroppedOnTargetBox, ioParam );
 			break;
 			
 		case msg_TextActionDied:
@@ -562,9 +595,9 @@ CIcon_EditorWindow::FindCommandStatus(
 					break;
 					
 				case cmd_Cut:				case cmd_Clear:
-				case cmd_FlipVertical:		case cmd_FlipHorizontal:
-				case cmd_RotateClockwise:	case cmd_RotateCounter:				
-				case cmd_Transparent:
+				case cmd_IconFlipVertical:		case cmd_IconFlipHorizontal:
+				case cmd_IconRotateClockwise:	case cmd_IconRotateCounterClock:				
+				case cmd_IconTransparent:
 					if ( mCurrentImage && !mCurrentSelection->IsEmpty() && !fileLocked ) {
 						enableIt = true;
 					}
@@ -580,20 +613,20 @@ CIcon_EditorWindow::FindCommandStatus(
 					{
 						LClipboard *theClip = LClipboard::GetClipboard();
 						if ( theClip )
-							enableIt = ( theClip->GetData( img_Picture, nil ) > 0 );
+							enableIt = ( theClip->GetData( ImgType_Picture, nil ) > 0 );
 					}
 					break;
 					
-				case Tool_SwapColors:
-				case Tool_BlackAndWhite:
+				case tool_SwapColors:
+				case tool_BlackAndWhite:
 					enableIt = true;
 					break;
 				
-				case cmd_ResizeImage:
+				case cmd_IconResizeImage:
 					enableIt = mAllowImageResizing && !fileLocked;
 					break;
 				
-				case cmd_DeleteImage:
+				case cmd_IconDeleteImage:
 					if ( mCurrentSamplePane && mCurrentSamplePane->CanBeDeleted()
 							&& mCurrentSamplePane->IsUsed() 
 							&& !fileLocked ) {
@@ -601,10 +634,6 @@ CIcon_EditorWindow::FindCommandStatus(
 					}	
 					break;
 					
-				case cmd_Debug1:
-				case cmd_Debug2:
-					enableIt = true;
-					break;
 			}
 		}
 		
@@ -661,15 +690,15 @@ CIcon_EditorWindow::ObeyCommand(
 		switch( inCommand )
 		{
 			// Editing Commands
-			case cmd_Cut:				case cmd_Copy:		
-			case cmd_Paste:				case cmd_Clear:
-			case cmd_FlipVertical:		case cmd_FlipHorizontal:
-			case cmd_RotateClockwise:	case cmd_RotateCounter:			
-			case cmd_Transparent:
-			case cmd_DragImage:			case cmd_RecolorCurrentImage:
-			case cmd_TargetBoxClicked:	case cmd_ImageDroppedOnTargetBox:
-			case cmd_ResizeImage:		case cmd_DeleteImage:
-			case Tool_Lasso:			// double-click on lasso
+			case cmd_Cut:					case cmd_Copy:		
+			case cmd_Paste:					case cmd_Clear:
+			case cmd_IconFlipVertical:		case cmd_IconFlipHorizontal:
+			case cmd_IconRotateClockwise:	case cmd_IconRotateCounterClock:			
+			case cmd_IconTransparent:
+			case cmd_IconDragImage:			case cmd_IconRecolorCurrentImage:
+			case msg_TargetBoxClicked:		case msg_ImageDroppedOnTargetBox:
+			case cmd_IconResizeImage:		case cmd_IconDeleteImage:
+			case tool_Lasso:			// double-click on lasso
 			
 				theAction = (CIconAction*) this->CreateNewAction( inCommand, ioParam );
 				if ( theAction )
@@ -680,11 +709,11 @@ CIcon_EditorWindow::ObeyCommand(
 				this->SelectAll();
 				return( true );
 			
-			case Tool_SwapColors:
+			case tool_SwapColors:
 				this->SwapColors();
 				return( true );
 			
-			case Tool_BlackAndWhite:
+			case tool_BlackAndWhite:
 				this->ForceBlackAndWhite();
 				return( true );
 				
@@ -698,7 +727,7 @@ CIcon_EditorWindow::ObeyCommand(
 		if ( theAction )
 			delete( theAction );
 	
-		SUErrors::DisplayError( theErr );		// nobody above shows errors, so we better
+		UMessageDialogs::ErrorWithString(CFSTR("ErrorWithIconEditor"), theErr);
 		return( true );
 	}
 // 	return cmdHandled;
@@ -716,7 +745,7 @@ CIcon_EditorWindow::HandleKeyPress( const EventRecord &inKeyEvent )
 	UInt8 		theChar = inKeyEvent.message & charCodeMask;
 	
 	// Handle arrow keys for the text tool
-	if ( mCurrentTool == Tool_Text )
+	if ( mCurrentTool == tool_Text )
 	{
 		if ( inKeyEvent.modifiers & cmdKey )
 		{
@@ -780,7 +809,7 @@ CIcon_EditorWindow::NudgeSelection( SInt32 dh, SInt32 dv )
 {
 	if ( !mCurrentImage ) return;
 	
-	CMoveAction	*theMoveAction = (CMoveAction*) this->CreateNewAction( cmd_MoveSelection );
+	CIconMoveAction	*theMoveAction = (CIconMoveAction*) this->CreateNewAction( cmd_IconMoveSelection );
 	if ( theMoveAction )
 		theMoveAction->Move( dh, dv );
 }
@@ -810,40 +839,40 @@ CIcon_EditorWindow::AdjustCursorInCanvas( Point pt, const EventRecord& inMacEven
 				newCursorID = CURS_Dropper;
 			else switch( mCurrentTool )
 			{
-				case Tool_Lasso:
+				case tool_Lasso:
 					newCursorID = isInSelection ? CURS_HandFingers : CURS_Lasso;
 					break;
 					
-				case Tool_Selection:
+				case tool_Selection:
 					newCursorID = isInSelection ? CURS_HandFingers : CURS_Plus;
 					break;
 					
-				case Tool_Eraser:
+				case tool_Eraser:
 					newCursorID = CURS_Eraser;
 					break;
-				case Tool_Pen:
+				case tool_Pencil:
 					newCursorID = CURS_Pencil;
 					break;
-				case Tool_Bucket:
+				case tool_Bucket:
 					newCursorID = CURS_Bucket;
 					break;
 					
-				case Tool_Dropper:
+				case tool_Dropper:
 					newCursorID = CURS_Dropper;
 					break;
 				
-				case Tool_HotSpot:
+				case tool_HotSpot:
 					newCursorID = CURS_HotSpot;
 					break;
 					
-				case Tool_Text:
+				case tool_Text:
 					newCursorID = CURS_TextBeam;
 					break;
 					
-				case Tool_Line:			
-				case Tool_Rect:			case Tool_FilledRect:
-				case Tool_RoundRect:	case Tool_FilledRoundRect:
-				case Tool_Oval:			case Tool_FilledOval:
+				case tool_Line:			
+				case tool_Rect:			case tool_FilledRect:
+				case tool_RoundRect:	case tool_FilledRoundRect:
+				case tool_Oval:			case tool_FilledOval:
 					newCursorID = CURS_Plus;
 					break;
 			}
@@ -853,7 +882,7 @@ CIcon_EditorWindow::AdjustCursorInCanvas( Point pt, const EventRecord& inMacEven
 	if ( newCursorID )
 		mColorCursorCache->SetColorCursor( newCursorID );
 	else
-		::SetCursor( &UQDGlobals::GetQDGlobals()->arrow );
+		UCursor::SetArrow();
 }
 
 
@@ -886,7 +915,7 @@ CIcon_EditorWindow::HandleMouseDownInCanvas( const SMouseDownEvent &inEvent )
 	if ( !mCurrentImage ) return;
 	
 	if ( (inEvent.macEvent.modifiers & optionKey) && !this->CanvasPointInSelection(inEvent.whereLocal) )
-		theTool = Tool_Dropper;
+		theTool = tool_Dropper;
 
 	// Create an action depending on the current tool
 	CIconTrackingPaintAction *theAction = (CIconTrackingPaintAction*) this->CreateNewAction( theTool );
@@ -956,7 +985,8 @@ CIcon_EditorWindow::GetActionSettings( SPaintAction *outSettings )
 // 	If the action's constructor throws an error, we'll display an error
 // 	message and return nil.
 
-CIconAction *CIcon_EditorWindow::CreateNewAction( OSType inActionType, void *ioParam )
+CIconAction *
+CIcon_EditorWindow::CreateNewAction( OSType inActionType, void *ioParam )
 {
 	SPaintAction		actionSettings;
 	
@@ -968,39 +998,39 @@ CIconAction *CIcon_EditorWindow::CreateNewAction( OSType inActionType, void *ioP
 		// Create the object
 		switch( inActionType )
 		{
-			case Tool_Lasso:
+			case tool_Lasso:
 				return new CIconLassoAction( actionSettings );
-			case Tool_Selection:
+			case tool_Selection:
 				return new CIconSelectionAction( actionSettings );
-			case cmd_MoveSelection:
-				return new CMoveAction( actionSettings );
+			case cmd_IconMoveSelection:
+				return new CIconMoveAction( actionSettings );
 			
-			case Tool_Eraser:
-				return new CEraserAction( actionSettings );
+			case tool_Eraser:
+				return new CIconEraserAction( actionSettings );
 				
-			case Tool_Pen:
+			case tool_Pencil:
 				return new CIconPenAction( actionSettings );
-			case Tool_Dropper:
+			case tool_Dropper:
 				return new CIconDropperAction( actionSettings, mColorPane, mBackColorPane );
-			case Tool_Bucket:
+			case tool_Bucket:
 				return new CIconBucketAction( actionSettings );
-			case Tool_Line:
-				return new CLineAction( actionSettings );
+			case tool_Line:
+				return new CIconLineAction( actionSettings );
 				
-			case Tool_Rect:
-			case Tool_FilledRect:
-				return new CIconRectAction( actionSettings, inActionType == Tool_FilledRect );
+			case tool_Rect:
+			case tool_FilledRect:
+				return new CIconRectAction( actionSettings, inActionType == tool_FilledRect );
 			
-			case Tool_RoundRect:
-			case Tool_FilledRoundRect:
-				return new CIconRoundRectAction( actionSettings, inActionType == Tool_FilledRoundRect );
+			case tool_RoundRect:
+			case tool_FilledRoundRect:
+				return new CIconRoundRectAction( actionSettings, inActionType == tool_FilledRoundRect );
 				break;
 				
-			case Tool_Oval:
-			case Tool_FilledOval:
-				return new COvalAction( actionSettings, inActionType == Tool_FilledOval );
+			case tool_Oval:
+			case tool_FilledOval:
+				return new CIconOvalAction( actionSettings, inActionType == tool_FilledOval );
 			
-			case cmd_EraseAll:
+			case cmd_IconEraseAll:
 				return new CIconEraseAllAction( actionSettings );
 		
 			case cmd_Cut:
@@ -1015,22 +1045,22 @@ CIconAction *CIcon_EditorWindow::CreateNewAction( OSType inActionType, void *ioP
 			case cmd_Clear:
 				return new CIconClearAction( actionSettings );
 			
-			case cmd_FlipVertical:
+			case cmd_IconFlipVertical:
 				return new CFlipVerticalAction( actionSettings );
 				
-			case cmd_FlipHorizontal:
+			case cmd_IconFlipHorizontal:
 				return new CFlipHorizontalAction( actionSettings );
 
-			case cmd_RotateClockwise:
+			case cmd_IconRotateClockwise:
 				return new CIconRotateAction( actionSettings, -90 );
 				
-			case cmd_RotateCounter:
+			case cmd_IconRotateCounterClock:
 				return new CIconRotateAction( actionSettings, 90 );
 
-			case cmd_Transparent:
-				return new CTransparentAction( actionSettings );
+			case cmd_IconTransparent:
+				return new CIconTransparentAction( actionSettings );
 
-			case cmd_DragImage:			// Don't display errors during Drag&Drop
+			case cmd_IconDragImage:			// Don't display errors during Drag&Drop
 				try
 				{
 					return new CIconDragImageAction( actionSettings, (SDragImageInfo*) ioParam );
@@ -1040,25 +1070,25 @@ CIconAction *CIcon_EditorWindow::CreateNewAction( OSType inActionType, void *ioP
 				}
 				return nil;
 			
-			case Tool_HotSpot:
+			case tool_HotSpot:
 				return new CIconHotSpotAction( actionSettings );
 		
-			case cmd_RecolorCurrentImage:
+			case cmd_IconRecolorCurrentImage:
 				return new CIconRecolorAction( actionSettings, (CTabHandle) ioParam );
 			
-			case cmd_ImageDroppedOnTargetBox:
+			case msg_ImageDroppedOnTargetBox:
 				return new CIconDragToTargetAction( actionSettings, (SImageDropOnTargetBox*) ioParam );
 			
-			case cmd_TargetBoxClicked:
+			case msg_TargetBoxClicked:
 				return new CIconTargetClickedAction( actionSettings, (CDraggableTargetBox*) ioParam );
 			
-			case cmd_ResizeImage:
+			case cmd_IconResizeImage:
 				return new CIconResizeImageAction( actionSettings );
 			
-			case cmd_DeleteImage:
+			case cmd_IconDeleteImage:
 				return new CIconDeleteImageAction( actionSettings );
 			
-			case Tool_Text:
+			case tool_Text:
 				return new CIconTextAction( actionSettings );
 				
 			default:
@@ -1067,11 +1097,11 @@ CIconAction *CIcon_EditorWindow::CreateNewAction( OSType inActionType, void *ioP
 	} 
 	catch( SInt32 theErr )
 	{
-		SUErrors::DisplayError( theErr );		// Nobody above shows errors, so we better
+		UMessageDialogs::ErrorWithString(CFSTR("ErrorWithIconEditor"), theErr);
 	}
 	catch( ... )
 	{
-		SUErrors::DisplayError( err_IconGeneric );
+		UMessageDialogs::ErrorWithString(CFSTR("ErrorWithIconEditor"), err_IconGeneric);
 	}
 	
 	return( nil );
@@ -1135,19 +1165,19 @@ CIcon_EditorWindow::HandleControlClick( LPane *thePane )
 	{
 		switch( thePaneID )
 		{
-			case Tool_Eraser: 		case Tool_Pen:			case Tool_Dropper: 		
-			case Tool_Bucket:		case Tool_Line: 		case Tool_Rect:			
-			case Tool_FilledRect:	case Tool_RoundRect:	case Tool_FilledRoundRect:
-			case Tool_Oval:			case Tool_FilledOval:
-			case Tool_Lasso:		case Tool_Selection:	case Tool_HotSpot:
-			case Tool_Text:
+			case tool_Eraser: 		case tool_Pencil:			case tool_Dropper: 		
+			case tool_Bucket:		case tool_Line: 		case tool_Rect:			
+			case tool_FilledRect:	case tool_RoundRect:	case tool_FilledRoundRect:
+			case tool_Oval:			case tool_FilledOval:
+			case tool_Lasso:		case tool_Selection:	case tool_HotSpot:
+			case tool_Text:
 			
 				this->SelectNone();	
 				
 				mCurrentTool = thePaneID;
 				
 				// Keep track of previous tool - double-click on eraser reverts to orig tool
-				if ( thePaneID != Tool_Eraser ) {
+				if ( thePaneID != tool_Eraser ) {
 					mPreviousTool = thePaneID;
 				}
 				break;
@@ -1168,14 +1198,14 @@ CIcon_EditorWindow::HandleControlDoubleClick( LPane *thePane )
 	
 	switch( thePane->GetPaneID() )
 	{
-		case Tool_Eraser:
+		case tool_Eraser:
 			this->EraseAll();
 			break;
-		case Tool_Selection:
+		case tool_Selection:
 			this->SelectAll();
 			break;
-		case Tool_Lasso:
-			this->ObeyCommand( Tool_Lasso, 0 );
+		case tool_Lasso:
+			this->ObeyCommand( tool_Lasso, 0 );
 			break;
 	}
 }
@@ -1190,7 +1220,7 @@ CIcon_EditorWindow::EraseAll()
 {
 	if ( !mCurrentImage ) return;
 
-	CIconEraseAllAction	*theAction = (CIconEraseAllAction*) this->CreateNewAction( cmd_EraseAll );
+	CIconEraseAllAction	*theAction = (CIconEraseAllAction*) this->CreateNewAction( cmd_IconEraseAll );
 	if ( !theAction ) return;
 	
 	StGWorldSaver		aSaver;
@@ -1208,7 +1238,7 @@ CIcon_EditorWindow::EraseAll()
 void
 CIcon_EditorWindow::ChangeTool( OSType toWhat )
 {
-	if ( toWhat == Tool_None ) return;
+	if ( toWhat == tool_None ) return;
 	
 	LControl *prevTool = (LControl*) this->FindPaneByID( mCurrentTool );
 	LControl *newTool = (LControl*) this->FindPaneByID( toWhat );
@@ -1223,7 +1253,7 @@ CIcon_EditorWindow::ChangeTool( OSType toWhat )
 		mCurrentTool = toWhat;
 
 		// Keep track of previous tool - double-click on eraser reverts to orig tool
-		if ( toWhat != Tool_Eraser )
+		if ( toWhat != tool_Eraser )
 			mPreviousTool = toWhat;
 	}
 }
@@ -1329,7 +1359,7 @@ CIcon_EditorWindow::SetSelection( const Rect &r, Boolean toLasso )
 	// Commit current selection and kill the region
 	this->SelectNone();
 	
-	this->ChangeTool( toLasso ? Tool_Lasso : Tool_Selection );
+	this->ChangeTool( toLasso ? tool_Lasso : tool_Selection );
 	mCurrentSelection->SetSelection( mCurrentImage, r );
 	
 	this->EraseAreaUnderSelection();
@@ -1349,7 +1379,7 @@ CIcon_EditorWindow::SetSelection( RgnHandle inRgn, Boolean toLasso )
 	// Commit current selection and kill the region
 	this->SelectNone();
 	
-	this->ChangeTool( toLasso ? Tool_Lasso : Tool_Selection );
+	this->ChangeTool( toLasso ? tool_Lasso : tool_Selection );
 	mCurrentSelection->SetSelection( mCurrentImage, inRgn );
 	
 	this->EraseAreaUnderSelection();
@@ -1439,7 +1469,8 @@ CIcon_EditorWindow::RedrawSampleView( Rect * )
 // 	CreatePaintWindow
 // ---------------------------------------------------------------------------
 
-LWindow *CIcon_EditorWindow::CreatePaintWindow( ResIDT inWindowID )
+LWindow *
+CIcon_EditorWindow::CreatePaintWindow( ResIDT inWindowID )
 {
 	// Create the window
 	LWindow *theWindow = UIconMisc::CreatePPWindow( inWindowID );
@@ -1640,7 +1671,7 @@ CIcon_EditorWindow::EstablishPort()
 	if ( !mMacWindowP ) return( false );
 
 	// This sets GDevice too
-	UIconMisc::SetPort( mMacWindowP );
+	UIconMisc::SetPort( GetMacPort() );
 	return( true );
 }
 
@@ -1655,7 +1686,7 @@ CIcon_EditorWindow::UpdatePort()
 	StGWorldSaver	aSaver;
 	
 	// This sets GDevice too
-	UIconMisc::SetPort( mMacWindowP );
+	UIconMisc::SetPort( GetMacPort() );
 	LWindow::UpdatePort();
 }
 

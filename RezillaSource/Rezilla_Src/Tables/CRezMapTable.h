@@ -29,7 +29,7 @@ class CRezMapTable : public LOutlineTable,
 					  public LCommander, 
 					  public CRezMapDragDrop {
 public:
-	enum { class_ID = 'RzMT' };
+	enum { class_ID = FOUR_CHAR_CODE('RzMT') };
 
 								CRezMapTable( LStream *inStream );
 			virtual				~CRezMapTable();

@@ -29,7 +29,7 @@ class CRezObj;
 
 class CPICT_EditorWindow : public CEditorWindow {
 public:
-	enum { class_ID = 'PICW' };
+	enum { class_ID = FOUR_CHAR_CODE('PICW') };
 
 							CPICT_EditorWindow();
 							CPICT_EditorWindow( const SWindowInfo &inWindowInfo );

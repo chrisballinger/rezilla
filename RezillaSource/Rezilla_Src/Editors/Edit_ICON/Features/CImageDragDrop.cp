@@ -1,7 +1,7 @@
 // ===========================================================================
 // CImageDragDrop.cp
 //                       Created: 2004-12-11 18:57:41
-//             Last modification: 2004-12-15 06:33:16
+//             Last modification: 2004-12-22 11:28:29
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -19,19 +19,19 @@
 #include "UGraphicConversion.h"
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	Constructor
-// ============================================================
+// ---------------------------------------------------------------------------
 
-CImageDragDrop::CImageDragDrop( GrafPtr inPort, LPane *inPane )
-			: LDragAndDrop( ::GetWindowFromPort(inPort) , inPane )
+CImageDragDrop::CImageDragDrop( WindowPtr inMacWindow, LPane *inPane )
+			: LDragAndDrop( inMacWindow, inPane )
 {
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	ItemIsAcceptable
-// ============================================================
+// ---------------------------------------------------------------------------
 
 Boolean
 CImageDragDrop::ItemIsAcceptable( DragReference inDragRef, ItemReference inItemRef )
@@ -47,25 +47,25 @@ CImageDragDrop::ItemIsAcceptable( DragReference inDragRef, ItemReference inItemR
 	err = ::GetFlavorFlags( inDragRef, inItemRef, DragFlavor_Offscreen, &theFlags );
 	if ( !err ) return( true );
 	
-	err = ::GetFlavorFlags( inDragRef, inItemRef, img_Picture, &theFlags );
+	err = ::GetFlavorFlags( inDragRef, inItemRef, ImgType_Picture, &theFlags );
 	if ( !err ) return( true );
 	
 	long numBytes = sizeof( hfsInfo );
 	err = ::GetFlavorData( inDragRef, inItemRef, flavorTypeHFS, (void*) &hfsInfo, &numBytes, 0 );
-	if ( !err && (hfsInfo.fileType == img_Picture) ) return( true );
+	if ( !err && (hfsInfo.fileType == ImgType_Picture) ) return( true );
 	
 	numBytes = sizeof( promiseInfo );
 	err = ::GetFlavorData( inDragRef, inItemRef, flavorTypePromiseHFS, (void*) &promiseInfo, &numBytes, 0 );
-	if ( !err && (promiseInfo.fileType == img_Picture) ) return( true );
+	if ( !err && (promiseInfo.fileType == ImgType_Picture) ) return( true );
 
 	return( false );
 }
 
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	ReceiveDragItem
-// ============================================================
+// ---------------------------------------------------------------------------
 
 void
 CImageDragDrop::ReceiveDragItem( DragReference inDragRef, DragAttributes inAttribs,
@@ -89,14 +89,14 @@ CImageDragDrop::ReceiveDragItem( DragReference inDragRef, DragAttributes inAttri
 	}
 	
 	// Next check for a PICT
-	err = ::GetFlavorDataSize( inDragRef, inItemRef, img_Picture, &numBytes );
+	err = ::GetFlavorDataSize( inDragRef, inItemRef, ImgType_Picture, &numBytes );
 	if ( !err && (numBytes >= sizeof(Picture)) )
 	{
 		PicHandle thePict = (PicHandle) ::NewHandle( numBytes );
 		ThrowIfMemFail_( thePict );
 
 		HLock( (Handle) thePict );
-		err = ::GetFlavorData( inDragRef, inItemRef, img_Picture, (void*) *thePict, &numBytes, 0 );
+		err = ::GetFlavorData( inDragRef, inItemRef, ImgType_Picture, (void*) *thePict, &numBytes, 0 );
 		if ( err )
 		{
 			UIconMisc::DisposeHandle( (Handle) thePict );
@@ -122,9 +122,9 @@ CImageDragDrop::ReceiveDragItem( DragReference inDragRef, DragAttributes inAttri
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	HandleDroppedPictureFile
-// ============================================================
+// ---------------------------------------------------------------------------
 
 void
 CImageDragDrop::HandleDroppedPictureFile( const FSSpec &inSpec, DragReference inDragRef,
@@ -147,9 +147,9 @@ CImageDragDrop::HandleDroppedPictureFile( const FSSpec &inSpec, DragReference in
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	HiliteDropArea
-// ============================================================
+// ---------------------------------------------------------------------------
 // Hilites the drag area by drawing a few xor-ed rectangles around mPane.
 // The default hiliting doesn't show up very well at all for our panes so
 // this one is somewhat thicker and drawn outside of the pane itself.
@@ -182,9 +182,9 @@ CImageDragDrop::HiliteDropArea( DragReference )
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	UnhiliteDropArea
-// ============================================================
+// ---------------------------------------------------------------------------
 
 void
 CImageDragDrop::UnhiliteDropArea( DragReference inDragRef )

@@ -2,7 +2,7 @@
 // CRezFile.cp					
 // 
 //                       Created: 2003-04-24 14:17:20
-//             Last modification: 2004-09-09 09:38:15
+//             Last modification: 2004-12-22 11:41:37
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -20,7 +20,6 @@
 #include "CRezFile.h"
 #include "CRezillaApp.h"
 #include "CRezillaPrefs.h"
-// #include "RezillaConstants.h"
 #include "UMiscUtils.h"
 #include "CRezMap.h"
 #include "CRezObj.h"
@@ -398,22 +397,24 @@ CRezFile::CopyFromRezMap(CRezMap * srcRezmap)
 }
 
 
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	GetResourceFileVolume
-// ============================================================
+// ---------------------------------------------------------------------------
 // 	Returns the volume id for a given resource file.
 // 	Throws an error if the fileID is invalid.
 
 short
-CRezFile::GetResourceFileVolume( SInt16 inFileID )
+CRezFile::GetResourceFileVolume()
 {
 	FCBPBRec		pb;
 	OSErr			err = noErr;
-	// Note: ioFCBIndx = 0 -> use ioRefNum
-	UIconMisc::ClearMemory( &pb, sizeof(pb) );
-	pb.ioRefNum = inFileID;
+	// ioFCBIndx = 0 implies use ioRefNum
+// 	UIconMisc::ClearMemory( &pb, sizeof(pb) );
+	pb.ioFCBIndx = 0;
+	pb.ioRefNum = mRefNum;
 	
-	// Note that PBGetFCBInfo works on both resource files and file mgr files.
+	// Note that PBGetFCBInfo works on both resource manager files and file
+	// manager files.
 	err = PBGetFCBInfoSync( &pb );
 	ThrowIfOSErr_( err );
 

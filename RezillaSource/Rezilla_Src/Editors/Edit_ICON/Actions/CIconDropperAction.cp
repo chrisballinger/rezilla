@@ -1,7 +1,7 @@
 // ===========================================================================
 // CIconDropperAction.cp
 //                       Created: 2004-12-11 18:52:17
-//             Last modification: 2004-12-14 18:52:17
+//             Last modification: 2004-12-22 15:54:50
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -13,6 +13,7 @@
 
 #include "RezillaConstants.h"
 #include "CIconActions.h"
+#include "CIcon_EditorView.h"
 #include "CColorPane.h"
 #include "UIconMisc.h"
 
@@ -44,7 +45,8 @@ CIconDropperAction::~CIconDropperAction()
 // 	HandleMouseDown
 // ---------------------------------------------------------------------------
 
-void CIconDropperAction::HandleMouseDown( const SMouseDownEvent &inEvent )
+void
+CIconDropperAction::HandleMouseDown( const SMouseDownEvent &inEvent )
 {
 	Point			pt;
 	Color32			newColor;
@@ -72,7 +74,8 @@ void CIconDropperAction::HandleMouseDown( const SMouseDownEvent &inEvent )
 // 	ChangeColor
 // ---------------------------------------------------------------------------
 
-void CIconDropperAction::ChangeColor( Color32 inColor, Boolean isShiftDown )
+void
+CIconDropperAction::ChangeColor( Color32 inColor, Boolean isShiftDown )
 {
 	if ( !mForePane || !mBackPane ) return;			// shouldn't happen
 	
@@ -82,21 +85,21 @@ void CIconDropperAction::ChangeColor( Color32 inColor, Boolean isShiftDown )
 		mForePane->SetColor( inColor, redraw_Now );
 }
 
-#ifdef PREV_VERSION
-
-// ---------------------------------------------------------------------------
-// 	ChangeColor
-// ---------------------------------------------------------------------------
-
-void CIconDropperAction::ChangeColor( ColorIndex inColor, Boolean isShiftDown )
-{
-	if ( isShiftDown )
-	{
-		if ( mBackPane ) 
-			mBackPane->SetColor( inColor, true  );
-	}
-	else if ( mForePane ) 
-		mForePane->SetColor( inColor, true  );
-}
+// #ifdef PREV_VERSION
+// 
+// // ---------------------------------------------------------------------------
+// // 	ChangeColor
+// // ---------------------------------------------------------------------------
+// 
+// void CIconDropperAction::ChangeColor( ColorIndex inColor, Boolean isShiftDown )
+// {
+// 	if ( isShiftDown )
+// 	{
+// 		if ( mBackPane ) 
+// 			mBackPane->SetColor( inColor, true  );
+// 	}
+// 	else if ( mForePane ) 
+// 		mForePane->SetColor( inColor, true  );
+// }
 
 

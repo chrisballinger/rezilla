@@ -27,7 +27,7 @@ class CRezObj;
 
 class CInspectorWindow : public LWindow, public LListener {
 public:
-	enum { class_ID = 'InsW' };
+	enum { class_ID = FOUR_CHAR_CODE('InsW') };
 
 							CInspectorWindow();
 							CInspectorWindow( const SWindowInfo &inWindowInfo );
