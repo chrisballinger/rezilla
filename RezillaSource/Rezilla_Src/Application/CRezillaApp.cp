@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2005-03-12 18:49:33
+//             Last modification: 2005-03-26 08:07:24
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -41,6 +41,7 @@
 #include "CDraggableTargetView.h"
 #include "CDropStaticText.h"
 #include "CDualDataView.h"
+#include "CFlagPopup.h"
 #include "CHexDataSubView.h"
 #include "CHexEditorWindow.h"
 #include "CIcon_EditorView.h"
@@ -379,6 +380,7 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(CDropStaticText);
 	RegisterClass_(CDualDataView);
 	RegisterClass_(CEditorWindow);
+	RegisterClass_(CFlagPopup);
 	RegisterClass_(CHexDataSubView);
 	RegisterClass_(CHexEditorWindow);
 	RegisterClass_(CIcon_EditorView);
