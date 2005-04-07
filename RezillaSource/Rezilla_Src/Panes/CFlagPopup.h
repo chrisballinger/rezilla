@@ -2,7 +2,7 @@
 // CFlagPopup.h
 // 
 //                       Created: 2005-03-25 15:49:17
-//             Last modification: 2005-03-25 16:10:11
+//             Last modification: 2005-04-07 18:33:59
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -44,15 +44,24 @@ public:
 
 	void			FillPopup(ResIDT inStringListID);
 
-	virtual SInt32	GetValue() const;
+	void			AppendCase(Str255 inString);
 	
-	virtual void	SetValue( SInt32 inValue );
+	virtual UInt32	GetFlagValue() const;
+	
+	virtual void	SetFlagValue( UInt32 inValue );
 	
 protected:
+	ResIDT				mStringListID;
+	SInt32				mResetIndex;
+	UInt16				mNumTopItems;
+	TArray<UInt32>		mFlagValues;
+
 	virtual void	HotSpotResult( SInt16 inHotSpot );
 
 private:
-	void			InitFlagPopup(ResIDT inStringListID);
+	void			InitFlagPopup();
+	void			UpdatePopupWithValue(UInt32	inValue) ;
+	
 };
 
 PP_End_Namespace_PowerPlant
