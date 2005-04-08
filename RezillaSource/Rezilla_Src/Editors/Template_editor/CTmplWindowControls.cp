@@ -20,6 +20,7 @@
 #include "CTmplListItemView.h"
 #include "CTmplListButton.h"
 #include "CTmplCasePopup.h"
+#include "CFlagPopup.h"
 #include "CTemplatesController.h"
 #include "CRezObj.h"
 #include "CRezillaApp.h"
@@ -211,6 +212,17 @@ CTmplEditorWindow::InitPaneInfos()
 	sBevelPaneInfo.bindings.right	= false;
 	sBevelPaneInfo.bindings.bottom 	= false;
 	sBevelPaneInfo.userCon			= 0;
+
+	// Flag popup button fields basic values
+	sPopupPaneInfo.width			= kTmplPopupWidth;
+	sPopupPaneInfo.height			= kTmplPopupHeight;
+	sPopupPaneInfo.visible			= true;
+	sPopupPaneInfo.enabled			= true;
+	sPopupPaneInfo.bindings.left	= false;
+	sPopupPaneInfo.bindings.top		= false;
+	sPopupPaneInfo.bindings.right	= false;
+	sPopupPaneInfo.bindings.bottom 	= false;
+	sPopupPaneInfo.userCon			= 0;
 
 	// Color panes basic values
 	sColorPaneInfo.width			= kTmplColorWidth;
@@ -1096,15 +1108,13 @@ CTmplEditorWindow::AddSeparatorLine(LView * inContainer)
 // ---------------------------------------------------------------------------
 
 OSErr
-CTmplEditorWindow::AddCasePopup(ResType inType, Str255 inLabel, SInt32 inStartMark, LView * inContainer)
+CTmplEditorWindow::AddCasePopup(ResType inType, SInt32 inStartMark, LView * inContainer)
 {
+#pragma unused(inType)
+	
 	OSErr			error = noErr;
 	Rect			theFrame;
-	SInt16			index = 1, foundIdx = -1;
-	ResType			theType;
-	SInt32			currMark, totalLength = mTemplateStream->GetLength();
-	Str255			theString, theValue;
-	Str255 * 		rightPtr;
+// 	Str255			theValue;
 
 	// Get a pointer to the associated edit field
 	LEditText * theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID - 1));
@@ -1123,7 +1133,7 @@ CTmplEditorWindow::AddCasePopup(ResType inType, Str255 inLabel, SInt32 inStartMa
 	CTmplCasePopup * theCasePopup = new CTmplCasePopup(sBevelPaneInfo, msg_TmplCasePopup, theEditText,
 													 MENU_TemplateCases, kControlBevelButtonMenuOnBottom, 
 													 0, Str_Empty, 1,
-													   mTemplateStream, inStartMark);													 
+													 mTemplateStream, inStartMark);													 
 	ThrowIfNil_(theCasePopup);
 
 	// Let the window listen to this menu
@@ -1133,8 +1143,8 @@ CTmplEditorWindow::AddCasePopup(ResType inType, Str255 inLabel, SInt32 inStartMa
 	theCasePopup->SetUserCon( (long) theEditText);
 	// Store the position mark of the first CASE in the userCon of the edit field
 	theEditText->SetUserCon(inStartMark);
-	// Retrieve the value of the associated edit field
-	theEditText->GetDescriptor(theValue);
+// 	// Retrieve the value of the associated edit field
+// 	theEditText->GetDescriptor(theValue);
 	
 	// Advance the counters. mYCoord has already been increased by the edit field
 	mPaneIDs.AddItem(mCurrentID);
@@ -1189,6 +1199,58 @@ CTmplEditorWindow::AddEditPopup(Str255 inValue,
 	mYCoord += sEditPaneInfo.height + kTmplVertSep;
 	mPaneIDs.AddItem(mCurrentID);
 	mCurrentID++;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ AddFlagPopup													[public]
+// ---------------------------------------------------------------------------
+
+OSErr
+CTmplEditorWindow::AddFlagPopup(ResType inType, Str255 inLabel, UInt32 inValue, LView * inContainer)
+{
+#pragma unused(inType, inLabel)
+
+	OSErr			error = noErr;
+	ResType			theType;
+	SInt32			currMark, totalLength;
+	Str255			theString;
+	
+	sPopupPaneInfo.left				= kTmplLeftMargin + kTmplLabelWidth + kTmplHorizSep;
+	sPopupPaneInfo.top				= mYCoord - 3;
+	sPopupPaneInfo.paneID			= mCurrentID;
+	sPopupPaneInfo.superView		= inContainer;
+
+	CFlagPopup * theFlagPopup = new CFlagPopup(sBevelPaneInfo, msg_EditorModifiedItem, 0);													 
+	ThrowIfNil_(theFlagPopup);
+
+	currMark = mTemplateStream->GetMarker();
+	totalLength = mTemplateStream->GetLength();
+	
+	while (currMark < totalLength) {
+		*mTemplateStream >> theString;
+		*mTemplateStream >> theType;
+		if (theType != 'CASE') {
+			// We went too far. Reposition the stream marker.
+			mTemplateStream->SetMarker(currMark, streamFrom_Start);
+			break;
+		} 
+		currMark = mTemplateStream->GetMarker();
+		theFlagPopup->AppendCase(theString);
+	}
+	
+	// Install initial value
+	theFlagPopup->SetFlagValue(inValue);
+
+	// Let the window listen to this menu
+	theFlagPopup->AddListener(this);
+		
+	// Advance the counters. mYCoord has already been increased by the edit field
+	mYCoord += sPopupPaneInfo.height + kTmplVertSep;
+	mPaneIDs.AddItem(mCurrentID);
+	mCurrentID++;
+	
+	return error;
 }
 
 

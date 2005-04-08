@@ -109,7 +109,8 @@ public:
 						sListItemInfo,
 						sSeparatorPaneInfo,
 						sBevelPaneInfo,
-						sColorPaneInfo;
+						sColorPaneInfo,
+						sPopupPaneInfo;
 	
 protected:
 	LView *				mContentsView;
@@ -234,19 +235,23 @@ private:
 	void			AddSeparatorLine(LView * inContainer);
 
 	OSErr			AddCasePopup(ResType inType, 
-									 Str255 inLabel, 
-									 SInt32 inStartMark,
-									 LView * inContainer);
+								 SInt32 inStartMark,
+								 LView * inContainer);
 	
 	void			AddEditPopup(Str255 inValue, 
-									OSType inType,
-									SInt16 inMaxChars, 
-									SInt16 inWidth,
-									UInt8 inAttributes,
-									TEKeyFilterFunc inKeyFilter, 
-									ResIDT inResourceID,
-									LView * inContainer);
+								OSType inType,
+								SInt16 inMaxChars, 
+								SInt16 inWidth,
+								UInt8 inAttributes,
+								TEKeyFilterFunc inKeyFilter, 
+								ResIDT inResourceID,
+								LView * inContainer);
 	
+	OSErr			AddFlagPopup(ResType inType, 
+								 Str255 inLabel, 
+								 UInt32 inValue, 
+								 LView * inContainer);
+
 	void			AddColorPane(LView * inContainer, 
 								RGBColor * inRGB);
 	
