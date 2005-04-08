@@ -28,10 +28,19 @@ This changes log is in reverse chronological order (from bottom to top).
 $Date$
 
 ================================================================================
-= 1.0.6b2	                             last update: 
+= 1.0.6b3	                             last update: 
+================================================================================
+¥ Popup edit fields now have an "Unknown" item to designate values which 
+  do not correspond to any item in the popup.
+¥ Simplified code to generate and handle Case popups in templates.
+¥ Added BORV, LORV, WORV tags to the Templates syntax to handle values made
+  of the OR of base-2 flags. They are represented by a popup menu whose 
+  items are not mutually exclusive. Useful for style values for instance.
+
+================================================================================
+= 1.0.6b2	                             last update: 2005-03-23 09:54:26
 ================================================================================
 ¥ Added a MENU resource editor. Supports menu extension resources ('xmnu').
-¥ 
 
 ================================================================================
 = 1.0.6b1	                             last update: 2005-03-09 17:33:47

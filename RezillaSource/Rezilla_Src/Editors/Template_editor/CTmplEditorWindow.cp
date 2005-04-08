@@ -2,7 +2,7 @@
 // CTmplEditorWindow.cp					
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2005-03-25 14:19:27
+//             Last modification: 2005-04-08 06:50:10
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -18,6 +18,7 @@
 #include "CTmplListItemView.h"
 #include "CTmplListButton.h"
 #include "CTmplCasePopup.h"
+#include "CFlagPopup.h"
 #include "CTemplatesController.h"
 #include "CRezMapTable.h"
 #include "CRezMap.h"
@@ -77,7 +78,7 @@ SPaneInfo CTmplEditorWindow::sListItemInfo;
 SPaneInfo CTmplEditorWindow::sSeparatorPaneInfo;
 SPaneInfo CTmplEditorWindow::sBevelPaneInfo;
 SPaneInfo CTmplEditorWindow::sColorPaneInfo;
-
+SPaneInfo CTmplEditorWindow::sPopupPaneInfo;
 
 // ---------------------------------------------------------------------------
 //		¥ CTmplEditorWindow				[public]
@@ -914,6 +915,15 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		AddCheckField( theBool, inType, inContainer);		
 		break;
 
+		case 'BORV':
+		// Binary byte made of the OR of base-2 values
+		if (mRezStream->GetMarker() < mRezStream->GetLength() ) {
+			*mRezStream >> theUInt8;
+		} 
+		AddStaticField(inType, inLabelString, inContainer);
+		AddFlagPopup(inType, inLabelString, theUInt8, inContainer);
+		break;
+
 		case 'BOOL':
 		// Boolean (two bytes: 0x0100 for true, 0x0000 for false)
 		if (mRezStream->GetMarker() < mRezStream->GetLength() ) {
@@ -939,7 +949,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		// Switch with predefined values. Remember the position mark of the
 		// first CASE in the template stream
 		theSInt32 = mTemplateStream->GetMarker() - inLabelString[0] - 5;
-		error = AddCasePopup(inType, inLabelString, theSInt32, inContainer);		
+		error = AddCasePopup(inType, theSInt32, inContainer);		
 		break;
 
 		case 'CHAR':
@@ -1170,7 +1180,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 
 		case 'LCNT':
 		// One-based long count
-		if (mRezStream->GetMarker() < mRezStream->GetLength() - 1) {
+		if (mRezStream->GetMarker() < mRezStream->GetLength() - 3) {
 			*mRezStream >> theUInt32;
 		} 
 		if (theUInt32 < 0xffff) {
@@ -1183,11 +1193,20 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		case 'LFLG':
 		// Long Boolean flag in low-order bit (four bytes: 0x00000001 for true,
 		// 0x00000000 for false)
-		if (mRezStream->GetMarker() < mRezStream->GetLength() - 1) {
+		if (mRezStream->GetMarker() < mRezStream->GetLength() - 3) {
 			*mRezStream >> theUInt32;
 		} 
 		AddStaticField(inType, inLabelString, inContainer);
 		AddBooleanField( (Boolean) theUInt32, inType, tmpl_titleYesNo, inContainer);		
+		break;
+
+		case 'LORV':
+		// Binary long made of the OR of base-2 values
+		if (mRezStream->GetMarker() < mRezStream->GetLength() - 3) {
+			*mRezStream >> theUInt32;
+		} 
+		AddStaticField(inType, inLabelString, inContainer);
+		AddFlagPopup(inType, inLabelString, theUInt32, inContainer);
 		break;
 
 		case 'LSIZ':
@@ -1258,7 +1277,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		// Zero-based long count. We put a limit to 0xffff elements (not
 		// even sure there could be that much controls). A value  0xffffffff
 		// means 0 items in fact.
-		if (mRezStream->GetMarker() < mRezStream->GetLength() ) {
+		if (mRezStream->GetMarker() < mRezStream->GetLength() - 3) {
 			*mRezStream >> theUInt32;
 			if (theUInt32 < 0xffff || theUInt32 == 0xffffffff) {
 				mListCount = theUInt32 + 1;
@@ -1448,6 +1467,15 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		} 
 		AddStaticField(inType, inLabelString, inContainer);
 		AddBooleanField( (Boolean) theUInt16, inType, tmpl_titleYesNo, inContainer);		
+		break;
+
+		case 'WORV':
+		// Binary word made of the OR of base-2 values
+		if (mRezStream->GetMarker() < mRezStream->GetLength() - 1) {
+			*mRezStream >> theUInt16;
+		} 
+		AddStaticField(inType, inLabelString, inContainer);
+		AddFlagPopup(inType, inLabelString, theUInt16, inContainer);
 		break;
 
 		case 'WSIZ':
@@ -1720,6 +1748,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 	LEditText *			theEditText;
 	LCheckBox *			theCheckBox;
 	CWasteEditView *	theWasteEdit;
+	CFlagPopup *		theFlagPopup;
 	PaneIDT			theCurrentRadioID;
 	Handle			theHandle;
 	StHandleLocker	locker(nil);
@@ -1785,6 +1814,13 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		}
 		// The RGV and both radiobuttons have an ID. That makes three.
 		mPaneIndex += 3;
+		break;
+
+		case 'BORV':
+		// Binary byte made of the OR of base-2 values
+		theFlagPopup = dynamic_cast<CFlagPopup *>(this->FindPaneByID(mCurrentID));
+		*mOutStream << (UInt8) theFlagPopup->GetFlagValue();
+		mPaneIndex++;
 		break;
 
 		case 'BSIZ':
@@ -2087,6 +2123,13 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		mPaneIndex += 3;
 		break;
 
+		case 'LORV':
+		// Binary long made of the OR of base-2 values
+		theFlagPopup = dynamic_cast<CFlagPopup *>(this->FindPaneByID(mCurrentID));
+		*mOutStream << (UInt32) theFlagPopup->GetFlagValue();
+		mPaneIndex++;
+		break;
+
 		case 'LSIZ':
 		case 'LSKP':
 		// Offset to SKPE in long (LSIZ:exclusive or LSKP:inclusive)
@@ -2334,6 +2377,13 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		}
 		// The RGV and both radiobuttons have an ID. That makes three.
 		mPaneIndex += 3;
+		break;
+
+		case 'WORV':
+		// Binary word made of the OR of base-2 values
+		theFlagPopup = dynamic_cast<CFlagPopup *>(this->FindPaneByID(mCurrentID));
+		*mOutStream << (UInt16) theFlagPopup->GetFlagValue();
+		mPaneIndex++;
 		break;
 
 		case 'WSIZ':
