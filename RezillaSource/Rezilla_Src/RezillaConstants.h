@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2005-03-23 08:06:47
+//             Last modification : 2005-04-08 06:14:11
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -1380,6 +1380,8 @@ const SInt16	kTmplHorizSkip			= 4;
 const SInt16	kTmplBevelHeight		= 18;
 const SInt16	kTmplBevelWidth			= 12;
 const SInt16	kTmplBevelSep			= 4;
+const SInt16	kTmplPopupWidth			= 120;
+const SInt16	kTmplPopupHeight		= 20;
 const SInt16	kTmplCheckHeight		= 18;
 const SInt16	kTmplCheckWidth			= 18;
 const SInt16	kTmplEditHeight			= 22;
