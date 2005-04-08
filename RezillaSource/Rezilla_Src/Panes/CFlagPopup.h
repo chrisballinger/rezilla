@@ -2,7 +2,7 @@
 // CFlagPopup.h
 // 
 //                       Created: 2005-03-25 15:49:17
-//             Last modification: 2005-04-07 18:33:59
+//             Last modification: 2005-04-08 06:29:04
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -38,7 +38,7 @@ public:
 						CFlagPopup(
 								   const SPaneInfo&	inPaneInfo,
 								   MessageT			inValueMessage,
-								   ResIDT			inStringListID);
+								   ResIDT			inStringListID = 0);
 
 	virtual				~CFlagPopup();
 

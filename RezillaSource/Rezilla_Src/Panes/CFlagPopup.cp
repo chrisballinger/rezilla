@@ -79,6 +79,10 @@ CFlagPopup::CFlagPopup(
 //	      kind. If you wish to populate the menu from items of a resource
 //	      type, pass the resource type in the inResTypeMENU parameter. Pass
 //	      0 for the type if you don't want resource type items.
+//	      
+//	A value 0 for inStringListID means that the popup does not use an
+//	STR# resource. In that case, it is built by the caller using
+//	AppendCase().
 
 CFlagPopup::CFlagPopup(const SPaneInfo&	inPaneInfo,
 					   MessageT			inValueMessage,
@@ -89,6 +93,9 @@ CFlagPopup::CFlagPopup(const SPaneInfo&	inPaneInfo,
 	mStringListID = inStringListID;
 	
 	InitFlagPopup();
+	if (mStringListID != 0) {
+		FillPopup(mStringListID);
+	} 
 }
 
 
@@ -100,7 +107,12 @@ void
 CFlagPopup::InitFlagPopup()
 {
 	mResetIndex = -1;
-	mNumTopItems = 0;
+
+	// First item is blank, second is a separator
+	AppendMenu("\p ");
+	AppendMenu("\p-");
+	mNumTopItems = 2;
+	
 }
 
 
@@ -135,11 +147,6 @@ CFlagPopup::FillPopup(ResIDT inStringListID)
 
 		if ( count > 0 ) {
 			Str255		itemStr;
-			
-			// First item is blank, second is a separator
-			AppendMenu("\p ");
-			AppendMenu("\p-");
-			mNumTopItems = 2;
 			
 			for ( SInt16 i = 1; i <= count; i++ ) {
 				// Get the string from the list resource
