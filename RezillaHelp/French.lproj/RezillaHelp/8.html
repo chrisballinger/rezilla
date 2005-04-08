@@ -18,8 +18,8 @@ concerné. Par exemple, une interface d'édition pour les ressources de type
 'TEXT' sera capable de gérer les éléments stylistiques, tels que le choix
 de polices, de taille, de style de caractères (gras, italique etc.):
 l'éditeur de gabarits est aussi capable d'éditer une ressource de type
-'TEXT' mais il ne peut pas tenir compte du style.<P>Les interfaces d'édition sont parfois appelées éditeurs graphiques mais
-cette dénomination est imprécise dans la mesure oùl'éditeur de gabarits
+'TEXT' mais il ne peut pas tenir compte du style.<P>Les interfaces d'édition sont parfois appelées <I>éditeurs graphiques</I> mais
+cette dénomination est imprécise dans la mesure où l'éditeur de gabarits
 construit lui aussi des interfaces graphiques.<P>Rezilla possède plusieurs interfaces d'édition introduites dans 
 différentes versions:
 <OL>
@@ -31,13 +31,14 @@ visualisateur de ressources 'PICT', un lecteur de ressources son ('snd '),
 un éditeur de ressources Unicode ('utxt').
 </OL>
 <UL>
-	<LI> <A HREF="#texteditor">The text editor</A>
-	<LI> <A HREF="#bitmapeditor">The bitmap editor</A>
-	<LI> <A HREF="#Unicodeeditor">The Unicode editor</A>
-	<LI> <A HREF="#Aeteeditor">The Aete editor</A>
-	<LI> <A HREF="#PICTeditor">The PICT editor</A>
-	<LI> <A HREF="#sndeditor">The 'snd ' editor</A>
-</UL><P>De futures versions de Rezilla ajouteront d'autres interface d'édition.<P><A NAME="texteditor"></A>
+	<LI> <A HREF="#texteditor">L'éditeur de texte</A>
+	<LI> <A HREF="#bitmapeditor">L'éditeur d'images</A>
+	<LI> <A HREF="#Unicodeeditor">L'éditeur Unicode</A>
+	<LI> <A HREF="#Aeteeditor">L'éditeur Aete</A>
+	<LI> <A HREF="#MENUeditor">L'éditeur de menus</A>
+	<LI> <A HREF="#PICTeditor">L'éditeur 'PICT'</A>
+	<LI> <A HREF="#sndeditor">L'éditeur 'snd '</A>
+</UL><P>De futures versions de Rezilla ajouteront d'autres interfaces d'édition.<P><A NAME="texteditor"></A>
 <H3>L'éditeur de texte</H3><P>L'éditeur de texte possède trois menus: <B>Font</B>, <B>Size</B> et 
 <B>Style</B> placés en haut de ses fenêtres d'édition. <P>Si l'on édite une ressource de type 'TEXT' pour laquelle une ressource de 
 type 'styl' <I>de même numéro</I> existe, Rezilla lit les informations 
@@ -169,7 +170,9 @@ une nouvelle ressource 'aete', l'éditer et choisir la commande
 XML peut aussi être importé dans une ressource existante : les nouvelles 
 données sont ajoutées aux données existantes. Le fichier XML doit 
 impérativement utiliser le format défini dans la DTD jointe au projet 
-(aete.dtd, à ne pas confondre avec sdef.dtd).<P><A NAME="PICTeditor"></A>
+(aete.dtd, à ne pas confondre avec sdef.dtd).<P><A NAME="MENUeditor"></A>
+<H3>L'éditeur de menus</H3><P>Une fenêtre d'édition de ressource MENU typique ressemble à ceci:
+<P><IMG SRC="../../Images/rzil_menueditor.gif" ALT="MENU editor window" ALIGN=bottom></P><P><A NAME="PICTeditor"></A>
 <H3>L'éditeur 'PICT'</H3><P>Ce n'est pas un éditeur graphique complet mais plutôt un visualisateur. Si 
 l'on exécute un double-clic sur une ressource d'image (de type <I>'PICT'</I>), 
 Rezilla affiche cette image.<P>Les commandes <I>Copy</I>, <I>Cut</I> et <I>Paste</I> sont activées. Il

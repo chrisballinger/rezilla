@@ -126,6 +126,9 @@ de ligne de commande tels que Rez et DeRez.<P><P><TABLE BORDER=1 CELLPADDING=1>
 <TR><TD>BFLG</TD><TD>octet booléen (bit faible)</TD><TD>1 octet</TD><TD>x</TD></TR>
 <TR><TD>WFLG</TD><TD>mot booléen (bit faible)</TD><TD>2 octets</TD><TD>x</TD></TR>
 <TR><TD>LFLG</TD><TD>long booléen (bit faible)</TD><TD>4 octets</TD><TD>x</TD></TR>
+<TR><TD>BORV</TD><TD>octet comme OU logique</TD><TD>1 octet</TD><TD>x</TD></TR>
+<TR><TD>WORV</TD><TD>mot comme OU logique</TD><TD>2 octets</TD><TD>x</TD></TR>
+<TR><TD>LORV</TD><TD>long comme OU logique</TD><TD>4 octets</TD><TD>x</TD></TR>
 </TABLE></P><P>Concernant les valeurs booléennes, il y a différentes balises selon le
 nombre d'octets qu'elles occupent en mémoire. En particulier, la balise
 BOOL est inhabituelle car elle place la valeur 0 ou 1 dans le premier de
@@ -137,7 +140,20 @@ valeurs correspondantes dans une ressource:
 <TR><TD>BFLG</TD><TD>01</TD><TD>00</TD></TR>
 <TR><TD>WFLG</TD><TD>0001</TD><TD>0000</TD></TR>
 <TR><TD>LFLG</TD><TD>00000001</TD><TD>00000000</TD></TR>
-</TABLE></P><P><H4>Valeurs de bits</H4>
+</TABLE></P><P>Rezilla définit aussi trois nouvelles balises qui ne font pas partie de la
+syntaxe de ResEdit ou de Resorcerer et permettent de spécifier des valeurs
+numériques faites de l'addition (c'est-à-dire du OU logique) de valeurs
+exprimées en numération en base 2. Ces balises sont utiles pour des valeurs
+telles que les styles qui sont constituées de la somme des valeurs
+correspondant aux divers choix possibles (gras=1, italique=2, souligné=4,
+contour=8, etc.). Ces balises s'appellent BORV, WORV, et LORV où ORV
+signifie <I>OR Value</I>. Elles stockent la valeur correspondante sur 1, 2
+ou 4 octets respectivement. L'éditeur de gabarits les représente au moyen
+d'un bouton menu dont les éléments ne s'excluent pas mutuellement. Ce menu
+est construit à partir des balises CASE qui suivent immédiatement les
+balises BORV, WORV ou LORV. La syntaxe des balises CASE est décrite dans une
+section plus loin. L'élément du menu correspondant à la valeur 0 a pour
+effet de déselectionner tous les autres articles du menu.<P><H4>Valeurs de bits</H4>
 Lorsqu'un gabarit définit des valeurs de bits, il faut se souvenir que ces bits
 font toujours partie d'un octet, d'un mot ou d'un long. Ainsi le nombre total
 de bits consécutifs doit toujours être 8, 16 ou 32 (ou des multiples de ces

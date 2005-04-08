@@ -114,6 +114,9 @@ the <B>0x</B> combination. The dollar sign is kept for historical reasons: it is
 <TR><TD>BFLG</TD><TD>Byte boolean flag (low bit)</TD><TD>1 byte</TD><TD>x</TD></TR>
 <TR><TD>WFLG</TD><TD>Word boolean flag (low bit)</TD><TD>2 bytes</TD><TD>x</TD></TR>
 <TR><TD>LFLG</TD><TD>Long boolean flag (low bit)</TD><TD>4 bytes</TD><TD>x</TD></TR>
+<TR><TD>BORV</TD><TD>OR byte value</TD><TD>1 byte</TD><TD>x</TD></TR>
+<TR><TD>WORV</TD><TD>OR word value</TD><TD>2 bytes</TD><TD>x</TD></TR>
+<TR><TD>LORV</TD><TD>OR long value</TD><TD>4 bytes</TD><TD>x</TD></TR>
 </TABLE></P><P>Concerning boolean values, there are different tags depending on the number 
 of bytes they occupy in memory. In particular, the BOOL tag is not intuitive
 since it puts the value 0 or 1 in the first of two bytes, the second being
@@ -125,7 +128,19 @@ data:
 <TR><TD>BFLG</TD><TD>01</TD><TD>00</TD></TR>
 <TR><TD>WFLG</TD><TD>0001</TD><TD>0000</TD></TR>
 <TR><TD>LFLG</TD><TD>00000001</TD><TD>00000000</TD></TR>
-</TABLE></P><P><H4>Bit values</H4>
+</TABLE></P><P>Rezilla also defines three additional tags which are not part of ResEdit's
+or Resorcerer's syntax and which allow to specify additive flag values,
+that is to say values made of theaddition (the <I>OR</I>) of base-2
+values. This is useful to build values from its components in the binary
+system. For instance, a style value is made of the addition of the flags
+corresponding to the various choices (bold=1, italic=2, underline=4,
+Outline=8, etc.). These tags are BORV, WORV, and LORV where ORV stands for
+<I>OR Value</I>. They store the value on 1, 2 or 4 bytes respectively. The
+Template editor represents them with a popup menu whose items are not
+mutually exclusive: it is built using the CASE tags immediately following
+the BORV, WORV or LORV tag. The syntax for CASE tags is described in a
+section below. The item corresponding to the value 0 has the effect of
+deselecting all the other items in the menu.<P><H4>Bit values</H4>
 When a template defines bit values, one must keep in mind that the bits are
 always part of a byte, a word or a long. So the total number of consecutive
 bits must always be 8, 16 or 32 (or a multiple of these values).
