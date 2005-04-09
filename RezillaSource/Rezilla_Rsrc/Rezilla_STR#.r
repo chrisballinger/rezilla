@@ -424,6 +424,20 @@ resource 'STR#' (1605, "Menu Editor Mark Chars", purgeable) {
 };
 
 
+resource 'STR#' (1606, "Style flags", purgeable) {
+	{	
+/* [1] */	"Plain=0",
+/* [2] */	"Bold=1",
+/* [3] */	"Italic=2",
+/* [4] */	"Underline=4",
+/* [5] */	"Outline=8",
+/* [6] */	"Shadow=16",
+/* [7] */	"Condensed=32",
+/* [8] */	"Extended=64"
+	}
+};
+
+
 resource 'STR#' (1700, "Paint Redo", purgeable) {
 	{	
 /* [1] */	"Redo Line",
