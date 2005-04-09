@@ -143,7 +143,7 @@ CEditorsController *	CRezillaApp::sEditController = nil;
 CTemplatesController *	CRezillaApp::sTemplatesController = nil;
 Rzil_basics				CRezillaApp::sBasics;
 CInspectorWindow *		CRezillaApp::sInspectorWindow = nil;
-const LStr255			CRezillaApp::sVersionNumber( VersionFromPlist() );
+Str255					CRezillaApp::sVersionNumber;
 SInt16					CRezillaApp::sOwnRefNum;
 TArray<CRezMapDoc *>	CRezillaApp::sRezMapDocList;
 CRecentItemsMenu *		CRezillaApp::sRecentItemsAttachment;
@@ -294,6 +294,8 @@ CRezillaApp::Initialize()
 // 	// Help tags settings
 // 	ABalloonBase::EnableControlKeyPop();
 // 	ABalloonBase::SetAutoPopDelay(20);
+	
+	VersionFromPlist(sVersionNumber);
 	
 	mOpeningFork = fork_anyfork;
 	
@@ -776,27 +778,22 @@ CRezillaApp::VersionFromResource()
 // ---------------------------------------------------------------------------
 // Retrieve the version number from the 'Info.plist' file.
 
-LStr255
-CRezillaApp::VersionFromPlist()
+void
+CRezillaApp::VersionFromPlist(Str255 & outVersion)
 {
 	OSErr		error = noErr;
 	CFStringRef	text;
 	CFBundleRef	appBundle;
-	Str255		theVers;
 	LStr255		theString( "\p" );
 	
-	appBundle = CFBundleGetMainBundle();
-	text = (CFStringRef) CFBundleGetValueForInfoDictionaryKey( appBundle, CFSTR("CFBundleVersion") );           
+	appBundle = ::CFBundleGetMainBundle();
+	text = (CFStringRef) ::CFBundleGetValueForInfoDictionaryKey( appBundle, CFSTR("CFBundleVersion") );           
 	
 	if ( (text == CFSTR(" ")) || (text == NULL) ) {
 		text = CFSTR("n/a");
 	}
 	
-	if ( CFStringGetPascalString(text, theVers, sizeof(theVers), NULL) ) {
-		theString += theVers;
-	}
-	
-	return theString;
+	error = ::CFStringGetPascalString(text, outVersion, sizeof(outVersion), NULL);
 }
 
 

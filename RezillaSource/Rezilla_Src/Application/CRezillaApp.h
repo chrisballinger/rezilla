@@ -99,8 +99,13 @@ public:
 								DescType			inModelID,
 								const LModelObject*	inSubModel) const;
 
+	virtual void		GetAEProperty(
+								DescType			inProperty,
+								const AEDesc&		inRequestedType,
+								AEDesc&				outPropertyDesc) const;
+
 	static LStr255		VersionFromResource();
-	static LStr255		VersionFromPlist();
+	static void			VersionFromPlist(Str255 & outVersion);
 
 	static SInt16		GetOwnRefNum() { return sOwnRefNum;}
 
@@ -112,7 +117,7 @@ public:
 	static CEditorsController *		sEditController;
 	static CTemplatesController *	sTemplatesController;
 	static Rzil_basics				sBasics;
-	static const LStr255			sVersionNumber;
+	static Str255					sVersionNumber;
 	static short					sOwnRefNum;
 	static CInspectorWindow *		sInspectorWindow;
 	static TArray<CRezMapDoc *>		sRezMapDocList;
