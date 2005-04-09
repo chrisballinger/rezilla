@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2005-04-08 06:14:11
+//             Last modification : 2005-04-09 10:04:17
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -1175,7 +1175,8 @@ const DescType rzil_pPurgeable		= 'pPUR';		// resPurgeable
 const DescType rzil_pLocked			= 'pLOC';		// resLocked
 const DescType rzil_pProtected		= 'pPRO';		// resProtected
 const DescType rzil_pPreload		= 'pPRE';		// resPreload
-const DescType rzil_pSize			= 'pSIZ';		// Size
+const DescType rzil_pDataSize		= 'pSIZ';		// Size of the data
+const DescType rzil_pSizeOnDisk		= 'pDSZ';		// Size on disk
 const DescType rzil_pData			= pContents;	// Data ('pcnt', was 'pDAT')
 
 //    Specifier
