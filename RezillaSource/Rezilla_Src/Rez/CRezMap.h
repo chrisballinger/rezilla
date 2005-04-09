@@ -75,11 +75,27 @@ public:
 								DescType			inProperty,
 								const AEDesc&		inRequestedType,
 								AEDesc&				outPropertyDesc) const;
+	
+	void			SetAEProperty(
+								DescType		inProperty,
+								const AEDesc&	inValue,
+								AEDesc&			outAEReply);
 
-	void	GetAERezMapAttribute(
-								short		inAttribute,
+	void			GetAERezMapAttribute(
+								short		inFlag,
 								AEDesc&		outPropertyDesc) const;
 	
+	void			SetAERezMapAttribute(
+								const AEDesc& inValue, 
+								short inFlag);
+	
+	virtual bool	AEPropertyExists(
+								DescType		inProperty) const;
+
+	virtual void	MakeSelfSpecifier(
+							AEDesc&				inSuperSpecifier,
+							AEDesc&				outSelfSpecifier) const;
+
 	// Accessors
 	virtual short	GetRefnum() { return mRefNum;}
 	void			SetRefnum(short theRefNum) {mRefNum = theRefNum;}

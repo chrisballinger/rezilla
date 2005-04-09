@@ -22,58 +22,6 @@
 #include <LCommander.h>
 
 
-// // ---------------------------------------------------------------------------
-// //	¥ MakeSelfSpecifier
-// // ---------------------------------------------------------------------------
-// //	Make an Object Specifier for a Window
-// 
-// void
-// CRezObj::MakeSelfSpecifier(
-// 	AEDesc&	inSuperSpecifier,
-// 	AEDesc&	outSelfSpecifier) const
-// {
-// 	if (mSuperModel == nil) {
-// 
-// 			// For Windows, we often use an "abbreviated" container
-// 			// hierarchy where the SuperModel of a Window is null
-// 			// rather than being the Application.
-// 
-// 		DescType		keyForm;
-// 		StAEDescriptor	keyData;
-// 		OSErr			err;
-// 
-// 			// Specify by name if the Window's model object name
-// 			// is not empty
-// 
-// 		Str255	name;
-// 		GetModelName(name);
-// 
-// 		if (name[0] != 0) {
-// 			keyForm = formName;
-// 			keyData.Assign(name);
-// 
-// 		} else {			// Specify by position in the window list
-// 
-// 			SInt32	windowIndex = UWindows::FindWindowIndex(mMacWindowP);
-// 
-// 			keyForm = formAbsolutePosition;
-// 			keyData.Assign(windowIndex);
-// 		}
-// 
-// 		err = ::CreateObjSpecifier(	cWindow,
-// 									&inSuperSpecifier,
-// 									keyForm,
-// 									keyData,
-// 									false,		// Don't dispose inputs
-// 									&outSelfSpecifier);
-// 		ThrowIfOSErr_(err);
-// 
-// 	} else {
-// 		LModelObject::MakeSelfSpecifier(inSuperSpecifier, outSelfSpecifier);
-// 	}
-// }
-
-
 
 // ---------------------------------------------------------------------------
 //	¥ GetAEProperty
@@ -160,62 +108,68 @@ CRezObj::GetAEProperty(
 }
 
 
-// // ---------------------------------------------------------------------------
-// //	¥ SetAEProperty
-// // ---------------------------------------------------------------------------
-// 
-// void
-// CRezObj::SetAEProperty(
-// 	DescType		inProperty,
-// 	const AEDesc&	inValue,
-// 	AEDesc&			outAEReply)
-// {
-// 	switch (inProperty) {
-// 
-// 		case pName: {
-// 			Str255	theName;
-// 			UExtractFromAEDesc::ThePString(inValue, theName, sizeof(theName));
+// ---------------------------------------------------------------------------
+//	¥ SetAEProperty
+// ---------------------------------------------------------------------------
+
+void
+CRezObj::SetAEProperty(
+	DescType		inProperty,
+	const AEDesc&	inValue,
+	AEDesc&			outAEReply)
+{
+	switch (inProperty) {
+
+		case pName: {
+			Str255	theName;
+			UExtractFromAEDesc::ThePString(inValue, theName, sizeof(theName));
 // 			SetDescriptor(theName);
-// 			break;
-// 		}
-// 
-// 		case pWindowPosition: {
-// 			Point	thePosition;
-// 			UExtractFromAEDesc::ThePoint(inValue, thePosition);
-// 			DoSetPosition(thePosition);
-// 			break;
-// 		}
-// 
-// 		case pBounds: {
-// 			Rect	theBounds;
-// 			UExtractFromAEDesc::TheRect(inValue, theBounds);
-// 			DoSetBounds(theBounds);
-// 			break;
-// 		}
-// 
-// 		case pIsZoomed: {
-// 			Boolean	isZoomed;
-// 			UExtractFromAEDesc::TheBoolean(inValue, isZoomed);
-// 			DoSetZoom(isZoomed);
-// 			break;
-// 		}
-// 
-// 		case pVisible: {
-// 			Boolean	makeVisible;
-// 			UExtractFromAEDesc::TheBoolean(inValue, makeVisible);
-// 			if (makeVisible) {
-// 				Show();
-// 			} else {
-// 				Hide();
-// 			}
-// 			break;
-// 		}
-// 
-// 		default:
-// 			LModelObject::SetAEProperty(inProperty, inValue, outAEReply);
-// 			break;
-// 	}
-// }
+			break;
+		}
+
+		case rzil_pResID: {
+			short		theID;
+			UExtractFromAEDesc::TheSInt16(inValue, theID);
+// 			SetID(theID);
+			break;
+		}
+		
+		case rzil_pAttributes: {
+			short	theAttrs;
+			UExtractFromAEDesc::TheSInt16(inValue, theAttrs);
+// 			SetAttributesInMap(theAttrs);
+			break;
+		}
+		
+		case rzil_pSysHeap:
+		SetAERezObjAttribute(inValue, resSysHeap);
+		break;
+		
+		case rzil_pPurgeable:
+		SetAERezObjAttribute(inValue, resPurgeable);
+		break;
+		
+		case rzil_pLocked:
+		SetAERezObjAttribute(inValue, resLocked);
+		break;
+		
+		case rzil_pProtected:
+		SetAERezObjAttribute(inValue, resProtected);
+		break;
+		
+		case rzil_pPreload:
+		SetAERezObjAttribute(inValue, resPreload);
+		break;
+		
+		case rzil_pChanged:
+		SetAERezObjAttribute(inValue, resChanged);
+		break;
+		
+		default:
+			LModelObject::SetAEProperty(inProperty, inValue, outAEReply);
+			break;
+	}
+}
 
 
 // ---------------------------------------------------------------------------
@@ -224,14 +178,36 @@ CRezObj::GetAEProperty(
 
 void
 CRezObj::GetAERezObjAttribute(
-	short		inAttribute,
+	short		inFlag,
 	AEDesc&		outPropertyDesc) const
 {
-	Boolean attrIsSet = HasAttribute(inAttribute);
+	Boolean attrIsSet = HasAttribute(inFlag);
 	
 	OSErr error = ::AECreateDesc(typeBoolean, (Ptr) &attrIsSet,
 								sizeof(Boolean), &outPropertyDesc);
 	ThrowIfOSErr_(error);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ SetAERezObjAttribute
+// ---------------------------------------------------------------------------
+
+void
+CRezObj::SetAERezObjAttribute(const AEDesc& inValue, short inFlag)
+{
+	short		theAttrs;
+	Boolean		setIt;
+	
+	UExtractFromAEDesc::TheBoolean(inValue, setIt);
+	GetAttributesFromMap(theAttrs);
+
+	if (setIt) {
+		theAttrs &= inFlag;
+	} else {
+		theAttrs &= ~inFlag;
+	}
+	SetAttributesInMap(theAttrs);
 }
 
 
@@ -248,40 +224,38 @@ CRezObj::GetAERezObjAttribute(
 // }
 
 
-// // ---------------------------------------------------------------------------
-// //	¥ AEPropertyExists
-// // ---------------------------------------------------------------------------
-// 
-// bool
-// CRezObj::AEPropertyExists(
-// 	DescType	inProperty) const
-// {
-// 	bool	exists = false;
-// 
-// 	switch (inProperty) {
-// 
-// 		case pName:
-// 		case pWindowPosition:
-// 		case pBounds:
-// 		case pIndex:
-// 		case pIsZoomed:
-// 		case pHasCloseBox:
-// 		case pHasTitleBar:
-// 		case pIsFloating:
-// 		case pIsModal:
-// 		case pIsResizable:
-// 		case pIsZoomable:
-// 		case pVisible:
-// 			exists = true;
-// 			break;
-// 
-// 		default:
-// 			exists = LModelObject::AEPropertyExists(inProperty);
-// 			break;
-// 	}
-// 
-// 	return exists;
-// }
+// ---------------------------------------------------------------------------
+//	¥ AEPropertyExists
+// ---------------------------------------------------------------------------
+
+bool
+CRezObj::AEPropertyExists(
+	DescType	inProperty) const
+{
+	bool	exists = false;
+
+	switch (inProperty) {
+
+		case pName: 
+		case rzil_pAttributes:
+		case rzil_pChanged:
+		case rzil_pLocked:
+		case rzil_pPreload:
+		case rzil_pProtected:
+		case rzil_pPurgeable:
+		case rzil_pResID:
+		case rzil_pSysHeap:
+		case rzil_pType: 
+			exists = true;
+			break;
+
+		default:
+			exists = LModelObject::AEPropertyExists(inProperty);
+			break;
+	}
+
+	return exists;
+}
 
 
 

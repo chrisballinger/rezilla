@@ -50,14 +50,27 @@ public:
 		
 		// AppleEvents
 		virtual void	GetAEProperty(
-									DescType			inProperty,
-									const AEDesc&		inRequestedType,
-									AEDesc&				outPropertyDesc) const;
+									DescType		inProperty,
+									const AEDesc&	inRequestedType,
+									AEDesc&			outPropertyDesc) const;
 
-		void	GetAERezObjAttribute(
-									short		inAttribute,
+		void			SetAEProperty(
+									DescType		inProperty,
+									const AEDesc&	inValue,
+									AEDesc&			outAEReply);
+		
+		void			GetAERezObjAttribute(
+									short		inFlag,
 									AEDesc&		outPropertyDesc) const;
 		
+		void			SetAERezObjAttribute(
+									const AEDesc& inValue, 
+									short inFlag);
+		
+		virtual bool	AEPropertyExists(
+									DescType	inProperty) const;
+
+
 		// Getters and setters
 		
 		OSErr 			GetRezHandle();

@@ -2,11 +2,11 @@
 // CRezMapAE.cp					
 // 
 //                       Created: 2004-11-30 08:50:37
-//             Last modification: 2004-11-29 06:25:11
+//             Last modification: 2005-04-09 11:43:57
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004
+// (c) Copyright : Bernard Desgraupes, 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -22,56 +22,30 @@
 #include <LCommander.h>
 
 
-// // ---------------------------------------------------------------------------
-// //	¥ MakeSelfSpecifier
-// // ---------------------------------------------------------------------------
-// //	Make an Object Specifier for a Window
-// 
-// void
-// CRezMap::MakeSelfSpecifier(
-// 	AEDesc&	inSuperSpecifier,
-// 	AEDesc&	outSelfSpecifier) const
-// {
-// 	if (mSuperModel == nil) {
-// 
-// 			// For Windows, we often use an "abbreviated" container
-// 			// hierarchy where the SuperModel of a Window is null
-// 			// rather than being the Application.
-// 
-// 		DescType		keyForm;
-// 		StAEDescriptor	keyData;
-// 		OSErr			err;
-// 
-// 			// Specify by name if the Window's model object name
-// 			// is not empty
-// 
-// 		Str255	name;
-// 		GetModelName(name);
-// 
-// 		if (name[0] != 0) {
-// 			keyForm = formName;
-// 			keyData.Assign(name);
-// 
-// 		} else {			// Specify by position in the window list
-// 
-// 			SInt32	windowIndex = UWindows::FindWindowIndex(mMacWindowP);
-// 
-// 			keyForm = formAbsolutePosition;
-// 			keyData.Assign(windowIndex);
-// 		}
-// 
-// 		err = ::CreateObjSpecifier(	cWindow,
-// 									&inSuperSpecifier,
-// 									keyForm,
-// 									keyData,
-// 									false,		// Don't dispose inputs
-// 									&outSelfSpecifier);
-// 		ThrowIfOSErr_(err);
-// 
-// 	} else {
-// 		LModelObject::MakeSelfSpecifier(inSuperSpecifier, outSelfSpecifier);
-// 	}
-// }
+// ---------------------------------------------------------------------------
+//	¥ MakeSelfSpecifier
+// ---------------------------------------------------------------------------
+//	Make an Object Specifier for a RezMap
+
+void
+CRezMap::MakeSelfSpecifier(
+	AEDesc&	inSuperSpecifier,
+	AEDesc&	outSelfSpecifier) const
+{
+	if (mSuperModel == nil) {
+		OSErr	err;
+		StAEDescriptor	keyData;
+		keyData.Assign(mRefNum);
+
+		// Make ospec for the rezmap
+		err = ::CreateObjSpecifier(rzil_cMap, &inSuperSpecifier, formPropertyID,
+										keyData, false, &outSelfSpecifier);
+		ThrowIfOSErr_(err);
+
+	} else {
+		LModelObject::MakeSelfSpecifier(inSuperSpecifier, outSelfSpecifier);
+	}
+}
 
 
 
@@ -125,6 +99,43 @@ CRezMap::GetAEProperty(
 		LModelObject::GetAEProperty(inProperty, inRequestedType,
 									outPropertyDesc);
 		break;
+	}
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ SetAEProperty
+// ---------------------------------------------------------------------------
+
+void
+CRezMap::SetAEProperty(
+	DescType		inProperty,
+	const AEDesc&	inValue,
+	AEDesc&			outAEReply)
+{
+	switch (inProperty) {
+
+		case rzil_pAttributes:
+		short		theAttrs;
+		UExtractFromAEDesc::TheSInt16(inValue, theAttrs);
+		SetMapAttributes(theAttrs);
+		break;
+		
+		case rzil_pReadOnly:
+		SetAERezMapAttribute(inValue, mapReadOnly);
+		break;
+		
+		case rzil_pCompact:
+		SetAERezMapAttribute(inValue, mapCompact);
+		break;
+		
+		case rzil_pChanged:
+		SetAERezMapAttribute(inValue, mapChanged);
+		break;
+
+		default:
+			LModelObject::SetAEProperty(inProperty, inValue, outAEReply);
+			break;
 	}
 }
 
@@ -193,7 +204,7 @@ CRezMap::GetAEProperty(
 
 void
 CRezMap::GetAERezMapAttribute(
-	short		inAttribute,
+	short		inFlag,
 	AEDesc&		outPropertyDesc) const
 {
 	Boolean		attrIsSet;
@@ -201,7 +212,7 @@ CRezMap::GetAERezMapAttribute(
 	OSErr		error;
 	
 	GetMapAttributes(theAttrs);
-	attrIsSet = ((theAttrs & inAttribute) > 0);
+	attrIsSet = ((theAttrs & inFlag) > 0);
 	
 	error = ::AECreateDesc(typeBoolean, (Ptr) &attrIsSet,
 								sizeof(Boolean), &outPropertyDesc);
@@ -209,53 +220,55 @@ CRezMap::GetAERezMapAttribute(
 }
 
 
-// // ---------------------------------------------------------------------------
-// //	¥ GetModelName
-// // ---------------------------------------------------------------------------
-// //	Return the name of a Window as an AppleEvent model object
-// 
-// StringPtr
-// CRezMap::GetModelName(
-// 	Str255	outModelName) const
-// {
-// 	return GetDescriptor(outModelName);
-// }
+// ---------------------------------------------------------------------------
+//	¥ SetAERezMapAttribute
+// ---------------------------------------------------------------------------
+
+void
+CRezMap::SetAERezMapAttribute(const AEDesc& inValue, short inFlag)
+{
+	short		theAttrs;
+	Boolean		setIt;
+	
+	UExtractFromAEDesc::TheBoolean(inValue, setIt);
+	GetMapAttributes(theAttrs);
+
+	if (setIt) {
+		theAttrs &= inFlag;
+	} else {
+		theAttrs &= ~inFlag;
+	}
+	SetMapAttributes(theAttrs);
+}
 
 
-// // ---------------------------------------------------------------------------
-// //	¥ AEPropertyExists
-// // ---------------------------------------------------------------------------
-// 
-// bool
-// CRezMap::AEPropertyExists(
-// 	DescType	inProperty) const
-// {
-// 	bool	exists = false;
-// 
-// 	switch (inProperty) {
-// 
-// 		case pName:
-// 		case pWindowPosition:
-// 		case pBounds:
-// 		case pIndex:
-// 		case pIsZoomed:
-// 		case pHasCloseBox:
-// 		case pHasTitleBar:
-// 		case pIsFloating:
-// 		case pIsModal:
-// 		case pIsResizable:
-// 		case pIsZoomable:
-// 		case pVisible:
-// 			exists = true;
-// 			break;
-// 
-// 		default:
-// 			exists = LModelObject::AEPropertyExists(inProperty);
-// 			break;
-// 	}
-// 
-// 	return exists;
-// }
+// ---------------------------------------------------------------------------
+//	¥ AEPropertyExists
+// ---------------------------------------------------------------------------
+
+bool
+CRezMap::AEPropertyExists(
+	DescType	inProperty) const
+{
+	bool	exists = false;
+
+	switch (inProperty) {
+
+		case rzil_pAttributes:
+		case rzil_pChanged:
+		case rzil_pCompact:
+		case rzil_pReadOnly:
+		case rzil_pRefNum:
+			exists = true;
+			break;
+
+		default:
+			exists = LModelObject::AEPropertyExists(inProperty);
+			break;
+	}
+
+	return exists;
+}
 
 
 
