@@ -2,11 +2,11 @@
 // CRezMap.h					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2005-01-16 16:02:19
+//             Last modification: 2005-04-09 08:08:42
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003-2004, 2005
+// (c) Copyright : Bernard Desgraupes, 2003-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -70,10 +70,21 @@ public:
 
 	Boolean	ResourceExists(ResType inType, short inID);
 	
+	// AppleEvents
+	virtual void	GetAEProperty(
+								DescType			inProperty,
+								const AEDesc&		inRequestedType,
+								AEDesc&				outPropertyDesc) const;
+
+	void	GetAERezMapAttribute(
+								short		inAttribute,
+								AEDesc&		outPropertyDesc) const;
+	
+	// Accessors
 	virtual short	GetRefnum() { return mRefNum;}
 	void			SetRefnum(short theRefNum) {mRefNum = theRefNum;}
 
-	OSErr			GetMapAttributes(short & outResFileAttrs);
+	OSErr			GetMapAttributes(short & outResFileAttrs) const;
 	OSErr			SetMapAttributes(short inMapAttributes);
 
 	Boolean			IsUnderVersionControl();

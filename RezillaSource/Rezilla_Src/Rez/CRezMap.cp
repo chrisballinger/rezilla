@@ -27,13 +27,10 @@
 CRezMap::CRezMap(short inRefnum)
 	: LModelObject( NULL, rzil_cMap), mRefNum(inRefnum)
 {
-	// Let the application be the supermodel of CRezMaps
-	LModelObject * topModel = dynamic_cast<LModelObject *>(LCommander::GetTopCommander());
-	SetSuperModel(topModel);
 	SetModelKind(rzil_cMap);
 	
-	// Don't use PP's list model since the subobjects are constructed only
-	// when necessary
+	// Don't use PP's list model since the subobjects (types, resources)
+	// are constructed only when necessary
 	SetUseSubModelList(false);
 }
 
@@ -423,12 +420,16 @@ CRezMap::UniqueID(ResType inType, short & outID)
 // ---------------------------------------------------------------------------
 //  ¥ GetMapAttributes													[public]
 // ---------------------------------------------------------------------------
+// 		  mapReadOnly       = 128
+// 		  mapCompact        = 64
+// 		  mapChanged        = 32
+// 		  
 // 		  mapReadOnlyBit	= 7
 // 		  mapCompactBit		= 6
 // 		  mapChangedBit		= 5
 
 OSErr
-CRezMap::GetMapAttributes(short & outResFileAttrs)
+CRezMap::GetMapAttributes(short & outResFileAttrs) const
 {
 	OSErr error;
 	
