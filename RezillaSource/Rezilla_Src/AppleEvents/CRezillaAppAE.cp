@@ -297,5 +297,35 @@ CRezillaApp::GetPositionOfSubModel(
 
 
 
+// ---------------------------------------------------------------------------
+//	¥ GetAEProperty
+// ---------------------------------------------------------------------------
+//	Return a descriptor for the specified Property
+
+void
+CRezillaApp::GetAEProperty(
+	DescType		inProperty,
+	const AEDesc&	inRequestedType,
+	AEDesc&			outPropertyDesc) const
+{
+	OSErr		error = noErr;
+
+	switch (inProperty) {
+		case pVersion: {
+// 			Str255	versionStr;
+// 
+// 			VersionFromPlist(versionStr);
+			error = ::AECreateDesc(typeChar, (Ptr) sVersionNumber + 1, sVersionNumber[0], &outPropertyDesc);
+			break;
+		}
+
+		default:
+			LModelObject::GetAEProperty(inProperty, inRequestedType,
+											outPropertyDesc);
+			break;
+	}
+}
+
+
 
 
