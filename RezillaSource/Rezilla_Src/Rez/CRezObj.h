@@ -2,11 +2,11 @@
 // CRezObj.h					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2005-02-16 09:51:13
+//             Last modification: 2005-04-09 10:02:44
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003-2004, 2005
+// (c) Copyright : Bernard Desgraupes, 2003-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -48,6 +48,16 @@ public:
 
 		OSErr Write();
 		
+		// AppleEvents
+		virtual void	GetAEProperty(
+									DescType			inProperty,
+									const AEDesc&		inRequestedType,
+									AEDesc&				outPropertyDesc) const;
+
+		void	GetAERezObjAttribute(
+									short		inAttribute,
+									AEDesc&		outPropertyDesc) const;
+		
 		// Getters and setters
 		
 		OSErr 			GetRezHandle();
@@ -77,11 +87,11 @@ public:
 		OSErr			GetSizeOnDisk(Size & outSize);
 		OSErr			SetSizeOnDisk(Size inSize);
 
-		virtual short	GetAttributes() { return mAttributes;}
+		virtual short	GetAttributes() const { return mAttributes;}
 		OSErr			GetAttributesFromMap(short & outAttribute);
 		OSErr			SetAttributesInMap(short inAttributes);
 
-		Boolean			HasAttribute(short inFlag);
+		Boolean			HasAttribute(short inFlag) const;
 		OSErr			ToggleOneAttribute(short inFlag);
 		OSErr			SetOneAttribute(short inFlag, Boolean inSetting);
 
@@ -120,7 +130,7 @@ protected:
 
 inline
 Boolean
-CRezObj::HasAttribute( short inFlag )
+CRezObj::HasAttribute( short inFlag ) const
 {
 	return ((mAttributes & inFlag) != 0);
 }
