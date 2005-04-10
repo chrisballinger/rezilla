@@ -27,19 +27,19 @@
 //	¥ GetAEProperty
 // ---------------------------------------------------------------------------
 //	Return a descriptor for the specified Property
-//  rzil_pResID			= pID;			// ID ('ID  ')			 
-//  rzil_pName			= pName;		// Name ('pnam')
-//  rzil_pType			= 'pTYP';		// Type
-//  rzil_pSpecifier		= 'pSPE';		// Specifier (type,ID)
-//  rzil_pSysHeap		= 'pSHP';		// resSysHeap
-//  rzil_pPurgeable		= 'pPUR';		// resPurgeable
-//  rzil_pLocked		= 'pLOC';		// resLocked
-//  rzil_pProtected		= 'pPRO';		// resProtected
-//  rzil_pPreload		= 'pPRE';		// resPreload
-//  rzil_pChanged		= pIsModified;	// resChanged ('imod')
-//  rzil_pDataSize		= 'pSIZ';		// Size of the data
-//  rzil_pSizeOnDisk	= 'pDSZ';		// Size on disk
-//  rzil_pData			= pContents;	// Data ('pcnt', was 'pDAT')
+//  rzom_pResID			= pID;			// ID ('ID  ')			 
+//  rzom_pName			= pName;		// Name ('pnam')
+//  rzom_pType			= 'pTYP';		// Type
+//  rzom_pSpecifier		= 'pSPE';		// Specifier (type,ID)
+//  rzom_pSysHeap		= 'pSHP';		// resSysHeap
+//  rzom_pPurgeable		= 'pPUR';		// resPurgeable
+//  rzom_pLocked		= 'pLOC';		// resLocked
+//  rzom_pProtected		= 'pPRO';		// resProtected
+//  rzom_pPreload		= 'pPRE';		// resPreload
+//  rzom_pChanged		= pIsModified;	// resChanged ('imod')
+//  rzom_pDataSize		= 'pSIZ';		// Size of the data
+//  rzom_pSizeOnDisk	= 'pDSZ';		// Size on disk
+//  rzom_pData			= pContents;	// Data ('pcnt', was 'pDAT')
 
 void
 CRezObj::GetAEProperty(
@@ -57,46 +57,46 @@ CRezObj::GetAEProperty(
 		ThrowIfOSErr_(error);
 		break;
 
-		case rzil_pType: 
+		case rzom_pType: 
 		error = ::AECreateDesc(typeType, &mType,
 							 sizeof(ResType), &outPropertyDesc);
 		ThrowIfOSErr_(error);
 		break;
 
-		case rzil_pResID:
+		case rzom_pResID:
 		error = ::AECreateDesc(typeSInt16, (Ptr) &mID,
 									sizeof(short), &outPropertyDesc);
 		ThrowIfOSErr_(error);
 		break;
 		
-		case rzil_pAttributes:
+		case rzom_pAttributes:
 		short const	theAttrs = GetAttributes();
 		error = ::AECreateDesc(typeSInt16, (Ptr) &theAttrs,
 									sizeof(short), &outPropertyDesc);
 		ThrowIfOSErr_(error);
 		break;
 		
-		case rzil_pSysHeap:
+		case rzom_pSysHeap:
 		GetAERezObjAttribute(resSysHeap, outPropertyDesc);
 		break;
 		
-		case rzil_pPurgeable:
+		case rzom_pPurgeable:
 		GetAERezObjAttribute(resPurgeable, outPropertyDesc);
 		break;
 		
-		case rzil_pLocked:
+		case rzom_pLocked:
 		GetAERezObjAttribute(resLocked, outPropertyDesc);
 		break;
 		
-		case rzil_pProtected:
+		case rzom_pProtected:
 		GetAERezObjAttribute(resProtected, outPropertyDesc);
 		break;
 		
-		case rzil_pPreload:
+		case rzom_pPreload:
 		GetAERezObjAttribute(resPreload, outPropertyDesc);
 		break;
 		
-		case rzil_pChanged:
+		case rzom_pChanged:
 		GetAERezObjAttribute(resChanged, outPropertyDesc);
 		break;
 		
@@ -127,41 +127,41 @@ CRezObj::SetAEProperty(
 			break;
 		}
 
-		case rzil_pResID: {
+		case rzom_pResID: {
 			short		theID;
 			UExtractFromAEDesc::TheSInt16(inValue, theID);
 // 			SetID(theID);
 			break;
 		}
 		
-		case rzil_pAttributes: {
+		case rzom_pAttributes: {
 			short	theAttrs;
 			UExtractFromAEDesc::TheSInt16(inValue, theAttrs);
 // 			SetAttributesInMap(theAttrs);
 			break;
 		}
 		
-		case rzil_pSysHeap:
+		case rzom_pSysHeap:
 		SetAERezObjAttribute(inValue, resSysHeap);
 		break;
 		
-		case rzil_pPurgeable:
+		case rzom_pPurgeable:
 		SetAERezObjAttribute(inValue, resPurgeable);
 		break;
 		
-		case rzil_pLocked:
+		case rzom_pLocked:
 		SetAERezObjAttribute(inValue, resLocked);
 		break;
 		
-		case rzil_pProtected:
+		case rzom_pProtected:
 		SetAERezObjAttribute(inValue, resProtected);
 		break;
 		
-		case rzil_pPreload:
+		case rzom_pPreload:
 		SetAERezObjAttribute(inValue, resPreload);
 		break;
 		
-		case rzil_pChanged:
+		case rzom_pChanged:
 		SetAERezObjAttribute(inValue, resChanged);
 		break;
 		
@@ -237,15 +237,15 @@ CRezObj::AEPropertyExists(
 	switch (inProperty) {
 
 		case pName: 
-		case rzil_pAttributes:
-		case rzil_pChanged:
-		case rzil_pLocked:
-		case rzil_pPreload:
-		case rzil_pProtected:
-		case rzil_pPurgeable:
-		case rzil_pResID:
-		case rzil_pSysHeap:
-		case rzil_pType: 
+		case rzom_pAttributes:
+		case rzom_pChanged:
+		case rzom_pLocked:
+		case rzom_pPreload:
+		case rzom_pProtected:
+		case rzom_pPurgeable:
+		case rzom_pResID:
+		case rzom_pSysHeap:
+		case rzom_pType: 
 			exists = true;
 			break;
 

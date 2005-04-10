@@ -28,7 +28,7 @@
 //	¥ GetAEProperty
 // ---------------------------------------------------------------------------
 //	Return a descriptor for the specified Property
-//  rzil_pName			= pName;		// Name ('pnam')
+//  rzom_pName			= pName;		// Name ('pnam')
 
 void
 CRezType::GetAEProperty(

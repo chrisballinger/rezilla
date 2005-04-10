@@ -2,11 +2,11 @@
 // CRezObj.cp					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2005-02-16 09:54:39
+//             Last modification: 2005-04-10 08:24:30
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003-2004, 2005
+// (c) Copyright : Bernard Desgraupes, 2003-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -25,7 +25,7 @@
 // ---------------------------------------------------------------------------
 
 CRezObj::CRezObj(Handle inResHandle, short inRefnum)
-	: LModelObject(NULL, rzil_cResource)
+	: LModelObject(NULL, rzom_cResource)
 {
 	OSErr error;
 	
@@ -39,7 +39,7 @@ CRezObj::CRezObj(Handle inResHandle, short inRefnum)
 
 	// Don't use PP's list model
 	SetUseSubModelList(false);
-	SetModelKind(rzil_cResource);
+	SetModelKind(rzom_cResource);
 }
 
 
@@ -50,7 +50,7 @@ CRezObj::CRezObj(Handle inResHandle, short inRefnum)
 // are known.
 
 CRezObj::CRezObj(CRezType * inRezType, short inID)
-	: LModelObject(inRezType, rzil_cResource),
+	: LModelObject(inRezType, rzom_cResource),
 		mID(inID)
 {
 	Str255	theName;
@@ -72,7 +72,7 @@ CRezObj::CRezObj(CRezType * inRezType, short inID)
 
 	// Don't use PP's list model
 	SetUseSubModelList(false);
-	SetModelKind(rzil_cResource);
+	SetModelKind(rzom_cResource);
 }
 
 
@@ -86,7 +86,7 @@ CRezObj::CRezObj(CRezType * inRezType, short inID)
 CRezObj::CRezObj(CRezType * inRezType,
 				short inID, 
 				Str255* inName)
-	: LModelObject(inRezType, rzil_cResource)
+	: LModelObject(inRezType, rzom_cResource)
 {
 	mType = inRezType->GetType();
 	mOwnerRefnum = inRezType->GetOwnerMap()->GetRefnum();
@@ -103,7 +103,7 @@ CRezObj::CRezObj(CRezType * inRezType,
 
 	// Don't use PP's list model
 	SetUseSubModelList(false);
-	SetModelKind(rzil_cResource);
+	SetModelKind(rzom_cResource);
 }
 
 
@@ -118,7 +118,7 @@ CRezObj::CRezObj(short inRefnum,
 				 ResType inType,
 				 short inID, 
 				 Str255* inName)
-	: LModelObject(NULL, rzil_cResource)
+	: LModelObject(NULL, rzom_cResource)
 {
 	mType = inType;
 	mOwnerRefnum = inRefnum;
@@ -140,7 +140,7 @@ CRezObj::CRezObj(short inRefnum,
 // ---------------------------------------------------------------------------
 
 CRezObj::CRezObj(CRezType * inRezType)
-	: LModelObject(inRezType, rzil_cResource)
+	: LModelObject(inRezType, rzom_cResource)
 {
 	Str255 theName = "\p";
 	
@@ -155,7 +155,7 @@ CRezObj::CRezObj(CRezType * inRezType)
 
 	// Don't use PP's list model
 	SetUseSubModelList(false);
-	SetModelKind(rzil_cResource);
+	SetModelKind(rzom_cResource);
 }
 
 
@@ -164,7 +164,7 @@ CRezObj::CRezObj(CRezType * inRezType)
 // ---------------------------------------------------------------------------
 
 CRezObj::CRezObj(CRezObj& inOriginal)
-	: LModelObject(inOriginal.GetSuperModel(), rzil_cResource)
+	: LModelObject(inOriginal.GetSuperModel(), rzom_cResource)
 {
 	mOwnerRefnum = inOriginal.GetOwnerRefnum();
 	mType = inOriginal.GetType();
@@ -178,7 +178,7 @@ CRezObj::CRezObj(CRezObj& inOriginal)
 
 	// Don't use PP's list model
 	SetUseSubModelList(false);
-	SetModelKind(rzil_cResource);
+	SetModelKind(rzom_cResource);
 }
 
 
