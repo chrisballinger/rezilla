@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2005-04-09 10:04:17
+//             Last modification : 2005-04-10 10:44:35
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -1115,92 +1115,93 @@ enum
 // const long	aeRzil_Lrez				= 5002;
 const long	aeRzil_Version				= 5010;
 
-// AE Objects:
-// -----------
-const DescType rzil_cRezMapDoc		= 'MapD';	// RezMap document
-const DescType rzil_cEditorDoc		= 'EdiD';	// Editor document
-const DescType rzil_cGuiEditDoc		= 'GuiD';	// Gui editor document
-const DescType rzil_cTmplEditDoc	= 'TmpD';	// Tmpl editor document
-const DescType rzil_cHexEditDoc		= 'HexD';	// Hex editor document
-const DescType rzil_cCompareDoc		= 'CmpD';	// Compare document
+// Rezilla Object Model (rzom):
+// ----------------------------
+const DescType rzom_cRezMapDoc		= 'MapD';	// RezMap document
+const DescType rzom_cEditorDoc		= 'EdiD';	// Editor document
+const DescType rzom_cGuiEditDoc		= 'GuiD';	// Gui editor document
+const DescType rzom_cTmplEditDoc	= 'TmpD';	// Tmpl editor document
+const DescType rzom_cHexEditDoc		= 'HexD';	// Hex editor document
+const DescType rzom_cCompareDoc		= 'CmpD';	// Compare document
 
-const DescType rzil_cRezMapWindow	= 'MapW';	// RezMap window
-const DescType rzil_cGuiWindow		= 'GuiW';	// Gui editor window
-const DescType rzil_cTmplWindow		= 'TmpW';	// Tmpl editor window
-const DescType rzil_cHexWindow		= 'HexW';	// Hex editor window
+const DescType rzom_cRezMapWindow	= 'MapW';	// RezMap window
+const DescType rzom_cEditorWindow	= 'EdiW';	// Editor window
+const DescType rzom_cGuiWindow		= 'GuiW';	// Gui editor window
+const DescType rzom_cTmplWindow		= 'TmpW';	// Tmpl editor window
+const DescType rzom_cHexWindow		= 'HexW';	// Hex editor window
 
-const DescType rzil_cCompWindow		= 'CmpW';	// RezCompare window
-const DescType rzil_cInspector		= 'Insp';	// Inspector window
+const DescType rzom_cCompWindow		= 'CmpW';	// RezCompare window
+const DescType rzom_cInspector		= 'Insp';	// Inspector window
 
-const DescType rzil_cDataPane		= 'DatP';	// DataPane
-const DescType rzil_cHexPane		= 'HexP';	// HexPane
-const DescType rzil_cTxtPane		= 'TxtP';	// TxtPane
+const DescType rzom_cDataPane		= 'DatP';	// DataPane
+const DescType rzom_cHexPane		= 'HexP';	// HexPane
+const DescType rzom_cTxtPane		= 'TxtP';	// TxtPane
 
-const DescType rzil_cMap			= 'cMAP';	// RezMap
-const DescType rzil_cType			= 'cTYP';	// RezType
-const DescType rzil_cResource		= 'cRSC';	// Resource (RezObj)
+const DescType rzom_cMap			= 'cMAP';	// RezMap
+const DescType rzom_cType			= 'cTYP';	// RezType
+const DescType rzom_cResource		= 'cRSC';	// Resource (RezObj)
 
 // Properties
 // ----------
 //    Application
-const DescType rzil_pVersion		= pVersion;		// Version ('vers')	
-const DescType rzil_pClipboard		= pClipboard;	// PrivateClipboard ('pcli')
-const DescType rzil_pPreferences	= 'pPRF';		// Preferences
+const DescType rzom_pVersion		= pVersion;		// Version ('vers')	
+const DescType rzom_pClipboard		= pClipboard;	// PrivateClipboard ('pcli')
+const DescType rzom_pPreferences	= 'pPRF';		// Preferences
 
 //    Document
-const DescType rzil_pDocKind		= 'DKND';	// Document's kind
+const DescType rzom_pDocKind		= 'DKND';	// Document's kind
 
 //    RezMap document
-const DescType rzil_pRezFork		= 'pFRK';	// ResFork
-const DescType rzil_pRezMap			= 'pMAP';	// RezMap
-const DescType rzil_pRezFile		= 'pFIL';	// ResFile
-const DescType rzil_pEditedRsrcDocs	= 'pERD';	// Edited resources documents
+const DescType rzom_pRezFork		= 'pFRK';	// ResFork
+const DescType rzom_pRezMap			= 'pMAP';	// RezMap
+const DescType rzom_pRezFile		= 'pFIL';	// ResFile
+const DescType rzom_pEditedRsrcDocs	= 'pERD';	// Edited resources documents
 
 //    RezMap
-const DescType rzil_pRefNum			= 'pRFN';		// RefNum
-const DescType rzil_pAttributes		= 'pATR';		// Attributes
-const DescType rzil_pReadOnly		= 'pRDO';		// mapReadOnly
-const DescType rzil_pCompact		= 'pCPT';		// mapCompact
-const DescType rzil_pChanged		= pIsModified;	// mapChanged/resChanged ('imod')
+const DescType rzom_pRefNum			= 'pRFN';		// RefNum
+const DescType rzom_pAttributes		= 'pATR';		// Attributes
+const DescType rzom_pReadOnly		= 'pRDO';		// mapReadOnly
+const DescType rzom_pCompact		= 'pCPT';		// mapCompact
+const DescType rzom_pChanged		= pIsModified;	// mapChanged/resChanged ('imod')
 
 //    RezType
 
 //    Resource
-const DescType rzil_pResID			= pID;			// ID ('ID  ')			 
-const DescType rzil_pName			= pName;		// Name ('pnam')
-const DescType rzil_pType			= 'pTYP';		// Type
-const DescType rzil_pSpecifier		= 'pSPE';		// Specifier (type,ID)
-const DescType rzil_pSysHeap		= 'pSHP';		// resSysHeap
-const DescType rzil_pPurgeable		= 'pPUR';		// resPurgeable
-const DescType rzil_pLocked			= 'pLOC';		// resLocked
-const DescType rzil_pProtected		= 'pPRO';		// resProtected
-const DescType rzil_pPreload		= 'pPRE';		// resPreload
-const DescType rzil_pDataSize		= 'pSIZ';		// Size of the data
-const DescType rzil_pSizeOnDisk		= 'pDSZ';		// Size on disk
-const DescType rzil_pData			= pContents;	// Data ('pcnt', was 'pDAT')
+const DescType rzom_pResID			= pID;			// ID ('ID  ')			 
+const DescType rzom_pName			= pName;		// Name ('pnam')
+const DescType rzom_pType			= 'pTYP';		// Type
+const DescType rzom_pSpecifier		= 'pSPE';		// Specifier (type,ID)
+const DescType rzom_pSysHeap		= 'pSHP';		// resSysHeap
+const DescType rzom_pPurgeable		= 'pPUR';		// resPurgeable
+const DescType rzom_pLocked			= 'pLOC';		// resLocked
+const DescType rzom_pProtected		= 'pPRO';		// resProtected
+const DescType rzom_pPreload		= 'pPRE';		// resPreload
+const DescType rzom_pDataSize		= 'pSIZ';		// Size of the data
+const DescType rzom_pSizeOnDisk		= 'pDSZ';		// Size on disk
+const DescType rzom_pData			= pContents;	// Data ('pcnt', was 'pDAT')
 
 //    Specifier
-const DescType rzil_cTypeID			= 'TyId';	// Resource specifier object: 
+const DescType rzom_cTypeID			= 'TyId';	// Resource specifier object: 
                            			         	//   e-g (type:aete, ID  :128)
 
 //    Maps Comparison
-const DescType rzil_cMapComparison	= 'COMP';	// Maps Comparison 
-const DescType rzil_pIgnoreName		= 'IgnN';	// IgnoreNameDiff
-const DescType rzil_pIgnoreAttr		= 'IgnA';	// IgnoreAttrDiff
-const DescType rzil_pIgnoreData		= 'IgnD';	// IgnoreDataDiff
-const DescType rzil_pOnlyInOld		= 'OldR';	// Only in old map resources (list)
-const DescType rzil_pOnlyInNew		= 'NewR';	// Only in new map resources (list)
-const DescType rzil_pDiffering		= 'Diff';	// In both but different (list)
-const DescType rzil_pIdentical		= 'Iden';	// In both and identical (list)
+const DescType rzom_cMapComparison	= 'COMP';	// Maps Comparison 
+const DescType rzom_pIgnoreName		= 'IgnN';	// IgnoreNameDiff
+const DescType rzom_pIgnoreAttr		= 'IgnA';	// IgnoreAttrDiff
+const DescType rzom_pIgnoreData		= 'IgnD';	// IgnoreDataDiff
+const DescType rzom_pOnlyInOld		= 'OldR';	// Only in old map resources (list)
+const DescType rzom_pOnlyInNew		= 'NewR';	// Only in new map resources (list)
+const DescType rzom_pDiffering		= 'Diff';	// In both but different (list)
+const DescType rzom_pIdentical		= 'Iden';	// In both and identical (list)
 
 //    HexPane/TxtPane
-const DescType rzil_pContents		= pContents;	// Contents ('pcnt')
+const DescType rzom_pContents		= pContents;	// Contents ('pcnt')
 
 //    Editor document
-const DescType rzil_pKind			= 'pKND';	// Kind
+const DescType rzom_pKind			= 'pKND';	// Kind
 
 //    Tmpl editor document
-const DescType rzil_pTemplate		= 'pTMP';	// Template
+const DescType rzom_pTemplate		= 'pTMP';	// Template
 
 
 
