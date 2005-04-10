@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This is a preliminary draft version! -->
+<!DOCTYPE AeteResource SYSTEM "file://localhost/System/Library/DTDs/aete.dtd">
+
+<AeteResource>
+<AeteResID></AeteResID>
+<AeteResTitle></AeteResTitle>
+
+<MajorVersion></MajorVersion>
+<MinorVersion></MinorVersion>
+<LanguageCode></LanguageCode>
+<ScriptCode></ScriptCode>
+
+<ArraySuites>
+
+	<Suite>
+	
+	<SuiteName></SuiteName>       	
+	<SuiteDescription></SuiteDescription>	
+	<SuiteID></SuiteID>         	
+	<SuiteLevel></SuiteLevel>      	
+	<SuiteVersion></SuiteVersion>
+	
+		<ArrayEvents>
+			<Event>
+				<EventName></EventName>
+				<EventDescription></EventDescription>
+				<EventClass></EventClass>
+				<EventID></EventID>
+				<ReplyType></ReplyType>
+				<ReplyDescription></ReplyDescription>
+				<ReplyFlags>
+					<IsOptional> replyRequired replyOptional </IsOptional>
+					<IsListOfItems> singleItem listOfItems </IsListOfItems>
+					<IsEnumerated> notEnumerated enumerated </IsEnumerated>
+					<TightBindingFunction> notTightBindingFunction tightBindingFunction </TightBindingFunction>
+					<EnumsAreTypes> enumsAreConstants enumsAreTypes </EnumsAreTypes>
+					<EnumIsExclusive> enumListCanRepeat enumListIsExclusive </EnumIsExclusive>
+					<ReplyIsReference> replyIsValue replyIsReference </ReplyIsReference>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<NonVerbEvent> verbEvent nonVerbEvent </NonVerbEvent>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+				</ReplyFlags>
+				<DirectParamType></DirectParamType>
+				<DirectParamDescription></DirectParamDescription>
+				<DirectFlags>
+					<IsOptional> directParamRequired directParamOptional </IsOptional>
+					<IsListOfItems> singleItem listOfItems </IsListOfItems>
+					<IsEnumerated> notEnumerated enumerated </IsEnumerated>
+					<ChangeState> doesntChangeState changesState </ChangeState>
+					<EnumsAreTypes> enumsAreConstants enumsAreTypes </EnumsAreTypes>
+					<EnumIsExclusive> enumListCanRepeat enumListIsExclusive </EnumIsExclusive>
+					<DirectParamIsReference> directParamIsValue directParamIsReference </DirectParamIsReference>
+					<NotDirectParamIsTarget> directParamIsTarget notDirectParamIsTarget </NotDirectParamIsTarget>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+				</DirectFlags>
+				<ArrayOtherParams>
+					<Parameter>	
+						<ParameterName></ParameterName>
+						<ParameterID></ParameterID>
+						<ParameterType></ParameterType>
+						<ParameterDescription></ParameterDescription>
+						<ParameterFlags>
+							<IsOptional> required optional </IsOptional>
+							<IsListOfItems> singleItem listOfItems </IsListOfItems>
+							<IsEnumerated> notEnumerated enumerated </IsEnumerated>
+							<Reserved/>
+							<EnumsAreTypes> enumsAreConstants enumsAreTypes </EnumsAreTypes>
+							<EnumIsExclusive> enumListCanRepeat enumListIsExclusive </EnumIsExclusive>
+							<ParamIsReference> paramIsValue paramIsReference </ParamIsReference>
+							<ParamIsTarget> notParamIsTarget paramIsTarget </ParamIsTarget>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<LabeledParam> prepositionParam labeledParam </LabeledParam>
+							<IsFeminine> notFeminine feminine </IsFeminine>
+							<IsMasculine> notMasculine masculine </IsMasculine>
+							<Plural> singular plural </Plural>
+						</ParameterFlags>
+					</Parameter>
+				</ArrayOtherParams>
+			</Event>
+			
+		</ArrayEvents>
+		
+		<ArrayClasses>
+			<Class>
+				<ClassName></ClassName>
+				<ClassID></ClassID>
+				<ClassDescription></ClassDescription>
+				<ArrayProperties>
+					<Property>
+						<PropertyName></PropertyName>
+						<PropertyID></PropertyID>
+						<PropertyClass></PropertyClass>
+						<PropertyDescription></PropertyDescription>
+						<PropertyFlags>
+							<Reserved/>
+							<IsListOfItems> singleItem listOfItems </IsListOfItems>
+							<IsEnumerated> notEnumerated enumerated </IsEnumerated>
+							<IsReadWrite> readOnly readWrite </IsReadWrite>
+							<EnumsAreTypes> enumsAreConstants enumsAreTypes </EnumsAreTypes>
+							<EnumIsExclusive> enumListCanRepeat enumListIsExclusive </EnumIsExclusive>
+							<PropertyIsReference> propertyIsValue propertyIsReference </PropertyIsReference>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<IsApostrophe> noApostrophe apostrophe </IsApostrophe>
+							<IsFeminine> notFeminine feminine </IsFeminine>
+							<IsMasculine> notMasculine masculine </IsMasculine>
+							<Plural> singular plural </Plural>
+						</PropertyFlags>
+					</Property>
+				</ArrayProperties>
+				<ArrayElements>
+					<Element>
+						<ElementClass></ElementClass>
+						<ArrayKeyForms>
+							<KeyFormID></KeyFormID>
+						</ArrayKeyForms>
+					</Element>
+				</ArrayElements>
+			</Class>
+			
+		</ArrayClasses>
+		
+		<ArrayComparisonOps>
+			<ComparisonOp>
+				<CompOpName></CompOpName>
+				<CompOpID></CompOpID>
+				<CompOpDescription></CompOpDescription>
+			</ComparisonOp>
+			
+		</ArrayComparisonOps>
+		
+		<ArrayEnumerations>
+			<Enumeration>
+			<EnumerationID></EnumerationID>
+				<ArrayEnumerators>
+					<Enumerator>
+						<EnumeratorName></EnumeratorName>
+						<EnumeratorID></EnumeratorID>
+						<EnumeratorDescription></EnumeratorDescription>
+					</Enumerator>
+				</ArrayEnumerators>
+			</Enumeration>
+			
+		</ArrayEnumerations>
+		
+	</Suite>
+	
+</ArraySuites>
+
+</AeteResource>
+
+

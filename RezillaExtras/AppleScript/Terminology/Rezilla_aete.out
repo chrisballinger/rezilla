@@ -1,0 +1,998 @@
+/* -*-Setx-*- */
+HUMAN READABLE TRANSLATION OF AETE RESOURCE FROM "Rezilla_aete.rsrc"
+
+Version: 1.0
+Language code: 0
+Script code: 0
+Number of Suites: 5
+	1. Required Suite
+	2. Standard Suite
+	3. Miscellaneous Suite
+	4. Rezilla suite
+	5. Resource suite
+
+1- Required Suite
+=================
+Description: Terms that every application should support
+Suite ID: 'reqd'
+Suite level: 1
+Suite version: 1
+Number of Events: 0
+Number of Classes: 0
+Number of Comparison Operators: 0
+Number of Enumerations: 0
+
+2- Standard Suite
+=================
+Description: Common terms for most applications
+Suite ID: 'CoRe'
+Suite level: 1
+Suite version: 1
+Number of Events: 9
+  Event 1: close
+----------------
+	Description: Close an object
+	Event class: 'core'
+	Event ID: 'clos'
+	Type of reply's direct parameter: 'null'
+	Description of reply's direct parameter: 
+	Reply is optional. It is a single item, not enumerated. 
+	Direct parameter type: 'obj '
+	Direct parameter description: the objects to close
+	Direct parameter is required. It is a single item, not enumerated. It changes the server's state.
+	Number of additional parameters: 2
+	  Parameter 1: saving
+		Parameter keyword: 'savo'
+		Parameter type: 'savo'
+		Parameter description: specifies whether or not changes should be saved before closing
+		Parameter 1 is optional. It is a single item, enumerated. 
+	  Parameter 2: in
+		Parameter keyword: 'kfil'
+		Parameter type: 'alis'
+		Parameter description: the file in which to save the object
+		Parameter 2 is optional. It is a single item, not enumerated. 
+  Event 2: count
+----------------
+	Description: Return the number of elements of a particular class within an object
+	Event class: 'core'
+	Event ID: 'cnte'
+	Type of reply's direct parameter: 'long'
+	Description of reply's direct parameter: the number of elements
+	Reply is required. It is a single item, not enumerated. 
+	Direct parameter type: 'obj '
+	Direct parameter description: the object whose elements are to be counted
+	Direct parameter is required. It is a single item, not enumerated. It does not change the server's state.
+	Number of additional parameters: 1
+	  Parameter 1: each
+		Parameter keyword: 'kocl'
+		Parameter type: 'type'
+		Parameter description: the class of the elements to be counted
+		Parameter 1 is required. It is a single item, not enumerated. 
+  Event 3: data size
+--------------------
+	Description: Return the size in bytes of an object
+	Event class: 'core'
+	Event ID: 'dsiz'
+	Type of reply's direct parameter: 'long'
+	Description of reply's direct parameter: the size of the object in bytes
+	Reply is required. It is a single item, not enumerated. 
+	Direct parameter type: 'obj '
+	Direct parameter description: the object whose data size is to be returned
+	Direct parameter is required. It is a single item, not enumerated. It does not change the server's state.
+	Number of additional parameters: 0
+  Event 4: exists
+-----------------
+	Description: Verify if an object exists
+	Event class: 'core'
+	Event ID: 'doex'
+	Type of reply's direct parameter: 'bool'
+	Description of reply's direct parameter: true if it exists, false if not
+	Reply is required. It is a single item, not enumerated. 
+	Direct parameter type: 'null'
+	Direct parameter description: 
+	Direct parameter is required. It is a single item, not enumerated. It does not change the server's state.
+	Number of additional parameters: 0
+  Event 5: get
+--------------
+	Description: Get the data for an object
+	Event class: 'core'
+	Event ID: 'getd'
+	Type of reply's direct parameter: '****'
+	Description of reply's direct parameter: The data from the object
+	Reply is required. It is a single item, not enumerated. 
+	Direct parameter type: 'obj '
+	Direct parameter description: the object whose data is to be returned
+	Direct parameter is required. It is a single item, not enumerated. It does not change the server's state.
+	Number of additional parameters: 0
+  Event 6: make
+---------------
+	Description: Make a new element
+	Event class: 'core'
+	Event ID: 'crel'
+	Type of reply's direct parameter: 'obj '
+	Description of reply's direct parameter: Object specifier for the new element
+	Reply is required. It is a single item, not enumerated. 
+	Direct parameter type: 'null'
+	Direct parameter description: 
+	Direct parameter is optional. It is a single item, not enumerated. It changes the server's state.
+	Number of additional parameters: 4
+	  Parameter 1: new
+		Parameter keyword: 'kocl'
+		Parameter type: 'type'
+		Parameter description: the class of the new element
+		Parameter 1 is required. It is a single item, not enumerated. 
+	  Parameter 2: at
+		Parameter keyword: 'insh'
+		Parameter type: 'insl'
+		Parameter description: the location at which to insert the element
+		Parameter 2 is optional. It is a single item, not enumerated. 
+	  Parameter 3: with data
+		Parameter keyword: 'data'
+		Parameter type: '****'
+		Parameter description: the initial data for the element
+		Parameter 3 is optional. It is a single item, not enumerated. 
+	  Parameter 4: with properties
+		Parameter keyword: 'prdt'
+		Parameter type: 'reco'
+		Parameter description: the initial values for the properties of the element
+		Parameter 4 is optional. It is a single item, not enumerated. 
+  Event 7: open
+---------------
+	Description: Open the specified object(s)
+	Event class: 'aevt'
+	Event ID: 'odoc'
+	Type of reply's direct parameter: 'null'
+	Description of reply's direct parameter: 
+	Reply is optional. It is a single item, not enumerated. 
+	Direct parameter type: 'obj '
+	Direct parameter description: Objects to open. Can be a list of files or an object specifier.
+	Direct parameter is required. It is a single item, not enumerated. It changes the server's state.
+	Number of additional parameters: 0
+  Event 8: save
+---------------
+	Description: save a set of objects
+	Event class: 'core'
+	Event ID: 'save'
+	Type of reply's direct parameter: 'null'
+	Description of reply's direct parameter: 
+	Reply is required. It is a single item, not enumerated. 
+	Direct parameter type: 'obj '
+	Direct parameter description: Objects to save.
+	Direct parameter is required. It is a single item, not enumerated. It does not change the server's state.
+	Number of additional parameters: 2
+	  Parameter 1: in
+		Parameter keyword: 'kfil'
+		Parameter type: 'alis'
+		Parameter description: the file in which to save the object(s)
+		Parameter 1 is optional. It is a single item, not enumerated. 
+	  Parameter 2: as
+		Parameter keyword: 'fltp'
+		Parameter type: 'type'
+		Parameter description: the file type of the document in which to save the data
+		Parameter 2 is optional. It is a single item, not enumerated. 
+  Event 9: set
+--------------
+	Description: Set an object's data
+	Event class: 'core'
+	Event ID: 'setd'
+	Type of reply's direct parameter: 'null'
+	Description of reply's direct parameter: 
+	Reply is optional. It is a single item, not enumerated. 
+	Direct parameter type: 'obj '
+	Direct parameter description: the object to change
+	Direct parameter is required. It is a single item, not enumerated. It changes the server's state.
+	Number of additional parameters: 1
+	  Parameter 1: to
+		Parameter keyword: 'data'
+		Parameter type: '****'
+		Parameter description: the new value
+		Parameter 1 is required. It is a single item, not enumerated. 
+Number of Classes: 5
+  Object class 1: application
+-----------------------------
+	Object class ID: 'capp'
+	Class description: the application
+	Number of class properties: 4
+	  (1) name
+		Property ID: 'pnam'
+		Property class: 'itxt'
+		Property description: Rezilla's name
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	  (2) version
+		Property ID: 'vers'
+		Property class: 'itxt'
+		Property description: the version of the application
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	  (3) clipboard
+		Property ID: 'pcli'
+		Property class: 'obj '
+		Property description: Rezilla's private clipboard
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	  (4) preferences
+		Property ID: 'pfrp'
+		Property class: 'obj '
+		Property description: Various preferences that apply to the application as a whole
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	Number of class elements: 2
+		Class element ID: 'cwin'
+		Number of key forms: 3
+			 (1): 'indx'
+			 (2): 'name'
+			 (3): 'rang'
+		Class element ID: 'MapD'
+		Number of key forms: 2
+			 (1): 'indx'
+			 (2): 'name'
+  Object class 2: document
+--------------------------
+	Object class ID: 'docu'
+	Class description: A document
+	Number of class properties: 5
+	  (1) name
+		Property ID: 'pnam'
+		Property class: 'itxt'
+		Property description: the title of the document
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	  (2) kind
+		Property ID: 'pKND'
+		Property class: 'DKND'
+		Property description: the kind of document
+		Property is a single item, enumerated. It cannot be set by the Set Data AE.
+	  (3) readOnly
+		Property ID: 'pRDO'
+		Property class: 'bool'
+		Property description: Is this document read-only?
+		Property is a single item, not enumerated. It can be set by the Set Data AE.
+	  (4) modified
+		Property ID: 'imod'
+		Property class: 'bool'
+		Property description: Has the document been modified since the last save?
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	  (5) window
+		Property ID: 'cwin'
+		Property class: 'cwin'
+		Property description: the window of the document.
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	Number of class elements: 0
+  Object class 3: documents
+---------------------------
+	Object class ID: 'docu'
+	Class description: every document
+	Number of class properties: 1
+	  (1) 
+		Property ID: 'c@#!'
+		Property class: 'type'
+		Property description: 
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	Number of class elements: 0
+  Object class 4: window
+------------------------
+	Object class ID: 'cwin'
+	Class description: a window
+	Number of class properties: 12
+	  (1) name
+		Property ID: 'pnam'
+		Property class: 'itxt'
+		Property description: the title of the window
+		Property is a single item, not enumerated. It can be set by the Set Data AE.
+	  (2) index
+		Property ID: 'pidx'
+		Property class: 'long'
+		Property description: the number of the window
+		Property is a single item, not enumerated. It can be set by the Set Data AE.
+	  (3) bounds
+		Property ID: 'pbnd'
+		Property class: 'qdrt'
+		Property description: the boundary rectangle for the window
+		Property is a single item, not enumerated. It can be set by the Set Data AE.
+	  (4) closeable
+		Property ID: 'hclb'
+		Property class: 'bool'
+		Property description: Does the window have a close box?
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	  (5) titled
+		Property ID: 'ptit'
+		Property class: 'bool'
+		Property description: Does the window have a title bar?
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	  (6) floating
+		Property ID: 'isfl'
+		Property class: 'bool'
+		Property description: Does the window float?
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	  (7) modal
+		Property ID: 'pmod'
+		Property class: 'bool'
+		Property description: Is the window modal?
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	  (8) resizable
+		Property ID: 'prsz'
+		Property class: 'bool'
+		Property description: Is the window resizable?
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	  (9) zoomable
+		Property ID: 'iszm'
+		Property class: 'bool'
+		Property description: Is the window zoomable?
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	  (10) zoomed
+		Property ID: 'pzum'
+		Property class: 'bool'
+		Property description: Is the window zoomed?
+		Property is a single item, not enumerated. It can be set by the Set Data AE.
+	  (11) visible
+		Property ID: 'pvis'
+		Property class: 'bool'
+		Property description: is the window visible?
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	  (12) position
+		Property ID: 'ppos'
+		Property class: 'QDpt'
+		Property description: upper left coordinates of window
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	Number of class elements: 0
+  Object class 5: windows
+-------------------------
+	Object class ID: 'cwin'
+	Class description: every window
+	Number of class properties: 1
+	  (1) 
+		Property ID: 'c@#!'
+		Property class: 'type'
+		Property description: 
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	Number of class elements: 0
+Number of Comparison Operators: 0
+Number of Enumerations: 1
+    Enumeration 1 ID: 'savo'
+----------------------------
+	Number of enumerators: 3
+	  Enumerator 1: yes
+		Enumerator ID: 'yes '
+		Enumerator description: Save objects now
+	  Enumerator 2: no
+		Enumerator ID: 'no  '
+		Enumerator description: Do not save objects
+	  Enumerator 3: ask
+		Enumerator ID: 'ask '
+		Enumerator description: Ask the user whether to save
+
+3- Miscellaneous Suite
+======================
+Description: Useful events that aren't in standard suite
+Suite ID: 'misc'
+Suite level: 0
+Suite version: 0
+Number of Events: 3
+  Event 1: revert
+-----------------
+	Description: Revert an object to the most recently saved version
+	Event class: 'misc'
+	Event ID: 'rvrt'
+	Type of reply's direct parameter: 'null'
+	Description of reply's direct parameter: 
+	Reply is optional. It is a single item, not enumerated. 
+	Direct parameter type: 'obj '
+	Direct parameter description: object to revert
+	Direct parameter is required. It is a single item, not enumerated. It does not change the server's state.
+	Number of additional parameters: 0
+  Event 2: SetTellTarget
+------------------------
+	Description: Makes an object the 'focus' of AppleEvents
+	Event class: 'ppnt'
+	Event ID: 'sttg'
+	Type of reply's direct parameter: 'null'
+	Description of reply's direct parameter: 
+	Reply is required. It is a single item, not enumerated. 
+	Direct parameter type: 'null'
+	Direct parameter description: 
+	Direct parameter is required. It is a single item, not enumerated. It does not change the server's state.
+	Number of additional parameters: 1
+	  Parameter 1: to
+		Parameter keyword: 'data'
+		Parameter type: 'obj '
+		Parameter description: reference to new focus of AppleEvents
+		Parameter 1 is optional. It is a single item, not enumerated. 
+  Event 3: select
+-----------------
+	Description: Select the specified object
+	Event class: 'misc'
+	Event ID: 'slct'
+	Type of reply's direct parameter: 'null'
+	Description of reply's direct parameter: 
+	Reply is optional. It is a single item, not enumerated. 
+	Direct parameter type: 'obj '
+	Direct parameter description: the object to select
+	Direct parameter is optional. It is a single item, not enumerated. It changes the server's state.
+	Number of additional parameters: 0
+Number of Classes: 0
+Number of Comparison Operators: 0
+Number of Enumerations: 0
+
+4- Rezilla suite
+================
+Description: Rezilla specifics
+Suite ID: 'Rzil'
+Suite level: 1
+Suite version: 1
+Number of Events: 0
+Number of Classes: 22
+  Object class 1: map document
+------------------------------
+	Object class ID: 'MapD'
+	Class description: a Rezilla's resource map document
+	Number of class properties: 5
+	  (1) inherits
+		Property ID: 'c@#^'
+		Property class: 'docu'
+		Property description: all properties of the 'document' class
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	  (2) refnum
+		Property ID: 'pRFN'
+		Property class: 'shor'
+		Property description: the refnum of the map in memory
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	  (3) fork
+		Property ID: 'pFRK'
+		Property class: 'FKND'
+		Property description: the fork this document is editing (data fork or resource fork)
+		Property is a single item, enumerated. It cannot be set by the Set Data AE.
+	  (4) map
+		Property ID: 'pMAP'
+		Property class: 'cMAP'
+		Property description: the resource map associated with this document
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	  (5) file
+		Property ID: 'pFIL'
+		Property class: 'fss '
+		Property description: the file on disk corresponding to this resource map document
+		Property is a single item, not enumerated. It can be set by the Set Data AE.
+	Number of class elements: 1
+		Class element ID: 'EdiD'
+		Number of key forms: 2
+			 (1): 'indx'
+			 (2): 'name'
+  Object class 2: map documents
+-------------------------------
+	Object class ID: 'MapD'
+	Class description: every map document
+	Number of class properties: 1
+	  (1) 
+		Property ID: 'c@#!'
+		Property class: 'type'
+		Property description: 
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	Number of class elements: 0
+  Object class 3: editor document
+---------------------------------
+	Object class ID: 'EdiD'
+	Class description: an editor document for a single resource
+	Number of class properties: 4
+	  (1) inherits
+		Property ID: 'c@#^'
+		Property class: 'docu'
+		Property description: all properties of the 'document' class
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	  (2) kind
+		Property ID: 'pKND'
+		Property class: 'EKND'
+		Property description: the kind of the editor (gui, template, hexadecimal)
+		Property is a single item, enumerated. It cannot be set by the Set Data AE.
+	  (3) resource
+		Property ID: 'pRSC'
+		Property class: 'cRSC'
+		Property description: the resource edited by this document
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	  (4) map
+		Property ID: 'pOMD'
+		Property class: 'MAPD'
+		Property description: the map document that owns this editor document
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	Number of class elements: 0
+  Object class 4: editor documents
+----------------------------------
+	Object class ID: 'EdiD'
+	Class description: every editor document
+	Number of class properties: 1
+	  (1) 
+		Property ID: 'c@#!'
+		Property class: 'type'
+		Property description: 
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	Number of class elements: 0
+  Object class 5: GUI editor
+----------------------------
+	Object class ID: 'GuiD'
+	Class description: a GUI editor document for a resource
+	Number of class properties: 1
+	  (1) inherits
+		Property ID: 'c@#^'
+		Property class: 'EdiD'
+		Property description: all properties of the 'editor document' class
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	Number of class elements: 0
+  Object class 6: GUI editors
+-----------------------------
+	Object class ID: 'GuiD'
+	Class description: every GUI editor
+	Number of class properties: 1
+	  (1) 
+		Property ID: 'c@#!'
+		Property class: 'type'
+		Property description: 
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	Number of class elements: 0
+  Object class 7: template editor
+---------------------------------
+	Object class ID: 'TmpD'
+	Class description: a template editor document for a resource
+	Number of class properties: 1
+	  (1) inherits
+		Property ID: 'c@#^'
+		Property class: 'EdiD'
+		Property description: all properties of the 'editor document' class
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	Number of class elements: 0
+  Object class 8: template editors
+----------------------------------
+	Object class ID: 'TmpD'
+	Class description: every template editor
+	Number of class properties: 1
+	  (1) 
+		Property ID: 'c@#!'
+		Property class: 'type'
+		Property description: 
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	Number of class elements: 0
+  Object class 9: hex editor
+----------------------------
+	Object class ID: 'HexD'
+	Class description: a hexadecimal editor document for a resource
+	Number of class properties: 1
+	  (1) inherits
+		Property ID: 'c@#^'
+		Property class: 'EdiD'
+		Property description: all properties of the 'editor document' class
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	Number of class elements: 0
+  Object class 10: hex editors
+------------------------------
+	Object class ID: 'HexD'
+	Class description: every hex editor
+	Number of class properties: 1
+	  (1) 
+		Property ID: 'c@#!'
+		Property class: 'type'
+		Property description: 
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	Number of class elements: 0
+  Object class 11: map window
+-----------------------------
+	Object class ID: 'MapW'
+	Class description: a resource map window
+	Number of class properties: 1
+	  (1) inherits
+		Property ID: 'c@#^'
+		Property class: 'cwin'
+		Property description: all properties of the 'window' class
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	Number of class elements: 0
+  Object class 12: map windows
+------------------------------
+	Object class ID: 'MapW'
+	Class description: every map window
+	Number of class properties: 1
+	  (1) 
+		Property ID: 'c@#!'
+		Property class: 'type'
+		Property description: 
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	Number of class elements: 0
+  Object class 13: editor window
+--------------------------------
+	Object class ID: 'EdiW'
+	Class description: a resource editor window (hexadecimal, template or interface)
+	Number of class properties: 2
+	  (1) inherits
+		Property ID: 'c@#^'
+		Property class: 'cwin'
+		Property description: all properties of the 'window' class
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	  (2) kind
+		Property ID: 'pKND'
+		Property class: 'EKND'
+		Property description: the kind of the editor window (gui, template, hexadecimal)
+		Property is a single item, enumerated. It cannot be set by the Set Data AE.
+	Number of class elements: 0
+  Object class 14: editor windows
+---------------------------------
+	Object class ID: 'EdiW'
+	Class description: every editor window
+	Number of class properties: 1
+	  (1) 
+		Property ID: 'c@#!'
+		Property class: 'type'
+		Property description: 
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	Number of class elements: 0
+  Object class 15: template window
+----------------------------------
+	Object class ID: 'TmpW'
+	Class description: a template editor window
+	Number of class properties: 1
+	  (1) inherits
+		Property ID: 'c@#^'
+		Property class: 'EdiW'
+		Property description: all properties of the 'editor window' class
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	Number of class elements: 0
+  Object class 16: template windows
+-----------------------------------
+	Object class ID: 'TmpW'
+	Class description: every template window
+	Number of class properties: 1
+	  (1) 
+		Property ID: 'c@#!'
+		Property class: 'type'
+		Property description: 
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	Number of class elements: 0
+  Object class 17: hex window
+-----------------------------
+	Object class ID: 'HexW'
+	Class description: a hexadecimal editor window
+	Number of class properties: 3
+	  (1) inherits
+		Property ID: 'c@#^'
+		Property class: 'EdiW'
+		Property description: all properties of the 'editor window' class
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	  (2) hex pane
+		Property ID: 'HexP'
+		Property class: 'DatP'
+		Property description: the left pane of the hex window
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	  (3) text pane
+		Property ID: 'TxtP'
+		Property class: 'DatP'
+		Property description: the left pane of the hex window
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	Number of class elements: 0
+  Object class 18: hex windows
+------------------------------
+	Object class ID: 'HexW'
+	Class description: every hex window
+	Number of class properties: 1
+	  (1) 
+		Property ID: 'c@#!'
+		Property class: 'type'
+		Property description: 
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	Number of class elements: 0
+  Object class 19: compare window
+---------------------------------
+	Object class ID: 'CmpW'
+	Class description: a maps comparison window
+	Number of class properties: 2
+	  (1) inherits
+		Property ID: 'c@#^'
+		Property class: 'cwin'
+		Property description: all properties of the 'window' class
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	  (2) result
+		Property ID: 'pRES'
+		Property class: 'COMP'
+		Property description: a comparison result object
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	Number of class elements: 0
+  Object class 20: compare windows
+----------------------------------
+	Object class ID: 'CmpW'
+	Class description: every compare window
+	Number of class properties: 1
+	  (1) 
+		Property ID: 'c@#!'
+		Property class: 'type'
+		Property description: 
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	Number of class elements: 0
+  Object class 21: inspector
+----------------------------
+	Object class ID: 'Insp'
+	Class description: the inspector window
+	Number of class properties: 1
+	  (1) inherits
+		Property ID: 'c@#^'
+		Property class: 'cwin'
+		Property description: all properties of the 'window' class
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	Number of class elements: 0
+  Object class 22: data pane
+----------------------------
+	Object class ID: 'DatP'
+	Class description: a pane displaying resource data
+	Number of class properties: 2
+	  (1) kind
+		Property ID: 'pKND'
+		Property class: 'PKND'
+		Property description: the kind of data this pane displays (hexadecimal or ascii text)
+		Property is a single item, enumerated. It cannot be set by the Set Data AE.
+	  (2) contents
+		Property ID: 'pcnt'
+		Property class: 'TEXT'
+		Property description: the data displayed in this pane
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	Number of class elements: 0
+Number of Comparison Operators: 0
+Number of Enumerations: 3
+    Enumeration 1 ID: 'DKND'
+----------------------------
+	Number of enumerators: 3
+	  Enumerator 1: resource map
+		Enumerator ID: 'RMAP'
+		Enumerator description: resource map document
+	  Enumerator 2: resource editor
+		Enumerator ID: 'EDOC'
+		Enumerator description: a resource editor
+	  Enumerator 3: maps compare
+		Enumerator ID: 'COMP'
+		Enumerator description: maps comparison document
+    Enumeration 2 ID: 'EKND'
+----------------------------
+	Number of enumerators: 3
+	  Enumerator 1: custom
+		Enumerator ID: 'kGUI'
+		Enumerator description: custom GUI editor
+	  Enumerator 2: template
+		Enumerator ID: 'kTMP'
+		Enumerator description: template editor
+	  Enumerator 3: hexadecimal
+		Enumerator ID: 'kHEX'
+		Enumerator description: hexadecimal editor
+    Enumeration 3 ID: 'PKND'
+----------------------------
+	Number of enumerators: 2
+	  Enumerator 1: hexa
+		Enumerator ID: 'HEXA'
+		Enumerator description: hex pane
+	  Enumerator 2: ascii
+		Enumerator ID: 'ASCI'
+		Enumerator description: text pane
+
+5- Resource suite
+=================
+Description: Resource maps handling
+Suite ID: 'Rsrc'
+Suite level: 1
+Suite version: 1
+Number of Events: 0
+Number of Classes: 8
+  Object class 1: map
+---------------------
+	Object class ID: 'cMAP'
+	Class description: a resource map
+	Number of class properties: 5
+	  (1) refnum
+		Property ID: 'pRFN'
+		Property class: 'shor'
+		Property description: the refnum of the map in memory
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	  (2) attributes
+		Property ID: 'pATR'
+		Property class: 'shor'
+		Property description: the global value of the map attributes (sum of the individual flags)
+		Property is a single item, not enumerated. It can be set by the Set Data AE.
+	  (3) readOnly
+		Property ID: 'pRDO'
+		Property class: 'bool'
+		Property description: the mapReadOnly bit
+		Property is a single item, not enumerated. It can be set by the Set Data AE.
+	  (4) compact
+		Property ID: 'pCPT'
+		Property class: 'bool'
+		Property description: the mapCompact bit
+		Property is a single item, not enumerated. It can be set by the Set Data AE.
+	  (5) changed
+		Property ID: 'imod'
+		Property class: 'bool'
+		Property description: the mapChanged bit
+		Property is a single item, not enumerated. It can be set by the Set Data AE.
+	Number of class elements: 2
+		Class element ID: 'cTYP'
+		Number of key forms: 3
+			 (1): 'indx'
+			 (2): 'name'
+			 (3): 'list'
+		Class element ID: 'cRSC'
+		Number of key forms: 2
+			 (1): 'indx'
+			 (2): 'list'
+  Object class 2: maps
+----------------------
+	Object class ID: 'cMAP'
+	Class description: every map
+	Number of class properties: 1
+	  (1) 
+		Property ID: 'c@#!'
+		Property class: 'type'
+		Property description: 
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	Number of class elements: 0
+  Object class 3: type
+----------------------
+	Object class ID: 'cTYP'
+	Class description: a resource type
+	Number of class properties: 1
+	  (1) name
+		Property ID: 'pnam'
+		Property class: 'itxt'
+		Property description: the type's name
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	Number of class elements: 1
+		Class element ID: 'cRSC'
+		Number of key forms: 3
+			 (1): 'name'
+			 (2): 'ID  '
+			 (3): 'indx'
+  Object class 4: types
+-----------------------
+	Object class ID: 'cTYP'
+	Class description: every type
+	Number of class properties: 1
+	  (1) 
+		Property ID: 'c@#!'
+		Property class: 'type'
+		Property description: 
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	Number of class elements: 0
+  Object class 5: resource
+--------------------------
+	Object class ID: 'cRSC'
+	Class description: a single resource
+	Number of class properties: 14
+	  (1) name
+		Property ID: 'pnam'
+		Property class: 'itxt'
+		Property description: the map's name
+		Property is a single item, not enumerated. It can be set by the Set Data AE.
+	  (2) type
+		Property ID: 'pTYP'
+		Property class: 'TEXT'
+		Property description: the type of the resource
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	  (3) ID
+		Property ID: 'ID  '
+		Property class: 'shor'
+		Property description: the ID of the resource
+		Property is a single item, not enumerated. It can be set by the Set Data AE.
+	  (4) specifier
+		Property ID: 'pSPE'
+		Property class: 'TyId'
+		Property description: the (type,ID) pair (which can be useful to characterize this resource)
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	  (5) attributes
+		Property ID: 'pATR'
+		Property class: 'shor'
+		Property description: the global value of the resource attributes (sum of the individual flags)
+		Property is a single item, not enumerated. It can be set by the Set Data AE.
+	  (6) sysHeap
+		Property ID: 'pSHP'
+		Property class: 'bool'
+		Property description: the resSysHeap bit
+		Property is a single item, not enumerated. It can be set by the Set Data AE.
+	  (7) purgeable
+		Property ID: 'pPUR'
+		Property class: 'bool'
+		Property description: the resPurgeable bit
+		Property is a single item, not enumerated. It can be set by the Set Data AE.
+	  (8) locked
+		Property ID: 'pLOC'
+		Property class: 'bool'
+		Property description: the resLocked bit
+		Property is a single item, not enumerated. It can be set by the Set Data AE.
+	  (9) resPreload
+		Property ID: 'pPRE'
+		Property class: 'bool'
+		Property description: the resPreload bit
+		Property is a single item, not enumerated. It can be set by the Set Data AE.
+	  (10) protected
+		Property ID: 'pPRO'
+		Property class: 'bool'
+		Property description: the resProtected bit
+		Property is a single item, not enumerated. It can be set by the Set Data AE.
+	  (11) changed
+		Property ID: 'imod'
+		Property class: 'bool'
+		Property description: the resChanged bit
+		Property is a single item, not enumerated. It can be set by the Set Data AE.
+	  (12) size
+		Property ID: 'pSIZ'
+		Property class: 'long'
+		Property description: the size of the resource data (in bytes)
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	  (13) sizeOnDisc
+		Property ID: 'pDSZ'
+		Property class: 'long'
+		Property description: the size of the resource on disk
+		Property is a single item, not enumerated. It can be set by the Set Data AE.
+	  (14) data
+		Property ID: 'pcnt'
+		Property class: '****'
+		Property description: the resource data (in hex format)
+		Property is a single item, not enumerated. It can be set by the Set Data AE.
+	Number of class elements: 0
+  Object class 6: resources
+---------------------------
+	Object class ID: 'cRSC'
+	Class description: every resource
+	Number of class properties: 1
+	  (1) 
+		Property ID: 'c@#!'
+		Property class: 'type'
+		Property description: 
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	Number of class elements: 0
+  Object class 7: comparison
+----------------------------
+	Object class ID: 'COMP'
+	Class description: the result of a comparison between two maps
+	Number of class properties: 5
+	  (1) criteria
+		Property ID: 'pCRI'
+		Property class: 'reco'
+		Property description: the comparison criteria
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	  (2) old only resources
+		Property ID: 'OldR'
+		Property class: 'TyId'
+		Property description: resources which are only in the old map
+		Property is a list, not enumerated. It cannot be set by the Set Data AE.
+	  (3) new only resources
+		Property ID: 'NewR'
+		Property class: 'TyId'
+		Property description: resources which are only in the new map
+		Property is a list, not enumerated. It cannot be set by the Set Data AE.
+	  (4) differing resources
+		Property ID: 'Diff'
+		Property class: 'TyId'
+		Property description: resources which are in both maps and are different
+		Property is a list, not enumerated. It cannot be set by the Set Data AE.
+	  (5) identical resources
+		Property ID: 'Iden'
+		Property class: 'TyId'
+		Property description: resources which are in both maps and are identical
+		Property is a list, not enumerated. It cannot be set by the Set Data AE.
+	Number of class elements: 0
+  Object class 8: specifier
+---------------------------
+	Object class ID: 'TyId'
+	Class description: a record containing the type and the ID of a resource
+	Number of class properties: 2
+	  (1) type
+		Property ID: 'pTYP'
+		Property class: 'TEXT'
+		Property description: a resource's type
+		Property is a single item, not enumerated. It can be set by the Set Data AE.
+	  (2) ID
+		Property ID: 'ID  '
+		Property class: 'shor'
+		Property description: a resource's ID
+		Property is a single item, not enumerated. It can be set by the Set Data AE.
+	Number of class elements: 0
+Number of Comparison Operators: 0
+Number of Enumerations: 1
+    Enumeration 1 ID: 'FKND'
+----------------------------
+	Number of enumerators: 4
+	  Enumerator 1: data fork
+		Enumerator ID: 'DATA'
+		Enumerator description: map in data fork
+	  Enumerator 2: resource fork
+		Enumerator ID: 'RSRC'
+		Enumerator description: map in resource fork
+	  Enumerator 3: any fork
+		Enumerator ID: 'ANY '
+		Enumerator description: could be any fork
+	  Enumerator 4: unknown fork
+		Enumerator ID: 'UNKW'
+		Enumerator description: fork is unknown
