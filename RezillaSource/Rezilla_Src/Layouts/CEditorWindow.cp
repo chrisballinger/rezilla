@@ -2,11 +2,11 @@
 // CEditorWindow.cp
 // 
 //                       Created: 2004-06-10 14:50:31
-//             Last modification: 2005-01-08 22:33:30
+//             Last modification: 2005-04-10 08:23:32
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004, 2005
+// (c) Copyright : Bernard Desgraupes, 2004-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -28,6 +28,7 @@
 CEditorWindow::CEditorWindow()
 {
 	mIsDirty = false;
+	SetModelKind(rzom_cEditorWindow);
 }
 
 
@@ -40,6 +41,7 @@ CEditorWindow::CEditorWindow(
 		: LWindow( inWindowInfo )
 {
 	mIsDirty = false;
+	SetModelKind(rzom_cEditorWindow);
 }
 
 
@@ -54,6 +56,7 @@ CEditorWindow::CEditorWindow(
 		: LWindow( inWINDid, inAttributes, inSuperCommander )
 {
 	mIsDirty = false;
+	SetModelKind(rzom_cEditorWindow);
 }
 
 
@@ -66,6 +69,7 @@ CEditorWindow::CEditorWindow(
 		: LWindow( inStream )
 {
 	mIsDirty = false;
+	SetModelKind(rzom_cEditorWindow);
 }
 
 

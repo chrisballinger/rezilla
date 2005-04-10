@@ -86,6 +86,7 @@ SPaneInfo CTmplEditorWindow::sPopupPaneInfo;
 
 CTmplEditorWindow::CTmplEditorWindow()
 {
+	SetModelKind(rzom_cTmplWindow);
 }
 
 
@@ -97,6 +98,7 @@ CTmplEditorWindow::CTmplEditorWindow(
 	const SWindowInfo &inWindowInfo )
 		: CEditorWindow( inWindowInfo )
 {
+	SetModelKind(rzom_cTmplWindow);
 }
 
 
@@ -110,6 +112,7 @@ CTmplEditorWindow::CTmplEditorWindow(
 	LCommander	*inSuperCommander )
 		: CEditorWindow( inWINDid, inAttributes, inSuperCommander )
 {
+	SetModelKind(rzom_cTmplWindow);
 }
 
 
@@ -121,6 +124,7 @@ CTmplEditorWindow::CTmplEditorWindow(
 			       LStream *inStream )
 		: CEditorWindow( inStream )
 {
+	SetModelKind(rzom_cTmplWindow);
 }
 
 

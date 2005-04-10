@@ -2,11 +2,11 @@
 // CRezMapWindow.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2005-03-22 12:54:08
+//             Last modification: 2005-04-10 08:23:55
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003-2004, 2005
+// (c) Copyright : Bernard Desgraupes, 2003-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -91,7 +91,7 @@ CRezMapWindow::~CRezMapWindow()
 void
 CRezMapWindow::FinishCreateSelf()
 {    	
-	SetModelKind(rzil_cRezMapWindow);
+	SetModelKind(rzom_cRezMapWindow);
 
 	// We need to have mOwnerDoc now because it is called below
 	mOwnerDoc = dynamic_cast<CRezMapDoc*>(GetSuperCommander());

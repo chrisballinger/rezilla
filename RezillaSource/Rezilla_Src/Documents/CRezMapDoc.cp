@@ -2,7 +2,7 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2005-03-08 07:44:20
+//             Last modification: 2005-04-10 08:23:20
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -223,7 +223,7 @@ CRezMapDoc::Initialize(FSSpec * inFileSpec, short inRefnum)
 	mExportStream = nil;
 	mReadOnly = false;
 	
-	SetModelKind(rzil_cRezMapDoc);
+	SetModelKind(rzom_cRezMapDoc);
 
 	if (mRezFile == nil) {
 		if (inFileSpec != nil) {
