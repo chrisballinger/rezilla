@@ -1,3 +1,13 @@
+
+
+
+
+
+
+
+
+
+
 #define SystemSevenOrLater 1
 //#include "Types.r"
 //#include "SysTypes.r"
@@ -1904,9 +1914,9 @@ resource 'aete' (0,"Scripting terminology") {
 				{
 				}
 			,
-				"GUI window",
-				'GuiW',
-				"a GUI custom editor window",
+				"editor window",
+				'EdiW',
+				"a resource editor window (hexadecimal, template or interface)",
 				{
 					
 						"inherits",
@@ -1929,14 +1939,35 @@ resource 'aete' (0,"Scripting terminology") {
 							notFeminine,
 							notMasculine,
 							singular
+					,
+						"kind",
+						'pKND',
+						'EKND',
+						"the kind of the editor window (gui, template, hexadecimal)",
+							reserved,
+							singleItem,
+							enumerated,
+							readOnly,
+							enumsAreConstants,
+							enumListCanRepeat,
+							propertyIsValue,
+							reserved,
+							reserved,
+							reserved,
+							reserved,
+							reserved,
+							noApostrophe,
+							notFeminine,
+							notMasculine,
+							singular
 					
 				},
 				{
 				}
 			,
-				"GUI windows",
-				'GuiW',
-				"every GUI window",
+				"editor windows",
+				'EdiW',
+				"every editor window",
 				{
 					
 						"",
@@ -1971,8 +2002,8 @@ resource 'aete' (0,"Scripting terminology") {
 					
 						"inherits",
 						'c@#^',
-						'cwin',
-						"all properties of the 'window' class",
+						'EdiW',
+						"all properties of the 'editor window' class",
 							reserved,
 							singleItem,
 							notEnumerated,
@@ -2031,8 +2062,8 @@ resource 'aete' (0,"Scripting terminology") {
 					
 						"inherits",
 						'c@#^',
-						'cwin',
-						"all properties of the 'window' class",
+						'EdiW',
+						"all properties of the 'editor window' class",
 							reserved,
 							singleItem,
 							notEnumerated,
@@ -2478,7 +2509,6 @@ resource 'aete' (0,"Scripting terminology") {
 						'cRSC',
 						{
 							'indx',
-							'name',
 							'list'}
 					
 				}
@@ -2538,36 +2568,15 @@ resource 'aete' (0,"Scripting terminology") {
 						notFeminine,
 						notMasculine,
 						singular
-					,
-						"refnum",
-						'pRFN',
-						'shor',
-						"the refnum of the map it belongs to",
-						reserved,
-						singleItem,
-						notEnumerated,
-						readOnly,
-						enumsAreConstants,
-						enumListCanRepeat,
-						propertyIsValue,
-						reserved,
-						reserved,
-						reserved,
-						reserved,
-						reserved,
-						noApostrophe,
-						notFeminine,
-						notMasculine,
-						singular
 					
 				},
 				{
 					
 						'cRSC',
 						{
-							'indx',
 							'name',
-							'list'}
+							'ID  ',
+							'indx'}
 					
 				}
 			,
@@ -2613,7 +2622,7 @@ resource 'aete' (0,"Scripting terminology") {
 						reserved,
 						singleItem,
 						notEnumerated,
-						readOnly,
+						readWrite,
 						enumsAreConstants,
 						enumListCanRepeat,
 						propertyIsValue,
@@ -2655,7 +2664,7 @@ resource 'aete' (0,"Scripting terminology") {
 						reserved,
 						singleItem,
 						notEnumerated,
-						readOnly,
+						readWrite,
 						enumsAreConstants,
 						enumListCanRepeat,
 						propertyIsValue,
@@ -2673,27 +2682,6 @@ resource 'aete' (0,"Scripting terminology") {
 						'pSPE',
 						'TyId',
 						"the (type,ID) pair (which can be useful to characterize this resource)",
-						reserved,
-						singleItem,
-						notEnumerated,
-						readOnly,
-						enumsAreConstants,
-						enumListCanRepeat,
-						propertyIsValue,
-						reserved,
-						reserved,
-						reserved,
-						reserved,
-						reserved,
-						noApostrophe,
-						notFeminine,
-						notMasculine,
-						singular
-					,
-						"refnum",
-						'pRFN',
-						'shor',
-						"the refnum of the map it belongs to",
 						reserved,
 						singleItem,
 						notEnumerated,
@@ -2886,7 +2874,7 @@ resource 'aete' (0,"Scripting terminology") {
 						reserved,
 						singleItem,
 						notEnumerated,
-						readOnly,
+						readWrite,
 						enumsAreConstants,
 						enumListCanRepeat,
 						propertyIsValue,
@@ -2903,7 +2891,7 @@ resource 'aete' (0,"Scripting terminology") {
 						"data",
 						'pcnt',
 						'****',
-						"the size of the resource data (in bytes)",
+						"the resource data (in hex format)",
 						reserved,
 						singleItem,
 						notEnumerated,
