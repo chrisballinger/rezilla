@@ -28,7 +28,17 @@ This changes log is in reverse chronological order (from bottom to top).
 $Date$
 
 ================================================================================
-= 1.0.6b3	                             last update: 
+= 1.0.6b4	                             last update: 
+================================================================================
+¥ Implemented AppleScript classes (Rezilla Object Model): "Rezilla Suite" 
+  and "Resource Suite".
+¥ Implemented AppleScript Standard and Core suites.
+¥ Implemented AppleScript Rezilla specific commands for manipulating 
+  resource maps. 
+¥ 
+
+================================================================================
+= 1.0.6b3	                             last update: 2005-04-10 10:55:46
 ================================================================================
 ¥ Popup edit fields now have an "Unknown" item to designate values which 
   do not correspond to any item in the popup.
