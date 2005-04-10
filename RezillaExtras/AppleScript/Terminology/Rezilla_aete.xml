@@ -1577,7 +1577,7 @@
 			<Class>
 				<ClassName>map document</ClassName>
 				<ClassID>MapD</ClassID>
-				<ClassDescription>a Rezilla's resource map document</ClassDescription>
+				<ClassDescription>a resource map document (representing the contents of an entire fork)</ClassDescription>
 				<ArrayProperties>
 					<Property>
 						<PropertyName>inherits</PropertyName>
@@ -1607,7 +1607,7 @@
 						<PropertyName>refnum</PropertyName>
 						<PropertyID>pRFN</PropertyID>
 						<PropertyClass>shor</PropertyClass>
-						<PropertyDescription>the refnum of the map in memory</PropertyDescription>
+						<PropertyDescription>the reference number of the map in memory</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
@@ -2158,9 +2158,9 @@
 			</Class>
 
 			<Class>
-				<ClassName>GUI window</ClassName>
-				<ClassID>GuiW</ClassID>
-				<ClassDescription>a GUI custom editor window</ClassDescription>
+				<ClassName>editor window</ClassName>
+				<ClassID>EdiW</ClassID>
+				<ClassDescription>a resource editor window (hexadecimal, template or interface)</ClassDescription>
 				<ArrayProperties>
 					<Property>
 						<PropertyName>inherits</PropertyName>
@@ -2186,15 +2186,39 @@
 							<Plural>singular</Plural>
 						</PropertyFlags>
 					</Property>
+					<Property>
+						<PropertyName>kind</PropertyName>
+						<PropertyID>pKND</PropertyID>
+						<PropertyClass>EKND</PropertyClass>
+						<PropertyDescription>the kind of the editor window (gui, template, hexadecimal)</PropertyDescription>
+						<PropertyFlags>
+							<Reserved/>
+							<IsListOfItems>singleItem</IsListOfItems>
+							<IsEnumerated>enumerated</IsEnumerated>
+							<IsReadWrite>readOnly</IsReadWrite>
+							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+							<PropertyIsReference>propertyIsValue</PropertyIsReference>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<IsApostrophe>noApostrophe</IsApostrophe>
+							<IsFeminine>notFeminine</IsFeminine>
+							<IsMasculine>notMasculine</IsMasculine>
+							<Plural>singular</Plural>
+						</PropertyFlags>
+					</Property>
 				</ArrayProperties>
 				<ArrayElements>
 				</ArrayElements>
 			</Class>
 
 			<Class>
-				<ClassName>GUI windows</ClassName>
-				<ClassID>GuiW</ClassID>
-				<ClassDescription>every GUI window</ClassDescription>
+				<ClassName>editor windows</ClassName>
+				<ClassID>EdiW</ClassID>
+				<ClassDescription>every editor window</ClassDescription>
 				<ArrayProperties>
 					<Property>
 						<PropertyName></PropertyName>
@@ -2233,8 +2257,8 @@
 					<Property>
 						<PropertyName>inherits</PropertyName>
 						<PropertyID>c@#^</PropertyID>
-						<PropertyClass>cwin</PropertyClass>
-						<PropertyDescription>all properties of the 'window' class</PropertyDescription>
+						<PropertyClass>EdiW</PropertyClass>
+						<PropertyDescription>all properties of the 'editor window' class</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
@@ -2301,8 +2325,8 @@
 					<Property>
 						<PropertyName>inherits</PropertyName>
 						<PropertyID>c@#^</PropertyID>
-						<PropertyClass>cwin</PropertyClass>
-						<PropertyDescription>all properties of the 'window' class</PropertyDescription>
+						<PropertyClass>EdiW</PropertyClass>
+						<PropertyDescription>all properties of the 'editor window' class</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
@@ -2677,7 +2701,7 @@
 						<PropertyName>refnum</PropertyName>
 						<PropertyID>pRFN</PropertyID>
 						<PropertyClass>shor</PropertyClass>
-						<PropertyDescription>the refnum of the map in memory</PropertyDescription>
+						<PropertyDescription>the reference number of the map in memory</PropertyDescription>
 						<Reserved/>
 						<IsListOfItems>singleItem</IsListOfItems>
 						<IsEnumerated>notEnumerated</IsEnumerated>
@@ -2797,7 +2821,6 @@
 						<ElementID>cRSC</ElementID>
 						<ArrayKeyForms>
 							<KeyFormID>indx</KeyFormID>
-							<KeyFormID>name</KeyFormID>
 							<KeyFormID>list</KeyFormID>
 						</ArrayKeyForms>
 					</Element>
@@ -2863,36 +2886,14 @@
 						<IsMasculine>notMasculine</IsMasculine>
 						<Plural>singular</Plural>
 					</Property>
-					<Property>
-						<PropertyName>refnum</PropertyName>
-						<PropertyID>pRFN</PropertyID>
-						<PropertyClass>shor</PropertyClass>
-						<PropertyDescription>the refnum of the map it belongs to</PropertyDescription>
-						<Reserved/>
-						<IsListOfItems>singleItem</IsListOfItems>
-						<IsEnumerated>notEnumerated</IsEnumerated>
-						<IsReadWrite>readOnly</IsReadWrite>
-						<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
-						<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
-						<PropertyIsReference>propertyIsValue</PropertyIsReference>
-						<Reserved/>
-						<Reserved/>
-						<Reserved/>
-						<Reserved/>
-						<Reserved/>
-						<IsApostrophe>noApostrophe</IsApostrophe>
-						<IsFeminine>notFeminine</IsFeminine>
-						<IsMasculine>notMasculine</IsMasculine>
-						<Plural>singular</Plural>
-					</Property>
 				</ArrayProperties>
 				<ArrayElements>
 					<Element>
 						<ElementID>cRSC</ElementID>
 						<ArrayKeyForms>
-							<KeyFormID>indx</KeyFormID>
 							<KeyFormID>name</KeyFormID>
-							<KeyFormID>list</KeyFormID>
+							<KeyFormID>ID  </KeyFormID>
+							<KeyFormID>indx</KeyFormID>
 						</ArrayKeyForms>
 					</Element>
 				</ArrayElements>
@@ -2943,7 +2944,7 @@
 						<Reserved/>
 						<IsListOfItems>singleItem</IsListOfItems>
 						<IsEnumerated>notEnumerated</IsEnumerated>
-						<IsReadWrite>readOnly</IsReadWrite>
+						<IsReadWrite>readWrite</IsReadWrite>
 						<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
 						<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
 						<PropertyIsReference>propertyIsValue</PropertyIsReference>
@@ -2987,7 +2988,7 @@
 						<Reserved/>
 						<IsListOfItems>singleItem</IsListOfItems>
 						<IsEnumerated>notEnumerated</IsEnumerated>
-						<IsReadWrite>readOnly</IsReadWrite>
+						<IsReadWrite>readWrite</IsReadWrite>
 						<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
 						<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
 						<PropertyIsReference>propertyIsValue</PropertyIsReference>
@@ -3207,7 +3208,7 @@
 						<Reserved/>
 						<IsListOfItems>singleItem</IsListOfItems>
 						<IsEnumerated>notEnumerated</IsEnumerated>
-						<IsReadWrite>readOnly</IsReadWrite>
+						<IsReadWrite>readWrite</IsReadWrite>
 						<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
 						<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
 						<PropertyIsReference>propertyIsValue</PropertyIsReference>
@@ -3225,7 +3226,7 @@
 						<PropertyName>data</PropertyName>
 						<PropertyID>pcnt</PropertyID>
 						<PropertyClass>****</PropertyClass>
-						<PropertyDescription>the size of the resource data (in bytes)</PropertyDescription>
+						<PropertyDescription>the resource data (in hex format)</PropertyDescription>
 						<Reserved/>
 						<IsListOfItems>singleItem</IsListOfItems>
 						<IsEnumerated>notEnumerated</IsEnumerated>
