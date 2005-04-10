@@ -38,7 +38,7 @@ CRezMap::MakeSelfSpecifier(
 		keyData.Assign(mRefNum);
 
 		// Make ospec for the rezmap
-		err = ::CreateObjSpecifier(rzil_cMap, &inSuperSpecifier, formPropertyID,
+		err = ::CreateObjSpecifier(rzom_cMap, &inSuperSpecifier, formPropertyID,
 										keyData, false, &outSelfSpecifier);
 		ThrowIfOSErr_(err);
 
@@ -53,11 +53,11 @@ CRezMap::MakeSelfSpecifier(
 //	¥ GetAEProperty
 // ---------------------------------------------------------------------------
 //	Return a descriptor for the specified Property
-// rzil_pRefNum			= 'pRFN';		// RefNum
-// rzil_pAttributes		= 'pATR';		// Attributes
-// rzil_pReadOnly		= 'pRDO';		// mapReadOnly
-// rzil_pCompact		= 'pCPT';		// mapCompact
-// rzil_pChanged		= pIsModified;	// mapChanged/resChanged ('imod')
+// rzom_pRefNum			= 'pRFN';		// RefNum
+// rzom_pAttributes		= 'pATR';		// Attributes
+// rzom_pReadOnly		= 'pRDO';		// mapReadOnly
+// rzom_pCompact		= 'pCPT';		// mapCompact
+// rzom_pChanged		= pIsModified;	// mapChanged/resChanged ('imod')
 
 void
 CRezMap::GetAEProperty(
@@ -69,13 +69,13 @@ CRezMap::GetAEProperty(
 	
 	switch (inProperty) {
 		
-		case rzil_pRefNum:
+		case rzom_pRefNum:
 		error = ::AECreateDesc(typeSInt16, (Ptr) &mRefNum,
 									sizeof(short), &outPropertyDesc);
 		ThrowIfOSErr_(error);
 		break;
 		
-		case rzil_pAttributes:
+		case rzom_pAttributes:
 		short		theAttrs;
 		GetMapAttributes(theAttrs);
 		error = ::AECreateDesc(typeSInt16, (Ptr) &theAttrs,
@@ -83,15 +83,15 @@ CRezMap::GetAEProperty(
 		ThrowIfOSErr_(error);
 		break;
 		
-		case rzil_pReadOnly:
+		case rzom_pReadOnly:
 		GetAERezMapAttribute(mapReadOnly, outPropertyDesc);
 		break;
 		
-		case rzil_pCompact:
+		case rzom_pCompact:
 		GetAERezMapAttribute(mapCompact, outPropertyDesc);
 		break;
 		
-		case rzil_pChanged:
+		case rzom_pChanged:
 		GetAERezMapAttribute(mapChanged, outPropertyDesc);
 		break;
 		
@@ -115,21 +115,21 @@ CRezMap::SetAEProperty(
 {
 	switch (inProperty) {
 
-		case rzil_pAttributes:
+		case rzom_pAttributes:
 		short		theAttrs;
 		UExtractFromAEDesc::TheSInt16(inValue, theAttrs);
 		SetMapAttributes(theAttrs);
 		break;
 		
-		case rzil_pReadOnly:
+		case rzom_pReadOnly:
 		SetAERezMapAttribute(inValue, mapReadOnly);
 		break;
 		
-		case rzil_pCompact:
+		case rzom_pCompact:
 		SetAERezMapAttribute(inValue, mapCompact);
 		break;
 		
-		case rzil_pChanged:
+		case rzom_pChanged:
 		SetAERezMapAttribute(inValue, mapChanged);
 		break;
 
@@ -254,11 +254,11 @@ CRezMap::AEPropertyExists(
 
 	switch (inProperty) {
 
-		case rzil_pAttributes:
-		case rzil_pChanged:
-		case rzil_pCompact:
-		case rzil_pReadOnly:
-		case rzil_pRefNum:
+		case rzom_pAttributes:
+		case rzom_pChanged:
+		case rzom_pCompact:
+		case rzom_pReadOnly:
+		case rzom_pRefNum:
 			exists = true;
 			break;
 

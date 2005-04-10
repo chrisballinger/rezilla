@@ -159,7 +159,7 @@ CRezillaApp::CountSubModels(
 		count = LApplication::CountSubModels(inModelID);
 		break;		
 		
-		case rzil_cRezMapWindow: {
+		case rzom_cEditorWindow: {
 			windowP = ::GetWindowList();
 			
 			while (windowP != nil) {
@@ -167,9 +167,9 @@ CRezillaApp::CountSubModels(
 				if (theWindow != nil) {
 					theKind = theWindow->GetModelKind();
 					if (theKind == inModelID 
-						|| theKind == rzil_cGuiWindow 
-						|| theKind == rzil_cTmplWindow 
-						|| theKind == rzil_cHexWindow) {
+						|| theKind == rzom_cGuiWindow 
+						|| theKind == rzom_cTmplWindow 
+						|| theKind == rzom_cHexWindow) {
 						count++;
 					} 
 				} 
@@ -178,10 +178,11 @@ CRezillaApp::CountSubModels(
 			break;
 		}
 
-		case rzil_cGuiWindow:
-		case rzil_cTmplWindow:
-		case rzil_cHexWindow:
-		case rzil_cCompWindow: {
+		case rzom_cRezMapWindow:
+		case rzom_cGuiWindow:
+		case rzom_cTmplWindow:
+		case rzom_cHexWindow:
+		case rzom_cCompWindow: {
 			windowP = ::GetWindowList();
 			
 			while (windowP != nil) {
