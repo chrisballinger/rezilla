@@ -1,11 +1,11 @@
 // ===========================================================================
 // CRezillaAppAE.cp					
 //                       Created: 2004-11-30 08:44:17
-//             Last modification: 2004-11-30 13:43:37
+//             Last modification: 2005-04-11 09:34:19
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2004
+// © Copyright: Bernard Desgraupes 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -28,6 +28,7 @@
 #include <LFile.h>
 #include <LWindow.h>
 #include <LWindowHeader.h>
+#include <LDocument.h>
 
 
 // Standard headers
@@ -152,16 +153,17 @@ CRezillaApp::CountSubModels(
 	DescType	theKind;
 	WindowPtr	windowP;
 	LWindow *	theWindow;
+	LDocument*	theDoc;
 	
 	switch (inModelID) {
 
 		case cWindow:
 		count = LApplication::CountSubModels(inModelID);
-		break;		
+		break;
+		
 		
 		case rzom_cEditorWindow: {
 			windowP = ::GetWindowList();
-			
 			while (windowP != nil) {
 				theWindow = LWindow::FetchWindowObject(windowP);
 				if (theWindow != nil) {
@@ -178,13 +180,13 @@ CRezillaApp::CountSubModels(
 			break;
 		}
 
+		
 		case rzom_cRezMapWindow:
 		case rzom_cGuiWindow:
 		case rzom_cTmplWindow:
 		case rzom_cHexWindow:
 		case rzom_cCompWindow: {
 			windowP = ::GetWindowList();
-			
 			while (windowP != nil) {
 				theWindow = LWindow::FetchWindowObject(windowP);
 				if (theWindow != nil && theWindow->GetModelKind() == inModelID) {
@@ -194,6 +196,45 @@ CRezillaApp::CountSubModels(
 			}
 			break;
 		}
+		
+
+		case cDocument:
+			count = (SInt32) LDocument::GetDocumentList().GetCount();
+			break;
+
+
+		case rzom_cEditorDoc: {		
+			TArrayIterator<LDocument*> iterEditor( LDocument::GetDocumentList() );
+			theDoc = nil;
+			while (iterEditor.Next(theDoc)) {
+				if (theDoc != nil) {
+					theKind = theDoc->GetModelKind();
+					if (theKind == inModelID 
+						|| theKind == rzom_cHexEditDoc 
+						|| theKind == rzom_cTmplEditDoc 
+						|| theKind == rzom_cGuiEditDoc) {
+						count++;
+					} 
+				} 
+			}
+			break;
+		}
+
+
+		case rzom_cRezMapDoc:
+		case rzom_cGuiEditDoc:
+		case rzom_cTmplEditDoc:
+		case rzom_cHexEditDoc: {
+			TArrayIterator<LDocument*> iterDoc( LDocument::GetDocumentList() );
+			theDoc = nil;
+			while (iterDoc.Next(theDoc)) {
+				if (theDoc && theDoc->GetModelKind() == inModelID) {
+					count++;
+				} 
+			}
+			break;
+		}
+		
 
 		default:
 			count = LModelObject::CountSubModels(inModelID);
@@ -313,20 +354,14 @@ CRezillaApp::GetAEProperty(
 
 	switch (inProperty) {
 		case pVersion: {
-// 			Str255	versionStr;
-// 
-// 			VersionFromPlist(versionStr);
 			error = ::AECreateDesc(typeChar, (Ptr) sVersionNumber + 1, sVersionNumber[0], &outPropertyDesc);
 			break;
 		}
 
 		default:
-			LModelObject::GetAEProperty(inProperty, inRequestedType,
-											outPropertyDesc);
+			LModelObject::GetAEProperty(inProperty, inRequestedType, outPropertyDesc);
 			break;
 	}
 }
-
-
 
 
