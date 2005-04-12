@@ -2,7 +2,7 @@
 // CRezMap.cp					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2005-04-10 08:24:12
+//             Last modification: 2005-04-12 07:03:12
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -25,10 +25,8 @@
 // ---------------------------------------------------------------------------
 
 CRezMap::CRezMap(short inRefnum)
-	: LModelObject( NULL, rzom_cMap), mRefNum(inRefnum)
-{
-	SetModelKind(rzom_cMap);
-	
+	: LModelObject( NULL, rzom_cRezMap), mRefNum(inRefnum)
+{	
 	// Don't use PP's list model since the subobjects (types, resources)
 	// are constructed only when necessary
 	SetUseSubModelList(false);

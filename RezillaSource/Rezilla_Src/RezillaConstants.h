@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2005-04-10 10:44:35
+//             Last modification : 2005-04-11 09:23:14
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -1122,24 +1122,24 @@ const DescType rzom_cEditorDoc		= 'EdiD';	// Editor document
 const DescType rzom_cGuiEditDoc		= 'GuiD';	// Gui editor document
 const DescType rzom_cTmplEditDoc	= 'TmpD';	// Tmpl editor document
 const DescType rzom_cHexEditDoc		= 'HexD';	// Hex editor document
-const DescType rzom_cCompareDoc		= 'CmpD';	// Compare document
+const DescType rzom_cCompareDoc		= 'CmpD';	// Maps comparison document
 
 const DescType rzom_cRezMapWindow	= 'MapW';	// RezMap window
 const DescType rzom_cEditorWindow	= 'EdiW';	// Editor window
-const DescType rzom_cGuiWindow		= 'GuiW';	// Gui editor window
+const DescType rzom_cGuiWindow		= 'GuiW';	// Interface editor window
 const DescType rzom_cTmplWindow		= 'TmpW';	// Tmpl editor window
 const DescType rzom_cHexWindow		= 'HexW';	// Hex editor window
 
 const DescType rzom_cCompWindow		= 'CmpW';	// RezCompare window
 const DescType rzom_cInspector		= 'Insp';	// Inspector window
 
-const DescType rzom_cDataPane		= 'DatP';	// DataPane
-const DescType rzom_cHexPane		= 'HexP';	// HexPane
-const DescType rzom_cTxtPane		= 'TxtP';	// TxtPane
+const DescType rzom_cDataPane		= 'DatP';	// Any data pane
+const DescType rzom_cHexPane		= 'HexP';	// Hexadecimal pane
+const DescType rzom_cTxtPane		= 'TxtP';	// Text pane
 
-const DescType rzom_cMap			= 'cMAP';	// RezMap
-const DescType rzom_cType			= 'cTYP';	// RezType
-const DescType rzom_cResource		= 'cRSC';	// Resource (RezObj)
+const DescType rzom_cRezMap			= 'cMAP';	// RezMap
+const DescType rzom_cRezType		= 'cTYP';	// RezType
+const DescType rzom_cRezObj			= 'cRSC';	// RezObj
 
 // Properties
 // ----------
@@ -1149,13 +1149,13 @@ const DescType rzom_pClipboard		= pClipboard;	// PrivateClipboard ('pcli')
 const DescType rzom_pPreferences	= 'pPRF';		// Preferences
 
 //    Document
-const DescType rzom_pDocKind		= 'DKND';	// Document's kind
+const DescType rzom_pOwnerMapDoc	= 'pOWM';	// Editor document's owner map
 
 //    RezMap document
 const DescType rzom_pRezFork		= 'pFRK';	// ResFork
 const DescType rzom_pRezMap			= 'pMAP';	// RezMap
 const DescType rzom_pRezFile		= 'pFIL';	// ResFile
-const DescType rzom_pEditedRsrcDocs	= 'pERD';	// Edited resources documents
+const DescType rzom_pEditedRsrcDocs	= 'pERD';	// Edited resource documents
 
 //    RezMap
 const DescType rzom_pRefNum			= 'pRFN';		// RefNum
@@ -1181,11 +1181,11 @@ const DescType rzom_pSizeOnDisk		= 'pDSZ';		// Size on disk
 const DescType rzom_pData			= pContents;	// Data ('pcnt', was 'pDAT')
 
 //    Specifier
-const DescType rzom_cTypeID			= 'TyId';	// Resource specifier object: 
+const DescType rzom_cRezTypeID			= 'TyId';	// Resource specifier object: 
                            			         	//   e-g (type:aete, ID  :128)
 
 //    Maps Comparison
-const DescType rzom_cMapComparison	= 'COMP';	// Maps Comparison 
+const DescType rzom_cRezMapComparison	= 'COMP';	// Maps Comparison 
 const DescType rzom_pIgnoreName		= 'IgnN';	// IgnoreNameDiff
 const DescType rzom_pIgnoreAttr		= 'IgnA';	// IgnoreAttrDiff
 const DescType rzom_pIgnoreData		= 'IgnD';	// IgnoreDataDiff
@@ -1203,7 +1203,12 @@ const DescType rzom_pKind			= 'pKND';	// Kind
 //    Tmpl editor document
 const DescType rzom_pTemplate		= 'pTMP';	// Template
 
-
+// Aete Enumerations
+// 'FORK'
+// 'FKND'
+// 'DKND'
+// 'EKND'
+// 'PKND'
 
 // ======================================================================
 // Error Constants

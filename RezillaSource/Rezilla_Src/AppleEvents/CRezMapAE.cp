@@ -38,7 +38,7 @@ CRezMap::MakeSelfSpecifier(
 		keyData.Assign(mRefNum);
 
 		// Make ospec for the rezmap
-		err = ::CreateObjSpecifier(rzom_cMap, &inSuperSpecifier, formPropertyID,
+		err = ::CreateObjSpecifier(rzom_cRezMap, &inSuperSpecifier, formPropertyID,
 										keyData, false, &outSelfSpecifier);
 		ThrowIfOSErr_(err);
 
