@@ -2,11 +2,11 @@
 // CRezMapDoc.h				
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2005-03-08 17:33:17
+//             Last modification: 2005-04-12 07:26:56
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003-2004, 2005
+// (c) Copyright : Bernard Desgraupes, 2003-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -102,6 +102,29 @@ public:
 
 	TableIndexT			GetFirstSelected();
 	
+	// AppleEvents
+	virtual void	GetAEProperty(
+								DescType			inProperty,
+								const AEDesc&		inRequestedType,
+								AEDesc&				outPropertyDesc) const;
+	
+	void			SetAEProperty(
+								DescType		inProperty,
+								const AEDesc&	inValue,
+								AEDesc&			outAEReply);
+
+// 	void			GetAERezMapAttribute(
+// 								short		inFlag,
+// 								AEDesc&		outPropertyDesc) const;
+// 	
+// 	void			SetAERezMapAttribute(
+// 								const AEDesc& inValue, 
+// 								short inFlag);
+	
+	virtual bool	AEPropertyExists(
+								DescType		inProperty) const;
+
+	// Accessors
 	CRezMapWindow*		GetRezMapWindow() const { return mRezMapWindow; }
 
 	virtual CRezMap*	GetRezMap() { return mRezMap;}

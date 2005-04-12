@@ -57,6 +57,9 @@ CEditorDoc::CEditorDoc(LCommander* inSuper,
 	mSubstType = inSubstType;
 	mReadOnly = inReadOnly;
 	mKind = editor_kindGui;
+	
+	SetModelKind(rzom_cEditorDoc);
+
 	Register();
 }
 

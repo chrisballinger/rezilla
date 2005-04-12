@@ -2,11 +2,11 @@
 // CTmplEditorDoc.cp					
 // 
 //                       Created: 2004-06-12 10:06:22
-//             Last modification: 2005-01-02 15:28:56
+//             Last modification: 2005-04-11 09:09:51
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004, 2005
+// (c) Copyright : Bernard Desgraupes, 2004-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -92,6 +92,8 @@ CTmplEditorDoc::Initialize()
 	
 	mKind = editor_kindTmpl;
 
+	SetModelKind(rzom_cTmplEditDoc);
+
 	// Create window for our document. This sets this doc as the SuperCommander of the window.
 	mTmplEditWindow = dynamic_cast<CTmplEditorWindow *>(LWindow::CreateWindow( PPob_TmplEditorWindow, this ));
 	Assert_( mTmplEditWindow != nil );
@@ -103,6 +105,7 @@ CTmplEditorDoc::Initialize()
 
 	NameNewEditorDoc();
 	
+
 	// Add the window to the window menu.
 	gWindowMenu->InsertWindow( mTmplEditWindow );
 	
