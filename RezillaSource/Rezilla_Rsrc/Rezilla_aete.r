@@ -1,13 +1,3 @@
-
-
-
-
-
-
-
-
-
-
 #define SystemSevenOrLater 1
 //#include "Types.r"
 //#include "SysTypes.r"
@@ -1403,7 +1393,7 @@ resource 'aete' (0,"Scripting terminology") {
 			
 				"map document",
 				'MapD',
-				"a Rezilla's resource map document",
+				"a resource map document (representing the contents of an entire fork)",
 				{
 					
 						"inherits",
@@ -1430,7 +1420,7 @@ resource 'aete' (0,"Scripting terminology") {
 						"refnum",
 						'pRFN',
 						'shor',
-						"the refnum of the map in memory",
+						"the reference number of the map in memory",
 							reserved,
 							singleItem,
 							notEnumerated,
@@ -1580,7 +1570,7 @@ resource 'aete' (0,"Scripting terminology") {
 						"kind",
 						'pKND',
 						'EKND',
-						"the kind of the editor (gui, template, hexadecimal)",
+						"the kind of the editor (hexadecimal, template, or interface)",
 							reserved,
 							singleItem,
 							enumerated,
@@ -1620,9 +1610,9 @@ resource 'aete' (0,"Scripting terminology") {
 							singular
 					,
 						"map",
-						'pOMD',
-						'MAPD',
-						"the map document that owns this editor document",
+						'pOWM',
+						'MapD',
+						"the rezmap document that owns this editor document",
 							reserved,
 							singleItem,
 							notEnumerated,
@@ -1674,9 +1664,9 @@ resource 'aete' (0,"Scripting terminology") {
 				{
 				}
 			,
-				"GUI editor",
+				"interface document",
 				'GuiD',
-				"a GUI editor document for a resource",
+				"a dedicated interface document editing a resource",
 				{
 					
 						"inherits",
@@ -1704,9 +1694,9 @@ resource 'aete' (0,"Scripting terminology") {
 				{
 				}
 			,
-				"GUI editors",
+				"interface documents",
 				'GuiD',
-				"every GUI editor",
+				"every interface document",
 				{
 					
 						"",
@@ -1734,9 +1724,9 @@ resource 'aete' (0,"Scripting terminology") {
 				{
 				}
 			,
-				"template editor",
+				"template document",
 				'TmpD',
-				"a template editor document for a resource",
+				"a template document editing a resource",
 				{
 					
 						"inherits",
@@ -1764,9 +1754,9 @@ resource 'aete' (0,"Scripting terminology") {
 				{
 				}
 			,
-				"template editors",
+				"template documents",
 				'TmpD',
-				"every template editor",
+				"every template document",
 				{
 					
 						"",
@@ -1794,9 +1784,9 @@ resource 'aete' (0,"Scripting terminology") {
 				{
 				}
 			,
-				"hex editor",
+				"hex document",
 				'HexD',
-				"a hexadecimal editor document for a resource",
+				"a hexadecimal document editing a resource",
 				{
 					
 						"inherits",
@@ -1824,9 +1814,9 @@ resource 'aete' (0,"Scripting terminology") {
 				{
 				}
 			,
-				"hex editors",
+				"hex documents",
 				'HexD',
-				"every hex editor",
+				"every hex document",
 				{
 					
 						"",
@@ -1943,7 +1933,7 @@ resource 'aete' (0,"Scripting terminology") {
 						"kind",
 						'pKND',
 						'EKND',
-						"the kind of the editor window (gui, template, hexadecimal)",
+						"the kind of the editor window (hexadecimal, template or interface)",
 							reserved,
 							singleItem,
 							enumerated,
@@ -2157,7 +2147,7 @@ resource 'aete' (0,"Scripting terminology") {
 				{
 				}
 			,
-				"compare window",
+				"comparison window",
 				'CmpW',
 				"a maps comparison window",
 				{
@@ -2208,9 +2198,9 @@ resource 'aete' (0,"Scripting terminology") {
 				{
 				}
 			,
-				"compare windows",
+				"comparison windows",
 				'CmpW',
-				"every compare window",
+				"every comparison window",
 				{
 					
 						"",
@@ -2338,7 +2328,7 @@ resource 'aete' (0,"Scripting terminology") {
 						'EDOC',
 						"a resource editor"
 					,
-						"maps compare",
+						"maps comparison",
 						'COMP',
 						"maps comparison document"
 					
@@ -2347,24 +2337,24 @@ resource 'aete' (0,"Scripting terminology") {
 				'EKND',
 				{
 					
-						"custom",
-						'kGUI',
-						"custom GUI editor"
+						"hexadecimal",
+						'kHEX',
+						"hexadecimal editor"
 					,
 						"template",
 						'kTMP',
 						"template editor"
 					,
-						"hexadecimal",
-						'kHEX',
-						"hexadecimal editor"
+						"interface",
+						'kGUI',
+						"dedicated interface editor"
 					
 				}
 			,
 				'PKND',
 				{
 					
-						"hexa",
+						"hexadecimal",
 						'HEXA',
 						"hex pane"
 					,
@@ -2395,7 +2385,7 @@ resource 'aete' (0,"Scripting terminology") {
 						"refnum",
 						'pRFN',
 						'shor',
-						"the refnum of the map in memory",
+						"the reference number of the map in memory",
 						reserved,
 						singleItem,
 						notEnumerated,
@@ -3134,6 +3124,19 @@ resource 'aete' (0,"Scripting terminology") {
 						"unknown fork",
 						'UNKW',
 						"fork is unknown"
+					
+				}
+			,
+				'FORK',
+				{
+					
+						"data fork",
+						'DATA',
+						"map in data fork"
+					,
+						"resource fork",
+						'RSRC',
+						"map in resource fork"
 					
 				}
 			
