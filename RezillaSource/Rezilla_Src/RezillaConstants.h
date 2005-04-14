@@ -1265,7 +1265,7 @@ enum RezillaErrors
 	err_TmplNoCaseInKeySection,
 	err_TmplMalformedCaseSection,
 	err_TmplUnknownKeyValueInResource,
-	err_TmplPopupNotConnectedToEditField,
+	err_TmplIsolatedCaseTag,
 	err_TmplCantFindKeyedSectionStart,
 	err_TmplCantFindKeyStartForValue,
 	err_TmplCantFindKeyIndex,
