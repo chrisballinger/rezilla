@@ -49,16 +49,23 @@ CRezMapDoc::GetAEProperty(
 		break;
 
 		case rzom_pRefNum:
-// 		error = ::AECreateDesc(typeSInt16, (Ptr) &mID,
-// 									sizeof(short), &outPropertyDesc);
-// 		ThrowIfOSErr_(error);
+		short		theRefNum = mRezMap->GetRefnum();
+		error = ::AECreateDesc(typeSInt16, (Ptr) &theRefNum,
+									sizeof(short), &outPropertyDesc);
+		ThrowIfOSErr_(error);
 		break;
 		
 		case rzom_pRezFork:
-// 		short const	theAttrs = GetAttributes();
-// 		error = ::AECreateDesc(typeSInt16, (Ptr) &theAttrs,
-// 									sizeof(short), &outPropertyDesc);
-// 		ThrowIfOSErr_(error);
+		// 		typeEnumerated
+		ResType	theType = 'UNKW';
+		if (mFork == fork_rezfork) {
+			theType = 'RSRC';
+		} else if (mFork == fork_datafork) {
+			theType = 'DATA';
+		} 
+		error = ::AECreateDesc(typeEnumerated, (Ptr) &theType,
+									sizeof(ResType), &outPropertyDesc);
+		ThrowIfOSErr_(error);
 		break;
 		
 		case rzom_pRezFile:
