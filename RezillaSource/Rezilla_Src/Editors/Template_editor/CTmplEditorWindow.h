@@ -2,11 +2,11 @@
 // CTmplEditorWindow.h
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2004-12-06 09:08:34
+//             Last modification: 2005-04-13 08:20:36
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes, 2004
+// (c) Copyright: Bernard Desgraupes, 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -296,6 +296,8 @@ private:
 									Str255 ioString, 
 									UInt16 & ioBitsCount, 
 									UInt16 & ioBytesLen);
+	
+	Boolean			NextIsCase();
 	
 	OSErr			RetrieveBitField(UInt16 inBitCount, UInt16 inBytesLen);
 	

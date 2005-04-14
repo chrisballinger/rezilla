@@ -950,10 +950,10 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		break;
 
 		case 'CASE':
-		// Switch with predefined values. Remember the position mark of the
-		// first CASE in the template stream
-		theSInt32 = mTemplateStream->GetMarker() - inLabelString[0] - 5;
-		error = AddCasePopup(inType, theSInt32, inContainer);		
+		// Switch with predefined values. They are normally consumed by 
+		// AddEditField() or AddFlagPopup(). This must be an isolated CASE 
+		// tag: raise an error.
+		error = err_TmplIsolatedCaseTag;
 		break;
 
 		case 'CHAR':
@@ -1824,6 +1824,9 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		// Binary byte made of the OR of base-2 values
 		theFlagPopup = dynamic_cast<CFlagPopup *>(this->FindPaneByID(mCurrentID));
 		*mOutStream << (UInt8) theFlagPopup->GetFlagValue();
+		// Skip the CASE tags with arg 1 in order to avoid an error if
+		// there are no CASEs.
+		SkipNextKeyCases(1);
 		mPaneIndex++;
 		break;
 
@@ -2131,6 +2134,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		// Binary long made of the OR of base-2 values
 		theFlagPopup = dynamic_cast<CFlagPopup *>(this->FindPaneByID(mCurrentID));
 		*mOutStream << (UInt32) theFlagPopup->GetFlagValue();
+		SkipNextKeyCases(1);
 		mPaneIndex++;
 		break;
 
@@ -2387,6 +2391,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		// Binary word made of the OR of base-2 values
 		theFlagPopup = dynamic_cast<CFlagPopup *>(this->FindPaneByID(mCurrentID));
 		*mOutStream << (UInt16) theFlagPopup->GetFlagValue();
+		SkipNextKeyCases(1);
 		mPaneIndex++;
 		break;
 
