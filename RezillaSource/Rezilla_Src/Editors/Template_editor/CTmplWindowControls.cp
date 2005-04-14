@@ -2,7 +2,7 @@
 // CTmplWindowUtils.cp					
 // 
 //                       Created: 2004-08-20 16:45:08
-//             Last modification: 2005-01-15 09:55:49
+//             Last modification: 2005-04-13 08:32:00
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -19,6 +19,7 @@
 #include "CTmplEditorDoc.h"
 #include "CTmplListItemView.h"
 #include "CTmplListButton.h"
+#include "CTmplCaseField.h"
 #include "CTmplCasePopup.h"
 #include "CFlagPopup.h"
 #include "CTemplatesController.h"
@@ -289,7 +290,7 @@ CTmplEditorWindow::AddStaticField(OSType inType, Str255 inLabel, LView * inConta
 //   extend to the right edge of the container and the field is bound to
 //   the right edge of the window.
 // - if (inMaxChars < kTmplEditMinFixedChars), the width is adjusted to
-//   kTmplEditMaxFixedChars and the field is not redimesionable.
+//   kTmplEditMaxFixedChars and the field is not resizeable.
 
 void
 CTmplEditorWindow::AddEditField(Str255 inValue, 
@@ -299,8 +300,11 @@ CTmplEditorWindow::AddEditField(Str255 inValue,
 								TEKeyFilterFunc inKeyFilter, 
 								LView * inContainer)
 {
-	SDimension16	theFrame;
-	Boolean			incrY = true;
+	LEditText *			theEditText;
+	CTmplCaseField *	theCaseField;
+	SDimension16		theFrame;
+	Boolean				incrY = true, hasCases;
+	
 	inContainer->GetFrameSize(theFrame);
 
 	sEditPaneInfo.left				= kTmplLeftMargin + kTmplLabelWidth + kTmplHorizSep;
@@ -321,23 +325,42 @@ CTmplEditorWindow::AddEditField(Str255 inValue,
 		}
 	}
 	
-	LEditText * theEditText = new LEditText(sEditPaneInfo, this, inValue, sEditTraitsID, 
-											msg_EditorModifiedItem, inMaxChars, 0, inKeyFilter);
-	ThrowIfNil_(theEditText);
-
-	// Store the template's type in the userCon field
-	theEditText->SetUserCon(inType);
+	hasCases = NextIsCase();
 	
-	// Let the window listen to this field
-	theEditText->AddListener(this);
+	if (hasCases) {
+		theCaseField = new CTmplCaseField(sEditPaneInfo, this, inValue,
+										sEditTraitsID, msg_EditorModifiedItem,
+										msg_TmplCasePopup, inMaxChars, 0, inKeyFilter, 
+										mTemplateStream, mTemplateStream->GetMarker());
 
+		// Let the window listen to this field
+		theCaseField->AddListener(this);
+		// Set the paneID: if paneID is 0, clicks in ListItemViews are ignored
+		mCurrentID++;
+		theCaseField->GetPopup()->SetPaneID(mCurrentID);
+	} else {
+		theEditText = new LEditText(sEditPaneInfo, this, inValue, sEditTraitsID, 
+										msg_EditorModifiedItem, inMaxChars, 0, inKeyFilter);
+		ThrowIfNil_(theEditText);
+		// Let the window listen to this field
+		theEditText->AddListener(this);
+	}
+	
 	// Filler types can be invisible or disabled
 	if (inType == 'FBYT' || inType == 'FWRD' || inType == 'FLNG') {
 		if ( ! CRezillaPrefs::GetPrefValue(kPref_templates_displayFillers) ) {
-			theEditText->Hide();
+			if (hasCases) {
+				theCaseField->Hide();
+			} else {
+				theEditText->Hide();
+			}
 			incrY = false;	
 		} else if ( ! CRezillaPrefs::GetPrefValue(kPref_templates_enableFillers) ) {
-			theEditText->Disable();
+			if (hasCases) {
+				theCaseField->Disable();
+			} else {
+				theEditText->Disable();
+			}
 		} 
 	} 
 	
@@ -1114,12 +1137,12 @@ CTmplEditorWindow::AddCasePopup(ResType inType, SInt32 inStartMark, LView * inCo
 	
 	OSErr			error = noErr;
 	Rect			theFrame;
-// 	Str255			theValue;
+	Str255			theValue;
 
 	// Get a pointer to the associated edit field
 	LEditText * theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID - 1));
 	if (theEditText == NULL) {
-		return err_TmplPopupNotConnectedToEditField;
+		return err_TmplIsolatedCaseTag;
 	} 
 	
 	theEditText->CalcPortFrameRect(theFrame);
@@ -1132,7 +1155,7 @@ CTmplEditorWindow::AddCasePopup(ResType inType, SInt32 inStartMark, LView * inCo
 
 	CTmplCasePopup * theCasePopup = new CTmplCasePopup(sBevelPaneInfo, msg_TmplCasePopup, theEditText,
 													 MENU_TemplateCases, kControlBevelButtonMenuOnBottom, 
-													 0, Str_Empty, 1,
+													 Txtr_MonacoNineDefault, Str_Empty, 1,
 													 mTemplateStream, inStartMark);													 
 	ThrowIfNil_(theCasePopup);
 
@@ -1143,8 +1166,9 @@ CTmplEditorWindow::AddCasePopup(ResType inType, SInt32 inStartMark, LView * inCo
 	theCasePopup->SetUserCon( (long) theEditText);
 	// Store the position mark of the first CASE in the userCon of the edit field
 	theEditText->SetUserCon(inStartMark);
-// 	// Retrieve the value of the associated edit field
-// 	theEditText->GetDescriptor(theValue);
+	// Retrieve the value of the associated edit field
+	theEditText->GetDescriptor(theValue);
+	theCasePopup->AdjustPopupWithValue(theValue);
 	
 	// Advance the counters. mYCoord has already been increased by the edit field
 	mPaneIDs.AddItem(mCurrentID);
@@ -1221,7 +1245,7 @@ CTmplEditorWindow::AddFlagPopup(ResType inType, Str255 inLabel, UInt32 inValue, 
 	sPopupPaneInfo.paneID			= mCurrentID;
 	sPopupPaneInfo.superView		= inContainer;
 
-	CFlagPopup * theFlagPopup = new CFlagPopup(sBevelPaneInfo, msg_EditorModifiedItem, 0);													 
+	CFlagPopup * theFlagPopup = new CFlagPopup(sPopupPaneInfo, msg_EditorModifiedItem, 0);													 
 	ThrowIfNil_(theFlagPopup);
 
 	currMark = mTemplateStream->GetMarker();
