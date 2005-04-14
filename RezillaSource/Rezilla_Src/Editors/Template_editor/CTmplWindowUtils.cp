@@ -2,7 +2,7 @@
 // CTmplWindowUtils.cp
 // 
 //                       Created: 2004-08-20 16:45:08
-//             Last modification: 2005-03-09 06:57:21
+//             Last modification: 2005-04-13 08:20:19
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -711,6 +711,33 @@ CTmplEditorWindow::SkipNextKeyCases(UInt16 inPreCount)
 	}
 
 	return error;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ NextIsCase											[private]
+// ---------------------------------------------------------------------------
+// Look forward in the template stream to see whetehr the next tag is a 
+// CASE tag, then reposition the stream's marker.
+
+Boolean
+CTmplEditorWindow::NextIsCase()
+{	
+	Boolean	iscase = false;
+	Str255	theString;
+	ResType	theType;
+	SInt32	currMark = mTemplateStream->GetMarker();
+	SInt32	maxPos = mTemplateStream->GetLength();
+	
+	if (currMark < maxPos) {
+		*mTemplateStream >> theString;
+		*mTemplateStream >> theType;
+		
+		iscase = (theType == 'CASE');
+		mTemplateStream->SetMarker( - theString[0] - 5, streamFrom_Marker) ;
+	}
+
+	return iscase;
 }
 
 
