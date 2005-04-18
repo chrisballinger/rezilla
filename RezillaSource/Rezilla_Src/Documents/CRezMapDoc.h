@@ -113,6 +113,8 @@ public:
 								const AEDesc&	inValue,
 								AEDesc&			outAEReply);
 
+	SInt32			GetAEPosition();
+	
 // 	void			GetAERezMapAttribute(
 // 								short		inFlag,
 // 								AEDesc&		outPropertyDesc) const;
@@ -161,7 +163,7 @@ public:
 							   CommandT inCommand, 
 							   ResType inType, 
 							   ResType * substTypePtr);
-	
+		
 	Boolean				IsReadOnly() { return mReadOnly;}
 	void				SetReadOnly(Boolean inReadOnlyDoc) {mReadOnly = inReadOnlyDoc;}
 

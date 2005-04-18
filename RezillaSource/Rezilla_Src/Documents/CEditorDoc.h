@@ -2,7 +2,7 @@
 // CEditorDoc.h				
 // 
 //                       Created: 2004-02-23 17:57:59
-//             Last modification: 2005-03-23 05:46:12
+//             Last modification: 2005-04-17 15:55:27
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -63,6 +63,31 @@ public:
 
 	virtual StringPtr	GetDescriptor( Str255 outDescriptor ) const;
 
+	// AppleEvents
+	virtual void	GetAEProperty(
+								DescType			inProperty,
+								const AEDesc&		inRequestedType,
+								AEDesc&				outPropertyDesc) const;
+	
+	void			SetAEProperty(
+								DescType		inProperty,
+								const AEDesc&	inValue,
+								AEDesc&			outAEReply);
+
+// 	SInt32			GetAEPosition();
+	
+// 	void			GetAERezMapAttribute(
+// 								short		inFlag,
+// 								AEDesc&		outPropertyDesc) const;
+// 	
+// 	void			SetAERezMapAttribute(
+// 								const AEDesc& inValue, 
+// 								short inFlag);
+	
+	virtual bool	AEPropertyExists(
+								DescType		inProperty) const;
+
+	// Accessors
 	CRezObj *		GetRezObj() { return mRezObj; }
 	
 	CRezMapTable*	GetRezMapTable() { return mRezMapTable;}
