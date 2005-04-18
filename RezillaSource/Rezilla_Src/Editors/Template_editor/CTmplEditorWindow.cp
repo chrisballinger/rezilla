@@ -2,7 +2,7 @@
 // CTmplEditorWindow.cp					
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2005-04-08 06:50:10
+//             Last modification: 2005-04-15 07:18:43
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -17,7 +17,6 @@
 #include "CTmplEditorDoc.h"
 #include "CTmplListItemView.h"
 #include "CTmplListButton.h"
-#include "CTmplCasePopup.h"
 #include "CFlagPopup.h"
 #include "CTemplatesController.h"
 #include "CRezMapTable.h"
@@ -1433,7 +1432,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		} 
 		::NumToString( (long) theUInt8, numStr);
 		AddStaticField(inType, inLabelString, inContainer);
-		AddEditField(numStr, inType, 4, 0, 
+		AddEditField(numStr, inType, 3, 0, 
 					 UKeyFilters::SelectTEKeyFilter(keyFilter_Integer), inContainer);
 		break;
 
@@ -1444,7 +1443,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		} 
 		::NumToString( (long) theUInt32, numStr);
 		AddStaticField(inType, inLabelString, inContainer);
-		AddEditField(numStr, inType, 11, 0, 
+		AddEditField(numStr, inType, 10, 0, 
 					 UKeyFilters::SelectTEKeyFilter(keyFilter_Integer), inContainer);
 		break;
 
@@ -1455,7 +1454,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		} 
 		::NumToString( (long) theUInt16, numStr);
 		AddStaticField(inType, inLabelString, inContainer);
-		AddEditField(numStr, inType, 6, 0, 
+		AddEditField(numStr, inType, 5, 0, 
 					 UKeyFilters::SelectTEKeyFilter(keyFilter_Integer), inContainer);
 		break;
 
