@@ -2,7 +2,7 @@
 // CTmplWindowUtils.cp					
 // 
 //                       Created: 2004-08-20 16:45:08
-//             Last modification: 2005-04-13 08:32:00
+//             Last modification: 2005-04-15 07:18:02
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -20,7 +20,6 @@
 #include "CTmplListItemView.h"
 #include "CTmplListButton.h"
 #include "CTmplCaseField.h"
-#include "CTmplCasePopup.h"
 #include "CFlagPopup.h"
 #include "CTemplatesController.h"
 #include "CRezObj.h"
@@ -1125,57 +1124,6 @@ CTmplEditorWindow::AddSeparatorLine(LView * inContainer)
 	mYCoord += sSeparatorPaneInfo.height + kTmplVertSep;
 }
 
-
-// ---------------------------------------------------------------------------
-//	¥ AddCasePopup													[public]
-// ---------------------------------------------------------------------------
-
-OSErr
-CTmplEditorWindow::AddCasePopup(ResType inType, SInt32 inStartMark, LView * inContainer)
-{
-#pragma unused(inType)
-	
-	OSErr			error = noErr;
-	Rect			theFrame;
-	Str255			theValue;
-
-	// Get a pointer to the associated edit field
-	LEditText * theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID - 1));
-	if (theEditText == NULL) {
-		return err_TmplIsolatedCaseTag;
-	} 
-	
-	theEditText->CalcPortFrameRect(theFrame);
-	inContainer->PortToLocalPoint(botRight(theFrame));
-	
-	sBevelPaneInfo.left				= theFrame.right + kTmplBevelSep;
-	sBevelPaneInfo.top				= mYCoord - sEditPaneInfo.height -kTmplVertSep -1;
-	sBevelPaneInfo.paneID			= mCurrentID;
-	sBevelPaneInfo.superView		= inContainer;
-
-	CTmplCasePopup * theCasePopup = new CTmplCasePopup(sBevelPaneInfo, msg_TmplCasePopup, theEditText,
-													 MENU_TemplateCases, kControlBevelButtonMenuOnBottom, 
-													 Txtr_MonacoNineDefault, Str_Empty, 1,
-													 mTemplateStream, inStartMark);													 
-	ThrowIfNil_(theCasePopup);
-
-	// Let the window listen to this menu
-	theCasePopup->AddListener(this);
-	
-	// Store the pointer to the associated edit field
-	theCasePopup->SetUserCon( (long) theEditText);
-	// Store the position mark of the first CASE in the userCon of the edit field
-	theEditText->SetUserCon(inStartMark);
-	// Retrieve the value of the associated edit field
-	theEditText->GetDescriptor(theValue);
-	theCasePopup->AdjustPopupWithValue(theValue);
-	
-	// Advance the counters. mYCoord has already been increased by the edit field
-	mPaneIDs.AddItem(mCurrentID);
-	mCurrentID++;
-	
-	return error;
-}
 
 
 // ---------------------------------------------------------------------------
