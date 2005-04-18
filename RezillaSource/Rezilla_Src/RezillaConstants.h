@@ -1153,7 +1153,7 @@ const DescType rzom_pOwnerMapDoc	= 'pOWM';	// Editor document's owner map
 
 //    RezMap document
 const DescType rzom_pRezFork		= 'pFRK';	// ResFork
-const DescType rzom_pRezMap			= 'pMAP';	// RezMap
+// const DescType rzom_pRezMap			= 'pMAP';	// RezMap
 const DescType rzom_pRezFile		= 'pFIL';	// ResFile
 const DescType rzom_pEditedRsrcDocs	= 'pERD';	// Edited resource documents
 
@@ -1186,13 +1186,13 @@ const DescType rzom_cRezTypeID			= 'TyId';	// Resource specifier object:
 
 //    Maps Comparison
 const DescType rzom_cRezMapComparison	= 'COMP';	// Maps Comparison 
-const DescType rzom_pIgnoreName		= 'IgnN';	// IgnoreNameDiff
-const DescType rzom_pIgnoreAttr		= 'IgnA';	// IgnoreAttrDiff
-const DescType rzom_pIgnoreData		= 'IgnD';	// IgnoreDataDiff
-const DescType rzom_pOnlyInOld		= 'OldR';	// Only in old map resources (list)
-const DescType rzom_pOnlyInNew		= 'NewR';	// Only in new map resources (list)
-const DescType rzom_pDiffering		= 'Diff';	// In both but different (list)
-const DescType rzom_pIdentical		= 'Iden';	// In both and identical (list)
+const DescType rzom_pIgnoreName			= 'IgnN';	// IgnoreNameDiff
+const DescType rzom_pIgnoreAttr			= 'IgnA';	// IgnoreAttrDiff
+const DescType rzom_pIgnoreData			= 'IgnD';	// IgnoreDataDiff
+const DescType rzom_pOnlyInOld			= 'OldR';	// Only in old map resources (list)
+const DescType rzom_pOnlyInNew			= 'NewR';	// Only in new map resources (list)
+const DescType rzom_pDiffering			= 'Diff';	// In both but different (list)
+const DescType rzom_pIdentical			= 'Iden';	// In both and identical (list)
 
 //    HexPane/TxtPane
 const DescType rzom_pContents		= pContents;	// Contents ('pcnt')
@@ -1203,12 +1203,21 @@ const DescType rzom_pKind			= 'pKND';	// Kind
 //    Tmpl editor document
 const DescType rzom_pTemplate		= 'pTMP';	// Template
 
-// Aete Enumerations
-// 'FORK'
-// 'FKND'
-// 'DKND'
-// 'EKND'
-// 'PKND'
+// Aete Enumerator IDs
+const DescType rzom_eRezMap			= 'RMAP';
+const DescType rzom_eEditorDoc		= 'EDOC';
+const DescType rzom_eCompareDoc		= 'COMP';
+const DescType rzom_eHexEditor		= 'EHEX';
+const DescType rzom_eTmplEditor		= 'ETMP';
+const DescType rzom_eGuiEditor		= 'EGUI';
+const DescType rzom_eHexaData		= 'HEXA';
+const DescType rzom_eAsciiData		= 'ASCI';
+const DescType rzom_eDataFork		= 'DATF';
+const DescType rzom_eRsrcFork		= 'RSRF';
+const DescType rzom_eAnyFork		= 'ANYF';
+const DescType rzom_eIsDataFork		= 'DFRK';
+const DescType rzom_eIsRsrcFork		= 'RFRK';
+const DescType rzom_eIsUnknownFork	= 'UFRK';
 
 // ======================================================================
 // Error Constants
