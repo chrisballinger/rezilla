@@ -267,6 +267,39 @@ CRezillaApp::GetSubModelByPosition(
 			break;
 		}
 
+		case cDocument: {
+			LDocument *	theDoc = nil;
+			if ( LDocument::GetDocumentList().FetchItemAt( inPosition, theDoc) ) {
+				PutInToken(theDoc, outToken);
+			} else {
+				ThrowOSErr_(errAENoSuchObject);
+			}
+			break;
+		}
+
+		case rzom_cRezMapDoc: {
+			LDocument *	theDoc = nil;
+			Boolean		found = false;
+			UInt16		count = 0;
+			
+			TArrayIterator<LDocument*> iterEditor( LDocument::GetDocumentList() );
+			while (iterEditor.Next(theDoc)) {
+				if (theDoc != nil && theDoc->GetModelKind() == inModelID) {
+					count++;
+					if (count == inPosition) {
+						found = true;
+						break;
+					} 
+				} 
+			}
+			if (found) {
+				PutInToken(theDoc, outToken);
+			} else {
+				ThrowOSErr_(errAENoSuchObject);
+			}
+			break;
+		}
+
 		default:
 			LModelObject::GetSubModelByPosition(inModelID, inPosition,
 													outToken);
@@ -298,6 +331,37 @@ CRezillaApp::GetSubModelByName(
 			break;
 		}
 
+		case cDocument: {
+			LDocument *	theDoc = LDocument::FindNamedDocument(inName);
+			if (theDoc != nil) {
+				PutInToken(theDoc, outToken);
+			} else {
+				ThrowOSErr_(errAENoSuchObject);
+			}
+			break;
+		}
+
+		case rzom_cRezMapDoc: {
+			TArrayIterator<LDocument*> iterator( LDocument::GetDocumentList() );
+			LDocument*	theDoc = nil;
+			while (iterator.Next(theDoc)) {
+				if (theDoc->GetModelKind() == inModelID) {
+					Str255	docName;
+					theDoc->GetDescriptor(docName);
+					if (::IdenticalString(inName, docName, nil) == 0) {
+						break;
+					}
+				} 				
+				theDoc = nil;
+			}
+			if (theDoc != nil) {
+				PutInToken(theDoc, outToken);
+			} else {
+				ThrowOSErr_(errAENoSuchObject);
+			}
+			break;
+		}
+
 		default:
 			LModelObject::GetSubModelByName(inModelID, inName, outToken);
 			break;
@@ -305,37 +369,30 @@ CRezillaApp::GetSubModelByName(
 }
 
 
-// ---------------------------------------------------------------------------
-//	¥ GetPositionOfSubModel											  [public]
-// ---------------------------------------------------------------------------
-//	Return the position (1 = first) of a SubModel within an Application
-
-SInt32
-CRezillaApp::GetPositionOfSubModel(
-	DescType				inModelID,
-	const LModelObject*		inSubModel) const
-{
-	SInt32	position;
-
-	switch (inModelID) {
-
-		case cWindow: {
-			const LWindow*	window = dynamic_cast<const LWindow*>(inSubModel);
-			if (window != nil) {
-				position = UWindows::FindWindowIndex(window->GetMacWindow());
-			} else {
-				Throw_(errAENoSuchObject);
-			}
-			break;
-		}
-
-		default:
-			position = LModelObject::GetPositionOfSubModel(inModelID, inSubModel);
-			break;
-	}
-
-	return position;
-}
+// // ---------------------------------------------------------------------------
+// //	¥ GetPositionOfSubModel											  [public]
+// // ---------------------------------------------------------------------------
+// //	Return the position (1 = first) of a SubModel within an Application
+// 
+// SInt32
+// CRezillaApp::GetPositionOfSubModel(
+// 	DescType				inModelID,
+// 	const LModelObject*		inSubModel) const
+// {
+// 	SInt32	position;
+// 
+// 	switch (inModelID) {
+// 
+// 		case cMap: {
+// 		}
+// 
+// 		default:
+// 			position = LApplication::GetPositionOfSubModel(inModelID, inSubModel);
+// 			break;
+// 	}
+// 
+// 	return position;
+// }
 
 
 

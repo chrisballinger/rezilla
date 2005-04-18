@@ -64,7 +64,6 @@
 #include "CTEXT_EditorView.h"
 #include "CTEXT_EditorWindow.h"
 #include "CThreeButtonsBox.h"
-#include "CTmplCasePopup.h"
 #include "CTmplEditorWindow.h"
 #include "CTxtDataSubView.h"
 #include "CUtxt_EditorDoc.h"
@@ -408,7 +407,6 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(CTEXT_EditorView);
 	RegisterClass_(CTEXT_EditorWindow);
 	RegisterClass_(CThreeButtonsBox);
-	RegisterClass_(CTmplCasePopup);
 	RegisterClass_(CTmplEditorWindow);
 	RegisterClass_(CTxtDataSubView);
 	RegisterClass_(CUtxt_EditorView);

@@ -95,9 +95,9 @@ public:
 								Str255				inName,
 								AEDesc&				outToken) const;
 
-	virtual SInt32		GetPositionOfSubModel(
-								DescType			inModelID,
-								const LModelObject*	inSubModel) const;
+// 	virtual SInt32		GetPositionOfSubModel(
+// 								DescType			inModelID,
+// 								const LModelObject*	inSubModel) const;
 
 	virtual void		GetAEProperty(
 								DescType			inProperty,
