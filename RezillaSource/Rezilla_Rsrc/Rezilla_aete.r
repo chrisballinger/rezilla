@@ -1,3 +1,13 @@
+
+
+
+
+
+
+
+
+
+
 #define SystemSevenOrLater 1
 //#include "Types.r"
 //#include "SysTypes.r"
@@ -741,6 +751,11 @@ resource 'aete' (0,"Scripting terminology") {
 							'name',
 							'rang'}
 					,
+						'docu',
+						{
+							'indx',
+							'name'}
+					,
 						'MapD',
 						{
 							'indx',
@@ -774,73 +789,10 @@ resource 'aete' (0,"Scripting terminology") {
 							notMasculine,
 							singular
 					,
-						"kind",
-						'pKND',
-						'DKND',
-						"the kind of document",
-							reserved,
-							singleItem,
-							enumerated,
-							readOnly,
-							enumsAreConstants,
-							enumListCanRepeat,
-							propertyIsValue,
-							reserved,
-							reserved,
-							reserved,
-							reserved,
-							reserved,
-							noApostrophe,
-							notFeminine,
-							notMasculine,
-							singular
-					,
-						"readOnly",
-						'pRDO',
-						'bool',
-						"Is this document read-only?",
-							reserved,
-							singleItem,
-							notEnumerated,
-							readWrite,
-							enumsAreConstants,
-							enumListCanRepeat,
-							propertyIsValue,
-							reserved,
-							reserved,
-							reserved,
-							reserved,
-							reserved,
-							noApostrophe,
-							notFeminine,
-							notMasculine,
-							singular
-					,
 						"modified",
 						'imod',
 						'bool',
 						"Has the document been modified since the last save?",
-							reserved,
-							singleItem,
-							notEnumerated,
-							readOnly,
-							enumsAreConstants,
-							enumListCanRepeat,
-							propertyIsValue,
-							reserved,
-							reserved,
-							reserved,
-							reserved,
-							reserved,
-							noApostrophe,
-							notFeminine,
-							notMasculine,
-							singular
-					,
-						"window",
-						'cwin',
-						'cwin',
-						"the window of the document.",
 							reserved,
 							singleItem,
 							notEnumerated,
@@ -1417,6 +1369,69 @@ resource 'aete' (0,"Scripting terminology") {
 							notMasculine,
 							singular
 					,
+						"index",
+						'pidx',
+						'long',
+						"the number of the document",
+							reserved,
+							singleItem,
+							notEnumerated,
+							readOnly,
+							enumsAreConstants,
+							enumListCanRepeat,
+							propertyIsValue,
+							reserved,
+							reserved,
+							reserved,
+							reserved,
+							reserved,
+							noApostrophe,
+							notFeminine,
+							notMasculine,
+							singular
+					,
+						"readOnly",
+						'pRDO',
+						'bool',
+						"Is this document read-only?",
+							reserved,
+							singleItem,
+							notEnumerated,
+							readWrite,
+							enumsAreConstants,
+							enumListCanRepeat,
+							propertyIsValue,
+							reserved,
+							reserved,
+							reserved,
+							reserved,
+							reserved,
+							noApostrophe,
+							notFeminine,
+							notMasculine,
+							singular
+					,
+						"window",
+						'cwin',
+						'cwin',
+						"the window of the document.",
+							reserved,
+							singleItem,
+							notEnumerated,
+							readOnly,
+							enumsAreConstants,
+							enumListCanRepeat,
+							propertyIsValue,
+							reserved,
+							reserved,
+							reserved,
+							reserved,
+							reserved,
+							noApostrophe,
+							notFeminine,
+							notMasculine,
+							singular
+					,
 						"refnum",
 						'pRFN',
 						'shor',
@@ -1440,7 +1455,7 @@ resource 'aete' (0,"Scripting terminology") {
 					,
 						"fork",
 						'pFRK',
-						'FKND',
+						'FORK',
 						"the fork this document is editing (data fork or resource fork)",
 							reserved,
 							singleItem,
@@ -1460,7 +1475,7 @@ resource 'aete' (0,"Scripting terminology") {
 							singular
 					,
 						"map",
-						'pMAP',
+						'cMAP',
 						'cMAP',
 						"the resource map associated with this document",
 							reserved,
@@ -1567,10 +1582,31 @@ resource 'aete' (0,"Scripting terminology") {
 							notMasculine,
 							singular
 					,
+						"index",
+						'pidx',
+						'long',
+						"the number of the document",
+							reserved,
+							singleItem,
+							notEnumerated,
+							readOnly,
+							enumsAreConstants,
+							enumListCanRepeat,
+							propertyIsValue,
+							reserved,
+							reserved,
+							reserved,
+							reserved,
+							reserved,
+							noApostrophe,
+							notFeminine,
+							notMasculine,
+							singular
+					,
 						"kind",
 						'pKND',
-						'EKND',
-						"the kind of the editor (hexadecimal, template, or interface)",
+						'DKND',
+						"the kind of document",
 							reserved,
 							singleItem,
 							enumerated,
@@ -1588,8 +1624,50 @@ resource 'aete' (0,"Scripting terminology") {
 							notMasculine,
 							singular
 					,
+						"readOnly",
+						'pRDO',
+						'bool',
+						"Is this document read-only?",
+							reserved,
+							singleItem,
+							notEnumerated,
+							readOnly,
+							enumsAreConstants,
+							enumListCanRepeat,
+							propertyIsValue,
+							reserved,
+							reserved,
+							reserved,
+							reserved,
+							reserved,
+							noApostrophe,
+							notFeminine,
+							notMasculine,
+							singular
+					,
+						"window",
+						'cwin',
+						'cwin',
+						"the window of the document.",
+							reserved,
+							singleItem,
+							notEnumerated,
+							readOnly,
+							enumsAreConstants,
+							enumListCanRepeat,
+							propertyIsValue,
+							reserved,
+							reserved,
+							reserved,
+							reserved,
+							reserved,
+							noApostrophe,
+							notFeminine,
+							notMasculine,
+							singular
+					,
 						"resource",
-						'pRSC',
+						'cRSC',
 						'cRSC',
 						"the resource edited by this document",
 							reserved,
@@ -2338,15 +2416,15 @@ resource 'aete' (0,"Scripting terminology") {
 				{
 					
 						"hexadecimal",
-						'kHEX',
+						'EHEX',
 						"hexadecimal editor"
 					,
 						"template",
-						'kTMP',
+						'ETMP',
 						"template editor"
 					,
 						"interface",
-						'kGUI',
+						'EGUI',
 						"dedicated interface editor"
 					
 				}
@@ -3106,37 +3184,37 @@ resource 'aete' (0,"Scripting terminology") {
 		
 		{
 			
+				'FORK',
+				{
+					
+						"dataFork",
+						'DATF',
+						"map in data fork"
+					,
+						"resourceFork",
+						'RSRF',
+						"map in resource fork"
+					,
+						"anyFork",
+						'ANYF',
+						"could be any fork"
+					
+				}
+			,
 				'FKND',
 				{
 					
 						"data fork",
-						'DATA',
-						"map in data fork"
+						'DFRK',
+						"map lies in data fork"
 					,
 						"resource fork",
-						'RSRC',
-						"map in resource fork"
-					,
-						"any fork",
-						'ANY ',
-						"could be any fork"
+						'RFRK',
+						"map lies in resource fork"
 					,
 						"unknown fork",
-						'UNKW',
+						'UFRK',
 						"fork is unknown"
-					
-				}
-			,
-				'FORK',
-				{
-					
-						"data fork",
-						'DATA',
-						"map in data fork"
-					,
-						"resource fork",
-						'RSRC',
-						"map in resource fork"
 					
 				}
 			
