@@ -839,6 +839,13 @@
 						</ArrayKeyForms>
 					</Element>
 					<Element>
+						<ElementClass>docu</ElementClass>
+						<ArrayKeyForms>
+							<KeyFormID>indx</KeyFormID>
+							<KeyFormID>name</KeyFormID>
+						</ArrayKeyForms>
+					</Element>
+					<Element>
 						<ElementClass>MapD</ElementClass>
 						<ArrayKeyForms>
 							<KeyFormID>indx</KeyFormID>
@@ -878,82 +885,10 @@
 						</PropertyFlags>
 					</Property>
 					<Property>
-						<PropertyName>kind</PropertyName>
-						<PropertyID>pKND</PropertyID>
-						<PropertyClass>DKND</PropertyClass>
-						<PropertyDescription>the kind of document</PropertyDescription>
-						<PropertyFlags>
-							<Reserved/>
-							<IsListOfItems>singleItem</IsListOfItems>
-							<IsEnumerated>enumerated</IsEnumerated>
-							<IsReadWrite>readOnly</IsReadWrite>
-							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
-							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
-							<PropertyIsReference>propertyIsValue</PropertyIsReference>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<IsApostrophe>noApostrophe</IsApostrophe>
-							<IsFeminine>notFeminine</IsFeminine>
-							<IsMasculine>notMasculine</IsMasculine>
-							<Plural>singular</Plural>
-						</PropertyFlags>
-					</Property>
-					<Property>
-						<PropertyName>readOnly</PropertyName>
-						<PropertyID>pRDO</PropertyID>
-						<PropertyClass>bool</PropertyClass>
-						<PropertyDescription>Is this document read-only?</PropertyDescription>
-						<PropertyFlags>
-							<Reserved/>
-							<IsListOfItems>singleItem</IsListOfItems>
-							<IsEnumerated>notEnumerated</IsEnumerated>
-							<IsReadWrite>readWrite</IsReadWrite>
-							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
-							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
-							<PropertyIsReference>propertyIsValue</PropertyIsReference>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<IsApostrophe>noApostrophe</IsApostrophe>
-							<IsFeminine>notFeminine</IsFeminine>
-							<IsMasculine>notMasculine</IsMasculine>
-							<Plural>singular</Plural>
-						</PropertyFlags>
-					</Property>
-					<Property>
 						<PropertyName>modified</PropertyName>
 						<PropertyID>imod</PropertyID>
 						<PropertyClass>bool</PropertyClass>
 						<PropertyDescription>Has the document been modified since the last save?</PropertyDescription>
-						<PropertyFlags>
-							<Reserved/>
-							<IsListOfItems>singleItem</IsListOfItems>
-							<IsEnumerated>notEnumerated</IsEnumerated>
-							<IsReadWrite>readOnly</IsReadWrite>
-							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
-							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
-							<PropertyIsReference>propertyIsValue</PropertyIsReference>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<IsApostrophe>noApostrophe</IsApostrophe>
-							<IsFeminine>notFeminine</IsFeminine>
-							<IsMasculine>notMasculine</IsMasculine>
-							<Plural>singular</Plural>
-						</PropertyFlags>
-					</Property>
-					<Property>
-						<PropertyName>window</PropertyName>
-						<PropertyID>cwin</PropertyID>
-						<PropertyClass>cwin</PropertyClass>
-						<PropertyDescription>the window of the document.</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
@@ -1604,6 +1539,78 @@
 						</PropertyFlags>
 					</Property>
 					<Property>
+						<PropertyName>index</PropertyName>
+						<PropertyID>pidx</PropertyID>
+						<PropertyClass>long</PropertyClass>
+						<PropertyDescription>the number of the document among other map documents</PropertyDescription>
+						<PropertyFlags>
+							<Reserved/>
+							<IsListOfItems>singleItem</IsListOfItems>
+							<IsEnumerated>notEnumerated</IsEnumerated>
+							<IsReadWrite>readOnly</IsReadWrite>
+							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+							<PropertyIsReference>propertyIsValue</PropertyIsReference>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<IsApostrophe>noApostrophe</IsApostrophe>
+							<IsFeminine>notFeminine</IsFeminine>
+							<IsMasculine>notMasculine</IsMasculine>
+							<Plural>singular</Plural>
+						</PropertyFlags>
+					</Property>
+					<Property>
+						<PropertyName>readOnly</PropertyName>
+						<PropertyID>pRDO</PropertyID>
+						<PropertyClass>bool</PropertyClass>
+						<PropertyDescription>Is this document read-only?</PropertyDescription>
+						<PropertyFlags>
+							<Reserved/>
+							<IsListOfItems>singleItem</IsListOfItems>
+							<IsEnumerated>notEnumerated</IsEnumerated>
+							<IsReadWrite>readWrite</IsReadWrite>
+							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+							<PropertyIsReference>propertyIsValue</PropertyIsReference>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<IsApostrophe>noApostrophe</IsApostrophe>
+							<IsFeminine>notFeminine</IsFeminine>
+							<IsMasculine>notMasculine</IsMasculine>
+							<Plural>singular</Plural>
+						</PropertyFlags>
+					</Property>
+					<Property>
+						<PropertyName>window</PropertyName>
+						<PropertyID>cwin</PropertyID>
+						<PropertyClass>cwin</PropertyClass>
+						<PropertyDescription>the window of the document.</PropertyDescription>
+						<PropertyFlags>
+							<Reserved/>
+							<IsListOfItems>singleItem</IsListOfItems>
+							<IsEnumerated>notEnumerated</IsEnumerated>
+							<IsReadWrite>readOnly</IsReadWrite>
+							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+							<PropertyIsReference>propertyIsValue</PropertyIsReference>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<IsApostrophe>noApostrophe</IsApostrophe>
+							<IsFeminine>notFeminine</IsFeminine>
+							<IsMasculine>notMasculine</IsMasculine>
+							<Plural>singular</Plural>
+						</PropertyFlags>
+					</Property>
+					<Property>
 						<PropertyName>refnum</PropertyName>
 						<PropertyID>pRFN</PropertyID>
 						<PropertyClass>shor</PropertyClass>
@@ -1630,7 +1637,7 @@
 					<Property>
 						<PropertyName>fork</PropertyName>
 						<PropertyID>pFRK</PropertyID>
-						<PropertyClass>FKND</PropertyClass>
+						<PropertyClass>FORK</PropertyClass>
 						<PropertyDescription>the fork this document is editing (data fork or resource fork)</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
@@ -1653,7 +1660,7 @@
 					</Property>
 					<Property>
 						<PropertyName>map</PropertyName>
-						<PropertyID>pMAP</PropertyID>
+						<PropertyID>cMAP</PropertyID>
 						<PropertyClass>cMAP</PropertyClass>
 						<PropertyDescription>the resource map associated with this document</PropertyDescription>
 						<PropertyFlags>
@@ -1775,14 +1782,86 @@
 						</PropertyFlags>
 					</Property>
 					<Property>
+						<PropertyName>index</PropertyName>
+						<PropertyID>pidx</PropertyID>
+						<PropertyClass>long</PropertyClass>
+						<PropertyDescription>the number of the document</PropertyDescription>
+						<PropertyFlags>
+							<Reserved/>
+							<IsListOfItems>singleItem</IsListOfItems>
+							<IsEnumerated>notEnumerated</IsEnumerated>
+							<IsReadWrite>readOnly</IsReadWrite>
+							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+							<PropertyIsReference>propertyIsValue</PropertyIsReference>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<IsApostrophe>noApostrophe</IsApostrophe>
+							<IsFeminine>notFeminine</IsFeminine>
+							<IsMasculine>notMasculine</IsMasculine>
+							<Plural>singular</Plural>
+						</PropertyFlags>
+					</Property>
+					<Property>
 						<PropertyName>kind</PropertyName>
 						<PropertyID>pKND</PropertyID>
-						<PropertyClass>EKND</PropertyClass>
-						<PropertyDescription>the kind of the editor (gui, template, hexadecimal)</PropertyDescription>
+						<PropertyClass>DKND</PropertyClass>
+						<PropertyDescription>the kind of document</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
 							<IsEnumerated>enumerated</IsEnumerated>
+							<IsReadWrite>readOnly</IsReadWrite>
+							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+							<PropertyIsReference>propertyIsValue</PropertyIsReference>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<IsApostrophe>noApostrophe</IsApostrophe>
+							<IsFeminine>notFeminine</IsFeminine>
+							<IsMasculine>notMasculine</IsMasculine>
+							<Plural>singular</Plural>
+						</PropertyFlags>
+					</Property>
+					<Property>
+						<PropertyName>readOnly</PropertyName>
+						<PropertyID>pRDO</PropertyID>
+						<PropertyClass>bool</PropertyClass>
+						<PropertyDescription>Is this document read-only?</PropertyDescription>
+						<PropertyFlags>
+							<Reserved/>
+							<IsListOfItems>singleItem</IsListOfItems>
+							<IsEnumerated>notEnumerated</IsEnumerated>
+							<IsReadWrite>readWrite</IsReadWrite>
+							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+							<PropertyIsReference>propertyIsValue</PropertyIsReference>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<IsApostrophe>noApostrophe</IsApostrophe>
+							<IsFeminine>notFeminine</IsFeminine>
+							<IsMasculine>notMasculine</IsMasculine>
+							<Plural>singular</Plural>
+						</PropertyFlags>
+					</Property>
+					<Property>
+						<PropertyName>window</PropertyName>
+						<PropertyID>cwin</PropertyID>
+						<PropertyClass>cwin</PropertyClass>
+						<PropertyDescription>the window of the document.</PropertyDescription>
+						<PropertyFlags>
+							<Reserved/>
+							<IsListOfItems>singleItem</IsListOfItems>
+							<IsEnumerated>notEnumerated</IsEnumerated>
 							<IsReadWrite>readOnly</IsReadWrite>
 							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
 							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
@@ -1824,9 +1903,9 @@
 					</Property>
 					<Property>
 						<PropertyName>map</PropertyName>
-						<PropertyID>pOMD</PropertyID>
-						<PropertyClass>MAPD</PropertyClass>
-						<PropertyDescription>the map document that owns this editor document</PropertyDescription>
+						<PropertyID>pOWM</PropertyID>
+						<PropertyClass>MapD</PropertyClass>
+						<PropertyDescription>the rezmap document that owns this editor document</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
@@ -1886,9 +1965,9 @@
 			</Class>
 
 			<Class>
-				<ClassName>GUI editor</ClassName>
+				<ClassName>interface document</ClassName>
 				<ClassID>GuiD</ClassID>
-				<ClassDescription>a GUI editor document for a resource</ClassDescription>
+				<ClassDescription>a dedicated interface document editing a resource</ClassDescription>
 				<ArrayProperties>
 					<Property>
 						<PropertyName>inherits</PropertyName>
@@ -1920,9 +1999,9 @@
 			</Class>
 
 			<Class>
-				<ClassName>GUI editors</ClassName>
+				<ClassName>interface documents</ClassName>
 				<ClassID>GuiD</ClassID>
-				<ClassDescription>every GUI editor</ClassDescription>
+				<ClassDescription>every interface document</ClassDescription>
 				<ArrayProperties>
 					<Property>
 						<PropertyName></PropertyName>
@@ -1954,9 +2033,9 @@
 			</Class>
 
 			<Class>
-				<ClassName>template editor</ClassName>
+				<ClassName>template document</ClassName>
 				<ClassID>TmpD</ClassID>
-				<ClassDescription>a template editor document for a resource</ClassDescription>
+				<ClassDescription>a template document editing a resource</ClassDescription>
 				<ArrayProperties>
 					<Property>
 						<PropertyName>inherits</PropertyName>
@@ -1988,9 +2067,9 @@
 			</Class>
 
 			<Class>
-				<ClassName>template editors</ClassName>
+				<ClassName>template documents</ClassName>
 				<ClassID>TmpD</ClassID>
-				<ClassDescription>every template editor</ClassDescription>
+				<ClassDescription>every template document</ClassDescription>
 				<ArrayProperties>
 					<Property>
 						<PropertyName></PropertyName>
@@ -2022,9 +2101,9 @@
 			</Class>
 
 			<Class>
-				<ClassName>hex editor</ClassName>
+				<ClassName>hex document</ClassName>
 				<ClassID>HexD</ClassID>
-				<ClassDescription>a hexadecimal editor document for a resource</ClassDescription>
+				<ClassDescription>a hexadecimal document editing a resource</ClassDescription>
 				<ArrayProperties>
 					<Property>
 						<PropertyName>inherits</PropertyName>
@@ -2056,9 +2135,9 @@
 			</Class>
 
 			<Class>
-				<ClassName>hex editors</ClassName>
+				<ClassName>hex documents</ClassName>
 				<ClassID>HexD</ClassID>
-				<ClassDescription>every hex editor</ClassDescription>
+				<ClassDescription>every hex document</ClassDescription>
 				<ArrayProperties>
 					<Property>
 						<PropertyName></PropertyName>
@@ -2190,7 +2269,7 @@
 						<PropertyName>kind</PropertyName>
 						<PropertyID>pKND</PropertyID>
 						<PropertyClass>EKND</PropertyClass>
-						<PropertyDescription>the kind of the editor window (gui, template, hexadecimal)</PropertyDescription>
+						<PropertyDescription>the kind of the editor window (hexadecimal, template or interface)</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
@@ -2434,7 +2513,7 @@
 			</Class>
 
 			<Class>
-				<ClassName>compare window</ClassName>
+				<ClassName>comparison window</ClassName>
 				<ClassID>CmpW</ClassID>
 				<ClassDescription>a maps comparison window</ClassDescription>
 				<ArrayProperties>
@@ -2492,9 +2571,9 @@
 			</Class>
 
 			<Class>
-				<ClassName>compare windows</ClassName>
+				<ClassName>comparison windows</ClassName>
 				<ClassID>CmpW</ClassID>
-				<ClassDescription>every compare window</ClassDescription>
+				<ClassDescription>every comparison window</ClassDescription>
 				<ArrayProperties>
 					<Property>
 						<PropertyName></PropertyName>
@@ -2637,7 +2716,7 @@
 						<EnumeratorDescription>a resource editor</EnumeratorDescription>
 					</Enumerator>
 					<Enumerator>
-						<EnumeratorName>maps compare</EnumeratorName>
+						<EnumeratorName>maps comparison</EnumeratorName>
 						<EnumeratorID>COMP</EnumeratorID>
 						<EnumeratorDescription>maps comparison document</EnumeratorDescription>
 					</Enumerator>
@@ -2647,19 +2726,19 @@
 				<EnumerationID>EKND</EnumerationID>
 				<ArrayEnumerators>
 					<Enumerator>
-						<EnumeratorName>custom</EnumeratorName>
-						<EnumeratorID>kGUI</EnumeratorID>
-						<EnumeratorDescription>custom GUI editor</EnumeratorDescription>
+						<EnumeratorName>hexadecimal</EnumeratorName>
+						<EnumeratorID>EHEX</EnumeratorID>
+						<EnumeratorDescription>hexadecimal editor</EnumeratorDescription>
 					</Enumerator>
 					<Enumerator>
 						<EnumeratorName>template</EnumeratorName>
-						<EnumeratorID>kTMP</EnumeratorID>
+						<EnumeratorID>ETMP</EnumeratorID>
 						<EnumeratorDescription>template editor</EnumeratorDescription>
 					</Enumerator>
 					<Enumerator>
-						<EnumeratorName>hexadecimal</EnumeratorName>
-						<EnumeratorID>kHEX</EnumeratorID>
-						<EnumeratorDescription>hexadecimal editor</EnumeratorDescription>
+						<EnumeratorName>interface</EnumeratorName>
+						<EnumeratorID>EGUI</EnumeratorID>
+						<EnumeratorDescription>dedicated interface editor</EnumeratorDescription>
 					</Enumerator>
 				</ArrayEnumerators>
 			</Enumeration>
@@ -2667,7 +2746,7 @@
 				<EnumerationID>PKND</EnumerationID>
 				<ArrayEnumerators>
 					<Enumerator>
-						<EnumeratorName>hexa</EnumeratorName>
+						<EnumeratorName>hexadecimal</EnumeratorName>
 						<EnumeratorID>HEXA</EnumeratorID>
 						<EnumeratorDescription>hex pane</EnumeratorDescription>
 					</Enumerator>
@@ -3462,26 +3541,41 @@
 		
 		<ArrayEnumerations>
 			<Enumeration>
+				<EnumerationID>FORK</EnumerationID>
+				<ArrayEnumerators>
+					<Enumerator>
+						<EnumeratorName>dataFork</EnumeratorName>
+						<EnumeratorID>DATF</EnumeratorID>
+						<EnumeratorDescription>map in data fork</EnumeratorDescription>
+					</Enumerator>
+					<Enumerator>
+						<EnumeratorName>resourceFork</EnumeratorName>
+						<EnumeratorID>RSRF</EnumeratorID>
+						<EnumeratorDescription>map in resource fork</EnumeratorDescription>
+					</Enumerator>
+					<Enumerator>
+						<EnumeratorName>anyFork</EnumeratorName>
+						<EnumeratorID>ANYF</EnumeratorID>
+						<EnumeratorDescription>could be any fork</EnumeratorDescription>
+					</Enumerator>
+				</ArrayEnumerators>
+			</Enumeration>
+			<Enumeration>
 				<EnumerationID>FKND</EnumerationID>
 				<ArrayEnumerators>
 					<Enumerator>
 						<EnumeratorName>data fork</EnumeratorName>
-						<EnumeratorID>DATA</EnumeratorID>
-						<EnumeratorDescription>map in data fork</EnumeratorDescription>
+						<EnumeratorID>DFRK</EnumeratorID>
+						<EnumeratorDescription>map lies in data fork</EnumeratorDescription>
 					</Enumerator>
 					<Enumerator>
 						<EnumeratorName>resource fork</EnumeratorName>
-						<EnumeratorID>RSRC</EnumeratorID>
-						<EnumeratorDescription>map in resource fork</EnumeratorDescription>
-					</Enumerator>
-					<Enumerator>
-						<EnumeratorName>any fork</EnumeratorName>
-						<EnumeratorID>ANY </EnumeratorID>
-						<EnumeratorDescription>could be any fork</EnumeratorDescription>
+						<EnumeratorID>RFRK</EnumeratorID>
+						<EnumeratorDescription>map lies in resource fork</EnumeratorDescription>
 					</Enumerator>
 					<Enumerator>
 						<EnumeratorName>unknown fork</EnumeratorName>
-						<EnumeratorID>UNKW</EnumeratorID>
+						<EnumeratorID>UFRK</EnumeratorID>
 						<EnumeratorDescription>fork is unknown</EnumeratorDescription>
 					</Enumerator>
 				</ArrayEnumerators>

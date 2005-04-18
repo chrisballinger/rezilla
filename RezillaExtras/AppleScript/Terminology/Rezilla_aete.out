@@ -213,12 +213,16 @@ Number of Classes: 5
 		Property class: 'obj '
 		Property description: Various preferences that apply to the application as a whole
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
-	Number of class elements: 2
+	Number of class elements: 3
 		Class element ID: 'cwin'
 		Number of key forms: 3
 			 (1): 'indx'
 			 (2): 'name'
 			 (3): 'rang'
+		Class element ID: 'docu'
+		Number of key forms: 2
+			 (1): 'indx'
+			 (2): 'name'
 		Class element ID: 'MapD'
 		Number of key forms: 2
 			 (1): 'indx'
@@ -227,31 +231,16 @@ Number of Classes: 5
 --------------------------
 	Object class ID: 'docu'
 	Class description: A document
-	Number of class properties: 5
+	Number of class properties: 2
 	  (1) name
 		Property ID: 'pnam'
 		Property class: 'itxt'
 		Property description: the title of the document
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
-	  (2) kind
-		Property ID: 'pKND'
-		Property class: 'DKND'
-		Property description: the kind of document
-		Property is a single item, enumerated. It cannot be set by the Set Data AE.
-	  (3) readOnly
-		Property ID: 'pRDO'
-		Property class: 'bool'
-		Property description: Is this document read-only?
-		Property is a single item, not enumerated. It can be set by the Set Data AE.
-	  (4) modified
+	  (2) modified
 		Property ID: 'imod'
 		Property class: 'bool'
 		Property description: Has the document been modified since the last save?
-		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
-	  (5) window
-		Property ID: 'cwin'
-		Property class: 'cwin'
-		Property description: the window of the document.
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	Number of class elements: 0
   Object class 3: documents
@@ -420,29 +409,44 @@ Number of Classes: 22
   Object class 1: map document
 ------------------------------
 	Object class ID: 'MapD'
-	Class description: a Rezilla's resource map document
-	Number of class properties: 5
+	Class description: a resource map document (representing the contents of an entire fork)
+	Number of class properties: 8
 	  (1) inherits
 		Property ID: 'c@#^'
 		Property class: 'docu'
 		Property description: all properties of the 'document' class
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
-	  (2) refnum
+	  (2) index
+		Property ID: 'pidx'
+		Property class: 'long'
+		Property description: the number of the document
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	  (3) readOnly
+		Property ID: 'pRDO'
+		Property class: 'bool'
+		Property description: Is this document read-only?
+		Property is a single item, not enumerated. It can be set by the Set Data AE.
+	  (4) window
+		Property ID: 'cwin'
+		Property class: 'cwin'
+		Property description: the window of the document.
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	  (5) refnum
 		Property ID: 'pRFN'
 		Property class: 'shor'
-		Property description: the refnum of the map in memory
+		Property description: the reference number of the map in memory
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
-	  (3) fork
+	  (6) fork
 		Property ID: 'pFRK'
-		Property class: 'FKND'
+		Property class: 'FORK'
 		Property description: the fork this document is editing (data fork or resource fork)
 		Property is a single item, enumerated. It cannot be set by the Set Data AE.
-	  (4) map
-		Property ID: 'pMAP'
+	  (7) map
+		Property ID: 'cMAP'
 		Property class: 'cMAP'
 		Property description: the resource map associated with this document
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
-	  (5) file
+	  (8) file
 		Property ID: 'pFIL'
 		Property class: 'fss '
 		Property description: the file on disk corresponding to this resource map document
@@ -467,26 +471,41 @@ Number of Classes: 22
 ---------------------------------
 	Object class ID: 'EdiD'
 	Class description: an editor document for a single resource
-	Number of class properties: 4
+	Number of class properties: 7
 	  (1) inherits
 		Property ID: 'c@#^'
 		Property class: 'docu'
 		Property description: all properties of the 'document' class
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
-	  (2) kind
+	  (2) index
+		Property ID: 'pidx'
+		Property class: 'long'
+		Property description: the number of the document
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	  (3) kind
 		Property ID: 'pKND'
-		Property class: 'EKND'
-		Property description: the kind of the editor (gui, template, hexadecimal)
+		Property class: 'DKND'
+		Property description: the kind of document
 		Property is a single item, enumerated. It cannot be set by the Set Data AE.
-	  (3) resource
+	  (4) readOnly
+		Property ID: 'pRDO'
+		Property class: 'bool'
+		Property description: Is this document read-only?
+		Property is a single item, not enumerated. It can be set by the Set Data AE.
+	  (5) window
+		Property ID: 'cwin'
+		Property class: 'cwin'
+		Property description: the window of the document.
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	  (6) resource
 		Property ID: 'pRSC'
 		Property class: 'cRSC'
 		Property description: the resource edited by this document
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
-	  (4) map
-		Property ID: 'pOMD'
-		Property class: 'MAPD'
-		Property description: the map document that owns this editor document
+	  (7) map
+		Property ID: 'pOWM'
+		Property class: 'MapD'
+		Property description: the rezmap document that owns this editor document
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	Number of class elements: 0
   Object class 4: editor documents
@@ -500,10 +519,10 @@ Number of Classes: 22
 		Property description: 
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	Number of class elements: 0
-  Object class 5: GUI editor
-----------------------------
+  Object class 5: interface document
+------------------------------------
 	Object class ID: 'GuiD'
-	Class description: a GUI editor document for a resource
+	Class description: a dedicated interface document editing a resource
 	Number of class properties: 1
 	  (1) inherits
 		Property ID: 'c@#^'
@@ -511,10 +530,10 @@ Number of Classes: 22
 		Property description: all properties of the 'editor document' class
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	Number of class elements: 0
-  Object class 6: GUI editors
------------------------------
+  Object class 6: interface documents
+-------------------------------------
 	Object class ID: 'GuiD'
-	Class description: every GUI editor
+	Class description: every interface document
 	Number of class properties: 1
 	  (1) 
 		Property ID: 'c@#!'
@@ -522,10 +541,10 @@ Number of Classes: 22
 		Property description: 
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	Number of class elements: 0
-  Object class 7: template editor
----------------------------------
+  Object class 7: template document
+-----------------------------------
 	Object class ID: 'TmpD'
-	Class description: a template editor document for a resource
+	Class description: a template document editing a resource
 	Number of class properties: 1
 	  (1) inherits
 		Property ID: 'c@#^'
@@ -533,10 +552,10 @@ Number of Classes: 22
 		Property description: all properties of the 'editor document' class
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	Number of class elements: 0
-  Object class 8: template editors
-----------------------------------
+  Object class 8: template documents
+------------------------------------
 	Object class ID: 'TmpD'
-	Class description: every template editor
+	Class description: every template document
 	Number of class properties: 1
 	  (1) 
 		Property ID: 'c@#!'
@@ -544,21 +563,21 @@ Number of Classes: 22
 		Property description: 
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	Number of class elements: 0
-  Object class 9: hex editor
-----------------------------
-	Object class ID: 'HexD'
-	Class description: a hexadecimal editor document for a resource
-	Number of class properties: 1
-	  (1) inherits
-		Property ID: 'c@#^'
-		Property class: 'EdiD'
-		Property description: all properties of the 'editor document' class
-		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
-	Number of class elements: 0
-  Object class 10: hex editors
+  Object class 9: hex document
 ------------------------------
 	Object class ID: 'HexD'
-	Class description: every hex editor
+	Class description: a hexadecimal document editing a resource
+	Number of class properties: 1
+	  (1) inherits
+		Property ID: 'c@#^'
+		Property class: 'EdiD'
+		Property description: all properties of the 'editor document' class
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	Number of class elements: 0
+  Object class 10: hex documents
+--------------------------------
+	Object class ID: 'HexD'
+	Class description: every hex document
 	Number of class properties: 1
 	  (1) 
 		Property ID: 'c@#!'
@@ -601,7 +620,7 @@ Number of Classes: 22
 	  (2) kind
 		Property ID: 'pKND'
 		Property class: 'EKND'
-		Property description: the kind of the editor window (gui, template, hexadecimal)
+		Property description: the kind of the editor window (hexadecimal, template or interface)
 		Property is a single item, enumerated. It cannot be set by the Set Data AE.
 	Number of class elements: 0
   Object class 14: editor windows
@@ -669,8 +688,8 @@ Number of Classes: 22
 		Property description: 
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	Number of class elements: 0
-  Object class 19: compare window
----------------------------------
+  Object class 19: comparison window
+------------------------------------
 	Object class ID: 'CmpW'
 	Class description: a maps comparison window
 	Number of class properties: 2
@@ -685,10 +704,10 @@ Number of Classes: 22
 		Property description: a comparison result object
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	Number of class elements: 0
-  Object class 20: compare windows
-----------------------------------
+  Object class 20: comparison windows
+-------------------------------------
 	Object class ID: 'CmpW'
-	Class description: every compare window
+	Class description: every comparison window
 	Number of class properties: 1
 	  (1) 
 		Property ID: 'c@#!'
@@ -734,25 +753,25 @@ Number of Enumerations: 3
 	  Enumerator 2: resource editor
 		Enumerator ID: 'EDOC'
 		Enumerator description: a resource editor
-	  Enumerator 3: maps compare
+	  Enumerator 3: maps comparison
 		Enumerator ID: 'COMP'
 		Enumerator description: maps comparison document
     Enumeration 2 ID: 'EKND'
 ----------------------------
 	Number of enumerators: 3
-	  Enumerator 1: custom
-		Enumerator ID: 'kGUI'
-		Enumerator description: custom GUI editor
-	  Enumerator 2: template
-		Enumerator ID: 'kTMP'
-		Enumerator description: template editor
-	  Enumerator 3: hexadecimal
-		Enumerator ID: 'kHEX'
+	  Enumerator 1: hexadecimal
+		Enumerator ID: 'EHEX'
 		Enumerator description: hexadecimal editor
+	  Enumerator 2: template
+		Enumerator ID: 'ETMP'
+		Enumerator description: template editor
+	  Enumerator 3: interface
+		Enumerator ID: 'EGUI'
+		Enumerator description: dedicated interface editor
     Enumeration 3 ID: 'PKND'
 ----------------------------
 	Number of enumerators: 2
-	  Enumerator 1: hexa
+	  Enumerator 1: hexadecimal
 		Enumerator ID: 'HEXA'
 		Enumerator description: hex pane
 	  Enumerator 2: ascii
@@ -775,7 +794,7 @@ Number of Classes: 8
 	  (1) refnum
 		Property ID: 'pRFN'
 		Property class: 'shor'
-		Property description: the refnum of the map in memory
+		Property description: the reference number of the map in memory
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	  (2) attributes
 		Property ID: 'pATR'
@@ -980,19 +999,28 @@ Number of Classes: 8
 		Property is a single item, not enumerated. It can be set by the Set Data AE.
 	Number of class elements: 0
 Number of Comparison Operators: 0
-Number of Enumerations: 1
-    Enumeration 1 ID: 'FKND'
+Number of Enumerations: 2
+    Enumeration 1 ID: 'FORK'
 ----------------------------
-	Number of enumerators: 4
-	  Enumerator 1: data fork
-		Enumerator ID: 'DATA'
+	Number of enumerators: 3
+	  Enumerator 1: dataFork
+		Enumerator ID: 'DATF'
 		Enumerator description: map in data fork
-	  Enumerator 2: resource fork
-		Enumerator ID: 'RSRC'
+	  Enumerator 2: resourceFork
+		Enumerator ID: 'RSRF'
 		Enumerator description: map in resource fork
-	  Enumerator 3: any fork
-		Enumerator ID: 'ANY '
+	  Enumerator 3: anyFork
+		Enumerator ID: 'ANYF'
 		Enumerator description: could be any fork
-	  Enumerator 4: unknown fork
-		Enumerator ID: 'UNKW'
+    Enumeration 2 ID: 'FKND'
+----------------------------
+	Number of enumerators: 3
+	  Enumerator 1: data fork
+		Enumerator ID: 'DFRK'
+		Enumerator description: map lies in data fork
+	  Enumerator 2: resource fork
+		Enumerator ID: 'RFRK'
+		Enumerator description: map lies in resource fork
+	  Enumerator 3: unknown fork
+		Enumerator ID: 'UFRK'
 		Enumerator description: fork is unknown
