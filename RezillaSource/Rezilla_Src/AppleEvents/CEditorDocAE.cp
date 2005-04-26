@@ -1,8 +1,8 @@
 // ===========================================================================
-// CRezObjAE.cp
+// CEditorDocAE.cp
 // 
 //                       Created: 2005-04-09 10:03:39
-//             Last modification: 2005-04-17 15:58:50
+//             Last modification: 2005-04-26 10:16:35
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -11,11 +11,14 @@
 // $Date$
 // $Revision$
 // ===========================================================================
-//  AppleEvent Object Model Support. These methods are part of the CRezObj 
+//  AppleEvent Object Model Support. These methods are part of the CEditorDoc 
 //  class (inheriting from LModelObject).
 
 #include "CRezMap.h"
-#include "CRezObj.h"
+#include "CEditorDoc.h"
+#include "CEditorWindow.h"
+#include "CRezMapDoc.h"
+#include "CRezMapTable.h"
 #include "UResources.h"
 #include "RezillaConstants.h"
 
@@ -35,7 +38,7 @@
 //  cWindow				= 'cwin';
 
 void
-CRezObj::GetAEProperty(
+CEditorDoc::GetAEProperty(
 	DescType		inProperty,
 	const AEDesc&	inRequestedType,
 	AEDesc&			outPropertyDesc) const
@@ -52,23 +55,9 @@ CRezObj::GetAEProperty(
 		
 		
 		case pIndex: {
-			// Return the index of this document among the other rezmap docs
-			SInt32		position = 0;
-			LDocument *	theDoc = nil;
-			Boolean found = false;
-			
-			TArrayIterator<LDocument*> iterator( LDocument::GetDocumentList() );
-			while (iterator.Next(theDoc)) {
-				if (theDoc->GetModelKind() == rzom_cRezMapDoc) {
-					position++;
-					if (theDoc == this) {
-						found = true;
-						break;
-					} 
-				} 				
-				theDoc = nil;
-			}
-			if (found) {
+			// Return the index of this document among the other editor docs
+			SInt32	position = GetAEPosition(this);
+			if (position > 0) {
 				error = ::AECreateDesc(typeSInt32, (Ptr) &position,
 											sizeof(SInt32), &outPropertyDesc);
 			} else {
@@ -82,11 +71,11 @@ CRezObj::GetAEProperty(
 		case 'cwin': {
 			// Returns the window by index (in stack order)
 			AEDesc superSpec;
+			StAEDescriptor	keyData;
+			SInt32	index = UWindows::FindWindowIndex( mMainWindow->GetMacWindow() );
+
 			superSpec.descriptorType = typeNull;
 			superSpec.dataHandle = nil;
-			StAEDescriptor	keyData;
-			SInt32	index = UWindows::FindWindowIndex( mRezMapWindow->GetMacWindow() );
-
 			keyData.Assign(index);
 			error = ::CreateObjSpecifier( cWindow, &superSpec, formAbsolutePosition,
 									keyData, false, &outPropertyDesc);
@@ -95,21 +84,16 @@ CRezObj::GetAEProperty(
 		}
 		
 		
-		case rzom_pRefNum:
-		short		theRefNum = mRezMap->GetRefnum();
-		error = ::AECreateDesc(typeSInt16, (Ptr) &theRefNum,
-									sizeof(short), &outPropertyDesc);
-		ThrowIfOSErr_(error);
-		break;
-		
-
 		case rzom_pKind:
-		ResType	theType = rzom_eIsUnknownFork;
-		if (mFork == fork_rezfork) {
-			theType = rzom_eIsRsrcFork;
-		} else if (mFork == fork_datafork) {
-			theType = rzom_eIsDataFork;
-		} 
+		// EditorDoc serves as a default kind
+		ResType	theType = rzom_eEditorDoc;
+		if (mKind == editor_kindGui) {
+			theType = rzom_eGuiEditor;
+		} else if (mKind == editor_kindTmpl) {
+			theType = rzom_eTmplEditor;
+		} else if (mKind == editor_kindHex) {
+			theType = rzom_eHexEditor;
+		}
 		error = ::AECreateDesc(typeEnumerated, (Ptr) &theType,
 									sizeof(ResType), &outPropertyDesc);
 		ThrowIfOSErr_(error);
@@ -118,17 +102,24 @@ CRezObj::GetAEProperty(
 		
 		case rzom_cRezMapDoc:
 		case rzom_pOwnerMapDoc:  {
-			// Returns the map described by its refnum
+			// Returns the owner rezmap doc by index
 			AEDesc superSpec;
+			StAEDescriptor keyData;
+			SInt32 position = CRezMapDoc::GetAEPosition(mRezMapTable->GetOwnerDoc());
+			
 			superSpec.descriptorType = typeNull;
 			superSpec.dataHandle = nil;
-			StAEDescriptor	keyData;
-			keyData.Assign(mRezMap->GetRefnum());
-			error = ::CreateObjSpecifier( rzom_cRezMap, &superSpec, formUniqueID,
+			keyData.Assign(position);
+			error = ::CreateObjSpecifier( rzom_cRezMapDoc, &superSpec, formAbsolutePosition,
 									keyData, false, &outPropertyDesc);
 			ThrowIfOSErr_(error);
 			break;
 		}
+		
+		
+		case rzom_cRezObj:
+		
+		break;
 		
 		
 		default:
@@ -145,7 +136,7 @@ CRezObj::GetAEProperty(
 // All the RezMapDoc properties are readOnly
 
 void
-CRezObj::SetAEProperty(
+CEditorDoc::SetAEProperty(
 	DescType		inProperty,
 	const AEDesc&	inValue,
 	AEDesc&			outAEReply)
@@ -160,51 +151,12 @@ CRezObj::SetAEProperty(
 
 
 // // ---------------------------------------------------------------------------
-// //	¥ GetAERezObjAttribute
-// // ---------------------------------------------------------------------------
-// 
-// void
-// CRezObj::GetAERezObjAttribute(
-// 	short		inFlag,
-// 	AEDesc&		outPropertyDesc) const
-// {
-// 	Boolean attrIsSet = HasAttribute(inFlag);
-// 	
-// 	OSErr error = ::AECreateDesc(typeBoolean, (Ptr) &attrIsSet,
-// 								sizeof(Boolean), &outPropertyDesc);
-// 	ThrowIfOSErr_(error);
-// }
-// 
-// 
-// // ---------------------------------------------------------------------------
-// //	¥ SetAERezObjAttribute
-// // ---------------------------------------------------------------------------
-// 
-// void
-// CRezObj::SetAERezObjAttribute(const AEDesc& inValue, short inFlag)
-// {
-// 	short		theAttrs;
-// 	Boolean		setIt;
-// 	
-// 	UExtractFromAEDesc::TheBoolean(inValue, setIt);
-// 	GetAttributesFromMap(theAttrs);
-// 
-// 	if (setIt) {
-// 		theAttrs &= inFlag;
-// 	} else {
-// 		theAttrs &= ~inFlag;
-// 	}
-// 	SetAttributesInMap(theAttrs);
-// }
-
-
-// // ---------------------------------------------------------------------------
 // //	¥ GetModelName
 // // ---------------------------------------------------------------------------
 // //	Return the name of a Window as an AppleEvent model object
 // 
 // StringPtr
-// CRezObj::GetModelName(
+// CEditorDoc::GetModelName(
 // 	Str255	outModelName) const
 // {
 // 	return GetDescriptor(outModelName);
@@ -216,7 +168,7 @@ CRezObj::SetAEProperty(
 // ---------------------------------------------------------------------------
 
 bool
-CRezObj::AEPropertyExists(
+CEditorDoc::AEPropertyExists(
 	DescType	inProperty) const
 {
 	bool	exists = false;
@@ -242,8 +194,33 @@ CRezObj::AEPropertyExists(
 }
 
 
+// ---------------------------------------------------------------------------
+//	¥ GetAEPosition
+// ---------------------------------------------------------------------------
 
+SInt32
+CEditorDoc::GetAEPosition(const CEditorDoc * inDoc) {
+	SInt32		currPos = 0, result = 0;
+	LDocument*	theDoc = nil;
+	Boolean		found = false;
+	DescType	theKind;
 
+	TArrayIterator<LDocument*> iterator( LDocument::GetDocumentList() );
+	while (iterator.Next(theDoc)) {
+		theKind = theDoc->GetModelKind();
+		if (theKind == rzom_cEditorDoc 
+			|| theKind == rzom_cGuiEditDoc 
+			|| theKind == rzom_cTmplEditDoc 
+			|| theKind == rzom_cHexEditDoc) {
+			currPos++;
+			if (theDoc == inDoc) {
+				result = currPos;
+				break;
+			} 
+		} 				
+		theDoc = nil;
+	}
 
-
+	return result;
+}
 
