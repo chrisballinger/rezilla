@@ -2,11 +2,11 @@
 // CRezFile.h					
 // 
 //                       Created: 2003-04-24 14:17:20
-//             Last modification: 2004-12-22 11:42:45
+//             Last modification: 2005-04-16 14:44:31
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003-2004
+// (c) Copyright : Bernard Desgraupes, 2003-2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -81,6 +81,8 @@ public:
 
 	short				GetResourceFileVolume();
 	
+	FSSpec				GetFileSpec() { return mFileSpec;}
+
 protected:
 		CRezMapDoc *	mOwnerDoc;
 		FSSpec			mFileSpec;
