@@ -2,7 +2,7 @@
 // CRezMapDocAE.cp
 // 
 //                       Created: 2005-04-09 10:03:39
-//             Last modification: 2005-04-17 10:17:51
+//             Last modification: 2005-04-26 08:56:50
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -17,6 +17,7 @@
 #include "CRezMap.h"
 #include "CRezMapDoc.h"
 #include "CRezFile.h"
+#include "CEditorDoc.h"
 #include "CRezMapWindow.h"
 #include "UResources.h"
 #include "RezillaConstants.h"
@@ -55,23 +56,9 @@ CRezMapDoc::GetAEProperty(
 		
 		
 		case pIndex: {
-			// Return the index of this document among the other rezmap docs
-			SInt32		position = 0;
-			LDocument *	theDoc = nil;
-			Boolean found = false;
-			
-			TArrayIterator<LDocument*> iterator( LDocument::GetDocumentList() );
-			while (iterator.Next(theDoc)) {
-				if (theDoc->GetModelKind() == rzom_cRezMapDoc) {
-					position++;
-					if (theDoc == this) {
-						found = true;
-						break;
-					} 
-				} 				
-				theDoc = nil;
-			}
-			if (found) {
+			// Return the index (first is 1) of this document among the other rezmap docs
+			SInt32		position = GetAEPosition(this);
+			if (position > 0) {
 				error = ::AECreateDesc(typeSInt32, (Ptr) &position,
 											sizeof(SInt32), &outPropertyDesc);
 			} else {
@@ -85,11 +72,11 @@ CRezMapDoc::GetAEProperty(
 		case 'cwin': {
 			// Returns the window by index (in stack order)
 			AEDesc superSpec;
-			superSpec.descriptorType = typeNull;
-			superSpec.dataHandle = nil;
 			StAEDescriptor	keyData;
 			SInt32	index = UWindows::FindWindowIndex( mRezMapWindow->GetMacWindow() );
 
+			superSpec.descriptorType = typeNull;
+			superSpec.dataHandle = nil;
 			keyData.Assign(index);
 			error = ::CreateObjSpecifier( cWindow, &superSpec, formAbsolutePosition,
 									keyData, false, &outPropertyDesc);
@@ -204,7 +191,7 @@ CRezMapDoc::AEPropertyExists(
 // ---------------------------------------------------------------------------
 
 SInt32
-CRezMapDoc::GetAEPosition() {
+CRezMapDoc::GetAEPosition(const CRezMapDoc * inDoc) {
 	SInt32	currPos = 0, result = 0;
 	LDocument*	theDoc = nil;
 	Boolean found = false;
@@ -213,7 +200,7 @@ CRezMapDoc::GetAEPosition() {
 	while (iterator.Next(theDoc)) {
 		if (theDoc->GetModelKind() == rzom_cRezMapDoc) {
 			currPos++;
-			if (theDoc == this) {
+			if (theDoc == inDoc) {
 				result = currPos;
 				break;
 			} 
@@ -223,4 +210,127 @@ CRezMapDoc::GetAEPosition() {
 
 	return result;
 }
+
+
+// ---------------------------------------------------------------------------
+//	¥ GetSubModelByPosition											  [public]
+// ---------------------------------------------------------------------------
+
+void
+CRezMapDoc::GetSubModelByPosition(
+	DescType		inModelID,
+	SInt32			inPosition,
+	AEDesc&			outToken) const
+{
+	switch (inModelID) {
+
+		case rzom_cEditorDoc:
+		case cDocument: {
+			CEditorDoc *	theDoc;			
+			if ( mOpenedEditors->FetchItemAt( inPosition, theDoc) ) {
+				PutInToken(theDoc, outToken);
+			} else {
+				ThrowOSErr_(errAENoSuchObject);
+			}
+			break;
+		}
+
+		case rzom_cGuiEditDoc:
+		case rzom_cTmplEditDoc:
+		case rzom_cHexEditDoc: {
+			CEditorDoc *	theDoc = nil;
+			Boolean		found = false;
+			UInt16		count = 0;
+			
+			TArrayIterator<CEditorDoc *> iterEditor(*mOpenedEditors);
+			while (iterEditor.Next(theDoc)) {
+				if (theDoc != nil && theDoc->GetModelKind() == inModelID) {
+					count++;
+					if (count == inPosition) {
+						found = true;
+						break;
+					} 
+				} 
+			}
+			if (found) {
+				PutInToken(theDoc, outToken);
+			} else {
+				ThrowOSErr_(errAENoSuchObject);
+			}
+			break;
+		}
+
+		default:
+			LModelObject::GetSubModelByPosition(inModelID, inPosition,
+													outToken);
+			break;
+	}
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ GetSubModelByName												  [public]
+// ---------------------------------------------------------------------------
+//	Pass back a token to a SubModel specified by name
+
+void
+CRezMapDoc::GetSubModelByName(
+	DescType		inModelID,
+	Str255			inName,
+	AEDesc&			outToken) const
+{
+	switch (inModelID) {
+
+		case rzom_cEditorDoc: {
+			TArrayIterator<CEditorDoc *> iterator(*mOpenedEditors);
+			CEditorDoc *	theDoc = nil;
+			
+			while (iterator.Next(theDoc)) {
+				if (theDoc->GetModelKind() == inModelID) {
+					Str255	docName;
+					theDoc->GetDescriptor(docName);
+					if (::IdenticalString(inName, docName, nil) == 0) {
+						break;
+					}
+				} 				
+				theDoc = nil;
+			}
+			if (theDoc != nil) {
+				PutInToken(theDoc, outToken);
+			} else {
+				ThrowOSErr_(errAENoSuchObject);
+			}
+			break;
+		}
+
+		case rzom_cGuiEditDoc:
+		case rzom_cTmplEditDoc:
+		case rzom_cHexEditDoc: {
+			TArrayIterator<CEditorDoc *> iterator(*mOpenedEditors);
+			CEditorDoc *	theDoc = nil;
+			while (iterator.Next(theDoc)) {
+				if (theDoc->GetModelKind() == inModelID) {
+					Str255	docName;
+					theDoc->GetDescriptor(docName);
+					if (::IdenticalString(inName, docName, nil) == 0) {
+						break;
+					}
+				} 				
+				theDoc = nil;
+			}
+			if (theDoc != nil) {
+				PutInToken(theDoc, outToken);
+			} else {
+				ThrowOSErr_(errAENoSuchObject);
+			}
+			break;
+		}
+
+
+		default:
+			LModelObject::GetSubModelByName(inModelID, inName, outToken);
+			break;
+	}
+}
+
 
