@@ -2,11 +2,11 @@
 // CEditorWindow.h				
 // 
 //                       Created: 2004-06-10 14:44:33
-//             Last modification: 2005-01-09 00:05:13
+//             Last modification: 2005-04-26 10:07:48
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004, 2005
+// (c) Copyright : Bernard Desgraupes, 2004-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -56,6 +56,21 @@ public:
 
 	void			InstallResourceNameField();
 
+	// AppleEvents
+	virtual void	GetAEProperty(
+								DescType			inProperty,
+								const AEDesc&		inRequestedType,
+								AEDesc&				outPropertyDesc) const;
+	
+// 	void			SetAEProperty(
+// 								DescType		inProperty,
+// 								const AEDesc&	inValue,
+// 								AEDesc&			outAEReply);
+
+	virtual bool	AEPropertyExists(
+								DescType		inProperty) const;
+
+	// Accessors
 	virtual CEditorDoc*		GetOwnerDoc() { return mOwnerDoc;}
 	void					SetOwnerDoc(CEditorDoc* theOwnerDoc) {mOwnerDoc = theOwnerDoc ;}
 

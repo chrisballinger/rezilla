@@ -84,6 +84,8 @@ public:
 // 								const AEDesc& inValue, 
 // 								short inFlag);
 	
+	static SInt32	GetAEPosition(const CEditorDoc * inDoc);
+	
 	virtual bool	AEPropertyExists(
 								DescType		inProperty) const;
 

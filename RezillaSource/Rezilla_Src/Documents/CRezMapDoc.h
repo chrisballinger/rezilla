@@ -113,7 +113,7 @@ public:
 								const AEDesc&	inValue,
 								AEDesc&			outAEReply);
 
-	SInt32			GetAEPosition();
+	static SInt32	GetAEPosition(const CRezMapDoc * inDoc);
 	
 // 	void			GetAERezMapAttribute(
 // 								short		inFlag,
@@ -123,6 +123,16 @@ public:
 // 								const AEDesc& inValue, 
 // 								short inFlag);
 	
+	virtual void		GetSubModelByPosition(
+								DescType			inModelID,
+								SInt32				inPosition,
+								AEDesc&				outToken) const;
+
+	virtual void		GetSubModelByName(
+								DescType			inModelID,
+								Str255				inName,
+								AEDesc&				outToken) const;
+
 	virtual bool	AEPropertyExists(
 								DescType		inProperty) const;
 
