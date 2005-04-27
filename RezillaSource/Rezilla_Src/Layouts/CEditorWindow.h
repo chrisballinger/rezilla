@@ -2,7 +2,7 @@
 // CEditorWindow.h				
 // 
 //                       Created: 2004-06-10 14:44:33
-//             Last modification: 2005-04-26 10:07:48
+//             Last modification: 2005-04-27 08:28:15
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -57,6 +57,10 @@ public:
 	void			InstallResourceNameField();
 
 	// AppleEvents
+	virtual void	MakeSelfSpecifier(
+								AEDesc&			inSuperSpecifier,
+								AEDesc&			outSelfSpecifier) const;
+
 	virtual void	GetAEProperty(
 								DescType			inProperty,
 								const AEDesc&		inRequestedType,
