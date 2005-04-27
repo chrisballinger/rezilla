@@ -2,7 +2,7 @@
 // CEditorDocAE.cp
 // 
 //                       Created: 2005-04-09 10:03:39
-//             Last modification: 2005-04-26 10:16:35
+//             Last modification: 2005-04-27 08:37:15
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -23,6 +23,45 @@
 #include "RezillaConstants.h"
 
 #include <LCommander.h>
+
+
+// ---------------------------------------------------------------------------
+//	¥ MakeSelfSpecifier												  [public]
+// ---------------------------------------------------------------------------
+
+void
+CEditorDoc::MakeSelfSpecifier(
+	AEDesc	&inSuperSpecifier,
+	AEDesc	&outSelfSpecifier) const
+{
+	DescType	docClass;
+	Str255		docName;
+	GetDescriptor(docName);
+
+	StAEDescriptor	keyData;
+	OSErr	err = ::AECreateDesc(typeChar, docName + 1, docName[0],
+						&keyData.mDesc);
+	ThrowIfOSErr_(err);
+
+	switch (mKind) {
+		case editor_kindGui:
+		docClass = rzom_cGuiEditDoc;
+		break;
+
+		case editor_kindTmpl:
+		docClass = rzom_cTmplEditDoc;
+		break;
+
+		case editor_kindHex:
+		docClass = rzom_cHexEditDoc;
+		break;
+
+	}
+	
+	err = ::CreateObjSpecifier(docClass, &inSuperSpecifier, formName,
+								&keyData.mDesc, false, &outSelfSpecifier);
+	ThrowIfOSErr_(err);
+}
 
 
 // ---------------------------------------------------------------------------
@@ -70,18 +109,38 @@ CEditorDoc::GetAEProperty(
 		
 		case 'cwin': {
 			// Returns the window by index (in stack order)
-			AEDesc superSpec;
+			DescType		winClass;
+			AEDesc 			superSpec, docSpec;
 			StAEDescriptor	keyData;
-			SInt32	index = UWindows::FindWindowIndex( mMainWindow->GetMacWindow() );
+			SInt32			index = 1;
 
 			superSpec.descriptorType = typeNull;
 			superSpec.dataHandle = nil;
+ 			MakeSelfSpecifier(superSpec, docSpec);
+
+// 			formPropertyID
 			keyData.Assign(index);
-			error = ::CreateObjSpecifier( cWindow, &superSpec, formAbsolutePosition,
+			error = ::CreateObjSpecifier( cWindow, &docSpec, formAbsolutePosition,
 									keyData, false, &outPropertyDesc);
 			ThrowIfOSErr_(error);
 			break;
 		}
+		
+		
+// 		case 'cwin': {
+// 			// Returns the window by index (in stack order)
+// 			AEDesc superSpec;
+// 			StAEDescriptor	keyData;
+// 			SInt32	index = UWindows::FindWindowIndex( mMainWindow->GetMacWindow() );
+// 
+// 			superSpec.descriptorType = typeNull;
+// 			superSpec.dataHandle = nil;
+// 			keyData.Assign(index);
+// 			error = ::CreateObjSpecifier( cWindow, &superSpec, formAbsolutePosition,
+// 									keyData, false, &outPropertyDesc);
+// 			ThrowIfOSErr_(error);
+// 			break;
+// 		}
 		
 		
 		case rzom_pKind:
@@ -223,4 +282,36 @@ CEditorDoc::GetAEPosition(const CEditorDoc * inDoc) {
 
 	return result;
 }
+
+
+// ---------------------------------------------------------------------------
+//	¥ GetSubModelByPosition											  [public]
+// ---------------------------------------------------------------------------
+
+void
+CEditorDoc::GetSubModelByPosition(
+	DescType		inModelID,
+	SInt32			inPosition,
+	AEDesc&			outToken) const
+{
+	switch (inModelID) {
+
+		case cWindow: 
+		if (inPosition == 1) {
+			if (mMainWindow != nil) {
+				PutInToken(mMainWindow, outToken);
+			} else {
+				ThrowOSErr_(errAENoSuchObject);
+			}
+			break;
+		} 
+
+		// Fall through...
+
+		default:
+			LModelObject::GetSubModelByPosition(inModelID, inPosition, outToken);
+			break;
+	}
+}
+
 

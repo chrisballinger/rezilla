@@ -64,6 +64,10 @@ public:
 	virtual StringPtr	GetDescriptor( Str255 outDescriptor ) const;
 
 	// AppleEvents
+	virtual void	MakeSelfSpecifier(
+								AEDesc&			inSuperSpecifier,
+								AEDesc&			outSelfSpecifier) const;
+
 	virtual void	GetAEProperty(
 								DescType			inProperty,
 								const AEDesc&		inRequestedType,
@@ -74,7 +78,12 @@ public:
 								const AEDesc&	inValue,
 								AEDesc&			outAEReply);
 
-// 	SInt32			GetAEPosition();
+	virtual void		GetSubModelByPosition(
+								DescType			inModelID,
+								SInt32				inPosition,
+								AEDesc&				outToken) const;
+
+	SInt32			GetAEPosition();
 	
 // 	void			GetAERezMapAttribute(
 // 								short		inFlag,
