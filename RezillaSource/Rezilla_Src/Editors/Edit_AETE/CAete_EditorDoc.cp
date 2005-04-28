@@ -2,7 +2,7 @@
 // CAete_EditorDoc.cp
 // 
 //                       Created: 2004-07-01 08:42:37
-//             Last modification: 2005-02-19 10:53:10
+//             Last modification: 2005-04-28 19:08:16
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -25,7 +25,6 @@
 #include "CAeteSuite.h"
 #include "CAeteStream.h"
 #include "CRezObj.h"
-#include "CWindowMenu.h"
 #include "UMessageDialogs.h"
 #include "UAeteTranslator.h"
 #include "UNavigationDialogs.h"
@@ -57,7 +56,6 @@
 
 PP_Begin_Namespace_PowerPlant
 
-extern CWindowMenu * gWindowMenu;
 extern const Str15 Rzil_AeteExportItems[] = {
 	"\pXML",
 	"\pDeRez",
@@ -93,8 +91,6 @@ CAete_EditorDoc::~CAete_EditorDoc()
 	} 
 
 	if (mAeteEditWindow != nil) {
-		// Remove the window from the window menu.
-		gWindowMenu->RemoveWindow( mAeteEditWindow );
 		delete mAeteEditWindow;
 	} 
 }
@@ -115,17 +111,11 @@ CAete_EditorDoc::Initialize()
 	mAeteEditWindow = dynamic_cast<CAete_EditorWindow *>(LWindow::CreateWindow( PPob_AeteEditorWindow, this ));
 	Assert_( mAeteEditWindow != nil );
 	
-	mAeteEditWindow->SetOwnerDoc(this);
-	mAeteEditWindow->InstallResourceNameField();
-	mAeteEditWindow->InstallReadOnlyIcon();
 	SetMainWindow( dynamic_cast<CEditorWindow *>(mAeteEditWindow) );
+	mAeteEditWindow->Finalize(this);
 
-	// Name the window
 	NameNewEditorDoc();
-	
-	// Add the window to the window menu
-	gWindowMenu->InsertWindow( mAeteEditWindow );
-	
+
 	try {
 		// Install the contents
 		if (mRezObj != nil) {

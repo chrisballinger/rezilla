@@ -85,14 +85,6 @@ public:
 
 	SInt32			GetAEPosition();
 	
-// 	void			GetAERezMapAttribute(
-// 								short		inFlag,
-// 								AEDesc&		outPropertyDesc) const;
-// 	
-// 	void			SetAERezMapAttribute(
-// 								const AEDesc& inValue, 
-// 								short inFlag);
-	
 	static SInt32	GetAEPosition(const CEditorDoc * inDoc);
 	
 	virtual bool	AEPropertyExists(
@@ -123,8 +115,8 @@ protected:
 	Boolean					mReadOnly;
 	SInt16					mKind;
 
-// 	virtual LModelObject*	GetModelProperty(
-// 									DescType		inProperty) const;
+	virtual LModelObject*	GetModelProperty(
+									DescType		inProperty) const;
 
 	virtual Handle	GetModifiedResource(Boolean &releaseIt) = 0;  // Purely virtual
 	void			NameNewEditorDoc();

@@ -2,7 +2,7 @@
 // CIcon_EditorDoc.cp
 // 
 //                       Created: 2004-12-11 23:33:03
-//             Last modification: 2005-02-23 15:43:11
+//             Last modification: 2005-04-28 19:08:07
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -36,7 +36,6 @@ PP_Begin_Namespace_PowerPlant
 #include "CRezMapDoc.h"
 #include "CRezObj.h"
 #include "CRezillaPrefs.h"
-#include "CWindowMenu.h"
 #include "UCodeTranslator.h"
 #include "UDialogBoxHandler.h"
 #include "UMessageDialogs.h"
@@ -51,9 +50,6 @@ PP_Begin_Namespace_PowerPlant
 
 #include <LString.h>
 #include <PP_Messages.h>
-
-
-extern CWindowMenu * gWindowMenu;
 
 
 // ---------------------------------------------------------------------------
@@ -78,9 +74,6 @@ CIcon_EditorDoc::CIcon_EditorDoc(LCommander* inSuper,
 CIcon_EditorDoc::~CIcon_EditorDoc()
 {
 	if (mIconEditWindow != nil) {
-		// Remove the window from the window menu.
-		gWindowMenu->RemoveWindow( mIconEditWindow );
-
 		// Remove the attachments before deleting the window. This is
 		// because, when deleting the LUndoer, some actions like
 		// CIconViewResizer make calls to the window to purge some buffers
@@ -173,15 +166,10 @@ CIcon_EditorDoc::Initialize()
 		mIconEditWindow = dynamic_cast<CIcon_EditorWindow *>( theWindow );
 		Assert_( mIconEditWindow != nil );
 		
-		mIconEditWindow->SetSuperCommander(this);
-		mIconEditWindow->SetOwnerDoc(this);
-		mIconEditWindow->InstallReadOnlyIcon();
 		SetMainWindow( dynamic_cast<CEditorWindow *>(mIconEditWindow) );
+		mIconEditWindow->Finalize(this);
 
 		NameNewEditorDoc();
-		
-		// Add the window to the window menu.
-		gWindowMenu->InsertWindow( mIconEditWindow );
 		
 	}
 	catch (...) {

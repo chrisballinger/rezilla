@@ -2,7 +2,7 @@
 // CMENU_EditorDoc.cp
 // 
 //                       Created: 2005-03-09 17:16:53
-//             Last modification: 2005-03-23 09:08:20
+//             Last modification: 2005-04-28 19:08:28
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -29,7 +29,6 @@ PP_Begin_Namespace_PowerPlant
 #include "CRezMapDoc.h"
 #include "CRezObj.h"
 #include "CRezillaPrefs.h"
-#include "CWindowMenu.h"
 #include "UCodeTranslator.h"
 #include "UDialogBoxHandler.h"
 #include "UMessageDialogs.h"
@@ -50,7 +49,6 @@ PP_Begin_Namespace_PowerPlant
 // #include <string.h>
 
 
-extern CWindowMenu * gWindowMenu;
 
 
 // ---------------------------------------------------------------------------
@@ -75,8 +73,6 @@ CMENU_EditorDoc::CMENU_EditorDoc(LCommander* inSuper,
 CMENU_EditorDoc::~CMENU_EditorDoc()
 {
 	if (mMenuEditWindow != nil) {
-		// Remove the window from the window menu.
-		gWindowMenu->RemoveWindow( mMenuEditWindow );
 		delete mMenuEditWindow;
 	} 
 }
@@ -95,19 +91,11 @@ CMENU_EditorDoc::Initialize()
 	mMenuEditWindow = dynamic_cast<CMENU_EditorWindow *>(LWindow::CreateWindow( PPob_MenuEditorWindow, this ));
 	Assert_( mMenuEditWindow != nil );
 	
-	mMenuEditWindow->SetOwnerDoc(this);
-	mMenuEditWindow->InstallResourceNameField();
-	mMenuEditWindow->InstallReadOnlyIcon();
 	SetMainWindow( dynamic_cast<CEditorWindow *>(mMenuEditWindow) );
-
-// 	SetDefaultSubModel(mMenuEditWindow);
-	mMenuEditWindow->SetSuperModel(this);
+	mMenuEditWindow->Finalize(this);
 
 	NameNewEditorDoc();
-	
-	// Add the window to the window menu.
-	gWindowMenu->InsertWindow( mMenuEditWindow );
-		
+
 	try {
 		// Install the data
 		if (mRezObj != nil) {

@@ -2,7 +2,7 @@
 // CTmplEditorDoc.cp					
 // 
 //                       Created: 2004-06-12 10:06:22
-//             Last modification: 2005-04-11 09:09:51
+//             Last modification: 2005-04-28 19:12:06
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -27,7 +27,6 @@ PP_Begin_Namespace_PowerPlant
 #include "CRezMapDoc.h"
 #include "CRezObj.h"
 #include "CRezillaApp.h"
-#include "CWindowMenu.h"
 #include "UCodeTranslator.h"
 #include "UDialogBoxHandler.h"
 #include "UMessageDialogs.h"
@@ -47,8 +46,6 @@ PP_Begin_Namespace_PowerPlant
 // // Standard headers
 // #include <string.h>
 
-
-extern CWindowMenu * gWindowMenu;
 
 
 // ---------------------------------------------------------------------------
@@ -74,8 +71,6 @@ CTmplEditorDoc::CTmplEditorDoc(LCommander* inSuper,
 CTmplEditorDoc::~CTmplEditorDoc()
 {
 	if (mTmplEditWindow != nil) {
-		// Remove the window from the window menu.
-		gWindowMenu->RemoveWindow( mTmplEditWindow );
 		delete mTmplEditWindow;
 	} 
 }
@@ -91,23 +86,16 @@ CTmplEditorDoc::Initialize()
 	OSErr error;
 	
 	mKind = editor_kindTmpl;
-
 	SetModelKind(rzom_cTmplEditDoc);
 
 	// Create window for our document. This sets this doc as the SuperCommander of the window.
 	mTmplEditWindow = dynamic_cast<CTmplEditorWindow *>(LWindow::CreateWindow( PPob_TmplEditorWindow, this ));
 	Assert_( mTmplEditWindow != nil );
 	
-	mTmplEditWindow->SetOwnerDoc(this);
-	mTmplEditWindow->InstallResourceNameField();
-	mTmplEditWindow->InstallReadOnlyIcon();
 	SetMainWindow( dynamic_cast<CEditorWindow *>(mTmplEditWindow) );
+	mTmplEditWindow->Finalize(this);
 
 	NameNewEditorDoc();
-	
-
-	// Add the window to the window menu.
-	gWindowMenu->InsertWindow( mTmplEditWindow );
 	
 	// Install the contents according to the TMPL
 	if (mRezObj != nil) {

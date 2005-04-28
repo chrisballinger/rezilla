@@ -2,7 +2,7 @@
 // CUtxt_EditorDoc.cp
 // 
 //                       Created: 2004-12-08 18:21:21
-//             Last modification: 2005-01-20 22:29:02
+//             Last modification: 2005-04-28 19:12:17
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -28,7 +28,6 @@ PP_Begin_Namespace_PowerPlant
 #include "CRezMapDoc.h"
 #include "CRezMapTable.h"
 #include "CEditorsController.h"
-#include "CWindowMenu.h"
 #include "UCodeTranslator.h"
 #include "UDialogBoxHandler.h"
 #include "UMessageDialogs.h"
@@ -48,7 +47,6 @@ PP_Begin_Namespace_PowerPlant
 // // Standard headers
 // #include <string.h>
 
-extern CWindowMenu * gWindowMenu;
 
 
 // ---------------------------------------------------------------------------
@@ -73,8 +71,6 @@ CUtxt_EditorDoc::CUtxt_EditorDoc(LCommander* inSuper,
 CUtxt_EditorDoc::~CUtxt_EditorDoc()
 {
 	if (mUtxtEditWindow != nil) {
-		// Remove the window from the window menu.
-		gWindowMenu->RemoveWindow( mUtxtEditWindow );
 		delete mUtxtEditWindow;
 	} 
 }
@@ -91,15 +87,10 @@ CUtxt_EditorDoc::Initialize()
 	mUtxtEditWindow = dynamic_cast<CUtxt_EditorWindow *>(LWindow::CreateWindow( PPob_UtxtEditorWindow, this ));
 	Assert_( mUtxtEditWindow != nil );
 	
-	mUtxtEditWindow->SetOwnerDoc(this);
-	mUtxtEditWindow->InstallResourceNameField();
-	mUtxtEditWindow->InstallReadOnlyIcon();
 	SetMainWindow( dynamic_cast<CEditorWindow *>(mUtxtEditWindow) );
+	mUtxtEditWindow->Finalize(this);
 
 	NameNewEditorDoc();
-	
-	// Add the window to the window menu.
-	gWindowMenu->InsertWindow( mUtxtEditWindow );
 		
 	// Install the contents
 	if (mRezObj != nil) {
@@ -194,34 +185,6 @@ CUtxt_EditorDoc::AskSaveChanges(
 {
 	return UMessageDialogs::AskYesNoFromLocalizable(CFSTR("SaveTextEditorWindow"), PPob_AskYesNoMessage);
 }
-
-
-// // ---------------------------------------------------------------------------------
-// //  ¥ IsModified
-// // ---------------------------------------------------------------------------------
-// 
-// Boolean
-// CUtxt_EditorDoc::IsModified()
-// {
-// 	// Document has changed if the text views are dirty
-// 	mIsModified = mUtxtEditWindow->IsDirty();
-// 	return mIsModified;
-// }
-
-
-// // ---------------------------------------------------------------------------
-// //  ¥ DoSaveChanges													[public]
-// // ---------------------------------------------------------------------------
-// // The callee should set the shouldWeRelease variable to tell us if the 
-// // handle we receive should be released here.
-// 
-// void
-// CEditorDoc::DoSaveChanges() 
-// {
-// 	CEditorDoc::DoSaveChanges();
-// 	
-// // 	SaveStylResource
-// }
 
 
 // ---------------------------------------------------------------------------

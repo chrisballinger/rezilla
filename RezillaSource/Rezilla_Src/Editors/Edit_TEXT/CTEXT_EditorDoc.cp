@@ -2,7 +2,7 @@
 // CTEXT_EditorDoc.cp
 // 
 //                       Created: 2004-06-17 12:46:55
-//             Last modification: 2005-02-25 07:04:05
+//             Last modification: 2005-04-28 19:12:34
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -29,7 +29,6 @@ PP_Begin_Namespace_PowerPlant
 #include "CRezMapDoc.h"
 #include "CRezObj.h"
 #include "CRezillaPrefs.h"
-#include "CWindowMenu.h"
 #include "UCodeTranslator.h"
 #include "UDialogBoxHandler.h"
 #include "UMessageDialogs.h"
@@ -50,7 +49,6 @@ PP_Begin_Namespace_PowerPlant
 // #include <string.h>
 
 
-extern CWindowMenu * gWindowMenu;
 
 
 // ---------------------------------------------------------------------------
@@ -75,8 +73,6 @@ CTEXT_EditorDoc::CTEXT_EditorDoc(LCommander* inSuper,
 CTEXT_EditorDoc::~CTEXT_EditorDoc()
 {
 	if (mTextEditWindow != nil) {
-		// Remove the window from the window menu.
-		gWindowMenu->RemoveWindow( mTextEditWindow );
 		delete mTextEditWindow;
 	} 
 }
@@ -99,15 +95,10 @@ CTEXT_EditorDoc::Initialize()
 	mTextEditWindow = dynamic_cast<CTEXT_EditorWindow *>(LWindow::CreateWindow( PPob_TextEditorWindow, this ));
 	Assert_( mTextEditWindow != nil );
 	
-	mTextEditWindow->SetOwnerDoc(this);
-	mTextEditWindow->InstallResourceNameField();
-	mTextEditWindow->InstallReadOnlyIcon();
 	SetMainWindow( dynamic_cast<CEditorWindow *>(mTextEditWindow) );
+	mTextEditWindow->Finalize(this);
 
 	NameNewEditorDoc();
-	
-	// Add the window to the window menu.
-	gWindowMenu->InsertWindow( mTextEditWindow );
 		
 	// Install the contents according to the TMPL
 	if (mRezObj != nil) {

@@ -39,8 +39,7 @@ CEditorDoc::MakeSelfSpecifier(
 	GetDescriptor(docName);
 
 	StAEDescriptor	keyData;
-	OSErr	err = ::AECreateDesc(typeChar, docName + 1, docName[0],
-						&keyData.mDesc);
+	OSErr	err = ::AECreateDesc(typeChar, docName + 1, docName[0], &keyData.mDesc);
 	ThrowIfOSErr_(err);
 
 	switch (mKind) {
@@ -108,7 +107,7 @@ CEditorDoc::GetAEProperty(
 		
 		
 		case cWindow: {
-			// Return as window 1 of the editor document
+			// Return as window 1 of this editor document
 			DescType		winClass;
 			AEDesc 			superSpec, docSpec;
 			StAEDescriptor	keyData;
@@ -118,29 +117,12 @@ CEditorDoc::GetAEProperty(
 			superSpec.dataHandle = nil;
 			MakeSpecifier(docSpec);
 
-// 			formPropertyID
 			keyData.Assign(index);
 			error = ::CreateObjSpecifier( cWindow, &docSpec, formAbsolutePosition,
 									keyData, false, &outPropertyDesc);
 			ThrowIfOSErr_(error);
 			break;
 		}
-		
-		
-// 		case 'cwin': {
-// 			// Returns the window by index (in stack order)
-// 			AEDesc superSpec;
-// 			StAEDescriptor	keyData;
-// 			SInt32	index = UWindows::FindWindowIndex( mMainWindow->GetMacWindow() );
-// 
-// 			superSpec.descriptorType = typeNull;
-// 			superSpec.dataHandle = nil;
-// 			keyData.Assign(index);
-// 			error = ::CreateObjSpecifier( cWindow, &superSpec, formAbsolutePosition,
-// 									keyData, false, &outPropertyDesc);
-// 			ThrowIfOSErr_(error);
-// 			break;
-// 		}
 		
 		
 		case rzom_pKind:
@@ -207,19 +189,6 @@ CEditorDoc::SetAEProperty(
 			break;
 	}
 }
-
-
-// // ---------------------------------------------------------------------------
-// //	¥ GetModelName
-// // ---------------------------------------------------------------------------
-// //	Return the name of a Window as an AppleEvent model object
-// 
-// StringPtr
-// CEditorDoc::GetModelName(
-// 	Str255	outModelName) const
-// {
-// 	return GetDescriptor(outModelName);
-// }
 
 
 // ---------------------------------------------------------------------------
@@ -315,52 +284,29 @@ CEditorDoc::GetSubModelByPosition(
 }
 
 
-// // ---------------------------------------------------------------------------
-// //	¥ GetModelProperty
-// // ---------------------------------------------------------------------------
-// //	Return a ModelObject object for explicitly defined properties
-// //
-// //	Must be overridden for subclasses which return "special" ModelObjects for
-// //	given property id's.
-// //
-// //	For the default case in overrides, return the inherited value.
-// 
-// LModelObject*
-// CEditorDoc::GetModelProperty(DescType inProperty) const
-// {
-// 	LModelObject* theModelObject = nil;
-// 
-// 	switch (inProperty) {
-// 
-// 		case rzom_cEditorWindow:
-// 		case cWindow: {
-// 			theModelObject = dynamic_cast<LModelObject *>(mMainWindow);
-// 
-// 			// Returns the window by index (in stack order)
-// 			DescType		winClass;
-// 			AEDesc 			superSpec, docSpec;
-// 			StAEDescriptor	keyData;
-// 			SInt32			index = 1;
-// 
-// 			superSpec.descriptorType = typeNull;
-// 			superSpec.dataHandle = nil;
-//  			MakeSelfSpecifier(superSpec, docSpec);
-// 
-// // 			formPropertyID
-// 			keyData.Assign(index);
-// 			error = ::CreateObjSpecifier( cWindow, &docSpec, formAbsolutePosition,
-// 									keyData, false, &outPropertyDesc);
-// 			ThrowIfOSErr_(error);
-// 			break;
-// 		}
-// 		
-// 		default:
-// 		theModelObject = LModelObject::GetModelProperty(inProperty);
-// 			break;
-// 	}
-// 
-// 	return theModelObject;
-// }
-// 
+// ---------------------------------------------------------------------------
+//	¥ GetModelProperty
+// ---------------------------------------------------------------------------
+//	Return a ModelObject object for 'cwin' property
 
+LModelObject*
+CEditorDoc::GetModelProperty(DescType inProperty) const
+{
+	LModelObject* theModelObject = nil;
 
+	switch (inProperty) {
+
+		case rzom_cEditorWindow:
+		case cWindow:
+		theModelObject = dynamic_cast<LModelObject *>(mMainWindow);
+		break;
+		
+		default:
+		theModelObject = LModelObject::GetModelProperty(inProperty);
+			break;
+	}
+
+	return theModelObject;
+}
+
+		

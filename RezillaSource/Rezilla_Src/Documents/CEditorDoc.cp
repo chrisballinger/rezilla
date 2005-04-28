@@ -59,8 +59,9 @@ CEditorDoc::CEditorDoc(LCommander* inSuper,
 	mKind = editor_kindGui;
 	
 	// Consider by default that it is an interface doc. Hex and tmpl docs 
-	// will ovverride this.
+	// will override this.
 	SetModelKind(rzom_cGuiEditDoc);
+	// The owner RezMapDoc is the super model
 	SetSuperModel( dynamic_cast<LModelObject *>(inSuper) );
 
 	Register();
