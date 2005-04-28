@@ -281,42 +281,22 @@ CRezMapDoc::GetSubModelByName(
 {
 	switch (inModelID) {
 
-		case rzom_cEditorDoc: {
-			TArrayIterator<CEditorDoc *> iterator(*mOpenedEditors);
-			CEditorDoc *	theDoc = nil;
-			
-			while (iterator.Next(theDoc)) {
-				if (theDoc->GetModelKind() == inModelID) {
-					Str255	docName;
-					theDoc->GetDescriptor(docName);
-					if (::IdenticalString(inName, docName, nil) == 0) {
-						break;
-					}
-				} 				
-				theDoc = nil;
-			}
-			if (theDoc != nil) {
-				PutInToken(theDoc, outToken);
-			} else {
-				ThrowOSErr_(errAENoSuchObject);
-			}
-			break;
-		}
-
+		case rzom_cEditorDoc: 
 		case rzom_cGuiEditDoc:
 		case rzom_cTmplEditDoc:
 		case rzom_cHexEditDoc: {
 			TArrayIterator<CEditorDoc *> iterator(*mOpenedEditors);
 			CEditorDoc *	theDoc = nil;
 			while (iterator.Next(theDoc)) {
-				if (theDoc->GetModelKind() == inModelID) {
-					Str255	docName;
+				DescType theKind = theDoc->GetModelKind();
+				if (theKind == inModelID || inModelID == rzom_cEditorDoc) {
+					Str255  docName;
 					theDoc->GetDescriptor(docName);
 					if (::IdenticalString(inName, docName, nil) == 0) {
 						break;
 					}
-				} 				
-				theDoc = nil;
+				}               
+ 				theDoc = nil;
 			}
 			if (theDoc != nil) {
 				PutInToken(theDoc, outToken);
