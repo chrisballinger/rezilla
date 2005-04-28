@@ -2,7 +2,7 @@
 // CEditorWindowAE.cp
 // 
 //                       Created: 2005-04-26 10:05:20
-//             Last modification: 2005-04-27 08:36:29
+//             Last modification: 2005-04-28 14:12:43
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -30,7 +30,6 @@ CEditorWindow::MakeSelfSpecifier(
 	AEDesc	&inSuperSpecifier,
 	AEDesc	&outSelfSpecifier) const
 {
-	if (mSuperModel == nil) {
 		DescType		winClass;
 		DescType		keyForm;
 		StAEDescriptor	keyData;
@@ -55,17 +54,13 @@ CEditorWindow::MakeSelfSpecifier(
 			break;
 		}
 
-		err = ::CreateObjSpecifier(	winClass,
+		err = ::CreateObjSpecifier(	rzom_cEditorWindow,
 									&inSuperSpecifier,
 									keyForm,
 									keyData,
 									false,		// Don't dispose inputs
 									&outSelfSpecifier);
 		ThrowIfOSErr_(err);
-
-	} else {
-		LModelObject::MakeSelfSpecifier(inSuperSpecifier, outSelfSpecifier);
-	}
 }
 
 
