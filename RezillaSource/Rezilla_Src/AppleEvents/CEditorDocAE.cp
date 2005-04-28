@@ -107,7 +107,7 @@ CEditorDoc::GetAEProperty(
 		}
 		
 		
-		case 'cwin': {
+		case cWindow: {
 			// Returns the window by index (in stack order)
 			DescType		winClass;
 			AEDesc 			superSpec, docSpec;
@@ -313,5 +313,53 @@ CEditorDoc::GetSubModelByPosition(
 			break;
 	}
 }
+
+
+// ---------------------------------------------------------------------------
+//	¥ GetModelProperty
+// ---------------------------------------------------------------------------
+//	Return a ModelObject object for explicitly defined properties
+//
+//	Must be overridden for subclasses which return "special" ModelObjects for
+//	given property id's.
+//
+//	For the default case in overrides, return the inherited value.
+
+LModelObject*
+CEditorDoc::GetModelProperty(DescType inProperty) const
+{
+	LModelObject* theModelObject = nil;
+
+	switch (inProperty) {
+
+		case cWindow: {
+			theModelObject = dynamic_cast<LModelObject *>(mMainWindow);
+
+// 			// Returns the window by index (in stack order)
+// 			DescType		winClass;
+// 			AEDesc 			superSpec, docSpec;
+// 			StAEDescriptor	keyData;
+// 			SInt32			index = 1;
+// 
+// 			superSpec.descriptorType = typeNull;
+// 			superSpec.dataHandle = nil;
+//  			MakeSelfSpecifier(superSpec, docSpec);
+// 
+// // 			formPropertyID
+// 			keyData.Assign(index);
+// 			error = ::CreateObjSpecifier( cWindow, &docSpec, formAbsolutePosition,
+// 									keyData, false, &outPropertyDesc);
+// 			ThrowIfOSErr_(error);
+			break;
+		}
+		
+		default:
+		theModelObject = LModelObject::GetModelProperty(inProperty);
+			break;
+	}
+
+	return theModelObject;
+}
+
 
 
