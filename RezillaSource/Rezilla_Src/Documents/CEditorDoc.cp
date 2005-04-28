@@ -58,7 +58,9 @@ CEditorDoc::CEditorDoc(LCommander* inSuper,
 	mReadOnly = inReadOnly;
 	mKind = editor_kindGui;
 	
-	SetModelKind(rzom_cEditorDoc);
+	// Consider by default that it is an interface doc. Hex and tmpl docs 
+	// will ovverride this.
+	SetModelKind(rzom_cGuiEditDoc);
 
 	Register();
 }
