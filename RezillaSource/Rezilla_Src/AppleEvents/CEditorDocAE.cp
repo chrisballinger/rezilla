@@ -2,7 +2,7 @@
 // CEditorDocAE.cp
 // 
 //                       Created: 2005-04-09 10:03:39
-//             Last modification: 2005-04-27 08:37:15
+//             Last modification: 2005-04-28 15:07:13
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -58,7 +58,7 @@ CEditorDoc::MakeSelfSpecifier(
 
 	}
 	
-	err = ::CreateObjSpecifier(docClass, &inSuperSpecifier, formName,
+	err = ::CreateObjSpecifier(rzom_cEditorDoc, &inSuperSpecifier, formName,
 								&keyData.mDesc, false, &outSelfSpecifier);
 	ThrowIfOSErr_(err);
 }
@@ -108,7 +108,7 @@ CEditorDoc::GetAEProperty(
 		
 		
 		case cWindow: {
-			// Returns the window by index (in stack order)
+			// Return as window 1 of the editor document
 			DescType		winClass;
 			AEDesc 			superSpec, docSpec;
 			StAEDescriptor	keyData;
@@ -116,7 +116,7 @@ CEditorDoc::GetAEProperty(
 
 			superSpec.descriptorType = typeNull;
 			superSpec.dataHandle = nil;
- 			MakeSelfSpecifier(superSpec, docSpec);
+			MakeSpecifier(docSpec);
 
 // 			formPropertyID
 			keyData.Assign(index);
@@ -315,26 +315,27 @@ CEditorDoc::GetSubModelByPosition(
 }
 
 
-// ---------------------------------------------------------------------------
-//	¥ GetModelProperty
-// ---------------------------------------------------------------------------
-//	Return a ModelObject object for explicitly defined properties
-//
-//	Must be overridden for subclasses which return "special" ModelObjects for
-//	given property id's.
-//
-//	For the default case in overrides, return the inherited value.
-
-LModelObject*
-CEditorDoc::GetModelProperty(DescType inProperty) const
-{
-	LModelObject* theModelObject = nil;
-
-	switch (inProperty) {
-
-		case cWindow: {
-			theModelObject = dynamic_cast<LModelObject *>(mMainWindow);
-
+// // ---------------------------------------------------------------------------
+// //	¥ GetModelProperty
+// // ---------------------------------------------------------------------------
+// //	Return a ModelObject object for explicitly defined properties
+// //
+// //	Must be overridden for subclasses which return "special" ModelObjects for
+// //	given property id's.
+// //
+// //	For the default case in overrides, return the inherited value.
+// 
+// LModelObject*
+// CEditorDoc::GetModelProperty(DescType inProperty) const
+// {
+// 	LModelObject* theModelObject = nil;
+// 
+// 	switch (inProperty) {
+// 
+// 		case rzom_cEditorWindow:
+// 		case cWindow: {
+// 			theModelObject = dynamic_cast<LModelObject *>(mMainWindow);
+// 
 // 			// Returns the window by index (in stack order)
 // 			DescType		winClass;
 // 			AEDesc 			superSpec, docSpec;
@@ -350,16 +351,16 @@ CEditorDoc::GetModelProperty(DescType inProperty) const
 // 			error = ::CreateObjSpecifier( cWindow, &docSpec, formAbsolutePosition,
 // 									keyData, false, &outPropertyDesc);
 // 			ThrowIfOSErr_(error);
-			break;
-		}
-		
-		default:
-		theModelObject = LModelObject::GetModelProperty(inProperty);
-			break;
-	}
-
-	return theModelObject;
-}
-
+// 			break;
+// 		}
+// 		
+// 		default:
+// 		theModelObject = LModelObject::GetModelProperty(inProperty);
+// 			break;
+// 	}
+// 
+// 	return theModelObject;
+// }
+// 
 
 
