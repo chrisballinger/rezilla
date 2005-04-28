@@ -101,6 +101,7 @@ CMENU_EditorDoc::Initialize()
 	SetMainWindow( dynamic_cast<CEditorWindow *>(mMenuEditWindow) );
 
 // 	SetDefaultSubModel(mMenuEditWindow);
+	mMenuEditWindow->SetSuperModel(this);
 
 	NameNewEditorDoc();
 	
