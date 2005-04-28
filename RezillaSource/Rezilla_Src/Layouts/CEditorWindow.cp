@@ -2,7 +2,7 @@
 // CEditorWindow.cp
 // 
 //                       Created: 2004-06-10 14:50:31
-//             Last modification: 2005-04-10 08:23:32
+//             Last modification: 2005-04-28 18:53:27
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -16,24 +16,29 @@
 #include "CEditorWindow.h"
 #include "CEditorDoc.h"
 #include "CRezObj.h"
+#include "CWindowMenu.h"
 #include "RezillaConstants.h"
 
 #include <LIconPane.h>
 #include <LStaticText.h>
 
+extern CWindowMenu * gWindowMenu;
+
+
 // ---------------------------------------------------------------------------
-//		¥ CEditorWindow				[public]
+//  CEditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CEditorWindow::CEditorWindow()
 {
 	mIsDirty = false;
+	mOwnerDoc = nil;
 	SetModelKind(rzom_cEditorWindow);
 }
 
 
 // ---------------------------------------------------------------------------
-//		¥ CEditorWindow				[public]
+//  CEditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CEditorWindow::CEditorWindow(
@@ -41,12 +46,13 @@ CEditorWindow::CEditorWindow(
 		: LWindow( inWindowInfo )
 {
 	mIsDirty = false;
+	mOwnerDoc = nil;
 	SetModelKind(rzom_cEditorWindow);
 }
 
 
 // ---------------------------------------------------------------------------
-//		¥ CEditorWindow				[public]
+//  CEditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CEditorWindow::CEditorWindow(
@@ -56,12 +62,13 @@ CEditorWindow::CEditorWindow(
 		: LWindow( inWINDid, inAttributes, inSuperCommander )
 {
 	mIsDirty = false;
+	mOwnerDoc = nil;
 	SetModelKind(rzom_cEditorWindow);
 }
 
 
 // ---------------------------------------------------------------------------
-//		¥ CEditorWindow				[public]
+//  CEditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CEditorWindow::CEditorWindow(
@@ -69,35 +76,42 @@ CEditorWindow::CEditorWindow(
 		: LWindow( inStream )
 {
 	mIsDirty = false;
+	mOwnerDoc = nil;
 	SetModelKind(rzom_cEditorWindow);
 }
 
 
 // ---------------------------------------------------------------------------
-//		¥ ~CEditorWindow				[public]
+//  ~CEditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CEditorWindow::~CEditorWindow()
 {
+	// Remove the window from the window menu.
+	gWindowMenu->RemoveWindow(this);
 }
 
 
 // ---------------------------------------------------------------------------
-//		¥ FinishCreateSelf				[protected]
+//  Finalize											[public]
 // ---------------------------------------------------------------------------
 
 void
-CEditorWindow::FinishCreateSelf()
+CEditorWindow::Finalize(CEditorDoc* inEditorDoc)
 {
- 	InstallResourceNameField();
+	SetOwnerDoc(inEditorDoc);
+	InstallResourceNameField();
 	InstallReadOnlyIcon();
 
-// 	mOwnerDoc->SetDefaultSubModel(this);
+	SetSuperModel(inEditorDoc);
+	
+	// Add the window to the window menu.
+	gWindowMenu->InsertWindow(this);
 }
 	
 
 // ---------------------------------------------------------------------------
-//		¥ ListenToMessage				[public]
+//  ListenToMessage									[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -119,7 +133,7 @@ CEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 
 
 // ---------------------------------------------------------------------------
-//	¥ FindCommandStatus
+//  FindCommandStatus
 // ---------------------------------------------------------------------------
 //	Pass back whether a Command is enabled and/or marked (in a Menu)
 
@@ -156,7 +170,7 @@ CEditorWindow::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ObeyCommand							[public, virtual]
+//  ObeyCommand							[public, virtual]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -199,7 +213,7 @@ CEditorWindow::ObeyCommand(
 
 
 // ---------------------------------------------------------------------------
-//	¥ RevertContents												  [public]
+//  RevertContents												  [public]
 // ---------------------------------------------------------------------------
 // Override in subclasses to redraw the contents view with the last saved 
 // data.
@@ -249,7 +263,7 @@ CEditorWindow::InstallResourceNameField()
 
 
 // ---------------------------------------------------------------------------
-//	¥ IsDirty														[public]
+//  IsDirty														[public]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -260,7 +274,7 @@ CEditorWindow::IsDirty()
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetDirty														[public]
+//  SetDirty														[public]
 // ---------------------------------------------------------------------------
 
 void

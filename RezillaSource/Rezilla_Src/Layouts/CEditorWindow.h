@@ -46,6 +46,8 @@ public:
 							CommandT			inCommand,
 							void*				ioParam);
 
+	virtual void	Finalize(CEditorDoc* inEditorDoc);
+
 	virtual void	RevertContents();
 	
 	virtual Boolean	IsDirty();
@@ -82,7 +84,6 @@ protected:
 	CEditorDoc *		mOwnerDoc;
 	Boolean				mIsDirty;
 
-	virtual void		FinishCreateSelf();
 };
 
 
