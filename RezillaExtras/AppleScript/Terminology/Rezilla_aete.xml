@@ -1571,7 +1571,7 @@
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
 							<IsEnumerated>notEnumerated</IsEnumerated>
-							<IsReadWrite>readWrite</IsReadWrite>
+							<IsReadWrite>readOnly</IsReadWrite>
 							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
 							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
 							<PropertyIsReference>propertyIsValue</PropertyIsReference>
@@ -1691,7 +1691,7 @@
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
 							<IsEnumerated>notEnumerated</IsEnumerated>
-							<IsReadWrite>readWrite</IsReadWrite>
+							<IsReadWrite>readOnly</IsReadWrite>
 							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
 							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
 							<PropertyIsReference>propertyIsValue</PropertyIsReference>
@@ -1808,8 +1808,8 @@
 					<Property>
 						<PropertyName>kind</PropertyName>
 						<PropertyID>pKND</PropertyID>
-						<PropertyClass>DKND</PropertyClass>
-						<PropertyDescription>the kind of document</PropertyDescription>
+						<PropertyClass>EKND</PropertyClass>
+						<PropertyDescription>the kind of editor document (hexadecimal, template or interface)</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
@@ -1838,7 +1838,7 @@
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
 							<IsEnumerated>notEnumerated</IsEnumerated>
-							<IsReadWrite>readWrite</IsReadWrite>
+							<IsReadWrite>readOnly</IsReadWrite>
 							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
 							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
 							<PropertyIsReference>propertyIsValue</PropertyIsReference>
@@ -1879,7 +1879,7 @@
 					</Property>
 					<Property>
 						<PropertyName>resource</PropertyName>
-						<PropertyID>pRSC</PropertyID>
+						<PropertyID>cRSC</PropertyID>
 						<PropertyClass>cRSC</PropertyClass>
 						<PropertyDescription>the resource edited by this document</PropertyDescription>
 						<PropertyFlags>
@@ -1902,7 +1902,7 @@
 						</PropertyFlags>
 					</Property>
 					<Property>
-						<PropertyName>map</PropertyName>
+						<PropertyName>owner doc</PropertyName>
 						<PropertyID>pOWM</PropertyID>
 						<PropertyClass>MapD</PropertyClass>
 						<PropertyDescription>the rezmap document that owns this editor document</PropertyDescription>
@@ -2329,6 +2329,74 @@
 			</Class>
 
 			<Class>
+				<ClassName>interface window</ClassName>
+				<ClassID>GuiW</ClassID>
+				<ClassDescription>an interface editor window</ClassDescription>
+				<ArrayProperties>
+					<Property>
+						<PropertyName>inherits</PropertyName>
+						<PropertyID>c@#^</PropertyID>
+						<PropertyClass>EdiW</PropertyClass>
+						<PropertyDescription>all properties of the 'editor window' class</PropertyDescription>
+						<PropertyFlags>
+							<Reserved/>
+							<IsListOfItems>singleItem</IsListOfItems>
+							<IsEnumerated>notEnumerated</IsEnumerated>
+							<IsReadWrite>readOnly</IsReadWrite>
+							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+							<PropertyIsReference>propertyIsValue</PropertyIsReference>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<IsApostrophe>noApostrophe</IsApostrophe>
+							<IsFeminine>notFeminine</IsFeminine>
+							<IsMasculine>notMasculine</IsMasculine>
+							<Plural>singular</Plural>
+						</PropertyFlags>
+					</Property>
+				</ArrayProperties>
+				<ArrayElements>
+				</ArrayElements>
+			</Class>
+
+			<Class>
+				<ClassName>interface windows</ClassName>
+				<ClassID>GuiW</ClassID>
+				<ClassDescription>every interface window</ClassDescription>
+				<ArrayProperties>
+					<Property>
+						<PropertyName></PropertyName>
+						<PropertyID>c@#!</PropertyID>
+						<PropertyClass>type</PropertyClass>
+						<PropertyDescription></PropertyDescription>
+						<PropertyFlags>
+							<Reserved/>
+							<IsListOfItems>singleItem</IsListOfItems>
+							<IsEnumerated>notEnumerated</IsEnumerated>
+							<IsReadWrite>readOnly</IsReadWrite>
+							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+							<PropertyIsReference>propertyIsValue</PropertyIsReference>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<IsApostrophe>noApostrophe</IsApostrophe>
+							<IsFeminine>notFeminine</IsFeminine>
+							<IsMasculine>notMasculine</IsMasculine>
+							<Plural>plural</Plural>
+						</PropertyFlags>
+					</Property>
+				</ArrayProperties>
+				<ArrayElements>
+				</ArrayElements>
+			</Class>
+
+			<Class>
 				<ClassName>template window</ClassName>
 				<ClassID>TmpW</ClassID>
 				<ClassDescription>a template editor window</ClassDescription>
@@ -2708,7 +2776,7 @@
 					<Enumerator>
 						<EnumeratorName>resource map</EnumeratorName>
 						<EnumeratorID>RMAP</EnumeratorID>
-						<EnumeratorDescription>resource map document</EnumeratorDescription>
+						<EnumeratorDescription>a resource map document</EnumeratorDescription>
 					</Enumerator>
 					<Enumerator>
 						<EnumeratorName>resource editor</EnumeratorName>
@@ -2718,7 +2786,7 @@
 					<Enumerator>
 						<EnumeratorName>maps comparison</EnumeratorName>
 						<EnumeratorID>COMP</EnumeratorID>
-						<EnumeratorDescription>maps comparison document</EnumeratorDescription>
+						<EnumeratorDescription>a maps comparison document</EnumeratorDescription>
 					</Enumerator>
 				</ArrayEnumerators>
 			</Enumeration>

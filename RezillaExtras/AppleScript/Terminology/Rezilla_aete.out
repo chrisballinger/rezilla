@@ -405,7 +405,7 @@ Suite ID: 'Rzil'
 Suite level: 1
 Suite version: 1
 Number of Events: 0
-Number of Classes: 22
+Number of Classes: 24
   Object class 1: map document
 ------------------------------
 	Object class ID: 'MapD'
@@ -419,13 +419,13 @@ Number of Classes: 22
 	  (2) index
 		Property ID: 'pidx'
 		Property class: 'long'
-		Property description: the number of the document
+		Property description: the number of the document among other map documents
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	  (3) readOnly
 		Property ID: 'pRDO'
 		Property class: 'bool'
 		Property description: Is this document read-only?
-		Property is a single item, not enumerated. It can be set by the Set Data AE.
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	  (4) window
 		Property ID: 'cwin'
 		Property class: 'cwin'
@@ -450,7 +450,7 @@ Number of Classes: 22
 		Property ID: 'pFIL'
 		Property class: 'fss '
 		Property description: the file on disk corresponding to this resource map document
-		Property is a single item, not enumerated. It can be set by the Set Data AE.
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	Number of class elements: 1
 		Class element ID: 'EdiD'
 		Number of key forms: 2
@@ -484,25 +484,25 @@ Number of Classes: 22
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	  (3) kind
 		Property ID: 'pKND'
-		Property class: 'DKND'
-		Property description: the kind of document
+		Property class: 'EKND'
+		Property description: the kind of editor document (hexadecimal, template or interface)
 		Property is a single item, enumerated. It cannot be set by the Set Data AE.
 	  (4) readOnly
 		Property ID: 'pRDO'
 		Property class: 'bool'
 		Property description: Is this document read-only?
-		Property is a single item, not enumerated. It can be set by the Set Data AE.
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	  (5) window
 		Property ID: 'cwin'
 		Property class: 'cwin'
 		Property description: the window of the document.
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	  (6) resource
-		Property ID: 'pRSC'
+		Property ID: 'cRSC'
 		Property class: 'cRSC'
 		Property description: the resource edited by this document
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
-	  (7) map
+	  (7) owner doc
 		Property ID: 'pOWM'
 		Property class: 'MapD'
 		Property description: the rezmap document that owns this editor document
@@ -634,7 +634,29 @@ Number of Classes: 22
 		Property description: 
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	Number of class elements: 0
-  Object class 15: template window
+  Object class 15: interface window
+-----------------------------------
+	Object class ID: 'GuiW'
+	Class description: an interface editor window
+	Number of class properties: 1
+	  (1) inherits
+		Property ID: 'c@#^'
+		Property class: 'EdiW'
+		Property description: all properties of the 'editor window' class
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	Number of class elements: 0
+  Object class 16: interface windows
+------------------------------------
+	Object class ID: 'GuiW'
+	Class description: every interface window
+	Number of class properties: 1
+	  (1) 
+		Property ID: 'c@#!'
+		Property class: 'type'
+		Property description: 
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	Number of class elements: 0
+  Object class 17: template window
 ----------------------------------
 	Object class ID: 'TmpW'
 	Class description: a template editor window
@@ -645,7 +667,7 @@ Number of Classes: 22
 		Property description: all properties of the 'editor window' class
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	Number of class elements: 0
-  Object class 16: template windows
+  Object class 18: template windows
 -----------------------------------
 	Object class ID: 'TmpW'
 	Class description: every template window
@@ -656,7 +678,7 @@ Number of Classes: 22
 		Property description: 
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	Number of class elements: 0
-  Object class 17: hex window
+  Object class 19: hex window
 -----------------------------
 	Object class ID: 'HexW'
 	Class description: a hexadecimal editor window
@@ -677,7 +699,7 @@ Number of Classes: 22
 		Property description: the left pane of the hex window
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	Number of class elements: 0
-  Object class 18: hex windows
+  Object class 20: hex windows
 ------------------------------
 	Object class ID: 'HexW'
 	Class description: every hex window
@@ -688,7 +710,7 @@ Number of Classes: 22
 		Property description: 
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	Number of class elements: 0
-  Object class 19: comparison window
+  Object class 21: comparison window
 ------------------------------------
 	Object class ID: 'CmpW'
 	Class description: a maps comparison window
@@ -704,7 +726,7 @@ Number of Classes: 22
 		Property description: a comparison result object
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	Number of class elements: 0
-  Object class 20: comparison windows
+  Object class 22: comparison windows
 -------------------------------------
 	Object class ID: 'CmpW'
 	Class description: every comparison window
@@ -715,7 +737,7 @@ Number of Classes: 22
 		Property description: 
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	Number of class elements: 0
-  Object class 21: inspector
+  Object class 23: inspector
 ----------------------------
 	Object class ID: 'Insp'
 	Class description: the inspector window
@@ -726,7 +748,7 @@ Number of Classes: 22
 		Property description: all properties of the 'window' class
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	Number of class elements: 0
-  Object class 22: data pane
+  Object class 24: data pane
 ----------------------------
 	Object class ID: 'DatP'
 	Class description: a pane displaying resource data
@@ -749,13 +771,13 @@ Number of Enumerations: 3
 	Number of enumerators: 3
 	  Enumerator 1: resource map
 		Enumerator ID: 'RMAP'
-		Enumerator description: resource map document
+		Enumerator description: a resource map document
 	  Enumerator 2: resource editor
 		Enumerator ID: 'EDOC'
 		Enumerator description: a resource editor
 	  Enumerator 3: maps comparison
 		Enumerator ID: 'COMP'
-		Enumerator description: maps comparison document
+		Enumerator description: a maps comparison document
     Enumeration 2 ID: 'EKND'
 ----------------------------
 	Number of enumerators: 3

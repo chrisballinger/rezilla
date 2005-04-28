@@ -1372,7 +1372,7 @@ resource 'aete' (0,"Scripting terminology") {
 						"index",
 						'pidx',
 						'long',
-						"the number of the document",
+						"the number of the document among other map documents",
 							reserved,
 							singleItem,
 							notEnumerated,
@@ -1397,7 +1397,7 @@ resource 'aete' (0,"Scripting terminology") {
 							reserved,
 							singleItem,
 							notEnumerated,
-							readWrite,
+							readOnly,
 							enumsAreConstants,
 							enumListCanRepeat,
 							propertyIsValue,
@@ -1502,7 +1502,7 @@ resource 'aete' (0,"Scripting terminology") {
 							reserved,
 							singleItem,
 							notEnumerated,
-							readWrite,
+							readOnly,
 							enumsAreConstants,
 							enumListCanRepeat,
 							propertyIsValue,
@@ -1605,8 +1605,8 @@ resource 'aete' (0,"Scripting terminology") {
 					,
 						"kind",
 						'pKND',
-						'DKND',
-						"the kind of document",
+						'EKND',
+						"the kind of editor document (hexadecimal, template or interface)",
 							reserved,
 							singleItem,
 							enumerated,
@@ -1687,7 +1687,7 @@ resource 'aete' (0,"Scripting terminology") {
 							notMasculine,
 							singular
 					,
-						"map",
+						"owner doc",
 						'pOWM',
 						'MapD',
 						"the rezmap document that owns this editor document",
@@ -2063,6 +2063,66 @@ resource 'aete' (0,"Scripting terminology") {
 				{
 				}
 			,
+				"interface window",
+				'GuiW',
+				"an interface editor window",
+				{
+					
+						"inherits",
+						'c@#^',
+						'EdiW',
+						"all properties of the 'editor window' class",
+							reserved,
+							singleItem,
+							notEnumerated,
+							readOnly,
+							enumsAreConstants,
+							enumListCanRepeat,
+							propertyIsValue,
+							reserved,
+							reserved,
+							reserved,
+							reserved,
+							reserved,
+							noApostrophe,
+							notFeminine,
+							notMasculine,
+							singular
+					
+				},
+				{
+				}
+			,
+				"interface windows",
+				'GuiW',
+				"every interface window",
+				{
+					
+						"",
+						'c@#!',
+						'type',
+						"",
+							reserved,
+							singleItem,
+							notEnumerated,
+							readOnly,
+							enumsAreConstants,
+							enumListCanRepeat,
+							propertyIsValue,
+							reserved,
+							reserved,
+							reserved,
+							reserved,
+							reserved,
+							noApostrophe,
+							notFeminine,
+							notMasculine,
+							plural
+					
+				},
+				{
+				}
+			,
 				"template window",
 				'TmpW',
 				"a template editor window",
@@ -2400,7 +2460,7 @@ resource 'aete' (0,"Scripting terminology") {
 					
 						"resource map",
 						'RMAP',
-						"resource map document"
+						"a resource map document"
 					,
 						"resource editor",
 						'EDOC',
@@ -2408,7 +2468,7 @@ resource 'aete' (0,"Scripting terminology") {
 					,
 						"maps comparison",
 						'COMP',
-						"maps comparison document"
+						"a maps comparison document"
 					
 				}
 			,
