@@ -123,6 +123,9 @@ protected:
 	Boolean					mReadOnly;
 	SInt16					mKind;
 
+	virtual LModelObject*	GetModelProperty(
+									DescType		inProperty) const;
+
 	virtual Handle	GetModifiedResource(Boolean &releaseIt) = 0;  // Purely virtual
 	void			NameNewEditorDoc();
 	void			BuildDocumentTitle(Str255 & outTitle, SInt16 whichString);
