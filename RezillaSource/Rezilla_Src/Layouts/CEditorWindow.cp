@@ -91,6 +91,8 @@ CEditorWindow::FinishCreateSelf()
 {
  	InstallResourceNameField();
 	InstallReadOnlyIcon();
+
+// 	mOwnerDoc->SetDefaultSubModel(this);
 }
 	
 

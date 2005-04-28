@@ -100,6 +100,8 @@ CMENU_EditorDoc::Initialize()
 	mMenuEditWindow->InstallReadOnlyIcon();
 	SetMainWindow( dynamic_cast<CEditorWindow *>(mMenuEditWindow) );
 
+// 	SetDefaultSubModel(mMenuEditWindow);
+
 	NameNewEditorDoc();
 	
 	// Add the window to the window menu.
