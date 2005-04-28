@@ -2,7 +2,7 @@
 // CEditorDoc.h				
 // 
 //                       Created: 2004-02-23 17:57:59
-//             Last modification: 2005-04-17 15:55:27
+//             Last modification: 2005-04-28 15:07:45
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -123,8 +123,8 @@ protected:
 	Boolean					mReadOnly;
 	SInt16					mKind;
 
-	virtual LModelObject*	GetModelProperty(
-									DescType		inProperty) const;
+// 	virtual LModelObject*	GetModelProperty(
+// 									DescType		inProperty) const;
 
 	virtual Handle	GetModifiedResource(Boolean &releaseIt) = 0;  // Purely virtual
 	void			NameNewEditorDoc();

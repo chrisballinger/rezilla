@@ -61,6 +61,7 @@ CEditorDoc::CEditorDoc(LCommander* inSuper,
 	// Consider by default that it is an interface doc. Hex and tmpl docs 
 	// will ovverride this.
 	SetModelKind(rzom_cGuiEditDoc);
+	SetSuperModel( dynamic_cast<LModelObject *>(inSuper) );
 
 	Register();
 }
