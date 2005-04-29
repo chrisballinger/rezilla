@@ -369,6 +369,48 @@ CRezillaApp::GetSubModelByName(
 }
 
 
+
+// // ---------------------------------------------------------------------------
+// //   ¥ GetSubModelByUniqueID
+// // ---------------------------------------------------------------------------
+// //   Pass back a Token for the SubModel(s) of the specified type with the
+// //   specified unique ID
+// //
+// //   Must be overridden by subclasses which have SubModels that aren't
+// //   implemented using the submodel list (ie lazy instantiated submodels).
+// //
+// //   It is up to you to decide what constitutes a unique ID and you must also
+// //   provide a CompareToUniqueID().
+// 
+// void
+// CRezMap::GetSubModelByUniqueID(
+//  DescType        inModelID,
+//  const AEDesc    &inKeyData,
+//  AEDesc          &outToken) const
+// {
+//  if (mSubModels != nil) {
+//      TArrayIterator<LModelObject*>   iterator(*mSubModels);
+//      SInt32          index = 0;
+//      LModelObject    *p;
+//      Boolean         found = false;
+// 
+//      while (iterator.Next(p)) {
+//          if (p->GetModelKind() == inModelID) {
+//              if (p->CompareToUniqueID(kAEEquals, inKeyData)) {
+//                  found = true;
+//                  break;
+//              }
+//          }
+//      }
+// 
+//      if (found) {
+//          PutInToken(p, outToken);
+//          return;
+//      }
+//  }
+// }
+
+
 // // ---------------------------------------------------------------------------
 // //	¥ GetPositionOfSubModel											  [public]
 // // ---------------------------------------------------------------------------

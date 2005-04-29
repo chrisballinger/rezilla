@@ -265,6 +265,7 @@ CEditorDoc::GetSubModelByPosition(
 	switch (inModelID) {
 
 		case cWindow: 
+		case rzom_cEditorWindow: 
 		if (inPosition == 1) {
 			if (mMainWindow != nil) {
 				PutInToken(mMainWindow, outToken);
