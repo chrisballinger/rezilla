@@ -49,6 +49,10 @@ public:
 		OSErr Write();
 		
 		// AppleEvents
+		virtual void	MakeSelfSpecifier(
+									AEDesc&			inSuperSpecifier,
+									AEDesc&			outSelfSpecifier) const;
+
 		virtual void	GetAEProperty(
 									DescType		inProperty,
 									const AEDesc&	inRequestedType,

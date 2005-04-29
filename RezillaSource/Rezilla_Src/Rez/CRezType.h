@@ -49,6 +49,10 @@ public:
 	OSErr			GetNameAtIndex(short inIdx, Str255 & outName);
 	
 	// AppleEvents
+	virtual void	MakeSelfSpecifier(
+								AEDesc&			inSuperSpecifier,
+								AEDesc&			outSelfSpecifier) const;
+
 	virtual void	GetAEProperty(
 								DescType		inProperty,
 								const AEDesc&	inRequestedType,
