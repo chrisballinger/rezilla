@@ -2,11 +2,11 @@
 // CRezMapAE.cp					
 // 
 //                       Created: 2004-11-30 08:50:37
-//             Last modification: 2005-04-09 11:43:57
+//             Last modification: 2005-04-29 10:54:14
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004, 2005
+// (c) Copyright : Bernard Desgraupes, 2004-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -38,7 +38,7 @@ CRezMap::MakeSelfSpecifier(
 		keyData.Assign(mRefNum);
 
 		// Make ospec for the rezmap
-		err = ::CreateObjSpecifier(rzom_cRezMap, &inSuperSpecifier, formPropertyID,
+		err = ::CreateObjSpecifier(rzom_cRezMap, &inSuperSpecifier, formUniqueID,
 										keyData, false, &outSelfSpecifier);
 		ThrowIfOSErr_(err);
 
