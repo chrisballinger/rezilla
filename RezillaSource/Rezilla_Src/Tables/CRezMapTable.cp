@@ -81,12 +81,17 @@ CRezMapTable::CRezMapTable(
 // ---------------------------------------------------------------------------
 CRezMapTable::~CRezMapTable()
 {
-	// nothing
+	// This will delete all the second level items (RezObjItems) before 
+	// the first level ones (RezTypeItems). We must do this now because 
+	// ~LOutlineTable() uses an LFastArrayIterator iterator which puts a 
+	// lock on the mOutlineItems array and prevents Collapse() from working 
+	// in the ~RezTypeItem() destructor.
+	CollapseAll();
 }
 
 
 // ---------------------------------------------------------------------------
-//  ¥ FinishCreateSelf												[public]
+//   FinishCreateSelf												[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -157,17 +162,18 @@ CRezMapTable::SetOwnerRefnum(short theOwnerRefnum)
 void
 CRezMapTable::Populate(TArray<ResType>* inTypesArray)
 {
-	TArrayIterator<ResType>	typeIterator(*inTypesArray);
-	CRezType * theRezType;
-	ResType	theType;
-	LOutlineItem *theItem = nil;	
-	LOutlineItem *lastItem = nil;
+	CRezType *		theRezType = nil;
+	LOutlineItem *	theItem = nil;	
+	LOutlineItem *	lastItem = nil;
+	ResType			theType;
 
+	TArrayIterator<ResType>	typeIterator(*inTypesArray);
 	while (typeIterator.Next(theType)) {
 		theRezType = new CRezType(theType, mRezMap);
 		theItem = new CRezTypeItem( theRezType );
 		InsertItem( theItem, nil, lastItem );
 		lastItem = theItem;
+		theRezType = nil;
 	}
 }
 
@@ -568,7 +574,6 @@ CRezMapTable::CollapseAll() {
 	// Iterate among first level items
 	LArrayIterator rezTypeIterator(mFirstLevelItems);
 	LOutlineItem *theRezTypeItem = nil;	
-	LOutlineItem *theRezObjItem = nil;	
 	
 	while (rezTypeIterator.Next(&theRezTypeItem)) {
 		theRezTypeItem->Collapse();
