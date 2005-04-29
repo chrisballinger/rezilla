@@ -2,7 +2,7 @@
 // CRezObj.cp					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2005-04-12 07:02:57
+//             Last modification: 2005-04-29 22:15:14
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -38,7 +38,6 @@ CRezObj::CRezObj(Handle inResHandle, short inRefnum)
 	GetAttributesFromMap(mAttributes);
 
 	// Don't use PP's list model
-	SetUseSubModelList(false);
 }
 
 
@@ -70,7 +69,6 @@ CRezObj::CRezObj(CRezType * inRezType, short inID)
 	mAttributes = ::GetResAttrs(mData);
 
 	// Don't use PP's list model
-	SetUseSubModelList(false);
 }
 
 
@@ -100,7 +98,6 @@ CRezObj::CRezObj(CRezType * inRezType,
 	mAttributes = 0;
 
 	// Don't use PP's list model
-	SetUseSubModelList(false);
 }
 
 
@@ -151,7 +148,6 @@ CRezObj::CRezObj(CRezType * inRezType)
 	mAttributes = 0;
 
 	// Don't use PP's list model
-	SetUseSubModelList(false);
 }
 
 
@@ -172,18 +168,16 @@ CRezObj::CRezObj(CRezObj& inOriginal)
 	mData = ::NewHandle(0);
 	this->SetData(inOriginal.GetData());
 
-	// Don't use PP's list model
-	SetUseSubModelList(false);
 	SetModelKind(rzom_cRezObj);
+	// Don't use PP's list model
 }
 
 
 // ---------------------------------------------------------------------------
 //  ¥ ~CRezObj														[public]
 // ---------------------------------------------------------------------------
-// The RemoveResource function does not dispose of the handle  you  pass  into
-// it
-// RemoveResource
+// The RemoveResource function does not dispose of the handle you pass into it
+
 CRezObj::~CRezObj()
 {
 }
