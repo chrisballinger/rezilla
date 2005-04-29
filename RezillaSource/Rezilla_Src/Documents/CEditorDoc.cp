@@ -51,7 +51,10 @@ CEditorDoc::CEditorDoc(LCommander* inSuper,
 						   Boolean inReadOnly)
  	: LDocument(inSuper)
 {
-	mRezObj = inRezObj;
+	// Make a copy of the CRezObj otherwise if inRezObj is deleted while 
+	// an editor doc is open we're in trouble. This can happen if the user 
+	// collapses the corresponding ResTypeItem in the rezmap table.
+	mRezObj = new CRezObj(*inRezObj);
 	mRezMapTable = inSuperMap;
 	mMainWindow = nil;
 	mSubstType = inSubstType;
@@ -75,6 +78,9 @@ CEditorDoc::CEditorDoc(LCommander* inSuper,
 CEditorDoc::~CEditorDoc()
 {
 	Unregister();
+	if (mRezObj != nil) {
+		delete mRezObj;
+	}
 }
 
 
