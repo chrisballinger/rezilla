@@ -2,7 +2,7 @@
 // CEditorDocAE.cp
 // 
 //                       Created: 2005-04-09 10:03:39
-//             Last modification: 2005-04-28 15:07:13
+//             Last modification: 2005-04-29 10:53:44
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -18,6 +18,7 @@
 #include "CEditorDoc.h"
 #include "CEditorWindow.h"
 #include "CRezMapDoc.h"
+#include "CRezObj.h"
 #include "CRezMapTable.h"
 #include "UResources.h"
 #include "RezillaConstants.h"
@@ -106,23 +107,21 @@ CEditorDoc::GetAEProperty(
 		}
 		
 		
-		case cWindow: {
-			// Return as window 1 of this editor document
-			DescType		winClass;
-			AEDesc 			superSpec, docSpec;
-			StAEDescriptor	keyData;
-			SInt32			index = 1;
-
-			superSpec.descriptorType = typeNull;
-			superSpec.dataHandle = nil;
-			MakeSpecifier(docSpec);
-
-			keyData.Assign(index);
-			error = ::CreateObjSpecifier( cWindow, &docSpec, formAbsolutePosition,
-									keyData, false, &outPropertyDesc);
-			ThrowIfOSErr_(error);
-			break;
-		}
+		// Handled in GetModelProperty
+// 		case cWindow: {
+// 			// Return as window 1 of this editor document
+// 			AEDesc 			docSpec;
+// 			StAEDescriptor	keyData;
+// 			SInt32			index = 1;
+// 
+// 			MakeSpecifier(docSpec);
+// 
+// 			keyData.Assign(index);
+// 			error = ::CreateObjSpecifier( cWindow, &docSpec, formAbsolutePosition,
+// 									keyData, false, &outPropertyDesc);
+// 			ThrowIfOSErr_(error);
+// 			break;
+// 		}
 		
 		
 		case rzom_pKind:
@@ -158,9 +157,9 @@ CEditorDoc::GetAEProperty(
 		}
 		
 		
-		case rzom_cRezObj:
-		
-		break;
+		// Handled in GetModelProperty
+// 		case rzom_cRezObj:
+// 		break;
 		
 		
 		default:
@@ -301,6 +300,12 @@ CEditorDoc::GetModelProperty(DescType inProperty) const
 		theModelObject = dynamic_cast<LModelObject *>(mMainWindow);
 		break;
 		
+
+		case rzom_cRezObj:
+		theModelObject = dynamic_cast<LModelObject *>(mRezObj);
+		break;
+
+
 		default:
 		theModelObject = LModelObject::GetModelProperty(inProperty);
 			break;
