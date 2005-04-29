@@ -2,7 +2,7 @@
 // CRezTypeAE.cp
 // 
 //                       Created: 2005-04-09 10:03:39
-//             Last modification: 2005-04-09 10:03:58
+//             Last modification: 2005-04-29 10:54:47
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -22,6 +22,29 @@
 
 #include <LCommander.h>
 
+
+
+// ---------------------------------------------------------------------------
+//	¥ MakeSelfSpecifier												  [public]
+// ---------------------------------------------------------------------------
+
+void
+CRezType::MakeSelfSpecifier(
+	AEDesc	&inSuperSpecifier,
+	AEDesc	&outSelfSpecifier) const
+{
+		StAEDescriptor	keyData;
+		OSErr			err;
+		Str255			name;
+
+		// Specify by name
+		GetModelName(name);
+		keyData.Assign(name);
+
+		err = ::CreateObjSpecifier(rzom_cRezType, &inSuperSpecifier, formName,
+										keyData, false, &outSelfSpecifier);
+		ThrowIfOSErr_(err);
+}
 
 
 // ---------------------------------------------------------------------------
@@ -60,13 +83,15 @@ CRezType::GetAEProperty(
 // ---------------------------------------------------------------------------
 //	¥ GetModelName
 // ---------------------------------------------------------------------------
-//	Return the name of a Window as an AppleEvent model object
+//	Return the name of a Window as an AppleEvent model object(Str255&) 
 
 StringPtr
 CRezType::GetModelName(
 	Str255	outModelName) const
 {
-	UMiscUtils::OSTypeToPString(mType, (Str255&) outModelName);
+	Str255	name;
+	UMiscUtils::OSTypeToPString(mType, name);
+	LString::CopyPStr(name, outModelName);
 	return outModelName;
 }
 

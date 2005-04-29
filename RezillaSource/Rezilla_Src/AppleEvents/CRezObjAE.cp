@@ -2,7 +2,7 @@
 // CRezObjAE.cp
 // 
 //                       Created: 2005-04-09 10:03:39
-//             Last modification: 2005-04-09 10:03:58
+//             Last modification: 2005-04-29 10:54:32
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -21,6 +21,28 @@
 
 #include <LCommander.h>
 
+
+// ---------------------------------------------------------------------------
+//	¥ MakeSelfSpecifier												  [public]
+// ---------------------------------------------------------------------------
+
+void
+CRezObj::MakeSelfSpecifier(
+	AEDesc	&inSuperSpecifier,
+	AEDesc	&outSelfSpecifier) const
+{
+		DescType		winClass;
+		DescType		keyForm;
+		StAEDescriptor	keyData;
+		OSErr			err;
+
+		// Specify by the ID property
+		keyData.Assign(mID);
+
+		err = ::CreateObjSpecifier(rzom_cRezObj, &inSuperSpecifier, formUniqueID,
+										keyData, false, &outSelfSpecifier);
+		ThrowIfOSErr_(err);
+}
 
 
 // ---------------------------------------------------------------------------
