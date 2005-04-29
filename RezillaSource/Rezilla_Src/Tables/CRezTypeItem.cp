@@ -63,6 +63,13 @@ CRezTypeItem::~CRezTypeItem()
 	if ( mIconH != nil ) {
 		::DisposeIconSuite(mIconH, true);
 	}
+	// Delete the RezObjItems first to respect the ModelObjects hierarchy:
+	// the RezType object is the superModel of the RezObjs associated
+	// with these RezObjItem objects.
+	if ( IsExpanded() ) {
+		Collapse();
+	}
+	// Then delete the RezType object
 	if ( mRezType != nil ) {
 		delete mRezType;
 	}
