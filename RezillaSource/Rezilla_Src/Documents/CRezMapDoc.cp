@@ -167,10 +167,6 @@ CRezMapDoc::~CRezMapDoc()
 		delete mRezFile;
 	} 
 	
-	if (mRezMap != nil) {
-		delete mRezMap;
-	} 
-	
 	if (mTypesArray != nil) {
 		delete mTypesArray;
 	} 
@@ -204,6 +200,15 @@ CRezMapDoc::~CRezMapDoc()
 		gWindowMenu->RemoveWindow( mRezMapWindow );
 		// Delete the RezMapWindow associated to this document
 		delete mRezMapWindow;
+	} 
+	
+	// Caveat: delete the ResMap object _after_ the RezMapWindow. 
+	// This is because of the object model: each RezTypeItem of the
+	// RezMapTable (which is a subview of the RezMapWindow) contains a
+	// RezType object which has to be deleted. This RezType object must
+	// be removed as a submodel of the mRezMap object.
+	if (mRezMap != nil) {
+		delete mRezMap;
 	} 
 	
 	// 	// Remove ourselves from the list of listeners to the prefs object
