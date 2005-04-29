@@ -1,11 +1,11 @@
 // ===========================================================================
 // CRezTypeItem.cp				
 //                       Created: 2003-04-18 09:34:02
-//             Last modification: 2004-03-26 00:36:05
+//             Last modification: 2005-04-29 09:50:23
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003-2004
+// © Copyright: Bernard Desgraupes 2003-2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -22,8 +22,6 @@
 #include "UResources.h"
 #include "UMiscUtils.h"
 
-// #include "GetFileIcon.h"
-// #include "SendFinderOpen.h"
 
 #include <LOutlineItem.h>
 #include <LOutlineTable.h>
@@ -64,6 +62,9 @@ CRezTypeItem::~CRezTypeItem()
 {
 	if ( mIconH != nil ) {
 		::DisposeIconSuite(mIconH, true);
+	}
+	if ( mRezType != nil ) {
+		delete mRezType;
 	}
 }
 

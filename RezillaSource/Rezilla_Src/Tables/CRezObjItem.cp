@@ -80,6 +80,9 @@ CRezObjItem::~CRezObjItem()
 	) {
 		CRezillaApp::sInspectorWindow->ClearValues();
 	} 
+	if (mRezObj != nil) {
+		delete mRezObj;
+	}
 }
 
 
