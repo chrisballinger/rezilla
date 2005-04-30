@@ -1,11 +1,11 @@
 // ===========================================================================
 // CRezillaAppAE.cp					
 //                       Created: 2004-11-30 08:44:17
-//             Last modification: 2005-04-11 09:34:19
+//             Last modification: 2005-04-30 00:07:45
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2004, 2005
+// (c) Copyright: Bernard Desgraupes 2004-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -370,44 +370,107 @@ CRezillaApp::GetSubModelByName(
 
 
 
-// // ---------------------------------------------------------------------------
-// //   ¥ GetSubModelByUniqueID
-// // ---------------------------------------------------------------------------
-// //   Pass back a Token for the SubModel(s) of the specified type with the
-// //   specified unique ID
-// //
-// //   Must be overridden by subclasses which have SubModels that aren't
-// //   implemented using the submodel list (ie lazy instantiated submodels).
-// //
-// //   It is up to you to decide what constitutes a unique ID and you must also
-// //   provide a CompareToUniqueID().
+// ---------------------------------------------------------------------------
+//   ¥ GetSubModelByUniqueID
+// ---------------------------------------------------------------------------
+//   Pass back a Token for the SubModel of the specified type with the
+//   specified unique ID
+
+void
+CRezillaApp::GetSubModelByUniqueID(
+				 DescType        inModelID,
+				 const AEDesc    &inKeyData,
+				 AEDesc          &outToken) const
+{
+	if (inModelID == rzom_cRezMap) {
+		SInt32 uniqueID;
+		Boolean found = false;
+
+		ThrowIfOSErr_( ::AEGetDescData(&inKeyData, &uniqueID, sizeof(uniqueID)) );
+
+		TArrayIterator<LDocument*> iterator( LDocument::GetDocumentList() );
+		LDocument *		theDoc = nil;
+		CRezMapDoc *	rezmapDoc = nil;
+
+		while (iterator.Next(theDoc)) {
+			if (theDoc->GetModelKind() == rzom_cRezMapDoc) {
+				rezmapDoc = dynamic_cast<CRezMapDoc *>(theDoc);
+				if (rezmapDoc != nil && rezmapDoc->GetRezMap()->GetRefnum() == uniqueID) {
+					found = true;
+					break;
+				}
+			} 				
+			theDoc = nil;
+		}
+
+		if (found) {
+		   PutInToken(rezmapDoc->GetRezMap(), outToken);
+		   return;
+		} else {
+			ThrowOSErr_(errAENoSuchObject);
+		}
+	}
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ GetAllSubModels
+// ---------------------------------------------------------------------------
+//	Pass back a Token list for all SubModels of the specified type
+
+void
+CRezillaApp::GetAllSubModels(
+	DescType		inModelID,
+	AEDesc			&outToken) const
+{
+	if (inModelID == rzom_cRezMap) {
+		if (outToken.descriptorType == typeNull) {
+			err = ::AECreateList(nil, 0, false, &outToken);
+			ThrowIfOSErr_(err);
+		}
+
+		TArrayIterator<LDocument*> iterator( LDocument::GetDocumentList() );
+		LDocument *		theDoc = nil;
+		CRezMapDoc *	rezmapDoc = nil;
+
+		while (iterator.Next(theDoc)) {
+			if (theDoc->GetModelKind() == rzom_cRezMapDoc) {
+				rezmapDoc = dynamic_cast<CRezMapDoc *>(theDoc);
+				if (rezmapDoc != nil) {
+
+// 					&& rezmapDoc->GetRezMap()->GetRefnum() == uniqueID
+// 					
+// 					err = ::AEPutDesc(&outToken, 0, subToken);
+// 					ThrowIfOSErr_(err);
+				}
+			} 				
+			theDoc = nil;
+		}
+
+
+	} else {
+		LModelObject::GetAllSubModels(inModelID, outToken);
+	}
+}
+
+// OSErr
+// AEPutPtr(
+//   AEDescList *  theAEDescList,
+//   long          index,
+//   DescType      typeCode,
+//   const void *  dataPtr,
+//   Size          dataSize)
+
+// SInt32	subCount = CountSubModels(inModelID);
+// OSErr	err;
 // 
-// void
-// CRezMap::GetSubModelByUniqueID(
-//  DescType        inModelID,
-//  const AEDesc    &inKeyData,
-//  AEDesc          &outToken) const
-// {
-//  if (mSubModels != nil) {
-//      TArrayIterator<LModelObject*>   iterator(*mSubModels);
-//      SInt32          index = 0;
-//      LModelObject    *p;
-//      Boolean         found = false;
 // 
-//      while (iterator.Next(p)) {
-//          if (p->GetModelKind() == inModelID) {
-//              if (p->CompareToUniqueID(kAEEquals, inKeyData)) {
-//                  found = true;
-//                  break;
-//              }
-//          }
-//      }
+// for (SInt32 i = 1; i <= subCount; i++) {
+// 	StAEDescriptor	subToken;
 // 
-//      if (found) {
-//          PutInToken(p, outToken);
-//          return;
-//      }
-//  }
+// 	GetSubModelByPosition(inModelID, i, subToken);
+// 	err = ::AEPutDesc(&outToken, 0, subToken);
+// 	ThrowIfOSErr_(err);
 // }
 
 

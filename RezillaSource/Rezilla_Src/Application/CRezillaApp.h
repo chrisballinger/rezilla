@@ -1,11 +1,11 @@
 // ===========================================================================
 // CRezillaApp.h					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2005-03-08 15:48:19
+//             Last modification: 2005-04-30 00:00:39
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2002-2004, 2005
+// © Copyright: Bernard Desgraupes 2002-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -94,6 +94,15 @@ public:
 								DescType			inModelID,
 								Str255				inName,
 								AEDesc&				outToken) const;
+
+	virtual void		GetSubModelByUniqueID(
+								DescType		inModelID,
+								const AEDesc	&inKeyData,
+								AEDesc			&outToken) const;
+
+	virtual void		GetAllSubModels(
+								DescType		inModelID,
+								AEDesc			&outToken) const;
 
 // 	virtual SInt32		GetPositionOfSubModel(
 // 								DescType			inModelID,
