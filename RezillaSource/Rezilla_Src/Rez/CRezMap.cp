@@ -2,7 +2,7 @@
 // CRezMap.cp					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2005-04-29 22:16:50
+//             Last modification: 2005-04-30 08:58:58
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -20,13 +20,26 @@
 
 #include <LCommander.h>
 
+// Statics
+TArray<CRezMap*>	CRezMap::sRezMapList;
+
+
 // ---------------------------------------------------------------------------
 //  ¥ CRezMap														[public]
 // ---------------------------------------------------------------------------
+// CRezMaps do not have a super model object. They are elements of the null
+// top container, the "application" object.
 
-CRezMap::CRezMap(short inRefnum)
+CRezMap::CRezMap(short inRefnum, CRezMapDoc * inOwnerDoc)
 	: LModelObject( NULL, rzom_cRezMap), mRefNum(inRefnum)
 {	
+	mOwnerDoc = inOwnerDoc;
+	
+	// Keep a static list of all the RezMaps opened via a RezMapDoc
+	if (mOwnerDoc != nil) {
+		sRezMapList.AddItem(this);
+	} 
+	
 	// Don't use PP's list model
 }
 
@@ -37,6 +50,9 @@ CRezMap::CRezMap(short inRefnum)
 
 CRezMap::~CRezMap()
 {
+	if (mOwnerDoc != nil) {
+		sRezMapList.Remove(this);
+	} 
 }
 
 
@@ -81,7 +97,7 @@ CRezMap::Update()
 // Count the number of resources of a given type in current resource map.
 
 OSErr
-CRezMap::CountForType(ResType inType, short & outCount)
+CRezMap::CountForType(ResType inType, short & outCount) const
 {
     StRezRefSaver saver(mRefNum);
     outCount = ::Count1Resources(inType);
@@ -95,7 +111,7 @@ CRezMap::CountForType(ResType inType, short & outCount)
 // Count the number of types in current resource map.
 
 OSErr
-CRezMap::CountAllTypes(short & outCount)
+CRezMap::CountAllTypes(short & outCount) const
 {
     StRezRefSaver saver(mRefNum);
     outCount = ::Count1Types();
@@ -109,7 +125,7 @@ CRezMap::CountAllTypes(short & outCount)
 // Count the number of resources of any type in current resource map.
 
 OSErr
-CRezMap::CountAllResources(short & outCount)
+CRezMap::CountAllResources(short & outCount) const
 {
     short numTypes;
     short subCount;

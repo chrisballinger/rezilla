@@ -2,7 +2,7 @@
 // CRezMap.h					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2005-04-09 08:08:42
+//             Last modification: 2005-05-02 09:56:11
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -19,17 +19,19 @@
 #include <LModelObject.h>
 
 class CRezObj;
+class CRezType;
+class CRezMapDoc;
 
 
 class CRezMap : public LModelObject {
 
 public:
-			CRezMap(short inRefnum);
+			CRezMap(short inRefnum, CRezMapDoc * inOwnerDoc = nil);
 			~CRezMap();
 
-	OSErr	CountForType(ResType inType, short & outCount);
-	OSErr	CountAllTypes(short & outCount);
-	OSErr	CountAllResources(short & outCount);
+	OSErr	CountForType(ResType inType, short & outCount) const;
+	OSErr	CountAllTypes(short & outCount) const;
+	OSErr	CountAllResources(short & outCount) const;
 
 	Boolean	HasResourceWithTypeAndId(ResType inType, short inID);
 	Boolean	HasResourceWithTypeAndName(ResType inType, ConstStr255Param inName);
@@ -89,13 +91,42 @@ public:
 								const AEDesc& inValue, 
 								short inFlag);
 	
+	virtual SInt32		CountSubModels( DescType inModelID ) const;
+
+	virtual void		GetSubModelByPosition(
+								DescType			inModelID,
+								SInt32				inPosition,
+								AEDesc&				outToken) const;
+
+	virtual void		GetSubModelByName(
+								DescType			inModelID,
+								Str255				inName,
+								AEDesc&				outToken) const;
+
+	virtual void		GetSubModelByUniqueID(
+								DescType		inModelID,
+								const AEDesc	&inKeyData,
+								AEDesc			&outToken) const;
+
+// 	virtual SInt32		GetPositionOfSubModel(
+// 								DescType			inModelID,
+// 								const LModelObject*	inSubModel) const;
+
+// 	virtual void		GetAllSubModels(
+// 								DescType		inModelID,
+// 								AEDesc			&outToken) const;
+
 	virtual bool	AEPropertyExists(
 								DescType		inProperty) const;
 
 	virtual void	MakeSelfSpecifier(
 							AEDesc&				inSuperSpecifier,
 							AEDesc&				outSelfSpecifier) const;
-
+	
+	CRezMapDoc *	GetOwnerDoc() const { return mOwnerDoc; }
+	
+	CRezType *		GetRezTypeAtIndex(SInt32 inPosition) const;
+	
 	// Accessors
 	virtual short	GetRefnum() { return mRefNum;}
 	void			SetRefnum(short theRefNum) {mRefNum = theRefNum;}
@@ -104,11 +135,15 @@ public:
 	OSErr			SetMapAttributes(short inMapAttributes);
 
 	Boolean			IsUnderVersionControl();
+								
+	static TArray<CRezMap*>& GetRezMapList() { return sRezMapList; }
 
+	
 protected:
+	static TArray<CRezMap*>	sRezMapList;
 
-	short		mRefNum;
-
+	short				mRefNum;
+	CRezMapDoc *		mOwnerDoc;
 };
 
 
