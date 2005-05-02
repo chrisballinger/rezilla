@@ -2,7 +2,7 @@
 // CRezType.h					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2005-04-09 11:37:41
+//             Last modification: 2005-05-02 09:44:42
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -24,7 +24,6 @@ class CRezMap;
 class CRezType : public LModelObject {
 
 public:
-				CRezType(ResType inResType);
 				CRezType(ResType inResType, 
 						 CRezMap * inOwnerMap);
 				~CRezType();
@@ -66,6 +65,8 @@ public:
 protected:
 		ResType		mType;
 		CRezMap * 	mOwnerMap;
+
+private:
 
 };
 

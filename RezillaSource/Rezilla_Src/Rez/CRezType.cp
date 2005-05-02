@@ -2,7 +2,7 @@
 // CRezType.cp					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2005-04-29 22:17:40
+//             Last modification: 2005-05-02 09:44:26
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -17,19 +17,6 @@
 #include "CRezMap.h"
 #include "RezillaConstants.h"
 
-
-// ---------------------------------------------------------------------------
-//  ¥ CRezType														[public]
-// ---------------------------------------------------------------------------
-
-CRezType::CRezType(ResType inResType)
-	: LModelObject(NULL, rzom_cRezType)
-{
-    mType = inResType;
-    mOwnerMap = nil;
-
-	// Don't use PP's list model
-}
 
 
 // ---------------------------------------------------------------------------
