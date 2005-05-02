@@ -1,4 +1,4 @@
-/* -*-Setx-*- */
+-*-Setx-*-
 HUMAN READABLE TRANSLATION OF AETE RESOURCE FROM "Rezilla_aete.rsrc"
 
 Version: 1.0
@@ -213,7 +213,7 @@ Number of Classes: 5
 		Property class: 'obj '
 		Property description: Various preferences that apply to the application as a whole
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
-	Number of class elements: 3
+	Number of class elements: 4
 		Class element ID: 'cwin'
 		Number of key forms: 3
 			 (1): 'indx'
@@ -227,6 +227,9 @@ Number of Classes: 5
 		Number of key forms: 2
 			 (1): 'indx'
 			 (2): 'name'
+		Class element ID: 'cMAP'
+		Number of key forms: 1
+			 (1): 'ID  '
   Object class 2: document
 --------------------------
 	Object class ID: 'docu'
@@ -691,12 +694,12 @@ Number of Classes: 24
 	  (2) hex pane
 		Property ID: 'HexP'
 		Property class: 'DatP'
-		Property description: the left pane of the hex window
+		Property description: the left pane of the hex window (containing hexadecimal data)
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	  (3) text pane
 		Property ID: 'TxtP'
 		Property class: 'DatP'
-		Property description: the left pane of the hex window
+		Property description: the right pane of the hex window (containing human readable data)
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	Number of class elements: 0
   Object class 20: hex windows
@@ -843,11 +846,10 @@ Number of Classes: 8
 		Number of key forms: 3
 			 (1): 'indx'
 			 (2): 'name'
-			 (3): 'list'
+			 (3): 'ID  '
 		Class element ID: 'cRSC'
-		Number of key forms: 2
+		Number of key forms: 1
 			 (1): 'indx'
-			 (2): 'list'
   Object class 2: maps
 ----------------------
 	Object class ID: 'cMAP'
@@ -863,11 +865,21 @@ Number of Classes: 8
 ----------------------
 	Object class ID: 'cTYP'
 	Class description: a resource type
-	Number of class properties: 1
-	  (1) name
+	Number of class properties: 3
+	  (1) index
+		Property ID: 'pidx'
+		Property class: 'long'
+		Property description: the index of the type in the document (types are ordered alphabetically)
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	  (2) name
 		Property ID: 'pnam'
 		Property class: 'itxt'
 		Property description: the type's name
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	  (3) ID
+		Property ID: 'ID  '
+		Property class: 'magn'
+		Property description: a type as a long unsigned integer
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	Number of class elements: 1
 		Class element ID: 'cRSC'
