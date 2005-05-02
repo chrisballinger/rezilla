@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2005-03-26 08:07:24
+//             Last modification: 2005-05-02 10:39:50
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -144,7 +144,6 @@ Rzil_basics				CRezillaApp::sBasics;
 CInspectorWindow *		CRezillaApp::sInspectorWindow = nil;
 Str255					CRezillaApp::sVersionNumber;
 SInt16					CRezillaApp::sOwnRefNum;
-TArray<CRezMapDoc *>	CRezillaApp::sRezMapDocList;
 CRecentItemsMenu *		CRezillaApp::sRecentItemsAttachment;
 Boolean					CRezillaApp::sReadOnlyNavFlag = false;
 
@@ -1072,7 +1071,7 @@ CRezillaApp::FetchRezMapDoc(FSSpec * inFileSpecPtr)
 	CRezMapDoc*	result = nil;
 	
 	if (inFileSpecPtr != nil) {
-		TArrayIterator<CRezMapDoc *>	iterator(sRezMapDocList);
+		TArrayIterator<CRezMapDoc *>	iterator( CRezMapDoc::GetRezMapDocList() );
 		FSSpec 		theFileSpec;
 		CRezMapDoc*	theRezMapDoc = nil;
 		

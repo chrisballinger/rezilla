@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.h					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2005-04-30 00:00:39
+//             Last modification: 2005-05-02 10:40:01
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -100,9 +100,9 @@ public:
 								const AEDesc	&inKeyData,
 								AEDesc			&outToken) const;
 
-	virtual void		GetAllSubModels(
-								DescType		inModelID,
-								AEDesc			&outToken) const;
+// 	virtual void		GetAllSubModels(
+// 								DescType		inModelID,
+// 								AEDesc			&outToken) const;
 
 // 	virtual SInt32		GetPositionOfSubModel(
 // 								DescType			inModelID,
@@ -129,7 +129,6 @@ public:
 	static Str255					sVersionNumber;
 	static short					sOwnRefNum;
 	static CInspectorWindow *		sInspectorWindow;
-	static TArray<CRezMapDoc *>		sRezMapDocList;
 	static CRecentItemsMenu *		sRecentItemsAttachment;
 	static Boolean					sReadOnlyNavFlag;
 
