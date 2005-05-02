@@ -2,7 +2,7 @@
 // CRezMapAE.cp					
 // 
 //                       Created: 2004-11-30 08:50:37
-//             Last modification: 2005-04-29 10:54:14
+//             Last modification: 2005-05-02 18:52:16
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -15,7 +15,9 @@
 //  class (inheriting from LModelObject).
 
 #include "CRezMap.h"
+#include "CRezType.h"
 #include "CRezObj.h"
+#include "CRezMapDoc.h"
 #include "UResources.h"
 #include "RezillaConstants.h"
 
@@ -23,7 +25,7 @@
 
 
 // ---------------------------------------------------------------------------
-//	¥ MakeSelfSpecifier
+//	 MakeSelfSpecifier
 // ---------------------------------------------------------------------------
 //	Make an Object Specifier for a RezMap
 
@@ -50,7 +52,7 @@ CRezMap::MakeSelfSpecifier(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetAEProperty
+//	 GetAEProperty
 // ---------------------------------------------------------------------------
 //	Return a descriptor for the specified Property
 // rzom_pRefNum			= 'pRFN';		// RefNum
@@ -104,7 +106,7 @@ CRezMap::GetAEProperty(
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetAEProperty
+//	 SetAEProperty
 // ---------------------------------------------------------------------------
 
 void
@@ -141,7 +143,7 @@ CRezMap::SetAEProperty(
 
 
 // // ---------------------------------------------------------------------------
-// //	¥ SetAEProperty
+// //	 SetAEProperty
 // // ---------------------------------------------------------------------------
 // 
 // void
@@ -149,57 +151,11 @@ CRezMap::SetAEProperty(
 // 	DescType		inProperty,
 // 	const AEDesc&	inValue,
 // 	AEDesc&			outAEReply)
-// {
-// 	switch (inProperty) {
-// 
-// 		case pName: {
-// 			Str255	theName;
-// 			UExtractFromAEDesc::ThePString(inValue, theName, sizeof(theName));
-// 			SetDescriptor(theName);
-// 			break;
-// 		}
-// 
-// 		case pWindowPosition: {
-// 			Point	thePosition;
-// 			UExtractFromAEDesc::ThePoint(inValue, thePosition);
-// 			DoSetPosition(thePosition);
-// 			break;
-// 		}
-// 
-// 		case pBounds: {
-// 			Rect	theBounds;
-// 			UExtractFromAEDesc::TheRect(inValue, theBounds);
-// 			DoSetBounds(theBounds);
-// 			break;
-// 		}
-// 
-// 		case pIsZoomed: {
-// 			Boolean	isZoomed;
-// 			UExtractFromAEDesc::TheBoolean(inValue, isZoomed);
-// 			DoSetZoom(isZoomed);
-// 			break;
-// 		}
-// 
-// 		case pVisible: {
-// 			Boolean	makeVisible;
-// 			UExtractFromAEDesc::TheBoolean(inValue, makeVisible);
-// 			if (makeVisible) {
-// 				Show();
-// 			} else {
-// 				Hide();
-// 			}
-// 			break;
-// 		}
-// 
-// 		default:
-// 			LModelObject::SetAEProperty(inProperty, inValue, outAEReply);
-// 			break;
-// 	}
-// }
+// {}
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetAERezMapAttribute
+//	 GetAERezMapAttribute
 // ---------------------------------------------------------------------------
 
 void
@@ -221,7 +177,7 @@ CRezMap::GetAERezMapAttribute(
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetAERezMapAttribute
+//	 SetAERezMapAttribute
 // ---------------------------------------------------------------------------
 
 void
@@ -243,7 +199,7 @@ CRezMap::SetAERezMapAttribute(const AEDesc& inValue, short inFlag)
 
 
 // ---------------------------------------------------------------------------
-//	¥ AEPropertyExists
+//	 AEPropertyExists
 // ---------------------------------------------------------------------------
 
 bool
@@ -271,49 +227,259 @@ CRezMap::AEPropertyExists(
 }
 
 
+// ---------------------------------------------------------------------------
+//	 CountSubModels												  [public]
+// ---------------------------------------------------------------------------
+// Had to modify the prototypes for CountAllTypes and CountAllResources by
+// adding a 'const' to make the compiler happy.
+
+SInt32
+CRezMap::CountSubModels(
+	DescType	inModelID) const
+{
+	SInt32	result = 0;
+	short	count;
+	
+	switch (inModelID) {
+
+		case rzom_cRezType:
+		if (CountAllTypes(count) == noErr) {
+			result = count;
+		}
+		break;
+		
+		
+		case rzom_cRezObj: 
+		if (CountAllResources(count) == noErr) {
+			result = count;
+		}
+		break;
+
+		default:
+		result = LModelObject::CountSubModels(inModelID);
+		break;
+	}
+
+	return result;
+}
+
+
+// ---------------------------------------------------------------------------
+//	 GetSubModelByPosition											  [public]
+// ---------------------------------------------------------------------------
+
+void
+CRezMap::GetSubModelByPosition(
+	DescType		inModelID,
+	SInt32			inPosition,
+	AEDesc&			outToken) const
+{
+	switch (inModelID) {
+		
+		case rzom_cRezType:
+		CRezType * theRezType = nil;
+		
+		if (mOwnerDoc != nil) {
+			theRezType = mOwnerDoc->GetRezTypeAtIndex(inPosition);
+		} 
+		if (theRezType != nil) {
+			PutInToken(theRezType, outToken);
+		} else {
+			ThrowOSErr_(errAENoSuchObject);
+		}
+		break;
+		
+		
+		case rzom_cRezObj: 
+// 		CRezObj * theRezObj = GetRezObjAtIndex(inPosition);
+// 		if (theRezObj != nil) {
+// 			PutInToken(theRezObj, outToken);
+// 		} else {
+// 			ThrowOSErr_(errAENoSuchObject);
+// 		}
+		break;
+		
+		
+		default:
+		LModelObject::GetSubModelByPosition(inModelID, inPosition,
+											outToken);
+		break;
+	}
+}
+
+
+// ---------------------------------------------------------------------------
+//	 GetSubModelByName												  [public]
+// ---------------------------------------------------------------------------
+//	Pass back a token to a SubModel specified by name
+
+void
+CRezMap::GetSubModelByName(
+	DescType		inModelID,
+	Str255			inName,
+	AEDesc&			outToken) const
+{
+	switch (inModelID) {
+
+		case rzom_cRezType:
+		CRezType * theRezType = nil;
+		
+		if (mOwnerDoc != nil) {
+			theRezType = mOwnerDoc->GetRezTypeByName(inName);
+		} 
+		if (theRezType != nil) {
+			PutInToken(theRezType, outToken);
+		} else {
+			ThrowOSErr_(errAENoSuchObject);
+		}
+		break;
+		
+		
+		case rzom_cRezObj: 
+// 		CRezObj * theRezObj = GetRezObjAtIndex(inPosition);
+// 		if (theRezObj != nil) {
+// 			PutInToken(theRezObj, outToken);
+// 		} else {
+// 			ThrowOSErr_(errAENoSuchObject);
+// 		}
+		break;
+		
+
+		default:
+			LModelObject::GetSubModelByName(inModelID, inName, outToken);
+			break;
+	}
+}
+
+
+// ---------------------------------------------------------------------------
+//	 GetSubModelByUniqueID
+// ---------------------------------------------------------------------------
+//	Pass back a Token for the SubModel with the specified unique ID: this
+//	is the type as an unsigned long.
+
+void
+CRezMap::GetSubModelByUniqueID(
+	DescType		inModelID,
+	const AEDesc	&inKeyData,
+	AEDesc			&outToken) const
+{
+	if (inModelID == rzom_cRezType) {
+		CRezType *	theRezType = nil;
+		ResType		uniqueID;
+
+		ThrowIfOSErr_( ::AEGetDescData(&inKeyData, &uniqueID, sizeof(ResType)) );
+		
+		if (mOwnerDoc != nil) {
+			theRezType = mOwnerDoc->GetRezTypeByType(uniqueID);
+		} 
+		if (theRezType != nil) {
+			PutInToken(theRezType, outToken);
+		} else {
+			ThrowOSErr_(errAENoSuchObject);
+		}
+	}
+}
+
 
 // // ---------------------------------------------------------------------------
-// //	¥ GetSubModelByUniqueID
+// //	 GetPositionOfSubModel											  [public]
 // // ---------------------------------------------------------------------------
-// //	Pass back a Token for the SubModel(s) of the specified type with the
-// //	specified unique ID
-// //
-// //	Must be overridden by subclasses which have SubModels that aren't
-// //	implemented using the submodel list (ie lazy instantiated submodels).
-// //
-// //	It is up to you to decide what constitutes a unique ID and you must also
-// //	provide a CompareToUniqueID().
+// //	Return the position (1 = first) of a SubModel within an Application
+// 
+// SInt32
+// CRezMap::GetPositionOfSubModel(
+// 	DescType				inModelID,
+// 	const LModelObject*		inSubModel) const
+// {
+// 	SInt32	position;
+// 
+// 	switch (inModelID) {
+// 
+// 		case rzom_cRezType: 
+// // 		const ResType theType = dynamic_cast<CRezType *>(inSubModel)->GetType();
+// // 		position = mOwnerDoc->GetIndexForType(theType);
+// 		break;
+// 		
+// 		
+// 		default:
+// 		position = LModelObject::GetPositionOfSubModel(inModelID, inSubModel);
+// 		break;
+// 	}
+// 
+// 	return position;
+// }
+
+
+// ---------------------------------------------------------------------------
+// //	 GetAllSubModels
+// // ---------------------------------------------------------------------------
+// //	Pass back a Token list for all SubModels of the specified type
 // 
 // void
-// CRezMap::GetSubModelByUniqueID(
+// CRezMap::GetAllSubModels(
 // 	DescType		inModelID,
-// 	const AEDesc	&inKeyData,
 // 	AEDesc			&outToken) const
 // {
-// 	if (mSubModels != nil) {
-// 		TArrayIterator<LModelObject*>	iterator(*mSubModels);
-// 		SInt32			index = 0;
-// 		LModelObject	*p;
-// 		Boolean			found = false;
-// 
-// 		while (iterator.Next(p)) {
-// 			if (p->GetModelKind() == inModelID) {
-// 				if (p->CompareToUniqueID(kAEEquals, inKeyData)) {
-// 					found = true;
-// 					break;
-// 				}
-// 			}
+// 	OSErr error;
+// 	
+// 	if (inModelID == rzom_cRezMap) {
+// 		if (outToken.descriptorType == typeNull) {
+// 			error = ::AECreateList(nil, 0, false, &outToken);
+// 			ThrowIfOSErr_(error);
 // 		}
 // 
-// 		if (found) {
-// 			PutInToken(p, outToken);
-// 			return;
+// 		TArrayIterator<CRezMap*> iterator( CRezMap::GetRezMapList() );
+// 		CRezMap *	theMap = nil;
+// 
+// 		while (iterator.Next(theMap)) {
+// 			StAEDescriptor	subToken;
+// 			PutInToken(theMap, outToken);					
+// 			error = ::AEPutDesc(&outToken, 0, subToken);
+// 			ThrowIfOSErr_(error);			
+// 			theMap = nil;
 // 		}
+// 	} else {
+// 		LModelObject::GetAllSubModels(inModelID, outToken);
 // 	}
 // }
 
 
 
+// ---------------------------------------------------------------------------
+//	 GetRezTypeAtIndex
+// ---------------------------------------------------------------------------
+
+CRezType *
+CRezMap::GetRezTypeAtIndex(SInt32 inPosition) const
+{
+	CRezType * theRezType = nil;
+	CRezMapDoc * theDoc = GetOwnerDoc();
+	
+	if (theDoc != nil) {
+		theRezType = theDoc->GetRezTypeAtIndex(inPosition);
+	} 
+	
+	return theRezType;
+}
 
 
+// // ---------------------------------------------------------------------------
+// //	 GetOwnerDoc
+// // ---------------------------------------------------------------------------
+// 
+// CRezMapDoc *
+// CRezMap::GetOwnerDoc() const
+// {
+// 	CRezMapDoc * theDoc = nil;
+// 	TArrayIterator<CRezMapDoc*> iterator( CRezMapDoc::GetRezMapDocList() );
+// 
+// 	while (iterator.Next(theDoc)) {
+// 		if (theDoc->GetRezMap()->GetRefnum() == mRefNum) {
+// 			break;
+// 		}
+// 	}
+// 	
+// 	return theDoc;
+// }
 
