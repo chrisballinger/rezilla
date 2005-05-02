@@ -2,7 +2,7 @@
 // CRezTypeAE.cp
 // 
 //                       Created: 2005-04-09 10:03:39
-//             Last modification: 2005-04-29 10:54:47
+//             Last modification: 2005-05-02 17:41:06
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -16,7 +16,7 @@
 
 #include "CRezMap.h"
 #include "CRezType.h"
-// #include "UResources.h"
+#include "CRezMapDoc.h"
 #include "UMiscUtils.h"
 #include "RezillaConstants.h"
 
@@ -63,11 +63,32 @@ CRezType::GetAEProperty(
 	
 	switch (inProperty) {
 		
+		case pIndex: {
+			// Return the index of this type in the rezmap doc
+			SInt32	position = mOwnerMap->GetOwnerDoc()->GetIndexForType(mType);
+			if (position > 0) {
+				error = ::AECreateDesc(typeSInt32, (Ptr) &position,
+											sizeof(SInt32), &outPropertyDesc);
+			} else {
+				error = errAENoSuchObject;
+			}
+			ThrowIfOSErr_(error);
+			break;
+		}
+		
+
 		case pName: 
 		Str255	name;
 		GetModelName(name);
 		error = ::AECreateDesc(typeChar, (Ptr) name + 1,
 							StrLength(name), &outPropertyDesc);
+		ThrowIfOSErr_(error);
+		break;
+
+		
+		case pID: 
+		error = ::AECreateDesc(typeUInt32, &mType,
+							sizeof(UInt32), &outPropertyDesc);
 		ThrowIfOSErr_(error);
 		break;
 
@@ -108,7 +129,9 @@ CRezType::AEPropertyExists(
 
 	switch (inProperty) {
 
+		case pIndex:
 		case pName:
+		case pID:
 			exists = true;
 			break;
 
