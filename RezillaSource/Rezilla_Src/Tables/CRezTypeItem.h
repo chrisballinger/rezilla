@@ -1,11 +1,11 @@
 // ===========================================================================
 // CRezTypeItem.h				
 //                       Created: 2003-04-18 09:34:02
-//             Last modification: 2004-03-08 09:43:40
+//             Last modification: 2005-05-02 09:42:26
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003-2004
+// © Copyright: Bernard Desgraupes 2003-2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -24,7 +24,7 @@ class CRezTypeItem : public LOutlineItem {
 
 public:
 
-										CRezTypeItem(ResType type);
+// 										CRezTypeItem(ResType type);
 										CRezTypeItem(CRezType * inRezType);
 				virtual					~CRezTypeItem();
 		

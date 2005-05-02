@@ -1,11 +1,11 @@
 // ===========================================================================
 // CRezTypeItem.cp				
 //                       Created: 2003-04-18 09:34:02
-//             Last modification: 2005-04-29 09:50:23
+//             Last modification: 2005-05-02 09:42:38
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003-2004, 2005
+// © Copyright: Bernard Desgraupes 2003-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -30,17 +30,17 @@
 
 
 
-// ---------------------------------------------------------------------------
-//	¥ CRezTypeItem							Default Constructor		  [public]
-// ---------------------------------------------------------------------------
-// 		LLongComparator* theIDComparator = new LLongComparator;
-// 		mSubItems->SetComparator(theIDComparator);
-
-CRezTypeItem::CRezTypeItem(ResType type)
-{
-	mRezType = new CRezType(type);
-	mIconH = nil;
-}
+// // ---------------------------------------------------------------------------
+// //	¥ CRezTypeItem							Default Constructor		  [public]
+// // ---------------------------------------------------------------------------
+// // 		LLongComparator* theIDComparator = new LLongComparator;
+// // 		mSubItems->SetComparator(theIDComparator);
+// 
+// CRezTypeItem::CRezTypeItem(ResType type)
+// {
+// 	mRezType = new CRezType(type);
+// 	mIconH = nil;
+// }
 
 
 // ---------------------------------------------------------------------------
