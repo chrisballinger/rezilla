@@ -2,7 +2,7 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2005-04-10 08:23:20
+//             Last modification: 2005-05-02 10:40:32
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -85,6 +85,8 @@ extern const Str15 Rzil_MapExportItems[] = {
 	"\pDeRez"
 };
 
+// Statics
+TArray<CRezMapDoc*>	CRezMapDoc::sRezMapDocList;
 
 
 
@@ -173,9 +175,6 @@ CRezMapDoc::~CRezMapDoc()
 	
 	// Note: mExportStream is deleted in DoExport() immediately after writing
 
-	// Unregister from the static RezMapDocs list
-	CRezillaApp::sRezMapDocList.Remove(this);
-
 	// Clear the Inspector if it contains info about a resource belonging to this rezmap
 	if (CRezillaApp::sInspectorWindow != nil &&
 		CRezillaApp::sInspectorWindow->GetRezObjItem() != nil &&
@@ -211,6 +210,9 @@ CRezMapDoc::~CRezMapDoc()
 		delete mRezMap;
 	} 
 	
+	// Unregister from the static RezMapDocs list
+	sRezMapDocList.Remove(this);
+
 	// 	// Remove ourselves from the list of listeners to the prefs object
 	// 	CRezillaApp::sPrefs->RemoveListener(this);
 }
@@ -246,10 +248,10 @@ CRezMapDoc::Initialize(FSSpec * inFileSpec, short inRefnum)
 	mRezFile->SetOwnerDoc(this);
 	
 	// Register to the static RezMapDocs list
-	CRezillaApp::sRezMapDocList.AddItem(this);
+	sRezMapDocList.AddItem(this);
 
 	// Create the CRezMap class instance
-	mRezMap = new CRezMap(inRefnum);
+	mRezMap = new CRezMap(inRefnum, this);
 	
 	// Create window for our document.
 	mRezMapWindow = dynamic_cast<CRezMapWindow *>(LWindow::CreateWindow( PPob_RezMapWindow, this));
@@ -792,7 +794,7 @@ CRezMapDoc::DoAESave(
 			
 			// Delete the old RezMap and create a new one
 			delete mRezMap;
-			mRezMap = new CRezMap( theNewFile->GetRefnum() );
+			mRezMap = new CRezMap( theNewFile->GetRefnum(), this );
 
 			// Set window title to the name of the file.
 			mRezMapWindow->SetDescriptor(inFileSpec.name);
@@ -982,7 +984,7 @@ CRezMapDoc::DoRevert()
 	if (mRezMap != nil) {
 		delete mRezMap;
 	} 
-	mRezMap = new CRezMap(theRefNum);
+	mRezMap = new CRezMap(theRefNum, this);
 	
 	// Rebuild the rez map table
 	CRezMapTable* theRezMapTable = mRezMapWindow->GetRezMapTable();
@@ -1368,6 +1370,99 @@ CRezMapDoc::GetFirstSelected()
 {
 	LTableSelector * theSelector = mRezMapWindow->GetRezMapTable()->GetTableSelector();
 	return theSelector->GetFirstSelectedRow();
+}
+
+
+// ---------------------------------------------------------------------------
+//	 GetRezTypeAtIndex
+// ---------------------------------------------------------------------------
+
+CRezType *
+CRezMapDoc::GetRezTypeAtIndex(SInt32 inPosition) const
+{
+	CRezType *		theRezType = nil;
+	LOutlineItem *	theItem = nil;	
+	SInt32			count = 1;
+	LArrayIterator	rezTypeIterator( mRezMapWindow->GetRezMapTable()->GetFirstLevelItems() );
+	
+	while (rezTypeIterator.Next(&theItem)) {
+		if (count == inPosition) {
+			theRezType = dynamic_cast<CRezTypeItem *>(theItem)->GetRezType();
+			break;
+		} 
+		count++;
+	}
+
+	return theRezType;
+}
+
+
+// ---------------------------------------------------------------------------
+//	 GetIndexForType
+// ---------------------------------------------------------------------------
+
+SInt32
+CRezMapDoc::GetIndexForType(ResType inType) const
+{
+	CRezType *		theRezType = nil;
+	LOutlineItem *	theItem = nil;
+	Boolean			found = false;
+	SInt32			position = 0, count = 1;
+	LArrayIterator	rezTypeIterator( mRezMapWindow->GetRezMapTable()->GetFirstLevelItems() );
+	
+	while (rezTypeIterator.Next(&theItem)) {
+		theRezType = dynamic_cast<CRezTypeItem *>(theItem)->GetRezType();
+		if (theRezType->GetType() == inType) {
+			found = true;
+			break;
+		} 
+		count++;
+	}
+
+	if (found) {
+		position = count;
+	} 
+	return position;
+}
+
+
+// ---------------------------------------------------------------------------
+//	 GetRezTypeByName
+// ---------------------------------------------------------------------------
+
+CRezType *
+CRezMapDoc::GetRezTypeByName(Str255 inName) const
+{
+	ResType		theType;
+	
+	UMiscUtils::PStringToOSType(inName, theType);
+
+	return GetRezTypeByType(theType);
+}
+
+
+// ---------------------------------------------------------------------------
+//	 GetRezTypeByType
+// ---------------------------------------------------------------------------
+
+CRezType *
+CRezMapDoc::GetRezTypeByType(ResType inType) const
+{
+	CRezType *		theRezType = nil;
+	LOutlineItem *	theItem = nil;	
+	LArrayIterator	rezTypeIterator( mRezMapWindow->GetRezMapTable()->GetFirstLevelItems() );
+	
+	while (rezTypeIterator.Next(&theItem)) {
+		Str255	typeName;
+		theRezType = dynamic_cast<CRezTypeItem *>(theItem)->GetRezType();
+		
+		if (theRezType->GetType() == inType) {
+			break;
+		} 
+		theRezType = nil;
+	}
+
+	return theRezType;
 }
 
 

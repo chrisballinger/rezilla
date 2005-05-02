@@ -25,14 +25,15 @@
 
 PP_Begin_Namespace_PowerPlant
 
-class	LWindow;
-class	CRezFile;
-class	CTextFileStream;
-class	CRezMap;
-class	CRezMapWindow;
-class	CRezObj;
-class	CRezObjItem;
-class	CEditorDoc;
+class LWindow;
+class CRezFile;
+class CTextFileStream;
+class CRezMap;
+class CRezMapWindow;
+class CRezObj;
+class CRezType;
+class CRezObjItem;
+class CEditorDoc;
 
 // ---------------------------------------------------------------------------
 
@@ -150,6 +151,12 @@ public:
 	virtual CRezFile*	GetRezFile() { return mRezFile;}
 	void				SetRezFile(CRezFile* theRezFile) {mRezFile = theRezFile ;}
 
+	CRezType *			GetRezTypeAtIndex(SInt32 inPosition) const;
+	CRezType *			GetRezTypeByName(Str255 inName)  const;
+	CRezType *			GetRezTypeByType(ResType inType) const;
+	
+	SInt32				GetIndexForType(ResType inType) const;
+	
 	CRezObjItem *		CreateNewRes(ResType inType, short inID, Str255* inName, short inAttrs);
 	void				DuplicateResource(CRezObj* inRezObj);
 	void				RemoveResource(CRezObjItem* inRezObjItem);
@@ -177,7 +184,15 @@ public:
 	Boolean				IsReadOnly() { return mReadOnly;}
 	void				SetReadOnly(Boolean inReadOnlyDoc) {mReadOnly = inReadOnlyDoc;}
 
+	
+	static TArray<CRezMapDoc*>& GetRezMapDocList()
+							{
+								return sRezMapDocList;
+							}
+
 protected:
+	static TArray<CRezMapDoc*>	sRezMapDocList;
+
 	SInt16					mFork;
 	CRezMap *				mRezMap;
 	CRezMapWindow *			mRezMapWindow;
