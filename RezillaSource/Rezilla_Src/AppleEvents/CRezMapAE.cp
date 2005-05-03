@@ -464,22 +464,57 @@ CRezMap::GetRezTypeAtIndex(SInt32 inPosition) const
 }
 
 
-// // ---------------------------------------------------------------------------
-// //	 GetOwnerDoc
-// // ---------------------------------------------------------------------------
-// 
-// CRezMapDoc *
-// CRezMap::GetOwnerDoc() const
-// {
-// 	CRezMapDoc * theDoc = nil;
-// 	TArrayIterator<CRezMapDoc*> iterator( CRezMapDoc::GetRezMapDocList() );
-// 
-// 	while (iterator.Next(theDoc)) {
-// 		if (theDoc->GetRezMap()->GetRefnum() == mRefNum) {
-// 			break;
-// 		}
-// 	}
-// 	
-// 	return theDoc;
-// }
+// ---------------------------------------------------------------------------
+//	¥ GetModelTokenSelf
+// ---------------------------------------------------------------------------
+//	Intercept the Type-ID specifier case: in this case inModelID should be
+//	rzom_cRezObj and inKeyForm should be formAbsolutePosition ('indx').
+//	Otherwise call the inherited method.
+
+void
+CRezMap::GetModelTokenSelf(
+	DescType		inModelID,
+	DescType		inKeyForm,
+	const AEDesc&	inKeyData,
+	AEDesc&			outToken) const
+{
+	if (inModelID == rzom_cRezObj) {
+		ThrowIfNot_(inKeyForm == formAbsolutePosition);
+		
+		// inKeyData should be a two elements list whose first element is 
+		// the required type and the second is the required ID
+		OSErr		error;
+		char		buffer[256];
+		Str255		typName;
+		SInt32		numArgs;
+		AEKeyword	theKey;
+		DescType	theType;
+		Size		theSize;
+		StAEDescriptor	idDesc;
+
+		error = ::AECountItems(&inKeyData, &numArgs);
+		ThrowIfOSErr_(error);
+		ThrowIfNot_(numArgs >= 2);
+		
+		error = ::AEGetNthPtr(&inKeyData, 1, typeChar, &theKey, &theType, 
+						 (Ptr) buffer, sizeof(buffer), &theSize);
+		ThrowIfOSErr_(error);
+		buffer[theSize] = 0;
+		CopyCStringToPascal(buffer, typName);				 
+		
+		error = ::AEGetNthDesc(&inKeyData, 2, typeSInt32, &theKey, idDesc);
+		ThrowIfOSErr_(error);
+		
+		CRezType * theRezType = theRezType = mOwnerDoc->GetRezTypeByName(typName);
+		
+		if (theRezType != nil) {
+			theRezType->GetSubModelByUniqueID(rzom_cRezObj, idDesc, outToken);
+		} else {
+			ThrowOSErr_(errAENoSuchObject);
+		}
+	} else {
+		LModelObject::GetModelTokenSelf(inModelID, inKeyForm, inKeyData, outToken);
+	}
+}
+
 

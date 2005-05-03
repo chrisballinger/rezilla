@@ -94,14 +94,14 @@ public:
 	virtual SInt32		CountSubModels( DescType inModelID ) const;
 
 	virtual void		GetSubModelByPosition(
-								DescType			inModelID,
-								SInt32				inPosition,
-								AEDesc&				outToken) const;
+								DescType		inModelID,
+								SInt32			inPosition,
+								AEDesc&			outToken) const;
 
 	virtual void		GetSubModelByName(
-								DescType			inModelID,
-								Str255				inName,
-								AEDesc&				outToken) const;
+								DescType		inModelID,
+								Str255			inName,
+								AEDesc&			outToken) const;
 
 	virtual void		GetSubModelByUniqueID(
 								DescType		inModelID,
@@ -120,13 +120,19 @@ public:
 								DescType		inProperty) const;
 
 	virtual void	MakeSelfSpecifier(
-							AEDesc&				inSuperSpecifier,
-							AEDesc&				outSelfSpecifier) const;
+								AEDesc&			inSuperSpecifier,
+								AEDesc&			outSelfSpecifier) const;
 	
 	CRezMapDoc *	GetOwnerDoc() const { return mOwnerDoc; }
 	
 	CRezType *		GetRezTypeAtIndex(SInt32 inPosition) const;
 	
+	virtual void	GetModelTokenSelf(
+								DescType		inModelID,
+								DescType		inKeyForm,
+								const AEDesc	&inKeyData,
+								AEDesc			&outToken) const;
+
 	// Accessors
 	virtual short	GetRefnum() { return mRefNum;}
 	void			SetRefnum(short theRefNum) {mRefNum = theRefNum;}
@@ -145,6 +151,16 @@ protected:
 	short				mRefNum;
 	CRezMapDoc *		mOwnerDoc;
 };
+
+
+
+// typedef struct	STypeIdSpec {
+// 	CRezType		*typeObject;
+// 	CRezObj			*rezObject;
+// } STypeIdSpec, *STypeIdSpecP, **STypeIdSpecH;
+// 
+// 
+// const	DescType	type_TypeIdSpecifier	= FOUR_CHAR_CODE('TISp');
 
 
 #endif
