@@ -151,12 +151,10 @@ CRezType::GetSubModelByPosition(
 	
 		error = GetResourceAtIndex( (short) inPosition, theHandle, true);
 		if (error == noErr) {
-			theRezObj = new CRezObj( theHandle, mOwnerMap->GetRefnum());
+			theRezObj = GetOrCreateRezObjModel(theHandle);
 		} 
 			
 		if (theRezObj != nil) {
-			// cast is needed because of constness
-			theRezObj->SetSuperModel( (CRezType *) this);
 			PutInToken(theRezObj, outToken);
 		} else {
 			ThrowOSErr_(errAENoSuchObject);
@@ -192,12 +190,10 @@ CRezType::GetSubModelByName(
 	
 		error = GetWithName(inName, theHandle);
 		if (error == noErr) {
-			theRezObj = new CRezObj( theHandle, mOwnerMap->GetRefnum());
+			theRezObj = GetOrCreateRezObjModel(theHandle);
 		} 
 			
 		if (theRezObj != nil) {
-			// cast is needed because of constness
-			theRezObj->SetSuperModel( (CRezType *) this);
 			PutInToken(theRezObj, outToken);
 		} else {
 			ThrowOSErr_(errAENoSuchObject);
@@ -227,20 +223,18 @@ CRezType::GetSubModelByUniqueID(
 	if (inModelID == rzom_cRezObj) {
 		CRezObj *	theRezObj = nil;
 		Handle		theHandle;
-		short		theID;
+		SInt32		theID;
 		OSErr		error;
 		
-		error = ::AEGetDescData(&inKeyData, &theID, sizeof(short));
+		error = ::AEGetDescData(&inKeyData, &theID, sizeof(theID));
 		ThrowIfOSErr_(error);
 
 		error = GetWithID(theID, theHandle);
 		if (error == noErr) {
-			theRezObj = new CRezObj( theHandle, mOwnerMap->GetRefnum());
+			theRezObj = GetOrCreateRezObjModel(theHandle);
 		} 
 			
 		if (theRezObj != nil) {
-			// cast is needed because of constness
-			theRezObj->SetSuperModel( (CRezType *) this);
 			PutInToken(theRezObj, outToken);
 		} else {
 			ThrowOSErr_(errAENoSuchObject);
@@ -294,6 +288,35 @@ CRezType::AEPropertyExists(
 
 
 
+// ---------------------------------------------------------------------------
+//	¥ GetOrCreateRezObjModel
+// ---------------------------------------------------------------------------
 
-
+CRezObj *
+CRezType::GetOrCreateRezObjModel(Handle inHandle) const
+{
+	CRezObj 	*theRezObj = nil, *newRezObj;
+	Boolean		found = false;
+	
+	newRezObj = new CRezObj( inHandle, mOwnerMap->GetRefnum() );
+	
+	TArrayIterator<CRezObj*> iterator(mRezObjModels);
+	while (iterator.Next(theRezObj)) {
+		if (theRezObj->GetID() == newRezObj->GetID()) {
+			found = true;
+			break;
+		}
+	}
+	
+	if (found) {
+		delete newRezObj;
+		newRezObj = theRezObj;	
+	} else {
+		// cast is needed because of constness
+		newRezObj->SetSuperModel( (CRezType *) this);
+		((TArray<CRezObj *>)mRezObjModels).AddItem(newRezObj);
+	}
+	
+	return newRezObj;
+}
 

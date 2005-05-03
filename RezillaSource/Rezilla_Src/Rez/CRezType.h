@@ -2,7 +2,7 @@
 // CRezType.h					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2005-05-02 09:44:42
+//             Last modification: 2005-05-03 10:24:20
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -19,6 +19,7 @@
 #include <LModelObject.h>
 
 class CRezMap;
+class CRezObj;
 
 
 class CRezType : public LModelObject {
@@ -79,9 +80,14 @@ public:
 								const AEDesc	&inKeyData,
 								AEDesc			&outToken) const;
 
+	CRezObj *			GetOrCreateRezObjModel(Handle inHandle) const;
+	
+	TArray<CRezObj*>&	GetRezObjModels() { return mRezObjModels; }
+								
 protected:
-		ResType		mType;
-		CRezMap * 	mOwnerMap;
+		ResType				mType;
+		CRezMap * 			mOwnerMap;
+		TArray<CRezObj*>	mRezObjModels;
 
 private:
 

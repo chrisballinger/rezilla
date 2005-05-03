@@ -2,7 +2,7 @@
 // CRezType.cp					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2005-05-02 09:44:26
+//             Last modification: 2005-05-03 11:00:53
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -13,6 +13,7 @@
 // ===========================================================================
 
 #include "CRezType.h"
+#include "CRezObj.h"
 #include "UResources.h"
 #include "CRezMap.h"
 #include "RezillaConstants.h"
@@ -38,6 +39,12 @@ CRezType::CRezType(ResType inResType, CRezMap * inOwnerMap)
 
 CRezType::~CRezType()
 {
+	TArrayIterator<CRezObj*> iteraror(mRezObjModels, LArrayIterator::from_End);
+	CRezObj *	theRezObj;
+	while (iteraror.Previous(theRezObj)) {
+		mRezObjModels.RemoveItemsAt(1, iteraror.GetCurrentIndex());
+		delete theRezObj;
+	}
 }
 
 
