@@ -424,9 +424,6 @@ CRezClipboard::DataArrayToScrapRezMap(
 	} 
 	
 	while (iterator.Next(&theItem)) {
-		if (theRezObj != nil) {
-			delete theRezObj;
-		} 
 		theRezObj = new CRezObj( *((CRezObjItem *)theItem)->GetRezObj() );
 		theAttrs = theRezObj->GetAttributes();
 		
@@ -438,6 +435,9 @@ CRezClipboard::DataArrayToScrapRezMap(
 			error = theRezObj->SetAttributesInMap(theAttrs);
 		} 
 		error = theRezObj->Changed();
+		if (theRezObj != nil) {
+			delete theRezObj;
+		} 
 	}
 	error = sScrapRezMap->Update();
 }
