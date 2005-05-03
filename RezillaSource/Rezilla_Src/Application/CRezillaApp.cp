@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2005-05-02 10:39:50
+//             Last modification: 2005-05-03 07:51:06
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -13,6 +13,7 @@
 
 #include "CRezillaApp.h"
 #include "CRezillaPrefs.h"
+#include "CRezillaModel.h"
 #include "CEditorsController.h"
 #include "CInspectorWindow.h"
 #include "CRecentItemsMenu.h"
@@ -329,6 +330,18 @@ CRezillaApp::InitMLTE()
 	// Remove the Fonts menu from the menu bar
 	::MacDeleteMenu(MENU_UnicodeFonts);
 	::InvalMenuBar();
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ MakeModelDirector											   [protected]
+// ---------------------------------------------------------------------------
+//	Create ModelDirector (AppleEvent handle) object for this application
+
+void
+CRezillaApp::MakeModelDirector()
+{
+	new CRezillaModel(this);
 }
 
 

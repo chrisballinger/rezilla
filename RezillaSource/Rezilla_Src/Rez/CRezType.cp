@@ -46,7 +46,7 @@ CRezType::~CRezType()
 // ---------------------------------------------------------------------------
 
 OSErr
-CRezType::CountResources(short & outCount)
+CRezType::CountResources(short & outCount) const
 {
     StRezRefSaver saver(GetOwnerMap()->GetRefnum());
     outCount = ::Count1Resources(mType);
@@ -61,7 +61,7 @@ CRezType::CountResources(short & outCount)
 // from current resource map.
 
 OSErr
-CRezType::GetWithID(short inID, Handle & outHandle)
+CRezType::GetWithID(short inID, Handle & outHandle) const
 {
     StRezRefSaver saver(GetOwnerMap()->GetRefnum());
     outHandle = ::Get1Resource(mType, inID);
@@ -76,7 +76,7 @@ CRezType::GetWithID(short inID, Handle & outHandle)
 // from current resource map.
 
 OSErr
-CRezType::GetWithName(ConstStr255Param inName, Handle & outHandle)
+CRezType::GetWithName(ConstStr255Param inName, Handle & outHandle) const
 {
 	OSErr	error = noErr;
 	short	theCount = 0;
@@ -181,7 +181,7 @@ CRezType::GetAllRezIDs( TArray<short>* & outArray )
 OSErr
 CRezType::GetResourceAtIndex(short inIdx, 
 							 Handle & outHandle, 
-							 Boolean loadIt)
+							 Boolean loadIt) const
 {
     StRezRefSaver saver(GetOwnerMap()->GetRefnum());
 	if (!loadIt) {

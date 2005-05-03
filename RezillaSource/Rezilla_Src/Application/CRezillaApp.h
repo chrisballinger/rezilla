@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.h					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2005-05-02 10:40:01
+//             Last modification: 2005-05-03 07:51:33
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -138,6 +138,7 @@ protected:
 
 	virtual void		StartUp();
 	virtual void		Initialize();
+	virtual void		MakeModelDirector();
 	void				RegisterClasses();
 	OSStatus			RegisterHelpBook();
 	void				MakeAboutWindow();

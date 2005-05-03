@@ -30,19 +30,6 @@
 
 
 
-// // ---------------------------------------------------------------------------
-// //	¥ CRezTypeItem							Default Constructor		  [public]
-// // ---------------------------------------------------------------------------
-// // 		LLongComparator* theIDComparator = new LLongComparator;
-// // 		mSubItems->SetComparator(theIDComparator);
-// 
-// CRezTypeItem::CRezTypeItem(ResType type)
-// {
-// 	mRezType = new CRezType(type);
-// 	mIconH = nil;
-// }
-
-
 // ---------------------------------------------------------------------------
 //	¥ CRezTypeItem							Default Constructor		  [public]
 // ---------------------------------------------------------------------------

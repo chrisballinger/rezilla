@@ -91,6 +91,16 @@ CRezObj::GetAEProperty(
 		ThrowIfOSErr_(error);
 		break;
 		
+		case pIndex:
+		SInt32 position = 0;
+		
+// 		position = ;
+		
+		error = ::AECreateDesc(typeSInt32, (Ptr) &position,
+									sizeof(SInt32), &outPropertyDesc);
+		ThrowIfOSErr_(error);
+		break;
+		
 		case rzom_pAttributes:
 		short const	theAttrs = GetAttributes();
 		error = ::AECreateDesc(typeSInt16, (Ptr) &theAttrs,
@@ -259,15 +269,16 @@ CRezObj::AEPropertyExists(
 	switch (inProperty) {
 
 		case pName: 
+		case pIndex:
+		case rzom_pResID:
+		case rzom_pType: 
 		case rzom_pAttributes:
 		case rzom_pChanged:
 		case rzom_pLocked:
 		case rzom_pPreload:
 		case rzom_pProtected:
 		case rzom_pPurgeable:
-		case rzom_pResID:
 		case rzom_pSysHeap:
-		case rzom_pType: 
 			exists = true;
 			break;
 

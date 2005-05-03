@@ -28,15 +28,15 @@ public:
 						 CRezMap * inOwnerMap);
 				~CRezType();
 				
-	OSErr	CountResources(short & outCount);
+	OSErr	CountResources(short & outCount) const;
 	
-	OSErr	GetWithID(short inID, Handle & outHandle);
-	OSErr	GetWithName(ConstStr255Param inName, Handle & outHandle);
+	OSErr	GetWithID(short inID, Handle & outHandle) const;
+	OSErr	GetWithName(ConstStr255Param inName, Handle & outHandle) const;
 	
 	OSErr	GetAllResources( TArray<Handle>* & outArray );
 	OSErr	GetAllRezIDs( TArray<short>* & outArray );
 
-	CRezMap*		GetOwnerMap() { return mOwnerMap;}
+	CRezMap*		GetOwnerMap() const { return mOwnerMap;}
 	void			SetOwnerMap(CRezMap* theOwnerMap) {mOwnerMap = theOwnerMap;}
 
 	ResType			GetType() { return mType;}
@@ -44,7 +44,7 @@ public:
 
 	OSErr			GetResourceAtIndex(short inIdx, 
 									   Handle & outHandle, 
-									   Boolean loadIt = false);
+									   Boolean loadIt = false) const;
 	OSErr			GetNameAtIndex(short inIdx, Str255 & outName);
 	
 	// AppleEvents
@@ -61,6 +61,23 @@ public:
 								DescType		inProperty) const;
 
 	virtual StringPtr	GetModelName( Str255 outModelName ) const;
+
+	virtual SInt32		CountSubModels( DescType inModelID ) const;
+
+	virtual void		GetSubModelByPosition(
+								DescType			inModelID,
+								SInt32				inPosition,
+								AEDesc&				outToken) const;
+
+	virtual void		GetSubModelByName(
+								DescType			inModelID,
+								Str255				inName,
+								AEDesc&				outToken) const;
+
+	virtual void		GetSubModelByUniqueID(
+								DescType		inModelID,
+								const AEDesc	&inKeyData,
+								AEDesc			&outToken) const;
 
 protected:
 		ResType		mType;

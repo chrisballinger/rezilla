@@ -1466,6 +1466,37 @@ CRezMapDoc::GetRezTypeByType(ResType inType) const
 }
 
 
+// // ---------------------------------------------------------------------------
+// //	 GetResourceByName
+// // ---------------------------------------------------------------------------
+// 
+// CRezType *
+// CRezMapDoc::GetResourceByName(ResType inType, Str255 inName) const
+// {
+// 	ResType		theType;
+// 	CRezTypeItem * 
+// 
+// 	LArrayIterator rezTypeIterator( mRezMapWindow->GetRezMapTable()->GetFirstLevelItems() );
+// 	LOutlineItem *theRezTypeItem = nil;	
+// 	LOutlineItem *theRezObjItem = nil;	
+// 	
+// 	while (rezTypeIterator.Next(&theRezTypeItem)) {
+// 		// Now iterate among sub items of this RezTypeItem if it is expanded
+// 		if (theRezTypeItem->IsExpanded()) {
+// 			LArrayIterator rezObjIterator( *(theRezTypeItem->GetSubItems()) );
+// 			while (rezObjIterator.Next(&theRezObjItem)) {
+// 				dynamic_cast<CRezObjItem *>(theRezObjItem)->GetRezObj()->SetOwnerRefnum(newRefNum);				
+// 			}
+// 		} 
+// 	}
+// 
+// 	
+// 	UMiscUtils::PStringToOSType(inName, theType);
+// 
+// 	return GetRezTypeByType(theType);
+// }
+
+
 // ---------------------------------------------------------------------------
 //  NewResDialog												[public]
 // ---------------------------------------------------------------------------

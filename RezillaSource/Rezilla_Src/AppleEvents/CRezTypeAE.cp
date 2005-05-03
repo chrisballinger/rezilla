@@ -16,6 +16,7 @@
 
 #include "CRezMap.h"
 #include "CRezType.h"
+#include "CRezObj.h"
 #include "CRezMapDoc.h"
 #include "UMiscUtils.h"
 #include "RezillaConstants.h"
@@ -97,6 +98,153 @@ CRezType::GetAEProperty(
 		LModelObject::GetAEProperty(inProperty, inRequestedType,
 									outPropertyDesc);
 		break;
+	}
+}
+
+
+// ---------------------------------------------------------------------------
+//	 CountSubModels												  [public]
+// ---------------------------------------------------------------------------
+// Had to modify the prototypes for CountAllTypes and CountAllResources by
+// adding a 'const' to make the compiler happy.
+
+SInt32
+CRezType::CountSubModels(
+	DescType	inModelID) const
+{
+	SInt32	result = 0;
+	short	count = 0;
+	
+	switch (inModelID) {
+		
+		case rzom_cRezObj: 
+		if (CountResources(count) == noErr) {
+			result = count;
+		}
+		break;
+
+		default:
+		result = LModelObject::CountSubModels(inModelID);
+		break;
+	}
+
+	return result;
+}
+
+
+// ---------------------------------------------------------------------------
+//	 GetSubModelByPosition											  [public]
+// ---------------------------------------------------------------------------
+
+void
+CRezType::GetSubModelByPosition(
+	DescType		inModelID,
+	SInt32			inPosition,
+	AEDesc&			outToken) const
+{
+	switch (inModelID) {
+		
+		case rzom_cRezObj:
+		CRezObj *	theRezObj = nil;
+		Handle		theHandle;
+		OSErr		error;
+	
+		error = GetResourceAtIndex( (short) inPosition, theHandle, true);
+		if (error == noErr) {
+			theRezObj = new CRezObj( theHandle, mOwnerMap->GetRefnum());
+		} 
+			
+		if (theRezObj != nil) {
+			// cast is needed because of constness
+			theRezObj->SetSuperModel( (CRezType *) this);
+			PutInToken(theRezObj, outToken);
+		} else {
+			ThrowOSErr_(errAENoSuchObject);
+		}
+		break;
+		
+		
+		default:
+		LModelObject::GetSubModelByPosition(inModelID, inPosition,
+											outToken);
+		break;
+	}
+}
+
+
+// ---------------------------------------------------------------------------
+//	 GetSubModelByName												  [public]
+// ---------------------------------------------------------------------------
+//	Pass back a token to a SubModel specified by name
+
+void
+CRezType::GetSubModelByName(
+	DescType		inModelID,
+	Str255			inName,
+	AEDesc&			outToken) const
+{
+	switch (inModelID) {
+
+		case rzom_cRezObj:
+		CRezObj *	theRezObj = nil;
+		Handle		theHandle;
+		OSErr		error;
+	
+		error = GetWithName(inName, theHandle);
+		if (error == noErr) {
+			theRezObj = new CRezObj( theHandle, mOwnerMap->GetRefnum());
+		} 
+			
+		if (theRezObj != nil) {
+			// cast is needed because of constness
+			theRezObj->SetSuperModel( (CRezType *) this);
+			PutInToken(theRezObj, outToken);
+		} else {
+			ThrowOSErr_(errAENoSuchObject);
+		}
+		break;
+		
+
+		default:
+			LModelObject::GetSubModelByName(inModelID, inName, outToken);
+			break;
+	}
+}
+
+
+// ---------------------------------------------------------------------------
+//	 GetSubModelByUniqueID
+// ---------------------------------------------------------------------------
+//	Pass back a Token for the SubModel with the specified unique ID: this
+//	is the type as an unsigned long.
+
+void
+CRezType::GetSubModelByUniqueID(
+	DescType		inModelID,
+	const AEDesc	&inKeyData,
+	AEDesc			&outToken) const
+{
+	if (inModelID == rzom_cRezObj) {
+		CRezObj *	theRezObj = nil;
+		Handle		theHandle;
+		short		theID;
+		OSErr		error;
+		
+		error = ::AEGetDescData(&inKeyData, &theID, sizeof(short));
+		ThrowIfOSErr_(error);
+
+		error = GetWithID(theID, theHandle);
+		if (error == noErr) {
+			theRezObj = new CRezObj( theHandle, mOwnerMap->GetRefnum());
+		} 
+			
+		if (theRezObj != nil) {
+			// cast is needed because of constness
+			theRezObj->SetSuperModel( (CRezType *) this);
+			PutInToken(theRezObj, outToken);
+		} else {
+			ThrowOSErr_(errAENoSuchObject);
+		}
 	}
 }
 
