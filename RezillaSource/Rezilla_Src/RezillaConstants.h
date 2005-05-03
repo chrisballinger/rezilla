@@ -1181,8 +1181,8 @@ const DescType rzom_pSizeOnDisk		= 'pDSZ';		// Size on disk
 const DescType rzom_pData			= pContents;	// Data ('pcnt', was 'pDAT')
 
 //    Specifier
-const DescType rzom_cRezTypeID			= 'TyId';	// Resource specifier object: 
-                           			         	//   e-g (type:aete, ID  :128)
+const DescType rzom_cRezTypeID		= 'TyId';		// Resource specifier object: 
+                           			         		//   e-g {"aete", 128}
 
 //    Maps Comparison
 const DescType rzom_cRezMapComparison	= 'COMP';	// Maps Comparison 
