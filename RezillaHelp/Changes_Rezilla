@@ -32,9 +32,10 @@ $Date$
 ================================================================================
 ¥ Implemented AppleScript classes (Rezilla Object Model): "Rezilla Suite" 
   and "Resource Suite".
-¥ Implemented AppleScript Standard and Core suites.
-¥ Implemented AppleScript Rezilla specific commands for manipulating 
-  resource maps. 
+¥ Implemented AppleScript "Standard" and "Core" suites.
+¥ Implemented AppleScript Rezilla specific commands for resource maps. 
+¥ Switched to CCasePopupField self contained class in templates.
+¥ Implemented AppleScript "Rezilla" and "Resource" suites.
 ¥ 
 
 ================================================================================
