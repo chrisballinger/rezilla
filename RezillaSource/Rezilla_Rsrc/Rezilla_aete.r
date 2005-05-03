@@ -2637,10 +2637,6 @@ resource 'aete' (0,"Scripting terminology") {
 							'indx',
 							'name',
 							'ID  '}
-					,
-						'cRSC',
-						{
-							'indx'}
 					
 				}
 			,
