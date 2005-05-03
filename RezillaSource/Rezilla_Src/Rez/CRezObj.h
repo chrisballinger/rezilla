@@ -100,8 +100,12 @@ public:
 		virtual Size	GetSize() { return mSize;}
 		void			SetSize(Size theSize) {mSize = theSize ;}
 
+		OSErr			GetIndexInType(SInt32 & outIndex) const;
+// 		OSErr			GetIndexInMap(SInt32 & outIndex) const;
+		
+		
 		OSErr 			GetMaxSize(Size & outSize);
-		OSErr			GetSizeOnDisk(Size & outSize);
+		OSErr			GetSizeOnDisk(Size & outSize) const;
 		OSErr			SetSizeOnDisk(Size inSize);
 
 		virtual short	GetAttributes() const { return mAttributes;}

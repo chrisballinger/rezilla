@@ -2,7 +2,7 @@
 // CRezObj.cp					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2005-04-29 22:15:14
+//             Last modification: 2005-05-03 13:43:51
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -19,6 +19,7 @@
 #include "RezillaConstants.h"
 
 // #include <LString.h>
+
 
 // ---------------------------------------------------------------------------
 //  ¥ CRezObj														[public]
@@ -505,11 +506,11 @@ CRezObj::GetMaxSize(Size & outSize)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetSize														[public]
+//  ¥ GetSizeOnDisk													[public]
 // ---------------------------------------------------------------------------
 
 OSErr
-CRezObj::GetSizeOnDisk(Size & outSize)
+CRezObj::GetSizeOnDisk(Size & outSize) const
 {
 	OSErr error = noErr;
     StRezRefSaver saver(mOwnerRefnum);
@@ -546,6 +547,56 @@ CRezObj::SetSizeOnDisk(Size inSize)
 	} 
 	return error;
 }
+
+
+// ---------------------------------------------------------------------------
+//  ¥ GetIndexInType													[public]
+// ---------------------------------------------------------------------------
+
+OSErr
+CRezObj::GetIndexInType(SInt32 & outIndex) const
+{
+	OSErr	error = noErr;
+	Handle	theHandle;
+	ResType	theType;
+	short	i, count, theID;
+	Str255	theName;
+	
+	StRezRefSaver saver(mOwnerRefnum);
+	count = ::Count1Resources(mType);
+
+	for (i = 1;i <= count;i++) {
+		theHandle = ::Get1IndResource( mType, theID );
+		error = ::ResError();
+		if (error == noErr) {
+			::GetResInfo(theHandle, &theID, &theType, theName);
+			error = ::ResError();
+			if (error == noErr && theID == mID) {
+				outIndex = i;
+				break;
+			} 
+		} 
+	}
+
+	return error;
+}
+
+
+// // ---------------------------------------------------------------------------
+// //  ¥ GetIndexInMap													[public]
+// // ---------------------------------------------------------------------------
+// 
+// OSErr
+// CRezObj::GetIndexInMap(SInt32 & outIndex) const
+// {
+// 	OSErr error = noErr;
+// 	StRezRefSaver saver(mOwnerRefnum);
+// 	if (mData != nil) {
+// 		outSize = ::GetResourceSizeOnDisk(mData);
+// 		error = ::ResError();
+// 	} 
+// 	return error;
+// }
 
 
 // ---------------------------------------------------------------------------

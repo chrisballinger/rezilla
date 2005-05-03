@@ -2,7 +2,7 @@
 // CRezObjAE.cp
 // 
 //                       Created: 2005-04-09 10:03:39
-//             Last modification: 2005-04-29 10:54:32
+//             Last modification: 2005-05-03 20:02:48
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -17,6 +17,7 @@
 #include "CRezMap.h"
 #include "CRezObj.h"
 #include "UResources.h"
+#include "UMiscUtils.h"
 #include "RezillaConstants.h"
 
 #include <LCommander.h>
@@ -78,28 +79,51 @@ CRezObj::GetAEProperty(
 							StrLength(mName), &outPropertyDesc);
 		ThrowIfOSErr_(error);
 		break;
+		
 
 		case rzom_pType: 
-		error = ::AECreateDesc(typeType, &mType,
-							 sizeof(ResType), &outPropertyDesc);
+		Str255 name;
+		UMiscUtils::OSTypeToPString(mType, name);
+		error = ::AECreateDesc(typeChar, (Ptr) name + 1,
+							StrLength(mName), &outPropertyDesc);
 		ThrowIfOSErr_(error);
 		break;
 
+		
 		case rzom_pResID:
 		error = ::AECreateDesc(typeSInt16, (Ptr) &mID,
 									sizeof(short), &outPropertyDesc);
 		ThrowIfOSErr_(error);
 		break;
 		
+		
 		case pIndex:
 		SInt32 position = 0;
+		error = GetIndexInType(position);
+		if (error == noErr) {
+			error = ::AECreateDesc(typeSInt32, (Ptr) &position,
+										sizeof(SInt32), &outPropertyDesc);	
+		} 
+		ThrowIfOSErr_(error);
+		break;
 		
-// 		position = ;
-		
-		error = ::AECreateDesc(typeSInt32, (Ptr) &position,
+
+		case rzom_pDataSize: 
+		error = ::AECreateDesc(typeSInt32, (Ptr) &mSize,
 									sizeof(SInt32), &outPropertyDesc);
 		ThrowIfOSErr_(error);
 		break;
+		
+		
+		case rzom_pSizeOnDisk: {
+			SInt32 theSize = 0;
+			GetSizeOnDisk(theSize);
+			error = ::AECreateDesc(typeSInt32, (Ptr) &theSize,
+										sizeof(SInt32), &outPropertyDesc);
+			ThrowIfOSErr_(error);
+			break;
+		}
+		
 		
 		case rzom_pAttributes:
 		short const	theAttrs = GetAttributes();
@@ -108,29 +132,36 @@ CRezObj::GetAEProperty(
 		ThrowIfOSErr_(error);
 		break;
 		
+
 		case rzom_pSysHeap:
 		GetAERezObjAttribute(resSysHeap, outPropertyDesc);
 		break;
+		
 		
 		case rzom_pPurgeable:
 		GetAERezObjAttribute(resPurgeable, outPropertyDesc);
 		break;
 		
+		
 		case rzom_pLocked:
 		GetAERezObjAttribute(resLocked, outPropertyDesc);
 		break;
+		
 		
 		case rzom_pProtected:
 		GetAERezObjAttribute(resProtected, outPropertyDesc);
 		break;
 		
+		
 		case rzom_pPreload:
 		GetAERezObjAttribute(resPreload, outPropertyDesc);
 		break;
 		
+		
 		case rzom_pChanged:
 		GetAERezObjAttribute(resChanged, outPropertyDesc);
 		break;
+		
 		
 		default:
 		LModelObject::GetAEProperty(inProperty, inRequestedType,
@@ -272,6 +303,9 @@ CRezObj::AEPropertyExists(
 		case pIndex:
 		case rzom_pResID:
 		case rzom_pType: 
+		case rzom_pDataSize:
+		case rzom_pSizeOnDisk:
+		case rzom_pData:
 		case rzom_pAttributes:
 		case rzom_pChanged:
 		case rzom_pLocked:
