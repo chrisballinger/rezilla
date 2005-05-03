@@ -341,7 +341,8 @@ CRezillaApp::InitMLTE()
 void
 CRezillaApp::MakeModelDirector()
 {
-	new CRezillaModel(this);
+// 	new CRezillaModel(this);
+	new LModelDirector(this);
 }
 
 
