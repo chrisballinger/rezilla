@@ -44,11 +44,7 @@ misc	undo	3016
 misc	slct	3017
 
 
-resource 'aedt' (131, "PowerPlant Suite")
-ppnt	sttg	3018
-
-
 resource 'aedt' (1000, "Rezilla Suite")
-Get version number
-Rzil	Vers	5010
+Rzil	edit	5000
+Rzil	insp	5001
 
