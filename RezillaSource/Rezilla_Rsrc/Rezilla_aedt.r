@@ -1,6 +1,5 @@
 #include "AppleEvents.r"
 
-
 resource 'aedt' (128, "Required Suite") {
 	{
 /* 'aevt', 'oapp' */	1634039412, 1868656752, 1001,
@@ -52,15 +51,10 @@ resource 'aedt' (130, "Misc Standards") {
 	}
 };
 
-resource 'aedt' (131, "PowerPlant Suite") {
-	{
-/* 'ppnt', 'sttg' */	1886416500, 1937011815, 3018
-	}
-};
-
 resource 'aedt' (1000, "Rezilla Suite") {
 	{
-/* 'Rzil', 'Vers' */	1383754092, 1449489011, 5010
+/* 'Rzil', 'edit' */	1383754092, 1701079412, 5000,
+/* 'Rzil', 'insp' */	1383754092, 1768846192, 5001
 	}
 };
 
