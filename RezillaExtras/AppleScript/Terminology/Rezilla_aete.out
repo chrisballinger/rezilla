@@ -4,12 +4,11 @@ HUMAN READABLE TRANSLATION OF AETE RESOURCE FROM "Rezilla_aete.rsrc"
 Version: 1.0
 Language code: 0
 Script code: 0
-Number of Suites: 5
+Number of Suites: 4
 	1. Required Suite
 	2. Standard Suite
-	3. Miscellaneous Suite
-	4. Rezilla suite
-	5. Resource suite
+	3. Rezilla suite
+	4. Resource suite
 
 1- Required Suite
 =================
@@ -17,7 +16,31 @@ Description: Terms that every application should support
 Suite ID: 'reqd'
 Suite level: 1
 Suite version: 1
-Number of Events: 0
+Number of Events: 2
+  Event 1: open
+---------------
+	Description: Open the specified object(s)
+	Event class: 'aevt'
+	Event ID: 'odoc'
+	Type of reply's direct parameter: 'null'
+	Description of reply's direct parameter: 
+	Reply is optional. It is a single item, not enumerated. 
+	Direct parameter type: 'obj '
+	Direct parameter description: Objects to open. Can be a list of files or an object specifier.
+	Direct parameter is required. It is a single item, not enumerated. It changes the server's state.
+	Number of additional parameters: 0
+  Event 2: quit
+---------------
+	Description: Quit the application
+	Event class: 'aevt'
+	Event ID: 'quit'
+	Type of reply's direct parameter: 'null'
+	Description of reply's direct parameter: 
+	Reply is optional. It is a single item, not enumerated. 
+	Direct parameter type: 'null'
+	Direct parameter description: 
+	Direct parameter is optional. It is a single item, not enumerated. It changes the server's state.
+	Number of additional parameters: 0
 Number of Classes: 0
 Number of Comparison Operators: 0
 Number of Enumerations: 0
@@ -28,7 +51,7 @@ Description: Common terms for most applications
 Suite ID: 'CoRe'
 Suite level: 1
 Suite version: 1
-Number of Events: 9
+Number of Events: 12
   Event 1: close
 ----------------
 	Description: Close an object
@@ -80,7 +103,41 @@ Number of Events: 9
 	Direct parameter description: the object whose data size is to be returned
 	Direct parameter is required. It is a single item, not enumerated. It does not change the server's state.
 	Number of additional parameters: 0
-  Event 4: exists
+  Event 4: delete
+-----------------
+	Description: Delete the specified object(s)
+	Event class: 'core'
+	Event ID: 'delo'
+	Type of reply's direct parameter: 'null'
+	Description of reply's direct parameter: 
+	Reply is optional. It is a single item, not enumerated. 
+	Direct parameter type: 'obj '
+	Direct parameter description: Object to delete.
+	Direct parameter is required. It is a single item, not enumerated. It changes the server's state.
+	Number of additional parameters: 0
+  Event 5: duplicate
+--------------------
+	Description: Duplicate one or more object(s)
+	Event class: 'core'
+	Event ID: 'clon'
+	Type of reply's direct parameter: 'obj '
+	Description of reply's direct parameter: to the duplicated object(s)
+	Reply is required. It is a single item, not enumerated. 
+	Direct parameter type: 'obj '
+	Direct parameter description: the object(s) to duplicate
+	Direct parameter is required. It is a single item, not enumerated. It changes the server's state.
+	Number of additional parameters: 2
+	  Parameter 1: to
+		Parameter keyword: 'insh'
+		Parameter type: 'insl'
+		Parameter description: the new location for the object(s)
+		Parameter 1 is optional. It is a single item, not enumerated. 
+	  Parameter 2: replacing
+		Parameter keyword: 'alrp'
+		Parameter type: 'bool'
+		Parameter description: Specifies whether or not to replace items in the destination that have the same name as items being duplicated
+		Parameter 2 is optional. It is a single item, enumerated. 
+  Event 6: exists
 -----------------
 	Description: Verify if an object exists
 	Event class: 'core'
@@ -92,7 +149,7 @@ Number of Events: 9
 	Direct parameter description: 
 	Direct parameter is required. It is a single item, not enumerated. It does not change the server's state.
 	Number of additional parameters: 0
-  Event 5: get
+  Event 7: get
 --------------
 	Description: Get the data for an object
 	Event class: 'core'
@@ -104,7 +161,7 @@ Number of Events: 9
 	Direct parameter description: the object whose data is to be returned
 	Direct parameter is required. It is a single item, not enumerated. It does not change the server's state.
 	Number of additional parameters: 0
-  Event 6: make
+  Event 8: make
 ---------------
 	Description: Make a new element
 	Event class: 'core'
@@ -136,19 +193,7 @@ Number of Events: 9
 		Parameter type: 'reco'
 		Parameter description: the initial values for the properties of the element
 		Parameter 4 is optional. It is a single item, not enumerated. 
-  Event 7: open
----------------
-	Description: Open the specified object(s)
-	Event class: 'aevt'
-	Event ID: 'odoc'
-	Type of reply's direct parameter: 'null'
-	Description of reply's direct parameter: 
-	Reply is optional. It is a single item, not enumerated. 
-	Direct parameter type: 'obj '
-	Direct parameter description: Objects to open. Can be a list of files or an object specifier.
-	Direct parameter is required. It is a single item, not enumerated. It changes the server's state.
-	Number of additional parameters: 0
-  Event 8: save
+  Event 9: save
 ---------------
 	Description: save a set of objects
 	Event class: 'core'
@@ -170,8 +215,32 @@ Number of Events: 9
 		Parameter type: 'type'
 		Parameter description: the file type of the document in which to save the data
 		Parameter 2 is optional. It is a single item, not enumerated. 
-  Event 9: set
---------------
+  Event 10: revert
+------------------
+	Description: Revert an object to the most recently saved version
+	Event class: 'misc'
+	Event ID: 'rvrt'
+	Type of reply's direct parameter: 'null'
+	Description of reply's direct parameter: 
+	Reply is optional. It is a single item, not enumerated. 
+	Direct parameter type: 'obj '
+	Direct parameter description: object to revert
+	Direct parameter is required. It is a single item, not enumerated. It does not change the server's state.
+	Number of additional parameters: 0
+  Event 11: select
+------------------
+	Description: Select the specified object
+	Event class: 'misc'
+	Event ID: 'slct'
+	Type of reply's direct parameter: 'null'
+	Description of reply's direct parameter: 
+	Reply is optional. It is a single item, not enumerated. 
+	Direct parameter type: 'obj '
+	Direct parameter description: the object to select
+	Direct parameter is optional. It is a single item, not enumerated. It changes the server's state.
+	Number of additional parameters: 0
+  Event 12: set
+---------------
 	Description: Set an object's data
 	Event class: 'core'
 	Event ID: 'setd'
@@ -349,65 +418,47 @@ Number of Enumerations: 1
 		Enumerator ID: 'ask '
 		Enumerator description: Ask the user whether to save
 
-3- Miscellaneous Suite
-======================
-Description: Useful events that aren't in standard suite
-Suite ID: 'misc'
-Suite level: 0
-Suite version: 0
-Number of Events: 3
-  Event 1: revert
------------------
-	Description: Revert an object to the most recently saved version
-	Event class: 'misc'
-	Event ID: 'rvrt'
-	Type of reply's direct parameter: 'null'
-	Description of reply's direct parameter: 
-	Reply is optional. It is a single item, not enumerated. 
-	Direct parameter type: 'obj '
-	Direct parameter description: object to revert
-	Direct parameter is required. It is a single item, not enumerated. It does not change the server's state.
-	Number of additional parameters: 0
-  Event 2: SetTellTarget
-------------------------
-	Description: Makes an object the 'focus' of AppleEvents
-	Event class: 'ppnt'
-	Event ID: 'sttg'
-	Type of reply's direct parameter: 'null'
-	Description of reply's direct parameter: 
-	Reply is required. It is a single item, not enumerated. 
-	Direct parameter type: 'null'
-	Direct parameter description: 
-	Direct parameter is required. It is a single item, not enumerated. It does not change the server's state.
-	Number of additional parameters: 1
-	  Parameter 1: to
-		Parameter keyword: 'data'
-		Parameter type: 'obj '
-		Parameter description: reference to new focus of AppleEvents
-		Parameter 1 is optional. It is a single item, not enumerated. 
-  Event 3: select
------------------
-	Description: Select the specified object
-	Event class: 'misc'
-	Event ID: 'slct'
-	Type of reply's direct parameter: 'null'
-	Description of reply's direct parameter: 
-	Reply is optional. It is a single item, not enumerated. 
-	Direct parameter type: 'obj '
-	Direct parameter description: the object to select
-	Direct parameter is optional. It is a single item, not enumerated. It changes the server's state.
-	Number of additional parameters: 0
-Number of Classes: 0
-Number of Comparison Operators: 0
-Number of Enumerations: 0
-
-4- Rezilla suite
+3- Rezilla suite
 ================
 Description: Rezilla specifics
 Suite ID: 'Rzil'
 Suite level: 1
 Suite version: 1
-Number of Events: 0
+Number of Events: 2
+  Event 1: edit
+---------------
+	Description: edit a resource
+	Event class: 'Rzil'
+	Event ID: 'edit'
+	Type of reply's direct parameter: 'null'
+	Description of reply's direct parameter: 
+	Reply is optional. It is a single item, not enumerated. 
+	Direct parameter type: 'obj '
+	Direct parameter description: Resource to edit.
+	Direct parameter is required. It is a single item, not enumerated. It does not change the server's state.
+	Number of additional parameters: 2
+	  Parameter 1: using
+		Parameter keyword: 'EKND'
+		Parameter type: 'EKND'
+		Parameter description: specifies which kind of editor to use (if not specified, Rezilla tries to find successively an interface, a template or the hexadecimal editor)
+		Parameter 1 is optional. It is a single item, enumerated. 
+	  Parameter 2: as
+		Parameter keyword: 'type'
+		Parameter type: 'type'
+		Parameter description: use another type's editors
+		Parameter 2 is optional. It is a single item, not enumerated. 
+  Event 2: inspect
+------------------
+	Description: Display info about the specified resource in the Inspector window
+	Event class: 'Rzil'
+	Event ID: 'insp'
+	Type of reply's direct parameter: 'null'
+	Description of reply's direct parameter: 
+	Reply is optional. It is a single item, not enumerated. 
+	Direct parameter type: 'obj '
+	Direct parameter description: Resource object to display info about.
+	Direct parameter is required. It is a single item, not enumerated. It changes the server's state.
+	Number of additional parameters: 0
 Number of Classes: 24
   Object class 1: map document
 ------------------------------
@@ -803,7 +854,7 @@ Number of Enumerations: 3
 		Enumerator ID: 'ASCI'
 		Enumerator description: text pane
 
-5- Resource suite
+4- Resource suite
 =================
 Description: Resource maps handling
 Suite ID: 'Rsrc'
@@ -841,15 +892,12 @@ Number of Classes: 8
 		Property class: 'bool'
 		Property description: the mapChanged bit
 		Property is a single item, not enumerated. It can be set by the Set Data AE.
-	Number of class elements: 2
+	Number of class elements: 1
 		Class element ID: 'cTYP'
 		Number of key forms: 3
 			 (1): 'indx'
 			 (2): 'name'
 			 (3): 'ID  '
-		Class element ID: 'cRSC'
-		Number of key forms: 1
-			 (1): 'indx'
   Object class 2: maps
 ----------------------
 	Object class ID: 'cMAP'
@@ -901,74 +949,79 @@ Number of Classes: 8
   Object class 5: resource
 --------------------------
 	Object class ID: 'cRSC'
-	Class description: a single resource
-	Number of class properties: 14
+	Class description: a single resource with specific type and ID
+	Number of class properties: 15
 	  (1) name
 		Property ID: 'pnam'
 		Property class: 'itxt'
 		Property description: the map's name
 		Property is a single item, not enumerated. It can be set by the Set Data AE.
-	  (2) type
+	  (2) typename
 		Property ID: 'pTYP'
 		Property class: 'TEXT'
-		Property description: the type of the resource
+		Property description: the type of the resource as text
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	  (3) ID
 		Property ID: 'ID  '
 		Property class: 'shor'
 		Property description: the ID of the resource
 		Property is a single item, not enumerated. It can be set by the Set Data AE.
-	  (4) specifier
+	  (4) index
+		Property ID: 'pidx'
+		Property class: 'long'
+		Property description: the index of the resource within its type (in the order used by the resource manager)
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	  (5) specifier
 		Property ID: 'pSPE'
 		Property class: 'TyId'
-		Property description: the (type,ID) pair (which can be useful to characterize this resource)
+		Property description: the {type,ID} pair characterizing this resource
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
-	  (5) attributes
+	  (6) attributes
 		Property ID: 'pATR'
 		Property class: 'shor'
 		Property description: the global value of the resource attributes (sum of the individual flags)
 		Property is a single item, not enumerated. It can be set by the Set Data AE.
-	  (6) sysHeap
+	  (7) sysHeap
 		Property ID: 'pSHP'
 		Property class: 'bool'
 		Property description: the resSysHeap bit
 		Property is a single item, not enumerated. It can be set by the Set Data AE.
-	  (7) purgeable
+	  (8) purgeable
 		Property ID: 'pPUR'
 		Property class: 'bool'
 		Property description: the resPurgeable bit
 		Property is a single item, not enumerated. It can be set by the Set Data AE.
-	  (8) locked
+	  (9) locked
 		Property ID: 'pLOC'
 		Property class: 'bool'
 		Property description: the resLocked bit
 		Property is a single item, not enumerated. It can be set by the Set Data AE.
-	  (9) resPreload
+	  (10) resPreload
 		Property ID: 'pPRE'
 		Property class: 'bool'
 		Property description: the resPreload bit
 		Property is a single item, not enumerated. It can be set by the Set Data AE.
-	  (10) protected
+	  (11) protected
 		Property ID: 'pPRO'
 		Property class: 'bool'
 		Property description: the resProtected bit
 		Property is a single item, not enumerated. It can be set by the Set Data AE.
-	  (11) changed
+	  (12) changed
 		Property ID: 'imod'
 		Property class: 'bool'
 		Property description: the resChanged bit
 		Property is a single item, not enumerated. It can be set by the Set Data AE.
-	  (12) size
+	  (13) size
 		Property ID: 'pSIZ'
 		Property class: 'long'
 		Property description: the size of the resource data (in bytes)
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
-	  (13) sizeOnDisc
+	  (14) sizeOnDisc
 		Property ID: 'pDSZ'
 		Property class: 'long'
 		Property description: the size of the resource on disk
 		Property is a single item, not enumerated. It can be set by the Set Data AE.
-	  (14) data
+	  (15) data
 		Property ID: 'pcnt'
 		Property class: '****'
 		Property description: the resource data (in hex format)
@@ -1019,18 +1072,8 @@ Number of Classes: 8
   Object class 8: specifier
 ---------------------------
 	Object class ID: 'TyId'
-	Class description: a record containing the type and the ID of a resource
-	Number of class properties: 2
-	  (1) type
-		Property ID: 'pTYP'
-		Property class: 'TEXT'
-		Property description: a resource's type
-		Property is a single item, not enumerated. It can be set by the Set Data AE.
-	  (2) ID
-		Property ID: 'ID  '
-		Property class: 'shor'
-		Property description: a resource's ID
-		Property is a single item, not enumerated. It can be set by the Set Data AE.
+	Class description: a two-elements list containing the type and the ID for a resource
+	Number of class properties: 0
 	Number of class elements: 0
 Number of Comparison Operators: 0
 Number of Enumerations: 2

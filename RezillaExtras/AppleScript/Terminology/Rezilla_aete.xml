@@ -24,6 +24,104 @@
 	<SuiteLevel>1</SuiteLevel>      	
 	<SuiteVersion>1</SuiteVersion>    
 		<ArrayEvents>
+			<Event>
+				<EventName>open</EventName>
+				<EventDescription>Open the specified object(s)</EventDescription>
+				<EventClass>aevt</EventClass>
+				<EventID>odoc</EventID>
+				<ReplyType>null</ReplyType>
+				<ReplyDescription></ReplyDescription>
+				<ReplyFlags>
+					<IsOptional>replyOptional</IsOptional>
+					<IsListOfItems>singleItem</IsListOfItems>
+					<IsEnumerated>notEnumerated</IsEnumerated>
+					<TightBindingFunction>notTightBindingFunction</TightBindingFunction>
+					<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+					<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+					<ReplyIsReference>replyIsValue</ReplyIsReference>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<NonVerbEvent>verbEvent</NonVerbEvent>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+				</ReplyFlags>
+				<DirectParamType>obj </DirectParamType>
+				<DirectParamDescription>Objects to open. Can be a list of files or an object specifier.</DirectParamDescription>
+				<DirectFlags>
+					<IsOptional>directParamRequired</IsOptional>
+					<IsListOfItems>singleItem</IsListOfItems>
+					<IsEnumerated>notEnumerated</IsEnumerated>
+					<ChangeState>changesState</ChangeState>
+					<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+					<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+					<DirectParamIsReference>directParamIsValue</DirectParamIsReference>
+					<NotDirectParamIsTarget>directParamIsTarget</NotDirectParamIsTarget>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+				</DirectFlags>
+				<ArrayOtherParams>
+				</ArrayOtherParams>
+			</Event>
+
+			<Event>
+				<EventName>quit</EventName>
+				<EventDescription>Quit the application</EventDescription>
+				<EventClass>aevt</EventClass>
+				<EventID>quit</EventID>
+				<ReplyType>null</ReplyType>
+				<ReplyDescription></ReplyDescription>
+				<ReplyFlags>
+					<IsOptional>replyOptional</IsOptional>
+					<IsListOfItems>singleItem</IsListOfItems>
+					<IsEnumerated>notEnumerated</IsEnumerated>
+					<TightBindingFunction>notTightBindingFunction</TightBindingFunction>
+					<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+					<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+					<ReplyIsReference>replyIsValue</ReplyIsReference>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<NonVerbEvent>verbEvent</NonVerbEvent>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+				</ReplyFlags>
+				<DirectParamType>null</DirectParamType>
+				<DirectParamDescription></DirectParamDescription>
+				<DirectFlags>
+					<IsOptional>directParamOptional</IsOptional>
+					<IsListOfItems>singleItem</IsListOfItems>
+					<IsEnumerated>notEnumerated</IsEnumerated>
+					<ChangeState>changesState</ChangeState>
+					<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+					<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+					<DirectParamIsReference>directParamIsValue</DirectParamIsReference>
+					<NotDirectParamIsTarget>directParamIsTarget</NotDirectParamIsTarget>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+				</DirectFlags>
+				<ArrayOtherParams>
+				</ArrayOtherParams>
+			</Event>
+
 		</ArrayEvents>
 
 		<ArrayClasses>
@@ -263,6 +361,152 @@
 			</Event>
 
 			<Event>
+				<EventName>delete</EventName>
+				<EventDescription>Delete the specified object(s)</EventDescription>
+				<EventClass>core</EventClass>
+				<EventID>delo</EventID>
+				<ReplyType>null</ReplyType>
+				<ReplyDescription></ReplyDescription>
+				<ReplyFlags>
+					<IsOptional>replyOptional</IsOptional>
+					<IsListOfItems>singleItem</IsListOfItems>
+					<IsEnumerated>notEnumerated</IsEnumerated>
+					<TightBindingFunction>notTightBindingFunction</TightBindingFunction>
+					<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+					<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+					<ReplyIsReference>replyIsValue</ReplyIsReference>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<NonVerbEvent>verbEvent</NonVerbEvent>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+				</ReplyFlags>
+				<DirectParamType>obj </DirectParamType>
+				<DirectParamDescription>Object to delete.</DirectParamDescription>
+				<DirectFlags>
+					<IsOptional>directParamRequired</IsOptional>
+					<IsListOfItems>singleItem</IsListOfItems>
+					<IsEnumerated>notEnumerated</IsEnumerated>
+					<ChangeState>changesState</ChangeState>
+					<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+					<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+					<DirectParamIsReference>directParamIsValue</DirectParamIsReference>
+					<NotDirectParamIsTarget>directParamIsTarget</NotDirectParamIsTarget>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+				</DirectFlags>
+				<ArrayOtherParams>
+				</ArrayOtherParams>
+			</Event>
+
+			<Event>
+				<EventName>duplicate</EventName>
+				<EventDescription>Duplicate one or more object(s)</EventDescription>
+				<EventClass>core</EventClass>
+				<EventID>clon</EventID>
+				<ReplyType>obj </ReplyType>
+				<ReplyDescription>to the duplicated object(s)</ReplyDescription>
+				<ReplyFlags>
+					<IsOptional>replyRequired</IsOptional>
+					<IsListOfItems>singleItem</IsListOfItems>
+					<IsEnumerated>notEnumerated</IsEnumerated>
+					<TightBindingFunction>notTightBindingFunction</TightBindingFunction>
+					<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+					<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+					<ReplyIsReference>replyIsValue</ReplyIsReference>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<NonVerbEvent>verbEvent</NonVerbEvent>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+				</ReplyFlags>
+				<DirectParamType>obj </DirectParamType>
+				<DirectParamDescription>the object(s) to duplicate</DirectParamDescription>
+				<DirectFlags>
+					<IsOptional>directParamRequired</IsOptional>
+					<IsListOfItems>singleItem</IsListOfItems>
+					<IsEnumerated>notEnumerated</IsEnumerated>
+					<ChangeState>changesState</ChangeState>
+					<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+					<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+					<DirectParamIsReference>directParamIsValue</DirectParamIsReference>
+					<NotDirectParamIsTarget>directParamIsTarget</NotDirectParamIsTarget>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+				</DirectFlags>
+				<ArrayOtherParams>
+					<Parameter>
+						<ParameterName>to</ParameterName>
+						<ParameterID>insh</ParameterID>
+						<ParameterType>insl</ParameterType>
+						<ParameterDescription>the new location for the object(s)</ParameterDescription>
+						<ParameterFlags>
+							<IsOptional>optional</IsOptional>
+							<IsListOfItems>singleItem</IsListOfItems>
+							<IsEnumerated>notEnumerated</IsEnumerated>
+							<Reserved/>
+							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+							<ParamIsReference>paramIsValue</ParamIsReference>
+							<ParamIsTarget>notParamIsTarget</ParamIsTarget>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<LabeledParam>prepositionParam</LabeledParam>
+							<IsFeminine>notFeminine</IsFeminine>
+							<IsMasculine>notMasculine</IsMasculine>
+							<Plural>singular</Plural>
+						</ParameterFlags>
+					</Parameter>
+					<Parameter>
+						<ParameterName>replacing</ParameterName>
+						<ParameterID>alrp</ParameterID>
+						<ParameterType>bool</ParameterType>
+						<ParameterDescription>Specifies whether or not to replace items in the destination that have the same name as items being duplicated</ParameterDescription>
+						<ParameterFlags>
+							<IsOptional>optional</IsOptional>
+							<IsListOfItems>singleItem</IsListOfItems>
+							<IsEnumerated>enumerated</IsEnumerated>
+							<Reserved/>
+							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+							<ParamIsReference>paramIsValue</ParamIsReference>
+							<ParamIsTarget>notParamIsTarget</ParamIsTarget>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<LabeledParam>prepositionParam</LabeledParam>
+							<IsFeminine>notFeminine</IsFeminine>
+							<IsMasculine>notMasculine</IsMasculine>
+							<Plural>singular</Plural>
+						</ParameterFlags>
+					</Parameter>
+				</ArrayOtherParams>
+			</Event>
+
+			<Event>
 				<EventName>exists</EventName>
 				<EventDescription>Verify if an object exists</EventDescription>
 				<EventClass>core</EventClass>
@@ -270,42 +514,42 @@
 				<ReplyType>bool</ReplyType>
 				<ReplyDescription>true if it exists, false if not</ReplyDescription>
 				<ReplyFlags>
-				<IsOptional>replyRequired</IsOptional>
-				<IsListOfItems>singleItem</IsListOfItems>
-				<IsEnumerated>notEnumerated</IsEnumerated>
-				<TightBindingFunction>notTightBindingFunction</TightBindingFunction>
-				<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
-				<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
-				<ReplyIsReference>replyIsValue</ReplyIsReference>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
-				<NonVerbEvent>verbEvent</NonVerbEvent>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
+					<IsOptional>replyRequired</IsOptional>
+					<IsListOfItems>singleItem</IsListOfItems>
+					<IsEnumerated>notEnumerated</IsEnumerated>
+					<TightBindingFunction>notTightBindingFunction</TightBindingFunction>
+					<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+					<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+					<ReplyIsReference>replyIsValue</ReplyIsReference>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<NonVerbEvent>verbEvent</NonVerbEvent>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
 				</ReplyFlags>
 				<DirectParamType>null</DirectParamType>
 				<DirectParamDescription></DirectParamDescription>
 				<DirectFlags>
-				<IsOptional>directParamRequired</IsOptional>
-				<IsListOfItems>singleItem</IsListOfItems>
-				<IsEnumerated>notEnumerated</IsEnumerated>
-				<ChangeState>doesntChangeState</ChangeState>
-				<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
-				<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
-				<DirectParamIsReference>directParamIsValue</DirectParamIsReference>
-				<NotDirectParamIsTarget>directParamIsTarget</NotDirectParamIsTarget>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
+					<IsOptional>directParamRequired</IsOptional>
+					<IsListOfItems>singleItem</IsListOfItems>
+					<IsEnumerated>notEnumerated</IsEnumerated>
+					<ChangeState>doesntChangeState</ChangeState>
+					<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+					<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+					<DirectParamIsReference>directParamIsValue</DirectParamIsReference>
+					<NotDirectParamIsTarget>directParamIsTarget</NotDirectParamIsTarget>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
 				</DirectFlags>
 				<ArrayOtherParams>
 				</ArrayOtherParams>
@@ -506,55 +750,6 @@
 			</Event>
 
 			<Event>
-				<EventName>open</EventName>
-				<EventDescription>Open the specified object(s)</EventDescription>
-				<EventClass>aevt</EventClass>
-				<EventID>odoc</EventID>
-				<ReplyType>null</ReplyType>
-				<ReplyDescription></ReplyDescription>
-				<ReplyFlags>
-				<IsOptional>replyOptional</IsOptional>
-				<IsListOfItems>singleItem</IsListOfItems>
-				<IsEnumerated>notEnumerated</IsEnumerated>
-				<TightBindingFunction>notTightBindingFunction</TightBindingFunction>
-				<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
-				<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
-				<ReplyIsReference>replyIsValue</ReplyIsReference>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
-				<NonVerbEvent>verbEvent</NonVerbEvent>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
-				</ReplyFlags>
-				<DirectParamType>obj </DirectParamType>
-				<DirectParamDescription>Objects to open. Can be a list of files or an object specifier.</DirectParamDescription>
-				<DirectFlags>
-				<IsOptional>directParamRequired</IsOptional>
-				<IsListOfItems>singleItem</IsListOfItems>
-				<IsEnumerated>notEnumerated</IsEnumerated>
-				<ChangeState>changesState</ChangeState>
-				<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
-				<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
-				<DirectParamIsReference>directParamIsValue</DirectParamIsReference>
-				<NotDirectParamIsTarget>directParamIsTarget</NotDirectParamIsTarget>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
-				</DirectFlags>
-				<ArrayOtherParams>
-				</ArrayOtherParams>
-			</Event>
-
-			<Event>
 				<EventName>save</EventName>
 				<EventDescription>save a set of objects</EventDescription>
 				<EventClass>core</EventClass>
@@ -652,6 +847,104 @@
 			</Event>
 
 			<Event>
+				<EventName>revert</EventName>
+				<EventDescription>Revert an object to the most recently saved version</EventDescription>
+				<EventClass>misc</EventClass>
+				<EventID>rvrt</EventID>
+				<ReplyType>null</ReplyType>
+				<ReplyDescription></ReplyDescription>
+				<ReplyFlags>
+					<IsOptional>replyOptional</IsOptional>
+					<IsListOfItems>singleItem</IsListOfItems>
+					<IsEnumerated>notEnumerated</IsEnumerated>
+					<TightBindingFunction>notTightBindingFunction</TightBindingFunction>
+					<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+					<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+					<ReplyIsReference>replyIsValue</ReplyIsReference>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<NonVerbEvent>verbEvent</NonVerbEvent>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+				</ReplyFlags>
+				<DirectParamType>obj </DirectParamType>
+				<DirectParamDescription>object to revert</DirectParamDescription>
+				<DirectFlags>
+					<IsOptional>directParamRequired</IsOptional>
+					<IsListOfItems>singleItem</IsListOfItems>
+					<IsEnumerated>notEnumerated</IsEnumerated>
+					<ChangeState>doesntChangeState</ChangeState>
+					<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+					<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+					<DirectParamIsReference>directParamIsValue</DirectParamIsReference>
+					<NotDirectParamIsTarget>directParamIsTarget</NotDirectParamIsTarget>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+				</DirectFlags>
+				<ArrayOtherParams>
+				</ArrayOtherParams>
+			</Event>
+
+			<Event>
+				<EventName>select</EventName>
+				<EventDescription>Select the specified object</EventDescription>
+				<EventClass>misc</EventClass>
+				<EventID>slct</EventID>
+				<ReplyType>null</ReplyType>
+				<ReplyDescription></ReplyDescription>
+				<ReplyFlags>
+					<IsOptional>replyOptional</IsOptional>
+					<IsListOfItems>singleItem</IsListOfItems>
+					<IsEnumerated>notEnumerated</IsEnumerated>
+					<TightBindingFunction>notTightBindingFunction</TightBindingFunction>
+					<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+					<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+					<ReplyIsReference>replyIsValue</ReplyIsReference>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<NonVerbEvent>verbEvent</NonVerbEvent>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+				</ReplyFlags>
+				<DirectParamType>obj </DirectParamType>
+				<DirectParamDescription>the object to select</DirectParamDescription>
+				<DirectFlags>
+					<IsOptional>directParamOptional</IsOptional>
+					<IsListOfItems>singleItem</IsListOfItems>
+					<IsEnumerated>notEnumerated</IsEnumerated>
+					<ChangeState>changesState</ChangeState>
+					<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+					<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+					<DirectParamIsReference>directParamIsValue</DirectParamIsReference>
+					<NotDirectParamIsTarget>directParamIsTarget</NotDirectParamIsTarget>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+				</DirectFlags>
+				<ArrayOtherParams>
+				</ArrayOtherParams>
+			</Event>
+
+			<Event>
 				<EventName>set</EventName>
 				<EventDescription>Set an object's data</EventDescription>
 				<EventClass>core</EventClass>
@@ -659,42 +952,42 @@
 				<ReplyType>null</ReplyType>
 				<ReplyDescription></ReplyDescription>
 				<ReplyFlags>
-				<IsOptional>replyOptional</IsOptional>
-				<IsListOfItems>singleItem</IsListOfItems>
-				<IsEnumerated>notEnumerated</IsEnumerated>
-				<TightBindingFunction>notTightBindingFunction</TightBindingFunction>
-				<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
-				<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
-				<ReplyIsReference>replyIsValue</ReplyIsReference>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
-				<NonVerbEvent>verbEvent</NonVerbEvent>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
+					<IsOptional>replyOptional</IsOptional>
+					<IsListOfItems>singleItem</IsListOfItems>
+					<IsEnumerated>notEnumerated</IsEnumerated>
+					<TightBindingFunction>notTightBindingFunction</TightBindingFunction>
+					<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+					<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+					<ReplyIsReference>replyIsValue</ReplyIsReference>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<NonVerbEvent>verbEvent</NonVerbEvent>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
 				</ReplyFlags>
 				<DirectParamType>obj </DirectParamType>
 				<DirectParamDescription>the object to change</DirectParamDescription>
 				<DirectFlags>
-				<IsOptional>directParamRequired</IsOptional>
-				<IsListOfItems>singleItem</IsListOfItems>
-				<IsEnumerated>notEnumerated</IsEnumerated>
-				<ChangeState>changesState</ChangeState>
-				<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
-				<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
-				<DirectParamIsReference>directParamIsValue</DirectParamIsReference>
-				<NotDirectParamIsTarget>directParamIsTarget</NotDirectParamIsTarget>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
+					<IsOptional>directParamRequired</IsOptional>
+					<IsListOfItems>singleItem</IsListOfItems>
+					<IsEnumerated>notEnumerated</IsEnumerated>
+					<ChangeState>changesState</ChangeState>
+					<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+					<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+					<DirectParamIsReference>directParamIsValue</DirectParamIsReference>
+					<NotDirectParamIsTarget>directParamIsTarget</NotDirectParamIsTarget>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
+					<Reserved/>
 				</DirectFlags>
 				<ArrayOtherParams>
 					<Parameter>
@@ -1315,17 +1608,18 @@
 	</Suite>
 
 	<Suite>
-	<SuiteName>Miscellaneous Suite</SuiteName>
-	<SuiteDescription>Useful events that aren't in standard suite</SuiteDescription>
-	<SuiteID>misc</SuiteID>
-	<SuiteLevel>0</SuiteLevel>
-	<SuiteVersion>0</SuiteVersion>
-		<ArrayEvents>
+	<SuiteName>Rezilla suite</SuiteName>       	
+	<SuiteDescription>Rezilla specifics</SuiteDescription>	
+	<SuiteID>Rzil</SuiteID>         	
+	<SuiteLevel>1</SuiteLevel>      	
+	<SuiteVersion>1</SuiteVersion>    
+	
+		<ArrayEvents>						
 			<Event>
-				<EventName>revert</EventName>
-				<EventDescription>Revert an object to the most recently saved version</EventDescription>
-				<EventClass>misc</EventClass>
-				<EventID>rvrt</EventID>
+				<EventName>edit</EventName>
+				<EventDescription>edit a resource</EventDescription>
+				<EventClass>Rzil</EventClass>
+				<EventID>edit</EventID>
 				<ReplyType>null</ReplyType>
 				<ReplyDescription></ReplyDescription>
 				<ReplyFlags>
@@ -1347,56 +1641,7 @@
 				<Reserved/>
 				</ReplyFlags>
 				<DirectParamType>obj </DirectParamType>
-				<DirectParamDescription>object to revert</DirectParamDescription>
-				<DirectFlags>
-				<IsOptional>directParamRequired</IsOptional>
-				<IsListOfItems>singleItem</IsListOfItems>
-				<IsEnumerated>notEnumerated</IsEnumerated>
-				<ChangeState>doesntChangeState</ChangeState>
-				<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
-				<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
-				<DirectParamIsReference>directParamIsValue</DirectParamIsReference>
-				<NotDirectParamIsTarget>directParamIsTarget</NotDirectParamIsTarget>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
-				</DirectFlags>
-				<ArrayOtherParams>
-				</ArrayOtherParams>
-			</Event>
-
-			<Event>
-				<EventName>SetTellTarget</EventName>
-				<EventDescription>Makes an object the 'focus' of AppleEvents</EventDescription>
-				<EventClass>ppnt</EventClass>
-				<EventID>sttg</EventID>
-				<ReplyType>null</ReplyType>
-				<ReplyDescription></ReplyDescription>
-				<ReplyFlags>
-				<IsOptional>replyRequired</IsOptional>
-				<IsListOfItems>singleItem</IsListOfItems>
-				<IsEnumerated>notEnumerated</IsEnumerated>
-				<TightBindingFunction>notTightBindingFunction</TightBindingFunction>
-				<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
-				<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
-				<ReplyIsReference>replyIsValue</ReplyIsReference>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
-				<NonVerbEvent>verbEvent</NonVerbEvent>
-				<Reserved/>
-				<Reserved/>
-				<Reserved/>
-				</ReplyFlags>
-				<DirectParamType>null</DirectParamType>
-				<DirectParamDescription></DirectParamDescription>
+				<DirectParamDescription>Resource to edit.</DirectParamDescription>
 				<DirectFlags>
 				<IsOptional>directParamRequired</IsOptional>
 				<IsListOfItems>singleItem</IsListOfItems>
@@ -1417,10 +1662,34 @@
 				</DirectFlags>
 				<ArrayOtherParams>
 					<Parameter>
-						<ParameterName>to</ParameterName>
-						<ParameterID>data</ParameterID>
-						<ParameterType>obj </ParameterType>
-						<ParameterDescription>reference to new focus of AppleEvents</ParameterDescription>
+						<ParameterName>using</ParameterName>
+						<ParameterID>EKND</ParameterID>
+						<ParameterType>EKND</ParameterType>
+						<ParameterDescription>specifies which kind of editor to use (if not specified, Rezilla tries to find successively an interface, a template or the hexadecimal editor)</ParameterDescription>
+						<ParameterFlags>
+							<IsOptional>optional</IsOptional>
+							<IsListOfItems>singleItem</IsListOfItems>
+							<IsEnumerated>enumerated</IsEnumerated>
+							<Reserved/>
+							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+							<ParamIsReference>paramIsValue</ParamIsReference>
+							<ParamIsTarget>notParamIsTarget</ParamIsTarget>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<LabeledParam>prepositionParam</LabeledParam>
+							<IsFeminine>notFeminine</IsFeminine>
+							<IsMasculine>notMasculine</IsMasculine>
+							<Plural>singular</Plural>
+						</ParameterFlags>
+					</Parameter>
+					<Parameter>
+						<ParameterName>as</ParameterName>
+						<ParameterID>type</ParameterID>
+						<ParameterType>type</ParameterType>
+						<ParameterDescription>use another type's editors</ParameterDescription>
 						<ParameterFlags>
 							<IsOptional>optional</IsOptional>
 							<IsListOfItems>singleItem</IsListOfItems>
@@ -1444,10 +1713,10 @@
 			</Event>
 
 			<Event>
-				<EventName>select</EventName>
-				<EventDescription>Select the specified object</EventDescription>
-				<EventClass>misc</EventClass>
-				<EventID>slct</EventID>
+				<EventName>inspect</EventName>
+				<EventDescription>Display info about the specified resource in the Inspector window</EventDescription>
+				<EventClass>Rzil</EventClass>
+				<EventID>insp</EventID>
 				<ReplyType>null</ReplyType>
 				<ReplyDescription></ReplyDescription>
 				<ReplyFlags>
@@ -1469,9 +1738,9 @@
 				<Reserved/>
 				</ReplyFlags>
 				<DirectParamType>obj </DirectParamType>
-				<DirectParamDescription>the object to select</DirectParamDescription>
+				<DirectParamDescription>Resource object to display info about.</DirectParamDescription>
 				<DirectFlags>
-				<IsOptional>directParamOptional</IsOptional>
+				<IsOptional>directParamRequired</IsOptional>
 				<IsListOfItems>singleItem</IsListOfItems>
 				<IsEnumerated>notEnumerated</IsEnumerated>
 				<ChangeState>changesState</ChangeState>
@@ -1492,26 +1761,6 @@
 				</ArrayOtherParams>
 			</Event>
 
-		</ArrayEvents>
-
-		<ArrayClasses>
-		</ArrayClasses>
-
-		<ArrayComparisonOps>
-		</ArrayComparisonOps>
-
-		<ArrayEnumerations>
-		</ArrayEnumerations>
-	</Suite>
-
-	<Suite>
-	<SuiteName>Rezilla suite</SuiteName>       	
-	<SuiteDescription>Rezilla specifics</SuiteDescription>	
-	<SuiteID>Rzil</SuiteID>         	
-	<SuiteLevel>1</SuiteLevel>      	
-	<SuiteVersion>1</SuiteVersion>    
-	
-		<ArrayEvents>						
 		</ArrayEvents>
 		
 		<ArrayClasses>
@@ -2980,12 +3229,6 @@
 							<KeyFormID>ID  </KeyFormID>
 						</ArrayKeyForms>
 					</Element>
-					<Element>
-						<ElementID>cRSC</ElementID>
-						<ArrayKeyForms>
-							<KeyFormID>indx</KeyFormID>
-						</ArrayKeyForms>
-					</Element>
 				</ArrayElements>
 			</Class>
 
@@ -3150,7 +3393,7 @@
 			<Class>
 				<ClassName>resource</ClassName>
 				<ClassID>cRSC</ClassID>
-				<ClassDescription>a single resource</ClassDescription>
+				<ClassDescription>a single resource with specific type and ID</ClassDescription>
 				<ArrayProperties>
 					<Property>
 						<PropertyName>name</PropertyName>
@@ -3177,10 +3420,10 @@
 						</PropertyFlags>
 					</Property>
 					<Property>
-						<PropertyName>type</PropertyName>
+						<PropertyName>typename</PropertyName>
 						<PropertyID>pTYP</PropertyID>
 						<PropertyClass>TEXT</PropertyClass>
-						<PropertyDescription>the type of the resource</PropertyDescription>
+						<PropertyDescription>the type of the resource as text</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
@@ -3225,10 +3468,34 @@
 						</PropertyFlags>
 					</Property>
 					<Property>
+						<PropertyName>index</PropertyName>
+						<PropertyID>pidx</PropertyID>
+						<PropertyClass>long</PropertyClass>
+						<PropertyDescription>the index of the resource within its type (in the order used by the resource manager)</PropertyDescription>
+						<PropertyFlags>
+							<Reserved/>
+							<IsListOfItems>singleItem</IsListOfItems>
+							<IsEnumerated>notEnumerated</IsEnumerated>
+							<IsReadWrite>readOnly</IsReadWrite>
+							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+							<PropertyIsReference>propertyIsValue</PropertyIsReference>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<IsApostrophe>noApostrophe</IsApostrophe>
+							<IsFeminine>notFeminine</IsFeminine>
+							<IsMasculine>notMasculine</IsMasculine>
+							<Plural>singular</Plural>
+						</PropertyFlags>
+					</Property>
+					<Property>
 						<PropertyName>specifier</PropertyName>
 						<PropertyID>pSPE</PropertyID>
 						<PropertyClass>TyId</PropertyClass>
-						<PropertyDescription>the (type,ID) pair (which can be useful to characterize this resource)</PropertyDescription>
+						<PropertyDescription>the {type,ID} pair characterizing this resource</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
@@ -3660,56 +3927,8 @@
 			<Class>
 				<ClassName>specifier</ClassName>
 				<ClassID>TyId</ClassID>
-				<ClassDescription>a record containing the type and the ID of a resource</ClassDescription>
+				<ClassDescription>a two-elements list containing the type and the ID for a resource</ClassDescription>
 				<ArrayProperties>
-					<Property>
-						<PropertyName>type</PropertyName>
-						<PropertyID>pTYP</PropertyID>
-						<PropertyClass>TEXT</PropertyClass>
-						<PropertyDescription>a resource's type</PropertyDescription>
-						<PropertyFlags>
-							<Reserved/>
-							<IsListOfItems>singleItem</IsListOfItems>
-							<IsEnumerated>notEnumerated</IsEnumerated>
-							<IsReadWrite>readWrite</IsReadWrite>
-							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
-							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
-							<PropertyIsReference>propertyIsValue</PropertyIsReference>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<IsApostrophe>noApostrophe</IsApostrophe>
-							<IsFeminine>notFeminine</IsFeminine>
-							<IsMasculine>notMasculine</IsMasculine>
-							<Plural>singular</Plural>
-						</PropertyFlags>
-					</Property>
-					<Property>
-						<PropertyName>ID</PropertyName>
-						<PropertyID>ID  </PropertyID>
-						<PropertyClass>shor</PropertyClass>
-						<PropertyDescription>a resource's ID</PropertyDescription>
-						<PropertyFlags>
-							<Reserved/>
-							<IsListOfItems>singleItem</IsListOfItems>
-							<IsEnumerated>notEnumerated</IsEnumerated>
-							<IsReadWrite>readWrite</IsReadWrite>
-							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
-							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
-							<PropertyIsReference>propertyIsValue</PropertyIsReference>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<IsApostrophe>noApostrophe</IsApostrophe>
-							<IsFeminine>notFeminine</IsFeminine>
-							<IsMasculine>notMasculine</IsMasculine>
-							<Plural>singular</Plural>
-						</PropertyFlags>
-					</Property>
 				</ArrayProperties>
 				<ArrayElements>
 				</ArrayElements>
