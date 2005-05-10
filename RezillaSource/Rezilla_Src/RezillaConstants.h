@@ -1110,10 +1110,9 @@ enum
 };
 
 /* AE Dispatch Table constants (aedt) */
-// const long	aeRzil_Open				= 5000;
-// const long	aeRzil_Ltyp				= 5001;
-// const long	aeRzil_Lrez				= 5002;
-const long	aeRzil_Version				= 5010;
+const long	aeRzil_Edit				= 5000;
+const long	aeRzil_Inspect			= 5001;
+
 
 // Rezilla Object Model (rzom):
 // ----------------------------
@@ -1170,7 +1169,7 @@ const DescType rzom_pChanged		= pIsModified;	// mapChanged/resChanged ('imod')
 const DescType rzom_pResID			= pID;			// ID ('ID  ')			 
 const DescType rzom_pName			= pName;		// Name ('pnam')
 const DescType rzom_pType			= 'pTYP';		// Type
-const DescType rzom_pSpecifier		= 'pSPE';		// Specifier (type,ID)
+const DescType rzom_pSpecifier		= 'pSPE';		// Specifier {type,ID}
 const DescType rzom_pSysHeap		= 'pSHP';		// resSysHeap
 const DescType rzom_pPurgeable		= 'pPUR';		// resPurgeable
 const DescType rzom_pLocked			= 'pLOC';		// resLocked
