@@ -57,14 +57,6 @@ CRezillaApp::HandleAppleEvent(
 		HandleOpenDocsEvent(inAppleEvent, outAEReply, outResult);
 		break;
 		
-		case aeRzil_Version: 
-		char * theVers = new char[256];
-		CopyPascalStringToC( sVersionNumber, theVers);
-		Size  dataSize = strlen(theVers);
-		ignoreErr = ::AEPutParamPtr(&outAEReply, keyAEResult, typeChar, theVers, dataSize);
-		FailOSErr_(ignoreErr);
-		break;
-		
 		case ae_ApplicationDied:
 		break;
 		
@@ -464,10 +456,9 @@ CRezillaApp::GetAEProperty(
 	OSErr		error = noErr;
 
 	switch (inProperty) {
-		case pVersion: {
-			error = ::AECreateDesc(typeChar, (Ptr) sVersionNumber + 1, sVersionNumber[0], &outPropertyDesc);
-			break;
-		}
+		case pVersion: 
+		error = ::AECreateDesc(typeChar, (Ptr) sVersionNumber + 1, sVersionNumber[0], &outPropertyDesc);
+		break;
 
 		default:
 			LModelObject::GetAEProperty(inProperty, inRequestedType, outPropertyDesc);

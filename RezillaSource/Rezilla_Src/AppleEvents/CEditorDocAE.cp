@@ -2,7 +2,7 @@
 // CEditorDocAE.cp
 // 
 //                       Created: 2005-04-09 10:03:39
-//             Last modification: 2005-04-29 10:53:44
+//             Last modification: 2005-05-10 07:19:38
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -105,23 +105,6 @@ CEditorDoc::GetAEProperty(
 			ThrowIfOSErr_(error);
 			break;
 		}
-		
-		
-		// Handled in GetModelProperty
-// 		case cWindow: {
-// 			// Return as window 1 of this editor document
-// 			AEDesc 			docSpec;
-// 			StAEDescriptor	keyData;
-// 			SInt32			index = 1;
-// 
-// 			MakeSpecifier(docSpec);
-// 
-// 			keyData.Assign(index);
-// 			error = ::CreateObjSpecifier( cWindow, &docSpec, formAbsolutePosition,
-// 									keyData, false, &outPropertyDesc);
-// 			ThrowIfOSErr_(error);
-// 			break;
-// 		}
 		
 		
 		case rzom_pKind:

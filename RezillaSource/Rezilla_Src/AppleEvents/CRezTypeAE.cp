@@ -2,7 +2,7 @@
 // CRezTypeAE.cp
 // 
 //                       Created: 2005-04-09 10:03:39
-//             Last modification: 2005-05-02 17:41:06
+//             Last modification: 2005-05-10 07:35:01
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -230,7 +230,7 @@ CRezType::GetSubModelByUniqueID(
 		ThrowIfOSErr_(error);
 
 		error = GetWithID(theID, theHandle);
-		if (error == noErr) {
+		if (error == noErr && theHandle != nil) {
 			theRezObj = GetOrCreateRezObjModel(theHandle);
 		} 
 			
@@ -295,27 +295,29 @@ CRezType::AEPropertyExists(
 CRezObj *
 CRezType::GetOrCreateRezObjModel(Handle inHandle) const
 {
-	CRezObj 	*theRezObj = nil, *newRezObj;
+	CRezObj 	*theRezObj = nil, *newRezObj = nil;
 	Boolean		found = false;
 	
-	newRezObj = new CRezObj( inHandle, mOwnerMap->GetRefnum() );
-	
-	TArrayIterator<CRezObj*> iterator(mRezObjModels);
-	while (iterator.Next(theRezObj)) {
-		if (theRezObj->GetID() == newRezObj->GetID()) {
-			found = true;
-			break;
+	if (inHandle == nil) {
+		newRezObj = new CRezObj( inHandle, mOwnerMap->GetRefnum() );
+		
+		TArrayIterator<CRezObj*> iterator(mRezObjModels);
+		while (iterator.Next(theRezObj)) {
+			if (theRezObj->GetID() == newRezObj->GetID()) {
+				found = true;
+				break;
+			}
 		}
-	}
-	
-	if (found) {
-		delete newRezObj;
-		newRezObj = theRezObj;	
-	} else {
-		// cast is needed because of constness
-		newRezObj->SetSuperModel( (CRezType *) this);
-		((TArray<CRezObj *>)mRezObjModels).AddItem(newRezObj);
-	}
+		
+		if (found) {
+			delete newRezObj;
+			newRezObj = theRezObj;	
+		} else {
+			// cast is needed because of constness
+			newRezObj->SetSuperModel( (CRezType *) this);
+			((TArray<CRezObj *>)mRezObjModels).AddItem(newRezObj);
+		}
+	} 
 	
 	return newRezObj;
 }

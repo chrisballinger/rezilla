@@ -2,7 +2,7 @@
 // CRezMapDocAE.cp
 // 
 //                       Created: 2005-04-09 10:03:39
-//             Last modification: 2005-04-26 08:56:50
+//             Last modification: 2005-05-10 07:18:35
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -259,6 +259,19 @@ CRezMapDoc::GetSubModelByPosition(
 			}
 			break;
 		}
+
+		case cWindow: 
+		case rzom_cRezMapWindow: 
+		if (inPosition == 1) {
+			if (mRezMapWindow != nil) {
+				PutInToken(mRezMapWindow, outToken);
+			} else {
+				ThrowOSErr_(errAENoSuchObject);
+			}
+			break;
+		} 
+
+		// Fall through...
 
 		default:
 			LModelObject::GetSubModelByPosition(inModelID, inPosition,

@@ -82,6 +82,7 @@ CRezObj::GetAEProperty(
 		
 
 		case rzom_pType: 
+		case rzom_cRezType: 
 		Str255 name;
 		UMiscUtils::OSTypeToPString(mType, name);
 		error = ::AECreateDesc(typeChar, (Ptr) name + 1,
