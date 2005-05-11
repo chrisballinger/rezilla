@@ -63,17 +63,12 @@ Number of Events: 12
 	Direct parameter type: 'obj '
 	Direct parameter description: the objects to close
 	Direct parameter is required. It is a single item, not enumerated. It changes the server's state.
-	Number of additional parameters: 2
+	Number of additional parameters: 1
 	  Parameter 1: saving
 		Parameter keyword: 'savo'
 		Parameter type: 'savo'
 		Parameter description: specifies whether or not changes should be saved before closing
 		Parameter 1 is optional. It is a single item, enumerated. 
-	  Parameter 2: in
-		Parameter keyword: 'kfil'
-		Parameter type: 'alis'
-		Parameter description: the file in which to save the object
-		Parameter 2 is optional. It is a single item, not enumerated. 
   Event 2: count
 ----------------
 	Description: Return the number of elements of a particular class within an object
@@ -521,8 +516,8 @@ Number of Classes: 24
 		Property description: 
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	Number of class elements: 0
-  Object class 3: editor document
----------------------------------
+  Object class 3: editor
+------------------------
 	Object class ID: 'EdiD'
 	Class description: an editor document for a single resource
 	Number of class properties: 7
@@ -562,8 +557,8 @@ Number of Classes: 24
 		Property description: the rezmap document that owns this editor document
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	Number of class elements: 0
-  Object class 4: editor documents
-----------------------------------
+  Object class 4: editors
+-------------------------
 	Object class ID: 'EdiD'
 	Class description: every editor document
 	Number of class properties: 1
@@ -573,21 +568,21 @@ Number of Classes: 24
 		Property description: 
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	Number of class elements: 0
-  Object class 5: interface document
-------------------------------------
+  Object class 5: interface editor
+----------------------------------
 	Object class ID: 'GuiD'
 	Class description: a dedicated interface document editing a resource
 	Number of class properties: 1
 	  (1) inherits
 		Property ID: 'c@#^'
 		Property class: 'EdiD'
-		Property description: all properties of the 'editor document' class
+		Property description: all properties of the 'editor' class
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	Number of class elements: 0
-  Object class 6: interface documents
--------------------------------------
+  Object class 6: interface editors
+-----------------------------------
 	Object class ID: 'GuiD'
-	Class description: every interface document
+	Class description: every interface editor
 	Number of class properties: 1
 	  (1) 
 		Property ID: 'c@#!'
@@ -595,21 +590,21 @@ Number of Classes: 24
 		Property description: 
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	Number of class elements: 0
-  Object class 7: template document
------------------------------------
+  Object class 7: template editor
+---------------------------------
 	Object class ID: 'TmpD'
 	Class description: a template document editing a resource
 	Number of class properties: 1
 	  (1) inherits
 		Property ID: 'c@#^'
 		Property class: 'EdiD'
-		Property description: all properties of the 'editor document' class
+		Property description: all properties of the 'editor' class
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	Number of class elements: 0
-  Object class 8: template documents
-------------------------------------
+  Object class 8: template editors
+----------------------------------
 	Object class ID: 'TmpD'
-	Class description: every template document
+	Class description: every template editor
 	Number of class properties: 1
 	  (1) 
 		Property ID: 'c@#!'
@@ -617,21 +612,21 @@ Number of Classes: 24
 		Property description: 
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	Number of class elements: 0
-  Object class 9: hex document
-------------------------------
+  Object class 9: hex editor
+----------------------------
 	Object class ID: 'HexD'
 	Class description: a hexadecimal document editing a resource
 	Number of class properties: 1
 	  (1) inherits
 		Property ID: 'c@#^'
 		Property class: 'EdiD'
-		Property description: all properties of the 'editor document' class
+		Property description: all properties of the 'editor' class
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	Number of class elements: 0
-  Object class 10: hex documents
---------------------------------
+  Object class 10: hex editors
+------------------------------
 	Object class ID: 'HexD'
-	Class description: every hex document
+	Class description: every hex editor
 	Number of class properties: 1
 	  (1) 
 		Property ID: 'c@#!'
@@ -661,10 +656,10 @@ Number of Classes: 24
 		Property description: 
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	Number of class elements: 0
-  Object class 13: editor window
---------------------------------
+  Object class 13: editing window
+---------------------------------
 	Object class ID: 'EdiW'
-	Class description: a resource editor window (hexadecimal, template or interface)
+	Class description: a resource editing window (hexadecimal, template or interface)
 	Number of class properties: 2
 	  (1) inherits
 		Property ID: 'c@#^'
@@ -674,13 +669,13 @@ Number of Classes: 24
 	  (2) kind
 		Property ID: 'pKND'
 		Property class: 'EKND'
-		Property description: the kind of the editor window (hexadecimal, template or interface)
+		Property description: the kind of the editing window (hexadecimal, template or interface)
 		Property is a single item, enumerated. It cannot be set by the Set Data AE.
 	Number of class elements: 0
-  Object class 14: editor windows
----------------------------------
+  Object class 14: editing windows
+----------------------------------
 	Object class ID: 'EdiW'
-	Class description: every editor window
+	Class description: every editing window
 	Number of class properties: 1
 	  (1) 
 		Property ID: 'c@#!'
@@ -691,12 +686,12 @@ Number of Classes: 24
   Object class 15: interface window
 -----------------------------------
 	Object class ID: 'GuiW'
-	Class description: an interface editor window
+	Class description: an interface editing window
 	Number of class properties: 1
 	  (1) inherits
 		Property ID: 'c@#^'
 		Property class: 'EdiW'
-		Property description: all properties of the 'editor window' class
+		Property description: all properties of the 'editing window' class
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	Number of class elements: 0
   Object class 16: interface windows
@@ -713,12 +708,12 @@ Number of Classes: 24
   Object class 17: template window
 ----------------------------------
 	Object class ID: 'TmpW'
-	Class description: a template editor window
+	Class description: a template editing window
 	Number of class properties: 1
 	  (1) inherits
 		Property ID: 'c@#^'
 		Property class: 'EdiW'
-		Property description: all properties of the 'editor window' class
+		Property description: all properties of the 'editing window' class
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	Number of class elements: 0
   Object class 18: template windows
@@ -735,12 +730,12 @@ Number of Classes: 24
   Object class 19: hex window
 -----------------------------
 	Object class ID: 'HexW'
-	Class description: a hexadecimal editor window
+	Class description: a hexadecimal editing window
 	Number of class properties: 3
 	  (1) inherits
 		Property ID: 'c@#^'
 		Property class: 'EdiW'
-		Property description: all properties of the 'editor window' class
+		Property description: all properties of the 'editing window' class
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	  (2) hex pane
 		Property ID: 'HexP'

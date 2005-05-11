@@ -1,3 +1,13 @@
+
+
+
+
+
+
+
+
+
+
 #define SystemSevenOrLater 1
 //#include "Types.r"
 //#include "SysTypes.r"
@@ -173,27 +183,6 @@ resource 'aete' (0,"Scripting terminology") {
 							optional,
 							singleItem,
 							enumerated,
-							reserved,
-							enumsAreConstants,
-							enumListCanRepeat,
-							paramIsValue,
-							notParamIsTarget,
-							reserved,
-							reserved,
-							reserved,
-							reserved,
-							prepositionParam,
-							notFeminine,
-							notMasculine,
-							singular
-					,
-						"in",
-						'kfil',
-						'alis',
-						"the file in which to save the object",
-							optional,
-							singleItem,
-							notEnumerated,
 							reserved,
 							enumsAreConstants,
 							enumListCanRepeat,
@@ -1771,7 +1760,7 @@ resource 'aete' (0,"Scripting terminology") {
 				{
 				}
 			,
-				"editor document",
+				"editor",
 				'EdiD',
 				"an editor document for a single resource",
 				{
@@ -1927,7 +1916,7 @@ resource 'aete' (0,"Scripting terminology") {
 				{
 				}
 			,
-				"editor documents",
+				"editors",
 				'EdiD',
 				"every editor document",
 				{
@@ -1957,7 +1946,7 @@ resource 'aete' (0,"Scripting terminology") {
 				{
 				}
 			,
-				"interface document",
+				"interface editor",
 				'GuiD',
 				"a dedicated interface document editing a resource",
 				{
@@ -1965,7 +1954,7 @@ resource 'aete' (0,"Scripting terminology") {
 						"inherits",
 						'c@#^',
 						'EdiD',
-						"all properties of the 'editor document' class",
+						"all properties of the 'editor' class",
 							reserved,
 							singleItem,
 							notEnumerated,
@@ -1987,9 +1976,9 @@ resource 'aete' (0,"Scripting terminology") {
 				{
 				}
 			,
-				"interface documents",
+				"interface editors",
 				'GuiD',
-				"every interface document",
+				"every interface editor",
 				{
 					
 						"",
@@ -2017,7 +2006,7 @@ resource 'aete' (0,"Scripting terminology") {
 				{
 				}
 			,
-				"template document",
+				"template editor",
 				'TmpD',
 				"a template document editing a resource",
 				{
@@ -2025,7 +2014,7 @@ resource 'aete' (0,"Scripting terminology") {
 						"inherits",
 						'c@#^',
 						'EdiD',
-						"all properties of the 'editor document' class",
+						"all properties of the 'editor' class",
 							reserved,
 							singleItem,
 							notEnumerated,
@@ -2047,9 +2036,9 @@ resource 'aete' (0,"Scripting terminology") {
 				{
 				}
 			,
-				"template documents",
+				"template editors",
 				'TmpD',
-				"every template document",
+				"every template editor",
 				{
 					
 						"",
@@ -2077,7 +2066,7 @@ resource 'aete' (0,"Scripting terminology") {
 				{
 				}
 			,
-				"hex document",
+				"hex editor",
 				'HexD',
 				"a hexadecimal document editing a resource",
 				{
@@ -2085,7 +2074,7 @@ resource 'aete' (0,"Scripting terminology") {
 						"inherits",
 						'c@#^',
 						'EdiD',
-						"all properties of the 'editor document' class",
+						"all properties of the 'editor' class",
 							reserved,
 							singleItem,
 							notEnumerated,
@@ -2107,9 +2096,9 @@ resource 'aete' (0,"Scripting terminology") {
 				{
 				}
 			,
-				"hex documents",
+				"hex editors",
 				'HexD',
-				"every hex document",
+				"every hex editor",
 				{
 					
 						"",
@@ -2197,9 +2186,9 @@ resource 'aete' (0,"Scripting terminology") {
 				{
 				}
 			,
-				"editor window",
+				"editing window",
 				'EdiW',
-				"a resource editor window (hexadecimal, template or interface)",
+				"a resource editing window (hexadecimal, template or interface)",
 				{
 					
 						"inherits",
@@ -2226,7 +2215,7 @@ resource 'aete' (0,"Scripting terminology") {
 						"kind",
 						'pKND',
 						'EKND',
-						"the kind of the editor window (hexadecimal, template or interface)",
+						"the kind of the editing window (hexadecimal, template or interface)",
 							reserved,
 							singleItem,
 							enumerated,
@@ -2248,9 +2237,9 @@ resource 'aete' (0,"Scripting terminology") {
 				{
 				}
 			,
-				"editor windows",
+				"editing windows",
 				'EdiW',
-				"every editor window",
+				"every editing window",
 				{
 					
 						"",
@@ -2280,13 +2269,13 @@ resource 'aete' (0,"Scripting terminology") {
 			,
 				"interface window",
 				'GuiW',
-				"an interface editor window",
+				"an interface editing window",
 				{
 					
 						"inherits",
 						'c@#^',
 						'EdiW',
-						"all properties of the 'editor window' class",
+						"all properties of the 'editing window' class",
 							reserved,
 							singleItem,
 							notEnumerated,
@@ -2340,13 +2329,13 @@ resource 'aete' (0,"Scripting terminology") {
 			,
 				"template window",
 				'TmpW',
-				"a template editor window",
+				"a template editing window",
 				{
 					
 						"inherits",
 						'c@#^',
 						'EdiW',
-						"all properties of the 'editor window' class",
+						"all properties of the 'editing window' class",
 							reserved,
 							singleItem,
 							notEnumerated,
@@ -2400,13 +2389,13 @@ resource 'aete' (0,"Scripting terminology") {
 			,
 				"hex window",
 				'HexW',
-				"a hexadecimal editor window",
+				"a hexadecimal editing window",
 				{
 					
 						"inherits",
 						'c@#^',
 						'EdiW',
-						"all properties of the 'editor window' class",
+						"all properties of the 'editing window' class",
 							reserved,
 							singleItem,
 							notEnumerated,

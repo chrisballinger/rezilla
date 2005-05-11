@@ -211,30 +211,6 @@
 							<Plural>singular</Plural>
 						</ParameterFlags>
 					</Parameter>
-					<Parameter>
-						<ParameterName>in</ParameterName>
-						<ParameterID>kfil</ParameterID>
-						<ParameterType>alis</ParameterType>
-						<ParameterDescription>the file in which to save the object</ParameterDescription>
-						<ParameterFlags>
-							<IsOptional>optional</IsOptional>
-							<IsListOfItems>singleItem</IsListOfItems>
-							<IsEnumerated>notEnumerated</IsEnumerated>
-							<Reserved/>
-							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
-							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
-							<ParamIsReference>paramIsValue</ParamIsReference>
-							<ParamIsTarget>notParamIsTarget</ParamIsTarget>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<LabeledParam>prepositionParam</LabeledParam>
-							<IsFeminine>notFeminine</IsFeminine>
-							<IsMasculine>notMasculine</IsMasculine>
-							<Plural>singular</Plural>
-						</ParameterFlags>
-					</Parameter>
 				</ArrayOtherParams>
 			</Event>
 
@@ -2008,7 +1984,7 @@
 			</Class>
 
 			<Class>
-				<ClassName>editor document</ClassName>
+				<ClassName>editor</ClassName>
 				<ClassID>EdiD</ClassID>
 				<ClassDescription>an editor document for a single resource</ClassDescription>
 				<ArrayProperties>
@@ -2186,7 +2162,7 @@
 			</Class>
 
 			<Class>
-				<ClassName>editor documents</ClassName>
+				<ClassName>editors</ClassName>
 				<ClassID>EdiD</ClassID>
 				<ClassDescription>every editor document</ClassDescription>
 				<ArrayProperties>
@@ -2220,7 +2196,7 @@
 			</Class>
 
 			<Class>
-				<ClassName>interface document</ClassName>
+				<ClassName>interface editor</ClassName>
 				<ClassID>GuiD</ClassID>
 				<ClassDescription>a dedicated interface document editing a resource</ClassDescription>
 				<ArrayProperties>
@@ -2228,7 +2204,7 @@
 						<PropertyName>inherits</PropertyName>
 						<PropertyID>c@#^</PropertyID>
 						<PropertyClass>EdiD</PropertyClass>
-						<PropertyDescription>all properties of the 'editor document' class</PropertyDescription>
+						<PropertyDescription>all properties of the 'editor' class</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
@@ -2254,9 +2230,9 @@
 			</Class>
 
 			<Class>
-				<ClassName>interface documents</ClassName>
+				<ClassName>interface editors</ClassName>
 				<ClassID>GuiD</ClassID>
-				<ClassDescription>every interface document</ClassDescription>
+				<ClassDescription>every interface editor</ClassDescription>
 				<ArrayProperties>
 					<Property>
 						<PropertyName></PropertyName>
@@ -2288,7 +2264,7 @@
 			</Class>
 
 			<Class>
-				<ClassName>template document</ClassName>
+				<ClassName>template editor</ClassName>
 				<ClassID>TmpD</ClassID>
 				<ClassDescription>a template document editing a resource</ClassDescription>
 				<ArrayProperties>
@@ -2296,7 +2272,7 @@
 						<PropertyName>inherits</PropertyName>
 						<PropertyID>c@#^</PropertyID>
 						<PropertyClass>EdiD</PropertyClass>
-						<PropertyDescription>all properties of the 'editor document' class</PropertyDescription>
+						<PropertyDescription>all properties of the 'editor' class</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
@@ -2322,9 +2298,9 @@
 			</Class>
 
 			<Class>
-				<ClassName>template documents</ClassName>
+				<ClassName>template editors</ClassName>
 				<ClassID>TmpD</ClassID>
-				<ClassDescription>every template document</ClassDescription>
+				<ClassDescription>every template editor</ClassDescription>
 				<ArrayProperties>
 					<Property>
 						<PropertyName></PropertyName>
@@ -2356,7 +2332,7 @@
 			</Class>
 
 			<Class>
-				<ClassName>hex document</ClassName>
+				<ClassName>hex editor</ClassName>
 				<ClassID>HexD</ClassID>
 				<ClassDescription>a hexadecimal document editing a resource</ClassDescription>
 				<ArrayProperties>
@@ -2364,7 +2340,7 @@
 						<PropertyName>inherits</PropertyName>
 						<PropertyID>c@#^</PropertyID>
 						<PropertyClass>EdiD</PropertyClass>
-						<PropertyDescription>all properties of the 'editor document' class</PropertyDescription>
+						<PropertyDescription>all properties of the 'editor' class</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
@@ -2390,9 +2366,9 @@
 			</Class>
 
 			<Class>
-				<ClassName>hex documents</ClassName>
+				<ClassName>hex editors</ClassName>
 				<ClassID>HexD</ClassID>
-				<ClassDescription>every hex document</ClassDescription>
+				<ClassDescription>every hex editor</ClassDescription>
 				<ArrayProperties>
 					<Property>
 						<PropertyName></PropertyName>
@@ -2492,9 +2468,9 @@
 			</Class>
 
 			<Class>
-				<ClassName>editor window</ClassName>
+				<ClassName>editing window</ClassName>
 				<ClassID>EdiW</ClassID>
-				<ClassDescription>a resource editor window (hexadecimal, template or interface)</ClassDescription>
+				<ClassDescription>a resource editing window (hexadecimal, template or interface)</ClassDescription>
 				<ArrayProperties>
 					<Property>
 						<PropertyName>inherits</PropertyName>
@@ -2524,7 +2500,7 @@
 						<PropertyName>kind</PropertyName>
 						<PropertyID>pKND</PropertyID>
 						<PropertyClass>EKND</PropertyClass>
-						<PropertyDescription>the kind of the editor window (hexadecimal, template or interface)</PropertyDescription>
+						<PropertyDescription>the kind of the editing window (hexadecimal, template or interface)</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
@@ -2550,9 +2526,9 @@
 			</Class>
 
 			<Class>
-				<ClassName>editor windows</ClassName>
+				<ClassName>editing windows</ClassName>
 				<ClassID>EdiW</ClassID>
-				<ClassDescription>every editor window</ClassDescription>
+				<ClassDescription>every editing window</ClassDescription>
 				<ArrayProperties>
 					<Property>
 						<PropertyName></PropertyName>
@@ -2586,13 +2562,13 @@
 			<Class>
 				<ClassName>interface window</ClassName>
 				<ClassID>GuiW</ClassID>
-				<ClassDescription>an interface editor window</ClassDescription>
+				<ClassDescription>an interface editing window</ClassDescription>
 				<ArrayProperties>
 					<Property>
 						<PropertyName>inherits</PropertyName>
 						<PropertyID>c@#^</PropertyID>
 						<PropertyClass>EdiW</PropertyClass>
-						<PropertyDescription>all properties of the 'editor window' class</PropertyDescription>
+						<PropertyDescription>all properties of the 'editing window' class</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
@@ -2654,13 +2630,13 @@
 			<Class>
 				<ClassName>template window</ClassName>
 				<ClassID>TmpW</ClassID>
-				<ClassDescription>a template editor window</ClassDescription>
+				<ClassDescription>a template editing window</ClassDescription>
 				<ArrayProperties>
 					<Property>
 						<PropertyName>inherits</PropertyName>
 						<PropertyID>c@#^</PropertyID>
 						<PropertyClass>EdiW</PropertyClass>
-						<PropertyDescription>all properties of the 'editor window' class</PropertyDescription>
+						<PropertyDescription>all properties of the 'editing window' class</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
@@ -2722,13 +2698,13 @@
 			<Class>
 				<ClassName>hex window</ClassName>
 				<ClassID>HexW</ClassID>
-				<ClassDescription>a hexadecimal editor window</ClassDescription>
+				<ClassDescription>a hexadecimal editing window</ClassDescription>
 				<ArrayProperties>
 					<Property>
 						<PropertyName>inherits</PropertyName>
 						<PropertyID>c@#^</PropertyID>
 						<PropertyClass>EdiW</PropertyClass>
-						<PropertyDescription>all properties of the 'editor window' class</PropertyDescription>
+						<PropertyDescription>all properties of the 'editing window' class</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
