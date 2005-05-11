@@ -2,7 +2,7 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2005-05-02 10:40:32
+//             Last modification: 2005-05-11 08:38:55
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -755,12 +755,12 @@ CRezMapDoc::AskSaveChanges(
 
 
 // ---------------------------------------------------------------------------------
-//  DoAESave
+//  DoAESaveFork
 // ---------------------------------------------------------------------------------
-// Called when doing a SaveAs.
+// Called when doing a SaveAs
 
 void
-CRezMapDoc::DoAESave(
+CRezMapDoc::DoAESaveFork(
 	FSSpec	&inFileSpec)
 {
 	OSErr error;
@@ -918,7 +918,7 @@ CRezMapDoc::AskSaveAs(
 					} catch (...) { }
 				}
 
-				if (replacing) {		// Delete existing file
+				if (replacing) {
 					// Delete existing file
 					OSErr error = ::FSpDelete(&outFSSpec);
 					if (error) {
@@ -927,7 +927,7 @@ CRezMapDoc::AskSaveAs(
 					} 
 				}
 
-				DoAESave(outFSSpec);
+				DoAESaveFork(outFSSpec);
 				saveOK = true;
 			}
 		}		

@@ -348,6 +348,67 @@ CEditorDoc::AttemptClose(
 
 
 // ---------------------------------------------------------------------------
+//	¥ DoAEClose														  [public]
+// ---------------------------------------------------------------------------
+// Close a Document in response to a "close" AppleEvent. Optional "file"
+// parameter is ignored but check for optional "saveOption" parameter.
+// Default value is "ask".
+
+void
+CEditorDoc::DoAEClose(
+	const AppleEvent&	inCloseAE)
+{
+	OSErr		err;
+	DescType	theType;
+	Size		theSize;
+	FSSpec		fileSpec;
+	bool		saveIt = false;
+	bool		closeIt = true;
+	SInt32		saveOption = kAEAsk;
+
+	// Optional "saveOption" parameter
+	err = ::AEGetParamPtr(&inCloseAE, keyAESaveOptions,
+				typeEnumeration, &theType, &saveOption,
+				sizeof(SInt32), &theSize);
+
+	if (saveOption == kAEAsk) {
+		SInt16	saveAnswer = answer_DontSave;
+
+		if (IsModified()) {
+			UAppleEventsMgr::InteractWithUser(Throw_Yes);
+			saveAnswer = AskSaveChanges(SaveWhen_Closing);
+		}
+
+		if (saveAnswer == answer_Save) {
+			saveIt = true;
+		} else if (saveAnswer == answer_Cancel) {
+			closeIt = false;				// Abort the close
+		}
+
+	} else if (saveOption == kAEYes) {
+		saveIt = true;
+	}
+
+	if ( saveIt ) {
+		UAppleEventsMgr::InteractWithUser(Throw_Yes);
+		if ( CanSaveChanges() ) {
+			DoSaveChanges();
+		} else {
+			closeIt = false;				// Abort the close
+		}		
+	}
+
+	if (closeIt) {
+		// Finally, close the document
+		Close();
+	} else {
+		// User canceling the close means the AppleEvent failed
+		ThrowOSErr_(userCanceledErr);
+	}
+}
+
+
+// ---------------------------------------------------------------------------
 //  ¥ DoSaveChanges													[public]
 // ---------------------------------------------------------------------------
 // The callee should set the shouldWeRelease variable to tell us if the 

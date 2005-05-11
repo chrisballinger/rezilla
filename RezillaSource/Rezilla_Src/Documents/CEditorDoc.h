@@ -2,7 +2,7 @@
 // CEditorDoc.h				
 // 
 //                       Created: 2004-02-23 17:57:59
-//             Last modification: 2005-04-28 15:07:45
+//             Last modification: 2005-05-11 09:07:49
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -53,6 +53,8 @@ public:
 
 	virtual void	AttemptClose( Boolean inRecordIt );
 		
+	virtual void	DoAEClose( const AppleEvent& inCloseAE );
+
 	Boolean			CanSaveChanges();
 	
 	virtual void	DoSaveChanges();

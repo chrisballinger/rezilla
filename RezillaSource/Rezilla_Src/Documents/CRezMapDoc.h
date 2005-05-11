@@ -2,7 +2,7 @@
 // CRezMapDoc.h				
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2005-04-12 07:26:56
+//             Last modification: 2005-05-11 08:39:19
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -93,7 +93,7 @@ public:
 
 	virtual bool		AskConfirmRevert();
 
-	virtual void		DoAESave( FSSpec &inFileSpec);
+	virtual void		DoAESaveFork( FSSpec &inFileSpec);
 	virtual void		DoSave();
 	virtual void		DoRevert();
 	
