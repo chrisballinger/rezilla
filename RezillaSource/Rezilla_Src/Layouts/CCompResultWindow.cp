@@ -2,11 +2,11 @@
 // CHexEditorWindow.cp					
 // 
 //                       Created: 2004-03-02 14:18:16
-//             Last modification: 2004-06-08 18:24:07
+//             Last modification: 2005-05-12 07:20:23
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004
+// (c) Copyright : Bernard Desgraupes, 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -47,6 +47,7 @@ extern CWindowMenu * gWindowMenu;
 
 CCompResultWindow::CCompResultWindow()
 {
+	SetModelKind(rzom_cCompWindow);
 }
 
 
@@ -58,6 +59,7 @@ CCompResultWindow::CCompResultWindow(
 	const SWindowInfo &inWindowInfo )
 		: LWindow( inWindowInfo )
 {
+	SetModelKind(rzom_cCompWindow);
 }
 
 
@@ -71,6 +73,7 @@ CCompResultWindow::CCompResultWindow(
 	LCommander	*inSuperCommander )
 		: LWindow( inWINDid, inAttributes, inSuperCommander )
 {
+	SetModelKind(rzom_cCompWindow);
 }
 
 
@@ -82,6 +85,7 @@ CCompResultWindow::CCompResultWindow(
 			       LStream *inStream )
 		: LWindow( inStream )
 {
+	SetModelKind(rzom_cCompWindow);
 }
 
 
@@ -407,16 +411,16 @@ CCompResultWindow::NameNewCompWindow()
 }
 
 
-// ---------------------------------------------------------------------------
-//	¥ DoClose
-// ---------------------------------------------------------------------------
-//	Close the inspector window: hide it but keep it in memory
-
-void
-CCompResultWindow::DoClose()
-{
-	Hide();
-}
+// // ---------------------------------------------------------------------------
+// //	¥ DoClose
+// // ---------------------------------------------------------------------------
+// //	Close the inspector window: hide it but keep it in memory
+// 
+// void
+// CCompResultWindow::DoClose()
+// {
+// 	Hide();
+// }
 
 
 // ---------------------------------------------------------------------------

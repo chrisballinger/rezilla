@@ -2,11 +2,11 @@
 // CCompResultWindow.h				
 // 
 //                       Created: 2004-03-02 14:18:16
-//             Last modification: 2004-06-08 19:33:57
+//             Last modification: 2005-05-12 07:20:12
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004
+// (c) Copyright : Bernard Desgraupes, 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -59,7 +59,7 @@ public:
 								UInt16&				outMark,
 								Str255				outName);
 
-	void			DoClose();
+// 	void			DoClose();
 
 	Boolean			IsDirty();
 	
@@ -68,6 +68,9 @@ public:
 	virtual void	DoSetBounds(const Rect& inBounds);
 
 	SInt32			GetPaneCount(SInt16 whichValue);
+	
+	CRezCompare*	GetRezCompare() { return mRezCompare;}
+
 	
 protected:
 	CRezCompare *			mRezCompare;
