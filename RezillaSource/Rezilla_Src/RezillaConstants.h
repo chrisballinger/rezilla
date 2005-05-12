@@ -1121,7 +1121,6 @@ const DescType rzom_cEditorDoc		= 'EdiD';	// Editor document
 const DescType rzom_cGuiEditDoc		= 'GuiD';	// Gui editor document
 const DescType rzom_cTmplEditDoc	= 'TmpD';	// Tmpl editor document
 const DescType rzom_cHexEditDoc		= 'HexD';	// Hex editor document
-const DescType rzom_cCompareDoc		= 'CmpD';	// Maps comparison document
 
 const DescType rzom_cRezMapWindow	= 'MapW';	// RezMap window
 const DescType rzom_cEditorWindow	= 'EdiW';	// Editor window
@@ -1139,6 +1138,7 @@ const DescType rzom_cTxtPane		= 'TxtP';	// Text pane
 const DescType rzom_cRezMap			= 'cMAP';	// RezMap
 const DescType rzom_cRezType		= 'cTYP';	// RezType
 const DescType rzom_cRezObj			= 'cRSC';	// RezObj
+const DescType rzom_cMapsComp		= 'Mcmp';	// Maps comparison object
 
 // Properties
 // ----------
@@ -1184,7 +1184,7 @@ const DescType rzom_cRezTypeID		= 'TyId';		// Resource specifier object:
                            			         		//   e-g {"aete", 128}
 
 //    Maps Comparison
-const DescType rzom_cRezMapComparison	= 'COMP';	// Maps Comparison 
+const DescType rzom_pCompCriteria		= 'pCRI';	// Comparison criteria
 const DescType rzom_pIgnoreName			= 'IgnN';	// IgnoreNameDiff
 const DescType rzom_pIgnoreAttr			= 'IgnA';	// IgnoreAttrDiff
 const DescType rzom_pIgnoreData			= 'IgnD';	// IgnoreDataDiff
