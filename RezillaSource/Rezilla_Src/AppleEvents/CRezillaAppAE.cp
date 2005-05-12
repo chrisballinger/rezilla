@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaAppAE.cp					
 //                       Created: 2004-11-30 08:44:17
-//             Last modification: 2005-04-30 00:07:45
+//             Last modification: 2005-05-12 08:48:33
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -15,10 +15,12 @@
 #include "CRezillaApp.h"
 #include "CRezMapDoc.h"
 #include "CRezMap.h"
+#include "CRezCompare.h"
 #include "CRezFile.h"
 #include "CInspectorWindow.h"
 #include "CHexEditorWindow.h"
 #include "CTmplEditorWindow.h"
+#include "CCompResultWindow.h"
 #include "CTEXT_EditorView.h"
 #include "CRecentItemsMenu.h"
 #include "UMessageDialogs.h"
@@ -307,6 +309,41 @@ CRezillaApp::GetSubModelByPosition(
 			break;
 		}
 
+		case rzom_cCompWindow: 
+		case rzom_cMapsComp: {
+			WindowPtr	windowP;
+			LWindow*	ppWindow = nil;
+			CCompResultWindow * compWindow;
+			Boolean		found = false;
+			UInt16		count = 0;
+	
+			windowP = ::GetWindowList();
+			while (windowP) {
+				ppWindow = LWindow::FetchWindowObject(windowP);
+				
+				if (ppWindow != nil && ppWindow->GetModelKind() == rzom_cCompWindow) {
+					count++;
+					if (count == inPosition) {
+						compWindow = dynamic_cast<CCompResultWindow*>(ppWindow);
+						found = true;
+						break;
+					} 
+				} 
+				windowP = MacGetNextWindow(windowP);
+			}
+
+			if (found == true && compWindow != nil) {
+				if (inModelID == rzom_cMapsComp) {
+					PutInToken( compWindow->GetRezCompare(), outToken);
+				} else {
+					PutInToken( compWindow, outToken);
+				}
+			} else {
+				ThrowOSErr_(errAENoSuchObject);
+			}
+			break;
+		}
+
 		default:
 			LModelObject::GetSubModelByPosition(inModelID, inPosition,
 													outToken);
@@ -415,30 +452,53 @@ CRezillaApp::GetSubModelByUniqueID(
 }
 
 
-// // ---------------------------------------------------------------------------
-// //	¥ GetPositionOfSubModel											  [public]
-// // ---------------------------------------------------------------------------
-// //	Return the position (1 = first) of a SubModel within an Application
-// 
-// SInt32
-// CRezillaApp::GetPositionOfSubModel(
-// 	DescType				inModelID,
-// 	const LModelObject*		inSubModel) const
-// {
-// 	SInt32	position;
-// 
-// 	switch (inModelID) {
-// 
-// 		case cMap: {
-// 		}
-// 
-// 		default:
-// 			position = LApplication::GetPositionOfSubModel(inModelID, inSubModel);
-// 			break;
-// 	}
-// 
-// 	return position;
-// }
+// ---------------------------------------------------------------------------
+//	¥ GetPositionOfSubModel											  [public]
+// ---------------------------------------------------------------------------
+//	Return the position (1 = first) of a SubModel within an Application
+
+SInt32
+CRezillaApp::GetPositionOfSubModel(
+	DescType				inModelID,
+	const LModelObject*		inSubModel) const
+{
+	SInt32	position = 0;
+
+	switch (inModelID) {
+
+		case rzom_cCompWindow: 
+		case rzom_cMapsComp: {
+			WindowPtr	windowP = ::GetWindowList();
+			LWindow*	ppWindow = nil;
+			UInt16		count = 0;
+	
+			while (windowP) {
+				ppWindow = LWindow::FetchWindowObject(windowP);
+				
+				if (ppWindow != nil && ppWindow->GetModelKind() == rzom_cCompWindow) {
+					count++;
+					if (ppWindow == inSubModel) {
+						position = count;
+						break;
+					} 
+				} 
+				windowP = MacGetNextWindow(windowP);
+			}
+
+			if (position == 0) {
+				ThrowOSErr_(errAENoSuchObject);
+			}
+			break;
+		}
+
+
+		default:
+			position = LApplication::GetPositionOfSubModel(inModelID, inSubModel);
+			break;
+	}
+
+	return position;
+}
 
 
 
