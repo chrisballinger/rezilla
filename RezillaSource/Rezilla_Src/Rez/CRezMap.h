@@ -2,7 +2,7 @@
 // CRezMap.h					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2005-05-02 09:56:11
+//             Last modification: 2005-05-12 09:06:38
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>

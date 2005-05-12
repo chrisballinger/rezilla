@@ -2,11 +2,11 @@
 // CRezCompare.h					
 // 
 //                       Created: 2004-02-29 18:17:07
-//             Last modification: 2004-03-02 12:42:58
+//             Last modification: 2005-05-12 09:44:58
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004
+// (c) Copyright : Bernard Desgraupes, 2004-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -15,6 +15,8 @@
 #ifndef _H_CRezCompare
 #define _H_CRezCompare
 #pragma once
+
+#include <LModelObject.h>
 
 class CRezMap;
 class CRezType;
@@ -39,7 +41,7 @@ public:
 
 // -------------------------------------------------------------------------------------------------
 
-class CRezCompare : public LCommander {
+class CRezCompare : public LCommander, public LModelObject {
 	
 public:
 	enum {
@@ -70,6 +72,20 @@ public:
 		Boolean			HasDifferences();
 		void			DisplayResults();
 		
+		// AppleEvents
+		virtual void	GetAEProperty(
+									DescType			inProperty,
+									const AEDesc&		inRequestedType,
+									AEDesc&				outPropertyDesc) const;
+
+		virtual bool	AEPropertyExists(
+									DescType		inProperty) const;
+
+		virtual void	MakeSelfSpecifier(
+									AEDesc&			inSuperSpecifier,
+									AEDesc&			outSelfSpecifier) const;
+
+		// Accessors
 		ConstStringPtr		GetOldPath() const;
 		ConstStringPtr		GetNewPath() const;
 
@@ -86,6 +102,8 @@ public:
 		static Boolean		GetIgnoreAttrs() { return sIgnoreAttrs;}
 		static void			SetIgnoreAttrs(Boolean inIgnoreAttrs) {sIgnoreAttrs = inIgnoreAttrs;}
 
+		static SInt32	GetAEPosition(const CRezCompare * inDoc);
+		
 		static FSSpec		sOldFSSpec;
 		static FSSpec		sNewFSSpec;
 		static Boolean		sIgnoreNames;
@@ -102,6 +120,9 @@ protected:
 		TArray<CRezTypId *>	mIdenticalList;
 		Str255				mOldPath;
 		Str255				mNewPath;
+		Boolean				mIgnoreNames;
+		Boolean				mIgnoreAttrs;
+		Boolean				mIgnoreData;
 
 		void		AddTypeToArray(ResType inType, SInt16 inWhichList);
 		void		AddResourceToArray(ResType inType, short inID, SInt16 inWhichList);

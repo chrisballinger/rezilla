@@ -771,7 +771,7 @@ Number of Classes: 24
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	  (2) result
 		Property ID: 'pRES'
-		Property class: 'COMP'
+		Property class: 'Mcmp'
 		Property description: a comparison result object
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	Number of class elements: 0
@@ -814,20 +814,8 @@ Number of Classes: 24
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	Number of class elements: 0
 Number of Comparison Operators: 0
-Number of Enumerations: 3
-    Enumeration 1 ID: 'DKND'
-----------------------------
-	Number of enumerators: 3
-	  Enumerator 1: resource map
-		Enumerator ID: 'RMAP'
-		Enumerator description: a resource map document
-	  Enumerator 2: resource editor
-		Enumerator ID: 'EDOC'
-		Enumerator description: a resource editor
-	  Enumerator 3: maps comparison
-		Enumerator ID: 'COMP'
-		Enumerator description: a maps comparison document
-    Enumeration 2 ID: 'EKND'
+Number of Enumerations: 2
+    Enumeration 1 ID: 'EKND'
 ----------------------------
 	Number of enumerators: 3
 	  Enumerator 1: hexadecimal
@@ -839,7 +827,7 @@ Number of Enumerations: 3
 	  Enumerator 3: interface
 		Enumerator ID: 'EGUI'
 		Enumerator description: dedicated interface editor
-    Enumeration 3 ID: 'PKND'
+    Enumeration 2 ID: 'PKND'
 ----------------------------
 	Number of enumerators: 2
 	  Enumerator 1: hexadecimal
@@ -1035,30 +1023,45 @@ Number of Classes: 8
 	Number of class elements: 0
   Object class 7: comparison
 ----------------------------
-	Object class ID: 'COMP'
+	Object class ID: 'Mcmp'
 	Class description: the result of a comparison between two maps
-	Number of class properties: 5
+	Number of class properties: 8
 	  (1) criteria
 		Property ID: 'pCRI'
 		Property class: 'reco'
 		Property description: the comparison criteria
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
-	  (2) old only resources
+	  (2) ignoreName
+		Property ID: 'IgnN'
+		Property class: 'bool'
+		Property description: ignore name differences
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	  (3) ignoreAttrs
+		Property ID: 'IgnA'
+		Property class: 'bool'
+		Property description: ignore attributes differences
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	  (4) ignoreData
+		Property ID: 'IgnD'
+		Property class: 'bool'
+		Property description: ignore data differences
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	  (5) old only resources
 		Property ID: 'OldR'
 		Property class: 'TyId'
 		Property description: resources which are only in the old map
 		Property is a list, not enumerated. It cannot be set by the Set Data AE.
-	  (3) new only resources
+	  (6) new only resources
 		Property ID: 'NewR'
 		Property class: 'TyId'
 		Property description: resources which are only in the new map
 		Property is a list, not enumerated. It cannot be set by the Set Data AE.
-	  (4) differing resources
+	  (7) differing resources
 		Property ID: 'Diff'
 		Property class: 'TyId'
 		Property description: resources which are in both maps and are different
 		Property is a list, not enumerated. It cannot be set by the Set Data AE.
-	  (5) identical resources
+	  (8) identical resources
 		Property ID: 'Iden'
 		Property class: 'TyId'
 		Property description: resources which are in both maps and are identical

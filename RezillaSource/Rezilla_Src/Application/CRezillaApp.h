@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.h					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2005-05-03 07:51:33
+//             Last modification: 2005-05-12 09:07:56
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -104,9 +104,9 @@ public:
 // 								DescType		inModelID,
 // 								AEDesc			&outToken) const;
 
-// 	virtual SInt32		GetPositionOfSubModel(
-// 								DescType			inModelID,
-// 								const LModelObject*	inSubModel) const;
+	virtual SInt32		GetPositionOfSubModel(
+								DescType			inModelID,
+								const LModelObject*	inSubModel) const;
 
 	virtual void		GetAEProperty(
 								DescType			inProperty,

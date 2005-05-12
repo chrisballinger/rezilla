@@ -2843,7 +2843,7 @@
 					<Property>
 						<PropertyName>result</PropertyName>
 						<PropertyID>pRES</PropertyID>
-						<PropertyClass>COMP</PropertyClass>
+						<PropertyClass>Mcmp</PropertyClass>
 						<PropertyDescription>a comparison result object</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
@@ -3001,26 +3001,6 @@
 		</ArrayComparisonOps>
 		
 		<ArrayEnumerations>
-			<Enumeration>
-				<EnumerationID>DKND</EnumerationID>
-				<ArrayEnumerators>
-					<Enumerator>
-						<EnumeratorName>resource map</EnumeratorName>
-						<EnumeratorID>RMAP</EnumeratorID>
-						<EnumeratorDescription>a resource map document</EnumeratorDescription>
-					</Enumerator>
-					<Enumerator>
-						<EnumeratorName>resource editor</EnumeratorName>
-						<EnumeratorID>EDOC</EnumeratorID>
-						<EnumeratorDescription>a resource editor</EnumeratorDescription>
-					</Enumerator>
-					<Enumerator>
-						<EnumeratorName>maps comparison</EnumeratorName>
-						<EnumeratorID>COMP</EnumeratorID>
-						<EnumeratorDescription>a maps comparison document</EnumeratorDescription>
-					</Enumerator>
-				</ArrayEnumerators>
-			</Enumeration>
 			<Enumeration>
 				<EnumerationID>EKND</EnumerationID>
 				<ArrayEnumerators>
@@ -3772,7 +3752,7 @@
 
 			<Class>
 				<ClassName>comparison</ClassName>
-				<ClassID>COMP</ClassID>
+				<ClassID>Mcmp</ClassID>
 				<ClassDescription>the result of a comparison between two maps</ClassDescription>
 				<ArrayProperties>
 					<Property>
@@ -3780,6 +3760,78 @@
 						<PropertyID>pCRI</PropertyID>
 						<PropertyClass>reco</PropertyClass>
 						<PropertyDescription>the comparison criteria</PropertyDescription>
+						<PropertyFlags>
+							<Reserved/>
+							<IsListOfItems>singleItem</IsListOfItems>
+							<IsEnumerated>notEnumerated</IsEnumerated>
+							<IsReadWrite>readOnly</IsReadWrite>
+							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+							<PropertyIsReference>propertyIsValue</PropertyIsReference>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<IsApostrophe>noApostrophe</IsApostrophe>
+							<IsFeminine>notFeminine</IsFeminine>
+							<IsMasculine>notMasculine</IsMasculine>
+							<Plural>singular</Plural>
+						</PropertyFlags>
+					</Property>
+					<Property>
+						<PropertyName>ignoreName</PropertyName>
+						<PropertyID>IgnN</PropertyID>
+						<PropertyClass>bool</PropertyClass>
+						<PropertyDescription>ignore name differences</PropertyDescription>
+						<PropertyFlags>
+							<Reserved/>
+							<IsListOfItems>singleItem</IsListOfItems>
+							<IsEnumerated>notEnumerated</IsEnumerated>
+							<IsReadWrite>readOnly</IsReadWrite>
+							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+							<PropertyIsReference>propertyIsValue</PropertyIsReference>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<IsApostrophe>noApostrophe</IsApostrophe>
+							<IsFeminine>notFeminine</IsFeminine>
+							<IsMasculine>notMasculine</IsMasculine>
+							<Plural>singular</Plural>
+						</PropertyFlags>
+					</Property>
+					<Property>
+						<PropertyName>ignoreAttrs</PropertyName>
+						<PropertyID>IgnA</PropertyID>
+						<PropertyClass>bool</PropertyClass>
+						<PropertyDescription>ignore attributes differences</PropertyDescription>
+						<PropertyFlags>
+							<Reserved/>
+							<IsListOfItems>singleItem</IsListOfItems>
+							<IsEnumerated>notEnumerated</IsEnumerated>
+							<IsReadWrite>readOnly</IsReadWrite>
+							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+							<PropertyIsReference>propertyIsValue</PropertyIsReference>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<IsApostrophe>noApostrophe</IsApostrophe>
+							<IsFeminine>notFeminine</IsFeminine>
+							<IsMasculine>notMasculine</IsMasculine>
+							<Plural>singular</Plural>
+						</PropertyFlags>
+					</Property>
+					<Property>
+						<PropertyName>ignoreData</PropertyName>
+						<PropertyID>IgnD</PropertyID>
+						<PropertyClass>bool</PropertyClass>
+						<PropertyDescription>ignore data differences</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>

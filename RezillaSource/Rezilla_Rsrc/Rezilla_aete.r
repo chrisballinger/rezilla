@@ -2517,7 +2517,7 @@ resource 'aete' (0,"Scripting terminology") {
 					,
 						"result",
 						'pRES',
-						'COMP',
+						'Mcmp',
 						"a comparison result object",
 							reserved,
 							singleItem,
@@ -2659,23 +2659,6 @@ resource 'aete' (0,"Scripting terminology") {
 		
 		{
 			
-				'DKND',
-				{
-					
-						"resource map",
-						'RMAP',
-						"a resource map document"
-					,
-						"resource editor",
-						'EDOC',
-						"a resource editor"
-					,
-						"maps comparison",
-						'COMP',
-						"a maps comparison document"
-					
-				}
-			,
 				'EKND',
 				{
 					
@@ -3334,7 +3317,7 @@ resource 'aete' (0,"Scripting terminology") {
 				}
 			,
 				"comparison",
-				'COMP',
+				'Mcmp',
 				"the result of a comparison between two maps",
 				{
 					
@@ -3342,6 +3325,69 @@ resource 'aete' (0,"Scripting terminology") {
 						'pCRI',
 						'reco',
 						"the comparison criteria",
+							reserved,
+							singleItem,
+							notEnumerated,
+							readOnly,
+							enumsAreConstants,
+							enumListCanRepeat,
+							propertyIsValue,
+							reserved,
+							reserved,
+							reserved,
+							reserved,
+							reserved,
+							noApostrophe,
+							notFeminine,
+							notMasculine,
+							singular
+					,
+						"ignoreName",
+						'IgnN',
+						'bool',
+						"ignore name differences",
+							reserved,
+							singleItem,
+							notEnumerated,
+							readOnly,
+							enumsAreConstants,
+							enumListCanRepeat,
+							propertyIsValue,
+							reserved,
+							reserved,
+							reserved,
+							reserved,
+							reserved,
+							noApostrophe,
+							notFeminine,
+							notMasculine,
+							singular
+					,
+						"ignoreAttrs",
+						'IgnA',
+						'bool',
+						"ignore attributes differences",
+							reserved,
+							singleItem,
+							notEnumerated,
+							readOnly,
+							enumsAreConstants,
+							enumListCanRepeat,
+							propertyIsValue,
+							reserved,
+							reserved,
+							reserved,
+							reserved,
+							reserved,
+							noApostrophe,
+							notFeminine,
+							notMasculine,
+							singular
+					,
+						"ignoreData",
+						'IgnD',
+						'bool',
+						"ignore data differences",
 							reserved,
 							singleItem,
 							notEnumerated,

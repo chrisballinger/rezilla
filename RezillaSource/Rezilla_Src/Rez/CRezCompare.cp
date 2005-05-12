@@ -2,7 +2,7 @@
 // CRezCompare.cp					
 // 
 //                       Created: 2004-02-29 18:17:07
-//             Last modification: 2005-03-09 06:56:39
+//             Last modification: 2005-05-12 09:44:48
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -44,7 +44,7 @@ Boolean	CRezCompare::sIgnoreData = false;
 // ---------------------------------------------------------------------------
 
 CRezCompare::CRezCompare(LCommander* inSuper)
-		: LCommander( inSuper )
+		: LCommander( inSuper ), LModelObject(NULL, rzom_cMapsComp)
 {
 	mResultWindow = nil;
 	mOldMap = nil;
@@ -59,7 +59,7 @@ CRezCompare::CRezCompare(LCommander* inSuper)
 CRezCompare::CRezCompare(LCommander* inSuper, 
 						 CRezMap * inOldMap, 
 						 CRezMap * inNewMap)
-		: LCommander( inSuper )
+		: LCommander( inSuper ), LModelObject(NULL, rzom_cMapsComp)
 {
 	mResultWindow = nil;
 	mOldMap = inOldMap;
@@ -74,7 +74,7 @@ CRezCompare::CRezCompare(LCommander* inSuper,
 CRezCompare::CRezCompare(LCommander* inSuper, 
 						 FSSpec& inOldFileSpec, 
 						 FSSpec& inNewFileSpec)
-		: LCommander( inSuper )
+		: LCommander( inSuper ), LModelObject(NULL, rzom_cMapsComp)
 {
 	SInt16 oldFork, newFork;
 	short oldRefnum, newRefnum;
@@ -289,6 +289,10 @@ CRezCompare::RunRezCompareDialog()
 				sIgnoreAttrs = theAttrsCheckBox->GetValue();
 				sIgnoreNames = theNamesCheckBox->GetValue();
 				sIgnoreData = theDataCheckBox->GetValue();
+				// Keep a copy of the criteria (for AE properties)
+				mIgnoreNames = sIgnoreNames;
+				mIgnoreAttrs = sIgnoreAttrs;
+				mIgnoreData = sIgnoreData;
 				// Execute a comparison
 				DoCompareRezMaps();
 				// Now get out of the outer 'while'
