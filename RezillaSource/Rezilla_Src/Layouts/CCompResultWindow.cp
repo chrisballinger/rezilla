@@ -172,13 +172,19 @@ CCompResultWindow::FinishCreateSelf()
 	mOnlyNewTable->InsertCols(1, 0);
 	
 	// Static text fields
+	Str255		thePath;
+
 	theStaticText = dynamic_cast<LStaticText *>(FindPaneByID( item_CompResultOldStatic ));
-	ThrowIfNil_(theStaticText);
-	theStaticText->SetDescriptor(mRezCompare->GetOldPath());
+	ThrowIfNil_(theStaticText);	
+	if ( UMiscUtils::MakePath(&CRezCompare::sOldFSSpec, thePath, 650) == noErr ) {
+		theStaticText->SetDescriptor(thePath);
+	} 
 
 	theStaticText = dynamic_cast<LStaticText *>(FindPaneByID( item_CompResultNewStatic ));
 	ThrowIfNil_(theStaticText);
-	theStaticText->SetDescriptor(mRezCompare->GetNewPath());
+	if ( UMiscUtils::MakePath(&CRezCompare::sNewFSSpec, thePath, 650) == noErr ) {
+		theStaticText->SetDescriptor(thePath);
+	} 
 	
 	theStaticText = dynamic_cast<LStaticText *>(FindPaneByID( item_CompResultIgnStatic ));
 	ThrowIfNil_(theStaticText);
