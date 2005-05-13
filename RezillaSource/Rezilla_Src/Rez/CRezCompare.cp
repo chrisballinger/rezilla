@@ -2,7 +2,7 @@
 // CRezCompare.cp					
 // 
 //                       Created: 2004-02-29 18:17:07
-//             Last modification: 2005-05-12 09:44:48
+//             Last modification: 2005-05-13 07:03:38
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -76,25 +76,13 @@ CRezCompare::CRezCompare(LCommander* inSuper,
 						 FSSpec& inNewFileSpec)
 		: LCommander( inSuper ), LModelObject(NULL, rzom_cMapsComp)
 {
-	SInt16 oldFork, newFork;
-	short oldRefnum, newRefnum;
-	OSErr error;
-	
 	mResultWindow = nil;
-	error = CRezillaApp::PreOpen(inOldFileSpec, oldFork, oldRefnum);
-	if (error != noErr) {
-		CRezillaApp::ReportOpenForkError(error, &inOldFileSpec);
-		mOldMap = nil;
-	} else {
-		mOldMap = new CRezMap(oldRefnum);
-	}
-	error = CRezillaApp::PreOpen(inNewFileSpec, newFork, newRefnum);
-	if (error != noErr) {
-		CRezillaApp::ReportOpenForkError(error, &inNewFileSpec);
-		mNewMap = nil;
-	} else {
-		mNewMap = new CRezMap(newRefnum);
-	}
+	mOldMap = nil;
+	mNewMap = nil;
+
+	UMiscUtils::CopyFSSpec(inOldFileSpec, sOldFSSpec);
+	UMiscUtils::CopyFSSpec(inNewFileSpec, sNewFSSpec);
+	SetRezMaps(inOldFileSpec, inNewFileSpec);
 }
 
 
@@ -167,8 +155,7 @@ CRezCompare::RunRezCompareDialog()
 	Boolean			isIgnoreNames = false;
 	Boolean 		inRezCompLoop = true;
 	OSErr			error = noErr;
-	SInt16			theFork;
-	short			oldRefNum, newRefNum;
+	Str255			thePath;
 	FSSpec			theFSSpec;
 	FSSpec			nilFSSpec = {0, 0, "\p"};		// Invalid specifiers	
 
@@ -202,11 +189,11 @@ CRezCompare::RunRezCompareDialog()
 	
 	//  Note: linking of Listeners and Broadcasters is done in the StDialogBoxHandler constructor
 
-	if ( ! LFile::EqualFileSpec(sOldFSSpec, nilFSSpec) && UMiscUtils::MakePath(&sOldFSSpec, mOldPath, 650) == noErr ) {
-		theOldStaticText->SetDescriptor(mOldPath);
+	if ( ! LFile::EqualFileSpec(sOldFSSpec, nilFSSpec) && UMiscUtils::MakePath(&sOldFSSpec, thePath, 650) == noErr ) {
+		theOldStaticText->SetDescriptor(thePath);
 	} 
-	if ( ! LFile::EqualFileSpec(sNewFSSpec, nilFSSpec) && UMiscUtils::MakePath(&sNewFSSpec, mNewPath, 650) == noErr ) {
-		theNewStaticText->SetDescriptor(mNewPath);
+	if ( ! LFile::EqualFileSpec(sNewFSSpec, nilFSSpec) && UMiscUtils::MakePath(&sNewFSSpec, thePath, 650) == noErr ) {
+		theNewStaticText->SetDescriptor(thePath);
 	} 
 	
 	while (inRezCompLoop) {
@@ -248,15 +235,15 @@ CRezCompare::RunRezCompareDialog()
 				if ( chooser.AskChooseOneFile(fileTypes, theFSSpec) ) {
 					switch (theMessage) {
 						case msg_RezCompSetOld:
-						if ( UMiscUtils::MakePath(&theFSSpec, mOldPath, 650) == noErr ) {
-							theOldStaticText->SetDescriptor(mOldPath);
+						if ( UMiscUtils::MakePath(&theFSSpec, thePath, 650) == noErr ) {
+							theOldStaticText->SetDescriptor(thePath);
 						} 
 						UMiscUtils::CopyFSSpec(theFSSpec, sOldFSSpec);
 						break;
 						
 						case msg_RezCompSetNew:
-						if ( UMiscUtils::MakePath(&theFSSpec, mNewPath, 650) == noErr ) {
-							theNewStaticText->SetDescriptor(mNewPath);
+						if ( UMiscUtils::MakePath(&theFSSpec, thePath, 650) == noErr ) {
+							theNewStaticText->SetDescriptor(thePath);
 						} 
 						UMiscUtils::CopyFSSpec(theFSSpec, sNewFSSpec);
 						break;
@@ -268,31 +255,13 @@ CRezCompare::RunRezCompareDialog()
 		
 		// If the default button was hit, try to open the rezmaps
 		if (msg_OK == theMessage) {
-			if (mOldMap == nil) {
-				error = CRezillaApp::PreOpen(sOldFSSpec, theFork, oldRefNum);
-				if (error != noErr) {
-					CRezillaApp::ReportOpenForkError(error, &sOldFSSpec);
-				} else {
-					mOldMap = new CRezMap(oldRefNum);
-				}
-			} 
-			if (mNewMap == nil) {
-				error = CRezillaApp::PreOpen(sNewFSSpec, theFork, newRefNum);
-				if (error != noErr) {
-					CRezillaApp::ReportOpenForkError(error, &sNewFSSpec);
-				} else {
-					mNewMap = new CRezMap(newRefNum);
-				}
-			} 
+			SetRezMaps(sOldFSSpec, sNewFSSpec);
+
 			if (mOldMap != nil && mNewMap != nil) {
 				// Retrieve the checkbox settings
 				sIgnoreAttrs = theAttrsCheckBox->GetValue();
 				sIgnoreNames = theNamesCheckBox->GetValue();
 				sIgnoreData = theDataCheckBox->GetValue();
-				// Keep a copy of the criteria (for AE properties)
-				mIgnoreNames = sIgnoreNames;
-				mIgnoreAttrs = sIgnoreAttrs;
-				mIgnoreData = sIgnoreData;
 				// Execute a comparison
 				DoCompareRezMaps();
 				// Now get out of the outer 'while'
@@ -307,6 +276,36 @@ CRezCompare::RunRezCompareDialog()
 
 
 // ---------------------------------------------------------------------------------
+//  ¥ SetRezMaps
+// ---------------------------------------------------------------------------------
+
+void
+CRezCompare::SetRezMaps(FSSpec& inOldFileSpec, FSSpec& inNewFileSpec)
+{
+	SInt16		returnedFork;
+	short		oldRefNum, newRefNum;
+	OSErr		error = noErr;
+
+	if (mOldMap == nil) {
+		error = CRezillaApp::PreOpen(inOldFileSpec, returnedFork, oldRefNum);
+		if (error != noErr) {
+			CRezillaApp::ReportOpenForkError(error, &inOldFileSpec);
+		} else {
+			mOldMap = new CRezMap(oldRefNum);
+		}
+	} 
+	if (mNewMap == nil) {
+		error = CRezillaApp::PreOpen(inNewFileSpec, returnedFork, newRefNum);
+		if (error != noErr) {
+			CRezillaApp::ReportOpenForkError(error, &inNewFileSpec);
+		} else {
+			mNewMap = new CRezMap(newRefNum);
+		}
+	} 
+}
+
+
+// ---------------------------------------------------------------------------------
 //  ¥ DoCompareRezMaps
 // ---------------------------------------------------------------------------------
 
@@ -317,6 +316,12 @@ CRezCompare::DoCompareRezMaps()
     ThrowIfNil_(mNewMap);
     
 	ResType		theOldType, theNewType;
+
+	// Keep a copy of the criteria (for AE properties)
+	mIgnoreNames = sIgnoreNames;
+	mIgnoreAttrs = sIgnoreAttrs;
+	mIgnoreData = sIgnoreData;
+	
 	CTypeComparator* theOldComparator = new CTypeComparator;
 	CTypeComparator* theNewComparator = new CTypeComparator;
 	TArray<ResType>* theOldTypesArray = new TArray<ResType>( theOldComparator, true);

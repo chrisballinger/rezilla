@@ -85,6 +85,10 @@ public:
 									AEDesc&			inSuperSpecifier,
 									AEDesc&			outSelfSpecifier) const;
 
+		void			GetAECompareList(
+									TArray<CRezTypId *> inList, 
+									AEDesc&			outPropertyDesc) const;
+		
 		// Accessors
 		ConstStringPtr		GetOldPath() const;
 		ConstStringPtr		GetNewPath() const;
@@ -102,6 +106,9 @@ public:
 		static Boolean		GetIgnoreAttrs() { return sIgnoreAttrs;}
 		static void			SetIgnoreAttrs(Boolean inIgnoreAttrs) {sIgnoreAttrs = inIgnoreAttrs;}
 
+		static Boolean		GetIgnoreData() { return sIgnoreData;}
+		static void			SetIgnoreData(Boolean inIgnoreData) {sIgnoreData = inIgnoreData;}
+
 		static SInt32	GetAEPosition(const CRezCompare * inDoc);
 		
 		static FSSpec		sOldFSSpec;
@@ -118,8 +125,6 @@ protected:
 		TArray<CRezTypId *>	mOnlyInNewList;
 		TArray<CRezTypId *>	mDifferingList;
 		TArray<CRezTypId *>	mIdenticalList;
-		Str255				mOldPath;
-		Str255				mNewPath;
 		Boolean				mIgnoreNames;
 		Boolean				mIgnoreAttrs;
 		Boolean				mIgnoreData;
@@ -127,30 +132,9 @@ protected:
 		void		AddTypeToArray(ResType inType, SInt16 inWhichList);
 		void		AddResourceToArray(ResType inType, short inID, SInt16 inWhichList);
 		void		DeleteList(TArray<CRezTypId *>	inList);
+		void		SetRezMaps(FSSpec& inOldFileSpec, FSSpec& inNewFileSpec);
 		
 };
-
-
-// ---------------------------------------------------------------------------
-//	¥ GetOldPath										 [inline] [public]
-// ---------------------------------------------------------------------------
-
-inline ConstStringPtr
-CRezCompare::GetOldPath() const
-{
-	return mOldPath;
-}
-
-
-// ---------------------------------------------------------------------------
-//	¥ GetNewPath										 [inline] [public]
-// ---------------------------------------------------------------------------
-
-inline ConstStringPtr
-CRezCompare::GetNewPath() const
-{
-	return mNewPath;
-}
 
 
 
