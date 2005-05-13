@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2005-04-11 09:23:14
+//             Last modification : 2005-05-13 06:52:32
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -1106,12 +1106,14 @@ enum
 enum
 {
 	kAERzilReply	 		=  FOUR_CHAR_CODE('Repl'),
-	kAERzilFilesList	 	=  FOUR_CHAR_CODE('LFil')
+	kAERzilFilesList	 	=  FOUR_CHAR_CODE('LFil'),
+	kAERzilCompareTo	 	=  FOUR_CHAR_CODE('CmTo')
 };
 
 /* AE Dispatch Table constants (aedt) */
 const long	aeRzil_Edit				= 5000;
-const long	aeRzil_Inspect			= 5001;
+const long	aeRzil_Compare			= 5001;
+const long	aeRzil_Inspect			= 5002;
 
 
 // Rezilla Object Model (rzom):
@@ -1186,7 +1188,7 @@ const DescType rzom_cRezTypeID		= 'TyId';		// Resource specifier object:
 //    Maps Comparison
 const DescType rzom_pCompCriteria		= 'pCRI';	// Comparison criteria
 const DescType rzom_pIgnoreName			= 'IgnN';	// IgnoreNameDiff
-const DescType rzom_pIgnoreAttr			= 'IgnA';	// IgnoreAttrDiff
+const DescType rzom_pIgnoreAttrs		= 'IgnA';	// IgnoreAttrsDiff
 const DescType rzom_pIgnoreData			= 'IgnD';	// IgnoreDataDiff
 const DescType rzom_pOnlyInOld			= 'OldR';	// Only in old map resources (list)
 const DescType rzom_pOnlyInNew			= 'NewR';	// Only in new map resources (list)
