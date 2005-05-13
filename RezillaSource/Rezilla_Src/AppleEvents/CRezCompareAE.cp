@@ -2,7 +2,7 @@
 // CRezCompareAE.cp
 // 
 //                       Created: 2005-05-12 07:51:22
-//             Last modification: 2005-05-12 10:22:15
+//             Last modification: 2005-05-13 08:14:57
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -41,7 +41,7 @@ CRezCompare::MakeSelfSpecifier(
 		keyData.Assign(position);
 
 		// Make ospec for the rezmap
-		err = ::CreateObjSpecifier(rzom_cMapsComp, &inSuperSpecifier, formUniqueID,
+		err = ::CreateObjSpecifier(rzom_cMapsComp, &inSuperSpecifier, formAbsolutePosition,
 										keyData, false, &outSelfSpecifier);
 		ThrowIfOSErr_(err);
 
@@ -55,7 +55,7 @@ CRezCompare::MakeSelfSpecifier(
 //	Return a descriptor for the specified Property
 //	rzom_pCompCriteria		= 'pCRI';	// Comparison criteria
 // 	rzom_pIgnoreName		= 'IgnN';	// IgnoreNameDiff
-// 	rzom_pIgnoreAttr		= 'IgnA';	// IgnoreAttrDiff
+// 	rzom_pIgnoreAttrs		= 'IgnA';	// IgnoreAttrsDiff
 // 	rzom_pIgnoreData		= 'IgnD';	// IgnoreDataDiff
 // 	rzom_pOnlyInOld			= 'OldR';	// Only in old map resources (list)
 // 	rzom_pOnlyInNew			= 'NewR';	// Only in new map resources (list)
@@ -73,18 +73,23 @@ CRezCompare::GetAEProperty(
 	switch (inProperty) {
 		
 		case rzom_pCompCriteria:
-		error = ::AECreateDesc(typeAERecord, NULL, 0, &outPropertyDesc);
+		AEDescList listDesc;
+		// Third parameter must be true to create an AERecord
+		error = ::AECreateList(NULL, 0, true, &listDesc);
 		ThrowIfOSErr_(error);
 		
-		error = ::AEPutParamPtr(&outPropertyDesc, rzom_pIgnoreName, typeBoolean,
+		error = ::AEPutParamPtr(&listDesc, rzom_pIgnoreName, typeBoolean,
 						&mIgnoreNames, sizeof(Boolean));
 		ThrowIfOSErr_(error);
-		error = ::AEPutParamPtr(&outPropertyDesc, rzom_pIgnoreAttr, typeBoolean,
+		error = ::AEPutParamPtr(&listDesc, rzom_pIgnoreAttrs, typeBoolean,
 						&mIgnoreAttrs, sizeof(Boolean));
 		ThrowIfOSErr_(error);
-		error = ::AEPutParamPtr(&outPropertyDesc, rzom_pIgnoreData, typeBoolean,
+		error = ::AEPutParamPtr(&listDesc, rzom_pIgnoreData, typeBoolean,
 						&mIgnoreData, sizeof(Boolean));
 		ThrowIfOSErr_(error);
+		
+		error = AECoerceDesc(&listDesc, typeAERecord, &outPropertyDesc);
+		::AEDisposeDesc(&listDesc);
 		break;
 
 		
@@ -95,7 +100,7 @@ CRezCompare::GetAEProperty(
 		break;
 
 		
-		case rzom_pIgnoreAttr:
+		case rzom_pIgnoreAttrs:
 		error = ::AECreateDesc(typeBoolean, (Ptr) &mIgnoreAttrs,
 									sizeof(Boolean), &outPropertyDesc);
 		ThrowIfOSErr_(error);
@@ -109,19 +114,23 @@ CRezCompare::GetAEProperty(
 		break;
 
 		
-		case rzom_pOnlyInOld:
-		break;
-
-		
-		case rzom_pOnlyInNew:
-		break;
-
-		
 		case rzom_pDiffering:
+		GetAECompareList( mDifferingList, outPropertyDesc);
 		break;
 
 		
 		case rzom_pIdentical:
+		GetAECompareList( mIdenticalList, outPropertyDesc);
+		break;
+
+		
+		case rzom_pOnlyInNew:
+		GetAECompareList( mOnlyInNewList, outPropertyDesc);
+		break;
+
+		
+		case rzom_pOnlyInOld:
+		GetAECompareList( mOnlyInOldList, outPropertyDesc);
 		break;
 
 		
@@ -132,6 +141,50 @@ CRezCompare::GetAEProperty(
 	}
 }
 
+
+// ---------------------------------------------------------------------------
+//	 GetAEProperty
+// ---------------------------------------------------------------------------
+// 		TArray<CRezTypId *>	mOnlyInOldList;
+// 		TArray<CRezTypId *>	mOnlyInNewList;
+// 		TArray<CRezTypId *>	mDifferingList;
+// 		TArray<CRezTypId *>	mIdenticalList;
+
+void
+CRezCompare::GetAECompareList(
+	TArray<CRezTypId *> inList, 
+	AEDesc&			outPropertyDesc) const
+{
+	CRezTypId *	theTypId = NULL;
+	ResType		theType;
+	short		theID;
+	long		index = 1;
+	OSErr		error;
+	
+	TArrayIterator<CRezTypId*> iterator(inList);
+	
+	while (iterator.Next(theTypId)) {
+		AEDescList listDesc;
+
+		error = ::AECreateList(NULL, 0, false, &listDesc);
+		ThrowIfOSErr_(error);
+
+		theType = theTypId->mType;
+		error = ::AEPutPtr(&listDesc, 1, typeUInt32, (Ptr) &theType, sizeof(UInt32)) ;
+		ThrowIfOSErr_(error);
+		
+		theID = theTypId->mID;
+		error = ::AEPutPtr(&listDesc, 2, typeSInt16, (Ptr) &theID, sizeof(SInt16)) ;
+		ThrowIfOSErr_(error);
+
+		error = ::AEPutDesc(&outPropertyDesc, index, &listDesc);
+		
+		index++;
+		
+		::AEDisposeDesc(&listDesc);
+	}
+}
+	
 
 // // ---------------------------------------------------------------------------
 // //	 GetAERezMapAttribute
@@ -191,7 +244,7 @@ CRezCompare::AEPropertyExists(
 
 		case rzom_pCompCriteria:
 		case rzom_pIgnoreName:
-		case rzom_pIgnoreAttr:
+		case rzom_pIgnoreAttrs:
 		case rzom_pIgnoreData:
 		case rzom_pOnlyInOld:
 		case rzom_pOnlyInNew:
