@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaAppAE.cp					
 //                       Created: 2004-11-30 08:44:17
-//             Last modification: 2005-05-12 08:48:33
+//             Last modification: 2005-05-13 06:40:34
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -50,13 +50,15 @@ CRezillaApp::HandleAppleEvent(
 	AppleEvent&			outAEReply,
 	AEDesc&				outResult,
 	long				inAENumber)
-{
-	OSErr	ignoreErr;
-	
+{	
 	switch (inAENumber) {
 		
 		case ae_OpenDoc:
 		HandleOpenDocsEvent(inAppleEvent, outAEReply, outResult);
+		break;
+		
+		case aeRzil_Compare:
+		HandleCompareMapsEvent(inAppleEvent, outAEReply, outResult);
 		break;
 		
 		case ae_ApplicationDied:
@@ -132,6 +134,105 @@ CRezillaApp::HandleOpenDocsEvent(
 
 	if (theDocList.descriptorType != typeNull) ::AEDisposeDesc(&theDocList);
 	if (errorList.descriptorType != typeNull) ::AEDisposeDesc(&errorList);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ HandleCompareMapsEvent										  [public]
+// ---------------------------------------------------------------------------
+
+void
+CRezillaApp::HandleCompareMapsEvent(
+	const AppleEvent&	inAppleEvent,
+	AppleEvent&			outAEReply,
+	AEDesc&				outResult)
+{
+#pragma unused( outResult )
+
+	OSErr			error, ignoreErr;
+	DescType		returnedType;
+	FSSpec			theFSSpec1, theFSSpec2;
+	Size			actualSize;
+	Boolean 		theBool, oldIgnoreNames, oldIgnoreAttrs, oldIgnoreData;
+	
+	oldIgnoreNames = CRezCompare::GetIgnoreNames();
+	oldIgnoreAttrs = CRezCompare::GetIgnoreAttrs();
+	oldIgnoreData = CRezCompare::GetIgnoreData();
+	
+	// Extract the direct parameter: first file for comparison
+	error = ::AEGetParamPtr(&inAppleEvent, keyDirectObject, typeFSS,
+						  &returnedType, &theFSSpec1, sizeof(FSSpec), &actualSize);
+	ThrowIfOSErr_(error);
+	
+	// Extract the "to" parameter (kAERzilCompareTo 'CmTo'): second file for comparison
+	error = ::AEGetParamPtr(&inAppleEvent, kAERzilCompareTo, typeFSS,
+						  &returnedType, &theFSSpec2, sizeof(FSSpec), &actualSize);
+	ThrowIfOSErr_(error);
+	
+	// Extract optional comparison criteria. If they have not been
+	// specified in the AE, defaults will be true for sIgnoreNames and
+	// sIgnoreAttrs, and false for sIgnoreData.
+	ignoreErr = ::AEGetParamPtr(&inAppleEvent, rzom_pIgnoreName, typeBoolean,
+							  &returnedType, &theBool, sizeof(Boolean), &actualSize);
+	if (noErr == ignoreErr) {
+		CRezCompare::SetIgnoreNames(theBool);
+	} else {
+		CRezCompare::SetIgnoreNames(true);
+	}
+	
+	ignoreErr = ::AEGetParamPtr(&inAppleEvent, rzom_pIgnoreAttrs, typeBoolean,
+							  &returnedType, &theBool, sizeof(Boolean), &actualSize);
+	if (noErr == ignoreErr) {
+		CRezCompare::SetIgnoreAttrs(theBool);
+	} else {
+		CRezCompare::SetIgnoreAttrs(true);
+	}
+	
+	ignoreErr = ::AEGetParamPtr(&inAppleEvent, rzom_pIgnoreData, typeBoolean,
+							  &returnedType, &theBool, sizeof(Boolean), &actualSize);
+	if (noErr == ignoreErr) {
+		CRezCompare::SetIgnoreData(theBool);
+	} else {
+		CRezCompare::SetIgnoreData(false);
+	}
+	
+	CRezCompare * theComparator = new CRezCompare(this, theFSSpec1, theFSSpec2);
+	ThrowIfNil_(theComparator);
+
+	try {
+		theComparator->DoCompareRezMaps();
+	}
+	catch (...) {
+		CRezCompare::SetIgnoreNames(oldIgnoreNames);
+		CRezCompare::SetIgnoreAttrs(oldIgnoreAttrs);
+		CRezCompare::SetIgnoreData(oldIgnoreData);
+		delete theComparator;
+		return;
+	}
+	
+	if (theComparator->HasDifferences()) {
+		StAEDescriptor	repDesc;
+		theComparator->DisplayResults();
+		theComparator->MakeSpecifier(repDesc);
+		::AEPutParamDesc(&outAEReply, keyDirectObject, (const AEDesc *)&repDesc);
+	} else {
+		CFStringRef messageStr = NULL;
+		Str255   buffer;
+
+		messageStr = ::CFCopyLocalizedString(CFSTR("RezMapsDoNotDiffer"), NULL);
+		if (messageStr != NULL) {
+			if (::CFStringGetPascalString(messageStr, buffer, sizeof(buffer), ::GetApplicationTextEncoding())) {
+				::AEPutParamPtr(&outAEReply, keyErrorString, typeChar, buffer+1, buffer[0]);
+			}
+		}
+
+		delete theComparator;
+	}
+
+	CRezCompare::SetIgnoreNames(oldIgnoreNames);
+	CRezCompare::SetIgnoreAttrs(oldIgnoreAttrs);
+	CRezCompare::SetIgnoreData(oldIgnoreData);
+	
 }
 
 

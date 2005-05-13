@@ -46,5 +46,6 @@ misc	slct	3017
 
 resource 'aedt' (1000, "Rezilla Suite")
 Rzil	edit	5000
-Rzil	insp	5001
+Rzil	comp	5001
+Rzil	insp	5002
 

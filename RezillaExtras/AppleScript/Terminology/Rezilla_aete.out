@@ -419,7 +419,7 @@ Description: Rezilla specifics
 Suite ID: 'Rzil'
 Suite level: 1
 Suite version: 1
-Number of Events: 2
+Number of Events: 3
   Event 1: edit
 ---------------
 	Description: edit a resource
@@ -442,7 +442,39 @@ Number of Events: 2
 		Parameter type: 'type'
 		Parameter description: use another type's editors
 		Parameter 2 is optional. It is a single item, not enumerated. 
-  Event 2: inspect
+  Event 2: compare
+------------------
+	Description: compare two resource maps
+	Event class: 'Rzil'
+	Event ID: 'comp'
+	Type of reply's direct parameter: 'Mcmp'
+	Description of reply's direct parameter: a maps comparison object
+	Reply is required. It is a single item, not enumerated. 
+	Direct parameter type: 'alis'
+	Direct parameter description: first resource file for comparison
+	Direct parameter is required. It is a single item, not enumerated. It does not change the server's state.
+	Number of additional parameters: 4
+	  Parameter 1: and
+		Parameter keyword: 'CmTo'
+		Parameter type: 'alis'
+		Parameter description: second resource file for comparison
+		Parameter 1 is required. It is a single item, enumerated. 
+	  Parameter 2: ignoreName
+		Parameter keyword: 'IgnN'
+		Parameter type: 'bool'
+		Parameter description: ignore name differences
+		Parameter 2 is optional. It is a single item, not enumerated. 
+	  Parameter 3: ignoreAttrs
+		Parameter keyword: 'IgnA'
+		Parameter type: 'bool'
+		Parameter description: ignore attributes differences
+		Parameter 3 is optional. It is a single item, not enumerated. 
+	  Parameter 4: ignoreData
+		Parameter keyword: 'IgnD'
+		Parameter type: 'bool'
+		Parameter description: ignore data differences
+		Parameter 4 is optional. It is a single item, not enumerated. 
+  Event 3: inspect
 ------------------
 	Description: Display info about the specified resource in the Inspector window
 	Event class: 'Rzil'

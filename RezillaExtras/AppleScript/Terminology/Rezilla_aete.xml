@@ -1689,6 +1689,151 @@
 			</Event>
 
 			<Event>
+				<EventName>compare</EventName>
+				<EventDescription>compare two resource maps</EventDescription>
+				<EventClass>Rzil</EventClass>
+				<EventID>comp</EventID>
+				<ReplyType>Mcmp</ReplyType>
+				<ReplyDescription>a maps comparison object</ReplyDescription>
+				<ReplyFlags>
+				<IsOptional>replyRequired</IsOptional>
+				<IsListOfItems>singleItem</IsListOfItems>
+				<IsEnumerated>notEnumerated</IsEnumerated>
+				<TightBindingFunction>notTightBindingFunction</TightBindingFunction>
+				<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+				<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+				<ReplyIsReference>replyIsValue</ReplyIsReference>
+				<Reserved/>
+				<Reserved/>
+				<Reserved/>
+				<Reserved/>
+				<Reserved/>
+				<NonVerbEvent>verbEvent</NonVerbEvent>
+				<Reserved/>
+				<Reserved/>
+				<Reserved/>
+				</ReplyFlags>
+				<DirectParamType>alis</DirectParamType>
+				<DirectParamDescription>first resource file for comparison</DirectParamDescription>
+				<DirectFlags>
+				<IsOptional>directParamRequired</IsOptional>
+				<IsListOfItems>singleItem</IsListOfItems>
+				<IsEnumerated>notEnumerated</IsEnumerated>
+				<ChangeState>doesntChangeState</ChangeState>
+				<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+				<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+				<DirectParamIsReference>directParamIsValue</DirectParamIsReference>
+				<NotDirectParamIsTarget>directParamIsTarget</NotDirectParamIsTarget>
+				<Reserved/>
+				<Reserved/>
+				<Reserved/>
+				<Reserved/>
+				<Reserved/>
+				<Reserved/>
+				<Reserved/>
+				<Reserved/>
+				</DirectFlags>
+				<ArrayOtherParams>
+					<Parameter>
+						<ParameterName>and</ParameterName>
+						<ParameterID>CmTo</ParameterID>
+						<ParameterType>alis</ParameterType>
+						<ParameterDescription>second resource file for comparison</ParameterDescription>
+						<ParameterFlags>
+							<IsOptional>required</IsOptional>
+							<IsListOfItems>singleItem</IsListOfItems>
+							<IsEnumerated>enumerated</IsEnumerated>
+							<Reserved/>
+							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+							<ParamIsReference>paramIsValue</ParamIsReference>
+							<ParamIsTarget>notParamIsTarget</ParamIsTarget>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<LabeledParam>prepositionParam</LabeledParam>
+							<IsFeminine>notFeminine</IsFeminine>
+							<IsMasculine>notMasculine</IsMasculine>
+							<Plural>singular</Plural>
+						</ParameterFlags>
+					</Parameter>
+					<Parameter>
+						<ParameterName>ignoreName</ParameterName>
+						<ParameterID>IgnN</ParameterID>
+						<ParameterType>bool</ParameterType>
+						<ParameterDescription>ignore name differences</ParameterDescription>
+						<ParameterFlags>
+							<IsOptional>optional</IsOptional>
+							<IsListOfItems>singleItem</IsListOfItems>
+							<IsEnumerated>notEnumerated</IsEnumerated>
+							<Reserved/>
+							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+							<ParamIsReference>paramIsValue</ParamIsReference>
+							<ParamIsTarget>notParamIsTarget</ParamIsTarget>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<LabeledParam>prepositionParam</LabeledParam>
+							<IsFeminine>notFeminine</IsFeminine>
+							<IsMasculine>notMasculine</IsMasculine>
+							<Plural>singular</Plural>
+						</ParameterFlags>
+					</Parameter>
+					<Parameter>
+						<ParameterName>ignoreAttrs</ParameterName>
+						<ParameterID>IgnA</ParameterID>
+						<ParameterType>bool</ParameterType>
+						<ParameterDescription>ignore attributes differences</ParameterDescription>
+						<ParameterFlags>
+							<IsOptional>optional</IsOptional>
+							<IsListOfItems>singleItem</IsListOfItems>
+							<IsEnumerated>notEnumerated</IsEnumerated>
+							<Reserved/>
+							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+							<ParamIsReference>paramIsValue</ParamIsReference>
+							<ParamIsTarget>notParamIsTarget</ParamIsTarget>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<LabeledParam>prepositionParam</LabeledParam>
+							<IsFeminine>notFeminine</IsFeminine>
+							<IsMasculine>notMasculine</IsMasculine>
+							<Plural>singular</Plural>
+						</ParameterFlags>
+					</Parameter>
+					<Parameter>
+						<ParameterName>ignoreData</ParameterName>
+						<ParameterID>IgnD</ParameterID>
+						<ParameterType>bool</ParameterType>
+						<ParameterDescription>ignore data differences</ParameterDescription>
+						<ParameterFlags>
+							<IsOptional>optional</IsOptional>
+							<IsListOfItems>singleItem</IsListOfItems>
+							<IsEnumerated>notEnumerated</IsEnumerated>
+							<Reserved/>
+							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+							<ParamIsReference>paramIsValue</ParamIsReference>
+							<ParamIsTarget>notParamIsTarget</ParamIsTarget>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<LabeledParam>prepositionParam</LabeledParam>
+							<IsFeminine>notFeminine</IsFeminine>
+							<IsMasculine>notMasculine</IsMasculine>
+							<Plural>singular</Plural>
+						</ParameterFlags>
+					</Parameter>
+				</ArrayOtherParams>
+			</Event>
+
+			<Event>
 				<EventName>inspect</EventName>
 				<EventDescription>Display info about the specified resource in the Inspector window</EventDescription>
 				<EventClass>Rzil</EventClass>

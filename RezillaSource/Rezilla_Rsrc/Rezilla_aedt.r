@@ -54,7 +54,8 @@ resource 'aedt' (130, "Misc Standards") {
 resource 'aedt' (1000, "Rezilla Suite") {
 	{
 /* 'Rzil', 'edit' */	1383754092, 1701079412, 5000,
-/* 'Rzil', 'insp' */	1383754092, 1768846192, 5001
+/* 'Rzil', 'comp' */	1383754092, 1668246896, 5001,
+/* 'Rzil', 'insp' */	1383754092, 1768846192, 5002
 	}
 };
 
