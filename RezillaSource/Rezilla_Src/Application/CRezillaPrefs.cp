@@ -110,9 +110,9 @@ CRezillaPrefs::Initialize()
 	// Calculate some global metric values from the text traits 
 	// and set some statics.
 	UMiscUtils::MetricsFromTraits( &sCurrPrefs.interface.traitsRecord );	
-	CRezCompare::sIgnoreNames = GetPrefValue(kPref_compare_ignoreName);
-	CRezCompare::sIgnoreAttrs = GetPrefValue(kPref_compare_ignoreAttributes);
-	CRezCompare::sIgnoreData = GetPrefValue(kPref_compare_ignoreData);
+	CRezCompare::SetIgnoreNames(GetPrefValue(kPref_compare_ignoreName));
+	CRezCompare::SetIgnoreAttrs(GetPrefValue(kPref_compare_ignoreAttributes));
+	CRezCompare::SetIgnoreData(GetPrefValue(kPref_compare_ignoreData));
 }
 
 
@@ -1368,9 +1368,9 @@ CRezillaPrefs::RunPrefsDialog()
 void
 CRezillaPrefs::UpdateVars() 
 {
-	CRezCompare::sIgnoreNames = GetPrefValue(kPref_compare_ignoreName);
-	CRezCompare::sIgnoreAttrs = GetPrefValue(kPref_compare_ignoreAttributes);
-	CRezCompare::sIgnoreData = GetPrefValue(kPref_compare_ignoreData);
+	CRezCompare::SetIgnoreNames(GetPrefValue(kPref_compare_ignoreName));
+	CRezCompare::SetIgnoreAttrs(GetPrefValue(kPref_compare_ignoreAttributes));
+	CRezCompare::SetIgnoreData(GetPrefValue(kPref_compare_ignoreData));
 	
 	CRezillaApp::sRecentItemsAttachment->SetMaxRecentItems( GetPrefValue(kPref_general_maxRecent) );
 }
