@@ -2,7 +2,7 @@
 // CRezMapWindow.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2005-04-10 08:23:55
+//             Last modification: 2005-05-14 12:26:16
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -139,7 +139,7 @@ CRezMapWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 // ---------------------------------------------------------------------------
 
 long
-CRezMapWindow::GetCountTypeField() 
+CRezMapWindow::GetCountTypeField() const
 {
 	long result;
 	Str255 theString;
@@ -155,7 +155,7 @@ CRezMapWindow::GetCountTypeField()
 // ---------------------------------------------------------------------------
 
 long
-CRezMapWindow::GetCountRezField() 
+CRezMapWindow::GetCountRezField() const
 {
 	long result;
 	Str255 theString;

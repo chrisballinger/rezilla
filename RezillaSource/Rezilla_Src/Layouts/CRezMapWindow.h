@@ -2,11 +2,11 @@
 // CRezMapWindow.h				
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2005-03-22 12:53:54
+//             Last modification: 2005-05-14 12:19:40
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003-2004, 2005
+// (c) Copyright : Bernard Desgraupes, 2003-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -35,14 +35,23 @@ public:
 	
 	virtual void		ListenToMessage( MessageT inMessage, void *ioParam);
 
+	// Apple events
+	virtual void	GetAEProperty(
+								DescType			inProperty,
+								const AEDesc&		inRequestedType,
+								AEDesc&				outPropertyDesc) const;
+
+	virtual bool	AEPropertyExists(
+								DescType		inProperty) const;
+
 	virtual CRezMapTable*	GetRezMapTable() { return mRezMapTable;}
 	void					SetRezMapTable(CRezMapTable* theRezMapTable) {mRezMapTable = theRezMapTable ;}
 
 	virtual CRezMapDoc*		GetOwnerDoc() { return mOwnerDoc;}
 	void					SetOwnerDoc(CRezMapDoc* theOwnerDoc) {mOwnerDoc = theOwnerDoc ;}
 
-	long					GetCountTypeField();
-	long					GetCountRezField();
+	long					GetCountTypeField() const;
+	long					GetCountRezField() const;
 	void					SetCountTypeField(long inCount);
 	void					SetCountRezField(long inCount);
 
