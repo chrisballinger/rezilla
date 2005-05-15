@@ -755,13 +755,14 @@ CRezMapDoc::AskSaveChanges(
 
 
 // ---------------------------------------------------------------------------------
-//  DoAESaveFork
+//  DoAESave
 // ---------------------------------------------------------------------------------
 // Called when doing a SaveAs
 
 void
-CRezMapDoc::DoAESaveFork(
-	FSSpec	&inFileSpec)
+CRezMapDoc::DoAESave(
+				FSSpec&	inFileSpec,
+				OSType	/* inFileType */)
 {
 	OSErr error;
 	SInt16 oldFork = mRezFile->GetUsedFork();
@@ -927,7 +928,7 @@ CRezMapDoc::AskSaveAs(
 					} 
 				}
 
-				DoAESaveFork(outFSSpec);
+				DoAESave(outFSSpec, 0);
 				saveOK = true;
 			}
 		}		
@@ -1706,8 +1707,8 @@ CRezMapDoc::GetRezEditor(ResType inType, short inID)
 //  DuplicateResource												[public]
 // ---------------------------------------------------------------------------
 
-void
-CRezMapDoc::DuplicateResource(CRezObj* inRezObj)
+CRezObj *
+CRezMapDoc::DuplicateResource(CRezObj * inRezObj)
 {
 	CRezTypeItem * theRezTypeItem;
 	Str255 theName;
@@ -1767,6 +1768,9 @@ CRezMapDoc::DuplicateResource(CRezObj* inRezObj)
 
 	// Redraw
 	mRezMapWindow->Refresh();
+	
+	// Return the duplicated resource
+	return theRezObjItem->GetRezObj();
 }
 
 

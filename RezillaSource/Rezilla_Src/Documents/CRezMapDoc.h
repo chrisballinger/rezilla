@@ -2,7 +2,7 @@
 // CRezMapDoc.h				
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2005-05-11 08:39:19
+//             Last modification: 2005-05-14 10:23:45
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -93,7 +93,9 @@ public:
 
 	virtual bool		AskConfirmRevert();
 
-	virtual void		DoAESaveFork( FSSpec &inFileSpec);
+	virtual void		DoAESave(
+								FSSpec&			inFileSpec,
+								OSType			inFileType);
 	virtual void		DoSave();
 	virtual void		DoRevert();
 	
@@ -116,14 +118,17 @@ public:
 
 	static SInt32	GetAEPosition(const CRezMapDoc * inDoc);
 	
-// 	void			GetAERezMapAttribute(
-// 								short		inFlag,
-// 								AEDesc&		outPropertyDesc) const;
-// 	
-// 	void			SetAERezMapAttribute(
-// 								const AEDesc& inValue, 
-// 								short inFlag);
-	
+	virtual void	HandleAppleEvent(
+								const AppleEvent	&inAppleEvent,
+								AppleEvent			&outAEReply,
+								AEDesc				&outResult,
+								SInt32				inAENumber);
+									
+	void			HandleExportEvent(
+								const AppleEvent&	inAppleEvent,
+								AppleEvent&			outAEReply,
+								AEDesc&				outResult);
+
 	virtual void		GetSubModelByPosition(
 								DescType			inModelID,
 								SInt32				inPosition,
@@ -158,7 +163,7 @@ public:
 	SInt32				GetIndexForType(ResType inType) const;
 	
 	CRezObjItem *		CreateNewRes(ResType inType, short inID, Str255* inName, short inAttrs);
-	void				DuplicateResource(CRezObj* inRezObj);
+	CRezObj *			DuplicateResource(CRezObj* inRezObj);
 	void				RemoveResource(CRezObjItem* inRezObjItem);
 	void				PasteResource(ResType inType,
 									  short inID,
