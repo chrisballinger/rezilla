@@ -2,7 +2,7 @@
 // CRezCompareAE.cp
 // 
 //                       Created: 2005-05-12 07:51:22
-//             Last modification: 2005-05-13 08:14:57
+//             Last modification: 2005-05-13 21:37:16
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -17,8 +17,7 @@
 #include "CRezCompare.h"
 #include "CRezillaApp.h"
 #include "CCompResultWindow.h"
-// #include "CRezMap.h"
-// #include "UResources.h"
+#include "UMiscUtils.h"
 #include "RezillaConstants.h"
 
 #include <LCommander.h>
@@ -145,10 +144,6 @@ CRezCompare::GetAEProperty(
 // ---------------------------------------------------------------------------
 //	 GetAEProperty
 // ---------------------------------------------------------------------------
-// 		TArray<CRezTypId *>	mOnlyInOldList;
-// 		TArray<CRezTypId *>	mOnlyInNewList;
-// 		TArray<CRezTypId *>	mDifferingList;
-// 		TArray<CRezTypId *>	mIdenticalList;
 
 void
 CRezCompare::GetAECompareList(
@@ -159,76 +154,41 @@ CRezCompare::GetAECompareList(
 	ResType		theType;
 	short		theID;
 	long		index = 1;
-	OSErr		error;
+	OSErr		error = noErr;
+	AEDescList	listDesc;
+	Str255		name;
+	
+	error = ::AECreateList(NULL, 0, false, &listDesc);
 	
 	TArrayIterator<CRezTypId*> iterator(inList);
 	
-	while (iterator.Next(theTypId)) {
-		AEDescList listDesc;
-
-		error = ::AECreateList(NULL, 0, false, &listDesc);
-		ThrowIfOSErr_(error);
-
+	while (iterator.Next(theTypId) && error == noErr) {
+		AEDescList subDesc;
+		
+		error = ::AECreateList(NULL, 0, false, &subDesc);
+		
 		theType = theTypId->mType;
-		error = ::AEPutPtr(&listDesc, 1, typeUInt32, (Ptr) &theType, sizeof(UInt32)) ;
-		ThrowIfOSErr_(error);
+		UMiscUtils::OSTypeToPString(theType, name);
+		error = ::AEPutPtr(&subDesc, 1, typeChar, (Ptr) name + 1, StrLength(name));
 		
 		theID = theTypId->mID;
-		error = ::AEPutPtr(&listDesc, 2, typeSInt16, (Ptr) &theID, sizeof(SInt16)) ;
-		ThrowIfOSErr_(error);
-
-		error = ::AEPutDesc(&outPropertyDesc, index, &listDesc);
+		error = ::AEPutPtr(&subDesc, 2, typeSInt16, (Ptr) &theID, sizeof(SInt16));
+		
+		error = ::AEPutDesc(&listDesc, index, &subDesc);
 		
 		index++;
 		
-		::AEDisposeDesc(&listDesc);
+		::AEDisposeDesc(&subDesc);
 	}
+	
+	error = ::AECoerceDesc(&listDesc, typeAEList, &outPropertyDesc);
+	::AEDisposeDesc(&listDesc);
+	
+	
+	::AEDisposeDesc(&listDesc);
+	ThrowIfOSErr_(error);
 }
 	
-
-// // ---------------------------------------------------------------------------
-// //	 GetAERezMapAttribute
-// // ---------------------------------------------------------------------------
-// 
-// void
-// CRezCompare::GetAERezMapAttribute(
-// 	short		inFlag,
-// 	AEDesc&		outPropertyDesc) const
-// {
-// 	Boolean		attrIsSet;
-// 	short		theAttrs;
-// 	OSErr		error;
-// 	
-// 	GetMapAttributes(theAttrs);
-// 	attrIsSet = ((theAttrs & inFlag) > 0);
-// 	
-// 	error = ::AECreateDesc(typeBoolean, (Ptr) &attrIsSet,
-// 								sizeof(Boolean), &outPropertyDesc);
-// 	ThrowIfOSErr_(error);
-// }
-// 
-// 
-// // ---------------------------------------------------------------------------
-// //	 SetAERezMapAttribute
-// // ---------------------------------------------------------------------------
-// 
-// void
-// CRezCompare::SetAERezMapAttribute(const AEDesc& inValue, short inFlag)
-// {
-// 	short		theAttrs;
-// 	Boolean		setIt;
-// 	
-// 	UExtractFromAEDesc::TheBoolean(inValue, setIt);
-// 	GetMapAttributes(theAttrs);
-// 
-// 	if (setIt) {
-// 		theAttrs &= inFlag;
-// 	} else {
-// 		theAttrs &= ~inFlag;
-// 	}
-// 	SetMapAttributes(theAttrs);
-// }
-
 
 // ---------------------------------------------------------------------------
 //	 AEPropertyExists
