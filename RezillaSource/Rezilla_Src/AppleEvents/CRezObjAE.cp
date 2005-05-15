@@ -2,7 +2,7 @@
 // CRezObjAE.cp
 // 
 //                       Created: 2005-04-09 10:03:39
-//             Last modification: 2005-05-03 20:02:48
+//             Last modification: 2005-05-14 07:08:30
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -16,8 +16,12 @@
 
 #include "CRezMap.h"
 #include "CRezObj.h"
+#include "CRezType.h"
+#include "CRezillaApp.h"
+#include "CInspectorWindow.h"
 #include "UResources.h"
 #include "UMiscUtils.h"
+#include "UCodeTranslator.h"
 #include "RezillaConstants.h"
 
 #include <LCommander.h>
@@ -32,8 +36,6 @@ CRezObj::MakeSelfSpecifier(
 	AEDesc	&inSuperSpecifier,
 	AEDesc	&outSelfSpecifier) const
 {
-		DescType		winClass;
-		DescType		keyForm;
 		StAEDescriptor	keyData;
 		OSErr			err;
 
@@ -86,7 +88,7 @@ CRezObj::GetAEProperty(
 		Str255 name;
 		UMiscUtils::OSTypeToPString(mType, name);
 		error = ::AECreateDesc(typeChar, (Ptr) name + 1,
-							StrLength(mName), &outPropertyDesc);
+							StrLength(name), &outPropertyDesc);
 		ThrowIfOSErr_(error);
 		break;
 
@@ -164,6 +166,16 @@ CRezObj::GetAEProperty(
 		break;
 		
 		
+		case pContents: {
+			StByteToHexTranslator translator(mData);
+			translator.Convert();
+			error = ::AECreateDesc(typeChar, (Ptr) *(translator.GetOutHandle()),
+								 translator.GetOutSize(), &outPropertyDesc);
+			ThrowIfOSErr_(error);
+			break;
+		}
+		
+		
 		default:
 		LModelObject::GetAEProperty(inProperty, inRequestedType,
 									outPropertyDesc);
@@ -228,6 +240,16 @@ CRezObj::SetAEProperty(
 		case rzom_pChanged:
 		SetAERezObjAttribute(inValue, resChanged);
 		break;
+		
+		case pContents: {
+// 			StByteToHexTranslator translator(mData);
+// 			translator.Convert();
+// 			error = ::AECreateDesc(typeChar, (Ptr) *(translator.GetOutHandle()),
+// 								 translator.GetOutSize(), &outPropertyDesc);
+// 			ThrowIfOSErr_(error);
+			break;
+		}
+		
 		
 		default:
 			LModelObject::SetAEProperty(inProperty, inValue, outAEReply);
@@ -323,6 +345,42 @@ CRezObj::AEPropertyExists(
 	}
 
 	return exists;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ HandleAppleEvent												  [public]
+// ---------------------------------------------------------------------------
+
+void
+CRezObj::HandleAppleEvent(
+	const AppleEvent&	inAppleEvent,
+	AppleEvent&			outAEReply,
+	AEDesc&				outResult,
+	long				inAENumber)
+{	
+	switch (inAENumber) {
+		
+		case aeRzil_Edit:
+		case ae_Clone:
+		case ae_Delete:
+		CRezType * theRezType = dynamic_cast<CRezType*>(mSuperModel);
+		if (theRezType != nil) {
+			theRezType->HandleResourceEvent(inAppleEvent, outAEReply, outResult, this, inAENumber);	
+		} 
+		break;
+		
+		
+		case aeRzil_Inspect:
+		CRezillaApp::sInspectorWindow->InstallValues(this);
+		break;
+		
+		
+		default:
+		// 		mSuperModel->HandleAppleEvent(inAppleEvent, outAEReply, outResult, inAENumber);
+		LModelObject::HandleAppleEvent(inAppleEvent, outAEReply, outResult, inAENumber);
+		break;
+	}
 }
 
 
