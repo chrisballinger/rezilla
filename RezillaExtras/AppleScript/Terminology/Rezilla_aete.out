@@ -51,7 +51,7 @@ Description: Common terms for most applications
 Suite ID: 'CoRe'
 Suite level: 1
 Suite version: 1
-Number of Events: 12
+Number of Events: 10
   Event 1: close
 ----------------
 	Description: Close an object
@@ -98,41 +98,7 @@ Number of Events: 12
 	Direct parameter description: the object whose data size is to be returned
 	Direct parameter is required. It is a single item, not enumerated. It does not change the server's state.
 	Number of additional parameters: 0
-  Event 4: delete
------------------
-	Description: Delete the specified object(s)
-	Event class: 'core'
-	Event ID: 'delo'
-	Type of reply's direct parameter: 'null'
-	Description of reply's direct parameter: 
-	Reply is optional. It is a single item, not enumerated. 
-	Direct parameter type: 'obj '
-	Direct parameter description: Object to delete.
-	Direct parameter is required. It is a single item, not enumerated. It changes the server's state.
-	Number of additional parameters: 0
-  Event 5: duplicate
---------------------
-	Description: Duplicate one or more object(s)
-	Event class: 'core'
-	Event ID: 'clon'
-	Type of reply's direct parameter: 'obj '
-	Description of reply's direct parameter: to the duplicated object(s)
-	Reply is required. It is a single item, not enumerated. 
-	Direct parameter type: 'obj '
-	Direct parameter description: the object(s) to duplicate
-	Direct parameter is required. It is a single item, not enumerated. It changes the server's state.
-	Number of additional parameters: 2
-	  Parameter 1: to
-		Parameter keyword: 'insh'
-		Parameter type: 'insl'
-		Parameter description: the new location for the object(s)
-		Parameter 1 is optional. It is a single item, not enumerated. 
-	  Parameter 2: replacing
-		Parameter keyword: 'alrp'
-		Parameter type: 'bool'
-		Parameter description: Specifies whether or not to replace items in the destination that have the same name as items being duplicated
-		Parameter 2 is optional. It is a single item, enumerated. 
-  Event 6: exists
+  Event 4: exists
 -----------------
 	Description: Verify if an object exists
 	Event class: 'core'
@@ -144,7 +110,7 @@ Number of Events: 12
 	Direct parameter description: 
 	Direct parameter is required. It is a single item, not enumerated. It does not change the server's state.
 	Number of additional parameters: 0
-  Event 7: get
+  Event 5: get
 --------------
 	Description: Get the data for an object
 	Event class: 'core'
@@ -156,7 +122,7 @@ Number of Events: 12
 	Direct parameter description: the object whose data is to be returned
 	Direct parameter is required. It is a single item, not enumerated. It does not change the server's state.
 	Number of additional parameters: 0
-  Event 8: make
+  Event 6: make
 ---------------
 	Description: Make a new element
 	Event class: 'core'
@@ -188,7 +154,7 @@ Number of Events: 12
 		Parameter type: 'reco'
 		Parameter description: the initial values for the properties of the element
 		Parameter 4 is optional. It is a single item, not enumerated. 
-  Event 9: save
+  Event 7: save
 ---------------
 	Description: save a set of objects
 	Event class: 'core'
@@ -210,8 +176,8 @@ Number of Events: 12
 		Parameter type: 'type'
 		Parameter description: the file type of the document in which to save the data
 		Parameter 2 is optional. It is a single item, not enumerated. 
-  Event 10: revert
-------------------
+  Event 8: revert
+-----------------
 	Description: Revert an object to the most recently saved version
 	Event class: 'misc'
 	Event ID: 'rvrt'
@@ -222,8 +188,8 @@ Number of Events: 12
 	Direct parameter description: object to revert
 	Direct parameter is required. It is a single item, not enumerated. It does not change the server's state.
 	Number of additional parameters: 0
-  Event 11: select
-------------------
+  Event 9: select
+-----------------
 	Description: Select the specified object
 	Event class: 'misc'
 	Event ID: 'slct'
@@ -234,7 +200,7 @@ Number of Events: 12
 	Direct parameter description: the object to select
 	Direct parameter is optional. It is a single item, not enumerated. It changes the server's state.
 	Number of additional parameters: 0
-  Event 12: set
+  Event 10: set
 ---------------
 	Description: Set an object's data
 	Event class: 'core'
@@ -419,30 +385,8 @@ Description: Rezilla specifics
 Suite ID: 'Rzil'
 Suite level: 1
 Suite version: 1
-Number of Events: 3
-  Event 1: edit
----------------
-	Description: edit a resource
-	Event class: 'Rzil'
-	Event ID: 'edit'
-	Type of reply's direct parameter: 'null'
-	Description of reply's direct parameter: 
-	Reply is optional. It is a single item, not enumerated. 
-	Direct parameter type: 'obj '
-	Direct parameter description: Resource to edit.
-	Direct parameter is required. It is a single item, not enumerated. It does not change the server's state.
-	Number of additional parameters: 2
-	  Parameter 1: using
-		Parameter keyword: 'EKND'
-		Parameter type: 'EKND'
-		Parameter description: specifies which kind of editor to use (if not specified, Rezilla tries to find successively an interface, a template or the hexadecimal editor)
-		Parameter 1 is optional. It is a single item, enumerated. 
-	  Parameter 2: as
-		Parameter keyword: 'type'
-		Parameter type: 'type'
-		Parameter description: use another type's editors
-		Parameter 2 is optional. It is a single item, not enumerated. 
-  Event 2: compare
+Number of Events: 6
+  Event 1: compare
 ------------------
 	Description: compare two resource maps
 	Event class: 'Rzil'
@@ -455,7 +399,7 @@ Number of Events: 3
 	Direct parameter is required. It is a single item, not enumerated. It does not change the server's state.
 	Number of additional parameters: 4
 	  Parameter 1: and
-		Parameter keyword: 'CmTo'
+		Parameter keyword: 'AndF'
 		Parameter type: 'alis'
 		Parameter description: second resource file for comparison
 		Parameter 1 is required. It is a single item, enumerated. 
@@ -474,9 +418,77 @@ Number of Events: 3
 		Parameter type: 'bool'
 		Parameter description: ignore data differences
 		Parameter 4 is optional. It is a single item, not enumerated. 
-  Event 3: inspect
+  Event 2: delete
+-----------------
+	Description: Delete the specified object(s)
+	Event class: 'core'
+	Event ID: 'delo'
+	Type of reply's direct parameter: 'null'
+	Description of reply's direct parameter: 
+	Reply is optional. It is a single item, not enumerated. 
+	Direct parameter type: 'obj '
+	Direct parameter description: Object to delete.
+	Direct parameter is required. It is a single item, not enumerated. It changes the server's state.
+	Number of additional parameters: 0
+  Event 3: duplicate
+--------------------
+	Description: Duplicate one or more resource(s) in the resource map. The duplicate is automatically attributed an unique ID.
+	Event class: 'core'
+	Event ID: 'clon'
+	Type of reply's direct parameter: 'obj '
+	Description of reply's direct parameter: a specifier for the duplicated resource(s)
+	Reply is required. It is a single item, not enumerated. 
+	Direct parameter type: 'obj '
+	Direct parameter description: the object(s) to duplicate
+	Direct parameter is required. It is a single item, not enumerated. It changes the server's state.
+	Number of additional parameters: 0
+  Event 4: edit
+---------------
+	Description: edit one or more resources
+	Event class: 'Rzil'
+	Event ID: 'edit'
+	Type of reply's direct parameter: 'null'
+	Description of reply's direct parameter: 
+	Reply is optional. It is a single item, not enumerated. 
+	Direct parameter type: 'cRSC'
+	Direct parameter description: resource to edit
+	Direct parameter is required. It is a single item, not enumerated. It does not change the server's state.
+	Number of additional parameters: 2
+	  Parameter 1: as
+		Parameter keyword: 'type'
+		Parameter type: 'type'
+		Parameter description: use an another type's editor
+		Parameter 1 is optional. It is a single item, not enumerated. 
+	  Parameter 2: using
+		Parameter keyword: 'EKND'
+		Parameter type: 'EKND'
+		Parameter description: specifies which kind of editor to use (if not specified, Rezilla tries to find successively an interface, a template or the hexadecimal editor)
+		Parameter 2 is optional. It is a single item, enumerated. 
+  Event 5: export
+-----------------
+	Description: export a rezmap document in a specific format ()
+	Event class: 'Rzil'
+	Event ID: 'expt'
+	Type of reply's direct parameter: 'null'
+	Description of reply's direct parameter: 
+	Reply is optional. It is a single item, not enumerated. 
+	Direct parameter type: 'MapD'
+	Direct parameter description: resource map document to export
+	Direct parameter is required. It is a single item, not enumerated. It changes the server's state.
+	Number of additional parameters: 2
+	  Parameter 1: in
+		Parameter keyword: 'kfil'
+		Parameter type: 'alis'
+		Parameter description: the file in which to save the export (it must already exist)
+		Parameter 1 is required. It is a single item, not enumerated. 
+	  Parameter 2: format
+		Parameter keyword: 'EXPF'
+		Parameter type: 'EXPF'
+		Parameter description: specifies the export format (default is XML)
+		Parameter 2 is optional. It is a single item, enumerated. 
+  Event 6: inspect
 ------------------
-	Description: Display info about the specified resource in the Inspector window
+	Description: display info about the specified resource in the Inspector window
 	Event class: 'Rzil'
 	Event ID: 'insp'
 	Type of reply's direct parameter: 'null'
@@ -486,7 +498,7 @@ Number of Events: 3
 	Direct parameter description: Resource object to display info about.
 	Direct parameter is required. It is a single item, not enumerated. It changes the server's state.
 	Number of additional parameters: 0
-Number of Classes: 24
+Number of Classes: 23
   Object class 1: map document
 ------------------------------
 	Object class ID: 'MapD'
@@ -670,11 +682,21 @@ Number of Classes: 24
 -----------------------------
 	Object class ID: 'MapW'
 	Class description: a resource map window
-	Number of class properties: 1
+	Number of class properties: 3
 	  (1) inherits
 		Property ID: 'c@#^'
 		Property class: 'cwin'
 		Property description: all properties of the 'window' class
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	  (2) types count
+		Property ID: 'Tcnt'
+		Property class: 'long'
+		Property description: the index of the resource within its type (in the order used by the resource manager)
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	  (3) resources count
+		Property ID: 'Rcnt'
+		Property class: 'long'
+		Property description: the index of the resource within its type (in the order used by the resource manager)
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	Number of class elements: 0
   Object class 12: map windows
@@ -763,21 +785,11 @@ Number of Classes: 24
 -----------------------------
 	Object class ID: 'HexW'
 	Class description: a hexadecimal editing window
-	Number of class properties: 3
+	Number of class properties: 1
 	  (1) inherits
 		Property ID: 'c@#^'
 		Property class: 'EdiW'
 		Property description: all properties of the 'editing window' class
-		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
-	  (2) hex pane
-		Property ID: 'HexP'
-		Property class: 'DatP'
-		Property description: the left pane of the hex window (containing hexadecimal data)
-		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
-	  (3) text pane
-		Property ID: 'TxtP'
-		Property class: 'DatP'
-		Property description: the right pane of the hex window (containing human readable data)
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	Number of class elements: 0
   Object class 20: hex windows
@@ -829,24 +841,8 @@ Number of Classes: 24
 		Property description: all properties of the 'window' class
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	Number of class elements: 0
-  Object class 24: data pane
-----------------------------
-	Object class ID: 'DatP'
-	Class description: a pane displaying resource data
-	Number of class properties: 2
-	  (1) kind
-		Property ID: 'pKND'
-		Property class: 'PKND'
-		Property description: the kind of data this pane displays (hexadecimal or ascii text)
-		Property is a single item, enumerated. It cannot be set by the Set Data AE.
-	  (2) contents
-		Property ID: 'pcnt'
-		Property class: 'TEXT'
-		Property description: the data displayed in this pane
-		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
-	Number of class elements: 0
 Number of Comparison Operators: 0
-Number of Enumerations: 2
+Number of Enumerations: 3
     Enumeration 1 ID: 'EKND'
 ----------------------------
 	Number of enumerators: 3
@@ -868,6 +864,21 @@ Number of Enumerations: 2
 	  Enumerator 2: ascii
 		Enumerator ID: 'ASCI'
 		Enumerator description: text pane
+    Enumeration 3 ID: 'EXPF'
+----------------------------
+	Number of enumerators: 4
+	  Enumerator 1: xml
+		Enumerator ID: 'XML '
+		Enumerator description: xml export format
+	  Enumerator 2: html
+		Enumerator ID: 'HTML'
+		Enumerator description: html export format
+	  Enumerator 3: text
+		Enumerator ID: 'TEXT'
+		Enumerator description: text export format
+	  Enumerator 4: DeRez
+		Enumerator ID: 'DREZ'
+		Enumerator description: DeRez export format
 
 4- Resource suite
 =================
