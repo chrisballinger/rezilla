@@ -1107,13 +1107,15 @@ enum
 {
 	kAERzilReply	 		=  FOUR_CHAR_CODE('Repl'),
 	kAERzilFilesList	 	=  FOUR_CHAR_CODE('LFil'),
-	kAERzilCompareTo	 	=  FOUR_CHAR_CODE('CmTo')
+	kAERzilCompareWith	 	=  FOUR_CHAR_CODE('AndF'),
+	kAERzilAsType		 	=  FOUR_CHAR_CODE('AsTy')
 };
 
 /* AE Dispatch Table constants (aedt) */
 const long	aeRzil_Edit				= 5000;
 const long	aeRzil_Compare			= 5001;
 const long	aeRzil_Inspect			= 5002;
+const long	aeRzil_Export			= 5003;
 
 
 // Rezilla Object Model (rzom):
@@ -1195,8 +1197,9 @@ const DescType rzom_pOnlyInNew			= 'NewR';	// Only in new map resources (list)
 const DescType rzom_pDiffering			= 'Diff';	// In both but different (list)
 const DescType rzom_pIdentical			= 'Iden';	// In both and identical (list)
 
-//    HexPane/TxtPane
-const DescType rzom_pContents		= pContents;	// Contents ('pcnt')
+//    RezMap window
+const DescType rzom_pTypesCount			= 'Tcnt';	// Total types count
+const DescType rzom_pResCount			= 'Rcnt';	// Total resources count
 
 //    Editor document
 const DescType rzom_pKind			= 'pKND';	// Kind
@@ -1205,20 +1208,33 @@ const DescType rzom_pKind			= 'pKND';	// Kind
 const DescType rzom_pTemplate		= 'pTMP';	// Template
 
 // Aete Enumerator IDs
+const DescType rzom_eEditorKind		= 'EKND';
+const DescType rzom_eExportFormat	= 'EXPF';
+
 const DescType rzom_eRezMap			= 'RMAP';
 const DescType rzom_eEditorDoc		= 'EDOC';
 const DescType rzom_eCompareDoc		= 'COMP';
+
 const DescType rzom_eHexEditor		= 'EHEX';
 const DescType rzom_eTmplEditor		= 'ETMP';
 const DescType rzom_eGuiEditor		= 'EGUI';
+
 const DescType rzom_eHexaData		= 'HEXA';
 const DescType rzom_eAsciiData		= 'ASCI';
+
 const DescType rzom_eDataFork		= 'DATF';
 const DescType rzom_eRsrcFork		= 'RSRF';
 const DescType rzom_eAnyFork		= 'ANYF';
+
 const DescType rzom_eIsDataFork		= 'DFRK';
 const DescType rzom_eIsRsrcFork		= 'RFRK';
 const DescType rzom_eIsUnknownFork	= 'UFRK';
+
+const DescType rzom_eExportXml		= 'XML ';
+const DescType rzom_eExportText		= 'TEXT';
+const DescType rzom_eExportHtml		= 'HTML';
+const DescType rzom_eExportDerez	= 'DREZ';
+
 
 // ======================================================================
 // Error Constants
