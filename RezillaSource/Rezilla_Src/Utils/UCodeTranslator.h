@@ -2,11 +2,11 @@
 // UCodeTranslator.h					
 // 
 //                       Created: 2003-05-04 16:40:47
-//             Last modification: 2005-01-22 06:37:51
+//             Last modification: 2005-05-14 11:27:39
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003-2004, 2005
+// © Copyright: Bernard Desgraupes 2003-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -26,13 +26,6 @@
 PP_Begin_Namespace_PowerPlant
 
 
-// enum Hextype {
-// 	hexkind__undefined = 0,
-// 	hexkind__ascii,
-// 	hexkind__hex,
-// 	hexkind__text,
-// 	hexkind__incoherent
-// };
 
 // Filling character used at the end of a Base64 encoded string.
 const char kFillChar = '=';
