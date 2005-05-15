@@ -2,11 +2,11 @@
 // CInspectorWindow.cp					
 // 
 //                       Created: 2003-05-02 07:33:10
-//             Last modification: 2005-01-16 19:10:46
+//             Last modification: 2005-05-14 12:38:17
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003-2004, 2005
+// (c) Copyright : Bernard Desgraupes, 2003-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -45,6 +45,7 @@
 
 CInspectorWindow::CInspectorWindow()
 {
+	SetModelKind(rzom_cInspector);
 }
 
 
@@ -56,6 +57,7 @@ CInspectorWindow::CInspectorWindow(
 	const SWindowInfo &inWindowInfo )
 		: LWindow( inWindowInfo )
 {
+	SetModelKind(rzom_cInspector);
 }
 
 
@@ -69,6 +71,7 @@ CInspectorWindow::CInspectorWindow(
 	LCommander	*inSuperCommander )
 		: LWindow( inWINDid, inAttributes, inSuperCommander )
 {
+	SetModelKind(rzom_cInspector);
 }
 
 
@@ -80,6 +83,7 @@ CInspectorWindow::CInspectorWindow(
 			       LStream *inStream )
 		: LWindow( inStream )
 {
+	SetModelKind(rzom_cInspector);
 }
 
 

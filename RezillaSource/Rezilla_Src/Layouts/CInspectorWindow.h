@@ -2,11 +2,11 @@
 // CInspectorWindow.h				
 // 
 //                       Created: 2003-05-02 07:33:06
-//             Last modification: 2004-11-22 14:26:14
+//             Last modification: 2005-05-14 12:14:02
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003-2004
+// (c) Copyright : Bernard Desgraupes, 2003-2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -56,6 +56,19 @@ public:
 
 	void			SetValueForAttribute(short inFlag, Boolean inState);
 	
+	// Apple events
+	virtual void	MakeSelfSpecifier(
+								AEDesc&			inSuperSpecifier,
+								AEDesc&			outSelfSpecifier) const;
+
+	virtual void	GetAEProperty(
+								DescType			inProperty,
+								const AEDesc&		inRequestedType,
+								AEDesc&				outPropertyDesc) const;
+
+	virtual bool	AEPropertyExists(
+								DescType		inProperty) const;
+
 	SResourceObjInfoPtr		GetSavedInfo() { return &mSavedInfo;}
 	void					SetSavedInfo(SResourceObjInfoPtr inRezInfoPtr);
 
