@@ -2,7 +2,7 @@
 // CRezTypeAE.cp
 // 
 //                       Created: 2005-04-09 10:03:39
-//             Last modification: 2005-05-10 07:35:01
+//             Last modification: 2005-05-15 08:21:39
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -18,6 +18,10 @@
 #include "CRezType.h"
 #include "CRezObj.h"
 #include "CRezMapDoc.h"
+#include "CRezMapWindow.h"
+#include "CRezMapTable.h"
+#include "CRezTypeItem.h"
+#include "CRezObjItem.h"
 #include "UMiscUtils.h"
 #include "RezillaConstants.h"
 
@@ -321,4 +325,218 @@ CRezType::GetOrCreateRezObjModel(Handle inHandle) const
 	
 	return newRezObj;
 }
+
+
+// ---------------------------------------------------------------------------
+//	¥ HandleAppleEvent												  [public]
+// ---------------------------------------------------------------------------
+
+void
+CRezType::HandleAppleEvent(
+	const AppleEvent&	inAppleEvent,
+	AppleEvent&			outAEReply,
+	AEDesc&				outResult,
+	long				inAENumber)
+{	
+	switch (inAENumber) {
+				
+		case ae_Delete:
+		// This is the delete event applied to a type
+		HandleDeleteTypeEvent(inAppleEvent, outAEReply, outResult);	
+		break;
+		
+		
+		default:
+		mOwnerMap->HandleAppleEvent(inAppleEvent, outAEReply, outResult, inAENumber);
+		break;
+	}
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ HandleResourceEvent											  [public]
+// ---------------------------------------------------------------------------
+
+void
+CRezType::HandleResourceEvent(
+	  const AppleEvent&	inAppleEvent,
+	  AppleEvent&		outAEReply,
+	  AEDesc&			outResult,
+	  CRezObj *			inRezObj,
+	  long				inAENumber)
+{	
+	switch (inAENumber) {
+		case aeRzil_Edit:
+		HandleEditEvent(inAppleEvent, outAEReply, outResult, inRezObj->GetID());	
+		break;
+		
+		
+		case ae_Clone: {
+			StAEDescriptor	repDesc;
+			CRezMapDoc * theDoc = mOwnerMap->GetOwnerDoc();
+			CRezObj * theRezObj = theDoc->DuplicateResource(inRezObj);
+
+			theRezObj->MakeSpecifier(repDesc);
+			::AEPutParamDesc(&outAEReply, keyDirectObject, (const AEDesc *)&repDesc);
+			break;
+		}
+		
+		
+		case ae_Delete:
+		// This is the delete event applied to a resource (not a type). It 
+		// is called from CRezObj::HandleAppleEvent().
+		HandleDeleteResourceEvent(inAppleEvent, outAEReply, outResult, inRezObj);	
+		break;
+		
+		
+		default:
+		mOwnerMap->HandleAppleEvent(inAppleEvent, outAEReply, outResult, inAENumber);
+		break;
+	}
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ HandleEditEvent												  [public]
+// ---------------------------------------------------------------------------
+
+void
+CRezType::HandleEditEvent(
+	const AppleEvent&	inAppleEvent,
+	AppleEvent&			outAEReply,
+	AEDesc&				outResult,
+	short				inID)
+{
+	OSErr		ignoreErr;
+	DescType	returnedType;
+	Size		actualSize;
+	ResType		asType = 0;
+	ResType		theKind = 0;
+	CommandT	theCmd = cmd_EditRez;
+	
+	// Extract optional "as type" parameter.
+	ignoreErr = ::AEGetParamPtr(&inAppleEvent, kAERzilAsType, typeType,
+							  &returnedType, &asType, sizeof(ResType), &actualSize);
+
+	// Extract optional "using" parameter.
+	ignoreErr = ::AEGetParamPtr(&inAppleEvent, rzom_eEditorKind, typeType,
+							  &returnedType, &theKind, sizeof(ResType), &actualSize);
+
+	// Map to the equivalent menu command
+	if (theKind == rzom_eHexEditor) {
+		theCmd = cmd_HexEditRez;
+	} else if (theKind == rzom_eTmplEditor) {
+		theCmd = cmd_TmplEditRez;
+	} else if (asType != 0) {
+		theCmd = cmd_EditRezAsType;
+	} 
+	
+	// Find the corresponding RezObjItem in the RezMap document
+	CRezTypeItem * theRezTypeItem = nil;
+	CRezObjItem * theRezObjItem = nil;
+	
+	CRezMapDoc * theDoc = mOwnerMap->GetOwnerDoc();
+	if (theDoc != nil) {
+		theDoc->GetRezMapWindow()->GetRezMapTable()->GetRezTypeItem(mType);
+
+		if (theRezTypeItem != nil) {
+			if ( ! theRezTypeItem->IsExpanded() ) {
+				theRezTypeItem->Expand();
+			} 
+		} 
+		
+		if (theRezTypeItem == nil) {
+			theRezTypeItem->ExistsItemForID(inID, theRezObjItem);
+		}
+
+		ThrowIfNil_(theRezObjItem);
+		
+		theDoc->TryEdit(theRezObjItem, theCmd, asType);
+	}	
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ HandleDeleteResourceEvent										 [public]
+// ---------------------------------------------------------------------------
+
+void
+CRezType::HandleDeleteResourceEvent(
+	const AppleEvent&	inAppleEvent,
+	AppleEvent&			outAEReply,
+	AEDesc&				outResult,
+	CRezObj *			inRezObj)
+{
+#pragma unused(inAppleEvent, outAEReply, outResult)
+
+	// Find the corresponding RezObjItem in the RezMap document
+	CRezTypeItem * theRezTypeItem = nil;
+	CRezObjItem * theRezObjItem = nil;
+	
+	CRezMapDoc * theDoc = mOwnerMap->GetOwnerDoc();
+	if (theDoc != nil) {
+		theDoc->GetRezMapWindow()->GetRezMapTable()->GetRezTypeItem(mType);
+
+		if (theRezTypeItem != nil) {
+			if ( ! theRezTypeItem->IsExpanded() ) {
+				theRezTypeItem->Expand();
+			} 
+
+			theRezTypeItem->ExistsItemForID(inRezObj->GetID(), theRezObjItem);
+			ThrowIfNil_(theRezObjItem);
+			
+			theDoc->RemoveResource(theRezObjItem);
+		}
+	}
+	
+	// Delete the rezobj in the mRezObjModels list. The RezObj contained 
+	// in the theRezObjItem and the one in the list are not the same.
+	mRezObjModels.Remove(inRezObj);
+	delete inRezObj;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ HandleDeleteTypeEvent										 [public]
+// ---------------------------------------------------------------------------
+
+void
+CRezType::HandleDeleteTypeEvent(
+	const AppleEvent&	inAppleEvent,
+	AppleEvent&			outAEReply,
+	AEDesc&				outResult)
+{
+#pragma unused(inAppleEvent, outAEReply, outResult)
+	
+	// Find the corresponding RezObjItem in the RezMap document
+	CRezTypeItem * theRezTypeItem = nil;
+	CRezObjItem * theRezObjItem = nil;
+	
+	CRezMapDoc * theDoc = mOwnerMap->GetOwnerDoc();
+	if (theDoc != nil) {
+		theDoc->GetRezMapWindow()->GetRezMapTable()->GetRezTypeItem(mType);
+
+		if (theRezTypeItem != nil) {
+			if ( ! theRezTypeItem->IsExpanded() ) {
+				theRezTypeItem->Expand();
+			} 
+
+			// Delete all the RezObjItems it contains
+			LArrayIterator iterator( *(theRezTypeItem->GetSubItems()) );
+			LOutlineItem *theItem = nil;	
+			
+			// Iterate among subitems
+			while (iterator.Next(&theItem)) {
+				theRezObjItem = dynamic_cast<CRezObjItem *>(theItem);
+				ThrowIfNil_(theRezObjItem);
+				
+				theDoc->RemoveResource(theRezObjItem);
+			}
+		}
+	}
+	
+	// The RemoveResource() function takes care of removing the RezTypeItem
+	// itself from the map which causes this RezType to be deleted.
+}
+
 

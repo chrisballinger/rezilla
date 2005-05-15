@@ -2,7 +2,7 @@
 // CRezType.h					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2005-05-03 10:24:20
+//             Last modification: 2005-05-14 06:58:26
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -66,14 +66,14 @@ public:
 	virtual SInt32		CountSubModels( DescType inModelID ) const;
 
 	virtual void		GetSubModelByPosition(
-								DescType			inModelID,
-								SInt32				inPosition,
-								AEDesc&				outToken) const;
+								DescType		inModelID,
+								SInt32			inPosition,
+								AEDesc&			outToken) const;
 
 	virtual void		GetSubModelByName(
-								DescType			inModelID,
-								Str255				inName,
-								AEDesc&				outToken) const;
+								DescType		inModelID,
+								Str255			inName,
+								AEDesc&			outToken) const;
 
 	virtual void		GetSubModelByUniqueID(
 								DescType		inModelID,
@@ -84,6 +84,36 @@ public:
 	
 	TArray<CRezObj*>&	GetRezObjModels() { return mRezObjModels; }
 								
+	virtual void		HandleAppleEvent(
+								const AppleEvent	&inAppleEvent,
+								AppleEvent			&outAEReply,
+								AEDesc				&outResult,
+								SInt32				inAENumber);
+									
+	void				HandleResourceEvent(
+								const AppleEvent	&inAppleEvent,
+								AppleEvent			&outAEReply,
+								AEDesc				&outResult,
+								CRezObj *			inRezObj,
+								long				inAENumber);
+	
+	virtual void		HandleEditEvent(
+								const AppleEvent	&inAppleEvent,
+								AppleEvent			&outAEReply,
+								AEDesc				&outResult,
+								short				inID);
+									
+	virtual void		HandleDeleteResourceEvent(
+								const AppleEvent	&inAppleEvent,
+								AppleEvent			&outAEReply,
+								AEDesc				&outResult,
+							    CRezObj *			inRezObj);
+									
+	virtual void		HandleDeleteTypeEvent(
+								const AppleEvent	&inAppleEvent,
+								AppleEvent			&outAEReply,
+								AEDesc				&outResult);
+									
 protected:
 		ResType				mType;
 		CRezMap * 			mOwnerMap;
