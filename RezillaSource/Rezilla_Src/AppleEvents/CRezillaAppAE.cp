@@ -164,8 +164,8 @@ CRezillaApp::HandleCompareMapsEvent(
 						  &returnedType, &theFSSpec1, sizeof(FSSpec), &actualSize);
 	ThrowIfOSErr_(error);
 	
-	// Extract the "to" parameter (kAERzilCompareTo 'CmTo'): second file for comparison
-	error = ::AEGetParamPtr(&inAppleEvent, kAERzilCompareTo, typeFSS,
+	// Extract the "and" parameter (kAERzilCompareWith): second file for comparison
+	error = ::AEGetParamPtr(&inAppleEvent, kAERzilCompareWith, typeFSS,
 						  &returnedType, &theFSSpec2, sizeof(FSSpec), &actualSize);
 	ThrowIfOSErr_(error);
 	
@@ -625,6 +625,30 @@ CRezillaApp::GetAEProperty(
 			LModelObject::GetAEProperty(inProperty, inRequestedType, outPropertyDesc);
 			break;
 	}
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ AEPropertyExists
+// ---------------------------------------------------------------------------
+
+bool
+CRezillaApp::AEPropertyExists(
+	DescType	inProperty) const
+{
+	bool	exists = false;
+
+	switch (inProperty) {
+		case pVersion: 
+			exists = true;
+			break;
+
+		default:
+			exists = LApplication::AEPropertyExists(inProperty);
+			break;
+	}
+
+	return exists;
 }
 
 

@@ -72,6 +72,7 @@ public:
 
 	virtual void		ShowAboutBox();
 	
+	// Apple events
 	virtual void		HandleAppleEvent(
 								const AppleEvent	&inAppleEvent,
 								AppleEvent			&outAEReply,
@@ -117,6 +118,9 @@ public:
 								DescType			inProperty,
 								const AEDesc&		inRequestedType,
 								AEDesc&				outPropertyDesc) const;
+
+	virtual bool		AEPropertyExists(
+								DescType		inProperty) const;
 
 	static LStr255		VersionFromResource();
 	static void			VersionFromPlist(Str255 & outVersion);
