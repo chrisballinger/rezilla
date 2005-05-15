@@ -2,7 +2,7 @@
 // CEditorDocAE.cp
 // 
 //                       Created: 2005-04-09 10:03:39
-//             Last modification: 2005-05-10 07:19:38
+//             Last modification: 2005-05-14 11:04:19
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -298,4 +298,19 @@ CEditorDoc::GetModelProperty(DescType inProperty) const
 	return theModelObject;
 }
 
-		
+
+// ---------------------------------------------------------------------------
+//	¥ HandleAESave													  [public]
+// ---------------------------------------------------------------------------
+//	Respond to "Save" AppleEvent
+
+void
+CEditorDoc::HandleAESave(
+	const AppleEvent&	/* inSaveAE */)
+{
+	if ( CanSaveChanges() ) {
+		DoSaveChanges();
+	} 
+}
+
+

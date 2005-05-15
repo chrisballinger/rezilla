@@ -2,7 +2,7 @@
 // CRezMapAE.cp					
 // 
 //                       Created: 2004-11-30 08:50:37
-//             Last modification: 2005-05-02 18:52:16
+//             Last modification: 2005-05-14 06:04:02
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -20,6 +20,7 @@
 #include "CRezMapDoc.h"
 #include "UResources.h"
 #include "RezillaConstants.h"
+
 
 #include <LCommander.h>
 
@@ -378,6 +379,26 @@ CRezMap::GetSubModelByUniqueID(
 		} else {
 			ThrowOSErr_(errAENoSuchObject);
 		}
+	}
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ HandleAppleEvent												  [public]
+// ---------------------------------------------------------------------------
+
+void
+CRezMap::HandleAppleEvent(
+	const AppleEvent&	inAppleEvent,
+	AppleEvent&			outAEReply,
+	AEDesc&				outResult,
+	long				inAENumber)
+{	
+	switch (inAENumber) {
+		
+		default:
+		mOwnerDoc->HandleAppleEvent(inAppleEvent, outAEReply, outResult, inAENumber);
+		break;
 	}
 }
 

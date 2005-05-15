@@ -22,6 +22,7 @@
 #include "UResources.h"
 #include "RezillaConstants.h"
 
+#include <LModelObject.h>
 #include <LCommander.h>
 
 
@@ -209,6 +210,86 @@ CRezMapDoc::GetAEPosition(const CRezMapDoc * inDoc) {
 	}
 
 	return result;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ HandleAppleEvent												  [public]
+// ---------------------------------------------------------------------------
+
+void
+CRezMapDoc::HandleAppleEvent(
+	const AppleEvent&	inAppleEvent,
+	AppleEvent&			outAEReply,
+	AEDesc&				outResult,
+	long				inAENumber)
+{	
+	switch (inAENumber) {
+		
+		case aeRzil_Export:
+		HandleExportEvent(inAppleEvent, outAEReply, outResult);
+		break;
+				
+		default:
+		LModelObject::HandleAppleEvent(inAppleEvent, outAEReply, outResult, inAENumber);
+		break;
+	}
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ HandleExportEvent												  [public]
+// ---------------------------------------------------------------------------
+
+void
+CRezMapDoc::HandleExportEvent(
+	const AppleEvent&	inAppleEvent,
+	AppleEvent&			outAEReply,
+	AEDesc&				outResult)
+{	
+	OSErr		error, ignoreErr;
+	DescType	returnedType;
+	Size		actualSize;
+	Size		theSize;
+	FSSpec		fileSpec;
+	ResType		theKind = 0;
+	SInt16		saveFormat = mExportFormat;
+
+	// Check for required "file" parameter
+	error = ::AEGetParamPtr(&inAppleEvent, keyAEFile, typeFSS, &returnedType,
+					&fileSpec, sizeof(FSSpec), &theSize);
+	ThrowIfOSErr_(error);
+	
+	ignoreErr = ::AEGetParamPtr(&inAppleEvent, rzom_eEditorKind, typeType,
+			&returnedType, &theKind, sizeof(ResType), &actualSize);
+
+	// Map to the equivalent menu command
+	switch (theKind) {
+		case rzom_eExportXml:
+		mExportFormat = exportMap_Xml;
+		break;
+		
+		case rzom_eExportText:
+		mExportFormat = exportMap_Text;
+		break;
+		
+		case rzom_eExportHtml:
+		mExportFormat = exportMap_Html;
+		break;
+		
+		case rzom_eExportDerez:
+		mExportFormat = cmd_HexEditRez;
+		break;
+		
+		default:
+		mExportFormat = exportMap_Derez;
+		break;
+
+	}
+	
+	DoExport(fileSpec);
+
+	mExportFormat = saveFormat;
 }
 
 

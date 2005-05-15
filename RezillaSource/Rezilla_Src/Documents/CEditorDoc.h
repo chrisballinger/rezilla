@@ -2,7 +2,7 @@
 // CEditorDoc.h				
 // 
 //                       Created: 2004-02-23 17:57:59
-//             Last modification: 2005-05-11 09:07:49
+//             Last modification: 2005-05-14 11:01:55
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -91,6 +91,8 @@ public:
 	
 	virtual bool	AEPropertyExists(
 								DescType		inProperty) const;
+
+	virtual void	HandleAESave( const AppleEvent& inSaveAE );
 
 	// Accessors
 	CRezObj *		GetRezObj() { return mRezObj; }
