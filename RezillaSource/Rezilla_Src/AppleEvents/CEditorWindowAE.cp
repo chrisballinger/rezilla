@@ -106,26 +106,6 @@ CEditorWindow::GetAEProperty(
 }
 
 
-// // ---------------------------------------------------------------------------
-// //	¥ SetAEProperty
-// // ---------------------------------------------------------------------------
-// // All the RezMapDoc properties are readOnly
-// 
-// void
-// CEditorWindow::SetAEProperty(
-// 	DescType		inProperty,
-// 	const AEDesc&	inValue,
-// 	AEDesc&			outAEReply)
-// {
-// 	switch (inProperty) {
-// 		
-// 		default:
-// 			LWindow::SetAEProperty(inProperty, inValue, outAEReply);
-// 			break;
-// 	}
-// }
-
-
 // ---------------------------------------------------------------------------
 //	¥ AEPropertyExists
 // ---------------------------------------------------------------------------
