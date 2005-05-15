@@ -403,6 +403,72 @@ CRezMap::HandleAppleEvent(
 }
 
 
+// ---------------------------------------------------------------------------
+//	¥ HandleCreateElementEvent
+// ---------------------------------------------------------------------------
+// This handles the "make new" event in order to create a new resource in 
+// the map. Properties can be set using the "with properties" parameter: 
+// the type must be specified in this AERecord. Thus one can write in 
+// AppleScript:
+//   make new resource of map 1 with properties {type:"TEXT", ID:129, attributes:8}
+//  
+// The with data parameter is also supported. For instance:
+//   make new resource of map 1 with properties {type:"TEXT"} with data "Hello Rezilla!"
+//   
+// If the ID is not specified, an unique ID will be attributed. If it does 
+// exist, the new resource will replace the existing one.
+
+LModelObject*
+CRezMap::HandleCreateElementEvent(
+	DescType			inElemClass,
+	DescType			inInsertPosition,
+	LModelObject*		inTargetObject,
+	const AppleEvent&	inAppleEvent,
+	AppleEvent&			outAEReply)
+{
+#pragma unused (inInsertPosition, inTargetObject, outAEReply)
+	
+	OSErr 			error, ignoreErr;
+	AEDesc			propDesc;
+	DescType		returnedType;
+	Size			actualSize;
+	FSSpec			theFSSpec;
+	OSType			theCode;
+	Boolean			isReadOnly = false;
+	SInt16			theFork = fork_datafork;
+	CRezMapDoc *	rezMapDoc;
+
+	if (inElemClass != rzom_cRezObj) {
+		ThrowOSErr_(errAEUnknownObjectType);
+	} 
+
+	// Extract the "with properties" parameter which contains property
+	// values. Here, this parameter is required because it must contain the
+	// Type for the new resource.
+	error = ::AEGetParamDesc(&inAppleEvent, keyAEPropData, typeAERecord, &propDesc);
+	ThrowIfOSErr_(error);
+
+	// Look for "type", "ID", "attributes" keywords (resp. rzom_pType,
+	// rzom_pResID, rzom_pAttributes)
+	error = ::AEGetParamPtr(&inAppleEvent, rzom_pRezFile, typeFSS, &returnedType,
+								&theFSSpec, sizeof(FSSpec), &actualSize);
+	ThrowIfOSErr_(error);
+
+	ignoreErr = ::AEGetParamPtr(&inAppleEvent, rzom_pRezFork, typeEnumerated, &returnedType,
+								&theCode, sizeof(OSType), &actualSize);
+	if (ignoreErr == noErr && theCode == rzom_eRsrcFork) {
+			theFork = fork_rezfork;			
+	} 
+
+	ignoreErr = ::AEGetParamPtr(&inAppleEvent, rzom_pReadOnly, typeBoolean, &returnedType,
+								&isReadOnly, sizeof(Boolean), &actualSize);
+
+	// Extract the "with data" parameter which contains.
+	
+	
+}
+
+
 // // ---------------------------------------------------------------------------
 // //	 GetPositionOfSubModel											  [public]
 // // ---------------------------------------------------------------------------

@@ -2,7 +2,7 @@
 // CRezMap.h					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2005-05-14 05:07:28
+//             Last modification: 2005-05-15 19:50:40
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -129,6 +129,13 @@ public:
 								AEDesc&			inSuperSpecifier,
 								AEDesc&			outSelfSpecifier) const;
 	
+	virtual LModelObject*	HandleCreateElementEvent(
+								DescType			inElemClass,
+								DescType			inInsertPosition,
+								LModelObject*		inTargetObject,
+								const AppleEvent	&inAppleEvent,
+								AppleEvent			&outAEReply);
+
 	CRezMapDoc *	GetOwnerDoc() const { return mOwnerDoc; }
 	
 	CRezType *		GetRezTypeAtIndex(SInt32 inPosition) const;

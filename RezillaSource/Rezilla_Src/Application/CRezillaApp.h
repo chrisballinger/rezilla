@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.h					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2005-05-13 06:43:07
+//             Last modification: 2005-05-15 19:36:01
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -89,6 +89,13 @@ public:
 								AppleEvent&			outAEReply,
 								AEDesc&				outResult);
 	
+	virtual LModelObject*	HandleCreateElementEvent(
+								DescType			inElemClass,
+								DescType			inInsertPosition,
+								LModelObject*		inTargetObject,
+								const AppleEvent	&inAppleEvent,
+								AppleEvent			&outAEReply);
+
 	virtual SInt32		CountSubModels( DescType inModelID ) const;
 
 	virtual void		GetSubModelByPosition(

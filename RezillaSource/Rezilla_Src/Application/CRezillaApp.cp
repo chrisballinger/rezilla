@@ -505,7 +505,7 @@ CRezillaApp::ObeyCommand(
 				// Make a new file object.
 				CRezFile * theRezFile = new CRezFile( theFileSpec, kResFileNotOpened, mCreatingFork );
 				// Make new resource file on disk
-				if (theRezFile->CreateNewFile() == noErr) {
+				if (theRezFile && theRezFile->CreateNewFile() == noErr) {
 					// Open the resource file.
 					theRezFile->OpenFile(fsRdWrPerm);
 				}

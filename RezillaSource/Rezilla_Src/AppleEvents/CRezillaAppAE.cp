@@ -26,11 +26,13 @@
 #include "UMessageDialogs.h"
 #include "UDialogBoxHandler.h"
 
+
 // PP Classes for registration
 #include <LFile.h>
 #include <LWindow.h>
 #include <LWindowHeader.h>
 #include <LDocument.h>
+#include <UExtractFromAEDesc.h>
 
 
 // Standard headers
@@ -233,6 +235,73 @@ CRezillaApp::HandleCompareMapsEvent(
 	CRezCompare::SetIgnoreAttrs(oldIgnoreAttrs);
 	CRezCompare::SetIgnoreData(oldIgnoreData);
 	
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ HandleCreateElementEvent
+// ---------------------------------------------------------------------------
+
+LModelObject*
+CRezillaApp::HandleCreateElementEvent(
+	DescType			inElemClass,
+	DescType			inInsertPosition,
+	LModelObject*		inTargetObject,
+	const AppleEvent&	inAppleEvent,
+	AppleEvent&			outAEReply)
+{
+#pragma unused (inInsertPosition, inTargetObject, outAEReply)
+	
+	OSErr 			error, ignoreErr;
+	AEDesc			propDesc;
+	DescType		returnedType;
+	Size			actualSize;
+	FSSpec			theFSSpec;
+	OSType			theCode;
+	Boolean			isReadOnly = false;
+	SInt16			theFork = fork_datafork;
+	CRezMapDoc *	rezMapDoc;
+
+	if (inElemClass != rzom_cRezMapDoc && inElemClass != rzom_cRezMapWindow) {
+		ThrowOSErr_(errAEUnknownObjectType);
+	} 
+	
+	// Extract the "with properties" parameter which contains property
+	// values in an AERecord. Here, this parameter is required because it
+	// must contain the FSSpec for the new resource map.
+	error = ::AEGetParamDesc(&inAppleEvent, keyAEPropData, typeAERecord, &propDesc);
+	ThrowIfOSErr_(error);
+
+	// Look for "file", "readOnly", "fork" keywords (resp. rzom_pRezFile, 
+	// rzom_pReadOnly, rzom_pRezFork)
+	error = ::AEGetParamPtr(&inAppleEvent, rzom_pRezFile, typeFSS, &returnedType,
+								&theFSSpec, sizeof(FSSpec), &actualSize);
+	ThrowIfOSErr_(error);
+
+	ignoreErr = ::AEGetParamPtr(&inAppleEvent, rzom_pRezFork, typeEnumerated, &returnedType,
+								&theCode, sizeof(OSType), &actualSize);
+	if (ignoreErr == noErr && theCode == rzom_eRsrcFork) {
+			theFork = fork_rezfork;			
+	} 
+
+	ignoreErr = ::AEGetParamPtr(&inAppleEvent, rzom_pReadOnly, typeBoolean, &returnedType,
+								&isReadOnly, sizeof(Boolean), &actualSize);
+
+	// Make a new file object.
+	CRezFile * theRezFile = new CRezFile(theFSSpec, kResFileNotOpened, theFork);
+	ThrowIfNil_(theRezFile);
+
+	// Make new resource file on disk
+	if (theRezFile->CreateNewFile() == noErr) {
+		// Open the resource file.
+		theRezFile->OpenFile(fsRdWrPerm);
+	}
+	rezMapDoc = new CRezMapDoc(this, theRezFile);
+	ThrowIfNil_(rezMapDoc);
+
+	rezMapDoc->SetReadOnly(isReadOnly);	
+	
+	return (LModelObject *) rezMapDoc;
 }
 
 

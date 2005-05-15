@@ -535,8 +535,9 @@ CRezType::HandleDeleteTypeEvent(
 		}
 	}
 	
-	// The RemoveResource() function takes care of removing the RezTypeItem
-	// itself from the map which causes this RezType to be deleted.
+	// Note: the RemoveResource() function takes care of removing the
+	// RezTypeItem itself from the map which causes this RezType to be
+	// deleted.
 }
 
 

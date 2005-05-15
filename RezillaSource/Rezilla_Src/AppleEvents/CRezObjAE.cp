@@ -56,6 +56,7 @@ CRezObj::MakeSelfSpecifier(
 //  rzom_pName			= pName;		// Name ('pnam')
 //  rzom_pType			= 'pTYP';		// Type
 //  rzom_pSpecifier		= 'pSPE';		// Specifier (type,ID)
+//  rzom_pAttributes	= '';
 //  rzom_pSysHeap		= 'pSHP';		// resSysHeap
 //  rzom_pPurgeable		= 'pPUR';		// resPurgeable
 //  rzom_pLocked		= 'pLOC';		// resLocked
@@ -382,8 +383,6 @@ CRezObj::HandleAppleEvent(
 		break;
 	}
 }
-
-
 
 
 
