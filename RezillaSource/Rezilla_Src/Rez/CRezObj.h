@@ -74,7 +74,12 @@ public:
 		virtual bool	AEPropertyExists(
 									DescType	inProperty) const;
 
-
+		virtual void	HandleAppleEvent(
+									const AppleEvent	&inAppleEvent,
+									AppleEvent			&outAEReply,
+									AEDesc				&outResult,
+									SInt32				inAENumber);
+		
 		// Getters and setters
 		
 		OSErr 			GetRezHandle();

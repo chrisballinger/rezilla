@@ -2,7 +2,7 @@
 // CRezMap.h					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2005-05-12 09:06:38
+//             Last modification: 2005-05-14 05:07:28
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -108,6 +108,12 @@ public:
 								const AEDesc	&inKeyData,
 								AEDesc			&outToken) const;
 
+	virtual void		HandleAppleEvent(
+								const AppleEvent	&inAppleEvent,
+								AppleEvent			&outAEReply,
+								AEDesc				&outResult,
+								SInt32				inAENumber);
+									
 // 	virtual SInt32		GetPositionOfSubModel(
 // 								DescType			inModelID,
 // 								const LModelObject*	inSubModel) const;
