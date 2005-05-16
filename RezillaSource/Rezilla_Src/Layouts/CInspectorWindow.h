@@ -2,11 +2,11 @@
 // CInspectorWindow.h				
 // 
 //                       Created: 2003-05-02 07:33:06
-//             Last modification: 2005-05-14 12:14:02
+//             Last modification: 2005-05-16 09:58:23
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003-2004, 2005
+// (c) Copyright : Bernard Desgraupes, 2003-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -62,10 +62,15 @@ public:
 								AEDesc&			outSelfSpecifier) const;
 
 	virtual void	GetAEProperty(
-								DescType			inProperty,
-								const AEDesc&		inRequestedType,
-								AEDesc&				outPropertyDesc) const;
+								DescType		inProperty,
+								const AEDesc&	inRequestedType,
+								AEDesc&			outPropertyDesc) const;
 
+	void			SetAEProperty(
+								DescType		inProperty,
+								const AEDesc&	inValue,
+								AEDesc&			outAEReply);
+	
 	virtual bool	AEPropertyExists(
 								DescType		inProperty) const;
 
@@ -98,6 +103,13 @@ protected:
 private:
 	void				InitializeRezInfo();
 	void				UpdateRezObj();
+	
+	void				GetAEAttribute(
+							   DescType	inProperty,
+							   AEDesc&		outPropertyDesc) const;
+	void				SetAEAttribute(
+							   const AEDesc& inValue, 
+							   short inFlag);
 	
 };
 

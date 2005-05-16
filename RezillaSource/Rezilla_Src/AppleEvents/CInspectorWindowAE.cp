@@ -2,7 +2,7 @@
 // CInspectorWindowAE.cp
 // 
 //                       Created: 2005-04-26 09:48:48
-//             Last modification: 2005-05-14 12:11:16
+//             Last modification: 2005-05-16 09:47:48
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -18,6 +18,8 @@
 #include "RezillaConstants.h"
 
 #include <LCommander.h>
+#include <LCheckBox.h>
+#include <LEditText.h>
 
 
 // ---------------------------------------------------------------------------
@@ -59,15 +61,96 @@ CInspectorWindow::GetAEProperty(
 	OSErr	error = noErr;
 	
 	switch (inProperty) {
-// 		case rzom_pTypesCount:
-// 		break;
-// 		
-// 		case rzom_pResCount:
-// 		break;
+		case pName: 
+		Str255	name;
+		mNameEdit->GetDescriptor(name);
+		error = ::AECreateDesc(typeChar, (Ptr) name + 1,
+							StrLength(name), &outPropertyDesc);
+		ThrowIfOSErr_(error);
+		break;
 		
+
+		case rzom_pResID:
+		Str255	idStr;
+		long	theLong;
+		short	theID;
+		
+		mIDEdit->GetDescriptor(idStr);
+		::StringToNum(idStr, &theLong);
+		theID = theLong;
+		error = ::AECreateDesc(typeSInt16, (Ptr) &theID,
+									sizeof(short), &outPropertyDesc);
+		ThrowIfOSErr_(error);
+		break;
+		
+		
+		case rzom_pSysHeap:
+		case rzom_pLocked:
+		case rzom_pPreload:
+		case rzom_pProtected:
+		case rzom_pPurgeable:
+		GetAEAttribute(inProperty, outPropertyDesc);
+		break;
+		
+				
 		default:
 		LWindow::GetAEProperty(inProperty, inRequestedType,
 									outPropertyDesc);
+		break;
+	}
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ SetAEProperty
+// ---------------------------------------------------------------------------
+
+void
+CInspectorWindow::SetAEProperty(
+	DescType		inProperty,
+	const AEDesc&	inValue,
+	AEDesc&			outAEReply)
+{
+	switch (inProperty) {
+		case pName: {
+			Str255	theName;
+			UExtractFromAEDesc::ThePString(inValue, theName, sizeof(theName));
+			SetDescriptor(theName);
+			break;
+		}
+
+		case rzom_pResID: {
+			Str255	theString;
+			short	theID;
+			
+			UExtractFromAEDesc::TheSInt16(inValue, theID);
+			::NumToString(theID, theString);
+			SetDescriptor(theString);
+			break;
+		}
+		
+		case rzom_pSysHeap:
+		SetAEAttribute(inValue, resSysHeap);
+		break;
+		
+		case rzom_pPurgeable:
+		SetAEAttribute(inValue, resPurgeable);
+		break;
+		
+		case rzom_pLocked:
+		SetAEAttribute(inValue, resLocked);
+		break;
+		
+		case rzom_pProtected:
+		SetAEAttribute(inValue, resProtected);
+		break;
+		
+		case rzom_pPreload:
+		SetAEAttribute(inValue, resPreload);
+		break;
+		
+		default:
+		LModelObject::SetAEProperty(inProperty, inValue, outAEReply);
 		break;
 	}
 }
@@ -84,10 +167,15 @@ CInspectorWindow::AEPropertyExists(
 	bool	exists = false;
 
 	switch (inProperty) {
-// 		case rzom_pTypesCount:
-// 		case rzom_pResCount:
-// 		exists = true;
-// 		break;
+		case pName: 
+		case rzom_pLocked:
+		case rzom_pPreload:
+		case rzom_pProtected:
+		case rzom_pPurgeable:
+		case rzom_pResID:
+		case rzom_pSysHeap:
+		exists = true;
+		break;
 		
 		default:
 			exists = LWindow::AEPropertyExists(inProperty);
@@ -98,3 +186,56 @@ CInspectorWindow::AEPropertyExists(
 }
 
 
+// ---------------------------------------------------------------------------
+//	¥ GetAEAttribute
+// ---------------------------------------------------------------------------
+
+void
+CInspectorWindow::GetAEAttribute(
+	 DescType	inProperty,
+	AEDesc&		outPropertyDesc) const
+{
+	OSErr	error = noErr;
+	Boolean	theBool;
+	
+	switch (inProperty) {
+		case rzom_pSysHeap:
+		theBool = mSysHeapItem->GetValue();
+		break;
+		
+		case rzom_pPurgeable:
+		theBool = mPurgeableItem->GetValue();
+		break;
+		
+		case rzom_pLocked:
+		theBool = mLockedItem->GetValue();
+		break;
+		
+		case rzom_pProtected:
+		theBool = mProtectedItem->GetValue();
+		break;
+		
+		case rzom_pPreload:
+		theBool = mPreloadItem->GetValue();
+		break;
+	}
+	
+	error = ::AECreateDesc(typeBoolean, &theBool,
+						sizeof(Boolean), &outPropertyDesc);
+	ThrowIfOSErr_(error);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ SetAEAttribute
+// ---------------------------------------------------------------------------
+
+void
+CInspectorWindow::SetAEAttribute(const AEDesc& inValue, short inFlag) 
+{
+	Boolean		theBool;
+	
+	UExtractFromAEDesc::TheBoolean(inValue, theBool);
+	
+	SetValueForAttribute(inFlag, theBool);
+}
