@@ -133,27 +133,22 @@ Number of Events: 10
 	Direct parameter type: 'null'
 	Direct parameter description: 
 	Direct parameter is optional. It is a single item, not enumerated. It changes the server's state.
-	Number of additional parameters: 4
+	Number of additional parameters: 3
 	  Parameter 1: new
 		Parameter keyword: 'kocl'
 		Parameter type: 'type'
 		Parameter description: the class of the new element
 		Parameter 1 is required. It is a single item, not enumerated. 
-	  Parameter 2: at
-		Parameter keyword: 'insh'
-		Parameter type: 'insl'
-		Parameter description: the location at which to insert the element
-		Parameter 2 is optional. It is a single item, not enumerated. 
+	  Parameter 2: with properties
+		Parameter keyword: 'prdt'
+		Parameter type: 'reco'
+		Parameter description: Properties of the element. Some properties are required ('file' when creating a new map, 'type' when creating a new resource).
+		Parameter 2 is required. It is a single item, not enumerated. 
 	  Parameter 3: with data
 		Parameter keyword: 'data'
 		Parameter type: '****'
 		Parameter description: the initial data for the element
 		Parameter 3 is optional. It is a single item, not enumerated. 
-	  Parameter 4: with properties
-		Parameter keyword: 'prdt'
-		Parameter type: 'reco'
-		Parameter description: the initial values for the properties of the element
-		Parameter 4 is optional. It is a single item, not enumerated. 
   Event 7: save
 ---------------
 	Description: save a set of objects
@@ -466,7 +461,7 @@ Number of Events: 6
 		Parameter 2 is optional. It is a single item, enumerated. 
   Event 5: export
 -----------------
-	Description: export a rezmap document in a specific format ()
+	Description: export a rezmap document in a specific format
 	Event class: 'Rzil'
 	Event ID: 'expt'
 	Type of reply's direct parameter: 'null'
@@ -494,7 +489,7 @@ Number of Events: 6
 	Type of reply's direct parameter: 'null'
 	Description of reply's direct parameter: 
 	Reply is optional. It is a single item, not enumerated. 
-	Direct parameter type: 'obj '
+	Direct parameter type: 'cRSC'
 	Direct parameter description: Resource object to display info about.
 	Direct parameter is required. It is a single item, not enumerated. It changes the server's state.
 	Number of additional parameters: 0
@@ -834,12 +829,47 @@ Number of Classes: 23
 ----------------------------
 	Object class ID: 'Insp'
 	Class description: the inspector window
-	Number of class properties: 1
+	Number of class properties: 8
 	  (1) inherits
 		Property ID: 'c@#^'
 		Property class: 'cwin'
 		Property description: all properties of the 'window' class
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	  (2) name
+		Property ID: 'pnam'
+		Property class: 'itxt'
+		Property description: the name of the resource
+		Property is a single item, not enumerated. It can be set by the Set Data AE.
+	  (3) ID
+		Property ID: 'ID  '
+		Property class: 'shor'
+		Property description: the ID of the resource
+		Property is a single item, not enumerated. It can be set by the Set Data AE.
+	  (4) system heap
+		Property ID: 'pSHP'
+		Property class: 'bool'
+		Property description: the resSysHeap bit
+		Property is a single item, not enumerated. It can be set by the Set Data AE.
+	  (5) purgeable
+		Property ID: 'pPUR'
+		Property class: 'bool'
+		Property description: the resPurgeable bit
+		Property is a single item, not enumerated. It can be set by the Set Data AE.
+	  (6) locked
+		Property ID: 'pLOC'
+		Property class: 'bool'
+		Property description: the resLocked bit
+		Property is a single item, not enumerated. It can be set by the Set Data AE.
+	  (7) preload
+		Property ID: 'pPRE'
+		Property class: 'bool'
+		Property description: the resPreload bit
+		Property is a single item, not enumerated. It can be set by the Set Data AE.
+	  (8) protected
+		Property ID: 'pPRO'
+		Property class: 'bool'
+		Property description: the resProtected bit
+		Property is a single item, not enumerated. It can be set by the Set Data AE.
 	Number of class elements: 0
 Number of Comparison Operators: 0
 Number of Enumerations: 3
@@ -980,7 +1010,7 @@ Number of Classes: 8
 	  (1) name
 		Property ID: 'pnam'
 		Property class: 'itxt'
-		Property description: the map's name
+		Property description: the resource's name
 		Property is a single item, not enumerated. It can be set by the Set Data AE.
 	  (2) typename
 		Property ID: 'pTYP'
@@ -1022,7 +1052,7 @@ Number of Classes: 8
 		Property class: 'bool'
 		Property description: the resLocked bit
 		Property is a single item, not enumerated. It can be set by the Set Data AE.
-	  (10) resPreload
+	  (10) preload
 		Property ID: 'pPRE'
 		Property class: 'bool'
 		Property description: the resPreload bit
