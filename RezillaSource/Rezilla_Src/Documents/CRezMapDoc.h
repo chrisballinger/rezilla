@@ -2,7 +2,7 @@
 // CRezMapDoc.h				
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2005-05-14 10:23:45
+//             Last modification: 2005-05-16 08:20:45
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -162,7 +162,16 @@ public:
 	
 	SInt32				GetIndexForType(ResType inType) const;
 	
-	CRezObjItem *		CreateNewRes(ResType inType, short inID, Str255* inName, short inAttrs);
+	CRezObjItem *		CreateNewRes(ResType inType, 
+									 short inID, 
+									 Str255* inName, 
+									 short inAttrs);
+	CRezObjItem *		DoCreateResource(
+									 ResType inType, 
+									 short inID, 
+									 Str255* inName, 
+									 short inAttrs, 
+									 Boolean inReplace);
 	CRezObj *			DuplicateResource(CRezObj* inRezObj);
 	void				RemoveResource(CRezObjItem* inRezObjItem);
 	void				PasteResource(ResType inType,

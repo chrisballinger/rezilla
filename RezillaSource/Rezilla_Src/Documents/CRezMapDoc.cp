@@ -2,7 +2,7 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2005-05-11 08:38:55
+//             Last modification: 2005-05-16 08:48:03
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -1454,7 +1454,6 @@ CRezMapDoc::GetRezTypeByType(ResType inType) const
 	LArrayIterator	rezTypeIterator( mRezMapWindow->GetRezMapTable()->GetFirstLevelItems() );
 	
 	while (rezTypeIterator.Next(&theItem)) {
-		Str255	typeName;
 		theRezType = dynamic_cast<CRezTypeItem *>(theItem)->GetRezType();
 		
 		if (theRezType->GetType() == inType) {
@@ -1607,10 +1606,8 @@ CRezMapDoc::NewResDialog()
 CRezObjItem *
 CRezMapDoc::CreateNewRes(ResType inType, short inID, Str255* inName, short inAttrs)
 {
-	CRezTypeItem * theRezTypeItem;
-	CRezObjItem *oldRezObjItem, *newRezObjItem = NULL;
-	CRezType * theRezType;
-	Boolean replacing = false, applyToOthers = false;
+	CRezObjItem *	newRezObjItem = NULL;
+	Boolean			replacing = false, applyToOthers = false;
 	
 	if ( mRezMap->ResourceExists(inType, inID) ) {
 		SInt16 answer = UMessageDialogs::AskSolveUidConflicts(inType, inID, applyToOthers, false);
@@ -1627,10 +1624,24 @@ CRezMapDoc::CreateNewRes(ResType inType, short inID, Str255* inName, short inAtt
 			break;
 			
 			case answer_Cancel:
-			return newRezObjItem;
-			break;
+			return nil;
 		}
 	} 
+	
+	return DoCreateResource(inType, inID, inName, inAttrs, replacing);
+}
+
+
+// ---------------------------------------------------------------------------
+//  DoCreateResource												[public]
+// ---------------------------------------------------------------------------
+
+CRezObjItem *
+CRezMapDoc::DoCreateResource(ResType inType, short inID, Str255* inName, short inAttrs, Boolean inReplace)
+{
+	CRezTypeItem *	theRezTypeItem;
+	CRezObjItem 	*oldRezObjItem, *newRezObjItem = NULL;
+	CRezType *		theRezType;
 	
 	if ( ! mRezMapWindow->GetRezMapTable()->TypeExists(inType, theRezTypeItem) ) {
 		// If the type does not already exist, create a new ResTypeItem
@@ -1640,6 +1651,7 @@ CRezMapDoc::CreateNewRes(ResType inType, short inID, Str255* inName, short inAtt
 	} else {
 		theRezType = theRezTypeItem->GetRezType();
 	}
+	
 	// Expand the RezType item now. If we expand too late, the pointer to
 	// the RezObj item after expansion will not be the same as the one we
 	// obtain with "new CRezObjItem" and the view will not redraw correctly
@@ -1648,7 +1660,7 @@ CRezMapDoc::CreateNewRes(ResType inType, short inID, Str255* inName, short inAtt
 		theRezTypeItem->Expand();
 	}
 
-	if (replacing) {
+	if (inReplace) {
 		if ( theRezTypeItem->ExistsItemForID(inID, oldRezObjItem) ) {
 			// Found a rez obj item: remove it from the table (and from the map in memory)
 			RemoveResource(oldRezObjItem);
@@ -1714,7 +1726,7 @@ CRezMapDoc::DuplicateResource(CRezObj * inRezObj)
 	Str255 theName;
 	
 	if (mReadOnly) {
-		return;
+		return nil;
 	} 
 	
 	ResType theType = inRezObj->GetType();
