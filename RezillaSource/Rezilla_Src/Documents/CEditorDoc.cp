@@ -476,9 +476,10 @@ CEditorDoc::GetDescriptor(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetModifiedResource										[public]
+//  ¥ GetModifiedResource											[public]
 // ---------------------------------------------------------------------------
-// Purely virtual. Define in every subclasses.
+// Note: it is a purely virtual member function. Define in every 
+// subclasses. For instance:
 // 
 // 			Handle
 // 			CEditorDoc::GetModifiedResource(Boolean & /* releaseIt */) 
@@ -488,7 +489,7 @@ CEditorDoc::GetDescriptor(
 
 
 // ---------------------------------------------------------------------------
-//	¥ DoRevert														  [public]
+//	¥ DoRevert														[public]
 // ---------------------------------------------------------------------------
 //	Revert a Document to its last saved version
 
