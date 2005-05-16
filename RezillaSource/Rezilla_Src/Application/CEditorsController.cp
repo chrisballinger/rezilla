@@ -2,7 +2,7 @@
 // CEditorsController.cp					
 // 
 //                       Created: 2004-06-11 10:48:38
-//             Last modification: 2005-03-10 05:46:31
+//             Last modification: 2005-05-16 08:47:40
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -315,7 +315,7 @@ CEditorsController::OpenOrCreateWithTypeAndID(CRezMapTable* inSuperMap, ResType 
 	
 	if (theRezTypeItem == nil || ! theRezTypeItem->ExistsItemForID(inID, theRezObjItem) ) {
 		// The CreateNewRes function will take care of creating the RezTypeItem
-		theRezObjItem = inSuperMap->GetOwnerDoc()->CreateNewRes(inType, inID, NULL, 0);
+		theRezObjItem = inSuperMap->GetOwnerDoc()->DoCreateResource(inType, inID, NULL, 0, false);
 	}
 
 	*outRezObj = theRezObjItem->GetRezObj();
