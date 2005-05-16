@@ -2,7 +2,7 @@
 // CRezMapAE.cp					
 // 
 //                       Created: 2004-11-30 08:50:37
-//             Last modification: 2005-05-14 06:04:02
+//             Last modification: 2005-05-16 07:48:34
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -17,7 +17,9 @@
 #include "CRezMap.h"
 #include "CRezType.h"
 #include "CRezObj.h"
+#include "CRezObjItem.h"
 #include "CRezMapDoc.h"
+#include "UMiscUtils.h"
 #include "UResources.h"
 #include "RezillaConstants.h"
 
@@ -406,16 +408,16 @@ CRezMap::HandleAppleEvent(
 // ---------------------------------------------------------------------------
 //	¥ HandleCreateElementEvent
 // ---------------------------------------------------------------------------
-// This handles the "make new" event in order to create a new resource in 
-// the map. Properties can be set using the "with properties" parameter: 
-// the type must be specified in this AERecord. Thus one can write in 
-// AppleScript:
+// This function handles the "make new" event in order to create a new
+// resource in the map. Properties can be set using the "with properties"
+// parameter: the type must be specified in this AERecord. Thus one can
+// write in AppleScript:
 //   make new resource of map 1 with properties {type:"TEXT", ID:129, attributes:8}
 //  
-// The with data parameter is also supported. For instance:
+// The optional "with data" parameter is also supported. For instance:
 //   make new resource of map 1 with properties {type:"TEXT"} with data "Hello Rezilla!"
 //   
-// If the ID is not specified, an unique ID will be attributed. If it does 
+// If the ID is not specified, an unique ID is attributed. If it does 
 // exist, the new resource will replace the existing one.
 
 LModelObject*
@@ -432,11 +434,13 @@ CRezMap::HandleCreateElementEvent(
 	AEDesc			propDesc;
 	DescType		returnedType;
 	Size			actualSize;
-	FSSpec			theFSSpec;
-	OSType			theCode;
+	OSType			theType;
+	SInt16			theID = 0, theAttrs = 0;
+	Str255			typeStr, nameStr;
 	Boolean			isReadOnly = false;
 	SInt16			theFork = fork_datafork;
-	CRezMapDoc *	rezMapDoc;
+	CRezObj *		rezObj;
+	CRezObjItem *	rezObjItem;
 
 	if (inElemClass != rzom_cRezObj) {
 		ThrowOSErr_(errAEUnknownObjectType);
@@ -444,28 +448,59 @@ CRezMap::HandleCreateElementEvent(
 
 	// Extract the "with properties" parameter which contains property
 	// values. Here, this parameter is required because it must contain the
-	// Type for the new resource.
+	// type of the new resource.
 	error = ::AEGetParamDesc(&inAppleEvent, keyAEPropData, typeAERecord, &propDesc);
 	ThrowIfOSErr_(error);
 
-	// Look for "type", "ID", "attributes" keywords (resp. rzom_pType,
-	// rzom_pResID, rzom_pAttributes)
-	error = ::AEGetParamPtr(&inAppleEvent, rzom_pRezFile, typeFSS, &returnedType,
-								&theFSSpec, sizeof(FSSpec), &actualSize);
+	// Look for some properties. We support "type", "ID", "name",
+	// "attributes" keywords (resp. rzom_pType, rzom_pResID, rzom_pName,
+	// rzom_pAttributes). The type is required, the others are optional.
+	error = ::AEGetParamPtr(&propDesc, rzom_pType, typeChar, &returnedType,
+							typeStr, sizeof(Str255), &actualSize);
 	ThrowIfOSErr_(error);
+	UMiscUtils::PStringToOSType(typeStr, theType);
 
-	ignoreErr = ::AEGetParamPtr(&inAppleEvent, rzom_pRezFork, typeEnumerated, &returnedType,
-								&theCode, sizeof(OSType), &actualSize);
-	if (ignoreErr == noErr && theCode == rzom_eRsrcFork) {
-			theFork = fork_rezfork;			
+	ignoreErr = ::AEGetParamPtr(&propDesc, rzom_pResID, typeSInt16, &returnedType,
+								&theID, sizeof(OSType), &actualSize);
+	if (ignoreErr != noErr) {
+		UniqueID(theType, theID);
+	} 
+	
+	ignoreErr = ::AEGetParamPtr(&propDesc, rzom_pName, typeChar, &returnedType,
+							nameStr, sizeof(Str255), &actualSize);
+	if (ignoreErr != noErr) {
+		nameStr[0] = 0;
 	} 
 
-	ignoreErr = ::AEGetParamPtr(&inAppleEvent, rzom_pReadOnly, typeBoolean, &returnedType,
-								&isReadOnly, sizeof(Boolean), &actualSize);
+	ignoreErr = ::AEGetParamPtr(&propDesc, rzom_pAttributes, typeSInt16, &returnedType,
+								&theAttrs, sizeof(SInt16), &actualSize);
 
-	// Extract the "with data" parameter which contains.
+	// Create a new resource in the RezMapDoc
+	rezObjItem = mOwnerDoc->DoCreateResource(theType, theID, &nameStr, theAttrs, true);
+	ThrowIfNil_(rezObjItem);
 	
+	mOwnerDoc->SetModified(true);
+	rezObj = rezObjItem->GetRezObj();
+	rezObj->SetAttributesInMap(theAttrs);
 	
+	// Look for a possible "with data" parameter containing initial data
+	// for the resource
+	AEDesc	valueDesc;
+	ignoreErr = AEGetParamDesc(&inAppleEvent, keyAEData, typeWildCard, &valueDesc);
+	if (ignoreErr != noErr) {
+		Size theSize = ::AEGetDescDataSize(&valueDesc);
+		Handle dataH = NewHandle(theSize);
+		if (dataH != nil) {
+			ignoreErr = ::AEGetDescData(&valueDesc, *dataH, theSize);
+			rezObj->SetData(dataH);
+			::DisposeHandle(dataH);
+		} 
+	} 
+	
+	if (valueDesc.descriptorType != typeNull) ::AEDisposeDesc(&valueDesc);
+	if (propDesc.descriptorType != typeNull) ::AEDisposeDesc(&propDesc);
+	
+	return (LModelObject*) rezObj;
 }
 
 
