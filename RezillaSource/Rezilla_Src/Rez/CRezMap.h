@@ -2,7 +2,7 @@
 // CRezMap.h					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2005-05-15 19:50:40
+//             Last modification: 2005-05-17 05:36:56
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -56,7 +56,7 @@ public:
 							 Boolean loadIt, 
 							 Boolean createIt = false);
 
-	OSErr	GetAllTypes( TArray<ResType>* & outArray );
+	OSErr	GetAllTypes( TArray<ResType>* & outArray ) const;
 	
 	OSErr	GetTypeAtIndex(short inIdx, ResType & outType);
 
@@ -113,15 +113,7 @@ public:
 								AppleEvent			&outAEReply,
 								AEDesc				&outResult,
 								SInt32				inAENumber);
-									
-// 	virtual SInt32		GetPositionOfSubModel(
-// 								DescType			inModelID,
-// 								const LModelObject*	inSubModel) const;
-
-// 	virtual void		GetAllSubModels(
-// 								DescType		inModelID,
-// 								AEDesc			&outToken) const;
-
+	
 	virtual bool	AEPropertyExists(
 								DescType		inProperty) const;
 
@@ -165,15 +157,6 @@ protected:
 	CRezMapDoc *		mOwnerDoc;
 };
 
-
-
-// typedef struct	STypeIdSpec {
-// 	CRezType		*typeObject;
-// 	CRezObj			*rezObject;
-// } STypeIdSpec, *STypeIdSpecP, **STypeIdSpecH;
-// 
-// 
-// const	DescType	type_TypeIdSpecifier	= FOUR_CHAR_CODE('TISp');
 
 
 #endif

@@ -2,7 +2,7 @@
 // CRezMap.cp					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2005-04-30 08:58:58
+//             Last modification: 2005-05-17 05:39:23
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -376,7 +376,7 @@ CRezMap::HasResourceWithTypeAndName(ResType inType, ConstStr255Param inName)
 // Get an array of all types current resource map.
 
 OSErr
-CRezMap::GetAllTypes( TArray<ResType>* & outArray )
+CRezMap::GetAllTypes( TArray<ResType>* & outArray ) const
 {
     short numTypes;
     ResType theType;
