@@ -217,7 +217,7 @@ Number of Classes: 5
 -----------------------------
 	Object class ID: 'capp'
 	Class description: the application
-	Number of class properties: 4
+	Number of class properties: 2
 	  (1) name
 		Property ID: 'pnam'
 		Property class: 'itxt'
@@ -227,16 +227,6 @@ Number of Classes: 5
 		Property ID: 'vers'
 		Property class: 'itxt'
 		Property description: the version of the application
-		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
-	  (3) clipboard
-		Property ID: 'pcli'
-		Property class: 'obj '
-		Property description: Rezilla's private clipboard
-		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
-	  (4) preferences
-		Property ID: 'pfrp'
-		Property class: 'obj '
-		Property description: Various preferences that apply to the application as a whole
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	Number of class elements: 4
 		Class element ID: 'cwin'
@@ -829,47 +819,52 @@ Number of Classes: 23
 ----------------------------
 	Object class ID: 'Insp'
 	Class description: the inspector window
-	Number of class properties: 8
+	Number of class properties: 9
 	  (1) inherits
 		Property ID: 'c@#^'
 		Property class: 'cwin'
 		Property description: all properties of the 'window' class
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
-	  (2) name
-		Property ID: 'pnam'
-		Property class: 'itxt'
-		Property description: the name of the resource
-		Property is a single item, not enumerated. It can be set by the Set Data AE.
-	  (3) ID
+	  (2) ID
 		Property ID: 'ID  '
 		Property class: 'shor'
-		Property description: the ID of the resource
+		Property description: the value of the 'ID' field
+		Property is a single item, not enumerated. It can be set by the Set Data AE.
+	  (3) name
+		Property ID: 'pnam'
+		Property class: 'itxt'
+		Property description: the value of the 'name' field
 		Property is a single item, not enumerated. It can be set by the Set Data AE.
 	  (4) system heap
 		Property ID: 'pSHP'
 		Property class: 'bool'
-		Property description: the resSysHeap bit
+		Property description: the value of the 'System Heap' checkbox
 		Property is a single item, not enumerated. It can be set by the Set Data AE.
 	  (5) purgeable
 		Property ID: 'pPUR'
 		Property class: 'bool'
-		Property description: the resPurgeable bit
+		Property description: the value of the 'Purgeable' checkbox
 		Property is a single item, not enumerated. It can be set by the Set Data AE.
 	  (6) locked
 		Property ID: 'pLOC'
 		Property class: 'bool'
-		Property description: the resLocked bit
+		Property description: the value of the 'Locked' checkbox
 		Property is a single item, not enumerated. It can be set by the Set Data AE.
 	  (7) preload
 		Property ID: 'pPRE'
 		Property class: 'bool'
-		Property description: the resPreload bit
+		Property description: the value of the 'Preload' checkbox
 		Property is a single item, not enumerated. It can be set by the Set Data AE.
 	  (8) protected
 		Property ID: 'pPRO'
 		Property class: 'bool'
-		Property description: the resProtected bit
+		Property description: the value of the 'Protected' checkbox
 		Property is a single item, not enumerated. It can be set by the Set Data AE.
+	  (9) current resource
+		Property ID: 'pRSC'
+		Property class: 'cRSC'
+		Property description: the resource for which info is currently displayed
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	Number of class elements: 0
 Number of Comparison Operators: 0
 Number of Enumerations: 3
@@ -922,28 +917,33 @@ Number of Classes: 8
 ---------------------
 	Object class ID: 'cMAP'
 	Class description: a resource map
-	Number of class properties: 5
+	Number of class properties: 6
 	  (1) refnum
 		Property ID: 'pRFN'
 		Property class: 'shor'
 		Property description: the reference number of the map in memory
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
-	  (2) attributes
+	  (2) all types
+		Property ID: 'pTYL'
+		Property class: 'list'
+		Property description: the list of all types (in alphabetical order)
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	  (3) attributes
 		Property ID: 'pATR'
 		Property class: 'shor'
 		Property description: the global value of the map attributes (sum of the individual flags)
 		Property is a single item, not enumerated. It can be set by the Set Data AE.
-	  (3) readOnly
+	  (4) readOnly
 		Property ID: 'pRDO'
 		Property class: 'bool'
 		Property description: the mapReadOnly bit
 		Property is a single item, not enumerated. It can be set by the Set Data AE.
-	  (4) compact
+	  (5) compact
 		Property ID: 'pCPT'
 		Property class: 'bool'
 		Property description: the mapCompact bit
 		Property is a single item, not enumerated. It can be set by the Set Data AE.
-	  (5) changed
+	  (6) changed
 		Property ID: 'imod'
 		Property class: 'bool'
 		Property description: the mapChanged bit
@@ -969,7 +969,7 @@ Number of Classes: 8
 ----------------------
 	Object class ID: 'cTYP'
 	Class description: a resource type
-	Number of class properties: 3
+	Number of class properties: 4
 	  (1) index
 		Property ID: 'pidx'
 		Property class: 'long'
@@ -984,6 +984,11 @@ Number of Classes: 8
 		Property ID: 'ID  '
 		Property class: 'magn'
 		Property description: a type as a long unsigned integer
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	  (4) all IDs
+		Property ID: 'pIDL'
+		Property class: 'list'
+		Property description: the list of all IDs of resources belonging to this type
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	Number of class elements: 1
 		Class element ID: 'cRSC'

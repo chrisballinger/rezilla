@@ -98,6 +98,33 @@ CRezType::GetAEProperty(
 		break;
 
 		
+		case rzom_pIDsList: {
+			if (outPropertyDesc.descriptorType == typeNull) {
+				error = ::AECreateList(nil, 0, false, &outPropertyDesc);
+				ThrowIfOSErr_(error);
+			}
+			
+			short		theID;
+			UInt16		index = 1;
+			LLongComparator* idComparator = new LLongComparator;
+			TArray<short>* idsArray = new TArray<short>( idComparator, true);
+			TArrayIterator<short>	iterator(*idsArray);
+			
+			GetAllRezIDs(idsArray);
+			
+			while (iterator.Next(theID)) {
+				StAEDescriptor	keyData;
+								
+				error = ::AECreateDesc(typeSInt16, &theID, sizeof(short), &keyData.mDesc);
+				error = ::AEPutDesc(&outPropertyDesc, index, &keyData.mDesc);
+				index++;
+			}
+			
+			if (idsArray != nil) { delete idsArray; } 
+			break; 
+		}
+			
+		
 		default:
 		LModelObject::GetAEProperty(inProperty, inRequestedType,
 									outPropertyDesc);
@@ -407,6 +434,8 @@ CRezType::HandleEditEvent(
 	AEDesc&				outResult,
 	short				inID)
 {
+#pragma unused(outAEReply, outResult)
+	
 	OSErr		ignoreErr;
 	DescType	returnedType;
 	Size		actualSize;

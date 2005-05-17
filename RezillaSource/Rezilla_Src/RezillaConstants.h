@@ -1162,12 +1162,14 @@ const DescType rzom_pEditedRsrcDocs	= 'pERD';	// Edited resource documents
 
 //    RezMap
 const DescType rzom_pRefNum			= 'pRFN';		// RefNum
+const DescType rzom_pTypesList		= 'pTYL';		// List of all types
 const DescType rzom_pAttributes		= 'pATR';		// Attributes
 const DescType rzom_pReadOnly		= 'pRDO';		// mapReadOnly
 const DescType rzom_pCompact		= 'pCPT';		// mapCompact
 const DescType rzom_pChanged		= pIsModified;	// mapChanged/resChanged ('imod')
 
 //    RezType
+const DescType rzom_pIDsList		= 'pIDL';		// List of all IDs
 
 //    Resource
 const DescType rzom_pResID			= pID;			// ID ('ID  ')			 
@@ -1183,10 +1185,9 @@ const DescType rzom_pDataSize		= 'pSIZ';		// Size of the data
 const DescType rzom_pSizeOnDisk		= 'pDSZ';		// Size on disk
 const DescType rzom_pData			= pContents;	// Data ('pcnt', was 'pDAT')
 
-//    Specifier
+//    Resource specifier
 const DescType rzom_cRezTypeID		= 'TyId';		// Resource specifier object: 
                            			         		//   e-g {"aete", 128}
-
 //    Maps Comparison
 const DescType rzom_pCompCriteria		= 'pCRI';	// Comparison criteria
 const DescType rzom_pIgnoreName			= 'IgnN';	// IgnoreNameDiff
@@ -1205,7 +1206,10 @@ const DescType rzom_pResCount			= 'Rcnt';	// Total resources count
 const DescType rzom_pKind			= 'pKND';	// Kind
 
 //    Tmpl editor document
-const DescType rzom_pTemplate		= 'pTMP';	// Template
+// const DescType rzom_pTemplate		= 'pTMP';	// Template
+
+//    Inspector window
+const DescType rzom_pCurrResource	= 'pRSC';	// Resource for which info is displayed
 
 // Aete Enumerator IDs
 const DescType rzom_eEditorKind		= 'EKND';

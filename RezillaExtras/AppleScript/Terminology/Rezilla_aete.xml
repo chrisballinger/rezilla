@@ -879,54 +879,6 @@
 							<Plural>singular</Plural>
 						</PropertyFlags>
 					</Property>
-					<Property>
-						<PropertyName>clipboard</PropertyName>
-						<PropertyID>pcli</PropertyID>
-						<PropertyClass>obj </PropertyClass>
-						<PropertyDescription>Rezilla's private clipboard</PropertyDescription>
-						<PropertyFlags>
-							<Reserved/>
-							<IsListOfItems>singleItem</IsListOfItems>
-							<IsEnumerated>notEnumerated</IsEnumerated>
-							<IsReadWrite>readOnly</IsReadWrite>
-							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
-							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
-							<PropertyIsReference>propertyIsValue</PropertyIsReference>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<IsApostrophe>noApostrophe</IsApostrophe>
-							<IsFeminine>notFeminine</IsFeminine>
-							<IsMasculine>notMasculine</IsMasculine>
-							<Plural>singular</Plural>
-						</PropertyFlags>
-					</Property>
-					<Property>
-						<PropertyName>preferences</PropertyName>
-						<PropertyID>pfrp</PropertyID>
-						<PropertyClass>obj </PropertyClass>
-						<PropertyDescription>Various preferences that apply to the application as a whole</PropertyDescription>
-						<PropertyFlags>
-							<Reserved/>
-							<IsListOfItems>singleItem</IsListOfItems>
-							<IsEnumerated>notEnumerated</IsEnumerated>
-							<IsReadWrite>readOnly</IsReadWrite>
-							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
-							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
-							<PropertyIsReference>propertyIsValue</PropertyIsReference>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<IsApostrophe>noApostrophe</IsApostrophe>
-							<IsFeminine>notFeminine</IsFeminine>
-							<IsMasculine>notMasculine</IsMasculine>
-							<Plural>singular</Plural>
-						</PropertyFlags>
-					</Property>
 				</ArrayProperties>
 				<ArrayElements>
 					<Element>
@@ -3103,10 +3055,10 @@
 						</PropertyFlags>
 					</Property>
 					<Property>
-						<PropertyName>name</PropertyName>
-						<PropertyID>pnam</PropertyID>
-						<PropertyClass>itxt</PropertyClass>
-						<PropertyDescription>the name of the resource</PropertyDescription>
+						<PropertyName>ID</PropertyName>
+						<PropertyID>ID  </PropertyID>
+						<PropertyClass>shor</PropertyClass>
+						<PropertyDescription>the value of the 'ID' field</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
@@ -3127,10 +3079,10 @@
 						</PropertyFlags>
 					</Property>
 					<Property>
-						<PropertyName>ID</PropertyName>
-						<PropertyID>ID  </PropertyID>
-						<PropertyClass>shor</PropertyClass>
-						<PropertyDescription>the ID of the resource</PropertyDescription>
+						<PropertyName>name</PropertyName>
+						<PropertyID>pnam</PropertyID>
+						<PropertyClass>itxt</PropertyClass>
+						<PropertyDescription>the value of the 'name' field</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
@@ -3154,7 +3106,7 @@
 						<PropertyName>system heap</PropertyName>
 						<PropertyID>pSHP</PropertyID>
 						<PropertyClass>bool</PropertyClass>
-						<PropertyDescription>the resSysHeap bit</PropertyDescription>
+						<PropertyDescription>the value of the 'System Heap' checkbox</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
@@ -3178,7 +3130,7 @@
 						<PropertyName>purgeable</PropertyName>
 						<PropertyID>pPUR</PropertyID>
 						<PropertyClass>bool</PropertyClass>
-						<PropertyDescription>the resPurgeable bit</PropertyDescription>
+						<PropertyDescription>the value of the 'Purgeable' checkbox</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
@@ -3202,7 +3154,7 @@
 						<PropertyName>locked</PropertyName>
 						<PropertyID>pLOC</PropertyID>
 						<PropertyClass>bool</PropertyClass>
-						<PropertyDescription>the resLocked bit</PropertyDescription>
+						<PropertyDescription>the value of the 'Locked' checkbox</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
@@ -3226,7 +3178,7 @@
 						<PropertyName>preload</PropertyName>
 						<PropertyID>pPRE</PropertyID>
 						<PropertyClass>bool</PropertyClass>
-						<PropertyDescription>the resPreload bit</PropertyDescription>
+						<PropertyDescription>the value of the 'Preload' checkbox</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
@@ -3250,12 +3202,36 @@
 						<PropertyName>protected</PropertyName>
 						<PropertyID>pPRO</PropertyID>
 						<PropertyClass>bool</PropertyClass>
-						<PropertyDescription>the resProtected bit</PropertyDescription>
+						<PropertyDescription>the value of the 'Protected' checkbox</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
 							<IsEnumerated>notEnumerated</IsEnumerated>
 							<IsReadWrite>readWrite</IsReadWrite>
+							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+							<PropertyIsReference>propertyIsValue</PropertyIsReference>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<IsApostrophe>noApostrophe</IsApostrophe>
+							<IsFeminine>notFeminine</IsFeminine>
+							<IsMasculine>notMasculine</IsMasculine>
+							<Plural>singular</Plural>
+						</PropertyFlags>
+					</Property>
+					<Property>
+						<PropertyName>current resource</PropertyName>
+						<PropertyID>pRSC</PropertyID>
+						<PropertyClass>cRSC</PropertyClass>
+						<PropertyDescription>the resource for which info is currently displayed</PropertyDescription>
+						<PropertyFlags>
+							<Reserved/>
+							<IsListOfItems>singleItem</IsListOfItems>
+							<IsEnumerated>notEnumerated</IsEnumerated>
+							<IsReadWrite>readOnly</IsReadWrite>
 							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
 							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
 							<PropertyIsReference>propertyIsValue</PropertyIsReference>
@@ -3365,6 +3341,30 @@
 						<PropertyID>pRFN</PropertyID>
 						<PropertyClass>shor</PropertyClass>
 						<PropertyDescription>the reference number of the map in memory</PropertyDescription>
+						<PropertyFlags>
+							<Reserved/>
+							<IsListOfItems>singleItem</IsListOfItems>
+							<IsEnumerated>notEnumerated</IsEnumerated>
+							<IsReadWrite>readOnly</IsReadWrite>
+							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+							<PropertyIsReference>propertyIsValue</PropertyIsReference>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<IsApostrophe>noApostrophe</IsApostrophe>
+							<IsFeminine>notFeminine</IsFeminine>
+							<IsMasculine>notMasculine</IsMasculine>
+							<Plural>singular</Plural>
+						</PropertyFlags>
+					</Property>
+					<Property>
+						<PropertyName>all types</PropertyName>
+						<PropertyID>pTYL</PropertyID>
+						<PropertyClass>list</PropertyClass>
+						<PropertyDescription>the list of all types (in alphabetical order)</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
@@ -3585,6 +3585,30 @@
 						<PropertyID>ID  </PropertyID>
 						<PropertyClass>magn</PropertyClass>
 						<PropertyDescription>a type as a long unsigned integer</PropertyDescription>
+						<PropertyFlags>
+							<Reserved/>
+							<IsListOfItems>singleItem</IsListOfItems>
+							<IsEnumerated>notEnumerated</IsEnumerated>
+							<IsReadWrite>readOnly</IsReadWrite>
+							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+							<PropertyIsReference>propertyIsValue</PropertyIsReference>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<IsApostrophe>noApostrophe</IsApostrophe>
+							<IsFeminine>notFeminine</IsFeminine>
+							<IsMasculine>notMasculine</IsMasculine>
+							<Plural>singular</Plural>
+						</PropertyFlags>
+					</Property>
+					<Property>
+						<PropertyName>all IDs</PropertyName>
+						<PropertyID>pIDL</PropertyID>
+						<PropertyClass>list</PropertyClass>
+						<PropertyDescription>the list of all IDs of resources belonging to this type</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
