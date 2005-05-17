@@ -2,7 +2,7 @@
 // CRezMapAE.cp					
 // 
 //                       Created: 2004-11-30 08:50:37
-//             Last modification: 2005-05-16 07:48:34
+//             Last modification: 2005-05-16 22:34:12
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -20,6 +20,8 @@
 #include "CRezObjItem.h"
 #include "CRezMapDoc.h"
 #include "UMiscUtils.h"
+#include "UCodeTranslator.h"
+#include "UCompareUtils.h"
 #include "UResources.h"
 #include "RezillaConstants.h"
 
@@ -88,6 +90,36 @@ CRezMap::GetAEProperty(
 		ThrowIfOSErr_(error);
 		break;
 		
+		case rzom_pTypesList: {
+			if (outPropertyDesc.descriptorType == typeNull) {
+				error = ::AECreateList(nil, 0, false, &outPropertyDesc);
+				ThrowIfOSErr_(error);
+			}
+			
+			ResType		theType;
+			UInt16		index = 1;
+			CTypeComparator* typeComparator = new CTypeComparator;
+			TArray<ResType>* typesArray = new TArray<ResType>( typeComparator, true);
+			TArrayIterator<ResType>	iterator(*typesArray);
+			
+			GetAllTypes(typesArray);
+			
+			while (iterator.Next(theType)) {
+				Str255			name;
+				StAEDescriptor	keyData;
+				
+				UMiscUtils::OSTypeToPString(theType, name);
+				
+				error = ::AECreateDesc(typeChar, name + 1, name[0], &keyData.mDesc);
+				error = ::AEPutDesc(&outPropertyDesc, index, &keyData.mDesc);
+				index++;
+			}
+			
+			if (typesArray != nil) { delete typesArray; } 
+			break; 
+		}
+			
+		
 		case rzom_pReadOnly:
 		GetAERezMapAttribute(mapReadOnly, outPropertyDesc);
 		break;
@@ -143,18 +175,6 @@ CRezMap::SetAEProperty(
 			break;
 	}
 }
-
-
-// // ---------------------------------------------------------------------------
-// //	 SetAEProperty
-// // ---------------------------------------------------------------------------
-// 
-// void
-// CRezMap::SetAEProperty(
-// 	DescType		inProperty,
-// 	const AEDesc&	inValue,
-// 	AEDesc&			outAEReply)
-// {}
 
 
 // ---------------------------------------------------------------------------
@@ -386,6 +406,78 @@ CRezMap::GetSubModelByUniqueID(
 
 
 // ---------------------------------------------------------------------------
+//	 GetRezTypeAtIndex
+// ---------------------------------------------------------------------------
+
+CRezType *
+CRezMap::GetRezTypeAtIndex(SInt32 inPosition) const
+{
+	CRezType * theRezType = nil;
+	CRezMapDoc * theDoc = GetOwnerDoc();
+	
+	if (theDoc != nil) {
+		theRezType = theDoc->GetRezTypeAtIndex(inPosition);
+	} 
+	
+	return theRezType;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ GetModelTokenSelf
+// ---------------------------------------------------------------------------
+//	Intercept the Type-ID specifier case: in this case inModelID should be
+//	rzom_cRezObj and inKeyForm should be formAbsolutePosition ('indx').
+//	Otherwise call the inherited method.
+
+void
+CRezMap::GetModelTokenSelf(
+	DescType		inModelID,
+	DescType		inKeyForm,
+	const AEDesc&	inKeyData,
+	AEDesc&			outToken) const
+{
+	if (inModelID == rzom_cRezObj) {
+		ThrowIfNot_(inKeyForm == formAbsolutePosition);
+		
+		// inKeyData should be a two elements list whose first element is 
+		// the required type and the second is the required ID
+		OSErr		error;
+		char		buffer[256];
+		Str255		typName;
+		SInt32		numArgs;
+		AEKeyword	theKey;
+		DescType	theType;
+		Size		theSize;
+		StAEDescriptor	idDesc;
+
+		error = ::AECountItems(&inKeyData, &numArgs);
+		ThrowIfOSErr_(error);
+		ThrowIfNot_(numArgs >= 2);
+		
+		error = ::AEGetNthPtr(&inKeyData, 1, typeChar, &theKey, &theType, 
+						 (Ptr) buffer, sizeof(buffer), &theSize);
+		ThrowIfOSErr_(error);
+		buffer[theSize] = 0;
+		CopyCStringToPascal(buffer, typName);				 
+		
+		error = ::AEGetNthDesc(&inKeyData, 2, typeSInt32, &theKey, idDesc);
+		ThrowIfOSErr_(error);
+		
+		CRezType * theRezType = theRezType = mOwnerDoc->GetRezTypeByName(typName);
+		
+		if (theRezType != nil) {
+			theRezType->GetSubModelByUniqueID(rzom_cRezObj, idDesc, outToken);
+		} else {
+			ThrowOSErr_(errAENoSuchObject);
+		}
+	} else {
+		LModelObject::GetModelTokenSelf(inModelID, inKeyForm, inKeyData, outToken);
+	}
+}
+
+
+// ---------------------------------------------------------------------------
 //	¥ HandleAppleEvent												  [public]
 // ---------------------------------------------------------------------------
 
@@ -484,7 +576,9 @@ CRezMap::HandleCreateElementEvent(
 	rezObj->SetAttributesInMap(theAttrs);
 	
 	// Look for a possible "with data" parameter containing initial data
-	// for the resource
+	// for the resource. This data is expected to be in hexadecimal format
+	// except in the case of a TEXT resource where the text is passed
+	// directly.
 	AEDesc	valueDesc;
 	ignoreErr = AEGetParamDesc(&inAppleEvent, keyAEData, typeWildCard, &valueDesc);
 	if (ignoreErr != noErr) {
@@ -492,7 +586,13 @@ CRezMap::HandleCreateElementEvent(
 		Handle dataH = NewHandle(theSize);
 		if (dataH != nil) {
 			ignoreErr = ::AEGetDescData(&valueDesc, *dataH, theSize);
-			rezObj->SetData(dataH);
+			if (theType == 'TEXT') {
+				rezObj->SetData( dataH );
+			} else {
+				StHexToByteTranslator translator(dataH);
+				translator.Convert();
+				rezObj->SetData( translator.GetOutHandle() );
+			}
 			::DisposeHandle(dataH);
 		} 
 	} 
@@ -501,142 +601,6 @@ CRezMap::HandleCreateElementEvent(
 	if (propDesc.descriptorType != typeNull) ::AEDisposeDesc(&propDesc);
 	
 	return (LModelObject*) rezObj;
-}
-
-
-// // ---------------------------------------------------------------------------
-// //	 GetPositionOfSubModel											  [public]
-// // ---------------------------------------------------------------------------
-// //	Return the position (1 = first) of a SubModel within an Application
-// 
-// SInt32
-// CRezMap::GetPositionOfSubModel(
-// 	DescType				inModelID,
-// 	const LModelObject*		inSubModel) const
-// {
-// 	SInt32	position;
-// 
-// 	switch (inModelID) {
-// 
-// 		case rzom_cRezType: 
-// // 		const ResType theType = dynamic_cast<CRezType *>(inSubModel)->GetType();
-// // 		position = mOwnerDoc->GetIndexForType(theType);
-// 		break;
-// 		
-// 		
-// 		default:
-// 		position = LModelObject::GetPositionOfSubModel(inModelID, inSubModel);
-// 		break;
-// 	}
-// 
-// 	return position;
-// }
-
-
-// ---------------------------------------------------------------------------
-// //	 GetAllSubModels
-// // ---------------------------------------------------------------------------
-// //	Pass back a Token list for all SubModels of the specified type
-// 
-// void
-// CRezMap::GetAllSubModels(
-// 	DescType		inModelID,
-// 	AEDesc			&outToken) const
-// {
-// 	OSErr error;
-// 	
-// 	if (inModelID == rzom_cRezMap) {
-// 		if (outToken.descriptorType == typeNull) {
-// 			error = ::AECreateList(nil, 0, false, &outToken);
-// 			ThrowIfOSErr_(error);
-// 		}
-// 
-// 		TArrayIterator<CRezMap*> iterator( CRezMap::GetRezMapList() );
-// 		CRezMap *	theMap = nil;
-// 
-// 		while (iterator.Next(theMap)) {
-// 			StAEDescriptor	subToken;
-// 			PutInToken(theMap, outToken);					
-// 			error = ::AEPutDesc(&outToken, 0, subToken);
-// 			ThrowIfOSErr_(error);			
-// 			theMap = nil;
-// 		}
-// 	} else {
-// 		LModelObject::GetAllSubModels(inModelID, outToken);
-// 	}
-// }
-
-
-
-// ---------------------------------------------------------------------------
-//	 GetRezTypeAtIndex
-// ---------------------------------------------------------------------------
-
-CRezType *
-CRezMap::GetRezTypeAtIndex(SInt32 inPosition) const
-{
-	CRezType * theRezType = nil;
-	CRezMapDoc * theDoc = GetOwnerDoc();
-	
-	if (theDoc != nil) {
-		theRezType = theDoc->GetRezTypeAtIndex(inPosition);
-	} 
-	
-	return theRezType;
-}
-
-
-// ---------------------------------------------------------------------------
-//	¥ GetModelTokenSelf
-// ---------------------------------------------------------------------------
-//	Intercept the Type-ID specifier case: in this case inModelID should be
-//	rzom_cRezObj and inKeyForm should be formAbsolutePosition ('indx').
-//	Otherwise call the inherited method.
-
-void
-CRezMap::GetModelTokenSelf(
-	DescType		inModelID,
-	DescType		inKeyForm,
-	const AEDesc&	inKeyData,
-	AEDesc&			outToken) const
-{
-	if (inModelID == rzom_cRezObj) {
-		ThrowIfNot_(inKeyForm == formAbsolutePosition);
-		
-		// inKeyData should be a two elements list whose first element is 
-		// the required type and the second is the required ID
-		OSErr		error;
-		char		buffer[256];
-		Str255		typName;
-		SInt32		numArgs;
-		AEKeyword	theKey;
-		DescType	theType;
-		Size		theSize;
-		StAEDescriptor	idDesc;
-
-		error = ::AECountItems(&inKeyData, &numArgs);
-		ThrowIfOSErr_(error);
-		ThrowIfNot_(numArgs >= 2);
-		
-		error = ::AEGetNthPtr(&inKeyData, 1, typeChar, &theKey, &theType, 
-						 (Ptr) buffer, sizeof(buffer), &theSize);
-		ThrowIfOSErr_(error);
-		buffer[theSize] = 0;
-		CopyCStringToPascal(buffer, typName);				 
-		
-		error = ::AEGetNthDesc(&inKeyData, 2, typeSInt32, &theKey, idDesc);
-		ThrowIfOSErr_(error);
-		
-		CRezType * theRezType = theRezType = mOwnerDoc->GetRezTypeByName(typName);
-		
-		if (theRezType != nil) {
-			theRezType->GetSubModelByUniqueID(rzom_cRezObj, idDesc, outToken);
-		} else {
-			ThrowOSErr_(errAENoSuchObject);
-		}
-	} else {
-		LModelObject::GetModelTokenSelf(inModelID, inKeyForm, inKeyData, outToken);
-	}
 }
 
 
