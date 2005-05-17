@@ -28,7 +28,12 @@ This changes log is in reverse chronological order (from bottom to top).
 $Date$
 
 ================================================================================
-= 1.0.6b4	                             last update: 
+= 1.0.6b5	                             last update: 
+================================================================================
+¥ Debugging and testing phase before 1.0.6b release
+
+================================================================================
+= 1.0.6b4	                             last update: 2005-05-17 07:38:53
 ================================================================================
 ¥ Implemented AppleScript classes (Rezilla Object Model): "Rezilla Suite" 
   and "Resource Suite".
@@ -36,7 +41,7 @@ $Date$
 ¥ Implemented AppleScript Rezilla specific commands for resource maps. 
 ¥ Switched to CCasePopupField self contained class in templates.
 ¥ Implemented AppleScript "Rezilla" and "Resource" suites.
-¥ 
+¥ Implemented AppleScript verbs.
 
 ================================================================================
 = 1.0.6b3	                             last update: 2005-04-10 10:55:46
