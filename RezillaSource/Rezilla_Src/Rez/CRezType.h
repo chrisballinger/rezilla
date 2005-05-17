@@ -2,7 +2,7 @@
 // CRezType.h					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2005-05-14 06:58:26
+//             Last modification: 2005-05-17 07:23:54
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -35,7 +35,7 @@ public:
 	OSErr	GetWithName(ConstStr255Param inName, Handle & outHandle) const;
 	
 	OSErr	GetAllResources( TArray<Handle>* & outArray );
-	OSErr	GetAllRezIDs( TArray<short>* & outArray );
+	OSErr	GetAllRezIDs( TArray<short>* & outArray ) const;
 
 	CRezMap*		GetOwnerMap() const { return mOwnerMap;}
 	void			SetOwnerMap(CRezMap* theOwnerMap) {mOwnerMap = theOwnerMap;}

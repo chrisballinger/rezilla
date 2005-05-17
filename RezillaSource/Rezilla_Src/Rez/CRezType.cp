@@ -2,7 +2,7 @@
 // CRezType.cp					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2005-05-03 11:00:53
+//             Last modification: 2005-05-17 07:24:04
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -151,7 +151,7 @@ CRezType::GetAllResources( TArray<Handle>* & outArray )
 // ---------------------------------------------------------------------------
 
 OSErr
-CRezType::GetAllRezIDs( TArray<short>* & outArray )
+CRezType::GetAllRezIDs( TArray<short>* & outArray ) const
 {
     short numResources;
     Handle theHandle;
