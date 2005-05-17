@@ -2,7 +2,7 @@
 // CInspectorWindowAE.cp
 // 
 //                       Created: 2005-04-26 09:48:48
-//             Last modification: 2005-05-16 09:47:48
+//             Last modification: 2005-05-17 05:15:26
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -15,6 +15,8 @@
 //  class (inheriting from LModelObject).
 
 #include "CInspectorWindow.h"
+#include "CRezObj.h"
+#include "CRezObjItem.h"
 #include "RezillaConstants.h"
 
 #include <LCommander.h>
@@ -92,7 +94,20 @@ CInspectorWindow::GetAEProperty(
 		GetAEAttribute(inProperty, outPropertyDesc);
 		break;
 		
-				
+		
+		case rzom_pCurrResource:
+		if (mRezObjItem != nil) {
+			CRezObj * rezObj = mRezObjItem->GetRezObj();
+			if (rezObj != nil) {
+// 				StAEDescriptor	repDesc;
+				rezObj->MakeSpecifier(outPropertyDesc);
+// 				::AEPutParamDesc(&outAEReply, keyDirectObject, (const AEDesc *)&repDesc);
+			} 
+		} 
+		
+		break;
+		
+		
 		default:
 		LWindow::GetAEProperty(inProperty, inRequestedType,
 									outPropertyDesc);

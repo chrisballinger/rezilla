@@ -2,7 +2,7 @@
 // CRezMapDocAE.cp
 // 
 //                       Created: 2005-04-09 10:03:39
-//             Last modification: 2005-05-10 07:18:35
+//             Last modification: 2005-05-16 22:44:15
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -140,7 +140,8 @@ CRezMapDoc::GetAEProperty(
 // ---------------------------------------------------------------------------
 //	¥ SetAEProperty
 // ---------------------------------------------------------------------------
-// All the RezMapDoc properties are readOnly
+// All the RezMapDoc properties are readOnly. Pass up to the LDocument 
+// class.
 
 void
 CRezMapDoc::SetAEProperty(

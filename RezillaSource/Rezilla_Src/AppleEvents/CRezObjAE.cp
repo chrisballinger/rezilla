@@ -2,7 +2,7 @@
 // CRezObjAE.cp
 // 
 //                       Created: 2005-04-09 10:03:39
-//             Last modification: 2005-05-14 07:08:30
+//             Last modification: 2005-05-16 22:40:25
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -200,21 +200,21 @@ CRezObj::SetAEProperty(
 		case pName: {
 			Str255	theName;
 			UExtractFromAEDesc::ThePString(inValue, theName, sizeof(theName));
-// 			SetDescriptor(theName);
+			SetName(&theName);
 			break;
 		}
 
 		case rzom_pResID: {
 			short		theID;
 			UExtractFromAEDesc::TheSInt16(inValue, theID);
-// 			SetID(theID);
+			SetID(theID);
 			break;
 		}
 		
 		case rzom_pAttributes: {
 			short	theAttrs;
 			UExtractFromAEDesc::TheSInt16(inValue, theAttrs);
-// 			SetAttributesInMap(theAttrs);
+			SetAttributesInMap(theAttrs);
 			break;
 		}
 		
@@ -243,11 +243,23 @@ CRezObj::SetAEProperty(
 		break;
 		
 		case pContents: {
-// 			StByteToHexTranslator translator(mData);
-// 			translator.Convert();
-// 			error = ::AECreateDesc(typeChar, (Ptr) *(translator.GetOutHandle()),
-// 								 translator.GetOutSize(), &outPropertyDesc);
-// 			ThrowIfOSErr_(error);
+			// The data is specified as hexadecimal text unless it is a 
+			// TEXT resource, in which case the text of the resource is 
+			// passed directly
+			Size theSize = ::AEGetDescDataSize(&inValue);
+			Handle dataH = NewHandle(theSize);
+			if (dataH != nil) {
+				OSErr error = ::AEGetDescData(&inValue, *dataH, theSize);
+				ThrowIfOSErr_(error);
+				if (mType == 'TEXT') {
+					SetData( dataH );
+				} else {
+					StHexToByteTranslator translator(dataH);
+					translator.Convert();
+					SetData( translator.GetOutHandle() );
+				}
+				::DisposeHandle(dataH);
+			} 
 			break;
 		}
 		
@@ -301,13 +313,15 @@ CRezObj::SetAERezObjAttribute(const AEDesc& inValue, short inFlag)
 // // ---------------------------------------------------------------------------
 // //	¥ GetModelName
 // // ---------------------------------------------------------------------------
-// //	Return the name of a Window as an AppleEvent model object
+// //	Return the name of the resource
 // 
 // StringPtr
 // CRezObj::GetModelName(
 // 	Str255	outModelName) const
 // {
-// 	return GetDescriptor(outModelName);
+// 	LString::CopyPString(mName, outModelName);
+// 	
+// 	return mName;
 // }
 
 
@@ -365,6 +379,7 @@ CRezObj::HandleAppleEvent(
 		case aeRzil_Edit:
 		case ae_Clone:
 		case ae_Delete:
+		// Pass up to the owner CRezType
 		CRezType * theRezType = dynamic_cast<CRezType*>(mSuperModel);
 		if (theRezType != nil) {
 			theRezType->HandleResourceEvent(inAppleEvent, outAEReply, outResult, this, inAENumber);	

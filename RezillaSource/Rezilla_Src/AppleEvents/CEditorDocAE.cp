@@ -2,7 +2,7 @@
 // CEditorDocAE.cp
 // 
 //                       Created: 2005-04-09 10:03:39
-//             Last modification: 2005-05-14 11:04:19
+//             Last modification: 2005-05-16 22:47:07
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -156,7 +156,7 @@ CEditorDoc::GetAEProperty(
 // ---------------------------------------------------------------------------
 //	¥ SetAEProperty
 // ---------------------------------------------------------------------------
-// All the RezMapDoc properties are readOnly
+// The CEditorDoc properties are readOnly. Pass up to the LDocument class.
 
 void
 CEditorDoc::SetAEProperty(
@@ -167,8 +167,8 @@ CEditorDoc::SetAEProperty(
 	switch (inProperty) {
 		
 		default:
-			LModelObject::SetAEProperty(inProperty, inValue, outAEReply);
-			break;
+		LDocument::SetAEProperty(inProperty, inValue, outAEReply);
+		break;
 	}
 }
 
