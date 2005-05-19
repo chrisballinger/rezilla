@@ -40,9 +40,9 @@ CInspectorWindow::MakeSelfSpecifier(
 		
 		keyData.Assign(windowIndex);
 
-		err = ::CreateObjSpecifier(	rzom_cInspector,
+		err = ::CreateObjSpecifier(	rzom_cInspWindow,
 									&inSuperSpecifier,
-								   formAbsolutePosition,
+									formAbsolutePosition,
 									keyData,
 									false,		// Don't dispose inputs
 									&outSelfSpecifier);
@@ -63,7 +63,7 @@ CInspectorWindow::GetAEProperty(
 	OSErr	error = noErr;
 	
 	switch (inProperty) {
-		case pName: 
+		case rzom_pNameField: 
 		Str255	name;
 		mNameEdit->GetDescriptor(name);
 		error = ::AECreateDesc(typeChar, (Ptr) name + 1,
@@ -72,7 +72,7 @@ CInspectorWindow::GetAEProperty(
 		break;
 		
 
-		case rzom_pResID:
+		case rzom_pIDField:
 		Str255	idStr;
 		long	theLong;
 		short	theID;

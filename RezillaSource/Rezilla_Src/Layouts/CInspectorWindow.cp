@@ -45,7 +45,7 @@
 
 CInspectorWindow::CInspectorWindow()
 {
-	SetModelKind(rzom_cInspector);
+	SetModelKind(rzom_cInspWindow);
 }
 
 
@@ -57,7 +57,7 @@ CInspectorWindow::CInspectorWindow(
 	const SWindowInfo &inWindowInfo )
 		: LWindow( inWindowInfo )
 {
-	SetModelKind(rzom_cInspector);
+	SetModelKind(rzom_cInspWindow);
 }
 
 
@@ -71,7 +71,7 @@ CInspectorWindow::CInspectorWindow(
 	LCommander	*inSuperCommander )
 		: LWindow( inWINDid, inAttributes, inSuperCommander )
 {
-	SetModelKind(rzom_cInspector);
+	SetModelKind(rzom_cInspWindow);
 }
 
 
@@ -83,7 +83,7 @@ CInspectorWindow::CInspectorWindow(
 			       LStream *inStream )
 		: LWindow( inStream )
 {
-	SetModelKind(rzom_cInspector);
+	SetModelKind(rzom_cInspWindow);
 }
 
 

@@ -217,7 +217,7 @@ Number of Classes: 5
 -----------------------------
 	Object class ID: 'capp'
 	Class description: the application
-	Number of class properties: 2
+	Number of class properties: 3
 	  (1) name
 		Property ID: 'pnam'
 		Property class: 'itxt'
@@ -227,6 +227,11 @@ Number of Classes: 5
 		Property ID: 'vers'
 		Property class: 'itxt'
 		Property description: the version of the application
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	  (3) inspector
+		Property ID: 'pINS'
+		Property class: 'InsW'
+		Property description: the inspector
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	Number of class elements: 4
 		Class element ID: 'cwin'
@@ -817,7 +822,7 @@ Number of Classes: 23
 	Number of class elements: 0
   Object class 23: inspector
 ----------------------------
-	Object class ID: 'Insp'
+	Object class ID: 'InsW'
 	Class description: the inspector window
 	Number of class properties: 9
 	  (1) inherits
@@ -825,13 +830,13 @@ Number of Classes: 23
 		Property class: 'cwin'
 		Property description: all properties of the 'window' class
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
-	  (2) ID
-		Property ID: 'ID  '
+	  (2) ID field
+		Property ID: 'pIDF'
 		Property class: 'shor'
 		Property description: the value of the 'ID' field
 		Property is a single item, not enumerated. It can be set by the Set Data AE.
-	  (3) name
-		Property ID: 'pnam'
+	  (3) name field
+		Property ID: 'pNAF'
 		Property class: 'itxt'
 		Property description: the value of the 'name' field
 		Property is a single item, not enumerated. It can be set by the Set Data AE.

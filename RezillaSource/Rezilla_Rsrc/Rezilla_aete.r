@@ -788,6 +788,27 @@ resource 'aete' (0,"Scripting terminology") {
 							notFeminine,
 							notMasculine,
 							singular
+					,
+						"inspector",
+						'pINS',
+						'InsW',
+						"the inspector",
+							reserved,
+							singleItem,
+							notEnumerated,
+							readOnly,
+							enumsAreConstants,
+							enumListCanRepeat,
+							propertyIsValue,
+							reserved,
+							reserved,
+							reserved,
+							reserved,
+							reserved,
+							noApostrophe,
+							notFeminine,
+							notMasculine,
+							singular
 					
 				},
 				{
@@ -2678,8 +2699,8 @@ resource 'aete' (0,"Scripting terminology") {
 				{
 				}
 			,
-				"inspector",
-				'Insp',
+				"inspector window",
+				'InsW',
 				"the inspector window",
 				{
 					
@@ -2704,8 +2725,8 @@ resource 'aete' (0,"Scripting terminology") {
 							notMasculine,
 							singular
 					,
-						"ID",
-						'ID  ',
+						"ID field",
+						'pIDF',
 						'shor',
 						"the value of the 'ID' field",
 							reserved,
@@ -2725,8 +2746,8 @@ resource 'aete' (0,"Scripting terminology") {
 							notMasculine,
 							singular
 					,
-						"name",
-						'pnam',
+						"name field",
+						'pNAF',
 						'itxt',
 						"the value of the 'name' field",
 							reserved,

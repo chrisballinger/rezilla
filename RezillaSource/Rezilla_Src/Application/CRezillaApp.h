@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.h					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2005-05-15 19:36:01
+//             Last modification: 2005-05-18 06:28:32
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -128,6 +128,13 @@ public:
 
 	virtual bool		AEPropertyExists(
 								DescType		inProperty) const;
+
+// 	virtual void	GetModelTokenSelf(
+// 								DescType		inModelID,
+// 								DescType		inKeyForm,
+// 								const AEDesc	&inKeyData,
+// 								AEDesc			&outToken) const;
+
 
 	static LStr255		VersionFromResource();
 	static void			VersionFromPlist(Str255 & outVersion);

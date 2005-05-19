@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2005-05-13 06:52:32
+//             Last modification : 2005-05-18 06:50:32
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -1133,7 +1133,7 @@ const DescType rzom_cTmplWindow		= 'TmpW';	// Tmpl editor window
 const DescType rzom_cHexWindow		= 'HexW';	// Hex editor window
 
 const DescType rzom_cCompWindow		= 'CmpW';	// RezCompare window
-const DescType rzom_cInspector		= 'Insp';	// Inspector window
+const DescType rzom_cInspWindow		= 'InsW';	// Inspector window
 
 const DescType rzom_cDataPane		= 'DatP';	// Any data pane
 const DescType rzom_cHexPane		= 'HexP';	// Hexadecimal pane
@@ -1150,6 +1150,7 @@ const DescType rzom_cMapsComp		= 'Mcmp';	// Maps comparison object
 const DescType rzom_pVersion		= pVersion;		// Version ('vers')	
 const DescType rzom_pClipboard		= pClipboard;	// PrivateClipboard ('pcli')
 const DescType rzom_pPreferences	= 'pPRF';		// Preferences
+const DescType rzom_pInspector		= 'pINS';		// Inspector
 
 //    Document
 const DescType rzom_pOwnerMapDoc	= 'pOWM';	// Editor document's owner map
@@ -1210,6 +1211,8 @@ const DescType rzom_pKind			= 'pKND';	// Kind
 
 //    Inspector window
 const DescType rzom_pCurrResource	= 'pRSC';	// Resource for which info is displayed
+const DescType rzom_pNameField		= 'pNAF';	// The 'name' field
+const DescType rzom_pIDField		= 'pIDF';	// The 'ID' field
 
 // Aete Enumerator IDs
 const DescType rzom_eEditorKind		= 'EKND';
