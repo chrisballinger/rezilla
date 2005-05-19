@@ -477,24 +477,25 @@ CRezMap::GetModelTokenSelf(
 }
 
 
-// ---------------------------------------------------------------------------
-//	¥ HandleAppleEvent												  [public]
-// ---------------------------------------------------------------------------
-
-void
-CRezMap::HandleAppleEvent(
-	const AppleEvent&	inAppleEvent,
-	AppleEvent&			outAEReply,
-	AEDesc&				outResult,
-	long				inAENumber)
-{	
-	switch (inAENumber) {
-		
-		default:
-		mOwnerDoc->HandleAppleEvent(inAppleEvent, outAEReply, outResult, inAENumber);
-		break;
-	}
-}
+// // ---------------------------------------------------------------------------
+// //	¥ HandleAppleEvent												  [public]
+// // ---------------------------------------------------------------------------
+// 
+// void
+// CRezMap::HandleAppleEvent(
+// 	const AppleEvent&	inAppleEvent,
+// 	AppleEvent&			outAEReply,
+// 	AEDesc&				outResult,
+// 	long				inAENumber)
+// {	
+// 	switch (inAENumber) {
+// 		
+// 		default:
+// // 		mOwnerDoc->HandleAppleEvent(inAppleEvent, outAEReply, outResult, inAENumber);
+// 		LModelObject::HandleAppleEvent(inAppleEvent, outAEReply, outResult, inAENumber);
+// 		break;
+// 	}
+// }
 
 
 // ---------------------------------------------------------------------------
