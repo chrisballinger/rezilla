@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaAppAE.cp					
 //                       Created: 2004-11-30 08:44:17
-//             Last modification: 2005-05-13 06:40:34
+//             Last modification: 2005-05-18 06:28:44
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -514,6 +514,12 @@ CRezillaApp::GetSubModelByPosition(
 			break;
 		}
 
+		
+		case rzom_cInspWindow:
+		PutInToken( sInspectorWindow, outToken);
+		break;
+		
+		
 		default:
 			LModelObject::GetSubModelByPosition(inModelID, inPosition,
 													outToken);
@@ -690,9 +696,13 @@ CRezillaApp::GetAEProperty(
 		error = ::AECreateDesc(typeChar, (Ptr) sVersionNumber + 1, sVersionNumber[0], &outPropertyDesc);
 		break;
 
+		case rzom_pInspector: 
+		sInspectorWindow->MakeSpecifier(outPropertyDesc);
+		break;
+
 		default:
-			LModelObject::GetAEProperty(inProperty, inRequestedType, outPropertyDesc);
-			break;
+		LModelObject::GetAEProperty(inProperty, inRequestedType, outPropertyDesc);
+		break;
 	}
 }
 
@@ -709,6 +719,7 @@ CRezillaApp::AEPropertyExists(
 
 	switch (inProperty) {
 		case pVersion: 
+		case rzom_pInspector: 
 			exists = true;
 			break;
 
@@ -721,3 +732,27 @@ CRezillaApp::AEPropertyExists(
 }
 
 
+// // ---------------------------------------------------------------------------
+// //	¥ GetModelTokenSelf
+// // ---------------------------------------------------------------------------
+// //	Intercept the Inspector specifier case: in this case inModelID should be
+// //	rzom_cInspWindow and inKeyForm should be formAbsolutePosition ('indx').
+// //	Otherwise call the inherited method.
+// 
+// void
+// CRezillaApp::GetModelTokenSelf(
+// 	DescType		inModelID,
+// 	DescType		inKeyForm,
+// 	const AEDesc&	inKeyData,
+// 	AEDesc&			outToken) const
+// {
+// 	if (inModelID == rzom_cInspWindow) {
+// 		ThrowIfNot_(inKeyForm == formAbsolutePosition);
+// 		
+// 		PutInToken( sInspectorWindow, outToken);
+// 	} else {
+// 		LModelObject::GetModelTokenSelf(inModelID, inKeyForm, inKeyData, outToken);
+// 	}
+// }
+// 
+// 
