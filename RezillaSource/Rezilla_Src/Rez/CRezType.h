@@ -2,7 +2,7 @@
 // CRezType.h					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2005-05-17 07:23:54
+//             Last modification: 2005-05-19 09:35:19
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -80,10 +80,6 @@ public:
 								const AEDesc	&inKeyData,
 								AEDesc			&outToken) const;
 
-	CRezObj *			GetOrCreateRezObjModel(Handle inHandle) const;
-	
-	TArray<CRezObj*>&	GetRezObjModels() { return mRezObjModels; }
-								
 	virtual void		HandleAppleEvent(
 								const AppleEvent	&inAppleEvent,
 								AppleEvent			&outAEReply,
@@ -114,6 +110,10 @@ public:
 								AppleEvent			&outAEReply,
 								AEDesc				&outResult);
 									
+	CRezObj *			GetOrCreateRezObjModel(Handle inHandle) const;
+	
+	TArray<CRezObj*>&	GetRezObjModels() { return mRezObjModels; }
+
 protected:
 		ResType				mType;
 		CRezMap * 			mOwnerMap;

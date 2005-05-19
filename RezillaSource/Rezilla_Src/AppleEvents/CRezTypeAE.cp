@@ -2,7 +2,7 @@
 // CRezTypeAE.cp
 // 
 //                       Created: 2005-04-09 10:03:39
-//             Last modification: 2005-05-15 08:21:39
+//             Last modification: 2005-05-19 10:30:48
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -317,8 +317,6 @@ CRezType::AEPropertyExists(
 }
 
 
-
-
 // ---------------------------------------------------------------------------
 //	¥ GetOrCreateRezObjModel
 // ---------------------------------------------------------------------------
@@ -329,7 +327,7 @@ CRezType::GetOrCreateRezObjModel(Handle inHandle) const
 	CRezObj 	*theRezObj = nil, *newRezObj = nil;
 	Boolean		found = false;
 	
-	if (inHandle == nil) {
+	if (inHandle != nil) {
 		newRezObj = new CRezObj( inHandle, mOwnerMap->GetRefnum() );
 		
 		TArrayIterator<CRezObj*> iterator(mRezObjModels);
@@ -344,9 +342,10 @@ CRezType::GetOrCreateRezObjModel(Handle inHandle) const
 			delete newRezObj;
 			newRezObj = theRezObj;	
 		} else {
-			// cast is needed because of constness
 			newRezObj->SetSuperModel( (CRezType *) this);
-			((TArray<CRezObj *>)mRezObjModels).AddItem(newRezObj);
+			// cast is needed because of constness
+			TArray<CRezObj *>* arrayPtr = (TArray<CRezObj *>*)&mRezObjModels;
+			arrayPtr->AddItem(newRezObj);
 		}
 	} 
 	
@@ -374,7 +373,8 @@ CRezType::HandleAppleEvent(
 		
 		
 		default:
-		mOwnerMap->HandleAppleEvent(inAppleEvent, outAEReply, outResult, inAENumber);
+// 		mOwnerMap->HandleAppleEvent(inAppleEvent, outAEReply, outResult, inAENumber);
+		LModelObject::HandleAppleEvent(inAppleEvent, outAEReply, outResult, inAENumber);
 		break;
 	}
 }
