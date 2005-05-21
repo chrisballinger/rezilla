@@ -2,7 +2,7 @@
 // CInspectorWindow.h				
 // 
 //                       Created: 2003-05-02 07:33:06
-//             Last modification: 2005-05-16 09:58:23
+//             Last modification: 2005-05-20 06:22:54
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -99,6 +99,9 @@ protected:
 	virtual void		FinishCreateSelf();
 	virtual void		ShowSelf();
 	void				SaveValues();
+
+	virtual LModelObject*	GetModelProperty(
+									DescType		inProperty) const;
 
 private:
 	void				InitializeRezInfo();
