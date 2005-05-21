@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.h					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2005-05-18 06:28:32
+//             Last modification: 2005-05-20 06:17:47
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -166,6 +166,9 @@ protected:
 	OSStatus			RegisterHelpBook();
 	void				MakeAboutWindow();
 	virtual void		DoPreferences();
+	
+	virtual LModelObject*	GetModelProperty(
+									DescType		inProperty) const;
 
 private:
 	void				InitMLTE();

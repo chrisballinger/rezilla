@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaAppAE.cp					
 //                       Created: 2004-11-30 08:44:17
-//             Last modification: 2005-05-18 06:28:44
+//             Last modification: 2005-05-20 06:18:06
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -10,7 +10,6 @@
 // $Date$
 // $Revision$
 // ===========================================================================
-
 
 #include "CRezillaApp.h"
 #include "CRezMapDoc.h"
@@ -696,9 +695,9 @@ CRezillaApp::GetAEProperty(
 		error = ::AECreateDesc(typeChar, (Ptr) sVersionNumber + 1, sVersionNumber[0], &outPropertyDesc);
 		break;
 
-		case rzom_pInspector: 
-		sInspectorWindow->MakeSpecifier(outPropertyDesc);
-		break;
+		// Handled in GetModelProperty
+		// 		case rzom_pInspector: 
+		// 		break;
 
 		default:
 		LModelObject::GetAEProperty(inProperty, inRequestedType, outPropertyDesc);
@@ -732,27 +731,28 @@ CRezillaApp::AEPropertyExists(
 }
 
 
-// // ---------------------------------------------------------------------------
-// //	¥ GetModelTokenSelf
-// // ---------------------------------------------------------------------------
-// //	Intercept the Inspector specifier case: in this case inModelID should be
-// //	rzom_cInspWindow and inKeyForm should be formAbsolutePosition ('indx').
-// //	Otherwise call the inherited method.
-// 
-// void
-// CRezillaApp::GetModelTokenSelf(
-// 	DescType		inModelID,
-// 	DescType		inKeyForm,
-// 	const AEDesc&	inKeyData,
-// 	AEDesc&			outToken) const
-// {
-// 	if (inModelID == rzom_cInspWindow) {
-// 		ThrowIfNot_(inKeyForm == formAbsolutePosition);
-// 		
-// 		PutInToken( sInspectorWindow, outToken);
-// 	} else {
-// 		LModelObject::GetModelTokenSelf(inModelID, inKeyForm, inKeyData, outToken);
-// 	}
-// }
-// 
-// 
+// ---------------------------------------------------------------------------
+//	¥ GetModelProperty
+// ---------------------------------------------------------------------------
+
+LModelObject*
+CRezillaApp::GetModelProperty(DescType inProperty) const
+{
+	LModelObject* theModelObject = nil;
+
+	switch (inProperty) {
+
+		case rzom_pInspector:
+		theModelObject = dynamic_cast<LModelObject *>(sInspectorWindow);
+		break;
+		
+
+		default:
+		theModelObject = LModelObject::GetModelProperty(inProperty);
+			break;
+	}
+
+	return theModelObject;
+}
+
+
