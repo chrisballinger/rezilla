@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezMapTable.h					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2005-02-16 16:25:49
+//             Last modification: 2005-05-21 08:34:42
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -64,8 +64,12 @@ public:
 												  short inID, 
 												  Str255* inName);
 	
-	CRezTypeItem *			GetRezTypeItem(ResType inType);
-	CRezObjItem *			GetRezObjItem(ResType inType, short inID);
+	CRezTypeItem *			GetRezTypeItem(ResType inType, 
+										  Boolean expandIfClosed = false);
+	
+	CRezObjItem *			GetRezObjItem(ResType inType, 
+										  short inID, 
+										  Boolean expandIfClosed = false);
 
 	virtual CRezMap*		GetRezMap() { return mRezMap;}
 	void					SetRezMap(CRezMap* theRezMap) {mRezMap = theRezMap ;}

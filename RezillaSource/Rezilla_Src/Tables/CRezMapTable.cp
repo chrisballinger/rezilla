@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezMapTable.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2005-02-18 17:26:49
+//             Last modification: 2005-05-21 09:34:57
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -493,32 +493,32 @@ CRezMapTable::GetFirstSelectedRezObjItem(CRezObjItem* & outRezObjItem)
 // ---------------------------------------------------------------------------
 //  ¥ GetRezObjItem											[public]
 // ---------------------------------------------------------------------------
-	
+// The 'expandIfClosed' argument tells if the RezTypeItem should be expanded. 
+// If it is not, there cannot be any RezObjItems depending from it.
+
 CRezObjItem *
-CRezMapTable::GetRezObjItem(ResType inType, short inID)
+CRezMapTable::GetRezObjItem(ResType inType, short inID, Boolean expandIfClosed)
 {	
 	CRezObjItem * outRezObjItem = nil;
 	CRezObjItem * theRezObjItem;
+	CRezTypeItem * theRezTypeItem;
 	
-	// Iterate among first level items
-	LArrayIterator rezTypeIterator(mFirstLevelItems);
-	LOutlineItem *typeItem = nil;	
-	LOutlineItem *objItem = nil;	
+	theRezTypeItem = GetRezTypeItem(inType, expandIfClosed);
 	
-	while (rezTypeIterator.Next(&typeItem)) {
+	if (theRezTypeItem && theRezTypeItem->IsExpanded()) {
+		// Now iterate among sub items of this RezTypeItem
+		LArrayIterator rezObjIterator( *(theRezTypeItem->GetSubItems()) );
+		LOutlineItem *objItem = nil;
 		
-		if (typeItem->IsExpanded() && dynamic_cast<CRezTypeItem*>(typeItem)->GetRezType()->GetType() == inType) {
-			// Now iterate among sub items of this RezTypeItem
-			LArrayIterator rezObjIterator( *(typeItem->GetSubItems()) );
-			
-			while (rezObjIterator.Next(&objItem)) {
-				theRezObjItem = dynamic_cast<CRezObjItem*>(objItem);
-				if (theRezObjItem->GetRezObj()->GetID() == inID) {
-					return theRezObjItem;
-				} 
-			}
-		} 
-	}
+		while (rezObjIterator.Next(&objItem)) {
+			theRezObjItem = dynamic_cast<CRezObjItem*>(objItem);
+			if (theRezObjItem && theRezObjItem->GetRezObj()->GetID() == inID) {
+				outRezObjItem = theRezObjItem;
+				break;
+			} 
+		}
+	} 
+	
 	return outRezObjItem;
 }
 
@@ -528,7 +528,7 @@ CRezMapTable::GetRezObjItem(ResType inType, short inID)
 // ---------------------------------------------------------------------------
 	
 CRezTypeItem *
-CRezMapTable::GetRezTypeItem(ResType inType)
+CRezMapTable::GetRezTypeItem(ResType inType, Boolean expandIfClosed)
 {	
 	CRezTypeItem * outRezTypeItem = nil;
 	CRezTypeItem * theRezTypeItem;
@@ -544,6 +544,11 @@ CRezMapTable::GetRezTypeItem(ResType inType)
 			break;			
 		} 
 	}
+	
+	if (outRezTypeItem != nil && expandIfClosed) {
+		outRezTypeItem->Expand();
+	} 
+	
 	return outRezTypeItem;
 }
 
@@ -970,12 +975,12 @@ CRezMapTable::CreateItemIfNecessary(ResType inType, short inID, Str255* inName)
 		theRezType = rezTypeItem->GetRezType();
 	}
 	
-	// Expand the RezType item now
-	if ( ! rezTypeItem->IsExpanded() ) {
-		rezTypeItem->Expand();
-	}
+// 	if ( ! rezTypeItem->IsExpanded() ) {
+// 		rezTypeItem->Expand();
+// 	}
 	
-	rezObjItem = GetRezObjItem(inType, inID);
+	// The third argument set to 'true' expands the RezType item
+	rezObjItem = GetRezObjItem(inType, inID, true);
 	
 	if ( rezObjItem == NULL ) { 
 		// Create a new RezObjItem
