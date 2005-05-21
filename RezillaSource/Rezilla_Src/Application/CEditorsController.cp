@@ -2,7 +2,7 @@
 // CEditorsController.cp					
 // 
 //                       Created: 2004-06-11 10:48:38
-//             Last modification: 2005-05-16 08:47:40
+//             Last modification: 2005-05-21 09:46:37
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -295,7 +295,7 @@ CEditorsController::InvokeCustomEditor(CRezMapDoc* inRezMapDoc,
 
 
 // ---------------------------------------------------------------------------
-//  ¥ OpenOrCreateWithTypeAndID											[public]
+//  ¥ OpenOrCreateWithTypeAndID										[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -304,21 +304,18 @@ CEditorsController::OpenOrCreateWithTypeAndID(CRezMapTable* inSuperMap, ResType 
 {
 	OSErr result = noErr;
 	
-	CRezTypeItem * theRezTypeItem = inSuperMap->GetRezTypeItem(inType);
-	CRezObjItem * theRezObjItem;
-	
-	if (theRezTypeItem != nil) {
-		if ( ! theRezTypeItem->IsExpanded() ) {
-			theRezTypeItem->Expand();
-		} 
-	} 
-	
+	// The 'true' argument will expand the RezTypeItem if it exists
+	CRezTypeItem *	theRezTypeItem = inSuperMap->GetRezTypeItem(inType, true);
+	CRezObjItem *	theRezObjItem;
+		
 	if (theRezTypeItem == nil || ! theRezTypeItem->ExistsItemForID(inID, theRezObjItem) ) {
 		// The CreateNewRes function will take care of creating the RezTypeItem
 		theRezObjItem = inSuperMap->GetOwnerDoc()->DoCreateResource(inType, inID, NULL, 0, false);
 	}
 
-	*outRezObj = theRezObjItem->GetRezObj();
+	if (theRezObjItem != nil) {
+		*outRezObj = theRezObjItem->GetRezObj();
+	} 
 	
 	return (outRezObj == NULL);
 }
