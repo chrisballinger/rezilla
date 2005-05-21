@@ -3571,7 +3571,7 @@ resource 'aete' (0,"Scripting terminology") {
 							singular
 					,
 						"data",
-						'pcnt',
+						'pDAT',
 						'****',
 						"the resource data (in hex format)",
 							reserved,

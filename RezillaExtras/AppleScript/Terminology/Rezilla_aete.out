@@ -820,8 +820,8 @@ Number of Classes: 23
 		Property description: 
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	Number of class elements: 0
-  Object class 23: inspector
-----------------------------
+  Object class 23: inspector window
+-----------------------------------
 	Object class ID: 'InsW'
 	Class description: the inspector window
 	Number of class properties: 9
@@ -1088,7 +1088,7 @@ Number of Classes: 8
 		Property description: the size of the resource on disk
 		Property is a single item, not enumerated. It can be set by the Set Data AE.
 	  (15) data
-		Property ID: 'pcnt'
+		Property ID: 'pDAT'
 		Property class: '****'
 		Property description: the resource data (in hex format)
 		Property is a single item, not enumerated. It can be set by the Set Data AE.

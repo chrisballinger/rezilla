@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2005-05-18 06:50:32
+//             Last modification : 2005-05-21 08:00:14
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -1184,7 +1184,7 @@ const DescType rzom_pProtected		= 'pPRO';		// resProtected
 const DescType rzom_pPreload		= 'pPRE';		// resPreload
 const DescType rzom_pDataSize		= 'pSIZ';		// Size of the data
 const DescType rzom_pSizeOnDisk		= 'pDSZ';		// Size on disk
-const DescType rzom_pData			= pContents;	// Data ('pcnt', was 'pDAT')
+const DescType rzom_pData			= 'pDAT';		// Data
 
 //    Resource specifier
 const DescType rzom_cRezTypeID		= 'TyId';		// Resource specifier object: 

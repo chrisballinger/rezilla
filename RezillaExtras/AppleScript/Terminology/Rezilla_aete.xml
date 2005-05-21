@@ -4042,7 +4042,7 @@
 					</Property>
 					<Property>
 						<PropertyName>data</PropertyName>
-						<PropertyID>pcnt</PropertyID>
+						<PropertyID>pDAT</PropertyID>
 						<PropertyClass>****</PropertyClass>
 						<PropertyDescription>the resource data (in hex format)</PropertyDescription>
 						<PropertyFlags>
