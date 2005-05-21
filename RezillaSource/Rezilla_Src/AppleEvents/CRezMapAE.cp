@@ -464,7 +464,7 @@ CRezMap::GetModelTokenSelf(
 		error = ::AEGetNthDesc(&inKeyData, 2, typeSInt32, &theKey, idDesc);
 		ThrowIfOSErr_(error);
 		
-		CRezType * theRezType = theRezType = mOwnerDoc->GetRezTypeByName(typName);
+		CRezType * theRezType = mOwnerDoc->GetRezTypeByName(typName);
 		
 		if (theRezType != nil) {
 			theRezType->GetSubModelByUniqueID(rzom_cRezObj, idDesc, outToken);
