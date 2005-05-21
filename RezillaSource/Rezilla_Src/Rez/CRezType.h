@@ -2,7 +2,7 @@
 // CRezType.h					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2005-05-19 09:35:19
+//             Last modification: 2005-05-20 07:19:11
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -94,6 +94,12 @@ public:
 								long				inAENumber);
 	
 	virtual void		HandleEditEvent(
+								const AppleEvent	&inAppleEvent,
+								AppleEvent			&outAEReply,
+								AEDesc				&outResult,
+								short				inID);
+									
+	virtual void		HandleInspectEvent(
 								const AppleEvent	&inAppleEvent,
 								AppleEvent			&outAEReply,
 								AEDesc				&outResult,
