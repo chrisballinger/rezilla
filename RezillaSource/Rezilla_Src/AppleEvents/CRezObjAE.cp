@@ -2,7 +2,7 @@
 // CRezObjAE.cp
 // 
 //                       Created: 2005-04-09 10:03:39
-//             Last modification: 2005-05-16 22:40:25
+//             Last modification: 2005-05-21 08:00:00
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -65,7 +65,7 @@ CRezObj::MakeSelfSpecifier(
 //  rzom_pChanged		= pIsModified;	// resChanged ('imod')
 //  rzom_pDataSize		= 'pSIZ';		// Size of the data
 //  rzom_pSizeOnDisk	= 'pDSZ';		// Size on disk
-//  rzom_pData			= pContents;	// Data ('pcnt', was 'pDAT')
+//  rzom_pData			= 'pDAT';		// Data
 
 void
 CRezObj::GetAEProperty(
@@ -167,7 +167,7 @@ CRezObj::GetAEProperty(
 		break;
 		
 		
-		case pContents: {
+		case rzom_pData: {
 			StByteToHexTranslator translator(mData);
 			translator.Convert();
 			error = ::AECreateDesc(typeChar, (Ptr) *(translator.GetOutHandle()),
@@ -242,7 +242,7 @@ CRezObj::SetAEProperty(
 		SetAERezObjAttribute(inValue, resChanged);
 		break;
 		
-		case pContents: {
+		case rzom_pData: {
 			// The data is specified as hexadecimal text unless it is a 
 			// TEXT resource, in which case the text of the resource is 
 			// passed directly
@@ -343,7 +343,6 @@ CRezObj::AEPropertyExists(
 		case rzom_pType: 
 		case rzom_pDataSize:
 		case rzom_pSizeOnDisk:
-		case rzom_pData:
 		case rzom_pAttributes:
 		case rzom_pChanged:
 		case rzom_pLocked:
@@ -351,6 +350,7 @@ CRezObj::AEPropertyExists(
 		case rzom_pProtected:
 		case rzom_pPurgeable:
 		case rzom_pSysHeap:
+		case rzom_pData:
 			exists = true;
 			break;
 
@@ -377,6 +377,7 @@ CRezObj::HandleAppleEvent(
 	switch (inAENumber) {
 		
 		case aeRzil_Edit:
+		case aeRzil_Inspect:
 		case ae_Clone:
 		case ae_Delete:
 		// Pass up to the owner CRezType
@@ -387,9 +388,9 @@ CRezObj::HandleAppleEvent(
 		break;
 		
 		
-		case aeRzil_Inspect:
-		CRezillaApp::sInspectorWindow->InstallValues(this);
-		break;
+// 		case aeRzil_Inspect:
+// 		CRezillaApp::sInspectorWindow->InstallValues(this);
+// 		break;
 		
 		
 		default:
