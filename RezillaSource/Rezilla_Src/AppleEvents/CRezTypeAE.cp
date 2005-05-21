@@ -2,7 +2,7 @@
 // CRezTypeAE.cp
 // 
 //                       Created: 2005-04-09 10:03:39
-//             Last modification: 2005-05-19 10:30:48
+//             Last modification: 2005-05-20 07:19:22
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -22,6 +22,8 @@
 #include "CRezMapTable.h"
 #include "CRezTypeItem.h"
 #include "CRezObjItem.h"
+#include "CRezillaApp.h"
+#include "CInspectorWindow.h"
 #include "UMiscUtils.h"
 #include "RezillaConstants.h"
 
@@ -416,6 +418,11 @@ CRezType::HandleResourceEvent(
 		break;
 		
 		
+		case aeRzil_Inspect:
+		HandleInspectEvent(inAppleEvent, outAEReply, outResult, inRezObj->GetID());	
+		break;
+		
+		
 		default:
 		mOwnerMap->HandleAppleEvent(inAppleEvent, outAEReply, outResult, inAENumber);
 		break;
@@ -461,27 +468,38 @@ CRezType::HandleEditEvent(
 	} 
 	
 	// Find the corresponding RezObjItem in the RezMap document
-	CRezTypeItem * theRezTypeItem = nil;
-	CRezObjItem * theRezObjItem = nil;
+	CRezMapDoc *	theDoc = mOwnerMap->GetOwnerDoc();
+	ThrowIfNil_(theDoc);
 	
-	CRezMapDoc * theDoc = mOwnerMap->GetOwnerDoc();
-	if (theDoc != nil) {
-		theDoc->GetRezMapWindow()->GetRezMapTable()->GetRezTypeItem(mType);
+	CRezObjItem * theRezObjItem = theDoc->GetRezMapWindow()->GetRezMapTable()->GetRezObjItem(mType, inID, true);
+	ThrowIfNil_(theRezObjItem);
+	
+	theDoc->TryEdit(theRezObjItem, theCmd, asType);
+}
 
-		if (theRezTypeItem != nil) {
-			if ( ! theRezTypeItem->IsExpanded() ) {
-				theRezTypeItem->Expand();
-			} 
-		} 
-		
-		if (theRezTypeItem == nil) {
-			theRezTypeItem->ExistsItemForID(inID, theRezObjItem);
-		}
 
-		ThrowIfNil_(theRezObjItem);
+// ---------------------------------------------------------------------------
+//	¥ HandleInspectEvent												  [public]
+// ---------------------------------------------------------------------------
+
+void
+CRezType::HandleInspectEvent(
+	const AppleEvent&	inAppleEvent,
+	AppleEvent&			outAEReply,
+	AEDesc&				outResult,
+	short				inID)
+{
+#pragma unused(inAppleEvent, outAEReply, outResult)
 		
-		theDoc->TryEdit(theRezObjItem, theCmd, asType);
-	}	
+	// Find the corresponding RezObjItem in the RezMap document
+	CRezMapDoc *	theDoc = mOwnerMap->GetOwnerDoc();
+	ThrowIfNil_(theDoc);
+	
+	CRezObjItem * theRezObjItem = theDoc->GetRezMapWindow()->GetRezMapTable()->GetRezObjItem(mType, inID, true);
+	ThrowIfNil_(theRezObjItem);
+
+	CRezillaApp::sInspectorWindow->Show();
+	CRezillaApp::sInspectorWindow->InstallValues(theRezObjItem);
 }
 
 
@@ -499,25 +517,14 @@ CRezType::HandleDeleteResourceEvent(
 #pragma unused(inAppleEvent, outAEReply, outResult)
 
 	// Find the corresponding RezObjItem in the RezMap document
-	CRezTypeItem * theRezTypeItem = nil;
-	CRezObjItem * theRezObjItem = nil;
+	CRezMapDoc *	theDoc = mOwnerMap->GetOwnerDoc();
+	ThrowIfNil_(theDoc);
 	
-	CRezMapDoc * theDoc = mOwnerMap->GetOwnerDoc();
-	if (theDoc != nil) {
-		theDoc->GetRezMapWindow()->GetRezMapTable()->GetRezTypeItem(mType);
+	CRezObjItem * theRezObjItem = theDoc->GetRezMapWindow()->GetRezMapTable()->GetRezObjItem(mType, inRezObj->GetID(), true);
+	ThrowIfNil_(theRezObjItem);
 
-		if (theRezTypeItem != nil) {
-			if ( ! theRezTypeItem->IsExpanded() ) {
-				theRezTypeItem->Expand();
-			} 
+	theDoc->RemoveResource(theRezObjItem);
 
-			theRezTypeItem->ExistsItemForID(inRezObj->GetID(), theRezObjItem);
-			ThrowIfNil_(theRezObjItem);
-			
-			theDoc->RemoveResource(theRezObjItem);
-		}
-	}
-	
 	// Delete the rezobj in the mRezObjModels list. The RezObj contained 
 	// in the theRezObjItem and the one in the list are not the same.
 	mRezObjModels.Remove(inRezObj);
@@ -537,31 +544,24 @@ CRezType::HandleDeleteTypeEvent(
 {
 #pragma unused(inAppleEvent, outAEReply, outResult)
 	
-	// Find the corresponding RezObjItem in the RezMap document
-	CRezTypeItem * theRezTypeItem = nil;
-	CRezObjItem * theRezObjItem = nil;
+	// Find the corresponding RezTypeItem in the RezMap document
+	CRezTypeItem *	theRezTypeItem = nil;
+	CRezMapDoc *	theDoc = mOwnerMap->GetOwnerDoc();
+	ThrowIfNil_(theDoc);
+
+	// 'true' expands the RezTypeItem
+	theRezTypeItem = theDoc->GetRezMapWindow()->GetRezMapTable()->GetRezTypeItem(mType, true);
+	ThrowIfNil_(theRezTypeItem);
+
+	// Iterate among the RezObjItems it contains and delete them
+	LArrayIterator	iterator( *(theRezTypeItem->GetSubItems()) );
+	LOutlineItem *	theItem = nil;	
 	
-	CRezMapDoc * theDoc = mOwnerMap->GetOwnerDoc();
-	if (theDoc != nil) {
-		theDoc->GetRezMapWindow()->GetRezMapTable()->GetRezTypeItem(mType);
-
-		if (theRezTypeItem != nil) {
-			if ( ! theRezTypeItem->IsExpanded() ) {
-				theRezTypeItem->Expand();
-			} 
-
-			// Delete all the RezObjItems it contains
-			LArrayIterator iterator( *(theRezTypeItem->GetSubItems()) );
-			LOutlineItem *theItem = nil;	
-			
-			// Iterate among subitems
-			while (iterator.Next(&theItem)) {
-				theRezObjItem = dynamic_cast<CRezObjItem *>(theItem);
-				ThrowIfNil_(theRezObjItem);
-				
-				theDoc->RemoveResource(theRezObjItem);
-			}
-		}
+	while (iterator.Next(&theItem)) {
+		CRezObjItem * theRezObjItem = dynamic_cast<CRezObjItem *>(theItem);
+		ThrowIfNil_(theRezObjItem);
+		
+		theDoc->RemoveResource(theRezObjItem);
 	}
 	
 	// Note: the RemoveResource() function takes care of removing the
