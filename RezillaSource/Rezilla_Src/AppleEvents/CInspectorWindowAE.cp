@@ -95,17 +95,9 @@ CInspectorWindow::GetAEProperty(
 		break;
 		
 		
-		case rzom_pCurrResource:
-		if (mRezObjItem != nil) {
-			CRezObj * rezObj = mRezObjItem->GetRezObj();
-			if (rezObj != nil) {
-// 				StAEDescriptor	repDesc;
-				rezObj->MakeSpecifier(outPropertyDesc);
-// 				::AEPutParamDesc(&outAEReply, keyDirectObject, (const AEDesc *)&repDesc);
-			} 
-		} 
-		
-		break;
+		// Handled in GetModelProperty
+		// 		case rzom_pCurrResource:
+		// 		break;
 		
 		
 		default:
@@ -127,14 +119,14 @@ CInspectorWindow::SetAEProperty(
 	AEDesc&			outAEReply)
 {
 	switch (inProperty) {
-		case pName: {
+		case rzom_pNameField: {
 			Str255	theName;
 			UExtractFromAEDesc::ThePString(inValue, theName, sizeof(theName));
 			SetDescriptor(theName);
 			break;
 		}
 
-		case rzom_pResID: {
+		case rzom_pIDField: {
 			Str255	theString;
 			short	theID;
 			
@@ -165,7 +157,7 @@ CInspectorWindow::SetAEProperty(
 		break;
 		
 		default:
-		LModelObject::SetAEProperty(inProperty, inValue, outAEReply);
+		LWindow::SetAEProperty(inProperty, inValue, outAEReply);
 		break;
 	}
 }
@@ -254,3 +246,35 @@ CInspectorWindow::SetAEAttribute(const AEDesc& inValue, short inFlag)
 	
 	SetValueForAttribute(inFlag, theBool);
 }
+
+
+// ---------------------------------------------------------------------------
+//	¥ GetModelProperty
+// ---------------------------------------------------------------------------
+
+LModelObject*
+CInspectorWindow::GetModelProperty(DescType inProperty) const
+{
+	LModelObject* theModelObject = nil;
+
+	switch (inProperty) {
+
+		case rzom_pCurrResource:
+		if (mRezObjItem != nil) {
+			CRezObj * rezObj = mRezObjItem->GetRezObj();
+			if (rezObj != nil) {
+				theModelObject = dynamic_cast<LModelObject *>(rezObj);
+			} 
+		} 
+		break;
+		
+
+		default:
+		theModelObject = LModelObject::GetModelProperty(inProperty);
+			break;
+	}
+
+	return theModelObject;
+}
+
+
