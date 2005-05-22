@@ -52,6 +52,8 @@ CRezillaApp::HandleAppleEvent(
 	AEDesc&				outResult,
 	long				inAENumber)
 {	
+	sCalledFromAE = true;
+
 	switch (inAENumber) {
 		
 		case ae_OpenDoc:
@@ -69,6 +71,8 @@ CRezillaApp::HandleAppleEvent(
 		LApplication::HandleAppleEvent(inAppleEvent, outAEReply, outResult, inAENumber);
 		break;
 	}
+
+	sCalledFromAE = false;
 }
 
 

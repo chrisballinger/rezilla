@@ -154,6 +154,7 @@ public:
 	static CInspectorWindow *		sInspectorWindow;
 	static CRecentItemsMenu *		sRecentItemsAttachment;
 	static Boolean					sReadOnlyNavFlag;
+	static Boolean					sCalledFromAE;
 
 protected:
 	SInt16				mCreatingFork;

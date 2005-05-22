@@ -147,6 +147,7 @@ Str255					CRezillaApp::sVersionNumber;
 SInt16					CRezillaApp::sOwnRefNum;
 CRecentItemsMenu *		CRezillaApp::sRecentItemsAttachment;
 Boolean					CRezillaApp::sReadOnlyNavFlag = false;
+Boolean					CRezillaApp::sCalledFromAE = false;
 
 
 // ===========================================================================
@@ -958,7 +959,7 @@ CRezillaApp::PreOpen(FSSpec & inFileSpec,
 	} 
 	
 done:
-	if (error == wrPermErr && sReadOnlyNavFlag == false) {
+	if (error == wrPermErr && sReadOnlyNavFlag == false && ! sCalledFromAE) {
 		// If opening failed with write permission, ask to try again in
 		// read-only access.
 		if (!askChangePerm || UMessageDialogs::AskIfFromLocalizable(CFSTR("WritePermissionError"), PPob_AskIfMessage) == answer_Do) {
@@ -1011,16 +1012,29 @@ CRezillaApp::ReportOpenForkError(OSErr inError, FSSpec * inFileSpecPtr)
 	  // This error has already been intercepted in PreOpen()
 	  return;
 		  
-	  default:
-		UMessageDialogs::AlertWithValue(CFSTR("SystemError"), inError);
-		return;
+	  default: 
+	  if (sCalledFromAE) {
+		  // OSErr is SInt16
+		  ::AEPutParamPtr( LModelDirector::GetCurrentAEReply(), keyErrorNumber, typeSInt16, &inError, sizeof(OSErr));
+	  } else {
+		  UMessageDialogs::AlertWithValue(CFSTR("SystemError"), inError);
+	  }
+	  return;
 	}
 	
 	if (formatStr != NULL) {
 		messageStr = ::CFStringCreateWithFormat(NULL, NULL, formatStr, nameStr);
 		if (messageStr != NULL)
 		{
-			UMessageDialogs::SimpleMessageFromLocalizable(messageStr, PPob_SimpleMessage);
+			if (sCalledFromAE) {
+				Str255   buffer;
+				if (::CFStringGetPascalString(messageStr, buffer, sizeof(buffer), ::GetApplicationTextEncoding())) {
+					::AEPutParamPtr( LModelDirector::GetCurrentAEReply(), keyErrorString, typeChar, buffer+1, buffer[0]);
+				}
+				::AEPutParamPtr( LModelDirector::GetCurrentAEReply(), keyErrorNumber, typeSInt16, &inError, sizeof(OSErr));
+			} else {
+				UMessageDialogs::SimpleMessageFromLocalizable(messageStr, PPob_SimpleMessage);
+			}
 			CFRelease(messageStr);                     
 		}
 		CFRelease(formatStr);                             
