@@ -85,13 +85,14 @@ CRezObj::GetAEProperty(
 		
 
 		case rzom_pType: 
-		case rzom_cRezType: 
-		Str255 name;
-		UMiscUtils::OSTypeToPString(mType, name);
-		error = ::AECreateDesc(typeChar, (Ptr) name + 1,
-							StrLength(name), &outPropertyDesc);
-		ThrowIfOSErr_(error);
-		break;
+		case rzom_cRezType: {
+			Str255 name;
+			UMiscUtils::OSTypeToPString(mType, name);
+			error = ::AECreateDesc(typeChar, (Ptr) name + 1,
+								StrLength(name), &outPropertyDesc);
+			ThrowIfOSErr_(error);
+			break;
+		}
 
 		
 		case rzom_pResID:
@@ -112,6 +113,21 @@ CRezObj::GetAEProperty(
 		break;
 		
 
+		case rzom_pSpecifier: {
+			Str255 name;
+			if (outPropertyDesc.descriptorType == typeNull) {
+				error = ::AECreateList(nil, 0, false, &outPropertyDesc);
+				ThrowIfOSErr_(error);
+			}
+			UMiscUtils::OSTypeToPString(mType, name);
+			error = ::AEPutPtr(&outPropertyDesc, 1, typeChar, (Ptr) name + 1, StrLength(name));
+			ThrowIfOSErr_(error);
+			error = ::AEPutPtr(&outPropertyDesc, 2, typeSInt16, (Ptr) &mID, sizeof(SInt16));
+			ThrowIfOSErr_(error);
+			break;
+		}
+		
+			
 		case rzom_pDataSize: 
 		error = ::AECreateDesc(typeSInt32, (Ptr) &mSize,
 									sizeof(SInt32), &outPropertyDesc);
