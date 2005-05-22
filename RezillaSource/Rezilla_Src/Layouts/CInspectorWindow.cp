@@ -114,11 +114,11 @@ CInspectorWindow::FinishCreateSelf()
 	ThrowIfNil_( mSizeItem );
 		
 	// Editable text
-	mIDEdit = dynamic_cast<LEditText *>(this->FindPaneByID( item_InspEditID ));
-	ThrowIfNil_( mIDEdit );
+	mIDField = dynamic_cast<LEditText *>(this->FindPaneByID( item_InspEditID ));
+	ThrowIfNil_( mIDField );
 		
-	mNameEdit = dynamic_cast<LEditText *>(this->FindPaneByID( item_InspEditName ));
-	ThrowIfNil_( mNameEdit );
+	mNameField = dynamic_cast<LEditText *>(this->FindPaneByID( item_InspEditName ));
+	ThrowIfNil_( mNameField );
 		
 	mIconItem = dynamic_cast<CRezIconPane *>(this->FindPaneByID( item_InspIcon ));
 	ThrowIfNil_( item_InspIcon );
@@ -368,9 +368,9 @@ CInspectorWindow::InstallValues()
 	mSizeItem->SetDescriptor(theString);
 
 	// Editable texts
-	mNameEdit->SetDescriptor(mSavedInfo.name);
+	mNameField->SetDescriptor(mSavedInfo.name);
 	::NumToString(mSavedInfo.id,theString);
-	mIDEdit->SetDescriptor(theString);
+	mIDField->SetDescriptor(theString);
 
 	// Check boxes
 	mSysHeapItem->SetValue(mSavedInfo.sysheap);
@@ -477,8 +477,8 @@ CInspectorWindow::SaveValues()
 	::StringToNum(theString,&mSavedInfo.size);
 
 	// Editable texts
-	mNameEdit->GetDescriptor(mSavedInfo.name);
-	mIDEdit->GetDescriptor(theString);
+	mNameField->GetDescriptor(mSavedInfo.name);
+	mIDField->GetDescriptor(theString);
 	::StringToNum(theString,&mSavedInfo.id);
 
 	// Check boxes
@@ -531,8 +531,8 @@ CInspectorWindow::ClearValues()
 	// Text fields
 	mTypeItem->SetDescriptor("\p");
 	mSizeItem->SetDescriptor("\p");
-	mNameEdit->SetDescriptor("\p");
-	mIDEdit->SetDescriptor("\p");
+	mNameField->SetDescriptor("\p");
+	mIDField->SetDescriptor("\p");
 
 	// Check boxes
 	mSysHeapItem->SetValue(0);

@@ -2,7 +2,7 @@
 // CInspectorWindow.h				
 // 
 //                       Created: 2003-05-02 07:33:06
-//             Last modification: 2005-05-20 06:22:54
+//             Last modification: 2005-05-21 10:27:41
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -74,6 +74,13 @@ public:
 	virtual bool	AEPropertyExists(
 								DescType		inProperty) const;
 
+	virtual void	HandleAppleEvent(
+								const AppleEvent&	inAppleEvent,
+								AppleEvent&			outAEReply,
+								AEDesc&				outResult,
+								SInt32				inAENumber);
+
+
 	SResourceObjInfoPtr		GetSavedInfo() { return &mSavedInfo;}
 	void					SetSavedInfo(SResourceObjInfoPtr inRezInfoPtr);
 
@@ -85,8 +92,8 @@ protected:
 	CRezObjItem *		mRezObjItem;
 	LStaticText *		mTypeItem;
 	LStaticText *		mSizeItem;
-	LEditText *			mIDEdit;
-	LEditText *			mNameEdit;
+	LEditText *			mIDField;
+	LEditText *			mNameField;
 	CRezIconPane *		mIconItem;
 	LCheckBox *			mSysHeapItem;
 	LCheckBox *			mPurgeableItem;

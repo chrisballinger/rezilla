@@ -65,7 +65,7 @@ CInspectorWindow::GetAEProperty(
 	switch (inProperty) {
 		case rzom_pNameField: 
 		Str255	name;
-		mNameEdit->GetDescriptor(name);
+		mNameField->GetDescriptor(name);
 		error = ::AECreateDesc(typeChar, (Ptr) name + 1,
 							StrLength(name), &outPropertyDesc);
 		ThrowIfOSErr_(error);
@@ -77,7 +77,7 @@ CInspectorWindow::GetAEProperty(
 		long	theLong;
 		short	theID;
 		
-		mIDEdit->GetDescriptor(idStr);
+		mIDField->GetDescriptor(idStr);
 		::StringToNum(idStr, &theLong);
 		theID = theLong;
 		error = ::AECreateDesc(typeSInt16, (Ptr) &theID,
@@ -122,7 +122,7 @@ CInspectorWindow::SetAEProperty(
 		case rzom_pNameField: {
 			Str255	theName;
 			UExtractFromAEDesc::ThePString(inValue, theName, sizeof(theName));
-			SetDescriptor(theName);
+			mNameField->SetDescriptor(theName);
 			break;
 		}
 
@@ -132,7 +132,7 @@ CInspectorWindow::SetAEProperty(
 			
 			UExtractFromAEDesc::TheSInt16(inValue, theID);
 			::NumToString(theID, theString);
-			SetDescriptor(theString);
+			mIDField->SetDescriptor(theString);
 			break;
 		}
 		
@@ -275,6 +275,38 @@ CInspectorWindow::GetModelProperty(DescType inProperty) const
 	}
 
 	return theModelObject;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ HandleAppleEvent												  [public]
+// ---------------------------------------------------------------------------
+
+void
+CInspectorWindow::HandleAppleEvent(
+	const AppleEvent	&inAppleEvent,
+	AppleEvent			&outAEReply,
+	AEDesc				&outResult,
+	long				inAENumber)
+{
+	switch (inAENumber) {
+
+		case ae_Close:
+		Hide();
+		break;
+
+		case ae_Save:
+		ListenToMessage(msg_InspModify, NULL);
+		break;
+
+		case ae_Revert:
+		ListenToMessage(msg_InspRevert, NULL);
+		break;
+
+		default:
+		LModelObject::HandleAppleEvent(inAppleEvent, outAEReply, outResult, inAENumber);
+		break;
+	}
 }
 
 
