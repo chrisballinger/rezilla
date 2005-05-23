@@ -1810,10 +1810,11 @@ CRezMapDoc::RemoveResource(CRezObjItem* inRezObjItem)
 		return;
 	} 
 	
-	CRezObj * theRezObj = inRezObjItem->GetRezObj();
+	CRezObj *	theRezObj = inRezObjItem->GetRezObj();
+	ResType		theType = theRezObj->GetType();
 	
 	// If an editing window is opened for this resource, close it
-	CEditorDoc * theRezEditor = GetRezEditor( theRezObj->GetType(), theRezObj->GetID() );
+	CEditorDoc * theRezEditor = GetRezEditor( theType, theRezObj->GetID() );
 	if (theRezEditor != nil) {
 		theRezEditor->SetModified(false);
 		delete theRezEditor;
@@ -1830,11 +1831,13 @@ CRezMapDoc::RemoveResource(CRezObjItem* inRezObjItem)
 	LOutlineItem* theSuperItem =  inRezObjItem->GetSuperItem();
 	mRezMapWindow->GetRezMapTable()->RemoveItem(inRezObjItem);
 	
+	//CAVEAT: from now on, don't invoke theRezObj anymore, it's just been deleted.
+	
 	// Update the resources count field
 	mRezMapWindow->SetCountRezField( mRezMapWindow->GetCountRezField() - 1 );
 
 	// If there are no more resources of this type, remove the type item
-	error = mRezMap->CountForType(theRezObj->GetType(), theCount);
+	error = mRezMap->CountForType(theType, theCount);
 	if (theCount == 0) {
 		mRezMapWindow->GetRezMapTable()->RemoveItem(theSuperItem);
 		// Update the types count field
