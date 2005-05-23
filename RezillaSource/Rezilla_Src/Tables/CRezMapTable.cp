@@ -885,8 +885,6 @@ CRezMapTable::ReceiveDragItem(DragReference inDragRef,
 // ---------------------------------------------------------------------------
 //  ¥ RemoveAllItems										[public]
 // ---------------------------------------------------------------------------
-// Stores all the selected RezObjItem's in the LArray provided. Returns the 
-// number of elements found.
 	
 void
 CRezMapTable::RemoveAllItems()
