@@ -1,11 +1,11 @@
 // ===========================================================================
 //	CTxtDataSubView.h
 //                       Created: 2003-05-06 06:04:42
-//             Last modification: 2004-10-20 08:51:18
+//             Last modification: 2005-05-23 11:37:55
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003-2004
+// © Copyright: Bernard Desgraupes 2003-2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -77,6 +77,8 @@ public:
 									SInt32			inEndPos,
 									SInt32			inBytesCount);
 	
+	virtual void			SetDirty(Boolean inDirty);
+
 	void					SyncPositionsWithSibling(SInt32 inStartPos, SInt32 inEndPos);
 	void					SyncContentsWithMemory(SInt32 inStartPos, 
 													SInt32 inEndPos, 

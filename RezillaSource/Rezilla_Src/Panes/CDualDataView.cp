@@ -236,6 +236,7 @@ CDualDataView::ObeyCommand(
 	void*		ioParam)
 {
 	Boolean		cmdHandled = true;
+	SInt32		theStartPos, theEndPos;
 
 	if ( mInMemoryWasteRef == nil )
 		return cmdHandled;
@@ -246,7 +247,7 @@ CDualDataView::ObeyCommand(
 		case cmd_Cut: {
 // 			PostAction( new CHexEditorCutAction(InMemoryWasteRef, this, this));
 			Handle txtData = nil;
-			SInt32 theStartPos, theEndPos, trueStartPos, trueEndPos;
+			SInt32 trueStartPos, trueEndPos;
 			UInt16 thePeriod;
 			WEReference subPaneWERef;
 			
@@ -332,7 +333,6 @@ CDualDataView::ObeyCommand(
 
 		case cmd_Clear: {
 // 			PostAction( new CHexEditorCutAction(InMemoryWasteRef, this, mHexView));
-			SInt32 theStartPos, theEndPos;
 			
 			if (mSelectingAll) {
 				// If selectAll has been previously invoked
@@ -391,9 +391,7 @@ CDualDataView::ObeyCommand(
 				dataSize = translator.GetOutSize();
 				scrapDataH = translator.GetOutHandle();
 			} 
-			
-			SInt32 theStartPos, theEndPos;
-			
+						
 			if (mSelectingAll) {
 				// If selectAll has been previously invoked
 				theStartPos = 0;
@@ -430,7 +428,7 @@ CDualDataView::ObeyCommand(
 			WEInsert(*scrapDataH, dataSize, nil, nil, mInMemoryWasteRef);
 			InstallContentsFromLine(mCurrFirstLine);
 			SetMaxScrollerValue();
-			
+
 			mHexView->SetDirty(true);
 			mTxtView->SetDirty(true);
 			break;
@@ -548,6 +546,9 @@ CDualDataView::InstallContentsFromLine(SInt32 inFromLine)
 	InstallHexContents( (*theHandle) + charOffset, remainingChars);
 	InstallTextContents( (*theHandle) + charOffset, remainingChars);
 	
+	// Notify to the dual view's listeners
+	BroadcastMessage(msg_DualViewEdited, this);
+
 	return charOffset ;
 }
 

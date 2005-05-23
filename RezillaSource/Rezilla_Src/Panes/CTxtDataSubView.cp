@@ -1,11 +1,11 @@
 // ===========================================================================
 // CTxtDataSubView.cp 
 //                       Created: 2003-05-06 06:04:42
-//             Last modification: 2005-03-24 09:30:44
+//             Last modification: 2005-05-23 11:38:57
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003-2004, 2005
+// © Copyright: Bernard Desgraupes 2003-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -121,7 +121,7 @@ CTxtDataSubView::ClickSelf(
 	WEGetSelection(& startPos, & endPos, mWasteEditRef);
 	mHexSiblingView->SyncPositionsWithSibling(PosToCharPos(startPos), 
 											  PosToCharPos(endPos));
-	// Notify the dual view
+	// Notify the dual view's listeners
 	mOwnerDualView->BroadcastMessage(msg_DualViewEdited, this);
 }
 
@@ -657,7 +657,20 @@ CTxtDataSubView::UserChangedText(
 	// Synchronize sibling
 	mHexSiblingView->SyncPositionsWithSibling(PosToCharPos(newPos), PosToCharPos(newPos));
 	// Set the window dirty
-	::SetWindowModified(mOwnerDualView->GetWindowRef(), true);
+	SetDirty(true);
+}
+
+
+// ---------------------------------------------------------------------------
+//  SetDirty														[public]
+// ---------------------------------------------------------------------------
+
+void
+CTxtDataSubView::SetDirty(Boolean inDirty) 
+{
+	mIsDirty = inDirty;
+// 	mOwnerDoc->SetModified(inDirty);
+	::SetWindowModified(mOwnerDualView->GetWindowRef(), inDirty);
 }
 
 
