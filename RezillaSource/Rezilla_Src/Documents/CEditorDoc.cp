@@ -41,7 +41,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CEditorDoc							Constructor		  [public]
+//	¥ CEditorDoc									Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CEditorDoc::CEditorDoc(LCommander* inSuper, 
@@ -51,10 +51,12 @@ CEditorDoc::CEditorDoc(LCommander* inSuper,
 						   Boolean inReadOnly)
  	: LDocument(inSuper)
 {
-	// Make a copy of the CRezObj otherwise if inRezObj is deleted while 
-	// an editor doc is open we're in trouble. This can happen if the user 
-	// collapses the corresponding ResTypeItem in the rezmap table.
-	mRezObj = new CRezObj(*inRezObj);
+	// Share the same CRezObj as the RezObjItem and increment its 
+	// refcount. The inRezObj argument should never be NULL.
+// 	mRezObj = new CRezObj(*inRezObj);
+	mRezObj = inRezObj;
+	mRezObj->IncrRefCount();
+
 	mRezMapTable = inSuperMap;
 	mMainWindow = nil;
 	mSubstType = inSubstType;
@@ -79,7 +81,10 @@ CEditorDoc::~CEditorDoc()
 {
 	Unregister();
 	if (mRezObj != nil) {
-		delete mRezObj;
+		mRezObj->DecrRefCount();
+		if (mRezObj->GetRefCount() == 0) {
+			delete mRezObj;
+		} 
 	}
 }
 
