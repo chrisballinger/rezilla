@@ -27,6 +27,8 @@
 //	Return a descriptor for the specified Property
 // 	rzom_cHexPane		= 'HexP';	// Hexadecimal pane
 // 	rzom_cTxtPane		= 'TxtP';	// Text pane
+// 	
+// 	As of version 1.0.6, removed from Rezilla's aete resource. Might be in a future release.
 
 void
 CHexEditorWindow::GetAEProperty(
@@ -37,21 +39,21 @@ CHexEditorWindow::GetAEProperty(
 	OSErr	error = noErr;
 	
 	switch (inProperty) {
-		case rzom_cHexPane:
-		case rzom_cTxtPane: {
-			// Return datapane by index: 1 for hex pane, 2 for text pane
-			AEDesc 			winSpec;
-			StAEDescriptor	keyData;
-			SInt32			index = (inProperty == rzom_cHexPane) ? 1:2;
-
-			MakeSpecifier(winSpec);
-
-			keyData.Assign(index);
-			error = ::CreateObjSpecifier( rzom_cDataPane, &winSpec, formAbsolutePosition,
-									keyData, false, &outPropertyDesc);
-			ThrowIfOSErr_(error);
-			break;
-		}
+// 		case rzom_cHexPane:
+// 		case rzom_cTxtPane: {
+// 			// Return datapane by index: 1 for hex pane, 2 for text pane
+// 			AEDesc 			winSpec;
+// 			StAEDescriptor	keyData;
+// 			SInt32			index = (inProperty == rzom_cHexPane) ? 1:2;
+// 
+// 			MakeSpecifier(winSpec);
+// 
+// 			keyData.Assign(index);
+// 			error = ::CreateObjSpecifier( rzom_cDataPane, &winSpec, formAbsolutePosition,
+// 									keyData, false, &outPropertyDesc);
+// 			ThrowIfOSErr_(error);
+// 			break;
+// 		}
 		
 		
 		default:
@@ -74,10 +76,10 @@ CHexEditorWindow::AEPropertyExists(
 
 	switch (inProperty) {
 
-		case rzom_cHexPane: 
-		case rzom_cTxtPane:
-			exists = true;
-			break;
+// 		case rzom_cHexPane: 
+// 		case rzom_cTxtPane:
+// 			exists = true;
+// 			break;
 
 		default:
 			exists = LModelObject::AEPropertyExists(inProperty);
@@ -91,7 +93,7 @@ CHexEditorWindow::AEPropertyExists(
 // ---------------------------------------------------------------------------
 //	¥ GetModelProperty
 // ---------------------------------------------------------------------------
-//	Return a ModelObject object for 'cwin' property
+//	Return a ModelObject object for 'HexP' and 'TxtP' properties
 
 LModelObject*
 CHexEditorWindow::GetModelProperty(DescType inProperty) const
