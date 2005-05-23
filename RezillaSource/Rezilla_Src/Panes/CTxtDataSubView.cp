@@ -306,6 +306,12 @@ CTxtDataSubView::HandleKeyPress(
 		
 	  
 		case keyStatus_TEDelete: {
+// 			// If there is a selection, the delete key corresponds to a 
+// 			// Clear command
+// 			if (theSelStart != theSelEnd) {
+// 				ObeyCommand(cmd_Clear, NULL);
+// 				return keyHandled;
+// 			} 
 
 			if (theSelEnd > 0) {
 				if (mTypingAction == nil) {

@@ -335,26 +335,33 @@ CHexDataSubView::HandleKeyPress(
 		
 	  
 		case keyStatus_TEDelete: {
-				if (mTypingAction == nil) {
-					mTypingAction = new CHexEditorTypingAction(mWasteEditRef, this, this);
-					PostAction(mTypingAction);
+// 			// If there is a selection, the delete key corresponds to a 
+// 			// Clear command
+// 			if (theSelStart != theSelEnd) {
+// 				ObeyCommand(cmd_Clear, NULL);
+// 				return keyHandled;
+// 			} 
+			
+			if (mTypingAction == nil) {
+				mTypingAction = new CHexEditorTypingAction(mWasteEditRef, this, this);
+				PostAction(mTypingAction);
+			}
+			
+			if (mTypingAction != nil) {
+				try {
+					mTypingAction->BackwardErase();
+				} catch (...) {
+					PostAction(nil);
 				}
-				
-				if (mTypingAction != nil) {
-					try {
-						mTypingAction->BackwardErase();
-					} catch (...) {
-						PostAction(nil);
-					}
-				}
-				
-				if (theSelStart == theSelEnd) {
-					theSelStart -= 3;
-					WESetSelection( theSelStart, theSelEnd, mWasteEditRef ) ;
-				}
-				WEDelete(mWasteEditRef);
-				UserChangedText(theSelStart, theSelEnd, 0);
-				mOneOfTwoInserted = false;
+			}
+			
+			if (theSelStart == theSelEnd) {
+				theSelStart -= 3;
+				WESetSelection( theSelStart, theSelEnd, mWasteEditRef ) ;
+			}
+			WEDelete(mWasteEditRef);
+			UserChangedText(theSelStart, theSelEnd, 0);
+			mOneOfTwoInserted = false;
 			break;
 		}
 		
