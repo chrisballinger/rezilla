@@ -526,7 +526,7 @@ CRezType::HandleDeleteResourceEvent(
 	theDoc->RemoveResource(theRezObjItem);
 
 	// Delete the rezobj in the mRezObjModels list. The RezObj contained 
-	// in the theRezObjItem and the one in the list are not the same.
+	// in the theRezObjItem and the one in the list are NOT the same.
 	mRezObjModels.Remove(inRezObj);
 	delete inRezObj;
 }
