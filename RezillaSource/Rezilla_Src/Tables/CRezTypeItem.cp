@@ -17,7 +17,10 @@
 #include "CRezObjItem.h"
 #include "CRezObj.h"
 #include "CRezType.h"
+#include "CRezMapDoc.h"
+#include "CRezMapWindow.h"
 #include "CRezMapTable.h"
+#include "CEditorDoc.h"
 #include "RezillaConstants.h"
 #include "UResources.h"
 #include "UMiscUtils.h"
@@ -140,18 +143,33 @@ CRezTypeItem::DrawRowAdornments(
 void
 CRezTypeItem::ExpandSelf()
 {
-	short		theID;	
-	CRezObj *	theRezObj = nil;
-	LOutlineItem *theItem = nil;
-	LOutlineItem *lastItem = nil;
-
+	short			theID;	
+	CRezObj *		theRezObj = nil;
+	LOutlineItem *	theItem = nil;
+	LOutlineItem *	lastItem = nil;
+	CRezMapDoc *	theDoc = GetOwnerRezMapTable()->GetOwnerWindow()->GetOwnerDoc();
+	CEditorDoc *	theEditor;
+	ResType			theType = mRezType->GetType();
+	
 	LLongComparator* theIDComparator = new LLongComparator;
 	TArray<short>* theIdArray = new TArray<short>(theIDComparator, true);
 	TArrayIterator<short>	idIterator(*theIdArray);
 	mRezType->GetAllRezIDs(theIdArray);
 
 	while (idIterator.Next(theID)) {
-		theRezObj = new CRezObj(mRezType, theID);
+		// If there is an editor corresponding to this resource, share its
+		// own CRezObj, otherwise create a new one. The former situation
+		// can happen if an editor has been opened from a CRezObjItem and
+		// then the containing CRezTypeItem was collapsed and subsequently
+		// re-expanded.
+		theEditor = theDoc->GetRezEditor(theType, theID);
+		
+		if (theEditor != nil) {
+			theRezObj = theEditor->GetRezObj();
+		} else {
+			theRezObj = new CRezObj(mRezType, theID);
+		}
+		theRezObj->IncrRefCount();
 		theItem = new CRezObjItem(theRezObj);
 		mOutlineTable->InsertItem( theItem, this, lastItem );
 		lastItem = theItem;
@@ -181,19 +199,6 @@ CRezTypeItem::DoubleClick(
 			Expand();
 		}
 	}
-}
-
-
-// ---------------------------------------------------------------------------
-//	¥ GetOwnerRefnum
-// ---------------------------------------------------------------------------
-
-short
-CRezTypeItem::GetOwnerRefnum()
-{
-	CRezMapTable *theRezMapTable = dynamic_cast<CRezMapTable*>(mOutlineTable);
-
-	return theRezMapTable->GetOwnerRefnum();
 }
 
 

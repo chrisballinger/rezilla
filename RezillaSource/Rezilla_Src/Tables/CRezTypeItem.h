@@ -23,8 +23,6 @@ class CRezMapTable;
 class CRezTypeItem : public LOutlineItem {
 
 public:
-
-// 										CRezTypeItem(ResType type);
 										CRezTypeItem(CRezType * inRezType);
 				virtual					~CRezTypeItem();
 		
@@ -63,8 +61,6 @@ protected:
 		virtual void			TrackDisclosureTriangle(
 									const SMouseDownEvent&		inMouseDown);
 		
-		short					GetOwnerRefnum();
-
 private:
 								CRezTypeItem();
 								CRezTypeItem( const CRezTypeItem &inOriginal );

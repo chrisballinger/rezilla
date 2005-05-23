@@ -81,7 +81,10 @@ CRezObjItem::~CRezObjItem()
 		CRezillaApp::sInspectorWindow->ClearValues();
 	} 
 	if (mRezObj != nil) {
-		delete mRezObj;
+		mRezObj->DecrRefCount();
+		if (mRezObj->GetRefCount() == 0) {
+			delete mRezObj;
+		} 
 	}
 }
 
@@ -212,7 +215,7 @@ CRezObjItem::DoubleClick(
 	const SOutlineDrawContents&	/* inDrawContents */,
 	Boolean						/* inHitText */)
 {
-	CRezMapTable *theRezMapTable = dynamic_cast<CRezMapTable*>(mOutlineTable);
+	CRezMapTable *theRezMapTable = GetOwnerRezMapTable();
 	
 	if (inMouseDown.macEvent.modifiers & optionKey) {
 		theRezMapTable->GetOwnerDoc()->TryEdit(this, cmd_HexEditRez);
