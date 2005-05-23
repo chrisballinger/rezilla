@@ -37,12 +37,6 @@ public:
 	OSErr	GetAllResources( TArray<Handle>* & outArray );
 	OSErr	GetAllRezIDs( TArray<short>* & outArray ) const;
 
-	CRezMap*		GetOwnerMap() const { return mOwnerMap;}
-	void			SetOwnerMap(CRezMap* theOwnerMap) {mOwnerMap = theOwnerMap;}
-
-	ResType			GetType() { return mType;}
-	void			SetType(ResType theType) {mType = theType;}
-
 	OSErr			GetResourceAtIndex(short inIdx, 
 									   Handle & outHandle, 
 									   Boolean loadIt = false) const;
@@ -119,6 +113,12 @@ public:
 	CRezObj *			GetOrCreateRezObjModel(Handle inHandle) const;
 	
 	TArray<CRezObj*>&	GetRezObjModels() { return mRezObjModels; }
+
+	CRezMap*		GetOwnerMap() const { return mOwnerMap;}
+	void			SetOwnerMap(CRezMap* theOwnerMap) {mOwnerMap = theOwnerMap;}
+
+	ResType			GetType() { return mType;}
+	void			SetType(ResType theType) {mType = theType;}
 
 protected:
 		ResType				mType;
