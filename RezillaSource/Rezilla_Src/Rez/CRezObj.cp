@@ -2,7 +2,7 @@
 // CRezObj.cp					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2005-05-03 13:43:51
+//             Last modification: 2005-05-23 18:42:57
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -37,6 +37,7 @@ CRezObj::CRezObj(Handle inResHandle, short inRefnum)
 	
 	GetSizeOnDisk(mSize);
 	GetAttributesFromMap(mAttributes);
+	mRefCount = 0;
 
 	// Don't use PP's list model
 }
@@ -68,6 +69,7 @@ CRezObj::CRezObj(CRezType * inRezType, short inID)
 	SetName(&theName);
 	// Get the attributes of the resource
 	mAttributes = ::GetResAttrs(mData);
+	mRefCount = 0;
 
 	// Don't use PP's list model
 }
@@ -97,6 +99,7 @@ CRezObj::CRezObj(CRezType * inRezType,
 	}
 	mSize = 0;
 	mAttributes = 0;
+	mRefCount = 0;
 
 	// Don't use PP's list model
 }
@@ -127,6 +130,7 @@ CRezObj::CRezObj(short inRefnum,
 	}
 	mSize = 0;
 	mAttributes = 0;
+	mRefCount = 0;
 }
 
 
@@ -147,6 +151,7 @@ CRezObj::CRezObj(CRezType * inRezType)
 	mData = ::NewHandle(0);
 	mSize = 0;
 	mAttributes = 0;
+	mRefCount = 0;
 
 	// Don't use PP's list model
 }
@@ -164,7 +169,8 @@ CRezObj::CRezObj(CRezObj& inOriginal)
 	mID = inOriginal.GetID();
 	mSize = inOriginal.GetSize();
 	mAttributes = inOriginal.GetAttributes();	
-	
+	mRefCount = 0;
+
 	this->SetName(inOriginal.GetName());
 	mData = ::NewHandle(0);
 	this->SetData(inOriginal.GetData());

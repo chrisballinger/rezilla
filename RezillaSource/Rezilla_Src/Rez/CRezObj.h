@@ -2,7 +2,7 @@
 // CRezObj.h					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2005-04-09 10:02:44
+//             Last modification: 2005-05-23 18:40:14
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -108,7 +108,6 @@ public:
 		OSErr			GetIndexInType(SInt32 & outIndex) const;
 // 		OSErr			GetIndexInMap(SInt32 & outIndex) const;
 		
-		
 		OSErr 			GetMaxSize(Size & outSize);
 		OSErr			GetSizeOnDisk(Size & outSize) const;
 		OSErr			SetSizeOnDisk(Size inSize);
@@ -121,6 +120,11 @@ public:
 		OSErr			ToggleOneAttribute(short inFlag);
 		OSErr			SetOneAttribute(short inFlag, Boolean inSetting);
 
+		short			GetRefCount() { return mRefCount;}
+		void			SetRefCount(short inRefCount) {mRefCount = inRefCount;}
+		void			IncrRefCount() { mRefCount++ ;}
+		void			DecrRefCount() { mRefCount-- ;}
+
 protected:
 	short			mOwnerRefnum;
 	ResType			mType;
@@ -129,6 +133,8 @@ protected:
 	Size			mSize;
 	Handle			mData;
 	short			mAttributes;
+	short			mRefCount;  // Used to share this object between a 
+	     			            // RezObjItem and an editor
 
 };
 
