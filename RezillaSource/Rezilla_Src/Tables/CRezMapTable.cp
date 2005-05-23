@@ -134,28 +134,6 @@ CRezMapTable::DrawSelf()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetOwnerRefnum												[public]
-// ---------------------------------------------------------------------------
-
-short
-CRezMapTable::GetOwnerRefnum() 
-{ 
-	return mRezMap->GetRefnum();
-}
-
-
-// ---------------------------------------------------------------------------
-//  ¥ GetOwnerRefnum												[public]
-// ---------------------------------------------------------------------------
-
-void
-CRezMapTable::SetOwnerRefnum(short theOwnerRefnum) 
-{ 
-	mRezMap->SetRefnum(theOwnerRefnum);
-}
-	
-
-// ---------------------------------------------------------------------------
 //  ¥ Populate												[public]
 // ---------------------------------------------------------------------------
 
@@ -593,20 +571,7 @@ CRezMapTable::CollapseAll() {
 CRezMapDoc *
 CRezMapTable::GetOwnerDoc()
 {
-	CRezMapDoc * theOwnerDoc = GetOwnerWindow()->GetOwnerDoc();
-	return theOwnerDoc;
-}
-
-
-// ---------------------------------------------------------------------------
-//  ¥ GetOwnerWindow										[public]
-// ---------------------------------------------------------------------------
-	
-CRezMapWindow *
-CRezMapTable::GetOwnerWindow()
-{
-	CRezMapWindow *theRezMapWindow = dynamic_cast<CRezMapWindow*>( GetSuperCommander() );
-	return theRezMapWindow;
+	return mOwnerWindow->GetOwnerDoc();
 }
 
 

@@ -74,11 +74,10 @@ public:
 	virtual CRezMap*		GetRezMap() { return mRezMap;}
 	void					SetRezMap(CRezMap* theRezMap) {mRezMap = theRezMap ;}
 
-	virtual short			GetOwnerRefnum();
-	void					SetOwnerRefnum(short theOwnerRefnum);
-
-	CRezMapWindow *			GetOwnerWindow();
 	CRezMapDoc *			GetOwnerDoc();
+	
+	CRezMapWindow *			GetOwnerWindow() { return mOwnerWindow;}
+	void					SetOwnerWindow(CRezMapWindow* inOwnerWindow) {mOwnerWindow = inOwnerWindow;}
 
 	// Used in Drag & Drop
 	static Boolean			sApplyToOthers;
@@ -86,8 +85,9 @@ public:
 	
 protected:
 	// Cache the rezmap of the owning document for faster retrieval. It is 
-	// set by the caller (ie when the CRezMapDoc is created).
+	// set by the caller (i-e CRezMapWindow::FinishCreateSelf).
 	CRezMap *			mRezMap;
+	CRezMapWindow *		mOwnerWindow;
 	
 	virtual void			DrawSelf();
 
