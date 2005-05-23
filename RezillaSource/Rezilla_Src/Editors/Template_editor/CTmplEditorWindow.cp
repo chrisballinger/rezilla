@@ -2,7 +2,7 @@
 // CTmplEditorWindow.cp					
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2005-04-15 07:18:43
+//             Last modification: 2005-05-23 06:48:48
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -2627,7 +2627,7 @@ OSErr
 CTmplEditorWindow::RetrieveCountValue()
 {
 	OSErr	error = noErr;
-	SInt32	currMark;
+	SInt32	saveMark;
 	long	theLong;
 	Str255	theString;
 	UInt8	theUInt8 = 0;
@@ -2637,7 +2637,7 @@ CTmplEditorWindow::RetrieveCountValue()
 
 	mPaneIDs.FetchItemAt(mPaneIndex, mCurrentID);
 	
-	currMark = mOutStream->GetMarker();
+	saveMark = mOutStream->GetMarker();
 	mOutStream->SetMarker(mListCountMark, streamFrom_Start);
 	
 	theStaticText = dynamic_cast<LStaticText *>(this->FindPaneByID(mCurrentID));
@@ -2707,7 +2707,7 @@ CTmplEditorWindow::RetrieveCountValue()
 		
 	}
 	
-	mOutStream->SetMarker(currMark, streamFrom_Start);
+	mOutStream->SetMarker(saveMark, streamFrom_Start);
 	return error;
 }
 
