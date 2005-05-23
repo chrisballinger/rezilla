@@ -101,6 +101,7 @@ CRezMapWindow::FinishCreateSelf()
 	
 	// Make this window the supercommander of the table
 	mRezMapTable->SetSuperCommander(this);
+	mRezMapTable->SetOwnerWindow(this);
 
 	// Fill in the bottom fields
 	short	theCount;
