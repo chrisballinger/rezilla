@@ -2965,7 +2965,7 @@ resource 'TMPL' (1039, "cmdo") {
 		'KEYB',
 		/* [221] */
 		"Style of text title",
-		'DBYT',
+		'BORV',
 		/* [222] */
 		"Plain=0",
 		'CASE',
@@ -3473,7 +3473,7 @@ resource 'TMPL' (1040, "cmnu") {
 };
 
 resource 'TMPL' (1041, "CNTL") {
-	{	/* array: 16 elements */
+	{	/* array: 57 elements */
 		/* [1] */
 		"Bounds Rect",
 		'RECT',
@@ -3517,9 +3517,132 @@ resource 'TMPL' (1041, "CNTL") {
 		"PopupMenuProc=1008",
 		'CASE',
 		/* [15] */
+		"ControlBevelButtonLargeBevelProc=34",
+		'CASE',
+		/* [16] */
+		"ControlBevelButtonNormalBevelProc=33",
+		'CASE',
+		/* [17] */
+		"ControlBevelButtonSmallBevelProc=32",
+		'CASE',
+		/* [18] */
+		"ControlChasingArrowsProc=112",
+		'CASE',
+		/* [19] */
+		"ControlCheckBoxProc=369",
+		'CASE',
+		/* [20] */
+		"ControlClockDateProc=242",
+		'CASE',
+		/* [21] */
+		"ControlClockTimeProc=240",
+		'CASE',
+		/* [22] */
+		"ControlEditTextInlineInputProc=276",
+		'CASE',
+		/* [23] */
+		"ControlEditTextPasswordProc=274",
+		'CASE',
+		/* [24] */
+		"ControlEditTextProc=272",
+		'CASE',
+		/* [25] */
+		"ControlEditUnicodeTextPasswordProc=914",
+		'CASE',
+		/* [26] */
+		"ControlEditUnicodeTextProc=912",
+		'CASE',
+		/* [27] */
+		"ControlGroupBoxCheckBoxProc=161",
+		'CASE',
+		/* [28] */
+		"ControlGroupBoxPopupButtonProc=162",
+		'CASE',
+		/* [29] */
+		"ControlGroupBoxTextTitleProc=160",
+		'CASE',
+		/* [30] */
+		"ControlIconProc=320",
+		'CASE',
+		/* [31] */
+		"ControlIconRefProc=324",
+		'CASE',
+		/* [32] */
+		"ControlIconSuiteProc=322",
+		'CASE',
+		/* [33] */
+		"ControlImageWellProc=176",
+		'CASE',
+		/* [34] */
+		"ControlListBoxProc=352",
+		'CASE',
+		/* [35] */
+		"ControlLittleArrowsProc=96",
+		'CASE',
+		/* [36] */
+		"ControlPictureProc=304",
+		'CASE',
+		/* [37] */
+		"ControlPlacardProc=224",
+		'CASE',
+		/* [38] */
+		"ControlPopupButtonProc=400",
+		'CASE',
+		/* [39] */
+		"ControlProgressBarProc=80",
+		'CASE',
+		/* [40] */
+		"ControlPushButtonProc=368",
+		'CASE',
+		/* [41] */
+		"ControlRadioButtonProc=370",
+		'CASE',
+		/* [42] */
+		"ControlRadioGroupProc=416",
+		'CASE',
+		/* [43] */
+		"ControlRelevanceBarProc=81",
+		'CASE',
+		/* [44] */
+		"ControlScrollBarLiveProc=386",
+		'CASE',
+		/* [45] */
+		"ControlScrollBarProc=384",
+		'CASE',
+		/* [46] */
+		"ControlScrollTextBoxProc=432",
+		'CASE',
+		/* [47] */
+		"ControlSeparatorLineProc=144",
+		'CASE',
+		/* [48] */
+		"ControlSliderProc=48",
+		'CASE',
+		/* [49] */
+		"ControlStaticTextProc=288",
+		'CASE',
+		/* [50] */
+		"ControlTabLargeProc=128",
+		'CASE',
+		/* [51] */
+		"ControlTabSmallProc=129",
+		'CASE',
+		/* [52] */
+		"ControlTriangleProc=64",
+		'CASE',
+		/* [53] */
+		"ControlUserPaneProc=256",
+		'CASE',
+		/* [54] */
+		"ControlWindowHeaderProc=336",
+		'CASE',
+		/* [55] */
+		"ControlWindowListViewHeaderProc=337",
+		'CASE',
+		/* [56] */
 		"RefCon",
 		'DLNG',
-		/* [16] */
+		/* [57] */
 		"Title",
 		'PSTR'
 	}
@@ -6600,7 +6723,7 @@ resource 'TMPL' (1075, "DLGf") {
 		"\"Finale\" resource format",
 		'DVDR',
 		/* [2] */
-		"\0x1AÓFSty\0x1AÔ resource",
+		"'FSty' resource",
 		'RSID',
 		/* [3] */
 		"DLGFONTFLAGS",
@@ -8181,7 +8304,7 @@ resource 'TMPL' (1091, "errs") {
 		'CASE',
 		/* [7] */
 		"Index of string in STR# or STR# ID",
-		'RSID',
+		'DWRD',
 		/* [8] */
 		"*****",
 		'LSTE'
@@ -9306,7 +9429,7 @@ resource 'TMPL' (1109, "finf") {
 		'DWRD',
 		/* [4] */
 		"Font style",
-		'DWRD',
+		'WORV',
 		/* [5] */
 		"Plain=0",
 		'CASE',
@@ -9429,7 +9552,7 @@ resource 'TMPL' (1112, "flst") {
 		'AWRD',
 		/* [5] */
 		"Style",
-		'DWRD',
+		'WORV',
 		/* [6] */
 		"Plain=0",
 		'CASE',
@@ -12534,7 +12657,7 @@ resource 'TMPL' (1151, "ICx6") {
 		"Fixed length",
 		'DWRD',
 		/* [10] */
-		"\0x1A·version\0x1A‡",
+		"Version",
 		'DWRD',
 		/* [11] */
 		"File type",
@@ -18877,7 +19000,7 @@ resource 'TMPL' (1188, "itlb") {
 		'DWRD',
 		/* [51] */
 		"Valid styles",
-		'DBYT',
+		'BORV',
 		/* [52] */
 		"Plain=0",
 		'CASE',
@@ -18904,7 +19027,7 @@ resource 'TMPL' (1188, "itlb") {
 		'CASE',
 		/* [60] */
 		"Alias styles",
-		'DBYT',
+		'BORV',
 		/* [61] */
 		"Plain=0",
 		'CASE',
@@ -22076,7 +22199,7 @@ resource 'TMPL' (1222, "MENA") {
 };
 
 resource 'TMPL' (1223, "MENU") {
-	{	/* array: 59 elements */
+	{	/* array: 35 elements */
 		/* [1] */
 		"MenuID",
 		'DWRD',
@@ -22087,171 +22210,99 @@ resource 'TMPL' (1223, "MENU") {
 		"Height",
 		'FWRD',
 		/* [4] */
-		"ID of menu def proc MDEF",
+		"ID of menu def proc (MDEF)",
 		'RSID',
 		/* [5] */
 		"Filler",
 		'FWRD',
 		/* [6] */
-		"Item 1 enabled",
-		'LBIT',
+		"Items 1-31 enable flags",
+		'LB31',
 		/* [7] */
-		"Item 2 enabled",
-		'LBIT',
-		/* [8] */
-		"Item 3 enabled",
-		'LBIT',
-		/* [9] */
-		"Item 4 enabled",
-		'LBIT',
-		/* [10] */
-		"Item 5 enabled",
-		'LBIT',
-		/* [11] */
-		"Item 6 enabled",
-		'LBIT',
-		/* [12] */
-		"Item 7 enabled",
-		'LBIT',
-		/* [13] */
-		"Item 8 enabled",
-		'LBIT',
-		/* [14] */
-		"Item 9 enabled",
-		'LBIT',
-		/* [15] */
-		"Item 10 enabled",
-		'LBIT',
-		/* [16] */
-		"Item 11 enabled",
-		'LBIT',
-		/* [17] */
-		"Item 12 enabled",
-		'LBIT',
-		/* [18] */
-		"Item 13 enabled",
-		'LBIT',
-		/* [19] */
-		"Item 14 enabled",
-		'LBIT',
-		/* [20] */
-		"Item 15 enabled",
-		'LBIT',
-		/* [21] */
-		"Item 16 enabled",
-		'LBIT',
-		/* [22] */
-		"Item 17 enabled",
-		'LBIT',
-		/* [23] */
-		"Item 18 enabled",
-		'LBIT',
-		/* [24] */
-		"Item 19 enabled",
-		'LBIT',
-		/* [25] */
-		"Item 20 enabled",
-		'LBIT',
-		/* [26] */
-		"Item 21 enabled",
-		'LBIT',
-		/* [27] */
-		"Item 22 enabled",
-		'LBIT',
-		/* [28] */
-		"Item 23 enabled",
-		'LBIT',
-		/* [29] */
-		"Item 24 enabled",
-		'LBIT',
-		/* [30] */
-		"Item 25 enabled",
-		'LBIT',
-		/* [31] */
-		"Item 26 enabled",
-		'LBIT',
-		/* [32] */
-		"Item 27 enabled",
-		'LBIT',
-		/* [33] */
-		"Item 28 enabled",
-		'LBIT',
-		/* [34] */
-		"Item 29 enabled",
-		'LBIT',
-		/* [35] */
-		"Item 30 enabled",
-		'LBIT',
-		/* [36] */
-		"Item 31 enabled",
-		'LBIT',
-		/* [37] */
 		"Entire menu enabled",
 		'LBIT',
-		/* [38] */
+		/* [8] */
 		"Title",
 		'PSTR',
-		/* [39] */
+		/* [9] */
 		"Apple=\0x14",
 		'CASE',
-		/* [40] */
+		/* [10] */
 		"Menu items",
 		'LSTZ',
-		/* [41] */
+		/* [11] */
 		"Menu Item Title",
 		'PSTR',
-		/* [42] */
+		/* [12] */
 		"Divider=-",
 		'CASE',
-		/* [43] */
-		"Icon ID - 256 (or 0)",
+		/* [13] */
+		"Icon ID - 256 (or 0 for no icon)",
 		'DBYT',
-		/* [44] */
-		"No ICON=0",
-		'CASE',
-		/* [45] */
+		/* [14] */
 		"Key equivalent or hier. menu",
-		'CHAR',
-		/* [46] */
+		'UBYT',
+		/* [15] */
 		"No key=0",
 		'CASE',
-		/* [47] */
+		/* [16] */
 		"Hierarchical menu=27",
 		'CASE',
-		/* [48] */
+		/* [17] */
+		"Non system script=28",
+		'CASE',
+		/* [18] */
+		"Using 'ICON'=29",
+		'CASE',
+		/* [19] */
+		"Using 'SICN'=30",
+		'CASE',
+		/* [20] */
 		"Mark char or ID of hier. menu",
-		'CHAR',
-		/* [49] */
+		'UBYT',
+		/* [21] */
 		"No mark=0",
 		'CASE',
-		/* [50] */
+		/* [22] */
+		"Command mark=17",
+		'CASE',
+		/* [23] */
+		"Check mark=18",
+		'CASE',
+		/* [24] */
+		"Diamond mark=19",
+		'CASE',
+		/* [25] */
+		"Apple mark=20",
+		'CASE',
+		/* [26] */
 		"Item Style",
-		'DBYT',
-		/* [51] */
+		'BORV',
+		/* [27] */
 		"Plain=0",
 		'CASE',
-		/* [52] */
+		/* [28] */
 		"Bold=1",
 		'CASE',
-		/* [53] */
+		/* [29] */
 		"Italic=2",
 		'CASE',
-		/* [54] */
+		/* [30] */
 		"Underline=4",
 		'CASE',
-		/* [55] */
+		/* [31] */
 		"Outline=8",
 		'CASE',
-		/* [56] */
+		/* [32] */
 		"Shadow=16",
 		'CASE',
-		/* [57] */
+		/* [33] */
 		"Condensed=32",
 		'CASE',
-		/* [58] */
+		/* [34] */
 		"Extended=64",
 		'CASE',
-		/* [59] */
+		/* [35] */
 		"*****",
 		'LSTE'
 	}
@@ -38187,7 +38238,7 @@ resource 'TMPL' (1303, "ropt") {
 };
 
 resource 'TMPL' (1304, "rout") {
-	{	/* array: 27 elements */
+	{	/* array: 133 elements */
 		/* [1] */
 		"Array for folder routing",
 		'LSTB',
@@ -38213,60 +38264,378 @@ resource 'TMPL' (1304, "rout") {
 		"Destination folder",
 		'TNAM',
 		/* [9] */
-		"system folder=macs",
+		"ALMLocations=fall",
 		'CASE',
 		/* [10] */
-		"desktop=desk",
+		"ALMModules=walk",
 		'CASE',
 		/* [11] */
-		"trash=trsh",
+		"ALMPreferences=trip",
 		'CASE',
 		/* [12] */
-		"\"empty trash\" folder=empt",
+		"Appearance=appr",
 		'CASE',
 		/* [13] */
-		"print monitor documents=prnt",
+		"AppleExtras=aexí",
 		'CASE',
 		/* [14] */
-		"startup items=strt",
+		"AppleMenu=amnu",
 		'CASE',
 		/* [15] */
-		"shutdown items=shdf",
+		"AppleShareAuthentication=auth",
 		'CASE',
 		/* [16] */
-		"apple menu=amnu",
+		"AppleShareSupport=shar",
 		'CASE',
 		/* [17] */
-		"control panels=ctrl",
+		"ApplicationSupport=asup",
 		'CASE',
 		/* [18] */
-		"extensions=extn",
+		"Applications=apps",
 		'CASE',
 		/* [19] */
-		"fonts=font",
+		"Assistants=astí",
 		'CASE',
 		/* [20] */
-		"preferences=pref",
+		"AudioAlertSounds=alrt",
 		'CASE',
 		/* [21] */
-		"temporary items=temp",
+		"AudioComponents=acmp",
 		'CASE',
 		/* [22] */
-		"appearance=appr",
+		"AudioPlugIns=aplg",
 		'CASE',
 		/* [23] */
-		"theme files=thme",
+		"AudioSoundBanks=bank",
 		'CASE',
 		/* [24] */
-		"sound sets=snds",
+		"AudioSounds=asnd",
 		'CASE',
 		/* [25] */
-		"desktop pictures=dtp\0x1A—",
+		"AudioSupport=adio",
 		'CASE',
 		/* [26] */
+		"CachedData=cach",
+		'CASE',
+		/* [27] */
+		"CarbonLibrary=carb",
+		'CASE',
+		/* [28] */
+		"ChewableItems=flnt",
+		'CASE',
+		/* [29] */
+		"ClassicDesktop=sdsk",
+		'CASE',
+		/* [30] */
+		"ColorSync=sync",
+		'CASE',
+		/* [31] */
+		"ColorSyncCMM=ccmm",
+		'CASE',
+		/* [32] */
+		"ColorSyncProfiles=prof",
+		'CASE',
+		/* [33] */
+		"ColorSyncScripting=cscr",
+		'CASE',
+		/* [34] */
+		"Components=cmpd",
+		'CASE',
+		/* [35] */
+		"ContextualMenuItems=cmnu",
+		'CASE',
+		/* [36] */
+		"ControlPanel=ctrl",
+		'CASE',
+		/* [37] */
+		"ControlPanelDisabled=ctrD",
+		'CASE',
+		/* [38] */
+		"ControlStripModules=sdev",
+		'CASE',
+		/* [39] */
+		"CoreServices=csrv",
+		'CASE',
+		/* [40] */
+		"CurrentUser=cusr",
+		'CASE',
+		/* [41] */
+		"CurrentUserRemote=rusr",
+		'CASE',
+		/* [42] */
+		"Desktop=desk",
+		'CASE',
+		/* [43] */
+		"DesktopPictures=dtpí",
+		'CASE',
+		/* [44] */
+		"Developer=devf",
+		'CASE',
+		/* [45] */
+		"DeveloperDocs=ddoc",
+		'CASE',
+		/* [46] */
+		"DeveloperHelp=devh",
+		'CASE',
+		/* [47] */
+		"DirectoryServices=dsrv",
+		'CASE',
+		/* [48] */
+		"DirectoryServicesPlugIns=dplg",
+		'CASE',
+		/* [49] */
+		"DisplayExtensions=dspl",
+		'CASE',
+		/* [50] */
+		"Documentation=info",
+		'CASE',
+		/* [51] */
+		"Documents=docs",
+		'CASE',
+		/* [52] */
+		"DomainLibrary=dlib",
+		'CASE',
+		/* [53] */
+		"DomainTopLevel=dtop",
+		'CASE',
+		/* [54] */
+		"Editors=oded",
+		'CASE',
+		/* [55] */
+		"Extension=extn",
+		'CASE',
+		/* [56] */
+		"ExtensionDisabled=extD",
+		'CASE',
+		/* [57] */
+		"Favorites=favs",
+		'CASE',
+		/* [58] */
+		"FileSystemSupport=fsys",
+		'CASE',
+		/* [59] */
+		"FindByContent=fbcf",
+		'CASE',
+		/* [60] */
+		"FindByContentPlugins=fbcp",
+		'CASE',
+		/* [61] */
+		"FindSupport=fnds",
+		'CASE',
+		/* [62] */
+		"FolderActions=fasf",
+		'CASE',
+		/* [63] */
+		"Fonts=font",
+		'CASE',
+		/* [64] */
+		"Frameworks=fram",
+		'CASE',
+		/* [65] */
+		"GenEditors=íedi",
+		'CASE',
+		/* [66] */
+		"Help=íhlp",
+		'CASE',
+		/* [67] */
+		"ISSDownloads=issd",
+		'CASE',
+		/* [68] */
+		"InstallerLogs=ilgf",
+		'CASE',
+		/* [69] */
+		"InstallerReceipts=rcpt",
+		'CASE',
+		/* [70] */
+		"Internet=intí",
+		'CASE',
+		/* [71] */
+		"InternetPlugIn=ínet",
+		'CASE',
+		/* [72] */
+		"InternetSearchSites=issf",
+		'CASE',
+		/* [73] */
+		"InternetSites=site",
+		'CASE',
+		/* [74] */
+		"KernelExtensions=kext",
+		'CASE',
+		/* [75] */
+		"Keychain=kchn",
+		'CASE',
+		/* [76] */
+		"LauncherItems=laun",
+		'CASE',
+		/* [77] */
+		"Locales=íloc",
+		'CASE',
+		/* [78] */
+		"MIDIDrivers=midi",
+		'CASE',
+		/* [79] */
+		"MacOSReadMes=morí",
+		'CASE',
+		/* [80] */
+		"ModemScripts=ímod",
+		'CASE',
+		/* [81] */
+		"MovieDocuments=mdoc",
+		'CASE',
+		/* [82] */
+		"Multiprocessing=mpxf",
+		'CASE',
+		/* [83] */
+		"MusicDocuments=µdoc",
+		'CASE',
+		/* [84] */
+		"OpenDoc=odod",
+		'CASE',
+		/* [85] */
+		"OpenDocEditors=íodf",
+		'CASE',
+		/* [86] */
+		"OpenDocLibraries=odlb",
+		'CASE',
+		/* [87] */
+		"OpenDocShellPlugIns=odsp",
+		'CASE',
+		/* [88] */
+		"PictureDocuments=pdoc",
+		'CASE',
+		/* [89] */
+		"Preferences=pref",
+		'CASE',
+		/* [90] */
+		"PrintMonitorDocs=prnt",
+		'CASE',
+		/* [91] */
+		"PrinterDescription=ppdf",
+		'CASE',
+		/* [92] */
+		"PrinterDriver=íprd",
+		'CASE',
+		/* [93] */
+		"Printers=impr",
+		'CASE',
+		/* [94] */
+		"PrintingPlugIns=pplg",
+		'CASE',
+		/* [95] */
+		"PrivateFrameworks=pfrm",
+		'CASE',
+		/* [96] */
+		"Public=pubb",
+		'CASE',
+		/* [97] */
+		"QuickTimeComponents=wcmp",
+		'CASE',
+		/* [98] */
+		"QuickTimeExtensions=qtex",
+		'CASE',
+		/* [99] */
+		"RecentApplications=rapp",
+		'CASE',
+		/* [100] */
+		"RecentDocuments=rdoc",
+		'CASE',
+		/* [101] */
+		"RecentServers=rsvr",
+		'CASE',
+		/* [102] */
+		"ScriptingAdditions=íscr",
+		'CASE',
+		/* [103] */
+		"Scripts=scrí",
+		'CASE',
+		/* [104] */
+		"SharedLibraries=ílib",
+		'CASE',
+		/* [105] */
+		"SharedUserData=sdat",
+		'CASE',
+		/* [106] */
+		"Shutdown=shdf",
+		'CASE',
+		/* [107] */
+		"ShutdownItemsDisabled=shdD",
+		'CASE',
+		/* [108] */
+		"SoundSets=snds",
+		'CASE',
+		/* [109] */
+		"SpeakableItems=spki",
+		'CASE',
+		/* [110] */
+		"Speech=spch",
+		'CASE',
+		/* [111] */
+		"Startup=strt",
+		'CASE',
+		/* [112] */
+		"StartupItemsDisabled=strD",
+		'CASE',
+		/* [113] */
+		"Stationery=odst",
+		'CASE',
+		/* [114] */
+		"System=macs",
+		'CASE',
+		/* [115] */
+		"SystemControlPanel=sctl",
+		'CASE',
+		/* [116] */
+		"SystemDesktop=sdsk",
+		'CASE',
+		/* [117] */
+		"SystemExtensionDisabled=macD",
+		'CASE',
+		/* [118] */
+		"SystemPreferences=sprf",
+		'CASE',
+		/* [119] */
+		"SystemSounds=ssnd",
+		'CASE',
+		/* [120] */
+		"SystemTrash=strs",
+		'CASE',
+		/* [121] */
+		"Temporary=temp",
+		'CASE',
+		/* [122] */
+		"TextEncodings=ítex",
+		'CASE',
+		/* [123] */
+		"Themes=thme",
+		'CASE',
+		/* [124] */
+		"Trash=trsh",
+		'CASE',
+		/* [125] */
+		"UserSpecificTmp=utmp",
+		'CASE',
+		/* [126] */
+		"Users=usrs",
+		'CASE',
+		/* [127] */
+		"Utilities=utií",
+		'CASE',
+		/* [128] */
+		"Voices=fvoc",
+		'CASE',
+		/* [129] */
+		"VolumeRoot=root",
+		'CASE',
+		/* [130] */
+		"VolumeSettings=vsfd",
+		'CASE',
+		/* [131] */
+		"WhereToEmptyTrash=empt",
+		'CASE',
+		/* [132] */
 		"Reserved (set to 0)",
 		'FLNG',
-		/* [27] */
+		/* [133] */
 		"-----",
 		'LSTE'
 	}
@@ -41447,7 +41816,7 @@ resource 'TMPL' (1369, "Txtr") {
 		'CASE',
 		/* [6] */
 		"Style",
-		'DWRD',
+		'WORV',
 		/* [7] */
 		"Plain=0",
 		'CASE',
@@ -42136,7 +42505,7 @@ resource 'TMPL' (1376, "view") {
 		'RECT',
 		/* [158] */
 		"Font style",
-		'UBYT',
+		'BORV',
 		/* [159] */
 		"Plain=0",
 		'CASE',
@@ -42256,7 +42625,7 @@ resource 'TMPL' (1376, "view") {
 		'RECT',
 		/* [198] */
 		"Font style",
-		'UBYT',
+		'BORV',
 		/* [199] */
 		"Plain=0",
 		'CASE',
@@ -42382,7 +42751,7 @@ resource 'TMPL' (1376, "view") {
 		'RECT',
 		/* [240] */
 		"Font style",
-		'UBYT',
+		'BORV',
 		/* [241] */
 		"Plain=0",
 		'CASE',
@@ -42520,7 +42889,7 @@ resource 'TMPL' (1376, "view") {
 		'RECT',
 		/* [286] */
 		"Font style",
-		'UBYT',
+		'BORV',
 		/* [287] */
 		"Plain=0",
 		'CASE',
@@ -42658,7 +43027,7 @@ resource 'TMPL' (1376, "view") {
 		'RECT',
 		/* [332] */
 		"Font style",
-		'UBYT',
+		'BORV',
 		/* [333] */
 		"Plain=0",
 		'CASE',
@@ -42790,7 +43159,7 @@ resource 'TMPL' (1376, "view") {
 		'RECT',
 		/* [376] */
 		"Font style",
-		'UBYT',
+		'BORV',
 		/* [377] */
 		"Plain=0",
 		'CASE',
@@ -42916,7 +43285,7 @@ resource 'TMPL' (1376, "view") {
 		'RECT',
 		/* [418] */
 		"Font style",
-		'UBYT',
+		'BORV',
 		/* [419] */
 		"Plain=0",
 		'CASE',
@@ -43054,7 +43423,7 @@ resource 'TMPL' (1376, "view") {
 		'RECT',
 		/* [464] */
 		"Font style",
-		'UBYT',
+		'BORV',
 		/* [465] */
 		"Plain=0",
 		'CASE',
@@ -43192,7 +43561,7 @@ resource 'TMPL' (1376, "view") {
 		'RECT',
 		/* [510] */
 		"Font style",
-		'UBYT',
+		'BORV',
 		/* [511] */
 		"Plain=0",
 		'CASE',
@@ -43318,7 +43687,7 @@ resource 'TMPL' (1376, "view") {
 		'RECT',
 		/* [552] */
 		"Font style",
-		'UBYT',
+		'BORV',
 		/* [553] */
 		"Plain=0",
 		'CASE',
@@ -43450,7 +43819,7 @@ resource 'TMPL' (1376, "view") {
 		'RECT',
 		/* [596] */
 		"Font style",
-		'UBYT',
+		'BORV',
 		/* [597] */
 		"Plain=0",
 		'CASE',
@@ -43591,7 +43960,7 @@ resource 'TMPL' (1376, "view") {
 		'RECT',
 		/* [643] */
 		"Font style",
-		'UBYT',
+		'BORV',
 		/* [644] */
 		"Plain=0",
 		'CASE',
@@ -43837,7 +44206,7 @@ resource 'TMPL' (1376, "view") {
 		'RECT',
 		/* [725] */
 		"Font style",
-		'UBYT',
+		'BORV',
 		/* [726] */
 		"Plain=0",
 		'CASE',
@@ -44083,7 +44452,7 @@ resource 'TMPL' (1376, "view") {
 		'CASE',
 		/* [807] */
 		"Font style",
-		'UBYT',
+		'BORV',
 		/* [808] */
 		"Plain=0",
 		'CASE',
@@ -44224,7 +44593,7 @@ resource 'TMPL' (1376, "view") {
 		'DVDR',
 		/* [854] */
 		"Font style",
-		'UBYT',
+		'BORV',
 		/* [855] */
 		"Plain=0",
 		'CASE',
@@ -44320,7 +44689,7 @@ resource 'TMPL' (1376, "view") {
 		'DVDR',
 		/* [886] */
 		"Font style",
-		'UBYT',
+		'BORV',
 		/* [887] */
 		"Plain=0",
 		'CASE',
@@ -44821,104 +45190,350 @@ resource 'TMPL' (1381, "xMNU") {
 };
 
 resource 'TMPL' (1382, "xmnu") {
-	{	/* array: 33 elements */
+	{	/* array: 115 elements */
 		/* [1] */
 		"Version",
 		'KWRD',
 		/* [2] */
-		"Latest=0",
+		"Version Zero=0",
 		'CASE',
 		/* [3] */
+		"Version One=1",
+		'CASE',
+		/* [4] */
 		"0",
 		'KEYB',
-		/* [4] */
+		/* [5] */
 		"Count:",
 		'OCNT',
-		/* [5] */
+		/* [6] */
 		"List of Item extensions",
 		'LSTC',
-		/* [6] */
+		/* [7] */
 		"Entry Type",
 		'KWRD',
-		/* [7] */
-		"Skip=0",
-		'CASE',
 		/* [8] */
-		"Data=1",
+		"Skip Item=0",
 		'CASE',
 		/* [9] */
+		"Data Item=1",
+		'CASE',
+		/* [10] */
 		"0",
 		'KEYB',
-		/* [10] */
+		/* [11] */
 		"",
 		'KEYE',
-		/* [11] */
+		/* [12] */
 		"1",
 		'KEYB',
-		/* [12] */
+		/* [13] */
 		"Command ID",
 		'TNAM',
-		/* [13] */
+		/* [14] */
 		"Reserved",
 		'BB04',
-		/* [14] */
+		/* [15] */
 		"No command key modifier",
 		'BBIT',
-		/* [15] */
+		/* [16] */
 		"Control key modifier",
 		'BBIT',
-		/* [16] */
+		/* [17] */
 		"Option key modifier",
 		'BBIT',
-		/* [17] */
+		/* [18] */
 		"Shift key modifier",
 		'BBIT',
-		/* [18] */
+		/* [19] */
 		"Icon type placeholder",
 		'FBYT',
-		/* [19] */
+		/* [20] */
 		"Icon handle placeholder",
 		'FLNG',
-		/* [20] */
+		/* [21] */
 		"Text encoding",
 		'DLNG',
-		/* [21] */
+		/* [22] */
 		"Current script=-2",
 		'CASE',
-		/* [22] */
+		/* [23] */
 		"System script=-1",
 		'CASE',
-		/* [23] */
-		"Reference constant 1",
-		'TNAM',
 		/* [24] */
-		"Reference constant 2",
-		'TNAM',
+		"Reference constant 1",
+		'ULNG',
 		/* [25] */
+		"Reference constant 2",
+		'ULNG',
+		/* [26] */
 		"Hierarchical 'MENU' ID",
 		'RSID',
-		/* [26] */
+		/* [27] */
 		"None=0",
 		'CASE',
-		/* [27] */
+		/* [28] */
 		"Font ID",
 		'DWRD',
-		/* [28] */
+		/* [29] */
 		"System font=0",
 		'CASE',
-		/* [29] */
-		"Substitute Glyph",
-		'DWRD',
 		/* [30] */
+		"Keyboard Glyph",
+		'DWRD',
+		/* [31] */
 		"Natural Glyph=0",
 		'CASE',
-		/* [31] */
+		/* [32] */
+		"Tab Right=2",
+		'CASE',
+		/* [33] */
+		"Tab Left=3",
+		'CASE',
+		/* [34] */
+		"Enter=4",
+		'CASE',
+		/* [35] */
+		"Space=9",
+		'CASE',
+		/* [36] */
+		"Delete Right=10",
+		'CASE',
+		/* [37] */
+		"Return=11",
+		'CASE',
+		/* [38] */
+		"Nonmarking Return=13",
+		'CASE',
+		/* [39] */
+		"Pencil=15",
+		'CASE',
+		/* [40] */
+		"Downward Arrow Dashed=16",
+		'CASE',
+		/* [41] */
+		"Checkmark=18",
+		'CASE',
+		/* [42] */
+		"Diamond=19",
+		'CASE',
+		/* [43] */
+		"Apple Logo Filled=20",
+		'CASE',
+		/* [44] */
+		"Delete Left=23",
+		'CASE',
+		/* [45] */
+		"Left Arrow Dashed=24",
+		'CASE',
+		/* [46] */
+		"Up Arrow Dashed=25",
+		'CASE',
+		/* [47] */
+		"Right Arrow Dashed=26",
+		'CASE',
+		/* [48] */
+		"Escape=27",
+		'CASE',
+		/* [49] */
+		"Clear=28",
+		'CASE',
+		/* [50] */
+		"Blank=97",
+		'CASE',
+		/* [51] */
+		"Page Up=98",
+		'CASE',
+		/* [52] */
+		"Caps Lock=99",
+		'CASE',
+		/* [53] */
+		"Left Arrow=100",
+		'CASE',
+		/* [54] */
+		"Right Arrow=101",
+		'CASE',
+		/* [55] */
+		"Northwest Arrow=102",
+		'CASE',
+		/* [56] */
+		"Help=103",
+		'CASE',
+		/* [57] */
+		"Up Arrow=104",
+		'CASE',
+		/* [58] */
+		"Southeast Arrow=105",
+		'CASE',
+		/* [59] */
+		"Down Arrow=106",
+		'CASE',
+		/* [60] */
+		"Page Down=107",
+		'CASE',
+		/* [61] */
+		"Apple Logo Outline=108",
+		'CASE',
+		/* [62] */
+		"Contextual Menu=109",
+		'CASE',
+		/* [63] */
+		"Power=110",
+		'CASE',
+		/* [64] */
+		"F1=111",
+		'CASE',
+		/* [65] */
+		"F2=112",
+		'CASE',
+		/* [66] */
+		"F3=113",
+		'CASE',
+		/* [67] */
+		"F4=114",
+		'CASE',
+		/* [68] */
+		"F5=115",
+		'CASE',
+		/* [69] */
+		"F6=116",
+		'CASE',
+		/* [70] */
+		"F7=117",
+		'CASE',
+		/* [71] */
+		"F8=118",
+		'CASE',
+		/* [72] */
+		"F9=119",
+		'CASE',
+		/* [73] */
+		"F10=120",
+		'CASE',
+		/* [74] */
+		"F11=121",
+		'CASE',
+		/* [75] */
+		"F12=122",
+		'CASE',
+		/* [76] */
+		"F13=135",
+		'CASE',
+		/* [77] */
+		"F14=136",
+		'CASE',
+		/* [78] */
+		"F15=137",
+		'CASE',
+		/* [79] */
 		"",
 		'KEYE',
-		/* [32] */
+		/* [80] */
 		"*****",
 		'LSTE',
-		/* [33] */
+		/* [81] */
+		"",
+		'KEYE',
+		/* [82] */
+		"1",
+		'KEYB',
+		/* [83] */
+		"Count:",
+		'OCNT',
+		/* [84] */
+		"List of Item extensions",
+		'LSTC',
+		/* [85] */
+		"Entry Type",
+		'KWRD',
+		/* [86] */
+		"Skip Item=0",
+		'CASE',
+		/* [87] */
+		"Data Item=1",
+		'CASE',
+		/* [88] */
+		"0",
+		'KEYB',
+		/* [89] */
+		"",
+		'KEYE',
+		/* [90] */
+		"1",
+		'KEYB',
+		/* [91] */
+		"Command ID",
+		'TNAM',
+		/* [92] */
+		"Reserved",
+		'BB04',
+		/* [93] */
+		"No command key modifier",
+		'BBIT',
+		/* [94] */
+		"Control key modifier",
+		'BBIT',
+		/* [95] */
+		"Option key modifier",
+		'BBIT',
+		/* [96] */
+		"Shift key modifier",
+		'BBIT',
+		/* [97] */
+		"Virtual keycode for command key",
+		'HBYT',
+		/* [98] */
+		"No virtual key=0",
+		'CASE',
+		/* [99] */
+		"Menu item attributes",
+		'HLNG',
+		/* [100] */
+		"No attributes=0",
+		'CASE',
+		/* [101] */
+		"Text encoding",
+		'ULNG',
+		/* [102] */
+		"Current script=-2",
+		'CASE',
+		/* [103] */
+		"System script=-1",
+		'CASE',
+		/* [104] */
+		"Reference constant",
+		'ULNG',
+		/* [105] */
+		"Indent",
+		'ULNG',
+		/* [106] */
+		"No indent=0",
+		'CASE',
+		/* [107] */
+		"Hierarchical 'MENU' ID",
+		'RSID',
+		/* [108] */
+		"None=0",
+		'CASE',
+		/* [109] */
+		"Font ID",
+		'DWRD',
+		/* [110] */
+		"System font=0",
+		'CASE',
+		/* [111] */
+		"Keyboard Glyph",
+		'DWRD',
+		/* [112] */
+		"Natural Glyph=0",
+		'CASE',
+		/* [113] */
+		"",
+		'KEYE',
+		/* [114] */
+		"*****",
+		'LSTE',
+		/* [115] */
 		"",
 		'KEYE'
 	}
