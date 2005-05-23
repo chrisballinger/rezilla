@@ -2,7 +2,7 @@
 // CRezMapDoc.h				
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2005-05-16 08:20:45
+//             Last modification: 2005-05-23 18:04:51
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -199,10 +199,7 @@ public:
 	void				SetReadOnly(Boolean inReadOnlyDoc) {mReadOnly = inReadOnlyDoc;}
 
 	
-	static TArray<CRezMapDoc*>& GetRezMapDocList()
-							{
-								return sRezMapDocList;
-							}
+	static TArray<CRezMapDoc*>& GetRezMapDocList() { return sRezMapDocList; }
 
 protected:
 	static TArray<CRezMapDoc*>	sRezMapDocList;
@@ -222,11 +219,12 @@ protected:
 	
 	void				NameNewDoc();
 	CRezObjItem *		NewResDialog();
-	void				UpdateRefNum(short newRefNum);
 	void				WriteOutExport(SInt16 inExportFormat);
 	
 private:
 	void				Initialize(FSSpec * inFileSpec, short inRefnum);
+	void				DeleteEditors(Boolean deleteArray);
+	
 };
 
 

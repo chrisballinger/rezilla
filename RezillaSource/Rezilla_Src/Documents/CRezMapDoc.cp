@@ -2,7 +2,7 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2005-05-16 08:48:03
+//             Last modification: 2005-05-23 20:28:02
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -183,16 +183,8 @@ CRezMapDoc::~CRezMapDoc()
 		CRezillaApp::sInspectorWindow->ClearValues();
 	} 
 	
-	// Delete the RezEditors associated to this document
-	if (mOpenedEditors != nil) {
-		TArrayIterator<CEditorDoc *> iterator(*mOpenedEditors, LArrayIterator::from_End);
-		CEditorDoc* theRezEditor = nil;
-		while (iterator.Previous(theRezEditor)) {
-			 delete theRezEditor;
-		}
-		
-		delete mOpenedEditors;
-	} 
+	// Delete the associated RezEditors and the array
+	DeleteEditors(true);
 
 	if (mRezMapWindow != nil) {
 		// Remove the window from the window menu.
@@ -256,10 +248,6 @@ CRezMapDoc::Initialize(FSSpec * inFileSpec, short inRefnum)
 	// Create window for our document.
 	mRezMapWindow = dynamic_cast<CRezMapWindow *>(LWindow::CreateWindow( PPob_RezMapWindow, this));
 	Assert_( mRezMapWindow != nil );
-
-	// Make this document the supercommander of the RezMapWindow
-// 	mRezMapWindow->SetSuperCommander(this);
-// 	mRezMapWindow->SetOwnerDoc(this);
 	
 	// The RezMapTable keeps a pointer to the RezMap object
 	mRezMapWindow->GetRezMapTable()->SetRezMap(mRezMap);
@@ -632,7 +620,7 @@ CRezMapDoc::GetDescriptor(
 
 
 // ---------------------------------------------------------------------------
-//  GetOwnerRefnum												[public]
+//  GetRefnum												[public]
 // ---------------------------------------------------------------------------
 
 short
@@ -643,7 +631,7 @@ CRezMapDoc::GetRefnum()
 
 
 // ---------------------------------------------------------------------------
-//  GetOwnerRefnum												[public]
+//  SetRefnum												[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -814,7 +802,7 @@ CRezMapDoc::DoAESave(
 			} 
 			
 			// Rebuild the RezMapTable and redraw
-			theRezMapTable->SetOwnerRefnum( mRezMap->GetRefnum() );
+// 			theRezMapTable->SetOwnerRefnum( mRezMap->GetRefnum() );
 			theRezMapTable->RemoveAllItems();
 			theRezMapTable->Populate(mTypesArray);
 			mRezMapWindow->Refresh();
@@ -951,15 +939,8 @@ CRezMapDoc::DoRevert()
 	SInt16		theFork;
 	OSErr		error;
 	
-	// Delete all the editor windows depending from this rezmap and reset the array
-    if (mOpenedEditors != nil) {
-        TArrayIterator<CEditorDoc *> iterator(*mOpenedEditors, LArrayIterator::from_End);
-        CEditorDoc* theRezEditor = nil;
-        while (iterator.Previous(theRezEditor)) {
-			mOpenedEditors->RemoveItemsAt(1, iterator.GetCurrentIndex());
-			delete theRezEditor;
-        }
-    } 
+	// Delete all the editors
+	DeleteEditors(false); 
 	
 	// Set the changedMap attribute to false (mapChanged = 2^mapChangedBit)
 	mRezMap->UnsetFileAttrs(mapChanged);
@@ -1692,30 +1673,6 @@ CRezMapDoc::DoCreateResource(ResType inType, short inID, Str255* inName, short i
 
 
 // ---------------------------------------------------------------------------
-//  GetRezEditor												[public]
-// ---------------------------------------------------------------------------
-// ResType is an unsigned long
-
-CEditorDoc *
-CRezMapDoc::GetRezEditor(ResType inType, short inID)
-{
-	CEditorDoc * result = nil;	
-	TArrayIterator<CEditorDoc *> iterator(*mOpenedEditors);
-	CEditorDoc*	theRezEditor = nil;
-	
-	// The CRezMapDoc class maintains a list of all opened CEditorDoc's
-	while (iterator.Next(theRezEditor)) {
-		if ( CEditorsController::TypesCorrespond(inType, theRezEditor->GetRezObj()->GetType() )  && inID == theRezEditor->GetRezObj()->GetID() ) {
-			result = theRezEditor;
-			break;
-		} 
-	}
-	
-	return result;
-}
-
-
-// ---------------------------------------------------------------------------
 //  DuplicateResource												[public]
 // ---------------------------------------------------------------------------
 
@@ -2006,37 +1963,52 @@ CRezMapDoc::PasteResource(ResType inType, short inID, Handle inHandle,
 
 
 // ---------------------------------------------------------------------------
-//  UpdateRefNum												[public]
+//  GetRezEditor												[public]
 // ---------------------------------------------------------------------------
-// Takes care of updating the refnum in all the sub objects which store a 
-// copy of this value:
-// 1- the rezmap object in CRezMapDoc
-// 2- the copy of this rezmap object in CRezMapTable
-// 3- all the RezObj objects created by a RezObjItem (ie by second level lines
-//   in the RezMapTable)
+// ResType is an unsigned long
 
-void
-CRezMapDoc::UpdateRefNum(short newRefNum)
+CEditorDoc *
+CRezMapDoc::GetRezEditor(ResType inType, short inID)
 {
-	// 1-
-	SetRefnum(newRefNum);
-	// 2-
-	mRezMapWindow->GetRezMapTable()->SetOwnerRefnum(newRefNum);
-	// 3- Iterate among first level items
-	LArrayIterator rezTypeIterator( mRezMapWindow->GetRezMapTable()->GetFirstLevelItems() );
-	LOutlineItem *theRezTypeItem = nil;	
-	LOutlineItem *theRezObjItem = nil;	
+	CEditorDoc * result = nil;	
+	TArrayIterator<CEditorDoc *> iterator(*mOpenedEditors);
+	CEditorDoc*	theRezEditor = nil;
 	
-	while (rezTypeIterator.Next(&theRezTypeItem)) {
-		// Now iterate among sub items of this RezTypeItem if it is expanded
-		if (theRezTypeItem->IsExpanded()) {
-			LArrayIterator rezObjIterator( *(theRezTypeItem->GetSubItems()) );
-			while (rezObjIterator.Next(&theRezObjItem)) {
-				dynamic_cast<CRezObjItem *>(theRezObjItem)->GetRezObj()->SetOwnerRefnum(newRefNum);				
-			}
+	// The CRezMapDoc class maintains a list of all opened CEditorDoc's
+	while (iterator.Next(theRezEditor)) {
+		if ( CEditorsController::TypesCorrespond( inType, theRezEditor->GetRezObj()->GetType() )  
+			&& 
+			inID == theRezEditor->GetRezObj()->GetID() ) {
+			result = theRezEditor;
+			break;
 		} 
 	}
+	
+	return result;
 }
+
+
+// ---------------------------------------------------------------------------
+//  DeleteEditors												[public]
+// ---------------------------------------------------------------------------
+// Delete all the editor windows depending from this rezmap and reset the array
+
+void
+CRezMapDoc::DeleteEditors(Boolean deleteArray)
+{
+	if (mOpenedEditors != nil) {
+		TArrayIterator<CEditorDoc *> iterator(*mOpenedEditors, LArrayIterator::from_End);
+		CEditorDoc* theRezEditor = nil;
+		while (iterator.Previous(theRezEditor)) {
+			mOpenedEditors->RemoveItemsAt(1, iterator.GetCurrentIndex());
+			delete theRezEditor;
+		}
+		if (deleteArray) {
+			delete mOpenedEditors;
+		} 
+	} 
+}
+
 
 
 PP_End_Namespace_PowerPlant
