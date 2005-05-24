@@ -2,11 +2,11 @@
 //	CWasteEditView.h
 //	
 //                       Created: 2001-09-05 18:22:04
-//             Last modification: 2004-11-13 22:34:03
+//             Last modification: 2005-05-24 15:10:19
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2001-2004
+// © Copyright: Bernard Desgraupes 2001-2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -177,11 +177,11 @@ public:
 
 	virtual void			SetTextHandle(
 									Handle				inTextH,
-									StScrpHandle		inStyleH = nil );
+									Handle				inStyleH = nil );
 	virtual void			SetTextPtr(
 									const void*			inTextP,
 									SInt32				inTextLen,
-									StScrpHandle 		inStyleH = nil);
+									Handle 				inStyleH = nil);
 	Handle					GetTextHandle();
 	SInt32					GetTextLength();
 
@@ -196,7 +196,7 @@ public:
 
 	virtual	OSErr			Insert(	const void*			inText,
 									SInt32				inLength,
-									StScrpHandle		inStyleH = nil,
+									Handle				inStyleH = nil,
 									Boolean				inRefresh = false );
 
 	virtual	OSErr			Insert(
@@ -325,7 +325,7 @@ public:
 
 protected:
 				CWEViewTypingAction *	mTypingAction;
-				WEReference				mWasteEditRef;
+				WEReference				mWERef;
 				ResIDT					mTextTraitsID;
 // 				TextTraitsRecord		mTextTraitsRec;
 				UInt16					mTextAttributes;
@@ -395,7 +395,7 @@ inline
 WEReference
 CWasteEditView::GetWasteRef()
 {
-	return mWasteEditRef;
+	return mWERef;
 }
 
 // ---------------------------------------------------------------------------
@@ -405,7 +405,7 @@ inline
 void
 CWasteEditView::SetWasteRef(WEReference inWERef)
 {
-	mWasteEditRef = inWERef;
+	mWERef = inWERef;
 }
 
 
