@@ -306,35 +306,36 @@ CTxtDataSubView::HandleKeyPress(
 		
 	  
 		case keyStatus_TEDelete: {
-// 			// If there is a selection, the delete key corresponds to a 
-// 			// Clear command
-// 			if (theSelStart != theSelEnd) {
-// 				ObeyCommand(cmd_Clear, NULL);
-// 				return keyHandled;
-// 			} 
-
-			if (theSelEnd > 0) {
-				if (mTypingAction == nil) {
-					mTypingAction = new CHexEditorTypingAction(mWasteEditRef, this, this);
-					PostAction(mTypingAction);
-				}
-				
-				if (mTypingAction != nil) {
-					try {
-						mTypingAction->BackwardErase();
-					} catch (...) {
-						PostAction(nil);
+			if (theSelStart != theSelEnd) {
+				// If there is a selection, the delete key is equivalent to
+				// a Clear command
+				ObeyCommand(cmd_Clear, NULL);
+				return keyHandled;
+			} else {
+				if (theSelEnd > 0) {
+					if (mTypingAction == nil) {
+						mTypingAction = new CHexEditorTypingAction(mWasteEditRef, this, this);
+						PostAction(mTypingAction);
 					}
+					
+					if (mTypingAction != nil) {
+						try {
+							mTypingAction->BackwardErase();
+						} catch (...) {
+							PostAction(nil);
+						}
+					}
+					
+					if (theSelStart == theSelEnd && theSelStart >= 2) {
+						theSelStart -= 2;
+						WESetSelection( theSelStart, theSelEnd, mWasteEditRef );
+					}
+					WEDelete(mWasteEditRef);
+					ForceAutoScroll(oldDestRect);
+					UserChangedText(theSelStart, theSelEnd, 0);
 				}
-				
-				if (theSelStart == theSelEnd && theSelStart >= 2) {
-					theSelStart -= 2;
-					WESetSelection( theSelStart, theSelEnd, mWasteEditRef ) ;
-				}
-				WEDelete(mWasteEditRef);
-				ForceAutoScroll(oldDestRect);
-				UserChangedText(theSelStart, theSelEnd, 0);
 			}
+
 			break;
 		}
 		
