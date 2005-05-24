@@ -2,11 +2,11 @@
 //	CWEViewActions.h
 //	
 //                       Created: 2001-09-08 07:05:27
-//             Last modification: 2004-11-10 08:01:22
+//             Last modification: 2005-05-24 15:58:41
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2001-2004
+// © Copyright: Bernard Desgraupes 2001-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -35,9 +35,13 @@ class LCommander;
 class LPane;
 class CWasteEditView;
 
-// ---------------------------------------------------------------------------
-// Basic class for actions concerning text manipulation (cut, paste, type etc.)
-// ---------------------------------------------------------------------------
+
+/************************************************************
+*                                                           *
+*   Basic class for actions concerning text manipulation    *
+*           (cut, paste, clear, typing)                     *
+*                                                           *
+************************************************************/
 
 class CWETextActions : public LAction {
 public:
@@ -62,20 +66,20 @@ public:
 protected:
 	LCommander*			mTextCommander;
 	CWasteEditView*		mWEView;
-	WEReference			mMacWERef;
+	WEReference			mWERef;
 	MessageT			mActionCommand;
 
 	Handle				mDeletedTextH;
 	SInt32				mDeletedTextLen;
 	SInt32				mSelStart;
 	SInt32				mSelEnd;
-	StScrpHandle		mDeletedStyleH;
+	Handle				mDeletedStyleH;
 
 	virtual void		UndoSelf();
 };
 
 // ---------------------------------------------------------------------------
-// Classes derived from CWETextActions for each particular action
+//     Classes derived from CWETextActions for each particular action
 // ---------------------------------------------------------------------------
 
 class CWEViewCutAction : public CWETextActions {
@@ -153,9 +157,12 @@ protected:
 };
 
 
-// ---------------------------------------------------------------------------
-// Basic class for actions concerning the style (font, size, color etc.)
-// ---------------------------------------------------------------------------
+/****************************************************
+*                                                   *
+*   Basic class for actions concerning the style    *
+*       (font, size, face, align, color)            *
+*                                                   *
+****************************************************/
 
 class CWEStyleActions : public LAction {
 public:
@@ -179,7 +186,7 @@ protected:
 };
 
 // ---------------------------------------------------------------------------
-// Classes derived from CWEStyleActions for each particular action
+//     Classes derived from CWEStyleActions for each particular action
 // ---------------------------------------------------------------------------
 
 class CWEViewFontAction : public CWEStyleActions {

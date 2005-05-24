@@ -104,7 +104,7 @@ CWasteEditView::CWasteEditView(
 	
 	SetPropertiesFromAttributes();
 	InitView();
-	ApplyTextTraits(inTextTraitsPtr, mWasteEditRef);
+	ApplyTextTraits(inTextTraitsPtr, mWERef);
 }
 
 
@@ -158,9 +158,9 @@ CWasteEditView::~CWasteEditView()
 		DisposeWEClickLoopUPP(mClickLoopUPP);
 	}
 
-	if ( mWasteEditRef != nil ) {
-		WEDispose(mWasteEditRef);
-		mWasteEditRef = nil;
+	if ( mWERef != nil ) {
+		WEDispose(mWERef);
+		mWERef = nil;
 	}
 
 	// We don't dispose of the autoscroll callback because that would
@@ -217,7 +217,7 @@ CWasteEditView::InitView()
 		mImageSize.width = mFrameSize.width;
 	}
 	// Outline hiliting
-	WEFeatureFlag(weFOutlineHilite,mOutlineHilite,mWasteEditRef);
+	WEFeatureFlag(weFOutlineHilite,mOutlineHilite,mWERef);
 		
 	AlignWERects();
 
@@ -247,7 +247,7 @@ CWasteEditView::InitStyle(ResIDT inTextTraitsID )
 	}
 	
 	// Set the initial text traits
-	ApplyTextTraits(inTextTraitsID, mWasteEditRef);
+	ApplyTextTraits(inTextTraitsID, mWERef);
 
 	scrollUnit.h = 4;
 	scrollUnit.v = mLineHeight;
@@ -269,17 +269,17 @@ CWasteEditView::InitText(ResIDT inTextID )
 		Size textLength;
 		
 		// Just in case the doc is read-only
-		int saveBit = WEFeatureFlag( weFReadOnly, weBitClear, mWasteEditRef );
+		int saveBit = WEFeatureFlag( weFReadOnly, weBitClear, mWERef );
 
 		if ( !mMonoStyled ) {
 			initialStyleRes.GetResource(ResType_TextStyle, inTextID, false);
 		}
 
 		textLength = ::GetHandleSize(initialTextRes);
-		SetTextHandle(initialTextRes, (StScrpHandle) initialStyleRes.mResourceH);
+		SetTextHandle(initialTextRes, initialStyleRes.mResourceH);
 
-		WESetSelection(0, 0, mWasteEditRef);
-		WEFeatureFlag( weFReadOnly, saveBit, mWasteEditRef );
+		WESetSelection(0, 0, mWERef);
+		WEFeatureFlag( weFReadOnly, saveBit, mWERef );
 		AlignWERects();
 		AdjustImageToText();
 	}
@@ -311,12 +311,12 @@ CWasteEditView::ClickSelf(
 		// means well but can cause some cosmetic problems, especially if
 		// selStart is not visible (you'll see a jump)
 		if ( mAutoScroll )
-			WEFeatureFlag( weFAutoScroll, weBitClear, mWasteEditRef );
+			WEFeatureFlag( weFAutoScroll, weBitClear, mWERef );
 		
-		WESetSelection(0, 0, mWasteEditRef);
+		WESetSelection(0, 0, mWERef);
 		
 		if ( mAutoScroll )
-			WEFeatureFlag( weFAutoScroll, weBitSet, mWasteEditRef );
+			WEFeatureFlag( weFAutoScroll, weBitSet, mWERef );
 		
 		// Resync everything
 		AlignWERects();
@@ -334,7 +334,7 @@ CWasteEditView::ClickSelf(
 		WEClick(inMouseDown.whereLocal,
 				inMouseDown.macEvent.modifiers,
 				inMouseDown.macEvent.when,
-				mWasteEditRef);
+				mWERef);
 		LView::OutOfFocus(this);
 	}
 }
@@ -422,10 +422,10 @@ CWasteEditView::ClickSelf(
 // 		mClickLoopUPP = NewWEClickLoopUPP( inClickLoop );
 // 		ThrowIfNil_(mClickLoopUPP);
 // 
-// // 		(*mWasteEditRef)->clickLoop = mClickLoopUPP;
-// WESetInfo(weClickLoop,inClickLoop,mWasteEditRef);
+// // 		(*mWERef)->clickLoop = mClickLoopUPP;
+// WESetInfo(weClickLoop,inClickLoop,mWERef);
 // 
-// 		WEFeatureFlag( weFAutoScroll, weBitSet, mWasteEditRef );
+// 		WEFeatureFlag( weFAutoScroll, weBitSet, mWERef );
 // 		mTextAttributes |= weAttr_AutoScroll;	// set the autoscroll bit on
 // 	}
 // }
@@ -448,11 +448,11 @@ CWasteEditView::ForceAutoScroll(
 
 	FocusDraw();
 
-	WESelView(mWasteEditRef);			// WasteEdit autoscroll
+	WESelView(mWERef);			// WasteEdit autoscroll
 
 										// Now line everything up
 	LongRect	theDestRect ;
-	WEGetDestRect(&theDestRect,mWasteEditRef);
+	WEGetDestRect(&theDestRect,mWERef);
 
 	SInt32 leftDelta = inOldDestRect.left - theDestRect.left;
 	SInt32 topDelta = inOldDestRect.top - theDestRect.top;
@@ -524,13 +524,13 @@ CWasteEditView::HandleKeyPress(
 		theKeyStatus = keyStatus_PassUp;
 	}
 
-	SInt32	lineCount = WECountLines(mWasteEditRef);
+	SInt32	lineCount = WECountLines(mWERef);
 	LongRect	oldDestRect ;
-	WEGetDestRect(&oldDestRect,mWasteEditRef);
+	WEGetDestRect(&oldDestRect,mWERef);
 
 	SInt32	theSelStart;
 	SInt32	theSelEnd;
-	WEGetSelection( & theSelStart, & theSelEnd, mWasteEditRef);
+	WEGetSelection( & theSelStart, & theSelEnd, mWERef);
 	
 	
 	StFocusAndClipIfHidden	focus(this);
@@ -539,7 +539,7 @@ CWasteEditView::HandleKeyPress(
 		
 		case keyStatus_Input: {
 			if (mTypingAction == nil) {
-				mTypingAction = new CWEViewTypingAction(mWasteEditRef, this, this);
+				mTypingAction = new CWEViewTypingAction(mWERef, this, this);
 				PostAction(mTypingAction);
 			}
 			
@@ -551,7 +551,7 @@ CWasteEditView::HandleKeyPress(
 				}
 			}
 			
-			WEKey(theKey,inKeyEvent.modifiers, mWasteEditRef);
+			WEKey(theKey,inKeyEvent.modifiers, mWERef);
 			ForceAutoScroll(oldDestRect);
 			
 			UserChangedText();
@@ -563,7 +563,7 @@ CWasteEditView::HandleKeyPress(
 
 			if (theSelEnd > 0) {
 				if (mTypingAction == nil) {
-					mTypingAction = new CWEViewTypingAction(mWasteEditRef, this, this);
+					mTypingAction = new CWEViewTypingAction(mWERef, this, this);
 					PostAction(mTypingAction);
 				}
 
@@ -575,7 +575,7 @@ CWasteEditView::HandleKeyPress(
 					}
 				}
 
-				WEKey(char_Backspace,inKeyEvent.modifiers, mWasteEditRef);
+				WEKey(char_Backspace,inKeyEvent.modifiers, mWERef);
 				ForceAutoScroll(oldDestRect);
 				UserChangedText();
 			}
@@ -583,7 +583,7 @@ CWasteEditView::HandleKeyPress(
 		}
 
 		case keyStatus_TECursor: {
-			WEKey(theKey,inKeyEvent.modifiers, mWasteEditRef);
+			WEKey(theKey,inKeyEvent.modifiers, mWERef);
 			ForceAutoScroll(oldDestRect);
 			break;
 		}
@@ -591,9 +591,9 @@ CWasteEditView::HandleKeyPress(
 		case keyStatus_ExtraEdit: {
 			if (theKey == char_FwdDelete) {
 
-				if (theSelStart < WEGetTextLength(mWasteEditRef)) {
+				if (theSelStart < WEGetTextLength(mWERef)) {
 					if (mTypingAction == nil) {
-						mTypingAction = new CWEViewTypingAction(mWasteEditRef, this, this);
+						mTypingAction = new CWEViewTypingAction(mWERef, this, this);
 						PostAction(mTypingAction);
 					}
 
@@ -606,10 +606,10 @@ CWasteEditView::HandleKeyPress(
 					}
 
 					if (theSelStart == theSelEnd) {
-						WESetSelection(theSelStart,theSelStart + 1, mWasteEditRef);
+						WESetSelection(theSelStart,theSelStart + 1, mWERef);
 					}
 
-					WEDelete(mWasteEditRef);
+					WEDelete(mWERef);
 					ForceAutoScroll(oldDestRect);
 					UserChangedText();
 				}
@@ -630,7 +630,7 @@ CWasteEditView::HandleKeyPress(
 		}
 	}
 
-	if ((theTarget == GetTarget()) && (lineCount != WECountLines(mWasteEditRef))) {
+	if ((theTarget == GetTarget()) && (lineCount != WECountLines(mWERef))) {
 		AdjustImageToText();
 	}
 
@@ -649,17 +649,17 @@ CWasteEditView::ObeyCommand(
 {
 	Boolean		cmdHandled = true;
 
-	if ( mWasteEditRef == nil )
+	if ( mWERef == nil )
 		return cmdHandled;
 
 	LongRect	oldDestRect ;
-	WEGetDestRect(&oldDestRect,mWasteEditRef);
+	WEGetDestRect(&oldDestRect,mWERef);
 
 	switch (inCommand) {
 
 		case cmd_Cut: {
 			if (!mReadOnly) {
-				PostAction( new CWEViewCutAction(mWasteEditRef, this, this));
+				PostAction( new CWEViewCutAction(mWERef, this, this));
 				AdjustImageToText();
 				ForceAutoScroll(oldDestRect);
 			}
@@ -667,13 +667,13 @@ CWasteEditView::ObeyCommand(
 		}
 
 		case cmd_Copy: {
-			WECopy(mWasteEditRef);
+			WECopy(mWERef);
 			break;
 		}
 
 		case cmd_Paste: {
 			if (!mReadOnly) {
-				PostAction( new CWEViewPasteAction(mWasteEditRef, this, this) );
+				PostAction( new CWEViewPasteAction(mWERef, this, this) );
 				AdjustImageToText();
 				ForceAutoScroll(oldDestRect);
 			}
@@ -682,7 +682,7 @@ CWasteEditView::ObeyCommand(
 
 		case cmd_Clear: {
 			if (mReadOnly) {
-				PostAction( new CWEViewClearAction(mWasteEditRef, this, this ));
+				PostAction( new CWEViewClearAction(mWERef, this, this ));
 				AdjustImageToText();
 				ForceAutoScroll(oldDestRect);
 			}
@@ -760,13 +760,13 @@ CWasteEditView::FindCommandStatus(
 
 		case cmd_Paste: {			// Paste enabled if editable and
 									//   TEXT is on the Scrap
-			outEnabled = !mReadOnly && WECanPaste(mWasteEditRef);
+			outEnabled = !mReadOnly && WECanPaste(mWERef);
 			break;
 		}
 
 		case cmd_SelectAll:	{		// Check if any characters are present
 			outEnabled = mSelectable &&
-							( WEGetTextLength(mWasteEditRef) > 0 );
+							( WEGetTextLength(mWERef) > 0 );
 			break;
 		}
 
@@ -819,12 +819,12 @@ CWasteEditView::DrawSelf()
 
 	GrafPtr	savePort;
 	GrafPtr	thePort;
-	if ( WEGetInfo( wePort, & savePort, mWasteEditRef ) == noErr ) {
+	if ( WEGetInfo( wePort, & savePort, mWERef ) == noErr ) {
 		thePort = UQDGlobals::GetCurrentPort();
-		WESetInfo( wePort, & thePort, mWasteEditRef );
+		WESetInfo( wePort, & thePort, mWERef );
 		StRegion	refreshRgn(theFrame);
-		WEUpdate(refreshRgn, mWasteEditRef);
-		WESetInfo( wePort, & savePort, mWasteEditRef );
+		WEUpdate(refreshRgn, mWERef);
+		WESetInfo( wePort, & savePort, mWERef );
 	}
 }
 
@@ -882,7 +882,7 @@ CWasteEditView::AlignWERects()
 		
 		// View rect same as frame in local coords
 		WERectToLongRect(&textFrame, &theLongViewRect);
-		WESetViewRect(&theLongViewRect,mWasteEditRef);
+		WESetViewRect(&theLongViewRect,mWERef);
 		
 		// Dest rect same as image in local coords
 // 		theLongDestRect.top = mImageLocation.v + mPortOrigin.v;
@@ -897,9 +897,9 @@ CWasteEditView::AlignWERects()
 		ImageToLocalPoint(imagePt, botRight(destRect));
 
 		WERectToLongRect(&destRect, &theLongDestRect);
-		WESetDestRect(&theLongDestRect,mWasteEditRef);
+		WESetDestRect(&theLongDestRect,mWERef);
 		
-		WECalText(mWasteEditRef);
+		WECalText(mWERef);
 	}	
 }
 
@@ -1010,7 +1010,7 @@ CWasteEditView::BeTarget()
 {
 	StFocusAndClipIfHidden	focus(this);
 
-	WEActivate(mWasteEditRef);		// Show active selection
+	WEActivate(mWERef);		// Show active selection
 
 // 	StartIdling();					// Idle time used to flash the cursor
 	StartIdling( ::TicksToEventTime( ::GetCaretTime() ) );
@@ -1034,7 +1034,7 @@ CWasteEditView::DontBeTarget()
 {
 	StFocusAndClipIfHidden	focus(this);
 
-	WEDeactivate(mWasteEditRef);	// Show inactive selection
+	WEDeactivate(mWERef);	// Show inactive selection
 
 	StopIdling();					// Stop flashing the cursor
 
@@ -1054,7 +1054,7 @@ CWasteEditView::SpendTime(
 	
 	if (mSelectable && not HasSelection() && FocusExposed()) {
 		UInt32 sleepTime = 6;
-		WEIdle(&sleepTime, mWasteEditRef);
+		WEIdle(&sleepTime, mWERef);
 		OutOfFocus(nil);
 	}
 }
@@ -1071,17 +1071,17 @@ void
 CWasteEditView::ScrollToCharOffset( SInt32	inPos )
 {
 	Boolean saveBool = mAutoScroll;
-	int saveFeature = WEFeatureFlag( weFAutoScroll, weBitSet, mWasteEditRef ) ;
+	int saveFeature = WEFeatureFlag( weFAutoScroll, weBitSet, mWERef ) ;
 	LongRect oldDestRect ;
 	
-	WEGetDestRect( &oldDestRect, mWasteEditRef);
+	WEGetDestRect( &oldDestRect, mWERef);
 	mAutoScroll = 1;
 	
-	WESetSelection(inPos, inPos, mWasteEditRef);
+	WESetSelection(inPos, inPos, mWERef);
 	ForceAutoScroll(oldDestRect);
 	Refresh();
 
-	WEFeatureFlag( weFAutoScroll, saveFeature, mWasteEditRef ) ;
+	WEFeatureFlag( weFAutoScroll, saveFeature, mWERef ) ;
 	mAutoScroll = saveBool;
 }
 

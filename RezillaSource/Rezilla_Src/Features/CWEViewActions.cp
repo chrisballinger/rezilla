@@ -2,11 +2,11 @@
 //	CWEViewActions.cp
 //	
 //                       Created: 2001-09-08 07:05:27
-//             Last modification: 2004-11-10 08:01:14
+//             Last modification: 2005-05-24 15:58:30
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2001-2004
+// © Copyright: Bernard Desgraupes 2001-2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -60,7 +60,7 @@ CWETextActions::CWETextActions(
 	: LAction(STRx_RedoEdit, inDescriptionIndex, inAlreadyDone)
 {
 	mActionCommand	= inActionCommand;
-	mMacWERef		= inWERef;
+	mWERef			= inWERef;
 	mTextCommander	= inTextCommander;
 	mWEView			= dynamic_cast<CWasteEditView*>(inTextPane);
 	ThrowIfNil_(mWEView);
@@ -80,13 +80,17 @@ CWETextActions::CWETextActions(
 		// then deleted.
 
 	if (mDeletedTextH != nil) {
-    	Handle	hText=static_cast<Handle>(WEGetText(inWERef));
-		::BlockMoveData(*hText + mSelStart, *mDeletedTextH,
-							mDeletedTextLen);
+//     	Handle	hText=static_cast<Handle>(WEGetText(inWERef));
+// 		::BlockMoveData(*hText + mSelStart, *mDeletedTextH,
+// 							mDeletedTextLen);
+		WEStreamRange( mSelStart, mSelEnd, kTypeText, kNilOptions, mDeletedTextH, inWERef);
 	}
-						
-	// We need a StScrpHandle. Retrieve the style in the selection range.
-	WECopyRange(mSelStart,mSelEnd,mDeletedTextH,mDeletedStyleH,nil,inWERef) ;
+	
+	mDeletedStyleH = ::NewHandle(0);
+	
+	// Retrieve the style in the selection range
+// 	WECopyRange(mSelStart,mSelEnd,mDeletedTextH,mDeletedStyleH,nil,inWERef) ;
+	WEStreamRange( mSelStart, mSelEnd, kTypeStyles, kNilOptions, mDeletedStyleH, inWERef);
 }
 
 
@@ -183,11 +187,11 @@ CWETextActions::UndoSelf()
 {
 	StFocusAndClipIfHidden	focus(mWEView);
 	// Restore deleted text
-	WESetSelection(mSelStart, mSelStart, mMacWERef);
+	WESetSelection(mSelStart, mSelStart, mWERef);
 	StHandleLocker	lock(mDeletedTextH);
 	mWEView->Insert(*mDeletedTextH, mDeletedTextLen, mDeletedStyleH);
 	// Restore original selection
-	WESetSelection(mSelStart, mSelEnd, mMacWERef);
+	WESetSelection(mSelStart, mSelEnd, mWERef);
 }
 
 
@@ -218,10 +222,10 @@ CWEViewCutAction::RedoSelf()
 	StFocusAndClipIfHidden	focus(mWEView);
 
 	LongRect theOldRect;
-	WEGetDestRect(&theOldRect,mMacWERef);
+	WEGetDestRect(&theOldRect,mWERef);
 
-	WESetSelection(mSelStart, mSelEnd, mMacWERef);
-	WEDelete(mMacWERef);
+	WESetSelection(mSelStart, mSelEnd, mWERef);
+	WEDelete(mWERef);
 
 	// Put deleted text on clipboard
 	UScrap::SetData(ResType_Text, mDeletedTextH);
@@ -248,7 +252,7 @@ CWEViewPasteAction::CWEViewPasteAction(
 	: CWETextActions(str_Paste, cmd_ActionPaste, inWERef,
 							inTextCommander, inTextPane)
 {
-	// Get text from clipbboard
+	// Get text from clipboard
 	StHandleBlock	textH(Size_Zero);
 	UScrap::GetData(ResType_Text, textH);
 
@@ -294,16 +298,15 @@ CWEViewPasteAction::RedoSelf()
 	StFocusAndClipIfHidden	focus(mWEView);
 
 	LongRect theOldRect;
-	WEGetDestRect(&theOldRect,mMacWERef);
+	WEGetDestRect(&theOldRect,mWERef);
 
 	if (mSelStart != mSelEnd) {
-		WESetSelection(mSelStart, mSelEnd, mMacWERef);
+		WESetSelection(mSelStart, mSelEnd, mWERef);
 	}
 
-	WEDelete(mMacWERef);
+	WEDelete(mWERef);
 	StHandleLocker	lock(mPastedTextH);
-	mWEView->Insert(*mPastedTextH, ::GetHandleSize(mPastedTextH),
-						(StScrpHandle) mPastedStyleH);
+	mWEView->Insert(*mPastedTextH, ::GetHandleSize(mPastedTextH), mPastedStyleH);
 
 	mWEView->ForceAutoScroll(theOldRect);
 }
@@ -319,15 +322,15 @@ CWEViewPasteAction::UndoSelf()
 	StFocusAndClipIfHidden	focus(mWEView);
 
 	LongRect theOldRect;
-	WEGetDestRect(&theOldRect,mMacWERef);
+	WEGetDestRect(&theOldRect,mWERef);
 	// Delete text that was pasted
-	WESetSelection(mSelStart, mSelStart + ::GetHandleSize(mPastedTextH), mMacWERef);
-	WEDelete(mMacWERef);
+	WESetSelection(mSelStart, mSelStart + ::GetHandleSize(mPastedTextH), mWERef);
+	WEDelete(mWERef);
 	// Restore text deleted by the paste
 	StHandleLocker	lock(mDeletedTextH);
 	mWEView->Insert(*mDeletedTextH, mDeletedTextLen, mDeletedStyleH);
 	// Restore selection
-	WESetSelection(mSelStart, mSelEnd, mMacWERef);
+	WESetSelection(mSelStart, mSelEnd, mWERef);
 
 	mWEView->ForceAutoScroll(theOldRect);
 }
@@ -360,9 +363,9 @@ CWEViewClearAction::RedoSelf()
 	StFocusAndClipIfHidden	focus(mWEView);
 
 	LongRect theOldRect;
-	WEGetDestRect(&theOldRect,mMacWERef);
-	WESetSelection(mSelStart, mSelEnd, mMacWERef);
-	WEDelete(mMacWERef);
+	WEGetDestRect(&theOldRect,mWERef);
+	WESetSelection(mSelStart, mSelEnd, mWERef);
+	WEDelete(mWERef);
 
 	mWEView->ForceAutoScroll(theOldRect);
 }
@@ -438,7 +441,7 @@ CWEViewTypingAction::Reset()
 	}
 
 	// Save current selection state
-	WEGetSelection( & mSelStart, & mSelEnd, mMacWERef);
+	WEGetSelection( & mSelStart, & mSelEnd, mWERef);
 
 	mDeletedTextLen = mSelEnd - mSelStart;
 
@@ -446,18 +449,21 @@ CWEViewTypingAction::Reset()
 
 	LCommander::SetUpdateCommandStatus(true);
 
-	// Save currently selected text,
-	//   which will be deleted when
-	//   the next character is typed
+	// Save currently selected text, which will be deleted when the next
+	// character is typed
 	mDeletedTextH = ::NewHandle(mDeletedTextLen);
 	ThrowIfMemFail_(mDeletedTextH);
 	
-// 	Handle	hText=static_cast<Handle>(WEGetText(mMacWERef));
+	WEStreamRange( mSelStart, mSelEnd, kTypeText, kNilOptions, mDeletedTextH, mWERef);
+// 	Handle	hText=static_cast<Handle>(WEGetText(mWERef));
 // 	::BlockMoveData(*hText + mSelStart, *mDeletedTextH,
 // 					mDeletedTextLen);
 	
-	// We need a StScrpHandle. Retrieve the style in the selection range.
-	WECopyRange(mSelStart,mSelEnd,mDeletedTextH,mDeletedStyleH,nil,mMacWERef) ;
+	mDeletedStyleH = ::NewHandle(0);
+
+	// Retrieve the style in the selection range.
+	// 	WECopyRange(mSelStart,mSelEnd,mDeletedTextH,mDeletedStyleH,nil,inWERef) ;
+	WEStreamRange( mSelStart, mSelEnd, kTypeStyles, kNilOptions, mDeletedStyleH, mWERef);
 }
 
 
@@ -475,7 +481,7 @@ CWEViewTypingAction::InputCharacter()
 {
 	SInt32	selStart;
 	SInt32	selEnd;
-	WEGetSelection( & selStart, & selEnd, mMacWERef);
+	WEGetSelection( & selStart, & selEnd, mWERef);
 	if ( (mTypingEnd != selStart) ||
 		 (mTypingEnd != selEnd) ||
 		 (mTypingEnd == mTypingStart) ||
@@ -506,8 +512,8 @@ CWEViewTypingAction::BackwardErase()
 {
 	SInt32	selStart;
 	SInt32	selEnd;
-	WEGetSelection( & selStart, & selEnd, mMacWERef);
-	Handle	hText=static_cast<Handle>(WEGetText(mMacWERef));
+	WEGetSelection( & selStart, & selEnd, mWERef);
+	Handle	hText=static_cast<Handle>(WEGetText(mWERef));
 	
 	if ( (mTypingEnd != selStart) ||
 		 (mTypingEnd != selEnd) ) {
@@ -560,8 +566,8 @@ CWEViewTypingAction::ForwardErase()
 {
 	SInt32	selStart;
 	SInt32	selEnd;
-	WEGetSelection( & selStart, & selEnd, mMacWERef);
-	Handle	hText=static_cast<Handle>(WEGetText(mMacWERef));
+	WEGetSelection( & selStart, & selEnd, mWERef);
+	Handle	hText=static_cast<Handle>(WEGetText(mWERef));
 	
 	if ( (mTypingEnd != selStart) ||
 		 (mTypingEnd != selEnd) ) {
@@ -601,13 +607,13 @@ CWEViewTypingAction::RedoSelf()
 	StFocusAndClipIfHidden	focus(mWEView);
 
 	LongRect theOldRect;
-	WEGetDestRect(&theOldRect,mMacWERef);
+	WEGetDestRect(&theOldRect,mWERef);
 									// Delete original text
-	WESetSelection(mTypingStart, mTypingStart + mDeletedTextLen, mMacWERef);
-	WEDelete(mMacWERef);
+	WESetSelection(mTypingStart, mTypingStart + mDeletedTextLen, mWERef);
+	WEDelete(mWERef);
 									// Insert typing run
 	StHandleLocker	lock(mTypedTextH);
-	mWEView->Insert(*mTypedTextH, (mTypingEnd - mTypingStart), (StScrpHandle)mTypedStyleH);
+	mWEView->Insert(*mTypedTextH, (mTypingEnd - mTypingStart), mTypedStyleH);
 
 	mWEView->ForceAutoScroll(theOldRect);
 }
@@ -624,7 +630,7 @@ CWEViewTypingAction::UndoSelf()
 {
 	StFocusAndClipIfHidden	focus(mWEView);
 	LongRect theOldRect;
-	WEGetDestRect(&theOldRect,mMacWERef);
+	WEGetDestRect(&theOldRect,mWERef);
 	// Save current typing run
 	if (mTypedTextH == nil) {
 		mTypedTextH = ::NewHandle(mTypingEnd - mTypingStart);
@@ -634,28 +640,28 @@ CWEViewTypingAction::UndoSelf()
 		ThrowIfMemError_();
 	}
 	
-// 	Handle	hText=static_cast<Handle>(WEGetText(mMacWERef));
-// 
-// 	::BlockMoveData(*hText + mTypingStart, *mTypedTextH,
-// 						mTypingEnd - mTypingStart);
+	WEStreamRange( mTypingStart, mTypingEnd, kTypeText, kNilOptions, mTypedTextH, mWERef);
 
 	// Delete current typing run
-	WESetSelection(mTypingStart, mTypingEnd, mMacWERef);
+	WESetSelection(mTypingStart, mTypingEnd, mWERef);
 
 	if (mTypedStyleH != nil) {
 		::DisposeHandle(mTypedStyleH);
 	}
+	
+	mTypedStyleH = ::NewHandle(0);
 
-	// We need a StScrpHandle. Retrieve the style in the typed range.
-	WECopyRange(mTypingStart,mTypingEnd,mTypedTextH,(StScrpHandle) mTypedStyleH,nil,mMacWERef) ;
+	// Retrieve the style in the typed range
+// 	WECopyRange(mTypingStart,mTypingEnd,mTypedTextH,(StScrpHandle) mTypedStyleH,nil,mWERef) ;
+	WEStreamRange( mTypingStart, mTypingEnd, kTypeStyles, kNilOptions, mTypedStyleH, mWERef);
 
-	WEDelete(mMacWERef);
+	WEDelete(mWERef);
 	// Restore original text
 	StHandleLocker	lock(mDeletedTextH);
 	mWEView->Insert(*mDeletedTextH, mDeletedTextLen, mDeletedStyleH);
 
 	// Restore original selection
-	WESetSelection(mSelStart, mSelEnd, mMacWERef);
+	WESetSelection(mSelStart, mSelEnd, mWERef);
 
 	mWEView->ForceAutoScroll(theOldRect);
 }
@@ -999,7 +1005,7 @@ CWEViewAlignAction::CWEViewAlignAction(
 {
 	mAlign		= inAlign;
 	mSavedAlign = mWEView->GetAlignment();
-// WESetAlignment(inAlign,mWasteEditRef);
+// WESetAlignment(inAlign,mWERef);
 }
 
 

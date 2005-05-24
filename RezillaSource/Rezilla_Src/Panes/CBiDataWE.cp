@@ -128,7 +128,7 @@ CBiDataWE::ObeyCommand(
 			
 			// Put selected text on clipboard
 			txtData = ::NewHandle(theEndPos - theStartPos);
-			WEStreamRange(theStartPos, theEndPos, kTypeText, 0, txtData, mWasteEditRef) ;
+			WEStreamRange(theStartPos, theEndPos, kTypeText, 0, txtData, mWERef) ;
 			StStripPeriodicalTranslator blankstripper(txtData, thePeriod);
 			blankstripper.FilterOutPeriodical();
 			UScrap::SetData(ResType_Text, blankstripper.GetOutHandle());
@@ -171,8 +171,8 @@ CBiDataWE::AdjustCursorPos()
 	SInt32  selStart;
 	SInt32  selEnd;
 	
-	WEGetSelection( & selStart, & selEnd, mWasteEditRef ) ;
-	WESetSelection( NearestTruePos(selStart), NearestTruePos(selEnd), mWasteEditRef);
+	WEGetSelection( & selStart, & selEnd, mWERef ) ;
+	WESetSelection( NearestTruePos(selStart), NearestTruePos(selEnd), mWERef);
 }
 
 
@@ -213,7 +213,7 @@ CBiDataWE::GetCurrCharPos(SInt32 & outCharSelStart, SInt32 & outCharSelEnd)
 {
 	SInt32  selStart;
 	SInt32  selEnd;
-	WEGetSelection( & selStart, & selEnd, mWasteEditRef ) ;
+	WEGetSelection( & selStart, & selEnd, mWERef ) ;
 	outCharSelStart = PosToCharPos(selStart);
 	outCharSelEnd = PosToCharPos(selEnd);
 }
@@ -251,7 +251,7 @@ CBiDataWE::GetCurrHexPos(SInt32 & outHexSelStart, SInt32 & outHexSelEnd)
 {
 	SInt32  selStart;
 	SInt32  selEnd;
-	WEGetSelection( & selStart, & selEnd, mWasteEditRef ) ;
+	WEGetSelection( & selStart, & selEnd, mWERef ) ;
 	outHexSelStart = PosToHexPos(selStart);
 	outHexSelEnd = PosToHexPos(selEnd);
 }
@@ -311,7 +311,7 @@ CBiDataWE::InsertContents(Handle inHandle)
 			DeleteAll();
 			// Put the contents in the hex view and clear the dirty flag.
 			SetTextHandle( translator.GetOutHandle() );
-			WESetSelection(0, 0, mWasteEditRef);
+			WESetSelection(0, 0, mWERef);
 		}
 		break;
 		
@@ -323,7 +323,7 @@ CBiDataWE::InsertContents(Handle inHandle)
 			DeleteAll();
 			// Put the contents in the hex view and clear the dirty flag.
 			SetTextHandle( translator.GetOutHandle() );
-			WESetSelection(0, 0, mWasteEditRef);
+			WESetSelection(0, 0, mWERef);
 		}
 		break;
 	}	
@@ -346,7 +346,7 @@ CBiDataWE::InsertContents(const void * inPtr, SInt32 inByteCount)
 			DeleteAll();
 			// Put the contents in the hex view and clear the dirty flag.
 			SetTextHandle( translator.GetOutHandle() );
-			WESetSelection(0, 0, mWasteEditRef);
+			WESetSelection(0, 0, mWERef);
 		}
 		break;
 		
@@ -358,7 +358,7 @@ CBiDataWE::InsertContents(const void * inPtr, SInt32 inByteCount)
 			DeleteAll();
 			// Put the contents in the hex view and clear the dirty flag.
 			SetTextHandle( translator.GetOutHandle() );
-			WESetSelection(0, 0, mWasteEditRef);
+			WESetSelection(0, 0, mWERef);
 		}
 		break;
 	}	

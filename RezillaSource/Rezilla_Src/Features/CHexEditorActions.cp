@@ -1,11 +1,11 @@
 // ===========================================================================
 // CHexEditorActions.cp 
 //                       Created: 2003-05-29 21:13:13
-//             Last modification: 2004-02-22 19:30:07
+//             Last modification: 2005-05-24 15:58:23
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003, 2004
+// © Copyright: Bernard Desgraupes 2003-2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -64,10 +64,10 @@ CHexEditorCutAction::RedoSelf()
 	StFocusAndClipIfHidden	focus(mWEView);
 
 	LongRect theOldRect;
-	WEGetDestRect(&theOldRect,mMacWERef);
+	WEGetDestRect(&theOldRect,mWERef);
 
-	WESetSelection(mSelStart, mSelEnd, mMacWERef);
-	WEDelete(mMacWERef);
+	WESetSelection(mSelStart, mSelEnd, mWERef);
+	WEDelete(mWERef);
 
 	// Strip blanks from deleted text
 	UInt16 thePeriod = ( mWEView->GetPaneID() == item_HexDataWE ) ? 3:2 ;
@@ -119,13 +119,6 @@ CHexEditorPasteAction::CHexEditorPasteAction(
 
 CHexEditorPasteAction::~CHexEditorPasteAction()
 {
-// 	if (mPastedTextH != nil) {
-// 		::DisposeHandle(mPastedTextH);
-// 	}
-// 
-// 	if (mPastedStyleH != nil) {
-// 		::DisposeHandle(mPastedStyleH);
-// 	}
 }
 
 
@@ -139,16 +132,15 @@ CHexEditorPasteAction::RedoSelf()
 	StFocusAndClipIfHidden	focus(mWEView);
 
 	LongRect theOldRect;
-	WEGetDestRect(&theOldRect,mMacWERef);
+	WEGetDestRect(&theOldRect,mWERef);
 
 	if (mSelStart != mSelEnd) {
-		WESetSelection(mSelStart, mSelEnd, mMacWERef);
+		WESetSelection(mSelStart, mSelEnd, mWERef);
 	}
 
-	WEDelete(mMacWERef);
+	WEDelete(mWERef);
 	StHandleLocker	lock(mPastedTextH);
-	mWEView->Insert(*mPastedTextH, ::GetHandleSize(mPastedTextH),
-						(StScrpHandle) mPastedStyleH);
+	mWEView->Insert(*mPastedTextH, ::GetHandleSize(mPastedTextH), mPastedStyleH);
 
 	mWEView->ForceAutoScroll(theOldRect);
 }
@@ -164,15 +156,15 @@ CHexEditorPasteAction::UndoSelf()
 	StFocusAndClipIfHidden	focus(mWEView);
 
 	LongRect theOldRect;
-	WEGetDestRect(&theOldRect,mMacWERef);
+	WEGetDestRect(&theOldRect,mWERef);
 	// Delete text that was pasted
-	WESetSelection(mSelStart, mSelStart + ::GetHandleSize(mPastedTextH), mMacWERef);
-	WEDelete(mMacWERef);
+	WESetSelection(mSelStart, mSelStart + ::GetHandleSize(mPastedTextH), mWERef);
+	WEDelete(mWERef);
 	// Restore text deleted by the paste
 	StHandleLocker	lock(mDeletedTextH);
 	mWEView->Insert(*mDeletedTextH, mDeletedTextLen, mDeletedStyleH);
 	// Restore selection
-	WESetSelection(mSelStart, mSelEnd, mMacWERef);
+	WESetSelection(mSelStart, mSelEnd, mWERef);
 
 	mWEView->ForceAutoScroll(theOldRect);
 }
@@ -204,9 +196,9 @@ CHexEditorClearAction::RedoSelf()
 	StFocusAndClipIfHidden	focus(mWEView);
 
 	LongRect theOldRect;
-	WEGetDestRect(&theOldRect,mMacWERef);
-	WESetSelection(mSelStart, mSelEnd, mMacWERef);
-	WEDelete(mMacWERef);
+	WEGetDestRect(&theOldRect,mWERef);
+	WESetSelection(mSelStart, mSelEnd, mWERef);
+	WEDelete(mWERef);
 
 	mWEView->ForceAutoScroll(theOldRect);
 }
@@ -234,20 +226,6 @@ CHexEditorTypingAction::CHexEditorTypingAction(
 
 CHexEditorTypingAction::~CHexEditorTypingAction()
 {
-// 		// Notify TextCommander that Action is being deleted.
-// 		// The TextCommander usually stores a reference to a
-// 		// TypingAction in order to add/remove characters
-// 		// as the user performs a typing sequence.
-// 
-// 	mTextCommander->ProcessCommand(cmd_ActionDeleted, this);
-// 
-// 	if (mTypedTextH != nil) {
-// 		::DisposeHandle(mTypedTextH);
-// 	}
-// 
-// 	if (mTypedStyleH != nil) {
-// 		::DisposeHandle(mTypedStyleH);
-// 	}
 }
 
 
@@ -259,18 +237,7 @@ CHexEditorTypingAction::~CHexEditorTypingAction()
 void
 CHexEditorTypingAction::RedoSelf()
 {
-	StFocusAndClipIfHidden	focus(mWEView);
-
-	LongRect theOldRect;
-	WEGetDestRect(&theOldRect,mMacWERef);
-									// Delete original text
-	WESetSelection(mTypingStart, mTypingStart + mDeletedTextLen, mMacWERef);
-	WEDelete(mMacWERef);
-									// Insert typing run
-	StHandleLocker	lock(mTypedTextH);
-	mWEView->Insert(*mTypedTextH, (mTypingEnd - mTypingStart), (StScrpHandle)mTypedStyleH);
-
-	mWEView->ForceAutoScroll(theOldRect);
+	CWEViewTypingAction::RedoSelf();
 }
 
 
@@ -283,42 +250,7 @@ CHexEditorTypingAction::RedoSelf()
 void
 CHexEditorTypingAction::UndoSelf()
 {
-	StFocusAndClipIfHidden	focus(mWEView);
-	LongRect theOldRect;
-	WEGetDestRect(&theOldRect,mMacWERef);
-	// Save current typing run
-	if (mTypedTextH == nil) {
-		mTypedTextH = ::NewHandle(mTypingEnd - mTypingStart);
-		ThrowIfMemFail_(mTypedTextH);
-	} else {
-		::SetHandleSize(mTypedTextH, mTypingEnd - mTypingStart);
-		ThrowIfMemError_();
-	}
-	
-// 	Handle	hText=static_cast<Handle>(WEGetText(mMacWERef));
-// 
-// 	::BlockMoveData(*hText + mTypingStart, *mTypedTextH,
-// 						mTypingEnd - mTypingStart);
-
-	// Delete current typing run
-	WESetSelection(mTypingStart, mTypingEnd, mMacWERef);
-
-	if (mTypedStyleH != nil) {
-		::DisposeHandle(mTypedStyleH);
-	}
-
-	// We need a StScrpHandle. Retrieve the style in the typed range.
-	WECopyRange(mTypingStart,mTypingEnd,mTypedTextH,(StScrpHandle) mTypedStyleH,nil,mMacWERef) ;
-
-	WEDelete(mMacWERef);
-	// Restore original text
-	StHandleLocker	lock(mDeletedTextH);
-	mWEView->Insert(*mDeletedTextH, mDeletedTextLen, mDeletedStyleH);
-
-	// Restore original selection
-	WESetSelection(mSelStart, mSelEnd, mMacWERef);
-
-	mWEView->ForceAutoScroll(theOldRect);
+	CWEViewTypingAction::UndoSelf();
 }
 
 

@@ -128,7 +128,7 @@ CHexDataSubView::ClickSelf(
 	AdjustCursorPos();
 
 	// Synchronize sibling
-	WEGetSelection(& startPos, & endPos, mWasteEditRef);
+	WEGetSelection(& startPos, & endPos, mWERef);
 	mTxtSiblingView->SyncPositionsWithSibling(PosToHexPos(startPos), PosToHexPos(endPos));
 	
 	// Notify the dual view's listeners
@@ -147,8 +147,8 @@ CHexDataSubView::AdjustCursorPos()
 	SInt32  selStart;
 	SInt32  selEnd;
 	
-	WEGetSelection( & selStart, & selEnd, mWasteEditRef ) ;
-	WESetSelection( NearestHexPos(selStart), NearestHexPos(selEnd), mWasteEditRef);
+	WEGetSelection( & selStart, & selEnd, mWERef ) ;
+	WESetSelection( NearestHexPos(selStart), NearestHexPos(selEnd), mWERef);
 }
 
 
@@ -181,7 +181,7 @@ CHexDataSubView::GetCurrHexPos(SInt32 & outHexSelStart, SInt32 & outHexSelEnd)
 {
 	SInt32  selStart;
 	SInt32  selEnd;
-	WEGetSelection( & selStart, & selEnd, mWasteEditRef ) ;
+	WEGetSelection( & selStart, & selEnd, mWERef ) ;
 	outHexSelStart = PosToHexPos(selStart);
 	outHexSelEnd = PosToHexPos(selEnd);
 }
@@ -283,13 +283,13 @@ CHexDataSubView::HandleKeyPress(
 		theKeyStatus = keyStatus_PassUp;
 	}
 
-	SInt32	lineCount = WECountLines(mWasteEditRef);
+	SInt32	lineCount = WECountLines(mWERef);
 	LongRect	oldDestRect ;
-	WEGetDestRect(&oldDestRect,mWasteEditRef);
+	WEGetDestRect(&oldDestRect,mWERef);
 
 	SInt32	theSelStart;
 	SInt32	theSelEnd;
-	WEGetSelection( & theSelStart, & theSelEnd, mWasteEditRef);
+	WEGetSelection( & theSelStart, & theSelEnd, mWERef);
 	
 	StFocusAndClipIfHidden	focus(this);
 
@@ -297,7 +297,7 @@ CHexDataSubView::HandleKeyPress(
 		
 		case keyStatus_Input: {
 			if (mTypingAction == nil) {
-				mTypingAction = new CHexEditorTypingAction(mWasteEditRef, this, this);
+				mTypingAction = new CHexEditorTypingAction(mWERef, this, this);
 				PostAction(mTypingAction);
 			}
 			
@@ -318,12 +318,12 @@ CHexDataSubView::HandleKeyPress(
 				mOneOfTwoInserted = true;
 			} else {
 				if (mEditingPos == theSelStart) {
-					WESetSelection( mEditingPos - 3, mEditingPos - 2, mWasteEditRef);
-					WEDelete(mWasteEditRef);
-					WESetSelection( mEditingPos - 2, mEditingPos - 2, mWasteEditRef);
+					WESetSelection( mEditingPos - 3, mEditingPos - 2, mWERef);
+					WEDelete(mWERef);
+					WESetSelection( mEditingPos - 2, mEditingPos - 2, mWERef);
 					sprintf(buffer, "%.1x", UCodeTranslator::ConvertHexToValue(theKey));
 					Insert(buffer,1);
-					WESetSelection( mEditingPos, mEditingPos, mWasteEditRef);
+					WESetSelection( mEditingPos, mEditingPos, mWERef);
 					theSelStart -= 3;
 				} 
 				mOneOfTwoInserted = false;
@@ -342,7 +342,7 @@ CHexDataSubView::HandleKeyPress(
 				return keyHandled;
 			} else {
 				if (mTypingAction == nil) {
-					mTypingAction = new CHexEditorTypingAction(mWasteEditRef, this, this);
+					mTypingAction = new CHexEditorTypingAction(mWERef, this, this);
 					PostAction(mTypingAction);
 				}
 				
@@ -356,9 +356,9 @@ CHexDataSubView::HandleKeyPress(
 				
 				if (theSelStart == theSelEnd) {
 					theSelStart -= 3;
-					WESetSelection( theSelStart, theSelEnd, mWasteEditRef );
+					WESetSelection( theSelStart, theSelEnd, mWERef );
 				}
-				WEDelete(mWasteEditRef);
+				WEDelete(mWERef);
 				UserChangedText(theSelStart, theSelEnd, 0);
 				mOneOfTwoInserted = false;
 			}
@@ -369,9 +369,9 @@ CHexDataSubView::HandleKeyPress(
 		case keyStatus_TECursor: {
 			if (theSelStart != theSelEnd) {
 				if (theKey == char_RightArrow || theKey == char_DownArrow) {
-					WESetSelection( theSelEnd, theSelEnd, mWasteEditRef);
+					WESetSelection( theSelEnd, theSelEnd, mWERef);
 				} else {
-					WESetSelection( theSelStart, theSelStart, mWasteEditRef);
+					WESetSelection( theSelStart, theSelStart, mWERef);
 				}
 			} else {
 				
@@ -393,7 +393,7 @@ CHexDataSubView::HandleKeyPress(
 					break;
 				}
 				if (theSelStart >= 0 && PosToHexPos(theSelStart) <= mOwnerDualView->GetPaneCount(count_BytesPerPane)) {
-					WESetSelection( theSelStart, theSelStart, mWasteEditRef);
+					WESetSelection( theSelStart, theSelStart, mWERef);
 				}
 				CursorMoved(theSelStart);
 			}
@@ -404,9 +404,9 @@ CHexDataSubView::HandleKeyPress(
 		case keyStatus_ExtraEdit: {
 			if (theKey == char_FwdDelete) {
 
-				if (theSelStart < WEGetTextLength(mWasteEditRef)) {
+				if (theSelStart < WEGetTextLength(mWERef)) {
 					if (mTypingAction == nil) {
-						mTypingAction = new CHexEditorTypingAction(mWasteEditRef, this, this);
+						mTypingAction = new CHexEditorTypingAction(mWERef, this, this);
 						PostAction(mTypingAction);
 					}
 
@@ -420,10 +420,10 @@ CHexDataSubView::HandleKeyPress(
 
 					if (theSelStart == theSelEnd) {
 						theSelEnd += 3;
-						WESetSelection(theSelStart,theSelEnd, mWasteEditRef);
+						WESetSelection(theSelStart,theSelEnd, mWERef);
 					}
 
-					WEDelete(mWasteEditRef);
+					WEDelete(mWERef);
 // 					ForceAutoScroll(oldDestRect);
 					UserChangedText(theSelStart, theSelEnd, 0);
 				}
@@ -445,7 +445,7 @@ CHexDataSubView::HandleKeyPress(
 		}
 	}
 
-	if ((theTarget == GetTarget()) && (lineCount != WECountLines(mWasteEditRef))) {
+	if ((theTarget == GetTarget()) && (lineCount != WECountLines(mWERef))) {
 		AdjustImageToText();
 	}
 
@@ -467,11 +467,11 @@ CHexDataSubView::ObeyCommand(
 {
 	Boolean		cmdHandled = true;
 	
-	if ( mWasteEditRef == nil )
+	if ( mWERef == nil )
 		return cmdHandled;
 
 	LongRect	oldDestRect ;
-	WEGetDestRect(&oldDestRect,mWasteEditRef);
+	WEGetDestRect(&oldDestRect,mWERef);
 
 	switch (inCommand) {
 
@@ -592,7 +592,7 @@ CHexDataSubView::InsertContents(Handle inHandle)
 	DeleteAll();
 	// Put the contents in the hex view and clear the dirty flag.
 	SetTextHandle( translator.GetOutHandle() );
-	WESetSelection(0, 0, mWasteEditRef);
+	WESetSelection(0, 0, mWERef);
 }
 
 
@@ -610,7 +610,7 @@ CHexDataSubView::InsertContents(const void * inPtr, SInt32 inByteCount)
 	DeleteAll();
 	// Put the contents in the hex view and clear the dirty flag.
 	SetTextHandle( translator.GetOutHandle() );
-	WESetSelection(0, 0, mWasteEditRef);
+	WESetSelection(0, 0, mWERef);
 }
 
 
@@ -745,7 +745,8 @@ CHexDataSubView::SyncContentsWithMemory(SInt32 inStartPos,
 		// Convert ascii code to hex code
 		StHexToByteTranslator translator(blankstripper.GetOutHandle());
 		translator.Convert();
-		WEInsert(*translator.GetOutHandle(), translator.GetOutSize(), nil, nil, we);
+		WEPut( kCurrentSelection, kCurrentSelection, *translator.GetOutHandle(), translator.GetOutSize(), kTextEncodingUnknown,
+					kNilOptions, 0, nil, nil, we);
 	
 		if (txtData != nil) {
 			::DisposeHandle(txtData);

@@ -118,7 +118,7 @@ CTxtDataSubView::ClickSelf(
 	AdjustCursorPos();
 
 	// Synchronize sibling
-	WEGetSelection(& startPos, & endPos, mWasteEditRef);
+	WEGetSelection(& startPos, & endPos, mWERef);
 	mHexSiblingView->SyncPositionsWithSibling(PosToCharPos(startPos), 
 											  PosToCharPos(endPos));
 	// Notify the dual view's listeners
@@ -136,8 +136,8 @@ CTxtDataSubView::AdjustCursorPos()
 	SInt32  selStart;
 	SInt32  selEnd;
 	
-	WEGetSelection( & selStart, & selEnd, mWasteEditRef ) ;
-	WESetSelection( NearestCharPos(selStart), NearestCharPos(selEnd), mWasteEditRef);
+	WEGetSelection( & selStart, & selEnd, mWERef ) ;
+	WESetSelection( NearestCharPos(selStart), NearestCharPos(selEnd), mWERef);
 }
 
 
@@ -162,7 +162,7 @@ CTxtDataSubView::GetCurrCharPos(SInt32 & outCharSelStart, SInt32 & outCharSelEnd
 {
 	SInt32  selStart;
 	SInt32  selEnd;
-	WEGetSelection( & selStart, & selEnd, mWasteEditRef ) ;
+	WEGetSelection( & selStart, & selEnd, mWERef ) ;
 	outCharSelStart = PosToCharPos(selStart);
 	outCharSelEnd = PosToCharPos(selEnd);
 }
@@ -272,13 +272,13 @@ CTxtDataSubView::HandleKeyPress(
 		theKeyStatus = keyStatus_PassUp;
 	}
 
-	SInt32	lineCount = WECountLines(mWasteEditRef);
+	SInt32	lineCount = WECountLines(mWERef);
 	LongRect	oldDestRect ;
-	WEGetDestRect(&oldDestRect,mWasteEditRef);
+	WEGetDestRect(&oldDestRect,mWERef);
 
 	SInt32	theSelStart;
 	SInt32	theSelEnd;
-	WEGetSelection( & theSelStart, & theSelEnd, mWasteEditRef);
+	WEGetSelection( & theSelStart, & theSelEnd, mWERef);
 	
 	StFocusAndClipIfHidden	focus(this);
 
@@ -286,7 +286,7 @@ CTxtDataSubView::HandleKeyPress(
 		
 		case keyStatus_Input: {
 			if (mTypingAction == nil) {
-				mTypingAction = new CHexEditorTypingAction(mWasteEditRef, this, this);
+				mTypingAction = new CHexEditorTypingAction(mWERef, this, this);
 				PostAction(mTypingAction);
 			}
 			
@@ -298,8 +298,8 @@ CTxtDataSubView::HandleKeyPress(
 				}
 			}
 			
-			WEKey(theKey,inKeyEvent.modifiers, mWasteEditRef);
-			WEKey(' ',inKeyEvent.modifiers, mWasteEditRef);			
+			WEKey(theKey,inKeyEvent.modifiers, mWERef);
+			WEKey(' ',inKeyEvent.modifiers, mWERef);			
 			UserChangedText(theSelStart, theSelEnd, 2);
 			break;
 		}
@@ -314,7 +314,7 @@ CTxtDataSubView::HandleKeyPress(
 			} else {
 				if (theSelEnd > 0) {
 					if (mTypingAction == nil) {
-						mTypingAction = new CHexEditorTypingAction(mWasteEditRef, this, this);
+						mTypingAction = new CHexEditorTypingAction(mWERef, this, this);
 						PostAction(mTypingAction);
 					}
 					
@@ -328,9 +328,9 @@ CTxtDataSubView::HandleKeyPress(
 					
 					if (theSelStart == theSelEnd && theSelStart >= 2) {
 						theSelStart -= 2;
-						WESetSelection( theSelStart, theSelEnd, mWasteEditRef );
+						WESetSelection( theSelStart, theSelEnd, mWERef );
 					}
-					WEDelete(mWasteEditRef);
+					WEDelete(mWERef);
 					ForceAutoScroll(oldDestRect);
 					UserChangedText(theSelStart, theSelEnd, 0);
 				}
@@ -342,9 +342,9 @@ CTxtDataSubView::HandleKeyPress(
 		case keyStatus_TECursor: {
 			if (theSelStart != theSelEnd) {
 				if (theKey == char_RightArrow || theKey == char_DownArrow) {
-					WESetSelection( theSelEnd, theSelEnd, mWasteEditRef);
+					WESetSelection( theSelEnd, theSelEnd, mWERef);
 				} else {
-					WESetSelection( theSelStart, theSelStart, mWasteEditRef);
+					WESetSelection( theSelStart, theSelStart, mWERef);
 				}
 			} else {
 				
@@ -366,7 +366,7 @@ CTxtDataSubView::HandleKeyPress(
 					break;
 				}
 				if (theSelStart >= 0 && PosToCharPos(theSelStart) <= mOwnerDualView->GetPaneCount(count_BytesPerPane)) {
-					WESetSelection( theSelStart, theSelStart, mWasteEditRef);
+					WESetSelection( theSelStart, theSelStart, mWERef);
 				}
 				CursorMoved(theSelStart);
 			}
@@ -376,9 +376,9 @@ CTxtDataSubView::HandleKeyPress(
 		case keyStatus_ExtraEdit: {
 			if (theKey == char_FwdDelete) {
 
-				if (theSelStart < WEGetTextLength(mWasteEditRef)) {
+				if (theSelStart < WEGetTextLength(mWERef)) {
 					if (mTypingAction == nil) {
-						mTypingAction = new CHexEditorTypingAction(mWasteEditRef, this, this);
+						mTypingAction = new CHexEditorTypingAction(mWERef, this, this);
 						PostAction(mTypingAction);
 					}
 
@@ -392,10 +392,10 @@ CTxtDataSubView::HandleKeyPress(
 
 					if (theSelStart == theSelEnd) {
 						theSelEnd += 2;
-						WESetSelection(theSelStart,theSelEnd, mWasteEditRef);
+						WESetSelection(theSelStart,theSelEnd, mWERef);
 					}
 
-					WEDelete(mWasteEditRef);
+					WEDelete(mWERef);
 					ForceAutoScroll(oldDestRect);
 					UserChangedText(theSelStart, theSelEnd, 0);
 				}
@@ -416,7 +416,7 @@ CTxtDataSubView::HandleKeyPress(
 		}
 	}
 
-	if ((theTarget == GetTarget()) && (lineCount != WECountLines(mWasteEditRef))) {
+	if ((theTarget == GetTarget()) && (lineCount != WECountLines(mWERef))) {
 		AdjustImageToText();
 	}
 
@@ -438,11 +438,11 @@ CTxtDataSubView::ObeyCommand(
 {
 	Boolean		cmdHandled = true;
 	
-	if ( mWasteEditRef == nil )
+	if ( mWERef == nil )
 		return cmdHandled;
 
 	LongRect	oldDestRect ;
-	WEGetDestRect(&oldDestRect,mWasteEditRef);
+	WEGetDestRect(&oldDestRect,mWERef);
 
 	mOwnerDualView->SetCurrentSubView(hex_txtpane);
 	
@@ -525,7 +525,7 @@ CTxtDataSubView::InsertContents(Handle inHandle)
 	DeleteAll();
 	// Put the contents in the hex view and clear the dirty flag.
 	SetTextHandle( translator.GetOutHandle() );
-	WESetSelection(0, 0, mWasteEditRef);
+	WESetSelection(0, 0, mWERef);
 }
 
 
@@ -543,7 +543,7 @@ CTxtDataSubView::InsertContents(const void * inPtr, SInt32 inByteCount)
 	DeleteAll();
 	// Put the contents in the hex view and clear the dirty flag.
 	SetTextHandle( translator.GetOutHandle() );
-	WESetSelection(0, 0, mWasteEditRef);
+	WESetSelection(0, 0, mWERef);
 }
 
 
@@ -712,8 +712,9 @@ CTxtDataSubView::SyncContentsWithMemory(SInt32 inStartPos,
 		// Strip blanks
 		StStripPeriodicalTranslator blankstripper(txtData, 2);
 		blankstripper.FilterOutPeriodical();
-		WEInsert(*blankstripper.GetOutHandle(), blankstripper.GetOutSize(), nil, nil, we);
-	
+		WEPut( kCurrentSelection, kCurrentSelection, *blankstripper.GetOutHandle(), blankstripper.GetOutSize(), kTextEncodingUnknown,
+					kNilOptions, 0, nil, nil, we);
+
 		if (txtData != nil) {
 			::DisposeHandle(txtData);
 		} 

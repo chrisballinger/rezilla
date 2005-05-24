@@ -46,20 +46,27 @@ OSErr
 CWasteEditView::Insert(
 					   const void*		inText,
 					   SInt32			inLength,
-					   StScrpHandle		inStyleH,
+					   Handle			inStyleH,
 					   Boolean			inRefresh)
 {
 	LongRect	oldDestRect ;
 	OSErr		err;
-	
+	ItemCount	count;
+
 	StFocusAndClipIfHidden	focus(this);
 
-	WEGetDestRect(&oldDestRect,mWasteEditRef);
+	WEGetDestRect(&oldDestRect,mWERef);
 	
 	if ( !mMonoStyled && (inStyleH != nil) ) {
-		err = WEInsert(inText, inLength, (StScrpHandle) inStyleH, nil, mWasteEditRef ) ;
+		FlavorType	theType = kTypeStyles;
+
+		count = 1;
+		err = WEPut( kCurrentSelection, kCurrentSelection, inText, inLength, kTextEncodingUnknown,
+					kNilOptions, count, &theType, &inStyleH, mWERef ) ;
 	} else {
-		err = WEInsert(inText, inLength, nil, nil, mWasteEditRef);
+		count = 0;
+		err = WEPut( kCurrentSelection, kCurrentSelection, inText, inLength, kTextEncodingUnknown,
+					kNilOptions, count, nil, nil, mWERef ) ;
 	}
 	
 	// Force a redraw. The WasteEdit internals are updated, so we need to
@@ -83,7 +90,7 @@ CWasteEditView::Insert(
 					   Boolean		inRefresh)
 {
 	char * theStr = new char[256];
-	CopyPascalStringToC(inString,theStr);	
+	CopyPascalStringToC(inString, theStr);	
 	return Insert(theStr, inString[0], NULL, inRefresh);
 }
 
@@ -99,15 +106,15 @@ CWasteEditView::DeleteTextRange( SInt32 inStartPos, SInt32 inEndPos)
 {
 	if (!mReadOnly && mSelectable) {
 		LongRect oldDestRect;
-		WEGetDestRect( &oldDestRect, mWasteEditRef);	
+		WEGetDestRect( &oldDestRect, mWERef);	
 
 		StFocusAndClipIfHidden	focus(this);
 		
-		int saveFeature = WEFeatureFlag( weFAutoScroll, weBitClear, mWasteEditRef ) ;
-		WESetSelection( inStartPos, inEndPos, mWasteEditRef ) ;
-		WEFeatureFlag( weFAutoScroll, saveFeature, mWasteEditRef ) ;
+		int saveFeature = WEFeatureFlag( weFAutoScroll, weBitClear, mWERef ) ;
+		WESetSelection( inStartPos, inEndPos, mWERef ) ;
+		WEFeatureFlag( weFAutoScroll, saveFeature, mWERef ) ;
 
-		WEDelete(mWasteEditRef);
+		WEDelete(mWERef);
 
 		AdjustImageToText();
 		ForceAutoScroll(oldDestRect);
@@ -127,10 +134,10 @@ CWasteEditView::DeleteAll()
 	if (mSelectable) {
 		// Get the original dest rect
 		LongRect oldDestRect;
-		WEGetDestRect( &oldDestRect, mWasteEditRef);	
+		WEGetDestRect( &oldDestRect, mWERef);	
 
 		SelectAll();
-		WEDelete(mWasteEditRef);
+		WEDelete(mWERef);
 
 		AdjustImageToText();
 		ForceAutoScroll(oldDestRect);
@@ -157,13 +164,13 @@ CWasteEditView::SetTextTraitsID(ResIDT	inTextTraitsID)
 	
 	// Get the original dest rect
 	LongRect oldDestRect;
-	WEGetDestRect( & oldDestRect, mWasteEditRef);	
+	WEGetDestRect( & oldDestRect, mWERef);	
 	
 	// Store the new text traits ID
 	mTextTraitsID = inTextTraitsID;
 	
 	// Now try to apply the desired trait
-	ApplyTextTraits(mTextTraitsID, mWasteEditRef);
+	ApplyTextTraits(mTextTraitsID, mWERef);
 	
 	SPoint32	scrollUnit;
 	scrollUnit.h = 4;
@@ -243,8 +250,8 @@ CWasteEditView::ApplyTextTraits(TextTraitsPtr	inTextTraits,
 	
 	// Set the attributes
 	// weDoAll = weDoFont | weDoFace | weDoSize | weDoColor
-	WESetStyle(weDoAll,&theStyle,mWasteEditRef);
-	WESetAlignment( theJustification, mWasteEditRef );
+	WESetStyle(weDoAll,&theStyle,mWERef);
+	WESetAlignment( theJustification, mWERef );
 	WESetOneAttribute(0, 0x7FFFFFFF, weTagTransferMode, & theMode, sizeof ( theMode ), inWERef) ;
 	WESetOneAttribute( 0, 0x7FFFFFFF, weTagTextColor, & theColor, sizeof ( theColor ), inWERef) ;
 	
@@ -269,7 +276,7 @@ CWasteEditView::ApplyTextTraits(TextTraitsPtr	inTextTraits,
 void
 CWasteEditView::SetTextHandle(
 	Handle			inTextH,
-	StScrpHandle	inStyleH )
+	Handle			inStyleH )
 {
 	StHandleLocker	lock(inTextH);
 	SetTextPtr(*inTextH, ::GetHandleSize(inTextH), inStyleH );
@@ -284,11 +291,15 @@ void
 CWasteEditView::SetTextPtr(
 	   const void*		inTextP,
 	   SInt32			inTextLen,
-	   StScrpHandle		inStyleH )
+	   Handle			inStyleH )
 {
 	StFocusAndClipIfHidden	focus(this);
+	OSErr		err;
+	ItemCount	count;
 	
 	if (!mMonoStyled) {
+		FlavorType	theType = kTypeStyles;
+		Handle		outStyle;
 		
 		StHandleBlock	styleH( (Handle) inStyleH, false);
 		
@@ -296,25 +307,29 @@ CWasteEditView::SetTextPtr(
 			// No input style. Use style of beginning of text.
 			SInt32			savedStart;
 			SInt32			savedEnd;
-			Handle			outText = nil;
-			StScrpHandle	outStyles = nil;
 			
-			WEGetSelection( & savedStart, & savedEnd, mWasteEditRef);
-			WESetSelection( 0, 0, mWasteEditRef);
 			
-			// We need a StScrpHandle. Retrieve the style of the beginning of the text.
-			WECopyRange(0,0,outText,outStyles,nil,mWasteEditRef) ;
+			WEGetSelection( & savedStart, & savedEnd, mWERef);
+			WESetSelection( 0, 0, mWERef);
 			
-			styleH.Adopt((Handle) outStyles);
+			// Retrieve the style of the beginning of the text
+			outStyle = ::NewHandle(0);
+			WEStreamRange( 0, 0, kTypeStyles, kNilOptions, outStyle, mWERef);
+
+			styleH.Adopt(outStyle);
 			
-			WESetSelection( savedStart, savedEnd, mWasteEditRef);
+			WESetSelection( savedStart, savedEnd, mWERef);
 		}
 		
-		WEInsert(inTextP, inTextLen, (StScrpHandle) styleH.Get(), nil, mWasteEditRef ) ;
-		WECalText(mWasteEditRef);
+		count = 1;
+		err = WEPut( kCurrentSelection, kCurrentSelection, inTextP, inTextLen, kTextEncodingUnknown,
+					kNilOptions, count, &theType, &outStyle, mWERef ) ;
+		WECalText(mWERef);
 		
 	} else {
-		WEInsert(inTextP, inTextLen, nil, nil, mWasteEditRef ) ;
+		count = 0;
+		err = WEPut( kCurrentSelection, kCurrentSelection, inTextP, inTextLen, kTextEncodingUnknown,
+					kNilOptions, count, nil, nil, mWERef ) ;
 	}
 
 	AdjustImageToText();
@@ -330,7 +345,7 @@ CWasteEditView::SetTextPtr(
 Handle
 CWasteEditView::GetTextHandle()
 {
-	return static_cast<Handle>(WEGetText(mWasteEditRef));
+	return static_cast<Handle>(WEGetText(mWERef));
 }
 
 
@@ -381,7 +396,7 @@ CWasteEditView::GetFont(
 {
 	TextStyle theStyle;
 	WEStyleMode theMode = doFont;
-	Boolean isContinuous = WEContinuousStyle( &theMode, &theStyle, mWasteEditRef );
+	Boolean isContinuous = WEContinuousStyle( &theMode, &theStyle, mWERef );
 
 	outFontNum = theStyle.tsFont;
 
@@ -400,7 +415,7 @@ CWasteEditView::GetFont(
 {
 	TextStyle theStyle;
 	WEStyleMode theMode = doFont;
-	Boolean isContinuous = WEContinuousStyle( &theMode, &theStyle, mWasteEditRef );
+	Boolean isContinuous = WEContinuousStyle( &theMode, &theStyle, mWERef );
 
 	::GetFontName( theStyle.tsFont, outName );
 
@@ -434,7 +449,7 @@ CWasteEditView::GetSize(
 {
 	TextStyle theStyle;
 	WEStyleMode theMode = doSize;
-	Boolean isContinuous = WEContinuousStyle( &theMode, &theStyle, mWasteEditRef );
+	Boolean isContinuous = WEContinuousStyle( &theMode, &theStyle, mWERef );
 
 	outSize = theStyle.tsSize;
 
@@ -468,7 +483,7 @@ CWasteEditView::GetStyle(
 {
 	TextStyle	theStyle;
 	WEStyleMode	theMode = doFace;
-	Boolean		isContinuous = WEContinuousStyle( &theMode, &theStyle, mWasteEditRef );
+	Boolean		isContinuous = WEContinuousStyle( &theMode, &theStyle, mWERef );
 
 	outStyle = theStyle.tsFace;
 	return isContinuous;
@@ -496,7 +511,7 @@ CWasteEditView::SetAlignment(
 WEAlignment
 CWasteEditView::GetAlignment()
 {
-	return WEGetAlignment(mWasteEditRef);
+	return WEGetAlignment(mWERef);
 }
 
 
@@ -527,7 +542,7 @@ CWasteEditView::GetColor(
 {
 	TextStyle	theStyle ;
 	WEStyleMode theMode = doColor;
-	Boolean isContinuous = WEContinuousStyle( &theMode, &theStyle, mWasteEditRef );
+	Boolean isContinuous = WEContinuousStyle( &theMode, &theStyle, mWERef );
 
 	outColor = theStyle.tsColor;
 

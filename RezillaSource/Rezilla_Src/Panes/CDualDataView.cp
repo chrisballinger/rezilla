@@ -425,7 +425,8 @@ CDualDataView::ObeyCommand(
 			WESetSelection(theStartPos, theEndPos, mInMemoryWasteRef);
 			
 			StHandleLocker lockit(scrapDataH);
-			WEInsert(*scrapDataH, dataSize, nil, nil, mInMemoryWasteRef);
+			WEPut( kCurrentSelection, kCurrentSelection, *scrapDataH, dataSize, kTextEncodingUnknown,
+						kNilOptions, 0, nil, nil, mInMemoryWasteRef);
 			InstallContentsFromLine(mCurrFirstLine);
 			SetMaxScrollerValue();
 
@@ -457,7 +458,8 @@ CDualDataView::ObeyCommand(
 void
 CDualDataView::InstallBackStoreData(Handle inHandle)
 {
-	WEInsert(*inHandle, ::GetHandleSize(inHandle), nil, nil, mInMemoryWasteRef);
+	WEPut( kCurrentSelection, kCurrentSelection, *inHandle, ::GetHandleSize(inHandle), kTextEncodingUnknown,
+				kNilOptions, 0, nil, nil, mInMemoryWasteRef);
 }
 
 
@@ -468,7 +470,8 @@ CDualDataView::InstallBackStoreData(Handle inHandle)
 void
 CDualDataView::InstallBackStoreData(const void * inPtr, SInt32 inByteCount)
 {
-	WEInsert(inPtr, inByteCount, nil, nil, mInMemoryWasteRef);
+	WEPut( kCurrentSelection, kCurrentSelection, inPtr, inByteCount, kTextEncodingUnknown,
+				kNilOptions, 0, nil, nil, mInMemoryWasteRef);
 }
 
 

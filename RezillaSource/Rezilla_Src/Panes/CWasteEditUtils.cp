@@ -45,18 +45,18 @@ CWasteEditView::ApplyStyleValues(UInt16 theSize, UInt16 theFont)
 	SInt32 saveStart, saveEnd;
 	TextStyle theStyle;
 	
-	int saveBit = WEFeatureFlag( weFReadOnly, weBitClear, mWasteEditRef );
-	WEGetSelection( & saveStart, & saveEnd, mWasteEditRef);
-	WESetSelection( 0, 0x7FFFFFFF, mWasteEditRef );
+	int saveBit = WEFeatureFlag( weFReadOnly, weBitClear, mWERef );
+	WEGetSelection( & saveStart, & saveEnd, mWERef);
+	WESetSelection( 0, 0x7FFFFFFF, mWERef );
 	
 	theStyle.tsSize = theSize;
-	WESetStyle( weDoSize, &theStyle, mWasteEditRef );
+	WESetStyle( weDoSize, &theStyle, mWERef );
 	
 	theStyle.tsFont = theFont;
-	WESetStyle( weDoFont, &theStyle, mWasteEditRef );
+	WESetStyle( weDoFont, &theStyle, mWERef );
 	
-	WESetSelection( saveStart, saveEnd, mWasteEditRef );
-	WEFeatureFlag( weFReadOnly, saveBit, mWasteEditRef );
+	WESetSelection( saveStart, saveEnd, mWERef );
+	WEFeatureFlag( weFReadOnly, saveBit, mWERef );
 	
 	AdjustImageToText();
 	Refresh();
@@ -148,7 +148,7 @@ CWasteEditView::UserChangedText()
 SInt32
 CWasteEditView::CountLines()
 {
-	return ::WECountLines(mWasteEditRef);
+	return ::WECountLines(mWERef);
 }
 
 
@@ -160,7 +160,7 @@ CWasteEditView::CountLines()
 SInt32
 CWasteEditView::PosToLine(SInt32 inPos)
 {
-	return ::WEOffsetToLine(inPos, mWasteEditRef);
+	return ::WEOffsetToLine(inPos, mWERef);
 }
 
 
@@ -171,7 +171,7 @@ CWasteEditView::PosToLine(SInt32 inPos)
 SInt32
 CWasteEditView::GetTextLength()
 {
-	return ::WEGetTextLength(mWasteEditRef);
+	return ::WEGetTextLength(mWERef);
 }
 
 
@@ -184,8 +184,8 @@ SInt32
 CWasteEditView::CalcWEHeight()
 {
 	LongRect	theDestRect ;
-    WEGetDestRect(&theDestRect,mWasteEditRef);
-	return WEGetHeight(0,WECountLines(mWasteEditRef),mWasteEditRef);
+    WEGetDestRect(&theDestRect,mWERef);
+	return WEGetHeight(0,WECountLines(mWERef),mWERef);
 }
 
 
@@ -229,9 +229,9 @@ CWasteEditView::GetSelection(
 {
 	SInt32  theSelStart;
 	SInt32  theSelEnd;
-	Handle	currTextH = WEGetText(mWasteEditRef);
+	Handle	currTextH = WEGetText(mWERef);
 	
-	WEGetSelection( & theSelStart, & theSelEnd, mWasteEditRef ) ;
+	WEGetSelection( & theSelStart, & theSelEnd, mWERef ) ;
 
 	StHandleLocker lock((Handle) currTextH);
 
@@ -251,7 +251,7 @@ CWasteEditView::GetSelection(
 void
 CWasteEditView::GetLineRange(SInt32 inLineIndex, SInt32 & outLineStart, SInt32 & outLineEnd)
 {
-	return ::WEGetLineRange(inLineIndex, & outLineStart, & outLineEnd, mWasteEditRef);
+	return ::WEGetLineRange(inLineIndex, & outLineStart, & outLineEnd, mWERef);
 }
 
 
@@ -264,7 +264,7 @@ CWasteEditView::GetSelectionRange(
 	SInt32 & outStartPos,
 	SInt32 & outEndPos)
 {
-	WEGetSelection(&outStartPos, &outEndPos, mWasteEditRef);
+	WEGetSelection(&outStartPos, &outEndPos, mWERef);
 }
 
 
@@ -283,15 +283,15 @@ CWasteEditView::SetSelectionRange(
 		int saveFeature;
 		
 		if (!scrollIt) {
-			saveFeature = WEFeatureFlag( weFAutoScroll, weBitClear, mWasteEditRef ) ;
+			saveFeature = WEFeatureFlag( weFAutoScroll, weBitClear, mWERef ) ;
 		} else {
-			WEGetDestRect( &oldDestRect, mWasteEditRef);	
+			WEGetDestRect( &oldDestRect, mWERef);	
 		}
 		
-		WESetSelection(inStartPos, inEndPos, mWasteEditRef);
+		WESetSelection(inStartPos, inEndPos, mWERef);
 		
 		if (!scrollIt) {
-			WEFeatureFlag( weFAutoScroll, saveFeature, mWasteEditRef ) ;
+			WEFeatureFlag( weFAutoScroll, saveFeature, mWERef ) ;
 		} else {
 			ForceAutoScroll(oldDestRect);
 			Refresh();
@@ -314,14 +314,14 @@ CWasteEditView::DisplaySelectionRange(
 		
 		FocusDraw();
 
-		WEGetDestRect( &oldDestRect, mWasteEditRef);	
+		WEGetDestRect( &oldDestRect, mWERef);	
 		
 		// Bring the inEndPos in view
-		WESetSelection(inEndPos, inEndPos, mWasteEditRef);
-		WESelView(mWasteEditRef);
+		WESetSelection(inEndPos, inEndPos, mWERef);
+		WESelView(mWERef);
 		// Select the range with inStartPos as free endpoint
-		WESetSelection(inEndPos, inStartPos, mWasteEditRef);
-		WESelView(mWasteEditRef);
+		WESetSelection(inEndPos, inStartPos, mWERef);
+		WESelView(mWERef);
 		
 		ForceAutoScroll(oldDestRect);
 		Refresh();
@@ -339,7 +339,7 @@ CWasteEditView::HasSelection() {
 	SInt32  selStart;
 	SInt32  selEnd;
 	
-	WEGetSelection( & selStart, & selEnd, mWasteEditRef ) ;
+	WEGetSelection( & selStart, & selEnd, mWERef ) ;
 	return ( selStart != selEnd );
 }
 
@@ -354,9 +354,9 @@ CWasteEditView::SelectAll()
 {
 	if (mSelectable) {
 		StFocusAndClipIfHidden	focus(this);
-		int saveFeature = WEFeatureFlag( weFAutoScroll, weBitClear, mWasteEditRef ) ;
-		WESetSelection( 0, 0x7FFFFFFF, mWasteEditRef ) ;
-		WEFeatureFlag( weFAutoScroll, saveFeature, mWasteEditRef ) ;
+		int saveFeature = WEFeatureFlag( weFAutoScroll, weBitClear, mWERef ) ;
+		WESetSelection( 0, 0x7FFFFFFF, mWERef ) ;
+		WEFeatureFlag( weFAutoScroll, saveFeature, mWERef ) ;
 	}
 }
 
@@ -387,7 +387,7 @@ StringPtr
 CWasteEditView::GetDescriptor(
 	Str255	outDescriptor ) const
 {
-	CharsHandle	theRawText = WEGetText(mWasteEditRef);
+	CharsHandle	theRawText = WEGetText(mWERef);
 
 	Size textLength = ::GetHandleSize(theRawText);
 	if (textLength > 255) {
@@ -451,12 +451,12 @@ CWasteEditView::SavePlace(
 	LView::SavePlace(outPlace);
 	
 	LongRect	viewRect ;
-	WEGetViewRect(&viewRect,mWasteEditRef);
+	WEGetViewRect(&viewRect,mWERef);
 	// 	*outPlace << viewRect;
 	outPlace->WriteBlock(&viewRect,sizeof(viewRect));
 	
 	LongRect	destRect ;
-	WEGetDestRect(&destRect,mWasteEditRef);
+	WEGetDestRect(&destRect,mWERef);
 	// 	*outPlace << destRect;
 	outPlace->WriteBlock(&destRect,sizeof(destRect));
 }
@@ -475,11 +475,11 @@ CWasteEditView::RestorePlace(
 
 	LongRect	theViewRect ;
 	inPlace->ReadBlock(&theViewRect,sizeof(theViewRect));
-	WESetViewRect(&theViewRect,mWasteEditRef);
+	WESetViewRect(&theViewRect,mWERef);
 
 	LongRect	theDestRect ;
 	inPlace->ReadBlock(&theDestRect,sizeof(theDestRect));
-	WESetDestRect(&theDestRect,mWasteEditRef);
+	WESetDestRect(&theDestRect,mWERef);
 }
 
 
@@ -492,13 +492,13 @@ CWasteEditView::SaveStateForUndo()
 {
 	SInt32	theSelStart;
 	SInt32	theSelEnd;
-	WEGetSelection( & theSelStart, & theSelEnd, mWasteEditRef);
+	WEGetSelection( & theSelStart, & theSelEnd, mWERef);
 
 	SWasteEditUndoH	theUndoH = reinterpret_cast<SWasteEditUndoH>
 									(::NewHandle(sizeof(SWasteEditUndo)));
 	ThrowIfMemFail_(theUndoH);
 
-	Handle	currTextH		= WEGetText(mWasteEditRef);
+	Handle	currTextH		= WEGetText(mWERef);
 	ThrowIfOSErr_(::HandToHand(&currTextH));
 	(*theUndoH)->textH		= currTextH;
 	(*theUndoH)->selStart	= theSelStart;
