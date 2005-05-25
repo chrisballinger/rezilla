@@ -455,9 +455,6 @@ CWEViewTypingAction::Reset()
 	ThrowIfMemFail_(mDeletedTextH);
 	
 	WEStreamRange( mSelStart, mSelEnd, kTypeText, kNilOptions, mDeletedTextH, mWERef);
-// 	Handle	hText=static_cast<Handle>(WEGetText(mWERef));
-// 	::BlockMoveData(*hText + mSelStart, *mDeletedTextH,
-// 					mDeletedTextLen);
 	
 	mDeletedStyleH = ::NewHandle(0);
 
@@ -510,8 +507,8 @@ CWEViewTypingAction::InputCharacter()
 void
 CWEViewTypingAction::BackwardErase()
 {
-	SInt32	selStart;
-	SInt32	selEnd;
+	SInt32	selStart, selEnd;
+	
 	WEGetSelection( & selStart, & selEnd, mWERef);
 	Handle	hText=static_cast<Handle>(WEGetText(mWERef));
 	
@@ -564,10 +561,10 @@ CWEViewTypingAction::BackwardErase()
 void
 CWEViewTypingAction::ForwardErase()
 {
-	SInt32	selStart;
-	SInt32	selEnd;
+	SInt32	selStart, selEnd;
+	
 	WEGetSelection( & selStart, & selEnd, mWERef);
-	Handle	hText=static_cast<Handle>(WEGetText(mWERef));
+	Handle	hText = static_cast<Handle>(WEGetText(mWERef));
 	
 	if ( (mTypingEnd != selStart) ||
 		 (mTypingEnd != selEnd) ) {
@@ -589,8 +586,7 @@ CWEViewTypingAction::ForwardErase()
 		::SetHandleSize(mDeletedTextH, mDeletedTextLen + 1);
 		ThrowIfMemError_();
 
-		*(*mDeletedTextH + mDeletedTextLen) =
-				*(*hText + mTypingEnd);
+		*(*mDeletedTextH + mDeletedTextLen) = *(*hText + mTypingEnd);
 		mDeletedTextLen += 1;
 	}
 }
@@ -608,10 +604,12 @@ CWEViewTypingAction::RedoSelf()
 
 	LongRect theOldRect;
 	WEGetDestRect(&theOldRect,mWERef);
-									// Delete original text
+									
+	// Delete original text
 	WESetSelection(mTypingStart, mTypingStart + mDeletedTextLen, mWERef);
 	WEDelete(mWERef);
-									// Insert typing run
+									
+	// Insert typing run
 	StHandleLocker	lock(mTypedTextH);
 	mWEView->Insert(*mTypedTextH, (mTypingEnd - mTypingStart), mTypedStyleH);
 
@@ -631,6 +629,7 @@ CWEViewTypingAction::UndoSelf()
 	StFocusAndClipIfHidden	focus(mWEView);
 	LongRect theOldRect;
 	WEGetDestRect(&theOldRect,mWERef);
+	
 	// Save current typing run
 	if (mTypedTextH == nil) {
 		mTypedTextH = ::NewHandle(mTypingEnd - mTypingStart);
@@ -652,10 +651,11 @@ CWEViewTypingAction::UndoSelf()
 	mTypedStyleH = ::NewHandle(0);
 
 	// Retrieve the style in the typed range
-// 	WECopyRange(mTypingStart,mTypingEnd,mTypedTextH,(StScrpHandle) mTypedStyleH,nil,mWERef) ;
 	WEStreamRange( mTypingStart, mTypingEnd, kTypeStyles, kNilOptions, mTypedStyleH, mWERef);
 
+	// Delete the selection
 	WEDelete(mWERef);
+	
 	// Restore original text
 	StHandleLocker	lock(mDeletedTextH);
 	mWEView->Insert(*mDeletedTextH, mDeletedTextLen, mDeletedStyleH);
