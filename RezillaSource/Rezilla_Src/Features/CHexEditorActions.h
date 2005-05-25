@@ -1,11 +1,11 @@
 // ===========================================================================
 // CHexEditorActions.h 
 //                       Created: 2003-05-29 21:13:13
-//             Last modification: 2004-02-22 19:30:01
+//             Last modification: 2005-05-25 07:50:33
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// ¬© Copyright: Bernard Desgraupes 2003, 2004
+// © Copyright: Bernard Desgraupes 2003-2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -97,9 +97,13 @@ public:
 
 	virtual				~CHexEditorTypingAction();
 
+	virtual void		InputCharacter(Boolean inOneOfTwoInserted);
+	virtual void		BackwardErase();
+	virtual void		ForwardErase();
+
 protected:
-	virtual void		RedoSelf();
-	virtual void		UndoSelf();
+// 	virtual void		RedoSelf();
+// 	virtual void		UndoSelf();
 };
 
 
@@ -109,5 +113,4 @@ protected:
 #endif
 
 #endif
-
 
