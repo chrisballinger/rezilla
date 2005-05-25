@@ -258,10 +258,6 @@ CTxtDataSubView::HandleKeyPress(
 		theKeyStatus = UKeyFilters::PrintingCharField(inKeyEvent);
 	}
 
-// 	if ((theKeyStatus == keyStatus_PassUp) && (theKey == char_Return)) {
-// 		theKeyStatus = keyStatus_Input;		// Special case for Return key
-// 	}
-
 	if ((theKeyStatus == keyStatus_PassUp) && (theKey == ' ')) {
 		// Accept space char anyway
 		theKeyStatus = keyStatus_Input;
@@ -292,7 +288,7 @@ CTxtDataSubView::HandleKeyPress(
 			
 			if (mTypingAction != nil) {
 				try {
-					mTypingAction->InputCharacter();
+					dynamic_cast<CHexEditorTypingAction*>(mTypingAction)->InputCharacter(false);
 				} catch(...) {
 					PostAction(nil);
 				}
@@ -712,7 +708,7 @@ CTxtDataSubView::SyncContentsWithMemory(SInt32 inStartPos,
 		// Strip blanks
 		StStripPeriodicalTranslator blankstripper(txtData, 2);
 		blankstripper.FilterOutPeriodical();
-		WEPut( kCurrentSelection, kCurrentSelection, *blankstripper.GetOutHandle(), blankstripper.GetOutSize(), kTextEncodingUnknown,
+		WEPut( kCurrentSelection, kCurrentSelection, *blankstripper.GetOutHandle(), blankstripper.GetOutSize(), kTextEncodingMultiRun,
 					kNilOptions, 0, nil, nil, we);
 
 		if (txtData != nil) {

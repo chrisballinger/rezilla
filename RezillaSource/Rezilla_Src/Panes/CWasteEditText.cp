@@ -61,11 +61,11 @@ CWasteEditView::Insert(
 		FlavorType	theType = kTypeStyles;
 
 		count = 1;
-		err = WEPut( kCurrentSelection, kCurrentSelection, inText, inLength, kTextEncodingUnknown,
+		err = WEPut( kCurrentSelection, kCurrentSelection, inText, inLength, kTextEncodingMultiRun,
 					kNilOptions, count, &theType, &inStyleH, mWERef ) ;
 	} else {
 		count = 0;
-		err = WEPut( kCurrentSelection, kCurrentSelection, inText, inLength, kTextEncodingUnknown,
+		err = WEPut( kCurrentSelection, kCurrentSelection, inText, inLength, kTextEncodingMultiRun,
 					kNilOptions, count, nil, nil, mWERef ) ;
 	}
 	
@@ -322,13 +322,13 @@ CWasteEditView::SetTextPtr(
 		}
 		
 		count = 1;
-		err = WEPut( kCurrentSelection, kCurrentSelection, inTextP, inTextLen, kTextEncodingUnknown,
+		err = WEPut( kCurrentSelection, kCurrentSelection, inTextP, inTextLen, kTextEncodingMultiRun,
 					kNilOptions, count, &theType, &outStyle, mWERef ) ;
 		WECalText(mWERef);
 		
 	} else {
 		count = 0;
-		err = WEPut( kCurrentSelection, kCurrentSelection, inTextP, inTextLen, kTextEncodingUnknown,
+		err = WEPut( kCurrentSelection, kCurrentSelection, inTextP, inTextLen, kTextEncodingMultiRun,
 					kNilOptions, count, nil, nil, mWERef ) ;
 	}
 

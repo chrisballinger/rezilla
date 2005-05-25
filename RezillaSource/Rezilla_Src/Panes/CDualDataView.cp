@@ -425,7 +425,7 @@ CDualDataView::ObeyCommand(
 			WESetSelection(theStartPos, theEndPos, mInMemoryWasteRef);
 			
 			StHandleLocker lockit(scrapDataH);
-			WEPut( kCurrentSelection, kCurrentSelection, *scrapDataH, dataSize, kTextEncodingUnknown,
+			WEPut( kCurrentSelection, kCurrentSelection, *scrapDataH, dataSize, kTextEncodingMultiRun,
 						kNilOptions, 0, nil, nil, mInMemoryWasteRef);
 			InstallContentsFromLine(mCurrFirstLine);
 			SetMaxScrollerValue();
@@ -458,19 +458,19 @@ CDualDataView::ObeyCommand(
 void
 CDualDataView::InstallBackStoreData(Handle inHandle)
 {
-	WEPut( kCurrentSelection, kCurrentSelection, *inHandle, ::GetHandleSize(inHandle), kTextEncodingUnknown,
-				kNilOptions, 0, nil, nil, mInMemoryWasteRef);
+	InstallBackStoreData(*inHandle, ::GetHandleSize(inHandle));
 }
 
 
 // ---------------------------------------------------------------------------
 //	¥ InstallBackStoreData										[protected]
 // ---------------------------------------------------------------------------
+// kTextEncodingUnknown raises an error -9473 (weInvalidTextEncodingErr)
 
 void
 CDualDataView::InstallBackStoreData(const void * inPtr, SInt32 inByteCount)
 {
-	WEPut( kCurrentSelection, kCurrentSelection, inPtr, inByteCount, kTextEncodingUnknown,
+	WEPut( 0, 0, inPtr, inByteCount, kTextEncodingMultiRun,
 				kNilOptions, 0, nil, nil, mInMemoryWasteRef);
 }
 

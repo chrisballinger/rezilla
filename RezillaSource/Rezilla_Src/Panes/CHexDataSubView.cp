@@ -303,7 +303,7 @@ CHexDataSubView::HandleKeyPress(
 			
 			if (mTypingAction != nil) {
 				try {
-					mTypingAction->InputCharacter();
+					dynamic_cast<CHexEditorTypingAction*>(mTypingAction)->InputCharacter(mOneOfTwoInserted);
 				} catch(...) {
 					PostAction(nil);
 				}
@@ -745,7 +745,7 @@ CHexDataSubView::SyncContentsWithMemory(SInt32 inStartPos,
 		// Convert ascii code to hex code
 		StHexToByteTranslator translator(blankstripper.GetOutHandle());
 		translator.Convert();
-		WEPut( kCurrentSelection, kCurrentSelection, *translator.GetOutHandle(), translator.GetOutSize(), kTextEncodingUnknown,
+		WEPut( kCurrentSelection, kCurrentSelection, *translator.GetOutHandle(), translator.GetOutSize(), kTextEncodingMultiRun,
 					kNilOptions, 0, nil, nil, we);
 	
 		if (txtData != nil) {
