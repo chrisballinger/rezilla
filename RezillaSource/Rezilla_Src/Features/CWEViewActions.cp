@@ -459,7 +459,6 @@ CWEViewTypingAction::Reset()
 	mDeletedStyleH = ::NewHandle(0);
 
 	// Retrieve the style in the selection range.
-	// 	WECopyRange(mSelStart,mSelEnd,mDeletedTextH,mDeletedStyleH,nil,inWERef) ;
 	WEStreamRange( mSelStart, mSelEnd, kTypeStyles, kNilOptions, mDeletedStyleH, mWERef);
 }
 
