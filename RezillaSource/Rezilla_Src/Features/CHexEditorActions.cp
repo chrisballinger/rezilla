@@ -1,11 +1,11 @@
 // ===========================================================================
 // CHexEditorActions.cp 
 //                       Created: 2003-05-29 21:13:13
-//             Last modification: 2005-05-24 15:58:23
+//             Last modification: 2005-05-27 09:28:46
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003-2004, 2005
+// (c) Copyright: Bernard Desgraupes 2003-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -20,6 +20,9 @@
 #include "WASTE.h"
 #include "CHexEditorActions.h"
 #include "CWasteEditView.h"
+#include "CDualDataView.h"
+#include "CHexDataSubView.h"
+#include "CTxtDataSubView.h"
 #include "RezillaConstants.h"
 #include "UCodeTranslator.h"
 
@@ -37,8 +40,6 @@
 
 PP_Begin_Namespace_PowerPlant
 
-
-#pragma mark -
 
 // ---------------------------------------------------------------------------
 //	¥ CHexEditorCutAction						Constructor				  [public]
@@ -80,6 +81,8 @@ CHexEditorCutAction::RedoSelf()
 	mWEView->ForceAutoScroll(theOldRect);
 }
 
+
+
 #pragma mark -
 
 // ---------------------------------------------------------------------------
@@ -107,6 +110,10 @@ CHexEditorPasteAction::CHexEditorPasteAction(
 	  
 		
 	  case item_TxtDataWE: {
+		  StSepTextTranslator translator(mPastedTextH);
+		  translator.Convert();
+		  mPastedTextH = translator.GetOutHandle();
+		  
 		  break;
 	  }
 		
@@ -171,6 +178,7 @@ CHexEditorPasteAction::UndoSelf()
 }
 
 
+
 #pragma mark -
 
 // ---------------------------------------------------------------------------
@@ -205,6 +213,7 @@ CHexEditorClearAction::RedoSelf()
 }
 
 
+
 #pragma mark -
 
 // ---------------------------------------------------------------------------
@@ -218,6 +227,22 @@ CHexEditorTypingAction::CHexEditorTypingAction(
 
 	: CWEViewTypingAction(inWERef, inTextCommander, inTextPane)
 {
+	// Change the default meaning of mWERef. It now designates the
+	// in-memory Waste edit structure.
+	switch ( mWEView->GetPaneID() ) {
+		case item_HexDataWE:
+		mWERef = dynamic_cast<CHexDataSubView*>(mWEView)->GetOwnerDualView()->GetInMemoryWasteRef();
+		break;
+		
+		case item_TxtDataWE:
+		mWERef = dynamic_cast<CTxtDataSubView*>(mWEView)->GetOwnerDualView()->GetInMemoryWasteRef();
+		break;
+		
+	}
+	
+	// The initialization done in the CWETextActions parent class must be
+	// entirely redone because we act upon the in-memory WE
+	Reset();
 }
 
 
@@ -228,84 +253,6 @@ CHexEditorTypingAction::CHexEditorTypingAction(
 CHexEditorTypingAction::~CHexEditorTypingAction()
 {
 }
-
-
-// // ---------------------------------------------------------------------------
-// //	¥ RedoSelf
-// // ---------------------------------------------------------------------------
-// //	We must call the parent's class Insert method (i-e 
-// //	CWasteEditView::Insert instead of ) otherwise the 
-// //	mTypedTextH input is converted to hexadecimal or readable
-// 
-// void
-// CHexEditorTypingAction::RedoSelf()
-// {
-// 	StFocusAndClipIfHidden	focus(mWEView);
-// 
-// 	LongRect theOldRect;
-// 	WEGetDestRect(&theOldRect,mWERef);
-// 									
-// 	// Delete original text
-// 	WESetSelection(mTypingStart, mTypingStart + mDeletedTextLen, mWERef);
-// 	WEDelete(mWERef);
-// 									
-// 	// Insert typing run
-// 	StHandleLocker	lock(mTypedTextH);
-// 	mWEView->Insert(*mTypedTextH, (mTypingEnd - mTypingStart), mTypedStyleH);
-// // 	CWasteEditView::Insert(*mTypedTextH, (mTypingEnd - mTypingStart), mTypedStyleH);
-// 
-// 	mWEView->ForceAutoScroll(theOldRect);
-// }
-// 
-// 
-// // ---------------------------------------------------------------------------
-// //	¥ UndoSelf
-// // ---------------------------------------------------------------------------
-// //	Undo a TypingAction by restoring the text and selection that
-// //	existed before the current typing sequence started
-// 
-// void
-// CHexEditorTypingAction::UndoSelf()
-// {
-// 	StFocusAndClipIfHidden	focus(mWEView);
-// 	LongRect theOldRect;
-// 	WEGetDestRect(&theOldRect,mWERef);
-// 	
-// 	// Save current typing run
-// 	if (mTypedTextH == nil) {
-// 		mTypedTextH = ::NewHandle(mTypingEnd - mTypingStart);
-// 		ThrowIfMemFail_(mTypedTextH);
-// 	} else {
-// 		::SetHandleSize(mTypedTextH, mTypingEnd - mTypingStart);
-// 		ThrowIfMemError_();
-// 	}
-// 	
-// 	WEStreamRange( mTypingStart, mTypingEnd, kTypeText, kNilOptions, mTypedTextH, mWERef);
-// 
-// 	// Delete current typing run
-// 	WESetSelection(mTypingStart, mTypingEnd, mWERef);
-// 
-// 	if (mTypedStyleH != nil) {
-// 		::DisposeHandle(mTypedStyleH);
-// 	}
-// 	
-// 	mTypedStyleH = ::NewHandle(0);
-// 
-// 	// Retrieve the style in the typed range
-// 	WEStreamRange( mTypingStart, mTypingEnd, kTypeStyles, kNilOptions, mTypedStyleH, mWERef);
-// 
-// 	// Delete the selection
-// 	WEDelete(mWERef);
-// 	
-// 	// Restore original text
-// 	StHandleLocker	lock(mDeletedTextH);
-// 	mWEView->Insert(*mDeletedTextH, mDeletedTextLen, mDeletedStyleH);
-// 
-// 	// Restore original selection
-// 	WESetSelection(mSelStart, mSelEnd, mWERef);
-// 
-// 	mWEView->ForceAutoScroll(theOldRect);
-// }
 
 
 // ---------------------------------------------------------------------------
@@ -333,96 +280,113 @@ CHexEditorTypingAction::InputCharacter(Boolean inOneOfTwoInserted)
 		Reset();					//   fresh typing sequence
 	}
 	if (!inOneOfTwoInserted) {
-		mTypingEnd += ( mWEView->GetPaneID() == item_HexDataWE ) ? 3:2 ;
+		mTypingEnd += 1;
 	} 
 }
 
 
 // ---------------------------------------------------------------------------
-//	¥ BackwardErase
+//	¥ RedoSelf
 // ---------------------------------------------------------------------------
-//	Handle Backward Delete typing action
+//	Redo a TypingAction by restoring the last typing sequence
 
 void
-CHexEditorTypingAction::BackwardErase()
+CHexEditorTypingAction::RedoSelf()
 {
-	SInt32	selStart, selEnd;
-	SInt32	numChar = ( mWEView->GetPaneID() == item_HexDataWE ) ? 3:2;
+	StFocusAndClipIfHidden	focus(mWEView);
+
+	LongRect theOldRect;
+	WEGetDestRect(&theOldRect,mWERef);
+									
+	// Delete original text
+	WESetSelection(mTypingStart, mTypingStart + mDeletedTextLen, mWERef);
+	WEDelete(mWERef);
+									
+	// Insert typing run in the in-memory WE
+	StHandleLocker	lock(mTypedTextH);
 	
-	WEGetSelection( & selStart, & selEnd, mWERef);
-	Handle	hText=static_cast<Handle>(WEGetText(mWERef));
-	
-	if ( (mTypingEnd != selStart) ||
-		 (mTypingEnd != selEnd) ) {
-									// Selection has changed. Start a
-		Reset();					//   fresh typing sequence
+	WEPut( mTypingStart, mTypingStart, *mTypedTextH, (mTypingEnd - mTypingStart), kTextEncodingMultiRun,
+				kNilOptions, 0, nil, nil, mWERef);
 
-		if (mDeletedTextLen == 0) {
-								// No selected text, save the 2 or 3 character
-								//   that will be deleted
-			::SetHandleSize(mDeletedTextH, numChar);
-			mDeletedTextLen = numChar;
-			mTypingStart -= numChar;
-			**mDeletedTextH = *(*hText + mTypingStart);
-
-		} else {					// Selection being deleted. Increment end
-			mTypingEnd += numChar;	//   to counteract decrement done on the
-									//   last line of this function.
-		}
-
-	} else if (mTypingStart >= selStart) {
-									// Deleting before beginning of typing
-		::SetHandleSize(mDeletedTextH, mDeletedTextLen + numChar);
-		ThrowIfMemError_();
-
-		::BlockMoveData(*mDeletedTextH, *mDeletedTextH + numChar, mDeletedTextLen);
-		mDeletedTextLen += numChar;
-		mTypingStart = selStart - numChar;
-		**mDeletedTextH = *(*hText + mTypingStart);
-	}
-
-	mTypingEnd -= numChar;
+	mWEView->ForceAutoScroll(theOldRect);
+	RefreshViews();
 }
 
 
 // ---------------------------------------------------------------------------
-//	¥ ForwardErase
+//	¥ UndoSelf
 // ---------------------------------------------------------------------------
-//	Handle Forward Delete typing action
+//	Undo a TypingAction by restoring the text and selection that
+//	existed before the current typing sequence started
 
 void
-CHexEditorTypingAction::ForwardErase()
+CHexEditorTypingAction::UndoSelf()
 {
-	SInt32	selStart, selEnd;
-	SInt32	numChar = ( mWEView->GetPaneID() == item_HexDataWE ) ? 3:2;
-
-	WEGetSelection( & selStart, & selEnd, mWERef);
-	Handle	hText = static_cast<Handle>(WEGetText(mWERef));
+	StFocusAndClipIfHidden	focus(mWEView);
+	LongRect theOldRect;
+	WEGetDestRect(&theOldRect,mWERef);
 	
-	if ( (mTypingEnd != selStart) ||
-		 (mTypingEnd != selEnd) ) {
-									// Selection has changed. Start a
-		Reset();					//   fresh typing sequence
-
-		if (mSelStart == mSelEnd) {
-									// Selection is a single insertion point
-									// Select next character
-			::SetHandleSize(mDeletedTextH, numChar);
-			ThrowIfMemError_();
-			
-			**mDeletedTextH = *(*hText + mSelStart);
-			mDeletedTextLen = numChar;
-		}
-
-	} else {						// Selection hasn't changed
-									// Select next character
-		::SetHandleSize(mDeletedTextH, mDeletedTextLen + numChar);
+	// Save current typing run
+	if (mTypedTextH == nil) {
+		mTypedTextH = ::NewHandle(mTypingEnd - mTypingStart);
+		ThrowIfMemFail_(mTypedTextH);
+	} else {
+		::SetHandleSize(mTypedTextH, mTypingEnd - mTypingStart);
 		ThrowIfMemError_();
-
-		*(*mDeletedTextH + mDeletedTextLen) = *(*hText + mTypingEnd);
-		mDeletedTextLen += numChar;
 	}
+	
+	WEStreamRange( mTypingStart, mTypingEnd, kTypeText, kNilOptions, mTypedTextH, mWERef);
+
+	// Delete current typing run
+	WESetSelection(mTypingStart, mTypingEnd, mWERef);
+
+	if (mTypedStyleH != nil) {
+		::DisposeHandle(mTypedStyleH);
+	}
+	
+	mTypedStyleH = ::NewHandle(0);
+
+	// Retrieve the style in the typed range
+	WEStreamRange( mTypingStart, mTypingEnd, kTypeStyles, kNilOptions, mTypedStyleH, mWERef);
+
+	// Delete the selection
+	WEDelete(mWERef);
+	
+	// Restore original text in the in-memory WE
+	StHandleLocker	lock(mDeletedTextH);
+	WEPut( mTypingStart, mTypingStart, *mDeletedTextH, mDeletedTextLen, kTextEncodingMultiRun,
+				kNilOptions, 0, nil, nil, mWERef);
+
+	// Restore original selection
+	WESetSelection(mSelStart, mSelEnd, mWERef);
+
+	mWEView->ForceAutoScroll(theOldRect);
+	RefreshViews();
 }
+
+
+// ---------------------------------------------------------------------------
+//	¥ RefreshViews
+// ---------------------------------------------------------------------------
+
+void
+CHexEditorTypingAction::RefreshViews()
+{
+	CDualDataView *	theDual;
+	
+	switch ( mWEView->GetPaneID() ) {
+		case item_HexDataWE:
+		theDual = dynamic_cast<CHexDataSubView*>(mWEView)->GetOwnerDualView();
+		break;
+		
+		case item_TxtDataWE:
+		theDual = dynamic_cast<CTxtDataSubView*>(mWEView)->GetOwnerDualView();
+		break;
+	}
+	
+	theDual->Refresh();
+}
+
 
 
 
