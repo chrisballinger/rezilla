@@ -128,9 +128,12 @@ CHexDataSubView::ClickSelf(
 	AdjustCursorPos();
 
 	// Synchronize sibling
-	WEGetSelection(& startPos, & endPos, mWERef);
-	mTxtSiblingView->SyncPositionsWithSibling(PosToHexPos(startPos), PosToHexPos(endPos));
-	
+	GetCurrHexPos(startPos, endPos);
+	mTxtSiblingView->SyncPositionsWithSibling(startPos, endPos);
+
+	// Synchronize in-memory WE
+	WESetSelection(startPos, endPos, mOwnerDualView->GetInMemoryWasteRef());
+
 	// Notify the dual view's listeners
 	mOwnerDualView->BroadcastMessage(msg_DualViewEdited, this);
 }
@@ -488,6 +491,7 @@ CHexDataSubView::ObeyCommand(
 			if (mTypingAction == static_cast<CHexEditorTypingAction*>(ioParam)) {
 				mTypingAction = nil;
 			}
+			mOneOfTwoInserted = false;
 			break;
 		}
 

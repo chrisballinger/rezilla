@@ -111,16 +111,19 @@ void
 CTxtDataSubView::ClickSelf(
 	const SMouseDownEvent	&inMouseDown)
 {
-	SInt32	startPos,	endPos;
+	SInt32	startPos, endPos;
 	
 	mOwnerDualView->SetSelectingAll(false);
 	CWasteEditView::ClickSelf(inMouseDown);
 	AdjustCursorPos();
-
+	
 	// Synchronize sibling
-	WEGetSelection(& startPos, & endPos, mWERef);
-	mHexSiblingView->SyncPositionsWithSibling(PosToCharPos(startPos), 
-											  PosToCharPos(endPos));
+	GetCurrCharPos(startPos, endPos);
+	mHexSiblingView->SyncPositionsWithSibling(startPos, endPos);
+	
+	// Synchronize in-memory WE
+	WESetSelection(startPos, endPos, mOwnerDualView->GetInMemoryWasteRef());
+	
 	// Notify the dual view's listeners
 	mOwnerDualView->BroadcastMessage(msg_DualViewEdited, this);
 }
