@@ -2,11 +2,11 @@
 // CWasteEditView.cp 
 // 
 // Created: 2001-09-05 18:22:04 
-// Last modification: 2004-11-13 22:33:25
+// Last modification: 2005-05-27 09:39:18
 // Author: Bernard Desgraupes 
 // e-mail: <bdesgraupes@easyconnect.fr> 
 // www: <http://webperso.easyconnect.fr/bdesgraupes/> 
-// © Copyright: Bernard Desgraupes 2001-2004
+// © Copyright: Bernard Desgraupes 2001-2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -702,6 +702,8 @@ CWasteEditView::ObeyCommand(
 		}
 
 		case cmd_ActionDeleted: {
+			// This command is called from the destructor of the
+			// CWEViewTypingAction
 			if (mTypingAction == static_cast<CWEViewTypingAction*>(ioParam)) {
 				mTypingAction = nil;
 			}
