@@ -2,7 +2,7 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2005-05-23 20:28:02
+//             Last modification: 2005-05-27 09:33:30
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -448,13 +448,6 @@ CRezMapDoc::ObeyCommand(
 		case cmd_ActionClear:
 		case cmd_ActionTyping: {
 // 			if (mReadOnly) {
-// 			}
-			break;
-		}
-
-		case cmd_ActionDeleted: {
-// 			if (mTypingAction == static_cast<CHexEditorTypingAction*>(ioParam)) {
-// 				mTypingAction = nil;
 // 			}
 			break;
 		}
