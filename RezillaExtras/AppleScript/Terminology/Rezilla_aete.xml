@@ -70,6 +70,54 @@
 					<Reserved/>
 				</DirectFlags>
 				<ArrayOtherParams>
+					<Parameter>
+						<ParameterName>from</ParameterName>
+						<ParameterID>FROM</ParameterID>
+						<ParameterType>FORK</ParameterType>
+						<ParameterDescription>restrict to a particular fork (default is anyFork)</ParameterDescription>
+						<ParameterFlags>
+							<IsOptional>optional</IsOptional>
+							<IsListOfItems>singleItem</IsListOfItems>
+							<IsEnumerated>enumerated</IsEnumerated>
+							<Reserved/>
+							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+							<ParamIsReference>paramIsValue</ParamIsReference>
+							<ParamIsTarget>notParamIsTarget</ParamIsTarget>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<LabeledParam>prepositionParam</LabeledParam>
+							<IsFeminine>notFeminine</IsFeminine>
+							<IsMasculine>notMasculine</IsMasculine>
+							<Plural>singular</Plural>
+						</ParameterFlags>
+					</Parameter>
+					<Parameter>
+						<ParameterName>readOnly</ParameterName>
+						<ParameterID>pRDO</ParameterID>
+						<ParameterType>bool</ParameterType>
+						<ParameterDescription>specify if the file should be opened in read-only mode (by default it is not)</ParameterDescription>
+						<ParameterFlags>
+							<IsOptional>optional</IsOptional>
+							<IsListOfItems>singleItem</IsListOfItems>
+							<IsEnumerated>notEnumerated</IsEnumerated>
+							<Reserved/>
+							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+							<ParamIsReference>paramIsValue</ParamIsReference>
+							<ParamIsTarget>notParamIsTarget</ParamIsTarget>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<LabeledParam>prepositionParam</LabeledParam>
+							<IsFeminine>notFeminine</IsFeminine>
+							<IsMasculine>notMasculine</IsMasculine>
+							<Plural>singular</Plural>
+						</ParameterFlags>
+					</Parameter>
 				</ArrayOtherParams>
 			</Event>
 
@@ -2014,7 +2062,7 @@
 					<Property>
 						<PropertyName>fork</PropertyName>
 						<PropertyID>pFRK</PropertyID>
-						<PropertyClass>FORK</PropertyClass>
+						<PropertyClass>FKND</PropertyClass>
 						<PropertyDescription>the fork this document is editing (data fork or resource fork)</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
@@ -3801,30 +3849,6 @@
 						</PropertyFlags>
 					</Property>
 					<Property>
-						<PropertyName>specifier</PropertyName>
-						<PropertyID>pSPE</PropertyID>
-						<PropertyClass>TyId</PropertyClass>
-						<PropertyDescription>the {type,ID} pair characterizing this resource</PropertyDescription>
-						<PropertyFlags>
-							<Reserved/>
-							<IsListOfItems>singleItem</IsListOfItems>
-							<IsEnumerated>notEnumerated</IsEnumerated>
-							<IsReadWrite>readOnly</IsReadWrite>
-							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
-							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
-							<PropertyIsReference>propertyIsValue</PropertyIsReference>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<IsApostrophe>noApostrophe</IsApostrophe>
-							<IsFeminine>notFeminine</IsFeminine>
-							<IsMasculine>notMasculine</IsMasculine>
-							<Plural>singular</Plural>
-						</PropertyFlags>
-					</Property>
-					<Property>
 						<PropertyName>attributes</PropertyName>
 						<PropertyID>pATR</PropertyID>
 						<PropertyClass>shor</PropertyClass>
@@ -4041,7 +4065,7 @@
 						</PropertyFlags>
 					</Property>
 					<Property>
-						<PropertyName>data</PropertyName>
+						<PropertyName>hex data</PropertyName>
 						<PropertyID>pDAT</PropertyID>
 						<PropertyClass>****</PropertyClass>
 						<PropertyDescription>the resource data (in hex format)</PropertyDescription>
