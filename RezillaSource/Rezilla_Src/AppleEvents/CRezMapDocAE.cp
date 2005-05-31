@@ -261,7 +261,7 @@ CRezMapDoc::HandleExportEvent(
 					&fileSpec, sizeof(FSSpec), &theSize);
 	ThrowIfOSErr_(error);
 	
-	ignoreErr = ::AEGetParamPtr(&inAppleEvent, rzom_eEditorKind, typeType,
+	ignoreErr = ::AEGetParamPtr(&inAppleEvent, rzom_eEditorKind, typeEnumerated,
 			&returnedType, &theKind, sizeof(ResType), &actualSize);
 
 	// Map to the equivalent menu command

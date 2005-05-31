@@ -455,7 +455,7 @@ CRezType::HandleEditEvent(
 							  &returnedType, &asType, sizeof(ResType), &actualSize);
 
 	// Extract optional "using" parameter.
-	ignoreErr = ::AEGetParamPtr(&inAppleEvent, rzom_eEditorKind, typeType,
+	ignoreErr = ::AEGetParamPtr(&inAppleEvent, rzom_eEditorKind, typeEnumerated,
 							  &returnedType, &theKind, sizeof(ResType), &actualSize);
 
 	// Map to the equivalent menu command
