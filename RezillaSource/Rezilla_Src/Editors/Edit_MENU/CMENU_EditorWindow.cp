@@ -2,7 +2,7 @@
 // CMENU_EditorWindow.cp					
 // 
 //                       Created: 2005-03-09 17:16:53
-//             Last modification: 2005-03-23 06:31:53
+//             Last modification: 2005-05-31 05:27:55
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -16,6 +16,7 @@
 #include "CMENU_EditorWindow.h"
 #include "CMENU_EditorTable.h"
 #include "CPopupEditField.h"
+#include "CStaticEditCombo.h"
 #include "CKeyboardGlyphBox.h"
 #include "CMenuObject.h"
 #include "CRezillaApp.h"
@@ -28,7 +29,6 @@
 #include <LEditText.h>
 #include <LStaticText.h>
 #include <LPopupButton.h>
-#include <CStaticEditCombo.h>
 #include <LTabGroupView.h>
 
 #include <stdio.h>
@@ -944,7 +944,6 @@ void
 CMENU_EditorWindow::HandlePropertyPopup(SInt32 inIndex) 
 {
 	Str255			theString;
-	LEditText * 	theEditText;
 
 	HandleEnableState(kind_MenuAllEnabled);
 		
