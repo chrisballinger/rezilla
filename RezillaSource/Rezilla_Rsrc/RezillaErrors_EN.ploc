@@ -1,7 +1,7 @@
 // ===========================================================================
 // RezillaErrors_EN.ploc
 //                       Created: 2004-10-05 15:00:32
-//             Last modification: 2005-02-20 16:00:39
+//             Last modification: 2005-05-28 13:54:53
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -25,9 +25,9 @@ localize "English" as "Errors.strings"
 	key "1009" value string "No resource with name"
 	key "1900" value string "Import Generic error"
 	key "1901" value string "Invalid OSType. A type must have 4 characters."
-	key "1902" value string "Can't get Xml data"
-	key "1903" value string "Can't build Xml tree (invalid Xml code)"
-	key "1904" value string "Can't get top Aete node"
+	key "1902" value string "Can’t get Xml data"
+	key "1903" value string "Can’t build Xml tree (invalid Xml code)"
+	key "1904" value string "Can’t get top Aete node"
 	key "1905" value string "Unknown Aete Resource tag"
 	key "1906" value string "Unknown Aete Suite tag"
 	key "1907" value string "Unknown Aete Event tag"
@@ -53,7 +53,7 @@ localize "English" as "Errors.strings"
 	key "2011" value string "Unexpected tag"
 	key "2012" value string "Malformed hex value"
 	key "2013" value string "Malformed date value"
-	key "2014" value string "Can't get date format"
+	key "2014" value string "Can’t get date format"
 	key "2015" value string "Parse date failed"
 	key "2016" value string "Not expected size"
 	key "2017" value string "Create empty new aborted"
@@ -61,13 +61,13 @@ localize "English" as "Errors.strings"
 	key "2019" value string "Malformed case section"
 	key "2020" value string "Unknown key value in resource"
 	key "2021" value string "Isolated CASE tag"
-	key "2022" value string "Can't find keyed section start"
-	key "2023" value string "Can't find key start for value"
-	key "2024" value string "Can't find key index"
-	key "2025" value string "Can't find key value"
-	key "2026" value string "Can't find key position"
+	key "2022" value string "Can’t find keyed section start"
+	key "2023" value string "Can’t find key start for value"
+	key "2024" value string "Can’t find key index"
+	key "2025" value string "Can’t find key value"
+	key "2026" value string "Can’t find key position"
 	key "2027" value string "Unsupported resource id"
-	key "2028" value string "Can't find matching key end"
+	key "2028" value string "Can’t find matching key end"
 	key "3000" value string "Unknown error"
 	key "3001" value string "Invalid color depth"
 	key "3002" value string "Format unknown"
@@ -85,7 +85,7 @@ localize "English" as "Errors.strings"
 	key "3014" value string "This image must be between %ld and %ld pixels"
 	key "3015" value string "Can’t modify locked file"
 	key "3016" value string "The font size must be between 4 and 512 pts"
-	key "3017" value string "No 'PICT' resource on the clipboard"
+	key "3017" value string "No ‘PICT’ resource on the clipboard"
 }
 
 
