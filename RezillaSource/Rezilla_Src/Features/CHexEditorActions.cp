@@ -227,22 +227,22 @@ CHexEditorTypingAction::CHexEditorTypingAction(
 
 	: CWEViewTypingAction(inWERef, inTextCommander, inTextPane)
 {
-	// Change the default meaning of mWERef. It now designates the
-	// in-memory Waste edit structure.
-	switch ( mWEView->GetPaneID() ) {
-		case item_HexDataWE:
-		mWERef = dynamic_cast<CHexDataSubView*>(mWEView)->GetOwnerDualView()->GetInMemoryWasteRef();
-		break;
-		
-		case item_TxtDataWE:
-		mWERef = dynamic_cast<CTxtDataSubView*>(mWEView)->GetOwnerDualView()->GetInMemoryWasteRef();
-		break;
-		
-	}
-	
-	// The initialization done in the CWETextActions parent class must be
-	// entirely redone because we act upon the in-memory WE
-	Reset();
+// 	// Change the default meaning of mWERef. It now designates the
+// 	// in-memory Waste edit structure.
+// 	switch ( mWEView->GetPaneID() ) {
+// 		case item_HexDataWE:
+// 		mWERef = dynamic_cast<CHexDataSubView*>(mWEView)->GetOwnerDualView()->GetInMemoryWE();
+// 		break;
+// 		
+// 		case item_TxtDataWE:
+// 		mWERef = dynamic_cast<CTxtDataSubView*>(mWEView)->GetOwnerDualView()->GetInMemoryWE();
+// 		break;
+// 		
+// 	}
+// 	
+// 	// The initialization done in the CWETextActions parent class must be
+// 	// entirely redone because we act upon the in-memory WE
+// 	Reset();
 }
 
 
@@ -308,8 +308,8 @@ CHexEditorTypingAction::RedoSelf()
 	WEPut( mTypingStart, mTypingStart, *mTypedTextH, (mTypingEnd - mTypingStart), kTextEncodingMultiRun,
 				kNilOptions, 0, nil, nil, mWERef);
 
+// 	RefreshViews();
 	mWEView->ForceAutoScroll(theOldRect);
-	RefreshViews();
 }
 
 
@@ -357,11 +357,11 @@ CHexEditorTypingAction::UndoSelf()
 	WEPut( mTypingStart, mTypingStart, *mDeletedTextH, mDeletedTextLen, kTextEncodingMultiRun,
 				kNilOptions, 0, nil, nil, mWERef);
 
-	// Restore original selection
+	// Refresh and restore original selection
+// 	RefreshViews();
 	WESetSelection(mSelStart, mSelEnd, mWERef);
 
 	mWEView->ForceAutoScroll(theOldRect);
-	RefreshViews();
 }
 
 
@@ -383,8 +383,8 @@ CHexEditorTypingAction::RefreshViews()
 		theDual = dynamic_cast<CTxtDataSubView*>(mWEView)->GetOwnerDualView();
 		break;
 	}
-	
-	theDual->Refresh();
+	SInt32 firstLine = theDual->GetCurrFirstLine();
+	theDual->InstallContentsFromLine(firstLine);
 }
 
 

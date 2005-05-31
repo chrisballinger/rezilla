@@ -1,11 +1,11 @@
 // ===========================================================================
 // CTxtDataSubView.cp 
 //                       Created: 2003-05-06 06:04:42
-//             Last modification: 2005-05-23 11:38:57
+//             Last modification: 2005-05-28 14:32:35
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003-2005
+// (c) Copyright: Bernard Desgraupes 2003-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -122,7 +122,7 @@ CTxtDataSubView::ClickSelf(
 	mHexSiblingView->SyncPositionsWithSibling(startPos, endPos);
 	
 	// Synchronize in-memory WE
-	WESetSelection(startPos, endPos, mOwnerDualView->GetInMemoryWasteRef());
+	WESetSelection(startPos, endPos, mOwnerDualView->GetInMemoryWE());
 	
 	// Notify the dual view's listeners
 	mOwnerDualView->BroadcastMessage(msg_DualViewEdited, this);
@@ -284,8 +284,9 @@ CTxtDataSubView::HandleKeyPress(
 	switch (theKeyStatus) {
 		
 		case keyStatus_Input: {
+			// The TypingAction is directly wired to the in-memory WE
 			if (mTypingAction == nil) {
-				mTypingAction = new CHexEditorTypingAction(mWERef, this, this);
+				mTypingAction = new CHexEditorTypingAction(mOwnerDualView->GetInMemoryWE(), this, this);
 				PostAction(mTypingAction);
 			}
 			
@@ -299,6 +300,7 @@ CTxtDataSubView::HandleKeyPress(
 			
 			WEKey(theKey,inKeyEvent.modifiers, mWERef);
 			WEKey(' ',inKeyEvent.modifiers, mWERef);			
+			// 			ForceAutoScroll(oldDestRect);
 			UserChangedText(theSelStart, theSelEnd, 2);
 			break;
 		}
@@ -452,6 +454,17 @@ CTxtDataSubView::ObeyCommand(
 		case cmd_Clear:
 		case cmd_Paste:  {
 			mOwnerDualView->SetCurrentSubView(hex_txtpane);
+			cmdHandled = mOwnerDualView->ObeyCommand(inCommand, ioParam);
+			break;
+		}
+
+		case cmd_ActionCut:
+		case cmd_ActionPaste:
+		case cmd_ActionClear: {
+			break;
+		}
+
+		case cmd_ActionTyping: {
 			cmdHandled = mOwnerDualView->ObeyCommand(inCommand, ioParam);
 			break;
 		}
@@ -699,7 +712,7 @@ CTxtDataSubView::SyncContentsWithMemory(SInt32 inStartPos,
 	SInt32 startOffset = (inLineOffset - 1) * bytesPerLine + PosToCharPos(inStartPos);
 	SInt32 endOffset = (inLineOffset - 1) * bytesPerLine + PosToCharPos(inEndPos);
 
-	WEReference we = mOwnerDualView->GetInMemoryWasteRef();
+	WEReference we = mOwnerDualView->GetInMemoryWE();
 	WESetSelection( startOffset, endOffset, we );
 	WEDelete(we);
 

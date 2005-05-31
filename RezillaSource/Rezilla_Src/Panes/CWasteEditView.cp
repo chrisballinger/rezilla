@@ -689,11 +689,13 @@ CWasteEditView::ObeyCommand(
 			break;
 		}
 
+		// These commands are invoked from CWETextActions::Redo/Undo after
+		// the Redo/UndoSelf is executed
 		case cmd_ActionCut:
 		case cmd_ActionPaste:
 		case cmd_ActionClear:
 		case cmd_ActionTyping: {
-			if (mReadOnly) {
+			if (!mReadOnly) {
 				AdjustImageToText();
 				ForceAutoScroll(oldDestRect);
 				UserChangedText();
