@@ -1988,7 +1988,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		case 'WSHX': 
 		// Hex dump of following bytes
 		CDualDataView * theTGB = dynamic_cast<CDualDataView *>(this->FindPaneByID(mCurrentID));
-		WEReference theWE = theTGB->GetInMemoryWasteRef();
+		WEReference theWE = theTGB->GetInMemoryWE();
 		theLength = ::WEGetTextLength(theWE);
 		theHandle = static_cast<Handle>(::WEGetText(theWE));
 		locker.Adopt(theHandle);
@@ -2432,7 +2432,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		  
 		  // Hnnn: a 3-digit hex number; displays $nnn bytes in hex format
 		  CDualDataView * theTGB = dynamic_cast<CDualDataView *>(this->FindPaneByID(mCurrentID));
-		  WEReference theWE = theTGB->GetInMemoryWasteRef();
+		  WEReference theWE = theTGB->GetInMemoryWE();
 		  theHandle = static_cast<Handle>(::WEGetText(theWE));
 		  theLength = ::WEGetTextLength(theWE);
 		  UMiscUtils::HexNumStringToDecimal(&inType, &reqLength);
@@ -2451,7 +2451,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		  
 		  // Fnnn: a 3-digit hex number; fills with $nnn bytes in hex format
 		  CDualDataView * theTGB = dynamic_cast<CDualDataView *>(this->FindPaneByID(mCurrentID));
-		  WEReference theWE = theTGB->GetInMemoryWasteRef();
+		  WEReference theWE = theTGB->GetInMemoryWE();
 		  theHandle = static_cast<Handle>(::WEGetText(theWE));
 		  theLength = ::WEGetTextLength(theWE);
 		  UMiscUtils::HexNumStringToDecimal(&inType, &reqLength);

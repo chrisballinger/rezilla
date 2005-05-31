@@ -773,7 +773,7 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer, SInt32 in
 		theTGB->InstallContentsFromLine(1);
 		HUnlock(theHandle);
 
-		WESetSelection(0, 0, theTGB->GetInMemoryWasteRef());
+		WESetSelection(0, 0, theTGB->GetInMemoryWE());
 		mRezStream->SetMarker(newPos, streamFrom_Start);
 	}
 		
