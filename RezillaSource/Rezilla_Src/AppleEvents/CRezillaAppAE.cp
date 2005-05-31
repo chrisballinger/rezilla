@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaAppAE.cp					
 //                       Created: 2004-11-30 08:44:17
-//             Last modification: 2005-05-20 06:18:06
+//             Last modification: 2005-05-31 06:51:02
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -89,53 +89,85 @@ CRezillaApp::HandleOpenDocsEvent(
 {
 #pragma unused( outResult )
 
-	OSErr			error;
+	OSErr			error, ignoreErr;
 	AEDescList		theDocList, errorList;
 	AEKeyword		theKey;
-	DescType		theType;
+	DescType		returnedType;
+	ResType			theKind = 0;
 	FSSpec			theFileSpec;
 	Size			theSize;
+	SInt16			saveFork;
+	Boolean 		theBool, saveReadOnly;
 	SInt32			numDocs, errCount = 0;
 	
-	error = ::AEGetParamDesc(&inAppleEvent, keyDirectObject,
-							 typeAEList, &theDocList);
+	saveFork = mOpeningFork;
+	saveReadOnly = sReadOnlyNavFlag;
+	mOpeningFork = fork_anyfork;
+	sReadOnlyNavFlag = false;
+	
+	error = ::AEGetParamDesc(&inAppleEvent, keyDirectObject, typeAEList, &theDocList);
 	ThrowIfOSErr_(error);
 	error = ::AECountItems(&theDocList, &numDocs);
 	ThrowIfOSErr_(error);
 	
+	// Extract optional "readOnly" parameter.
+	ignoreErr = ::AEGetParamPtr(&inAppleEvent, rzom_pReadOnly, typeBoolean,
+							  &returnedType, &theBool, sizeof(Boolean), &theSize);
+	if (ignoreErr == noErr) {
+		sReadOnlyNavFlag = theBool;
+	} 
+							  
+	// Extract optional "from" parameter.
+	ignoreErr = ::AEGetParamPtr(&inAppleEvent, rzom_eFromFork, typeEnumerated,
+							  &returnedType, &theKind, sizeof(ResType), &theSize);
+	if (ignoreErr == noErr) {
+		if (theKind == rzom_eDataFork) {
+			mOpeningFork = fork_datafork;
+		} else if (theKind == rzom_eRsrcFork) {
+			mOpeningFork = fork_rezfork;
+		} 
+	} 
+
+	// Create a list to store the files for which opening fails
 	::AECreateList(NULL, 0, false, &errorList);
 	
 	for ( UInt16 i = 1; i <= numDocs; i++ ) {
-	    error = ::AEGetNthPtr(&theDocList, i, typeFSS, &theKey, &theType,
+	    error = ::AEGetNthPtr(&theDocList, i, typeFSS, &theKey, &returnedType,
 						      (Ptr) &theFileSpec, sizeof(FSSpec), &theSize);
 	    ThrowIfOSErr_(error);
 		
-		sReadOnlyNavFlag = false;
 		error = OpenFork(theFileSpec);
 		if (error == noErr) {
 			// Register to the Recent Items menu
 			sRecentItemsAttachment->AddFile(theFileSpec, true);
 		} else {
 			errCount++;
-			error = ::AEPutPtr(&errorList, errCount, typeFSS, (Ptr) &theFileSpec, sizeof(FSSpec)) ;
+			ignoreErr = ::AEPutPtr(&errorList, errCount, typeFSS, (Ptr) &theFileSpec, sizeof(FSSpec)) ;
 		}
 	}
 	
 	if (errCount > 0) {
-		CFStringRef messageStr = NULL;
-		Str255   buffer;
+		if (errCount == 1) {
+			ReportOpenForkError(error, &theFileSpec);
+		} else {
+			CFStringRef messageStr = NULL;
+			Str255   buffer;
 
-		error = err_OpenDocsAEFailed;
-		messageStr = ::CFCopyLocalizedString(CFSTR("AevtOdocError"), NULL);
-		if (messageStr != NULL) {
-			if (::CFStringGetPascalString(messageStr, buffer, sizeof(buffer), ::GetApplicationTextEncoding())) {
-				::AEPutParamPtr(&outAEReply, keyErrorString, typeChar, buffer+1, buffer[0]);
+			error = err_OpenDocsAEFailed;
+			messageStr = ::CFCopyLocalizedString(CFSTR("AevtOdocError"), NULL);
+			if (messageStr != NULL) {
+				if (::CFStringGetPascalString(messageStr, buffer, sizeof(buffer), ::GetApplicationTextEncoding())) {
+					::AEPutParamPtr(&outAEReply, keyErrorString, typeChar, buffer+1, buffer[0]);
+				}
 			}
+			// OSErr is SInt16
+			::AEPutParamPtr(&outAEReply, keyErrorNumber, typeSInt16, &error, sizeof(OSErr));
+			::AEPutParamDesc(&outAEReply, kAERzilFilesList, &errorList);
 		}
-		// OSErr is SInt16
-		::AEPutParamPtr(&outAEReply, keyErrorNumber, typeSInt16, &error, sizeof(OSErr));
-		::AEPutParamDesc(&outAEReply, kAERzilFilesList, &errorList);
 	} 
+
+	mOpeningFork = saveFork;
+	sReadOnlyNavFlag = saveReadOnly;
 
 	if (theDocList.descriptorType != typeNull) ::AEDisposeDesc(&theDocList);
 	if (errorList.descriptorType != typeNull) ::AEDisposeDesc(&errorList);
