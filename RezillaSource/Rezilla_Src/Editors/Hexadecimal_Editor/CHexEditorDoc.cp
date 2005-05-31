@@ -256,7 +256,7 @@ CHexEditorDoc::FindInPane(PaneIDT inWhichPane,
 	char * 		keyString = new char[256];
 	Size 		searchStrLen = mSearchString[0];
 	
-	WEReference	we = mHexEditWindow->GetDualView()->GetInMemoryWasteRef();
+	WEReference	we = mHexEditWindow->GetDualView()->GetInMemoryWE();
 	::CopyPascalStringToC(mSearchString, keyString);
 
 	// Start searching: from the start of the current selection if the user chose Find
@@ -432,7 +432,7 @@ CHexEditorDoc::GetModifiedResource(Boolean &releaseIt)
 {
 #pragma unused(releaseIt)
 	
-	return WEGetText(mHexEditWindow->GetDualView()->GetInMemoryWasteRef());
+	return WEGetText(mHexEditWindow->GetDualView()->GetInMemoryWE());
 }
 
 
