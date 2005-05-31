@@ -1,4 +1,4 @@
--*-Setx-*-
+/* -*-Setx-*- */
 HUMAN READABLE TRANSLATION OF AETE RESOURCE FROM "Rezilla_aete.rsrc"
 
 Version: 1.0
@@ -28,7 +28,17 @@ Number of Events: 2
 	Direct parameter type: 'obj '
 	Direct parameter description: Objects to open. Can be a list of files or an object specifier.
 	Direct parameter is required. It is a single item, not enumerated. It changes the server's state.
-	Number of additional parameters: 0
+	Number of additional parameters: 2
+	  Parameter 1: from
+		Parameter keyword: 'FROM'
+		Parameter type: 'FORK'
+		Parameter description: restrict to a particular fork (default is anyFork)
+		Parameter 1 is optional. It is a single item, enumerated. 
+	  Parameter 2: readOnly
+		Parameter keyword: 'pRDO'
+		Parameter type: 'bool'
+		Parameter description: specify if the file should be opened in read-only mode (by default it is not)
+		Parameter 2 is optional. It is a single item, not enumerated. 
   Event 2: quit
 ---------------
 	Description: Quit the application
@@ -521,7 +531,7 @@ Number of Classes: 23
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	  (6) fork
 		Property ID: 'pFRK'
-		Property class: 'FORK'
+		Property class: 'FKND'
 		Property description: the fork this document is editing (data fork or resource fork)
 		Property is a single item, enumerated. It cannot be set by the Set Data AE.
 	  (7) map
@@ -1016,7 +1026,7 @@ Number of Classes: 8
 --------------------------
 	Object class ID: 'cRSC'
 	Class description: a single resource with specific type and ID
-	Number of class properties: 15
+	Number of class properties: 14
 	  (1) name
 		Property ID: 'pnam'
 		Property class: 'itxt'
@@ -1037,57 +1047,52 @@ Number of Classes: 8
 		Property class: 'long'
 		Property description: the index of the resource within its type (in the order used by the resource manager)
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
-	  (5) specifier
-		Property ID: 'pSPE'
-		Property class: 'TyId'
-		Property description: the {type,ID} pair characterizing this resource
-		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
-	  (6) attributes
+	  (5) attributes
 		Property ID: 'pATR'
 		Property class: 'shor'
 		Property description: the global value of the resource attributes (sum of the individual flags)
 		Property is a single item, not enumerated. It can be set by the Set Data AE.
-	  (7) sysHeap
+	  (6) sysHeap
 		Property ID: 'pSHP'
 		Property class: 'bool'
 		Property description: the resSysHeap bit
 		Property is a single item, not enumerated. It can be set by the Set Data AE.
-	  (8) purgeable
+	  (7) purgeable
 		Property ID: 'pPUR'
 		Property class: 'bool'
 		Property description: the resPurgeable bit
 		Property is a single item, not enumerated. It can be set by the Set Data AE.
-	  (9) locked
+	  (8) locked
 		Property ID: 'pLOC'
 		Property class: 'bool'
 		Property description: the resLocked bit
 		Property is a single item, not enumerated. It can be set by the Set Data AE.
-	  (10) preload
+	  (9) preload
 		Property ID: 'pPRE'
 		Property class: 'bool'
 		Property description: the resPreload bit
 		Property is a single item, not enumerated. It can be set by the Set Data AE.
-	  (11) protected
+	  (10) protected
 		Property ID: 'pPRO'
 		Property class: 'bool'
 		Property description: the resProtected bit
 		Property is a single item, not enumerated. It can be set by the Set Data AE.
-	  (12) changed
+	  (11) changed
 		Property ID: 'imod'
 		Property class: 'bool'
 		Property description: the resChanged bit
 		Property is a single item, not enumerated. It can be set by the Set Data AE.
-	  (13) size
+	  (12) size
 		Property ID: 'pSIZ'
 		Property class: 'long'
 		Property description: the size of the resource data (in bytes)
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
-	  (14) sizeOnDisc
+	  (13) sizeOnDisc
 		Property ID: 'pDSZ'
 		Property class: 'long'
 		Property description: the size of the resource on disk
 		Property is a single item, not enumerated. It can be set by the Set Data AE.
-	  (15) data
+	  (14) hex data
 		Property ID: 'pDAT'
 		Property class: '****'
 		Property description: the resource data (in hex format)

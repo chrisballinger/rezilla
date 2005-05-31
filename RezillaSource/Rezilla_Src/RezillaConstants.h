@@ -487,11 +487,15 @@ const CommandT	cmd_IconFontSizeLast		= 9300;		// and within this range
 // Bitmap editor
 const CommandT	cmd_MenuAeteBase			= 1600;
 
+// Internal use commands
+// const CommandT	cmd_ResetTypingAction		= 4000;
+
 
 // Help menu commands
 const CommandT	cmd_Help					= 3000;	
 // Window menu commands
 const CommandT	cmd_ShowInspector			= 2001;	
+
 // Resource menu commands
 const CommandT	cmd_NewRez				= cmd_MenuResourceBase + 1;	
 const CommandT	cmd_EditRez				= cmd_MenuResourceBase + 2;	
@@ -1229,10 +1233,12 @@ const DescType rzom_eGuiEditor		= 'EGUI';
 const DescType rzom_eHexaData		= 'HEXA';
 const DescType rzom_eAsciiData		= 'ASCI';
 
+const DescType rzom_eFromFork		= 'FROM';
 const DescType rzom_eDataFork		= 'DATF';
 const DescType rzom_eRsrcFork		= 'RSRF';
 const DescType rzom_eAnyFork		= 'ANYF';
 
+const DescType rzom_eWhichFork		= 'FKND';
 const DescType rzom_eIsDataFork		= 'DFRK';
 const DescType rzom_eIsRsrcFork		= 'RFRK';
 const DescType rzom_eIsUnknownFork	= 'UFRK';
