@@ -875,13 +875,13 @@ CRezillaApp::OpenFork(FSSpec & inFileSpec, Boolean askChangePerm)
 {
 	SInt16 theFork;
 	short theRefNum;
-	OSErr error;
+	OSErr error = noErr;
 	
 	// Check if a RezMapDoc is already opened for this file
 	CRezMapDoc * theRezMapDocPtr = FetchRezMapDoc(&inFileSpec);
 	if (theRezMapDocPtr != nil) {
 		theRezMapDocPtr->GetRezMapWindow()->Select();
-		return true;
+		return error;
 	} 
 	
 	error = PreOpen(inFileSpec, theFork, theRefNum, mOpeningFork, askChangePerm);
