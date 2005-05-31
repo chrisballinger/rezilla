@@ -80,9 +80,9 @@ CDualDataView::CDualDataView(
 
 CDualDataView::~CDualDataView()
 {
-	if ( mInMemoryWasteRef != nil ) {
-		WEDispose(mInMemoryWasteRef);
-		mInMemoryWasteRef = nil;
+	if ( mInMemoryWE != nil ) {
+		WEDispose(mInMemoryWE);
+		mInMemoryWE = nil;
 	}
 	// Remove the view from the list of listeners to the prefs object
 	CRezillaApp::sPrefs->RemoveListener(this);
@@ -133,7 +133,7 @@ CDualDataView::Initialize()
 	// since it will never be displayed directly. 
 	CalcPortFrameRect(theRect);
 	WERectToLongRect( &theRect, &theLongRect) ;
-	error = WENew( &theLongRect, &theLongRect, initFlags , &mInMemoryWasteRef);
+	error = WENew( &theLongRect, &theLongRect, initFlags , &mInMemoryWE);
 }
 
 
@@ -238,7 +238,7 @@ CDualDataView::ObeyCommand(
 	Boolean		cmdHandled = true;
 	SInt32		theStartPos, theEndPos;
 
-	if ( mInMemoryWasteRef == nil )
+	if ( mInMemoryWE == nil )
 		return cmdHandled;
 
 	switch (inCommand) {
@@ -254,12 +254,12 @@ CDualDataView::ObeyCommand(
 			if (mSelectingAll) {
 				// If selectAll has been previously invoked
 				trueStartPos = 0;
-				trueEndPos = ::WEGetTextLength(mInMemoryWasteRef);
+				trueEndPos = ::WEGetTextLength(mInMemoryWE);
 				mCurrFirstLine = 1;
 				
 				// Put deleted text on clipboard
 				txtData = ::NewHandle(trueEndPos - trueStartPos);
-				WEStreamRange(trueStartPos, trueEndPos, kTypeText, 0, txtData, mInMemoryWasteRef);
+				WEStreamRange(trueStartPos, trueEndPos, kTypeText, 0, txtData, mInMemoryWE);
 				
 				switch (mCurrentSubView) {
 					case hex_hexpane:
@@ -314,8 +314,8 @@ CDualDataView::ObeyCommand(
 			
 			if (inCommand == cmd_Cut) {
 				// Delete the text in the in-memory Waste struct
-				WESetSelection(trueStartPos, trueEndPos, mInMemoryWasteRef);
-				WEDelete(mInMemoryWasteRef);
+				WESetSelection(trueStartPos, trueEndPos, mInMemoryWE);
+				WEDelete(mInMemoryWE);
 				
 				InstallContentsFromLine(mCurrFirstLine);
 				SetMaxScrollerValue();
@@ -337,7 +337,7 @@ CDualDataView::ObeyCommand(
 			if (mSelectingAll) {
 				// If selectAll has been previously invoked
 				theStartPos = 0;
-				theEndPos = ::WEGetTextLength(mInMemoryWasteRef);
+				theEndPos = ::WEGetTextLength(mInMemoryWE);
 				mCurrFirstLine = 1;
 				mSelectingAll = false;
 			} else {
@@ -362,8 +362,8 @@ CDualDataView::ObeyCommand(
 			}
 			
 			// Delete the text in the in-memory Waste struct
-			WESetSelection(theStartPos, theEndPos, mInMemoryWasteRef);
-			WEDelete(mInMemoryWasteRef);
+			WESetSelection(theStartPos, theEndPos, mInMemoryWE);
+			WEDelete(mInMemoryWE);
 			InstallContentsFromLine(mCurrFirstLine);
 			SetMaxScrollerValue();
 			
@@ -373,7 +373,7 @@ CDualDataView::ObeyCommand(
 		}
 
 		case cmd_Paste: {
-// 			PostAction( new CHexEditorPasteAction(mInMemoryWasteRef, this, this) );
+// 			PostAction( new CHexEditorPasteAction(mInMemoryWE, this, this) );
 			StHandleBlock	scrapDataH(Size_Zero);
 			SInt32 dataSize = UScrap::GetData(ResType_Text, scrapDataH);
 			if (dataSize == 0) {
@@ -395,7 +395,7 @@ CDualDataView::ObeyCommand(
 			if (mSelectingAll) {
 				// If selectAll has been previously invoked
 				theStartPos = 0;
-				theEndPos = ::WEGetTextLength(mInMemoryWasteRef);
+				theEndPos = ::WEGetTextLength(mInMemoryWE);
 				mCurrFirstLine = 1;
 								
 				mSelectingAll = false;
@@ -422,11 +422,11 @@ CDualDataView::ObeyCommand(
 			}
 			
 			// Set the selection range in memory
-			WESetSelection(theStartPos, theEndPos, mInMemoryWasteRef);
+			WESetSelection(theStartPos, theEndPos, mInMemoryWE);
 			
 			StHandleLocker lockit(scrapDataH);
 			WEPut( kCurrentSelection, kCurrentSelection, *scrapDataH, dataSize, kTextEncodingMultiRun,
-						kNilOptions, 0, nil, nil, mInMemoryWasteRef);
+						kNilOptions, 0, nil, nil, mInMemoryWE);
 			InstallContentsFromLine(mCurrFirstLine);
 			SetMaxScrollerValue();
 
@@ -437,10 +437,14 @@ CDualDataView::ObeyCommand(
 
 		case cmd_ActionCut:
 		case cmd_ActionPaste:
-		case cmd_ActionClear:
-		case cmd_ActionTyping: {
+		case cmd_ActionClear: {
 			break;
 		}
+		
+		case cmd_ActionTyping:
+			InstallContentsFromLine(mCurrFirstLine);
+			break;
+
 
 		default:
 			cmdHandled = LCommander::ObeyCommand(inCommand, ioParam);
@@ -471,7 +475,7 @@ void
 CDualDataView::InstallBackStoreData(const void * inPtr, SInt32 inByteCount)
 {
 	WEPut( 0, 0, inPtr, inByteCount, kTextEncodingMultiRun,
-				kNilOptions, 0, nil, nil, mInMemoryWasteRef);
+				kNilOptions, 0, nil, nil, mInMemoryWE);
 }
 
 
@@ -538,9 +542,9 @@ CDualDataView::InstallContentsFromLine(SInt32 inFromLine)
 		inFromLine = maxFirstLine;
 	} 
 	
-	Handle theHandle = WEGetText(mInMemoryWasteRef);
+	Handle theHandle = WEGetText(mInMemoryWE);
 	charOffset = (inFromLine - 1) * mBytesPerLine;
-	remainingChars = WEGetTextLength(mInMemoryWasteRef) - charOffset;
+	remainingChars = WEGetTextLength(mInMemoryWE) - charOffset;
 
 	if (remainingChars > bytesPerPaneCount) {
 		remainingChars = bytesPerPaneCount;
@@ -577,7 +581,7 @@ CDualDataView::GetAbsoluteRange(SInt32 & outStart, SInt32 & outEnd)
 SInt32
 CDualDataView::HexLineCount() 
 {
-	SInt32 byteCount = WEGetTextLength(mInMemoryWasteRef);
+	SInt32 byteCount = WEGetTextLength(mInMemoryWE);
 	SInt32 lineCount = 0;
 	if (byteCount) {
 		lineCount = byteCount / mBytesPerLine;

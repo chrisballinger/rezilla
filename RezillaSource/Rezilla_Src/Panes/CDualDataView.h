@@ -115,8 +115,8 @@ public:
 	virtual SInt32		GetCurrentSubView() { return mCurrentSubView;}
 	void				SetCurrentSubView(SInt32 inCurrentSubView) {mCurrentSubView = inCurrentSubView;}
 
-	WEReference		GetInMemoryWasteRef() { return mInMemoryWasteRef;}
-	void			SetInMemoryWasteRef(WEReference inInMemoryWasteRef) {mInMemoryWasteRef = inInMemoryWasteRef;}
+	WEReference		GetInMemoryWE() { return mInMemoryWE;}
+	void			SetInMemoryWE(WEReference inInMemoryWE) {mInMemoryWE = inInMemoryWE;}
 
 	virtual CHexDataSubView*	GetHexView() { return mHexView;}
 	void						SetHexView(CHexDataSubView* inHexDataWE) {mHexView = inHexDataWE;}
@@ -142,7 +142,7 @@ protected:
 	CTxtDataSubView *	mTxtView;
 	CSingleScrollBar *	mScroller;
 	WindowRef			mWindowRef;
-	WEReference			mInMemoryWasteRef;
+	WEReference			mInMemoryWE;
 	SInt32				mLinesPerPane;
 	SInt32				mBytesPerLine;
 	SInt32				mCurrFirstLine;
