@@ -736,7 +736,7 @@ CRezillaApp::GetAEProperty(
 		// 		break;
 
 		default:
-		LModelObject::GetAEProperty(inProperty, inRequestedType, outPropertyDesc);
+		LApplication::GetAEProperty(inProperty, inRequestedType, outPropertyDesc);
 		break;
 	}
 }
