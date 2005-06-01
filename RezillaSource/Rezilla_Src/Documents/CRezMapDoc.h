@@ -2,7 +2,7 @@
 // CRezMapDoc.h				
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2005-05-23 18:04:51
+//             Last modification: 2005-06-01 08:16:50
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -129,18 +129,24 @@ public:
 								AppleEvent&			outAEReply,
 								AEDesc&				outResult);
 
-	virtual void		GetSubModelByPosition(
+	virtual void	GetSubModelByPosition(
 								DescType			inModelID,
 								SInt32				inPosition,
 								AEDesc&				outToken) const;
 
-	virtual void		GetSubModelByName(
+	virtual void	GetSubModelByName(
 								DescType			inModelID,
 								Str255				inName,
 								AEDesc&				outToken) const;
 
 	virtual bool	AEPropertyExists(
 								DescType		inProperty) const;
+
+	virtual void	GetModelTokenSelf(
+								DescType		inModelID,
+								DescType		inKeyForm,
+								const AEDesc	&inKeyData,
+								AEDesc			&outToken) const;
 
 	// Accessors
 	CRezMapWindow*		GetRezMapWindow() const { return mRezMapWindow; }
@@ -217,6 +223,9 @@ protected:
 	Boolean					mReadOnly;
 	SInt16					mExportFormat;
 	
+	virtual LModelObject*	GetModelProperty(
+									DescType		inProperty) const;
+
 	void				NameNewDoc();
 	CRezObjItem *		NewResDialog();
 	void				WriteOutExport(SInt16 inExportFormat);

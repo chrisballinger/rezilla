@@ -2,7 +2,7 @@
 // CRezMapDocAE.cp
 // 
 //                       Created: 2005-04-09 10:03:39
-//             Last modification: 2005-05-16 22:44:15
+//             Last modification: 2005-06-01 08:17:05
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -32,12 +32,12 @@
 // ---------------------------------------------------------------------------
 //	Return a descriptor for the specified Property
 //	rzom_pReadOnly		= 'pRDO';	// mapReadOnly
-// 	rzom_cRezMap		= 'cMAP';	// RezMap
 // 	rzom_pRefNum		= 'pRFN';	// RefNum
 // 	rzom_pRezFork		= 'pFRK';	// ResFork
 // 	rzom_pRezFile		= 'pFIL';	// ResFile
 //  pIndex				= 'pidx';
-//  cWindow				= 'cwin';
+//  
+// 	rzom_cRezMap and cWindow handled in GetModelProperty()
 
 void
 CRezMapDoc::GetAEProperty(
@@ -70,22 +70,6 @@ CRezMapDoc::GetAEProperty(
 		}
 		
 		
-		case 'cwin': {
-			// Returns the window by index (in stack order)
-			AEDesc superSpec;
-			StAEDescriptor	keyData;
-			SInt32	index = UWindows::FindWindowIndex( mRezMapWindow->GetMacWindow() );
-
-			superSpec.descriptorType = typeNull;
-			superSpec.dataHandle = nil;
-			keyData.Assign(index);
-			error = ::CreateObjSpecifier( cWindow, &superSpec, formAbsolutePosition,
-									keyData, false, &outPropertyDesc);
-			ThrowIfOSErr_(error);
-			break;
-		}
-		
-		
 		case rzom_pRefNum:
 		short		theRefNum = mRezMap->GetRefnum();
 		error = ::AECreateDesc(typeSInt16, (Ptr) &theRefNum,
@@ -106,20 +90,6 @@ CRezMapDoc::GetAEProperty(
 		ThrowIfOSErr_(error);
 		break;
 		
-		
-		case rzom_cRezMap:  {
-			// Returns the map described by its refnum
-			AEDesc superSpec;
-			superSpec.descriptorType = typeNull;
-			superSpec.dataHandle = nil;
-			StAEDescriptor	keyData;
-			keyData.Assign(mRezMap->GetRefnum());
-			error = ::CreateObjSpecifier( rzom_cRezMap, &superSpec, formUniqueID,
-									keyData, false, &outPropertyDesc);
-			ThrowIfOSErr_(error);
-			break;
-		}
-
 		
 		case rzom_pRezFile:
 		FSSpec theFSS = mRezFile->GetFileSpec();
@@ -405,6 +375,62 @@ CRezMapDoc::GetSubModelByName(
 		default:
 			LModelObject::GetSubModelByName(inModelID, inName, outToken);
 			break;
+	}
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ GetModelProperty
+// ---------------------------------------------------------------------------
+//	Return a ModelObject object for 'cwin' and rzom_cRezMap properties
+
+LModelObject*
+CRezMapDoc::GetModelProperty(DescType inProperty) const
+{
+	LModelObject* theModelObject = nil;
+
+	switch (inProperty) {
+
+		case rzom_cRezMapWindow:
+		case cWindow:
+		theModelObject = dynamic_cast<LModelObject *>(mRezMapWindow);
+		break;
+		
+		
+		case rzom_cRezMap: 
+		theModelObject = dynamic_cast<LModelObject *>(mRezMap);
+		break;
+
+
+		default:
+		theModelObject = LModelObject::GetModelProperty(inProperty);
+		break;
+	}
+
+	return theModelObject;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ GetModelTokenSelf
+// ---------------------------------------------------------------------------
+// This is a shortcut to do consider a resource directly as an object of the
+// resource map document. It allows for AppleScript constructs like
+//	    resource  {"TEXT", 128} of theDoc
+//	instead of the more orthodox
+//	    resource {"TEXT", 128} of map of theDoc
+
+void
+CRezMapDoc::GetModelTokenSelf(
+	DescType		inModelID,
+	DescType		inKeyForm,
+	const AEDesc&	inKeyData,
+	AEDesc&			outToken) const
+{
+	if (inModelID == rzom_cRezObj) {
+		mRezMap->GetModelTokenSelf(inModelID, inKeyForm, inKeyData, outToken);
+	} else {
+		LModelObject::GetModelTokenSelf(inModelID, inKeyForm, inKeyData, outToken);
 	}
 }
 
