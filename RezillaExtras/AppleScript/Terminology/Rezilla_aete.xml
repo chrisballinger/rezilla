@@ -1157,7 +1157,7 @@
 						<PropertyName>closeable</PropertyName>
 						<PropertyID>hclb</PropertyID>
 						<PropertyClass>bool</PropertyClass>
-						<PropertyDescription>Does the window have a close box?</PropertyDescription>
+						<PropertyDescription>does the window have a close box?</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
@@ -1181,7 +1181,7 @@
 						<PropertyName>titled</PropertyName>
 						<PropertyID>ptit</PropertyID>
 						<PropertyClass>bool</PropertyClass>
-						<PropertyDescription>Does the window have a title bar?</PropertyDescription>
+						<PropertyDescription>does the window have a title bar?</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
@@ -1205,7 +1205,7 @@
 						<PropertyName>floating</PropertyName>
 						<PropertyID>isfl</PropertyID>
 						<PropertyClass>bool</PropertyClass>
-						<PropertyDescription>Does the window float?</PropertyDescription>
+						<PropertyDescription>does the window float?</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
@@ -1229,7 +1229,7 @@
 						<PropertyName>modal</PropertyName>
 						<PropertyID>pmod</PropertyID>
 						<PropertyClass>bool</PropertyClass>
-						<PropertyDescription>Is the window modal?</PropertyDescription>
+						<PropertyDescription>is the window modal?</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
@@ -1253,7 +1253,7 @@
 						<PropertyName>resizable</PropertyName>
 						<PropertyID>prsz</PropertyID>
 						<PropertyClass>bool</PropertyClass>
-						<PropertyDescription>Is the window resizable?</PropertyDescription>
+						<PropertyDescription>is the window resizable?</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
@@ -1277,7 +1277,7 @@
 						<PropertyName>zoomable</PropertyName>
 						<PropertyID>iszm</PropertyID>
 						<PropertyClass>bool</PropertyClass>
-						<PropertyDescription>Is the window zoomable?</PropertyDescription>
+						<PropertyDescription>is the window zoomable?</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
@@ -1301,7 +1301,7 @@
 						<PropertyName>zoomed</PropertyName>
 						<PropertyID>pzum</PropertyID>
 						<PropertyClass>bool</PropertyClass>
-						<PropertyDescription>Is the window zoomed?</PropertyDescription>
+						<PropertyDescription>is the window zoomed?</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
@@ -1991,7 +1991,7 @@
 						<PropertyName>readOnly</PropertyName>
 						<PropertyID>pRDO</PropertyID>
 						<PropertyClass>bool</PropertyClass>
-						<PropertyDescription>Is this document read-only?</PropertyDescription>
+						<PropertyDescription>is this document read-only?</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
@@ -2258,7 +2258,7 @@
 						<PropertyName>readOnly</PropertyName>
 						<PropertyID>pRDO</PropertyID>
 						<PropertyClass>bool</PropertyClass>
-						<PropertyDescription>Is this document read-only?</PropertyDescription>
+						<PropertyDescription>is this document read-only?</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
