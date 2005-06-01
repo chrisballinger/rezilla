@@ -1,7 +1,7 @@
 # -------------------------------------------------------
 # BuildRezillaTestForks.tcl
 #                        Created: 2005-04-17 07:54:17
-#              Last modification: 2005-04-27 10:15:15
+#              Last modification: 2005-06-01 08:08:36
 # Author: Bernard Desgraupes
 # e-mail: <bdesgraupes@easyconnect.fr>
 # www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -34,9 +34,9 @@ foreach tmp::suffix [list DF RF] {
 	} 
 	set tmp::rid [resource open -$tmp::whichfork $tmp::resfile w+]
 	# TEXT
-	resource write -id 128 -name "Say hello" -file $tmp::rid TEXT "Hello Rezilla ($tmp::whichfork)!"
-	resource write -id 129 -name "Say goodbye" -file $tmp::rid TEXT "Goodbye Rezilla!"
-	resource write -id 130 -name "$tmp::suffix wish" -file $tmp::rid TEXT "Happy rezing with Rezilla!"
+	resource write -id 128 -name "Hello" -file $tmp::rid TEXT "Hello Rezilla ($tmp::whichfork)!"
+	resource write -id 129 -name "Vivat" -file $tmp::rid TEXT "Viva Rezilla!"
+	resource write -id 130 -name "$tmp::suffix wishes" -file $tmp::rid TEXT "Happy rezing with Rezilla!"
 	# STR#
 	resource write -id 129 -name "Greetings" -file $tmp::rid "STR#" "\x00\x02\x05Hello\x05Salud"
 	# MENU
