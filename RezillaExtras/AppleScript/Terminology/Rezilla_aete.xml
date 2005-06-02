@@ -2626,7 +2626,7 @@
 						<PropertyName>types count</PropertyName>
 						<PropertyID>Tcnt</PropertyID>
 						<PropertyClass>long</PropertyClass>
-						<PropertyDescription>the index of the resource within its type (in the order used by the resource manager)</PropertyDescription>
+						<PropertyDescription>number of types in this map as displayed at the bottom of the map window</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
@@ -2650,7 +2650,7 @@
 						<PropertyName>resources count</PropertyName>
 						<PropertyID>Rcnt</PropertyID>
 						<PropertyClass>long</PropertyClass>
-						<PropertyDescription>the index of the resource within its type (in the order used by the resource manager)</PropertyDescription>
+						<PropertyDescription>total number of resources in this map as displayed at the bottom of the map window</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>

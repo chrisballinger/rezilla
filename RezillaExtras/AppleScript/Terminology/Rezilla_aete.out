@@ -310,37 +310,37 @@ Number of Classes: 5
 	  (4) closeable
 		Property ID: 'hclb'
 		Property class: 'bool'
-		Property description: Does the window have a close box?
+		Property description: does the window have a close box?
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	  (5) titled
 		Property ID: 'ptit'
 		Property class: 'bool'
-		Property description: Does the window have a title bar?
+		Property description: does the window have a title bar?
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	  (6) floating
 		Property ID: 'isfl'
 		Property class: 'bool'
-		Property description: Does the window float?
+		Property description: does the window float?
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	  (7) modal
 		Property ID: 'pmod'
 		Property class: 'bool'
-		Property description: Is the window modal?
+		Property description: is the window modal?
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	  (8) resizable
 		Property ID: 'prsz'
 		Property class: 'bool'
-		Property description: Is the window resizable?
+		Property description: is the window resizable?
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	  (9) zoomable
 		Property ID: 'iszm'
 		Property class: 'bool'
-		Property description: Is the window zoomable?
+		Property description: is the window zoomable?
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	  (10) zoomed
 		Property ID: 'pzum'
 		Property class: 'bool'
-		Property description: Is the window zoomed?
+		Property description: is the window zoomed?
 		Property is a single item, not enumerated. It can be set by the Set Data AE.
 	  (11) visible
 		Property ID: 'pvis'
@@ -517,7 +517,7 @@ Number of Classes: 23
 	  (3) readOnly
 		Property ID: 'pRDO'
 		Property class: 'bool'
-		Property description: Is this document read-only?
+		Property description: is this document read-only?
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	  (4) window
 		Property ID: 'cwin'
@@ -583,7 +583,7 @@ Number of Classes: 23
 	  (4) readOnly
 		Property ID: 'pRDO'
 		Property class: 'bool'
-		Property description: Is this document read-only?
+		Property description: is this document read-only?
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	  (5) window
 		Property ID: 'cwin'
@@ -691,12 +691,12 @@ Number of Classes: 23
 	  (2) types count
 		Property ID: 'Tcnt'
 		Property class: 'long'
-		Property description: the index of the resource within its type (in the order used by the resource manager)
+		Property description: number of types in this map as displayed at the bottom of the map window
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	  (3) resources count
 		Property ID: 'Rcnt'
 		Property class: 'long'
-		Property description: the index of the resource within its type (in the order used by the resource manager)
+		Property description: total number of resources in this map as displayed at the bottom of the map window
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	Number of class elements: 0
   Object class 12: map windows
