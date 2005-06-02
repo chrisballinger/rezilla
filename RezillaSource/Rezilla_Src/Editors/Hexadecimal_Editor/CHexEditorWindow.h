@@ -2,11 +2,11 @@
 // CHexEditorWindow.h				
 // 
 //                       Created: 2003-05-02 07:33:06
-//             Last modification: 2005-04-29 00:11:39
+//             Last modification: 2005-06-02 11:33:33
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003-2004, 2005
+// (c) Copyright : Bernard Desgraupes, 2003-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -66,18 +66,18 @@ public:
 	void			DisplayBothSelections(SInt32 inStart, SInt32 inEnd);
 
 	// AppleEvents
-	virtual void	GetAEProperty(
-								DescType			inProperty,
-								const AEDesc&		inRequestedType,
-								AEDesc&				outPropertyDesc) const;
+// 	virtual void	GetAEProperty(
+// 								DescType			inProperty,
+// 								const AEDesc&		inRequestedType,
+// 								AEDesc&				outPropertyDesc) const;
 	
 // 	virtual void		GetSubModelByPosition(
 // 								DescType			inModelID,
 // 								SInt32				inPosition,
 // 								AEDesc&				outToken) const;
 
-	virtual bool	AEPropertyExists(
-								DescType		inProperty) const;
+// 	virtual bool	AEPropertyExists(
+// 								DescType		inProperty) const;
 	
 	// Accessors
 	CDualDataView*		GetDualView() { return mDualView;}
