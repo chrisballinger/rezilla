@@ -1580,8 +1580,7 @@ CRezMapDoc::NewResDialog()
 CRezObjItem *
 CRezMapDoc::CreateNewRes(ResType inType, short inID, Str255* inName, short inAttrs)
 {
-	CRezObjItem *	newRezObjItem = NULL;
-	Boolean			replacing = false, applyToOthers = false;
+ 	Boolean			replacing = false, applyToOthers = false;
 	
 	if ( mRezMap->ResourceExists(inType, inID) ) {
 		SInt16 answer = UMessageDialogs::AskSolveUidConflicts(inType, inID, applyToOthers, false);
