@@ -2,7 +2,7 @@
 // CEditorWindow.cp
 // 
 //                       Created: 2004-06-10 14:50:31
-//             Last modification: 2005-04-28 18:53:27
+//             Last modification: 2005-06-01 17:20:47
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -33,7 +33,11 @@ CEditorWindow::CEditorWindow()
 {
 	mIsDirty = false;
 	mOwnerDoc = nil;
-	SetModelKind(rzom_cEditorWindow);
+	SetModelKind(rzom_cGuiWindow);	// This is overriden in the case of 
+	                              	// template or hexadecimal windows. 
+	                              	// This way we don't have to bother 
+	                              	// setting the kind in every custom 
+	                              	// editor.
 }
 
 
@@ -47,7 +51,7 @@ CEditorWindow::CEditorWindow(
 {
 	mIsDirty = false;
 	mOwnerDoc = nil;
-	SetModelKind(rzom_cEditorWindow);
+	SetModelKind(rzom_cGuiWindow);
 }
 
 
@@ -63,7 +67,7 @@ CEditorWindow::CEditorWindow(
 {
 	mIsDirty = false;
 	mOwnerDoc = nil;
-	SetModelKind(rzom_cEditorWindow);
+	SetModelKind(rzom_cGuiWindow);
 }
 
 
@@ -77,7 +81,7 @@ CEditorWindow::CEditorWindow(
 {
 	mIsDirty = false;
 	mOwnerDoc = nil;
-	SetModelKind(rzom_cEditorWindow);
+	SetModelKind(rzom_cGuiWindow);
 }
 
 
