@@ -2,11 +2,11 @@
 // UResources.h					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2004-11-16 06:49:51
+//             Last modification: 2005-06-01 15:24:05
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003-2004
+// (c) Copyright : Bernard Desgraupes, 2003-2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -22,7 +22,7 @@ struct SResourceObjInfo {
 	short		refnum;
 	ResType		type;
 	SInt32		size;
-	SInt32		id;
+	short		id;
 	Str255		name;
 	ResType		iconid;
 	Boolean		sysheap;
