@@ -459,10 +459,17 @@ CRezillaApp::GetSubModelByPosition(
 	SInt32			inPosition,
 	AEDesc&			outToken) const
 {
+	SInt32		count = 0;
+	Boolean		found = false;
+	DescType	theKind;
+	WindowPtr	windowP;
+	LWindow *	theWindow = nil;
+	LDocument*	theDoc = nil;
+	
 	switch (inModelID) {
 
 		case cWindow: {
-			WindowPtr	windowP = UWindows::FindNthWindow((SInt16) inPosition);
+			windowP = UWindows::FindNthWindow((SInt16) inPosition);
 			if (windowP != nil) {
 				PutInToken(LWindow::FetchWindowObject(windowP), outToken);
 			} else {
@@ -470,9 +477,62 @@ CRezillaApp::GetSubModelByPosition(
 			}
 			break;
 		}
+		
+
+		case rzom_cEditorWindow: {
+			windowP = ::GetWindowList();
+			while (windowP != nil) {
+				theWindow = LWindow::FetchWindowObject(windowP);
+				if (theWindow != nil) {
+					theKind = theWindow->GetModelKind();
+					if (theKind == inModelID 
+						|| theKind == rzom_cGuiWindow 
+						|| theKind == rzom_cTmplWindow 
+						|| theKind == rzom_cHexWindow) {
+						count++;
+						if (count == inPosition) {
+							found = true;
+							break;
+						} 
+					} 
+				} 
+				windowP = ::MacGetNextWindow(windowP);
+			}
+			if (found) {
+				PutInToken(LWindow::FetchWindowObject(windowP), outToken);
+			} else {
+				ThrowOSErr_(errAENoSuchObject);
+			}
+			break;
+		}
+
+		
+		case rzom_cRezMapWindow:
+		case rzom_cGuiWindow:
+		case rzom_cTmplWindow:
+		case rzom_cHexWindow: {
+			windowP = ::GetWindowList();
+			while (windowP != nil) {
+				theWindow = LWindow::FetchWindowObject(windowP);
+				if (theWindow != nil && theWindow->GetModelKind() == inModelID) {
+					count++;
+					if (count == inPosition) {
+						found = true;
+						break;
+					} 
+				} 
+				windowP = ::MacGetNextWindow(windowP);
+			}
+			if (found) {
+				PutInToken(LWindow::FetchWindowObject(windowP), outToken);
+			} else {
+				ThrowOSErr_(errAENoSuchObject);
+			}
+			break;
+		}
+		
 
 		case cDocument: {
-			LDocument *	theDoc = nil;
 			if ( LDocument::GetDocumentList().FetchItemAt( inPosition, theDoc) ) {
 				PutInToken(theDoc, outToken);
 			} else {
@@ -481,24 +541,41 @@ CRezillaApp::GetSubModelByPosition(
 			break;
 		}
 
-		case rzom_cRezMap: {
-			CRezMap *	theMap = nil;
-			if ( CRezMap::GetRezMapList().FetchItemAt( inPosition, theMap) ) {
-				PutInToken(theMap, outToken);
+		
+		case rzom_cEditorDoc: {		
+			TArrayIterator<LDocument*> iterEditor( LDocument::GetDocumentList() );
+			theDoc = nil;
+			while (iterEditor.Next(theDoc)) {
+				if (theDoc != nil) {
+					theKind = theDoc->GetModelKind();
+					if (theKind == inModelID 
+						|| theKind == rzom_cHexEditDoc 
+						|| theKind == rzom_cTmplEditDoc 
+						|| theKind == rzom_cGuiEditDoc) {
+						count++;
+						if (count == inPosition) {
+							found = true;
+							break;
+						} 
+					} 
+				} 
+			}
+			if (found) {
+				PutInToken(theDoc, outToken);
 			} else {
 				ThrowOSErr_(errAENoSuchObject);
 			}
 			break;
 		}
 
-		case rzom_cRezMapDoc: {
-			LDocument *	theDoc = nil;
-			Boolean		found = false;
-			UInt16		count = 0;
-			
-			TArrayIterator<LDocument*> iterEditor( LDocument::GetDocumentList() );
-			while (iterEditor.Next(theDoc)) {
-				if (theDoc != nil && theDoc->GetModelKind() == inModelID) {
+
+		case rzom_cRezMapDoc:
+		case rzom_cGuiEditDoc:
+		case rzom_cTmplEditDoc:
+		case rzom_cHexEditDoc: {
+			TArrayIterator<LDocument*> iterDoc( LDocument::GetDocumentList() );
+			while (iterDoc.Next(theDoc)) {
+				if (theDoc && theDoc->GetModelKind() == inModelID) {
 					count++;
 					if (count == inPosition) {
 						found = true;
@@ -513,14 +590,23 @@ CRezillaApp::GetSubModelByPosition(
 			}
 			break;
 		}
+		
+
+		case rzom_cRezMap: {
+			CRezMap *	theMap = nil;
+			if ( CRezMap::GetRezMapList().FetchItemAt( inPosition, theMap) ) {
+				PutInToken(theMap, outToken);
+			} else {
+				ThrowOSErr_(errAENoSuchObject);
+			}
+			break;
+		}
+
 
 		case rzom_cCompWindow: 
 		case rzom_cMapsComp: {
-			WindowPtr	windowP;
 			LWindow*	ppWindow = nil;
 			CCompResultWindow * compWindow;
-			Boolean		found = false;
-			UInt16		count = 0;
 	
 			windowP = ::GetWindowList();
 			while (windowP) {
