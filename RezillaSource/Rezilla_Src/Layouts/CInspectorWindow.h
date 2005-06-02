@@ -2,7 +2,7 @@
 // CInspectorWindow.h				
 // 
 //                       Created: 2003-05-02 07:33:06
-//             Last modification: 2005-05-21 10:27:41
+//             Last modification: 2005-06-01 13:58:37
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -90,8 +90,8 @@ public:
 protected:
 	SResourceObjInfo	mSavedInfo;
 	CRezObjItem *		mRezObjItem;
-	LStaticText *		mTypeItem;
-	LStaticText *		mSizeItem;
+	LStaticText *		mTypeField;
+	LStaticText *		mSizeField;
 	LEditText *			mIDField;
 	LEditText *			mNameField;
 	CRezIconPane *		mIconItem;
@@ -112,7 +112,8 @@ protected:
 
 private:
 	void				InitializeRezInfo();
-	void				UpdateRezObj();
+// 	void				UpdateRezObj();
+	OSErr				UpdateRezMapTable();
 	
 	void				GetAEAttribute(
 							   DescType	inProperty,
