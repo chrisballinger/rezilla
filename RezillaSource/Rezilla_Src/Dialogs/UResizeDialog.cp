@@ -1,17 +1,19 @@
 // ===========================================================================
 // UResizeDialog.cp
 //                       Created: 2004-12-11 18:57:29
-//             Last modification: 2004-12-24 09:13:01
+//             Last modification: 2005-06-03 06:17:26
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes 2004
+// (c) Copyright: Bernard Desgraupes 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
 // ===========================================================================
 
 
+#include "CThreeButtonsBox.h"
+#include "UDialogBoxHandler.h"
 #include "UResizeDialog.h"
 #include "UModalDialogs.h"
 #include "UIconMisc.h"
@@ -34,8 +36,8 @@ UResizeDialog::DoResizeDialog(	SInt32 inWidth, SInt32 inMinWidth, SInt32 inMaxWi
 	::SetGDevice( ::GetMainDevice() );
 	
 	// Create the dialog
-	StDialogHandler			theHandler( PPob_ImageResizeDialog, LCommander::GetTopCommander() );
-	LWindow	*				theWindow = theHandler.GetDialog();
+	StDialogBoxHandler		theHandler( PPob_ImageResizeDialog, LCommander::GetTopCommander() );
+	CThreeButtonsBox *		theWindow = theHandler.GetDialog();
 	LEditField *			widthField =  (LEditField*) theWindow->FindPaneByID( item_WidthField );
 	LEditField *			heightField = (LEditField*) theWindow->FindPaneByID( item_HeightField );
 	
