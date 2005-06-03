@@ -1112,7 +1112,8 @@ enum
 	kAERzilReply	 		=  FOUR_CHAR_CODE('Repl'),
 	kAERzilFilesList	 	=  FOUR_CHAR_CODE('LFil'),
 	kAERzilCompareWith	 	=  FOUR_CHAR_CODE('AndF'),
-	kAERzilAsType		 	=  FOUR_CHAR_CODE('AsTy')
+	kAERzilLike			 	=  FOUR_CHAR_CODE('Like'),
+	kAERzilUsing			=  FOUR_CHAR_CODE('Usin')
 };
 
 /* AE Dispatch Table constants (aedt) */

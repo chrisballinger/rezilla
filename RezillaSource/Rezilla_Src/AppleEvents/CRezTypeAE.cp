@@ -2,7 +2,7 @@
 // CRezTypeAE.cp
 // 
 //                       Created: 2005-04-09 10:03:39
-//             Last modification: 2005-05-20 07:19:22
+//             Last modification: 2005-06-02 22:36:30
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -450,12 +450,12 @@ CRezType::HandleEditEvent(
 	ResType		theKind = 0;
 	CommandT	theCmd = cmd_EditRez;
 	
-	// Extract optional "as type" parameter.
-	ignoreErr = ::AEGetParamPtr(&inAppleEvent, kAERzilAsType, typeType,
+	// Extract optional "like" parameter ("like another type")
+	ignoreErr = ::AEGetParamPtr(&inAppleEvent, kAERzilLike, typeType,
 							  &returnedType, &asType, sizeof(ResType), &actualSize);
 
-	// Extract optional "using" parameter.
-	ignoreErr = ::AEGetParamPtr(&inAppleEvent, rzom_eEditorKind, typeEnumerated,
+	// Extract optional "using" parameter ("using a particular editor")
+	ignoreErr = ::AEGetParamPtr(&inAppleEvent, kAERzilUsing, typeEnumerated,
 							  &returnedType, &theKind, sizeof(ResType), &actualSize);
 
 	// Map to the equivalent menu command
