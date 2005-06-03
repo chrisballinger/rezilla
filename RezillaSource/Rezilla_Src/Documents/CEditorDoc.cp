@@ -2,7 +2,7 @@
 // CEditorDoc.cp
 // 
 //                       Created: 2003-05-04 19:16:00
-//             Last modification: 2005-02-24 09:59:49
+//             Last modification: 2005-06-03 07:01:38
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -366,7 +366,6 @@ CEditorDoc::DoAEClose(
 	OSErr		err;
 	DescType	theType;
 	Size		theSize;
-	FSSpec		fileSpec;
 	bool		saveIt = false;
 	bool		closeIt = true;
 	SInt32		saveOption = kAEAsk;
@@ -429,8 +428,7 @@ CEditorDoc::DoSaveChanges()
 		// Copy to resource's data handle
 		mRezObj->SetData(theHandle);
 		
-// 		// Mark the resource as modified in the rez map
-// 		mRezObj->Changed(); // This is already done in SetData()
+		// Note: the resource is marked as modified in SetData()
 		
 		if (shouldWeRelease) {
 			::DisposeHandle(theHandle);
@@ -445,9 +443,8 @@ CEditorDoc::DoSaveChanges()
 	mMainWindow->SetDirty(false);
 	
 	// Refresh the view
-// 		mRezObj->SetSize( ::GetHandleSize(theHandle) ); // This is already done in SetData()
+	// Note: the size of the resource is updated in SetData()
 	mRezMapTable->Refresh();
-// 	mRezMapTable->Draw(nil);
 	
 	// Update the inspector if its info concerns the RezObj
 	if (CRezillaApp::sInspectorWindow != nil
