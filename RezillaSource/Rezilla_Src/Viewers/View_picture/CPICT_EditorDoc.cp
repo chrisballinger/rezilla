@@ -2,11 +2,11 @@
 // CPICT_EditorDoc.cp
 // 
 //                       Created: 2004-12-06 14:54:09
-//             Last modification: 2005-02-24 09:06:16
+//             Last modification: 2005-06-03 10:50:41
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004, 2005
+// (c) Copyright : Bernard Desgraupes, 2004-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -85,15 +85,10 @@ CPICT_EditorDoc::Initialize()
 	mPictWindow = dynamic_cast<CPICT_EditorWindow *>(LWindow::CreateWindow( PPob_PictEditorWindow, this ));
 	Assert_( mPictWindow != nil );
 	
-	mPictWindow->SetOwnerDoc(this);
-	mPictWindow->InstallReadOnlyIcon();
 	SetMainWindow( dynamic_cast<CEditorWindow *>(mPictWindow) );
-
 	NameNewEditorDoc();
-	
-	// Add the window to the window menu.
-	gWindowMenu->InsertWindow( mPictWindow );
-		
+	mPictWindow->Finalize(this);
+
 	// Install the contents
 	try {
 		if (mRezObj != nil) {

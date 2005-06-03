@@ -101,7 +101,9 @@ CEditorDoc::NameNewEditorDoc()
 	// Build the title
 	BuildDocumentTitle(theTitle, index_EditorDocUntitled);
 	// Set window title
-	mMainWindow->SetDescriptor(theTitle);
+	if (mMainWindow != nil) {
+		mMainWindow->SetDescriptor(theTitle);
+	}
 }
 
 

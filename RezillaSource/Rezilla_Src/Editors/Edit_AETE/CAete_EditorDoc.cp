@@ -2,7 +2,7 @@
 // CAete_EditorDoc.cp
 // 
 //                       Created: 2004-07-01 08:42:37
-//             Last modification: 2005-04-28 19:08:16
+//             Last modification: 2005-06-03 10:51:45
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -112,9 +112,8 @@ CAete_EditorDoc::Initialize()
 	Assert_( mAeteEditWindow != nil );
 	
 	SetMainWindow( dynamic_cast<CEditorWindow *>(mAeteEditWindow) );
-	mAeteEditWindow->Finalize(this);
-
 	NameNewEditorDoc();
+	mAeteEditWindow->Finalize(this);
 
 	try {
 		// Install the contents

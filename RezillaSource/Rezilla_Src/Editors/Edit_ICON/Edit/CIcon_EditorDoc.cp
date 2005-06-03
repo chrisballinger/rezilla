@@ -2,7 +2,7 @@
 // CIcon_EditorDoc.cp
 // 
 //                       Created: 2004-12-11 23:33:03
-//             Last modification: 2005-04-28 19:08:07
+//             Last modification: 2005-06-03 10:51:36
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -167,10 +167,9 @@ CIcon_EditorDoc::Initialize()
 		Assert_( mIconEditWindow != nil );
 		
 		SetMainWindow( dynamic_cast<CEditorWindow *>(mIconEditWindow) );
+		NameNewEditorDoc();
 		mIconEditWindow->Finalize(this);
 
-		NameNewEditorDoc();
-		
 	}
 	catch (...) {
 		UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("ErrorInitializingBitmapEditor"), PPob_SimpleMessage);	

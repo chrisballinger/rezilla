@@ -2,7 +2,7 @@
 // CTEXT_EditorDoc.cp
 // 
 //                       Created: 2004-06-17 12:46:55
-//             Last modification: 2005-04-28 19:12:34
+//             Last modification: 2005-06-03 10:51:18
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -96,10 +96,9 @@ CTEXT_EditorDoc::Initialize()
 	Assert_( mTextEditWindow != nil );
 	
 	SetMainWindow( dynamic_cast<CEditorWindow *>(mTextEditWindow) );
+	NameNewEditorDoc();
 	mTextEditWindow->Finalize(this);
 
-	NameNewEditorDoc();
-		
 	// Install the contents according to the TMPL
 	if (mRezObj != nil) {
 		Handle rezData = mRezObj->GetData();

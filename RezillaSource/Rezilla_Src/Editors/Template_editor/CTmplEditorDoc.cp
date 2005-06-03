@@ -2,7 +2,7 @@
 // CTmplEditorDoc.cp					
 // 
 //                       Created: 2004-06-12 10:06:22
-//             Last modification: 2005-04-28 19:12:06
+//             Last modification: 2005-06-03 10:50:53
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -93,10 +93,9 @@ CTmplEditorDoc::Initialize()
 	Assert_( mTmplEditWindow != nil );
 	
 	SetMainWindow( dynamic_cast<CEditorWindow *>(mTmplEditWindow) );
+	NameNewEditorDoc();
 	mTmplEditWindow->Finalize(this);
 
-	NameNewEditorDoc();
-	
 	// Install the contents according to the TMPL
 	if (mRezObj != nil) {
 		Handle rezData = mRezObj->GetData();

@@ -2,7 +2,7 @@
 // CUtxt_EditorDoc.cp
 // 
 //                       Created: 2004-12-08 18:21:21
-//             Last modification: 2005-04-28 19:12:17
+//             Last modification: 2005-06-03 10:51:10
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -88,10 +88,9 @@ CUtxt_EditorDoc::Initialize()
 	Assert_( mUtxtEditWindow != nil );
 	
 	SetMainWindow( dynamic_cast<CEditorWindow *>(mUtxtEditWindow) );
+	NameNewEditorDoc();
 	mUtxtEditWindow->Finalize(this);
 
-	NameNewEditorDoc();
-		
 	// Install the contents
 	if (mRezObj != nil) {
 		Handle rezData = mRezObj->GetData();
