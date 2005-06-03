@@ -202,7 +202,7 @@ CRezMapDoc::HandleAppleEvent(
 		break;
 				
 		default:
-		LModelObject::HandleAppleEvent(inAppleEvent, outAEReply, outResult, inAENumber);
+		LDocument::HandleAppleEvent(inAppleEvent, outAEReply, outResult, inAENumber);
 		break;
 	}
 }
@@ -218,6 +218,8 @@ CRezMapDoc::HandleExportEvent(
 	AppleEvent&			outAEReply,
 	AEDesc&				outResult)
 {	
+#pragma unused(outAEReply, outResult)
+	
 	OSErr		error, ignoreErr;
 	DescType	returnedType;
 	Size		actualSize;
