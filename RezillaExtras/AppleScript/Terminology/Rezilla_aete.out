@@ -454,16 +454,16 @@ Number of Events: 6
 	Direct parameter description: resource to edit
 	Direct parameter is required. It is a single item, not enumerated. It does not change the server's state.
 	Number of additional parameters: 2
-	  Parameter 1: as
-		Parameter keyword: 'type'
-		Parameter type: 'type'
-		Parameter description: use an another type's editor
-		Parameter 1 is optional. It is a single item, not enumerated. 
-	  Parameter 2: using
-		Parameter keyword: 'EKND'
+	  Parameter 1: using
+		Parameter keyword: 'Usin'
 		Parameter type: 'EKND'
 		Parameter description: specifies which kind of editor to use (if not specified, Rezilla tries to find successively an interface, a template or the hexadecimal editor)
-		Parameter 2 is optional. It is a single item, enumerated. 
+		Parameter 1 is optional. It is a single item, enumerated. 
+	  Parameter 2: like
+		Parameter keyword: 'Like'
+		Parameter type: 'type'
+		Parameter description: use an another type's editor
+		Parameter 2 is optional. It is a single item, not enumerated. 
   Event 5: export
 -----------------
 	Description: export a rezmap document in a specific format

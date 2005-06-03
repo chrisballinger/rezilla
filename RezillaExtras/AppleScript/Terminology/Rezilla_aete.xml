@@ -1735,14 +1735,14 @@
 				</DirectFlags>
 				<ArrayOtherParams>
 					<Parameter>
-						<ParameterName>as</ParameterName>
-						<ParameterID>type</ParameterID>
-						<ParameterType>type</ParameterType>
-						<ParameterDescription>use an another type's editor</ParameterDescription>
+						<ParameterName>using</ParameterName>
+						<ParameterID>Usin</ParameterID>
+						<ParameterType>EKND</ParameterType>
+						<ParameterDescription>specifies which kind of editor to use (if not specified, Rezilla tries to find successively an interface, a template or the hexadecimal editor)</ParameterDescription>
 						<ParameterFlags>
 							<IsOptional>optional</IsOptional>
 							<IsListOfItems>singleItem</IsListOfItems>
-							<IsEnumerated>notEnumerated</IsEnumerated>
+							<IsEnumerated>enumerated</IsEnumerated>
 							<Reserved/>
 							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
 							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
@@ -1759,14 +1759,14 @@
 						</ParameterFlags>
 					</Parameter>
 					<Parameter>
-						<ParameterName>using</ParameterName>
-						<ParameterID>EKND</ParameterID>
-						<ParameterType>EKND</ParameterType>
-						<ParameterDescription>specifies which kind of editor to use (if not specified, Rezilla tries to find successively an interface, a template or the hexadecimal editor)</ParameterDescription>
+						<ParameterName>like</ParameterName>
+						<ParameterID>Like</ParameterID>
+						<ParameterType>type</ParameterType>
+						<ParameterDescription>use an another type's editor</ParameterDescription>
 						<ParameterFlags>
 							<IsOptional>optional</IsOptional>
 							<IsListOfItems>singleItem</IsListOfItems>
-							<IsEnumerated>enumerated</IsEnumerated>
+							<IsEnumerated>notEnumerated</IsEnumerated>
 							<Reserved/>
 							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
 							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
