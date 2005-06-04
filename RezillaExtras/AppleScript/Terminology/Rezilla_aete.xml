@@ -1736,7 +1736,7 @@
 				<ArrayOtherParams>
 					<Parameter>
 						<ParameterName>using</ParameterName>
-						<ParameterID>Usin</ParameterID>
+						<ParameterID>usin</ParameterID>
 						<ParameterType>EKND</ParameterType>
 						<ParameterDescription>specifies which kind of editor to use (if not specified, Rezilla tries to find successively an interface, a template or the hexadecimal editor)</ParameterDescription>
 						<ParameterFlags>
@@ -1787,7 +1787,7 @@
 
 			<Event>
 				<EventName>export</EventName>
-				<EventDescription>export a rezmap document in a specific format</EventDescription>
+				<EventDescription>export a rezmap document in a specified format</EventDescription>
 				<EventClass>Rzil</EventClass>
 				<EventID>expt</EventID>
 				<ReplyType>null</ReplyType>
@@ -1835,7 +1835,7 @@
 						<ParameterName>in</ParameterName>
 						<ParameterID>kfil</ParameterID>
 						<ParameterType>alis</ParameterType>
-						<ParameterDescription>the file in which to save the export (it must already exist)</ParameterDescription>
+						<ParameterDescription>the folder in which to save the export file. This folder must already exist.</ParameterDescription>
 						<ParameterFlags>
 							<IsOptional>required</IsOptional>
 							<IsListOfItems>singleItem</IsListOfItems>
@@ -1856,14 +1856,14 @@
 						</ParameterFlags>
 					</Parameter>
 					<Parameter>
-						<ParameterName>format</ParameterName>
-						<ParameterID>EXPF</ParameterID>
-						<ParameterType>EXPF</ParameterType>
-						<ParameterDescription>specifies the export format (default is XML)</ParameterDescription>
+						<ParameterName>with properties</ParameterName>
+						<ParameterID>prdt</ParameterID>
+						<ParameterType>reco</ParameterType>
+						<ParameterDescription>the initial values for the properties (essentially to specify a name and a format)</ParameterDescription>
 						<ParameterFlags>
 							<IsOptional>optional</IsOptional>
 							<IsListOfItems>singleItem</IsListOfItems>
-							<IsEnumerated>enumerated</IsEnumerated>
+							<IsEnumerated>notEnumerated</IsEnumerated>
 							<Reserved/>
 							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
 							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
@@ -2117,6 +2117,30 @@
 							<IsListOfItems>singleItem</IsListOfItems>
 							<IsEnumerated>notEnumerated</IsEnumerated>
 							<IsReadWrite>readOnly</IsReadWrite>
+							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+							<PropertyIsReference>propertyIsValue</PropertyIsReference>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<IsApostrophe>noApostrophe</IsApostrophe>
+							<IsFeminine>notFeminine</IsFeminine>
+							<IsMasculine>notMasculine</IsMasculine>
+							<Plural>singular</Plural>
+						</PropertyFlags>
+					</Property>
+					<Property>
+						<PropertyName>format</PropertyName>
+						<PropertyID>pFRM</PropertyID>
+						<PropertyClass>EXPF</PropertyClass>
+						<PropertyDescription>the format used for export</PropertyDescription>
+						<PropertyFlags>
+							<Reserved/>
+							<IsListOfItems>singleItem</IsListOfItems>
+							<IsEnumerated>enumerated</IsEnumerated>
+							<IsReadWrite>readWrite</IsReadWrite>
 							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
 							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
 							<PropertyIsReference>propertyIsValue</PropertyIsReference>
@@ -3367,6 +3391,11 @@
 			<Enumeration>
 				<EnumerationID>EXPF</EnumerationID>
 				<ArrayEnumerators>
+					<Enumerator>
+						<EnumeratorName>unknown export</EnumeratorName>
+						<EnumeratorID>UEXP</EnumeratorID>
+						<EnumeratorDescription>unknown export format</EnumeratorDescription>
+					</Enumerator>
 					<Enumerator>
 						<EnumeratorName>xml</EnumeratorName>
 						<EnumeratorID>XML </EnumeratorID>

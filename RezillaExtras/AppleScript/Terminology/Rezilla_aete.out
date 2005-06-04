@@ -455,7 +455,7 @@ Number of Events: 6
 	Direct parameter is required. It is a single item, not enumerated. It does not change the server's state.
 	Number of additional parameters: 2
 	  Parameter 1: using
-		Parameter keyword: 'Usin'
+		Parameter keyword: 'usin'
 		Parameter type: 'EKND'
 		Parameter description: specifies which kind of editor to use (if not specified, Rezilla tries to find successively an interface, a template or the hexadecimal editor)
 		Parameter 1 is optional. It is a single item, enumerated. 
@@ -466,7 +466,7 @@ Number of Events: 6
 		Parameter 2 is optional. It is a single item, not enumerated. 
   Event 5: export
 -----------------
-	Description: export a rezmap document in a specific format
+	Description: export a rezmap document in a specified format
 	Event class: 'Rzil'
 	Event ID: 'expt'
 	Type of reply's direct parameter: 'null'
@@ -479,13 +479,13 @@ Number of Events: 6
 	  Parameter 1: in
 		Parameter keyword: 'kfil'
 		Parameter type: 'alis'
-		Parameter description: the file in which to save the export (it must already exist)
+		Parameter description: the folder in which to save the export file. This folder must already exist.
 		Parameter 1 is required. It is a single item, not enumerated. 
-	  Parameter 2: format
-		Parameter keyword: 'EXPF'
-		Parameter type: 'EXPF'
-		Parameter description: specifies the export format (default is XML)
-		Parameter 2 is optional. It is a single item, enumerated. 
+	  Parameter 2: with properties
+		Parameter keyword: 'prdt'
+		Parameter type: 'reco'
+		Parameter description: the initial values for the properties (essentially to specify a name and a format)
+		Parameter 2 is optional. It is a single item, not enumerated. 
   Event 6: inspect
 ------------------
 	Description: display info about the specified resource in the Inspector window
@@ -503,7 +503,7 @@ Number of Classes: 23
 ------------------------------
 	Object class ID: 'MapD'
 	Class description: a resource map document (representing the contents of an entire fork)
-	Number of class properties: 8
+	Number of class properties: 9
 	  (1) inherits
 		Property ID: 'c@#^'
 		Property class: 'docu'
@@ -544,6 +544,11 @@ Number of Classes: 23
 		Property class: 'fss '
 		Property description: the file on disk corresponding to this resource map document
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	  (9) format
+		Property ID: 'pFRM'
+		Property class: 'EXPF'
+		Property description: the format used for export
+		Property is a single item, enumerated. It can be set by the Set Data AE.
 	Number of class elements: 1
 		Class element ID: 'EdiD'
 		Number of key forms: 2
@@ -906,17 +911,20 @@ Number of Enumerations: 3
 		Enumerator description: text pane
     Enumeration 3 ID: 'EXPF'
 ----------------------------
-	Number of enumerators: 4
-	  Enumerator 1: xml
+	Number of enumerators: 5
+	  Enumerator 1: unknown export
+		Enumerator ID: 'UEXP'
+		Enumerator description: unknown export format
+	  Enumerator 2: xml
 		Enumerator ID: 'XML '
 		Enumerator description: xml export format
-	  Enumerator 2: html
+	  Enumerator 3: html
 		Enumerator ID: 'HTML'
 		Enumerator description: html export format
-	  Enumerator 3: text
+	  Enumerator 4: text
 		Enumerator ID: 'TEXT'
 		Enumerator description: text export format
-	  Enumerator 4: DeRez
+	  Enumerator 5: DeRez
 		Enumerator ID: 'DREZ'
 		Enumerator description: DeRez export format
 
