@@ -530,6 +530,7 @@ CRezMap::HandleCreateElementEvent(
 	OSType			theType;
 	SInt16			theID = 0, theAttrs = 0;
 	Str255			typeStr, nameStr;
+	char			buffer[256];
 	Boolean			isReadOnly = false;
 	SInt16			theFork = fork_datafork;
 	CRezObj *		rezObj;
@@ -549,8 +550,10 @@ CRezMap::HandleCreateElementEvent(
 	// "attributes" keywords (resp. rzom_pType, rzom_pResID, rzom_pName,
 	// rzom_pAttributes). The type is required, the others are optional.
 	error = ::AEGetParamPtr(&propDesc, rzom_pType, typeChar, &returnedType,
-							typeStr, sizeof(Str255), &actualSize);
+							(Ptr) buffer, sizeof(buffer), &actualSize);
 	ThrowIfOSErr_(error);
+	buffer[actualSize] = 0;
+	CopyCStringToPascal(buffer, typeStr);				 
 	UMiscUtils::PStringToOSType(typeStr, theType);
 
 	ignoreErr = ::AEGetParamPtr(&propDesc, rzom_pResID, typeSInt16, &returnedType,
@@ -560,11 +563,14 @@ CRezMap::HandleCreateElementEvent(
 	} 
 	
 	ignoreErr = ::AEGetParamPtr(&propDesc, rzom_pName, typeChar, &returnedType,
-							nameStr, sizeof(Str255), &actualSize);
+								(Ptr) buffer, sizeof(buffer), &actualSize);
 	if (ignoreErr != noErr) {
 		nameStr[0] = 0;
-	} 
-
+	} else {
+		buffer[actualSize] = 0;
+		CopyCStringToPascal(buffer, nameStr);				 
+	}
+	
 	ignoreErr = ::AEGetParamPtr(&propDesc, rzom_pAttributes, typeSInt16, &returnedType,
 								&theAttrs, sizeof(SInt16), &actualSize);
 
