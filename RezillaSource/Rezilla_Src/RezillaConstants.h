@@ -1113,7 +1113,7 @@ enum
 	kAERzilFilesList	 	=  FOUR_CHAR_CODE('LFil'),
 	kAERzilCompareWith	 	=  FOUR_CHAR_CODE('AndF'),
 	kAERzilLike			 	=  FOUR_CHAR_CODE('Like'),
-	kAERzilUsing			=  FOUR_CHAR_CODE('Usin')
+	kAERzilFormat			=  FOUR_CHAR_CODE('Frmt')
 };
 
 /* AE Dispatch Table constants (aedt) */
@@ -1165,6 +1165,7 @@ const DescType rzom_pRezFork		= 'pFRK';	// ResFork
 // const DescType rzom_pRezMap			= 'pMAP';	// RezMap
 const DescType rzom_pRezFile		= 'pFIL';	// ResFile
 const DescType rzom_pEditedRsrcDocs	= 'pERD';	// Edited resource documents
+const DescType rzom_pExportFormat	= 'pFRM';	// Export format
 
 //    RezMap
 const DescType rzom_pRefNum			= 'pRFN';		// RefNum
@@ -1244,6 +1245,7 @@ const DescType rzom_eIsDataFork		= 'DFRK';
 const DescType rzom_eIsRsrcFork		= 'RFRK';
 const DescType rzom_eIsUnknownFork	= 'UFRK';
 
+const DescType rzom_eExportUnknown	= 'UEXP';
 const DescType rzom_eExportXml		= 'XML ';
 const DescType rzom_eExportText		= 'TEXT';
 const DescType rzom_eExportHtml		= 'HTML';
