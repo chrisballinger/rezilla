@@ -46,6 +46,7 @@ CRezMapDoc::GetAEProperty(
 	AEDesc&			outPropertyDesc) const
 {
 	OSErr	error = noErr;
+	ResType	theType;
 	
 	switch (inProperty) {
 		
@@ -79,12 +80,38 @@ CRezMapDoc::GetAEProperty(
 		
 
 		case rzom_pRezFork:
-		ResType	theType = rzom_eIsUnknownFork;
+		theType = rzom_eIsUnknownFork;
 		if (mFork == fork_rezfork) {
 			theType = rzom_eIsRsrcFork;
 		} else if (mFork == fork_datafork) {
 			theType = rzom_eIsDataFork;
 		} 
+		error = ::AECreateDesc(typeEnumerated, (Ptr) &theType,
+									sizeof(ResType), &outPropertyDesc);
+		ThrowIfOSErr_(error);
+		break;
+		
+		
+		case rzom_pExportFormat:
+		theType = rzom_eIsUnknownFork;
+		switch (mExportFormat) {
+			case exportMap_Xml:
+			theType = rzom_eExportXml;
+			break;
+			
+			case exportMap_Text:
+			theType = rzom_eExportText;
+			break;
+			
+			case exportMap_Html:
+			theType = rzom_eExportHtml;
+			break;
+			
+			case exportMap_Derez:
+			theType = rzom_eExportDerez;
+			break;
+			
+		}
 		error = ::AECreateDesc(typeEnumerated, (Ptr) &theType,
 									sizeof(ResType), &outPropertyDesc);
 		ThrowIfOSErr_(error);
@@ -119,10 +146,35 @@ CRezMapDoc::SetAEProperty(
 	const AEDesc&	inValue,
 	AEDesc&			outAEReply)
 {
-	switch (inProperty) {				
-		default:
-			LDocument::SetAEProperty(inProperty, inValue, outAEReply);
+	switch (inProperty) {
+		
+		case rzom_pExportFormat:
+		ResType		formatType;
+		
+		ThrowIfOSErr_( ::AEGetDescData(&inValue, &formatType, sizeof(ResType)) );
+		
+		switch (formatType) {
+			case rzom_eExportXml:
+			mExportFormat = exportMap_Xml;
 			break;
+			
+			case rzom_eExportText:
+			mExportFormat = exportMap_Text;
+			break;
+			
+			case rzom_eExportHtml:
+			mExportFormat = exportMap_Html;
+			break;
+			
+			case rzom_eExportDerez:
+			mExportFormat = exportMap_Derez;
+			break;
+		}
+		break;
+		
+		default:
+		LDocument::SetAEProperty(inProperty, inValue, outAEReply);
+		break;
 	}
 }
 
@@ -146,6 +198,7 @@ CRezMapDoc::AEPropertyExists(
 		case rzom_pRezFile:
 		case rzom_pRezFork:
 		case rzom_cRezMap: 
+		case rzom_pExportFormat:
 			exists = true;
 			break;
 
@@ -222,26 +275,43 @@ CRezMapDoc::HandleExportEvent(
 	
 	OSErr		error, ignoreErr;
 	DescType	returnedType;
+	AERecord	theRecord;
 	Size		actualSize;
 	Size		theSize;
-	FSSpec		fileSpec;
+	FSSpec		folderSpec, fileSpec;
 	ResType		theKind = 0;
 	SInt16		saveFormat = mExportFormat;
+	char		buffer[256];
+	Str255		nameStr = "\pRezilla_Export";
 
-	// Check for required "file" parameter
+	// Check for required 'file' parameter
 	error = ::AEGetParamPtr(&inAppleEvent, keyAEFile, typeFSS, &returnedType,
-					&fileSpec, sizeof(FSSpec), &theSize);
+					&folderSpec, sizeof(FSSpec), &theSize);
 	ThrowIfOSErr_(error);
 	
-	ignoreErr = ::AEGetParamPtr(&inAppleEvent, rzom_eEditorKind, typeEnumerated,
+	// Check for optional 'format' parameter
+	ignoreErr = ::AEGetParamPtr(&inAppleEvent, kAERzilFormat, typeEnumerated,
 			&returnedType, &theKind, sizeof(ResType), &actualSize);
 
+	// Check for optional 'with properties' parameter. It is an AERecord.
+	error = ::AECreateList(NULL, 0, true, &theRecord);
+	ThrowIfOSErr_(error);
+	ignoreErr = ::AEGetParamDesc(&inAppleEvent, keyAEPropData, typeAERecord, &theRecord);
+	
+	if (ignoreErr == noErr) {
+		ignoreErr = ::AEGetParamPtr(&theRecord, rzom_pExportFormat, typeEnumerated,
+				&returnedType, &theKind, sizeof(ResType), &actualSize);
+		
+		ignoreErr = ::AEGetParamPtr(&theRecord, keyAEName, typeChar,
+				&returnedType, (Ptr) buffer, sizeof(buffer), &actualSize);
+		if (ignoreErr == noErr) {
+			buffer[actualSize] = 0;
+			CopyCStringToPascal(buffer, nameStr);				 
+		} 		
+	} 
+			
 	// Map to the equivalent menu command
 	switch (theKind) {
-		case rzom_eExportXml:
-		mExportFormat = exportMap_Xml;
-		break;
-		
 		case rzom_eExportText:
 		mExportFormat = exportMap_Text;
 		break;
@@ -251,15 +321,36 @@ CRezMapDoc::HandleExportEvent(
 		break;
 		
 		case rzom_eExportDerez:
-		mExportFormat = cmd_HexEditRez;
-		break;
-		
-		default:
 		mExportFormat = exportMap_Derez;
 		break;
+		
+		case rzom_eExportXml:
+		mExportFormat = exportMap_Xml;
+		break;
 
-	}
+		default:
+		// In this case, use the current value of mExportFormat since it 
+		// can be set by as a property with the "set data" AppleScript command.
+		break;
+}
 	
+	// Make a FSSpec for the export file
+	HFileInfo	param;
+
+	param.ioCompletion = 0L;
+	param.ioNamePtr = folderSpec.name;
+	param.ioVRefNum = folderSpec.vRefNum;
+ 	param.ioDirID = folderSpec.parID;
+	param.ioFDirIndex = 0;
+	error = ::PBGetCatInfoSync((CInfoPBPtr)&param);
+	fileSpec.vRefNum = folderSpec.vRefNum;
+	fileSpec.parID = param.ioDirID;
+	BlockMoveData(nameStr, fileSpec.name, sizeof(FSSpec));
+		
+	// Delete an already existing file
+	error = ::FSpDelete(&fileSpec);
+
+	// Export the map
 	DoExport(fileSpec);
 
 	mExportFormat = saveFormat;
