@@ -2,7 +2,7 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2005-05-27 09:33:30
+//             Last modification: 2005-06-04 23:16:44
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -743,18 +743,29 @@ CRezMapDoc::AskSaveChanges(
 void
 CRezMapDoc::DoAESave(
 				FSSpec&	inFileSpec,
-				OSType	/* inFileType */)
+				OSType	inForkType)
 {
-	OSErr error;
-	SInt16 oldFork = mRezFile->GetUsedFork();
-	CRezMapTable* theRezMapTable = mRezMapWindow->GetRezMapTable();
+	OSErr			error;
+	SInt16			oldFork = mRezFile->GetUsedFork(), useFork;
+	CRezMapTable*	theRezMapTable = mRezMapWindow->GetRezMapTable();
 	
-	if (mFork == fork_samefork) {
-		mFork = mRezFile->GetUsedFork();
-	} 
+	switch (inForkType) {
+		case rzom_eRsrcFork:
+		useFork = fork_rezfork;
+		break;
+		
+		case rzom_eSameFork:
+		useFork = oldFork;
+		break;
+		
+		case rzom_eDataFork:
+		default:
+		useFork = fork_datafork;
+		break;	
+	}
 	
 	// Make a new file object
-	CRezFile * theNewFile = new CRezFile( inFileSpec, kResFileNotOpened, mFork );
+	CRezFile * theNewFile = new CRezFile( inFileSpec, kResFileNotOpened, useFork );
 	ThrowIfNil_(theNewFile);
 	
 	theNewFile->SetOwnerDoc(this);
@@ -795,7 +806,6 @@ CRezMapDoc::DoAESave(
 			} 
 			
 			// Rebuild the RezMapTable and redraw
-// 			theRezMapTable->SetOwnerRefnum( mRezMap->GetRefnum() );
 			theRezMapTable->RemoveAllItems();
 			theRezMapTable->Populate(mTypesArray);
 			mRezMapWindow->Refresh();
@@ -884,7 +894,8 @@ CRezMapDoc::AskSaveAs(
 		} else {
 			if (replacing && UsesFileSpec(outFSSpec)) {
 				// User chose to replace the file with one of the same
-				// name. This is the same thing as a regular save.
+				// name. Consider this is the same thing as a regular save 
+				// even if the dest fork has been chosen to a different fork.
 				if (inRecordIt) {
 					SendSelfAE(kAECoreSuite, kAESave, ExecuteAE_No);
 				}
