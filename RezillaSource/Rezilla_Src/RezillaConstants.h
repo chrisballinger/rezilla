@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2005-05-21 08:00:14
+//             Last modification : 2005-06-04 22:47:30
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -416,6 +416,7 @@ const SInt16	index_CompWinUntitled		= 3;
 const SInt16	index_CompWinUntitledX		= 4;
 const SInt16	index_EditorDocUntitled		= 5;
 const SInt16	index_EditorDocUntitledX	= 6;
+const SInt16	index_ExportUntitled		= 7;
 // Indices of STR# 1501: windows menu items
 const SInt16	index_WinMenuInspector		= 1;
 const SInt16	index_WinMenuTypeInspector	= 2;
@@ -1111,6 +1112,7 @@ enum
 {
 	kAERzilReply	 		=  FOUR_CHAR_CODE('Repl'),
 	kAERzilFilesList	 	=  FOUR_CHAR_CODE('LFil'),
+	kAERzilFromFork			=  FOUR_CHAR_CODE('From'),
 	kAERzilCompareWith	 	=  FOUR_CHAR_CODE('AndF'),
 	kAERzilLike			 	=  FOUR_CHAR_CODE('Like'),
 	kAERzilFormat			=  FOUR_CHAR_CODE('Frmt')
@@ -1235,12 +1237,15 @@ const DescType rzom_eGuiEditor		= 'EGUI';
 const DescType rzom_eHexaData		= 'HEXA';
 const DescType rzom_eAsciiData		= 'ASCI';
 
-const DescType rzom_eFromFork		= 'FROM';
+// For "open" and "save as" commands
+const DescType rzom_eWhichFork		= 'FORK';
 const DescType rzom_eDataFork		= 'DATF';
 const DescType rzom_eRsrcFork		= 'RSRF';
 const DescType rzom_eAnyFork		= 'ANYF';
+const DescType rzom_eSameFork		= 'SAMF';
 
-const DescType rzom_eWhichFork		= 'FKND';
+// For 'pFRK' property
+const DescType rzom_eForkKind		= 'FKND';
 const DescType rzom_eIsDataFork		= 'DFRK';
 const DescType rzom_eIsRsrcFork		= 'RFRK';
 const DescType rzom_eIsUnknownFork	= 'UFRK';
@@ -1269,6 +1274,7 @@ enum RezillaErrors
 	err_ExceptionParsingTemplate,
 	err_NoResourceForType,
 	err_NoResourceWithName,
+	err_AlreadyExistingID,
 	err_MoreDataThanExpected,
 	err_ImportGenericError			= 1900,
 	err_ImportInvalidOSType,
