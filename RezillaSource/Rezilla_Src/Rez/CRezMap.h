@@ -2,7 +2,7 @@
 // CRezMap.h					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2005-05-19 07:23:22
+//             Last modification: 2005-06-06 10:38:31
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -108,12 +108,6 @@ public:
 								const AEDesc	&inKeyData,
 								AEDesc			&outToken) const;
 
-// 	virtual void		HandleAppleEvent(
-// 								const AppleEvent	&inAppleEvent,
-// 								AppleEvent			&outAEReply,
-// 								AEDesc				&outResult,
-// 								SInt32				inAENumber);
-	
 	virtual bool	AEPropertyExists(
 								DescType		inProperty) const;
 

@@ -2,7 +2,7 @@
 // CRezMap.cp					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2005-05-19 10:32:19
+//             Last modification: 2005-06-06 13:44:24
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -351,8 +351,14 @@ CRezMap::FindResource(ResType inType, short inID, Boolean loadIt, Boolean create
 Boolean
 CRezMap::HasResourceWithTypeAndId(ResType inType, short inID)
 {
-	Handle theHandle = nil;
-	return ( GetWithID(inType, inID, theHandle) != resNotFound );
+	Handle	theHandle = nil;
+	Boolean	hasRes = false;
+	
+	OSErr error = GetWithID(inType, inID, theHandle);
+	if (error == noErr && theHandle != nil) {
+		hasRes = true;
+	} 
+	return hasRes;
 }
 
 
@@ -365,8 +371,14 @@ CRezMap::HasResourceWithTypeAndId(ResType inType, short inID)
 Boolean
 CRezMap::HasResourceWithTypeAndName(ResType inType, ConstStr255Param inName)
 {
-	Handle theHandle = nil;
-	return ( GetWithName(inType, inName, theHandle) != resNotFound );
+	Handle	theHandle = nil;
+	Boolean	hasRes = false;
+	
+	OSErr error = GetWithName(inType, inName, theHandle);
+	if (error == noErr && theHandle != nil) {
+		hasRes = true;
+	} 
+	return hasRes;
 }
 
 
