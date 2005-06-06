@@ -2,7 +2,7 @@
 // CRezMapDoc.h				
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2005-06-01 08:16:50
+//             Last modification: 2005-06-06 10:38:59
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -128,6 +128,15 @@ public:
 								const AppleEvent&	inAppleEvent,
 								AppleEvent&			outAEReply,
 								AEDesc&				outResult);
+
+	virtual void	HandleAESave( const AppleEvent& inSaveAE );
+	
+	virtual LModelObject*	HandleCreateElementEvent(
+								DescType			inElemClass,
+								DescType			inInsertPosition,
+								LModelObject*		inTargetObject,
+								const AppleEvent	&inAppleEvent,
+								AppleEvent			&outAEReply);
 
 	virtual void	GetSubModelByPosition(
 								DescType			inModelID,

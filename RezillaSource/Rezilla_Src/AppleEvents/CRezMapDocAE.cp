@@ -2,7 +2,7 @@
 // CRezMapDocAE.cp
 // 
 //                       Created: 2005-04-09 10:03:39
-//             Last modification: 2005-06-01 08:17:05
+//             Last modification: 2005-06-06 13:45:21
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -17,8 +17,11 @@
 #include "CRezMap.h"
 #include "CRezMapDoc.h"
 #include "CRezFile.h"
+#include "CRezObj.h"
+#include "CRezObjItem.h"
 #include "CEditorDoc.h"
 #include "CRezMapWindow.h"
+#include "UMiscUtils.h"
 #include "UResources.h"
 #include "RezillaConstants.h"
 
@@ -282,13 +285,16 @@ CRezMapDoc::HandleExportEvent(
 	ResType		theKind = 0;
 	SInt16		saveFormat = mExportFormat;
 	char		buffer[256];
-	Str255		nameStr = "\pRezilla_Export";
+	Str255		nameStr;
 
 	// Check for required 'file' parameter
 	error = ::AEGetParamPtr(&inAppleEvent, keyAEFile, typeFSS, &returnedType,
 					&folderSpec, sizeof(FSSpec), &theSize);
 	ThrowIfOSErr_(error);
 	
+	// Set a default for the name (RezillaExport)
+	::GetIndString(nameStr, STRx_DefaultDocTitles, index_ExportUntitled);
+
 	// Check for optional 'format' parameter
 	ignoreErr = ::AEGetParamPtr(&inAppleEvent, kAERzilFormat, typeEnumerated,
 			&returnedType, &theKind, sizeof(ResType), &actualSize);
@@ -354,6 +360,203 @@ CRezMapDoc::HandleExportEvent(
 	DoExport(fileSpec);
 
 	mExportFormat = saveFormat;
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ HandleAESave													  [public]
+// ---------------------------------------------------------------------------
+//	Respond to "Save" and "Save As" AppleEvents
+
+void
+CRezMapDoc::HandleAESave(
+	const AppleEvent&	inSaveAE)
+{
+	OSErr		err;
+	DescType	theType;
+	ResType		forkType = rzom_eDataFork;
+	Size		theSize;
+	FSSpec		fileSpec;
+
+	// Check for optional "in" parameter
+	err = ::AEGetParamPtr(&inSaveAE, keyAEFile, typeFSS, &theType,
+						&fileSpec, sizeof(FSSpec), &theSize);
+
+	bool	hasFileParameter = (err == noErr);
+
+	// Check for optional "as" parameter telling in which fork to save 
+	// (honored only in Save As operations)
+	err = ::AEGetParamPtr(&inSaveAE, keyAEFileType, typeEnumerated,
+						&theType, &forkType, sizeof(ResType), &theSize);
+	
+	if (hasFileParameter) {
+		// Save using file from event
+		DoAESave(fileSpec, forkType);
+	} else  {
+		// Save using existing file
+		DoSave();	
+	} 
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ HandleCreateElementEvent
+// ---------------------------------------------------------------------------
+// This function handles the "make new" event in order to create a new
+// resource in the map document. Properties can be set using the "with
+// properties" parameter. Thus one can write in AppleScript:
+//   make new resource of map document 1 with properties {type:"TEXT", ID:129, attributes:8}
+//   
+// If the ID is not specified, an unique ID is attributed. If it already 
+// exists, the event fails in order to rpeserve existing resources. If no 
+// type is specified, a 'TEXT' resource is created
+//  
+// The optional "with data" parameter is also supported. For instance:
+//   make new resource of map document 1 with data "Hello Rezilla!"
+//   
+// The inTargetObject argument contains "this". 
+
+LModelObject*
+CRezMapDoc::HandleCreateElementEvent(
+	DescType			inElemClass,
+	DescType			inInsertPosition,
+	LModelObject*		inTargetObject,
+	const AppleEvent&	inAppleEvent,
+	AppleEvent&			outAEReply)
+{
+#pragma unused (inInsertPosition, inTargetObject)
+	
+	OSErr 			ignoreErr;
+	AEDesc			propDesc;
+	OSType			theType;
+	SInt16			theID = 0, theAttrs;
+	Str255			typeStr, nameStr;
+	Boolean			setFlag = false, gotID = false;
+	CRezObj *		rezObj;
+	CRezObjItem *	rezObjItem;
+
+	if (inElemClass != rzom_cRezObj) {
+		ThrowOSErr_(errAEUnknownObjectType);
+	} 
+	
+	// Set some defaults
+	nameStr[0] = 0;
+	theType = ResType_Text;
+	theAttrs = 0;
+	
+	// Extract the "with properties" parameter which possibly contains property
+	// values in an AERecord.
+	ignoreErr = ::AEGetParamDesc(&inAppleEvent, keyAEPropData, typeAERecord, &propDesc);
+
+	if (ignoreErr == noErr) {
+		// Parse the record
+		SInt32		i, count = 0;
+		
+		ignoreErr = ::AECountItems(&propDesc, &count);
+
+		if (ignoreErr == noErr) {
+			short	flag = 0;
+			
+			for (i = 1; i <= count; i++) {
+				AEKeyword		theKey;
+				StAEDescriptor	subDesc;
+				
+				ignoreErr = ::AEGetNthDesc(&propDesc, i, typeWildCard, &theKey, &subDesc.mDesc);
+				
+				// Look for "ID", "type", "name", "attributes", "locked",
+				// "preload", "protected", "purgeable", "sysHeap" keywords
+				switch (theKey) {
+					case rzom_pResID:
+					UExtractFromAEDesc::TheSInt16(subDesc.mDesc, theID);
+					gotID = true;
+					break;
+					
+					case rzom_cRezType:
+					case rzom_pType:
+					UExtractFromAEDesc::ThePString(subDesc.mDesc, typeStr, sizeof(typeStr));
+					UMiscUtils::PStringToOSType(typeStr, theType);
+					break;
+					
+					case pName: 
+					UExtractFromAEDesc::ThePString(subDesc.mDesc, nameStr, sizeof(nameStr));
+					break;
+
+					case rzom_pAttributes:
+					UExtractFromAEDesc::TheSInt16(subDesc.mDesc, theAttrs);
+					break;
+					
+					case rzom_pSysHeap:
+					UExtractFromAEDesc::TheBoolean(subDesc.mDesc, setFlag);
+					flag = resSysHeap;
+					break;
+					
+					case rzom_pPurgeable:
+					UExtractFromAEDesc::TheBoolean(subDesc.mDesc, setFlag);
+					flag = resPurgeable;
+					break;
+					
+					case rzom_pLocked:
+					UExtractFromAEDesc::TheBoolean(subDesc.mDesc, setFlag);
+					flag = resLocked;
+					break;
+					
+					case rzom_pProtected:
+					UExtractFromAEDesc::TheBoolean(subDesc.mDesc, setFlag);
+					flag = resProtected;
+					break;
+					
+					case rzom_pPreload:
+					UExtractFromAEDesc::TheBoolean(subDesc.mDesc, setFlag);
+					flag = resPreload;
+					break;
+					
+				}
+				
+				if (flag) {
+					if (setFlag) {
+						theAttrs |= flag;
+					} else {
+						theAttrs &= ~flag;
+					}
+					flag = 0;
+				} 
+			}
+		}
+
+		if (propDesc.descriptorType != typeNull) ::AEDisposeDesc(&propDesc);
+	} 
+
+	if (!gotID) {
+		mRezMap->UniqueID(theType, theID);
+	} else if ( mRezMap->HasResourceWithTypeAndId(theType, theID) ) {
+		ThrowOSErr_(err_AlreadyExistingID);
+	}
+	
+	// Create the new resource
+	rezObjItem = DoCreateResource(theType, theID, &nameStr, theAttrs, true);
+	ThrowIfNil_(rezObjItem);
+	
+	SetModified(true);
+	rezObj = rezObjItem->GetRezObj();
+	rezObj->SetAttributesInMap(theAttrs);
+	
+	// Look for a "with data" parameter containing initial data for the resource
+	AEDesc	valueDesc;
+	ignoreErr = AEGetParamDesc(&inAppleEvent, keyAEData, typeWildCard, &valueDesc);
+	if (ignoreErr == noErr) {
+		rezObj->SetAEResourceData(valueDesc);
+	} 
+	if (valueDesc.descriptorType != typeNull) ::AEDisposeDesc(&valueDesc);
+	
+	// An object specifier for the new element must be returned as the
+	// keyAEResult parameter of the reply
+	StAEDescriptor	elementDesc;
+	rezObj->MakeSpecifier(elementDesc);
+	UAEDesc::AddKeyDesc(&outAEReply, keyAEResult, elementDesc);
+	
+	// Return nil otherwise LModelDirector::HandleCreateElementEvent will 
+	// also write to the reply
+	return (LModelObject *) NULL;
 }
 
 

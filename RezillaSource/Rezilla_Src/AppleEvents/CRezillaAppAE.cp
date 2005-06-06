@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaAppAE.cp					
 //                       Created: 2004-11-30 08:44:17
-//             Last modification: 2005-05-31 06:51:02
+//             Last modification: 2005-06-06 09:42:23
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -13,6 +13,7 @@
 
 #include "CRezillaApp.h"
 #include "CRezMapDoc.h"
+#include "CRezMapWindow.h"
 #include "CRezMap.h"
 #include "CRezCompare.h"
 #include "CRezFile.h"
@@ -118,7 +119,7 @@ CRezillaApp::HandleOpenDocsEvent(
 	} 
 							  
 	// Extract optional "from" parameter.
-	ignoreErr = ::AEGetParamPtr(&inAppleEvent, rzom_eFromFork, typeEnumerated,
+	ignoreErr = ::AEGetParamPtr(&inAppleEvent, kAERzilFromFork, typeEnumerated,
 							  &returnedType, &theKind, sizeof(ResType), &theSize);
 	if (ignoreErr == noErr) {
 		if (theKind == rzom_eDataFork) {
@@ -285,45 +286,90 @@ CRezillaApp::HandleCreateElementEvent(
 	const AppleEvent&	inAppleEvent,
 	AppleEvent&			outAEReply)
 {
-#pragma unused (inInsertPosition, inTargetObject, outAEReply)
+#pragma unused(inInsertPosition, inTargetObject)
 	
 	OSErr 			error, ignoreErr;
 	AEDesc			propDesc;
 	DescType		returnedType;
 	Size			actualSize;
-	FSSpec			theFSSpec;
+	FSSpec			folderSpec, fileSpec;
+	Str255			theName;
 	OSType			theCode;
 	Boolean			isReadOnly = false;
 	SInt16			theFork = fork_datafork;
 	CRezMapDoc *	rezMapDoc;
 
-	if (inElemClass != rzom_cRezMapDoc && inElemClass != rzom_cRezMapWindow) {
+	if (inElemClass != rzom_cRezMapDoc && inElemClass != rzom_cRezMap && inElemClass != rzom_cRezMapWindow) {
 		ThrowOSErr_(errAEUnknownObjectType);
 	} 
 	
-	// Extract the "with properties" parameter which contains property
-	// values in an AERecord. Here, this parameter is required because it
-	// must contain the FSSpec for the new resource map.
-	error = ::AEGetParamDesc(&inAppleEvent, keyAEPropData, typeAERecord, &propDesc);
+	error = ::AEGetParamPtr(&inAppleEvent, keyAEInsertHere, typeFSS, &returnedType,
+								&folderSpec, sizeof(FSSpec), &actualSize);
 	ThrowIfOSErr_(error);
 
-	// Look for "file", "readOnly", "fork" keywords (resp. rzom_pRezFile, 
-	// rzom_pReadOnly, rzom_pRezFork)
-	error = ::AEGetParamPtr(&inAppleEvent, rzom_pRezFile, typeFSS, &returnedType,
-								&theFSSpec, sizeof(FSSpec), &actualSize);
-	ThrowIfOSErr_(error);
+	// Set a default for the name (untitled.rsrc)
+	::GetIndString(theName, STRx_NavStrings, index_SaveUntitledRsrc);
 
-	ignoreErr = ::AEGetParamPtr(&inAppleEvent, rzom_pRezFork, typeEnumerated, &returnedType,
-								&theCode, sizeof(OSType), &actualSize);
-	if (ignoreErr == noErr && theCode == rzom_eRsrcFork) {
-			theFork = fork_rezfork;			
+	// Extract the "with properties" parameter which possibly contains property
+	// values in an AERecord.
+	ignoreErr = ::AEGetParamDesc(&inAppleEvent, keyAEPropData, typeAERecord, &propDesc);
+
+	if (ignoreErr == noErr) {
+		// Parse the record
+		SInt32		i, count = 0;
+		
+		ignoreErr = ::AECountItems(&propDesc, &count);
+
+		if (ignoreErr == noErr) {
+			for (i = 1; i <= count; i++) {
+				AEKeyword		theKey;
+				StAEDescriptor	subDesc;
+				
+				ignoreErr = ::AEGetNthDesc(&propDesc, i, typeWildCard, &theKey, &subDesc.mDesc);
+				
+				// Look for "name", "readOnly", "fork" keywords (resp. keyAEName, 
+				// rzom_pReadOnly, rzom_pRezFork)
+				switch (theKey) {
+					case keyAEName:
+					UExtractFromAEDesc::ThePString(subDesc.mDesc, theName, sizeof(theName));
+					break;
+					
+					case rzom_pReadOnly:
+					UExtractFromAEDesc::TheBoolean(subDesc.mDesc, isReadOnly);
+					break;
+					
+					case rzom_pRezFork:
+					UExtractFromAEDesc::TheEnum(subDesc.mDesc, theCode);
+					if (theCode == rzom_eRsrcFork) {
+							theFork = fork_rezfork;			
+					} 
+					break;
+					
+				}
+			}
+		}
+
+		if (propDesc.descriptorType != typeNull) ::AEDisposeDesc(&propDesc);
 	} 
 
-	ignoreErr = ::AEGetParamPtr(&inAppleEvent, rzom_pReadOnly, typeBoolean, &returnedType,
-								&isReadOnly, sizeof(Boolean), &actualSize);
+	// Make a FSSpec for the new file
+	HFileInfo	param;
+
+	param.ioCompletion = 0L;
+	param.ioNamePtr = folderSpec.name;
+	param.ioVRefNum = folderSpec.vRefNum;
+	param.ioDirID = folderSpec.parID;
+	param.ioFDirIndex = 0;
+	error = ::PBGetCatInfoSync((CInfoPBPtr)&param);
+	fileSpec.vRefNum = folderSpec.vRefNum;
+	fileSpec.parID = param.ioDirID;
+	BlockMoveData(theName, fileSpec.name, sizeof(FSSpec));
+		
+	// Delete an already existing file
+	ignoreErr = ::FSpDelete(&fileSpec);
 
 	// Make a new file object.
-	CRezFile * theRezFile = new CRezFile(theFSSpec, kResFileNotOpened, theFork);
+	CRezFile * theRezFile = new CRezFile(fileSpec, kResFileNotOpened, theFork);
 	ThrowIfNil_(theRezFile);
 
 	// Make new resource file on disk
@@ -335,8 +381,17 @@ CRezillaApp::HandleCreateElementEvent(
 	ThrowIfNil_(rezMapDoc);
 
 	rezMapDoc->SetReadOnly(isReadOnly);	
+	rezMapDoc->GetRezMapWindow()->InstallReadOnlyIcon();
 	
-	return (LModelObject *) rezMapDoc;
+	// An object specifier for the new element must be returned as the
+	// keyAEResult parameter in the Reply to the AppleEvent
+	StAEDescriptor	elementDesc;
+	rezMapDoc->MakeSpecifier(elementDesc);
+	UAEDesc::AddKeyDesc(&outAEReply, keyAEResult, elementDesc);
+	
+	// Return nil otherwise LModelDirector::HandleCreateElementEvent will 
+	// also write to the reply
+	return (LModelObject *) NULL;
 }
 
 
