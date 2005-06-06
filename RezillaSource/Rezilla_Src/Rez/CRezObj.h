@@ -2,7 +2,7 @@
 // CRezObj.h					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2005-05-23 18:40:14
+//             Last modification: 2005-06-05 09:08:08
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -71,6 +71,10 @@ public:
 									const AEDesc& inValue, 
 									short inFlag);
 		
+		void		GetAEResourceData(AEDesc& outPropertyDesc) const;
+
+		void		SetAEResourceData(const AEDesc& inValue);
+
 		virtual bool	AEPropertyExists(
 									DescType	inProperty) const;
 

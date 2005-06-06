@@ -2,7 +2,7 @@
 // CRezObjAE.cp
 // 
 //                       Created: 2005-04-09 10:03:39
-//             Last modification: 2005-05-21 08:00:00
+//             Last modification: 2005-06-05 09:17:42
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -183,14 +183,9 @@ CRezObj::GetAEProperty(
 		break;
 		
 		
-		case rzom_pData: {
-			StByteToHexTranslator translator(mData);
-			translator.Convert();
-			error = ::AECreateDesc(typeChar, (Ptr) *(translator.GetOutHandle()),
-								 translator.GetOutSize(), &outPropertyDesc);
-			ThrowIfOSErr_(error);
-			break;
-		}
+		case rzom_pData: 
+		GetAEResourceData(outPropertyDesc);
+		break;
 		
 		
 		default:
@@ -211,6 +206,8 @@ CRezObj::SetAEProperty(
 	const AEDesc&	inValue,
 	AEDesc&			outAEReply)
 {
+	OSErr error;
+	
 	switch (inProperty) {
 
 		case pName: {
@@ -220,13 +217,6 @@ CRezObj::SetAEProperty(
 			break;
 		}
 
-		case rzom_pResID: {
-			short		theID;
-			UExtractFromAEDesc::TheSInt16(inValue, theID);
-			SetID(theID);
-			break;
-		}
-		
 		case rzom_pAttributes: {
 			short	theAttrs;
 			UExtractFromAEDesc::TheSInt16(inValue, theAttrs);
@@ -258,27 +248,17 @@ CRezObj::SetAEProperty(
 		SetAERezObjAttribute(inValue, resChanged);
 		break;
 		
-		case rzom_pData: {
-			// The data is specified as hexadecimal text unless it is a 
-			// TEXT resource, in which case the text of the resource is 
-			// passed directly
-			Size theSize = ::AEGetDescDataSize(&inValue);
-			Handle dataH = NewHandle(theSize);
-			if (dataH != nil) {
-				OSErr error = ::AEGetDescData(&inValue, *dataH, theSize);
-				ThrowIfOSErr_(error);
-				if (mType == 'TEXT') {
-					SetData( dataH );
-				} else {
-					StHexToByteTranslator translator(dataH);
-					translator.Convert();
-					SetData( translator.GetOutHandle() );
-				}
-				::DisposeHandle(dataH);
-			} 
+		case rzom_pSizeOnDisk: {
+			UInt32		theSize;
+			UExtractFromAEDesc::TheUInt32(inValue, theSize);
+			error = SetSizeOnDisk(theSize);
+			ThrowIfOSErr_(error);
 			break;
 		}
 		
+		case rzom_pData:
+		SetAEResourceData(inValue);
+		break;		
 		
 		default:
 			LModelObject::SetAEProperty(inProperty, inValue, outAEReply);
@@ -311,14 +291,14 @@ CRezObj::GetAERezObjAttribute(
 void
 CRezObj::SetAERezObjAttribute(const AEDesc& inValue, short inFlag)
 {
-	short		theAttrs;
-	Boolean		setIt;
+	short	theAttrs;
+	Boolean	setIt;
 	
 	UExtractFromAEDesc::TheBoolean(inValue, setIt);
 	GetAttributesFromMap(theAttrs);
 
 	if (setIt) {
-		theAttrs &= inFlag;
+		theAttrs |= inFlag;
 	} else {
 		theAttrs &= ~inFlag;
 	}
@@ -326,19 +306,112 @@ CRezObj::SetAERezObjAttribute(const AEDesc& inValue, short inFlag)
 }
 
 
-// // ---------------------------------------------------------------------------
-// //	¥ GetModelName
-// // ---------------------------------------------------------------------------
-// //	Return the name of the resource
-// 
-// StringPtr
-// CRezObj::GetModelName(
-// 	Str255	outModelName) const
-// {
-// 	LString::CopyPString(mName, outModelName);
-// 	
-// 	return mName;
-// }
+// ---------------------------------------------------------------------------
+//	¥ GetAEResourceData
+// ---------------------------------------------------------------------------
+// The data are specified in hexadecimal notation unless it is a TEXT or a
+// STR# resource, in which case the text of the resource is returned directly
+// (as a single string or a list of strings respectively).
+
+void
+CRezObj::GetAEResourceData(AEDesc& outPropertyDesc) const
+{
+	OSErr error;
+	
+	if (mType == 'TEXT') {
+		error = ::AECreateDesc(typeChar, (Ptr) *mData, mSize, &outPropertyDesc);
+	} else if (mType == 'STR#') {
+		LHandleStream * theStream = new LHandleStream(mData);
+		if ( theStream->GetLength() == 0 ) {
+			return;
+		} 
+		
+		UInt16	count, index;
+		Str255	theString;
+
+		error = ::AECreateList(NULL, 0, false, &outPropertyDesc);
+		ThrowIfOSErr_(error);
+		
+		*theStream >> count;
+		
+		for (index = 1; index <= count && error == noErr; index++) {
+			*theStream >> theString;
+			
+			StAEDescriptor	keyData;
+			error = ::AECreateDesc(typeChar, theString + 1, theString[0], &keyData.mDesc);
+			error = ::AEPutDesc(&outPropertyDesc, index, &keyData.mDesc);
+		}
+		
+		theStream->DetachDataHandle();
+		delete theStream;
+	} else {
+		StByteToHexTranslator hexTranslator(mData);
+		hexTranslator.Convert();
+		error = ::AECreateDesc(typeChar, (Ptr) *(hexTranslator.GetOutHandle()),
+							   hexTranslator.GetOutSize(), &outPropertyDesc);
+	}
+	ThrowIfOSErr_(error);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ SetAEResourceData
+// ---------------------------------------------------------------------------
+// The data are specified in hexadecimal notation unless it is a TEXT or a
+// STR# resource, in which case the text of the resource is passed directly
+// (as a single string or a list of strings respectively).
+
+void
+CRezObj::SetAEResourceData(const AEDesc& inValue)
+{
+	OSErr	error;
+	
+	if (mType == 'STR#') {
+		SInt32		numStrings;
+		UInt16		count, index;
+		Str255		theString;
+		char		buffer[256];
+		AEKeyword	theKey;
+		Size		actualSize;
+		DescType	returnedType;
+		
+		error = ::AECountItems(&inValue, &numStrings);  // Check typeAEList ?
+		ThrowIfOSErr_(error);
+		count = numStrings;
+		
+		LHandleStream * theStream = new LHandleStream();
+		ThrowIfNil_(theStream);
+		
+		*theStream << count;
+		
+		for (index = 1; index <= count; index++) {
+			error = ::AEGetNthPtr(&inValue, index, typeChar, &theKey, &returnedType, 
+							 (Ptr) buffer, 255, &actualSize);
+			ThrowIfOSErr_(error);
+			buffer[actualSize] = 0;
+			CopyCStringToPascal(buffer, theString);				 
+			*theStream << theString;
+		}
+		SetData( theStream->GetDataHandle() );
+		delete theStream;		
+	} else {
+		Size	theSize = ::AEGetDescDataSize(&inValue);
+		Handle	dataH = NewHandle(theSize);
+		 
+		if (dataH != nil) {
+			error = ::AEGetDescData(&inValue, *dataH, theSize);
+			ThrowIfOSErr_(error);
+			if (mType == 'TEXT') {
+				SetData( dataH );
+			} else  {
+				StHexToByteTranslator translator(dataH);
+				translator.Convert();
+				SetData( translator.GetOutHandle() );
+			}
+			::DisposeHandle(dataH);
+		} 
+	}
+}
 
 
 // ---------------------------------------------------------------------------
@@ -402,11 +475,6 @@ CRezObj::HandleAppleEvent(
 			theRezType->HandleResourceEvent(inAppleEvent, outAEReply, outResult, this, inAENumber);	
 		} 
 		break;
-		
-		
-// 		case aeRzil_Inspect:
-// 		CRezillaApp::sInspectorWindow->InstallValues(this);
-// 		break;
 		
 		
 		default:
