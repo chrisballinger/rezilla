@@ -72,7 +72,7 @@
 				<ArrayOtherParams>
 					<Parameter>
 						<ParameterName>from</ParameterName>
-						<ParameterID>FROM</ParameterID>
+						<ParameterID>From</ParameterID>
 						<ParameterType>FORK</ParameterType>
 						<ParameterDescription>restrict to a particular fork (default is anyFork)</ParameterDescription>
 						<ParameterFlags>
@@ -553,12 +553,36 @@
 						</ParameterFlags>
 					</Parameter>
 					<Parameter>
+						<ParameterName>in</ParameterName>
+						<ParameterID>insh</ParameterID>
+						<ParameterType>obj </ParameterType>
+						<ParameterDescription>the container in which to create the new element (it must already exist)</ParameterDescription>
+						<ParameterFlags>
+							<IsOptional>required</IsOptional>
+							<IsListOfItems>singleItem</IsListOfItems>
+							<IsEnumerated>notEnumerated</IsEnumerated>
+							<Reserved/>
+							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+							<ParamIsReference>paramIsValue</ParamIsReference>
+							<ParamIsTarget>notParamIsTarget</ParamIsTarget>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<LabeledParam>prepositionParam</LabeledParam>
+							<IsFeminine>notFeminine</IsFeminine>
+							<IsMasculine>notMasculine</IsMasculine>
+							<Plural>singular</Plural>
+						</ParameterFlags>
+					</Parameter>
+					<Parameter>
 						<ParameterName>with properties</ParameterName>
 						<ParameterID>prdt</ParameterID>
 						<ParameterType>reco</ParameterType>
-						<ParameterDescription>Properties of the element. Some properties are required ('file' when creating a new map, 'type' when creating a new resource).</ParameterDescription>
+						<ParameterDescription>properties of the element (for instance 'name', 'readOnly', 'fork')</ParameterDescription>
 						<ParameterFlags>
-							<IsOptional>required</IsOptional>
+							<IsOptional>optional</IsOptional>
 							<IsListOfItems>singleItem</IsListOfItems>
 							<IsEnumerated>notEnumerated</IsEnumerated>
 							<Reserved/>
@@ -580,7 +604,7 @@
 						<ParameterName>with data</ParameterName>
 						<ParameterID>data</ParameterID>
 						<ParameterType>****</ParameterType>
-						<ParameterDescription>the initial data for the element</ParameterDescription>
+						<ParameterDescription>the initial data for the new element</ParameterDescription>
 						<ParameterFlags>
 							<IsOptional>optional</IsOptional>
 							<IsListOfItems>singleItem</IsListOfItems>
@@ -605,7 +629,7 @@
 
 			<Event>
 				<EventName>save</EventName>
-				<EventDescription>save a set of objects</EventDescription>
+				<EventDescription>save an object</EventDescription>
 				<EventClass>core</EventClass>
 				<EventID>save</EventID>
 				<ReplyType>null</ReplyType>
@@ -629,7 +653,7 @@
 				<Reserved/>
 				</ReplyFlags>
 				<DirectParamType>obj </DirectParamType>
-				<DirectParamDescription>Objects to save.</DirectParamDescription>
+				<DirectParamDescription>object to save</DirectParamDescription>
 				<DirectFlags>
 				<IsOptional>directParamRequired</IsOptional>
 				<IsListOfItems>singleItem</IsListOfItems>
@@ -653,7 +677,7 @@
 						<ParameterName>in</ParameterName>
 						<ParameterID>kfil</ParameterID>
 						<ParameterType>alis</ParameterType>
-						<ParameterDescription>the file in which to save the object(s)</ParameterDescription>
+						<ParameterDescription>the file in which to save the object</ParameterDescription>
 						<ParameterFlags>
 							<IsOptional>optional</IsOptional>
 							<IsListOfItems>singleItem</IsListOfItems>
@@ -676,12 +700,12 @@
 					<Parameter>
 						<ParameterName>as</ParameterName>
 						<ParameterID>fltp</ParameterID>
-						<ParameterType>type</ParameterType>
-						<ParameterDescription>the file type of the document in which to save the data</ParameterDescription>
+						<ParameterType>FORK</ParameterType>
+						<ParameterDescription>the fork in which to save the data (in a Save As operation)</ParameterDescription>
 						<ParameterFlags>
 							<IsOptional>optional</IsOptional>
 							<IsListOfItems>singleItem</IsListOfItems>
-							<IsEnumerated>notEnumerated</IsEnumerated>
+							<IsEnumerated>enumerated</IsEnumerated>
 							<Reserved/>
 							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
 							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
@@ -3838,7 +3862,7 @@
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
 							<IsEnumerated>notEnumerated</IsEnumerated>
-							<IsReadWrite>readWrite</IsReadWrite>
+							<IsReadWrite>readOnly</IsReadWrite>
 							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
 							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
 							<PropertyIsReference>propertyIsValue</PropertyIsReference>
@@ -4189,7 +4213,7 @@
 						<PropertyName>ignoreName</PropertyName>
 						<PropertyID>IgnN</PropertyID>
 						<PropertyClass>bool</PropertyClass>
-						<PropertyDescription>ignore name differences</PropertyDescription>
+						<PropertyDescription>have name differences been ignored?</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
@@ -4213,7 +4237,7 @@
 						<PropertyName>ignoreAttrs</PropertyName>
 						<PropertyID>IgnA</PropertyID>
 						<PropertyClass>bool</PropertyClass>
-						<PropertyDescription>ignore attributes differences</PropertyDescription>
+						<PropertyDescription>have attributes differences been ignored?</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
@@ -4237,7 +4261,7 @@
 						<PropertyName>ignoreData</PropertyName>
 						<PropertyID>IgnD</PropertyID>
 						<PropertyClass>bool</PropertyClass>
-						<PropertyDescription>ignore data differences</PropertyDescription>
+						<PropertyDescription>have data differences been ignored?</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
@@ -4260,8 +4284,8 @@
 					<Property>
 						<PropertyName>old only resources</PropertyName>
 						<PropertyID>OldR</PropertyID>
-						<PropertyClass>TyId</PropertyClass>
-						<PropertyDescription>resources which are only in the old map</PropertyDescription>
+						<PropertyClass>list</PropertyClass>
+						<PropertyDescription>the list of resources which are only in the old map</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>listOfItems</IsListOfItems>
@@ -4284,8 +4308,8 @@
 					<Property>
 						<PropertyName>new only resources</PropertyName>
 						<PropertyID>NewR</PropertyID>
-						<PropertyClass>TyId</PropertyClass>
-						<PropertyDescription>resources which are only in the new map</PropertyDescription>
+						<PropertyClass>list</PropertyClass>
+						<PropertyDescription>the list of resources which are only in the new map</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>listOfItems</IsListOfItems>
@@ -4308,8 +4332,8 @@
 					<Property>
 						<PropertyName>differing resources</PropertyName>
 						<PropertyID>Diff</PropertyID>
-						<PropertyClass>TyId</PropertyClass>
-						<PropertyDescription>resources which are in both maps and are different</PropertyDescription>
+						<PropertyClass>list</PropertyClass>
+						<PropertyDescription>the list of resources which exist in both maps and are different</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>listOfItems</IsListOfItems>
@@ -4332,8 +4356,8 @@
 					<Property>
 						<PropertyName>identical resources</PropertyName>
 						<PropertyID>Iden</PropertyID>
-						<PropertyClass>TyId</PropertyClass>
-						<PropertyDescription>resources which are in both maps and are identical</PropertyDescription>
+						<PropertyClass>list</PropertyClass>
+						<PropertyDescription>the list of resources which exist in both maps and are identical</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>listOfItems</IsListOfItems>
@@ -4361,7 +4385,7 @@
 			<Class>
 				<ClassName>specifier</ClassName>
 				<ClassID>TyId</ClassID>
-				<ClassDescription>a two-elements list containing the type and the ID for a resource</ClassDescription>
+				<ClassDescription>a two-elements list containing the type and the ID of a resource</ClassDescription>
 				<ArrayProperties>
 				</ArrayProperties>
 				<ArrayElements>
@@ -4378,19 +4402,24 @@
 				<EnumerationID>FORK</EnumerationID>
 				<ArrayEnumerators>
 					<Enumerator>
-						<EnumeratorName>dataFork</EnumeratorName>
+						<EnumeratorName>data fork</EnumeratorName>
 						<EnumeratorID>DATF</EnumeratorID>
 						<EnumeratorDescription>map in data fork</EnumeratorDescription>
 					</Enumerator>
 					<Enumerator>
-						<EnumeratorName>resourceFork</EnumeratorName>
+						<EnumeratorName>resource fork</EnumeratorName>
 						<EnumeratorID>RSRF</EnumeratorID>
 						<EnumeratorDescription>map in resource fork</EnumeratorDescription>
 					</Enumerator>
 					<Enumerator>
-						<EnumeratorName>anyFork</EnumeratorName>
+						<EnumeratorName>any fork</EnumeratorName>
 						<EnumeratorID>ANYF</EnumeratorID>
 						<EnumeratorDescription>could be any fork</EnumeratorDescription>
+					</Enumerator>
+					<Enumerator>
+						<EnumeratorName>same fork</EnumeratorName>
+						<EnumeratorID>SAMF</EnumeratorID>
+						<EnumeratorDescription>same fork (in a Save As operation)</EnumeratorDescription>
 					</Enumerator>
 				</ArrayEnumerators>
 			</Enumeration>
@@ -4398,17 +4427,17 @@
 				<EnumerationID>FKND</EnumerationID>
 				<ArrayEnumerators>
 					<Enumerator>
-						<EnumeratorName>data fork</EnumeratorName>
+						<EnumeratorName>DataFork</EnumeratorName>
 						<EnumeratorID>DFRK</EnumeratorID>
 						<EnumeratorDescription>map lies in data fork</EnumeratorDescription>
 					</Enumerator>
 					<Enumerator>
-						<EnumeratorName>resource fork</EnumeratorName>
+						<EnumeratorName>ResourceFork</EnumeratorName>
 						<EnumeratorID>RFRK</EnumeratorID>
 						<EnumeratorDescription>map lies in resource fork</EnumeratorDescription>
 					</Enumerator>
 					<Enumerator>
-						<EnumeratorName>unknown fork</EnumeratorName>
+						<EnumeratorName>UnknownFork</EnumeratorName>
 						<EnumeratorID>UFRK</EnumeratorID>
 						<EnumeratorDescription>fork is unknown</EnumeratorDescription>
 					</Enumerator>

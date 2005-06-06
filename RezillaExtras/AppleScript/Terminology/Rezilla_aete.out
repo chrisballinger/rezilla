@@ -30,7 +30,7 @@ Number of Events: 2
 	Direct parameter is required. It is a single item, not enumerated. It changes the server's state.
 	Number of additional parameters: 2
 	  Parameter 1: from
-		Parameter keyword: 'FROM'
+		Parameter keyword: 'From'
 		Parameter type: 'FORK'
 		Parameter description: restrict to a particular fork (default is anyFork)
 		Parameter 1 is optional. It is a single item, enumerated. 
@@ -143,44 +143,49 @@ Number of Events: 10
 	Direct parameter type: 'null'
 	Direct parameter description: 
 	Direct parameter is optional. It is a single item, not enumerated. It changes the server's state.
-	Number of additional parameters: 3
+	Number of additional parameters: 4
 	  Parameter 1: new
 		Parameter keyword: 'kocl'
 		Parameter type: 'type'
 		Parameter description: the class of the new element
 		Parameter 1 is required. It is a single item, not enumerated. 
-	  Parameter 2: with properties
+	  Parameter 2: in
+		Parameter keyword: 'insh'
+		Parameter type: 'obj '
+		Parameter description: the container in which to create the new element (it must already exist)
+		Parameter 2 is required. It is a single item, not enumerated. 
+	  Parameter 3: with properties
 		Parameter keyword: 'prdt'
 		Parameter type: 'reco'
-		Parameter description: Properties of the element. Some properties are required ('file' when creating a new map, 'type' when creating a new resource).
-		Parameter 2 is required. It is a single item, not enumerated. 
-	  Parameter 3: with data
+		Parameter description: properties of the element (for instance 'name', 'readOnly', 'fork')
+		Parameter 3 is optional. It is a single item, not enumerated. 
+	  Parameter 4: with data
 		Parameter keyword: 'data'
 		Parameter type: '****'
-		Parameter description: the initial data for the element
-		Parameter 3 is optional. It is a single item, not enumerated. 
+		Parameter description: the initial data for the new element
+		Parameter 4 is optional. It is a single item, not enumerated. 
   Event 7: save
 ---------------
-	Description: save a set of objects
+	Description: save an object
 	Event class: 'core'
 	Event ID: 'save'
 	Type of reply's direct parameter: 'null'
 	Description of reply's direct parameter: 
 	Reply is required. It is a single item, not enumerated. 
 	Direct parameter type: 'obj '
-	Direct parameter description: Objects to save.
+	Direct parameter description: object to save
 	Direct parameter is required. It is a single item, not enumerated. It does not change the server's state.
 	Number of additional parameters: 2
 	  Parameter 1: in
 		Parameter keyword: 'kfil'
 		Parameter type: 'alis'
-		Parameter description: the file in which to save the object(s)
+		Parameter description: the file in which to save the object
 		Parameter 1 is optional. It is a single item, not enumerated. 
 	  Parameter 2: as
 		Parameter keyword: 'fltp'
-		Parameter type: 'type'
-		Parameter description: the file type of the document in which to save the data
-		Parameter 2 is optional. It is a single item, not enumerated. 
+		Parameter type: 'FORK'
+		Parameter description: the fork in which to save the data (in a Save As operation)
+		Parameter 2 is optional. It is a single item, enumerated. 
   Event 8: revert
 -----------------
 	Description: Revert an object to the most recently saved version
@@ -1049,7 +1054,7 @@ Number of Classes: 8
 		Property ID: 'ID  '
 		Property class: 'shor'
 		Property description: the ID of the resource
-		Property is a single item, not enumerated. It can be set by the Set Data AE.
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	  (4) index
 		Property ID: 'pidx'
 		Property class: 'long'
@@ -1173,25 +1178,28 @@ Number of Comparison Operators: 0
 Number of Enumerations: 2
     Enumeration 1 ID: 'FORK'
 ----------------------------
-	Number of enumerators: 3
-	  Enumerator 1: dataFork
+	Number of enumerators: 4
+	  Enumerator 1: data fork
 		Enumerator ID: 'DATF'
 		Enumerator description: map in data fork
-	  Enumerator 2: resourceFork
+	  Enumerator 2: resource fork
 		Enumerator ID: 'RSRF'
 		Enumerator description: map in resource fork
-	  Enumerator 3: anyFork
+	  Enumerator 3: any fork
 		Enumerator ID: 'ANYF'
 		Enumerator description: could be any fork
+	  Enumerator 4: same fork
+		Enumerator ID: 'SAMF'
+		Enumerator description: same fork (in a Save As operation)
     Enumeration 2 ID: 'FKND'
 ----------------------------
 	Number of enumerators: 3
-	  Enumerator 1: data fork
+	  Enumerator 1: DataFork
 		Enumerator ID: 'DFRK'
 		Enumerator description: map lies in data fork
-	  Enumerator 2: resource fork
+	  Enumerator 2: ResourceFork
 		Enumerator ID: 'RFRK'
 		Enumerator description: map lies in resource fork
-	  Enumerator 3: unknown fork
+	  Enumerator 3: UnknownFork
 		Enumerator ID: 'UFRK'
 		Enumerator description: fork is unknown
