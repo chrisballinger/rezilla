@@ -213,7 +213,7 @@ CRezMap::SetAERezMapAttribute(const AEDesc& inValue, short inFlag)
 	GetMapAttributes(theAttrs);
 
 	if (setIt) {
-		theAttrs &= inFlag;
+		theAttrs |= inFlag;
 	} else {
 		theAttrs &= ~inFlag;
 	}
@@ -477,41 +477,10 @@ CRezMap::GetModelTokenSelf(
 }
 
 
-// // ---------------------------------------------------------------------------
-// //	¥ HandleAppleEvent												  [public]
-// // ---------------------------------------------------------------------------
-// 
-// void
-// CRezMap::HandleAppleEvent(
-// 	const AppleEvent&	inAppleEvent,
-// 	AppleEvent&			outAEReply,
-// 	AEDesc&				outResult,
-// 	long				inAENumber)
-// {	
-// 	switch (inAENumber) {
-// 		
-// 		default:
-// // 		mOwnerDoc->HandleAppleEvent(inAppleEvent, outAEReply, outResult, inAENumber);
-// 		LModelObject::HandleAppleEvent(inAppleEvent, outAEReply, outResult, inAENumber);
-// 		break;
-// 	}
-// }
-
-
 // ---------------------------------------------------------------------------
 //	¥ HandleCreateElementEvent
 // ---------------------------------------------------------------------------
-// This function handles the "make new" event in order to create a new
-// resource in the map. Properties can be set using the "with properties"
-// parameter: the type must be specified in this AERecord. Thus one can
-// write in AppleScript:
-//   make new resource of map 1 with properties {type:"TEXT", ID:129, attributes:8}
-//  
-// The optional "with data" parameter is also supported. For instance:
-//   make new resource of map 1 with properties {type:"TEXT"} with data "Hello Rezilla!"
-//   
-// If the ID is not specified, an unique ID is attributed. If it does 
-// exist, the new resource will replace the existing one.
+// Pass up to the owner document
 
 LModelObject*
 CRezMap::HandleCreateElementEvent(
@@ -521,93 +490,8 @@ CRezMap::HandleCreateElementEvent(
 	const AppleEvent&	inAppleEvent,
 	AppleEvent&			outAEReply)
 {
-#pragma unused (inInsertPosition, inTargetObject, outAEReply)
-	
-	OSErr 			error, ignoreErr;
-	AEDesc			propDesc;
-	DescType		returnedType;
-	Size			actualSize;
-	OSType			theType;
-	SInt16			theID = 0, theAttrs = 0;
-	Str255			typeStr, nameStr;
-	char			buffer[256];
-	Boolean			isReadOnly = false;
-	SInt16			theFork = fork_datafork;
-	CRezObj *		rezObj;
-	CRezObjItem *	rezObjItem;
-
-	if (inElemClass != rzom_cRezObj) {
-		ThrowOSErr_(errAEUnknownObjectType);
-	} 
-
-	// Extract the "with properties" parameter which contains property
-	// values. Here, this parameter is required because it must contain the
-	// type of the new resource.
-	error = ::AEGetParamDesc(&inAppleEvent, keyAEPropData, typeAERecord, &propDesc);
-	ThrowIfOSErr_(error);
-
-	// Look for some properties. We support "type", "ID", "name",
-	// "attributes" keywords (resp. rzom_pType, rzom_pResID, rzom_pName,
-	// rzom_pAttributes). The type is required, the others are optional.
-	error = ::AEGetParamPtr(&propDesc, rzom_pType, typeChar, &returnedType,
-							(Ptr) buffer, sizeof(buffer), &actualSize);
-	ThrowIfOSErr_(error);
-	buffer[actualSize] = 0;
-	CopyCStringToPascal(buffer, typeStr);				 
-	UMiscUtils::PStringToOSType(typeStr, theType);
-
-	ignoreErr = ::AEGetParamPtr(&propDesc, rzom_pResID, typeSInt16, &returnedType,
-								&theID, sizeof(OSType), &actualSize);
-	if (ignoreErr != noErr) {
-		UniqueID(theType, theID);
-	} 
-	
-	ignoreErr = ::AEGetParamPtr(&propDesc, rzom_pName, typeChar, &returnedType,
-								(Ptr) buffer, sizeof(buffer), &actualSize);
-	if (ignoreErr != noErr) {
-		nameStr[0] = 0;
-	} else {
-		buffer[actualSize] = 0;
-		CopyCStringToPascal(buffer, nameStr);				 
-	}
-	
-	ignoreErr = ::AEGetParamPtr(&propDesc, rzom_pAttributes, typeSInt16, &returnedType,
-								&theAttrs, sizeof(SInt16), &actualSize);
-
-	// Create a new resource in the RezMapDoc
-	rezObjItem = mOwnerDoc->DoCreateResource(theType, theID, &nameStr, theAttrs, true);
-	ThrowIfNil_(rezObjItem);
-	
-	mOwnerDoc->SetModified(true);
-	rezObj = rezObjItem->GetRezObj();
-	rezObj->SetAttributesInMap(theAttrs);
-	
-	// Look for a possible "with data" parameter containing initial data
-	// for the resource. This data is expected to be in hexadecimal format
-	// except in the case of a TEXT resource where the text is passed
-	// directly.
-	AEDesc	valueDesc;
-	ignoreErr = AEGetParamDesc(&inAppleEvent, keyAEData, typeWildCard, &valueDesc);
-	if (ignoreErr != noErr) {
-		Size theSize = ::AEGetDescDataSize(&valueDesc);
-		Handle dataH = NewHandle(theSize);
-		if (dataH != nil) {
-			ignoreErr = ::AEGetDescData(&valueDesc, *dataH, theSize);
-			if (theType == 'TEXT') {
-				rezObj->SetData( dataH );
-			} else {
-				StHexToByteTranslator translator(dataH);
-				translator.Convert();
-				rezObj->SetData( translator.GetOutHandle() );
-			}
-			::DisposeHandle(dataH);
-		} 
-	} 
-	
-	if (valueDesc.descriptorType != typeNull) ::AEDisposeDesc(&valueDesc);
-	if (propDesc.descriptorType != typeNull) ::AEDisposeDesc(&propDesc);
-	
-	return (LModelObject*) rezObj;
+	return 	mOwnerDoc->HandleCreateElementEvent(inElemClass, inInsertPosition, inTargetObject,
+												inAppleEvent, outAEReply);
 }
 
 
