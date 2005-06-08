@@ -30,7 +30,13 @@ $Date$
 ================================================================================
 = 1.0.6b5	                             last update: 
 ================================================================================
-¥ Debugging and testing phase before 1.0.6b release
+¥ Debugging and testing phase before 1.0.6b release.
+¥ Enabled Undo/Redo of typing actions in hexadecimal editor.
+¥ Fixed issue with apostrophs in ploc files to avoid that they be turned into xml
+  entities by the property list compiler (plc).
+¥ Removed some deprecated Waste code and switched to version 2.0 functions.
+¥ Written a tutorial for Rezilla scripting.
+¥ Added a lot of short sample scripts.
 
 ================================================================================
 = 1.0.6b4	                             last update: 2005-05-17 07:38:53
