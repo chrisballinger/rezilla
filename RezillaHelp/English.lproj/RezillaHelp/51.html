@@ -1,0 +1,34 @@
+<HTML>
+<HEAD>
+<TITLE>Count of objects</TITLE>
+<META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
+<META NAME=GENERATOR CONTENT="Aida Mode">
+</HEAD>
+<BODY>
+
+<A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="50.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="52.html">Next</A><HR><P>&nbsp;</P>
+<H3>Count of objects</H3>
+The <B>count</B> command can be used to count several kinds of objects. Here are 
+a few examples concerning windows and documents:
+<PRE>
+	-- windows count
+	set a to count windows
+	set b to count map windows
+	set c to count editing windows
+	set d to count hex windows
+	set e to count template windows
+	set f to count interface windows
+	-- documents count
+	set g to count documents
+	set h to count map documents
+	set i to count editors
+	set j to count hex editors
+	set k to count template editors
+	set l to count interface editors<P>	{a, b, c, d, e, f, g, h, i, j, k , l}<P></PRE><P>One can also get a count of maps, types and resources. For instance:
+<PRE>
+	set a to count maps
+	set b to count types of map 1
+	set c to count resources of type "TEXT" of map 1<P>	{a, b, c}<P></PRE><P>
+
+</BODY>
+</HTML>

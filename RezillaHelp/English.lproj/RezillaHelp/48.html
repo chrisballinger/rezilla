@@ -1,0 +1,41 @@
+<HTML>
+<HEAD>
+<TITLE>Editing a resource</TITLE>
+<META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
+<META NAME=GENERATOR CONTENT="Aida Mode">
+</HEAD>
+<BODY>
+
+<A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="47.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="49.html">Next</A><HR><P>&nbsp;</P>
+<H3>Editing a resource</H3>
+Editing a resource with a particular editor can be done using the <B>edit</B> 
+command. This command accepts two optional arguments:
+<UL>
+	<LI> the <B>like</B> argument lets you specify that the resource should be
+edited like resources of another type than its own type. This is the
+equivalent of the <I>Edit as</I> menu item in Rezilla.
+	<LI> the <B>using</B> argument lets you specify a particular kind of 
+editor. The values can be <I>hexadecimal</I>, <I>template</I> or
+<I>interface</I>. If there is no editor of the required kind, then 
+Rezilla uses its usual fallback mechanism: in last resort, the resource 
+would be edited in the hexadecimal editor.
+</UL><P>Here are a few examples:
+<PRE>
+	edit resource {"MENU", 128} of map 1 using interface<P>	edit resource {"MENU", 128} of map 1 using template<P>	edit resource {"MENU", 128} of map 1 using hexadecimal<P>	edit resource {"aeut", 128} of map 1 as "aete"<P></PRE><P>Other basic actions are <I>duplicating</I> and <I>deleting</I> a resource in the 
+resource map. They can be achieved using the <B>duplicate</B> and 
+<B>delete</B> commands respectively.
+<PRE>
+	duplicate resource {"MENU", 128} of map 1<P>	delete resource {"STR#", 128} of map 1<P></PRE><P>Modifications made in an editor can be saved using the <B>save</B> command:
+<PRE>
+	save first editor of map document 1<P></PRE>
+Note that the usual <I>in</I> and <I>as</I> arguments of the <B>save</B>
+command are ignored in that case.<P>An editing document can be closed with the <B>close</B> command, like this:
+<PRE>
+	close first editor of map document 1<P></PRE>
+or, alternatively, by closing the window directly:
+<PRE>
+	set thewin to window of first editor of map document 1
+	close thewin<P></PRE><P>
+
+</BODY>
+</HTML>

@@ -1,0 +1,45 @@
+<HTML>
+<HEAD>
+<TITLE>Éditer une ressource</TITLE>
+<META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
+<META NAME=GENERATOR CONTENT="Aida Mode">
+</HEAD>
+<BODY>
+
+<A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="47.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="49.html">Suiv</A><HR><P>&nbsp;</P>
+<H3>Éditer une ressource</H3>
+L'édition d'une ressource au moyen d'un éditeur particulier peut être 
+accomplie en utilisant la commande <B>edit</B>. Cette commande accepte 
+deux arguments optionnels:
+<UL>
+	<LI> l'argument <B>like</B> permet de spécifier que la ressource devrait
+être éditée comme si elle était d'un autre type que son type propre. C'est
+l'équivalent de la commande de menu <I>Edit as</I> dans Rezilla.
+	<LI> l'argument <B>using</B> permet de spécifier un type particulier
+d'éditeur. Les valeurs de ce paramètre peuvent être <I>hexadecimal</I>,
+<I>template</I> ou <I>interface</I>. S'il n'existe pas d'éditeur du type
+requis, Rezilla utilise son mécanisme habituel de substitution: en dernier
+ressort, la ressource sera éditée au moyen de l'éditeur hexadécimal.
+</UL><P>Voici quelques exemples:
+<PRE>
+	edit resource {"MENU", 128} of map 1 using interface<P>	edit resource {"MENU", 128} of map 1 using template<P>	edit resource {"MENU", 128} of map 1 using hexadecimal<P>	edit resource {"aeut", 128} of map 1 as "aete"<P></PRE><P>Les autres actions d'édition de base sont la duplication et la suppression 
+d'une ressource dans la 
+table de ressources. Elles sont accomplies par les 
+commandes <B>duplicate</B> et <B>delete</B> respectivement.
+<PRE>
+	duplicate resource {"MENU", 128} of map 1<P>	delete resource {"STR#", 128} of map 1<P></PRE><P>Les modifications faites dans un éditeur peuvent être sauvegardées en 
+utilisant la commande <B>save</B>:
+<PRE>
+	save first editor of map document 1<P></PRE>
+On notera que les arguments usuels <I>in</I> et <I>as</I> de la commande
+<B>save</B> sont ignorés dans ce cas (car elles n'ont pas de sens dans 
+ce contexte).<P>Un document d'édition peut être refermé par la commande <B>close</B>, comme ceci:
+<PRE>
+	close first editor of map document 1<P></PRE>
+ou, de manière équivalente, en refermant la fenêtre directement:
+<PRE>
+	set thewin to window of first editor of map document 1
+	close thewin<P></PRE><P>
+
+</BODY>
+</HTML>

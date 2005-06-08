@@ -1,0 +1,35 @@
+<HTML>
+<HEAD>
+<TITLE>Dénombrement des objets</TITLE>
+<META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
+<META NAME=GENERATOR CONTENT="Aida Mode">
+</HEAD>
+<BODY>
+
+<A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="50.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="52.html">Suiv</A><HR><P>&nbsp;</P>
+<H3>Dénombrement des objets</H3>
+La commande <B>count</B> peut être utilisée pour dénombrer plusieurs
+sortes d'objets. Voici quelques exemples concernant les fenêtres et les
+documents:
+<PRE>
+	-- windows count
+	set a to count windows
+	set b to count map windows
+	set c to count editing windows
+	set d to count hex windows
+	set e to count template windows
+	set f to count interface windows
+	-- documents count
+	set g to count documents
+	set h to count map documents
+	set i to count editors
+	set j to count hex editors
+	set k to count template editors
+	set l to count interface editors<P>	{a, b, c, d, e, f, g, h, i, j, k , l}<P></PRE><P>On peut aussi dénombrer les tables, les types et les ressources. Par exemple:
+<PRE>
+	set a to count maps
+	set b to count types of map 1
+	set c to count resources of type "TEXT" of map 1<P>	{a, b, c}<P></PRE><P>
+
+</BODY>
+</HTML>

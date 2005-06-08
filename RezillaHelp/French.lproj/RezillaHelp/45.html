@@ -1,0 +1,33 @@
+<HTML>
+<HEAD>
+<TITLE>Sauvegarder une table de ressourcesLes modifications faites dans un document de ressources peuvent être</TITLE>
+<META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
+<META NAME=GENERATOR CONTENT="Aida Mode">
+</HEAD>
+<BODY>
+
+<A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="44.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="46.html">Suiv</A><HR><P>&nbsp;</P>
+<H3>Sauvegarder une table de ressources</H3><P>Les modifications faites dans un document de ressources peuvent être
+sauvegardées directement au moyen de la commande <B>save</B>. Deux
+paramètres supplémentaires sont définis:
+<UL>
+	<LI> le paramètre <I>in</I> permet de spécifier le dossier dans lequel on
+souhaite créer le nouveau fichier. Ce paramètre est optionnel.
+	<LI> le paramètre <I>as</I> permet de spécifier la branche dans laquelle
+on souhaite sauvegarder la table de ressources. Les valeurs possibles sont
+<I>data fork</I>, <I>resource fork</I> ou <I>same fork</I> (cette dernière
+seulement pour la commande <I>Save As</I>). Ce paramètre est optionnel. Il
+est ignoré si le paramètre <I>in</I> n'est pas spécifié car, dans ce cas,
+Rezilla exécute une simple commande <B>save</B> sur la table de
+ressources.
+</UL>
+Par exemple:
+<PRE>
+	save document 1 in "HD:foo:bar:otherMap.rsrc" as resource fork<P></PRE><P>Il est aussi possible d'abandonner des modifications faites dans la table
+de ressources et de revenir à la dernière version sauvegardée en utilisant
+la commande <B>revert</B> comme ceci:
+<PRE>
+	revert map document 1<P></PRE><P>
+
+</BODY>
+</HTML>

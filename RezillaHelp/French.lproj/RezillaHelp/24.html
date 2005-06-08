@@ -1,0 +1,70 @@
+<HTML>
+<HEAD>
+<TITLE>L'éditeur Aete</TITLE>
+<META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
+<META NAME=GENERATOR CONTENT="Aida Mode">
+</HEAD>
+<BODY>
+
+<A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="23.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="25.html">Suiv</A><HR><P>&nbsp;</P>
+<H3>L'éditeur Aete</H3>
+Il s'agit d'un éditeur dédié aux ressources de terminologie AppleScript
+(ressources de type 'aete' ou 'aeut'). Ces ressources contiennent le
+dictionnaire des termes supportés par une application dans le cadre de
+scripts écrits dans le langage AppleScript.<P>Une ressource 'aete' (ou 'aeut') peut contenir plusieurs suites telles que
+la suite dite <I>Required Suite</I> (avec les termes <I>Open</I>, 
+<I>Quit</I> etc.), la suite <I>Core Suite</I> (avec les termes <I>Count</I>,
+<I>Make</I> etc.) et d'autres suites comportant des termes spécifiques à
+une application. Chaque suite peut contenir des informations concernant
+quatre catégories d'objets: événements, classes, opérateurs de comparaison
+et énumerations. Cette structure est reflétée par l'éditeur Aete qui
+possède une unique fenêtre et permet de sélectionner une suite à partir
+d'un menu-bouton. Une barre avec quatre onglets appelés <B>Events</B>, 
+<B>Classes</B>, <B>Comparison Operators</B> et <B>Enumerations</B>
+permet de choisir une catégorie et d'afficher un panneau avec toute
+l'information nécessaire relative à cet objet. Si plusieurs objets d'un
+certain type sont définis dans une suite, l'éditeur affiche un curseur pour
+passer de l'un à l'autre. S'il n'y a qu'un seul objet, aucun curseur n'est
+affiché. S'il n'y en a aucun, le panneau correspondant est vide.<P>Une fenêtre d'édition de ressource Aete typique ressemble à ceci:
+<P><IMG SRC="../../Images/rzil_aeteeditor.gif" ALT="Aete editor window" ALIGN=bottom></P><P>Lorsqu'une fenêtre de l'éditeur Aete est active, un nouveau menu appelé 
+<B>Terminology</B> est inséré dans la barre de menus. Il comporte des
+commandes pour ajouter ou supprimer des suites, ou pour ajouter ou
+supprimer des objets dans la suite courante. En fonction de l'objet
+couramment édité, certaines commandes du menu peuvent être désactivées.<P>La commande <B>Export Terminology</B> permet d'exporter les données d'une
+ressource 'aete' ou 'aeut' sous forme de fichier texte au
+format <B>XML, DeRez, Sdef, HTML</B> ou <B>texte</B>:
+<UL>
+	<LI> les formats <I>HTML</I> et <I>texte</I> peuvent être utiles simplement pour rendre
+le contenu d'une ressource de terminologie AppleScript lisible. Il est 
+parfois nécessaire dans un script AppleScript de connaître les codes de 
+certains termes.<P>	<LI> le format <I>XML</I> comporte toutes les données de la ressource selon un
+format spécifique: une DTD décrivant la structure du fichier XML est jointe
+au projet. Rezilla sait aussi importer ce type de fichiers (voir
+ci-dessous) permettant ainsi l'échange de données.<P><B>Caveat:</B> on notera que Rezilla n'opère pas la conversion de 
+caractères spéciaux (comme les symboles <I>inférieur</I> ou <I>supérieur</I>, 
+les <I>apostrophes</I>, les <I>esperluètes</I>) en entités Xml. Il faudra
+éditer les fichiers XML obtenus si certaines chaînes comportent de tels
+caractères.<P>	<LI> le format <I>DeRez</I> produit un fichier avec l'extension <I>.r</I>
+identique à celui que produirait l'utilitaire DeRez : ce fichier est prêt à
+être recompilé dans n'importe quel projet (avec l'utilitaire Rez par
+exemple).<P>	<LI> le format <I>Sdef</I> (<I>Scripting Definition File</I>) décrit les
+données de la ressource selon le nouveau format défini par Apple. Voir la
+définition dans le fichier <I>/System/Library/DTDs/sdef.dtd</I> et la page
+de manuel (taper "man sdef" dans une fenêtre de Terminal). Le format
+Sdef ne reprend pas toute l'information contenue dans une ressource Aete:
+il y a nécessairement une déperdition d'information en passant de l'un à
+l'autre. Rezilla s'efforce de convertir au mieux la ressource Aete.
+</UL><P><B>Important:</B> Les fichiers exportés en format XML, Sdef ou HTML sont 
+encodés en UTF-8 tandis que les fichiers exportés en format texte ou DeRez 
+sont encodés en encodage MacRoman.<P>La commande <B>Import Terminology</B> permet d'importer des données 
+depuis un fichier XML dans une ressource 'aete' : on peut pour cela créer 
+une nouvelle ressource 'aete', l'éditer et choisir la commande 
+<I>Import Terminology</I> dans le menu <I>Terminology</I>. Le fichier 
+XML peut aussi être importé dans une ressource existante : les nouvelles 
+données sont ajoutées aux données existantes. Le fichier XML doit 
+impérativement utiliser le format défini dans la DTD jointe au projet 
+(aete.dtd, à ne pas confondre avec sdef.dtd).<P><A NAME="MENUeditor"></A>
+
+
+</BODY>
+</HTML>

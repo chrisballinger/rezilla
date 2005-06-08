@@ -1,0 +1,44 @@
+<HTML>
+<HEAD>
+<TITLE>Ouvrir et fermer une table de ressourcesOn peut ouvrir des fichiers de ressources au moyen de la commande </TITLE>
+<META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
+<META NAME=GENERATOR CONTENT="Aida Mode">
+</HEAD>
+<BODY>
+
+<A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="43.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="45.html">Suiv</A><HR><P>&nbsp;</P>
+<H3>Ouvrir et fermer une table de ressources</H3><P>On peut ouvrir des fichiers de ressources au moyen de la commande 
+<B>open</B>. <P>Pour ouvrir un fichier de ressources nommé <I>somefile.rsrc</I> et situé 
+dans le dossier <I>HD:foo:bar:</I>, on utilisera l'instruction suivante:
+<PRE>
+	open "HD:foo:bar:somefile.rsrc" as alias
+</PRE>
+De même, pour sélectionner un fichier de ressources et l'ouvrir dans Rezilla, 
+il suffit d'écrire:
+<PRE>
+	set theFile to {choose file}
+	open theFile as alias<P></PRE>
+Il y a deux paramètres optionnels avec la commande <B>open</B>:
+<UL>
+	<LI> avec le paramètre <I>readOnly</I>, on peut placer le 
+fichier en mode lecture-seule afin de rendre toute modification impossible. 
+Par exemple:
+<PRE>
+	open "HD:foo:bar:somefile.rsrc" as alias with readOnly<P></PRE>
+	<LI> avec le paramètre <I>from</I>, on peut restreindre l'ouverture à une 
+branche particulière (branche de ressources ou branche de données). Par
+défaut, Rezilla regarde dans les deux branches (la branche de données
+venant avant la branche de ressources). Par exemple:
+<PRE>
+	open "HD:foo:bar:somefile.rsrc" as alias from data fork<P></PRE>
+Les valeurs possibles pour le paramètre <I>from</I> sont <I>data fork</I>, 
+<I>resource fork</I>, ou <I>any fork</I> (qui est la valeur par défaut).
+</UL><P>Une table de ressources peut être refermée au moyen de la commande <B>close</B>.
+L'argument optionnel <I>saving</I>, permettant de préciser si le document 
+doit être sauvegardé avant d'être refermé, est accepté (ses valeurs possibles
+sont <I>yes</I>, <I>no</I> ou <I>ask</I>). Par exemple:
+<PRE>
+	close first map document saving no<P></PRE><P>
+
+</BODY>
+</HTML>

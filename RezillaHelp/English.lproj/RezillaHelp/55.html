@@ -1,0 +1,27 @@
+<HTML>
+<HEAD>
+<TITLE>Exporting resource mapsThe export command corresponds to the Export menu item in </TITLE>
+<META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
+<META NAME=GENERATOR CONTENT="Aida Mode">
+</HEAD>
+<BODY>
+
+<A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="54.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="56.html">Next</A><HR><P>&nbsp;</P>
+<H3>Exporting resource maps</H3><P>The <B>export</B> command corresponds to the <I>Export</I> menu item in 
+Rezilla's File menu. It lets you generate an export of a resource map in 
+various formats. This command accepts two parameters:
+<UL>
+	<LI> the <I>in</I> parameter lets you specify the folder in which you want 
+to create the export file. This parameter is required.
+	<LI> the <I>with properties</I> parameter lets you specify the name of the
+export file and the export format. Its value is a record using the <I>name</I> 
+and <I>format</I> keywords. The possible values for the format are
+<I>xml</I>, <I>html</I>, <I>text</I> and <I>DeRez</I> (default is <I>xml</I>). If no name is provided, Rezilla will use a default name. This
+parameter is optional.
+</UL>
+For instance:
+<PRE>
+	export map document 1 in "HD:foo:bar:" as alias with properties {name:"exportedMap.xml", format:xml}<P></PRE><P>
+
+</BODY>
+</HTML>

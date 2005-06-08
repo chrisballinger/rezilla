@@ -1,0 +1,208 @@
+<HTML>
+<HEAD>
+<TITLE>Rezilla's dictionaryHere is, for reference, the complete formal description of Rezilla's</TITLE>
+<META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
+<META NAME=GENERATOR CONTENT="Aida Mode">
+</HEAD>
+<BODY>
+
+<A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="55.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="57.html">Next</A><HR><P>&nbsp;</P>
+<H2>Rezilla's dictionary</H2><P>Here is, for reference, the complete formal description of Rezilla's
+scripting terminology dictionary.<P><PRE>
+Required Suite: Terms that every application should support<P>open: Open the specified object(s)
+	open  reference  -- Objects to open. Can be a list of files or an object specifier.
+		[from  data fork/resource fork/any fork/same fork]  -- restrict to a particular fork (default is anyFork)
+		[readOnly  boolean]  -- specify if the file should be opened in read-only mode (by default it is not)<P>quit: Quit the application
+	quit<P>Standard Suite: Common terms for most applications<P>Class application: the application
+Elements:
+	window by numeric index, by name, as a range of elements
+	document by numeric index, by name
+	map document by numeric index, by name
+	map by ID
+Properties:
+	name  international text  [r/o]  -- Rezilla's name
+	version  international text  [r/o]  -- the version of the application
+	inspector  inspector window  [r/o]  -- the inspector<P>Class document: A document
+Plural form:
+	documents
+Properties:
+	name  international text  [r/o]  -- the title of the document
+	modified  boolean  [r/o]  -- Has the document been modified since the last save?<P>Class window: a window
+Plural form:
+	windows
+Properties:
+	name  international text  -- the title of the window
+	index  integer  -- the number of the window
+	bounds  bounding rectangle  -- the boundary rectangle for the window
+	closeable  boolean  [r/o]  -- does the window have a close box?
+	titled  boolean  [r/o]  -- does the window have a title bar?
+	floating  boolean  [r/o]  -- does the window float?
+	modal  boolean  [r/o]  -- is the window modal?
+	resizable  boolean  [r/o]  -- is the window resizable?
+	zoomable  boolean  [r/o]  -- is the window zoomable?
+	zoomed  boolean  -- is the window zoomed?
+	visible  boolean  [r/o]  -- is the window visible?
+	position  point  [r/o]  -- upper left coordinates of window<P>close: Close an object
+	close  reference  -- the objects to close
+		[saving  yes/no/ask]  -- specifies whether or not changes should be saved before closing<P>count: Return the number of elements of a particular class within an object
+	count  reference  -- the object whose elements are to be counted
+		each  type class  -- the class of the elements to be counted
+	Result:   integer  -- the number of elements<P>data size: Return the size in bytes of an object
+	data size  reference  -- the object whose data size is to be returned
+	Result:   integer  -- the size of the object in bytes<P>exists: Verify if an object exists
+	exists
+	Result:   boolean  -- true if it exists, false if not<P>get: Get the data for an object
+	get  reference  -- the object whose data is to be returned
+	Result:   anything  -- The data from the object<P>make: Make a new element
+	make
+		new  type class  -- the class of the new element
+		in  reference  -- the container in which to create the new element (it must already exist)
+		[with properties  record]  -- properties of the element (for instance 'name', 'readOnly', 'fork')
+		[with data  anything]  -- the initial data for the new element
+	Result:   reference  -- Object specifier for the new element<P>revert: Revert an object to the most recently saved version
+	revert  reference  -- object to revert<P>save: save an object
+	save  reference  -- object to save
+		[in  alias]  -- the file in which to save the object
+		[as  data fork/resource fork/any fork/same fork]  -- the fork in which to save the data (in a Save As operation)<P>select: Select the specified object
+	select  reference  -- the object to select<P>set: Set an object's data
+	set  reference  -- the object to change
+		to  anything  -- the new value<P>Rezilla suite: Rezilla specifics<P>Class comparison window: a maps comparison window
+Plural form:
+	comparison windows
+Properties:
+	inherits  window  [r/o]  -- all properties of the 'window' class
+	result  comparison  [r/o]  -- a comparison result object<P>Class editing window: a resource editing window (hexadecimal, template or interface)
+Plural form:
+	editing windows
+Properties:
+	inherits  window  [r/o]  -- all properties of the 'window' class
+	kind  hexadecimal/template/interface  [r/o]  -- the kind of the editing window (hexadecimal, template or interface)<P>Class editor: an editor document for a single resource
+Plural form:
+	editors
+Properties:
+	inherits  document  [r/o]  -- all properties of the 'document' class
+	index  integer  [r/o]  -- the number of the document
+	kind  hexadecimal/template/interface  [r/o]  -- the kind of editor document (hexadecimal, template or interface)
+	readOnly  boolean  [r/o]  -- is this document read-only?
+	window  window  [r/o]  -- the window of the document.
+	resource  resource  [r/o]  -- the resource edited by this document
+	owner doc  map document  [r/o]  -- the rezmap document that owns this editor document<P>Class hex editor: a hexadecimal document editing a resource
+Plural form:
+	hex editors
+Properties:
+	inherits  editor  [r/o]  -- all properties of the 'editor' class<P>Class hex window: a hexadecimal editing window
+Plural form:
+	hex windows
+Properties:
+	inherits  editing window  [r/o]  -- all properties of the 'editing window' class<P>Class inspector window: the inspector window
+Properties:
+	inherits  window  [r/o]  -- all properties of the 'window' class
+	ID field  small integer  -- the value of the 'ID' field
+	name field  international text  -- the value of the 'name' field
+	system heap  boolean  -- the value of the 'System Heap' checkbox
+	purgeable  boolean  -- the value of the 'Purgeable' checkbox
+	locked  boolean  -- the value of the 'Locked' checkbox
+	preload  boolean  -- the value of the 'Preload' checkbox
+	protected  boolean  -- the value of the 'Protected' checkbox
+	current resource  resource  [r/o]  -- the resource for which info is currently displayed<P>Class interface editor: a dedicated interface document editing a resource
+Plural form:
+	interface editors
+Properties:
+	inherits  editor  [r/o]  -- all properties of the 'editor' class<P>Class interface window: an interface editing window
+Plural form:
+	interface windows
+Properties:
+	inherits  editing window  [r/o]  -- all properties of the 'editing window' class<P>Class map document: a resource map document (representing the contents of an entire fork)
+Plural form:
+	map documents
+Elements:
+	editor by numeric index, by name
+Properties:
+	inherits  document  [r/o]  -- all properties of the 'document' class
+	index  integer  [r/o]  -- the number of the document among other map documents
+	readOnly  boolean  [r/o]  -- is this document read-only?
+	window  window  [r/o]  -- the window of the document.
+	refnum  small integer  [r/o]  -- the reference number of the map in memory
+	fork  DataFork/ResourceFork/UnknownFork  [r/o]  -- the fork this document is editing (data fork or resource fork)
+	map  map  [r/o]  -- the resource map associated with this document
+	file  file specification  [r/o]  -- the file on disk corresponding to this resource map document
+	format  unknown export/xml/html/text/DeRez  -- the format used for export<P>Class map window: a resource map window
+Plural form:
+	map windows
+Properties:
+	inherits  window  [r/o]  -- all properties of the 'window' class
+	types count  integer  [r/o]  -- number of types in this map as displayed at the bottom of the map window
+	resources count  integer  [r/o]  -- total number of resources in this map as displayed at the bottom of the map window<P>Class template editor: a template document editing a resource
+Plural form:
+	template editors
+Properties:
+	inherits  editor  [r/o]  -- all properties of the 'editor' class<P>Class template window: a template editing window
+Plural form:
+	template windows
+Properties:
+	inherits  editing window  [r/o]  -- all properties of the 'editing window' class<P>compare: compare two resource maps
+	compare  alias  -- first resource file for comparison
+		and  alias  -- second resource file for comparison
+		[ignoreName  boolean]  -- ignore name differences
+		[ignoreAttrs  boolean]  -- ignore attributes differences
+		[ignoreData  boolean]  -- ignore data differences
+	Result:   comparison  -- a maps comparison object<P>delete: Delete the specified object(s)
+	delete  reference  -- Object to delete.<P>duplicate: Duplicate one or more resource(s) in the resource map. The duplicate is automatically attributed an unique ID.
+	duplicate  reference  -- the object(s) to duplicate
+	Result:   reference  -- a specifier for the duplicated resource(s)<P>edit: edit one or more resources
+	edit  resource  -- resource to edit
+		[using  hexadecimal/template/interface]  -- specifies which kind of editor to use (if not specified, Rezilla tries to find successively an interface, a template or the hexadecimal editor)
+		[like  type class]  -- use an another type's editor<P>export: export a rezmap document in a specified format
+	export  map document  -- resource map document to export
+		in  alias  -- the folder in which to save the export file. This folder must already exist.
+		[with properties  record]  -- the initial values for the properties (essentially to specify a name and a format)<P>inspect: display info about the specified resource in the Inspector window
+	inspect  resource  -- Resource object to display info about.<P>Resource suite: Resource maps handling<P>Class comparison: the result of a comparison between two maps
+Properties:
+	criteria  record  [r/o]  -- the comparison criteria
+	ignoreName  boolean  [r/o]  -- ignore name differences
+	ignoreAttrs  boolean  [r/o]  -- ignore attributes differences
+	ignoreData  boolean  [r/o]  -- ignore data differences
+	old only resources  a list of specifier  [r/o]  -- resources which are only in the old map
+	new only resources  a list of specifier  [r/o]  -- resources which are only in the new map
+	differing resources  a list of specifier  [r/o]  -- resources which are in both maps and are different
+	identical resources  a list of specifier  [r/o]  -- resources which are in both maps and are identical<P>Class map: a resource map
+Plural form:
+	maps
+Elements:
+	type by numeric index, by name, by ID
+Properties:
+	refnum  small integer  [r/o]  -- the reference number of the map in memory
+	all types  list  [r/o]  -- the list of all types (in alphabetical order)
+	attributes  small integer  -- the global value of the map attributes (sum of the individual flags)
+	readOnly  boolean  -- the mapReadOnly bit
+	compact  boolean  -- the mapCompact bit
+	changed  boolean  -- the mapChanged bit<P>Class resource: a single resource with specific type and ID
+Plural form:
+	resources
+Properties:
+	name  international text  -- the resource's name
+	typename  string  [r/o]  -- the type of the resource as text
+	ID  small integer  [r/o]  -- the ID of the resource
+	index  integer  [r/o]  -- the index of the resource within its type (in the order used by the resource manager)
+	attributes  small integer  -- the global value of the resource attributes (sum of the individual flags)
+	sysHeap  boolean  -- the resSysHeap bit
+	purgeable  boolean  -- the resPurgeable bit
+	locked  boolean  -- the resLocked bit
+	preload  boolean  -- the resPreload bit
+	protected  boolean  -- the resProtected bit
+	changed  boolean  -- the resChanged bit
+	size  integer  [r/o]  -- the size of the resource data (in bytes)
+	sizeOnDisc  integer  -- the size of the resource on disk
+	hex data  anything  -- the resource data (in hex format)<P>Class specifier: a two-elements list containing the type and the ID for a resource<P>Class type: a resource type
+Plural form:
+	types
+Elements:
+	resource by name, by ID, by numeric index
+Properties:
+	index  integer  [r/o]  -- the index of the type in the document (types are ordered alphabetically)
+	name  international text  [r/o]  -- the type's name
+	ID  unsigned integer  [r/o]  -- a type as a long unsigned integer
+	all IDs  list  [r/o]  -- the list of all IDs of resources belonging to this type<P></PRE><P>
+
+</BODY>
+</HTML>

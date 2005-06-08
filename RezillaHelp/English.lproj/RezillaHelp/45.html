@@ -1,0 +1,28 @@
+<HTML>
+<HEAD>
+<TITLE>Saving a resource mapModifications made in a resource map document can be saved directly </TITLE>
+<META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
+<META NAME=GENERATOR CONTENT="Aida Mode">
+</HEAD>
+<BODY>
+
+<A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="44.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="46.html">Next</A><HR><P>&nbsp;</P>
+<H3>Saving a resource map</H3><P>Modifications made in a resource map document can be saved directly 
+using the <B>save</B> command. Two additional parameters are supported:
+<UL>
+	<LI> the <I>in</I> parameter lets you specify the file in which you want 
+to create the export file. This parameter is optional.
+	<LI> the <I>as</I> parameter lets you specify the fork in which you want
+to save the resource map. The possible values are <I>data fork</I>, <I>resource fork</I>, <I>same fork</I> (the latter only for <I>Save As</I>). This parameter is optional. It is ignored if the <I>in</I> 
+parameter is not specified because, in that case, Rezilla executes a 
+simple <B>save</B> command on the resource map.
+</UL>
+<PRE>
+	save document 1 in "HD:foo:bar:otherMap.rsrc" as resource fork<P></PRE><P>It is also possible to discard changes made in a resource map and
+return to the last saved version of the map using the <B>revert</B>
+command. For instance:
+<PRE>
+	revert map document 1<P></PRE><P>
+
+</BODY>
+</HTML>
