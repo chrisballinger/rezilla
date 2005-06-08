@@ -1,164 +1,62 @@
 <HTML>
 <HEAD>
-<TITLE>Interface EditorsInterface editors (aka dedicated editors) are editing modes which provide a</TITLE>
+<TITLE>File menu</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="7.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="9.html">Next</A><HR><P>&nbsp;</P>
-<H2>Interface Editors</H2><P>Interface editors (aka dedicated editors) are editing modes which provide a
-graphical user interface specifically dedicated to a particular type (or
-family of types). An interface editor is different from the template editor
-because it does not rely on the existence of a descriptive template. It is
-generally more powerful than a template: for instance, you can edit the
-contents of a 'TEXT' resource using a template but this won't take account
-of style info, whereas the Text editor will support this. There are types
-which can not be described easily by a template anyway.<P>The interface editors are sometimes called graphic editors. This is an 
-improper denomination because the templates editor does also build graphic 
-interfaces.<P>Rezilla provides various interface editors introduced in successive 
-versions:
-<OL>
-	<LI> since version 1.0.4, a text editor which lets you edit
-'TEXT' and 'styl' resources and can handle styled text (i-e text using
-various fonts, sizes, styles).<P>	<LI> since version 1.0.5, a bitmap resources editor, an AppleScript
-terminology resources editor, a picture viewer for 'PICT' resources, a
-sound player ('snd '), a Unicode editor ('utxt').
-</OL>
+<H3>File menu</H3>
 <UL>
-	<LI> <A HREF="#texteditor">The text editor</A>
-	<LI> <A HREF="#bitmapeditor">The bitmap editor</A>
-	<LI> <A HREF="#Unicodeeditor">The Unicode editor</A>
-	<LI> <A HREF="#Aeteeditor">The Aete editor</A>
-	<LI> <A HREF="#MENUeditor">The MENU editor</A>
-	<LI> <A HREF="#PICTeditor">The PICT editor</A>
-	<LI> <A HREF="#sndeditor">The 'snd ' editor</A>
-</UL><P>Future versions of Rezilla will have additional interface editors. <P><A NAME="texteditor"></A>
-<H3>The text editor</H3><P>The text editor has three menus: <B>Font</B>, <B>Size</B>, and 
-<B>Style</B> located at the top of the text editing window. <P>If you edit a resource with type 'TEXT' for which a 'styl' resource 
-<I>with the same ID</I> exists, Rezilla reads the style information contained in 
-this resource (font, size, face) and applies it to the text. Otherwise, 
-the text resource is displayed using the default style settings.<P>When a new resource with type 'TEXT' is created, the text editor uses the 
-default settings too. If some modifications have been made using one of 
-the three menus, Rezilla will automatically create a 'styl' resource with 
-the same ID as the 'TEXT' resource itself upon saving, in order to store 
-the style information.<P><A NAME="bitmapeditor"></A>
-<H3>The bitmap editor</H3><P>It allows you to edit bitmap image resources. This includes icons (small,
-mini or large), icon families, patterns, cursors. To be more precise, it
-supports the following resource types:<P>'cicn', 'crsr', 'CURS', 'icl4', 'icl8', 'icm#', 'icm4', 'icm8', 'ICN#',
-'ICON', 'ics#', 'ics4', 'ics8', 'PAT#', 'PAT ', 'ppat', 'SICN'<P>The bitmap editor provides several tools to help creating or modifying a 
-bitmap image resource. A typical bitmap editing window will look like this:
-<P><IMG SRC="../../Images/rzil_patterneditor.gif" ALT="Bitmap editor window" ALIGN=bottom></P><P>The left hand side of the window contains editing tools and pattern and
-color buttons. The following tools are available (from left to right and
-from top to bottom): lasso, selection, text, pencil, eraser, bucket,
-dropper, line, rectangle, filling rectangle, round corners rectangle, round
-corners filling rectangle, oval, filling oval. Additionally, the cursors
-windows have a red x-cross tool to locate the hotspot of the cursor.<P>Below the tools palette are three popup buttons giving access to the 
-patterns palette, the foreground color palette and the background color 
-palette.<P>In the middle of the window is the editing canvas where one can modify each
-pixel of the bitmap using one of the editing tools.<P>On the right hand side of the window, the sample panel displays images of 
-the bitmap at its actual size. It is updated immediately when the editing 
-canvas in the middle of the window is modified.<P>Additionnally, the 'SICN' (black images suite) and 'PAT#' (patterns suite)
-editing windows have a slider to select a particular bitmap in the suite
-and a <B>Plus</B> and a <B>Minus</B> button. The <B>Plus</B> button lets
-you add a new bitmap at the end of the suite. The <B>Minus</B> button lets
-you remove the currently selected bitmap from the suite.<P>When a bitmap editing window is open, four additional menus are inserted 
-in the menu bar:
-<OL>
-	<LI> the <B>Font</B> menu lets you select the font to use with the Text tool
-	<LI> the <B>Style</B> menu lets you specify the size of the font and the style 
-to use with the Text tool (plain, bold italic, underline etc.). One can 
-also specify the justification of the text (flush left or right).
-	<LI> the <B>Colors</B> menu has commands related to the color depth (depending on 
-the depth of the screen). If a color is not available in the color 
-palette, one can use the <I>Use Color Picker</I> command to create a new
-one : once this menu item is selected, just click on one of the color table
-popups to bring up a Color wheel dialog in order to select some new color.
-The <I>Select Black and White</I> command is a shortcut to select black as
-foreground color and white as background color. The <I>Swap Selected
-Colors</I> command lets you toggle the colors selected in the foreground
-and background color popups.
-	<LI> the <B>Actions</B> menu has commands to apply basic transformations to the 
-image. The <I>Resize Image</I> command lets you specify the width and height of 
-the bitmap (only for resources which do not have a fixed predefined size, 
-such as 'cicn' resources).
-</OL><P><A NAME="Unicodeeditor"></A>
-<H3>The Unicode editor</H3><P>Rezilla's Unicode editor lets you edit resources containing Unicode text
-in the UTF-16 encoding form (for instance, resources of type 'utxt').<P>It has three menus: <B>Font</B>, <B>Size</B> and <B>Style</B> located in
-the menu bar. A typical Unicode editing window looks like this:
-<P><IMG SRC="../../Images/rzil_utxteditor.gif" ALT="Unicode editor window" ALIGN=bottom></P><P>By default, Rezilla uses the appropriate character fonts to display texts
-depending on the UTF-16 code-points they contain. This behavior is
-controlled by a preference named <I>Do Font Substitution</I> which can
-sometimes slow down the editing tasks, especially for big documents. If one
-knows which font to use, it is also possible to deactivate this preference
-(in the Editors panel of the Preferences) and select the required font in 
-the <I>Font</I> menu.<P>Note that the <I>Style</I> and <I>Size</I> menus are here only to
-facilitate the editing tasks but that, as of the current release, the
-stylistic settings are neither remembered, nor stored in a 'styl' resource.<P><A NAME="Aeteeditor"></A>
-<H3>The Aete editor</H3>
-This is an editor dedicated to AppleScript terminology resources (resources
-with type 'aete' or 'aeut'). These resources contain the dictionary of
-terms supported by an application for AppleScript scripting.<P>An 'aete' (or 'aeut') resource can contain several suites such as the 
-<I>Required Suite</I> (with the <I>Open</I>, <I>Quit</I> etc. events), 
-the <I>Core Suite</I> (with the <I>Count</I>, <I>Make</I> etc. events)
-and more application-specific suites. Each suite can contain information
-about four categories of objects: events, classes, comparison operators and
-enumerations. This is reflected by the Aete editor which has a unique
-window and lets you select a suite from a popup menu. A bar with four
-thumbnails called <B>Events</B>, <B>Classes</B>, <B>Comparison 
-Operators</B> and <B>Enumerations</B> allows to select a category and
-displays a subpane with all the necessary information. If several objects
-are defined for a particular suite, the editor displays a slider to select
-one. If there is only one such object, no slider is dispalyed. If there are
-no such objects the corresponding subpane is not displayed.<P>A typical Aete editing window looks like this:
-<P><IMG SRC="../../Images/rzil_aeteeditor.gif" ALT="Aete editor window" ALIGN=bottom></P><P>When an Aete editor window is active a new menu named <B>Terminology</B>
-is inserted in the menu bar. It contains commands to add or remove a suite
-or to add or remove objects from the current suite. Depending on the
-category of the currently edited object some of the menu items can be
-disabled.<P>The <B>Export Terminology</B> command lets you export the data of a
-terminology resource to a text file in format <B>XML, DeRez, Sdef, HTML</B> 
-or <B>text</B>:
+<DL><P><DT><B>New Map</B><DL><DT>
+Create a new resource file. A standard dialog lets you indicate the name and
+the location of the new resource file to create;  two radio buttons let  you
+specify whether the resource map should be stored in the  data  fork  or  the
+resource fork of the file.</DL><P><DT><B>Open...</B><DL><DT>
+Brings up a standard dialog to open a resource map.  In this dialog, three
+radio buttons let you specify the fork in which to look for resources.  The
+available options are:
 <UL>
-	<LI> the <I>HTML</I> and <I>text</I> formats can be useful simply to make an AppleScript
-terminology resource human readable. It is sometimes necessary in an
-AppleScript script to know the raw codes for certain terms.<P>	<LI> the <I>XML</I> format describes the entire data of the ressource
-according to a specific Xml format: a DTD defining the structure of the XML
-file is available in the project. Rezilla can also import this kind of
-files (see below) thus allowing for the data to be exchanged. <P><B>Caveat:</B> note that Rezilla does not do any conversion of special
-chars (like <I>less than</I> or <I>greater than</I> symbols, 
-<I>apostrophs</I>, <I>ampersands</I>) to Xml entities. You'll have to edit
-the XML files if some strings contain such characters.<P>	<LI> the <I>DeRez</I> format produces a file with a <I>.r</I> extension
-identical to what one obtains using the DeRez tool: this file is ready to
-be recompiled in any project (with the Rez tool for instance).<P>	<LI> the <I>Sdef</I> format (<I>Scripting Definition File</I>) describes
-the data of a terminology resource according to the new format defined by
-Apple. See its definition in the file <I>/System/Library/DTDs/sdef.dtd</I>
-and the manual page (type "man sdef" in a Terminal window). Note that the Sdef format
-does not retain all the information contained in an Aete resource: the
-translation from Aete to Sdef is necessarily lossy. Rezilla does its best
-to make this conversion accurate.
-</UL><P><B>Important:</B> The XML, Sdef and HTML export files are UTF-8 encoded.
-The text and DeRez export files are MacRoman encoded.<P>The <B>Import Terminology</B> command lets you import data from an 
-<B>XML</B> file into a terminology resource. To import an XML file, you
-can, for instance, create a new 'aete' resource, edit it and select the 
-<I>Import Terminology</I> command in the <I>Terminology</I> menu. You can
-also import an XML file into an already existing resource : the data
-imported will be appended to the resource. The XML file must be in the
-format defined in the DTD included in the project (aete.dtd, not to be
-confused with sdef.dtd). <P><A NAME="MENUeditor"></A>
-<H3>The MENU editor</H3><P>A typical MENU editing window looks like this:
-<P><IMG SRC="../../Images/rzil_menueditor.gif" ALT="MENU editor window" ALIGN=bottom></P><P><A NAME="PICTeditor"></A>
-<H3>The PICT editor</H3><P>Not a fully fledged editor but rather a viewer. If you double-click on a
-picture resource (of type <I>'PICT'</I>), Rezilla displays the image.<P>The <I>Copy</I>, <I>Cut</I> and <I>Paste</I> commands are enabled. You
-can copy the image to the clipboard (no need to select anything, the entire
-image is automatically copied). On the contrary, if the clipboard contains
-a picture (more technically speaking, contains data with 'PICT' flavor),
-Rezilla will replace the current image by the contents of the clipboard.<P>This allows you to create images in another graphic application and import
-it into Rezilla . Note that you can also paste graphic data directly from
-the clipboard to a resource map document in Rezilla (see the <I>Copy, Cut
-and Paste</I> section in this document).<P><A NAME="sndeditor"></A>
-<H3>The 'snd ' editor</H3><P>Not really an editor but rather a player. If you double-click on a sound
-resource (of type <I>'snd '</I>), Rezilla plays the sound. Make sure the
-volume is not set to 0 on your system.<P>
+	<LI> <I>any fork</I>: in that case, Rezilla will look  first  for  a  data  fork
+resource map. If it can't find one, it will then look in the resource fork.
+	<LI> <I>data fork</I>: look only for a data fork resource map
+	<LI> <I>resource fork</I>: look only for a resource fork resource map
+</UL>
+You can also select the <I>Read Only</I> checkbox: if it is checked, the
+map will be opened in read-only mode and all the editing commands will be
+disabled.</DL><P><DT><B>Recent items</B><DL><DT>
+This is a submenu keeping the names of the ten most recently opened resource
+maps.  Selecting an item from this menu will open the corresponding
+resource map.</DL><P><DT><B>Close</B><DL><DT>
+Close the topmost window.</DL><P><DT><B>Revert</B><DL><DT>
+This item will restore the last version saved on disk in case the current 
+map has been modified.</DL><P><DT><B>Save</B><DL><DT>
+Save the modifications to disk.</DL><P><DT><B>Save As...</B><DL><DT>
+Brings up a standard dialog to specify a file in which to store the current
+resource map.  Three radio buttons let you specify in which fork to store
+the map.  The available options are:
+<UL>
+	<LI> <I>same fork</I>: use the same fork as the currently opened map.
+	<LI> <I>data fork</I>: save in the data fork.
+	<LI> <I>resource fork"</I>: save in the resource fork.
+</UL></DL><P><DT><B>Export...</B><DL><DT>
+This item lets you export the structure and contents of a resource map to 
+files in various formats. Currently available formats are:
+<UL>
+	<LI> Text
+	<LI> HTML 
+	<LI> XML 
+	<LI> DeRez
+</UL>
+In XML and in Text formats, one can specify a particular encoding for the resource
+data (Base64 encoding or hexadecimal representation like in an hexadecimal editor).
+See the <I>Exporting</I> section.<P>DeRez is a format which is of interest only for developers: it is the format 
+used by the <I>Rez</I> and <I>DeRez</I> tools. The resources are output as data in a way 
+similar to what the DeRez tool produces when no specific resource pattern 
+is specified.</DL>
+</DL>
+</UL><P>
 
 </BODY>
 </HTML>

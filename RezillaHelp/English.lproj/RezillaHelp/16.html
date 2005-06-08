@@ -1,19 +1,31 @@
 <HTML>
 <HEAD>
-<TITLE>Known problems</TITLE>
+<TITLE>Lists of elements in templates</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="15.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="17.html">Next</A><HR><P>&nbsp;</P>
-<H2>Known problems</H2>
-<P> Please e-mail any problem or bug you encounter:
-<P> <A HREF="mailto:bdesgraupes@users.sourceforge.net">bdesgraupes@users.sourceforge.net</A>
-<P> Visit my Web page for updates and other recent builds:
-<P> <A HREF="http://webperso.easyconnect.fr/bdesgraupes/rezilla.html">http://webperso.easyconnect.fr/bdesgraupes/rezilla.html</A>
-<P> Visit the Rezilla project area on the SourceForge site:
-<P> <A HREF="http://sourceforge.net/projects/rezilla">http://sourceforge.net/projects/rezilla</A><P>
+<H3>Lists of elements in templates</H3>
+Some resources contain lists of data, for instance a list of strings, a
+list of graphical objects etc. Templates are able to handle various kinds
+of lists: as a header of each list, the Templates editor displays a count
+of the items currently in the list and two buttons with a Minus and a Plus
+sign respectively. Typically you'll use the Minus button to remove an item
+from the list and the Plus button to add a new item.<P>A list item can contain different fields: they are all displayed in a
+common frame which it is very easy to identify. Clicking on one such item
+selects it, which the editor displays by drawing a red border around it.<P>When clicking on the Minus button:
+<UL>
+	<LI> if an item of this list is selected, this item will be removed from the list.
+	<LI> if no item is selected, the <I>last</I> item of the list will be removed.
+	<LI> if the list is empty, nothing happens.
+</UL><P>When clicking on the Plus button:
+<UL>
+	<LI> if an item of this list is selected, a new item is inserted <I>before</I>
+the selected item.
+	<LI> if no item is selected, a new item is added at the <I>end</I> of the list.
+</UL><P>
 
 </BODY>
 </HTML>

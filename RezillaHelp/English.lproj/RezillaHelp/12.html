@@ -1,91 +1,16 @@
 <HTML>
 <HEAD>
-<TITLE>Exporting</TITLE>
+<TITLE>Help menu</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="11.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="13.html">Next</A><HR><P>&nbsp;</P>
-<H2>Exporting</H2>
-The exporting functionality lets you generate a file containing all
-the data of the resource map (all resources of all types, with their ID,
-name, attributes etc.) in various formats. Available formats are:
-<UL>
-	<LI> Text
-	<LI> HTML 
-	<LI> XML 
-	<LI> DeRez
-</UL>
-<P> In Text and XML formats, it is possible to decide to include the
-binary data for each resource or not: see the <I>Preferences</I> section.
-The binary code for each resource is encoded either in Base64 encoding
-(which is the format used on MacOSX for many other types of binary data
-stored in XML files, like for instance preferences files, property lists
-etc.), or in hexadecimal representation. This is a choice which can be
-specified in the <I>Preferences</I> too.
-<P> For XML export, there are two ways of representing the data, based on
-two different DTDs (Document Type Definitions). There is an elements-based
-DTD in which all the properties are represented by a specific key and an
-attributes-based DTD in which most of the properties are represented as
-attributes for the basic <I>type</I> and <I>resource</I> elements. 
-<P> Here are two examples of the XML output produced by the <I>Export</I>
-command:
-<UL>
-	<LI> using the elements-based DTD and Base4 encoding
-<PRE>
-	&lt;Type&gt;
-		&lt;TypeCode&gt;ALRT&lt;/TypeCode&gt;
-		&lt;ResourcesArray&gt;
-			&lt;Resource&gt;
-				&lt;ResourceID&gt;204&lt;/ResourceID&gt;
-				&lt;ResourceName&gt;Low Memory Warning&lt;/ResourceName&gt;
-				&lt;ResourceFlags&gt;20&lt;/ResourceFlags&gt;
-				&lt;ResourceSize&gt;14&lt;/ResourceSize&gt;
-				&lt;ResourceData&gt;
-				AGgAggDNAegAzEREMAo=
-				&lt;/ResourceData&gt;
-			&lt;/Resource&gt;
-		&lt;/ResourcesArray&gt;
-	&lt;/Type&gt;
-	&lt;Type&gt;
-		&lt;TypeCode&gt;DITL&lt;/TypeCode&gt;
-		&lt;ResourcesArray&gt;
-			&lt;Resource&gt;
-				&lt;ResourceID&gt;204&lt;/ResourceID&gt;
-				&lt;ResourceName&gt;&lt;/ResourceName&gt;
-				&lt;ResourceFlags&gt;20&lt;/ResourceFlags&gt;
-				&lt;ResourceSize&gt;120&lt;/ResourceSize&gt;
-				&lt;ResourceData&gt;
-				AAEAAAAAAEcBIABbAVwEAk9LAAAAAAAKAEsAOgFciFdNZW1v
-				cnkgaXMgZ2V0dGluZyBmdWxsLiBQbGVhc2UgdHJ5IHRvIGFs
-				bGV2aWF0ZSB0aGUgcHJvYmxlbSBieSBjbG9zaW5nIHNvbWUg
-				ZG9jdW1lbnRzLiDl
-				&lt;/ResourceData&gt;
-			&lt;/Resource&gt;
-		&lt;/ResourcesArray&gt;
-	&lt;/Type&gt;
-</PRE>
-	<LI> using the attributes-based DTD and hexadecimal representation<P><PRE>
-	&lt;Type code="ALRT"&gt;
-		&lt;Resource id="204" name="Low Memory Warning" flags="20"&gt;
-			&lt;ResourceSize&gt;14&lt;/ResourceSize&gt;
-			&lt;ResourceData&gt;
-				0068008200cd01e800cc4444300a
-			&lt;/ResourceData&gt;
-		&lt;/Resource&gt;
-	&lt;/Type&gt;<P>	&lt;Type code="DITL"&gt;
-		&lt;Resource id="204" name="" flags="20"&gt;
-			&lt;ResourceSize&gt;120&lt;/ResourceSize&gt;
-			&lt;ResourceData&gt;
-				00010000000000470120005b015c04024f4b00000000000a004b003a015c
-				88574d656d6f72792069732067657474696e672066756c6c2e20506c6561
-				73652074727920746f20616c6c657669617465207468652070726f626c65
-				6d20627920636c6f73696e6720736f6d6520646f63756d656e74732e20e5
-			&lt;/ResourceData&gt;
-		&lt;/Resource&gt;
-	&lt;/Type&gt;
-</PRE><P></UL><P>
+<H3>Help menu</H3>
+<P> The Help menu contains a <I>Rezilla Help</I> item which lets you access
+directly the documentation about Rezilla and read it using the System's
+Help Viewer.<P>
 
 </BODY>
 </HTML>

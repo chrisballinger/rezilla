@@ -1,151 +1,45 @@
 <HTML>
 <HEAD>
-<TITLE>Description des commandes des menusLes sections qui suivent décrivent les commandes et menus de base de </TITLE>
+<TITLE>Éditer une ressource</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="3.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="5.html">Suiv</A><HR><P>&nbsp;</P>
-<H2>Description des commandes des menus</H2><P>Les sections qui suivent décrivent les commandes et menus de base de 
-<B>Rezilla</B>. Des éditeurs spécifiques (éditeur bitmap, éditeur Unicode etc.) 
-peuvent introduire des menus supplémentaires : ces menus sont décrits avec 
-l'éditeur concerné.<P><H3>Menu Fichier</H3>
+<H3>Éditer une ressource</H3>
+En double-cliquant sur une ressource dans la table, on appelle un éditeur
+pour cette ressource. Cela équivaut à selectionner la
+ressource et choisir la commande <I>Edit</I> dans le Menu Ressource.
+Il existe en principe trois modes d'édition pour un type de ressource 
+particulier, faisant appel à trois types d'éditeurs :
 <UL>
-<DL><P><DT><B>New Map</B><DL><DT>
-Permet de créer un nouveau fichier de ressources. Un dialogue standard
-permet d'indiquer le nom et l'emplacement du nouveau fichier de ressources
-à créer; deux boutons-radios permettent de spécifier si la table de ressources
-doit être stockée dans la branche de données ou dans la branche de
-ressources du fichier.</DL><P><DT><B>Open...</B><DL><DT>
-Présente un dialogue standard pour ouvrir une table de ressources. Dans ce
-dialogue, trois boutons-radios permettent de spécifier la branche dans
-laquelle rechercher les ressources. Les options proposées sont:
-<UL>
-	<LI> <I>"any fork"</I>: dans ce cas, Rezilla cherche en premier une table de ressources 
-dans la branche de données. S'il n'en trouve aucune, il cherche alors dans la branche de ressources.
-	<LI> <I>"data fork"</I>: recherche une table de ressources seulement dans la  branche de données
-du fichier
-	<LI> <I>"resource fork"</I>: recherche une table de ressources seulement dans la  branche de ressources
-du fichier
-</UL>
-On peut aussi sélectionner la case à cocher <I>Read Only</I>: si elle est
-cochée, la table sera ouverte en mode lecture seule et toutes les commandes
-d'édition seront désactivées.</DL><P><DT><B>Recent items</B><DL><DT>
-Ce sous-menu contient les noms des dix plus récentes tables de ressources
-ouvertes dans Rezilla. Si on sélectionne un article de ce menu, la table de
-ressources correspondante est ouverte.</DL><P><DT><B>Close</B><DL><DT>
-Ferme la fenêtre se trouvant au premier-plan.</DL><P><DT><B>Revert</B><DL><DT>
-Cette commande permet de restaurer la dernière version sauvegardée sur
-disque dans le cas où la table courante a été modifiée et que l'on ne veut
-pas conserver ces modifications.</DL><P><DT><B>Save</B><DL><DT>
-Sauvegarde les modifications sur disque.</DL><P><DT><B>Save As...</B><DL><DT>
-Présente un dialogue standard pour spécifier un fichier dans lequel stocker
-la table de ressources courante. Trois boutons-radios permettent de
-spécifier dans quelle branche stocker la table. Les options proposées sont:
-<UL>
-	<LI> <I>"same fork"</I>: utiliser la même branche que la table courante.
-	<LI> <I>"data fork"</I>: sauvegarder dans la branche de données.
-	<LI> <I>"resource fork"</I>: sauvegarder dans la branche de ressources.
-</UL></DL><P><DT><B>Export...</B><DL><DT>
-Cette commande permet d'exporter la structure et le contenu d'une table de
-ressources dans des fichiers selon divers formats. Les formats disponibles
-sont:
-<UL>
-	<LI> Texte
-	<LI> HTML 
-	<LI> XML 
-	<LI> DeRez
-</UL>
-En formats XML et texte, il est possible de décider d'inclure les données
-binaires de chaque ressource ou pas. Celles-ci peuvent être représentées
-soit en encodage Base64, soit sous forme hexadécimale (comme dans un
-éditeur hexadécimal). Voir la section <I>Export</I> plus loin.<P>DeRez est un format qui ne concerne que les développeurs: c'est le format
-utilisé par les outils Rez et DeRez. Les données de ressources sont
-exportées de façon identique à ce que produit l'outil DeRez lorsqu'aucun
-modèle particulier de ressources n'est spécifé (format <I>data</I>).</DL>
-</DL>
-</UL><P><H3>Menu Edit</H3>
-<UL><P><DT><B>Copy / Cut / Paste</B><DL><DT>
-Les fonctions de Copier, Couper et Coller peuvent avoir différentes
-significations selon le contexte. Voir la section <I>Copier, Couper et
-Coller</I> plus loin.<P><DT><B>Clear</B><DL><DT>
-Détruit la sélection. Cette fonction peut avoir différentes significations
-selon le contexte. Si une table de ressources est active et que des
-ressources y sont sélectionnées, elles sont supprimées de la table; si une
-fenêtre d'éditeur hexadécimal est active et que du texte est
-sélectionné dans un des cadres, cette sélection est détruite.</DL><P><DT><B>Select all</B><DL><DT>
-Cette commande permet de tout sélectionner: toutes les ressources dans une 
-table de ressource, tout le texte dans une fenêtre de texte etc.</DL><P><DT><B>Find...</B><DL><DT>
-Dans l'éditeur hexadécimal, cette commande présente un dialogue dans lequel
-on peut entrer une chaîne de caractères à rechercher. Deux boutons-radios
-permettent de spécifier dans quel panneau la recherche doit s'opérer. Si
-l'on recherche dans le panneau de droite, une case à cocher permet en plus
-de spécifier si la recherche doit tenir compte de la casse des caractères.</DL><P><DT><B>Find again</B><DL><DT>
-Cette commande recherche, depuis la position courante, la chaîne entrée dans
-le dialogue de recherche (appelé par la commande Find). Elle utilise les
-mêmes critères que ceux qui ont été sélectionnés dans ce dialogue. Si le
-dialogue Find contient une chaîne vide, la commande est désactivée.</DL><P><DT><B>Compare maps...</B><DL><DT>
-Cette commande permet de comparer deux tables de ressources. Cela peut être
-utile si l'on veut voir les changements entre deux versions successives
-d'une application ou d'un fichier. Le dialogue permettant de sélectionner
-les deux fichiers dont on veut comparer les ressources comporte aussi
-quelques cases à cocher grâce auxquelles on peut ajouter des options de
-comparaisons: il est possible d'ignorer les différences relatives au nom des
-ressources, à leurs attributs et à leurs données binaires.
-<P> Les résultats sont affichés dans une fenêtre comportant trois listes:
-la liste de gauche contient les ressources trouvées dans la première table
-de ressources et absentes de la seconde, la liste de droite contient les
-ressources trouvées dans la seconde table de ressources et absentes de la
-première. La liste du milieu contient les ressources communes aux deux
-tables de ressources et qui diffèrent selon les critères de comparaison. En
-cliquant sur une ressource dans cette liste, les données hexadécimales de
-la ressource sont affichées dans deux panneaux parallèles au bas de la
-fenêtre afin de les comparer: à gauche, les données provenant de la
-première table de ressources, et à droite, les données provenant de la
-deuxième. Les données peuvent être visualisées ou bien en format
-hexadécimal, ou bien en format texte au moyen des deux boutons-radios au
-bas de la fenêtre.</DL><P></DL>
-</UL><P><H3>Menu Ressource</H3>
-<P><IMG SRC="../../Images/rzil_resourcemenu.gif" ALT="Menu resource" ALIGN=bottom></P><P><UL>
-<DL><P><DT><B>New resource</B><DL><DT>
-Permet de créer une nouvelle ressource dans la table de ressources
-courante. Une fenêtre de dialogue permet de spécifier le type, le numéro
-ID, le nom et les attributs de la nouvelle ressource. Une ressource est
-alors créée ne contenant aucune donnée. Noter que cette ressource est créée
-en mémoire et qu'il faudra sauvegarder le fichier pour la rendre
-définitive.</DL><P><DT><B>Edit</B><DL><DT>
-Appelle un éditeur pour la ou les ressources sélectionnées dans la table de
-ressources courante. Si Rezilla ne trouve aucun éditeur dédié, il cherche
-si un gabarit est disponible afin d'invoquer l'éditeur de gabarits. En cas
-d'échec, il appelle l'éditeur hexadécimal. C'est équivalent à
-double-cliquer sur les ressources dans la table.</DL><P><DT><B>Template Editor</B><DL><DT>
-Appelle l'éditeur de gabarits pour la ou les ressources sélectionnées dans
-la table de ressources courante. Si Rezilla ne trouve aucun gabarit, il
-appelle l'éditeur hexadécimal. C'est équivalent à double-cliquer sur les
-ressources dans la table avec la touche Majuscule enfoncée.</DL><P><DT><B>Hexadecimal Editor</B><DL><DT>
-Appelle l'éditeur hexadécimal pour la ou les ressources sélectionnées dans
-la table de ressources courante. C'est équivalent à double-cliquer sur les
-ressources dans la table avec la touche Option enfoncée.</DL><P><DT><B>Edit as Type...</B><DL><DT>
-Force Rezilla à utiliser un type de remplaceement. Dans le dialogue
-affiché, on peut spécifier le type soit à partir d'un menu, soit en le
-tapant directement dans le champ de saisie.</DL><P><DT><B>Remove</B><DL><DT>
-Supprime toutes les ressources sélectionnées de la table de ressources.</DL>
-touche Option enfoncée.</DL><P><DT><B>Duplicate</B><DL><DT>
-Duplique la ou les ressources sélectionnées dans la table de ressources.
-Cette commande attribue un numéro unique d'identification (ID) aux
-ressources dupliquées. On peut modifer ces valeurs par la suite dans
-la fenêtre <I>Inspecteur</I>.</DL><P><DT><B>Get Info</B><DL><DT>
-Appelle la fenêtre <I>Inspecteur</I> pour le première ressource
-sélectionnée dans la table de ressources courante. C'est équivalent à
-cliquer sur une ressource dans une table de ressources en maintenant la<P></DL>
-</UL><P><H3>Menu Fenêtres </H3>
-<P> Ce menu comporte la liste des fenêtres couramment ouvertes dans
-Rezilla (tables de ressources, fenêtres d'édition etc.). En sélectionant un
-article dans ce menu, on amène au premier-plan la fenêtre correspondante.<P><H3>Menu Aide</H3>
-<P> Le menu <I>Aide</I> contient une commande appelée <I>Aide Rezilla</I> qui permet
-d'accéder directement à la documentation de Rezilla et de la lire en 
-utilisant le Visualisateur d'Aide du Système MacOS.<P>
+	<LI> éditeur dédié
+	<LI> éditeur de gabarits
+	<LI> éditeur hexadécimal
+</UL><P>Quelques types de ressources possèdent un <I>éditeur dédié</I>: c'est en
+général un éditeur qui offre une interface graphique spécifique permettant
+d'éditer et de modifier facilement la ressource sans avoir à connaître quoi
+que ce soit de la façon dont elle est construite et stockée. L'éditeur de
+gabarits est aussi un éditeur graphique. Il fait appel à ce que l'on
+appelle un gabarit de ressource (en anglais <I>template</I>): un gabarit
+est une description abstraite de la structure d'une ressource qui est
+utilisée par Rezilla pour construire une interface graphique. De très
+nombreuses ressources possèdent un format prédéfini qui peut être décrit au
+moyen d'un gabarit. Rezilla possède plus de 150 gabarits et il est aussi
+possible d'installer des gabarits supplémentaires qui seront
+automatiquement pris en compte par Rezilla (voir la section <I>Éditeur de
+Gabarits</I> plus loin). L'éditeur hexadécimal enfin est disponible pour
+tous les types de ressources: les données binaires de la ressource sont
+éditées directement par leur valeur hexadécimale. C'est en quelque sorte un
+éditeur de bas niveau qui permet d'accéder directement au contenu binaire
+de la ressource (voir la section <I>Éditeur Hexadécimal</I> plus 
+loin).<P><P> Lorsque la commande <I>Edit</I> est invoquée pour une ressource 
+particulière, Rezilla recherche tout d'abord s'il existe un éditeur 
+dédié pour ce type de ressource. S'il n'en trouve aucun, il cherche 
+alors si un gabarit est disponible afin d'invoquer l'éditeur de 
+gabarits. En cas d'échec, il appellera en dernier recours l'éditeur
+hexadécimal.<P>
 
 </BODY>
 </HTML>

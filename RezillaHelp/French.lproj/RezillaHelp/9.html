@@ -1,43 +1,54 @@
 <HTML>
 <HEAD>
-<TITLE>Copier, Couper et Coller</TITLE>
+<TITLE>Menu Edit</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="8.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="10.html">Suiv</A><HR><P>&nbsp;</P>
-<H2>Copier, Couper et Coller</H2>
+<H3>Menu Edit</H3>
+<UL><P><DT><B>Copy / Cut / Paste</B><DL><DT>
 Les fonctions de Copier, Couper et Coller peuvent avoir différentes
-significations selon le contexte.
-<UL>
-	<LI> Dans la table de ressources, il est possible de copier des ressources
-multiples. Si la copie se fait à l'intérieur de l'application, on peut
-copier autant de ressources que l'on veut à la fois, pas nécessairement du
-même type. Si l'on commute vers une autre application au contraire,
-seulement une ressource de chaque type sera copiée dans le presse-papier:
-chaque type correspond à un type de données <I>(flavor)</I> sur le presse-papier.
-Si l'on colle dans une table de ressources de Rezilla des données qui
-proviennent d'une autre application, une nouvelle ressource sera créée pour
-chaque type de donnée <I>(flavor)</I> figurant dans le presse-papier: le type de
-donnée est utilisé comme type pour la ressource. 
-<P> Par exemple, si l'on copie
-une image dans un programme tel que <A HREF="http://www.lemkesoft.de/en/graphcon.htm">GraphicConverter</A> et qu'on la colle dans
-Rezilla, une ressource PICT et une ressource Rect seront créées: la
-ressource PICT contient les octets définissant l'image et la ressource Rect
-contient ses dimensions. Cela résulte du fait que <I>GraphicConverter</I> place
-ces deux informations dans le presse-papier lorsqu'il effectue la copie. Ce
-mécanisme dépend donc de la façon dont les applications stockent leurs
-données dans le presse-papier. Réciproquement, on peut par exemple
-sélectionner une ressource TEXT dans une table de ressources de Rezilla et
-la coller dans un éditeur de texte: le contenu de la ressource sera inséré
-dans l'éditeur.<P>	<LI> Dans l'éditeur hexadécimal, on peut copier des sélections provenant
-d'un des panneaux. Pour coller les données du presse-papier dans le panneau
-de gauche, il faut évidemment qu'il s'agisse de données hexadécimales
-valides. Toutes données collées dans un des  panneaux sont aussi collées
-parallèlement dans l'autre panneau: par exemple, tout texte collé dans le 
-panneau droit est automatiquement converti en valeurs hexadécimales et
-inséré dans celui de gauche.</DL><P></UL><P>
+significations selon le contexte. Voir la section <I>Copier, Couper et
+Coller</I> plus loin.<P><DT><B>Clear</B><DL><DT>
+Détruit la sélection. Cette fonction peut avoir différentes significations
+selon le contexte. Si une table de ressources est active et que des
+ressources y sont sélectionnées, elles sont supprimées de la table; si une
+fenêtre d'éditeur hexadécimal est active et que du texte est
+sélectionné dans un des cadres, cette sélection est détruite.</DL><P><DT><B>Select all</B><DL><DT>
+Cette commande permet de tout sélectionner: toutes les ressources dans une 
+table de ressource, tout le texte dans une fenêtre de texte etc.</DL><P><DT><B>Find...</B><DL><DT>
+Dans l'éditeur hexadécimal, cette commande présente un dialogue dans lequel
+on peut entrer une chaîne de caractères à rechercher. Deux boutons-radios
+permettent de spécifier dans quel panneau la recherche doit s'opérer. Si
+l'on recherche dans le panneau de droite, une case à cocher permet en plus
+de spécifier si la recherche doit tenir compte de la casse des caractères.</DL><P><DT><B>Find again</B><DL><DT>
+Cette commande recherche, depuis la position courante, la chaîne entrée dans
+le dialogue de recherche (appelé par la commande Find). Elle utilise les
+mêmes critères que ceux qui ont été sélectionnés dans ce dialogue. Si le
+dialogue Find contient une chaîne vide, la commande est désactivée.</DL><P><DT><B>Compare maps...</B><DL><DT>
+Cette commande permet de comparer deux tables de ressources. Cela peut être
+utile si l'on veut voir les changements entre deux versions successives
+d'une application ou d'un fichier. Le dialogue permettant de sélectionner
+les deux fichiers dont on veut comparer les ressources comporte aussi
+quelques cases à cocher grâce auxquelles on peut ajouter des options de
+comparaisons: il est possible d'ignorer les différences relatives au nom des
+ressources, à leurs attributs et à leurs données binaires.
+<P> Les résultats sont affichés dans une fenêtre comportant trois listes:
+la liste de gauche contient les ressources trouvées dans la première table
+de ressources et absentes de la seconde, la liste de droite contient les
+ressources trouvées dans la seconde table de ressources et absentes de la
+première. La liste du milieu contient les ressources communes aux deux
+tables de ressources et qui diffèrent selon les critères de comparaison. En
+cliquant sur une ressource dans cette liste, les données hexadécimales de
+la ressource sont affichées dans deux panneaux parallèles au bas de la
+fenêtre afin de les comparer: à gauche, les données provenant de la
+première table de ressources, et à droite, les données provenant de la
+deuxième. Les données peuvent être visualisées ou bien en format
+hexadécimal, ou bien en format texte au moyen des deux boutons-radios au
+bas de la fenêtre.</DL><P></DL>
+</UL><P>
 
 </BODY>
 </HTML>

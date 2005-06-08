@@ -20,60 +20,7 @@ fork of the file.<P><P> The lower left corner of the windows displays a small lo
 the lock is closed, the resource map is in read-only mode. In this mode you
 can not execute any editing action: all the menu commands related to
 resource map editing are disabled. You can still view the contents of a
-resource using the hexadecimal editor but it will be in read-only mode too. <P><H3>Editing resources</H3><P><P> Double-clicking on a resource item in the table calls an editor for  this
-resource. This is equivalent to selecting the resource item and choosing the
-<I>Edit</I> command in the <I>Resource</I> menu. There are 
-basically three editing modes for a particular resource type:
-<UL>
-	<LI> interface editing
-	<LI> template-based editing
-	<LI> hexadecimal editing
-</UL><P>The <I>interface editing</I> implies that a custom editor is available for
-this type: it usually offers a nice graphical interface which makes it easy
-to edit and modify the resource without having to know anything about 
-the internal structure of the resource itself. Only a few types have such
-an editor. <I>Template-based editing</I> implies that a template is
-available for this type: a template is an abstract description of the
-format of the resource type which is used by Rezilla to build a graphical
-interface. The <I>Template Editor</I> is thus also a graphical editor.
-Many resource types have a well-defined structure which can be described by
-a template. Rezilla knows of more than 150 templates. Furthermore you can
-easily install additional templates (see the <I>Template Editor</I>
-section below). Hexadecimal editing is always available: the binary data of
-the resource are edited in an hexadecimal editor window: this is a sort of
-low-level editing mode which lets you access and modify any byte of the
-resource (see the <I>Hexadecimal Editor</I> section below).<P><P> When the <I>Edit</I> command is invoked for a particular resource, Rezilla
-will first look for an interface editor for this resource. If none is
-available, it will then look for a template corresponding to the resource's
-type and invoke the <I>Template Editor</I>. It no template is found, the
-last resort will be to call the <I>Hexadecimal Editor</I>.<P><H3>Substitution types</H3>
-Certain resource types have identical structures. For instance a keyboard
-small icon resource with type <I>kcs4</I> has exactly the same format as
-an <I>ics4</I> small icon. These types arre thus interchangeable and can
-be edited using the same editor or the same template as the other. Rezilla
-knows of a certain number of such situations and automatically makes the
-substitution: for instance, it will not find an interface or a template
-editor for <I>itl0</I> resources but will use the <I>INTL</I> template
-instead.<P><P> You can force Rezilla to use a particular substitution type by using
-the <I>Save as type...</I> menu item in the <I>Resource</I> menu. It
-displays a small dialog in which you select the substitution type from a
-menu or type it directly in a field.<P><H3>Modifier keys</H3>
-<P> When double-clicking on a resource in the resource map table, one can also
-use a modifier key:
-<UL>
-	<LI> if the shift key is pressed while double-clicking, the <I>Template
-Editor</I> is called directly. If no template is available, then the 
-<I>Hexadecimal Editor</I> is called instead.
-	<LI> if the option key is pressed while double-clicking, the 
-<I>Hexadecimal Editor</I> is called directly.
-</UL><P><P> Several resources can be selected simultaneously in the 
-table in order to edit them.<P><P> Control-clicking (single click) on a resource item in the table calls the 
-<I>Inspector window</I> for this resource. This is equivalent to selecting
-the resource item and choosing the <I>Get Info</I> command in the 
-<I>Resource</I> menu. See the <I>Inspector window</I> section below.<P><P> Note that clicking on a disclosure triangle with  the  option-key  down
-will act upon all the resource types: if the triangle  was  in  the  closed
-state, all resource types will be opened, if it was in  the  opened  state,
-then all the resource types will be closed.<P>
+resource using the hexadecimal editor but it will be in read-only mode too. <P>
 
 </BODY>
 </HTML>

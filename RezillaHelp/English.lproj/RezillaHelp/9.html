@@ -1,39 +1,49 @@
 <HTML>
 <HEAD>
-<TITLE>Copy, Cut and Paste</TITLE>
+<TITLE>Edit menu</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="8.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="10.html">Next</A><HR><P>&nbsp;</P>
-<H2>Copy, Cut and Paste</H2>
+<H3>Edit menu</H3>
+<UL><P><DT><B>Copy / Cut / Paste</B><DL><DT>
 The Copy, Cut and Paste commands can have different meanings according to
-the context. 
-<UL>
-	<LI> In the resource map table, you copy entire resources.  If you copy inside
-the application, you can copy as many resources at a time as you wish, not
-necessarily of the same type.  If you switch to another application on the
-contrary, only one resource for each type will be copied to the clipboard:
-each type corresponds to one flavor on the clipboard.  If you paste in a
-resource map document in Rezilla some data copied from an external application, a
-resource will be created for each flavour found on the clipboard: the
-flavour is used as the type of the created resource. 
-<P> For instance, if you copy an
-image in a program like 
-<A HREF="http://www.lemkesoft.de/en/graphcon.htm">GraphicConverter</A> and paste
-it in Rezilla, a PICT and a Rect resources are created: the PICT resource
-contains the data for the image and the Rect resource contains its
-dimensions. This is because <I>GraphicConverter</I> puts these two
-informations on the clipboard when it performs the copy. This all depends
-on how applications store data in the clipboard. The other way round, you
-can for instance select a TEXT resource in a resource map table in Rezilla
-and paste it into a text editor: the contents of the resource will be
-inserted in the editor.<P>	<LI> In the hexadecimal editor, you copy selections from one of the panes.
-To paste data from the clipboard into the left pane, it must be valid
-hexadecimal data. Any data pasted in one of the panes is also pasted
-accordingly in the other pane: for instance, any data pasted in the right
-pane is converted to its hexadecimal values and inserted in the left one.<P></UL><P>
+the context. See the <I>Copy, Cut and Paste</I> section below.<P><DT><B>Clear</B><DL><DT>
+Deletes the selection. This command can have different meanings  according  to  the
+context. If a Resource Map Table is active  and  resources  are  selected
+therein, they will be removed from the map; if an hexadecimal editor window is
+active and some text is selected in a pane, this selection is deleted.</DL><P><DT><B>Select all</B><DL><DT>
+Just as it says...</DL><P><DT><B>Find...</B><DL><DT>
+In the hexadecimal editor, this command brings up a dialog in which you can
+enter a string to search.
+Two radio buttons let you specify in which pane the search is to  be  done.
+When searching in  the  right  pane,  a  check  box  allows  to  specify  a
+case-insensitive search.</DL><P><DT><B>Find again</B><DL><DT>
+This command searches, from the current position, the string entered in the
+Find dialog. It uses the same settings as currently selected  in  the  Find
+dialog. If the Find dialog contains an empty search string, the command  is
+disabled.</DL><P><DT><B>Compare maps...</B><DL><DT>
+This item lets you compare two resource maps.  This can be useful if you
+want to see what has changed between two successive versions of an
+application or a file. The dialog window in which one selects the files
+whose resources must be compared contains three checkboxes which let you
+specify additional comparison options: it is possible to ignore differences
+relative to the name, to the attributes or to the binary data of the
+resources.
+<P> The results are displayed in a window containing three lists: the left
+hand side list contains the resources found in the first resource map and
+absent from the second, the right hand side list contains the resources
+found in the second resource map and absent from the first. The middle list
+contains resources existing in both Resource Maps but which differ
+according to some criterion. If you click on a resource in this list, the
+hexadecimal data for the resource will be displayed in two parallel panes
+in the bottom part of the window for comparison: on the left, the data as
+found in the first map, on the right the data as found in the second map.
+The data can be viewed either as hexadecimal or as text using the two radio
+buttons at the bottom of the window.</DL><P></DL>
+</UL><P>
 
 </BODY>
 </HTML>

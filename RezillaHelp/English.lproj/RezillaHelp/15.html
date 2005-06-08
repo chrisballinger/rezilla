@@ -1,27 +1,45 @@
 <HTML>
 <HEAD>
-<TITLE>Version History</TITLE>
+<TITLE>Template EditorRezilla is able to parse resources using descriptive templates and to</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="14.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="16.html">Next</A><HR><P>&nbsp;</P>
-<H2>Version History</H2>
-This project has been installed on SourceForge in June 2003: it is a work
-in progress, not all features are available yet. See the file 
-<I>Changes_Rezilla</I> for details about the development cycle.
+<H2>Template Editor</H2><P>Rezilla is able to parse resources using descriptive templates and to
+build a graphical interface out of it, allowing to easily edit all the elements of the
+resource. For instance, the following image shows how Rezilla would edit a 
+Txtr resource containing font and size information for a document.
+<P><IMG SRC="../../Images/rzil_tmpleditor.gif" ALT="A Template editor window" ALIGN=bottom></P><P>There are three kinds of locations where TMPL resources can be found. They 
+are described in details in the following subsections: 
 <UL>
-	<LI> 2004-05-07 - 1.0.1a - First public alpha release. Basic features.
-	<LI> 2004-05-24 - 1.0.2a - Second public alpha release. Preferences.
-	<LI> 2004-06-09 - 1.0.3a - Third public alpha release. Resizable windows.
-Style preferences.
-	<LI> 2004-11-22 - 1.0.4a - Fourth public alpha release. Templates 
-editor. 'Text' resources editor. New preferences.
-	<LI> 2005-02-28 - 1.0.5b - First public beta release. Bitmpap editor, 
-Unicode editor, Aete editor, Pict viewer, Sound player, new preferences, 
-new templates.
-</UL><P>
+	<LI> <I>internal</I> templates are predefined templates stored inside the
+application. Rezilla ships with more than 360 predefined templates covering
+the most currently used resource types;
+	<LI> <I>external</I> templates are additional templates that one can add to one of
+the <I>Application Support</I> folders;
+	<LI> <I>local</I> templates are TMPL resources present in the currently edited resource map.
+</UL><P>When Rezilla attempts to edit a resource using a template, it looks for 
+the appropriate template in all these locations in the following order:
+local, external, internal. You can thus override the definition of an
+internal template by putting a new definition in the external locations.<P>Templates editor windows have three buttons:
+<UL>
+	<LI> the <B>Cancel</B> button lets you abort the editing and close the window
+without asking if modifications should be saved.
+	<LI> the <B>Validate</B> button lets you save your modifications and close the
+window.
+	<LI> the <B>Revert</B> button lets you discard the recent modifications
+and revert to the last saved version of the resource in the resource map in
+memory (not the last saved version of the resource on disk).
+</UL><P>Note that pressing the <B>Enter</B> key (not the Return key) is equivalent to
+clicking on the <I>Validate</I> button.<P>If the <I>Close</I> button (the leftmost red little button in the title
+bar) is clicked and if any of the resource fields has been edited, Rezilla
+will ask you if you want to save your modifications. If the answer is yes,
+the modified resource is installed in the resource map. This does not mean
+though that the new data are saved to the disk: this happens only when you
+close the resource map table itself or invoke the <I>Save</I> menu item
+when this resource map table is at the front.<P>
 
 </BODY>
 </HTML>

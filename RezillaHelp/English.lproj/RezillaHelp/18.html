@@ -1,25 +1,33 @@
 <HTML>
 <HEAD>
-<TITLE>Download</TITLE>
+<TITLE>External templates</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
-<A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="17.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<HR><P>&nbsp;</P>
-<H2>Download</H2>
-Rezilla is an Open Source Project. Its source code is public and can 
-be found on the SourceForge site at the following address:
-<P> <A HREF="http://sourceforge.net/projects/rezilla">http://sourceforge.net/projects/rezilla</A><P><P> Rezilla binary releases are available at
-<P> <A HREF="http://sourceforge.net/project/showfiles.php?group_id=83267">http://sourceforge.net/project/showfiles.php?group_id=83267</A> 
-or on my web 
-page at 
-<P> <A HREF="http://webperso.easyconnect.fr/bdesgraupes/rezilla.html">http://webperso.easyconnect.fr/bdesgraupes/rezilla.html</A><P><P> The code is under CVS control. You can retrieve the latest stage of 
-development using any CVS client. See instructions at:
-<P> <A HREF="http://sourceforge.net/cvs/?group_id=83267">http://sourceforge.net/cvs/?group_id=83267</A><P><P> You can browse the cvs repository online at
-<P> <A HREF="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/rezilla">http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/rezilla</A> <P><P> You can also download a nightly tarball from
-<P> <A HREF="http://cvs.sourceforge.net/cvstarballs/rezilla-cvsroot.tar.bz2">http://cvs.sourceforge.net/cvstarballs/rezilla-cvsroot.tar.bz2</A><P><HR>
-<P> Last updated 2005-04-08 07:58:26<P>
+<A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="17.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="19.html">Next</A><HR><P>&nbsp;</P>
+<H3>External templates</H3>
+One can add new templates to those already defined internally by Rezilla.
+New templates must be located in one of the <I>Application Support</I>
+folders. When Rezilla is launched, it creates, if they do not already exist,
+subfolders called <I>Rezilla</I> in the <I>Application Support</I> folder of the
+currently logged-in user and in the local system wide <I>Application
+Support</I> folder inside the <I>Library</I> folder. These locations are
+usually referred to as the user domain and the local domain respectively.
+Inside this folder is a <I>Templates</I> subfolder which is where the additional
+templates should be located for Rezilla to take them into account.
+Concretely, the folder paths are like this:
+<PRE>
+	~/Library/Application Support/Rezilla/Templates
+	Library/Application Support/Rezilla/Templates
+</PRE>
+A template file is a file with a resource map containing resources of
+type TMPL. The resource map can be stored in the datafork or in the
+resource fork of the file.<P>Rezilla reads the contents of the <I>Application Support/Rezilla/Templates</I>
+folders at startup. If you add new template files there, you will have to
+quit and relaunch Rezilla in order to make them available to the
+application.<P>
 
 </BODY>
 </HTML>

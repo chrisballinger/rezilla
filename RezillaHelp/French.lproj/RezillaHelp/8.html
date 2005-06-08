@@ -1,194 +1,68 @@
 <HTML>
 <HEAD>
-<TITLE>Interfaces d'éditionLes interfaces d'édition (appelés aussi éditeurs dédiés) sont des</TITLE>
+<TITLE>Menu Fichier</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="7.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="9.html">Suiv</A><HR><P>&nbsp;</P>
-<H2>Interfaces d'édition</H2><P>Les <I>interfaces d'édition</I> (appelés aussi éditeurs dédiés) sont des
-modes d'édition qui définissent une interface graphique dédiée
-spécifiquement à un type de ressources particulier (ou à une famille de
-types). Elles diffèrent de l'édition par gabarits en ce qu'elles ne
-reposent pas sur l'existence d'un gabarit descriptif prédéfini. Elles sont
-aussi en général plus puissantes que les gabarits car elles sont écrites
-spécifiquement pour tenir compte de toutes les particularités du type
-concerné. Par exemple, une interface d'édition pour les ressources de type
-'TEXT' sera capable de gérer les éléments stylistiques, tels que le choix
-de polices, de taille, de style de caractères (gras, italique etc.):
-l'éditeur de gabarits est aussi capable d'éditer une ressource de type
-'TEXT' mais il ne peut pas tenir compte du style.<P>Les interfaces d'édition sont parfois appelées <I>éditeurs graphiques</I> mais
-cette dénomination est imprécise dans la mesure où l'éditeur de gabarits
-construit lui aussi des interfaces graphiques.<P>Rezilla possède plusieurs interfaces d'édition introduites dans 
-différentes versions:
-<OL>
-	<LI> à partir de la version 1.0.4, un éditeur de texte supportant à la fois
-des ressources de type 'TEXT' et de type 'styl' et permettant de gérer les
-informations de police, taille et style.<P>	<LI> à partir de la version 1.0.5, un éditeur de ressources d'images
-bitmaps, un éditeur de ressources de terminologie AppleScript, un
-visualisateur de ressources 'PICT', un lecteur de ressources son ('snd '),
-un éditeur de ressources Unicode ('utxt').
-</OL>
+<H3>Menu Fichier</H3>
 <UL>
-	<LI> <A HREF="#texteditor">L'éditeur de texte</A>
-	<LI> <A HREF="#bitmapeditor">L'éditeur d'images</A>
-	<LI> <A HREF="#Unicodeeditor">L'éditeur Unicode</A>
-	<LI> <A HREF="#Aeteeditor">L'éditeur Aete</A>
-	<LI> <A HREF="#MENUeditor">L'éditeur de menus</A>
-	<LI> <A HREF="#PICTeditor">L'éditeur 'PICT'</A>
-	<LI> <A HREF="#sndeditor">L'éditeur 'snd '</A>
-</UL><P>De futures versions de Rezilla ajouteront d'autres interfaces d'édition.<P><A NAME="texteditor"></A>
-<H3>L'éditeur de texte</H3><P>L'éditeur de texte possède trois menus: <B>Font</B>, <B>Size</B> et 
-<B>Style</B> placés en haut de ses fenêtres d'édition. <P>Si l'on édite une ressource de type 'TEXT' pour laquelle une ressource de 
-type 'styl' <I>de même numéro</I> existe, Rezilla lit les informations 
-de style (police, taille, forme) contenues dans cette ressource et les 
-applique au texte. Autrement, la ressource texte est affichée avec les 
-valeurs par défaut de police, taille et forme.<P>Lorsqu'une nouvelle ressource de type 'TEXT' est créée, l'éditeur de texte
-utilise <I>a priori</I> les réglages par défaut. Si des modifications de style ont
-été apportées au moyen de l'un des trois menus, Rezilla créera
-automatiquement une ressource de type 'styl' de même numéro que la
-ressource 'TEXT' au moment de la sauvegarde de la ressource afin de
-conserver les données stylistiques.<P><A NAME="bitmapeditor"></A>
-<H3>L'éditeur d'images</H3><P>Il permet d'éditer des ressources contenant des images bitmaps. Cela inclut
-les icones (petites, mini ou grandes), les familles d'icones, les motifs,
-les curseurs. Plus précisément, l'éditeur supporte les types de ressources
-suivants:<P>'cicn', 'crsr', 'CURS', 'icl4', 'icl8', 'icm#', 'icm4', 'icm8', 'ICN#',
-'ICON', 'ics#', 'ics4', 'ics8', 'PAT#', 'PAT ', 'ppat', 'SICN'<P>L'éditeur d'images possède plusieurs outils permettant la création et la 
-modification des ressources bitmaps. Une fenêtre typique d'édition 
-ressemble à ceci:
-<P><IMG SRC="../../Images/rzil_patterneditor.gif" ALT="Bitmap editor window" ALIGN=bottom></P><P>La partie gauche de la fenêtre comporte les outils d'édition ainsi que les
-boutons de motifs et de couleurs. On dispose des outils suivants (de gauche
-à droite et de haut en bas): lasso, sélection, texte, crayon, gomme, seau,
-pipette, ligne, rectangle, rectangle plein, rectangle arrondi, rectangle
-arrondi plein, ovale, ovale plein. En outre, les fenêtres d'édition des
-curseurs possèdent un outil symbolisé par une croix rouge en forme de x
-permettant de désigner le pixel servant de point actif (<I>hotspot</I>).<P>En-dessous de la palette d'outils se trouvent trois boutons donnant accès 
-à la palette de motifs,la palette de couleurs de premier plan et la 
-palette de couleurs de second plan.<P>Au milieu de la fenêtre se trouve la zone de dessin dans laquelle chaque 
-pixel de l'image peut être modifié au moyen de l'un des outils d'édition.<P>Dans la partie droite de la fenêtre, le panneau d'échantillons affiche 
-l'image à sa taille réelle ainsi que le masque correspondant lorsque c'est 
-nécessaire. Les échantillons sont instantanément mis à jour dès qu'une 
-modification est apportée à la zone de dessin. <P>En outre, les fenêtres d'édition des ressources 'SICN' (suite d'images noir
-et blanc) et 'PAT#' (suite de motifs) possèdent un curseur permettant de
-sélectionner une image particulière dans la suite ainsi que des boutons 
-<B>Plus</B> et <B>Moins</B>. Le bouton <B>Plus</B> permet d'ajouter une
-nouvelle image à la fin de la suite. Le bouton <B>Moins</B> permet de
-supprimer de la suite l'image couramment sélectionnée.<P>Lorsqu'une fenêtre de l'éditeur d'images est ouverte, quatre nouveaux 
-menus sont insérés dans la barre de menus:
-<OL>
-	<LI> le menu <B>Font</B> permet de sélectionner la police à utiliser avec 
-l'outil Texte
-	<LI> le menu <B>Style</B> permet de spécifier la taille de la police ainsi
-que le style à utiliser avec l'outil Texte (normal, gras, italique,
-souligné etc.). On peut aussi choisir la justification du texte (fer à
-droite ou à gauche).
-	<LI> le menu <B>Colors</B> comporte des commandes relatives à la
-profondeur des couleurs (liée à la profondeur de l'écran). Si une couleur
-ne figure pas dans une palette de couleurs, il est possible d'en créer une
-nouvelle au moyen de la commande <I>Use Color Picker</I> : une fois que
-cette commande est sélectionnée, il suffit de cliquer sur l'une des
-palettes de couleur pour obtenir l'affichage d'une roue de couleurs. La
-commande <I>Select Black and White</I> est un raccourci pour sélectionner
-le noir dans la palette de premier plan et le blanc dans la palette
-d'arrière-plan. La commande <I>Swap Selected Colors</I> permet de permuter
-les couleurs sélectionnées dans les palettes de premier plan et
-d'arrière-plan.
-	<LI> le menu <B>Actions</B> comporte des commandes pour appliquer des
-transformations de base à l'image. La commande <I>Resize Image</I> permet
-de spécifier la largeur et la hauteur de l'image (disponible seulement pour
-les ressources qui n'ont pas une taille prédéfinie, comme les ressources
-'cicn').
-</OL><P><A NAME="Unicodeeditor"></A>
-<H3>L'éditeur Unicode</H3><P>L'éditeur Unicode de Rezilla permet d'éditer des ressources contenant du
-texte Unicode dans la forme UTF-16 (comme par exemple des ressources de
-type 'utxt').<P>Il possède trois menus: <B>Font</B>, <B>Size</B> et <B>Style</B> placés
-dans la barre de menus. Une fenêtre d'édition typique ressemble à ceci:
-<P><IMG SRC="../../Images/rzil_utxteditor.gif" ALT="Unicode editor window" ALIGN=bottom></P><P>Par défaut, Rezilla utilise les polices de caractères adéquates pour
-afficher les textes en fonction des codes qu'ils contiennent. Ce
-comportement est en fait contrôlé par une préférence appelée <I>Do Font
-Substitution</I> qui peut parfois rallentir les tâches d'édition dans le
-cas de gros documents. Si l'on sait quelle police utiliser, on peut aussi
-désactiver cette préférence (dans le panneau Éditeurs des Préférences) et
-sélectionner la police souhaitée dans le menu <I>Font</I>.<P>On notera que les menus de style et de taille de police sont là uniquement
-pour faciliter le travail d'édition mais que, dans la version courante, les
-modifications stylistiques ne sont pas mémorisées, ni stockées dans une
-ressource 'styl'.<P><A NAME="Aeteeditor"></A>
-<H3>L'éditeur Aete</H3>
-Il s'agit d'un éditeur dédié aux ressources de terminologie AppleScript
-(ressources de type 'aete' ou 'aeut'). Ces ressources contiennent le
-dictionnaire des termes supportés par une application dans le cadre de
-scripts écrits dans le langage AppleScript.<P>Une ressource 'aete' (ou 'aeut') peut contenir plusieurs suites telles que
-la suite dite <I>Required Suite</I> (avec les termes <I>Open</I>, 
-<I>Quit</I> etc.), la suite <I>Core Suite</I> (avec les termes <I>Count</I>,
-<I>Make</I> etc.) et d'autres suites comportant des termes spécifiques à
-une application. Chaque suite peut contenir des informations concernant
-quatre catégories d'objets: événements, classes, opérateurs de comparaison
-et énumerations. Cette structure est reflétée par l'éditeur Aete qui
-possède une unique fenêtre et permet de sélectionner une suite à partir
-d'un menu-bouton. Une barre avec quatre onglets appelés <B>Events</B>, 
-<B>Classes</B>, <B>Comparison Operators</B> et <B>Enumerations</B>
-permet de choisir une catégorie et d'afficher un panneau avec toute
-l'information nécessaire relative à cet objet. Si plusieurs objets d'un
-certain type sont définis dans une suite, l'éditeur affiche un curseur pour
-passer de l'un à l'autre. S'il n'y a qu'un seul objet, aucun curseur n'est
-affiché. S'il n'y en a aucun, le panneau correspondant est vide.<P>Une fenêtre d'édition de ressource Aete typique ressemble à ceci:
-<P><IMG SRC="../../Images/rzil_aeteeditor.gif" ALT="Aete editor window" ALIGN=bottom></P><P>Lorsqu'une fenêtre de l'éditeur Aete est active, un nouveau menu appelé 
-<B>Terminology</B> est inséré dans la barre de menus. Il comporte des
-commandes pour ajouter ou supprimer des suites, ou pour ajouter ou
-supprimer des objets dans la suite courante. En fonction de l'objet
-couramment édité, certaines commandes du menu peuvent être désactivées.<P>La commande <B>Export Terminology</B> permet d'exporter les données d'une
-ressource 'aete' ou 'aeut' sous forme de fichier texte au
-format <B>XML, DeRez, Sdef, HTML</B> ou <B>texte</B>:
+<DL><P><DT><B>New Map</B><DL><DT>
+Permet de créer un nouveau fichier de ressources. Un dialogue standard
+permet d'indiquer le nom et l'emplacement du nouveau fichier de ressources
+à créer; deux boutons-radios permettent de spécifier si la table de ressources
+doit être stockée dans la branche de données ou dans la branche de
+ressources du fichier.</DL><P><DT><B>Open...</B><DL><DT>
+Présente un dialogue standard pour ouvrir une table de ressources. Dans ce
+dialogue, trois boutons-radios permettent de spécifier la branche dans
+laquelle rechercher les ressources. Les options proposées sont:
 <UL>
-	<LI> les formats <I>HTML</I> et <I>texte</I> peuvent être utiles simplement pour rendre
-le contenu d'une ressource de terminologie AppleScript lisible. Il est 
-parfois nécessaire dans un script AppleScript de connaître les codes de 
-certains termes.<P>	<LI> le format <I>XML</I> comporte toutes les données de la ressource selon un
-format spécifique: une DTD décrivant la structure du fichier XML est jointe
-au projet. Rezilla sait aussi importer ce type de fichiers (voir
-ci-dessous) permettant ainsi l'échange de données.<P><B>Caveat:</B> on notera que Rezilla n'opère pas la conversion de 
-caractères spéciaux (comme les symboles <I>inférieur</I> ou <I>supérieur</I>, 
-les <I>apostrophes</I>, les <I>esperluètes</I>) en entités Xml. Il faudra
-éditer les fichiers XML obtenus si certaines chaînes comportent de tels
-caractères.<P>	<LI> le format <I>DeRez</I> produit un fichier avec l'extension <I>.r</I>
-identique à celui que produirait l'utilitaire DeRez : ce fichier est prêt à
-être recompilé dans n'importe quel projet (avec l'utilitaire Rez par
-exemple).<P>	<LI> le format <I>Sdef</I> (<I>Scripting Definition File</I>) décrit les
-données de la ressource selon le nouveau format défini par Apple. Voir la
-définition dans le fichier <I>/System/Library/DTDs/sdef.dtd</I> et la page
-de manuel (taper "man sdef" dans une fenêtre de Terminal). Le format
-Sdef ne reprend pas toute l'information contenue dans une ressource Aete:
-il y a nécessairement une déperdition d'information en passant de l'un à
-l'autre. Rezilla s'efforce de convertir au mieux la ressource Aete.
-</UL><P><B>Important:</B> Les fichiers exportés en format XML, Sdef ou HTML sont 
-encodés en UTF-8 tandis que les fichiers exportés en format texte ou DeRez 
-sont encodés en encodage MacRoman.<P>La commande <B>Import Terminology</B> permet d'importer des données 
-depuis un fichier XML dans une ressource 'aete' : on peut pour cela créer 
-une nouvelle ressource 'aete', l'éditer et choisir la commande 
-<I>Import Terminology</I> dans le menu <I>Terminology</I>. Le fichier 
-XML peut aussi être importé dans une ressource existante : les nouvelles 
-données sont ajoutées aux données existantes. Le fichier XML doit 
-impérativement utiliser le format défini dans la DTD jointe au projet 
-(aete.dtd, à ne pas confondre avec sdef.dtd).<P><A NAME="MENUeditor"></A>
-<H3>L'éditeur de menus</H3><P>Une fenêtre d'édition de ressource MENU typique ressemble à ceci:
-<P><IMG SRC="../../Images/rzil_menueditor.gif" ALT="MENU editor window" ALIGN=bottom></P><P><A NAME="PICTeditor"></A>
-<H3>L'éditeur 'PICT'</H3><P>Ce n'est pas un éditeur graphique complet mais plutôt un visualisateur. Si 
-l'on exécute un double-clic sur une ressource d'image (de type <I>'PICT'</I>), 
-Rezilla affiche cette image.<P>Les commandes <I>Copy</I>, <I>Cut</I> et <I>Paste</I> sont activées. Il
-est possible de copier l'image dans le presse-papier: il n'y a pas de
-sélection à faire, l'image entière est automatiquement copiée. À
-l'inverse, si le presse-papiers contient une image (techniquement parlant,
-s'il contient des données de type 'PICT'), Rezilla remplace l'image
-courante par le contenu du presse-papiers.<P>Cela permet de créer des images dans une application graphique externe et
-de les importer dans Rezilla. Notez qu'il est aussi possible de copier
-directement des données graphiques depuis le presse-papiers dans une table
-de ressource de Rezilla (voir la section <I>Copy, Cut and Paste</I> dans
-ce document).<P><A NAME="sndeditor"></A>
-<H3>L'éditeur 'snd '</H3><P>Ce n'est pas un éditeur à proprement parler mais plutôt un lecteur de sons. Si
-l'on exécute un double-clic sur une ressource de son (ressource de type 
-<I>'snd '</I>), Rezilla joue le son sur la sortie audio de l'ordinateur.
-Assurez-vous que le volume n'est pas réduit à 0 sur votre système.<P>
+	<LI> <I>"any fork"</I>: dans ce cas, Rezilla cherche en premier une table de ressources 
+dans la branche de données. S'il n'en trouve aucune, il cherche alors dans la branche de ressources.
+	<LI> <I>"data fork"</I>: recherche une table de ressources seulement dans la  branche de données
+du fichier
+	<LI> <I>"resource fork"</I>: recherche une table de ressources seulement dans la  branche de ressources
+du fichier
+</UL>
+On peut aussi sélectionner la case à cocher <I>Read Only</I>: si elle est
+cochée, la table sera ouverte en mode lecture seule et toutes les commandes
+d'édition seront désactivées.</DL><P><DT><B>Recent items</B><DL><DT>
+Ce sous-menu contient les noms des dix plus récentes tables de ressources
+ouvertes dans Rezilla. Si on sélectionne un article de ce menu, la table de
+ressources correspondante est ouverte.</DL><P><DT><B>Close</B><DL><DT>
+Ferme la fenêtre se trouvant au premier-plan.</DL><P><DT><B>Revert</B><DL><DT>
+Cette commande permet de restaurer la dernière version sauvegardée sur
+disque dans le cas où la table courante a été modifiée et que l'on ne veut
+pas conserver ces modifications.</DL><P><DT><B>Save</B><DL><DT>
+Sauvegarde les modifications sur disque.</DL><P><DT><B>Save As...</B><DL><DT>
+Présente un dialogue standard pour spécifier un fichier dans lequel stocker
+la table de ressources courante. Trois boutons-radios permettent de
+spécifier dans quelle branche stocker la table. Les options proposées sont:
+<UL>
+	<LI> <I>"same fork"</I>: utiliser la même branche que la table courante.
+	<LI> <I>"data fork"</I>: sauvegarder dans la branche de données.
+	<LI> <I>"resource fork"</I>: sauvegarder dans la branche de ressources.
+</UL></DL><P><DT><B>Export...</B><DL><DT>
+Cette commande permet d'exporter la structure et le contenu d'une table de
+ressources dans des fichiers selon divers formats. Les formats disponibles
+sont:
+<UL>
+	<LI> Texte
+	<LI> HTML 
+	<LI> XML 
+	<LI> DeRez
+</UL>
+En formats XML et texte, il est possible de décider d'inclure les données
+binaires de chaque ressource ou pas. Celles-ci peuvent être représentées
+soit en encodage Base64, soit sous forme hexadécimale (comme dans un
+éditeur hexadécimal). Voir la section <I>Export</I> plus loin.<P>DeRez est un format qui ne concerne que les développeurs: c'est le format
+utilisé par les outils Rez et DeRez. Les données de ressources sont
+exportées de façon identique à ce que produit l'outil DeRez lorsqu'aucun
+modèle particulier de ressources n'est spécifé (format <I>data</I>).</DL>
+</DL>
+</UL><P>
 
 </BODY>
 </HTML>
