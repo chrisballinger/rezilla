@@ -1135,43 +1135,43 @@ Number of Classes: 8
 	  (2) ignoreName
 		Property ID: 'IgnN'
 		Property class: 'bool'
-		Property description: ignore name differences
+		Property description: have name differences been ignored?
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	  (3) ignoreAttrs
 		Property ID: 'IgnA'
 		Property class: 'bool'
-		Property description: ignore attributes differences
+		Property description: have attributes differences been ignored?
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	  (4) ignoreData
 		Property ID: 'IgnD'
 		Property class: 'bool'
-		Property description: ignore data differences
+		Property description: have data differences been ignored?
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	  (5) old only resources
 		Property ID: 'OldR'
-		Property class: 'TyId'
-		Property description: resources which are only in the old map
+		Property class: 'list'
+		Property description: the list of resources which are only in the old map
 		Property is a list, not enumerated. It cannot be set by the Set Data AE.
 	  (6) new only resources
 		Property ID: 'NewR'
-		Property class: 'TyId'
-		Property description: resources which are only in the new map
+		Property class: 'list'
+		Property description: the list of resources which are only in the new map
 		Property is a list, not enumerated. It cannot be set by the Set Data AE.
 	  (7) differing resources
 		Property ID: 'Diff'
-		Property class: 'TyId'
-		Property description: resources which are in both maps and are different
+		Property class: 'list'
+		Property description: the list of resources which exist in both maps and are different
 		Property is a list, not enumerated. It cannot be set by the Set Data AE.
 	  (8) identical resources
 		Property ID: 'Iden'
-		Property class: 'TyId'
-		Property description: resources which are in both maps and are identical
+		Property class: 'list'
+		Property description: the list of resources which exist in both maps and are identical
 		Property is a list, not enumerated. It cannot be set by the Set Data AE.
 	Number of class elements: 0
   Object class 8: specifier
 ---------------------------
 	Object class ID: 'TyId'
-	Class description: a two-elements list containing the type and the ID for a resource
+	Class description: a two-elements list containing the type and the ID of a resource
 	Number of class properties: 0
 	Number of class elements: 0
 Number of Comparison Operators: 0
