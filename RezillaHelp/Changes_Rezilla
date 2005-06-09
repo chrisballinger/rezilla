@@ -28,7 +28,12 @@ This changes log is in reverse chronological order (from bottom to top).
 $Date$
 
 ================================================================================
-= 1.0.6b5	                             last update: 
+= 1.0.6b	                             last update: 
+================================================================================
+¥ Sixth public release of Rezilla (second beta).
+
+================================================================================
+= 1.0.6b5	                             last update: 2005-06-09 07:47:56
 ================================================================================
 ¥ Debugging and testing phase before 1.0.6b release.
 ¥ Enabled Undo/Redo of typing actions in hexadecimal editor.
