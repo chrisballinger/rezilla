@@ -1,0 +1,22 @@
+-- File: "SetResourceProperty.scr"
+-- Created: 2005-06-09 08:55:16
+-- Author: Bernard Desgraupes <bdesgraupes@users.sourceforge.net>
+-- Sample AppleScript for Rezilla 1.0.6b
+
+tell application "Rezilla"
+	set theRez to resource {"MENU", 128} of map document 1
+	set the name of theRez to "Apple menu"
+	-- 12 is resProtected _and_ resPreload (8 + 4):
+	set the attributes of theRez to 12
+	-- This unsets the resProtected flag:
+	set the protected of theRez to 0
+	-- This sets the resPurgeable flag:
+	set the purgeable of theRez to 1
+	-- This unsets the resLocked flag:
+	set the locked of theRez to 1
+	-- This sets the resChanged flag:
+	set the changed of theRez to 1
+	-- Modifiy the size on disc (use at your own risk):
+	set the sizeOnDisc of theRez to 512
+
+end tell

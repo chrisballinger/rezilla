@@ -1,0 +1,9 @@
+-- File: "SaveModifications.scr"
+-- Created: 2005-06-09 08:55:16
+-- Author: Bernard Desgraupes <bdesgraupes@users.sourceforge.net>
+-- Sample AppleScript for Rezilla 1.0.6b
+
+tell application "Rezilla"
+	save first editor of map document 1
+
+end tell

@@ -1,0 +1,9 @@
+-- File: "OpenInterfaceEditor.scr"
+-- Created: 2005-06-09 08:55:16
+-- Author: Bernard Desgraupes <bdesgraupes@users.sourceforge.net>
+-- Sample AppleScript for Rezilla 1.0.6b
+
+tell application "Rezilla"
+	edit resource {"MENU", 128} of map 1 using interface
+
+end tell

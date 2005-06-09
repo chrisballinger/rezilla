@@ -1,0 +1,17 @@
+-- File: "SetMapProperty.scr"
+-- Created: 2005-06-09 08:55:16
+-- Author: Bernard Desgraupes <bdesgraupes@users.sourceforge.net>
+-- Sample AppleScript for Rezilla 1.0.6b
+
+tell application "Rezilla"
+	set theMap to map document 1
+	-- 160 is mapReadOnly _and_ mapChanged (128 + 32)
+	set the attributes of theMap to 160
+	-- This unsets the mapReadOnly flag (-128)
+	set the readOnly of theMap to 0
+	-- This sets the mapCompact flag (+64)
+	set the compact of theMap to 1
+	-- This unsets the mapChanged flag (-32)
+	set the changed of theMap to 0
+
+end tell

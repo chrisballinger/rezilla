@@ -1,0 +1,18 @@
+-- File: "CompareMaps.scr"
+-- Created: 2005-06-09 08:55:15
+-- Author: Bernard Desgraupes <bdesgraupes@users.sourceforge.net>
+-- Sample AppleScript for Rezilla 1.0.6b
+
+tell application "Rezilla"
+	set theComp to compare "HD:foo:bar:file1" as alias Â
+		and "HD:foo:bar:file2" as alias Â
+		with ignoreName without ignoreAttrs
+	-- get information out of the result
+	get the old only resources of theComp
+	get the new only resources of theComp
+	get the differing resources of theComp
+	get the identical resources of theComp
+	-- get the criteria
+	get the criteria of theComp
+
+end tell

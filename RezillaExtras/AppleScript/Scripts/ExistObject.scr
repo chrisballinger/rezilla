@@ -1,0 +1,39 @@
+-- File: "ExistObject.scr"
+-- Created: 2005-06-09 08:55:15
+-- Author: Bernard Desgraupes <bdesgraupes@users.sourceforge.net>
+-- Sample AppleScript for Rezilla 1.0.6b
+
+tell application "Rezilla"
+	first window exists
+	exists second window
+	exists third window
+	exists map of document 1
+	
+	set theMap to map 1
+	exists theMap
+	exists type "TEXT" of theMap
+	exists type "XYZT" of theMap
+	
+	set theType to type "TEXT" of map 1
+	exists resource id 128 of theType
+	exists resource "Vivat" of theType
+	exists resource id 128 of type "MENU" of map 1
+	exists resource {"MENU", 128} of map document 1
+	
+	exists hex editor 1
+	exists template editor 1
+	exists interface editor 1
+	
+	exists editing window 1
+	exists hex window 1
+	exists template window 1
+	exists interface window 1
+	
+	exists window of document 1
+	exists editor 1 of document 1
+	exists second editor of document 1
+	exists window of first editor of document 1
+	
+	exists inspector
+
+end tell

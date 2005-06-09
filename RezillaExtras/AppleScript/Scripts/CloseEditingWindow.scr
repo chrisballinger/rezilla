@@ -1,0 +1,10 @@
+-- File: "CloseEditingWindow.scr"
+-- Created: 2005-06-09 08:55:14
+-- Author: Bernard Desgraupes <bdesgraupes@users.sourceforge.net>
+-- Sample AppleScript for Rezilla 1.0.6b
+
+tell application "Rezilla"
+	set thewin to window of first editor of map document 1
+	close thewin
+
+end tell

@@ -1,0 +1,15 @@
+-- File: "SetInspectorProperty.scr"
+-- Created: 2005-06-09 08:55:16
+-- Author: Bernard Desgraupes <bdesgraupes@users.sourceforge.net>
+-- Sample AppleScript for Rezilla 1.0.6b
+
+tell application "Rezilla"
+	set the name field of inspector to "Viva Rezilla!!!"
+	set the ID field of inspector to 130
+	set the system heap of inspector to false
+	set the purgeable of inspector to true
+	set the locked of inspector to true
+	set the preload of inspector to false
+	set the protected of inspector to true
+
+end tell

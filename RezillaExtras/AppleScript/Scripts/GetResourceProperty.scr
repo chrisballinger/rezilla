@@ -1,0 +1,23 @@
+-- File: "GetResourceProperty.scr"
+-- Created: 2005-06-09 08:55:15
+-- Author: Bernard Desgraupes <bdesgraupes@users.sourceforge.net>
+-- Sample AppleScript for Rezilla 1.0.6b
+
+tell application "Rezilla"
+	set therez to resource {"TEXT", 128} of map id 22
+	set a to the name of therez
+	set b to the ID of therez
+	set c to the changed of therez
+	set d to the size of therez
+	set e to the sizeOnDisc of therez
+	set f to the attributes of therez
+	set g to the system heap of therez
+	set h to the purgeable of therez
+	set i to the locked of therez
+	set j to the preload of therez
+	set k to the protected of therez
+	
+	{a, b, c, d, e, f, g, h, i, j, k}
+
+
+end tell

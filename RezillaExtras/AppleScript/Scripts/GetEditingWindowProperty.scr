@@ -1,0 +1,10 @@
+-- File: "GetEditingWindowProperty.scr"
+-- Created: 2005-06-09 08:55:15
+-- Author: Bernard Desgraupes <bdesgraupes@users.sourceforge.net>
+-- Sample AppleScript for Rezilla 1.0.6b
+
+tell application "Rezilla"
+	set editWin to editing window 1
+	get the kind of editWin
+
+end tell

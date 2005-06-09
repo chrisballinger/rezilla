@@ -1,0 +1,19 @@
+-- File: "GetMapDocumentProperty.scr"
+-- Created: 2005-06-09 08:55:15
+-- Author: Bernard Desgraupes <bdesgraupes@users.sourceforge.net>
+-- Sample AppleScript for Rezilla 1.0.6b
+
+tell application "Rezilla"
+	set mapDoc to map document 1
+	set a to the name of mapDoc
+	set b to the refnum of mapDoc
+	set c to the fork of mapDoc
+	set d to the index of mapDoc
+	set e to the readOnly of mapDoc
+	set f to the window of mapDoc
+	set g to the file of mapDoc
+	set h to the format of mapDoc
+	
+	{a, b, c, d, e, f, g, h}
+
+end tell

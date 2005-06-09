@@ -1,0 +1,14 @@
+-- File: "SetTextResources.scr"
+-- Created: 2005-06-09 08:55:16
+-- Author: Bernard Desgraupes <bdesgraupes@users.sourceforge.net>
+-- Sample AppleScript for Rezilla 1.0.6b
+
+tell application "Rezilla"
+	-- simple string
+	set txtRez to resource {"TEXT", 128} of map 1
+	set the hex data of txtRez to "Viva Rezilla!!!"
+	-- list of strings
+	set strRez to resource {"STR#", 128} of map 1
+	set the hex data of strRez to {"Viva Rezilla!!!", "Rezilla is great!!!"}
+
+end tell

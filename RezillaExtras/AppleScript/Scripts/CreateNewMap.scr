@@ -1,0 +1,15 @@
+-- File: "CreateNewMap.scr"
+-- Created: 2005-06-09 08:55:15
+-- Author: Bernard Desgraupes <bdesgraupes@users.sourceforge.net>
+-- Sample AppleScript for Rezilla 1.0.6b
+
+tell application "Rezilla"
+	-- ask the Finder to make the folder object
+	tell application "Finder"
+		set theFolder to folder "HD:foo:bar:" as alias
+	end tell
+	-- create the new map document in this folder
+	make new map document in theFolder with properties Â
+		{name:"newmap.rsrc",fork:data fork,readOnly:true}
+
+end tell

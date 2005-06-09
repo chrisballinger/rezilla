@@ -1,0 +1,19 @@
+-- File: "GetWindowProperty.scr"
+-- Created: 2005-06-09 08:55:16
+-- Author: Bernard Desgraupes <bdesgraupes@users.sourceforge.net>
+-- Sample AppleScript for Rezilla 1.0.6b
+
+tell application "Rezilla"
+	set win2 to the second window
+	set a to the name of win2
+	set b to the bounds of win2
+	set c to the position of win2
+	set d to the visible of win2
+	set e to the closeable of win2
+	set f to the titled of win2
+	set g to the resizable of win2
+	set h to the zoomed of win2
+	
+	(a, b, c, d, e, f, g, h)
+
+end tell

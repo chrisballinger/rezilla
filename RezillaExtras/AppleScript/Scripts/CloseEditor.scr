@@ -1,0 +1,9 @@
+-- File: "CloseEditor.scr"
+-- Created: 2005-06-09 08:55:15
+-- Author: Bernard Desgraupes <bdesgraupes@users.sourceforge.net>
+-- Sample AppleScript for Rezilla 1.0.6b
+
+tell application "Rezilla"
+	close first editor of map document 1
+
+end tell
