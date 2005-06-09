@@ -26,7 +26,8 @@ and <I>readOnly</I>. This parameter is optional.
 		set theFolder to folder "HD:foo:bar:" as alias
 	end tell
 	-- create the new map document in this folder
-	make new map document in theFolder with properties {name:"newmap.rsrc",fork:data fork,readOnly:true}<P></PRE>
+	make new map document in theFolder with properties ¬
+		{name:"newmap.rsrc",fork:data fork,readOnly:true}<P></PRE>
 Note that the folder containing the new map document must be declared in a
 <I>tell</I> block addressed to the Finder rather than to Rezilla. This is
 because the word <I>folder</I> belongs to the Finder's terminology and not

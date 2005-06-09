@@ -1,14 +1,31 @@
 <HTML>
 <HEAD>
-<TITLE>The MENU editorA typical MENU editing window looks like this:</TITLE>
+<TITLE>The MENU editorThe menu editor lets you edit standard resources of type MENU, that</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="24.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="26.html">Next</A><HR><P>&nbsp;</P>
-<H3>The MENU editor</H3><P>A typical MENU editing window looks like this:
-<P><IMG SRC="../../Images/rzil_menueditor.gif" ALT="MENU editor window" ALIGN=bottom></P><P><A NAME="PICTeditor"></A>
+<H3>The MENU editor</H3><P>The menu editor lets you edit standard resources of type <I>MENU</I>, that
+is to say resources which use the standard format for this type. If the
+resource uses a custom format defined in a Menu Definition resource 
+(<I>MDEF</I>), it can't be edited with this editor. The menu editor looks for
+an MDEF resource and warns the user. On the other hand, it supports extended
+information stored in resources of type <I>xmnu</I>.<P>While editing a <I>MENU</I> resource, the editor checks for the presence of an 
+<I>xmnu</I> resource with the same ID and, if it finds one, reads its
+contents. The interface displays global information concerning the menu itself at
+the top of the window and the data concerning each of its items in the
+right panel of the window.
+A typical <I>MENU</I> editing window looks like this:
+<P><IMG SRC="../../Images/rzil_menueditor.gif" ALT="MENU editor window" ALIGN=bottom></P>
+Standard item data are located in the top half of this panel (down to the
+style popup) while extended data (<I>xmnu</I>) are in the lower half
+(starting from the modifiers).<P>If no <I>xmnu</I> resource was detected, the editor displays
+default values in the corresponding fields: if any of these values is
+modified, the editor will propose to create an <I>xmnu</I> resource and
+save the extra information therein.<P>Note that <I>xmnu</I> resources can also be edited directly using the
+template editor.<P><A NAME="PICTeditor"></A>
 
 
 </BODY>

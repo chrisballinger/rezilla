@@ -27,7 +27,9 @@ the following properties from the result:
 	<LI> <I>old only resources</I>: list of resources which are only in the old map<P>	<LI> <I>new only resources</I>: list of resources which are only in the new map<P>	<LI> <I>differing resources</I>: list of resources which are in both maps and are different<P>	<LI> <I>identical resources</I>: list of resources which are in both maps and are identical<P>	<LI> <I>criteria</I>: the criteria which have been used for the 
 comparison, presented as a keyworded list<P>	<LI> <I>ignoreName</I>: have name differences been ignored?<P>	<LI> <I>ignoreAttrs</I>: have attributes differences been ignored?<P>	<LI> <I>ignoreData</I>: have data differences been ignored?<P></UL><P>Here is a complete example:
 <PRE>
-	set theComp to compare "HD:foo:bar:file1" as alias and "HD:foo:bar:file2" as alias with ignoreName without ignoreAttrs
+	set theComp to compare "HD:foo:bar:file1" as alias ¬
+		and "HD:foo:bar:file2" as alias ¬
+		with ignoreName without ignoreAttrs
 	-- get information out of the result
 	get the old only resources of theComp
 	get the new only resources of theComp

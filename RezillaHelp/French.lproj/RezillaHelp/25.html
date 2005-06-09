@@ -1,14 +1,36 @@
 <HTML>
 <HEAD>
-<TITLE>L'éditeur de menusUne fenêtre d'édition de ressource MENU typique ressemble à ceci:</TITLE>
+<TITLE>L'éditeur de menusL'éditeur de menus permet d'éditer des ressources standard de type </TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="24.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="26.html">Suiv</A><HR><P>&nbsp;</P>
-<H3>L'éditeur de menus</H3><P>Une fenêtre d'édition de ressource MENU typique ressemble à ceci:
-<P><IMG SRC="../../Images/rzil_menueditor.gif" ALT="MENU editor window" ALIGN=bottom></P><P><A NAME="PICTeditor"></A>
+<H3>L'éditeur de menus</H3><P>L'éditeur de menus permet d'éditer des ressources standard de type 
+<I>MENU</I>, c'est-à-dire des ressources utilisant le format standard
+défini pour ce type. Si, au contraire, la ressource utilise un format
+particulier défini dans une ressource de définition de menu (de type 
+<I>MDEF</I>), on ne peut pas l'ouvrir au moyen de l'éditeur de menus.
+L'éditeur de menus vérifie la présence éventuelle d'une ressource MDEF et 
+prévient l'utiisateur.<P>En revanche, l'éditeur de menus supporte les ressources de type 
+<I>xmnu</I> qui contiennent des informations complémentaires concernant un
+menu. Au moment d'ouvrir une ressource de type <I>MENU</I>, il cherche si
+une ressource de même numéro est présente dans la table de ressources. S'il
+en trouve une, il en lit le contenu. L'interface graphique affiche les
+informations globales concernant le menu lui-même dans la partie supérieure
+de la fenêtre tandis que les informations concernant les articles
+individuels se trouvent dans le panneau de droite de la fenêtre. Une
+fenêtre d'édition de ressource <I>MENU</I> typique ressemble à ceci:
+<P><IMG SRC="../../Images/rzil_menueditor.gif" ALT="MENU editor window" ALIGN=bottom></P>
+Les données standard sont dans la moitié supérieure du panneau (jusqu'au 
+menu de style). Les données étendues (<I>xmnu</I>) sont dans la moitié
+inférieure (à partir des modificateurs).<P>Si aucune ressource <I>xmnu</I> n'a été détectée, l'éditeur fournit des 
+valeurs par défaut pour les champs correspondants. Si l'une d'elles est 
+modifiée par l'utilisateur, l'éditeur proposera de créer une ressource  au 
+moment de la sauvegarde afin de stocker l'information complémentaire.<P>On notera par ailleurs que les ressources <I>xmnu</I> peuvent aussi être 
+éditées au moyen de l'éditeur de gabarits, indépendamment de l'éditeur de 
+menus ou de toute ressource <I>MENU</I> associée.<P><A NAME="PICTeditor"></A>
 
 
 </BODY>

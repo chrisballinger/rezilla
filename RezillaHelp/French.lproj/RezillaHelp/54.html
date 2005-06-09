@@ -37,7 +37,9 @@ ignorées ?<P>	<LI> <I>ignoreAttrs</I>: les différences relatives aux attributs o
 ignorées ?<P>	<LI> <I>ignoreData</I>: les différences relatives au contenu ont-elles été 
 ignorées ?<P></UL><P>Voici un exemple complet:
 <PRE>
-	set theComp to compare "HD:foo:bar:file1" as alias and "HD:foo:bar:file2" as alias with ignoreName without ignoreAttrs
+	set theComp to compare "HD:foo:bar:file1" as alias ¬
+		and "HD:foo:bar:file2" as alias ¬
+		with ignoreName without ignoreAttrs
 	-- get information out of the result
 	get the old only resources of theComp
 	get the new only resources of theComp

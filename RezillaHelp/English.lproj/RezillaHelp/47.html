@@ -49,6 +49,7 @@ properties:
 	set f to the window of mapDoc
 	set g to the file of mapDoc
 	set h to the format of mapDoc
+	
 	{a, b, c, d, e, f, g, h}<P></PRE><P>The <I>format</I> property can be modified using the <B>set</B> command. 
 All the others are read only properties. For instance:
 <PRE>
@@ -68,7 +69,9 @@ properties (supposing an editor document is currently open):
 	set c to the readOnly of theEd
 	set d to the window of theEd
 	set e to the resource of theEd
-	set f to the owner doc of theEd<P>	{a, b, c, d, e, f}<P></PRE><P>All these properties are read only properties. They cannot be modified 
+	set f to the owner doc of theEd
+	
+	{a, b, c, d, e, f}<P></PRE><P>All these properties are read only properties. They cannot be modified 
 using the <B>set</B> command.<P><H4>Map window properties</H4>
 The <I>map window</I> class designates the window displayed by resource map 
 documents. These objects have two properties corresponding to the count 
@@ -110,7 +113,9 @@ value, sum of the individual flags)<P>	<LI> <I>readOnly</I>: the map's <I>ReadOn
 	set b to the attributes of theMap
 	set c to the readOnly of theMap
 	set d to the compact of theMap
-	set e to the changed of theMap<P>	{a, b, c, d, e}<P></PRE>
+	set e to the changed of theMap
+	
+	{a, b, c, d, e}<P></PRE>
 A map is a container itself: the objects it contains are types as we will 
 see in the next section. To get the list of all types (as text) within the map:
 <PRE>
@@ -140,7 +145,8 @@ four-characters string representing this type (like "TEXT", "icns",
 <PRE>
 	set theType to type "TEXT" of map 1
 	set a to the index of theType
-	set b to the name of theType<P>	{a, b}<P></PRE>
+	set b to the name of theType
+	{a, b}<P></PRE>
 To get the list of all resources within the type:
 <PRE>
 	set theType to type "TEXT" of map 1
@@ -178,6 +184,7 @@ numeric value, sum of the individual flags)<P>	<LI> <I>sysHeap</I>: the resource
 	set i to the locked of therez
 	set j to the preload of therez
 	set k to the protected of therez
+	
 	{a, b, c, d, e, f, g, h, i, j, k}<P></PRE><P>The <I>name</I>, <I>attributes</I>, <I>sysHeap</I>, <I>purgeable</I>, 
 <I>locked</I>, <I>preload</I>, <I>protected</I>, <I>changed</I>, <I>sizeOnDisc</I>, and <I>hex data</I> properties can be modified using 
 the <B>set</B> command. 
@@ -185,17 +192,17 @@ The others are read only properties. For instance:
 <PRE>
 	set theRez to resource {"MENU", 128} of map document 1
 	set the name of theRez to "Apple menu"
-	-- 12 is resProtected _and_ resPreload (8 + 4)
+	-- 12 is resProtected _and_ resPreload (8 + 4):
 	set the attributes of theRez to 12
-	-- This unsets the resProtected flag
+	-- This unsets the resProtected flag:
 	set the protected of theRez to 0
-	-- This sets the resPurgeable flag
+	-- This sets the resPurgeable flag:
 	set the purgeable of theRez to 1
-	-- This unsets the resLocked flag
+	-- This unsets the resLocked flag:
 	set the locked of theRez to 1
-	-- This sets the resChanged flag
+	-- This sets the resChanged flag:
 	set the changed of theRez to 1
-	-- Modifiy the size on disc (use at your own risk)
+	-- Modifiy the size on disc (use at your own risk):
 	set the sizeOnDisc of theRez to 512<P></PRE><P><H4>Resource contents</H4><P>The data of the resource can be obtained using the <I>hex data</I> property, 
 like this:
 <PRE>

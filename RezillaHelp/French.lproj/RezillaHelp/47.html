@@ -60,6 +60,7 @@ propriétés:
 	set f to the window of mapDoc
 	set g to the file of mapDoc
 	set h to the format of mapDoc
+	
 	{a, b, c, d, e, f, g, h}<P></PRE><P>La propriété <I>format</I> peut être modifiée au moyen de la commande <B>set</B>. 
 Les autres sont des propriétés en lecture seulement. Par exemple:
 <PRE>
@@ -78,7 +79,9 @@ propriétés (en supposant qu'un éditeur est effectivement ouvert):
 	set c to the readOnly of theEd
 	set d to the window of theEd
 	set e to the resource of theEd
-	set f to the owner doc of theEd<P>	{a, b, c, d, e, f}<P></PRE><P>Toutes ces propriétés sont des propriétés en lecture seulement. Elles ne
+	set f to the owner doc of theEd
+	
+	{a, b, c, d, e, f}<P></PRE><P>Toutes ces propriétés sont des propriétés en lecture seulement. Elles ne
 peuvent être modifiées au moyen de la commande <B>set</B>.<P><H4>Propriétés des fenêtres de ressources</H4>
 La classe <I>map window</I> désigne les fenêtres affichant le contenu des
 documents de ressources. Elles possèdent seulement deux propriétés
@@ -127,7 +130,9 @@ booléenne)
 	set b to the attributes of theMap
 	set c to the readOnly of theMap
 	set d to the compact of theMap
-	set e to the changed of theMap<P>	{a, b, c, d, e}<P></PRE>
+	set e to the changed of theMap
+	
+	{a, b, c, d, e}<P></PRE>
 Une table est elle-même un contenant: les objets qu'elle contient sont les 
 types, comme nous le verrons à la prochaine section. Pour obtenir la liste de tous les types contenus dans la table, on écrira:
 <PRE>
@@ -159,7 +164,8 @@ ressources appartenant à ce type
 <PRE>
 	set theType to type "TEXT" of map 1
 	set a to the index of theType
-	set b to the name of theType<P>	{a, b}<P></PRE>
+	set b to the name of theType
+	{a, b}<P></PRE>
 Pour obtenir la liste de toutes les ressources appartenant à un type 
 particulier, on écrira par exemple:
 <PRE>
@@ -208,6 +214,7 @@ booléenne)<P>	<LI> <I>size</I>: la taille des données de la ressource (en octets
 	set i to the locked of therez
 	set j to the preload of therez
 	set k to the protected of therez
+	
 	{a, b, c, d, e, f, g, h, i, j, k}<P></PRE><P>Les propriétés <I>name</I>, <I>attributes</I>, <I>sysHeap</I>, <I>purgeable</I>, 
 <I>locked</I>, <I>preload</I>, <I>protected</I>, <I>changed</I>, <I>sizeOnDisc</I> et <I>hex data</I> peuvent être modifiées au moyen de 
 la commande <B>set</B>. 
@@ -215,17 +222,17 @@ Les autres sont des propriétés en lecture seulement. Par exemple:
 <PRE>
 	set theRez to resource {"MENU", 128} of map document 1
 	set the name of theRez to "Apple menu"
-	-- 12 is resProtected _and_ resPreload (8 + 4)
+	-- 12 is resProtected _and_ resPreload (8 + 4):
 	set the attributes of theRez to 12
-	-- This unsets the resProtected flag
+	-- This unsets the resProtected flag:
 	set the protected of theRez to 0
-	-- This sets the resPurgeable flag
+	-- This sets the resPurgeable flag:
 	set the purgeable of theRez to 1
-	-- This unsets the resLocked flag
+	-- This unsets the resLocked flag:
 	set the locked of theRez to 1
-	-- This sets the resChanged flag
+	-- This sets the resChanged flag:
 	set the changed of theRez to 1
-	-- Modifiy the size on disc (use at your own risk)
+	-- Modifiy the size on disc (use at your own risk):
 	set the sizeOnDisc of theRez to 512<P></PRE><P><H4>Contenu d'une ressource</H4><P>Les données de la ressource peuvent être obtenues au moyen de la propriété <I>hex data</I>, 
 comme ceci:
 <PRE>

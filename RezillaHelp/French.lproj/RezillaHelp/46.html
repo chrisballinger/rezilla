@@ -25,7 +25,8 @@ paramètre est optionnel.
 		set theFolder to folder "HD:foo:bar:" as alias
 	end tell
 	-- create the new map document in this folder
-	make new map document in theFolder with properties {name:"newmap.rsrc",fork:data fork,readOnly:true}<P></PRE>
+	make new map document in theFolder with properties ¬
+		{name:"newmap.rsrc",fork:data fork,readOnly:true}<P></PRE>
 On notera que le dossier contenant le nouveau document de ressources doit 
 être déclaré dans un bloc
 <I>tell</I> adressé au Finder et non pas à Rezilla. Cela provient du fait 
