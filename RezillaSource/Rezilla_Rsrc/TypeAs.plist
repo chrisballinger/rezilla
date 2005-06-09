@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist SYSTEM "file://localhost/System/Library/DTDs/PropertyList.dtd">
+<plist version="0.9">
+<dict>
+	<key>68k!</key>
+	<string>mem!</string>
+
+	<key>actb</key>
+	<string>wctb</string>
+
+	<key>aeut</key>
+	<string>aete</string>
+
+	<key>CMNU</key>
+	<string>cmnu</string>
+
+	<key>dctb</key>
+	<string>wctb</string>
+
+	<key>DLIM</key>
+	<string>RECT</string>
+
+	<key>DRVW</key>
+	<string>DRVR</string>
+
+	<key>fbnd</key>
+	<string>cbnd</string>
+
+	<key>fctb</key>
+	<string>clut</string>
+
+	<key>itl0</key>
+	<string>INTL</string>
+
+	<key>kcl4</key>
+	<string>icl4</string>
+
+	<key>kcl8</key>
+	<string>icl8</string>
+
+	<key>KCN#</key>
+	<string>ICN#</string>
+
+	<key>kcs#</key>
+	<string>ics#</string>
+
+	<key>kcs4</key>
+	<string>ics4</string>
+
+	<key>kcs8</key>
+	<string>ics8</string>
+
+	<key>MBOR</key>
+	<string>MBAR</string>
+
+	<key>NFNT</key>
+	<string>FONT</string>
+
+	<key>plst</key>
+	<string>TEXT</string>
+
+	<key>ppc!</key>
+	<string>mem!</string>
+
+	<key>RGB </key>
+	<string>rgb </string>
+
+	<key>siow</key>
+	<string>STR </string>
+
+	<key>tbnd</key>
+	<string>cbnd</string>
+
+	<key>thar</key>
+	<string>thnr</string>
+
+	<key>trk#</key>
+	<string>src#</string>
+
+	<key>wind</key>
+	<string>flac</string>
+
+	<key>WLIM</key>
+	<string>RECT</string>
+
+</dict>
+</plist>
