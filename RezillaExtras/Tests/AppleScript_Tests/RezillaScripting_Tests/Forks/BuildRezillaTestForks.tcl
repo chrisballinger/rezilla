@@ -58,10 +58,10 @@ foreach tmp::suffix [list DF RF] {
 
 	# Modify the attributes of the MPSR and ckid resource in the RF file
 	# 4 is "preload" and 8 is "protected"
-# 	if {$tmp::suffix eq "RF"} {
-# 		resource attributes $tmp::rid -id 1005 MPSR 4
-# 		resource attributes $tmp::rid -id 128 ckid 8
-# 	} 
+	if {$tmp::suffix eq "RF"} {
+		resource attributes $tmp::rid -id 1005 MPSR 4
+		resource attributes $tmp::rid -id 128 ckid 8
+	} 
 	
 	resource close $tmp::rid	
 } 
