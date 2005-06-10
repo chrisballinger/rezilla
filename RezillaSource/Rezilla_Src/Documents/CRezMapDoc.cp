@@ -2,7 +2,7 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2005-06-04 23:16:44
+//             Last modification: 2005-06-10 09:09:07
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -399,11 +399,7 @@ CRezMapDoc::ObeyCommand(
 			}
 
 			if (countEdited != 0) {
-				if (countEdited == 1 && countItems == 1) {
-						UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("ThisResourceEditedInOtherMode"), PPob_SimpleMessage);
-				} else {
-					UMessageDialogs::AlertWithValue(CFSTR("SomeResourcesEditedInOtherMode"), countEdited);
-				}
+				WarnEdited(theItem->GetRezObj()->GetType(), (countItems == 1), countEdited);
 			}
 
 			delete theArray;
@@ -529,6 +525,29 @@ CRezMapDoc::DoEdit(CRezObjItem * inRezObjItem, CommandT inCommand, ResType inTyp
 		case cmd_HexEditRez:
 		new CHexEditorDoc(this, mRezMapWindow->GetRezMapTable(), inRezObjItem->GetRezObj(), inType, mReadOnly);
 		break;
+	}
+}
+
+
+// ---------------------------------------------------------------------------------
+//  WarnEdited															[public]
+// ---------------------------------------------------------------------------------
+
+void
+CRezMapDoc::WarnEdited(ResType inType, Boolean singleItem, int countEdited)
+{	
+	if (singleItem) {
+		switch (inType) {
+		  case ResType_ExtendedMenu:
+		  UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("XmnuEditedInMenuEditor"), PPob_SimpleMessage);
+			break;
+			
+		  default:
+		  UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("ThisResourceEditedInOtherMode"), PPob_SimpleMessage);
+			break;
+		}
+	} else {
+		UMessageDialogs::AlertWithValue(CFSTR("SomeResourcesEditedInOtherMode"), countEdited);
 	}
 }
 
@@ -1971,15 +1990,15 @@ CRezMapDoc::PasteResource(ResType inType, short inID, Handle inHandle,
 // ResType is an unsigned long
 
 CEditorDoc *
-CRezMapDoc::GetRezEditor(ResType inType, short inID)
+CRezMapDoc::GetRezEditor(ResType inType, short inID, Boolean exact)
 {
 	CEditorDoc * result = nil;	
 	TArrayIterator<CEditorDoc *> iterator(*mOpenedEditors);
 	CEditorDoc*	theRezEditor = nil;
 	
-	// The CRezMapDoc class maintains a list of all opened CEditorDoc's
+	// The CRezMapDoc class maintains a list of all opened CEditorDocs
 	while (iterator.Next(theRezEditor)) {
-		if ( CEditorsController::TypesCorrespond( inType, theRezEditor->GetRezObj()->GetType() )  
+		if (CEditorsController::TypesCorrespond( inType, theRezEditor->GetRezObj()->GetType(), exact) 
 			&& 
 			inID == theRezEditor->GetRezObj()->GetID() ) {
 			result = theRezEditor;

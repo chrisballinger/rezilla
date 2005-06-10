@@ -2,7 +2,7 @@
 // CRezMapDoc.h				
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2005-06-06 10:38:59
+//             Last modification: 2005-06-10 08:47:12
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -197,7 +197,9 @@ public:
 									  Boolean replaceExisting);
 	void				PasteRezMap(CRezMap * srcRezMap);
 
-	CEditorDoc *		GetRezEditor(ResType inType, short inID);
+	CEditorDoc *		GetRezEditor(ResType inType, 
+									 short inID, 
+									 Boolean exact = false);
 
 	TArray<CEditorDoc *>*	GetOpenedEditors() { return mOpenedEditors ;}
 
@@ -242,6 +244,7 @@ protected:
 private:
 	void				Initialize(FSSpec * inFileSpec, short inRefnum);
 	void				DeleteEditors(Boolean deleteArray);
+	void				WarnEdited(ResType inType, Boolean singleItem, int countEdited);
 	
 };
 
