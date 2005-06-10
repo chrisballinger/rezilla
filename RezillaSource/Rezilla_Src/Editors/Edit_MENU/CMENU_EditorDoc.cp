@@ -85,7 +85,7 @@ CMENU_EditorDoc::~CMENU_EditorDoc()
 void
 CMENU_EditorDoc::Initialize()
 {
-	OSErr error = noErr;
+	OSErr error = noErr, ignoreErr;
 	
 	// Create window for our document. This sets this doc as the SuperCommander of the window.
 	mMenuEditWindow = dynamic_cast<CMENU_EditorWindow *>(LWindow::CreateWindow( PPob_MenuEditorWindow, this ));
@@ -103,15 +103,30 @@ CMENU_EditorDoc::Initialize()
 			if (rezData != nil) {
 				Handle			xmnuData = NULL;
 				CRezMap *		theRezMap = mRezMapTable->GetRezMap();
-				// Work with a copy of the handle
-				::HandToHand(&rezData);
-
+				
 				// Look for a 'xmnu' resource with same ID 
-				error = theRezMap->GetWithID(ResType_ExtendedMenu, mRezObj->GetID(), xmnuData, true);
+				ignoreErr = theRezMap->GetWithID(ResType_ExtendedMenu, mRezObj->GetID(), xmnuData, true);
 				if (xmnuData != nil) {
-					::HandToHand(&xmnuData);
-				} 			
-				error = mMenuEditWindow->InstallResourceData(rezData, xmnuData);			
+					// Check that the xmnu resource is not already edited
+					CRezMapDoc * ownerDoc = mRezMapTable->GetOwnerDoc();
+					ThrowIfNil_(ownerDoc);
+					
+					if ( ownerDoc->GetRezEditor(ResType_ExtendedMenu, mRezObj->GetID(), true) != nil) {
+						UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("XmnuAlreadyEdited"), PPob_SimpleMessage);
+						error = userCanceledErr;  // We don't want a second message
+					} else {
+						::HandToHand(&xmnuData);
+						error = ::MemError();
+					}
+				} 
+				
+				if (error == noErr) {
+					// Work with a copy of the handle
+					::HandToHand(&rezData);
+
+					error = mMenuEditWindow->InstallResourceData(rezData, xmnuData);			
+				} 
+				
 			} 
 			ThrowIfError_(error);			
 		} 
