@@ -80,6 +80,8 @@ localize "English" as "Localizable.strings"
 	key "ValidateEditedResBeforeSaveAs" value string "Some edited resources are modified. Close them before saving the resource map."
 	key "WritePermissionError" value string "Couldn’t open file with write permission. Do you want to try in read-only access?"
 	key "WrongIdForSelectedTemplate" value string "Given the selected template, the ID for this resource should be ‘%d’. Please fix it otherwise the template editor will fail to open the resource."
+	key "XmnuEditedInMenuEditor" value string "This ‘xmnu’ resource is already edited in the menu editor with its corresponding ‘MENU’ resource."
+	key "XmnuAlreadyEdited" value string "The ‘xmnu’ resource corresponding to this ‘MENU’ resource is already edited. Close its editor before."
 }
 
 

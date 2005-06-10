@@ -80,6 +80,8 @@ localize "French" as "Localizable.strings"
 	key "ValidateEditedResBeforeSaveAs" value string "Certaines ressources éditées sont modifiées. Refermez-les avant de sauvegarder la table de ressources."
 	key "WritePermissionError" value string "Impossible d’ouvrir le fichier en écriture. Voulez-vous essayer en lecture seule?"
 	key "WrongIdForSelectedTemplate" value string "Étant donné le gabarit choisi, le numéro de cette ressource devrait être ‘%d’. S’il n’est pas corrigé, l’éditeur de gabarit ne pourra ouvrir cette ressource."
+	key "XmnuEditedInMenuEditor" value string "Cette ressource ‘xmnu’ est déjà éditée dans l’éditeur de menus par l’intermédiaire de la ressource ‘MENU’ correspondante."
+	key "XmnuAlreadyEdited" value string "La ressource ‘xmnu’ correspondant à cette ressource ‘MENU’ est déjà éditée ailleurs. Fermer son éditeur d’abord."
 }
 
 
