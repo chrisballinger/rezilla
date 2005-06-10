@@ -2,11 +2,11 @@
 // CEditorsController.h				
 // 
 //                       Created: 2004-06-11 10:48:38
-//             Last modification: 2004-11-19 06:56:43
+//             Last modification: 2005-06-10 07:29:03
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004
+// (c) Copyright : Bernard Desgraupes, 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -41,7 +41,9 @@ public:
 							short inID, 
 							CRezObj** outRezObj);
 	
-	static Boolean	TypesCorrespond(ResType inType1, ResType inType2);
+	static Boolean	TypesCorrespond(ResType inType1, 
+									ResType inType2, 
+									Boolean exact);
 
 	OSErr			RegisterEditor();
 

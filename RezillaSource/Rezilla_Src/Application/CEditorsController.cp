@@ -2,7 +2,7 @@
 // CEditorsController.cp					
 // 
 //                       Created: 2004-06-11 10:48:38
-//             Last modification: 2005-05-21 09:46:37
+//             Last modification: 2005-06-10 07:29:11
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -334,32 +334,32 @@ CEditorsController::RegisterEditor()
 }
 
 
-// inType == theRezEditor->GetRezObj()->GetType()
 // ---------------------------------------------------------------------------
 //  ¥ TypesCorrespond												[public]
 // ---------------------------------------------------------------------------
-// Some editors edit several types simultaneously (like the IconFamily 
-// editor). So the type of the resource to be edited could be different 
-// from the type of a certain editor and still correspond.
+// Some editors edit several types simultaneously (like the IconFamily
+// editor or the menu editor). So the type of the resource to be edited
+// could be different from the type of a certain editor and still
+// correspond.
+// 
+// inType1 is the type of the resource we want to edit, inType2 is the type
+// associated to an existing editor.
+// 
 // ResType iconTypes[9] = {'ICN#', 'icl4', 'icl8', 'ics#', 'ics4', 'ics8', 'icm#', 'icm4', 'icm8'};
+// 
 
 Boolean
-CEditorsController::TypesCorrespond(ResType inType1, ResType inType2)
+CEditorsController::TypesCorrespond(ResType inType1, ResType inType2, Boolean exact)
 {
+	if (inType1 == inType2) {
+		return true;
+	} 
+	
 	Boolean corresponds = false;
 	
-	switch (inType1) {
-		
-		case 'ICN#':
-		case 'icl4':
-		case 'icl8':
-		case 'icm#':
-		case 'icm4':
-		case 'icm8':
-		case 'ics#':
-		case 'ics4':
-		case 'ics8':
-		switch (inType2) {
+	if (!exact) {
+		switch (inType1) {
+			
 			case 'ICN#':
 			case 'icl4':
 			case 'icl8':
@@ -369,17 +369,28 @@ CEditorsController::TypesCorrespond(ResType inType1, ResType inType2)
 			case 'ics#':
 			case 'ics4':
 			case 'ics8':
-			corresponds = true;
+			switch (inType2) {
+				case 'ICN#':
+				case 'icl4':
+				case 'icl8':
+				case 'icm#':
+				case 'icm4':
+				case 'icm8':
+				case 'ics#':
+				case 'ics4':
+				case 'ics8':
+				corresponds = true;
+				break;
+			}
+			
 			break;
+			
+			case 'xmnu':
+			corresponds = (inType2 == 'MENU');
+			break;
+
 		}
-		
-		break;
-		
-		default:
-		corresponds = (inType1 == inType2);
-		break;
-		
-	}
+	} 
 	
 	return corresponds;
 }
