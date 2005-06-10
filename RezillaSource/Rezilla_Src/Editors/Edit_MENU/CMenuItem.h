@@ -2,7 +2,7 @@
 // CMenuItem.h
 // 
 //                       Created: 2005-03-10 09:12:57
-//             Last modification: 2005-03-12 13:24:42
+//             Last modification: 2005-06-09 17:12:04
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -75,9 +75,6 @@ public:
 		UInt8		GetStyle() { return mStyle;}
 		void		SetStyle(UInt8 inStyle) {mStyle = inStyle;}
 
-		SInt16		GetEntryType() { return mEntryType;}
-		void		SetEntryType(SInt16 inEntryType) {mEntryType = inEntryType;}
-
 protected:
 		// Basic info from 'MENU'
 		Str255		mTitle;
@@ -86,7 +83,6 @@ protected:
 		UInt8		mMark;
 		UInt8		mStyle;
 		// Extended info from 'xmnu'
-		SInt16		mEntryType;			// 0 for separator, 1 otherwise
 		SInt32		mCommandID;			// a four char code
 		UInt8		mModifiers;			// bits 3-0: no-cmd (8), ctrl (4), opt (2), shift (1)
 		UInt8		mIconType;			// Icon type placeholder

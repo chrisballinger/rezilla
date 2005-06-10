@@ -2,7 +2,7 @@
 // CMenuItem.cp
 // 
 //                       Created: 2005-03-10 09:12:57
-//             Last modification: 2005-03-11 21:57:36
+//             Last modification: 2005-06-09 17:12:12
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -102,7 +102,6 @@ CMenuItem::SendData(LHandleStream * outStream)
 void
 CMenuItem::InitExtendedData()
 {
-	mEntryType = 0;
 	mCommandID = 0;
 	mModifiers = 0;
 	mIconType = 0;
@@ -124,13 +123,14 @@ OSErr
 CMenuItem::InstallExtendedData(LHandleStream * inStream)
 {
 	OSErr		error = noErr;
+	SInt16		entryType;
+
+	*inStream >> entryType;
 	
-	*inStream >> mEntryType;
+	// We should check that the entry type corresponds to the MENU data
+	// entryType=0 means separator
 	
-	// Check that the entry type corresponds to the MENU data
-	// 0 means separator
-	
-	if (mEntryType) {
+	if (entryType) {
 		*inStream >> mCommandID;
 		*inStream >> mModifiers;
 		*inStream >> mIconType;
@@ -154,8 +154,14 @@ CMenuItem::InstallExtendedData(LHandleStream * inStream)
 void
 CMenuItem::SendExtendedData(LHandleStream * outStream)
 {
-	*outStream << mEntryType;
-	if (mEntryType) {
+	SInt16 entryType = 1;
+	
+	if (mTitle[0] && mTitle[1] == '-') {
+		entryType = 0;
+	} 
+	
+	*outStream << entryType;
+	if (entryType) {
 		*outStream << mCommandID;
 		*outStream << mModifiers;
 		*outStream << mIconType;
