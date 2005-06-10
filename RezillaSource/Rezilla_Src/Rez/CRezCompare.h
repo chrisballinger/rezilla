@@ -2,7 +2,7 @@
 // CRezCompare.h					
 // 
 //                       Created: 2004-02-29 18:17:07
-//             Last modification: 2005-05-12 09:44:58
+//             Last modification: 2005-06-06 18:44:49
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -47,7 +47,8 @@ public:
 	enum {
 		list_OnlyInOld,
 		list_OnlyInNew,
-		list_Differing
+		list_Differing,
+		list_Identical
 	};
 	
 				CRezCompare(LCommander* inSuper);

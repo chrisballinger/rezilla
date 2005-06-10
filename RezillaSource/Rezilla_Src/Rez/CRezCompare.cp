@@ -2,7 +2,7 @@
 // CRezCompare.cp					
 // 
 //                       Created: 2004-02-29 18:17:07
-//             Last modification: 2005-05-13 07:03:38
+//             Last modification: 2005-06-06 18:43:09
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -384,7 +384,9 @@ CRezCompare::CompareTypes(ResType inType)
 			CompareTwoResources(&theOldRezType, &theNewRezType, theID, &result);
 			if (result) {
 				AddResourceToArray(inType, theID, list_Differing);
-			} 
+			} else {
+				AddResourceToArray(inType, theID, list_Identical);
+			}	
 			theNewRezIDArray->Remove(theID);
 		}
 	}
@@ -473,16 +475,20 @@ void
 CRezCompare::AddResourceToArray(ResType inType, short inID, SInt16 inWhichList)
 {
 	switch (inWhichList) {
-	  case list_OnlyInOld:
+		case list_OnlyInOld:
 		mOnlyInOldList.AddItem( new CRezTypId(inType, inID) );
 		break;
 		
-	  case list_OnlyInNew:
+		case list_OnlyInNew:
 		mOnlyInNewList.AddItem( new CRezTypId(inType, inID) );
 		break;
 		
-	  case list_Differing:
+		case list_Differing:
 		mDifferingList.AddItem( new CRezTypId(inType, inID) );
+		break;
+		
+		case list_Identical:
+		mIdenticalList.AddItem( new CRezTypId(inType, inID) );
 		break;
 	}
 }
