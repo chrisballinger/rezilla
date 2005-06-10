@@ -1,11 +1,11 @@
 // ===========================================================================
 // CRezObjItem.cp					
 //                       Created: 2003-04-18 09:34:02
-//             Last modification: 2004-06-26 08:56:34
+//             Last modification: 2005-06-09 11:28:10
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003-2004
+// © Copyright: Bernard Desgraupes 2003-2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -40,6 +40,7 @@ CRezObjItem::CRezObjItem(CRezType * inRezType,
 {
 	mIconH = nil;
 	mRezObj = new CRezObj( inRezType, inID, inName );
+	mRezObj->IncrRefCount();
 }
 
 
@@ -49,8 +50,9 @@ CRezObjItem::CRezObjItem(CRezType * inRezType,
 
 CRezObjItem::CRezObjItem(Handle inResHandle, short inRefnum)
 {
-	mRezObj = new CRezObj(inResHandle, inRefnum);
 	mIconH = nil;
+	mRezObj = new CRezObj(inResHandle, inRefnum);
+	mRezObj->IncrRefCount();
 }
 
 
@@ -60,8 +62,9 @@ CRezObjItem::CRezObjItem(Handle inResHandle, short inRefnum)
 
 CRezObjItem::CRezObjItem(CRezObj * inRezObj)
 {
-	mRezObj = inRezObj;
 	mIconH = nil;
+	mRezObj = inRezObj;
+	mRezObj->IncrRefCount();
 }
 
 
