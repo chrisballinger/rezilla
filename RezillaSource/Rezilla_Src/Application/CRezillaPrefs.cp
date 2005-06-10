@@ -1015,12 +1015,6 @@ CRezillaPrefs::RunPrefsDialog()
 	LView* theGeneralPane = theMPV->GetPanel(mpv_General);
 	ThrowIfNil_(theGeneralPane);
 	
-	LView* theExportPane = theMPV->GetPanel(mpv_Export);
-	ThrowIfNil_(theExportPane);
-	
-	LView* theComparePane = theMPV->GetPanel(mpv_Compare);
-	ThrowIfNil_(theComparePane);
-	
 	LView* theInterfacePane = theMPV->GetPanel(mpv_Interface);
 	ThrowIfNil_(theInterfacePane);
 	
@@ -1029,6 +1023,12 @@ CRezillaPrefs::RunPrefsDialog()
 	
 	LView* theEditorsPane = theMPV->GetPanel(mpv_Editors);
 	ThrowIfNil_(theEditorsPane);
+	
+	LView* theComparePane = theMPV->GetPanel(mpv_Compare);
+	ThrowIfNil_(theComparePane);
+	
+	LView* theExportPane = theMPV->GetPanel(mpv_Export);
+	ThrowIfNil_(theExportPane);
 	
 	LView* theMiscPane = theMPV->GetPanel(mpv_Misc);
 	ThrowIfNil_(theMiscPane);
@@ -1063,11 +1063,11 @@ CRezillaPrefs::RunPrefsDialog()
 	// Note : the RidL resource does not contain the controls of
 	// the various MPV's subpanels. We have to do that explicitly.
 	UReanimator::LinkListenerToBroadcasters( &theHandler, theGeneralPane, PPob_PrefsGeneralPane );
-	UReanimator::LinkListenerToBroadcasters( &theHandler, theExportPane, PPob_PrefsExportPane );
-	UReanimator::LinkListenerToBroadcasters( &theHandler, theComparePane, PPob_PrefsComparePane );
 	UReanimator::LinkListenerToBroadcasters( &theHandler, theInterfacePane, PPob_PrefsInterfacePane );
 	UReanimator::LinkListenerToBroadcasters( &theHandler, theTemplatesPane, PPob_PrefsTemplatesPane );
 	UReanimator::LinkListenerToBroadcasters( &theHandler, theEditorsPane, PPob_PrefsEditorsPane );
+	UReanimator::LinkListenerToBroadcasters( &theHandler, theComparePane, PPob_PrefsComparePane );
+	UReanimator::LinkListenerToBroadcasters( &theHandler, theExportPane, PPob_PrefsExportPane );
 	UReanimator::LinkListenerToBroadcasters( &theHandler, theMiscPane, PPob_PrefsMiscPane );
 	
 	while (inPrefsLoop) {

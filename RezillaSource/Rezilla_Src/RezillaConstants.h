@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2005-06-04 22:47:30
+//             Last modification : 2005-06-10 07:48:48
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -106,11 +106,11 @@ enum {
 // The indices of the MultiPanel's views
 enum {
 	mpv_General = 1,
-	mpv_Export,
-	mpv_Compare,
 	mpv_Interface,
 	mpv_Templates,
 	mpv_Editors,
+	mpv_Compare,
+	mpv_Export,
 	mpv_Misc
 };
 
@@ -281,11 +281,11 @@ const ResIDT	PPob_RezCompDialog			= 6000;
 const ResIDT	PPob_RezCompWindow			= 6500;
 const ResIDT	PPob_PrefsWindow			= 7000;
 const ResIDT	PPob_PrefsGeneralPane		= 7100;
-const ResIDT	PPob_PrefsExportPane		= 7200;
-const ResIDT	PPob_PrefsComparePane		= 7300;
-const ResIDT	PPob_PrefsInterfacePane		= 7400;
-const ResIDT	PPob_PrefsTemplatesPane		= 7500;
-const ResIDT	PPob_PrefsEditorsPane		= 7600;
+const ResIDT	PPob_PrefsInterfacePane		= 7200;
+const ResIDT	PPob_PrefsTemplatesPane		= 7300;
+const ResIDT	PPob_PrefsEditorsPane		= 7400;
+const ResIDT	PPob_PrefsComparePane		= 7500;
+const ResIDT	PPob_PrefsExportPane		= 7600;
 const ResIDT	PPob_PrefsMiscPane			= 7700;
 const ResIDT	PPob_FindDialog				= 8500;
 const ResIDT	PPob_FontSizeDialog			= 8600;

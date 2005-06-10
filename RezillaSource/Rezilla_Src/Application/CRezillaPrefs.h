@@ -2,7 +2,7 @@
 // CRezillaPrefs.h					
 // 
 //                       Created: 2004-05-17 08:52:16
-//             Last modification: 2005-03-09 06:48:27
+//             Last modification: 2005-06-09 18:52:28
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -26,28 +26,12 @@ struct SGeneralPrefs {
 	SInt32			newFork;
 };
 
-//     Export Prefs
-struct SExportPrefs {
-	Boolean			includeBinary;
-	SInt32			formatDtd;
-	SInt32			binaryEncoding;
-	OSType			editorSig;
-};
-
-//     Comparison Prefs
-struct SComparePrefs {
-	Boolean			ignoreName;
-	Boolean			ignoreAttributes;
-	Boolean			ignoreData;
-	SInt32			displayAs;
-};
-
 //     Interface Prefs
 struct SInterfacePrefs {
 	TextTraitsRecord	traitsRecord;
 };
 
-//     Editors Prefs
+//     Templates Prefs
 struct STemplatesPrefs {
 	SInt32			hexSymbol;
 	SInt32			hexCase;
@@ -67,6 +51,22 @@ struct SEditorsPrefs {
 	Boolean			insertBOM;		// Byte Order Mark at start of 'utxt' resources
 };
 
+//     Comparison Prefs
+struct SComparePrefs {
+	Boolean			ignoreName;
+	Boolean			ignoreAttributes;
+	Boolean			ignoreData;
+	SInt32			displayAs;
+};
+
+//     Export Prefs
+struct SExportPrefs {
+	Boolean			includeBinary;
+	SInt32			formatDtd;
+	SInt32			binaryEncoding;
+	OSType			editorSig;
+};
+
 //     Misc Prefs
 struct SMiscPrefs {
 	Boolean			setSigOnClose;
@@ -78,11 +78,11 @@ struct SMiscPrefs {
 
 struct SRezillaPrefs {
 	SGeneralPrefs		general;
-	SExportPrefs		exporting;
-	SComparePrefs		compare;
 	SInterfacePrefs		interface;
 	STemplatesPrefs		templates;
 	SEditorsPrefs		editors;
+	SComparePrefs		compare;
+	SExportPrefs		exporting;
 	SMiscPrefs			misc;
 };
 
