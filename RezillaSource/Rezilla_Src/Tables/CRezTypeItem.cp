@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezTypeItem.cp				
 //                       Created: 2003-04-18 09:34:02
-//             Last modification: 2005-05-02 09:42:38
+//             Last modification: 2005-06-10 07:31:11
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -161,15 +161,15 @@ CRezTypeItem::ExpandSelf()
 		// own CRezObj, otherwise create a new one. The former situation
 		// can happen if an editor has been opened from a CRezObjItem and
 		// then the containing CRezTypeItem was collapsed and subsequently
-		// re-expanded.
-		theEditor = theDoc->GetRezEditor(theType, theID);
+		// re-expanded. Third argument is true because we want an exact 
+		// correspondance.
+		theEditor = theDoc->GetRezEditor(theType, theID, true);
 		
 		if (theEditor != nil) {
 			theRezObj = theEditor->GetRezObj();
 		} else {
 			theRezObj = new CRezObj(mRezType, theID);
 		}
-		theRezObj->IncrRefCount();
 		theItem = new CRezObjItem(theRezObj);
 		mOutlineTable->InsertItem( theItem, this, lastItem );
 		lastItem = theItem;
