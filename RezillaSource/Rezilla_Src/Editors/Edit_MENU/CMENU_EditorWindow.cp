@@ -2,7 +2,7 @@
 // CMENU_EditorWindow.cp					
 // 
 //                       Created: 2005-03-09 17:16:53
-//             Last modification: 2005-05-31 05:27:55
+//             Last modification: 2005-06-10 09:21:18
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -20,6 +20,9 @@
 #include "CKeyboardGlyphBox.h"
 #include "CMenuObject.h"
 #include "CRezillaApp.h"
+#include "CRezMapTable.h"
+#include "CRezMap.h"
+#include "CRezObj.h"
 #include "CMenuItem.h"
 #include "RezillaConstants.h"
 #include "UMessageDialogs.h"
@@ -93,8 +96,9 @@ CMENU_EditorWindow::~CMENU_EditorWindow()
 	if (mOutStream != nil) {
 		delete mOutStream;
 	} 
-// 	// Remove the window from the list of listeners to the prefs object
-// 	CRezillaApp::sPrefs->RemoveListener(this);
+	if (mMenuObj != nil) {
+		delete mMenuObj;
+	} 
 }
 
 
@@ -108,6 +112,7 @@ CMENU_EditorWindow::FinishCreateSelf()
 	mHasXmnu = false;
 	mNeedsXmnu = false;
 	mInstallValue = false;
+	mMenuObj = nil;
 	mOutStream = nil;
 	
 	// The main view containing the labels and editing panes
@@ -443,6 +448,10 @@ CMENU_EditorWindow::InstallResourceData(Handle inMenuHandle, Handle inXmnuHandle
 Handle
 CMENU_EditorWindow::CollectMenuData() 
 {
+	// Retrieve the contents of the current panel
+	RetrieveMenuValues();
+	RetrieveCurrentValues();
+	
 	// First deal with the extended data
 	Boolean saveXmnu = mHasXmnu;
 	
@@ -479,7 +488,7 @@ CMENU_EditorWindow::CollectMenuData()
 		catch (...) {
 			UMessageDialogs::AlertWithType(CFSTR("SavingResourceFailed"), ResType_ExtendedMenu);
 		}
-		
+		mHasXmnu = true;
 	} 
 
 	// Now retrieve the main data
@@ -710,7 +719,7 @@ CMENU_EditorWindow::InstallItemValues( ArrayIndexT inAtIndex )
 void
 CMENU_EditorWindow::RetrieveMenuValues()
 {
-	Str255		theString;
+	Str255		titleStr, numStr;
 	SInt32 		theLong;
 	ResIDT		theID, theMDEF;
 	UInt32		theEnableFlag;
@@ -719,27 +728,30 @@ CMENU_EditorWindow::RetrieveMenuValues()
 	
 	CStaticEditCombo * theCombo = dynamic_cast<CStaticEditCombo *>(this->FindPaneByID( item_MenuEditMenuTitle ));
 	ThrowIfNil_( theCombo );
-	theCombo->GetDescriptor(theString);
+	theCombo->GetDescriptor(titleStr);
 
 	theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditMenuID ));
 	ThrowIfNil_( theEditText );
-	theEditText->GetDescriptor(theString);
-	::StringToNum(theString, &theLong);
+	theEditText->GetDescriptor(numStr);
+	::StringToNum(numStr, &theLong);
 	theID = theLong;
 
 	theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_MenuEditMDEF ));
 	ThrowIfNil_( theEditText );
-	theEditText->GetDescriptor(theString);
-	::StringToNum(theString, &theLong);
+	theEditText->GetDescriptor(numStr);
+	::StringToNum(numStr, &theLong);
 	theMDEF = theLong;
 
 	theCheckBox = dynamic_cast<LCheckBox *>(this->FindPaneByID( item_MenuEditMenuEnabled ));
 	ThrowIfNil_( theCheckBox );
-	theCheckBox->GetValue();
 	theEnableFlag = mMenuObj->GetEnableFlag();
-	theEnableFlag |= theCheckBox->GetValue();
+	if (theCheckBox->GetValue()) {
+		theEnableFlag |= (1 << 0);
+	} else {
+		theEnableFlag &= ~(1 << 0);
+	}
 	
-	mMenuObj->SetValues( theID, theMDEF, theEnableFlag, theString);
+	mMenuObj->SetValues( theID, theMDEF, theEnableFlag, titleStr);
 }
 
 
@@ -806,10 +818,11 @@ CMENU_EditorWindow::RetrieveItemValues( ArrayIndexT inAtIndex )
 			// Bits 1Ð31 indicate if the corresponding menu item is disabled or enabled. 
 			enableIt = theCheckBox->GetValue();
 			if (enableIt) {
-				theEnableFlag |=  (1 << inAtIndex);
+				theEnableFlag |= (1 << inAtIndex);
 			} else {
-				theEnableFlag ^=  (1 << inAtIndex);
+				theEnableFlag &= ~(1 << inAtIndex);
 			}
+			mMenuObj->SetEnableFlag(theEnableFlag);
 		} 
 		
 		// Style popup
@@ -1001,7 +1014,7 @@ CMENU_EditorWindow::HandlePropertyPopup(SInt32 inIndex)
 
 
 // ---------------------------------------------------------------------------
-//	 HandlePropertyPopup
+//	 HandleEnableState
 // ---------------------------------------------------------------------------
 
 void
@@ -1045,8 +1058,64 @@ CMENU_EditorWindow::HandleEnableState(SInt32 inIndex)
 		mIconIdLabel->SetDescriptor(sScriptCodeStr);
 		break;
 	}		
-
-// 	Refresh();
 	
+}
+
+
+// ---------------------------------------------------------------------------
+//  RevertContents												  [public]
+// ---------------------------------------------------------------------------
+
+void
+CMENU_EditorWindow::RevertContents()
+{
+	OSErr error = noErr;
+	
+	// Reinitialize members
+	mNeedsXmnu = false;
+	mInstallValue = false;
+	if (mOutStream != nil) {
+		delete mOutStream;
+	} 
+	if (mMenuObj != nil) {
+		delete mMenuObj;
+		mMenuObj = nil;
+	} 
+
+	// Remove the items from the table
+	TableIndexT	theRows, theCols;
+	mItemsTable->GetTableSize(theRows, theCols);
+	mItemsTable->RemoveRows(theRows, 1);
+
+	CRezObj * theRezObj = mOwnerDoc->GetRezObj();
+	// Reinstall the contents
+	if (theRezObj != nil) {
+		Handle rezData = theRezObj->GetData();
+		
+		try {
+			if (rezData != nil) {
+				Handle		xmnuData = NULL;
+				CRezMap *	theRezMap = mOwnerDoc->GetRezMapTable()->GetRezMap();
+				
+				if (mHasXmnu) {
+					theRezMap->GetWithID(ResType_ExtendedMenu, theRezObj->GetID(), xmnuData, true);
+					if (xmnuData != nil) {
+						::HandToHand(&xmnuData);
+					} 
+				} 
+				
+				// Work with a copy of the handle
+				::HandToHand(&rezData);
+				error = InstallResourceData(rezData, xmnuData);			
+			} 
+			ThrowIfError_(error);			
+		} catch (...) {
+			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("DataParsingException"), PPob_SimpleMessage);
+			return;
+		}
+	} 
+	
+	Refresh();
+	SetDirty(false);
 }
 

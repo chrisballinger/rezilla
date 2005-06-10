@@ -2,7 +2,7 @@
 // CMENU_EditorWindow.h
 // 
 //                       Created: 2005-03-09 17:16:53
-//             Last modification: 2005-03-23 08:40:17
+//             Last modification: 2005-06-10 10:18:26
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -58,6 +58,8 @@ public:
 	OSErr			InstallResourceData(Handle inMenuHandle, Handle inXmnuHandle);
 	
 	virtual Handle			CollectMenuData();
+
+	virtual void			RevertContents();
 
 	CMENU_EditorTable *		GetContentsView() const { return mItemsTable;}
 
