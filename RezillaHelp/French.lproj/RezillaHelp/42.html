@@ -19,15 +19,19 @@ pouvaient pas être traités au moyen des balises de base de ResEdit. Ce
 nouvel ensemble de balises ajouté aux anciennes constitue la syntaxe <I>étendue</I> des gabarits.
 Les éditeurs de ressources ne comportent pas tous un mode d'édition par 
 gabarits supportant la syntaxe étendue mais tous devraient au moins
-comprendre la syntaxe de base.<P>Rezilla supporte la syntaxe étendue et la présente section donne la liste exhaustive
-des balises, regroupées selon différentes catégories. <P>Par convention le terme <I>Byte</I> (octet) est utilisé pour désigner une
+comprendre la syntaxe de base.<P>Rezilla supporte la presque totalité de la syntaxe étendue: la présente
+section donne la liste exhaustive des balises, regroupées par catégories.
+En outre, Rezilla définit quelques balises qui ne font partie ni de la
+syntaxe de base, ni de la syntaxe étendue.<P>Par convention le terme <I>Byte</I> (octet) est utilisé pour désigner une
 valeur stockée sur 1 octet, <I>Word</I> (mot) pour désigner une valeur stockée
 sur 2 octets et <I>Long</I> pour désigner une valeur stockée sur 4 octets.
 On les retrouve, abrégés en BYT, WRD, ou LNG, dans le nom de nombreuses
 balises (comme par exemple DBYT, HWRD, ULNG), et parfois avec seulement
 leur initiale (comme dans BCNT, WFLG ou LBIT).<P>Les tables ci-dessous indiquent pour chaque balise, sa signification et la taille
 occupée dans la ressource par la valeur correspondante. La lettre <I>x</I> dans la
-dernière colonne marque les balises qui font partie de la syntaxe étendue.<P><H4>Valeurs numériques</H4>
+dernière colonne marque les balises qui font partie de la syntaxe étendue. 
+Un double x (<I>xx</I>) indique les balises qui sont définies dans Rezilla 
+uniquement.<P><H4>Valeurs numériques</H4>
 Rezilla permet de désigner les valeurs hexadécimales au moyen des symboles
 <B>$</B> ou <B>0x</B>. Le signe dollar est admis pour des raisons
 historiques: c'est ce qu'utilisent traditionnellement ResEdit et des outils
@@ -46,9 +50,9 @@ de ligne de commande tels que Rez et DeRez.<P><P><TABLE BORDER=1 CELLPADDING=1>
 <TR><TD>BFLG</TD><TD>octet booléen (bit faible)</TD><TD>1 octet</TD><TD>x</TD></TR>
 <TR><TD>WFLG</TD><TD>mot booléen (bit faible)</TD><TD>2 octets</TD><TD>x</TD></TR>
 <TR><TD>LFLG</TD><TD>long booléen (bit faible)</TD><TD>4 octets</TD><TD>x</TD></TR>
-<TR><TD>BORV</TD><TD>octet comme OU logique</TD><TD>1 octet</TD><TD>x</TD></TR>
-<TR><TD>WORV</TD><TD>mot comme OU logique</TD><TD>2 octets</TD><TD>x</TD></TR>
-<TR><TD>LORV</TD><TD>long comme OU logique</TD><TD>4 octets</TD><TD>x</TD></TR>
+<TR><TD>BORV</TD><TD>octet comme OU logique</TD><TD>1 octet</TD><TD>xx</TD></TR>
+<TR><TD>WORV</TD><TD>mot comme OU logique</TD><TD>2 octets</TD><TD>xx</TD></TR>
+<TR><TD>LORV</TD><TD>long comme OU logique</TD><TD>4 octets</TD><TD>xx</TD></TR>
 </TABLE></P><P>Concernant les valeurs booléennes, il y a différentes balises selon le
 nombre d'octets qu'elles occupent en mémoire. En particulier, la balise
 BOOL est inhabituelle car elle place la valeur 0 ou 1 dans le premier de

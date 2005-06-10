@@ -13,17 +13,20 @@ providing a set of basic tags. Other editors (mainly <B>Resorcerer</B> from
 <A HREF="www.mathemaesthetics.com"> Mathemaesthetics</A>) have 
 developed this syntax and added many new tags covering aspects which could
 not be dealt with using the simple ResEdit's syntax. One could say that
-there is a <I>basic syntax</I> and an <I>extended syntax</I> for templates. Not all
-resource editors coming with a template editing mode support the extended
-syntax but all of them should understand the basic tags. <P>Rezilla supports the extended syntax and this section gives an exhaustive
-list of the tags, grouped in various categories. Conventionally the term
-<I>Byte</I> is used to designate a 1-byte value, <I>Word</I> to designate
-a 2-bytes value and <I>Long</I> to designate a 4-bytes value. They are
-found, abbreviated as BYT, WRD, or LNG, in the name of many tags (such as
-DBYT, HWRD, ULNG), and sometimes with just their first letter (like in BCNT,
-WFLG or LBIT).<P>The tables below indicate, for each flag, its meaning and the size
+there is a <I>basic syntax</I> and an <I>extended syntax</I> for
+templates. Not all resource editors coming with a template editing mode
+support the extended syntax but all of them should understand the basic
+tags.<P>Rezilla supports most of the extended syntax: this section gives an
+exhaustive list of the tags, grouped by category. Moreover
+Rezilla defines a few additional tags which are not part of the <I>basic
+syntax</I> or the <I>extended syntax</I>.<P>Conventionally the term <I>Byte</I> is used to designate a 1-byte value,
+<I>Word</I> to designate a 2-bytes value and <I>Long</I> to designate a
+4-bytes value. They are found, abbreviated as BYT, WRD, or LNG, in the name
+of many tags (such as DBYT, HWRD, ULNG), and sometimes with just their
+first letter (like in BCNT, WFLG or LBIT).<P>The tables below indicate, for each flag, its meaning and the size
 occupied in the resource data by the corresponding value. The letter x in
-the last column marks tags which are part of the extended syntax.<P><H4>Numerical values</H4>
+the last column indicates tags which are part of the extended syntax. A double 
+x (<I>xx</I>) indicates tags which are defined only in Rezilla.<P><H4>Numerical values</H4>
 Rezilla allows you to specify hexadecimal values using a dollar sign <B>$</B> or
 the <B>0x</B> combination. The dollar sign is kept for historical reasons: it is
 <P><TABLE BORDER=1 CELLPADDING=1>
@@ -41,9 +44,9 @@ the <B>0x</B> combination. The dollar sign is kept for historical reasons: it is
 <TR><TD>BFLG</TD><TD>Byte boolean flag (low bit)</TD><TD>1 byte</TD><TD>x</TD></TR>
 <TR><TD>WFLG</TD><TD>Word boolean flag (low bit)</TD><TD>2 bytes</TD><TD>x</TD></TR>
 <TR><TD>LFLG</TD><TD>Long boolean flag (low bit)</TD><TD>4 bytes</TD><TD>x</TD></TR>
-<TR><TD>BORV</TD><TD>OR byte value</TD><TD>1 byte</TD><TD>x</TD></TR>
-<TR><TD>WORV</TD><TD>OR word value</TD><TD>2 bytes</TD><TD>x</TD></TR>
-<TR><TD>LORV</TD><TD>OR long value</TD><TD>4 bytes</TD><TD>x</TD></TR>
+<TR><TD>BORV</TD><TD>OR byte value</TD><TD>1 byte</TD><TD>xx</TD></TR>
+<TR><TD>WORV</TD><TD>OR word value</TD><TD>2 bytes</TD><TD>xx</TD></TR>
+<TR><TD>LORV</TD><TD>OR long value</TD><TD>4 bytes</TD><TD>xx</TD></TR>
 </TABLE></P><P>Concerning boolean values, there are different tags depending on the number 
 of bytes they occupy in memory. In particular, the BOOL tag is not intuitive
 since it puts the value 0 or 1 in the first of two bytes, the second being
