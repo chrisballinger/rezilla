@@ -2,7 +2,7 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2005-06-10 09:09:07
+//             Last modification: 2005-06-11 21:05:03
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -223,7 +223,10 @@ CRezMapDoc::Initialize(FSSpec * inFileSpec, short inRefnum)
 	mReadOnly = false;
 	
 	SetModelKind(rzom_cRezMapDoc);
-
+// 	// Let's use the submodels list mechanism. The submodels of a rezmap 
+// 	// document are the editors.
+// 	SetUseSubModelList(true);
+	
 	if (mRezFile == nil) {
 		if (inFileSpec != nil) {
 			mRezFile = new CRezFile(*inFileSpec, inRefnum, mFork);
