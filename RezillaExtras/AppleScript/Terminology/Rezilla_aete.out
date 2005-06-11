@@ -1104,7 +1104,7 @@ Number of Classes: 8
 		Property ID: 'pDSZ'
 		Property class: 'long'
 		Property description: the size of the resource on disk
-		Property is a single item, not enumerated. It can be set by the Set Data AE.
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
 	  (14) hex data
 		Property ID: 'pDAT'
 		Property class: '****'
