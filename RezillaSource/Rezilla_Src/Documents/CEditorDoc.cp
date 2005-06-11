@@ -2,7 +2,7 @@
 // CEditorDoc.cp
 // 
 //                       Created: 2003-05-04 19:16:00
-//             Last modification: 2005-06-03 07:01:38
+//             Last modification: 2005-06-11 15:31:17
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -117,14 +117,14 @@ CEditorDoc::BuildDocumentTitle(Str255 & outTitle, SInt16 whichString)
 	FSSpec	theFileSpec;
 	mRezMapTable->GetOwnerDoc()->GetRezFile()->GetSpecifier(theFileSpec);
 	LStr255 theTitle(theFileSpec.name);
-	theTitle.Append("\p Ñ '");
+	theTitle.Append("\p - '");
 	
 	if ( mRezObj != nil ) {
 		Str255 theString;
 
 		UMiscUtils::OSTypeToPString(mRezObj->GetType(), theString);	
 		theTitle.Append(theString);
-		theTitle.Append("\p'  #");
+		theTitle.Append("\p' #");
 		::NumToString(mRezObj->GetID(), theString);
 		theTitle.Append(theString);
 	} else {
