@@ -2,7 +2,7 @@
 // CRezMapDoc.h				
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2005-06-10 08:47:12
+//             Last modification: 2005-06-11 21:04:37
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -148,6 +148,8 @@ public:
 								Str255				inName,
 								AEDesc&				outToken) const;
 
+	virtual SInt32	CountSubModels( DescType inModelID ) const;
+	
 	virtual bool	AEPropertyExists(
 								DescType		inProperty) const;
 

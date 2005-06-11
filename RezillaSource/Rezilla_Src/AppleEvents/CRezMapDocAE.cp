@@ -676,6 +676,46 @@ CRezMapDoc::GetSubModelByName(
 
 
 // ---------------------------------------------------------------------------
+//	¥ CountSubModels											  [public]
+// ---------------------------------------------------------------------------
+
+SInt32
+CRezMapDoc::CountSubModels(
+	DescType	inModelID) const
+{
+	SInt32	count = 0;
+
+	switch (inModelID) {
+
+		case rzom_cEditorDoc:
+		case cDocument: 
+		count = (SInt32) mOpenedEditors->GetCount();
+		break;
+
+		case rzom_cGuiEditDoc:
+		case rzom_cTmplEditDoc:
+		case rzom_cHexEditDoc: {
+			CEditorDoc *	theDoc = nil;
+			
+			TArrayIterator<CEditorDoc *> iterEditor(*mOpenedEditors);
+			while (iterEditor.Next(theDoc)) {
+				if (theDoc != nil && theDoc->GetModelKind() == inModelID) {
+					count++;
+				} 
+			}
+			break;
+		}
+
+		default:
+			LModelObject::CountSubModels(inModelID);
+			break;
+	}
+	
+	return count;
+}
+
+
+// ---------------------------------------------------------------------------
 //	¥ GetModelProperty
 // ---------------------------------------------------------------------------
 //	Return a ModelObject object for 'cwin' and rzom_cRezMap properties
