@@ -248,13 +248,16 @@ CRezObj::SetAEProperty(
 		SetAERezObjAttribute(inValue, resChanged);
 		break;
 		
-		case rzom_pSizeOnDisk: {
-			UInt32		theSize;
-			UExtractFromAEDesc::TheUInt32(inValue, theSize);
-			error = SetSizeOnDisk(theSize);
-			ThrowIfOSErr_(error);
-			break;
-		}
+		// (2005-06-11) Disabled this. It is useful only with the
+		// ReadPartialResource and WritePartialResource functions which are
+		// not supported in Rezilla.
+// 		case rzom_pSizeOnDisk: {
+// 			UInt32		theSize;
+// 			UExtractFromAEDesc::TheUInt32(inValue, theSize);
+// 			error = SetSizeOnDisk(theSize);
+// 			ThrowIfOSErr_(error);
+// 			break;
+// 		}
 		
 		case rzom_pData:
 		SetAEResourceData(inValue);

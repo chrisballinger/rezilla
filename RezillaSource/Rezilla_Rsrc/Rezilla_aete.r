@@ -3624,7 +3624,7 @@ resource 'aete' (0,"Scripting terminology") {
 							reserved,
 							singleItem,
 							notEnumerated,
-							readWrite,
+							readOnly,
 							enumsAreConstants,
 							enumListCanRepeat,
 							propertyIsValue,
