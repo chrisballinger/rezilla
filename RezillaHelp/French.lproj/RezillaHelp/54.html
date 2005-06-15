@@ -1,52 +1,81 @@
 <HTML>
 <HEAD>
-<TITLE>Comparer des tables de ressourcesOn peut effectuer une comparison entre deux tables de ressources (désignées</TITLE>
+<TITLE>Fenêtre d'inspectionLa fenêtre d'inspection est toujours présente dans Rezilla (même si elle</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="53.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="55.html">Suiv</A><HR><P>&nbsp;</P>
-<H3>Comparer des tables de ressources</H3><P>On peut effectuer une comparison entre deux tables de ressources (désignées
-respectivement, dans ce qui suit, comme l'ancienne et la nouvelle) grâce à
-la commande <B>compare</B>. Il faut spécifier en argument les deux
-fichiers contenant les tables à comparer. La commande accepte trois
-paramètres booléens optionnels permettant de spécifier les critères de
-comparison :
-<UL>
-	<LI> si le paramètre <I>ignoreName</I> a la valeur <I>vrai</I>, les
-différences relatives au nom des ressources seront ignorées
-	<LI> si le paramètre <I>ignoreAttrs</I> a la valeur <I>vrai</I>, les
-différences relatives aux attributs des ressources seront ignorées
-	<LI> si le paramètre <I>ignoreData</I> a la valeur <I>vrai</I>, les
-différences relatives au contenu des ressources seront ignorées
-</UL>
-Le comportement par défaut consiste à iGNorer les différences relatives au 
-nom et aux attributs.<P>Cette commande renvoie un objet de comparison dont les propriétés indiquent
-quelles ressources diffèrent ou sont identiques entre les tables de
-ressources. On peut obtenir les propriétés suivantes à partir du résultat:
-<UL>
-	<LI> <I>old only resources</I>: liste des ressources qui sont seulement 
-dans l'ancienne table<P>	<LI> <I>new only resources</I>: liste des ressources qui sont seulement 
-dans la nouvelle table<P>	<LI> <I>differing resources</I>: liste des ressources qui existent dans les
-deux tables et sont différentes<P>	<LI> <I>identical resources</I>: liste des ressources qui existent dans les
-deux tables et sont identiques<P>	<LI> <I>criteria</I>: les critères qui ont été appliqués pour effectuer la
-comparison, présentés sous forme d'une liste d'éléments de type clé:valeur 
-(par exemple <I>ignoreName:true</I>)<P>	<LI> <I>ignoreName</I>: les différences relatives au nom ont-elles été 
-ignorées ?<P>	<LI> <I>ignoreAttrs</I>: les différences relatives aux attributs ont-elles été 
-ignorées ?<P>	<LI> <I>ignoreData</I>: les différences relatives au contenu ont-elles été 
-ignorées ?<P></UL><P>Voici un exemple complet:
+<H3>Fenêtre d'inspection</H3><P>La fenêtre d'inspection est toujours présente dans Rezilla (même si elle
+n'est pas affichée, elle reste présente en coulisse). Pour afficher
+l'information concernant une ressource particulière, on utilise la commande
+<B>inspect</B> comme ceci:
 <PRE>
-	set theComp to compare "HD:foo:bar:file1" as alias ¬
-		and "HD:foo:bar:file2" as alias ¬
-		with ignoreName without ignoreAttrs
-	-- get information out of the result
-	get the old only resources of theComp
-	get the new only resources of theComp
-	get the differing resources of theComp
-	get the identical resources of theComp
-	-- get the criteria
-	get the criteria of theComp<P></PRE><P>
+	inspect resource {"MENU", 128} of map 1<P></PRE>
+Cette commande affiche la fenêtre d'inspection qui contient toute 
+l'information relative à la 
+ ressource spécifiée. Chaque champ de la fenêtre d'inspection est 
+accessible  grâce aux propriétés de la fenêtre d'inspection:
+<UL>
+	<LI> <I>ID field</I>: la valeur du champ 'ID' <P>	<LI> <I>name field</I>: la valeur du champ 'Name' <P>	<LI> <I>system heap</I>: la valeur de la case 'System Heap' <P>	<LI> <I>purgeable</I>: la valeur de la case 'Purgeable' <P>	<LI> <I>locked</I>: la valeur de la case 'Locked' <P>	<LI> <I>preload</I>: la valeur de la case 'Preload' <P>	<LI> <I>protected</I>: la valeur de la case 'Protected' <P>	<LI> <I>current resource</I>: la ressource dont  l'information est 
+couramment affichée<P></UL>
+<PRE>
+	set a to the ID field of the inspector
+	set b to the name field of the inspector
+	set c to the system heap of the inspector
+	set d to the purgeable of the inspector
+	set e to the locked of the inspector
+	set f to the preload of the inspector
+	set g to the protected of the inspector
+	
+	(a, b, c, d, e, f, g)<P></PRE><P>Les champs du numéro d'identification et du nom, de même que toutes les 
+cases à cocher peuvent être modifiés au moyen de la commande <B>set data</B> . Par exemple:
+<PRE>
+	set the name field of inspector to "Viva Rezilla!!!"
+	set the ID field of inspector to 130
+	set the system heap of inspector to false
+	set the purgeable of inspector to true
+	set the locked of inspector to true
+	set the preload of inspector to false
+	set the protected of inspector to true<P></PRE><P>La propriété <I>current resource</I> renvoie une référence à la ressource
+affichée par la fenêtre d'inspection ce qui permet d'écrire des
+instructions comme :
+<PRE>
+	get the hex data of the current resource of the inspector
+</PRE><P>Il faut cependant distinguer les propriétés réelles d'une ressource de ce
+qui peut être affiché dans la fenêtre d'inspection. Si des modifications on
+été effectuées dans l'inspecteur, elles ne seront validées dans la
+ressource elle-même que lorsque le bouton <I>Apply</I> aura été pressé.
+Dans un script AppleScript, on utilisera la commande <B>save</B> afin de
+valider le contenu de la fenêtre d'inspection, comme ceci:
+<PRE>
+	save the inspector
+</PRE>
+En revanche, si des modifications ont été faites dans la fenêtre
+d'inspection et qu'on ne souhaite pas les conserver, on utilisera la
+commande <B>revert</B> pour revenir aux dernières valeurs sauvegardées,
+comme ceci:
+<PRE>
+	revert the inspector
+</PRE><P>Pour masquer la fenêtre d'inspection, on utilise la commande <B>close</B>:
+<PRE>
+	close the inspector
+</PRE>
+De manière équivalente, on peut utiliser l'une des commandes suivantes:
+<PRE>
+	close inspector window 1
+</PRE>
+ou
+<PRE>
+	set the visible of the inspector to false
+</PRE>
+Pour rendre la fenêtre d'inspection visible, on peut utiliser la commande
+<B>inspect</B> comme expliqué précedemment ou invoquer l'instruction
+suivante:
+<PRE>
+	set the visible of the inspector to true
+</PRE><P>
 
 </BODY>
 </HTML>

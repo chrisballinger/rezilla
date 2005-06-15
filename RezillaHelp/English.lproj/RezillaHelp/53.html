@@ -1,74 +1,46 @@
 <HTML>
 <HEAD>
-<TITLE>Inspector windowThe inspector window is always present in Rezilla (it may be hidden but </TITLE>
+<TITLE>Existence of objectsThe exists command lets you verify if an object is known in </TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="52.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="54.html">Next</A><HR><P>&nbsp;</P>
-<H3>Inspector window</H3><P>The inspector window is always present in Rezilla (it may be hidden but 
-still it is there lurking in the background). To display information about 
-a particular resource, one can use the <B>inspect</B> command like this:
+<H3>Existence of objects</H3><P>The <B>exists</B> command lets you verify if an object is known in 
+Rezilla. Here are a few examples:
 <PRE>
-	inspect resource {"MENU", 128} of map 1<P></PRE>
-This brings the Inspector window with all the information relative to the 
-specified resource. Each field of the inspector window can be accessed 
-using the properties of the inspector:
-<UL>
-	<LI> <I>ID field</I>: the value of the 'ID' field<P>	<LI> <I>name field</I>: the value of the 'Name' field<P>	<LI> <I>system heap</I>: the value of the 'System Heap' checkbox<P>	<LI> <I>purgeable</I>: the value of the 'Purgeable' checkbox<P>	<LI> <I>locked</I>: the value of the 'Locked' checkbox<P>	<LI> <I>preload</I>: the value of the 'Preload' checkbox<P>	<LI> <I>protected</I>: the value of the 'Protected' checkbox<P>	<LI> <I>current resource</I>: the resource for which info is currently displayed<P></UL>
-<PRE>
-	set a to the ID field of the inspector
-	set b to the name field of the inspector
-	set c to the system heap of the inspector
-	set d to the purgeable of the inspector
-	set e to the locked of the inspector
-	set f to the preload of the inspector
-	set g to the protected of the inspector
+	first window exists
+	exists second window
+	exists third window
+	exists map of document 1
 	
-	(a, b, c, d, e, f, g)<P></PRE><P>The ID and name fields, as well as all the checkboxes, can be modified using 
-the <B>set data</B> command. For instance:
-<PRE>
-	set the name field of inspector to "Viva Rezilla!!!"
-	set the ID field of inspector to 130
-	set the system heap of inspector to false
-	set the purgeable of inspector to true
-	set the locked of inspector to true
-	set the preload of inspector to false
-	set the protected of inspector to true<P></PRE><P>The <I>current resource</I> property gives a reference to the resource 
-currently inspected so that one can write instructions like:
-<PRE>
-	get the hex data of the current resource of the inspector
-</PRE><P>The actual properties of the resource should not be confused with what is
-displayed in the inspector window. If you make modifications in the
-inspector, they will be validated in the resource only when the <I>Apply</I> 
-button is pressed. To do this in AppleScript, use the <B>save</B> 
-command, like this:
-<PRE>
-	save the inspector
-</PRE>
-On the contrary, if you've made changes in the inspector but do not 
-want to keep them, use the <B>revert</B> command to go back to the last 
-saved modifications, like this:
-<PRE>
-	revert the inspector
-</PRE><P>To hide the inspector window, use the <B>close</B> command:
-<PRE>
-	close the inspector
-</PRE>
-Equivalently, one can hide the inspector with the following commands:
-<PRE>
-	close inspector window 1
-</PRE>
-or
-<PRE>
-	set the visible of the inspector to false
-</PRE>
-To make the inspector visible, either use the <B>inspect</B> command as explained 
-above or execute this:
-<PRE>
-	set the visible of the inspector to true
-</PRE><P>
+	set theMap to map 1
+	exists theMap
+	exists type "TEXT" of theMap
+	exists type "XYZT" of theMap
+	
+	set theType to type "TEXT" of map 1
+	exists resource id 128 of theType
+	exists resource "Vivat" of theType
+	exists resource id 128 of type "MENU" of map 1
+	exists resource {"MENU", 128} of map document 1
+	
+	exists hexadecimal editor 1
+	exists template editor 1
+	exists interface editor 1
+	
+	exists editing window 1
+	exists hexadecimal window 1
+	exists template window 1
+	exists interface window 1
+	
+	exists window of document 1
+	exists editor 1 of document 1
+	exists second editor of document 1
+	exists window of first editor of document 1
+	
+	exists inspector<P></PRE><P>
 
 </BODY>
 </HTML>

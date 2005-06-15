@@ -103,7 +103,41 @@ La classe <I>editing window</I> représente les fenêtres affichées par les
 <PRE>
 	set editWin to editing window 1
 	get the kind of editWin<P></PRE>
-C'est une propriété en lecture seulement.  <P><H4>Propriétés des tables</H4>
+C'est une propriété en lecture seulement.  <P>Par commodité, il est possible de désigner les fenêtres d'édition
+directement comme des éléments d'un document principal. 
+Ainsi, les raccourcis suivants sont autorisés:
+<PRE>
+	get editing window 1 of map document 1
+</PRE>
+au lieu de 
+<PRE>
+	get window of editor 1 of map document 1
+</PRE>
+De même
+<PRE>
+	get hexadecimal window 1 of map document 1
+</PRE>
+est équivalent à
+<PRE>
+	get window of hexadecimal editor 1 of map document 1
+</PRE>
+Il en va de même si l'on désigne les fenêtres d'édition par nom plutôt 
+que par indice:
+<PRE>
+	get editing window "name_of_window" of map document 1
+</PRE>
+au lieu de 
+<PRE>
+	get window of editor "name_of_window" of map document 1
+</PRE>
+De même
+<PRE>
+	get template window "name_of_window" of map document 1
+</PRE>
+est équivalent à
+<PRE>
+	get window of template editor "name_of_window" of map document 1
+</PRE><P><H4>Propriétés des tables</H4>
 Les tables de ressources sont considérées comme des objets directement
 contenus dans l'application. Elles sont caractérisées par un numéro
 d'identification unique: c'est un numéro de référence attribué par le

@@ -91,7 +91,40 @@ one of <I>hexadecimal</I>, <I>template</I> or <I>interface</I>).<P>For instance:
 <PRE>
 	set editWin to editing window 1
 	get the kind of editWin<P></PRE>
-This is a read-only property. <P><H4>Map properties</H4>
+This is a read-only property. <P>As a convenience, it is possible to designate <I>editing windows</I> 
+directly as elements of a map document. So, as a shortcut, one can write
+<PRE>
+    get editing window 1 of map document 1
+</PRE>
+instead of 
+<PRE>
+    get window of editor 1 of map document 1
+</PRE>
+Similarly
+<PRE>
+    get hexadecimal window 1 of map document 1
+</PRE>
+is equivalent to
+<PRE>
+    get window of hexadecimal editor 1 of map document 1
+</PRE>
+The same is true when designating the editing windows by name rather than 
+by index:
+<PRE>
+	get editing window "name_of_window" of map document 1
+</PRE>
+instead of 
+<PRE>
+	get window of editor "name_of_window" of map document 1
+</PRE>
+Similarly
+<PRE>
+	get template window "name_of_window" of map document 1
+</PRE>
+is equivalent to
+<PRE>
+	get window of template editor "name_of_window" of map document 1
+</PRE><P><H4>Map properties</H4>
 The resource maps are considered as objects directly contained in the 
 application. They are characterized by a unique ID: this is a reference 
 number attributed by the System's Resource Manager when the map is opened. 

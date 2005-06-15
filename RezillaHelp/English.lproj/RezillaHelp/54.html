@@ -1,42 +1,74 @@
 <HTML>
 <HEAD>
-<TITLE>Comparing resource mapsA comparison between two resource maps can be executed using the </TITLE>
+<TITLE>Inspector windowThe inspector window is always present in Rezilla (it may be hidden but </TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="53.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="55.html">Next</A><HR><P>&nbsp;</P>
-<H3>Comparing resource maps</H3><P>A comparison between two resource maps can be executed using the 
-<B>compare</B> command. One must specify the two files to compare: the
-first one is usually refered to as the old one, and the second one as the
-new one. The command also accepts three optional boolean parameters to set
-the comparison criteria:
-<UL>
-	<LI> if the <I>ignoreName</I> parameter is set to true, differences 
-concerning the name of the resources will be ignored 
-	<LI> if the <I>ignoreAttrs</I> parameter is set to true, differences 
-concerning the attributes of the resources will be ignored 
-	<LI> if the <I>ignoreData</I> parameter is set to true, differences 
-concerning the contents of the resources will be ignored 
-</UL>
-The default is to ignore name and attributes differences.<P>This command returns a comparison object whose properties indicate which 
-resources differ or are identical between the resource maps. One can query 
-the following properties from the result:
-<UL>
-	<LI> <I>old only resources</I>: list of resources which are only in the old map<P>	<LI> <I>new only resources</I>: list of resources which are only in the new map<P>	<LI> <I>differing resources</I>: list of resources which are in both maps and are different<P>	<LI> <I>identical resources</I>: list of resources which are in both maps and are identical<P>	<LI> <I>criteria</I>: the criteria which have been used for the 
-comparison, presented as a keyworded list<P>	<LI> <I>ignoreName</I>: have name differences been ignored?<P>	<LI> <I>ignoreAttrs</I>: have attributes differences been ignored?<P>	<LI> <I>ignoreData</I>: have data differences been ignored?<P></UL><P>Here is a complete example:
+<H3>Inspector window</H3><P>The inspector window is always present in Rezilla (it may be hidden but 
+still it is there lurking in the background). To display information about 
+a particular resource, one can use the <B>inspect</B> command like this:
 <PRE>
-	set theComp to compare "HD:foo:bar:file1" as alias ¬
-		and "HD:foo:bar:file2" as alias ¬
-		with ignoreName without ignoreAttrs
-	-- get information out of the result
-	get the old only resources of theComp
-	get the new only resources of theComp
-	get the differing resources of theComp
-	get the identical resources of theComp
-	-- get the criteria
-	get the criteria of theComp<P></PRE><P>
+	inspect resource {"MENU", 128} of map 1<P></PRE>
+This brings the Inspector window with all the information relative to the 
+specified resource. Each field of the inspector window can be accessed 
+using the properties of the inspector:
+<UL>
+	<LI> <I>ID field</I>: the value of the 'ID' field<P>	<LI> <I>name field</I>: the value of the 'Name' field<P>	<LI> <I>system heap</I>: the value of the 'System Heap' checkbox<P>	<LI> <I>purgeable</I>: the value of the 'Purgeable' checkbox<P>	<LI> <I>locked</I>: the value of the 'Locked' checkbox<P>	<LI> <I>preload</I>: the value of the 'Preload' checkbox<P>	<LI> <I>protected</I>: the value of the 'Protected' checkbox<P>	<LI> <I>current resource</I>: the resource for which info is currently displayed<P></UL>
+<PRE>
+	set a to the ID field of the inspector
+	set b to the name field of the inspector
+	set c to the system heap of the inspector
+	set d to the purgeable of the inspector
+	set e to the locked of the inspector
+	set f to the preload of the inspector
+	set g to the protected of the inspector
+	
+	(a, b, c, d, e, f, g)<P></PRE><P>The ID and name fields, as well as all the checkboxes, can be modified using 
+the <B>set data</B> command. For instance:
+<PRE>
+	set the name field of inspector to "Viva Rezilla!!!"
+	set the ID field of inspector to 130
+	set the system heap of inspector to false
+	set the purgeable of inspector to true
+	set the locked of inspector to true
+	set the preload of inspector to false
+	set the protected of inspector to true<P></PRE><P>The <I>current resource</I> property gives a reference to the resource 
+currently inspected so that one can write instructions like:
+<PRE>
+	get the hex data of the current resource of the inspector
+</PRE><P>The actual properties of the resource should not be confused with what is
+displayed in the inspector window. If you make modifications in the
+inspector, they will be validated in the resource only when the <I>Apply</I> 
+button is pressed. To do this in AppleScript, use the <B>save</B> 
+command, like this:
+<PRE>
+	save the inspector
+</PRE>
+On the contrary, if you've made changes in the inspector but do not 
+want to keep them, use the <B>revert</B> command to go back to the last 
+saved modifications, like this:
+<PRE>
+	revert the inspector
+</PRE><P>To hide the inspector window, use the <B>close</B> command:
+<PRE>
+	close the inspector
+</PRE>
+Equivalently, one can hide the inspector with the following commands:
+<PRE>
+	close inspector window 1
+</PRE>
+or
+<PRE>
+	set the visible of the inspector to false
+</PRE>
+To make the inspector visible, either use the <B>inspect</B> command as explained 
+above or execute this:
+<PRE>
+	set the visible of the inspector to true
+</PRE><P>
 
 </BODY>
 </HTML>
