@@ -774,55 +774,6 @@
 			</Event>
 
 			<Event>
-				<EventName>select</EventName>
-				<EventDescription>Select the specified object</EventDescription>
-				<EventClass>misc</EventClass>
-				<EventID>slct</EventID>
-				<ReplyType>null</ReplyType>
-				<ReplyDescription></ReplyDescription>
-				<ReplyFlags>
-					<IsOptional>replyOptional</IsOptional>
-					<IsListOfItems>singleItem</IsListOfItems>
-					<IsEnumerated>notEnumerated</IsEnumerated>
-					<TightBindingFunction>notTightBindingFunction</TightBindingFunction>
-					<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
-					<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
-					<ReplyIsReference>replyIsValue</ReplyIsReference>
-					<Reserved/>
-					<Reserved/>
-					<Reserved/>
-					<Reserved/>
-					<Reserved/>
-					<NonVerbEvent>verbEvent</NonVerbEvent>
-					<Reserved/>
-					<Reserved/>
-					<Reserved/>
-				</ReplyFlags>
-				<DirectParamType>obj </DirectParamType>
-				<DirectParamDescription>the object to select</DirectParamDescription>
-				<DirectFlags>
-					<IsOptional>directParamOptional</IsOptional>
-					<IsListOfItems>singleItem</IsListOfItems>
-					<IsEnumerated>notEnumerated</IsEnumerated>
-					<ChangeState>changesState</ChangeState>
-					<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
-					<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
-					<DirectParamIsReference>directParamIsValue</DirectParamIsReference>
-					<NotDirectParamIsTarget>directParamIsTarget</NotDirectParamIsTarget>
-					<Reserved/>
-					<Reserved/>
-					<Reserved/>
-					<Reserved/>
-					<Reserved/>
-					<Reserved/>
-					<Reserved/>
-					<Reserved/>
-				</DirectFlags>
-				<ArrayOtherParams>
-				</ArrayOtherParams>
-			</Event>
-
-			<Event>
 				<EventName>set</EventName>
 				<EventDescription>Set an object's data</EventDescription>
 				<EventClass>core</EventClass>
@@ -1138,7 +1089,7 @@
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
 							<IsEnumerated>notEnumerated</IsEnumerated>
-							<IsReadWrite>readWrite</IsReadWrite>
+							<IsReadWrite>readOnly</IsReadWrite>
 							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
 							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
 							<PropertyIsReference>propertyIsValue</PropertyIsReference>
@@ -1354,7 +1305,7 @@
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
 							<IsEnumerated>notEnumerated</IsEnumerated>
-							<IsReadWrite>readOnly</IsReadWrite>
+							<IsReadWrite>readWrite</IsReadWrite>
 							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
 							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
 							<PropertyIsReference>propertyIsValue</PropertyIsReference>
@@ -1378,7 +1329,7 @@
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
 							<IsEnumerated>notEnumerated</IsEnumerated>
-							<IsReadWrite>readOnly</IsReadWrite>
+							<IsReadWrite>readWrite</IsReadWrite>
 							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
 							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
 							<PropertyIsReference>propertyIsValue</PropertyIsReference>
@@ -1616,7 +1567,7 @@
 
 			<Event>
 				<EventName>delete</EventName>
-				<EventDescription>Delete the specified object(s)</EventDescription>
+				<EventDescription>Delete the specified object</EventDescription>
 				<EventClass>core</EventClass>
 				<EventID>delo</EventID>
 				<ReplyType>null</ReplyType>
@@ -1640,7 +1591,7 @@
 					<Reserved/>
 				</ReplyFlags>
 				<DirectParamType>obj </DirectParamType>
-				<DirectParamDescription>Object to delete.</DirectParamDescription>
+				<DirectParamDescription>the object to delete</DirectParamDescription>
 				<DirectFlags>
 					<IsOptional>directParamRequired</IsOptional>
 					<IsListOfItems>singleItem</IsListOfItems>
@@ -1665,7 +1616,7 @@
 
 			<Event>
 				<EventName>duplicate</EventName>
-				<EventDescription>Duplicate one or more resource(s) in the resource map. The duplicate is automatically attributed an unique ID.</EventDescription>
+				<EventDescription>Duplicate a resource in the resource map. The duplicate is automatically attributed an unique ID.</EventDescription>
 				<EventClass>core</EventClass>
 				<EventID>clon</EventID>
 				<ReplyType>obj </ReplyType>
@@ -1689,7 +1640,7 @@
 					<Reserved/>
 				</ReplyFlags>
 				<DirectParamType>obj </DirectParamType>
-				<DirectParamDescription>the object(s) to duplicate</DirectParamDescription>
+				<DirectParamDescription>the object to duplicate</DirectParamDescription>
 				<DirectFlags>
 					<IsOptional>directParamRequired</IsOptional>
 					<IsListOfItems>singleItem</IsListOfItems>
@@ -2574,7 +2525,7 @@
 			</Class>
 
 			<Class>
-				<ClassName>hex editor</ClassName>
+				<ClassName>hexadecimal editor</ClassName>
 				<ClassID>HexD</ClassID>
 				<ClassDescription>a hexadecimal document editing a resource</ClassDescription>
 				<ArrayProperties>
@@ -2608,9 +2559,9 @@
 			</Class>
 
 			<Class>
-				<ClassName>hex editors</ClassName>
+				<ClassName>hexadecimal editors</ClassName>
 				<ClassID>HexD</ClassID>
-				<ClassDescription>every hex editor</ClassDescription>
+				<ClassDescription>every hexadecimal editor</ClassDescription>
 				<ArrayProperties>
 					<Property>
 						<PropertyName></PropertyName>
@@ -2986,7 +2937,7 @@
 			</Class>
 
 			<Class>
-				<ClassName>hex window</ClassName>
+				<ClassName>hexadecimal window</ClassName>
 				<ClassID>HexW</ClassID>
 				<ClassDescription>a hexadecimal editing window</ClassDescription>
 				<ArrayProperties>
@@ -3020,9 +2971,9 @@
 			</Class>
 
 			<Class>
-				<ClassName>hex windows</ClassName>
+				<ClassName>hexadecimal windows</ClassName>
 				<ClassID>HexW</ClassID>
-				<ClassDescription>every hex window</ClassDescription>
+				<ClassDescription>every hexadecimal window</ClassDescription>
 				<ArrayProperties>
 					<Property>
 						<PropertyName></PropertyName>
