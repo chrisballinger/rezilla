@@ -2,7 +2,7 @@
 // CHexEditorWindowAE.cp
 // 
 //                       Created: 2005-04-28 23:45:11
-//             Last modification: 2005-06-15 06:03:15
+//             Last modification: 2005-06-15 22:44:29
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -15,6 +15,7 @@
 //  class (inheriting from LModelObject).
 
 #include "CHexEditorWindow.h"
+#include "CEditorWindow.h"
 #include "CDualDataView.h"
 #include "CHexDataSubView.h"
 #include "CTxtDataSubView.h"
@@ -96,7 +97,7 @@ CHexEditorWindow::GetAEProperty(
 		
 				
 		default:
-		LWindow::GetAEProperty(inProperty, inRequestedType,
+		CEditorWindow::GetAEProperty(inProperty, inRequestedType,
 									outPropertyDesc);
 		break;
 	}
@@ -187,7 +188,7 @@ CHexEditorWindow::SetAEProperty(
 		
 		
 		default:
-		LWindow::SetAEProperty(inProperty, inValue, outAEReply);
+		CEditorWindow::SetAEProperty(inProperty, inValue, outAEReply);
 		break;
 	}
 }
