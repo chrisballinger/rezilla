@@ -1,16 +1,16 @@
 -- File: "CreateNewResource.scr"
--- Created: 2005-06-09 08:55:15
+-- Created: 2005-06-14 07:34:41
 -- Author: Bernard Desgraupes <bdesgraupes@users.sourceforge.net>
 -- Sample AppleScript for Rezilla 1.0.6b
 
 tell application "Rezilla"
 	set theDoc to map document 1
-	-- create an 'ALRT' resource with ID 128
-	make new resource in theDoc with properties Â
-		{ID:128, type:"ALRT"", name:"An alert", protected:true} Â
-		with data "001400140087016800805555300a"
 	-- create an empty 'MENU' resource
 	make new resource in theDoc with properties {type:"MENU"}
+	-- create an 'ALRT' resource with ID 128
+	make new resource in theDoc with properties Â
+		{ID:128, type:"ALRT", name:"An alert", protected:true} Â
+		with data "001400140087016800805555300a"
 	-- create a 'TEXT' resource with the specified string 
 	-- ('TEXT' is the default when no type is specified)
 	make new resource in theDoc with data "Hello Rezilla"

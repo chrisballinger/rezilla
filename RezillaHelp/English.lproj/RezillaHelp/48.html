@@ -25,7 +25,10 @@ would be edited in the hexadecimal editor.
 resource map. They can be achieved using the <B>duplicate</B> and 
 <B>delete</B> commands respectively.
 <PRE>
-	duplicate resource {"MENU", 128} of map 1<P>	delete resource {"STR#", 128} of map 1<P></PRE><P>Modifications made in an editor can be saved using the <B>save</B> command:
+	duplicate resource {"MENU", 128} of map 1<P>	delete resource {"STR#", 128} of map 1<P></PRE><P>The <B>delete</B> command can also be used to delete all the resources of a 
+certain type simultaneously, like this:
+<PRE>
+delete type "MENU" of map 1<P></PRE><P>Modifications made in an editor can be saved using the <B>save</B> command:
 <PRE>
 	save first editor of map document 1<P></PRE>
 Note that the usual <I>in</I> and <I>as</I> arguments of the <B>save</B>
@@ -35,7 +38,11 @@ command are ignored in that case.<P>An editing document can be closed with the <
 or, alternatively, by closing the window directly:
 <PRE>
 	set thewin to window of first editor of map document 1
-	close thewin<P></PRE><P>
+	close thewin<P></PRE><P>Some editors (but sadly not all) understand the <B>revert</B> command. As
+of version 1.0.6 of Rezilla, this concerns the template ediotr, the Aete
+editor, and the Menu editor. For instance:
+<PRE>
+revert editor "somefile.rsrc - 'MENU' #128" of document 1<P></PRE><P>
 
 </BODY>
 </HTML>

@@ -25,12 +25,12 @@ ressource est créée avec des données vides.
 </UL><P>Voici un exemple complet:
 <PRE>
 	set theDoc to map document 1
-	-- create an 'ALRT' resource with ID 128
-	make new resource in theDoc with properties ¬
-		{ID:128, type:"ALRT"", name:"An alert", protected:true} ¬
-		with data "001400140087016800805555300a"
 	-- create an empty 'MENU' resource
 	make new resource in theDoc with properties {type:"MENU"}
+	-- create an 'ALRT' resource with ID 128
+	make new resource in theDoc with properties ¬
+		{ID:128, type:"ALRT", name:"An alert", protected:true} ¬
+		with data "001400140087016800805555300a"
 	-- create a 'TEXT' resource with the specified string 
 	-- ('TEXT' is the default when no type is specified)
 	make new resource in theDoc with data "Hello Rezilla"<P></PRE><P>Si aucun identificateur (ID) n'est spécifié, Rezilla attribue un
