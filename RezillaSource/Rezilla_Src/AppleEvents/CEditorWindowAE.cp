@@ -2,7 +2,7 @@
 // CEditorWindowAE.cp
 // 
 //                       Created: 2005-04-26 10:05:20
-//             Last modification: 2005-04-28 14:12:43
+//             Last modification: 2005-06-12 18:45:01
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -30,29 +30,14 @@ CEditorWindow::MakeSelfSpecifier(
 	AEDesc	&inSuperSpecifier,
 	AEDesc	&outSelfSpecifier) const
 {
-		DescType		winClass;
 		DescType		keyForm;
 		StAEDescriptor	keyData;
 		OSErr			err;
 
 		// Specify by position
-		SInt32	windowIndex = 1;
+		SInt32	windowIndex = mOwnerDoc->GetSuperModel()->GetPositionOfSubModel(rzom_cEditorWindow, this);
 		keyForm = formAbsolutePosition;
 		keyData.Assign(windowIndex);
-
-		switch ( mOwnerDoc->GetKind() ) {
-			case editor_kindGui:
-			winClass = rzom_cGuiWindow;
-			break;
-
-			case editor_kindTmpl:
-			winClass = rzom_cTmplWindow;
-			break;
-
-			case editor_kindHex:
-			winClass = rzom_cHexWindow;
-			break;
-		}
 
 		err = ::CreateObjSpecifier(	rzom_cEditorWindow,
 									&inSuperSpecifier,
