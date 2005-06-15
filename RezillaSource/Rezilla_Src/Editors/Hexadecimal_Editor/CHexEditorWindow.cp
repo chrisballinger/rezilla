@@ -2,7 +2,7 @@
 // CHexEditorWindow.cp					
 // 
 //                       Created: 2003-05-02 07:33:10
-//             Last modification: 2005-04-28 19:38:01
+//             Last modification: 2005-06-15 10:27:13
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -373,8 +373,10 @@ CHexEditorWindow::InstallResourceData(Handle inHandle)
 	mDualView->InstallBackStoreData(inHandle);
 	mDualView->SetMaxScrollerValue();
 	InstallContentsFromLine(1);
-	mDualView->GetHexView()->SetDirty( false );
-	mDualView->GetTxtView()->SetDirty( false );
+	// Set the positions internally to 0
+	::WESetSelection( 0, 0, mDualView->GetInMemoryWE());
+	// Mark window as dirty
+	mDualView->SetDirty( false );
 }
 
 
@@ -415,6 +417,18 @@ Boolean
 CHexEditorWindow::IsDirty()
 {
 	return mDualView->IsDirty();
+}
+
+
+// ---------------------------------------------------------------------------
+//  SetDirty														[public]
+// ---------------------------------------------------------------------------
+
+void
+CHexEditorWindow::SetDirty(Boolean inDirty) 
+{
+	CEditorWindow::SetDirty(inDirty);
+	mDualView->SetDirty(inDirty);
 }
 
 

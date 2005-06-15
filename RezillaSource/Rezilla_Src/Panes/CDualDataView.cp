@@ -2,11 +2,11 @@
 // CDualDataView.cp					
 // 
 //                       Created: 2004-06-16 20:13:56
-//             Last modification: 2004-10-16 10:08:57
+//             Last modification: 2005-06-15 17:58:34
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004
+// (c) Copyright : Bernard Desgraupes, 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -173,8 +173,7 @@ CDualDataView::InstallSubViews(CHexDataSubView * inHexDataWE,
 	mHexView->SetReadOnly(inReadOnly);
 	mTxtView->SetReadOnly(inReadOnly);
 
-	mHexView->SetDirty(false);
-	mTxtView->SetDirty(false);
+	SetDirty(false);
 
 	DeclareListeners();
 }
@@ -320,8 +319,7 @@ CDualDataView::ObeyCommand(
 				InstallContentsFromLine(mCurrFirstLine);
 				SetMaxScrollerValue();
 				
-				mHexView->SetDirty(true);
-				mTxtView->SetDirty(true);
+				SetDirty(true);
 				mSelectingAll = false;
 			} 
 			
@@ -367,8 +365,7 @@ CDualDataView::ObeyCommand(
 			InstallContentsFromLine(mCurrFirstLine);
 			SetMaxScrollerValue();
 			
-			mHexView->SetDirty(true);
-			mTxtView->SetDirty(true);
+			SetDirty(true);
 			break;
 		}
 
@@ -430,8 +427,7 @@ CDualDataView::ObeyCommand(
 			InstallContentsFromLine(mCurrFirstLine);
 			SetMaxScrollerValue();
 
-			mHexView->SetDirty(true);
-			mTxtView->SetDirty(true);
+			SetDirty(true);
 			break;
 		}
 
@@ -708,6 +704,18 @@ Boolean
 CDualDataView::IsDirty()
 {
 	return (mHexView->IsDirty() || mTxtView->IsDirty());
+}
+
+
+// ---------------------------------------------------------------------------
+//  SetDirty														[public]
+// ---------------------------------------------------------------------------
+
+void
+CDualDataView::SetDirty(Boolean inDirty) 
+{
+	mHexView->SetDirty(inDirty);
+	mTxtView->SetDirty(inDirty);
 }
 
 

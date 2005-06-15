@@ -123,16 +123,28 @@ CHexEditorWindow::SetAEProperty(
 		case rzom_pHexWinStartPos:
 		::WEGetSelection( &theStartPos, &theEndPos, weRef);
 		UExtractFromAEDesc::TheSInt32(inValue, theLong);
-		::WESetSelection(theLong, theEndPos, weRef);
-		DisplayBothSelections(theLong, theEndPos);
+		if (theLong > theEndPos) {
+			theStartPos = theLong;
+			theEndPos = theLong;
+		} else {
+			theStartPos = theLong;
+		}
+		::WESetSelection(theStartPos, theEndPos, weRef);
+		DisplayBothSelections(theStartPos, theEndPos);
 		break;
 		
 		
 		case rzom_pHexWinEndPos:
 		::WEGetSelection( &theStartPos, &theEndPos, weRef);
 		UExtractFromAEDesc::TheSInt32(inValue, theLong);
-		::WESetSelection(theStartPos, theLong, weRef);
-		DisplayBothSelections(theStartPos, theLong);
+		if (theLong < theStartPos) {
+			theStartPos = theLong;
+			theEndPos = theLong;
+		} else {
+			theEndPos = theLong;
+		}
+		::WESetSelection(theStartPos, theEndPos, weRef);
+		DisplayBothSelections(theStartPos, theEndPos);
 		break;
 		
 		
@@ -168,8 +180,7 @@ CHexEditorWindow::SetAEProperty(
 				mDualView->SetMaxScrollerValue();
 				InstallContentsFromLine(mDualView->GetCurrFirstLine());
 				DisplayBothSelections(theStartPos, theStartPos + theSize);
-				mDualView->GetHexView()->SetDirty(true);
-				mDualView->GetTxtView()->SetDirty(true);
+				mDualView->SetDirty(true);
 			} 
 			break;
 		}

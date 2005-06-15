@@ -47,8 +47,6 @@ public:
 
 	virtual Boolean	AllowSubRemoval( LCommander* inSub );
 
-	virtual Boolean			IsModified();
-
 	virtual SInt16	AskSaveChanges( bool inQuitting );
 
 	virtual void	AttemptClose( Boolean inRecordIt );

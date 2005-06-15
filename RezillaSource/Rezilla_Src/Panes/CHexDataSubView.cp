@@ -717,7 +717,6 @@ void
 CHexDataSubView::SetDirty(Boolean inDirty) 
 {
 	mIsDirty = inDirty;
-// 	mOwnerDoc->SetModified(inDirty);
 	::SetWindowModified(mOwnerDualView->GetWindowRef(), inDirty);
 }
 

@@ -2,11 +2,11 @@
 // CDualDataView.h
 // 
 //                       Created: 2004-06-16 20:13:56
-//             Last modification: 2004-10-16 09:56:31
+//             Last modification: 2005-06-15 17:58:23
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004
+// (c) Copyright : Bernard Desgraupes, 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -75,6 +75,7 @@ public:
 	virtual SInt32	InstallContentsFromLine(SInt32 inFromLine);
 	
 	Boolean			IsDirty();
+	virtual void	SetDirty(Boolean inDirty);
 	
 	virtual void	SetMaxScrollerValue();
 

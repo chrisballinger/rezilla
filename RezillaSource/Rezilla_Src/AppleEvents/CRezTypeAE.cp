@@ -18,6 +18,7 @@
 #include "CRezType.h"
 #include "CRezObj.h"
 #include "CRezMapDoc.h"
+#include "CEditorDoc.h"
 #include "CRezMapWindow.h"
 #include "CRezMapTable.h"
 #include "CRezTypeItem.h"
@@ -475,6 +476,15 @@ CRezType::HandleEditEvent(
 	ThrowIfNil_(theRezObjItem);
 	
 	theDoc->TryEdit(theRezObjItem, theCmd, asType);
+	
+	// Return an object specifier in the reply
+	CEditorDoc * theRezEditor = theDoc->GetRezEditor(mType, inID);
+	if (theRezEditor != nil) {
+		StAEDescriptor	repDesc;
+		theRezEditor->MakeSpecifier(repDesc);
+		::AEPutParamDesc(&outAEReply, keyDirectObject, (const AEDesc *)&repDesc);
+	}
+	
 }
 
 

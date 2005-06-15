@@ -20,6 +20,7 @@
 #include "CRezObj.h"
 #include "CRezObjItem.h"
 #include "CEditorDoc.h"
+#include "CEditorWindow.h"
 #include "CRezMapWindow.h"
 #include "UMiscUtils.h"
 #include "UResources.h"
@@ -529,11 +530,12 @@ CRezMapDoc::HandleCreateElementEvent(
 	if (!gotID) {
 		mRezMap->UniqueID(theType, theID);
 	} else if ( mRezMap->HasResourceWithTypeAndId(theType, theID) ) {
+		// The AE must fail if the ID already exists
 		ThrowOSErr_(err_AlreadyExistingID);
 	}
 	
 	// Create the new resource
-	rezObjItem = DoCreateResource(theType, theID, &nameStr, theAttrs, true);
+	rezObjItem = DoCreateResource(theType, theID, &nameStr, theAttrs, false);
 	ThrowIfNil_(rezObjItem);
 	
 	SetModified(true);
@@ -563,6 +565,14 @@ CRezMapDoc::HandleCreateElementEvent(
 // ---------------------------------------------------------------------------
 //	¥ GetSubModelByPosition											  [public]
 // ---------------------------------------------------------------------------
+// As a shortcut one can write
+//     get editing window 1 of map document 1
+// instead of 
+//     get window of editor 1 of map document 1
+// Similarly
+//     get hexadecimal window 1 of map document 1
+// is equivalent to
+//     get window of hexadecimal editor 1 of map document 1
 
 void
 CRezMapDoc::GetSubModelByPosition(
@@ -579,9 +589,14 @@ CRezMapDoc::GetSubModelByPosition(
 	switch (inModelID) {
 
 		case rzom_cEditorDoc:
-		case cDocument: {
+		case cDocument:
+		case rzom_cEditorWindow: {
 			if ( mOpenedEditors->FetchItemAt( inPosition, theDoc) ) {
-				PutInToken(theDoc, outToken);
+				if (inModelID == rzom_cEditorWindow) {
+					PutInToken(theDoc->GetMainWindow(), outToken);
+				} else {
+					PutInToken(theDoc, outToken);
+				}
 			} else {
 				ThrowOSErr_(errAENoSuchObject);
 			}
@@ -589,77 +604,51 @@ CRezMapDoc::GetSubModelByPosition(
 		}
 
 		
-		case rzom_cGuiEditDoc:
+		case rzom_cHexEditDoc:
 		case rzom_cTmplEditDoc:
-		case rzom_cHexEditDoc: {
-			TArrayIterator<CEditorDoc *> iterEditor(*mOpenedEditors);
-			while (iterEditor.Next(theDoc)) {
-				if (theDoc != nil && theDoc->GetModelKind() == inModelID) {
-					count++;
-					if (count == inPosition) {
-						found = true;
-						break;
-					} 
-				} 
-			}
-			if (found) {
-				PutInToken(theDoc, outToken);
-			} else {
-				ThrowOSErr_(errAENoSuchObject);
-			}
-			break;
-		}
-		
-
+		case rzom_cGuiEditDoc:
 		case rzom_cHexWindow: 
 		case rzom_cTmplWindow:
 		case rzom_cGuiWindow: {
-			while (windowP) {
-				ppWindow = LWindow::FetchWindowObject(windowP);
-				if (ppWindow != nil && ppWindow->GetModelKind() == inModelID) {
+			DescType docKind = inModelID;
+			switch (inModelID) {
+				case rzom_cHexWindow: 
+				docKind = rzom_cHexEditDoc;
+				break;
+				
+				case rzom_cTmplWindow:
+				docKind = rzom_cTmplEditDoc;
+				break;
+				
+				case rzom_cGuiWindow:
+				docKind = rzom_cGuiEditDoc;
+				break;
+			}
+			
+			TArrayIterator<CEditorDoc *> iterEditor(*mOpenedEditors);
+			while (iterEditor.Next(theDoc)) {
+				if (theDoc != nil && theDoc->GetModelKind() == docKind) {
 					count++;
 					if (count == inPosition) {
 						found = true;
 						break;
 					} 
 				} 
-				windowP = MacGetNextWindow(windowP);
 			}
 			if (found) {
-				PutInToken(ppWindow, outToken);
+				if (inModelID == rzom_cHexWindow 
+					|| inModelID == rzom_cTmplWindow 
+					|| inModelID == rzom_cGuiWindow) {
+					PutInToken(theDoc->GetMainWindow(), outToken);
+				} else {
+					PutInToken(theDoc, outToken);
+				}
 			} else {
 				ThrowOSErr_(errAENoSuchObject);
 			}
 			break;
 		}
-
 		
-		case rzom_cEditorWindow: {
-			DescType	theKind;
-			while (windowP) {
-				ppWindow = LWindow::FetchWindowObject(windowP);
-				if (ppWindow != nil) {
-					theKind = ppWindow->GetModelKind();
-					if (ppWindow != nil && (theKind == inModelID
-						|| theKind == rzom_cHexWindow
-						|| theKind == rzom_cTmplWindow
-						|| theKind == rzom_cGuiWindow) ) {
-						count++;
-						if (count == inPosition) {
-							found = true;
-							break;
-						} 
-					} 
-				} 
-				windowP = MacGetNextWindow(windowP);
-			}
-			if (found) {
-				PutInToken(ppWindow, outToken);
-			} else {
-				ThrowOSErr_(errAENoSuchObject);
-			}
-			break;
-		}
 
 		case cWindow: 
 		case rzom_cRezMapWindow: 
@@ -685,7 +674,14 @@ CRezMapDoc::GetSubModelByPosition(
 // ---------------------------------------------------------------------------
 //	¥ GetSubModelByName												  [public]
 // ---------------------------------------------------------------------------
-//	Pass back a token to a SubModel specified by name
+// As a shortcut one can write
+//     get editing window "somename" of map document 1
+// instead of 
+//     get window of editor "somename" of map document 1
+// Similarly
+//     get hexadecimal window "somename" of map document 1
+// is equivalent to
+//     get window of hexadecimal editor "somename" of map document 1
 
 void
 CRezMapDoc::GetSubModelByName(
@@ -695,14 +691,34 @@ CRezMapDoc::GetSubModelByName(
 {
 	switch (inModelID) {
 
-		case rzom_cEditorDoc: 
+		case rzom_cEditorDoc:
+		case rzom_cHexEditDoc:
+		case rzom_cTmplEditDoc:
 		case rzom_cGuiEditDoc:
-		case rzom_cTmplEditDoc: {
+		case rzom_cEditorWindow:
+		case rzom_cHexWindow: 
+		case rzom_cTmplWindow:
+		case rzom_cGuiWindow: {
+			DescType docKind = inModelID;
+			switch (inModelID) {
+				case rzom_cHexWindow: 
+				docKind = rzom_cHexEditDoc;
+				break;
+				
+				case rzom_cTmplWindow:
+				docKind = rzom_cTmplEditDoc;
+				break;
+				
+				case rzom_cGuiWindow:
+				docKind = rzom_cGuiEditDoc;
+				break;
+			}
+			
 			TArrayIterator<CEditorDoc *> iterator(*mOpenedEditors);
 			CEditorDoc *	theDoc = nil;
 			while (iterator.Next(theDoc)) {
 				DescType theKind = theDoc->GetModelKind();
-				if (theKind == inModelID || inModelID == rzom_cEditorDoc) {
+				if (theKind == docKind || inModelID == rzom_cEditorDoc || inModelID == rzom_cEditorWindow) {
 					Str255  docName;
 					theDoc->GetDescriptor(docName);
 					if (::IdenticalString(inName, docName, nil) == 0) {
@@ -712,7 +728,14 @@ CRezMapDoc::GetSubModelByName(
  				theDoc = nil;
 			}
 			if (theDoc != nil) {
-				PutInToken(theDoc, outToken);
+				if (inModelID == rzom_cEditorDoc 
+					|| inModelID == rzom_cHexEditDoc
+					|| inModelID == rzom_cTmplEditDoc 
+					|| inModelID == rzom_cGuiEditDoc) {
+					PutInToken(theDoc, outToken);
+				} else {
+					PutInToken(theDoc->GetMainWindow(), outToken);
+				}
 			} else {
 				ThrowOSErr_(errAENoSuchObject);
 			}

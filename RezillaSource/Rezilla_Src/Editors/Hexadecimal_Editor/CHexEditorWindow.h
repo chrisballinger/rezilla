@@ -62,7 +62,8 @@ public:
 	virtual SInt32	InstallContentsFromLine(SInt32 inFromLine);
 
 	Boolean			IsDirty();
-		
+	virtual void	SetDirty(Boolean inDirty);
+	
 	void			DisplayBothSelections(SInt32 inStart, SInt32 inEnd);
 
 	// AppleEvents
