@@ -693,49 +693,6 @@ resource 'aete' (0,"Scripting terminology") {
 				{
 				}
 			,
-				"select",
-				"Select the specified object",
-				'misc',
-				'slct',
-				'null',
-				"",
-					replyOptional,
-					singleItem,
-					notEnumerated,
-					notTightBindingFunction,
-					enumsAreConstants,
-					enumListCanRepeat,
-					replyIsValue,
-					reserved,
-					reserved,
-					reserved,
-					reserved,
-					reserved,
-					verbEvent,
-					reserved,
-					reserved,
-					reserved,
-				'obj ',
-				"the object to select",
-					directParamOptional,
-					singleItem,
-					notEnumerated,
-					changesState,
-					enumsAreConstants,
-					enumListCanRepeat,
-					directParamIsValue,
-					directParamIsTarget,
-					reserved,
-					reserved,
-					reserved,
-					reserved,
-					reserved,
-					reserved,
-					reserved,
-					reserved,
-				{
-				}
-			,
 				"set",
 				"Set an object's data",
 				'core',
@@ -1013,7 +970,7 @@ resource 'aete' (0,"Scripting terminology") {
 							reserved,
 							singleItem,
 							notEnumerated,
-							readWrite,
+							readOnly,
 							enumsAreConstants,
 							enumListCanRepeat,
 							propertyIsValue,
@@ -1202,7 +1159,7 @@ resource 'aete' (0,"Scripting terminology") {
 							reserved,
 							singleItem,
 							notEnumerated,
-							readOnly,
+							readWrite,
 							enumsAreConstants,
 							enumListCanRepeat,
 							propertyIsValue,
@@ -1223,7 +1180,7 @@ resource 'aete' (0,"Scripting terminology") {
 							reserved,
 							singleItem,
 							notEnumerated,
-							readOnly,
+							readWrite,
 							enumsAreConstants,
 							enumListCanRepeat,
 							propertyIsValue,
@@ -1435,7 +1392,7 @@ resource 'aete' (0,"Scripting terminology") {
 				}
 			,
 				"delete",
-				"Delete the specified object(s)",
+				"Delete the specified object",
 				'core',
 				'delo',
 				'null',
@@ -1457,7 +1414,7 @@ resource 'aete' (0,"Scripting terminology") {
 					reserved,
 					reserved,
 				'obj ',
-				"Object to delete.",
+				"the object to delete",
 					directParamRequired,
 					singleItem,
 					notEnumerated,
@@ -1478,7 +1435,7 @@ resource 'aete' (0,"Scripting terminology") {
 				}
 			,
 				"duplicate",
-				"Duplicate one or more resource(s) in the resource map. The duplicate is automatically attributed an unique ID.",
+				"Duplicate a resource in the resource map. The duplicate is automatically attributed an unique ID.",
 				'core',
 				'clon',
 				'obj ',
@@ -1500,7 +1457,7 @@ resource 'aete' (0,"Scripting terminology") {
 					reserved,
 					reserved,
 				'obj ',
-				"the object(s) to duplicate",
+				"the object to duplicate",
 					directParamRequired,
 					singleItem,
 					notEnumerated,
@@ -2280,7 +2237,7 @@ resource 'aete' (0,"Scripting terminology") {
 				{
 				}
 			,
-				"hex editor",
+				"hexadecimal editor",
 				'HexD',
 				"a hexadecimal document editing a resource",
 				{
@@ -2310,9 +2267,9 @@ resource 'aete' (0,"Scripting terminology") {
 				{
 				}
 			,
-				"hex editors",
+				"hexadecimal editors",
 				'HexD',
-				"every hex editor",
+				"every hexadecimal editor",
 				{
 					
 						"",
@@ -2643,7 +2600,7 @@ resource 'aete' (0,"Scripting terminology") {
 				{
 				}
 			,
-				"hex window",
+				"hexadecimal window",
 				'HexW',
 				"a hexadecimal editing window",
 				{
@@ -2673,9 +2630,9 @@ resource 'aete' (0,"Scripting terminology") {
 				{
 				}
 			,
-				"hex windows",
+				"hexadecimal windows",
 				'HexW',
-				"every hex window",
+				"every hexadecimal window",
 				{
 					
 						"",
