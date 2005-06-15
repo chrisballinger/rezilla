@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2005-06-10 07:48:48
+//             Last modification : 2005-06-14 16:04:13
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -1212,10 +1212,17 @@ const DescType rzom_pTypesCount			= 'Tcnt';	// Total types count
 const DescType rzom_pResCount			= 'Rcnt';	// Total resources count
 
 //    Editor document
-const DescType rzom_pKind			= 'pKND';	// Kind
+const DescType rzom_pKind				= 'pKND';	// Kind
 
 //    Tmpl editor document
 // const DescType rzom_pTemplate		= 'pTMP';	// Template
+
+//    Hexadecimal window
+const DescType rzom_pHexWinMaxPos			= 'maxP';	// Index of last position
+const DescType rzom_pHexWinStartPos			= 'iniP';	// Position of beginning of selection
+const DescType rzom_pHexWinEndPos			= 'endP';	// Position of end of selection
+const DescType rzom_pHexWinHexSelection		= 'hSel';	// Contents of selection in hex pane
+const DescType rzom_pHexWinTxtSelection		= 'tSel';	// Contents of selection in text pane
 
 //    Inspector window
 const DescType rzom_pCurrResource	= 'pRSC';	// Resource for which info is displayed
@@ -1276,6 +1283,7 @@ enum RezillaErrors
 	err_NoResourceWithName,
 	err_AlreadyExistingID,
 	err_MoreDataThanExpected,
+	err_InvalidHexadecimalData,
 	err_ImportGenericError			= 1900,
 	err_ImportInvalidOSType,
 	err_ImportCantGetXmlData,

@@ -69,8 +69,6 @@ public:
 	OSErr	UniqueID(ResType inType, short & outID);
 
 	OSErr	UnsetFileAttrs(short inResFileAttrs);
-
-	Boolean	ResourceExists(ResType inType, short inID);
 	
 	// AppleEvents
 	virtual void	GetAEProperty(

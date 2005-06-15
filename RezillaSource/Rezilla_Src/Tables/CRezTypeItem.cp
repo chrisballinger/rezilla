@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezTypeItem.cp				
 //                       Created: 2003-04-18 09:34:02
-//             Last modification: 2005-06-10 07:31:11
+//             Last modification: 2005-06-14 13:17:59
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -226,15 +226,17 @@ CRezTypeItem::GetSelectedRezObjItems(LArray* & outArray)
 	UInt32 count = 0;
 
 	// Iterate among sub items of this RezTypeItem
-	LArrayIterator iterator(*mSubItems);
-	LOutlineItem *theItem = nil;	
-	
-	while (iterator.Next(&theItem)) {
-		if ( mOutlineTable->GetTableSelector()->CellIsSelected( theItem->FindRowForItem() ) ) {
-			outArray->AddItem(theItem);
-			count += 1;
-		} 
-	}
+	if (mSubItems != nil) {
+		LArrayIterator iterator(*mSubItems);
+		LOutlineItem *theItem = nil;	
+		
+		while (iterator.Next(&theItem)) {
+			if ( mOutlineTable->GetTableSelector()->CellIsSelected( theItem->FindRowForItem() ) ) {
+				outArray->AddItem(theItem);
+				count += 1;
+			} 
+		}
+	} 
 	return count;
 }
 
@@ -274,7 +276,7 @@ CRezTypeItem::ExistsItemForID(short inID, CRezObjItem * & outRezObjItem)
 	Boolean existing = false;
 	CRezObjItem *theRezObjItem = nil;	
 	
-	if ( IsExpanded() ) {
+	if ( IsExpanded() && mSubItems != nil) {
 		LArrayIterator iterator(*mSubItems);
 		LOutlineItem *theItem = nil;	
 		

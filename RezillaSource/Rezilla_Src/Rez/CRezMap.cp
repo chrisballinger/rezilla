@@ -150,22 +150,8 @@ CRezMap::CountAllResources(short & outCount) const
 // ---------------------------------------------------------------------------
 //  ¥ ResourceExists												[public]
 // ---------------------------------------------------------------------------
-// Check whether a resource of a given type with a given ID
-// exists in the current resource map.
-
-Boolean
-CRezMap::ResourceExists(ResType inType, short inID)
-{
-	OSErr error;
-	Handle theHandle;
-	
-    StRezRefSaver saver(mRefNum);
-	::SetResLoad(false);
-    theHandle = ::Get1Resource(inType, inID);
-	error = ::ResError();
-	::SetResLoad(true);
-    return (theHandle != nil && ::ResError() == noErr);
-}
+// 
+// This made a duplicate with HasResourceWithTypeAndId(): removed
 
 
 // ---------------------------------------------------------------------------
