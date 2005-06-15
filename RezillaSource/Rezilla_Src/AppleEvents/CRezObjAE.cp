@@ -480,6 +480,12 @@ CRezObj::HandleAppleEvent(
 		break;
 		
 		
+		case ae_GetDataSize:
+		SInt32 theLong = mSize;
+		::AEPutParamPtr(&outAEReply, keyAEResult, typeSInt32, &theLong, sizeof(SInt32));
+		break;
+		
+		
 		default:
 		// 		mSuperModel->HandleAppleEvent(inAppleEvent, outAEReply, outResult, inAENumber);
 		LModelObject::HandleAppleEvent(inAppleEvent, outAEReply, outResult, inAENumber);

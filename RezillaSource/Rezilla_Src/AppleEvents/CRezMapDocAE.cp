@@ -2,7 +2,7 @@
 // CRezMapDocAE.cp
 // 
 //                       Created: 2005-04-09 10:03:39
-//             Last modification: 2005-06-06 13:45:21
+//             Last modification: 2005-06-12 18:45:12
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -570,11 +570,16 @@ CRezMapDoc::GetSubModelByPosition(
 	SInt32			inPosition,
 	AEDesc&			outToken) const
 {
+	Boolean			found = false;
+	UInt16			count = 0;
+	WindowPtr		windowP = ::GetWindowList();
+	LWindow*		ppWindow = nil;
+	CEditorDoc *	theDoc = nil;
+
 	switch (inModelID) {
 
 		case rzom_cEditorDoc:
 		case cDocument: {
-			CEditorDoc *	theDoc;			
 			if ( mOpenedEditors->FetchItemAt( inPosition, theDoc) ) {
 				PutInToken(theDoc, outToken);
 			} else {
@@ -583,13 +588,10 @@ CRezMapDoc::GetSubModelByPosition(
 			break;
 		}
 
+		
 		case rzom_cGuiEditDoc:
 		case rzom_cTmplEditDoc:
 		case rzom_cHexEditDoc: {
-			CEditorDoc *	theDoc = nil;
-			Boolean		found = false;
-			UInt16		count = 0;
-			
 			TArrayIterator<CEditorDoc *> iterEditor(*mOpenedEditors);
 			while (iterEditor.Next(theDoc)) {
 				if (theDoc != nil && theDoc->GetModelKind() == inModelID) {
@@ -602,6 +604,57 @@ CRezMapDoc::GetSubModelByPosition(
 			}
 			if (found) {
 				PutInToken(theDoc, outToken);
+			} else {
+				ThrowOSErr_(errAENoSuchObject);
+			}
+			break;
+		}
+		
+
+		case rzom_cHexWindow: 
+		case rzom_cTmplWindow:
+		case rzom_cGuiWindow: {
+			while (windowP) {
+				ppWindow = LWindow::FetchWindowObject(windowP);
+				if (ppWindow != nil && ppWindow->GetModelKind() == inModelID) {
+					count++;
+					if (count == inPosition) {
+						found = true;
+						break;
+					} 
+				} 
+				windowP = MacGetNextWindow(windowP);
+			}
+			if (found) {
+				PutInToken(ppWindow, outToken);
+			} else {
+				ThrowOSErr_(errAENoSuchObject);
+			}
+			break;
+		}
+
+		
+		case rzom_cEditorWindow: {
+			DescType	theKind;
+			while (windowP) {
+				ppWindow = LWindow::FetchWindowObject(windowP);
+				if (ppWindow != nil) {
+					theKind = ppWindow->GetModelKind();
+					if (ppWindow != nil && (theKind == inModelID
+						|| theKind == rzom_cHexWindow
+						|| theKind == rzom_cTmplWindow
+						|| theKind == rzom_cGuiWindow) ) {
+						count++;
+						if (count == inPosition) {
+							found = true;
+							break;
+						} 
+					} 
+				} 
+				windowP = MacGetNextWindow(windowP);
+			}
+			if (found) {
+				PutInToken(ppWindow, outToken);
 			} else {
 				ThrowOSErr_(errAENoSuchObject);
 			}
@@ -644,8 +697,7 @@ CRezMapDoc::GetSubModelByName(
 
 		case rzom_cEditorDoc: 
 		case rzom_cGuiEditDoc:
-		case rzom_cTmplEditDoc:
-		case rzom_cHexEditDoc: {
+		case rzom_cTmplEditDoc: {
 			TArrayIterator<CEditorDoc *> iterator(*mOpenedEditors);
 			CEditorDoc *	theDoc = nil;
 			while (iterator.Next(theDoc)) {
@@ -672,6 +724,79 @@ CRezMapDoc::GetSubModelByName(
 			LModelObject::GetSubModelByName(inModelID, inName, outToken);
 			break;
 	}
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ GetPositionOfSubModel
+// ---------------------------------------------------------------------------
+
+SInt32
+CRezMapDoc::GetPositionOfSubModel(
+	DescType			inModelID,
+	const LModelObject	*inSubModel) const
+{
+	SInt32	position = 0;
+	WindowPtr	windowP = ::GetWindowList();
+	LWindow*	ppWindow = nil;
+	UInt16		count = 0;
+
+	switch (inModelID) {
+		case rzom_cHexWindow: 
+		case rzom_cTmplWindow:
+		case rzom_cGuiWindow: {
+			while (windowP) {
+				ppWindow = LWindow::FetchWindowObject(windowP);
+				
+				if (ppWindow != nil && ppWindow->GetModelKind() == inModelID) {
+					count++;
+					if (ppWindow == inSubModel) {
+						position = count;
+						break;
+					} 
+				} 
+				windowP = MacGetNextWindow(windowP);
+			}
+
+			if (position == 0) {
+				ThrowOSErr_(errAENoSuchObject);
+			}
+			break;
+		}
+
+		case rzom_cEditorWindow: {
+			DescType	theKind;
+			while (windowP) {
+				ppWindow = LWindow::FetchWindowObject(windowP);
+				
+				if (ppWindow != nil) {
+					theKind = ppWindow->GetModelKind();
+					if (ppWindow != nil && (theKind == inModelID
+						|| theKind == rzom_cHexWindow
+						|| theKind == rzom_cTmplWindow
+						|| theKind == rzom_cGuiWindow) ) {
+						count++;
+						if (ppWindow == inSubModel) {
+							position = count;
+							break;
+						} 
+					} 
+				} 
+				windowP = MacGetNextWindow(windowP);
+			}
+
+			if (position == 0) {
+				ThrowOSErr_(errAENoSuchObject);
+			}
+			break;
+		}
+
+		default:
+			position = LModelObject::GetPositionOfSubModel(inModelID, inSubModel);
+			break;
+	}
+
+	return position;
 }
 
 

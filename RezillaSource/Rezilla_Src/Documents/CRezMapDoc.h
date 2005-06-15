@@ -2,7 +2,7 @@
 // CRezMapDoc.h				
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2005-06-11 21:04:37
+//             Last modification: 2005-06-12 18:45:23
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -96,7 +96,11 @@ public:
 	virtual void		DoAESave(
 								FSSpec&			inFileSpec,
 								OSType			inFileType);
+	
+	virtual void		DoAEClose( const AppleEvent& inCloseAE );
+	
 	virtual void		DoSave();
+	
 	virtual void		DoRevert();
 	
 	virtual void		DoExport( FSSpec &inFileSpec);
@@ -147,6 +151,10 @@ public:
 								DescType			inModelID,
 								Str255				inName,
 								AEDesc&				outToken) const;
+
+	virtual SInt32		GetPositionOfSubModel(
+								DescType			inModelID,
+								const LModelObject*	inSubModel) const;
 
 	virtual SInt32	CountSubModels( DescType inModelID ) const;
 	

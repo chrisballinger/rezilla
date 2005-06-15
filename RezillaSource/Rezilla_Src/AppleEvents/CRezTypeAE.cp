@@ -2,7 +2,7 @@
 // CRezTypeAE.cp
 // 
 //                       Created: 2005-04-09 10:03:39
-//             Last modification: 2005-06-02 22:36:30
+//             Last modification: 2005-06-13 18:10:27
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -523,12 +523,16 @@ CRezType::HandleDeleteResourceEvent(
 	CRezObjItem * theRezObjItem = theDoc->GetRezMapWindow()->GetRezMapTable()->GetRezObjItem(mType, inRezObj->GetID(), true);
 	ThrowIfNil_(theRezObjItem);
 
-	theDoc->RemoveResource(theRezObjItem);
-
 	// Delete the rezobj in the mRezObjModels list. The RezObj contained 
-	// in the theRezObjItem and the one in the list are NOT the same.
+	// in the theRezObjItem and the one in the list are NOT the same. 
+	// IMPORTANT: this must be done _before_ the call to RemoveResource()
+	// because, if there is only one RezObjItem, removing it causes the
+	// RezTypeItem to be deleted too which deletes the mRezObjModels list
 	mRezObjModels.Remove(inRezObj);
 	delete inRezObj;
+
+	// Now remove the RezObjItem
+	theDoc->RemoveResource(theRezObjItem);
 }
 
 

@@ -757,6 +757,67 @@ CRezMapDoc::AskSaveChanges(
 }
 
 
+// ---------------------------------------------------------------------------
+//	¥ DoAEClose														  [public]
+// ---------------------------------------------------------------------------
+//	Close a Document in response to a "close" AppleEvent
+
+void
+CRezMapDoc::DoAEClose(
+	const AppleEvent&	inCloseAE)
+{
+	OSErr		err;
+	DescType	theType;
+	Size		theSize;
+	FSSpec		fileSpec;
+
+	// Optional "saveOption" parameter.
+	// Default value is "yes".
+
+	SInt32	saveOption = kAEYes;
+	err = ::AEGetParamPtr(&inCloseAE, keyAESaveOptions,
+				typeEnumeration, &theType, &saveOption,
+				sizeof(SInt32), &theSize);
+
+	bool	saveIt   = false;
+	bool	closeIt  = true;
+
+	if (saveOption == kAEAsk) {
+		SInt16	saveAnswer = answer_DontSave;
+
+		if (IsModified()) {
+			UAppleEventsMgr::InteractWithUser(Throw_Yes);
+			saveAnswer = AskSaveChanges(SaveWhen_Closing);
+		}
+
+		if (saveAnswer == answer_Save) {
+			saveIt = true;
+		} else if (saveAnswer == answer_Cancel) {
+			// Abort the close
+			closeIt = false;
+		}
+
+	} else if (saveOption == kAEYes) {
+		saveIt = true;
+	}
+
+	if (saveIt) {
+		// Save to existing file
+		DoSave();
+	} else {
+		mUpdateOnClose = false;
+	}
+
+	if (closeIt) {
+		// Finally, close the document
+		Close();
+	} else {							
+		// User canceling the close means the AppleEvent failed
+		ThrowOSErr_(userCanceledErr);
+	}
+}
+
+
 // ---------------------------------------------------------------------------------
 //  DoAESave
 // ---------------------------------------------------------------------------------
