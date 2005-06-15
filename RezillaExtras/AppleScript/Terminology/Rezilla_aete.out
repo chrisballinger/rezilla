@@ -783,12 +783,37 @@ Number of Classes: 23
 -------------------------------------
 	Object class ID: 'HexW'
 	Class description: a hexadecimal editing window
-	Number of class properties: 1
+	Number of class properties: 6
 	  (1) inherits
 		Property ID: 'c@#^'
 		Property class: 'EdiW'
 		Property description: all properties of the 'editing window' class
 		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	  (2) maxPos
+		Property ID: 'maxP'
+		Property class: 'long'
+		Property description: index of last position (i-e position after the last character)
+		Property is a single item, not enumerated. It cannot be set by the Set Data AE.
+	  (3) startPos
+		Property ID: 'iniP'
+		Property class: 'long'
+		Property description: position of beginning of selection
+		Property is a single item, not enumerated. It can be set by the Set Data AE.
+	  (4) endPos
+		Property ID: 'endP'
+		Property class: 'long'
+		Property description: Position of end of selection
+		Property is a single item, not enumerated. It can be set by the Set Data AE.
+	  (5) hex selection
+		Property ID: 'hSel'
+		Property class: 'itxt'
+		Property description: the contents of the selected region in the hex pane
+		Property is a single item, not enumerated. It can be set by the Set Data AE.
+	  (6) text selection
+		Property ID: 'tSel'
+		Property class: 'itxt'
+		Property description: the contents of the selected region in the text pane
+		Property is a single item, not enumerated. It can be set by the Set Data AE.
 	Number of class elements: 0
   Object class 20: hexadecimal windows
 --------------------------------------
