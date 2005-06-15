@@ -2,9 +2,10 @@ README--TestForks
 =================
 
 
-The ScriptingTestsTcl tests suite for Rezilla uses several pre-built
+The Tcl driven scripting tests suite for Rezilla uses three pre-built
 resource files (TestRezillaDF.rsrc, TestRezillaNF.rsrc, TestRezillaRF.rsrc)
-which it expects to find inside this /ScriptingTestsTcl/Forks subfolder.
+which it expects to find inside this /RezillaScripting_Tests/Forks 
+subfolder.
 
 The file TestRezillaDF.rsrc has resources in its data fork. 
 The file TestRezillaRF.rsrc has resources in its resource fork.
@@ -12,6 +13,8 @@ The file TestRezillaNF.rsrc has no resources at all, neither in its data
 							fork, nor in its resource fork.
 
 
+Retrieving the test resource files
+----------------------------------
 For proper storage in the CVS repository, these files have been compressed
 in a zip archive named "TestRezillaForks.zip". Unzip this archive before
 executing the tests suite if you have retreived the files from the CVS
@@ -20,15 +23,20 @@ You can browse the cvs repository online at
 <http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/rezilla>
 
 
+Regenerating the test resource files
+------------------------------------
 The file named "BuildRezillaTestForks.tcl" is a Tcl script which will
 regenerate the resource files in case they get damaged or lost. Executing
 this script will create the above mentioned resource files in the
-/ScriptingTestsTcl/Forks folder. To execute this script, open a Terminal 
-window, change the directory using the cd command to the directory 
-containing this script and invoke the tcl shell program to execute the 
+/RezillaScripting_Tests/Forks folder. To execute this script, open a
+Terminal window, change the directory using the cd command to the directory
+containing this script and invoke the tcl shell program to execute the
 script. For example:
-cd /Users/bernardo/Rezilla/Tests/Forks
-tclsh ./BuildRezillaTestForks
+	shell> cd /Users/bernardo/Rezilla/Tests/Forks
+	shell> tclsh ./BuildRezillaTestForks.tcl
+Note that this Tcl script uses the Tclresource package which must 
+therefore be installed on your machine (if you installed the Batteries 
+Included Tcl distribution, it is there).
 
 
 
