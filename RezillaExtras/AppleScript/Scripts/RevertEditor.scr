@@ -1,0 +1,8 @@
+-- File: "RevertEditor.scr"
+-- Created: 2005-06-14 07:34:56
+-- Author: Bernard Desgraupes <bdesgraupes@users.sourceforge.net>
+-- Sample AppleScript for Rezilla 1.0.6b
+
+tell application "Rezilla"
+revert editor "somefile.rsrc - 'MENU' #128" of document 1
+end tell
