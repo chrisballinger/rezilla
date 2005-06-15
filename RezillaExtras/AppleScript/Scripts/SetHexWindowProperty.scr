@@ -1,0 +1,11 @@
+-- File: "ChooseDoc.scr"
+-- Created: 2005-06-15 12:07:49
+-- Author: Bernard Desgraupes <bdesgraupes@users.sourceforge.net>
+-- Sample AppleScript for Rezilla 1.0.6b
+
+tell application "Rezilla"
+	set theWin to hexadecimal window 1 of map document 1
+	set the startPos of win to 6
+	set the endPos of win to 9
+	set the hex selection of win to "52657a696c6c61"
+end tell
