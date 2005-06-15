@@ -31,6 +31,7 @@ $Date$
 = 1.0.6b	                             last update: 
 ================================================================================
 ¥ Sixth public release of Rezilla (second beta).
+¥ Rezilla passes all 187 tests of the Scripting Tests Suite.
 
 ================================================================================
 = 1.0.6b5	                             last update: 2005-06-09 07:47:56
