@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2005-06-14 16:04:13
+//             Last modification : 2005-06-27 09:16:20
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -669,8 +669,8 @@ const PaneIDT   item_PrefsMultiPanelView	= FOUR_CHAR_CODE('PMPV');
 const PaneIDT	item_GenPrefsMaxRecent		= 2;
 const PaneIDT	item_GenPrefsResetRecent	= 3;
 const PaneIDT	item_GenPrefsNewMapRgbx		= 5;
-const PaneIDT	item_GenPrefsDataFork		= 6;
-const PaneIDT	item_GenPrefsResourceFork	= 7;
+const PaneIDT	item_GenPrefsResourceFork	= 6;
+const PaneIDT	item_GenPrefsDataFork		= 7;
 //     Export Prefs Pane
 //     -----------------
 const PaneIDT	item_ExpPrefsDtdRgbx		= 2;
