@@ -2,7 +2,7 @@
 // CInspectorWindowAE.cp
 // 
 //                       Created: 2005-04-26 09:48:48
-//             Last modification: 2005-05-17 05:15:26
+//             Last modification: 2005-06-16 09:07:02
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -15,6 +15,7 @@
 //  class (inheriting from LModelObject).
 
 #include "CInspectorWindow.h"
+#include "CRezillaApp.h"
 #include "CRezObj.h"
 #include "CRezObjItem.h"
 #include "RezillaConstants.h"
@@ -95,8 +96,8 @@ CInspectorWindow::GetAEProperty(
 		break;
 		
 		
-		// Handled in GetModelProperty
 		// 		case rzom_pCurrResource:
+		// Handled in GetModelProperty
 		// 		break;
 		
 		
@@ -289,6 +290,10 @@ CInspectorWindow::HandleAppleEvent(
 	AEDesc				&outResult,
 	long				inAENumber)
 {
+	OSErr error = noErr;
+	
+	CRezillaApp::sCalledFromAE = true;
+
 	switch (inAENumber) {
 
 		case ae_Close:
@@ -296,7 +301,7 @@ CInspectorWindow::HandleAppleEvent(
 		break;
 
 		case ae_Save:
-		ListenToMessage(msg_InspModify, NULL);
+		ListenToMessage(msg_InspModify, &error);
 		break;
 
 		case ae_Revert:
@@ -307,6 +312,9 @@ CInspectorWindow::HandleAppleEvent(
 		LModelObject::HandleAppleEvent(inAppleEvent, outAEReply, outResult, inAENumber);
 		break;
 	}
+	
+	CRezillaApp::sCalledFromAE = false;
 }
+
 
 
