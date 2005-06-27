@@ -2,11 +2,11 @@
 // UMessageDialogs.h					
 // 
 //                       Created: 2002-05-31 19:50:34
-//             Last modification: 2004-10-08 11:26:28
+//             Last modification: 2005-06-16 13:36:21
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003-2004
+// (c) Copyright : Bernard Desgraupes, 2003-2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -14,6 +14,7 @@
 
 #include "UMessageDialogs.h"
 #include "UDialogBoxHandler.h"
+#include "CRezillaApp.h"
 #include "RezillaConstants.h"
 #include "CThreeButtonsBox.h"
 
@@ -184,15 +185,15 @@ UMessageDialogs::AskYesNoFromRes(ResIDT inSTRxResID, SInt32 inIndex, ResIDT inPp
 	
 	while (true) {
 		MessageT hitMessage = dialog.DoDialog();
-				if (hitMessage == msg_OK) {
-					theAnswer = answer_Do;
-					break;
-				} else if (hitMessage == msg_Cancel) {
-					theAnswer = answer_Cancel;
-					break;
-				} else if (hitMessage == msg_Dont) {
-					break;
-				}
+		if (hitMessage == msg_OK) {
+			theAnswer = answer_Do;
+			break;
+		} else if (hitMessage == msg_Cancel) {
+			theAnswer = answer_Cancel;
+			break;
+		} else if (hitMessage == msg_Dont) {
+			break;
+		}
 	}
 	return theAnswer;
 }
@@ -205,32 +206,65 @@ UMessageDialogs::AskYesNoFromRes(ResIDT inSTRxResID, SInt32 inIndex, ResIDT inPp
 void
 UMessageDialogs::SimpleMessageFromLocalizable(CFStringRef inCFStringRef, ResIDT inPpobID)
 {
-	StDialogBoxHandler dialog(inPpobID, LCommander::GetTopCommander());		
-	CThreeButtonsBox * theDialog = dialog.GetDialog();
-	Assert_(theDialog != nil);
-	
 	CFStringRef ourCFString = NULL;
-	Str255      stringBuf;
-	MessageT 	hitMessage;
-	ourCFString =  ::CFCopyLocalizedString(inCFStringRef, NULL);
-	if (ourCFString != NULL)
-	{
-		if (::CFStringGetPascalString(ourCFString, stringBuf, sizeof(stringBuf), ::GetApplicationTextEncoding()))
-		{
-			LThemeTextBox * theCaption = (LThemeTextBox *)theDialog->FindPaneByID( item_MessageField );
-			theCaption->SetDescriptor(stringBuf);
-			theCaption->Draw(nil);
-			
-			while (true) {
-				hitMessage = dialog.DoDialog();
-				if (hitMessage == msg_OK) {
-					break;
-				}
-			}
-		}
+
+	ourCFString = ::CFCopyLocalizedString(inCFStringRef, NULL);
+	if (ourCFString != NULL) {
+		SimpleMessageFromCFString(ourCFString, inPpobID);
 		::CFRelease(ourCFString);                             
 	}
 }
+
+
+// ---------------------------------------------------------------------------
+//  ¥ SimpleMessageFromCFString											
+// ---------------------------------------------------------------------------
+
+void
+UMessageDialogs::SimpleMessageFromCFString(CFStringRef inCFStringRef, ResIDT inPpobID)
+{
+	Str255      stringBuf;
+
+	if (inCFStringRef != NULL)
+	{
+		if (::CFStringGetPascalString(inCFStringRef, stringBuf, sizeof(stringBuf), ::GetApplicationTextEncoding()))
+		{
+			if (CRezillaApp::sCalledFromAE) {
+				OSErr error = err_RezillaErrorStart;
+				::AEPutParamPtr( LModelDirector::GetCurrentAEReply(), keyErrorString, typeChar, stringBuf+1, stringBuf[0]);
+				::AEPutParamPtr( LModelDirector::GetCurrentAEReply(), keyErrorNumber, typeSInt16, &error, sizeof(OSErr));
+			} else {
+				UMessageDialogs::RunSimpleMessage(stringBuf, inPpobID);
+			}
+		}
+	}
+}
+
+
+// ---------------------------------------------------------------------------
+//  ¥ RunSimpleMessage											
+// ---------------------------------------------------------------------------
+
+void
+UMessageDialogs::RunSimpleMessage(Str255 inString, ResIDT inPpobID)
+{
+	StDialogBoxHandler dialog(inPpobID, LCommander::GetTopCommander());		
+	CThreeButtonsBox * theDialog = dialog.GetDialog();
+	Assert_(theDialog != nil);
+
+	LThemeTextBox * theCaption = (LThemeTextBox *)theDialog->FindPaneByID( item_MessageField );
+	theCaption->SetDescriptor(inString);
+	theCaption->Draw(nil);
+	
+	MessageT 	hitMessage;
+	while (true) {
+		hitMessage = dialog.DoDialog();
+		if (hitMessage == msg_OK) {
+			break;
+		}
+	}
+}
+
 
 // ---------------------------------------------------------------------------
 //  ¥ AskIfFromLocalizable											
@@ -503,7 +537,7 @@ UMessageDialogs::AlertWithValue(CFStringRef inCFStringRef, SInt32 inValue)
 	if (formatStr != NULL) {
 		messageStr = ::CFStringCreateWithFormat(NULL, NULL, formatStr, inValue);
 		if (messageStr != NULL) {
-			UMessageDialogs::SimpleMessageFromLocalizable(messageStr, PPob_SimpleMessage);
+			UMessageDialogs::SimpleMessageFromCFString(messageStr, PPob_SimpleMessage);
 			CFRelease(messageStr);                     
 		}
 		CFRelease(formatStr);                             
@@ -527,7 +561,7 @@ UMessageDialogs::AlertWithType(CFStringRef inCFStringRef, ResType inType)
 		typeStr[4] = 0;
 		messageStr = ::CFStringCreateWithFormat(NULL, NULL, formatStr, typeStr);
 		if (messageStr != NULL) {
-			UMessageDialogs::SimpleMessageFromLocalizable(messageStr, PPob_SimpleMessage);
+			UMessageDialogs::SimpleMessageFromCFString(messageStr, PPob_SimpleMessage);
 			CFRelease(messageStr);                     
 		}
 		CFRelease(formatStr);                             

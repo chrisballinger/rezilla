@@ -2,11 +2,11 @@
 // UMessageDialogs.h					
 // 
 //                       Created: 2002-05-31 19:50:34
-//             Last modification: 2004-12-22 16:10:03
+//             Last modification: 2005-06-16 13:40:50
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003-2004
+// (c) Copyright : Bernard Desgraupes, 2003-2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -65,6 +65,12 @@ namespace UMessageDialogs {
 	void		SimpleMessageFromLocalizable(
 								 CFStringRef inCFStringRef, 
 								 ResIDT inPpobID);
+	
+	void		SimpleMessageFromCFString(
+								 CFStringRef inCFStringRef, 
+								 ResIDT inPpobID);
+	
+	void		RunSimpleMessage(Str255 inString, ResIDT inPpobID);
 	
 	SInt16		AskIfFromLocalizable(
 								 CFStringRef inCFStringRef, 

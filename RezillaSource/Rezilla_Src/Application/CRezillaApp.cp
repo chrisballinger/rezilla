@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2005-05-03 07:51:06
+//             Last modification: 2005-06-27 08:48:42
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -512,6 +512,8 @@ CRezillaApp::ObeyCommand(
 				}
 				theRezMapDocPtr = new CRezMapDoc(this, theRezFile);
 				theRezMapDocPtr->SetReadOnly(false);
+				// Register to the Recent Items menu
+				sRecentItemsAttachment->AddFile(theFileSpec, true);
 			}
 			break;
 		}
@@ -1013,12 +1015,7 @@ CRezillaApp::ReportOpenForkError(OSErr inError, FSSpec * inFileSpecPtr)
 	  return;
 		  
 	  default: 
-	  if (sCalledFromAE) {
-		  // OSErr is SInt16
-		  ::AEPutParamPtr( LModelDirector::GetCurrentAEReply(), keyErrorNumber, typeSInt16, &inError, sizeof(OSErr));
-	  } else {
-		  UMessageDialogs::AlertWithValue(CFSTR("SystemError"), inError);
-	  }
+	  UMessageDialogs::AlertWithValue(CFSTR("SystemError"), inError);
 	  return;
 	}
 	
@@ -1026,15 +1023,7 @@ CRezillaApp::ReportOpenForkError(OSErr inError, FSSpec * inFileSpecPtr)
 		messageStr = ::CFStringCreateWithFormat(NULL, NULL, formatStr, nameStr);
 		if (messageStr != NULL)
 		{
-			if (sCalledFromAE) {
-				Str255   buffer;
-				if (::CFStringGetPascalString(messageStr, buffer, sizeof(buffer), ::GetApplicationTextEncoding())) {
-					::AEPutParamPtr( LModelDirector::GetCurrentAEReply(), keyErrorString, typeChar, buffer+1, buffer[0]);
-				}
-				::AEPutParamPtr( LModelDirector::GetCurrentAEReply(), keyErrorNumber, typeSInt16, &inError, sizeof(OSErr));
-			} else {
-				UMessageDialogs::SimpleMessageFromLocalizable(messageStr, PPob_SimpleMessage);
-			}
+			UMessageDialogs::SimpleMessageFromCFString(messageStr, PPob_SimpleMessage);
 			CFRelease(messageStr);                     
 		}
 		CFRelease(formatStr);                             

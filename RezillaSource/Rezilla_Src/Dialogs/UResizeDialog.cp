@@ -109,7 +109,7 @@ UResizeDialog::ShowResizeError( SInt32 inMinWidth, SInt32 inMaxWidth,
 	if (formatStr != NULL) {
 		messageStr = ::CFStringCreateWithFormat(NULL, NULL, formatStr, inMinWidth, inMaxWidth);
 		if (messageStr != NULL) {
-			UMessageDialogs::SimpleMessageFromLocalizable(messageStr, PPob_SimpleMessage);
+			UMessageDialogs::SimpleMessageFromCFString(messageStr, PPob_SimpleMessage);
 			CFRelease(messageStr);                     
 		}
 		CFRelease(formatStr);                             

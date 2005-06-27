@@ -2,7 +2,7 @@
 // CInspectorWindow.h				
 // 
 //                       Created: 2003-05-02 07:33:06
-//             Last modification: 2005-06-01 13:58:37
+//             Last modification: 2005-06-16 14:13:06
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -51,6 +51,8 @@ public:
 	void			InstallValues(CRezObj * inRezObj);
 	
 	void			InstallValues();
+	
+	void			RetrieveValues(SResourceObjInfoPtr inRezInfoPtr);
 	
 	void			ClearValues();
 

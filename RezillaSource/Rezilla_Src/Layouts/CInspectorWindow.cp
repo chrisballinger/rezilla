@@ -2,7 +2,7 @@
 // CInspectorWindow.cp					
 // 
 //                       Created: 2003-05-02 07:33:10
-//             Last modification: 2005-06-01 13:58:47
+//             Last modification: 2005-06-16 09:09:45
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -209,19 +209,14 @@ CInspectorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		
 		case msg_InspModify: 
 		if (mRezObjItem == nil) {return;} 
-		SaveValues();
-		// Update the resource properties in memory 
-// 		UpdateRezObj();
-		if ( UpdateRezMapTable() == noErr) {
+		// Update the resource properties in the table and in memory 
+		OSErr err = UpdateRezMapTable();
+		if (err == noErr) {
+			SaveValues();
 			// Disable the buttons
 			mRevertButton->Disable();
 			mModifyButton->Disable();
 		} 
-		
-// 		// Refresh the rezmap table
-// 		mRezObjItem->GetOwnerRezMapTable()->Refresh();
-// 		mRezObjItem->GetOwnerRezMapTable()->GetOwnerDoc()->SetModified(true);
-		
 		break;
 		
 		case msg_InspRevert:
@@ -473,29 +468,40 @@ CInspectorWindow::SetValueForAttribute(short inFlag, Boolean inState)
 void
 CInspectorWindow::SaveValues()
 {
+	RetrieveValues(&mSavedInfo);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ RetrieveValues											[protected]
+// ---------------------------------------------------------------------------
+
+void
+CInspectorWindow::RetrieveValues(SResourceObjInfoPtr inRezInfoPtr)
+{
 	Str255		theString;
 	char *		theType = new char[5];
 	SInt32		theLong;
 	
 	// Static texts
 	mTypeField->GetDescriptor(theString);
-	UMiscUtils::PStringToOSType(theString, mSavedInfo.type);	
+	UMiscUtils::PStringToOSType(theString, inRezInfoPtr->type);	
 	mSizeField->GetDescriptor(theString);
 	::StringToNum(theString,&theLong);
-	mSavedInfo.size = theLong;
+	inRezInfoPtr->size = theLong;
 	
 	// Editable texts
-	mNameField->GetDescriptor(mSavedInfo.name);
+	mNameField->GetDescriptor(inRezInfoPtr->name);
 	mIDField->GetDescriptor(theString);
 	::StringToNum(theString,&theLong);
-	mSavedInfo.id = theLong;
+	inRezInfoPtr->id = theLong;
 	
 	// Check boxes
-	mSavedInfo.sysheap	= mSysHeapItem->GetValue();
-	mSavedInfo.purge	= mPurgeableItem->GetValue();
-	mSavedInfo.lock		= mLockedItem->GetValue();
-	mSavedInfo.protect	= mProtectedItem->GetValue();
-	mSavedInfo.preload	= mPreloadItem->GetValue();
+	inRezInfoPtr->sysheap	= mSysHeapItem->GetValue();
+	inRezInfoPtr->purge		= mPurgeableItem->GetValue();
+	inRezInfoPtr->lock		= mLockedItem->GetValue();
+	inRezInfoPtr->protect	= mProtectedItem->GetValue();
+	inRezInfoPtr->preload	= mPreloadItem->GetValue();
 }
 
 
@@ -506,53 +512,40 @@ CInspectorWindow::SaveValues()
 OSErr
 CInspectorWindow::UpdateRezMapTable()
 {
-	OSErr	error = noErr;
-	short	theAttrs = 0;
-	Boolean	applyToOthers = false;
-	
 	Assert_(mRezObjItem != nil);
 	
-	CRezMapTable *	theTable = mRezObjItem->GetOwnerRezMapTable();
-	CRezObj *		theRezObj = mRezObjItem->GetRezObj();
-	ResType			theType = theRezObj->GetType();
+	OSErr				error = noErr;
+	short				theAttrs = 0;
+	Boolean				applyToOthers = false;
+	SResourceObjInfo	currInfo;
 	
-	// If the ID has been modified and there is already a resource with 
-	// the new ID, ask the user to solve the conflict
-	if (theRezObj->GetID() != mSavedInfo.id) {
-		CRezObjItem * theRezObjItem = theTable->GetRezObjItem( theType, mSavedInfo.id, true);
+	RetrieveValues(&currInfo);
+	
+	CRezMapTable *		theTable = mRezObjItem->GetOwnerRezMapTable();
+	CRezObj *			theRezObj = mRezObjItem->GetRezObj();
+	ResType				theType = theRezObj->GetType();
+	
+	// If the ID has been modified
+	if (theRezObj->GetID() != currInfo.id) {
+		CRezObjItem * theRezObjItem = theTable->GetRezObjItem( theType, currInfo.id, true);
 		if (theRezObjItem != nil) {
-			SInt16 answer = UMessageDialogs::AskSolveUidConflicts(theType, mSavedInfo.id, applyToOthers, false);
-			
-			switch (answer) {
-				case answer_Do:
-				// Want a unique ID
-				theTable->GetRezMap()->UniqueID(theType, mSavedInfo.id);
-				break;
-				
-				case answer_Dont:
-				// Replace existing
-				theTable->RemoveItem(mRezObjItem);
-				mRezObjItem = theRezObjItem;
-				theRezObj = mRezObjItem->GetRezObj();
-				break;
-				
-				case answer_Cancel:
-				return userCanceledErr;
-			}
+			// There is already a resource with the new ID, cancel the operation
+			UMessageDialogs::AlertWithValue(CFSTR("ResourceExistsWithID"), currInfo.id);
+			return err_AlreadyExistingID;
 		} 
 	} 
 	
-	theRezObj->SetID(mSavedInfo.id);
-	theRezObj->SetName(&mSavedInfo.name);
+	theRezObj->SetID(currInfo.id);
+	theRezObj->SetName(&currInfo.name);
 	error = theRezObj->SetInfoInMap();
 
 	if (error == noErr) {
 		// Deal with the attributes
-		theAttrs |= mSavedInfo.lock ? resLocked : 0;
-		theAttrs |= mSavedInfo.preload ? resPreload : 0;
-		theAttrs |= mSavedInfo.protect ? resProtected : 0;
-		theAttrs |= mSavedInfo.purge ? resPurgeable : 0;
-		theAttrs |= mSavedInfo.sysheap ? resSysHeap : 0;
+		theAttrs |= currInfo.lock ? resLocked : 0;
+		theAttrs |= currInfo.preload ? resPreload : 0;
+		theAttrs |= currInfo.protect ? resProtected : 0;
+		theAttrs |= currInfo.purge ? resPurgeable : 0;
+		theAttrs |= currInfo.sysheap ? resSysHeap : 0;
 		// Put the value in the rezmap
 		error = theRezObj->SetAttributesInMap(theAttrs);
 		if (error == noErr) {
@@ -568,37 +561,6 @@ CInspectorWindow::UpdateRezMapTable()
 }
 
 	
-// // ---------------------------------------------------------------------------
-// //	¥ UpdateRezObj											[private]
-// // ---------------------------------------------------------------------------
-// 
-// void
-// CInspectorWindow::UpdateRezObj()
-// {
-// 	OSErr error;
-// 	short theAttrs = 0;
-// 	
-// 	Assert_(mRezObjItem != nil);
-// 	
-// 	CRezObj * theRezObj = mRezObjItem->GetRezObj();
-// 	theRezObj->SetID(mSavedInfo.id);
-// 	theRezObj->SetName(&mSavedInfo.name);
-// 	error = theRezObj->SetInfoInMap();
-// 
-// 	// Deal with the attributes
-// 	theAttrs |= mSavedInfo.lock ? resLocked : 0;
-// 	theAttrs |= mSavedInfo.preload ? resPreload : 0;
-// 	theAttrs |= mSavedInfo.protect ? resProtected : 0;
-// 	theAttrs |= mSavedInfo.purge ? resPurgeable : 0;
-// 	theAttrs |= mSavedInfo.sysheap ? resSysHeap : 0;
-// 	// Put the value in the rezmap
-// 	error = theRezObj->SetAttributesInMap(theAttrs);
-// 	if (error == noErr) {
-// 		theRezObj->Changed();
-// 	} 
-// }
-// 
-// 	
 // ---------------------------------------------------------------------------
 //	¥ ClearValues											[protected]
 // ---------------------------------------------------------------------------
