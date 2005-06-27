@@ -2,7 +2,7 @@
 // CMENU_EditorWindow.cp					
 // 
 //                       Created: 2005-03-09 17:16:53
-//             Last modification: 2005-06-10 09:21:18
+//             Last modification: 2005-06-27 09:30:01
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -265,6 +265,8 @@ CMENU_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			Str255		theString = "\p";
 			TableCellT	theCell = {0,1};
 			ArrayIndexT	theIndex = mMenuObj->GetItemIndex();
+			// Retrieve the currently displayed values
+			RetrieveItemValues(theIndex);
 			// Add in the table
 			mItemsTable->InsertRows(1, theIndex, theString);
 			theCell.row = theIndex + 1;
