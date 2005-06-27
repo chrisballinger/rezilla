@@ -2,7 +2,7 @@
 // CTmplWindowUtils.cp					
 // 
 //                       Created: 2004-08-20 16:45:08
-//             Last modification: 2005-04-15 07:18:02
+//             Last modification: 2005-06-27 08:39:59
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -335,8 +335,7 @@ CTmplEditorWindow::AddEditField(Str255 inValue,
 		// Let the window listen to this field
 		theCaseField->AddListener(this);
 		// Set the paneID: if paneID is 0, clicks in ListItemViews are ignored
-		mCurrentID++;
-		theCaseField->GetPopup()->SetPaneID(mCurrentID);
+		theCaseField->GetPopup()->SetPaneID(mCurrentID + 1);
 	} else {
 		theEditText = new LEditText(sEditPaneInfo, this, inValue, sEditTraitsID, 
 										msg_EditorModifiedItem, inMaxChars, 0, inKeyFilter);
@@ -367,8 +366,13 @@ CTmplEditorWindow::AddEditField(Str255 inValue,
 	if (incrY) {
 		mYCoord += sEditPaneInfo.height + kTmplVertSep;
 	} 
+	// Caution: this is the ID of the Edit field, not the ID of the Case popup
 	mPaneIDs.AddItem(mCurrentID);
 	mCurrentID++;
+	if (hasCases) {
+		// The Case popup has received ID = mCurrentID + 1 (above)
+		mCurrentID++;
+	}
 }
 
 
