@@ -2,7 +2,7 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2005-06-11 21:05:03
+//             Last modification: 2005-06-28 10:53:43
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -217,7 +217,7 @@ CRezMapDoc::~CRezMapDoc()
 void
 CRezMapDoc::Initialize(FSSpec * inFileSpec, short inRefnum)
 {		
-	mUpdateOnClose = true;
+	mUpdateOnClose = false;
 	mExportFormat = exportMap_Xml;
 	mExportStream = nil;
 	mReadOnly = false;
@@ -698,6 +698,9 @@ CRezMapDoc::AttemptClose(
 		}
 	} 
 
+	// By default, don't update when closing
+	mUpdateOnClose = false;
+	
 	if (IsModified()) {
 		if (mReadOnly) {
 			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("CantSaveReadOnly"), PPob_SimpleMessage);
@@ -714,17 +717,13 @@ CRezMapDoc::AttemptClose(
 					} 			
 					DoSave();
 					saveOption = kAEYes;
-
 				} else {
 					closeIt = AskSaveAs(fileSpec, RecordAE_No);
 					saveOption = kAEYes;
 				}
-
 			} else if (answer == answer_Cancel) {
 				closeIt = false;
-			} else {
-				mUpdateOnClose = false;
-			}
+			} 
 		}
 	}
 
@@ -733,7 +732,6 @@ CRezMapDoc::AttemptClose(
 			try {
 				SendAEClose(saveOption, fileSpec, ExecuteAE_No);
 			}
-
 			catch (...) { }
 		}
 
@@ -769,7 +767,6 @@ CRezMapDoc::DoAEClose(
 	OSErr		err;
 	DescType	theType;
 	Size		theSize;
-	FSSpec		fileSpec;
 
 	// Optional "saveOption" parameter.
 	// Default value is "yes".
@@ -781,6 +778,7 @@ CRezMapDoc::DoAEClose(
 
 	bool	saveIt   = false;
 	bool	closeIt  = true;
+	mUpdateOnClose = false;
 
 	if (saveOption == kAEAsk) {
 		SInt16	saveAnswer = answer_DontSave;
@@ -804,9 +802,7 @@ CRezMapDoc::DoAEClose(
 	if (saveIt) {
 		// Save to existing file
 		DoSave();
-	} else {
-		mUpdateOnClose = false;
-	}
+	} 
 
 	if (closeIt) {
 		// Finally, close the document
@@ -826,26 +822,15 @@ CRezMapDoc::DoAEClose(
 void
 CRezMapDoc::DoAESave(
 				FSSpec&	inFileSpec,
-				OSType	inForkType)
+				SInt16	inFork)
 {
 	OSErr			error;
-	SInt16			oldFork = mRezFile->GetUsedFork(), useFork;
+	SInt16			oldFork = mRezFile->GetUsedFork(), useFork = inFork;
 	CRezMapTable*	theRezMapTable = mRezMapWindow->GetRezMapTable();
 	
-	switch (inForkType) {
-		case rzom_eRsrcFork:
-		useFork = fork_rezfork;
-		break;
-		
-		case rzom_eSameFork:
+	if (inFork == fork_samefork) {
 		useFork = oldFork;
-		break;
-		
-		case rzom_eDataFork:
-		default:
-		useFork = fork_datafork;
-		break;	
-	}
+	} 
 	
 	// Make a new file object
 	CRezFile * theNewFile = new CRezFile( inFileSpec, kResFileNotOpened, useFork );
@@ -882,6 +867,7 @@ CRezMapDoc::DoAESave(
 			SetSpecified(true);
 			
 			// Mark as unmodified
+			mRezMap->Update();
 			SetModified(false);
 			
 			if (mRezFile->GetUsedFork() != oldFork) {
@@ -901,6 +887,8 @@ CRezMapDoc::DoAESave(
 		UMessageDialogs::AlertWithValue(CFSTR("CantCreateNewRezFile"), error);
 		return;
 	}
+	
+	mRezMapWindow->Refresh();
 }
 
 
@@ -1003,7 +991,7 @@ CRezMapDoc::AskSaveAs(
 					} 
 				}
 
-				DoAESave(outFSSpec, 0);
+				DoAESave(outFSSpec, mFork);
 				saveOK = true;
 			}
 		}		
@@ -1674,9 +1662,9 @@ CRezMapDoc::NewResDialog()
 CRezObjItem *
 CRezMapDoc::CreateNewRes(ResType inType, short inID, Str255* inName, short inAttrs)
 {
- 	Boolean			replacing = false, applyToOthers = false;
+ 	Boolean		replacing = false, applyToOthers = false;
 	
-	if ( mRezMap->ResourceExists(inType, inID) ) {
+	if ( mRezMap->HasResourceWithTypeAndId(inType, inID) ) {
 		SInt16 answer = UMessageDialogs::AskSolveUidConflicts(inType, inID, applyToOthers, false);
 		
 		switch (answer) {
@@ -1727,11 +1715,11 @@ CRezMapDoc::DoCreateResource(ResType inType, short inID, Str255* inName, short i
 		theRezTypeItem->Expand();
 	}
 
-	if (inReplace) {
-		if ( theRezTypeItem->ExistsItemForID(inID, oldRezObjItem) ) {
-			// Found a rez obj item: remove it from the table (and from the map in memory)
-			RemoveResource(oldRezObjItem);
-		} else {
+	if ( theRezTypeItem->ExistsItemForID(inID, oldRezObjItem) ) {
+		// Found a rez obj item: remove it from the table (and from the map in memory)
+		RemoveResource(oldRezObjItem);
+	} else {
+		if (inReplace) {
 			// Just remove the resource from memory
 			CRezObj theRezObj(theRezType, inID );
 			theRezObj.Remove();
@@ -1944,7 +1932,7 @@ CRezMapDoc::PasteRezMap(CRezMap * srcRezMap)
 					theAttrs = theRezObj->GetAttributes();
 					theID = theRezObj->GetID();
 					
-					if ( mRezMap->ResourceExists(theType, theID)) {
+					if ( mRezMap->HasResourceWithTypeAndId(theType, theID)) {
 						if (!applyToOthers) {
 							answer = UMessageDialogs::AskSolveUidConflicts(theType, theID, applyToOthers);
 							theAction = answer;

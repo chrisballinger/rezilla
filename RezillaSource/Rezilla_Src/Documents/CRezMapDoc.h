@@ -2,7 +2,7 @@
 // CRezMapDoc.h				
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2005-06-12 18:45:23
+//             Last modification: 2005-06-28 10:50:40
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -95,7 +95,7 @@ public:
 
 	virtual void		DoAESave(
 								FSSpec&			inFileSpec,
-								OSType			inFileType);
+								SInt16			inFile);
 	
 	virtual void		DoAEClose( const AppleEvent& inCloseAE );
 	
