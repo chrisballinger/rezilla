@@ -2,7 +2,7 @@
 // CIcon_EditorDoc.cp
 // 
 //                       Created: 2004-12-11 23:33:03
-//             Last modification: 2005-06-03 10:51:36
+//             Last modification: 2005-06-28 16:42:42
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -83,6 +83,7 @@ CIcon_EditorDoc::~CIcon_EditorDoc()
 
 		// Now delete the window
 		delete mIconEditWindow;
+		mIconEditWindow = nil;
 	} 
 }
 
@@ -168,6 +169,10 @@ CIcon_EditorDoc::Initialize()
 		
 		SetMainWindow( dynamic_cast<CEditorWindow *>(mIconEditWindow) );
 		NameNewEditorDoc();
+		// Other editing windows set the super commander directly via the 
+		// CreateWindow() function. Here we must do it explicitely since 
+		// we use OpenPaintWindow() instead of CreateWindow().
+		mIconEditWindow->SetSuperCommander(this);
 		mIconEditWindow->Finalize(this);
 
 	}
