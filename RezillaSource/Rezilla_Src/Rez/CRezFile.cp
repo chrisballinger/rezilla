@@ -2,11 +2,11 @@
 // CRezFile.cp					
 // 
 //                       Created: 2003-04-24 14:17:20
-//             Last modification: 2005-01-02 15:32:31
+//             Last modification: 2005-06-28 11:45:13
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003-2004, 2005
+// (c) Copyright : Bernard Desgraupes, 2003-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -382,12 +382,11 @@ CRezFile::CopyFromRezMap(CRezMap * srcRezmap)
 			// Change its refnum and add the resource to the new fork
 			theRezObj->SetOwnerRefnum(mRefNum);
 			error = theRezObj->Add();
-			error = theRezObj->Write();
+			error = theRezObj->Changed();
 			
 			if (theAttrs != 0) {
 				// Write the attributes in new rezmap
 				error = theRezObj->SetAttributesInMap(theAttrs);
-				error = theRezObj->Changed();
 			} 
 			
 			delete theRezObj;
