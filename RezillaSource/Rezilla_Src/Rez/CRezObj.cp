@@ -183,7 +183,6 @@ CRezObj::CRezObj(CRezObj& inOriginal)
 // ---------------------------------------------------------------------------
 //  ¥ ~CRezObj														[public]
 // ---------------------------------------------------------------------------
-// The RemoveResource function does not dispose of the handle you pass into it
 
 CRezObj::~CRezObj()
 {
@@ -226,6 +225,7 @@ CRezObj::Remove()
 	if (mData != nil) { 
 		::RemoveResource(mData);
 		::DisposeHandle(mData);
+		mData = nil;
 		error = ::ResError();
 	} 
 	return error;
