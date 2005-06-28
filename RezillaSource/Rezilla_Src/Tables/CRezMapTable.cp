@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezMapTable.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2005-05-21 09:34:57
+//             Last modification: 2005-06-28 17:31:14
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -145,6 +145,10 @@ CRezMapTable::Populate(TArray<ResType>* inTypesArray)
 	LOutlineItem *	lastItem = nil;
 	ResType			theType;
 
+	if (inTypesArray == nil) {
+		return;
+	} 
+	
 	TArrayIterator<ResType>	typeIterator(*inTypesArray);
 	while (typeIterator.Next(theType)) {
 		theRezType = new CRezType(theType, mRezMap);
@@ -354,7 +358,7 @@ CRezMapTable::HasSelectedRezObjItems()
 	LOutlineItem *theRezObjItem = nil;	
 	
 	while (rezTypeIterator.Next(&theRezTypeItem)) {
-		if (theRezTypeItem->IsExpanded()) {
+		if (theRezTypeItem->IsExpanded() && theRezTypeItem->GetSubItems() != nil) {
 			// Now iterate among sub items of this RezTypeItem
 			LArrayIterator rezObjIterator( *(theRezTypeItem->GetSubItems()) );
 			
@@ -387,7 +391,7 @@ CRezMapTable::CountAllSelectedRezObjItems()
 	LOutlineItem *theRezObjItem = nil;	
 	
 	while (rezTypeIterator.Next(&theRezTypeItem)) {
-		if (theRezTypeItem->IsExpanded()) {
+		if (theRezTypeItem->IsExpanded() && theRezTypeItem->GetSubItems() != nil) {
 			// Now iterate among sub items of this RezTypeItem
 			LArrayIterator rezObjIterator( *(theRezTypeItem->GetSubItems()) );
 			
@@ -419,7 +423,7 @@ CRezMapTable::GetAllSelectedRezObjItems(LArray* & outArray)
 	LOutlineItem *theRezObjItem = nil;	
 	
 	while (rezTypeIterator.Next(&theRezTypeItem)) {
-		if (theRezTypeItem->IsExpanded()) {
+		if (theRezTypeItem->IsExpanded() && theRezTypeItem->GetSubItems() != nil) {
 			// Now iterate among sub items of this RezTypeItem
 			LArrayIterator rezObjIterator( *(theRezTypeItem->GetSubItems()) );
 			
@@ -452,7 +456,7 @@ CRezMapTable::GetFirstSelectedRezObjItem(CRezObjItem* & outRezObjItem)
 	LOutlineItem *theRezObjItem = nil;	
 	
 	while (rezTypeIterator.Next(&theRezTypeItem)) {
-		if (theRezTypeItem->IsExpanded()) {
+		if (theRezTypeItem->IsExpanded() && theRezTypeItem->GetSubItems() != nil ) {
 			// Now iterate among sub items of this RezTypeItem
 			LArrayIterator rezObjIterator( *(theRezTypeItem->GetSubItems()) );
 			
@@ -483,7 +487,7 @@ CRezMapTable::GetRezObjItem(ResType inType, short inID, Boolean expandIfClosed)
 	
 	theRezTypeItem = GetRezTypeItem(inType, expandIfClosed);
 	
-	if (theRezTypeItem && theRezTypeItem->IsExpanded()) {
+	if (theRezTypeItem && theRezTypeItem->IsExpanded() && theRezTypeItem->GetSubItems() != nil) {
 		// Now iterate among sub items of this RezTypeItem
 		LArrayIterator rezObjIterator( *(theRezTypeItem->GetSubItems()) );
 		LOutlineItem *objItem = nil;
@@ -632,6 +636,9 @@ CRezMapTable::TrackDrag(
 
 	// Get the selected rows to build the outline region
 	LArray* theArray = new LArray( sizeof(LOutlineItem*) );
+	if (theArray == nil) {
+		return;
+	} 
 	
 	GetAllSelectedRezObjItems(theArray);
 	LArrayIterator iterator(*theArray);
