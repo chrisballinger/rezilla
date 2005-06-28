@@ -375,7 +375,8 @@ CRezMapDoc::HandleAESave(
 {
 	OSErr		err;
 	DescType	theType;
-	ResType		forkType = rzom_eDataFork;
+	ResType		forkType;
+	SInt16		useFork = fork_samefork;
 	Size		theSize;
 	FSSpec		fileSpec;
 
@@ -390,9 +391,21 @@ CRezMapDoc::HandleAESave(
 	err = ::AEGetParamPtr(&inSaveAE, keyAEFileType, typeEnumerated,
 						&theType, &forkType, sizeof(ResType), &theSize);
 	
+	if (err == noErr) {
+		switch (forkType) {
+			case rzom_eRsrcFork:
+			useFork = fork_rezfork;
+			break;
+			
+			case rzom_eDataFork:
+			useFork = fork_datafork;
+			break;	
+		}
+	} 
+						
 	if (hasFileParameter) {
 		// Save using file from event
-		DoAESave(fileSpec, forkType);
+		DoAESave(fileSpec, useFork);
 	} else  {
 		// Save using existing file
 		DoSave();	
