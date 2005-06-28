@@ -1,7 +1,7 @@
 // ===========================================================================
 // CColorPane.cp
 //                       Created: 2004-12-11 18:53:05
-//             Last modification: 2005-01-07 17:14:43
+//             Last modification: 2005-06-28 20:07:40
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>

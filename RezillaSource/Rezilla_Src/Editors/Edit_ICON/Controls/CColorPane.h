@@ -1,11 +1,11 @@
 // ===========================================================================
 // CColorPane.h
 //                       Created: 2004-12-11 18:57:33
-//             Last modification: 2004-12-31 08:29:41
+//             Last modification: 2005-06-28 20:07:33
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes 2004
+// (c) Copyright: Bernard Desgraupes 2004-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -36,6 +36,7 @@ class CColorPane : public LBevelButton {
 		virtual CTabHandle		GetColorTable();
 		virtual void			SetColorTable( CTabHandle, Boolean inChangeColorToo = true, RedrawOptions = redraw_Later );
 		virtual void			AllowPickerOption( Boolean inOption );
+		virtual void			UnsetColorTable() { mColorTable = nil; }
 		
 		virtual void			DrawSelf();
 		virtual void			ClickSelf( const SMouseDownEvent & );

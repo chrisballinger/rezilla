@@ -1,11 +1,11 @@
 // ===========================================================================
 // CColorTableChoice.cp
 //                       Created: 2004-12-11 18:50:13
-//             Last modification: 2005-01-02 15:47:18
+//             Last modification: 2005-06-28 20:07:20
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes 2004, 2005
+// (c) Copyright: Bernard Desgraupes 2004-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -291,10 +291,24 @@ CColorTableChoice::ImageChanged( SInt32 inNewDepth )
 void
 CColorTableChoice::DisposeCurrentTable()
 {
-	if ( mCurrentTable )
+	if ( mCurrentTable ) {
 		::DisposeCTable( mCurrentTable );
 
-	mCurrentTable = nil;
+		// This disposes the mCurrentTable. Warn the color panes, which may
+		// keep a copy of the pointer to the color table, in order to avoid
+		// a double free.
+		CColorPane *	forePane = (CColorPane*) mPaintWindow->FindPaneByID( tool_ForeColor );
+		CColorPane *	backPane = (CColorPane*) mPaintWindow->FindPaneByID( tool_BackColor );
+		
+		if ( forePane && forePane->GetColorTable() == mCurrentTable) {
+			forePane->UnsetColorTable();
+		}
+		if ( backPane && backPane->GetColorTable() == mCurrentTable) {
+			backPane->UnsetColorTable();
+		}
+		
+		mCurrentTable = nil;
+	}
 }
 
 
