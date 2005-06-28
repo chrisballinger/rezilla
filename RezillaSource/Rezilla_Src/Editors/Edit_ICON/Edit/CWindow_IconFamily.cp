@@ -73,7 +73,9 @@ CWindow_IconFamily::CWindow_IconFamily( LStream *inStream )
 // ---------------------------------------------------------------------------
 CWindow_IconFamily::~CWindow_IconFamily()
 {
-	( mFamilyListH );
+	if (mFamilyListH != nil) {
+		::DisposeHandle( (Handle) mFamilyListH);
+ 	} 
 }
 
 
