@@ -2,7 +2,7 @@
 // CUtxt_EditorView.cp
 // 
 //                       Created: 2004-12-08 18:21:21
-//             Last modification: 2005-01-16 12:56:49
+//             Last modification: 2005-07-03 15:26:29
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -273,6 +273,24 @@ CUtxt_EditorView::ObeyCommand(
 }
 
 
+// // ---------------------------------------------------------------------------
+// //	¥ HandleKeyPress
+// // ---------------------------------------------------------------------------
+// 
+// Boolean
+// CUtxt_EditorView::HandleKeyPress(
+// 	const EventRecord&	inKeyEvent)
+// {
+// 	Boolean handled = LMLTEPane::HandleKeyPress(inKeyEvent);
+// 	
+// 	if (handled) {
+// 		mOwnerWindow->SetLengthField( GetDataSize() );
+// 	} 
+// 	
+// 	return handled;
+// }
+
+
 // ---------------------------------------------------------------------------
 // 	PutOnDuty
 // ---------------------------------------------------------------------------
@@ -308,6 +326,11 @@ CUtxt_EditorView::PutOnDuty(LCommander *inNewTarget)
 	theBar->InstallMenu( sUtxtSizeMenu, MENU_OpenedWindows );
 	theBar->InstallMenu( sUtxtStyleMenu, MENU_OpenedWindows );
 	::MacInsertMenu(fontMenuH, MENU_OpenedWindows);
+	
+#if ! PP_MLTE_Manual_Idle
+	StartIdling();				// Idle time used to set the bytes field
+#endif
+
 }
 
 
@@ -320,6 +343,9 @@ CUtxt_EditorView::TakeOffDuty()
 {		
 	LCommander::TakeOffDuty();
 	this->RemoveUnicodeMenus();
+#if ! PP_MLTE_Manual_Idle
+	StopIdling();				// Stop calling SpendTime()
+#endif
 }
 
 
@@ -331,6 +357,9 @@ void
 CUtxt_EditorView::SpendTime( const EventRecord& inMacEvent)
 {	
 	mOwnerWindow->SetLengthField( GetDataSize() );
+	if (FocusExposed()) {
+		::TXNIdle(mTXNObject);
+	}
 
 #if PP_MLTE_Manual_Idle
 	LMLTEPane::SpendTime(inMacEvent);
