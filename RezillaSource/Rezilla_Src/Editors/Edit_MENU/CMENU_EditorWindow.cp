@@ -2,7 +2,7 @@
 // CMENU_EditorWindow.cp					
 // 
 //                       Created: 2005-03-09 17:16:53
-//             Last modification: 2005-06-27 09:30:01
+//             Last modification: 2005-07-03 16:17:10
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -161,6 +161,11 @@ CMENU_EditorWindow::FinishCreateSelf()
 	// Listen to the item title field
 	mItemTitleField->AddListener(this);
 
+	// Listen to the menu title field (static/edit combo)
+	CStaticEditCombo * theCombo = dynamic_cast<CStaticEditCombo *>(this->FindPaneByID( item_MenuEditMenuTitle ));
+	ThrowIfNil_( theCombo );
+	theCombo->AddListener(this);
+
 	// Listen to the glyph popup
 	CPopupEditField * theEditField = dynamic_cast<CPopupEditField *>(this->FindPaneByID( item_MenuEditGlyphField ));
 	ThrowIfNil_( theEditField );
@@ -187,10 +192,13 @@ CMENU_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 {	
 	// If the message comes from one of the extended fields, an xmnu 
 	// resource will be necessary
-	if (!mNeedsXmnu && inMessage >= PPob_MenuEditorWindow + item_MenuEditCmdModifier
-					&& inMessage <= PPob_MenuEditorWindow + item_MenuEditGlyphField) {
-		mNeedsXmnu = true;
+	if (inMessage >= msg_MenuEditCmdModifier
+		&& inMessage <= msg_MenuEditGlyphField) {
+		
 		SetDirty(true);
+		if (!mNeedsXmnu) {
+			mNeedsXmnu = true;
+		} 
 	} 
 	
 	switch (inMessage) {
@@ -318,6 +326,18 @@ CMENU_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			break;
 		}
 				
+		case msg_MenuTitleModified:
+		case msg_MenuEditMenuID:
+		case msg_MenuEditMDEF:
+		case msg_MenuEditMenuEnabled:
+		case msg_MenuEditItemEnabled:
+		case msg_MenuEditIconID:
+		case msg_MenuEditShortcut:
+		case msg_MenuEditMarkChar:
+		case msg_MenuEditMenuTitle:
+		SetDirty(true);
+		break;
+
 		default:
 		dynamic_cast<CMENU_EditorDoc *>(mOwnerDoc)->ListenToMessage(inMessage, ioParam);
 		break;
