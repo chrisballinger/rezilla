@@ -1095,6 +1095,8 @@ const MessageT	msg_ImageDroppedOnTargetView	= FOUR_CHAR_CODE('IDrp');
 const MessageT	msg_DoubleClick					= FOUR_CHAR_CODE('DClk'); 
 const MessageT	msg_GetLastCommand				= FOUR_CHAR_CODE('LCMD');
 const MessageT	msg_IconSuiteSlider				= FOUR_CHAR_CODE('SLID');
+// Menu editor
+const MessageT	msg_MenuTitleModified			= FOUR_CHAR_CODE('MTMD');
 
 
 // ======================================================================
