@@ -2,7 +2,7 @@
 // CStaticEditCombo.cp
 // 
 //                       Created: 2005-03-17 09:36:42
-//             Last modification: 2005-03-20 17:48:28
+//             Last modification: 2005-07-03 17:56:25
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -86,8 +86,6 @@ CStaticEditCombo::InitCombo()
 	pi.visible = false;
 	pi.enabled = true;
 	pi.bindings = mFrameBinding;
-// 	pi.left = mFrameLocation.h;
-// 	pi.top = mFrameLocation.v;
 	pi.left = 0;
 	pi.top = 0;
 	pi.userCon = 0;
@@ -110,11 +108,8 @@ void
 CStaticEditCombo::FinishCreateSelf()
 {
 	mIsEditing = false;
-// 	Str255		theTitle;
-// 	this->GetDescriptor(theTitle);
+
 	mEditText->Hide();
-	
-// 	mStaticText->SetDescriptor(theTitle);
 	mStaticText->Show();
 }
 
@@ -164,27 +159,29 @@ CStaticEditCombo::HandleKeyPress(
 // ---------------------------------------------------------------------------
 //   SwapPanes												  [public]
 // ---------------------------------------------------------------------------
-// 			GetSuperView()->GetSubPanes().SwapItems(1,2);
 
 void
 CStaticEditCombo::SwapPanes()
 {
 	Boolean		keyHandled = true;
-	Str255	theTitle;
+	Str255		theTitle;
 
 	if (mIsEditing) {
 		mEditText->GetDescriptor(theTitle);
 		mEditText->Hide();
-		mStaticText->SetDescriptor(theTitle);
-		mStaticText->Show();
+		if ( ! ::EqualString(theTitle, mCurrentTitle, true, false) ) {
+			BroadcastMessage(msg_MenuTitleModified);
+		} 
 		mIsEditing = false;
+		SetDescriptor(theTitle);
+		mStaticText->Show();
 	} else {
 		mStaticText->GetDescriptor(theTitle);
 		mStaticText->Hide();
-		mEditText->SetDescriptor(theTitle);
+		mIsEditing = true;
+		SetDescriptor(theTitle);
 		mEditText->Show();
 		SwitchTarget(mEditText);
-		mIsEditing = true;
 	}
 }
 
@@ -219,6 +216,7 @@ CStaticEditCombo::SetDescriptor(
 	} else {
 		mStaticText->SetDescriptor(inDescriptor);
 	}
+	LString::CopyPStr(inDescriptor, mCurrentTitle);
 }
 
 

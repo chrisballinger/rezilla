@@ -2,7 +2,7 @@
 // CStaticEditCombo.h
 // 
 //                       Created: 2005-03-17 09:36:42
-//             Last modification: 2005-03-19 15:44:30
+//             Last modification: 2005-07-03 16:59:18
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -20,6 +20,7 @@
 #include <LEditText.h>
 #include <LView.h>
 #include <LCommander.h>
+#include <LBroadcaster.h>
 
 #if PP_Uses_Pragma_Import
 	#pragma import on
@@ -31,7 +32,9 @@ PP_Begin_Namespace_PowerPlant
 
 // ---------------------------------------------------------------------------
 
-class CStaticEditCombo : public LView, public LCommander {
+class CStaticEditCombo : public LView, 
+						public LCommander,
+						public LBroadcaster {
 public:
 	enum { class_ID		= FOUR_CHAR_CODE('SECV')};
 
@@ -54,6 +57,7 @@ public:
 protected:
 	LStaticText *			mStaticText;
 	LEditText *				mEditText;
+	Str255					mCurrentTitle;
 	Boolean					mIsEditing;
 
 	
