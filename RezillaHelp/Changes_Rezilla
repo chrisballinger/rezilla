@@ -23,6 +23,10 @@ Download a nightly tarball from
 Please e-mail about any problems you might encounter: 
 <bdesgraupes@users.sourceforge.net> 
 
+You can subscribe to the rezilla-users mailing list at:
+<http://lists.sourceforge.net/mailman/listinfo/rezilla-users>
+
+
 This changes log is in reverse chronological order (from bottom to top).
 
 $Date$
@@ -31,7 +35,7 @@ $Date$
 = 1.0.6b	                             last update: 
 ================================================================================
 ¥ Sixth public release of Rezilla (second beta).
-¥ Rezilla passes all 187 tests of the Scripting Tests Suite.
+¥ Rezilla passes all 189 tests of the Scripting Tests Suite.
 
 ================================================================================
 = 1.0.6b5	                             last update: 2005-06-09 07:47:56

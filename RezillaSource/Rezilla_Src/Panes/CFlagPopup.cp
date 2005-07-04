@@ -2,7 +2,7 @@
 // CFlagPopup.cp
 // 
 //                       Created: 2005-03-25 15:49:17
-//             Last modification: 2005-04-07 18:34:06
+//             Last modification: 2005-07-04 10:51:04
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -44,6 +44,7 @@
 
 #include "CFlagPopup.h"
 #include "UMiscUtils.h"
+#include "RezillaConstants.h"
 
 #include <LControlImp.h>
 #include <LStream.h>
@@ -88,7 +89,7 @@ CFlagPopup::CFlagPopup(const SPaneInfo&	inPaneInfo,
 					   MessageT			inValueMessage,
 					   ResIDT			inStringListID)
 
-	: LPopupButton(inPaneInfo, inValueMessage)
+	: LPopupButton(inPaneInfo, inValueMessage, 0, MENU_EmptyPopup)
 {
 	mStringListID = inStringListID;
 	
@@ -221,6 +222,9 @@ CFlagPopup::UpdatePopupWithValue(UInt32	inValue)
 	MenuRef		theMenuH = GetMacMenuH();
 	SInt32		index;
 	UInt32		theValue;
+
+	// No check mark in the first (empty) item
+	::MacCheckMenuItem(theMenuH, 0, 0);
 
 	TArrayIterator<UInt32> iterator( mFlagValues );
 	index = mNumTopItems + 1;

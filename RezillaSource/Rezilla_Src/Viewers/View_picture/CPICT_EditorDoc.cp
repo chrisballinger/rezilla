@@ -2,7 +2,7 @@
 // CPICT_EditorDoc.cp
 // 
 //                       Created: 2004-12-06 14:54:09
-//             Last modification: 2005-06-03 10:50:41
+//             Last modification: 2005-07-04 09:25:18
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -38,9 +38,6 @@ PP_Begin_Namespace_PowerPlant
 #include <LString.h>
 #include <PP_Messages.h>
 
-// // Standard headers
-// #include <string.h>
-
 
 extern CWindowMenu * gWindowMenu;
 
@@ -67,8 +64,6 @@ CPICT_EditorDoc::CPICT_EditorDoc(LCommander* inSuper,
 CPICT_EditorDoc::~CPICT_EditorDoc()
 {
 	if (mPictWindow != nil) {
-		// Remove the window from the window menu.
-		gWindowMenu->RemoveWindow( mPictWindow );
 		delete mPictWindow;
 	} 
 }

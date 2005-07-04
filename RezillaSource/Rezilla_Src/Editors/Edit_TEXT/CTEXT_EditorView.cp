@@ -2,7 +2,7 @@
 // CTEXT_EditorView.cp
 // 
 //                       Created: 2004-06-19 13:23:32
-//             Last modification: 2005-03-08 22:31:03
+//             Last modification: 2005-07-04 15:46:54
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -138,38 +138,43 @@ CTEXT_EditorView::FindCommandStatus(
 			SInt16	theFontNum;
 			Boolean	result;
 
-			if ( !theFontMenu || (theMenuID != MENU_TextFonts) ) return;
-			
-			// The font menu is shared between different windows, so we need to
-			// uncheck the previous item and check the current one. The easiest
-			// way to do this is to just run through the entire menu.
-			MenuHandle	fontMenuH = theFontMenu->GetMacMenuH();
-			if ( !fontMenuH ) return;	// shouldn't happen
-			
-			result = GetFont(theFontNum);
-			if (result) {
-				::GetFontName( theFontNum, fontName );
-				SInt32 numItems = ::CountMenuItems( fontMenuH );
-				for ( SInt32 count = 1; count <= numItems; count++ )
-				{
-					if ( foundFontItem )		// if we found the item already, just uncheck the rest
-						::MacCheckMenuItem( fontMenuH, count, false );
-					else
+			// Don't disable items in the RecentItems and Windows menus
+			if ( theMenuID == MENU_OpenedWindows || theMenuID == MENU_RecentItems) {
+				enableIt = true;
+			} else if ( !theFontMenu || (theMenuID != MENU_TextFonts) ) {
+				return;
+			} else {
+				// The font menu is shared between different windows, so we need to
+				// uncheck the previous item and check the current one. The easiest
+				// way to do this is to just run through the entire menu.
+				MenuHandle	fontMenuH = theFontMenu->GetMacMenuH();
+				if ( !fontMenuH ) return;	// shouldn't happen
+				
+				result = GetFont(theFontNum);
+				if (result) {
+					::GetFontName( theFontNum, fontName );
+					SInt32 numItems = ::CountMenuItems( fontMenuH );
+					for ( SInt32 count = 1; count <= numItems; count++ )
 					{
-						::GetMenuItemText( fontMenuH, count, menuItemName );
-						foundFontItem = ::EqualString( menuItemName, fontName, false, true );
-						::MacCheckMenuItem( fontMenuH, count, foundFontItem );
+						if ( foundFontItem )		// if we found the item already, just uncheck the rest
+							::MacCheckMenuItem( fontMenuH, count, false );
+						else
+						{
+							::GetMenuItemText( fontMenuH, count, menuItemName );
+							foundFontItem = ::EqualString( menuItemName, fontName, false, true );
+							::MacCheckMenuItem( fontMenuH, count, foundFontItem );
+						}
 					}
 				}
-			}
 
-			outEnabled = true;		// font menu always enabled
-			outUsesMark = true;
-			outMark = 0;
-			outName[0] = 0;
-			return;
+				outEnabled = true;		// font menu always enabled
+				outUsesMark = true;
+				outMark = 0;
+				outName[0] = 0;
+				return;
+			}			
 		}
-		
+		else
 		// Now deal with the Size menu 
 		if ( (inCommand >= cmd_MenuTextSizeBase) && (inCommand <= cmd_MenuTextSizeLast) )
 		{
@@ -189,7 +194,7 @@ CTEXT_EditorView::FindCommandStatus(
 			outName[0] = 0;
 			return;
 		}
-		
+		else
 		// Now deal with the Style menu 
 		if ( (inCommand >= cmd_Plain) && (inCommand <= cmd_Extend) )
 		{
@@ -209,7 +214,7 @@ CTEXT_EditorView::FindCommandStatus(
 			outName[0] = 0;
 			return;
 		}
-		
+		else
 		if ( inCommand == cmd_MenuTextWrap )
 		{
 			outEnabled = true;
@@ -221,51 +226,11 @@ CTEXT_EditorView::FindCommandStatus(
 		// Other commands
 		switch( inCommand )
 		{
-				
-// 			case cmd_JustifyLeft:
-// 				outUsesMark = true;
-// 				outMark = (inTraits.justification == teFlushLeft) ? checkMark : 0;
-// 				outEnabled = true;
-// 				handled = true;
-// 				break;
-// 			case cmd_JustifyCenter:
-// 				outUsesMark = true;
-// 				outMark = (inTraits.justification == teCenter) ? checkMark : 0;
-// 				outEnabled = true;
-// 				handled = true;
-// 				break;
-// 			case cmd_JustifyRight:
-// 				outUsesMark = true;
-// 				outMark = (inTraits.justification == teFlushRight) ? checkMark : 0;
-// 				outEnabled = true;
-// 				handled = true;
-// 				break;
-				
 			case cmd_FontLarger:
 			case cmd_FontSmaller:
-			enableIt = true;
-				break;				
-
 			case cmd_FontOther:
 			enableIt = true;
-// 			// This is the "Other size" item
-// 			// If they match, no need to use 'Other' item
-// 			if (UMiscUtils::FontSizeExists(mSizePopup, theSize, theIndex)) {
-// 				mSizePopup->SetValue(theIndex);
-// 				::SetMenuItemText( mSizePopup->GetMacMenuH(), kLastSizeMenuItem + 2, LStr255("\pOtherÉ"));					
-// 			} else {
-// 				// Modify the text of the 'Other' item.
-// 				Str255	theSizeString;
-// 				theLine = "\pOther (" ;
-// 				::NumToString( theSize, theSizeString );
-// 				// Append the current size
-// 				theLine += theSizeString;
-// 				theLine += "\p)É";
-// 				// Set the menu item text.
-// 				::SetMenuItemText( mSizePopup->GetMacMenuH(), kLastSizeMenuItem + 2, theLine );					
-// 			}
 			break;
-
 		}
 			
 		if ( enableIt )

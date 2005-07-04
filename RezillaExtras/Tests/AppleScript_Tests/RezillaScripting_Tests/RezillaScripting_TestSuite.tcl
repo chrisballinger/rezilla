@@ -1,7 +1,7 @@
 # ------------------------------------------------------------
 # File: "Rezilla_TestSuite.tcl"
 #                        Created: 2005-05-22 09:54:33
-#              Last modification: 2005-06-15 22:56:29
+#              Last modification: 2005-06-16 15:09:18
 # Author: Bernard Desgraupes
 # e-mail: <bdesgraupes@easyconnect.fr>
 # www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -36,7 +36,7 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
 }
 package require resource 1.1
 package require Tclapplescript 1.0
-
+package require tclAE
 
 # # # Configurable variables # # #
 # --------------------------------
@@ -52,20 +52,26 @@ namespace eval ::rezilla::test {
 	variable RFname "TestRezillaRF.rsrc"
 	variable NFname "TestRezillaNF.rsrc"
 	
+	# Borrowed from AlphaTcl
+	proc unixPathToFinder {path} {
+		if {![regexp / $path]} {return $path}
+		return [tclAE::getHFSPath $path]
+	}
+
 	# Data fork
-	variable rezfileDF [file::unixPathToFinder [file join [file dir [info script]] Forks $DFname]]
+	variable rezfileDF [unixPathToFinder [file join [file dir [info script]] Forks $DFname]]
 	# Resource fork
-	variable rezfileRF [file::unixPathToFinder [file join [file dir [info script]] Forks $RFname]]
+	variable rezfileRF [unixPathToFinder [file join [file dir [info script]] Forks $RFname]]
 	# No fork
-	variable rezfileNF [file::unixPathToFinder [file join [file dir [info script]] Forks $NFname]]
+	variable rezfileNF [unixPathToFinder [file join [file dir [info script]] Forks $NFname]]
 
 	variable BEGIN "tell application \"$rezillaName\"\r"
 	variable END "\rend tell"
 	
-	# Launch Rezilla and open TestRezillaRF.rsrc
-	# Note: this can also be accomplished by sending a command to the Finder like this:
-	# 	    AppleScript execute "tell application \"Finder\"\ropen [ASQuote $rezfileRF]\rend tell"
-	app::launchFore Rzil
+	# Launch Rezilla (this is an Alpha command)
+	if {[info exists alpha::macos]} {
+		app::launchFore Rzil
+	} 
 
 	proc ASExec {cmd} {
 		variable BEGIN 
@@ -201,8 +207,8 @@ namespace eval ::rezilla::test {
 	} -result "1"
 		
 
-# # From now on the $rezfileRF document is opened
-# # ---------------------------------------------
+# From now on the $rezfileRF document is opened
+# ---------------------------------------------
 	
 #################################################
 
@@ -1688,7 +1694,7 @@ namespace eval ::rezilla::test {
 			# warning, in the debug build, which can be ignored.
 		
 		set cmd "tell application [ASQuote Finder]
-				set theFolder to folder [ASQuote [file::unixPathToFinder [file join [file dir [info script]] Forks]]] as alias
+				set theFolder to folder [ASQuote [unixPathToFinder [file join [file dir [info script]] Forks]]] as alias
 			end tell
 			make new map document in theFolder with properties {name:[ASQuote [TestFile make 1]]}"
 		set result [ASExec $cmd]
@@ -1701,7 +1707,7 @@ namespace eval ::rezilla::test {
 	} -body {
 		DeleteIfExists [TestFile make 2]
 		set cmd "tell application [ASQuote Finder]
-				set theFolder to folder [ASQuote [file::unixPathToFinder [file join [file dir [info script]] Forks]]] as alias
+				set theFolder to folder [ASQuote [unixPathToFinder [file join [file dir [info script]] Forks]]] as alias
 			end tell
 			make new map document in theFolder with properties {name:[ASQuote [TestFile make 2]],fork:resource fork}"
 		ASExec $cmd
@@ -1715,7 +1721,7 @@ namespace eval ::rezilla::test {
 	} -body {
 		DeleteIfExists [TestFile make 3]
 		set cmd "tell application [ASQuote Finder]
-				set theFolder to folder [ASQuote [file::unixPathToFinder [file join [file dir [info script]] Forks]]] as alias
+				set theFolder to folder [ASQuote [unixPathToFinder [file join [file dir [info script]] Forks]]] as alias
 			end tell
 			make new map document in theFolder with properties {name:[ASQuote [TestFile make 3]],readOnly:true}"
 		ASExec $cmd
@@ -1791,9 +1797,9 @@ namespace eval ::rezilla::test {
 
 #################################################
 	
-# 	for {set i 1} {$i <= 3} {incr i} {
-# 		DeleteIfExists [TestFile make $i]
-# 	}
+	# 	for {set i 1} {$i <= 3} {incr i} {
+	# 		DeleteIfExists [TestFile make $i]
+	# 	}
 
 	### Close and reopen the map
 	ASExec "close map document [ASQuote $RFname] saving no"
@@ -1809,7 +1815,7 @@ namespace eval ::rezilla::test {
 	} -body {
 		# Create a rezmap
 		set cmd "tell application [ASQuote Finder]
-				set theFolder to folder [ASQuote [file::unixPathToFinder [file join [file dir [info script]] Forks]]] as alias
+				set theFolder to folder [ASQuote [unixPathToFinder [file join [file dir [info script]] Forks]]] as alias
 			end tell
 			make new map document in theFolder with properties {name:[ASQuote [TestFile save 1]]}"
 		set newDoc [ASExec $cmd]
@@ -1819,7 +1825,7 @@ namespace eval ::rezilla::test {
 		ASExec "save document [ASQuote [TestFile save 1]]"
 		ASExec "close document [ASQuote [TestFile save 1]] saving no"
 		# Reopen it
-		ASExec "open [ASQuote [file::unixPathToFinder [file join [file dir [info script]] Forks [TestFile save 1]]]] as alias"
+		ASExec "open [ASQuote [unixPathToFinder [file join [file dir [info script]] Forks [TestFile save 1]]]] as alias"
 		ASExec "get all types of map of map document [ASQuote [TestFile save 1]]"	
 	} -cleanup {
 		ASExec "close document [ASQuote [TestFile save 1]] saving no"
@@ -1831,7 +1837,7 @@ namespace eval ::rezilla::test {
 	} -body {
 		# Create a rezmap
 		set cmd "tell application [ASQuote Finder]
-				set theFolder to folder [ASQuote [file::unixPathToFinder [file join [file dir [info script]] Forks]]] as alias
+				set theFolder to folder [ASQuote [unixPathToFinder [file join [file dir [info script]] Forks]]] as alias
 			end tell
 			make new map document in theFolder with properties {name:[ASQuote [TestFile save 2]]}"
 		set newDoc [ASExec $cmd]
@@ -1852,15 +1858,28 @@ namespace eval ::rezilla::test {
 		DeleteIfExists [TestFile save 2]
 	} -result "false"
 		
-# # 	test RezillaSave-1-3 {} -setup {
-# # 	} -body {
-# # 	} -cleanup {
-# # 	} -result ""
-# # 		
-# # 	test RezillaSave-1-4 {} -setup {
-# # 	} -body {
-# # 	} -cleanup {
-# # 	} -result ""
+	test RezillaSave-1-3 {Save modifications in the inspector} -setup {
+	} -body {
+		ASExec "inspect resource {\"TEXT\", 128} of map 1"
+		set orig [ASExec "get the name of resource {\"TEXT\", 128} of map 1"]
+		ASExec "set the name field of inspector to [ASQuote "New name"]"
+		ASExec "save the inspector"
+		# set result [ASExec "get the name of resource {\"TEXT\", 128} of map 1"]
+		# ASExec "set the name field of inspector to $orig"
+		# return $result
+	} -cleanup {
+		ASExec "close the inspector"
+	} -result ""
+		
+	test RezillaSave-1-4 {Save forbidden ID in inspector} -setup {
+	} -body {
+		ASExec "inspect resource {\"TEXT\", 128} of map 1"
+		ASExec "set the ID field of inspector to 130"
+		catch {ASExec "save the inspector"} result
+		return $result
+	} -cleanup {
+		ASExec "close the inspector"
+	} -match glob -result "An AppleScript error was encountered*"
 		
 
 	# "Revert" tests
@@ -2115,7 +2134,7 @@ namespace eval ::rezilla::test {
 	test RezillaExport-1-1 {Exporting a resource map with default format} -setup {
 	} -body {
 		set ext [ASExec "get the format of map document 1"]
-		set cmd "export map document 1 in [ASQuote [file::unixPathToFinder [file join [file dir [info script]] Forks]]] as alias "
+		set cmd "export map document 1 in [ASQuote [unixPathToFinder [file join [file dir [info script]] Forks]]] as alias "
 		append cmd "with properties {name:[ASQuote exportedMap.$ext]}"
 		ASExec $cmd
 	} -cleanup {
@@ -2123,14 +2142,14 @@ namespace eval ::rezilla::test {
 		
 	test RezillaExport-1-2 {Exporting a resource map with default name} -setup {
 	} -body {
-		set cmd "export map document 1 in [ASQuote [file::unixPathToFinder [file join [file dir [info script]] Forks]]] as alias"
+		set cmd "export map document 1 in [ASQuote [unixPathToFinder [file join [file dir [info script]] Forks]]] as alias"
 		ASExec $cmd
 	} -cleanup {
 	} -result ""
 		
 	test RezillaExport-1-3 {Exporting a resource map in html format} -setup {
 	} -body {
-		set cmd "export map document 1 in [ASQuote [file::unixPathToFinder [file join [file dir [info script]] Forks]]] as alias "
+		set cmd "export map document 1 in [ASQuote [unixPathToFinder [file join [file dir [info script]] Forks]]] as alias "
 		append cmd "with properties {name:[ASQuote exportedMap.html], format:html}"
 		ASExec $cmd
 	} -cleanup {
@@ -2138,7 +2157,7 @@ namespace eval ::rezilla::test {
 		
 	test RezillaExport-1-4 {Exporting a resource map in text format} -setup {
 	} -body {
-		set cmd "export map document 1 in [ASQuote [file::unixPathToFinder [file join [file dir [info script]] Forks]]] as alias "
+		set cmd "export map document 1 in [ASQuote [unixPathToFinder [file join [file dir [info script]] Forks]]] as alias "
 		append cmd "with properties {name:[ASQuote exportedMap.txt], format:text}"
 		ASExec $cmd
 	} -cleanup {
@@ -2146,12 +2165,18 @@ namespace eval ::rezilla::test {
 		
 	test RezillaExport-1-5 {Exporting a resource map in DeRez format} -setup {
 	} -body {
-		set cmd "export map document 1 in [ASQuote [file::unixPathToFinder [file join [file dir [info script]] Forks]]] as alias "
+		set cmd "export map document 1 in [ASQuote [unixPathToFinder [file join [file dir [info script]] Forks]]] as alias "
 		append cmd "with properties {name:[ASQuote exportedMap.r], format:DeRez}"
 		ASExec $cmd
 	} -cleanup {
 	} -result ""
+	
 		
+	# # Cleanup after "Export" tests
+	foreach ext [list xml html txt r] {
+		DeleteIfExists exportedMap.$ext
+	} 
+	
 
 	
 # # # Closing $rezfileRF

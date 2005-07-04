@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2005-06-27 09:16:20
+//             Last modification : 2005-07-04 10:50:03
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -366,6 +366,7 @@ const ResIDT	MENU_TextStyle				= 252;
 const ResIDT	MENU_UnicodeFonts			= 255;  
 const ResIDT	MENU_UnicodeSize			= 256;  
 const ResIDT	MENU_UnicodeStyle			= 257;  
+const ResIDT	MENU_EmptyPopup				= 260;  
 const ResIDT	MENU_StartHierMenuID		= 500;  
 
 // Icon editor

@@ -2,7 +2,7 @@
 // CTmplEditorWindow.cp					
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2005-05-23 06:48:48
+//             Last modification: 2005-07-04 08:54:29
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -1524,13 +1524,14 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		  //       so the string itself occupies the first $nnn-1 bytes.)
 		  // Fnnn: an uneditable filler hexadecimal string that is $nnn hex bytes long 
 		  // Tnnn: a text string with fixed padding that is $nnn hex bytes long 
-
-		   if (inType >> 24 != 'F' || 
+			
+		   Boolean isNotFiller = (inType >> 24 != 'F');
+		   if ( isNotFiller || 
 			   CRezillaPrefs::GetPrefValue(kPref_templates_displayFillers) ) {
-					AddStaticField(inType, inLabelString, inContainer, sLeftLabelTraitsID, reqLength);
+					AddStaticField(inType, inLabelString, inContainer, sLeftLabelTraitsID, reqLength, isNotFiller);
 					mYCoord += kTmplLabelVertSkip;
 			} 
-				
+			
 			if (inType >> 24 == 'H' || inType >> 24 == 'F') {
 				AddHexDumpField(inType, inContainer, reqLength);
 			} else {

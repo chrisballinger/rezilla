@@ -6781,7 +6781,7 @@ resource 'TMPL' (1076, "dlgx") {
 resource 'TMPL' (1077, "dlle") {
 	{	/* array: 1 elements */
 		/* [1] */
-		"String used for multi-platform things",
+		"String for multi-platform things",
 		'CSTR'
 	}
 };
@@ -18811,7 +18811,7 @@ resource 'TMPL' (1187, "itl4") {
 		"Character to token mapping table",
 		'DVDR',
 		/* [28] */
-		"Count:",
+		"256 characters (fixed count)",
 		'FCNT',
 		/* [29] */
 		"List of 256 characters",
