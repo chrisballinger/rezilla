@@ -2,7 +2,7 @@
 // CKeyboardGlyphBox.h
 // 
 //                       Created: 2005-03-14 14:42:07
-//             Last modification: 2005-03-23 06:06:24
+//             Last modification: 2005-07-04 19:55:59
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -207,8 +207,11 @@ CKeyboardGlyphBox::SetString(StringPtr inString) {
 	} else {
 		inString[0] = 1;
 	}
-	CFRelease(mString);
-	mString = *(new LCFString(inString, kTextEncodingMacKeyboardGlyphs));
+
+	LCFString * theString = new LCFString(inString, kTextEncodingMacKeyboardGlyphs);
+	if (theString != nil) {
+		mString = *theString;
+	} 
 }
 
 
