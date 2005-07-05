@@ -32,7 +32,7 @@ Plural form:
 	windows
 Properties:
 	name  international text  -- the title of the window
-	index  integer  -- the number of the window
+	index  integer  [r/o]  -- the number of the window
 	bounds  bounding rectangle  -- the boundary rectangle for the window
 	closeable  boolean  [r/o]  -- does the window have a close box?
 	titled  boolean  [r/o]  -- does the window have a title bar?
@@ -41,8 +41,8 @@ Properties:
 	resizable  boolean  [r/o]  -- is the window resizable?
 	zoomable  boolean  [r/o]  -- is the window zoomable?
 	zoomed  boolean  -- is the window zoomed?
-	visible  boolean  [r/o]  -- is the window visible?
-	position  point  [r/o]  -- upper left coordinates of window<P>close: Close an object
+	visible  boolean  -- is the window visible?
+	position  point  -- upper left coordinates of window<P>close: Close an object
 	close  reference  -- the objects to close
 		[saving  yes/no/ask]  -- specifies whether or not changes should be saved before closing<P>count: Return the number of elements of a particular class within an object
 	count  reference  -- the object whose elements are to be counted
@@ -63,8 +63,7 @@ Properties:
 	revert  reference  -- object to revert<P>save: save an object
 	save  reference  -- object to save
 		[in  alias]  -- the file in which to save the object
-		[as  data fork/resource fork/any fork/same fork]  -- the fork in which to save the data (in a Save As operation)<P>select: Select the specified object
-	select  reference  -- the object to select<P>set: Set an object's data
+		[as  data fork/resource fork/any fork/same fork]  -- the fork in which to save the data (in a Save As operation)<P>set: Set an object's data
 	set  reference  -- the object to change
 		to  anything  -- the new value<P>Rezilla suite: Rezilla specifics<P>Class comparison window: a maps comparison window
 Plural form:
@@ -86,15 +85,20 @@ Properties:
 	readOnly  boolean  [r/o]  -- is this document read-only?
 	window  window  [r/o]  -- the window of the document.
 	resource  resource  [r/o]  -- the resource edited by this document
-	owner doc  map document  [r/o]  -- the rezmap document that owns this editor document<P>Class hex editor: a hexadecimal document editing a resource
+	owner doc  map document  [r/o]  -- the rezmap document that owns this editor document<P>Class hexadecimal editor: a hexadecimal document editing a resource
 Plural form:
-	hex editors
+	hexadecimal editors
 Properties:
-	inherits  editor  [r/o]  -- all properties of the 'editor' class<P>Class hex window: a hexadecimal editing window
+	inherits  editor  [r/o]  -- all properties of the 'editor' class<P>Class hexadecimal window: a hexadecimal editing window
 Plural form:
-	hex windows
+	hexadecimal windows
 Properties:
-	inherits  editing window  [r/o]  -- all properties of the 'editing window' class<P>Class inspector window: the inspector window
+	inherits  editing window  [r/o]  -- all properties of the 'editing window' class
+	maxPos  integer  [r/o]  -- index of last position (i-e position after the last character)
+	startPos  integer  -- position of beginning of selection
+	endPos  integer  -- position of end of selection
+	hex selection  international text  -- the contents of the selected region in the hex pane
+	text selection  international text  -- the contents of the selected region in the text pane<P>Class inspector window: the inspector window
 Properties:
 	inherits  window  [r/o]  -- all properties of the 'window' class
 	ID field  small integer  -- the value of the 'ID' field
@@ -146,9 +150,9 @@ Properties:
 		[ignoreName  boolean]  -- ignore name differences
 		[ignoreAttrs  boolean]  -- ignore attributes differences
 		[ignoreData  boolean]  -- ignore data differences
-	Result:   comparison  -- a maps comparison object<P>delete: Delete the specified object(s)
-	delete  reference  -- Object to delete.<P>duplicate: Duplicate one or more resource(s) in the resource map. The duplicate is automatically attributed an unique ID.
-	duplicate  reference  -- the object(s) to duplicate
+	Result:   comparison  -- a maps comparison object<P>delete: Delete the specified object
+	delete  reference  -- the object to delete<P>duplicate: Duplicate a resource in the resource map. The duplicate is automatically attributed an unique ID.
+	duplicate  reference  -- the object to duplicate
 	Result:   reference  -- a specifier for the duplicated resource(s)<P>edit: edit one or more resources
 	edit  resource  -- resource to edit
 		[using  hexadecimal/template/interface]  -- specifies which kind of editor to use (if not specified, Rezilla tries to find successively an interface, a template or the hexadecimal editor)
@@ -159,13 +163,13 @@ Properties:
 	inspect  resource  -- Resource object to display info about.<P>Resource suite: Resource maps handling<P>Class comparison: the result of a comparison between two maps
 Properties:
 	criteria  record  [r/o]  -- the comparison criteria
-	ignoreName  boolean  [r/o]  -- ignore name differences
-	ignoreAttrs  boolean  [r/o]  -- ignore attributes differences
-	ignoreData  boolean  [r/o]  -- ignore data differences
-	old only resources  a list of specifier  [r/o]  -- resources which are only in the old map
-	new only resources  a list of specifier  [r/o]  -- resources which are only in the new map
-	differing resources  a list of specifier  [r/o]  -- resources which are in both maps and are different
-	identical resources  a list of specifier  [r/o]  -- resources which are in both maps and are identical<P>Class map: a resource map
+	ignoreName  boolean  [r/o]  -- have name differences been ignored?
+	ignoreAttrs  boolean  [r/o]  -- have attributes differences been ignored?
+	ignoreData  boolean  [r/o]  -- have data differences been ignored?
+	old only resources  a list of list  [r/o]  -- the list of resources which are only in the old map
+	new only resources  a list of list  [r/o]  -- the list of resources which are only in the new map
+	differing resources  a list of list  [r/o]  -- the list of resources which exist in both maps and are different
+	identical resources  a list of list  [r/o]  -- the list of resources which exist in both maps and are identical<P>Class map: a resource map
 Plural form:
 	maps
 Elements:
@@ -192,8 +196,8 @@ Properties:
 	protected  boolean  -- the resProtected bit
 	changed  boolean  -- the resChanged bit
 	size  integer  [r/o]  -- the size of the resource data (in bytes)
-	sizeOnDisc  integer  -- the size of the resource on disk
-	hex data  anything  -- the resource data (in hex format)<P>Class specifier: a two-elements list containing the type and the ID for a resource<P>Class type: a resource type
+	sizeOnDisc  integer  [r/o]  -- the size of the resource on disk
+	hex data  anything  -- the resource data (in hex format)<P>Class specifier: a two-elements list containing the type and the ID of a resource<P>Class type: a resource type
 Plural form:
 	types
 Elements:
