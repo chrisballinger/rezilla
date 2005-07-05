@@ -5,20 +5,19 @@ Rezilla is a resource forks editor for the Macintosh.
 This is version 1.0.6b.
 
 The Rezilla project is a work in progress. This release is a beta
-release, provided for people who want to give it a try at the current stage
-of its development. It comes without any warranty. That said, it has been
+release and comes without any warranty. That said, it has been
 thoroughly tested and has proven quite stable and reliable.
 
 This new version adds the following features:
     ¥ a MENU resource editor (which supports 'xmnu' menu extension resources)
     ¥ complete scriptability to drive Rezilla from AppleScript scripts
-	  This scripting support comes with a detailed tutorial and a lot of
-	  sample scripts
+	 This scripting support comes with a detailed tutorial and a lot of
+	 sample scripts
     ¥ several improvements in the template editor (with 3 new tags to 
-	  handle flag menus)
+     handle flag menus)
     ¥ many GUI improvements and small fixes
     ¥ this new version switches to the MachO runtime architecture, which is 
-	  the native architecture under OSX
+     the native architecture under OSX
 
 
 Previous versions already implemented the following features:
@@ -43,8 +42,7 @@ Previous versions already implemented the following features:
 
 
 Please read the doc contained in the help files. It is accessible via the
-Rezilla Help command in the Help menu when Rezilla is
-running. You can also
+Rezilla Help command in the Help menu when Rezilla is running. You can also
 read it online <http://webperso.easyconnect.fr/bdesgraupes/DocHTML/RezillaHelp/index.html>.
 
 Rezilla is a free software.
@@ -57,7 +55,9 @@ The official home page for the project is at SourceForge:
 
 There is a users mailing list where any kind of problems about
 Rezilla can be discussed, in particular the questions related to its 
-scriptability and AppleScript syntax. Subscribe here:.
+scriptability and AppleScript syntax. 
+Subscribe here <http://lists.sourceforge.net/lists/listinfo/rezilla-users>
+
 
 Please e-mail me any problem you encounter with this software:
  <bdesgraupes@users.sourceforge.net>
