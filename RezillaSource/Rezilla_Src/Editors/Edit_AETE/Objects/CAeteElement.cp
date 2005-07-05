@@ -2,7 +2,7 @@
 // CAeteElement.cp
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-02-19 17:25:12
+//             Last modification: 2005-07-05 08:33:13
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -73,6 +73,7 @@ CAeteElement::AddKeyForm(CFXMLTreeRef inTreeNode)
 
 	if (error == noErr) {
 		mKeyForms.AddItem(theKey);
+		mKeyFormIndex = (CountKeyForms() > 0);
 	} 
 	
 	return error;

@@ -2,7 +2,7 @@
 // CAeteEnumeration.cp
 // 
 //                       Created: 2005-01-20 09:35:10
-//             Last modification: 2005-02-19 17:16:15
+//             Last modification: 2005-07-05 08:33:25
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -124,6 +124,7 @@ CAeteEnumeration::AddEnumerator(CFXMLTreeRef inTreeNode)
 	
 	if (error == noErr) {
 		mEnumerators.AddItem(numerator);
+		mEnumeratorIndex = (CountEnumerators() > 0);
 	} 
 
 	return error;
