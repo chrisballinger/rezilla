@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2005-07-04 10:50:03
+//             Last modification : 2005-09-01 07:35:09
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -318,6 +318,7 @@ const ResIDT	PPob_AeteEventPane			= 11100;
 const ResIDT	PPob_AeteClassPane			= 11200;
 const ResIDT	PPob_AeteCompOpPane			= 11300;
 const ResIDT	PPob_AeteEnumPane			= 11400;
+const ResIDT	PPob_StrxEditorWindow		= 11500;
 
 const ResIDT	ics8_Unlocked				= 1500;
 const ResIDT	ics8_Locked					= 1501;
@@ -861,6 +862,8 @@ const PaneIDT   item_MenuEditFontID			= 33;
 const PaneIDT   item_MenuEditGlyphField		= 34;
 const PaneIDT   item_MenuEditGlyphBox		= 35;
 const PaneIDT   item_MenuEditItemGroupVIew	= 50;
+// STR# Editor Window
+// ------------------
 
 
 // Common elements for Editor Windows
@@ -874,6 +877,7 @@ const PaneIDT	item_NameStaticText			= FOUR_CHAR_CODE('Name');
 const PaneIDT	item_ReadOnlyIcon			= FOUR_CHAR_CODE('Lock');
 const PaneIDT	item_PlusButton				= FOUR_CHAR_CODE('Plus');
 const PaneIDT	item_MinusButton			= FOUR_CHAR_CODE('Mins');
+const PaneIDT   item_TabGroup				= FOUR_CHAR_CODE('TabG');
 
 // Misc dialog elements
 // --------------------

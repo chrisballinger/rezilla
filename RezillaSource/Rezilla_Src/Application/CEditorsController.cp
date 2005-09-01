@@ -2,7 +2,7 @@
 // CEditorsController.cp					
 // 
 //                       Created: 2004-06-11 10:48:38
-//             Last modification: 2005-06-10 07:29:11
+//             Last modification: 2005-09-01 08:17:53
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -27,6 +27,7 @@ PP_Begin_Namespace_PowerPlant
 #include "CIcon_EditorDoc.h"
 #include "CAete_EditorDoc.h"
 #include "CMENU_EditorDoc.h"
+#include "CSTRx_EditorDoc.h"
 #include "CTemplatesController.h"
 #include "CRezMap.h"
 #include "CRezMapDoc.h"
@@ -188,6 +189,7 @@ CEditorsController::HasEditorForType(ResType inType, ResType * substType)
 		case 'ppat':
 		case 'aete':
 		case 'MENU':
+		case 'STR#':
 		*substType = inType;
 		result = true;
 		break;
@@ -242,6 +244,10 @@ CEditorsController::InvokeCustomEditor(CRezMapDoc* inRezMapDoc,
 		
 		case 'MENU':
 		  new CMENU_EditorDoc( (LCommander *) inRezMapDoc, inSuperMap, inRezObj, inUseType, inReadOnly);
+		break;
+		
+		case 'STR#':
+		  new CSTRx_EditorDoc( (LCommander *) inRezMapDoc, inSuperMap, inRezObj, inUseType, inReadOnly);
 		break;
 		
 		case 'CURS':
