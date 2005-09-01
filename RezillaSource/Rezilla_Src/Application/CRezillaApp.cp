@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2005-06-27 08:48:42
+//             Last modification: 2005-09-01 08:34:16
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -60,6 +60,7 @@
 #include "CSingleScrollBar.h"
 #include "CStaticEditCombo.h"
 #include "CStaticTextURL.h"
+#include "CSTRx_EditorWindow.h"
 #include "CSuiteSlider.h"
 #include "CSuite_Window.h"
 #include "CTEXT_EditorView.h"
@@ -416,6 +417,7 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(CSingleScrollBar);
 	RegisterClass_(CStaticEditCombo);
 	RegisterClass_(CStaticTextURL);
+	RegisterClass_(CSTRx_EditorWindow);
 	RegisterClass_(CSuiteSlider);
 	RegisterClass_(CSuite_Window);
 	RegisterClass_(CTEXT_EditorView);
