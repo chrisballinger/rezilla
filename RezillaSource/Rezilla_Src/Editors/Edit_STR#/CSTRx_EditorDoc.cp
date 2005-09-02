@@ -119,6 +119,8 @@ CSTRx_EditorDoc::Initialize()
 	
 	// Make the window visible.
 	mStrxEditWindow->Show();
+	// Enable all the subpanes
+	mStrxEditWindow->GetContentsView()->Enable();
 }
 
 
