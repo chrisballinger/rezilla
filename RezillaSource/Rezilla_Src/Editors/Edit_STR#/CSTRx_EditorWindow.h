@@ -2,7 +2,7 @@
 // CSTRx_EditorWindow.h
 // 
 //                       Created: 2005-08-31 18:26:24
-//             Last modification: 2005-09-01 07:49:39
+//             Last modification: 2005-09-02 07:36:44
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -53,11 +53,13 @@ public:
 	
 	virtual void	RevertContents();
 
-
+	LView*			GetContentsView() const { return mContentsView;}
+	
 protected:
 	UInt16				mNumItems;
 	LHandleStream *		mOutStream;
-	LTabGroupView *		mTGV;
+	LView *				mContentsView;
+// 	LTabGroupView *		mTGV;
 
 	virtual void	FinishCreateSelf();
 

@@ -93,8 +93,12 @@ CSTRx_EditorWindow::FinishCreateSelf()
 	mOutStream = nil;
 	mNumItems = 0;
 	
-	mTGV = dynamic_cast<LTabGroupView *>(this->FindPaneByID( item_TabGroup ));
-	ThrowIfNil_( mTGV );
+	// The main view containing the editing fields
+	mContentsView = dynamic_cast<LView *>(this->FindPaneByID(item_EditorContents));
+	ThrowIfNil_( mContentsView );
+
+// 	mTGV = dynamic_cast<LTabGroupView *>(this->FindPaneByID( item_TabGroup ));
+// 	ThrowIfNil_( mTGV );
 
 	// Link the broadcasters
 	UReanimator::LinkListenerToControls( this, this, PPob_MenuEditorWindow );
@@ -240,6 +244,8 @@ CSTRx_EditorWindow::InstallResourceData(Handle inHandle)
 	delete theStream;
 	
 	if (error == noErr) {
+		// Adjust the size of the image
+		mContentsView->ResizeImageTo(0, mNumItems * kStrxHeight, false);
 		SetDirty(false);
 	} 
 	
@@ -254,31 +260,32 @@ CSTRx_EditorWindow::InstallResourceData(Handle inHandle)
 void
 CSTRx_EditorWindow::AddStringItem(UInt16 index, Str255 inString)
 {
-	SPaneInfo	pi;
-	SViewInfo	vi;
-	
-	Rect		frame;
-	mTGV->CalcLocalFrameRect(frame);
-// 	mTGV->GetSuperView()->PortToLocalPoint(topLeft(frame));
+	SPaneInfo		pi;
+	SViewInfo		vi;
+	SDimension16	frameSize;
 
+	mContentsView->GetFrameSize(frameSize);
+
+	// View info
 	vi.imageSize.width		= vi.imageSize.height	= 0 ;
 	vi.scrollPos.h			= vi.scrollPos.v		= 0;
 	vi.scrollUnit.h			= vi.scrollUnit.v		= 1;
 	vi.reconcileOverhang	= false;
 	
+	// Pane info
 	pi.left				= 0;
 	pi.top				= index * kStrxHeight;
-	pi.width			= frame.right - frame.left;
+	pi.width			= frameSize.width;
 	pi.height			= kStrxHeight;
 	pi.visible			= true;
 	pi.enabled			= true;
-	pi.bindings.left	= false;
+	pi.bindings.left	= true;
 	pi.bindings.top		= false;
 	pi.bindings.right	= true;
 	pi.bindings.bottom 	= false;
 	pi.userCon			= 0;
 	pi.paneID			= 0;
-	pi.superView		= mTGV;
+	pi.superView		= mContentsView;
 	
 	CIndexedEditField * theEdit = new CIndexedEditField(pi, vi, index, inString);
 	
