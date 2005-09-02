@@ -2,7 +2,7 @@
 // CIndexedEditField.cp
 // 
 //                       Created: 2005-09-01 09:14:05
-//             Last modification: 2005-09-01 09:14:09
+//             Last modification: 2005-09-02 07:23:45
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -84,22 +84,23 @@ CIndexedEditField::Initialize(Str255 inString)
 	SPaneInfo	pi;
 	Str255		theString;
 	Rect		frame;
-	
+
 	mSelected = false;
+
 	CalcLocalFrameRect(frame);
 
 	// Static field basic values
 	pi.width			= kStrxIndexWidth;
-	pi.height			= kStrxHeight;
+	pi.height			= kStrxHeight - 2 * kStrxVertSep;
 	pi.visible			= true;
 	pi.enabled			= true;
-	pi.bindings.left	= false;
+	pi.bindings.left	= true;
 	pi.bindings.top		= false;
 	pi.bindings.right	= false;
 	pi.bindings.bottom 	= false;
 	pi.userCon			= 0;
-	pi.left				= kStrxSepWidth;
-	pi.top				= 2;
+	pi.left				= kStrxHorizSep;
+	pi.top				= kStrxVertSep;
 	pi.paneID			= 0;
 	pi.superView		= this;
 
@@ -107,10 +108,10 @@ CIndexedEditField::Initialize(Str255 inString)
 	mStaticText = new LStaticText(pi, theString, 0);
 	
 	// Edit field basic values
-	pi.top				-= 2;
-	pi.left				+= kStrxIndexWidth + kStrxSepWidth;
-	pi.width			= frame.right - pi.left;
+	pi.left				+= kStrxIndexWidth + kStrxHorizSep;
+	pi.width			= frame.right - pi.left - kStrxHorizSep;
 	pi.bindings.right	= true;
+	pi.paneID			= 1;
 	
 	mEditText = new LEditText(pi, this, inString, Txtr_MonacoNineDefault, msg_Nothing, 255, 0, 
 							  UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar));						  
@@ -138,12 +139,39 @@ CIndexedEditField::FinishCreateSelf()
 
 void 
 CIndexedEditField::Click(SMouseDownEvent &inMouseDown)
-{	
-	if (mSelected) {
-		mEditText->Click(inMouseDown);
-	} else {
-		SwapPanes();
+{
+	// Check if a SubPane of this View is hit
+	LPane * clickedPane = FindSubPaneHitBy(inMouseDown.wherePort.h,
+											inMouseDown.wherePort.v);
+	
+	if (clickedPane != nil) {
+			// SubPane is hit, let it respond to the click
+			PaneIDT theID = clickedPane->GetPaneID();
+			
+			if ( theID == 0 || theID == PaneIDT_Unspecified ) {
+				if (mSelected) {
+// 					mOwnerWindow->SetSelectedListItem(NULL);
+					mSelected = false;
+					EraseBorder();
+				} else {
+// 					CTmplListItemView * selectedItem = mOwnerWindow->GetSelectedListItem();
+// 					mOwnerWindow->SetSelectedListItem(this);
+// 					mOwnerWindow->SwitchTarget(mOwnerWindow);
+					mSelected = true;
+					DrawBorder();
+// 					if (selectedItem != NULL) {
+// 						selectedItem->SetIsSelected(false);
+// 						selectedItem->EraseBorder();
+// 					}
+				}
+			} else {
+				clickedPane->Click(inMouseDown);
+			}
+		} else {
+		// No SubPane hit. Inherited function will process click on this view.
+		LPane::Click(inMouseDown);
 	}
+	
 }
 
 
@@ -161,43 +189,13 @@ CIndexedEditField::HandleKeyPress(
 		UInt16	theChar = (UInt16) (inKeyEvent.message & charCodeMask);
 
 		if ( (theChar == char_Enter) || (theChar == char_Return) ) {
-			SwapPanes();
+// 			SwapPanes();
 		} else {
 			keyHandled = mEditText->HandleKeyPress(inKeyEvent);
 		}
 	} 
 
 	return keyHandled;
-}
-
-
-// ---------------------------------------------------------------------------
-//   SwapPanes												  [public]
-// ---------------------------------------------------------------------------
-
-void
-CIndexedEditField::SwapPanes()
-{
-	Boolean		keyHandled = true;
-	Str255		theTitle;
-
-	if (mSelected) {
-		mEditText->GetDescriptor(theTitle);
-		mEditText->Hide();
-		if ( ! ::EqualString(theTitle, mCurrentTitle, true, false) ) {
-			BroadcastMessage(msg_MenuTitleModified);
-		} 
-		mSelected = false;
-		SetDescriptor(theTitle);
-		mStaticText->Show();
-	} else {
-		mStaticText->GetDescriptor(theTitle);
-		mStaticText->Hide();
-		mSelected = true;
-		SetDescriptor(theTitle);
-		mEditText->Show();
-		SwitchTarget(mEditText);
-	}
 }
 
 
@@ -209,11 +207,7 @@ StringPtr
 CIndexedEditField::GetDescriptor(
 	Str255	outDescriptor) const
 {
-	if (mSelected) {
-		mEditText->GetDescriptor(outDescriptor);
-	} else {
-		mStaticText->GetDescriptor(outDescriptor);
-	}
+	mEditText->GetDescriptor(outDescriptor);
 	return outDescriptor;
 }
 
@@ -226,14 +220,61 @@ void
 CIndexedEditField::SetDescriptor(
 	ConstStringPtr	inDescriptor)
 {
-	if (mSelected) {
-		mEditText->SetDescriptor(inDescriptor);
-	} else {
-		mStaticText->SetDescriptor(inDescriptor);
-	}
-	LString::CopyPStr(inDescriptor, mCurrentTitle);
+	mEditText->SetDescriptor(inDescriptor);
 }
 
+
+// ---------------------------------------------------------------------------
+//	¥ DrawBorder
+// ---------------------------------------------------------------------------
+//  Border around a CIndexedEditField is outset from the interior by 1 pixel.
+// 	::MacFrameRect(&frame);
+
+void
+CIndexedEditField::DrawBorder()
+{
+	StColorState	saveColors;			// Preserve color state
+	StGrafPortSaver	savePort;
+	Rect			frame;
+	RGBColor		redColor = Color_Red;
+	
+	FocusDraw();
+	
+	CalcLocalFrameRect(frame);
+	::PenNormal();
+	::PenSize(2, 2);
+	
+	// Draw border around the view
+	::RGBForeColor(&redColor);
+	::FrameRoundRect( &frame, 4, 4 );
+
+	// Validate the drawn region so that it is not erased by the next update
+	StRegion	focusRgn(frame);
+	StRegion	borderRgn(frame);
+	focusRgn.InsetBy(2, 2);
+	borderRgn -= focusRgn;
+	DontRefreshRgn(borderRgn);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ EraseBorder
+// ---------------------------------------------------------------------------
+//  Ask for a Refresh to erase the border around the list item.
+// 	::DrawThemeFocusRegion(StRegion(frame), true);
+
+void
+CIndexedEditField::EraseBorder()
+{
+	StColorState	saveColors;			// Preserve color state
+	StGrafPortSaver	savePort;
+	Rect			frame;
+	
+	FocusDraw();
+	
+	CalcLocalFrameRect(frame);
+	RefreshRect(frame);
+}
 
 
 PP_End_Namespace_PowerPlant

@@ -2,7 +2,7 @@
 // CIndexedEditField.h
 // 
 //                       Created: 2005-09-01 09:14:05
-//             Last modification: 2005-09-01 09:14:09
+//             Last modification: 2005-09-02 07:23:29
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -27,8 +27,9 @@
 #endif
 
 const SInt16	kStrxHeight		= 40;
-const SInt16	kStrxIndexWidth	= 12;
-const SInt16	kStrxSepWidth	= 4;
+const SInt16	kStrxIndexWidth	= 36;
+const SInt16	kStrxHorizSep	= 4;
+const SInt16	kStrxVertSep	= 3;
 
 PP_Begin_Namespace_PowerPlant
 
@@ -56,6 +57,9 @@ public:
 	
 	virtual Boolean		HandleKeyPress( const EventRecord& inKeyEvent );
 	
+	virtual void		DrawBorder();
+	virtual void		EraseBorder();
+
 	virtual StringPtr	GetDescriptor( Str255 outDescriptor ) const;
 	virtual void		SetDescriptor( ConstStringPtr inDescriptor );
 	
@@ -65,7 +69,7 @@ public:
 protected:
 	LStaticText *			mStaticText;
 	LEditText *				mEditText;
-	Str255					mCurrentTitle;
+// 	Str255					mCurrentTitle;
 	SInt32					mIndex;
 	Boolean					mSelected;
 
@@ -74,7 +78,7 @@ protected:
 
 private:
 	void				Initialize(Str255 inString);
-	void				SwapPanes();
+// 	void				SwapPanes();
 	
 };
 
