@@ -104,7 +104,7 @@ CSTRx_EditorWindow::FinishCreateSelf()
 	// View info
 	sViewInfo.imageSize.width	= sViewInfo.imageSize.height	= 0 ;
 	sViewInfo.scrollPos.h		= sViewInfo.scrollPos.v			= 0;
-	sViewInfo.scrollUnit.h		= sViewInfo.scrollUnit.v		= 1;
+	sViewInfo.scrollUnit.h		= sViewInfo.scrollUnit.v		= kStrxHeight;
 	sViewInfo.reconcileOverhang	= false;
 	
 	// Pane info
@@ -148,12 +148,20 @@ CSTRx_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		
 						
 		case msg_MinusButton: {
+			if (mIndexedFields.GetCount() == 0) {return;} 
 			if (DeleteSelected() > 0) {
 				RecalcAllPositions();
-				mContentsView->ResizeImageTo(0, mIndexedFields.GetCount() * kStrxHeight, false);
-				SetDirty(true);
-				mContentsView->Refresh();
-			} 
+			} else {
+				// If no item selected, delete the last one
+				CIndexedEditField *	theField;
+				if ( mIndexedFields.FetchItemAt(mIndexedFields.GetCount(), theField) ) {
+					theField->Hide();
+					mIndexedFields.RemoveItemsAt(1, mIndexedFields.GetCount());
+				} 
+			}
+			mContentsView->ResizeImageTo(0, mIndexedFields.GetCount() * kStrxHeight, false);
+			SetDirty(true);
+			mContentsView->Refresh();
 			break;
 		}
 				
@@ -327,7 +335,26 @@ CSTRx_EditorWindow::RecalcPositionsFrom(UInt16 index)
 
 void
 CSTRx_EditorWindow::RecalcAllPositions()
-{}
+{
+	UInt16	index = 1;
+	SInt32	oldPos, newPos;
+	Rect	theFrame;
+	
+	TArrayIterator<CIndexedEditField*> iterator(mIndexedFields);
+	CIndexedEditField *	theField;
+
+	while (iterator.Next(theField)) {
+		theField->SetIndexField(index);
+		
+		theField->CalcPortFrameRect(theFrame);
+		mContentsView->PortToLocalPoint(topLeft(theFrame));
+
+		oldPos = theFrame.top;
+		newPos = (index - 1) * kStrxHeight;
+		theField->MoveBy(0, newPos - oldPos, false);
+		index++;
+	}
+}
 
 
 // ---------------------------------------------------------------------------
@@ -356,17 +383,6 @@ CSTRx_EditorWindow::GetFirstSelected()
 // ---------------------------------------------------------------------------
 //  DeleteSelected												  [public]
 // ---------------------------------------------------------------------------
-// 			TArrayIterator<LPane*> iterator(mSubPanes, LArrayIterator::from_End);
-// 			LPane	*theSub;
-// 			while (iterator.Previous(theSub)) {
-// 				mSubPanes.RemoveItemsAt(1, iterator.GetCurrentIndex());
-// 				delete theSub;
-// 			}
-// TArrayIterator<CIndexedEditField*> iterator(mIndexedFields);
-// 
-// while (iterator.Next(theField)) {
-// }
-// TArray<LPane*>	subPanes;
 
 UInt16
 CSTRx_EditorWindow::DeleteSelected()
@@ -381,8 +397,9 @@ CSTRx_EditorWindow::DeleteSelected()
 	while (iterator.Previous(theSub)) {
 		theField = dynamic_cast<CIndexedEditField*>(theSub);
 		if ( theField != nil && theField->IsSelected() ) {
-			mContentsView->GetSubPanes().RemoveItemsAt(1, iterator.GetCurrentIndex());
-			delete theField;
+// 			mContentsView->GetSubPanes().RemoveItemsAt(1, iterator.GetCurrentIndex());
+// 			delete theSub;
+			theSub->Hide();			
 			theIndex = mIndexedFields.FetchIndexOf(theField);
 			if (theIndex != LArray::index_Bad) {
 				mIndexedFields.RemoveItemsAt(1, theIndex);
