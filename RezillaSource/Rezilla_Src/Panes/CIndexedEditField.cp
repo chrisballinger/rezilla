@@ -2,7 +2,7 @@
 // CIndexedEditField.cp
 // 
 //                       Created: 2005-09-01 09:14:05
-//             Last modification: 2005-09-02 07:23:45
+//             Last modification: 2005-09-02 16:03:53
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -82,7 +82,6 @@ void
 CIndexedEditField::Initialize(Str255 inString)
 {
 	SPaneInfo	pi;
-	Str255		theString;
 	Rect		frame;
 
 	mSelected = false;
@@ -90,6 +89,8 @@ CIndexedEditField::Initialize(Str255 inString)
 	CalcLocalFrameRect(frame);
 
 	// Static field basic values
+	pi.left				= kStrxHorizSep;
+	pi.top				= kStrxVertSep;
 	pi.width			= kStrxIndexWidth;
 	pi.height			= kStrxHeight - 2 * kStrxVertSep;
 	pi.visible			= true;
@@ -99,13 +100,11 @@ CIndexedEditField::Initialize(Str255 inString)
 	pi.bindings.right	= false;
 	pi.bindings.bottom 	= false;
 	pi.userCon			= 0;
-	pi.left				= kStrxHorizSep;
-	pi.top				= kStrxVertSep;
 	pi.paneID			= 0;
 	pi.superView		= this;
 
-	::NumToString(mIndex + 1, theString);
-	mStaticText = new LStaticText(pi, theString, 0);
+	mStaticText = new LStaticText(pi, "\p", 0);
+	SetIndexField(mIndex);
 	
 	// Edit field basic values
 	pi.left				+= kStrxIndexWidth + kStrxHorizSep;
@@ -274,6 +273,20 @@ CIndexedEditField::EraseBorder()
 	
 	CalcLocalFrameRect(frame);
 	RefreshRect(frame);
+}
+
+
+// ---------------------------------------------------------------------------
+//	¥ SetIndexField
+// ---------------------------------------------------------------------------
+
+void
+CIndexedEditField::SetIndexField(UInt16 index)
+{
+	Str255		theString;
+	mIndex = index;
+	::NumToString(index, theString);
+	mStaticText->SetDescriptor(theString);
 }
 
 

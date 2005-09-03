@@ -2,7 +2,7 @@
 // CIndexedEditField.h
 // 
 //                       Created: 2005-09-01 09:14:05
-//             Last modification: 2005-09-02 07:23:29
+//             Last modification: 2005-09-02 16:03:46
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -60,25 +60,28 @@ public:
 	virtual void		DrawBorder();
 	virtual void		EraseBorder();
 
+	void				SetIndexField(UInt16 index);
+	
 	virtual StringPtr	GetDescriptor( Str255 outDescriptor ) const;
 	virtual void		SetDescriptor( ConstStringPtr inDescriptor );
 	
 	virtual SInt32		GetIndex() { return mIndex;}
 	void				SetIndex(SInt32 inIndex) {mIndex = inIndex;}
 
+	virtual Boolean		IsSelected() { return mSelected;}
+	void				SetSelected(Boolean inSelected) {mSelected = inSelected;}
+
 protected:
-	LStaticText *			mStaticText;
-	LEditText *				mEditText;
-// 	Str255					mCurrentTitle;
-	SInt32					mIndex;
-	Boolean					mSelected;
+	LStaticText *		mStaticText;
+	LEditText *			mEditText;
+	SInt32				mIndex;			// Starting at 1
+	Boolean				mSelected;
 
 	
 	virtual void		FinishCreateSelf();
 
 private:
 	void				Initialize(Str255 inString);
-// 	void				SwapPanes();
 	
 };
 
