@@ -2,7 +2,7 @@
 // CSTRx_EditorWindow.cp					
 // 
 //                       Created: 2005-08-31 18:26:24
-//             Last modification: 2005-09-01 13:24:20
+//             Last modification: 2005-09-03 07:23:03
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -26,6 +26,8 @@
 
 #include <stdio.h>
 
+SPaneInfo CSTRx_EditorWindow::sPaneInfo;
+SViewInfo CSTRx_EditorWindow::sViewInfo;
 
 // ---------------------------------------------------------------------------
 //  CSTRx_EditorWindow				[public]
@@ -91,7 +93,6 @@ void
 CSTRx_EditorWindow::FinishCreateSelf()
 {	
 	mOutStream = nil;
-	mNumItems = 0;
 	
 	// The main view containing the editing fields
 	mContentsView = dynamic_cast<LView *>(this->FindPaneByID(item_EditorContents));
@@ -99,6 +100,25 @@ CSTRx_EditorWindow::FinishCreateSelf()
 
 // 	mTGV = dynamic_cast<LTabGroupView *>(this->FindPaneByID( item_TabGroup ));
 // 	ThrowIfNil_( mTGV );
+
+	// View info
+	sViewInfo.imageSize.width	= sViewInfo.imageSize.height	= 0 ;
+	sViewInfo.scrollPos.h		= sViewInfo.scrollPos.v			= 0;
+	sViewInfo.scrollUnit.h		= sViewInfo.scrollUnit.v		= 1;
+	sViewInfo.reconcileOverhang	= false;
+	
+	// Pane info
+	sPaneInfo.left				= 0;
+	sPaneInfo.height			= kStrxHeight;
+	sPaneInfo.visible			= true;
+	sPaneInfo.enabled			= true;
+	sPaneInfo.bindings.left		= true;
+	sPaneInfo.bindings.top		= false;
+	sPaneInfo.bindings.right	= true;
+	sPaneInfo.bindings.bottom 	= false;
+	sPaneInfo.userCon			= 0;
+	sPaneInfo.paneID			= 0;
+	sPaneInfo.superView			= mContentsView;
 
 	// Link the broadcasters
 	UReanimator::LinkListenerToControls( this, this, PPob_MenuEditorWindow );
@@ -128,32 +148,21 @@ CSTRx_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		
 						
 		case msg_MinusButton: {
-// 			ArrayIndexT theIndex = mMenuObj->GetItemIndex();
-// 			mItemsTable->RemoveSelectedRow();
-// 			mMenuObj->RemoveItem(theIndex);
-// 			InstallCurrentValues();
-// 			mItemsTable->Refresh();
-			SetDirty(true);
+			if (DeleteSelected() > 0) {
+				RecalcAllPositions();
+				mContentsView->ResizeImageTo(0, mIndexedFields.GetCount() * kStrxHeight, false);
+				SetDirty(true);
+				mContentsView->Refresh();
+			} 
 			break;
 		}
 				
 		case msg_PlusButton: {
-			Str255		theString = "\p";
-// 			TableCellT	theCell = {0,1};
-// 			ArrayIndexT	theIndex = mMenuObj->GetItemIndex();
-// 			// Retrieve the currently displayed values
-// 			RetrieveItemValues(theIndex);
-// 			// Add in the table
-// 			mItemsTable->InsertRows(1, theIndex, theString);
-// 			theCell.row = theIndex + 1;
-// 			mItemsTable->SelectCell(theCell);
-// 			// Add in the menu object
-// 			mMenuObj->NewItem(theIndex);
-// 			mMenuObj->SetItemIndex(theIndex + 1);
-// 			ClearItemValues();
-// 			mPopup->SetValue(kind_MenuNoProperty);
-// 			mItemsTable->Refresh();
+			UInt16 index = GetFirstSelected();
+			InsertStringItemAtIndex(index, "\p");
+			mContentsView->ResizeImageTo(0, mIndexedFields.GetCount() * kStrxHeight, false);
 			SetDirty(true);
+			mContentsView->Refresh();
 			break;
 		}
 		
@@ -218,6 +227,7 @@ OSErr
 CSTRx_EditorWindow::InstallResourceData(Handle inHandle)
 {
 	OSErr		error = noErr, ignoreErr = noErr;
+	UInt16		numItems = 0;
 	StHandleLocker	locker(inHandle);
 	
 	LHandleStream * theStream = new LHandleStream(inHandle);
@@ -225,13 +235,13 @@ CSTRx_EditorWindow::InstallResourceData(Handle inHandle)
 	if ( theStream->GetLength() == 0 ) {
 		// We are creating a new resource
 	} else {
-		*theStream >> mNumItems;
+		*theStream >> numItems;
 		
-		for (UInt16 i = 0; i < mNumItems; i++) {
+		for (UInt16 i = 1; i <= numItems; i++) {
 			Str255		theString;
 			if ( theStream->GetMarker() < theStream->GetLength() ) {
 				*theStream >> theString;
-				AddStringItem(i, theString);
+				AddStringItem(theString);
 			}
 		}
 		
@@ -245,7 +255,7 @@ CSTRx_EditorWindow::InstallResourceData(Handle inHandle)
 	
 	if (error == noErr) {
 		// Adjust the size of the image
-		mContentsView->ResizeImageTo(0, mNumItems * kStrxHeight, false);
+		mContentsView->ResizeImageTo(0, numItems * kStrxHeight, false);
 		SetDirty(false);
 	} 
 	
@@ -254,41 +264,134 @@ CSTRx_EditorWindow::InstallResourceData(Handle inHandle)
 
 
 // ---------------------------------------------------------------------------
-//  AddStringItem												  [public]
+//  AddStringItem													[public]
 // ---------------------------------------------------------------------------
 
 void
-CSTRx_EditorWindow::AddStringItem(UInt16 index, Str255 inString)
+CSTRx_EditorWindow::AddStringItem(Str255 inString)
 {
-	SPaneInfo		pi;
-	SViewInfo		vi;
-	SDimension16	frameSize;
+	InsertStringItemAtIndex(0, inString);
+}
 
+
+// ---------------------------------------------------------------------------
+//  InsertStringItemAtIndex											[public]
+// ---------------------------------------------------------------------------
+
+void
+CSTRx_EditorWindow::InsertStringItemAtIndex(UInt16 index, Str255 inString)
+{
+	SDimension16	frameSize;
+	UInt16			maxIndex = mIndexedFields.GetCount() + 1;
+	
+	if (index == 0) {
+		index = maxIndex;
+	} 
 	mContentsView->GetFrameSize(frameSize);
 
-	// View info
-	vi.imageSize.width		= vi.imageSize.height	= 0 ;
-	vi.scrollPos.h			= vi.scrollPos.v		= 0;
-	vi.scrollUnit.h			= vi.scrollUnit.v		= 1;
-	vi.reconcileOverhang	= false;
-	
 	// Pane info
-	pi.left				= 0;
-	pi.top				= index * kStrxHeight;
-	pi.width			= frameSize.width;
-	pi.height			= kStrxHeight;
-	pi.visible			= true;
-	pi.enabled			= true;
-	pi.bindings.left	= true;
-	pi.bindings.top		= false;
-	pi.bindings.right	= true;
-	pi.bindings.bottom 	= false;
-	pi.userCon			= 0;
-	pi.paneID			= 0;
-	pi.superView		= mContentsView;
+	sPaneInfo.top	= (index - 1) * kStrxHeight;
+	sPaneInfo.width	= frameSize.width;
 	
-	CIndexedEditField * theEdit = new CIndexedEditField(pi, vi, index, inString);
+	CIndexedEditField * theField = new CIndexedEditField(sPaneInfo, sViewInfo, index, inString);
+	if (index == maxIndex) {
+		mIndexedFields.AddItem(theField);
+	} else {
+		mIndexedFields.InsertItemsAt(1, index, theField);
+		RecalcPositionsFrom(index + 1);
+	}
+}
+
+
+// ---------------------------------------------------------------------------
+//  RecalcPositionsFrom												  [public]
+// ---------------------------------------------------------------------------
+
+void
+CSTRx_EditorWindow::RecalcPositionsFrom(UInt16 index)
+{
+	CIndexedEditField * theField;
+		
+	for (UInt16 i = index; i <= mIndexedFields.GetCount(); i++) {
+		if ( mIndexedFields.FetchItemAt(i, theField) ) {
+			theField->SetIndexField(i);
+			theField->MoveBy(0, kStrxHeight, false);
+		} 
+	}	
+}
+
+
+// ---------------------------------------------------------------------------
+//  RecalcAllPositions												  [public]
+// ---------------------------------------------------------------------------
+
+void
+CSTRx_EditorWindow::RecalcAllPositions()
+{}
+
+
+// ---------------------------------------------------------------------------
+//  GetFirstSelected												  [public]
+// ---------------------------------------------------------------------------
+
+UInt16
+CSTRx_EditorWindow::GetFirstSelected()
+{
+	UInt16 result = 0, index = 0;
+	TArrayIterator<CIndexedEditField*> iterator(mIndexedFields);
+	CIndexedEditField *	theField;
+
+	while (iterator.Next(theField)) {
+		index++;
+		if ( theField->IsSelected() ) {
+			result = index;
+			break;
+		} 
+	}
 	
+	return result;
+}
+
+
+// ---------------------------------------------------------------------------
+//  DeleteSelected												  [public]
+// ---------------------------------------------------------------------------
+// 			TArrayIterator<LPane*> iterator(mSubPanes, LArrayIterator::from_End);
+// 			LPane	*theSub;
+// 			while (iterator.Previous(theSub)) {
+// 				mSubPanes.RemoveItemsAt(1, iterator.GetCurrentIndex());
+// 				delete theSub;
+// 			}
+// TArrayIterator<CIndexedEditField*> iterator(mIndexedFields);
+// 
+// while (iterator.Next(theField)) {
+// }
+// TArray<LPane*>	subPanes;
+
+UInt16
+CSTRx_EditorWindow::DeleteSelected()
+{
+	UInt16 count = 0;
+
+	TArrayIterator<LPane*> iterator(mContentsView->GetSubPanes(), LArrayIterator::from_End);
+	LPane *				theSub;
+	CIndexedEditField *	theField;
+	ArrayIndexT			theIndex;
+	
+	while (iterator.Previous(theSub)) {
+		theField = dynamic_cast<CIndexedEditField*>(theSub);
+		if ( theField != nil && theField->IsSelected() ) {
+			mContentsView->GetSubPanes().RemoveItemsAt(1, iterator.GetCurrentIndex());
+			delete theField;
+			theIndex = mIndexedFields.FetchIndexOf(theField);
+			if (theIndex != LArray::index_Bad) {
+				mIndexedFields.RemoveItemsAt(1, theIndex);
+			} 
+			count++;
+		} 
+	}
+	
+	return count;
 }
 
 

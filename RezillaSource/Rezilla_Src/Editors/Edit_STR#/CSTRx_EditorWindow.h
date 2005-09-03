@@ -2,7 +2,7 @@
 // CSTRx_EditorWindow.h
 // 
 //                       Created: 2005-08-31 18:26:24
-//             Last modification: 2005-09-02 07:36:44
+//             Last modification: 2005-09-03 07:22:44
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -53,19 +53,28 @@ public:
 	
 	virtual void	RevertContents();
 
+	UInt16			GetFirstSelected();
+	
 	LView*			GetContentsView() const { return mContentsView;}
 	
+	static SPaneInfo 			sPaneInfo;
+	static SViewInfo			sViewInfo;
+
 protected:
-	UInt16				mNumItems;
-	LHandleStream *		mOutStream;
-	LView *				mContentsView;
-// 	LTabGroupView *		mTGV;
+	LHandleStream *				mOutStream;
+	LView *						mContentsView;
+// 	LTabGroupView *				mTGV;
+	TArray<CIndexedEditField*>	mIndexedFields;
 
 	virtual void	FinishCreateSelf();
 
 private:	
-	void			AddStringItem(UInt16 index, Str255 inString);
-
+	void			AddStringItem(Str255 inString);
+	void			InsertStringItemAtIndex(UInt16 index, Str255 inString);
+	void			RecalcPositionsFrom(UInt16 index);
+	void			RecalcAllPositions();
+	UInt16			DeleteSelected();
+	
 };
 
 
