@@ -2,7 +2,7 @@
 // CIndexedEditField.cp
 // 
 //                       Created: 2005-09-01 09:14:05
-//             Last modification: 2005-09-02 16:03:53
+//             Last modification: 2005-09-03 10:07:25
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -132,6 +132,23 @@ CIndexedEditField::FinishCreateSelf()
 
 #pragma mark -
 
+
+// ---------------------------------------------------------------------------
+//	¥ DrawSelf
+// ---------------------------------------------------------------------------
+
+void
+CIndexedEditField::DrawSelf()
+{
+	LPane::DrawSelf();
+	if (mSelected) {
+		DrawBorder();
+	} else {
+		EraseBorder();
+	}
+}
+
+
 // ---------------------------------------------------------------------------
 //   Click
 // ---------------------------------------------------------------------------
@@ -149,19 +166,11 @@ CIndexedEditField::Click(SMouseDownEvent &inMouseDown)
 			
 			if ( theID == 0 || theID == PaneIDT_Unspecified ) {
 				if (mSelected) {
-// 					mOwnerWindow->SetSelectedListItem(NULL);
 					mSelected = false;
 					EraseBorder();
 				} else {
-// 					CTmplListItemView * selectedItem = mOwnerWindow->GetSelectedListItem();
-// 					mOwnerWindow->SetSelectedListItem(this);
-// 					mOwnerWindow->SwitchTarget(mOwnerWindow);
 					mSelected = true;
 					DrawBorder();
-// 					if (selectedItem != NULL) {
-// 						selectedItem->SetIsSelected(false);
-// 						selectedItem->EraseBorder();
-// 					}
 				}
 			} else {
 				clickedPane->Click(inMouseDown);
@@ -170,7 +179,6 @@ CIndexedEditField::Click(SMouseDownEvent &inMouseDown)
 		// No SubPane hit. Inherited function will process click on this view.
 		LPane::Click(inMouseDown);
 	}
-	
 }
 
 

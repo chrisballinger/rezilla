@@ -2,7 +2,7 @@
 // CIndexedEditField.h
 // 
 //                       Created: 2005-09-01 09:14:05
-//             Last modification: 2005-09-02 16:03:46
+//             Last modification: 2005-09-03 10:07:17
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -55,6 +55,8 @@ public:
 
 	virtual void		Click( SMouseDownEvent& inMouseDown );
 	
+	virtual void		DrawSelf();
+
 	virtual Boolean		HandleKeyPress( const EventRecord& inKeyEvent );
 	
 	virtual void		DrawBorder();
