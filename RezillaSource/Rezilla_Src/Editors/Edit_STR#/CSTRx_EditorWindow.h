@@ -2,7 +2,7 @@
 // CSTRx_EditorWindow.h
 // 
 //                       Created: 2005-08-31 18:26:24
-//             Last modification: 2005-09-03 07:22:44
+//             Last modification: 2005-09-04 06:14:35
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -50,6 +50,7 @@ public:
 							void*			ioParam);
 
 	OSErr			InstallResourceData(Handle inHandle);
+	Handle			CollectResourceData();
 	
 	virtual void	RevertContents();
 

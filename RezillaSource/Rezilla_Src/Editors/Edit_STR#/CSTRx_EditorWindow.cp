@@ -2,7 +2,7 @@
 // CSTRx_EditorWindow.cp					
 // 
 //                       Created: 2005-08-31 18:26:24
-//             Last modification: 2005-09-03 07:23:03
+//             Last modification: 2005-09-04 06:09:00
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -15,13 +15,12 @@
 #include "CSTRx_EditorDoc.h"
 #include "CSTRx_EditorWindow.h"
 #include "CIndexedEditField.h"
+#include "CRezObj.h"
 #include "RezillaConstants.h"
 #include "UMessageDialogs.h"
-#include "UCompareUtils.h"
 
 #include <LEditText.h>
 #include <LStaticText.h>
-#include <LPopupButton.h>
 #include <LTabGroupView.h>
 
 #include <stdio.h>
@@ -86,7 +85,7 @@ CSTRx_EditorWindow::~CSTRx_EditorWindow()
 
 
 // ---------------------------------------------------------------------------
-// FinishCreateSelf											[protected]
+// FinishCreateSelf												[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -100,7 +99,7 @@ CSTRx_EditorWindow::FinishCreateSelf()
 
 // 	mTGV = dynamic_cast<LTabGroupView *>(this->FindPaneByID( item_TabGroup ));
 // 	ThrowIfNil_( mTGV );
-
+	
 	// View info
 	sViewInfo.imageSize.width	= sViewInfo.imageSize.height	= 0 ;
 	sViewInfo.scrollPos.h		= sViewInfo.scrollPos.v			= 0;
@@ -123,9 +122,6 @@ CSTRx_EditorWindow::FinishCreateSelf()
 	// Link the broadcasters
 	UReanimator::LinkListenerToControls( this, this, PPob_MenuEditorWindow );
 	
-// 	// Listen to the table
-// 	mItemsTable->AddListener(this);
-
 }
 
 
@@ -161,16 +157,20 @@ CSTRx_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			}
 			mContentsView->ResizeImageTo(0, mIndexedFields.GetCount() * kStrxHeight, false);
 			SetDirty(true);
-			mContentsView->Refresh();
+			Refresh();
 			break;
 		}
 				
 		case msg_PlusButton: {
 			UInt16 index = GetFirstSelected();
+			mContentsView->Deactivate();
+			mContentsView->Hide();
 			InsertStringItemAtIndex(index, "\p");
 			mContentsView->ResizeImageTo(0, mIndexedFields.GetCount() * kStrxHeight, false);
 			SetDirty(true);
-			mContentsView->Refresh();
+			mContentsView->Show();
+			mContentsView->Enable();
+			mContentsView->Activate();
 			break;
 		}
 		
@@ -413,6 +413,43 @@ CSTRx_EditorWindow::DeleteSelected()
 
 
 // ---------------------------------------------------------------------------
+//  CollectResourceData												[public]
+// ---------------------------------------------------------------------------
+// Retrieve the contents of the current panel
+
+Handle
+CSTRx_EditorWindow::CollectResourceData() 
+{
+	Handle	theHandle = NULL;
+	Str255	theString;
+	UInt16	numStrings = mIndexedFields.GetCount();
+	
+	try {
+		if (mOutStream != nil) {delete mOutStream;} 
+
+		mOutStream = new LHandleStream();	
+		ThrowIfNil_(mOutStream);
+
+		*mOutStream << numStrings;
+
+		TArrayIterator<CIndexedEditField*> iterator(mIndexedFields);
+		CIndexedEditField *	theField;
+
+		while (iterator.Next(theField)) {
+			theField->GetDescriptor(theString);
+			*mOutStream << theString;
+		}
+		theHandle = mOutStream->GetDataHandle();
+	}
+	catch (...) {
+// 		UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("SaveStringsFailed"), PPob_SimpleMessage);
+	}
+	
+	return theHandle;
+}
+
+
+// ---------------------------------------------------------------------------
 //  RevertContents												  [public]
 // ---------------------------------------------------------------------------
 
@@ -421,50 +458,33 @@ CSTRx_EditorWindow::RevertContents()
 {
 	OSErr error = noErr;
 	
-// 	// Reinitialize members
-// 	mNeedsXmnu = false;
-// 	mInstallValue = false;
-// 	if (mOutStream != nil) {
-// 		delete mOutStream;
-// 	} 
-// 	if (mMenuObj != nil) {
-// 		delete mMenuObj;
-// 		mMenuObj = nil;
-// 	} 
-// 
-// 	// Remove the items from the table
-// 	TableIndexT	theRows, theCols;
-// 	mItemsTable->GetTableSize(theRows, theCols);
-// 	mItemsTable->RemoveRows(theRows, 1);
-// 
-// 	CRezObj * theRezObj = mOwnerDoc->GetRezObj();
-// 	// Reinstall the contents
-// 	if (theRezObj != nil) {
-// 		Handle rezData = theRezObj->GetData();
-// 		
-// 		try {
-// 			if (rezData != nil) {
-// 				Handle		xmnuData = NULL;
-// 				CRezMap *	theRezMap = mOwnerDoc->GetRezMapTable()->GetRezMap();
-// 				
-// 				if (mHasXmnu) {
-// 					theRezMap->GetWithID(ResType_ExtendedMenu, theRezObj->GetID(), xmnuData, true);
-// 					if (xmnuData != nil) {
-// 						::HandToHand(&xmnuData);
-// 					} 
-// 				} 
-// 				
-// 				// Work with a copy of the handle
-// 				::HandToHand(&rezData);
-// 				error = InstallResourceData(rezData, xmnuData);			
-// 			} 
-// 			ThrowIfError_(error);			
-// 		} catch (...) {
-// 			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("DataParsingException"), PPob_SimpleMessage);
-// 			return;
-// 		}
-// 	} 
+	// Delete the panes
+	mContentsView->DeleteAllSubPanes();
+	// Reset the array
+	mIndexedFields.RemoveAllItemsAfter(0);
+
+	mContentsView->Hide();
 	
+	// Reinstall the strings
+	CRezObj * theRezObj = mOwnerDoc->GetRezObj();
+	if (theRezObj != nil) {
+		Handle rezData = theRezObj->GetData();
+		
+		try {
+			if (rezData != nil) {
+				// Work with a copy of the handle
+				::HandToHand(&rezData);
+				error = InstallResourceData(rezData);			
+			} 
+			ThrowIfError_(error);			
+		} catch (...) {
+			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("DataParsingException"), PPob_SimpleMessage);
+			return;
+		}
+	} 
+	
+	mContentsView->Show();
+	mContentsView->Enable();
 	Refresh();
 	SetDirty(false);
 }
