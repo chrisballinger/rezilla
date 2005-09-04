@@ -115,7 +115,10 @@ CIndexedEditField::Initialize(Str255 inString)
 	mEditText = new LEditText(pi, this, inString, Txtr_MonacoNineDefault, msg_Nothing, 255, 0, 
 							  UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar));						  
 	mEditText->SetDescriptor(inString);  
-							  
+	
+// 	mStaticText->Enable();
+// 	mEditText->Enable();
+	
 }
 
 
