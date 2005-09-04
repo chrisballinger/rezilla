@@ -197,8 +197,7 @@ CSTRx_EditorDoc::GetModifiedResource(Boolean &releaseIt)
 {
 #pragma unused(releaseIt)
 	
-// 	return mStrxEditWindow->CollectMenuData();
-	return NULL;
+	return mStrxEditWindow->CollectResourceData();
 }
 
 
