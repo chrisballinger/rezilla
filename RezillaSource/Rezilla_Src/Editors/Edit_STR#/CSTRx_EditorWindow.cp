@@ -18,6 +18,7 @@
 #include "CRezObj.h"
 #include "RezillaConstants.h"
 #include "UMessageDialogs.h"
+#include "UDragAndDropUtils.h"
 
 #include <LEditText.h>
 #include <LStaticText.h>
@@ -553,6 +554,16 @@ CSTRx_EditorWindow::ItemIsAcceptable(
 //  ReceiveDragItem
 // ---------------------------------------------------------------------------------
 
+// 			if (oldRow > mDropIndex) {
+// 				oldRow++;
+// 			} 				
+// 			InsertRows( 1, theRow, theString );
+			
+// 			// Select the new cell, but without calling
+// 			// SelectCell to avoid immediate drawing
+// 			mSelectedCell.row = theRow + 1;
+		
+
 void
 CSTRx_EditorWindow::ReceiveDragItem(
 	DragReference	inDragRef,
@@ -561,10 +572,10 @@ CSTRx_EditorWindow::ReceiveDragItem(
 	Rect			&inItemBounds )
 {
 #pragma unused( inDragAttrs, inItemBounds )
-
+	
 	FlavorFlags	theFlags;
 	ThrowIfOSErr_( ::GetFlavorFlags( inDragRef, inItemRef, 'TEXT', &theFlags ) );
-
+	
 	// Get the data
 	Size	theDataSize = 255;
 	Str255	theString;
@@ -573,62 +584,61 @@ CSTRx_EditorWindow::ReceiveDragItem(
 	// Get the data size and set the string length
 	ThrowIfOSErr_( ::GetFlavorDataSize( inDragRef, inItemRef, 'TEXT', &theDataSize ) );
 	theString[0] = theDataSize;
-
-// 	// if it's a move operation (in sender and no option key)
-// 	if ( UDragAndDropUtils::CheckIfViewIsAlsoSender( inDragRef ) &&
-// 		!UDragAndDropUtils::CheckForOptionKey( inDragRef ) ) {
-// 	
-// 		// Get the selected cell
-// 		TableCellT	theSelectedCell;
-// 		GetSelectedCell( theSelectedCell );
-// 		
-// 		if ( mDropIndex != theSelectedCell.row ) {
-// 		
-// 			// Delete the old data
-// 			if ( IsValidCell( theSelectedCell ) ) {
-// 
-// 				// Delete the original cell
-// 				RemoveRows( 1, theSelectedCell.row );
-// 			
-// 			}
-// 
-// 			// Add the new data
-// 			UInt16	theRow;
-// 			if ( mDropIndex == -1 ) {
-// 				theRow = LArray::index_Last;
-// 			} else {
-// 				theRow = mDropIndex;
-// 				if ( theRow > theSelectedCell.row ) {
-// 					// Adjust for deleted row
-// 					theRow -= 1;
-// 				}
-// 			}
-// 			InsertRows( 1, theRow, theString );
-// 			
-// 			// Select the new cell, but without calling
-// 			// SelectCell to avoid immediate drawing
-// 			mSelectedCell.row = theRow + 1;
-// 		
-// 		}
-// 
-// 	} else { // it's a copy operation
-// 
-// 		// Add the new data
-// 		UInt16	theRow;
-// 		if ( mDropIndex == -1 ) {
-// 			theRow = LArray::index_Last;
-// 		} else {
-// 			theRow = mDropIndex;
-// 		}
-// 		InsertRows( 1, theRow, theString );
-// 
-// 		// Select the new cell, but without calling
-// 		// SelectCell to avoid immediate drawing
-// 		mSelectedCell.row = theRow + 1;
-// 
-// 	}
 	
-	// Invalidate the table
+	if ( UDragAndDropUtils::CheckIfViewIsAlsoSender(inDragRef) ) {
+
+		if (!UDragAndDropUtils::CheckForOptionKey(inDragRef) ) {
+			// No option key, it is a move operation
+			// Get the original index
+			Point	thePoint;
+			UInt16	oldRow, newRow;
+			::GetDragOrigin(inDragRef, &thePoint);
+			GlobalToPortPoint( thePoint );
+			
+			GetIndexFromPoint( thePoint, oldRow );
+			
+			if ( mDropIndex != oldRow ) {
+				CIndexedEditField *	theField;
+				if ( mIndexedFields.FetchItemAt(oldRow, theField) ) {
+					// Delete the old data
+					mIndexedFields.RemoveItemsAt(1, oldRow);
+					// Add the new data
+					if ( mDropIndex == -1 ) {
+// 						newRow = mIndexedFields.GetCount();
+						mIndexedFields.AddItem(theField);
+					} else {
+						newRow = mDropIndex;
+						if ( newRow < oldRow ) {
+							// Adjust for deleted row
+							newRow += 1;
+						}
+						mIndexedFields.InsertItemsAt(1, newRow, theField);
+					}
+				} 
+			}
+			
+		} else {
+			// it's a copy operation
+	// 		// Add the new data
+	// 		UInt16	theRow;
+	// 		if ( mDropIndex == -1 ) {
+	// 			theRow = LArray::index_Last;
+	// 		} else {
+	// 			theRow = mDropIndex;
+	// 		}
+	// 		InsertRows( 1, theRow, theString );
+	// 
+	// 		// Select the new cell, but without calling
+	// 		// SelectCell to avoid immediate drawing
+	// 		mSelectedCell.row = theRow + 1;
+		}
+		
+	} else {
+		
+	
+	}
+
+	RecalcAllPositions();
 	Refresh();
 }
 
@@ -769,7 +779,8 @@ CSTRx_EditorWindow::DrawDividingLine( UInt16 inRow )
 {
 	// Focus the pane and get the table and cell frames
 	Rect	theFrame;
-	if ( FocusDraw() && CalcLocalFrameRect( theFrame ) ) {
+	
+	if ( FocusDraw() && mContentsView->CalcPortFrameRect(theFrame) ) {
 
 		// Save the draw state
 		StColorPenState	theDrawState;
@@ -784,12 +795,12 @@ CSTRx_EditorWindow::DrawDividingLine( UInt16 inRow )
 
 		// Calculate the dividing line position
 		Point	thePoint;
-		thePoint.v = inRow * kStrxHeight;
-		thePoint.h = 0;
+		thePoint.v = inRow * kStrxHeight + theFrame.top;
+		thePoint.h = theFrame.left + kStrxIndexWidth;
 
 		// Draw the line
-		::MoveTo( thePoint.h, thePoint.v-1 );
-		::LineTo( thePoint.h + theFrame.right - theFrame.left, thePoint.v-1 );
+		::MoveTo( thePoint.h, thePoint.v );
+		::LineTo( thePoint.h + theFrame.right - theFrame.left - kStrxIndexWidth, thePoint.v );
 	
 	}
 }
