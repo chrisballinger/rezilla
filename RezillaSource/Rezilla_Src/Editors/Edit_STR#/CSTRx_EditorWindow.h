@@ -2,7 +2,7 @@
 // CSTRx_EditorWindow.h
 // 
 //                       Created: 2005-08-31 18:26:24
-//             Last modification: 2005-09-05 06:37:42
+//             Last modification: 2005-09-05 09:33:48
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -70,8 +70,23 @@ protected:
 	LView *						mContentsView;
 // 	LTabGroupView *				mTGV;
 	TArray<CIndexedEditField*>	mIndexedFields;
+	UInt16						mDropIndex;
 
 	virtual void	FinishCreateSelf();
+
+	virtual Boolean		ItemIsAcceptable( DragReference inDragRef,
+							ItemReference inItemRef );
+	virtual void		ReceiveDragItem( DragReference inDragRef,
+							DragAttributes inDragAttrs, ItemReference inItemRef,
+							Rect &inItemBounds );
+	virtual void		EnterDropArea( DragReference inDragRef, Boolean inDragHasLeftSender );
+	virtual void		LeaveDropArea( DragReference inDragRef );
+	virtual void		InsideDropArea( DragReference inDragRef);
+	virtual void		HiliteDropArea( DragReference inDragRef );
+
+	void				GetIndexFromPoint(	const Point &inPortPoint,
+											UInt16 &outRow );
+	void				DrawDividingLine( UInt16 inRow );
 
 private:	
 	void			AddStringItem(Str255 inString);

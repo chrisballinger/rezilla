@@ -2,7 +2,7 @@
 // CSTRx_EditorWindow.cp					
 // 
 //                       Created: 2005-08-31 18:26:24
-//             Last modification: 2005-09-05 06:44:03
+//             Last modification: 2005-09-05 09:00:23
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -35,6 +35,8 @@ SViewInfo CSTRx_EditorWindow::sViewInfo;
 CSTRx_EditorWindow::CSTRx_EditorWindow()
 		: LDragAndDrop( UQDGlobals::GetCurrentWindowPort(), this )
 {
+	// Initialize the drop index to a bad value
+	mDropIndex = -1;
 }
 
 
@@ -47,6 +49,8 @@ CSTRx_EditorWindow::CSTRx_EditorWindow(
 		: CEditorWindow( inWindowInfo ),
 		LDragAndDrop( UQDGlobals::GetCurrentWindowPort(), this )
 {
+	// Initialize the drop index to a bad value
+	mDropIndex = -1;
 }
 
 
@@ -61,6 +65,8 @@ CSTRx_EditorWindow::CSTRx_EditorWindow(
 		: CEditorWindow( inWINDid, inAttributes, inSuperCommander ),
 		LDragAndDrop( UQDGlobals::GetCurrentWindowPort(), this )
 {
+	// Initialize the drop index to a bad value
+	mDropIndex = -1;
 }
 
 
@@ -130,35 +136,27 @@ CSTRx_EditorWindow::FinishCreateSelf()
 
 
 // ---------------------------------------------------------------------------------
-//		¥ Click
+//  Click
 // ---------------------------------------------------------------------------------
 
 void
 CSTRx_EditorWindow::Click(
 	SMouseDownEvent	&inMouseDown )
 {
+	// In order to support dragging from an inactive window, we must
+	// explicitly test for delaySelect
 	if ( inMouseDown.delaySelect ) {
-
-		// In order to support dragging from an inactive window,
-		// we must explicitly test for delaySelect and the
-		// presence of Drag and Drop.
-
-		// Convert to a local point.
+		// Convert to a local point
 		PortToLocalPoint( inMouseDown.whereLocal );
 		
-		// Execute click attachments.
-		if ( ExecuteAttachments( msg_Click, &inMouseDown ) ) {
-		
-			// Handle the actual click event.
+		// Execute click attachments
+		if ( ExecuteAttachments( msg_Click, &inMouseDown ) ) {		
+			// Handle the actual click event
 			ClickSelf( inMouseDown );
-
 		}
-	
 	} else {
-
-		// Call inherited for default behavior.	
+		// Call inherited for default behavior
 		LWindow::Click( inMouseDown );
-	
 	}
 }
 
@@ -527,3 +525,271 @@ CSTRx_EditorWindow::RevertContents()
 	SetDirty(false);
 }
 
+
+
+#pragma mark -
+
+
+// // Drag and Drop code
+// // ==================
+
+// ---------------------------------------------------------------------------------
+//  ItemIsAcceptable
+// ---------------------------------------------------------------------------------
+
+Boolean
+CSTRx_EditorWindow::ItemIsAcceptable(
+	DragReference	inDragRef,
+	ItemReference	inItemRef )
+{
+	// Make sure there's text in the drag data
+	FlavorFlags	theFlags;
+	Boolean acceptable = (::GetFlavorFlags( inDragRef, inItemRef, 'TEXT', &theFlags ) == noErr);
+	return acceptable;
+}
+
+
+// ---------------------------------------------------------------------------------
+//  ReceiveDragItem
+// ---------------------------------------------------------------------------------
+
+void
+CSTRx_EditorWindow::ReceiveDragItem(
+	DragReference	inDragRef,
+	DragAttributes	inDragAttrs,
+	ItemReference	inItemRef,
+	Rect			&inItemBounds )
+{
+#pragma unused( inDragAttrs, inItemBounds )
+
+	FlavorFlags	theFlags;
+	ThrowIfOSErr_( ::GetFlavorFlags( inDragRef, inItemRef, 'TEXT', &theFlags ) );
+
+	// Get the data
+	Size	theDataSize = 255;
+	Str255	theString;
+	ThrowIfOSErr_( ::GetFlavorData( inDragRef, inItemRef,'TEXT', &theString[1], &theDataSize, 0 ) );
+	
+	// Get the data size and set the string length
+	ThrowIfOSErr_( ::GetFlavorDataSize( inDragRef, inItemRef, 'TEXT', &theDataSize ) );
+	theString[0] = theDataSize;
+
+// 	// if it's a move operation (in sender and no option key)
+// 	if ( UDragAndDropUtils::CheckIfViewIsAlsoSender( inDragRef ) &&
+// 		!UDragAndDropUtils::CheckForOptionKey( inDragRef ) ) {
+// 	
+// 		// Get the selected cell
+// 		TableCellT	theSelectedCell;
+// 		GetSelectedCell( theSelectedCell );
+// 		
+// 		if ( mDropIndex != theSelectedCell.row ) {
+// 		
+// 			// Delete the old data
+// 			if ( IsValidCell( theSelectedCell ) ) {
+// 
+// 				// Delete the original cell
+// 				RemoveRows( 1, theSelectedCell.row );
+// 			
+// 			}
+// 
+// 			// Add the new data
+// 			UInt16	theRow;
+// 			if ( mDropIndex == -1 ) {
+// 				theRow = LArray::index_Last;
+// 			} else {
+// 				theRow = mDropIndex;
+// 				if ( theRow > theSelectedCell.row ) {
+// 					// Adjust for deleted row
+// 					theRow -= 1;
+// 				}
+// 			}
+// 			InsertRows( 1, theRow, theString );
+// 			
+// 			// Select the new cell, but without calling
+// 			// SelectCell to avoid immediate drawing
+// 			mSelectedCell.row = theRow + 1;
+// 		
+// 		}
+// 
+// 	} else { // it's a copy operation
+// 
+// 		// Add the new data
+// 		UInt16	theRow;
+// 		if ( mDropIndex == -1 ) {
+// 			theRow = LArray::index_Last;
+// 		} else {
+// 			theRow = mDropIndex;
+// 		}
+// 		InsertRows( 1, theRow, theString );
+// 
+// 		// Select the new cell, but without calling
+// 		// SelectCell to avoid immediate drawing
+// 		mSelectedCell.row = theRow + 1;
+// 
+// 	}
+	
+	// Invalidate the table
+	Refresh();
+}
+
+
+// ---------------------------------------------------------------------------------
+//  EnterDropArea
+// ---------------------------------------------------------------------------------
+
+void
+CSTRx_EditorWindow::EnterDropArea(
+	DragReference	inDragRef,
+	Boolean			inDragHasLeftSender )
+{
+	// Call inherited
+	LDragAndDrop::EnterDropArea( inDragRef, inDragHasLeftSender );
+	// Invalidate the last drop index
+	mDropIndex = -1;
+}
+
+
+// ---------------------------------------------------------------------------------
+//  LeaveDropArea
+// ---------------------------------------------------------------------------------
+
+void
+CSTRx_EditorWindow::LeaveDropArea(
+	DragReference	inDragRef )
+{
+	// Undo dividing line drawing
+	DrawDividingLine( mDropIndex );
+	// Invalidate the last drop index
+	mDropIndex = -1;
+	// Call inherited
+	LDragAndDrop::LeaveDropArea( inDragRef );
+}
+
+
+// ---------------------------------------------------------------------------------
+//  InsideDropArea
+// ---------------------------------------------------------------------------------
+
+void
+CSTRx_EditorWindow::InsideDropArea(
+	DragReference	inDragRef )
+{
+	// Call inherited
+	LDragAndDrop::InsideDropArea( inDragRef );
+
+	if ( FocusDraw() ) {
+
+		// Get the mouse location and convert to port coordinates
+		Point	thePoint;
+		::GetDragMouse( inDragRef, &thePoint, nil );
+		GlobalToPortPoint( thePoint );
+
+		// Get the dividing line point
+		UInt16	theRow;
+		GetIndexFromPoint( thePoint, theRow );
+		
+		if ( mDropIndex != theRow ) {
+			if ( mDropIndex >= 0 ) {
+				// Undo the previous line (drawing uses patXor mode)
+				DrawDividingLine( mDropIndex );
+			}
+			
+			// Update the drop index and draw the new dividing line
+			mDropIndex = theRow;
+			DrawDividingLine( mDropIndex );
+		}
+	}
+}
+
+
+// ---------------------------------------------------------------------------------
+//  HiliteDropArea
+// ---------------------------------------------------------------------------------
+
+void
+CSTRx_EditorWindow::HiliteDropArea(
+	DragReference	inDragRef )
+{
+	// Get the frame rect
+	Rect	theRect;
+	CalcLocalFrameRect( theRect );
+
+	// Show the drag hilite in the drop area
+	RgnHandle	theRgnH = ::NewRgn();
+	::RectRgn( theRgnH, &theRect );
+	::ShowDragHilite( inDragRef, theRgnH, true );
+	::DisposeRgn( theRgnH );
+}
+
+
+// ---------------------------------------------------------------------------------
+//  GetIndexFromPoint
+// ---------------------------------------------------------------------------------
+
+void
+CSTRx_EditorWindow::GetIndexFromPoint(
+	const Point	&inPortPoint,
+	UInt16		&outRow )
+{
+	// Convert to local coordinates
+	Point	theLocalPoint = inPortPoint;
+	PortToLocalPoint( theLocalPoint );
+	
+	// Convert to image coordinates
+	SPoint32	theImagePoint;
+	LocalToImagePoint( theLocalPoint, theImagePoint );
+	
+	// Calculate the item index given the image point
+	outRow = (theImagePoint.v - 1) / kStrxHeight + 1;
+	
+	// Calculate the item's midpoint
+	SInt32	theMidPoint = (outRow - 1) * kStrxHeight + kStrxHeight / 2;
+
+	if ( theImagePoint.v < theMidPoint ) {
+		// The point is less than the midpoint, so use the previous index
+		outRow -= 1;
+	
+	}
+	
+	// Constrain to the range of items (0 means "insert at the beginning")
+	if ( outRow < 0 ) {
+		outRow = 0;
+	} else if ( outRow > mIndexedFields.GetCount() ) {
+		outRow = mIndexedFields.GetCount();
+	}
+}
+
+
+// ---------------------------------------------------------------------------------
+//  DrawDividingLine
+// ---------------------------------------------------------------------------------
+
+void
+CSTRx_EditorWindow::DrawDividingLine( UInt16 inRow )
+{
+	// Focus the pane and get the table and cell frames
+	Rect	theFrame;
+	if ( FocusDraw() && CalcLocalFrameRect( theFrame ) ) {
+
+		// Save the draw state
+		StColorPenState	theDrawState;
+
+		// Save the clip region state and clip the list view rect
+		StClipRgnState	theClipState( theFrame );
+
+		// Setup the color and pen state
+		::ForeColor( blackColor );
+		::PenMode( patXor );
+		::PenSize( 2, 2 );
+
+		// Calculate the dividing line position
+		Point	thePoint;
+		thePoint.v = inRow * kStrxHeight;
+		thePoint.h = 0;
+
+		// Draw the line
+		::MoveTo( thePoint.h, thePoint.v-1 );
+		::LineTo( thePoint.h + theFrame.right - theFrame.left, thePoint.v-1 );
+	
+	}
+}
