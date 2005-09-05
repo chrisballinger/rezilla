@@ -172,22 +172,21 @@ CIndexedEditField::Click(SMouseDownEvent &inMouseDown)
 			
 				FocusDraw();
 				CalcLocalFrameRect(frame);
-
 				mEditText->GetDescriptor(theString);
 
-				// Create the drag task.
-				LDragTask	theDragTask( inMouseDown.macEvent, frame,
+				// Create the drag task
+				LDragTask theDragTask( inMouseDown.macEvent, frame,
 								1, 'TEXT', &theString[1], StrLength(theString), 0 );
 
-				// Invalidate LView's focus cache.
-				// The port may have changed during the drag.
+				// Invalidate LView's focus cache. The port may have
+				// changed during the drag.
 				LView::OutOfFocus( nil );
 					
-				// Check for a drop in the trash.
+				// Check for a drop in the trash
 				if ( UDragAndDropUtils::DroppedInTrash(
 					theDragTask.GetDragReference() ) ) {
 
-					// Delete the cell and refresh the list.
+					// Delete the cell and refresh the list
 // 					RemoveRows( 1, theCell.row );
 					Refresh();
 				}	
@@ -204,7 +203,7 @@ CIndexedEditField::Click(SMouseDownEvent &inMouseDown)
 			clickedPane->Click(inMouseDown);
 		}
 	} else {
-		// No SubPane hit. Inherited function will process click on this view.
+		// No SubPane hit. Inherited function will process click on this view
 		LPane::Click(inMouseDown);
 	}
 }
