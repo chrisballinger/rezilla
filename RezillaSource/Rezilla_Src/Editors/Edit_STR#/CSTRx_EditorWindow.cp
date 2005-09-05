@@ -182,7 +182,7 @@ CSTRx_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 						
 		case msg_MinusButton: {
 			if (mIndexedFields.GetCount() == 0) {return;} 
-			if (DeleteSelected() > 0) {
+			if (DeleteSelectedItems() > 0) {
 				RecalcAllPositions();
 			} else {
 				// If no item selected, delete the last one
@@ -197,17 +197,11 @@ CSTRx_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			Refresh();
 			break;
 		}
-				
+		
+		
 		case msg_PlusButton: {
 			UInt16 index = GetFirstSelected();
-			mContentsView->Deactivate();
-			mContentsView->Hide();
-			InsertStringItemAtIndex(index, "\p");
-			mContentsView->ResizeImageTo(0, mIndexedFields.GetCount() * kStrxHeight, false);
-			SetDirty(true);
-			mContentsView->Show();
-			mContentsView->Enable();
-			mContentsView->Activate();
+			CreateItemAtIndex(index, "\p");
 			break;
 		}
 		
@@ -243,7 +237,7 @@ CSTRx_EditorWindow::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------
-//	 ObeyCommand							[public, virtual]
+//	 ObeyCommand											[public, virtual]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -320,6 +314,23 @@ CSTRx_EditorWindow::AddStringItem(Str255 inString)
 
 
 // ---------------------------------------------------------------------------
+//  CreateItemAtIndex												[public]
+// ---------------------------------------------------------------------------
+
+void
+CSTRx_EditorWindow::CreateItemAtIndex(UInt16 index, Str255 inString)
+{
+	mContentsView->Deactivate();
+	mContentsView->Hide();
+	InsertStringItemAtIndex(index, inString);
+	mContentsView->ResizeImageTo(0, mIndexedFields.GetCount() * kStrxHeight, false);
+	mContentsView->Show();
+	mContentsView->Enable();
+	mContentsView->Activate();
+}
+
+
+// ---------------------------------------------------------------------------
 //  InsertStringItemAtIndex											[public]
 // ---------------------------------------------------------------------------
 
@@ -343,54 +354,61 @@ CSTRx_EditorWindow::InsertStringItemAtIndex(UInt16 index, Str255 inString)
 		mIndexedFields.AddItem(theField);
 	} else {
 		mIndexedFields.InsertItemsAt(1, index, theField);
-		RecalcPositionsFrom(index + 1);
+		RecalcPositionsInRange(index + 1, mIndexedFields.GetCount());
 	}
 }
 
 
 // ---------------------------------------------------------------------------
-//  RecalcPositionsFrom												  [public]
+//  RecalcPositionAtIndex											[private]
 // ---------------------------------------------------------------------------
 
 void
-CSTRx_EditorWindow::RecalcPositionsFrom(UInt16 index)
+CSTRx_EditorWindow::RecalcPositionAtIndex(UInt16 index)
 {
 	CIndexedEditField * theField;
+
+	if ( mIndexedFields.FetchItemAt(index, theField) ) {
+		SInt32	oldPos, newPos;
+		Rect	theFrame;
 		
-	for (UInt16 i = index; i <= mIndexedFields.GetCount(); i++) {
-		if ( mIndexedFields.FetchItemAt(i, theField) ) {
-			theField->SetIndexField(i);
-			theField->MoveBy(0, kStrxHeight, false);
-		} 
-	}	
+		theField->SetIndexField(index);
+		theField->CalcPortFrameRect(theFrame);
+		mContentsView->PortToLocalPoint(topLeft(theFrame));
+		oldPos = theFrame.top;
+		newPos = (index - 1) * kStrxHeight;
+		theField->MoveBy(0, newPos - oldPos, false);
+	} 
 }
 
 
 // ---------------------------------------------------------------------------
-//  RecalcAllPositions												  [public]
+//  RecalcAllPositions												[private]
 // ---------------------------------------------------------------------------
 
 void
 CSTRx_EditorWindow::RecalcAllPositions()
 {
-	UInt16	index = 1;
-	SInt32	oldPos, newPos;
-	Rect	theFrame;
-	
-	TArrayIterator<CIndexedEditField*> iterator(mIndexedFields);
-	CIndexedEditField *	theField;
+	RecalcPositionsInRange(1, mIndexedFields.GetCount());
+}
 
-	while (iterator.Next(theField)) {
-		theField->SetIndexField(index);
-		
-		theField->CalcPortFrameRect(theFrame);
-		mContentsView->PortToLocalPoint(topLeft(theFrame));
 
-		oldPos = theFrame.top;
-		newPos = (index - 1) * kStrxHeight;
-		theField->MoveBy(0, newPos - oldPos, false);
-		index++;
-	}
+// ---------------------------------------------------------------------------
+//  RecalcPositionsInRange											[private]
+// ---------------------------------------------------------------------------
+// All indices between inStart and inEnd (inclusive)
+
+void
+CSTRx_EditorWindow::RecalcPositionsInRange(UInt16 inStart, UInt16 inEnd)
+{
+	if (inStart > inEnd) {
+		UInt16 pos = inEnd;
+		inEnd = inStart;
+		inStart = pos;
+	} 
+	for (UInt16 i = inStart; i <= inEnd; i++) {
+		RecalcPositionAtIndex(i);
+	}	
 }
 
 
@@ -418,11 +436,11 @@ CSTRx_EditorWindow::GetFirstSelected()
 
 
 // ---------------------------------------------------------------------------
-//  DeleteSelected												  [public]
+//  DeleteSelectedItems												  [public]
 // ---------------------------------------------------------------------------
 
 UInt16
-CSTRx_EditorWindow::DeleteSelected()
+CSTRx_EditorWindow::DeleteSelectedItems()
 {
 	UInt16 count = 0;
 
@@ -434,8 +452,8 @@ CSTRx_EditorWindow::DeleteSelected()
 	while (iterator.Previous(theSub)) {
 		theField = dynamic_cast<CIndexedEditField*>(theSub);
 		if ( theField != nil && theField->IsSelected() ) {
-// 			mContentsView->GetSubPanes().RemoveItemsAt(1, iterator.GetCurrentIndex());
-// 			delete theSub;
+			// Just hide the pane. Destructor will take care of deleting 
+			// the object when the window is closed.
 			theSub->Hide();			
 			theIndex = mIndexedFields.FetchIndexOf(theField);
 			if (theIndex != LArray::index_Bad) {
@@ -552,17 +570,7 @@ CSTRx_EditorWindow::ItemIsAcceptable(
 
 // ---------------------------------------------------------------------------------
 //  ReceiveDragItem
-// ---------------------------------------------------------------------------------
-
-// 			if (oldRow > mDropIndex) {
-// 				oldRow++;
-// 			} 				
-// 			InsertRows( 1, theRow, theString );
-			
-// 			// Select the new cell, but without calling
-// 			// SelectCell to avoid immediate drawing
-// 			mSelectedCell.row = theRow + 1;
-		
+// ---------------------------------------------------------------------------------		
 
 void
 CSTRx_EditorWindow::ReceiveDragItem(
@@ -586,25 +594,25 @@ CSTRx_EditorWindow::ReceiveDragItem(
 	theString[0] = theDataSize;
 	
 	if ( UDragAndDropUtils::CheckIfViewIsAlsoSender(inDragRef) ) {
+		CIndexedEditField *	theField;
+		UInt16	oldRow, newRow;
 
 		if (!UDragAndDropUtils::CheckForOptionKey(inDragRef) ) {
 			// No option key, it is a move operation
+
 			// Get the original index
 			Point	thePoint;
-			UInt16	oldRow, newRow;
 			::GetDragOrigin(inDragRef, &thePoint);
-			GlobalToPortPoint( thePoint );
-			
-			GetIndexFromPoint( thePoint, oldRow );
+			GlobalToPortPoint(thePoint);
+			GetIndexFromPoint(thePoint, oldRow);
 			
 			if ( mDropIndex != oldRow ) {
-				CIndexedEditField *	theField;
+				// Operate on the fields array
 				if ( mIndexedFields.FetchItemAt(oldRow, theField) ) {
 					// Delete the old data
 					mIndexedFields.RemoveItemsAt(1, oldRow);
 					// Add the new data
 					if ( mDropIndex == -1 ) {
-// 						newRow = mIndexedFields.GetCount();
 						mIndexedFields.AddItem(theField);
 					} else {
 						newRow = mDropIndex;
@@ -615,31 +623,26 @@ CSTRx_EditorWindow::ReceiveDragItem(
 						mIndexedFields.InsertItemsAt(1, newRow, theField);
 					}
 				} 
+				RecalcPositionsInRange(oldRow, newRow);
 			}
-			
 		} else {
-			// it's a copy operation
-	// 		// Add the new data
-	// 		UInt16	theRow;
-	// 		if ( mDropIndex == -1 ) {
-	// 			theRow = LArray::index_Last;
-	// 		} else {
-	// 			theRow = mDropIndex;
-	// 		}
-	// 		InsertRows( 1, theRow, theString );
-	// 
-	// 		// Select the new cell, but without calling
-	// 		// SelectCell to avoid immediate drawing
-	// 		mSelectedCell.row = theRow + 1;
+			// It is a copy operation
+			if ( mDropIndex == -1 ) {
+				newRow = 0;
+			} else {
+				newRow = mDropIndex + 1;
+			}
+			CreateItemAtIndex(newRow, theString);
+			RecalcPositionsInRange(newRow + 1, mIndexedFields.GetCount());
 		}
-		
 	} else {
-		
-	
+		// The drag comes from outside
+		CreateItemAtIndex(mDropIndex + 1, theString);		
+		RecalcPositionsInRange(mDropIndex + 1, mIndexedFields.GetCount());
 	}
 
-	RecalcAllPositions();
 	Refresh();
+	SetDirty(true);
 }
 
 
@@ -758,7 +761,6 @@ CSTRx_EditorWindow::GetIndexFromPoint(
 	if ( theImagePoint.v < theMidPoint ) {
 		// The point is less than the midpoint, so use the previous index
 		outRow -= 1;
-	
 	}
 	
 	// Constrain to the range of items (0 means "insert at the beginning")

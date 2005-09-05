@@ -38,7 +38,7 @@ public:
 							CSTRx_EditorWindow( LStream *inStream );
 							~CSTRx_EditorWindow();
 
-	virtual void		Click( SMouseDownEvent &inMouseDown );
+	virtual void	Click( SMouseDownEvent &inMouseDown );
 
 	virtual void	ListenToMessage( MessageT inMessage,void *ioParam);
 
@@ -74,27 +74,30 @@ protected:
 
 	virtual void	FinishCreateSelf();
 
-	virtual Boolean		ItemIsAcceptable( DragReference inDragRef,
+	virtual Boolean	ItemIsAcceptable( DragReference inDragRef,
 							ItemReference inItemRef );
-	virtual void		ReceiveDragItem( DragReference inDragRef,
+	virtual void	ReceiveDragItem( DragReference inDragRef,
 							DragAttributes inDragAttrs, ItemReference inItemRef,
 							Rect &inItemBounds );
-	virtual void		EnterDropArea( DragReference inDragRef, Boolean inDragHasLeftSender );
-	virtual void		LeaveDropArea( DragReference inDragRef );
-	virtual void		InsideDropArea( DragReference inDragRef);
-	virtual void		HiliteDropArea( DragReference inDragRef );
+	virtual void	EnterDropArea( DragReference inDragRef, Boolean inDragHasLeftSender );
+	virtual void	LeaveDropArea( DragReference inDragRef );
+	virtual void	InsideDropArea( DragReference inDragRef);
+	virtual void	HiliteDropArea( DragReference inDragRef );
 
-	void				GetIndexFromPoint(	const Point &inPortPoint,
+	void			GetIndexFromPoint(	const Point &inPortPoint,
 											UInt16 &outRow );
-	void				DrawDividingLine( UInt16 inRow );
+	void			DrawDividingLine( UInt16 inRow );
 
 private:	
 	void			AddStringItem(Str255 inString);
 	void			InsertStringItemAtIndex(UInt16 index, Str255 inString);
-	void			RecalcPositionsFrom(UInt16 index);
-	void			RecalcAllPositions();
-	UInt16			DeleteSelected();
+	void			CreateItemAtIndex(UInt16 index, Str255 inString);
 	
+	UInt16			DeleteSelectedItems();
+	
+	void			RecalcPositionsInRange(UInt16 inStart, UInt16 inEnd);
+	void			RecalcPositionAtIndex(UInt16 index);
+	void			RecalcAllPositions();
 };
 
 
