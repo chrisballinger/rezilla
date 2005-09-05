@@ -591,7 +591,7 @@ void
 CRezMapTable::Click(
 	SMouseDownEvent&	inMouseDown)
 {
-	if ( inMouseDown.delaySelect && DragAndDropIsPresent() ) {
+	if ( inMouseDown.delaySelect ) {
 
 		// Convert to a local point.
 		PortToLocalPoint( inMouseDown.whereLocal );
