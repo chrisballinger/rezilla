@@ -2,7 +2,7 @@
 // CEditorWindow.cp
 // 
 //                       Created: 2004-06-10 14:50:31
-//             Last modification: 2005-06-01 17:20:47
+//             Last modification: 2005-09-05 06:50:46
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -97,11 +97,11 @@ CEditorWindow::~CEditorWindow()
 
 
 // ---------------------------------------------------------------------------
-//  Finalize											[public]
+//  FinalizeEditor											[public]
 // ---------------------------------------------------------------------------
 
 void
-CEditorWindow::Finalize(CEditorDoc* inEditorDoc)
+CEditorWindow::FinalizeEditor(CEditorDoc* inEditorDoc)
 {
 	SetOwnerDoc(inEditorDoc);
 	InstallResourceNameField();

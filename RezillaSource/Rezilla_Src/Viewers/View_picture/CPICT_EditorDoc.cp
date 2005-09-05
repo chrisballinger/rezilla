@@ -2,7 +2,7 @@
 // CPICT_EditorDoc.cp
 // 
 //                       Created: 2004-12-06 14:54:09
-//             Last modification: 2005-07-04 09:25:18
+//             Last modification: 2005-09-05 06:50:58
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -82,7 +82,7 @@ CPICT_EditorDoc::Initialize()
 	
 	SetMainWindow( dynamic_cast<CEditorWindow *>(mPictWindow) );
 	NameNewEditorDoc();
-	mPictWindow->Finalize(this);
+	mPictWindow->FinalizeEditor(this);
 
 	// Install the contents
 	try {

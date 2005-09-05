@@ -92,7 +92,7 @@ CSTRx_EditorDoc::Initialize()
 	
 	SetMainWindow( dynamic_cast<CEditorWindow *>(mStrxEditWindow) );
 	NameNewEditorDoc();
-	mStrxEditWindow->Finalize(this);
+	mStrxEditWindow->FinalizeEditor(this);
 	
 	try {
 		// Install the data

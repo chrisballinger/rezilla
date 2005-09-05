@@ -2,7 +2,7 @@
 // CIcon_EditorDoc.cp
 // 
 //                       Created: 2004-12-11 23:33:03
-//             Last modification: 2005-06-28 16:42:42
+//             Last modification: 2005-09-05 06:52:45
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -173,7 +173,7 @@ CIcon_EditorDoc::Initialize()
 		// CreateWindow() function. Here we must do it explicitely since 
 		// we use OpenPaintWindow() instead of CreateWindow().
 		mIconEditWindow->SetSuperCommander(this);
-		mIconEditWindow->Finalize(this);
+		mIconEditWindow->FinalizeEditor(this);
 
 	}
 	catch (...) {

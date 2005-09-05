@@ -2,7 +2,7 @@
 // CMENU_EditorDoc.cp
 // 
 //                       Created: 2005-03-09 17:16:53
-//             Last modification: 2005-06-03 10:51:27
+//             Last modification: 2005-09-05 06:52:25
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -93,7 +93,7 @@ CMENU_EditorDoc::Initialize()
 	
 	SetMainWindow( dynamic_cast<CEditorWindow *>(mMenuEditWindow) );
 	NameNewEditorDoc();
-	mMenuEditWindow->Finalize(this);
+	mMenuEditWindow->FinalizeEditor(this);
 
 	try {
 		// Install the data

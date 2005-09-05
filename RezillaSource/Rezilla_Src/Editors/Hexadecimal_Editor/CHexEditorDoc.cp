@@ -2,7 +2,7 @@
 // CHexEditorDoc.cp					
 // 
 //                       Created: 2003-05-04 19:16:00
-//             Last modification: 2005-06-03 10:51:01
+//             Last modification: 2005-09-05 06:51:25
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -108,7 +108,7 @@ CHexEditorDoc::Initialize()
 	
 	SetMainWindow( dynamic_cast<CEditorWindow *>(mHexEditWindow) );
 	NameNewEditorDoc();
-	mHexEditWindow->Finalize(this);
+	mHexEditWindow->FinalizeEditor(this);
 
 	// Install the hex and text panes contents
 	if (mRezObj != nil) {

@@ -2,7 +2,7 @@
 // CEditorWindow.h				
 // 
 //                       Created: 2004-06-10 14:44:33
-//             Last modification: 2005-04-27 08:28:15
+//             Last modification: 2005-09-05 06:54:28
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -46,7 +46,7 @@ public:
 							CommandT			inCommand,
 							void*				ioParam);
 
-	virtual void	Finalize(CEditorDoc* inEditorDoc);
+	virtual void	FinalizeEditor(CEditorDoc* inEditorDoc);
 
 	virtual void	RevertContents();
 	
