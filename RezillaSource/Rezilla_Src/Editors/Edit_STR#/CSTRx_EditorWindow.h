@@ -2,7 +2,7 @@
 // CSTRx_EditorWindow.h
 // 
 //                       Created: 2005-08-31 18:26:24
-//             Last modification: 2005-09-04 06:14:35
+//             Last modification: 2005-09-05 06:37:42
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -17,6 +17,7 @@
 #include "CEditorWindow.h"
 #include "UResources.h"
 
+#include <LDragAndDrop.h>
 
 class CIndexedEditField;
 class LEditText;
@@ -25,7 +26,8 @@ class LHandleStream;
 class LTabGroupView;
 
 
-class CSTRx_EditorWindow : public CEditorWindow {
+class CSTRx_EditorWindow :	public CEditorWindow, 
+							public LDragAndDrop {
 public:
 	enum { class_ID = FOUR_CHAR_CODE('STRW') };
 
@@ -35,6 +37,8 @@ public:
 								UInt32 inAttributes, LCommander *inSuperCommander );
 							CSTRx_EditorWindow( LStream *inStream );
 							~CSTRx_EditorWindow();
+
+	virtual void		Click( SMouseDownEvent &inMouseDown );
 
 	virtual void	ListenToMessage( MessageT inMessage,void *ioParam);
 

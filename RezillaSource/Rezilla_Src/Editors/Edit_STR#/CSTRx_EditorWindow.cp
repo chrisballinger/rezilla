@@ -2,7 +2,7 @@
 // CSTRx_EditorWindow.cp					
 // 
 //                       Created: 2005-08-31 18:26:24
-//             Last modification: 2005-09-04 06:09:00
+//             Last modification: 2005-09-05 06:44:03
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -33,6 +33,7 @@ SViewInfo CSTRx_EditorWindow::sViewInfo;
 // ---------------------------------------------------------------------------
 
 CSTRx_EditorWindow::CSTRx_EditorWindow()
+		: LDragAndDrop( UQDGlobals::GetCurrentWindowPort(), this )
 {
 }
 
@@ -43,7 +44,8 @@ CSTRx_EditorWindow::CSTRx_EditorWindow()
 
 CSTRx_EditorWindow::CSTRx_EditorWindow(
 	const SWindowInfo &inWindowInfo )
-		: CEditorWindow( inWindowInfo )
+		: CEditorWindow( inWindowInfo ),
+		LDragAndDrop( UQDGlobals::GetCurrentWindowPort(), this )
 {
 }
 
@@ -56,7 +58,8 @@ CSTRx_EditorWindow::CSTRx_EditorWindow(
 	ResIDT		inWINDid,
 	UInt32		inAttributes,
 	LCommander	*inSuperCommander )
-		: CEditorWindow( inWINDid, inAttributes, inSuperCommander )
+		: CEditorWindow( inWINDid, inAttributes, inSuperCommander ),
+		LDragAndDrop( UQDGlobals::GetCurrentWindowPort(), this )
 {
 }
 
@@ -67,7 +70,8 @@ CSTRx_EditorWindow::CSTRx_EditorWindow(
 
 CSTRx_EditorWindow::CSTRx_EditorWindow(
 			       LStream *inStream )
-		: CEditorWindow( inStream )
+		: CEditorWindow( inStream ),
+		LDragAndDrop( UQDGlobals::GetCurrentWindowPort(), this )
 {
 }
 
@@ -122,6 +126,40 @@ CSTRx_EditorWindow::FinishCreateSelf()
 	// Link the broadcasters
 	UReanimator::LinkListenerToControls( this, this, PPob_MenuEditorWindow );
 	
+}
+
+
+// ---------------------------------------------------------------------------------
+//		¥ Click
+// ---------------------------------------------------------------------------------
+
+void
+CSTRx_EditorWindow::Click(
+	SMouseDownEvent	&inMouseDown )
+{
+	if ( inMouseDown.delaySelect ) {
+
+		// In order to support dragging from an inactive window,
+		// we must explicitly test for delaySelect and the
+		// presence of Drag and Drop.
+
+		// Convert to a local point.
+		PortToLocalPoint( inMouseDown.whereLocal );
+		
+		// Execute click attachments.
+		if ( ExecuteAttachments( msg_Click, &inMouseDown ) ) {
+		
+			// Handle the actual click event.
+			ClickSelf( inMouseDown );
+
+		}
+	
+	} else {
+
+		// Call inherited for default behavior.	
+		LWindow::Click( inMouseDown );
+	
+	}
 }
 
 
