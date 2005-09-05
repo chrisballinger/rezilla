@@ -21,7 +21,7 @@
 #include "RezillaConstants.h"
 
 #include <LString.h>
-#include <UKeyFilters.h>
+#include <UDragAndDropUtils.h>
 
 // // Standard headers
 // #include <string.h>
@@ -184,13 +184,13 @@ CIndexedEditField::Click(SMouseDownEvent &inMouseDown)
 				LView::OutOfFocus( nil );
 					
 				// Check for a drop in the trash.
-// 				if ( UDragAndDropUtils::DroppedInTrash(
-// 					theDragTask.GetDragReference() ) ) {
-// 
-// 					// Delete the cell and refresh the list.
-// // 					RemoveRows( 1, theCell.row );
-// 					Refresh();
-// 				}	
+				if ( UDragAndDropUtils::DroppedInTrash(
+					theDragTask.GetDragReference() ) ) {
+
+					// Delete the cell and refresh the list.
+// 					RemoveRows( 1, theCell.row );
+					Refresh();
+				}	
 			} else {
 				if (mSelected) {
 					mSelected = false;
@@ -210,28 +210,28 @@ CIndexedEditField::Click(SMouseDownEvent &inMouseDown)
 }
 
 
-// ---------------------------------------------------------------------------
-//   HandleKeyPress												  [public]
-// ---------------------------------------------------------------------------
-
-Boolean
-CIndexedEditField::HandleKeyPress(
-	const EventRecord&	inKeyEvent)
-{
-	Boolean		keyHandled = true;
-
-	if (mSelected) {
-		UInt16	theChar = (UInt16) (inKeyEvent.message & charCodeMask);
-
-		if ( (theChar == char_Enter) || (theChar == char_Return) ) {
-// 			SwapPanes();
-		} else {
-			keyHandled = mEditText->HandleKeyPress(inKeyEvent);
-		}
-	} 
-
-	return keyHandled;
-}
+// // ---------------------------------------------------------------------------
+// //   HandleKeyPress												  [public]
+// // ---------------------------------------------------------------------------
+// 
+// Boolean
+// CIndexedEditField::HandleKeyPress(
+// 	const EventRecord&	inKeyEvent)
+// {
+// 	Boolean		keyHandled = true;
+// 
+// 	if (mSelected) {
+// 		UInt16	theChar = (UInt16) (inKeyEvent.message & charCodeMask);
+// 
+// 		if ( (theChar == char_Enter) || (theChar == char_Return) ) {
+// // 			SwapPanes();
+// 		} else {
+// 			keyHandled = mEditText->HandleKeyPress(inKeyEvent);
+// 		}
+// 	} 
+// 
+// 	return keyHandled;
+// }
 
 
 // ---------------------------------------------------------------------------

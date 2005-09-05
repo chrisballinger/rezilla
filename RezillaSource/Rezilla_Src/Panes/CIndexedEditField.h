@@ -56,7 +56,7 @@ public:
 	
 	virtual void		DrawSelf();
 
-	virtual Boolean		HandleKeyPress( const EventRecord& inKeyEvent );
+// 	virtual Boolean		HandleKeyPress( const EventRecord& inKeyEvent );
 	
 	virtual void		DrawBorder();
 	virtual void		EraseBorder();
