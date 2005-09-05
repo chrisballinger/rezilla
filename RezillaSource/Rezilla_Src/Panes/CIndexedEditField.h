@@ -37,8 +37,7 @@ PP_Begin_Namespace_PowerPlant
 // ---------------------------------------------------------------------------
 
 class CIndexedEditField : public LView, 
-						public LCommander,
-						public LBroadcaster {
+						public LCommander {
 public:
 	enum { class_ID		= FOUR_CHAR_CODE('IXED')};
 

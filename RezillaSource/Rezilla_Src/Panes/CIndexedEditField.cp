@@ -2,7 +2,7 @@
 // CIndexedEditField.cp
 // 
 //                       Created: 2005-09-01 09:14:05
-//             Last modification: 2005-09-03 10:07:25
+//             Last modification: 2005-09-04 10:36:51
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -116,9 +116,7 @@ CIndexedEditField::Initialize(Str255 inString)
 							  UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar));						  
 	mEditText->SetDescriptor(inString);  
 	
-// 	mStaticText->Enable();
-// 	mEditText->Enable();
-	
+	this->SetLatentSub(mEditText);
 }
 
 
@@ -164,10 +162,36 @@ CIndexedEditField::Click(SMouseDownEvent &inMouseDown)
 											inMouseDown.wherePort.v);
 	
 	if (clickedPane != nil) {
-			// SubPane is hit, let it respond to the click
-			PaneIDT theID = clickedPane->GetPaneID();
+		// SubPane is hit, let it respond to the click
+		PaneIDT theID = clickedPane->GetPaneID();
+		
+		if ( theID == 0 || theID == PaneIDT_Unspecified ) {
+			if ( ::WaitMouseMoved( inMouseDown.macEvent.where ) ) {
+				Rect	frame;
+				Str255	theString;
 			
-			if ( theID == 0 || theID == PaneIDT_Unspecified ) {
+				FocusDraw();
+				CalcLocalFrameRect(frame);
+
+				mEditText->GetDescriptor(theString);
+
+				// Create the drag task.
+				LDragTask	theDragTask( inMouseDown.macEvent, frame,
+								1, 'TEXT', &theString[1], StrLength(theString), 0 );
+
+				// Invalidate LView's focus cache.
+				// The port may have changed during the drag.
+				LView::OutOfFocus( nil );
+					
+				// Check for a drop in the trash.
+// 				if ( UDragAndDropUtils::DroppedInTrash(
+// 					theDragTask.GetDragReference() ) ) {
+// 
+// 					// Delete the cell and refresh the list.
+// // 					RemoveRows( 1, theCell.row );
+// 					Refresh();
+// 				}	
+			} else {
 				if (mSelected) {
 					mSelected = false;
 					EraseBorder();
@@ -175,10 +199,11 @@ CIndexedEditField::Click(SMouseDownEvent &inMouseDown)
 					mSelected = true;
 					DrawBorder();
 				}
-			} else {
-				clickedPane->Click(inMouseDown);
 			}
 		} else {
+			clickedPane->Click(inMouseDown);
+		}
+	} else {
 		// No SubPane hit. Inherited function will process click on this view.
 		LPane::Click(inMouseDown);
 	}
