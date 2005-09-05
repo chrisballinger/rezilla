@@ -135,7 +135,7 @@ CMENU_EditorTable::Click(
 {
 	// In order to support dragging from an inactive window, we must
 	// explicitly test for delaySelect and the presence of Drag and Drop.
-	if ( inMouseDown.delaySelect && DragAndDropIsPresent() ) {
+	if ( inMouseDown.delaySelect ) {
 
 		// Convert to a local point.
 		PortToLocalPoint( inMouseDown.whereLocal );
@@ -166,8 +166,7 @@ CMENU_EditorTable::ClickCell(
 	// Call inherited.
 	LTable::ClickCell( inCell, inMouseDown );
 
-	if ( DragAndDropIsPresent() &&
-		::WaitMouseMoved( inMouseDown.macEvent.where ) ) {
+	if ( ::WaitMouseMoved( inMouseDown.macEvent.where ) ) {
 
 		// Get the selected cell
 		TableCellT	theCell;
