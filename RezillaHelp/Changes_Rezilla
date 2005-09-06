@@ -32,7 +32,16 @@ This changes log is in reverse chronological order (from bottom to top).
 $Date$
 
 ================================================================================
-= 1.0.6b	                             last update: 
+= 1.0.7b1	                             last update: 
+================================================================================
+¥ Added string lists editor (STR# resources).
+¥ Implemented Drag and Drop capacity in STR# editor.
+¥ Added support for 'MBAR', 'Mcmd', 'RidL' resources in the string lists editor.
+¥ Documented string lists editor in help files.
+¥ 
+
+================================================================================
+= 1.0.6b	                             last update: 2005-07-05 15:07:45
 ================================================================================
 ¥ Sixth public release of Rezilla (second beta).
 ¥ Rezilla passes all 189 tests of the Scripting Tests Suite.
