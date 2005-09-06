@@ -169,16 +169,7 @@ CSTRx_EditorWindow::Click(
 void
 CSTRx_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam ) 
 {		
-	switch (inMessage) {		
-		
-// 		case msg_DragMoveAction: 
-// 		ArrayIndexT	oldIndex = mMenuObj->GetItemIndex();
-// 		ArrayIndexT	newIndex = *(ArrayIndexT *) ioParam;
-// 		mMenuObj->GetItems()->MoveItem(oldIndex, newIndex);
-// 		mMenuObj->SetItemIndex(newIndex);
-// 		SetDirty(true);
-// 		break;
-		
+	switch (inMessage) {
 						
 		case msg_MinusButton: {
 			if (mIndexedFields.GetCount() == 0) {return;} 
@@ -261,6 +252,14 @@ CSTRx_EditorWindow::ObeyCommand(
 // ---------------------------------------------------------------------------
 //	 InstallResourceData											[public]
 // ---------------------------------------------------------------------------
+//	 ITML	RSID
+//	 MBAR	DWRD
+//	 Mcmd	DLNG
+//	 RID#	DWRD
+//	 RidL	DLNG
+//	 typ#	TNAM
+// // // case 'RID#':
+// // // case 'ITML':
 
 OSErr
 CSTRx_EditorWindow::InstallResourceData(Handle inHandle)
@@ -278,8 +277,27 @@ CSTRx_EditorWindow::InstallResourceData(Handle inHandle)
 		
 		for (UInt16 i = 1; i <= numItems; i++) {
 			Str255		theString;
+			SInt16		theSInt16;
+			long		theLong;
+
 			if ( theStream->GetMarker() < theStream->GetLength() ) {
-				*theStream >> theString;
+				switch (mOwnerDoc->GetSubstType()) {
+					case 'STR#':
+					*theStream >> theString;
+					break;
+					
+					case 'MBAR':
+					*theStream >> theSInt16;
+					::NumToString( (long) theSInt16, theString);
+					break;
+					
+					case 'Mcmd':
+					case 'RidL':
+					*theStream >> theLong;
+					::NumToString( theLong, theString);
+					break;
+					
+				}
 				AddStringItem(theString);
 			}
 		}
@@ -442,23 +460,15 @@ CSTRx_EditorWindow::GetFirstSelected()
 UInt16
 CSTRx_EditorWindow::DeleteSelectedItems()
 {
-	UInt16 count = 0;
-
-	TArrayIterator<LPane*> iterator(mContentsView->GetSubPanes(), LArrayIterator::from_End);
-	LPane *				theSub;
-	CIndexedEditField *	theField;
-	ArrayIndexT			theIndex;
+	UInt16 count = 0, index;
+	CIndexedEditField * theField;
 	
-	while (iterator.Previous(theSub)) {
-		theField = dynamic_cast<CIndexedEditField*>(theSub);
-		if ( theField != nil && theField->IsSelected() ) {
+	for (index = mIndexedFields.GetCount(); index > 0 ; index--) {
+		if ( mIndexedFields.FetchItemAt(index, theField) && theField->IsSelected() ) {
 			// Just hide the pane. Destructor will take care of deleting 
 			// the object when the window is closed.
-			theSub->Hide();			
-			theIndex = mIndexedFields.FetchIndexOf(theField);
-			if (theIndex != LArray::index_Bad) {
-				mIndexedFields.RemoveItemsAt(1, theIndex);
-			} 
+			theField->Hide();
+			mIndexedFields.RemoveItemsAt(1, index);
 			count++;
 		} 
 	}
@@ -478,6 +488,8 @@ CSTRx_EditorWindow::CollectResourceData()
 	Handle	theHandle = NULL;
 	Str255	theString;
 	UInt16	numStrings = mIndexedFields.GetCount();
+	SInt16	theSInt16;
+	long	theLong;
 	
 	try {
 		if (mOutStream != nil) {delete mOutStream;} 
@@ -492,7 +504,24 @@ CSTRx_EditorWindow::CollectResourceData()
 
 		while (iterator.Next(theField)) {
 			theField->GetDescriptor(theString);
-			*mOutStream << theString;
+
+			switch (mOwnerDoc->GetSubstType()) {
+				case 'STR#':
+				*mOutStream << theString;
+				break;
+				
+				case 'MBAR':
+				::StringToNum( theString, &theLong);
+				*mOutStream << (SInt16) theLong;
+				break;
+				
+				case 'Mcmd':
+				case 'RidL':
+				::StringToNum( theString, &theLong);
+				*mOutStream << theLong;
+				break;
+				
+			}
 		}
 		theHandle = mOutStream->GetDataHandle();
 	}

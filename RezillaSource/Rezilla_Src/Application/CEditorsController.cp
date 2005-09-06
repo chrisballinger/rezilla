@@ -2,7 +2,7 @@
 // CEditorsController.cp					
 // 
 //                       Created: 2004-06-11 10:48:38
-//             Last modification: 2005-09-01 08:17:53
+//             Last modification: 2005-09-06 10:08:16
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -190,6 +190,9 @@ CEditorsController::HasEditorForType(ResType inType, ResType * substType)
 		case 'aete':
 		case 'MENU':
 		case 'STR#':
+		case 'MBAR':
+		case 'Mcmd':
+		case 'RidL':
 		*substType = inType;
 		result = true;
 		break;
@@ -247,6 +250,9 @@ CEditorsController::InvokeCustomEditor(CRezMapDoc* inRezMapDoc,
 		break;
 		
 		case 'STR#':
+		case 'MBAR':
+		case 'Mcmd':
+		case 'RidL':
 		  new CSTRx_EditorDoc( (LCommander *) inRezMapDoc, inSuperMap, inRezObj, inUseType, inReadOnly);
 		break;
 		
