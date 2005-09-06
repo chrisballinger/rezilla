@@ -2,7 +2,7 @@
 // CIndexedEditField.cp
 // 
 //                       Created: 2005-09-01 09:14:05
-//             Last modification: 2005-09-04 10:36:51
+//             Last modification: 2005-09-06 09:06:42
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -181,15 +181,6 @@ CIndexedEditField::Click(SMouseDownEvent &inMouseDown)
 				// Invalidate LView's focus cache. The port may have
 				// changed during the drag.
 				LView::OutOfFocus( nil );
-					
-				// Check for a drop in the trash
-				if ( UDragAndDropUtils::DroppedInTrash(
-					theDragTask.GetDragReference() ) ) {
-
-					// Delete the cell and refresh the list
-// 					RemoveRows( 1, theCell.row );
-					Refresh();
-				}	
 			} else {
 				if (mSelected) {
 					mSelected = false;
