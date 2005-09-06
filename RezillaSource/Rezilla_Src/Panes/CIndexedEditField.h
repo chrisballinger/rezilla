@@ -56,8 +56,6 @@ public:
 	
 	virtual void		DrawSelf();
 
-// 	virtual Boolean		HandleKeyPress( const EventRecord& inKeyEvent );
-	
 	virtual void		DrawBorder();
 	virtual void		EraseBorder();
 
@@ -71,6 +69,8 @@ public:
 
 	virtual Boolean		IsSelected() { return mSelected;}
 	void				SetSelected(Boolean inSelected) {mSelected = inSelected;}
+
+	LEditText *			GetEditText() { return mEditText;}
 
 protected:
 	LStaticText *		mStaticText;

@@ -200,30 +200,6 @@ CIndexedEditField::Click(SMouseDownEvent &inMouseDown)
 }
 
 
-// // ---------------------------------------------------------------------------
-// //   HandleKeyPress												  [public]
-// // ---------------------------------------------------------------------------
-// 
-// Boolean
-// CIndexedEditField::HandleKeyPress(
-// 	const EventRecord&	inKeyEvent)
-// {
-// 	Boolean		keyHandled = true;
-// 
-// 	if (mSelected) {
-// 		UInt16	theChar = (UInt16) (inKeyEvent.message & charCodeMask);
-// 
-// 		if ( (theChar == char_Enter) || (theChar == char_Return) ) {
-// // 			SwapPanes();
-// 		} else {
-// 			keyHandled = mEditText->HandleKeyPress(inKeyEvent);
-// 		}
-// 	} 
-// 
-// 	return keyHandled;
-// }
-
-
 // ---------------------------------------------------------------------------
 //	¥ GetDescriptor													  [public]
 // ---------------------------------------------------------------------------
