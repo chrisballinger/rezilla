@@ -2,7 +2,7 @@
 // CSTRx_EditorWindow.h
 // 
 //                       Created: 2005-08-31 18:26:24
-//             Last modification: 2005-09-05 09:33:48
+//             Last modification: 2005-09-06 14:39:35
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -23,7 +23,7 @@ class CIndexedEditField;
 class LEditText;
 class LStaticText;
 class LHandleStream;
-class LTabGroupView;
+/* class LTabGroupView; */
 
 
 class CSTRx_EditorWindow :	public CEditorWindow, 
@@ -53,6 +53,8 @@ public:
 							CommandT		inCommand,
 							void*			ioParam);
 
+	virtual Boolean		HandleKeyPress( const EventRecord& inKeyEvent );
+		
 	OSErr			InstallResourceData(Handle inHandle);
 	Handle			CollectResourceData();
 	

@@ -250,16 +250,67 @@ CSTRx_EditorWindow::ObeyCommand(
 
 
 // ---------------------------------------------------------------------------
+//   HandleKeyPress												  [public]
+// ---------------------------------------------------------------------------
+// Tab switches the Target to the next edit field in the window, Shift-Tab
+// to the previous item. All other keystrokes are ignored.
+
+Boolean
+CSTRx_EditorWindow::HandleKeyPress(
+	const EventRecord&	inKeyEvent)
+{
+	Boolean	keyHandled = true;
+	UInt16	theChar = (UInt16) (inKeyEvent.message & charCodeMask);
+	
+	if (theChar == char_Tab) {
+		ArrayIndexT			index;
+		CIndexedEditField *	theField;
+		LCommander *		currTabTarget = GetTarget();
+
+		if (currTabTarget == nil) {	
+			index = 1;
+		} else {
+			LEditText * theEditText = dynamic_cast<LEditText *>(currTabTarget);
+			if (theEditText != nil) {
+				theField = dynamic_cast<CIndexedEditField *>(theEditText->GetSuperView());;
+				// Find the index of the field
+				index = mIndexedFields.FetchIndexOf(theField);
+				if (index != LArray::index_Bad) {
+					// Switch to next index (if shift, go backwards)
+					if ((inKeyEvent.modifiers & shiftKey) != 0) {
+						if (index == 1) {
+							index = mIndexedFields.GetCount();
+						} else {
+							index--;
+						}
+					} else {
+						if (index == mIndexedFields.GetCount()) {
+							index = 1;
+						} else {
+							index++;
+						}
+					}
+				}
+			} 
+		}
+		if ( mIndexedFields.FetchItemAt(index, theField) ) {
+			SwitchTarget(theField->GetEditText());
+		} 
+	}
+	
+	return keyHandled;
+}
+
+
+// ---------------------------------------------------------------------------
 //	 InstallResourceData											[public]
 // ---------------------------------------------------------------------------
-//	 ITML	RSID
+//	 ITML	RSID (eq DWRD)
 //	 MBAR	DWRD
-//	 Mcmd	DLNG
 //	 RID#	DWRD
+//	 Mcmd	DLNG
 //	 RidL	DLNG
 //	 typ#	TNAM
-// // // case 'RID#':
-// // // case 'ITML':
 
 OSErr
 CSTRx_EditorWindow::InstallResourceData(Handle inHandle)
@@ -488,7 +539,6 @@ CSTRx_EditorWindow::CollectResourceData()
 	Handle	theHandle = NULL;
 	Str255	theString;
 	UInt16	numStrings = mIndexedFields.GetCount();
-	SInt16	theSInt16;
 	long	theLong;
 	
 	try {
