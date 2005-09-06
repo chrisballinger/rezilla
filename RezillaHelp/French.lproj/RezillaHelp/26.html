@@ -1,24 +1,50 @@
 <HTML>
 <HEAD>
-<TITLE>L'éditeur 'PICT'Ce n'est pas un éditeur graphique complet mais plutôt un visualisateur. Si </TITLE>
+<TITLE>L'éditeur de listesL'éditeur de listes permet d'éditer des ressources de type STR#, </TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="25.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="27.html">Suiv</A><HR><P>&nbsp;</P>
-<H3>L'éditeur 'PICT'</H3><P>Ce n'est pas un éditeur graphique complet mais plutôt un visualisateur. Si 
-l'on exécute un double-clic sur une ressource d'image (de type <I>'PICT'</I>), 
-Rezilla affiche cette image.<P>Les commandes <I>Copy</I>, <I>Cut</I> et <I>Paste</I> sont activées. Il
-est possible de copier l'image dans le presse-papier: il n'y a pas de
-sélection à faire, l'image entière est automatiquement copiée. À
-l'inverse, si le presse-papiers contient une image (techniquement parlant,
-s'il contient des données de type 'PICT'), Rezilla remplace l'image
-courante par le contenu du presse-papiers.<P>Cela permet de créer des images dans une application graphique externe et
-de les importer dans Rezilla. Notez qu'il est aussi possible de copier
-directement des données graphiques depuis le presse-papiers dans une table
-de ressource de Rezilla (voir la section <I>Copy, Cut and Paste</I> dans
-ce document).<P><A NAME="sndeditor"></A>
+<H3>L'éditeur de listes</H3><P>L'éditeur de listes permet d'éditer des ressources de type <I>STR#</I>, 
+<I>MBAR</I>, <I>Mcmd</I>, <I>RidL</I> qui représentent de simples listes
+de valeurs textuelles ou numériques:
+<OL>
+	<LI> les ressources <I>STR#</I> contiennent des chaînes de texte. Chaque
+chaîne comporte au maximum 255 caractères.
+	<LI> les ressources <I>MBAR</I> contiennent des valeurs décimales 
+stockées sur deux octets 
+	<LI> les ressources <I>Mcmd</I> et <I>RidL</I> contiennent des valeurs
+décimales stockées sur quatre octets.
+</OL><P>Les éléments sont numérotés par l'éditeur.<P>On peut sélectionner une chaîne simplement en cliquant sur la partie
+comportant la numérotation, à gauche du champ de saisie. L'élément est
+alors entouré d'un cadre rouge. On le désélectionne en cliquant une seconde
+fois. Plusieurs éléments peuvent être sélectionnés simultanément.<P>La fenêtre de cet éditeur comporte deux boutons qui permettent d'ajouter ou
+de supprimer des chaînes:
+<OL>
+	<LI> le bouton <I>Plus</I> a pour effet d'insérer un nouvel élément devant le 
+premier élément sélectionné ou bien en fin de liste si aucun élément n'est 
+sélectionné.
+	<LI> le bouton <I>Moins</I> a pour effet de supprimer tous les éléments 
+sélectionnés. Si aucun élément n'est sélectionné, c'est le dernier élément 
+de la liste qui est supprimé.
+</OL><P>L'éditeur de listes supporte le <I>glisser-déposer</I>. Il suffit de
+cliquer sur la partie gauche d'un élément et de faire glisser la souris
+sans relâcher le bouton pour déplacer cet élément dans la liste. L'élément
+est inséré à l'endroit où le bouton de la souris est relâché. Si l'on
+maintient simultanément la touche <B>Option</B> enfoncée, l'élément que
+l'on fait glisser sera dupliqué plutôt que simplement déplacé. <P>Si l'on fait glisser un élément vers une fenêtre appartenant à une autre
+application, c'est le texte de la chaîne qui est déplacé: ce texte sera
+inséré dans l'autre application si jamais celle-ci supporte elle aussi le
+glisser-déposer et accepte les chaînes de caractères. Par exemple, en
+faisant glisser un élément depuis l'éditeur de listes vers le Finder, on
+obtient un petit fichier (<I>text clipping</I>) contenant ce texte.
+Inversement, si l'on fait glisser, en provenance d'une autre application,
+une chaîne de caractères sur une fenêtre de l'éditeur de listes, un nouvel
+élément est créé dans la liste avec le texte reçu (au maximum 255
+caractères).<P>On notera que les ressources <I>STR#</I>, <I>MBAR</I>, <I>Mcmd</I>, 
+<I>RidL</I> peuvent aussi être éditées en utilisant l'éditeur de gabarits.<P><A NAME="PICTeditor"></A>
 
 
 </BODY>

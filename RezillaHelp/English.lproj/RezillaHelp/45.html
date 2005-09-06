@@ -1,28 +1,40 @@
 <HTML>
 <HEAD>
-<TITLE>Saving a resource mapModifications made in a resource map document can be saved directly </TITLE>
+<TITLE>Opening and closing a resource mapOne can open documents using the open command.To open a resource file named somefile.rsrc and located in the</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="44.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="46.html">Next</A><HR><P>&nbsp;</P>
-<H3>Saving a resource map</H3><P>Modifications made in a resource map document can be saved directly 
-using the <B>save</B> command. Two additional parameters are supported:
+<H3>Opening and closing a resource map</H3><P>One can open documents using the <B>open</B> command.<P>To open a resource file named <I>somefile.rsrc</I> and located in the
+directory <I>HD:foo:bar:</I>, use the instruction:
+<PRE>
+	open "HD:foo:bar:somefile.rsrc" as alias
+</PRE>
+Similarly, to choose some resource file and open it in Rezilla, just do:
+<PRE>
+	set theFile to {choose file}
+	open theFile as alias<P></PRE>
+There are two optional parameters to the <B>open</B> command:
 <UL>
-	<LI> the <I>in</I> parameter lets you specify the file in which you want 
-to create the export file. This parameter is optional.
-	<LI> the <I>as</I> parameter lets you specify the fork in which you want
-to save the resource map. The possible values are <I>data fork</I>, <I>resource fork</I>, <I>same fork</I> (the latter only for <I>Save As</I>). This parameter is optional. It is ignored if the <I>in</I> 
-parameter is not specified because, in that case, Rezilla executes a 
-simple <B>save</B> command on the resource map.
-</UL>
+	<LI> with the <I>readOnly</I> parameter, one can force the file to be opened in 
+read-only mode in order to make all modifications impossible. For instance:
 <PRE>
-	save document 1 in "HD:foo:bar:otherMap.rsrc" as resource fork<P></PRE><P>It is also possible to discard changes made in a resource map and
-return to the last saved version of the map using the <B>revert</B>
-command. For instance:
+	open "HD:foo:bar:somefile.rsrc" as alias with readOnly<P></PRE>
+	<LI> with the <I>from</I> parameter, one can restrict the opening to a 
+particular fork (resource fork or data fork). By default, Rezilla looks in 
+both forks (data fork before resource fork). For instance:
 <PRE>
-	revert map document 1<P></PRE><P>
+	open "HD:foo:bar:somefile.rsrc" as alias from data fork<P></PRE>
+The possible values for the <I>from</I> parameter are <I>data fork</I>, 
+<I>resource fork</I>, or <I>any fork</I> (the default).
+</UL><P>A map document can be closed with the <B>close</B> command. The optional
+argument <I>saving</I> is supported in order to decide if the file should 
+be saved before closing (the possible values are <I>yes</I>,
+<I>no</I> or <I>ask</I>). For instance:
+<PRE>
+	close first map document saving no<P></PRE><P>
 
 </BODY>
 </HTML>

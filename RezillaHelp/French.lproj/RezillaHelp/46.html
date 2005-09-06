@@ -1,37 +1,33 @@
 <HTML>
 <HEAD>
-<TITLE>Créer une nouvelle table de ressourcesOn crée une nouvelle table de ressources vide au moyen de la commande make. Cette commande accepte trois paramètres. Les deux premiers sont</TITLE>
+<TITLE>Sauvegarder une table de ressourcesLes modifications faites dans un document de ressources peuvent être</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="45.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="47.html">Suiv</A><HR><P>&nbsp;</P>
-<H3>Créer une nouvelle table de ressources</H3><P>On crée une nouvelle table de ressources vide au moyen de la commande <B>make</B>. Cette commande accepte trois paramètres. Les deux premiers sont
-obligatoires, l'autre est optionnel:
+<H3>Sauvegarder une table de ressources</H3><P>Les modifications faites dans un document de ressources peuvent être
+sauvegardées directement au moyen de la commande <B>save</B>. Deux
+paramètres supplémentaires sont définis:
 <UL>
-	<LI> le paramètre <I>new</I> indique la classe de l'objet à créer 
-(en l'occurence <I>map</I> ou <I>map document</I>)
-	<LI> le paramètre <I>in</I> est utilisé pour spécifier le dossier 
-contenant le nouveau fichier de ressources 
-	<LI> le paramètre <I>with properties</I> est utilisé pour spécifier des 
- propriétés supplémentaires. C'est une liste contenant des paires de type 
-clé:valeur. Les clés possibles sont <I>name</I>, <I>fork</I> et <I>readOnly</I>. Ce 
-paramètre est optionnel.
-</UL><P>Voici un exemple complet:
+	<LI> le paramètre <I>in</I> permet de spécifier le dossier dans lequel on
+souhaite créer le nouveau fichier. Ce paramètre est optionnel.
+	<LI> le paramètre <I>as</I> permet de spécifier la branche dans laquelle
+on souhaite sauvegarder la table de ressources. Les valeurs possibles sont
+<I>data fork</I>, <I>resource fork</I> ou <I>same fork</I> (cette dernière
+seulement pour la commande <I>Save As</I>). Ce paramètre est optionnel. Il
+est ignoré si le paramètre <I>in</I> n'est pas spécifié car, dans ce cas,
+Rezilla exécute une simple commande <B>save</B> sur la table de
+ressources.
+</UL>
+Par exemple:
 <PRE>
-	-- ask the Finder to make the folder object
-	tell application "Finder"
-		set theFolder to folder "HD:foo:bar:" as alias
-	end tell
-	-- create the new map document in this folder
-	make new map document in theFolder with properties ¬
-		{name:"newmap.rsrc",fork:data fork,readOnly:true}<P></PRE>
-On notera que le dossier contenant le nouveau document de ressources doit 
-être déclaré dans un bloc
-<I>tell</I> adressé au Finder et non pas à Rezilla. Cela provient du fait 
-que  le terme <I>folder</I> fait partie du vocabulaire du Finder et non 
-pas de celui de Rezilla.<P>
+	save document 1 in "HD:foo:bar:otherMap.rsrc" as resource fork<P></PRE><P>Il est aussi possible d'abandonner des modifications faites dans la table
+de ressources et de revenir à la dernière version sauvegardée en utilisant
+la commande <B>revert</B> comme ceci:
+<PRE>
+	revert map document 1<P></PRE><P>
 
 </BODY>
 </HTML>

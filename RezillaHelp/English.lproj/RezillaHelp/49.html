@@ -1,40 +1,48 @@
 <HTML>
 <HEAD>
-<TITLE>Modifying in hexadecimal windowsThe hexadecimal windows associated with the hexadecimal editor have several </TITLE>
+<TITLE>Editing a resource</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="48.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="50.html">Next</A><HR><P>&nbsp;</P>
-<H3>Modifying in hexadecimal windows</H3><P>The hexadecimal windows associated with the hexadecimal editor have several 
-properties which can be used to modify directly the contents of a resource 
-displayed in the hexadecimal pane or in the text pane. The following 
-properties are defined by Rezilla:
+<H3>Editing a resource</H3>
+Editing a resource with a particular editor can be done using the <B>edit</B> 
+command. This command accepts two optional arguments:
 <UL>
-	<LI> <I>maxPos</I>: the index of the last position (i-e the position after the last character)<P>	<LI> <I>startPos</I>: the position of the beginning of selection<P>	<LI> <I>endPos</I>: the position of the end of selection<P>	<LI> <I>hex selection</I>: the contents of the selected region in the hex pane<P>	<LI> <I>text selection</I>: the contents of the selected region in the text pane<P></UL><P>Here is a sample script to retrieve these properties:
+	<LI> the <B>like</B> argument lets you specify that the resource should be
+edited like resources of another type than its own type. This is the
+equivalent of the <I>Edit as</I> menu item in Rezilla.
+	<LI> the <B>using</B> argument lets you specify a particular kind of 
+editor. The values can be <I>hexadecimal</I>, <I>template</I> or
+<I>interface</I>. If there is no editor of the required kind, then 
+Rezilla uses its usual fallback mechanism: in last resort, the resource 
+would be edited in the hexadecimal editor.
+</UL><P>Here are a few examples:
 <PRE>
-edit resource {"TEXT",128} of map document 1 using hexadecimal
-set theWin to hexadecimal window 1 of map document 1
-set a to the startPos of theWin
-set b to the endPos of theWin
-set c to the maxPos of theWin
-set d to the hex selection of theWin
-set e to the text selection of theWin
-{a, b, c, d, e}<P></PRE><P>The <I>maxPos</I> property is read-only. All the others can be set using 
-the <B>set</B> command. Here is a short example:
+	edit resource {"MENU", 128} of map 1 using interface<P>	edit resource {"MENU", 128} of map 1 using template<P>	edit resource {"MENU", 128} of map 1 using hexadecimal<P>	edit resource {"aeut", 128} of map 1 as "aete"<P></PRE><P>Other basic actions are <I>duplicating</I> and <I>deleting</I> a resource in the 
+resource map. They can be achieved using the <B>duplicate</B> and 
+<B>delete</B> commands respectively.
 <PRE>
-set theWin to hexadecimal window 1 of map document 1
-set the startPos of win to 6
-set the endPos of win to 9
-set the hex selection of win to "52657a696c6c61"<P></PRE><P>In this example, the bytes located between the specified positions would be
-replaced by the bytes corresponding to the hexadecimal string.
-Alternatively, the replacement can be achieved in the text pane with the
-following instruction:
+	duplicate resource {"MENU", 128} of map 1<P>	delete resource {"STR#", 128} of map 1<P></PRE><P>The <B>delete</B> command can also be used to delete all the resources of a 
+certain type simultaneously, like this:
 <PRE>
-    set the text selection of theWin to "Rezilla"
-</PRE>
-In order to erase some bytes, just specify an empty string.<P>
+delete type "MENU" of map 1<P></PRE><P>Modifications made in an editor can be saved using the <B>save</B> command:
+<PRE>
+	save first editor of map document 1<P></PRE>
+Note that the usual <I>in</I> and <I>as</I> arguments of the <B>save</B>
+command are ignored in that case.<P>An editing document can be closed with the <B>close</B> command, like this:
+<PRE>
+	close first editor of map document 1<P></PRE>
+or, alternatively, by closing the window directly:
+<PRE>
+	set thewin to window of first editor of map document 1
+	close thewin<P></PRE><P>Some editors (but sadly not all) understand the <B>revert</B> command. As
+of version 1.0.6 of Rezilla, this concerns the template editor, the Aete
+editor, and the Menu editor. For instance:
+<PRE>
+revert editor "somefile.rsrc - 'MENU' #128" of document 1<P></PRE><P>
 
 </BODY>
 </HTML>

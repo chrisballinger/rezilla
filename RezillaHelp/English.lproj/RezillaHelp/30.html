@@ -1,31 +1,28 @@
 <HTML>
 <HEAD>
-<TITLE>Preferences </TITLE>
+<TITLE>Drag and Drop</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="29.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="31.html">Next</A><HR><P>&nbsp;</P>
-<H2>Preferences </H2>
-Rezilla allows you to set various preferences. The preferences can be
-accessed via the <I>Preferences</I> command in the application's menu or with
-the <I>Command-,</I> keyboard shortcut (hit the colon key while holding the
-command key down). This brings up a multipage dialog containing several
-panels whose contents are described in the following sections:
-<UL>
-	<LI> the General panel
-	<LI> the Export panel
-	<LI> the Compare panel
-	<LI> the Interface panel
-	<LI> the Templates panel
-	<LI> the Editors panel
-	<LI> the Misc panel
-</UL><P><P><IMG SRC="../../Images/rzil_preferences.gif" ALT="Preferences window" ALIGN=bottom></P>
-<P> The preferences are written on disk in the user's preferences file only
-when the application quits. They are stored in a file named 
-<I>net.sourceforge.rezilla.plist</I> located in the user's Preferences folder.<P><A NAME="generalpanel"></A>
-
+<H2>Drag and Drop</H2>
+Rezilla provides various aspects of Drag and Drop capacity. You can
+drag a selection of resources from a resource map table to another to have
+them copied to the destination resource map. If the destination resource
+map is the same as the original one, the resources are simply duplicated.<P><P> If you drag a selection of resources from a resource map table to the trash
+in the Finder, these resources are deleted from the resource map.<P><P> If you drag a piece of text from an external text editor to a  resource
+map table, a new resource of type TEXT containing this text is created.
+More generally speaking, if you drag a  selection  of  some  "flavor"  to  a
+resource map table in Rezilla, resources of the same type as the flavor are
+created. For instance, if you drag an image selected in a program such as
+<A HREF="http://www.lemkesoft.de/en/graphcon.htm">GraphicConverter</A> 
+to Rezilla, two resources are created: one resource of type Rect will  contain
+the dimensions of the image, another resource of type PICT will  contain  a
+pict representation of the image.<P><P> In the Resource Maps Comparison dialog, one can drag and drop a file
+from the Finder onto one of the file fields to select it rather than using
+the <I>Set</I> button.<P>
 
 </BODY>
 </HTML>

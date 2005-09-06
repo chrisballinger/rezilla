@@ -1,276 +1,37 @@
 <HTML>
 <HEAD>
-<TITLE>Rezilla's object modelThere are basically three types of objects in Rezilla: documents, windows</TITLE>
+<TITLE>Creating a new resource mapOne can create a new empty resource map with the make command. This </TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="46.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="48.html">Next</A><HR><P>&nbsp;</P>
-<H3>Rezilla's object model</H3><P>There are basically three types of objects in Rezilla: documents, windows
-and maps. The term map is used to designate the entire contents of a
-resource fork.<P>Each map can be considered as a data base whose elements are characterized
-by a type and an ID. Rezilla's object model uses a similar structure: a 
-<I>map</I> object contains <I>type</I> objects, and these <I>type</I>
-objects themselves contain <I>resource</I> objects. A map object is always
-associated with a resource map document, just like a resource <I>belongs</I> 
-to a map.<P>There are two kinds of documents: 
+<H3>Creating a new resource map</H3><P>One can create a new empty resource map with the <B>make</B> command. This 
+command accepts three parameters. The first two are required, the other is
+optional:
 <UL>
-	<LI> resource map documents correspond to the outline window displayed 
-when a resource file is opened by Rezilla.
-	<LI> editor documents correspond to the editing windows in which 
-individual resources can be edited. An editor document necessarily <I>belongs</I> 
-to a resource map document.
-</UL><P>For instance, one can get a list of all the windows, maps or documents 
-with a command like this (the word <B>get</B> is optional):
+	<LI> the parameter <I>new</I> indicates the class of the object to create 
+(<I>map</I> or <I>map document</I>)
+	<LI> the parameter <I>in</I> is used to designate the folder containing the 
+new resource file
+	<LI> the parameter <I>with properties</I> is used to specify some 
+additional properties. It is a list containing key:value pairs (a record 
+in AppleScript parlance). The keys can be any of <I>name</I>, <I>fork</I>
+and <I>readOnly</I>. This parameter is optional.
+</UL><P>Here is a complete example:
 <PRE>
-	get windows
-	get maps
-	get documents
-</PRE><P><H4>Map document properties</H4>
-Map documents can be specified by name or by index. The name is the name 
-of the file this document was opened from: it is not unique since 
-different files can have the same name (if they are in different folders). 
-On the contrary, the index is unique at a given time: it is the index of
-the document among all the other map documents opened in Rezilla. The index
-is not permanent though: it can vary as other documents get closed.<P>Besides the properties shared by all the document objects (see below), map 
-documents also have a set of specific properties:
-<UL>
-	<LI> <I>index</I>: the index of the document among other map documents<P>	<LI> <I>readOnly</I>: is this document read-only?<P>	<LI> <I>window</I>: the window associated with this document<P>	<LI> <I>refnum</I>: the reference number of the map in memory<P>	<LI> <I>fork</I>: the fork this document is editing (data fork or resource fork)<P>	<LI> <I>map</I>: the resource map associated with this document<P>	<LI> <I>file</I>: the file on disk corresponding to this resource map document<P>	<LI> <I>format</I>: the format used for export
-</UL><P>For instance, the following script lets you retrieve the values of all these 
-properties:
-<PRE>
-	set mapDoc to map document 1
-	set a to the name of mapDoc
-	set b to the refnum of mapDoc
-	set c to the fork of mapDoc
-	set d to the index of mapDoc
-	set e to the readOnly of mapDoc
-	set f to the window of mapDoc
-	set g to the file of mapDoc
-	set h to the format of mapDoc
-	
-	{a, b, c, d, e, f, g, h}<P></PRE><P>The <I>format</I> property can be modified using the <B>set</B> command. 
-All the others are read only properties. For instance:
-<PRE>
-	set the format of map document 1 to html<P></PRE><P><H4>Editor document properties</H4>
-Editor documents also have properties of their own, besides the properties 
-shared by all the document objects Rezilla defines the following:
-<UL>
-	<LI> <I>index</I>: the index of the editor document among all the editor 
-documents depending from the same map document<P>	<LI> <I>kind</I>: the kind of the editor document 
-(<I>hexadecimal</I>, <I>template</I> or <I>interface</I>)<P>	<LI> <I>readOnly</I>: is this document read-only?<P>	<LI> <I>window</I>: the window associated with this document<P>	<LI> <I>resource</I>: the resource edited by this document<P>	<LI> <I>owner doc</I>: the rezmap document that owns this editor document
-</UL><P>For instance, the following script lets you retrieve the values of all these 
-properties (supposing an editor document is currently open):
-<PRE>
-	set theEd to editor 1 of map document 1
-	set a to the index of theEd
-	set b to the kind of theEd
-	set c to the readOnly of theEd
-	set d to the window of theEd
-	set e to the resource of theEd
-	set f to the owner doc of theEd
-	
-	{a, b, c, d, e, f}<P></PRE><P>All these properties are read only properties. They cannot be modified 
-using the <B>set</B> command.<P><H4>Map window properties</H4>
-The <I>map window</I> class designates the window displayed by resource map 
-documents. These objects have two properties corresponding to the count 
-fields located at the bottom of the window:
-<UL> 
-	<LI> <I>types count</I>: number of types in this map, as displayed at the bottom of the map window<P>	<LI> <I>resources count</I>: total number of resources in this map, as displayed at the bottom of the map window<P></UL><P>You obtain these values like this for instance:
-<PRE>
-	set mapWin to map window 1
-	set a to the types count of mapWin
-	set b to the resources count of mapWin
-	{a, b}<P></PRE>
-These are read-only properties. <P><H4>Editing window properties</H4>
-The <I>editing window</I> class designates the windows displayed by 
-editors. They have only one specific property,
-<I>kind</I>, which indicates the kind of the corresponding editor (it is 
-one of <I>hexadecimal</I>, <I>template</I> or <I>interface</I>).<P>For instance:
-<PRE>
-	set editWin to editing window 1
-	get the kind of editWin<P></PRE>
-This is a read-only property. <P>As a convenience, it is possible to designate <I>editing windows</I> 
-directly as elements of a map document. So, as a shortcut, one can write
-<PRE>
-    get editing window 1 of map document 1
-</PRE>
-instead of 
-<PRE>
-    get window of editor 1 of map document 1
-</PRE>
-Similarly
-<PRE>
-    get hexadecimal window 1 of map document 1
-</PRE>
-is equivalent to
-<PRE>
-    get window of hexadecimal editor 1 of map document 1
-</PRE>
-The same is true when designating the editing windows by name rather than 
-by index:
-<PRE>
-	get editing window "name_of_window" of map document 1
-</PRE>
-instead of 
-<PRE>
-	get window of editor "name_of_window" of map document 1
-</PRE>
-Similarly
-<PRE>
-	get template window "name_of_window" of map document 1
-</PRE>
-is equivalent to
-<PRE>
-	get window of template editor "name_of_window" of map document 1
-</PRE><P><H4>Map properties</H4>
-The resource maps are considered as objects directly contained in the 
-application. They are characterized by a unique ID: this is a reference 
-number attributed by the System's Resource Manager when the map is opened. 
-For instance, the following instruction 
-<PRE>
-	get map of map document 1
-</PRE>
-would return something like:
-<P> <I>map id 22 of application "Rezilla"</I>
-<P> The map could thus be subsequently invoked in a script as <I>map id 22</I>.
-The ID of a map is guaranteed to be unique.<P>Resource maps have the following properties:
-<UL>
-	<LI> <I>refnum</I>: the reference number of the map in memory<P>	<LI> <I>all types</I>: the list of all the types contained in this map (in alphabetical order)<P>	<LI> <I>attributes</I>: the global value of the map attributes (a numeric 
-value, sum of the individual flags)<P>	<LI> <I>readOnly</I>: the map's <I>ReadOnly</I> flag (a boolean value)<P>	<LI> <I>compact</I>: the map's <I>Compact</I> flag (a boolean value)<P>	<LI> <I>changed</I>: the map's <I>Changed</I> flag (a boolean value)
-</UL><P>Here is a sample script to retrieve the properties of a resource map:
-<PRE>
-	set theMap to the map of map document 1
-	set a to the refnum of theMap
-	set b to the attributes of theMap
-	set c to the readOnly of theMap
-	set d to the compact of theMap
-	set e to the changed of theMap
-	
-	{a, b, c, d, e}<P></PRE>
-A map is a container itself: the objects it contains are types as we will 
-see in the next section. To get the list of all types (as text) within the map:
-<PRE>
-	set theMap to the map of map document 1
-	get all types of theMap<P></PRE><P>The <I>attributes</I>, <I>readOnly</I>, <I>compact</I>, and 
-<I>changed</I> properties can be modified using the <B>set</B> command. 
-The others are read only properties. For instance:
-<PRE>
-	set theMap to map document 1
-	-- 160 is mapReadOnly _and_ mapChanged (128 + 32)
-	set the attributes of theMap to 160
-	-- This unsets the mapReadOnly flag (-128)
-	set the readOnly of theMap to 0
-	-- This sets the mapCompact flag (+64)
-	set the compact of theMap to 1
-	-- This unsets the mapChanged flag (-32)
-	set the changed of theMap to 0<P></PRE><P><H4>Type properties</H4>
-A type is an object containing <I>resource</I> objects. Its elements are 
-all the resources of this type. The types are elements of a map object: 
-they can be designated by index or by name. The index of a type is its 
-index in the list of all types belonging to its owner map. The name is the 
-four-characters string representing this type (like "TEXT", "icns", 
-"MENU", etc.)<P>The following properties can be obtained:
-<UL>
-	<LI> <I>index</I>: the index of the type in the document (types are ordered alphabetically)<P>	<LI> <I>name</I>: the type's string<P>	<LI> <I>all IDs</I>: the list of all IDs of the resources belonging to this type
-</UL><P>Here is a sample script to retrieve the properties of a type in a resource map:
-<PRE>
-	set theType to type "TEXT" of map 1
-	set a to the index of theType
-	set b to the name of theType
-	{a, b}<P></PRE>
-To get the list of all resources within the type:
-<PRE>
-	set theType to type "TEXT" of map 1
-	get all IDs of theType<P></PRE><P>All these properties are read only properties. They cannot be modified with
-the <B>set</B> command.<P><H4>Resource properties</H4><P>A resource within a type object can be specified by index, by name or by 
-ID. The specification by ID is unique. A resource can also be specified 
-directly in a resource map using a pair made of its type name and its ID, 
-like for instance:
-<PRE>
-	resource {"TEXT", 128} of map id 22
-</PRE><P>Note that it is also possible to refer to a resource as if it were directly
-an object of the resource map document rather than an object of this
-document's map. This is a shortcut which allows to write constructs like:
-<PRE>
-	resource {"TEXT", 128} of theDoc
-</PRE>
-instead of 
-<PRE>
-	resource {"TEXT", 128} of the map of theDoc
-</PRE><P>The various properties of a resource object can be obtained using the 
-following terms:
-<UL>
-	<LI> <I>name</I>: the resource's name<P>	<LI> <I>typename</I>: the type of the resource as text<P>	<LI> <I>ID</I>: the ID of the resource<P>	<LI> <I>index</I>: the index of the resource within its type (in the order used by the resource manager)<P>	<LI> <I>attributes</I>: the global value of the resource's attributes (a 
-numeric value, sum of the individual flags)<P>	<LI> <I>sysHeap</I>: the resource's <I>SysHeap</I> flag (a boolean value)<P>	<LI> <I>purgeable</I>: the resource's <I>Purgeable</I> flag (a boolean value)<P>	<LI> <I>locked</I>: the resource's <I>Locked</I> flag (a boolean value)<P>	<LI> <I>preload</I>: the resource's <I>Preload</I> flag (a boolean value)<P>	<LI> <I>protected</I>: the resource's <I>Protected</I> flag (a boolean value)<P>	<LI> <I>changed</I>: the resource's <I>Changed</I> flag (a boolean value)<P>	<LI> <I>size</I>: the size of the resource data (in bytes)<P>	<LI> <I>sizeOnDisc</I>: the size of the resource on disk<P>	<LI> <I>hex data</I>: the resource data (in hexadecimal format)<P></UL><P>Here is a sample script to retrieve some of these values:
-<PRE>
-	set therez to resource {"TEXT", 128} of map id 22
-	set a to the name of therez
-	set b to the ID of therez
-	set c to the changed of therez
-	set d to the size of therez
-	set e to the sizeOnDisc of therez
-	set f to the attributes of therez
-	set g to the system heap of therez
-	set h to the purgeable of therez
-	set i to the locked of therez
-	set j to the preload of therez
-	set k to the protected of therez
-	
-	{a, b, c, d, e, f, g, h, i, j, k}<P></PRE><P>The <I>name</I>, <I>attributes</I>, <I>sysHeap</I>, <I>purgeable</I>, 
-<I>locked</I>, <I>preload</I>, <I>protected</I>, <I>changed</I>, <I>sizeOnDisc</I>, and <I>hex data</I> properties can be modified using 
-the <B>set</B> command. 
-The others are read only properties. For instance:
-<PRE>
-	set theRez to resource {"MENU", 128} of map document 1
-	set the name of theRez to "Apple menu"
-	-- 12 is resProtected _and_ resPreload (8 + 4):
-	set the attributes of theRez to 12
-	-- This unsets the resProtected flag:
-	set the protected of theRez to 0
-	-- This sets the resPurgeable flag:
-	set the purgeable of theRez to 1
-	-- This unsets the resLocked flag:
-	set the locked of theRez to 1
-	-- This sets the resChanged flag:
-	set the changed of theRez to 1
-	-- Modifiy the size on disc (use at your own risk):
-	set the sizeOnDisc of theRez to 512<P></PRE><P><H4>Resource contents</H4><P>The data of the resource can be obtained using the <I>hex data</I> property, 
-like this:
-<PRE>
-	set theRez to resource {"ALRT", 128} of map 1
-	get the hex data of theRez<P></PRE>
-The result is returned in hexadecimal form, like, for instance: 
-<PRE>
-	"002800280096019000805555300a"
-</PRE><P>The <B>set</B> command can be used to install different data in the resource. For 
-instance:
-<PRE>
-	set theRez to resource {"ALRT", 128} of map 1
-	set the hex data of therez to "001400140087016800805555300a"<P></PRE><P>Note that there are two exceptions to the hexadecimal representation of
-resource data. They concern resources of type <I>TEXT</I> and resources of
-type <I>STR#</I>. In that case, Rezilla will use the textual 
-representation directly:
-<UL>
-	<LI> resources of type <I>TEXT</I> are represented by a text string
-	<LI> resources of type <I>STR#</I> are represented by an AppleScript 
-list of textual strings
-</UL>
-For instance, the command 
-<PRE>
-	get hex data of resource {"TEXT", 128} of map 1
-</PRE>
-would return <I>Viva Rezilla</I> instead of the equivalent hexadecimal 
-566976612052657a696c6c61 value.<P>The opposite is true. To set the value of a <I>TEXT</I> or a <I>STR#</I>
-resource, use the following syntax:
-<PRE>
-	-- simple string
-	set txtRez to resource {"TEXT", 128} of map 1
-	set the hex data of txtRez to "Viva Rezilla!!!"
-	-- list of strings
-	set strRez to resource {"STR#", 128} of map 1
-	set the hex data of strRez to {"Viva Rezilla!!!", "Rezilla is great!!!"}<P></PRE><P>
+	-- ask the Finder to make the folder object
+	tell application "Finder"
+		set theFolder to folder "HD:foo:bar:" as alias
+	end tell
+	-- create the new map document in this folder
+	make new map document in theFolder with properties ¬
+		{name:"newmap.rsrc",fork:data fork,readOnly:true}<P></PRE>
+Note that the folder containing the new map document must be declared in a
+<I>tell</I> block addressed to the Finder rather than to Rezilla. This is
+because the word <I>folder</I> belongs to the Finder's terminology and not
+to Rezilla's.<P>
 
 </BODY>
 </HTML>

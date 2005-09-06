@@ -1,25 +1,26 @@
 <HTML>
 <HEAD>
-<TITLE>Misc panel</TITLE>
+<TITLE>Editors panel</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="36.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="38.html">Next</A><HR><P>&nbsp;</P>
-<H3>Misc panel</H3>
-<P> In the <I>Misc</I> panel, one can use the <I>Set type and creator
-when closing</I> preference to specify a type and signature to attribute to
-a resource file after it has been edited by Rezilla. The default values are
-<I>rsrc</I> and <I>Rzil</I> respectively. This is a preference
-one must be careful with because certain files, like application files,
-already have a specific creator which should not be modified. There is an
-additional checkbox called <I>Only files with .rsrc extension</I> which
-limits this functionality to files bearing an <I>.rsrc</I> extension.
-<P> The <I>Use Rezilla's signature for new maps</I> preference let's you
-decide if Rezilla should give its signature to newly created resource
-files. If they have this signature, they will be automatically opened by
-Rezilla when double-clicked.<P>
+<H3>Editors panel</H3>
+<P> In the <I>Editors</I> panel, one can set properties concerning 
+specific editors.<P><H4>Bitmap editor preferences</H4>
+The <I>Use 8-bit colors</I> preference concerns the depth of color icons. If 
+it is on, it forces to use a color depth of 8 rather than 32.<P>The <I>Use Full Color Tables</I> tells the Bitmap editor to use palettes
+with 256 colors. Otherwise the classical Apple's palette with only 32
+colors is used.<P><H4>Unicode editor preferences </H4>
+If the <I>Do Font Substitution</I> preference is checked, Rezilla will
+automatically display Unicode text using the right fonts corresponding to
+the scripts used in the resource.<P>The <I>Insert Byte Order Mark</I> preference tells whether a byte order
+mark (aka BOM or code-point U+FEFF) should be inserted at the beginning of
+the resource. This Unicode symbol is often used to identify Unicode data in
+the UTF-16 encoding form, which is the form used by Rezilla.<P><A NAME="miscpanel"></A>
+
 
 </BODY>
 </HTML>

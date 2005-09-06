@@ -1,33 +1,32 @@
 <HTML>
 <HEAD>
-<TITLE>Préférences </TITLE>
+<TITLE>Glisser-Déposer</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="29.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="31.html">Suiv</A><HR><P>&nbsp;</P>
-<H2>Préférences </H2>
-Rezilla permet de fixer diverses préférences. On accède aux préférences au 
-moyen de la commande <I>Préférences</I> dans le menu de l'application
-(menu <I>Rezilla</I>) ou au moyen du raccourci clavier <I>Command-,</I> (taper la 
-touche virgule en maintenant la touche commande enfoncée). Un dialogue
-multipage s'affiche alors. Il comporte plusieurs panneaux dont le contenu 
-est détaillé dans les sections suivantes:
-<UL>
-	<LI> le panneau <I>General</I>
-	<LI> le panneau <I>Export</I>
-	<LI> le panneau <I>Compare</I>
-	<LI> le panneau <I>Interface</I>
-	<LI> le panneau <I>Templates</I>
-	<LI> le panneau <I>Editors</I>
-	<LI> le panneau <I>Misc</I>
-</UL><P><P><IMG SRC="../../Images/rzil_preferences.gif" ALT="Fenêtre de préférences" ALIGN=bottom></P>
-<P> Les préférences sont sauvegardées sur disque dans le fichier de
-préférences de l'utilisateur uniquement lorsque l'on quitte l'application. Elles
-sont stockées dans un fichier nommé <I>net.sourceforge.rezilla.plist</I> situé
-dans le dossier de préférences de l'utilisateur.<P><A NAME="generalpanel"></A>
-
+<H2>Glisser-Déposer</H2>
+Rezilla supporte le Glisser-Déposer <I>(drag and drop)</I>. On peut faire
+glisser une sélection de ressources d'une table de ressources à une autre
+afin de les copier dans la table de destination. Si la table de destination
+est la même que celle de départ, les ressources sont simplement dupliquées.<P><P> Lorsque l'on fait glisser une sélection de ressources provenant d'une
+table de ressources jusqu'à la corbeille qui se trouve sur le Bureau, ces
+ressources sont supprimées de la table.<P><P> Si l'on fait glisser un morceau de texte depuis un éditeur de texte
+externe sur une table de ressources de Rezilla, une nouvelle ressource de
+type TEXT contenant ce texte est créée (la taille du texte est limitée à
+32k). Plus généralement, si l'on fait glisser une sélection d'un certain
+type <I>(flavor)</I> sur une table de ressources dans Rezilla, des
+ressources de même type sont créées. Par exemple, si l'on fait glisser une
+image sélectionnée dans un programme tel que
+<A HREF="http://www.lemkesoft.de/en/graphcon.htm">GraphicConverter</A> 
+jusqu'à Rezilla, deux ressources sont créées: une ressource de type Rect
+contenant les dimensions de l'image, une autre ressource de type PICT
+contenant une représentation au format PICT de cette image.<P><P> Dans le dialogue de Comparaison de Tables de ressources, il est
+possible de faire glisser l'icone d'un fichier depuis le Finder et de la
+déposer dans un des champs correspondant aux fichiers à comparer. Cela
+remplace la sélection du fichier au moyen des boutons <I>Set</I>.<P>
 
 </BODY>
 </HTML>

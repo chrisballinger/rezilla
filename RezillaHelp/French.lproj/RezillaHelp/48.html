@@ -1,52 +1,309 @@
 <HTML>
 <HEAD>
-<TITLE>Éditer une ressource</TITLE>
+<TITLE>Le modèle d'objets de RezillaIl y a essentiellement trois types d'objets dans Rezilla: les documents, </TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="47.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="49.html">Suiv</A><HR><P>&nbsp;</P>
-<H3>Éditer une ressource</H3>
-L'édition d'une ressource au moyen d'un éditeur particulier peut être 
-accomplie en utilisant la commande <B>edit</B>. Cette commande accepte 
-deux arguments optionnels:
+<H3>Le modèle d'objets de Rezilla</H3><P>Il y a essentiellement trois types d'objets dans Rezilla: les documents, 
+les fenêtres et les tables de ressources. Le terme de table est utilisé 
+pour désigner le contenu entier d'une branche de ressources.<P>Chaque table peut être considérée comme une base de données dont les
+éléments sont caractérisés par un type et un numéro d'identification. Le
+modèle d'objets de Rezilla utilise une représentation analogue: une
+table est un objet qui contient des objets <I>type</I>, et ces objets 
+<I>type</I> eux-mêmes contiennent des objets <I>ressource</I> . Un objet
+<I>table</I> abstrait est toujours associé dans Rezilla à un document de
+ressources.<P>Il y a deux sortes de documents: 
 <UL>
-	<LI> l'argument <B>like</B> permet de spécifier que la ressource devrait
-être éditée comme si elle était d'un autre type que son type propre. C'est
-l'équivalent de la commande de menu <I>Edit as</I> dans Rezilla.
-	<LI> l'argument <B>using</B> permet de spécifier un type particulier
-d'éditeur. Les valeurs de ce paramètre peuvent être <I>hexadecimal</I>,
-<I>template</I> ou <I>interface</I>. S'il n'existe pas d'éditeur du type
-requis, Rezilla utilise son mécanisme habituel de substitution: en dernier
-ressort, la ressource sera éditée au moyen de l'éditeur hexadécimal.
-</UL><P>Voici quelques exemples:
+	<LI> les documents de ressources correspondent aux fenêtres affichant le 
+contenu d'un fichier de ressources ouvert dans Rezilla, avec la liste des 
+types et des ressources regroupées sous ce type ;
+	<LI> les documents d'éditions (ou simplement éditeurs) correspondent aux
+fenêtres d'édition dans lesquelles une ressource particulière se trouve
+éditée. Un document d'édition <I>appartient</I> nécessairement à un
+document de ressources, de la même manière qu'une ressource <I>appartient</I>
+à une table.
+</UL><P>Par exemple, on peut obtenir dans un script AppleScript la liste de toutes
+les fenêtres, toutes les tables ou tous les documents avec une 
+commande comme ceci (le terme <B>get</B> est ici facultatif):
 <PRE>
-	edit resource {"MENU", 128} of map 1 using interface<P>	edit resource {"MENU", 128} of map 1 using template<P>	edit resource {"MENU", 128} of map 1 using hexadecimal<P>	edit resource {"aeut", 128} of map 1 as "aete"<P></PRE><P>Les autres actions d'édition de base sont la duplication et la suppression 
-d'une ressource dans la 
-table de ressources. Elles sont accomplies par les 
-commandes <B>duplicate</B> et <B>delete</B> respectivement.
+	get windows
+	get maps
+	get documents
+</PRE><P><H4>Propriétés des documents de ressources</H4>
+Les documents de ressources peuvent être spécifiés par nom ou par indice.
+Le nom du document est le nom du fichier à partir duquel il a été ouvert:
+il n'est donc pas unique puisque plusieurs fichiers situés dans des
+dossiers différents peuvent avoir le même nom. En revanche, l'indice est
+unique à un moment donné: c'est l'indice du document parmi tous les autres documents de
+ressources ouverts dans Rezilla. L'indice n'est cependant pas permanent: il
+peut varier puisque d'autres documents peuvent avoir été refermés.<P>Outre les propriétés partagées par tous les objets de la classe 
+<I>documents</I> (voir plus loin), les documents de ressources possèdent
+un ensemble de propriétés spécifiques:
+<UL>
+	<LI> <I>index</I>: l'indice du document parmi les autres documents de 
+ressources<P>	<LI> <I>readOnly</I>: le document est-il en lecture seule ?<P>	<LI> <I>window</I>: la fenêtre associée à ce document<P>	<LI> <I>refnum</I>: le numéro de référence de la table de ressources en mémoire (ce 
+numéro est unique)<P>	<LI> <I>fork</I>: la branche éditée par ce document (<I>data fork</I> ou 
+<I>resource fork</I>, c'est-à-dire branche de données ou branche de 
+ressources)<P>	<LI> <I>map</I>: la table de ressources associée à ce document<P>	<LI> <I>file</I>: le fichier sur disque correspondant à ce document de ressources<P>	<LI> <I>format</I>: le format utilisé pour les exports
+</UL><P>Par exemple, le script suivant permet de récupérer les valeurs de ces 
+propriétés:
 <PRE>
-	duplicate resource {"MENU", 128} of map 1<P>	delete resource {"STR#", 128} of map 1<P></PRE><P>La commande <B>delete</B> permet aussi de supprimer toutes les ressources 
-d'un certain type simultanément, comme ceci:
+	set mapDoc to map document 1
+	set a to the name of mapDoc
+	set b to the refnum of mapDoc
+	set c to the fork of mapDoc
+	set d to the index of mapDoc
+	set e to the readOnly of mapDoc
+	set f to the window of mapDoc
+	set g to the file of mapDoc
+	set h to the format of mapDoc
+	
+	{a, b, c, d, e, f, g, h}<P></PRE><P>La propriété <I>format</I> peut être modifiée au moyen de la commande <B>set</B>. 
+Les autres sont des propriétés en lecture seulement. Par exemple:
 <PRE>
-delete type "MENU" of map 1<P></PRE><P>Les modifications faites dans un éditeur peuvent être sauvegardées en 
-utilisant la commande <B>save</B>:
+	set the format of map document 1 to html<P></PRE><P><H4>Propriétés des éditeurs</H4>
+Les éditeurs ont aussi des propriétés qui leur sont propres, en plus des propriétés 
+partagées par tous les documents:
+<UL>
+	<LI> <I>index</I>: l'indice de l'éditeur parmi tous les éditeurs
+dépendant d'un même document de ressources<P>	<LI> <I>kind</I>: le type de l'éditeur,  qui peut être <I>hexadecimal</I>, <I>template</I> ou <I>interface</I><P>	<LI> <I>readOnly</I>: ce document est-il en lecture seule ?<P>	<LI> <I>window</I>: la fenêtre associée à ce document<P>	<LI> <I>resource</I>: la ressource éditée par ce document<P>	<LI> <I>owner doc</I>: le document de ressources auquel cet éditeur est attaché
+</UL><P>Par exemple, le script suivant permet de récupérer les valeurs de ces
+propriétés (en supposant qu'un éditeur est effectivement ouvert):
 <PRE>
-	save first editor of map document 1<P></PRE>
-On notera que les arguments usuels <I>in</I> et <I>as</I> de la commande
-<B>save</B> sont ignorés dans ce cas (car elles n'ont pas de sens dans 
-ce contexte).<P>Un document d'édition peut être refermé par la commande <B>close</B>, comme ceci:
+	set theEd to editor 1 of map document 1
+	set a to the index of theEd
+	set b to the kind of theEd
+	set c to the readOnly of theEd
+	set d to the window of theEd
+	set e to the resource of theEd
+	set f to the owner doc of theEd
+	
+	{a, b, c, d, e, f}<P></PRE><P>Toutes ces propriétés sont des propriétés en lecture seulement. Elles ne
+peuvent être modifiées au moyen de la commande <B>set</B>.<P><H4>Propriétés des fenêtres de ressources</H4>
+La classe <I>map window</I> désigne les fenêtres affichant le contenu des
+documents de ressources. Elles possèdent seulement deux propriétés
+particulières qui correspondent aux valeurs des champs situés au bas de ces
+fenêtres:
+<UL> 
+	<LI> <I>types count</I>: nombre de types contenus dans cette table<P>	<LI> <I>resources count</I>: nombre total de ressources
+</UL><P>On pourra obtenir ces valeurs comme ceci:
 <PRE>
-	close first editor of map document 1<P></PRE>
-ou, de manière équivalente, en refermant la fenêtre directement:
+	set mapWin to map window 1
+	set a to the types count of mapWin
+	set b to the resources count of mapWin
+	{a, b}<P></PRE>
+Ce sont des propriétés en lecture seulement. <P><H4>Propriétés des fenêtres d'édition</H4>
+La classe <I>editing window</I> représente les fenêtres affichées par les 
+éditeurs. Elles ont une seule propriété spécifique,
+<I>kind</I>, qui indique le type de l'éditeur correspondant (c'est-à-dire
+ <I>hexadecimal</I>, <I>template</I> ou <I>interface</I>).<P>Par exemple:
 <PRE>
-	set thewin to window of first editor of map document 1
-	close thewin<P></PRE><P>Certains éditeurs (mais malheureusement pas tous) comprennent la commande
-<B>revert</B>. Cela concerne l'éditeur de gabarits, l'éditeur de
-ressources de terminologie (aete) et l'éditeur de menus. Par exemple:
+	set editWin to editing window 1
+	get the kind of editWin<P></PRE>
+C'est une propriété en lecture seulement.  <P>Par commodité, il est possible de désigner les fenêtres d'édition
+directement comme des éléments d'un document principal. 
+Ainsi, les raccourcis suivants sont autorisés:
 <PRE>
-revert editor "somefile.rsrc - 'MENU' #128" of document 1<P></PRE><P>
+	get editing window 1 of map document 1
+</PRE>
+au lieu de 
+<PRE>
+	get window of editor 1 of map document 1
+</PRE>
+De même
+<PRE>
+	get hexadecimal window 1 of map document 1
+</PRE>
+est équivalent à
+<PRE>
+	get window of hexadecimal editor 1 of map document 1
+</PRE>
+Il en va de même si l'on désigne les fenêtres d'édition par nom plutôt 
+que par indice:
+<PRE>
+	get editing window "name_of_window" of map document 1
+</PRE>
+au lieu de 
+<PRE>
+	get window of editor "name_of_window" of map document 1
+</PRE>
+De même
+<PRE>
+	get template window "name_of_window" of map document 1
+</PRE>
+est équivalent à
+<PRE>
+	get window of template editor "name_of_window" of map document 1
+</PRE><P><H4>Propriétés des tables</H4>
+Les tables de ressources sont considérées comme des objets directement
+contenus dans l'application. Elles sont caractérisées par un numéro
+d'identification unique: c'est un numéro de référence attribué par le
+gestionnaire de ressources du système au moment où la table est ouverte.
+Par exemple, l'instruction suivante
+<PRE>
+	get map of map document 1
+</PRE>
+pourrait renvoyer quelque chose comme ceci:
+<P> <I>map id 22 of application "Rezilla"</I>
+<P> La table pourrait alors être invoquée par la suite dans un script au moyen de 
+l'expression  <I>map id 22</I>. Le numéro d'identification est unique.<P>Les tables de ressources ont les propriétés suivantes:
+<UL>
+	<LI> <I>refnum</I>: le numéro de référence de la table en mémoire<P>	<LI> <I>all types</I>: la liste de tous les types contenus dans cette 
+table (classée par ordre alphabétique)<P>	<LI> <I>attributes</I>: la valeur globale des attributs (valeur 
+numérique, somme des drapeaux individuels ci-dessous)<P>	<LI> <I>readOnly</I>: le drapeau <I>ReadOnly</I> de la table (une valeur 
+booléenne)<P>	<LI> <I>compact</I>: le drapeau <I>Compact</I> de la table (une valeur 
+booléenne)<P>	<LI> <I>changed</I>: le drapeau <I>Changed</I> de la table (une valeur 
+booléenne)
+</UL><P>Voici un exemple de script pour récupérer les propriétés d'une table de ressources:
+<PRE>
+	set theMap to the map of map document 1
+	set a to the refnum of theMap
+	set b to the attributes of theMap
+	set c to the readOnly of theMap
+	set d to the compact of theMap
+	set e to the changed of theMap
+	
+	{a, b, c, d, e}<P></PRE>
+Une table est elle-même un contenant: les objets qu'elle contient sont les 
+types, comme nous le verrons à la prochaine section. Pour obtenir la liste de tous les types contenus dans la table, on écrira:
+<PRE>
+	set theMap to the map of map document 1
+	get all types of theMap<P></PRE><P>Les propriétés <I>attributes</I>, <I>readOnly</I>, <I>compact</I> et 
+<I>changed</I> peuvent être modifiées au moyen de la commande <B>set</B>. 
+Les autres sont des propriétés en lecture seulement. Par exemple:
+<PRE>
+	set theMap to map document 1
+	-- 160 is mapReadOnly _and_ mapChanged (128 + 32)
+	set the attributes of theMap to 160
+	-- This unsets the mapReadOnly flag (-128)
+	set the readOnly of theMap to 0
+	-- This sets the mapCompact flag (+64)
+	set the compact of theMap to 1
+	-- This unsets the mapChanged flag (-32)
+	set the changed of theMap to 0<P></PRE><P><H4>Propriétés des types</H4>
+Un type est un objet contenant des objets <I>ressource</I> . Ses éléments
+sont toutes les ressources ayant ce même type. Les types sont des éléments d'un
+objet <I>table de ressources</I>: ils peuvent être spécifiés par indice ou
+par nom. L'indice d'un type est son indice dans la liste de tous les types
+appartenant à la table qui le contient. Le nom est une chaîne de quatre
+caractères représentant le type (comme "TEXT", "icns", "MENU", etc.)<P>Les propriétéssuivantes sont définies:
+<UL>
+	<LI> <I>index</I>: l'indice du type dans le document (les types sont 
+ordonnés alphabetiquement)<P>	<LI> <I>name</I>: la chaîne de quatre caractères représentant le type<P>	<LI> <I>all IDs</I>: la liste de tous les identificateurs (ID) des 
+ressources appartenant à ce type
+</UL><P>Voici un exemple de script pour récupérer les propriétés d'un type dans une table de ressources:
+<PRE>
+	set theType to type "TEXT" of map 1
+	set a to the index of theType
+	set b to the name of theType
+	{a, b}<P></PRE>
+Pour obtenir la liste de toutes les ressources appartenant à un type 
+particulier, on écrira par exemple:
+<PRE>
+	set theType to type "TEXT" of map 1
+	get all IDs of theType<P></PRE><P>Toutes ces propriétés sont des propriétés en lecture seulement. Elles ne
+peuvent être modifiées au moyen de la commande <B>set</B>.<P><H4>Propriétés des ressources</H4><P>Une ressource à l'intérieur d'un objet type peut être spécifiée par indice,
+par nom ou par identificateur (ID). La spécification par identificateur est
+unique. Une ressource peut aussi être désignée directement dans une table
+de ressources en utilisant une paire constituée de son type et de son
+identificateur,
+comme par exemple:
+<PRE>
+	resource {"TEXT", 128} of map id 22
+</PRE><P>On notera qu'il est aussi possible faire référence à une ressource comme 
+s'il s'agissait d'un élément d'un document de ressources directement 
+plutôt qu'un élément de la table abritée par ce document. Il s'agit d'un
+raccourci commode qui permet d'écrire des expressions comme:
+<PRE>
+	resource {"TEXT", 128} of theDoc
+</PRE>
+au lieu de
+<PRE>
+	resource {"TEXT", 128} of the map of theDoc
+</PRE><P>Les diverses propriétés d'une ressource sont les suivantes:
+<UL>
+	<LI> <I>name</I>: le nom de la ressource<P>	<LI> <I>typename</I>: le type de la ressource (sous forme de texte et non 
+d'objet)<P>	<LI> <I>ID</I>: l'identificateur (ID) de la ressource<P>	<LI> <I>index</I>: l'indice de la ressource dans le type (dans l'ordre 
+utilisé par le gestionnaire de ressources)<P>	<LI> <I>attributes</I>: la valeur globale des attributs de la ressource  
+(valeur numérique, somme des drapeaux individuels ci-dessous)<P>	<LI> <I>sysHeap</I>: le drapeau <I>SysHeap</I> de la ressource (une valeur 
+booléenne)<P>	<LI> <I>purgeable</I>: le drapeau <I>Purgeable</I> de la ressource (une valeur 
+booléenne)<P>	<LI> <I>locked</I>: le drapeau <I>Locked</I> de la ressource (une valeur 
+booléenne)<P>	<LI> <I>preload</I>: le drapeau <I>Preload</I> de la ressource (une valeur 
+booléenne)<P>	<LI> <I>protected</I>: le drapeau <I>Protected</I> de la ressource (une valeur 
+booléenne)<P>	<LI> <I>changed</I>: le drapeau <I>Changed</I> de la ressource (une valeur 
+booléenne)<P>	<LI> <I>size</I>: la taille des données de la ressource (en octets)<P>	<LI> <I>sizeOnDisc</I>: la taille de la ressource sur disque<P>	<LI> <I>hex data</I>: les données de la ressource (en format hexadécimal)<P></UL><P>Voici un exemple de script pour récupérer certaines de ces valeurs:
+<PRE>
+	set therez to resource {"TEXT", 128} of map id 22
+	set a to the name of therez
+	set b to the ID of therez
+	set c to the changed of therez
+	set d to the size of therez
+	set e to the sizeOnDisc of therez
+	set f to the attributes of therez
+	set g to the system heap of therez
+	set h to the purgeable of therez
+	set i to the locked of therez
+	set j to the preload of therez
+	set k to the protected of therez
+	
+	{a, b, c, d, e, f, g, h, i, j, k}<P></PRE><P>Les propriétés <I>name</I>, <I>attributes</I>, <I>sysHeap</I>, <I>purgeable</I>, 
+<I>locked</I>, <I>preload</I>, <I>protected</I>, <I>changed</I>, <I>sizeOnDisc</I> et <I>hex data</I> peuvent être modifiées au moyen de 
+la commande <B>set</B>. 
+Les autres sont des propriétés en lecture seulement. Par exemple:
+<PRE>
+	set theRez to resource {"MENU", 128} of map document 1
+	set the name of theRez to "Apple menu"
+	-- 12 is resProtected _and_ resPreload (8 + 4):
+	set the attributes of theRez to 12
+	-- This unsets the resProtected flag:
+	set the protected of theRez to 0
+	-- This sets the resPurgeable flag:
+	set the purgeable of theRez to 1
+	-- This unsets the resLocked flag:
+	set the locked of theRez to 1
+	-- This sets the resChanged flag:
+	set the changed of theRez to 1
+	-- Modifiy the size on disc (use at your own risk):
+	set the sizeOnDisc of theRez to 512<P></PRE><P><H4>Contenu d'une ressource</H4><P>Les données de la ressource peuvent être obtenues au moyen de la propriété <I>hex data</I>, 
+comme ceci:
+<PRE>
+	set theRez to resource {"ALRT", 128} of map 1
+	get the hex data of theRez<P></PRE>
+Le résultat est renvoyé sous forme hexadécimale, comme par exemple: 
+<PRE>
+	"002800280096019000805555300a"
+</PRE><P>La commande <B>set</B> peut être utilisée pour installer des données 
+différentes dans la ressource. Par exemple:
+<PRE>
+	set theRez to resource {"ALRT", 128} of map 1
+	set the hex data of therez to "001400140087016800805555300a"<P></PRE><P>On notera deux exceptions importantes concernant la représentation 
+hexadécimale des données d'une
+ressource. Elles concernent les ressources de type <I>TEXT</I> et les 
+ressources de
+type <I>STR#</I>. Dans ce cas, Rezilla utilise une représentation textuelle:
+<UL>
+	<LI> les ressources de type <I>TEXT</I> sont représentées par une chaîne
+de texte
+	<LI> les ressources de type <I>STR#</I> sont représentées par une liste
+AppleScript de chaînes de texte
+</UL>
+Par exemple, la commande 
+<PRE>
+	get hex data of resource {"TEXT", 128} of map 1
+</PRE>
+renverrait <I>Viva Rezilla</I> au lieu de l'équivalent hexadécimal 
+566976612052657a696c6c61.<P>La réciproque est vraie. Pour fixer la valeur d'une ressource <I>TEXT</I>
+ou <I>STR#</I>, on utilisera la syntaxe suivante:
+<PRE>
+	-- simple string
+	set txtRez to resource {"TEXT", 128} of map 1
+	set the hex data of txtRez to "Viva Rezilla!!!"
+	-- list of strings
+	set strRez to resource {"STR#", 128} of map 1
+	set the hex data of strRez to {"Viva Rezilla!!!", "Rezilla is great!!!"}<P></PRE><P>
 
 </BODY>
 </HTML>

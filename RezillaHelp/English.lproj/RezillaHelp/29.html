@@ -1,28 +1,39 @@
 <HTML>
 <HEAD>
-<TITLE>Drag and Drop</TITLE>
+<TITLE>Copy, Cut and Paste</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="28.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="30.html">Next</A><HR><P>&nbsp;</P>
-<H2>Drag and Drop</H2>
-Rezilla provides various aspects of Drag and Drop capacity. You can
-drag a selection of resources from a resource map table to another to have
-them copied to the destination resource map. If the destination resource
-map is the same as the original one, the resources are simply duplicated.<P><P> If you drag a selection of resources from a resource map table to the trash
-in the Finder, these resources are deleted from the resource map.<P><P> If you drag a piece of text from an external text editor to a  resource
-map table, a new resource of type TEXT containing this text is created.
-More generally speaking, if you drag a  selection  of  some  "flavor"  to  a
-resource map table in Rezilla, resources of the same type as the flavor are
-created. For instance, if you drag an image selected in a program such as
-<A HREF="http://www.lemkesoft.de/en/graphcon.htm">GraphicConverter</A> 
-to Rezilla, two resources are created: one resource of type Rect will  contain
-the dimensions of the image, another resource of type PICT will  contain  a
-pict representation of the image.<P><P> In the Resource Maps Comparison dialog, one can drag and drop a file
-from the Finder onto one of the file fields to select it rather than using
-the <I>Set</I> button.<P>
+<H2>Copy, Cut and Paste</H2>
+The Copy, Cut and Paste commands can have different meanings according to
+the context. 
+<UL>
+	<LI> In the resource map table, you copy entire resources.  If you copy inside
+the application, you can copy as many resources at a time as you wish, not
+necessarily of the same type.  If you switch to another application on the
+contrary, only one resource for each type will be copied to the clipboard:
+each type corresponds to one flavor on the clipboard.  If you paste in a
+resource map document in Rezilla some data copied from an external application, a
+resource will be created for each flavour found on the clipboard: the
+flavour is used as the type of the created resource. 
+<P> For instance, if you copy an
+image in a program like 
+<A HREF="http://www.lemkesoft.de/en/graphcon.htm">GraphicConverter</A> and paste
+it in Rezilla, a PICT and a Rect resources are created: the PICT resource
+contains the data for the image and the Rect resource contains its
+dimensions. This is because <I>GraphicConverter</I> puts these two
+informations on the clipboard when it performs the copy. This all depends
+on how applications store data in the clipboard. The other way round, you
+can for instance select a TEXT resource in a resource map table in Rezilla
+and paste it into a text editor: the contents of the resource will be
+inserted in the editor.<P>	<LI> In the hexadecimal editor, you copy selections from one of the panes.
+To paste data from the clipboard into the left pane, it must be valid
+hexadecimal data. Any data pasted in one of the panes is also pasted
+accordingly in the other pane: for instance, any data pasted in the right
+pane is converted to its hexadecimal values and inserted in the left one.<P></UL><P>
 
 </BODY>
 </HTML>
