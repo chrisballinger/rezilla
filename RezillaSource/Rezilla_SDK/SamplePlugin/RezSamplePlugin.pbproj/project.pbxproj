@@ -1,0 +1,376 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 39;
+	objects = {
+		0249A669FF388E3911CA2CEA = {
+			isa = PBXFileReference;
+			lastKnownFileType = archive.ar;
+			name = "libstdc++.a";
+			path = "/usr/lib/libstdc++.a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+//020
+//021
+//022
+//023
+//024
+//090
+//091
+//092
+//093
+//094
+		0985547D004824C211CB177F = {
+			explicitFileType = wrapper.cfbundle;
+			isa = PBXFileReference;
+			path = RezSamplePlugin.bundle;
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0985547E004824C211CB177F = {
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				EXPORTED_SYMBOLS_FILE = RezSamplePlugin.exp;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OPTIMIZATION_CFLAGS = "-O0";
+				OTHER_CFLAGS = "-DDEBUG";
+				ZERO_LINK = NO;
+			};
+			isa = PBXBuildStyle;
+			name = Development;
+		};
+		0985547F004824C211CB177F = {
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				ZERO_LINK = NO;
+			};
+			isa = PBXBuildStyle;
+			name = Deployment;
+		};
+//090
+//091
+//092
+//093
+//094
+//100
+//101
+//102
+//103
+//104
+		10189FF3FFB33D2711CB177F = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = CoreFoundation.framework;
+			path = /System/Library/Frameworks/CoreFoundation.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		10189FF6FFB33D2711CB177F = {
+			buildPhases = (
+				10189FF7FFB33D2711CB177F,
+				10189FF8FFB33D2711CB177F,
+				10189FFAFFB33D2711CB177F,
+				10189FFCFFB33D2711CB177F,
+				10189FFEFFB33D2711CB177F,
+			);
+			buildSettings = {
+				OTHER_LDFLAGS = "-bundle -undefined error";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = RezSamplePlugin;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+				WRAPPER_EXTENSION = bundle;
+			};
+			dependencies = (
+			);
+			isa = PBXBundleTarget;
+			name = SamplePlugin;
+			productName = addOne;
+			productReference = 0985547D004824C211CB177F;
+			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+<plist version=\"1.0\">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>RezSamplePlugin</string>
+	<key>CFBundleGetInfoString</key>
+	<string></string>
+	<key>CFBundleIconFile</key>
+	<string></string>
+	<key>CFBundleIdentifier</key>
+	<string>net.sourceforge.rezilla.RezSamplePlugin</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>RezSamplePlugin</string>
+	<key>CFBundlePackageType</key>
+	<string>BNDL</string>
+	<key>CFBundleShortVersionString</key>
+	<string></string>
+	<key>CFBundleSignature</key>
+	<string>Rzil</string>
+	<key>CFBundleVersion</key>
+	<string>0.1d1</string>
+	<key>CFPlugInFactories</key>
+	<dict>
+		<key>306B89A8-206E-11DA-8320-000A95B1FF7C</key>
+		<string>RezSampleFactory</string>
+	</dict>
+	<key>CFPlugInTypes</key>
+	<dict>
+		<key>306A0EF3-206E-11DA-8320-000A95B1FF7C</key>
+		<array>
+			<string>306B89A8-206E-11DA-8320-000A95B1FF7C</string>
+		</array>
+	</dict>
+</dict>
+</plist>
+";
+		};
+		10189FF7FFB33D2711CB177F = {
+			buildActionMask = 2147483647;
+			files = (
+				2729EC2808D1572200C58845,
+			);
+			isa = PBXHeadersBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		10189FF8FFB33D2711CB177F = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			isa = PBXResourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		10189FFAFFB33D2711CB177F = {
+			buildActionMask = 2147483647;
+			files = (
+				2729EC2608D1572200C58845,
+				2729EC2708D1572200C58845,
+			);
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		10189FFCFFB33D2711CB177F = {
+			buildActionMask = 2147483647;
+			files = (
+				10189FFDFFB33D2711CB177F,
+				11971589019747FC0CCB177F,
+				1111AFA201B710D10CCB177F,
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		10189FFDFFB33D2711CB177F = {
+			fileRef = 10189FF3FFB33D2711CB177F;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		10189FFEFFB33D2711CB177F = {
+			buildActionMask = 2147483647;
+			files = (
+				2729EC2908D1572200C58845,
+			);
+			isa = PBXRezBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+//100
+//101
+//102
+//103
+//104
+//110
+//111
+//112
+//113
+//114
+		1111AFA201B710D10CCB177F = {
+			fileRef = 20286C33FDCF999611CA2CEA;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		11971588019747FC0CCB177F = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = CoreServices.framework;
+			path = /System/Library/Frameworks/CoreServices.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		11971589019747FC0CCB177F = {
+			fileRef = 11971588019747FC0CCB177F;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//110
+//111
+//112
+//113
+//114
+//190
+//191
+//192
+//193
+//194
+		195DF8C9FE9D4F0611CA2CBB = {
+			children = (
+				0985547D004824C211CB177F,
+			);
+			isa = PBXGroup;
+			name = Products;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+//190
+//191
+//192
+//193
+//194
+//200
+//201
+//202
+//203
+//204
+		20286C28FDCF999611CA2CEA = {
+			buildSettings = {
+			};
+			buildStyles = (
+				0985547E004824C211CB177F,
+				0985547F004824C211CB177F,
+			);
+			hasScannedForEncodings = 0;
+			isa = PBXProject;
+			mainGroup = 20286C29FDCF999611CA2CEA;
+			projectDirPath = "";
+			targets = (
+				10189FF6FFB33D2711CB177F,
+			);
+		};
+		20286C29FDCF999611CA2CEA = {
+			children = (
+				20286C2AFDCF999611CA2CEA,
+				20286C32FDCF999611CA2CEA,
+				195DF8C9FE9D4F0611CA2CBB,
+			);
+			isa = PBXGroup;
+			name = CFBundleTestApp;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		20286C2AFDCF999611CA2CEA = {
+			children = (
+				2729EC2208D1572200C58845,
+				2729EC2308D1572200C58845,
+				2729EC2408D1572200C58845,
+				2729EC2508D1572200C58845,
+			);
+			isa = PBXGroup;
+			name = Sources;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		20286C32FDCF999611CA2CEA = {
+			children = (
+				20286C33FDCF999611CA2CEA,
+				0249A669FF388E3911CA2CEA,
+				10189FF3FFB33D2711CB177F,
+				11971588019747FC0CCB177F,
+			);
+			isa = PBXGroup;
+			name = "External Frameworks and Libraries";
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		20286C33FDCF999611CA2CEA = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = Carbon.framework;
+			path = /System/Library/Frameworks/Carbon.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+//200
+//201
+//202
+//203
+//204
+//270
+//271
+//272
+//273
+//274
+		2729EC2208D1572200C58845 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.exports;
+			path = RezSamplePlugin.exp;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		2729EC2308D1572200C58845 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
+			path = RezSamplePlugin.c;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		2729EC2408D1572200C58845 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = RezSamplePlugin.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		2729EC2508D1572200C58845 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.rez;
+			path = RezSamplePlugin.r;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		2729EC2608D1572200C58845 = {
+			fileRef = 2729EC2208D1572200C58845;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		2729EC2708D1572200C58845 = {
+			fileRef = 2729EC2308D1572200C58845;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		2729EC2808D1572200C58845 = {
+			fileRef = 2729EC2408D1572200C58845;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		2729EC2908D1572200C58845 = {
+			fileRef = 2729EC2508D1572200C58845;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+	};
+	rootObject = 20286C28FDCF999611CA2CEA;
+}
