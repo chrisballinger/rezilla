@@ -207,18 +207,19 @@ CInspectorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 	
 	switch (inMessage) {
 		
-		case msg_InspModify: 
-		if (mRezObjItem == nil) {return;} 
-		// Update the resource properties in the table and in memory 
-		OSErr err = UpdateRezMapTable();
-		if (err == noErr) {
-			SaveValues();
-			// Disable the buttons
-			mRevertButton->Disable();
-			mModifyButton->Disable();
-		} 
-		break;
-		
+		case msg_InspModify: {
+			if (mRezObjItem == nil) {return;} 
+			// Update the resource properties in the table and in memory 
+			OSErr err = UpdateRezMapTable();
+			if (err == noErr) {
+				SaveValues();
+				// Disable the buttons
+				mRevertButton->Disable();
+				mModifyButton->Disable();
+			} 
+			break;
+		}
+			
 		case msg_InspRevert:
 		if (mRezObjItem == nil) {return;} 
 		InstallValues();

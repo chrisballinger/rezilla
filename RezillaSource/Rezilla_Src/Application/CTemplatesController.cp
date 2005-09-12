@@ -474,7 +474,7 @@ CTemplatesController::GetTemplateHandle(ResType inType)
 	UMiscUtils::OSTypeToPString(inType, typeName);
 	
 	switch (sTemplateKind) {
-		case tmpl_internal:
+		case tmpl_internal: {
 		CRezType *	theRezType = new CRezType('TMPL', sTemplatesMap);
 		
 		if (theRezType != NULL) {
@@ -485,6 +485,7 @@ CTemplatesController::GetTemplateHandle(ResType inType)
 			delete theRezType;
 		} 
 		break;
+		}
 		
 		case tmpl_external: {
 			FSSpec		theFileSpec;

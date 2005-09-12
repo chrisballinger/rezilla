@@ -448,7 +448,7 @@ CAete_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		break;
 
 		
-		case msg_AeteSuiteName:
+		case msg_AeteSuiteName: {
 		Str255		theName;
 		LEditText *	theEditText = dynamic_cast<LEditText *>(this->FindPaneByID( item_AeteSuiteName ));
 		ThrowIfNil_( theEditText );
@@ -461,7 +461,7 @@ CAete_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		mSuitesPopup->Refresh();	
 		SetDirty(true);
 		break;
-		
+		}
 		
 		default:
 		CEditorWindow::ListenToMessage(inMessage, ioParam);
@@ -735,45 +735,50 @@ CAete_EditorWindow::GetCurrentIndex(SInt8 inKind)
 		case kind_AeteEvent: 
 		case kind_AeteClass: 
 		case kind_AeteCompOp: 
-		case kind_AeteEnum: 
-		CAeteSuite * theSuite = static_cast<CAeteSuite *>( FindCurrentObject( kind_AeteSuite ) );
-		if (theSuite) {
-			index = theSuite->GetCurrentIndex(inKind);
+		case kind_AeteEnum: {
+			CAeteSuite * theSuite = static_cast<CAeteSuite *>( FindCurrentObject( kind_AeteSuite ) );
+			if (theSuite) {
+				index = theSuite->GetCurrentIndex(inKind);
+			}
+			break;
 		}
-		break;
 		
-		case kind_AeteParameter:
-		CAeteEvent * theEvent = static_cast<CAeteEvent *>( FindCurrentObject( kind_AeteEvent ) );
-		if (theEvent) {
-			index = theEvent->GetParameterIndex();
+		case kind_AeteParameter: {
+			CAeteEvent * theEvent = static_cast<CAeteEvent *>( FindCurrentObject( kind_AeteEvent ) );
+			if (theEvent) {
+				index = theEvent->GetParameterIndex();
+			}
+			break;
 		}
-		break;
 		
 		case kind_AeteProperty:
-		case kind_AeteElement:
-		CAeteClass * theClass = static_cast<CAeteClass *>( FindCurrentObject( kind_AeteClass ) );
-		if (theClass) {
-			if (inKind == kind_AeteProperty) {
-				index = theClass->GetPropertyIndex();
-			} else {
-				index = theClass->GetElementIndex();
-			} 
+		case kind_AeteElement: {
+			CAeteClass * theClass = static_cast<CAeteClass *>( FindCurrentObject( kind_AeteClass ) );
+			if (theClass) {
+				if (inKind == kind_AeteProperty) {
+					index = theClass->GetPropertyIndex();
+				} else {
+					index = theClass->GetElementIndex();
+				} 
+			}
+			break;
 		}
-		break;
 		
-		case kind_AeteKeyForm:
-		CAeteElement * theElement = static_cast<CAeteElement *>( FindCurrentObject( kind_AeteElement ) );
-		if (theElement) {
-			index = theElement->GetKeyFormIndex();
+		case kind_AeteKeyForm: {
+			CAeteElement * theElement = static_cast<CAeteElement *>( FindCurrentObject( kind_AeteElement ) );
+			if (theElement) {
+				index = theElement->GetKeyFormIndex();
+			}
+			break;
 		}
-		break;
 		
-		case kind_AeteEnumerator:
-		CAeteEnumeration * theEnum = static_cast<CAeteEnumeration *>( FindCurrentObject( kind_AeteEnum ) );
-		if (theEnum) {
-			index = theEnum->GetEnumeratorIndex();
+		case kind_AeteEnumerator: {
+			CAeteEnumeration * theEnum = static_cast<CAeteEnumeration *>( FindCurrentObject( kind_AeteEnum ) );
+			if (theEnum) {
+				index = theEnum->GetEnumeratorIndex();
+			}
+			break;
 		}
-		break;
 		
 	}
 	return index;
@@ -793,46 +798,50 @@ CAete_EditorWindow::SetCurrentIndex(SInt8 inKind, ArrayIndexT inIndex)
 		case kind_AeteEvent: 
 		case kind_AeteClass: 
 		case kind_AeteCompOp: 
-		case kind_AeteEnum: 
-		CAeteSuite * theSuite = static_cast<CAeteSuite *>( FindCurrentObject( kind_AeteSuite ) );
-		if (theSuite) {
-			 theSuite->SetCurrentIndex(inKind, inIndex);
+		case kind_AeteEnum: {
+			CAeteSuite * theSuite = static_cast<CAeteSuite *>( FindCurrentObject( kind_AeteSuite ) );
+			if (theSuite) {
+				 theSuite->SetCurrentIndex(inKind, inIndex);
+			}
+			break;
 		}
-		break;
 		
-		case kind_AeteParameter:
-		CAeteEvent * theEvent = static_cast<CAeteEvent *>( FindCurrentObject( kind_AeteEvent ) );
-		if (theEvent) {
-			theEvent->SetParameterIndex(inIndex);
+		case kind_AeteParameter: {
+			CAeteEvent * theEvent = static_cast<CAeteEvent *>( FindCurrentObject( kind_AeteEvent ) );
+			if (theEvent) {
+				theEvent->SetParameterIndex(inIndex);
+			}
+			break;
 		}
-		break;
 		
 		case kind_AeteProperty:
-		case kind_AeteElement:
-		CAeteClass * theClass = static_cast<CAeteClass *>( FindCurrentObject( kind_AeteClass ) );
-		if (theClass) {
-			if (inKind == kind_AeteProperty) {
-				theClass->SetPropertyIndex(inIndex);
-			} else {
-				theClass->SetElementIndex(inIndex);
-			} 
+		case kind_AeteElement: {
+			CAeteClass * theClass = static_cast<CAeteClass *>( FindCurrentObject( kind_AeteClass ) );
+			if (theClass) {
+				if (inKind == kind_AeteProperty) {
+					theClass->SetPropertyIndex(inIndex);
+				} else {
+					theClass->SetElementIndex(inIndex);
+				} 
+			}
+			break;
 		}
-		break;
 
-		case kind_AeteKeyForm:
-		CAeteElement * theElement = static_cast<CAeteElement *>( FindCurrentObject( kind_AeteElement ) );
-		if (theElement) {
-			theElement->SetKeyFormIndex(inIndex);
+		case kind_AeteKeyForm: {
+			CAeteElement * theElement = static_cast<CAeteElement *>( FindCurrentObject( kind_AeteElement ) );
+			if (theElement) {
+				theElement->SetKeyFormIndex(inIndex);
+			}
+			break;
 		}
-		break;
 
-		case kind_AeteEnumerator:
-		CAeteEnumeration * theEnum = static_cast<CAeteEnumeration *>( FindCurrentObject( kind_AeteEnum ) );
-		if (theEnum) {
-			theEnum->SetEnumeratorIndex(inIndex);
+		case kind_AeteEnumerator: {
+			CAeteEnumeration * theEnum = static_cast<CAeteEnumeration *>( FindCurrentObject( kind_AeteEnum ) );
+			if (theEnum) {
+				theEnum->SetEnumeratorIndex(inIndex);
+			}
+			break;
 		}
-		break;
-		
 	}
 }
 
@@ -854,46 +863,50 @@ CAete_EditorWindow::GetCurrentCount(SInt8 inKind)
 		case kind_AeteEvent: 
 		case kind_AeteClass: 
 		case kind_AeteCompOp: 
-		case kind_AeteEnum: 
-		CAeteSuite * theSuite = static_cast<CAeteSuite *>( FindCurrentObject( kind_AeteSuite ) );
-		if (theSuite) {
-			count = theSuite->GetCurrentCount(inKind);
+		case kind_AeteEnum: {
+			CAeteSuite * theSuite = static_cast<CAeteSuite *>( FindCurrentObject( kind_AeteSuite ) );
+			if (theSuite) {
+				count = theSuite->GetCurrentCount(inKind);
+			}
+			break;
 		}
-		break;
 		
-		case kind_AeteParameter:
-		CAeteEvent * theEvent = static_cast<CAeteEvent *>( FindCurrentObject( kind_AeteEvent ) );
-		if (theEvent) {
-			count = theEvent->CountParameters();
+		case kind_AeteParameter: {
+			CAeteEvent * theEvent = static_cast<CAeteEvent *>( FindCurrentObject( kind_AeteEvent ) );
+			if (theEvent) {
+				count = theEvent->CountParameters();
+			}
+			break;
 		}
-		break;
 		
 		case kind_AeteProperty:
-		case kind_AeteElement:
-		CAeteClass * theClass = static_cast<CAeteClass *>( FindCurrentObject( kind_AeteClass ) );
-		if (theClass) {
-			if (inKind == kind_AeteProperty) {
-				count = theClass->CountProperties();
-			} else {
-				count = theClass->CountElements();
-			} 
+		case kind_AeteElement: {
+			CAeteClass * theClass = static_cast<CAeteClass *>( FindCurrentObject( kind_AeteClass ) );
+			if (theClass) {
+				if (inKind == kind_AeteProperty) {
+					count = theClass->CountProperties();
+				} else {
+					count = theClass->CountElements();
+				} 
+			}
+			break;
 		}
-		break;
 
-		case kind_AeteKeyForm:
-		CAeteElement * theElement = static_cast<CAeteElement *>( FindCurrentObject( kind_AeteElement ) );
-		if (theElement) {
-			count = theElement->CountKeyForms();
+		case kind_AeteKeyForm: {
+			CAeteElement * theElement = static_cast<CAeteElement *>( FindCurrentObject( kind_AeteElement ) );
+			if (theElement) {
+				count = theElement->CountKeyForms();
+			}
+			break; 
 		}
-		break;
-
-		case kind_AeteEnumerator:
-		CAeteEnumeration * theEnum = static_cast<CAeteEnumeration *>( FindCurrentObject( kind_AeteEnum ) );
-		if (theEnum) {
-			count = theEnum->CountEnumerators();
+			
+		case kind_AeteEnumerator: {
+			CAeteEnumeration * theEnum = static_cast<CAeteEnumeration *>( FindCurrentObject( kind_AeteEnum ) );
+			if (theEnum) {
+				count = theEnum->CountEnumerators();
+			}
+			break;
 		}
-		break;
-		
 	}
 	return count;
 }

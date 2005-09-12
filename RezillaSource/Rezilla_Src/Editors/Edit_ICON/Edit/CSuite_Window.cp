@@ -180,18 +180,20 @@ CSuite_Window::ListenToMessage( MessageT inMessage, void *ioParam )
 {
 	switch( inMessage )
 	{
-		case msg_IconSuiteSlider:
-		SInt32 val = mSlider->GetValue();
-		SetCountField(val, mTotalCount);
-		break;
+		case msg_IconSuiteSlider: {
+			SInt32 val = mSlider->GetValue();
+			SetCountField(val, mTotalCount);
+			break;
+		}
 		
-		case msg_PlusButton:
-		ImageToNthBitmap(mCurrentIndex);
-		ArrayIndexT index = AddNewBitmap();
-		SetNthBitmap(index);
-		AdjustSlider();
-		SetDirty(true);
-		break;
+		case msg_PlusButton: {
+			ImageToNthBitmap(mCurrentIndex);
+			ArrayIndexT index = AddNewBitmap();
+			SetNthBitmap(index);
+			AdjustSlider();
+			SetDirty(true);
+			break;
+		}
 		
 		case msg_MinusButton:
 		RemoveBitmap(mCurrentIndex);

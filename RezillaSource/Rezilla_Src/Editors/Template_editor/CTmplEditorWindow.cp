@@ -242,7 +242,7 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 	
 	switch (inMessage) {
 		
-		case msg_MinusButton:
+		case msg_MinusButton: {
 			theMinusButton = (CTmplListButton *) ioParam;
 			thePaneID = theMinusButton->GetPaneID();
 			thePlusButton = dynamic_cast<CTmplListButton *>(this->FindPaneByID(thePaneID + 1));
@@ -313,7 +313,7 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			// Window has been modified
 			SetDirty(true);
 			break;
-		
+		}
 		
 		case msg_PlusButton:
 			thePlusButton = (CTmplListButton *) ioParam;
@@ -663,6 +663,8 @@ CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount,
 	CTmplListButton * thePlusButton = nil;
 	CTmplListButton * theMinusButton = nil;
 	LView * theContainer = inContainer;
+	SInt32	listCount;
+	Boolean drawCtrl;
 
 	if (inCountPaneID) {
 		theMinusButton = dynamic_cast<CTmplListButton *>(this->FindPaneByID(inCountPaneID + 1));
@@ -674,9 +676,9 @@ CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount,
 	
 	switch (inType) {
 		case 'LSTB':
-		case 'LSTZ':
-		SInt32	listCount = 0;
-		Boolean drawCtrl = true;
+		case 'LSTZ': 
+		listCount = 0;
+		drawCtrl = true;
 		
 		if ( EndOfList(inType, &error) ) {
 			if (error == noErr) {
@@ -1664,18 +1666,19 @@ CTmplEditorWindow::RetrieveList(SInt32 inStartMark, ResType inType, SInt32 inCou
 	
 	switch (inType) {
 		case 'LSTB':
-		case 'LSTZ':
-		Boolean readCtrl = (mPaneIndex <= mLastID);
-		
-		do {
-			error = DoRetrieveWithTemplate(inStartMark, readCtrl);
-		} while (mPaneIndex <= mLastID && error == noErr);
-		
-		// An LSTZ list is terminated by a NULL
-		if (inType == 'LSTZ') {
-			*mOutStream << (UInt8) 0x00;
-		} 
-		break;
+		case 'LSTZ': {
+			Boolean readCtrl = (mPaneIndex <= mLastID);
+			
+			do {
+				error = DoRetrieveWithTemplate(inStartMark, readCtrl);
+			} while (mPaneIndex <= mLastID && error == noErr);
+			
+			// An LSTZ list is terminated by a NULL
+			if (inType == 'LSTZ') {
+				*mOutStream << (UInt8) 0x00;
+			} 
+			break;
+		}
 		
 		case 'LSTC':
 		if (inCount == 0) {
@@ -1986,68 +1989,69 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		case 'LHEX':
 		case 'LSHX':
 		case 'WHEX':
-		case 'WSHX': 
-		// Hex dump of following bytes
-		CDualDataView * theTGB = dynamic_cast<CDualDataView *>(this->FindPaneByID(mCurrentID));
-		WEReference theWE = theTGB->GetInMemoryWE();
-		theLength = ::WEGetTextLength(theWE);
-		theHandle = static_cast<Handle>(::WEGetText(theWE));
-		locker.Adopt(theHandle);
+		case 'WSHX': {
+			// Hex dump of following bytes
+			CDualDataView * theTGB = dynamic_cast<CDualDataView *>(this->FindPaneByID(mCurrentID));
+			WEReference theWE = theTGB->GetInMemoryWE();
+			theLength = ::WEGetTextLength(theWE);
+			theHandle = static_cast<Handle>(::WEGetText(theWE));
+			locker.Adopt(theHandle);
+			
+			switch (inType) {
+				case 'BHEX': {
+					if (theLength > 0xff) {
+						theLength = 0xff;
+					} 
+					*mOutStream << (UInt8) theLength;
+					break;
+				}
+				
+				case 'BSHX': {
+					if (theLength >= 0xff) {
+						theLength = 0xfe;
+					} 
+					*mOutStream << (UInt8) (theLength + 1);
+					break;
+				}
+				
+				case 'LHEX': {
+					if (theLength > 0xffffffff) {
+						theLength = 0xffffffff;
+					} 
+					*mOutStream << (UInt32) theLength;
+					break;
+				}
+				
+				case 'LSHX': {
+					if (theLength >= 0xffffffff) {
+						theLength = 0xfffffffb;
+					} 
+					*mOutStream << (UInt32) (theLength + 4);
+					break;
+				}
+				
+				case 'WHEX': {
+					if (theLength > 0xffff) {
+						theLength = 0xffff;
+					} 
+					*mOutStream << (UInt16) theLength;
+					break;
+				}
+				
+				case 'WSHX': {
+					if (theLength >= 0xffff) {
+						theLength = 0xfffd;
+					} 
+					*mOutStream << (UInt16) (theLength + 2);
+					break;
+				}
+			}	
+			
+			mOutStream->PutBytes(*theHandle, theLength);
+			mPaneIndex++;
+			break;
+		}
 		
-		switch (inType) {
-			case 'BHEX': {
-				if (theLength > 0xff) {
-					theLength = 0xff;
-				} 
-				*mOutStream << (UInt8) theLength;
-				break;
-			}
-			
-			case 'BSHX': {
-				if (theLength >= 0xff) {
-					theLength = 0xfe;
-				} 
-				*mOutStream << (UInt8) (theLength + 1);
-				break;
-			}
-			
-			case 'LHEX': {
-				if (theLength > 0xffffffff) {
-					theLength = 0xffffffff;
-				} 
-				*mOutStream << (UInt32) theLength;
-				break;
-			}
-			
-			case 'LSHX': {
-				if (theLength >= 0xffffffff) {
-					theLength = 0xfffffffb;
-				} 
-				*mOutStream << (UInt32) (theLength + 4);
-				break;
-			}
-			
-			case 'WHEX': {
-				if (theLength > 0xffff) {
-					theLength = 0xffff;
-				} 
-				*mOutStream << (UInt16) theLength;
-				break;
-			}
-			
-			case 'WSHX': {
-				if (theLength >= 0xffff) {
-					theLength = 0xfffd;
-				} 
-				*mOutStream << (UInt16) (theLength + 2);
-				break;
-			}
-		}	
-		
-		mOutStream->PutBytes(*theHandle, theLength);
-		mPaneIndex++;
-		break;
-
 		case 'FLNG':
 		case 'HLNG':
 		// Hex long word

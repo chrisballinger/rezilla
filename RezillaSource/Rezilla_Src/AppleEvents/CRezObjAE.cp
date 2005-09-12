@@ -145,14 +145,14 @@ CRezObj::GetAEProperty(
 		}
 		
 		
-		case rzom_pAttributes:
-		short const	theAttrs = GetAttributes();
-		error = ::AECreateDesc(typeSInt16, (Ptr) &theAttrs,
-									sizeof(short), &outPropertyDesc);
-		ThrowIfOSErr_(error);
-		break;
+		case rzom_pAttributes: {
+			short const	theAttrs = GetAttributes();
+			error = ::AECreateDesc(typeSInt16, (Ptr) &theAttrs,
+										sizeof(short), &outPropertyDesc);
+			ThrowIfOSErr_(error);
+			break;
+		}
 		
-
 		case rzom_pSysHeap:
 		GetAERezObjAttribute(resSysHeap, outPropertyDesc);
 		break;
@@ -471,21 +471,21 @@ CRezObj::HandleAppleEvent(
 		case aeRzil_Edit:
 		case aeRzil_Inspect:
 		case ae_Clone:
-		case ae_Delete:
-		// Pass up to the owner CRezType
-		CRezType * theRezType = dynamic_cast<CRezType*>(mSuperModel);
-		if (theRezType != nil) {
-			theRezType->HandleResourceEvent(inAppleEvent, outAEReply, outResult, this, inAENumber);	
-		} 
-		break;
-		
-		
-		case ae_GetDataSize:
-		SInt32 theLong = mSize;
-		::AEPutParamPtr(&outAEReply, keyAEResult, typeSInt32, &theLong, sizeof(SInt32));
-		break;
-		
-		
+		case ae_Delete: {
+			// Pass up to the owner CRezType
+			CRezType * theRezType = dynamic_cast<CRezType*>(mSuperModel);
+			if (theRezType != nil) {
+				theRezType->HandleResourceEvent(inAppleEvent, outAEReply, outResult, this, inAENumber);	
+			} 
+			break;
+		}
+				
+		case ae_GetDataSize: {
+			SInt32 theLong = mSize;
+			::AEPutParamPtr(&outAEReply, keyAEResult, typeSInt32, &theLong, sizeof(SInt32));
+			break;
+		}
+				
 		default:
 		// 		mSuperModel->HandleAppleEvent(inAppleEvent, outAEReply, outResult, inAENumber);
 		LModelObject::HandleAppleEvent(inAppleEvent, outAEReply, outResult, inAENumber);

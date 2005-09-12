@@ -75,14 +75,14 @@ CRezMapDoc::GetAEProperty(
 		}
 		
 		
-		case rzom_pRefNum:
-		short		theRefNum = mRezMap->GetRefnum();
-		error = ::AECreateDesc(typeSInt16, (Ptr) &theRefNum,
-									sizeof(short), &outPropertyDesc);
-		ThrowIfOSErr_(error);
-		break;
+		case rzom_pRefNum: {
+			short theRefNum = mRezMap->GetRefnum();
+			error = ::AECreateDesc(typeSInt16, (Ptr) &theRefNum,
+										sizeof(short), &outPropertyDesc);
+			ThrowIfOSErr_(error);
+			break;
+		}
 		
-
 		case rzom_pRezFork:
 		theType = rzom_eIsUnknownFork;
 		if (mFork == fork_rezfork) {

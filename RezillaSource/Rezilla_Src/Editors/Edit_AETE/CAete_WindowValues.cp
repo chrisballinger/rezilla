@@ -151,25 +151,29 @@ void
 CAete_EditorWindow::InstallPanelValues()
 {
 	switch (mCurrentPanel) {
-		case mpv_AeteEvent:
-		CAeteEvent * theEvent = static_cast<CAeteEvent *>( FindCurrentObject( kind_AeteEvent ) );
-		InstallEventValues(theEvent);
-		break;
+		case mpv_AeteEvent: {
+			CAeteEvent * theEvent = static_cast<CAeteEvent *>( FindCurrentObject( kind_AeteEvent ) );
+			InstallEventValues(theEvent);
+			break;
+		}		
 		
-		case mpv_AeteClass:
-		CAeteClass * theClass = static_cast<CAeteClass *>( FindCurrentObject( kind_AeteClass ) );
-		InstallClassValues(theClass);
-		break;
+		case mpv_AeteClass: {
+			CAeteClass * theClass = static_cast<CAeteClass *>( FindCurrentObject( kind_AeteClass ) );
+			InstallClassValues(theClass);
+			break;
+		}
 		
-		case mpv_AeteCompOp:
-		CAeteCompOp * theCompOp = static_cast<CAeteCompOp *>( FindCurrentObject( kind_AeteCompOp ) );
-		InstallCompOpValues(theCompOp);
-		break;
+		case mpv_AeteCompOp: {
+			CAeteCompOp * theCompOp = static_cast<CAeteCompOp *>( FindCurrentObject( kind_AeteCompOp ) );
+			InstallCompOpValues(theCompOp);
+			break;
+		}
 		
-		case mpv_AeteEnum:
-		CAeteEnumeration * theEnum = static_cast<CAeteEnumeration *>( FindCurrentObject( kind_AeteEnum ) );
-		InstallEnumerationValues(theEnum);
-		break;
+		case mpv_AeteEnum: {
+			CAeteEnumeration * theEnum = static_cast<CAeteEnumeration *>( FindCurrentObject( kind_AeteEnum ) );
+			InstallEnumerationValues(theEnum);
+			break;
+		}
 	}	
 }
 
@@ -723,25 +727,29 @@ void
 CAete_EditorWindow::RetrievePanelValues()
 {
 	switch (mCurrentPanel) {
-		case mpv_AeteEvent:
-		CAeteEvent * theEvent = static_cast<CAeteEvent *>( FindCurrentObject( kind_AeteEvent ) );
-		RetrieveEventValues(theEvent);
-		break;
+		case mpv_AeteEvent: {
+			CAeteEvent * theEvent = static_cast<CAeteEvent *>( FindCurrentObject( kind_AeteEvent ) );
+			RetrieveEventValues(theEvent);
+			break;
+		}
 		
-		case mpv_AeteClass:
-		CAeteClass * theClass = static_cast<CAeteClass *>( FindCurrentObject( kind_AeteClass ) );
-		RetrieveClassValues(theClass);
-		break;
+		case mpv_AeteClass: {
+			CAeteClass * theClass = static_cast<CAeteClass *>( FindCurrentObject( kind_AeteClass ) );
+			RetrieveClassValues(theClass);
+			break;
+		}
 		
-		case mpv_AeteCompOp:
-		CAeteCompOp * theCompOp = static_cast<CAeteCompOp *>( FindCurrentObject( kind_AeteCompOp ) );
-		RetrieveCompOpValues(theCompOp);
-		break;
+		case mpv_AeteCompOp: {
+			CAeteCompOp * theCompOp = static_cast<CAeteCompOp *>( FindCurrentObject( kind_AeteCompOp ) );
+			RetrieveCompOpValues(theCompOp);
+			break;
+		}
 		
-		case mpv_AeteEnum:
-		CAeteEnumeration * theEnum = static_cast<CAeteEnumeration *>( FindCurrentObject( kind_AeteEnum ) );
-		RetrieveEnumerationValues(theEnum);
-		break;
+		case mpv_AeteEnum: {
+			CAeteEnumeration * theEnum = static_cast<CAeteEnumeration *>( FindCurrentObject( kind_AeteEnum ) );
+			RetrieveEnumerationValues(theEnum);
+			break;
+		}
 	}	
 }
 

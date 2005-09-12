@@ -239,14 +239,14 @@ CMENU_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		}
 		
 		
-		case msg_DragMoveAction: 
-		ArrayIndexT	oldIndex = mMenuObj->GetItemIndex();
-		ArrayIndexT	newIndex = *(ArrayIndexT *) ioParam;
-		mMenuObj->GetItems()->MoveItem(oldIndex, newIndex);
-		mMenuObj->SetItemIndex(newIndex);
-		SetDirty(true);
-		break;
-		
+		case msg_DragMoveAction: {
+			ArrayIndexT	oldIndex = mMenuObj->GetItemIndex();
+			ArrayIndexT	newIndex = *(ArrayIndexT *) ioParam;
+			mMenuObj->GetItems()->MoveItem(oldIndex, newIndex);
+			mMenuObj->SetItemIndex(newIndex);
+			SetDirty(true);
+			break;
+		}
 		
 		case msg_MenuEditItemTitle: {
 			Str255		theTitle;

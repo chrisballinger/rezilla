@@ -184,11 +184,11 @@ CBiDataWE::AdjustCursorPos()
 SInt32
 CBiDataWE::NearestTruePos(SInt32 inPos)
 {
-	SInt32  thePos = inPos;
+	SInt32  thePos = inPos, rest;
 
 	switch (mDataType) {
 		case bidata_hexType:
-		SInt32  rest = inPos % 3;
+		rest = inPos % 3;
 		if (rest == 1) {
 			thePos -= 1;
 		} else if (rest == 2) {

@@ -331,27 +331,28 @@ CRezMapDoc::ObeyCommand(
 			break;
 		}
 
-		case cmd_NewRez: 
-		CRezObjItem * theRezObjItem = NewResDialog();
-		if (theRezObjItem != NULL) {
-			mRezMapWindow->RecalcCountFields();
-			// Select the newly created item 
-			mRezMapWindow->GetRezMapTable()->UnselectAllCells();
-			TryEdit(theRezObjItem, cmd_EditRez);
-		} 
-		break;
+		case cmd_NewRez: {
+			CRezObjItem * theRezObjItem = NewResDialog();
+			if (theRezObjItem != NULL) {
+				mRezMapWindow->RecalcCountFields();
+				// Select the newly created item 
+				mRezMapWindow->GetRezMapTable()->UnselectAllCells();
+				TryEdit(theRezObjItem, cmd_EditRez);
+			} 
+			break;
+		}
 		
 		case cmd_GetRezInfo: {
-		CRezMapTable * theRezMapTable = mRezMapWindow->GetRezMapTable();
-		TableIndexT theIndex = theRezMapTable->GetTableSelector()->GetFirstSelectedRow();
-		CRezObjItem * theRezObjItem = dynamic_cast<CRezObjItem *>(theRezMapTable->FindItemForRow(theIndex));
-		if (theRezObjItem != nil) {
-			CRezillaApp::sInspectorWindow->Show();
-			CRezillaApp::sInspectorWindow->InstallValues(theRezObjItem);
-			// Bring the window to the front.
-			UDesktop::SelectDeskWindow( CRezillaApp::sInspectorWindow );
-		}
-		break;		
+			CRezMapTable * theRezMapTable = mRezMapWindow->GetRezMapTable();
+			TableIndexT theIndex = theRezMapTable->GetTableSelector()->GetFirstSelectedRow();
+			CRezObjItem * theRezObjItem = dynamic_cast<CRezObjItem *>(theRezMapTable->FindItemForRow(theIndex));
+			if (theRezObjItem != nil) {
+				CRezillaApp::sInspectorWindow->Show();
+				CRezillaApp::sInspectorWindow->InstallValues(theRezObjItem);
+				// Bring the window to the front.
+				UDesktop::SelectDeskWindow( CRezillaApp::sInspectorWindow );
+			}
+			break;		
 		}
 		
 		case cmd_RemoveRez:
