@@ -178,7 +178,7 @@ CRezType::GetSubModelByPosition(
 {
 	switch (inModelID) {
 		
-		case rzom_cRezObj:
+		case rzom_cRezObj: {
 		CRezObj *	theRezObj = nil;
 		Handle		theHandle;
 		OSErr		error;
@@ -194,7 +194,7 @@ CRezType::GetSubModelByPosition(
 			ThrowOSErr_(errAENoSuchObject);
 		}
 		break;
-		
+		}
 		
 		default:
 		LModelObject::GetSubModelByPosition(inModelID, inPosition,
@@ -217,7 +217,7 @@ CRezType::GetSubModelByName(
 {
 	switch (inModelID) {
 
-		case rzom_cRezObj:
+		case rzom_cRezObj: {
 		CRezObj *	theRezObj = nil;
 		Handle		theHandle;
 		OSErr		error;
@@ -233,7 +233,7 @@ CRezType::GetSubModelByName(
 			ThrowOSErr_(errAENoSuchObject);
 		}
 		break;
-		
+		}
 
 		default:
 			LModelObject::GetSubModelByName(inModelID, inName, outToken);

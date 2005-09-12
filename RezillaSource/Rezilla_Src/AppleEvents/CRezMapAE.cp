@@ -299,7 +299,7 @@ CRezMap::GetSubModelByPosition(
 {
 	switch (inModelID) {
 		
-		case rzom_cRezType:
+		case rzom_cRezType: {
 		CRezType * theRezType = nil;
 		
 		if (mOwnerDoc != nil) {
@@ -311,7 +311,7 @@ CRezMap::GetSubModelByPosition(
 			ThrowOSErr_(errAENoSuchObject);
 		}
 		break;
-		
+		}
 		
 		case rzom_cRezObj: 
 // 		CRezObj * theRezObj = GetRezObjAtIndex(inPosition);
@@ -344,7 +344,7 @@ CRezMap::GetSubModelByName(
 {
 	switch (inModelID) {
 
-		case rzom_cRezType:
+		case rzom_cRezType: {
 		CRezType * theRezType = nil;
 		
 		if (mOwnerDoc != nil) {
@@ -356,7 +356,7 @@ CRezMap::GetSubModelByName(
 			ThrowOSErr_(errAENoSuchObject);
 		}
 		break;
-		
+		}
 		
 		case rzom_cRezObj: 
 // 		CRezObj * theRezObj = GetRezObjAtIndex(inPosition);

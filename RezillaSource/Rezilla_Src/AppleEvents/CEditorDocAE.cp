@@ -107,7 +107,7 @@ CEditorDoc::GetAEProperty(
 		}
 		
 		
-		case rzom_pKind:
+		case rzom_pKind: {
 		// EditorDoc serves as a default kind
 		ResType	theType = rzom_eEditorDoc;
 		if (mKind == editor_kindGui) {
@@ -121,6 +121,7 @@ CEditorDoc::GetAEProperty(
 									sizeof(ResType), &outPropertyDesc);
 		ThrowIfOSErr_(error);
 		break;
+		}
 		
 		
 		case rzom_cRezMapDoc:

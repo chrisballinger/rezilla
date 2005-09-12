@@ -102,7 +102,7 @@ CRezObj::GetAEProperty(
 		break;
 		
 		
-		case pIndex:
+		case pIndex: {
 		SInt32 position = 0;
 		error = GetIndexInType(position);
 		if (error == noErr) {
@@ -111,7 +111,7 @@ CRezObj::GetAEProperty(
 		} 
 		ThrowIfOSErr_(error);
 		break;
-		
+		}
 
 		case rzom_pSpecifier: {
 			Str255 name;

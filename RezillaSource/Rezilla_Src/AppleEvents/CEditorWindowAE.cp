@@ -65,7 +65,7 @@ CEditorWindow::GetAEProperty(
 	
 	switch (inProperty) {
 		
-		case rzom_pKind:
+		case rzom_pKind: {
 		// EditorDoc serves as a default kind
 		ResType	theType = rzom_eEditorDoc;
 		SInt16 theKind = mOwnerDoc->GetKind();
@@ -81,7 +81,7 @@ CEditorWindow::GetAEProperty(
 									sizeof(ResType), &outPropertyDesc);
 		ThrowIfOSErr_(error);
 		break;
-		
+		}
 		
 		default:
 		LWindow::GetAEProperty(inProperty, inRequestedType,
