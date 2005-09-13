@@ -222,9 +222,10 @@ static void _deallocSampleType( SampleType *myInstance )
 //  Implementation of the factory function for this type.
 //
 // -------------------------------------------------------------------------------------------
-extern "C" void * RezSampleFactory(CFAllocatorRef allocator, CFUUIDRef typeID);
+/* extern "C"  */
+extern void * RezSampleFactory(CFAllocatorRef allocator, CFUUIDRef typeID);
 
-extern "C" void * RezSampleFactory( CFAllocatorRef allocator, CFUUIDRef typeID )
+void * RezSampleFactory( CFAllocatorRef allocator, CFUUIDRef typeID )
 {
 
 	//  If correct type is being requested, allocate an instance of
