@@ -548,10 +548,18 @@ extern int regcomp _RE_ARGS ((regex_t *__restrict __preg,
 			      const char *__restrict __pattern,
 			      int __cflags));
 
+// (bd 2005-09-12) This makes XCode 1.5 happy when compiling
+// UCompareUtils.cp and others. There is otherwise a parse error 
+// when this header is included.
 extern int regexec _RE_ARGS ((const regex_t *__restrict __preg,
 			      const char *__restrict __string, size_t __nmatch,
-			      regmatch_t __pmatch[__restrict_arr],
+			      regmatch_t __pmatch[],
 			      int __eflags));
+// Originally:
+// extern int regexec _RE_ARGS ((const regex_t *__restrict __preg,
+// 				  const char *__restrict __string, size_t __nmatch,
+// 				  regmatch_t __pmatch[__restrict_arr],
+// 				  int __eflags));
 
 extern size_t regerror _RE_ARGS ((int __errcode, const regex_t *__preg,
 				  char *__errbuf, size_t __errbuf_size));
@@ -572,4 +580,3 @@ version-control: t
 trim-versions-without-asking: nil
 End:
 */
-
