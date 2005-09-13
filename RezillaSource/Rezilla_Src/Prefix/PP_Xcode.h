@@ -51,7 +51,7 @@
 #define PP_Obsolete_ThrowExceptionCode 0
 #define PP_Warn_Obsolete_Classes 1
 
-#define PP_Suppress_Notes_2 211
+#define PP_Suppress_Notes_222	1
 
 //
 // Carbon headers
