@@ -37,6 +37,7 @@ no less than 385 predefined templates and lets you add more.
 'ICON', 'ics#', 'ics4', 'ics8', 'PAT#', 'PAT ', 'ppat', 'SICN'
 	<LI> an <B>Unicode Editor</B> to edit 'utxt' resources containing Unicode
 data in UTF-16 encoding form
+	<LI> a <B>List Editor</B> to edit 'STR#', 'MBAR', 'Mcmd' and 'RidL' resources
 	<LI> an <B>Aete Editor</B> to edit AppleScript terminology resources 
 (resources with type 'aete' or 'aeut'). It can generate 
 <I>Scripting Definition</I> files (sdef) and <I>export</I> to Xml, DeRez, Html, and Text 
@@ -62,16 +63,19 @@ A few more images of Rezilla's interface can also be found in the
 <A HREF="http://sourceforge.net/project/screenshots.php?group_id=83267"> screenshots area</A> at SourceForge.<P><H2><A NAME="M3"></A>Download</H2>
 All <B>Rezilla</B> official binary releases, past and present, are available in the 
 <A HREF="http://sourceforge.net/project/showfiles.php?group_id=83267">download section</A> 
-of the project at SourceForge. The most recent version is <B>1.0.6b</B>
+of the project at SourceForge. The most recent version is <B>1.0.7</B>
 which can also be downloaded from this page: 
 click on the following links to get the
 <A HREF="../Downloads/Rezilla.hqx"> binary</A>
 or the 
 <A HREF="../Downloads/RezillaSrc.hqx"> sources</A>.<P>The application is bundled. You can install it anywhere on your system.
 Just double-click on its icon to launch it.<P><B>Warning</B> Rezilla is currently a project under development (aka work
-in progress): the binaries are currently beta stage releases. They have
-been thoroughly tested and have proven quite stable and reliable but they
-still are... beta stage releases!<P><H2><A NAME="M4"></A>Help</H2>
+in progress): the 1.0.7 release is the first final release (previous
+versions were in beta testing stage) and is also the last of the 1.0.x
+series: next version will be 1.1 and will implement a plugin architecture
+in order to support third party editors. As usual, it comes without any
+warranty (see licence terms). That said, it has been thoroughly tested and
+have proven quite stable and reliable.<P><H2><A NAME="M4"></A>Help</H2>
 Help files with complete documentation are accessible via the Help menu
 while the application is running. You can also read the help online
 <A HREF="http://webperso.easyconnect.fr/bdesgraupes/DocHTML/RezillaHelp/index.html"> in english</A> or 
@@ -90,7 +94,14 @@ be found on the SourceForge site at the following address:
 development using any CVS client. See 
 <A HREF="http://sourceforge.net/cvs/?group_id=83267"> instructions here</A>.<P><P> You can <A HREF="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/rezilla"> browse the cvs repository</A>
 online.<P><P> You can also get 
-<A HREF="http://cvs.sourceforge.net/cvstarballs/rezilla-cvsroot.tar.bz2"> nightly tarballs</A>.<P><H2><A NAME="M8"></A>Code contributions</H2>
+<A HREF="http://cvs.sourceforge.net/cvstarballs/rezilla-cvsroot.tar.bz2"> nightly tarballs</A>.<P>Rezilla is built with 
+<A HREF="www.metrowerks.com"> Metrowerks CodeWarrior</A> and relies on their 
+PowerPlant C++ library. A project file is provided together with the Rezilla 
+source files. Starting with version 1.0.7, project files for XCode 1.5 and 
+XCode 2.1 have been added for those who prefer using 
+<A HREF="http://developer.apple.com"> Apple's Developer Tools</A>. In any
+case, you will need the PowerPlant library if you want to build Rezilla
+from source.<P><H2><A NAME="M8"></A>Code contributions</H2>
 The Rezilla project is meant as a collaborative and extensible project:
 <UL>
 	<LI> <I>collaborative</I> means that all programmers who wish to collaborate
@@ -98,7 +109,7 @@ and propose patches or code contributions are welcome. You can use for this the
 <A HREF="http://sourceforge.net/tracker/?atid=568884&group_id=83267&func=browse"> patches tracker</A> 
 at SourceForge.
 	<LI> <I>extensible</I> means that (in an unspecified future!) it will support a plugin
-architecture to allow for the addition of external editors.
+architecture to allow for the addition of third party editors.
 </UL><P><H2><A NAME="M9"></A>Bug reports</H2><P><P> Bugs can be officially reported via the 
 <A HREF="http://sourceforge.net/tracker/?atid=568882&group_id=83267&func=browse"> Bug Tracker</A>
 of the project.
@@ -112,7 +123,7 @@ To see the collection of prior postings to the list, visit the
 <A HREF="http://sourceforge.net/mailarchive/forum.php?forum=rezilla-users">Rezilla-users  Archives</A>.<P>You can also e-mail me directly: <A HREF="mailto:bdesgraupes@users.sourceforge.net">bdesgraupes@users.sourceforge.net</A><P><!--  logo SF -->
 <!--  ------- -->
 <HR>
-<P> Last updated 2005-07-05 10:06:29
+<P> Last updated 2005-09-14 17:49:25
 <HR>
 <P> <I>Rezilla is hosted by</I> 
 <A HREF="http://sourceforge.net"> <P><IMG SRC="http://sourceforge.net/sflogo.php?group_id=83267&amp;type=4 " ALT="SourceForge.net Logo" ALIGN=bottom></P></A><P>

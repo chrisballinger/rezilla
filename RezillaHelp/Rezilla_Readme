@@ -2,22 +2,15 @@ Rezilla
 =======
 
 Rezilla is a resource forks editor for the Macintosh. 
-This is version 1.0.6b.
+This is version 1.0.7.
 
-The Rezilla project is a work in progress. This release is a beta
-release and comes without any warranty. That said, it has been
-thoroughly tested and has proven quite stable and reliable.
-
-This new version adds the following features:
-    ¥ a MENU resource editor (which supports 'xmnu' menu extension resources)
-    ¥ complete scriptability to drive Rezilla from AppleScript scripts
-	 This scripting support comes with a detailed tutorial and a lot of
-	 sample scripts
-    ¥ several improvements in the template editor (with 3 new tags to 
-     handle flag menus)
-    ¥ many GUI improvements and small fixes
-    ¥ this new version switches to the MachO runtime architecture, which is 
-     the native architecture under OSX
+This new version contains:
+    ¥ a string lists editor which lets you edit resources of type 'STR#', 
+	  'MBAR', 'Mcmd', 'RidL'. This editor has drag and drop capacity and 
+	  makes it easy to add or remove items in the lists.
+	¥ a few minor fixes and, for those interested in compiling Rezilla from
+	  source, I have added project files for XCode 1.5 and XCode 2.1 (Rezilla
+	  is still built with CodeWarrior though).
 
 
 Previous versions already implemented the following features:
@@ -30,6 +23,7 @@ Previous versions already implemented the following features:
     ¥ set properties via preferences
     ¥ template editor with more than 385 internal templates
     ¥ text editor
+    ¥ menu editor
     ¥ Unicode editor to edit resources storing Unicode UTF-16 data
     ¥ bitmap editor to edit many icon types ( 'cicn', 'crsr', 'CURS',
 	 'icl4', 'icl8', 'icm#', 'icm4', 'icm8', 'ICN#', 'ICON', 'ics#',
@@ -38,12 +32,21 @@ Previous versions already implemented the following features:
      'aeut'). Export and import in xml, html, sdef formats.
     ¥ 'PICT' resources viewer
     ¥ 'snd ' resources player
+    ¥ complete scriptability to drive Rezilla with AppleScript
 
 
+
+The Rezilla project is a work in progress. This release is the first final
+release (previous versions were in beta testing stage) and is also the last
+of the 1.0.x series: next version will be 1.1 and will implement a plugin
+architecture in order to support third party editors. As usual, it comes
+without any warranty (see licence terms). That said, it has been thoroughly
+tested and has proven quite stable and reliable.
 
 Please read the doc contained in the help files. It is accessible via the
-Rezilla Help command in the Help menu when Rezilla is running. You can also
-read it online <http://webperso.easyconnect.fr/bdesgraupes/DocHTML/RezillaHelp/index.html>.
+Rezilla Help command in the Help menu when Rezilla is running. You can also read it online
+in english <http://webperso.easyconnect.fr/bdesgraupes/DocHTML/RezillaHelp/index.html> or 
+in french <http://webperso.easyconnect.fr/bdesgraupes/DocHTML/RezillaHelp_FR/index.html>.
 
 Rezilla is a free software.
 
