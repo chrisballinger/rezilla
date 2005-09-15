@@ -43,13 +43,15 @@ the application itself (Rezilla_D.app and Rezilla.app respectively).
 extension and you'll probably see Rezilla_D and Rezilla respectively as the
 name of the application: it is a bundled application, that is to say it
 looks like a single file but it is in fact a folder containing all the
-necessary resources.<P>The <I>Output</I> folder normally already exists in Rezilla's source
-distribution and contains all the auxiliary files (those which are not
-generated automatically by the compiler) but, if you retrieved the source
-code directly from the CVS directory at SourceForge, you'll probably have
-to copy some files manually. If the <I>Output</I> folder does not exist
+necessary resources.<P>The CodeWarrior project has user defined actions which take care of copying
+all the necessary elements to their final destination inside the bundle:
+this includes the auxiliary files (those which are not generated
+automatically by the compiler). If the <I>Output</I> folder does not exist
 already, CodeWarrior will create one while compiling the targets and will
-also create the bundled structure inside.<P>It is easy to open the bundle and look what is inside: click on the icon of the 
+also create the bundled structure inside. Provided you do not change the 
+arhitecture of the source files as found in the source distribution or 
+as retrieved directly from the CVS directory at SourceForge, the 
+CodeWarrior project will know where to find the required items.<P>It is easy to open the bundle and look what is inside: click on the icon of the 
 application while maintaining the <I>Control</I> key pressed and select 
 <I>Open the Package</I> in the contextual menu which appears after the
 click. Internally here is how the package should be organised:
@@ -92,11 +94,11 @@ click. Internally here is how the package should be organised:
                         3.html
                         4.html
                         ... etc.
-</PRE><P>In particular, it is crucial that the files <I>RezillaTemplates.rsrc</I> 
+</PRE><P>It is crucial, in particular, that the files <I>RezillaTemplates.rsrc</I> 
 and <I>TypeAs.plist</I> be present in the 
 <I>Rezilla.app/Contents/Resources</I> subfolder. If they are not there, you'll
 have to copy them manually from the <I>Rezilla_Rsrc</I> folder in
-Rezilla's sources distribution otherwise Rezilla won't function properly.<P>
+Rezilla's source distribution otherwise Rezilla won't function properly.<P>
 
 </BODY>
 </HTML>

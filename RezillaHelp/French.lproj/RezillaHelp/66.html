@@ -48,14 +48,16 @@ ce qui fait que vous verrez probablement Rezilla_D et Rezilla
 respectivement comme nom de l'application: c'est une application "empaquetée", 
 c'est-à-dire que, bien qu'elle ait l'apparence d'un fichier, il s'agit en 
 réalité d'un dossier à l'intérieur duquel se trouvent toutes les 
-ressources nécessaires.<P>Le dossier <I>Output</I> existe normalement déjà dans la distribution 
-source de Rezilla et il contient tous les fichiers auxiliaires (ceux qui 
-ne sont pas générés automatiquement par le compilateur) mais, si vous 
-avez obtenu le code source de Rezilla directement depuis le serveur CVS 
-sur le site de SourceForge, vous devrez probablement copier certains 
-fichiers manuellement. Si le dossier <I>Output</I> n'existe pas déjà, 
-CodeWarrior le créera, avec la structure 
-interne requise, au cours de la compilation.<P>Il est facile d'ouvrir l'application empaquetée et de voir ce qui se trouve
+ressources nécessaires.<P>Le projet définit un certain nombre d'actions qui ont pour fonction de
+copier tous les éléments nécessaires dans leur destination finale: cela
+concerne les fichiers auxiliaires (ceux qui ne sont pas générés
+automatiquement par le compilateur, tels que les fichiers d'aide). Si le
+dossier <I>Output</I> n'existe pas déjà, CodeWarrior le créera, au cours
+de la compilation, avec la structure interne requise. Pour peu que vous ne
+modifiiez pas l'architecture des fichiers sources telle qu'elle est fournie
+dans la distribution source ou bien directement depuis le serveur CVS sur
+le site de SourceForge, le projet CodeWarrior saura où trouver les éléments
+dont il a besoin.<P>Il est facile d'ouvrir l'application empaquetée et de voir ce qui se trouve
 à l'intérieur: il suffit de cliquer sur l'icone de l'application en
 maintenant la touche <I>Contrôle</I> enfoncée et de sélectionner 
 <I>Afficher le contenu du paquet</I> dans le menu contextuel qui apparaît
