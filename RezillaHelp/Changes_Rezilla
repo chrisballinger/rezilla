@@ -32,10 +32,20 @@ This changes log is in reverse chronological order (from bottom to top).
 $Date$
 
 ================================================================================
-= 1.0.7b2	                             last update: 
+= 1.0.7		                             last update: 2005-09-15 18:18:35
 ================================================================================
-¥ Started implementing the plugin architecture.
-¥ 
+¥ Seventh public release of Rezilla (first final, last of the 1.0.x series).
+
+================================================================================
+= 1.0.7b2	                             last update: 2005-09-13 18:14:06
+================================================================================
+¥ Started implementing the plugin architecture. Installed the Rezilla_SDK 
+  folder and created XCode projects (version 1.5 and 2.1) for plugins.
+¥ Created sample plugin code (but no code in the core application to handle the
+  architecture yet).
+¥ Created project files to compile Rezilla with XCode 1.5 and 2.1. Introduced
+  several minor syntax changes to accomodate with gcc 3.3 and gcc 4.0.
+¥ Added compiling notes to the help files and in the source distribution.
 
 ================================================================================
 = 1.0.7b1	                             last update: 2005-09-08 16:24:30
