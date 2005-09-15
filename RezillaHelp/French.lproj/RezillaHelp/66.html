@@ -1,0 +1,110 @@
+<HTML>
+<HEAD>
+<TITLE>Compiler avec CodeWarriorIl n'y a pas de difficulté particulière pour compiler Rezilla à partir du</TITLE>
+<META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
+<META NAME=GENERATOR CONTENT="Aida Mode">
+</HEAD>
+<BODY>
+
+<A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="65.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="67.html">Suiv</A><HR><P>&nbsp;</P>
+<H3>Compiler avec CodeWarrior</H3><P>Il n'y a pas de difficulté particulière pour compiler Rezilla à partir du
+fichier de projet CodeWarrior (<I>Rezilla.mcp</I>), pourvu que vous
+disposiez d'une installation standard de CodeWarrior Pro 9. Il faut 
+simplement s'assurer que les chemins d'accès sont réglés correctement sur 
+votre machine. <P>Ces chemins d'accès sont spécifiés au moyen d'arbres sources 
+(<I>Source Trees</I>). Il y a, en réalité, un seul arbre source à 
+définir: pour cela, lancer l'application CodeWarrior, aller dans les Préférences
+et sélectionner le panneau <I>Source Trees</I>. Dans ce panneau, il faut
+créer un arbre source appelé <I>Waste</I> et le faire pointer sur le
+dossier contenant la bibliothèque Waste sur votre machine (probablement
+quelque chose comme <I>/CodeWarrior Folder/CodeWarrior/MacOS
+Support/(Third Party Support)/WASTE Distribution</I>). Les autres chemins
+d'accès utilisés par le projet de Rezilla sont relatifs aux arbres sources
+<I>{Compiler}, {Project}</I> et <I>{OS X Volume}</I> qui sont prédéfinis
+et automatiquement réglés par CodeWarrior, ce qui fait que vous ne devriez
+pas avoir à vous en préoccuper.<P>Si ce n'est pas déjà le cas, ouvrez maintenant le projet <I>Rezilla.mcp</I>. 
+Ce projet comporte trois <I>cibles</I> (en anglais <I>targets</I>):
+<UL>
+	<LI> la cible <I>Regex_Lib</I> doit être compilée en premier. Elle crée
+une bibliothèque statique qui permet à Rezilla d'interpréter des
+expressions régulières;
+	<LI> les cibles <I>Rezilla_Debug</I> et <I>Rezilla_Final</I> construisent
+une version de développement et une version optimisée de Rezilla
+respectivement. À moins que vous n'ayez l'intention de développer de 
+nouvelles fonctions pour Rezilla,
+vous ne serez intéressé que par la cible <I>Rezilla_Final</I>.
+</UL><P>Afin de construire l'une des cibles, sélectionner la commande <I>Make</I>
+dans le menu <I>Project</I> de CodeWarrior. Le fichier produit après
+compilation se trouvera dans le sous-dossier appelé <I>Output</I> qui est
+situé au même niveau que le fichier de projet <I>Rezilla.mcp</I> lui-même:
+<UL>
+	<LI> la cible <I>Regex_Lib</I> produit une bibliothèque statique appelée 
+RegexMachO.lib qui sera automatiquement liée au reste du projet par les 
+deux autres cibles;
+	<LI> les cibles <I>Rezilla_Debug</I> et <I>Rezilla_Final</I> produisent 
+l'application proprement dite (Rezilla_D.app et Rezilla.app respectivement). 
+</UL><P>Noter que, la plupart du temps, le Finder n'affiche pas l'extension <I>.app</I>
+ce qui fait que vous verrez probablement Rezilla_D et Rezilla 
+respectivement comme nom de l'application: c'est une application "empaquetée", 
+c'est-à-dire que, bien qu'elle ait l'apparence d'un fichier, il s'agit en 
+réalité d'un dossier à l'intérieur duquel se trouvent toutes les 
+ressources nécessaires.<P>Le dossier <I>Output</I> existe normalement déjà dans la distribution 
+source de Rezilla et il contient tous les fichiers auxiliaires (ceux qui 
+ne sont pas générés automatiquement par le compilateur) mais, si vous 
+avez obtenu le code source de Rezilla directement depuis le serveur CVS 
+sur le site de SourceForge, vous devrez probablement copier certains 
+fichiers manuellement. Si le dossier <I>Output</I> n'existe pas déjà, 
+CodeWarrior le créera, avec la structure 
+interne requise, au cours de la compilation.<P>Il est facile d'ouvrir l'application empaquetée et de voir ce qui se trouve
+à l'intérieur: il suffit de cliquer sur l'icone de l'application en
+maintenant la touche <I>Contrôle</I> enfoncée et de sélectionner 
+<I>Afficher le contenu du paquet</I> dans le menu contextuel qui apparaît
+après le clic. Voici quelle devrait être l'organisation interne du paquet:
+<PRE>
+	Rezilla.app
+		Contents
+			Info.plist
+			PkgInfo
+			MacOS
+				Rezilla
+			Resources
+				Rezilla.rsrc
+				RezillaTemplates.rsrc
+				TypeAs.plist
+				RezillaDocs.icns
+				Rezilla.icns
+				Images
+					rzil_aeteeditor.gif
+					rezilla_logo.gif
+					... etc.
+				English.lproj
+					InfoPlist.strings
+					Localizable.strings
+					Errors.strings
+					RezillaHelp
+						index.html
+						1.html
+						2.html
+						3.html
+						4.html
+						... etc.
+				French.lproj
+					InfoPlist.strings
+					Localizable.strings
+					Errors.strings
+					RezillaHelp
+						index.html
+						1.html
+						2.html
+						3.html
+						4.html
+						... etc.
+</PRE><P>En particulier, il est essentiel que les fichiers <I>RezillaTemplates.rsrc</I> 
+et <I>TypeAs.plist</I> soient présents dans le sous-dossier 
+<I>Rezilla.app/Contents/Resources</I>. S'ils n'y sont pas, il faudra les
+copier manuellement à partir du dossier <I>Rezilla_Rsrc</I> de la
+distribution source de Rezilla, autrement l'application ne pourra
+fonctionner correctement.<P>
+
+</BODY>
+</HTML>
