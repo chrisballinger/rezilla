@@ -2,11 +2,11 @@
 // UMessageDialogs.h					
 // 
 //                       Created: 2002-05-31 19:50:34
-//             Last modification: 2005-06-16 13:36:21
+//             Last modification: 2005-09-20 14:45:38
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003-2004, 2005
+// (c) Copyright : Bernard Desgraupes, 2003-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -523,6 +523,85 @@ UMessageDialogs::AskSolveUidConflicts(ResType inType,
 	return theAnswer;
 }
 
+
+// ---------------------------------------------------------------------------
+//  ¥ GetOneValue											
+// ---------------------------------------------------------------------------
+
+Boolean
+UMessageDialogs::GetOneValue(
+		 LCommander*	inSuper,
+		 CFStringRef	inCFStringRef, 
+		 ResIDT			inDialogID,
+		 PaneIDT		inStaticFieldID,
+		 PaneIDT		inEditFieldID,
+		 SInt32&		ioValue)
+{
+	StDialogHandler	theHandler(inDialogID, inSuper);
+	LWindow			*theDialog = theHandler.GetDialog();
+
+	LStaticText *theStatic = dynamic_cast<LStaticText*>
+								(theDialog->FindPaneByID(inStaticFieldID));
+	if (theStatic == nil) {
+		SignalStringLiteral_("No EditField with specified ID");
+		return false;
+	}
+
+	LEditField *theField = dynamic_cast<LEditField*>
+								(theDialog->FindPaneByID(inEditFieldID));
+	if (theField == nil) {
+		SignalStringLiteral_("No StaticField with specified ID");
+		return false;
+	}
+
+	// Set the title and a default value
+	Str255		promptStr;
+	CFStringRef	ourCFString = NULL;
+
+	ourCFString = ::CFCopyLocalizedString(inCFStringRef, NULL);
+	if (ourCFString != NULL)
+	{
+		if (::CFStringGetPascalString(ourCFString, promptStr, sizeof(promptStr), ::GetApplicationTextEncoding()))
+		{
+			theStatic->SetDescriptor(promptStr);
+		}
+		::CFRelease(ourCFString);                             
+	}
+	theField->SetValue(ioValue);
+	theField->SelectAll();
+	theDialog->SetLatentSub(theField);
+	theDialog->Show();
+
+	bool		entryOK = false;
+
+	while (true) {
+		MessageT	hitMessage = theHandler.DoDialog();
+
+		if (hitMessage == msg_Cancel) {
+			break;
+
+		} else if (hitMessage == msg_OK) {
+			ioValue = theField->GetValue();
+			entryOK = true;
+			break;
+		}
+	}
+
+	return entryOK;
+
+}
+
+// CFStringRef formatStr = NULL, messageStr = NULL;
+// 
+// formatStr = CFCopyLocalizedString(inCFStringRef, NULL);
+// if (formatStr != NULL) {
+// 	messageStr = ::CFStringCreateWithFormat(NULL, NULL, formatStr, inValue);
+// 	if (messageStr != NULL) {
+// 		UMessageDialogs::SimpleMessageFromCFString(messageStr, PPob_SimpleMessage);
+// 		CFRelease(messageStr);                     
+// 	}
+// 	CFRelease(formatStr);                             
+// }		  	
 
 // ---------------------------------------------------------------------------
 //  ¥ AlertWithValue											

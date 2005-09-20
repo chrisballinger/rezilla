@@ -2,11 +2,11 @@
 // UMessageDialogs.h					
 // 
 //                       Created: 2002-05-31 19:50:34
-//             Last modification: 2005-06-16 13:40:50
+//             Last modification: 2005-09-20 14:45:12
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003-2004, 2005
+// (c) Copyright : Bernard Desgraupes, 2003-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -98,6 +98,14 @@ namespace UMessageDialogs {
 									 short inID, 
 									 Boolean& ioApplyToOthers,
 									 Boolean askSimilar = true);
+	
+	Boolean		GetOneValue(
+							 LCommander*	inSuper,
+							 CFStringRef	inCFStringRef, 
+							 ResIDT			inDialogID,
+							 PaneIDT		inStaticFieldID,
+							 PaneIDT		inEditFieldID,
+							 SInt32&		ioValue);
 	
 	void		AlertWithValue(CFStringRef inCFStringRef, SInt32 inValue);
 	
