@@ -2,7 +2,7 @@
 // CTEXT_EditorView.cp
 // 
 //                       Created: 2004-06-19 13:23:32
-//             Last modification: 2005-07-04 15:46:54
+//             Last modification: 2005-09-20 15:00:48
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -22,6 +22,7 @@
 #include "CRezObj.h"
 #include "CRezillaPrefs.h"
 #include "RezillaConstants.h"
+#include "UMessageDialogs.h"
 
 
 PP_Begin_Namespace_PowerPlant
@@ -329,7 +330,8 @@ CTEXT_EditorView::ObeyCommand(
 		case cmd_FontOther: {
 			// This is the "Other size" item
 			SInt32 	theSize = 10;
-			if (UModalDialogs::AskForOneNumber(this, PPob_FontSizeDialog, item_SizeField, theSize)) {
+			if (UMessageDialogs::GetOneValue(this, CFSTR("EnterFontSize"), PPob_GetValueDialog, 
+											   item_PromptField, item_ValueField, theSize)) {
 				if (theSize == 0) {theSize = 10;}
 				SetSize(theSize);
 			}

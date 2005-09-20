@@ -2,7 +2,7 @@
 // CRezillaPrefs.cp					
 // 
 //                       Created: 2004-05-17 08:52:16
-//             Last modification: 2005-03-09 06:53:20
+//             Last modification: 2005-09-20 15:00:59
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -21,6 +21,7 @@
 #include "CRecentItemsMenu.h"
 #include "UDialogBoxHandler.h"
 #include "UMiscUtils.h"
+#include "UMessageDialogs.h"
 #include "CThreeButtonsBox.h"
 
 // PowerPlant Headers
@@ -1191,7 +1192,8 @@ CRezillaPrefs::RunPrefsDialog()
 					itemIndex = thePopup->GetValue();
 					if (itemIndex == kLastSizeMenuItem + 2) {
 						// This is the 'Other' item
-						if (UModalDialogs::AskForOneNumber(sPrefsWindow, PPob_FontSizeDialog, item_SizeField, theSize)) {
+						if (UMessageDialogs::GetOneValue(sPrefsWindow, CFSTR("EnterFontSize"), PPob_GetValueDialog, 
+											   item_PromptField, item_ValueField, theSize)) {
 							if (theSize == 0) {theSize = 10;}
 							// If they match, no need to use 'Other' item
 							if (UMiscUtils::FontSizeExists(thePopup, theSize, itemIndex)) {
