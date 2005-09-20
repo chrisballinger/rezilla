@@ -46,6 +46,11 @@ $Date$
 ¥ Created project files to compile Rezilla with XCode 1.5 and 2.1. Introduced
   several minor syntax changes to accomodate with gcc 3.3 and gcc 4.0.
 ¥ Added compiling notes to the help files and in the source distribution.
+¥ Fixed a bug in the Preferences dialog where some items had stopped working due
+  to a wrong renumbering after the reordering of the panels in the previous
+  version.
+¥ Fixed the default font size popup in the Interface Preferences which wrongly
+  used the TEXT editor's size menu.
 
 ================================================================================
 = 1.0.7b1	                             last update: 2005-09-08 16:24:30
