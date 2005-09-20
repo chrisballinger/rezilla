@@ -2,7 +2,7 @@
 // CSTRx_EditorWindow.cp					
 // 
 //                       Created: 2005-08-31 18:26:24
-//             Last modification: 2005-09-05 09:00:23
+//             Last modification: 2005-09-20 12:58:56
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -191,12 +191,26 @@ CSTRx_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		
 		
 		case msg_PlusButton: {
-			UInt16 index = GetFirstSelected();
-			CreateItemAtIndex(index, "\p");
+			UInt16	index = GetFirstSelected();
+			SInt32 	theVal = 1;
+			if ( ::GetCurrentEventKeyModifiers() & optionKey) {
+				if ( ! UMessageDialogs::GetOneValue(this, CFSTR("HowManyItems"), PPob_GetValueDialog, 
+											   item_PromptField, item_ValueField, theVal) 
+					|| theVal == 0) {
+					return;
+				}
+			}			
+			CreateItemAtIndex(index, "\p", theVal);
+			SetDirty(true);
 			break;
 		}
 		
 
+		case msg_EditorModifiedItem:
+		SetDirty(true);
+		break;
+		
+		
 		default:
 		dynamic_cast<CSTRx_EditorDoc *>(mOwnerDoc)->ListenToMessage(inMessage, ioParam);
 		break;
@@ -387,11 +401,13 @@ CSTRx_EditorWindow::AddStringItem(Str255 inString)
 // ---------------------------------------------------------------------------
 
 void
-CSTRx_EditorWindow::CreateItemAtIndex(UInt16 index, Str255 inString)
+CSTRx_EditorWindow::CreateItemAtIndex(UInt16 index, Str255 inString, SInt32 inHowMany)
 {
 	mContentsView->Deactivate();
 	mContentsView->Hide();
-	InsertStringItemAtIndex(index, inString);
+	for (SInt32 i = 0; i < inHowMany; i++) {
+		InsertStringItemAtIndex(index, inString);
+	}	
 	mContentsView->ResizeImageTo(0, mIndexedFields.GetCount() * kStrxHeight, false);
 	mContentsView->Show();
 	mContentsView->Enable();
@@ -418,7 +434,26 @@ CSTRx_EditorWindow::InsertStringItemAtIndex(UInt16 index, Str255 inString)
 	sPaneInfo.top	= (index - 1) * kStrxHeight;
 	sPaneInfo.width	= frameSize.width;
 	
-	CIndexedEditField * theField = new CIndexedEditField(sPaneInfo, sViewInfo, index, inString);
+	ResType theType = GetOwnerDoc()->GetSubstType();
+	SInt16			maxChar;
+	TEKeyFilterFunc	filter;
+	
+	switch (mOwnerDoc->GetSubstType()) {
+		case 'STR#':
+		maxChar = 255;
+		filter = UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingCharAndCR);
+		break;
+		
+		case 'MBAR':
+		case 'Mcmd':
+		case 'RidL':
+		maxChar = 6;
+		filter = UKeyFilters::SelectTEKeyFilter(keyFilter_NegativeInteger);
+		break;
+		
+	}
+	
+	CIndexedEditField * theField = new CIndexedEditField(this, sPaneInfo, sViewInfo, index, inString, maxChar, filter);
 	if (index == maxIndex) {
 		mIndexedFields.AddItem(theField);
 	} else {
@@ -711,12 +746,12 @@ CSTRx_EditorWindow::ReceiveDragItem(
 			} else {
 				newRow = mDropIndex + 1;
 			}
-			CreateItemAtIndex(newRow, theString);
+			CreateItemAtIndex(newRow, theString, 1);
 			RecalcPositionsInRange(newRow + 1, mIndexedFields.GetCount());
 		}
 	} else {
 		// The drag comes from outside
-		CreateItemAtIndex(mDropIndex + 1, theString);		
+		CreateItemAtIndex(mDropIndex + 1, theString, 1);		
 		RecalcPositionsInRange(mDropIndex + 1, mIndexedFields.GetCount());
 	}
 

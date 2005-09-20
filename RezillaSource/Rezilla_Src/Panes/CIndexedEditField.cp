@@ -2,7 +2,7 @@
 // CIndexedEditField.cp
 // 
 //                       Created: 2005-09-01 09:14:05
-//             Last modification: 2005-09-06 09:06:42
+//             Last modification: 2005-09-20 11:55:33
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -18,13 +18,13 @@
 #endif
 
 #include "CIndexedEditField.h"
+#include "CSTRx_EditorWindow.h"
 #include "RezillaConstants.h"
 
 #include <LString.h>
 #include <UDragAndDropUtils.h>
+#include <UDesktop.h>
 
-// // Standard headers
-// #include <string.h>
 
 PP_Begin_Namespace_PowerPlant
 
@@ -43,7 +43,8 @@ CIndexedEditField::CIndexedEditField(
 	*inStream >> mIndex;
 	*inStream >> theString;
 	
-	Initialize(theString);
+	Initialize(theString, 255, NULL);
+	mOwnerWindow = nil;
 }
 
 
@@ -51,16 +52,20 @@ CIndexedEditField::CIndexedEditField(
 //   CIndexedEditField							Parameterized Constructor [public]
 // ---------------------------------------------------------------------------
 
-CIndexedEditField::CIndexedEditField(	
-								const SPaneInfo& inPaneInfo,
-								const SViewInfo& inViewInfo,
-								UInt16 index,
-								Str255 inString)
+CIndexedEditField::CIndexedEditField(CSTRx_EditorWindow * ownerWindow,
+									 const SPaneInfo& inPaneInfo,
+									 const SViewInfo& inViewInfo,
+									 UInt16 index,
+									 Str255 inString,
+									 SInt16 inMaxChars,
+									 TEKeyFilterFunc inKeyFilter)
 
 	: LView(inPaneInfo, inViewInfo)
 {
 	mIndex = index;
-	Initialize(inString);
+	mOwnerWindow = ownerWindow;
+	
+	Initialize(inString, inMaxChars, inKeyFilter);
 }
 
 
@@ -79,7 +84,7 @@ CIndexedEditField::~CIndexedEditField()
 // 		PlaceInSuperImageAt(inPaneInfo.left, inPaneInfo.top, false);
 
 void 
-CIndexedEditField::Initialize(Str255 inString)
+CIndexedEditField::Initialize(Str255 inString, SInt16 inMaxChars, TEKeyFilterFunc inKeyFilter)
 {
 	SPaneInfo	pi;
 	Rect		frame;
@@ -89,6 +94,7 @@ CIndexedEditField::Initialize(Str255 inString)
 	CalcLocalFrameRect(frame);
 
 	// Static field basic values
+	pi.paneID			= 0;
 	pi.left				= kStrxHorizSep;
 	pi.top				= kStrxVertSep;
 	pi.width			= kStrxIndexWidth;
@@ -100,23 +106,30 @@ CIndexedEditField::Initialize(Str255 inString)
 	pi.bindings.right	= false;
 	pi.bindings.bottom 	= false;
 	pi.userCon			= 0;
-	pi.paneID			= 0;
 	pi.superView		= this;
 
 	mStaticText = new LStaticText(pi, "\p", 0);
 	SetIndexField(mIndex);
 	
 	// Edit field basic values
-	pi.left				+= kStrxIndexWidth + kStrxHorizSep;
-	pi.width			= frame.right - pi.left - kStrxHorizSep;
-	pi.bindings.right	= true;
 	pi.paneID			= 1;
+	pi.left				+= kStrxIndexWidth + kStrxHorizSep;
+	if (inMaxChars > 20) {
+		pi.width			= frame.right - pi.left - kStrxHorizSep;
+		pi.bindings.right	= true;
+	} else {
+		pi.width			= kStrxFixedWidth;
+		pi.bindings.right	= false;
+	}
 	
-	mEditText = new LEditText(pi, this, inString, Txtr_MonacoNineDefault, msg_Nothing, 255, 0, 
-							  UKeyFilters::SelectTEKeyFilter(keyFilter_PrintingChar));						  
-	mEditText->SetDescriptor(inString);  
+	mEditText = new LEditText(pi, this, inString, Txtr_MonacoNineDefault, msg_EditorModifiedItem, 
+							  inMaxChars, editAttr_WordWrap | editAttr_AutoScroll, inKeyFilter);						  
+	mEditText->SetDescriptor(inString);
 	
 	this->SetLatentSub(mEditText);
+	
+	// Let the containing window listen to this field
+	mEditText->AddListener(dynamic_cast<LListener *>(mOwnerWindow));
 }
 
 

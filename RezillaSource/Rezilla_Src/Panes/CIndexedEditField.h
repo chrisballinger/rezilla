@@ -2,7 +2,7 @@
 // CIndexedEditField.h
 // 
 //                       Created: 2005-09-01 09:14:05
-//             Last modification: 2005-09-03 10:07:17
+//             Last modification: 2005-09-20 11:54:12
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -30,6 +30,9 @@ const SInt16	kStrxHeight		= 40;
 const SInt16	kStrxIndexWidth	= 36;
 const SInt16	kStrxHorizSep	= 4;
 const SInt16	kStrxVertSep	= 3;
+const SInt16	kStrxFixedWidth	= 100;
+
+class CSTRx_EditorWindow;
 
 PP_Begin_Namespace_PowerPlant
 
@@ -44,11 +47,14 @@ public:
 							CIndexedEditField(
 								LStream*		inStream);
 
-							CIndexedEditField(	
-								const SPaneInfo& inPaneInfo,
-								const SViewInfo& inViewInfo,
-								UInt16 index,
-								Str255 inString);
+							CIndexedEditField(
+									 CSTRx_EditorWindow * ownerWindow,
+									 const SPaneInfo& inPaneInfo,
+									 const SViewInfo& inViewInfo,
+									 UInt16 index,
+									 Str255 inString,
+									 SInt16 inMaxChars,
+									 TEKeyFilterFunc inKeyFilter);
 
 	virtual				~CIndexedEditField();
 
@@ -73,6 +79,7 @@ public:
 	LEditText *			GetEditText() { return mEditText;}
 
 protected:
+	CSTRx_EditorWindow * mOwnerWindow;
 	LStaticText *		mStaticText;
 	LEditText *			mEditText;
 	SInt32				mIndex;			// Starting at 1
@@ -82,7 +89,7 @@ protected:
 	virtual void		FinishCreateSelf();
 
 private:
-	void				Initialize(Str255 inString);
+	void				Initialize(Str255 inString, SInt16 inMaxChars, TEKeyFilterFunc inKeyFilter);
 	
 };
 

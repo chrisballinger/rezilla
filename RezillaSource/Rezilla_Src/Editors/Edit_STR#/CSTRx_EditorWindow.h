@@ -2,7 +2,7 @@
 // CSTRx_EditorWindow.h
 // 
 //                       Created: 2005-08-31 18:26:24
-//             Last modification: 2005-09-06 14:39:35
+//             Last modification: 2005-09-20 12:59:03
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -93,7 +93,7 @@ protected:
 private:	
 	void			AddStringItem(Str255 inString);
 	void			InsertStringItemAtIndex(UInt16 index, Str255 inString);
-	void			CreateItemAtIndex(UInt16 index, Str255 inString);
+	void			CreateItemAtIndex(UInt16 index, Str255 inString, SInt32 inHowMany);
 	
 	UInt16			DeleteSelectedItems();
 	
