@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2005-09-01 07:35:09
+//             Last modification : 2005-09-20 15:40:51
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -287,6 +287,7 @@ const ResIDT	PPob_PrefsEditorsPane		= 7400;
 const ResIDT	PPob_PrefsComparePane		= 7500;
 const ResIDT	PPob_PrefsExportPane		= 7600;
 const ResIDT	PPob_PrefsMiscPane			= 7700;
+const ResIDT	PPob_GetValueDialog			= 8400;
 const ResIDT	PPob_FindDialog				= 8500;
 const ResIDT	PPob_FontSizeDialog			= 8600;
 const ResIDT	PPob_ImageResizeDialog		= 8900;
@@ -881,6 +882,8 @@ const PaneIDT   item_TabGroup				= FOUR_CHAR_CODE('TabG');
 
 // Misc dialog elements
 // --------------------
+const PaneIDT	item_ValueField				= FOUR_CHAR_CODE('VALU');
+const PaneIDT	item_PromptField			= FOUR_CHAR_CODE('PROM');
 const PaneIDT	item_SizeField				= FOUR_CHAR_CODE('SIZE');
 const PaneIDT	item_WidthField				= FOUR_CHAR_CODE('WIDT');
 const PaneIDT	item_HeightField			= FOUR_CHAR_CODE('HEIG');
