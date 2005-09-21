@@ -90,6 +90,7 @@ CIndexedEditField::Initialize(Str255 inString, SInt16 inMaxChars, TEKeyFilterFun
 	Rect		frame;
 
 	mSelected = false;
+	SetSuperCommander(mOwnerWindow);
 
 	CalcLocalFrameRect(frame);
 
