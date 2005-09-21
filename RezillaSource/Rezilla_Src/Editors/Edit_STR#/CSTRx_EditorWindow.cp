@@ -408,6 +408,7 @@ CSTRx_EditorWindow::CreateItemAtIndex(UInt16 index, Str255 inString, SInt32 inHo
 	for (SInt32 i = 0; i < inHowMany; i++) {
 		InsertStringItemAtIndex(index, inString);
 	}	
+	RecalcPositionsInRange(index + 1, mIndexedFields.GetCount());
 	mContentsView->ResizeImageTo(0, mIndexedFields.GetCount() * kStrxHeight, false);
 	mContentsView->Show();
 	mContentsView->Enable();
@@ -458,7 +459,6 @@ CSTRx_EditorWindow::InsertStringItemAtIndex(UInt16 index, Str255 inString)
 		mIndexedFields.AddItem(theField);
 	} else {
 		mIndexedFields.InsertItemsAt(1, index, theField);
-		RecalcPositionsInRange(index + 1, mIndexedFields.GetCount());
 	}
 }
 
