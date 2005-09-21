@@ -2,7 +2,7 @@
 // CSTRx_EditorWindow.cp					
 // 
 //                       Created: 2005-08-31 18:26:24
-//             Last modification: 2005-09-20 12:58:56
+//             Last modification: 2005-09-21 13:43:21
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -709,7 +709,7 @@ CSTRx_EditorWindow::ReceiveDragItem(
 	
 	if ( UDragAndDropUtils::CheckIfViewIsAlsoSender(inDragRef) ) {
 		CIndexedEditField *	theField;
-		UInt16	oldRow, newRow;
+		UInt16	oldRow, oldIndex, newIndex;
 
 		if (!UDragAndDropUtils::CheckForOptionKey(inDragRef) ) {
 			// No option key, it is a move operation
@@ -718,36 +718,39 @@ CSTRx_EditorWindow::ReceiveDragItem(
 			Point	thePoint;
 			::GetDragOrigin(inDragRef, &thePoint);
 			GlobalToPortPoint(thePoint);
-			GetIndexFromPoint(thePoint, oldRow);
+			GetIndexFromPoint(thePoint, oldIndex, oldRow);
 			
-			if ( mDropIndex != oldRow ) {
+			// If item k is dropped on dropIndex k-1 (just above itself) or 
+			// k (just below itself) it means that it remains in its 
+			// original position.
+			if ( mDropIndex != oldIndex-1 && mDropIndex != oldIndex ) {
 				// Operate on the fields array
-				if ( mIndexedFields.FetchItemAt(oldRow, theField) ) {
+				if ( mIndexedFields.FetchItemAt(oldIndex, theField) ) {
 					// Delete the old data
-					mIndexedFields.RemoveItemsAt(1, oldRow);
+					mIndexedFields.RemoveItemsAt(1, oldIndex);
 					// Add the new data
 					if ( mDropIndex == -1 ) {
 						mIndexedFields.AddItem(theField);
 					} else {
-						newRow = mDropIndex;
-						if ( newRow < oldRow ) {
+						newIndex = mDropIndex;
+						if ( newIndex < oldRow ) {
 							// Adjust for deleted row
-							newRow += 1;
+							newIndex += 1;
 						}
-						mIndexedFields.InsertItemsAt(1, newRow, theField);
+						mIndexedFields.InsertItemsAt(1, newIndex, theField);
 					}
 				} 
-				RecalcPositionsInRange(oldRow, newRow);
+				RecalcPositionsInRange(oldIndex, newIndex);
 			}
 		} else {
 			// It is a copy operation
 			if ( mDropIndex == -1 ) {
-				newRow = 0;
+				newIndex = 0;
 			} else {
-				newRow = mDropIndex + 1;
+				newIndex = mDropIndex + 1;
 			}
-			CreateItemAtIndex(newRow, theString, 1);
-			RecalcPositionsInRange(newRow + 1, mIndexedFields.GetCount());
+			CreateItemAtIndex(newIndex, theString, 1);
+			RecalcPositionsInRange(newIndex + 1, mIndexedFields.GetCount());
 		}
 	} else {
 		// The drag comes from outside
@@ -796,6 +799,9 @@ CSTRx_EditorWindow::LeaveDropArea(
 // ---------------------------------------------------------------------------------
 //  InsideDropArea
 // ---------------------------------------------------------------------------------
+// If there are n items, mDropIndex has its value between 0 and n. If
+// mDropIndex equals k, it means that the dropped item will be between the
+// items currently at positions k and k+1.
 
 void
 CSTRx_EditorWindow::InsideDropArea(
@@ -812,17 +818,17 @@ CSTRx_EditorWindow::InsideDropArea(
 		GlobalToPortPoint( thePoint );
 
 		// Get the dividing line point
-		UInt16	theRow;
-		GetIndexFromPoint( thePoint, theRow );
+		UInt16	theItemIndex, theDropIndex;
+		GetIndexFromPoint( thePoint, theItemIndex, theDropIndex );
 		
-		if ( mDropIndex != theRow ) {
+		if ( mDropIndex != theDropIndex ) {
 			if ( mDropIndex >= 0 ) {
 				// Undo the previous line (drawing uses patXor mode)
 				DrawDividingLine( mDropIndex );
 			}
 			
 			// Update the drop index and draw the new dividing line
-			mDropIndex = theRow;
+			mDropIndex = theDropIndex;
 			DrawDividingLine( mDropIndex );
 		}
 	}
@@ -852,36 +858,43 @@ CSTRx_EditorWindow::HiliteDropArea(
 // ---------------------------------------------------------------------------------
 //  GetIndexFromPoint
 // ---------------------------------------------------------------------------------
+// One must distinguish the index of the item in the list and the drop 
+// index. On output, outItemIndex gives the real index of the item in the 
+// list (between 1 and n) and outDropRow gives the drop index (between 0 
+// and n). The drop index tells where to draw the dividing line and where 
+// to insert the item. 
 
 void
 CSTRx_EditorWindow::GetIndexFromPoint(
-	const Point	&inPortPoint,
-	UInt16		&outRow )
+	  const Point	&inPortPoint,
+	  UInt16		&outItemIndex,
+	  UInt16		&outDropRow )
 {
 	// Convert to local coordinates
 	Point	theLocalPoint = inPortPoint;
-	PortToLocalPoint( theLocalPoint );
+	mContentsView->PortToLocalPoint( theLocalPoint );
 	
 	// Convert to image coordinates
 	SPoint32	theImagePoint;
-	LocalToImagePoint( theLocalPoint, theImagePoint );
+	mContentsView->LocalToImagePoint( theLocalPoint, theImagePoint );
 	
 	// Calculate the item index given the image point
-	outRow = (theImagePoint.v - 1) / kStrxHeight + 1;
+	outItemIndex = (theImagePoint.v - 1) / kStrxHeight + 1;
+	outDropRow = outItemIndex;
 	
 	// Calculate the item's midpoint
-	SInt32	theMidPoint = (outRow - 1) * kStrxHeight + kStrxHeight / 2;
+	SInt32	theMidPoint = (outItemIndex - 1) * kStrxHeight + kStrxHeight / 2;
 
 	if ( theImagePoint.v < theMidPoint ) {
 		// The point is less than the midpoint, so use the previous index
-		outRow -= 1;
+		outDropRow -= 1;
 	}
 	
 	// Constrain to the range of items (0 means "insert at the beginning")
-	if ( outRow < 0 ) {
-		outRow = 0;
-	} else if ( outRow > mIndexedFields.GetCount() ) {
-		outRow = mIndexedFields.GetCount();
+	if ( outDropRow < 0 ) {
+		outDropRow = 0;
+	} else if ( outDropRow > mIndexedFields.GetCount() ) {
+		outDropRow = mIndexedFields.GetCount();
 	}
 }
 
@@ -893,11 +906,12 @@ CSTRx_EditorWindow::GetIndexFromPoint(
 void
 CSTRx_EditorWindow::DrawDividingLine( UInt16 inRow )
 {
+	if (inRow == -1) {return;} 
+	
 	// Focus the pane and get the table and cell frames
 	Rect	theFrame;
 	
 	if ( FocusDraw() && mContentsView->CalcPortFrameRect(theFrame) ) {
-
 		// Save the draw state
 		StColorPenState	theDrawState;
 
@@ -909,14 +923,18 @@ CSTRx_EditorWindow::DrawDividingLine( UInt16 inRow )
 		::PenMode( patXor );
 		::PenSize( 2, 2 );
 
-		// Calculate the dividing line position
-		Point	thePoint;
-		thePoint.v = inRow * kStrxHeight + theFrame.top;
-		thePoint.h = theFrame.left + kStrxIndexWidth;
+		// Calculate the dividing line position + theFrame.top
+		SPoint32	theImagePoint;
+		Point		thePoint;
+		theImagePoint.v = inRow * kStrxHeight;
+		theImagePoint.h = theFrame.left + kStrxIndexWidth;
 
+		mContentsView->ImageToLocalPoint(theImagePoint, thePoint);
+		mContentsView->LocalToPortPoint(thePoint);
+		
 		// Draw the line
 		::MoveTo( thePoint.h, thePoint.v );
 		::LineTo( thePoint.h + theFrame.right - theFrame.left - kStrxIndexWidth, thePoint.v );
-	
 	}
 }
+

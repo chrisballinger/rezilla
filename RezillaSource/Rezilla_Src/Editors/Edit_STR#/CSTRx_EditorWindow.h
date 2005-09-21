@@ -2,7 +2,7 @@
 // CSTRx_EditorWindow.h
 // 
 //                       Created: 2005-08-31 18:26:24
-//             Last modification: 2005-09-20 12:59:03
+//             Last modification: 2005-09-21 13:43:12
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -53,8 +53,8 @@ public:
 							CommandT		inCommand,
 							void*			ioParam);
 
-	virtual Boolean		HandleKeyPress( const EventRecord& inKeyEvent );
-		
+	virtual Boolean	HandleKeyPress( const EventRecord& inKeyEvent );
+	
 	OSErr			InstallResourceData(Handle inHandle);
 	Handle			CollectResourceData();
 	
@@ -70,7 +70,6 @@ public:
 protected:
 	LHandleStream *				mOutStream;
 	LView *						mContentsView;
-// 	LTabGroupView *				mTGV;
 	TArray<CIndexedEditField*>	mIndexedFields;
 	UInt16						mDropIndex;
 
@@ -86,8 +85,11 @@ protected:
 	virtual void	InsideDropArea( DragReference inDragRef);
 	virtual void	HiliteDropArea( DragReference inDragRef );
 
-	void			GetIndexFromPoint(	const Point &inPortPoint,
-											UInt16 &outRow );
+	void			GetIndexFromPoint(
+							  const Point	&inPortPoint,
+							  UInt16		&outItemIndex,
+							  UInt16		&outDropRow );
+	
 	void			DrawDividingLine( UInt16 inRow );
 
 private:	
