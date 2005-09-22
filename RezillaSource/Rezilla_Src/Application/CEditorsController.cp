@@ -103,7 +103,11 @@ CEditorsController::BuildAsTypeDictionary()
 			sAsTypeDictionary = CFPropertyListCreateFromXMLData(kCFAllocatorDefault, xmlRef, 
 													   kCFPropertyListImmutable, &errorString);
 			
-			if (sAsTypeDictionary == NULL) CFShow(errorString);
+			if (sAsTypeDictionary == NULL) {
+				CFShow(errorString);
+			} else {
+				CFRetain(sAsTypeDictionary);
+			}
 			
 			// Release the XML data
 			CFRelease(xmlRef);
@@ -126,16 +130,43 @@ CEditorsController::FindSubstitutionType(ResType inType, ResType * outType)
 	if (sAsTypeDictionary != NULL) {
 		if ( CFGetTypeID(sAsTypeDictionary) == CFDictionaryGetTypeID() ) {
 			Str255		theString;
-			CFStringRef	inTypeRef, outTypeRef;
+			CFStringRef	inTypeRef = NULL;
+			CFStringRef	outTypeRef;
 			
 			UMiscUtils::OSTypeToPString(inType, theString);	
 			inTypeRef = CFStringCreateWithPascalString(NULL, theString, kCFStringEncodingMacRoman);
 			
 			if (inTypeRef) {
-				result = CFDictionaryGetValueIfPresent( (CFDictionaryRef) sAsTypeDictionary, 
-													   inTypeRef, (const void**) &outTypeRef);
+				int k;
+				CFStringRef *		theKeys;
+				CFStringRef *		theVals;
+		
+				CFRetain(inTypeRef);
+				CFIndex count = CFDictionaryGetCount( (CFDictionaryRef) sAsTypeDictionary );
+				theKeys = (CFStringRef*) NewPtrClear(sizeof(CFStringRef) * count);
+				theVals = (CFStringRef*) NewPtrClear(sizeof(CFStringRef) * count);
+				CFDictionaryGetKeysAndValues((CFDictionaryRef) sAsTypeDictionary, (const void **) theKeys, (const void **) theVals);
+				for (k = 0; k < count; k++) {
+					if (theKeys[k] && theVals[k] ) {
+						// Make a two items list for each key/value pair
+// 						if (CFStringGetCString(theKeys[k], theStr, sizeof(theStr), kCFStringEncodingMacRoman) 
+// 							  && CFStringGetCString(theVals[k], theSubStr, sizeof(theSubStr), kCFStringEncodingMacRoman)) {
+								  CFShow(theKeys[k]);
+								  CFShow(theVals[k]);
+// 						} 
+					} 
+				}
+
+
+				
+				
+				
+				result = CFDictionaryContainsKey((CFDictionaryRef) sAsTypeDictionary, inTypeRef);
+// 				result = CFDictionaryGetValueIfPresent( (CFDictionaryRef) sAsTypeDictionary, 
+// 													   inTypeRef, (const void**) &outTypeRef);
 				
 				if (result) {
+					outTypeRef = (CFStringRef) CFDictionaryGetValue((CFDictionaryRef) sAsTypeDictionary, inTypeRef);
 					result = CFStringGetPascalString(outTypeRef, theString, 
 													 sizeof(theString), kCFStringEncodingMacRoman);
 					// Caveat: outTypeRef must not be released
@@ -144,7 +175,7 @@ CEditorsController::FindSubstitutionType(ResType inType, ResType * outType)
 						UMiscUtils::PStringToOSType(theString, *outType);	
 					} 
 				}
-				CFRelease(inTypeRef);
+//				CFRelease(inTypeRef);
 			}
 		}
 	}
