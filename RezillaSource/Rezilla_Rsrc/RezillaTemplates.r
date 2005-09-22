@@ -1,12 +1,12 @@
 type 'TMPL' {
 	array {
-		pstring;      		/* Label */
+		pstring;			/* Label */
 		literal longint;	/* Tag */
 	};
 };
 
 resource 'TMPL' (1000, "accl") {
-	{	/* array: 10 elements */
+	{
 		/* [1] */
 		"Device identifier or device class",
 		'TNAM',
@@ -17,8 +17,7 @@ resource 'TMPL' (1000, "accl") {
 		"Mouse acceleration table",
 		'LSTC',
 		/* [4] */
-		"Acceleration provided by this table (fix"
-		"ed)",
+		"Acceleration provided by this table (fixed)",
 		'HLNG',
 		/* [5] */
 		"Number of control points for this device",
@@ -41,8 +40,9 @@ resource 'TMPL' (1000, "accl") {
 	}
 };
 
+
 resource 'TMPL' (1001, "ACfg") {
-	{	/* array: 19 elements */
+	{
 		/* [1] */
 		"International sorting",
 		'BFLG',
@@ -103,8 +103,9 @@ resource 'TMPL' (1001, "ACfg") {
 	}
 };
 
+
 resource 'TMPL' (1002, "actb") {
-	{	/* array: 12 elements */
+	{
 		/* [1] */
 		"Alert color seed",
 		'HLNG',
@@ -144,8 +145,9 @@ resource 'TMPL' (1002, "actb") {
 	}
 };
 
+
 resource 'TMPL' (1003, "acur") {
-	{	/* array: 6 elements */
+	{
 		/* [1] */
 		"Count:",
 		'OCNT',
@@ -167,8 +169,9 @@ resource 'TMPL' (1003, "acur") {
 	}
 };
 
+
 resource 'TMPL' (1004, "admn") {
-	{	/* array: 4 elements */
+	{
 		/* [1] */
 		"Version",
 		'DWRD',
@@ -184,8 +187,9 @@ resource 'TMPL' (1004, "admn") {
 	}
 };
 
+
 resource 'TMPL' (1005, "aedt") {
-	{	/* array: 21 elements */
+	{
 		/* [1] */
 		"Apple Events Dispatch Table",
 		'LSTB',
@@ -252,8 +256,9 @@ resource 'TMPL' (1005, "aedt") {
 	}
 };
 
+
 resource 'TMPL' (1006, "ALRT") {
-	{	/* array: 26 elements */
+	{
 		/* [1] */
 		"Bounds rect",
 		'RECT',
@@ -335,8 +340,9 @@ resource 'TMPL' (1006, "ALRT") {
 	}
 };
 
+
 resource 'TMPL' (1007, "alrx") {
-	{	/* array: 29 elements */
+	{
 		/* [1] */
 		"Version",
 		'KWRD',
@@ -427,8 +433,9 @@ resource 'TMPL' (1007, "alrx") {
 	}
 };
 
+
 resource 'TMPL' (1008, "APPL") {
-	{	/* array: 5 elements */
+	{
 		/* [1] */
 		"Applications",
 		'LSTB',
@@ -447,11 +454,11 @@ resource 'TMPL' (1008, "APPL") {
 	}
 };
 
+
 resource 'TMPL' (1009, "atms") {
-	{	/* array: 56 elements */
+	{
 		/* [1] */
-		"Resource for the creation of parameter d"
-		"escription atoms",
+		"Resource for the creation of parameter description atoms",
 		'DVDR',
 		/* [2] */
 		"Root atom count",
@@ -621,8 +628,9 @@ resource 'TMPL' (1009, "atms") {
 	}
 };
 
+
 resource 'TMPL' (1010, "audt") {
-	{	/* array: 42 elements */
+	{
 		/* [1] */
 		"Event constants",
 		'LSTB',
@@ -752,8 +760,9 @@ resource 'TMPL' (1010, "audt") {
 	}
 };
 
+
 resource 'TMPL' (1011, "avvc") {
-	{	/* array: 3 elements */
+	{
 		/* [1] */
 		"Compressors AVI file four cc's",
 		'LSTB',
@@ -766,8 +775,9 @@ resource 'TMPL' (1011, "avvc") {
 	}
 };
 
+
 resource 'TMPL' (1012, "avvd") {
-	{	/* array: 3 elements */
+	{
 		/* [1] */
 		"Decompressors AVI file four cc's",
 		'LSTB',
@@ -780,8 +790,9 @@ resource 'TMPL' (1012, "avvd") {
 	}
 };
 
+
 resource 'TMPL' (1013, "badg") {
-	{	/* array: 17 elements */
+	{
 		/* [1] */
 		"Version",
 		'KWRD',
@@ -836,8 +847,9 @@ resource 'TMPL' (1013, "badg") {
 	}
 };
 
+
 resource 'TMPL' (1014, "bMRM") {
-	{	/* array: 19 elements */
+	{
 		/* [1] */
 		"\"Fetch\" resource template",
 		'DVDR',
@@ -875,8 +887,7 @@ resource 'TMPL' (1014, "bMRM") {
 		"Following files created by this APPL",
 		'BBIT',
 		/* [13] */
-		"Following files and files created by thi"
-		"s APPL",
+		"Following files and files created by this APPL",
 		'BBIT',
 		/* [14] */
 		"Unused",
@@ -899,8 +910,9 @@ resource 'TMPL' (1014, "bMRM") {
 	}
 };
 
+
 resource 'TMPL' (1015, "BNDL") {
-	{	/* array: 11 elements */
+	{
 		/* [1] */
 		"Signature",
 		'TNAM',
@@ -937,8 +949,9 @@ resource 'TMPL' (1015, "BNDL") {
 	}
 };
 
+
 resource 'TMPL' (1016, "brws") {
-	{	/* array: 4 elements */
+	{
 		/* [1] */
 		"Version",
 		'DLNG',
@@ -954,8 +967,9 @@ resource 'TMPL' (1016, "brws") {
 	}
 };
 
+
 resource 'TMPL' (1017, "bVal") {
-	{	/* array: 2 elements */
+	{
 		/* [1] */
 		"\"AfterDark\" resource format",
 		'DVDR',
@@ -965,8 +979,9 @@ resource 'TMPL' (1017, "bVal") {
 	}
 };
 
+
 resource 'TMPL' (1018, "Cals") {
-	{	/* array: 8 elements */
+	{
 		/* [1] */
 		"\"AfterDark\" resource format",
 		'DVDR',
@@ -994,8 +1009,9 @@ resource 'TMPL' (1018, "Cals") {
 	}
 };
 
+
 resource 'TMPL' (1019, "caps") {
-	{	/* array: 139 elements */
+	{
 		/* [1] */
 		"Count:",
 		'OCNT',
@@ -1416,8 +1432,9 @@ resource 'TMPL' (1019, "caps") {
 	}
 };
 
+
 resource 'TMPL' (1020, "cbnd") {
-	{	/* array: 9 elements */
+	{
 		/* [1] */
 		"Count:",
 		'ZCNT',
@@ -1448,16 +1465,18 @@ resource 'TMPL' (1020, "cbnd") {
 	}
 };
 
+
 resource 'TMPL' (1021, "CCIª") {
-	{	/* array: 1 elements */
+	{
 		/* [1] */
 		"Description",
 		'CSTR'
 	}
 };
 
+
 resource 'TMPL' (1022, "ccop") {
-	{	/* array: 3 elements */
+	{
 		/* [1] */
 		"Codec compression options",
 		'HLNG',
@@ -1470,8 +1489,9 @@ resource 'TMPL' (1022, "ccop") {
 	}
 };
 
+
 resource 'TMPL' (1023, "cctb") {
-	{	/* array: 22 elements */
+	{
 		/* [1] */
 		"Control color seed",
 		'HLNG',
@@ -1541,8 +1561,9 @@ resource 'TMPL' (1023, "cctb") {
 	}
 };
 
+
 resource 'TMPL' (1024, "cdci") {
-	{	/* array: 53 elements */
+	{
 		/* [1] */
 		"Description/name",
 		'P020',
@@ -1565,8 +1586,7 @@ resource 'TMPL' (1024, "cdci") {
 		"Reserved",
 		'LB10',
 		/* [8] */
-		"Can recompress image without accumulatin"
-		"g errors",
+		"Can recompress image without accumulating errors",
 		'LBIT',
 		/* [9] */
 		"Can warp arbitrarily on decompress",
@@ -1706,8 +1726,9 @@ resource 'TMPL' (1024, "cdci") {
 	}
 };
 
+
 resource 'TMPL' (1025, "cFIG") {
-	{	/* array: 29 elements */
+	{
 		/* [1] */
 		"Tool version",
 		'DWRD',
@@ -1798,8 +1819,9 @@ resource 'TMPL' (1025, "cFIG") {
 	}
 };
 
+
 resource 'TMPL' (1026, "cfmt") {
-	{	/* array: 12 elements */
+	{
 		/* [1] */
 		"Column1 width",
 		'DWRD',
@@ -1839,8 +1861,9 @@ resource 'TMPL' (1026, "cfmt") {
 	}
 };
 
+
 resource 'TMPL' (1027, "cfrg") {
-	{	/* array: 26 elements */
+	{
 		/* [1] */
 		"(private)",
 		'HLNG',
@@ -1922,8 +1945,9 @@ resource 'TMPL' (1027, "cfrg") {
 	}
 };
 
+
 resource 'TMPL' (1028, "chCd") {
-	{	/* array: 5 elements */
+	{
 		/* [1] */
 		"\"Finale\" resource format",
 		'DVDR',
@@ -1942,8 +1966,9 @@ resource 'TMPL' (1028, "chCd") {
 	}
 };
 
+
 resource 'TMPL' (1029, "chCv") {
-	{	/* array: 3 elements */
+	{
 		/* [1] */
 		"\"Finale\" resource format",
 		'DVDR',
@@ -1956,8 +1981,9 @@ resource 'TMPL' (1029, "chCv") {
 	}
 };
 
+
 resource 'TMPL' (1030, "Chnl") {
-	{	/* array: 3 elements */
+	{
 		/* [1] */
 		"\"AfterDark\" resource format",
 		'DVDR',
@@ -1970,8 +1996,9 @@ resource 'TMPL' (1030, "Chnl") {
 	}
 };
 
+
 resource 'TMPL' (1031, "CHOS") {
-	{	/* array: 5 elements */
+	{
 		/* [1] */
 		"Serial device",
 		'DWRD',
@@ -1990,16 +2017,18 @@ resource 'TMPL' (1031, "CHOS") {
 	}
 };
 
+
 resource 'TMPL' (1032, "chrw") {
-	{	/* array: 1 elements */
+	{
 		/* [1] */
 		"Number of characters per 50 pixels",
 		'DWRD'
 	}
 };
 
+
 resource 'TMPL' (1033, "ckid") {
-	{	/* array: 27 elements */
+	{
 		/* [1] */
 		"Checksum",
 		'ULNG',
@@ -2084,8 +2113,9 @@ resource 'TMPL' (1033, "ckid") {
 	}
 };
 
+
 resource 'TMPL' (1034, "Clmn") {
-	{	/* array: 35 elements */
+	{
 		/* [1] */
 		"\"SuitCase\" resource format",
 		'DVDR',
@@ -2194,8 +2224,9 @@ resource 'TMPL' (1034, "Clmn") {
 	}
 };
 
+
 resource 'TMPL' (1035, "clr#") {
-	{	/* array: 5 elements */
+	{
 		/* [1] */
 		"Appearance Color List Resource (ID 384)",
 		'DVDR',
@@ -2214,8 +2245,9 @@ resource 'TMPL' (1035, "clr#") {
 	}
 };
 
+
 resource 'TMPL' (1036, "cltn") {
-	{	/* array: 14 elements */
+	{
 		/* [1] */
 		"Count:",
 		'LCNT',
@@ -2261,8 +2293,9 @@ resource 'TMPL' (1036, "cltn") {
 	}
 };
 
+
 resource 'TMPL' (1037, "clut") {
-	{	/* array: 9 elements */
+	{
 		/* [1] */
 		"Color table seed",
 		'HLNG',
@@ -2293,16 +2326,18 @@ resource 'TMPL' (1037, "clut") {
 	}
 };
 
+
 resource 'TMPL' (1038, "CMDK") {
-	{	/* array: 1 elements */
+	{
 		/* [1] */
 		"Command Keys",
 		'PSTR'
 	}
 };
 
+
 resource 'TMPL' (1039, "cmdo") {
-	{	/* array: 315 elements */
+	{
 		/* [1] */
 		"Commando version",
 		'DWRD',
@@ -2586,7 +2621,7 @@ resource 'TMPL' (1039, "cmdo") {
 		"Align",
 		'AWRD',
 		/* [95] */
-		"¬\"¬\"¬\"¬\"¬\"",
+		"Â¥Â¥Â¥Â¥Â¥",
 		'LSTC',
 		/* [96] */
 		"Desired input file type",
@@ -2664,7 +2699,7 @@ resource 'TMPL' (1039, "cmdo") {
 		"Align",
 		'AWRD',
 		/* [121] */
-		"¬\"¬\"¬\"¬\"¬\"",
+		"Â¥Â¥Â¥Â¥Â¥",
 		'LSTC',
 		/* [122] */
 		"Mac file type",
@@ -3251,8 +3286,9 @@ resource 'TMPL' (1039, "cmdo") {
 	}
 };
 
+
 resource 'TMPL' (1040, "cmnu") {
-	{	/* array: 72 elements */
+	{
 		/* [1] */
 		"Menu ID",
 		'DWRD',
@@ -3472,8 +3508,9 @@ resource 'TMPL' (1040, "cmnu") {
 	}
 };
 
+
 resource 'TMPL' (1041, "CNTL") {
-	{	/* array: 57 elements */
+	{
 		/* [1] */
 		"Bounds Rect",
 		'RECT',
@@ -3648,8 +3685,9 @@ resource 'TMPL' (1041, "CNTL") {
 	}
 };
 
+
 resource 'TMPL' (1042, "Colr") {
-	{	/* array: 6 elements */
+	{
 		/* [1] */
 		"Version",
 		'DBYT',
@@ -3663,8 +3701,7 @@ resource 'TMPL' (1042, "Colr") {
 		"Has accent colors",
 		'BOOL',
 		/* [5] */
-		"Stretch scroll bar thumb from center (fo"
-		"r SmartScroll)",
+		"Stretch scroll bar thumb from center (for SmartScroll)",
 		'BOOL',
 		/* [6] */
 		"Reserved",
@@ -3672,8 +3709,9 @@ resource 'TMPL' (1042, "Colr") {
 	}
 };
 
+
 resource 'TMPL' (1043, "colw") {
-	{	/* array: 12 elements */
+	{
 		/* [1] */
 		"Name col default width",
 		'DWRD',
@@ -3713,8 +3751,9 @@ resource 'TMPL' (1043, "colw") {
 	}
 };
 
+
 resource 'TMPL' (1044, "comm") {
-	{	/* array: 96 elements */
+	{
 		/* [1] */
 		"Printer connection",
 		'KTYP',
@@ -3947,15 +3986,13 @@ resource 'TMPL' (1044, "comm") {
 		"sPTL",
 		'KEYB',
 		/* [78] */
-		"Pointer to C routine to release SCSI dev"
-		"ice",
+		"Pointer to C routine to release SCSI device",
 		'HLNG',
 		/* [79] */
 		"SCSI I/O Attributes",
 		'HWRD',
 		/* [80] */
-		"Location of status byte from data transf"
-		"er",
+		"Location of status byte from data transfer",
 		'HLNG',
 		/* [81] */
 		"SCSI bus number",
@@ -3967,8 +4004,7 @@ resource 'TMPL' (1044, "comm") {
 		"SCSI device number",
 		'DWRD',
 		/* [84] */
-		"Pointer to C routine that can acquire SC"
-		"SI device",
+		"Pointer to C routine that can acquire SCSI device",
 		'HLNG',
 		/* [85] */
 		"Device type to look for",
@@ -3977,8 +4013,7 @@ resource 'TMPL' (1044, "comm") {
 		"Minimum amount of data in response",
 		'DWRD',
 		/* [87] */
-		"Offset from start to look in response da"
-		"ta",
+		"Offset from start to look in response data",
 		'DWRD',
 		/* [88] */
 		"String to look for in response data",
@@ -4010,8 +4045,9 @@ resource 'TMPL' (1044, "comm") {
 	}
 };
 
+
 resource 'TMPL' (1045, "cool") {
-	{	/* array: 27 elements */
+	{
 		/* [1] */
 		"Alert type",
 		'DWRD',
@@ -4096,11 +4132,11 @@ resource 'TMPL' (1045, "cool") {
 	}
 };
 
+
 resource 'TMPL' (1046, "cpix") {
-	{	/* array: 3 elements */
+	{
 		/* [1] */
-		"Compressors supported compress pixel for"
-		"mat surfaces",
+		"Compressors supported compress pixel format surfaces",
 		'LSTB',
 		/* [2] */
 		"Type",
@@ -4111,8 +4147,9 @@ resource 'TMPL' (1046, "cpix") {
 	}
 };
 
+
 resource 'TMPL' (1047, "CPPb") {
-	{	/* array: 58 elements */
+	{
 		/* [1] */
 		"Object Type",
 		'TNAM',
@@ -4290,8 +4327,9 @@ resource 'TMPL' (1047, "CPPb") {
 	}
 };
 
+
 resource 'TMPL' (1048, "cpts") {
-	{	/* array: 13 elements */
+	{
 		/* [1] */
 		"Type of capture string",
 		'KRID',
@@ -4334,8 +4372,9 @@ resource 'TMPL' (1048, "cpts") {
 	}
 };
 
+
 resource 'TMPL' (1049, "crst") {
-	{	/* array: 8 elements */
+	{
 		/* [1] */
 		"Color space",
 		'DLNG',
@@ -4363,8 +4402,9 @@ resource 'TMPL' (1049, "crst") {
 	}
 };
 
+
 resource 'TMPL' (1050, "CTY#") {
-	{	/* array: 10 elements */
+	{
 		/* [1] */
 		"Num cities",
 		'ZCNT',
@@ -4398,8 +4438,9 @@ resource 'TMPL' (1050, "CTY#") {
 	}
 };
 
+
 resource 'TMPL' (1051, "CTYP") {
-	{	/* array: 237 elements */
+	{
 		/* [1] */
 		"Template for Constructor CWPro4",
 		'DVDR',
@@ -5114,8 +5155,9 @@ resource 'TMPL' (1051, "CTYP") {
 	}
 };
 
+
 resource 'TMPL' (1052, "CURS") {
-	{	/* array: 3 elements */
+	{
 		/* [1] */
 		"Image bits",
 		'H020',
@@ -5128,8 +5170,9 @@ resource 'TMPL' (1052, "CURS") {
 	}
 };
 
+
 resource 'TMPL' (1053, "cust") {
-	{	/* array: 15 elements */
+	{
 		/* [1] */
 		"Horizontal resolution (dots/inch)",
 		'DWRD',
@@ -5149,12 +5192,10 @@ resource 'TMPL' (1053, "cust") {
 		"Pattern stretch factor",
 		'PNT ',
 		/* [7] */
-		"Translation settings (for old driver cal"
-		"ls to GX driver messages)",
+		"Translation settings (for old driver calls to GX driver messages)",
 		'DVDR',
 		/* [8] */
-		"For best representation of QuickDraw, tu"
-		"rn all of these off.",
+		"For best representation of QuickDraw, turn all of these off.",
 		'DVDR',
 		/* [9] */
 		"Reserved",
@@ -5180,8 +5221,9 @@ resource 'TMPL' (1053, "cust") {
 	}
 };
 
+
 resource 'TMPL' (1054, "CWid") {
-	{	/* array: 47 elements */
+	{
 		/* [1] */
 		"Minimum column width",
 		'UWRD',
@@ -5326,8 +5368,9 @@ resource 'TMPL' (1054, "CWid") {
 	}
 };
 
+
 resource 'TMPL' (1055, "dale") {
-	{	/* array: 4 elements */
+	{
 		/* [1] */
 		"Count:",
 		'OCNT',
@@ -5343,8 +5386,9 @@ resource 'TMPL' (1055, "dale") {
 	}
 };
 
+
 resource 'TMPL' (1056, "DBnf") {
-	{	/* array: 9 elements */
+	{
 		/* [1] */
 		"\"SuitCase\" resource format",
 		'DVDR',
@@ -5375,8 +5419,9 @@ resource 'TMPL' (1056, "DBnf") {
 	}
 };
 
+
 resource 'TMPL' (1057, "dbug") {
-	{	/* array: 12 elements */
+	{
 		/* [1] */
 		"Debug window bounds",
 		'RECT',
@@ -5416,8 +5461,9 @@ resource 'TMPL' (1057, "dbug") {
 	}
 };
 
+
 resource 'TMPL' (1058, "dctb") {
-	{	/* array: 12 elements */
+	{
 		/* [1] */
 		"Dialog color seed",
 		'HLNG',
@@ -5457,8 +5503,9 @@ resource 'TMPL' (1058, "dctb") {
 	}
 };
 
+
 resource 'TMPL' (1059, "dctl") {
-	{	/* array: 103 elements */
+	{
 		/* [1] */
 		"Maximum item count",
 		'DWRD',
@@ -5565,8 +5612,7 @@ resource 'TMPL' (1059, "dctl") {
 		"Resource ID of 'DLOG'",
 		'RSID',
 		/* [36] */
-		"Resource ID of dialog controller ('dctl'"
-		")",
+		"Resource ID of dialog controller ('dctl')",
 		'RSID',
 		/* [37] */
 		"",
@@ -5772,8 +5818,9 @@ resource 'TMPL' (1059, "dctl") {
 	}
 };
 
+
 resource 'TMPL' (1060, "desC") {
-	{	/* array: 9 elements */
+	{
 		/* [1] */
 		"Count:",
 		'OCNT',
@@ -5804,8 +5851,9 @@ resource 'TMPL' (1060, "desC") {
 	}
 };
 
+
 resource 'TMPL' (1061, "deta") {
-	{	/* array: 9 elements */
+	{
 		/* [1] */
 		"Aspect template",
 		'DVDR',
@@ -5836,8 +5884,9 @@ resource 'TMPL' (1061, "deta") {
 	}
 };
 
+
 resource 'TMPL' (1062, "detf") {
-	{	/* array: 2 elements */
+	{
 		/* [1] */
 		"Version",
 		'DLNG',
@@ -5847,8 +5896,9 @@ resource 'TMPL' (1062, "detf") {
 	}
 };
 
+
 resource 'TMPL' (1063, "deti") {
-	{	/* array: 18 elements */
+	{
 		/* [1] */
 		"Version",
 		'DLNG',
@@ -5906,8 +5956,9 @@ resource 'TMPL' (1063, "deti") {
 	}
 };
 
+
 resource 'TMPL' (1064, "detk") {
-	{	/* array: 2 elements */
+	{
 		/* [1] */
 		"Version",
 		'DLNG',
@@ -5917,16 +5968,18 @@ resource 'TMPL' (1064, "detk") {
 	}
 };
 
+
 resource 'TMPL' (1065, "detn") {
-	{	/* array: 1 elements */
+	{
 		/* [1] */
 		"A decimal number",
 		'DLNG'
 	}
 };
 
+
 resource 'TMPL' (1066, "detp") {
-	{	/* array: 4 elements */
+	{
 		/* [1] */
 		"Count:",
 		'OCNT',
@@ -5942,8 +5995,9 @@ resource 'TMPL' (1066, "detp") {
 	}
 };
 
+
 resource 'TMPL' (1067, "dett") {
-	{	/* array: 56 elements */
+	{
 		/* [1] */
 		"Attribute pattern table",
 		'DVDR',
@@ -6077,10 +6131,10 @@ resource 'TMPL' (1067, "dett") {
 		"Main > extra=grea",
 		'CASE',
 		/* [45] */
-		"Main ¬d extra=leeq",
+		"Main Â² extra=leeq",
 		'CASE',
 		/* [46] */
-		"Main ¬e extra=greq",
+		"Main Â³ extra=greq",
 		'CASE',
 		/* [47] */
 		"Is input and/or output=prop",
@@ -6089,8 +6143,7 @@ resource 'TMPL' (1067, "dett") {
 		"Set type to extra=styp",
 		'CASE',
 		/* [49] */
-		"Use extra as type of all following binar"
-		"y=btyp",
+		"Use extra as type of all following binary=btyp",
 		'CASE',
 		/* [50] */
 		"Abort pattern processing=abrt",
@@ -6116,8 +6169,9 @@ resource 'TMPL' (1067, "dett") {
 	}
 };
 
+
 resource 'TMPL' (1068, "detv") {
-	{	/* array: 104 elements */
+	{
 		/* [1] */
 		"Filler",
 		'F028',
@@ -6433,18 +6487,17 @@ resource 'TMPL' (1068, "detv") {
 	}
 };
 
+
 resource 'TMPL' (1069, "detw") {
-	{	/* array: 6 elements */
+	{
 		/* [1] */
-		"If top of bounds is 0, use standard plac"
-		"ement",
+		"If top of bounds is 0, use standard placement",
 		'DVDR',
 		/* [2] */
 		"If top of bounds is -1, center on screen",
 		'DVDR',
 		/* [3] */
-		"Otherwise, use bounds as absolute placem"
-		"ent",
+		"Otherwise, use bounds as absolute placement",
 		'DVDR',
 		/* [4] */
 		"Bounds",
@@ -6458,8 +6511,9 @@ resource 'TMPL' (1069, "detw") {
 	}
 };
 
+
 resource 'TMPL' (1070, "detx") {
-	{	/* array: 6 elements */
+	{
 		/* [1] */
 		"Version",
 		'DLNG',
@@ -6481,8 +6535,9 @@ resource 'TMPL' (1070, "detx") {
 	}
 };
 
+
 resource 'TMPL' (1071, "dflg") {
-	{	/* array: 3 elements */
+	{
 		/* [1] */
 		"Version",
 		'HLNG',
@@ -6495,8 +6550,9 @@ resource 'TMPL' (1071, "dflg") {
 	}
 };
 
+
 resource 'TMPL' (1072, "dftb") {
-	{	/* array: 49 elements */
+	{
 		/* [1] */
 		"Version",
 		'KWRD',
@@ -6647,8 +6703,9 @@ resource 'TMPL' (1072, "dftb") {
 	}
 };
 
+
 resource 'TMPL' (1073, "DITL") {
-	{	/* array: 13 elements */
+	{
 		/* [1] */
 		"Count:",
 		'ZCNT',
@@ -6691,8 +6748,9 @@ resource 'TMPL' (1073, "DITL") {
 	}
 };
 
+
 resource 'TMPL' (1074, "dJvU") {
-	{	/* array: 7 elements */
+	{
 		/* [1] */
 		"\"Eudora\" resource format",
 		'DVDR',
@@ -6717,8 +6775,9 @@ resource 'TMPL' (1074, "dJvU") {
 	}
 };
 
+
 resource 'TMPL' (1075, "DLGf") {
-	{	/* array: 8 elements */
+	{
 		/* [1] */
 		"\"Finale\" resource format",
 		'DVDR',
@@ -6746,8 +6805,9 @@ resource 'TMPL' (1075, "DLGf") {
 	}
 };
 
+
 resource 'TMPL' (1076, "dlgx") {
-	{	/* array: 9 elements */
+	{
 		/* [1] */
 		"Version",
 		'KWRD',
@@ -6778,16 +6838,18 @@ resource 'TMPL' (1076, "dlgx") {
 	}
 };
 
+
 resource 'TMPL' (1077, "dlle") {
-	{	/* array: 1 elements */
+	{
 		/* [1] */
 		"String for multi-platform things",
 		'CSTR'
 	}
 };
 
+
 resource 'TMPL' (1078, "DLOG") {
-	{	/* array: 28 elements */
+	{
 		/* [1] */
 		"BoundsRect",
 		'RECT',
@@ -6875,8 +6937,9 @@ resource 'TMPL' (1078, "DLOG") {
 	}
 };
 
+
 resource 'TMPL' (1079, "DRVR") {
-	{	/* array: 35 elements */
+	{
 		/* [1] */
 		"Unused (should be 0)",
 		'BBIT',
@@ -6985,8 +7048,9 @@ resource 'TMPL' (1079, "DRVR") {
 	}
 };
 
+
 resource 'TMPL' (1080, "DSAT") {
-	{	/* array: 6 elements */
+	{
 		/* [1] */
 		"Alerts",
 		'OCNT',
@@ -7008,8 +7072,9 @@ resource 'TMPL' (1080, "DSAT") {
 	}
 };
 
+
 resource 'TMPL' (1081, "DSPC") {
-	{	/* array: 271 elements */
+	{
 		/* [1] */
 		"Version Number",
 		'KWRD',
@@ -7826,8 +7891,9 @@ resource 'TMPL' (1081, "DSPC") {
 	}
 };
 
+
 resource 'TMPL' (1082, "EDDI") {
-	{	/* array: 14 elements */
+	{
 		/* [1] */
 		"\"Resurrection\" resource format",
 		'DVDR',
@@ -7873,8 +7939,9 @@ resource 'TMPL' (1082, "EDDI") {
 	}
 };
 
+
 resource 'TMPL' (1083, "EDT#") {
-	{	/* array: 34 elements */
+	{
 		/* [1] */
 		"Last modified",
 		'DATE',
@@ -7980,8 +8047,9 @@ resource 'TMPL' (1083, "EDT#") {
 	}
 };
 
+
 resource 'TMPL' (1084, "EMap") {
-	{	/* array: 4 elements */
+	{
 		/* [1] */
 		"PowerPaint errors mapping",
 		'LSTB',
@@ -7997,8 +8065,9 @@ resource 'TMPL' (1084, "EMap") {
 	}
 };
 
+
 resource 'TMPL' (1085, "eopt") {
-	{	/* array: 6 elements */
+	{
 		/* [1] */
 		"Execute during imaging",
 		'LBIT',
@@ -8020,8 +8089,9 @@ resource 'TMPL' (1085, "eopt") {
 	}
 };
 
+
 resource 'TMPL' (1086, "epcf") {
-	{	/* array: 16 elements */
+	{
 		/* [1] */
 		"Version",
 		'HWRD',
@@ -8073,8 +8143,9 @@ resource 'TMPL' (1086, "epcf") {
 	}
 };
 
+
 resource 'TMPL' (1087, "eppc") {
-	{	/* array: 4 elements */
+	{
 		/* [1] */
 		"Flags",
 		'HLNG',
@@ -8090,8 +8161,9 @@ resource 'TMPL' (1087, "eppc") {
 	}
 };
 
+
 resource 'TMPL' (1088, "EQPS") {
-	{	/* array: 25 elements */
+	{
 		/* [1] */
 		"Version (0)",
 		'DWRD',
@@ -8170,8 +8242,9 @@ resource 'TMPL' (1088, "EQPS") {
 	}
 };
 
+
 resource 'TMPL' (1089, "EQST") {
-	{	/* array: 33 elements */
+	{
 		/* [1] */
 		"eqEnabled",
 		'DBYT',
@@ -8274,16 +8347,18 @@ resource 'TMPL' (1089, "EQST") {
 	}
 };
 
+
 resource 'TMPL' (1090, "ErrC") {
-	{	/* array: 1 elements */
+	{
 		/* [1] */
 		"Error description",
 		'CSTR'
 	}
 };
 
+
 resource 'TMPL' (1091, "errs") {
-	{	/* array: 8 elements */
+	{
 		/* [1] */
 		"List of errors",
 		'LSTB',
@@ -8311,8 +8386,9 @@ resource 'TMPL' (1091, "errs") {
 	}
 };
 
+
 resource 'TMPL' (1092, "EuFl") {
-	{	/* array: 4 elements */
+	{
 		/* [1] */
 		"\"Eudora\" resource format",
 		'DVDR',
@@ -8328,8 +8404,9 @@ resource 'TMPL' (1092, "EuFl") {
 	}
 };
 
+
 resource 'TMPL' (1093, "EuOM") {
-	{	/* array: 17 elements */
+	{
 		/* [1] */
 		"\"Eudora\" resource format",
 		'DVDR',
@@ -8384,8 +8461,9 @@ resource 'TMPL' (1093, "EuOM") {
 	}
 };
 
+
 resource 'TMPL' (1094, "EuRg") {
-	{	/* array: 4 elements */
+	{
 		/* [1] */
 		"\"Eudora\" resource format",
 		'DVDR',
@@ -8401,8 +8479,9 @@ resource 'TMPL' (1094, "EuRg") {
 	}
 };
 
+
 resource 'TMPL' (1095, "exft") {
-	{	/* array: 148 elements */
+	{
 		/* [1] */
 		"Count:",
 		'LCNT',
@@ -8850,8 +8929,9 @@ resource 'TMPL' (1095, "exft") {
 	}
 };
 
+
 resource 'TMPL' (1096, "f2im") {
-	{	/* array: 6 elements */
+	{
 		/* [1] */
 		"\"SuitCase\" resource format",
 		'DVDR',
@@ -8873,8 +8953,9 @@ resource 'TMPL' (1096, "f2im") {
 	}
 };
 
+
 resource 'TMPL' (1097, "faps") {
-	{	/* array: 27 elements */
+	{
 		/* [1] */
 		"File Transfer tool capabilities list",
 		'DVDR',
@@ -8959,8 +9040,9 @@ resource 'TMPL' (1097, "faps") {
 	}
 };
 
+
 resource 'TMPL' (1098, "fbnd") {
-	{	/* array: 9 elements */
+	{
 		/* [1] */
 		"Count:",
 		'ZCNT',
@@ -8991,8 +9073,9 @@ resource 'TMPL' (1098, "fbnd") {
 	}
 };
 
+
 resource 'TMPL' (1099, "FBTN") {
-	{	/* array: 7 elements */
+	{
 		/* [1] */
 		"Count:",
 		'OCNT',
@@ -9017,8 +9100,9 @@ resource 'TMPL' (1099, "FBTN") {
 	}
 };
 
+
 resource 'TMPL' (1100, "FCMT") {
-	{	/* array: 2 elements */
+	{
 		/* [1] */
 		"Comment string",
 		'PSTR',
@@ -9028,8 +9112,9 @@ resource 'TMPL' (1100, "FCMT") {
 	}
 };
 
+
 resource 'TMPL' (1101, "fctb") {
-	{	/* array: 7 elements */
+	{
 		/* [1] */
 		"Seed",
 		'HLNG',
@@ -9054,8 +9139,9 @@ resource 'TMPL' (1101, "fctb") {
 	}
 };
 
+
 resource 'TMPL' (1102, "fdes") {
-	{	/* array: 46 elements */
+	{
 		/* [1] */
 		"Go Mixed Mode Trap",
 		'HWRD',
@@ -9197,8 +9283,9 @@ resource 'TMPL' (1102, "fdes") {
 	}
 };
 
+
 resource 'TMPL' (1103, "FDIR") {
-	{	/* array: 3 elements */
+	{
 		/* [1] */
 		"*****",
 		'LSTB',
@@ -9211,8 +9298,9 @@ resource 'TMPL' (1103, "FDIR") {
 	}
 };
 
+
 resource 'TMPL' (1104, "FDlg") {
-	{	/* array: 14 elements */
+	{
 		/* [1] */
 		"\"Finale\" resource format",
 		'DVDR',
@@ -9258,8 +9346,9 @@ resource 'TMPL' (1104, "FDlg") {
 	}
 };
 
+
 resource 'TMPL' (1105, "fdmn") {
-	{	/* array: 8 elements */
+	{
 		/* [1] */
 		"Menu ID",
 		'DWRD',
@@ -9287,8 +9376,9 @@ resource 'TMPL' (1105, "fdmn") {
 	}
 };
 
+
 resource 'TMPL' (1106, "fFIG") {
-	{	/* array: 25 elements */
+	{
 		/* [1] */
 		"Tool version",
 		'HBYT',
@@ -9367,16 +9457,18 @@ resource 'TMPL' (1106, "fFIG") {
 	}
 };
 
+
 resource 'TMPL' (1107, "FHLP") {
-	{	/* array: 1 elements */
+	{
 		/* [1] */
 		"Fetch Help Text",
 		'CSTR'
 	}
 };
 
+
 resource 'TMPL' (1108, "find") {
-	{	/* array: 12 elements */
+	{
 		/* [1] */
 		"Find text",
 		'ESTR',
@@ -9416,8 +9508,9 @@ resource 'TMPL' (1108, "find") {
 	}
 };
 
+
 resource 'TMPL' (1109, "finf") {
-	{	/* array: 14 elements */
+	{
 		/* [1] */
 		"Count:",
 		'OCNT',
@@ -9463,8 +9556,9 @@ resource 'TMPL' (1109, "finf") {
 	}
 };
 
+
 resource 'TMPL' (1110, "fld#") {
-	{	/* array: 18 elements */
+	{
 		/* [1] */
 		"Folders",
 		'LSTB',
@@ -9522,8 +9616,9 @@ resource 'TMPL' (1110, "fld#") {
 	}
 };
 
+
 resource 'TMPL' (1111, "FLOG") {
-	{	/* array: 3 elements */
+	{
 		/* [1] */
 		"File creator for font log",
 		'TNAM',
@@ -9536,8 +9631,9 @@ resource 'TMPL' (1111, "FLOG") {
 	}
 };
 
+
 resource 'TMPL' (1112, "flst") {
-	{	/* array: 16 elements */
+	{
 		/* [1] */
 		"Count:",
 		'OCNT',
@@ -9589,11 +9685,11 @@ resource 'TMPL' (1112, "flst") {
 	}
 };
 
+
 resource 'TMPL' (1113, "fmap") {
-	{	/* array: 5 elements */
+	{
 		/* [1] */
-		"The last list item must be a pair of NUL"
-		"Ls (don't change it)",
+		"The last list item must be a pair of NULLs (don't change it)",
 		'DVDR',
 		/* [2] */
 		"*****",
@@ -9610,8 +9706,9 @@ resource 'TMPL' (1113, "fmap") {
 	}
 };
 
+
 resource 'TMPL' (1114, "fmn2") {
-	{	/* array: 18 elements */
+	{
 		/* [1] */
 		"Menu name",
 		'DWRD',
@@ -9669,8 +9766,9 @@ resource 'TMPL' (1114, "fmn2") {
 	}
 };
 
+
 resource 'TMPL' (1115, "fmnu") {
-	{	/* array: 18 elements */
+	{
 		/* [1] */
 		"Auto-initialize",
 		'WFLG',
@@ -9728,8 +9826,9 @@ resource 'TMPL' (1115, "fmnu") {
 	}
 };
 
+
 resource 'TMPL' (1116, "FOND") {
-	{	/* array: 37 elements */
+	{
 		/* [1] */
 		"Proportional or fixed width",
 		'WBIT',
@@ -9844,8 +9943,9 @@ resource 'TMPL' (1116, "FOND") {
 	}
 };
 
+
 resource 'TMPL' (1117, "FONT") {
-	{	/* array: 29 elements */
+	{
 		/* [1] */
 		"Reserved (on)",
 		'BBIT',
@@ -9936,8 +10036,9 @@ resource 'TMPL' (1117, "FONT") {
 	}
 };
 
+
 resource 'TMPL' (1118, "FREF") {
-	{	/* array: 3 elements */
+	{
 		/* [1] */
 		"File type",
 		'TNAM',
@@ -9950,8 +10051,9 @@ resource 'TMPL' (1118, "FREF") {
 	}
 };
 
+
 resource 'TMPL' (1119, "FRSV") {
-	{	/* array: 12 elements */
+	{
 		/* [1] */
 		"Count:",
 		'OCNT',
@@ -9991,8 +10093,9 @@ resource 'TMPL' (1119, "FRSV") {
 	}
 };
 
+
 resource 'TMPL' (1120, "FSty") {
-	{	/* array: 12 elements */
+	{
 		/* [1] */
 		"\"Finale\" resource format",
 		'DVDR',
@@ -10032,8 +10135,9 @@ resource 'TMPL' (1120, "FSty") {
 	}
 };
 
+
 resource 'TMPL' (1121, "FTLS") {
-	{	/* array: 5 elements */
+	{
 		/* [1] */
 		"\"SuitCase\" resource format",
 		'DVDR',
@@ -10052,16 +10156,18 @@ resource 'TMPL' (1121, "FTLS") {
 	}
 };
 
+
 resource 'TMPL' (1122, "FtSz") {
-	{	/* array: 1 elements */
+	{
 		/* [1] */
 		"Font size or other pref value",
 		'DWRD'
 	}
 };
 
+
 resource 'TMPL' (1123, "ftyp") {
-	{	/* array: 5 elements */
+	{
 		/* [1] */
 		"\"SuitCase\" resource format",
 		'DVDR',
@@ -10080,8 +10186,9 @@ resource 'TMPL' (1123, "ftyp") {
 	}
 };
 
+
 resource 'TMPL' (1124, "fval") {
-	{	/* array: 34 elements */
+	{
 		/* [1] */
 		"Version",
 		'DLNG',
@@ -10187,8 +10294,9 @@ resource 'TMPL' (1124, "fval") {
 	}
 };
 
+
 resource 'TMPL' (1125, "FWID") {
-	{	/* array: 17 elements */
+	{
 		/* [1] */
 		"Font type",
 		'HWRD',
@@ -10243,8 +10351,9 @@ resource 'TMPL' (1125, "FWID") {
 	}
 };
 
+
 resource 'TMPL' (1126, "gdir") {
-	{	/* array: 2 elements */
+	{
 		/* [1] */
 		"Type",
 		'TNAM',
@@ -10254,8 +10363,9 @@ resource 'TMPL' (1126, "gdir") {
 	}
 };
 
+
 resource 'TMPL' (1127, "gmcd") {
-	{	/* array: 5 elements */
+	{
 		/* [1] */
 		"Count:",
 		'OCNT',
@@ -10274,8 +10384,9 @@ resource 'TMPL' (1127, "gmcd") {
 	}
 };
 
+
 resource 'TMPL' (1128, "GNRL") {
-	{	/* array: 23 elements */
+	{
 		/* [1] */
 		"Show sys warn",
 		'DWRD',
@@ -10348,8 +10459,9 @@ resource 'TMPL' (1128, "GNRL") {
 	}
 };
 
+
 resource 'TMPL' (1129, "GOBJ") {
-	{	/* array: 9 elements */
+	{
 		/* [1] */
 		"",
 		'LSTB',
@@ -10380,8 +10492,9 @@ resource 'TMPL' (1129, "GOBJ") {
 	}
 };
 
+
 resource 'TMPL' (1130, "HAlt") {
-	{	/* array: 36 elements */
+	{
 		/* [1] */
 		"Version number",
 		'KWRD',
@@ -10422,12 +10535,10 @@ resource 'TMPL' (1130, "HAlt") {
 		"Default button text",
 		'PSTR',
 		/* [14] */
-		"Cancel button text (leave blank to have "
-		"no Cancel button)",
+		"Cancel button text (leave blank to have no Cancel button)",
 		'PSTR',
 		/* [15] */
-		"Other button text (leave blank to have n"
-		"o Other button)",
+		"Other button text (leave blank to have no Other button)",
 		'PSTR',
 		/* [16] */
 		"Default Button",
@@ -10460,8 +10571,7 @@ resource 'TMPL' (1130, "HAlt") {
 		"Position",
 		'UWRD',
 		/* [26] */
-		"Default (alert parent window screen)=$00"
-		"00",
+		"Default (alert parent window screen)=$0000",
 		'CASE',
 		/* [27] */
 		"Center on Main Screen=$280A",
@@ -10485,8 +10595,7 @@ resource 'TMPL' (1130, "HAlt") {
 		"Center on Parent Window Screen=$680A",
 		'CASE',
 		/* [34] */
-		"Alert Position on Parent Window Screen=$"
-		"700A",
+		"Alert Position on Parent Window Screen=$700A",
 		'CASE',
 		/* [35] */
 		"Stagger on Parent Window Screen=$780A",
@@ -10497,8 +10606,9 @@ resource 'TMPL' (1130, "HAlt") {
 	}
 };
 
+
 resource 'TMPL' (1131, "hdlg") {
-	{	/* array: 142 elements */
+	{
 		/* [1] */
 		"Balloon help version",
 		'DWRD',
@@ -10515,24 +10625,19 @@ resource 'TMPL' (1131, "hdlg") {
 		"Reserved",
 		'LB27',
 		/* [6] */
-		"For 'hwin's, match string anywhere in ti"
-		"tle",
+		"For 'hwin's, match string anywhere in title",
 		'LB01',
 		/* [7] */
-		"Create window, restore bits, and cause u"
-		"pdate",
+		"Create window, restore bits, and cause update",
 		'LB01',
 		/* [8] */
-		"Don't create window, restore bits, no up"
-		"date",
+		"Don't create window, restore bits, no update",
 		'LB01',
 		/* [9] */
-		"Pretend window port origin is set to (0,"
-		"0)",
+		"Pretend window port origin is set to (0,0)",
 		'LB01',
 		/* [10] */
-		"Treat resource IDs as sub-IDs for owned "
-		"resources of a D/A, etc.",
+		"Treat resource IDs as sub-IDs for owned resources of a D/A, etc.",
 		'LB01',
 		/* [11] */
 		"Balloon 'WDEF' resID",
@@ -10933,8 +11038,9 @@ resource 'TMPL' (1131, "hdlg") {
 	}
 };
 
+
 resource 'TMPL' (1132, "hfdr") {
-	{	/* array: 53 elements */
+	{
 		/* [1] */
 		"Balloon help version",
 		'DWRD',
@@ -10945,24 +11051,19 @@ resource 'TMPL' (1132, "hfdr") {
 		"Reserved",
 		'LB27',
 		/* [4] */
-		"For 'hwin's, match string anywhere in ti"
-		"tle",
+		"For 'hwin's, match string anywhere in title",
 		'LB01',
 		/* [5] */
-		"Create window, restore bits, and cause u"
-		"pdate",
+		"Create window, restore bits, and cause update",
 		'LB01',
 		/* [6] */
-		"Don't create window, restore bits, no up"
-		"date",
+		"Don't create window, restore bits, no update",
 		'LB01',
 		/* [7] */
-		"Pretend window port origin is set to (0,"
-		"0)",
+		"Pretend window port origin is set to (0,0)",
 		'LB01',
 		/* [8] */
-		"Treat resource IDs as sub-IDs for owned "
-		"resources of a D/A, etc.",
+		"Treat resource IDs as sub-IDs for owned resources of a D/A, etc.",
 		'LB01',
 		/* [9] */
 		"Balloon 'WDEF' resID",
@@ -11102,8 +11203,9 @@ resource 'TMPL' (1132, "hfdr") {
 	}
 };
 
+
 resource 'TMPL' (1133, "hmnu") {
-	{	/* array: 179 elements */
+	{
 		/* [1] */
 		"Balloon help version",
 		'DWRD',
@@ -11114,24 +11216,19 @@ resource 'TMPL' (1133, "hmnu") {
 		"Reserved",
 		'LB27',
 		/* [4] */
-		"For 'hwin's, match string anywhere in ti"
-		"tle",
+		"For 'hwin's, match string anywhere in title",
 		'LB01',
 		/* [5] */
-		"Create window, restore bits, and cause u"
-		"pdate",
+		"Create window, restore bits, and cause update",
 		'LB01',
 		/* [6] */
-		"Don't create window, restore bits, no up"
-		"date",
+		"Don't create window, restore bits, no update",
 		'LB01',
 		/* [7] */
-		"Pretend window port origin is set to (0,"
-		"0)",
+		"Pretend window port origin is set to (0,0)",
 		'LB01',
 		/* [8] */
-		"Treat resource IDs as owned sub-IDs for "
-		"D/As, etc.",
+		"Treat resource IDs as owned sub-IDs for D/As, etc.",
 		'LB01',
 		/* [9] */
 		"Balloon 'WDEF' resID",
@@ -11317,12 +11414,10 @@ resource 'TMPL' (1133, "hmnu") {
 		"",
 		'SKPE',
 		/* [70] */
-		"Remember that the first message record h"
-		"ere is for the menu title",
+		"Remember that the first message record here is for the menu title",
 		'DVDR',
 		/* [71] */
-		"and subsequent message records are for t"
-		"he first and later menu items.",
+		"and subsequent message records are for the first and later menu items.",
 		'DVDR',
 		/* [72] */
 		"Item message records",
@@ -11466,8 +11561,7 @@ resource 'TMPL' (1133, "hmnu") {
 		"1024",
 		'KEYB',
 		/* [119] */
-		"For disabled menu items, append '!' to n"
-		"ame; for other marks, append mark.",
+		"For disabled menu items, append '!' to name; for other marks, append mark.",
 		'DVDR',
 		/* [120] */
 		"Type of resource to match name of",
@@ -11652,8 +11746,9 @@ resource 'TMPL' (1133, "hmnu") {
 	}
 };
 
+
 resource 'TMPL' (1134, "hovr") {
-	{	/* array: 91 elements */
+	{
 		/* [1] */
 		"Balloon help version",
 		'DWRD',
@@ -11664,24 +11759,19 @@ resource 'TMPL' (1134, "hovr") {
 		"Reserved",
 		'LB27',
 		/* [4] */
-		"For 'hwin's, match string anywhere in ti"
-		"tle",
+		"For 'hwin's, match string anywhere in title",
 		'LB01',
 		/* [5] */
-		"Create window, restore bits, and cause u"
-		"pdate",
+		"Create window, restore bits, and cause update",
 		'LB01',
 		/* [6] */
-		"Don't create window, restore bits, no up"
-		"date",
+		"Don't create window, restore bits, no update",
 		'LB01',
 		/* [7] */
-		"Pretend window port origin is set to (0,"
-		"0)",
+		"Pretend window port origin is set to (0,0)",
 		'LB01',
 		/* [8] */
-		"Treat resource IDs as sub-IDs for owned "
-		"resources of a D/A, etc.",
+		"Treat resource IDs as sub-IDs for owned resources of a D/A, etc.",
 		'LB01',
 		/* [9] */
 		"Balloon 'WDEF' resID",
@@ -11816,8 +11906,7 @@ resource 'TMPL' (1134, "hovr") {
 		"Message 1: Title Bar message",
 		'DVDR',
 		/* [53] */
-		"Message 2: Reserved (should always be Sk"
-		"ip Missing Message)",
+		"Message 2: Reserved (should always be Skip Missing Message)",
 		'DVDR',
 		/* [54] */
 		"Message 3: Close Box message",
@@ -11826,16 +11915,13 @@ resource 'TMPL' (1134, "hovr") {
 		"Message 4: Zoom Box message",
 		'DVDR',
 		/* [56] */
-		"Message 5: Active Application's Inactive"
-		" Windows message",
+		"Message 5: Active Application's Inactive Windows message",
 		'DVDR',
 		/* [57] */
-		"Message 6: Inactive Applications's Inact"
-		"ive Windows message",
+		"Message 6: Inactive Applications's Inactive Windows message",
 		'DVDR',
 		/* [58] */
-		"Message 7: Outside of Modal Dialog or Al"
-		"ert Bounds message",
+		"Message 7: Outside of Modal Dialog or Alert Bounds message",
 		'DVDR',
 		/* [59] */
 		"Message records",
@@ -11939,8 +12025,9 @@ resource 'TMPL' (1134, "hovr") {
 	}
 };
 
+
 resource 'TMPL' (1135, "hrct") {
-	{	/* array: 114 elements */
+	{
 		/* [1] */
 		"Balloon help version",
 		'DWRD',
@@ -11951,24 +12038,19 @@ resource 'TMPL' (1135, "hrct") {
 		"Reserved",
 		'LB27',
 		/* [4] */
-		"For 'hwin's, match string anywhere in ti"
-		"tle",
+		"For 'hwin's, match string anywhere in title",
 		'LB01',
 		/* [5] */
-		"Create window, restore bits, and cause u"
-		"pdate",
+		"Create window, restore bits, and cause update",
 		'LB01',
 		/* [6] */
-		"Don't create window, restore bits, no up"
-		"date",
+		"Don't create window, restore bits, no update",
 		'LB01',
 		/* [7] */
-		"Pretend window port origin is set to (0,"
-		"0)",
+		"Pretend window port origin is set to (0,0)",
 		'LB01',
 		/* [8] */
-		"Treat resource IDs as sub-IDs for owned "
-		"resources of a D/A, etc.",
+		"Treat resource IDs as sub-IDs for owned resources of a D/A, etc.",
 		'LB01',
 		/* [9] */
 		"Balloon 'WDEF' resID",
@@ -12291,8 +12373,9 @@ resource 'TMPL' (1135, "hrct") {
 	}
 };
 
+
 resource 'TMPL' (1136, "HTMB") {
-	{	/* array: 8 elements */
+	{
 		/* [1] */
 		"Button kind",
 		'DWRD',
@@ -12320,8 +12403,9 @@ resource 'TMPL' (1136, "HTMB") {
 	}
 };
 
+
 resource 'TMPL' (1137, "hwin") {
-	{	/* array: 17 elements */
+	{
 		/* [1] */
 		"Balloon help version",
 		'DWRD',
@@ -12376,8 +12460,9 @@ resource 'TMPL' (1137, "hwin") {
 	}
 };
 
+
 resource 'TMPL' (1138, "icl4") {
-	{	/* array: 2 elements */
+	{
 		/* [1] */
 		"4-bit large icon no mask",
 		'DVDR',
@@ -12387,8 +12472,9 @@ resource 'TMPL' (1138, "icl4") {
 	}
 };
 
+
 resource 'TMPL' (1139, "icl8") {
-	{	/* array: 2 elements */
+	{
 		/* [1] */
 		"8-bit large icon no mask",
 		'DVDR',
@@ -12398,8 +12484,9 @@ resource 'TMPL' (1139, "icl8") {
 	}
 };
 
+
 resource 'TMPL' (1140, "ICLB") {
-	{	/* array: 26 elements */
+	{
 		/* [1] */
 		"\"MacZoop\" resource format",
 		'DVDR',
@@ -12481,8 +12568,9 @@ resource 'TMPL' (1140, "ICLB") {
 	}
 };
 
+
 resource 'TMPL' (1141, "icm#") {
-	{	/* array: 3 elements */
+	{
 		/* [1] */
 		"Mini icon with mask",
 		'DVDR',
@@ -12495,8 +12583,9 @@ resource 'TMPL' (1141, "icm#") {
 	}
 };
 
+
 resource 'TMPL' (1142, "icm4") {
-	{	/* array: 2 elements */
+	{
 		/* [1] */
 		"4-bit mini icon no mask",
 		'DVDR',
@@ -12506,8 +12595,9 @@ resource 'TMPL' (1142, "icm4") {
 	}
 };
 
+
 resource 'TMPL' (1143, "icm8") {
-	{	/* array: 2 elements */
+	{
 		/* [1] */
 		"8-bit mini icon no mask",
 		'DVDR',
@@ -12517,8 +12607,9 @@ resource 'TMPL' (1143, "icm8") {
 	}
 };
 
+
 resource 'TMPL' (1144, "icmt") {
-	{	/* array: 4 elements */
+	{
 		/* [1] */
 		"Version release date",
 		'DATE',
@@ -12534,8 +12625,9 @@ resource 'TMPL' (1144, "icmt") {
 	}
 };
 
+
 resource 'TMPL' (1145, "ICN#") {
-	{	/* array: 3 elements */
+	{
 		/* [1] */
 		"Icons list",
 		'LSTB',
@@ -12548,8 +12640,9 @@ resource 'TMPL' (1145, "ICN#") {
 	}
 };
 
+
 resource 'TMPL' (1146, "ICON") {
-	{	/* array: 2 elements */
+	{
 		/* [1] */
 		"Black and White Icon",
 		'DVDR',
@@ -12559,8 +12652,9 @@ resource 'TMPL' (1146, "ICON") {
 	}
 };
 
+
 resource 'TMPL' (1147, "ICOX") {
-	{	/* array: 9 elements */
+	{
 		/* [1] */
 		"",
 		'LSTB',
@@ -12591,8 +12685,9 @@ resource 'TMPL' (1147, "ICOX") {
 	}
 };
 
+
 resource 'TMPL' (1148, "ics#") {
-	{	/* array: 3 elements */
+	{
 		/* [1] */
 		"Small icon with mask",
 		'DVDR',
@@ -12605,8 +12700,9 @@ resource 'TMPL' (1148, "ics#") {
 	}
 };
 
+
 resource 'TMPL' (1149, "ics4") {
-	{	/* array: 2 elements */
+	{
 		/* [1] */
 		"4-bit small icon no mask",
 		'DVDR',
@@ -12616,8 +12712,9 @@ resource 'TMPL' (1149, "ics4") {
 	}
 };
 
+
 resource 'TMPL' (1150, "ics8") {
-	{	/* array: 2 elements */
+	{
 		/* [1] */
 		"8-bit small icon no mask",
 		'DVDR',
@@ -12627,8 +12724,9 @@ resource 'TMPL' (1150, "ics8") {
 	}
 };
 
+
 resource 'TMPL' (1151, "ICx6") {
-	{	/* array: 28 elements */
+	{
 		/* [1] */
 		"",
 		'LCNT',
@@ -12716,8 +12814,9 @@ resource 'TMPL' (1151, "ICx6") {
 	}
 };
 
+
 resource 'TMPL' (1152, "inaa") {
-	{	/* array: 50 elements */
+	{
 		/* [1] */
 		"Action Atom format version",
 		'KWRD',
@@ -12752,8 +12851,7 @@ resource 'TMPL' (1152, "inaa") {
 		"Call this procedure when doing a remove",
 		'WBIT',
 		/* [12] */
-		"Call this procedure when doing an instal"
-		"l",
+		"Call this procedure when doing an install",
 		'WBIT',
 		/* [13] */
 		"Executable (C style) resource type",
@@ -12804,8 +12902,7 @@ resource 'TMPL' (1152, "inaa") {
 		"Call this procedure when doing a remove",
 		'WBIT',
 		/* [29] */
-		"Call this procedure when doing an instal"
-		"l",
+		"Call this procedure when doing an install",
 		'WBIT',
 		/* [30] */
 		"Executable (C style) resource type",
@@ -12844,8 +12941,7 @@ resource 'TMPL' (1152, "inaa") {
 		"Call this procedure when doing a remove",
 		'WBIT',
 		/* [42] */
-		"Call this procedure when doing an instal"
-		"l",
+		"Call this procedure when doing an install",
 		'WBIT',
 		/* [43] */
 		"Executable resource type",
@@ -12874,8 +12970,9 @@ resource 'TMPL' (1152, "inaa") {
 	}
 };
 
+
 resource 'TMPL' (1153, "inah") {
-	{	/* array: 9 elements */
+	{
 		/* [1] */
 		"Action Handler format version",
 		'KWRD',
@@ -12906,8 +13003,9 @@ resource 'TMPL' (1153, "inah") {
 	}
 };
 
+
 resource 'TMPL' (1154, "inat") {
-	{	/* array: 39 elements */
+	{
 		/* [1] */
 		"Audit Trail format version",
 		'KWRD',
@@ -13028,8 +13126,9 @@ resource 'TMPL' (1154, "inat") {
 	}
 };
 
+
 resource 'TMPL' (1155, "inbb") {
-	{	/* array: 120 elements */
+	{
 		/* [1] */
 		"Boot Block format version",
 		'KWRD',
@@ -13133,8 +13232,7 @@ resource 'TMPL' (1155, "inbb") {
 		"-1",
 		'KEYB',
 		/* [35] */
-		"'boot' resource File Spec ('infs') resou"
-		"rce ID",
+		"'boot' resource File Spec ('infs') resource ID",
 		'RSID',
 		/* [36] */
 		"Reserved",
@@ -13394,16 +13492,18 @@ resource 'TMPL' (1155, "inbb") {
 	}
 };
 
+
 resource 'TMPL' (1156, "incd") {
-	{	/* array: 1 elements */
+	{
 		/* [1] */
 		"Creation date & time",
 		'DATE'
 	}
 };
 
+
 resource 'TMPL' (1157, "indm") {
-	{	/* array: 37 elements */
+	{
 		/* [1] */
 		"Format version",
 		'HWRD',
@@ -13518,8 +13618,9 @@ resource 'TMPL' (1157, "indm") {
 	}
 };
 
+
 resource 'TMPL' (1158, "indo") {
-	{	/* array: 19 elements */
+	{
 		/* [1] */
 		"Disk Order resource version",
 		'KWRD',
@@ -13580,8 +13681,9 @@ resource 'TMPL' (1158, "indo") {
 	}
 };
 
+
 resource 'TMPL' (1159, "inex") {
-	{	/* array: 21 elements */
+	{
 		/* [1] */
 		"Atom Extender format version",
 		'KWRD',
@@ -13648,8 +13750,9 @@ resource 'TMPL' (1159, "inex") {
 	}
 };
 
+
 resource 'TMPL' (1160, "infa") {
-	{	/* array: 84 elements */
+	{
 		/* [1] */
 		"File Atom format version",
 		'KWRD',
@@ -13663,8 +13766,7 @@ resource 'TMPL' (1160, "infa") {
 		"1",
 		'KEYB',
 		/* [5] */
-		"Delete file or resource if \"Remove\" clic"
-		"ked",
+		"Delete file or resource if \"Remove\" clicked",
 		'WBIT',
 		/* [6] */
 		"Delete target before copy",
@@ -13799,8 +13901,7 @@ resource 'TMPL' (1160, "infa") {
 		"Source parts",
 		'LSTC',
 		/* [50] */
-		"Source part file spec ('infs') resource "
-		"ID",
+		"Source part file spec ('infs') resource ID",
 		'RSID',
 		/* [51] */
 		"Delete target only=0",
@@ -13842,8 +13943,7 @@ resource 'TMPL' (1160, "infa") {
 		"Non-final build number (BCD)",
 		'HBYT',
 		/* [64] */
-		"Version comparison procedure ('invc') re"
-		"source ID",
+		"Version comparison procedure ('invc') resource ID",
 		'RSID',
 		/* [65] */
 		"None=0",
@@ -13861,8 +13961,7 @@ resource 'TMPL' (1160, "infa") {
 		"0",
 		'KEYB',
 		/* [70] */
-		"Delete file or resource if \"Remove\" clic"
-		"ked",
+		"Delete file or resource if \"Remove\" clicked",
 		'WBIT',
 		/* [71] */
 		"Delete target before copy",
@@ -13877,8 +13976,7 @@ resource 'TMPL' (1160, "infa") {
 		"Leave file alone if newer",
 		'WBIT',
 		/* [75] */
-		"Keep existing file (if On, bit 15 should"
-		" be Off)",
+		"Keep existing file (if On, bit 15 should be Off)",
 		'WBIT',
 		/* [76] */
 		"Update only if target exists",
@@ -13910,14 +14008,14 @@ resource 'TMPL' (1160, "infa") {
 	}
 };
 
+
 resource 'TMPL' (1161, "inff") {
-	{	/* array: 206 elements */
+	{
 		/* [1] */
 		"Font Family resource atom flags",
 		'DVDR',
 		/* [2] */
-		"The only diffe between Format 1 and 2 is"
-		" the 'FOND' encoding bit",
+		"The only diffe between Format 1 and 2 is the 'FOND' encoding bit",
 		'DVDR',
 		/* [3] */
 		"Font Family Atom format version",
@@ -13935,8 +14033,7 @@ resource 'TMPL' (1161, "inff") {
 		"2",
 		'KEYB',
 		/* [8] */
-		"Delete file or resource if remove clicke"
-		"d",
+		"Delete file or resource if remove clicked",
 		'WBIT',
 		/* [9] */
 		"Delete target before copy",
@@ -13954,8 +14051,7 @@ resource 'TMPL' (1161, "inff") {
 		"Target must exist first",
 		'WBIT',
 		/* [14] */
-		"Keep target resource if it already exist"
-		"s ",
+		"Keep target resource if it already exists ",
 		'WBIT',
 		/* [15] */
 		"Update resource only if target exists",
@@ -14141,8 +14237,7 @@ resource 'TMPL' (1161, "inff") {
 		"Font Family resource atom flags",
 		'DVDR',
 		/* [76] */
-		"Delete file or resource if remove clicke"
-		"d",
+		"Delete file or resource if remove clicked",
 		'WBIT',
 		/* [77] */
 		"Delete target before copy",
@@ -14157,8 +14252,7 @@ resource 'TMPL' (1161, "inff") {
 		"Target must exist first",
 		'WBIT',
 		/* [81] */
-		"Keep target resource if it already exist"
-		"s ",
+		"Keep target resource if it already exists ",
 		'WBIT',
 		/* [82] */
 		"Update resource only if target exists",
@@ -14344,8 +14438,7 @@ resource 'TMPL' (1161, "inff") {
 		"Resource atom flags",
 		'DVDR',
 		/* [143] */
-		"Delete file or resource if remove clicke"
-		"d",
+		"Delete file or resource if remove clicked",
 		'WBIT',
 		/* [144] */
 		"Delete target before copy",
@@ -14360,8 +14453,7 @@ resource 'TMPL' (1161, "inff") {
 		"Target must exist first",
 		'WBIT',
 		/* [148] */
-		"Keep target resource if it already exist"
-		"s ",
+		"Keep target resource if it already exists ",
 		'WBIT',
 		/* [149] */
 		"Update resource only if target exists",
@@ -14540,8 +14632,9 @@ resource 'TMPL' (1161, "inff") {
 	}
 };
 
+
 resource 'TMPL' (1162, "infm") {
-	{	/* array: 9 elements */
+	{
 		/* [1] */
 		"Folder Merge format version",
 		'KWRD',
@@ -14572,8 +14665,9 @@ resource 'TMPL' (1162, "infm") {
 	}
 };
 
+
 resource 'TMPL' (1163, "INFO") {
-	{	/* array: 15 elements */
+	{
 		/* [1] */
 		"Color type",
 		'DWRD',
@@ -14602,8 +14696,7 @@ resource 'TMPL' (1163, "INFO") {
 		"16 bits/pixel=16",
 		'CASE',
 		/* [10] */
-		"Speed (1 to 200 frames/sec, or if negati"
-		"ve, secs/frame)",
+		"Speed (1 to 200 frames/sec, or if negative, secs/frame)",
 		'DWRD',
 		/* [11] */
 		"Version",
@@ -14623,8 +14716,9 @@ resource 'TMPL' (1163, "INFO") {
 	}
 };
 
+
 resource 'TMPL' (1164, "infr") {
-	{	/* array: 18 elements */
+	{
 		/* [1] */
 		"Rule Framework format version",
 		'KWRD',
@@ -14682,8 +14776,9 @@ resource 'TMPL' (1164, "infr") {
 	}
 };
 
+
 resource 'TMPL' (1165, "infs") {
-	{	/* array: 7 elements */
+	{
 		/* [1] */
 		"File type",
 		'TNAM',
@@ -14694,8 +14789,7 @@ resource 'TMPL' (1165, "infs") {
 		"Creation date",
 		'DATE',
 		/* [4] */
-		"Search for target file if not in given p"
-		"ath",
+		"Search for target file if not in given path",
 		'WBIT',
 		/* [5] */
 		"Type and creator must match",
@@ -14709,8 +14803,9 @@ resource 'TMPL' (1165, "infs") {
 	}
 };
 
+
 resource 'TMPL' (1166, "inpc") {
-	{	/* array: 9 elements */
+	{
 		/* [1] */
 		"Package Comment format version",
 		'KWRD',
@@ -14741,8 +14836,9 @@ resource 'TMPL' (1166, "inpc") {
 	}
 };
 
+
 resource 'TMPL' (1167, "inpk") {
-	{	/* array: 27 elements */
+	{
 		/* [1] */
 		"Package format version",
 		'KWRD',
@@ -14827,8 +14923,9 @@ resource 'TMPL' (1167, "inpk") {
 	}
 };
 
+
 resource 'TMPL' (1168, "inpr") {
-	{	/* array: 22 elements */
+	{
 		/* [1] */
 		"Preference format version",
 		'KWRD',
@@ -14875,8 +14972,7 @@ resource 'TMPL' (1168, "inpr") {
 		"List of Help pages",
 		'LSTC',
 		/* [16] */
-		"B&W left edge picture ('PICT') resource "
-		"ID ",
+		"B&W left edge picture ('PICT') resource ID ",
 		'RSID',
 		/* [17] */
 		"B&W main text ('PICT') resource ID ",
@@ -14891,8 +14987,7 @@ resource 'TMPL' (1168, "inpr") {
 		"*****",
 		'LSTE',
 		/* [21] */
-		"If no Setup Function, default folder nam"
-		"e",
+		"If no Setup Function, default folder name",
 		'ESTR',
 		/* [22] */
 		"",
@@ -14900,8 +14995,9 @@ resource 'TMPL' (1168, "inpr") {
 	}
 };
 
+
 resource 'TMPL' (1169, "inr#") {
-	{	/* array: 47 elements */
+	{
 		/* [1] */
 		"Resource Atom List version",
 		'KWRD',
@@ -14921,8 +15017,7 @@ resource 'TMPL' (1169, "inr#") {
 		"Resource ID (type to be added)",
 		'DWRD',
 		/* [7] */
-		"Delete file or resource if remove clicke"
-		"d",
+		"Delete file or resource if remove clicked",
 		'WBIT',
 		/* [8] */
 		"Delete target before copy",
@@ -14940,8 +15035,7 @@ resource 'TMPL' (1169, "inr#") {
 		"Target must exist first or be creatable",
 		'WBIT',
 		/* [13] */
-		"Keep target resource if it already exist"
-		"s ",
+		"Keep target resource if it already exists ",
 		'WBIT',
 		/* [14] */
 		"Update resource only if target exists",
@@ -14956,8 +15050,7 @@ resource 'TMPL' (1169, "inr#") {
 		"Find resource by ID (Off ==> by name)",
 		'WBIT',
 		/* [18] */
-		"Resource name must match (if bit 1 is Of"
-		"f)",
+		"Resource name must match (if bit 1 is Off)",
 		'WBIT',
 		/* [19] */
 		"Target resource size in bytes",
@@ -15049,8 +15142,9 @@ resource 'TMPL' (1169, "inr#") {
 	}
 };
 
+
 resource 'TMPL' (1170, "inra") {
-	{	/* array: 76 elements */
+	{
 		/* [1] */
 		"Resource Atom format version",
 		'KWRD',
@@ -15064,8 +15158,7 @@ resource 'TMPL' (1170, "inra") {
 		"1",
 		'KEYB',
 		/* [5] */
-		"Delete file or resource if remove clicke"
-		"d",
+		"Delete file or resource if remove clicked",
 		'WBIT',
 		/* [6] */
 		"Delete target before copy",
@@ -15098,8 +15191,7 @@ resource 'TMPL' (1170, "inra") {
 		"Find resource by ID (Off=by name)",
 		'WBIT',
 		/* [16] */
-		"Resource name must match (if bit 1 is Of"
-		"f)",
+		"Resource name must match (if bit 1 is Off)",
 		'WBIT',
 		/* [17] */
 		"Total target size in bytes",
@@ -15150,8 +15242,7 @@ resource 'TMPL' (1170, "inra") {
 		"List of Source parts",
 		'LSTC',
 		/* [33] */
-		"Source part file spec ('infs') resource "
-		"ID",
+		"Source part file spec ('infs') resource ID",
 		'RSID',
 		/* [34] */
 		"Source part resource type",
@@ -15217,8 +15308,7 @@ resource 'TMPL' (1170, "inra") {
 		"0",
 		'KEYB',
 		/* [55] */
-		"Delete file or resource if remove clicke"
-		"d",
+		"Delete file or resource if remove clicked",
 		'WBIT',
 		/* [56] */
 		"Delete target before copy",
@@ -15286,8 +15376,9 @@ resource 'TMPL' (1170, "inra") {
 	}
 };
 
+
 resource 'TMPL' (1171, "inrf") {
-	{	/* array: 10 elements */
+	{
 		/* [1] */
 		"Rule Function format version",
 		'KWRD',
@@ -15321,8 +15412,9 @@ resource 'TMPL' (1171, "inrf") {
 	}
 };
 
+
 resource 'TMPL' (1172, "inrl") {
-	{	/* array: 407 elements */
+	{
 		/* [1] */
 		"Rules format version",
 		'KWRD',
@@ -15366,8 +15458,7 @@ resource 'TMPL' (1172, "inrl") {
 		"Check file for existing resource by ID=5",
 		'CASE',
 		/* [15] */
-		"Check file for existing resource by name"
-		"=6",
+		"Check file for existing resource by name=6",
 		'CASE',
 		/* [16] */
 		"Check file version=7",
@@ -16548,8 +16639,9 @@ resource 'TMPL' (1172, "inrl") {
 	}
 };
 
+
 resource 'TMPL' (1173, "inrm") {
-	{	/* array: 9 elements */
+	{
 		/* [1] */
 		"Resource Merge format version",
 		'KWRD',
@@ -16580,8 +16672,9 @@ resource 'TMPL' (1173, "inrm") {
 	}
 };
 
+
 resource 'TMPL' (1174, "insc") {
-	{	/* array: 53 elements */
+	{
 		/* [1] */
 		"Format",
 		'DWRD',
@@ -16744,8 +16837,9 @@ resource 'TMPL' (1174, "insc") {
 	}
 };
 
+
 resource 'TMPL' (1175, "insp") {
-	{	/* array: 10 elements */
+	{
 		/* [1] */
 		"Search Procedure format version",
 		'KWRD',
@@ -16779,8 +16873,9 @@ resource 'TMPL' (1175, "insp") {
 	}
 };
 
+
 resource 'TMPL' (1176, "insz") {
-	{	/* array: 5 elements */
+	{
 		/* [1] */
 		"Script Size format version",
 		'KWRD',
@@ -16799,8 +16894,9 @@ resource 'TMPL' (1176, "insz") {
 	}
 };
 
+
 resource 'TMPL' (1177, "intf") {
-	{	/* array: 46 elements */
+	{
 		/* [1] */
 		"Target FileSpec format version",
 		'KWRD',
@@ -16814,8 +16910,7 @@ resource 'TMPL' (1177, "intf") {
 		"1",
 		'KEYB',
 		/* [5] */
-		"Search for target file if not in given p"
-		"ath",
+		"Search for target file if not in given path",
 		'WBIT',
 		/* [6] */
 		"Type and creator must match",
@@ -16905,8 +17000,7 @@ resource 'TMPL' (1177, "intf") {
 		"Modification Date of new file",
 		'DATE',
 		/* [35] */
-		"Resource ID of search procedure ('insp')"
-		"  ",
+		"Resource ID of search procedure ('insp')  ",
 		'RSID',
 		/* [36] */
 		"Target file path",
@@ -16918,8 +17012,7 @@ resource 'TMPL' (1177, "intf") {
 		"0",
 		'KEYB',
 		/* [39] */
-		"Search for target file if not in given p"
-		"ath",
+		"Search for target file if not in given path",
 		'WBIT',
 		/* [40] */
 		"Type and creator must match",
@@ -16945,8 +17038,9 @@ resource 'TMPL' (1177, "intf") {
 	}
 };
 
+
 resource 'TMPL' (1178, "invc") {
-	{	/* array: 9 elements */
+	{
 		/* [1] */
 		"Version Compare format version",
 		'KWRD',
@@ -16977,8 +17071,9 @@ resource 'TMPL' (1178, "invc") {
 	}
 };
 
+
 resource 'TMPL' (1179, "invs") {
-	{	/* array: 14 elements */
+	{
 		/* [1] */
 		"Version format version",
 		'KWRD',
@@ -17024,8 +17119,9 @@ resource 'TMPL' (1179, "invs") {
 	}
 };
 
+
 resource 'TMPL' (1180, "iobm") {
-	{	/* array: 9 elements */
+	{
 		/* [1] */
 		"Communications options",
 		'DLNG',
@@ -17045,8 +17141,7 @@ resource 'TMPL' (1180, "iobm") {
 		"Size (in bytes) of each buffer",
 		'DLNG',
 		/* [7] */
-		"Number of I/O requests pending at one ti"
-		"me",
+		"Number of I/O requests pending at one time",
 		'DLNG',
 		/* [8] */
 		"Open/close timeout (in ticks)",
@@ -17057,17 +17152,18 @@ resource 'TMPL' (1180, "iobm") {
 	}
 };
 
+
 resource 'TMPL' (1181, "isys") {
-	{	/* array: 1 elements */
+	{
 		/* [1] */
-		"Resource type of imaging system to selec"
-		"t",
+		"Resource type of imaging system to select",
 		'TNAM'
 	}
 };
 
+
 resource 'TMPL' (1182, "ITEM") {
-	{	/* array: 260 elements */
+	{
 		/* [1] */
 		"Item type",
 		'KBYT',
@@ -17851,8 +17947,9 @@ resource 'TMPL' (1182, "ITEM") {
 	}
 };
 
+
 resource 'TMPL' (1183, "itl0") {
-	{	/* array: 110 elements */
+	{
 		/* [1] */
 		"Decimal point separator",
 		'CHAR',
@@ -17887,7 +17984,7 @@ resource 'TMPL' (1183, "itl0") {
 		"US=$",
 		'CASE',
 		/* [12] */
-		"United Kingdom=¬£",
+		"United Kingdom=Â£",
 		'CASE',
 		/* [13] */
 		"France=F",
@@ -18186,8 +18283,9 @@ resource 'TMPL' (1183, "itl0") {
 	}
 };
 
+
 resource 'TMPL' (1184, "itl1") {
-	{	/* array: 131 elements */
+	{
 		/* [1] */
 		"Day 1",
 		'P010',
@@ -18423,8 +18521,7 @@ resource 'TMPL' (1184, "itl1") {
 		"Version",
 		'UBYT',
 		/* [79] */
-		"First instruction of obsolete sorting ro"
-		"utine",
+		"First instruction of obsolete sorting routine",
 		'KHWD',
 		/* [80] */
 		"Unextended long-date format=$4E75",
@@ -18585,16 +18682,18 @@ resource 'TMPL' (1184, "itl1") {
 	}
 };
 
+
 resource 'TMPL' (1185, "ITL1") {
-	{	/* array: 1 elements */
+	{
 		/* [1] */
 		"Use short dates before system",
 		'HWRD'
 	}
 };
 
+
 resource 'TMPL' (1186, "itl2") {
-	{	/* array: 43 elements */
+	{
 		/* [1] */
 		"Init hook offset",
 		'HWRD',
@@ -18727,8 +18826,9 @@ resource 'TMPL' (1186, "itl2") {
 	}
 };
 
+
 resource 'TMPL' (1187, "itl4") {
-	{	/* array: 37 elements */
+	{
 		/* [1] */
 		"Flags",
 		'HWRD',
@@ -18811,7 +18911,7 @@ resource 'TMPL' (1187, "itl4") {
 		"Character to token mapping table",
 		'DVDR',
 		/* [28] */
-		"256 characters (fixed count)",
+		"256 chars (fixed count)",
 		'FCNT',
 		/* [29] */
 		"List of 256 characters",
@@ -18843,8 +18943,9 @@ resource 'TMPL' (1187, "itl4") {
 	}
 };
 
+
 resource 'TMPL' (1188, "itlb") {
-	{	/* array: 68 elements */
+	{
 		/* [1] */
 		"'itl0' (Numbers) resource ID",
 		'RSID',
@@ -18867,8 +18968,7 @@ resource 'TMPL' (1188, "itlb") {
 		"Reserved",
 		'WB04',
 		/* [8] */
-		"Synchronize keyboard with monostyled Tex"
-		"tEdit font",
+		"Synchronize keyboard with monostyled TextEdit font",
 		'WBIT',
 		/* [9] */
 		"Uses the WorldScript I extension",
@@ -18886,8 +18986,7 @@ resource 'TMPL' (1188, "itlb") {
 		"Is contextual",
 		'WBIT',
 		/* [14] */
-		"Has both upper and lowercase native char"
-		"s",
+		"Has both upper and lowercase native chars",
 		'WBIT',
 		/* [15] */
 		"Has only 1-byte chars",
@@ -18956,8 +19055,7 @@ resource 'TMPL' (1188, "itlb") {
 		"'kcs8' icon family resource ID",
 		'RSID',
 		/* [37] */
-		"Extended bundle record for font and styl"
-		"e information",
+		"Extended bundle record for font and style information",
 		'DVDR',
 		/* [38] */
 		"Size of script's local record",
@@ -19055,8 +19153,9 @@ resource 'TMPL' (1188, "itlb") {
 	}
 };
 
+
 resource 'TMPL' (1189, "itlc") {
-	{	/* array: 24 elements */
+	{
 		/* [1] */
 		"System script code",
 		'SCPC',
@@ -19094,8 +19193,7 @@ resource 'TMPL' (1189, "itlc") {
 		"Always show keyboard icon",
 		'BBIT',
 		/* [13] */
-		"Use dual caret for mixed directional tex"
-		"t",
+		"Use dual caret for mixed directional text",
 		'BBIT',
 		/* [14] */
 		"Name tag enabled (internal use only)",
@@ -19133,8 +19231,9 @@ resource 'TMPL' (1189, "itlc") {
 	}
 };
 
+
 resource 'TMPL' (1190, "itlk") {
-	{	/* array: 10 elements */
+	{
 		/* [1] */
 		"Count:",
 		'OCNT',
@@ -19168,8 +19267,9 @@ resource 'TMPL' (1190, "itlk") {
 	}
 };
 
+
 resource 'TMPL' (1191, "ITML") {
-	{	/* array: 4 elements */
+	{
 		/* [1] */
 		"Count:",
 		'OCNT',
@@ -19185,8 +19285,9 @@ resource 'TMPL' (1191, "ITML") {
 	}
 };
 
+
 resource 'TMPL' (1192, "JPob") {
-	{	/* array: 378 elements */
+	{
 		/* [1] */
 		"Version Number",
 		'DWRD',
@@ -20324,16 +20425,18 @@ resource 'TMPL' (1192, "JPob") {
 	}
 };
 
+
 resource 'TMPL' (1193, "KBDN") {
-	{	/* array: 1 elements */
+	{
 		/* [1] */
 		"Keyboard name",
 		'PSTR'
 	}
 };
 
+
 resource 'TMPL' (1194, "KCAP") {
-	{	/* array: 16 elements */
+	{
 		/* [1] */
 		"Bounds rect",
 		'RECT',
@@ -20385,8 +20488,9 @@ resource 'TMPL' (1194, "KCAP") {
 	}
 };
 
+
 resource 'TMPL' (1195, "KCHR") {
-	{	/* array: 35 elements */
+	{
 		/* [1] */
 		"Version",
 		'DWRD',
@@ -20495,8 +20599,9 @@ resource 'TMPL' (1195, "KCHR") {
 	}
 };
 
+
 resource 'TMPL' (1196, "kind") {
-	{	/* array: 9 elements */
+	{
 		/* [1] */
 		"Application signature",
 		'TNAM',
@@ -20527,8 +20632,9 @@ resource 'TMPL' (1196, "kind") {
 	}
 };
 
+
 resource 'TMPL' (1197, "KInf") {
-	{	/* array: 6 elements */
+	{
 		/* [1] */
 		"\"SuitCase\" resource format",
 		'DVDR',
@@ -20550,8 +20656,9 @@ resource 'TMPL' (1197, "KInf") {
 	}
 };
 
+
 resource 'TMPL' (1198, "KMAP") {
-	{	/* array: 135 elements */
+	{
 		/* [1] */
 		"ID ( 2=, 5=)",
 		'DWRD',
@@ -20694,7 +20801,7 @@ resource 'TMPL' (1198, "KMAP") {
 		"; 29",
 		'HBYT',
 		/* [48] */
-		"\\ 2A",
+		"\ 2A",
 		'HBYT',
 		/* [49] */
 		", 2B",
@@ -20960,8 +21067,9 @@ resource 'TMPL' (1198, "KMAP") {
 	}
 };
 
+
 resource 'TMPL' (1199, "KRNL") {
-	{	/* array: 5 elements */
+	{
 		/* [1] */
 		"Use FilterBits?",
 		'BOOL',
@@ -20980,11 +21088,11 @@ resource 'TMPL' (1199, "KRNL") {
 	}
 };
 
+
 resource 'TMPL' (1200, "KSWP") {
-	{	/* array: 32 elements */
+	{
 		/* [1] */
-		"Don't change the last list item, it is a"
-		" filler.",
+		"Don't change the last list item, it is a filler.",
 		'DVDR',
 		/* [2] */
 		"Keyboard swapping array",
@@ -21082,8 +21190,9 @@ resource 'TMPL' (1200, "KSWP") {
 	}
 };
 
+
 resource 'TMPL' (1201, "Labl") {
-	{	/* array: 6 elements */
+	{
 		/* [1] */
 		"Count:",
 		'OCNT',
@@ -21105,8 +21214,9 @@ resource 'TMPL' (1201, "Labl") {
 	}
 };
 
+
 resource 'TMPL' (1202, "LAYO") {
-	{	/* array: 40 elements */
+	{
 		/* [1] */
 		"Font ID",
 		'DWRD',
@@ -21230,8 +21340,9 @@ resource 'TMPL' (1202, "LAYO") {
 	}
 };
 
+
 resource 'TMPL' (1203, "LBEL") {
-	{	/* array: 6 elements */
+	{
 		/* [1] */
 		"\"Resurrection\" resource format",
 		'DVDR',
@@ -21253,8 +21364,9 @@ resource 'TMPL' (1203, "LBEL") {
 	}
 };
 
+
 resource 'TMPL' (1204, "LBRK") {
-	{	/* array: 12 elements */
+	{
 		/* [1] */
 		"\"Eudora\" resource format",
 		'DVDR',
@@ -21294,8 +21406,9 @@ resource 'TMPL' (1204, "LBRK") {
 	}
 };
 
+
 resource 'TMPL' (1205, "ldes") {
-	{	/* array: 12 elements */
+	{
 		/* [1] */
 		"Version",
 		'KWRD',
@@ -21335,8 +21448,9 @@ resource 'TMPL' (1205, "ldes") {
 	}
 };
 
+
 resource 'TMPL' (1206, "libi") {
-	{	/* array: 9 elements */
+	{
 		/* [1] */
 		"Format version",
 		'DLNG',
@@ -21367,8 +21481,9 @@ resource 'TMPL' (1206, "libi") {
 	}
 };
 
+
 resource 'TMPL' (1207, "libr") {
-	{	/* array: 50 elements */
+	{
 		/* [1] */
 		"Libraries",
 		'LSTB',
@@ -21522,8 +21637,9 @@ resource 'TMPL' (1207, "libr") {
 	}
 };
 
+
 resource 'TMPL' (1208, "LIST") {
-	{	/* array: 19 elements */
+	{
 		/* [1] */
 		"\"MacZoop\" resource format",
 		'DVDR',
@@ -21584,8 +21700,9 @@ resource 'TMPL' (1208, "LIST") {
 	}
 };
 
+
 resource 'TMPL' (1209, "load") {
-	{	/* array: 4 elements */
+	{
 		/* [1] */
 		"Load priority",
 		'HLNG',
@@ -21601,14 +21718,14 @@ resource 'TMPL' (1209, "load") {
 	}
 };
 
+
 resource 'TMPL' (1210, "LOGD") {
-	{	/* array: 5 elements */
+	{
 		/* [1] */
 		"Maximum log file size",
 		'DLNG',
 		/* [2] */
-		"Amount preserved if max log size exceede"
-		"d",
+		"Amount preserved if max log size exceeded",
 		'DLNG',
 		/* [3] */
 		"Log file creator",
@@ -21622,8 +21739,9 @@ resource 'TMPL' (1210, "LOGD") {
 	}
 };
 
+
 resource 'TMPL' (1211, "look") {
-	{	/* array: 8 elements */
+	{
 		/* [1] */
 		"Default looker",
 		'DWRD',
@@ -21651,8 +21769,9 @@ resource 'TMPL' (1211, "look") {
 	}
 };
 
+
 resource 'TMPL' (1212, "mach") {
-	{	/* array: 3 elements */
+	{
 		/* [1] */
 		"Machine type: cdev filtering",
 		'HLNG',
@@ -21665,8 +21784,9 @@ resource 'TMPL' (1212, "mach") {
 	}
 };
 
+
 resource 'TMPL' (1213, "MACS") {
-	{	/* array: 2 elements */
+	{
 		/* [1] */
 		"String",
 		'PSTR',
@@ -21676,8 +21796,9 @@ resource 'TMPL' (1213, "MACS") {
 	}
 };
 
+
 resource 'TMPL' (1214, "mapp") {
-	{	/* array: 9 elements */
+	{
 		/* [1] */
 		"",
 		'LSTB',
@@ -21708,8 +21829,9 @@ resource 'TMPL' (1214, "mapp") {
 	}
 };
 
+
 resource 'TMPL' (1215, "MBAR") {
-	{	/* array: 4 elements */
+	{
 		/* [1] */
 		"Count:",
 		'OCNT',
@@ -21725,8 +21847,9 @@ resource 'TMPL' (1215, "MBAR") {
 	}
 };
 
+
 resource 'TMPL' (1216, "mcfg") {
-	{	/* array: 47 elements */
+	{
 		/* [1] */
 		"Importer MIME configuration info",
 		'DVDR',
@@ -21871,8 +21994,9 @@ resource 'TMPL' (1216, "mcfg") {
 	}
 };
 
+
 resource 'TMPL' (1217, "mcky") {
-	{	/* array: 8 elements */
+	{
 		/* [1] */
 		"Threshold 1",
 		'UBYT',
@@ -21900,8 +22024,9 @@ resource 'TMPL' (1217, "mcky") {
 	}
 };
 
+
 resource 'TMPL' (1218, "Mcmd") {
-	{	/* array: 44 elements */
+	{
 		/* [1] */
 		"Count:",
 		'OCNT',
@@ -22037,8 +22162,9 @@ resource 'TMPL' (1218, "Mcmd") {
 	}
 };
 
+
 resource 'TMPL' (1219, "mctb") {
-	{	/* array: 12 elements */
+	{
 		/* [1] */
 		"Count:",
 		'OCNT',
@@ -22078,8 +22204,9 @@ resource 'TMPL' (1219, "mctb") {
 	}
 };
 
+
 resource 'TMPL' (1220, "mcvs") {
-	{	/* array: 25 elements */
+	{
 		/* [1] */
 		"Version",
 		'ULNG',
@@ -22158,8 +22285,9 @@ resource 'TMPL' (1220, "mcvs") {
 	}
 };
 
+
 resource 'TMPL' (1221, "mem!") {
-	{	/* array: 5 elements */
+	{
 		/* [1] */
 		"Add to the size of heap space",
 		'DLNG',
@@ -22178,8 +22306,9 @@ resource 'TMPL' (1221, "mem!") {
 	}
 };
 
+
 resource 'TMPL' (1222, "MENA") {
-	{	/* array: 5 elements */
+	{
 		/* [1] */
 		"Number of keys",
 		'DWRD',
@@ -22198,8 +22327,9 @@ resource 'TMPL' (1222, "MENA") {
 	}
 };
 
+
 resource 'TMPL' (1223, "MENU") {
-	{	/* array: 35 elements */
+	{
 		/* [1] */
 		"MenuID",
 		'DWRD',
@@ -22225,7 +22355,7 @@ resource 'TMPL' (1223, "MENU") {
 		"Title",
 		'PSTR',
 		/* [9] */
-		"Apple=\0x14",
+		"Apple=",
 		'CASE',
 		/* [10] */
 		"Menu items",
@@ -22308,8 +22438,9 @@ resource 'TMPL' (1223, "MENU") {
 	}
 };
 
+
 resource 'TMPL' (1224, "mgrp") {
-	{	/* array: 11 elements */
+	{
 		/* [1] */
 		"Importer MIME configuration info",
 		'DVDR',
@@ -22346,8 +22477,9 @@ resource 'TMPL' (1224, "mgrp") {
 	}
 };
 
+
 resource 'TMPL' (1225, "MIMA") {
-	{	/* array: 13 elements */
+	{
 		/* [1] */
 		"Count:",
 		'OCNT',
@@ -22390,8 +22522,9 @@ resource 'TMPL' (1225, "MIMA") {
 	}
 };
 
+
 resource 'TMPL' (1226, "MIMD") {
-	{	/* array: 9 elements */
+	{
 		/* [1] */
 		"Count:",
 		'OCNT',
@@ -22422,8 +22555,9 @@ resource 'TMPL' (1226, "MIMD") {
 	}
 };
 
+
 resource 'TMPL' (1227, "mimp") {
-	{	/* array: 6 elements */
+	{
 		/* [1] */
 		"Resource version",
 		'HLNG',
@@ -22445,8 +22579,9 @@ resource 'TMPL' (1227, "mimp") {
 	}
 };
 
+
 resource 'TMPL' (1228, "mitq") {
-	{	/* array: 3 elements */
+	{
 		/* [1] */
 		"Queue size for 3 bit inverse table",
 		'ULNG',
@@ -22459,8 +22594,9 @@ resource 'TMPL' (1228, "mitq") {
 	}
 };
 
+
 resource 'TMPL' (1229, "MKEY") {
-	{	/* array: 7 elements */
+	{
 		/* [1] */
 		"Count:",
 		'OCNT',
@@ -22485,8 +22621,9 @@ resource 'TMPL' (1229, "MKEY") {
 	}
 };
 
+
 resource 'TMPL' (1230, "mntb") {
-	{	/* array: 5 elements */
+	{
 		/* [1] */
 		"Menu table",
 		'LSTB',
@@ -22505,8 +22642,9 @@ resource 'TMPL' (1230, "mntb") {
 	}
 };
 
+
 resource 'TMPL' (1231, "modm") {
-	{	/* array: 22 elements */
+	{
 		/* [1] */
 		"Version",
 		'KWRD',
@@ -22576,8 +22714,9 @@ resource 'TMPL' (1231, "modm") {
 	}
 };
 
+
 resource 'TMPL' (1232, "mppc") {
-	{	/* array: 3 elements */
+	{
 		/* [1] */
 		"Information passed to DRVR",
 		'HLNG',
@@ -22590,8 +22729,9 @@ resource 'TMPL' (1232, "mppc") {
 	}
 };
 
+
 resource 'TMPL' (1233, "MPSR") {
-	{	/* array: 46 elements */
+	{
 		/* [1] */
 		"Type of data (by resource ID)",
 		'KRID',
@@ -22733,8 +22873,9 @@ resource 'TMPL' (1233, "MPSR") {
 	}
 };
 
+
 resource 'TMPL' (1234, "mVal") {
-	{	/* array: 2 elements */
+	{
 		/* [1] */
 		"\"AfterDark\" resource format",
 		'DVDR',
@@ -22744,8 +22885,9 @@ resource 'TMPL' (1234, "mVal") {
 	}
 };
 
+
 resource 'TMPL' (1235, "mxbc") {
-	{	/* array: 2 elements */
+	{
 		/* [1] */
 		"Background RGB color",
 		'COLR',
@@ -22755,8 +22897,9 @@ resource 'TMPL' (1235, "mxbc") {
 	}
 };
 
+
 resource 'TMPL' (1236, "mxbi") {
-	{	/* array: 3 elements */
+	{
 		/* [1] */
 		"Number of traps recorded",
 		'DWRD',
@@ -22769,8 +22912,9 @@ resource 'TMPL' (1236, "mxbi") {
 	}
 };
 
+
 resource 'TMPL' (1237, "mxbm") {
-	{	/* array: 5 elements */
+	{
 		/* [1] */
 		"Count:",
 		'OCNT',
@@ -22789,8 +22933,9 @@ resource 'TMPL' (1237, "mxbm") {
 	}
 };
 
+
 resource 'TMPL' (1238, "mxpr") {
-	{	/* array: 16 elements */
+	{
 		/* [1] */
 		"Version",
 		'HWRD',
@@ -22842,8 +22987,9 @@ resource 'TMPL' (1238, "mxpr") {
 	}
 };
 
+
 resource 'TMPL' (1239, "mxst") {
-	{	/* array: 12 elements */
+	{
 		/* [1] */
 		"Version",
 		'HWRD',
@@ -22883,8 +23029,9 @@ resource 'TMPL' (1239, "mxst") {
 	}
 };
 
+
 resource 'TMPL' (1240, "mxwt") {
-	{	/* array: 10 elements */
+	{
 		/* [1] */
 		"Count:",
 		'OCNT',
@@ -22918,8 +23065,9 @@ resource 'TMPL' (1240, "mxwt") {
 	}
 };
 
+
 resource 'TMPL' (1241, "nfnt") {
-	{	/* array: 14 elements */
+	{
 		/* [1] */
 		"Font type",
 		'HWRD',
@@ -22965,8 +23113,9 @@ resource 'TMPL' (1241, "nfnt") {
 	}
 };
 
+
 resource 'TMPL' (1242, "nmKy") {
-	{	/* array: 11 elements */
+	{
 		/* [1] */
 		"\"Finale\" resource format",
 		'DVDR',
@@ -23003,8 +23152,9 @@ resource 'TMPL' (1242, "nmKy") {
 	}
 };
 
+
 resource 'TMPL' (1243, "nrct") {
-	{	/* array: 4 elements */
+	{
 		/* [1] */
 		"Count:",
 		'OCNT',
@@ -23020,8 +23170,9 @@ resource 'TMPL' (1243, "nrct") {
 	}
 };
 
+
 resource 'TMPL' (1244, "Odds") {
-	{	/* array: 5 elements */
+	{
 		/* [1] */
 		"Resource ID of Equivalent 'Sods'",
 		'DLNG',
@@ -23040,8 +23191,9 @@ resource 'TMPL' (1244, "Odds") {
 	}
 };
 
+
 resource 'TMPL' (1245, "open") {
-	{	/* array: 7 elements */
+	{
 		/* [1] */
 		"Application signature",
 		'TNAM',
@@ -23049,8 +23201,7 @@ resource 'TMPL' (1245, "open") {
 		"Filler",
 		'FWRD',
 		/* [3] */
-		"File types in order of decreasing prefer"
-		"ence",
+		"File types in order of decreasing preference",
 		'DVDR',
 		/* [4] */
 		"Count:",
@@ -23067,8 +23218,9 @@ resource 'TMPL' (1245, "open") {
 	}
 };
 
+
 resource 'TMPL' (1246, "osiz") {
-	{	/* array: 6 elements */
+	{
 		/* [1] */
 		"Don't open resource file",
 		'LBIT',
@@ -23090,8 +23242,9 @@ resource 'TMPL' (1246, "osiz") {
 	}
 };
 
+
 resource 'TMPL' (1247, "otdr") {
-	{	/* array: 10 elements */
+	{
 		/* [1] */
 		"Version (should be 1)",
 		'DWRD',
@@ -23125,8 +23278,9 @@ resource 'TMPL' (1247, "otdr") {
 	}
 };
 
+
 resource 'TMPL' (1248, "over") {
-	{	/* array: 123 elements */
+	{
 		/* [1] */
 		"Count:",
 		'OCNT',
@@ -23476,19 +23630,16 @@ resource 'TMPL' (1248, "over") {
 		"Reserved",
 		'WB04',
 		/* [117] */
-		"For drivers, the resource ID is an offse"
-		"t from -27648",
+		"For drivers, the resource ID is an offset from -27648",
 		'DVDR',
 		/* [118] */
-		"For extensions, the resource ID is an of"
-		"fset from -27136",
+		"For extensions, the resource ID is an offset from -27136",
 		'DVDR',
 		/* [119] */
 		"Dispatch resource ID",
 		'WB12',
 		/* [120] */
-		"Code offset (start at 4 and add 4 for ea"
-		"ch)",
+		"Code offset (start at 4 and add 4 for each)",
 		'HWRD',
 		/* [121] */
 		"Something",
@@ -23502,8 +23653,9 @@ resource 'TMPL' (1248, "over") {
 	}
 };
 
+
 resource 'TMPL' (1249, "PANE") {
-	{	/* array: 51 elements */
+	{
 		/* [1] */
 		"\"MacZoop\" resource format",
 		'DVDR',
@@ -23660,8 +23812,9 @@ resource 'TMPL' (1249, "PANE") {
 	}
 };
 
+
 resource 'TMPL' (1250, "PANI") {
-	{	/* array: 12 elements */
+	{
 		/* [1] */
 		"Version",
 		'DLNG',
@@ -23701,8 +23854,9 @@ resource 'TMPL' (1250, "PANI") {
 	}
 };
 
+
 resource 'TMPL' (1251, "panl") {
-	{	/* array: 15 elements */
+	{
 		/* [1] */
 		"Bounds",
 		'RECT',
@@ -23751,8 +23905,9 @@ resource 'TMPL' (1251, "panl") {
 	}
 };
 
+
 resource 'TMPL' (1252, "PAPA") {
-	{	/* array: 5 elements */
+	{
 		/* [1] */
 		"Name",
 		'PSTR',
@@ -23771,16 +23926,18 @@ resource 'TMPL' (1252, "PAPA") {
 	}
 };
 
+
 resource 'TMPL' (1253, "PAT ") {
-	{	/* array: 1 elements */
+	{
 		/* [1] */
 		"Pattern",
 		'H008'
 	}
 };
 
+
 resource 'TMPL' (1254, "PAT#") {
-	{	/* array: 4 elements */
+	{
 		/* [1] */
 		"Count:",
 		'OCNT',
@@ -23796,8 +23953,9 @@ resource 'TMPL' (1254, "PAT#") {
 	}
 };
 
+
 resource 'TMPL' (1255, "PBUT") {
-	{	/* array: 14 elements */
+	{
 		/* [1] */
 		"Image \"PICT\" Resource ID",
 		'RSID',
@@ -23843,8 +24001,9 @@ resource 'TMPL' (1255, "PBUT") {
 	}
 };
 
+
 resource 'TMPL' (1256, "pdip") {
-	{	/* array: 26 elements */
+	{
 		/* [1] */
 		"PostScript language level",
 		'DWRD',
@@ -23926,8 +24085,9 @@ resource 'TMPL' (1256, "pdip") {
 	}
 };
 
+
 resource 'TMPL' (1257, "Pers") {
-	{	/* array: 17 elements */
+	{
 		/* [1] */
 		"\"Eudora\" resource format",
 		'DVDR',
@@ -23982,8 +24142,9 @@ resource 'TMPL' (1257, "Pers") {
 	}
 };
 
+
 resource 'TMPL' (1258, "pfil") {
-	{	/* array: 4 elements */
+	{
 		/* [1] */
 		"Count:",
 		'OCNT',
@@ -23999,8 +24160,9 @@ resource 'TMPL' (1258, "pfil") {
 	}
 };
 
+
 resource 'TMPL' (1259, "pfnt") {
-	{	/* array: 166 elements */
+	{
 		/* [1] */
 		"Memory usage",
 		'DLNG',
@@ -24502,8 +24664,9 @@ resource 'TMPL' (1259, "pfnt") {
 	}
 };
 
+
 resource 'TMPL' (1260, "PgSz") {
-	{	/* array: 6 elements */
+	{
 		/* [1] */
 		"\"Finale\" resource format",
 		'DVDR',
@@ -24525,8 +24688,9 @@ resource 'TMPL' (1260, "PgSz") {
 	}
 };
 
+
 resource 'TMPL' (1261, "picb") {
-	{	/* array: 5 elements */
+	{
 		/* [1] */
 		"Version",
 		'DWRD',
@@ -24545,8 +24709,9 @@ resource 'TMPL' (1261, "picb") {
 	}
 };
 
+
 resource 'TMPL' (1262, "PICK") {
-	{	/* array: 9 elements */
+	{
 		/* [1] */
 		"Which type",
 		'TNAM',
@@ -24577,8 +24742,9 @@ resource 'TMPL' (1262, "PICK") {
 	}
 };
 
+
 resource 'TMPL' (1263, "PICT") {
-	{	/* array: 3 elements */
+	{
 		/* [1] */
 		"Picture size (vers 1)",
 		'UWRD',
@@ -24591,8 +24757,9 @@ resource 'TMPL' (1263, "PICT") {
 	}
 };
 
+
 resource 'TMPL' (1264, "PLGN") {
-	{	/* array: 6 elements */
+	{
 		/* [1] */
 		"Count:",
 		'OCNT',
@@ -24614,8 +24781,9 @@ resource 'TMPL' (1264, "PLGN") {
 	}
 };
 
+
 resource 'TMPL' (1265, "pltt") {
-	{	/* array: 25 elements */
+	{
 		/* [1] */
 		"Count:",
 		'OCNT',
@@ -24694,8 +24862,9 @@ resource 'TMPL' (1265, "pltt") {
 	}
 };
 
+
 resource 'TMPL' (1266, "plut") {
-	{	/* array: 17 elements */
+	{
 		/* [1] */
 		"Pattern Lookup Table",
 		'DVDR',
@@ -24750,8 +24919,9 @@ resource 'TMPL' (1266, "plut") {
 	}
 };
 
+
 resource 'TMPL' (1267, "pnel") {
-	{	/* array: 4 elements */
+	{
 		/* [1] */
 		"Panel name",
 		'P020',
@@ -24767,8 +24937,9 @@ resource 'TMPL' (1267, "pnel") {
 	}
 };
 
+
 resource 'TMPL' (1268, "pnot") {
-	{	/* array: 4 elements */
+	{
 		/* [1] */
 		"Modification date",
 		'DATE',
@@ -24784,8 +24955,9 @@ resource 'TMPL' (1268, "pnot") {
 	}
 };
 
+
 resource 'TMPL' (1269, "POST") {
-	{	/* array: 4 elements */
+	{
 		/* [1] */
 		"NumStrings",
 		'DWRD',
@@ -24801,8 +24973,9 @@ resource 'TMPL' (1269, "POST") {
 	}
 };
 
+
 resource 'TMPL' (1270, "ppat") {
-	{	/* array: 23 elements */
+	{
 		/* [1] */
 		"Pattern type",
 		'DWRD',
@@ -24875,8 +25048,9 @@ resource 'TMPL' (1270, "ppat") {
 	}
 };
 
+
 resource 'TMPL' (1271, "ppcc") {
-	{	/* array: 7 elements */
+	{
 		/* [1] */
 		"NBP lookup interval",
 		'UBYT',
@@ -24896,14 +25070,14 @@ resource 'TMPL' (1271, "ppcc") {
 		"PPC maximum number of ports",
 		'DWRD',
 		/* [7] */
-		"PPC idle time in ticks between list port"
-		"s",
+		"PPC idle time in ticks between list ports",
 		'DWRD'
 	}
 };
 
+
 resource 'TMPL' (1272, "ppdA") {
-	{	/* array: 25 elements */
+	{
 		/* [1] */
 		"Signature",
 		'TNAM',
@@ -24982,8 +25156,9 @@ resource 'TMPL' (1272, "ppdA") {
 	}
 };
 
+
 resource 'TMPL' (1273, "ppdT") {
-	{	/* array: 52 elements */
+	{
 		/* [1] */
 		"Signature",
 		'TNAM',
@@ -25143,8 +25318,9 @@ resource 'TMPL' (1273, "ppdT") {
 	}
 };
 
+
 resource 'TMPL' (1274, "PPob") {
-	{	/* array: 3820 elements */
+	{
 		/* [1] */
 		"Template for PowerPlant 2.5",
 		'DVDR',
@@ -36608,8 +36784,9 @@ resource 'TMPL' (1274, "PPob") {
 	}
 };
 
+
 resource 'TMPL' (1275, "PPRO") {
-	{	/* array: 9 elements */
+	{
 		/* [1] */
 		"\"Fetch\" resource template",
 		'DVDR',
@@ -36640,8 +36817,9 @@ resource 'TMPL' (1275, "PPRO") {
 	}
 };
 
+
 resource 'TMPL' (1276, "PRC0") {
-	{	/* array: 37 elements */
+	{
 		/* [1] */
 		"iPrVersion",
 		'DWRD',
@@ -36756,8 +36934,9 @@ resource 'TMPL' (1276, "PRC0") {
 	}
 };
 
+
 resource 'TMPL' (1277, "PRC3") {
-	{	/* array: 20 elements */
+	{
 		/* [1] */
 		"Number of Buttons",
 		'DWRD',
@@ -36821,8 +37000,9 @@ resource 'TMPL' (1277, "PRC3") {
 	}
 };
 
+
 resource 'TMPL' (1278, "PREC") {
-	{	/* array: 138 elements */
+	{
 		/* [1] */
 		"Type of resource",
 		'KRID',
@@ -37226,7 +37406,7 @@ resource 'TMPL' (1278, "PREC") {
 		"109",
 		'KEYB',
 		/* [135] */
-		"\"\"\"\"\"",
+		"¥¥¥¥¥",
 		'LSTB',
 		/* [136] */
 		"String",
@@ -37240,28 +37420,26 @@ resource 'TMPL' (1278, "PREC") {
 	}
 };
 
+
 resource 'TMPL' (1279, "PRF2") {
-	{	/* array: 16 elements */
+	{
 		/* [1] */
 		"Create papToDisk file",
 		'BBIT',
 		/* [2] */
-		"Merge setpagedevice calls for improved p"
-		"erformance when possible",
+		"Merge setpagedevice calls for improved performance when possible",
 		'BBIT',
 		/* [3] */
 		"Wrap PPD code to avoid errors",
 		'BBIT',
 		/* [4] */
-		"Generate log file for download manager e"
-		"rrors and warnings",
+		"Generate log file for download manager errors and warnings",
 		'BBIT',
 		/* [5] */
 		"Ignore Fonts in printer when printing",
 		'BBIT',
 		/* [6] */
-		"Always generate Type 1 versions of TrueT"
-		"ype fonts",
+		"Always generate Type 1 versions of TrueType fonts",
 		'BBIT',
 		/* [7] */
 		"Okay to use OpenTransport PAP",
@@ -37296,8 +37474,9 @@ resource 'TMPL' (1279, "PRF2") {
 	}
 };
 
+
 resource 'TMPL' (1280, "PRFS") {
-	{	/* array: 32 elements */
+	{
 		/* [1] */
 		"Full PPD dialog",
 		'BBIT',
@@ -37311,8 +37490,7 @@ resource 'TMPL' (1280, "PRFS") {
 		"Enable sending compressed data",
 		'BBIT',
 		/* [5] */
-		"Allow print to file (except EPS with pre"
-		"view) in background",
+		"Allow print to file (except EPS with preview) in background",
 		'BBIT',
 		/* [6] */
 		"Always use 2 pass for print to file",
@@ -37321,12 +37499,10 @@ resource 'TMPL' (1280, "PRFS") {
 		"Do 2 pass foreground printing to printer",
 		'BBIT',
 		/* [8] */
-		"Merge setpagedevice calls for improved p"
-		"erformance when possible",
+		"Merge setpagedevice calls for improved performance when possible",
 		'BBIT',
 		/* [9] */
-		"Allow rgb to grayscale conversion on hos"
-		"t",
+		"Allow rgb to grayscale conversion on host",
 		'BBIT',
 		/* [10] */
 		"Force DSC compliant PS generation",
@@ -37335,8 +37511,7 @@ resource 'TMPL' (1280, "PRFS") {
 		"Show PostScript Header panel",
 		'BBIT',
 		/* [12] */
-		"Enable Transparent and Masked Image Supp"
-		"ort",
+		"Enable Transparent and Masked Image Support",
 		'BBIT',
 		/* [13] */
 		"Show MediaType in Feed popup",
@@ -37351,8 +37526,7 @@ resource 'TMPL' (1280, "PRFS") {
 		"Ignore Fonts in Printer When Printing",
 		'BBIT',
 		/* [17] */
-		"Always generate Type 1 Versions of TrueT"
-		"ype Fonts",
+		"Always generate Type 1 Versions of TrueType Fonts",
 		'BBIT',
 		/* [18] */
 		"Use Appearance Manager",
@@ -37402,8 +37576,9 @@ resource 'TMPL' (1280, "PRFS") {
 	}
 };
 
+
 resource 'TMPL' (1281, "prop") {
-	{	/* array: 7 elements */
+	{
 		/* [1] */
 		"Enable quality",
 		'BFLG',
@@ -37428,8 +37603,9 @@ resource 'TMPL' (1281, "prop") {
 	}
 };
 
+
 resource 'TMPL' (1282, "proz") {
-	{	/* array: 3 elements */
+	{
 		/* [1] */
 		"",
 		'LSTB',
@@ -37442,16 +37618,18 @@ resource 'TMPL' (1282, "proz") {
 	}
 };
 
+
 resource 'TMPL' (1283, "PSAP") {
-	{	/* array: 1 elements */
+	{
 		/* [1] */
 		"String",
 		'WSTR'
 	}
 };
 
+
 resource 'TMPL' (1284, "PSLD") {
-	{	/* array: 15 elements */
+	{
 		/* [1] */
 		"Picture resource ID",
 		'DWRD',
@@ -37500,11 +37678,11 @@ resource 'TMPL' (1284, "PSLD") {
 	}
 };
 
+
 resource 'TMPL' (1285, "pslt") {
-	{	/* array: 17 elements */
+	{
 		/* [1] */
-		"Slot orientation is as seen from the fro"
-		"nt of the machine",
+		"Slot orientation is as seen from the front of the machine",
 		'DVDR',
 		/* [2] */
 		"Count:",
@@ -37513,36 +37691,28 @@ resource 'TMPL' (1285, "pslt") {
 		"Orientation",
 		'DWRD',
 		/* [4] */
-		"Horizontal form & ascending slots left t"
-		"o right=0",
+		"Horizontal form & ascending slots left to right=0",
 		'CASE',
 		/* [5] */
-		"Horizontal form & descending slots left "
-		"to right=1",
+		"Horizontal form & descending slots left to right=1",
 		'CASE',
 		/* [6] */
-		"Vertical form & ascending slots bottom t"
-		"o top=2",
+		"Vertical form & ascending slots bottom to top=2",
 		'CASE',
 		/* [7] */
-		"Vertical form & descending slots bottom "
-		"to top=3",
+		"Vertical form & descending slots bottom to top=3",
 		'CASE',
 		/* [8] */
-		"Vertical form & ascending slots top to b"
-		"ottom=4",
+		"Vertical form & ascending slots top to bottom=4",
 		'CASE',
 		/* [9] */
-		"Vertical form & descending slots top to "
-		"bottom=5",
+		"Vertical form & descending slots top to bottom=5",
 		'CASE',
 		/* [10] */
-		"Horizontal form & ascending slots left t"
-		"o right=6",
+		"Horizontal form & ascending slots left to right=6",
 		'CASE',
 		/* [11] */
-		"Horizontal form & descending slots left "
-		"to right=7",
+		"Horizontal form & descending slots left to right=7",
 		'CASE',
 		/* [12] */
 		"Flags",
@@ -37565,8 +37735,9 @@ resource 'TMPL' (1285, "pslt") {
 	}
 };
 
+
 resource 'TMPL' (1286, "PTFM") {
-	{	/* array: 14 elements */
+	{
 		/* [1] */
 		"Default pane",
 		'TNAM',
@@ -37612,8 +37783,9 @@ resource 'TMPL' (1286, "PTFM") {
 	}
 };
 
+
 resource 'TMPL' (1287, "ptyp") {
-	{	/* array: 46 elements */
+	{
 		/* [1] */
 		"Paper type name",
 		'ESTR',
@@ -37755,8 +37927,9 @@ resource 'TMPL' (1287, "ptyp") {
 	}
 };
 
+
 resource 'TMPL' (1288, "puf!") {
-	{	/* array: 4 elements */
+	{
 		/* [1] */
 		"",
 		'LSTB',
@@ -37772,8 +37945,9 @@ resource 'TMPL' (1288, "puf!") {
 	}
 };
 
+
 resource 'TMPL' (1289, "qrsc") {
-	{	/* array: 13 elements */
+	{
 		/* [1] */
 		"Version",
 		'DWRD',
@@ -37816,8 +37990,9 @@ resource 'TMPL' (1289, "qrsc") {
 	}
 };
 
+
 resource 'TMPL' (1290, "ramr") {
-	{	/* array: 7 elements */
+	{
 		/* [1] */
 		"Amt to indent 1st colum/title",
 		'DWRD',
@@ -37842,8 +38017,9 @@ resource 'TMPL' (1290, "ramr") {
 	}
 };
 
+
 resource 'TMPL' (1291, "rdes") {
-	{	/* array: 31 elements */
+	{
 		/* [1] */
 		"Go Mixed Mode Trap",
 		'HWRD',
@@ -37940,8 +38116,9 @@ resource 'TMPL' (1291, "rdes") {
 	}
 };
 
+
 resource 'TMPL' (1292, "rdpf") {
-	{	/* array: 4 elements */
+	{
 		/* [1] */
 		"Count:",
 		'OCNT',
@@ -37957,24 +38134,27 @@ resource 'TMPL' (1292, "rdpf") {
 	}
 };
 
+
 resource 'TMPL' (1293, "rdws") {
-	{	/* array: 1 elements */
+	{
 		/* [1] */
 		"String",
 		'WSTR'
 	}
 };
 
+
 resource 'TMPL' (1294, "RECT") {
-	{	/* array: 1 elements */
+	{
 		/* [1] */
 		"Rectangle",
 		'RECT'
 	}
 };
 
+
 resource 'TMPL' (1295, "RES!") {
-	{	/* array: 2 elements */
+	{
 		/* [1] */
 		"\"Resurrection\" resource format",
 		'DVDR',
@@ -37984,8 +38164,9 @@ resource 'TMPL' (1295, "RES!") {
 	}
 };
 
+
 resource 'TMPL' (1296, "RES#") {
-	{	/* array: 5 elements */
+	{
 		/* [1] */
 		"Count:",
 		'OCNT',
@@ -38004,8 +38185,9 @@ resource 'TMPL' (1296, "RES#") {
 	}
 };
 
+
 resource 'TMPL' (1297, "resf") {
-	{	/* array: 10 elements */
+	{
 		/* [1] */
 		"Count:",
 		'OCNT',
@@ -38039,8 +38221,9 @@ resource 'TMPL' (1297, "resf") {
 	}
 };
 
+
 resource 'TMPL' (1298, "resl") {
-	{	/* array: 11 elements */
+	{
 		/* [1] */
 		"Range type",
 		'DWRD',
@@ -38077,16 +38260,18 @@ resource 'TMPL' (1298, "resl") {
 	}
 };
 
+
 resource 'TMPL' (1299, "rgb ") {
-	{	/* array: 1 elements */
+	{
 		/* [1] */
 		"Color",
 		'COLR'
 	}
 };
 
+
 resource 'TMPL' (1300, "RID#") {
-	{	/* array: 4 elements */
+	{
 		/* [1] */
 		"Count:",
 		'OCNT',
@@ -38102,8 +38287,9 @@ resource 'TMPL' (1300, "RID#") {
 	}
 };
 
+
 resource 'TMPL' (1301, "RidL") {
-	{	/* array: 4 elements */
+	{
 		/* [1] */
 		"Count:",
 		'OCNT',
@@ -38119,8 +38305,9 @@ resource 'TMPL' (1301, "RidL") {
 	}
 };
 
+
 resource 'TMPL' (1302, "RMAP") {
-	{	/* array: 8 elements */
+	{
 		/* [1] */
 		"MapTo type",
 		'TNAM',
@@ -38148,8 +38335,9 @@ resource 'TMPL' (1302, "RMAP") {
 	}
 };
 
+
 resource 'TMPL' (1303, "ropt") {
-	{	/* array: 28 elements */
+	{
 		/* [1] */
 		"Start page 'wstr' ID",
 		'RSID',
@@ -38237,8 +38425,9 @@ resource 'TMPL' (1303, "ropt") {
 	}
 };
 
+
 resource 'TMPL' (1304, "rout") {
-	{	/* array: 133 elements */
+	{
 		/* [1] */
 		"Array for folder routing",
 		'LSTB',
@@ -38276,7 +38465,7 @@ resource 'TMPL' (1304, "rout") {
 		"Appearance=appr",
 		'CASE',
 		/* [13] */
-		"AppleExtras=aex’",
+		"AppleExtras=aexÄ",
 		'CASE',
 		/* [14] */
 		"AppleMenu=amnu",
@@ -38294,7 +38483,7 @@ resource 'TMPL' (1304, "rout") {
 		"Applications=apps",
 		'CASE',
 		/* [19] */
-		"Assistants=ast’",
+		"Assistants=astÄ",
 		'CASE',
 		/* [20] */
 		"AudioAlertSounds=alrt",
@@ -38366,7 +38555,7 @@ resource 'TMPL' (1304, "rout") {
 		"Desktop=desk",
 		'CASE',
 		/* [43] */
-		"DesktopPictures=dtp’",
+		"DesktopPictures=dtpÄ",
 		'CASE',
 		/* [44] */
 		"Developer=devf",
@@ -38432,10 +38621,10 @@ resource 'TMPL' (1304, "rout") {
 		"Frameworks=fram",
 		'CASE',
 		/* [65] */
-		"GenEditors=’edi",
+		"GenEditors=Äedi",
 		'CASE',
 		/* [66] */
-		"Help=’hlp",
+		"Help=Ählp",
 		'CASE',
 		/* [67] */
 		"ISSDownloads=issd",
@@ -38447,10 +38636,10 @@ resource 'TMPL' (1304, "rout") {
 		"InstallerReceipts=rcpt",
 		'CASE',
 		/* [70] */
-		"Internet=int’",
+		"Internet=intÄ",
 		'CASE',
 		/* [71] */
-		"InternetPlugIn=’net",
+		"InternetPlugIn=Änet",
 		'CASE',
 		/* [72] */
 		"InternetSearchSites=issf",
@@ -38468,16 +38657,16 @@ resource 'TMPL' (1304, "rout") {
 		"LauncherItems=laun",
 		'CASE',
 		/* [77] */
-		"Locales=’loc",
+		"Locales=Äloc",
 		'CASE',
 		/* [78] */
 		"MIDIDrivers=midi",
 		'CASE',
 		/* [79] */
-		"MacOSReadMes=mor’",
+		"MacOSReadMes=morÄ",
 		'CASE',
 		/* [80] */
-		"ModemScripts=’mod",
+		"ModemScripts=Ämod",
 		'CASE',
 		/* [81] */
 		"MovieDocuments=mdoc",
@@ -38492,7 +38681,7 @@ resource 'TMPL' (1304, "rout") {
 		"OpenDoc=odod",
 		'CASE',
 		/* [85] */
-		"OpenDocEditors=’odf",
+		"OpenDocEditors=Äodf",
 		'CASE',
 		/* [86] */
 		"OpenDocLibraries=odlb",
@@ -38513,7 +38702,7 @@ resource 'TMPL' (1304, "rout") {
 		"PrinterDescription=ppdf",
 		'CASE',
 		/* [92] */
-		"PrinterDriver=’prd",
+		"PrinterDriver=Äprd",
 		'CASE',
 		/* [93] */
 		"Printers=impr",
@@ -38543,13 +38732,13 @@ resource 'TMPL' (1304, "rout") {
 		"RecentServers=rsvr",
 		'CASE',
 		/* [102] */
-		"ScriptingAdditions=’scr",
+		"ScriptingAdditions=Äscr",
 		'CASE',
 		/* [103] */
-		"Scripts=scr’",
+		"Scripts=scrÄ",
 		'CASE',
 		/* [104] */
-		"SharedLibraries=’lib",
+		"SharedLibraries=Älib",
 		'CASE',
 		/* [105] */
 		"SharedUserData=sdat",
@@ -38603,7 +38792,7 @@ resource 'TMPL' (1304, "rout") {
 		"Temporary=temp",
 		'CASE',
 		/* [122] */
-		"TextEncodings=’tex",
+		"TextEncodings=Ätex",
 		'CASE',
 		/* [123] */
 		"Themes=thme",
@@ -38618,7 +38807,7 @@ resource 'TMPL' (1304, "rout") {
 		"Users=usrs",
 		'CASE',
 		/* [127] */
-		"Utilities=uti’",
+		"Utilities=utiÄ",
 		'CASE',
 		/* [128] */
 		"Voices=fvoc",
@@ -38641,8 +38830,9 @@ resource 'TMPL' (1304, "rout") {
 	}
 };
 
+
 resource 'TMPL' (1305, "ROv#") {
-	{	/* array: 6 elements */
+	{
 		/* [1] */
 		"Version",
 		'DWRD',
@@ -38664,8 +38854,9 @@ resource 'TMPL' (1305, "ROv#") {
 	}
 };
 
+
 resource 'TMPL' (1306, "rptw") {
-	{	/* array: 6 elements */
+	{
 		/* [1] */
 		"Name column width",
 		'DWRD',
@@ -38687,15 +38878,14 @@ resource 'TMPL' (1306, "rptw") {
 	}
 };
 
+
 resource 'TMPL' (1307, "RSCP") {
-	{	/* array: 21 elements */
+	{
 		/* [1] */
-		"Resource Spec Current Version (should be"
-		" 1)",
+		"Resource Spec Current Version (should be 1)",
 		'DWRD',
 		/* [2] */
-		"Resource Spec Min Compat Vers (should be"
-		" 1)",
+		"Resource Spec Min Compat Vers (should be 1)",
 		'DWRD',
 		/* [3] */
 		"Count:",
@@ -38757,8 +38947,9 @@ resource 'TMPL' (1307, "RSCP") {
 	}
 };
 
+
 resource 'TMPL' (1308, "RSID") {
-	{	/* array: 13 elements */
+	{
 		/* [1] */
 		"\"Resurrection\" resource format",
 		'DVDR',
@@ -38801,8 +38992,9 @@ resource 'TMPL' (1308, "RSID") {
 	}
 };
 
+
 resource 'TMPL' (1309, "rst#") {
-	{	/* array: 8 elements */
+	{
 		/* [1] */
 		"Size of the following data",
 		'WSIZ',
@@ -38830,8 +39022,9 @@ resource 'TMPL' (1309, "rst#") {
 	}
 };
 
+
 resource 'TMPL' (1310, "rstr") {
-	{	/* array: 2 elements */
+	{
 		/* [1] */
 		"Script region code",
 		'SCPC',
@@ -38841,8 +39034,9 @@ resource 'TMPL' (1310, "rstr") {
 	}
 };
 
+
 resource 'TMPL' (1311, "RTXT") {
-	{	/* array: 4 elements */
+	{
 		/* [1] */
 		"TrueType rotated text?",
 		'BBIT',
@@ -38858,8 +39052,9 @@ resource 'TMPL' (1311, "RTXT") {
 	}
 };
 
+
 resource 'TMPL' (1312, "RVEW") {
-	{	/* array: 2 elements */
+	{
 		/* [1] */
 		"View by",
 		'DBYT',
@@ -38869,8 +39064,9 @@ resource 'TMPL' (1312, "RVEW") {
 	}
 };
 
+
 resource 'TMPL' (1313, "RZID") {
-	{	/* array: 4 elements */
+	{
 		/* [1] */
 		"Resources",
 		'LSTB',
@@ -38886,8 +39082,9 @@ resource 'TMPL' (1313, "RZID") {
 	}
 };
 
+
 resource 'TMPL' (1314, "RZLE") {
-	{	/* array: 8 elements */
+	{
 		/* [1] */
 		"Count:",
 		'OCNT',
@@ -38915,8 +39112,27 @@ resource 'TMPL' (1314, "RZLE") {
 	}
 };
 
-resource 'TMPL' (1315, "sAbt") {
-	{	/* array: 11 elements */
+
+resource 'TMPL' (1315, "RzTA") {
+	{
+		/* [1] */
+		"TypeAs array",
+		'LSTB',
+		/* [2] */
+		"Original type",
+		'TNAM',
+		/* [3] */
+		"Substitute type",
+		'TNAM',
+		/* [4] */
+		"*****",
+		'LSTE'
+	}
+};
+
+
+resource 'TMPL' (1316, "sAbt") {
+	{
 		/* [1] */
 		"\"SuitCase\" resource format",
 		'DVDR',
@@ -38953,8 +39169,9 @@ resource 'TMPL' (1315, "sAbt") {
 	}
 };
 
-resource 'TMPL' (1316, "sami") {
-	{	/* array: 10 elements */
+
+resource 'TMPL' (1317, "sami") {
+	{
 		/* [1] */
 		"Maximum number of directories/slots",
 		'DWRD',
@@ -38988,8 +39205,9 @@ resource 'TMPL' (1316, "sami") {
 	}
 };
 
-resource 'TMPL' (1317, "scan") {
-	{	/* array: 72 elements */
+
+resource 'TMPL' (1318, "scan") {
+	{
 		/* [1] */
 		"Owner count",
 		'DLNG',
@@ -39209,8 +39427,9 @@ resource 'TMPL' (1317, "scan") {
 	}
 };
 
-resource 'TMPL' (1318, "scop") {
-	{	/* array: 4 elements */
+
+resource 'TMPL' (1319, "scop") {
+	{
 		/* [1] */
 		"Count:",
 		'OCNT',
@@ -39226,8 +39445,9 @@ resource 'TMPL' (1318, "scop") {
 	}
 };
 
-resource 'TMPL' (1319, "scrn") {
-	{	/* array: 23 elements */
+
+resource 'TMPL' (1320, "scrn") {
+	{
 		/* [1] */
 		"Count:",
 		'OCNT',
@@ -39300,8 +39520,9 @@ resource 'TMPL' (1319, "scrn") {
 	}
 };
 
-resource 'TMPL' (1320, "scsz") {
-	{	/* array: 10 elements */
+
+resource 'TMPL' (1321, "scsz") {
+	{
 		/* [1] */
 		"Launch to get terminology",
 		'WBIT',
@@ -39335,8 +39556,9 @@ resource 'TMPL' (1320, "scsz") {
 	}
 };
 
-resource 'TMPL' (1321, "sect") {
-	{	/* array: 11 elements */
+
+resource 'TMPL' (1322, "sect") {
+	{
 		/* [1] */
 		"Version",
 		'DBYT',
@@ -39373,8 +39595,9 @@ resource 'TMPL' (1321, "sect") {
 	}
 };
 
-resource 'TMPL' (1322, "sept") {
-	{	/* array: 256 elements */
+
+resource 'TMPL' (1323, "sept") {
+	{
 		/* [1] */
 		"0x01",
 		'BOOL',
@@ -40146,8 +40369,9 @@ resource 'TMPL' (1322, "sept") {
 	}
 };
 
-resource 'TMPL' (1323, "SICN") {
-	{	/* array: 3 elements */
+
+resource 'TMPL' (1324, "SICN") {
+	{
 		/* [1] */
 		"Small icons array",
 		'LSTB',
@@ -40160,16 +40384,18 @@ resource 'TMPL' (1323, "SICN") {
 	}
 };
 
-resource 'TMPL' (1324, "sig ") {
-	{	/* array: 1 elements */
+
+resource 'TMPL' (1325, "sig ") {
+	{
 		/* [1] */
 		"Creator type of file",
 		'TNAM'
 	}
 };
 
-resource 'TMPL' (1325, "SIGN") {
-	{	/* array: 2 elements */
+
+resource 'TMPL' (1326, "SIGN") {
+	{
 		/* [1] */
 		"Key word",
 		'DLNG',
@@ -40179,8 +40405,9 @@ resource 'TMPL' (1325, "SIGN") {
 	}
 };
 
-resource 'TMPL' (1326, "SINF") {
-	{	/* array: 6 elements */
+
+resource 'TMPL' (1327, "SINF") {
+	{
 		/* [1] */
 		"Internet Config resource format",
 		'DVDR',
@@ -40202,8 +40429,9 @@ resource 'TMPL' (1326, "SINF") {
 	}
 };
 
-resource 'TMPL' (1327, "SIZE") {
-	{	/* array: 16 elements */
+
+resource 'TMPL' (1328, "SIZE") {
+	{
 		/* [1] */
 		"Save screen (obsolete)",
 		'BBIT',
@@ -40255,8 +40483,9 @@ resource 'TMPL' (1327, "SIZE") {
 	}
 };
 
-resource 'TMPL' (1328, "Smly") {
-	{	/* array: 9 elements */
+
+resource 'TMPL' (1329, "Smly") {
+	{
 		/* [1] */
 		"Count:",
 		'OCNT',
@@ -40287,8 +40516,9 @@ resource 'TMPL' (1328, "Smly") {
 	}
 };
 
-resource 'TMPL' (1329, "Sods") {
-	{	/* array: 9 elements */
+
+resource 'TMPL' (1330, "Sods") {
+	{
 		/* [1] */
 		"Version",
 		'HLNG',
@@ -40319,8 +40549,9 @@ resource 'TMPL' (1329, "Sods") {
 	}
 };
 
-resource 'TMPL' (1330, "SPLY") {
-	{	/* array: 8 elements */
+
+resource 'TMPL' (1331, "SPLY") {
+	{
 		/* [1] */
 		"Playlist name",
 		'P100',
@@ -40348,8 +40579,9 @@ resource 'TMPL' (1330, "SPLY") {
 	}
 };
 
-resource 'TMPL' (1331, "sReq") {
-	{	/* array: 6 elements */
+
+resource 'TMPL' (1332, "sReq") {
+	{
 		/* [1] */
 		"\"AfterDark\" resource format",
 		'DVDR',
@@ -40371,11 +40603,11 @@ resource 'TMPL' (1331, "sReq") {
 	}
 };
 
-resource 'TMPL' (1332, "stab") {
-	{	/* array: 5 elements */
+
+resource 'TMPL' (1333, "stab") {
+	{
 		/* [1] */
-		"Values in reduction table should be in a"
-		"scending order",
+		"Values in reduction table should be in ascending order",
 		'DVDR',
 		/* [2] */
 		"Count:",
@@ -40392,8 +40624,9 @@ resource 'TMPL' (1332, "stab") {
 	}
 };
 
-resource 'TMPL' (1333, "stat") {
-	{	/* array: 20 elements */
+
+resource 'TMPL' (1334, "stat") {
+	{
 		/* [1] */
 		"Status owner",
 		'TNAM',
@@ -40457,8 +40690,9 @@ resource 'TMPL' (1333, "stat") {
 	}
 };
 
-resource 'TMPL' (1334, "STCT") {
-	{	/* array: 8 elements */
+
+resource 'TMPL' (1335, "STCT") {
+	{
 		/* [1] */
 		"\"Fetch\" resource template",
 		'DVDR',
@@ -40486,8 +40720,9 @@ resource 'TMPL' (1334, "STCT") {
 	}
 };
 
-resource 'TMPL' (1335, "STR ") {
-	{	/* array: 2 elements */
+
+resource 'TMPL' (1336, "STR ") {
+	{
 		/* [1] */
 		"String",
 		'PSTR',
@@ -40497,8 +40732,9 @@ resource 'TMPL' (1335, "STR ") {
 	}
 };
 
-resource 'TMPL' (1336, "STR#") {
-	{	/* array: 4 elements */
+
+resource 'TMPL' (1337, "STR#") {
+	{
 		/* [1] */
 		"Count:",
 		'OCNT',
@@ -40514,24 +40750,27 @@ resource 'TMPL' (1336, "STR#") {
 	}
 };
 
-resource 'TMPL' (1337, "stri") {
-	{	/* array: 1 elements */
+
+resource 'TMPL' (1338, "stri") {
+	{
 		/* [1] */
 		"String used for component info resources",
 		'PSTR'
 	}
 };
 
-resource 'TMPL' (1338, "strn") {
-	{	/* array: 1 elements */
+
+resource 'TMPL' (1339, "strn") {
+	{
 		/* [1] */
 		"String used for component name resources",
 		'PSTR'
 	}
 };
 
-resource 'TMPL' (1339, "STRT") {
-	{	/* array: 6 elements */
+
+resource 'TMPL' (1340, "STRT") {
+	{
 		/* [1] */
 		"\"Resurrection\" resource format",
 		'DVDR',
@@ -40553,8 +40792,9 @@ resource 'TMPL' (1339, "STRT") {
 	}
 };
 
-resource 'TMPL' (1340, "styl") {
-	{	/* array: 13 elements */
+
+resource 'TMPL' (1341, "styl") {
+	{
 		/* [1] */
 		"Count:",
 		'OCNT',
@@ -40597,8 +40837,9 @@ resource 'TMPL' (1340, "styl") {
 	}
 };
 
-resource 'TMPL' (1341, "SUFX") {
-	{	/* array: 9 elements */
+
+resource 'TMPL' (1342, "SUFX") {
+	{
 		/* [1] */
 		"\"Fetch\" resource template",
 		'DVDR',
@@ -40629,8 +40870,9 @@ resource 'TMPL' (1341, "SUFX") {
 	}
 };
 
-resource 'TMPL' (1342, "Suit") {
-	{	/* array: 11 elements */
+
+resource 'TMPL' (1343, "Suit") {
+	{
 		/* [1] */
 		"\"SuitCase\" resource format",
 		'DVDR',
@@ -40667,8 +40909,9 @@ resource 'TMPL' (1342, "Suit") {
 	}
 };
 
-resource 'TMPL' (1343, "sUnt") {
-	{	/* array: 6 elements */
+
+resource 'TMPL' (1344, "sUnt") {
+	{
 		/* [1] */
 		"\"AfterDark\" resource format",
 		'DVDR',
@@ -40690,8 +40933,9 @@ resource 'TMPL' (1343, "sUnt") {
 	}
 };
 
-resource 'TMPL' (1344, "sVal") {
-	{	/* array: 2 elements */
+
+resource 'TMPL' (1345, "sVal") {
+	{
 		/* [1] */
 		"\"AfterDark\" resource format",
 		'DVDR',
@@ -40701,16 +40945,18 @@ resource 'TMPL' (1344, "sVal") {
 	}
 };
 
-resource 'TMPL' (1345, "sysz") {
-	{	/* array: 1 elements */
+
+resource 'TMPL' (1346, "sysz") {
+	{
 		/* [1] */
 		"Memory allocated (in bytes)",
 		'HLNG'
 	}
 };
 
-resource 'TMPL' (1346, "tab#") {
-	{	/* array: 11 elements */
+
+resource 'TMPL' (1347, "tab#") {
+	{
 		/* [1] */
 		"Version",
 		'KWRD',
@@ -40747,8 +40993,9 @@ resource 'TMPL' (1346, "tab#") {
 	}
 };
 
-resource 'TMPL' (1347, "taps") {
-	{	/* array: 19 elements */
+
+resource 'TMPL' (1348, "taps") {
+	{
 		/* [1] */
 		"Terminal tool capabilities list",
 		'DVDR',
@@ -40809,8 +41056,9 @@ resource 'TMPL' (1347, "taps") {
 	}
 };
 
-resource 'TMPL' (1348, "tdat") {
-	{	/* array: 9 elements */
+
+resource 'TMPL' (1349, "tdat") {
+	{
 		/* [1] */
 		"Theme Data (ID 1)",
 		'DVDR',
@@ -40821,8 +41069,7 @@ resource 'TMPL' (1348, "tdat") {
 		"Resource Type",
 		'TNAM',
 		/* [4] */
-		"These two resource IDs are always the sa"
-		"me",
+		"These two resource IDs are always the same",
 		'DVDR',
 		/* [5] */
 		"Resource ID 1",
@@ -40842,16 +41089,18 @@ resource 'TMPL' (1348, "tdat") {
 	}
 };
 
-resource 'TMPL' (1349, "TEXT") {
-	{	/* array: 1 elements */
+
+resource 'TMPL' (1350, "TEXT") {
+	{
 		/* [1] */
 		"Text",
 		'CSTR'
 	}
 };
 
-resource 'TMPL' (1350, "thg0") {
-	{	/* array: 19 elements */
+
+resource 'TMPL' (1351, "thg0") {
+	{
 		/* [1] */
 		"Initial version of Thing resource",
 		'DVDR',
@@ -40912,8 +41161,9 @@ resource 'TMPL' (1350, "thg0") {
 	}
 };
 
-resource 'TMPL' (1351, "thga") {
-	{	/* array: 23 elements */
+
+resource 'TMPL' (1352, "thga") {
+	{
 		/* [1] */
 		"Type of component",
 		'TNAM',
@@ -40986,11 +41236,11 @@ resource 'TMPL' (1351, "thga") {
 	}
 };
 
-resource 'TMPL' (1352, "thn#") {
-	{	/* array: 4 elements */
+
+resource 'TMPL' (1353, "thn#") {
+	{
 		/* [1] */
-		"Component Manager thing load order depen"
-		"dency",
+		"Component Manager thing load order dependency",
 		'LSTB',
 		/* [2] */
 		"Code type",
@@ -41004,8 +41254,9 @@ resource 'TMPL' (1352, "thn#") {
 	}
 };
 
-resource 'TMPL' (1353, "thn0") {
-	{	/* array: 19 elements */
+
+resource 'TMPL' (1354, "thn0") {
+	{
 		/* [1] */
 		"Version 0 of Component Manager thing",
 		'DVDR',
@@ -41019,8 +41270,7 @@ resource 'TMPL' (1353, "thn0") {
 		"Manufacturer",
 		'TNAM',
 		/* [5] */
-		"Component wants to be registered at star"
-		"tup",
+		"Component wants to be registered at startup",
 		'LB01',
 		/* [6] */
 		"Use fast dispatch when calling component",
@@ -41067,8 +41317,9 @@ resource 'TMPL' (1353, "thn0") {
 	}
 };
 
-resource 'TMPL' (1354, "thn1") {
-	{	/* array: 44 elements */
+
+resource 'TMPL' (1355, "thn1") {
+	{
 		/* [1] */
 		"Version 1 of Component Manager thing",
 		'DVDR',
@@ -41082,8 +41333,7 @@ resource 'TMPL' (1354, "thn1") {
 		"Manufacturer",
 		'TNAM',
 		/* [5] */
-		"Component wants to be registered at star"
-		"tup",
+		"Component wants to be registered at startup",
 		'LB01',
 		/* [6] */
 		"Use fast dispatch when calling component",
@@ -41158,8 +41408,7 @@ resource 'TMPL' (1354, "thn1") {
 		"Component Platform Info records",
 		'LSTC',
 		/* [30] */
-		"Component wants to be registered at star"
-		"tup",
+		"Component wants to be registered at startup",
 		'LB01',
 		/* [31] */
 		"Use fast dispatch when calling component",
@@ -41206,8 +41455,9 @@ resource 'TMPL' (1354, "thn1") {
 	}
 };
 
-resource 'TMPL' (1355, "thnd") {
-	{	/* array: 8 elements */
+
+resource 'TMPL' (1356, "thnd") {
+	{
 		/* [1] */
 		"Count:",
 		'OCNT',
@@ -41235,8 +41485,9 @@ resource 'TMPL' (1355, "thnd") {
 	}
 };
 
-resource 'TMPL' (1356, "thng") {
-	{	/* array: 45 elements */
+
+resource 'TMPL' (1357, "thng") {
+	{
 		/* [1] */
 		"Type of component",
 		'TNAM',
@@ -41247,8 +41498,7 @@ resource 'TMPL' (1356, "thng") {
 		"Manufacturer",
 		'TNAM',
 		/* [4] */
-		"Component wants to be registered at star"
-		"tup",
+		"Component wants to be registered at startup",
 		'LB01',
 		/* [5] */
 		"Use fast dispatch when calling component",
@@ -41323,8 +41573,7 @@ resource 'TMPL' (1356, "thng") {
 		"Component Platform Info records",
 		'LSTC',
 		/* [29] */
-		"Component wants to be registered at star"
-		"tup",
+		"Component wants to be registered at startup",
 		'LB01',
 		/* [30] */
 		"Use fast dispatch when calling component",
@@ -41377,8 +41626,9 @@ resource 'TMPL' (1356, "thng") {
 	}
 };
 
-resource 'TMPL' (1357, "thnr") {
-	{	/* array: 8 elements */
+
+resource 'TMPL' (1358, "thnr") {
+	{
 		/* [1] */
 		"Components public resource maps",
 		'LSTB',
@@ -41406,8 +41656,9 @@ resource 'TMPL' (1357, "thnr") {
 	}
 };
 
-resource 'TMPL' (1358, "THUM") {
-	{	/* array: 6 elements */
+
+resource 'TMPL' (1359, "THUM") {
+	{
 		/* [1] */
 		"\"AfterDark\" resource format",
 		'DVDR',
@@ -41429,8 +41680,9 @@ resource 'TMPL' (1358, "THUM") {
 	}
 };
 
-resource 'TMPL' (1359, "tic#") {
-	{	/* array: 6 elements */
+
+resource 'TMPL' (1360, "tic#") {
+	{
 		/* [1] */
 		"Theme File Icon List (ID 384)",
 		'DVDR',
@@ -41452,8 +41704,9 @@ resource 'TMPL' (1359, "tic#") {
 	}
 };
 
-resource 'TMPL' (1360, "TMPL") {
-	{	/* array: 4 elements */
+
+resource 'TMPL' (1361, "TMPL") {
+	{
 		/* [1] */
 		"List of template fields",
 		'LSTB',
@@ -41469,8 +41722,9 @@ resource 'TMPL' (1360, "TMPL") {
 	}
 };
 
-resource 'TMPL' (1361, "TOOL") {
-	{	/* array: 5 elements */
+
+resource 'TMPL' (1362, "TOOL") {
+	{
 		/* [1] */
 		"Tools per row",
 		'DWRD',
@@ -41489,8 +41743,9 @@ resource 'TMPL' (1361, "TOOL") {
 	}
 };
 
-resource 'TMPL' (1362, "TPal") {
-	{	/* array: 13 elements */
+
+resource 'TMPL' (1363, "TPal") {
+	{
 		/* [1] */
 		"\"Finale\" resource format",
 		'DVDR',
@@ -41510,8 +41765,7 @@ resource 'TMPL' (1362, "TPal") {
 		"Resouce ID of tool names",
 		'DWRD',
 		/* [7] */
-		"Base resource ID of icon family resource"
-		"s",
+		"Base resource ID of icon family resources",
 		'DWRD',
 		/* [8] */
 		"Count:",
@@ -41534,8 +41788,9 @@ resource 'TMPL' (1362, "TPal") {
 	}
 };
 
-resource 'TMPL' (1363, "tray") {
-	{	/* array: 2 elements */
+
+resource 'TMPL' (1364, "tray") {
+	{
 		/* [1] */
 		"Tray count",
 		'DLNG',
@@ -41545,11 +41800,11 @@ resource 'TMPL' (1363, "tray") {
 	}
 };
 
-resource 'TMPL' (1364, "trsl") {
-	{	/* array: 44 elements */
+
+resource 'TMPL' (1365, "trsl") {
+	{
 		/* [1] */
-		"To convert from all text, set all 16 fol"
-		"lowing bits.",
+		"To convert from all text, set all 16 following bits.",
 		'DVDR',
 		/* [2] */
 		"Bit 15",
@@ -41603,8 +41858,7 @@ resource 'TMPL' (1364, "trsl") {
 		"Convert from 1-byte Roman text",
 		'WBIT',
 		/* [19] */
-		"Convert from text native to current scri"
-		"pt",
+		"Convert from text native to current script",
 		'WBIT',
 		/* [20] */
 		"Convert from Roman text",
@@ -41628,8 +41882,7 @@ resource 'TMPL' (1364, "trsl") {
 		"Convert to Roman=0",
 		'CASE',
 		/* [27] */
-		"Convert to subscript native to current s"
-		"cript=1",
+		"Convert to subscript native to current script=1",
 		'CASE',
 		/* [28] */
 		"Convert to 1-byte Roman text=2",
@@ -41662,12 +41915,10 @@ resource 'TMPL' (1364, "trsl") {
 		"Reserved",
 		'WB14',
 		/* [38] */
-		"Convert all Roman chars to uppercase bef"
-		"ore transliteration",
+		"Convert all Roman chars to uppercase before transliteration",
 		'WBIT',
 		/* [39] */
-		"Convert all 1-byte chars to 2-byte chars"
-		" before transliteration",
+		"Convert all 1-byte chars to 2-byte chars before transliteration",
 		'WBIT',
 		/* [40] */
 		"Extra rules",
@@ -41687,8 +41938,9 @@ resource 'TMPL' (1364, "trsl") {
 	}
 };
 
-resource 'TMPL' (1365, "TTBL") {
-	{	/* array: 6 elements */
+
+resource 'TMPL' (1366, "TTBL") {
+	{
 		/* [1] */
 		"\"SuitCase\" resource format",
 		'DVDR',
@@ -41710,8 +41962,9 @@ resource 'TMPL' (1365, "TTBL") {
 	}
 };
 
-resource 'TMPL' (1366, "tVal") {
-	{	/* array: 2 elements */
+
+resource 'TMPL' (1367, "tVal") {
+	{
 		/* [1] */
 		"\"AfterDark\" resource format",
 		'DVDR',
@@ -41721,8 +41974,9 @@ resource 'TMPL' (1366, "tVal") {
 	}
 };
 
-resource 'TMPL' (1367, "tvar") {
-	{	/* array: 10 elements */
+
+resource 'TMPL' (1368, "tvar") {
+	{
 		/* [1] */
 		"Theme Variants (must have ID 128)",
 		'DVDR',
@@ -41756,8 +42010,9 @@ resource 'TMPL' (1367, "tvar") {
 	}
 };
 
-resource 'TMPL' (1368, "TxSt") {
-	{	/* array: 12 elements */
+
+resource 'TMPL' (1369, "TxSt") {
+	{
 		/* [1] */
 		"Unused",
 		'BBIT',
@@ -41797,8 +42052,9 @@ resource 'TMPL' (1368, "TxSt") {
 	}
 };
 
-resource 'TMPL' (1369, "Txtr") {
-	{	/* array: 43 elements */
+
+resource 'TMPL' (1370, "Txtr") {
+	{
 		/* [1] */
 		"Size",
 		'DWRD',
@@ -41931,8 +42187,9 @@ resource 'TMPL' (1369, "Txtr") {
 	}
 };
 
-resource 'TMPL' (1370, "TXTs") {
-	{	/* array: 2 elements */
+
+resource 'TMPL' (1371, "TXTs") {
+	{
 		/* [1] */
 		"\"Fetch\" resource template",
 		'DVDR',
@@ -41942,8 +42199,9 @@ resource 'TMPL' (1370, "TXTs") {
 	}
 };
 
-resource 'TMPL' (1371, "typ#") {
-	{	/* array: 4 elements */
+
+resource 'TMPL' (1372, "typ#") {
+	{
 		/* [1] */
 		"Count:",
 		'OCNT',
@@ -41959,8 +42217,9 @@ resource 'TMPL' (1371, "typ#") {
 	}
 };
 
-resource 'TMPL' (1372, "TYPs") {
-	{	/* array: 3 elements */
+
+resource 'TMPL' (1373, "TYPs") {
+	{
 		/* [1] */
 		"\"Fetch\" resource template",
 		'DVDR',
@@ -41973,16 +42232,18 @@ resource 'TMPL' (1372, "TYPs") {
 	}
 };
 
-resource 'TMPL' (1373, "url ") {
-	{	/* array: 1 elements */
+
+resource 'TMPL' (1374, "url ") {
+	{
 		/* [1] */
 		"URL string",
 		'CSTR'
 	}
 };
 
-resource 'TMPL' (1374, "vers") {
-	{	/* array: 11 elements */
+
+resource 'TMPL' (1375, "vers") {
+	{
 		/* [1] */
 		"Version number",
 		'HBYT',
@@ -42019,8 +42280,9 @@ resource 'TMPL' (1374, "vers") {
 	}
 };
 
-resource 'TMPL' (1375, "VFlg") {
-	{	/* array: 2 elements */
+
+resource 'TMPL' (1376, "VFlg") {
+	{
 		/* [1] */
 		"Obey DIV \"align\" tag",
 		'LBIT',
@@ -42030,8 +42292,9 @@ resource 'TMPL' (1375, "VFlg") {
 	}
 };
 
-resource 'TMPL' (1376, "view") {
-	{	/* array: 909 elements */
+
+resource 'TMPL' (1377, "view") {
+	{
 		/* [1] */
 		"Views",
 		'OCNT',
@@ -44762,8 +45025,9 @@ resource 'TMPL' (1376, "view") {
 	}
 };
 
-resource 'TMPL' (1377, "wctb") {
-	{	/* array: 20 elements */
+
+resource 'TMPL' (1378, "wctb") {
+	{
 		/* [1] */
 		"Window color seed",
 		'HLNG',
@@ -44827,8 +45091,9 @@ resource 'TMPL' (1377, "wctb") {
 	}
 };
 
-resource 'TMPL' (1378, "WIND") {
-	{	/* array: 27 elements */
+
+resource 'TMPL' (1379, "WIND") {
+	{
 		/* [1] */
 		"BoundsRect",
 		'RECT',
@@ -44913,16 +45178,18 @@ resource 'TMPL' (1378, "WIND") {
 	}
 };
 
-resource 'TMPL' (1379, "wstr") {
-	{	/* array: 1 elements */
+
+resource 'TMPL' (1380, "wstr") {
+	{
 		/* [1] */
 		"Query",
 		'WSTR'
 	}
 };
 
-resource 'TMPL' (1380, "xdtl") {
-	{	/* array: 63 elements */
+
+resource 'TMPL' (1381, "xdtl") {
+	{
 		/* [1] */
 		"Count:",
 		'ZCNT',
@@ -45115,8 +45382,9 @@ resource 'TMPL' (1380, "xdtl") {
 	}
 };
 
-resource 'TMPL' (1381, "xMNU") {
-	{	/* array: 23 elements */
+
+resource 'TMPL' (1382, "xMNU") {
+	{
 		/* [1] */
 		"Menu title",
 		'P100',
@@ -45189,8 +45457,9 @@ resource 'TMPL' (1381, "xMNU") {
 	}
 };
 
-resource 'TMPL' (1382, "xmnu") {
-	{	/* array: 115 elements */
+
+resource 'TMPL' (1383, "xmnu") {
+	{
 		/* [1] */
 		"Version",
 		'KWRD',
@@ -45539,8 +45808,9 @@ resource 'TMPL' (1382, "xmnu") {
 	}
 };
 
-resource 'TMPL' (1383, "ZOOM") {
-	{	/* array: 21 elements */
+
+resource 'TMPL' (1384, "ZOOM") {
+	{
 		/* [1] */
 		"Doing zooming rectangles?",
 		'WFLG',
@@ -45607,8 +45877,9 @@ resource 'TMPL' (1383, "ZOOM") {
 	}
 };
 
-resource 'TMPL' (1384, "¤DTD") {
-	{	/* array: 30 elements */
+
+resource 'TMPL' (1385, "¤DTD") {
+	{
 		/* [1] */
 		"Version (should be 1 as of 980622)",
 		'HWRD',
@@ -45652,8 +45923,7 @@ resource 'TMPL' (1384, "¤DTD") {
 		"Reserved",
 		'FBYT',
 		/* [15] */
-		"Valid container tags (bullet seperated s"
-		"tring)",
+		"Valid container tags (bullet seperated string)",
 		'WSTR',
 		/* [16] */
 		"Align",
@@ -45689,8 +45959,7 @@ resource 'TMPL' (1384, "¤DTD") {
 		"Reserved",
 		'FBYT',
 		/* [27] */
-		"Enumerated values (bullet seperated stri"
-		"ng)",
+		"Enumerated values (bullet seperated string)",
 		'WSTR',
 		/* [28] */
 		"Align",
@@ -45704,8 +45973,9 @@ resource 'TMPL' (1384, "¤DTD") {
 	}
 };
 
-resource 'TMPL' (1385, "µVal") {
-	{	/* array: 14 elements */
+
+resource 'TMPL' (1386, "µVal") {
+	{
 		/* [1] */
 		"\"AfterDark\" resource format",
 		'DVDR',
