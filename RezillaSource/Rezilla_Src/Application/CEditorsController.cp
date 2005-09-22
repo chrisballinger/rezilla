@@ -20,6 +20,7 @@ PP_Begin_Namespace_PowerPlant
 #endif
 
 #include "CEditorsController.h"
+#include "CRezillaApp.h"
 #include "CTEXT_EditorDoc.h"
 #include "CUtxt_EditorDoc.h"
 #include "CPICT_EditorDoc.h"
@@ -74,47 +75,60 @@ CEditorsController::~CEditorsController()
 // type having an identical structure. This concerns resource types whose type
 // is defined with a 'type as' statement in the Rez include files (with .r
 // extension).
+// Note (vs 1.0.7): the property list built from the XML data causes a 
+// crash under Tiger while it works ok under Panther. No idea what's the 
+// problem. As a consequence, the TypeAs.plist file is now replaced by a 
+// resource of custom type RzTA which stores the key/value pairs of 
+// ResTypes, and the dictionary is now built from this resource.
+// 			type 'RzTA' {
+// 				wide array {
+// 					literal longint;		/* Original type */
+// 					literal longint;		/* Substitute type */
+// 				};
+// 			};
+
 
 void
 CEditorsController::BuildAsTypeDictionary()
 {
-	CFBundleRef 			mainBundleRef;
-	CFURLRef 				typeasURL;
-	OSErr	  				error = noErr;
-	
-	// Locate the Templates resource file inside the main bundle
-	mainBundleRef = NULL;
-	typeasURL = NULL;
-	
-	mainBundleRef = CFBundleGetMainBundle();
-	
-	typeasURL = CFBundleCopyResourceURL(mainBundleRef, CFSTR("TypeAs"), CFSTR("plist"), NULL);
-	
-	if (typeasURL) {
-		CFDataRef		xmlRef;
-		Boolean			status;
-		
-		// Read the XML file
-		status = CFURLCreateDataAndPropertiesFromResource(kCFAllocatorDefault, typeasURL, 
-														  &xmlRef, NULL, NULL, NULL);
-		if (status) {
-			CFStringRef errorString;
-			// Reconstitute the dictionary using the XML data
-			sAsTypeDictionary = CFPropertyListCreateFromXMLData(kCFAllocatorDefault, xmlRef, 
-													   kCFPropertyListImmutable, &errorString);
+	// Open the TypeAs resource
+	StRezRefSaver saver(CRezillaApp::sOwnRefNum);
+
+	// Get the data
+	CFStringRef errorString;
+	Handle rezHandle = nil;
+	rezHandle = ::Get1Resource('RzTA', 0);
+
+	if (rezHandle != nil) {
+		// Read its data and make a stream
+		LHandleStream * theStream = new LHandleStream(rezHandle);
+
+		CFStringRef * theKeys;
+		CFStringRef * theVals;
+		OSType theOSType;
+		SInt32 index;
+		SInt32 count = theStream->GetLength() / 8;
+
+		theKeys = (CFStringRef*) NewPtrClear(sizeof(CFStringRef) * count);
+		theVals = (CFStringRef*) NewPtrClear(sizeof(CFStringRef) * count);
+
+		for (index = 0; index < count; index++) {
+			// CFStringGetSystemEncoding() or kCFStringEncodingMacRoman
+			*theStream >> theOSType;
+			theKeys[index] = CFStringCreateWithBytes(kCFAllocatorDefault, (const UInt8 *) &theOSType, sizeof(OSType), kCFStringEncodingMacRoman, false);
 			
-			if (sAsTypeDictionary == NULL) {
-				CFShow(errorString);
-			} else {
-				CFRetain(sAsTypeDictionary);
-			}
-			
-			// Release the XML data
-			CFRelease(xmlRef);
+			*theStream >> theOSType;
+			theVals[index] = CFStringCreateWithBytes(kCFAllocatorDefault, (const UInt8 *) &theOSType, sizeof(OSType), kCFStringEncodingMacRoman, false);;
 		}
 		
-		CFRelease(typeasURL);
-	}	
+		// Build an immutable dictionary from the stream
+		sAsTypeDictionary = CFDictionaryCreate(kCFAllocatorDefault, (const void **) theKeys, (const void **) theVals, count, NULL, NULL);
+
+	} 
+	
+	if (sAsTypeDictionary == NULL) {
+		CFShow(errorString);
+	}		
 }
 
 
@@ -137,36 +151,11 @@ CEditorsController::FindSubstitutionType(ResType inType, ResType * outType)
 			inTypeRef = CFStringCreateWithPascalString(NULL, theString, kCFStringEncodingMacRoman);
 			
 			if (inTypeRef) {
-				int k;
-				CFStringRef *		theKeys;
-				CFStringRef *		theVals;
-		
-				CFRetain(inTypeRef);
-				CFIndex count = CFDictionaryGetCount( (CFDictionaryRef) sAsTypeDictionary );
-				theKeys = (CFStringRef*) NewPtrClear(sizeof(CFStringRef) * count);
-				theVals = (CFStringRef*) NewPtrClear(sizeof(CFStringRef) * count);
-				CFDictionaryGetKeysAndValues((CFDictionaryRef) sAsTypeDictionary, (const void **) theKeys, (const void **) theVals);
-				for (k = 0; k < count; k++) {
-					if (theKeys[k] && theVals[k] ) {
-						// Make a two items list for each key/value pair
-// 						if (CFStringGetCString(theKeys[k], theStr, sizeof(theStr), kCFStringEncodingMacRoman) 
-// 							  && CFStringGetCString(theVals[k], theSubStr, sizeof(theSubStr), kCFStringEncodingMacRoman)) {
-								  CFShow(theKeys[k]);
-								  CFShow(theVals[k]);
-// 						} 
-					} 
-				}
-
-
+				result = CFDictionaryGetValueIfPresent( (CFDictionaryRef) sAsTypeDictionary, 
+													   inTypeRef, (const void**) &outTypeRef);
+				CFRelease(inTypeRef);
 				
-				
-				
-				result = CFDictionaryContainsKey((CFDictionaryRef) sAsTypeDictionary, inTypeRef);
-// 				result = CFDictionaryGetValueIfPresent( (CFDictionaryRef) sAsTypeDictionary, 
-// 													   inTypeRef, (const void**) &outTypeRef);
-				
-				if (result) {
-					outTypeRef = (CFStringRef) CFDictionaryGetValue((CFDictionaryRef) sAsTypeDictionary, inTypeRef);
+				if (result && outTypeRef != nil) {
 					result = CFStringGetPascalString(outTypeRef, theString, 
 													 sizeof(theString), kCFStringEncodingMacRoman);
 					// Caveat: outTypeRef must not be released
@@ -175,7 +164,6 @@ CEditorsController::FindSubstitutionType(ResType inType, ResType * outType)
 						UMiscUtils::PStringToOSType(theString, *outType);	
 					} 
 				}
-//				CFRelease(inTypeRef);
 			}
 		}
 	}
