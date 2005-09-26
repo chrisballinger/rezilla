@@ -2,7 +2,7 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2005-06-28 10:53:43
+//             Last modification: 2005-09-25 08:29:07
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -908,7 +908,7 @@ CRezMapDoc::DoSave()
 	catch (...) {}
 	
 	if (error != noErr) {
-		UMessageDialogs::ErrorWithString(CFSTR("ErrorSavingRezMapDoc"), error);
+		UMessageDialogs::DescribeError(CFSTR("ErrorSavingRezMapDoc"), error);
 	} else {
 		// Mark the document as non modified
 		SetModified(false);

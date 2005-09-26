@@ -2,7 +2,7 @@
 // CTmplEditorDoc.cp					
 // 
 //                       Created: 2004-06-12 10:06:22
-//             Last modification: 2005-09-05 06:51:11
+//             Last modification: 2005-09-25 08:28:39
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -115,7 +115,7 @@ CTmplEditorDoc::Initialize()
 		if (error == err_ExceptionParsingTemplate) {
 			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("TemplateParsingException"), PPob_SimpleMessage);
 		} else if (error != userCanceledErr) {
-			UMessageDialogs::ErrorWithString(CFSTR("ErrorParsingWithTemplate"), error);
+			UMessageDialogs::DescribeError(CFSTR("ErrorParsingWithTemplate"), error);
 		} 
 		delete this;
 		return;
@@ -218,7 +218,7 @@ CTmplEditorDoc::GetModifiedResource(Boolean &releaseIt)
 	OSErr error = mTmplEditWindow->RetrieveDataWithTemplate();
 
 	if ( error != noErr ) {
-		UMessageDialogs::ErrorWithString(CFSTR("ErrorWhileSavingTemplateWindow"), error);
+		UMessageDialogs::DescribeError(CFSTR("ErrorWhileSavingTemplateWindow"), error);
 	} else {
 		if (mTmplEditWindow->GetOutStream() != NULL) {
 			theHandle = mTmplEditWindow->GetOutStream()->GetDataHandle();

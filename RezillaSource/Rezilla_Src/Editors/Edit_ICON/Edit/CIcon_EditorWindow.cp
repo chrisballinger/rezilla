@@ -2,7 +2,7 @@
 // CIcon_EditorWindow.cp
 // 
 //                       Created: 2004-12-10 17:23:05
-//             Last modification: 2005-01-19 09:27:41
+//             Last modification: 2005-09-25 08:28:47
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -696,7 +696,7 @@ CIcon_EditorWindow::ObeyCommand(
 		if ( theAction )
 			delete( theAction );
 	
-		UMessageDialogs::ErrorWithString(CFSTR("ErrorWithIconEditor"), theErr);
+		UMessageDialogs::DescribeError(CFSTR("ErrorWithIconEditor"), theErr);
 		return( true );
 	}
 // 	return cmdHandled;
@@ -1075,11 +1075,11 @@ CIcon_EditorWindow::CreateNewAction( OSType inActionType, void *ioParam )
 	} 
 	catch( SInt32 theErr )
 	{
-		UMessageDialogs::ErrorWithString(CFSTR("ErrorWithIconEditor"), theErr);
+		UMessageDialogs::DescribeError(CFSTR("ErrorWithIconEditor"), theErr);
 	}
 	catch( ... )
 	{
-		UMessageDialogs::ErrorWithString(CFSTR("ErrorWithIconEditor"), err_IconGeneric);
+		UMessageDialogs::DescribeError(CFSTR("ErrorWithIconEditor"), err_IconGeneric);
 	}
 	
 	return( nil );
