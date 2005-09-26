@@ -167,11 +167,11 @@ CTemplatesController::BuildInternalTemplatesArray()
 // exists.
 // This function looks in different domains and creates the folders if they do
 // not already exist:
-// 		kSystemDomain	---> System/Library/Application Support
 // 		kLocalDomain	---> Library/Application Support
 // 		kUserDomain		---> ~/Library/Application Support
 // 		
-// 	Do we really need kSystemDomain ? kNetworkDomain ?
+// 	Note: not using kSystemDomain. What about kNetworkDomain ?
+// 		kSystemDomain	---> System/Library/Application Support
 
 OSErr
 CTemplatesController::BuildExternalTemplatesDictionary()
@@ -180,7 +180,7 @@ CTemplatesController::BuildExternalTemplatesDictionary()
 	UInt32   				domainIndex;
 	FSRef					appSupportRef, rezillaRef, templateRef, fileRef;
 	// kUserDomain, kNetworkDomain, kLocalDomain, kSystemDomain
-	static const SInt16 kFolderDomains[] = {kUserDomain, kLocalDomain, kSystemDomain, 0};
+	static const SInt16 kFolderDomains[] = {kUserDomain, kLocalDomain, 0};
 	
 	// Create a mutable dictionary
 	sExternalTemplates = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
