@@ -2,7 +2,7 @@
 // UMessageDialogs.h					
 // 
 //                       Created: 2002-05-31 19:50:34
-//             Last modification: 2005-09-20 14:45:12
+//             Last modification: 2005-09-25 08:27:50
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -111,7 +111,11 @@ namespace UMessageDialogs {
 	
 	void		AlertWithType(CFStringRef inCFStringRef, ResType inType);
 	
-	void		ErrorWithString(CFStringRef inCFStringRef, SInt32 inError);
+	void		AlertWithString(CFStringRef inCFStringRef, Str255 inString);
+
+	SInt16		AskIfWithString(CFStringRef inCFStringRef, Str255 inString);
+	
+	void		DescribeError(CFStringRef inCFStringRef, SInt32 inError);
 	
 	void		DisplayPostponedError(CFStringRef inCFStringRef, SInt32 inError);
 	

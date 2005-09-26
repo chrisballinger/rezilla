@@ -2,7 +2,7 @@
 // UMessageDialogs.h					
 // 
 //                       Created: 2002-05-31 19:50:34
-//             Last modification: 2005-09-20 14:45:38
+//             Last modification: 2005-09-25 22:03:11
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -13,6 +13,7 @@
 // ===========================================================================
 
 #include "UMessageDialogs.h"
+#include "UMiscUtils.h"
 #include "UDialogBoxHandler.h"
 #include "CRezillaApp.h"
 #include "RezillaConstants.h"
@@ -631,29 +632,90 @@ UMessageDialogs::AlertWithValue(CFStringRef inCFStringRef, SInt32 inValue)
 void
 UMessageDialogs::AlertWithType(CFStringRef inCFStringRef, ResType inType)
 {
+	Str255		theString;
+	UMiscUtils::OSTypeToPString(inType, theString);	
+	AlertWithString(inCFStringRef, theString);
+}
+
+
+// void
+// UMessageDialogs::AlertWithType(CFStringRef inCFStringRef, ResType inType)
+// {
+// 	CFStringRef formatStr = NULL, messageStr = NULL;
+// 	
+// 	formatStr = CFCopyLocalizedString(inCFStringRef, NULL);
+// 	if (formatStr != NULL) {
+// 		char typeStr[5];
+// 		*(OSType*)typeStr = inType;
+// 		typeStr[4] = 0;
+// 		messageStr = ::CFStringCreateWithFormat(NULL, NULL, formatStr, typeStr);
+// 		if (messageStr != NULL) {
+// 			UMessageDialogs::SimpleMessageFromCFString(messageStr, PPob_SimpleMessage);
+// 			CFRelease(messageStr);                     
+// 		}
+// 		CFRelease(formatStr);                             
+// 	}		  	
+// }
+
+
+// ---------------------------------------------------------------------------
+//  ¥ AlertWithString											
+// ---------------------------------------------------------------------------
+
+void
+UMessageDialogs::AlertWithString(CFStringRef inCFStringRef, Str255 inString)
+{
+	char nameStr[256];
 	CFStringRef formatStr = NULL, messageStr = NULL;
 	
+	CopyPascalStringToC(inString, nameStr);
 	formatStr = CFCopyLocalizedString(inCFStringRef, NULL);
-	if (formatStr != NULL) {
-		char typeStr[5];
-		*(OSType*)typeStr = inType;
-		typeStr[4] = 0;
-		messageStr = ::CFStringCreateWithFormat(NULL, NULL, formatStr, typeStr);
-		if (messageStr != NULL) {
+	
+	if (formatStr) {
+		messageStr = ::CFStringCreateWithFormat(NULL, NULL, formatStr, nameStr);
+		
+		if (messageStr) {
 			UMessageDialogs::SimpleMessageFromCFString(messageStr, PPob_SimpleMessage);
-			CFRelease(messageStr);                     
-		}
-		CFRelease(formatStr);                             
-	}		  	
+			CFRelease(messageStr);       
+		} 
+		CFRelease(formatStr);       
+	} 
 }
 
 
 // ---------------------------------------------------------------------------
-//  ¥ ErrorWithString										
+//  ¥ AskIfWithString											
+// ---------------------------------------------------------------------------
+
+SInt16
+UMessageDialogs::AskIfWithString(CFStringRef inCFStringRef, Str255 inString)
+{
+	char nameStr[256];
+	CFStringRef formatStr = NULL, messageStr = NULL;
+	SInt16		theAnswer = answer_Cancel;
+
+	CopyPascalStringToC(inString, nameStr);
+	formatStr = CFCopyLocalizedString(inCFStringRef, NULL);
+	
+	if (formatStr) {
+		messageStr = ::CFStringCreateWithFormat(NULL, NULL, formatStr, nameStr);
+		
+		if (messageStr) {
+			theAnswer = UMessageDialogs::AskIfFromLocalizable(messageStr, PPob_AskIfMessage);
+			CFRelease(messageStr);       
+		} 
+		CFRelease(formatStr);       
+	} 
+	return theAnswer;
+}
+
+
+// ---------------------------------------------------------------------------
+//  ¥ DescribeError										
 // ---------------------------------------------------------------------------
 
 void
-UMessageDialogs::ErrorWithString(CFStringRef inCFStringRef, SInt32 inError)
+UMessageDialogs::DescribeError(CFStringRef inCFStringRef, SInt32 inError)
 {
 	CFStringRef formatStr = NULL, messageStr = NULL;
 	CFStringRef errorRef = NULL, errorStr = NULL;
@@ -761,5 +823,5 @@ CPostponedError::SpendTime( const EventRecord & )
 	this->StopIdling();
 	
 	if ( mErrorNum )
-		UMessageDialogs::ErrorWithString( mErrorString, mErrorNum );
+		UMessageDialogs::DescribeError( mErrorString, mErrorNum );
 }
