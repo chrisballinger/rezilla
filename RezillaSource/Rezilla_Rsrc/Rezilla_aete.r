@@ -1,17 +1,4 @@
-
-
-
-
-
-
-
-
-
-
 #define SystemSevenOrLater 1
-//#include "Types.r"
-//#include "SysTypes.r"
-//#include "AEUserTermTypes.r"
 #include <Carbon/Carbon.r>
 
 resource 'aete' (0,"Scripting terminology") {
@@ -96,6 +83,27 @@ resource 'aete' (0,"Scripting terminology") {
 						'pRDO',
 						'bool',
 						"specify if the file should be opened in read-only mode (by default it is not)",
+							optional,
+							singleItem,
+							notEnumerated,
+							reserved,
+							enumsAreConstants,
+							enumListCanRepeat,
+							paramIsValue,
+							notParamIsTarget,
+							reserved,
+							reserved,
+							reserved,
+							reserved,
+							prepositionParam,
+							notFeminine,
+							notMasculine,
+							singular
+					,
+						"createFork",
+						'Crea',
+						'bool',
+						"specify if a resource fork should be created when the file does not have any resource fork already (by default it is not)",
 							optional,
 							singleItem,
 							notEnumerated,
@@ -3992,5 +4000,6 @@ resource 'aete' (0,"Scripting terminology") {
 }
 
 };
+
 
 
