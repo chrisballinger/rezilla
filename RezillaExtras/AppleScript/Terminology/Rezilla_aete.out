@@ -28,7 +28,7 @@ Number of Events: 2
 	Direct parameter type: 'obj '
 	Direct parameter description: Objects to open. Can be a list of files or an object specifier.
 	Direct parameter is required. It is a single item, not enumerated. It changes the server's state.
-	Number of additional parameters: 2
+	Number of additional parameters: 3
 	  Parameter 1: from
 		Parameter keyword: 'From'
 		Parameter type: 'FORK'
@@ -39,6 +39,11 @@ Number of Events: 2
 		Parameter type: 'bool'
 		Parameter description: specify if the file should be opened in read-only mode (by default it is not)
 		Parameter 2 is optional. It is a single item, not enumerated. 
+	  Parameter 3: createFork
+		Parameter keyword: 'Crea'
+		Parameter type: 'bool'
+		Parameter description: specify if a resource fork should be created when the file does not have any resource fork already (by default it is not)
+		Parameter 3 is optional. It is a single item, not enumerated. 
   Event 2: quit
 ---------------
 	Description: Quit the application
@@ -802,7 +807,7 @@ Number of Classes: 23
 	  (4) endPos
 		Property ID: 'endP'
 		Property class: 'long'
-		Property description: Position of end of selection
+		Property description: position of end of selection
 		Property is a single item, not enumerated. It can be set by the Set Data AE.
 	  (5) hex selection
 		Property ID: 'hSel'

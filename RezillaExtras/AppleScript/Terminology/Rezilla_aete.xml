@@ -118,6 +118,30 @@
 							<Plural>singular</Plural>
 						</ParameterFlags>
 					</Parameter>
+					<Parameter>
+						<ParameterName>createFork</ParameterName>
+						<ParameterID>Crea</ParameterID>
+						<ParameterType>bool</ParameterType>
+						<ParameterDescription>specify if a resource fork should be created when the file does not have any resource fork already (by default it is not)</ParameterDescription>
+						<ParameterFlags>
+							<IsOptional>optional</IsOptional>
+							<IsListOfItems>singleItem</IsListOfItems>
+							<IsEnumerated>notEnumerated</IsEnumerated>
+							<Reserved/>
+							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+							<ParamIsReference>paramIsValue</ParamIsReference>
+							<ParamIsTarget>notParamIsTarget</ParamIsTarget>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<LabeledParam>prepositionParam</LabeledParam>
+							<IsFeminine>notFeminine</IsFeminine>
+							<IsMasculine>notMasculine</IsMasculine>
+							<Plural>singular</Plural>
+						</ParameterFlags>
+					</Parameter>
 				</ArrayOtherParams>
 			</Event>
 
