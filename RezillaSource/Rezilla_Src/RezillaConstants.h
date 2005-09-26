@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2005-09-20 15:40:51
+//             Last modification : 2005-09-24 14:48:30
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -1123,6 +1123,7 @@ enum
 	kAERzilReply	 		=  FOUR_CHAR_CODE('Repl'),
 	kAERzilFilesList	 	=  FOUR_CHAR_CODE('LFil'),
 	kAERzilFromFork			=  FOUR_CHAR_CODE('From'),
+	kAERzilCreateFork		=  FOUR_CHAR_CODE('Crea'),
 	kAERzilCompareWith	 	=  FOUR_CHAR_CODE('AndF'),
 	kAERzilLike			 	=  FOUR_CHAR_CODE('Like'),
 	kAERzilFormat			=  FOUR_CHAR_CODE('Frmt')
@@ -1294,6 +1295,7 @@ enum RezillaErrors
 	err_AlreadyExistingID,
 	err_MoreDataThanExpected,
 	err_InvalidHexadecimalData,
+	err_CreateForkForFileFailed,
 	err_ImportGenericError			= 1900,
 	err_ImportInvalidOSType,
 	err_ImportCantGetXmlData,
