@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2005-09-01 08:34:16
+//             Last modification: 2005-09-24 15:23:54
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -548,7 +548,7 @@ CRezillaApp::ObeyCommand(
 			FSSpec theFileSpec;
 			OSErr error;
 			if ( ChooseAFile(theFileSpec) ) {
-				error = OpenFork(theFileSpec, true);
+				error = OpenFork(theFileSpec, true, false);
 				if (error != noErr) {
 					ReportOpenForkError(error, &theFileSpec);
 				} else {
@@ -875,7 +875,9 @@ CRezillaApp::OpenDocument(
 // ---------------------------------------------------------------------------
 
 OSErr
-CRezillaApp::OpenFork(FSSpec & inFileSpec, Boolean askChangePerm)
+CRezillaApp::OpenFork(FSSpec & inFileSpec, 
+					  Boolean askChangePerm,
+					  Boolean inhibitCreate)
 {
 	SInt16 theFork;
 	short theRefNum;
@@ -888,7 +890,7 @@ CRezillaApp::OpenFork(FSSpec & inFileSpec, Boolean askChangePerm)
 		return error;
 	} 
 	
-	error = PreOpen(inFileSpec, theFork, theRefNum, mOpeningFork, askChangePerm);
+	error = PreOpen(inFileSpec, theFork, theRefNum, mOpeningFork, askChangePerm, inhibitCreate);
 	if ( error == noErr || error == err_OpenSucceededReadOnly) {
 		theRezMapDocPtr = new CRezMapDoc(this, &inFileSpec, theFork, theRefNum);
 		if (error == err_OpenSucceededReadOnly) {
@@ -914,7 +916,8 @@ CRezillaApp::PreOpen(FSSpec & inFileSpec,
 					 SInt16 & outFork, 
 					 short & outRefnum, 
 					 SInt16 inWantedFork, 
-					 Boolean askChangePerm)
+					 Boolean askChangePerm,
+					 Boolean inhibitCreate)
 {
 	OSErr		error;
 	FSRef		theFileRef;
@@ -955,7 +958,28 @@ CRezillaApp::PreOpen(FSSpec & inFileSpec,
 			// If this failed with mapReadErr or eofErr, the file has no resource 
 			// map in resource fork or it is empty
 			if (inWantedFork == fork_anyfork) {
-				error = err_NoRezInAnyFork;
+				Boolean createFork = ! inhibitCreate;
+				// Ask to create a fork
+				if (! sCalledFromAE && ! inhibitCreate) {
+					if (UMessageDialogs::AskIfWithString(CFSTR("NoRezForkAskCreate"), inFileSpec.name) == answer_Do) {
+						createFork = true;
+					} else {
+						return userCanceledErr;
+					}				
+				} 
+				if (createFork) {
+					// Create a resource fork
+					error = CreateForkForFile(inFileSpec);
+					if (error == noErr) {
+						// Try to open it: this time the inhibitCreate
+						// argument is set to true.
+						error = PreOpen(inFileSpec, outFork, outRefnum, fork_rezfork, true);
+					} else {
+						error = err_CreateForkForFileFailed;
+					}
+				} else {
+					error = err_NoRezInAnyFork;
+				}
 			} else {
 				error = err_NoRezInRezFork;
 			}
@@ -980,55 +1004,74 @@ done:
 
 
 // ---------------------------------------------------------------------------
+//	¥ CreateForkForFile									[public static]
+// ---------------------------------------------------------------------------
+
+OSErr
+CRezillaApp::CreateForkForFile(FSSpec & inFileSpec)
+{
+	OSType	fileCreator = 0, fileType = 0;
+	
+	// Find the type and creator of the file
+	HFileInfo fpb;
+	fpb.ioVRefNum = inFileSpec.vRefNum;
+	fpb.ioDirID = inFileSpec.parID;
+	fpb.ioNamePtr = inFileSpec.name;
+	fpb.ioFVersNum = 0;
+	fpb.ioFDirIndex = 0;
+
+	if ( ::PBGetCatInfoSync((CInfoPBPtr)&fpb) == noErr) {
+		fileCreator = fpb.ioFlFndrInfo.fdCreator;
+		fileType = fpb.ioFlFndrInfo.fdType;
+	} 
+
+	// Create a resource file
+	// ScriptCode smRoman = 0
+	::FSpCreateResFile (& inFileSpec, fileCreator, fileType, ::GetApplicationScript());
+
+	return ::ResError();
+}
+
+
+// ---------------------------------------------------------------------------
 //	¥ ReportOpenForkError								[public static]
 // ---------------------------------------------------------------------------
 
 void
 CRezillaApp::ReportOpenForkError(OSErr inError, FSSpec * inFileSpecPtr)
 {
-	char * nameStr = new char[255];
-	CFStringRef formatStr = NULL, messageStr = NULL;
-
-	CopyPascalStringToC(inFileSpecPtr->name, nameStr);
-
 	switch (inError) {
-	  case err_NoRezInDataFork:
-		formatStr = ::CFCopyLocalizedString(CFSTR("NoRezInDataFork"), NULL);
+		case err_NoRezInDataFork:
+		UMessageDialogs::AlertWithString(CFSTR("NoRezInDataFork"), inFileSpecPtr->name);
 		break;
 		
-	  case err_NoRezInRezFork:
-		formatStr = ::CFCopyLocalizedString(CFSTR("NoRezInRezFork"), NULL);
+		case err_NoRezInRezFork:
+		UMessageDialogs::AlertWithString(CFSTR("NoRezInRezFork"), inFileSpecPtr->name);
 		break;
 		
-	  case err_NoRezInAnyFork:
-		formatStr = ::CFCopyLocalizedString(CFSTR("NoRezInAnyFork"), NULL);
+		case err_NoRezInAnyFork:
+		UMessageDialogs::AlertWithString(CFSTR("NoRezInAnyFork"), inFileSpecPtr->name);
 		break;
 		
-	  case opWrErr:
-		formatStr = ::CFCopyLocalizedString(CFSTR("NoOpenWritePermission"), NULL);
+		case opWrErr:
+		UMessageDialogs::AlertWithString(CFSTR("NoOpenWritePermission"), inFileSpecPtr->name);
 		break;
 		
-	  case permErr:
-		formatStr = ::CFCopyLocalizedString(CFSTR("PermissionError"), NULL);
+		case permErr:
+		UMessageDialogs::AlertWithString(CFSTR("PermissionError"), inFileSpecPtr->name);
 		break;
 		
-	  case wrPermErr:
-	  // This error has already been intercepted in PreOpen()
-	  return;
-		  
-	  default: 
-	  UMessageDialogs::AlertWithValue(CFSTR("SystemError"), inError);
-	  return;
-	}
-	
-	if (formatStr != NULL) {
-		messageStr = ::CFStringCreateWithFormat(NULL, NULL, formatStr, nameStr);
-		if (messageStr != NULL)
-		{
-			UMessageDialogs::SimpleMessageFromCFString(messageStr, PPob_SimpleMessage);
-			CFRelease(messageStr);                     
-		}
-		CFRelease(formatStr);                             
+		case wrPermErr:
+		// This error has already been intercepted in PreOpen()
+		return;
+		
+		case userCanceledErr:
+		// Do nothing
+		return;
+		
+		default: 
+		UMessageDialogs::AlertWithValue(CFSTR("SystemError"), inError);
+		return;
 	}
 }
 

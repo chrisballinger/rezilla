@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.h					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2005-06-12 18:45:45
+//             Last modification: 2005-09-24 13:19:03
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -64,9 +64,14 @@ public:
 								SInt16 & outFork, 
 								short & outRefnum, 
 								SInt16 inWantedFork = fork_anyfork, 
-								Boolean askChangePerm = false);
+								Boolean askChangePerm = false,
+								Boolean inhibitCreate = true);
 	
-	OSErr				OpenFork(FSSpec & inFileSpec, Boolean askChangePerm = false);
+	static OSErr		CreateForkForFile(FSSpec & inFileSpec);
+	
+	OSErr				OpenFork(FSSpec & inFileSpec, 
+								Boolean askChangePerm = false,
+								Boolean inhibitCreate = true);
 	
 	static void			ReportOpenForkError(OSErr inError, FSSpec * inFileSpecPtr);
 
