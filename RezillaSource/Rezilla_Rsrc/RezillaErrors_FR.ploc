@@ -1,7 +1,7 @@
 // ===========================================================================
 // RezillaErrors_FR.ploc
 //                       Created: 2004-10-05 15:00:32
-//             Last modification: 2005-06-15 05:46:01
+//             Last modification: 2005-09-24 14:47:01
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -27,6 +27,7 @@ localize "French" as "Errors.strings"
 	key "1012" value string "Cet identificateur de ressource existe déjà"
 	key "1013" value string "Plus de données que prévu"
 	key "1014" value string "Données hexadécimales non valides"
+	key "1015" value string "La création d'une branche de ressources a échoué"
 	key "1900" value string "Erreur générique d’importation"
 	key "1901" value string "OSType invalide. Un type doit comporter 4 caractères."
 	key "1902" value string "Impossible d’obtenir les données Xml"
