@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaAppAE.cp					
 //                       Created: 2004-11-30 08:44:17
-//             Last modification: 2005-06-06 09:42:23
+//             Last modification: 2005-09-25 08:01:28
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -98,13 +98,14 @@ CRezillaApp::HandleOpenDocsEvent(
 	FSSpec			theFileSpec;
 	Size			theSize;
 	SInt16			saveFork;
-	Boolean 		theBool, saveReadOnly;
+	Boolean 		theBool, saveReadOnly, inhibitCreate;
 	SInt32			numDocs, errCount = 0;
 	
 	saveFork = mOpeningFork;
 	saveReadOnly = sReadOnlyNavFlag;
 	mOpeningFork = fork_anyfork;
 	sReadOnlyNavFlag = false;
+	inhibitCreate = true;
 	
 	error = ::AEGetParamDesc(&inAppleEvent, keyDirectObject, typeAEList, &theDocList);
 	ThrowIfOSErr_(error);
@@ -129,6 +130,13 @@ CRezillaApp::HandleOpenDocsEvent(
 		} 
 	} 
 
+	// Extract optional "createFork" parameter.
+	ignoreErr = ::AEGetParamPtr(&inAppleEvent, kAERzilCreateFork, typeBoolean,
+							  &returnedType, &theBool, sizeof(Boolean), &theSize);
+	if (ignoreErr == noErr) {
+		inhibitCreate = ! theBool;
+	} 
+							  
 	// Create a list to store the files for which opening fails
 	::AECreateList(NULL, 0, false, &errorList);
 	
@@ -137,7 +145,11 @@ CRezillaApp::HandleOpenDocsEvent(
 						      (Ptr) &theFileSpec, sizeof(FSSpec), &theSize);
 	    ThrowIfOSErr_(error);
 		
-		error = OpenFork(theFileSpec);
+		// Caution: the last arg of OpenFork is inhibitCreate which is the
+		// opposite of kAERzilCreateFork. By default, Rezilla does not
+		// attemt to create a resource fork when there is no fork at all,
+		// unless the kAERzilCreateFork parameter was set to true.
+		error = OpenFork(theFileSpec, false, inhibitCreate);
 		if (error == noErr) {
 			// Register to the Recent Items menu
 			sRecentItemsAttachment->AddFile(theFileSpec, true);
