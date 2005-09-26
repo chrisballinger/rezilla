@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.h					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2005-09-24 13:19:03
+//             Last modification: 2005-09-26 10:41:39
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -37,6 +37,7 @@ class CRecentItemsMenu;
 class CRezillaPrefs;
 class CEditorsController;
 class CTemplatesController;
+class CPluginsController;
 
 
 class CRezillaApp : public LDocApplication, public LListener {
@@ -146,6 +147,7 @@ public:
 	static CRezillaPrefs *			sPrefs;
 	static CEditorsController *		sEditController;
 	static CTemplatesController *	sTemplatesController;
+	static CPluginsController *		sPluginsController;
 	static Rzil_basics				sBasics;
 	static Str255					sVersionNumber;
 	static short					sOwnRefNum;

@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2005-09-24 15:23:54
+//             Last modification: 2005-09-26 10:41:24
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -25,6 +25,7 @@
 #include "CRezMapTable.h"
 #include "CRezMapWindow.h"
 #include "CTemplatesController.h"
+#include "CPluginsController.h"
 #include "CWindowMenu.h"
 #include "NavServicesCallbacks.h"
 #include "UDialogBoxHandler.h"
@@ -142,6 +143,7 @@ CWindowMenu	*		gWindowMenu;	// This is the window menu.
 CRezillaPrefs *			CRezillaApp::sPrefs = nil;
 CEditorsController *	CRezillaApp::sEditController = nil;
 CTemplatesController *	CRezillaApp::sTemplatesController = nil;
+CPluginsController *	CRezillaApp::sPluginsController = nil;
 Rzil_basics				CRezillaApp::sBasics;
 CInspectorWindow *		CRezillaApp::sInspectorWindow = nil;
 Str255					CRezillaApp::sVersionNumber;
@@ -260,9 +262,6 @@ CRezillaApp::Initialize()
 		}
 	}
 	
-// 	// Create the about window
-// 	MakeAboutWindow();
-	
 	// Create an instance of CRezillaPrefs
 	sPrefs = new CRezillaPrefs(this);
 
@@ -272,6 +271,9 @@ CRezillaApp::Initialize()
 	
 	// Create an instance of the templates controller
 	sTemplatesController = new CTemplatesController();
+	
+	// Create an instance of the plugins controller
+	sPluginsController = new CPluginsController();
 	
 	// Install the window menu.
 	InstallWindowMenu();	
