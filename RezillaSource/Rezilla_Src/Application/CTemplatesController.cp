@@ -39,7 +39,7 @@
 CFArrayRef			CTemplatesController::sAllTypesArray;
 CFArrayRef			CTemplatesController::sInternalTemplates;
 CFDictionaryRef		CTemplatesController::sExternalTemplates;
-CFDictionaryRef		CTemplatesController::sPreferedTemplates;
+// CFDictionaryRef		CTemplatesController::sPreferedTemplates;
 CRezMap *			CTemplatesController::sTemplatesMap = nil;
 SInt16				CTemplatesController::sTemplateKind = tmpl_none;
 FSRef				CTemplatesController::sTemplateFile;
@@ -178,7 +178,7 @@ CTemplatesController::BuildExternalTemplatesDictionary()
 {
 	OSErr					error = noErr;
 	UInt32   				domainIndex;
-	FSRef					appSupportRef, rezillaRef, templateRef, fileRef;
+	FSRef					appSupportRef, rezillaRef, templateRef;
 	// kUserDomain, kNetworkDomain, kLocalDomain, kSystemDomain
 	static const SInt16 kFolderDomains[] = {kUserDomain, kLocalDomain, 0};
 	
@@ -214,35 +214,7 @@ CTemplatesController::BuildExternalTemplatesDictionary()
 					}
 					
 					if (error == noErr) {
-						// Iterate inside the folder to get all the file refs and inspect the
-						// resources. Look for resource files only at the first level. No subfolders.
-						ItemCount		actualObjects;
-						FSCatalogInfo	catalogInfo;
-						FSIterator		iterator;
-						OSErr			result;
-						
-						// Open FSIterator for flat access to templateRef
-						result = FSOpenIterator(&templateRef, kFSIterateFlat, &iterator);
-						
-						// Call FSGetCatalogInfoBulk in loop to get all items 
-						// in the Templates subfolder
-						do {
-							result = FSGetCatalogInfoBulk(iterator, 1, &actualObjects, NULL, 
-														  kFSCatInfoNodeFlags, &catalogInfo, &fileRef, NULL, NULL);
-							
-							if ( (result == noErr || result == errFSNoMoreItems) && (actualObjects != 0) ) {
-								// Skip if it is a directory
-								if ( 0 != (catalogInfo.nodeFlags & kFSNodeIsDirectoryMask) ) {
-									continue;
-								}
-								error = AddTemplatesToDictionary(&fileRef);
-							}
-						} while ( result == noErr );
-						
-						if ( (errFSNoMoreItems == result) || (afpAccessDenied == result) ) {
-							result = noErr;
-						}
-						FSCloseIterator(iterator);
+						ScanTemplatesFolder(&templateRef);
 					}
 				} 			
 			}
@@ -252,6 +224,49 @@ CTemplatesController::BuildExternalTemplatesDictionary()
 	
 	return error;
 }
+
+
+// ---------------------------------------------------------------------------
+//	 ScanTemplatesFolder										[private]
+// ---------------------------------------------------------------------------
+// Iterate inside the folder to get all the file refs and inspect the
+// plugins. Look for plugin bundles only at the first level. No subfolders.
+
+OSErr
+CTemplatesController::ScanTemplatesFolder(FSRef * inTmplFolder)
+{
+	OSErr			result = noErr;
+	ItemCount		actualObjects;
+	FSCatalogInfo	catalogInfo;
+	FSIterator		iterator;
+	FSRef			fileRef;
+	
+	// Open FSIterator for flat access to templateRef
+	result = FSOpenIterator(inTmplFolder, kFSIterateFlat, &iterator);
+	
+	// Call FSGetCatalogInfoBulk in loop to get all items 
+	// in the Templates subfolder
+	do {
+		result = FSGetCatalogInfoBulk(iterator, 1, &actualObjects, NULL, 
+									  kFSCatInfoNodeFlags, &catalogInfo, &fileRef, NULL, NULL);
+		
+		if ( (result == noErr || result == errFSNoMoreItems) && (actualObjects != 0) ) {
+			// Skip if it is a directory
+			if ( 0 != (catalogInfo.nodeFlags & kFSNodeIsDirectoryMask) ) {
+				continue;
+			}
+			result = AddTemplatesToDictionary(&fileRef);
+		}
+	} while ( result == noErr );
+	
+	if ( (errFSNoMoreItems == result) || (afpAccessDenied == result) ) {
+		result = noErr;
+	}
+	FSCloseIterator(iterator);
+	
+	return result;
+}
+
 
 
 // ---------------------------------------------------------------------------
@@ -423,7 +438,7 @@ CTemplatesController::HasExternalTemplateForType(ResType inType, FSRef * outFile
 		typeRef = CFStringCreateWithPascalString(NULL, theName, kCFStringEncodingMacRoman);
 		
 		if (typeRef) {
-			CFIndex retcount = CFGetRetainCount(sExternalTemplates);
+// 			CFIndex retcount = CFGetRetainCount(sExternalTemplates);
 			dictCount = CFDictionaryGetCount(sExternalTemplates);
 			// Allocate memory to store the keys and values
 			theKeys = (CFTypeRef*) NewPtrClear(sizeof(CFTypeRef) * dictCount);

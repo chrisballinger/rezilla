@@ -2,11 +2,11 @@
 // CTemplatesController.h
 // 
 //                       Created: 2004-08-06 12:57:55
-//             Last modification: 2004-10-12 23:29:08
+//             Last modification: 2005-09-27 12:04:52
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004
+// (c) Copyright : Bernard Desgraupes, 2004, 2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -61,7 +61,7 @@ public:
 		static CRezMap *		sTemplatesMap;
 		static CFArrayRef		sInternalTemplates;
 		static CFDictionaryRef	sExternalTemplates;
-		static CFDictionaryRef	sPreferedTemplates;
+		// static CFDictionaryRef	sPreferedTemplates;
 		static CFArrayRef		sAllTypesArray;
 		static SInt16			sTemplateKind;
 		static FSRef			sTemplateFile;
@@ -71,11 +71,12 @@ protected:
 
 	
 private:
-	OSErr				BuildInternalTemplatesArray();
-	OSErr				BuildExternalTemplatesDictionary();
-	OSErr				AddTemplatesToDictionary(FSRef * inFileRef);
-	void				AddAsTypesToAllTypes();
-	
+		OSErr				BuildInternalTemplatesArray();
+		OSErr				BuildExternalTemplatesDictionary();
+		OSErr				ScanTemplatesFolder(FSRef * inTmplFolder);
+		OSErr				AddTemplatesToDictionary(FSRef * inFileRef);
+		void				AddAsTypesToAllTypes();
+
 };
 
 #endif // _H_CTemplatesController
