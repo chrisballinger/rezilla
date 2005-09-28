@@ -22,19 +22,20 @@ class CPluginsController {
 public:
 						CPluginsController();
 				virtual	~CPluginsController();
-
-
+		
 		Boolean		HasPluginForType(ResType inType);
 		OSErr		RegisterPlugin();
 		void		UnregisterPlugin();
 		void		LoadPlugin();
 
-
 protected:
+		static CFDictionaryRef	sPluginsDict;
 
 
 private:
-		OSErr		ScanPluginsFolders();
+		OSErr		BuildPluginsDictionary();
+		OSErr		ScanPluginsFolder(FSRef * inPluginsRef);
+		OSErr		AddPluginToDictionary(CFBundleRef inBundleRef);
 };
 
 
