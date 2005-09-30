@@ -30,14 +30,16 @@ enum {
 
 // The UUID for the factory function: 
 // "306B89A8-206E-11DA-8320-000A95B1FF7C"
+// It is used as a key of the CFPlugInFactories dictionary in the property
+// list file (Info.plist).
 #define kRezillaSampleFactoryID (CFUUIDGetConstantUUIDWithBytes(NULL,0x30,0x6B,0x89,0xA8,0x20,0x6E,0x11,0xDA,0x83,0x20,0x00,0x0A,0x95,0xB1,0xFF,0x7C))
 
 
 // The layout for an instance of SampleType
 typedef struct _SampleType {
-	SRezillaPluginInterface *_rezillaPlugInterface;
-	CFUUIDRef _factoryID;
-	UInt32 _refCount;
+	SRezillaPluginInterface *	_rezillaPlugInterface;
+	CFUUIDRef					_factoryID;
+	UInt32						_refCount;
 } SampleType;
 
 // Forward declaration for the IUnknown implementation.
@@ -51,33 +53,34 @@ static void _deallocSampleType( SampleType *myInstance );
 //
 // -------------------------------------------------------------------------------------------
 
-static HRESULT sampleQueryInterface( void *myInstance, REFIID iid, LPVOID *ppv )
+static HRESULT sample_QueryInterface( void *myInstance, REFIID iid, LPVOID *ppv )
 {
-	//  Create a CoreFoundation UUIDRef for the requested interface
+	// Create an UUIDRef for the requested interface
 	CFUUIDRef interfaceID = CFUUIDCreateFromUUIDBytes( NULL, iid );
 
-	// Test the requested ID against the valid interfaces.
+	// Test the requested ID against the valid interfaces
 
 	if ( CFEqual( interfaceID, kRezillaEditorInterfaceID ) ) {
-		// If the RezillaEditorInterface was requested, bump the ref count,
+		// If the RezillaPluginInterface was requested, bump the ref count,
 		// set the ppv parameter equal to the instance, and return good status
 		( (SampleType *) myInstance )->_rezillaPlugInterface->AddRef( myInstance );
 		*ppv = myInstance;
 		CFRelease( interfaceID );
 		return S_OK;
 	} else if ( CFEqual( interfaceID, IUnknownUUID ) ) {
-		//  If the IUnknown interface was requested, same as above
+		// If the IUnknown interface was requested, same as above
 		( (SampleType *) myInstance )->_rezillaPlugInterface->AddRef( myInstance );
 		*ppv = myInstance;
 		CFRelease( interfaceID );
 		return S_OK;
 	} else {
-		//  Requested interface unknown, bail with error
+		// Requested interface unknown, bail with error
 		*ppv = NULL;
 		CFRelease( interfaceID );
 		return E_NOINTERFACE;
 	}
 }
+
 
 // -------------------------------------------------------------------------------------------
 //
@@ -87,11 +90,12 @@ static HRESULT sampleQueryInterface( void *myInstance, REFIID iid, LPVOID *ppv )
 //
 // -------------------------------------------------------------------------------------------
 
-static ULONG sampleAddRef( void *myInstance )
+static ULONG sample_AddRef( void *myInstance )
 {
 	( (SampleType *) myInstance )->_refCount += 1;
 	return ( (SampleType *) myInstance )->_refCount;
 }
+
 
 // -------------------------------------------------------------------------------------------
 //
@@ -100,81 +104,53 @@ static ULONG sampleAddRef( void *myInstance )
 //
 // -------------------------------------------------------------------------------------------
 
-static ULONG sampleRelease( void *myInstance )
+static ULONG sample_Release( void *myInstance )
 {
 	( (SampleType *) myInstance )->_refCount -= 1;
 	if ( ( (SampleType *) myInstance )->_refCount == 0 ) {
 		_deallocSampleType( (SampleType *) myInstance );
 		return 0;
-	}
-	else
+	} else {
 		return ( (SampleType *) myInstance )->_refCount;
+	}
 }
 
+
 // -------------------------------------------------------------------------------------------
 //
-//  The implementation of the testResource function
+//  The implementation by the Sample plugin of the editResource function
+//  declared in the interface (via the SRezillaPluginInterface structure)
 //
 // -------------------------------------------------------------------------------------------
 
-static void testResource( void *myInstance )
+static void sample_editResource( void *myInstance, ResType inType, short inID )
 {
-	RGBColor            ballColor;
-	GrafPtr             currentPort;
-	Rect                ballRect;
-	Rect                portRect;
-	long                newLeft;
-	long                newTop;
+	Str255      message = "\pHello! this is the Sample plugin for Rezilla. It can edit 'PStr' and 'STR ' types :-)";
+	SInt16      alertItemHit = 0;
+	Str255		typeStr;
 
-	// Make a random new color for the ball
-	ballColor.red   = Random();
-	ballColor.green = Random();
-	ballColor.blue  = Random();
-
-	// Set that color as the new color to use in drawing
-	RGBForeColor( &ballColor );
-
-	// Make a random new location for the ball that is normalized to the grafPort size.  
-	// This makes the integer from Random into a number that is portRect.top..portRect.bottom
-	// and portRect.left..portRect.right. They are normalized so that we don't spend most of our
-	// time drawing in places outside of the grafPort.
-	GetPort( &currentPort );
-	GetPortBounds( currentPort, &portRect );
-
-	newTop = Random();	
-	newTop = (( newTop + 32768 ) % portRect.bottom ) + portRect.top;
-
-	newLeft = Random();
-	newLeft = (( newLeft + 32768 ) % portRect.right ) + portRect.left;
-
-	SetRect( &ballRect, newLeft, newTop, newLeft + kBallWidth, newTop + kBallHeight );
-
-	// Move pen to the new location, and paint the colored ball
-	MoveTo( newLeft, newTop );
-	PaintOval( &ballRect );
-
-	// Move the pen to the middle of the new ball position, for the text
-	MoveTo( ballRect.left + kBallWidth / 2 - kBobSize, 
-			ballRect.top + kBallHeight / 2 + kBobSize / 2 - 1 );
-
-	// Invert the color and draw the text there
-	InvertColor( &ballColor ); 
-	RGBForeColor( &ballColor );
-	DrawString( "\pBob" );
+	char theType[5];
+	theType[4] = 0;
+	*(OSType*)theType = inType;
+	CopyCStringToPascal(theType, typeStr);	
+	
+	StandardAlert(kAlertStopAlert, typeStr, message, NULL, &alertItemHit);
 }
 
-// -------------------------------------------------------------------------------------------
-//
-//  The RezillaEditorInterface function table
-//
-// -------------------------------------------------------------------------------------------
 
+/************************************************
+*                                               *
+*   The RezillaEditorInterface function table   *
+*                                               *
+************************************************/
 static SRezillaPluginInterface rezillaPlugInterfaceFtbl = {
 		NULL,                    // Required padding for COM
-		sampleQueryInterface,        // These three are the required COM functions
-		sampleAddRef,
-		sampleRelease,
-		testResource };          // Interface implementation
+		sample_QueryInterface,   // These three are the required COM functions
+		sample_AddRef,
+		sample_Release,
+		sample_editResource };   // Interface implementation of the editResource function
+
+
 
 // -------------------------------------------------------------------------------------------
 //
@@ -184,22 +160,23 @@ static SRezillaPluginInterface rezillaPlugInterfaceFtbl = {
 
 static SampleType *_allocSampleType( CFUUIDRef factoryID )
 {
-	//  Allocate memory for the new instance.
-	SampleType *newOne = (SampleType *)malloc( sizeof(SampleType) );
+	// Allocate memory for the new instance
+	SampleType *newOne = (SampleType *) malloc( sizeof(SampleType) );
 
-	//  Point to the function table
+	// Point to the function table
 	newOne->_rezillaPlugInterface = &rezillaPlugInterfaceFtbl;
 
-	//  Retain and keep an open instance refcount for each factory.
+	// Retain and keep an open instance refcount for each factory
 	if (factoryID) {
-		newOne->_factoryID = (CFUUIDRef)CFRetain( factoryID );
+		newOne->_factoryID = (CFUUIDRef) CFRetain( factoryID );
 		CFPlugInAddInstanceForFactory( factoryID );
 	}
 
-	//  This function returns the IUnknown interface so set the refCount to one
+	// This function returns the IUnknown interface so set the refCount to one
 	newOne->_refCount = 1;
 	return newOne;
 }
+
 
 // -------------------------------------------------------------------------------------------
 //
@@ -217,9 +194,21 @@ static void _deallocSampleType( SampleType *myInstance )
 	}
 }
 
+
 // -------------------------------------------------------------------------------------------
 //
 //  Implementation of the factory function for this type.
+//  From the doc 
+//  (/documentation/CoreFoundation/Conceptual/CFPlugIns/Concepts/conceptual.html):
+//      "When called by the plug-in host, the factory function allocates
+//      memory for an instance of the type being requested, sets up the
+//      function tables for its interfaces, and returns a pointer to the
+//      type’s IUnknown interface. The plug-in host can then use the
+//      IUnknown interface to search for other interfaces supported by the
+//      type."
+//      
+//  The return value is a void* but is in fact a pointer to a SampleType 
+//  structure.
 //
 // -------------------------------------------------------------------------------------------
 /* extern "C"  */
@@ -227,14 +216,14 @@ extern void * RezSampleFactory(CFAllocatorRef allocator, CFUUIDRef typeID);
 
 void * RezSampleFactory( CFAllocatorRef allocator, CFUUIDRef typeID )
 {
-
-	//  If correct type is being requested, allocate an instance of
-	//  RezillaEditorType and return the IUnknown interface
+	// If correct type is being requested, allocate an instance of
+	// SampleType and return the IUnknown interface
 	if ( CFEqual( typeID, kRezillaEditorTypeID ) ) {
 		SampleType *result = _allocSampleType( kRezillaSampleFactoryID );
 		return result;
 	}
-	else {
+	else 
+	{
 		// If the requested type is incorrect, return NULL
 		return NULL;
 	}
