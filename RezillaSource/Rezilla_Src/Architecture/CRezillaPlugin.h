@@ -37,7 +37,7 @@ protected:
 		TArray<OSType>	mEditTypes;
 		Boolean			mIsLoaded;		// differed loading
 		UInt32  		mPluginVersion;
-		CFString		mIdentifier;
+		CFStringRef		mIdentifier;
 		
 
 private:
