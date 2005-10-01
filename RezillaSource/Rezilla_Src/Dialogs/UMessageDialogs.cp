@@ -591,18 +591,7 @@ UMessageDialogs::GetOneValue(
 	return entryOK;
 
 }
-
-// CFStringRef formatStr = NULL, messageStr = NULL;
-// 
-// formatStr = CFCopyLocalizedString(inCFStringRef, NULL);
-// if (formatStr != NULL) {
-// 	messageStr = ::CFStringCreateWithFormat(NULL, NULL, formatStr, inValue);
-// 	if (messageStr != NULL) {
-// 		UMessageDialogs::SimpleMessageFromCFString(messageStr, PPob_SimpleMessage);
-// 		CFRelease(messageStr);                     
-// 	}
-// 	CFRelease(formatStr);                             
-// }		  	
+		  	
 
 // ---------------------------------------------------------------------------
 //  ¥ AlertWithValue											
