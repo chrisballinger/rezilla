@@ -2,7 +2,7 @@
 // CRezillaPlugin.cp
 // 
 //                       Created: 2005-09-26 09:48:26
-//             Last modification: 2005-09-27 10:17:36
+//             Last modification: 2005-09-30 16:15:32
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -13,6 +13,8 @@
 // ===========================================================================
 
 #include "CRezillaPlugin.h"
+#include "CPluginsController.h"
+#include "UMiscUtils.h"
 
 
 // ---------------------------------------------------------------------------
@@ -21,6 +23,8 @@
 
 CRezillaPlugin::CRezillaPlugin(CFBundleRef inBundleRef)
 {
+	mIsLoaded = false;
+	mName[0] = 0;
 	Initialize(inBundleRef);
 }
 
@@ -37,28 +41,64 @@ CRezillaPlugin::~CRezillaPlugin()
 // ---------------------------------------------------------------------------
 //  Initialize													[public]
 // ---------------------------------------------------------------------------
-// 				// This is the ‘vers’ resource style value for 1.0.0
-// 				  #define kMyBundleVersion1 0x01008000
-// 				  UInt32  bundleVersion;
-// 				  // Look for the bundle’s version number. 
-// 				  bundleVersion = CFBundleGetVersionNumber( mainBundle );
-// 				  // Check the bundle version for compatibility with the app.
-// 				  if (bundleVersion < kMyBundleVersion1)
-// 					  return (kErrorFatalBundleTooOld);
-	  
-// 				CFDictionaryRef bundleInfoDict;
-// 				CFStringRef     myPropertyString;
-// 				// Get an instance of the non-localized keys.
-// 				bundleInfoDict = CFBundleGetInfoDictionary( myBundle );
-// 				// If we succeeded, look for our property.
-// 				if ( bundleInfoDict != NULL ) {
-// 					myPropertyString = CFDictionaryGetValue( bundleInfoDict, 
-// 															CFSTR("MyPropertyKey") );
-// 				}
+// mPluginVersion is an UInt32 in the ‘vers’ resource style (e-g 0x01008000
+// for 1.0.0)
+
+// CFArrayRef factories = CFPlugInFindFactoriesForPlugInTypeInPlugIn( kTestTypeID, newPlugIn );
 
 void
 CRezillaPlugin::Initialize(CFBundleRef inBundleRef)
 {
+	CFDictionaryRef bundleInfoDict;
+// 	CFStringRef     propRef;
+	CFArrayRef		typesArray;
+	CFURLRef		plugURL = nil;
+	ResType			theType;
+	Str255  		theString;
+	
+	// Get an instance of the non-localized keys
+	bundleInfoDict = ::CFBundleGetInfoDictionary(inBundleRef);
+
+	// If successful, look for some properties
+	if ( bundleInfoDict != NULL ) {
+// 		propRef = ::CFDictionaryGetValue( bundleInfoDict, CFSTR("RezillaPluginRole") );
+		
+		typesArray = (CFArrayRef) ::CFDictionaryGetValue( bundleInfoDict, CFSTR("RezillaPluginEditTypes") );
+		if (typesArray != nil) {
+			CFIndex 	count = ::CFArrayGetCount(typesArray);
+			for ( CFIndex i = 0; i < count; i++ ) {
+				CFStringRef	typeRef;
+				
+				typeRef = (CFStringRef) ::CFArrayGetValueAtIndex(typesArray, i);
+				if (typeRef && ::CFStringGetPascalString(typeRef, theString, sizeof(theString), ::GetApplicationTextEncoding()))
+				{
+					UMiscUtils::PStringToOSType(theString, theType);
+					mEditTypes.AddItem(theType);
+				}				
+			}
+		} 
+	}
+	
+	// Get type and creator
+	plugURL = ::CFBundleCopyBundleURL(inBundleRef);
+	if (plugURL != nil) {
+		::CFBundleGetPackageInfoInDirectory(plugURL, &mPluginType, &mPluginCreator);
+		
+		CFStringRef nameRef = ::CFURLCopyLastPathComponent(plugURL);
+		if (nameRef != nil) {
+			if (::CFStringGetPascalString(nameRef, theString, sizeof(theString), ::GetApplicationTextEncoding())) {
+				LString::CopyPStr( theString, mName);
+			} 
+			::CFRelease(nameRef);   
+		}				
+		::CFRelease(plugURL);   
+	} else {
+		mPluginType = 0;
+		mPluginCreator = 0;
+	}
+	
+	// Get version number
+	mPluginVersion = ::CFBundleGetVersionNumber(inBundleRef);
 }
 
 
@@ -82,6 +122,23 @@ CRezillaPlugin::Initialize(CFBundleRef inBundleRef)
 void
 CRezillaPlugin::Load()
 {
+	if (!mIsLoaded) {
+		// // // This should be done later when it is time to load the plugin's code
+				//  Create a CFPlugin using the URL. This step causes the plug-in's types and factories to
+				//  be registered with the system. Note that the plug-in's code is not actually loaded at
+				//  this stage unless the plug-in is using dynamic registration.
+
+		// 		CFPlugInRef		newPlugIn;
+		// 		newPlugIn = CFPlugInCreate( NULL, plugInURL );
+		// 		CFArrayRef factories = CFPlugInFindFactoriesForPlugInTypeInPlugIn( kTestTypeID, newPlugIn );
+		
+	} 
+	
+	// if successful
+	mIsLoaded = true;
+	
+
+
 }
 
 
