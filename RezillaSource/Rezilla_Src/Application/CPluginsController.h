@@ -2,7 +2,7 @@
 // CPluginsController.h
 // 
 //                       Created: 2005-09-26 09:48:26
-//             Last modification: 2005-09-26 10:29:47
+//             Last modification: 2005-10-01 06:14:50
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -16,6 +16,8 @@
 #define _H_CPluginsController
 #pragma once
 
+class CRezillaPlugin;
+
 
 class CPluginsController {
 
@@ -28,14 +30,21 @@ public:
 		void		UnregisterPlugin();
 		void		LoadPlugin();
 
+		static CFMutableDictionaryRef	sPluginsDict;
+		
 protected:
-		static CFDictionaryRef	sPluginsDict;
 
 
 private:
-		OSErr		BuildPluginsDictionary();
+		OSErr		BuildInternalPluginsDictionary();
+		OSErr		BuildExternalPluginsDictionary();
+		
 		OSErr		ScanPluginsFolder(FSRef * inPluginsRef);
+		OSErr		ScanPluginsFolder(CFURLRef inPlugInsURL);
+		
 		OSErr		AddPluginToDictionary(CFBundleRef inBundleRef);
+		OSErr		AddDictEntriesForPlugin(CRezillaPlugin * inRezPlugin);
+		
 };
 
 

@@ -2,7 +2,7 @@
 // CPluginsController.cp
 // 
 //                       Created: 2005-09-26 09:48:26
-//             Last modification: 2005-09-27 12:18:55
+//             Last modification: 2005-10-01 08:49:02
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -15,8 +15,9 @@
 #include "CPluginsController.h"
 #include "CRezillaPlugin.h"
 #include "UMiscUtils.h"
+#include "RezillaConstants.h"
 
-CFDictionaryRef		CPluginsController::sPluginsDict;
+CFMutableDictionaryRef		CPluginsController::sPluginsDict;
 
 
 // ---------------------------------------------------------------------------
@@ -25,7 +26,7 @@ CFDictionaryRef		CPluginsController::sPluginsDict;
 
 CPluginsController::CPluginsController()
 {
-	BuildPluginsDictionary();
+	BuildInternalPluginsDictionary();
 }
 
 
@@ -90,6 +91,34 @@ CPluginsController::LoadPlugin()
 
 
 // ---------------------------------------------------------------------------
+//	 BuildInternalPluginsDictionary							[private]
+// ---------------------------------------------------------------------------
+// Create a CFDictionary associating resource types to a CFArray of
+// pointers to CRezillaPlugin instances supporting this type. The function
+// scans the internal PlugIns subfolder inside the application bundle.
+
+OSErr
+CPluginsController::BuildInternalPluginsDictionary()
+{
+	OSErr	error = noErr;
+	
+	// Create a mutable dictionary
+	sPluginsDict = ::CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+	
+	if (sPluginsDict) {
+		
+		CFURLRef pluginsURL = ::CFBundleCopyBuiltInPlugInsURL( CFBundleGetMainBundle() );
+		if (pluginsURL != nil) {
+			error = ScanPluginsFolder(pluginsURL);
+			CFRelease(pluginsURL);
+		}
+	}
+	
+	return error;
+}
+
+
+// ---------------------------------------------------------------------------
 //	 BuildPluginsDictionary										[private]
 // ---------------------------------------------------------------------------
 // Create a CFDictionary associating resource types to a CFArray of
@@ -103,11 +132,11 @@ CPluginsController::LoadPlugin()
 // kNetworkDomain ?
 
 OSErr
-CPluginsController::BuildPluginsDictionary()
+CPluginsController::BuildExternalPluginsDictionary()
 {
-	OSErr					error = noErr;
-	UInt32   				domainIndex;
-	FSRef					appSupportRef, rezillaRef, pluginsRef;
+	OSErr		error = noErr;
+	UInt32 		domainIndex;
+	FSRef		appSupportRef, rezillaRef, pluginsRef;
 	// kUserDomain, kNetworkDomain, kLocalDomain, kSystemDomain
 	static const SInt16 kFolderDomains[] = {kUserDomain, kLocalDomain, 0};
 		
@@ -158,59 +187,36 @@ CPluginsController::BuildPluginsDictionary()
 // ---------------------------------------------------------------------------
 //	 ScanPluginsFolder											[private]
 // ---------------------------------------------------------------------------
-// Iterate inside the folder to get all the file refs and inspect the
-// plugins. Look for plugin bundles only at the first level. No subfolders.
-
-// 		EXTERN_API_C( CFArrayRef )
-// 		CFBundleCreateBundlesFromDirectory(
-// 		  CFAllocatorRef   allocator,
-// 		  CFURLRef         directoryURL,
-// 		  CFStringRef      bundleType);
-// 				
-// 				CFURLRef bundleURL;
-// 				CFBundleRef myBundle;
-// 				// Make a CFURLRef from the CFString representation of the 
-// 				// bundle’s path.
-// 				bundleURL = CFURLCreateWithFileSystemPath(
-// 								kCFAllocatorDefault, 
-// 								CFSTR("/Local/Library/MyBundle.bundle"),
-// 								kCFURLPOSIXPathStyle,
-// 								true );
-// 				// Make a bundle instance using the URLRef.
-// 				myBundle = CFBundleCreate( kCFAllocatorDefault, bundleURL );
-// 				// Any CF objects returned from functions with "create" or 
-// 				// "copy" in their names must be released by us!
-// 				CFRelease( bundleURL );
-// 				CFRelease( myBundle );
-// 
-// 
-// 				CFBundleRef mainBundle = CFBundleGetMainBundle();
-// 				CFURLRef plugInsURL;
-// 				CFArrayRef bundleArray;
-// 				// Get the URL to the application’s PlugIns directory.
-// 				plugInsURL = CFBundleCopyBuiltInPlugInsURL(mainBundle);
-// 				// Get the bundle objects for the application’s plug-ins.
-// 				bundleArray = CFBundleCreateBundlesFromDirectory( kCFAllocatorDefault,
-// 									plugInsURL, NULL );
-// 				// Release the CF objects
-// 				CFRelease( plugInsURL );
-// 				CFRelease( bundleArray );
-
+// Look for the plugin bundles in the PlugIns directory.
 
 OSErr
 CPluginsController::ScanPluginsFolder(FSRef * inPluginsRef)
 {
 	OSErr			error = noErr;
-	CFArrayRef		bundleArray;
 	CFURLRef		plugInsURL = nil;
 
 	// Get a CFURL from the FSRef
 	plugInsURL = ::CFURLCreateFromFSRef(kCFAllocatorDefault, inPluginsRef);
+	error = ScanPluginsFolder(plugInsURL);
 
-	if (plugInsURL != nil) {
+	return error;
+}
+
+
+// ---------------------------------------------------------------------------
+//	 ScanPluginsFolder											[private]
+// ---------------------------------------------------------------------------
+
+OSErr
+CPluginsController::ScanPluginsFolder(CFURLRef inPlugInsURL)
+{
+	OSErr			error = noErr;
+	CFArrayRef		bundleArray;
+
+	if (inPlugInsURL != nil) {
 		// Get the bundle objects for the application support’s plug-ins.
-		bundleArray = ::CFBundleCreateBundlesFromDirectory( kCFAllocatorDefault, plugInsURL, NULL );
-		CFRelease( plugInsURL );
+		bundleArray = ::CFBundleCreateBundlesFromDirectory( kCFAllocatorDefault, inPlugInsURL, NULL );
+		CFRelease( inPlugInsURL );
 		
 		if (bundleArray != nil) {
 			CFBundleRef	bundleRef;
@@ -219,9 +225,11 @@ CPluginsController::ScanPluginsFolder(FSRef * inPluginsRef)
 			for ( CFIndex i = 0; i < count; i++ ) {
 				bundleRef = (CFBundleRef) ::CFArrayGetValueAtIndex(bundleArray, i);
 				
-// 				error = AddPluginToDictionary(&bundleRef);
-
-
+				if (bundleRef != nil) {
+					error = AddPluginToDictionary(bundleRef);
+					// No need to CFRelease bundleRef since it is obtained
+					// with GetValueAtIndex
+				} 
 			}
 			CFRelease( bundleArray );
 		} 
@@ -234,73 +242,72 @@ CPluginsController::ScanPluginsFolder(FSRef * inPluginsRef)
 // ---------------------------------------------------------------------------
 //	 AddPluginToDictionary										[private]
 // ---------------------------------------------------------------------------
-// To get the path of the bundle itself, you can use theCFBundleCopyBundleURL
-// function. Core Foundation always returns bundle paths in a CFURLRef object.
-// You can use this object to extract a CFStringRef that you can then pass to
-// other Core Foundation routines.
-
-// OSErr
-// CPluginsController::AddPluginToDictionary(FSRef * inFileRef)
-// {
-// 	OSErr	error = noErr;
-// 	CRezillaPlugin *	rezPlugin;
-// 	
-// 	rezPlugin = new CRezillaPlugin(inFileRef);
-// 	
-// 	return error;
-// }
-
-// 				CFDictionaryRef bundleInfoDict;
-// 				CFStringRef     myPropertyString;
-// 				// Get an instance of the non-localized keys.
-// 				bundleInfoDict = CFBundleGetInfoDictionary( myBundle );
-// 				// If we succeeded, look for our property.
-// 				if ( bundleInfoDict != NULL ) {
-// 					myPropertyString = CFDictionaryGetValue( bundleInfoDict, 
-// 															CFSTR("MyPropertyKey") );
-// 				}
+// It would have been also possible to retrive all the info about the
+// plugins using ::CFBundleCopyInfoDictionaryInDirectory(CFURLRef bundleURL). 
+// It allows to retrieve basic information about a bundle without having to
+// create an instance of CFBundle.
 
 OSErr
 CPluginsController::AddPluginToDictionary(CFBundleRef inBundleRef)
 {
 	OSErr	error = noErr;
-	CRezillaPlugin *	rezPlugin;
+	CRezillaPlugin *	rezPlugin = nil;
 	
 	rezPlugin = new CRezillaPlugin(inBundleRef);
-	
+	if (rezPlugin != nil) {
+		AddDictEntriesForPlugin(rezPlugin);
+// 		rezPlugin->RegisterPluginsDict();
+		
+	} else {
+		error = err_PluginGetInfoFailed;
+	}
+		
 	return error;
 }
 
-// 			EXTERN_API_C( CFTypeRef )
-// 			CFBundleGetValueForInfoDictionaryKey(
-// 			  CFBundleRef   bundle,
-// 			  CFStringRef   key);
 
-// 		/* This API is provided to enable developers to retrieve basic information */
-// 		/* about a bundle without having to create an instance of CFBundle. */
-// 		/*
-// 		 *  CFBundleCopyInfoDictionaryInDirectory()
-// 		 *  
-// 		 *  Availability:
-// 		 *    Non-Carbon CFM:   not available
-// 		 *    CarbonLib:        in CarbonLib 1.0 and later
-// 		 *    Mac OS X:         in version 10.0 and later
-// 		 */
-// 		EXTERN_API_C( CFDictionaryRef )
-// 		CFBundleCopyInfoDictionaryInDirectory(CFURLRef bundleURL);
-// 
-// 
-// 		/*
-// 		 *  CFBundleGetPackageInfoInDirectory()
-// 		 *  
-// 		 *  Availability:
-// 		 *    Non-Carbon CFM:   not available
-// 		 *    CarbonLib:        in CarbonLib 1.1 and later
-// 		 *    Mac OS X:         in version 10.0 and later
-// 		 */
-// 		EXTERN_API_C( Boolean )
-// 		CFBundleGetPackageInfoInDirectory(
-// 		  CFURLRef   url,
-// 		  UInt32 *   packageType,
-// 		  UInt32 *   packageCreator);
+// ---------------------------------------------------------------------------
+//	 AddDictEntriesForPlugin									[private]
+// ---------------------------------------------------------------------------
+// 					CFNumberRef thePlugRef = ::CFNumberCreate(NULL, kCFNumberSInt32Type, &inRezPlugin);
+// 					if (thePlugRef) {
+// 						::CFArrayAppendValue(theArray, thePlugRef);
+// 					} 
+
+OSErr
+CPluginsController::AddDictEntriesForPlugin(CRezillaPlugin * inRezPlugin)
+{
+	OSErr	error = noErr;
+	
+	TArrayIterator<ResType> iterator( *inRezPlugin->GetEditTypes() );
+	ResType 	theType;
+	
+	while (iterator.Next(theType)) {
+		CFMutableArrayRef theArray;
+		
+		// Convert the type to a CFNumber
+		CFNumberRef theValue = ::CFNumberCreate(NULL, kCFNumberSInt32Type, &theType);
+		if (theValue != nil) {
+			
+			// If there is already an entry for this value, add the plugin 
+			// to the list, otherwise create a new CFArray
+			if ( ::CFDictionaryContainsKey(sPluginsDict, theValue) ) {
+				theArray = (CFMutableArrayRef) ::CFDictionaryGetValue( sPluginsDict, theValue);
+				::CFArrayAppendValue(theArray, &inRezPlugin);
+				::CFDictionarySetValue(sPluginsDict, theValue, theArray);
+			} else {
+				theArray = ::CFArrayCreateMutable(NULL, 0, &kCFTypeArrayCallBacks);
+				if (theArray) {
+					::CFArrayAppendValue(theArray, &inRezPlugin);
+				} 
+				::CFDictionaryAddValue(sPluginsDict, theValue, theArray);
+			}
+			CFRelease(theValue);
+		} 
+	}
+	
+// 	CFShow(sPluginsDict);
+	
+	return error;
+}
 
