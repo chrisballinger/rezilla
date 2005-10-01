@@ -1359,6 +1359,8 @@ enum RezillaErrors
 	err_IconFileLocked,
 	err_IconBadFontSize,
 	err_IconNoPictOnClipboard,
+	err_PluginGeneric				= 4000,	
+	err_PluginGetInfoFailed,
 	err_RezillaErrorEnd
 };
 
