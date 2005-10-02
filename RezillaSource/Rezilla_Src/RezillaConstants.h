@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2005-09-24 14:48:30
+//             Last modification : 2005-10-02 09:53:33
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -320,6 +320,7 @@ const ResIDT	PPob_AeteClassPane			= 11200;
 const ResIDT	PPob_AeteCompOpPane			= 11300;
 const ResIDT	PPob_AeteEnumPane			= 11400;
 const ResIDT	PPob_StrxEditorWindow		= 11500;
+const ResIDT	PPob_PluginEditorWindow		= 20000;
 
 const ResIDT	ics8_Unlocked				= 1500;
 const ResIDT	ics8_Locked					= 1501;
@@ -385,6 +386,9 @@ const ResIDT	MENU_AeteDirectOptions		= 161;
 const ResIDT	MENU_AeteReplyOptions		= 162;
 const ResIDT	MENU_AeteParameterOptions	= 163;
 const ResIDT	MENU_AetePropertyOptions	= 164;
+
+// Plugin editor
+const ResIDT	MENU_PluginEditor			= 10000;
 
 // Icon resources
 const ResIDT	Icon_WindowsMenu			= 3100;
@@ -1141,11 +1145,13 @@ const long	aeRzil_Export			= 5003;
 const DescType rzom_cRezMapDoc		= 'MapD';	// RezMap document
 const DescType rzom_cEditorDoc		= 'EdiD';	// Editor document
 const DescType rzom_cGuiEditDoc		= 'GuiD';	// Gui editor document
+const DescType rzom_cPlugEditDoc	= 'PluD';	// Plugin editor document
 const DescType rzom_cTmplEditDoc	= 'TmpD';	// Tmpl editor document
 const DescType rzom_cHexEditDoc		= 'HexD';	// Hex editor document
 
 const DescType rzom_cRezMapWindow	= 'MapW';	// RezMap window
 const DescType rzom_cEditorWindow	= 'EdiW';	// Editor window
+const DescType rzom_cPluginWindow	= 'PluW';	// Plugin window
 const DescType rzom_cGuiWindow		= 'GuiW';	// Interface editor window
 const DescType rzom_cTmplWindow		= 'TmpW';	// Tmpl editor window
 const DescType rzom_cHexWindow		= 'HexW';	// Hex editor window
