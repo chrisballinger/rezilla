@@ -6,7 +6,7 @@
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003-2005
+// Â© Copyright: Bernard Desgraupes 2003-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -19,9 +19,7 @@
 #include <LFileStream.h>
 
 
-#if PP_Uses_Pragma_Import
-	#pragma import on
-#endif
+
 
 PP_Begin_Namespace_PowerPlant
 
@@ -82,11 +80,11 @@ public:
 
 
 // ===========================================================================
-//	¥ Stack-based classes
+//	Â¥ Stack-based classes
 // ===========================================================================
 
 // ---------------------------------------------------------------------------
-//  ¥ class StSepHexTranslator
+//  Â¥ class StSepHexTranslator
 // ---------------------------------------------------------------------------
 class StSepHexTranslator {
 public:
@@ -110,7 +108,7 @@ private:
 
 
 // ---------------------------------------------------------------------------
-//  ¥ class StSegmHexTranslator
+//  Â¥ class StSegmHexTranslator
 // ---------------------------------------------------------------------------
 class StSegmHexTranslator {
 public:
@@ -134,7 +132,7 @@ private:
 
 
 // ---------------------------------------------------------------------------
-//  ¥ class StByteToHexTranslator
+//  Â¥ class StByteToHexTranslator
 // ---------------------------------------------------------------------------
 class StByteToHexTranslator {
 public:
@@ -158,7 +156,7 @@ private:
 
 
 // ---------------------------------------------------------------------------
-//  ¥ class StHexToByteTranslator
+//  Â¥ class StHexToByteTranslator
 // ---------------------------------------------------------------------------
 class StHexToByteTranslator {
 public:
@@ -181,7 +179,7 @@ private:
 
 
 // ---------------------------------------------------------------------------
-//  ¥ class StByteToBase64Translator
+//  Â¥ class StByteToBase64Translator
 // ---------------------------------------------------------------------------
 class StByteToBase64Translator {
 public:
@@ -205,7 +203,7 @@ private:
 
 
 // ---------------------------------------------------------------------------
-//  ¥ class StBase64ToByteTranslator
+//  Â¥ class StBase64ToByteTranslator
 // ---------------------------------------------------------------------------
 class StBase64ToByteTranslator {
 public:
@@ -229,7 +227,7 @@ private:
 
 
 // ---------------------------------------------------------------------------
-//  ¥ class StSepTextTranslator
+//  Â¥ class StSepTextTranslator
 // ---------------------------------------------------------------------------
 class StSepTextTranslator {
 public:
@@ -251,7 +249,7 @@ public:
 
 
 // ---------------------------------------------------------------------------
-//  ¥ class StSegmTextTranslator
+//  Â¥ class StSegmTextTranslator
 // ---------------------------------------------------------------------------
 class StSegmTextTranslator {
 public:
@@ -274,7 +272,7 @@ public:
 
 
 // ---------------------------------------------------------------------------
-//  ¥ class StByteToTextTranslator
+//  Â¥ class StByteToTextTranslator
 // ---------------------------------------------------------------------------
 class StByteToTextTranslator {
 public:
@@ -296,7 +294,7 @@ public:
 
 
 // ---------------------------------------------------------------------------
-//  ¥ class StStripBlanksTranslator
+//  Â¥ class StStripBlanksTranslator
 // ---------------------------------------------------------------------------
 class StStripBlanksTranslator {
 public:
@@ -316,7 +314,7 @@ public:
 
 
 // ---------------------------------------------------------------------------
-//  ¥ class StStripPeriodicalTranslator
+//  Â¥ class StStripPeriodicalTranslator
 // ---------------------------------------------------------------------------
 class StStripPeriodicalTranslator {
 public:
@@ -342,8 +340,6 @@ public:
 PP_End_Namespace_PowerPlant
 
 
-#if PP_Uses_Pragma_Import
-	#pragma import reset
-#endif
+
 
 #endif

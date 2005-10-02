@@ -5,7 +5,7 @@
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003
+// Â© Copyright: Bernard Desgraupes 2003
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -23,9 +23,7 @@
 #include <UAppleEventsMgr.h>
 #include <Navigation.h>
 
-#if PP_Uses_Pragma_Import
-	#pragma import on
-#endif
+
 
 PP_Begin_Namespace_PowerPlant
 
@@ -281,8 +279,6 @@ namespace UNavigationDialogs {
 
 PP_End_Namespace_PowerPlant
 
-#if PP_Uses_Pragma_Import
-	#pragma import reset
-#endif
+
 
 #endif

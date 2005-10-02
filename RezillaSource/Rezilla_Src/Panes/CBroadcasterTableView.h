@@ -20,9 +20,7 @@
 
 #include <LTableView.h>
 
-#if PP_Uses_Pragma_Import
-	#pragma import on
-#endif
+
 
 
 class CBroadcasterTableView : 	public LTableView,
@@ -59,8 +57,6 @@ protected:
 
 };
 
-#if PP_Uses_Pragma_Import
-	#pragma import reset
-#endif
+
 
 #endif

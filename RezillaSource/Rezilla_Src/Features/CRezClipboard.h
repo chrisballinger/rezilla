@@ -5,7 +5,7 @@
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003-2004
+// Â© Copyright: Bernard Desgraupes 2003-2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -18,9 +18,7 @@
 
 #include <UScrap.h>
 
-#if PP_Uses_Pragma_Import
-	#pragma import on
-#endif
+
 
 PP_Begin_Namespace_PowerPlant
 
@@ -87,11 +85,11 @@ private:
 
 
 // ===========================================================================
-//	¥ Stack-based class
+//	Â¥ Stack-based class
 // ===========================================================================
 
 // ---------------------------------------------------------------------------
-//  ¥ class StClipboardContext
+//  Â¥ class StClipboardContext
 // ---------------------------------------------------------------------------
 
 class StClipboardContext {
@@ -115,8 +113,6 @@ private:
 PP_End_Namespace_PowerPlant
 
 
-#if PP_Uses_Pragma_Import
-	#pragma import reset
-#endif
+
 
 #endif

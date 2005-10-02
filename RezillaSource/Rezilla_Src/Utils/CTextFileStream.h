@@ -6,7 +6,7 @@
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2002-2005
+// Â© Copyright: Bernard Desgraupes 2002-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -20,9 +20,7 @@
 #include <LFileStream.h>
 
 
-#if PP_Uses_Pragma_Import
-	#pragma import on
-#endif
+
 
 PP_Begin_Namespace_PowerPlant
 
@@ -102,8 +100,6 @@ private:			// Copy and Assignment not allowed
 PP_End_Namespace_PowerPlant
 
 
-#if PP_Uses_Pragma_Import
-	#pragma import reset
-#endif
+
 
 #endif
