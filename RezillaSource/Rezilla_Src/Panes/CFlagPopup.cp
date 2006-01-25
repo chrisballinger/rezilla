@@ -255,7 +255,8 @@ CFlagPopup::GetFlagValue() const
 	TArrayIterator<UInt32> iterator( mFlagValues );
 	
 	while (iterator.Next(theValue)) {
-		::GetItemMark(theMenuH, index + 1, &markChar);
+		// Fixed bug: 'index' is the correct value, not 'index + 1'
+		::GetItemMark(theMenuH, index, &markChar);
 		if (markChar != 0) {
 			flagValue += theValue;
 		} 
