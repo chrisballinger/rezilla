@@ -989,9 +989,11 @@ CRezillaApp::PreOpen(FSSpec & inFileSpec,
 	} 
 	
 done:
-	if (error == wrPermErr && sReadOnlyNavFlag == false && ! sCalledFromAE) {
+	// Opening a file on a locked media sometimes raises permErr instead 
+	// of wrPermErr
+	if ((error == wrPermErr || error == permErr) && sReadOnlyNavFlag == false && ! sCalledFromAE) {
 		// If opening failed with write permission, ask to try again in
-		// read-only access.
+		// read-only access
 		if (!askChangePerm || UMessageDialogs::AskIfFromLocalizable(CFSTR("WritePermissionError"), PPob_AskIfMessage) == answer_Do) {
 			sReadOnlyNavFlag = true;
 			error = PreOpen(inFileSpec, outFork, outRefnum, inWantedFork);
