@@ -1844,8 +1844,9 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		break;
 
 		case 'CASE':
-		// Increment the current pane ID to skip the case popup
-		mPaneIndex++;
+		// Bug 1241475: DO NOT increment the current pane ID to skip the case popup 
+		// because the popup was not registered in mPaneIDs. 
+		// // mPaneIndex++;
 		// Skip the following CASE statements
 		error = SkipNextKeyCases(1);
 		break;
