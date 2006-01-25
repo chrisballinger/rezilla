@@ -366,7 +366,8 @@ CTmplEditorWindow::AddEditField(Str255 inValue,
 	if (incrY) {
 		mYCoord += sEditPaneInfo.height + kTmplVertSep;
 	} 
-	// Caution: this is the ID of the Edit field, not the ID of the Case popup
+	// Caution: this is the ID of the Edit field, not the ID of the Case 
+	// popup. The case popup is not registered in mPaneIDs.
 	mPaneIDs.AddItem(mCurrentID);
 	mCurrentID++;
 	if (hasCases) {
