@@ -2,11 +2,11 @@
 // CTemplatesController.cp					
 // 
 //                       Created: 2004-08-06 12:57:55
-//             Last modification: 2004-11-05 23:55:38
+//             Last modification: 2006-01-26 07:33:56
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004
+// (c) Copyright : Bernard Desgraupes, 2004-2006
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -55,13 +55,13 @@ FSRef				CTemplatesController::sTemplateFile;
 
 CTemplatesController::CTemplatesController()
 {
-	// Build the internal array
+	// Build the internal templates array
 	BuildInternalTemplatesArray();
 	
 	// Copy it in the list of all known types
 	sAllTypesArray = CFArrayCreateMutableCopy(NULL, 0, sInternalTemplates);
 	
-	// Build the external array. Any new type is added to sAllTypesArray.
+	// Build the external templates dictionary. Any new type is added to sAllTypesArray.
 	BuildExternalTemplatesDictionary();
 	
 	// Add the types registered as TypeAs types (the CEditorsController 
@@ -230,7 +230,7 @@ CTemplatesController::BuildExternalTemplatesDictionary()
 //	 ScanTemplatesFolder										[private]
 // ---------------------------------------------------------------------------
 // Iterate inside the folder to get all the file refs and inspect the
-// plugins. Look for plugin bundles only at the first level. No subfolders.
+// resource forks. Look for resource files only at the first level. No subfolders.
 
 OSErr
 CTemplatesController::ScanTemplatesFolder(FSRef * inTmplFolder)
