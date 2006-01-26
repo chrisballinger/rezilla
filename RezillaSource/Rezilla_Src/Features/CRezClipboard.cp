@@ -1,11 +1,11 @@
 // ===========================================================================
 // CRezClipboard.cp					
 //                       Created: 2003-05-11 21:05:08
-//             Last modification: 2005-01-12 17:46:53
+//             Last modification: 2006-01-26 10:22:24
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003-2005
+// © Copyright: Bernard Desgraupes 2003-2005, 2006
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -13,7 +13,6 @@
 
 #include "CRezClipboard.h"
 #include "CRezMapDoc.h"
-#include "CRezFile.h"
 #include "CRezMap.h"
 #include "CRezType.h"
 #include "CRezObj.h"
@@ -22,6 +21,7 @@
 #include "RezillaConstants.h"
 
 #include <LClipboard.h>
+#include <LFile.h>
 #include <UMemoryMgr.h>
 #include <UScrap.h>
 
@@ -31,7 +31,7 @@
 PP_Begin_Namespace_PowerPlant
 
 SInt32		CRezClipboard::sScrapContext;
-CRezFile *	CRezClipboard::sScrapRezFile = nil;
+LFile *		CRezClipboard::sScrapFile = nil;
 CRezMap *	CRezClipboard::sScrapRezMap = nil;
 short		CRezClipboard::sScrapRefnum = kResFileNotOpened;
 
@@ -64,9 +64,9 @@ CRezClipboard::~CRezClipboard()
 		error = sScrapRezMap->Close();
 	} 
 	// Delete the scrap file
-	if (sScrapRezFile != nil) {
-		 FSSpec theFileSpec ;
-		sScrapRezFile->GetSpecifier(theFileSpec);
+	if (sScrapFile != nil) {
+		FSSpec theFileSpec ;
+		sScrapFile->GetSpecifier(theFileSpec);
 		error = FSpDelete(&theFileSpec);
 	} 
 }
@@ -98,7 +98,7 @@ CRezClipboard::NewLocalScrap()
 	mainBundleRef = CFBundleGetMainBundle();
 	if (mainBundleRef == NULL) {
 		error = fnfErr; 
-		sScrapRezFile = nil;
+		sScrapFile = nil;
 		return error;
 	}
 	
@@ -134,7 +134,7 @@ CRezClipboard::NewLocalScrap()
 
 	// Make static objects
 	if (error == noErr) {
-		sScrapRezFile = new CRezFile(theFileSpec, scrapRefNum, fork_datafork);
+		sScrapFile = new LFile(theFileSpec);
 		sScrapRezMap = new CRezMap(scrapRefNum);
 		sScrapRefnum = scrapRefNum;
 	}
@@ -158,13 +158,12 @@ CRezClipboard::DeleteLocalScrap()
 		delete sScrapRezMap;
 		sScrapRezMap = nil;
 	} 
-	if (sScrapRezFile != nil) {
-		 FSSpec theFileSpec ;
-		 
-		sScrapRezFile->GetSpecifier(theFileSpec);
+	if (sScrapFile != nil) {
+		FSSpec theFileSpec ;
+		sScrapFile->GetSpecifier(theFileSpec);
 		error = FSpDelete(&theFileSpec);
-		delete sScrapRezFile;
-		sScrapRezFile = nil;
+		delete sScrapFile;
+		sScrapFile = nil;
 	} 
 	return error;
 }

@@ -1,11 +1,11 @@
 // ===========================================================================
 // CRezClipboard.h					
 //                       Created: 2003-05-11 21:05:08
-//             Last modification: 2004-03-15 20:26:44
+//             Last modification: 2006-01-26 10:22:46
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003-2004
+// © Copyright: Bernard Desgraupes 2003-2004, 2006
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -34,7 +34,7 @@ enum
 };
 
 
-class CRezFile;
+class LFile;
 class CRezMap;
 
 // ---------------------------------------------------------------------------
@@ -49,13 +49,13 @@ public:
 	static SInt32		GetScrapContext() { return sScrapContext;}
 	static void			SetScrapContext(SInt32 inScrapContext) {sScrapContext = inScrapContext;}
 
-	static CRezFile *	GetScrapRezFile() { return sScrapRezFile;}
+	static LFile *		GetScrapFile() { return sScrapFile;}
 	static CRezMap *	GetScrapRezMap() { return sScrapRezMap;}
 	static short		GetScrapRefNum() { return sScrapRefnum;}
 	
 protected:
 	static SInt32		sScrapContext;
-	static CRezFile *	sScrapRezFile;
+	static LFile *		sScrapFile;
 	static CRezMap *	sScrapRezMap;
 	static short		sScrapRefnum;
 

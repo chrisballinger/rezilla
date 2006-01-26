@@ -211,7 +211,7 @@ CRezillaApp::~CRezillaApp()
 	LMLTEPane::Terminate();
 	
 	// CRezClipboard is deleted with all the attachments
-// 	delete CRezClipboard::GetScrapRezFile();
+// 	delete CRezClipboard::GetScrapFile();
 }
 
 
