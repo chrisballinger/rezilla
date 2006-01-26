@@ -75,6 +75,7 @@ CRezMap::Close()
 		::CloseResFile(mRefNum);
 		error = ::ResError();
 		mRefNum = kResFileNotOpened;
+		mHasBeenClosed = true;
     }
 	return error;
 }
