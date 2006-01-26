@@ -2,11 +2,11 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2005-09-25 08:29:07
+//             Last modification: 2006-01-26 07:34:50
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003-2005
+// (c) Copyright : Bernard Desgraupes, 2003-2005, 2006
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -164,9 +164,11 @@ CRezMapDoc::~CRezMapDoc()
 		mRezMap->UnsetFileAttrs(1 << mapChangedBit);
 	} 
 	
-	// CloseFile() is called from the destructor
+	// CloseFile() is called from CRezFile's destructor. This closes the 
+	// resource fork in the Resource Manager.
 	if (mRezFile != nil) {
 		delete mRezFile;
+		mRezMap->SetClosed(true);
 	} 
 	
 	if (mTypesArray != nil) {
