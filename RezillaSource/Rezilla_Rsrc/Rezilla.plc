@@ -1,11 +1,11 @@
 // ===========================================================================
 // Rezilla.plc					
 //                       Created: 2003-04-16 22:25:40
-//             Last modification: 2005-03-01 10:44:58
+//             Last modification: 2006-01-26 18:35:00
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003-2004, 2005
+// © Copyright: Bernard Desgraupes 2003-2005, 2006
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -20,8 +20,8 @@
 #define kBundleShortInfoString __OUTPUT_FILENAME__ " "  REZILLA_PLC_VERSION
 
 // String to display in the Finder's Get Info window (\U00A9 = ©)
-#define kBundleLongInfo_EN kBundleShortInfoString ", Copyright © 2003-2005 by Bernard Desgraupes. All rights reserved."
-#define kBundleLongInfo_FR kBundleShortInfoString ", Copyright © 2003-2005 par Bernard Desgraupes. Tous droits réservés."
+#define kBundleLongInfo_EN kBundleShortInfoString ", Copyright © 2003-2006 by Bernard Desgraupes. All rights reserved."
+#define kBundleLongInfo_FR kBundleShortInfoString ", Copyright © 2003-2006 par Bernard Desgraupes. Tous droits réservés."
 
 plist
 {
