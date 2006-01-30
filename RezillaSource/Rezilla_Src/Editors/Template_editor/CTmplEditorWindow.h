@@ -2,11 +2,11 @@
 // CTmplEditorWindow.h
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2005-04-13 08:20:36
+//             Last modification: 2006-01-30 12:29:49
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes, 2004, 2005
+// (c) Copyright: Bernard Desgraupes, 2004-2005, 2006
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -126,6 +126,7 @@ protected:
 	ResType				mCountType;
 	short				mListCount;
 	Boolean				mFixedCount;
+	SInt32				mRectFormat;
 	LHandleStream *		mTemplateStream;
 	LHandleStream *		mRezStream;
 	LHandleStream *		mOutStream;

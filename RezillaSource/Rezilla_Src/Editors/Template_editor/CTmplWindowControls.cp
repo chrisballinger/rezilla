@@ -2,11 +2,11 @@
 // CTmplWindowUtils.cp					
 // 
 //                       Created: 2004-08-20 16:45:08
-//             Last modification: 2005-07-04 08:54:17
+//             Last modification: 2006-01-30 12:28:56
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes, 2004-2005
+// (c) Copyright: Bernard Desgraupes, 2004-2005, 2006
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -938,11 +938,18 @@ CTmplEditorWindow::AddRectField(SInt16 inTop,
 
 	// Bottom
 	sRectLabelInfo.left += kTmplRectWidth + kTmplHorizSep;
-	theStaticText = new LStaticText(sRectLabelInfo, "\pBottom", sEditTraitsID);
+	if (mRectFormat == rect_TLBR) {
+		// 'top, left, bottom, right' format
+		theStaticText = new LStaticText(sRectLabelInfo, "\pBottom", sEditTraitsID);
+		::NumToString( (long) inBottom, numStr);
+	} else {
+		// 'top, left, width, height' format
+		theStaticText = new LStaticText(sRectLabelInfo, "\pWidth", sEditTraitsID);
+		::NumToString( (long) (inRight - inLeft), numStr);
+	}
 	ThrowIfNil_(theStaticText);
 	sRectPaneInfo.left += kTmplRectWidth + kTmplHorizSep;
 	sRectPaneInfo.paneID = mCurrentID;
-	::NumToString( (long) inBottom, numStr);
 	theEditText = new LEditText(sRectPaneInfo, this, numStr, sEditTraitsID, 
 								msg_EditorModifiedItem, inMaxChars, inAttributes, inKeyFilter);
 	ThrowIfNil_(theEditText);
@@ -954,11 +961,18 @@ CTmplEditorWindow::AddRectField(SInt16 inTop,
 
 	// Right
 	sRectLabelInfo.left += kTmplRectWidth + kTmplHorizSep;
-	theStaticText = new LStaticText(sRectLabelInfo, "\pRight", sEditTraitsID);
+	if (mRectFormat == rect_TLBR) {
+		// 'top, left, bottom, right' format
+		theStaticText = new LStaticText(sRectLabelInfo, "\pRight", sEditTraitsID);
+		::NumToString( (long) inRight, numStr);
+	} else {
+		// 'top, left, width, height' format
+		theStaticText = new LStaticText(sRectLabelInfo, "\pHeight", sEditTraitsID);
+		::NumToString( (long) (inBottom - inTop), numStr);
+	}
 	ThrowIfNil_(theStaticText);
 	sRectPaneInfo.left += kTmplRectWidth + kTmplHorizSep;
 	sRectPaneInfo.paneID = mCurrentID;
-	::NumToString( (long) inRight, numStr);
 	theEditText = new LEditText(sRectPaneInfo, this, numStr, sEditTraitsID, 
 								msg_EditorModifiedItem, inMaxChars, inAttributes, inKeyFilter);
 	ThrowIfNil_(theEditText);

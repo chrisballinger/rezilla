@@ -2,11 +2,11 @@
 // CRezillaPrefs.cp					
 // 
 //                       Created: 2004-05-17 08:52:16
-//             Last modification: 2005-09-20 15:00:59
+//             Last modification: 2006-01-30 12:29:33
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004-2005
+// (c) Copyright : Bernard Desgraupes, 2004-2005, 2006
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -160,6 +160,7 @@ CRezillaPrefs::SetDefaultPreferences()
 	sCurrPrefs.templates.hexCase		= hex_lowercase;
 	sCurrPrefs.templates.displayFillers	= false;
 	sCurrPrefs.templates.enableFillers	= false;
+	sCurrPrefs.templates.rectFormat		= rect_TLBR;
 
 	// Editors pane
 	sCurrPrefs.editors.use8BitPicts		= false;
@@ -216,6 +217,11 @@ CRezillaPrefs::StorePreferences()
 	theNumber = GetPrefValue( kPref_templates_enableFillers );
 	theValue = CFNumberCreate(NULL, kCFNumberIntType, &theNumber); 
 	CFPreferencesSetAppValue( CFSTR("pref_templates_enableFillers"), theValue, kCFPreferencesCurrentApplication);
+	if (theValue) CFRelease(theValue);
+
+	theNumber = GetPrefValue( kPref_templates_rectFormat );
+	theValue = CFNumberCreate(NULL, kCFNumberIntType, &theNumber); 
+	CFPreferencesSetAppValue( CFSTR("pref_templates_rectFormat"), theValue, kCFPreferencesCurrentApplication);
 	if (theValue) CFRelease(theValue);
 
 	theNumber = GetPrefValue( kPref_editors_use8BitPicts );
@@ -354,6 +360,10 @@ CRezillaPrefs::RetrievePreferences()
 	if (valueValid) {
 		SetPrefValue( result, kPref_templates_enableFillers);
 	}	
+	result = CFPreferencesGetAppIntegerValue(CFSTR("pref_templates_rectFormat"), CFSTR(kRezillaIdentifier), &valueValid);
+	if (valueValid) {
+		SetPrefValue( result, kPref_templates_rectFormat);
+	}
 	result = CFPreferencesGetAppBooleanValue(CFSTR("pref_editors_use8BitPicts"), CFSTR(kRezillaIdentifier), &valueValid);
 	if (valueValid) {
 		SetPrefValue( result, kPref_editors_use8BitPicts);
@@ -504,6 +514,14 @@ CRezillaPrefs::SetPrefValue(SInt32 inPrefValue, SInt32 inConstant, SInt32 inPref
 			sTempPrefs.templates.enableFillers = inPrefValue;
 		} else {
 			sCurrPrefs.templates.enableFillers = inPrefValue;
+		}	
+		break;
+		
+		case kPref_templates_rectFormat:
+		if (inPrefType == prefsType_Temp) {
+			sTempPrefs.templates.rectFormat = inPrefValue;
+		} else {
+			sCurrPrefs.templates.rectFormat = inPrefValue;
 		}	
 		break;
 		
@@ -711,6 +729,14 @@ CRezillaPrefs::GetPrefValue(SInt32 inConstant, SInt32 inPrefType)
 			theValue = sTempPrefs.templates.enableFillers;
 		} else {
 			theValue = sCurrPrefs.templates.enableFillers;
+		}	
+		break;
+		
+		case kPref_templates_rectFormat:
+		if (inPrefType == prefsType_Temp) {
+			theValue = sTempPrefs.templates.rectFormat;
+		} else {
+			theValue = sCurrPrefs.templates.rectFormat;
 		}	
 		break;
 		
@@ -1046,11 +1072,14 @@ CRezillaPrefs::RunPrefsDialog()
 	LRadioGroupView * theDisplayRGV = dynamic_cast<LRadioGroupView *>(theComparePane->FindPaneByID( item_CompPrefsDisplayRgbx ));
 	ThrowIfNil_(theDisplayRGV);
 	
-	LRadioGroupView * theHexSymbRGV = dynamic_cast<LRadioGroupView *>(theTemplatesPane->FindPaneByID( item_EditPrefsHexSymRgbx ));
+	LRadioGroupView * theHexSymbRGV = dynamic_cast<LRadioGroupView *>(theTemplatesPane->FindPaneByID( item_TmplPrefsHexSymRgbx ));
 	ThrowIfNil_(theHexSymbRGV);
 	
-	LRadioGroupView * theHexCaseRGV = dynamic_cast<LRadioGroupView *>(theTemplatesPane->FindPaneByID( item_EditPrefsHexCaseRgbx ));
+	LRadioGroupView * theHexCaseRGV = dynamic_cast<LRadioGroupView *>(theTemplatesPane->FindPaneByID( item_TmplPrefsHexCaseRgbx ));
 	ThrowIfNil_(theHexCaseRGV);
+	
+	LRadioGroupView * theRectFormatRGV = dynamic_cast<LRadioGroupView *>(theTemplatesPane->FindPaneByID( item_TmplPrefsRectFormatRgbx ));
+	ThrowIfNil_(theRectFormatRGV);
 	
 	theCurrTraits = GetStyleElement( prefsType_Curr );
 
@@ -1079,8 +1108,9 @@ CRezillaPrefs::RunPrefsDialog()
 		theDtdRGV->SetCurrentRadioID( GetPrefValue( kPref_export_formatDtd ) + item_ExpPrefsDtdRgbx );
 		theEncodingRGV->SetCurrentRadioID( GetPrefValue( kPref_export_dataEncoding ) + item_ExpPrefsEncRgbx );
 		theDisplayRGV->SetCurrentRadioID( GetPrefValue( kPref_compare_dataDisplayAs ) + item_CompPrefsDisplayRgbx );
-		theHexSymbRGV->SetCurrentRadioID( GetPrefValue( kPref_templates_hexSymbol ) + item_EditPrefsHexSymRgbx );
-		theHexCaseRGV->SetCurrentRadioID( GetPrefValue( kPref_templates_hexCase ) + item_EditPrefsHexCaseRgbx );
+		theHexSymbRGV->SetCurrentRadioID( GetPrefValue( kPref_templates_hexSymbol ) + item_TmplPrefsHexSymRgbx );
+		theHexCaseRGV->SetCurrentRadioID( GetPrefValue( kPref_templates_hexCase ) + item_TmplPrefsHexCaseRgbx );
+		theRectFormatRGV->SetCurrentRadioID( GetPrefValue( kPref_templates_rectFormat ) + item_TmplPrefsRectFormatRgbx );
 
 		theEditField = dynamic_cast<LEditText *>(theGeneralPane->FindPaneByID( item_GenPrefsMaxRecent ));
 		ThrowIfNil_( theEditField );
@@ -1101,11 +1131,11 @@ CRezillaPrefs::RunPrefsDialog()
 		UMiscUtils::OSTypeToPString( (OSType) GetPrefValue(kPref_misc_closingCreator), theString);
 		theEditField->SetText( theLine.Assign(theString) );
 
-		theCheckBox = dynamic_cast<LCheckBox *>(theTemplatesPane->FindPaneByID( item_EditPrefsDisplayFillers ));
+		theCheckBox = dynamic_cast<LCheckBox *>(theTemplatesPane->FindPaneByID( item_TmplPrefsDisplayFillers ));
 		ThrowIfNil_( theCheckBox );
 		theCheckBox->SetValue(  GetPrefValue( kPref_templates_displayFillers ) );
 
-		theCheckBox = dynamic_cast<LCheckBox *>(theTemplatesPane->FindPaneByID( item_EditPrefsEnableFillers ));
+		theCheckBox = dynamic_cast<LCheckBox *>(theTemplatesPane->FindPaneByID( item_TmplPrefsEnableFillers ));
 		ThrowIfNil_( theCheckBox );
 		theCheckBox->SetValue(  GetPrefValue( kPref_templates_enableFillers ) );
 
@@ -1232,11 +1262,11 @@ CRezillaPrefs::RunPrefsDialog()
 			// -------------------------------		
 			
 			// EditPrefsDisplayFillers
-			theCheckBox = dynamic_cast<LCheckBox *>(theTemplatesPane->FindPaneByID( item_EditPrefsDisplayFillers ));
+			theCheckBox = dynamic_cast<LCheckBox *>(theTemplatesPane->FindPaneByID( item_TmplPrefsDisplayFillers ));
 			SetPrefValue( theCheckBox->GetValue(), kPref_templates_displayFillers, prefsType_Temp);
 			
 			// EditPrefsEnableFillers
-			theCheckBox = dynamic_cast<LCheckBox *>(theTemplatesPane->FindPaneByID( item_EditPrefsEnableFillers ));
+			theCheckBox = dynamic_cast<LCheckBox *>(theTemplatesPane->FindPaneByID( item_TmplPrefsEnableFillers ));
 			SetPrefValue( theCheckBox->GetValue(), kPref_templates_enableFillers, prefsType_Temp);
 			
 			// EditPrefsUse8BitPicts
@@ -1309,13 +1339,17 @@ CRezillaPrefs::RunPrefsDialog()
 			theCurrentRadioID = theDisplayRGV->GetCurrentRadioID();
 			SetPrefValue( theCurrentRadioID - item_CompPrefsDisplayRgbx, kPref_compare_dataDisplayAs, prefsType_Temp);
 			
-			// EditPrefsHexSym0x / EditPrefsHexSymDollar
+			// TmplPrefsHexSym0x / TmplPrefsHexSymDollar
 			theCurrentRadioID = theHexSymbRGV->GetCurrentRadioID();
-			SetPrefValue( theCurrentRadioID - item_EditPrefsHexSymRgbx, kPref_templates_hexSymbol, prefsType_Temp);
+			SetPrefValue( theCurrentRadioID - item_TmplPrefsHexSymRgbx, kPref_templates_hexSymbol, prefsType_Temp);
 			
-			// EditPrefsHexLowercase / EditPrefsHexUppercase
+			// TmplPrefsHexLowercase / TmplPrefsHexUppercase
 			theCurrentRadioID = theHexCaseRGV->GetCurrentRadioID();
-			SetPrefValue( theCurrentRadioID - item_EditPrefsHexCaseRgbx, kPref_templates_hexCase, prefsType_Temp);
+			SetPrefValue( theCurrentRadioID - item_TmplPrefsHexCaseRgbx, kPref_templates_hexCase, prefsType_Temp);
+			
+			// TmplPrefsRectFormatTLBR / TmplPrefsRectFormatTLWH
+			theCurrentRadioID = theRectFormatRGV->GetCurrentRadioID();
+			SetPrefValue( theCurrentRadioID - item_TmplPrefsRectFormatRgbx, kPref_templates_rectFormat, prefsType_Temp);
 			
 			// UIPrefsFontsMenu
 			// Get the popup menu.

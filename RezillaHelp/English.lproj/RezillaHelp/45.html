@@ -16,9 +16,8 @@ Similarly, to choose some resource file and open it in Rezilla, just do:
 <PRE>
 	set theFile to {choose file}
 	open theFile as alias<P></PRE>
-There are two optional parameters to the <B>open</B> command:
-<UL>
-	<LI> with the <I>readOnly</I> parameter, one can force the file to be opened in 
+There are three optional parameters to the <B>open</B> command:
+<UL><P>	<LI> with the <I>readOnly</I> parameter, one can force the file to be opened in 
 read-only mode in order to make all modifications impossible. For instance:
 <PRE>
 	open "HD:foo:bar:somefile.rsrc" as alias with readOnly<P></PRE>
@@ -29,6 +28,14 @@ both forks (data fork before resource fork). For instance:
 	open "HD:foo:bar:somefile.rsrc" as alias from data fork<P></PRE>
 The possible values for the <I>from</I> parameter are <I>data fork</I>, 
 <I>resource fork</I>, or <I>any fork</I> (the default).
+	<LI> with the <I>createFork</I> parameter, one can specify if a resource
+fork should be created in the case where the file does not have any
+resource fork already (this is not the same thing as a file with an empty
+fork). This is possible only if the <I>from</I> parameter is not specified
+or has value <I>any fork</I>.
+For instance:
+<PRE>
+	open "HD:foo:bar:file_with_no_fork_at_all" as alias with createFork<P></PRE>
 </UL><P>A map document can be closed with the <B>close</B> command. The optional
 argument <I>saving</I> is supported in order to decide if the file should 
 be saved before closing (the possible values are <I>yes</I>,

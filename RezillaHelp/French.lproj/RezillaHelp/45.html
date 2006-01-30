@@ -32,7 +32,14 @@ venant avant la branche de ressources). Par exemple:
 <PRE>
 	open "HD:foo:bar:somefile.rsrc" as alias from data fork<P></PRE>
 Les valeurs possibles pour le paramètre <I>from</I> sont <I>data fork</I>, 
-<I>resource fork</I>, ou <I>any fork</I> (qui est la valeur par défaut).
+<I>resource fork</I>, ou <I>any fork</I> (qui est la valeur par défaut).<P>	<LI> avec le paramètre <I>createFork</I>, on peut spécifier si l'on
+souhaite créer une branche de ressources lorsque le fichier ne possède
+aucune branche (à ne pas confondre avec un fichier qui aurait une branche
+ne contenant aucune ressource). Ceci n'est possible que si le paramètre 
+<I>from</I> n'est pas spécifié ou bien a la valeur <I>any fork</I>.
+Par exemple:
+<PRE>
+	open "HD:foo:bar:file_with_no_fork_at_all" as alias with createFork<P></PRE>
 </UL><P>Une table de ressources peut être refermée au moyen de la commande <B>close</B>.
 L'argument optionnel <I>saving</I>, permettant de préciser si le document 
 doit être sauvegardé avant d'être refermé, est accepté (ses valeurs possibles

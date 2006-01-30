@@ -2,11 +2,11 @@
 // CRezillaPrefs.h					
 // 
 //                       Created: 2004-05-17 08:52:16
-//             Last modification: 2005-06-09 18:52:28
+//             Last modification: 2006-01-30 11:59:23
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004-2005
+// (c) Copyright : Bernard Desgraupes, 2004-2005, 2006
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -37,6 +37,7 @@ struct STemplatesPrefs {
 	SInt32			hexCase;
 	Boolean			displayFillers;
 	Boolean			enableFillers;
+	SInt32			rectFormat;
 };
 
 //     Editors Prefs
@@ -111,7 +112,8 @@ enum {
 	kPref_templates_hexSymbol,
 	kPref_templates_hexCase,
 	kPref_templates_displayFillers,
-	kPref_templates_enableFillers
+	kPref_templates_enableFillers,
+	kPref_templates_rectFormat
 };
 
 

@@ -2,11 +2,11 @@
 // CTmplEditorWindow.cp					
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2005-07-04 08:54:29
+//             Last modification: 2006-01-30 12:28:47
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes, 2004-2005
+// (c) Copyright: Bernard Desgraupes, 2004-2005, 2006
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -172,6 +172,7 @@ CTmplEditorWindow::FinishCreateSelf()
 	mTemplateStream		= nil;
 	mRezStream			= nil;
 	mOutStream			= nil;
+	mRectFormat			= CRezillaApp::sPrefs->GetPrefValue(kPref_templates_rectFormat);
 	
 	// The main view containing the labels and editing panes
 	mContentsView = dynamic_cast<LView *>(this->FindPaneByID(item_EditorContents));
@@ -2283,13 +2284,31 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 
 		case 'RECT':
 		// An 8-byte rectangle
-		for (i = 0; i < 4; i++) {
-			theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
-			theEditText->GetDescriptor(numStr);	
-			::StringToNum( numStr, &theLong);
-			*mOutStream << (SInt16) theLong;
-			mPaneIndex++;
-			mPaneIDs.FetchItemAt(mPaneIndex, mCurrentID);
+		if (mRectFormat == rect_TLBR) {
+			// 'top, left, bottom, right' format
+			for (i = 0; i < 4; i++) {
+				theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
+				theEditText->GetDescriptor(numStr);	
+				::StringToNum( numStr, &theLong);
+				*mOutStream << (SInt16) theLong;
+				mPaneIndex++;
+				mPaneIDs.FetchItemAt(mPaneIndex, mCurrentID);
+			}
+		} else {
+			// 'top, left, width, height' format
+			long theVal[4];
+			
+			for (i = 0; i < 4; i++) {
+				theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
+				theEditText->GetDescriptor(numStr);	
+				::StringToNum( numStr, &theVal[i]);
+				mPaneIndex++;
+				mPaneIDs.FetchItemAt(mPaneIndex, mCurrentID);
+			}
+			*mOutStream << (SInt16) theVal[0];
+			*mOutStream << (SInt16) theVal[1];
+			*mOutStream << (SInt16) (theVal[0] + theVal[3]);
+			*mOutStream << (SInt16) (theVal[1] + theVal[2]);
 		}
 		break;
 

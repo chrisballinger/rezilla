@@ -2,11 +2,11 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2005-10-02 09:53:33
+//             Last modification : 2006-01-30 12:29:17
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@easyconnect.fr>
 // www : <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003-2005
+// (c) Copyright : Bernard Desgraupes, 2003-2005, 2006
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -79,6 +79,14 @@ enum
 {	
 	hex_SymbDollar = 1,
 	hex_Symb0x = 2
+};
+
+// Format used in templates to display Rect data: "top, left, bottom, 
+// right" or "top, left, width, height"
+enum
+{	
+	rect_TLBR = 1,
+	rect_TLWH = 2
 };
 
 // Which case (lower or upper) for hexadecimal letters
@@ -702,14 +710,17 @@ const PaneIDT	item_UIPrefsFontsMenu		= 2;
 const PaneIDT	item_UIPrefsSizeMenu		= 3;
 //     Templates Prefs Pane
 //     --------------------
-const PaneIDT	item_EditPrefsHexSymRgbx		= 2;
-const PaneIDT	item_EditPrefsHexSym0x			= 3;
-const PaneIDT	item_EditPrefsHexSymDollar		= 4;
-const PaneIDT	item_EditPrefsHexCaseRgbx		= 5;
-const PaneIDT	item_EditPrefsHexLowercase		= 6;
-const PaneIDT	item_EditPrefsHexUppercase		= 7;
-const PaneIDT	item_EditPrefsDisplayFillers	= 8;
-const PaneIDT	item_EditPrefsEnableFillers		= 9;
+const PaneIDT	item_TmplPrefsHexSymRgbx		= 2;
+const PaneIDT	item_TmplPrefsHexSym0x			= 3;
+const PaneIDT	item_TmplPrefsHexSymDollar		= 4;
+const PaneIDT	item_TmplPrefsHexCaseRgbx		= 5;
+const PaneIDT	item_TmplPrefsHexLowercase		= 6;
+const PaneIDT	item_TmplPrefsHexUppercase		= 7;
+const PaneIDT	item_TmplPrefsDisplayFillers	= 8;
+const PaneIDT	item_TmplPrefsEnableFillers		= 9;
+const PaneIDT	item_TmplPrefsRectFormatRgbx	= 10;
+const PaneIDT	item_TmplPrefsRectTLBR			= 11;
+const PaneIDT	item_TmplPrefsRectTLWH			= 12;
 //     Editors Prefs Pane
 //     ------------------
 const PaneIDT	item_EditPrefsUse8BitPicts	= 10;
@@ -1011,12 +1022,12 @@ const MessageT	msg_UIPrefsFontsMenu		= PPob_PrefsInterfacePane + item_UIPrefsFon
 const MessageT	msg_UIPrefsSizeMenu			= PPob_PrefsInterfacePane + item_UIPrefsSizeMenu;
 //     Templates Prefs Pane
 //     --------------------
-const MessageT	msg_EditPrefsHexSym0x		= PPob_PrefsTemplatesPane + item_EditPrefsHexSym0x;
-const MessageT	msg_EditPrefsHexSymDollar	= PPob_PrefsTemplatesPane + item_EditPrefsHexSymDollar;
-const MessageT	msg_EditPrefsHexLowercase	= PPob_PrefsTemplatesPane + item_EditPrefsHexLowercase;
-const MessageT	msg_EditPrefsHexUppercase	= PPob_PrefsTemplatesPane + item_EditPrefsHexUppercase;
-const MessageT	msg_EditPrefsDisplayFillers	= PPob_PrefsTemplatesPane + item_EditPrefsDisplayFillers;
-const MessageT	msg_EditPrefsEnableFillers	= PPob_PrefsTemplatesPane + item_EditPrefsEnableFillers;
+const MessageT	msg_EditPrefsHexSym0x		= PPob_PrefsTemplatesPane + item_TmplPrefsHexSym0x;
+const MessageT	msg_EditPrefsHexSymDollar	= PPob_PrefsTemplatesPane + item_TmplPrefsHexSymDollar;
+const MessageT	msg_EditPrefsHexLowercase	= PPob_PrefsTemplatesPane + item_TmplPrefsHexLowercase;
+const MessageT	msg_EditPrefsHexUppercase	= PPob_PrefsTemplatesPane + item_TmplPrefsHexUppercase;
+const MessageT	msg_EditPrefsDisplayFillers	= PPob_PrefsTemplatesPane + item_TmplPrefsDisplayFillers;
+const MessageT	msg_EditPrefsEnableFillers	= PPob_PrefsTemplatesPane + item_TmplPrefsEnableFillers;
 //     Editors Prefs Pane
 //     ------------------
 const MessageT	msg_EditPrefsUse8BitPicts	= PPob_PrefsEditorsPane + item_EditPrefsUse8BitPicts;
