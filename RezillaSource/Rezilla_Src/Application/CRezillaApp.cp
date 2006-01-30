@@ -272,8 +272,10 @@ CRezillaApp::Initialize()
 	// Create an instance of the templates controller
 	sTemplatesController = new CTemplatesController();
 	
+#ifdef REZILLA_ENABLE_PLUGINS
 	// Create an instance of the plugins controller
 	sPluginsController = new CPluginsController();
+#endif
 	
 	// Install the window menu.
 	InstallWindowMenu();	
