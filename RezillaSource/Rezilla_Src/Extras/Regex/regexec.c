@@ -3231,4 +3231,3 @@ sift_ctx_init (sctx, sifted_sts, limited_sts, last_node, last_str_idx,
   sctx->check_subexp = check_subexp;
   re_node_set_init_empty (&sctx->limits);
 }
-

@@ -23,7 +23,9 @@
 #include <Aliases.h>
 #include <Script.h>
 
-
+#if PP_Uses_Pragma_Import
+	#pragma import on
+#endif
 
 PP_Begin_Namespace_PowerPlant
 
@@ -72,9 +74,6 @@ public:
 	virtual short		GetRefnum() { return mRefNum;}
 	void				SetRefnum(short theRefNum) {mRefNum = theRefNum;}
 
-	virtual CRezMapDoc*	GetOwnerDoc() { return mOwnerDoc;}
-	void				SetOwnerDoc(CRezMapDoc* theOwnerDoc) {mOwnerDoc = theOwnerDoc ;}
-
 	virtual SInt16		GetUsedFork() { return mUsedFork;}
 
 	short				GetResourceFileVolume();
@@ -82,7 +81,6 @@ public:
 	FSSpec				GetFileSpec() { return mFileSpec;}
 
 protected:
-		CRezMapDoc *	mOwnerDoc;
 		FSSpec			mFileSpec;
 		FSRef			mFileRef;
 		short			mRefNum;
@@ -98,6 +96,8 @@ private:
 PP_End_Namespace_PowerPlant
 
 
-
+#if PP_Uses_Pragma_Import
+	#pragma import reset
+#endif
 
 #endif

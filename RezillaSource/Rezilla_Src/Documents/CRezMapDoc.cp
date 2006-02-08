@@ -2,11 +2,11 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2006-01-26 07:34:50
+//             Last modification: 2006-02-08 11:37:54
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003-2005, 2006
+// (c) Copyright : Bernard Desgraupes, 2003-2006
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -164,11 +164,9 @@ CRezMapDoc::~CRezMapDoc()
 		mRezMap->UnsetFileAttrs(1 << mapChangedBit);
 	} 
 	
-	// CloseFile() is called from CRezFile's destructor. This closes the 
-	// resource fork in the Resource Manager.
+	// CloseFile() is called from the destructor
 	if (mRezFile != nil) {
 		delete mRezFile;
-		mRezMap->SetClosed(true);
 	} 
 	
 	if (mTypesArray != nil) {
@@ -217,7 +215,7 @@ CRezMapDoc::~CRezMapDoc()
 // ---------------------------------------------------------------------------
 
 void
-CRezMapDoc::Initialize(FSSpec * inFileSpec, short inRefnum)
+CRezMapDoc::Initialize(FSSpec * inFileSpecPtr, short inRefnum)
 {		
 	mUpdateOnClose = false;
 	mExportFormat = exportMap_Xml;
@@ -230,20 +228,18 @@ CRezMapDoc::Initialize(FSSpec * inFileSpec, short inRefnum)
 // 	SetUseSubModelList(true);
 	
 	if (mRezFile == nil) {
-		if (inFileSpec != nil) {
-			mRezFile = new CRezFile(*inFileSpec, inRefnum, mFork);
+		if (inFileSpecPtr != nil) {
+			mRezFile = new CRezFile(*inFileSpecPtr, inRefnum, mFork);
 			SetSpecified(true);
 		} else {
 			mRezFile = new CRezFile();
 		}
 	} 
 	
-	if (inFileSpec != nil) {
+	if (inFileSpecPtr != nil) {
 		SetSpecified(true);
 	} 
 
-	mRezFile->SetOwnerDoc(this);
-	
 	// Register to the static RezMapDocs list
 	sRezMapDocList.AddItem(this);
 
@@ -258,11 +254,11 @@ CRezMapDoc::Initialize(FSSpec * inFileSpec, short inRefnum)
 	mRezMapWindow->GetRezMapTable()->SetRezMap(mRezMap);
 
 	// Set name of window
-	if ( inFileSpec == nil ) {
+	if ( inFileSpecPtr == nil ) {
 		NameNewDoc();
 	} else {
 		// Set window title to the name of the file.
-		mRezMapWindow->SetDescriptor( inFileSpec->name );
+		mRezMapWindow->SetDescriptor( inFileSpecPtr->name );
 	}
 
 	// Initialize the array of edited resources
@@ -275,7 +271,7 @@ CRezMapDoc::Initialize(FSSpec * inFileSpec, short inRefnum)
 	mRezMapWindow->GetRezMapTable()->Populate(mTypesArray);
 
 	// Link the window to the file's data (icon, creator, type)
-	::SetWindowProxyFSSpec(mRezMapWindow->GetMacWindow(), inFileSpec);
+	::SetWindowProxyFSSpec(mRezMapWindow->GetMacWindow(), inFileSpecPtr);
 	::SetWindowModified(mRezMapWindow->GetMacWindow(), false);
 	
 // 	// Let's make the document a listener to the prefs object
@@ -838,9 +834,7 @@ CRezMapDoc::DoAESave(
 	// Make a new file object
 	CRezFile * theNewFile = new CRezFile( inFileSpec, kResFileNotOpened, useFork );
 	ThrowIfNil_(theNewFile);
-	
-	theNewFile->SetOwnerDoc(this);
-	
+		
 	// Make new resource file on disk
 	error = theNewFile->CreateNewFile();
 	if (error == noErr) {
@@ -1034,7 +1028,6 @@ CRezMapDoc::DoRevert()
 			delete mRezFile;
 		} 
 		mRezFile = new CRezFile(theFSSpec, theRefNum, mFork);
-		mRezFile->SetOwnerDoc(this);
 	} else {
 		dynamic_cast<CRezillaApp *>(GetSuperCommander())->ReportOpenForkError(error, &theFSSpec);
 		return;

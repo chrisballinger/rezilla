@@ -34,7 +34,9 @@
 #include <LTextEditView.h>
 
 
-
+#if PP_Uses_Pragma_Import
+	#pragma import on
+#endif
 
 PP_Begin_Namespace_PowerPlant
 
@@ -135,6 +137,8 @@ private:
 
 PP_End_Namespace_PowerPlant
 
-
+#if PP_Uses_Pragma_Import
+	#pragma import reset
+#endif
 
 #endif // _H_CIcon_EditorView

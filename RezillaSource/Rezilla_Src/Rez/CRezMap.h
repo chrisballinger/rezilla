@@ -2,11 +2,11 @@
 // CRezMap.h					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2006-01-26 07:34:16
+//             Last modification: 2005-06-06 10:38:31
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003-2005, 2006
+// (c) Copyright : Bernard Desgraupes, 2003-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -141,14 +141,12 @@ public:
 								
 	static TArray<CRezMap*>& GetRezMapList() { return sRezMapList; }
 
-	void			SetClosed(Boolean inHasBeenClosed) {mHasBeenClosed = inHasBeenClosed;}
-
+	
 protected:
 	static TArray<CRezMap*>	sRezMapList;
 
 	short				mRefNum;
 	CRezMapDoc *		mOwnerDoc;
-	Boolean				mHasBeenClosed;
 };
 
 

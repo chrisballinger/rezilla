@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2005-09-26 10:41:24
+//             Last modification: 2005-09-01 08:34:16
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -25,7 +25,6 @@
 #include "CRezMapTable.h"
 #include "CRezMapWindow.h"
 #include "CTemplatesController.h"
-#include "CPluginsController.h"
 #include "CWindowMenu.h"
 #include "NavServicesCallbacks.h"
 #include "UDialogBoxHandler.h"
@@ -143,7 +142,6 @@ CWindowMenu	*		gWindowMenu;	// This is the window menu.
 CRezillaPrefs *			CRezillaApp::sPrefs = nil;
 CEditorsController *	CRezillaApp::sEditController = nil;
 CTemplatesController *	CRezillaApp::sTemplatesController = nil;
-CPluginsController *	CRezillaApp::sPluginsController = nil;
 Rzil_basics				CRezillaApp::sBasics;
 CInspectorWindow *		CRezillaApp::sInspectorWindow = nil;
 Str255					CRezillaApp::sVersionNumber;
@@ -211,7 +209,7 @@ CRezillaApp::~CRezillaApp()
 	LMLTEPane::Terminate();
 	
 	// CRezClipboard is deleted with all the attachments
-// 	delete CRezClipboard::GetScrapFile();
+// 	delete CRezClipboard::GetScrapRezFile();
 }
 
 
@@ -271,11 +269,6 @@ CRezillaApp::Initialize()
 	
 	// Create an instance of the templates controller
 	sTemplatesController = new CTemplatesController();
-	
-#ifdef REZILLA_ENABLE_PLUGINS
-	// Create an instance of the plugins controller
-	sPluginsController = new CPluginsController();
-#endif
 	
 	// Install the window menu.
 	InstallWindowMenu();	

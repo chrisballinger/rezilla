@@ -1,7 +1,7 @@
 // =================================================================================
 // CWindowMenu.h					
 // 
-// ¬© 2002, Bernard Desgraupes, All rights reserved.
+// © 2002, Bernard Desgraupes, All rights reserved.
 //                       Created: 2002-04-19 13:40:15
 //             Last modification: 2002-04-19 13:40:19
 // Author: Bernard Desgraupes
@@ -60,4 +60,3 @@ protected:
 
 	void			ExecuteSelf( MessageT inMessage, void *ioParam );
 };
-

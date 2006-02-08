@@ -2,11 +2,11 @@
 // CRezMap.cp					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2006-01-26 07:34:30
+//             Last modification: 2005-06-06 13:44:24
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2003-2005, 2006
+// (c) Copyright : Bernard Desgraupes, 2003-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -34,7 +34,6 @@ CRezMap::CRezMap(short inRefnum, CRezMapDoc * inOwnerDoc)
 	: LModelObject( NULL, rzom_cRezMap), mRefNum(inRefnum)
 {	
 	mOwnerDoc = inOwnerDoc;
-	mHasBeenClosed = false;
 	
 	// Keep a static list of all the RezMaps opened via a RezMapDoc
 	if (mOwnerDoc != nil) {
@@ -54,12 +53,6 @@ CRezMap::~CRezMap()
 	if (mOwnerDoc != nil) {
 		sRezMapList.Remove(this);
 	} 
-	if (!mHasBeenClosed) {
-		try {
-			Close();
-		}
-		catch (...) {}
-	} 
 }
 
 
@@ -75,7 +68,6 @@ CRezMap::Close()
 		::CloseResFile(mRefNum);
 		error = ::ResError();
 		mRefNum = kResFileNotOpened;
-		mHasBeenClosed = true;
     }
 	return error;
 }

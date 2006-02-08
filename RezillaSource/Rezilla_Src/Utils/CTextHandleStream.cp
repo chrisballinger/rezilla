@@ -6,7 +6,7 @@
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// ¬© Copyright: Bernard Desgraupes 2003, 2004
+// © Copyright: Bernard Desgraupes 2003, 2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -25,7 +25,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¬€ CTextHandleStream							Default Constructor		  [public]
+//	¥ CTextHandleStream							Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CTextHandleStream::CTextHandleStream()
@@ -35,7 +35,7 @@ CTextHandleStream::CTextHandleStream()
 
 
 // ---------------------------------------------------------------------------
-//	¬€ CTextHandleStream							Constructor				  [public]
+//	¥ CTextHandleStream							Constructor				  [public]
 // ---------------------------------------------------------------------------
 //	Copies data Handle of the original
 
@@ -48,7 +48,7 @@ CTextHandleStream::CTextHandleStream(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ CTextHandleStream							Constructor				  [public]
+//	¥ CTextHandleStream							Constructor				  [public]
 // ---------------------------------------------------------------------------
 //	Construct from an existing Handle
 //	The LHandleStream object assumes ownership of the Handle
@@ -61,7 +61,7 @@ CTextHandleStream::CTextHandleStream(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ ~CTextHandleStream							Destructor				  [public]
+//	¥ ~CTextHandleStream							Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CTextHandleStream::~CTextHandleStream()
@@ -70,7 +70,7 @@ CTextHandleStream::~CTextHandleStream()
 
 
 // ---------------------------------------------------------------------------
-//	¬€ WritePString
+//	¥ WritePString
 // ---------------------------------------------------------------------------
 //	Write a Pascal string to a Stream as a text string (ie strips the first
 //	length byte)
@@ -89,7 +89,7 @@ CTextHandleStream::WritePString(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ WritePStringWithTag
+//	¥ WritePStringWithTag
 // ---------------------------------------------------------------------------
 //	Write a Pascal string enclosed in an xml-like pair of tags
 //	Returns the number of bytes written
@@ -112,7 +112,7 @@ CTextHandleStream::WritePStringWithTag(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ WriteCString
+//	¥ WriteCString
 // ---------------------------------------------------------------------------
 //	Write a C string to a Stream as a text string (ie strips the ending null-byte)
 //	Returns the number of bytes written.
@@ -136,7 +136,7 @@ CTextHandleStream::WriteCString(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ WriteCStringWithTag
+//	¥ WriteCStringWithTag
 // ---------------------------------------------------------------------------
 //	Write a Pascal string enclosed in an xml-like pair of tags
 //	Returns the number of bytes written
@@ -159,7 +159,7 @@ CTextHandleStream::WriteCStringWithTag(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ WriteSInt32WithTag
+//	¥ WriteSInt32WithTag
 // ---------------------------------------------------------------------------
 //	Write a SInt32 number enclosed in an xml-like pair of tags
 //	Returns the number of bytes written
@@ -177,7 +177,7 @@ CTextHandleStream::WriteSInt32WithTag(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ WriteSInt32WithTag
+//	¥ WriteSInt32WithTag
 // ---------------------------------------------------------------------------
 //	Write a SInt32 number enclosed in an xml-like pair of tags
 //	Returns the number of bytes written
@@ -203,7 +203,7 @@ CTextHandleStream::WriteSInt32WithTag(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ WriteBooleanWithTag
+//	¥ WriteBooleanWithTag
 // ---------------------------------------------------------------------------
 //	Write a Boolean value enclosed in an xml-like pair of tags
 //	Returns the number of bytes written
@@ -222,7 +222,7 @@ CTextHandleStream::WriteBooleanWithTag(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ WriteBooleanWithTag
+//	¥ WriteBooleanWithTag
 // ---------------------------------------------------------------------------
 //	Write a Boolean value enclosed in an xml-like pair of tags
 //	Returns the number of bytes written
@@ -245,7 +245,7 @@ CTextHandleStream::WriteBooleanWithTag(
 
 
 // ---------------------------------------------------------------------------
-//	¬€ operator << (SInt32)
+//	¥ operator << (SInt32)
 // ---------------------------------------------------------------------------
 
 CTextHandleStream&
@@ -261,7 +261,7 @@ CTextHandleStream::operator << (SInt32 inNum)
 
 						
 // ---------------------------------------------------------------------------
-//	¬€ operator << (Boolean)
+//	¥ operator << (Boolean)
 // ---------------------------------------------------------------------------
 
 CTextHandleStream&
@@ -277,4 +277,3 @@ CTextHandleStream::operator << (Boolean inBool)
 
 
 PP_End_Namespace_PowerPlant
-

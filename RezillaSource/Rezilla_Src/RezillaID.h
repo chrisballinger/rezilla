@@ -1,7 +1,7 @@
 // ===========================================================================
-// RezillaID.h					
+// RezillaID.h		
 //                       Created: 2004-02-23 15:26:13
-//             Last modification: 2006-01-26 12:20:06
+//             Last modification: 2006-02-08 13:25:13
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>

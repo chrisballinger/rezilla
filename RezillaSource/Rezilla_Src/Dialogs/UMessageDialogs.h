@@ -31,7 +31,9 @@ const MessageT	 msg_Dont		= 9502 ;
 const PaneIDT   item_MessageField		= FOUR_CHAR_CODE('MESG') ;
 const PaneIDT   item_ExplainField		= FOUR_CHAR_CODE('EXPL') ;
 
-
+#if PP_Uses_Pragma_Import
+	#pragma import on
+#endif
 
 PP_Begin_Namespace_PowerPlant
 
@@ -141,6 +143,8 @@ class CPostponedError : public LPeriodical {
 
 PP_End_Namespace_PowerPlant
 
-
+#if PP_Uses_Pragma_Import
+	#pragma import reset
+#endif
 
 #endif

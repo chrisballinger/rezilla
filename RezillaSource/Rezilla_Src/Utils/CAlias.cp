@@ -179,4 +179,3 @@ CAlias::operator = (
 }
 
 
-

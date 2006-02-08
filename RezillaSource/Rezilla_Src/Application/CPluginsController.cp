@@ -119,7 +119,7 @@ CPluginsController::BuildInternalPluginsDictionary()
 
 
 // ---------------------------------------------------------------------------
-//	 BuildPluginsDictionary										[private]
+//	 BuildExternalPluginsDictionary										[private]
 // ---------------------------------------------------------------------------
 // Create a CFDictionary associating resource types to a CFArray of
 // pointers to CRezillaPlugin instances supporting this type. The function

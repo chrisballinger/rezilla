@@ -2,11 +2,11 @@
 // CEditorsController.cp					
 // 
 //                       Created: 2004-06-11 10:48:38
-//             Last modification: 2005-09-06 10:08:16
+//             Last modification: 2006-02-08 12:28:54
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright : Bernard Desgraupes, 2004-2005
+// (c) Copyright : Bernard Desgraupes, 2004-2005, 2006
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -91,11 +91,9 @@ CEditorsController::~CEditorsController()
 void
 CEditorsController::BuildAsTypeDictionary()
 {
-	// Open the TypeAs resource
 	StRezRefSaver saver(CRezillaApp::sOwnRefNum);
 
 	// Get the data
-	CFStringRef errorString;
 	Handle rezHandle = nil;
 	rezHandle = ::Get1Resource('RzTA', 0);
 
@@ -103,32 +101,35 @@ CEditorsController::BuildAsTypeDictionary()
 		// Read its data and make a stream
 		LHandleStream * theStream = new LHandleStream(rezHandle);
 
-		CFStringRef * theKeys;
-		CFStringRef * theVals;
-		OSType theOSType;
-		SInt32 index;
-		SInt32 count = theStream->GetLength() / 8;
+		if (theStream != NULL) {
+			CFStringRef * theKeys;
+			CFStringRef * theVals;
+			OSType theOSType;
+			SInt32 index;
+			SInt32 count = theStream->GetLength() / 8;
 
-		theKeys = (CFStringRef*) NewPtrClear(sizeof(CFStringRef) * count);
-		theVals = (CFStringRef*) NewPtrClear(sizeof(CFStringRef) * count);
+			theKeys = (CFStringRef*) NewPtrClear(sizeof(CFStringRef) * count);
+			theVals = (CFStringRef*) NewPtrClear(sizeof(CFStringRef) * count);
 
-		for (index = 0; index < count; index++) {
-			// CFStringGetSystemEncoding() or kCFStringEncodingMacRoman
-			*theStream >> theOSType;
-			theKeys[index] = CFStringCreateWithBytes(kCFAllocatorDefault, (const UInt8 *) &theOSType, sizeof(OSType), kCFStringEncodingMacRoman, false);
-			
-			*theStream >> theOSType;
-			theVals[index] = CFStringCreateWithBytes(kCFAllocatorDefault, (const UInt8 *) &theOSType, sizeof(OSType), kCFStringEncodingMacRoman, false);;
-		}
-		
-		// Build an immutable dictionary from the stream
-		sAsTypeDictionary = CFDictionaryCreate(kCFAllocatorDefault, (const void **) theKeys, (const void **) theVals, count, NULL, NULL);
-
+			if (theKeys != NULL && theVals != NULL) {
+				for (index = 0; index < count; index++) {
+					// CFStringGetSystemEncoding() or kCFStringEncodingMacRoman
+					*theStream >> theOSType;
+					theKeys[index] = CFStringCreateWithBytes(kCFAllocatorDefault, (const UInt8 *) &theOSType, sizeof(OSType), kCFStringEncodingMacRoman, false);
+					
+					*theStream >> theOSType;
+					theVals[index] = CFStringCreateWithBytes(kCFAllocatorDefault, (const UInt8 *) &theOSType, sizeof(OSType), kCFStringEncodingMacRoman, false);;
+				}
+				
+				// Build an immutable dictionary
+				sAsTypeDictionary = CFDictionaryCreate(kCFAllocatorDefault, (const void **) theKeys, (const void **) theVals, count, NULL, NULL);
+			} 
+			if (theKeys) {free(theKeys);} 
+			if (theVals) {free(theVals);} 
+			::ReleaseResource(rezHandle);
+			delete theStream;
+		} 
 	} 
-	
-	if (sAsTypeDictionary == NULL) {
-		CFShow(errorString);
-	}		
 }
 
 

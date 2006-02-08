@@ -6,7 +6,7 @@
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// Â© Copyright: Bernard Desgraupes 2003-2005
+// © Copyright: Bernard Desgraupes 2003-2005
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -19,7 +19,9 @@
 #include <LFileStream.h>
 
 
-
+#if PP_Uses_Pragma_Import
+	#pragma import on
+#endif
 
 PP_Begin_Namespace_PowerPlant
 
@@ -80,11 +82,11 @@ public:
 
 
 // ===========================================================================
-//	Â¥ Stack-based classes
+//	¥ Stack-based classes
 // ===========================================================================
 
 // ---------------------------------------------------------------------------
-//  Â¥ class StSepHexTranslator
+//  ¥ class StSepHexTranslator
 // ---------------------------------------------------------------------------
 class StSepHexTranslator {
 public:
@@ -108,7 +110,7 @@ private:
 
 
 // ---------------------------------------------------------------------------
-//  Â¥ class StSegmHexTranslator
+//  ¥ class StSegmHexTranslator
 // ---------------------------------------------------------------------------
 class StSegmHexTranslator {
 public:
@@ -132,7 +134,7 @@ private:
 
 
 // ---------------------------------------------------------------------------
-//  Â¥ class StByteToHexTranslator
+//  ¥ class StByteToHexTranslator
 // ---------------------------------------------------------------------------
 class StByteToHexTranslator {
 public:
@@ -156,7 +158,7 @@ private:
 
 
 // ---------------------------------------------------------------------------
-//  Â¥ class StHexToByteTranslator
+//  ¥ class StHexToByteTranslator
 // ---------------------------------------------------------------------------
 class StHexToByteTranslator {
 public:
@@ -179,7 +181,7 @@ private:
 
 
 // ---------------------------------------------------------------------------
-//  Â¥ class StByteToBase64Translator
+//  ¥ class StByteToBase64Translator
 // ---------------------------------------------------------------------------
 class StByteToBase64Translator {
 public:
@@ -203,7 +205,7 @@ private:
 
 
 // ---------------------------------------------------------------------------
-//  Â¥ class StBase64ToByteTranslator
+//  ¥ class StBase64ToByteTranslator
 // ---------------------------------------------------------------------------
 class StBase64ToByteTranslator {
 public:
@@ -227,7 +229,7 @@ private:
 
 
 // ---------------------------------------------------------------------------
-//  Â¥ class StSepTextTranslator
+//  ¥ class StSepTextTranslator
 // ---------------------------------------------------------------------------
 class StSepTextTranslator {
 public:
@@ -249,7 +251,7 @@ public:
 
 
 // ---------------------------------------------------------------------------
-//  Â¥ class StSegmTextTranslator
+//  ¥ class StSegmTextTranslator
 // ---------------------------------------------------------------------------
 class StSegmTextTranslator {
 public:
@@ -272,7 +274,7 @@ public:
 
 
 // ---------------------------------------------------------------------------
-//  Â¥ class StByteToTextTranslator
+//  ¥ class StByteToTextTranslator
 // ---------------------------------------------------------------------------
 class StByteToTextTranslator {
 public:
@@ -294,7 +296,7 @@ public:
 
 
 // ---------------------------------------------------------------------------
-//  Â¥ class StStripBlanksTranslator
+//  ¥ class StStripBlanksTranslator
 // ---------------------------------------------------------------------------
 class StStripBlanksTranslator {
 public:
@@ -314,7 +316,7 @@ public:
 
 
 // ---------------------------------------------------------------------------
-//  Â¥ class StStripPeriodicalTranslator
+//  ¥ class StStripPeriodicalTranslator
 // ---------------------------------------------------------------------------
 class StStripPeriodicalTranslator {
 public:
@@ -340,6 +342,8 @@ public:
 PP_End_Namespace_PowerPlant
 
 
-
+#if PP_Uses_Pragma_Import
+	#pragma import reset
+#endif
 
 #endif

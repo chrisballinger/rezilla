@@ -2,7 +2,7 @@
 // CTmplEditorDoc.cp					
 // 
 //                       Created: 2004-06-12 10:06:22
-//             Last modification: 2005-09-25 08:28:39
+//             Last modification: 2005-09-05 06:51:11
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>

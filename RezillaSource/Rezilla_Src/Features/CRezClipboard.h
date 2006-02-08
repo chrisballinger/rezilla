@@ -1,11 +1,11 @@
 // ===========================================================================
 // CRezClipboard.h					
 //                       Created: 2003-05-11 21:05:08
-//             Last modification: 2006-01-26 10:22:46
+//             Last modification: 2004-03-15 20:26:44
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// Â© Copyright: Bernard Desgraupes 2003-2004, 2006
+// © Copyright: Bernard Desgraupes 2003-2004
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -18,7 +18,9 @@
 
 #include <UScrap.h>
 
-
+#if PP_Uses_Pragma_Import
+	#pragma import on
+#endif
 
 PP_Begin_Namespace_PowerPlant
 
@@ -34,7 +36,7 @@ enum
 };
 
 
-class LFile;
+class CRezFile;
 class CRezMap;
 
 // ---------------------------------------------------------------------------
@@ -49,13 +51,13 @@ public:
 	static SInt32		GetScrapContext() { return sScrapContext;}
 	static void			SetScrapContext(SInt32 inScrapContext) {sScrapContext = inScrapContext;}
 
-	static LFile *		GetScrapFile() { return sScrapFile;}
+	static CRezFile *	GetScrapRezFile() { return sScrapRezFile;}
 	static CRezMap *	GetScrapRezMap() { return sScrapRezMap;}
 	static short		GetScrapRefNum() { return sScrapRefnum;}
 	
 protected:
 	static SInt32		sScrapContext;
-	static LFile *		sScrapFile;
+	static CRezFile *	sScrapRezFile;
 	static CRezMap *	sScrapRezMap;
 	static short		sScrapRefnum;
 
@@ -85,11 +87,11 @@ private:
 
 
 // ===========================================================================
-//	Â¥ Stack-based class
+//	¥ Stack-based class
 // ===========================================================================
 
 // ---------------------------------------------------------------------------
-//  Â¥ class StClipboardContext
+//  ¥ class StClipboardContext
 // ---------------------------------------------------------------------------
 
 class StClipboardContext {
@@ -113,6 +115,8 @@ private:
 PP_End_Namespace_PowerPlant
 
 
-
+#if PP_Uses_Pragma_Import
+	#pragma import reset
+#endif
 
 #endif

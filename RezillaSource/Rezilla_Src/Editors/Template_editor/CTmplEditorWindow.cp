@@ -6,7 +6,7 @@
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes, 2004-2005, 2006
+// (c) Copyright: Bernard Desgraupes, 2004-2005
 // All rights reserved.
 // $Date$
 // $Revision$

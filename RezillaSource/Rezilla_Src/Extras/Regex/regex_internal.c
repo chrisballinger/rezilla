@@ -1228,4 +1228,3 @@ create_cd_newstate (dfa, nodes, context, hash)
   err = register_state (dfa, newstate, hash);
   return (err != REG_NOERROR) ? NULL : newstate;
 }
-

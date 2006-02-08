@@ -24,4 +24,3 @@
 #include <regex.h>
 
 #endif /* re_comp.h */
-

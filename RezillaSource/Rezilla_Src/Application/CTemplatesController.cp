@@ -255,7 +255,7 @@ CTemplatesController::ScanTemplatesFolder(FSRef * inTmplFolder)
 			if ( 0 != (catalogInfo.nodeFlags & kFSNodeIsDirectoryMask) ) {
 				continue;
 			}
-			result = AddTemplatesToDictionary(&fileRef);
+			AddTemplatesToDictionary(&fileRef);
 		}
 	} while ( result == noErr );
 	
