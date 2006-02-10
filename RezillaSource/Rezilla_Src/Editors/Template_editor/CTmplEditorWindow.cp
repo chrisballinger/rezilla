@@ -2,11 +2,11 @@
 // CTmplEditorWindow.cp					
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2006-01-30 12:28:47
+//             Last modification: 2006-02-09 11:21:43
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes, 2004-2005
+// (c) Copyright: Bernard Desgraupes, 2004-2005, 2006
 // All rights reserved.
 // $Date$
 // $Revision$
@@ -549,7 +549,8 @@ CTmplEditorWindow::CreateTemplateStream()
 		UMiscUtils::OSTypeToPString(theType, theName);	
 		error = mOwnerDoc->GetRezMapTable()->GetRezMap()->GetWithName('TMPL', theName, theHandle, true);
 		if (error == noErr) {
-			::DetachResource(theHandle);
+			// Work with a copy of the handle
+			::HandToHand(&theHandle);
 		}
 	} else {
 		theHandle = CTemplatesController::GetTemplateHandle(theType);
@@ -952,10 +953,10 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		break;
 
 		case 'CASE':
-		// Switch with predefined values. They are normally consumed by 
-		// AddEditField() or AddFlagPopup(). This must be an isolated CASE 
-		// tag: raise an error.
-		error = err_TmplIsolatedCaseTag;
+		// Switch with predefined values. These tags are consumed by 
+		// AddEditField() or AddFlagPopup() but are not handled by 
+		// AddBooleanField() for instance. Just ignore.
+		// // error = err_TmplIsolatedCaseTag;
 		break;
 
 		case 'CHAR':
