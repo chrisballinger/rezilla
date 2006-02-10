@@ -31,6 +31,7 @@ This changes log is in reverse chronological order (from bottom to top).
 
 $Date$
 
+
 ================================================================================
 = 1.1b1										last update: 
 ================================================================================
@@ -39,7 +40,7 @@ $Date$
 ¥ 
 
 ================================================================================
-= 1.0.8										last update: 
+= 1.0.8											last update: 2006-02-10 13:23:54
 ================================================================================
 ¥ Fixed a wrong offset of 1 when retrieving the value of a Flag popup (used by
   BORV/WORV/LORV template tags).
@@ -53,6 +54,9 @@ $Date$
 ¥ Added support for two different formats to display RECT tags in templates: 
   "top left bottom right" or "top left width height". New preference in the
   Templates Prefs panel to select the format.
+¥ Fixed issue when a resource is edited with a template and this template is 
+  edited simultaneously.
+¥ Eighth public release of Rezilla (second final).
 
 ================================================================================
 = 1.0.7r2										last update: 2005-09-26 12:23:47

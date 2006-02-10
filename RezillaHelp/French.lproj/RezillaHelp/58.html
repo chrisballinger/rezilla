@@ -13,7 +13,8 @@ l'application <I>Éditeur de Scripts</I>.<P><PRE>
 Required Suite: Terms that every application should support<P>open: Open the specified object(s)
 	open  reference  -- Objects to open. Can be a list of files or an object specifier.
 		[from  data fork/resource fork/any fork/same fork]  -- restrict to a particular fork (default is anyFork)
-		[readOnly  boolean]  -- specify if the file should be opened in read-only mode (by default it is not)<P>quit: Quit the application
+		[readOnly  boolean]  -- specify if the file should be opened in read-only mode (by default it is not)
+		[createFork  boolean]  -- specify if a resource fork should be created when the file does not have any resource fork already (by default it is not)<P>quit: Quit the application
 	quit<P>Standard Suite: Common terms for most applications<P>Class application: the application
 Elements:
 	window by numeric index, by name, as a range of elements

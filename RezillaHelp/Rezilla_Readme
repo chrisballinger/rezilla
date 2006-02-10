@@ -7,13 +7,14 @@ This is version 1.0.8.
 This new version is a maintenance release. It does not introduce major new 
 features and just fixes a few bugs:
     ¥ better handling of opening of files on read-only media
+    ¥ better support of hex value string formats in popups
     ¥ fixed a wrong offset in the items of flag popups used by
   BORV/WORV/LORV template tags (bugs 1415340 and 1415342)
     ¥ fixed crashing bug occuring in certain circumstances with templates 
   using CASE tags (bugs 1241475 and 1412133).
     ¥ additional format to display the four values of a RECT tag in
-  templates: top left bottom right or top left width height.
-  This can be selected via the Preferences.
+  templates: top left bottom right or top left width height. This can be
+  selected via the Preferences.
 
 
 Previous versions already implemented the following features:
@@ -41,30 +42,30 @@ Previous versions already implemented the following features:
     ¥ complete scriptability to drive Rezilla with AppleScript
 
 
-The Rezilla project is a work in progress. This release is the
-second final release (previous versions were in beta testing stage) and is
-also the last of the 1.0.x series: next version will be 1.1 and will
-implement a plugin architecture in order to support third party editors. As
-usual, it comes without any warranty (see licence terms). That said, it has
-been thoroughly tested and has proven quite stable and reliable.
+The Rezilla project is a work in progress. This release is the second final
+release (previous versions were in beta testing stage) and is also the last
+of the 1.0.x series: next version will be 1.1 and will implement a plugin
+architecture in order to support third party editors. As usual, it comes
+without any warranty (see licence terms). That said, it has been thoroughly
+tested and has proven quite stable and reliable.
 
 Please read the doc contained in the help files. It is accessible via the
-Rezilla Help command in the Help menu when Rezilla is running. 
-You can also read it online
+Rezilla Help command in the Help menu when Rezilla is running. You can also
+read it online
 in english <http://webperso.easyconnect.fr/bdesgraupes/DocHTML/RezillaHelp/index.html> or 
 in french <http://webperso.easyconnect.fr/bdesgraupes/DocHTML/RezillaHelp_FR/index.html>.
 
 Rezilla is a free software.
 
-See the licensing terms in the Licence.terms file or click on the
-License button in the About box of the application.
+See the licensing terms in the Licence.terms file or click on the License
+button in the About box of the application.
 
 The official home page for the project is at SourceForge:
  <http://sourceforge.net/projects/rezilla>
 
-There is a users mailing list where any kind of problems about
-Rezilla can be discussed, in particular the questions related to its 
-scriptability and AppleScript syntax. 
+There is a users mailing list where any kind of problems about Rezilla can
+be discussed, in particular the questions related to its scriptability and
+AppleScript syntax.
 Subscribe here <http://lists.sourceforge.net/lists/listinfo/rezilla-users>
 
 
@@ -74,4 +75,4 @@ Please e-mail me any problem you encounter with this software:
 (c) Copyright: Bernard Desgraupes, 2003-2006
  All rights reserved.
 
-Last updated: 2006-01-30
+Last updated: 2006-02-10
