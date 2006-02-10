@@ -2,7 +2,7 @@
 // CTemplatesController.cp					
 // 
 //                       Created: 2004-08-06 12:57:55
-//             Last modification: 2006-01-26 07:33:56
+//             Last modification: 2006-02-09 11:21:20
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -495,7 +495,8 @@ CTemplatesController::GetTemplateHandle(ResType inType)
 		if (theRezType != NULL) {
 			error = theRezType->GetWithName(typeName, theHandle);
 			if (error == noErr) {
-				::DetachResource(theHandle);
+				// Work with a copy of the handle
+				::HandToHand(&theHandle);
 			}
 			delete theRezType;
 		} 
@@ -518,7 +519,8 @@ CTemplatesController::GetTemplateHandle(ResType inType)
 						if (theRezType) {
 							error = theRezType->GetWithName(typeName, theHandle);
 							if (error == noErr) {
-								::DetachResource(theHandle);
+								// Work with a copy of the handle
+								::HandToHand(&theHandle);
 							}
 							delete theRezType;
 						}
