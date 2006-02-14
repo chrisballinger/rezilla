@@ -4,8 +4,8 @@ Rezilla
 Rezilla is a resource forks editor for the Macintosh. 
 This is version 1.0.8.
 
-This new version is a maintenance release. It does not introduce major new 
-features and just fixes a few bugs:
+This new version is a maintenance release. It introduces some new 
+minor features and fixes a few bugs:
     ¥ better handling of opening of files on read-only media
     ¥ better support of hex value string formats in popups
 	¥ fixed a wrong offset in the items of flag popups used by

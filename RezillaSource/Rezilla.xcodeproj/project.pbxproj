@@ -1813,13 +1813,10 @@
 		278B972008D6BDC5006315D2 /* LEventHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 278B938508D6BD43006315D2 /* LEventHandler.h */; };
 		278B972208D6BDC8006315D2 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 278B972108D6BDC8006315D2 /* CoreFoundation.framework */; };
 		278B972308D6BDC8006315D2 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 278B972108D6BDC8006315D2 /* CoreFoundation.framework */; };
-		278B981D08D70ABD006315D2 /* TypeAs.plist in Resources */ = {isa = PBXBuildFile; fileRef = 278B981B08D70ABD006315D2 /* TypeAs.plist */; };
 		278B981F08D70AC7006315D2 /* RezillaTemplates.rsrc in Rez */ = {isa = PBXBuildFile; fileRef = 278B981E08D70AC7006315D2 /* RezillaTemplates.rsrc */; };
 		278B982008D70AC7006315D2 /* RezillaTemplates.rsrc in Rez */ = {isa = PBXBuildFile; fileRef = 278B981E08D70AC7006315D2 /* RezillaTemplates.rsrc */; };
 		278B982108D70AD0006315D2 /* RezillaTemplates.rsrc in CopyFiles */ = {isa = PBXBuildFile; fileRef = 278B981E08D70AC7006315D2 /* RezillaTemplates.rsrc */; };
-		278B982208D70AD8006315D2 /* TypeAs.plist in CopyFiles */ = {isa = PBXBuildFile; fileRef = 278B981B08D70ABD006315D2 /* TypeAs.plist */; };
 		278B9D6708D71017006315D2 /* RezillaTemplates.rsrc in CopyFiles */ = {isa = PBXBuildFile; fileRef = 278B981E08D70AC7006315D2 /* RezillaTemplates.rsrc */; };
-		278B9D6808D71017006315D2 /* TypeAs.plist in CopyFiles */ = {isa = PBXBuildFile; fileRef = 278B981B08D70ABD006315D2 /* TypeAs.plist */; };
 		278B9DB208D71E18006315D2 /* UGWorld.cp in Sources */ = {isa = PBXBuildFile; fileRef = 278B9DB108D71E18006315D2 /* UGWorld.cp */; };
 		278B9DB308D71E18006315D2 /* UGWorld.cp in Sources */ = {isa = PBXBuildFile; fileRef = 278B9DB108D71E18006315D2 /* UGWorld.cp */; };
 		D1C2939A08D7688000970554 /* libRegexMachO.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D1C2939908D7688000970554 /* libRegexMachO.a */; };
@@ -1863,7 +1860,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 7;
 			files = (
-				278B982208D70AD8006315D2 /* TypeAs.plist in CopyFiles */,
 				278B982108D70AD0006315D2 /* RezillaTemplates.rsrc in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1875,7 +1871,6 @@
 			dstSubfolderSpec = 7;
 			files = (
 				278B9D6708D71017006315D2 /* RezillaTemplates.rsrc in CopyFiles */,
-				278B9D6808D71017006315D2 /* TypeAs.plist in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2706,7 +2701,6 @@
 		278B939108D6BD4F006315D2 /* regex_internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = regex_internal.h; path = Rezilla_Src/Extras/Regex/regex_internal.h; sourceTree = SOURCE_ROOT; };
 		278B96F308D6BD55006315D2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = Info.plist; path = Output/Rezilla.app/Contents/Info.plist; sourceTree = "<group>"; };
 		278B972108D6BDC8006315D2 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = /System/Library/Frameworks/CoreFoundation.framework; sourceTree = "<absolute>"; };
-		278B981B08D70ABD006315D2 /* TypeAs.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = TypeAs.plist; path = Rezilla_Rsrc/TypeAs.plist; sourceTree = "<group>"; };
 		278B981E08D70AC7006315D2 /* RezillaTemplates.rsrc */ = {isa = PBXFileReference; lastKnownFileType = archive.rsrc; name = RezillaTemplates.rsrc; path = Rezilla_Rsrc/RezillaTemplates.rsrc; sourceTree = "<group>"; };
 		278B9DB108D71E18006315D2 /* UGWorld.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = UGWorld.cp; path = "MacOS Support/PowerPlant/Pane Classes/UGWorld.cp"; sourceTree = CodeWarrior; };
 		D1C2939908D7688000970554 /* libRegexMachO.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libRegexMachO.a; path = build/Deployment/libRegexMachO.a; sourceTree = "<group>"; };
@@ -4127,7 +4121,6 @@
 			isa = PBXGroup;
 			children = (
 				278B981E08D70AC7006315D2 /* RezillaTemplates.rsrc */,
-				278B981B08D70ABD006315D2 /* TypeAs.plist */,
 			);
 			name = "Extra Resources";
 			sourceTree = "<group>";
@@ -5373,7 +5366,6 @@
 			files = (
 				278B920208D6BCBB006315D2 /* RezillaDocs.icns in Resources */,
 				278B920308D6BCBB006315D2 /* Rezilla.icns in Resources */,
-				278B981D08D70ABD006315D2 /* TypeAs.plist in Resources */,
 				D1C2944B08D84DDF00970554 /* Localizable.strings in Resources */,
 				D1C2945208D84DF400970554 /* InfoPlist.strings in Resources */,
 				D1C2945308D84DF400970554 /* Errors.strings in Resources */,
