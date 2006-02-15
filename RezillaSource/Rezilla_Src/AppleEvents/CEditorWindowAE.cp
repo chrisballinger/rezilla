@@ -4,12 +4,10 @@
 //                       Created: 2005-04-26 10:05:20
 //             Last modification: 2005-06-12 18:45:01
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 //  AppleEvent Object Model Support. These methods are part of the CEditorWindow 
 //  class (inheriting from LModelObject).
@@ -22,7 +20,7 @@
 
 
 // ---------------------------------------------------------------------------
-//	¥ MakeSelfSpecifier												  [public]
+//	Â¥ MakeSelfSpecifier												  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -50,7 +48,7 @@ CEditorWindow::MakeSelfSpecifier(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetAEProperty
+//	Â¥ GetAEProperty
 // ---------------------------------------------------------------------------
 //	Return a descriptor for the specified Property
 // 	rzom_pKind			= 'pKND';	// Kind
@@ -92,7 +90,7 @@ CEditorWindow::GetAEProperty(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AEPropertyExists
+//	Â¥ AEPropertyExists
 // ---------------------------------------------------------------------------
 
 bool

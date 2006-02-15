@@ -4,12 +4,10 @@
 //                       Created: 2004-12-06 14:54:09
 //             Last modification: 2004-12-06 23:25:36
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2004
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 
@@ -33,7 +31,7 @@
 
 
 // ---------------------------------------------------------------------------
-//		¥ CPICT_EditorWindow				[public]
+//		Â¥ CPICT_EditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CPICT_EditorWindow::CPICT_EditorWindow()
@@ -42,7 +40,7 @@ CPICT_EditorWindow::CPICT_EditorWindow()
 
 
 // ---------------------------------------------------------------------------
-//		¥ CPICT_EditorWindow				[public]
+//		Â¥ CPICT_EditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CPICT_EditorWindow::CPICT_EditorWindow(
@@ -53,7 +51,7 @@ CPICT_EditorWindow::CPICT_EditorWindow(
 
 
 // ---------------------------------------------------------------------------
-//		¥ CPICT_EditorWindow				[public]
+//		Â¥ CPICT_EditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CPICT_EditorWindow::CPICT_EditorWindow(
@@ -66,7 +64,7 @@ CPICT_EditorWindow::CPICT_EditorWindow(
 
 
 // ---------------------------------------------------------------------------
-//		¥ CPICT_EditorWindow				[public]
+//		Â¥ CPICT_EditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CPICT_EditorWindow::CPICT_EditorWindow(
@@ -77,7 +75,7 @@ CPICT_EditorWindow::CPICT_EditorWindow(
 
 
 // ---------------------------------------------------------------------------
-//		¥ ~CPICT_EditorWindow				[public]
+//		Â¥ ~CPICT_EditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CPICT_EditorWindow::~CPICT_EditorWindow()
@@ -86,7 +84,7 @@ CPICT_EditorWindow::~CPICT_EditorWindow()
 
 
 // ---------------------------------------------------------------------------
-//		¥ FinishCreateSelf											[protected]
+//		Â¥ FinishCreateSelf											[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -104,7 +102,7 @@ CPICT_EditorWindow::FinishCreateSelf()
 
 
 // ---------------------------------------------------------------------------
-//		¥ ListenToMessage				[public]
+//		Â¥ ListenToMessage				[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -122,7 +120,7 @@ CPICT_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 
 
 // ---------------------------------------------------------------------------
-//	¥ FindCommandStatus
+//	Â¥ FindCommandStatus
 // ---------------------------------------------------------------------------
 
 void
@@ -144,7 +142,7 @@ CPICT_EditorWindow::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ObeyCommand							[public, virtual]
+//	Â¥ ObeyCommand							[public, virtual]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -197,7 +195,7 @@ CPICT_EditorWindow::ObeyCommand(
 
 
 // ---------------------------------------------------------------------------
-//	¥ InstallPict													[public]
+//	Â¥ InstallPict													[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -218,7 +216,7 @@ CPICT_EditorWindow::InstallPict(Handle inHandle)
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetSizeFields												[public]
+//	Â¥ SetSizeFields												[public]
 // ---------------------------------------------------------------------------
 
 void

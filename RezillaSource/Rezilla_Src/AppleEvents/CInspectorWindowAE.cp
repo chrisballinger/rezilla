@@ -4,12 +4,10 @@
 //                       Created: 2005-04-26 09:48:48
 //             Last modification: 2005-06-16 09:07:02
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 //  AppleEvent Object Model Support. These methods are part of the CInspectorWindow 
 //  class (inheriting from LModelObject).
@@ -26,7 +24,7 @@
 
 
 // ---------------------------------------------------------------------------
-//	¥ MakeSelfSpecifier												  [public]
+//	Â¥ MakeSelfSpecifier												  [public]
 // ---------------------------------------------------------------------------
 // Specify by position
 
@@ -52,7 +50,7 @@ CInspectorWindow::MakeSelfSpecifier(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetAEProperty
+//	Â¥ GetAEProperty
 // ---------------------------------------------------------------------------
 
 void
@@ -110,7 +108,7 @@ CInspectorWindow::GetAEProperty(
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetAEProperty
+//	Â¥ SetAEProperty
 // ---------------------------------------------------------------------------
 
 void
@@ -165,7 +163,7 @@ CInspectorWindow::SetAEProperty(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AEPropertyExists
+//	Â¥ AEPropertyExists
 // ---------------------------------------------------------------------------
 
 bool
@@ -195,7 +193,7 @@ CInspectorWindow::AEPropertyExists(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetAEAttribute
+//	Â¥ GetAEAttribute
 // ---------------------------------------------------------------------------
 
 void
@@ -235,7 +233,7 @@ CInspectorWindow::GetAEAttribute(
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetAEAttribute
+//	Â¥ SetAEAttribute
 // ---------------------------------------------------------------------------
 
 void
@@ -250,7 +248,7 @@ CInspectorWindow::SetAEAttribute(const AEDesc& inValue, short inFlag)
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetModelProperty
+//	Â¥ GetModelProperty
 // ---------------------------------------------------------------------------
 
 LModelObject*
@@ -280,7 +278,7 @@ CInspectorWindow::GetModelProperty(DescType inProperty) const
 
 
 // ---------------------------------------------------------------------------
-//	¥ HandleAppleEvent												  [public]
+//	Â¥ HandleAppleEvent												  [public]
 // ---------------------------------------------------------------------------
 
 void

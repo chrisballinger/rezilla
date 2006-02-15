@@ -3,12 +3,10 @@
 //                       Created: 2004-12-11 18:52:42
 //             Last modification: 2004-12-27 10:32:12
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright: Bernard Desgraupes 2004
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 // We draw the text into a 1-bit gworld that has a TextEdit record attached
 // to it. We then blit and colorize this gworld to the image buffer and

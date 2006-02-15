@@ -4,12 +4,10 @@
 //                       Created: 2004-12-08 18:21:21
 //             Last modification: 2005-09-05 06:51:51
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2004-2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 PP_Begin_Namespace_PowerPlant
@@ -50,7 +48,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CUtxt_EditorDoc							Constructor		  [public]
+//	Â¥ CUtxt_EditorDoc							Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CUtxt_EditorDoc::CUtxt_EditorDoc(LCommander* inSuper, 
@@ -65,7 +63,7 @@ CUtxt_EditorDoc::CUtxt_EditorDoc(LCommander* inSuper,
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CUtxt_EditorDoc							Destructor				  [public]
+//	Â¥ ~CUtxt_EditorDoc							Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CUtxt_EditorDoc::~CUtxt_EditorDoc()
@@ -77,7 +75,7 @@ CUtxt_EditorDoc::~CUtxt_EditorDoc()
 
 
 // ---------------------------------------------------------------------------
-//	¥ Initialize													  [public]
+//	Â¥ Initialize													  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -112,7 +110,7 @@ CUtxt_EditorDoc::Initialize()
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetDescriptor													  [public]
+//	Â¥ GetDescriptor													  [public]
 // ---------------------------------------------------------------------------
 //	Pass back the name of a Document
 
@@ -133,7 +131,7 @@ CUtxt_EditorDoc::GetDescriptor(
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ FindCommandStatus
+//  Â¥ FindCommandStatus
 // ---------------------------------------------------------------------------------
 
 void
@@ -157,7 +155,7 @@ CUtxt_EditorDoc::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AllowSubRemoval												  [public]
+//	Â¥ AllowSubRemoval												  [public]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -174,7 +172,7 @@ CUtxt_EditorDoc::AllowSubRemoval(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AskSaveChanges												  [public]
+//	Â¥ AskSaveChanges												  [public]
 // ---------------------------------------------------------------------------
 //	Ask user whether to save changes before closing the Document.
 
@@ -187,7 +185,7 @@ CUtxt_EditorDoc::AskSaveChanges(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetModifiedResource										[protected]
+//  Â¥ GetModifiedResource										[protected]
 // ---------------------------------------------------------------------------
 // (From MacTextEditor.h) The handle passed to TXNGetDataEncoded should not
 // be allocated. TXNGetDataEncoded takes care of allocating the dataHandle
@@ -203,7 +201,7 @@ CUtxt_EditorDoc::GetModifiedResource(Boolean &releaseIt)
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ SaveStylResource
+//  Â¥ SaveStylResource
 // ---------------------------------------------------------------------------------
 // What's the eqauivalent of TextEdit's StScrpHandle with MLTE ?
 

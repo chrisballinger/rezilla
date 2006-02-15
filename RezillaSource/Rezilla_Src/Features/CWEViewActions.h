@@ -4,12 +4,10 @@
 //                       Created: 2001-09-08 07:05:27
 //             Last modification: 2005-05-24 15:58:41
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2001-2005
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
+// (c) Copyright: Bernard Desgraupes 2001-2005
 // All rights reserved.
-// $Date$
-// $Revision$
 //	
 // This file is part of the CWasteEditView package vs-1.8
 // ===========================================================================

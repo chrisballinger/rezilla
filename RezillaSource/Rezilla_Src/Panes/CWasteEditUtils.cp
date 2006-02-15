@@ -4,16 +4,14 @@
 // Created: 2001-09-05 18:22:04 
 // Last modification: 2004-11-06 11:45:19
 // Author: Bernard Desgraupes 
-// e-mail: <bdesgraupes@easyconnect.fr> 
-// www: <http://webperso.easyconnect.fr/bdesgraupes/> 
-// © Copyright: Bernard Desgraupes 2001-2004
+// e-mail: <bdesgraupes@users.sourceforge.net> 
+// www: <http://rezilla.sourceforge.net/> 
+// (c) Copyright: Bernard Desgraupes 2001-2004
 // All rights reserved.
-// $Date$
-// $Revision$
 // 
 // Description: CWaste is a class designed to interface between 
-// the Waste Edit text engine (©1993-2000 by Marco Piovanelli)
-// and CodeWarrior's PowerPlant 2.1 library (©1993-2000 Metrowerks Inc.) 
+// the Waste Edit text engine (Â©1993-2000 by Marco Piovanelli)
+// and CodeWarrior's PowerPlant 2.1 library (Â©1993-2000 Metrowerks Inc.) 
 // 
 // This file is part of the CWasteEditView package vs-1.8
 // ===========================================================================
@@ -35,7 +33,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ ApplyStyleValues
+//	Â¥ ApplyStyleValues
 // ---------------------------------------------------------------------------
 // weDoMonoStyled
 
@@ -64,7 +62,7 @@ CWasteEditView::ApplyStyleValues(UInt16 theSize, UInt16 theFont)
 
 
 // ---------------------------------------------------------------------------
-//	¥ ApplyForeAndBackColors
+//	Â¥ ApplyForeAndBackColors
 // ---------------------------------------------------------------------------
 
 void
@@ -79,7 +77,7 @@ CWasteEditView::ApplyForeAndBackColors() const
 
 
 // ---------------------------------------------------------------------------------
-//		¥ ToggleStyleAttribute					[public, virtual]
+//		Â¥ ToggleStyleAttribute					[public, virtual]
 // ---------------------------------------------------------------------------------
 
 void
@@ -95,7 +93,7 @@ CWasteEditView::ToggleStyleAttribute(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ChangeFontSizeBy							[public, virtual]
+//	Â¥ ChangeFontSizeBy							[public, virtual]
 // ---------------------------------------------------------------------------
 //	Will only work if the font over the selection range is constant.  Returns
 //	true if change was successful.
@@ -116,7 +114,7 @@ CWasteEditView::ChangeFontSizeBy(
 
 
 // ---------------------------------------------------------------------------
-//	¥ UserChangedText						[public, virtual]
+//	Â¥ UserChangedText						[public, virtual]
 // ---------------------------------------------------------------------------
 //	Text of WasteEdit has changed as a result of user action
 
@@ -142,7 +140,7 @@ CWasteEditView::UserChangedText()
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ CountLines								[public]
+//	Â¥ CountLines								[public]
 // ---------------------------------------------------------------------------
 
 SInt32
@@ -153,7 +151,7 @@ CWasteEditView::CountLines()
 
 
 // ---------------------------------------------------------------------------
-//	¥ PosToLine								[public]
+//	Â¥ PosToLine								[public]
 // ---------------------------------------------------------------------------
 // Note that Waste line numbers are 0-based 
 
@@ -165,7 +163,7 @@ CWasteEditView::PosToLine(SInt32 inPos)
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetTextLength								[public]
+//	Â¥ GetTextLength								[public]
 // ---------------------------------------------------------------------------
 
 SInt32
@@ -176,7 +174,7 @@ CWasteEditView::GetTextLength()
 
 
 // ---------------------------------------------------------------------------
-//	¥ CalcWEHeight							[public, virtual]
+//	Â¥ CalcWEHeight							[public, virtual]
 // ---------------------------------------------------------------------------
 //	Calculates the height of the WasteEdit record.
 
@@ -190,7 +188,7 @@ CWasteEditView::CalcWEHeight()
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetLineHeightFromStyle									  [public]
+//	Â¥ GetLineHeightFromStyle									  [public]
 // ---------------------------------------------------------------------------
 
 SInt16
@@ -219,7 +217,7 @@ CWasteEditView::GetLineHeightFromStyle(TextStyle inStyle)
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ GetSelection
+//	Â¥ GetSelection
 // ---------------------------------------------------------------------------
 //	Passes back an AEDesc of the currently selected text
 
@@ -245,7 +243,7 @@ CWasteEditView::GetSelection(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetLineRange								[public]
+//	Â¥ GetLineRange								[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -256,7 +254,7 @@ CWasteEditView::GetLineRange(SInt32 inLineIndex, SInt32 & outLineStart, SInt32 &
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetSelectionRange
+//	Â¥ GetSelectionRange
 // ---------------------------------------------------------------------------
 
 void
@@ -269,7 +267,7 @@ CWasteEditView::GetSelectionRange(
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetSelectionRange
+//	Â¥ SetSelectionRange
 // ---------------------------------------------------------------------------
 
 void
@@ -301,7 +299,7 @@ CWasteEditView::SetSelectionRange(
 
 
 // ---------------------------------------------------------------------------
-//	¥ DisplaySelectionRange
+//	Â¥ DisplaySelectionRange
 // ---------------------------------------------------------------------------
 
 void
@@ -330,7 +328,7 @@ CWasteEditView::DisplaySelectionRange(
 
 
 // ---------------------------------------------------------------------------
-//	¥ HasSelection													  [public]
+//	Â¥ HasSelection													  [public]
 // ---------------------------------------------------------------------------
 // Check if selection is empty (0) or not (1).
 
@@ -345,7 +343,7 @@ CWasteEditView::HasSelection() {
 
 
 // ---------------------------------------------------------------------------
-//	¥ SelectAll								[public, virtual]
+//	Â¥ SelectAll								[public, virtual]
 // ---------------------------------------------------------------------------
 //	Select entire contents of a WasteEdit
 
@@ -364,7 +362,7 @@ CWasteEditView::SelectAll()
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ SetDescriptor											[public, virtual]
+//	Â¥ SetDescriptor											[public, virtual]
 // ---------------------------------------------------------------------------
 //	Will set the text to the given string, replacing any and all text
 //	already there.
@@ -378,7 +376,7 @@ CWasteEditView::SetDescriptor(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetDescriptor											[public, virtual]
+//	Â¥ GetDescriptor											[public, virtual]
 // ---------------------------------------------------------------------------
 //	Return up to the first 255 characters of the WasteEditView as a Pascal
 //	string. Caller must allocate a Str255 variable for storing the string.
@@ -402,7 +400,7 @@ CWasteEditView::GetDescriptor(
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetValue												[public, virtual]
+//	Â¥ SetValue												[public, virtual]
 // ---------------------------------------------------------------------------
 //	Set the text in the WasteEditView to the string representation of the
 //	specified integer number.
@@ -418,7 +416,7 @@ CWasteEditView::SetValue(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetValue												[public, virtual]
+//	Â¥ GetValue												[public, virtual]
 // ---------------------------------------------------------------------------
 //	Return the integer value represented by the contents of a WasteEditView.
 //
@@ -440,7 +438,7 @@ CWasteEditView::GetValue() const
 
 
 // ---------------------------------------------------------------------------
-//	¥ SavePlace								[public, virtual]
+//	Â¥ SavePlace								[public, virtual]
 // ---------------------------------------------------------------------------
 // Override function in LView class
 
@@ -463,7 +461,7 @@ CWasteEditView::SavePlace(
 
 
 // ---------------------------------------------------------------------------
-//	¥ RestorePlace										[public, virtual]
+//	Â¥ RestorePlace										[public, virtual]
 // ---------------------------------------------------------------------------
 // Override function in LView class
 
@@ -484,7 +482,7 @@ CWasteEditView::RestorePlace(
 
 
 // ---------------------------------------------------------------------------
-//	¥ SaveStateForUndo									[protected, virtual]
+//	Â¥ SaveStateForUndo									[protected, virtual]
 // ---------------------------------------------------------------------------
 
 SWasteEditUndoH
@@ -509,7 +507,7 @@ CWasteEditView::SaveStateForUndo()
 
 
 // ---------------------------------------------------------------------------
-//	¥ FlagsFromAttributes											  [public]
+//	Â¥ FlagsFromAttributes											  [public]
 // ---------------------------------------------------------------------------
 // Build the WE flags from the mTextAttributes variable.
 
@@ -538,7 +536,7 @@ CWasteEditView::FlagsFromAttributes() {
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetAttributesFromProperties									  [public]
+//	Â¥ SetAttributesFromProperties									  [public]
 // ---------------------------------------------------------------------------
 // Initialize mTextAttributes from the individual property values.
 
@@ -565,7 +563,7 @@ CWasteEditView::SetAttributesFromProperties()
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetPropertiesFromAttributes								  [public]
+//	Â¥ SetPropertiesFromAttributes								  [public]
 // ---------------------------------------------------------------------------
 // Initialize the individual property values from mTextAttributes.
 

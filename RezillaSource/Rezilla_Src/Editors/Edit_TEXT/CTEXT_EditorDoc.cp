@@ -4,12 +4,10 @@
 //                       Created: 2004-06-17 12:46:55
 //             Last modification: 2005-09-05 06:52:04
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2004-2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 PP_Begin_Namespace_PowerPlant
@@ -52,7 +50,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CTEXT_EditorDoc							Constructor		  [public]
+//	Â¥ CTEXT_EditorDoc							Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CTEXT_EditorDoc::CTEXT_EditorDoc(LCommander* inSuper, 
@@ -67,7 +65,7 @@ CTEXT_EditorDoc::CTEXT_EditorDoc(LCommander* inSuper,
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CTEXT_EditorDoc							Destructor				  [public]
+//	Â¥ ~CTEXT_EditorDoc							Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CTEXT_EditorDoc::~CTEXT_EditorDoc()
@@ -79,7 +77,7 @@ CTEXT_EditorDoc::~CTEXT_EditorDoc()
 
 
 // ---------------------------------------------------------------------------
-//	¥ Initialize													  [public]
+//	Â¥ Initialize													  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -125,7 +123,7 @@ CTEXT_EditorDoc::Initialize()
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetDescriptor													  [public]
+//	Â¥ GetDescriptor													  [public]
 // ---------------------------------------------------------------------------
 //	Pass back the name of a Document
 
@@ -146,7 +144,7 @@ CTEXT_EditorDoc::GetDescriptor(
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ FindCommandStatus
+//  Â¥ FindCommandStatus
 // ---------------------------------------------------------------------------------
 
 void
@@ -170,7 +168,7 @@ CTEXT_EditorDoc::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AllowSubRemoval												  [public]
+//	Â¥ AllowSubRemoval												  [public]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -187,7 +185,7 @@ CTEXT_EditorDoc::AllowSubRemoval(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AskSaveChanges												  [public]
+//	Â¥ AskSaveChanges												  [public]
 // ---------------------------------------------------------------------------
 //	Ask user whether to save changes before closing the Document.
 
@@ -200,7 +198,7 @@ CTEXT_EditorDoc::AskSaveChanges(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetModifiedResource										[protected]
+//  Â¥ GetModifiedResource										[protected]
 // ---------------------------------------------------------------------------
 // The returned handle should not be released by the caller so leave
 // releaseIt to false (its default).
@@ -215,7 +213,7 @@ CTEXT_EditorDoc::GetModifiedResource(Boolean &releaseIt)
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ SaveStylResource
+//  Â¥ SaveStylResource
 // ---------------------------------------------------------------------------------
 
 void

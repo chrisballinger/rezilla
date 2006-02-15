@@ -4,19 +4,17 @@
 //                       Created : 2002-05-14 20:00:17
 //             Last modification : 2004-03-02 10:28:40
 // Author : Bernard Desgraupes
-// e-mail : <bdesgraupes@easyconnect.fr>
-// www : <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail : <bdesgraupes@users.sourceforge.net>
+// www : <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2002-2004
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 #include "CBroadcasterTableView.h"
 
 
 // ---------------------------------------------------------------------------
-//		¥ CBroadcasterTableView
+//		Â¥ CBroadcasterTableView
 // ---------------------------------------------------------------------------
 //	Constructor
 
@@ -35,7 +33,7 @@ CBroadcasterTableView::CBroadcasterTableView(
 
 
 // ---------------------------------------------------------------------------
-//		¥ ~CBroadcasterTableView
+//		Â¥ ~CBroadcasterTableView
 // ---------------------------------------------------------------------------
 //	Destructor
 
@@ -45,7 +43,7 @@ CBroadcasterTableView::~CBroadcasterTableView()
 
 
 // ---------------------------------------------------------------------------
-//		¥ DrawCell
+//		Â¥ DrawCell
 // ---------------------------------------------------------------------------
 
 void
@@ -67,7 +65,7 @@ CBroadcasterTableView::DrawCell(
 
 
 // ---------------------------------------------------------------------------
-//		¥ HiliteCellActively
+//		Â¥ HiliteCellActively
 // ---------------------------------------------------------------------------
 //	Draw or undraw active hiliting for a Cell
 
@@ -103,7 +101,7 @@ CBroadcasterTableView::HiliteCellActively(
 
 
 // ---------------------------------------------------------------------------
-//		¥ HiliteCellInactively
+//		Â¥ HiliteCellInactively
 // ---------------------------------------------------------------------------
 //	Draw or undraw inactive hiliting for a Cell
 
@@ -139,7 +137,7 @@ CBroadcasterTableView::HiliteCellInactively(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ClickCell
+//	Â¥ ClickCell
 // ---------------------------------------------------------------------------
 //	Handle a mouse click within the specified Cell
 

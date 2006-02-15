@@ -4,12 +4,10 @@
 //                       Created: 2005-01-01 20:40:10
 //             Last modification: 2005-01-01 20:54:28
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 // Subclass only to broadcast a specific message when the button receives 
 // a double-click.
@@ -26,7 +24,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CDoubleClickButton						Stream Constructor		  [public]
+//	Â¥ CDoubleClickButton						Stream Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CDoubleClickButton::CDoubleClickButton(
@@ -40,7 +38,7 @@ CDoubleClickButton::CDoubleClickButton(
 
 
 // ---------------------------------------------------------------------------
-//	¥ CDoubleClickButton							Parameterized Constructor [public]
+//	Â¥ CDoubleClickButton							Parameterized Constructor [public]
 // ---------------------------------------------------------------------------
 //	Constructor for a BevelButton with no menu
 
@@ -72,7 +70,7 @@ CDoubleClickButton::CDoubleClickButton(
 
 
 // ---------------------------------------------------------------------------
-//	¥ CDoubleClickButton						Parameterized Constructor [public]
+//	Â¥ CDoubleClickButton						Parameterized Constructor [public]
 // ---------------------------------------------------------------------------
 //	Constructor for a BevelButton with a Menu
 
@@ -106,7 +104,7 @@ CDoubleClickButton::CDoubleClickButton(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CDoubleClickButton						Destructor				  [public]
+//	Â¥ ~CDoubleClickButton						Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CDoubleClickButton::~CDoubleClickButton()
@@ -118,7 +116,7 @@ CDoubleClickButton::~CDoubleClickButton()
 
 
 // ---------------------------------------------------------------------------
-//	¥ ClickSelf
+//	Â¥ ClickSelf
 // ---------------------------------------------------------------------------
 //	Broadcast message for a double-click on the button
 

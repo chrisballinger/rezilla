@@ -4,12 +4,10 @@
 //                       Created: 2004-12-06 14:54:09
 //             Last modification: 2005-09-05 06:50:58
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2004-2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 PP_Begin_Namespace_PowerPlant
@@ -43,7 +41,7 @@ extern CWindowMenu * gWindowMenu;
 
 
 // ---------------------------------------------------------------------------
-//	¥ CPICT_EditorDoc							Constructor		  [public]
+//	Â¥ CPICT_EditorDoc							Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CPICT_EditorDoc::CPICT_EditorDoc(LCommander* inSuper, 
@@ -58,7 +56,7 @@ CPICT_EditorDoc::CPICT_EditorDoc(LCommander* inSuper,
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CPICT_EditorDoc							Destructor			  [public]
+//	Â¥ ~CPICT_EditorDoc							Destructor			  [public]
 // ---------------------------------------------------------------------------
 
 CPICT_EditorDoc::~CPICT_EditorDoc()
@@ -70,7 +68,7 @@ CPICT_EditorDoc::~CPICT_EditorDoc()
 
 
 // ---------------------------------------------------------------------------
-//	¥ Initialize													  [public]
+//	Â¥ Initialize													  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -117,7 +115,7 @@ CPICT_EditorDoc::Initialize()
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetDescriptor													  [public]
+//	Â¥ GetDescriptor													  [public]
 // ---------------------------------------------------------------------------
 //	Pass back the name of a Document
 
@@ -138,7 +136,7 @@ CPICT_EditorDoc::GetDescriptor(
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ FindCommandStatus
+//  Â¥ FindCommandStatus
 // ---------------------------------------------------------------------------------
 
 void
@@ -162,7 +160,7 @@ CPICT_EditorDoc::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AllowSubRemoval												  [public]
+//	Â¥ AllowSubRemoval												  [public]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -179,7 +177,7 @@ CPICT_EditorDoc::AllowSubRemoval(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AskSaveChanges												  [public]
+//	Â¥ AskSaveChanges												  [public]
 // ---------------------------------------------------------------------------
 //	Ask user whether to save changes before closing the Document.
 
@@ -192,7 +190,7 @@ CPICT_EditorDoc::AskSaveChanges(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetModifiedResource										[protected]
+//  Â¥ GetModifiedResource										[protected]
 // ---------------------------------------------------------------------------
 // The returned handle should not be released by the caller so leave
 // releaseIt to false (its default).

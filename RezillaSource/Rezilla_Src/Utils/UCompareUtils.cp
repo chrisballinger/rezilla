@@ -4,12 +4,10 @@
 //                       Created: 2005-01-02 15:16:34
 //             Last modification: 2005-01-02 15:33:09
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2005
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
+// (c) Copyright: Bernard Desgraupes 2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 
@@ -38,7 +36,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CompareStr255												[static]
+//	Â¥ CompareStr255												[static]
 // ---------------------------------------------------------------------------
 
 SInt16 
@@ -49,7 +47,7 @@ UCompareUtils::CompareStr255(Str255 * leftString, Str255 * rightString)
 
 
 // ---------------------------------------------------------------------------
-//	¥ HandlesAreIdentical												[static]
+//	Â¥ HandlesAreIdentical												[static]
 // ---------------------------------------------------------------------------
 
 Boolean 
@@ -83,7 +81,7 @@ UCompareUtils::HandlesAreIdentical(const Handle leftHndl, const Handle rightHndl
 
 
 // ---------------------------------------------------------------------------
-//	¥ HasExtension													[static]
+//	Â¥ HasExtension													[static]
 // ---------------------------------------------------------------------------
 
 Boolean 
@@ -115,7 +113,7 @@ UCompareUtils::HasExtension(FSSpec * inFSSpec, char * inExtension)
 
 
 // ================================================================
-//  ¥  Class CTypeComparator
+//  Â¥  Class CTypeComparator
 // ================================================================
 // String comparator class to build tables sorted alphabetically
 
@@ -138,7 +136,7 @@ CTypeComparator::Compare(
 
 
 // ================================================================
-//  ¥  Class CTypeItemComparator
+//  Â¥  Class CTypeItemComparator
 // ================================================================
 // String comparator class to build tables sorted alphabetically
 

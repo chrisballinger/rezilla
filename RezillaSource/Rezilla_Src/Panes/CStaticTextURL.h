@@ -4,12 +4,10 @@
 //                       Created: 2004-06-20 20:22:41
 //             Last modification: 2004-06-21 07:41:09
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2004
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 #ifndef _H_CStaticTextURL

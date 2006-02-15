@@ -4,12 +4,10 @@
 //                       Created: 2005-03-17 09:36:42
 //             Last modification: 2005-07-03 17:56:25
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 // A view containing both a static text and an edit text field. Useful, for
 // instance, for the menu title in a menu editor: if the user clicks on the
@@ -187,7 +185,7 @@ CStaticEditCombo::SwapPanes()
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetDescriptor													  [public]
+//	Â¥ GetDescriptor													  [public]
 // ---------------------------------------------------------------------------
 
 StringPtr
@@ -204,7 +202,7 @@ CStaticEditCombo::GetDescriptor(
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetDescriptor													  [public]
+//	Â¥ SetDescriptor													  [public]
 // ---------------------------------------------------------------------------
 
 void

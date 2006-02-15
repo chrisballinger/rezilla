@@ -4,19 +4,17 @@
 //                       Created: 2003-04-24 14:17:20
 //             Last modification: 2003-04-24 17:08:00
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2003
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 #include "URezChain.h"
 
 
 // ---------------------------------------------------------------------------
-//  ¥ InsertFile														[public]
+//  Â¥ InsertFile														[public]
 // ---------------------------------------------------------------------------
 // Possible values for inWhere argument are:
 //   kRsrcChainBelowSystemMap			Below the system's resource map
@@ -32,7 +30,7 @@ URezChain::InsertFile( SInt16 inRefNum, RsrcChainLocation inWhere)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ DetachFile														[public]
+//  Â¥ DetachFile														[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -43,7 +41,7 @@ URezChain::DetachFile(SInt16 inRefNum)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetTopFile														[public]
+//  Â¥ GetTopFile														[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -54,7 +52,7 @@ URezChain::GetTopFile(SInt16 & outRefNum)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetNextFile														[public]
+//  Â¥ GetNextFile														[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -65,7 +63,7 @@ URezChain::GetNextFile(SInt16 inCurRefNum, SInt16 & outNextRefNum)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ Count														[public]
+//  Â¥ Count														[public]
 // ---------------------------------------------------------------------------
 // If the resource chain is empty, resFNotFound is returned.
 
@@ -90,7 +88,7 @@ URezChain::Count()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetChainList														[public]
+//  Â¥ GetChainList														[public]
 // ---------------------------------------------------------------------------
 
 TArray<ResType>*

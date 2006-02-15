@@ -3,12 +3,10 @@
 //                       Created: 2004-12-11 18:57:26
 //             Last modification: 2005-03-09 07:11:06
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright: Bernard Desgraupes 2004, 2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 #include "CThreeButtonsBox.h"

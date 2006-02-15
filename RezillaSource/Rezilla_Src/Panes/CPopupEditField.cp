@@ -4,12 +4,10 @@
 //                       Created: 2005-03-12 07:58:12
 //             Last modification: 2005-03-24 10:57:29
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright: Bernard Desgraupes 2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 // Subclass only to broadcast the pointer to "this" instead of the value of
 // the control.

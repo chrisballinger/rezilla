@@ -3,12 +3,10 @@
 //                       Created: 2003-05-13 20:06:23
 //             Last modification: 2005-03-08 07:41:56
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003-2005
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
+// (c) Copyright: Bernard Desgraupes 2003-2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 
@@ -40,7 +38,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//  ¥ PStringToOSType											[static]
+//  Â¥ PStringToOSType											[static]
 // ---------------------------------------------------------------------------
 
 void
@@ -61,7 +59,7 @@ UMiscUtils::PStringToOSType(Str255 inString, OSType & outType)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ OSTypeToPString											[static]
+//  Â¥ OSTypeToPString											[static]
 // ---------------------------------------------------------------------------
 
 void
@@ -75,7 +73,7 @@ UMiscUtils::OSTypeToPString(OSType inType, Str255 & outString)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ HexNumStringToDecimal											[static]
+//  Â¥ HexNumStringToDecimal											[static]
 // ---------------------------------------------------------------------------
 // Used to calculate the $nnn hexadecimal values in Hnnn, Cnnn, Tnnn 
 // template tags.
@@ -92,7 +90,7 @@ UMiscUtils::HexNumStringToDecimal(ResType * inTypePtr, SInt32 * outNum)
 
 
 // ------------------------------------------------------------------------------
-//  ¥  HFSNameToUnicodeName										[static]
+//  Â¥  HFSNameToUnicodeName										[static]
 // ------------------------------------------------------------------------------
 // Borrowed and adapted from MoreFilesX.c
 
@@ -129,7 +127,7 @@ UMiscUtils::HFSNameToUnicodeName(
 
 
 // ---------------------------------------------------------------------------
-//	¥ MakePath												[static]
+//	Â¥ MakePath												[static]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -153,7 +151,7 @@ UMiscUtils::MakePath(FSSpec* inFileSpec, Str255 outPath, short inWidth)
 
 
 // ---------------------------------------------------------------------------
-//	¥ CopyFSSpec											[static]
+//	Â¥ CopyFSSpec											[static]
 // ---------------------------------------------------------------------------
 
 void
@@ -166,7 +164,7 @@ UMiscUtils::CopyFSSpec(FSSpec& srcFileSpec, FSSpec& trgtFileSpec)
 
 
 // ------------------------------------------------------------------------------
-//  ¥  SelectType													[static]
+//  Â¥  SelectType													[static]
 // ------------------------------------------------------------------------------
 
 Boolean
@@ -190,7 +188,7 @@ UMiscUtils::SelectType(ResType & outType)
 
 
 // ------------------------------------------------------------------------------
-//  ¥  GetTypeFromScrap										[static]
+//  Â¥  GetTypeFromScrap										[static]
 // ------------------------------------------------------------------------------
 
 OSErr
@@ -210,7 +208,7 @@ UMiscUtils::GetTypeFromScrap(ResType & outType)
 
 
 // ------------------------------------------------------------------------------
-//  ¥  PaddTypeIfNecessary										[static]
+//  Â¥  PaddTypeIfNecessary										[static]
 // ------------------------------------------------------------------------------
 // If a type is shorter than 4 chars, padd it with spaces.
 
@@ -227,7 +225,7 @@ UMiscUtils::PaddTypeIfNecessary(Str255 inTypeStr)
 
 
 // ---------------------------------------------------------------------------
-//	¥ IsValidHexadecimal										[static]				  
+//	Â¥ IsValidHexadecimal										[static]				  
 // ---------------------------------------------------------------------------
 
 Boolean 
@@ -254,7 +252,7 @@ UMiscUtils::IsValidHexadecimal(Ptr inPtr, ByteCount inByteCount)
 
 
 // ---------------------------------------------------------------------------
-//	¥ IsValidHexadecimal										[static]
+//	Â¥ IsValidHexadecimal										[static]
 // ---------------------------------------------------------------------------
 
 Boolean 
@@ -478,7 +476,7 @@ UMiscUtils::GetFlagsFromXml(CFXMLTreeRef inTreeRef, UInt16 & outFlags)
 
 
 // ---------------------------------------------------------------------------
-//	¥ BuildDateString												[static]
+//	Â¥ BuildDateString												[static]
 // ---------------------------------------------------------------------------
 
 Boolean 
@@ -526,7 +524,7 @@ UMiscUtils::BuildDateString(UInt32 inTime, Str255 inString)
 
 
 // ---------------------------------------------------------------------------
-//	¥ ParseDateString												[static]
+//	Â¥ ParseDateString												[static]
 // ---------------------------------------------------------------------------
 
 
@@ -615,7 +613,7 @@ UMiscUtils::ParseDateString(Str255 inString, SInt32 * outAbsTime)
 
 
 // ---------------------------------------------------------------------------
-//	¥ SplitCaseValue												[static]
+//	Â¥ SplitCaseValue												[static]
 // ---------------------------------------------------------------------------
 // This function makes two adjacent Pascal strings out of one. It is used 
 // in popup menus to handle CASE values. For instance:
@@ -648,7 +646,7 @@ UMiscUtils::SplitCaseValue(Str255 inString, Str255 ** outRightPtr)
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetDragFileData										[static]
+//	Â¥ GetDragFileData										[static]
 // ---------------------------------------------------------------------------
 // If the flavour data is an HFSFlavor structure, retrieve it.
 
@@ -666,7 +664,7 @@ UMiscUtils::GetDragFileData(DragReference inDragRef, ItemReference inItemRef, HF
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetTypeAndCreator										[static]
+//	Â¥ SetTypeAndCreator										[static]
 // ---------------------------------------------------------------------------
 
 void 
@@ -698,7 +696,7 @@ UMiscUtils::SetTypeAndCreator(FSSpec inFSSpec, OSType inType, OSType inCreator)
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ FontSizeExists											[static]
+//	Â¥ FontSizeExists											[static]
 // ---------------------------------------------------------------------------
 // The 'inPopup' argument is a pointer to a Font popup menu.
 
@@ -727,7 +725,7 @@ UMiscUtils::FontSizeExists(LPopupButton * inPopup, SInt32 inSize, SInt32 &outIte
 
 
 // ---------------------------------------------------------------------------
-//	¥ FontIndexFromFontNum											[static]
+//	Â¥ FontIndexFromFontNum											[static]
 // ---------------------------------------------------------------------------
 // The 'inPopup' argument is a pointer to a Font popup menu.
 
@@ -759,7 +757,7 @@ UMiscUtils::FontIndexFromFontNum(LPopupButton * inPopup, SInt16 inFNum)
 
 
 // ---------------------------------------------------------------------------
-//	¥ SizeIndexFromSizeValue											[static]
+//	Â¥ SizeIndexFromSizeValue											[static]
 // ---------------------------------------------------------------------------
 // The 'inPopup' argument is a pointer to a Size popup menu.
 
@@ -798,7 +796,7 @@ UMiscUtils::SizeIndexFromSizeValue(LPopupButton * inPopup, SInt16 inSize)
 
 
 // ---------------------------------------------------------------------------
-//	¥ MetricsFromTraits											[static]
+//	Â¥ MetricsFromTraits											[static]
 // ---------------------------------------------------------------------------
 // 	CRezillaApp::sBasics.charWidth = CharWidth('0');
 
@@ -816,7 +814,7 @@ UMiscUtils::MetricsFromTraits(ConstTextTraitsPtr inTextTraits)
 
 
 // ---------------------------------------------------------------------------
-//	¥ MetricsFromTraits											[static]
+//	Â¥ MetricsFromTraits											[static]
 // ---------------------------------------------------------------------------
 
 void

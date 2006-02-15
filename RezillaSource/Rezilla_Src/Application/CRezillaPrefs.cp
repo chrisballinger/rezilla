@@ -4,12 +4,10 @@
 //                       Created: 2004-05-17 08:52:16
 //             Last modification: 2006-01-30 12:29:33
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2004-2005, 2006
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 
@@ -62,7 +60,7 @@ SRezillaPrefs	CRezillaPrefs::sCurrPrefs;
 
 
 // ---------------------------------------------------------------------------
-//	¥ CRezillaPrefs											[public]
+//	Â¥ CRezillaPrefs											[public]
 // ---------------------------------------------------------------------------
 //  Object constructor
 
@@ -73,7 +71,7 @@ CRezillaPrefs::CRezillaPrefs()
 
 
 // ---------------------------------------------------------------------------
-//	¥ CRezillaPrefs											[public]
+//	Â¥ CRezillaPrefs											[public]
 // ---------------------------------------------------------------------------
 //	Object constructor, specifying SuperCommander
 
@@ -85,7 +83,7 @@ CRezillaPrefs::CRezillaPrefs( LCommander* inSuper )
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CRezillaPrefs								[public, virtual]
+//	Â¥ ~CRezillaPrefs								[public, virtual]
 // ---------------------------------------------------------------------------
 
 CRezillaPrefs::~CRezillaPrefs()
@@ -94,7 +92,7 @@ CRezillaPrefs::~CRezillaPrefs()
 
 
 // ---------------------------------------------------------------------------
-//	¥ Initialize												[public]
+//	Â¥ Initialize												[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -118,7 +116,7 @@ CRezillaPrefs::Initialize()
 
 
 // ---------------------------------------------------------------------------
-//	¥ MakePrefsWindow												  [public]
+//	Â¥ MakePrefsWindow												  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -130,7 +128,7 @@ CRezillaPrefs::MakePrefsWindow()
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetDefaultPreferences											[public]
+//	Â¥ SetDefaultPreferences											[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -179,7 +177,7 @@ CRezillaPrefs::SetDefaultPreferences()
 
 
 // ---------------------------------------------------------------------------
-//	¥ StorePreferences												[public]
+//	Â¥ StorePreferences												[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -324,7 +322,7 @@ CRezillaPrefs::StorePreferences()
 
 
 // ---------------------------------------------------------------------------
-//	¥ RetrievePreferences												[public]
+//	Â¥ RetrievePreferences												[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -461,7 +459,7 @@ CRezillaPrefs::RetrievePreferences()
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetPrefValue												[public]
+//	Â¥ SetPrefValue												[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -674,7 +672,7 @@ CRezillaPrefs::SetPrefValue(SInt32 inPrefValue, SInt32 inConstant, SInt32 inPref
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetPrefValue												[public]
+//	Â¥ GetPrefValue												[public]
 // ---------------------------------------------------------------------------
 
 SInt32
@@ -890,7 +888,7 @@ CRezillaPrefs::GetPrefValue(SInt32 inConstant, SInt32 inPrefType)
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetStyleElement												[public]
+//	Â¥ GetStyleElement												[public]
 // ---------------------------------------------------------------------------
 // Default value for inPrefType is 'prefsType_Temp'
 
@@ -906,7 +904,7 @@ CRezillaPrefs::GetStyleElement(SInt32 inPrefType)
 
 
 // ---------------------------------------------------------------------------
-//	¥ LoadStyleElement												[public]
+//	Â¥ LoadStyleElement												[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -917,7 +915,7 @@ CRezillaPrefs::LoadStyleElement(TextTraitsPtr inTraitsRecPtr)
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetStyleElement												[public]
+//	Â¥ SetStyleElement												[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -955,7 +953,7 @@ CRezillaPrefs::SetStyleElement(SInt16 inStyleValue,
 
 
 // ---------------------------------------------------------------------------
-//	¥ ValidateTempPrefs												[public]
+//	Â¥ ValidateTempPrefs												[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -966,7 +964,7 @@ CRezillaPrefs::ValidateTempPrefs()
 
 
 // ---------------------------------------------------------------------------
-//	¥ InitTempPrefs												[public]
+//	Â¥ InitTempPrefs												[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -977,7 +975,7 @@ CRezillaPrefs::InitTempPrefs()
 
 
 // ---------------------------------------------------------------------------
-//	¥ PrefsHaveChanged											[public]
+//	Â¥ PrefsHaveChanged											[public]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -988,7 +986,7 @@ CRezillaPrefs::PrefsHaveChanged()
 
 
 // ---------------------------------------------------------------------------
-//	¥ ApplyStylePrefs										[public]
+//	Â¥ ApplyStylePrefs										[public]
 // ---------------------------------------------------------------------------
 // Apply the style changes to all the windows listening.
 
@@ -1001,7 +999,7 @@ CRezillaPrefs::ApplyStylePrefs()
 
 
 // ---------------------------------------------------------------------------
-//	¥ RunPrefsDialog											[public]
+//	Â¥ RunPrefsDialog											[public]
 // ---------------------------------------------------------------------------
 //	Display the preferences window for the application
 
@@ -1398,7 +1396,7 @@ CRezillaPrefs::RunPrefsDialog()
 
 
 // ---------------------------------------------------------------------------
-//	¥ UpdateVars												[private]
+//	Â¥ UpdateVars												[private]
 // ---------------------------------------------------------------------------
 
 void

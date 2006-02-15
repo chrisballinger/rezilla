@@ -4,12 +4,10 @@
 //                       Created : 2002-05-14 20:00:17
 //             Last modification : 2004-03-02 08:35:55
 // Author : Bernard Desgraupes
-// e-mail : <bdesgraupes@easyconnect.fr>
-// www : <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail : <bdesgraupes@users.sourceforge.net>
+// www : <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2002-2003, 2004
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 #ifndef _H_CBroadcasterTableView

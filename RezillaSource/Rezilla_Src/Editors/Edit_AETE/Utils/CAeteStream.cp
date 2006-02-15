@@ -4,12 +4,10 @@
 //                       Created : 2002-05-14 13:01:10
 //             Last modification : 2005-01-23 09:32:45
 // Author : Bernard Desgraupes
-// e-mail : <bdesgraupes@easyconnect.fr>
-// www : <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail : <bdesgraupes@users.sourceforge.net>
+// www : <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2002-2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 
@@ -25,7 +23,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CAeteStream							Default Constructor		  [public]
+//	Â¥ CAeteStream							Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CAeteStream::CAeteStream()
@@ -35,7 +33,7 @@ CAeteStream::CAeteStream()
 
 
 // ---------------------------------------------------------------------------
-//	¥ CAeteStream							Copy Constructor		  [public]
+//	Â¥ CAeteStream							Copy Constructor		  [public]
 // ---------------------------------------------------------------------------
 //	Copy points to the same buffer as the original
 
@@ -46,7 +44,7 @@ CAeteStream::CAeteStream(const CAeteStream&	inOriginal)
 
 
 // ---------------------------------------------------------------------------
-//	¥ CAeteStream							Constructor				  [public]
+//	Â¥ CAeteStream							Constructor				  [public]
 // ---------------------------------------------------------------------------
 //	Construct from an existing Handle.
 //	The LHandleStream object assumes ownership of the Handle.
@@ -58,7 +56,7 @@ CAeteStream::CAeteStream(Handle	inHandle)
 
 
 // ---------------------------------------------------------------------------
-//	¥ CAeteStream							Constructor				  [public]
+//	Â¥ CAeteStream							Constructor				  [public]
 // ---------------------------------------------------------------------------
 //	Construct from an AEDesc of type typeAete.
 
@@ -69,7 +67,7 @@ CAeteStream::CAeteStream(AEDesc * inAeteDesc)
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CAeteStream							Destructor				  [public]
+//	Â¥ ~CAeteStream							Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CAeteStream::~CAeteStream()
@@ -77,7 +75,7 @@ CAeteStream::~CAeteStream()
 
 
 // ---------------------------------------------------------------------------
-//	¥ AlignBytesRead													 [public]
+//	Â¥ AlignBytesRead													 [public]
 // ---------------------------------------------------------------------------
 //	If the marker is odd, move it 1 step forward.
 //	Errors: 
@@ -101,7 +99,7 @@ CAeteStream::AlignBytesRead()
 
 
 // ---------------------------------------------------------------------------
-//	¥ AlignBytesWrite											[public]
+//	Â¥ AlignBytesWrite											[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -114,7 +112,7 @@ CAeteStream::AlignBytesWrite()
 
 
 // ---------------------------------------------------------------------------
-//	¥ ReadOSType
+//	Â¥ ReadOSType
 // ---------------------------------------------------------------------------
 //	Read a four chars string from a Stream into outString.
 
@@ -128,7 +126,7 @@ CAeteStream::ReadOSType(
 
 
 // ---------------------------------------------------------------------------
-//	¥ MoveToNextTerm
+//	Â¥ MoveToNextTerm
 // ---------------------------------------------------------------------------
 //	Returns the mark of the next term's position in the stream. Here 'term'
 //	means event, class, comparison operator or enumeration. 
@@ -277,7 +275,7 @@ CAeteStream::MoveToNextTerm( SInt32 inKind)
 
 
 // ---------------------------------------------------------------------------
-//	¥ SkipPreambule()
+//	Â¥ SkipPreambule()
 // ---------------------------------------------------------------------------
 //	Moves to the position of the first item's (event, class, comparison 
 //	operator or enumeration) position in the current suite. 

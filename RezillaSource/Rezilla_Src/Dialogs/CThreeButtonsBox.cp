@@ -3,12 +3,10 @@
 //                        Created: 2005-03-09 05:43:35
 //              Last modification: 2005-03-09 06:03:14
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright: Bernard Desgraupes 2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 //	This is the same as PowerPlant's LDialogBox but with therre buttons
 //	(Cancel, Don't, OK) instead of two to implement AskYesNo dialogs.
@@ -33,7 +31,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CThreeButtonsBox							Default Constructor		  [public]
+//	Â¥ CThreeButtonsBox							Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CThreeButtonsBox::CThreeButtonsBox()
@@ -45,7 +43,7 @@ CThreeButtonsBox::CThreeButtonsBox()
 
 
 // ---------------------------------------------------------------------------
-//	¥ CThreeButtonsBox							Constructor				  [public[
+//	Â¥ CThreeButtonsBox							Constructor				  [public[
 // ---------------------------------------------------------------------------
 //	Construct ThreeButtonsBox from the data in a struct
 
@@ -61,7 +59,7 @@ CThreeButtonsBox::CThreeButtonsBox(
 
 
 // ---------------------------------------------------------------------------
-//	¥ CThreeButtonsBox							Constructor				  [pulbic]
+//	Â¥ CThreeButtonsBox							Constructor				  [pulbic]
 // ---------------------------------------------------------------------------
 //	Construct a ThreeButtonsBox from a WIND Resource with the specified attributes
 //	and SuperCommander
@@ -82,7 +80,7 @@ CThreeButtonsBox::CThreeButtonsBox(
 
 
 // ---------------------------------------------------------------------------
-//	¥ CThreeButtonsBox							Constructor				  [public]
+//	Â¥ CThreeButtonsBox							Constructor				  [public]
 // ---------------------------------------------------------------------------
 
 CThreeButtonsBox::CThreeButtonsBox(
@@ -106,7 +104,7 @@ CThreeButtonsBox::CThreeButtonsBox(
 
 
 // ---------------------------------------------------------------------------
-//	¥ CThreeButtonsBox							Stream Constructor		  [public]
+//	Â¥ CThreeButtonsBox							Stream Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CThreeButtonsBox::CThreeButtonsBox(
@@ -121,7 +119,7 @@ CThreeButtonsBox::CThreeButtonsBox(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CThreeButtonsBox							Destructor				  [public]
+//	Â¥ ~CThreeButtonsBox							Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CThreeButtonsBox::~CThreeButtonsBox()
@@ -130,7 +128,7 @@ CThreeButtonsBox::~CThreeButtonsBox()
 
 
 // ---------------------------------------------------------------------------
-//	¥ FinishCreateSelf											   [protected]
+//	Â¥ FinishCreateSelf											   [protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -146,7 +144,7 @@ CThreeButtonsBox::FinishCreateSelf()
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ SetDefaultButton												  [public]
+//	Â¥ SetDefaultButton												  [public]
 // ---------------------------------------------------------------------------
 //	Specify the PaneID of the default button of a ThreeButtonsBox. The default
 //	button must be an LControl that handles the data tag
@@ -176,7 +174,7 @@ CThreeButtonsBox::SetDefaultButton(
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetCancelButton												  [public]
+//	Â¥ SetCancelButton												  [public]
 // ---------------------------------------------------------------------------
 //	Specify the PaneID of the cancel button of a ThreeButtonsBox. The cancel
 //	button must be derived from LControl.
@@ -205,7 +203,7 @@ CThreeButtonsBox::SetCancelButton(
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetDontButton												  [public]
+//	Â¥ SetDontButton												  [public]
 // ---------------------------------------------------------------------------
 //	Specify the PaneID of the Don't/No button of a ThreeButtonsBox. The
 //	Don't/No button must be derived from LControl.
@@ -226,7 +224,7 @@ CThreeButtonsBox::SetDontButton(
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetDefaultTag												   [protected]
+//	Â¥ SetDefaultTag												   [protected]
 // ---------------------------------------------------------------------------
 //	Set whether or not a Button is the default one
 //
@@ -259,7 +257,7 @@ CThreeButtonsBox::SetDefaultTag(
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetCancelTag												   [protected]
+//	Â¥ SetCancelTag												   [protected]
 // ---------------------------------------------------------------------------
 //	Set whether or not a Button is the cancel one
 //
@@ -298,7 +296,7 @@ CThreeButtonsBox::SetCancelTag(
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetDontTag
+//	Â¥ SetDontTag
 // ---------------------------------------------------------------------------
 // There is no tag for a Don't/No button (ie no sound associated) so there
 // is no SetDontTag() function.
@@ -308,7 +306,7 @@ CThreeButtonsBox::SetCancelTag(
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ HandleKeyPress												  [public]
+//	Â¥ HandleKeyPress												  [public]
 // ---------------------------------------------------------------------------
 //	ThreeButtonsBox handles keyboard equivalents for hitting the Default and
 //	Cancel Buttons.
@@ -357,7 +355,7 @@ CThreeButtonsBox::HandleKeyPress(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ListenToMessage												  [public]
+//	Â¥ ListenToMessage												  [public]
 // ---------------------------------------------------------------------------
 //	Respond to messages from Broadcasters
 //

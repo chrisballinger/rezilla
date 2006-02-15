@@ -3,12 +3,10 @@
 //                       Created: 2003-05-29 21:13:13
 //             Last modification: 2005-05-27 09:28:46
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright: Bernard Desgraupes 2003-2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 
@@ -42,7 +40,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CHexEditorCutAction						Constructor				  [public]
+//	Â¥ CHexEditorCutAction						Constructor				  [public]
 // ---------------------------------------------------------------------------
 
 CHexEditorCutAction::CHexEditorCutAction(
@@ -56,7 +54,7 @@ CHexEditorCutAction::CHexEditorCutAction(
 
 
 // ---------------------------------------------------------------------------
-//	¥ RedoSelf
+//	Â¥ RedoSelf
 // ---------------------------------------------------------------------------
 
 void
@@ -86,7 +84,7 @@ CHexEditorCutAction::RedoSelf()
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ CHexEditorPasteAction					Constructor				  [public]
+//	Â¥ CHexEditorPasteAction					Constructor				  [public]
 // ---------------------------------------------------------------------------
 
 CHexEditorPasteAction::CHexEditorPasteAction(
@@ -122,7 +120,7 @@ CHexEditorPasteAction::CHexEditorPasteAction(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CHexEditorPasteAction					Destructor				  [public]
+//	Â¥ ~CHexEditorPasteAction					Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CHexEditorPasteAction::~CHexEditorPasteAction()
@@ -131,7 +129,7 @@ CHexEditorPasteAction::~CHexEditorPasteAction()
 
 
 // ---------------------------------------------------------------------------
-//	¥ RedoSelf
+//	Â¥ RedoSelf
 // ---------------------------------------------------------------------------
 
 void
@@ -155,7 +153,7 @@ CHexEditorPasteAction::RedoSelf()
 
 
 // ---------------------------------------------------------------------------
-//	¥ UndoSelf
+//	Â¥ UndoSelf
 // ---------------------------------------------------------------------------
 
 void
@@ -182,7 +180,7 @@ CHexEditorPasteAction::UndoSelf()
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ CHexEditorClearAction					Constructor				  [public]
+//	Â¥ CHexEditorClearAction					Constructor				  [public]
 // ---------------------------------------------------------------------------
 
 CHexEditorClearAction::CHexEditorClearAction(
@@ -196,7 +194,7 @@ CHexEditorClearAction::CHexEditorClearAction(
 
 
 // ---------------------------------------------------------------------------
-//	¥ RedoSelf
+//	Â¥ RedoSelf
 // ---------------------------------------------------------------------------
 
 void
@@ -217,7 +215,7 @@ CHexEditorClearAction::RedoSelf()
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ CHexEditorTypingAction					Constructor				  [public]
+//	Â¥ CHexEditorTypingAction					Constructor				  [public]
 // ---------------------------------------------------------------------------
 
 CHexEditorTypingAction::CHexEditorTypingAction(
@@ -247,7 +245,7 @@ CHexEditorTypingAction::CHexEditorTypingAction(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CHexEditorTypingAction					Destructor				  [public]
+//	Â¥ ~CHexEditorTypingAction					Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CHexEditorTypingAction::~CHexEditorTypingAction()
@@ -256,7 +254,7 @@ CHexEditorTypingAction::~CHexEditorTypingAction()
 
 
 // ---------------------------------------------------------------------------
-//	¥ InputCharacter
+//	Â¥ InputCharacter
 // ---------------------------------------------------------------------------
 //	Handle an input character typing action
 //
@@ -286,7 +284,7 @@ CHexEditorTypingAction::InputCharacter(Boolean inOneOfTwoInserted)
 
 
 // ---------------------------------------------------------------------------
-//	¥ RedoSelf
+//	Â¥ RedoSelf
 // ---------------------------------------------------------------------------
 //	Redo a TypingAction by restoring the last typing sequence
 
@@ -314,7 +312,7 @@ CHexEditorTypingAction::RedoSelf()
 
 
 // ---------------------------------------------------------------------------
-//	¥ UndoSelf
+//	Â¥ UndoSelf
 // ---------------------------------------------------------------------------
 //	Undo a TypingAction by restoring the text and selection that
 //	existed before the current typing sequence started
@@ -366,7 +364,7 @@ CHexEditorTypingAction::UndoSelf()
 
 
 // ---------------------------------------------------------------------------
-//	¥ RefreshViews
+//	Â¥ RefreshViews
 // ---------------------------------------------------------------------------
 
 void

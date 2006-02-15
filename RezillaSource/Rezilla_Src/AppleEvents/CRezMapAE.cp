@@ -4,12 +4,10 @@
 //                       Created: 2004-11-30 08:50:37
 //             Last modification: 2005-05-16 22:34:12
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2004-2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 //  AppleEvent Object Model Support. These methods are part of the CRezMap 
 //  class (inheriting from LModelObject).
@@ -424,7 +422,7 @@ CRezMap::GetRezTypeAtIndex(SInt32 inPosition) const
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetModelTokenSelf
+//	Â¥ GetModelTokenSelf
 // ---------------------------------------------------------------------------
 //	Intercept the Type-ID specifier case: in this case inModelID should be
 //	rzom_cRezObj and inKeyForm should be formAbsolutePosition ('indx').
@@ -478,7 +476,7 @@ CRezMap::GetModelTokenSelf(
 
 
 // ---------------------------------------------------------------------------
-//	¥ HandleCreateElementEvent
+//	Â¥ HandleCreateElementEvent
 // ---------------------------------------------------------------------------
 // Pass up to the owner document
 

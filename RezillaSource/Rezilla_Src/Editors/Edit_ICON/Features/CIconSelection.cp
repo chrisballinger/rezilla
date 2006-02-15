@@ -3,12 +3,10 @@
 //                       Created: 2004-12-11 18:53:20
 //             Last modification: 2005-01-12 08:53:09
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright: Bernard Desgraupes 2004-2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 #include "COffscreen.h"

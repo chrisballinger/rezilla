@@ -3,12 +3,10 @@
 //                       Created: 2003-04-18 09:34:02
 //             Last modification: 2005-06-14 13:17:59
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003-2005
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
+// (c) Copyright: Bernard Desgraupes 2003-2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 // A concrete LOutlineItem for items of type "resource category"
 
@@ -34,7 +32,7 @@
 
 
 // ---------------------------------------------------------------------------
-//	¥ CRezTypeItem							Default Constructor		  [public]
+//	Â¥ CRezTypeItem							Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CRezTypeItem::CRezTypeItem(CRezType * inRezType)
@@ -45,7 +43,7 @@ CRezTypeItem::CRezTypeItem(CRezType * inRezType)
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CRezTypeItem							Destructor				  [public]
+//	Â¥ ~CRezTypeItem							Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CRezTypeItem::~CRezTypeItem()
@@ -67,7 +65,7 @@ CRezTypeItem::~CRezTypeItem()
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetDrawContentsSelf
+//	Â¥ GetDrawContentsSelf
 // ---------------------------------------------------------------------------
 // Determine what is to be drawn in a given column
 
@@ -110,7 +108,7 @@ CRezTypeItem::GetDrawContentsSelf(
 
 
 // ---------------------------------------------------------------------------
-//	¥ CanExpand
+//	Â¥ CanExpand
 // ---------------------------------------------------------------------------
 // by default, rows are not expanders.. but since this is a directory
 // and we're showing hierarchy, of course we need to be able to expand.
@@ -124,7 +122,7 @@ CRezTypeItem::CanExpand() const
 
 
 // ---------------------------------------------------------------------------
-//	¥ DrawRowAdornments
+//	Â¥ DrawRowAdornments
 // ---------------------------------------------------------------------------
 // Just to be cute, draw an adornment of a gray background
 
@@ -137,7 +135,7 @@ CRezTypeItem::DrawRowAdornments(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ExpandSelf
+//	Â¥ ExpandSelf
 // ---------------------------------------------------------------------------
 
 void
@@ -178,7 +176,7 @@ CRezTypeItem::ExpandSelf()
 
 
 // ---------------------------------------------------------------------------
-//	¥ DoubleClick
+//	Â¥ DoubleClick
 // ---------------------------------------------------------------------------
 // send an open document AppleEvent to the Finder to open this
 // given directory
@@ -203,7 +201,7 @@ CRezTypeItem::DoubleClick(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetOwnerRezMapTable
+//	Â¥ GetOwnerRezMapTable
 // ---------------------------------------------------------------------------
 
 CRezMapTable *
@@ -215,7 +213,7 @@ CRezTypeItem::GetOwnerRezMapTable()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetSelectedRezObjItems										[public]
+//  Â¥ GetSelectedRezObjItems										[public]
 // ---------------------------------------------------------------------------
 // Stores the selected RezObjItem's in the LArray provided. Returns the 
 // number of elements found.
@@ -242,7 +240,7 @@ CRezTypeItem::GetSelectedRezObjItems(LArray* & outArray)
 
 
 // ---------------------------------------------------------------------------
-//	¥ TrackDisclosureTriangle									   [protected]
+//	Â¥ TrackDisclosureTriangle									   [protected]
 // ---------------------------------------------------------------------------
 //	Called by ClickCell whenever a mouse-down is detected within the
 //	disclosure triangle. Tracks the mouse movement until mouse-up and
@@ -264,7 +262,7 @@ CRezTypeItem::TrackDisclosureTriangle(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ ExistsItemForID												[public]
+//  Â¥ ExistsItemForID												[public]
 // ---------------------------------------------------------------------------
 // Looks in the table to see if the ID already exists. This is different 
 // from looking in the resource map in memory. An ID could have been already 

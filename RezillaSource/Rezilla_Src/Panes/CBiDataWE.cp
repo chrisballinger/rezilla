@@ -3,12 +3,10 @@
 //                       Created: 2004-03-21 12:08:03
 //             Last modification: 2004-11-13 23:07:14
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2004
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
+// (c) Copyright: Bernard Desgraupes 2004
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 
@@ -33,7 +31,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CBiDataWE						Default Constructor		  [public]
+//	Â¥ CBiDataWE						Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CBiDataWE::CBiDataWE()
@@ -44,7 +42,7 @@ CBiDataWE::CBiDataWE()
 
 
 // ---------------------------------------------------------------------------
-//	¥ CBiDataWE						Copy Constructor		  [public]
+//	Â¥ CBiDataWE						Copy Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CBiDataWE::CBiDataWE(
@@ -57,7 +55,7 @@ CBiDataWE::CBiDataWE(
 
 
 // ---------------------------------------------------------------------------
-//	¥ CBiDataWE						Stream Constructor		  [public]
+//	Â¥ CBiDataWE						Stream Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CBiDataWE::CBiDataWE(
@@ -69,7 +67,7 @@ CBiDataWE::CBiDataWE(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CBiDataWE						Destructor				  [public]
+//	Â¥ ~CBiDataWE						Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CBiDataWE::~CBiDataWE()
@@ -80,7 +78,7 @@ CBiDataWE::~CBiDataWE()
 
 
 // ---------------------------------------------------------------------------
-//	¥ FindCommandStatus							[public, virtual]
+//	Â¥ FindCommandStatus							[public, virtual]
 // ---------------------------------------------------------------------------
 
 void
@@ -97,7 +95,7 @@ CBiDataWE::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ObeyCommand							[public, virtual]
+//	Â¥ ObeyCommand							[public, virtual]
 // ---------------------------------------------------------------------------
 // Cut, Paste and Clear are disabled.
 
@@ -149,7 +147,7 @@ CBiDataWE::ObeyCommand(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ClickSelf											[protected, virtual]
+//	Â¥ ClickSelf											[protected, virtual]
 // ---------------------------------------------------------------------------
 
 void
@@ -162,7 +160,7 @@ CBiDataWE::ClickSelf(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AdjustCursorPos											[protected, virtual]
+//	Â¥ AdjustCursorPos											[protected, virtual]
 // ---------------------------------------------------------------------------
 
 void
@@ -177,7 +175,7 @@ CBiDataWE::AdjustCursorPos()
 
 
 // ---------------------------------------------------------------------------
-//	¥ NearestTruePos											[protected, virtual]
+//	Â¥ NearestTruePos											[protected, virtual]
 // ---------------------------------------------------------------------------
 // Returns the nearest pos just before or after a hexadecimal or textual value
 
@@ -205,7 +203,7 @@ CBiDataWE::NearestTruePos(SInt32 inPos)
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetCurrCharPos											[public]
+//	Â¥ GetCurrCharPos											[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -220,7 +218,7 @@ CBiDataWE::GetCurrCharPos(SInt32 & outCharSelStart, SInt32 & outCharSelEnd)
 
 
 // ---------------------------------------------------------------------------
-//	¥ PosToCharPos											[protected, virtual]
+//	Â¥ PosToCharPos											[protected, virtual]
 // ---------------------------------------------------------------------------
 
 SInt32
@@ -232,7 +230,7 @@ CBiDataWE::PosToCharPos(SInt32 inPos)
 
 
 // ---------------------------------------------------------------------------
-//	¥ CharPosToPos											[protected, virtual]
+//	Â¥ CharPosToPos											[protected, virtual]
 // ---------------------------------------------------------------------------
 
 SInt32
@@ -243,7 +241,7 @@ CBiDataWE::CharPosToPos(SInt32 inCharPos)
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetCurrHexPos											[public]
+//	Â¥ GetCurrHexPos											[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -258,7 +256,7 @@ CBiDataWE::GetCurrHexPos(SInt32 & outHexSelStart, SInt32 & outHexSelEnd)
 
 
 // ---------------------------------------------------------------------------
-//	¥ PosToHexPos											[protected, virtual]
+//	Â¥ PosToHexPos											[protected, virtual]
 // ---------------------------------------------------------------------------
 
 SInt32
@@ -270,7 +268,7 @@ CBiDataWE::PosToHexPos(SInt32 inPos)
 
 
 // ---------------------------------------------------------------------------
-//	¥ HexPosToPos											[protected, virtual]
+//	Â¥ HexPosToPos											[protected, virtual]
 // ---------------------------------------------------------------------------
 
 SInt32
@@ -283,7 +281,7 @@ CBiDataWE::HexPosToPos(SInt32 inHexPos)
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ HandleKeyPress							[public, virtual]
+//	Â¥ HandleKeyPress							[public, virtual]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -296,7 +294,7 @@ CBiDataWE::HandleKeyPress(
 
 
 // ---------------------------------------------------------------------------
-//	¥ InsertContents								[public, virtual]
+//	Â¥ InsertContents								[public, virtual]
 // ---------------------------------------------------------------------------
 
 void
@@ -331,7 +329,7 @@ CBiDataWE::InsertContents(Handle inHandle)
 
 
 // ---------------------------------------------------------------------------
-//	¥ InsertContents								[public, virtual]
+//	Â¥ InsertContents								[public, virtual]
 // ---------------------------------------------------------------------------
 
 void

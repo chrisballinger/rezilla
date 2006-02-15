@@ -3,12 +3,10 @@
 //                       Created: 2003-05-08 07:30:29
 //             Last modification: 2003-05-08 10:51:43
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
+// (c) Copyright: Bernard Desgraupes 2003
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 
@@ -31,7 +29,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CRangeEditText						Stream Constructor		  [public]
+//	Â¥ CRangeEditText						Stream Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CRangeEditText::CRangeEditText(
@@ -44,7 +42,7 @@ CRangeEditText::CRangeEditText(
 
 
 // ---------------------------------------------------------------------------
-//	¥ CRangeEditText						Parameterized Constructor [public]
+//	Â¥ CRangeEditText						Parameterized Constructor [public]
 // ---------------------------------------------------------------------------
 
 CRangeEditText::CRangeEditText(
@@ -68,7 +66,7 @@ CRangeEditText::CRangeEditText(
 
 
 // ---------------------------------------------------------------------------
-//	¥ InitRangeEditText							Initializer		   [protected]
+//	Â¥ InitRangeEditText							Initializer		   [protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -79,7 +77,7 @@ CRangeEditText::InitRangeEditText()
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CRangeEditText							Destructor			  [public]
+//	Â¥ ~CRangeEditText							Destructor			  [public]
 // ---------------------------------------------------------------------------
 
 CRangeEditText::~CRangeEditText()
@@ -89,7 +87,7 @@ CRangeEditText::~CRangeEditText()
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ HandleKeyPress												  [public]
+//	Â¥ HandleKeyPress												  [public]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -110,7 +108,7 @@ CRangeEditText::HandleKeyPress(
 
 
 // ---------------------------------------------------------------------------
-//	¥ UserChangedText
+//	Â¥ UserChangedText
 // ---------------------------------------------------------------------------
 //	Text of EditText has changed as a result of user action
 
@@ -122,7 +120,7 @@ CRangeEditText::UserChangedText()
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetRangeValues												  [public]
+//	Â¥ GetRangeValues												  [public]
 // ---------------------------------------------------------------------------
 
 void

@@ -4,12 +4,10 @@
 //                       Created: 2005-04-26 09:48:48
 //             Last modification: 2005-05-14 12:19:51
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 //  AppleEvent Object Model Support. These methods are part of the CRezMapWindow 
 //  class (inheriting from LModelObject).
@@ -21,7 +19,7 @@
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetAEProperty
+//	Â¥ GetAEProperty
 // ---------------------------------------------------------------------------
 
 void
@@ -56,7 +54,7 @@ CRezMapWindow::GetAEProperty(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AEPropertyExists
+//	Â¥ AEPropertyExists
 // ---------------------------------------------------------------------------
 
 bool

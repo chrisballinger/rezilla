@@ -4,12 +4,10 @@
 //                       Created: 2004-12-07 07:22:47
 //             Last modification: 2005-02-17 07:02:04
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2004, 2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 PP_Begin_Namespace_PowerPlant
@@ -34,7 +32,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CSnd_EditorDoc							Constructor		  [public]
+//	Â¥ CSnd_EditorDoc							Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CSnd_EditorDoc::CSnd_EditorDoc(LCommander* inSuper, 
@@ -50,7 +48,7 @@ CSnd_EditorDoc::CSnd_EditorDoc(LCommander* inSuper,
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CSnd_EditorDoc							Destructor				  [public]
+//	Â¥ ~CSnd_EditorDoc							Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CSnd_EditorDoc::~CSnd_EditorDoc()
@@ -59,7 +57,7 @@ CSnd_EditorDoc::~CSnd_EditorDoc()
 
 
 // ---------------------------------------------------------------------------
-//	¥ Initialize													  [public]
+//	Â¥ Initialize													  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -79,7 +77,7 @@ CSnd_EditorDoc::Initialize()
 
 
 // ---------------------------------------------------------------------------
-//	¥ Play														  [public]
+//	Â¥ Play														  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -91,7 +89,7 @@ CSnd_EditorDoc::Play(Handle inSoundH)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetModifiedResource										[private]
+//  Â¥ GetModifiedResource										[private]
 // ---------------------------------------------------------------------------
 // Needs to be defined because it is purely virtual
 

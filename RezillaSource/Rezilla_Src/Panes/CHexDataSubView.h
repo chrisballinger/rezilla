@@ -3,12 +3,10 @@
 //                       Created: 2003-05-06 06:04:42
 //             Last modification: 2005-05-23 11:38:10
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003-2004, 2005
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
+// (c) Copyright: Bernard Desgraupes 2003-2004, 2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 // A class to handle Waste views going by pair. Any editing action taken on 
 // one of them is reflected in the other one.

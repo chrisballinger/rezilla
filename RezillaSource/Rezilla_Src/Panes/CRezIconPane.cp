@@ -4,12 +4,10 @@
 //                       Created : 2004-04-15 13:31:41
 //             Last modification : 2004-04-15 13:57:11
 // Author : Bernard Desgraupes
-// e-mail : <bdesgraupes@easyconnect.fr>
-// www : <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2004
+// e-mail : <bdesgraupes@users.sourceforge.net>
+// www : <http://rezilla.sourceforge.net/>
+// (c) Copyright: Bernard Desgraupes 2004
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 // Subclass ensuring that the right resource map is used to display an icon resource.
 
@@ -29,7 +27,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CRezIconPane								Default Constructor		  [public]
+//	Â¥ CRezIconPane								Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CRezIconPane::CRezIconPane()
@@ -39,7 +37,7 @@ CRezIconPane::CRezIconPane()
 
 
 // ---------------------------------------------------------------------------
-//	¥ CRezIconPane								Parameterized Constructor [public]
+//	Â¥ CRezIconPane								Parameterized Constructor [public]
 // ---------------------------------------------------------------------------
 
 CRezIconPane::CRezIconPane(
@@ -52,7 +50,7 @@ CRezIconPane::CRezIconPane(
 
 
 // ---------------------------------------------------------------------------
-//	¥ CRezIconPane								Stream Constructor		  [public]
+//	Â¥ CRezIconPane								Stream Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CRezIconPane::CRezIconPane(
@@ -64,7 +62,7 @@ CRezIconPane::CRezIconPane(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CRezIconPane							Destructor				  [public]
+//	Â¥ ~CRezIconPane							Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CRezIconPane::~CRezIconPane()
@@ -73,7 +71,7 @@ CRezIconPane::~CRezIconPane()
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetIconID														  [public]
+//	Â¥ SetIconID														  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -86,7 +84,7 @@ CRezIconPane::SetIconID(
 
 
 // ---------------------------------------------------------------------------
-//	¥ DrawSelf														  [public]
+//	Â¥ DrawSelf														  [public]
 // ---------------------------------------------------------------------------
 
 void

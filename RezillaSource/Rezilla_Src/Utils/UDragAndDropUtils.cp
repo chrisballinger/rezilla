@@ -1,7 +1,5 @@
-// $Date$
-// $Revision$
 // =================================================================================
-//	UDragAndDropUtils.cp			©1995-2000 Metrowerks Inc. All rights reserved.
+//	UDragAndDropUtils.cp			Â©1995-2000 Metrowerks Inc. All rights reserved.
 // =================================================================================
 
 #include <UMemoryMgr.h>
@@ -11,7 +9,7 @@
 #include "UDragAndDropUtils.h"
 
 // ---------------------------------------------------------------------------------
-//		¥ DroppedInTrash
+//		Â¥ DroppedInTrash
 // ---------------------------------------------------------------------------------
 
 Boolean
@@ -78,7 +76,7 @@ UDragAndDropUtils::DroppedInTrash(
 
 
 // ---------------------------------------------------------------------------------
-//		¥ CheckForOptionKey
+//		Â¥ CheckForOptionKey
 // ---------------------------------------------------------------------------------
 
 Boolean
@@ -100,7 +98,7 @@ UDragAndDropUtils::CheckForOptionKey(
 
 
 // ---------------------------------------------------------------------------------
-//		¥ CheckIfViewIsAlsoSender
+//		Â¥ CheckIfViewIsAlsoSender
 // ---------------------------------------------------------------------------------
 
 Boolean

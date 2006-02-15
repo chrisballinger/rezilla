@@ -4,12 +4,10 @@
 //                       Created : 2002-06-09 19:38:34
 //             Last modification : 2005-02-08 16:48:20
 // Author : Bernard Desgraupes
-// e-mail : <bdesgraupes@easyconnect.fr>
-// www : <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2002-2005
+// e-mail : <bdesgraupes@users.sourceforge.net>
+// www : <http://rezilla.sourceforge.net/>
+// (c) Copyright: Bernard Desgraupes 2002-2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 //
 

@@ -4,12 +4,10 @@
 //                       Created: 2005-03-25 15:49:17
 //             Last modification: 2005-04-08 06:29:04
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2005
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
+// (c) Copyright: Bernard Desgraupes 2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 #ifndef _H_CFlagPopup

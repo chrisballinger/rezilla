@@ -4,12 +4,10 @@
 //                       Created: 2002-05-09 18:35:37
 //             Last modification: 2004-11-23 11:05:09
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003-2004
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
+// (c) Copyright: Bernard Desgraupes 2003-2004
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 // StDialogBoxHandler is derived from StDialogHandler
 //	Manages events while a dialog box is active
@@ -46,7 +44,7 @@
 PP_Begin_Namespace_PowerPlant
 
 // ---------------------------------------------------------------------------
-//	¥ StDialogBoxHandler						Constructor				  [public]
+//	Â¥ StDialogBoxHandler						Constructor				  [public]
 // ---------------------------------------------------------------------------
 //	Create new Dialog window from a PPob
 
@@ -65,7 +63,7 @@ StDialogBoxHandler::StDialogBoxHandler(
 
 
 // ---------------------------------------------------------------------------
-//	¥ StDialogBoxHandler						Constructor				  [public]
+//	Â¥ StDialogBoxHandler						Constructor				  [public]
 // ---------------------------------------------------------------------------
 //	Take ownership of a CThreeButtonsBox to use as a moveable modal dialog box
 //
@@ -87,7 +85,7 @@ StDialogBoxHandler::StDialogBoxHandler(
 
 
 // ---------------------------------------------------------------------------
-//	¥ InitDialogHandler						Initializer			   [protected]
+//	Â¥ InitDialogHandler						Initializer			   [protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -113,7 +111,7 @@ StDialogBoxHandler::InitDialogHandler()
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~StDialogBoxHandler						Destructor				 [private]
+//	Â¥ ~StDialogBoxHandler						Destructor				 [private]
 // ---------------------------------------------------------------------------
 
 StDialogBoxHandler::~StDialogBoxHandler()
@@ -123,7 +121,7 @@ StDialogBoxHandler::~StDialogBoxHandler()
 
 
 // ---------------------------------------------------------------------------
-//	¥ DoDialog														  [public]
+//	Â¥ DoDialog														  [public]
 // ---------------------------------------------------------------------------
 //	Handle an Event for a dialog box
 //
@@ -174,7 +172,7 @@ StDialogBoxHandler::DoDialog()
 
 
 // ---------------------------------------------------------------------------
-//	¥ AllowSubRemoval												  [public]
+//	Â¥ AllowSubRemoval												  [public]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -195,7 +193,7 @@ StDialogBoxHandler::AllowSubRemoval(
 
 
 // ---------------------------------------------------------------------------
-//	¥ FindCommandStatus												  [public]
+//	Â¥ FindCommandStatus												  [public]
 // ---------------------------------------------------------------------------
 //	Pass back the status of a Command
 
@@ -224,7 +222,7 @@ StDialogBoxHandler::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ListenToMessage												  [public]
+//	Â¥ ListenToMessage												  [public]
 // ---------------------------------------------------------------------------
 // Store message. DoDialog() will return this value.
 

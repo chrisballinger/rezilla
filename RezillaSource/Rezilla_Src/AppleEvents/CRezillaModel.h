@@ -3,12 +3,10 @@
 //                       Created: 2005-05-03 07:38:23
 //             Last modification: 2005-05-03 08:01:18
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright: Bernard Desgraupes 2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 

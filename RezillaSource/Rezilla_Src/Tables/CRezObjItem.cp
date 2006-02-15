@@ -3,12 +3,10 @@
 //                       Created: 2003-04-18 09:34:02
 //             Last modification: 2005-06-09 11:28:10
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003-2004, 2005
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
+// (c) Copyright: Bernard Desgraupes 2003-2004, 2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 // A concrete LOutlineItem for items of type "resource"
 
@@ -31,7 +29,7 @@
 #include <UDesktop.h>
 
 // ---------------------------------------------------------------------------
-//	¥ CRezObjItem							Default Constructor		  [public]
+//	Â¥ CRezObjItem							Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CRezObjItem::CRezObjItem(CRezType * inRezType,
@@ -45,7 +43,7 @@ CRezObjItem::CRezObjItem(CRezType * inRezType,
 
 
 // ---------------------------------------------------------------------------
-//	¥ CRezObjItem							Default Constructor		  [public]
+//	Â¥ CRezObjItem							Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CRezObjItem::CRezObjItem(Handle inResHandle, short inRefnum)
@@ -57,7 +55,7 @@ CRezObjItem::CRezObjItem(Handle inResHandle, short inRefnum)
 
 
 // ---------------------------------------------------------------------------
-//	¥ CRezObjItem							Default Constructor		  [public]
+//	Â¥ CRezObjItem							Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CRezObjItem::CRezObjItem(CRezObj * inRezObj)
@@ -69,7 +67,7 @@ CRezObjItem::CRezObjItem(CRezObj * inRezObj)
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CRezObjItem							Destructor				  [public]
+//	Â¥ ~CRezObjItem							Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CRezObjItem::~CRezObjItem()
@@ -93,7 +91,7 @@ CRezObjItem::~CRezObjItem()
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetDrawContentsSelf
+//	Â¥ GetDrawContentsSelf
 // ---------------------------------------------------------------------------
 // this is the routine called to know what to draw within the
 // table cell. See the comments in LOutlineItem.cp for more info.
@@ -151,7 +149,7 @@ CRezObjItem::GetDrawContentsSelf(
 
 
 // ---------------------------------------------------------------------------
-//	¥ DrawRowAdornments
+//	Â¥ DrawRowAdornments
 // ---------------------------------------------------------------------------
 // just to be cute, we'll draw an adornment (again, see the LOutlineItem.cp
 // comments for more information). We'll draw a groovy gray background
@@ -165,7 +163,7 @@ CRezObjItem::DrawRowAdornments(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetOwnerRezMapTable
+//	Â¥ GetOwnerRezMapTable
 // ---------------------------------------------------------------------------
 
 CRezMapTable *
@@ -179,7 +177,7 @@ CRezObjItem::GetOwnerRezMapTable()
 
 
 // ---------------------------------------------------------------------------
-//	¥ SingleClick												   [protected]
+//	Â¥ SingleClick												   [protected]
 // ---------------------------------------------------------------------------
 // If the command key is down, open the inspector window and display the
 // corresponding info about the resource. Versions prior to 1.0.5b
@@ -204,7 +202,7 @@ CRezObjItem::SingleClick(
 
 
 // ---------------------------------------------------------------------------
-//	¥ DoubleClick
+//	Â¥ DoubleClick
 // ---------------------------------------------------------------------------
 // During a double click:
 // - if the shift key is down, try to edit with the template editor.

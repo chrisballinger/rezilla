@@ -4,12 +4,10 @@
 //                       Created: 2004-07-01 08:42:37
 //             Last modification: 2005-09-05 06:52:57
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2004-2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 #ifdef PowerPlant_PCH
@@ -66,7 +64,7 @@ extern const Str15 Rzil_AeteExportItems[] = {
 
 
 // ---------------------------------------------------------------------------
-//	¥ CAete_EditorDoc						Default Constructor		  [public]
+//	Â¥ CAete_EditorDoc						Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CAete_EditorDoc::CAete_EditorDoc(LCommander* inSuper,
@@ -81,7 +79,7 @@ CAete_EditorDoc::CAete_EditorDoc(LCommander* inSuper,
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CAete_EditorDoc						Destructor				  [public]
+//	Â¥ ~CAete_EditorDoc						Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CAete_EditorDoc::~CAete_EditorDoc()
@@ -97,7 +95,7 @@ CAete_EditorDoc::~CAete_EditorDoc()
 
 
 // ---------------------------------------------------------------------------
-//	¥ Initialize							Default Constructor		  [public]
+//	Â¥ Initialize							Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -143,7 +141,7 @@ CAete_EditorDoc::Initialize()
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetDescriptor													  [public]
+//	Â¥ GetDescriptor													  [public]
 // ---------------------------------------------------------------------------
 //	Pass back the name of a Document
 
@@ -164,7 +162,7 @@ CAete_EditorDoc::GetDescriptor(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AllowSubRemoval												  [public]
+//	Â¥ AllowSubRemoval												  [public]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -205,7 +203,7 @@ CAete_EditorDoc::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ObeyCommand							[public, virtual]
+//	Â¥ ObeyCommand							[public, virtual]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -275,7 +273,7 @@ CAete_EditorDoc::GetModifiedResource(Boolean &releaseIt)
 
 
 // ---------------------------------------------------------------------------
-//	¥ DesignateExportFile								[public static]
+//	Â¥ DesignateExportFile								[public static]
 // ---------------------------------------------------------------------------
 
 Boolean

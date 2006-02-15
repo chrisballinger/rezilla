@@ -4,12 +4,10 @@
 //                       Created: 2004-12-10 17:23:05
 //             Last modification: 2005-01-10 18:16:00
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2004-2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 #ifdef PowerPlant_PCH
@@ -253,7 +251,7 @@ CIcon_EditorView::UserChangedBitmap()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetModifiedBitmap										[public]
+//  Â¥ GetModifiedBitmap										[public]
 // ---------------------------------------------------------------------------
 
 Handle

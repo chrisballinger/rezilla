@@ -3,12 +3,10 @@
 //                        Created: 2005-02-14 09:10:24
 //              Last modification: 2005-03-01 12:11:35
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright: Bernard Desgraupes 2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 // Empty icons used by the Bitmap editor when creating new bitmap resources.
 

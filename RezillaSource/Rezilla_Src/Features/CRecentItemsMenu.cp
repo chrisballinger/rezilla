@@ -3,12 +3,10 @@
 //                       Created: 2004-03-02 13:18:30
 //             Last modification: 2004-05-18 20:20:01
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright: Bernard Desgraupes 2004
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 
@@ -24,7 +22,7 @@
 
 
 // ---------------------------------------------------------------------------------
-//	¥	CRecentItemsMenu								[Constructor] 
+//	Â¥	CRecentItemsMenu								[Constructor] 
 // ---------------------------------------------------------------------------------
 // mAppIdentifier ---> CFSTR(kRezillaIdentifier)
 
@@ -44,7 +42,7 @@ CRecentItemsMenu::CRecentItemsMenu(ResIDT inMenuID,
 
 
 // ---------------------------------------------------------------------------------
-//	¥	~CRecentItemsMenu								[Destructor] 
+//	Â¥	~CRecentItemsMenu								[Destructor] 
 // ---------------------------------------------------------------------------------
 //	Store in preferences and delete CAlias objects in array.
 
@@ -56,7 +54,7 @@ CRecentItemsMenu::~CRecentItemsMenu()
 
 
 // ---------------------------------------------------------------------------------
-//	¥	ExecuteSelf 
+//	Â¥	ExecuteSelf 
 // ---------------------------------------------------------------------------------
 //	Update menu every time user clicks in menu bar.
 //	Take care of enabling the items in the menu.
@@ -98,7 +96,7 @@ CRecentItemsMenu::ExecuteSelf( MessageT inMessage, void *ioParam )
 
 
 // ---------------------------------------------------------------------------------
-//	¥	SetMaxRecentItems 
+//	Â¥	SetMaxRecentItems 
 // ---------------------------------------------------------------------------------
 
 void
@@ -125,7 +123,7 @@ CRecentItemsMenu::SetMaxRecentItems(UInt32 inMaxRecentItems)
 
 
 // ---------------------------------------------------------------------------------
-//	¥	CountItems 
+//	Â¥	CountItems 
 // ---------------------------------------------------------------------------------
 
 UInt32
@@ -136,7 +134,7 @@ CRecentItemsMenu::CountItems()
 
 
 // ---------------------------------------------------------------------------------
-//	¥	AddFile 
+//	Â¥	AddFile 
 // ---------------------------------------------------------------------------------
 
 OSErr
@@ -156,7 +154,7 @@ CRecentItemsMenu::AddFile(AliasHandle inAliasHandle, Boolean inRebuild)
 
 
 // ---------------------------------------------------------------------------------
-//	¥	AddFile 
+//	Â¥	AddFile 
 // ---------------------------------------------------------------------------------
 
 void
@@ -192,7 +190,7 @@ CRecentItemsMenu::AddFile(FSSpec& inFSSpec, Boolean inRebuild)
 
 
 // ---------------------------------------------------------------------------------
-//	¥	RemoveFile 
+//	Â¥	RemoveFile 
 // ---------------------------------------------------------------------------------
 
 void
@@ -208,7 +206,7 @@ CRecentItemsMenu::RemoveFile(AliasHandle inAliasHandle)
 
 
 // ---------------------------------------------------------------------------------
-//	¥	RemoveFile 
+//	Â¥	RemoveFile 
 // ---------------------------------------------------------------------------------
 
 void
@@ -240,7 +238,7 @@ CRecentItemsMenu::RemoveFile(FSSpec& inFSSpec)
 
 
 // ---------------------------------------------------------------------------------
-//	¥	GetSelectedItem 
+//	Â¥	GetSelectedItem 
 // ---------------------------------------------------------------------------------
 //	Find FSSpec corresponding to menu item index.
 
@@ -259,7 +257,7 @@ CRecentItemsMenu::GetSelectedItem(UInt16 inMenuItem, FSSpec& outFSSpec)
 
 
 // ---------------------------------------------------------------------------------
-//	¥	OpenSelectedItem 
+//	Â¥	OpenSelectedItem 
 // ---------------------------------------------------------------------------------
 //	Checks if attachment host is derived from LDocApplication.
 //	If so, calls host's SendAEOpenDoc() function with file spec passed in.
@@ -276,7 +274,7 @@ CRecentItemsMenu::OpenSelectedItem(FSSpec& inFSSpec)
 
 
 // ---------------------------------------------------------------------------------
-//	¥	RebuildMenu 
+//	Â¥	RebuildMenu 
 // ---------------------------------------------------------------------------------
 
 void
@@ -305,7 +303,7 @@ CRecentItemsMenu::RebuildMenu()
 
 
 // ---------------------------------------------------------------------------------
-//	¥	DeleteAllItems 
+//	Â¥	DeleteAllItems 
 // ---------------------------------------------------------------------------------
 //	Delete all CAlias objects whose ptrs are stored in mAliasArray
 
@@ -326,7 +324,7 @@ CRecentItemsMenu::DeleteAllItems()
 
 
 // ---------------------------------------------------------------------------------
-//	¥	Reset 
+//	Â¥	Reset 
 // ---------------------------------------------------------------------------------
 //	Delete all items and rebuild the menu
 
@@ -339,7 +337,7 @@ CRecentItemsMenu::Reset()
 
 
 // ---------------------------------------------------------------------------------
-//	¥	StoreInPreferences 
+//	Â¥	StoreInPreferences 
 // ---------------------------------------------------------------------------------
 
 void
@@ -376,7 +374,7 @@ CRecentItemsMenu::StoreInPreferences()
 
 
 // ---------------------------------------------------------------------------------
-//	¥	RetrieveFromPreferences 
+//	Â¥	RetrieveFromPreferences 
 // ---------------------------------------------------------------------------------
 
 void

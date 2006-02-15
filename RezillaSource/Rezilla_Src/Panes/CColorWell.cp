@@ -4,12 +4,10 @@
 //                       Created: 2004-08-20 12:37:09
 //             Last modification: 2004-11-05 22:46:52
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright: Bernard Desgraupes, 2004
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 #ifdef PowerPlant_PCH
@@ -24,7 +22,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CColorWell							Default Constructor		  [public]
+//	Â¥ CColorWell							Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CColorWell::CColorWell()
@@ -35,7 +33,7 @@ CColorWell::CColorWell()
 
 
 // ---------------------------------------------------------------------------
-//	¥ CColorWell							Copy Constructor		  [public]
+//	Â¥ CColorWell							Copy Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CColorWell::CColorWell(
@@ -48,7 +46,7 @@ CColorWell::CColorWell(
 
 
 // ---------------------------------------------------------------------------
-//	¥ CColorWell							Parameterized Constructor [public]
+//	Â¥ CColorWell							Parameterized Constructor [public]
 // ---------------------------------------------------------------------------
 
 CColorWell::CColorWell(	const SPaneInfo &inPaneInfo, 
@@ -70,7 +68,7 @@ CColorWell::CColorWell(	const SPaneInfo &inPaneInfo,
 
 
 // ---------------------------------------------------------------------------
-//	¥ CColorWell							Stream Constructor		  [public]
+//	Â¥ CColorWell							Stream Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CColorWell::CColorWell(
@@ -91,7 +89,7 @@ CColorWell::CColorWell(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CColorWell							Destructor				  [public]
+//	Â¥ ~CColorWell							Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CColorWell::~CColorWell()
@@ -99,7 +97,7 @@ CColorWell::~CColorWell()
 
 
 // ---------------------------------------------------------------------------
-//	¥ FinishCreateSelf
+//	Â¥ FinishCreateSelf
 // ---------------------------------------------------------------------------
 
 void
@@ -110,7 +108,7 @@ CColorWell::FinishCreateSelf()
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ ClickSelf
+//	Â¥ ClickSelf
 // ---------------------------------------------------------------------------
 //	Respond to Click inside this Pane
 
@@ -127,7 +125,7 @@ CColorWell::ClickSelf(
 
 
 // ---------------------------------------------------------------------------
-//	¥ DrawSelf
+//	Â¥ DrawSelf
 // ---------------------------------------------------------------------------
 //	Draw contents of Pane
 
@@ -154,7 +152,7 @@ CColorWell::DrawSelf()
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetColor														  [public]
+//	Â¥ GetColor														  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -167,7 +165,7 @@ CColorWell::GetColor(RGBColor & ioColor)
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetColor														  [public]
+//	Â¥ SetColor														  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -180,7 +178,7 @@ CColorWell::SetColor(RGBColor inColor)
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetDescriptor													  [public]
+//	Â¥ GetDescriptor													  [public]
 // ---------------------------------------------------------------------------
 
 StringPtr
@@ -193,7 +191,7 @@ CColorWell::GetDescriptor(
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetDescriptor													  [public]
+//	Â¥ SetDescriptor													  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -204,7 +202,7 @@ CColorWell::SetDescriptor(
 
 
 // ---------------------------------------------------------------------------
-//	¥ PickRGBColor											[static]
+//	Â¥ PickRGBColor											[static]
 // ---------------------------------------------------------------------------
 
 Boolean

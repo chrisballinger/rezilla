@@ -4,12 +4,10 @@
 //                       Created: 2004-06-12 15:08:01
 //             Last modification: 2006-02-09 11:21:43
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright: Bernard Desgraupes, 2004-2005, 2006
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 
@@ -80,7 +78,7 @@ SPaneInfo CTmplEditorWindow::sColorPaneInfo;
 SPaneInfo CTmplEditorWindow::sPopupPaneInfo;
 
 // ---------------------------------------------------------------------------
-//		¥ CTmplEditorWindow				[public]
+//		Â¥ CTmplEditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CTmplEditorWindow::CTmplEditorWindow()
@@ -90,7 +88,7 @@ CTmplEditorWindow::CTmplEditorWindow()
 
 
 // ---------------------------------------------------------------------------
-//		¥ CTmplEditorWindow				[public]
+//		Â¥ CTmplEditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CTmplEditorWindow::CTmplEditorWindow(
@@ -102,7 +100,7 @@ CTmplEditorWindow::CTmplEditorWindow(
 
 
 // ---------------------------------------------------------------------------
-//		¥ CTmplEditorWindow				[public]
+//		Â¥ CTmplEditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CTmplEditorWindow::CTmplEditorWindow(
@@ -116,7 +114,7 @@ CTmplEditorWindow::CTmplEditorWindow(
 
 
 // ---------------------------------------------------------------------------
-//		¥ CTmplEditorWindow				[public]
+//		Â¥ CTmplEditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CTmplEditorWindow::CTmplEditorWindow(
@@ -128,7 +126,7 @@ CTmplEditorWindow::CTmplEditorWindow(
 
 
 // ---------------------------------------------------------------------------
-//		¥ ~CTmplEditorWindow				[public]
+//		Â¥ ~CTmplEditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CTmplEditorWindow::~CTmplEditorWindow()
@@ -149,7 +147,7 @@ CTmplEditorWindow::~CTmplEditorWindow()
 
 
 // ---------------------------------------------------------------------------
-//		¥ FinishCreateSelf				[protected]
+//		Â¥ FinishCreateSelf				[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -203,7 +201,7 @@ CTmplEditorWindow::FinishCreateSelf()
 	
 
 // ---------------------------------------------------------------------------
-//	¥ Draw
+//	Â¥ Draw
 // ---------------------------------------------------------------------------
 // After redrawing the entire window, draw a border around a possible
 // selected CTmplListItemView.
@@ -220,7 +218,7 @@ CTmplEditorWindow::Draw( RgnHandle inSuperDrawRgnH )
 
 
 // ---------------------------------------------------------------------------
-//		¥ ListenToMessage											[public]
+//		Â¥ ListenToMessage											[public]
 // ---------------------------------------------------------------------------
 // The Plus button stores a pointer to the first list item in its UserCon
 // field. The Minus button stores the marker to the beginning of the list
@@ -420,7 +418,7 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 
 
 // ---------------------------------------------------------------------------
-//	¥ FindCommandStatus
+//	Â¥ FindCommandStatus
 // ---------------------------------------------------------------------------
 //	Pass back whether a Command is enabled and/or marked (in a Menu)
 
@@ -443,7 +441,7 @@ CTmplEditorWindow::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ObeyCommand							[public, virtual]
+//	Â¥ ObeyCommand							[public, virtual]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -477,7 +475,7 @@ CTmplEditorWindow::ObeyCommand(
 
 
 // ---------------------------------------------------------------------------
-//	¥ HandleKeyPress
+//	Â¥ HandleKeyPress
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -519,7 +517,7 @@ CTmplEditorWindow::HandleKeyPress(
 
 
 // ---------------------------------------------------------------------------
-//	¥ RevertContents												  [public]
+//	Â¥ RevertContents												  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -534,7 +532,7 @@ CTmplEditorWindow::RevertContents()
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ CreateTemplateStream									[protected]
+//	Â¥ CreateTemplateStream									[protected]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -567,7 +565,7 @@ CTmplEditorWindow::CreateTemplateStream()
  
 
 // ---------------------------------------------------------------------------
-//	¥ ParseDataWithTemplate											[public]
+//	Â¥ ParseDataWithTemplate											[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -602,7 +600,7 @@ CTmplEditorWindow::ParseDataWithTemplate(Handle inHandle)
 
 
 // ---------------------------------------------------------------------------
-//	¥ DoParseWithTemplate											[public]
+//	Â¥ DoParseWithTemplate											[public]
 // ---------------------------------------------------------------------------
 // If 'inRezStream' is nil, an empty template is built with default values.
 
@@ -650,7 +648,7 @@ CTmplEditorWindow::DoParseWithTemplate(SInt32 inRecursionMark, Boolean inDrawCon
 
 
 // ---------------------------------------------------------------------------
-//	¥ ParseList													[public]
+//	Â¥ ParseList													[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -758,7 +756,7 @@ CTmplEditorWindow::ParseList(SInt32 inStartMark, ResType inType, SInt32 inCount,
 
 
 // ---------------------------------------------------------------------------
-//	¥ EndOfList													[public]
+//	Â¥ EndOfList													[public]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -802,7 +800,7 @@ CTmplEditorWindow::EndOfList(ResType inType, OSErr * outError)
 
 
 // ---------------------------------------------------------------------------
-//	¥ ParseKeyedSection												[private]
+//	Â¥ ParseKeyedSection												[private]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -851,7 +849,7 @@ CTmplEditorWindow::ParseKeyedSection(ResType inType, Str255 inLabelString, LView
 
 
 // ---------------------------------------------------------------------------
-//	¥ ParseDataForType												[private]
+//	Â¥ ParseDataForType												[private]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -1587,7 +1585,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ RetrieveDataWithTemplate								[public]
+//	Â¥ RetrieveDataWithTemplate								[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -1617,7 +1615,7 @@ CTmplEditorWindow::RetrieveDataWithTemplate()
 
 
 // ---------------------------------------------------------------------------
-//	¥ DoRetrieveWithTemplate													[private]
+//	Â¥ DoRetrieveWithTemplate													[private]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -1658,7 +1656,7 @@ CTmplEditorWindow::DoRetrieveWithTemplate(SInt32 inRecursionMark, Boolean inRead
 
 
 // ---------------------------------------------------------------------------
-//	¥ RetrieveList													[public]
+//	Â¥ RetrieveList													[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -1702,7 +1700,7 @@ CTmplEditorWindow::RetrieveList(SInt32 inStartMark, ResType inType, SInt32 inCou
 
 
 // ---------------------------------------------------------------------------
-//	¥ RetrieveKeyedSection											[public]
+//	Â¥ RetrieveKeyedSection											[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -1734,7 +1732,7 @@ CTmplEditorWindow::RetrieveKeyedSection(ResType inType)
 
 
 // ---------------------------------------------------------------------------
-//	¥ RetrieveDataForType											[private]
+//	Â¥ RetrieveDataForType											[private]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -2585,7 +2583,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 
 
 // ---------------------------------------------------------------------------
-//	¥ RetrieveBitField											[private]
+//	Â¥ RetrieveBitField											[private]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -2646,7 +2644,7 @@ DONE:
 
 
 // ---------------------------------------------------------------------------
-//	¥ RetrieveCountValue											[private]
+//	Â¥ RetrieveCountValue											[private]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -2739,7 +2737,7 @@ CTmplEditorWindow::RetrieveCountValue()
 
 
 // ---------------------------------------------------------------------------
-//	¥ RevertWithTemplate											[public]
+//	Â¥ RevertWithTemplate											[public]
 // ---------------------------------------------------------------------------
 
 OSErr

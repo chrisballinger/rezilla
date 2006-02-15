@@ -4,12 +4,10 @@
 //                       Created : 2003-04-12 10:45:24
 //             Last modification : 2004-06-09 10:42:08
 // Author : Bernard Desgraupes
-// e-mail : <bdesgraupes@easyconnect.fr>
-// www : <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003-2004
+// e-mail : <bdesgraupes@users.sourceforge.net>
+// www : <http://rezilla.sourceforge.net/>
+// (c) Copyright: Bernard Desgraupes 2003-2004
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 // Subclass implementing drag and drop of a file from the Finder onto a 
 // text edit field.
@@ -31,7 +29,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CDropStaticText						Stream Constructor		  [public]
+//	Â¥ CDropStaticText						Stream Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CDropStaticText::CDropStaticText(
@@ -43,7 +41,7 @@ CDropStaticText::CDropStaticText(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CDropStaticText						Destructor				  [public]
+//	Â¥ ~CDropStaticText						Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CDropStaticText::~CDropStaticText()
@@ -53,7 +51,7 @@ CDropStaticText::~CDropStaticText()
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ ItemIsAcceptable											  [protected]
+//	Â¥ ItemIsAcceptable											  [protected]
 // ---------------------------------------------------------------------------
 // Accept only files.
 
@@ -84,7 +82,7 @@ CDropStaticText::ItemIsAcceptable(DragReference inDragRef, ItemReference inItemR
 		
 
 // ---------------------------------------------------------------------------
-//	¥ ReceiveDragItem											  [protected]
+//	Â¥ ReceiveDragItem											  [protected]
 // ---------------------------------------------------------------------------
 // Retrieve the dragged item's file system specification
 // and insert the full path in the static text pane.
@@ -116,7 +114,7 @@ CDropStaticText::ReceiveDragItem(DragReference inDragRef,
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetFileData												  [protected]
+//	Â¥ GetFileData												  [protected]
 // ---------------------------------------------------------------------------
 // If the flavour data is an HFSFlavor structure, retrieve it.
 

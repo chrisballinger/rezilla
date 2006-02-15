@@ -4,12 +4,10 @@
 //                       Created: 2005-03-25 15:49:17
 //             Last modification: 2005-07-04 10:51:04
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2005
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
+// (c) Copyright: Bernard Desgraupes 2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 //  Popup menu designed to handle flag values (base-2 additive values like
 //  0, 1, 2, 4, 8, etc.). The menu items should be stored in a STR# resource

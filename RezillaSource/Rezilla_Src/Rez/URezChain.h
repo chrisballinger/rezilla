@@ -4,12 +4,10 @@
 //                       Created: 2003-04-24 14:17:20
 //             Last modification: 2003-04-24 17:08:11
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2003
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 #ifndef _H_URezChain

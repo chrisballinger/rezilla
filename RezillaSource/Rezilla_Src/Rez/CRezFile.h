@@ -4,12 +4,10 @@
 //                       Created: 2003-04-24 14:17:20
 //             Last modification: 2005-04-16 14:44:31
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2003-2004, 2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 // A wrapper class for a Macintosh resource file i-e a file storing its resources 
 // either in the data fork or in the resource fork

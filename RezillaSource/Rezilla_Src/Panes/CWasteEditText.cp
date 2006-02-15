@@ -4,16 +4,14 @@
 // Created: 2001-09-05 18:22:04 
 // Last modification: 2004-11-10 17:11:41
 // Author: Bernard Desgraupes 
-// e-mail: <bdesgraupes@easyconnect.fr> 
-// www: <http://webperso.easyconnect.fr/bdesgraupes/> 
-// © Copyright: Bernard Desgraupes 2001-2004
+// e-mail: <bdesgraupes@users.sourceforge.net> 
+// www: <http://rezilla.sourceforge.net/> 
+// (c) Copyright: Bernard Desgraupes 2001-2004
 // All rights reserved.
-// $Date$
-// $Revision$
 // 
 // Description: CWaste is a class designed to interface between 
-// the Waste Edit text engine (©1993-2000 by Marco Piovanelli)
-// and CodeWarrior's PowerPlant 2.1 library (©1993-2000 Metrowerks Inc.) 
+// the Waste Edit text engine (Â©1993-2000 by Marco Piovanelli)
+// and CodeWarrior's PowerPlant 2.1 library (Â©1993-2000 Metrowerks Inc.) 
 // 
 // This file is part of the CWasteEditView package vs-1.8
 // ===========================================================================
@@ -38,7 +36,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ Insert								[public, virtual]
+//	Â¥ Insert								[public, virtual]
 // ---------------------------------------------------------------------------
 //	Will optionally recalculate, autoscroll, and refresh the text if desired.
 
@@ -81,7 +79,7 @@ CWasteEditView::Insert(
 
 
 // ---------------------------------------------------------------------------
-//	¥ Insert								[public, virtual]
+//	Â¥ Insert								[public, virtual]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -96,7 +94,7 @@ CWasteEditView::Insert(
 
 
 // ---------------------------------------------------------------------------
-//	¥ DeleteTextRange								[public]
+//	Â¥ DeleteTextRange								[public]
 // ---------------------------------------------------------------------------
 // Delete the text in a specified range and update.
 // If autoscrolling is on.
@@ -124,7 +122,7 @@ CWasteEditView::DeleteTextRange( SInt32 inStartPos, SInt32 inEndPos)
 
 
 // ---------------------------------------------------------------------------
-//	¥ DeleteAll								[public, virtual]
+//	Â¥ DeleteAll								[public, virtual]
 // ---------------------------------------------------------------------------
 //	Delete entire contents of the WasteEdit
 
@@ -149,7 +147,7 @@ CWasteEditView::DeleteAll()
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ SetTextTraitsID						[public, virtual]
+//	Â¥ SetTextTraitsID						[public, virtual]
 // ---------------------------------------------------------------------------
 // Specify the resource ID of the TextTraits for a WasteEdit
 // 
@@ -185,7 +183,7 @@ CWasteEditView::SetTextTraitsID(ResIDT	inTextTraitsID)
 
 
 // ---------------------------------------------------------------------------
-//	¥ ApplyTextTraits												  [public]
+//	Â¥ ApplyTextTraits												  [public]
 // ---------------------------------------------------------------------------
 //	Set the text characteristics of a mono-style WasteEdit Record (created
 //	by WENew)
@@ -209,7 +207,7 @@ CWasteEditView::ApplyTextTraits(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ApplyTextTraits												  [public]
+//	Â¥ ApplyTextTraits												  [public]
 // ---------------------------------------------------------------------------
 //	Set the text characteristics of a mono-styled Waste Edit View.
 //	If inTextTraits is nil, the standard System font traits are used.
@@ -266,7 +264,7 @@ CWasteEditView::ApplyTextTraits(TextTraitsPtr	inTextTraits,
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ SetTextHandle							[public, virtual]
+//	Â¥ SetTextHandle							[public, virtual]
 // ---------------------------------------------------------------------------
 //	Set the text in the CWasteEditView to the contents of the specified Handle
 //
@@ -284,7 +282,7 @@ CWasteEditView::SetTextHandle(
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetTextPtr							[public, virtual]
+//	Â¥ SetTextPtr							[public, virtual]
 // ---------------------------------------------------------------------------
 
 void
@@ -338,7 +336,7 @@ CWasteEditView::SetTextPtr(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetTextHandle							[public]
+//	Â¥ GetTextHandle							[public]
 // ---------------------------------------------------------------------------
 //	Return a Handle to the text in the CWasteEditView.
 
@@ -352,7 +350,7 @@ CWasteEditView::GetTextHandle()
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ SetFont									[public, virtual]
+//	Â¥ SetFont									[public, virtual]
 // ---------------------------------------------------------------------------
 //	Given a font number, set the font
 
@@ -369,7 +367,7 @@ CWasteEditView::SetFont(
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetFont									[public, virtual]
+//	Â¥ SetFont									[public, virtual]
 // ---------------------------------------------------------------------------
 //	Given a font name, set the font
 
@@ -386,7 +384,7 @@ CWasteEditView::SetFont(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetFont									[public, virtual]
+//	Â¥ GetFont									[public, virtual]
 // ---------------------------------------------------------------------------
 //	Determine the font over the selection range, passing back the font number.
 
@@ -405,7 +403,7 @@ CWasteEditView::GetFont(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetFont									[public, virtual]
+//	Â¥ GetFont									[public, virtual]
 // ---------------------------------------------------------------------------
 //	Determine the font over the selection range, passing back the font name
 
@@ -424,7 +422,7 @@ CWasteEditView::GetFont(
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetSize									[public, virtual]
+//	Â¥ SetSize									[public, virtual]
 // ---------------------------------------------------------------------------
 
 void
@@ -440,7 +438,7 @@ CWasteEditView::SetSize(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetSize									[public, virtual]
+//	Â¥ GetSize									[public, virtual]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -458,7 +456,7 @@ CWasteEditView::GetSize(
 
 
 // ---------------------------------------------------------------------------------
-//	¥ SetStyle								[public, virtual]
+//	Â¥ SetStyle								[public, virtual]
 // ---------------------------------------------------------------------------------
 
 void
@@ -474,7 +472,7 @@ CWasteEditView::SetStyle(
 
 
 // ---------------------------------------------------------------------------------
-//	¥ GetStyle								[public, virtual]
+//	Â¥ GetStyle								[public, virtual]
 // ---------------------------------------------------------------------------------
 
 Boolean
@@ -491,7 +489,7 @@ CWasteEditView::GetStyle(
 
 
 // ---------------------------------------------------------------------------------
-//	¥ SetAlignment							[public, virtual]
+//	Â¥ SetAlignment							[public, virtual]
 // ---------------------------------------------------------------------------------
 // Alignment can work for monostyled text
 
@@ -505,7 +503,7 @@ CWasteEditView::SetAlignment(
 
 
 // ---------------------------------------------------------------------------------
-//	¥ GetAlignment							[public, virtual]
+//	Â¥ GetAlignment							[public, virtual]
 // ---------------------------------------------------------------------------------
 
 WEAlignment
@@ -516,7 +514,7 @@ CWasteEditView::GetAlignment()
 
 
 // ---------------------------------------------------------------------------------
-//	¥ SetColor								[public, virtual]
+//	Â¥ SetColor								[public, virtual]
 // ---------------------------------------------------------------------------------
 
 void
@@ -533,7 +531,7 @@ CWasteEditView::SetColor(
 
 
 // ---------------------------------------------------------------------------------
-//	¥ GetColor								[public, virtual]
+//	Â¥ GetColor								[public, virtual]
 // ---------------------------------------------------------------------------------
 
 Boolean

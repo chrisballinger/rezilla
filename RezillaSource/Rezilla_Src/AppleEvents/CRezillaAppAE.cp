@@ -3,12 +3,10 @@
 //                       Created: 2004-11-30 08:44:17
 //             Last modification: 2005-09-25 08:01:28
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright: Bernard Desgraupes 2004-2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 #include "CRezillaApp.h"
@@ -43,7 +41,7 @@
 
 
 // ---------------------------------------------------------------------------
-//	¥ HandleAppleEvent												  [public]
+//	Â¥ HandleAppleEvent												  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -78,7 +76,7 @@ CRezillaApp::HandleAppleEvent(
 
 
 // ---------------------------------------------------------------------------
-//	¥ HandleOpenDocsEvent											  [public]
+//	Â¥ HandleOpenDocsEvent											  [public]
 // ---------------------------------------------------------------------------
 // err = AEPutParamDesc(outReply, keyErrorString, &param);
 
@@ -188,7 +186,7 @@ CRezillaApp::HandleOpenDocsEvent(
 
 
 // ---------------------------------------------------------------------------
-//	¥ HandleCompareMapsEvent										  [public]
+//	Â¥ HandleCompareMapsEvent										  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -287,7 +285,7 @@ CRezillaApp::HandleCompareMapsEvent(
 
 
 // ---------------------------------------------------------------------------
-//	¥ HandleCreateElementEvent
+//	Â¥ HandleCreateElementEvent
 // ---------------------------------------------------------------------------
 
 LModelObject*
@@ -408,7 +406,7 @@ CRezillaApp::HandleCreateElementEvent(
 
 
 // ---------------------------------------------------------------------------
-//	¥ CountSubModels												  [public]
+//	Â¥ CountSubModels												  [public]
 // ---------------------------------------------------------------------------
 
 SInt32
@@ -517,7 +515,7 @@ CRezillaApp::CountSubModels(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetSubModelByPosition											  [public]
+//	Â¥ GetSubModelByPosition											  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -717,7 +715,7 @@ CRezillaApp::GetSubModelByPosition(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetSubModelByName												  [public]
+//	Â¥ GetSubModelByName												  [public]
 // ---------------------------------------------------------------------------
 //	Pass back a token to a SubModel specified by name
 
@@ -778,7 +776,7 @@ CRezillaApp::GetSubModelByName(
 
 
 // ---------------------------------------------------------------------------
-//   ¥ GetSubModelByUniqueID
+//   Â¥ GetSubModelByUniqueID
 // ---------------------------------------------------------------------------
 //   Pass back a Token for the SubModel of the specified type with the
 //   specified unique ID
@@ -817,7 +815,7 @@ CRezillaApp::GetSubModelByUniqueID(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetPositionOfSubModel											  [public]
+//	Â¥ GetPositionOfSubModel											  [public]
 // ---------------------------------------------------------------------------
 //	Return the position (1 = first) of a SubModel within an Application
 
@@ -867,7 +865,7 @@ CRezillaApp::GetPositionOfSubModel(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetAEProperty
+//	Â¥ GetAEProperty
 // ---------------------------------------------------------------------------
 //	Return a descriptor for the specified Property
 
@@ -896,7 +894,7 @@ CRezillaApp::GetAEProperty(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AEPropertyExists
+//	Â¥ AEPropertyExists
 // ---------------------------------------------------------------------------
 
 bool
@@ -921,7 +919,7 @@ CRezillaApp::AEPropertyExists(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetModelProperty
+//	Â¥ GetModelProperty
 // ---------------------------------------------------------------------------
 
 LModelObject*

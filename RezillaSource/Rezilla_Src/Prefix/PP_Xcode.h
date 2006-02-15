@@ -4,12 +4,10 @@
 //                       Created: 2005-09-11 21:56:40
 //             Last modification: 2005-09-12 09:01:12
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 // Use as a prefix file to make a precompile header in order to compile
 // PowerPlant with XCode. This also includes <Carbon/Carbon.h>.

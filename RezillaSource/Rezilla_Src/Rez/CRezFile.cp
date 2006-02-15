@@ -4,12 +4,10 @@
 //                       Created: 2003-04-24 14:17:20
 //             Last modification: 2005-06-28 11:45:13
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2003-2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 
@@ -32,7 +30,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CRezFile			Default Constructor		  [public]
+//  Â¥ CRezFile			Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CRezFile::CRezFile()
@@ -46,7 +44,7 @@ CRezFile::CRezFile()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CRezFile			Constructor			  [public]
+//  Â¥ CRezFile			Constructor			  [public]
 // ---------------------------------------------------------------------------
 // Construct a CRezFile object from an FSSpec with already determined 
 // refnum and fork.
@@ -61,7 +59,7 @@ CRezFile::CRezFile(const FSSpec& inFileSpec, short inRefnum, SInt16 inFork)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CRezFile			Constructor			  [public]
+//  Â¥ CRezFile			Constructor			  [public]
 // ---------------------------------------------------------------------------
 // Construct a CRezFile from a Toolbox File System Specification. Refnum 
 // and fork can be set later with a call to OpenFile.
@@ -76,7 +74,7 @@ CRezFile::CRezFile(const FSSpec& inFileSpec)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CRezFile			Constructor			  [public]
+//  Â¥ CRezFile			Constructor			  [public]
 // ---------------------------------------------------------------------------
 // Construct a File from an Alias
 //
@@ -98,7 +96,7 @@ CRezFile::CRezFile(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ ~CRezFile			Destructor			  [public]
+//  Â¥ ~CRezFile			Destructor			  [public]
 // ---------------------------------------------------------------------------
 
 CRezFile::~CRezFile()
@@ -110,7 +108,7 @@ CRezFile::~CRezFile()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetSpecifier
+//  Â¥ GetSpecifier
 // ---------------------------------------------------------------------------
 
 void
@@ -121,7 +119,7 @@ CRezFile::GetSpecifier(FSSpec& outFileSpec) const
 
 
 // ---------------------------------------------------------------------------
-//  ¥ SetSpecifier
+//  Â¥ SetSpecifier
 // ---------------------------------------------------------------------------
 // This has the side effect of closing any open forks of the file identified
 // by the old Specifier
@@ -136,7 +134,7 @@ CRezFile::SetSpecifier( const FSSpec& inFileSpec)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ UsesSpecifier
+//  Â¥ UsesSpecifier
 // ---------------------------------------------------------------------------
 // Returns whether the RezFile's FSSpec is the same as the input FSSpec
 
@@ -148,7 +146,7 @@ CRezFile::UsesSpecifier(const FSSpec& inFileSpec) const
 
 
 // ---------------------------------------------------------------------------
-//  ¥ SpecifierExists
+//  Â¥ SpecifierExists
 // ---------------------------------------------------------------------------
 // Returns whether the File's FSSpec corresponds to an existing disk file
 
@@ -163,7 +161,7 @@ CRezFile::SpecifierExists() const
 
 
 // ---------------------------------------------------------------------------
-//  ¥ MakeAlias
+//  Â¥ MakeAlias
 // ---------------------------------------------------------------------------
 // Return a newly created Alias for a File
 //
@@ -182,7 +180,7 @@ CRezFile::MakeAlias(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CreateNewFile
+//  Â¥ CreateNewFile
 // ---------------------------------------------------------------------------
 // Create a new disk File, with an empty data fork and a resoure map.
 // This fuction also opens the corresponding resource fork.
@@ -232,7 +230,7 @@ CRezFile::CreateNewFile()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ OpenFile
+//  Â¥ OpenFile
 // ---------------------------------------------------------------------------
 // Open the resource fork of a File with the specified permissions and
 // return the reference number for the opened fork in the mRefNum data 
@@ -268,7 +266,7 @@ CRezFile::OpenFile(SInt8 inPermissions)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CloseFile
+//  Â¥ CloseFile
 // ---------------------------------------------------------------------------
 // Close the resource fork of a File
 
@@ -297,7 +295,7 @@ CRezFile::CloseFile()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ ReadFile
+//  Â¥ ReadFile
 // ---------------------------------------------------------------------------
 // Read the entire contents of a File's data fork into a newly created
 // Handle. The caller is responsible for disposing of the Handle.
@@ -322,7 +320,7 @@ CRezFile::ReadFile()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ WriteFile
+//  Â¥ WriteFile
 // ---------------------------------------------------------------------------
 // The buffer contents completely replace any existing data
 
@@ -346,7 +344,7 @@ CRezFile::WriteFile(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CopyFromRezMap
+//  Â¥ CopyFromRezMap
 // ---------------------------------------------------------------------------
 
 OSErr

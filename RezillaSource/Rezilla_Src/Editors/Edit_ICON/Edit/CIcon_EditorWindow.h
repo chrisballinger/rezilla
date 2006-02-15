@@ -4,12 +4,10 @@
 //                       Created: 2004-12-10 17:23:05
 //             Last modification: 2005-01-11 07:04:40
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2004-2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 // mScratchBuffer: this should be static since we only need one for all 
 // windows.

@@ -3,12 +3,10 @@
 //                       Created: 2004-12-11 18:53:22
 //             Last modification: 2005-01-08 07:10:13
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright: Bernard Desgraupes 2004, 2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 #include "CTargetView.h"
@@ -64,7 +62,7 @@ CTargetView::SetTarget( Boolean inHasTarget, RedrawOptions inRedraw )
 
 
 // ---------------------------------------------------------------------------
-//	¥ DrawBorder
+//	Â¥ DrawBorder
 // ---------------------------------------------------------------------------
 //  Border around a Sample pane is outset from the interior by 1 pixel.
 
@@ -93,7 +91,7 @@ CTargetView::DrawBorder()
 
 
 // ---------------------------------------------------------------------------
-//	¥ EraseBorder
+//	Â¥ EraseBorder
 // ---------------------------------------------------------------------------
 
 void

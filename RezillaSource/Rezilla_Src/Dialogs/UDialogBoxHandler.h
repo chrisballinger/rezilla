@@ -4,12 +4,10 @@
 //                       Created: 2002-05-09 18:35:37
 //             Last modification: 2004-02-22 19:50:08
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003, 2004
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
+// (c) Copyright: Bernard Desgraupes 2003, 2004
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 // StDialogBoxHandler is derived from StDialogHandler
 

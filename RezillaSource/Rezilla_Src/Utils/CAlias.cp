@@ -3,12 +3,10 @@
 //                       Created: 2004-03-02 13:18:30
 //             Last modification: 2004-03-13 11:48:28
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright: Bernard Desgraupes 2004
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 
@@ -16,7 +14,7 @@
 
 
 // -----------------------------------------------------------------
-//	¥	Constructor 
+//	Â¥	Constructor 
 // -----------------------------------------------------------------
 //	NULLs AliasHandle member
 
@@ -27,7 +25,7 @@ CAlias::CAlias()
 
 
 // -----------------------------------------------------------------
-//	¥	Constructor 
+//	Â¥	Constructor 
 // -----------------------------------------------------------------
 
 CAlias::CAlias(AliasHandle inAliasHandle)
@@ -40,7 +38,7 @@ CAlias::CAlias(AliasHandle inAliasHandle)
 
 
 // -----------------------------------------------------------------
-//	¥	Constructor 
+//	Â¥	Constructor 
 // -----------------------------------------------------------------
 //	Construct from FSSpec
 
@@ -54,7 +52,7 @@ CAlias::CAlias(FSSpec& inFSSpec)
 
 
 // -----------------------------------------------------------------
-//	¥	Destructor
+//	Â¥	Destructor
 // -----------------------------------------------------------------
 
 CAlias::~CAlias()
@@ -64,7 +62,7 @@ CAlias::~CAlias()
 
 
 // -----------------------------------------------------------------
-//	¥	GetFileSpec()
+//	Â¥	GetFileSpec()
 // -----------------------------------------------------------------
 
 OSErr
@@ -84,7 +82,7 @@ CAlias::GetFileSpec(FSSpec& outFileSpec)
 
 
 // -----------------------------------------------------------------
-//	¥	GetFileName()
+//	Â¥	GetFileName()
 // -----------------------------------------------------------------
 
 OSErr
@@ -105,7 +103,7 @@ CAlias::GetFileName(Str255 outFileName)
 
 
 // -----------------------------------------------------------------
-//	¥	Resolve()
+//	Â¥	Resolve()
 // -----------------------------------------------------------------
 //	Result is error code from AliasManager's ResolveAlias().
 //	If AliasHandle member was NULL (object hasn't beeen initialized),
@@ -129,7 +127,7 @@ CAlias::Resolve()
 
 
 // -----------------------------------------------------------------
-//	¥	Dispose
+//	Â¥	Dispose
 // -----------------------------------------------------------------
 
 void
@@ -143,7 +141,7 @@ CAlias::Dispose()
 
 
 // -----------------------------------------------------------------
-//	¥	operator =
+//	Â¥	operator =
 // -----------------------------------------------------------------
 //	Assignment operator with AliasHandle.
 
@@ -163,7 +161,7 @@ CAlias::operator = (
 
 
 // -----------------------------------------------------------------
-//	¥	operator =
+//	Â¥	operator =
 // -----------------------------------------------------------------
 //	Assignment operator with FSSpec.
 

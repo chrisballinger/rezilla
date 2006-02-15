@@ -4,12 +4,10 @@
 //                       Created : 2002-06-09 19:38:34
 //             Last modification : 2005-02-08 15:24:45
 // Author : Bernard Desgraupes
-// e-mail : <bdesgraupes@easyconnect.fr>
-// www : <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2002-2005
+// e-mail : <bdesgraupes@users.sourceforge.net>
+// www : <http://rezilla.sourceforge.net/>
+// (c) Copyright: Bernard Desgraupes 2002-2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 //	A text file (as opposed to binary) which uses a Stream to 
 //	access its data fork. Takes care of writing PStrings and CStrings as 
@@ -25,7 +23,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CTextFileStream							Default Constructor		  [public]
+//	Â¥ CTextFileStream							Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CTextFileStream::CTextFileStream()
@@ -34,7 +32,7 @@ CTextFileStream::CTextFileStream()
 
 
 // ---------------------------------------------------------------------------
-//	¥ CTextFileStream							Constructor				  [public]
+//	Â¥ CTextFileStream							Constructor				  [public]
 // ---------------------------------------------------------------------------
 //	Construct a FileStream from a Toolbox File System Specification
 
@@ -47,7 +45,7 @@ CTextFileStream::CTextFileStream(
 
 
 // ---------------------------------------------------------------------------
-//	¥ CTextFileStream							Constructor				  [public]
+//	Â¥ CTextFileStream							Constructor				  [public]
 // ---------------------------------------------------------------------------
 //	Construct a FileStream from an Alias
 //
@@ -66,7 +64,7 @@ CTextFileStream::CTextFileStream(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CTextFileStream							Destructor				  [public]
+//	Â¥ ~CTextFileStream							Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CTextFileStream::~CTextFileStream()
@@ -75,7 +73,7 @@ CTextFileStream::~CTextFileStream()
 
 
 // ---------------------------------------------------------------------------
-//	¥ WriteOSType
+//	Â¥ WriteOSType
 // ---------------------------------------------------------------------------
 //	Write a Pascal string to a Stream as a text string (ie strips the first
 //	length byte)
@@ -96,7 +94,7 @@ CTextFileStream::WriteOSType(OSType inType)
 
 
 // ---------------------------------------------------------------------------
-//	¥ WriteOSTypeWithTag
+//	Â¥ WriteOSTypeWithTag
 // ---------------------------------------------------------------------------
 //	Write an OSType to a Stream as a text string.
 //	Return the number of bytes written.
@@ -128,7 +126,7 @@ CTextFileStream::WriteOSTypeWithTag(
 
 
 // ---------------------------------------------------------------------------
-//	¥ WriteOSTypeWithTag
+//	Â¥ WriteOSTypeWithTag
 // ---------------------------------------------------------------------------
 //	Write an OSType to a Stream as a text string.
 //	Return the number of bytes written.
@@ -160,7 +158,7 @@ CTextFileStream::WriteOSTypeWithTag(
 
 
 // ---------------------------------------------------------------------------
-//	¥ WritePString
+//	Â¥ WritePString
 // ---------------------------------------------------------------------------
 //	Write a Pascal string to a Stream as a text string (ie strips the first
 //	length byte)
@@ -179,7 +177,7 @@ CTextFileStream::WritePString(ConstStringPtr inString)
 
 
 // ---------------------------------------------------------------------------
-//	¥ WritePStringWithTag
+//	Â¥ WritePStringWithTag
 // ---------------------------------------------------------------------------
 //	Write a Pascal string enclosed in an xml-like pair of tags
 //	Return the number of bytes written
@@ -208,7 +206,7 @@ CTextFileStream::WritePStringWithTag(
 
 
 // ---------------------------------------------------------------------------
-//	¥ WriteCString
+//	Â¥ WriteCString
 // ---------------------------------------------------------------------------
 //	Write a C string to a Stream as a text string (ie strips the ending null-byte)
 //	Return the number of bytes written.
@@ -231,7 +229,7 @@ CTextFileStream::WriteCString(
 
 
 // ---------------------------------------------------------------------------
-//	¥ WriteCStringWithTag
+//	Â¥ WriteCStringWithTag
 // ---------------------------------------------------------------------------
 //	Write a Pascal string enclosed in an xml-like pair of tags
 //	Return the number of bytes written
@@ -260,7 +258,7 @@ CTextFileStream::WriteCStringWithTag(
 
 
 // ---------------------------------------------------------------------------
-//	¥ WriteSInt32WithTag
+//	Â¥ WriteSInt32WithTag
 // ---------------------------------------------------------------------------
 //	Write a SInt32 number enclosed in an xml-like pair of tags
 //	Return the number of bytes written
@@ -279,7 +277,7 @@ CTextFileStream::WriteSInt32WithTag(
 
 
 // ---------------------------------------------------------------------------
-//	¥ WriteSInt32WithTag
+//	Â¥ WriteSInt32WithTag
 // ---------------------------------------------------------------------------
 //	Write a SInt32 number enclosed in an xml-like pair of tags
 //	Return the number of bytes written
@@ -310,7 +308,7 @@ CTextFileStream::WriteSInt32WithTag(
 
 
 // ---------------------------------------------------------------------------
-//	¥ WriteBooleanWithTag
+//	Â¥ WriteBooleanWithTag
 // ---------------------------------------------------------------------------
 //	Write a Boolean value enclosed in an xml-like pair of tags
 //	Return the number of bytes written
@@ -330,7 +328,7 @@ CTextFileStream::WriteBooleanWithTag(
 
 
 // ---------------------------------------------------------------------------
-//	¥ WriteBooleanWithTag
+//	Â¥ WriteBooleanWithTag
 // ---------------------------------------------------------------------------
 //	Write a Boolean value enclosed in an xml-like pair of tags
 //	Return the number of bytes written
@@ -354,7 +352,7 @@ CTextFileStream::WriteBooleanWithTag(
 
 
 // ---------------------------------------------------------------------------
-//	¥ WriteByChunks
+//	Â¥ WriteByChunks
 // ---------------------------------------------------------------------------
 //	Write a C string to a Stream as a text string cut down into pieces 
 //	separated by a specified separator.
@@ -390,7 +388,7 @@ CTextFileStream::WriteByChunks(
 
 
 // ---------------------------------------------------------------------------
-//	¥ operator << (SInt32)
+//	Â¥ operator << (SInt32)
 // ---------------------------------------------------------------------------
 
 CTextFileStream&
@@ -404,7 +402,7 @@ CTextFileStream::operator << (SInt32 inNum)
 
 						
 // ---------------------------------------------------------------------------
-//	¥ operator << (Boolean)
+//	Â¥ operator << (Boolean)
 // ---------------------------------------------------------------------------
 
 CTextFileStream&

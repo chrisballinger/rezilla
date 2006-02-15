@@ -4,12 +4,10 @@
 //                       Created: 2004-08-06 12:57:55
 //             Last modification: 2006-02-09 11:21:20
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2004-2006
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 
@@ -46,7 +44,7 @@ FSRef				CTemplatesController::sTemplateFile;
 
 
 // ---------------------------------------------------------------------------
-//	¥ CTemplatesController											[public]
+//	Â¥ CTemplatesController											[public]
 // ---------------------------------------------------------------------------
 //  Object constructor. Takes care of building the various static 
 // arrays. The "All Types Array" contains all the types for which a 
@@ -75,7 +73,7 @@ CTemplatesController::CTemplatesController()
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CTemplatesController									[public, virtual]
+//	Â¥ ~CTemplatesController									[public, virtual]
 // ---------------------------------------------------------------------------
 
 CTemplatesController::~CTemplatesController()
@@ -85,7 +83,7 @@ CTemplatesController::~CTemplatesController()
 
 // ---------------------------------------------------------------------------------
 // 
-//  ¥ BuildInternalTemplatesArray								[private]
+//  Â¥ BuildInternalTemplatesArray								[private]
 // ---------------------------------------------------------------------------------
 
 OSErr
@@ -159,7 +157,7 @@ CTemplatesController::BuildInternalTemplatesArray()
 
 
 // ---------------------------------------------------------------------------
-//	¥ BuildExternalTemplatesDictionary								[private]
+//	Â¥ BuildExternalTemplatesDictionary								[private]
 // ---------------------------------------------------------------------------
 // Create a CFDictionary whose keys are the FSRefs of the resource files
 // located in the various "Application Support/Rezilla/Templates" folders and
@@ -270,7 +268,7 @@ CTemplatesController::ScanTemplatesFolder(FSRef * inTmplFolder)
 
 
 // ---------------------------------------------------------------------------
-//	¥ AddTemplatesToDictionary										[private]
+//	Â¥ AddTemplatesToDictionary										[private]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -337,7 +335,7 @@ CTemplatesController::AddTemplatesToDictionary(FSRef * inFileRef)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ HasTemplateForType											[static]
+//  Â¥ HasTemplateForType											[static]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -380,7 +378,7 @@ CTemplatesController::HasTemplateForType(ResType inType, ResType * substType, CR
 
 
 // ---------------------------------------------------------------------------
-//  ¥ HasLocalTemplateForType									[static]
+//  Â¥ HasLocalTemplateForType									[static]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -392,7 +390,7 @@ CTemplatesController::HasLocalTemplateForType(Str255 inName, CRezMap * inRezMap)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ HasInternalTemplateForType									[static]
+//  Â¥ HasInternalTemplateForType									[static]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -416,7 +414,7 @@ CTemplatesController::HasInternalTemplateForType(ResType inType)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ HasExternalTemplateForType									[static]
+//  Â¥ HasExternalTemplateForType									[static]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -476,7 +474,7 @@ CTemplatesController::HasExternalTemplateForType(ResType inType, FSRef * outFile
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetTemplateHandle										[static]
+//	Â¥ GetTemplateHandle										[static]
 // ---------------------------------------------------------------------------
 
 Handle
@@ -537,7 +535,7 @@ CTemplatesController::GetTemplateHandle(ResType inType)
  
 
 // ---------------------------------------------------------------------------
-//	¥ AddAsTypesToAllTypes										[static]
+//	Â¥ AddAsTypesToAllTypes										[static]
 // ---------------------------------------------------------------------------
 
 void
@@ -568,7 +566,7 @@ CTemplatesController::AddAsTypesToAllTypes()
 
 
 // ---------------------------------------------------------------------------
-//	¥ TypeSorter										[static]
+//	Â¥ TypeSorter										[static]
 // ---------------------------------------------------------------------------
 
 CFComparisonResult

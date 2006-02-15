@@ -3,12 +3,10 @@
 //                       Created: 2005-01-10 21:23:57
 //             Last modification: 2005-02-15 07:01:23
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright: Bernard Desgraupes 2004-2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 #include "CSuite_Window.h"
@@ -210,7 +208,7 @@ CSuite_Window::ListenToMessage( MessageT inMessage, void *ioParam )
 
 
 // ---------------------------------------------------------------------------
-//	¥ HandleKeyPress												  [public]
+//	Â¥ HandleKeyPress												  [public]
 // ---------------------------------------------------------------------------
 // The PageUp and PageDown arrows move the slider by 1 unit (recall that
 // the simple arrow keys are used by the Text tool to nudge the selection

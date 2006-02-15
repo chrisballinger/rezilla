@@ -4,12 +4,10 @@
 //                       Created: 2004-06-17 12:46:55
 //             Last modification: 2005-01-27 18:11:38
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2004-2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 #include "CTEXT_EditorDoc.h"
@@ -40,7 +38,7 @@ LMenu *		CTEXT_EditorWindow::sTextStyleMenu = nil;
 
 
 // ---------------------------------------------------------------------------
-//		¥ CTEXT_EditorWindow				[public]
+//		Â¥ CTEXT_EditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CTEXT_EditorWindow::CTEXT_EditorWindow()
@@ -49,7 +47,7 @@ CTEXT_EditorWindow::CTEXT_EditorWindow()
 
 
 // ---------------------------------------------------------------------------
-//		¥ CTEXT_EditorWindow				[public]
+//		Â¥ CTEXT_EditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CTEXT_EditorWindow::CTEXT_EditorWindow(
@@ -60,7 +58,7 @@ CTEXT_EditorWindow::CTEXT_EditorWindow(
 
 
 // ---------------------------------------------------------------------------
-//		¥ CTEXT_EditorWindow				[public]
+//		Â¥ CTEXT_EditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CTEXT_EditorWindow::CTEXT_EditorWindow(
@@ -73,7 +71,7 @@ CTEXT_EditorWindow::CTEXT_EditorWindow(
 
 
 // ---------------------------------------------------------------------------
-//		¥ CTEXT_EditorWindow				[public]
+//		Â¥ CTEXT_EditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CTEXT_EditorWindow::CTEXT_EditorWindow(
@@ -84,7 +82,7 @@ CTEXT_EditorWindow::CTEXT_EditorWindow(
 
 
 // ---------------------------------------------------------------------------
-//		¥ ~CTEXT_EditorWindow				[public]
+//		Â¥ ~CTEXT_EditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CTEXT_EditorWindow::~CTEXT_EditorWindow()
@@ -97,7 +95,7 @@ CTEXT_EditorWindow::~CTEXT_EditorWindow()
 
 
 // ---------------------------------------------------------------------------
-//		¥ FinishCreateSelf											[protected]
+//		Â¥ FinishCreateSelf											[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -202,7 +200,7 @@ CTEXT_EditorWindow::RemoveTextMenus()
 
 
 // ---------------------------------------------------------------------------
-//		¥ ListenToMessage				[public]
+//		Â¥ ListenToMessage				[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -219,7 +217,7 @@ CTEXT_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 
 
 // ---------------------------------------------------------------------------
-//	¥ FindCommandStatus
+//	Â¥ FindCommandStatus
 // ---------------------------------------------------------------------------
 
 void
@@ -241,7 +239,7 @@ CTEXT_EditorWindow::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ObeyCommand							[public, virtual]
+//	Â¥ ObeyCommand							[public, virtual]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -263,7 +261,7 @@ CTEXT_EditorWindow::ObeyCommand(
 
 
 // ---------------------------------------------------------------------------
-//	¥ InstallText													[public]
+//	Â¥ InstallText													[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -276,7 +274,7 @@ CTEXT_EditorWindow::InstallText(Handle inTextHandle, StScrpHandle inScrapHandle)
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetLengthField												[public]
+//	Â¥ SetLengthField												[public]
 // ---------------------------------------------------------------------------
 
 void

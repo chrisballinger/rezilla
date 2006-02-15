@@ -4,12 +4,10 @@
 //                       Created: 2003-05-04 19:16:00
 //             Last modification: 2005-06-11 15:31:17
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2003-2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 PP_Begin_Namespace_PowerPlant
@@ -41,7 +39,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CEditorDoc									Constructor		  [public]
+//	Â¥ CEditorDoc									Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CEditorDoc::CEditorDoc(LCommander* inSuper, 
@@ -74,7 +72,7 @@ CEditorDoc::CEditorDoc(LCommander* inSuper,
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CEditorDoc							Destructor				  [public]
+//	Â¥ ~CEditorDoc							Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CEditorDoc::~CEditorDoc()
@@ -90,7 +88,7 @@ CEditorDoc::~CEditorDoc()
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ NameNewEditorDoc
+//  Â¥ NameNewEditorDoc
 // ---------------------------------------------------------------------------------
 
 void
@@ -108,7 +106,7 @@ CEditorDoc::NameNewEditorDoc()
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ BuildDocumentTitle
+//  Â¥ BuildDocumentTitle
 // ---------------------------------------------------------------------------------
 
 void
@@ -146,7 +144,7 @@ CEditorDoc::BuildDocumentTitle(Str255 & outTitle, SInt16 whichString)
 
 
 // ---------------------------------------------------------------------------
-//	¥ ObeyCommand									[public, virtual]
+//	Â¥ ObeyCommand									[public, virtual]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -178,7 +176,7 @@ CEditorDoc::ObeyCommand(
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ FindCommandStatus
+//  Â¥ FindCommandStatus
 // ---------------------------------------------------------------------------------
 
 void
@@ -228,7 +226,7 @@ CEditorDoc::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ ListenToMessage													[public]
+//  Â¥ ListenToMessage													[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -259,7 +257,7 @@ CEditorDoc::ListenToMessage( MessageT inMessage, void * /* ioParam */)
 
 
 // ---------------------------------------------------------------------------
-//	¥ CanSaveChanges												  [public]
+//	Â¥ CanSaveChanges												  [public]
 // ---------------------------------------------------------------------------
 // Deals with the resProtected attribute
 
@@ -283,7 +281,7 @@ CEditorDoc::CanSaveChanges()
 
 
 // ---------------------------------------------------------------------------
-//	¥ AllowSubRemoval												  [public]
+//	Â¥ AllowSubRemoval												  [public]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -295,7 +293,7 @@ CEditorDoc::AllowSubRemoval(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AskSaveChanges												  [public]
+//	Â¥ AskSaveChanges												  [public]
 // ---------------------------------------------------------------------------
 //	Ask user whether to save changes before closing the Document or
 //	quitting the Application.
@@ -309,7 +307,7 @@ CEditorDoc::AskSaveChanges(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AttemptClose													  [public]
+//	Â¥ AttemptClose													  [public]
 // ---------------------------------------------------------------------------
 //	Try to close an edited resource.
 //
@@ -343,7 +341,7 @@ CEditorDoc::AttemptClose(
 
 
 // ---------------------------------------------------------------------------
-//	¥ DoAEClose														  [public]
+//	Â¥ DoAEClose														  [public]
 // ---------------------------------------------------------------------------
 // Close a Document in response to a "close" AppleEvent. Optional "file"
 // parameter is ignored but check for optional "saveOption" parameter.
@@ -403,7 +401,7 @@ CEditorDoc::DoAEClose(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ DoSaveChanges													[public]
+//  Â¥ DoSaveChanges													[public]
 // ---------------------------------------------------------------------------
 // The callee should set the shouldWeRelease variable to tell us if the 
 // handle we receive should be released here.
@@ -447,7 +445,7 @@ CEditorDoc::DoSaveChanges()
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetDescriptor													  [public]
+//	Â¥ GetDescriptor													  [public]
 // ---------------------------------------------------------------------------
 //	Pass back the name of a Document
 
@@ -468,7 +466,7 @@ CEditorDoc::GetDescriptor(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetModifiedResource											[public]
+//  Â¥ GetModifiedResource											[public]
 // ---------------------------------------------------------------------------
 // Note: it is a purely virtual member function. Define in every 
 // subclasses. For instance:
@@ -481,7 +479,7 @@ CEditorDoc::GetDescriptor(
 
 
 // ---------------------------------------------------------------------------
-//	¥ DoRevert														[public]
+//	Â¥ DoRevert														[public]
 // ---------------------------------------------------------------------------
 //	Revert a Document to its last saved version
 
@@ -495,7 +493,7 @@ CEditorDoc::DoRevert()
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ Register
+//  Â¥ Register
 // ---------------------------------------------------------------------------------
 
 void
@@ -506,7 +504,7 @@ CEditorDoc::Register()
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ Unregister
+//  Â¥ Unregister
 // ---------------------------------------------------------------------------------
 
 void
@@ -517,7 +515,7 @@ CEditorDoc::Unregister()
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ SelectMainWindow
+//  Â¥ SelectMainWindow
 // ---------------------------------------------------------------------------------
 
 void

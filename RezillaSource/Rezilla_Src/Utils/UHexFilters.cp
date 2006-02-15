@@ -3,12 +3,10 @@
 //                       Created: 2003-05-07 18:35:01
 //             Last modification: 2004-10-09 07:11:58
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003-2004
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
+// (c) Copyright: Bernard Desgraupes 2003-2004
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 // Complements to PowerPlant's UKeyFilters utility class to deal 
@@ -30,7 +28,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//  ¥ HexadecimalField
+//  Â¥ HexadecimalField
 // ---------------------------------------------------------------------------
 //	Key Filter for Hexadecimal Integer characters
 //
@@ -71,7 +69,7 @@ UHexFilters::HexadecimalField(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ HexadecimalField
+//  Â¥ HexadecimalField
 // ---------------------------------------------------------------------------
 //	Key Filter for Hexadecimal Integer characters
 //
@@ -113,7 +111,7 @@ UHexFilters::HexadecimalField(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ HexTemplateField
+//  Â¥ HexTemplateField
 // ---------------------------------------------------------------------------
 //	Key Filter for Hexadecimal Integer characters
 //
@@ -155,7 +153,7 @@ UHexFilters::HexTemplateField(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ HexTemplateField
+//  Â¥ HexTemplateField
 // ---------------------------------------------------------------------------
 //	Key Filter for Hexadecimal Integer characters
 //
@@ -198,7 +196,7 @@ UHexFilters::HexTemplateField(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ IntegerRangeField
+//  Â¥ IntegerRangeField
 // ---------------------------------------------------------------------------
 //	Key Filter for Hexadecimal Integer characters
 //
@@ -239,7 +237,7 @@ UHexFilters::IntegerRangeField(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ IntegerRangeField
+//  Â¥ IntegerRangeField
 // ---------------------------------------------------------------------------
 //	Key Filter for Hexadecimal Integer characters
 //
@@ -284,7 +282,7 @@ UHexFilters::IntegerRangeField(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ IsLeftRightArrowKey
+//  Â¥ IsLeftRightArrowKey
 // ---------------------------------------------------------------------------
 
 bool
@@ -306,7 +304,7 @@ UHexFilters::IsLeftRightArrowKey(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ IsUpDownArrowKey
+//  Â¥ IsUpDownArrowKey
 // ---------------------------------------------------------------------------
 // 		case char_Home:
 // 		case char_End:
@@ -332,7 +330,7 @@ UHexFilters::IsUpDownArrowKey(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ IsHexadecimalChar
+//  Â¥ IsHexadecimalChar
 // ---------------------------------------------------------------------------
 
 bool
@@ -345,7 +343,7 @@ UHexFilters::IsHexadecimalChar(UInt16 inChar)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ IsHexTemplateChar
+//  Â¥ IsHexTemplateChar
 // ---------------------------------------------------------------------------
 // UInt16 val = (CRezillaPrefs::GetPrefValue(kPref_templates_hexSymbol) == hex_Symb0x) ? 'x':'$';
 
@@ -357,7 +355,7 @@ UHexFilters::IsHexTemplateChar(UInt16 inChar)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ IsIntegerRangeChar
+//  Â¥ IsIntegerRangeChar
 // ---------------------------------------------------------------------------
 
 bool

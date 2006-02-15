@@ -4,12 +4,10 @@
 //                       Created: 2004-08-06 12:57:55
 //             Last modification: 2005-09-27 12:04:52
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2004, 2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 // Deals with third party templates (locating in Application Support 
 // folders) and with substitution types (type defined with a 'type 

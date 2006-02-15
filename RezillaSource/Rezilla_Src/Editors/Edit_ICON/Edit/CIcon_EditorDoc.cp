@@ -4,12 +4,10 @@
 //                       Created: 2004-12-11 23:33:03
 //             Last modification: 2005-09-05 06:52:45
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2004-2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 PP_Begin_Namespace_PowerPlant
@@ -53,7 +51,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CIcon_EditorDoc							Constructor		  [public]
+//	Â¥ CIcon_EditorDoc							Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CIcon_EditorDoc::CIcon_EditorDoc(LCommander* inSuper, 
@@ -68,7 +66,7 @@ CIcon_EditorDoc::CIcon_EditorDoc(LCommander* inSuper,
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CIcon_EditorDoc							Destructor			[public]
+//	Â¥ ~CIcon_EditorDoc							Destructor			[public]
 // ---------------------------------------------------------------------------
 
 CIcon_EditorDoc::~CIcon_EditorDoc()
@@ -89,7 +87,7 @@ CIcon_EditorDoc::~CIcon_EditorDoc()
 
 
 // ---------------------------------------------------------------------------
-//	¥ Initialize													  [public]
+//	Â¥ Initialize													  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -188,7 +186,7 @@ CIcon_EditorDoc::Initialize()
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetDescriptor													  [public]
+//	Â¥ GetDescriptor													  [public]
 // ---------------------------------------------------------------------------
 //	Pass back the name of a Document
 
@@ -209,7 +207,7 @@ CIcon_EditorDoc::GetDescriptor(
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ FindCommandStatus
+//  Â¥ FindCommandStatus
 // ---------------------------------------------------------------------------------
 
 void
@@ -233,7 +231,7 @@ CIcon_EditorDoc::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AllowSubRemoval												  [public]
+//	Â¥ AllowSubRemoval												  [public]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -250,7 +248,7 @@ CIcon_EditorDoc::AllowSubRemoval(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AskSaveChanges												  [public]
+//	Â¥ AskSaveChanges												  [public]
 // ---------------------------------------------------------------------------
 // Ask user whether to save changes before closing the Document.
 
@@ -263,7 +261,7 @@ CIcon_EditorDoc::AskSaveChanges(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetModifiedResource										[protected]
+//  Â¥ GetModifiedResource										[protected]
 // ---------------------------------------------------------------------------
 
 Handle

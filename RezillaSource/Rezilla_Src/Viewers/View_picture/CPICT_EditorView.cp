@@ -4,12 +4,10 @@
 //                       Created: 2004-12-06 14:54:09
 //             Last modification: 2005-03-07 19:32:23
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2004, 2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 //	Displays a 'PICT' resource
 
@@ -31,7 +29,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CPICT_EditorView								Stream Constructor [public]
+//	Â¥ CPICT_EditorView								Stream Constructor [public]
 // ---------------------------------------------------------------------------
 
 CPICT_EditorView::CPICT_EditorView(
@@ -45,7 +43,7 @@ CPICT_EditorView::CPICT_EditorView(
 
 
 // ---------------------------------------------------------------------------
-//	¥ CPICT_EditorView								Constructor		  [public]
+//	Â¥ CPICT_EditorView								Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CPICT_EditorView::CPICT_EditorView(
@@ -70,7 +68,7 @@ CPICT_EditorView::~CPICT_EditorView()
 
 
 // ---------------------------------------------------------------------------
-//	¥ AdaptPicture													 [private]
+//	Â¥ AdaptPicture													 [private]
 // ---------------------------------------------------------------------------
 //	Assumes mPictureH is set. If the PICT handle exists, set the Image size
 //	to the size of the picture.
@@ -89,7 +87,7 @@ CPICT_EditorView::AdaptPicture()
 
 
 // ---------------------------------------------------------------------------
-//	¥ ErasePicture													 [private]
+//	Â¥ ErasePicture													 [private]
 // ---------------------------------------------------------------------------
 
 void
@@ -103,7 +101,7 @@ CPICT_EditorView::ErasePicture()
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetPictureH													[public]
+//	Â¥ SetPictureH													[public]
 // ---------------------------------------------------------------------------
 void
 CPICT_EditorView::SetPictureH(PicHandle inPictureH) 
@@ -120,7 +118,7 @@ CPICT_EditorView::SetPictureH(PicHandle inPictureH)
 
 
 // ---------------------------------------------------------------------------
-//	¥ DrawSelf													   [protected]
+//	Â¥ DrawSelf													   [protected]
 // ---------------------------------------------------------------------------
 // Draw the picture. If the Picture handle exists, draw it. Otherwise, fill
 // the Frame with a light gray pattern and a one-pixel border.
@@ -155,7 +153,7 @@ CPICT_EditorView::DrawSelf()
 
 
 // ---------------------------------------------------------------------------
-//	¥ Click
+//	Â¥ Click
 // ---------------------------------------------------------------------------
 //	Handle a click inside the picture view by alternately drawing or 
 //	erasing a border around the image.
@@ -179,7 +177,7 @@ CPICT_EditorView::Click(
 
 
 // ---------------------------------------------------------------------------
-//	¥ DrawBorder
+//	Â¥ DrawBorder
 // ---------------------------------------------------------------------------
 //  Border around a picture is outset from the interior by 1 pixel.
 

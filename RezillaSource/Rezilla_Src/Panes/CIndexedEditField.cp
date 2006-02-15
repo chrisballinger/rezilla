@@ -4,12 +4,10 @@
 //                       Created: 2005-09-01 09:14:05
 //             Last modification: 2005-09-20 11:55:33
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 
@@ -149,7 +147,7 @@ CIndexedEditField::FinishCreateSelf()
 
 
 // ---------------------------------------------------------------------------
-//	¥ DrawSelf
+//	Â¥ DrawSelf
 // ---------------------------------------------------------------------------
 
 void
@@ -215,7 +213,7 @@ CIndexedEditField::Click(SMouseDownEvent &inMouseDown)
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetDescriptor													  [public]
+//	Â¥ GetDescriptor													  [public]
 // ---------------------------------------------------------------------------
 
 StringPtr
@@ -228,7 +226,7 @@ CIndexedEditField::GetDescriptor(
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetDescriptor													  [public]
+//	Â¥ SetDescriptor													  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -240,7 +238,7 @@ CIndexedEditField::SetDescriptor(
 
 
 // ---------------------------------------------------------------------------
-//	¥ DrawBorder
+//	Â¥ DrawBorder
 // ---------------------------------------------------------------------------
 //  Border around a CIndexedEditField is outset from the interior by 1 pixel.
 // 	::MacFrameRect(&frame);
@@ -273,7 +271,7 @@ CIndexedEditField::DrawBorder()
 
 
 // ---------------------------------------------------------------------------
-//	¥ EraseBorder
+//	Â¥ EraseBorder
 // ---------------------------------------------------------------------------
 //  Ask for a Refresh to erase the border around the list item.
 // 	::DrawThemeFocusRegion(StRegion(frame), true);
@@ -293,7 +291,7 @@ CIndexedEditField::EraseBorder()
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetIndexField
+//	Â¥ SetIndexField
 // ---------------------------------------------------------------------------
 
 void

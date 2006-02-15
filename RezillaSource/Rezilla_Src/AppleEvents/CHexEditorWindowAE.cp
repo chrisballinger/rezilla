@@ -4,12 +4,10 @@
 //                       Created: 2005-04-28 23:45:11
 //             Last modification: 2005-06-15 22:44:29
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 //  AppleEvent Object Model Support. These methods are part of the CHexEditorWindow 
 //  class (inheriting from LModelObject).
@@ -27,7 +25,7 @@
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetAEProperty
+//	Â¥ GetAEProperty
 // ---------------------------------------------------------------------------
 // 	rzom_pHexWinMaxPos			= 'maxP';	// Index of last position
 // 	rzom_pHexWinStartPos		= 'iniP';	// Position of beginning of selection
@@ -105,7 +103,7 @@ CHexEditorWindow::GetAEProperty(
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetAEProperty
+//	Â¥ SetAEProperty
 // ---------------------------------------------------------------------------
 
 void
@@ -195,7 +193,7 @@ CHexEditorWindow::SetAEProperty(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AEPropertyExists
+//	Â¥ AEPropertyExists
 // ---------------------------------------------------------------------------
 
 bool
@@ -223,7 +221,7 @@ CHexEditorWindow::AEPropertyExists(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetModelProperty
+//	Â¥ GetModelProperty
 // ---------------------------------------------------------------------------
 //	Return a ModelObject object for 'HexP' and 'TxtP' properties
 //	Currently not implemented

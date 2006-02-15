@@ -4,12 +4,10 @@
 //                       Created: 2003-04-23 12:32:10
 //             Last modification: 2004-12-27 10:28:59
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2003-2004
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 #include "UResources.h"
@@ -19,7 +17,7 @@
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetCurrentResFile													[public]
+//  Â¥ GetCurrentResFile													[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -31,7 +29,7 @@ UResources::GetCurrentResFile(short & outRefNum)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CountForType													[public]
+//  Â¥ CountForType													[public]
 // ---------------------------------------------------------------------------
 // Count the number of resources of a given type in all opened resource 
 // maps.
@@ -45,7 +43,7 @@ UResources::CountForType(ResType inType, short & outCount)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CountAllTypes													[public]
+//  Â¥ CountAllTypes													[public]
 // ---------------------------------------------------------------------------
 // Count the number of types in all opened resource maps.
 
@@ -58,7 +56,7 @@ UResources::CountAllTypes(short & outCount)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CountAllResources												[public]
+//  Â¥ CountAllResources												[public]
 // ---------------------------------------------------------------------------
 // Count the number of resources of any type in all opened resource maps.
 
@@ -85,7 +83,7 @@ UResources::CountAllResources(short & outCount)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetWithID													[public]
+//  Â¥ GetWithID													[public]
 // ---------------------------------------------------------------------------
 // Get a handle to a resource of a given type with a given ID
 // from any of the opened resource maps.
@@ -105,7 +103,7 @@ UResources::GetWithID(ResType inType, short inID, Handle & outHandle, Boolean lo
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetWithName														[public]
+//  Â¥ GetWithName														[public]
 // ---------------------------------------------------------------------------
 // Get a handle to a resource of a given type with a given name
 // from any of the opened resource maps.
@@ -125,7 +123,7 @@ UResources::GetWithName(ResType inType, ConstStr255Param inName, Handle & outHan
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetAllTypes													[public]
+//  Â¥ GetAllTypes													[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -152,7 +150,7 @@ UResources::GetAllTypes( TArray<ResType>* & outArray )
 
 
 // ---------------------------------------------------------------------------
-//  ¥ UniqueID														[public]
+//  Â¥ UniqueID														[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -231,7 +229,7 @@ StRezRefSaver::Restore()
 
 
 // ===========================================================================
-//	¥ StRezLoadSaver stack-based class
+//	Â¥ StRezLoadSaver stack-based class
 // ===========================================================================
 //	See PP's StResLoad
 

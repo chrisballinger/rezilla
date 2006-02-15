@@ -4,12 +4,10 @@
 //                       Created: 2005-03-09 17:16:53
 //             Last modification: 2005-07-03 16:17:10
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 #include "CMENU_EditorDoc.h"
@@ -631,7 +629,7 @@ CMENU_EditorWindow::InstallItemValues( ArrayIndexT inAtIndex )
 	theCheckBox = dynamic_cast<LCheckBox *>(this->FindPaneByID( item_MenuEditItemEnabled ));
 	ThrowIfNil_( theCheckBox );
 	theEnableFlag = mMenuObj->GetEnableFlag();
-	// Bits 1–31 indicate if the corresponding menu item is disabled or
+	// Bits 1√ê31 indicate if the corresponding menu item is disabled or
 	// enabled, and bit 0 indicates whether the menu is enabled or
 	// disabled. The Menu Manager automatically enables menu items
 	// greater than 31 when a menu is created.
@@ -837,7 +835,7 @@ CMENU_EditorWindow::RetrieveItemValues( ArrayIndexT inAtIndex )
 			theCheckBox = dynamic_cast<LCheckBox *>(this->FindPaneByID( item_MenuEditItemEnabled ));
 			ThrowIfNil_( theCheckBox );
 			theEnableFlag = mMenuObj->GetEnableFlag();
-			// Bits 1–31 indicate if the corresponding menu item is disabled or enabled. 
+			// Bits 1√ê31 indicate if the corresponding menu item is disabled or enabled. 
 			enableIt = theCheckBox->GetValue();
 			if (enableIt) {
 				theEnableFlag |= (1 << inAtIndex);

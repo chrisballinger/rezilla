@@ -4,12 +4,10 @@
 //                       Created: 2003-04-23 12:32:10
 //             Last modification: 2005-06-01 15:24:05
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2003-2004, 2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 #ifndef _H_UResources
@@ -75,11 +73,11 @@ public:
 
 
 // ===========================================================================
-//	¥ Stack-based classes
+//	Â¥ Stack-based classes
 // ===========================================================================
 
 // ---------------------------------------------------------------------------
-//  ¥ class StRezRefSaver
+//  Â¥ class StRezRefSaver
 // ---------------------------------------------------------------------------
 class StRezRefSaver {
 public:
@@ -98,7 +96,7 @@ private:
 
 
 // ---------------------------------------------------------------------------
-//  ¥ class StRezLoadSaver
+//  Â¥ class StRezLoadSaver
 // ---------------------------------------------------------------------------
 class StRezLoadSaver {
 public:

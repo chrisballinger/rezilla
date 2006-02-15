@@ -3,12 +3,10 @@
 //                       Created: 2003-05-15 10:35:40
 //             Last modification: 2003-05-15 13:20:33
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
+// (c) Copyright: Bernard Desgraupes 2003
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 // Modified PowerPlant's UNavServicesDialogs to allow for customization of 
 // the EventUpp and the user data.
@@ -33,7 +31,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//  ¥ StNavReplyRecord						Default Constructor		  [public]
+//  Â¥ StNavReplyRecord						Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 UNavigationDialogs::StNavReplyRecord::StNavReplyRecord()
@@ -45,7 +43,7 @@ UNavigationDialogs::StNavReplyRecord::StNavReplyRecord()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ ~StNavReplyRecord						Destructor				  [public]
+//  Â¥ ~StNavReplyRecord						Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 UNavigationDialogs::StNavReplyRecord::~StNavReplyRecord()
@@ -57,7 +55,7 @@ UNavigationDialogs::StNavReplyRecord::~StNavReplyRecord()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ SetDefaultValues												  [public]
+//  Â¥ SetDefaultValues												  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -85,7 +83,7 @@ UNavigationDialogs::StNavReplyRecord::SetDefaultValues()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetFileSpec													  [public]
+//  Â¥ GetFileSpec													  [public]
 // ---------------------------------------------------------------------------
 //	Pass back the FSSpec for the underlying file. Accesses the first file
 //	if there is more than one file.
@@ -100,7 +98,7 @@ UNavigationDialogs::StNavReplyRecord::GetFileSpec(
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//  ¥ Load															  [public]
+//  Â¥ Load															  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -111,7 +109,7 @@ UNavigationDialogs::Load()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ Unload														  [public]
+//  Â¥ Unload														  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -123,7 +121,7 @@ UNavigationDialogs::Unload()
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//  ¥ AskSaveChanges												  [public]
+//  Â¥ AskSaveChanges												  [public]
 // ---------------------------------------------------------------------------
 
 SInt16
@@ -159,7 +157,7 @@ UNavigationDialogs::AskSaveChanges(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ AskConfirmRevert												  [public]
+//  Â¥ AskConfirmRevert												  [public]
 // ---------------------------------------------------------------------------
 
 bool
@@ -188,7 +186,7 @@ UNavigationDialogs::AskConfirmRevert(
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//  ¥ AskOpenOneFile												  [public]
+//  Â¥ AskOpenOneFile												  [public]
 // ---------------------------------------------------------------------------
 //	Simple wrapper for NavGetFile that lets a user select one file using
 //	the default options
@@ -217,7 +215,7 @@ UNavigationDialogs::AskOpenOneFile(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ AskChooseOneFile												  [public]
+//  Â¥ AskChooseOneFile												  [public]
 // ---------------------------------------------------------------------------
 
 bool
@@ -237,7 +235,7 @@ UNavigationDialogs::AskChooseOneFile(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ AskChooseFolder												  [public]
+//  Â¥ AskChooseFolder												  [public]
 // ---------------------------------------------------------------------------
 
 bool
@@ -252,7 +250,7 @@ UNavigationDialogs::AskChooseFolder(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ AskChooseVolume												  [public]
+//  Â¥ AskChooseVolume												  [public]
 // ---------------------------------------------------------------------------
 
 bool
@@ -266,7 +264,7 @@ UNavigationDialogs::AskChooseVolume(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ AskSaveFile													  [public]
+//  Â¥ AskSaveFile													  [public]
 // ---------------------------------------------------------------------------
 
 bool
@@ -313,7 +311,7 @@ UNavigationDialogs::AskSaveFile(
 //	Uses Navigation Services to ask user to open a file
 
 // ---------------------------------------------------------------------------
-//  ¥ CNavFileChooser::CNavFileChooser			Constructor				  [public]
+//  Â¥ CNavFileChooser::CNavFileChooser			Constructor				  [public]
 // ---------------------------------------------------------------------------
 
 UNavigationDialogs::CNavFileChooser::CNavFileChooser()
@@ -332,7 +330,7 @@ UNavigationDialogs::CNavFileChooser::CNavFileChooser()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CNavFileChooser::~CNavFileChooser			Destructor			  [public]
+//  Â¥ CNavFileChooser::~CNavFileChooser			Destructor			  [public]
 // ---------------------------------------------------------------------------
 
 UNavigationDialogs::CNavFileChooser::~CNavFileChooser()
@@ -341,7 +339,7 @@ UNavigationDialogs::CNavFileChooser::~CNavFileChooser()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CNavFileChooser::GetDialogOptions								  [public]
+//  Â¥ CNavFileChooser::GetDialogOptions								  [public]
 // ---------------------------------------------------------------------------
 
 NavDialogOptions*
@@ -352,7 +350,7 @@ UNavigationDialogs::CNavFileChooser::GetDialogOptions()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CNavFileChooser::SetDefaultLocation								  [public]
+//  Â¥ CNavFileChooser::SetDefaultLocation								  [public]
 // ---------------------------------------------------------------------------
 //	Specify the item that is selected when the "choose" dialog is displayed
 //
@@ -371,7 +369,7 @@ UNavigationDialogs::CNavFileChooser::SetDefaultLocation(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CNavFileChooser::SetOptionFlags								  [public]
+//  Â¥ CNavFileChooser::SetOptionFlags								  [public]
 // ---------------------------------------------------------------------------
 // See: http://developer.apple.com/techpubs/macosx/Carbon/Files/NavigationServices/Navigation_Services_Ref/navigation_services/constant_3.html#//apple_ref/doc/c_ref/NavDialogOptionFlags
 //   kNavDefaultNavDlogOptions = 0x000000E4,
@@ -403,7 +401,7 @@ UNavigationDialogs::CNavFileChooser::SetOptionFlags(NavDialogOptionFlags inFlags
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CNavFileChooser::SetPopupExtension						  [public]
+//  Â¥ CNavFileChooser::SetPopupExtension						  [public]
 // ---------------------------------------------------------------------------
 //	Specify the handle to a popup submenu
 
@@ -416,7 +414,7 @@ UNavigationDialogs::CNavFileChooser::SetPopupExtension(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CNavFileChooser::SetUserData								  [public]
+//  Â¥ CNavFileChooser::SetUserData								  [public]
 // ---------------------------------------------------------------------------
 //	Specify the handle to a popup submenu
 
@@ -429,7 +427,7 @@ UNavigationDialogs::CNavFileChooser::SetUserData(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CNavFileChooser::SetEventFilterProc						  [public]
+//  Â¥ CNavFileChooser::SetEventFilterProc						  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -441,7 +439,7 @@ UNavigationDialogs::CNavFileChooser::SetEventFilterProc(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CNavFileChooser::SetObjectFilterProc								  [public]
+//  Â¥ CNavFileChooser::SetObjectFilterProc								  [public]
 // ---------------------------------------------------------------------------
 //	Specify the object filter callback function
 //
@@ -458,7 +456,7 @@ UNavigationDialogs::CNavFileChooser::SetObjectFilterProc(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CNavFileChooser::SetPreviewProc									  [public]
+//  Â¥ CNavFileChooser::SetPreviewProc									  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -470,7 +468,7 @@ UNavigationDialogs::CNavFileChooser::SetPreviewProc(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CNavFileChooser::AskOpenFile										  [public]
+//  Â¥ CNavFileChooser::AskOpenFile										  [public]
 // ---------------------------------------------------------------------------
 
 bool
@@ -521,7 +519,7 @@ UNavigationDialogs::CNavFileChooser::AskOpenFile(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CNavFileChooser::AskChooseOneFile								  [public]
+//  Â¥ CNavFileChooser::AskChooseOneFile								  [public]
 // ---------------------------------------------------------------------------
 
 bool
@@ -580,7 +578,7 @@ UNavigationDialogs::CNavFileChooser::AskChooseOneFile(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CNavFileChooser::AskChooseFolder									  [public]
+//  Â¥ CNavFileChooser::AskChooseFolder									  [public]
 // ---------------------------------------------------------------------------
 
 bool
@@ -646,7 +644,7 @@ UNavigationDialogs::CNavFileChooser::AskChooseFolder(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CNavFileChooser::AskChooseVolume									  [public]
+//  Â¥ CNavFileChooser::AskChooseVolume									  [public]
 // ---------------------------------------------------------------------------
 
 bool
@@ -713,7 +711,7 @@ UNavigationDialogs::CNavFileChooser::AskChooseVolume(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CNavFileChooser::IsValid											  [public]
+//  Â¥ CNavFileChooser::IsValid											  [public]
 // ---------------------------------------------------------------------------
 
 bool
@@ -724,7 +722,7 @@ UNavigationDialogs::CNavFileChooser::IsValid() const
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CNavFileChooser::GetNumberOfFiles								  [public]
+//  Â¥ CNavFileChooser::GetNumberOfFiles								  [public]
 // ---------------------------------------------------------------------------
 
 SInt32
@@ -744,7 +742,7 @@ UNavigationDialogs::CNavFileChooser::GetNumberOfFiles() const
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CNavFileChooser::GetFileSpec										  [public]
+//  Â¥ CNavFileChooser::GetFileSpec										  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -766,7 +764,7 @@ UNavigationDialogs::CNavFileChooser::GetFileSpec(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CNavFileChooser::GetFileDescList									  [public]
+//  Â¥ CNavFileChooser::GetFileDescList									  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -778,7 +776,7 @@ UNavigationDialogs::CNavFileChooser::GetFileDescList(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CNavFileChooser::GetScriptCode									  [public]
+//  Â¥ CNavFileChooser::GetScriptCode									  [public]
 // ---------------------------------------------------------------------------
 
 ScriptCode
@@ -795,7 +793,7 @@ UNavigationDialogs::CNavFileChooser::GetScriptCode() const
 //	Uses Navigation Services to ask user to save a file
 
 // ---------------------------------------------------------------------------
-//  ¥ CNavFileDesignator::CNavFileDesignator								  [public]
+//  Â¥ CNavFileDesignator::CNavFileDesignator								  [public]
 // ---------------------------------------------------------------------------
 
 UNavigationDialogs::CNavFileDesignator::CNavFileDesignator()
@@ -811,7 +809,7 @@ UNavigationDialogs::CNavFileDesignator::CNavFileDesignator()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CNavFileDesignator::~CNavFileDesignator								  [public]
+//  Â¥ CNavFileDesignator::~CNavFileDesignator								  [public]
 // ---------------------------------------------------------------------------
 
 UNavigationDialogs::CNavFileDesignator::~CNavFileDesignator()
@@ -820,7 +818,7 @@ UNavigationDialogs::CNavFileDesignator::~CNavFileDesignator()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CNavFileDesignator::SetFileType									  [public]
+//  Â¥ CNavFileDesignator::SetFileType									  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -832,7 +830,7 @@ UNavigationDialogs::CNavFileDesignator::SetFileType(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CNavFileDesignator::SetFileCreator								  [public]
+//  Â¥ CNavFileDesignator::SetFileCreator								  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -844,7 +842,7 @@ UNavigationDialogs::CNavFileDesignator::SetFileCreator(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CNavFileDesignator::GetDialogOptions								  [public]
+//  Â¥ CNavFileDesignator::GetDialogOptions								  [public]
 // ---------------------------------------------------------------------------
 
 NavDialogOptions*
@@ -855,7 +853,7 @@ UNavigationDialogs::CNavFileDesignator::GetDialogOptions()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CNavFileDesignator::SetDefaultLocation							  [public]
+//  Â¥ CNavFileDesignator::SetDefaultLocation							  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -869,7 +867,7 @@ UNavigationDialogs::CNavFileDesignator::SetDefaultLocation(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CNavFileDesignator::SetOptionFlags								  [public]
+//  Â¥ CNavFileDesignator::SetOptionFlags								  [public]
 // ---------------------------------------------------------------------------
 // See: http://developer.apple.com/techpubs/macosx/Carbon/Files/NavigationServices/Navigation_Services_Ref/navigation_services/constant_3.html#//apple_ref/doc/c_ref/NavDialogOptionFlags
 // kNavDefaultNavDlogOptions = kNavAllowMultipleFiles + kNavAllowPreviews 
@@ -883,7 +881,7 @@ UNavigationDialogs::CNavFileDesignator::SetOptionFlags(NavDialogOptionFlags inFl
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CNavFileDesignator::SetClientName								  [public]
+//  Â¥ CNavFileDesignator::SetClientName								  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -894,7 +892,7 @@ UNavigationDialogs::CNavFileDesignator::SetClientName(Str255 inName)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CNavFileDesignator::GetClientName								  [public]
+//  Â¥ CNavFileDesignator::GetClientName								  [public]
 // ---------------------------------------------------------------------------
 
 Str255 *
@@ -905,7 +903,7 @@ UNavigationDialogs::CNavFileDesignator::GetClientName()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CNavFileDesignator::SetSavedFileName								  [public]
+//  Â¥ CNavFileDesignator::SetSavedFileName								  [public]
 // ---------------------------------------------------------------------------
 //    Str255 clientName;
 //    Str255 windowTitle;
@@ -925,7 +923,7 @@ UNavigationDialogs::CNavFileDesignator::SetSavedFileName(Str255 inName)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CNavFileDesignator::GetClientName								  [public]
+//  Â¥ CNavFileDesignator::GetClientName								  [public]
 // ---------------------------------------------------------------------------
 
 Str255 *
@@ -936,7 +934,7 @@ UNavigationDialogs::CNavFileDesignator::GetSavedFileName()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CNavFileDesignator::SetMessage								  [public]
+//  Â¥ CNavFileDesignator::SetMessage								  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -947,7 +945,7 @@ UNavigationDialogs::CNavFileDesignator::SetMessage(Str255 inNessage)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CNavFileDesignator::SetPopupExtension								  [public]
+//  Â¥ CNavFileDesignator::SetPopupExtension								  [public]
 // ---------------------------------------------------------------------------
 //	Specify the handle to a popup submenu
 
@@ -960,7 +958,7 @@ UNavigationDialogs::CNavFileDesignator::SetPopupExtension(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CNavFileDesignator::SetUserData								  [public]
+//  Â¥ CNavFileDesignator::SetUserData								  [public]
 // ---------------------------------------------------------------------------
 //	Specify the handle to a popup submenu
 
@@ -973,7 +971,7 @@ UNavigationDialogs::CNavFileDesignator::SetUserData(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CNavFileDesignator::SetEventFilterProc									  [public]
+//  Â¥ CNavFileDesignator::SetEventFilterProc									  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -985,7 +983,7 @@ UNavigationDialogs::CNavFileDesignator::SetEventFilterProc(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CNavFileDesignator::AskDesignateFile								  [public]
+//  Â¥ CNavFileDesignator::AskDesignateFile								  [public]
 // ---------------------------------------------------------------------------
 
 bool
@@ -1028,7 +1026,7 @@ UNavigationDialogs::CNavFileDesignator::AskDesignateFile()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CNavFileDesignator::IsValid										  [public]
+//  Â¥ CNavFileDesignator::IsValid										  [public]
 // ---------------------------------------------------------------------------
 
 bool
@@ -1039,7 +1037,7 @@ UNavigationDialogs::CNavFileDesignator::IsValid() const
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CNavFileDesignator::GetFileSpec									  [public]
+//  Â¥ CNavFileDesignator::GetFileSpec									  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -1051,7 +1049,7 @@ UNavigationDialogs::CNavFileDesignator::GetFileSpec(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CNavFileDesignator::IsReplacing									  [public]
+//  Â¥ CNavFileDesignator::IsReplacing									  [public]
 // ---------------------------------------------------------------------------
 
 bool
@@ -1062,7 +1060,7 @@ UNavigationDialogs::CNavFileDesignator::IsReplacing() const
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CNavFileDesignator::IsStationery									  [public]
+//  Â¥ CNavFileDesignator::IsStationery									  [public]
 // ---------------------------------------------------------------------------
 
 bool
@@ -1073,7 +1071,7 @@ UNavigationDialogs::CNavFileDesignator::IsStationery() const
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CNavFileDesignator::GetScriptCode								  [public]
+//  Â¥ CNavFileDesignator::GetScriptCode								  [public]
 // ---------------------------------------------------------------------------
 
 ScriptCode
@@ -1084,7 +1082,7 @@ UNavigationDialogs::CNavFileDesignator::GetScriptCode() const
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CNavFileDesignator::CompleteSave									  [public]
+//  Â¥ CNavFileDesignator::CompleteSave									  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -1100,7 +1098,7 @@ UNavigationDialogs::CNavFileDesignator::CompleteSave(
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//  ¥ NavEventProc													  [static]
+//  Â¥ NavEventProc													  [static]
 // ---------------------------------------------------------------------------
 //	Event filter callback routine for Navigation Services
 

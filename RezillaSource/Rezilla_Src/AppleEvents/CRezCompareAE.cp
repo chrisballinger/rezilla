@@ -4,12 +4,10 @@
 //                       Created: 2005-05-12 07:51:22
 //             Last modification: 2005-05-13 21:37:16
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 //  AppleEvent Object Model Support. These methods are part of the CRezCompare 
 //  class (inheriting from LModelObject).
@@ -223,7 +221,7 @@ CRezCompare::AEPropertyExists(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetAEPosition
+//	Â¥ GetAEPosition
 // ---------------------------------------------------------------------------
 
 SInt32

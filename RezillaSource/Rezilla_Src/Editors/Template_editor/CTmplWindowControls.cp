@@ -4,12 +4,10 @@
 //                       Created: 2004-08-20 16:45:08
 //             Last modification: 2006-01-30 12:28:56
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright: Bernard Desgraupes, 2004-2005, 2006
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 // Implements the functions defining the various fields and controls in the 
 // CTmplEditorWindow class.
@@ -56,7 +54,7 @@
 
 
 // ---------------------------------------------------------------------------
-//		¥ InitPaneInfos												[static]
+//		Â¥ InitPaneInfos												[static]
 // ---------------------------------------------------------------------------
 
 void
@@ -241,7 +239,7 @@ CTmplEditorWindow::InitPaneInfos()
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ AddStaticField													[public]
+//	Â¥ AddStaticField													[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -277,7 +275,7 @@ CTmplEditorWindow::AddStaticField(OSType inType, Str255 inLabel, LView * inConta
 
 
 // ---------------------------------------------------------------------------
-//	¥ AddEditField													[public]
+//	Â¥ AddEditField													[public]
 // ---------------------------------------------------------------------------
 // If the inWidth argument is not 0, it is used to impose the width of the
 // EditField. If it is 0, the width is calculated using the inMaxChars
@@ -378,7 +376,7 @@ CTmplEditorWindow::AddEditField(Str255 inValue,
 
 
 // ---------------------------------------------------------------------------
-//	¥ AddBooleanField											[public]
+//	Â¥ AddBooleanField											[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -452,7 +450,7 @@ CTmplEditorWindow::AddBooleanField(Boolean inValue,
 
 
 // ---------------------------------------------------------------------------
-//	¥ AddBitField											[public]
+//	Â¥ AddBitField											[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -529,7 +527,7 @@ CTmplEditorWindow::AddBitField(OSType inType,
 
 
 // ---------------------------------------------------------------------------
-//	¥ AddCheckField											[public]
+//	Â¥ AddCheckField											[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -559,7 +557,7 @@ CTmplEditorWindow::AddCheckField(Boolean inValue,
 
 
 // ---------------------------------------------------------------------------
-//	¥ AddWasteField													[public]
+//	Â¥ AddWasteField													[public]
 // ---------------------------------------------------------------------------
 // C string. This should be either characters followed by a null or all
 // the chars until the end of the stream if there is no null byte.
@@ -667,7 +665,7 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer, SInt32 inRe
 
 
 // ---------------------------------------------------------------------------
-//	¥ AddHexDumpField													[public]
+//	Â¥ AddHexDumpField													[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -820,7 +818,7 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer, SInt32 in
 
 
 // ---------------------------------------------------------------------------
-//	¥ AddPointField													[public]
+//	Â¥ AddPointField													[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -880,7 +878,7 @@ CTmplEditorWindow::AddPointField(SInt16 inX,
 
 
 // ---------------------------------------------------------------------------
-//	¥ AddRectField													[public]
+//	Â¥ AddRectField													[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -988,7 +986,7 @@ CTmplEditorWindow::AddRectField(SInt16 inTop,
 
 
 // ---------------------------------------------------------------------------
-//	¥ AddListHeaderField											[public]
+//	Â¥ AddListHeaderField											[public]
 // ---------------------------------------------------------------------------
 
 PaneIDT
@@ -1077,7 +1075,7 @@ CTmplEditorWindow::AddListHeaderField(Str255 inLabel,
  
 
 // ---------------------------------------------------------------------------
-//	¥ AddListItemView											[public]
+//	Â¥ AddListItemView											[public]
 // ---------------------------------------------------------------------------
 
 CTmplListItemView *
@@ -1122,7 +1120,7 @@ CTmplEditorWindow::AddListItemView(CTmplListItemView * inPrevListItemView,
 
 
 // ---------------------------------------------------------------------------
-//	¥ AddSeparatorLine											[public]
+//	Â¥ AddSeparatorLine											[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -1146,7 +1144,7 @@ CTmplEditorWindow::AddSeparatorLine(LView * inContainer)
 
 
 // ---------------------------------------------------------------------------
-//	¥ AddEditPopup													[public]
+//	Â¥ AddEditPopup													[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -1194,7 +1192,7 @@ CTmplEditorWindow::AddEditPopup(Str255 inValue,
 
 
 // ---------------------------------------------------------------------------
-//	¥ AddFlagPopup													[public]
+//	Â¥ AddFlagPopup													[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -1246,7 +1244,7 @@ CTmplEditorWindow::AddFlagPopup(ResType inType, Str255 inLabel, UInt32 inValue, 
 
 
 // ---------------------------------------------------------------------------
-//	¥ AddColorPane													[public]
+//	Â¥ AddColorPane													[public]
 // ---------------------------------------------------------------------------
 
 void

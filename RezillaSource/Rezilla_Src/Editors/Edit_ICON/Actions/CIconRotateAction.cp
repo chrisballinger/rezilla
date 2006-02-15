@@ -3,12 +3,10 @@
 //                       Created: 2004-12-11 18:52:35
 //             Last modification: 2005-01-02 15:44:12
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright: Bernard Desgraupes 2004, 2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 // This code does only +/- 90 degree rotation. I started work on arbitrary
 // rotation code but didn't finish it.

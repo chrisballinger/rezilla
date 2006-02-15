@@ -4,12 +4,10 @@
 //                       Created : 2003-04-16 22:52:54
 //             Last modification : 2006-01-30 12:29:17
 // Author : Bernard Desgraupes
-// e-mail : <bdesgraupes@easyconnect.fr>
-// www : <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail : <bdesgraupes@users.sourceforge.net>
+// www : <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2003-2005, 2006
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 #pragma once

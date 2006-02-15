@@ -4,12 +4,10 @@
 //                       Created: 2003-04-29 07:11:00
 //             Last modification: 2006-02-08 11:37:54
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2003-2006
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 PP_Begin_Namespace_PowerPlant
@@ -91,7 +89,7 @@ TArray<CRezMapDoc*>	CRezMapDoc::sRezMapDocList;
 
 
 // ---------------------------------------------------------------------------
-//	¥ CRezMapDoc							Default Constructor		  [public]
+//	Â¥ CRezMapDoc							Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CRezMapDoc::CRezMapDoc(LCommander *inSuper)
@@ -105,7 +103,7 @@ CRezMapDoc::CRezMapDoc(LCommander *inSuper)
 
 
 // ---------------------------------------------------------------------------
-//	¥ CRezMapDoc							Constructor		  [public]
+//	Â¥ CRezMapDoc							Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CRezMapDoc::CRezMapDoc(LCommander *inSuper, 
@@ -120,7 +118,7 @@ CRezMapDoc::CRezMapDoc(LCommander *inSuper,
 
 
 // ---------------------------------------------------------------------------
-//	¥ CRezMapDoc							Constructor		  [public]
+//	Â¥ CRezMapDoc							Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CRezMapDoc::CRezMapDoc(LCommander *inSuper, 
@@ -137,7 +135,7 @@ CRezMapDoc::CRezMapDoc(LCommander *inSuper,
 
 
 // ---------------------------------------------------------------------------
-//	¥ CRezMapDoc							Constructor		  [public]
+//	Â¥ CRezMapDoc							Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CRezMapDoc::CRezMapDoc(LCommander *inSuper, 
@@ -155,7 +153,7 @@ CRezMapDoc::CRezMapDoc(LCommander *inSuper,
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CRezMapDoc							Destructor				  [public]
+//	Â¥ ~CRezMapDoc							Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CRezMapDoc::~CRezMapDoc()
@@ -211,7 +209,7 @@ CRezMapDoc::~CRezMapDoc()
 
 
 // ---------------------------------------------------------------------------
-//	¥ Initialize													  [public]
+//	Â¥ Initialize													  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -289,7 +287,7 @@ CRezMapDoc::Initialize(FSSpec * inFileSpecPtr, short inRefnum)
 
 
 // ---------------------------------------------------------------------------
-//	¥ ObeyCommand									[public, virtual]
+//	Â¥ ObeyCommand									[public, virtual]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -602,7 +600,7 @@ CRezMapDoc::IsModified()
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetModified													  [public]
+//	Â¥ SetModified													  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -614,7 +612,7 @@ CRezMapDoc::SetModified(Boolean	inModified)
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetDescriptor													  [public]
+//	Â¥ GetDescriptor													  [public]
 // ---------------------------------------------------------------------------
 //	Pass back the name of a Document
 
@@ -656,7 +654,7 @@ CRezMapDoc::SetRefnum(short inRefnum)
 	
 
 // ---------------------------------------------------------------------------
-//	¥ UsesFileSpec													  [public]
+//	Â¥ UsesFileSpec													  [public]
 // ---------------------------------------------------------------------------
 //	Returns whether the Document's File has the given FSSpec
 
@@ -675,7 +673,7 @@ CRezMapDoc::UsesFileSpec(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AttemptClose													  [public]
+//	Â¥ AttemptClose													  [public]
 // ---------------------------------------------------------------------------
 //	Try to close an edited resource map.
 
@@ -740,7 +738,7 @@ CRezMapDoc::AttemptClose(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AskSaveChanges												  [public]
+//	Â¥ AskSaveChanges												  [public]
 // ---------------------------------------------------------------------------
 //	Ask user whether to save changes before closing the Document or
 //	quitting the Application
@@ -755,7 +753,7 @@ CRezMapDoc::AskSaveChanges(
 
 
 // ---------------------------------------------------------------------------
-//	¥ DoAEClose														  [public]
+//	Â¥ DoAEClose														  [public]
 // ---------------------------------------------------------------------------
 //	Close a Document in response to a "close" AppleEvent
 
@@ -913,7 +911,7 @@ CRezMapDoc::DoSave()
 
 
 // ---------------------------------------------------------------------------
-//	¥ CheckEditorsUnmodified										[public]
+//	Â¥ CheckEditorsUnmodified										[public]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -941,7 +939,7 @@ CRezMapDoc::CheckEditorsUnmodified(Boolean closeAll)
  
 
 // ---------------------------------------------------------------------------
-//	¥ AskSaveAs														  [public]
+//	Â¥ AskSaveAs														  [public]
 // ---------------------------------------------------------------------------
 //	Ask the user to save a Document and give it a name
 //	Returns false if the user cancels the operation
@@ -999,7 +997,7 @@ CRezMapDoc::AskSaveAs(
 
 
 // ---------------------------------------------------------------------------
-//	¥ DoRevert														  [public]
+//	Â¥ DoRevert														  [public]
 // ---------------------------------------------------------------------------
 //	Revert a Document to its last saved version
 
@@ -1061,7 +1059,7 @@ CRezMapDoc::DoRevert()
 
 
 // ---------------------------------------------------------------------------
-//	¥ AskConfirmRevert												  [public]
+//	Â¥ AskConfirmRevert												  [public]
 // ---------------------------------------------------------------------------
 
 bool
@@ -1072,7 +1070,7 @@ CRezMapDoc::AskConfirmRevert()
 
 
 // ---------------------------------------------------------------------------
-//	¥ DesignateOutFile								[public static]
+//	Â¥ DesignateOutFile								[public static]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -1117,7 +1115,7 @@ CRezMapDoc::DesignateOutFile( FSSpec& outFileSpec, bool & outReplacing)
 
 
 // ---------------------------------------------------------------------------
-//	¥ AskExportAs														  [public]
+//	Â¥ AskExportAs														  [public]
 // ---------------------------------------------------------------------------
 //	Ask the user to export a Document and give it a name
 //	Returns false if the user cancels the operation
@@ -1156,7 +1154,7 @@ CRezMapDoc::AskExportAs(
 
 
 // ---------------------------------------------------------------------------
-//	¥ DesignateExportFile								[public static]
+//	Â¥ DesignateExportFile								[public static]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -1369,7 +1367,7 @@ CRezMapDoc::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AllowSubRemoval												  [public]
+//	Â¥ AllowSubRemoval												  [public]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -1821,7 +1819,7 @@ CRezMapDoc::DuplicateResource(CRezObj * inRezObj)
 // calling RemoveResource. You should  dispose  the  handle  if  you  want  to
 // release the memory before updating or closing the resource fork.
 // 
-// If youÕve removed a  resource,  the  Resource  Manager  writes  the  entire
+// If you've removed a  resource,  the  Resource  Manager  writes  the  entire
 // resource map when it updates the resource fork, and all changes made to the
 // resource map become permanent. If  you  want  any  of  the  changes  to  be
 // temporary, you should restore the original information before the  Resource

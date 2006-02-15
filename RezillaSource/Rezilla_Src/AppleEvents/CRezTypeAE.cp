@@ -4,12 +4,10 @@
 //                       Created: 2005-04-09 10:03:39
 //             Last modification: 2005-06-13 18:10:27
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 //  AppleEvent Object Model Support. These methods are part of the CRezType 
 //  class (inheriting from LModelObject).
@@ -33,7 +31,7 @@
 
 
 // ---------------------------------------------------------------------------
-//	¥ MakeSelfSpecifier												  [public]
+//	Â¥ MakeSelfSpecifier												  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -56,7 +54,7 @@ CRezType::MakeSelfSpecifier(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetAEProperty
+//	Â¥ GetAEProperty
 // ---------------------------------------------------------------------------
 //	Return a descriptor for the specified Property
 //  rzom_pName			= pName;		// Name ('pnam')
@@ -278,7 +276,7 @@ CRezType::GetSubModelByUniqueID(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetModelName
+//	Â¥ GetModelName
 // ---------------------------------------------------------------------------
 //	Return the name of a Window as an AppleEvent model object(Str255&) 
 
@@ -294,7 +292,7 @@ CRezType::GetModelName(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AEPropertyExists
+//	Â¥ AEPropertyExists
 // ---------------------------------------------------------------------------
 
 bool
@@ -321,7 +319,7 @@ CRezType::AEPropertyExists(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetOrCreateRezObjModel
+//	Â¥ GetOrCreateRezObjModel
 // ---------------------------------------------------------------------------
 
 CRezObj *
@@ -357,7 +355,7 @@ CRezType::GetOrCreateRezObjModel(Handle inHandle) const
 
 
 // ---------------------------------------------------------------------------
-//	¥ HandleAppleEvent												  [public]
+//	Â¥ HandleAppleEvent												  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -384,7 +382,7 @@ CRezType::HandleAppleEvent(
 
 
 // ---------------------------------------------------------------------------
-//	¥ HandleResourceEvent											  [public]
+//	Â¥ HandleResourceEvent											  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -432,7 +430,7 @@ CRezType::HandleResourceEvent(
 
 
 // ---------------------------------------------------------------------------
-//	¥ HandleEditEvent												  [public]
+//	Â¥ HandleEditEvent												  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -489,7 +487,7 @@ CRezType::HandleEditEvent(
 
 
 // ---------------------------------------------------------------------------
-//	¥ HandleInspectEvent												  [public]
+//	Â¥ HandleInspectEvent												  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -514,7 +512,7 @@ CRezType::HandleInspectEvent(
 
 
 // ---------------------------------------------------------------------------
-//	¥ HandleDeleteResourceEvent										 [public]
+//	Â¥ HandleDeleteResourceEvent										 [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -547,7 +545,7 @@ CRezType::HandleDeleteResourceEvent(
 
 
 // ---------------------------------------------------------------------------
-//	¥ HandleDeleteTypeEvent										 [public]
+//	Â¥ HandleDeleteTypeEvent										 [public]
 // ---------------------------------------------------------------------------
 
 void

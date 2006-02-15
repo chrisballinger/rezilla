@@ -4,12 +4,10 @@
 //                       Created: 2004-06-12 10:06:22
 //             Last modification: 2005-09-05 06:51:11
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2004-2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 PP_Begin_Namespace_PowerPlant
@@ -49,7 +47,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CTmplEditorDoc							Constructor		  [public]
+//	Â¥ CTmplEditorDoc							Constructor		  [public]
 // ---------------------------------------------------------------------------
 // 	: CEditorController( inSuperMap )
 
@@ -65,7 +63,7 @@ CTmplEditorDoc::CTmplEditorDoc(LCommander* inSuper,
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CTmplEditorDoc							Destructor				  [public]
+//	Â¥ ~CTmplEditorDoc							Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CTmplEditorDoc::~CTmplEditorDoc()
@@ -77,7 +75,7 @@ CTmplEditorDoc::~CTmplEditorDoc()
 
 
 // ---------------------------------------------------------------------------
-//	¥ Initialize													  [public]
+//	Â¥ Initialize													  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -129,7 +127,7 @@ CTmplEditorDoc::Initialize()
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetDescriptor													  [public]
+//	Â¥ GetDescriptor													  [public]
 // ---------------------------------------------------------------------------
 //	Pass back the name of a Document
 
@@ -150,7 +148,7 @@ CTmplEditorDoc::GetDescriptor(
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ FindCommandStatus
+//  Â¥ FindCommandStatus
 // ---------------------------------------------------------------------------------
 
 void
@@ -174,7 +172,7 @@ CTmplEditorDoc::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AllowSubRemoval												  [public]
+//	Â¥ AllowSubRemoval												  [public]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -191,7 +189,7 @@ CTmplEditorDoc::AllowSubRemoval(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AskSaveChanges												  [public]
+//	Â¥ AskSaveChanges												  [public]
 // ---------------------------------------------------------------------------
 //	Ask user whether to save changes before closing the Document or
 //	quitting the Application
@@ -206,7 +204,7 @@ CTmplEditorDoc::AskSaveChanges(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetModifiedResource										[public]
+//  Â¥ GetModifiedResource										[public]
 // ---------------------------------------------------------------------------
 // The returned handle should not be released by the caller so leave
 // releaseIt to false (its default).

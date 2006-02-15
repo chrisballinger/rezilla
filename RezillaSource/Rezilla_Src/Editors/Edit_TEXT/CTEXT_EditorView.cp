@@ -4,12 +4,10 @@
 //                       Created: 2004-06-19 13:23:32
 //             Last modification: 2005-09-20 15:00:48
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2004-2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 #ifdef PowerPlant_PCH
@@ -29,7 +27,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CTEXT_EditorView							Default Constructor		  [public]
+//	Â¥ CTEXT_EditorView							Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CTEXT_EditorView::CTEXT_EditorView()
@@ -39,7 +37,7 @@ CTEXT_EditorView::CTEXT_EditorView()
 
 
 // ---------------------------------------------------------------------------
-//	¥ CTEXT_EditorView							Parameterized Constructor [public]
+//	Â¥ CTEXT_EditorView							Parameterized Constructor [public]
 // ---------------------------------------------------------------------------
 
 CTEXT_EditorView::CTEXT_EditorView(
@@ -54,7 +52,7 @@ CTEXT_EditorView::CTEXT_EditorView(
 
 
 // ---------------------------------------------------------------------------
-//	¥ CTEXT_EditorView							Stream Constructor		  [public]
+//	Â¥ CTEXT_EditorView							Stream Constructor		  [public]
 // ---------------------------------------------------------------------------
 // Use the Preference interface settings when creating a new TEXT resource.
 
@@ -84,7 +82,7 @@ CTEXT_EditorView::CTEXT_EditorView(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CTEXT_EditorView						Destructor				  [public]
+//	Â¥ ~CTEXT_EditorView						Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CTEXT_EditorView::~CTEXT_EditorView()
@@ -96,7 +94,7 @@ CTEXT_EditorView::~CTEXT_EditorView()
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ HandleKeyPress							[public, virtual]
+//	Â¥ HandleKeyPress							[public, virtual]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -255,7 +253,7 @@ CTEXT_EditorView::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ObeyCommand							[public, virtual]
+//	Â¥ ObeyCommand							[public, virtual]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -361,7 +359,7 @@ CTEXT_EditorView::ObeyCommand(
 
 
 // ---------------------------------------------------------------------------
-//	¥ UserChangedText						[public, virtual]
+//	Â¥ UserChangedText						[public, virtual]
 // ---------------------------------------------------------------------------
 //	Text of WasteEdit has changed as a result of user action
 
@@ -380,7 +378,7 @@ CTEXT_EditorView::UserChangedText()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetModifiedText										[public]
+//  Â¥ GetModifiedText										[public]
 // ---------------------------------------------------------------------------
 
 Handle

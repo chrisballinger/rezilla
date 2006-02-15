@@ -3,12 +3,10 @@
 //                       Created: 2003-04-18 09:34:02
 //             Last modification: 2003-05-27 16:14:23
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2002-2003
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
+// (c) Copyright: Bernard Desgraupes 2002-2003
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 // A concrete LOutlineItem for items of type "resource"
 

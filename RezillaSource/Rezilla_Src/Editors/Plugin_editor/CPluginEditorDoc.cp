@@ -4,12 +4,10 @@
 //                       Created: 2005-10-02 08:41:52
 //             Last modification: 2005-10-02 09:21:41
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 PP_Begin_Namespace_PowerPlant
@@ -42,7 +40,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CPluginEditorDoc								Constructor		  [public]
+//	Â¥ CPluginEditorDoc								Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CPluginEditorDoc::CPluginEditorDoc(LCommander* inSuper, 
@@ -57,7 +55,7 @@ CPluginEditorDoc::CPluginEditorDoc(LCommander* inSuper,
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CPluginEditorDoc							Destructor				  [public]
+//	Â¥ ~CPluginEditorDoc							Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CPluginEditorDoc::~CPluginEditorDoc()
@@ -69,7 +67,7 @@ CPluginEditorDoc::~CPluginEditorDoc()
 
 
 // ---------------------------------------------------------------------------
-//	¥ Initialize													  [public]
+//	Â¥ Initialize													  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -121,7 +119,7 @@ CPluginEditorDoc::Initialize()
 
 
 // ---------------------------------------------------------------------------
-//	¥ ObeyCommand									[public, virtual]
+//	Â¥ ObeyCommand									[public, virtual]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -153,7 +151,7 @@ CPluginEditorDoc::ObeyCommand(
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ FindCommandStatus
+//  Â¥ FindCommandStatus
 // ---------------------------------------------------------------------------------
 
 void
@@ -203,7 +201,7 @@ CPluginEditorDoc::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ ListenToMessage													[public]
+//  Â¥ ListenToMessage													[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -234,7 +232,7 @@ CPluginEditorDoc::ListenToMessage( MessageT inMessage, void * /* ioParam */)
 
 
 // ---------------------------------------------------------------------------
-//	¥ AllowSubRemoval												  [public]
+//	Â¥ AllowSubRemoval												  [public]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -246,7 +244,7 @@ CPluginEditorDoc::AllowSubRemoval(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AskSaveChanges												  [public]
+//	Â¥ AskSaveChanges												  [public]
 // ---------------------------------------------------------------------------
 //	Ask user whether to save changes before closing the Document or
 //	quitting the Application.
@@ -260,7 +258,7 @@ CPluginEditorDoc::AskSaveChanges(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetDescriptor													  [public]
+//	Â¥ GetDescriptor													  [public]
 // ---------------------------------------------------------------------------
 //	Pass back the name of a Document
 
@@ -281,7 +279,7 @@ CPluginEditorDoc::GetDescriptor(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetModifiedResource										[public]
+//  Â¥ GetModifiedResource										[public]
 // ---------------------------------------------------------------------------
 // The returned handle should not be released by the caller so leave
 // releaseIt to false (its default).

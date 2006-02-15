@@ -3,12 +3,10 @@
 //                       Created: 2003-05-30 22:23:58
 //             Last modification: 2004-02-22 19:29:33
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003, 2004
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
+// (c) Copyright: Bernard Desgraupes 2003, 2004
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 
@@ -60,11 +58,11 @@ protected:
 #pragma mark -
 
 // ===========================================================================
-//	¥ Stack-based classes
+//	Â¥ Stack-based classes
 // ===========================================================================
 
 // ---------------------------------------------------------------------------
-//  ¥ class StDragSendDataUPP
+//  Â¥ class StDragSendDataUPP
 // ---------------------------------------------------------------------------
 
 class StDragSendDataUPP {

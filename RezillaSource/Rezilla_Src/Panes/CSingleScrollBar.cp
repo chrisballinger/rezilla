@@ -4,12 +4,10 @@
 //                       Created: 2004-03-19 13:49:48
 //             Last modification: 2004-03-20 07:25:40
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2004
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 #ifdef PowerPlant_PCH
@@ -25,7 +23,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CSingleScrollBar							Stream Constructor		  [public]
+//	Â¥ CSingleScrollBar							Stream Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CSingleScrollBar::CSingleScrollBar(
@@ -39,7 +37,7 @@ CSingleScrollBar::CSingleScrollBar(
 
 
 // ---------------------------------------------------------------------------
-//	¥ CSingleScrollBar							Parameterized Constructor [public]
+//	Â¥ CSingleScrollBar							Parameterized Constructor [public]
 // ---------------------------------------------------------------------------
 
 CSingleScrollBar::CSingleScrollBar(
@@ -59,7 +57,7 @@ CSingleScrollBar::CSingleScrollBar(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CSingleScrollBar							Destructor				  [public]
+//	Â¥ ~CSingleScrollBar							Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CSingleScrollBar::~CSingleScrollBar()
@@ -68,7 +66,7 @@ CSingleScrollBar::~CSingleScrollBar()
 
 
 // ---------------------------------------------------------------------------
-//	¥ DoTrackAction													  [public]
+//	Â¥ DoTrackAction													  [public]
 // ---------------------------------------------------------------------------
 
 void

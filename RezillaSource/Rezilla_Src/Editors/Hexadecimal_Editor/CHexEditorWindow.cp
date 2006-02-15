@@ -4,12 +4,10 @@
 //                       Created: 2003-05-02 07:33:10
 //             Last modification: 2005-06-15 10:27:13
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2003-2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 
@@ -42,7 +40,7 @@
 
 
 // ---------------------------------------------------------------------------
-//		¥ CHexEditorWindow				[public]
+//		Â¥ CHexEditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CHexEditorWindow::CHexEditorWindow()
@@ -52,7 +50,7 @@ CHexEditorWindow::CHexEditorWindow()
 
 
 // ---------------------------------------------------------------------------
-//		¥ CHexEditorWindow				[public]
+//		Â¥ CHexEditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CHexEditorWindow::CHexEditorWindow(
@@ -64,7 +62,7 @@ CHexEditorWindow::CHexEditorWindow(
 
 
 // ---------------------------------------------------------------------------
-//		¥ CHexEditorWindow				[public]
+//		Â¥ CHexEditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CHexEditorWindow::CHexEditorWindow(
@@ -78,7 +76,7 @@ CHexEditorWindow::CHexEditorWindow(
 
 
 // ---------------------------------------------------------------------------
-//		¥ CHexEditorWindow				[public]
+//		Â¥ CHexEditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CHexEditorWindow::CHexEditorWindow(
@@ -90,7 +88,7 @@ CHexEditorWindow::CHexEditorWindow(
 
 
 // ---------------------------------------------------------------------------
-//		¥ ~CHexEditorWindow				[public]
+//		Â¥ ~CHexEditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CHexEditorWindow::~CHexEditorWindow()
@@ -101,7 +99,7 @@ CHexEditorWindow::~CHexEditorWindow()
 
 
 // ---------------------------------------------------------------------------
-//		¥ FinishCreateSelf				[protected]
+//		Â¥ FinishCreateSelf				[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -173,7 +171,7 @@ CHexEditorWindow::FinishCreateSelf()
 	
 
 // ---------------------------------------------------------------------------
-//		¥ ListenToMessage				[public]
+//		Â¥ ListenToMessage				[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -221,7 +219,7 @@ CHexEditorWindow::ListenToMessage(MessageT inMessage, void *ioParam )
 
 
 // ---------------------------------------------------------------------------
-//	¥ FindCommandStatus
+//	Â¥ FindCommandStatus
 // ---------------------------------------------------------------------------
 //	Pass back whether a Command is enabled and/or marked (in a Menu)
 
@@ -253,7 +251,7 @@ CHexEditorWindow::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ObeyCommand							[public, virtual]
+//	Â¥ ObeyCommand							[public, virtual]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -275,7 +273,7 @@ CHexEditorWindow::ObeyCommand(
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetLineValues											[protected]
+//	Â¥ SetLineValues											[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -292,7 +290,7 @@ CHexEditorWindow::SetLineValues()
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetLineRange											[protected]
+//	Â¥ SetLineRange											[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -313,7 +311,7 @@ CHexEditorWindow::SetLineRange(SInt32 inStart, SInt32 inEnd)
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetOffsetValues											[protected]
+//	Â¥ SetOffsetValues											[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -331,7 +329,7 @@ CHexEditorWindow::SetOffsetValues()
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetOffsetRange											[protected]
+//	Â¥ SetOffsetRange											[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -352,7 +350,7 @@ CHexEditorWindow::SetOffsetRange(SInt32 inStart, SInt32 inEnd)
 
 
 // ---------------------------------------------------------------------------
-//	¥ ClearFields											[protected]
+//	Â¥ ClearFields											[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -364,7 +362,7 @@ CHexEditorWindow::ClearFields()
 
 
 // ---------------------------------------------------------------------------
-//	¥ InstallResourceData											[protected]
+//	Â¥ InstallResourceData											[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -381,7 +379,7 @@ CHexEditorWindow::InstallResourceData(Handle inHandle)
 
 
 // ---------------------------------------------------------------------------
-//	¥ DisplayBothSelections											[protected]
+//	Â¥ DisplayBothSelections											[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -395,7 +393,7 @@ CHexEditorWindow::DisplayBothSelections(SInt32 inStart, SInt32 inEnd)
 
 
 // ---------------------------------------------------------------------------
-//	¥ InstallContentsFromLine											[public]
+//	Â¥ InstallContentsFromLine											[public]
 // ---------------------------------------------------------------------------
 
 SInt32
@@ -410,7 +408,7 @@ CHexEditorWindow::InstallContentsFromLine(SInt32 inFromLine)
 
 
 // ---------------------------------------------------------------------------
-//	¥ IsDirty														[public]
+//	Â¥ IsDirty														[public]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -433,7 +431,7 @@ CHexEditorWindow::SetDirty(Boolean inDirty)
 
 
 // // ---------------------------------------------------------------------------
-// //	¥ DoSetBounds
+// //	Â¥ DoSetBounds
 // // ---------------------------------------------------------------------------
 // 
 // void

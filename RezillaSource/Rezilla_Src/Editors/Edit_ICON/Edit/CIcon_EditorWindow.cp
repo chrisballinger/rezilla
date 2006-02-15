@@ -4,12 +4,10 @@
 //                       Created: 2004-12-10 17:23:05
 //             Last modification: 2005-01-19 09:27:41
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2004-2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 #include "CIcon_EditorDoc.h"
@@ -65,7 +63,7 @@ LMenu *				CIcon_EditorWindow::sIconStyleMenu = nil;
 
 
 // ---------------------------------------------------------------------------
-//		¥ CIcon_EditorWindow				[public]
+//		Â¥ CIcon_EditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CIcon_EditorWindow::CIcon_EditorWindow()
@@ -74,7 +72,7 @@ CIcon_EditorWindow::CIcon_EditorWindow()
 
 
 // ---------------------------------------------------------------------------
-//		¥ CIcon_EditorWindow				[public]
+//		Â¥ CIcon_EditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CIcon_EditorWindow::CIcon_EditorWindow(
@@ -86,7 +84,7 @@ CIcon_EditorWindow::CIcon_EditorWindow(
 
 
 // ---------------------------------------------------------------------------
-//		¥ CIcon_EditorWindow				[public]
+//		Â¥ CIcon_EditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CIcon_EditorWindow::CIcon_EditorWindow(
@@ -100,7 +98,7 @@ CIcon_EditorWindow::CIcon_EditorWindow(
 
 
 // ---------------------------------------------------------------------------
-//		¥ CIcon_EditorWindow				[public]
+//		Â¥ CIcon_EditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CIcon_EditorWindow::CIcon_EditorWindow(
@@ -112,7 +110,7 @@ CIcon_EditorWindow::CIcon_EditorWindow(
 
 
 // ---------------------------------------------------------------------------
-//		¥ ~CIcon_EditorWindow				[public]
+//		Â¥ ~CIcon_EditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CIcon_EditorWindow::~CIcon_EditorWindow()
@@ -146,7 +144,7 @@ CIcon_EditorWindow::~CIcon_EditorWindow()
 
 
 // ---------------------------------------------------------------------------
-//		¥ Initialize											[protected]
+//		Â¥ Initialize											[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -371,7 +369,7 @@ CIcon_EditorWindow::SetRawUndoBuffer( COffscreen *inBuffer )
 
 
 // ---------------------------------------------------------------------------
-//		¥ FinishCreateSelf											[protected]
+//		Â¥ FinishCreateSelf											[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -435,7 +433,7 @@ CIcon_EditorWindow::FinishCreateSelf()
 
 
 // ---------------------------------------------------------------------------
-//		¥ ListenToMessage				[public]
+//		Â¥ ListenToMessage				[public]
 // ---------------------------------------------------------------------------
 
 void

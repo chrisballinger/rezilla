@@ -4,12 +4,10 @@
 //                       Created: 2003-04-23 12:32:10
 //             Last modification: 2005-06-05 09:08:08
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2003-2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 #ifndef _H_CRezObj
@@ -153,9 +151,9 @@ protected:
 //        ================== INLINES =====================
 
 // ---------------------------------------------------------------------------
-//	¥ HasAttribute													[inline]
+//	Â¥ HasAttribute													[inline]
 // ---------------------------------------------------------------------------
-// Checks if a resourceÕs attribute is on or off. The inFlag argument 
+// Checks if a resource's attribute is on or off. The inFlag argument 
 // is one of the following constants:
 // 		resSysHeap		In system or in application heap
 // 		resPurgeable	Purgeable or not

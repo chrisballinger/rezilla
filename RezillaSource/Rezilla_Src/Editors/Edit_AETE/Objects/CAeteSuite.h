@@ -5,11 +5,9 @@
 //             Last modification: 2005-02-19 16:29:25
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright: Bernard Desgraupes, 2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 #ifndef _H_CAeteSuite

@@ -5,11 +5,9 @@
 //             Last modification: 2005-10-01 09:10:16
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright: Bernard Desgraupes, 2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 #ifndef _H_CRezillaPlugin

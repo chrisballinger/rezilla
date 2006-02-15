@@ -4,12 +4,10 @@
 //                       Created: 2004-03-02 14:18:16
 //             Last modification: 2005-05-12 07:20:23
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2004, 2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 #include "CCompResultWindow.h"
@@ -42,7 +40,7 @@ extern CWindowMenu * gWindowMenu;
 
 
 // ---------------------------------------------------------------------------
-//		¥ CCompResultWindow				[public]
+//		Â¥ CCompResultWindow				[public]
 // ---------------------------------------------------------------------------
 
 CCompResultWindow::CCompResultWindow()
@@ -52,7 +50,7 @@ CCompResultWindow::CCompResultWindow()
 
 
 // ---------------------------------------------------------------------------
-//		¥ CCompResultWindow				[public]
+//		Â¥ CCompResultWindow				[public]
 // ---------------------------------------------------------------------------
 
 CCompResultWindow::CCompResultWindow(
@@ -64,7 +62,7 @@ CCompResultWindow::CCompResultWindow(
 
 
 // ---------------------------------------------------------------------------
-//		¥ CCompResultWindow				[public]
+//		Â¥ CCompResultWindow				[public]
 // ---------------------------------------------------------------------------
 
 CCompResultWindow::CCompResultWindow(
@@ -78,7 +76,7 @@ CCompResultWindow::CCompResultWindow(
 
 
 // ---------------------------------------------------------------------------
-//		¥ CCompResultWindow				[public]
+//		Â¥ CCompResultWindow				[public]
 // ---------------------------------------------------------------------------
 
 CCompResultWindow::CCompResultWindow(
@@ -90,7 +88,7 @@ CCompResultWindow::CCompResultWindow(
 
 
 // ---------------------------------------------------------------------------
-//		¥ ~CCompResultWindow				[public]
+//		Â¥ ~CCompResultWindow				[public]
 // ---------------------------------------------------------------------------
 
 CCompResultWindow::~CCompResultWindow()
@@ -104,7 +102,7 @@ CCompResultWindow::~CCompResultWindow()
 
 
 // ---------------------------------------------------------------------------
-//		¥ FinishCreateSelf				[protected]
+//		Â¥ FinishCreateSelf				[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -243,7 +241,7 @@ CCompResultWindow::FinishCreateSelf()
 
 
 // ---------------------------------------------------------------------------
-//		¥ ListenToMessage				[public]
+//		Â¥ ListenToMessage				[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -356,7 +354,7 @@ CCompResultWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 
 
 // ---------------------------------------------------------------------------
-//	¥ FindCommandStatus
+//	Â¥ FindCommandStatus
 // ---------------------------------------------------------------------------
 // Cut, Paste and Clear are disabled. Copy is OK.
 
@@ -393,7 +391,7 @@ CCompResultWindow::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ NameNewCompWindow
+//  Â¥ NameNewCompWindow
 // ---------------------------------------------------------------------------------
 
 void
@@ -418,7 +416,7 @@ CCompResultWindow::NameNewCompWindow()
 
 
 // // ---------------------------------------------------------------------------
-// //	¥ DoClose
+// //	Â¥ DoClose
 // // ---------------------------------------------------------------------------
 // //	Close the inspector window: hide it but keep it in memory
 // 
@@ -430,7 +428,7 @@ CCompResultWindow::NameNewCompWindow()
 
 
 // ---------------------------------------------------------------------------
-//	¥ IsDirty														[public]
+//	Â¥ IsDirty														[public]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -442,7 +440,7 @@ CCompResultWindow::IsDirty()
 
 
 // ---------------------------------------------------------------------------
-//	¥ FillTableView														[public]
+//	Â¥ FillTableView														[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -501,7 +499,7 @@ CCompResultWindow::FillTableView( TArray<CRezTypId *> inList, SInt16 inWhichList
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetMaxScrollerValue										[protected]
+//	Â¥ SetMaxScrollerValue										[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -517,7 +515,7 @@ CCompResultWindow::SetMaxScrollerValue()
 
 
 // ---------------------------------------------------------------------------
-//	¥ LineCount										[protected]
+//	Â¥ LineCount										[protected]
 // ---------------------------------------------------------------------------
 // Find the max number of lines among the two panes
 
@@ -555,7 +553,7 @@ CCompResultWindow::LineCount()
 
 
 // ---------------------------------------------------------------------------
-//	¥ InsertContentsFromLine										[protected]
+//	Â¥ InsertContentsFromLine										[protected]
 // ---------------------------------------------------------------------------
 // All the counts in this proc are counts of bytes in the resource data. 
 // InsertContents() takes care of converting the bytes to their (hex or char)+space representation.
@@ -606,7 +604,7 @@ CCompResultWindow::InsertContentsFromLine(SInt32 inFromLine)
 
 
 // ---------------------------------------------------------------------------
-//	¥ EraseHexPanes										[protected]
+//	Â¥ EraseHexPanes										[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -620,7 +618,7 @@ CCompResultWindow::EraseHexPanes()
 
 
 // ---------------------------------------------------------------------------
-//	¥ DoSetBounds
+//	Â¥ DoSetBounds
 // ---------------------------------------------------------------------------
 
 void
@@ -637,7 +635,7 @@ CCompResultWindow::DoSetBounds(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ResizeDataPanes												[public]
+//	Â¥ ResizeDataPanes												[public]
 // ---------------------------------------------------------------------------
 // 	Formulas:
 // 	Width
@@ -679,7 +677,7 @@ CCompResultWindow::ResizeDataPanes()
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetPaneCount												[public]
+//	Â¥ GetPaneCount												[public]
 // ---------------------------------------------------------------------------
 // Return various capacities.
 
@@ -723,7 +721,7 @@ CCompResultWindow::GetPaneCount(SInt16 whichValue)
 
 
 // ---------------------------------------------------------------------------
-//	¥ UpdatePaneCounts												[public]
+//	Â¥ UpdatePaneCounts												[public]
 // ---------------------------------------------------------------------------
 // 	mBytesPerLine is a count of virtual bytes which has to be multiplied
 // 	by 3 (two hex digits + space) in hex representation or by 2 in text

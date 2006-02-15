@@ -5,11 +5,9 @@
 //             Last modification: 2005-01-30 21:00:58
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright: Bernard Desgraupes, 2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 #include "CAete.h"

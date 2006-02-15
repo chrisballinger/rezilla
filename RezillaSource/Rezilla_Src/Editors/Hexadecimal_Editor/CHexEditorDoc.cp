@@ -4,12 +4,10 @@
 //                       Created: 2003-05-04 19:16:00
 //             Last modification: 2005-09-05 06:51:25
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2003-2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 PP_Begin_Namespace_PowerPlant
@@ -59,7 +57,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CHexEditorDoc							Constructor		  [public]
+//	Â¥ CHexEditorDoc							Constructor		  [public]
 // ---------------------------------------------------------------------------
 // 	: CEditorController( inSuperMap )
 
@@ -75,7 +73,7 @@ CHexEditorDoc::CHexEditorDoc(LCommander* inSuper,
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CHexEditorDoc							Destructor				  [public]
+//	Â¥ ~CHexEditorDoc							Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CHexEditorDoc::~CHexEditorDoc()
@@ -87,7 +85,7 @@ CHexEditorDoc::~CHexEditorDoc()
 
 
 // ---------------------------------------------------------------------------
-//	¥ Initialize													  [public]
+//	Â¥ Initialize													  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -125,7 +123,7 @@ CHexEditorDoc::Initialize()
 
 
 // ---------------------------------------------------------------------------
-//	¥ ObeyCommand									[public, virtual]
+//	Â¥ ObeyCommand									[public, virtual]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -160,7 +158,7 @@ CHexEditorDoc::ObeyCommand(
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ RunFindDialog
+//  Â¥ RunFindDialog
 // ---------------------------------------------------------------------------------
 
 void
@@ -241,7 +239,7 @@ CHexEditorDoc::RunFindDialog()
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ FindInPane
+//  Â¥ FindInPane
 // ---------------------------------------------------------------------------------
 
 OSErr
@@ -313,7 +311,7 @@ CHexEditorDoc::FindInPane(PaneIDT inWhichPane,
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ IsModified
+//  Â¥ IsModified
 // ---------------------------------------------------------------------------------
 
 Boolean
@@ -326,7 +324,7 @@ CHexEditorDoc::IsModified()
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetDescriptor													  [public]
+//	Â¥ GetDescriptor													  [public]
 // ---------------------------------------------------------------------------
 //	Pass back the name of a Document
 
@@ -347,7 +345,7 @@ CHexEditorDoc::GetDescriptor(
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ FindCommandStatus
+//  Â¥ FindCommandStatus
 // ---------------------------------------------------------------------------------
 
 void
@@ -389,7 +387,7 @@ CHexEditorDoc::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AllowSubRemoval												  [public]
+//	Â¥ AllowSubRemoval												  [public]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -406,7 +404,7 @@ CHexEditorDoc::AllowSubRemoval(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AskSaveChanges												  [public]
+//	Â¥ AskSaveChanges												  [public]
 // ---------------------------------------------------------------------------
 //	Ask user whether to save changes before closing the Document or
 //	quitting the Application
@@ -421,7 +419,7 @@ CHexEditorDoc::AskSaveChanges(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetModifiedResource										[public]
+//  Â¥ GetModifiedResource										[public]
 // ---------------------------------------------------------------------------
 // The returned handle should not be released by the caller so leave
 // releaseIt to false (its default).

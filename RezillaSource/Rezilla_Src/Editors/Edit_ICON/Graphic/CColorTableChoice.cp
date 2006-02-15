@@ -3,12 +3,10 @@
 //                       Created: 2004-12-11 18:50:13
 //             Last modification: 2005-06-28 20:07:20
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright: Bernard Desgraupes 2004-2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 // 	* Most of the color resource types are edited using 32-bit buffers.
 // 		This means that they support all of the various color table choices.

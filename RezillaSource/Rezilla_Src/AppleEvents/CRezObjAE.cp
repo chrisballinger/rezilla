@@ -4,12 +4,10 @@
 //                       Created: 2005-04-09 10:03:39
 //             Last modification: 2005-06-05 09:17:42
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 //  AppleEvent Object Model Support. These methods are part of the CRezObj 
 //  class (inheriting from LModelObject).
@@ -28,7 +26,7 @@
 
 
 // ---------------------------------------------------------------------------
-//	¥ MakeSelfSpecifier												  [public]
+//	Â¥ MakeSelfSpecifier												  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -49,7 +47,7 @@ CRezObj::MakeSelfSpecifier(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetAEProperty
+//	Â¥ GetAEProperty
 // ---------------------------------------------------------------------------
 //	Return a descriptor for the specified Property
 //  rzom_pResID			= pID;			// ID ('ID  ')			 
@@ -197,7 +195,7 @@ CRezObj::GetAEProperty(
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetAEProperty
+//	Â¥ SetAEProperty
 // ---------------------------------------------------------------------------
 
 void
@@ -271,7 +269,7 @@ CRezObj::SetAEProperty(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetAERezObjAttribute
+//	Â¥ GetAERezObjAttribute
 // ---------------------------------------------------------------------------
 
 void
@@ -288,7 +286,7 @@ CRezObj::GetAERezObjAttribute(
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetAERezObjAttribute
+//	Â¥ SetAERezObjAttribute
 // ---------------------------------------------------------------------------
 
 void
@@ -310,7 +308,7 @@ CRezObj::SetAERezObjAttribute(const AEDesc& inValue, short inFlag)
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetAEResourceData
+//	Â¥ GetAEResourceData
 // ---------------------------------------------------------------------------
 // The data are specified in hexadecimal notation unless it is a TEXT or a
 // STR# resource, in which case the text of the resource is returned directly
@@ -358,7 +356,7 @@ CRezObj::GetAEResourceData(AEDesc& outPropertyDesc) const
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetAEResourceData
+//	Â¥ SetAEResourceData
 // ---------------------------------------------------------------------------
 // The data are specified in hexadecimal notation unless it is a TEXT or a
 // STR# resource, in which case the text of the resource is passed directly
@@ -418,7 +416,7 @@ CRezObj::SetAEResourceData(const AEDesc& inValue)
 
 
 // ---------------------------------------------------------------------------
-//	¥ AEPropertyExists
+//	Â¥ AEPropertyExists
 // ---------------------------------------------------------------------------
 
 bool
@@ -456,7 +454,7 @@ CRezObj::AEPropertyExists(
 
 
 // ---------------------------------------------------------------------------
-//	¥ HandleAppleEvent												  [public]
+//	Â¥ HandleAppleEvent												  [public]
 // ---------------------------------------------------------------------------
 
 void

@@ -4,12 +4,10 @@
 //                       Created: 2003-04-23 12:32:10
 //             Last modification: 2005-05-17 07:24:04
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2003-2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 #include "CRezType.h"
@@ -21,7 +19,7 @@
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CRezType														[public]
+//  Â¥ CRezType														[public]
 // ---------------------------------------------------------------------------
 // 	SignalStringLiteral_("OwnerMap not specified");
 
@@ -34,7 +32,7 @@ CRezType::CRezType(ResType inResType, CRezMap * inOwnerMap)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ ~CRezType														[public]
+//  Â¥ ~CRezType														[public]
 // ---------------------------------------------------------------------------
 
 CRezType::~CRezType()
@@ -49,7 +47,7 @@ CRezType::~CRezType()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CountResources														[public]
+//  Â¥ CountResources														[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -62,7 +60,7 @@ CRezType::CountResources(short & outCount) const
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetWithID													[public]
+//  Â¥ GetWithID													[public]
 // ---------------------------------------------------------------------------
 // Get a handle to a resource of a given type with a given ID
 // from current resource map.
@@ -77,7 +75,7 @@ CRezType::GetWithID(short inID, Handle & outHandle) const
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetWithName													[public]
+//  Â¥ GetWithName													[public]
 // ---------------------------------------------------------------------------
 // Get a handle to a resource of a given type with a given name
 // from current resource map.
@@ -119,7 +117,7 @@ CRezType::GetWithName(ConstStr255Param inName, Handle & outHandle) const
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetAllResources													[public]
+//  Â¥ GetAllResources													[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -147,7 +145,7 @@ CRezType::GetAllResources( TArray<Handle>* & outArray )
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetAllRezIDs													[public]
+//  Â¥ GetAllRezIDs													[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -182,7 +180,7 @@ CRezType::GetAllRezIDs( TArray<short>* & outArray ) const
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetResourceAtIndex											[public]
+//  Â¥ GetResourceAtIndex											[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -203,7 +201,7 @@ CRezType::GetResourceAtIndex(short inIdx,
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetNameAtIndex											[public]
+//  Â¥ GetNameAtIndex											[public]
 // ---------------------------------------------------------------------------
 
 OSErr

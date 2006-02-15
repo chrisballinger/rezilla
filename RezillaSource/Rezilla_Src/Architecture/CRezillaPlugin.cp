@@ -5,11 +5,9 @@
 //             Last modification: 2005-09-30 16:15:32
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright: Bernard Desgraupes, 2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 #include "CRezillaPlugin.h"
@@ -41,7 +39,7 @@ CRezillaPlugin::~CRezillaPlugin()
 // ---------------------------------------------------------------------------
 //  Initialize													[public]
 // ---------------------------------------------------------------------------
-// mPluginVersion is an UInt32 in the ‘vers’ resource style (e-g 0x01008000
+// mPluginVersion is an UInt32 in the 'vers' resource style (e-g 0x01008000
 // for 1.0.0)
 
 // CFArrayRef factories = CFPlugInFindFactoriesForPlugInTypeInPlugIn( kTestTypeID, newPlugIn );

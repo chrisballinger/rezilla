@@ -3,12 +3,10 @@
 //                       Created: 2003-05-07 15:58:27
 //             Last modification: 2005-02-07 16:20:58
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003-2005
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
+// (c) Copyright: Bernard Desgraupes 2003-2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 #include "NavServicesCallbacks.h"
@@ -23,7 +21,7 @@ extern const Str15 Rzil_AeteExportItems[];
 
 
 // ---------------------------------------------------------------------------
-//  ¥ Rzil_NewMapNavEventFilterUPP										
+//  Â¥ Rzil_NewMapNavEventFilterUPP										
 // ---------------------------------------------------------------------------
 
 pascal void
@@ -87,7 +85,7 @@ Rzil_NewMapNavEventFilterUPP(NavEventCallbackMessage inCBSelector,
 
 
 // ---------------------------------------------------------------------------
-//  ¥ Rzil_OpenNavEventFilterUPP										
+//  Â¥ Rzil_OpenNavEventFilterUPP										
 // ---------------------------------------------------------------------------
 
 pascal void
@@ -159,7 +157,7 @@ Rzil_OpenNavEventFilterUPP(NavEventCallbackMessage inCBSelector,
 
 
 // ---------------------------------------------------------------------------
-//  ¥ Rzil_SaveAsNavEventFilterUPP										
+//  Â¥ Rzil_SaveAsNavEventFilterUPP										
 // ---------------------------------------------------------------------------
 
 pascal void
@@ -228,7 +226,7 @@ Rzil_SaveAsNavEventFilterUPP(NavEventCallbackMessage inCBSelector,
 
 
 // ---------------------------------------------------------------------------
-//  ¥ Rzil_ExportMapEventFilterUPP										
+//  Â¥ Rzil_ExportMapEventFilterUPP										
 // ---------------------------------------------------------------------------
 
 pascal void
@@ -297,7 +295,7 @@ Rzil_ExportMapEventFilterUPP(NavEventCallbackMessage inCBSelector,
 
 
 // ---------------------------------------------------------------------------
-//  ¥ Rzil_ExportAeteEventFilterUPP										
+//  Â¥ Rzil_ExportAeteEventFilterUPP										
 // ---------------------------------------------------------------------------
 
 pascal void
@@ -367,7 +365,7 @@ Rzil_ExportAeteEventFilterUPP(NavEventCallbackMessage inCBSelector,
 
 
 // ---------------------------------------------------------------------------
-//  ¥ Rzil_NavObjectFilterUPP									
+//  Â¥ Rzil_NavObjectFilterUPP									
 // ---------------------------------------------------------------------------
 
 pascal Boolean
@@ -398,7 +396,7 @@ Rzil_NavObjectFilterUPP(AEDesc *theItem,
 
 
 // ---------------------------------------------------------------------------
-//  ¥ Rzil_NewMapHandleEvent									
+//  Â¥ Rzil_NewMapHandleEvent									
 // ---------------------------------------------------------------------------
 
 void Rzil_NewMapHandleEvent(NavCBRecPtr inCBParams, void * ioCallBackUD)
@@ -461,7 +459,7 @@ void Rzil_NewMapHandleEvent(NavCBRecPtr inCBParams, void * ioCallBackUD)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ Rzil_OpenMapHandleEvent									
+//  Â¥ Rzil_OpenMapHandleEvent									
 // ---------------------------------------------------------------------------
 
 void Rzil_OpenMapHandleEvent(NavCBRecPtr inCBParams, void * ioCallBackUD)
@@ -558,7 +556,7 @@ void Rzil_OpenMapHandleEvent(NavCBRecPtr inCBParams, void * ioCallBackUD)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ Rzil_SaveMapHandleEvent									
+//  Â¥ Rzil_SaveMapHandleEvent									
 // ---------------------------------------------------------------------------
 
 void Rzil_SaveMapHandleEvent(NavCBRecPtr inCBParams, void * ioCallBackUD)

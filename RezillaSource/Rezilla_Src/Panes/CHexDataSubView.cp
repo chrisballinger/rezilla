@@ -3,12 +3,10 @@
 //                       Created: 2003-05-06 06:04:42
 //             Last modification: 2005-05-28 14:32:42
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright: Bernard Desgraupes 2003-2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 
@@ -37,7 +35,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CHexDataSubView						Default Constructor		  [public]
+//	Â¥ CHexDataSubView						Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CHexDataSubView::CHexDataSubView()
@@ -51,7 +49,7 @@ CHexDataSubView::CHexDataSubView()
 
 
 // ---------------------------------------------------------------------------
-//	¥ CHexDataSubView						Default Constructor		  [public]
+//	Â¥ CHexDataSubView						Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CHexDataSubView::CHexDataSubView(CTxtDataSubView * inSiblingView)
@@ -65,7 +63,7 @@ CHexDataSubView::CHexDataSubView(CTxtDataSubView * inSiblingView)
 
 
 // ---------------------------------------------------------------------------
-//	¥ CHexDataSubView						Parameterized Constructor [public]
+//	Â¥ CHexDataSubView						Parameterized Constructor [public]
 // ---------------------------------------------------------------------------
 
 CHexDataSubView::CHexDataSubView(
@@ -89,7 +87,7 @@ CHexDataSubView::CHexDataSubView(
 
 
 // ---------------------------------------------------------------------------
-//	¥ CHexDataSubView						Stream Constructor		  [public]
+//	Â¥ CHexDataSubView						Stream Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CHexDataSubView::CHexDataSubView(
@@ -104,7 +102,7 @@ CHexDataSubView::CHexDataSubView(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CHexDataSubView						Destructor				  [public]
+//	Â¥ ~CHexDataSubView						Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CHexDataSubView::~CHexDataSubView()
@@ -114,7 +112,7 @@ CHexDataSubView::~CHexDataSubView()
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ ClickSelf											[protected, virtual]
+//	Â¥ ClickSelf											[protected, virtual]
 // ---------------------------------------------------------------------------
 
 void
@@ -141,7 +139,7 @@ CHexDataSubView::ClickSelf(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AdjustCursorPos											[protected, virtual]
+//	Â¥ AdjustCursorPos											[protected, virtual]
 // ---------------------------------------------------------------------------
 
 void
@@ -156,7 +154,7 @@ CHexDataSubView::AdjustCursorPos()
 
 
 // ---------------------------------------------------------------------------
-//	¥ NearestHexPos											[protected, virtual]
+//	Â¥ NearestHexPos											[protected, virtual]
 // ---------------------------------------------------------------------------
 // Returns the nearest pos just before a hexadecimal value
 
@@ -176,7 +174,7 @@ CHexDataSubView::NearestHexPos(SInt32 inPos)
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetCurrHexPos											[public]
+//	Â¥ GetCurrHexPos											[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -191,7 +189,7 @@ CHexDataSubView::GetCurrHexPos(SInt32 & outHexSelStart, SInt32 & outHexSelEnd)
 
 
 // ---------------------------------------------------------------------------
-//	¥ PosToHexPos											[protected, virtual]
+//	Â¥ PosToHexPos											[protected, virtual]
 // ---------------------------------------------------------------------------
 
 SInt32
@@ -203,7 +201,7 @@ CHexDataSubView::PosToHexPos(SInt32 inPos)
 
 
 // ---------------------------------------------------------------------------
-//	¥ HexPosToPos											[protected, virtual]
+//	Â¥ HexPosToPos											[protected, virtual]
 // ---------------------------------------------------------------------------
 
 SInt32
@@ -214,7 +212,7 @@ CHexDataSubView::HexPosToPos(SInt32 inHexPos)
 
 
 // ---------------------------------------------------------------------------
-//	¥ HexPosToLine											[protected, virtual]
+//	Â¥ HexPosToLine											[protected, virtual]
 // ---------------------------------------------------------------------------
 
 SInt32
@@ -228,7 +226,7 @@ CHexDataSubView::HexPosToLine(SInt32 inHexPos)
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetCurrLine											[public]
+//	Â¥ GetCurrLine											[public]
 // ---------------------------------------------------------------------------
 
 SInt32
@@ -243,7 +241,7 @@ CHexDataSubView::GetCurrLine()
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetCurrLines											[public]
+//	Â¥ GetCurrLines											[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -258,7 +256,7 @@ CHexDataSubView::GetCurrLines(SInt32 & outFirstLine, SInt32 & outLastLine)
 }
 
 // ---------------------------------------------------------------------------
-//	¥ HandleKeyPress							[public, virtual]
+//	Â¥ HandleKeyPress							[public, virtual]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -461,7 +459,7 @@ CHexDataSubView::HandleKeyPress(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ObeyCommand							[public, virtual]
+//	Â¥ ObeyCommand							[public, virtual]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -534,7 +532,7 @@ CHexDataSubView::ObeyCommand(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ScrollImageBy											[public, virtual]
+//	Â¥ ScrollImageBy											[public, virtual]
 // ---------------------------------------------------------------------------
 //	Scroll the Text
 
@@ -556,7 +554,7 @@ CHexDataSubView::ScrollImageBy(
 
 
 // ---------------------------------------------------------------------------
-//	¥ CursorMoved							[public, virtual]
+//	Â¥ CursorMoved							[public, virtual]
 // ---------------------------------------------------------------------------
 
 void
@@ -596,7 +594,7 @@ CHexDataSubView::CursorMoved(SInt32 inPos)
 
 
 // ---------------------------------------------------------------------------
-//	¥ InsertContents								[public, virtual]
+//	Â¥ InsertContents								[public, virtual]
 // ---------------------------------------------------------------------------
 
 void
@@ -614,7 +612,7 @@ CHexDataSubView::InsertContents(Handle inHandle)
 
 
 // ---------------------------------------------------------------------------
-//	¥ InsertContents								[public, virtual]
+//	Â¥ InsertContents								[public, virtual]
 // ---------------------------------------------------------------------------
 
 void
@@ -632,7 +630,7 @@ CHexDataSubView::InsertContents(const void * inPtr, SInt32 inByteCount)
 
 
 // ---------------------------------------------------------------------------
-//	¥ UserChangedText						[public, virtual]
+//	Â¥ UserChangedText						[public, virtual]
 // ---------------------------------------------------------------------------
 //	Text of WasteEdit has changed as a result of user action
 
@@ -644,7 +642,7 @@ CHexDataSubView::UserChangedText()
 
 
 // ---------------------------------------------------------------------------
-//	¥ UserChangedText						[public, virtual]
+//	Â¥ UserChangedText						[public, virtual]
 // ---------------------------------------------------------------------------
 //	Text of WasteEdit has changed as a result of user action
 
@@ -733,7 +731,7 @@ CHexDataSubView::SyncPositionsWithSibling(SInt32 inStartPos, SInt32 inEndPos)
 
 
 // ---------------------------------------------------------------------------
-//	¥ SyncContentsWithMemory
+//	Â¥ SyncContentsWithMemory
 // ---------------------------------------------------------------------------
 
 void

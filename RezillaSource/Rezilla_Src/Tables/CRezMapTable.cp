@@ -3,12 +3,10 @@
 //                       Created: 2003-04-16 22:13:54
 //             Last modification: 2005-06-28 17:31:14
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright: Bernard Desgraupes 2003-2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 //	Subclass and concrete instantiation of LOutlineTable
@@ -40,7 +38,7 @@ MessageT	CRezMapTable::sConflictAction = answer_Do;
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CRezMapTable						Default Constructor		  [public]
+//  Â¥ CRezMapTable						Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CRezMapTable::CRezMapTable(
@@ -77,7 +75,7 @@ CRezMapTable::CRezMapTable(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ ~CRezMapTable							Destructor				  [public]
+//  Â¥ ~CRezMapTable							Destructor				  [public]
 // ---------------------------------------------------------------------------
 CRezMapTable::~CRezMapTable()
 {
@@ -102,7 +100,7 @@ CRezMapTable::FinishCreateSelf()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ DrawSelf												[public]
+//  Â¥ DrawSelf												[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -134,7 +132,7 @@ CRezMapTable::DrawSelf()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ Populate												[public]
+//  Â¥ Populate												[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -161,7 +159,7 @@ CRezMapTable::Populate(TArray<ResType>* inTypesArray)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ TypeExists												[public]
+//  Â¥ TypeExists												[public]
 // ---------------------------------------------------------------------------
 // Looks in the table to see if the type already exists. This is different 
 // from looking in the resource map in memory. A type could have been already 
@@ -192,7 +190,7 @@ CRezMapTable::TypeExists(ResType inType, CRezTypeItem * & outRezTypeItem)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ InsertRezTypeItem												[public]
+//  Â¥ InsertRezTypeItem												[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -225,7 +223,7 @@ CRezMapTable::InsertRezTypeItem(CRezTypeItem * inRezTypeItem)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ InsertRezObjItem												[public]
+//  Â¥ InsertRezObjItem												[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -260,7 +258,7 @@ CRezMapTable::InsertRezObjItem(CRezObjItem * inRezObjItem, CRezTypeItem * inRezT
 
 
 // ---------------------------------------------------------------------------
-//  ¥ HasSelection												[public]
+//  Â¥ HasSelection												[public]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -271,7 +269,7 @@ CRezMapTable::HasSelection()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ HasSelectedRezTypeItems												[public]
+//  Â¥ HasSelectedRezTypeItems												[public]
 // ---------------------------------------------------------------------------
 // Returns true if there is at least one RezTypeItem selected.
 
@@ -295,7 +293,7 @@ CRezMapTable::HasSelectedRezTypeItems()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CountSelectedRezTypeItems										[public]
+//  Â¥ CountSelectedRezTypeItems										[public]
 // ---------------------------------------------------------------------------
 // Returns the count of all the selected RezTypeItem's.
 	
@@ -318,7 +316,7 @@ CRezMapTable::CountSelectedRezTypeItems()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetSelectedRezTypeItems										[public]
+//  Â¥ GetSelectedRezTypeItems										[public]
 // ---------------------------------------------------------------------------
 // Stores the selected RezTypeItem's in the LArray provided. Returns the 
 // number of elements found.
@@ -343,7 +341,7 @@ CRezMapTable::GetSelectedRezTypeItems(LArray* & outArray)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ HasSelectedRezObjItems										[public]
+//  Â¥ HasSelectedRezObjItems										[public]
 // ---------------------------------------------------------------------------
 // Returns true if there is at least one RezObjItem selected.
 
@@ -376,7 +374,7 @@ CRezMapTable::HasSelectedRezObjItems()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CountAllSelectedRezObjItems										[public]
+//  Â¥ CountAllSelectedRezObjItems										[public]
 // ---------------------------------------------------------------------------
 // Returns the count of all the selected RezObjItem's.
 	
@@ -407,7 +405,7 @@ CRezMapTable::CountAllSelectedRezObjItems()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetAllSelectedRezObjItems										[public]
+//  Â¥ GetAllSelectedRezObjItems										[public]
 // ---------------------------------------------------------------------------
 // Stores all the selected RezObjItem's in the LArray provided. Returns the 
 // number of elements found.
@@ -440,7 +438,7 @@ CRezMapTable::GetAllSelectedRezObjItems(LArray* & outArray)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetFirstSelectedRezObjItem										[public]
+//  Â¥ GetFirstSelectedRezObjItem										[public]
 // ---------------------------------------------------------------------------
 // Stores the first selected RezObjItem in the LArray provided. Returns the 
 // number of elements found.
@@ -473,7 +471,7 @@ CRezMapTable::GetFirstSelectedRezObjItem(CRezObjItem* & outRezObjItem)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetRezObjItem											[public]
+//  Â¥ GetRezObjItem											[public]
 // ---------------------------------------------------------------------------
 // The 'expandIfClosed' argument tells if the RezTypeItem should be expanded. 
 // If it is not, there cannot be any RezObjItems depending from it.
@@ -506,7 +504,7 @@ CRezMapTable::GetRezObjItem(ResType inType, short inID, Boolean expandIfClosed)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetRezTypeItem											[public]
+//  Â¥ GetRezTypeItem											[public]
 // ---------------------------------------------------------------------------
 	
 CRezTypeItem *
@@ -536,7 +534,7 @@ CRezMapTable::GetRezTypeItem(ResType inType, Boolean expandIfClosed)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ ExpandAll										[public]
+//  Â¥ ExpandAll										[public]
 // ---------------------------------------------------------------------------
 	
 void
@@ -553,7 +551,7 @@ CRezMapTable::ExpandAll() {
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CollapseAll										[public]
+//  Â¥ CollapseAll										[public]
 // ---------------------------------------------------------------------------
 	
 void
@@ -569,7 +567,7 @@ CRezMapTable::CollapseAll() {
 	
 
 // ---------------------------------------------------------------------------
-//  ¥ GetOwnerDoc										[public]
+//  Â¥ GetOwnerDoc										[public]
 // ---------------------------------------------------------------------------
 	
 CRezMapDoc *
@@ -580,7 +578,7 @@ CRezMapTable::GetOwnerDoc()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ Click													[protected]
+//  Â¥ Click													[protected]
 // ---------------------------------------------------------------------------
 // If no cell is hit by the click, try drag selection.
 // In order to support dragging from an inactive window,
@@ -713,7 +711,7 @@ CRezMapTable::TrackDrag(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ItemIsAcceptable										  [protected]
+//	Â¥ ItemIsAcceptable										  [protected]
 // ---------------------------------------------------------------------------
 // If flavor is of type flavorTypeHFS, accept only TEXT files. Otherwise, 
 // any flavor is accepted: a resource of the same type as the flavor will be 
@@ -754,7 +752,7 @@ CRezMapTable::ItemIsAcceptable(DragReference inDragRef, ItemReference inItemRef)
 
 
 // ---------------------------------------------------------------------------
-//	¥ ReceiveDragItem										  [protected]
+//	Â¥ ReceiveDragItem										  [protected]
 // ---------------------------------------------------------------------------
 
 void 
@@ -855,7 +853,7 @@ CRezMapTable::ReceiveDragItem(DragReference inDragRef,
 
 
 // ---------------------------------------------------------------------------
-//  ¥ RemoveAllItems										[public]
+//  Â¥ RemoveAllItems										[public]
 // ---------------------------------------------------------------------------
 	
 void
@@ -880,7 +878,7 @@ CRezMapTable::RemoveAllItems()
 
 
 // ---------------------------------------------------------------------------
-//	¥ HandleKeyPress
+//	Â¥ HandleKeyPress
 // ---------------------------------------------------------------------------
 static Boolean DoKeyCheck( const EventRecord & );
 
@@ -913,7 +911,7 @@ static Boolean DoKeyCheck( const EventRecord &inKeyEvent )
 			++numInBuffer;
 			if ( numInBuffer == 8 )
 			{
-				UMessageDialogs::SimpleMessage("\pLes insensŽs s'agitent, le sage se prŽlasse !", PPob_SimpleMessage);
+				UMessageDialogs::SimpleMessage("\pLes insensÂŽs s'agitent, le sage se prÂŽlasse !", PPob_SimpleMessage);
 				return true;
 			}
 			return false;
@@ -926,7 +924,7 @@ static Boolean DoKeyCheck( const EventRecord &inKeyEvent )
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CreateItemIfNecessary										[public]
+//  Â¥ CreateItemIfNecessary										[public]
 // ---------------------------------------------------------------------------
 	
 CRezObjItem *

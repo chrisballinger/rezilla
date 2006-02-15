@@ -5,11 +5,9 @@
 //             Last modification: 2005-07-04 19:55:59
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright: Bernard Desgraupes, 2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 // This class is modelled exactly after PP's LThemeTextBox but uses the 
 // kTextEncodingMacKeyboardGlyphs encoding to encode the CFString in order 
@@ -34,7 +32,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CKeyboardGlyphBox							Default Constructor		  [public]
+//	Â¥ CKeyboardGlyphBox							Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CKeyboardGlyphBox::CKeyboardGlyphBox()
@@ -47,7 +45,7 @@ CKeyboardGlyphBox::CKeyboardGlyphBox()
 
 
 // ---------------------------------------------------------------------------
-//	¥ CKeyboardGlyphBox							Parameterized Constructor [public]
+//	Â¥ CKeyboardGlyphBox							Parameterized Constructor [public]
 // ---------------------------------------------------------------------------
 
 CKeyboardGlyphBox::CKeyboardGlyphBox(
@@ -66,7 +64,7 @@ CKeyboardGlyphBox::CKeyboardGlyphBox(
 
 
 // ---------------------------------------------------------------------------
-//	¥ CKeyboardGlyphBox							Stream Constructor		  [public]
+//	Â¥ CKeyboardGlyphBox							Stream Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CKeyboardGlyphBox::CKeyboardGlyphBox(
@@ -92,7 +90,7 @@ CKeyboardGlyphBox::CKeyboardGlyphBox(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CKeyboardGlyphBox						Destructor				  [public]
+//	Â¥ ~CKeyboardGlyphBox						Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CKeyboardGlyphBox::~CKeyboardGlyphBox()
@@ -101,7 +99,7 @@ CKeyboardGlyphBox::~CKeyboardGlyphBox()
 
 
 // ---------------------------------------------------------------------------
-//	¥ ActivateSelf												   [protected]
+//	Â¥ ActivateSelf												   [protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -112,7 +110,7 @@ CKeyboardGlyphBox::ActivateSelf()
 
 
 // ---------------------------------------------------------------------------
-//	¥ DeactivateSelf											   [protected]
+//	Â¥ DeactivateSelf											   [protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -123,7 +121,7 @@ CKeyboardGlyphBox::DeactivateSelf()
 
 
 // ---------------------------------------------------------------------------
-//	¥ EnableSelf												   [protected]
+//	Â¥ EnableSelf												   [protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -134,7 +132,7 @@ CKeyboardGlyphBox::EnableSelf()
 
 
 // ---------------------------------------------------------------------------
-//	¥ DisableSelf												   [protected]
+//	Â¥ DisableSelf												   [protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -145,7 +143,7 @@ CKeyboardGlyphBox::DisableSelf()
 
 
 // ---------------------------------------------------------------------------
-//	¥ DrawSelf													   [protected]
+//	Â¥ DrawSelf													   [protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -195,7 +193,7 @@ CKeyboardGlyphBox::DrawSelf()
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetString													   [protected]
+//	Â¥ SetString													   [protected]
 // ---------------------------------------------------------------------------
 // Allowable values for inString[1] are : 0, 2-31, 97-122, 135-138 (Menus.h)
 

@@ -4,12 +4,10 @@
 //                       Created: 2004-12-08 18:21:21
 //             Last modification: 2005-01-15 12:33:50
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2004-2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 
@@ -138,7 +136,7 @@ CUtxt_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 
 
 // ---------------------------------------------------------------------------
-//	¥ FindCommandStatus
+//	Â¥ FindCommandStatus
 // ---------------------------------------------------------------------------
 
 void
@@ -160,7 +158,7 @@ CUtxt_EditorWindow::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------
-//	¥ InstallText													[public]
+//	Â¥ InstallText													[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -173,7 +171,7 @@ CUtxt_EditorWindow::InstallText(Handle inTextHandle)
 
 
 // ---------------------------------------------------------------------------
-//	¥ IsDirty														[public]
+//	Â¥ IsDirty														[public]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -189,7 +187,7 @@ CUtxt_EditorWindow::IsDirty()
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetLengthField												[public]
+//	Â¥ SetLengthField												[public]
 // ---------------------------------------------------------------------------
 
 void

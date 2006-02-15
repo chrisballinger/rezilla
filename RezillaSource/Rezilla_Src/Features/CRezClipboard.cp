@@ -3,12 +3,10 @@
 //                       Created: 2003-05-11 21:05:08
 //             Last modification: 2005-01-12 17:46:53
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// © Copyright: Bernard Desgraupes 2003-2005
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
+// (c) Copyright: Bernard Desgraupes 2003-2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 #include "CRezClipboard.h"
@@ -36,7 +34,7 @@ CRezMap *	CRezClipboard::sScrapRezMap = nil;
 short		CRezClipboard::sScrapRefnum = kResFileNotOpened;
 
 // ---------------------------------------------------------------------------
-//	¥ CRezClipboard							Default Constructor		  [public]
+//	Â¥ CRezClipboard							Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CRezClipboard::CRezClipboard()
@@ -48,7 +46,7 @@ CRezClipboard::CRezClipboard()
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CRezClipboard							Destructor			  [public]
+//	Â¥ ~CRezClipboard							Destructor			  [public]
 // ---------------------------------------------------------------------------
 
 CRezClipboard::~CRezClipboard()
@@ -73,7 +71,7 @@ CRezClipboard::~CRezClipboard()
 
 
 // ---------------------------------------------------------------------------
-//	¥ NewLocalScrap										   [protected]
+//	Â¥ NewLocalScrap										   [protected]
 // ---------------------------------------------------------------------------
 // /Developer/Examples/Printing/App/BasicPrintLoop/PrintLoop/Source/main.c
 // /Developer/Examples/Printing/Printer/Plugins/SamplePM/Source/RasterUtils.cp
@@ -144,7 +142,7 @@ CRezClipboard::NewLocalScrap()
 
 
 // ---------------------------------------------------------------------------
-//	¥ DeleteLocalScrap												   [protected]
+//	Â¥ DeleteLocalScrap												   [protected]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -171,7 +169,7 @@ CRezClipboard::DeleteLocalScrap()
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetDataSelf												   [protected]
+//	Â¥ GetDataSelf												   [protected]
 // ---------------------------------------------------------------------------
 //	Pass back the data in the Clipboard of the specified type in a Handle
 //	and return the size of the data
@@ -211,7 +209,7 @@ CRezClipboard::GetDataSelf(
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetDataSelf												   [protected]
+//	Â¥ SetDataSelf												   [protected]
 // ---------------------------------------------------------------------------
 //	Set the Clipboard contents to the data specified by a pointer and length
 //
@@ -253,7 +251,7 @@ CRezClipboard::SetDataSelf(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ImportSelf												   [protected]
+//	Â¥ ImportSelf												   [protected]
 // ---------------------------------------------------------------------------
 //	Import the data in the global scrap to a local scrap
 //
@@ -330,7 +328,7 @@ CRezClipboard::ImportSelf()
 	
 
 // ---------------------------------------------------------------------------
-//	¥ ExportSelf												   [protected]
+//	Â¥ ExportSelf												   [protected]
 // ---------------------------------------------------------------------------
 //	Export the data in a local scrap to the global scrap
 //
@@ -379,7 +377,7 @@ CRezClipboard::ExportSelf()
 
 
 // ---------------------------------------------------------------------------
-//	¥ ContentsIsValidHex										   [protected]
+//	Â¥ ContentsIsValidHex										   [protected]
 // ---------------------------------------------------------------------------
 //	Check it the actual contents of the scrap are valid hexadecimal data 
 // (only 0-9, a-f, A-F).
@@ -395,7 +393,7 @@ CRezClipboard::ContentsIsValidHex()
 
 
 // ---------------------------------------------------------------------------
-//	¥ DataArrayToScrapRezMap											[private]
+//	Â¥ DataArrayToScrapRezMap											[private]
 // ---------------------------------------------------------------------------
 //	Set the ScrapRezMap contents to the data specified by a pointer and length.
 //

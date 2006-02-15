@@ -2,14 +2,12 @@
 // CPluginsController.h
 // 
 //                       Created: 2005-09-26 09:48:26
-//             Last modification: 2005-10-01 06:14:50
+//             Last modification: 2006-02-15 16:38:57
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes, 2005
+// www: <http://rezilla.sourceforge.net/>
+// (c) Copyright: Bernard Desgraupes, 2005, 2006
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 #ifndef _H_CPluginsController
@@ -33,6 +31,7 @@ public:
 		static CFMutableDictionaryRef	sPluginsDict;
 		
 protected:
+		static TArray<CRezillaPlugin*>	sPluginsList;
 
 
 private:

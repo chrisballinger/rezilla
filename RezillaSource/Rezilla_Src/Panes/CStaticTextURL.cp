@@ -4,12 +4,10 @@
 //                       Created: 2004-06-20 20:22:41
 //             Last modification: 2004-06-21 14:05:10
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2004
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 #ifdef PowerPlant_PCH
@@ -30,7 +28,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CStaticTextURL							Stream Constructor		  [public]
+//	Â¥ CStaticTextURL							Stream Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CStaticTextURL::CStaticTextURL(
@@ -44,7 +42,7 @@ CStaticTextURL::CStaticTextURL(
 
 
 // ---------------------------------------------------------------------------
-//	¥ CStaticTextURL							Parameterized Constructor [public]
+//	Â¥ CStaticTextURL							Parameterized Constructor [public]
 // ---------------------------------------------------------------------------
 
 CStaticTextURL::CStaticTextURL(
@@ -60,7 +58,7 @@ CStaticTextURL::CStaticTextURL(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CStaticTextURL							Destructor				  [public]
+//	Â¥ ~CStaticTextURL							Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CStaticTextURL::~CStaticTextURL()
@@ -69,7 +67,7 @@ CStaticTextURL::~CStaticTextURL()
 
 
 // ---------------------------------------------------------------------------
-//	¥ InitUrlPane
+//	Â¥ InitUrlPane
 // ---------------------------------------------------------------------------
 
 void 
@@ -85,7 +83,7 @@ CStaticTextURL::InitUrlPane()
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ SetUrlString													  [public]
+//	Â¥ SetUrlString													  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -97,7 +95,7 @@ CStaticTextURL::SetUrlString(
 
 
 // ---------------------------------------------------------------------------
-//   ¥ GetUrlString                                                   [public]
+//   Â¥ GetUrlString                                                   [public]
 // ---------------------------------------------------------------------------
 
 StringPtr
@@ -110,7 +108,7 @@ CStaticTextURL::GetUrlString(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AdjustMouseSelf
+//	Â¥ AdjustMouseSelf
 // ---------------------------------------------------------------------------
 
 void
@@ -129,7 +127,7 @@ CStaticTextURL::AdjustMouseSelf(
 
 
 // ---------------------------------------------------------------------------
-//	¥  ClickSelf
+//	Â¥  ClickSelf
 // ---------------------------------------------------------------------------
 
 void 
@@ -142,7 +140,7 @@ CStaticTextURL::ClickSelf(
 
 
 // ---------------------------------------------------------------------------
-//	¥  SendGurlGurlEvent
+//	Â¥  SendGurlGurlEvent
 // ---------------------------------------------------------------------------
 
 OSErr 

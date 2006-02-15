@@ -3,12 +3,10 @@
 //                       Created: 2005-01-10 09:03:25
 //             Last modification: 2005-01-10 22:17:23
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright: Bernard Desgraupes 2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 // Subclass the LSlider class to override the HotSpotResult function
 // and update the bitmap view after the slider has been tracked.
@@ -24,7 +22,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CSuiteSlider							Stream Constructor		  [public]
+//	Â¥ CSuiteSlider							Stream Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CSuiteSlider::CSuiteSlider(
@@ -36,7 +34,7 @@ CSuiteSlider::CSuiteSlider(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CSuiteSlider							Destructor				  [public]
+//	Â¥ ~CSuiteSlider							Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CSuiteSlider::~CSuiteSlider()
@@ -45,7 +43,7 @@ CSuiteSlider::~CSuiteSlider()
 
 
 // ---------------------------------------------------------------------------
-//	¥ DoTrackAction													  [public]
+//	Â¥ DoTrackAction													  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -58,7 +56,7 @@ CSuiteSlider::DoTrackAction(
 
 
 // ---------------------------------------------------------------------------
-//	¥ HotSpotResult													  [public]
+//	Â¥ HotSpotResult													  [public]
 // ---------------------------------------------------------------------------
 //	Perform result of clicking and releasing mouse inside a HotSpot
 

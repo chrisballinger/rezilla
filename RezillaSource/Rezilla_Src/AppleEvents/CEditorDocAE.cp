@@ -4,12 +4,10 @@
 //                       Created: 2005-04-09 10:03:39
 //             Last modification: 2005-05-16 22:47:07
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 //  AppleEvent Object Model Support. These methods are part of the CEditorDoc 
 //  class (inheriting from LModelObject).
@@ -27,7 +25,7 @@
 
 
 // ---------------------------------------------------------------------------
-//	¥ MakeSelfSpecifier												  [public]
+//	Â¥ MakeSelfSpecifier												  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -65,7 +63,7 @@ CEditorDoc::MakeSelfSpecifier(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetAEProperty
+//	Â¥ GetAEProperty
 // ---------------------------------------------------------------------------
 //	Return a descriptor for the specified Property
 //	rzom_pReadOnly		= 'pRDO';	// mapReadOnly
@@ -155,7 +153,7 @@ CEditorDoc::GetAEProperty(
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetAEProperty
+//	Â¥ SetAEProperty
 // ---------------------------------------------------------------------------
 // The CEditorDoc properties are readOnly. Pass up to the LDocument class.
 
@@ -175,7 +173,7 @@ CEditorDoc::SetAEProperty(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AEPropertyExists
+//	Â¥ AEPropertyExists
 // ---------------------------------------------------------------------------
 
 bool
@@ -206,7 +204,7 @@ CEditorDoc::AEPropertyExists(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetAEPosition
+//	Â¥ GetAEPosition
 // ---------------------------------------------------------------------------
 
 SInt32
@@ -237,7 +235,7 @@ CEditorDoc::GetAEPosition(const CEditorDoc * inDoc) {
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetSubModelByPosition											  [public]
+//	Â¥ GetSubModelByPosition											  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -269,7 +267,7 @@ CEditorDoc::GetSubModelByPosition(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetModelProperty
+//	Â¥ GetModelProperty
 // ---------------------------------------------------------------------------
 //	Return a ModelObject object for 'cwin' property
 
@@ -301,7 +299,7 @@ CEditorDoc::GetModelProperty(DescType inProperty) const
 
 
 // ---------------------------------------------------------------------------
-//	¥ HandleAESave													  [public]
+//	Â¥ HandleAESave													  [public]
 // ---------------------------------------------------------------------------
 //	Respond to "Save" AppleEvent
 

@@ -4,12 +4,10 @@
 //                       Created: 2004-06-11 10:48:38
 //             Last modification: 2006-02-08 12:28:54
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright : Bernard Desgraupes, 2004-2005, 2006
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 PP_Begin_Namespace_PowerPlant
@@ -50,7 +48,7 @@ CFPropertyListRef	CEditorsController::sAsTypeDictionary = NULL;
 
 
 // ---------------------------------------------------------------------------
-//	¥ CEditorsController					Constructor				  [public]
+//	Â¥ CEditorsController					Constructor				  [public]
 // ---------------------------------------------------------------------------
 
 CEditorsController::CEditorsController()
@@ -60,7 +58,7 @@ CEditorsController::CEditorsController()
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CEditorsController					Destructor				  [public]
+//	Â¥ ~CEditorsController					Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CEditorsController::~CEditorsController()
@@ -69,7 +67,7 @@ CEditorsController::~CEditorsController()
 
 
 // ---------------------------------------------------------------------------
-//	¥ BuildAsTypeDictionary											[public]
+//	Â¥ BuildAsTypeDictionary											[public]
 // ---------------------------------------------------------------------------
 // Create a CFDictionary whose keys are resource types and whose values are a
 // type having an identical structure. This concerns resource types whose type
@@ -134,7 +132,7 @@ CEditorsController::BuildAsTypeDictionary()
 
 
 // ---------------------------------------------------------------------------
-//	¥ FindSubstitutionType											[public]
+//	Â¥ FindSubstitutionType											[public]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -174,7 +172,7 @@ CEditorsController::FindSubstitutionType(ResType inType, ResType * outType)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ HasEditorForType												[public]
+//  Â¥ HasEditorForType												[public]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -223,7 +221,7 @@ CEditorsController::HasEditorForType(ResType inType, ResType * substType)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ InvokeCustomEditor											[public]
+//  Â¥ InvokeCustomEditor											[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -328,7 +326,7 @@ CEditorsController::InvokeCustomEditor(CRezMapDoc* inRezMapDoc,
 
 
 // ---------------------------------------------------------------------------
-//  ¥ OpenOrCreateWithTypeAndID										[public]
+//  Â¥ OpenOrCreateWithTypeAndID										[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -355,7 +353,7 @@ CEditorsController::OpenOrCreateWithTypeAndID(CRezMapTable* inSuperMap, ResType 
  
 
 // ---------------------------------------------------------------------------
-//  ¥ RegisterEditor												[public]
+//  Â¥ RegisterEditor												[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -368,7 +366,7 @@ CEditorsController::RegisterEditor()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ TypesCorrespond												[public]
+//  Â¥ TypesCorrespond												[public]
 // ---------------------------------------------------------------------------
 // Some editors edit several types simultaneously (like the IconFamily
 // editor or the menu editor). So the type of the resource to be edited

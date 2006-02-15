@@ -2,14 +2,12 @@
 // CPluginsController.cp
 // 
 //                       Created: 2005-09-26 09:48:26
-//             Last modification: 2005-10-01 08:49:02
+//             Last modification: 2006-02-15 16:38:51
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes, 2005
+// www: <http://rezilla.sourceforge.net/>
+// (c) Copyright: Bernard Desgraupes, 2005, 2006
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 #include "CPluginsController.h"
@@ -18,6 +16,7 @@
 #include "RezillaConstants.h"
 
 CFMutableDictionaryRef		CPluginsController::sPluginsDict;
+TArray<CRezillaPlugin*>		CPluginsController::sPluginsList;
 
 
 // ---------------------------------------------------------------------------
@@ -36,6 +35,12 @@ CPluginsController::CPluginsController()
 
 CPluginsController::~CPluginsController()
 {
+	TArrayIterator<CRezillaPlugin*> iterator(sPluginsList, LArrayIterator::from_End);
+	CRezillaPlugin *	thePlugin;
+	while (iterator.Previous(thePlugin)) {
+		sPluginsList.RemoveItemsAt(1, iterator.GetCurrentIndex());
+		delete thePlugin;
+	}
 }
 
 
@@ -214,7 +219,7 @@ CPluginsController::ScanPluginsFolder(CFURLRef inPlugInsURL)
 	CFArrayRef		bundleArray;
 
 	if (inPlugInsURL != nil) {
-		// Get the bundle objects for the application supportÕs plug-ins.
+		// Get the bundle objects for the application support's plug-ins.
 		bundleArray = ::CFBundleCreateBundlesFromDirectory( kCFAllocatorDefault, inPlugInsURL, NULL );
 		CFRelease( inPlugInsURL );
 		
@@ -256,8 +261,7 @@ CPluginsController::AddPluginToDictionary(CFBundleRef inBundleRef)
 	rezPlugin = new CRezillaPlugin(inBundleRef);
 	if (rezPlugin != nil) {
 		AddDictEntriesForPlugin(rezPlugin);
-// 		rezPlugin->RegisterPluginsDict();
-		
+		sPluginsList.AddItem(rezPlugin);
 	} else {
 		error = err_PluginGetInfoFailed;
 	}

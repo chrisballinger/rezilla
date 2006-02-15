@@ -3,12 +3,10 @@
 //                       Created: 2004-12-11 18:50:15
 //             Last modification: 2005-02-17 18:07:54
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright: Bernard Desgraupes 2004-2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 // 	Cursor structure is:
 // 		BW Image Bits (16 bits per row x 16 rows = 32 bytes)

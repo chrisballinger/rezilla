@@ -1,7 +1,5 @@
-// $Date$
-// $Revision$
 // =================================================================================
-//	UDragAndDropUtils.h				©1995-2000 Metrowerks Inc. All rights reserved.
+//	UDragAndDropUtils.h				Â©1995-2000 Metrowerks Inc. All rights reserved.
 // =================================================================================
 
 #pragma once
