@@ -140,7 +140,8 @@ enum
 {	
 	editor_kindGui,
 	editor_kindTmpl,
-	editor_kindHex
+	editor_kindHex,
+	editor_kindPlugin
 };
 
 // Bitmap editor
@@ -516,6 +517,7 @@ const CommandT	cmd_EditRez				= cmd_MenuResourceBase + 2;
 const CommandT	cmd_TmplEditRez			= cmd_MenuResourceBase + 3;	
 const CommandT	cmd_HexEditRez			= cmd_MenuResourceBase + 4;	
 const CommandT	cmd_EditRezAsType		= cmd_MenuResourceBase + 5;	
+const CommandT	cmd_EditWithPlugin		= cmd_MenuResourceBase + 6;	
 const CommandT	cmd_RemoveRez			= cmd_MenuResourceBase + 10;	
 const CommandT	cmd_DuplicateRez		= cmd_MenuResourceBase + 11;	
 const CommandT	cmd_GetRezInfo			= cmd_MenuResourceBase + 15;
@@ -1020,12 +1022,12 @@ const MessageT	msg_UIPrefsFontsMenu		= PPob_PrefsInterfacePane + item_UIPrefsFon
 const MessageT	msg_UIPrefsSizeMenu			= PPob_PrefsInterfacePane + item_UIPrefsSizeMenu;
 //     Templates Prefs Pane
 //     --------------------
-const MessageT	msg_EditPrefsHexSym0x		= PPob_PrefsTemplatesPane + item_TmplPrefsHexSym0x;
-const MessageT	msg_EditPrefsHexSymDollar	= PPob_PrefsTemplatesPane + item_TmplPrefsHexSymDollar;
-const MessageT	msg_EditPrefsHexLowercase	= PPob_PrefsTemplatesPane + item_TmplPrefsHexLowercase;
-const MessageT	msg_EditPrefsHexUppercase	= PPob_PrefsTemplatesPane + item_TmplPrefsHexUppercase;
-const MessageT	msg_EditPrefsDisplayFillers	= PPob_PrefsTemplatesPane + item_TmplPrefsDisplayFillers;
-const MessageT	msg_EditPrefsEnableFillers	= PPob_PrefsTemplatesPane + item_TmplPrefsEnableFillers;
+const MessageT	msg_TmplPrefsHexSym0x		= PPob_PrefsTemplatesPane + item_TmplPrefsHexSym0x;
+const MessageT	msg_TmplPrefsHexSymDollar	= PPob_PrefsTemplatesPane + item_TmplPrefsHexSymDollar;
+const MessageT	msg_TmplPrefsHexLowercase	= PPob_PrefsTemplatesPane + item_TmplPrefsHexLowercase;
+const MessageT	msg_TmplPrefsHexUppercase	= PPob_PrefsTemplatesPane + item_TmplPrefsHexUppercase;
+const MessageT	msg_TmplPrefsDisplayFillers	= PPob_PrefsTemplatesPane + item_TmplPrefsDisplayFillers;
+const MessageT	msg_TmplPrefsEnableFillers	= PPob_PrefsTemplatesPane + item_TmplPrefsEnableFillers;
 //     Editors Prefs Pane
 //     ------------------
 const MessageT	msg_EditPrefsUse8BitPicts	= PPob_PrefsEditorsPane + item_EditPrefsUse8BitPicts;
@@ -1375,8 +1377,11 @@ enum RezillaErrors
 	err_IconBadFontSize,
 	err_IconNoPictOnClipboard,
 	err_PluginGeneric				= 4000,	
+	err_PluginLoadFailed,
 	err_PluginGetInfoFailed,
-	err_RezillaErrorEnd
+	err_PluginUnsupportedType,
+	err_PluginWrongData,
+ 	err_RezillaErrorEnd
 };
 
 
