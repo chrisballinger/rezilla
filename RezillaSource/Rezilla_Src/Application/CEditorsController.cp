@@ -2,11 +2,11 @@
 // CEditorsController.cp					
 // 
 //                       Created: 2004-06-11 10:48:38
-//             Last modification: 2006-02-08 12:28:54
+//             Last modification: 2006-02-16 10:11:03
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2004-2005, 2006
+// (c) Copyright : Bernard Desgraupes, 2004-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -48,7 +48,7 @@ CFPropertyListRef	CEditorsController::sAsTypeDictionary = NULL;
 
 
 // ---------------------------------------------------------------------------
-//	¥ CEditorsController					Constructor				  [public]
+//   CEditorsController					Constructor				  [public]
 // ---------------------------------------------------------------------------
 
 CEditorsController::CEditorsController()
@@ -58,7 +58,7 @@ CEditorsController::CEditorsController()
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CEditorsController					Destructor				  [public]
+//     ~CEditorsController					Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CEditorsController::~CEditorsController()
@@ -67,7 +67,7 @@ CEditorsController::~CEditorsController()
 
 
 // ---------------------------------------------------------------------------
-//	¥ BuildAsTypeDictionary											[public]
+//   BuildAsTypeDictionary											[public]
 // ---------------------------------------------------------------------------
 // Create a CFDictionary whose keys are resource types and whose values are a
 // type having an identical structure. This concerns resource types whose type
@@ -132,7 +132,7 @@ CEditorsController::BuildAsTypeDictionary()
 
 
 // ---------------------------------------------------------------------------
-//	¥ FindSubstitutionType											[public]
+//   FindSubstitutionType											[public]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -172,7 +172,7 @@ CEditorsController::FindSubstitutionType(ResType inType, ResType * outType)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ HasEditorForType												[public]
+//   HasEditorForType												[public]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -221,7 +221,7 @@ CEditorsController::HasEditorForType(ResType inType, ResType * substType)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ InvokeCustomEditor											[public]
+//   InvokeCustomEditor											[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -326,7 +326,7 @@ CEditorsController::InvokeCustomEditor(CRezMapDoc* inRezMapDoc,
 
 
 // ---------------------------------------------------------------------------
-//  ¥ OpenOrCreateWithTypeAndID										[public]
+//   OpenOrCreateWithTypeAndID										[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -353,7 +353,7 @@ CEditorsController::OpenOrCreateWithTypeAndID(CRezMapTable* inSuperMap, ResType 
  
 
 // ---------------------------------------------------------------------------
-//  ¥ RegisterEditor												[public]
+//   RegisterEditor												[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -366,7 +366,7 @@ CEditorsController::RegisterEditor()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ TypesCorrespond												[public]
+//   TypesCorrespond												[public]
 // ---------------------------------------------------------------------------
 // Some editors edit several types simultaneously (like the IconFamily
 // editor or the menu editor). So the type of the resource to be edited
@@ -390,7 +390,6 @@ CEditorsController::TypesCorrespond(ResType inType1, ResType inType2, Boolean ex
 	
 	if (!exact) {
 		switch (inType1) {
-			
 			case 'ICN#':
 			case 'icl4':
 			case 'icl8':
@@ -413,7 +412,6 @@ CEditorsController::TypesCorrespond(ResType inType1, ResType inType2, Boolean ex
 				corresponds = true;
 				break;
 			}
-			
 			break;
 			
 			case 'xmnu':
