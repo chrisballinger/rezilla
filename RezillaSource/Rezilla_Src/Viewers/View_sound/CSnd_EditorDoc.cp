@@ -32,7 +32,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CSnd_EditorDoc							Constructor		  [public]
+//   CSnd_EditorDoc							Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CSnd_EditorDoc::CSnd_EditorDoc(LCommander* inSuper, 
@@ -48,7 +48,7 @@ CSnd_EditorDoc::CSnd_EditorDoc(LCommander* inSuper,
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CSnd_EditorDoc							Destructor				  [public]
+//     ~CSnd_EditorDoc							Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CSnd_EditorDoc::~CSnd_EditorDoc()
@@ -57,7 +57,7 @@ CSnd_EditorDoc::~CSnd_EditorDoc()
 
 
 // ---------------------------------------------------------------------------
-//	¥ Initialize													  [public]
+//   Initialize													  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -77,7 +77,7 @@ CSnd_EditorDoc::Initialize()
 
 
 // ---------------------------------------------------------------------------
-//	¥ Play														  [public]
+//   Play														  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -89,7 +89,7 @@ CSnd_EditorDoc::Play(Handle inSoundH)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetModifiedResource										[private]
+//   GetModifiedResource										[private]
 // ---------------------------------------------------------------------------
 // Needs to be defined because it is purely virtual
 

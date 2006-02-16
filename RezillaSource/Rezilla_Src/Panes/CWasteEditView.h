@@ -381,7 +381,7 @@ private:
 //================== INLINES =====================
 
 // ---------------------------------------------------------------------------
-//	¥ GetWasteRef							[public]
+//   GetWasteRef							[public]
 // ---------------------------------------------------------------------------
 //	Return a WEReference to the Waste Edit Record associated with a 
 //	CWasteEditView.
@@ -397,7 +397,7 @@ CWasteEditView::GetWasteRef()
 }
 
 // ---------------------------------------------------------------------------
-//	¥ SetWasteRef							[public]
+//   SetWasteRef							[public]
 // ---------------------------------------------------------------------------
 inline
 void
@@ -408,7 +408,7 @@ CWasteEditView::SetWasteRef(WEReference inWERef)
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetTextTraitsID						[public]
+//   GetTextTraitsID						[public]
 // ---------------------------------------------------------------------------
 
 inline
@@ -420,7 +420,7 @@ CWasteEditView::GetTextTraitsID() const
 
 
 // ---------------------------------------------------------------------------
-//	¥ HasAttribute							[public]
+//   HasAttribute							[public]
 // ---------------------------------------------------------------------------
 // Utility routine to determine if a given CWasteEditView has the requested
 // attribute.
@@ -435,7 +435,7 @@ CWasteEditView::HasAttribute(
 
 
 // ---------------------------------------------------------------------------
-// 	¥ GetAttributes							[public]
+//   GetAttributes							[public]
 // ---------------------------------------------------------------------------
 //	Returns the raw attribute flags. Treat as read-only
 
@@ -447,7 +447,7 @@ CWasteEditView::GetAttributes() const
 }
 
 // ---------------------------------------------------------------------------
-//	¥ SetAttributes							[public]
+//   SetAttributes							[public]
 // ---------------------------------------------------------------------------
 //	Allows the setting of the attributes. This does not toggle attributes
 //	but rather replaces all existing attributes with the value passed as
@@ -468,7 +468,7 @@ CWasteEditView::SetAttributes(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ToggleAttribute						[public]
+//   ToggleAttribute						[public]
 // ---------------------------------------------------------------------------
 //	Allows the toggling of an attribute setting. If you wish to change all
 //	attributes in one call, use SetAttributes instead.

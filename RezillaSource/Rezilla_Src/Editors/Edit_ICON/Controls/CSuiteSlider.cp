@@ -22,7 +22,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CSuiteSlider							Stream Constructor		  [public]
+//   CSuiteSlider							Stream Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CSuiteSlider::CSuiteSlider(
@@ -34,7 +34,7 @@ CSuiteSlider::CSuiteSlider(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CSuiteSlider							Destructor				  [public]
+//     ~CSuiteSlider							Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CSuiteSlider::~CSuiteSlider()
@@ -43,7 +43,7 @@ CSuiteSlider::~CSuiteSlider()
 
 
 // ---------------------------------------------------------------------------
-//	¥ DoTrackAction													  [public]
+//   DoTrackAction													  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -56,7 +56,7 @@ CSuiteSlider::DoTrackAction(
 
 
 // ---------------------------------------------------------------------------
-//	¥ HotSpotResult													  [public]
+//   HotSpotResult													  [public]
 // ---------------------------------------------------------------------------
 //	Perform result of clicking and releasing mouse inside a HotSpot
 

@@ -51,7 +51,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CIcon_EditorDoc							Constructor		  [public]
+//   CIcon_EditorDoc							Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CIcon_EditorDoc::CIcon_EditorDoc(LCommander* inSuper, 
@@ -66,7 +66,7 @@ CIcon_EditorDoc::CIcon_EditorDoc(LCommander* inSuper,
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CIcon_EditorDoc							Destructor			[public]
+//     ~CIcon_EditorDoc							Destructor			[public]
 // ---------------------------------------------------------------------------
 
 CIcon_EditorDoc::~CIcon_EditorDoc()
@@ -87,7 +87,7 @@ CIcon_EditorDoc::~CIcon_EditorDoc()
 
 
 // ---------------------------------------------------------------------------
-//	¥ Initialize													  [public]
+//   Initialize													  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -186,7 +186,7 @@ CIcon_EditorDoc::Initialize()
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetDescriptor													  [public]
+//   GetDescriptor													  [public]
 // ---------------------------------------------------------------------------
 //	Pass back the name of a Document
 
@@ -207,7 +207,7 @@ CIcon_EditorDoc::GetDescriptor(
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ FindCommandStatus
+//   FindCommandStatus
 // ---------------------------------------------------------------------------------
 
 void
@@ -231,7 +231,7 @@ CIcon_EditorDoc::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AllowSubRemoval												  [public]
+//   AllowSubRemoval												  [public]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -248,7 +248,7 @@ CIcon_EditorDoc::AllowSubRemoval(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AskSaveChanges												  [public]
+//   AskSaveChanges												  [public]
 // ---------------------------------------------------------------------------
 // Ask user whether to save changes before closing the Document.
 
@@ -261,7 +261,7 @@ CIcon_EditorDoc::AskSaveChanges(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetModifiedResource										[protected]
+//   GetModifiedResource										[protected]
 // ---------------------------------------------------------------------------
 
 Handle

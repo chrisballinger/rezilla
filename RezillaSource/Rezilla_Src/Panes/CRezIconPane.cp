@@ -27,7 +27,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CRezIconPane								Default Constructor		  [public]
+//   CRezIconPane								Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CRezIconPane::CRezIconPane()
@@ -37,7 +37,7 @@ CRezIconPane::CRezIconPane()
 
 
 // ---------------------------------------------------------------------------
-//	¥ CRezIconPane								Parameterized Constructor [public]
+//   CRezIconPane								Parameterized Constructor [public]
 // ---------------------------------------------------------------------------
 
 CRezIconPane::CRezIconPane(
@@ -50,7 +50,7 @@ CRezIconPane::CRezIconPane(
 
 
 // ---------------------------------------------------------------------------
-//	¥ CRezIconPane								Stream Constructor		  [public]
+//   CRezIconPane								Stream Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CRezIconPane::CRezIconPane(
@@ -62,7 +62,7 @@ CRezIconPane::CRezIconPane(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CRezIconPane							Destructor				  [public]
+//     ~CRezIconPane							Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CRezIconPane::~CRezIconPane()
@@ -71,7 +71,7 @@ CRezIconPane::~CRezIconPane()
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetIconID														  [public]
+//   SetIconID														  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -84,7 +84,7 @@ CRezIconPane::SetIconID(
 
 
 // ---------------------------------------------------------------------------
-//	¥ DrawSelf														  [public]
+//   DrawSelf														  [public]
 // ---------------------------------------------------------------------------
 
 void

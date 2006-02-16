@@ -33,7 +33,7 @@ LMenu *		CUtxt_EditorView::sUtxtStyleMenu = nil;
 
 
 // ---------------------------------------------------------------------------
-//	¥ CUtxt_EditorView						Default Constructor		  [public]
+//   CUtxt_EditorView						Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CUtxt_EditorView::CUtxt_EditorView()
@@ -43,7 +43,7 @@ CUtxt_EditorView::CUtxt_EditorView()
 
 
 // ---------------------------------------------------------------------------
-//	¥ CUtxt_EditorView						Stream Constructor		  [public]
+//   CUtxt_EditorView						Stream Constructor		  [public]
 // ---------------------------------------------------------------------------
 // Use the Preference interface settings when creating a new TEXT resource.
 
@@ -72,7 +72,7 @@ CUtxt_EditorView::CUtxt_EditorView(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CUtxt_EditorView						Destructor				  [public]
+//     ~CUtxt_EditorView						Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CUtxt_EditorView::~CUtxt_EditorView()
@@ -85,7 +85,7 @@ CUtxt_EditorView::~CUtxt_EditorView()
 
 
 // ---------------------------------------------------------------------------
-//	¥ FinishCreateSelf
+//   FinishCreateSelf
 // ---------------------------------------------------------------------------
 
 void
@@ -191,7 +191,7 @@ CUtxt_EditorView::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ObeyCommand							[public, virtual]
+//   ObeyCommand							[public, virtual]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -272,7 +272,7 @@ CUtxt_EditorView::ObeyCommand(
 
 
 // // ---------------------------------------------------------------------------
-// //	¥ HandleKeyPress
+// //   HandleKeyPress
 // // ---------------------------------------------------------------------------
 // 
 // Boolean
@@ -387,7 +387,7 @@ CUtxt_EditorView::RemoveUnicodeMenus()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetModifiedText										[public]
+//   GetModifiedText										[public]
 // ---------------------------------------------------------------------------
 // Note: we don't have to check if there is already a BOM because, 
 // even if there was one in the original resource data, MLTE would 
@@ -438,7 +438,7 @@ CUtxt_EditorView::GetModifiedText()
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetFontSize										[public, virtual]
+//   GetFontSize										[public, virtual]
 // ---------------------------------------------------------------------------
 // SInt16
 
@@ -462,7 +462,7 @@ CUtxt_EditorView::GetFontSize( Fixed &outSize )
 
 
 // ---------------------------------------------------------------------------
-//	¥ ChangeFontSizeBy									[public, virtual]
+//   ChangeFontSizeBy									[public, virtual]
 // ---------------------------------------------------------------------------
 //	Will only work if the font over the selection range is constant.  Returns
 //	true if change was successful.
@@ -482,7 +482,7 @@ CUtxt_EditorView::ChangeFontSizeBy( SInt16	inDeltaSize)
 
 
 // ---------------------------------------------------------------------------------
-//	¥ GetFontStyle										[public, virtual]
+//   GetFontStyle										[public, virtual]
 // ---------------------------------------------------------------------------------
 
 Boolean
@@ -505,7 +505,7 @@ CUtxt_EditorView::GetFontStyle( Style &outStyle )
 
 
 // ---------------------------------------------------------------------------------
-//	¥ GetFontColor										[public, virtual]
+//   GetFontColor										[public, virtual]
 // ---------------------------------------------------------------------------------
 
 Boolean
@@ -527,7 +527,7 @@ CUtxt_EditorView::GetFontColor(
 
 
 // ---------------------------------------------------------------------------------
-//	¥ GetDataSize														[public]
+//   GetDataSize														[public]
 // ---------------------------------------------------------------------------------
 
 ByteCount
@@ -538,7 +538,7 @@ CUtxt_EditorView::GetDataSize()
 
 
 // ---------------------------------------------------------------------------------
-//	¥ CountChanges														[public]
+//   CountChanges														[public]
 // ---------------------------------------------------------------------------------
 
 OSStatus
@@ -552,7 +552,7 @@ CUtxt_EditorView::CountChanges(ByteCount & outCount)
 
 
 // ---------------------------------------------------------------------------------
-//	¥ ResetChangesCount													[public]
+//   ResetChangesCount													[public]
 // ---------------------------------------------------------------------------------
 //   kTXNTextInputCountMask / kTXNRunCountMask / kTXNAllCountMask
 
@@ -564,7 +564,7 @@ CUtxt_EditorView::ResetChangesCount()
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetUnicodePtr														[public]
+//   SetUnicodePtr														[public]
 // ---------------------------------------------------------------------------
 
 void

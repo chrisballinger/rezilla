@@ -64,7 +64,7 @@ extern const Str15 Rzil_AeteExportItems[] = {
 
 
 // ---------------------------------------------------------------------------
-//	¥ CAete_EditorDoc						Default Constructor		  [public]
+//   CAete_EditorDoc						Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CAete_EditorDoc::CAete_EditorDoc(LCommander* inSuper,
@@ -79,7 +79,7 @@ CAete_EditorDoc::CAete_EditorDoc(LCommander* inSuper,
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CAete_EditorDoc						Destructor				  [public]
+//     ~CAete_EditorDoc						Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CAete_EditorDoc::~CAete_EditorDoc()
@@ -95,7 +95,7 @@ CAete_EditorDoc::~CAete_EditorDoc()
 
 
 // ---------------------------------------------------------------------------
-//	¥ Initialize							Default Constructor		  [public]
+//   Initialize							Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -141,7 +141,7 @@ CAete_EditorDoc::Initialize()
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetDescriptor													  [public]
+//   GetDescriptor													  [public]
 // ---------------------------------------------------------------------------
 //	Pass back the name of a Document
 
@@ -162,7 +162,7 @@ CAete_EditorDoc::GetDescriptor(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AllowSubRemoval												  [public]
+//   AllowSubRemoval												  [public]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -203,7 +203,7 @@ CAete_EditorDoc::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ObeyCommand							[public, virtual]
+//   ObeyCommand							[public, virtual]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -273,7 +273,7 @@ CAete_EditorDoc::GetModifiedResource(Boolean &releaseIt)
 
 
 // ---------------------------------------------------------------------------
-//	¥ DesignateExportFile								[public static]
+//   DesignateExportFile								[public static]
 // ---------------------------------------------------------------------------
 
 Boolean

@@ -29,7 +29,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CPICT_EditorView								Stream Constructor [public]
+//   CPICT_EditorView								Stream Constructor [public]
 // ---------------------------------------------------------------------------
 
 CPICT_EditorView::CPICT_EditorView(
@@ -43,7 +43,7 @@ CPICT_EditorView::CPICT_EditorView(
 
 
 // ---------------------------------------------------------------------------
-//	¥ CPICT_EditorView								Constructor		  [public]
+//   CPICT_EditorView								Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CPICT_EditorView::CPICT_EditorView(
@@ -68,7 +68,7 @@ CPICT_EditorView::~CPICT_EditorView()
 
 
 // ---------------------------------------------------------------------------
-//	¥ AdaptPicture													 [private]
+//   AdaptPicture													 [private]
 // ---------------------------------------------------------------------------
 //	Assumes mPictureH is set. If the PICT handle exists, set the Image size
 //	to the size of the picture.
@@ -87,7 +87,7 @@ CPICT_EditorView::AdaptPicture()
 
 
 // ---------------------------------------------------------------------------
-//	¥ ErasePicture													 [private]
+//   ErasePicture													 [private]
 // ---------------------------------------------------------------------------
 
 void
@@ -101,7 +101,7 @@ CPICT_EditorView::ErasePicture()
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetPictureH													[public]
+//   SetPictureH													[public]
 // ---------------------------------------------------------------------------
 void
 CPICT_EditorView::SetPictureH(PicHandle inPictureH) 
@@ -118,7 +118,7 @@ CPICT_EditorView::SetPictureH(PicHandle inPictureH)
 
 
 // ---------------------------------------------------------------------------
-//	¥ DrawSelf													   [protected]
+//   DrawSelf													   [protected]
 // ---------------------------------------------------------------------------
 // Draw the picture. If the Picture handle exists, draw it. Otherwise, fill
 // the Frame with a light gray pattern and a one-pixel border.
@@ -153,7 +153,7 @@ CPICT_EditorView::DrawSelf()
 
 
 // ---------------------------------------------------------------------------
-//	¥ Click
+//   Click
 // ---------------------------------------------------------------------------
 //	Handle a click inside the picture view by alternately drawing or 
 //	erasing a border around the image.
@@ -177,7 +177,7 @@ CPICT_EditorView::Click(
 
 
 // ---------------------------------------------------------------------------
-//	¥ DrawBorder
+//   DrawBorder
 // ---------------------------------------------------------------------------
 //  Border around a picture is outset from the interior by 1 pixel.
 

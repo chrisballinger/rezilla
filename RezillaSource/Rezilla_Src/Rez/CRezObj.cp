@@ -20,7 +20,7 @@
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CRezObj														[public]
+//   CRezObj														[public]
 // ---------------------------------------------------------------------------
 
 CRezObj::CRezObj(Handle inResHandle, short inRefnum)
@@ -42,7 +42,7 @@ CRezObj::CRezObj(Handle inResHandle, short inRefnum)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CRezObj														[public]
+//   CRezObj														[public]
 // ---------------------------------------------------------------------------
 // Call this constructor for an already existing resource whose type and ID 
 // are known.
@@ -74,7 +74,7 @@ CRezObj::CRezObj(CRezType * inRezType, short inID)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CRezObj														[public]
+//   CRezObj														[public]
 // ---------------------------------------------------------------------------
 // Call this constructor if type, ID and name are known (name can be
 // empty). It also concerns resources which do not already exist in the
@@ -104,7 +104,7 @@ CRezObj::CRezObj(CRezType * inRezType,
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CRezObj														[public]
+//   CRezObj														[public]
 // ---------------------------------------------------------------------------
 // Call this constructor when a temporary object is needed to represent a
 // resource whose type, ID and name are specified (name can be empty). The
@@ -133,7 +133,7 @@ CRezObj::CRezObj(short inRefnum,
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CRezObj														[public]
+//   CRezObj														[public]
 // ---------------------------------------------------------------------------
 
 CRezObj::CRezObj(CRezType * inRezType)
@@ -156,7 +156,7 @@ CRezObj::CRezObj(CRezType * inRezType)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CRezObj							Copy Constructor			[public]
+//   CRezObj							Copy Constructor			[public]
 // ---------------------------------------------------------------------------
 
 CRezObj::CRezObj(CRezObj& inOriginal)
@@ -179,7 +179,7 @@ CRezObj::CRezObj(CRezObj& inOriginal)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ ~CRezObj														[public]
+//     ~CRezObj														[public]
 // ---------------------------------------------------------------------------
 
 CRezObj::~CRezObj()
@@ -188,7 +188,7 @@ CRezObj::~CRezObj()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ Add															[public]
+//   Add															[public]
 // ---------------------------------------------------------------------------
 // Adds a resource to the current resource file's resource map in memory. 
 
@@ -202,7 +202,7 @@ CRezObj::Add()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ Remove														[public]
+//   Remove														[public]
 // ---------------------------------------------------------------------------
 // Removes a resource's entry from the  current  resource  file's  resource
 // map in memory. If the resProtected attribute for the resource is set  or
@@ -231,7 +231,7 @@ CRezObj::Remove()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ Changed														[public]
+//   Changed														[public]
 // ---------------------------------------------------------------------------
 // Sets a flag in the resource's resource map entry in  memory  to  show  that
 // you've made changes to a resource's data or  to  an  entry  in  a  resource
@@ -251,7 +251,7 @@ CRezObj::Changed()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ Detach														[public]
+//   Detach														[public]
 // ---------------------------------------------------------------------------
 // Sets the value of a resource's handle in the resource map in memory 
 // to NULL while keeping the resource data in memory. 
@@ -270,7 +270,7 @@ CRezObj::Detach()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ Release														[public]
+//   Release														[public]
 // ---------------------------------------------------------------------------
 // Releases the memory a resource occupies when you have finished using it. 
 
@@ -288,7 +288,7 @@ CRezObj::Release()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ Load															[public]
+//   Load															[public]
 // ---------------------------------------------------------------------------
 // The function reads the resource data into memory. If the resource is
 // already in memory, or if mData doesn't contain a handle to a resource,
@@ -310,7 +310,7 @@ CRezObj::Load()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ Write															[public]
+//   Write															[public]
 // ---------------------------------------------------------------------------
 // Writes resource data  in  memory  immediately  to  a  file's  resource
 // fork. If the resource is purgeable and has been purged,  the  function
@@ -335,7 +335,7 @@ CRezObj::Write()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetRezHandle														[public]
+//   GetRezHandle														[public]
 // ---------------------------------------------------------------------------
 // This loads the resource data in memory since we DON'T call
 // SetResLoad(false). 
@@ -350,7 +350,7 @@ CRezObj::GetRezHandle()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetInfoFromMap												[public]
+//   GetInfoFromMap												[public]
 // ---------------------------------------------------------------------------
 // Gets a resource's resource ID, resource type, and resource name from the 
 // resource map.
@@ -369,7 +369,7 @@ CRezObj::GetInfoFromMap()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ SetInfoInMap													[public]
+//   SetInfoInMap													[public]
 // ---------------------------------------------------------------------------
 // Sets the name and resource ID of a resource in the resource map. 
 
@@ -387,7 +387,7 @@ CRezObj::SetInfoInMap()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ SetName														[public]
+//   SetName														[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -403,7 +403,7 @@ CRezObj::SetName(Str255* inName)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetAttributesFromMap											[public]
+//   GetAttributesFromMap											[public]
 // ---------------------------------------------------------------------------
 // Gets a resource's attributes. 
 
@@ -421,7 +421,7 @@ CRezObj::GetAttributesFromMap(short & outAttribute)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ SetAttributesInMap													[public]
+//   SetAttributesInMap													[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -446,7 +446,7 @@ CRezObj::SetAttributesInMap(short inAttributes)
 
 
 // ---------------------------------------------------------------------------
-//	¥ ToggleOneAttribute											[inline]
+//   ToggleOneAttribute											[inline]
 // ---------------------------------------------------------------------------
 //	Allows the toggling of an attribute setting. If you wish to change all
 //	attributes in one call, use SetAttributesInMap instead.
@@ -470,7 +470,7 @@ CRezObj::ToggleOneAttribute(short inFlag)
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetOneAttribute												[inline]
+//   SetOneAttribute												[inline]
 // ---------------------------------------------------------------------------
 //	Allows to set a single attribute. If you wish to change all
 //	attributes in one call, use SetAttributesInMap instead.
@@ -493,7 +493,7 @@ CRezObj::SetOneAttribute(short inFlag, Boolean inSetting)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetMaxSize													[public]
+//   GetMaxSize													[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -510,7 +510,7 @@ CRezObj::GetMaxSize(Size & outSize)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetSizeOnDisk													[public]
+//   GetSizeOnDisk													[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -527,7 +527,7 @@ CRezObj::GetSizeOnDisk(Size & outSize) const
 
 
 // ---------------------------------------------------------------------------
-//  ¥ SetSizeOnDisk														[public]
+//   SetSizeOnDisk														[public]
 // ---------------------------------------------------------------------------
 // Sets the size of a resource on disk.
 // This function is  normally  used  only  with  the  ReadPartialResource  and
@@ -554,7 +554,7 @@ CRezObj::SetSizeOnDisk(Size inSize)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetIndexInType													[public]
+//   GetIndexInType													[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -587,7 +587,7 @@ CRezObj::GetIndexInType(SInt32 & outIndex) const
 
 
 // // ---------------------------------------------------------------------------
-// //  ¥ GetIndexInMap													[public]
+// //   GetIndexInMap													[public]
 // // ---------------------------------------------------------------------------
 // 
 // OSErr
@@ -604,7 +604,7 @@ CRezObj::GetIndexInType(SInt32 & outIndex) const
 
 
 // ---------------------------------------------------------------------------
-//  ¥ SetData														[public]
+//   SetData														[public]
 // ---------------------------------------------------------------------------
 // Double strategy to set data: first try to resize the existing handle and
 // then copy the new data into it. Sometimes this fails with error
@@ -658,7 +658,7 @@ CRezObj::SetData(Handle srcHandle)
 
 
 // // ---------------------------------------------------------------------------
-// //  ¥ ReadPartial												[public]
+// //   ReadPartial												[public]
 // // ---------------------------------------------------------------------------
 // 
 // CRezObj::ReadPartial(long offset, const void * buffer, long count)
@@ -667,7 +667,7 @@ CRezObj::SetData(Handle srcHandle)
 // 
 // 
 // // ---------------------------------------------------------------------------
-// //  ¥ WritePartial												[public]
+// //   WritePartial												[public]
 // // ---------------------------------------------------------------------------
 // 
 // CRezObj::WritePartial(long offset, const void * buffer, long count)

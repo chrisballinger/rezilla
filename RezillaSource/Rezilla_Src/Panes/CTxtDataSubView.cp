@@ -33,7 +33,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CTxtDataSubView						Default Constructor		  [public]
+//   CTxtDataSubView						Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CTxtDataSubView::CTxtDataSubView()
@@ -45,7 +45,7 @@ CTxtDataSubView::CTxtDataSubView()
 
 
 // ---------------------------------------------------------------------------
-//	¥ CTxtDataSubView						Constructor		  [public]
+//   CTxtDataSubView						Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CTxtDataSubView::CTxtDataSubView(CHexDataSubView * inSiblingView)
@@ -57,7 +57,7 @@ CTxtDataSubView::CTxtDataSubView(CHexDataSubView * inSiblingView)
 
 
 // ---------------------------------------------------------------------------
-//	¥ CTxtDataSubView						Parameterized Constructor [public]
+//   CTxtDataSubView						Parameterized Constructor [public]
 // ---------------------------------------------------------------------------
 
 CTxtDataSubView::CTxtDataSubView(
@@ -79,7 +79,7 @@ CTxtDataSubView::CTxtDataSubView(
 
 
 // ---------------------------------------------------------------------------
-//	¥ CTxtDataSubView						Stream Constructor		  [public]
+//   CTxtDataSubView						Stream Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CTxtDataSubView::CTxtDataSubView(
@@ -92,7 +92,7 @@ CTxtDataSubView::CTxtDataSubView(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CTxtDataSubView						Destructor				  [public]
+//     ~CTxtDataSubView						Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CTxtDataSubView::~CTxtDataSubView()
@@ -102,7 +102,7 @@ CTxtDataSubView::~CTxtDataSubView()
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ ClickSelf											[protected, virtual]
+//   ClickSelf											[protected, virtual]
 // ---------------------------------------------------------------------------
 
 void
@@ -128,7 +128,7 @@ CTxtDataSubView::ClickSelf(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AdjustCursorPos											[protected, virtual]
+//   AdjustCursorPos											[protected, virtual]
 // ---------------------------------------------------------------------------
 
 void
@@ -143,7 +143,7 @@ CTxtDataSubView::AdjustCursorPos()
 
 
 // ---------------------------------------------------------------------------
-//	¥ NearestCharPos											[protected, virtual]
+//   NearestCharPos											[protected, virtual]
 // ---------------------------------------------------------------------------
 // Returns the nearest pos just before a char value
 
@@ -155,7 +155,7 @@ CTxtDataSubView::NearestCharPos(SInt32 inPos)
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetCurrCharPos											[public]
+//   GetCurrCharPos											[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -170,7 +170,7 @@ CTxtDataSubView::GetCurrCharPos(SInt32 & outCharSelStart, SInt32 & outCharSelEnd
 
 
 // ---------------------------------------------------------------------------
-//	¥ PosToCharPos											[protected, virtual]
+//   PosToCharPos											[protected, virtual]
 // ---------------------------------------------------------------------------
 
 SInt32
@@ -182,7 +182,7 @@ CTxtDataSubView::PosToCharPos(SInt32 inPos)
 
 
 // ---------------------------------------------------------------------------
-//	¥ CharPosToPos											[protected, virtual]
+//   CharPosToPos											[protected, virtual]
 // ---------------------------------------------------------------------------
 
 SInt32
@@ -193,7 +193,7 @@ CTxtDataSubView::CharPosToPos(SInt32 inCharPos)
 
 
 // ---------------------------------------------------------------------------
-//	¥ CharPosToLine											[protected, virtual]
+//   CharPosToLine											[protected, virtual]
 // ---------------------------------------------------------------------------
 
 SInt32
@@ -207,7 +207,7 @@ CTxtDataSubView::CharPosToLine(SInt32 inCharPos)
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetCurrLine											[public]
+//   GetCurrLine											[public]
 // ---------------------------------------------------------------------------
 
 SInt32
@@ -222,7 +222,7 @@ CTxtDataSubView::GetCurrLine()
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetCurrLines											[public]
+//   GetCurrLines											[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -240,7 +240,7 @@ CTxtDataSubView::GetCurrLines(SInt32 & outFirstLine, SInt32 & outLastLine)
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ HandleKeyPress							[public, virtual]
+//   HandleKeyPress							[public, virtual]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -427,7 +427,7 @@ CTxtDataSubView::HandleKeyPress(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ObeyCommand											[public, virtual]
+//   ObeyCommand											[public, virtual]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -500,7 +500,7 @@ CTxtDataSubView::ObeyCommand(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ScrollImageBy											[public, virtual]
+//   ScrollImageBy											[public, virtual]
 // ---------------------------------------------------------------------------
 //	Scroll the Text
 
@@ -522,7 +522,7 @@ CTxtDataSubView::ScrollImageBy(
 
 
 // ---------------------------------------------------------------------------
-//	¥ InsertContents								[public, virtual]
+//   InsertContents								[public, virtual]
 // ---------------------------------------------------------------------------
 
 void
@@ -540,7 +540,7 @@ CTxtDataSubView::InsertContents(Handle inHandle)
 
 
 // ---------------------------------------------------------------------------
-//	¥ InsertContents								[public, virtual]
+//   InsertContents								[public, virtual]
 // ---------------------------------------------------------------------------
 
 void
@@ -558,7 +558,7 @@ CTxtDataSubView::InsertContents(const void * inPtr, SInt32 inByteCount)
 
 
 // ---------------------------------------------------------------------------
-//	¥ CursorMoved							[public, virtual]
+//   CursorMoved							[public, virtual]
 // ---------------------------------------------------------------------------
 
 void
@@ -598,7 +598,7 @@ CTxtDataSubView::CursorMoved(SInt32 inPos)
 
 
 // ---------------------------------------------------------------------------
-//	¥ UserChangedText						[public, virtual]
+//   UserChangedText						[public, virtual]
 // ---------------------------------------------------------------------------
 //	Text of WasteEdit has changed as a result of user action
 
@@ -610,7 +610,7 @@ CTxtDataSubView::UserChangedText()
 
 
 // ---------------------------------------------------------------------------
-//	¥ UserChangedText						[public, virtual]
+//   UserChangedText						[public, virtual]
 // ---------------------------------------------------------------------------
 //	Text of WasteEdit has changed as a result of user action
 
@@ -685,7 +685,7 @@ CTxtDataSubView::SetDirty(Boolean inDirty)
 
 
 // ---------------------------------------------------------------------------
-//	¥ SyncPositionsWithSibling
+//   SyncPositionsWithSibling
 // ---------------------------------------------------------------------------
 
 void
@@ -696,7 +696,7 @@ CTxtDataSubView::SyncPositionsWithSibling(SInt32 inStartPos, SInt32 inEndPos)
 
 
 // ---------------------------------------------------------------------------
-//	¥ SyncContentsWithMemory
+//   SyncContentsWithMemory
 // ---------------------------------------------------------------------------
 
 void

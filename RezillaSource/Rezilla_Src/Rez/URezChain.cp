@@ -14,7 +14,7 @@
 
 
 // ---------------------------------------------------------------------------
-//  ¥ InsertFile														[public]
+//   InsertFile														[public]
 // ---------------------------------------------------------------------------
 // Possible values for inWhere argument are:
 //   kRsrcChainBelowSystemMap			Below the system's resource map
@@ -30,7 +30,7 @@ URezChain::InsertFile( SInt16 inRefNum, RsrcChainLocation inWhere)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ DetachFile														[public]
+//   DetachFile														[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -41,7 +41,7 @@ URezChain::DetachFile(SInt16 inRefNum)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetTopFile														[public]
+//   GetTopFile														[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -52,7 +52,7 @@ URezChain::GetTopFile(SInt16 & outRefNum)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetNextFile														[public]
+//   GetNextFile														[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -63,7 +63,7 @@ URezChain::GetNextFile(SInt16 inCurRefNum, SInt16 & outNextRefNum)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ Count														[public]
+//   Count														[public]
 // ---------------------------------------------------------------------------
 // If the resource chain is empty, resFNotFound is returned.
 
@@ -88,7 +88,7 @@ URezChain::Count()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetChainList														[public]
+//   GetChainList														[public]
 // ---------------------------------------------------------------------------
 
 TArray<ResType>*

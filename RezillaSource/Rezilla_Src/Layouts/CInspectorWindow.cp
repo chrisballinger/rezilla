@@ -40,7 +40,7 @@
 #include <string.h>
 
 // ---------------------------------------------------------------------------
-//		¥ CInspectorWindow				[public]
+//   CInspectorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CInspectorWindow::CInspectorWindow()
@@ -50,7 +50,7 @@ CInspectorWindow::CInspectorWindow()
 
 
 // ---------------------------------------------------------------------------
-//		¥ CInspectorWindow				[public]
+//   CInspectorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CInspectorWindow::CInspectorWindow(
@@ -62,7 +62,7 @@ CInspectorWindow::CInspectorWindow(
 
 
 // ---------------------------------------------------------------------------
-//		¥ CInspectorWindow				[public]
+//   CInspectorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CInspectorWindow::CInspectorWindow(
@@ -76,7 +76,7 @@ CInspectorWindow::CInspectorWindow(
 
 
 // ---------------------------------------------------------------------------
-//		¥ CInspectorWindow				[public]
+//   CInspectorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CInspectorWindow::CInspectorWindow(
@@ -88,7 +88,7 @@ CInspectorWindow::CInspectorWindow(
 
 
 // ---------------------------------------------------------------------------
-//		¥ ~CInspectorWindow				[public]
+//     ~CInspectorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CInspectorWindow::~CInspectorWindow()
@@ -97,7 +97,7 @@ CInspectorWindow::~CInspectorWindow()
 
 
 // ---------------------------------------------------------------------------
-//		¥ FinishCreateSelf				[protected]
+//   FinishCreateSelf				[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -153,7 +153,7 @@ CInspectorWindow::FinishCreateSelf()
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ FindCommandStatus
+//   FindCommandStatus
 // ---------------------------------------------------------------------------------
 
 void
@@ -195,7 +195,7 @@ CInspectorWindow::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------
-//		¥ ListenToMessage				[public]
+//   ListenToMessage				[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -245,7 +245,7 @@ CInspectorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 
 
 // ---------------------------------------------------------------------------
-//	¥ ShowSelf
+//   ShowSelf
 // ---------------------------------------------------------------------------
 
 void
@@ -256,7 +256,7 @@ CInspectorWindow::ShowSelf()
 
 
 // ---------------------------------------------------------------------------
-//	¥ AttemptClose
+//   AttemptClose
 // ---------------------------------------------------------------------------
 //	Try to close a Window as a result of direct user action
 
@@ -269,7 +269,7 @@ CInspectorWindow::AttemptClose()
 
 
 // ---------------------------------------------------------------------------
-//	¥ DoClose
+//   DoClose
 // ---------------------------------------------------------------------------
 //	Close the inspector window: hide it but keep it in memory, then make 
 // sure the top window gets the target.
@@ -282,7 +282,7 @@ CInspectorWindow::DoClose()
 
 
 // ---------------------------------------------------------------------------
-//	¥ InitializeRezInfo												[private]
+//   InitializeRezInfo												[private]
 // ---------------------------------------------------------------------------
 
 void
@@ -302,7 +302,7 @@ CInspectorWindow::InitializeRezInfo()
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetSavedInfo												[protected]
+//   SetSavedInfo												[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -313,7 +313,7 @@ CInspectorWindow::SetSavedInfo(SResourceObjInfoPtr inRezInfoPtr)
 
 
 // ---------------------------------------------------------------------------
-//	¥ InstallValues												[public]
+//   InstallValues												[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -327,7 +327,7 @@ CInspectorWindow::InstallValues(CRezObjItem * inRezObjItem)
 
 
 // ---------------------------------------------------------------------------
-//	¥ InstallValues												[public]
+//   InstallValues												[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -353,7 +353,7 @@ CInspectorWindow::InstallValues(CRezObj * inRezObj)
 
 
 // ---------------------------------------------------------------------------
-//	¥ InstallValues												[public]
+//   InstallValues												[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -426,7 +426,7 @@ CInspectorWindow::InstallValues()
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetValueForAttribute											[public]
+//   SetValueForAttribute											[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -461,7 +461,7 @@ CInspectorWindow::SetValueForAttribute(short inFlag, Boolean inState)
 
 
 // ---------------------------------------------------------------------------
-//	¥ SaveValues											[protected]
+//   SaveValues											[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -472,7 +472,7 @@ CInspectorWindow::SaveValues()
 
 
 // ---------------------------------------------------------------------------
-//	¥ RetrieveValues											[protected]
+//   RetrieveValues											[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -505,7 +505,7 @@ CInspectorWindow::RetrieveValues(SResourceObjInfoPtr inRezInfoPtr)
 
 
 // ---------------------------------------------------------------------------
-//	¥ UpdateRezMapTable											[private]
+//   UpdateRezMapTable											[private]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -561,7 +561,7 @@ CInspectorWindow::UpdateRezMapTable()
 
 	
 // ---------------------------------------------------------------------------
-//	¥ ClearValues											[protected]
+//   ClearValues											[protected]
 // ---------------------------------------------------------------------------
 
 void

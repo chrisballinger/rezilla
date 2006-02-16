@@ -57,7 +57,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CHexEditorDoc							Constructor		  [public]
+//   CHexEditorDoc							Constructor		  [public]
 // ---------------------------------------------------------------------------
 // 	: CEditorController( inSuperMap )
 
@@ -73,7 +73,7 @@ CHexEditorDoc::CHexEditorDoc(LCommander* inSuper,
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CHexEditorDoc							Destructor				  [public]
+//     ~CHexEditorDoc							Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CHexEditorDoc::~CHexEditorDoc()
@@ -85,7 +85,7 @@ CHexEditorDoc::~CHexEditorDoc()
 
 
 // ---------------------------------------------------------------------------
-//	¥ Initialize													  [public]
+//   Initialize													  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -123,7 +123,7 @@ CHexEditorDoc::Initialize()
 
 
 // ---------------------------------------------------------------------------
-//	¥ ObeyCommand									[public, virtual]
+//   ObeyCommand									[public, virtual]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -158,7 +158,7 @@ CHexEditorDoc::ObeyCommand(
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ RunFindDialog
+//   RunFindDialog
 // ---------------------------------------------------------------------------------
 
 void
@@ -239,7 +239,7 @@ CHexEditorDoc::RunFindDialog()
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ FindInPane
+//   FindInPane
 // ---------------------------------------------------------------------------------
 
 OSErr
@@ -311,7 +311,7 @@ CHexEditorDoc::FindInPane(PaneIDT inWhichPane,
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ IsModified
+//   IsModified
 // ---------------------------------------------------------------------------------
 
 Boolean
@@ -324,7 +324,7 @@ CHexEditorDoc::IsModified()
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetDescriptor													  [public]
+//   GetDescriptor													  [public]
 // ---------------------------------------------------------------------------
 //	Pass back the name of a Document
 
@@ -345,7 +345,7 @@ CHexEditorDoc::GetDescriptor(
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ FindCommandStatus
+//   FindCommandStatus
 // ---------------------------------------------------------------------------------
 
 void
@@ -366,7 +366,7 @@ CHexEditorDoc::FindCommandStatus(
 		break;
 								
 		case cmd_Find:
-			LString::CopyPStr( "\pFind�", outName);
+			LString::CopyPStr( "\pFindÉ", outName);
 			outEnabled = true;
 			break;
 								
@@ -387,7 +387,7 @@ CHexEditorDoc::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AllowSubRemoval												  [public]
+//   AllowSubRemoval												  [public]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -404,7 +404,7 @@ CHexEditorDoc::AllowSubRemoval(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AskSaveChanges												  [public]
+//   AskSaveChanges												  [public]
 // ---------------------------------------------------------------------------
 //	Ask user whether to save changes before closing the Document or
 //	quitting the Application
@@ -419,7 +419,7 @@ CHexEditorDoc::AskSaveChanges(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetModifiedResource										[public]
+//   GetModifiedResource										[public]
 // ---------------------------------------------------------------------------
 // The returned handle should not be released by the caller so leave
 // releaseIt to false (its default).

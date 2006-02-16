@@ -20,7 +20,7 @@
 
 
 // ---------------------------------------------------------------------------
-//	¥ MakeSelfSpecifier												  [public]
+//   MakeSelfSpecifier												  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -28,27 +28,27 @@ CEditorWindow::MakeSelfSpecifier(
 	AEDesc	&inSuperSpecifier,
 	AEDesc	&outSelfSpecifier) const
 {
-		DescType		keyForm;
-		StAEDescriptor	keyData;
-		OSErr			err;
-
-		// Specify by position
-		SInt32	windowIndex = mOwnerDoc->GetSuperModel()->GetPositionOfSubModel(rzom_cEditorWindow, this);
-		keyForm = formAbsolutePosition;
-		keyData.Assign(windowIndex);
-
-		err = ::CreateObjSpecifier(	rzom_cEditorWindow,
-									&inSuperSpecifier,
-									keyForm,
-									keyData,
-									false,		// Don't dispose inputs
-									&outSelfSpecifier);
-		ThrowIfOSErr_(err);
+	DescType		keyForm;
+	StAEDescriptor	keyData;
+	OSErr			err;
+	
+	// Specify by position
+	SInt32	windowIndex = mOwnerDoc->GetSuperModel()->GetPositionOfSubModel(rzom_cEditorWindow, this);
+	keyForm = formAbsolutePosition;
+	keyData.Assign(windowIndex);
+	
+	err = ::CreateObjSpecifier(	rzom_cEditorWindow,
+							   &inSuperSpecifier,
+							   keyForm,
+							   keyData,
+							   false,		// Don't dispose inputs
+							   &outSelfSpecifier);
+	ThrowIfOSErr_(err);
 }
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetAEProperty
+//   GetAEProperty
 // ---------------------------------------------------------------------------
 //	Return a descriptor for the specified Property
 // 	rzom_pKind			= 'pKND';	// Kind
@@ -90,7 +90,7 @@ CEditorWindow::GetAEProperty(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AEPropertyExists
+//   AEPropertyExists
 // ---------------------------------------------------------------------------
 
 bool

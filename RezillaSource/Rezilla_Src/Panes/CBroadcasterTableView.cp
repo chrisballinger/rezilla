@@ -14,7 +14,7 @@
 
 
 // ---------------------------------------------------------------------------
-//		¥ CBroadcasterTableView
+//   CBroadcasterTableView
 // ---------------------------------------------------------------------------
 //	Constructor
 
@@ -33,7 +33,7 @@ CBroadcasterTableView::CBroadcasterTableView(
 
 
 // ---------------------------------------------------------------------------
-//		¥ ~CBroadcasterTableView
+//     ~CBroadcasterTableView
 // ---------------------------------------------------------------------------
 //	Destructor
 
@@ -43,7 +43,7 @@ CBroadcasterTableView::~CBroadcasterTableView()
 
 
 // ---------------------------------------------------------------------------
-//		¥ DrawCell
+//   DrawCell
 // ---------------------------------------------------------------------------
 
 void
@@ -65,7 +65,7 @@ CBroadcasterTableView::DrawCell(
 
 
 // ---------------------------------------------------------------------------
-//		¥ HiliteCellActively
+//   HiliteCellActively
 // ---------------------------------------------------------------------------
 //	Draw or undraw active hiliting for a Cell
 
@@ -101,7 +101,7 @@ CBroadcasterTableView::HiliteCellActively(
 
 
 // ---------------------------------------------------------------------------
-//		¥ HiliteCellInactively
+//   HiliteCellInactively
 // ---------------------------------------------------------------------------
 //	Draw or undraw inactive hiliting for a Cell
 
@@ -137,7 +137,7 @@ CBroadcasterTableView::HiliteCellInactively(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ClickCell
+//   ClickCell
 // ---------------------------------------------------------------------------
 //	Handle a mouse click within the specified Cell
 

@@ -30,7 +30,7 @@
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CRezMapWindow				[public]
+//   CRezMapWindow				[public]
 // ---------------------------------------------------------------------------
 
 CRezMapWindow::CRezMapWindow()
@@ -39,7 +39,7 @@ CRezMapWindow::CRezMapWindow()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CRezMapWindow				[public]
+//   CRezMapWindow				[public]
 // ---------------------------------------------------------------------------
 
 CRezMapWindow::CRezMapWindow(
@@ -50,7 +50,7 @@ CRezMapWindow::CRezMapWindow(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CRezMapWindow				[public]
+//   CRezMapWindow				[public]
 // ---------------------------------------------------------------------------
 
 CRezMapWindow::CRezMapWindow(
@@ -63,7 +63,7 @@ CRezMapWindow::CRezMapWindow(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CRezMapWindow				[public]
+//   CRezMapWindow				[public]
 // ---------------------------------------------------------------------------
 
 CRezMapWindow::CRezMapWindow(
@@ -74,7 +74,7 @@ CRezMapWindow::CRezMapWindow(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ ~CRezMapWindow				[public]
+//     ~CRezMapWindow				[public]
 // ---------------------------------------------------------------------------
 
 CRezMapWindow::~CRezMapWindow()
@@ -83,7 +83,7 @@ CRezMapWindow::~CRezMapWindow()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ FinishCreateSelf											[protected]
+//   FinishCreateSelf											[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -122,7 +122,7 @@ CRezMapWindow::FinishCreateSelf()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ ListenToMessage												[public]
+//   ListenToMessage												[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -134,7 +134,7 @@ CRezMapWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetCountTypeField											[public]
+//   GetCountTypeField											[public]
 // ---------------------------------------------------------------------------
 
 long
@@ -150,7 +150,7 @@ CRezMapWindow::GetCountTypeField() const
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetCountRezField											[public]
+//   GetCountRezField											[public]
 // ---------------------------------------------------------------------------
 
 long
@@ -166,7 +166,7 @@ CRezMapWindow::GetCountRezField() const
 
 
 // ---------------------------------------------------------------------------
-//  ¥ SetCountTypeField											[public]
+//   SetCountTypeField											[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -179,7 +179,7 @@ CRezMapWindow::SetCountTypeField(long inCount)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ SetCountRezField											[public]
+//   SetCountRezField											[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -192,7 +192,7 @@ CRezMapWindow::SetCountRezField(long inCount)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ RecalcCountFields												[public]
+//   RecalcCountFields												[public]
 // ---------------------------------------------------------------------------
 // Update the count fields at the bottom of the rezmap window
 
@@ -210,7 +210,7 @@ CRezMapWindow::RecalcCountFields()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ InstallWhichForkField											[public]
+//   InstallWhichForkField											[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -227,7 +227,7 @@ CRezMapWindow::InstallWhichForkField()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ InstallReadOnlyIcon											[public]
+//   InstallReadOnlyIcon											[public]
 // ---------------------------------------------------------------------------
 
 void

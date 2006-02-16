@@ -60,7 +60,7 @@ SRezillaPrefs	CRezillaPrefs::sCurrPrefs;
 
 
 // ---------------------------------------------------------------------------
-//	¥ CRezillaPrefs											[public]
+//   CRezillaPrefs											[public]
 // ---------------------------------------------------------------------------
 //  Object constructor
 
@@ -71,7 +71,7 @@ CRezillaPrefs::CRezillaPrefs()
 
 
 // ---------------------------------------------------------------------------
-//	¥ CRezillaPrefs											[public]
+//   CRezillaPrefs											[public]
 // ---------------------------------------------------------------------------
 //	Object constructor, specifying SuperCommander
 
@@ -83,7 +83,7 @@ CRezillaPrefs::CRezillaPrefs( LCommander* inSuper )
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CRezillaPrefs								[public, virtual]
+//     ~CRezillaPrefs								[public, virtual]
 // ---------------------------------------------------------------------------
 
 CRezillaPrefs::~CRezillaPrefs()
@@ -92,7 +92,7 @@ CRezillaPrefs::~CRezillaPrefs()
 
 
 // ---------------------------------------------------------------------------
-//	¥ Initialize												[public]
+//   Initialize												[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -116,7 +116,7 @@ CRezillaPrefs::Initialize()
 
 
 // ---------------------------------------------------------------------------
-//	¥ MakePrefsWindow												  [public]
+//   MakePrefsWindow												  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -128,7 +128,7 @@ CRezillaPrefs::MakePrefsWindow()
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetDefaultPreferences											[public]
+//   SetDefaultPreferences											[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -177,7 +177,7 @@ CRezillaPrefs::SetDefaultPreferences()
 
 
 // ---------------------------------------------------------------------------
-//	¥ StorePreferences												[public]
+//   StorePreferences												[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -322,7 +322,7 @@ CRezillaPrefs::StorePreferences()
 
 
 // ---------------------------------------------------------------------------
-//	¥ RetrievePreferences												[public]
+//   RetrievePreferences												[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -459,7 +459,7 @@ CRezillaPrefs::RetrievePreferences()
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetPrefValue												[public]
+//   SetPrefValue												[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -672,7 +672,7 @@ CRezillaPrefs::SetPrefValue(SInt32 inPrefValue, SInt32 inConstant, SInt32 inPref
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetPrefValue												[public]
+//   GetPrefValue												[public]
 // ---------------------------------------------------------------------------
 
 SInt32
@@ -888,7 +888,7 @@ CRezillaPrefs::GetPrefValue(SInt32 inConstant, SInt32 inPrefType)
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetStyleElement												[public]
+//   GetStyleElement												[public]
 // ---------------------------------------------------------------------------
 // Default value for inPrefType is 'prefsType_Temp'
 
@@ -904,7 +904,7 @@ CRezillaPrefs::GetStyleElement(SInt32 inPrefType)
 
 
 // ---------------------------------------------------------------------------
-//	¥ LoadStyleElement												[public]
+//   LoadStyleElement												[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -915,7 +915,7 @@ CRezillaPrefs::LoadStyleElement(TextTraitsPtr inTraitsRecPtr)
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetStyleElement												[public]
+//   SetStyleElement												[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -953,7 +953,7 @@ CRezillaPrefs::SetStyleElement(SInt16 inStyleValue,
 
 
 // ---------------------------------------------------------------------------
-//	¥ ValidateTempPrefs												[public]
+//   ValidateTempPrefs												[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -964,7 +964,7 @@ CRezillaPrefs::ValidateTempPrefs()
 
 
 // ---------------------------------------------------------------------------
-//	¥ InitTempPrefs												[public]
+//   InitTempPrefs												[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -975,7 +975,7 @@ CRezillaPrefs::InitTempPrefs()
 
 
 // ---------------------------------------------------------------------------
-//	¥ PrefsHaveChanged											[public]
+//   PrefsHaveChanged											[public]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -986,7 +986,7 @@ CRezillaPrefs::PrefsHaveChanged()
 
 
 // ---------------------------------------------------------------------------
-//	¥ ApplyStylePrefs										[public]
+//   ApplyStylePrefs										[public]
 // ---------------------------------------------------------------------------
 // Apply the style changes to all the windows listening.
 
@@ -999,7 +999,7 @@ CRezillaPrefs::ApplyStylePrefs()
 
 
 // ---------------------------------------------------------------------------
-//	¥ RunPrefsDialog											[public]
+//   RunPrefsDialog											[public]
 // ---------------------------------------------------------------------------
 //	Display the preferences window for the application
 
@@ -1226,7 +1226,7 @@ CRezillaPrefs::RunPrefsDialog()
 							// If they match, no need to use 'Other' item
 							if (UMiscUtils::FontSizeExists(thePopup, theSize, itemIndex)) {
 								thePopup->SetValue(itemIndex);
-								::SetMenuItemText( thePopup->GetMacMenuH(), kLastSizeMenuItem + 2, theLine.Assign("\pOther�"));					
+								::SetMenuItemText( thePopup->GetMacMenuH(), kLastSizeMenuItem + 2, theLine.Assign("\pOtherÉ"));					
 							} else {
 								// Modify the text of the 'Other' item.
 								Str255	theSizeString;
@@ -1234,7 +1234,7 @@ CRezillaPrefs::RunPrefsDialog()
 								::NumToString( theSize, theSizeString );
 								// Append the current size
 								theLine += theSizeString;
-								theLine += "\p)�";
+								theLine += "\p)É";
 								// Set the menu item text.
 								::SetMenuItemText( thePopup->GetMacMenuH(), kLastSizeMenuItem + 2, theLine );					
 							}
@@ -1242,7 +1242,7 @@ CRezillaPrefs::RunPrefsDialog()
 					} else {
 						::GetMenuItemText( thePopup->GetMacMenuH(), thePopup->GetValue(), theString );
 						::StringToNum( theString, &theSize );
-						::SetMenuItemText( thePopup->GetMacMenuH(), kLastSizeMenuItem + 2, theLine.Assign("\pOther�"));					
+						::SetMenuItemText( thePopup->GetMacMenuH(), kLastSizeMenuItem + 2, theLine.Assign("\pOtherÉ"));					
 					}
 					SetStyleElement( (SInt16) theSize, style_sizeType, prefsType_Temp);
 					break;
@@ -1396,7 +1396,7 @@ CRezillaPrefs::RunPrefsDialog()
 
 
 // ---------------------------------------------------------------------------
-//	¥ UpdateVars												[private]
+//   UpdateVars												[private]
 // ---------------------------------------------------------------------------
 
 void

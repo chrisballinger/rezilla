@@ -54,7 +54,7 @@
 
 
 // ---------------------------------------------------------------------------
-//		¥ InitPaneInfos												[static]
+//   InitPaneInfos												[static]
 // ---------------------------------------------------------------------------
 
 void
@@ -239,7 +239,7 @@ CTmplEditorWindow::InitPaneInfos()
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ AddStaticField													[public]
+//   AddStaticField													[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -275,7 +275,7 @@ CTmplEditorWindow::AddStaticField(OSType inType, Str255 inLabel, LView * inConta
 
 
 // ---------------------------------------------------------------------------
-//	¥ AddEditField													[public]
+//   AddEditField													[public]
 // ---------------------------------------------------------------------------
 // If the inWidth argument is not 0, it is used to impose the width of the
 // EditField. If it is 0, the width is calculated using the inMaxChars
@@ -376,7 +376,7 @@ CTmplEditorWindow::AddEditField(Str255 inValue,
 
 
 // ---------------------------------------------------------------------------
-//	¥ AddBooleanField											[public]
+//   AddBooleanField											[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -450,7 +450,7 @@ CTmplEditorWindow::AddBooleanField(Boolean inValue,
 
 
 // ---------------------------------------------------------------------------
-//	¥ AddBitField											[public]
+//   AddBitField											[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -527,7 +527,7 @@ CTmplEditorWindow::AddBitField(OSType inType,
 
 
 // ---------------------------------------------------------------------------
-//	¥ AddCheckField											[public]
+//   AddCheckField											[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -557,7 +557,7 @@ CTmplEditorWindow::AddCheckField(Boolean inValue,
 
 
 // ---------------------------------------------------------------------------
-//	¥ AddWasteField													[public]
+//   AddWasteField													[public]
 // ---------------------------------------------------------------------------
 // C string. This should be either characters followed by a null or all
 // the chars until the end of the stream if there is no null byte.
@@ -665,7 +665,7 @@ CTmplEditorWindow::AddWasteField(OSType inType, LView * inContainer, SInt32 inRe
 
 
 // ---------------------------------------------------------------------------
-//	¥ AddHexDumpField													[public]
+//   AddHexDumpField													[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -818,7 +818,7 @@ CTmplEditorWindow::AddHexDumpField(OSType inType, LView * inContainer, SInt32 in
 
 
 // ---------------------------------------------------------------------------
-//	¥ AddPointField													[public]
+//   AddPointField													[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -878,7 +878,7 @@ CTmplEditorWindow::AddPointField(SInt16 inX,
 
 
 // ---------------------------------------------------------------------------
-//	¥ AddRectField													[public]
+//   AddRectField													[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -986,7 +986,7 @@ CTmplEditorWindow::AddRectField(SInt16 inTop,
 
 
 // ---------------------------------------------------------------------------
-//	¥ AddListHeaderField											[public]
+//   AddListHeaderField											[public]
 // ---------------------------------------------------------------------------
 
 PaneIDT
@@ -1075,7 +1075,7 @@ CTmplEditorWindow::AddListHeaderField(Str255 inLabel,
  
 
 // ---------------------------------------------------------------------------
-//	¥ AddListItemView											[public]
+//   AddListItemView											[public]
 // ---------------------------------------------------------------------------
 
 CTmplListItemView *
@@ -1120,7 +1120,7 @@ CTmplEditorWindow::AddListItemView(CTmplListItemView * inPrevListItemView,
 
 
 // ---------------------------------------------------------------------------
-//	¥ AddSeparatorLine											[public]
+//   AddSeparatorLine											[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -1144,7 +1144,7 @@ CTmplEditorWindow::AddSeparatorLine(LView * inContainer)
 
 
 // ---------------------------------------------------------------------------
-//	¥ AddEditPopup													[public]
+//   AddEditPopup													[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -1192,7 +1192,7 @@ CTmplEditorWindow::AddEditPopup(Str255 inValue,
 
 
 // ---------------------------------------------------------------------------
-//	¥ AddFlagPopup													[public]
+//   AddFlagPopup													[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -1244,7 +1244,7 @@ CTmplEditorWindow::AddFlagPopup(ResType inType, Str255 inLabel, UInt32 inValue, 
 
 
 // ---------------------------------------------------------------------------
-//	¥ AddColorPane													[public]
+//   AddColorPane													[public]
 // ---------------------------------------------------------------------------
 
 void

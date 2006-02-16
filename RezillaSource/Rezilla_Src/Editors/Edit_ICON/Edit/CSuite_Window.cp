@@ -208,7 +208,7 @@ CSuite_Window::ListenToMessage( MessageT inMessage, void *ioParam )
 
 
 // ---------------------------------------------------------------------------
-//	¥ HandleKeyPress												  [public]
+//   HandleKeyPress												  [public]
 // ---------------------------------------------------------------------------
 // The PageUp and PageDown arrows move the slider by 1 unit (recall that
 // the simple arrow keys are used by the Text tool to nudge the selection

@@ -147,7 +147,7 @@ CIndexedEditField::FinishCreateSelf()
 
 
 // ---------------------------------------------------------------------------
-//	¥ DrawSelf
+//   DrawSelf
 // ---------------------------------------------------------------------------
 
 void
@@ -213,7 +213,7 @@ CIndexedEditField::Click(SMouseDownEvent &inMouseDown)
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetDescriptor													  [public]
+//   GetDescriptor													  [public]
 // ---------------------------------------------------------------------------
 
 StringPtr
@@ -226,7 +226,7 @@ CIndexedEditField::GetDescriptor(
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetDescriptor													  [public]
+//   SetDescriptor													  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -238,7 +238,7 @@ CIndexedEditField::SetDescriptor(
 
 
 // ---------------------------------------------------------------------------
-//	¥ DrawBorder
+//   DrawBorder
 // ---------------------------------------------------------------------------
 //  Border around a CIndexedEditField is outset from the interior by 1 pixel.
 // 	::MacFrameRect(&frame);
@@ -271,7 +271,7 @@ CIndexedEditField::DrawBorder()
 
 
 // ---------------------------------------------------------------------------
-//	¥ EraseBorder
+//   EraseBorder
 // ---------------------------------------------------------------------------
 //  Ask for a Refresh to erase the border around the list item.
 // 	::DrawThemeFocusRegion(StRegion(frame), true);
@@ -291,7 +291,7 @@ CIndexedEditField::EraseBorder()
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetIndexField
+//   SetIndexField
 // ---------------------------------------------------------------------------
 
 void

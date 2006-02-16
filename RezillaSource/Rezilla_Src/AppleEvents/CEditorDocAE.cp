@@ -25,7 +25,7 @@
 
 
 // ---------------------------------------------------------------------------
-//	¥ MakeSelfSpecifier												  [public]
+//   MakeSelfSpecifier												  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -63,7 +63,7 @@ CEditorDoc::MakeSelfSpecifier(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetAEProperty
+//   GetAEProperty
 // ---------------------------------------------------------------------------
 //	Return a descriptor for the specified Property
 //	rzom_pReadOnly		= 'pRDO';	// mapReadOnly
@@ -153,7 +153,7 @@ CEditorDoc::GetAEProperty(
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetAEProperty
+//   SetAEProperty
 // ---------------------------------------------------------------------------
 // The CEditorDoc properties are readOnly. Pass up to the LDocument class.
 
@@ -173,7 +173,7 @@ CEditorDoc::SetAEProperty(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AEPropertyExists
+//   AEPropertyExists
 // ---------------------------------------------------------------------------
 
 bool
@@ -204,7 +204,7 @@ CEditorDoc::AEPropertyExists(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetAEPosition
+//   GetAEPosition
 // ---------------------------------------------------------------------------
 
 SInt32
@@ -235,7 +235,7 @@ CEditorDoc::GetAEPosition(const CEditorDoc * inDoc) {
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetSubModelByPosition											  [public]
+//   GetSubModelByPosition											  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -267,7 +267,7 @@ CEditorDoc::GetSubModelByPosition(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetModelProperty
+//   GetModelProperty
 // ---------------------------------------------------------------------------
 //	Return a ModelObject object for 'cwin' property
 
@@ -299,7 +299,7 @@ CEditorDoc::GetModelProperty(DescType inProperty) const
 
 
 // ---------------------------------------------------------------------------
-//	¥ HandleAESave													  [public]
+//   HandleAESave													  [public]
 // ---------------------------------------------------------------------------
 //	Respond to "Save" AppleEvent
 

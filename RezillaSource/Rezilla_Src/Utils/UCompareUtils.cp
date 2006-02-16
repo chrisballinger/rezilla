@@ -36,7 +36,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CompareStr255												[static]
+//   CompareStr255												[static]
 // ---------------------------------------------------------------------------
 
 SInt16 
@@ -47,7 +47,7 @@ UCompareUtils::CompareStr255(Str255 * leftString, Str255 * rightString)
 
 
 // ---------------------------------------------------------------------------
-//	¥ HandlesAreIdentical												[static]
+//   HandlesAreIdentical												[static]
 // ---------------------------------------------------------------------------
 
 Boolean 
@@ -81,7 +81,7 @@ UCompareUtils::HandlesAreIdentical(const Handle leftHndl, const Handle rightHndl
 
 
 // ---------------------------------------------------------------------------
-//	¥ HasExtension													[static]
+//   HasExtension													[static]
 // ---------------------------------------------------------------------------
 
 Boolean 
@@ -113,7 +113,7 @@ UCompareUtils::HasExtension(FSSpec * inFSSpec, char * inExtension)
 
 
 // ================================================================
-//  ¥  Class CTypeComparator
+//      Class CTypeComparator
 // ================================================================
 // String comparator class to build tables sorted alphabetically
 
@@ -136,7 +136,7 @@ CTypeComparator::Compare(
 
 
 // ================================================================
-//  ¥  Class CTypeItemComparator
+//      Class CTypeItemComparator
 // ================================================================
 // String comparator class to build tables sorted alphabetically
 

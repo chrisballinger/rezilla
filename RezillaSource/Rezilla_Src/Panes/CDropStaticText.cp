@@ -29,7 +29,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CDropStaticText						Stream Constructor		  [public]
+//   CDropStaticText						Stream Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CDropStaticText::CDropStaticText(
@@ -41,7 +41,7 @@ CDropStaticText::CDropStaticText(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CDropStaticText						Destructor				  [public]
+//     ~CDropStaticText						Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CDropStaticText::~CDropStaticText()
@@ -51,7 +51,7 @@ CDropStaticText::~CDropStaticText()
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ ItemIsAcceptable											  [protected]
+//   ItemIsAcceptable											  [protected]
 // ---------------------------------------------------------------------------
 // Accept only files.
 
@@ -82,7 +82,7 @@ CDropStaticText::ItemIsAcceptable(DragReference inDragRef, ItemReference inItemR
 		
 
 // ---------------------------------------------------------------------------
-//	¥ ReceiveDragItem											  [protected]
+//   ReceiveDragItem											  [protected]
 // ---------------------------------------------------------------------------
 // Retrieve the dragged item's file system specification
 // and insert the full path in the static text pane.
@@ -114,7 +114,7 @@ CDropStaticText::ReceiveDragItem(DragReference inDragRef,
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetFileData												  [protected]
+//   GetFileData												  [protected]
 // ---------------------------------------------------------------------------
 // If the flavour data is an HFSFlavor structure, retrieve it.
 

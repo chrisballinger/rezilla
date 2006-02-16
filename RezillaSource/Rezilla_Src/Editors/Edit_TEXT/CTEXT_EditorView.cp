@@ -27,7 +27,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CTEXT_EditorView							Default Constructor		  [public]
+//   CTEXT_EditorView							Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CTEXT_EditorView::CTEXT_EditorView()
@@ -37,7 +37,7 @@ CTEXT_EditorView::CTEXT_EditorView()
 
 
 // ---------------------------------------------------------------------------
-//	¥ CTEXT_EditorView							Parameterized Constructor [public]
+//   CTEXT_EditorView							Parameterized Constructor [public]
 // ---------------------------------------------------------------------------
 
 CTEXT_EditorView::CTEXT_EditorView(
@@ -52,7 +52,7 @@ CTEXT_EditorView::CTEXT_EditorView(
 
 
 // ---------------------------------------------------------------------------
-//	¥ CTEXT_EditorView							Stream Constructor		  [public]
+//   CTEXT_EditorView							Stream Constructor		  [public]
 // ---------------------------------------------------------------------------
 // Use the Preference interface settings when creating a new TEXT resource.
 
@@ -82,7 +82,7 @@ CTEXT_EditorView::CTEXT_EditorView(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CTEXT_EditorView						Destructor				  [public]
+//     ~CTEXT_EditorView						Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CTEXT_EditorView::~CTEXT_EditorView()
@@ -94,7 +94,7 @@ CTEXT_EditorView::~CTEXT_EditorView()
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ HandleKeyPress							[public, virtual]
+//   HandleKeyPress							[public, virtual]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -253,7 +253,7 @@ CTEXT_EditorView::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ObeyCommand							[public, virtual]
+//   ObeyCommand							[public, virtual]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -359,7 +359,7 @@ CTEXT_EditorView::ObeyCommand(
 
 
 // ---------------------------------------------------------------------------
-//	¥ UserChangedText						[public, virtual]
+//   UserChangedText						[public, virtual]
 // ---------------------------------------------------------------------------
 //	Text of WasteEdit has changed as a result of user action
 
@@ -378,7 +378,7 @@ CTEXT_EditorView::UserChangedText()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetModifiedText										[public]
+//   GetModifiedText										[public]
 // ---------------------------------------------------------------------------
 
 Handle

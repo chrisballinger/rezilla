@@ -48,7 +48,7 @@ CRezillaModel::CRezillaModel(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CRezillaModel						Destructor				  [public]
+//     ~CRezillaModel						Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CRezillaModel::~CRezillaModel()
@@ -57,7 +57,7 @@ CRezillaModel::~CRezillaModel()
 
 
 // // ---------------------------------------------------------------------------
-// //	¥ InstallCallBacks												  [public]
+// //   InstallCallBacks												  [public]
 // // ---------------------------------------------------------------------------
 // //	Install handler and callback functions used by the AppleEvent Manager
 // //		and the Object Support Library

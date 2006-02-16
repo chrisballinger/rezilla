@@ -31,7 +31,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CBiDataWE						Default Constructor		  [public]
+//   CBiDataWE						Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CBiDataWE::CBiDataWE()
@@ -42,7 +42,7 @@ CBiDataWE::CBiDataWE()
 
 
 // ---------------------------------------------------------------------------
-//	¥ CBiDataWE						Copy Constructor		  [public]
+//   CBiDataWE						Copy Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CBiDataWE::CBiDataWE(
@@ -55,7 +55,7 @@ CBiDataWE::CBiDataWE(
 
 
 // ---------------------------------------------------------------------------
-//	¥ CBiDataWE						Stream Constructor		  [public]
+//   CBiDataWE						Stream Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CBiDataWE::CBiDataWE(
@@ -67,7 +67,7 @@ CBiDataWE::CBiDataWE(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CBiDataWE						Destructor				  [public]
+//     ~CBiDataWE						Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CBiDataWE::~CBiDataWE()
@@ -78,7 +78,7 @@ CBiDataWE::~CBiDataWE()
 
 
 // ---------------------------------------------------------------------------
-//	¥ FindCommandStatus							[public, virtual]
+//   FindCommandStatus							[public, virtual]
 // ---------------------------------------------------------------------------
 
 void
@@ -95,7 +95,7 @@ CBiDataWE::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ObeyCommand							[public, virtual]
+//   ObeyCommand							[public, virtual]
 // ---------------------------------------------------------------------------
 // Cut, Paste and Clear are disabled.
 
@@ -147,7 +147,7 @@ CBiDataWE::ObeyCommand(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ClickSelf											[protected, virtual]
+//   ClickSelf											[protected, virtual]
 // ---------------------------------------------------------------------------
 
 void
@@ -160,7 +160,7 @@ CBiDataWE::ClickSelf(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AdjustCursorPos											[protected, virtual]
+//   AdjustCursorPos											[protected, virtual]
 // ---------------------------------------------------------------------------
 
 void
@@ -175,7 +175,7 @@ CBiDataWE::AdjustCursorPos()
 
 
 // ---------------------------------------------------------------------------
-//	¥ NearestTruePos											[protected, virtual]
+//   NearestTruePos											[protected, virtual]
 // ---------------------------------------------------------------------------
 // Returns the nearest pos just before or after a hexadecimal or textual value
 
@@ -203,7 +203,7 @@ CBiDataWE::NearestTruePos(SInt32 inPos)
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetCurrCharPos											[public]
+//   GetCurrCharPos											[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -218,7 +218,7 @@ CBiDataWE::GetCurrCharPos(SInt32 & outCharSelStart, SInt32 & outCharSelEnd)
 
 
 // ---------------------------------------------------------------------------
-//	¥ PosToCharPos											[protected, virtual]
+//   PosToCharPos											[protected, virtual]
 // ---------------------------------------------------------------------------
 
 SInt32
@@ -230,7 +230,7 @@ CBiDataWE::PosToCharPos(SInt32 inPos)
 
 
 // ---------------------------------------------------------------------------
-//	¥ CharPosToPos											[protected, virtual]
+//   CharPosToPos											[protected, virtual]
 // ---------------------------------------------------------------------------
 
 SInt32
@@ -241,7 +241,7 @@ CBiDataWE::CharPosToPos(SInt32 inCharPos)
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetCurrHexPos											[public]
+//   GetCurrHexPos											[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -256,7 +256,7 @@ CBiDataWE::GetCurrHexPos(SInt32 & outHexSelStart, SInt32 & outHexSelEnd)
 
 
 // ---------------------------------------------------------------------------
-//	¥ PosToHexPos											[protected, virtual]
+//   PosToHexPos											[protected, virtual]
 // ---------------------------------------------------------------------------
 
 SInt32
@@ -268,7 +268,7 @@ CBiDataWE::PosToHexPos(SInt32 inPos)
 
 
 // ---------------------------------------------------------------------------
-//	¥ HexPosToPos											[protected, virtual]
+//   HexPosToPos											[protected, virtual]
 // ---------------------------------------------------------------------------
 
 SInt32
@@ -281,7 +281,7 @@ CBiDataWE::HexPosToPos(SInt32 inHexPos)
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ HandleKeyPress							[public, virtual]
+//   HandleKeyPress							[public, virtual]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -294,7 +294,7 @@ CBiDataWE::HandleKeyPress(
 
 
 // ---------------------------------------------------------------------------
-//	¥ InsertContents								[public, virtual]
+//   InsertContents								[public, virtual]
 // ---------------------------------------------------------------------------
 
 void
@@ -329,7 +329,7 @@ CBiDataWE::InsertContents(Handle inHandle)
 
 
 // ---------------------------------------------------------------------------
-//	¥ InsertContents								[public, virtual]
+//   InsertContents								[public, virtual]
 // ---------------------------------------------------------------------------
 
 void

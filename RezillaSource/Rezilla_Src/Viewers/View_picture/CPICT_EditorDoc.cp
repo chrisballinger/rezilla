@@ -41,7 +41,7 @@ extern CWindowMenu * gWindowMenu;
 
 
 // ---------------------------------------------------------------------------
-//	¥ CPICT_EditorDoc							Constructor		  [public]
+//   CPICT_EditorDoc							Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CPICT_EditorDoc::CPICT_EditorDoc(LCommander* inSuper, 
@@ -56,7 +56,7 @@ CPICT_EditorDoc::CPICT_EditorDoc(LCommander* inSuper,
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CPICT_EditorDoc							Destructor			  [public]
+//     ~CPICT_EditorDoc							Destructor			  [public]
 // ---------------------------------------------------------------------------
 
 CPICT_EditorDoc::~CPICT_EditorDoc()
@@ -68,7 +68,7 @@ CPICT_EditorDoc::~CPICT_EditorDoc()
 
 
 // ---------------------------------------------------------------------------
-//	¥ Initialize													  [public]
+//   Initialize													  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -115,7 +115,7 @@ CPICT_EditorDoc::Initialize()
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetDescriptor													  [public]
+//   GetDescriptor													  [public]
 // ---------------------------------------------------------------------------
 //	Pass back the name of a Document
 
@@ -136,7 +136,7 @@ CPICT_EditorDoc::GetDescriptor(
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ FindCommandStatus
+//   FindCommandStatus
 // ---------------------------------------------------------------------------------
 
 void
@@ -160,7 +160,7 @@ CPICT_EditorDoc::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AllowSubRemoval												  [public]
+//   AllowSubRemoval												  [public]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -177,7 +177,7 @@ CPICT_EditorDoc::AllowSubRemoval(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AskSaveChanges												  [public]
+//   AskSaveChanges												  [public]
 // ---------------------------------------------------------------------------
 //	Ask user whether to save changes before closing the Document.
 
@@ -190,7 +190,7 @@ CPICT_EditorDoc::AskSaveChanges(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetModifiedResource										[protected]
+//   GetModifiedResource										[protected]
 // ---------------------------------------------------------------------------
 // The returned handle should not be released by the caller so leave
 // releaseIt to false (its default).

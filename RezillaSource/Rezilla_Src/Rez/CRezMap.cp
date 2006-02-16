@@ -23,7 +23,7 @@ TArray<CRezMap*>	CRezMap::sRezMapList;
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CRezMap														[public]
+//   CRezMap														[public]
 // ---------------------------------------------------------------------------
 // CRezMaps do not have a super model object. They are elements of the null
 // top container, the "application" object.
@@ -43,7 +43,7 @@ CRezMap::CRezMap(short inRefnum, CRezMapDoc * inOwnerDoc)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ ~CRezMap														[public]
+//     ~CRezMap														[public]
 // ---------------------------------------------------------------------------
 
 CRezMap::~CRezMap()
@@ -55,7 +55,7 @@ CRezMap::~CRezMap()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ Close														[public]
+//   Close														[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -72,7 +72,7 @@ CRezMap::Close()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ Update														[public]
+//   Update														[public]
 // ---------------------------------------------------------------------------
 // From doc: If the mapCompactBit bit is set to 1, the Resource Manager
 // compacts the resource fork when it updates the file. The Resource Manager
@@ -90,7 +90,7 @@ CRezMap::Update()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CountForType													[public]
+//   CountForType													[public]
 // ---------------------------------------------------------------------------
 // Count the number of resources of a given type in current resource map.
 
@@ -104,7 +104,7 @@ CRezMap::CountForType(ResType inType, short & outCount) const
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CountAllTypes													[public]
+//   CountAllTypes													[public]
 // ---------------------------------------------------------------------------
 // Count the number of types in current resource map.
 
@@ -118,7 +118,7 @@ CRezMap::CountAllTypes(short & outCount) const
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CountAllResources												[public]
+//   CountAllResources												[public]
 // ---------------------------------------------------------------------------
 // Count the number of resources of any type in current resource map.
 
@@ -146,14 +146,14 @@ CRezMap::CountAllResources(short & outCount) const
 
 
 // ---------------------------------------------------------------------------
-//  ¥ ResourceExists												[public]
+//   ResourceExists												[public]
 // ---------------------------------------------------------------------------
 // 
 // This made a duplicate with HasResourceWithTypeAndId(): removed
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetResourceAtIndex											[public]
+//   GetResourceAtIndex											[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -172,7 +172,7 @@ CRezMap::GetResourceAtIndex(ResType inType, short inIdx, Handle & outHandle, Boo
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetWithID													[public]
+//   GetWithID													[public]
 // ---------------------------------------------------------------------------
 // Get a handle to a resource of a given type with a given ID
 // from current resource map.
@@ -195,7 +195,7 @@ CRezMap::GetWithID(ResType inType, short inID, Handle & outHandle, Boolean loadI
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetWithName													[public]
+//   GetWithName													[public]
 // ---------------------------------------------------------------------------
 // Get a handle to a resource of a given type with a given name in the
 // current resource map. Unfortunately Get1NamedResource() appears to be
@@ -245,7 +245,7 @@ CRezMap::GetWithName(ResType inType, ConstStr255Param inName, Handle & outHandle
 
 
 // ---------------------------------------------------------------------------
-//  ¥ FindResource										[public]
+//   FindResource										[public]
 // ---------------------------------------------------------------------------
 // If the createIt argument is true, FindResource will create a resource of
 // the given type and ID if none exists already: this can occur when an
@@ -327,7 +327,7 @@ CRezMap::FindResource(ResType inType, short inID, Boolean loadIt, Boolean create
 
 
 // ---------------------------------------------------------------------------
-//  ¥ HasResourceWithTypeAndId										[public]
+//   HasResourceWithTypeAndId										[public]
 // ---------------------------------------------------------------------------
 // Looks in the resource map to see if an entry with the specified type and the
 // specified ID already exists. 
@@ -347,7 +347,7 @@ CRezMap::HasResourceWithTypeAndId(ResType inType, short inID)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ HasResourceWithTypeAndName									[public]
+//   HasResourceWithTypeAndName									[public]
 // ---------------------------------------------------------------------------
 // Looks in the resource map to see if an entry with the specified type and the
 // specified name already exists. 
@@ -367,7 +367,7 @@ CRezMap::HasResourceWithTypeAndName(ResType inType, ConstStr255Param inName)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetAllTypes													[public]
+//   GetAllTypes													[public]
 // ---------------------------------------------------------------------------
 // Get an array of all types current resource map.
 
@@ -396,7 +396,7 @@ CRezMap::GetAllTypes( TArray<ResType>* & outArray ) const
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetTypeAtIndex												[public]
+//   GetTypeAtIndex												[public]
 // ---------------------------------------------------------------------------
 // Get the type given an index.
 
@@ -410,7 +410,7 @@ CRezMap::GetTypeAtIndex(short inIdx, ResType & outType)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ UniqueID														[public]
+//   UniqueID														[public]
 // ---------------------------------------------------------------------------
 // typedef		SInt16			ResIDT;
 // typedef unsigned short                  UInt16;
@@ -426,7 +426,7 @@ CRezMap::UniqueID(ResType inType, short & outID)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetMapAttributes													[public]
+//   GetMapAttributes													[public]
 // ---------------------------------------------------------------------------
 // 		  mapReadOnly       = 128
 // 		  mapCompact        = 64
@@ -449,7 +449,7 @@ CRezMap::GetMapAttributes(short & outResFileAttrs) const
 
 
 // ---------------------------------------------------------------------------
-//  ¥ SetMapAttributes													[public]
+//   SetMapAttributes													[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -462,7 +462,7 @@ CRezMap::SetMapAttributes(short inResFileAttrs)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ UnsetFileAttrs											[public]
+//   UnsetFileAttrs											[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -477,7 +477,7 @@ CRezMap::UnsetFileAttrs(short inResFileAttrs)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ DeleteAll													[public]
+//   DeleteAll													[public]
 // ---------------------------------------------------------------------------
 // Delete all the resources from the resource map.
 
@@ -517,7 +517,7 @@ CRezMap::DeleteAll()
 
 
 // ---------------------------------------------------------------------------
-//	¥ IsUnderVersionControl										[public]
+//   IsUnderVersionControl										[public]
 // ---------------------------------------------------------------------------
 
 Boolean

@@ -23,7 +23,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CAeteStream							Default Constructor		  [public]
+//   CAeteStream							Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CAeteStream::CAeteStream()
@@ -33,7 +33,7 @@ CAeteStream::CAeteStream()
 
 
 // ---------------------------------------------------------------------------
-//	¥ CAeteStream							Copy Constructor		  [public]
+//   CAeteStream							Copy Constructor		  [public]
 // ---------------------------------------------------------------------------
 //	Copy points to the same buffer as the original
 
@@ -44,7 +44,7 @@ CAeteStream::CAeteStream(const CAeteStream&	inOriginal)
 
 
 // ---------------------------------------------------------------------------
-//	¥ CAeteStream							Constructor				  [public]
+//   CAeteStream							Constructor				  [public]
 // ---------------------------------------------------------------------------
 //	Construct from an existing Handle.
 //	The LHandleStream object assumes ownership of the Handle.
@@ -56,7 +56,7 @@ CAeteStream::CAeteStream(Handle	inHandle)
 
 
 // ---------------------------------------------------------------------------
-//	¥ CAeteStream							Constructor				  [public]
+//   CAeteStream							Constructor				  [public]
 // ---------------------------------------------------------------------------
 //	Construct from an AEDesc of type typeAete.
 
@@ -67,7 +67,7 @@ CAeteStream::CAeteStream(AEDesc * inAeteDesc)
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CAeteStream							Destructor				  [public]
+//     ~CAeteStream							Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CAeteStream::~CAeteStream()
@@ -75,7 +75,7 @@ CAeteStream::~CAeteStream()
 
 
 // ---------------------------------------------------------------------------
-//	¥ AlignBytesRead													 [public]
+//   AlignBytesRead													 [public]
 // ---------------------------------------------------------------------------
 //	If the marker is odd, move it 1 step forward.
 //	Errors: 
@@ -99,7 +99,7 @@ CAeteStream::AlignBytesRead()
 
 
 // ---------------------------------------------------------------------------
-//	¥ AlignBytesWrite											[public]
+//   AlignBytesWrite											[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -112,7 +112,7 @@ CAeteStream::AlignBytesWrite()
 
 
 // ---------------------------------------------------------------------------
-//	¥ ReadOSType
+//   ReadOSType
 // ---------------------------------------------------------------------------
 //	Read a four chars string from a Stream into outString.
 
@@ -126,7 +126,7 @@ CAeteStream::ReadOSType(
 
 
 // ---------------------------------------------------------------------------
-//	¥ MoveToNextTerm
+//   MoveToNextTerm
 // ---------------------------------------------------------------------------
 //	Returns the mark of the next term's position in the stream. Here 'term'
 //	means event, class, comparison operator or enumeration. 
@@ -275,7 +275,7 @@ CAeteStream::MoveToNextTerm( SInt32 inKind)
 
 
 // ---------------------------------------------------------------------------
-//	¥ SkipPreambule()
+//   SkipPreambule()
 // ---------------------------------------------------------------------------
 //	Moves to the position of the first item's (event, class, comparison 
 //	operator or enumeration) position in the current suite. 

@@ -31,7 +31,7 @@
 
 
 // ---------------------------------------------------------------------------
-//	¥ MakeSelfSpecifier												  [public]
+//   MakeSelfSpecifier												  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -54,7 +54,7 @@ CRezType::MakeSelfSpecifier(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetAEProperty
+//   GetAEProperty
 // ---------------------------------------------------------------------------
 //	Return a descriptor for the specified Property
 //  rzom_pName			= pName;		// Name ('pnam')
@@ -276,7 +276,7 @@ CRezType::GetSubModelByUniqueID(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetModelName
+//   GetModelName
 // ---------------------------------------------------------------------------
 //	Return the name of a Window as an AppleEvent model object(Str255&) 
 
@@ -292,7 +292,7 @@ CRezType::GetModelName(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AEPropertyExists
+//   AEPropertyExists
 // ---------------------------------------------------------------------------
 
 bool
@@ -319,7 +319,7 @@ CRezType::AEPropertyExists(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetOrCreateRezObjModel
+//   GetOrCreateRezObjModel
 // ---------------------------------------------------------------------------
 
 CRezObj *
@@ -355,7 +355,7 @@ CRezType::GetOrCreateRezObjModel(Handle inHandle) const
 
 
 // ---------------------------------------------------------------------------
-//	¥ HandleAppleEvent												  [public]
+//   HandleAppleEvent												  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -382,7 +382,7 @@ CRezType::HandleAppleEvent(
 
 
 // ---------------------------------------------------------------------------
-//	¥ HandleResourceEvent											  [public]
+//   HandleResourceEvent											  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -430,7 +430,7 @@ CRezType::HandleResourceEvent(
 
 
 // ---------------------------------------------------------------------------
-//	¥ HandleEditEvent												  [public]
+//   HandleEditEvent												  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -487,7 +487,7 @@ CRezType::HandleEditEvent(
 
 
 // ---------------------------------------------------------------------------
-//	¥ HandleInspectEvent												  [public]
+//   HandleInspectEvent												  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -512,7 +512,7 @@ CRezType::HandleInspectEvent(
 
 
 // ---------------------------------------------------------------------------
-//	¥ HandleDeleteResourceEvent										 [public]
+//   HandleDeleteResourceEvent										 [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -545,7 +545,7 @@ CRezType::HandleDeleteResourceEvent(
 
 
 // ---------------------------------------------------------------------------
-//	¥ HandleDeleteTypeEvent										 [public]
+//   HandleDeleteTypeEvent										 [public]
 // ---------------------------------------------------------------------------
 
 void

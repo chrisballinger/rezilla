@@ -40,7 +40,7 @@
 
 
 // ---------------------------------------------------------------------------
-//		¥ CHexEditorWindow				[public]
+//   CHexEditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CHexEditorWindow::CHexEditorWindow()
@@ -50,7 +50,7 @@ CHexEditorWindow::CHexEditorWindow()
 
 
 // ---------------------------------------------------------------------------
-//		¥ CHexEditorWindow				[public]
+//   CHexEditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CHexEditorWindow::CHexEditorWindow(
@@ -62,7 +62,7 @@ CHexEditorWindow::CHexEditorWindow(
 
 
 // ---------------------------------------------------------------------------
-//		¥ CHexEditorWindow				[public]
+//   CHexEditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CHexEditorWindow::CHexEditorWindow(
@@ -76,7 +76,7 @@ CHexEditorWindow::CHexEditorWindow(
 
 
 // ---------------------------------------------------------------------------
-//		¥ CHexEditorWindow				[public]
+//   CHexEditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CHexEditorWindow::CHexEditorWindow(
@@ -88,7 +88,7 @@ CHexEditorWindow::CHexEditorWindow(
 
 
 // ---------------------------------------------------------------------------
-//		¥ ~CHexEditorWindow				[public]
+//     ~CHexEditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CHexEditorWindow::~CHexEditorWindow()
@@ -99,7 +99,7 @@ CHexEditorWindow::~CHexEditorWindow()
 
 
 // ---------------------------------------------------------------------------
-//		¥ FinishCreateSelf				[protected]
+//   FinishCreateSelf				[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -171,7 +171,7 @@ CHexEditorWindow::FinishCreateSelf()
 	
 
 // ---------------------------------------------------------------------------
-//		¥ ListenToMessage				[public]
+//   ListenToMessage				[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -219,7 +219,7 @@ CHexEditorWindow::ListenToMessage(MessageT inMessage, void *ioParam )
 
 
 // ---------------------------------------------------------------------------
-//	¥ FindCommandStatus
+//   FindCommandStatus
 // ---------------------------------------------------------------------------
 //	Pass back whether a Command is enabled and/or marked (in a Menu)
 
@@ -251,7 +251,7 @@ CHexEditorWindow::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ObeyCommand							[public, virtual]
+//   ObeyCommand							[public, virtual]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -273,7 +273,7 @@ CHexEditorWindow::ObeyCommand(
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetLineValues											[protected]
+//   SetLineValues											[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -290,7 +290,7 @@ CHexEditorWindow::SetLineValues()
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetLineRange											[protected]
+//   SetLineRange											[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -311,7 +311,7 @@ CHexEditorWindow::SetLineRange(SInt32 inStart, SInt32 inEnd)
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetOffsetValues											[protected]
+//   SetOffsetValues											[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -329,7 +329,7 @@ CHexEditorWindow::SetOffsetValues()
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetOffsetRange											[protected]
+//   SetOffsetRange											[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -350,7 +350,7 @@ CHexEditorWindow::SetOffsetRange(SInt32 inStart, SInt32 inEnd)
 
 
 // ---------------------------------------------------------------------------
-//	¥ ClearFields											[protected]
+//   ClearFields											[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -362,7 +362,7 @@ CHexEditorWindow::ClearFields()
 
 
 // ---------------------------------------------------------------------------
-//	¥ InstallResourceData											[protected]
+//   InstallResourceData											[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -379,7 +379,7 @@ CHexEditorWindow::InstallResourceData(Handle inHandle)
 
 
 // ---------------------------------------------------------------------------
-//	¥ DisplayBothSelections											[protected]
+//   DisplayBothSelections											[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -393,7 +393,7 @@ CHexEditorWindow::DisplayBothSelections(SInt32 inStart, SInt32 inEnd)
 
 
 // ---------------------------------------------------------------------------
-//	¥ InstallContentsFromLine											[public]
+//   InstallContentsFromLine											[public]
 // ---------------------------------------------------------------------------
 
 SInt32
@@ -408,7 +408,7 @@ CHexEditorWindow::InstallContentsFromLine(SInt32 inFromLine)
 
 
 // ---------------------------------------------------------------------------
-//	¥ IsDirty														[public]
+//   IsDirty														[public]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -431,7 +431,7 @@ CHexEditorWindow::SetDirty(Boolean inDirty)
 
 
 // // ---------------------------------------------------------------------------
-// //	¥ DoSetBounds
+// //   DoSetBounds
 // // ---------------------------------------------------------------------------
 // 
 // void

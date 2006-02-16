@@ -50,7 +50,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CTEXT_EditorDoc							Constructor		  [public]
+//   CTEXT_EditorDoc							Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CTEXT_EditorDoc::CTEXT_EditorDoc(LCommander* inSuper, 
@@ -65,7 +65,7 @@ CTEXT_EditorDoc::CTEXT_EditorDoc(LCommander* inSuper,
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CTEXT_EditorDoc							Destructor				  [public]
+//     ~CTEXT_EditorDoc							Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CTEXT_EditorDoc::~CTEXT_EditorDoc()
@@ -77,7 +77,7 @@ CTEXT_EditorDoc::~CTEXT_EditorDoc()
 
 
 // ---------------------------------------------------------------------------
-//	¥ Initialize													  [public]
+//   Initialize													  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -123,7 +123,7 @@ CTEXT_EditorDoc::Initialize()
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetDescriptor													  [public]
+//   GetDescriptor													  [public]
 // ---------------------------------------------------------------------------
 //	Pass back the name of a Document
 
@@ -144,7 +144,7 @@ CTEXT_EditorDoc::GetDescriptor(
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ FindCommandStatus
+//   FindCommandStatus
 // ---------------------------------------------------------------------------------
 
 void
@@ -168,7 +168,7 @@ CTEXT_EditorDoc::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AllowSubRemoval												  [public]
+//   AllowSubRemoval												  [public]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -185,7 +185,7 @@ CTEXT_EditorDoc::AllowSubRemoval(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AskSaveChanges												  [public]
+//   AskSaveChanges												  [public]
 // ---------------------------------------------------------------------------
 //	Ask user whether to save changes before closing the Document.
 
@@ -198,7 +198,7 @@ CTEXT_EditorDoc::AskSaveChanges(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetModifiedResource										[protected]
+//   GetModifiedResource										[protected]
 // ---------------------------------------------------------------------------
 // The returned handle should not be released by the caller so leave
 // releaseIt to false (its default).
@@ -213,7 +213,7 @@ CTEXT_EditorDoc::GetModifiedResource(Boolean &releaseIt)
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ SaveStylResource
+//   SaveStylResource
 // ---------------------------------------------------------------------------------
 
 void

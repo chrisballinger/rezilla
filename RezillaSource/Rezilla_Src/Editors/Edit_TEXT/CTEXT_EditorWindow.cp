@@ -38,7 +38,7 @@ LMenu *		CTEXT_EditorWindow::sTextStyleMenu = nil;
 
 
 // ---------------------------------------------------------------------------
-//		¥ CTEXT_EditorWindow				[public]
+//   CTEXT_EditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CTEXT_EditorWindow::CTEXT_EditorWindow()
@@ -47,7 +47,7 @@ CTEXT_EditorWindow::CTEXT_EditorWindow()
 
 
 // ---------------------------------------------------------------------------
-//		¥ CTEXT_EditorWindow				[public]
+//   CTEXT_EditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CTEXT_EditorWindow::CTEXT_EditorWindow(
@@ -58,7 +58,7 @@ CTEXT_EditorWindow::CTEXT_EditorWindow(
 
 
 // ---------------------------------------------------------------------------
-//		¥ CTEXT_EditorWindow				[public]
+//   CTEXT_EditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CTEXT_EditorWindow::CTEXT_EditorWindow(
@@ -71,7 +71,7 @@ CTEXT_EditorWindow::CTEXT_EditorWindow(
 
 
 // ---------------------------------------------------------------------------
-//		¥ CTEXT_EditorWindow				[public]
+//   CTEXT_EditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CTEXT_EditorWindow::CTEXT_EditorWindow(
@@ -82,7 +82,7 @@ CTEXT_EditorWindow::CTEXT_EditorWindow(
 
 
 // ---------------------------------------------------------------------------
-//		¥ ~CTEXT_EditorWindow				[public]
+//     ~CTEXT_EditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CTEXT_EditorWindow::~CTEXT_EditorWindow()
@@ -95,7 +95,7 @@ CTEXT_EditorWindow::~CTEXT_EditorWindow()
 
 
 // ---------------------------------------------------------------------------
-//		¥ FinishCreateSelf											[protected]
+//   FinishCreateSelf											[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -200,7 +200,7 @@ CTEXT_EditorWindow::RemoveTextMenus()
 
 
 // ---------------------------------------------------------------------------
-//		¥ ListenToMessage				[public]
+//   ListenToMessage				[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -217,7 +217,7 @@ CTEXT_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 
 
 // ---------------------------------------------------------------------------
-//	¥ FindCommandStatus
+//   FindCommandStatus
 // ---------------------------------------------------------------------------
 
 void
@@ -239,7 +239,7 @@ CTEXT_EditorWindow::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ObeyCommand							[public, virtual]
+//   ObeyCommand							[public, virtual]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -261,7 +261,7 @@ CTEXT_EditorWindow::ObeyCommand(
 
 
 // ---------------------------------------------------------------------------
-//	¥ InstallText													[public]
+//   InstallText													[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -274,7 +274,7 @@ CTEXT_EditorWindow::InstallText(Handle inTextHandle, StScrpHandle inScrapHandle)
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetLengthField												[public]
+//   SetLengthField												[public]
 // ---------------------------------------------------------------------------
 
 void

@@ -44,7 +44,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CWETextActions					Constructor				  [public]
+//   CWETextActions					Constructor				  [public]
 // ---------------------------------------------------------------------------
 
 CWETextActions::CWETextActions(
@@ -93,7 +93,7 @@ CWETextActions::CWETextActions(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CWETextActions					Destructor				  [public]
+//     ~CWETextActions					Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CWETextActions::~CWETextActions()
@@ -109,7 +109,7 @@ CWETextActions::~CWETextActions()
 
 
 // ---------------------------------------------------------------------------
-//	¥ Redo
+//   Redo
 // ---------------------------------------------------------------------------
 
 void
@@ -125,7 +125,7 @@ CWETextActions::Redo()
 
 
 // ---------------------------------------------------------------------------
-//	¥ Undo
+//   Undo
 // ---------------------------------------------------------------------------
 
 void
@@ -141,7 +141,7 @@ CWETextActions::Undo()
 
 
 // ---------------------------------------------------------------------------
-//	¥ CanRedo
+//   CanRedo
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -152,7 +152,7 @@ CWETextActions::CanRedo() const
 
 
 // ---------------------------------------------------------------------------
-//	¥ CanUndo
+//   CanUndo
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -163,7 +163,7 @@ CWETextActions::CanUndo() const
 
 
 // ---------------------------------------------------------------------------
-//	¥ IsPostable
+//   IsPostable
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -177,7 +177,7 @@ CWETextActions::IsPostable() const
 
 
 // ---------------------------------------------------------------------------
-//	¥ UndoSelf
+//   UndoSelf
 // ---------------------------------------------------------------------------
 
 void
@@ -196,7 +196,7 @@ CWETextActions::UndoSelf()
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ CWEViewCutAction						Constructor				  [public]
+//   CWEViewCutAction						Constructor				  [public]
 // ---------------------------------------------------------------------------
 
 CWEViewCutAction::CWEViewCutAction(
@@ -211,7 +211,7 @@ CWEViewCutAction::CWEViewCutAction(
 
 
 // ---------------------------------------------------------------------------
-//	¥ RedoSelf
+//   RedoSelf
 // ---------------------------------------------------------------------------
 
 void
@@ -239,7 +239,7 @@ CWEViewCutAction::RedoSelf()
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ CWEViewPasteAction					Constructor				  [public]
+//   CWEViewPasteAction					Constructor				  [public]
 // ---------------------------------------------------------------------------
 
 CWEViewPasteAction::CWEViewPasteAction(
@@ -271,7 +271,7 @@ CWEViewPasteAction::CWEViewPasteAction(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CWEViewPasteAction					Destructor				  [public]
+//     ~CWEViewPasteAction					Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CWEViewPasteAction::~CWEViewPasteAction()
@@ -287,7 +287,7 @@ CWEViewPasteAction::~CWEViewPasteAction()
 
 
 // ---------------------------------------------------------------------------
-//	¥ RedoSelf
+//   RedoSelf
 // ---------------------------------------------------------------------------
 
 void
@@ -311,7 +311,7 @@ CWEViewPasteAction::RedoSelf()
 
 
 // ---------------------------------------------------------------------------
-//	¥ UndoSelf
+//   UndoSelf
 // ---------------------------------------------------------------------------
 
 void
@@ -337,7 +337,7 @@ CWEViewPasteAction::UndoSelf()
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ CWEViewClearAction					Constructor				  [public]
+//   CWEViewClearAction					Constructor				  [public]
 // ---------------------------------------------------------------------------
 
 CWEViewClearAction::CWEViewClearAction(
@@ -352,7 +352,7 @@ CWEViewClearAction::CWEViewClearAction(
 
 
 // ---------------------------------------------------------------------------
-//	¥ RedoSelf
+//   RedoSelf
 // ---------------------------------------------------------------------------
 
 void
@@ -372,7 +372,7 @@ CWEViewClearAction::RedoSelf()
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ CWEViewTypingAction					Constructor				  [public]
+//   CWEViewTypingAction					Constructor				  [public]
 // ---------------------------------------------------------------------------
 
 CWEViewTypingAction::CWEViewTypingAction(
@@ -390,7 +390,7 @@ CWEViewTypingAction::CWEViewTypingAction(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CWEViewTypingAction					Destructor				  [public]
+//     ~CWEViewTypingAction					Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CWEViewTypingAction::~CWEViewTypingAction()
@@ -413,7 +413,7 @@ CWEViewTypingAction::~CWEViewTypingAction()
 
 
 // ---------------------------------------------------------------------------
-//	¥ Reset
+//   Reset
 // ---------------------------------------------------------------------------
 //	Re-initialize state of TypingAction
 
@@ -462,7 +462,7 @@ CWEViewTypingAction::Reset()
 
 
 // ---------------------------------------------------------------------------
-//	¥ InputCharacter
+//   InputCharacter
 // ---------------------------------------------------------------------------
 //	Handle an input character typing action
 //
@@ -489,7 +489,7 @@ CWEViewTypingAction::InputCharacter()
 
 
 // ---------------------------------------------------------------------------
-//	¥ BackwardErase
+//   BackwardErase
 // ---------------------------------------------------------------------------
 //	Handle Backward Delete typing action
 //
@@ -543,7 +543,7 @@ CWEViewTypingAction::BackwardErase()
 
 
 // ---------------------------------------------------------------------------
-//	¥ ForwardErase
+//   ForwardErase
 // ---------------------------------------------------------------------------
 //	Handle Forward Delete typing action
 //
@@ -590,7 +590,7 @@ CWEViewTypingAction::ForwardErase()
 
 
 // ---------------------------------------------------------------------------
-//	¥ RedoSelf
+//   RedoSelf
 // ---------------------------------------------------------------------------
 //	Redo a TypingAction by restoring the last typing sequence
 
@@ -615,7 +615,7 @@ CWEViewTypingAction::RedoSelf()
 
 
 // ---------------------------------------------------------------------------
-//	¥ UndoSelf
+//   UndoSelf
 // ---------------------------------------------------------------------------
 //	Undo a TypingAction by restoring the text and selection that
 //	existed before the current typing sequence started
@@ -667,7 +667,7 @@ CWEViewTypingAction::UndoSelf()
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ CWEStyleActions					Constructor				  [public]
+//   CWEStyleActions					Constructor				  [public]
 // ---------------------------------------------------------------------------
 // 	A "base" class for the style actions (font, size, style/face, align/just,
 //	color) to encapsulate some common functionality.
@@ -689,7 +689,7 @@ CWEStyleActions::CWEStyleActions(
 
 
 // ---------------------------------------------------------------------------
-//	¥ CWEStyleActions					Destructor				  [public]
+//   CWEStyleActions					Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CWEStyleActions::~CWEStyleActions()
@@ -698,7 +698,7 @@ CWEStyleActions::~CWEStyleActions()
 
 
 // ---------------------------------------------------------------------------
-//	¥ CanRedo
+//   CanRedo
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -710,7 +710,7 @@ CWEStyleActions::CanRedo() const
 
 
 // ---------------------------------------------------------------------------
-//	¥ CanUndo
+//   CanUndo
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -724,7 +724,7 @@ CWEStyleActions::CanUndo() const
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ CWEViewFontAction						Constructor				  [public]
+//   CWEViewFontAction						Constructor				  [public]
 // ---------------------------------------------------------------------------
 
 CWEViewFontAction::CWEViewFontAction(
@@ -742,7 +742,7 @@ CWEViewFontAction::CWEViewFontAction(
 
 
 // ---------------------------------------------------------------------------
-//	¥ CWEViewFontAction						Constructor				  [public]
+//   CWEViewFontAction						Constructor				  [public]
 // ---------------------------------------------------------------------------
 
 CWEViewFontAction::CWEViewFontAction(
@@ -760,7 +760,7 @@ CWEViewFontAction::CWEViewFontAction(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CWEViewFontAction					Destructor				  [public]
+//     ~CWEViewFontAction					Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CWEViewFontAction::~CWEViewFontAction()
@@ -769,7 +769,7 @@ CWEViewFontAction::~CWEViewFontAction()
 
 
 // ---------------------------------------------------------------------------
-//	¥ UndoSelf
+//   UndoSelf
 // ---------------------------------------------------------------------------
 
 void
@@ -793,7 +793,7 @@ CWEViewFontAction::UndoSelf()
 }
 
 // ---------------------------------------------------------------------------
-//	¥ RedoSelf
+//   RedoSelf
 // ---------------------------------------------------------------------------
 
 void
@@ -818,7 +818,7 @@ CWEViewFontAction::RedoSelf()
 #pragma mark-
 
 // ---------------------------------------------------------------------------
-//	¥ CWEViewSizeAction						Constructor				  [public]
+//   CWEViewSizeAction						Constructor				  [public]
 // ---------------------------------------------------------------------------
 
 CWEViewSizeAction::CWEViewSizeAction(
@@ -836,7 +836,7 @@ CWEViewSizeAction::CWEViewSizeAction(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CWEViewSizeAction					Destructor				  [public]
+//     ~CWEViewSizeAction					Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CWEViewSizeAction::~CWEViewSizeAction()
@@ -845,7 +845,7 @@ CWEViewSizeAction::~CWEViewSizeAction()
 
 
 // ---------------------------------------------------------------------------
-//	¥ UndoSelf
+//   UndoSelf
 // ---------------------------------------------------------------------------
 
 void
@@ -869,7 +869,7 @@ CWEViewSizeAction::UndoSelf()
 
 
 // ---------------------------------------------------------------------------
-//	¥ RedoSelf
+//   RedoSelf
 // ---------------------------------------------------------------------------
 
 void
@@ -895,7 +895,7 @@ CWEViewSizeAction::RedoSelf()
 #pragma mark-
 
 // ---------------------------------------------------------------------------
-//	¥ CWEViewFaceAction						Constructor				  [public]
+//   CWEViewFaceAction						Constructor				  [public]
 // ---------------------------------------------------------------------------
 
 CWEViewFaceAction::CWEViewFaceAction(
@@ -915,7 +915,7 @@ CWEViewFaceAction::CWEViewFaceAction(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CWEViewFaceAction					Destructor				  [public]
+//     ~CWEViewFaceAction					Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CWEViewFaceAction::~CWEViewFaceAction()
@@ -924,7 +924,7 @@ CWEViewFaceAction::~CWEViewFaceAction()
 
 
 // ---------------------------------------------------------------------------
-//	¥ UndoSelf
+//   UndoSelf
 // ---------------------------------------------------------------------------
 
 void
@@ -955,7 +955,7 @@ CWEViewFaceAction::UndoSelf()
 
 
 // ---------------------------------------------------------------------------
-//	¥ RedoSelf
+//   RedoSelf
 // ---------------------------------------------------------------------------
 
 void
@@ -989,7 +989,7 @@ CWEViewFaceAction::RedoSelf()
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ CWEViewAlignAction					Constructor				  [public]
+//   CWEViewAlignAction					Constructor				  [public]
 // ---------------------------------------------------------------------------
 
 CWEViewAlignAction::CWEViewAlignAction(
@@ -1007,7 +1007,7 @@ CWEViewAlignAction::CWEViewAlignAction(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CWEViewAlignAction					Destructor				  [public]
+//     ~CWEViewAlignAction					Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CWEViewAlignAction::~CWEViewAlignAction()
@@ -1016,7 +1016,7 @@ CWEViewAlignAction::~CWEViewAlignAction()
 
 
 // ---------------------------------------------------------------------------
-//	¥ UndoSelf
+//   UndoSelf
 // ---------------------------------------------------------------------------
 
 void
@@ -1036,7 +1036,7 @@ CWEViewAlignAction::UndoSelf()
 }
 
 // ---------------------------------------------------------------------------
-//	¥ RedoSelf
+//   RedoSelf
 // ---------------------------------------------------------------------------
 
 void
@@ -1057,7 +1057,7 @@ CWEViewAlignAction::RedoSelf()
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ CWEViewColorAction					Constructor				  [public]
+//   CWEViewColorAction					Constructor				  [public]
 // ---------------------------------------------------------------------------
 
 CWEViewColorAction::CWEViewColorAction(
@@ -1074,7 +1074,7 @@ CWEViewColorAction::CWEViewColorAction(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CWEViewColorAction					Destructor				  [public]
+//     ~CWEViewColorAction					Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CWEViewColorAction::~CWEViewColorAction()
@@ -1083,7 +1083,7 @@ CWEViewColorAction::~CWEViewColorAction()
 
 
 // ---------------------------------------------------------------------------
-//	¥ UndoSelf
+//   UndoSelf
 // ---------------------------------------------------------------------------
 
 void
@@ -1100,7 +1100,7 @@ CWEViewColorAction::UndoSelf()
 }
 
 // ---------------------------------------------------------------------------
-//	¥ RedoSelf
+//   RedoSelf
 // ---------------------------------------------------------------------------
 
 void

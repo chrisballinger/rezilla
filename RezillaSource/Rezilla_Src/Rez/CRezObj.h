@@ -151,7 +151,7 @@ protected:
 //        ================== INLINES =====================
 
 // ---------------------------------------------------------------------------
-//	¥ HasAttribute													[inline]
+//   HasAttribute													[inline]
 // ---------------------------------------------------------------------------
 // Checks if a resource's attribute is on or off. The inFlag argument 
 // is one of the following constants:

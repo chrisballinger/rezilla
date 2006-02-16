@@ -31,7 +31,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CThreeButtonsBox							Default Constructor		  [public]
+//   CThreeButtonsBox							Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CThreeButtonsBox::CThreeButtonsBox()
@@ -43,7 +43,7 @@ CThreeButtonsBox::CThreeButtonsBox()
 
 
 // ---------------------------------------------------------------------------
-//	¥ CThreeButtonsBox							Constructor				  [public[
+//   CThreeButtonsBox							Constructor				  [public[
 // ---------------------------------------------------------------------------
 //	Construct ThreeButtonsBox from the data in a struct
 
@@ -59,7 +59,7 @@ CThreeButtonsBox::CThreeButtonsBox(
 
 
 // ---------------------------------------------------------------------------
-//	¥ CThreeButtonsBox							Constructor				  [pulbic]
+//   CThreeButtonsBox							Constructor				  [pulbic]
 // ---------------------------------------------------------------------------
 //	Construct a ThreeButtonsBox from a WIND Resource with the specified attributes
 //	and SuperCommander
@@ -80,7 +80,7 @@ CThreeButtonsBox::CThreeButtonsBox(
 
 
 // ---------------------------------------------------------------------------
-//	¥ CThreeButtonsBox							Constructor				  [public]
+//   CThreeButtonsBox							Constructor				  [public]
 // ---------------------------------------------------------------------------
 
 CThreeButtonsBox::CThreeButtonsBox(
@@ -104,7 +104,7 @@ CThreeButtonsBox::CThreeButtonsBox(
 
 
 // ---------------------------------------------------------------------------
-//	¥ CThreeButtonsBox							Stream Constructor		  [public]
+//   CThreeButtonsBox							Stream Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CThreeButtonsBox::CThreeButtonsBox(
@@ -119,7 +119,7 @@ CThreeButtonsBox::CThreeButtonsBox(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CThreeButtonsBox							Destructor				  [public]
+//     ~CThreeButtonsBox							Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CThreeButtonsBox::~CThreeButtonsBox()
@@ -128,7 +128,7 @@ CThreeButtonsBox::~CThreeButtonsBox()
 
 
 // ---------------------------------------------------------------------------
-//	¥ FinishCreateSelf											   [protected]
+//   FinishCreateSelf											   [protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -144,7 +144,7 @@ CThreeButtonsBox::FinishCreateSelf()
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ SetDefaultButton												  [public]
+//   SetDefaultButton												  [public]
 // ---------------------------------------------------------------------------
 //	Specify the PaneID of the default button of a ThreeButtonsBox. The default
 //	button must be an LControl that handles the data tag
@@ -174,7 +174,7 @@ CThreeButtonsBox::SetDefaultButton(
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetCancelButton												  [public]
+//   SetCancelButton												  [public]
 // ---------------------------------------------------------------------------
 //	Specify the PaneID of the cancel button of a ThreeButtonsBox. The cancel
 //	button must be derived from LControl.
@@ -203,7 +203,7 @@ CThreeButtonsBox::SetCancelButton(
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetDontButton												  [public]
+//   SetDontButton												  [public]
 // ---------------------------------------------------------------------------
 //	Specify the PaneID of the Don't/No button of a ThreeButtonsBox. The
 //	Don't/No button must be derived from LControl.
@@ -224,7 +224,7 @@ CThreeButtonsBox::SetDontButton(
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetDefaultTag												   [protected]
+//   SetDefaultTag												   [protected]
 // ---------------------------------------------------------------------------
 //	Set whether or not a Button is the default one
 //
@@ -257,7 +257,7 @@ CThreeButtonsBox::SetDefaultTag(
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetCancelTag												   [protected]
+//   SetCancelTag												   [protected]
 // ---------------------------------------------------------------------------
 //	Set whether or not a Button is the cancel one
 //
@@ -296,7 +296,7 @@ CThreeButtonsBox::SetCancelTag(
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetDontTag
+//   SetDontTag
 // ---------------------------------------------------------------------------
 // There is no tag for a Don't/No button (ie no sound associated) so there
 // is no SetDontTag() function.
@@ -306,7 +306,7 @@ CThreeButtonsBox::SetCancelTag(
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ HandleKeyPress												  [public]
+//   HandleKeyPress												  [public]
 // ---------------------------------------------------------------------------
 //	ThreeButtonsBox handles keyboard equivalents for hitting the Default and
 //	Cancel Buttons.
@@ -355,7 +355,7 @@ CThreeButtonsBox::HandleKeyPress(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ListenToMessage												  [public]
+//   ListenToMessage												  [public]
 // ---------------------------------------------------------------------------
 //	Respond to messages from Broadcasters
 //

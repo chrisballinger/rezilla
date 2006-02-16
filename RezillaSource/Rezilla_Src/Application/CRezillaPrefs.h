@@ -18,18 +18,18 @@
 #include <LPreferencesFile.h>
 #include <LCommander.h>
 
-//     General Prefs
+//   General Prefs
 struct SGeneralPrefs {
 	SInt32			maxRecent;
 	SInt32			newFork;
 };
 
-//     Interface Prefs
+//   Interface Prefs
 struct SInterfacePrefs {
 	TextTraitsRecord	traitsRecord;
 };
 
-//     Templates Prefs
+//   Templates Prefs
 struct STemplatesPrefs {
 	SInt32			hexSymbol;
 	SInt32			hexCase;
@@ -38,7 +38,7 @@ struct STemplatesPrefs {
 	SInt32			rectFormat;
 };
 
-//     Editors Prefs
+//   Editors Prefs
 // 	// 	One of these two should be #defined
 // 			#define USE_LINES_FOR_ERASER
 // 			//#define USE_RECTS_FOR_ERASER
@@ -50,7 +50,7 @@ struct SEditorsPrefs {
 	Boolean			insertBOM;		// Byte Order Mark at start of 'utxt' resources
 };
 
-//     Comparison Prefs
+//   Comparison Prefs
 struct SComparePrefs {
 	Boolean			ignoreName;
 	Boolean			ignoreAttributes;
@@ -58,7 +58,7 @@ struct SComparePrefs {
 	SInt32			displayAs;
 };
 
-//     Export Prefs
+//   Export Prefs
 struct SExportPrefs {
 	Boolean			includeBinary;
 	SInt32			formatDtd;
@@ -66,7 +66,7 @@ struct SExportPrefs {
 	OSType			editorSig;
 };
 
-//     Misc Prefs
+//   Misc Prefs
 struct SMiscPrefs {
 	Boolean			setSigOnClose;
 	Boolean			onlyRsrcExt;

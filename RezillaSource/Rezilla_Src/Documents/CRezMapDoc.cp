@@ -2,7 +2,7 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2006-02-08 11:37:54
+//             Last modification: 2006-02-16 10:28:25
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -23,6 +23,7 @@ PP_Begin_Namespace_PowerPlant
 #include "CRezFile.h"
 #include "CEditorsController.h"
 #include "CTemplatesController.h"
+#include "CPluginsController.h"
 #include "CTextFileStream.h"
 #include "CRezMap.h"
 #include "CRezMapTable.h"
@@ -89,7 +90,7 @@ TArray<CRezMapDoc*>	CRezMapDoc::sRezMapDocList;
 
 
 // ---------------------------------------------------------------------------
-//	¥ CRezMapDoc							Default Constructor		  [public]
+//   CRezMapDoc							Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CRezMapDoc::CRezMapDoc(LCommander *inSuper)
@@ -103,7 +104,7 @@ CRezMapDoc::CRezMapDoc(LCommander *inSuper)
 
 
 // ---------------------------------------------------------------------------
-//	¥ CRezMapDoc							Constructor		  [public]
+//   CRezMapDoc							Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CRezMapDoc::CRezMapDoc(LCommander *inSuper, 
@@ -118,7 +119,7 @@ CRezMapDoc::CRezMapDoc(LCommander *inSuper,
 
 
 // ---------------------------------------------------------------------------
-//	¥ CRezMapDoc							Constructor		  [public]
+//   CRezMapDoc							Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CRezMapDoc::CRezMapDoc(LCommander *inSuper, 
@@ -135,7 +136,7 @@ CRezMapDoc::CRezMapDoc(LCommander *inSuper,
 
 
 // ---------------------------------------------------------------------------
-//	¥ CRezMapDoc							Constructor		  [public]
+//   CRezMapDoc							Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CRezMapDoc::CRezMapDoc(LCommander *inSuper, 
@@ -153,7 +154,7 @@ CRezMapDoc::CRezMapDoc(LCommander *inSuper,
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CRezMapDoc							Destructor				  [public]
+//     ~CRezMapDoc							Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CRezMapDoc::~CRezMapDoc()
@@ -209,7 +210,7 @@ CRezMapDoc::~CRezMapDoc()
 
 
 // ---------------------------------------------------------------------------
-//	¥ Initialize													  [public]
+//   Initialize													  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -287,7 +288,7 @@ CRezMapDoc::Initialize(FSSpec * inFileSpecPtr, short inRefnum)
 
 
 // ---------------------------------------------------------------------------
-//	¥ ObeyCommand									[public, virtual]
+//   ObeyCommand									[public, virtual]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -379,6 +380,7 @@ CRezMapDoc::ObeyCommand(
 		case cmd_EditRez:
 		case cmd_TmplEditRez:
 		case cmd_HexEditRez:
+		case cmd_EditWithPlugin:
 		case cmd_EditRezAsType: {
 			ResType asType = 0;
 			LArray* theArray = new LArray( sizeof(LOutlineItem*) );
@@ -503,12 +505,18 @@ CRezMapDoc::DoEdit(CRezObjItem * inRezObjItem, CommandT inCommand, ResType inTyp
 		case cmd_EditRez:
 		case cmd_EditRezAsType:
 		if ( CEditorsController::HasEditorForType(inType, substTypePtr) ) {
-			
-			// call the right GUI editor
+			// call the appropriate editor
 			CEditorsController::InvokeCustomEditor(this, inRezObjItem, *substTypePtr);
 			break;
+		} // else fall through to plugin editing...
+		
+		case cmd_EditWithPlugin:
+		if ( CPluginsController::HasPluginForType(inType, substTypePtr) ) {
+			// call the right plugin
+			CPluginsController::InvokePluginEditor(this, inRezObjItem, *substTypePtr);
+			break;
 		} // else fall through to template editing...
-						
+		
 		case cmd_TmplEditRez:
 		case cmd_TmplEditAsRez:
 		if ( CTemplatesController::HasTemplateForType(inType, substTypePtr, mRezMap) ) {
@@ -600,7 +608,7 @@ CRezMapDoc::IsModified()
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetModified													  [public]
+//   SetModified													  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -612,7 +620,7 @@ CRezMapDoc::SetModified(Boolean	inModified)
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetDescriptor													  [public]
+//   GetDescriptor													  [public]
 // ---------------------------------------------------------------------------
 //	Pass back the name of a Document
 
@@ -654,7 +662,7 @@ CRezMapDoc::SetRefnum(short inRefnum)
 	
 
 // ---------------------------------------------------------------------------
-//	¥ UsesFileSpec													  [public]
+//   UsesFileSpec													  [public]
 // ---------------------------------------------------------------------------
 //	Returns whether the Document's File has the given FSSpec
 
@@ -673,7 +681,7 @@ CRezMapDoc::UsesFileSpec(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AttemptClose													  [public]
+//   AttemptClose													  [public]
 // ---------------------------------------------------------------------------
 //	Try to close an edited resource map.
 
@@ -738,7 +746,7 @@ CRezMapDoc::AttemptClose(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AskSaveChanges												  [public]
+//   AskSaveChanges												  [public]
 // ---------------------------------------------------------------------------
 //	Ask user whether to save changes before closing the Document or
 //	quitting the Application
@@ -753,7 +761,7 @@ CRezMapDoc::AskSaveChanges(
 
 
 // ---------------------------------------------------------------------------
-//	¥ DoAEClose														  [public]
+//   DoAEClose														  [public]
 // ---------------------------------------------------------------------------
 //	Close a Document in response to a "close" AppleEvent
 
@@ -911,7 +919,7 @@ CRezMapDoc::DoSave()
 
 
 // ---------------------------------------------------------------------------
-//	¥ CheckEditorsUnmodified										[public]
+//   CheckEditorsUnmodified										[public]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -939,7 +947,7 @@ CRezMapDoc::CheckEditorsUnmodified(Boolean closeAll)
  
 
 // ---------------------------------------------------------------------------
-//	¥ AskSaveAs														  [public]
+//   AskSaveAs														  [public]
 // ---------------------------------------------------------------------------
 //	Ask the user to save a Document and give it a name
 //	Returns false if the user cancels the operation
@@ -997,7 +1005,7 @@ CRezMapDoc::AskSaveAs(
 
 
 // ---------------------------------------------------------------------------
-//	¥ DoRevert														  [public]
+//   DoRevert														  [public]
 // ---------------------------------------------------------------------------
 //	Revert a Document to its last saved version
 
@@ -1059,7 +1067,7 @@ CRezMapDoc::DoRevert()
 
 
 // ---------------------------------------------------------------------------
-//	¥ AskConfirmRevert												  [public]
+//   AskConfirmRevert												  [public]
 // ---------------------------------------------------------------------------
 
 bool
@@ -1070,7 +1078,7 @@ CRezMapDoc::AskConfirmRevert()
 
 
 // ---------------------------------------------------------------------------
-//	¥ DesignateOutFile								[public static]
+//   DesignateOutFile								[public static]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -1115,7 +1123,7 @@ CRezMapDoc::DesignateOutFile( FSSpec& outFileSpec, bool & outReplacing)
 
 
 // ---------------------------------------------------------------------------
-//	¥ AskExportAs														  [public]
+//   AskExportAs														  [public]
 // ---------------------------------------------------------------------------
 //	Ask the user to export a Document and give it a name
 //	Returns false if the user cancels the operation
@@ -1154,7 +1162,7 @@ CRezMapDoc::AskExportAs(
 
 
 // ---------------------------------------------------------------------------
-//	¥ DesignateExportFile								[public static]
+//   DesignateExportFile								[public static]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -1310,7 +1318,7 @@ CRezMapDoc::FindCommandStatus(
 			break;
 
 		case cmd_Find:
-// 			LString::CopyPStr( "\pFind in Map�", outName);
+// 			LString::CopyPStr( "\pFind in MapÉ", outName);
 // 			outEnabled = true;
 			outEnabled = false;
 			break;
@@ -1321,6 +1329,7 @@ CRezMapDoc::FindCommandStatus(
 		
 		case cmd_EditRez:
 		case cmd_EditRezAsType:
+		case cmd_EditWithPlugin:
 		case cmd_TmplEditRez:
 		case cmd_HexEditRez:
 		case cmd_GetRezInfo:
@@ -1367,7 +1376,7 @@ CRezMapDoc::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AllowSubRemoval												  [public]
+//   AllowSubRemoval												  [public]
 // ---------------------------------------------------------------------------
 
 Boolean

@@ -47,7 +47,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CTmplEditorDoc							Constructor		  [public]
+//   CTmplEditorDoc							Constructor		  [public]
 // ---------------------------------------------------------------------------
 // 	: CEditorController( inSuperMap )
 
@@ -63,7 +63,7 @@ CTmplEditorDoc::CTmplEditorDoc(LCommander* inSuper,
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CTmplEditorDoc							Destructor				  [public]
+//     ~CTmplEditorDoc							Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CTmplEditorDoc::~CTmplEditorDoc()
@@ -75,7 +75,7 @@ CTmplEditorDoc::~CTmplEditorDoc()
 
 
 // ---------------------------------------------------------------------------
-//	¥ Initialize													  [public]
+//   Initialize													  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -127,7 +127,7 @@ CTmplEditorDoc::Initialize()
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetDescriptor													  [public]
+//   GetDescriptor													  [public]
 // ---------------------------------------------------------------------------
 //	Pass back the name of a Document
 
@@ -148,7 +148,7 @@ CTmplEditorDoc::GetDescriptor(
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ FindCommandStatus
+//   FindCommandStatus
 // ---------------------------------------------------------------------------------
 
 void
@@ -172,7 +172,7 @@ CTmplEditorDoc::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AllowSubRemoval												  [public]
+//   AllowSubRemoval												  [public]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -189,7 +189,7 @@ CTmplEditorDoc::AllowSubRemoval(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AskSaveChanges												  [public]
+//   AskSaveChanges												  [public]
 // ---------------------------------------------------------------------------
 //	Ask user whether to save changes before closing the Document or
 //	quitting the Application
@@ -204,7 +204,7 @@ CTmplEditorDoc::AskSaveChanges(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetModifiedResource										[public]
+//   GetModifiedResource										[public]
 // ---------------------------------------------------------------------------
 // The returned handle should not be released by the caller so leave
 // releaseIt to false (its default).
@@ -216,7 +216,7 @@ CTmplEditorDoc::GetModifiedResource(Boolean &releaseIt)
 	OSErr error = mTmplEditWindow->RetrieveDataWithTemplate();
 
 	if ( error != noErr ) {
-		UMessageDialogs::DescribeError(CFSTR("ErrorWhileSavingTemplateWindow"), error);
+		UMessageDialogs::DescribeError(CFSTR("ErrorSavingTemplateWindow"), error);
 	} else {
 		if (mTmplEditWindow->GetOutStream() != NULL) {
 			theHandle = mTmplEditWindow->GetOutStream()->GetDataHandle();

@@ -24,7 +24,7 @@
 
 
 // ---------------------------------------------------------------------------
-//  ¥ SimpleMessage											
+//   SimpleMessage											
 // ---------------------------------------------------------------------------
 
 void
@@ -47,7 +47,7 @@ UMessageDialogs::SimpleMessage(LStr255 inString, ResIDT inPpobID)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ AskIfMessage											
+//   AskIfMessage											
 // ---------------------------------------------------------------------------
 
 SInt16
@@ -76,7 +76,7 @@ UMessageDialogs::AskIfMessage(LStr255 inString, ResIDT inPpobID)
 
 	
 // ---------------------------------------------------------------------------
-//  ¥ AskYesNoMessage											
+//   AskYesNoMessage											
 // ---------------------------------------------------------------------------
 
 SInt16
@@ -109,7 +109,7 @@ UMessageDialogs::AskYesNoMessage(LStr255 inString, ResIDT inPpobID)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ SimpleMessageFromRes											
+//   SimpleMessageFromRes											
 // ---------------------------------------------------------------------------
 
 void
@@ -134,7 +134,7 @@ UMessageDialogs::SimpleMessageFromRes(ResIDT inSTRxResID, SInt32 inIndex, ResIDT
 
 
 // ---------------------------------------------------------------------------
-//  ¥ AskIfFromRes											
+//   AskIfFromRes											
 // ---------------------------------------------------------------------------
 
 SInt16
@@ -165,7 +165,7 @@ UMessageDialogs::AskIfFromRes(ResIDT inSTRxResID, SInt32 inIndex, ResIDT inPpobI
 
 
 // ---------------------------------------------------------------------------
-//  ¥ AskYesNoFromRes											
+//   AskYesNoFromRes											
 // ---------------------------------------------------------------------------
 
 SInt16
@@ -199,7 +199,7 @@ UMessageDialogs::AskYesNoFromRes(ResIDT inSTRxResID, SInt32 inIndex, ResIDT inPp
 
 
 // ---------------------------------------------------------------------------
-//  ¥ SimpleMessageFromLocalizable											
+//   SimpleMessageFromLocalizable											
 // ---------------------------------------------------------------------------
 
 void
@@ -216,7 +216,7 @@ UMessageDialogs::SimpleMessageFromLocalizable(CFStringRef inCFStringRef, ResIDT 
 
 
 // ---------------------------------------------------------------------------
-//  ¥ SimpleMessageFromCFString											
+//   SimpleMessageFromCFString											
 // ---------------------------------------------------------------------------
 
 void
@@ -241,7 +241,7 @@ UMessageDialogs::SimpleMessageFromCFString(CFStringRef inCFStringRef, ResIDT inP
 
 
 // ---------------------------------------------------------------------------
-//  ¥ RunSimpleMessage											
+//   RunSimpleMessage											
 // ---------------------------------------------------------------------------
 
 void
@@ -266,7 +266,7 @@ UMessageDialogs::RunSimpleMessage(Str255 inString, ResIDT inPpobID)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ AskIfFromLocalizable											
+//   AskIfFromLocalizable											
 // ---------------------------------------------------------------------------
 
 SInt16
@@ -307,7 +307,7 @@ UMessageDialogs::AskIfFromLocalizable(CFStringRef inCFStringRef, ResIDT inPpobID
 	
 
 // ---------------------------------------------------------------------------
-//  ¥ AskYesNoFromLocalizable											
+//   AskYesNoFromLocalizable											
 // ---------------------------------------------------------------------------
 
 SInt16
@@ -352,7 +352,7 @@ UMessageDialogs::AskYesNoFromLocalizable(CFStringRef inCFStringRef, ResIDT inPpo
 
 
 // ---------------------------------------------------------------------------
-//  ¥ ErrorMessage											
+//   ErrorMessage											
 // ---------------------------------------------------------------------------
 
 void
@@ -379,7 +379,7 @@ UMessageDialogs::ErrorMessage(LStr255 inString, OSErr inError, ResIDT inPpobID)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ ErrorMessageFromRes											
+//   ErrorMessageFromRes											
 // ---------------------------------------------------------------------------
 
 void
@@ -409,7 +409,7 @@ UMessageDialogs::ErrorMessageFromRes(ResIDT inSTRxResID, SInt32 inIndex, OSErr i
 
 
 // ---------------------------------------------------------------------------
-//  ¥ ErrorMessageFromLocalizable											
+//   ErrorMessageFromLocalizable											
 // ---------------------------------------------------------------------------
 
 void
@@ -449,7 +449,7 @@ UMessageDialogs::ErrorMessageFromLocalizable(CFStringRef inCFStringRef, OSErr in
 
 
 // ---------------------------------------------------------------------------
-//  ¥ AskSolveUidConflicts											
+//   AskSolveUidConflicts											
 // ---------------------------------------------------------------------------
 
 SInt16
@@ -524,7 +524,7 @@ UMessageDialogs::AskSolveUidConflicts(ResType inType,
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetOneValue											
+//   GetOneValue											
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -592,7 +592,7 @@ UMessageDialogs::GetOneValue(
 		  	
 
 // ---------------------------------------------------------------------------
-//  ¥ AlertWithValue											
+//   AlertWithValue											
 // ---------------------------------------------------------------------------
 
 void
@@ -613,7 +613,7 @@ UMessageDialogs::AlertWithValue(CFStringRef inCFStringRef, SInt32 inValue)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ AlertWithType											
+//   AlertWithType											
 // ---------------------------------------------------------------------------
 
 void
@@ -646,7 +646,7 @@ UMessageDialogs::AlertWithType(CFStringRef inCFStringRef, ResType inType)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ AlertWithString											
+//   AlertWithString											
 // ---------------------------------------------------------------------------
 
 void
@@ -671,7 +671,7 @@ UMessageDialogs::AlertWithString(CFStringRef inCFStringRef, Str255 inString)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ AskIfWithString											
+//   AskIfWithString											
 // ---------------------------------------------------------------------------
 
 SInt16
@@ -698,7 +698,7 @@ UMessageDialogs::AskIfWithString(CFStringRef inCFStringRef, Str255 inString)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ DescribeError										
+//   DescribeError										
 // ---------------------------------------------------------------------------
 
 void

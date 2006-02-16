@@ -1,11 +1,11 @@
 // ===========================================================================
 // CRezillaApp.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2005-09-01 08:34:16
+//             Last modification: 2006-02-16 00:11:01
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes 2003-2005
+// (c) Copyright: Bernard Desgraupes 2003-2005, 2006
 // All rights reserved.
 // ===========================================================================
 
@@ -152,7 +152,7 @@ Boolean					CRezillaApp::sCalledFromAE = false;
 
 
 // ===========================================================================
-//  ¥ Main Program
+//   Main Program
 // ===========================================================================
 
 int main()
@@ -184,7 +184,7 @@ int main()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CRezillaApp
+//   CRezillaApp
 // ---------------------------------------------------------------------------
 //	Constructor
 
@@ -200,7 +200,7 @@ CRezillaApp::CRezillaApp()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ ~CRezillaApp
+//     ~CRezillaApp
 // ---------------------------------------------------------------------------
 //	Destructor
 
@@ -214,7 +214,7 @@ CRezillaApp::~CRezillaApp()
 
 
 // ---------------------------------------------------------------------------
-//	¥ Initialize						[protected]
+//   Initialize						[protected]
 // ---------------------------------------------------------------------------
 // In LowMem.h:
 //   EXTERN_API( SInt16 ) LMGetCurApRefNum(void);
@@ -223,7 +223,6 @@ CRezillaApp::~CRezillaApp()
 void
 CRezillaApp::Initialize()
 {
-	OSStatus			err;
 	MenuRef				menuHandle;
 	MenuItemIndex		customItemIndex;
 
@@ -234,31 +233,13 @@ CRezillaApp::Initialize()
 	InitMLTE();
 	
 	SInt32 theOsVersion = UEnvironment::GetOSVersion();
-	// Check that we are running on OS9 or greater
-#if TARGET_RT_MAC_MACHO
-	if ( theOsVersion < 0x01000) {
-		UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("RequireSystemTen"), PPob_SimpleMessage);
+	// Check that we are running on OSX 10.2 or greater
+	if ( theOsVersion < 0x01020) {
+		UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("RequireSystemTenTwo"), PPob_SimpleMessage);
 		SendAEQuit();
 	}
-#else
-	if ( theOsVersion < 0x00900) {
-		UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("RequireSystemNine"), PPob_SimpleMessage);
-		SendAEQuit();
-	}	
-#endif
 	// Install an item in the Finder's Help menu
-	err	= RegisterHelpBook();
-	if ( err == noErr )									
-	{
-		//	Add custom Help Menu items
-		err	= ::HMGetHelpMenu( &menuHandle, &customItemIndex );
-		if ( err == noErr ) {
-			// MacOS 8/9 bundled applications must manually add and handle their help menu
-			if ( theOsVersion < 0x0920)	{
-				InsertMenuItem( menuHandle, "\pRezilla Help", customItemIndex - 1 );
-			}
-		}
-	}
+	RegisterHelpBook();
 	
 	// Create an instance of CRezillaPrefs
 	sPrefs = new CRezillaPrefs(this);
@@ -293,10 +274,6 @@ CRezillaApp::Initialize()
 												  sPrefs->GetPrefValue(kPref_general_maxRecent), 
 												  CFSTR(kRezillaIdentifier));
 	AddAttachment( sRecentItemsAttachment, nil, true );
-
-// 	// Help tags settings
-// 	ABalloonBase::EnableControlKeyPop();
-// 	ABalloonBase::SetAutoPopDelay(20);
 	
 	VersionFromPlist(sVersionNumber);
 	
@@ -311,7 +288,7 @@ CRezillaApp::Initialize()
 
 
 // ---------------------------------------------------------------------------
-//	¥ InitMLTE													[private]
+//   InitMLTE													[private]
 // ---------------------------------------------------------------------------
 // You MUST call LMLTEPane::Initialize() at the beginning of your program
 
@@ -338,7 +315,7 @@ CRezillaApp::InitMLTE()
 
 
 // ---------------------------------------------------------------------------
-//	¥ MakeModelDirector											   [protected]
+//   MakeModelDirector											   [protected]
 // ---------------------------------------------------------------------------
 //	Create ModelDirector (AppleEvent handle) object for this application
 
@@ -351,7 +328,7 @@ CRezillaApp::MakeModelDirector()
 
 
 // ---------------------------------------------------------------------------
-//	¥ RegisterClasses											[protected]
+//   RegisterClasses											[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -447,7 +424,7 @@ CRezillaApp::RegisterClasses()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ StartUp
+//   StartUp
 // ---------------------------------------------------------------------------
 
 void
@@ -458,7 +435,7 @@ CRezillaApp::StartUp()
 
 
 // ---------------------------------------------------------------------------
-//	¥ AttemptQuitSelf
+//   AttemptQuitSelf
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -471,7 +448,7 @@ CRezillaApp::AttemptQuitSelf(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ ObeyCommand
+//   ObeyCommand
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -572,7 +549,7 @@ CRezillaApp::ObeyCommand(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ FindCommandStatus
+//   FindCommandStatus
 // ---------------------------------------------------------------------------
 
 void
@@ -608,7 +585,7 @@ CRezillaApp::FindCommandStatus(
 			break;		
 		
 		case cmd_Find:
-			LString::CopyPStr( "\pFind�", outName);
+			LString::CopyPStr( "\pFindÉ", outName);
 			outEnabled = false;
 			break;		
 		
@@ -627,7 +604,7 @@ CRezillaApp::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ ListenToMessage												[public]
+//   ListenToMessage												[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -638,7 +615,7 @@ CRezillaApp::ListenToMessage( MessageT inMessage, void *ioParam )
 
 
 // ---------------------------------------------------------------------------
-//	¥ ShowAboutBox													  [public]
+//   ShowAboutBox													  [public]
 // ---------------------------------------------------------------------------
 //	Display the About Box for the Application
 
@@ -655,7 +632,7 @@ CRezillaApp::ShowAboutBox()
 
 
 // ---------------------------------------------------------------------------
-//	¥ InstallWindowMenu								[protected]
+//   InstallWindowMenu								[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -698,7 +675,7 @@ CRezillaApp::InstallWindowMenu()
 
 
 // ---------------------------------------------------------------------------
-//	¥ RegisterHelpBook											[private]
+//   RegisterHelpBook											[private]
 // ---------------------------------------------------------------------------
 // Under Carbon and OSX, register a Help folder
 // 
@@ -734,7 +711,7 @@ bail:
 
 
 // ---------------------------------------------------------------------------
-//	¥ VersionFromResource										  [public]
+//   VersionFromResource										  [public]
 // ---------------------------------------------------------------------------
 // Retrieve the version number from the 'vers' resources.
 
@@ -792,7 +769,7 @@ CRezillaApp::VersionFromResource()
 
 
 // ---------------------------------------------------------------------------
-//	¥ VersionFromPlist										  [public]
+//   VersionFromPlist										  [public]
 // ---------------------------------------------------------------------------
 // Retrieve the version number from the 'Info.plist' file.
 
@@ -816,7 +793,7 @@ CRezillaApp::VersionFromPlist(Str255 & outVersion)
 
 
 // ---------------------------------------------------------------------------
-//	¥ ChooseAFile								[public static]
+//   ChooseAFile								[public static]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -858,7 +835,7 @@ CRezillaApp::ChooseAFile(FSSpec & outFileSpec)
 
 
 // ---------------------------------------------------------------------------
-//	¥ OpenDocument													  [public]
+//   OpenDocument													  [public]
 // ---------------------------------------------------------------------------
 //	Open a Document specified by an FSSpec. This is used by SendAEOpenDoc()
 //	which is invoked when an item is selected in the RecentItems menu.
@@ -873,7 +850,7 @@ CRezillaApp::OpenDocument(
 
 
 // ---------------------------------------------------------------------------
-//	¥ OpenFork								[public static]
+//   OpenFork								[public static]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -910,7 +887,7 @@ CRezillaApp::OpenFork(FSSpec & inFileSpec,
 
 
 // ---------------------------------------------------------------------------
-//	¥ PreOpen												[public static]
+//   PreOpen												[public static]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -1008,7 +985,7 @@ done:
 
 
 // ---------------------------------------------------------------------------
-//	¥ CreateForkForFile									[public static]
+//   CreateForkForFile									[public static]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -1038,7 +1015,7 @@ CRezillaApp::CreateForkForFile(FSSpec & inFileSpec)
 
 
 // ---------------------------------------------------------------------------
-//	¥ ReportOpenForkError								[public static]
+//   ReportOpenForkError								[public static]
 // ---------------------------------------------------------------------------
 
 void
@@ -1081,7 +1058,7 @@ CRezillaApp::ReportOpenForkError(OSErr inError, FSSpec * inFileSpecPtr)
 
 
 // ---------------------------------------------------------------------------
-//	¥ DesignateNewMap								[public static]
+//   DesignateNewMap								[public static]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -1127,7 +1104,7 @@ CRezillaApp::DesignateNewMap( FSSpec& outFileSpec, bool & outReplacing)
 
 
 // ---------------------------------------------------------------------------
-//	¥ FetchRezMapDoc												  [static]
+//   FetchRezMapDoc												  [static]
 // ---------------------------------------------------------------------------
 //	Returns nil if no RezMapDoc exists corresponding to the given FSSpec
 
@@ -1156,7 +1133,7 @@ CRezillaApp::FetchRezMapDoc(FSSpec * inFileSpecPtr)
 
 
 // ---------------------------------------------------------------------------
-//	¥ DoPreferences												   [protected]
+//   DoPreferences												   [protected]
 // ---------------------------------------------------------------------------
 //	Handle Preferences settings
 

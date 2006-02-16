@@ -23,7 +23,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CSingleScrollBar							Stream Constructor		  [public]
+//   CSingleScrollBar							Stream Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CSingleScrollBar::CSingleScrollBar(
@@ -37,7 +37,7 @@ CSingleScrollBar::CSingleScrollBar(
 
 
 // ---------------------------------------------------------------------------
-//	¥ CSingleScrollBar							Parameterized Constructor [public]
+//   CSingleScrollBar							Parameterized Constructor [public]
 // ---------------------------------------------------------------------------
 
 CSingleScrollBar::CSingleScrollBar(
@@ -57,7 +57,7 @@ CSingleScrollBar::CSingleScrollBar(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CSingleScrollBar							Destructor				  [public]
+//     ~CSingleScrollBar							Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CSingleScrollBar::~CSingleScrollBar()
@@ -66,7 +66,7 @@ CSingleScrollBar::~CSingleScrollBar()
 
 
 // ---------------------------------------------------------------------------
-//	¥ DoTrackAction													  [public]
+//   DoTrackAction													  [public]
 // ---------------------------------------------------------------------------
 
 void

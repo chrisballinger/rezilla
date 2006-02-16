@@ -28,7 +28,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CStaticTextURL							Stream Constructor		  [public]
+//   CStaticTextURL							Stream Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CStaticTextURL::CStaticTextURL(
@@ -42,7 +42,7 @@ CStaticTextURL::CStaticTextURL(
 
 
 // ---------------------------------------------------------------------------
-//	¥ CStaticTextURL							Parameterized Constructor [public]
+//   CStaticTextURL							Parameterized Constructor [public]
 // ---------------------------------------------------------------------------
 
 CStaticTextURL::CStaticTextURL(
@@ -58,7 +58,7 @@ CStaticTextURL::CStaticTextURL(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CStaticTextURL							Destructor				  [public]
+//     ~CStaticTextURL							Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CStaticTextURL::~CStaticTextURL()
@@ -67,7 +67,7 @@ CStaticTextURL::~CStaticTextURL()
 
 
 // ---------------------------------------------------------------------------
-//	¥ InitUrlPane
+//   InitUrlPane
 // ---------------------------------------------------------------------------
 
 void 
@@ -83,7 +83,7 @@ CStaticTextURL::InitUrlPane()
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ SetUrlString													  [public]
+//   SetUrlString													  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -95,7 +95,7 @@ CStaticTextURL::SetUrlString(
 
 
 // ---------------------------------------------------------------------------
-//   ¥ GetUrlString                                                   [public]
+//   GetUrlString                                                   [public]
 // ---------------------------------------------------------------------------
 
 StringPtr
@@ -108,7 +108,7 @@ CStaticTextURL::GetUrlString(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AdjustMouseSelf
+//   AdjustMouseSelf
 // ---------------------------------------------------------------------------
 
 void
@@ -127,7 +127,7 @@ CStaticTextURL::AdjustMouseSelf(
 
 
 // ---------------------------------------------------------------------------
-//	¥  ClickSelf
+//      ClickSelf
 // ---------------------------------------------------------------------------
 
 void 
@@ -140,7 +140,7 @@ CStaticTextURL::ClickSelf(
 
 
 // ---------------------------------------------------------------------------
-//	¥  SendGurlGurlEvent
+//      SendGurlGurlEvent
 // ---------------------------------------------------------------------------
 
 OSErr 

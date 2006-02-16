@@ -24,7 +24,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CDoubleClickButton						Stream Constructor		  [public]
+//   CDoubleClickButton						Stream Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CDoubleClickButton::CDoubleClickButton(
@@ -38,7 +38,7 @@ CDoubleClickButton::CDoubleClickButton(
 
 
 // ---------------------------------------------------------------------------
-//	¥ CDoubleClickButton							Parameterized Constructor [public]
+//   CDoubleClickButton							Parameterized Constructor [public]
 // ---------------------------------------------------------------------------
 //	Constructor for a BevelButton with no menu
 
@@ -70,7 +70,7 @@ CDoubleClickButton::CDoubleClickButton(
 
 
 // ---------------------------------------------------------------------------
-//	¥ CDoubleClickButton						Parameterized Constructor [public]
+//   CDoubleClickButton						Parameterized Constructor [public]
 // ---------------------------------------------------------------------------
 //	Constructor for a BevelButton with a Menu
 
@@ -104,7 +104,7 @@ CDoubleClickButton::CDoubleClickButton(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CDoubleClickButton						Destructor				  [public]
+//     ~CDoubleClickButton						Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CDoubleClickButton::~CDoubleClickButton()
@@ -116,7 +116,7 @@ CDoubleClickButton::~CDoubleClickButton()
 
 
 // ---------------------------------------------------------------------------
-//	¥ ClickSelf
+//   ClickSelf
 // ---------------------------------------------------------------------------
 //	Broadcast message for a double-click on the button
 

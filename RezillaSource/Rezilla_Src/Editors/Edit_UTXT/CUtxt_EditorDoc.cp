@@ -48,7 +48,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CUtxt_EditorDoc							Constructor		  [public]
+//   CUtxt_EditorDoc							Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CUtxt_EditorDoc::CUtxt_EditorDoc(LCommander* inSuper, 
@@ -63,7 +63,7 @@ CUtxt_EditorDoc::CUtxt_EditorDoc(LCommander* inSuper,
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CUtxt_EditorDoc							Destructor				  [public]
+//     ~CUtxt_EditorDoc							Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CUtxt_EditorDoc::~CUtxt_EditorDoc()
@@ -75,7 +75,7 @@ CUtxt_EditorDoc::~CUtxt_EditorDoc()
 
 
 // ---------------------------------------------------------------------------
-//	¥ Initialize													  [public]
+//   Initialize													  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -110,7 +110,7 @@ CUtxt_EditorDoc::Initialize()
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetDescriptor													  [public]
+//   GetDescriptor													  [public]
 // ---------------------------------------------------------------------------
 //	Pass back the name of a Document
 
@@ -131,7 +131,7 @@ CUtxt_EditorDoc::GetDescriptor(
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ FindCommandStatus
+//   FindCommandStatus
 // ---------------------------------------------------------------------------------
 
 void
@@ -155,7 +155,7 @@ CUtxt_EditorDoc::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AllowSubRemoval												  [public]
+//   AllowSubRemoval												  [public]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -172,7 +172,7 @@ CUtxt_EditorDoc::AllowSubRemoval(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AskSaveChanges												  [public]
+//   AskSaveChanges												  [public]
 // ---------------------------------------------------------------------------
 //	Ask user whether to save changes before closing the Document.
 
@@ -185,7 +185,7 @@ CUtxt_EditorDoc::AskSaveChanges(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetModifiedResource										[protected]
+//   GetModifiedResource										[protected]
 // ---------------------------------------------------------------------------
 // (From MacTextEditor.h) The handle passed to TXNGetDataEncoded should not
 // be allocated. TXNGetDataEncoded takes care of allocating the dataHandle
@@ -201,7 +201,7 @@ CUtxt_EditorDoc::GetModifiedResource(Boolean &releaseIt)
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ SaveStylResource
+//   SaveStylResource
 // ---------------------------------------------------------------------------------
 // What's the eqauivalent of TextEdit's StScrpHandle with MLTE ?
 

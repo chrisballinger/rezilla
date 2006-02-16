@@ -39,7 +39,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CEditorDoc									Constructor		  [public]
+//   CEditorDoc									Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CEditorDoc::CEditorDoc(LCommander* inSuper, 
@@ -72,7 +72,7 @@ CEditorDoc::CEditorDoc(LCommander* inSuper,
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CEditorDoc							Destructor				  [public]
+//     ~CEditorDoc							Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CEditorDoc::~CEditorDoc()
@@ -88,7 +88,7 @@ CEditorDoc::~CEditorDoc()
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ NameNewEditorDoc
+//   NameNewEditorDoc
 // ---------------------------------------------------------------------------------
 
 void
@@ -106,7 +106,7 @@ CEditorDoc::NameNewEditorDoc()
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ BuildDocumentTitle
+//   BuildDocumentTitle
 // ---------------------------------------------------------------------------------
 
 void
@@ -144,7 +144,7 @@ CEditorDoc::BuildDocumentTitle(Str255 & outTitle, SInt16 whichString)
 
 
 // ---------------------------------------------------------------------------
-//	¥ ObeyCommand									[public, virtual]
+//   ObeyCommand									[public, virtual]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -176,7 +176,7 @@ CEditorDoc::ObeyCommand(
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ FindCommandStatus
+//   FindCommandStatus
 // ---------------------------------------------------------------------------------
 
 void
@@ -197,7 +197,7 @@ CEditorDoc::FindCommandStatus(
 		break;
 
 		case cmd_Find:
-		LString::CopyPStr( "\pFind�", outName);
+		LString::CopyPStr( "\pFindÉ", outName);
 		outEnabled = false;
 		break;
 
@@ -226,7 +226,7 @@ CEditorDoc::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ ListenToMessage													[public]
+//   ListenToMessage													[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -257,7 +257,7 @@ CEditorDoc::ListenToMessage( MessageT inMessage, void * /* ioParam */)
 
 
 // ---------------------------------------------------------------------------
-//	¥ CanSaveChanges												  [public]
+//   CanSaveChanges												  [public]
 // ---------------------------------------------------------------------------
 // Deals with the resProtected attribute
 
@@ -281,7 +281,7 @@ CEditorDoc::CanSaveChanges()
 
 
 // ---------------------------------------------------------------------------
-//	¥ AllowSubRemoval												  [public]
+//   AllowSubRemoval												  [public]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -293,7 +293,7 @@ CEditorDoc::AllowSubRemoval(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AskSaveChanges												  [public]
+//   AskSaveChanges												  [public]
 // ---------------------------------------------------------------------------
 //	Ask user whether to save changes before closing the Document or
 //	quitting the Application.
@@ -307,7 +307,7 @@ CEditorDoc::AskSaveChanges(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AttemptClose													  [public]
+//   AttemptClose													  [public]
 // ---------------------------------------------------------------------------
 //	Try to close an edited resource.
 //
@@ -341,7 +341,7 @@ CEditorDoc::AttemptClose(
 
 
 // ---------------------------------------------------------------------------
-//	¥ DoAEClose														  [public]
+//   DoAEClose														  [public]
 // ---------------------------------------------------------------------------
 // Close a Document in response to a "close" AppleEvent. Optional "file"
 // parameter is ignored but check for optional "saveOption" parameter.
@@ -401,7 +401,7 @@ CEditorDoc::DoAEClose(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ DoSaveChanges													[public]
+//   DoSaveChanges													[public]
 // ---------------------------------------------------------------------------
 // The callee should set the shouldWeRelease variable to tell us if the 
 // handle we receive should be released here.
@@ -445,7 +445,7 @@ CEditorDoc::DoSaveChanges()
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetDescriptor													  [public]
+//   GetDescriptor													  [public]
 // ---------------------------------------------------------------------------
 //	Pass back the name of a Document
 
@@ -466,7 +466,7 @@ CEditorDoc::GetDescriptor(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetModifiedResource											[public]
+//   GetModifiedResource											[public]
 // ---------------------------------------------------------------------------
 // Note: it is a purely virtual member function. Define in every 
 // subclasses. For instance:
@@ -479,7 +479,7 @@ CEditorDoc::GetDescriptor(
 
 
 // ---------------------------------------------------------------------------
-//	¥ DoRevert														[public]
+//   DoRevert														[public]
 // ---------------------------------------------------------------------------
 //	Revert a Document to its last saved version
 
@@ -493,7 +493,7 @@ CEditorDoc::DoRevert()
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ Register
+//   Register
 // ---------------------------------------------------------------------------------
 
 void
@@ -504,7 +504,7 @@ CEditorDoc::Register()
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ Unregister
+//   Unregister
 // ---------------------------------------------------------------------------------
 
 void
@@ -515,7 +515,7 @@ CEditorDoc::Unregister()
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ SelectMainWindow
+//   SelectMainWindow
 // ---------------------------------------------------------------------------------
 
 void

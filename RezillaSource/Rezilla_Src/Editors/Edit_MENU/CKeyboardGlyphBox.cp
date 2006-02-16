@@ -32,7 +32,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CKeyboardGlyphBox							Default Constructor		  [public]
+//   CKeyboardGlyphBox							Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CKeyboardGlyphBox::CKeyboardGlyphBox()
@@ -45,7 +45,7 @@ CKeyboardGlyphBox::CKeyboardGlyphBox()
 
 
 // ---------------------------------------------------------------------------
-//	¥ CKeyboardGlyphBox							Parameterized Constructor [public]
+//   CKeyboardGlyphBox							Parameterized Constructor [public]
 // ---------------------------------------------------------------------------
 
 CKeyboardGlyphBox::CKeyboardGlyphBox(
@@ -64,7 +64,7 @@ CKeyboardGlyphBox::CKeyboardGlyphBox(
 
 
 // ---------------------------------------------------------------------------
-//	¥ CKeyboardGlyphBox							Stream Constructor		  [public]
+//   CKeyboardGlyphBox							Stream Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CKeyboardGlyphBox::CKeyboardGlyphBox(
@@ -90,7 +90,7 @@ CKeyboardGlyphBox::CKeyboardGlyphBox(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CKeyboardGlyphBox						Destructor				  [public]
+//     ~CKeyboardGlyphBox						Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CKeyboardGlyphBox::~CKeyboardGlyphBox()
@@ -99,7 +99,7 @@ CKeyboardGlyphBox::~CKeyboardGlyphBox()
 
 
 // ---------------------------------------------------------------------------
-//	¥ ActivateSelf												   [protected]
+//   ActivateSelf												   [protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -110,7 +110,7 @@ CKeyboardGlyphBox::ActivateSelf()
 
 
 // ---------------------------------------------------------------------------
-//	¥ DeactivateSelf											   [protected]
+//   DeactivateSelf											   [protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -121,7 +121,7 @@ CKeyboardGlyphBox::DeactivateSelf()
 
 
 // ---------------------------------------------------------------------------
-//	¥ EnableSelf												   [protected]
+//   EnableSelf												   [protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -132,7 +132,7 @@ CKeyboardGlyphBox::EnableSelf()
 
 
 // ---------------------------------------------------------------------------
-//	¥ DisableSelf												   [protected]
+//   DisableSelf												   [protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -143,7 +143,7 @@ CKeyboardGlyphBox::DisableSelf()
 
 
 // ---------------------------------------------------------------------------
-//	¥ DrawSelf													   [protected]
+//   DrawSelf													   [protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -193,7 +193,7 @@ CKeyboardGlyphBox::DrawSelf()
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetString													   [protected]
+//   SetString													   [protected]
 // ---------------------------------------------------------------------------
 // Allowable values for inString[1] are : 0, 2-31, 97-122, 135-138 (Menus.h)
 

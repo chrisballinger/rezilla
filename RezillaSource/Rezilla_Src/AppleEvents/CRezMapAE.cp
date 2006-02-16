@@ -422,7 +422,7 @@ CRezMap::GetRezTypeAtIndex(SInt32 inPosition) const
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetModelTokenSelf
+//   GetModelTokenSelf
 // ---------------------------------------------------------------------------
 //	Intercept the Type-ID specifier case: in this case inModelID should be
 //	rzom_cRezObj and inKeyForm should be formAbsolutePosition ('indx').
@@ -476,7 +476,7 @@ CRezMap::GetModelTokenSelf(
 
 
 // ---------------------------------------------------------------------------
-//	¥ HandleCreateElementEvent
+//   HandleCreateElementEvent
 // ---------------------------------------------------------------------------
 // Pass up to the owner document
 

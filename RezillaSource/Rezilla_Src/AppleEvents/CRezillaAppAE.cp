@@ -41,7 +41,7 @@
 
 
 // ---------------------------------------------------------------------------
-//	¥ HandleAppleEvent												  [public]
+//   HandleAppleEvent												  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -76,7 +76,7 @@ CRezillaApp::HandleAppleEvent(
 
 
 // ---------------------------------------------------------------------------
-//	¥ HandleOpenDocsEvent											  [public]
+//   HandleOpenDocsEvent											  [public]
 // ---------------------------------------------------------------------------
 // err = AEPutParamDesc(outReply, keyErrorString, &param);
 
@@ -186,7 +186,7 @@ CRezillaApp::HandleOpenDocsEvent(
 
 
 // ---------------------------------------------------------------------------
-//	¥ HandleCompareMapsEvent										  [public]
+//   HandleCompareMapsEvent										  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -285,7 +285,7 @@ CRezillaApp::HandleCompareMapsEvent(
 
 
 // ---------------------------------------------------------------------------
-//	¥ HandleCreateElementEvent
+//   HandleCreateElementEvent
 // ---------------------------------------------------------------------------
 
 LModelObject*
@@ -406,7 +406,7 @@ CRezillaApp::HandleCreateElementEvent(
 
 
 // ---------------------------------------------------------------------------
-//	¥ CountSubModels												  [public]
+//   CountSubModels												  [public]
 // ---------------------------------------------------------------------------
 
 SInt32
@@ -515,7 +515,7 @@ CRezillaApp::CountSubModels(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetSubModelByPosition											  [public]
+//   GetSubModelByPosition											  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -715,7 +715,7 @@ CRezillaApp::GetSubModelByPosition(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetSubModelByName												  [public]
+//   GetSubModelByName												  [public]
 // ---------------------------------------------------------------------------
 //	Pass back a token to a SubModel specified by name
 
@@ -776,7 +776,7 @@ CRezillaApp::GetSubModelByName(
 
 
 // ---------------------------------------------------------------------------
-//   ¥ GetSubModelByUniqueID
+//   GetSubModelByUniqueID
 // ---------------------------------------------------------------------------
 //   Pass back a Token for the SubModel of the specified type with the
 //   specified unique ID
@@ -815,7 +815,7 @@ CRezillaApp::GetSubModelByUniqueID(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetPositionOfSubModel											  [public]
+//   GetPositionOfSubModel											  [public]
 // ---------------------------------------------------------------------------
 //	Return the position (1 = first) of a SubModel within an Application
 
@@ -865,7 +865,7 @@ CRezillaApp::GetPositionOfSubModel(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetAEProperty
+//   GetAEProperty
 // ---------------------------------------------------------------------------
 //	Return a descriptor for the specified Property
 
@@ -894,7 +894,7 @@ CRezillaApp::GetAEProperty(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AEPropertyExists
+//   AEPropertyExists
 // ---------------------------------------------------------------------------
 
 bool
@@ -919,7 +919,7 @@ CRezillaApp::AEPropertyExists(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetModelProperty
+//   GetModelProperty
 // ---------------------------------------------------------------------------
 
 LModelObject*

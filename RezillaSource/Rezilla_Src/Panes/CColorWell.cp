@@ -22,7 +22,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CColorWell							Default Constructor		  [public]
+//   CColorWell							Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CColorWell::CColorWell()
@@ -33,7 +33,7 @@ CColorWell::CColorWell()
 
 
 // ---------------------------------------------------------------------------
-//	¥ CColorWell							Copy Constructor		  [public]
+//   CColorWell							Copy Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CColorWell::CColorWell(
@@ -46,7 +46,7 @@ CColorWell::CColorWell(
 
 
 // ---------------------------------------------------------------------------
-//	¥ CColorWell							Parameterized Constructor [public]
+//   CColorWell							Parameterized Constructor [public]
 // ---------------------------------------------------------------------------
 
 CColorWell::CColorWell(	const SPaneInfo &inPaneInfo, 
@@ -68,7 +68,7 @@ CColorWell::CColorWell(	const SPaneInfo &inPaneInfo,
 
 
 // ---------------------------------------------------------------------------
-//	¥ CColorWell							Stream Constructor		  [public]
+//   CColorWell							Stream Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CColorWell::CColorWell(
@@ -89,7 +89,7 @@ CColorWell::CColorWell(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CColorWell							Destructor				  [public]
+//     ~CColorWell							Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CColorWell::~CColorWell()
@@ -97,7 +97,7 @@ CColorWell::~CColorWell()
 
 
 // ---------------------------------------------------------------------------
-//	¥ FinishCreateSelf
+//   FinishCreateSelf
 // ---------------------------------------------------------------------------
 
 void
@@ -108,7 +108,7 @@ CColorWell::FinishCreateSelf()
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ ClickSelf
+//   ClickSelf
 // ---------------------------------------------------------------------------
 //	Respond to Click inside this Pane
 
@@ -125,7 +125,7 @@ CColorWell::ClickSelf(
 
 
 // ---------------------------------------------------------------------------
-//	¥ DrawSelf
+//   DrawSelf
 // ---------------------------------------------------------------------------
 //	Draw contents of Pane
 
@@ -152,7 +152,7 @@ CColorWell::DrawSelf()
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetColor														  [public]
+//   GetColor														  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -165,7 +165,7 @@ CColorWell::GetColor(RGBColor & ioColor)
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetColor														  [public]
+//   SetColor														  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -178,7 +178,7 @@ CColorWell::SetColor(RGBColor inColor)
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetDescriptor													  [public]
+//   GetDescriptor													  [public]
 // ---------------------------------------------------------------------------
 
 StringPtr
@@ -191,7 +191,7 @@ CColorWell::GetDescriptor(
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetDescriptor													  [public]
+//   SetDescriptor													  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -202,7 +202,7 @@ CColorWell::SetDescriptor(
 
 
 // ---------------------------------------------------------------------------
-//	¥ PickRGBColor											[static]
+//   PickRGBColor											[static]
 // ---------------------------------------------------------------------------
 
 Boolean

@@ -28,7 +28,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//  ¥ HexadecimalField
+//   HexadecimalField
 // ---------------------------------------------------------------------------
 //	Key Filter for Hexadecimal Integer characters
 //
@@ -69,7 +69,7 @@ UHexFilters::HexadecimalField(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ HexadecimalField
+//   HexadecimalField
 // ---------------------------------------------------------------------------
 //	Key Filter for Hexadecimal Integer characters
 //
@@ -111,7 +111,7 @@ UHexFilters::HexadecimalField(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ HexTemplateField
+//   HexTemplateField
 // ---------------------------------------------------------------------------
 //	Key Filter for Hexadecimal Integer characters
 //
@@ -153,7 +153,7 @@ UHexFilters::HexTemplateField(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ HexTemplateField
+//   HexTemplateField
 // ---------------------------------------------------------------------------
 //	Key Filter for Hexadecimal Integer characters
 //
@@ -196,7 +196,7 @@ UHexFilters::HexTemplateField(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ IntegerRangeField
+//   IntegerRangeField
 // ---------------------------------------------------------------------------
 //	Key Filter for Hexadecimal Integer characters
 //
@@ -237,7 +237,7 @@ UHexFilters::IntegerRangeField(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ IntegerRangeField
+//   IntegerRangeField
 // ---------------------------------------------------------------------------
 //	Key Filter for Hexadecimal Integer characters
 //
@@ -282,7 +282,7 @@ UHexFilters::IntegerRangeField(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ IsLeftRightArrowKey
+//   IsLeftRightArrowKey
 // ---------------------------------------------------------------------------
 
 bool
@@ -304,7 +304,7 @@ UHexFilters::IsLeftRightArrowKey(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ IsUpDownArrowKey
+//   IsUpDownArrowKey
 // ---------------------------------------------------------------------------
 // 		case char_Home:
 // 		case char_End:
@@ -330,7 +330,7 @@ UHexFilters::IsUpDownArrowKey(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ IsHexadecimalChar
+//   IsHexadecimalChar
 // ---------------------------------------------------------------------------
 
 bool
@@ -343,7 +343,7 @@ UHexFilters::IsHexadecimalChar(UInt16 inChar)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ IsHexTemplateChar
+//   IsHexTemplateChar
 // ---------------------------------------------------------------------------
 // UInt16 val = (CRezillaPrefs::GetPrefValue(kPref_templates_hexSymbol) == hex_Symb0x) ? 'x':'$';
 
@@ -355,7 +355,7 @@ UHexFilters::IsHexTemplateChar(UInt16 inChar)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ IsIntegerRangeChar
+//   IsIntegerRangeChar
 // ---------------------------------------------------------------------------
 
 bool

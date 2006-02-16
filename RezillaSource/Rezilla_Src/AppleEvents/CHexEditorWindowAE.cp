@@ -25,7 +25,7 @@
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetAEProperty
+//   GetAEProperty
 // ---------------------------------------------------------------------------
 // 	rzom_pHexWinMaxPos			= 'maxP';	// Index of last position
 // 	rzom_pHexWinStartPos		= 'iniP';	// Position of beginning of selection
@@ -103,7 +103,7 @@ CHexEditorWindow::GetAEProperty(
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetAEProperty
+//   SetAEProperty
 // ---------------------------------------------------------------------------
 
 void
@@ -193,7 +193,7 @@ CHexEditorWindow::SetAEProperty(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AEPropertyExists
+//   AEPropertyExists
 // ---------------------------------------------------------------------------
 
 bool
@@ -221,7 +221,7 @@ CHexEditorWindow::AEPropertyExists(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetModelProperty
+//   GetModelProperty
 // ---------------------------------------------------------------------------
 //	Return a ModelObject object for 'HexP' and 'TxtP' properties
 //	Currently not implemented

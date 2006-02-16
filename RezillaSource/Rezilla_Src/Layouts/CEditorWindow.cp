@@ -228,7 +228,7 @@ CEditorWindow::RevertContents()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ InstallReadOnlyIcon											[public]
+//   InstallReadOnlyIcon											[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -246,7 +246,7 @@ CEditorWindow::InstallReadOnlyIcon()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ InstallResourceNameField											[public]
+//   InstallResourceNameField											[public]
 // ---------------------------------------------------------------------------
 
 void

@@ -12,8 +12,8 @@
 // Use as a prefix file to make a precompile header in order to compile
 // PowerPlant with XCode. This also includes <Carbon/Carbon.h>.
 // In the target's settings, define:
-//     GCC_PREFIX_HEADER = Rezilla_Src/Prefix/PP_Xcode.h
-//     GCC_PRECOMPILE_PREFIX_HEADER = YES
+//   GCC_PREFIX_HEADER = Rezilla_Src/Prefix/PP_Xcode.h
+//   GCC_PRECOMPILE_PREFIX_HEADER = YES
 // 	
 // 	Also set this target's setting:
 // 		Compile sources as:  C++

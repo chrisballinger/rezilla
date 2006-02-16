@@ -34,7 +34,7 @@ PP_Begin_Namespace_PowerPlant
 //	Mix-in class for adding Drag and Drop support to a RezMapTable
 
 // ---------------------------------------------------------------------------
-//	¥ CRezMapDragDrop						Constructor				  [public]
+//   CRezMapDragDrop						Constructor				  [public]
 // ---------------------------------------------------------------------------
 // inMacWindow is the Toolbox window containing the DragAndDrop.
 // It may be nil if the DragAndDrop is not in a window (eg if printing
@@ -57,7 +57,7 @@ CRezMapDragDrop::CRezMapDragDrop(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CRezMapDragDrop						Destructor				  [public]
+//     ~CRezMapDragDrop						Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CRezMapDragDrop::~CRezMapDragDrop()
@@ -66,7 +66,7 @@ CRezMapDragDrop::~CRezMapDragDrop()
 
 
 // ---------------------------------------------------------------------------
-//	¥ PointInDropArea												  [public]
+//   PointInDropArea												  [public]
 // ---------------------------------------------------------------------------
 //	Return whether a Point, in Global coords, is inside a DropArea
 
@@ -80,7 +80,7 @@ CRezMapDragDrop::PointInDropArea(
 
 
 // ---------------------------------------------------------------------------
-//	¥ FocusDropArea													  [public]
+//   FocusDropArea													  [public]
 // ---------------------------------------------------------------------------
 //	Set up local coordinate system and clipping region for a DropArea
 
@@ -92,7 +92,7 @@ CRezMapDragDrop::FocusDropArea()
 
 
 // ---------------------------------------------------------------------------
-//	¥ HiliteDropArea											   [protected]
+//   HiliteDropArea											   [protected]
 // ---------------------------------------------------------------------------
 //	Hilite a DropArea to indicate that it can accept the current Drag
 //
@@ -120,7 +120,7 @@ CRezMapDragDrop::HiliteDropArea(
 
 
 // ---------------------------------------------------------------------------
-//	¥ UnhiliteDropArea											   [protected]
+//   UnhiliteDropArea											   [protected]
 // ---------------------------------------------------------------------------
 //	Unhilite a DropArea when a drag leaves the area
 
@@ -144,7 +144,7 @@ CRezMapDragDrop::UnhiliteDropArea(
 
 
 // ---------------------------------------------------------------------------
-//	¥ MySendDataProc											   [protected]
+//   MySendDataProc											   [protected]
 // ---------------------------------------------------------------------------
 
 pascal OSErr
@@ -159,7 +159,7 @@ CRezMapDragDrop::MySendDataProc(FlavorType theType,
 
 
 // ===========================================================================
-//	¥ Stack-based classes
+//   Stack-based classes
 // ===========================================================================
 
 // =====================================
@@ -167,7 +167,7 @@ CRezMapDragDrop::MySendDataProc(FlavorType theType,
 // =====================================
 
 // ---------------------------------------------------------------------------
-//	¥ StDragSendDataUPP							Constructor			  [public]
+//   StDragSendDataUPP							Constructor			  [public]
 // ---------------------------------------------------------------------------
 
 //	Constructor allocates and installs a DragSendDataUPP
@@ -195,7 +195,7 @@ StDragSendDataUPP::StDragSendDataUPP(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~StDragSendDataUPP					Destructor				  [public]
+//     ~StDragSendDataUPP					Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 StDragSendDataUPP::~StDragSendDataUPP()
@@ -208,7 +208,7 @@ StDragSendDataUPP::~StDragSendDataUPP()
 
 
 // // ---------------------------------------------------------------------------
-// //	¥ SetSendDataProc									[public, virtual]
+// //   SetSendDataProc									[public, virtual]
 // // ---------------------------------------------------------------------------
 // //	Allows to specify an own data sending code.  
 // //	Disposes of the existing SendDataProc, if any. 

@@ -77,7 +77,7 @@ protected:
 };
 
 // ---------------------------------------------------------------------------
-//     Classes derived from CWETextActions for each particular action
+//   Classes derived from CWETextActions for each particular action
 // ---------------------------------------------------------------------------
 
 class CWEViewCutAction : public CWETextActions {
@@ -184,7 +184,7 @@ protected:
 };
 
 // ---------------------------------------------------------------------------
-//     Classes derived from CWEStyleActions for each particular action
+//   Classes derived from CWEStyleActions for each particular action
 // ---------------------------------------------------------------------------
 
 class CWEViewFontAction : public CWEStyleActions {

@@ -251,7 +251,7 @@ CIcon_EditorView::UserChangedBitmap()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetModifiedBitmap										[public]
+//   GetModifiedBitmap										[public]
 // ---------------------------------------------------------------------------
 
 Handle

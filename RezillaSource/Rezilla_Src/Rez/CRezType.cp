@@ -19,7 +19,7 @@
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CRezType														[public]
+//   CRezType														[public]
 // ---------------------------------------------------------------------------
 // 	SignalStringLiteral_("OwnerMap not specified");
 
@@ -32,7 +32,7 @@ CRezType::CRezType(ResType inResType, CRezMap * inOwnerMap)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ ~CRezType														[public]
+//     ~CRezType														[public]
 // ---------------------------------------------------------------------------
 
 CRezType::~CRezType()
@@ -47,7 +47,7 @@ CRezType::~CRezType()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CountResources														[public]
+//   CountResources														[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -60,7 +60,7 @@ CRezType::CountResources(short & outCount) const
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetWithID													[public]
+//   GetWithID													[public]
 // ---------------------------------------------------------------------------
 // Get a handle to a resource of a given type with a given ID
 // from current resource map.
@@ -75,7 +75,7 @@ CRezType::GetWithID(short inID, Handle & outHandle) const
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetWithName													[public]
+//   GetWithName													[public]
 // ---------------------------------------------------------------------------
 // Get a handle to a resource of a given type with a given name
 // from current resource map.
@@ -117,7 +117,7 @@ CRezType::GetWithName(ConstStr255Param inName, Handle & outHandle) const
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetAllResources													[public]
+//   GetAllResources													[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -145,7 +145,7 @@ CRezType::GetAllResources( TArray<Handle>* & outArray )
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetAllRezIDs													[public]
+//   GetAllRezIDs													[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -180,7 +180,7 @@ CRezType::GetAllRezIDs( TArray<short>* & outArray ) const
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetResourceAtIndex											[public]
+//   GetResourceAtIndex											[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -201,7 +201,7 @@ CRezType::GetResourceAtIndex(short inIdx,
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetNameAtIndex											[public]
+//   GetNameAtIndex											[public]
 // ---------------------------------------------------------------------------
 
 OSErr

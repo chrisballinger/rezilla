@@ -34,7 +34,7 @@
 
 
 // ---------------------------------------------------------------------------
-//	¥ IsValidBitField													[public]
+//   IsValidBitField													[public]
 // ---------------------------------------------------------------------------
 // BB0n  	BB01 to BB07	Bit field within a byte
 // WBnn  	WB01 to WB16	Bit field within a word
@@ -76,7 +76,7 @@ CTmplEditorWindow::IsValidBitField(OSType inType, Str255 inStr,
 
 
 // ---------------------------------------------------------------------------
-//	¥ BuildFormatString													[public]
+//   BuildFormatString													[public]
 // ---------------------------------------------------------------------------
 
 
@@ -100,7 +100,7 @@ CTmplEditorWindow::BuildFormatString(char * ioString, UInt8 inLength)
 
 
 // ---------------------------------------------------------------------------
-//	¥ BuildScanString													[public]
+//   BuildScanString													[public]
 // ---------------------------------------------------------------------------
 
 OSErr
@@ -121,7 +121,7 @@ CTmplEditorWindow::BuildScanString(char * inString, char * ioFormat, UInt8 inLen
 
 
 // ---------------------------------------------------------------------------
-//	¥ AdjustCounterField
+//   AdjustCounterField
 // ---------------------------------------------------------------------------
 
 void
@@ -143,7 +143,7 @@ CTmplEditorWindow::AdjustCounterField(PaneIDT inPaneID, SInt32 inDelta) {
 
 
 // ---------------------------------------------------------------------------
-//	¥ AdjustListOfPaneIDs
+//   AdjustListOfPaneIDs
 // ---------------------------------------------------------------------------
 // The mPaneIDs list must reflect the visual graphical order of the panes.
 // 
@@ -209,7 +209,7 @@ CTmplEditorWindow::AdjustListOfPaneIDs(CTmplListItemView * inView, PaneIDT inSta
 
 
 // ---------------------------------------------------------------------------
-//	¥ RecalcPositions
+//   RecalcPositions
 // ---------------------------------------------------------------------------
 // If a new list item has been inserted, its first level subpanes must be
 // repositioned. Their top pos must be increased by the height of the
@@ -251,7 +251,7 @@ CTmplEditorWindow::RecalcPositions(LView * inView, SInt32 inVertPos, SInt32 inPo
 
 
 // ---------------------------------------------------------------------------
-//	¥ AlignBytesRead											[public]
+//   AlignBytesRead											[public]
 // ---------------------------------------------------------------------------
 
 ExceptionCode
@@ -275,7 +275,7 @@ CTmplEditorWindow::AlignBytesRead(UInt8 inStep)
 
 
 // ---------------------------------------------------------------------------
-//	¥ AlignBytesWrite											[public]
+//   AlignBytesWrite											[public]
 // ---------------------------------------------------------------------------
 
 ExceptionCode
@@ -299,7 +299,7 @@ CTmplEditorWindow::AlignBytesWrite(UInt8 inStep)
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ KeyValueToString											[private]
+//   KeyValueToString											[private]
 // ---------------------------------------------------------------------------
 // The value of the key tag is stored as an SInt32 in the mKeyValues 
 // for faster validation. Build a parallel mKeyIDs list which will be used 
@@ -407,7 +407,7 @@ CTmplEditorWindow::KeyValueToString(ResType inType, Str255 keyString)
 
 
 // ---------------------------------------------------------------------------
-//	¥ KeyStringToValue										[private]
+//   KeyStringToValue										[private]
 // ---------------------------------------------------------------------------
 // The value of the key tag was obtained from the user via the
 // SelectKeyValueFromKeyCases() dialog. Convert it to an SInt32 and store
@@ -485,7 +485,7 @@ CTmplEditorWindow::KeyStringToValue(ResType inType, Str255 keyString)
 
 
 // ---------------------------------------------------------------------------
-//	¥ FindKeyStartForValue											[private]
+//   FindKeyStartForValue											[private]
 // ---------------------------------------------------------------------------
 // The marker is positionned after the last CASE statement. Scan the 
 // keyed sections until the corresponding key is found.
@@ -546,7 +546,7 @@ CTmplEditorWindow::FindKeyStartForValue(ResType inType, Str255 keyString, SInt32
 
 
 // ---------------------------------------------------------------------------
-//	¥ WriteOutKeyValue											[private]
+//   WriteOutKeyValue											[private]
 // ---------------------------------------------------------------------------
 // The value of the key tag has been stored as an SInt32 in the mKeyValues 
 // list.
@@ -626,7 +626,7 @@ CTmplEditorWindow::WriteOutKeyValue(ResType inType, ArrayIndexT * outIndex)
 
 
 // ---------------------------------------------------------------------------
-//	¥ FindMatchingKeyEnd											[private]
+//   FindMatchingKeyEnd											[private]
 // ---------------------------------------------------------------------------
 // Starting from a given KEYB find the corresponding KEYE. It returns 
 // the position after the KEYE.
@@ -674,7 +674,7 @@ CTmplEditorWindow::FindMatchingKeyEnd(SInt32 * outEnd)
 
 
 // ---------------------------------------------------------------------------
-//	¥ SkipNextKeyCases											[private]
+//   SkipNextKeyCases											[private]
 // ---------------------------------------------------------------------------
 // Skip all the CASE statements starting from current position
 
@@ -713,7 +713,7 @@ CTmplEditorWindow::SkipNextKeyCases(UInt16 inPreCount)
 
 
 // ---------------------------------------------------------------------------
-//	¥ NextIsCase											[private]
+//   NextIsCase											[private]
 // ---------------------------------------------------------------------------
 // Look forward in the template stream to see whetehr the next tag is a 
 // CASE tag, then reposition the stream's marker.
@@ -740,7 +740,7 @@ CTmplEditorWindow::NextIsCase()
 
 
 // ---------------------------------------------------------------------------
-//	¥ SelectKeyValueFromKeyCases										[private]
+//   SelectKeyValueFromKeyCases										[private]
 // ---------------------------------------------------------------------------
 // key "CreateUsingTemplate" 
 // key "SelectKeyForTemplate" 
@@ -880,7 +880,7 @@ CTmplEditorWindow::SelectKeyValueFromKeyCases(Str255 inLabelString,
 
 
 // ---------------------------------------------------------------------------
-//	¥ CountAllSubPanes												[static]
+//   CountAllSubPanes												[static]
 // ---------------------------------------------------------------------------
 
 UInt32
@@ -910,7 +910,7 @@ CTmplEditorWindow::CountAllSubPanes(LView * inView)
 
 
 // ---------------------------------------------------------------------------
-//	¥ RecalcTextBoxHeight											[private]
+//   RecalcTextBoxHeight											[private]
 // ---------------------------------------------------------------------------
 // Recalculate the height of the TextGroupBox containing a Waste field or a
 // HexDump field depending on the size of the data expected. If it is a
@@ -956,7 +956,7 @@ CTmplEditorWindow::RecalcTextBoxHeight(SInt32 inTextSize, CWasteEditView * inWEV
 
 
 // ---------------------------------------------------------------------------
-//	¥ CalcTextPositions											[private]
+//   CalcTextPositions											[private]
 // ---------------------------------------------------------------------------
 
 Boolean

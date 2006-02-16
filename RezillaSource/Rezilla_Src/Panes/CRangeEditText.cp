@@ -29,7 +29,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ CRangeEditText						Stream Constructor		  [public]
+//   CRangeEditText						Stream Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CRangeEditText::CRangeEditText(
@@ -42,7 +42,7 @@ CRangeEditText::CRangeEditText(
 
 
 // ---------------------------------------------------------------------------
-//	¥ CRangeEditText						Parameterized Constructor [public]
+//   CRangeEditText						Parameterized Constructor [public]
 // ---------------------------------------------------------------------------
 
 CRangeEditText::CRangeEditText(
@@ -66,7 +66,7 @@ CRangeEditText::CRangeEditText(
 
 
 // ---------------------------------------------------------------------------
-//	¥ InitRangeEditText							Initializer		   [protected]
+//   InitRangeEditText							Initializer		   [protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -77,7 +77,7 @@ CRangeEditText::InitRangeEditText()
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CRangeEditText							Destructor			  [public]
+//     ~CRangeEditText							Destructor			  [public]
 // ---------------------------------------------------------------------------
 
 CRangeEditText::~CRangeEditText()
@@ -87,7 +87,7 @@ CRangeEditText::~CRangeEditText()
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ HandleKeyPress												  [public]
+//   HandleKeyPress												  [public]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -108,7 +108,7 @@ CRangeEditText::HandleKeyPress(
 
 
 // ---------------------------------------------------------------------------
-//	¥ UserChangedText
+//   UserChangedText
 // ---------------------------------------------------------------------------
 //	Text of EditText has changed as a result of user action
 
@@ -120,7 +120,7 @@ CRangeEditText::UserChangedText()
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetRangeValues												  [public]
+//   GetRangeValues												  [public]
 // ---------------------------------------------------------------------------
 
 void

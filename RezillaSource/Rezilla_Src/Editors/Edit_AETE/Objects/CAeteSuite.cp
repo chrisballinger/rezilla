@@ -491,7 +491,7 @@ CAeteSuite::SendDataToStream(CAeteStream * outStream)
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetName											[public, virtual]
+//   GetName											[public, virtual]
 // ---------------------------------------------------------------------------
 
 StringPtr

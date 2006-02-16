@@ -29,7 +29,7 @@
 #include <UDesktop.h>
 
 // ---------------------------------------------------------------------------
-//	¥ CRezObjItem							Default Constructor		  [public]
+//   CRezObjItem							Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CRezObjItem::CRezObjItem(CRezType * inRezType,
@@ -43,7 +43,7 @@ CRezObjItem::CRezObjItem(CRezType * inRezType,
 
 
 // ---------------------------------------------------------------------------
-//	¥ CRezObjItem							Default Constructor		  [public]
+//   CRezObjItem							Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CRezObjItem::CRezObjItem(Handle inResHandle, short inRefnum)
@@ -55,7 +55,7 @@ CRezObjItem::CRezObjItem(Handle inResHandle, short inRefnum)
 
 
 // ---------------------------------------------------------------------------
-//	¥ CRezObjItem							Default Constructor		  [public]
+//   CRezObjItem							Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CRezObjItem::CRezObjItem(CRezObj * inRezObj)
@@ -67,7 +67,7 @@ CRezObjItem::CRezObjItem(CRezObj * inRezObj)
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CRezObjItem							Destructor				  [public]
+//     ~CRezObjItem							Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CRezObjItem::~CRezObjItem()
@@ -91,7 +91,7 @@ CRezObjItem::~CRezObjItem()
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetDrawContentsSelf
+//   GetDrawContentsSelf
 // ---------------------------------------------------------------------------
 // this is the routine called to know what to draw within the
 // table cell. See the comments in LOutlineItem.cp for more info.
@@ -149,7 +149,7 @@ CRezObjItem::GetDrawContentsSelf(
 
 
 // ---------------------------------------------------------------------------
-//	¥ DrawRowAdornments
+//   DrawRowAdornments
 // ---------------------------------------------------------------------------
 // just to be cute, we'll draw an adornment (again, see the LOutlineItem.cp
 // comments for more information). We'll draw a groovy gray background
@@ -163,7 +163,7 @@ CRezObjItem::DrawRowAdornments(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetOwnerRezMapTable
+//   GetOwnerRezMapTable
 // ---------------------------------------------------------------------------
 
 CRezMapTable *
@@ -177,7 +177,7 @@ CRezObjItem::GetOwnerRezMapTable()
 
 
 // ---------------------------------------------------------------------------
-//	¥ SingleClick												   [protected]
+//   SingleClick												   [protected]
 // ---------------------------------------------------------------------------
 // If the command key is down, open the inspector window and display the
 // corresponding info about the resource. Versions prior to 1.0.5b
@@ -202,7 +202,7 @@ CRezObjItem::SingleClick(
 
 
 // ---------------------------------------------------------------------------
-//	¥ DoubleClick
+//   DoubleClick
 // ---------------------------------------------------------------------------
 // During a double click:
 // - if the shift key is down, try to edit with the template editor.

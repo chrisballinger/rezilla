@@ -44,7 +44,7 @@
 PP_Begin_Namespace_PowerPlant
 
 // ---------------------------------------------------------------------------
-//	¥ StDialogBoxHandler						Constructor				  [public]
+//   StDialogBoxHandler						Constructor				  [public]
 // ---------------------------------------------------------------------------
 //	Create new Dialog window from a PPob
 
@@ -63,7 +63,7 @@ StDialogBoxHandler::StDialogBoxHandler(
 
 
 // ---------------------------------------------------------------------------
-//	¥ StDialogBoxHandler						Constructor				  [public]
+//   StDialogBoxHandler						Constructor				  [public]
 // ---------------------------------------------------------------------------
 //	Take ownership of a CThreeButtonsBox to use as a moveable modal dialog box
 //
@@ -85,7 +85,7 @@ StDialogBoxHandler::StDialogBoxHandler(
 
 
 // ---------------------------------------------------------------------------
-//	¥ InitDialogHandler						Initializer			   [protected]
+//   InitDialogHandler						Initializer			   [protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -111,7 +111,7 @@ StDialogBoxHandler::InitDialogHandler()
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~StDialogBoxHandler						Destructor				 [private]
+//     ~StDialogBoxHandler						Destructor				 [private]
 // ---------------------------------------------------------------------------
 
 StDialogBoxHandler::~StDialogBoxHandler()
@@ -121,7 +121,7 @@ StDialogBoxHandler::~StDialogBoxHandler()
 
 
 // ---------------------------------------------------------------------------
-//	¥ DoDialog														  [public]
+//   DoDialog														  [public]
 // ---------------------------------------------------------------------------
 //	Handle an Event for a dialog box
 //
@@ -172,7 +172,7 @@ StDialogBoxHandler::DoDialog()
 
 
 // ---------------------------------------------------------------------------
-//	¥ AllowSubRemoval												  [public]
+//   AllowSubRemoval												  [public]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -193,7 +193,7 @@ StDialogBoxHandler::AllowSubRemoval(
 
 
 // ---------------------------------------------------------------------------
-//	¥ FindCommandStatus												  [public]
+//   FindCommandStatus												  [public]
 // ---------------------------------------------------------------------------
 //	Pass back the status of a Command
 
@@ -222,7 +222,7 @@ StDialogBoxHandler::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ListenToMessage												  [public]
+//   ListenToMessage												  [public]
 // ---------------------------------------------------------------------------
 // Store message. DoDialog() will return this value.
 

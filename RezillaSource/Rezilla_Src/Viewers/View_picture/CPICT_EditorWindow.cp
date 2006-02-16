@@ -31,7 +31,7 @@
 
 
 // ---------------------------------------------------------------------------
-//		¥ CPICT_EditorWindow				[public]
+//   CPICT_EditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CPICT_EditorWindow::CPICT_EditorWindow()
@@ -40,7 +40,7 @@ CPICT_EditorWindow::CPICT_EditorWindow()
 
 
 // ---------------------------------------------------------------------------
-//		¥ CPICT_EditorWindow				[public]
+//   CPICT_EditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CPICT_EditorWindow::CPICT_EditorWindow(
@@ -51,7 +51,7 @@ CPICT_EditorWindow::CPICT_EditorWindow(
 
 
 // ---------------------------------------------------------------------------
-//		¥ CPICT_EditorWindow				[public]
+//   CPICT_EditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CPICT_EditorWindow::CPICT_EditorWindow(
@@ -64,7 +64,7 @@ CPICT_EditorWindow::CPICT_EditorWindow(
 
 
 // ---------------------------------------------------------------------------
-//		¥ CPICT_EditorWindow				[public]
+//   CPICT_EditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CPICT_EditorWindow::CPICT_EditorWindow(
@@ -75,7 +75,7 @@ CPICT_EditorWindow::CPICT_EditorWindow(
 
 
 // ---------------------------------------------------------------------------
-//		¥ ~CPICT_EditorWindow				[public]
+//     ~CPICT_EditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CPICT_EditorWindow::~CPICT_EditorWindow()
@@ -84,7 +84,7 @@ CPICT_EditorWindow::~CPICT_EditorWindow()
 
 
 // ---------------------------------------------------------------------------
-//		¥ FinishCreateSelf											[protected]
+//   FinishCreateSelf											[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -102,7 +102,7 @@ CPICT_EditorWindow::FinishCreateSelf()
 
 
 // ---------------------------------------------------------------------------
-//		¥ ListenToMessage				[public]
+//   ListenToMessage				[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -120,7 +120,7 @@ CPICT_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 
 
 // ---------------------------------------------------------------------------
-//	¥ FindCommandStatus
+//   FindCommandStatus
 // ---------------------------------------------------------------------------
 
 void
@@ -142,7 +142,7 @@ CPICT_EditorWindow::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ObeyCommand							[public, virtual]
+//   ObeyCommand							[public, virtual]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -195,7 +195,7 @@ CPICT_EditorWindow::ObeyCommand(
 
 
 // ---------------------------------------------------------------------------
-//	¥ InstallPict													[public]
+//   InstallPict													[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -216,7 +216,7 @@ CPICT_EditorWindow::InstallPict(Handle inHandle)
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetSizeFields												[public]
+//   SetSizeFields												[public]
 // ---------------------------------------------------------------------------
 
 void

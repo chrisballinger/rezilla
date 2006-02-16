@@ -63,7 +63,7 @@ LMenu *				CIcon_EditorWindow::sIconStyleMenu = nil;
 
 
 // ---------------------------------------------------------------------------
-//		¥ CIcon_EditorWindow				[public]
+//   CIcon_EditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CIcon_EditorWindow::CIcon_EditorWindow()
@@ -72,7 +72,7 @@ CIcon_EditorWindow::CIcon_EditorWindow()
 
 
 // ---------------------------------------------------------------------------
-//		¥ CIcon_EditorWindow				[public]
+//   CIcon_EditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CIcon_EditorWindow::CIcon_EditorWindow(
@@ -84,7 +84,7 @@ CIcon_EditorWindow::CIcon_EditorWindow(
 
 
 // ---------------------------------------------------------------------------
-//		¥ CIcon_EditorWindow				[public]
+//   CIcon_EditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CIcon_EditorWindow::CIcon_EditorWindow(
@@ -98,7 +98,7 @@ CIcon_EditorWindow::CIcon_EditorWindow(
 
 
 // ---------------------------------------------------------------------------
-//		¥ CIcon_EditorWindow				[public]
+//   CIcon_EditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CIcon_EditorWindow::CIcon_EditorWindow(
@@ -110,7 +110,7 @@ CIcon_EditorWindow::CIcon_EditorWindow(
 
 
 // ---------------------------------------------------------------------------
-//		¥ ~CIcon_EditorWindow				[public]
+//     ~CIcon_EditorWindow				[public]
 // ---------------------------------------------------------------------------
 
 CIcon_EditorWindow::~CIcon_EditorWindow()
@@ -144,7 +144,7 @@ CIcon_EditorWindow::~CIcon_EditorWindow()
 
 
 // ---------------------------------------------------------------------------
-//		¥ Initialize											[protected]
+//   Initialize											[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -369,7 +369,7 @@ CIcon_EditorWindow::SetRawUndoBuffer( COffscreen *inBuffer )
 
 
 // ---------------------------------------------------------------------------
-//		¥ FinishCreateSelf											[protected]
+//   FinishCreateSelf											[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -433,7 +433,7 @@ CIcon_EditorWindow::FinishCreateSelf()
 
 
 // ---------------------------------------------------------------------------
-//		¥ ListenToMessage				[public]
+//   ListenToMessage				[public]
 // ---------------------------------------------------------------------------
 
 void

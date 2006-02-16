@@ -26,7 +26,7 @@
 
 
 // ---------------------------------------------------------------------------
-//	¥ MakeSelfSpecifier												  [public]
+//   MakeSelfSpecifier												  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -47,7 +47,7 @@ CRezObj::MakeSelfSpecifier(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetAEProperty
+//   GetAEProperty
 // ---------------------------------------------------------------------------
 //	Return a descriptor for the specified Property
 //  rzom_pResID			= pID;			// ID ('ID  ')			 
@@ -195,7 +195,7 @@ CRezObj::GetAEProperty(
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetAEProperty
+//   SetAEProperty
 // ---------------------------------------------------------------------------
 
 void
@@ -269,7 +269,7 @@ CRezObj::SetAEProperty(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetAERezObjAttribute
+//   GetAERezObjAttribute
 // ---------------------------------------------------------------------------
 
 void
@@ -286,7 +286,7 @@ CRezObj::GetAERezObjAttribute(
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetAERezObjAttribute
+//   SetAERezObjAttribute
 // ---------------------------------------------------------------------------
 
 void
@@ -308,7 +308,7 @@ CRezObj::SetAERezObjAttribute(const AEDesc& inValue, short inFlag)
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetAEResourceData
+//   GetAEResourceData
 // ---------------------------------------------------------------------------
 // The data are specified in hexadecimal notation unless it is a TEXT or a
 // STR# resource, in which case the text of the resource is returned directly
@@ -356,7 +356,7 @@ CRezObj::GetAEResourceData(AEDesc& outPropertyDesc) const
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetAEResourceData
+//   SetAEResourceData
 // ---------------------------------------------------------------------------
 // The data are specified in hexadecimal notation unless it is a TEXT or a
 // STR# resource, in which case the text of the resource is passed directly
@@ -416,7 +416,7 @@ CRezObj::SetAEResourceData(const AEDesc& inValue)
 
 
 // ---------------------------------------------------------------------------
-//	¥ AEPropertyExists
+//   AEPropertyExists
 // ---------------------------------------------------------------------------
 
 bool
@@ -454,7 +454,7 @@ CRezObj::AEPropertyExists(
 
 
 // ---------------------------------------------------------------------------
-//	¥ HandleAppleEvent												  [public]
+//   HandleAppleEvent												  [public]
 // ---------------------------------------------------------------------------
 
 void

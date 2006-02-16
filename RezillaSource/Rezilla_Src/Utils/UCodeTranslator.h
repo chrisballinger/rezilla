@@ -80,11 +80,11 @@ public:
 
 
 // ===========================================================================
-//	¥ Stack-based classes
+//   Stack-based classes
 // ===========================================================================
 
 // ---------------------------------------------------------------------------
-//  ¥ class StSepHexTranslator
+//   class StSepHexTranslator
 // ---------------------------------------------------------------------------
 class StSepHexTranslator {
 public:
@@ -108,7 +108,7 @@ private:
 
 
 // ---------------------------------------------------------------------------
-//  ¥ class StSegmHexTranslator
+//   class StSegmHexTranslator
 // ---------------------------------------------------------------------------
 class StSegmHexTranslator {
 public:
@@ -132,7 +132,7 @@ private:
 
 
 // ---------------------------------------------------------------------------
-//  ¥ class StByteToHexTranslator
+//   class StByteToHexTranslator
 // ---------------------------------------------------------------------------
 class StByteToHexTranslator {
 public:
@@ -156,7 +156,7 @@ private:
 
 
 // ---------------------------------------------------------------------------
-//  ¥ class StHexToByteTranslator
+//   class StHexToByteTranslator
 // ---------------------------------------------------------------------------
 class StHexToByteTranslator {
 public:
@@ -179,7 +179,7 @@ private:
 
 
 // ---------------------------------------------------------------------------
-//  ¥ class StByteToBase64Translator
+//   class StByteToBase64Translator
 // ---------------------------------------------------------------------------
 class StByteToBase64Translator {
 public:
@@ -203,7 +203,7 @@ private:
 
 
 // ---------------------------------------------------------------------------
-//  ¥ class StBase64ToByteTranslator
+//   class StBase64ToByteTranslator
 // ---------------------------------------------------------------------------
 class StBase64ToByteTranslator {
 public:
@@ -227,7 +227,7 @@ private:
 
 
 // ---------------------------------------------------------------------------
-//  ¥ class StSepTextTranslator
+//   class StSepTextTranslator
 // ---------------------------------------------------------------------------
 class StSepTextTranslator {
 public:
@@ -249,7 +249,7 @@ public:
 
 
 // ---------------------------------------------------------------------------
-//  ¥ class StSegmTextTranslator
+//   class StSegmTextTranslator
 // ---------------------------------------------------------------------------
 class StSegmTextTranslator {
 public:
@@ -272,7 +272,7 @@ public:
 
 
 // ---------------------------------------------------------------------------
-//  ¥ class StByteToTextTranslator
+//   class StByteToTextTranslator
 // ---------------------------------------------------------------------------
 class StByteToTextTranslator {
 public:
@@ -294,7 +294,7 @@ public:
 
 
 // ---------------------------------------------------------------------------
-//  ¥ class StStripBlanksTranslator
+//   class StStripBlanksTranslator
 // ---------------------------------------------------------------------------
 class StStripBlanksTranslator {
 public:
@@ -314,7 +314,7 @@ public:
 
 
 // ---------------------------------------------------------------------------
-//  ¥ class StStripPeriodicalTranslator
+//   class StStripPeriodicalTranslator
 // ---------------------------------------------------------------------------
 class StStripPeriodicalTranslator {
 public:

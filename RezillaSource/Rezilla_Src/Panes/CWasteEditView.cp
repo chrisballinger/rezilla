@@ -36,7 +36,7 @@ CWasteEditView * CWasteEditView::sWasteEditViewP;
 
 
 // ---------------------------------------------------------------------------
-//	¥ CWasteEditView						Default Constructor		  [public]
+//   CWasteEditView						Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CWasteEditView::CWasteEditView()
@@ -51,7 +51,7 @@ CWasteEditView::CWasteEditView()
 
 
 // ---------------------------------------------------------------------------
-//	¥ CWasteEditView						Parameterized Constructor [public]
+//   CWasteEditView						Parameterized Constructor [public]
 // ---------------------------------------------------------------------------
 
 CWasteEditView::CWasteEditView(
@@ -79,7 +79,7 @@ CWasteEditView::CWasteEditView(
 
 
 // ---------------------------------------------------------------------------
-//	¥ CWasteEditView						Parameterized Constructor [public]
+//   CWasteEditView						Parameterized Constructor [public]
 // ---------------------------------------------------------------------------
 
 CWasteEditView::CWasteEditView(
@@ -107,7 +107,7 @@ CWasteEditView::CWasteEditView(
 
 
 // ---------------------------------------------------------------------------
-//	¥ CWasteEditView						Stream Constructor		  [public]
+//   CWasteEditView						Stream Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CWasteEditView::CWasteEditView(
@@ -147,7 +147,7 @@ CWasteEditView::CWasteEditView(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CWasteEditView						Destructor				  [public]
+//     ~CWasteEditView						Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CWasteEditView::~CWasteEditView()
@@ -175,7 +175,7 @@ CWasteEditView::~CWasteEditView()
 
 
 // ---------------------------------------------------------------------------
-//	¥ InitView												[private]
+//   InitView												[private]
 // ---------------------------------------------------------------------------
 
 void
@@ -230,7 +230,7 @@ CWasteEditView::InitView()
 
 
 // ---------------------------------------------------------------------------
-//	¥ InitStyle												[private]
+//   InitStyle												[private]
 // ---------------------------------------------------------------------------
 
 void
@@ -254,7 +254,7 @@ CWasteEditView::InitStyle(ResIDT inTextTraitsID )
 
 
 // ---------------------------------------------------------------------------
-//	¥ InitText													[private]
+//   InitText													[private]
 // ---------------------------------------------------------------------------
 
 void
@@ -287,7 +287,7 @@ CWasteEditView::InitText(ResIDT inTextID )
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ ClickSelf											[protected, virtual]
+//   ClickSelf											[protected, virtual]
 // ---------------------------------------------------------------------------
 
 void
@@ -339,7 +339,7 @@ CWasteEditView::ClickSelf(
 
 
 // // ---------------------------------------------------------------------------
-// //	¥ MyClickLoop											[static, public]
+// //   MyClickLoop											[static, public]
 // // ---------------------------------------------------------------------------
 // //	This is the clikLoop callback used to help autoscrolling while
 // //	selecting
@@ -390,7 +390,7 @@ CWasteEditView::ClickSelf(
 // 
 // 
 // // ---------------------------------------------------------------------------
-// //	¥ SetClickLoop							[public, virtual]
+// //   SetClickLoop							[public, virtual]
 // // ---------------------------------------------------------------------------
 // //	Allows you to specify your own clikLoop.  Disposes of the existing
 // //	clikLoop, if any.  Also since the point of a clikLoop is for autoscrolling
@@ -430,7 +430,7 @@ CWasteEditView::ClickSelf(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ForceAutoScroll						[protected, virtual]
+//   ForceAutoScroll						[protected, virtual]
 // ---------------------------------------------------------------------------
 //	This routine works with WasteEdit's autoscrolling capabilities
 //	to keep all things (e.g. the scrollbars) in sync
@@ -477,7 +477,7 @@ CWasteEditView::ForceAutoScroll(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ClickAutoScroll						[protected, virtual]
+//   ClickAutoScroll						[protected, virtual]
 // ---------------------------------------------------------------------------
 //	This is the routine ultimately used in the clikLoop to perform
 //	the scrolling while clicking.
@@ -495,7 +495,7 @@ CWasteEditView::ClickAutoScroll(
 
 
 // ---------------------------------------------------------------------------
-//	¥ HandleKeyPress							[public, virtual]
+//   HandleKeyPress							[public, virtual]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -637,7 +637,7 @@ CWasteEditView::HandleKeyPress(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ObeyCommand							[public, virtual]
+//   ObeyCommand							[public, virtual]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -734,7 +734,7 @@ CWasteEditView::ObeyCommand(
 
 
 // ---------------------------------------------------------------------------
-//	¥ FindCommandStatus							[public, virtual]
+//   FindCommandStatus							[public, virtual]
 // ---------------------------------------------------------------------------
 
 void
@@ -784,7 +784,7 @@ CWasteEditView::FindCommandStatus(
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ FocusDraw								[public, virtual]
+//   FocusDraw								[public, virtual]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -806,7 +806,7 @@ CWasteEditView::FocusDraw(
 
 
 // ---------------------------------------------------------------------------
-//	¥ DrawSelf											[protected, virtual]
+//   DrawSelf											[protected, virtual]
 // ---------------------------------------------------------------------------
 //	Draw a WasteEdit
 
@@ -832,7 +832,7 @@ CWasteEditView::DrawSelf()
 
 
 // ---------------------------------------------------------------------------
-//	¥ HideSelf											[protected, virtual]
+//   HideSelf											[protected, virtual]
 // ---------------------------------------------------------------------------
 //	Hide the CWasteEditView. An invisible CWasteEditView can't be OnDuty.
 
@@ -846,7 +846,7 @@ CWasteEditView::HideSelf()
 
 
 // ---------------------------------------------------------------------------
-//	¥ AdjustMouseSelf						[protected, virtual]
+//   AdjustMouseSelf						[protected, virtual]
 // ---------------------------------------------------------------------------
 //	WasteEdit uses the standard I-Beam cursor
 
@@ -865,7 +865,7 @@ CWasteEditView::AdjustMouseSelf(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AlignWERects									[public, virtual]
+//   AlignWERects									[public, virtual]
 // ---------------------------------------------------------------------------
 //	Sync WasteEdit's view and dest rectangles with the PowerPlant LView.
 
@@ -907,7 +907,7 @@ CWasteEditView::AlignWERects()
 
 
 // ---------------------------------------------------------------------------
-//	¥ ResizeFrameBy							[public, virtual]
+//   ResizeFrameBy							[public, virtual]
 // ---------------------------------------------------------------------------
 
 void
@@ -937,7 +937,7 @@ CWasteEditView::ResizeFrameBy(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AdjustImageToText									[public, virtual]
+//   AdjustImageToText									[public, virtual]
 // ---------------------------------------------------------------------------
 	
 void
@@ -948,7 +948,7 @@ CWasteEditView::AdjustImageToText()
 
 
 // ---------------------------------------------------------------------------
-//	¥ AdaptToNewSurroundings
+//   AdaptToNewSurroundings
 // ---------------------------------------------------------------------------
 
 void
@@ -961,7 +961,7 @@ CWasteEditView::AdaptToNewSurroundings()
 
 
 // ---------------------------------------------------------------------------
-//	¥ MoveBy								[public, virtual]
+//   MoveBy								[public, virtual]
 // ---------------------------------------------------------------------------
 //	Move the location of the Frame by the specified amounts
 //
@@ -982,7 +982,7 @@ CWasteEditView::MoveBy(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ScrollImageBy							[public, virtual]
+//   ScrollImageBy							[public, virtual]
 // ---------------------------------------------------------------------------
 //	Scroll the Text
 
@@ -1003,7 +1003,7 @@ CWasteEditView::ScrollImageBy(
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ BeTarget								[protected, virtual]
+//   BeTarget								[protected, virtual]
 // ---------------------------------------------------------------------------
 //	WasteEdit is becoming the Target
 
@@ -1025,7 +1025,7 @@ CWasteEditView::BeTarget()
 
 
 // ---------------------------------------------------------------------------
-//	¥ DontBeTarget							[protected, virtual]
+//   DontBeTarget							[protected, virtual]
 // ---------------------------------------------------------------------------
 //	WasteEdit is no longer the Target
 //
@@ -1044,7 +1044,7 @@ CWasteEditView::DontBeTarget()
 }
 
 // ---------------------------------------------------------------------------
-//	¥ SpendTime								[public, virtual]
+//   SpendTime								[public, virtual]
 // ---------------------------------------------------------------------------
 //	Idle time: blink the insertion cursor
 
@@ -1063,7 +1063,7 @@ CWasteEditView::SpendTime(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ScrollToCharOffset
+//   ScrollToCharOffset
 // ---------------------------------------------------------------------------
 // Force bring a charOffset in view temporarily enabling mAutoScroll
 // in case it is not set. The View understands mAutoScroll and Waste

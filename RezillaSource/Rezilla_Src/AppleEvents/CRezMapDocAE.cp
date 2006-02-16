@@ -30,7 +30,7 @@
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetAEProperty
+//   GetAEProperty
 // ---------------------------------------------------------------------------
 //	Return a descriptor for the specified Property
 //	rzom_pReadOnly		= 'pRDO';	// mapReadOnly
@@ -137,7 +137,7 @@ CRezMapDoc::GetAEProperty(
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetAEProperty
+//   SetAEProperty
 // ---------------------------------------------------------------------------
 // All the RezMapDoc properties are readOnly. Pass up to the LDocument 
 // class.
@@ -182,7 +182,7 @@ CRezMapDoc::SetAEProperty(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AEPropertyExists
+//   AEPropertyExists
 // ---------------------------------------------------------------------------
 
 bool
@@ -214,7 +214,7 @@ CRezMapDoc::AEPropertyExists(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetAEPosition
+//   GetAEPosition
 // ---------------------------------------------------------------------------
 
 SInt32
@@ -240,7 +240,7 @@ CRezMapDoc::GetAEPosition(const CRezMapDoc * inDoc) {
 
 
 // ---------------------------------------------------------------------------
-//	¥ HandleAppleEvent												  [public]
+//   HandleAppleEvent												  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -264,7 +264,7 @@ CRezMapDoc::HandleAppleEvent(
 
 
 // ---------------------------------------------------------------------------
-//	¥ HandleExportEvent												  [public]
+//   HandleExportEvent												  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -363,7 +363,7 @@ CRezMapDoc::HandleExportEvent(
 
 
 // ---------------------------------------------------------------------------
-//	¥ HandleAESave													  [public]
+//   HandleAESave													  [public]
 // ---------------------------------------------------------------------------
 //	Respond to "Save" and "Save As" AppleEvents
 
@@ -412,7 +412,7 @@ CRezMapDoc::HandleAESave(
 
 
 // ---------------------------------------------------------------------------
-//	¥ HandleCreateElementEvent
+//   HandleCreateElementEvent
 // ---------------------------------------------------------------------------
 // This function handles the "make new" event in order to create a new
 // resource in the map document. Properties can be set using the "with
@@ -574,16 +574,16 @@ CRezMapDoc::HandleCreateElementEvent(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetSubModelByPosition											  [public]
+//   GetSubModelByPosition											  [public]
 // ---------------------------------------------------------------------------
 // As a shortcut one can write
-//     get editing window 1 of map document 1
+//   get editing window 1 of map document 1
 // instead of 
-//     get window of editor 1 of map document 1
+//   get window of editor 1 of map document 1
 // Similarly
-//     get hexadecimal window 1 of map document 1
+//   get hexadecimal window 1 of map document 1
 // is equivalent to
-//     get window of hexadecimal editor 1 of map document 1
+//   get window of hexadecimal editor 1 of map document 1
 
 void
 CRezMapDoc::GetSubModelByPosition(
@@ -683,16 +683,16 @@ CRezMapDoc::GetSubModelByPosition(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetSubModelByName												  [public]
+//   GetSubModelByName												  [public]
 // ---------------------------------------------------------------------------
 // As a shortcut one can write
-//     get editing window "somename" of map document 1
+//   get editing window "somename" of map document 1
 // instead of 
-//     get window of editor "somename" of map document 1
+//   get window of editor "somename" of map document 1
 // Similarly
-//     get hexadecimal window "somename" of map document 1
+//   get hexadecimal window "somename" of map document 1
 // is equivalent to
-//     get window of hexadecimal editor "somename" of map document 1
+//   get window of hexadecimal editor "somename" of map document 1
 
 void
 CRezMapDoc::GetSubModelByName(
@@ -762,7 +762,7 @@ CRezMapDoc::GetSubModelByName(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetPositionOfSubModel
+//   GetPositionOfSubModel
 // ---------------------------------------------------------------------------
 
 SInt32
@@ -835,7 +835,7 @@ CRezMapDoc::GetPositionOfSubModel(
 
 
 // ---------------------------------------------------------------------------
-//	¥ CountSubModels											  [public]
+//   CountSubModels											  [public]
 // ---------------------------------------------------------------------------
 
 SInt32
@@ -875,7 +875,7 @@ CRezMapDoc::CountSubModels(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetModelProperty
+//   GetModelProperty
 // ---------------------------------------------------------------------------
 //	Return a ModelObject object for 'cwin' and rzom_cRezMap properties
 
@@ -907,7 +907,7 @@ CRezMapDoc::GetModelProperty(DescType inProperty) const
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetModelTokenSelf
+//   GetModelTokenSelf
 // ---------------------------------------------------------------------------
 // This is a shortcut to do consider a resource directly as an object of the
 // resource map document. It allows for AppleScript constructs like

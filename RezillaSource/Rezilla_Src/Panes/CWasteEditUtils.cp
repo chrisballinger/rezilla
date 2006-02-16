@@ -33,7 +33,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//	¥ ApplyStyleValues
+//   ApplyStyleValues
 // ---------------------------------------------------------------------------
 // weDoMonoStyled
 
@@ -62,7 +62,7 @@ CWasteEditView::ApplyStyleValues(UInt16 theSize, UInt16 theFont)
 
 
 // ---------------------------------------------------------------------------
-//	¥ ApplyForeAndBackColors
+//   ApplyForeAndBackColors
 // ---------------------------------------------------------------------------
 
 void
@@ -77,7 +77,7 @@ CWasteEditView::ApplyForeAndBackColors() const
 
 
 // ---------------------------------------------------------------------------------
-//		¥ ToggleStyleAttribute					[public, virtual]
+//   ToggleStyleAttribute					[public, virtual]
 // ---------------------------------------------------------------------------------
 
 void
@@ -93,7 +93,7 @@ CWasteEditView::ToggleStyleAttribute(
 
 
 // ---------------------------------------------------------------------------
-//	¥ ChangeFontSizeBy							[public, virtual]
+//   ChangeFontSizeBy							[public, virtual]
 // ---------------------------------------------------------------------------
 //	Will only work if the font over the selection range is constant.  Returns
 //	true if change was successful.
@@ -114,7 +114,7 @@ CWasteEditView::ChangeFontSizeBy(
 
 
 // ---------------------------------------------------------------------------
-//	¥ UserChangedText						[public, virtual]
+//   UserChangedText						[public, virtual]
 // ---------------------------------------------------------------------------
 //	Text of WasteEdit has changed as a result of user action
 
@@ -140,7 +140,7 @@ CWasteEditView::UserChangedText()
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ CountLines								[public]
+//   CountLines								[public]
 // ---------------------------------------------------------------------------
 
 SInt32
@@ -151,7 +151,7 @@ CWasteEditView::CountLines()
 
 
 // ---------------------------------------------------------------------------
-//	¥ PosToLine								[public]
+//   PosToLine								[public]
 // ---------------------------------------------------------------------------
 // Note that Waste line numbers are 0-based 
 
@@ -163,7 +163,7 @@ CWasteEditView::PosToLine(SInt32 inPos)
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetTextLength								[public]
+//   GetTextLength								[public]
 // ---------------------------------------------------------------------------
 
 SInt32
@@ -174,7 +174,7 @@ CWasteEditView::GetTextLength()
 
 
 // ---------------------------------------------------------------------------
-//	¥ CalcWEHeight							[public, virtual]
+//   CalcWEHeight							[public, virtual]
 // ---------------------------------------------------------------------------
 //	Calculates the height of the WasteEdit record.
 
@@ -188,7 +188,7 @@ CWasteEditView::CalcWEHeight()
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetLineHeightFromStyle									  [public]
+//   GetLineHeightFromStyle									  [public]
 // ---------------------------------------------------------------------------
 
 SInt16
@@ -217,7 +217,7 @@ CWasteEditView::GetLineHeightFromStyle(TextStyle inStyle)
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ GetSelection
+//   GetSelection
 // ---------------------------------------------------------------------------
 //	Passes back an AEDesc of the currently selected text
 
@@ -243,7 +243,7 @@ CWasteEditView::GetSelection(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetLineRange								[public]
+//   GetLineRange								[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -254,7 +254,7 @@ CWasteEditView::GetLineRange(SInt32 inLineIndex, SInt32 & outLineStart, SInt32 &
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetSelectionRange
+//   GetSelectionRange
 // ---------------------------------------------------------------------------
 
 void
@@ -267,7 +267,7 @@ CWasteEditView::GetSelectionRange(
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetSelectionRange
+//   SetSelectionRange
 // ---------------------------------------------------------------------------
 
 void
@@ -299,7 +299,7 @@ CWasteEditView::SetSelectionRange(
 
 
 // ---------------------------------------------------------------------------
-//	¥ DisplaySelectionRange
+//   DisplaySelectionRange
 // ---------------------------------------------------------------------------
 
 void
@@ -328,7 +328,7 @@ CWasteEditView::DisplaySelectionRange(
 
 
 // ---------------------------------------------------------------------------
-//	¥ HasSelection													  [public]
+//   HasSelection													  [public]
 // ---------------------------------------------------------------------------
 // Check if selection is empty (0) or not (1).
 
@@ -343,7 +343,7 @@ CWasteEditView::HasSelection() {
 
 
 // ---------------------------------------------------------------------------
-//	¥ SelectAll								[public, virtual]
+//   SelectAll								[public, virtual]
 // ---------------------------------------------------------------------------
 //	Select entire contents of a WasteEdit
 
@@ -362,7 +362,7 @@ CWasteEditView::SelectAll()
 #pragma mark -
 
 // ---------------------------------------------------------------------------
-//	¥ SetDescriptor											[public, virtual]
+//   SetDescriptor											[public, virtual]
 // ---------------------------------------------------------------------------
 //	Will set the text to the given string, replacing any and all text
 //	already there.
@@ -376,7 +376,7 @@ CWasteEditView::SetDescriptor(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetDescriptor											[public, virtual]
+//   GetDescriptor											[public, virtual]
 // ---------------------------------------------------------------------------
 //	Return up to the first 255 characters of the WasteEditView as a Pascal
 //	string. Caller must allocate a Str255 variable for storing the string.
@@ -400,7 +400,7 @@ CWasteEditView::GetDescriptor(
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetValue												[public, virtual]
+//   SetValue												[public, virtual]
 // ---------------------------------------------------------------------------
 //	Set the text in the WasteEditView to the string representation of the
 //	specified integer number.
@@ -416,7 +416,7 @@ CWasteEditView::SetValue(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetValue												[public, virtual]
+//   GetValue												[public, virtual]
 // ---------------------------------------------------------------------------
 //	Return the integer value represented by the contents of a WasteEditView.
 //
@@ -438,7 +438,7 @@ CWasteEditView::GetValue() const
 
 
 // ---------------------------------------------------------------------------
-//	¥ SavePlace								[public, virtual]
+//   SavePlace								[public, virtual]
 // ---------------------------------------------------------------------------
 // Override function in LView class
 
@@ -461,7 +461,7 @@ CWasteEditView::SavePlace(
 
 
 // ---------------------------------------------------------------------------
-//	¥ RestorePlace										[public, virtual]
+//   RestorePlace										[public, virtual]
 // ---------------------------------------------------------------------------
 // Override function in LView class
 
@@ -482,7 +482,7 @@ CWasteEditView::RestorePlace(
 
 
 // ---------------------------------------------------------------------------
-//	¥ SaveStateForUndo									[protected, virtual]
+//   SaveStateForUndo									[protected, virtual]
 // ---------------------------------------------------------------------------
 
 SWasteEditUndoH
@@ -507,7 +507,7 @@ CWasteEditView::SaveStateForUndo()
 
 
 // ---------------------------------------------------------------------------
-//	¥ FlagsFromAttributes											  [public]
+//   FlagsFromAttributes											  [public]
 // ---------------------------------------------------------------------------
 // Build the WE flags from the mTextAttributes variable.
 
@@ -536,7 +536,7 @@ CWasteEditView::FlagsFromAttributes() {
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetAttributesFromProperties									  [public]
+//   SetAttributesFromProperties									  [public]
 // ---------------------------------------------------------------------------
 // Initialize mTextAttributes from the individual property values.
 
@@ -563,7 +563,7 @@ CWasteEditView::SetAttributesFromProperties()
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetPropertiesFromAttributes								  [public]
+//   SetPropertiesFromAttributes								  [public]
 // ---------------------------------------------------------------------------
 // Initialize the individual property values from mTextAttributes.
 

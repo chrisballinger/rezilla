@@ -38,7 +38,7 @@ Boolean	CRezCompare::sIgnoreData = false;
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CRezCompare														[public]
+//   CRezCompare														[public]
 // ---------------------------------------------------------------------------
 
 CRezCompare::CRezCompare(LCommander* inSuper)
@@ -51,7 +51,7 @@ CRezCompare::CRezCompare(LCommander* inSuper)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CRezCompare														[public]
+//   CRezCompare														[public]
 // ---------------------------------------------------------------------------
 
 CRezCompare::CRezCompare(LCommander* inSuper, 
@@ -66,7 +66,7 @@ CRezCompare::CRezCompare(LCommander* inSuper,
 
 
 // ---------------------------------------------------------------------------
-//  ¥ CRezCompare														[public]
+//   CRezCompare														[public]
 // ---------------------------------------------------------------------------
 
 CRezCompare::CRezCompare(LCommander* inSuper, 
@@ -85,7 +85,7 @@ CRezCompare::CRezCompare(LCommander* inSuper,
 
 
 // ---------------------------------------------------------------------------
-//  ¥ ~CRezCompare														[public]
+//     ~CRezCompare														[public]
 // ---------------------------------------------------------------------------
 
 CRezCompare::~CRezCompare()
@@ -109,7 +109,7 @@ CRezCompare::~CRezCompare()
 
 
 // ---------------------------------------------------------------------------
-//	¥ DeleteList
+//   DeleteList
 // ---------------------------------------------------------------------------
 
 void
@@ -127,7 +127,7 @@ CRezCompare::DeleteList(TArray<CRezTypId *>	inList)
 
 
 // ---------------------------------------------------------------------------
-//	¥ AllowSubRemoval
+//   AllowSubRemoval
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -144,7 +144,7 @@ CRezCompare::AllowSubRemoval(
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ RunRezCompareDialog
+//   RunRezCompareDialog
 // ---------------------------------------------------------------------------------
 
 OSErr
@@ -274,7 +274,7 @@ CRezCompare::RunRezCompareDialog()
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ SetRezMaps
+//   SetRezMaps
 // ---------------------------------------------------------------------------------
 
 void
@@ -304,7 +304,7 @@ CRezCompare::SetRezMaps(FSSpec& inOldFileSpec, FSSpec& inNewFileSpec)
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ DoCompareRezMaps
+//   DoCompareRezMaps
 // ---------------------------------------------------------------------------------
 
 void
@@ -354,7 +354,7 @@ CRezCompare::DoCompareRezMaps()
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ CompareTypes
+//   CompareTypes
 // ---------------------------------------------------------------------------------
 
 void
@@ -399,7 +399,7 @@ CRezCompare::CompareTypes(ResType inType)
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ CompareTwoResources
+//   CompareTwoResources
 // ---------------------------------------------------------------------------------
 
 void
@@ -434,7 +434,7 @@ CRezCompare::CompareTwoResources(CRezType * inOldRezType, CRezType * inNewRezTyp
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ AddTypeToArray
+//   AddTypeToArray
 // ---------------------------------------------------------------------------------
 
 void
@@ -466,7 +466,7 @@ CRezCompare::AddTypeToArray(ResType inType, SInt16 inWhichList)
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ AddResourceToArray
+//   AddResourceToArray
 // ---------------------------------------------------------------------------------
 
 void
@@ -493,7 +493,7 @@ CRezCompare::AddResourceToArray(ResType inType, short inID, SInt16 inWhichList)
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ HasDifferences
+//   HasDifferences
 // ---------------------------------------------------------------------------------
 
 Boolean
@@ -506,7 +506,7 @@ CRezCompare::HasDifferences()
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ DisplayResults
+//   DisplayResults
 // ---------------------------------------------------------------------------------
 
 void

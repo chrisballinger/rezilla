@@ -40,7 +40,7 @@
 
 
 // ---------------------------------------------------------------------------
-//		¥ CDualDataView												[public]
+//   CDualDataView												[public]
 // ---------------------------------------------------------------------------
 
 CDualDataView::CDualDataView(
@@ -61,7 +61,7 @@ CDualDataView::CDualDataView(
 
 
 // ---------------------------------------------------------------------------
-//		¥ CDualDataView												[public]
+//   CDualDataView												[public]
 // ---------------------------------------------------------------------------
 
 CDualDataView::CDualDataView(
@@ -73,7 +73,7 @@ CDualDataView::CDualDataView(
 
 
 // ---------------------------------------------------------------------------
-//		¥ ~CDualDataView											[public]
+//     ~CDualDataView											[public]
 // ---------------------------------------------------------------------------
 
 CDualDataView::~CDualDataView()
@@ -88,7 +88,7 @@ CDualDataView::~CDualDataView()
 
 
 // ---------------------------------------------------------------------------
-//		¥ CDualDataView												[public]
+//   CDualDataView												[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -99,7 +99,7 @@ CDualDataView::GetGeometry(DualGeometry& outGeometry) const
 
 
 // ---------------------------------------------------------------------------
-//		¥ CDualDataView												[public]
+//   CDualDataView												[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -110,7 +110,7 @@ CDualDataView::SetGeometry(const DualGeometry& inGeometry)
 
 
 // ---------------------------------------------------------------------------
-//		¥ Initialize											[protected]
+//   Initialize											[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -136,7 +136,7 @@ CDualDataView::Initialize()
 
 
 // ---------------------------------------------------------------------------
-//		¥ FinishCreateSelf										[protected]
+//   FinishCreateSelf										[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -146,7 +146,7 @@ CDualDataView::FinishCreateSelf()
 
 
 // ---------------------------------------------------------------------------
-//		¥ InstallSubViews											[public]
+//   InstallSubViews											[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -178,7 +178,7 @@ CDualDataView::InstallSubViews(CHexDataSubView * inHexDataWE,
  
 
 // ---------------------------------------------------------------------------
-//		¥ DeclareListeners										[protected]
+//   DeclareListeners										[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -192,7 +192,7 @@ CDualDataView::DeclareListeners()
 
 
 // ---------------------------------------------------------------------------
-//		¥ ListenToMessage				[public]
+//   ListenToMessage				[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -224,7 +224,7 @@ CDualDataView::ListenToMessage( MessageT inMessage, void *ioParam )
 
 
 // ---------------------------------------------------------------------------
-//	¥ ObeyCommand							[public, virtual]
+//   ObeyCommand							[public, virtual]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -450,7 +450,7 @@ CDualDataView::ObeyCommand(
 
 
 // ---------------------------------------------------------------------------
-//	¥ InstallBackStoreData										[protected]
+//   InstallBackStoreData										[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -461,7 +461,7 @@ CDualDataView::InstallBackStoreData(Handle inHandle)
 
 
 // ---------------------------------------------------------------------------
-//	¥ InstallBackStoreData										[protected]
+//   InstallBackStoreData										[protected]
 // ---------------------------------------------------------------------------
 // kTextEncodingUnknown raises an error -9473 (weInvalidTextEncodingErr)
 
@@ -474,7 +474,7 @@ CDualDataView::InstallBackStoreData(const void * inPtr, SInt32 inByteCount)
 
 
 // ---------------------------------------------------------------------------
-//	¥ InstallHexContents											[protected]
+//   InstallHexContents											[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -485,7 +485,7 @@ CDualDataView::InstallHexContents(Handle inHandle)
 
 
 // ---------------------------------------------------------------------------
-//	¥ InstallHexContents											[protected]
+//   InstallHexContents											[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -496,7 +496,7 @@ CDualDataView::InstallHexContents(const void * inPtr, SInt32 inByteCount)
 
 
 // ---------------------------------------------------------------------------
-//	¥ InstallTextContents											[protected]
+//   InstallTextContents											[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -507,7 +507,7 @@ CDualDataView::InstallTextContents(Handle inHandle)
 
 
 // ---------------------------------------------------------------------------
-//	¥ InstallTextContents											[protected]
+//   InstallTextContents											[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -518,7 +518,7 @@ CDualDataView::InstallTextContents(const void * inPtr, SInt32 inByteCount)
 
 
 // ---------------------------------------------------------------------------
-//	¥ InstallContentsFromLine											[public]
+//   InstallContentsFromLine											[public]
 // ---------------------------------------------------------------------------
 
 SInt32
@@ -555,7 +555,7 @@ CDualDataView::InstallContentsFromLine(SInt32 inFromLine)
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetAbsoluteRange											[protected]
+//   GetAbsoluteRange											[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -569,7 +569,7 @@ CDualDataView::GetAbsoluteRange(SInt32 & outStart, SInt32 & outEnd)
 
 
 // ---------------------------------------------------------------------------
-//  ¥ HexLineCount														[public]
+//   HexLineCount														[public]
 // ---------------------------------------------------------------------------
 
 SInt32
@@ -586,7 +586,7 @@ CDualDataView::HexLineCount()
 
 
 // ---------------------------------------------------------------------------
-//	¥ CountLines								[public]
+//   CountLines								[public]
 // ---------------------------------------------------------------------------
 
 SInt32
@@ -597,7 +597,7 @@ CDualDataView::CountLines()
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetCurrLines											[public]
+//   GetCurrLines											[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -608,7 +608,7 @@ CDualDataView::GetCurrLines(SInt32 & outFirstLine, SInt32 & outLastLine)
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetCurrHexPos											[public]
+//   GetCurrHexPos											[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -619,7 +619,7 @@ CDualDataView::GetCurrHexPos(SInt32 & outHexSelStart, SInt32 & outHexSelEnd)
 
 
 // ---------------------------------------------------------------------------
-//	¥ SetMaxScrollerValue										[protected]
+//   SetMaxScrollerValue										[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -635,7 +635,7 @@ CDualDataView::SetMaxScrollerValue()
 
 
 // ---------------------------------------------------------------------------
-//	¥ DisplayBothSelections											[protected]
+//   DisplayBothSelections											[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -682,7 +682,7 @@ CDualDataView::DisplayBothSelections(SInt32 inStart, SInt32 inEnd)
 
 
 // ---------------------------------------------------------------------------
-//	¥ PosToLine											[protected, virtual]
+//   PosToLine											[protected, virtual]
 // ---------------------------------------------------------------------------
 
 SInt32
@@ -695,7 +695,7 @@ CDualDataView::PosToLine(SInt32 inPos)
 
 
 // ---------------------------------------------------------------------------
-//	¥ IsDirty														[public]
+//   IsDirty														[public]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -718,7 +718,7 @@ CDualDataView::SetDirty(Boolean inDirty)
 
 
 // ---------------------------------------------------------------------------
-//	¥ AdaptToNewSurroundings
+//   AdaptToNewSurroundings
 // ---------------------------------------------------------------------------
 
 void
@@ -735,7 +735,7 @@ CDualDataView::AdaptToNewSurroundings()
 
 
 // ---------------------------------------------------------------------------
-//	¥ ResizeDataPanes												[public]
+//   ResizeDataPanes												[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -756,7 +756,7 @@ CDualDataView::ResizeDataPanes()
 
 
 // ---------------------------------------------------------------------------
-//	¥ CalcPanesPositions										[private]
+//   CalcPanesPositions										[private]
 // ---------------------------------------------------------------------------
 // 	Formulas:
 // 	Width
@@ -805,7 +805,7 @@ CDualDataView::CalcPanesPositions(SInt32 & hexLeft, SInt16 & hexWidth, SInt16 & 
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetPaneCount													[public]
+//   GetPaneCount													[public]
 // ---------------------------------------------------------------------------
 // Return various capacities.
 
@@ -833,7 +833,7 @@ CDualDataView::GetPaneCount(SInt16 whichValue)
 
 
 // ---------------------------------------------------------------------------
-//	¥ UpdatePaneCounts												[public]
+//   UpdatePaneCounts												[public]
 // ---------------------------------------------------------------------------
 // 	mBytesPerLine is a count of virtual bytes which have to be multiplied
 // 	by 3 (two hex digits + space) in hex representation or by 2 in text
