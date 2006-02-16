@@ -2,11 +2,11 @@
 // CPluginEditorDoc.h
 // 
 //                       Created: 2005-10-02 08:41:52
-//             Last modification: 2005-10-02 08:42:01
+//             Last modification: 2006-02-16 10:06:34
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2005
+// (c) Copyright : Bernard Desgraupes, 2005, 2006
 // All rights reserved.
 // ===========================================================================
 
@@ -21,11 +21,13 @@ class CRezillaPlugin;
 
 class CPluginEditorDoc : public CEditorDoc {
 public:
-					CPluginEditorDoc(LCommander* inSuper, 
-							   CRezMapTable* inSuperMap, 
-							   CRezObj* inRezObj,
-							   ResType inSubstType,
-							   Boolean inReadOnly);
+					CPluginEditorDoc(
+							 LCommander* inSuper, 
+							 CRezMapTable* inSuperMap, 
+							 CRezObj* inRezObj,
+							 ResType inSubstType,
+							 Boolean inReadOnly,
+							 CRezillaPlugin * inPlugin);
 					~CPluginEditorDoc();
 
 	virtual void	FindCommandStatus(
@@ -50,16 +52,16 @@ public:
 
 	// Accessors
 	CRezillaPlugin*				GetPlugin() { return mPlugin;}
-	CPluginEditorWindow*		GetAeteEditWindow() { return mPluginWindow;}
+	CPluginEditorWindow*		GetPluginEditWindow() { return mPluginWindow;}
 
 protected:
 	CRezillaPlugin *		mPlugin;
 	CPluginEditorWindow *	mPluginWindow;
 
-	virtual LModelObject*	GetModelProperty(
-									DescType		inProperty) const;
+// 	virtual LModelObject*	GetModelProperty(
+// 									DescType		inProperty) const;
 
-	virtual Handle	GetModifiedResource(Boolean &releaseIt) = 0;  // Purely virtual
+	virtual Handle	GetModifiedResource(Boolean &releaseIt);
 
 private:
 		void				Initialize();

@@ -316,7 +316,7 @@ CPluginEditorWindow::RevertContents()
 
 
 // ---------------------------------------------------------------------------
-//  ¥ InstallPluginNameField											[public]
+//   InstallPluginNameField											[public]
 // ---------------------------------------------------------------------------
 
 void

@@ -2,11 +2,11 @@
 // CPluginEditorDoc.cp
 // 
 //                       Created: 2005-10-02 08:41:52
-//             Last modification: 2005-10-02 09:21:41
+//             Last modification: 2006-02-16 10:07:00
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2005
+// (c) Copyright : Bernard Desgraupes, 2005, 2006
 // All rights reserved.
 // ===========================================================================
 
@@ -32,30 +32,26 @@ PP_Begin_Namespace_PowerPlant
 #include "UMiscUtils.h"
 
 
-// #include <LString.h>
-// #include <UStandardDialogs.h>
-
-// // Standard headers
-// #include <string.h>
-
-
 // ---------------------------------------------------------------------------
-//	¥ CPluginEditorDoc								Constructor		  [public]
+//   CPluginEditorDoc								Constructor		  [public]
 // ---------------------------------------------------------------------------
 
-CPluginEditorDoc::CPluginEditorDoc(LCommander* inSuper, 
-						   CRezMapTable* inSuperMap, 
+CPluginEditorDoc::CPluginEditorDoc(
+						   LCommander * inSuper, 
+						   CRezMapTable * inSuperMap, 
 						   CRezObj* inRezObj,
 						   ResType inSubstType,
-						   Boolean inReadOnly)
+						   Boolean inReadOnly,
+						   CRezillaPlugin * inPlugin)
 	: CEditorDoc(inSuper, inSuperMap, inRezObj, inSubstType, inReadOnly)
 {
+	mPlugin = inPlugin;
 	Initialize();
 }
 
 
 // ---------------------------------------------------------------------------
-//	¥ ~CPluginEditorDoc							Destructor				  [public]
+//     ~CPluginEditorDoc							Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CPluginEditorDoc::~CPluginEditorDoc()
@@ -67,7 +63,7 @@ CPluginEditorDoc::~CPluginEditorDoc()
 
 
 // ---------------------------------------------------------------------------
-//	¥ Initialize													  [public]
+//   Initialize													  [public]
 // ---------------------------------------------------------------------------
 
 void
@@ -75,37 +71,56 @@ CPluginEditorDoc::Initialize()
 {
 	OSErr error;
 	
-	mKind = editor_kindTmpl;
-	SetModelKind(rzom_cTmplEditDoc);
-
-	// Create window for our document. This sets this doc as the SuperCommander of the window.
-	mPluginWindow = dynamic_cast<CPluginEditorWindow *>(LWindow::CreateWindow( PPob_PluginEditorWindow, this ));
-	Assert_( mPluginWindow != nil );
+	ThrowIfNil_(mPlugin);
 	
-	SetMainWindow( dynamic_cast<CEditorWindow *>(mPluginWindow) );
-	NameNewEditorDoc();
-	mPluginWindow->FinalizeEditor(this);
+	mKind = editor_kindPlugin;
+	SetModelKind(rzom_cPlugEditDoc);
 
-	// Install the contents according to the TMPL
-	if (mRezObj != nil) {
-		Handle rezData = mRezObj->GetData();
-		if (rezData != nil) {
-			// Work with a copy of the handle
-			::HandToHand(&rezData);
-			
-			try {
-// 				error = mPluginWindow->ParseDataWithTemplate(rezData);						
-			} catch (...) {
-				error = err_ExceptionParsingTemplate;
-			}
-		} 
+	// Check if the plugin has already been loaded. If not, load it.
+	if (! mPlugin->IsLoaded() ) {
+		try {
+			error = mPlugin->Load();
+		} catch (...) {
+			error = err_PluginLoadFailed;
+		}
 	} 
 	
+	SRezillaPluginInterface** interface = mPlugin->GetInterface();
+	ThrowIfNil_(interface);
+	
+	(*interface)->editResource(interface, mRezObj->GetType(), mRezObj->GetID());
+
+	// Ask the plugin its requisites
+	
+	
+// 	// Create a window for our document. This sets this doc as the SuperCommander of the window.
+// 	mPluginWindow = dynamic_cast<CPluginEditorWindow *>(LWindow::CreateWindow( PPob_PluginEditorWindow, this ));
+// 	Assert_( mPluginWindow != nil );
+// 	
+// 	SetMainWindow( dynamic_cast<CEditorWindow *>(mPluginWindow) );
+// 	NameNewEditorDoc();
+// 	mPluginWindow->FinalizeEditor(this);
+// 
+// 	// Install the contents according to the TMPL
+// 	if (mRezObj != nil) {
+// 		Handle rezData = mRezObj->GetData();
+// 		if (rezData != nil) {
+// 			// Work with a copy of the handle
+// 			::HandToHand(&rezData);
+// 			
+// 			try {
+// // 				error = mPluginWindow->ParseDataWithTemplate(rezData);						
+// 			} catch (...) {
+// 				error = err_ExceptionParsingTemplate;
+// 			}
+// 		} 
+// 	} 
+// 	
 	if (error != noErr) {
 		if (error == err_ExceptionParsingTemplate) {
 			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("TemplateParsingException"), PPob_SimpleMessage);
 		} else if (error != userCanceledErr) {
-			UMessageDialogs::DescribeError(CFSTR("ErrorParsingWithTemplate"), error);
+			UMessageDialogs::DescribeError(CFSTR("ErrorEditingWithPlugin"), error);
 		} 
 		delete this;
 		return;
@@ -119,7 +134,7 @@ CPluginEditorDoc::Initialize()
 
 
 // ---------------------------------------------------------------------------
-//	¥ ObeyCommand									[public, virtual]
+//   ObeyCommand									[public, virtual]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -151,7 +166,7 @@ CPluginEditorDoc::ObeyCommand(
 
 
 // ---------------------------------------------------------------------------------
-//  ¥ FindCommandStatus
+//   FindCommandStatus
 // ---------------------------------------------------------------------------------
 
 void
@@ -172,7 +187,7 @@ CPluginEditorDoc::FindCommandStatus(
 		break;
 
 		case cmd_Find:
-		LString::CopyPStr( "\pFind�", outName);
+		LString::CopyPStr( "\pFindÉ", outName);
 		outEnabled = false;
 		break;
 
@@ -201,7 +216,7 @@ CPluginEditorDoc::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ ListenToMessage													[public]
+//   ListenToMessage													[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -232,7 +247,7 @@ CPluginEditorDoc::ListenToMessage( MessageT inMessage, void * /* ioParam */)
 
 
 // ---------------------------------------------------------------------------
-//	¥ AllowSubRemoval												  [public]
+//   AllowSubRemoval												  [public]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -244,7 +259,7 @@ CPluginEditorDoc::AllowSubRemoval(
 
 
 // ---------------------------------------------------------------------------
-//	¥ AskSaveChanges												  [public]
+//   AskSaveChanges												  [public]
 // ---------------------------------------------------------------------------
 //	Ask user whether to save changes before closing the Document or
 //	quitting the Application.
@@ -258,7 +273,7 @@ CPluginEditorDoc::AskSaveChanges(
 
 
 // ---------------------------------------------------------------------------
-//	¥ GetDescriptor													  [public]
+//   GetDescriptor													  [public]
 // ---------------------------------------------------------------------------
 //	Pass back the name of a Document
 
@@ -279,7 +294,7 @@ CPluginEditorDoc::GetDescriptor(
 
 
 // ---------------------------------------------------------------------------
-//  ¥ GetModifiedResource										[public]
+//   GetModifiedResource										[public]
 // ---------------------------------------------------------------------------
 // The returned handle should not be released by the caller so leave
 // releaseIt to false (its default).
@@ -293,7 +308,7 @@ CPluginEditorDoc::GetModifiedResource(Boolean &releaseIt)
 // 	mPluginWindow->RetrieveDataWithTemplate();
 
 	if ( error != noErr ) {
-		UMessageDialogs::DescribeError(CFSTR("ErrorWhileSavingTemplateWindow"), error);
+		UMessageDialogs::DescribeError(CFSTR("ErrorSavingPluginWindow"), error);
 	} else {
 // 		if (mPluginWindow->GetOutStream() != NULL) {
 // 			theHandle = mPluginWindow->GetOutStream()->GetDataHandle();
