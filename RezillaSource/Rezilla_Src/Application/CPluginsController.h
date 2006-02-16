@@ -2,11 +2,11 @@
 // CPluginsController.h
 // 
 //                       Created: 2005-09-26 09:48:26
-//             Last modification: 2006-02-15 16:38:57
+//             Last modification: 2006-02-16 19:48:26
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes, 2005, 2006
+// (c) Copyright: Bernard Desgraupes, 2005-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -15,7 +15,8 @@
 #pragma once
 
 class CRezillaPlugin;
-
+class CRezMapDoc;
+class CRezObjItem;
 
 class CPluginsController {
 
@@ -23,10 +24,11 @@ public:
 						CPluginsController();
 				virtual	~CPluginsController();
 		
-		Boolean		HasPluginForType(ResType inType);
-		OSErr		RegisterPlugin();
-		void		UnregisterPlugin();
-		void		LoadPlugin();
+		static Boolean	HasPluginForType(ResType inType, ResType * substType);
+
+		static void		InvokePluginEditor(CRezMapDoc* inRezMapDoc, 
+										   CRezObjItem * inRezObjItem,
+										   ResType inUseType);
 
 		static CFMutableDictionaryRef	sPluginsDict;
 		
@@ -35,14 +37,16 @@ protected:
 
 
 private:
-		OSErr		BuildInternalPluginsDictionary();
-		OSErr		BuildExternalPluginsDictionary();
+		OSErr			BuildInternalPluginsDictionary();
+		OSErr			BuildExternalPluginsDictionary();
 		
-		OSErr		ScanPluginsFolder(FSRef * inPluginsRef);
-		OSErr		ScanPluginsFolder(CFURLRef inPlugInsURL);
+		OSErr			ScanPluginsFolder(FSRef * inPluginsRef);
+		OSErr			ScanPluginsFolder(CFURLRef inPlugInsURL);
 		
-		OSErr		AddPluginToDictionary(CFBundleRef inBundleRef);
-		OSErr		AddDictEntriesForPlugin(CRezillaPlugin * inRezPlugin);
+		OSErr			AddPluginToDictionary(CFBundleRef inBundleRef);
+		OSErr			AddEntriesForPlugin(CRezillaPlugin * inRezPlugin);
+		
+		static CRezillaPlugin *	GetPreferredPlugin(ResType inType);
 		
 };
 

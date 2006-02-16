@@ -2,16 +2,22 @@
 // CPluginsController.cp
 // 
 //                       Created: 2005-09-26 09:48:26
-//             Last modification: 2006-02-15 16:38:51
+//             Last modification: 2006-02-16 10:30:51
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes, 2005, 2006
+// (c) Copyright: Bernard Desgraupes, 2005-2006
 // All rights reserved.
 // ===========================================================================
 
 #include "CPluginsController.h"
 #include "CRezillaPlugin.h"
+#include "CPluginEditorDoc.h"
+#include "CRezMapDoc.h"
+#include "CRezMapTable.h"
+#include "CRezMapWindow.h"
+#include "CRezObjItem.h"
+#include "CEditorsController.h"
 #include "UMiscUtils.h"
 #include "RezillaConstants.h"
 
@@ -47,51 +53,77 @@ CPluginsController::~CPluginsController()
 // ---------------------------------------------------------------------------
 //  HasPluginForType												[public]
 // ---------------------------------------------------------------------------
-// 				EXTERN_API_C( Boolean )
-// 				CFDictionaryContainsKey(
-// 				  CFDictionaryRef   theDict,
-// 				  const void *      key);
 
 Boolean
-CPluginsController::HasPluginForType(ResType inType)
+CPluginsController::HasPluginForType(ResType inType, ResType * substType)
 {
 	Boolean hasPlugin = false;
 	
+	CFNumberRef theKey = ::CFNumberCreate(NULL, kCFNumberSInt32Type, &inType);
+
+	if (theKey != nil) {
+		hasPlugin = ::CFDictionaryContainsKey(sPluginsDict, theKey);
+		CFRelease(theKey);
+	}
 	
+	// If not found, check if there is a possible substitution type
+	if ( !hasPlugin ) {
+		if ( CEditorsController::FindSubstitutionType(inType, substType) ) {
+			hasPlugin = HasPluginForType(*substType, substType);
+		} 
+	} 
+
 	return hasPlugin;
 }
 
 
 // ---------------------------------------------------------------------------
-//  RegisterPlugin												[public]
+//   InvokePluginEditor											[public]
 // ---------------------------------------------------------------------------
 
-OSErr
-CPluginsController::RegisterPlugin()
+void
+CPluginsController::InvokePluginEditor(CRezMapDoc* inRezMapDoc, 
+									   CRezObjItem * inRezObjItem,
+									   ResType inUseType)
 {
-	OSErr	error = noErr;
+	CRezMapTable *	inSuperMap = inRezMapDoc->GetRezMapWindow()->GetRezMapTable();
+	CRezObj *		inRezObj = inRezObjItem->GetRezObj();
+	Boolean			inReadOnly = inRezMapDoc->IsReadOnly();
 	
-	return error;
+	CRezillaPlugin * thePlugin = GetPreferredPlugin(inUseType);
+	
+	new CPluginEditorDoc( (LCommander *) inRezMapDoc, inSuperMap, inRezObj, inUseType, inReadOnly, thePlugin);
 }
 
 
 // ---------------------------------------------------------------------------
-//  UnregisterPlugin												[public]
+//  GetPreferredPlugin												[public]
 // ---------------------------------------------------------------------------
+// TODO: design a system for selecting the preferred plugin when several
+// plugins can edit the same type. The preferred plugin will always be put
+// in front of the list, so that GetPreferredPlugin() can just return the
+// first item.
 
-void
-CPluginsController::UnregisterPlugin()
+CRezillaPlugin *
+CPluginsController::GetPreferredPlugin(ResType inType)
 {
-}
+	OSErr				error = noErr;
+	CRezillaPlugin *	thePlugin = NULL;
+	CFArrayRef			theArray;
+	void *				valuePtr;
+	CFNumberRef 		numRef;
+	
+	numRef = ::CFNumberCreate(NULL, kCFNumberSInt32Type, &inType);
+	theArray = (CFArrayRef) ::CFDictionaryGetValue( sPluginsDict, numRef);
+	CFRelease(numRef);
+	
+	// Just pick the first one in the list
+	numRef = (CFNumberRef) ::CFArrayGetValueAtIndex(theArray, 0);
+	if ( ::CFNumberGetValue(numRef, kCFNumberSInt32Type, (void*) &valuePtr) ) {
+		thePlugin = (CRezillaPlugin*) valuePtr;
+	} 
 
-
-// ---------------------------------------------------------------------------
-//  LoadPlugin												[public]
-// ---------------------------------------------------------------------------
-
-void
-CPluginsController::LoadPlugin()
-{
+	return thePlugin;
 }
 
 
@@ -198,11 +230,14 @@ OSErr
 CPluginsController::ScanPluginsFolder(FSRef * inPluginsRef)
 {
 	OSErr			error = noErr;
-	CFURLRef		plugInsURL = nil;
+	CFURLRef		pluginsURL = nil;
 
 	// Get a CFURL from the FSRef
-	plugInsURL = ::CFURLCreateFromFSRef(kCFAllocatorDefault, inPluginsRef);
-	error = ScanPluginsFolder(plugInsURL);
+	pluginsURL = ::CFURLCreateFromFSRef(kCFAllocatorDefault, inPluginsRef);
+	if (pluginsURL != nil) {
+		error = ScanPluginsFolder(pluginsURL);
+		CFRelease(pluginsURL);
+	}
 
 	return error;
 }
@@ -218,26 +253,23 @@ CPluginsController::ScanPluginsFolder(CFURLRef inPlugInsURL)
 	OSErr			error = noErr;
 	CFArrayRef		bundleArray;
 
-	if (inPlugInsURL != nil) {
-		// Get the bundle objects for the application support's plug-ins.
-		bundleArray = ::CFBundleCreateBundlesFromDirectory( kCFAllocatorDefault, inPlugInsURL, NULL );
-		CFRelease( inPlugInsURL );
+	// Get the bundle objects for the application support's plug-ins.
+	bundleArray = ::CFBundleCreateBundlesFromDirectory( kCFAllocatorDefault, inPlugInsURL, NULL );
+	
+	if (bundleArray != nil) {
+		CFBundleRef	bundleRef;
+		CFIndex 	count = ::CFArrayGetCount(bundleArray);
 		
-		if (bundleArray != nil) {
-			CFBundleRef	bundleRef;
-			CFIndex 	count = ::CFArrayGetCount(bundleArray);
+		for ( CFIndex i = 0; i < count; i++ ) {
+			bundleRef = (CFBundleRef) ::CFArrayGetValueAtIndex(bundleArray, i);
 			
-			for ( CFIndex i = 0; i < count; i++ ) {
-				bundleRef = (CFBundleRef) ::CFArrayGetValueAtIndex(bundleArray, i);
-				
-				if (bundleRef != nil) {
-					error = AddPluginToDictionary(bundleRef);
-					// No need to CFRelease bundleRef since it is obtained
-					// with GetValueAtIndex
-				} 
-			}
-			CFRelease( bundleArray );
-		} 
+			if (bundleRef != nil) {
+				error = AddPluginToDictionary(bundleRef);
+				// No need to CFRelease bundleRef since it is obtained
+				// with GetValueAtIndex
+			} 
+		}
+		CFRelease( bundleArray );
 	} 
 
 	return error;
@@ -260,7 +292,7 @@ CPluginsController::AddPluginToDictionary(CFBundleRef inBundleRef)
 	
 	rezPlugin = new CRezillaPlugin(inBundleRef);
 	if (rezPlugin != nil) {
-		AddDictEntriesForPlugin(rezPlugin);
+		AddEntriesForPlugin(rezPlugin);
 		sPluginsList.AddItem(rezPlugin);
 	} else {
 		error = err_PluginGetInfoFailed;
@@ -271,15 +303,11 @@ CPluginsController::AddPluginToDictionary(CFBundleRef inBundleRef)
 
 
 // ---------------------------------------------------------------------------
-//	 AddDictEntriesForPlugin									[private]
+//	 AddEntriesForPlugin									[private]
 // ---------------------------------------------------------------------------
-// 					CFNumberRef thePlugRef = ::CFNumberCreate(NULL, kCFNumberSInt32Type, &inRezPlugin);
-// 					if (thePlugRef) {
-// 						::CFArrayAppendValue(theArray, thePlugRef);
-// 					} 
 
 OSErr
-CPluginsController::AddDictEntriesForPlugin(CRezillaPlugin * inRezPlugin)
+CPluginsController::AddEntriesForPlugin(CRezillaPlugin * inRezPlugin)
 {
 	OSErr	error = noErr;
 	
@@ -290,28 +318,31 @@ CPluginsController::AddDictEntriesForPlugin(CRezillaPlugin * inRezPlugin)
 		CFMutableArrayRef theArray;
 		
 		// Convert the type to a CFNumber
-		CFNumberRef theValue = ::CFNumberCreate(NULL, kCFNumberSInt32Type, &theType);
-		if (theValue != nil) {
-			
-			// If there is already an entry for this value, add the plugin 
-			// to the list, otherwise create a new CFArray
-			if ( ::CFDictionaryContainsKey(sPluginsDict, theValue) ) {
-				theArray = (CFMutableArrayRef) ::CFDictionaryGetValue( sPluginsDict, theValue);
-				::CFArrayAppendValue(theArray, &inRezPlugin);
-				::CFDictionarySetValue(sPluginsDict, theValue, theArray);
-			} else {
-				theArray = ::CFArrayCreateMutable(NULL, 0, &kCFTypeArrayCallBacks);
-				if (theArray) {
-					::CFArrayAppendValue(theArray, &inRezPlugin);
-				} 
-				::CFDictionaryAddValue(sPluginsDict, theValue, theArray);
-			}
-			CFRelease(theValue);
+		CFNumberRef theKey = ::CFNumberCreate(NULL, kCFNumberSInt32Type, &theType);
+
+		if (theKey != nil) {
+			CFNumberRef theRezPlugin = ::CFNumberCreate(NULL, kCFNumberSInt32Type, &inRezPlugin);
+			if (theRezPlugin != nil) {
+				// If there is already an entry for this value, add the plugin 
+				// to the list, otherwise create a new CFArray
+				if ( ::CFDictionaryContainsKey(sPluginsDict, theKey) ) {
+					theArray = (CFMutableArrayRef) ::CFDictionaryGetValue( sPluginsDict, theKey);
+					::CFArrayAppendValue(theArray, theRezPlugin);
+					::CFDictionarySetValue(sPluginsDict, theKey, theArray);
+				} else {
+					theArray = ::CFArrayCreateMutable(NULL, 0, &kCFTypeArrayCallBacks);
+					if (theArray) {
+						::CFArrayAppendValue(theArray, theRezPlugin);
+						::CFDictionaryAddValue(sPluginsDict, theKey, theArray);
+						CFRelease(theArray);
+					} 
+				}
+				CFRelease(theRezPlugin);
+			} 
+			CFRelease(theKey);
 		} 
 	}
-	
-// 	CFShow(sPluginsDict);
-	
+		
 	return error;
 }
 
