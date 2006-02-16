@@ -2,11 +2,11 @@
 // CRezillaPlugin.h
 // 
 //                       Created: 2005-09-26 09:48:26
-//             Last modification: 2005-10-01 09:10:16
+//             Last modification: 2006-02-16 12:04:01
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes, 2005
+// (c) Copyright: Bernard Desgraupes, 2005-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -14,6 +14,7 @@
 #define _H_CRezillaPlugin
 #pragma once
 
+#include "RezillaPluginInterface.h";
 
 class CRezillaPlugin {
 
@@ -23,23 +24,30 @@ public:
 
 		void		GetPluginInfo();
 
+		OSErr		Load();
+
 		SInt32		CountEditTypes() { return mEditTypes.GetCount(); }
 	
 		TArray<OSType> *	GetEditTypes() { return &mEditTypes;}
 
-		Boolean				IsSupported(ResType inType);
-				
+		Boolean		IsSupported(ResType inType);
+		
+		Boolean		IsLoaded() {return mIsLoaded;}
+	
+		virtual SRezillaPluginInterface**	GetInterface() {return mInterface;}
+
 protected:
-		TArray<OSType>	mEditTypes;
-		Boolean			mIsLoaded;		// differed loading
-		UInt32  		mPluginVersion,
-						mPluginType,
-						mPluginCreator;
-		Str255			mName;		
+		CFPlugInRef					mPluginRef;
+		SRezillaPluginInterface **	mInterface;
+		TArray<OSType>				mEditTypes;
+		Boolean						mIsLoaded;		// differed loading
+		UInt32  					mPluginVersion,
+									mPluginType,
+									mPluginCreator;
+		Str255						mName;		
 
 private:
 		void		Initialize(CFBundleRef inBundleRef);
-		void		Load();
 
 };
 
