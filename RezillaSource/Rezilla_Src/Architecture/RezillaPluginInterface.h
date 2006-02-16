@@ -2,11 +2,11 @@
 // File: "RezillaPluginInterface.h"
 // 
 //                        Created: 2005-09-08 15:49:50
-//              Last modification: 2005-09-26 10:14:25
+//              Last modification: 2006-02-16 11:52:54
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes 2005
+// (c) Copyright: Bernard Desgraupes 2005-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -26,7 +26,42 @@
 
 
 typedef struct SRezillaPluginInterface {
-    IUNKNOWN_C_GUTS;
-    void (*testResource)( void *myInstance );
- } SRezillaPluginInterface;
+	IUNKNOWN_C_GUTS;
+	void (*editResource)( void *myInstance, ResType inType, short inID );
+} SRezillaPluginInterface;
+
+
+typedef SInt32	RezPlugRef;
+
+enum {
+	kPlugWinHasNoAttributes = 0L,
+	kPlugWinHasSaveButton = (1L << 1),
+	kPlugWinHasCancelButton = (1L << 2),
+	kPlugWinHasRevertButton = (1L << 3),
+	kPlugWinHasLockIcon = (1L << 4),
+	kPlugWinHasNameField = (1L << 5),
+	kPlugWinStandardAttributes = (kPlugWinHasSaveButton | kPlugWinHasCancelButton | kPlugWinHasRevertButton | kPlugWinHasLockIcon)
+};
+
+
+/* 
+ * #define IUNKNOWN_C_GUTS \
+ *     void *_reserved; \
+ *     HRESULT (STDMETHODCALLTYPE *QueryInterface)(void *thisPointer, REFIID iid, LPVOID *ppv); \
+ *     ULONG (STDMETHODCALLTYPE *AddRef)(void *thisPointer); \
+ *     ULONG (STDMETHODCALLTYPE *Release)(void *thisPointer)
+ */
+
+// requiredWinAttributes
+// menuCount
+// menuTitles
+// 
+// AcceptResource
+// EditResource
+// ReturnResource
+
+// Boolean	AcceptResource( void *myInstance, ResType inType, short inID );
+// void	EditResource( void *myInstance, RezPlugRef inRef, ResType inType, short inID, Handle inDataH );
+// Handle	ReturnResource( void *myInstance );
+
 
