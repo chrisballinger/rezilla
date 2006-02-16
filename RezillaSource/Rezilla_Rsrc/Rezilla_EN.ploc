@@ -1,5 +1,4 @@
-// $Date$
-// $Revision$
+// Last modification: 2006-02-16 00:05:03
 
 localize "English" as "Localizable.strings" 
 {
@@ -30,7 +29,8 @@ localize "English" as "Localizable.strings"
 	key "ErrorSettingSize" value string "An error ‘%d’ occured while setting the font size."
 	key "ErrorWhileParsingResource" value string "An error ‘%d’ occured while parsing the resource."
 	key "ErrorParsingWithTemplate" value string "An error ‘%d’ occured while parsing the resource with the template. Use the hexadecimal editor instead."
-	key "ErrorWhileSavingTemplateWindow" value string "An error ‘%d’ occured while saving the template window. The original resource has been left unchanged."
+	key "ErrorSavingPluginWindow" value string "An error ‘%d’ occured while saving the plugin window. The original resource has been left unchanged."
+	key "ErrorSavingTemplateWindow" value string "An error ‘%d’ occured while saving the template window. The original resource has been left unchanged."
 	key "ErrorWithIconEditor" value string "An error ‘%d’ occured  within the bitmap editor."
 	key "HaveReadPermission" value string "Couldn’t save file. Make sure you have ‘read’ permission."
 	key "HaveWritePermission" value string "Couldn’t save file. Make sure you have ‘write’ permission."
@@ -54,8 +54,7 @@ localize "English" as "Localizable.strings"
 	key "OpenForkError" value string "Error opening resource fork."
 	key "ParseXmnuRezFailed" value string "The ‘xmnu’ resource corresponding to this ‘MENU’ resource does not have the expected format. Ignoring it."
 	key "PermissionError" value string "File ‘%s’: access permission error. Maybe the file is in service with another application."
-	key "RequireSystemNine" value string "Rezilla requires System 9 or greater."
-	key "RequireSystemTen" value string "Rezilla requires System OSX or greater."
+	key "RequireSystemTenTwo" value string "Rezilla requires system OSX 10.2 or greater."
 	key "ResourceExistsWithID" value string "There is already a resource with ID ‘%d’."
 	key "ResourceLongerThanExpected" value string "The resource has more data than expected. Edit it with the hexadecimal editor to examine its contents."
 	key "ResourceLongerThanTemplate" value string "There is more data in the resource than expected by the template’s format. Edit with caution: the extra data will be lost if you validate your changes."
