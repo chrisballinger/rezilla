@@ -2,11 +2,11 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2006-01-30 12:29:17
+//             Last modification : 2006-02-17 18:00:23
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@users.sourceforge.net>
 // www : <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2003-2005, 2006
+// (c) Copyright : Bernard Desgraupes, 2003-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -891,6 +891,8 @@ const PaneIDT   item_EditorCancel			= FOUR_CHAR_CODE('Cncl');
 const PaneIDT   item_EditorRevert			= FOUR_CHAR_CODE('Rvrt');
 const PaneIDT	item_NameStaticText			= FOUR_CHAR_CODE('Name');
 const PaneIDT	item_ReadOnlyIcon			= FOUR_CHAR_CODE('Lock');
+const PaneIDT	item_WindowHeader			= FOUR_CHAR_CODE('Head');
+const PaneIDT	item_FooterPlacard			= FOUR_CHAR_CODE('Foot');
 const PaneIDT	item_PlusButton				= FOUR_CHAR_CODE('Plus');
 const PaneIDT	item_MinusButton			= FOUR_CHAR_CODE('Mins');
 const PaneIDT   item_TabGroup				= FOUR_CHAR_CODE('TabG');
@@ -1376,14 +1378,11 @@ enum RezillaErrors
 	err_IconFileLocked,
 	err_IconBadFontSize,
 	err_IconNoPictOnClipboard,
-	err_PluginGeneric				= 4000,	
-	err_PluginLoadFailed,
-	err_PluginGetInfoFailed,
-	err_PluginUnsupportedType,
-	err_PluginWrongData,
  	err_RezillaErrorEnd
 };
 
+// NB: plugin errors are defined in "RezillaPluginInterface.h". They start 
+// at err_PluginGeneric = 4000.
 
 
 // ======================================================================
