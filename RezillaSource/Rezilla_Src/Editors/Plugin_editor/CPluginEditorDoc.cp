@@ -18,6 +18,7 @@ PP_Begin_Namespace_PowerPlant
 #endif
 
 #include "CRezillaApp.h"
+#include "RezillaPluginInterface.h"
 #include "CPluginEditorDoc.h"
 #include "CPluginEditorWindow.h"
 #include "CRezillaPlugin.h"
@@ -65,11 +66,17 @@ CPluginEditorDoc::~CPluginEditorDoc()
 // ---------------------------------------------------------------------------
 //   Initialize													  [public]
 // ---------------------------------------------------------------------------
+// 	try {
+// // 				error = mPluginWindow->ParseDataWithTemplate(rezData);						
+// 	} catch (...) {
+// 		error = err_ExceptionParsingTemplate;
+// 	}
 
 void
 CPluginEditorDoc::Initialize()
 {
-	OSErr error;
+	OSErr	error;
+	Handle	rezData;
 	
 	ThrowIfNil_(mPlugin);
 	
@@ -88,34 +95,36 @@ CPluginEditorDoc::Initialize()
 	SRezillaPluginInterface** interface = mPlugin->GetInterface();
 	ThrowIfNil_(interface);
 	
-	(*interface)->editResource(interface, mRezObj->GetType(), mRezObj->GetID());
-
-	// Ask the plugin its requisites
+	// Install the contents according to the TMPL
+	if (mRezObj != nil) {
+		rezData = mRezObj->GetData();
+		if (rezData != nil) {
+			// Work with a copy of the handle
+			::HandToHand(&rezData);
+		} 
+	} 
 	
+	// Ask the plugin its requirements
+	RezPluginRequirements	plugReq;
+	plugReq.error = noErr;
 	
-// 	// Create a window for our document. This sets this doc as the SuperCommander of the window.
-// 	mPluginWindow = dynamic_cast<CPluginEditorWindow *>(LWindow::CreateWindow( PPob_PluginEditorWindow, this ));
-// 	Assert_( mPluginWindow != nil );
-// 	
-// 	SetMainWindow( dynamic_cast<CEditorWindow *>(mPluginWindow) );
-// 	NameNewEditorDoc();
-// 	mPluginWindow->FinalizeEditor(this);
-// 
-// 	// Install the contents according to the TMPL
-// 	if (mRezObj != nil) {
-// 		Handle rezData = mRezObj->GetData();
-// 		if (rezData != nil) {
-// 			// Work with a copy of the handle
-// 			::HandToHand(&rezData);
-// 			
-// 			try {
-// // 				error = mPluginWindow->ParseDataWithTemplate(rezData);						
-// 			} catch (...) {
-// 				error = err_ExceptionParsingTemplate;
-// 			}
+	if ( (*interface)->AcceptResource(interface, mRezObj->GetType(), mRezObj->GetID(), rezData, &plugReq) ) {
+		// Create a window for our document. This sets this doc as the SuperCommander of the window.
+		mPluginWindow = dynamic_cast<CPluginEditorWindow *>(LWindow::CreateWindow( PPob_PluginEditorWindow, this ));
+		Assert_( mPluginWindow != nil );
+		
+		SetMainWindow( dynamic_cast<CEditorWindow *>(mPluginWindow) );
+		NameNewEditorDoc();
+		mPluginWindow->FinalizeEditor(this, &plugReq);
+		
+// 		mPlugin->OpenResources();
+// 		
+// 		MenuRef * theMenuRefs = (MenuRef *) malloc ( sizeof(MenuRef) * plugReq->menucount);
+// 		if (theMenuRefs != NULL) {
 // 		} 
-// 	} 
-// 	
+
+	} 
+	
 	if (error != noErr) {
 		if (error == err_ExceptionParsingTemplate) {
 			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("TemplateParsingException"), PPob_SimpleMessage);
@@ -125,9 +134,12 @@ CPluginEditorDoc::Initialize()
 		delete this;
 		return;
 	} 
+	
+	RezPluginInfo rpi;
 
+	(*interface)->EditResource(interface, rpi);
 // 	// Make the window visible.
-// 	mPluginWindow->Show();
+	mPluginWindow->Show();
 // 	// Enable all the subpanes
 // 	mPluginWindow->GetContentsView()->Enable();
 }
