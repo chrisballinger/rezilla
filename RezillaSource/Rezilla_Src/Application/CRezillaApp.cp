@@ -1,11 +1,11 @@
 // ===========================================================================
 // CRezillaApp.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2006-02-16 00:11:01
+//             Last modification: 2006-02-19 09:45:37
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes 2003-2005, 2006
+// (c) Copyright: Bernard Desgraupes 2003-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -53,6 +53,7 @@
 #include "CPICT_EditorWindow.h"
 #include "CPatternPane.h"
 #include "CPatternTargetView.h"
+#include "CPluginEditorWindow.h"
 #include "CPopupEditField.h"
 #include "CRangeEditText.h"
 #include "CRezIconPane.h"
@@ -388,6 +389,7 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(CPICT_EditorWindow);
 	RegisterClass_(CPatternPane);
 	RegisterClass_(CPatternTargetView);
+	RegisterClass_(CPluginEditorWindow);
 	RegisterClass_(CPopupEditField);
 	RegisterClass_(CRangeEditText);
 	RegisterClass_(CRezIconPane);
