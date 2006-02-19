@@ -2,7 +2,7 @@
 // CRezillaPlugin.cp
 // 
 //                       Created: 2005-09-26 09:48:26
-//             Last modification: 2006-02-16 14:43:10
+//             Last modification: 2006-02-19 07:05:48
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://rezilla.sourceforge.net/>
@@ -12,6 +12,8 @@
 
 #include "CRezillaPlugin.h"
 #include "CPluginsController.h"
+#include "CRezMap.h"
+#include "CRezillaApp.h"
 #include "UMiscUtils.h"
 
 
@@ -22,9 +24,10 @@
 CRezillaPlugin::CRezillaPlugin(CFBundleRef inBundleRef)
 {
 	mIsLoaded = false;
-	mName[0] = 0;
+	mName = NULL;
 	mPluginRef = NULL;
 	mInterface = NULL;
+	mRefNum = kResFileNotOpened;
 	Initialize(inBundleRef);
 }
 
@@ -41,8 +44,7 @@ CRezillaPlugin::~CRezillaPlugin()
 // ---------------------------------------------------------------------------
 //  Initialize													[public]
 // ---------------------------------------------------------------------------
-// mPluginVersion is an UInt32 in the 'vers' resource style (e-g 0x01008000
-// for 1.0.0)
+// mPluginVersion is an UInt32 in the 'vers' resource style (e-g 0x01008000 for 1.0.0)
 
 void
 CRezillaPlugin::Initialize(CFBundleRef inBundleRef)
@@ -77,18 +79,13 @@ CRezillaPlugin::Initialize(CFBundleRef inBundleRef)
 		} 
 	}
 	
-	// Get type and creator
+	// Get type and creator          CFPluginNameString
 	plugURL = ::CFBundleCopyBundleURL(inBundleRef);
 	if (plugURL != nil) {
 		::CFBundleGetPackageInfoInDirectory(plugURL, &mPluginType, &mPluginCreator);
-		CFStringRef nameRef = ::CFURLCopyLastPathComponent(plugURL);
-		if (nameRef != nil) {
-			if (::CFStringGetPascalString(nameRef, theString, sizeof(theString), ::GetApplicationTextEncoding())) {
-				LString::CopyPStr(theString, mName);
-			} 
-			::CFRelease(nameRef);   
-		}				
+		mName = ::CFURLCopyLastPathComponent(plugURL);
 		::CFRelease(plugURL);   
+		::CFRetain(mName);
 	} else {
 		mPluginType = 0;
 		mPluginCreator = 0;
@@ -122,12 +119,9 @@ CRezillaPlugin::Load()
 	CFPlugInRef		newPlugIn = NULL;
 	CFURLRef		bundleURL, plugInURL;
 
-	if (!mIsLoaded) {
-		CFStringRef nameRef = ::CFStringCreateWithPascalString(kCFAllocatorDefault, mName, kCFStringEncodingMacRoman);
-		
+	if (!mIsLoaded) {		
 		bundleURL = CFBundleCopyBuiltInPlugInsURL( CFBundleGetMainBundle() );		
-		plugInURL = CFURLCreateCopyAppendingPathComponent( NULL, bundleURL, nameRef, false );
-		CFRelease(nameRef);
+		plugInURL = CFURLCreateCopyAppendingPathComponent( NULL, bundleURL, mName, false );
 
 		// Create a CFPlugin using the URL. This causes the plug-in's types
 		// and factories to be registered with the system. The plug-in's
@@ -218,6 +212,53 @@ CRezillaPlugin::GetPluginInfo()
 // {
 // 	return mEditTypes.ContainsItem(inType);
 // }
+
+
+// ---------------------------------------------------------------------------
+//  OpenResources												[public]
+// ---------------------------------------------------------------------------
+
+CRezMap *
+CRezillaPlugin::OpenResources()
+{
+	CFURLRef	pluginsDirURL, pluginURL, baseUrl, rezUrl;
+	CFBundleRef pluginRef;
+	CRezMap *	theRezMap;
+	CFStringRef basenameRef;
+	OSErr		error = noErr;
+	FSRef		fileRef;
+	short		theRefnum;
+	SInt16		theFork;
+	FSSpec		theFileSpec;
+
+	pluginsDirURL = CFBundleCopyBuiltInPlugInsURL( CFBundleGetMainBundle() );		
+	pluginURL = CFURLCreateCopyAppendingPathComponent( NULL, pluginsDirURL, mName, false );
+	CFRelease(pluginsDirURL);
+	baseUrl = CFURLCreateCopyDeletingPathExtension(kCFAllocatorDefault, pluginURL);
+	basenameRef = CFURLCopyLastPathComponent(baseUrl);
+	CFRelease(baseUrl);
+	pluginRef = CFBundleCreate(kCFAllocatorDefault, pluginURL);
+	CFRelease(pluginURL);
+	rezUrl = CFBundleCopyResourceURL(pluginRef, basenameRef, CFSTR("rsrc"), NULL);
+	CFRelease(pluginRef);
+	CFRelease(basenameRef);
+	
+	if (rezUrl != NULL) {
+		if ( ::CFURLGetFSRef(rezUrl, &fileRef) ) {
+			// Get the FSSpec from the FSRef
+			error = FSGetCatalogInfo(&fileRef, kFSCatInfoNone, NULL, NULL, &theFileSpec, NULL);
+			if (error == noErr) {
+				error = CRezillaApp::PreOpen(theFileSpec, theFork, theRefnum);
+				if (error == noErr) {
+					theRezMap = new CRezMap(theRefnum);
+				}
+			}
+		} 
+		CFRelease(rezUrl);
+	} 
+	
+	return theRezMap;
+}
 
 
 
