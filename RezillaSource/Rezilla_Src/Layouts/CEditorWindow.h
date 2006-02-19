@@ -2,11 +2,11 @@
 // CEditorWindow.h				
 // 
 //                       Created: 2004-06-10 14:44:33
-//             Last modification: 2005-09-05 06:54:28
+//             Last modification: 2006-02-17 20:59:22
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2004-2005
+// (c) Copyright : Bernard Desgraupes, 2004-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -44,7 +44,7 @@ public:
 							CommandT			inCommand,
 							void*				ioParam);
 
-	virtual void	FinalizeEditor(CEditorDoc* inEditorDoc);
+	virtual void	FinalizeEditor(CEditorDoc* inEditorDoc, void * ioParam = NULL);
 
 	virtual void	RevertContents();
 	
