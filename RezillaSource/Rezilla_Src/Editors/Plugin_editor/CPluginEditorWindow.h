@@ -2,11 +2,11 @@
 // CPluginEditorWindow.h				
 // 
 //                       Created: 2005-10-02 08:41:52
-//             Last modification: 2005-10-02 08:42:01
+//             Last modification: 2006-02-17 22:47:04
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2005
+// (c) Copyright : Bernard Desgraupes, 2005-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -42,29 +42,22 @@ public:
 
 	virtual void	ListenToMessage( MessageT inMessage,void *ioParam);
 
-	virtual void	FinalizeEditor(CPluginEditorDoc* inEditorDoc);
+	virtual void	FinalizeEditor(CPluginEditorDoc* inEditorDoc, void * ioParam = NULL);
 
 	virtual void	RevertContents();
 	
 	void			InstallPluginNameField();
 
-
-	// Accessors
-// 	virtual CPluginEditorDoc*		GetOwnerDoc() { return mOwnerDoc;}
-// 	void					SetOwnerDoc(CPluginEditorDoc* theOwnerDoc) {mOwnerDoc = theOwnerDoc ;}
-
-// 	static CPluginMenu		*sPluginMenu;
-		static LMenu		*sPluginMenu;
-
 protected:
-// 	CPluginEditorDoc *		mOwnerDoc;
-// 	Boolean				mIsDirty;
+	TArray<LMenu*>		mPluginMenu;
 
-// 	virtual void		FinishCreateSelf();
+
+	virtual void		FinishCreateSelf();
 	virtual void		PutOnDuty(LCommander *inNewTarget);
 	virtual void		TakeOffDuty();
 	void				RemovePluginMenu();
-
+	void				CreatePluginMenu(MenuID inMenuID);
+	
 };
 
 

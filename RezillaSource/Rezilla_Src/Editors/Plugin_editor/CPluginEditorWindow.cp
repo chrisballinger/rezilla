@@ -2,16 +2,17 @@
 // CPluginEditorWindow.cp
 // 
 //                       Created: 2005-10-02 08:41:52
-//             Last modification: 2005-10-02 08:42:01
+//             Last modification: 2006-02-18 11:23:46
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2005
+// (c) Copyright : Bernard Desgraupes, 2005-2006
 // All rights reserved.
 // ===========================================================================
 
 
 #include "CPluginEditorWindow.h"
+#include "RezillaPluginInterface.h"
 #include "CPluginEditorDoc.h"
 #include "CRezObj.h"
 #include "CWindowMenu.h"
@@ -19,11 +20,11 @@
 
 #include <LIconPane.h>
 #include <LStaticText.h>
+#include <LPushButton.h>
+#include <LWindowHeader.h>
+#include <LPlacard.h>
 
-// Statics
-// CPluginMenu *		CPluginEditorWindow::sPluginMenu = nil;
-LMenu *		CPluginEditorWindow::sPluginMenu = nil;
-
+extern CWindowMenu * gWindowMenu;
 
 // ---------------------------------------------------------------------------
 //  CPluginEditorWindow				[public]
@@ -85,72 +86,74 @@ CPluginEditorWindow::~CPluginEditorWindow()
 // ---------------------------------------------------------------------------
 
 void
-CPluginEditorWindow::FinalizeEditor(CPluginEditorDoc* inEditorDoc)
+CPluginEditorWindow::FinalizeEditor(CPluginEditorDoc* inEditorDoc, void * ioParam)
 {
-	CEditorWindow::FinalizeEditor(inEditorDoc);
-	InstallPluginNameField();
+	RezPluginRequirements	plugReq = *(RezPluginRequirements*) ioParam;
+	SInt32	theAttrs = plugReq.winattrs;
+	
+	SetOwnerDoc(inEditorDoc);
+	SetSuperModel(inEditorDoc);
+	
+	if ( (theAttrs & kPlugWinStandardAttributes) == 0 || theAttrs == kPlugWinHasNoAttributes ) {
+		LPlacard * theFooterPlacard = dynamic_cast<LPlacard *>(this->FindPaneByID( item_FooterPlacard ));
+		ThrowIfNil_( theFooterPlacard );
+		theFooterPlacard->PutInside(nil);
+	} else {
+		if ( (theAttrs & kPlugWinHasSaveButton) == 0) {
+			LPushButton * theOkButton = dynamic_cast<LPushButton *>(this->FindPaneByID( item_EditorValidate ));
+			ThrowIfNil_( theOkButton );
+			theOkButton->PutInside(nil);
+		}
+		if ( (theAttrs & kPlugWinHasCancelButton) == 0) {
+			LPushButton * theCancelButton = dynamic_cast<LPushButton *>(this->FindPaneByID( item_EditorCancel ));
+			ThrowIfNil_( theCancelButton );
+			theCancelButton->PutInside(nil);
+		}
+		if ( (theAttrs & kPlugWinHasRevertButton) == 0) {
+			LPushButton * theRevertButton = dynamic_cast<LPushButton *>(this->FindPaneByID( item_EditorRevert ));
+			ThrowIfNil_( theRevertButton );
+			theRevertButton->PutInside(nil);
+		}
+		if ( (theAttrs & kPlugWinHasLockIcon) == 0) {
+			LIconPane * theLockIcon = dynamic_cast<LIconPane *>(this->FindPaneByID( item_ReadOnlyIcon ));
+			ThrowIfNil_( theLockIcon );
+			theLockIcon->PutInside(nil);
+		} else {
+			InstallReadOnlyIcon();
+		}
+	}
+	
+	if ( (theAttrs & kPlugWinHasNameField) == 0 || theAttrs == kPlugWinHasNoAttributes) {
+		LWindowHeader * theWindowHeader = dynamic_cast<LWindowHeader *>(this->FindPaneByID( item_WindowHeader ));
+		ThrowIfNil_( theWindowHeader );
+		theWindowHeader->PutInside(nil);
+	} else {
+		InstallResourceNameField();
+		InstallPluginNameField();
+	}
+	
+	// Add the window to the window menu.
+	gWindowMenu->InsertWindow(this);
+	
+	if (plugReq.menucount > 0) {
+		int i;
+		for (i = 0; i < plugReq.menucount; i++) {
+			CreatePluginMenu( plugReq.menuIDs[i] );	
+		}
+	} 
+			
 }
 	
 
-// // ---------------------------------------------------------------------------
-// //  FinishCreateSelf											[protected]
-// // ---------------------------------------------------------------------------
-// 
-// void
-// CPluginEditorWindow::FinishCreateSelf()
-// {    
-// 	mAete = nil;
-// 	mIgnoreSliderMessage = false;
-// 	mCurrentPanel = mpv_AeteEvent;
-// 	
-// 	mSuitesPopup = dynamic_cast<LPopupButton *>(this->FindPaneByID( item_AeteSuitePopup ));
-// 	ThrowIfNil_( mSuitesPopup );
-// 	
-// 	LPageController * theController = dynamic_cast<LPageController *>(this->FindPaneByID( item_AetePanelController ));
-// 	ThrowIfNil_( theController );
-// 			
-// 	LMultiPanelView * theMultiPanel = dynamic_cast<LMultiPanelView *>(this->FindPaneByID( item_AeteMultiPanelView ));
-// 	ThrowIfNil_( theMultiPanel );
-// 	
-// 	// Create the panels before we call them
-// 	theMultiPanel->CreateAllPanels();
-// 	
-// 	mEventPane = theMultiPanel->GetPanel(mpv_AeteEvent);
-// 	ThrowIfNil_(mEventPane);
-// 	
-// 	mClassPane = theMultiPanel->GetPanel(mpv_AeteClass);
-// 	ThrowIfNil_(mClassPane);
-// 	
-// 	mCompOpPane = theMultiPanel->GetPanel(mpv_AeteCompOp);
-// 	ThrowIfNil_(mCompOpPane);
-// 	
-// 	mEnumerationPane = theMultiPanel->GetPanel(mpv_AeteEnum);
-// 	ThrowIfNil_(mEnumerationPane);
-// 		
-// 	// Edit menu strings. Load these once only.
-// 	if ( sAddEventStr[0] == 0 )
-// 	{
-// 		::GetIndString(sAddEventStr, STRx_AeteAdd, kind_AeteEvent);
-// 		::GetIndString(sAddClassStr, STRx_AeteAdd, kind_AeteClass);
-// 		::GetIndString(sAddCompOpStr, STRx_AeteAdd, kind_AeteCompOp);
-// 		::GetIndString(sAddEnumerationStr, STRx_AeteAdd, kind_AeteEnum);
-// 		::GetIndString(sRemoveEventStr, STRx_AeteRemove, kind_AeteEvent);
-// 		::GetIndString(sRemoveClassStr, STRx_AeteRemove, kind_AeteClass);
-// 		::GetIndString(sRemoveCompOpStr, STRx_AeteRemove, kind_AeteCompOp);
-// 		::GetIndString(sRemoveEnumerationStr, STRx_AeteRemove, kind_AeteEnum);
-// 	}
-// 
-// 	// Link to the broadcasters. Note that it is very important that the 
-// 	// MultiPanelView be declared _before_ the window so that we switch 
-// 	// panels before our ListenToMessage is called.
-// 	theController->AddListener(theMultiPanel);
-// 	theController->AddListener(this);
-// 	UReanimator::LinkListenerToBroadcasters( this, this, PPob_AeteEditorWindow );
-// 	UReanimator::LinkListenerToBroadcasters( this, mEventPane, PPob_AeteEventPane );
-// 	UReanimator::LinkListenerToBroadcasters( this, mClassPane, PPob_AeteClassPane );
-// 	UReanimator::LinkListenerToBroadcasters( this, mCompOpPane, PPob_AeteCompOpPane );
-// 	UReanimator::LinkListenerToBroadcasters( this, mEnumerationPane, PPob_AeteEnumPane );
-// }
+// ---------------------------------------------------------------------------
+//  FinishCreateSelf											[protected]
+// ---------------------------------------------------------------------------
+
+void
+CPluginEditorWindow::FinishCreateSelf()
+{    
+	
+}
 
 
 // ---------------------------------------------------------------------------
@@ -265,15 +268,15 @@ CPluginEditorWindow::PutOnDuty(LCommander *inNewTarget)
 	LWindow::PutOnDuty(inNewTarget);
 
 	// Put up our menus when on duty
-	if ( !sPluginMenu )
-	{
-		sPluginMenu = new LMenu( MENU_PluginEditor );
-		ThrowIfNil_( sPluginMenu );
-	}
-	
-	// Update the menu bar
-	LMenuBar *	theBar = LMenuBar::GetCurrentMenuBar();
-	theBar->InstallMenu( sPluginMenu, MENU_OpenedWindows );	
+// // 	if ( !sPluginMenu )
+// // 	{
+// // 		sPluginMenu = new LMenu( MENU_PluginEditor );
+// // 		ThrowIfNil_( sPluginMenu );
+// // 	}
+// // 	
+// // 	// Update the menu bar
+// // 	LMenuBar *	theBar = LMenuBar::GetCurrentMenuBar();
+// // 	theBar->InstallMenu( sPluginMenu, MENU_OpenedWindows );	
 }
 
 
@@ -296,9 +299,10 @@ CPluginEditorWindow::TakeOffDuty()
 void
 CPluginEditorWindow::RemovePluginMenu()
 {
-	LMenuBar *	theBar = LMenuBar::GetCurrentMenuBar();
-	if ( sPluginMenu )
-		theBar->RemoveMenu( sPluginMenu );
+// // 	LMenuBar *	theBar = LMenuBar::GetCurrentMenuBar();
+// // 	if ( sPluginMenu ) {
+// // 		theBar->RemoveMenu( sPluginMenu );
+// // 	}
 }
 
 
@@ -331,6 +335,16 @@ CPluginEditorWindow::InstallPluginNameField()
 // 			theStaticText->SetDescriptor(*strPtr);	
 // 		} 
 // 	} 
+}
+
+
+// ---------------------------------------------------------------------------
+//   CreatePluginMenu											[public]
+// ---------------------------------------------------------------------------
+
+void
+CPluginEditorWindow::CreatePluginMenu(MenuID inMenuID)
+{
 }
 
 
