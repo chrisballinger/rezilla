@@ -66,19 +66,17 @@ typedef struct SRezillaPluginInterface {
 	Boolean	(*AcceptResource)( void *myInstance, ResType inType, short inID, Handle inDataH, RezPluginRequirements * ioReq);
 	void	(*EditResource)( void *myInstance, RezPluginInfo inInfo);
 	Handle	(*ReturnResource)( void *myInstance, Boolean * releaseIt, OSStatus * status);
-	void	(*HandleMenu)(MenuRef menu);
+	void	(*HandleMenu)(MenuRef menu, SInt16 inMenuItem);
 	void	(*HandleClick)(const EventRecord * inMacEvent);
 	void	(*HandleKeyDown)(const EventRecord * inKeyEvent);
 } SRezillaPluginInterface;
 
 
 enum PluginErrors {
-	err_PluginGeneric				= 4000,	
-	err_PluginLoadFailed,
-	err_PluginGetInfoFailed,
-	err_PluginUnsupportedType,
-	err_PluginUnsupportedID,
-	err_PluginInvalidData
+	plugErr_Generic				= 5000,	
+	plugErr_UnsupportedType,
+	plugErr_UnsupportedID,
+	plugErr_InvalidData
 };
 
 
@@ -111,6 +109,11 @@ enum PluginErrors {
 // //   EventModifiers      modifiers;
 // // };
 // // 
-
+// // struct Rect {
+// //   short               top;
+// //   short               left;
+// //   short               bottom;
+// //   short               right;
+// // };
 #endif  // REZILLAPLUGININTERFACE_H
 
