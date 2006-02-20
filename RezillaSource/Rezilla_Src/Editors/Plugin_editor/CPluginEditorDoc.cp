@@ -2,11 +2,11 @@
 // CPluginEditorDoc.cp
 // 
 //                       Created: 2005-10-02 08:41:52
-//             Last modification: 2006-02-16 10:07:00
+//             Last modification: 2006-02-19 14:24:16
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2005, 2006
+// (c) Copyright : Bernard Desgraupes, 2005-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -26,6 +26,7 @@ PP_Begin_Namespace_PowerPlant
 #include "CRezFile.h"
 #include "CRezMapDoc.h"
 #include "CRezMapTable.h"
+#include "CRezMap.h"
 #include "CRezObj.h"
 #include "CRezObjItem.h"
 #include "RezillaConstants.h"
@@ -66,16 +67,11 @@ CPluginEditorDoc::~CPluginEditorDoc()
 // ---------------------------------------------------------------------------
 //   Initialize													  [public]
 // ---------------------------------------------------------------------------
-// 	try {
-// // 				error = mPluginWindow->ParseDataWithTemplate(rezData);						
-// 	} catch (...) {
-// 		error = err_ExceptionParsingTemplate;
-// 	}
 
 void
 CPluginEditorDoc::Initialize()
 {
-	OSErr	error;
+	OSErr	error = noErr;
 	Handle	rezData;
 	
 	ThrowIfNil_(mPlugin);
@@ -113,11 +109,16 @@ CPluginEditorDoc::Initialize()
 		mPluginWindow = dynamic_cast<CPluginEditorWindow *>(LWindow::CreateWindow( PPob_PluginEditorWindow, this ));
 		Assert_( mPluginWindow != nil );
 		
+		mPluginWindow->MoveWindowTo(plugReq.winbounds.top, plugReq.winbounds.left);
+		mPluginWindow->ResizeWindowTo(plugReq.winbounds.right - plugReq.winbounds.left,
+									 plugReq.winbounds.bottom - plugReq.winbounds.top);
+		
 		SetMainWindow( dynamic_cast<CEditorWindow *>(mPluginWindow) );
 		NameNewEditorDoc();
-		mPluginWindow->FinalizeEditor(this, &plugReq);
+		mPluginWindow->FinalizeEditor(this, &(plugReq.winattrs));
 		
-// 		mPlugin->OpenResources();
+		mPlugin->CreateMenus(plugReq.menucount, plugReq.menuIDs);
+
 // 		
 // 		MenuRef * theMenuRefs = (MenuRef *) malloc ( sizeof(MenuRef) * plugReq->menucount);
 // 		if (theMenuRefs != NULL) {

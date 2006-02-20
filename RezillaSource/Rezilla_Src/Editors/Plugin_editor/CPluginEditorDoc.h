@@ -2,11 +2,11 @@
 // CPluginEditorDoc.h
 // 
 //                       Created: 2005-10-02 08:41:52
-//             Last modification: 2006-02-16 10:06:34
+//             Last modification: 2006-02-19 14:33:15
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2005, 2006
+// (c) Copyright : Bernard Desgraupes, 2005-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -51,8 +51,8 @@ public:
 	virtual StringPtr	GetDescriptor( Str255 outDescriptor ) const;
 
 	// Accessors
-	CRezillaPlugin*				GetPlugin() { return mPlugin;}
-	CPluginEditorWindow*		GetPluginEditWindow() { return mPluginWindow;}
+	CRezillaPlugin*			GetPlugin() { return mPlugin;}
+	CPluginEditorWindow*	GetPluginEditWindow() { return mPluginWindow;}
 
 protected:
 	CRezillaPlugin *		mPlugin;
@@ -64,7 +64,8 @@ protected:
 	virtual Handle	GetModifiedResource(Boolean &releaseIt);
 
 private:
-		void				Initialize();
+		void			Initialize();
+		
 };
 
 
