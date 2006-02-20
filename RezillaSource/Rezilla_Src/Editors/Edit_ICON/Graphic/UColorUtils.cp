@@ -235,7 +235,7 @@ CTabHandle
 UColorUtils::GetColorTable( SInt32 inResourceID )
 {
 	StRezRefSaver	aSaver;
-	::UseResFile( CRezillaApp::GetOwnRefNum() );
+	::UseResFile( CRezillaApp::GetSelfRefNum() );
 	
 	CTabHandle	theTable = nil;
 	if ( (inResourceID == 32) || (inResourceID == 16) )
