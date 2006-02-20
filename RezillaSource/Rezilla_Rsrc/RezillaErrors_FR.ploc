@@ -7,8 +7,6 @@
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
 // (c) Copyright: Bernard Desgraupes, 2004-2005
 // All rights reserved.
-// $Date$
-// $Revision$
 // ===========================================================================
 
 localize "French" as "Errors.strings" 
@@ -91,5 +89,11 @@ localize "French" as "Errors.strings"
 	key "3015" value string "Impossible de modifier un fichier verrouillé"
 	key "3016" value string "Le corps de la police doit être entre 4 et 512 pts"
 	key "3017" value string "Il n’y a pas de ressource ‘PICT’ dans le presse-papiers"
+	key "4001" value string "Le chargement du plugin a échoué"
+	key "4002" value string "Impossible d'obtenir l'information sur ce plugin"
+	key "5000" value string "Erreur du plugin"
+	key "5001" value string "Erreur plugin: ce type de ressource n'est pas supporté"
+	key "5002" value string "Erreur plugin: cet identificateur (ID) de ressource n'est pas supporté"
+	key "5003" value string "Erreur plugin: cette ressource contient des données invalides"
 }
 
