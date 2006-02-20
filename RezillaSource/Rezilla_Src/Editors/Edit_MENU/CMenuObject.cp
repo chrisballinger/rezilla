@@ -228,6 +228,28 @@ CMenuObject::SetValues(ResIDT inID, ResIDT inMDEF,
 
 
 // ---------------------------------------------------------------------------
+//  GetTitle												[public]
+// ---------------------------------------------------------------------------
+
+void
+CMenuObject::GetTitle(Str255 & outTitle)
+{
+	LString::CopyPStr(mTitle, outTitle);
+}
+ 
+
+// ---------------------------------------------------------------------------
+//  SetTitle												[public]
+// ---------------------------------------------------------------------------
+
+void
+CMenuObject::SetTitle(Str255 inTitle)
+{
+	LString::CopyPStr(inTitle, mTitle);
+}
+
+
+// ---------------------------------------------------------------------------
 //  NewItem													[public]
 // ---------------------------------------------------------------------------
 // Returns the new count of Items after addition. This is also the

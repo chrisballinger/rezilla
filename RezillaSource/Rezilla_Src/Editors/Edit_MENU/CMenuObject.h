@@ -57,6 +57,9 @@ public:
 						  ResIDT inID, ResIDT inMDEF, 
 						  UInt32 inEnableFlag, Str255 inTitle);
 
+		void		GetTitle(Str255 & outTitle);
+		void		SetTitle(Str255 inTitle);
+		
 		ArrayIndexT		GetItemIndex() { return mItemIndex;}
 		void			SetItemIndex(ArrayIndexT inItemIndex) {mItemIndex = inItemIndex;}
 
