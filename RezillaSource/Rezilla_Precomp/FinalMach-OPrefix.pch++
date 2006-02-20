@@ -1,0 +1,27 @@
+// ===========================================================================
+// FinalMach-OPrefix.pch++
+//                       Created: 2003-04-29 07:11:00
+//             Last modification: 2004-10-13 10:09:59
+// Author: Bernard Desgraupes
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
+// (c) Copyright : Bernard Desgraupes, 2003-2004
+// All rights reserved.
+// ===========================================================================
+///	Precompiled header source for a Mach-O Target
+
+#pragma precompile_target "FinalMach-OHeaders++"
+
+
+#define NDEBUG					1
+
+
+// ---------------------------------------------------------------------------
+//	Common Settings
+
+#include "CommonMach-OPrefix.h"
+
+// ---------------------------------------------------------------------------
+//	PowerPlant and Toolbox Headers
+
+#include <PP_ClassHeaders.cp>
