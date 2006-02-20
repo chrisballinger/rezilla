@@ -1,11 +1,11 @@
 // ===========================================================================
 // CRezillaApp.h					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2005-06-12 18:45:45
+//             Last modification: 2006-02-19 14:22:34
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes 2002-2005
+// (c) Copyright: Bernard Desgraupes 2002-2005, 2006
 // All rights reserved.
 // ===========================================================================
 
@@ -36,6 +36,7 @@ class CRezillaPrefs;
 class CEditorsController;
 class CTemplatesController;
 class CPluginsController;
+class CRezMap;
 
 
 class CRezillaApp : public LDocApplication, public LListener {
@@ -136,7 +137,7 @@ public:
 	static LStr255		VersionFromResource();
 	static void			VersionFromPlist(Str255 & outVersion);
 
-	static SInt16		GetOwnRefNum() { return sOwnRefNum;}
+	static SInt16		GetSelfRefNum() { return sSelfRefNum;}
 
 	static CRezMapDoc*	FetchRezMapDoc(FSSpec *	inFileSpecPtr);
 	
@@ -148,11 +149,12 @@ public:
 	static CPluginsController *		sPluginsController;
 	static Rzil_basics				sBasics;
 	static Str255					sVersionNumber;
-	static short					sOwnRefNum;
 	static CInspectorWindow *		sInspectorWindow;
 	static CRecentItemsMenu *		sRecentItemsAttachment;
 	static Boolean					sReadOnlyNavFlag;
 	static Boolean					sCalledFromAE;
+	static short					sSelfRefNum;
+	static CRezMap *				sSelfRezMap;
 
 protected:
 	SInt16				mCreatingFork;

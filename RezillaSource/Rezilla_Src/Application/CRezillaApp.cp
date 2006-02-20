@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2006-02-19 09:45:37
+//             Last modification: 2006-02-20 21:37:46
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -53,6 +53,7 @@
 #include "CPICT_EditorWindow.h"
 #include "CPatternPane.h"
 #include "CPatternTargetView.h"
+#include "CPluginEditorView.h"
 #include "CPluginEditorWindow.h"
 #include "CPopupEditField.h"
 #include "CRangeEditText.h"
@@ -146,10 +147,11 @@ CPluginsController *	CRezillaApp::sPluginsController = nil;
 Rzil_basics				CRezillaApp::sBasics;
 CInspectorWindow *		CRezillaApp::sInspectorWindow = nil;
 Str255					CRezillaApp::sVersionNumber;
-SInt16					CRezillaApp::sOwnRefNum;
 CRecentItemsMenu *		CRezillaApp::sRecentItemsAttachment;
 Boolean					CRezillaApp::sReadOnlyNavFlag = false;
 Boolean					CRezillaApp::sCalledFromAE = false;
+CRezMap *				CRezillaApp::sSelfRezMap = nil;
+SInt16					CRezillaApp::sSelfRefNum;
 
 
 // ===========================================================================
@@ -228,8 +230,9 @@ CRezillaApp::Initialize()
 	MenuItemIndex		customItemIndex;
 
 	// Cache our own refnum
-	UResources::GetCurrentResFile(sOwnRefNum);
-
+	UResources::GetCurrentResFile(sSelfRefNum);
+	sSelfRezMap = new CRezMap(sSelfRefNum, NULL);
+	
 	// This must be done early but is used only by the 'utxt' editor
 	InitMLTE();
 	
@@ -389,6 +392,7 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(CPICT_EditorWindow);
 	RegisterClass_(CPatternPane);
 	RegisterClass_(CPatternTargetView);
+	RegisterClass_(CPluginEditorView);
 	RegisterClass_(CPluginEditorWindow);
 	RegisterClass_(CPopupEditField);
 	RegisterClass_(CRangeEditText);
