@@ -2,7 +2,7 @@
 // CPluginEditorWindow.cp
 // 
 //                       Created: 2005-10-02 08:41:52
-//             Last modification: 2006-02-18 11:23:46
+//             Last modification: 2006-02-20 20:31:25
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -10,10 +10,10 @@
 // All rights reserved.
 // ===========================================================================
 
-
 #include "CPluginEditorWindow.h"
 #include "RezillaPluginInterface.h"
 #include "CPluginEditorDoc.h"
+#include "CRezillaPlugin.h"
 #include "CRezObj.h"
 #include "CWindowMenu.h"
 #include "RezillaConstants.h"
@@ -23,6 +23,7 @@
 #include <LPushButton.h>
 #include <LWindowHeader.h>
 #include <LPlacard.h>
+#include <LScrollerView.h>
 
 extern CWindowMenu * gWindowMenu;
 
@@ -77,42 +78,50 @@ CPluginEditorWindow::CPluginEditorWindow(
 
 CPluginEditorWindow::~CPluginEditorWindow()
 {
-	RemovePluginMenu();
+	RemovePluginMenus();
 }
 
 
 // ---------------------------------------------------------------------------
 //  FinalizeEditor											[public]
 // ---------------------------------------------------------------------------
+// // // RezPluginRequirements	plugReq;
+// // // 
+// // // BlockMoveData(ioParam, &plugReq, sizeof(RezPluginRequirements));
+// // // 
+// // // // 	= *(RezPluginRequirements*) ioParam;
 
 void
 CPluginEditorWindow::FinalizeEditor(CPluginEditorDoc* inEditorDoc, void * ioParam)
 {
-	RezPluginRequirements	plugReq = *(RezPluginRequirements*) ioParam;
-	SInt32	theAttrs = plugReq.winattrs;
+	SInt32	theAttrs = *((SInt32*) ioParam);
+	Boolean	noHeader = false, noFooter = false;
+	SInt16	delta = 0;
 	
 	SetOwnerDoc(inEditorDoc);
 	SetSuperModel(inEditorDoc);
 	
 	if ( (theAttrs & kPlugWinStandardAttributes) == 0 || theAttrs == kPlugWinHasNoAttributes ) {
-		LPlacard * theFooterPlacard = dynamic_cast<LPlacard *>(this->FindPaneByID( item_FooterPlacard ));
+		LPlacard * theFooterPlacard = dynamic_cast<LPlacard *>(this->FindPaneByID( item_EditorFooter ));
 		ThrowIfNil_( theFooterPlacard );
 		theFooterPlacard->PutInside(nil);
+		noFooter = true;
 	} else {
+		LPushButton *	thePushButton;
 		if ( (theAttrs & kPlugWinHasSaveButton) == 0) {
-			LPushButton * theOkButton = dynamic_cast<LPushButton *>(this->FindPaneByID( item_EditorValidate ));
-			ThrowIfNil_( theOkButton );
-			theOkButton->PutInside(nil);
+			thePushButton = dynamic_cast<LPushButton *>(this->FindPaneByID( item_EditorValidate ));
+			ThrowIfNil_( thePushButton );
+			thePushButton->PutInside(nil);
 		}
 		if ( (theAttrs & kPlugWinHasCancelButton) == 0) {
-			LPushButton * theCancelButton = dynamic_cast<LPushButton *>(this->FindPaneByID( item_EditorCancel ));
-			ThrowIfNil_( theCancelButton );
-			theCancelButton->PutInside(nil);
+			thePushButton = dynamic_cast<LPushButton *>(this->FindPaneByID( item_EditorCancel ));
+			ThrowIfNil_( thePushButton );
+			thePushButton->PutInside(nil);
 		}
 		if ( (theAttrs & kPlugWinHasRevertButton) == 0) {
-			LPushButton * theRevertButton = dynamic_cast<LPushButton *>(this->FindPaneByID( item_EditorRevert ));
-			ThrowIfNil_( theRevertButton );
-			theRevertButton->PutInside(nil);
+			thePushButton = dynamic_cast<LPushButton *>(this->FindPaneByID( item_EditorRevert ));
+			ThrowIfNil_( thePushButton );
+			thePushButton->PutInside(nil);
 		}
 		if ( (theAttrs & kPlugWinHasLockIcon) == 0) {
 			LIconPane * theLockIcon = dynamic_cast<LIconPane *>(this->FindPaneByID( item_ReadOnlyIcon ));
@@ -124,23 +133,29 @@ CPluginEditorWindow::FinalizeEditor(CPluginEditorDoc* inEditorDoc, void * ioPara
 	}
 	
 	if ( (theAttrs & kPlugWinHasNameField) == 0 || theAttrs == kPlugWinHasNoAttributes) {
-		LWindowHeader * theWindowHeader = dynamic_cast<LWindowHeader *>(this->FindPaneByID( item_WindowHeader ));
+		LWindowHeader * theWindowHeader = dynamic_cast<LWindowHeader *>(this->FindPaneByID( item_EditorHeader ));
 		ThrowIfNil_( theWindowHeader );
 		theWindowHeader->PutInside(nil);
+		noHeader = true;
 	} else {
 		InstallResourceNameField();
-		InstallPluginNameField();
 	}
 	
+	// Redimension scrollbar view if header or footer were removed
+	if (noHeader || noFooter) {
+		LScrollerView * theScrollerView = dynamic_cast<LScrollerView *>(this->FindPaneByID( item_EditorScroller ));
+		ThrowIfNil_( theScrollerView );
+		if (noHeader) {
+			theScrollerView->MoveBy(0, -kPluginHeaderHeight, false);
+			
+		} 
+		delta += noHeader? kPluginHeaderHeight : 0;
+		delta += noFooter? kPluginFooterHeight : 0;
+		theScrollerView->ResizeFrameBy(0, delta, false);
+	} 
+		
 	// Add the window to the window menu.
 	gWindowMenu->InsertWindow(this);
-	
-	if (plugReq.menucount > 0) {
-		int i;
-		for (i = 0; i < plugReq.menucount; i++) {
-			CreatePluginMenu( plugReq.menuIDs[i] );	
-		}
-	} 
 			
 }
 	
@@ -191,6 +206,8 @@ CPluginEditorWindow::FindCommandStatus(
 	UInt16		&outMark,
 	Str255		outName)
 {
+	outEnabled = true;
+
 	switch (inCommand) {
 		
 		case cmd_EditRez:
@@ -225,6 +242,19 @@ CPluginEditorWindow::ObeyCommand(
 	void*		ioParam)
 {
 	Boolean		cmdHandled = true;
+	ResIDT		theMenuID;
+	SInt16		theMenuItem;
+
+	if ( LCommander::IsSyntheticCommand( inCommand, theMenuID, theMenuItem ) ) {
+		if ( IsPluginMenu(theMenuID) ) {
+			MenuHandle	theMenuH = ::GetMenuHandle( theMenuID );
+			if ( theMenuH ) {
+				SRezillaPluginInterface** interface = dynamic_cast<CPluginEditorDoc *>(mOwnerDoc)->GetPlugin()->GetInterface();
+				(*interface)->HandleMenu(theMenuH, theMenuItem);
+			}
+		}
+		return true;
+	}
 
 	switch (inCommand) {
 
@@ -249,12 +279,29 @@ CPluginEditorWindow::ObeyCommand(
 		}
 
 		default:
-// 		cmdHandled = LCommander::ObeyCommand(inCommand, ioParam);
 		cmdHandled = mOwnerDoc->ObeyCommand(inCommand, ioParam);
 		break;
 	}
 
 	return cmdHandled;
+}
+
+
+// ---------------------------------------------------------------------------
+//   HandleKeyPress							[public, virtual]
+// ---------------------------------------------------------------------------
+
+Boolean
+CPluginEditorWindow::HandleKeyPress(
+	const EventRecord	&inKeyEvent)
+{
+	Boolean		keyHandled	 = true;
+	
+// 	LCommander::HandleKeyPress(inKeyEvent);
+// 	mOwnerDoc->HandleKeyPress(inKeyEvent);
+	
+// 	mOwnerWindow->SetLengthField();
+	return keyHandled;
 }
 
 
@@ -268,15 +315,15 @@ CPluginEditorWindow::PutOnDuty(LCommander *inNewTarget)
 	LWindow::PutOnDuty(inNewTarget);
 
 	// Put up our menus when on duty
-// // 	if ( !sPluginMenu )
-// // 	{
-// // 		sPluginMenu = new LMenu( MENU_PluginEditor );
-// // 		ThrowIfNil_( sPluginMenu );
-// // 	}
-// // 	
-// // 	// Update the menu bar
-// // 	LMenuBar *	theBar = LMenuBar::GetCurrentMenuBar();
-// // 	theBar->InstallMenu( sPluginMenu, MENU_OpenedWindows );	
+	LMenuBar *	theBar = LMenuBar::GetCurrentMenuBar();
+	TArray<LMenu*>* menusListPtr = dynamic_cast<CPluginEditorDoc *>(mOwnerDoc)->GetPlugin()->GetMenusList();
+
+	TArrayIterator<LMenu*> iterator(*menusListPtr , LArrayIterator::from_End);
+	LMenu	*theMenu;
+	while (iterator.Previous(theMenu)) {
+		// Update the menu bar
+		theBar->InstallMenu( theMenu, MENU_OpenedWindows );	
+	}
 }
 
 
@@ -288,21 +335,49 @@ void
 CPluginEditorWindow::TakeOffDuty()
 {		
 	LWindow::TakeOffDuty();
-	RemovePluginMenu();
+	RemovePluginMenus();
 }
 
 
 // ---------------------------------------------------------------------------
-// 	RemovePluginMenu
+// 	RemovePluginMenus
 // ---------------------------------------------------------------------------
 
 void
-CPluginEditorWindow::RemovePluginMenu()
+CPluginEditorWindow::RemovePluginMenus()
 {
-// // 	LMenuBar *	theBar = LMenuBar::GetCurrentMenuBar();
-// // 	if ( sPluginMenu ) {
-// // 		theBar->RemoveMenu( sPluginMenu );
-// // 	}
+	LMenuBar *	theBar = LMenuBar::GetCurrentMenuBar();
+	TArray<LMenu*>* menusListPtr = dynamic_cast<CPluginEditorDoc *>(mOwnerDoc)->GetPlugin()->GetMenusList();
+
+	TArrayIterator<LMenu*> iterator(*menusListPtr , LArrayIterator::from_End);
+	LMenu	*theMenu;
+	while (iterator.Previous(theMenu)) {
+		// Update the menu bar
+		theBar->RemoveMenu(theMenu);	
+	}
+}
+
+
+// ---------------------------------------------------------------------------
+// 	IsPluginMenu
+// ---------------------------------------------------------------------------
+
+Boolean
+CPluginEditorWindow::IsPluginMenu(ResIDT inMenuID)
+{
+	Boolean isPluginMenu = false;
+	
+	TArray<LMenu*>* menusListPtr = dynamic_cast<CPluginEditorDoc *>(mOwnerDoc)->GetPlugin()->GetMenusList();
+
+	TArrayIterator<LMenu*> iterator(*menusListPtr , LArrayIterator::from_End);
+	LMenu	*theMenu;
+	while (iterator.Previous(theMenu)) {
+		if (theMenu->GetMenuID() == inMenuID) {
+			isPluginMenu = true;
+			break;
+		} 	
+	}
+	return isPluginMenu;
 }
 
 
@@ -316,35 +391,6 @@ void
 CPluginEditorWindow::RevertContents()
 {
 	SetDirty(false);
-}
-
-
-// ---------------------------------------------------------------------------
-//   InstallPluginNameField											[public]
-// ---------------------------------------------------------------------------
-
-void
-CPluginEditorWindow::InstallPluginNameField() 
-{
-// 	// Install the name of the plugin used to edit this resource
-// 	LStaticText * theStaticText = dynamic_cast<LStaticText *>(this->FindPaneByID( item_PluginNameField ));
-// 	if (theStaticText != nil) {
-// 		CPluginEditorDoc * theDoc = dynamic_cast<CPluginEditorDoc *>(GetSuperCommander());
-// 		if (theDoc != nil) {
-// 			Str255 * strPtr = theDoc->GetRezObj()->GetName();
-// 			theStaticText->SetDescriptor(*strPtr);	
-// 		} 
-// 	} 
-}
-
-
-// ---------------------------------------------------------------------------
-//   CreatePluginMenu											[public]
-// ---------------------------------------------------------------------------
-
-void
-CPluginEditorWindow::CreatePluginMenu(MenuID inMenuID)
-{
 }
 
 

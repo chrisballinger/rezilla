@@ -2,7 +2,7 @@
 // CPluginEditorWindow.h				
 // 
 //                       Created: 2005-10-02 08:41:52
-//             Last modification: 2006-02-17 22:47:04
+//             Last modification: 2006-02-20 21:54:39
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -42,21 +42,19 @@ public:
 
 	virtual void	ListenToMessage( MessageT inMessage,void *ioParam);
 
+	virtual Boolean	HandleKeyPress( const EventRecord& 	inKeyEvent );
+
 	virtual void	FinalizeEditor(CPluginEditorDoc* inEditorDoc, void * ioParam = NULL);
 
 	virtual void	RevertContents();
 	
-	void			InstallPluginNameField();
-
 protected:
-	TArray<LMenu*>		mPluginMenu;
-
 
 	virtual void		FinishCreateSelf();
 	virtual void		PutOnDuty(LCommander *inNewTarget);
 	virtual void		TakeOffDuty();
-	void				RemovePluginMenu();
-	void				CreatePluginMenu(MenuID inMenuID);
+	void				RemovePluginMenus();
+	Boolean				IsPluginMenu(ResIDT inMenuID);
 	
 };
 
