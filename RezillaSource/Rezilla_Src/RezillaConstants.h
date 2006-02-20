@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2006-02-17 18:00:23
+//             Last modification : 2006-02-20 12:33:43
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@users.sourceforge.net>
 // www : <http://rezilla.sourceforge.net/>
@@ -327,7 +327,7 @@ const ResIDT	PPob_AeteClassPane			= 11200;
 const ResIDT	PPob_AeteCompOpPane			= 11300;
 const ResIDT	PPob_AeteEnumPane			= 11400;
 const ResIDT	PPob_StrxEditorWindow		= 11500;
-const ResIDT	PPob_PluginEditorWindow		= 20000;
+const ResIDT	PPob_PluginEditorWindow		= 12000;
 
 const ResIDT	ics8_Unlocked				= 1500;
 const ResIDT	ics8_Locked					= 1501;
@@ -395,7 +395,7 @@ const ResIDT	MENU_AeteParameterOptions	= 163;
 const ResIDT	MENU_AetePropertyOptions	= 164;
 
 // Plugin editor
-const ResIDT	MENU_PluginEditor			= 10000;
+const ResIDT	MENU_PluginEditor			= 500;
 
 // Icon resources
 const ResIDT	Icon_WindowsMenu			= 3100;
@@ -884,6 +884,8 @@ const PaneIDT   item_MenuEditItemGroupVIew	= 50;
 
 // Common elements for Editor Windows
 // ----------------------------------
+const PaneIDT	item_EditorHeader			= FOUR_CHAR_CODE('Head');
+const PaneIDT	item_EditorFooter			= FOUR_CHAR_CODE('Foot');
 const PaneIDT   item_EditorContents			= FOUR_CHAR_CODE('Cnts');
 const PaneIDT   item_EditorScroller			= FOUR_CHAR_CODE('Scrl');
 const PaneIDT   item_EditorValidate			= FOUR_CHAR_CODE('Vlid');
@@ -891,8 +893,6 @@ const PaneIDT   item_EditorCancel			= FOUR_CHAR_CODE('Cncl');
 const PaneIDT   item_EditorRevert			= FOUR_CHAR_CODE('Rvrt');
 const PaneIDT	item_NameStaticText			= FOUR_CHAR_CODE('Name');
 const PaneIDT	item_ReadOnlyIcon			= FOUR_CHAR_CODE('Lock');
-const PaneIDT	item_WindowHeader			= FOUR_CHAR_CODE('Head');
-const PaneIDT	item_FooterPlacard			= FOUR_CHAR_CODE('Foot');
 const PaneIDT	item_PlusButton				= FOUR_CHAR_CODE('Plus');
 const PaneIDT	item_MinusButton			= FOUR_CHAR_CODE('Mins');
 const PaneIDT   item_TabGroup				= FOUR_CHAR_CODE('TabG');
@@ -1378,11 +1378,14 @@ enum RezillaErrors
 	err_IconFileLocked,
 	err_IconBadFontSize,
 	err_IconNoPictOnClipboard,
+	err_PluginGeneric				= 4000,	
+	err_PluginLoadFailed,
+	err_PluginGetInfoFailed,
  	err_RezillaErrorEnd
 };
 
 // NB: plugin errors are defined in "RezillaPluginInterface.h". They start 
-// at err_PluginGeneric = 4000.
+// at plugErr_Generic = 5000.
 
 
 // ======================================================================
@@ -1464,7 +1467,7 @@ const ResType	ResType_DITL = FOUR_CHAR_CODE('DITL');
 
 
 // ======================================================================
-// Constants used by the Template Editor
+// Constants for the Template Editor
 // ======================================================================
 const SInt16	kTmplLeftMargin			= 15;
 const SInt16	kTmplListIndent			= 15;
@@ -1519,7 +1522,7 @@ const SInt16	kTmplMinListItemHeight	= 16;
 
 
 // ======================================================================
-// Definitions for the Icon editor
+// Constants for the Icon editor
 // ======================================================================
 typedef UInt32		PixelValue;		// raw values within a bitmap/pixmap
 typedef UInt32		Color32;		// RGB color in a long (0:R:G:B)
@@ -1583,5 +1586,13 @@ const SInt32		kMaxTextWidth		= 32768;
 const OSType	ResType_ExtendedMenu			= FOUR_CHAR_CODE('xmnu');
 
 #define  kMenuEditLabelOffset	10
+
+
+// ======================================================================
+// Constants for the Plugin editor
+// ======================================================================
+
+const UInt16	kPluginHeaderHeight	= 24;
+const UInt16	kPluginFooterHeight	= 40;
 
 
