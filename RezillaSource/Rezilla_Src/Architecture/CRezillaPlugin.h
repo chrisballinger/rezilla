@@ -2,7 +2,7 @@
 // CRezillaPlugin.h
 // 
 //                       Created: 2005-09-26 09:48:26
-//             Last modification: 2006-02-18 09:52:19
+//             Last modification: 2006-02-20 10:57:09
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://rezilla.sourceforge.net/>
@@ -39,14 +39,21 @@ public:
 	
 		CRezMap *	OpenResources();
 		
+		void		CreateMenus(UInt8 inMenuCount, MenuID * inMenuIDs);
+
 		virtual SRezillaPluginInterface**	GetInterface() {return mInterface;}
+		
 		virtual short	GetRefnum() { return mRefNum;}
+		
+		TArray<LMenu*> *	GetMenusList() { return &mMenusList;}
 
 protected:
 		CFPlugInRef					mPluginRef;
 		short						mRefNum;
 		SRezillaPluginInterface **	mInterface;
 		TArray<OSType>				mEditTypes;
+		TArray<LMenu*>				mMenusList;
+		Boolean						mMenusBuilt;
 		Boolean						mIsLoaded;		// differed loading
 		UInt32  					mPluginVersion,
 									mPluginType,
