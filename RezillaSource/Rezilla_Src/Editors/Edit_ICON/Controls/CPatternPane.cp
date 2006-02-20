@@ -41,7 +41,7 @@ CPatternPane::CPatternPane( LStream *inStream )
 	if ( theResID != -1 )
 	{
 		if ( HiWord( theRefCon ) == 0 )
-			theFileID = CRezillaApp::GetOwnRefNum();
+			theFileID = CRezillaApp::GetSelfRefNum();
 		else
 			theFileID = kSystemResFile;
 			

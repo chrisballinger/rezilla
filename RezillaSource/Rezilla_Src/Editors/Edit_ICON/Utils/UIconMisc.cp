@@ -33,7 +33,7 @@ UIconMisc::GetDefaultBitmap(CRezObj * inResObj, ResType inType, Boolean loadIt)
 	if ( inResObj ) {
 		Handle	theHandle = NULL;
 		
-		error = UResources::GetResourceInMap( CRezillaApp::GetOwnRefNum(), inType, IconEditor_EmptyDefaults, theHandle, true );
+		error = UResources::GetResourceInMap( CRezillaApp::GetSelfRefNum(), inType, IconEditor_EmptyDefaults, theHandle, true );
 		
 		if (error == noErr && theHandle != NULL) {
 			::DetachResource(theHandle);

@@ -135,7 +135,7 @@ StDialogBoxHandler::DoDialog()
 {
 	EventRecord macEvent;
 
-	StRezRefSaver saver(CRezillaApp::sOwnRefNum);
+	StRezRefSaver saver( CRezillaApp::GetSelfRefNum() );
 
 	if (IsOnDuty()) {
 		UEventMgr::GetMouseAndModifiers(macEvent);
@@ -150,7 +150,6 @@ StDialogBoxHandler::DoDialog()
 
 	// Let Attachments process the event. Continue with normal
 	// event dispatching unless suppressed by an Attachment.
-
 	if (LEventDispatcher::ExecuteAttachments(msg_Event, &macEvent)) {
 		if (gotEvent) {
 			DispatchEvent(macEvent);

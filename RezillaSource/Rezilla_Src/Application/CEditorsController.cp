@@ -89,7 +89,7 @@ CEditorsController::~CEditorsController()
 void
 CEditorsController::BuildAsTypeDictionary()
 {
-	StRezRefSaver saver(CRezillaApp::sOwnRefNum);
+	StRezRefSaver saver( CRezillaApp::GetSelfRefNum() );
 
 	// Get the data
 	Handle rezHandle = nil;

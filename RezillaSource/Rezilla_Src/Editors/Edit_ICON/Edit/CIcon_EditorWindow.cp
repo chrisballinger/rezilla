@@ -165,7 +165,7 @@ CIcon_EditorWindow::Initialize()
 	mCurrentTool = tool_Pencil;
 	mPreviousTool = tool_Pencil;
 	
-	StRezRefSaver	aSaver( CRezillaApp::GetOwnRefNum() );
+	StRezRefSaver	aSaver( CRezillaApp::GetSelfRefNum() );
 
 	TextTraitsRecord **textTraitsH = UTextTraits::LoadTextTraits( Txtr_PaintFont );
 	if ( textTraitsH )
@@ -194,7 +194,7 @@ CIcon_EditorWindow::Initialize()
 	mMaxImageWidth = 64;
 
 	if ( sColorCursorCache == nil ) {
-		sColorCursorCache = new CColorCursorCache( 12, CRezillaApp::GetOwnRefNum() );
+		sColorCursorCache = new CColorCursorCache( 12, CRezillaApp::GetSelfRefNum() );
 		ThrowIfMemFail_( sColorCursorCache );
 	}
 
