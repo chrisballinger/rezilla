@@ -39,7 +39,7 @@ public:
 	
 		CRezMap *	OpenResources();
 		
-		void		CreateMenus(UInt8 inMenuCount, MenuID * inMenuIDs);
+		UInt8		CreateMenus(UInt8 inMenuCount, MenuID * inMenuIDs);
 
 		virtual SRezillaPluginInterface**	GetInterface() {return mInterface;}
 		

@@ -2,7 +2,7 @@
 // CRezillaPlugin.cp
 // 
 //                       Created: 2005-09-26 09:48:26
-//             Last modification: 2006-02-20 11:14:23
+//             Last modification: 2006-02-21 07:15:42
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://rezilla.sourceforge.net/>
@@ -279,9 +279,11 @@ CRezillaPlugin::OpenResources()
 //   CreateMenus										[public]
 // ---------------------------------------------------------------------------
 
-void
+UInt8
 CRezillaPlugin::CreateMenus(UInt8 inMenuCount, MenuID * inMenuIDs) 
 {
+	UInt8		count = 0;
+	
 	if (inMenuCount > 0 && !mMenusBuilt) {		
 		CRezMap *	theRezMap;
 		CRezObj *	theRezObj;
@@ -333,6 +335,7 @@ CRezillaPlugin::CreateMenus(UInt8 inMenuCount, MenuID * inMenuIDs)
 								
 								// Add to the list of menus for this plugin
 								mMenusList.AddItem(theMenu);
+								count++;
 							} 
 							delete theMenuObj;
 						} 
@@ -346,6 +349,8 @@ CRezillaPlugin::CreateMenus(UInt8 inMenuCount, MenuID * inMenuIDs)
 		}
 	} 
 	mMenusBuilt = true;
+	
+	return count;
 }
 
 
