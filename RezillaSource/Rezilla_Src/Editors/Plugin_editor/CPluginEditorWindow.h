@@ -2,7 +2,7 @@
 // CPluginEditorWindow.h				
 // 
 //                       Created: 2005-10-02 08:41:52
-//             Last modification: 2006-02-21 06:33:25
+//             Last modification: 2006-02-21 17:20:51
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -24,8 +24,13 @@ public:
 
 							CPluginEditorWindow();
 							CPluginEditorWindow( const SWindowInfo &inWindowInfo );
-							CPluginEditorWindow( ResIDT inWINDid,
-								UInt32 inAttributes, LCommander *inSuperCommander );
+							CPluginEditorWindow(
+									ResIDT inWINDid,
+									UInt32 inAttributes, 
+									LCommander *inSuperCommander );
+							CPluginEditorWindow(
+									WindowPtr		inMacWindow,
+									LCommander*		inSuperCommander);
 							CPluginEditorWindow( LStream *inStream );
 							~CPluginEditorWindow();
 
@@ -44,16 +49,16 @@ public:
 
 	virtual Boolean	HandleKeyPress( const EventRecord& 	inKeyEvent );
 
+	virtual void	Click( SMouseDownEvent& inMouseDown );
+						
+	virtual void	Refresh();
+
 	virtual void	FinalizeEditor(CPluginEditorDoc* inEditorDoc, void * ioParam = NULL);
 
 	virtual void	RevertContents();
 	
-	CPluginEditorView *		GetContentsView() const { return mContentsView;}
-
 protected:
-	CPluginEditorView *		mContentsView;
 
-	virtual void		FinishCreateSelf();
 	virtual void		PutOnDuty(LCommander *inNewTarget);
 	virtual void		TakeOffDuty();
 	void				RemovePluginMenus();

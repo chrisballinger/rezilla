@@ -2,7 +2,7 @@
 // CPluginEditorWindow.cp
 // 
 //                       Created: 2005-10-02 08:41:52
-//             Last modification: 2006-02-21 06:36:12
+//             Last modification: 2006-02-21 17:21:03
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -67,7 +67,19 @@ CPluginEditorWindow::CPluginEditorWindow(
 // ---------------------------------------------------------------------------
 
 CPluginEditorWindow::CPluginEditorWindow(
-			       LStream *inStream )
+					WindowPtr		inMacWindow,
+					LCommander*		inSuperCommander)
+		: CEditorWindow(inMacWindow, inSuperCommander)
+{
+}
+
+
+// ---------------------------------------------------------------------------
+//  CPluginEditorWindow				[public]
+// ---------------------------------------------------------------------------
+
+CPluginEditorWindow::CPluginEditorWindow(
+				   LStream *inStream )
 		: CEditorWindow( inStream )
 {
 }
@@ -93,86 +105,120 @@ CPluginEditorWindow::~CPluginEditorWindow()
 void
 CPluginEditorWindow::FinalizeEditor(CPluginEditorDoc* inEditorDoc, void * ioParam)
 {
-	SInt32	theAttrs = *((SInt32*) ioParam);
-	Boolean	noHeader = false, noFooter = false;
-	SInt16	delta = 0;
-	
+	SInt32				theAttrs = *((SInt32*) ioParam);
+	Boolean				hasHeader = false, hasFooter = false;
+	SPaneInfo			pi;
+	SViewInfo			vi;
+	SDimension16		frameSize;
+
 	SetOwnerDoc(inEditorDoc);
 	SetSuperModel(inEditorDoc);
 	
-	if ( (theAttrs & kPlugWinStandardAttributes) == 0 || theAttrs == kPlugWinHasNoAttributes ) {
-		LPlacard * theFooterPlacard = dynamic_cast<LPlacard *>(this->FindPaneByID( item_EditorFooter ));
-		ThrowIfNil_( theFooterPlacard );
-		theFooterPlacard->PutInside(nil);
-		noFooter = true;
-	} else {
-		LPushButton *	thePushButton;
-		if ( (theAttrs & kPlugWinHasSaveButton) == 0) {
-			thePushButton = dynamic_cast<LPushButton *>(this->FindPaneByID( item_EditorValidate ));
-			ThrowIfNil_( thePushButton );
-			thePushButton->PutInside(nil);
-		}
-		if ( (theAttrs & kPlugWinHasCancelButton) == 0) {
-			thePushButton = dynamic_cast<LPushButton *>(this->FindPaneByID( item_EditorCancel ));
-			ThrowIfNil_( thePushButton );
-			thePushButton->PutInside(nil);
-		}
-		if ( (theAttrs & kPlugWinHasRevertButton) == 0) {
-			thePushButton = dynamic_cast<LPushButton *>(this->FindPaneByID( item_EditorRevert ));
-			ThrowIfNil_( thePushButton );
-			thePushButton->PutInside(nil);
-		}
-		if ( (theAttrs & kPlugWinHasLockIcon) == 0) {
-			LIconPane * theLockIcon = dynamic_cast<LIconPane *>(this->FindPaneByID( item_ReadOnlyIcon ));
-			ThrowIfNil_( theLockIcon );
-			theLockIcon->PutInside(nil);
-		} else {
-			InstallReadOnlyIcon();
-		}
-	}
-	
-	if ( (theAttrs & kPlugWinHasNameField) == 0 || theAttrs == kPlugWinHasNoAttributes) {
-		LWindowHeader * theWindowHeader = dynamic_cast<LWindowHeader *>(this->FindPaneByID( item_EditorHeader ));
-		ThrowIfNil_( theWindowHeader );
-		theWindowHeader->PutInside(nil);
-		noHeader = true;
-	} else {
+	GetFrameSize(frameSize);
+
+	pi.paneID			= item_EditorHeader;
+	pi.width			= frameSize.width;
+	pi.height			= kPluginHeaderHeight;
+	pi.visible			= true;
+	pi.enabled			= true;
+	pi.bindings.left	= true;
+	pi.bindings.top		= true;
+	pi.bindings.right	= true;
+	pi.bindings.bottom	= false;
+	pi.left				= 0;
+	pi.top				= 0;
+	pi.userCon			= 0;
+	pi.superView		= this;
+
+	vi.imageSize.width		= pi.width;
+	vi.imageSize.height		= pi.height;
+	vi.scrollPos.h			= vi.scrollPos.v	= 0;
+	vi.scrollUnit.h			= vi.scrollUnit.v	= 10;
+	vi.reconcileOverhang	= false;
+
+	if ( theAttrs != kPlugWinHasNoAttributes && (theAttrs & kPlugWinHasNameField) != 0 ) {
+		// Create a header
+		LWindowHeader * theWindowHeader = new LWindowHeader(pi, vi);
+		ThrowIfNil_(theWindowHeader);
+
+		pi.paneID			= item_NameStaticText;
+		pi.width			-= 20;
+		pi.height			-= 10;
+		pi.left				= 10;
+		pi.top				= 5;
+		pi.superView		= theWindowHeader;
+		
+		LStaticText * theStaticText = new LStaticText(pi, "\p", Txtr_GenevaNine);
+		ThrowIfNil_(theStaticText);
+
 		InstallResourceNameField();
-	}
-	
-	// Redimension scrollbar view if header or footer were removed
-	if (noHeader || noFooter) {
-		LScrollerView * theScrollerView = dynamic_cast<LScrollerView *>(this->FindPaneByID( item_EditorScroller ));
-		ThrowIfNil_( theScrollerView );
-		if (noHeader) {
-			theScrollerView->MoveBy(0, -kPluginHeaderHeight, false);
-			
-		} 
-		delta += noHeader? kPluginHeaderHeight : 0;
-		delta += noFooter? kPluginFooterHeight : 0;
-		theScrollerView->ResizeFrameBy(0, delta, false);
 	} 
+	
+	if ( theAttrs != kPlugWinHasNoAttributes && (theAttrs & kPlugWinStandardAttributes) != 0 ) {
+		LPushButton *	thePushButton;
+		LPlacard * 		theFooter;
+		
+		// Create a header
+		pi.paneID			= item_EditorFooter;
+		pi.width			= frameSize.width;
+		pi.height			= kPluginFooterHeight;
+		pi.bindings.top		= false;
+		pi.bindings.bottom	= true;
+		pi.left				= 0;
+		pi.top				= frameSize.height - kPluginFooterHeight;
+		pi.superView		= this;
+
+		theFooter = new LPlacard(pi, vi);
+		ThrowIfNil_( theFooter );
+
+		pi.width			= 65;
+		pi.height			= 20;
+		pi.bindings.top		= true;
+		pi.top				= 9;
+		pi.left				= frameSize.width;
+		pi.superView		= theFooter;
+
+		if ( (theAttrs & kPlugWinHasSaveButton) != 0) {
+			pi.paneID			= item_EditorValidate;
+			pi.bindings.left	= false;
+			pi.bindings.right	= true;
+			pi.left				= frameSize.width - 86;
+			thePushButton = new LPushButton(pi, msg_OK, "\pSave");
+			ThrowIfNil_( thePushButton );
+		}
+		if ( (theAttrs & kPlugWinHasCancelButton) != 0) {
+			pi.paneID			= item_EditorCancel;
+			pi.bindings.left	= false;
+			pi.bindings.right	= true;
+			pi.left				= frameSize.width - 164;
+			thePushButton = new LPushButton(pi, msg_OK, "\pCancel");
+			ThrowIfNil_( thePushButton );
+		}
+		if ( (theAttrs & kPlugWinHasRevertButton) != 0) {
+			pi.paneID			= item_EditorRevert;
+			pi.bindings.left	= true;
+			pi.bindings.right	= false;
+			pi.left				= 28;
+			thePushButton = new LPushButton(pi, msg_OK, "\pRevert");
+			ThrowIfNil_( thePushButton );
+		}
+		if ( (theAttrs & kPlugWinHasLockIcon) != 0) {
+			pi.paneID			= item_ReadOnlyIcon;
+			pi.bindings.left	= true;
+			pi.bindings.right	= false;
+			pi.left				= 9;
+			LIconPane * theLockIcon = new LIconPane(pi, 0);
+			ThrowIfNil_( theLockIcon );
+			
+			InstallReadOnlyIcon();
+		} 
+	}
 		
 	// Add the window to the window menu.
 	gWindowMenu->InsertWindow(this);
 			
 }
 	
-
-// ---------------------------------------------------------------------------
-//  FinishCreateSelf											[protected]
-// ---------------------------------------------------------------------------
-
-void
-CPluginEditorWindow::FinishCreateSelf()
-{    
-	// The main view containing the labels and editing panes
-	mContentsView = dynamic_cast<CPluginEditorView *>(this->FindPaneByID(item_EditorContents));
-	ThrowIfNil_( mContentsView );
-	
-	mContentsView->SetOwnerWindow(this);
-}
-
 
 // ---------------------------------------------------------------------------
 //  ListenToMessage									[public]
@@ -307,6 +353,33 @@ CPluginEditorWindow::HandleKeyPress(
 
 
 // ---------------------------------------------------------------------------
+//   Click
+// ---------------------------------------------------------------------------
+
+void
+CPluginEditorWindow::Click(
+	SMouseDownEvent	&inMouseDown)
+{
+	SRezillaPluginInterface** interface = dynamic_cast<CPluginEditorDoc *>(mOwnerDoc)->GetPlugin()->GetInterface();
+	(*interface)->HandleClick(&inMouseDown.macEvent, inMouseDown.whereLocal);
+}
+
+
+// ---------------------------------------------------------------------------
+//   Refresh
+// ---------------------------------------------------------------------------
+
+void
+CPluginEditorWindow::Refresh()
+{
+	LView::Refresh();
+	
+	SRezillaPluginInterface** interface = dynamic_cast<CPluginEditorDoc *>(mOwnerDoc)->GetPlugin()->GetInterface();
+	(*interface)->Refresh(interface);
+}
+
+
+// ---------------------------------------------------------------------------
 // 	PutOnDuty
 // ---------------------------------------------------------------------------
 
@@ -395,3 +468,17 @@ CPluginEditorWindow::RevertContents()
 }
 
 
+// // void DrawWindow(WindowRef window)
+// // {
+// // 	Rect		tempRect;
+// // 	GrafPtr		curPort;
+// // 	
+// // 	GetPort(&curPort);
+// // 	SetPort(GetWindowPort(window));
+// // 	BeginUpdate(window);
+// // 	EraseRect(GetWindowPortBounds(window, &tempRect));
+// // 	DrawControls(window);
+// // 	DrawGrowIcon(window);
+// // 	EndUpdate(window);
+// // 	SetPort(curPort);
+// // }
