@@ -2,7 +2,7 @@
 // CPluginEditorWindow.h				
 // 
 //                       Created: 2005-10-02 08:41:52
-//             Last modification: 2006-02-20 21:54:39
+//             Last modification: 2006-02-21 06:33:25
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -15,7 +15,7 @@
 #include "CEditorWindow.h"
 
 class CPluginEditorDoc;
-class CPluginMenu;
+class CPluginEditorView;
 
 
 class CPluginEditorWindow : public CEditorWindow {
@@ -48,7 +48,10 @@ public:
 
 	virtual void	RevertContents();
 	
+	CPluginEditorView *		GetContentsView() const { return mContentsView;}
+
 protected:
+	CPluginEditorView *		mContentsView;
 
 	virtual void		FinishCreateSelf();
 	virtual void		PutOnDuty(LCommander *inNewTarget);

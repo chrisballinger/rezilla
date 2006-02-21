@@ -2,7 +2,7 @@
 // CPluginEditorWindow.cp
 // 
 //                       Created: 2005-10-02 08:41:52
-//             Last modification: 2006-02-20 20:31:25
+//             Last modification: 2006-02-21 06:36:12
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -13,6 +13,7 @@
 #include "CPluginEditorWindow.h"
 #include "RezillaPluginInterface.h"
 #include "CPluginEditorDoc.h"
+#include "CPluginEditorView.h"
 #include "CRezillaPlugin.h"
 #include "CRezObj.h"
 #include "CWindowMenu.h"
@@ -167,7 +168,11 @@ CPluginEditorWindow::FinalizeEditor(CPluginEditorDoc* inEditorDoc, void * ioPara
 void
 CPluginEditorWindow::FinishCreateSelf()
 {    
+	// The main view containing the labels and editing panes
+	mContentsView = dynamic_cast<CPluginEditorView *>(this->FindPaneByID(item_EditorContents));
+	ThrowIfNil_( mContentsView );
 	
+	mContentsView->SetOwnerWindow(this);
 }
 
 
@@ -297,10 +302,8 @@ CPluginEditorWindow::HandleKeyPress(
 {
 	Boolean		keyHandled	 = true;
 	
-// 	LCommander::HandleKeyPress(inKeyEvent);
-// 	mOwnerDoc->HandleKeyPress(inKeyEvent);
-	
-// 	mOwnerWindow->SetLengthField();
+	SRezillaPluginInterface** interface = dynamic_cast<CPluginEditorDoc *>(mOwnerDoc)->GetPlugin()->GetInterface();
+	(*interface)->HandleKeyDown(&inKeyEvent);
 	return keyHandled;
 }
 
@@ -318,9 +321,9 @@ CPluginEditorWindow::PutOnDuty(LCommander *inNewTarget)
 	LMenuBar *	theBar = LMenuBar::GetCurrentMenuBar();
 	TArray<LMenu*>* menusListPtr = dynamic_cast<CPluginEditorDoc *>(mOwnerDoc)->GetPlugin()->GetMenusList();
 
-	TArrayIterator<LMenu*> iterator(*menusListPtr , LArrayIterator::from_End);
+	TArrayIterator<LMenu*> iterator(*menusListPtr);
 	LMenu	*theMenu;
-	while (iterator.Previous(theMenu)) {
+	while (iterator.Next(theMenu)) {
 		// Update the menu bar
 		theBar->InstallMenu( theMenu, MENU_OpenedWindows );	
 	}
@@ -349,9 +352,9 @@ CPluginEditorWindow::RemovePluginMenus()
 	LMenuBar *	theBar = LMenuBar::GetCurrentMenuBar();
 	TArray<LMenu*>* menusListPtr = dynamic_cast<CPluginEditorDoc *>(mOwnerDoc)->GetPlugin()->GetMenusList();
 
-	TArrayIterator<LMenu*> iterator(*menusListPtr , LArrayIterator::from_End);
+	TArrayIterator<LMenu*> iterator(*menusListPtr);
 	LMenu	*theMenu;
-	while (iterator.Previous(theMenu)) {
+	while (iterator.Next(theMenu)) {
 		// Update the menu bar
 		theBar->RemoveMenu(theMenu);	
 	}
@@ -369,9 +372,9 @@ CPluginEditorWindow::IsPluginMenu(ResIDT inMenuID)
 	
 	TArray<LMenu*>* menusListPtr = dynamic_cast<CPluginEditorDoc *>(mOwnerDoc)->GetPlugin()->GetMenusList();
 
-	TArrayIterator<LMenu*> iterator(*menusListPtr , LArrayIterator::from_End);
+	TArrayIterator<LMenu*> iterator(*menusListPtr);
 	LMenu	*theMenu;
-	while (iterator.Previous(theMenu)) {
+	while (iterator.Next(theMenu)) {
 		if (theMenu->GetMenuID() == inMenuID) {
 			isPluginMenu = true;
 			break;
