@@ -80,17 +80,15 @@ CPluginEditorWindow::CPluginEditorWindow(
 CPluginEditorWindow::~CPluginEditorWindow()
 {
 	RemovePluginMenus();
+	
+	SRezillaPluginInterface** interface = dynamic_cast<CPluginEditorDoc *>(mOwnerDoc)->GetPlugin()->GetInterface();
+	(*interface)->CleanUp(interface);
 }
 
 
 // ---------------------------------------------------------------------------
 //  FinalizeEditor											[public]
 // ---------------------------------------------------------------------------
-// // // RezPluginRequirements	plugReq;
-// // // 
-// // // BlockMoveData(ioParam, &plugReq, sizeof(RezPluginRequirements));
-// // // 
-// // // // 	= *(RezPluginRequirements*) ioParam;
 
 void
 CPluginEditorWindow::FinalizeEditor(CPluginEditorDoc* inEditorDoc, void * ioParam)

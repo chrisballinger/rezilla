@@ -152,14 +152,14 @@ CPluginEditorDoc::Initialize()
 		return;
 	} 
 	
+	// Now pass the info struct to the plugin for editing
+	(*interface)->EditResource(interface, rpi);
+	
 	// Make the window visible.
 	mPluginWindow->Show();
 	
 	// Enable all the subpanes
 	mPluginWindow->GetContentsView()->Enable();
-	
-	// Now pass the info struct to the plugin for editing
-	(*interface)->EditResource(interface, rpi);
 }
 
 

@@ -63,9 +63,11 @@ typedef struct RezPluginInfo {
 
 typedef struct SRezillaPluginInterface {
 	IUNKNOWN_C_GUTS;
-	Boolean	(*AcceptResource)( void *myInstance, ResType inType, short inID, Handle inDataH, RezPluginRequirements * ioReq);
-	void	(*EditResource)( void *myInstance, RezPluginInfo inInfo);
-	Handle	(*ReturnResource)( void *myInstance, Boolean * releaseIt, OSErr * outError);
+	Boolean	(*AcceptResource)(void *myInstance, ResType inType, short inID, Handle inDataH, RezPluginRequirements * ioReq);
+	void	(*EditResource)(void *myInstance, RezPluginInfo inInfo);
+	Handle	(*ReturnResource)(void *myInstance, Boolean * releaseIt, OSErr * outError);
+	void	(*CleanUp)(void *myInstance);
+	void	(*Refresh)(void *myInstance);
 	void	(*HandleMenu)(MenuRef menu, SInt16 inMenuItem);
 	void	(*HandleClick)(const EventRecord * inMacEvent, Point inPortCoords);
 	void	(*HandleKeyDown)(const EventRecord * inKeyEvent);
