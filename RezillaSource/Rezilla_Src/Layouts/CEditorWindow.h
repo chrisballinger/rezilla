@@ -2,7 +2,7 @@
 // CEditorWindow.h				
 // 
 //                       Created: 2004-06-10 14:44:33
-//             Last modification: 2006-02-17 20:59:22
+//             Last modification: 2006-02-21 15:31:33
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -26,8 +26,12 @@ public:
 
 							CEditorWindow();
 							CEditorWindow( const SWindowInfo &inWindowInfo );
-							CEditorWindow( ResIDT inWINDid,
+							CEditorWindow(
+							    ResIDT inWINDid,
 								UInt32 inAttributes, LCommander *inSuperCommander );
+							CEditorWindow(
+								WindowPtr	inMacWindow,
+								LCommander*	inSuperCommander);
 							CEditorWindow( LStream *inStream );
 							~CEditorWindow();
 

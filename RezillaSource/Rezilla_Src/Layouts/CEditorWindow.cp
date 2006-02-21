@@ -2,11 +2,11 @@
 // CEditorWindow.cp
 // 
 //                       Created: 2004-06-10 14:50:31
-//             Last modification: 2006-02-18 11:16:02
+//             Last modification: 2006-02-21 15:31:46
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2004-2005, 2006
+// (c) Copyright : Bernard Desgraupes, 2004-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -66,6 +66,18 @@ CEditorWindow::CEditorWindow(
 	mIsDirty = false;
 	mOwnerDoc = nil;
 	SetModelKind(rzom_cGuiWindow);
+}
+
+
+// ---------------------------------------------------------------------------
+//  CPluginEditorWindow				[public]
+// ---------------------------------------------------------------------------
+
+CEditorWindow::CEditorWindow(
+					WindowPtr		inMacWindow,
+					LCommander*		inSuperCommander)
+		: LWindow(inMacWindow, inSuperCommander)
+{
 }
 
 
