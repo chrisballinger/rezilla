@@ -106,13 +106,9 @@ CPluginEditorDoc::Initialize()
 	plugReq.error = noErr;
 	
 	if ( (*interface)->AcceptResource(interface, mRezObj->GetType(), mRezObj->GetID(), rezData, &plugReq) ) {
-		// Create a window for our document. This sets this doc as the SuperCommander of the window.
-		mPluginWindow = dynamic_cast<CPluginEditorWindow *>(LWindow::CreateWindow( PPob_PluginEditorWindow, this ));
+		// Create a window for our document and set this doc as its the SuperCommander
+		mPluginWindow = CreatePluginWindow(plugReq.winbounds);
 		Assert_( mPluginWindow != nil );
-		
-		mPluginWindow->MoveWindowTo(plugReq.winbounds.top, plugReq.winbounds.left);
-		mPluginWindow->ResizeWindowTo(plugReq.winbounds.right - plugReq.winbounds.left,
-									 plugReq.winbounds.bottom - plugReq.winbounds.top);
 		
 		SetMainWindow( dynamic_cast<CEditorWindow *>(mPluginWindow) );
 		NameNewEditorDoc();
@@ -159,7 +155,7 @@ CPluginEditorDoc::Initialize()
 	mPluginWindow->Show();
 	
 	// Enable all the subpanes
-	mPluginWindow->GetContentsView()->Enable();
+	mPluginWindow->Enable();
 }
 
 
@@ -324,7 +320,7 @@ CPluginEditorDoc::GetDescriptor(
 
 
 // ---------------------------------------------------------------------------
-//   GetModifiedResource										[public]
+//   GetModifiedResource											[public]
 // ---------------------------------------------------------------------------
 // The returned handle should not be released by the caller so leave
 // releaseIt to false (its default).
@@ -343,6 +339,27 @@ CPluginEditorDoc::GetModifiedResource(Boolean &releaseIt)
 	} 
 	
 	return theHandle;
+}
+
+ 
+// ---------------------------------------------------------------------------
+//   CreatePluginWindow												[public]
+// ---------------------------------------------------------------------------
+
+CPluginEditorWindow *
+CPluginEditorDoc::CreatePluginWindow(Rect inWinbounds) 
+{
+	WindowRef				winRef;
+	WindowAttributes		winAttrs = kWindowStandardDocumentAttributes 
+									| kWindowStandardHandlerAttribute 
+									| kWindowCompositingAttribute;
+	CPluginEditorWindow *	thePluginWindow = nil;
+
+	::CreateNewWindow(kDocumentWindowClass, winAttrs, &inWinbounds, &winRef);
+
+	thePluginWindow = new CPluginEditorWindow(winRef, this);
+	
+	return thePluginWindow;
 }
 
  
