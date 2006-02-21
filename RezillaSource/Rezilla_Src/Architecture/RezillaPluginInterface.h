@@ -2,7 +2,7 @@
 // File: "RezillaPluginInterface.h"
 // 
 //                        Created: 2005-09-08 15:49:50
-//              Last modification: 2006-02-17 15:56:27
+//              Last modification: 2006-02-21 07:31:21
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -65,9 +65,9 @@ typedef struct SRezillaPluginInterface {
 	IUNKNOWN_C_GUTS;
 	Boolean	(*AcceptResource)( void *myInstance, ResType inType, short inID, Handle inDataH, RezPluginRequirements * ioReq);
 	void	(*EditResource)( void *myInstance, RezPluginInfo inInfo);
-	Handle	(*ReturnResource)( void *myInstance, Boolean * releaseIt, OSStatus * status);
+	Handle	(*ReturnResource)( void *myInstance, Boolean * releaseIt, OSErr * outError);
 	void	(*HandleMenu)(MenuRef menu, SInt16 inMenuItem);
-	void	(*HandleClick)(const EventRecord * inMacEvent);
+	void	(*HandleClick)(const EventRecord * inMacEvent, Point inPortCoords);
 	void	(*HandleKeyDown)(const EventRecord * inKeyEvent);
 } SRezillaPluginInterface;
 
