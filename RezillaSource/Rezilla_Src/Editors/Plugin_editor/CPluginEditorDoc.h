@@ -2,7 +2,7 @@
 // CPluginEditorDoc.h
 // 
 //                       Created: 2005-10-02 08:41:52
-//             Last modification: 2006-02-19 14:33:15
+//             Last modification: 2006-02-21 07:12:41
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>

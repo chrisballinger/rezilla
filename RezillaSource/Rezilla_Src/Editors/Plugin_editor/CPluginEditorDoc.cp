@@ -2,7 +2,7 @@
 // CPluginEditorDoc.cp
 // 
 //                       Created: 2005-10-02 08:41:52
-//             Last modification: 2006-02-19 14:24:16
+//             Last modification: 2006-02-21 07:12:32
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -21,8 +21,8 @@ PP_Begin_Namespace_PowerPlant
 #include "RezillaPluginInterface.h"
 #include "CPluginEditorDoc.h"
 #include "CPluginEditorWindow.h"
+#include "CPluginEditorView.h"
 #include "CRezillaPlugin.h"
-
 #include "CRezFile.h"
 #include "CRezMapDoc.h"
 #include "CRezMapTable.h"
@@ -102,6 +102,7 @@ CPluginEditorDoc::Initialize()
 	
 	// Ask the plugin its requirements
 	RezPluginRequirements	plugReq;
+	RezPluginInfo 			rpi;
 	plugReq.error = noErr;
 	
 	if ( (*interface)->AcceptResource(interface, mRezObj->GetType(), mRezObj->GetID(), rezData, &plugReq) ) {
@@ -117,14 +118,29 @@ CPluginEditorDoc::Initialize()
 		NameNewEditorDoc();
 		mPluginWindow->FinalizeEditor(this, &(plugReq.winattrs));
 		
-		mPlugin->CreateMenus(plugReq.menucount, plugReq.menuIDs);
+		// Create the plugin menus
+		rpi.menucount = mPlugin->CreateMenus(plugReq.menucount, plugReq.menuIDs);
+		
+		// Fill the reply structure
+		rpi.plugref = (RezPlugRef) this;
+		rpi.winref = mPluginWindow->GetMacWindow();
+		
+		MenuRef * theMenuRefs = (MenuRef *) malloc( sizeof(MenuRef) * rpi.menucount);
+		if (theMenuRefs != NULL) {
+			TArray<LMenu*>* menusListPtr = mPlugin->GetMenusList();
 
-// 		
-// 		MenuRef * theMenuRefs = (MenuRef *) malloc ( sizeof(MenuRef) * plugReq->menucount);
-// 		if (theMenuRefs != NULL) {
-// 		} 
-
-	} 
+			TArrayIterator<LMenu*> iterator(*menusListPtr);
+			LMenu *	theMenu;
+			int 	i = 0;
+			while (iterator.Next(theMenu)) {
+				theMenuRefs[i] = theMenu->GetMacMenuH();
+				i++;
+			}
+			rpi.menurefs = theMenuRefs;
+		} 
+	} else {
+		error = plugReq.error;
+	}
 	
 	if (error != noErr) {
 		if (error == err_ExceptionParsingTemplate) {
@@ -136,13 +152,14 @@ CPluginEditorDoc::Initialize()
 		return;
 	} 
 	
-	RezPluginInfo rpi;
-
-	(*interface)->EditResource(interface, rpi);
-// 	// Make the window visible.
+	// Make the window visible.
 	mPluginWindow->Show();
-// 	// Enable all the subpanes
-// 	mPluginWindow->GetContentsView()->Enable();
+	
+	// Enable all the subpanes
+	mPluginWindow->GetContentsView()->Enable();
+	
+	// Now pass the info struct to the plugin for editing
+	(*interface)->EditResource(interface, rpi);
 }
 
 
@@ -315,18 +332,15 @@ CPluginEditorDoc::GetDescriptor(
 Handle
 CPluginEditorDoc::GetModifiedResource(Boolean &releaseIt) 
 {
-	Handle theHandle = NULL;
-	OSErr error =noErr;
+	Handle	theHandle = NULL;
+	OSErr	error = noErr;
 
-// 	mPluginWindow->RetrieveDataWithTemplate();
+	SRezillaPluginInterface** interface = mPlugin->GetInterface();
+	theHandle = (*interface)->ReturnResource(interface, &releaseIt, &error);
 
 	if ( error != noErr ) {
 		UMessageDialogs::DescribeError(CFSTR("ErrorSavingPluginWindow"), error);
-	} else {
-// 		if (mPluginWindow->GetOutStream() != NULL) {
-// 			theHandle = mPluginWindow->GetOutStream()->GetDataHandle();
-// 		} 
-	}
+	} 
 	
 	return theHandle;
 }
