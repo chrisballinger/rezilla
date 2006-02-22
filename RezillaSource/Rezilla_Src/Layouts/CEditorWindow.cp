@@ -32,10 +32,10 @@ CEditorWindow::CEditorWindow()
 	mIsDirty = false;
 	mOwnerDoc = nil;
 	SetModelKind(rzom_cGuiWindow);	// This is overriden in the case of 
-	                              	// template or hexadecimal windows. 
-	                              	// This way we don't have to bother 
-	                              	// setting the kind in every custom 
-	                              	// editor.
+	                              	// template, plugin or hexadecimal
+	                              	// windows. This way we don't have to
+	                              	// bother setting the kind in every
+	                              	// custom editor.
 }
 
 
