@@ -95,5 +95,12 @@ localize "French" as "Errors.strings"
 	key "5001" value string "Erreur plugin: ce type de ressource n'est pas supporté"
 	key "5002" value string "Erreur plugin: cet identificateur (ID) de ressource n'est pas supporté"
 	key "5003" value string "Erreur plugin: cette ressource contient des données invalides"
+	key "5004" value string "Erreur plugin: unsupported ressource format"
+	key "5005" value string "Erreur plugin: unsupported ressource version"
+	key "5006" value string "Erreur plugin: l'édition de la ressource a échoué"
+	key "5007" value string "Erreur plugin: la sauvegarde des modifications de la ressource a échoué"
+	key "5008" value string "Erreur plugin: la restauration de la ressource a échoué"
+	key "5009" value string "Erreur plugin: impossible de redimensionner la fenêtre"
+	key "5010" value string "Erreur plugin: impossible d'exécuter cette commande"
 }
 
