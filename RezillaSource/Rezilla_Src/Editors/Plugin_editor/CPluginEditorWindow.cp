@@ -12,7 +12,6 @@
 
 #include "CPluginEditorWindow.h"
 #include "CPluginEditorDoc.h"
-#include "CPluginEditorView.h"
 #include "CRezillaPlugin.h"
 #include "CRezObj.h"
 #include "CWindowMenu.h"
@@ -72,7 +71,7 @@ CPluginEditorWindow::~CPluginEditorWindow()
 {
 	RemovePluginMenus();
 	
-	(*mInterface)->CleanUp(mInterface);
+	(*mInterface)->CleanUp((RezPlugRef) this);
 }
 
 
@@ -94,7 +93,7 @@ CPluginEditorWindow::FinalizeEditor(CPluginEditorDoc* inEditorDoc, void * ioPara
 	
 	mInterface = dynamic_cast<CPluginEditorDoc *>(mOwnerDoc)->GetPlugin()->GetInterface();
 	ThrowIfNil_(mInterface);
-	
+		
 	mHasHeader = false;
 	mHasFooter = false;
 	GetFrameSize(frameSize);
@@ -285,7 +284,7 @@ CPluginEditorWindow::ObeyCommand(
 		if ( IsPluginMenu(theMenuID) ) {
 			MenuHandle	theMenuH = ::GetMenuHandle( theMenuID );
 			if ( theMenuH ) {
-				(*mInterface)->HandleMenu(theMenuH, theMenuItem);
+				(*mInterface)->HandleMenu(mPlugRef, theMenuH, theMenuItem);
 			}
 		}
 		return true;
@@ -332,7 +331,7 @@ CPluginEditorWindow::HandleKeyPress(
 {
 	Boolean		keyHandled	 = true;
 	
-	(*mInterface)->HandleKeyDown(&inKeyEvent);
+	(*mInterface)->HandleKeyDown(mPlugRef, &inKeyEvent);
 	return keyHandled;
 }
 
@@ -345,7 +344,7 @@ void
 CPluginEditorWindow::Click(
 	SMouseDownEvent	&inMouseDown)
 {
-	(*mInterface)->HandleClick(&inMouseDown.macEvent, inMouseDown.whereLocal);
+	(*mInterface)->HandleClick(mPlugRef, &inMouseDown.macEvent, inMouseDown.whereLocal);
 }
 
 
@@ -358,7 +357,7 @@ CPluginEditorWindow::Refresh()
 {
 	LView::Refresh();
 	
-	(*mInterface)->Refresh(mInterface);
+	(*mInterface)->Refresh(mPlugRef);
 }
 
 
@@ -426,7 +425,7 @@ CPluginEditorWindow::RemovePluginMenus()
 void
 CPluginEditorWindow::SpendTime(const EventRecord& inMacEvent)
 {	
-	Boolean modified = (*mInterface)->IsModified(mInterface);
+	Boolean modified = (*mInterface)->IsModified(mPlugRef);
 	SetDirty(modified);
 }
 
@@ -472,7 +471,7 @@ CPluginEditorWindow::RevertContents()
 			if (rezData != nil) {
 				// Work with a copy of the handle
 				::HandToHand(&rezData);
-				error = (*mInterface)->RevertResource(mInterface, rezData);
+				error = (*mInterface)->RevertResource(mPlugRef, rezData);
 			} 
 			ThrowIfError_(error);			
 		} catch (...) {
@@ -524,7 +523,7 @@ CPluginEditorWindow::ResizeWindowBy(
 	theBounds.bottom += inHeightDelta;
 	DoSetBounds(theBounds);
 	
-	(*mInterface)->ResizeBy(inWidthDelta, inHeightDelta);
+	(*mInterface)->ResizeBy(mPlugRef, inWidthDelta, inHeightDelta);
 }
 
 

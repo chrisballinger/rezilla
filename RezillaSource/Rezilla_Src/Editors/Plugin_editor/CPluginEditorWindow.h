@@ -64,8 +64,12 @@ public:
 							SInt16	inWidthDelta,
 							SInt16	inHeightDelta);
 	
+	RezPlugRef		GetPlugRef() { return mPlugRef;}
+	void			SetPlugRef(RezPlugRef inPlugRef) {mPlugRef = inPlugRef;}
+	
 protected:
 		SRezillaPluginInterface**	mInterface;
+		RezPlugRef					mPlugRef;
 		Boolean						mHasHeader;
 		Boolean						mHasFooter;
 

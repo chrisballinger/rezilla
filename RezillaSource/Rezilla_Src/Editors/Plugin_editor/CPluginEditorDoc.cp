@@ -21,7 +21,6 @@ PP_Begin_Namespace_PowerPlant
 #include "RezillaPluginInterface.h"
 #include "CPluginEditorDoc.h"
 #include "CPluginEditorWindow.h"
-#include "CPluginEditorView.h"
 #include "CRezillaPlugin.h"
 #include "CRezFile.h"
 #include "CRezMapDoc.h"
@@ -100,28 +99,30 @@ CPluginEditorDoc::Initialize()
 		} 
 	} 
 	
-	// Ask the plugin its requirements
-	RezPluginRequirements	plugReq;
-	RezPluginInfo 			rpi;
-	plugReq.error = noErr;
+	// Ask the plugin its initial requirements
+	RezPlugInfo			plugInfo;
+	RezHostInfo 		hostInfo;
 	
-	if ( (*interface)->AcceptResource(interface, mRezObj->GetType(), mRezObj->GetID(), rezData, &plugReq) ) {
+	plugInfo.error = noErr;
+	
+	if ( (*interface)->AcceptResource(interface, mRezObj->GetType(), mRezObj->GetID(), rezData, &plugInfo) ) {
 		// Create a window for our document and set this doc as its the SuperCommander
-		mPluginWindow = CreatePluginWindow(plugReq.winattrs, plugReq.winbounds);
+		mPluginWindow = CreatePluginWindow(plugInfo.winattrs, plugInfo.winbounds);
 		Assert_( mPluginWindow != nil );
+		
+		mPluginWindow->SetPlugRef(plugInfo.plugref);
 		
 		SetMainWindow( dynamic_cast<CEditorWindow *>(mPluginWindow) );
 		NameNewEditorDoc();
-		mPluginWindow->FinalizeEditor(this, &(plugReq.winattrs));
+		mPluginWindow->FinalizeEditor(this, &(plugInfo.winattrs));
 		
 		// Create the plugin menus
-		rpi.menucount = mPlugin->CreateMenus(plugReq.menucount, plugReq.menuIDs);
+		hostInfo.menucount = mPlugin->CreateMenus(plugInfo.menucount, plugInfo.menuIDs);
 		
 		// Fill the reply structure
-		rpi.plugref = (RezPlugRef) this;
-		rpi.winref = mPluginWindow->GetMacWindow();
+		hostInfo.winref = mPluginWindow->GetMacWindow();
 		
-		MenuRef * theMenuRefs = (MenuRef *) malloc( sizeof(MenuRef) * rpi.menucount);
+		MenuRef * theMenuRefs = (MenuRef *) malloc( sizeof(MenuRef) * hostInfo.menucount);
 		if (theMenuRefs != NULL) {
 			TArray<LMenu*>* menusListPtr = mPlugin->GetMenusList();
 
@@ -132,17 +133,17 @@ CPluginEditorDoc::Initialize()
 				theMenuRefs[i] = theMenu->GetMacMenuH();
 				i++;
 			}
-			rpi.menurefs = theMenuRefs;
+			hostInfo.menurefs = theMenuRefs;
 		}
 		
-		mPluginWindow->GetContentsRect(rpi.contents);
+		mPluginWindow->GetContentsRect(hostInfo.contents);
 	} else {
-		error = plugReq.error;
+		error = plugInfo.error;
 	}
 	
 	if (error == noErr) {
 		// Now pass the info struct to the plugin for editing
-		error = (*interface)->EditResource(interface, rpi);
+		error = (*interface)->EditResource((RezPlugRef) this, hostInfo);
 	}
 	
 	if (error != noErr) {
@@ -328,8 +329,6 @@ CPluginEditorDoc::GetDescriptor(
 // ---------------------------------------------------------------------------
 //   GetModifiedResource											[public]
 // ---------------------------------------------------------------------------
-// The returned handle should not be released by the caller so leave
-// releaseIt to false (its default).
 
 Handle
 CPluginEditorDoc::GetModifiedResource(Boolean &releaseIt) 
@@ -338,7 +337,7 @@ CPluginEditorDoc::GetModifiedResource(Boolean &releaseIt)
 	OSErr	error = noErr;
 
 	SRezillaPluginInterface** interface = mPlugin->GetInterface();
-	theHandle = (*interface)->ReturnResource(interface, &releaseIt, &error);
+	theHandle = (*interface)->ReturnResource(mPluginWindow->GetPlugRef(), &releaseIt, &error);
 
 	if ( error != noErr ) {
 		ReportPluginError(CFSTR("ErrorSavingPluginWindow"), error);
