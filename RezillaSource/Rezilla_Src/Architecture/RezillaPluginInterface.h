@@ -38,6 +38,8 @@ enum {
 	kPlugWinHasRevertButton = (1L << 3),
 	kPlugWinHasLockIcon = (1L << 4),
 	kPlugWinHasNameField = (1L << 5),
+	kPlugWinHasCollapseBox = (1L << 6),
+	kPlugWinIsResizable = (1L << 7),
 	kPlugWinStandardAttributes = (kPlugWinHasSaveButton | kPlugWinHasCancelButton | kPlugWinHasRevertButton | kPlugWinHasLockIcon)
 };
 
@@ -45,11 +47,11 @@ enum {
 typedef SInt32	RezPlugRef;
 
 typedef struct RezPluginRequirements {
-	UInt32			winattrs;
-	Rect			winbounds;
-	UInt8			menucount;
-	MenuID *		menuIDs;
-	OSErr			error;
+	UInt32		winattrs;
+	Rect		winbounds;
+	UInt8		menucount;
+	MenuID *	menuIDs;
+	OSErr		error;
 } RezPluginRequirements;
 
 
@@ -58,16 +60,20 @@ typedef struct RezPluginInfo {
 	WindowRef	winref;
 	UInt8		menucount;
 	MenuRef	*	menurefs;
+	Rect		contents;
 } RezPluginInfo;
 
 
 typedef struct SRezillaPluginInterface {
 	IUNKNOWN_C_GUTS;
 	Boolean	(*AcceptResource)(void *myInstance, ResType inType, short inID, Handle inDataH, RezPluginRequirements * ioReq);
-	void	(*EditResource)(void *myInstance, RezPluginInfo inInfo);
-	Handle	(*ReturnResource)(void *myInstance, Boolean * releaseIt, OSErr * outError);
+	OSErr	(*EditResource)(void *myInstance, RezPluginInfo inInfo);
+	Handle	(*ReturnResource)(void *myInstance, Boolean * outRelease, OSErr * outError);
+	OSErr	(*RevertResource)(void *myInstance, Handle inDataH);
+	Boolean	(*IsModified)(void *myInstance);
 	void	(*CleanUp)(void *myInstance);
 	void	(*Refresh)(void *myInstance);
+	void	(*ResizeBy)(SInt16 inWidthDelta, SInt16 inHeightDelta);
 	void	(*HandleMenu)(MenuRef menu, SInt16 inMenuItem);
 	void	(*HandleClick)(const EventRecord * inMacEvent, Point inPortCoords);
 	void	(*HandleKeyDown)(const EventRecord * inKeyEvent);
@@ -78,7 +84,15 @@ enum PluginErrors {
 	plugErr_Generic				= 5000,	
 	plugErr_UnsupportedType,
 	plugErr_UnsupportedID,
-	plugErr_InvalidData
+	plugErr_InvalidData,
+	plugErr_UnsupportedResourceFormat,
+	plugErr_UnsupportedResourceVersion,
+	plugErr_EditResourceFailed,
+	plugErr_ReturnResourceFailed,
+	plugErr_RevertResourceFailed,
+	plugErr_CantResizeWindow,
+	plugErr_CantHandleMenuCommand,
+	plugErr_LastError
 };
 
 

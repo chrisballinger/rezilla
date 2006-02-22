@@ -38,12 +38,17 @@ typedef struct _SampleRec {
 // ----------
 static SampleRec *	_allocSampleRec( CFUUIDRef factoryID );
 static void			_deallocSampleRec( SampleRec *myInstance );
-static HRESULT		sample_QueryInterface( void *myInstance, REFIID iid, LPVOID *ppv );
-static ULONG		sample_AddRef( void *myInstance );
-static ULONG		sample_Release( void *myInstance );
-static Boolean		sample_AcceptResource( void *myInstance, ResType inType, short inID, Handle inDataH, RezPluginRequirements * ioReq);
-static void			sample_EditResource( void *myInstance, RezPluginInfo inInfo);
-static Handle		sample_ReturnResource( void *myInstance, Boolean * releaseIt, OSErr * outError);
+static HRESULT		sample_QueryInterface(void *myInstance, REFIID iid, LPVOID *ppv );
+static ULONG		sample_AddRef(void *myInstance );
+static ULONG		sample_Release(void *myInstance );
+static Boolean		sample_AcceptResource(void *myInstance, ResType inType, short inID, Handle inDataH, RezPluginRequirements * ioReq);
+static OSErr		sample_EditResource(void *myInstance, RezPluginInfo inInfo);
+static Handle		sample_ReturnResource(void *myInstance, Boolean * outRelease, OSErr * outError);
+static OSErr		sample_RevertResource(void *myInstance, Handle inDataH);
+static Boolean		sample_IsModified(void *myInstance);
+static void			sample_CleanUp(void *myInstance);
+static void			sample_Refresh(void *myInstance);
+static void			sample_ResizeBy(SInt16 inWidthDelta, SInt16 inHeightDelta);
 static void			sample_HandleMenu(MenuRef menu, SInt16 inMenuItem);
 static void			sample_HandleClick(const EventRecord * inMacEvent, Point inPortCoords);
 static void			sample_HandleKeyDown(const EventRecord * inKeyEvent);
@@ -59,16 +64,32 @@ static SRezillaPluginInterface sSamplePlugFuncTable = {
 		sample_AcceptResource,
 		sample_EditResource,
 		sample_ReturnResource,
+		sample_RevertResource,
+		sample_IsModified,
+		sample_CleanUp,
+		sample_Refresh,
+		sample_ResizeBy,
 		sample_HandleMenu,
 		sample_HandleClick,
 		sample_HandleKeyDown
 };
 
 // Static variables
-static ResType sampleType;
-static short sampleID;
-static Handle sampleHandle;
-static MenuID sampleMenuID;
+static ResType		sampleType;
+static short		sampleID;
+static Handle		sampleHandle;
+static MenuID		sampleMenuID;
+static RezPlugRef	samplePlugref;
+static WindowRef	sampleWinref;
+static MenuRef		sampleMenuref;
+static ControlRef	sampleControlRef;
+static Boolean		sampleModified;
+
+
+enum {
+	kSampleMenu_ReverseText = 1,
+	kSampleMenu_RotateText = 2
+};
 
 
 
@@ -79,7 +100,7 @@ static MenuID sampleMenuID;
 // -------------------------------------------------------------------------------------------
 
 HRESULT
-sample_QueryInterface( void *myInstance, REFIID iid, LPVOID *ppv )
+sample_QueryInterface(void *myInstance, REFIID iid, LPVOID *ppv )
 {
 	HRESULT	res;
 	
@@ -119,7 +140,7 @@ sample_QueryInterface( void *myInstance, REFIID iid, LPVOID *ppv )
 // -------------------------------------------------------------------------------------------
 
 ULONG
-sample_AddRef( void *myInstance )
+sample_AddRef(void *myInstance )
 {
 	( (SampleRec *) myInstance )->_refCount += 1;
 	return ( (SampleRec *) myInstance )->_refCount;
@@ -134,7 +155,7 @@ sample_AddRef( void *myInstance )
 // -------------------------------------------------------------------------------------------
 
 ULONG
-sample_Release( void *myInstance )
+sample_Release(void *myInstance )
 {
 	( (SampleRec *) myInstance )->_refCount -= 1;
 	if ( ( (SampleRec *) myInstance )->_refCount == 0 ) {
@@ -149,12 +170,12 @@ sample_Release( void *myInstance )
 // -------------------------------------------------------------------------------------------
 //
 //  The implementation by the Sample plugin of the AcceptResource function
-//  declared in the interface (via the SRezillaPluginInterface structure)
+//  declared in the interface (SRezillaPluginInterface structure)
 //
 // -------------------------------------------------------------------------------------------
 
 Boolean
-sample_AcceptResource( void *myInstance, ResType inType, short inID, Handle inDataH, RezPluginRequirements * ioReq)
+sample_AcceptResource(void *myInstance, ResType inType, short inID, Handle inDataH, RezPluginRequirements * ioReq)
 {
 	Boolean accepted = true;
 	sampleMenuID = kSamplePluginMenuID;
@@ -174,7 +195,8 @@ sample_AcceptResource( void *myInstance, ResType inType, short inID, Handle inDa
 	
 	sampleType = inType;
 	sampleID = inID;
-	sampleHandle =inDataH ;
+	sampleHandle =inDataH;
+	sampleModified = false;
 
 	return accepted;
 }
@@ -183,59 +205,155 @@ sample_AcceptResource( void *myInstance, ResType inType, short inID, Handle inDa
 // -------------------------------------------------------------------------------------------
 //
 //  The implementation by the Sample plugin of the EditResource function
-//  declared in the interface (via the SRezillaPluginInterface structure)
+//  declared in the interface (SRezillaPluginInterface structure)
 //
 // -------------------------------------------------------------------------------------------
 
-void
-sample_EditResource( void *myInstance, RezPluginInfo inInfo)
+OSErr
+sample_EditResource(void *myInstance, RezPluginInfo inInfo)
 {
-	Str255      message = "\pHello! this is the Sample plugin for Rezilla. It can edit 'PStr' and 'STR ' types :-)";
-	SInt16      alertItemHit = 0;
-	Str255		typeStr;
-
-	char theType[5];
-	theType[4] = 0;
-	*(OSType*)theType = sampleType;
-	CopyCStringToPascal(theType, typeStr);	
+	Rect			boundsRect = {100, 100, 130, 400};
+	CFStringRef		theTextRef;
+	OSErr			error = noErr;
 	
-	StandardAlert(kAlertNoteAlert, typeStr, message, NULL, &alertItemHit);
+	samplePlugref = inInfo.plugref;
+	sampleWinref = inInfo.winref;
+	sampleMenuref = *inInfo.menurefs;
+	
+	theTextRef = CFStringCreateWithPascalString(kCFAllocatorDefault, *sampleHandle, kCFStringEncodingMacRoman);
+	CreateEditTextControl(sampleWinref, &boundsRect, theTextRef, false, false, NULL, &sampleControlRef);
+	CFRelease(theTextRef);
+	
+	return error;
 }
 
 
 // -------------------------------------------------------------------------------------------
 //
 //  The implementation by the Sample plugin of the ReturnResource function
-//  declared in the interface (via the SRezillaPluginInterface structure)
+//  declared in the interface (SRezillaPluginInterface structure)
 //
 // -------------------------------------------------------------------------------------------
 
 Handle
-sample_ReturnResource( void *myInstance, Boolean * releaseIt, OSErr * outError)
+sample_ReturnResource(void *myInstance, Boolean * releaseIt, OSErr * outError)
 {
-	Handle	theHandle = NULL;
+	Handle		theHandle = NULL;
+	Size		theSize;
+	Str255		theString;
+	CFStringRef	theTextRef;
+	OSErr		error = noErr;
 	
+	error = GetControlData(sampleControlRef, kControlNoPart, kControlEditTextTextTag, 
+			   sizeof(theTextRef), &theTextRef, &theSize);
+	
+	if (CFStringGetPascalString(theTextRef, theString, sizeof(theString), kCFStringEncodingMacRoman)) {
+		SetHandleSize(theHandle, sizeof(theString));
+		BlockMoveData(theString, *theHandle, sizeof(theString));
+	} 
+	
+	*outError = error;
 	return theHandle;
 }
 
 
 // -------------------------------------------------------------------------------------------
 //
-//  The implementation by the Sample plugin of the HandleMenu function
-//  declared in the interface (via the SRezillaPluginInterface structure)
+//  The implementation by the Sample plugin of the RevertResource function
+//  declared in the interface (SRezillaPluginInterface structure)
+//
+// -------------------------------------------------------------------------------------------
+
+OSErr
+sample_RevertResource(void *myInstance, Handle inDataH)
+{
+	OSErr		error = noErr;
+	
+	sampleModified = false;
+
+	return error;
+}
+
+
+// -------------------------------------------------------------------------------------------
+//
+//  The implementation by the Sample plugin of the IsModified function
+//  declared in the interface (SRezillaPluginInterface structure)
+//
+// -------------------------------------------------------------------------------------------
+
+Boolean
+sample_IsModified(void *myInstance)
+{
+	return sampleModified;
+}
+
+
+// -------------------------------------------------------------------------------------------
+//
+//  The implementation by the Sample plugin of the CleanUp function
+//  declared in the interface (SRezillaPluginInterface structure)
 //
 // -------------------------------------------------------------------------------------------
 
 void
-sample_HandleMenu(MenuRef menu, SInt16 inMenuItem)
+sample_CleanUp(void *myInstance)
+{
+	DisposeControl(sampleControlRef);
+}
+
+
+// -------------------------------------------------------------------------------------------
+//
+//  The implementation by the Sample plugin of the Refresh function
+//  declared in the interface (SRezillaPluginInterface structure)
+//
+// -------------------------------------------------------------------------------------------
+
+void
+sample_Refresh(void *myInstance)
+{
+	UpdateControls(sampleWinref, NULL);
+}
+
+
+// -------------------------------------------------------------------------------------------
+//
+//  The implementation by the Sample plugin of the ResizeBy function
+//  declared in the interface (SRezillaPluginInterface structure)
+//
+// -------------------------------------------------------------------------------------------
+
+void
+sample_ResizeBy(SInt16 inWidthDelta, SInt16 inHeightDelta)
 {
 }
 
 
 // -------------------------------------------------------------------------------------------
 //
+//  The implementation by the Sample plugin of the HandleMenu function
+//  declared in the interface (SRezillaPluginInterface structure)
+//
+// -------------------------------------------------------------------------------------------
+
+void
+sample_HandleMenu(MenuRef menu, SInt16 inMenuItem)
+{
+	switch (inMenuItem) {
+		case kSampleMenu_ReverseText:
+		break;
+		
+		case kSampleMenu_RotateText:
+		break;
+	}
+}
+
+
+// -------------------------------------------------------------------------------------------
+//
 //  The implementation by the Sample plugin of the HandleClick function
-//  declared in the interface (via the SRezillaPluginInterface structure)
+//  declared in the interface (SRezillaPluginInterface structure)
 //
 // -------------------------------------------------------------------------------------------
 
@@ -248,7 +366,7 @@ sample_HandleClick(const EventRecord * inMacEvent, Point inPortCoords)
 // -------------------------------------------------------------------------------------------
 //
 //  The implementation by the Sample plugin of the HandleKeyDown function
-//  declared in the interface (via the SRezillaPluginInterface structure)
+//  declared in the interface (SRezillaPluginInterface structure)
 //
 // -------------------------------------------------------------------------------------------
 
