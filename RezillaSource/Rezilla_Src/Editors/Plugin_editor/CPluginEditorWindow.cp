@@ -71,7 +71,7 @@ CPluginEditorWindow::~CPluginEditorWindow()
 {
 	RemovePluginMenus();
 	
-	(*mInterface)->CleanUp((RezPlugRef) this);
+	(*mInterface)->CleanUp(mPlugRef);
 }
 
 
