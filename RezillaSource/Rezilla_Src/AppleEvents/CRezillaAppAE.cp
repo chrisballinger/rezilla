@@ -1,11 +1,11 @@
 // ===========================================================================
 // CRezillaAppAE.cp					
 //                       Created: 2004-11-30 08:44:17
-//             Last modification: 2005-09-25 08:01:28
+//             Last modification: 2006-02-21 23:58:55
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes 2004-2005
+// (c) Copyright: Bernard Desgraupes 2004-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -434,6 +434,7 @@ CRezillaApp::CountSubModels(
 					theKind = theWindow->GetModelKind();
 					if (theKind == inModelID 
 						|| theKind == rzom_cGuiWindow 
+						|| theKind == rzom_cPluginWindow 
 						|| theKind == rzom_cTmplWindow 
 						|| theKind == rzom_cHexWindow) {
 						count++;
@@ -447,6 +448,7 @@ CRezillaApp::CountSubModels(
 		
 		case rzom_cRezMapWindow:
 		case rzom_cGuiWindow:
+		case rzom_cPluginWindow:
 		case rzom_cTmplWindow:
 		case rzom_cHexWindow:
 		case rzom_cCompWindow: {
@@ -481,6 +483,7 @@ CRezillaApp::CountSubModels(
 					if (theKind == inModelID 
 						|| theKind == rzom_cHexEditDoc 
 						|| theKind == rzom_cTmplEditDoc 
+						|| theKind == rzom_cPlugEditDoc 
 						|| theKind == rzom_cGuiEditDoc) {
 						count++;
 					} 
@@ -492,6 +495,7 @@ CRezillaApp::CountSubModels(
 
 		case rzom_cRezMapDoc:
 		case rzom_cGuiEditDoc:
+		case rzom_cPlugEditDoc:
 		case rzom_cTmplEditDoc:
 		case rzom_cHexEditDoc: {
 			TArrayIterator<LDocument*> iterDoc( LDocument::GetDocumentList() );
@@ -552,6 +556,7 @@ CRezillaApp::GetSubModelByPosition(
 					theKind = theWindow->GetModelKind();
 					if (theKind == inModelID 
 						|| theKind == rzom_cGuiWindow 
+						|| theKind == rzom_cPluginWindow 
 						|| theKind == rzom_cTmplWindow 
 						|| theKind == rzom_cHexWindow) {
 						count++;
@@ -574,6 +579,7 @@ CRezillaApp::GetSubModelByPosition(
 		
 		case rzom_cRezMapWindow:
 		case rzom_cGuiWindow:
+		case rzom_cPluginWindow:
 		case rzom_cTmplWindow:
 		case rzom_cHexWindow: {
 			windowP = ::GetWindowList();
@@ -616,6 +622,7 @@ CRezillaApp::GetSubModelByPosition(
 					if (theKind == inModelID 
 						|| theKind == rzom_cHexEditDoc 
 						|| theKind == rzom_cTmplEditDoc 
+						|| theKind == rzom_cPlugEditDoc 
 						|| theKind == rzom_cGuiEditDoc) {
 						count++;
 						if (count == inPosition) {
@@ -636,6 +643,7 @@ CRezillaApp::GetSubModelByPosition(
 
 		case rzom_cRezMapDoc:
 		case rzom_cGuiEditDoc:
+		case rzom_cPlugEditDoc:
 		case rzom_cTmplEditDoc:
 		case rzom_cHexEditDoc: {
 			TArrayIterator<LDocument*> iterDoc( LDocument::GetDocumentList() );
@@ -932,7 +940,6 @@ CRezillaApp::GetModelProperty(DescType inProperty) const
 		case rzom_pInspector:
 		theModelObject = dynamic_cast<LModelObject *>(sInspectorWindow);
 		break;
-		
 
 		default:
 		theModelObject = LModelObject::GetModelProperty(inProperty);

@@ -2185,6 +2185,66 @@ resource 'aete' (0,"Scripting terminology") {
 				{
 				}
 			,
+				"plugin editor",
+				'PluD',
+				"a plugin document editing a resource",
+				{
+					
+						"inherits",
+						'c@#^',
+						'EdiD',
+						"all properties of the 'editor' class",
+							reserved,
+							singleItem,
+							notEnumerated,
+							readOnly,
+							enumsAreConstants,
+							enumListCanRepeat,
+							propertyIsValue,
+							reserved,
+							reserved,
+							reserved,
+							reserved,
+							reserved,
+							noApostrophe,
+							notFeminine,
+							notMasculine,
+							singular
+					
+				},
+				{
+				}
+			,
+				"plugin editors",
+				'PluD',
+				"every plugin editor",
+				{
+					
+						"",
+						'c@#!',
+						'type',
+						"",
+							reserved,
+							singleItem,
+							notEnumerated,
+							readOnly,
+							enumsAreConstants,
+							enumListCanRepeat,
+							propertyIsValue,
+							reserved,
+							reserved,
+							reserved,
+							reserved,
+							reserved,
+							noApostrophe,
+							notFeminine,
+							notMasculine,
+							plural
+					
+				},
+				{
+				}
+			,
 				"template editor",
 				'TmpD',
 				"a template document editing a resource",
@@ -2521,6 +2581,66 @@ resource 'aete' (0,"Scripting terminology") {
 				"interface windows",
 				'GuiW',
 				"every interface window",
+				{
+					
+						"",
+						'c@#!',
+						'type',
+						"",
+							reserved,
+							singleItem,
+							notEnumerated,
+							readOnly,
+							enumsAreConstants,
+							enumListCanRepeat,
+							propertyIsValue,
+							reserved,
+							reserved,
+							reserved,
+							reserved,
+							reserved,
+							noApostrophe,
+							notFeminine,
+							notMasculine,
+							plural
+					
+				},
+				{
+				}
+			,
+				"plugin window",
+				'PluW',
+				"a plugin editing window",
+				{
+					
+						"inherits",
+						'c@#^',
+						'EdiW',
+						"all properties of the 'editing window' class",
+							reserved,
+							singleItem,
+							notEnumerated,
+							readOnly,
+							enumsAreConstants,
+							enumListCanRepeat,
+							propertyIsValue,
+							reserved,
+							reserved,
+							reserved,
+							reserved,
+							reserved,
+							noApostrophe,
+							notFeminine,
+							notMasculine,
+							singular
+					
+				},
+				{
+				}
+			,
+				"plugin windows",
+				'PluW',
+				"every plugin window",
 				{
 					
 						"",
@@ -4000,5 +4120,6 @@ resource 'aete' (0,"Scripting terminology") {
 }
 
 };
+
 
 

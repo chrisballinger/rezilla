@@ -2,11 +2,11 @@
 // CEditorDocAE.cp
 // 
 //                       Created: 2005-04-09 10:03:39
-//             Last modification: 2005-05-16 22:47:07
+//             Last modification: 2006-02-21 23:58:23
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2005
+// (c) Copyright : Bernard Desgraupes, 2005-2006
 // All rights reserved.
 // ===========================================================================
 //  AppleEvent Object Model Support. These methods are part of the CEditorDoc 
@@ -44,6 +44,10 @@ CEditorDoc::MakeSelfSpecifier(
 	switch (mKind) {
 		case editor_kindGui:
 		docClass = rzom_cGuiEditDoc;
+		break;
+
+		case editor_kindPlug:
+		docClass = rzom_cPlugEditDoc;
 		break;
 
 		case editor_kindTmpl:
@@ -219,6 +223,7 @@ CEditorDoc::GetAEPosition(const CEditorDoc * inDoc) {
 		theKind = theDoc->GetModelKind();
 		if (theKind == rzom_cEditorDoc 
 			|| theKind == rzom_cGuiEditDoc 
+			|| theKind == rzom_cPlugEditDoc 
 			|| theKind == rzom_cTmplEditDoc 
 			|| theKind == rzom_cHexEditDoc) {
 			currPos++;

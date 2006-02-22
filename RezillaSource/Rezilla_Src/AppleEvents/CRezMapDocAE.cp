@@ -2,11 +2,11 @@
 // CRezMapDocAE.cp
 // 
 //                       Created: 2005-04-09 10:03:39
-//             Last modification: 2005-06-12 18:45:12
+//             Last modification: 2006-02-21 23:58:43
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2005
+// (c) Copyright : Bernard Desgraupes, 2005-2006
 // All rights reserved.
 // ===========================================================================
 //  AppleEvent Object Model Support. These methods are part of the CRezMapDoc 
@@ -617,9 +617,11 @@ CRezMapDoc::GetSubModelByPosition(
 		
 		case rzom_cHexEditDoc:
 		case rzom_cTmplEditDoc:
+		case rzom_cPlugEditDoc:
 		case rzom_cGuiEditDoc:
 		case rzom_cHexWindow: 
 		case rzom_cTmplWindow:
+		case rzom_cPluginWindow:
 		case rzom_cGuiWindow: {
 			DescType docKind = inModelID;
 			switch (inModelID) {
@@ -629,6 +631,10 @@ CRezMapDoc::GetSubModelByPosition(
 				
 				case rzom_cTmplWindow:
 				docKind = rzom_cTmplEditDoc;
+				break;
+				
+				case rzom_cPluginWindow:
+				docKind = rzom_cPlugEditDoc;
 				break;
 				
 				case rzom_cGuiWindow:
@@ -649,6 +655,7 @@ CRezMapDoc::GetSubModelByPosition(
 			if (found) {
 				if (inModelID == rzom_cHexWindow 
 					|| inModelID == rzom_cTmplWindow 
+					|| inModelID == rzom_cPluginWindow 
 					|| inModelID == rzom_cGuiWindow) {
 					PutInToken(theDoc->GetMainWindow(), outToken);
 				} else {
@@ -705,10 +712,12 @@ CRezMapDoc::GetSubModelByName(
 		case rzom_cEditorDoc:
 		case rzom_cHexEditDoc:
 		case rzom_cTmplEditDoc:
+		case rzom_cPlugEditDoc:
 		case rzom_cGuiEditDoc:
 		case rzom_cEditorWindow:
 		case rzom_cHexWindow: 
 		case rzom_cTmplWindow:
+		case rzom_cPluginWindow:
 		case rzom_cGuiWindow: {
 			DescType docKind = inModelID;
 			switch (inModelID) {
@@ -718,6 +727,10 @@ CRezMapDoc::GetSubModelByName(
 				
 				case rzom_cTmplWindow:
 				docKind = rzom_cTmplEditDoc;
+				break;
+				
+				case rzom_cPluginWindow:
+				docKind = rzom_cPlugEditDoc;
 				break;
 				
 				case rzom_cGuiWindow:
@@ -742,6 +755,7 @@ CRezMapDoc::GetSubModelByName(
 				if (inModelID == rzom_cEditorDoc 
 					|| inModelID == rzom_cHexEditDoc
 					|| inModelID == rzom_cTmplEditDoc 
+					|| inModelID == rzom_cPlugEditDoc 
 					|| inModelID == rzom_cGuiEditDoc) {
 					PutInToken(theDoc, outToken);
 				} else {
@@ -778,6 +792,7 @@ CRezMapDoc::GetPositionOfSubModel(
 	switch (inModelID) {
 		case rzom_cHexWindow: 
 		case rzom_cTmplWindow:
+		case rzom_cPluginWindow:
 		case rzom_cGuiWindow: {
 			while (windowP) {
 				ppWindow = LWindow::FetchWindowObject(windowP);
@@ -808,6 +823,7 @@ CRezMapDoc::GetPositionOfSubModel(
 					if (ppWindow != nil && (theKind == inModelID
 						|| theKind == rzom_cHexWindow
 						|| theKind == rzom_cTmplWindow
+						|| theKind == rzom_cPluginWindow
 						|| theKind == rzom_cGuiWindow) ) {
 						count++;
 						if (ppWindow == inSubModel) {
@@ -852,6 +868,7 @@ CRezMapDoc::CountSubModels(
 		break;
 
 		case rzom_cGuiEditDoc:
+		case rzom_cPlugEditDoc:
 		case rzom_cTmplEditDoc:
 		case rzom_cHexEditDoc: {
 			CEditorDoc *	theDoc = nil;
