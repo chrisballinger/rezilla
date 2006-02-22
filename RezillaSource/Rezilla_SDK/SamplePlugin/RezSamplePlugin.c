@@ -2,7 +2,7 @@
 // File: "RezSamplePlugin.c"
 // 
 //                        Created: 2005-09-08 18:51:53
-//              Last modification: 2006-02-20 13:48:26
+//              Last modification: 2006-02-22 15:11:51
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -19,11 +19,17 @@
 
 // The UUID for the factory function: 
 // "306B89A8-206E-11DA-8320-000A95B1FF7C"
-// It is used as a key of the CFPlugInFactories dictionary in the property
-// list file (Info.plist).
+// It is used as a key of the CFPlugInFactories dictionary in the property list file (Info.plist).
 #define kRezillaSampleFactoryID (CFUUIDGetConstantUUIDWithBytes(NULL,0x30,0x6B,0x89,0xA8,0x20,0x6E,0x11,0xDA,0x83,0x20,0x00,0x0A,0x95,0xB1,0xFF,0x7C))
 
-#define kSamplePluginMenuID 500
+// ID of the plugin menu
+#define kSamplePluginMenuID		500
+
+// Default dimensions of the plugin window
+#define kSampleBoundsTop		50;
+#define kSampleBoundsLeft		50;
+#define kSampleBoundsBottom		600;
+#define kSampleBoundsRight		500;
 
 
 // Layout for an instance of SampleRec
@@ -38,20 +44,20 @@ typedef struct _SampleRec {
 // ----------
 static SampleRec *	_allocSampleRec( CFUUIDRef factoryID );
 static void			_deallocSampleRec( SampleRec *myInstance );
-static HRESULT		sample_QueryInterface(void *myInstance, REFIID iid, LPVOID *ppv );
-static ULONG		sample_AddRef(void *myInstance );
-static ULONG		sample_Release(void *myInstance );
-static Boolean		sample_AcceptResource(void *myInstance, ResType inType, short inID, Handle inDataH, RezPluginRequirements * ioReq);
-static OSErr		sample_EditResource(void *myInstance, RezPluginInfo inInfo);
-static Handle		sample_ReturnResource(void *myInstance, Boolean * outRelease, OSErr * outError);
-static OSErr		sample_RevertResource(void *myInstance, Handle inDataH);
-static Boolean		sample_IsModified(void *myInstance);
-static void			sample_CleanUp(void *myInstance);
-static void			sample_Refresh(void *myInstance);
-static void			sample_ResizeBy(SInt16 inWidthDelta, SInt16 inHeightDelta);
-static void			sample_HandleMenu(MenuRef menu, SInt16 inMenuItem);
-static void			sample_HandleClick(const EventRecord * inMacEvent, Point inPortCoords);
-static void			sample_HandleKeyDown(const EventRecord * inKeyEvent);
+static HRESULT		sample_QueryInterface(void *myInstance, REFIID iid, LPVOID *ppv);
+static ULONG		sample_AddRef(void *myInstance);
+static ULONG		sample_Release(void *myInstance);
+static Boolean		sample_AcceptResource(void *myInstance, ResType inType, short inID, Handle inDataH, RezPlugInfo * outInfo);
+static OSErr		sample_EditResource(RezPlugRef inPlugref, RezHostInfo inInfo);
+static Handle		sample_ReturnResource(RezPlugRef inPlugref, Boolean * outRelease, OSErr * outError);
+static OSErr		sample_RevertResource(RezPlugRef inPlugref, Handle inDataH);
+static Boolean		sample_IsModified(RezPlugRef inPlugref);
+static void			sample_CleanUp(RezPlugRef inPlugref);
+static void			sample_Refresh(RezPlugRef inPlugref);
+static void			sample_ResizeBy(RezPlugRef inPlugref, SInt16 inWidthDelta, SInt16 inHeightDelta);
+static void			sample_HandleMenu(RezPlugRef inPlugref, MenuRef menu, SInt16 inMenuItem);
+static void			sample_HandleClick(RezPlugRef inPlugref, const EventRecord * inMacEvent, Point inPortCoords);
+static void			sample_HandleKeyDown(RezPlugRef inPlugref, const EventRecord * inKeyEvent);
 
 
 // The RezillaEditorInterface function table
@@ -74,16 +80,19 @@ static SRezillaPluginInterface sSamplePlugFuncTable = {
 		sample_HandleKeyDown
 };
 
-// Static variables
-static ResType		sampleType;
-static short		sampleID;
-static Handle		sampleHandle;
+// Statics
 static MenuID		sampleMenuID;
-static RezPlugRef	samplePlugref;
-static WindowRef	sampleWinref;
-static MenuRef		sampleMenuref;
-static ControlRef	sampleControlRef;
-static Boolean		sampleModified;
+static MenuRef		sampleMenuRef;
+
+// A structure to hold the edit data for a particular resource
+typedef struct SampleEditInfo {
+	ResType		type;
+	short		id;
+	Handle		data;
+	WindowRef	winref;
+	ControlRef	controlref;
+	Boolean		modified;
+} SampleEditInfo;
 
 
 enum {
@@ -92,6 +101,12 @@ enum {
 };
 
 
+
+/*************************
+*                        *
+*   IUnknown Interface   *
+*                        *
+*************************/
 
 // -------------------------------------------------------------------------------------------
 //
@@ -167,6 +182,13 @@ sample_Release(void *myInstance )
 }
 
 
+
+/************************
+*                       *
+*   Rezilla Interface   *
+*                       *
+************************/
+
 // -------------------------------------------------------------------------------------------
 //
 //  The implementation by the Sample plugin of the AcceptResource function
@@ -175,29 +197,42 @@ sample_Release(void *myInstance )
 // -------------------------------------------------------------------------------------------
 
 Boolean
-sample_AcceptResource(void *myInstance, ResType inType, short inID, Handle inDataH, RezPluginRequirements * ioReq)
+sample_AcceptResource(void *myInstance, ResType inType, short inID, Handle inDataH, RezPlugInfo * outInfo)
 {
 	Boolean accepted = true;
+	
 	sampleMenuID = kSamplePluginMenuID;
 	
 	if (inType != 'PStr' && inType != 'STR ') {
-		ioReq->error = plugErr_UnsupportedType;
-		return false;
-	} 
+		outInfo->error = plugErr_UnsupportedType;
+		accepted = false;
+	} else {
+		SampleEditInfo * editInfo = (SampleEditInfo *) malloc( sizeof(SampleEditInfo) );	
+		
+		if (editInfo == NULL) {
+			outInfo->error = plugErr_InitializationFailed;
+			accepted = false;
+		} else {
+			// Initialize the SampleEditInfo struct
+			editInfo->type			= inType;
+			editInfo->id			= inID;
+			editInfo->data			= inDataH;
+			editInfo->winref		= NULL;
+			editInfo->controlref	= NULL;
+			editInfo->modified		= false;
+		
+			// Fill the RezPlugInfo
+			outInfo->plugref			= (RezPlugRef) editInfo;
+			outInfo->winattrs			= kPlugWinStandardAttributes | kPlugWinHasNameField;
+			outInfo->winbounds.top		= kSampleBoundsTop;
+			outInfo->winbounds.left		= kSampleBoundsLeft;
+			outInfo->winbounds.bottom	= kSampleBoundsBottom;
+			outInfo->winbounds.right	= kSampleBoundsRight;
+			outInfo->menucount			= 1;
+			outInfo->menuIDs			= &sampleMenuID;
+		}
+	}
 	
-	ioReq->winattrs = kPlugWinHasSaveButton | kPlugWinHasCancelButton | kPlugWinHasLockIcon;
-	ioReq->winbounds.top = 50;
-	ioReq->winbounds.left = 50;
-	ioReq->winbounds.bottom = 500;
-	ioReq->winbounds.right = 300;
-	ioReq->menucount = 1;
-	ioReq->menuIDs = &sampleMenuID;
-	
-	sampleType = inType;
-	sampleID = inID;
-	sampleHandle =inDataH;
-	sampleModified = false;
-
 	return accepted;
 }
 
@@ -210,18 +245,19 @@ sample_AcceptResource(void *myInstance, ResType inType, short inID, Handle inDat
 // -------------------------------------------------------------------------------------------
 
 OSErr
-sample_EditResource(void *myInstance, RezPluginInfo inInfo)
+sample_EditResource(RezPlugRef inPlugref, RezHostInfo inInfo)
 {
-	Rect			boundsRect = {100, 100, 130, 400};
+	Rect			editRect = {100, 100, 160, 400};
 	CFStringRef		theTextRef;
 	OSErr			error = noErr;
 	
-	samplePlugref = inInfo.plugref;
-	sampleWinref = inInfo.winref;
-	sampleMenuref = *inInfo.menurefs;
+	SampleEditInfo * editInfo = (SampleEditInfo *) inPlugref;
 	
-	theTextRef = CFStringCreateWithPascalString(kCFAllocatorDefault, *sampleHandle, kCFStringEncodingMacRoman);
-	CreateEditTextControl(sampleWinref, &boundsRect, theTextRef, false, false, NULL, &sampleControlRef);
+	editInfo->winref = inInfo.winref;
+	sampleMenuRef = *inInfo.menurefs;
+	
+	theTextRef = CFStringCreateWithPascalString(kCFAllocatorDefault, *(editInfo->data), kCFStringEncodingMacRoman);
+	CreateEditTextControl(editInfo->winref, &editRect, theTextRef, false, false, NULL, &(editInfo->controlref));
 	CFRelease(theTextRef);
 	
 	return error;
@@ -236,7 +272,7 @@ sample_EditResource(void *myInstance, RezPluginInfo inInfo)
 // -------------------------------------------------------------------------------------------
 
 Handle
-sample_ReturnResource(void *myInstance, Boolean * releaseIt, OSErr * outError)
+sample_ReturnResource(RezPlugRef inPlugref, Boolean * releaseIt, OSErr * outError)
 {
 	Handle		theHandle = NULL;
 	Size		theSize;
@@ -244,7 +280,9 @@ sample_ReturnResource(void *myInstance, Boolean * releaseIt, OSErr * outError)
 	CFStringRef	theTextRef;
 	OSErr		error = noErr;
 	
-	error = GetControlData(sampleControlRef, kControlNoPart, kControlEditTextTextTag, 
+	SampleEditInfo * editInfo = (SampleEditInfo *) inPlugref;
+
+	error = GetControlData(editInfo->controlref, kControlNoPart, kControlEditTextTextTag, 
 			   sizeof(theTextRef), &theTextRef, &theSize);
 	
 	if (CFStringGetPascalString(theTextRef, theString, sizeof(theString), kCFStringEncodingMacRoman)) {
@@ -265,11 +303,12 @@ sample_ReturnResource(void *myInstance, Boolean * releaseIt, OSErr * outError)
 // -------------------------------------------------------------------------------------------
 
 OSErr
-sample_RevertResource(void *myInstance, Handle inDataH)
+sample_RevertResource(RezPlugRef inPlugref, Handle inDataH)
 {
 	OSErr		error = noErr;
 	
-	sampleModified = false;
+	SampleEditInfo * editInfo = (SampleEditInfo *) inPlugref;
+	editInfo->modified = false;
 
 	return error;
 }
@@ -283,9 +322,10 @@ sample_RevertResource(void *myInstance, Handle inDataH)
 // -------------------------------------------------------------------------------------------
 
 Boolean
-sample_IsModified(void *myInstance)
+sample_IsModified(RezPlugRef inPlugref)
 {
-	return sampleModified;
+	SampleEditInfo * editInfo = (SampleEditInfo *) inPlugref;
+	return editInfo->modified;
 }
 
 
@@ -297,9 +337,12 @@ sample_IsModified(void *myInstance)
 // -------------------------------------------------------------------------------------------
 
 void
-sample_CleanUp(void *myInstance)
+sample_CleanUp(RezPlugRef inPlugref)
 {
-	DisposeControl(sampleControlRef);
+	SampleEditInfo * editInfo = (SampleEditInfo *) inPlugref;
+	DisposeControl(editInfo->controlref);
+	
+	free(editInfo);
 }
 
 
@@ -311,9 +354,10 @@ sample_CleanUp(void *myInstance)
 // -------------------------------------------------------------------------------------------
 
 void
-sample_Refresh(void *myInstance)
+sample_Refresh(RezPlugRef inPlugref)
 {
-	UpdateControls(sampleWinref, NULL);
+	SampleEditInfo * editInfo = (SampleEditInfo *) inPlugref;
+	UpdateControls(editInfo->winref, NULL);
 }
 
 
@@ -325,7 +369,7 @@ sample_Refresh(void *myInstance)
 // -------------------------------------------------------------------------------------------
 
 void
-sample_ResizeBy(SInt16 inWidthDelta, SInt16 inHeightDelta)
+sample_ResizeBy(RezPlugRef inPlugref, SInt16 inWidthDelta, SInt16 inHeightDelta)
 {
 }
 
@@ -338,8 +382,10 @@ sample_ResizeBy(SInt16 inWidthDelta, SInt16 inHeightDelta)
 // -------------------------------------------------------------------------------------------
 
 void
-sample_HandleMenu(MenuRef menu, SInt16 inMenuItem)
+sample_HandleMenu(RezPlugRef inPlugref, MenuRef menu, SInt16 inMenuItem)
 {
+	SampleEditInfo * editInfo = (SampleEditInfo *) inPlugref;
+	
 	switch (inMenuItem) {
 		case kSampleMenu_ReverseText:
 		break;
@@ -347,6 +393,8 @@ sample_HandleMenu(MenuRef menu, SInt16 inMenuItem)
 		case kSampleMenu_RotateText:
 		break;
 	}
+
+	editInfo->modified = true;
 }
 
 
@@ -358,7 +406,7 @@ sample_HandleMenu(MenuRef menu, SInt16 inMenuItem)
 // -------------------------------------------------------------------------------------------
 
 void
-sample_HandleClick(const EventRecord * inMacEvent, Point inPortCoords)
+sample_HandleClick(RezPlugRef inPlugref, const EventRecord * inMacEvent, Point inPortCoords)
 {
 }
 
@@ -371,9 +419,56 @@ sample_HandleClick(const EventRecord * inMacEvent, Point inPortCoords)
 // -------------------------------------------------------------------------------------------
 
 void
-sample_HandleKeyDown(const EventRecord * inKeyEvent){
+sample_HandleKeyDown(RezPlugRef inPlugref, const EventRecord * inKeyEvent){
 }
 
+
+
+/***********************
+*                      *
+*   Factory function   *
+*                      *
+***********************/
+
+// -------------------------------------------------------------------------------------------
+//
+//  Implementation of the factory function for the kRezillaEditorTypeID type.
+//  
+//  From the doc 
+//  (see /documentation/CoreFoundation/Conceptual/CFPlugIns/Concepts/conceptual.html):
+//      "When called by the plug-in host, the factory function allocates
+//      memory for an instance of the type being requested, sets up the
+//      function tables for its interfaces, and returns a pointer to the
+//      type’s IUnknown interface. The plug-in host can then use the
+//      IUnknown interface to search for other interfaces supported by the
+//      type."
+//      
+//  The return value is a void* but it is in fact a pointer to a SampleRec structure.
+//
+// -------------------------------------------------------------------------------------------
+
+extern void * RezSampleFactory(CFAllocatorRef allocator, CFUUIDRef typeID);
+
+void * RezSampleFactory( CFAllocatorRef allocator, CFUUIDRef typeID )
+{
+	if ( CFEqual( typeID, kRezillaEditorTypeID ) ) {
+		// If correct type is being requested, allocate an instance of
+		// the SampleRec struct and return the IUnknown interface
+		SampleRec * result = _allocSampleRec( kRezillaSampleFactoryID );
+		return result;
+	} else {
+		// If the requested type is incorrect, return NULL
+		return NULL;
+	}
+}
+
+
+
+/************************
+*                       *
+*   Utility functions   *
+*                       *
+************************/
 
 // -------------------------------------------------------------------------------------------
 //
@@ -420,33 +515,3 @@ _deallocSampleRec( SampleRec *myInstance )
 }
 
 
-// -------------------------------------------------------------------------------------------
-//
-//  Implementation of the factory function for the kRezillaEditorTypeID type.
-//  From the doc 
-//  (/documentation/CoreFoundation/Conceptual/CFPlugIns/Concepts/conceptual.html):
-//      "When called by the plug-in host, the factory function allocates
-//      memory for an instance of the type being requested, sets up the
-//      function tables for its interfaces, and returns a pointer to the
-//      type’s IUnknown interface. The plug-in host can then use the
-//      IUnknown interface to search for other interfaces supported by the
-//      type."
-//      
-//  The return value is a void* but is in fact a pointer to a SampleRec structure.
-//
-// -------------------------------------------------------------------------------------------
-/* extern "C"  */
-extern void * RezSampleFactory(CFAllocatorRef allocator, CFUUIDRef typeID);
-
-void * RezSampleFactory( CFAllocatorRef allocator, CFUUIDRef typeID )
-{
-	if ( CFEqual( typeID, kRezillaEditorTypeID ) ) {
-		// If correct type is being requested, allocate an instance of
-		// the SampleRec struct and return the IUnknown interface
-		SampleRec * result = _allocSampleRec( kRezillaSampleFactoryID );
-		return result;
-	} else {
-		// If the requested type is incorrect, return NULL
-		return NULL;
-	}
-}
