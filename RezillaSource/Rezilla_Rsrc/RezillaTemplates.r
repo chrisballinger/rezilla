@@ -427,7 +427,15 @@ resource 'TMPL' (1007, "alrx") {
 	}
 };
 
-resource 'TMPL' (1008, "APPL") {
+resource 'TMPL' (1008, "ALTI") {
+	{	/* array: 1 elements */
+		/* [1] */
+		"OS X Icon ID",
+		'DWRD'
+	}
+};
+
+resource 'TMPL' (1009, "APPL") {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Applications",
@@ -447,7 +455,7 @@ resource 'TMPL' (1008, "APPL") {
 	}
 };
 
-resource 'TMPL' (1009, "atms") {
+resource 'TMPL' (1010, "atms") {
 	{	/* array: 56 elements */
 		/* [1] */
 		"Resource for the creation of parameter d"
@@ -621,7 +629,7 @@ resource 'TMPL' (1009, "atms") {
 	}
 };
 
-resource 'TMPL' (1010, "audt") {
+resource 'TMPL' (1011, "audt") {
 	{	/* array: 42 elements */
 		/* [1] */
 		"Event constants",
@@ -752,7 +760,7 @@ resource 'TMPL' (1010, "audt") {
 	}
 };
 
-resource 'TMPL' (1011, "avvc") {
+resource 'TMPL' (1012, "avvc") {
 	{	/* array: 3 elements */
 		/* [1] */
 		"Compressors AVI file four cc's",
@@ -766,7 +774,7 @@ resource 'TMPL' (1011, "avvc") {
 	}
 };
 
-resource 'TMPL' (1012, "avvd") {
+resource 'TMPL' (1013, "avvd") {
 	{	/* array: 3 elements */
 		/* [1] */
 		"Decompressors AVI file four cc's",
@@ -780,7 +788,7 @@ resource 'TMPL' (1012, "avvd") {
 	}
 };
 
-resource 'TMPL' (1013, "badg") {
+resource 'TMPL' (1014, "badg") {
 	{	/* array: 17 elements */
 		/* [1] */
 		"Version",
@@ -836,7 +844,7 @@ resource 'TMPL' (1013, "badg") {
 	}
 };
 
-resource 'TMPL' (1014, "bMRM") {
+resource 'TMPL' (1015, "bMRM") {
 	{	/* array: 19 elements */
 		/* [1] */
 		"\"Fetch\" resource template",
@@ -899,7 +907,7 @@ resource 'TMPL' (1014, "bMRM") {
 	}
 };
 
-resource 'TMPL' (1015, "BNDL") {
+resource 'TMPL' (1016, "BNDL") {
 	{	/* array: 11 elements */
 		/* [1] */
 		"Signature",
@@ -937,7 +945,7 @@ resource 'TMPL' (1015, "BNDL") {
 	}
 };
 
-resource 'TMPL' (1016, "brws") {
+resource 'TMPL' (1017, "brws") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Version",
@@ -954,7 +962,7 @@ resource 'TMPL' (1016, "brws") {
 	}
 };
 
-resource 'TMPL' (1017, "bVal") {
+resource 'TMPL' (1018, "bVal") {
 	{	/* array: 2 elements */
 		/* [1] */
 		"\"AfterDark\" resource format",
@@ -965,7 +973,7 @@ resource 'TMPL' (1017, "bVal") {
 	}
 };
 
-resource 'TMPL' (1018, "Cals") {
+resource 'TMPL' (1019, "Cals") {
 	{	/* array: 8 elements */
 		/* [1] */
 		"\"AfterDark\" resource format",
@@ -994,7 +1002,7 @@ resource 'TMPL' (1018, "Cals") {
 	}
 };
 
-resource 'TMPL' (1019, "caps") {
+resource 'TMPL' (1020, "caps") {
 	{	/* array: 139 elements */
 		/* [1] */
 		"Count:",
@@ -1416,7 +1424,18 @@ resource 'TMPL' (1019, "caps") {
 	}
 };
 
-resource 'TMPL' (1020, "cbnd") {
+resource 'TMPL' (1021, "CATL") {
+	{	/* array: 2 elements */
+		/* [1] */
+		"Alphabetic sort?",
+		'BFLG',
+		/* [2] */
+		"Current page",
+		'PSTR'
+	}
+};
+
+resource 'TMPL' (1022, "cbnd") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Count:",
@@ -1448,7 +1467,7 @@ resource 'TMPL' (1020, "cbnd") {
 	}
 };
 
-resource 'TMPL' (1021, "CCIª") {
+resource 'TMPL' (1023, "CCIª") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Description",
@@ -1456,7 +1475,7 @@ resource 'TMPL' (1021, "CCIª") {
 	}
 };
 
-resource 'TMPL' (1022, "ccop") {
+resource 'TMPL' (1024, "ccop") {
 	{	/* array: 3 elements */
 		/* [1] */
 		"Codec compression options",
@@ -1470,7 +1489,7 @@ resource 'TMPL' (1022, "ccop") {
 	}
 };
 
-resource 'TMPL' (1023, "cctb") {
+resource 'TMPL' (1025, "cctb") {
 	{	/* array: 22 elements */
 		/* [1] */
 		"Control color seed",
@@ -1541,7 +1560,7 @@ resource 'TMPL' (1023, "cctb") {
 	}
 };
 
-resource 'TMPL' (1024, "cdci") {
+resource 'TMPL' (1026, "cdci") {
 	{	/* array: 53 elements */
 		/* [1] */
 		"Description/name",
@@ -1706,7 +1725,7 @@ resource 'TMPL' (1024, "cdci") {
 	}
 };
 
-resource 'TMPL' (1025, "cFIG") {
+resource 'TMPL' (1027, "cFIG") {
 	{	/* array: 29 elements */
 		/* [1] */
 		"Tool version",
@@ -1798,7 +1817,7 @@ resource 'TMPL' (1025, "cFIG") {
 	}
 };
 
-resource 'TMPL' (1026, "cfmt") {
+resource 'TMPL' (1028, "cfmt") {
 	{	/* array: 12 elements */
 		/* [1] */
 		"Column1 width",
@@ -1839,7 +1858,7 @@ resource 'TMPL' (1026, "cfmt") {
 	}
 };
 
-resource 'TMPL' (1027, "cfrg") {
+resource 'TMPL' (1029, "cfrg") {
 	{	/* array: 26 elements */
 		/* [1] */
 		"(private)",
@@ -1922,7 +1941,7 @@ resource 'TMPL' (1027, "cfrg") {
 	}
 };
 
-resource 'TMPL' (1028, "chCd") {
+resource 'TMPL' (1030, "chCd") {
 	{	/* array: 5 elements */
 		/* [1] */
 		"\"Finale\" resource format",
@@ -1942,7 +1961,7 @@ resource 'TMPL' (1028, "chCd") {
 	}
 };
 
-resource 'TMPL' (1029, "chCv") {
+resource 'TMPL' (1031, "chCv") {
 	{	/* array: 3 elements */
 		/* [1] */
 		"\"Finale\" resource format",
@@ -1956,7 +1975,7 @@ resource 'TMPL' (1029, "chCv") {
 	}
 };
 
-resource 'TMPL' (1030, "Chnl") {
+resource 'TMPL' (1032, "Chnl") {
 	{	/* array: 3 elements */
 		/* [1] */
 		"\"AfterDark\" resource format",
@@ -1970,7 +1989,7 @@ resource 'TMPL' (1030, "Chnl") {
 	}
 };
 
-resource 'TMPL' (1031, "CHOS") {
+resource 'TMPL' (1033, "CHOS") {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Serial device",
@@ -1990,7 +2009,7 @@ resource 'TMPL' (1031, "CHOS") {
 	}
 };
 
-resource 'TMPL' (1032, "chrw") {
+resource 'TMPL' (1034, "chrw") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Number of characters per 50 pixels",
@@ -1998,7 +2017,7 @@ resource 'TMPL' (1032, "chrw") {
 	}
 };
 
-resource 'TMPL' (1033, "ckid") {
+resource 'TMPL' (1035, "ckid") {
 	{	/* array: 27 elements */
 		/* [1] */
 		"Checksum",
@@ -2084,7 +2103,7 @@ resource 'TMPL' (1033, "ckid") {
 	}
 };
 
-resource 'TMPL' (1034, "Clmn") {
+resource 'TMPL' (1036, "Clmn") {
 	{	/* array: 35 elements */
 		/* [1] */
 		"\"SuitCase\" resource format",
@@ -2194,7 +2213,7 @@ resource 'TMPL' (1034, "Clmn") {
 	}
 };
 
-resource 'TMPL' (1035, "clr#") {
+resource 'TMPL' (1037, "clr#") {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Appearance Color List Resource (ID 384)",
@@ -2214,7 +2233,129 @@ resource 'TMPL' (1035, "clr#") {
 	}
 };
 
-resource 'TMPL' (1036, "cltn") {
+resource 'TMPL' (1038, "CLSS") {
+	{	/* array: 39 elements */
+		/* [1] */
+		"Class ID",
+		'TNAM',
+		/* [2] */
+		"Parent class ID",
+		'TNAM',
+		/* [3] */
+		"Class data size",
+		'DLNG',
+		/* [4] */
+		"Base class data size",
+		'DLNG',
+		/* [5] */
+		"Count:",
+		'OCNT',
+		/* [6] */
+		"Number of Fields",
+		'LSTC',
+		/* [7] */
+		"Field Name",
+		'ESTR',
+		/* [8] */
+		"Data type",
+		'KWRD',
+		/* [9] */
+		"Boolean=0",
+		'CASE',
+		/* [10] */
+		"Byte=1",
+		'CASE',
+		/* [11] */
+		"Char=2",
+		'CASE',
+		/* [12] */
+		"ID Type=3",
+		'CASE',
+		/* [13] */
+		"Int16=4",
+		'CASE',
+		/* [14] */
+		"Int32=5",
+		'CASE',
+		/* [15] */
+		"Pascal string=6",
+		'CASE',
+		/* [16] */
+		"0",
+		'KEYB',
+		/* [17] */
+		"Default value",
+		'BOOL',
+		/* [18] */
+		"",
+		'KEYE',
+		/* [19] */
+		"1",
+		'KEYB',
+		/* [20] */
+		"Default value",
+		'DBYT',
+		/* [21] */
+		"Filler",
+		'FBYT',
+		/* [22] */
+		"",
+		'KEYE',
+		/* [23] */
+		"2",
+		'KEYB',
+		/* [24] */
+		"Default value",
+		'CHAR',
+		/* [25] */
+		"Filler",
+		'FBYT',
+		/* [26] */
+		"",
+		'KEYE',
+		/* [27] */
+		"3",
+		'KEYB',
+		/* [28] */
+		"Default value",
+		'TNAM',
+		/* [29] */
+		"",
+		'KEYE',
+		/* [30] */
+		"4",
+		'KEYB',
+		/* [31] */
+		"Default value",
+		'DWRD',
+		/* [32] */
+		"",
+		'KEYE',
+		/* [33] */
+		"5",
+		'KEYB',
+		/* [34] */
+		"Default value",
+		'DLNG',
+		/* [35] */
+		"",
+		'KEYE',
+		/* [36] */
+		"6",
+		'KEYB',
+		/* [37] */
+		"Default value",
+		'ESTR',
+		/* [38] */
+		"",
+		'KEYE',
+		/* [39] */
+		"",
+		'LSTE'
+	}
+};
+
+resource 'TMPL' (1039, "cltn") {
 	{	/* array: 14 elements */
 		/* [1] */
 		"Count:",
@@ -2261,7 +2402,7 @@ resource 'TMPL' (1036, "cltn") {
 	}
 };
 
-resource 'TMPL' (1037, "clut") {
+resource 'TMPL' (1040, "clut") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Color table seed",
@@ -2293,7 +2434,7 @@ resource 'TMPL' (1037, "clut") {
 	}
 };
 
-resource 'TMPL' (1038, "CMDK") {
+resource 'TMPL' (1041, "CMDK") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Command Keys",
@@ -2301,7 +2442,7 @@ resource 'TMPL' (1038, "CMDK") {
 	}
 };
 
-resource 'TMPL' (1039, "cmdo") {
+resource 'TMPL' (1042, "cmdo") {
 	{	/* array: 315 elements */
 		/* [1] */
 		"Commando version",
@@ -3251,7 +3392,7 @@ resource 'TMPL' (1039, "cmdo") {
 	}
 };
 
-resource 'TMPL' (1040, "cmnu") {
+resource 'TMPL' (1043, "cmnu") {
 	{	/* array: 72 elements */
 		/* [1] */
 		"Menu ID",
@@ -3472,7 +3613,7 @@ resource 'TMPL' (1040, "cmnu") {
 	}
 };
 
-resource 'TMPL' (1041, "CNTL") {
+resource 'TMPL' (1044, "CNTL") {
 	{	/* array: 57 elements */
 		/* [1] */
 		"Bounds Rect",
@@ -3648,7 +3789,7 @@ resource 'TMPL' (1041, "CNTL") {
 	}
 };
 
-resource 'TMPL' (1042, "Colr") {
+resource 'TMPL' (1045, "Colr") {
 	{	/* array: 6 elements */
 		/* [1] */
 		"Version",
@@ -3672,7 +3813,7 @@ resource 'TMPL' (1042, "Colr") {
 	}
 };
 
-resource 'TMPL' (1043, "colw") {
+resource 'TMPL' (1046, "colw") {
 	{	/* array: 12 elements */
 		/* [1] */
 		"Name col default width",
@@ -3713,7 +3854,7 @@ resource 'TMPL' (1043, "colw") {
 	}
 };
 
-resource 'TMPL' (1044, "comm") {
+resource 'TMPL' (1047, "comm") {
 	{	/* array: 96 elements */
 		/* [1] */
 		"Printer connection",
@@ -4010,7 +4151,7 @@ resource 'TMPL' (1044, "comm") {
 	}
 };
 
-resource 'TMPL' (1045, "cool") {
+resource 'TMPL' (1048, "cool") {
 	{	/* array: 27 elements */
 		/* [1] */
 		"Alert type",
@@ -4096,7 +4237,7 @@ resource 'TMPL' (1045, "cool") {
 	}
 };
 
-resource 'TMPL' (1046, "cpix") {
+resource 'TMPL' (1049, "cpix") {
 	{	/* array: 3 elements */
 		/* [1] */
 		"Compressors supported compress pixel for"
@@ -4111,7 +4252,7 @@ resource 'TMPL' (1046, "cpix") {
 	}
 };
 
-resource 'TMPL' (1047, "CPPb") {
+resource 'TMPL' (1050, "CPPb") {
 	{	/* array: 58 elements */
 		/* [1] */
 		"Object Type",
@@ -4290,7 +4431,7 @@ resource 'TMPL' (1047, "CPPb") {
 	}
 };
 
-resource 'TMPL' (1048, "cpts") {
+resource 'TMPL' (1051, "cpts") {
 	{	/* array: 13 elements */
 		/* [1] */
 		"Type of capture string",
@@ -4334,7 +4475,7 @@ resource 'TMPL' (1048, "cpts") {
 	}
 };
 
-resource 'TMPL' (1049, "crst") {
+resource 'TMPL' (1052, "crst") {
 	{	/* array: 8 elements */
 		/* [1] */
 		"Color space",
@@ -4363,7 +4504,7 @@ resource 'TMPL' (1049, "crst") {
 	}
 };
 
-resource 'TMPL' (1050, "CTY#") {
+resource 'TMPL' (1053, "CTY#") {
 	{	/* array: 10 elements */
 		/* [1] */
 		"Num cities",
@@ -4398,7 +4539,7 @@ resource 'TMPL' (1050, "CTY#") {
 	}
 };
 
-resource 'TMPL' (1051, "CTYP") {
+resource 'TMPL' (1054, "CTYP") {
 	{	/* array: 237 elements */
 		/* [1] */
 		"Template for Constructor CWPro4",
@@ -5114,7 +5255,7 @@ resource 'TMPL' (1051, "CTYP") {
 	}
 };
 
-resource 'TMPL' (1052, "CURS") {
+resource 'TMPL' (1055, "CURS") {
 	{	/* array: 3 elements */
 		/* [1] */
 		"Image bits",
@@ -5128,7 +5269,7 @@ resource 'TMPL' (1052, "CURS") {
 	}
 };
 
-resource 'TMPL' (1053, "cust") {
+resource 'TMPL' (1056, "cust") {
 	{	/* array: 15 elements */
 		/* [1] */
 		"Horizontal resolution (dots/inch)",
@@ -5180,7 +5321,7 @@ resource 'TMPL' (1053, "cust") {
 	}
 };
 
-resource 'TMPL' (1054, "CWid") {
+resource 'TMPL' (1057, "CWid") {
 	{	/* array: 47 elements */
 		/* [1] */
 		"Minimum column width",
@@ -5326,7 +5467,7 @@ resource 'TMPL' (1054, "CWid") {
 	}
 };
 
-resource 'TMPL' (1055, "dale") {
+resource 'TMPL' (1058, "dale") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Count:",
@@ -5343,7 +5484,7 @@ resource 'TMPL' (1055, "dale") {
 	}
 };
 
-resource 'TMPL' (1056, "DBnf") {
+resource 'TMPL' (1059, "DBnf") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"\"SuitCase\" resource format",
@@ -5375,7 +5516,7 @@ resource 'TMPL' (1056, "DBnf") {
 	}
 };
 
-resource 'TMPL' (1057, "dbug") {
+resource 'TMPL' (1060, "dbug") {
 	{	/* array: 12 elements */
 		/* [1] */
 		"Debug window bounds",
@@ -5416,7 +5557,7 @@ resource 'TMPL' (1057, "dbug") {
 	}
 };
 
-resource 'TMPL' (1058, "dctb") {
+resource 'TMPL' (1061, "dctb") {
 	{	/* array: 12 elements */
 		/* [1] */
 		"Dialog color seed",
@@ -5457,7 +5598,7 @@ resource 'TMPL' (1058, "dctb") {
 	}
 };
 
-resource 'TMPL' (1059, "dctl") {
+resource 'TMPL' (1062, "dctl") {
 	{	/* array: 103 elements */
 		/* [1] */
 		"Maximum item count",
@@ -5772,7 +5913,7 @@ resource 'TMPL' (1059, "dctl") {
 	}
 };
 
-resource 'TMPL' (1060, "desC") {
+resource 'TMPL' (1063, "desC") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Count:",
@@ -5804,7 +5945,7 @@ resource 'TMPL' (1060, "desC") {
 	}
 };
 
-resource 'TMPL' (1061, "deta") {
+resource 'TMPL' (1064, "deta") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Aspect template",
@@ -5836,7 +5977,7 @@ resource 'TMPL' (1061, "deta") {
 	}
 };
 
-resource 'TMPL' (1062, "detf") {
+resource 'TMPL' (1065, "detf") {
 	{	/* array: 2 elements */
 		/* [1] */
 		"Version",
@@ -5847,7 +5988,7 @@ resource 'TMPL' (1062, "detf") {
 	}
 };
 
-resource 'TMPL' (1063, "deti") {
+resource 'TMPL' (1066, "deti") {
 	{	/* array: 18 elements */
 		/* [1] */
 		"Version",
@@ -5906,7 +6047,7 @@ resource 'TMPL' (1063, "deti") {
 	}
 };
 
-resource 'TMPL' (1064, "detk") {
+resource 'TMPL' (1067, "detk") {
 	{	/* array: 2 elements */
 		/* [1] */
 		"Version",
@@ -5917,7 +6058,7 @@ resource 'TMPL' (1064, "detk") {
 	}
 };
 
-resource 'TMPL' (1065, "detn") {
+resource 'TMPL' (1068, "detn") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"A decimal number",
@@ -5925,7 +6066,7 @@ resource 'TMPL' (1065, "detn") {
 	}
 };
 
-resource 'TMPL' (1066, "detp") {
+resource 'TMPL' (1069, "detp") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Count:",
@@ -5942,7 +6083,7 @@ resource 'TMPL' (1066, "detp") {
 	}
 };
 
-resource 'TMPL' (1067, "dett") {
+resource 'TMPL' (1070, "dett") {
 	{	/* array: 56 elements */
 		/* [1] */
 		"Attribute pattern table",
@@ -6116,7 +6257,7 @@ resource 'TMPL' (1067, "dett") {
 	}
 };
 
-resource 'TMPL' (1068, "detv") {
+resource 'TMPL' (1071, "detv") {
 	{	/* array: 104 elements */
 		/* [1] */
 		"Filler",
@@ -6433,7 +6574,7 @@ resource 'TMPL' (1068, "detv") {
 	}
 };
 
-resource 'TMPL' (1069, "detw") {
+resource 'TMPL' (1072, "detw") {
 	{	/* array: 6 elements */
 		/* [1] */
 		"If top of bounds is 0, use standard plac"
@@ -6458,7 +6599,7 @@ resource 'TMPL' (1069, "detw") {
 	}
 };
 
-resource 'TMPL' (1070, "detx") {
+resource 'TMPL' (1073, "detx") {
 	{	/* array: 6 elements */
 		/* [1] */
 		"Version",
@@ -6481,7 +6622,7 @@ resource 'TMPL' (1070, "detx") {
 	}
 };
 
-resource 'TMPL' (1071, "dflg") {
+resource 'TMPL' (1074, "dflg") {
 	{	/* array: 3 elements */
 		/* [1] */
 		"Version",
@@ -6495,7 +6636,7 @@ resource 'TMPL' (1071, "dflg") {
 	}
 };
 
-resource 'TMPL' (1072, "dftb") {
+resource 'TMPL' (1075, "dftb") {
 	{	/* array: 49 elements */
 		/* [1] */
 		"Version",
@@ -6647,7 +6788,7 @@ resource 'TMPL' (1072, "dftb") {
 	}
 };
 
-resource 'TMPL' (1073, "DITL") {
+resource 'TMPL' (1076, "DITL") {
 	{	/* array: 13 elements */
 		/* [1] */
 		"Count:",
@@ -6691,7 +6832,7 @@ resource 'TMPL' (1073, "DITL") {
 	}
 };
 
-resource 'TMPL' (1074, "dJvU") {
+resource 'TMPL' (1077, "dJvU") {
 	{	/* array: 7 elements */
 		/* [1] */
 		"\"Eudora\" resource format",
@@ -6717,7 +6858,7 @@ resource 'TMPL' (1074, "dJvU") {
 	}
 };
 
-resource 'TMPL' (1075, "DLGf") {
+resource 'TMPL' (1078, "DLGf") {
 	{	/* array: 8 elements */
 		/* [1] */
 		"\"Finale\" resource format",
@@ -6746,7 +6887,7 @@ resource 'TMPL' (1075, "DLGf") {
 	}
 };
 
-resource 'TMPL' (1076, "dlgx") {
+resource 'TMPL' (1079, "dlgx") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Version",
@@ -6778,7 +6919,7 @@ resource 'TMPL' (1076, "dlgx") {
 	}
 };
 
-resource 'TMPL' (1077, "dlle") {
+resource 'TMPL' (1080, "dlle") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"String for multi-platform things",
@@ -6786,7 +6927,7 @@ resource 'TMPL' (1077, "dlle") {
 	}
 };
 
-resource 'TMPL' (1078, "DLOG") {
+resource 'TMPL' (1081, "DLOG") {
 	{	/* array: 28 elements */
 		/* [1] */
 		"BoundsRect",
@@ -6875,7 +7016,7 @@ resource 'TMPL' (1078, "DLOG") {
 	}
 };
 
-resource 'TMPL' (1079, "DRVR") {
+resource 'TMPL' (1082, "DRVR") {
 	{	/* array: 35 elements */
 		/* [1] */
 		"Unused (should be 0)",
@@ -6985,7 +7126,7 @@ resource 'TMPL' (1079, "DRVR") {
 	}
 };
 
-resource 'TMPL' (1080, "DSAT") {
+resource 'TMPL' (1083, "DSAT") {
 	{	/* array: 6 elements */
 		/* [1] */
 		"Alerts",
@@ -7008,7 +7149,7 @@ resource 'TMPL' (1080, "DSAT") {
 	}
 };
 
-resource 'TMPL' (1081, "DSPC") {
+resource 'TMPL' (1084, "DSPC") {
 	{	/* array: 271 elements */
 		/* [1] */
 		"Version Number",
@@ -7826,7 +7967,7 @@ resource 'TMPL' (1081, "DSPC") {
 	}
 };
 
-resource 'TMPL' (1082, "EDDI") {
+resource 'TMPL' (1085, "EDDI") {
 	{	/* array: 14 elements */
 		/* [1] */
 		"\"Resurrection\" resource format",
@@ -7873,7 +8014,7 @@ resource 'TMPL' (1082, "EDDI") {
 	}
 };
 
-resource 'TMPL' (1083, "EDT#") {
+resource 'TMPL' (1086, "EDT#") {
 	{	/* array: 34 elements */
 		/* [1] */
 		"Last modified",
@@ -7980,24 +8121,60 @@ resource 'TMPL' (1083, "EDT#") {
 	}
 };
 
-resource 'TMPL' (1084, "EMap") {
-	{	/* array: 4 elements */
+resource 'TMPL' (1087, "EMap") {
+	{	/* array: 16 elements */
 		/* [1] */
-		"PowerPaint errors mapping",
-		'LSTB',
+		"CW Plugin resource format",
+		'DVDR',
 		/* [2] */
-		"MacOS error number (src)",
-		'DLNG',
+		"Resource version",
+		'DWRD',
 		/* [3] */
-		"PowerPaint error number (dst)",
-		'DLNG',
+		"Current=1",
+		'CASE',
 		/* [4] */
+		"Count:",
+		'OCNT',
+		/* [5] */
+		"Mappings",
+		'LSTC',
+		/* [6] */
+		"File Type",
+		'TNAM',
+		/* [7] */
+		"none=$00000000",
+		'CASE',
+		/* [8] */
+		"text file=TEXT",
+		'CASE',
+		/* [9] */
+		"Extension",
+		'P020',
+		/* [10] */
+		"none=",
+		'CASE',
+		/* [11] */
+		"Precompile",
+		'LBIT',
+		/* [12] */
+		"Launchable",
+		'LBIT',
+		/* [13] */
+		"Resource File",
+		'LBIT',
+		/* [14] */
+		"Ignored by Make",
+		'LBIT',
+		/* [15] */
+		"Reserved",
+		'LB28',
+		/* [16] */
 		"",
 		'LSTE'
 	}
 };
 
-resource 'TMPL' (1085, "eopt") {
+resource 'TMPL' (1088, "eopt") {
 	{	/* array: 6 elements */
 		/* [1] */
 		"Execute during imaging",
@@ -8020,7 +8197,7 @@ resource 'TMPL' (1085, "eopt") {
 	}
 };
 
-resource 'TMPL' (1086, "epcf") {
+resource 'TMPL' (1089, "epcf") {
 	{	/* array: 16 elements */
 		/* [1] */
 		"Version",
@@ -8073,7 +8250,7 @@ resource 'TMPL' (1086, "epcf") {
 	}
 };
 
-resource 'TMPL' (1087, "eppc") {
+resource 'TMPL' (1090, "eppc") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Flags",
@@ -8090,7 +8267,7 @@ resource 'TMPL' (1087, "eppc") {
 	}
 };
 
-resource 'TMPL' (1088, "EQPS") {
+resource 'TMPL' (1091, "EQPS") {
 	{	/* array: 25 elements */
 		/* [1] */
 		"Version (0)",
@@ -8170,7 +8347,7 @@ resource 'TMPL' (1088, "EQPS") {
 	}
 };
 
-resource 'TMPL' (1089, "EQST") {
+resource 'TMPL' (1092, "EQST") {
 	{	/* array: 33 elements */
 		/* [1] */
 		"eqEnabled",
@@ -8274,7 +8451,7 @@ resource 'TMPL' (1089, "EQST") {
 	}
 };
 
-resource 'TMPL' (1090, "ErrC") {
+resource 'TMPL' (1093, "ErrC") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Error description",
@@ -8282,7 +8459,7 @@ resource 'TMPL' (1090, "ErrC") {
 	}
 };
 
-resource 'TMPL' (1091, "errs") {
+resource 'TMPL' (1094, "errs") {
 	{	/* array: 8 elements */
 		/* [1] */
 		"List of errors",
@@ -8311,7 +8488,7 @@ resource 'TMPL' (1091, "errs") {
 	}
 };
 
-resource 'TMPL' (1092, "EuFl") {
+resource 'TMPL' (1095, "EuFl") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"\"Eudora\" resource format",
@@ -8328,7 +8505,7 @@ resource 'TMPL' (1092, "EuFl") {
 	}
 };
 
-resource 'TMPL' (1093, "EuOM") {
+resource 'TMPL' (1096, "EuOM") {
 	{	/* array: 17 elements */
 		/* [1] */
 		"\"Eudora\" resource format",
@@ -8384,7 +8561,7 @@ resource 'TMPL' (1093, "EuOM") {
 	}
 };
 
-resource 'TMPL' (1094, "EuRg") {
+resource 'TMPL' (1097, "EuRg") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"\"Eudora\" resource format",
@@ -8401,7 +8578,7 @@ resource 'TMPL' (1094, "EuRg") {
 	}
 };
 
-resource 'TMPL' (1095, "exft") {
+resource 'TMPL' (1098, "exft") {
 	{	/* array: 148 elements */
 		/* [1] */
 		"Count:",
@@ -8850,7 +9027,7 @@ resource 'TMPL' (1095, "exft") {
 	}
 };
 
-resource 'TMPL' (1096, "f2im") {
+resource 'TMPL' (1099, "f2im") {
 	{	/* array: 6 elements */
 		/* [1] */
 		"\"SuitCase\" resource format",
@@ -8873,7 +9050,7 @@ resource 'TMPL' (1096, "f2im") {
 	}
 };
 
-resource 'TMPL' (1097, "faps") {
+resource 'TMPL' (1100, "faps") {
 	{	/* array: 27 elements */
 		/* [1] */
 		"File Transfer tool capabilities list",
@@ -8959,7 +9136,7 @@ resource 'TMPL' (1097, "faps") {
 	}
 };
 
-resource 'TMPL' (1098, "fbnd") {
+resource 'TMPL' (1101, "fbnd") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Count:",
@@ -8991,7 +9168,7 @@ resource 'TMPL' (1098, "fbnd") {
 	}
 };
 
-resource 'TMPL' (1099, "FBTN") {
+resource 'TMPL' (1102, "FBTN") {
 	{	/* array: 7 elements */
 		/* [1] */
 		"Count:",
@@ -9017,7 +9194,7 @@ resource 'TMPL' (1099, "FBTN") {
 	}
 };
 
-resource 'TMPL' (1100, "FCMT") {
+resource 'TMPL' (1103, "FCMT") {
 	{	/* array: 2 elements */
 		/* [1] */
 		"Comment string",
@@ -9028,7 +9205,7 @@ resource 'TMPL' (1100, "FCMT") {
 	}
 };
 
-resource 'TMPL' (1101, "fctb") {
+resource 'TMPL' (1104, "fctb") {
 	{	/* array: 7 elements */
 		/* [1] */
 		"Seed",
@@ -9054,7 +9231,7 @@ resource 'TMPL' (1101, "fctb") {
 	}
 };
 
-resource 'TMPL' (1102, "fdes") {
+resource 'TMPL' (1105, "fdes") {
 	{	/* array: 46 elements */
 		/* [1] */
 		"Go Mixed Mode Trap",
@@ -9197,7 +9374,7 @@ resource 'TMPL' (1102, "fdes") {
 	}
 };
 
-resource 'TMPL' (1103, "FDIR") {
+resource 'TMPL' (1106, "FDIR") {
 	{	/* array: 3 elements */
 		/* [1] */
 		"*****",
@@ -9211,7 +9388,7 @@ resource 'TMPL' (1103, "FDIR") {
 	}
 };
 
-resource 'TMPL' (1104, "FDlg") {
+resource 'TMPL' (1107, "FDlg") {
 	{	/* array: 14 elements */
 		/* [1] */
 		"\"Finale\" resource format",
@@ -9258,7 +9435,7 @@ resource 'TMPL' (1104, "FDlg") {
 	}
 };
 
-resource 'TMPL' (1105, "fdmn") {
+resource 'TMPL' (1108, "fdmn") {
 	{	/* array: 8 elements */
 		/* [1] */
 		"Menu ID",
@@ -9287,7 +9464,7 @@ resource 'TMPL' (1105, "fdmn") {
 	}
 };
 
-resource 'TMPL' (1106, "fFIG") {
+resource 'TMPL' (1109, "fFIG") {
 	{	/* array: 25 elements */
 		/* [1] */
 		"Tool version",
@@ -9367,7 +9544,7 @@ resource 'TMPL' (1106, "fFIG") {
 	}
 };
 
-resource 'TMPL' (1107, "FHLP") {
+resource 'TMPL' (1110, "FHLP") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Fetch Help Text",
@@ -9375,7 +9552,7 @@ resource 'TMPL' (1107, "FHLP") {
 	}
 };
 
-resource 'TMPL' (1108, "find") {
+resource 'TMPL' (1111, "find") {
 	{	/* array: 12 elements */
 		/* [1] */
 		"Find text",
@@ -9416,7 +9593,7 @@ resource 'TMPL' (1108, "find") {
 	}
 };
 
-resource 'TMPL' (1109, "finf") {
+resource 'TMPL' (1112, "finf") {
 	{	/* array: 14 elements */
 		/* [1] */
 		"Count:",
@@ -9463,7 +9640,1979 @@ resource 'TMPL' (1109, "finf") {
 	}
 };
 
-resource 'TMPL' (1110, "fld#") {
+resource 'TMPL' (1113, "Flag") {
+	{	/* array: 655 elements */
+		/* [1] */
+		"CW Plugin resource format",
+		'DVDR',
+		/* [2] */
+		"Resource Version",
+		'KWRD',
+		/* [3] */
+		"CWPro3=3",
+		'CASE',
+		/* [4] */
+		"CWPro2=2",
+		'CASE',
+		/* [5] */
+		"CW7=1",
+		'CASE',
+		/* [6] */
+		"3",
+		'KEYB',
+		/* [7] */
+		"Object type",
+		'KTYP',
+		/* [8] */
+		"Panel=Panl",
+		'CASE',
+		/* [9] */
+		"Compiler=Comp",
+		'CASE',
+		/* [10] */
+		"Linker=Link",
+		'CASE',
+		/* [11] */
+		"Version Control=VCS ",
+		'CASE',
+		/* [12] */
+		"Reserved=Appl",
+		'CASE',
+		/* [13] */
+		"Panl",
+		'KEYB',
+		/* [14] */
+		"Earliest supported API Version",
+		'DWRD',
+		/* [15] */
+		"Pro6=10",
+		'CASE',
+		/* [16] */
+		"Pro5=9",
+		'CASE',
+		/* [17] */
+		"Pro4=8",
+		'CASE',
+		/* [18] */
+		"Pro3=7",
+		'CASE',
+		/* [19] */
+		"Pro2=6",
+		'CASE',
+		/* [20] */
+		"CW10=5",
+		'CASE',
+		/* [21] */
+		"CW9=4",
+		'CASE',
+		/* [22] */
+		"CW8=3",
+		'CASE',
+		/* [23] */
+		"Version 2=2",
+		'CASE',
+		/* [24] */
+		"CW7=1",
+		'CASE',
+		/* [25] */
+		"Uses strict API",
+		'LBIT',
+		/* [26] */
+		"Supports byte-swapping",
+		'LBIT',
+		/* [27] */
+		"Supports reading/writing settings",
+		'LBIT',
+		/* [28] */
+		"Uses cross-platform API",
+		'LBIT',
+		/* [29] */
+		"reserved",
+		'LB28',
+		/* [30] */
+		"Family ID",
+		'TNAM',
+		/* [31] */
+		"Project=proj",
+		'CASE',
+		/* [32] */
+		"Front End=fend",
+		'CASE',
+		/* [33] */
+		"Back End=bend",
+		'CASE',
+		/* [34] */
+		"Browser=brow",
+		'CASE',
+		/* [35] */
+		"Editor=edit",
+		'CASE',
+		/* [36] */
+		"Debugger=dbug",
+		'CASE',
+		/* [37] */
+		"Linker=link",
+		'CASE',
+		/* [38] */
+		"Miscellaneous=****",
+		'CASE',
+		/* [39] */
+		"RAD Tools=radt",
+		'CASE',
+		/* [40] */
+		"Latest supported API version",
+		'DWRD',
+		/* [41] */
+		"Pro6=10",
+		'CASE',
+		/* [42] */
+		"Pro5=9",
+		'CASE',
+		/* [43] */
+		"Pro4=8",
+		'CASE',
+		/* [44] */
+		"Pro3=7",
+		'CASE',
+		/* [45] */
+		"Pro2=6",
+		'CASE',
+		/* [46] */
+		"CW10=5",
+		'CASE',
+		/* [47] */
+		"CW9=4",
+		'CASE',
+		/* [48] */
+		"CW8=3",
+		'CASE',
+		/* [49] */
+		"Version 2=2",
+		'CASE',
+		/* [50] */
+		"CW7=1",
+		'CASE',
+		/* [51] */
+		"Prefs data version",
+		'DWRD',
+		/* [52] */
+		"Panel scope",
+		'DWRD',
+		/* [53] */
+		"global=0",
+		'CASE',
+		/* [54] */
+		"project=1",
+		'CASE',
+		/* [55] */
+		"target=2",
+		'CASE',
+		/* [56] */
+		"",
+		'KEYE',
+		/* [57] */
+		"Comp",
+		'KEYB',
+		/* [58] */
+		"Earliest supported API version",
+		'DWRD',
+		/* [59] */
+		"Version 11 (Pro 5)=11",
+		'CASE',
+		/* [60] */
+		"Version 10 (Pro 4)=10",
+		'CASE',
+		/* [61] */
+		"Version 9 (Pro 3)=9",
+		'CASE',
+		/* [62] */
+		"Version 8 (Pro 2)=8",
+		'CASE',
+		/* [63] */
+		"Version 7 (Pro 1)=7",
+		'CASE',
+		/* [64] */
+		"Version 6=6",
+		'CASE',
+		/* [65] */
+		"Version 5=5",
+		'CASE',
+		/* [66] */
+		"CW9=4",
+		'CASE',
+		/* [67] */
+		"CW8=3",
+		'CASE',
+		/* [68] */
+		"Version 2=2",
+		'CASE',
+		/* [69] */
+		"CW7=1",
+		'CASE',
+		/* [70] */
+		"Generates Code",
+		'LBIT',
+		/* [71] */
+		"Generates Resources",
+		'LBIT',
+		/* [72] */
+		"Can Preprocess",
+		'LBIT',
+		/* [73] */
+		"Can Precompile",
+		'LBIT',
+		/* [74] */
+		"Is Pascal",
+		'LBIT',
+		/* [75] */
+		"Can Import",
+		'LBIT',
+		/* [76] */
+		"Can Disassemble",
+		'LBIT',
+		/* [77] */
+		"Persistent",
+		'LBIT',
+		/* [78] */
+		"Allow Duplicate File Names",
+		'LBIT',
+		/* [79] */
+		"Multi Target Aware",
+		'LBIT',
+		/* [80] */
+		"Multiprocessing Aware",
+		'LBIT',
+		/* [81] */
+		"Uses Target Storage",
+		'LBIT',
+		/* [82] */
+		"Has Compiler-Specific Browser Symbols",
+		'LBIT',
+		/* [83] */
+		"Always Reload",
+		'LBIT',
+		/* [84] */
+		"Requires Project Build Started",
+		'LBIT',
+		/* [85] */
+		"Requires Target Build Started",
+		'LBIT',
+		/* [86] */
+		"Requires Subproject Build Started",
+		'LBIT',
+		/* [87] */
+		"Requires File-list Build Started",
+		'LBIT',
+		/* [88] */
+		"",
+		'LB14',
+		/* [89] */
+		"Language Type",
+		'TNAM',
+		/* [90] */
+		"C/C++=c++ ",
+		'CASE',
+		/* [91] */
+		"Pascal=pasc",
+		'CASE',
+		/* [92] */
+		"Rez=rez ",
+		'CASE',
+		/* [93] */
+		"java=java",
+		'CASE',
+		/* [94] */
+		"unknown=????",
+		'CASE',
+		/* [95] */
+		"Latest supported API version",
+		'DWRD',
+		/* [96] */
+		"Version 11 (Pro 5)=11",
+		'CASE',
+		/* [97] */
+		"Version \?10 (Pro 4)=10",
+		'CASE',
+		/* [98] */
+		"Version 9 (Pro 3)=9",
+		'CASE',
+		/* [99] */
+		"Version 8 (Pro 2)=8",
+		'CASE',
+		/* [100] */
+		"Version 7 (Pro 1)=7",
+		'CASE',
+		/* [101] */
+		"Version 6=6",
+		'CASE',
+		/* [102] */
+		"Version 5=5",
+		'CASE',
+		/* [103] */
+		"CW9=4",
+		'CASE',
+		/* [104] */
+		"CW8=3",
+		'CASE',
+		/* [105] */
+		"Version 2=2",
+		'CASE',
+		/* [106] */
+		"CW7=1",
+		'CASE',
+		/* [107] */
+		"",
+		'KEYE',
+		/* [108] */
+		"Link",
+		'KEYB',
+		/* [109] */
+		"Earliest supported API version",
+		'DWRD',
+		/* [110] */
+		"Version 11 (Pro 5)=11",
+		'CASE',
+		/* [111] */
+		"Version 10 (Pro 4)=10",
+		'CASE',
+		/* [112] */
+		"Version 9 (Pro 3)=9",
+		'CASE',
+		/* [113] */
+		"Version 8 (Pro 2)=8",
+		'CASE',
+		/* [114] */
+		"Version 7 (Pro 1)=7",
+		'CASE',
+		/* [115] */
+		"Version 5=5",
+		'CASE',
+		/* [116] */
+		"CW9=4",
+		'CASE',
+		/* [117] */
+		"CW8=3",
+		'CASE',
+		/* [118] */
+		"Version 2=2",
+		'CASE',
+		/* [119] */
+		"CW7=1",
+		'CASE',
+		/* [120] */
+		"Can\0x19t Dissassemble",
+		'LBIT',
+		/* [121] */
+		"Post Linker",
+		'LBIT',
+		/* [122] */
+		"Allow Duplicate File Names",
+		'LBIT',
+		/* [123] */
+		"Multi Target Aware",
+		'LBIT',
+		/* [124] */
+		"Pre Linker",
+		'LBIT',
+		/* [125] */
+		"Uses Target Storage",
+		'LBIT',
+		/* [126] */
+		"Unmangles Names",
+		'LBIT',
+		/* [127] */
+		"Magic Cap Linker",
+		'LBIT',
+		/* [128] */
+		"Always Reload",
+		'LBIT',
+		/* [129] */
+		"Requires Project Build Started",
+		'LBIT',
+		/* [130] */
+		"Requires Target Build Started",
+		'LBIT',
+		/* [131] */
+		"Requires Subproject Build Started",
+		'LBIT',
+		/* [132] */
+		"Requires File-list Build Started",
+		'LBIT',
+		/* [133] */
+		"Requires Target Link Started",
+		'LBIT',
+		/* [134] */
+		"Requires Pre-Run",
+		'LBIT',
+		/* [135] */
+		"GetTargetInfo is Thread Safe",
+		'LBIT',
+		/* [136] */
+		"",
+		'LB16',
+		/* [137] */
+		"reserved(0)",
+		'FLNG',
+		/* [138] */
+		"Latest supported API version",
+		'DWRD',
+		/* [139] */
+		"Version 11 (Pro 5)=11",
+		'CASE',
+		/* [140] */
+		"Version 10 (Pro 4)=10",
+		'CASE',
+		/* [141] */
+		"Version 9 (Pro 3)=9",
+		'CASE',
+		/* [142] */
+		"Version 8 (Pro 2)=8",
+		'CASE',
+		/* [143] */
+		"Version 7 (Pro 1)=7",
+		'CASE',
+		/* [144] */
+		"Version 5=5",
+		'CASE',
+		/* [145] */
+		"CW9=4",
+		'CASE',
+		/* [146] */
+		"CW8=3",
+		'CASE',
+		/* [147] */
+		"Version 2=2",
+		'CASE',
+		/* [148] */
+		"CW7=1",
+		'CASE',
+		/* [149] */
+		"",
+		'KEYE',
+		/* [150] */
+		"VCS ",
+		'KEYB',
+		/* [151] */
+		"Earliest Supported API Version",
+		'DWRD',
+		/* [152] */
+		"Version 8=8",
+		'CASE',
+		/* [153] */
+		"Version 7=7",
+		'CASE',
+		/* [154] */
+		"Version 1=1",
+		'CASE',
+		/* [155] */
+		"Doesn\0x19t Use Pre/PostFileAction on single"
+		" file calls",
+		'LBIT',
+		/* [156] */
+		"Doesn\0x19t use Pre/PostFileAction on recurs"
+		"ive calls",
+		'LBIT',
+		/* [157] */
+		"Requires events",
+		'LBIT',
+		/* [158] */
+		"Wants Idle requests",
+		'LBIT',
+		/* [159] */
+		"",
+		'LB28',
+		/* [160] */
+		"reserved(0)",
+		'FLNG',
+		/* [161] */
+		"Latest supported API version",
+		'DWRD',
+		/* [162] */
+		"Version 8=8",
+		'CASE',
+		/* [163] */
+		"Version 2=7",
+		'CASE',
+		/* [164] */
+		"Version 1=1",
+		'CASE',
+		/* [165] */
+		"",
+		'KEYE',
+		/* [166] */
+		"Appl",
+		'KEYB',
+		/* [167] */
+		"API Version",
+		'DWRD',
+		/* [168] */
+		"CW7=1",
+		'CASE',
+		/* [169] */
+		"",
+		'LB32',
+		/* [170] */
+		"",
+		'KEYE',
+		/* [171] */
+		"",
+		'KEYE',
+		/* [172] */
+		"2",
+		'KEYB',
+		/* [173] */
+		"Object type",
+		'KTYP',
+		/* [174] */
+		"Panel=Panl",
+		'CASE',
+		/* [175] */
+		"Compiler=Comp",
+		'CASE',
+		/* [176] */
+		"Linker=Link",
+		'CASE',
+		/* [177] */
+		"Version Control=VCS ",
+		'CASE',
+		/* [178] */
+		"Reserved=Appl",
+		'CASE',
+		/* [179] */
+		"Panl",
+		'KEYB',
+		/* [180] */
+		"API Version",
+		'KWRD',
+		/* [181] */
+		"Pro2=6",
+		'CASE',
+		/* [182] */
+		"CW10=5",
+		'CASE',
+		/* [183] */
+		"CW9=4",
+		'CASE',
+		/* [184] */
+		"CW8=3",
+		'CASE',
+		/* [185] */
+		"Version 2=2",
+		'CASE',
+		/* [186] */
+		"CW7=1",
+		'CASE',
+		/* [187] */
+		"6",
+		'KEYB',
+		/* [188] */
+		"Prefs data version",
+		'DWRD',
+		/* [189] */
+		"Uses strict API",
+		'WBIT',
+		/* [190] */
+		"Supports byte-swapping",
+		'WBIT',
+		/* [191] */
+		"reserved",
+		'WB14',
+		/* [192] */
+		"Family ID",
+		'TNAM',
+		/* [193] */
+		"Project=proj",
+		'CASE',
+		/* [194] */
+		"Front End=fend",
+		'CASE',
+		/* [195] */
+		"Back End=bend",
+		'CASE',
+		/* [196] */
+		"Browser=brow",
+		'CASE',
+		/* [197] */
+		"Editor=edit",
+		'CASE',
+		/* [198] */
+		"Debugger=dbug",
+		'CASE',
+		/* [199] */
+		"Linker=link",
+		'CASE',
+		/* [200] */
+		"Miscellaneous=****",
+		'CASE',
+		/* [201] */
+		"",
+		'KEYE',
+		/* [202] */
+		"5",
+		'KEYB',
+		/* [203] */
+		"Prefs data version",
+		'DWRD',
+		/* [204] */
+		"Uses strict API",
+		'WBIT',
+		/* [205] */
+		"reserved",
+		'WB15',
+		/* [206] */
+		"Family ID",
+		'TNAM',
+		/* [207] */
+		"Project=proj",
+		'CASE',
+		/* [208] */
+		"Front End=fend",
+		'CASE',
+		/* [209] */
+		"Back End=bend",
+		'CASE',
+		/* [210] */
+		"Browser=brow",
+		'CASE',
+		/* [211] */
+		"Editor=edit",
+		'CASE',
+		/* [212] */
+		"Debugger=dbug",
+		'CASE',
+		/* [213] */
+		"Linker=link",
+		'CASE',
+		/* [214] */
+		"Miscellaneous=****",
+		'CASE',
+		/* [215] */
+		"",
+		'KEYE',
+		/* [216] */
+		"4",
+		'KEYB',
+		/* [217] */
+		"Prefs data version",
+		'DWRD',
+		/* [218] */
+		"",
+		'WB16',
+		/* [219] */
+		"Family ID",
+		'TNAM',
+		/* [220] */
+		"Project=proj",
+		'CASE',
+		/* [221] */
+		"Front End=fend",
+		'CASE',
+		/* [222] */
+		"Back End=bend",
+		'CASE',
+		/* [223] */
+		"Browser=brow",
+		'CASE',
+		/* [224] */
+		"Editor=edit",
+		'CASE',
+		/* [225] */
+		"Debugger=dbug",
+		'CASE',
+		/* [226] */
+		"Linker=link",
+		'CASE',
+		/* [227] */
+		"Miscellaneous=****",
+		'CASE',
+		/* [228] */
+		"",
+		'KEYE',
+		/* [229] */
+		"3",
+		'KEYB',
+		/* [230] */
+		"Prefs data version",
+		'DWRD',
+		/* [231] */
+		"",
+		'WB16',
+		/* [232] */
+		"Family ID",
+		'TNAM',
+		/* [233] */
+		"Project=proj",
+		'CASE',
+		/* [234] */
+		"Front End=fend",
+		'CASE',
+		/* [235] */
+		"Back End=bend",
+		'CASE',
+		/* [236] */
+		"Browser=brow",
+		'CASE',
+		/* [237] */
+		"Editor=edit",
+		'CASE',
+		/* [238] */
+		"Debugger=dbug",
+		'CASE',
+		/* [239] */
+		"Linker=link",
+		'CASE',
+		/* [240] */
+		"Miscellaneous=****",
+		'CASE',
+		/* [241] */
+		"",
+		'KEYE',
+		/* [242] */
+		"2",
+		'KEYB',
+		/* [243] */
+		"Prefs data version",
+		'DWRD',
+		/* [244] */
+		"",
+		'WB16',
+		/* [245] */
+		"Family ID",
+		'TNAM',
+		/* [246] */
+		"Project=proj",
+		'CASE',
+		/* [247] */
+		"Front End=fend",
+		'CASE',
+		/* [248] */
+		"Back End=bend",
+		'CASE',
+		/* [249] */
+		"Browser=brow",
+		'CASE',
+		/* [250] */
+		"Editor=edit",
+		'CASE',
+		/* [251] */
+		"Debugger=dbug",
+		'CASE',
+		/* [252] */
+		"Linker=link",
+		'CASE',
+		/* [253] */
+		"Miscellaneous=****",
+		'CASE',
+		/* [254] */
+		"",
+		'KEYE',
+		/* [255] */
+		"1",
+		'KEYB',
+		/* [256] */
+		"",
+		'LB32',
+		/* [257] */
+		"",
+		'KEYE',
+		/* [258] */
+		"",
+		'KEYE',
+		/* [259] */
+		"Comp",
+		'KEYB',
+		/* [260] */
+		"Earliest supported API version",
+		'DWRD',
+		/* [261] */
+		"Version 9 (Pro 3)=9",
+		'CASE',
+		/* [262] */
+		"Version 8 (Pro 2)=8",
+		'CASE',
+		/* [263] */
+		"Version 7 (Pro 1)=7",
+		'CASE',
+		/* [264] */
+		"Version 6=6",
+		'CASE',
+		/* [265] */
+		"Version 5=5",
+		'CASE',
+		/* [266] */
+		"CW9=4",
+		'CASE',
+		/* [267] */
+		"CW8=3",
+		'CASE',
+		/* [268] */
+		"Version 2=2",
+		'CASE',
+		/* [269] */
+		"CW7=1",
+		'CASE',
+		/* [270] */
+		"Generates Code",
+		'LBIT',
+		/* [271] */
+		"Generates Resources",
+		'LBIT',
+		/* [272] */
+		"Can Preprocess",
+		'LBIT',
+		/* [273] */
+		"Can Precompile",
+		'LBIT',
+		/* [274] */
+		"Is Pascal",
+		'LBIT',
+		/* [275] */
+		"Can Import",
+		'LBIT',
+		/* [276] */
+		"Can Disassemble",
+		'LBIT',
+		/* [277] */
+		"Persistent",
+		'LBIT',
+		/* [278] */
+		"Allow Duplicate File Names",
+		'LBIT',
+		/* [279] */
+		"Multi Target Aware",
+		'LBIT',
+		/* [280] */
+		"Multiprocessing Aware",
+		'LBIT',
+		/* [281] */
+		"Uses Target Storage",
+		'LBIT',
+		/* [282] */
+		"Has Compiler-Specific Browser Symbols",
+		'LBIT',
+		/* [283] */
+		"Always Reload",
+		'LBIT',
+		/* [284] */
+		"",
+		'LB18',
+		/* [285] */
+		"Language Type",
+		'TNAM',
+		/* [286] */
+		"C/C++=c++ ",
+		'CASE',
+		/* [287] */
+		"Pascal=pasc",
+		'CASE',
+		/* [288] */
+		"Rez=rez ",
+		'CASE',
+		/* [289] */
+		"java=java",
+		'CASE',
+		/* [290] */
+		"unknown=????",
+		'CASE',
+		/* [291] */
+		"Latest supported API version",
+		'DWRD',
+		/* [292] */
+		"Version 9 (Pro 3)=9",
+		'CASE',
+		/* [293] */
+		"Version 8 (Pro 2)=8",
+		'CASE',
+		/* [294] */
+		"Version 7 (Pro 1)=7",
+		'CASE',
+		/* [295] */
+		"Version 6=6",
+		'CASE',
+		/* [296] */
+		"Version 5=5",
+		'CASE',
+		/* [297] */
+		"CW9=4",
+		'CASE',
+		/* [298] */
+		"CW8=3",
+		'CASE',
+		/* [299] */
+		"Version 2=2",
+		'CASE',
+		/* [300] */
+		"CW7=1",
+		'CASE',
+		/* [301] */
+		"",
+		'KEYE',
+		/* [302] */
+		"Link",
+		'KEYB',
+		/* [303] */
+		"API Version",
+		'DWRD',
+		/* [304] */
+		"Version 9 (Pro 3)=9",
+		'CASE',
+		/* [305] */
+		"Version 8 (Pro 2)=8",
+		'CASE',
+		/* [306] */
+		"Version 7 (Pro 1)=7",
+		'CASE',
+		/* [307] */
+		"Version 5=5",
+		'CASE',
+		/* [308] */
+		"CW9=4",
+		'CASE',
+		/* [309] */
+		"CW8=3",
+		'CASE',
+		/* [310] */
+		"Version 2=2",
+		'CASE',
+		/* [311] */
+		"CW7=1",
+		'CASE',
+		/* [312] */
+		"Can\0x19t Dissassemble",
+		'LBIT',
+		/* [313] */
+		"Post Linker",
+		'LBIT',
+		/* [314] */
+		"Allow Duplicate File Names",
+		'LBIT',
+		/* [315] */
+		"Multi Target Aware",
+		'LBIT',
+		/* [316] */
+		"Pre Linker",
+		'LBIT',
+		/* [317] */
+		"Uses Target Storage",
+		'LBIT',
+		/* [318] */
+		"Unmangles Names",
+		'LBIT',
+		/* [319] */
+		"Magic Cap Linker",
+		'LBIT',
+		/* [320] */
+		"Always Reload",
+		'LBIT',
+		/* [321] */
+		"",
+		'LB23',
+		/* [322] */
+		"reserved(0)",
+		'FLNG',
+		/* [323] */
+		"newest supported API Version",
+		'DWRD',
+		/* [324] */
+		"Version 9 (Pro 3)=9",
+		'CASE',
+		/* [325] */
+		"Version 8 (Pro 2)=8",
+		'CASE',
+		/* [326] */
+		"Version 7 (Pro 1)=7",
+		'CASE',
+		/* [327] */
+		"Version 5=5",
+		'CASE',
+		/* [328] */
+		"CW9=4",
+		'CASE',
+		/* [329] */
+		"CW8=3",
+		'CASE',
+		/* [330] */
+		"Version 2=2",
+		'CASE',
+		/* [331] */
+		"CW7=1",
+		'CASE',
+		/* [332] */
+		"",
+		'KEYE',
+		/* [333] */
+		"VCS ",
+		'KEYB',
+		/* [334] */
+		"API Version",
+		'KWRD',
+		/* [335] */
+		"CW10=5",
+		'CASE',
+		/* [336] */
+		"5",
+		'KEYB',
+		/* [337] */
+		"",
+		'LB32',
+		/* [338] */
+		"",
+		'KEYE',
+		/* [339] */
+		"",
+		'KEYE',
+		/* [340] */
+		"Appl",
+		'KEYB',
+		/* [341] */
+		"API Version",
+		'DWRD',
+		/* [342] */
+		"CW7=1",
+		'CASE',
+		/* [343] */
+		"",
+		'LB32',
+		/* [344] */
+		"",
+		'KEYE',
+		/* [345] */
+		"",
+		'KEYE',
+		/* [346] */
+		"1",
+		'KEYB',
+		/* [347] */
+		"Object type",
+		'KTYP',
+		/* [348] */
+		"Panel=Panl",
+		'CASE',
+		/* [349] */
+		"Compiler=Comp",
+		'CASE',
+		/* [350] */
+		"Linker=Link",
+		'CASE',
+		/* [351] */
+		"Version Control=VCS ",
+		'CASE',
+		/* [352] */
+		"Reserved=Appl",
+		'CASE',
+		/* [353] */
+		"Panl",
+		'KEYB',
+		/* [354] */
+		"API Version",
+		'KWRD',
+		/* [355] */
+		"Pro2=6",
+		'CASE',
+		/* [356] */
+		"CW10=5",
+		'CASE',
+		/* [357] */
+		"CW9=4",
+		'CASE',
+		/* [358] */
+		"CW8=3",
+		'CASE',
+		/* [359] */
+		"Version 2=2",
+		'CASE',
+		/* [360] */
+		"CW7=1",
+		'CASE',
+		/* [361] */
+		"6",
+		'KEYB',
+		/* [362] */
+		"Prefs data version",
+		'DWRD',
+		/* [363] */
+		"Uses strict API",
+		'WBIT',
+		/* [364] */
+		"Supports byte-swapping",
+		'WBIT',
+		/* [365] */
+		"reserved",
+		'WB14',
+		/* [366] */
+		"Family ID",
+		'TNAM',
+		/* [367] */
+		"Project=proj",
+		'CASE',
+		/* [368] */
+		"Front End=fend",
+		'CASE',
+		/* [369] */
+		"Back End=bend",
+		'CASE',
+		/* [370] */
+		"Browser=brow",
+		'CASE',
+		/* [371] */
+		"Editor=edit",
+		'CASE',
+		/* [372] */
+		"Debugger=dbug",
+		'CASE',
+		/* [373] */
+		"Linker=link",
+		'CASE',
+		/* [374] */
+		"Miscellaneous=****",
+		'CASE',
+		/* [375] */
+		"",
+		'KEYE',
+		/* [376] */
+		"5",
+		'KEYB',
+		/* [377] */
+		"Prefs data version",
+		'DWRD',
+		/* [378] */
+		"Uses strict API",
+		'WBIT',
+		/* [379] */
+		"reserved",
+		'WB15',
+		/* [380] */
+		"Family ID",
+		'TNAM',
+		/* [381] */
+		"Project=proj",
+		'CASE',
+		/* [382] */
+		"Front End=fend",
+		'CASE',
+		/* [383] */
+		"Back End=bend",
+		'CASE',
+		/* [384] */
+		"Browser=brow",
+		'CASE',
+		/* [385] */
+		"Editor=edit",
+		'CASE',
+		/* [386] */
+		"Debugger=dbug",
+		'CASE',
+		/* [387] */
+		"Linker=link",
+		'CASE',
+		/* [388] */
+		"Miscellaneous=****",
+		'CASE',
+		/* [389] */
+		"",
+		'KEYE',
+		/* [390] */
+		"4",
+		'KEYB',
+		/* [391] */
+		"Prefs data version",
+		'DWRD',
+		/* [392] */
+		"",
+		'WB16',
+		/* [393] */
+		"Family ID",
+		'TNAM',
+		/* [394] */
+		"Project=proj",
+		'CASE',
+		/* [395] */
+		"Front End=fend",
+		'CASE',
+		/* [396] */
+		"Back End=bend",
+		'CASE',
+		/* [397] */
+		"Browser=brow",
+		'CASE',
+		/* [398] */
+		"Editor=edit",
+		'CASE',
+		/* [399] */
+		"Debugger=dbug",
+		'CASE',
+		/* [400] */
+		"Linker=link",
+		'CASE',
+		/* [401] */
+		"Miscellaneous=****",
+		'CASE',
+		/* [402] */
+		"",
+		'KEYE',
+		/* [403] */
+		"3",
+		'KEYB',
+		/* [404] */
+		"Prefs data version",
+		'DWRD',
+		/* [405] */
+		"",
+		'WB16',
+		/* [406] */
+		"Family ID",
+		'TNAM',
+		/* [407] */
+		"Project=proj",
+		'CASE',
+		/* [408] */
+		"Front End=fend",
+		'CASE',
+		/* [409] */
+		"Back End=bend",
+		'CASE',
+		/* [410] */
+		"Browser=brow",
+		'CASE',
+		/* [411] */
+		"Editor=edit",
+		'CASE',
+		/* [412] */
+		"Debugger=dbug",
+		'CASE',
+		/* [413] */
+		"Linker=link",
+		'CASE',
+		/* [414] */
+		"Miscellaneous=****",
+		'CASE',
+		/* [415] */
+		"",
+		'KEYE',
+		/* [416] */
+		"2",
+		'KEYB',
+		/* [417] */
+		"Prefs data version",
+		'DWRD',
+		/* [418] */
+		"",
+		'WB16',
+		/* [419] */
+		"Family ID",
+		'TNAM',
+		/* [420] */
+		"Project=proj",
+		'CASE',
+		/* [421] */
+		"Front End=fend",
+		'CASE',
+		/* [422] */
+		"Back End=bend",
+		'CASE',
+		/* [423] */
+		"Browser=brow",
+		'CASE',
+		/* [424] */
+		"Editor=edit",
+		'CASE',
+		/* [425] */
+		"Debugger=dbug",
+		'CASE',
+		/* [426] */
+		"Linker=link",
+		'CASE',
+		/* [427] */
+		"Miscellaneous=****",
+		'CASE',
+		/* [428] */
+		"",
+		'KEYE',
+		/* [429] */
+		"1",
+		'KEYB',
+		/* [430] */
+		"",
+		'LB32',
+		/* [431] */
+		"",
+		'KEYE',
+		/* [432] */
+		"",
+		'KEYE',
+		/* [433] */
+		"Comp",
+		'KEYB',
+		/* [434] */
+		"API Version",
+		'KWRD',
+		/* [435] */
+		"Version 8=8",
+		'CASE',
+		/* [436] */
+		"Version 7=7",
+		'CASE',
+		/* [437] */
+		"Version 6=6",
+		'CASE',
+		/* [438] */
+		"Version 5=5",
+		'CASE',
+		/* [439] */
+		"CW9=4",
+		'CASE',
+		/* [440] */
+		"CW8=3",
+		'CASE',
+		/* [441] */
+		"Version 2=2",
+		'CASE',
+		/* [442] */
+		"CW7=1",
+		'CASE',
+		/* [443] */
+		"8",
+		'KEYB',
+		/* [444] */
+		"Generates Code",
+		'LBIT',
+		/* [445] */
+		"Generates Resources",
+		'LBIT',
+		/* [446] */
+		"Can Preprocess",
+		'LBIT',
+		/* [447] */
+		"Can Precompile",
+		'LBIT',
+		/* [448] */
+		"Is Pascal",
+		'LBIT',
+		/* [449] */
+		"Can Import",
+		'LBIT',
+		/* [450] */
+		"Can Disassemble",
+		'LBIT',
+		/* [451] */
+		"Persistent",
+		'LBIT',
+		/* [452] */
+		"Allow Duplicate File Names",
+		'LBIT',
+		/* [453] */
+		"Multi Target Aware",
+		'LBIT',
+		/* [454] */
+		"Multiprocessing Aware",
+		'LBIT',
+		/* [455] */
+		"Uses Target Storage",
+		'LBIT',
+		/* [456] */
+		"Has Compiler-Specific Browser Symbols",
+		'LBIT',
+		/* [457] */
+		"",
+		'LB19',
+		/* [458] */
+		"Language Type",
+		'TNAM',
+		/* [459] */
+		"C/C++=c++ ",
+		'CASE',
+		/* [460] */
+		"Pascal=pasc",
+		'CASE',
+		/* [461] */
+		"Rez=rez ",
+		'CASE',
+		/* [462] */
+		"java=java",
+		'CASE',
+		/* [463] */
+		"unknown=????",
+		'CASE',
+		/* [464] */
+		"Latest supported API version",
+		'DWRD',
+		/* [465] */
+		"Version 8=8",
+		'CASE',
+		/* [466] */
+		"Version 7=7",
+		'CASE',
+		/* [467] */
+		"Version 6=6",
+		'CASE',
+		/* [468] */
+		"Version 5=5",
+		'CASE',
+		/* [469] */
+		"CW9=4",
+		'CASE',
+		/* [470] */
+		"CW8=3",
+		'CASE',
+		/* [471] */
+		"Version 2=2",
+		'CASE',
+		/* [472] */
+		"CW7=1",
+		'CASE',
+		/* [473] */
+		"",
+		'KEYE',
+		/* [474] */
+		"7",
+		'KEYB',
+		/* [475] */
+		"Generates Code",
+		'LBIT',
+		/* [476] */
+		"Generates Resources",
+		'LBIT',
+		/* [477] */
+		"Can Preprocess",
+		'LBIT',
+		/* [478] */
+		"Can Precompile",
+		'LBIT',
+		/* [479] */
+		"Is Pascal",
+		'LBIT',
+		/* [480] */
+		"Can Import",
+		'LBIT',
+		/* [481] */
+		"Can Disassemble",
+		'LBIT',
+		/* [482] */
+		"Persistent",
+		'LBIT',
+		/* [483] */
+		"Allow Duplicate File Names",
+		'LBIT',
+		/* [484] */
+		"Multi Target Aware",
+		'LBIT',
+		/* [485] */
+		"Multiprocessing Aware",
+		'LBIT',
+		/* [486] */
+		"",
+		'LB21',
+		/* [487] */
+		"Language Type",
+		'TNAM',
+		/* [488] */
+		"C/C++=c++ ",
+		'CASE',
+		/* [489] */
+		"Pascal=pasc",
+		'CASE',
+		/* [490] */
+		"Rez=rez ",
+		'CASE',
+		/* [491] */
+		"java=java",
+		'CASE',
+		/* [492] */
+		"unknown=????",
+		'CASE',
+		/* [493] */
+		"",
+		'KEYE',
+		/* [494] */
+		"6",
+		'KEYB',
+		/* [495] */
+		"Generates Code",
+		'LBIT',
+		/* [496] */
+		"Generates Resources",
+		'LBIT',
+		/* [497] */
+		"Can Preprocess",
+		'LBIT',
+		/* [498] */
+		"Can Precompile",
+		'LBIT',
+		/* [499] */
+		"Is Pascal",
+		'LBIT',
+		/* [500] */
+		"Can Import",
+		'LBIT',
+		/* [501] */
+		"Can Disassemble",
+		'LBIT',
+		/* [502] */
+		"Persistent",
+		'LBIT',
+		/* [503] */
+		"Allow Duplicate File Names",
+		'LBIT',
+		/* [504] */
+		"Multi Target Aware",
+		'LBIT',
+		/* [505] */
+		"Multiprocessing Aware",
+		'LBIT',
+		/* [506] */
+		"",
+		'LB21',
+		/* [507] */
+		"Language Type",
+		'TNAM',
+		/* [508] */
+		"C/C++=c++ ",
+		'CASE',
+		/* [509] */
+		"Pascal=pasc",
+		'CASE',
+		/* [510] */
+		"Rez=rez ",
+		'CASE',
+		/* [511] */
+		"java=java",
+		'CASE',
+		/* [512] */
+		"unknown=????",
+		'CASE',
+		/* [513] */
+		"",
+		'KEYE',
+		/* [514] */
+		"5",
+		'KEYB',
+		/* [515] */
+		"Generates Code",
+		'LBIT',
+		/* [516] */
+		"Generates Resources",
+		'LBIT',
+		/* [517] */
+		"Can Preprocess",
+		'LBIT',
+		/* [518] */
+		"Can Precompile",
+		'LBIT',
+		/* [519] */
+		"Is Pascal",
+		'LBIT',
+		/* [520] */
+		"Can Import",
+		'LBIT',
+		/* [521] */
+		"Can Disassemble",
+		'LBIT',
+		/* [522] */
+		"Persistent",
+		'LBIT',
+		/* [523] */
+		"",
+		'LB24',
+		/* [524] */
+		"Language Type",
+		'TNAM',
+		/* [525] */
+		"C/C++=c++ ",
+		'CASE',
+		/* [526] */
+		"Pascal=pasc",
+		'CASE',
+		/* [527] */
+		"Rez=rez ",
+		'CASE',
+		/* [528] */
+		"java=java",
+		'CASE',
+		/* [529] */
+		"unknown=????",
+		'CASE',
+		/* [530] */
+		"",
+		'KEYE',
+		/* [531] */
+		"4",
+		'KEYB',
+		/* [532] */
+		"Generates Code",
+		'LBIT',
+		/* [533] */
+		"Generates Resources",
+		'LBIT',
+		/* [534] */
+		"Can Preprocess",
+		'LBIT',
+		/* [535] */
+		"Can Precompile",
+		'LBIT',
+		/* [536] */
+		"Is Pascal",
+		'LBIT',
+		/* [537] */
+		"Can Import",
+		'LBIT',
+		/* [538] */
+		"",
+		'LB26',
+		/* [539] */
+		"Language Type",
+		'TNAM',
+		/* [540] */
+		"C/C++=c++ ",
+		'CASE',
+		/* [541] */
+		"Pascal=pasc",
+		'CASE',
+		/* [542] */
+		"Rez=rez ",
+		'CASE',
+		/* [543] */
+		"java=java",
+		'CASE',
+		/* [544] */
+		"unknown=????",
+		'CASE',
+		/* [545] */
+		"",
+		'KEYE',
+		/* [546] */
+		"3",
+		'KEYB',
+		/* [547] */
+		"Generates Code",
+		'LBIT',
+		/* [548] */
+		"Generates Resources",
+		'LBIT',
+		/* [549] */
+		"Can Preprocess",
+		'LBIT',
+		/* [550] */
+		"Can Precompile",
+		'LBIT',
+		/* [551] */
+		"Is Pascal",
+		'LBIT',
+		/* [552] */
+		"Can Import",
+		'LBIT',
+		/* [553] */
+		"",
+		'LB26',
+		/* [554] */
+		"Language Type",
+		'TNAM',
+		/* [555] */
+		"C/C++=c++ ",
+		'CASE',
+		/* [556] */
+		"Pascal=pasc",
+		'CASE',
+		/* [557] */
+		"Rez=rez ",
+		'CASE',
+		/* [558] */
+		"unknown=????",
+		'CASE',
+		/* [559] */
+		"",
+		'KEYE',
+		/* [560] */
+		"2",
+		'KEYB',
+		/* [561] */
+		"Generates Code",
+		'LBIT',
+		/* [562] */
+		"Generates Resources",
+		'LBIT',
+		/* [563] */
+		"Can Preprocess",
+		'LBIT',
+		/* [564] */
+		"Can Precompile",
+		'LBIT',
+		/* [565] */
+		"Is Pascal",
+		'LBIT',
+		/* [566] */
+		"Can Import",
+		'LBIT',
+		/* [567] */
+		"",
+		'LB26',
+		/* [568] */
+		"Language Type",
+		'TNAM',
+		/* [569] */
+		"C/C++=c++ ",
+		'CASE',
+		/* [570] */
+		"Pascal=pasc",
+		'CASE',
+		/* [571] */
+		"Rez=rez ",
+		'CASE',
+		/* [572] */
+		"unknown=????",
+		'CASE',
+		/* [573] */
+		"",
+		'KEYE',
+		/* [574] */
+		"1",
+		'KEYB',
+		/* [575] */
+		"Generates Code",
+		'LBIT',
+		/* [576] */
+		"Generates Resources",
+		'LBIT',
+		/* [577] */
+		"Can Preprocess",
+		'LBIT',
+		/* [578] */
+		"Can Precompile",
+		'LBIT',
+		/* [579] */
+		"Is Pascal",
+		'LBIT',
+		/* [580] */
+		"Can Import",
+		'LBIT',
+		/* [581] */
+		"",
+		'LB26',
+		/* [582] */
+		"",
+		'KEYE',
+		/* [583] */
+		"",
+		'KEYE',
+		/* [584] */
+		"Link",
+		'KEYB',
+		/* [585] */
+		"API Version",
+		'KWRD',
+		/* [586] */
+		"Version 8=8",
+		'CASE',
+		/* [587] */
+		"Version 7=7",
+		'CASE',
+		/* [588] */
+		"Version 5=5",
+		'CASE',
+		/* [589] */
+		"CW9=4",
+		'CASE',
+		/* [590] */
+		"CW8=3",
+		'CASE',
+		/* [591] */
+		"Version 2=2",
+		'CASE',
+		/* [592] */
+		"CW7=1",
+		'CASE',
+		/* [593] */
+		"8",
+		'KEYB',
+		/* [594] */
+		"Can\0x19t Dissassemble",
+		'LBIT',
+		/* [595] */
+		"Post Linker",
+		'LBIT',
+		/* [596] */
+		"Allow Duplicate File Names",
+		'LBIT',
+		/* [597] */
+		"Multi Target Aware",
+		'LBIT',
+		/* [598] */
+		"Pre Linker",
+		'LBIT',
+		/* [599] */
+		"Uses Target Storage",
+		'LBIT',
+		/* [600] */
+		"Unmangles Names",
+		'LBIT',
+		/* [601] */
+		"Magic Cap Linker",
+		'LBIT',
+		/* [602] */
+		"",
+		'LB24',
+		/* [603] */
+		"reserved(0)",
+		'FLNG',
+		/* [604] */
+		"newest supported API Version",
+		'DWRD',
+		/* [605] */
+		"Version 8=8",
+		'CASE',
+		/* [606] */
+		"Version 7=7",
+		'CASE',
+		/* [607] */
+		"Version 5=5",
+		'CASE',
+		/* [608] */
+		"CW9=4",
+		'CASE',
+		/* [609] */
+		"CW8=3",
+		'CASE',
+		/* [610] */
+		"Version 2=2",
+		'CASE',
+		/* [611] */
+		"CW7=1",
+		'CASE',
+		/* [612] */
+		"",
+		'KEYE',
+		/* [613] */
+		"7",
+		'KEYB',
+		/* [614] */
+		"Can\0x19t Dissassemble",
+		'LBIT',
+		/* [615] */
+		"Post Linker",
+		'LBIT',
+		/* [616] */
+		"Allow Duplicate File Names",
+		'LBIT',
+		/* [617] */
+		"Multi Target Aware",
+		'LBIT',
+		/* [618] */
+		"",
+		'LB28',
+		/* [619] */
+		"",
+		'KEYE',
+		/* [620] */
+		"5",
+		'KEYB',
+		/* [621] */
+		"Can\0x19t Dissassemble",
+		'LBIT',
+		/* [622] */
+		"Post Linker",
+		'LBIT',
+		/* [623] */
+		"Allow Duplicate File Names",
+		'LBIT',
+		/* [624] */
+		"Multi Target Aware",
+		'LBIT',
+		/* [625] */
+		"",
+		'LB28',
+		/* [626] */
+		"",
+		'KEYE',
+		/* [627] */
+		"4",
+		'KEYB',
+		/* [628] */
+		"Can\0x19t Disassemble",
+		'LBIT',
+		/* [629] */
+		"",
+		'LB31',
+		/* [630] */
+		"",
+		'KEYE',
+		/* [631] */
+		"3",
+		'KEYB',
+		/* [632] */
+		"Can\0x19t Disassemble",
+		'LBIT',
+		/* [633] */
+		"",
+		'LB31',
+		/* [634] */
+		"",
+		'KEYE',
+		/* [635] */
+		"2",
+		'KEYB',
+		/* [636] */
+		"Can\0x19t Disassemble",
+		'LBIT',
+		/* [637] */
+		"",
+		'LB31',
+		/* [638] */
+		"",
+		'KEYE',
+		/* [639] */
+		"1",
+		'KEYB',
+		/* [640] */
+		"",
+		'LB32',
+		/* [641] */
+		"",
+		'KEYE',
+		/* [642] */
+		"",
+		'KEYE',
+		/* [643] */
+		"VCS ",
+		'KEYB',
+		/* [644] */
+		"API Version",
+		'KWRD',
+		/* [645] */
+		"CW10=5",
+		'CASE',
+		/* [646] */
+		"5",
+		'KEYB',
+		/* [647] */
+		"",
+		'LB32',
+		/* [648] */
+		"",
+		'KEYE',
+		/* [649] */
+		"",
+		'KEYE',
+		/* [650] */
+		"Appl",
+		'KEYB',
+		/* [651] */
+		"API Version",
+		'DWRD',
+		/* [652] */
+		"CW7=1",
+		'CASE',
+		/* [653] */
+		"",
+		'LB32',
+		/* [654] */
+		"",
+		'KEYE',
+		/* [655] */
+		"",
+		'KEYE'
+	}
+};
+
+resource 'TMPL' (1114, "fld#") {
 	{	/* array: 18 elements */
 		/* [1] */
 		"Folders",
@@ -9522,7 +11671,7 @@ resource 'TMPL' (1110, "fld#") {
 	}
 };
 
-resource 'TMPL' (1111, "FLOG") {
+resource 'TMPL' (1115, "FLOG") {
 	{	/* array: 3 elements */
 		/* [1] */
 		"File creator for font log",
@@ -9536,7 +11685,7 @@ resource 'TMPL' (1111, "FLOG") {
 	}
 };
 
-resource 'TMPL' (1112, "flst") {
+resource 'TMPL' (1116, "flst") {
 	{	/* array: 16 elements */
 		/* [1] */
 		"Count:",
@@ -9589,7 +11738,7 @@ resource 'TMPL' (1112, "flst") {
 	}
 };
 
-resource 'TMPL' (1113, "fmap") {
+resource 'TMPL' (1117, "fmap") {
 	{	/* array: 5 elements */
 		/* [1] */
 		"The last list item must be a pair of NUL"
@@ -9610,7 +11759,57 @@ resource 'TMPL' (1113, "fmap") {
 	}
 };
 
-resource 'TMPL' (1114, "fmn2") {
+resource 'TMPL' (1118, "Fmly") {
+	{	/* array: 15 elements */
+		/* [1] */
+		"CW Plugin resource format",
+		'DVDR',
+		/* [2] */
+		"Version",
+		'DWRD',
+		/* [3] */
+		"Current=1",
+		'CASE',
+		/* [4] */
+		"Family ID",
+		'TNAM',
+		/* [5] */
+		"Project=proj",
+		'CASE',
+		/* [6] */
+		"Front End=fend",
+		'CASE',
+		/* [7] */
+		"Back End=bend",
+		'CASE',
+		/* [8] */
+		"Browser=brow",
+		'CASE',
+		/* [9] */
+		"Editor=edit",
+		'CASE',
+		/* [10] */
+		"Debugger=dbug",
+		'CASE',
+		/* [11] */
+		"Linker=link",
+		'CASE',
+		/* [12] */
+		"Version Control=vcs ",
+		'CASE',
+		/* [13] */
+		"Miscellaneous=****",
+		'CASE',
+		/* [14] */
+		"RAD Tools=radt",
+		'CASE',
+		/* [15] */
+		"Family Name",
+		'P040'
+	}
+};
+
+resource 'TMPL' (1119, "fmn2") {
 	{	/* array: 18 elements */
 		/* [1] */
 		"Menu name",
@@ -9669,7 +11868,7 @@ resource 'TMPL' (1114, "fmn2") {
 	}
 };
 
-resource 'TMPL' (1115, "fmnu") {
+resource 'TMPL' (1120, "fmnu") {
 	{	/* array: 18 elements */
 		/* [1] */
 		"Auto-initialize",
@@ -9728,7 +11927,7 @@ resource 'TMPL' (1115, "fmnu") {
 	}
 };
 
-resource 'TMPL' (1116, "FOND") {
+resource 'TMPL' (1121, "FOND") {
 	{	/* array: 37 elements */
 		/* [1] */
 		"Proportional or fixed width",
@@ -9844,7 +12043,7 @@ resource 'TMPL' (1116, "FOND") {
 	}
 };
 
-resource 'TMPL' (1117, "FONT") {
+resource 'TMPL' (1122, "FONT") {
 	{	/* array: 29 elements */
 		/* [1] */
 		"Reserved (on)",
@@ -9936,7 +12135,7 @@ resource 'TMPL' (1117, "FONT") {
 	}
 };
 
-resource 'TMPL' (1118, "FREF") {
+resource 'TMPL' (1123, "FREF") {
 	{	/* array: 3 elements */
 		/* [1] */
 		"File type",
@@ -9950,7 +12149,7 @@ resource 'TMPL' (1118, "FREF") {
 	}
 };
 
-resource 'TMPL' (1119, "FRSV") {
+resource 'TMPL' (1124, "FRSV") {
 	{	/* array: 12 elements */
 		/* [1] */
 		"Count:",
@@ -9991,7 +12190,7 @@ resource 'TMPL' (1119, "FRSV") {
 	}
 };
 
-resource 'TMPL' (1120, "FSty") {
+resource 'TMPL' (1125, "FSty") {
 	{	/* array: 12 elements */
 		/* [1] */
 		"\"Finale\" resource format",
@@ -10032,7 +12231,7 @@ resource 'TMPL' (1120, "FSty") {
 	}
 };
 
-resource 'TMPL' (1121, "FTLS") {
+resource 'TMPL' (1126, "FTLS") {
 	{	/* array: 5 elements */
 		/* [1] */
 		"\"SuitCase\" resource format",
@@ -10052,7 +12251,7 @@ resource 'TMPL' (1121, "FTLS") {
 	}
 };
 
-resource 'TMPL' (1122, "FtSz") {
+resource 'TMPL' (1127, "FtSz") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Font size or other pref value",
@@ -10060,7 +12259,7 @@ resource 'TMPL' (1122, "FtSz") {
 	}
 };
 
-resource 'TMPL' (1123, "ftyp") {
+resource 'TMPL' (1128, "ftyp") {
 	{	/* array: 5 elements */
 		/* [1] */
 		"\"SuitCase\" resource format",
@@ -10080,7 +12279,7 @@ resource 'TMPL' (1123, "ftyp") {
 	}
 };
 
-resource 'TMPL' (1124, "fval") {
+resource 'TMPL' (1129, "fval") {
 	{	/* array: 34 elements */
 		/* [1] */
 		"Version",
@@ -10187,7 +12386,7 @@ resource 'TMPL' (1124, "fval") {
 	}
 };
 
-resource 'TMPL' (1125, "FWID") {
+resource 'TMPL' (1130, "FWID") {
 	{	/* array: 17 elements */
 		/* [1] */
 		"Font type",
@@ -10243,7 +12442,7 @@ resource 'TMPL' (1125, "FWID") {
 	}
 };
 
-resource 'TMPL' (1126, "gdir") {
+resource 'TMPL' (1131, "gdir") {
 	{	/* array: 2 elements */
 		/* [1] */
 		"Type",
@@ -10254,7 +12453,7 @@ resource 'TMPL' (1126, "gdir") {
 	}
 };
 
-resource 'TMPL' (1127, "gmcd") {
+resource 'TMPL' (1132, "gmcd") {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Count:",
@@ -10274,7 +12473,7 @@ resource 'TMPL' (1127, "gmcd") {
 	}
 };
 
-resource 'TMPL' (1128, "GNRL") {
+resource 'TMPL' (1133, "GNRL") {
 	{	/* array: 23 elements */
 		/* [1] */
 		"Show sys warn",
@@ -10348,7 +12547,7 @@ resource 'TMPL' (1128, "GNRL") {
 	}
 };
 
-resource 'TMPL' (1129, "GOBJ") {
+resource 'TMPL' (1134, "GOBJ") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"",
@@ -10380,7 +12579,7 @@ resource 'TMPL' (1129, "GOBJ") {
 	}
 };
 
-resource 'TMPL' (1130, "HAlt") {
+resource 'TMPL' (1135, "HAlt") {
 	{	/* array: 36 elements */
 		/* [1] */
 		"Version number",
@@ -10497,7 +12696,7 @@ resource 'TMPL' (1130, "HAlt") {
 	}
 };
 
-resource 'TMPL' (1131, "hdlg") {
+resource 'TMPL' (1136, "hdlg") {
 	{	/* array: 142 elements */
 		/* [1] */
 		"Balloon help version",
@@ -10933,7 +13132,7 @@ resource 'TMPL' (1131, "hdlg") {
 	}
 };
 
-resource 'TMPL' (1132, "hfdr") {
+resource 'TMPL' (1137, "hfdr") {
 	{	/* array: 53 elements */
 		/* [1] */
 		"Balloon help version",
@@ -11102,7 +13301,7 @@ resource 'TMPL' (1132, "hfdr") {
 	}
 };
 
-resource 'TMPL' (1133, "hmnu") {
+resource 'TMPL' (1138, "hmnu") {
 	{	/* array: 179 elements */
 		/* [1] */
 		"Balloon help version",
@@ -11652,7 +13851,7 @@ resource 'TMPL' (1133, "hmnu") {
 	}
 };
 
-resource 'TMPL' (1134, "hovr") {
+resource 'TMPL' (1139, "hovr") {
 	{	/* array: 91 elements */
 		/* [1] */
 		"Balloon help version",
@@ -11939,7 +14138,7 @@ resource 'TMPL' (1134, "hovr") {
 	}
 };
 
-resource 'TMPL' (1135, "hrct") {
+resource 'TMPL' (1140, "hrct") {
 	{	/* array: 114 elements */
 		/* [1] */
 		"Balloon help version",
@@ -12291,7 +14490,7 @@ resource 'TMPL' (1135, "hrct") {
 	}
 };
 
-resource 'TMPL' (1136, "HTMB") {
+resource 'TMPL' (1141, "HTMB") {
 	{	/* array: 8 elements */
 		/* [1] */
 		"Button kind",
@@ -12320,7 +14519,7 @@ resource 'TMPL' (1136, "HTMB") {
 	}
 };
 
-resource 'TMPL' (1137, "hwin") {
+resource 'TMPL' (1142, "hwin") {
 	{	/* array: 17 elements */
 		/* [1] */
 		"Balloon help version",
@@ -12376,7 +14575,7 @@ resource 'TMPL' (1137, "hwin") {
 	}
 };
 
-resource 'TMPL' (1138, "icl4") {
+resource 'TMPL' (1143, "icl4") {
 	{	/* array: 2 elements */
 		/* [1] */
 		"4-bit large icon no mask",
@@ -12387,7 +14586,7 @@ resource 'TMPL' (1138, "icl4") {
 	}
 };
 
-resource 'TMPL' (1139, "icl8") {
+resource 'TMPL' (1144, "icl8") {
 	{	/* array: 2 elements */
 		/* [1] */
 		"8-bit large icon no mask",
@@ -12398,7 +14597,7 @@ resource 'TMPL' (1139, "icl8") {
 	}
 };
 
-resource 'TMPL' (1140, "ICLB") {
+resource 'TMPL' (1145, "ICLB") {
 	{	/* array: 26 elements */
 		/* [1] */
 		"\"MacZoop\" resource format",
@@ -12481,7 +14680,7 @@ resource 'TMPL' (1140, "ICLB") {
 	}
 };
 
-resource 'TMPL' (1141, "icm#") {
+resource 'TMPL' (1146, "icm#") {
 	{	/* array: 3 elements */
 		/* [1] */
 		"Mini icon with mask",
@@ -12495,7 +14694,7 @@ resource 'TMPL' (1141, "icm#") {
 	}
 };
 
-resource 'TMPL' (1142, "icm4") {
+resource 'TMPL' (1147, "icm4") {
 	{	/* array: 2 elements */
 		/* [1] */
 		"4-bit mini icon no mask",
@@ -12506,7 +14705,7 @@ resource 'TMPL' (1142, "icm4") {
 	}
 };
 
-resource 'TMPL' (1143, "icm8") {
+resource 'TMPL' (1148, "icm8") {
 	{	/* array: 2 elements */
 		/* [1] */
 		"8-bit mini icon no mask",
@@ -12517,7 +14716,7 @@ resource 'TMPL' (1143, "icm8") {
 	}
 };
 
-resource 'TMPL' (1144, "icmt") {
+resource 'TMPL' (1149, "icmt") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Version release date",
@@ -12534,7 +14733,7 @@ resource 'TMPL' (1144, "icmt") {
 	}
 };
 
-resource 'TMPL' (1145, "ICN#") {
+resource 'TMPL' (1150, "ICN#") {
 	{	/* array: 3 elements */
 		/* [1] */
 		"Icons list",
@@ -12548,7 +14747,7 @@ resource 'TMPL' (1145, "ICN#") {
 	}
 };
 
-resource 'TMPL' (1146, "ICON") {
+resource 'TMPL' (1151, "ICON") {
 	{	/* array: 2 elements */
 		/* [1] */
 		"Black and White Icon",
@@ -12559,7 +14758,7 @@ resource 'TMPL' (1146, "ICON") {
 	}
 };
 
-resource 'TMPL' (1147, "ICOX") {
+resource 'TMPL' (1152, "ICOX") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"",
@@ -12591,7 +14790,7 @@ resource 'TMPL' (1147, "ICOX") {
 	}
 };
 
-resource 'TMPL' (1148, "ics#") {
+resource 'TMPL' (1153, "ics#") {
 	{	/* array: 3 elements */
 		/* [1] */
 		"Small icon with mask",
@@ -12605,7 +14804,7 @@ resource 'TMPL' (1148, "ics#") {
 	}
 };
 
-resource 'TMPL' (1149, "ics4") {
+resource 'TMPL' (1154, "ics4") {
 	{	/* array: 2 elements */
 		/* [1] */
 		"4-bit small icon no mask",
@@ -12616,7 +14815,7 @@ resource 'TMPL' (1149, "ics4") {
 	}
 };
 
-resource 'TMPL' (1150, "ics8") {
+resource 'TMPL' (1155, "ics8") {
 	{	/* array: 2 elements */
 		/* [1] */
 		"8-bit small icon no mask",
@@ -12627,7 +14826,7 @@ resource 'TMPL' (1150, "ics8") {
 	}
 };
 
-resource 'TMPL' (1151, "ICx6") {
+resource 'TMPL' (1156, "ICx6") {
 	{	/* array: 28 elements */
 		/* [1] */
 		"",
@@ -12716,7 +14915,7 @@ resource 'TMPL' (1151, "ICx6") {
 	}
 };
 
-resource 'TMPL' (1152, "inaa") {
+resource 'TMPL' (1157, "inaa") {
 	{	/* array: 50 elements */
 		/* [1] */
 		"Action Atom format version",
@@ -12874,7 +15073,7 @@ resource 'TMPL' (1152, "inaa") {
 	}
 };
 
-resource 'TMPL' (1153, "inah") {
+resource 'TMPL' (1158, "inah") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Action Handler format version",
@@ -12906,7 +15105,7 @@ resource 'TMPL' (1153, "inah") {
 	}
 };
 
-resource 'TMPL' (1154, "inat") {
+resource 'TMPL' (1159, "inat") {
 	{	/* array: 39 elements */
 		/* [1] */
 		"Audit Trail format version",
@@ -13028,7 +15227,7 @@ resource 'TMPL' (1154, "inat") {
 	}
 };
 
-resource 'TMPL' (1155, "inbb") {
+resource 'TMPL' (1160, "inbb") {
 	{	/* array: 120 elements */
 		/* [1] */
 		"Boot Block format version",
@@ -13394,7 +15593,7 @@ resource 'TMPL' (1155, "inbb") {
 	}
 };
 
-resource 'TMPL' (1156, "incd") {
+resource 'TMPL' (1161, "incd") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Creation date & time",
@@ -13402,7 +15601,7 @@ resource 'TMPL' (1156, "incd") {
 	}
 };
 
-resource 'TMPL' (1157, "indm") {
+resource 'TMPL' (1162, "indm") {
 	{	/* array: 37 elements */
 		/* [1] */
 		"Format version",
@@ -13518,7 +15717,7 @@ resource 'TMPL' (1157, "indm") {
 	}
 };
 
-resource 'TMPL' (1158, "indo") {
+resource 'TMPL' (1163, "indo") {
 	{	/* array: 19 elements */
 		/* [1] */
 		"Disk Order resource version",
@@ -13580,7 +15779,7 @@ resource 'TMPL' (1158, "indo") {
 	}
 };
 
-resource 'TMPL' (1159, "inex") {
+resource 'TMPL' (1164, "inex") {
 	{	/* array: 21 elements */
 		/* [1] */
 		"Atom Extender format version",
@@ -13648,7 +15847,7 @@ resource 'TMPL' (1159, "inex") {
 	}
 };
 
-resource 'TMPL' (1160, "infa") {
+resource 'TMPL' (1165, "infa") {
 	{	/* array: 84 elements */
 		/* [1] */
 		"File Atom format version",
@@ -13910,7 +16109,7 @@ resource 'TMPL' (1160, "infa") {
 	}
 };
 
-resource 'TMPL' (1161, "inff") {
+resource 'TMPL' (1166, "inff") {
 	{	/* array: 206 elements */
 		/* [1] */
 		"Font Family resource atom flags",
@@ -14540,7 +16739,7 @@ resource 'TMPL' (1161, "inff") {
 	}
 };
 
-resource 'TMPL' (1162, "infm") {
+resource 'TMPL' (1167, "infm") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Folder Merge format version",
@@ -14572,7 +16771,7 @@ resource 'TMPL' (1162, "infm") {
 	}
 };
 
-resource 'TMPL' (1163, "INFO") {
+resource 'TMPL' (1168, "INFO") {
 	{	/* array: 15 elements */
 		/* [1] */
 		"Color type",
@@ -14623,7 +16822,7 @@ resource 'TMPL' (1163, "INFO") {
 	}
 };
 
-resource 'TMPL' (1164, "infr") {
+resource 'TMPL' (1169, "infr") {
 	{	/* array: 18 elements */
 		/* [1] */
 		"Rule Framework format version",
@@ -14682,7 +16881,7 @@ resource 'TMPL' (1164, "infr") {
 	}
 };
 
-resource 'TMPL' (1165, "infs") {
+resource 'TMPL' (1170, "infs") {
 	{	/* array: 7 elements */
 		/* [1] */
 		"File type",
@@ -14709,7 +16908,7 @@ resource 'TMPL' (1165, "infs") {
 	}
 };
 
-resource 'TMPL' (1166, "inpc") {
+resource 'TMPL' (1171, "inpc") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Package Comment format version",
@@ -14741,7 +16940,7 @@ resource 'TMPL' (1166, "inpc") {
 	}
 };
 
-resource 'TMPL' (1167, "inpk") {
+resource 'TMPL' (1172, "inpk") {
 	{	/* array: 27 elements */
 		/* [1] */
 		"Package format version",
@@ -14827,7 +17026,7 @@ resource 'TMPL' (1167, "inpk") {
 	}
 };
 
-resource 'TMPL' (1168, "inpr") {
+resource 'TMPL' (1173, "inpr") {
 	{	/* array: 22 elements */
 		/* [1] */
 		"Preference format version",
@@ -14900,7 +17099,7 @@ resource 'TMPL' (1168, "inpr") {
 	}
 };
 
-resource 'TMPL' (1169, "inr#") {
+resource 'TMPL' (1174, "inr#") {
 	{	/* array: 47 elements */
 		/* [1] */
 		"Resource Atom List version",
@@ -15049,7 +17248,7 @@ resource 'TMPL' (1169, "inr#") {
 	}
 };
 
-resource 'TMPL' (1170, "inra") {
+resource 'TMPL' (1175, "inra") {
 	{	/* array: 76 elements */
 		/* [1] */
 		"Resource Atom format version",
@@ -15286,7 +17485,7 @@ resource 'TMPL' (1170, "inra") {
 	}
 };
 
-resource 'TMPL' (1171, "inrf") {
+resource 'TMPL' (1176, "inrf") {
 	{	/* array: 10 elements */
 		/* [1] */
 		"Rule Function format version",
@@ -15321,7 +17520,7 @@ resource 'TMPL' (1171, "inrf") {
 	}
 };
 
-resource 'TMPL' (1172, "inrl") {
+resource 'TMPL' (1177, "inrl") {
 	{	/* array: 407 elements */
 		/* [1] */
 		"Rules format version",
@@ -16548,7 +18747,7 @@ resource 'TMPL' (1172, "inrl") {
 	}
 };
 
-resource 'TMPL' (1173, "inrm") {
+resource 'TMPL' (1178, "inrm") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Resource Merge format version",
@@ -16580,7 +18779,7 @@ resource 'TMPL' (1173, "inrm") {
 	}
 };
 
-resource 'TMPL' (1174, "insc") {
+resource 'TMPL' (1179, "insc") {
 	{	/* array: 53 elements */
 		/* [1] */
 		"Format",
@@ -16744,7 +18943,7 @@ resource 'TMPL' (1174, "insc") {
 	}
 };
 
-resource 'TMPL' (1175, "insp") {
+resource 'TMPL' (1180, "insp") {
 	{	/* array: 10 elements */
 		/* [1] */
 		"Search Procedure format version",
@@ -16779,7 +18978,7 @@ resource 'TMPL' (1175, "insp") {
 	}
 };
 
-resource 'TMPL' (1176, "insz") {
+resource 'TMPL' (1181, "insz") {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Script Size format version",
@@ -16799,7 +18998,7 @@ resource 'TMPL' (1176, "insz") {
 	}
 };
 
-resource 'TMPL' (1177, "intf") {
+resource 'TMPL' (1182, "intf") {
 	{	/* array: 46 elements */
 		/* [1] */
 		"Target FileSpec format version",
@@ -16945,7 +19144,7 @@ resource 'TMPL' (1177, "intf") {
 	}
 };
 
-resource 'TMPL' (1178, "invc") {
+resource 'TMPL' (1183, "invc") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Version Compare format version",
@@ -16977,7 +19176,7 @@ resource 'TMPL' (1178, "invc") {
 	}
 };
 
-resource 'TMPL' (1179, "invs") {
+resource 'TMPL' (1184, "invs") {
 	{	/* array: 14 elements */
 		/* [1] */
 		"Version format version",
@@ -17024,7 +19223,7 @@ resource 'TMPL' (1179, "invs") {
 	}
 };
 
-resource 'TMPL' (1180, "iobm") {
+resource 'TMPL' (1185, "iobm") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Communications options",
@@ -17057,7 +19256,7 @@ resource 'TMPL' (1180, "iobm") {
 	}
 };
 
-resource 'TMPL' (1181, "isys") {
+resource 'TMPL' (1186, "isys") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Resource type of imaging system to selec"
@@ -17066,7 +19265,7 @@ resource 'TMPL' (1181, "isys") {
 	}
 };
 
-resource 'TMPL' (1182, "ITEM") {
+resource 'TMPL' (1187, "ITEM") {
 	{	/* array: 260 elements */
 		/* [1] */
 		"Item type",
@@ -17851,7 +20050,7 @@ resource 'TMPL' (1182, "ITEM") {
 	}
 };
 
-resource 'TMPL' (1183, "itl0") {
+resource 'TMPL' (1188, "itl0") {
 	{	/* array: 110 elements */
 		/* [1] */
 		"Decimal point separator",
@@ -18186,7 +20385,7 @@ resource 'TMPL' (1183, "itl0") {
 	}
 };
 
-resource 'TMPL' (1184, "itl1") {
+resource 'TMPL' (1189, "itl1") {
 	{	/* array: 131 elements */
 		/* [1] */
 		"Day 1",
@@ -18585,7 +20784,7 @@ resource 'TMPL' (1184, "itl1") {
 	}
 };
 
-resource 'TMPL' (1185, "ITL1") {
+resource 'TMPL' (1190, "ITL1") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Use short dates before system",
@@ -18593,7 +20792,7 @@ resource 'TMPL' (1185, "ITL1") {
 	}
 };
 
-resource 'TMPL' (1186, "itl2") {
+resource 'TMPL' (1191, "itl2") {
 	{	/* array: 43 elements */
 		/* [1] */
 		"Init hook offset",
@@ -18727,7 +20926,7 @@ resource 'TMPL' (1186, "itl2") {
 	}
 };
 
-resource 'TMPL' (1187, "itl4") {
+resource 'TMPL' (1192, "itl4") {
 	{	/* array: 37 elements */
 		/* [1] */
 		"Flags",
@@ -18811,7 +21010,7 @@ resource 'TMPL' (1187, "itl4") {
 		"Character to token mapping table",
 		'DVDR',
 		/* [28] */
-		"256 characters (fixed count)",
+		"256 chars (fixed count)",
 		'FCNT',
 		/* [29] */
 		"List of 256 characters",
@@ -18843,7 +21042,7 @@ resource 'TMPL' (1187, "itl4") {
 	}
 };
 
-resource 'TMPL' (1188, "itlb") {
+resource 'TMPL' (1193, "itlb") {
 	{	/* array: 68 elements */
 		/* [1] */
 		"'itl0' (Numbers) resource ID",
@@ -19055,7 +21254,7 @@ resource 'TMPL' (1188, "itlb") {
 	}
 };
 
-resource 'TMPL' (1189, "itlc") {
+resource 'TMPL' (1194, "itlc") {
 	{	/* array: 24 elements */
 		/* [1] */
 		"System script code",
@@ -19133,7 +21332,7 @@ resource 'TMPL' (1189, "itlc") {
 	}
 };
 
-resource 'TMPL' (1190, "itlk") {
+resource 'TMPL' (1195, "itlk") {
 	{	/* array: 10 elements */
 		/* [1] */
 		"Count:",
@@ -19168,7 +21367,7 @@ resource 'TMPL' (1190, "itlk") {
 	}
 };
 
-resource 'TMPL' (1191, "ITML") {
+resource 'TMPL' (1196, "ITML") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Count:",
@@ -19185,7 +21384,7 @@ resource 'TMPL' (1191, "ITML") {
 	}
 };
 
-resource 'TMPL' (1192, "JPob") {
+resource 'TMPL' (1197, "JPob") {
 	{	/* array: 378 elements */
 		/* [1] */
 		"Version Number",
@@ -20324,7 +22523,779 @@ resource 'TMPL' (1192, "JPob") {
 	}
 };
 
-resource 'TMPL' (1193, "KBDN") {
+resource 'TMPL' (1198, "JTYP") {
+	{	/* array: 237 elements */
+		/* [1] */
+		"Template for Constructor CW10",
+		'DVDR',
+		/* [2] */
+		"Version Number",
+		'DWRD',
+		/* [3] */
+		"CW10=1",
+		'CASE',
+		/* [4] */
+		"*****",
+		'LSTB',
+		/* [5] */
+		"Object type",
+		'KTYP',
+		/* [6] */
+		"Object data=objd",
+		'CASE',
+		/* [7] */
+		"Begin sub-object list=begs",
+		'CASE',
+		/* [8] */
+		"End sub-object list=ends",
+		'CASE',
+		/* [9] */
+		"User object=user",
+		'CASE',
+		/* [10] */
+		"Class alias=dopl",
+		'CASE',
+		/* [11] */
+		"End of list=end.",
+		'CASE',
+		/* [12] */
+		"objd",
+		'KEYB',
+		/* [13] */
+		"Number of bytes in following data",
+		'LSIZ',
+		/* [14] */
+		"Data type",
+		'KTYP',
+		/* [15] */
+		"Object=obj ",
+		'CASE',
+		/* [16] */
+		"Custom component info=vjte",
+		'CASE',
+		/* [17] */
+		"Integer attribute=intv",
+		'CASE',
+		/* [18] */
+		"Labelled integer attribute=labi",
+		'CASE',
+		/* [19] */
+		"Min/max integer attribute=mimx",
+		'CASE',
+		/* [20] */
+		"Res list attribute=resl",
+		'CASE',
+		/* [21] */
+		"Resource reference attribute=rerf",
+		'CASE',
+		/* [22] */
+		"String attribute=pstr",
+		'CASE',
+		/* [23] */
+		"Font string attribute=fstr",
+		'CASE',
+		/* [24] */
+		"RGB color attribute=rgbc",
+		'CASE',
+		/* [25] */
+		"Container attribute=cont",
+		'CASE',
+		/* [26] */
+		"List attribute=list",
+		'CASE',
+		/* [27] */
+		"Bitfield container attribute=bitf",
+		'CASE',
+		/* [28] */
+		"Value label=labl",
+		'CASE',
+		/* [29] */
+		"Null=null",
+		'CASE',
+		/* [30] */
+		"obj ",
+		'KEYB',
+		/* [31] */
+		"",
+		'KEYE',
+		/* [32] */
+		"vjte",
+		'KEYB',
+		/* [33] */
+		"VETypeEntry data",
+		'DVDR',
+		/* [34] */
+		"Class name",
+		'PSTR',
+		/* [35] */
+		"Icon ID",
+		'DWRD',
+		/* [36] */
+		"Abstract class?",
+		'BFLG',
+		/* [37] */
+		"Class ID",
+		'TNAM',
+		/* [38] */
+		"Parent class ID",
+		'TNAM',
+		/* [39] */
+		"Default width",
+		'DWRD',
+		/* [40] */
+		"Default height",
+		'DWRD',
+		/* [41] */
+		"Must be root?",
+		'BFLG',
+		/* [42] */
+		"",
+		'KEYE',
+		/* [43] */
+		"intv",
+		'KEYB',
+		/* [44] */
+		"DMAttribute data",
+		'DVDR',
+		/* [45] */
+		"Attribute title",
+		'PSTR',
+		/* [46] */
+		"Attribute key",
+		'TNAM',
+		/* [47] */
+		"Display in attribute inspectors?",
+		'BFLG',
+		/* [48] */
+		"Write to stream?",
+		'BFLG',
+		/* [49] */
+		"Stream selector",
+		'TNAM',
+		/* [50] */
+		"DMIntegerAttribute data",
+		'DVDR',
+		/* [51] */
+		"Default value",
+		'DLNG',
+		/* [52] */
+		"Value size (bits)",
+		'UWRD',
+		/* [53] */
+		"Signed integer?",
+		'BFLG',
+		/* [54] */
+		"Can be text value?",
+		'BFLG',
+		/* [55] */
+		"Always is text value?",
+		'BFLG',
+		/* [56] */
+		"",
+		'KEYE',
+		/* [57] */
+		"labi",
+		'KEYB',
+		/* [58] */
+		"DMAttribute data",
+		'DVDR',
+		/* [59] */
+		"Attribute title",
+		'PSTR',
+		/* [60] */
+		"Attribute key",
+		'TNAM',
+		/* [61] */
+		"Display in attribute inspectors?",
+		'BFLG',
+		/* [62] */
+		"Write to stream?",
+		'BFLG',
+		/* [63] */
+		"Stream selector",
+		'TNAM',
+		/* [64] */
+		"DMIntegerAttribute data",
+		'DVDR',
+		/* [65] */
+		"Default value",
+		'DLNG',
+		/* [66] */
+		"Value size (bits)",
+		'UWRD',
+		/* [67] */
+		"Signed integer?",
+		'BFLG',
+		/* [68] */
+		"Can be text value?",
+		'BFLG',
+		/* [69] */
+		"Always is text value?",
+		'BFLG',
+		/* [70] */
+		"DMLabelledIntegerAttribute data",
+		'DVDR',
+		/* [71] */
+		"Labels only?",
+		'BFLG',
+		/* [72] */
+		"",
+		'KEYE',
+		/* [73] */
+		"mimx",
+		'KEYB',
+		/* [74] */
+		"DMAttribute data",
+		'DVDR',
+		/* [75] */
+		"Attribute title",
+		'PSTR',
+		/* [76] */
+		"Attribute key",
+		'TNAM',
+		/* [77] */
+		"Display in attribute inspectors?",
+		'BFLG',
+		/* [78] */
+		"Write to stream?",
+		'BFLG',
+		/* [79] */
+		"Stream selector",
+		'TNAM',
+		/* [80] */
+		"DMIntegerAttribute data",
+		'DVDR',
+		/* [81] */
+		"Default value",
+		'DLNG',
+		/* [82] */
+		"Value size (bits)",
+		'UWRD',
+		/* [83] */
+		"Signed integer?",
+		'BFLG',
+		/* [84] */
+		"Can be text value?",
+		'BFLG',
+		/* [85] */
+		"Always is text value?",
+		'BFLG',
+		/* [86] */
+		"DMMinMaxIntegerAttribute data",
+		'DVDR',
+		/* [87] */
+		"Minimum value",
+		'DLNG',
+		/* [88] */
+		"Maximum value",
+		'DLNG',
+		/* [89] */
+		"",
+		'KEYE',
+		/* [90] */
+		"resl",
+		'KEYB',
+		/* [91] */
+		"DMAttribute data",
+		'DVDR',
+		/* [92] */
+		"Attribute title",
+		'PSTR',
+		/* [93] */
+		"Attribute key",
+		'TNAM',
+		/* [94] */
+		"Display in attribute inspectors?",
+		'BFLG',
+		/* [95] */
+		"Write to stream?",
+		'BFLG',
+		/* [96] */
+		"Stream selector",
+		'TNAM',
+		/* [97] */
+		"DMIntegerAttribute data",
+		'DVDR',
+		/* [98] */
+		"Default value",
+		'DLNG',
+		/* [99] */
+		"Value size (bits)",
+		'UWRD',
+		/* [100] */
+		"Signed integer?",
+		'BFLG',
+		/* [101] */
+		"Can be text value?",
+		'BFLG',
+		/* [102] */
+		"Always is text value?",
+		'BFLG',
+		/* [103] */
+		"DMLabelledIntegerAttribute data",
+		'DVDR',
+		/* [104] */
+		"Labels only?",
+		'BFLG',
+		/* [105] */
+		"DMResListAttribute data",
+		'DVDR',
+		/* [106] */
+		"Resource type",
+		'TNAM',
+		/* [107] */
+		"",
+		'KEYE',
+		/* [108] */
+		"rerf",
+		'KEYB',
+		/* [109] */
+		"DMAttribute data",
+		'DVDR',
+		/* [110] */
+		"Attribute title",
+		'PSTR',
+		/* [111] */
+		"Attribute key",
+		'TNAM',
+		/* [112] */
+		"Display in attribute inspectors?",
+		'BFLG',
+		/* [113] */
+		"Write to stream?",
+		'BFLG',
+		/* [114] */
+		"Stream selector",
+		'TNAM',
+		/* [115] */
+		"DMIntegerAttribute data",
+		'DVDR',
+		/* [116] */
+		"Default value",
+		'DLNG',
+		/* [117] */
+		"Value size (bits)",
+		'UWRD',
+		/* [118] */
+		"Signed integer?",
+		'BFLG',
+		/* [119] */
+		"Can be text value?",
+		'BFLG',
+		/* [120] */
+		"Always is text value?",
+		'BFLG',
+		/* [121] */
+		"DMResourceRefAttribute data",
+		'DVDR',
+		/* [122] */
+		"Resource type",
+		'TNAM',
+		/* [123] */
+		"",
+		'KEYE',
+		/* [124] */
+		"pstr",
+		'KEYB',
+		/* [125] */
+		"DMAttribute data",
+		'DVDR',
+		/* [126] */
+		"Attribute title",
+		'PSTR',
+		/* [127] */
+		"Attribute key",
+		'TNAM',
+		/* [128] */
+		"Display in attribute inspectors?",
+		'BFLG',
+		/* [129] */
+		"Write to stream?",
+		'BFLG',
+		/* [130] */
+		"Stream selector",
+		'TNAM',
+		/* [131] */
+		"DMStringAttribute data",
+		'DVDR',
+		/* [132] */
+		"Default value",
+		'PSTR',
+		/* [133] */
+		"Maximum length (characters)",
+		'UWRD',
+		/* [134] */
+		"Even padded?",
+		'BFLG',
+		/* [135] */
+		"(unused)",
+		'BB05',
+		/* [136] */
+		"Accept CR?",
+		'BBIT',
+		/* [137] */
+		"C style string?",
+		'BBIT',
+		/* [138] */
+		"Odd padded?",
+		'BBIT',
+		/* [139] */
+		"",
+		'KEYE',
+		/* [140] */
+		"fstr",
+		'KEYB',
+		/* [141] */
+		"DMAttribute data",
+		'DVDR',
+		/* [142] */
+		"Attribute title",
+		'PSTR',
+		/* [143] */
+		"Attribute key",
+		'TNAM',
+		/* [144] */
+		"Display in attribute inspectors?",
+		'BFLG',
+		/* [145] */
+		"Write to stream?",
+		'BFLG',
+		/* [146] */
+		"Stream selector",
+		'TNAM',
+		/* [147] */
+		"DMStringAttribute data",
+		'DVDR',
+		/* [148] */
+		"Default value",
+		'PSTR',
+		/* [149] */
+		"Maximum length (characters)",
+		'UWRD',
+		/* [150] */
+		"Even padded?",
+		'BFLG',
+		/* [151] */
+		"(unused)",
+		'BB05',
+		/* [152] */
+		"Accept CR?",
+		'BBIT',
+		/* [153] */
+		"C style string?",
+		'BBIT',
+		/* [154] */
+		"Odd padded?",
+		'BBIT',
+		/* [155] */
+		"DMFontStringAttribute data",
+		'DVDR',
+		/* [156] */
+		"Default font number",
+		'DWRD',
+		/* [157] */
+		"Write font number?",
+		'BFLG',
+		/* [158] */
+		"Include system font?",
+		'BFLG',
+		/* [159] */
+		"Include application font?",
+		'BFLG',
+		/* [160] */
+		"Include hidden fonts?",
+		'BFLG',
+		/* [161] */
+		"",
+		'KEYE',
+		/* [162] */
+		"rgbc",
+		'KEYB',
+		/* [163] */
+		"DMAttribute data",
+		'DVDR',
+		/* [164] */
+		"Attribute title",
+		'PSTR',
+		/* [165] */
+		"Attribute key",
+		'TNAM',
+		/* [166] */
+		"Display in attribute inspectors?",
+		'BFLG',
+		/* [167] */
+		"Write to stream?",
+		'BFLG',
+		/* [168] */
+		"Stream selector",
+		'TNAM',
+		/* [169] */
+		"DMRGBColorAttribute data",
+		'DVDR',
+		/* [170] */
+		"Default value",
+		'COLR',
+		/* [171] */
+		"",
+		'KEYE',
+		/* [172] */
+		"cont",
+		'KEYB',
+		/* [173] */
+		"DMAttribute data",
+		'DVDR',
+		/* [174] */
+		"Attribute title",
+		'PSTR',
+		/* [175] */
+		"Attribute key",
+		'TNAM',
+		/* [176] */
+		"Display in attribute inspectors?",
+		'BFLG',
+		/* [177] */
+		"Write to stream?",
+		'BFLG',
+		/* [178] */
+		"Stream selector",
+		'TNAM',
+		/* [179] */
+		"DMContainerAttribute data",
+		'DVDR',
+		/* [180] */
+		"Is subobject list?",
+		'BFLG',
+		/* [181] */
+		"Member class ID",
+		'TNAM',
+		/* [182] */
+		"",
+		'KEYE',
+		/* [183] */
+		"list",
+		'KEYB',
+		/* [184] */
+		"DMAttribute data",
+		'DVDR',
+		/* [185] */
+		"Attribute title",
+		'PSTR',
+		/* [186] */
+		"Attribute key",
+		'TNAM',
+		/* [187] */
+		"Display in attribute inspectors?",
+		'BFLG',
+		/* [188] */
+		"Write to stream?",
+		'BFLG',
+		/* [189] */
+		"Stream selector",
+		'TNAM',
+		/* [190] */
+		"DMContainerAttribute data",
+		'DVDR',
+		/* [191] */
+		"Is subobject list?",
+		'BFLG',
+		/* [192] */
+		"Member class ID",
+		'TNAM',
+		/* [193] */
+		"DMListAttribute data",
+		'DVDR',
+		/* [194] */
+		"Subitem title",
+		'PSTR',
+		/* [195] */
+		"Number of bytes for count",
+		'DLNG',
+		/* [196] */
+		"unused",
+		'BB06',
+		/* [197] */
+		"Zero based display?",
+		'BB01',
+		/* [198] */
+		"Zero-based count?",
+		'BB01',
+		/* [199] */
+		"",
+		'KEYE',
+		/* [200] */
+		"bitf",
+		'KEYB',
+		/* [201] */
+		"DMAttribute data",
+		'DVDR',
+		/* [202] */
+		"Attribute title",
+		'PSTR',
+		/* [203] */
+		"Attribute key",
+		'TNAM',
+		/* [204] */
+		"Display in attribute inspectors?",
+		'BFLG',
+		/* [205] */
+		"Write to stream?",
+		'BFLG',
+		/* [206] */
+		"Stream selector",
+		'TNAM',
+		/* [207] */
+		"DMContainerAttribute data",
+		'DVDR',
+		/* [208] */
+		"Is subobject list?",
+		'BFLG',
+		/* [209] */
+		"Member class ID",
+		'TNAM',
+		/* [210] */
+		"DMBitfieldAttribute data",
+		'DVDR',
+		/* [211] */
+		"Bitfield size (bytes)",
+		'UWRD',
+		/* [212] */
+		"",
+		'KEYE',
+		/* [213] */
+		"labl",
+		'KEYB',
+		/* [214] */
+		"Value",
+		'DLNG',
+		/* [215] */
+		"Label",
+		'PSTR',
+		/* [216] */
+		"",
+		'KEYE',
+		/* [217] */
+		"null",
+		'KEYB',
+		/* [218] */
+		"",
+		'KEYE',
+		/* [219] */
+		"",
+		'KEYB',
+		/* [220] */
+		"Unknown data",
+		'HEXD',
+		/* [221] */
+		"",
+		'KEYE',
+		/* [222] */
+		"",
+		'SKPE',
+		/* [223] */
+		"",
+		'KEYE',
+		/* [224] */
+		"begs",
+		'KEYB',
+		/* [225] */
+		"",
+		'KEYE',
+		/* [226] */
+		"ends",
+		'KEYB',
+		/* [227] */
+		"",
+		'KEYE',
+		/* [228] */
+		"user",
+		'KEYB',
+		/* [229] */
+		"SuperClass ID for next object",
+		'TNAM',
+		/* [230] */
+		"",
+		'KEYE',
+		/* [231] */
+		"dopl",
+		'KEYB',
+		/* [232] */
+		"Class ID for next object",
+		'TNAM',
+		/* [233] */
+		"",
+		'KEYE',
+		/* [234] */
+		"end.",
+		'KEYB',
+		/* [235] */
+		"This must be last object type in list",
+		'DVDR',
+		/* [236] */
+		"",
+		'KEYE',
+		/* [237] */
+		"*****",
+		'LSTE'
+	}
+};
+
+resource 'TMPL' (1199, "Just") {
+	{	/* array: 17 elements */
+		/* [1] */
+		"CW Plugin resource format",
+		'DVDR',
+		/* [2] */
+		"Version",
+		'DWRD',
+		/* [3] */
+		"Current=1",
+		'CASE',
+		/* [4] */
+		"Count:",
+		'OCNT',
+		/* [5] */
+		"Text Items",
+		'LSTC',
+		/* [6] */
+		"Item #",
+		'DWRD',
+		/* [7] */
+		"Justification",
+		'DBYT',
+		/* [8] */
+		"System=0",
+		'CASE',
+		/* [9] */
+		"Left=1",
+		'CASE',
+		/* [10] */
+		"Right=2",
+		'CASE',
+		/* [11] */
+		"Centered=3",
+		'CASE',
+		/* [12] */
+		"Long line behaviour",
+		'DBYT',
+		/* [13] */
+		"Wrap=0",
+		'CASE',
+		/* [14] */
+		"Clip=1",
+		'CASE',
+		/* [15] */
+		"Truncate at end=2",
+		'CASE',
+		/* [16] */
+		"Truncate in middle=3",
+		'CASE',
+		/* [17] */
+		"*****",
+		'LSTE'
+	}
+};
+
+resource 'TMPL' (1200, "KBDN") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Keyboard name",
@@ -20332,7 +23303,7 @@ resource 'TMPL' (1193, "KBDN") {
 	}
 };
 
-resource 'TMPL' (1194, "KCAP") {
+resource 'TMPL' (1201, "KCAP") {
 	{	/* array: 16 elements */
 		/* [1] */
 		"Bounds rect",
@@ -20385,7 +23356,7 @@ resource 'TMPL' (1194, "KCAP") {
 	}
 };
 
-resource 'TMPL' (1195, "KCHR") {
+resource 'TMPL' (1202, "KCHR") {
 	{	/* array: 35 elements */
 		/* [1] */
 		"Version",
@@ -20495,7 +23466,7 @@ resource 'TMPL' (1195, "KCHR") {
 	}
 };
 
-resource 'TMPL' (1196, "kind") {
+resource 'TMPL' (1203, "kind") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Application signature",
@@ -20527,7 +23498,7 @@ resource 'TMPL' (1196, "kind") {
 	}
 };
 
-resource 'TMPL' (1197, "KInf") {
+resource 'TMPL' (1204, "KInf") {
 	{	/* array: 6 elements */
 		/* [1] */
 		"\"SuitCase\" resource format",
@@ -20550,7 +23521,7 @@ resource 'TMPL' (1197, "KInf") {
 	}
 };
 
-resource 'TMPL' (1198, "KMAP") {
+resource 'TMPL' (1205, "KMAP") {
 	{	/* array: 135 elements */
 		/* [1] */
 		"ID ( 2=, 5=)",
@@ -20960,7 +23931,7 @@ resource 'TMPL' (1198, "KMAP") {
 	}
 };
 
-resource 'TMPL' (1199, "KRNL") {
+resource 'TMPL' (1206, "KRNL") {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Use FilterBits?",
@@ -20980,7 +23951,7 @@ resource 'TMPL' (1199, "KRNL") {
 	}
 };
 
-resource 'TMPL' (1200, "KSWP") {
+resource 'TMPL' (1207, "KSWP") {
 	{	/* array: 32 elements */
 		/* [1] */
 		"Don't change the last list item, it is a"
@@ -21082,7 +24053,7 @@ resource 'TMPL' (1200, "KSWP") {
 	}
 };
 
-resource 'TMPL' (1201, "Labl") {
+resource 'TMPL' (1208, "Labl") {
 	{	/* array: 6 elements */
 		/* [1] */
 		"Count:",
@@ -21105,7 +24076,7 @@ resource 'TMPL' (1201, "Labl") {
 	}
 };
 
-resource 'TMPL' (1202, "LAYO") {
+resource 'TMPL' (1209, "LAYO") {
 	{	/* array: 40 elements */
 		/* [1] */
 		"Font ID",
@@ -21230,7 +24201,7 @@ resource 'TMPL' (1202, "LAYO") {
 	}
 };
 
-resource 'TMPL' (1203, "LBEL") {
+resource 'TMPL' (1210, "LBEL") {
 	{	/* array: 6 elements */
 		/* [1] */
 		"\"Resurrection\" resource format",
@@ -21253,7 +24224,7 @@ resource 'TMPL' (1203, "LBEL") {
 	}
 };
 
-resource 'TMPL' (1204, "LBRK") {
+resource 'TMPL' (1211, "LBRK") {
 	{	/* array: 12 elements */
 		/* [1] */
 		"\"Eudora\" resource format",
@@ -21294,7 +24265,7 @@ resource 'TMPL' (1204, "LBRK") {
 	}
 };
 
-resource 'TMPL' (1205, "ldes") {
+resource 'TMPL' (1212, "ldes") {
 	{	/* array: 12 elements */
 		/* [1] */
 		"Version",
@@ -21335,7 +24306,7 @@ resource 'TMPL' (1205, "ldes") {
 	}
 };
 
-resource 'TMPL' (1206, "libi") {
+resource 'TMPL' (1213, "libi") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Format version",
@@ -21367,7 +24338,7 @@ resource 'TMPL' (1206, "libi") {
 	}
 };
 
-resource 'TMPL' (1207, "libr") {
+resource 'TMPL' (1214, "libr") {
 	{	/* array: 50 elements */
 		/* [1] */
 		"Libraries",
@@ -21522,7 +24493,7 @@ resource 'TMPL' (1207, "libr") {
 	}
 };
 
-resource 'TMPL' (1208, "LIST") {
+resource 'TMPL' (1215, "LIST") {
 	{	/* array: 19 elements */
 		/* [1] */
 		"\"MacZoop\" resource format",
@@ -21584,7 +24555,7 @@ resource 'TMPL' (1208, "LIST") {
 	}
 };
 
-resource 'TMPL' (1209, "load") {
+resource 'TMPL' (1216, "load") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Load priority",
@@ -21601,7 +24572,7 @@ resource 'TMPL' (1209, "load") {
 	}
 };
 
-resource 'TMPL' (1210, "LOGD") {
+resource 'TMPL' (1217, "LOGD") {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Maximum log file size",
@@ -21622,7 +24593,7 @@ resource 'TMPL' (1210, "LOGD") {
 	}
 };
 
-resource 'TMPL' (1211, "look") {
+resource 'TMPL' (1218, "look") {
 	{	/* array: 8 elements */
 		/* [1] */
 		"Default looker",
@@ -21651,7 +24622,7 @@ resource 'TMPL' (1211, "look") {
 	}
 };
 
-resource 'TMPL' (1212, "mach") {
+resource 'TMPL' (1219, "mach") {
 	{	/* array: 3 elements */
 		/* [1] */
 		"Machine type: cdev filtering",
@@ -21665,7 +24636,7 @@ resource 'TMPL' (1212, "mach") {
 	}
 };
 
-resource 'TMPL' (1213, "MACS") {
+resource 'TMPL' (1220, "MACS") {
 	{	/* array: 2 elements */
 		/* [1] */
 		"String",
@@ -21676,7 +24647,7 @@ resource 'TMPL' (1213, "MACS") {
 	}
 };
 
-resource 'TMPL' (1214, "mapp") {
+resource 'TMPL' (1221, "mapp") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"",
@@ -21708,7 +24679,7 @@ resource 'TMPL' (1214, "mapp") {
 	}
 };
 
-resource 'TMPL' (1215, "MBAR") {
+resource 'TMPL' (1222, "MBAR") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Count:",
@@ -21725,7 +24696,7 @@ resource 'TMPL' (1215, "MBAR") {
 	}
 };
 
-resource 'TMPL' (1216, "mcfg") {
+resource 'TMPL' (1223, "mcfg") {
 	{	/* array: 47 elements */
 		/* [1] */
 		"Importer MIME configuration info",
@@ -21871,7 +24842,7 @@ resource 'TMPL' (1216, "mcfg") {
 	}
 };
 
-resource 'TMPL' (1217, "mcky") {
+resource 'TMPL' (1224, "mcky") {
 	{	/* array: 8 elements */
 		/* [1] */
 		"Threshold 1",
@@ -21900,7 +24871,7 @@ resource 'TMPL' (1217, "mcky") {
 	}
 };
 
-resource 'TMPL' (1218, "Mcmd") {
+resource 'TMPL' (1225, "Mcmd") {
 	{	/* array: 44 elements */
 		/* [1] */
 		"Count:",
@@ -22037,7 +25008,7 @@ resource 'TMPL' (1218, "Mcmd") {
 	}
 };
 
-resource 'TMPL' (1219, "mctb") {
+resource 'TMPL' (1226, "mctb") {
 	{	/* array: 12 elements */
 		/* [1] */
 		"Count:",
@@ -22078,7 +25049,7 @@ resource 'TMPL' (1219, "mctb") {
 	}
 };
 
-resource 'TMPL' (1220, "mcvs") {
+resource 'TMPL' (1227, "mcvs") {
 	{	/* array: 25 elements */
 		/* [1] */
 		"Version",
@@ -22158,7 +25129,7 @@ resource 'TMPL' (1220, "mcvs") {
 	}
 };
 
-resource 'TMPL' (1221, "mem!") {
+resource 'TMPL' (1228, "mem!") {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Add to the size of heap space",
@@ -22178,7 +25149,7 @@ resource 'TMPL' (1221, "mem!") {
 	}
 };
 
-resource 'TMPL' (1222, "MENA") {
+resource 'TMPL' (1229, "MENA") {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Number of keys",
@@ -22198,7 +25169,7 @@ resource 'TMPL' (1222, "MENA") {
 	}
 };
 
-resource 'TMPL' (1223, "MENU") {
+resource 'TMPL' (1230, "MENU") {
 	{	/* array: 35 elements */
 		/* [1] */
 		"MenuID",
@@ -22308,7 +25279,7 @@ resource 'TMPL' (1223, "MENU") {
 	}
 };
 
-resource 'TMPL' (1224, "mgrp") {
+resource 'TMPL' (1231, "mgrp") {
 	{	/* array: 11 elements */
 		/* [1] */
 		"Importer MIME configuration info",
@@ -22346,7 +25317,7 @@ resource 'TMPL' (1224, "mgrp") {
 	}
 };
 
-resource 'TMPL' (1225, "MIMA") {
+resource 'TMPL' (1232, "MIMA") {
 	{	/* array: 13 elements */
 		/* [1] */
 		"Count:",
@@ -22390,7 +25361,7 @@ resource 'TMPL' (1225, "MIMA") {
 	}
 };
 
-resource 'TMPL' (1226, "MIMD") {
+resource 'TMPL' (1233, "MIMD") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Count:",
@@ -22422,7 +25393,7 @@ resource 'TMPL' (1226, "MIMD") {
 	}
 };
 
-resource 'TMPL' (1227, "mimp") {
+resource 'TMPL' (1234, "mimp") {
 	{	/* array: 6 elements */
 		/* [1] */
 		"Resource version",
@@ -22445,7 +25416,7 @@ resource 'TMPL' (1227, "mimp") {
 	}
 };
 
-resource 'TMPL' (1228, "mitq") {
+resource 'TMPL' (1235, "mitq") {
 	{	/* array: 3 elements */
 		/* [1] */
 		"Queue size for 3 bit inverse table",
@@ -22459,7 +25430,7 @@ resource 'TMPL' (1228, "mitq") {
 	}
 };
 
-resource 'TMPL' (1229, "MKEY") {
+resource 'TMPL' (1236, "MKEY") {
 	{	/* array: 7 elements */
 		/* [1] */
 		"Count:",
@@ -22485,7 +25456,7 @@ resource 'TMPL' (1229, "MKEY") {
 	}
 };
 
-resource 'TMPL' (1230, "mntb") {
+resource 'TMPL' (1237, "mntb") {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Menu table",
@@ -22505,7 +25476,7 @@ resource 'TMPL' (1230, "mntb") {
 	}
 };
 
-resource 'TMPL' (1231, "modm") {
+resource 'TMPL' (1238, "modm") {
 	{	/* array: 22 elements */
 		/* [1] */
 		"Version",
@@ -22576,7 +25547,7 @@ resource 'TMPL' (1231, "modm") {
 	}
 };
 
-resource 'TMPL' (1232, "mppc") {
+resource 'TMPL' (1239, "mppc") {
 	{	/* array: 3 elements */
 		/* [1] */
 		"Information passed to DRVR",
@@ -22590,7 +25561,7 @@ resource 'TMPL' (1232, "mppc") {
 	}
 };
 
-resource 'TMPL' (1233, "MPSR") {
+resource 'TMPL' (1240, "MPSR") {
 	{	/* array: 46 elements */
 		/* [1] */
 		"Type of data (by resource ID)",
@@ -22733,7 +25704,7 @@ resource 'TMPL' (1233, "MPSR") {
 	}
 };
 
-resource 'TMPL' (1234, "mVal") {
+resource 'TMPL' (1241, "mVal") {
 	{	/* array: 2 elements */
 		/* [1] */
 		"\"AfterDark\" resource format",
@@ -22744,7 +25715,7 @@ resource 'TMPL' (1234, "mVal") {
 	}
 };
 
-resource 'TMPL' (1235, "mxbc") {
+resource 'TMPL' (1242, "mxbc") {
 	{	/* array: 2 elements */
 		/* [1] */
 		"Background RGB color",
@@ -22755,7 +25726,7 @@ resource 'TMPL' (1235, "mxbc") {
 	}
 };
 
-resource 'TMPL' (1236, "mxbi") {
+resource 'TMPL' (1243, "mxbi") {
 	{	/* array: 3 elements */
 		/* [1] */
 		"Number of traps recorded",
@@ -22769,7 +25740,7 @@ resource 'TMPL' (1236, "mxbi") {
 	}
 };
 
-resource 'TMPL' (1237, "mxbm") {
+resource 'TMPL' (1244, "mxbm") {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Count:",
@@ -22789,7 +25760,7 @@ resource 'TMPL' (1237, "mxbm") {
 	}
 };
 
-resource 'TMPL' (1238, "mxpr") {
+resource 'TMPL' (1245, "mxpr") {
 	{	/* array: 16 elements */
 		/* [1] */
 		"Version",
@@ -22842,7 +25813,7 @@ resource 'TMPL' (1238, "mxpr") {
 	}
 };
 
-resource 'TMPL' (1239, "mxst") {
+resource 'TMPL' (1246, "mxst") {
 	{	/* array: 12 elements */
 		/* [1] */
 		"Version",
@@ -22883,7 +25854,7 @@ resource 'TMPL' (1239, "mxst") {
 	}
 };
 
-resource 'TMPL' (1240, "mxwt") {
+resource 'TMPL' (1247, "mxwt") {
 	{	/* array: 10 elements */
 		/* [1] */
 		"Count:",
@@ -22918,7 +25889,7 @@ resource 'TMPL' (1240, "mxwt") {
 	}
 };
 
-resource 'TMPL' (1241, "nfnt") {
+resource 'TMPL' (1248, "nfnt") {
 	{	/* array: 14 elements */
 		/* [1] */
 		"Font type",
@@ -22965,7 +25936,7 @@ resource 'TMPL' (1241, "nfnt") {
 	}
 };
 
-resource 'TMPL' (1242, "nmKy") {
+resource 'TMPL' (1249, "nmKy") {
 	{	/* array: 11 elements */
 		/* [1] */
 		"\"Finale\" resource format",
@@ -23003,7 +25974,7 @@ resource 'TMPL' (1242, "nmKy") {
 	}
 };
 
-resource 'TMPL' (1243, "nrct") {
+resource 'TMPL' (1250, "nrct") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Count:",
@@ -23020,7 +25991,7 @@ resource 'TMPL' (1243, "nrct") {
 	}
 };
 
-resource 'TMPL' (1244, "Odds") {
+resource 'TMPL' (1251, "Odds") {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Resource ID of Equivalent 'Sods'",
@@ -23040,7 +26011,7 @@ resource 'TMPL' (1244, "Odds") {
 	}
 };
 
-resource 'TMPL' (1245, "open") {
+resource 'TMPL' (1252, "open") {
 	{	/* array: 7 elements */
 		/* [1] */
 		"Application signature",
@@ -23067,7 +26038,7 @@ resource 'TMPL' (1245, "open") {
 	}
 };
 
-resource 'TMPL' (1246, "osiz") {
+resource 'TMPL' (1253, "osiz") {
 	{	/* array: 6 elements */
 		/* [1] */
 		"Don't open resource file",
@@ -23090,7 +26061,7 @@ resource 'TMPL' (1246, "osiz") {
 	}
 };
 
-resource 'TMPL' (1247, "otdr") {
+resource 'TMPL' (1254, "otdr") {
 	{	/* array: 10 elements */
 		/* [1] */
 		"Version (should be 1)",
@@ -23125,7 +26096,7 @@ resource 'TMPL' (1247, "otdr") {
 	}
 };
 
-resource 'TMPL' (1248, "over") {
+resource 'TMPL' (1255, "over") {
 	{	/* array: 123 elements */
 		/* [1] */
 		"Count:",
@@ -23502,7 +26473,7 @@ resource 'TMPL' (1248, "over") {
 	}
 };
 
-resource 'TMPL' (1249, "PANE") {
+resource 'TMPL' (1256, "PANE") {
 	{	/* array: 51 elements */
 		/* [1] */
 		"\"MacZoop\" resource format",
@@ -23660,7 +26631,7 @@ resource 'TMPL' (1249, "PANE") {
 	}
 };
 
-resource 'TMPL' (1250, "PANI") {
+resource 'TMPL' (1257, "PANI") {
 	{	/* array: 12 elements */
 		/* [1] */
 		"Version",
@@ -23701,7 +26672,7 @@ resource 'TMPL' (1250, "PANI") {
 	}
 };
 
-resource 'TMPL' (1251, "panl") {
+resource 'TMPL' (1258, "panl") {
 	{	/* array: 15 elements */
 		/* [1] */
 		"Bounds",
@@ -23751,7 +26722,7 @@ resource 'TMPL' (1251, "panl") {
 	}
 };
 
-resource 'TMPL' (1252, "PAPA") {
+resource 'TMPL' (1259, "PAPA") {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Name",
@@ -23771,7 +26742,7 @@ resource 'TMPL' (1252, "PAPA") {
 	}
 };
 
-resource 'TMPL' (1253, "PAT ") {
+resource 'TMPL' (1260, "PAT ") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Pattern",
@@ -23779,7 +26750,7 @@ resource 'TMPL' (1253, "PAT ") {
 	}
 };
 
-resource 'TMPL' (1254, "PAT#") {
+resource 'TMPL' (1261, "PAT#") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Count:",
@@ -23796,7 +26767,7 @@ resource 'TMPL' (1254, "PAT#") {
 	}
 };
 
-resource 'TMPL' (1255, "PBUT") {
+resource 'TMPL' (1262, "PBUT") {
 	{	/* array: 14 elements */
 		/* [1] */
 		"Image \"PICT\" Resource ID",
@@ -23843,7 +26814,7 @@ resource 'TMPL' (1255, "PBUT") {
 	}
 };
 
-resource 'TMPL' (1256, "pdip") {
+resource 'TMPL' (1263, "pdip") {
 	{	/* array: 26 elements */
 		/* [1] */
 		"PostScript language level",
@@ -23926,7 +26897,7 @@ resource 'TMPL' (1256, "pdip") {
 	}
 };
 
-resource 'TMPL' (1257, "Pers") {
+resource 'TMPL' (1264, "Pers") {
 	{	/* array: 17 elements */
 		/* [1] */
 		"\"Eudora\" resource format",
@@ -23982,7 +26953,7 @@ resource 'TMPL' (1257, "Pers") {
 	}
 };
 
-resource 'TMPL' (1258, "pfil") {
+resource 'TMPL' (1265, "pfil") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Count:",
@@ -23999,7 +26970,7 @@ resource 'TMPL' (1258, "pfil") {
 	}
 };
 
-resource 'TMPL' (1259, "pfnt") {
+resource 'TMPL' (1266, "pfnt") {
 	{	/* array: 166 elements */
 		/* [1] */
 		"Memory usage",
@@ -24502,7 +27473,7 @@ resource 'TMPL' (1259, "pfnt") {
 	}
 };
 
-resource 'TMPL' (1260, "PgSz") {
+resource 'TMPL' (1267, "PgSz") {
 	{	/* array: 6 elements */
 		/* [1] */
 		"\"Finale\" resource format",
@@ -24525,7 +27496,7 @@ resource 'TMPL' (1260, "PgSz") {
 	}
 };
 
-resource 'TMPL' (1261, "picb") {
+resource 'TMPL' (1268, "picb") {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Version",
@@ -24545,7 +27516,7 @@ resource 'TMPL' (1261, "picb") {
 	}
 };
 
-resource 'TMPL' (1262, "PICK") {
+resource 'TMPL' (1269, "PICK") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Which type",
@@ -24577,7 +27548,7 @@ resource 'TMPL' (1262, "PICK") {
 	}
 };
 
-resource 'TMPL' (1263, "PICT") {
+resource 'TMPL' (1270, "PICT") {
 	{	/* array: 3 elements */
 		/* [1] */
 		"Picture size (vers 1)",
@@ -24591,7 +27562,7 @@ resource 'TMPL' (1263, "PICT") {
 	}
 };
 
-resource 'TMPL' (1264, "PLGN") {
+resource 'TMPL' (1271, "PLGN") {
 	{	/* array: 6 elements */
 		/* [1] */
 		"Count:",
@@ -24614,7 +27585,699 @@ resource 'TMPL' (1264, "PLGN") {
 	}
 };
 
-resource 'TMPL' (1265, "pltt") {
+resource 'TMPL' (1272, "PLob") {
+	{	/* array: 229 elements */
+		/* [1] */
+		"Version Number",
+		'DWRD',
+		/* [2] */
+		"CW10=1",
+		'CASE',
+		/* [3] */
+		"*****",
+		'LSTB',
+		/* [4] */
+		"Object type",
+		'KTYP',
+		/* [5] */
+		"Object data=objd",
+		'CASE',
+		/* [6] */
+		"Begin sub-object list=begs",
+		'CASE',
+		/* [7] */
+		"End sub-object list=ends",
+		'CASE',
+		/* [8] */
+		"Comment=comm",
+		'CASE',
+		/* [9] */
+		"End of list=end.",
+		'CASE',
+		/* [10] */
+		"objd",
+		'KEYB',
+		/* [11] */
+		"Number of bytes in following data",
+		'LSIZ',
+		/* [12] */
+		"Data type",
+		'KTYP',
+		/* [13] */
+		"Form=tFRM",
+		'CASE',
+		/* [14] */
+		"Button=tBTN",
+		'CASE',
+		/* [15] */
+		"Repeating Button=tREP",
+		'CASE',
+		/* [16] */
+		"Push Button=tPBN",
+		'CASE',
+		/* [17] */
+		"CheckBox=tCBX",
+		'CASE',
+		/* [18] */
+		"Popup Trigger=tPUT",
+		'CASE',
+		/* [19] */
+		"Selector Trigger=tSLT",
+		'CASE',
+		/* [20] */
+		"Label=tLBL",
+		'CASE',
+		/* [21] */
+		"List=tLST",
+		'CASE',
+		/* [22] */
+		"Field=tFLD",
+		'CASE',
+		/* [23] */
+		"Scrollbar=tSCL",
+		'CASE',
+		/* [24] */
+		"Form Bitmap=tFBM",
+		'CASE',
+		/* [25] */
+		"Table=tTBL",
+		'CASE',
+		/* [26] */
+		"Gadget=tGDT",
+		'CASE',
+		/* [27] */
+		"Grafitti Indicator=tGSI",
+		'CASE',
+		/* [28] */
+		"Group=tGRP",
+		'CASE',
+		/* [29] */
+		"Null=null",
+		'CASE',
+		/* [30] */
+		"tFRM",
+		'KEYB',
+		/* [31] */
+		"Left",
+		'DWRD',
+		/* [32] */
+		"Top",
+		'DWRD',
+		/* [33] */
+		"Width",
+		'DWRD',
+		/* [34] */
+		"Height",
+		'DWRD',
+		/* [35] */
+		"Usable",
+		'BOOL',
+		/* [36] */
+		"Modal",
+		'BOOL',
+		/* [37] */
+		"Save behind",
+		'BOOL',
+		/* [38] */
+		"Unused",
+		'DWRD',
+		/* [39] */
+		"Unused",
+		'DWRD',
+		/* [40] */
+		"Form ID",
+		'DWRD',
+		/* [41] */
+		"Help Rsc ID",
+		'DWRD',
+		/* [42] */
+		"Menu Rsc ID",
+		'DWRD',
+		/* [43] */
+		"Default Button ID",
+		'DWRD',
+		/* [44] */
+		"",
+		'FWRD',
+		/* [45] */
+		"",
+		'FWRD',
+		/* [46] */
+		"Form Title",
+		'CSTR',
+		/* [47] */
+		"PalmOS Version",
+		'DWRD',
+		/* [48] */
+		"",
+		'KEYE',
+		/* [49] */
+		"tBTN",
+		'KEYB',
+		/* [50] */
+		"Button ID",
+		'DWRD',
+		/* [51] */
+		"Left",
+		'DWRD',
+		/* [52] */
+		"Top",
+		'DWRD',
+		/* [53] */
+		"Width",
+		'DWRD',
+		/* [54] */
+		"Height",
+		'DWRD',
+		/* [55] */
+		"Usable",
+		'BOOL',
+		/* [56] */
+		"Left anchor",
+		'BOOL',
+		/* [57] */
+		"Frame",
+		'BOOL',
+		/* [58] */
+		"Non-bold frame",
+		'BOOL',
+		/* [59] */
+		"Font",
+		'DBYT',
+		/* [60] */
+		"Label",
+		'CSTR',
+		/* [61] */
+		"",
+		'KEYE',
+		/* [62] */
+		"tREP",
+		'KEYB',
+		/* [63] */
+		"Button ID",
+		'DWRD',
+		/* [64] */
+		"Left",
+		'DWRD',
+		/* [65] */
+		"Top",
+		'DWRD',
+		/* [66] */
+		"Width",
+		'DWRD',
+		/* [67] */
+		"Height",
+		'DWRD',
+		/* [68] */
+		"Usable",
+		'BOOL',
+		/* [69] */
+		"Left anchor",
+		'BOOL',
+		/* [70] */
+		"Frame",
+		'BOOL',
+		/* [71] */
+		"Non-bold frame",
+		'BOOL',
+		/* [72] */
+		"Font",
+		'DBYT',
+		/* [73] */
+		"Label",
+		'CSTR',
+		/* [74] */
+		"",
+		'KEYE',
+		/* [75] */
+		"tPBN",
+		'KEYB',
+		/* [76] */
+		"Push Button ID",
+		'DWRD',
+		/* [77] */
+		"Left",
+		'DWRD',
+		/* [78] */
+		"Top",
+		'DWRD',
+		/* [79] */
+		"Width",
+		'DWRD',
+		/* [80] */
+		"Height",
+		'DWRD',
+		/* [81] */
+		"Usable",
+		'BOOL',
+		/* [82] */
+		"Group ID",
+		'DBYT',
+		/* [83] */
+		"Font",
+		'DBYT',
+		/* [84] */
+		"Label",
+		'CSTR',
+		/* [85] */
+		"",
+		'KEYE',
+		/* [86] */
+		"tCBX",
+		'KEYB',
+		/* [87] */
+		"Check Box ID",
+		'DWRD',
+		/* [88] */
+		"Left",
+		'DWRD',
+		/* [89] */
+		"Top",
+		'DWRD',
+		/* [90] */
+		"Width",
+		'DWRD',
+		/* [91] */
+		"Height",
+		'DWRD',
+		/* [92] */
+		"Usable",
+		'BOOL',
+		/* [93] */
+		"Selected",
+		'BOOL',
+		/* [94] */
+		"Group ID",
+		'DBYT',
+		/* [95] */
+		"Font",
+		'DBYT',
+		/* [96] */
+		"Label",
+		'ECST',
+		/* [97] */
+		"",
+		'KEYE',
+		/* [98] */
+		"tPUT",
+		'KEYB',
+		/* [99] */
+		"Popup Trigger ID",
+		'DWRD',
+		/* [100] */
+		"Left",
+		'DWRD',
+		/* [101] */
+		"Top",
+		'DWRD',
+		/* [102] */
+		"Width",
+		'DWRD',
+		/* [103] */
+		"Height",
+		'DWRD',
+		/* [104] */
+		"Usable",
+		'BOOL',
+		/* [105] */
+		"Left anchor",
+		'BOOL',
+		/* [106] */
+		"Font",
+		'DBYT',
+		/* [107] */
+		"Label",
+		'ECST',
+		/* [108] */
+		"List ID ",
+		'DWRD',
+		/* [109] */
+		"",
+		'KEYE',
+		/* [110] */
+		"tSLT",
+		'KEYB',
+		/* [111] */
+		"Selector Trigger ID",
+		'DWRD',
+		/* [112] */
+		"Left",
+		'DWRD',
+		/* [113] */
+		"Top",
+		'DWRD',
+		/* [114] */
+		"Width",
+		'DWRD',
+		/* [115] */
+		"Height",
+		'DWRD',
+		/* [116] */
+		"Usable",
+		'BOOL',
+		/* [117] */
+		"Left anchor",
+		'BOOL',
+		/* [118] */
+		"Font",
+		'DBYT',
+		/* [119] */
+		"Label",
+		'ECST',
+		/* [120] */
+		"",
+		'KEYE',
+		/* [121] */
+		"tLBL",
+		'KEYB',
+		/* [122] */
+		"Label ID",
+		'DWRD',
+		/* [123] */
+		"Left",
+		'DWRD',
+		/* [124] */
+		"Top",
+		'DWRD',
+		/* [125] */
+		"Usable",
+		'BOOL',
+		/* [126] */
+		"Font ID",
+		'DBYT',
+		/* [127] */
+		"Text",
+		'CSTR',
+		/* [128] */
+		"",
+		'KEYE',
+		/* [129] */
+		"tLST",
+		'KEYB',
+		/* [130] */
+		"List ID",
+		'DWRD',
+		/* [131] */
+		"Left",
+		'DWRD',
+		/* [132] */
+		"Top",
+		'DWRD',
+		/* [133] */
+		"Width",
+		'DWRD',
+		/* [134] */
+		"Usable",
+		'BOOL',
+		/* [135] */
+		"Font",
+		'DBYT',
+		/* [136] */
+		"Filler1",
+		'FBYT',
+		/* [137] */
+		"Visible Items",
+		'DWRD',
+		/* [138] */
+		"Items",
+		'OCNT',
+		/* [139] */
+		"*****",
+		'LSTC',
+		/* [140] */
+		"Text",
+		'CSTR',
+		/* [141] */
+		"*****",
+		'LSTE',
+		/* [142] */
+		"",
+		'KEYE',
+		/* [143] */
+		"tFLD",
+		'KEYB',
+		/* [144] */
+		"Field ID",
+		'DWRD',
+		/* [145] */
+		"Left",
+		'DWRD',
+		/* [146] */
+		"Top",
+		'DWRD',
+		/* [147] */
+		"Width",
+		'DWRD',
+		/* [148] */
+		"Height",
+		'DWRD',
+		/* [149] */
+		"Usable",
+		'BOOL',
+		/* [150] */
+		"Editable",
+		'BOOL',
+		/* [151] */
+		"Underlined",
+		'BOOL',
+		/* [152] */
+		"Solid Underline",
+		'FWRD',
+		/* [153] */
+		"Single Line",
+		'BOOL',
+		/* [154] */
+		"Dynamic Size",
+		'BOOL',
+		/* [155] */
+		"Left Justified",
+		'BOOL',
+		/* [156] */
+		"Max chars",
+		'DWRD',
+		/* [157] */
+		"Font",
+		'DBYT',
+		/* [158] */
+		"Filler1",
+		'FBYT',
+		/* [159] */
+		"Auto Shift",
+		'BOOL',
+		/* [160] */
+		"Has Scroll Bar",
+		'BOOL',
+		/* [161] */
+		"Numeric",
+		'BOOL',
+		/* [162] */
+		"",
+		'KEYE',
+		/* [163] */
+		"tSCL",
+		'KEYB',
+		/* [164] */
+		"Scroll Bar ID",
+		'DWRD',
+		/* [165] */
+		"Left",
+		'DWRD',
+		/* [166] */
+		"Top",
+		'DWRD',
+		/* [167] */
+		"Width",
+		'DWRD',
+		/* [168] */
+		"Height",
+		'DWRD',
+		/* [169] */
+		"Usable",
+		'BOOL',
+		/* [170] */
+		"Value",
+		'DWRD',
+		/* [171] */
+		"Minimum Value",
+		'DWRD',
+		/* [172] */
+		"Maximum Value",
+		'DWRD',
+		/* [173] */
+		"Page Size",
+		'DWRD',
+		/* [174] */
+		"",
+		'KEYE',
+		/* [175] */
+		"tFBM",
+		'KEYB',
+		/* [176] */
+		"X Position",
+		'DWRD',
+		/* [177] */
+		"y Position",
+		'DWRD',
+		/* [178] */
+		"Bitmap Rsc ID",
+		'DWRD',
+		/* [179] */
+		"Usable",
+		'BOOL',
+		/* [180] */
+		"",
+		'KEYE',
+		/* [181] */
+		"tTBL",
+		'KEYB',
+		/* [182] */
+		"Table ID",
+		'DWRD',
+		/* [183] */
+		"Left",
+		'DWRD',
+		/* [184] */
+		"Top",
+		'DWRD',
+		/* [185] */
+		"Width",
+		'DWRD',
+		/* [186] */
+		"Height",
+		'DWRD',
+		/* [187] */
+		"Editable",
+		'BOOL',
+		/* [188] */
+		"reserved 1",
+		'FWRD',
+		/* [189] */
+		"reserved 2",
+		'FWRD',
+		/* [190] */
+		"reserved 3",
+		'FWRD',
+		/* [191] */
+		"Rows",
+		'DWRD',
+		/* [192] */
+		"Columns",
+		'OCNT',
+		/* [193] */
+		"*****",
+		'LSTC',
+		/* [194] */
+		"Column Width",
+		'DWRD',
+		/* [195] */
+		"*****",
+		'LSTE',
+		/* [196] */
+		"",
+		'KEYE',
+		/* [197] */
+		"tGDT",
+		'KEYB',
+		/* [198] */
+		"Gadget ID",
+		'DWRD',
+		/* [199] */
+		"Left",
+		'DWRD',
+		/* [200] */
+		"Top",
+		'DWRD',
+		/* [201] */
+		"Width",
+		'DWRD',
+		/* [202] */
+		"Height",
+		'DWRD',
+		/* [203] */
+		"Usable",
+		'BOOL',
+		/* [204] */
+		"",
+		'KEYE',
+		/* [205] */
+		"tGSI",
+		'KEYB',
+		/* [206] */
+		"x pos",
+		'DWRD',
+		/* [207] */
+		"y pos",
+		'DWRD',
+		/* [208] */
+		"",
+		'KEYE',
+		/* [209] */
+		"tGRP",
+		'KEYB',
+		/* [210] */
+		"Group ID",
+		'DWRD',
+		/* [211] */
+		"",
+		'KEYE',
+		/* [212] */
+		"null",
+		'KEYB',
+		/* [213] */
+		"",
+		'KEYE',
+		/* [214] */
+		"",
+		'KEYB',
+		/* [215] */
+		"Unknown data",
+		'HEXD',
+		/* [216] */
+		"",
+		'KEYE',
+		/* [217] */
+		"",
+		'SKPE',
+		/* [218] */
+		"",
+		'KEYE',
+		/* [219] */
+		"begs",
+		'KEYB',
+		/* [220] */
+		"",
+		'KEYE',
+		/* [221] */
+		"ends",
+		'KEYB',
+		/* [222] */
+		"",
+		'KEYE',
+		/* [223] */
+		"comm",
+		'KEYB',
+		/* [224] */
+		"Comment data",
+		'LSHX',
+		/* [225] */
+		"",
+		'KEYE',
+		/* [226] */
+		"end.",
+		'KEYB',
+		/* [227] */
+		"This must be last object type in list",
+		'DVDR',
+		/* [228] */
+		"",
+		'KEYE',
+		/* [229] */
+		"*****",
+		'LSTE'
+	}
+};
+
+resource 'TMPL' (1273, "pltt") {
 	{	/* array: 25 elements */
 		/* [1] */
 		"Count:",
@@ -24694,7 +28357,7 @@ resource 'TMPL' (1265, "pltt") {
 	}
 };
 
-resource 'TMPL' (1266, "plut") {
+resource 'TMPL' (1274, "plut") {
 	{	/* array: 17 elements */
 		/* [1] */
 		"Pattern Lookup Table",
@@ -24750,7 +28413,7 @@ resource 'TMPL' (1266, "plut") {
 	}
 };
 
-resource 'TMPL' (1267, "pnel") {
+resource 'TMPL' (1275, "pnel") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Panel name",
@@ -24767,7 +28430,7 @@ resource 'TMPL' (1267, "pnel") {
 	}
 };
 
-resource 'TMPL' (1268, "pnot") {
+resource 'TMPL' (1276, "pnot") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Modification date",
@@ -24784,7 +28447,7 @@ resource 'TMPL' (1268, "pnot") {
 	}
 };
 
-resource 'TMPL' (1269, "POST") {
+resource 'TMPL' (1277, "POST") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"NumStrings",
@@ -24801,7 +28464,7 @@ resource 'TMPL' (1269, "POST") {
 	}
 };
 
-resource 'TMPL' (1270, "ppat") {
+resource 'TMPL' (1278, "ppat") {
 	{	/* array: 23 elements */
 		/* [1] */
 		"Pattern type",
@@ -24875,7 +28538,7 @@ resource 'TMPL' (1270, "ppat") {
 	}
 };
 
-resource 'TMPL' (1271, "ppcc") {
+resource 'TMPL' (1279, "ppcc") {
 	{	/* array: 7 elements */
 		/* [1] */
 		"NBP lookup interval",
@@ -24902,7 +28565,7 @@ resource 'TMPL' (1271, "ppcc") {
 	}
 };
 
-resource 'TMPL' (1272, "ppdA") {
+resource 'TMPL' (1280, "ppdA") {
 	{	/* array: 25 elements */
 		/* [1] */
 		"Signature",
@@ -24982,7 +28645,7 @@ resource 'TMPL' (1272, "ppdA") {
 	}
 };
 
-resource 'TMPL' (1273, "ppdT") {
+resource 'TMPL' (1281, "ppdT") {
 	{	/* array: 52 elements */
 		/* [1] */
 		"Signature",
@@ -25143,7 +28806,7 @@ resource 'TMPL' (1273, "ppdT") {
 	}
 };
 
-resource 'TMPL' (1274, "PPob") {
+resource 'TMPL' (1282, "PPob") {
 	{	/* array: 3820 elements */
 		/* [1] */
 		"Template for PowerPlant 2.5",
@@ -36608,7 +40271,7 @@ resource 'TMPL' (1274, "PPob") {
 	}
 };
 
-resource 'TMPL' (1275, "PPRO") {
+resource 'TMPL' (1283, "PPRO") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"\"Fetch\" resource template",
@@ -36640,7 +40303,7 @@ resource 'TMPL' (1275, "PPRO") {
 	}
 };
 
-resource 'TMPL' (1276, "PRC0") {
+resource 'TMPL' (1284, "PRC0") {
 	{	/* array: 37 elements */
 		/* [1] */
 		"iPrVersion",
@@ -36756,7 +40419,7 @@ resource 'TMPL' (1276, "PRC0") {
 	}
 };
 
-resource 'TMPL' (1277, "PRC3") {
+resource 'TMPL' (1285, "PRC3") {
 	{	/* array: 20 elements */
 		/* [1] */
 		"Number of Buttons",
@@ -36821,7 +40484,7 @@ resource 'TMPL' (1277, "PRC3") {
 	}
 };
 
-resource 'TMPL' (1278, "PREC") {
+resource 'TMPL' (1286, "PREC") {
 	{	/* array: 138 elements */
 		/* [1] */
 		"Type of resource",
@@ -37240,7 +40903,7 @@ resource 'TMPL' (1278, "PREC") {
 	}
 };
 
-resource 'TMPL' (1279, "PRF2") {
+resource 'TMPL' (1287, "PRF2") {
 	{	/* array: 16 elements */
 		/* [1] */
 		"Create papToDisk file",
@@ -37296,7 +40959,7 @@ resource 'TMPL' (1279, "PRF2") {
 	}
 };
 
-resource 'TMPL' (1280, "PRFS") {
+resource 'TMPL' (1288, "PRFS") {
 	{	/* array: 32 elements */
 		/* [1] */
 		"Full PPD dialog",
@@ -37402,7 +41065,7 @@ resource 'TMPL' (1280, "PRFS") {
 	}
 };
 
-resource 'TMPL' (1281, "prop") {
+resource 'TMPL' (1289, "prop") {
 	{	/* array: 7 elements */
 		/* [1] */
 		"Enable quality",
@@ -37428,7 +41091,7 @@ resource 'TMPL' (1281, "prop") {
 	}
 };
 
-resource 'TMPL' (1282, "proz") {
+resource 'TMPL' (1290, "proz") {
 	{	/* array: 3 elements */
 		/* [1] */
 		"",
@@ -37442,7 +41105,7 @@ resource 'TMPL' (1282, "proz") {
 	}
 };
 
-resource 'TMPL' (1283, "PSAP") {
+resource 'TMPL' (1291, "PSAP") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"String",
@@ -37450,7 +41113,7 @@ resource 'TMPL' (1283, "PSAP") {
 	}
 };
 
-resource 'TMPL' (1284, "PSLD") {
+resource 'TMPL' (1292, "PSLD") {
 	{	/* array: 15 elements */
 		/* [1] */
 		"Picture resource ID",
@@ -37500,7 +41163,7 @@ resource 'TMPL' (1284, "PSLD") {
 	}
 };
 
-resource 'TMPL' (1285, "pslt") {
+resource 'TMPL' (1293, "pslt") {
 	{	/* array: 17 elements */
 		/* [1] */
 		"Slot orientation is as seen from the fro"
@@ -37565,7 +41228,7 @@ resource 'TMPL' (1285, "pslt") {
 	}
 };
 
-resource 'TMPL' (1286, "PTFM") {
+resource 'TMPL' (1294, "PTFM") {
 	{	/* array: 14 elements */
 		/* [1] */
 		"Default pane",
@@ -37612,7 +41275,7 @@ resource 'TMPL' (1286, "PTFM") {
 	}
 };
 
-resource 'TMPL' (1287, "ptyp") {
+resource 'TMPL' (1295, "ptyp") {
 	{	/* array: 46 elements */
 		/* [1] */
 		"Paper type name",
@@ -37755,7 +41418,849 @@ resource 'TMPL' (1287, "ptyp") {
 	}
 };
 
-resource 'TMPL' (1288, "puf!") {
+resource 'TMPL' (1296, "PTYP") {
+	{	/* array: 279 elements */
+		/* [1] */
+		"Template for Constructor CW10",
+		'DVDR',
+		/* [2] */
+		"Version Number",
+		'DWRD',
+		/* [3] */
+		"CW10=1",
+		'CASE',
+		/* [4] */
+		"*****",
+		'LSTB',
+		/* [5] */
+		"Object type",
+		'KTYP',
+		/* [6] */
+		"Object data=objd",
+		'CASE',
+		/* [7] */
+		"Begin sub-object list=begs",
+		'CASE',
+		/* [8] */
+		"End sub-object list=ends",
+		'CASE',
+		/* [9] */
+		"User object=user",
+		'CASE',
+		/* [10] */
+		"Class alias=dopl",
+		'CASE',
+		/* [11] */
+		"End of list=end.",
+		'CASE',
+		/* [12] */
+		"objd",
+		'KEYB',
+		/* [13] */
+		"Number of bytes in following data",
+		'LSIZ',
+		/* [14] */
+		"Data type",
+		'KTYP',
+		/* [15] */
+		"Object=obj ",
+		'CASE',
+		/* [16] */
+		"Pilot Type Entry=vlte",
+		'CASE',
+		/* [17] */
+		"Integer attribute=intv",
+		'CASE',
+		/* [18] */
+		"Labelled integer attribute=labi",
+		'CASE',
+		/* [19] */
+		"Min/max integer attribute=mimx",
+		'CASE',
+		/* [20] */
+		"Res list attribute=resl",
+		'CASE',
+		/* [21] */
+		"Resource Reference Attribute=rerf",
+		'CASE',
+		/* [22] */
+		"Toolbox boolean attribute=tbxb",
+		'CASE',
+		/* [23] */
+		"String attribute=pstr",
+		'CASE',
+		/* [24] */
+		"Font string attribute=fstr",
+		'CASE',
+		/* [25] */
+		"RGB color attribute=rgbc",
+		'CASE',
+		/* [26] */
+		"Container attribute=cont",
+		'CASE',
+		/* [27] */
+		"List attribute=list",
+		'CASE',
+		/* [28] */
+		"Bitfield container attribute=bitf",
+		'CASE',
+		/* [29] */
+		"Value label=labl",
+		'CASE',
+		/* [30] */
+		"Statement=stat",
+		'CASE',
+		/* [31] */
+		"Argument=arg ",
+		'CASE',
+		/* [32] */
+		"Null=null",
+		'CASE',
+		/* [33] */
+		"obj ",
+		'KEYB',
+		/* [34] */
+		"",
+		'KEYE',
+		/* [35] */
+		"vlte",
+		'KEYB',
+		/* [36] */
+		"VETypeEntry data",
+		'DVDR',
+		/* [37] */
+		"Class name",
+		'PSTR',
+		/* [38] */
+		"Icon ID",
+		'DWRD',
+		/* [39] */
+		"Abstract class?",
+		'BFLG',
+		/* [40] */
+		"Class ID",
+		'TNAM',
+		/* [41] */
+		"Parent class ID",
+		'TNAM',
+		/* [42] */
+		"Default width",
+		'DWRD',
+		/* [43] */
+		"Default height",
+		'DWRD',
+		/* [44] */
+		"Must be root?",
+		'BFLG',
+		/* [45] */
+		"",
+		'KEYE',
+		/* [46] */
+		"intv",
+		'KEYB',
+		/* [47] */
+		"DMAttribute data",
+		'DVDR',
+		/* [48] */
+		"Attribute title",
+		'PSTR',
+		/* [49] */
+		"Attribute key",
+		'TNAM',
+		/* [50] */
+		"Display in attribute inspectors?",
+		'BFLG',
+		/* [51] */
+		"Write to stream?",
+		'BFLG',
+		/* [52] */
+		"Stream selector",
+		'TNAM',
+		/* [53] */
+		"DMIntegerAttribute data",
+		'DVDR',
+		/* [54] */
+		"Default value",
+		'DLNG',
+		/* [55] */
+		"Value size (bits)",
+		'UWRD',
+		/* [56] */
+		"Signed integer?",
+		'BFLG',
+		/* [57] */
+		"Can be text value?",
+		'BFLG',
+		/* [58] */
+		"Always is text value?",
+		'BFLG',
+		/* [59] */
+		"",
+		'KEYE',
+		/* [60] */
+		"labi",
+		'KEYB',
+		/* [61] */
+		"DMAttribute data",
+		'DVDR',
+		/* [62] */
+		"Attribute title",
+		'PSTR',
+		/* [63] */
+		"Attribute key",
+		'TNAM',
+		/* [64] */
+		"Display in attribute inspectors?",
+		'BFLG',
+		/* [65] */
+		"Write to stream?",
+		'BFLG',
+		/* [66] */
+		"Stream selector",
+		'TNAM',
+		/* [67] */
+		"DMIntegerAttribute data",
+		'DVDR',
+		/* [68] */
+		"Default value",
+		'DLNG',
+		/* [69] */
+		"Value size (bits)",
+		'UWRD',
+		/* [70] */
+		"Signed integer?",
+		'BFLG',
+		/* [71] */
+		"Can be text value?",
+		'BFLG',
+		/* [72] */
+		"Always is text value?",
+		'BFLG',
+		/* [73] */
+		"DMLabelledIntegerAttribute data",
+		'DVDR',
+		/* [74] */
+		"Labels only?",
+		'BFLG',
+		/* [75] */
+		"",
+		'KEYE',
+		/* [76] */
+		"mimx",
+		'KEYB',
+		/* [77] */
+		"DMAttribute data",
+		'DVDR',
+		/* [78] */
+		"Attribute title",
+		'PSTR',
+		/* [79] */
+		"Attribute key",
+		'TNAM',
+		/* [80] */
+		"Display in attribute inspectors?",
+		'BFLG',
+		/* [81] */
+		"Write to stream?",
+		'BFLG',
+		/* [82] */
+		"Stream selector",
+		'TNAM',
+		/* [83] */
+		"DMIntegerAttribute data",
+		'DVDR',
+		/* [84] */
+		"Default value",
+		'DLNG',
+		/* [85] */
+		"Value size (bits)",
+		'UWRD',
+		/* [86] */
+		"Signed integer?",
+		'BFLG',
+		/* [87] */
+		"Can be text value?",
+		'BFLG',
+		/* [88] */
+		"Always is text value?",
+		'BFLG',
+		/* [89] */
+		"DMMinMaxIntegerAttribute data",
+		'DVDR',
+		/* [90] */
+		"Minimum value",
+		'DLNG',
+		/* [91] */
+		"Maximum value",
+		'DLNG',
+		/* [92] */
+		"",
+		'KEYE',
+		/* [93] */
+		"resl",
+		'KEYB',
+		/* [94] */
+		"DMAttribute data",
+		'DVDR',
+		/* [95] */
+		"Attribute title",
+		'PSTR',
+		/* [96] */
+		"Attribute key",
+		'TNAM',
+		/* [97] */
+		"Display in attribute inspectors?",
+		'BFLG',
+		/* [98] */
+		"Write to stream?",
+		'BFLG',
+		/* [99] */
+		"Stream selector",
+		'TNAM',
+		/* [100] */
+		"DMIntegerAttribute data",
+		'DVDR',
+		/* [101] */
+		"Default value",
+		'DLNG',
+		/* [102] */
+		"Value size (bits)",
+		'UWRD',
+		/* [103] */
+		"Signed integer?",
+		'BFLG',
+		/* [104] */
+		"Can be text value?",
+		'BFLG',
+		/* [105] */
+		"Always is text value?",
+		'BFLG',
+		/* [106] */
+		"DMLabelledIntegerAttribute data",
+		'DVDR',
+		/* [107] */
+		"Labels only?",
+		'BFLG',
+		/* [108] */
+		"DMResListAttribute data",
+		'DVDR',
+		/* [109] */
+		"Resource type",
+		'TNAM',
+		/* [110] */
+		"",
+		'KEYE',
+		/* [111] */
+		"rerf",
+		'KEYB',
+		/* [112] */
+		"DMAttribute data",
+		'DVDR',
+		/* [113] */
+		"Attribute title",
+		'PSTR',
+		/* [114] */
+		"Attribute key",
+		'TNAM',
+		/* [115] */
+		"Display in attribute inspectors?",
+		'BFLG',
+		/* [116] */
+		"Write to stream?",
+		'BFLG',
+		/* [117] */
+		"Stream selector",
+		'TNAM',
+		/* [118] */
+		"DMIntegerAttribute data",
+		'DVDR',
+		/* [119] */
+		"Default value",
+		'DLNG',
+		/* [120] */
+		"Value size (bits)",
+		'UWRD',
+		/* [121] */
+		"Signed integer?",
+		'BFLG',
+		/* [122] */
+		"Can be text value?",
+		'BFLG',
+		/* [123] */
+		"Always is text value?",
+		'BFLG',
+		/* [124] */
+		"DMResourceRefAttribute data",
+		'DVDR',
+		/* [125] */
+		"Resource Type",
+		'TNAM',
+		/* [126] */
+		"",
+		'KEYE',
+		/* [127] */
+		"tbxb",
+		'KEYB',
+		/* [128] */
+		"DMAttribute data",
+		'DVDR',
+		/* [129] */
+		"Attribute title",
+		'PSTR',
+		/* [130] */
+		"Attribute key",
+		'TNAM',
+		/* [131] */
+		"Display in attribute inspectors?",
+		'BFLG',
+		/* [132] */
+		"Write to stream?",
+		'BFLG',
+		/* [133] */
+		"Stream selector",
+		'TNAM',
+		/* [134] */
+		"DMIntegerAttribute data",
+		'DVDR',
+		/* [135] */
+		"Default value",
+		'DLNG',
+		/* [136] */
+		"Value size (bits)",
+		'UWRD',
+		/* [137] */
+		"Signed integer?",
+		'BFLG',
+		/* [138] */
+		"Can be text value?",
+		'BFLG',
+		/* [139] */
+		"Always is text value?",
+		'BFLG',
+		/* [140] */
+		"Number of bytes (1 or 2)",
+		'DWRD',
+		/* [141] */
+		"",
+		'KEYE',
+		/* [142] */
+		"pstr",
+		'KEYB',
+		/* [143] */
+		"DMAttribute data",
+		'DVDR',
+		/* [144] */
+		"Attribute title",
+		'PSTR',
+		/* [145] */
+		"Attribute key",
+		'TNAM',
+		/* [146] */
+		"Display in attribute inspectors?",
+		'BFLG',
+		/* [147] */
+		"Write to stream?",
+		'BFLG',
+		/* [148] */
+		"Stream selector",
+		'TNAM',
+		/* [149] */
+		"DMStringAttribute data",
+		'DVDR',
+		/* [150] */
+		"Default value",
+		'PSTR',
+		/* [151] */
+		"Maximum length (characters)",
+		'UWRD',
+		/* [152] */
+		"Even padded?",
+		'BFLG',
+		/* [153] */
+		"unused",
+		'BB04',
+		/* [154] */
+		"Needs Hex",
+		'BB01',
+		/* [155] */
+		"Accept CR",
+		'BB01',
+		/* [156] */
+		"Write as C String?",
+		'BB01',
+		/* [157] */
+		"Odd padded?",
+		'BB01',
+		/* [158] */
+		"",
+		'KEYE',
+		/* [159] */
+		"fstr",
+		'KEYB',
+		/* [160] */
+		"DMAttribute data",
+		'DVDR',
+		/* [161] */
+		"Attribute title",
+		'PSTR',
+		/* [162] */
+		"Attribute key",
+		'TNAM',
+		/* [163] */
+		"Display in attribute inspectors?",
+		'BFLG',
+		/* [164] */
+		"Write to stream?",
+		'BFLG',
+		/* [165] */
+		"Stream selector",
+		'TNAM',
+		/* [166] */
+		"DMStringAttribute data",
+		'DVDR',
+		/* [167] */
+		"Default value",
+		'PSTR',
+		/* [168] */
+		"Maximum length (characters)",
+		'UWRD',
+		/* [169] */
+		"Even padded?",
+		'BFLG',
+		/* [170] */
+		"unused",
+		'BB06',
+		/* [171] */
+		"Write as C String?",
+		'BB01',
+		/* [172] */
+		"Odd padded?",
+		'BB01',
+		/* [173] */
+		"DMFontStringAttribute data",
+		'DVDR',
+		/* [174] */
+		"Default font number",
+		'DWRD',
+		/* [175] */
+		"Write font number?",
+		'BFLG',
+		/* [176] */
+		"Include system font?",
+		'BFLG',
+		/* [177] */
+		"Include application font?",
+		'BFLG',
+		/* [178] */
+		"Include hidden fonts?",
+		'BFLG',
+		/* [179] */
+		"",
+		'KEYE',
+		/* [180] */
+		"rgbc",
+		'KEYB',
+		/* [181] */
+		"DMAttribute data",
+		'DVDR',
+		/* [182] */
+		"Attribute title",
+		'PSTR',
+		/* [183] */
+		"Attribute key",
+		'TNAM',
+		/* [184] */
+		"Display in attribute inspectors?",
+		'BFLG',
+		/* [185] */
+		"Write to stream?",
+		'BFLG',
+		/* [186] */
+		"Stream selector",
+		'TNAM',
+		/* [187] */
+		"DMRGBColorAttribute data",
+		'DVDR',
+		/* [188] */
+		"Default value",
+		'COLR',
+		/* [189] */
+		"",
+		'KEYE',
+		/* [190] */
+		"cont",
+		'KEYB',
+		/* [191] */
+		"DMAttribute data",
+		'DVDR',
+		/* [192] */
+		"Attribute title",
+		'PSTR',
+		/* [193] */
+		"Attribute key",
+		'TNAM',
+		/* [194] */
+		"Display in attribute inspectors?",
+		'BFLG',
+		/* [195] */
+		"Write to stream?",
+		'BFLG',
+		/* [196] */
+		"Stream selector",
+		'TNAM',
+		/* [197] */
+		"DMContainerAttribute data",
+		'DVDR',
+		/* [198] */
+		"Is subobject list?",
+		'BFLG',
+		/* [199] */
+		"Member class ID",
+		'TNAM',
+		/* [200] */
+		"",
+		'KEYE',
+		/* [201] */
+		"list",
+		'KEYB',
+		/* [202] */
+		"DMAttribute data",
+		'DVDR',
+		/* [203] */
+		"Attribute title",
+		'PSTR',
+		/* [204] */
+		"Attribute key",
+		'TNAM',
+		/* [205] */
+		"Display in attribute inspectors?",
+		'BFLG',
+		/* [206] */
+		"Write to stream?",
+		'BFLG',
+		/* [207] */
+		"Stream selector",
+		'TNAM',
+		/* [208] */
+		"DMContainerAttribute data",
+		'DVDR',
+		/* [209] */
+		"Is subobject list?",
+		'BFLG',
+		/* [210] */
+		"Member class ID",
+		'TNAM',
+		/* [211] */
+		"DMListAttribute data",
+		'DVDR',
+		/* [212] */
+		"Subitem title",
+		'PSTR',
+		/* [213] */
+		"Number of bytes for count",
+		'DLNG',
+		/* [214] */
+		"unused",
+		'BB06',
+		/* [215] */
+		"Zero based display?",
+		'BB01',
+		/* [216] */
+		"Zero-based count?",
+		'BB01',
+		/* [217] */
+		"",
+		'KEYE',
+		/* [218] */
+		"bitf",
+		'KEYB',
+		/* [219] */
+		"DMAttribute data",
+		'DVDR',
+		/* [220] */
+		"Attribute title",
+		'PSTR',
+		/* [221] */
+		"Attribute key",
+		'TNAM',
+		/* [222] */
+		"Display in attribute inspectors?",
+		'BFLG',
+		/* [223] */
+		"Write to stream?",
+		'BFLG',
+		/* [224] */
+		"Stream selector",
+		'TNAM',
+		/* [225] */
+		"DMContainerAttribute data",
+		'DVDR',
+		/* [226] */
+		"Is subobject list?",
+		'BFLG',
+		/* [227] */
+		"Member class ID",
+		'TNAM',
+		/* [228] */
+		"DMBitfieldAttribute data",
+		'DVDR',
+		/* [229] */
+		"Bitfield size (bytes)",
+		'UWRD',
+		/* [230] */
+		"",
+		'KEYE',
+		/* [231] */
+		"labl",
+		'KEYB',
+		/* [232] */
+		"Value",
+		'DLNG',
+		/* [233] */
+		"Label",
+		'PSTR',
+		/* [234] */
+		"",
+		'KEYE',
+		/* [235] */
+		"stat",
+		'KEYB',
+		/* [236] */
+		"DMAttribute data",
+		'DVDR',
+		/* [237] */
+		"Attribute title",
+		'PSTR',
+		/* [238] */
+		"Attribute key",
+		'TNAM',
+		/* [239] */
+		"Display in attribute inspectors?",
+		'BFLG',
+		/* [240] */
+		"Write to stream?",
+		'BFLG',
+		/* [241] */
+		"Stream selector",
+		'TNAM',
+		/* [242] */
+		"DMContainerAttribute data",
+		'DVDR',
+		/* [243] */
+		"Is subobject list?",
+		'BFLG',
+		/* [244] */
+		"Member class ID",
+		'TNAM',
+		/* [245] */
+		"PJStatementAttribute data",
+		'DVDR',
+		/* [246] */
+		"UseKeyForTitle",
+		'BFLG',
+		/* [247] */
+		"",
+		'KEYE',
+		/* [248] */
+		"arg ",
+		'KEYB',
+		/* [249] */
+		"DMAttribute data",
+		'DVDR',
+		/* [250] */
+		"Attribute title",
+		'PSTR',
+		/* [251] */
+		"Attribute key",
+		'TNAM',
+		/* [252] */
+		"Display in attribute inspectors?",
+		'BFLG',
+		/* [253] */
+		"Write to stream?",
+		'BFLG',
+		/* [254] */
+		"Stream selector",
+		'TNAM',
+		/* [255] */
+		"PJArgumentAttribute data",
+		'DVDR',
+		/* [256] */
+		"Is Quoted",
+		'BFLG',
+		/* [257] */
+		"Is Boolean",
+		'BFLG',
+		/* [258] */
+		"",
+		'KEYE',
+		/* [259] */
+		"null",
+		'KEYB',
+		/* [260] */
+		"",
+		'KEYE',
+		/* [261] */
+		"",
+		'KEYB',
+		/* [262] */
+		"Unknown data",
+		'HEXD',
+		/* [263] */
+		"",
+		'KEYE',
+		/* [264] */
+		"",
+		'SKPE',
+		/* [265] */
+		"",
+		'KEYE',
+		/* [266] */
+		"begs",
+		'KEYB',
+		/* [267] */
+		"",
+		'KEYE',
+		/* [268] */
+		"ends",
+		'KEYB',
+		/* [269] */
+		"",
+		'KEYE',
+		/* [270] */
+		"user",
+		'KEYB',
+		/* [271] */
+		"SuperClass ID for next object",
+		'TNAM',
+		/* [272] */
+		"",
+		'KEYE',
+		/* [273] */
+		"dopl",
+		'KEYB',
+		/* [274] */
+		"Class ID for next object",
+		'TNAM',
+		/* [275] */
+		"",
+		'KEYE',
+		/* [276] */
+		"end.",
+		'KEYB',
+		/* [277] */
+		"This must be last object type in list",
+		'DVDR',
+		/* [278] */
+		"",
+		'KEYE',
+		/* [279] */
+		"*****",
+		'LSTE'
+	}
+};
+
+resource 'TMPL' (1297, "puf!") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"",
@@ -37772,7 +42277,7 @@ resource 'TMPL' (1288, "puf!") {
 	}
 };
 
-resource 'TMPL' (1289, "qrsc") {
+resource 'TMPL' (1298, "qrsc") {
 	{	/* array: 13 elements */
 		/* [1] */
 		"Version",
@@ -37816,7 +42321,7 @@ resource 'TMPL' (1289, "qrsc") {
 	}
 };
 
-resource 'TMPL' (1290, "ramr") {
+resource 'TMPL' (1299, "ramr") {
 	{	/* array: 7 elements */
 		/* [1] */
 		"Amt to indent 1st colum/title",
@@ -37842,7 +42347,7 @@ resource 'TMPL' (1290, "ramr") {
 	}
 };
 
-resource 'TMPL' (1291, "rdes") {
+resource 'TMPL' (1300, "rdes") {
 	{	/* array: 31 elements */
 		/* [1] */
 		"Go Mixed Mode Trap",
@@ -37940,7 +42445,7 @@ resource 'TMPL' (1291, "rdes") {
 	}
 };
 
-resource 'TMPL' (1292, "rdpf") {
+resource 'TMPL' (1301, "rdpf") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Count:",
@@ -37957,7 +42462,7 @@ resource 'TMPL' (1292, "rdpf") {
 	}
 };
 
-resource 'TMPL' (1293, "rdws") {
+resource 'TMPL' (1302, "rdws") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"String",
@@ -37965,7 +42470,7 @@ resource 'TMPL' (1293, "rdws") {
 	}
 };
 
-resource 'TMPL' (1294, "RECT") {
+resource 'TMPL' (1303, "RECT") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Rectangle",
@@ -37973,7 +42478,7 @@ resource 'TMPL' (1294, "RECT") {
 	}
 };
 
-resource 'TMPL' (1295, "RES!") {
+resource 'TMPL' (1304, "RES!") {
 	{	/* array: 2 elements */
 		/* [1] */
 		"\"Resurrection\" resource format",
@@ -37984,7 +42489,7 @@ resource 'TMPL' (1295, "RES!") {
 	}
 };
 
-resource 'TMPL' (1296, "RES#") {
+resource 'TMPL' (1305, "RES#") {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Count:",
@@ -38004,7 +42509,7 @@ resource 'TMPL' (1296, "RES#") {
 	}
 };
 
-resource 'TMPL' (1297, "resf") {
+resource 'TMPL' (1306, "resf") {
 	{	/* array: 10 elements */
 		/* [1] */
 		"Count:",
@@ -38039,7 +42544,7 @@ resource 'TMPL' (1297, "resf") {
 	}
 };
 
-resource 'TMPL' (1298, "resl") {
+resource 'TMPL' (1307, "resl") {
 	{	/* array: 11 elements */
 		/* [1] */
 		"Range type",
@@ -38077,7 +42582,7 @@ resource 'TMPL' (1298, "resl") {
 	}
 };
 
-resource 'TMPL' (1299, "rgb ") {
+resource 'TMPL' (1308, "rgb ") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Color",
@@ -38085,7 +42590,7 @@ resource 'TMPL' (1299, "rgb ") {
 	}
 };
 
-resource 'TMPL' (1300, "RID#") {
+resource 'TMPL' (1309, "RID#") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Count:",
@@ -38102,7 +42607,7 @@ resource 'TMPL' (1300, "RID#") {
 	}
 };
 
-resource 'TMPL' (1301, "RidL") {
+resource 'TMPL' (1310, "RidL") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Count:",
@@ -38119,7 +42624,7 @@ resource 'TMPL' (1301, "RidL") {
 	}
 };
 
-resource 'TMPL' (1302, "RMAP") {
+resource 'TMPL' (1311, "RMAP") {
 	{	/* array: 8 elements */
 		/* [1] */
 		"MapTo type",
@@ -38148,7 +42653,7 @@ resource 'TMPL' (1302, "RMAP") {
 	}
 };
 
-resource 'TMPL' (1303, "ropt") {
+resource 'TMPL' (1312, "ropt") {
 	{	/* array: 28 elements */
 		/* [1] */
 		"Start page 'wstr' ID",
@@ -38237,7 +42742,7 @@ resource 'TMPL' (1303, "ropt") {
 	}
 };
 
-resource 'TMPL' (1304, "rout") {
+resource 'TMPL' (1313, "rout") {
 	{	/* array: 133 elements */
 		/* [1] */
 		"Array for folder routing",
@@ -38641,7 +43146,7 @@ resource 'TMPL' (1304, "rout") {
 	}
 };
 
-resource 'TMPL' (1305, "ROv#") {
+resource 'TMPL' (1314, "ROv#") {
 	{	/* array: 6 elements */
 		/* [1] */
 		"Version",
@@ -38664,7 +43169,7 @@ resource 'TMPL' (1305, "ROv#") {
 	}
 };
 
-resource 'TMPL' (1306, "rptw") {
+resource 'TMPL' (1315, "rptw") {
 	{	/* array: 6 elements */
 		/* [1] */
 		"Name column width",
@@ -38687,7 +43192,7 @@ resource 'TMPL' (1306, "rptw") {
 	}
 };
 
-resource 'TMPL' (1307, "RSCP") {
+resource 'TMPL' (1316, "RSCP") {
 	{	/* array: 21 elements */
 		/* [1] */
 		"Resource Spec Current Version (should be"
@@ -38757,7 +43262,7 @@ resource 'TMPL' (1307, "RSCP") {
 	}
 };
 
-resource 'TMPL' (1308, "RSID") {
+resource 'TMPL' (1317, "RSID") {
 	{	/* array: 13 elements */
 		/* [1] */
 		"\"Resurrection\" resource format",
@@ -38801,7 +43306,7 @@ resource 'TMPL' (1308, "RSID") {
 	}
 };
 
-resource 'TMPL' (1309, "rst#") {
+resource 'TMPL' (1318, "rst#") {
 	{	/* array: 8 elements */
 		/* [1] */
 		"Size of the following data",
@@ -38830,7 +43335,7 @@ resource 'TMPL' (1309, "rst#") {
 	}
 };
 
-resource 'TMPL' (1310, "rstr") {
+resource 'TMPL' (1319, "rstr") {
 	{	/* array: 2 elements */
 		/* [1] */
 		"Script region code",
@@ -38841,7 +43346,7 @@ resource 'TMPL' (1310, "rstr") {
 	}
 };
 
-resource 'TMPL' (1311, "RTXT") {
+resource 'TMPL' (1320, "RTXT") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"TrueType rotated text?",
@@ -38858,7 +43363,7 @@ resource 'TMPL' (1311, "RTXT") {
 	}
 };
 
-resource 'TMPL' (1312, "RVEW") {
+resource 'TMPL' (1321, "RVEW") {
 	{	/* array: 2 elements */
 		/* [1] */
 		"View by",
@@ -38869,7 +43374,7 @@ resource 'TMPL' (1312, "RVEW") {
 	}
 };
 
-resource 'TMPL' (1313, "RZID") {
+resource 'TMPL' (1322, "RZID") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Resources",
@@ -38886,7 +43391,7 @@ resource 'TMPL' (1313, "RZID") {
 	}
 };
 
-resource 'TMPL' (1314, "RZLE") {
+resource 'TMPL' (1323, "RZLE") {
 	{	/* array: 8 elements */
 		/* [1] */
 		"Count:",
@@ -38915,7 +43420,24 @@ resource 'TMPL' (1314, "RZLE") {
 	}
 };
 
-resource 'TMPL' (1315, "sAbt") {
+resource 'TMPL' (1324, "RzTA") {
+	{	/* array: 4 elements */
+		/* [1] */
+		"TypeAs array",
+		'LSTB',
+		/* [2] */
+		"Original type",
+		'TNAM',
+		/* [3] */
+		"Substitute type",
+		'TNAM',
+		/* [4] */
+		"*****",
+		'LSTE'
+	}
+};
+
+resource 'TMPL' (1325, "sAbt") {
 	{	/* array: 11 elements */
 		/* [1] */
 		"\"SuitCase\" resource format",
@@ -38953,7 +43475,7 @@ resource 'TMPL' (1315, "sAbt") {
 	}
 };
 
-resource 'TMPL' (1316, "sami") {
+resource 'TMPL' (1326, "sami") {
 	{	/* array: 10 elements */
 		/* [1] */
 		"Maximum number of directories/slots",
@@ -38988,7 +43510,7 @@ resource 'TMPL' (1316, "sami") {
 	}
 };
 
-resource 'TMPL' (1317, "scan") {
+resource 'TMPL' (1327, "scan") {
 	{	/* array: 72 elements */
 		/* [1] */
 		"Owner count",
@@ -39209,7 +43731,7 @@ resource 'TMPL' (1317, "scan") {
 	}
 };
 
-resource 'TMPL' (1318, "scop") {
+resource 'TMPL' (1328, "scop") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Count:",
@@ -39226,7 +43748,7 @@ resource 'TMPL' (1318, "scop") {
 	}
 };
 
-resource 'TMPL' (1319, "scrn") {
+resource 'TMPL' (1329, "scrn") {
 	{	/* array: 23 elements */
 		/* [1] */
 		"Count:",
@@ -39300,7 +43822,7 @@ resource 'TMPL' (1319, "scrn") {
 	}
 };
 
-resource 'TMPL' (1320, "scsz") {
+resource 'TMPL' (1330, "scsz") {
 	{	/* array: 10 elements */
 		/* [1] */
 		"Launch to get terminology",
@@ -39335,7 +43857,7 @@ resource 'TMPL' (1320, "scsz") {
 	}
 };
 
-resource 'TMPL' (1321, "sect") {
+resource 'TMPL' (1331, "sect") {
 	{	/* array: 11 elements */
 		/* [1] */
 		"Version",
@@ -39373,7 +43895,7 @@ resource 'TMPL' (1321, "sect") {
 	}
 };
 
-resource 'TMPL' (1322, "sept") {
+resource 'TMPL' (1332, "sept") {
 	{	/* array: 256 elements */
 		/* [1] */
 		"0x01",
@@ -40146,7 +44668,7 @@ resource 'TMPL' (1322, "sept") {
 	}
 };
 
-resource 'TMPL' (1323, "SICN") {
+resource 'TMPL' (1333, "SICN") {
 	{	/* array: 3 elements */
 		/* [1] */
 		"Small icons array",
@@ -40160,7 +44682,7 @@ resource 'TMPL' (1323, "SICN") {
 	}
 };
 
-resource 'TMPL' (1324, "sig ") {
+resource 'TMPL' (1334, "sig ") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Creator type of file",
@@ -40168,7 +44690,7 @@ resource 'TMPL' (1324, "sig ") {
 	}
 };
 
-resource 'TMPL' (1325, "SIGN") {
+resource 'TMPL' (1335, "SIGN") {
 	{	/* array: 2 elements */
 		/* [1] */
 		"Key word",
@@ -40179,7 +44701,7 @@ resource 'TMPL' (1325, "SIGN") {
 	}
 };
 
-resource 'TMPL' (1326, "SINF") {
+resource 'TMPL' (1336, "SINF") {
 	{	/* array: 6 elements */
 		/* [1] */
 		"Internet Config resource format",
@@ -40202,7 +44724,7 @@ resource 'TMPL' (1326, "SINF") {
 	}
 };
 
-resource 'TMPL' (1327, "SIZE") {
+resource 'TMPL' (1337, "SIZE") {
 	{	/* array: 16 elements */
 		/* [1] */
 		"Save screen (obsolete)",
@@ -40255,7 +44777,7 @@ resource 'TMPL' (1327, "SIZE") {
 	}
 };
 
-resource 'TMPL' (1328, "Smly") {
+resource 'TMPL' (1338, "Smly") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Count:",
@@ -40287,7 +44809,7 @@ resource 'TMPL' (1328, "Smly") {
 	}
 };
 
-resource 'TMPL' (1329, "Sods") {
+resource 'TMPL' (1339, "Sods") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Version",
@@ -40319,7 +44841,7 @@ resource 'TMPL' (1329, "Sods") {
 	}
 };
 
-resource 'TMPL' (1330, "SPLY") {
+resource 'TMPL' (1340, "SPLY") {
 	{	/* array: 8 elements */
 		/* [1] */
 		"Playlist name",
@@ -40348,7 +44870,7 @@ resource 'TMPL' (1330, "SPLY") {
 	}
 };
 
-resource 'TMPL' (1331, "sReq") {
+resource 'TMPL' (1341, "sReq") {
 	{	/* array: 6 elements */
 		/* [1] */
 		"\"AfterDark\" resource format",
@@ -40371,7 +44893,7 @@ resource 'TMPL' (1331, "sReq") {
 	}
 };
 
-resource 'TMPL' (1332, "stab") {
+resource 'TMPL' (1342, "stab") {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Values in reduction table should be in a"
@@ -40392,7 +44914,7 @@ resource 'TMPL' (1332, "stab") {
 	}
 };
 
-resource 'TMPL' (1333, "stat") {
+resource 'TMPL' (1343, "stat") {
 	{	/* array: 20 elements */
 		/* [1] */
 		"Status owner",
@@ -40457,7 +44979,7 @@ resource 'TMPL' (1333, "stat") {
 	}
 };
 
-resource 'TMPL' (1334, "STCT") {
+resource 'TMPL' (1344, "STCT") {
 	{	/* array: 8 elements */
 		/* [1] */
 		"\"Fetch\" resource template",
@@ -40486,7 +45008,7 @@ resource 'TMPL' (1334, "STCT") {
 	}
 };
 
-resource 'TMPL' (1335, "STR ") {
+resource 'TMPL' (1345, "STR ") {
 	{	/* array: 2 elements */
 		/* [1] */
 		"String",
@@ -40497,7 +45019,7 @@ resource 'TMPL' (1335, "STR ") {
 	}
 };
 
-resource 'TMPL' (1336, "STR#") {
+resource 'TMPL' (1346, "STR#") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Count:",
@@ -40514,7 +45036,7 @@ resource 'TMPL' (1336, "STR#") {
 	}
 };
 
-resource 'TMPL' (1337, "stri") {
+resource 'TMPL' (1347, "stri") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"String used for component info resources",
@@ -40522,7 +45044,7 @@ resource 'TMPL' (1337, "stri") {
 	}
 };
 
-resource 'TMPL' (1338, "strn") {
+resource 'TMPL' (1348, "strn") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"String used for component name resources",
@@ -40530,7 +45052,7 @@ resource 'TMPL' (1338, "strn") {
 	}
 };
 
-resource 'TMPL' (1339, "STRT") {
+resource 'TMPL' (1349, "STRT") {
 	{	/* array: 6 elements */
 		/* [1] */
 		"\"Resurrection\" resource format",
@@ -40553,7 +45075,7 @@ resource 'TMPL' (1339, "STRT") {
 	}
 };
 
-resource 'TMPL' (1340, "styl") {
+resource 'TMPL' (1350, "styl") {
 	{	/* array: 13 elements */
 		/* [1] */
 		"Count:",
@@ -40597,7 +45119,7 @@ resource 'TMPL' (1340, "styl") {
 	}
 };
 
-resource 'TMPL' (1341, "SUFX") {
+resource 'TMPL' (1351, "SUFX") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"\"Fetch\" resource template",
@@ -40629,7 +45151,7 @@ resource 'TMPL' (1341, "SUFX") {
 	}
 };
 
-resource 'TMPL' (1342, "Suit") {
+resource 'TMPL' (1352, "Suit") {
 	{	/* array: 11 elements */
 		/* [1] */
 		"\"SuitCase\" resource format",
@@ -40667,7 +45189,7 @@ resource 'TMPL' (1342, "Suit") {
 	}
 };
 
-resource 'TMPL' (1343, "sUnt") {
+resource 'TMPL' (1353, "sUnt") {
 	{	/* array: 6 elements */
 		/* [1] */
 		"\"AfterDark\" resource format",
@@ -40690,7 +45212,7 @@ resource 'TMPL' (1343, "sUnt") {
 	}
 };
 
-resource 'TMPL' (1344, "sVal") {
+resource 'TMPL' (1354, "sVal") {
 	{	/* array: 2 elements */
 		/* [1] */
 		"\"AfterDark\" resource format",
@@ -40701,7 +45223,7 @@ resource 'TMPL' (1344, "sVal") {
 	}
 };
 
-resource 'TMPL' (1345, "sysz") {
+resource 'TMPL' (1355, "sysz") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Memory allocated (in bytes)",
@@ -40709,7 +45231,7 @@ resource 'TMPL' (1345, "sysz") {
 	}
 };
 
-resource 'TMPL' (1346, "tab#") {
+resource 'TMPL' (1356, "tab#") {
 	{	/* array: 11 elements */
 		/* [1] */
 		"Version",
@@ -40747,7 +45269,33 @@ resource 'TMPL' (1346, "tab#") {
 	}
 };
 
-resource 'TMPL' (1347, "taps") {
+resource 'TMPL' (1357, "Tabs") {
+	{	/* array: 7 elements */
+		/* [1] */
+		"CW Plugin resource format",
+		'DVDR',
+		/* [2] */
+		"Version",
+		'DWRD',
+		/* [3] */
+		"Current=1",
+		'CASE',
+		/* [4] */
+		"Count:",
+		'OCNT',
+		/* [5] */
+		"Tab Items",
+		'LSTC',
+		/* [6] */
+		"Item #",
+		'DWRD',
+		/* [7] */
+		"*****",
+		'LSTE'
+	}
+};
+
+resource 'TMPL' (1358, "taps") {
 	{	/* array: 19 elements */
 		/* [1] */
 		"Terminal tool capabilities list",
@@ -40809,7 +45357,108 @@ resource 'TMPL' (1347, "taps") {
 	}
 };
 
-resource 'TMPL' (1348, "tdat") {
+resource 'TMPL' (1359, "Targ") {
+	{	/* array: 32 elements */
+		/* [1] */
+		"CW Plugin resource format",
+		'DVDR',
+		/* [2] */
+		"Version",
+		'DWRD',
+		/* [3] */
+		"Current=1",
+		'CASE',
+		/* [4] */
+		"Count:",
+		'OCNT',
+		/* [5] */
+		"Supported CPUs",
+		'LSTC',
+		/* [6] */
+		"CPU",
+		'TNAM',
+		/* [7] */
+		"PowerPC=ppc ",
+		'CASE',
+		/* [8] */
+		"MC680x0=68k ",
+		'CASE',
+		/* [9] */
+		"i80x86=8086",
+		'CASE',
+		/* [10] */
+		"MIPS=mips",
+		'CASE',
+		/* [11] */
+		"V800=v800",
+		'CASE',
+		/* [12] */
+		"V850=v850",
+		'CASE',
+		/* [13] */
+		"mCore=Core",
+		'CASE',
+		/* [14] */
+		"SH=SH",
+		'CASE',
+		/* [15] */
+		"Java=java",
+		'CASE',
+		/* [16] */
+		"Any=****",
+		'CASE',
+		/* [17] */
+		"*****",
+		'LSTE',
+		/* [18] */
+		"Count:",
+		'OCNT',
+		/* [19] */
+		"Supported Operating Systems",
+		'LSTC',
+		/* [20] */
+		"OS",
+		'TNAM',
+		/* [21] */
+		"MacOS=mac ",
+		'CASE',
+		/* [22] */
+		"Windows=wint",
+		'CASE',
+		/* [23] */
+		"MagicCap=mcap",
+		'CASE',
+		/* [24] */
+		"MIPS=mips",
+		'CASE',
+		/* [25] */
+		"V800=v800",
+		'CASE',
+		/* [26] */
+		"V850=v850",
+		'CASE',
+		/* [27] */
+		"mCore=Core",
+		'CASE',
+		/* [28] */
+		"SH=SH",
+		'CASE',
+		/* [29] */
+		"Be=be  ",
+		'CASE',
+		/* [30] */
+		"NetWare=nlm ",
+		'CASE',
+		/* [31] */
+		"Any=****",
+		'CASE',
+		/* [32] */
+		"*****",
+		'LSTE'
+	}
+};
+
+resource 'TMPL' (1360, "tdat") {
 	{	/* array: 9 elements */
 		/* [1] */
 		"Theme Data (ID 1)",
@@ -40842,7 +45491,7 @@ resource 'TMPL' (1348, "tdat") {
 	}
 };
 
-resource 'TMPL' (1349, "TEXT") {
+resource 'TMPL' (1361, "TEXT") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Text",
@@ -40850,7 +45499,7 @@ resource 'TMPL' (1349, "TEXT") {
 	}
 };
 
-resource 'TMPL' (1350, "thg0") {
+resource 'TMPL' (1362, "thg0") {
 	{	/* array: 19 elements */
 		/* [1] */
 		"Initial version of Thing resource",
@@ -40912,7 +45561,7 @@ resource 'TMPL' (1350, "thg0") {
 	}
 };
 
-resource 'TMPL' (1351, "thga") {
+resource 'TMPL' (1363, "thga") {
 	{	/* array: 23 elements */
 		/* [1] */
 		"Type of component",
@@ -40986,7 +45635,7 @@ resource 'TMPL' (1351, "thga") {
 	}
 };
 
-resource 'TMPL' (1352, "thn#") {
+resource 'TMPL' (1364, "thn#") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Component Manager thing load order depen"
@@ -41004,7 +45653,7 @@ resource 'TMPL' (1352, "thn#") {
 	}
 };
 
-resource 'TMPL' (1353, "thn0") {
+resource 'TMPL' (1365, "thn0") {
 	{	/* array: 19 elements */
 		/* [1] */
 		"Version 0 of Component Manager thing",
@@ -41067,7 +45716,7 @@ resource 'TMPL' (1353, "thn0") {
 	}
 };
 
-resource 'TMPL' (1354, "thn1") {
+resource 'TMPL' (1366, "thn1") {
 	{	/* array: 44 elements */
 		/* [1] */
 		"Version 1 of Component Manager thing",
@@ -41206,7 +45855,7 @@ resource 'TMPL' (1354, "thn1") {
 	}
 };
 
-resource 'TMPL' (1355, "thnd") {
+resource 'TMPL' (1367, "thnd") {
 	{	/* array: 8 elements */
 		/* [1] */
 		"Count:",
@@ -41235,7 +45884,7 @@ resource 'TMPL' (1355, "thnd") {
 	}
 };
 
-resource 'TMPL' (1356, "thng") {
+resource 'TMPL' (1368, "thng") {
 	{	/* array: 45 elements */
 		/* [1] */
 		"Type of component",
@@ -41377,7 +46026,7 @@ resource 'TMPL' (1356, "thng") {
 	}
 };
 
-resource 'TMPL' (1357, "thnr") {
+resource 'TMPL' (1369, "thnr") {
 	{	/* array: 8 elements */
 		/* [1] */
 		"Components public resource maps",
@@ -41406,7 +46055,7 @@ resource 'TMPL' (1357, "thnr") {
 	}
 };
 
-resource 'TMPL' (1358, "THUM") {
+resource 'TMPL' (1370, "THUM") {
 	{	/* array: 6 elements */
 		/* [1] */
 		"\"AfterDark\" resource format",
@@ -41429,7 +46078,7 @@ resource 'TMPL' (1358, "THUM") {
 	}
 };
 
-resource 'TMPL' (1359, "tic#") {
+resource 'TMPL' (1371, "tic#") {
 	{	/* array: 6 elements */
 		/* [1] */
 		"Theme File Icon List (ID 384)",
@@ -41452,7 +46101,7 @@ resource 'TMPL' (1359, "tic#") {
 	}
 };
 
-resource 'TMPL' (1360, "TMPL") {
+resource 'TMPL' (1372, "TMPL") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"List of template fields",
@@ -41469,7 +46118,7 @@ resource 'TMPL' (1360, "TMPL") {
 	}
 };
 
-resource 'TMPL' (1361, "TOOL") {
+resource 'TMPL' (1373, "TOOL") {
 	{	/* array: 5 elements */
 		/* [1] */
 		"Tools per row",
@@ -41489,7 +46138,7 @@ resource 'TMPL' (1361, "TOOL") {
 	}
 };
 
-resource 'TMPL' (1362, "TPal") {
+resource 'TMPL' (1374, "TPal") {
 	{	/* array: 13 elements */
 		/* [1] */
 		"\"Finale\" resource format",
@@ -41534,7 +46183,7 @@ resource 'TMPL' (1362, "TPal") {
 	}
 };
 
-resource 'TMPL' (1363, "tray") {
+resource 'TMPL' (1375, "tray") {
 	{	/* array: 2 elements */
 		/* [1] */
 		"Tray count",
@@ -41545,7 +46194,7 @@ resource 'TMPL' (1363, "tray") {
 	}
 };
 
-resource 'TMPL' (1364, "trsl") {
+resource 'TMPL' (1376, "trsl") {
 	{	/* array: 44 elements */
 		/* [1] */
 		"To convert from all text, set all 16 fol"
@@ -41687,7 +46336,7 @@ resource 'TMPL' (1364, "trsl") {
 	}
 };
 
-resource 'TMPL' (1365, "TTBL") {
+resource 'TMPL' (1377, "TTBL") {
 	{	/* array: 6 elements */
 		/* [1] */
 		"\"SuitCase\" resource format",
@@ -41710,7 +46359,7 @@ resource 'TMPL' (1365, "TTBL") {
 	}
 };
 
-resource 'TMPL' (1366, "tVal") {
+resource 'TMPL' (1378, "tVal") {
 	{	/* array: 2 elements */
 		/* [1] */
 		"\"AfterDark\" resource format",
@@ -41721,7 +46370,7 @@ resource 'TMPL' (1366, "tVal") {
 	}
 };
 
-resource 'TMPL' (1367, "tvar") {
+resource 'TMPL' (1379, "tvar") {
 	{	/* array: 10 elements */
 		/* [1] */
 		"Theme Variants (must have ID 128)",
@@ -41756,7 +46405,7 @@ resource 'TMPL' (1367, "tvar") {
 	}
 };
 
-resource 'TMPL' (1368, "TxSt") {
+resource 'TMPL' (1380, "TxSt") {
 	{	/* array: 12 elements */
 		/* [1] */
 		"Unused",
@@ -41797,7 +46446,7 @@ resource 'TMPL' (1368, "TxSt") {
 	}
 };
 
-resource 'TMPL' (1369, "Txtr") {
+resource 'TMPL' (1381, "Txtr") {
 	{	/* array: 43 elements */
 		/* [1] */
 		"Size",
@@ -41931,7 +46580,7 @@ resource 'TMPL' (1369, "Txtr") {
 	}
 };
 
-resource 'TMPL' (1370, "TXTs") {
+resource 'TMPL' (1382, "TXTs") {
 	{	/* array: 2 elements */
 		/* [1] */
 		"\"Fetch\" resource template",
@@ -41942,7 +46591,7 @@ resource 'TMPL' (1370, "TXTs") {
 	}
 };
 
-resource 'TMPL' (1371, "typ#") {
+resource 'TMPL' (1383, "typ#") {
 	{	/* array: 4 elements */
 		/* [1] */
 		"Count:",
@@ -41959,7 +46608,7 @@ resource 'TMPL' (1371, "typ#") {
 	}
 };
 
-resource 'TMPL' (1372, "TYPs") {
+resource 'TMPL' (1384, "TYPs") {
 	{	/* array: 3 elements */
 		/* [1] */
 		"\"Fetch\" resource template",
@@ -41973,7 +46622,7 @@ resource 'TMPL' (1372, "TYPs") {
 	}
 };
 
-resource 'TMPL' (1373, "url ") {
+resource 'TMPL' (1385, "url ") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"URL string",
@@ -41981,7 +46630,30 @@ resource 'TMPL' (1373, "url ") {
 	}
 };
 
-resource 'TMPL' (1374, "vers") {
+resource 'TMPL' (1386, "VECP") {
+	{	/* array: 6 elements */
+		/* [1] */
+		"Count:",
+		'OCNT',
+		/* [2] */
+		"List of panes",
+		'LSTC',
+		/* [3] */
+		"Catalog pane type",
+		'TNAM',
+		/* [4] */
+		"Catalog pane icon ID",
+		'DWRD',
+		/* [5] */
+		"Catalog pane label",
+		'PSTR',
+		/* [6] */
+		"*****",
+		'LSTE'
+	}
+};
+
+resource 'TMPL' (1387, "vers") {
 	{	/* array: 11 elements */
 		/* [1] */
 		"Version number",
@@ -42019,7 +46691,7 @@ resource 'TMPL' (1374, "vers") {
 	}
 };
 
-resource 'TMPL' (1375, "VFlg") {
+resource 'TMPL' (1388, "VFlg") {
 	{	/* array: 2 elements */
 		/* [1] */
 		"Obey DIV \"align\" tag",
@@ -42030,7 +46702,7 @@ resource 'TMPL' (1375, "VFlg") {
 	}
 };
 
-resource 'TMPL' (1376, "view") {
+resource 'TMPL' (1389, "view") {
 	{	/* array: 909 elements */
 		/* [1] */
 		"Views",
@@ -44762,7 +49434,7 @@ resource 'TMPL' (1376, "view") {
 	}
 };
 
-resource 'TMPL' (1377, "wctb") {
+resource 'TMPL' (1390, "wctb") {
 	{	/* array: 20 elements */
 		/* [1] */
 		"Window color seed",
@@ -44827,7 +49499,7 @@ resource 'TMPL' (1377, "wctb") {
 	}
 };
 
-resource 'TMPL' (1378, "WIND") {
+resource 'TMPL' (1391, "WIND") {
 	{	/* array: 27 elements */
 		/* [1] */
 		"BoundsRect",
@@ -44913,7 +49585,24 @@ resource 'TMPL' (1378, "WIND") {
 	}
 };
 
-resource 'TMPL' (1379, "wstr") {
+resource 'TMPL' (1392, "WSPC") {
+	{	/* array: 4 elements */
+		/* [1] */
+		"Top",
+		'DWRD',
+		/* [2] */
+		"Left",
+		'DWRD',
+		/* [3] */
+		"Width",
+		'DWRD',
+		/* [4] */
+		"Height",
+		'DWRD'
+	}
+};
+
+resource 'TMPL' (1393, "wstr") {
 	{	/* array: 1 elements */
 		/* [1] */
 		"Query",
@@ -44921,7 +49610,861 @@ resource 'TMPL' (1379, "wstr") {
 	}
 };
 
-resource 'TMPL' (1380, "xdtl") {
+resource 'TMPL' (1394, "WTYP") {
+	{	/* array: 283 elements */
+		/* [1] */
+		"Template for Constructor CW10",
+		'DVDR',
+		/* [2] */
+		"Version Number",
+		'DWRD',
+		/* [3] */
+		"CW10=1",
+		'CASE',
+		/* [4] */
+		"*****",
+		'LSTB',
+		/* [5] */
+		"Object type",
+		'KTYP',
+		/* [6] */
+		"Object data=objd",
+		'CASE',
+		/* [7] */
+		"Begin sub-object list=begs",
+		'CASE',
+		/* [8] */
+		"End sub-object list=ends",
+		'CASE',
+		/* [9] */
+		"User object=user",
+		'CASE',
+		/* [10] */
+		"Class alias=dopl",
+		'CASE',
+		/* [11] */
+		"End of list=end.",
+		'CASE',
+		/* [12] */
+		"objd",
+		'KEYB',
+		/* [13] */
+		"Number of bytes in following data",
+		'LSIZ',
+		/* [14] */
+		"Data type",
+		'KTYP',
+		/* [15] */
+		"Object=obj ",
+		'CASE',
+		/* [16] */
+		"Display class info=vwte",
+		'CASE',
+		/* [17] */
+		"Integer attribute=intv",
+		'CASE',
+		/* [18] */
+		"Labelled integer attribute=labi",
+		'CASE',
+		/* [19] */
+		"Min/max integer attribute=mimx",
+		'CASE',
+		/* [20] */
+		"Res list attribute=resl",
+		'CASE',
+		/* [21] */
+		"Resource reference attribute=rerf",
+		'CASE',
+		/* [22] */
+		"String attribute=pstr",
+		'CASE',
+		/* [23] */
+		"Font string attribute=fstr",
+		'CASE',
+		/* [24] */
+		"Name or ordinal attribute=nord",
+		'CASE',
+		/* [25] */
+		"RGB color attribute=rgbc",
+		'CASE',
+		/* [26] */
+		"Container attribute=cont",
+		'CASE',
+		/* [27] */
+		"List attribute=list",
+		'CASE',
+		/* [28] */
+		"Bitfield container attribute=bitf",
+		'CASE',
+		/* [29] */
+		"Value label=labl",
+		'CASE',
+		/* [30] */
+		"Resource container=rsco",
+		'CASE',
+		/* [31] */
+		"View editor type list=vetl",
+		'CASE',
+		/* [32] */
+		"Custom type object=ctmo",
+		'CASE',
+		/* [33] */
+		"Null=null",
+		'CASE',
+		/* [34] */
+		"obj ",
+		'KEYB',
+		/* [35] */
+		"",
+		'KEYE',
+		/* [36] */
+		"vwte",
+		'KEYB',
+		/* [37] */
+		"VWTypeEntry data",
+		'DVDR',
+		/* [38] */
+		"Class name",
+		'PSTR',
+		/* [39] */
+		"Icon ID",
+		'DWRD',
+		/* [40] */
+		"Abstract class?",
+		'BFLG',
+		/* [41] */
+		"Class ID",
+		'TNAM',
+		/* [42] */
+		"Parent class ID",
+		'TNAM',
+		/* [43] */
+		"Default width",
+		'DWRD',
+		/* [44] */
+		"Default height",
+		'DWRD',
+		/* [45] */
+		"Must be root?",
+		'BFLG',
+		/* [46] */
+		"Default resource ID",
+		'DWRD',
+		/* [47] */
+		"",
+		'KEYE',
+		/* [48] */
+		"intv",
+		'KEYB',
+		/* [49] */
+		"DMAttribute data",
+		'DVDR',
+		/* [50] */
+		"Attribute title",
+		'PSTR',
+		/* [51] */
+		"Attribute key",
+		'TNAM',
+		/* [52] */
+		"Display in attribute inspectors?",
+		'BFLG',
+		/* [53] */
+		"Write to stream?",
+		'BFLG',
+		/* [54] */
+		"Stream selector",
+		'TNAM',
+		/* [55] */
+		"DMIntegerAttribute data",
+		'DVDR',
+		/* [56] */
+		"Default value",
+		'DLNG',
+		/* [57] */
+		"Value size (bits)",
+		'UWRD',
+		/* [58] */
+		"Signed integer?",
+		'BFLG',
+		/* [59] */
+		"Can be text value?",
+		'BFLG',
+		/* [60] */
+		"Always is text value?",
+		'BFLG',
+		/* [61] */
+		"",
+		'KEYE',
+		/* [62] */
+		"labi",
+		'KEYB',
+		/* [63] */
+		"DMAttribute data",
+		'DVDR',
+		/* [64] */
+		"Attribute title",
+		'PSTR',
+		/* [65] */
+		"Attribute key",
+		'TNAM',
+		/* [66] */
+		"Display in attribute inspectors?",
+		'BFLG',
+		/* [67] */
+		"Write to stream?",
+		'BFLG',
+		/* [68] */
+		"Stream selector",
+		'TNAM',
+		/* [69] */
+		"DMIntegerAttribute data",
+		'DVDR',
+		/* [70] */
+		"Default value",
+		'DLNG',
+		/* [71] */
+		"Value size (bits)",
+		'UWRD',
+		/* [72] */
+		"Signed integer?",
+		'BFLG',
+		/* [73] */
+		"Can be text value?",
+		'BFLG',
+		/* [74] */
+		"Always is text value?",
+		'BFLG',
+		/* [75] */
+		"DMLabelledIntegerAttribute data",
+		'DVDR',
+		/* [76] */
+		"Labels only?",
+		'BFLG',
+		/* [77] */
+		"",
+		'KEYE',
+		/* [78] */
+		"mimx",
+		'KEYB',
+		/* [79] */
+		"DMAttribute data",
+		'DVDR',
+		/* [80] */
+		"Attribute title",
+		'PSTR',
+		/* [81] */
+		"Attribute key",
+		'TNAM',
+		/* [82] */
+		"Display in attribute inspectors?",
+		'BFLG',
+		/* [83] */
+		"Write to stream?",
+		'BFLG',
+		/* [84] */
+		"Stream selector",
+		'TNAM',
+		/* [85] */
+		"DMIntegerAttribute data",
+		'DVDR',
+		/* [86] */
+		"Default value",
+		'DLNG',
+		/* [87] */
+		"Value size (bits)",
+		'UWRD',
+		/* [88] */
+		"Signed integer?",
+		'BFLG',
+		/* [89] */
+		"Can be text value?",
+		'BFLG',
+		/* [90] */
+		"Always is text value?",
+		'BFLG',
+		/* [91] */
+		"DMMinMaxIntegerAttribute data",
+		'DVDR',
+		/* [92] */
+		"Minimum value",
+		'DLNG',
+		/* [93] */
+		"Maximum value",
+		'DLNG',
+		/* [94] */
+		"",
+		'KEYE',
+		/* [95] */
+		"resl",
+		'KEYB',
+		/* [96] */
+		"DMAttribute data",
+		'DVDR',
+		/* [97] */
+		"Attribute title",
+		'PSTR',
+		/* [98] */
+		"Attribute key",
+		'TNAM',
+		/* [99] */
+		"Display in attribute inspectors?",
+		'BFLG',
+		/* [100] */
+		"Write to stream?",
+		'BFLG',
+		/* [101] */
+		"Stream selector",
+		'TNAM',
+		/* [102] */
+		"DMIntegerAttribute data",
+		'DVDR',
+		/* [103] */
+		"Default value",
+		'DLNG',
+		/* [104] */
+		"Value size (bits)",
+		'UWRD',
+		/* [105] */
+		"Signed integer?",
+		'BFLG',
+		/* [106] */
+		"Can be text value?",
+		'BFLG',
+		/* [107] */
+		"Always is text value?",
+		'BFLG',
+		/* [108] */
+		"DMLabelledIntegerAttribute data",
+		'DVDR',
+		/* [109] */
+		"Labels only?",
+		'BFLG',
+		/* [110] */
+		"DMResListAttribute data",
+		'DVDR',
+		/* [111] */
+		"Resource type",
+		'TNAM',
+		/* [112] */
+		"",
+		'KEYE',
+		/* [113] */
+		"rerf",
+		'KEYB',
+		/* [114] */
+		"DMAttribute data",
+		'DVDR',
+		/* [115] */
+		"Attribute title",
+		'PSTR',
+		/* [116] */
+		"Attribute key",
+		'TNAM',
+		/* [117] */
+		"Display in attribute inspectors?",
+		'BFLG',
+		/* [118] */
+		"Write to stream?",
+		'BFLG',
+		/* [119] */
+		"Stream selector",
+		'TNAM',
+		/* [120] */
+		"DMIntegerAttribute data",
+		'DVDR',
+		/* [121] */
+		"Default value",
+		'DLNG',
+		/* [122] */
+		"Value size (bits)",
+		'UWRD',
+		/* [123] */
+		"Signed integer?",
+		'BFLG',
+		/* [124] */
+		"Can be text value?",
+		'BFLG',
+		/* [125] */
+		"Always is text value?",
+		'BFLG',
+		/* [126] */
+		"DMResourceRefAttribute data",
+		'DVDR',
+		/* [127] */
+		"Resource type",
+		'TNAM',
+		/* [128] */
+		"",
+		'KEYE',
+		/* [129] */
+		"pstr",
+		'KEYB',
+		/* [130] */
+		"DMAttribute data",
+		'DVDR',
+		/* [131] */
+		"Attribute title",
+		'PSTR',
+		/* [132] */
+		"Attribute key",
+		'TNAM',
+		/* [133] */
+		"Display in attribute inspectors?",
+		'BFLG',
+		/* [134] */
+		"Write to stream?",
+		'BFLG',
+		/* [135] */
+		"Stream selector",
+		'TNAM',
+		/* [136] */
+		"DMStringAttribute data",
+		'DVDR',
+		/* [137] */
+		"Default value",
+		'PSTR',
+		/* [138] */
+		"Maximum length (characters)",
+		'UWRD',
+		/* [139] */
+		"Even padded?",
+		'BFLG',
+		/* [140] */
+		"(unused)",
+		'BB03',
+		/* [141] */
+		"Unicode string?",
+		'BBIT',
+		/* [142] */
+		"Hex entry?",
+		'BBIT',
+		/* [143] */
+		"Accept CR?",
+		'BBIT',
+		/* [144] */
+		"C style string?",
+		'BBIT',
+		/* [145] */
+		"Odd padded?",
+		'BBIT',
+		/* [146] */
+		"",
+		'KEYE',
+		/* [147] */
+		"fstr",
+		'KEYB',
+		/* [148] */
+		"DMAttribute data",
+		'DVDR',
+		/* [149] */
+		"Attribute title",
+		'PSTR',
+		/* [150] */
+		"Attribute key",
+		'TNAM',
+		/* [151] */
+		"Display in attribute inspectors?",
+		'BFLG',
+		/* [152] */
+		"Write to stream?",
+		'BFLG',
+		/* [153] */
+		"Stream selector",
+		'TNAM',
+		/* [154] */
+		"DMStringAttribute data",
+		'DVDR',
+		/* [155] */
+		"Default value",
+		'PSTR',
+		/* [156] */
+		"Maximum length (characters)",
+		'UWRD',
+		/* [157] */
+		"Even padded?",
+		'BFLG',
+		/* [158] */
+		"(unused)",
+		'BB03',
+		/* [159] */
+		"Unicode string?",
+		'BBIT',
+		/* [160] */
+		"Hex entry?",
+		'BBIT',
+		/* [161] */
+		"Accept CR?",
+		'BBIT',
+		/* [162] */
+		"C style string?",
+		'BBIT',
+		/* [163] */
+		"Odd padded?",
+		'BBIT',
+		/* [164] */
+		"DMFontStringAttribute data",
+		'DVDR',
+		/* [165] */
+		"Default font number",
+		'DWRD',
+		/* [166] */
+		"Write font number?",
+		'BFLG',
+		/* [167] */
+		"Include system font?",
+		'BFLG',
+		/* [168] */
+		"Include application font?",
+		'BFLG',
+		/* [169] */
+		"Include hidden fonts?",
+		'BFLG',
+		/* [170] */
+		"",
+		'KEYE',
+		/* [171] */
+		"nord",
+		'KEYB',
+		/* [172] */
+		"DMAttribute data",
+		'DVDR',
+		/* [173] */
+		"Attribute title",
+		'PSTR',
+		/* [174] */
+		"Attribute key",
+		'TNAM',
+		/* [175] */
+		"Display in attribute inspectors?",
+		'BFLG',
+		/* [176] */
+		"Write to stream?",
+		'BFLG',
+		/* [177] */
+		"Stream selector",
+		'TNAM',
+		/* [178] */
+		"DMStringAttribute data",
+		'DVDR',
+		/* [179] */
+		"Default value",
+		'PSTR',
+		/* [180] */
+		"Maximum length (characters)",
+		'UWRD',
+		/* [181] */
+		"Even padded?",
+		'BFLG',
+		/* [182] */
+		"(unused)",
+		'BB03',
+		/* [183] */
+		"Unicode string?",
+		'BBIT',
+		/* [184] */
+		"Hex entry?",
+		'BBIT',
+		/* [185] */
+		"Accept CR?",
+		'BBIT',
+		/* [186] */
+		"C style string?",
+		'BBIT',
+		/* [187] */
+		"Odd padded?",
+		'BBIT',
+		/* [188] */
+		"DMNameOrOrdinalValue data",
+		'DVDR',
+		/* [189] */
+		"Numeric value",
+		'DLNG',
+		/* [190] */
+		"Numeric value size",
+		'UWRD',
+		/* [191] */
+		"Signed integer?",
+		'BFLG',
+		/* [192] */
+		"Is numeric value?",
+		'BFLG',
+		/* [193] */
+		"",
+		'KEYE',
+		/* [194] */
+		"rgbc",
+		'KEYB',
+		/* [195] */
+		"DMAttribute data",
+		'DVDR',
+		/* [196] */
+		"Attribute title",
+		'PSTR',
+		/* [197] */
+		"Attribute key",
+		'TNAM',
+		/* [198] */
+		"Display in attribute inspectors?",
+		'BFLG',
+		/* [199] */
+		"Write to stream?",
+		'BFLG',
+		/* [200] */
+		"Stream selector",
+		'TNAM',
+		/* [201] */
+		"DMRGBColorAttribute data",
+		'DVDR',
+		/* [202] */
+		"Default value",
+		'COLR',
+		/* [203] */
+		"",
+		'KEYE',
+		/* [204] */
+		"cont",
+		'KEYB',
+		/* [205] */
+		"DMAttribute data",
+		'DVDR',
+		/* [206] */
+		"Attribute title",
+		'PSTR',
+		/* [207] */
+		"Attribute key",
+		'TNAM',
+		/* [208] */
+		"Display in attribute inspectors?",
+		'BFLG',
+		/* [209] */
+		"Write to stream?",
+		'BFLG',
+		/* [210] */
+		"Stream selector",
+		'TNAM',
+		/* [211] */
+		"DMContainerAttribute data",
+		'DVDR',
+		/* [212] */
+		"Is subobject list?",
+		'BFLG',
+		/* [213] */
+		"Member class ID",
+		'TNAM',
+		/* [214] */
+		"",
+		'KEYE',
+		/* [215] */
+		"list",
+		'KEYB',
+		/* [216] */
+		"DMAttribute data",
+		'DVDR',
+		/* [217] */
+		"Attribute title",
+		'PSTR',
+		/* [218] */
+		"Attribute key",
+		'TNAM',
+		/* [219] */
+		"Display in attribute inspectors?",
+		'BFLG',
+		/* [220] */
+		"Write to stream?",
+		'BFLG',
+		/* [221] */
+		"Stream selector",
+		'TNAM',
+		/* [222] */
+		"DMContainerAttribute data",
+		'DVDR',
+		/* [223] */
+		"Is subobject list?",
+		'BFLG',
+		/* [224] */
+		"Member class ID",
+		'TNAM',
+		/* [225] */
+		"DMListAttribute data",
+		'DVDR',
+		/* [226] */
+		"Subitem title",
+		'PSTR',
+		/* [227] */
+		"Number of bytes for count",
+		'DLNG',
+		/* [228] */
+		"unused",
+		'BB06',
+		/* [229] */
+		"Zero based display?",
+		'BB01',
+		/* [230] */
+		"Zero-based count?",
+		'BB01',
+		/* [231] */
+		"",
+		'KEYE',
+		/* [232] */
+		"bitf",
+		'KEYB',
+		/* [233] */
+		"DMAttribute data",
+		'DVDR',
+		/* [234] */
+		"Attribute title",
+		'PSTR',
+		/* [235] */
+		"Attribute key",
+		'TNAM',
+		/* [236] */
+		"Display in attribute inspectors?",
+		'BFLG',
+		/* [237] */
+		"Write to stream?",
+		'BFLG',
+		/* [238] */
+		"Stream selector",
+		'TNAM',
+		/* [239] */
+		"DMContainerAttribute data",
+		'DVDR',
+		/* [240] */
+		"Is subobject list?",
+		'BFLG',
+		/* [241] */
+		"Member class ID",
+		'TNAM',
+		/* [242] */
+		"DMBitfieldAttribute data",
+		'DVDR',
+		/* [243] */
+		"Bitfield size (bytes)",
+		'UWRD',
+		/* [244] */
+		"",
+		'KEYE',
+		/* [245] */
+		"labl",
+		'KEYB',
+		/* [246] */
+		"Value",
+		'DLNG',
+		/* [247] */
+		"Label",
+		'PSTR',
+		/* [248] */
+		"",
+		'KEYE',
+		/* [249] */
+		"rsco",
+		'KEYB',
+		/* [250] */
+		"CTYP for resource type",
+		'DWRD',
+		/* [251] */
+		"CTYP for resource",
+		'DWRD',
+		/* [252] */
+		"Resource IDs significant?",
+		'BFLG',
+		/* [253] */
+		"",
+		'KEYE',
+		/* [254] */
+		"vetl",
+		'KEYB',
+		/* [255] */
+		"VECP resource ID",
+		'DWRD',
+		/* [256] */
+		"Class IDs significant?",
+		'BFLG',
+		/* [257] */
+		"",
+		'KEYE',
+		/* [258] */
+		"ctmo",
+		'KEYB',
+		/* [259] */
+		"Object type",
+		'PSTR',
+		/* [260] */
+		"Object type ID",
+		'TNAM',
+		/* [261] */
+		"Parent type ID",
+		'TNAM',
+		/* [262] */
+		"",
+		'KEYE',
+		/* [263] */
+		"null",
+		'KEYB',
+		/* [264] */
+		"",
+		'KEYE',
+		/* [265] */
+		"",
+		'KEYB',
+		/* [266] */
+		"Unknown data",
+		'HEXD',
+		/* [267] */
+		"",
+		'KEYE',
+		/* [268] */
+		"",
+		'SKPE',
+		/* [269] */
+		"",
+		'KEYE',
+		/* [270] */
+		"begs",
+		'KEYB',
+		/* [271] */
+		"",
+		'KEYE',
+		/* [272] */
+		"ends",
+		'KEYB',
+		/* [273] */
+		"",
+		'KEYE',
+		/* [274] */
+		"user",
+		'KEYB',
+		/* [275] */
+		"SuperClass ID for next object",
+		'TNAM',
+		/* [276] */
+		"",
+		'KEYE',
+		/* [277] */
+		"dopl",
+		'KEYB',
+		/* [278] */
+		"Class ID for next object",
+		'TNAM',
+		/* [279] */
+		"",
+		'KEYE',
+		/* [280] */
+		"end.",
+		'KEYB',
+		/* [281] */
+		"This must be last object type in list",
+		'DVDR',
+		/* [282] */
+		"",
+		'KEYE',
+		/* [283] */
+		"*****",
+		'LSTE'
+	}
+};
+
+resource 'TMPL' (1395, "xdtl") {
 	{	/* array: 63 elements */
 		/* [1] */
 		"Count:",
@@ -45115,7 +50658,7 @@ resource 'TMPL' (1380, "xdtl") {
 	}
 };
 
-resource 'TMPL' (1381, "xMNU") {
+resource 'TMPL' (1396, "xMNU") {
 	{	/* array: 23 elements */
 		/* [1] */
 		"Menu title",
@@ -45189,7 +50732,7 @@ resource 'TMPL' (1381, "xMNU") {
 	}
 };
 
-resource 'TMPL' (1382, "xmnu") {
+resource 'TMPL' (1397, "xmnu") {
 	{	/* array: 115 elements */
 		/* [1] */
 		"Version",
@@ -45539,7 +51082,7 @@ resource 'TMPL' (1382, "xmnu") {
 	}
 };
 
-resource 'TMPL' (1383, "ZOOM") {
+resource 'TMPL' (1398, "ZOOM") {
 	{	/* array: 21 elements */
 		/* [1] */
 		"Doing zooming rectangles?",
@@ -45607,7 +51150,7 @@ resource 'TMPL' (1383, "ZOOM") {
 	}
 };
 
-resource 'TMPL' (1384, "¤DTD") {
+resource 'TMPL' (1399, "¤DTD") {
 	{	/* array: 30 elements */
 		/* [1] */
 		"Version (should be 1 as of 980622)",
@@ -45704,7 +51247,7 @@ resource 'TMPL' (1384, "¤DTD") {
 	}
 };
 
-resource 'TMPL' (1385, "µVal") {
+resource 'TMPL' (1400, "µVal") {
 	{	/* array: 14 elements */
 		/* [1] */
 		"\"AfterDark\" resource format",
