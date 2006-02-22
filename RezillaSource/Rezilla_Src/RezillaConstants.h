@@ -141,7 +141,7 @@ enum
 	editor_kindGui,
 	editor_kindTmpl,
 	editor_kindHex,
-	editor_kindPlugin
+	editor_kindPlug
 };
 
 // Bitmap editor
@@ -1592,7 +1592,18 @@ const OSType	ResType_ExtendedMenu			= FOUR_CHAR_CODE('xmnu');
 // Constants for the Plugin editor
 // ======================================================================
 
-const UInt16	kPluginHeaderHeight	= 24;
-const UInt16	kPluginFooterHeight	= 40;
+const UInt16	kPluginHeaderHeight		= 24;
+const UInt16	kPluginFooterHeight		= 40;
+const UInt16	kEditLockIconSize		= 16;
+const UInt16	kEditLockIconLeft		= 9;
+const UInt16	kEditRevertButtonLeft	= 28;
+const UInt16	kEditCancelButtonRight	= 164;
+const UInt16	kEditValidButtonRight	= 86;
+const UInt16	kEditButtonWidth		= 65;
+const UInt16	kEditButtonHeight		= 20;
+const UInt16	kEditButtonTop			= 9;
+const UInt16	kEditHorizMargin		= 10;
+const UInt16	kEditNameHeight			= 10;
+const UInt16	kEditVertMargin			= 5;
 
 
