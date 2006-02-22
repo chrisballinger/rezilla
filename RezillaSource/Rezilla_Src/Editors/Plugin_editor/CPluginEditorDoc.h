@@ -2,7 +2,7 @@
 // CPluginEditorDoc.h
 // 
 //                       Created: 2005-10-02 08:41:52
-//             Last modification: 2006-02-21 07:12:41
+//             Last modification: 2006-02-22 07:21:38
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -30,26 +30,28 @@ public:
 							 CRezillaPlugin * inPlugin);
 					~CPluginEditorDoc();
 
-	virtual void	FindCommandStatus(
+	virtual void		FindCommandStatus(
 								CommandT			inCommand,
 								Boolean&			outEnabled,
 								Boolean&			outUsesMark,
 								UInt16&				outMark,
 								Str255				outName);
 
-	virtual Boolean	ObeyCommand(
+	virtual Boolean		ObeyCommand(
 							CommandT			inCommand,
 							void*				ioParam);
 	
-	virtual void	ListenToMessage(
+	virtual void		ListenToMessage(
 							MessageT		inMessage,
 							void*			ioParam);
 
-	virtual Boolean	AllowSubRemoval( LCommander* inSub );
-	virtual SInt16	AskSaveChanges( bool inQuitting );
+	virtual Boolean		AllowSubRemoval( LCommander* inSub );
+	virtual SInt16		AskSaveChanges( bool inQuitting );
 
 	virtual StringPtr	GetDescriptor( Str255 outDescriptor ) const;
 
+	void				ReportPluginError(CFStringRef inCFStringRef, SInt32 inError);
+	
 	// Accessors
 	CRezillaPlugin*			GetPlugin() { return mPlugin;}
 	CPluginEditorWindow*	GetPluginEditWindow() { return mPluginWindow;}
@@ -58,14 +60,11 @@ protected:
 	CRezillaPlugin *		mPlugin;
 	CPluginEditorWindow *	mPluginWindow;
 
-// 	virtual LModelObject*	GetModelProperty(
-// 									DescType		inProperty) const;
-
-	virtual Handle	GetModifiedResource(Boolean &releaseIt);
+	virtual Handle			GetModifiedResource(Boolean &releaseIt);
 
 private:
 		void					Initialize();
-		CPluginEditorWindow *	CreatePluginWindow(Rect inWinbounds);
+		CPluginEditorWindow *	CreatePluginWindow(SInt32 inPlugAttrs, Rect inWinbounds);
 		
 };
 

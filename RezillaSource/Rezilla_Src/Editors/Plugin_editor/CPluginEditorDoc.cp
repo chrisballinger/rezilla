@@ -2,7 +2,7 @@
 // CPluginEditorDoc.cp
 // 
 //                       Created: 2005-10-02 08:41:52
-//             Last modification: 2006-02-21 07:12:32
+//             Last modification: 2006-02-22 00:23:03
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -76,7 +76,7 @@ CPluginEditorDoc::Initialize()
 	
 	ThrowIfNil_(mPlugin);
 	
-	mKind = editor_kindPlugin;
+	mKind = editor_kindPlug;
 	SetModelKind(rzom_cPlugEditDoc);
 
 	// Check if the plugin has already been loaded. If not, load it.
@@ -107,7 +107,7 @@ CPluginEditorDoc::Initialize()
 	
 	if ( (*interface)->AcceptResource(interface, mRezObj->GetType(), mRezObj->GetID(), rezData, &plugReq) ) {
 		// Create a window for our document and set this doc as its the SuperCommander
-		mPluginWindow = CreatePluginWindow(plugReq.winbounds);
+		mPluginWindow = CreatePluginWindow(plugReq.winattrs, plugReq.winbounds);
 		Assert_( mPluginWindow != nil );
 		
 		SetMainWindow( dynamic_cast<CEditorWindow *>(mPluginWindow) );
@@ -133,29 +133,35 @@ CPluginEditorDoc::Initialize()
 				i++;
 			}
 			rpi.menurefs = theMenuRefs;
-		} 
+		}
+		
+		mPluginWindow->GetContentsRect(rpi.contents);
 	} else {
 		error = plugReq.error;
 	}
 	
+	if (error == noErr) {
+		// Now pass the info struct to the plugin for editing
+		error = (*interface)->EditResource(interface, rpi);
+	}
+	
 	if (error != noErr) {
-		if (error == err_ExceptionParsingTemplate) {
-			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("TemplateParsingException"), PPob_SimpleMessage);
-		} else if (error != userCanceledErr) {
-			UMessageDialogs::DescribeError(CFSTR("ErrorEditingWithPlugin"), error);
+		if (error != userCanceledErr) {
+			ReportPluginError(CFSTR("ErrorUsingPluginEditor"), error);
 		} 
 		delete this;
 		return;
 	} 
-	
-	// Now pass the info struct to the plugin for editing
-	(*interface)->EditResource(interface, rpi);
 	
 	// Make the window visible.
 	mPluginWindow->Show();
 	
 	// Enable all the subpanes
 	mPluginWindow->Enable();
+	mPluginWindow->Activate();
+
+	SwitchTarget(mPluginWindow);
+	
 }
 
 
@@ -335,7 +341,7 @@ CPluginEditorDoc::GetModifiedResource(Boolean &releaseIt)
 	theHandle = (*interface)->ReturnResource(interface, &releaseIt, &error);
 
 	if ( error != noErr ) {
-		UMessageDialogs::DescribeError(CFSTR("ErrorSavingPluginWindow"), error);
+		ReportPluginError(CFSTR("ErrorSavingPluginWindow"), error);
 	} 
 	
 	return theHandle;
@@ -345,21 +351,45 @@ CPluginEditorDoc::GetModifiedResource(Boolean &releaseIt)
 // ---------------------------------------------------------------------------
 //   CreatePluginWindow												[public]
 // ---------------------------------------------------------------------------
+// Create the plugin window in compositing mode
 
 CPluginEditorWindow *
-CPluginEditorDoc::CreatePluginWindow(Rect inWinbounds) 
+CPluginEditorDoc::CreatePluginWindow(SInt32 inPlugAttrs, Rect inWinbounds) 
 {
 	WindowRef				winRef;
-	WindowAttributes		winAttrs = kWindowStandardDocumentAttributes 
-									| kWindowStandardHandlerAttribute 
-									| kWindowCompositingAttribute;
+	WindowAttributes		winAttrs = kWindowCloseBoxAttribute | kWindowCompositingAttribute;
 	CPluginEditorWindow *	thePluginWindow = nil;
 
+	if (inPlugAttrs & kPlugWinHasCollapseBox) {
+		winAttrs |= kWindowFullZoomAttribute | kWindowCollapseBoxAttribute;
+	}
+	
+	if (inPlugAttrs & kPlugWinIsResizable) {
+		winAttrs |= kWindowResizableAttribute;
+	}
+	
 	::CreateNewWindow(kDocumentWindowClass, winAttrs, &inWinbounds, &winRef);
-
+	
+	// Make a CPluginEditorWindow object out of the WindowRef
 	thePluginWindow = new CPluginEditorWindow(winRef, this);
 	
 	return thePluginWindow;
+}
+
+ 
+// ---------------------------------------------------------------------------
+//   ReportPluginError												[public]
+// ---------------------------------------------------------------------------
+// Create the plugin window in compositing mode
+
+void
+CPluginEditorDoc::ReportPluginError(CFStringRef inCFStringRef, SInt32 inError) 
+{
+	if (inError >= plugErr_Generic && inError < plugErr_LastError) {
+		UMessageDialogs::DescribeError(inCFStringRef, inError);
+	} else {
+		UMessageDialogs::AlertWithValue(inCFStringRef, inError);
+	}
 }
 
  
