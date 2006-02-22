@@ -2,7 +2,7 @@
 // CPluginEditorWindow.h				
 // 
 //                       Created: 2005-10-02 08:41:52
-//             Last modification: 2006-02-21 17:20:51
+//             Last modification: 2006-02-22 08:06:25
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -13,21 +13,20 @@
 #pragma once
 
 #include "CEditorWindow.h"
+#include "RezillaPluginInterface.h"
+
+#include <LPeriodical.h>
 
 class CPluginEditorDoc;
 class CPluginEditorView;
 
 
-class CPluginEditorWindow : public CEditorWindow {
+class CPluginEditorWindow : public CEditorWindow,
+							public LPeriodical {
 public:
 	enum { class_ID = FOUR_CHAR_CODE('PluW') };
 
 							CPluginEditorWindow();
-							CPluginEditorWindow( const SWindowInfo &inWindowInfo );
-							CPluginEditorWindow(
-									ResIDT inWINDid,
-									UInt32 inAttributes, 
-									LCommander *inSuperCommander );
 							CPluginEditorWindow(
 									WindowPtr		inMacWindow,
 									LCommander*		inSuperCommander);
@@ -57,7 +56,18 @@ public:
 
 	virtual void	RevertContents();
 	
+	virtual	void	SpendTime( const EventRecord& inMacEvent );
+
+	void			GetContentsRect(Rect &outRect) const;
+	
+	void			ResizeWindowBy(
+							SInt16	inWidthDelta,
+							SInt16	inHeightDelta);
+	
 protected:
+		SRezillaPluginInterface**	mInterface;
+		Boolean						mHasHeader;
+		Boolean						mHasFooter;
 
 	virtual void		PutOnDuty(LCommander *inNewTarget);
 	virtual void		TakeOffDuty();

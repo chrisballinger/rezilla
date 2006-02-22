@@ -2,7 +2,7 @@
 // CPluginEditorWindow.cp
 // 
 //                       Created: 2005-10-02 08:41:52
-//             Last modification: 2006-02-21 17:21:03
+//             Last modification: 2006-02-22 10:48:06
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -11,13 +11,13 @@
 // ===========================================================================
 
 #include "CPluginEditorWindow.h"
-#include "RezillaPluginInterface.h"
 #include "CPluginEditorDoc.h"
 #include "CPluginEditorView.h"
 #include "CRezillaPlugin.h"
 #include "CRezObj.h"
 #include "CWindowMenu.h"
 #include "RezillaConstants.h"
+#include "UMessageDialogs.h"
 
 #include <LIconPane.h>
 #include <LStaticText.h>
@@ -35,30 +35,7 @@ extern CWindowMenu * gWindowMenu;
 CPluginEditorWindow::CPluginEditorWindow()
 	: CEditorWindow()
 {
-}
-
-
-// ---------------------------------------------------------------------------
-//  CPluginEditorWindow				[public]
-// ---------------------------------------------------------------------------
-
-CPluginEditorWindow::CPluginEditorWindow(
-	const SWindowInfo &inWindowInfo )
-		: CEditorWindow( inWindowInfo )
-{
-}
-
-
-// ---------------------------------------------------------------------------
-//  CPluginEditorWindow				[public]
-// ---------------------------------------------------------------------------
-
-CPluginEditorWindow::CPluginEditorWindow(
-	ResIDT		inWINDid,
-	UInt32		inAttributes,
-	LCommander	*inSuperCommander )
-		: CEditorWindow( inWINDid, inAttributes, inSuperCommander )
-{
+	SetModelKind(rzom_cPluginWindow);
 }
 
 
@@ -71,6 +48,7 @@ CPluginEditorWindow::CPluginEditorWindow(
 					LCommander*		inSuperCommander)
 		: CEditorWindow(inMacWindow, inSuperCommander)
 {
+	SetModelKind(rzom_cPluginWindow);
 }
 
 
@@ -82,6 +60,7 @@ CPluginEditorWindow::CPluginEditorWindow(
 				   LStream *inStream )
 		: CEditorWindow( inStream )
 {
+	SetModelKind(rzom_cPluginWindow);
 }
 
 
@@ -93,8 +72,7 @@ CPluginEditorWindow::~CPluginEditorWindow()
 {
 	RemovePluginMenus();
 	
-	SRezillaPluginInterface** interface = dynamic_cast<CPluginEditorDoc *>(mOwnerDoc)->GetPlugin()->GetInterface();
-	(*interface)->CleanUp(interface);
+	(*mInterface)->CleanUp(mInterface);
 }
 
 
@@ -106,14 +84,19 @@ void
 CPluginEditorWindow::FinalizeEditor(CPluginEditorDoc* inEditorDoc, void * ioParam)
 {
 	SInt32				theAttrs = *((SInt32*) ioParam);
-	Boolean				hasHeader = false, hasFooter = false;
 	SPaneInfo			pi;
 	SViewInfo			vi;
 	SDimension16		frameSize;
 
+	// Set mOwnerDoc
 	SetOwnerDoc(inEditorDoc);
 	SetSuperModel(inEditorDoc);
 	
+	mInterface = dynamic_cast<CPluginEditorDoc *>(mOwnerDoc)->GetPlugin()->GetInterface();
+	ThrowIfNil_(mInterface);
+	
+	mHasHeader = false;
+	mHasFooter = false;
 	GetFrameSize(frameSize);
 
 	pi.paneID			= item_EditorHeader;
@@ -138,19 +121,20 @@ CPluginEditorWindow::FinalizeEditor(CPluginEditorDoc* inEditorDoc, void * ioPara
 
 	if ( theAttrs != kPlugWinHasNoAttributes && (theAttrs & kPlugWinHasNameField) != 0 ) {
 		// Create a header
-		LWindowHeader * theWindowHeader = new LWindowHeader(pi, vi);
-		ThrowIfNil_(theWindowHeader);
+		LWindowHeader * theHeader = new LWindowHeader(pi, vi);
+		ThrowIfNil_(theHeader);
 
 		pi.paneID			= item_NameStaticText;
-		pi.width			-= 20;
-		pi.height			-= 10;
-		pi.left				= 10;
-		pi.top				= 5;
-		pi.superView		= theWindowHeader;
+		pi.width			-= 2 * kEditHorizMargin;
+		pi.height			-= kEditNameHeight;
+		pi.left				= kEditHorizMargin;
+		pi.top				= kEditVertMargin;
+		pi.superView		= theHeader;
 		
 		LStaticText * theStaticText = new LStaticText(pi, "\p", Txtr_GenevaNine);
 		ThrowIfNil_(theStaticText);
 
+		mHasHeader = true;
 		InstallResourceNameField();
 	} 
 	
@@ -169,12 +153,12 @@ CPluginEditorWindow::FinalizeEditor(CPluginEditorDoc* inEditorDoc, void * ioPara
 		pi.superView		= this;
 
 		theFooter = new LPlacard(pi, vi);
-		ThrowIfNil_( theFooter );
+		ThrowIfNil_(theFooter);
 
-		pi.width			= 65;
-		pi.height			= 20;
+		pi.width			= kEditButtonWidth;
+		pi.height			= kEditButtonHeight;
 		pi.bindings.top		= true;
-		pi.top				= 9;
+		pi.top				= kEditButtonTop;
 		pi.left				= frameSize.width;
 		pi.superView		= theFooter;
 
@@ -182,28 +166,30 @@ CPluginEditorWindow::FinalizeEditor(CPluginEditorDoc* inEditorDoc, void * ioPara
 			pi.paneID			= item_EditorValidate;
 			pi.bindings.left	= false;
 			pi.bindings.right	= true;
-			pi.left				= frameSize.width - 86;
+			pi.left				= frameSize.width - kEditValidButtonRight;
 			thePushButton = new LPushButton(pi, msg_OK, "\pSave");
-			ThrowIfNil_( thePushButton );
+			ThrowIfNil_(thePushButton);
 		}
 		if ( (theAttrs & kPlugWinHasCancelButton) != 0) {
 			pi.paneID			= item_EditorCancel;
 			pi.bindings.left	= false;
 			pi.bindings.right	= true;
-			pi.left				= frameSize.width - 164;
+			pi.left				= frameSize.width - kEditCancelButtonRight;
 			thePushButton = new LPushButton(pi, msg_OK, "\pCancel");
-			ThrowIfNil_( thePushButton );
+			ThrowIfNil_(thePushButton);
 		}
 		if ( (theAttrs & kPlugWinHasRevertButton) != 0) {
 			pi.paneID			= item_EditorRevert;
 			pi.bindings.left	= true;
 			pi.bindings.right	= false;
-			pi.left				= 28;
+			pi.left				= kEditRevertButtonLeft;
 			thePushButton = new LPushButton(pi, msg_OK, "\pRevert");
-			ThrowIfNil_( thePushButton );
+			ThrowIfNil_(thePushButton);
 		}
 		if ( (theAttrs & kPlugWinHasLockIcon) != 0) {
 			pi.paneID			= item_ReadOnlyIcon;
+			pi.width			= kEditLockIconSize;
+			pi.height			= kEditLockIconSize;
 			pi.bindings.left	= true;
 			pi.bindings.right	= false;
 			pi.left				= 9;
@@ -212,11 +198,12 @@ CPluginEditorWindow::FinalizeEditor(CPluginEditorDoc* inEditorDoc, void * ioPara
 			
 			InstallReadOnlyIcon();
 		} 
+		
+		mHasFooter = true;
 	}
 		
 	// Add the window to the window menu.
 	gWindowMenu->InsertWindow(this);
-			
 }
 	
 
@@ -298,8 +285,7 @@ CPluginEditorWindow::ObeyCommand(
 		if ( IsPluginMenu(theMenuID) ) {
 			MenuHandle	theMenuH = ::GetMenuHandle( theMenuID );
 			if ( theMenuH ) {
-				SRezillaPluginInterface** interface = dynamic_cast<CPluginEditorDoc *>(mOwnerDoc)->GetPlugin()->GetInterface();
-				(*interface)->HandleMenu(theMenuH, theMenuItem);
+				(*mInterface)->HandleMenu(theMenuH, theMenuItem);
 			}
 		}
 		return true;
@@ -346,8 +332,7 @@ CPluginEditorWindow::HandleKeyPress(
 {
 	Boolean		keyHandled	 = true;
 	
-	SRezillaPluginInterface** interface = dynamic_cast<CPluginEditorDoc *>(mOwnerDoc)->GetPlugin()->GetInterface();
-	(*interface)->HandleKeyDown(&inKeyEvent);
+	(*mInterface)->HandleKeyDown(&inKeyEvent);
 	return keyHandled;
 }
 
@@ -360,8 +345,7 @@ void
 CPluginEditorWindow::Click(
 	SMouseDownEvent	&inMouseDown)
 {
-	SRezillaPluginInterface** interface = dynamic_cast<CPluginEditorDoc *>(mOwnerDoc)->GetPlugin()->GetInterface();
-	(*interface)->HandleClick(&inMouseDown.macEvent, inMouseDown.whereLocal);
+	(*mInterface)->HandleClick(&inMouseDown.macEvent, inMouseDown.whereLocal);
 }
 
 
@@ -374,8 +358,7 @@ CPluginEditorWindow::Refresh()
 {
 	LView::Refresh();
 	
-	SRezillaPluginInterface** interface = dynamic_cast<CPluginEditorDoc *>(mOwnerDoc)->GetPlugin()->GetInterface();
-	(*interface)->Refresh(interface);
+	(*mInterface)->Refresh(mInterface);
 }
 
 
@@ -398,6 +381,8 @@ CPluginEditorWindow::PutOnDuty(LCommander *inNewTarget)
 		// Update the menu bar
 		theBar->InstallMenu( theMenu, MENU_OpenedWindows );	
 	}
+	// To query the plugin about modifications
+	this->StartIdling();
 }
 
 
@@ -410,6 +395,8 @@ CPluginEditorWindow::TakeOffDuty()
 {		
 	LWindow::TakeOffDuty();
 	RemovePluginMenus();
+	
+	this->StopIdling();
 }
 
 
@@ -429,6 +416,18 @@ CPluginEditorWindow::RemovePluginMenus()
 		// Update the menu bar
 		theBar->RemoveMenu(theMenu);	
 	}
+}
+
+
+// ---------------------------------------------------------------------------
+//  SpendTime
+// ---------------------------------------------------------------------------
+
+void
+CPluginEditorWindow::SpendTime(const EventRecord& inMacEvent)
+{	
+	Boolean modified = (*mInterface)->IsModified(mInterface);
+	SetDirty(modified);
 }
 
 
@@ -458,27 +457,76 @@ CPluginEditorWindow::IsPluginMenu(ResIDT inMenuID)
 // ---------------------------------------------------------------------------
 //  RevertContents												  [public]
 // ---------------------------------------------------------------------------
-// Override in subclasses to redraw the contents view with the last saved 
-// data.
 
 void
 CPluginEditorWindow::RevertContents()
 {
+	OSErr error = noErr;
+	
+	// Reinstall the strings
+	CRezObj * theRezObj = mOwnerDoc->GetRezObj();
+	if (theRezObj != nil) {
+		Handle rezData = theRezObj->GetData();
+		
+		try {
+			if (rezData != nil) {
+				// Work with a copy of the handle
+				::HandToHand(&rezData);
+				error = (*mInterface)->RevertResource(mInterface, rezData);
+			} 
+			ThrowIfError_(error);			
+		} catch (...) {
+			dynamic_cast<CPluginEditorDoc *>(mOwnerDoc)->ReportPluginError(CFSTR("ErrorUsingPluginEditor"), error);
+			return;
+		}
+	} 
+	
 	SetDirty(false);
 }
 
 
-// // void DrawWindow(WindowRef window)
-// // {
-// // 	Rect		tempRect;
-// // 	GrafPtr		curPort;
-// // 	
-// // 	GetPort(&curPort);
-// // 	SetPort(GetWindowPort(window));
-// // 	BeginUpdate(window);
-// // 	EraseRect(GetWindowPortBounds(window, &tempRect));
-// // 	DrawControls(window);
-// // 	DrawGrowIcon(window);
-// // 	EndUpdate(window);
-// // 	SetPort(curPort);
-// // }
+// ---------------------------------------------------------------------------
+//  GetContentsRect												  [public]
+// ---------------------------------------------------------------------------
+
+void
+CPluginEditorWindow::GetContentsRect(
+	Rect	&outRect) const
+{
+	SDimension16	frameSize;
+	GetFrameSize(frameSize);
+	
+	outRect.top = mHasHeader ? kPluginHeaderHeight : 0;
+	outRect.left = 0;
+	
+	outRect.right = frameSize.width;
+	outRect.bottom = frameSize.height;
+	if (mHasFooter) {
+		outRect.bottom -= kPluginFooterHeight;
+	}
+}
+
+
+// ---------------------------------------------------------------------------
+//   ResizeWindowBy
+// ---------------------------------------------------------------------------
+//	Change the size of a Window by the specified number of pixels
+
+void
+CPluginEditorWindow::ResizeWindowBy(
+	SInt16	inWidthDelta,
+	SInt16	inHeightDelta)
+{
+	Rect	theBounds;
+	GetGlobalBounds(theBounds);
+
+	theBounds.right += inWidthDelta;
+	theBounds.bottom += inHeightDelta;
+	DoSetBounds(theBounds);
+	
+	(*mInterface)->ResizeBy(inWidthDelta, inHeightDelta);
+}
+
+
+
+
