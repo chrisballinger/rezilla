@@ -2,7 +2,7 @@
 // File: "RezSamplePlugin.c"
 // 
 //                        Created: 2005-09-08 18:51:53
-//              Last modification: 2006-02-22 15:11:51
+//              Last modification: 2006-02-22 23:01:46
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -257,8 +257,12 @@ sample_EditResource(RezPlugRef inPlugref, RezHostInfo inInfo)
 	sampleMenuRef = *inInfo.menurefs;
 	
 	theTextRef = CFStringCreateWithPascalString(kCFAllocatorDefault, *(editInfo->data), kCFStringEncodingMacRoman);
-	CreateEditTextControl(editInfo->winref, &editRect, theTextRef, false, false, NULL, &(editInfo->controlref));
+	error = CreateEditTextControl(editInfo->winref, &editRect, theTextRef, false, false, NULL, &(editInfo->controlref));
 	CFRelease(theTextRef);
+	
+	if (error == noErr) {
+		EnableControl(editInfo->controlref);
+	} 
 	
 	return error;
 }
@@ -277,17 +281,19 @@ sample_ReturnResource(RezPlugRef inPlugref, Boolean * releaseIt, OSErr * outErro
 	Handle		theHandle = NULL;
 	Size		theSize;
 	Str255		theString;
-	CFStringRef	theTextRef;
+	char		buffer[256];
 	OSErr		error = noErr;
 	
 	SampleEditInfo * editInfo = (SampleEditInfo *) inPlugref;
-
-	error = GetControlData(editInfo->controlref, kControlNoPart, kControlEditTextTextTag, 
-			   sizeof(theTextRef), &theTextRef, &theSize);
 	
-	if (CFStringGetPascalString(theTextRef, theString, sizeof(theString), kCFStringEncodingMacRoman)) {
-		SetHandleSize(theHandle, sizeof(theString));
-		BlockMoveData(theString, *theHandle, sizeof(theString));
+	error = GetControlData(editInfo->controlref, kControlNoPart, kControlEditTextTextTag, sizeof(buffer), buffer, &theSize);
+	
+	if (error == noErr) {
+		buffer[theSize] = 0;
+		theHandle = NewHandle(theSize+1);
+		CopyCStringToPascal(buffer, theString);
+		BlockMoveData(theString, *theHandle, theSize+1);
+		*releaseIt = true;
 	} 
 	
 	*outError = error;
@@ -384,16 +390,38 @@ sample_ResizeBy(RezPlugRef inPlugref, SInt16 inWidthDelta, SInt16 inHeightDelta)
 void
 sample_HandleMenu(RezPlugRef inPlugref, MenuRef menu, SInt16 inMenuItem)
 {
+	int			i;
+	Size		len;
+	char		oldStr[256];
+	char		newStr[256];
+	OSErr		error = noErr;
+	
 	SampleEditInfo * editInfo = (SampleEditInfo *) inPlugref;
 	
-	switch (inMenuItem) {
-		case kSampleMenu_ReverseText:
-		break;
+	error = GetControlData(editInfo->controlref, kControlNoPart, kControlEditTextTextTag, sizeof(oldStr), oldStr, &len);
+	
+	oldStr[len] = 0;
+	
+	if (len > 0) {
+		switch (inMenuItem) {
+			case kSampleMenu_ReverseText:
+			for (i = 0; i < len; i++) {
+				newStr[i] = oldStr[len-i-1];
+			}
+			break;
+			
+			case kSampleMenu_RotateText:
+			for (i = 0; i < len-1; i++) {
+				newStr[i] = oldStr[i+1];
+			}
+			newStr[len-1] = oldStr[0];
+			break;
+		}
 		
-		case kSampleMenu_RotateText:
-		break;
-	}
-
+		error = SetControlData(editInfo->controlref, kControlNoPart, kControlEditTextTextTag, len, newStr);
+		Draw1Control(editInfo->controlref);
+	} 
+	
 	editInfo->modified = true;
 }
 
