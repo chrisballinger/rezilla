@@ -2,11 +2,11 @@
 // UMessageDialogs.h					
 // 
 //                       Created: 2002-05-31 19:50:34
-//             Last modification: 2005-09-25 22:03:11
+//             Last modification: 2006-02-22 09:58:54
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2003-2005
+// (c) Copyright : Bernard Desgraupes, 2003-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -447,7 +447,6 @@ UMessageDialogs::ErrorMessageFromLocalizable(CFStringRef inCFStringRef, OSErr in
 	}
 }
 
-
 // ---------------------------------------------------------------------------
 //   AskSolveUidConflicts											
 // ---------------------------------------------------------------------------
@@ -623,26 +622,6 @@ UMessageDialogs::AlertWithType(CFStringRef inCFStringRef, ResType inType)
 	UMiscUtils::OSTypeToPString(inType, theString);	
 	AlertWithString(inCFStringRef, theString);
 }
-
-
-// void
-// UMessageDialogs::AlertWithType(CFStringRef inCFStringRef, ResType inType)
-// {
-// 	CFStringRef formatStr = NULL, messageStr = NULL;
-// 	
-// 	formatStr = CFCopyLocalizedString(inCFStringRef, NULL);
-// 	if (formatStr != NULL) {
-// 		char typeStr[5];
-// 		*(OSType*)typeStr = inType;
-// 		typeStr[4] = 0;
-// 		messageStr = ::CFStringCreateWithFormat(NULL, NULL, formatStr, typeStr);
-// 		if (messageStr != NULL) {
-// 			UMessageDialogs::SimpleMessageFromCFString(messageStr, PPob_SimpleMessage);
-// 			CFRelease(messageStr);                     
-// 		}
-// 		CFRelease(formatStr);                             
-// 	}		  	
-// }
 
 
 // ---------------------------------------------------------------------------
