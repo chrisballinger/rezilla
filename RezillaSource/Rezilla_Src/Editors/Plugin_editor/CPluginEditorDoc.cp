@@ -143,7 +143,7 @@ CPluginEditorDoc::Initialize()
 	
 	if (error == noErr) {
 		// Now pass the info struct to the plugin for editing
-		error = (*interface)->EditResource((RezPlugRef) this, hostInfo);
+		error = (*interface)->EditResource(plugInfo.plugref, hostInfo);
 	}
 	
 	if (error != noErr) {
@@ -159,7 +159,7 @@ CPluginEditorDoc::Initialize()
 	
 	// Enable all the subpanes
 	mPluginWindow->Enable();
-	mPluginWindow->Activate();
+// 	mPluginWindow->Activate();
 
 	SwitchTarget(mPluginWindow);
 	
