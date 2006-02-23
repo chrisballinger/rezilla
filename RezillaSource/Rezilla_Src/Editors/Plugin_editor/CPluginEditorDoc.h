@@ -2,7 +2,7 @@
 // CPluginEditorDoc.h
 // 
 //                       Created: 2005-10-02 08:41:52
-//             Last modification: 2006-02-22 07:21:38
+//             Last modification: 2006-02-23 10:46:02
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -41,9 +41,9 @@ public:
 							CommandT			inCommand,
 							void*				ioParam);
 	
-	virtual void		ListenToMessage(
-							MessageT		inMessage,
-							void*			ioParam);
+// 	virtual void		ListenToMessage(
+// 							MessageT		inMessage,
+// 							void*			ioParam);
 
 	virtual Boolean		AllowSubRemoval( LCommander* inSub );
 	virtual SInt16		AskSaveChanges( bool inQuitting );
