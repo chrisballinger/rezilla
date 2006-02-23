@@ -2,7 +2,7 @@
 // CPluginEditorDoc.cp
 // 
 //                       Created: 2005-10-02 08:41:52
-//             Last modification: 2006-02-22 00:23:03
+//             Last modification: 2006-02-23 10:46:13
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -110,6 +110,10 @@ CPluginEditorDoc::Initialize()
 		mPluginWindow = CreatePluginWindow(plugInfo.winattrs, plugInfo.winbounds);
 		Assert_( mPluginWindow != nil );
 		
+		// See LWindow::CreateWindow()
+		SetDefaultCommander(this);
+		SetDefaultAttachable(nil);
+
 		mPluginWindow->SetPlugRef(plugInfo.plugref);
 		
 		SetMainWindow( dynamic_cast<CEditorWindow *>(mPluginWindow) );
@@ -121,6 +125,7 @@ CPluginEditorDoc::Initialize()
 		
 		// Fill the reply structure
 		hostInfo.winref = mPluginWindow->GetMacWindow();
+		hostInfo.readonly = IsReadOnly();
 		
 		MenuRef * theMenuRefs = (MenuRef *) malloc( sizeof(MenuRef) * hostInfo.menucount);
 		if (theMenuRefs != NULL) {
@@ -159,7 +164,7 @@ CPluginEditorDoc::Initialize()
 	
 	// Enable all the subpanes
 	mPluginWindow->Enable();
-// 	mPluginWindow->Activate();
+	mPluginWindow->Activate();
 
 	SwitchTarget(mPluginWindow);
 	
@@ -244,37 +249,6 @@ CPluginEditorDoc::FindCommandStatus(
 				outEnabled, outUsesMark, outMark, outName );
 		break;
 
-	}
-}
-
-
-// ---------------------------------------------------------------------------
-//   ListenToMessage													[public]
-// ---------------------------------------------------------------------------
-
-void
-CPluginEditorDoc::ListenToMessage( MessageT inMessage, void * /* ioParam */) 
-{
-	switch (inMessage) {
-		case msg_EditorValidate:
-		if ( CanSaveChanges() ) {
-			DoSaveChanges();
-		} 
-		break;
-		
-		case msg_EditorCancel:
-		Close();
-		break;
-		
-		case msg_EditorRevert:
-		if ( UMessageDialogs::AskIfFromLocalizable(CFSTR("ConfirmRevert"), PPob_AskIfMessage) == true) {
-			DoRevert();
-		}
-		break;
-				
-		default:
-		break;
-		
 	}
 }
 
@@ -371,6 +345,10 @@ CPluginEditorDoc::CreatePluginWindow(SInt32 inPlugAttrs, Rect inWinbounds)
 	
 	// Make a CPluginEditorWindow object out of the WindowRef
 	thePluginWindow = new CPluginEditorWindow(winRef, this);
+	
+	// Put the window in disabled state otherwise the subpanes won't be 
+	// enabled later
+	thePluginWindow->Disable();
 	
 	return thePluginWindow;
 }
