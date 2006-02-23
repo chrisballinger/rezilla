@@ -76,6 +76,7 @@ typedef struct RezHostInfo {
 	UInt8		menucount;
 	MenuRef	*	menurefs;
 	Rect		contents;
+	Boolean		readonly;
 } RezHostInfo;
 
 

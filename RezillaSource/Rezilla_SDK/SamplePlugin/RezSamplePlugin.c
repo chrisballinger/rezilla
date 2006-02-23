@@ -2,7 +2,7 @@
 // File: "RezSamplePlugin.c"
 // 
 //                        Created: 2005-09-08 18:51:53
-//              Last modification: 2006-02-22 23:01:46
+//              Last modification: 2006-02-23 11:32:02
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -92,6 +92,7 @@ typedef struct SampleEditInfo {
 	WindowRef	winref;
 	ControlRef	controlref;
 	Boolean		modified;
+	Boolean		readonly;
 } SampleEditInfo;
 
 
@@ -254,6 +255,7 @@ sample_EditResource(RezPlugRef inPlugref, RezHostInfo inInfo)
 	SampleEditInfo * editInfo = (SampleEditInfo *) inPlugref;
 	
 	editInfo->winref = inInfo.winref;
+	editInfo->readonly = inInfo.readonly;
 	sampleMenuRef = *inInfo.menurefs;
 	
 	theTextRef = CFStringCreateWithPascalString(kCFAllocatorDefault, *(editInfo->data), kCFStringEncodingMacRoman);
