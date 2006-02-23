@@ -888,7 +888,7 @@ const PaneIDT	item_EditorHeader			= FOUR_CHAR_CODE('Head');
 const PaneIDT	item_EditorFooter			= FOUR_CHAR_CODE('Foot');
 const PaneIDT   item_EditorContents			= FOUR_CHAR_CODE('Cnts');
 const PaneIDT   item_EditorScroller			= FOUR_CHAR_CODE('Scrl');
-const PaneIDT   item_EditorValidate			= FOUR_CHAR_CODE('Vlid');
+const PaneIDT   item_EditorSave				= FOUR_CHAR_CODE('Vlid');
 const PaneIDT   item_EditorCancel			= FOUR_CHAR_CODE('Cncl');
 const PaneIDT   item_EditorRevert			= FOUR_CHAR_CODE('Rvrt');
 const PaneIDT	item_NameStaticText			= FOUR_CHAR_CODE('Name');
@@ -1044,7 +1044,7 @@ const MessageT	msg_MiscPrefsSetSigOnCreate	= PPob_PrefsMiscPane + item_MiscPrefs
 const MessageT	msg_MiscPrefsOnlyRsrcExt	= PPob_PrefsMiscPane + item_MiscPrefsOnlyRsrcExt;
 // Tmpl Editor Window
 // ------------------
-const MessageT	msg_EditorValidate			= msg_OK;
+const MessageT	msg_EditorSave				= msg_OK;
 const MessageT	msg_EditorCancel			= msg_Cancel;
 const MessageT	msg_EditorRevert			= cmd_Revert;
 // Text Editor Window

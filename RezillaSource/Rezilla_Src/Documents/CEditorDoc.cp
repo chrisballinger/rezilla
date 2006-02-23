@@ -233,7 +233,7 @@ void
 CEditorDoc::ListenToMessage( MessageT inMessage, void * /* ioParam */) 
 {
 	switch (inMessage) {
-		case msg_EditorValidate:
+		case msg_EditorSave:
 		if ( CanSaveChanges() ) {
 			DoSaveChanges();
 		} 
