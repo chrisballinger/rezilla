@@ -2,7 +2,7 @@
 // CPluginEditorWindow.cp
 // 
 //                       Created: 2005-10-02 08:41:52
-//             Last modification: 2006-02-22 10:48:06
+//             Last modification: 2006-02-23 10:36:04
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -162,28 +162,32 @@ CPluginEditorWindow::FinalizeEditor(CPluginEditorDoc* inEditorDoc, void * ioPara
 		pi.superView		= theFooter;
 
 		if ( (theAttrs & kPlugWinHasSaveButton) != 0) {
-			pi.paneID			= item_EditorValidate;
+			pi.paneID			= item_EditorSave;
 			pi.bindings.left	= false;
 			pi.bindings.right	= true;
 			pi.left				= frameSize.width - kEditValidButtonRight;
-			thePushButton = new LPushButton(pi, msg_OK, "\pSave");
+			thePushButton = new LPushButton(pi, msg_EditorSave, "\pSave");
 			ThrowIfNil_(thePushButton);
+			thePushButton->SetDefaultButton(true);
+			thePushButton->AddListener(this);
 		}
 		if ( (theAttrs & kPlugWinHasCancelButton) != 0) {
 			pi.paneID			= item_EditorCancel;
 			pi.bindings.left	= false;
 			pi.bindings.right	= true;
 			pi.left				= frameSize.width - kEditCancelButtonRight;
-			thePushButton = new LPushButton(pi, msg_OK, "\pCancel");
+			thePushButton = new LPushButton(pi, msg_EditorCancel, "\pCancel");
 			ThrowIfNil_(thePushButton);
+			thePushButton->AddListener(this);
 		}
 		if ( (theAttrs & kPlugWinHasRevertButton) != 0) {
 			pi.paneID			= item_EditorRevert;
 			pi.bindings.left	= true;
 			pi.bindings.right	= false;
 			pi.left				= kEditRevertButtonLeft;
-			thePushButton = new LPushButton(pi, msg_OK, "\pRevert");
+			thePushButton = new LPushButton(pi, msg_EditorRevert, "\pRevert");
 			ThrowIfNil_(thePushButton);
+			thePushButton->AddListener(this);
 		}
 		if ( (theAttrs & kPlugWinHasLockIcon) != 0) {
 			pi.paneID			= item_ReadOnlyIcon;
@@ -330,7 +334,7 @@ CPluginEditorWindow::HandleKeyPress(
 	const EventRecord	&inKeyEvent)
 {
 	Boolean		keyHandled	 = true;
-	
+	// Let the plugin handle the keystroke
 	(*mInterface)->HandleKeyDown(mPlugRef, &inKeyEvent);
 	return keyHandled;
 }
@@ -344,7 +348,16 @@ void
 CPluginEditorWindow::Click(
 	SMouseDownEvent	&inMouseDown)
 {
-	(*mInterface)->HandleClick(mPlugRef, &inMouseDown.macEvent, inMouseDown.whereLocal);
+	// Check if a SubPane of this View is hit
+	LPane * clickedPane = FindSubPaneHitBy(inMouseDown.wherePort.h, inMouseDown.wherePort.v);
+
+	if (clickedPane != nil) {
+		// SubPane is hit, let it respond to the Click
+		clickedPane->Click(inMouseDown);
+	} else {						
+		// No SubPane hit, pass to plugin.
+		(*mInterface)->HandleClick(mPlugRef, &inMouseDown.macEvent, inMouseDown.whereLocal);
+	}
 }
 
 
