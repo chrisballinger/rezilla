@@ -2,7 +2,7 @@
 // File: "RezSamplePlugin.c"
 // 
 //                        Created: 2005-09-08 18:51:53
-//              Last modification: 2006-02-23 11:32:02
+//              Last modification: 2006-02-24 08:52:17
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -34,7 +34,7 @@
 
 // Layout for an instance of SampleRec
 typedef struct _SampleRec {
-	SRezillaPluginInterface *	_rezillaPlugInterface;
+	SPluginEditorInterface *	_rezillaPlugInterface;
 	CFUUIDRef					_factoryID;
 	UInt32						_refCount;
 } SampleRec;
@@ -62,7 +62,7 @@ static void			sample_HandleKeyDown(RezPlugRef inPlugref, const EventRecord * inK
 
 // The RezillaEditorInterface function table
 // -----------------------------------------
-static SRezillaPluginInterface sSamplePlugFuncTable = {
+static SPluginEditorInterface sSamplePlugFuncTable = {
 		NULL,                    // Required padding for COM
 		sample_QueryInterface,   // These three are the required COM functions
 		sample_AddRef,
@@ -193,7 +193,7 @@ sample_Release(void *myInstance )
 // -------------------------------------------------------------------------------------------
 //
 //  The implementation by the Sample plugin of the AcceptResource function
-//  declared in the interface (SRezillaPluginInterface structure)
+//  declared in the interface (SPluginEditorInterface structure)
 //
 // -------------------------------------------------------------------------------------------
 
@@ -241,7 +241,7 @@ sample_AcceptResource(void *myInstance, ResType inType, short inID, Handle inDat
 // -------------------------------------------------------------------------------------------
 //
 //  The implementation by the Sample plugin of the EditResource function
-//  declared in the interface (SRezillaPluginInterface structure)
+//  declared in the interface (SPluginEditorInterface structure)
 //
 // -------------------------------------------------------------------------------------------
 
@@ -273,7 +273,7 @@ sample_EditResource(RezPlugRef inPlugref, RezHostInfo inInfo)
 // -------------------------------------------------------------------------------------------
 //
 //  The implementation by the Sample plugin of the ReturnResource function
-//  declared in the interface (SRezillaPluginInterface structure)
+//  declared in the interface (SPluginEditorInterface structure)
 //
 // -------------------------------------------------------------------------------------------
 
@@ -306,7 +306,7 @@ sample_ReturnResource(RezPlugRef inPlugref, Boolean * releaseIt, OSErr * outErro
 // -------------------------------------------------------------------------------------------
 //
 //  The implementation by the Sample plugin of the RevertResource function
-//  declared in the interface (SRezillaPluginInterface structure)
+//  declared in the interface (SPluginEditorInterface structure)
 //
 // -------------------------------------------------------------------------------------------
 
@@ -325,7 +325,7 @@ sample_RevertResource(RezPlugRef inPlugref, Handle inDataH)
 // -------------------------------------------------------------------------------------------
 //
 //  The implementation by the Sample plugin of the IsModified function
-//  declared in the interface (SRezillaPluginInterface structure)
+//  declared in the interface (SPluginEditorInterface structure)
 //
 // -------------------------------------------------------------------------------------------
 
@@ -340,7 +340,7 @@ sample_IsModified(RezPlugRef inPlugref)
 // -------------------------------------------------------------------------------------------
 //
 //  The implementation by the Sample plugin of the CleanUp function
-//  declared in the interface (SRezillaPluginInterface structure)
+//  declared in the interface (SPluginEditorInterface structure)
 //
 // -------------------------------------------------------------------------------------------
 
@@ -357,7 +357,7 @@ sample_CleanUp(RezPlugRef inPlugref)
 // -------------------------------------------------------------------------------------------
 //
 //  The implementation by the Sample plugin of the Refresh function
-//  declared in the interface (SRezillaPluginInterface structure)
+//  declared in the interface (SPluginEditorInterface structure)
 //
 // -------------------------------------------------------------------------------------------
 
@@ -372,7 +372,7 @@ sample_Refresh(RezPlugRef inPlugref)
 // -------------------------------------------------------------------------------------------
 //
 //  The implementation by the Sample plugin of the ResizeBy function
-//  declared in the interface (SRezillaPluginInterface structure)
+//  declared in the interface (SPluginEditorInterface structure)
 //
 // -------------------------------------------------------------------------------------------
 
@@ -385,7 +385,7 @@ sample_ResizeBy(RezPlugRef inPlugref, SInt16 inWidthDelta, SInt16 inHeightDelta)
 // -------------------------------------------------------------------------------------------
 //
 //  The implementation by the Sample plugin of the HandleMenu function
-//  declared in the interface (SRezillaPluginInterface structure)
+//  declared in the interface (SPluginEditorInterface structure)
 //
 // -------------------------------------------------------------------------------------------
 
@@ -431,7 +431,7 @@ sample_HandleMenu(RezPlugRef inPlugref, MenuRef menu, SInt16 inMenuItem)
 // -------------------------------------------------------------------------------------------
 //
 //  The implementation by the Sample plugin of the HandleClick function
-//  declared in the interface (SRezillaPluginInterface structure)
+//  declared in the interface (SPluginEditorInterface structure)
 //
 // -------------------------------------------------------------------------------------------
 
@@ -444,7 +444,7 @@ sample_HandleClick(RezPlugRef inPlugref, const EventRecord * inMacEvent, Point i
 // -------------------------------------------------------------------------------------------
 //
 //  The implementation by the Sample plugin of the HandleKeyDown function
-//  declared in the interface (SRezillaPluginInterface structure)
+//  declared in the interface (SPluginEditorInterface structure)
 //
 // -------------------------------------------------------------------------------------------
 
@@ -462,7 +462,7 @@ sample_HandleKeyDown(RezPlugRef inPlugref, const EventRecord * inKeyEvent){
 
 // -------------------------------------------------------------------------------------------
 //
-//  Implementation of the factory function for the kRezillaEditorTypeID type.
+//  Implementation of the factory function for the kRezillaPluginEditorTypeID type.
 //  
 //  From the doc 
 //  (see /documentation/CoreFoundation/Conceptual/CFPlugIns/Concepts/conceptual.html):
@@ -481,7 +481,7 @@ extern void * RezSampleFactory(CFAllocatorRef allocator, CFUUIDRef typeID);
 
 void * RezSampleFactory( CFAllocatorRef allocator, CFUUIDRef typeID )
 {
-	if ( CFEqual( typeID, kRezillaEditorTypeID ) ) {
+	if ( CFEqual( typeID, kRezillaPluginEditorTypeID ) ) {
 		// If correct type is being requested, allocate an instance of
 		// the SampleRec struct and return the IUnknown interface
 		SampleRec * result = _allocSampleRec( kRezillaSampleFactoryID );
