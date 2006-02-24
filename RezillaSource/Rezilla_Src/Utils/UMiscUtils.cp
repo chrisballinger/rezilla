@@ -16,7 +16,7 @@
 
 #include "CRezType.h"
 #include "CRezillaApp.h"
-#include "CRezTypePicker.h"
+#include "CRezTypeChooser.h"
 #include "RezillaConstants.h"
 #include "UMiscUtils.h"
 #include "UMessageDialogs.h"
@@ -171,16 +171,16 @@ Boolean
 UMiscUtils::SelectType(ResType & outType)
 {
 	Boolean result = false;
-	CRezTypePicker * rezPicker = new CRezTypePicker();
+	CRezTypeChooser * rezChooser = new CRezTypeChooser();
 
-	if (rezPicker != NULL) {
-		if (rezPicker->RunDialog() == noErr) {
-			outType = rezPicker->GetChosenType();
+	if (rezChooser != NULL) {
+		if (rezChooser->RunDialog() == noErr) {
+			outType = rezChooser->GetChosenType();
 			result = true;
 		} 
-		delete rezPicker;
+		delete rezChooser;
 	} else {
-		UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("RezPickerNotAvailable"), PPob_SimpleMessage);
+		UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("RezChooserNotAvailable"), PPob_SimpleMessage);
 	}
 	
 	return result;
@@ -783,12 +783,12 @@ UMiscUtils::SizeIndexFromSizeValue(LPopupButton * inPopup, SInt16 inSize)
 		LStr255	theLine( "\pOther (" );
 		::NumToString( inSize, theSizeString );
 		theLine += theSizeString;
-		theLine += "\p)√â";
+		theLine += "\p)…";
 		// Set the menu item text.
 		::SetMenuItemText( inPopup->GetMacMenuH(), kLastSizeMenuItem + 2, theLine );					
 		return (kLastSizeMenuItem + 2);
 	} else {
-		::SetMenuItemText( inPopup->GetMacMenuH(), kLastSizeMenuItem + 2, LStr255("\pOther√â"));					
+		::SetMenuItemText( inPopup->GetMacMenuH(), kLastSizeMenuItem + 2, LStr255("\pOther…"));					
 	}
 	
 	return i;

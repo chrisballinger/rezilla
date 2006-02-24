@@ -762,12 +762,12 @@ CTmplEditorWindow::SelectKeyValueFromKeyCases(Str255 inLabelString,
 	LPopupButton *	thePopup;
 	CFStringRef		formatStr = NULL, messageStr = NULL;
 
-	StDialogBoxHandler	theHandler(PPob_TmplKeyPicker, this);
+	StDialogBoxHandler	theHandler(PPob_TmplKeyChooser, this);
 	CThreeButtonsBox *	theDialog = theHandler.GetDialog();
 	Assert_(theDialog != nil);
 	
 	// Template type field
-	theStaticField = dynamic_cast<LStaticText *>(theDialog->FindPaneByID( item_TmplKeyPickerType ));
+	theStaticField = dynamic_cast<LStaticText *>(theDialog->FindPaneByID( item_TmplKeyChooserType ));
 	ThrowIfNil_(theStaticField);
 	formatStr = CFCopyLocalizedString(CFSTR("CreateUsingTemplate"), NULL);
 	if (formatStr != NULL) {
@@ -785,7 +785,7 @@ CTmplEditorWindow::SelectKeyValueFromKeyCases(Str255 inLabelString,
 	}		  	
 
 	// Explanatory message
-	theStaticField = dynamic_cast<LStaticText *>(theDialog->FindPaneByID( item_TmplKeyPickerMessage ));
+	theStaticField = dynamic_cast<LStaticText *>(theDialog->FindPaneByID( item_TmplKeyChooserMessage ));
 	ThrowIfNil_(theStaticField);
 	messageStr = CFCopyLocalizedString(CFSTR("SelectKeyForTemplate"), NULL);
 	if (messageStr != NULL) {
@@ -796,11 +796,11 @@ CTmplEditorWindow::SelectKeyValueFromKeyCases(Str255 inLabelString,
 	}
 
 	// Label field: this is the label of the K*** tag
-	theStaticField = dynamic_cast<LStaticText *>(theDialog->FindPaneByID( item_TmplKeyPickerLabel ));
+	theStaticField = dynamic_cast<LStaticText *>(theDialog->FindPaneByID( item_TmplKeyChooserLabel ));
 	ThrowIfNil_(theStaticField);
 	theStaticField->SetDescriptor(inLabelString);
 
-	thePopup = dynamic_cast<LPopupButton *>(theDialog->FindPaneByID( item_TmplKeyPickerMenu ));
+	thePopup = dynamic_cast<LPopupButton *>(theDialog->FindPaneByID( item_TmplKeyChooserMenu ));
 	ThrowIfNil_(thePopup);
 	
 	// Populate the popup with all the successive cases
@@ -853,7 +853,7 @@ CTmplEditorWindow::SelectKeyValueFromKeyCases(Str255 inLabelString,
 				inPickerLoop = false;
 				error = userCanceledErr;
 				break;
-			} else if (msg_TmplKeyPickerMenu == theMessage) {
+			} else if (msg_TmplKeyChooserMenu == theMessage) {
 				// Retrieve the menu item and write it in the edit field
 				index = thePopup->GetValue();
 				break;  // Breaks out from the inner 'while' but still in the inPickerLoop 'while'
