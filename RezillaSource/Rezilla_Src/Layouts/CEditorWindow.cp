@@ -165,6 +165,7 @@ CEditorWindow::FindCommandStatus(
 		
 		case cmd_EditRez:
 		case cmd_EditRezAsType:
+		case cmd_EditWithPlugin:
 		case cmd_TmplEditRez:
 		case cmd_HexEditRez:
 		case cmd_RemoveRez:
