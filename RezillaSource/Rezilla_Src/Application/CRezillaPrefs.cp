@@ -1226,7 +1226,7 @@ CRezillaPrefs::RunPrefsDialog()
 							// If they match, no need to use 'Other' item
 							if (UMiscUtils::FontSizeExists(thePopup, theSize, itemIndex)) {
 								thePopup->SetValue(itemIndex);
-								::SetMenuItemText( thePopup->GetMacMenuH(), kLastSizeMenuItem + 2, theLine.Assign("\pOther√â"));					
+								::SetMenuItemText( thePopup->GetMacMenuH(), kLastSizeMenuItem + 2, theLine.Assign("\pOther…"));					
 							} else {
 								// Modify the text of the 'Other' item.
 								Str255	theSizeString;
@@ -1234,7 +1234,7 @@ CRezillaPrefs::RunPrefsDialog()
 								::NumToString( theSize, theSizeString );
 								// Append the current size
 								theLine += theSizeString;
-								theLine += "\p)√â";
+								theLine += "\p)…";
 								// Set the menu item text.
 								::SetMenuItemText( thePopup->GetMacMenuH(), kLastSizeMenuItem + 2, theLine );					
 							}
@@ -1242,7 +1242,7 @@ CRezillaPrefs::RunPrefsDialog()
 					} else {
 						::GetMenuItemText( thePopup->GetMacMenuH(), thePopup->GetValue(), theString );
 						::StringToNum( theString, &theSize );
-						::SetMenuItemText( thePopup->GetMacMenuH(), kLastSizeMenuItem + 2, theLine.Assign("\pOther√â"));					
+						::SetMenuItemText( thePopup->GetMacMenuH(), kLastSizeMenuItem + 2, theLine.Assign("\pOther…"));					
 					}
 					SetStyleElement( (SInt16) theSize, style_sizeType, prefsType_Temp);
 					break;
