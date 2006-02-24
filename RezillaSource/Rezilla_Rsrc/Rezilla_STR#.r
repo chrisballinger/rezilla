@@ -1,11 +1,11 @@
 // ===========================================================================
 // Rezilla_STR#.r					
 //                       Created: 2004-02-28 22:51:23
-//             Last modification: 2005-06-06 10:30:31
+//             Last modification: 2006-02-24 06:21:14
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes 2003-2005
+// (c) Copyright: Bernard Desgraupes 2003-2005, 2006
 // All rights reserved.
 // ===========================================================================
 
@@ -20,7 +20,9 @@ resource 'STR#' (1500, "New doc titles", purgeable) {
 /* [4] */	"Comparison window",
 /* [5] */	"untitled [1]",
 /* [6] */	"untitled",
-/* [7] */	"RezillaExport"
+/* [7] */	"RezillaExport",
+/* [8] */	"Picker [1]",
+/* [9] */	"Picker"
 	}
 };
 
