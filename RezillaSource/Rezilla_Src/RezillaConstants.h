@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2006-02-20 12:33:43
+//             Last modification : 2006-02-24 00:11:52
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@users.sourceforge.net>
 // www : <http://rezilla.sourceforge.net/>
@@ -282,6 +282,7 @@ const ResIDT	PPob_RezMapWindow			= 1000;
 const ResIDT	PPob_InspectorWindow		= 2000;
 const ResIDT	PPob_NewRezDialog			= 2100;
 const ResIDT	PPob_HexEditorWindow		= 3000;
+const ResIDT	PPob_RezPickerWindow		= 4000;
 const ResIDT	PPob_AboutWindow			= 5000;
 const ResIDT	PPob_LicenceWindow			= 5100;
 const ResIDT	PPob_RezCompDialog			= 6000;
@@ -298,8 +299,8 @@ const ResIDT	PPob_GetValueDialog			= 8400;
 const ResIDT	PPob_FindDialog				= 8500;
 const ResIDT	PPob_FontSizeDialog			= 8600;
 const ResIDT	PPob_ImageResizeDialog		= 8900;
-const ResIDT	PPob_RezTypePicker			= 8700;
-const ResIDT	PPob_TmplKeyPicker			= 8800;
+const ResIDT	PPob_RezTypeChooser			= 8700;
+const ResIDT	PPob_TmplKeyChooser			= 8800;
 const ResIDT	PPob_SimpleMessage			= 9500;
 const ResIDT	PPob_AskIfMessage			= 9510;
 const ResIDT	PPob_AskYesNoMessage		= 9520;
@@ -356,6 +357,7 @@ const ResIDT	Txtr_MonacoNineDefault		= 139;
 const ResIDT	Txtr_MonacoNineGray			= 133;
 const ResIDT	Txtr_GenevaTen				= 140;
 const ResIDT	Txtr_MonacoBlueNineCenter	= 141;
+const ResIDT	Txtr_MonacoBlackNineCenter	= 142;
 const ResIDT	Txtr_GenevaTenBoldUlLeft	= 144;
 const ResIDT	Txtr_GenevaTenBoldUlRight	= 145;
 const ResIDT	Txtr_UrlHyperlink			= 146;
@@ -431,6 +433,8 @@ const SInt16	index_CompWinUntitledX		= 4;
 const SInt16	index_EditorDocUntitled		= 5;
 const SInt16	index_EditorDocUntitledX	= 6;
 const SInt16	index_ExportUntitled		= 7;
+const SInt16	index_PickerDocUntitled		= 8;
+const SInt16	index_PickerDocUntitledX	= 9;
 // Indices of STR# 1501: windows menu items
 const SInt16	index_WinMenuInspector		= 1;
 const SInt16	index_WinMenuTypeInspector	= 2;
@@ -661,16 +665,16 @@ const PaneIDT	item_CompResultTxtRadio		= 27;
 // Ask Unique ID dialog
 // --------------------
 const PaneIDT	item_UidOtherConflicts		= 1;
-// Resource Type Picker
+// Resource Type Chooser
+// ---------------------
+const PaneIDT	item_TypeChooserField		= 1;
+const PaneIDT	item_TypeChooserMenu		= 2;
+// Template Key Chooser
 // --------------------
-const PaneIDT	item_TypePickerField		= 1;
-const PaneIDT	item_TypePickerMenu			= 2;
-// Template Key Picker
-// -------------------
-const PaneIDT	item_TmplKeyPickerType		= 1;
-const PaneIDT	item_TmplKeyPickerMessage	= 2;
-const PaneIDT	item_TmplKeyPickerLabel		= 3;
-const PaneIDT	item_TmplKeyPickerMenu		= 4;
+const PaneIDT	item_TmplKeyChooserType		= 1;
+const PaneIDT	item_TmplKeyChooserMessage	= 2;
+const PaneIDT	item_TmplKeyChooserLabel	= 3;
+const PaneIDT	item_TmplKeyChooserMenu		= 4;
 
 // Preferences
 // -----------
@@ -878,8 +882,9 @@ const PaneIDT   item_MenuEditFontID			= 33;
 const PaneIDT   item_MenuEditGlyphField		= 34;
 const PaneIDT   item_MenuEditGlyphBox		= 35;
 const PaneIDT   item_MenuEditItemGroupVIew	= 50;
-// STR# Editor Window
-// ------------------
+// Resource Picker Window
+// ----------------------
+const PaneIDT   item_PickerResourceCount	= 1;
 
 
 // Common elements for Editor Windows
@@ -986,13 +991,13 @@ const MessageT	msg_CompResultOnlyNewTbl	= PPob_RezCompWindow + item_CompResultOn
 // Ask Unique ID dialog
 // --------------------
 const MessageT	msg_UidOtherConflicts		= PPob_AskUniqueID + item_UidOtherConflicts;
-// Resource Type Picker
-// --------------------
-const MessageT	msg_TypePickerField			= PPob_RezTypePicker + item_TypePickerField;
-const MessageT	msg_TypePickerMenu			= PPob_RezTypePicker + item_TypePickerMenu;
-// Template Option Picker
-// ----------------------
-const MessageT	msg_TmplKeyPickerMenu		= PPob_TmplKeyPicker + item_TmplKeyPickerMenu;
+// Resource Type Chooser
+// ---------------------
+const MessageT	msg_TypeChooserField		= PPob_RezTypeChooser + item_TypeChooserField;
+const MessageT	msg_TypeChooserMenu			= PPob_RezTypeChooser + item_TypeChooserMenu;
+// Template Option Chooser
+// -----------------------
+const MessageT	msg_TmplKeyChooserMenu		= PPob_TmplKeyChooser + item_TmplKeyChooserMenu;
 
 // Preferences
 // -----------
@@ -1099,7 +1104,9 @@ const MessageT    msg_MenuEditGlyphField	= PPob_MenuEditorWindow + item_MenuEdit
 const MessageT    msg_MenuEditGlyphPopup	= FOUR_CHAR_CODE('Glyf');
 const MessageT    msg_MenuEditScriptPopup	= FOUR_CHAR_CODE('Scrp');
 const MessageT    msg_MenuTableClicked		= FOUR_CHAR_CODE('TClc');
-
+// Resource Picker Window
+// ----------------------
+const MessageT    msg_RezChangedForType		= FOUR_CHAR_CODE('RChT');
 
 // Other general purpose messages
 // ------------------------------
@@ -1157,6 +1164,7 @@ const long	aeRzil_Export			= 5003;
 // ----------------------------
 const DescType rzom_cRezMapDoc		= 'MapD';	// RezMap document
 const DescType rzom_cEditorDoc		= 'EdiD';	// Editor document
+const DescType rzom_cPickerDoc		= 'PikD';	// Editor document
 const DescType rzom_cGuiEditDoc		= 'GuiD';	// Gui editor document
 const DescType rzom_cPlugEditDoc	= 'PluD';	// Plugin editor document
 const DescType rzom_cTmplEditDoc	= 'TmpD';	// Tmpl editor document
@@ -1164,6 +1172,7 @@ const DescType rzom_cHexEditDoc		= 'HexD';	// Hex editor document
 
 const DescType rzom_cRezMapWindow	= 'MapW';	// RezMap window
 const DescType rzom_cEditorWindow	= 'EdiW';	// Editor window
+const DescType rzom_cPickerWindow	= 'PikW';	// Editor window
 const DescType rzom_cPluginWindow	= 'PluW';	// Plugin window
 const DescType rzom_cGuiWindow		= 'GuiW';	// Interface editor window
 const DescType rzom_cTmplWindow		= 'TmpW';	// Tmpl editor window
