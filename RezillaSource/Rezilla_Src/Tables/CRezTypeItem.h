@@ -1,11 +1,11 @@
 // ===========================================================================
 // CRezTypeItem.h				
 //                       Created: 2003-04-18 09:34:02
-//             Last modification: 2005-05-02 09:42:26
+//             Last modification: 2006-02-23 23:14:31
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes 2003-2004, 2005
+// (c) Copyright: Bernard Desgraupes 2003-2005, 2006
 // All rights reserved.
 // ===========================================================================
 // A concrete LOutlineItem for items of type "resource category"
@@ -49,6 +49,12 @@ protected:
 									const Rect&				inLocalRowRect);
 		
 		virtual	void			ExpandSelf();
+
+		virtual void			SingleClick(
+									const STableCell&			inCell,
+									const SMouseDownEvent&		inMouseDown,
+									const SOutlineDrawContents&	inDrawContents,
+									Boolean						inHitText);
 
 		virtual void			DoubleClick(
 									const STableCell&			inCell,

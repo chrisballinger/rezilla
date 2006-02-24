@@ -2,11 +2,11 @@
 // CRezMapDoc.h				
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2005-06-28 10:50:40
+//             Last modification: 2006-02-24 06:25:48
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2003-2005
+// (c) Copyright : Bernard Desgraupes, 2003-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -31,7 +31,9 @@ class CRezMapWindow;
 class CRezObj;
 class CRezType;
 class CRezObjItem;
+class CRezTypeItem;
 class CEditorDoc;
+class CPickerDoc;
 
 // ---------------------------------------------------------------------------
 
@@ -209,7 +211,11 @@ public:
 									 short inID, 
 									 Boolean exact = false);
 
+	CPickerDoc *		GetTypePicker(ResType inType);
+	
 	TArray<CEditorDoc *>*	GetOpenedEditors() { return mOpenedEditors ;}
+
+	TArray<CPickerDoc *>*	GetOpenedPickers() { return mOpenedPickers ;}
 
 	int					TryEdit(CRezObjItem * inRezObjItem, 
 								CommandT inCommand, 
@@ -219,7 +225,9 @@ public:
 							   CommandT inCommand, 
 							   ResType inType, 
 							   ResType * substTypePtr);
-		
+	
+	void				TryOpenPicker(CRezTypeItem * inRezTypeItem);
+	
 	Boolean				IsReadOnly() { return mReadOnly;}
 	void				SetReadOnly(Boolean inReadOnlyDoc) {mReadOnly = inReadOnlyDoc;}
 
@@ -238,6 +246,9 @@ protected:
 	TArray<CEditorDoc *> *	mOpenedEditors;	// Maintain an array of editor docs 
 	                 		                // depending from this doc (all edit 
 	                 		                // windows for resources in this map)
+	TArray<CPickerDoc *> *	mOpenedPickers;	// Maintain an array of picker docs 
+											// depending from this doc (all picker
+											// windows for types in this map)
 	Boolean					mUpdateOnClose;
 	Boolean					mReadOnly;
 	SInt16					mExportFormat;
@@ -252,6 +263,7 @@ protected:
 private:
 	void				Initialize(FSSpec * inFileSpec, short inRefnum);
 	void				DeleteEditors(Boolean deleteArray);
+	void				DeletePickers(Boolean deleteArray);
 	void				WarnEdited(ResType inType, Boolean singleItem, int countEdited);
 	
 };

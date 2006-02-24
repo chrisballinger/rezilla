@@ -1,11 +1,11 @@
 // ===========================================================================
 // CRezTypeItem.cp				
 //                       Created: 2003-04-18 09:34:02
-//             Last modification: 2005-06-14 13:17:59
+//             Last modification: 2006-02-24 00:16:07
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes 2003-2005
+// (c) Copyright: Bernard Desgraupes 2003-2005, 2006
 // All rights reserved.
 // ===========================================================================
 // A concrete LOutlineItem for items of type "resource category"
@@ -176,13 +176,13 @@ CRezTypeItem::ExpandSelf()
 
 
 // ---------------------------------------------------------------------------
-//   DoubleClick
+//   SingleClick												   [protected]
 // ---------------------------------------------------------------------------
-// send an open document AppleEvent to the Finder to open this
-// given directory
+// Since version 1.1, a single click on a RezTypeItem collapses/expands it 
+// (this is what a double click did previously).
 
 void
-CRezTypeItem::DoubleClick(
+CRezTypeItem::SingleClick(
 	const STableCell&			/* inCell */,
 	const SMouseDownEvent&		inMouseDown,
 	const SOutlineDrawContents&	/* inDrawContents */,
@@ -197,6 +197,24 @@ CRezTypeItem::DoubleClick(
 			Expand();
 		}
 	}
+}
+
+
+// ---------------------------------------------------------------------------
+//   DoubleClick
+// ---------------------------------------------------------------------------
+// Since version 1.1, a double click on a RezTypeItem opens a resource picker 
+// if it exists.
+
+void
+CRezTypeItem::DoubleClick(
+	const STableCell&			/* inCell */,
+	const SMouseDownEvent&		inMouseDown,
+	const SOutlineDrawContents&	/* inDrawContents */,
+	Boolean						/* inHitText */)
+{
+	CRezMapTable *theRezMapTable = GetOwnerRezMapTable();
+	theRezMapTable->GetOwnerDoc()->TryOpenPicker(this);
 }
 
 

@@ -2,7 +2,7 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2006-02-16 10:28:25
+//             Last modification: 2006-02-23 23:20:51
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -18,10 +18,13 @@ PP_Begin_Namespace_PowerPlant
 #endif
 
 #include "CRezMapDoc.h"
+#include "CEditorDoc.h"
+#include "CPickerDoc.h"
 #include "CRezillaApp.h"
 #include "CRezillaPrefs.h"
 #include "CRezFile.h"
 #include "CEditorsController.h"
+#include "CPickersController.h"
 #include "CTemplatesController.h"
 #include "CPluginsController.h"
 #include "CTextFileStream.h"
@@ -32,7 +35,6 @@ PP_Begin_Namespace_PowerPlant
 #include "CRezObjItem.h"
 #include "CRezType.h"
 #include "CRezTypeItem.h"
-#include "CRezTypePicker.h"
 #include "CInspectorWindow.h"
 #include "CHexEditorDoc.h"
 #include "CTmplEditorDoc.h"
@@ -260,8 +262,11 @@ CRezMapDoc::Initialize(FSSpec * inFileSpecPtr, short inRefnum)
 		mRezMapWindow->SetDescriptor( inFileSpecPtr->name );
 	}
 
-	// Initialize the array of edited resources
+	// Initialize the array of resource editors
 	mOpenedEditors = new TArray<CEditorDoc *>();
+	
+	// Initialize the array of resource pickers
+	mOpenedPickers = new TArray<CPickerDoc *>();
 	
 	// Populate the RezTable
 	CTypeComparator* theComparator = new CTypeComparator;
@@ -556,6 +561,26 @@ CRezMapDoc::WarnEdited(ResType inType, Boolean singleItem, int countEdited)
 		}
 	} else {
 		UMessageDialogs::AlertWithValue(CFSTR("SomeResourcesEditedInOtherMode"), countEdited);
+	}
+}
+
+
+// ---------------------------------------------------------------------------------
+//  TryOpenPicker															[public]
+// ---------------------------------------------------------------------------------
+
+void
+CRezMapDoc::TryOpenPicker(CRezTypeItem * inRezTypeItem)
+{
+	ResType		theType = inRezTypeItem->GetRezType()->GetType();
+	
+	// Does this type already have an opened picker ?
+	CPickerDoc * theRezPicker = GetTypePicker(theType);
+	if (theRezPicker != nil) {
+		theRezPicker->SelectMainWindow();
+	} else if ( CPickersController::HasPickerForType(theType) ) {
+		// call the appropriate picker
+		CPickersController::InvokeCustomPicker(this, inRezTypeItem);
 	}
 }
 
@@ -1318,7 +1343,7 @@ CRezMapDoc::FindCommandStatus(
 			break;
 
 		case cmd_Find:
-// 			LString::CopyPStr( "\pFind in Map√â", outName);
+// 			LString::CopyPStr( "\pFind in Map…", outName);
 // 			outEnabled = true;
 			outEnabled = false;
 			break;
@@ -2082,6 +2107,51 @@ CRezMapDoc::DeleteEditors(Boolean deleteArray)
 		}
 		if (deleteArray) {
 			delete mOpenedEditors;
+		} 
+	} 
+}
+
+
+// ---------------------------------------------------------------------------
+//  GetTypePicker												[public]
+// ---------------------------------------------------------------------------
+
+CPickerDoc *
+CRezMapDoc::GetTypePicker(ResType inType)
+{
+	CPickerDoc * result = nil;	
+	TArrayIterator<CPickerDoc *> iterator(*mOpenedPickers);
+	CPickerDoc*	theTypePicker = nil;
+	
+	// The CRezMapDoc class maintains a list of all opened CPickerDocs
+	while (iterator.Next(theTypePicker)) {
+		if (inType == theTypePicker->GetRezTypeItem()->GetRezType()->GetType() ) {
+			result = theTypePicker;
+			break;
+		} 
+	}
+	
+	return result;
+}
+
+
+// ---------------------------------------------------------------------------
+//  DeletePickers												[public]
+// ---------------------------------------------------------------------------
+// Delete all the picker windows depending from this rezmap and reset the array
+
+void
+CRezMapDoc::DeletePickers(Boolean deleteArray)
+{
+	if (mOpenedPickers != nil) {
+		TArrayIterator<CPickerDoc *> iterator(*mOpenedPickers, LArrayIterator::from_End);
+		CPickerDoc* theRezPicker = nil;
+		while (iterator.Previous(theRezPicker)) {
+			mOpenedPickers->RemoveItemsAt(1, iterator.GetCurrentIndex());
+			delete theRezPicker;
+		}
+		if (deleteArray) {
+			delete mOpenedPickers;
 		} 
 	} 
 }
