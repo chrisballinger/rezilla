@@ -2,7 +2,7 @@
 // CEditorsController.cp					
 // 
 //                       Created: 2004-06-11 10:48:38
-//             Last modification: 2006-02-16 10:11:03
+//             Last modification: 2006-02-23 15:54:21
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -351,19 +351,6 @@ CEditorsController::OpenOrCreateWithTypeAndID(CRezMapTable* inSuperMap, ResType 
 	return (outRezObj == NULL);
 }
  
-
-// ---------------------------------------------------------------------------
-//   RegisterEditor												[public]
-// ---------------------------------------------------------------------------
-
-OSErr
-CEditorsController::RegisterEditor()
-{
-	OSErr error = noErr;
-	
-	return error;
-}
-
 
 // ---------------------------------------------------------------------------
 //   TypesCorrespond												[public]

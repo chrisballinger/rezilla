@@ -2,11 +2,11 @@
 // CEditorsController.h				
 // 
 //                       Created: 2004-06-11 10:48:38
-//             Last modification: 2005-06-10 07:29:03
+//             Last modification: 2006-02-23 15:54:42
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2004, 2005
+// (c) Copyright : Bernard Desgraupes, 2004-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -43,15 +43,11 @@ public:
 									ResType inType2, 
 									Boolean exact);
 
-	OSErr			RegisterEditor();
-
-
 	static CFPropertyListRef	sAsTypeDictionary;
 
 protected:	
 
 	void			BuildAsTypeDictionary();
-	void			Unregister();
 };
 
 
