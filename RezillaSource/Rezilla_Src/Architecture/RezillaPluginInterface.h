@@ -2,7 +2,7 @@
 // File: "RezillaPluginInterface.h"
 // 
 //                        Created: 2005-09-08 15:49:50
-//              Last modification: 2006-02-22 14:35:27
+//              Last modification: 2006-02-24 09:26:05
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -23,19 +23,31 @@
 #include <CoreFoundation/CoreFoundation.h>
 #include <CoreFoundation/CFPlugInCOM.h>
 
-
-// Define the UUID for the type: 
+// Editor UUIDs
+// ============
+// Define the UUID for the editor type: 
 // "306A0EF3-206E-11DA-8320-000A95B1FF7C"
-#define kRezillaEditorTypeID (CFUUIDGetConstantUUIDWithBytes(NULL, 0x30,0x6A,0x0E,0xF3,0x20,0x6E,0x11,0xDA,0x83,0x20,0x00,0x0A,0x95,0xB1,0xFF,0x7C))
+#define kRezillaPluginEditorTypeID (CFUUIDGetConstantUUIDWithBytes(NULL,0x30,0x6A,0x0E,0xF3,0x20,0x6E,0x11,0xDA,0x83,0x20,0x00,0x0A,0x95,0xB1,0xFF,0x7C))
 
-
-// Define the UUID for the interface. RezillaEditorType objects must
+// Define the UUID for the editor interface. RezillaEditorType objects must
 // implement RezillaEditorInterface:
 // "306AE167-206E-11DA-8320-000A95B1FF7C"
-#define kRezillaEditorInterfaceID (CFUUIDGetConstantUUIDWithBytes(NULL, 0x30,0x6A,0xE1,0x67,0x20,0x6E,0x11,0xDA,0x83,0x20,0x00,0x0A,0x95,0xB1,0xFF,0x7C))
+#define kRezillaPluginEditorInterfaceID (CFUUIDGetConstantUUIDWithBytes(NULL,0x30,0x6A,0xE1,0x67,0x20,0x6E,0x11,0xDA,0x83,0x20,0x00,0x0A,0x95,0xB1,0xFF,0x7C))
 
 
-/* WindowAttributes */
+// Picker UUIDs
+// ============
+// Define the UUID for the picker type: 
+// "D93257A6-A50B-11DA-893D-000A95B1FF7C"
+#define kRezillaPluginPickerTypeID (CFUUIDGetConstantUUIDWithBytes(NULL,0xD9,0x32,0x57,0xA6,0xA5,0x0B,0x11,0xDA,0x89,0x3D,0x00,0x0A,0x95,0xB1,0xFF,0x7C))
+
+// Define the UUID for the picker interface. RezillaPickerType objects must
+// implement RezillaPickerInterface:
+// "1C1EC256-A50C-11DA-81FC-000A95B1FF7C"
+#define kRezillaPluginPickerInterfaceID (CFUUIDGetConstantUUIDWithBytes(NULL,0x1C,0x1E,0xC2,0x56,0xA5,0x0C,0x11,0xDA,0x81,0xFC,0x00,0x0A,0x95,0xB1,0xFF,0x7C))
+
+
+
 enum {
 	kPlugWinHasNoAttributes		= 0L,
 	kPlugWinHasSaveButton		= (1L << 1),
@@ -80,7 +92,7 @@ typedef struct RezHostInfo {
 } RezHostInfo;
 
 
-typedef struct SRezillaPluginInterface {
+typedef struct SPluginEditorInterface {
 	IUNKNOWN_C_GUTS;
 	Boolean	(*AcceptResource)(void *myInstance, ResType inType, short inID, Handle inDataH, RezPlugInfo * outInfo);
 	OSErr	(*EditResource)(RezPlugRef inPlugref, RezHostInfo inInfo);
@@ -93,7 +105,20 @@ typedef struct SRezillaPluginInterface {
 	void	(*HandleMenu)(RezPlugRef inPlugref, MenuRef menu, SInt16 inMenuItem);
 	void	(*HandleClick)(RezPlugRef inPlugref, const EventRecord * inMacEvent, Point inPortCoords);
 	void	(*HandleKeyDown)(RezPlugRef inPlugref, const EventRecord * inKeyEvent);
-} SRezillaPluginInterface;
+} SPluginEditorInterface;
+
+
+typedef struct SPluginPickerInterface {
+	IUNKNOWN_C_GUTS;
+	Boolean	(*AcceptType)(void *myInstance, ResType inType, short inID, Handle inDataH, RezPlugInfo * outInfo);
+	OSErr	(*EditPicker)(RezPlugRef inPlugref, RezHostInfo inInfo);
+	Handle	(*UpdatePicker)(RezPlugRef inPlugref, Boolean * outRelease, OSErr * outError);
+	void	(*CleanUp)(RezPlugRef inPlugref);
+	void	(*ResizeBy)(RezPlugRef inPlugref, SInt16 inWidthDelta, SInt16 inHeightDelta);
+	void	(*HandleMenu)(RezPlugRef inPlugref, MenuRef menu, SInt16 inMenuItem);
+	void	(*HandleDoubleClick)(RezPlugRef inPlugref, const EventRecord * inMacEvent, Point inPortCoords);
+	void	(*HandleKeyDown)(RezPlugRef inPlugref, const EventRecord * inKeyEvent);
+} SPluginPickerInterface;
 
 
 // Rezilla plugins error codes
