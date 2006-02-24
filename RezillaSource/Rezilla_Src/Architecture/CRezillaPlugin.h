@@ -41,7 +41,7 @@ public:
 		
 		UInt8		CreateMenus(UInt8 inMenuCount, MenuID * inMenuIDs);
 
-		virtual SRezillaPluginInterface**	GetInterface() {return mInterface;}
+		virtual SPluginEditorInterface**	GetInterface() {return mInterface;}
 		
 		virtual short	GetRefnum() { return mRefNum;}
 		
@@ -50,7 +50,7 @@ public:
 protected:
 		CFPlugInRef					mPluginRef;
 		short						mRefNum;
-		SRezillaPluginInterface **	mInterface;
+		SPluginEditorInterface **	mInterface;
 		TArray<OSType>				mEditTypes;
 		TArray<LMenu*>				mMenusList;
 		Boolean						mMenusBuilt;

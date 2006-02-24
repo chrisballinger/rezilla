@@ -148,7 +148,7 @@ CRezillaPlugin::Load()
 		//  The plug-in was located, now locate the interface
 		if( newPlugIn ) {
 			// See if this plug-in implements the RezillaEditor type
-			CFArrayRef factories = ::CFPlugInFindFactoriesForPlugInTypeInPlugIn( kRezillaEditorTypeID, newPlugIn );
+			CFArrayRef factories = ::CFPlugInFindFactoriesForPlugInTypeInPlugIn( kRezillaPluginEditorTypeID, newPlugIn );
 
 			// If there are factories for the RezillaEditor type, attempt
 			// to get the IUnknown interface.
@@ -160,7 +160,7 @@ CRezillaPlugin::Load()
 				// Use this factory ID to get an IUnknown interface 
 				// (ie a handle to the IUnknown vector table).
 				// Here the plug-in code is loaded.
-				IUnknownVTbl **iunknown = (IUnknownVTbl **) ::CFPlugInInstanceCreate( NULL, factoryID, kRezillaEditorTypeID );
+				IUnknownVTbl **iunknown = (IUnknownVTbl **) ::CFPlugInInstanceCreate( NULL, factoryID, kRezillaPluginEditorTypeID );
 				mIsLoaded = true;
 				
 				// Query IUnknown for the RezillaEditor interface

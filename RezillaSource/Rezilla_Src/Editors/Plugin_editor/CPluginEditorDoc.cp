@@ -225,7 +225,7 @@ CPluginEditorDoc::FindCommandStatus(
 		break;
 
 		case cmd_Find:
-		LString::CopyPStr( "\pFind√â", outName);
+		LString::CopyPStr( "\pFind…", outName);
 		outEnabled = false;
 		break;
 
