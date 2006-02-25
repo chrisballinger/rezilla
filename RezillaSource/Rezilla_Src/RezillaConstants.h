@@ -328,7 +328,7 @@ const ResIDT	PPob_AeteClassPane			= 11200;
 const ResIDT	PPob_AeteCompOpPane			= 11300;
 const ResIDT	PPob_AeteEnumPane			= 11400;
 const ResIDT	PPob_StrxEditorWindow		= 11500;
-const ResIDT	PPob_PluginEditorWindow		= 12000;
+const ResIDT	PPob_StandardEditorWindow	= 10000;
 
 const ResIDT	ics8_Unlocked				= 1500;
 const ResIDT	ics8_Locked					= 1501;
