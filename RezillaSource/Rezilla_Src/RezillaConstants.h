@@ -1616,3 +1616,13 @@ const UInt16	kEditNameHeight			= 10;
 const UInt16	kEditVertMargin			= 5;
 
 
+// ======================================================================
+// Constants for the resource pickers
+// ======================================================================
+
+#define kPickerDefaultStampWidth	32
+#define kPickerDefaultStampHeight	44
+#define kPickerViewIDFieldHeight	12
+// #define kPickerViewStampMinHeight	12
+
+

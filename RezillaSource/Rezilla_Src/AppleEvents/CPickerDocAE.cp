@@ -271,7 +271,9 @@ void
 CPickerDoc::HandleAESave(
 	const AppleEvent&	/* inSaveAE */)
 {
-	// Do nothing. A picker has no notion of saved document.
+	// A picker has no notion of saved document. This means 
+	// the AppleEvent failed.
+	ThrowOSErr_(userCanceledErr);
 }
 
 

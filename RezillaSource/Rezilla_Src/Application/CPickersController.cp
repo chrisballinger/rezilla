@@ -2,7 +2,7 @@
 // CPickersController.cp					
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-02-23 15:12:20
+//             Last modification: 2006-02-25 18:26:24
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -18,12 +18,9 @@ PP_Begin_Namespace_PowerPlant
 #endif
 
 #include "CPickersController.h"
+#include "TPickerDoc.h"
 #include "CRezillaApp.h"
-// // #include "CTEXT_PickerDoc.h"
-// // #include "CPICT_PickerDoc.h"
-// // #include "CIcon_PickerDoc.h"
-// // #include "CMENU_PickerDoc.h"
-#include "CTemplatesController.h"
+#include "CIcon_PickerView.h"
 #include "CRezMap.h"
 #include "CRezMapDoc.h"
 #include "CRezMapWindow.h"
@@ -34,6 +31,10 @@ PP_Begin_Namespace_PowerPlant
 #include "RezillaConstants.h"
 #include "UMiscUtils.h"
 
+// // #include "CTEXT_PickerDoc.h"
+// // #include "CPICT_PickerDoc.h"
+// // #include "CIcon_PickerDoc.h"
+// // #include "CMENU_PickerDoc.h"
 
 
 // ---------------------------------------------------------------------------
@@ -108,15 +109,18 @@ CPickersController::InvokeCustomPicker(CRezMapDoc* inRezMapDoc,
 
 		case 'TEXT':
 // 		  new CTEXT_PickerDoc( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
+		// 		  new TPickerDoc<CTEXT_PickerView>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
 		break;
 
 		
 		case 'PICT':
 // 		  new CPICT_PickerDoc( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
+		// 		  new TPickerDoc<CPICT_PickerView>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
 		break;
 		
 		case 'MENU':
 // 		  new CMENU_PickerDoc( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
+		// 		  new TPickerDoc<CMENU_PickerView>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
 		break;
 		
 		case 'STR#':
@@ -124,6 +128,7 @@ CPickersController::InvokeCustomPicker(CRezMapDoc* inRezMapDoc,
 		case 'Mcmd':
 		case 'RidL':
 // 		  new CSTRx_PickerDoc( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
+		// 		  new TPickerDoc<CSTRx_PickerView>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
 		break;
 		
 		case 'CURS':
@@ -144,6 +149,7 @@ CPickersController::InvokeCustomPicker(CRezMapDoc* inRezMapDoc,
 		case 'ics8':
 		case 'ppat':
 // 		new CIcon_PickerDoc( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
+		  new TPickerDoc<CIcon_PickerView>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
 	  break;
 	  
 	}

@@ -2,7 +2,7 @@
 // CRezillaPlugin.cp
 // 
 //                       Created: 2005-09-26 09:48:26
-//             Last modification: 2006-02-21 07:15:42
+//             Last modification: 2006-02-24 12:00:21
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://rezilla.sourceforge.net/>
@@ -165,7 +165,7 @@ CRezillaPlugin::Load()
 				
 				// Query IUnknown for the RezillaEditor interface
 				if( iunknown ) {
-					(*iunknown)->QueryInterface( iunknown, ::CFUUIDGetUUIDBytes( kRezillaEditorInterfaceID ),
+					(*iunknown)->QueryInterface( iunknown, ::CFUUIDGetUUIDBytes( kRezillaPluginEditorInterfaceID ),
 												 (LPVOID *)( &mInterface ) );
 
 					// Now we are done with IUnknown
