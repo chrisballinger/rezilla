@@ -68,7 +68,7 @@ public:
 	void			SetPlugRef(RezPlugRef inPlugRef) {mPlugRef = inPlugRef;}
 	
 protected:
-		SRezillaPluginInterface**	mInterface;
+		SPluginEditorInterface**	mInterface;
 		RezPlugRef					mPlugRef;
 		Boolean						mHasHeader;
 		Boolean						mHasFooter;

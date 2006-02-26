@@ -87,7 +87,7 @@ CPluginEditorDoc::Initialize()
 		}
 	} 
 	
-	SRezillaPluginInterface** interface = mPlugin->GetInterface();
+	SPluginEditorInterface** interface = mPlugin->GetInterface();
 	ThrowIfNil_(interface);
 	
 	// Install the contents according to the TMPL
@@ -106,7 +106,7 @@ CPluginEditorDoc::Initialize()
 	plugInfo.error = noErr;
 	
 	if ( (*interface)->AcceptResource(interface, mRezObj->GetType(), mRezObj->GetID(), rezData, &plugInfo) ) {
-		// Create a window for our document and set this doc as its the SuperCommander
+		// Create a window for our document and set this doc as its SuperCommander
 		mPluginWindow = CreatePluginWindow(plugInfo.winattrs, plugInfo.winbounds);
 		Assert_( mPluginWindow != nil );
 		
@@ -310,7 +310,7 @@ CPluginEditorDoc::GetModifiedResource(Boolean &releaseIt)
 	Handle	theHandle = NULL;
 	OSErr	error = noErr;
 
-	SRezillaPluginInterface** interface = mPlugin->GetInterface();
+	SPluginEditorInterface** interface = mPlugin->GetInterface();
 	theHandle = (*interface)->ReturnResource(mPluginWindow->GetPlugRef(), &releaseIt, &error);
 
 	if ( error != noErr ) {
