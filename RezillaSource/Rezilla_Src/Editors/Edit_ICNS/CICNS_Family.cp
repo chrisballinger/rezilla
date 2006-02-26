@@ -2,7 +2,7 @@
 // CICNS_Family.cp
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-02-23 15:12:20
+//             Last modification: 2006-02-25 22:16:43
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -68,15 +68,7 @@
 
 CICNS_Family::CICNS_Family()
 {
-	mName[0] = 0;
-	mDescription[0] = 0;
-	mID = 0;
-	mLevel = 0;
-	mVersion = 0;
-	mMemberIndex = 0;
-	mClassIndex = 0;
-	mCompOpIndex = 0;
-	mEnumerationIndex = 0;
+	mIconType = 'icns';
 }
 
 
@@ -84,17 +76,9 @@ CICNS_Family::CICNS_Family()
 //  CICNS_Family												[public]
 // ---------------------------------------------------------------------------
 
-CICNS_Family::CICNS_Family(Str255	inName,
-					 Str255	inDescription,
-					 OSType	inID, 
-					 UInt16	inLevel,
-					 UInt16	inVersion)
+CICNS_Family::CICNS_Family(OSType inType)
 {
-	SetValues( inName, inDescription, inID, inLevel, inVersion);
-	mMemberIndex = 0;
-	mClassIndex = 0;
-	mCompOpIndex = 0;
-	mEnumerationIndex = 0;
+	mIconType = inType;
 }
 
 
@@ -114,32 +98,11 @@ CICNS_Family::CICNS_Family(CICNS_Stream * inStream)
 
 CICNS_Family::~CICNS_Family()
 {
-	TArrayIterator<CICNS_Member*> iterarorEv(mMembers, LArrayIterator::from_End);
+	TArrayIterator<CICNS_Member*> iteraror(mMembers, LArrayIterator::from_End);
 	CICNS_Member *	theMember;
-	while (iterarorEv.Previous(theMember)) {
-		mMembers.RemoveItemsAt(1, iterarorEv.GetCurrentIndex());
+	while (iteraror.Previous(theMember)) {
+		mMembers.RemoveItemsAt(1, iteraror.GetCurrentIndex());
 		delete theMember;
-	}
-
-	TArrayIterator<CAeteClass*> iteratorCl(mClasses, LArrayIterator::from_End);
-	CAeteClass *	theClass;
-	while (iteratorCl.Previous(theClass)) {
-		mClasses.RemoveItemsAt(1, iteratorCl.GetCurrentIndex());
-		delete theClass;
-	}
-
-	TArrayIterator<CAeteCompOp*> iteratorCo(mCompOps, LArrayIterator::from_End);
-	CAeteCompOp *	theCompOp;
-	while (iteratorCo.Previous(theCompOp)) {
-		mCompOps.RemoveItemsAt(1, iteratorCo.GetCurrentIndex());
-		delete theCompOp;
-	}
-
-	TArrayIterator<CAeteEnumeration*> iteratorEn(mEnumerations, LArrayIterator::from_End);
-	CAeteEnumeration *	theEnum;
-	while (iteratorEn.Previous(theEnum)) {
-		mEnumerations.RemoveItemsAt(1, iteratorEn.GetCurrentIndex());
-		delete theEnum;
 	}
 }
 
@@ -149,9 +112,9 @@ CICNS_Family::~CICNS_Family()
 // ---------------------------------------------------------------------------
 
 void
-CICNS_Family::AddMember()
+CICNS_Family::AddMember(OSType inType)
 {
-	mMembers.AddItem( new CICNS_Member() );
+	mMembers.AddItem( new CICNS_Member(inType) );
 }
 
 
@@ -171,36 +134,9 @@ CICNS_Family::AddMember(CICNS_Member * inMember)
 // ---------------------------------------------------------------------------
 
 void
-CICNS_Family::AddMember(
-				   Str255	inName,
-				   Str255	inDescription,
-				   OSType	inClass, 
-				   OSType	inID,
-				   OSType	inReplyType,
-				   Str255	inReplyDescription,
-				   UInt16	inReplyFlags,
-				   OSType	inDirectType,
-				   Str255	inDirectDescription,
-				   UInt16	inDirectFlags)
+CICNS_Family::AddMember(OSType inType, SInt32 inSize, Handle inHandle)
 {
-	mMembers.AddItem( new CICNS_Member( inName, inDescription, inClass, inID,
-									inReplyType, inReplyDescription, inReplyFlags, 
-									inDirectType, inDirectDescription, inDirectFlags) );
-}
-
-
-// ---------------------------------------------------------------------------
-//  AddMember												[public]
-// ---------------------------------------------------------------------------
-
-OSErr
-CICNS_Family::AddMember(CFXMLTreeRef inTreeNode)
-{
-	OSErr	error = noErr;
-	CICNS_Member * theMember = new CICNS_Member();
-	mMembers.AddItem(theMember);
-	error = theMember->GetDataFromXml(inTreeNode);
-	return error;
+	mMembers.AddItem( new CICNS_Member(inType, inSize, inHandle) );
 }
 
 
@@ -228,51 +164,21 @@ CICNS_Family::RemoveMember( ArrayIndexT inAtIndex )
 void
 CICNS_Family::InstallDataStream(CICNS_Stream * inStream)
 {
-	UInt16				theCount, i;
-	CICNS_Member *		theMember;
-	CAeteClass *		theClass;
-	CAeteCompOp *		theCompOp;
-	CAeteEnumeration *	theEnumeration;
+	CICNS_Member *	theMember;
+	SInt32			theSize;
 	
-	*inStream >> mName;
-	*inStream >> mDescription;
-	inStream->AlignBytesRead();
+	*inStream >> mIconType;
 	
-	*inStream >> mID;
-	*inStream >> mLevel;
-	*inStream >> mVersion;
-	
-	// Get the count of events
-	*inStream >> theCount;
-	for (i = 0 ; i < theCount; i++) {
+	// Next comes the total size of the resource, including the previous
+	// OSType and this SInt32. This must be the same value as
+	// inStream->GetLength(). Should we warn if this is not the case or
+	// just repair silently?
+	*inStream >> theSize;
+
+	while (inStream->GetMarker() < inStream->GetLength()) {
 		theMember = new CICNS_Member(inStream);
 		AddMember(theMember);
 	}
-	mMemberIndex = (theCount > 0);
-
-	// Get the count of classes
-	*inStream >> theCount;
-	for (i = 0 ; i < theCount; i++) {
-		theClass = new CAeteClass(inStream);
-		AddClass(theClass);
-	}
-	mClassIndex = (theCount > 0);
-
-	// Get the count of comparison operators
-	*inStream >> theCount;
-	for (i = 0 ; i < theCount; i++) {
-		theCompOp = new CAeteCompOp(inStream);
-		AddCompOp(theCompOp);
-	}
-	mCompOpIndex = (theCount > 0);
-
-	// Get the count of enumerations
-	*inStream >> theCount;
-	for (i = 0 ; i < theCount; i++) {
-		theEnumeration = new CAeteEnumeration(inStream);
-		AddEnumeration(theEnumeration);
-	}
-	mEnumerationIndex = (theCount > 0);
 }
 
 
@@ -283,97 +189,22 @@ CICNS_Family::InstallDataStream(CICNS_Stream * inStream)
 void
 CICNS_Family::SendDataToStream(CICNS_Stream * outStream)
 {
-	*outStream << mName;
-	*outStream << mDescription;
-	outStream->AlignBytesWrite();
-	
-	*outStream << mID;
-	*outStream << mLevel;
-	*outStream << mVersion;
-	
-	// Members data
-	*outStream << (UInt16) mMembers.GetCount();
-
-	TArrayIterator<CICNS_Member*> iterEv( mMembers );
+	TArrayIterator<CICNS_Member*> iterator( mMembers );
 	CICNS_Member *	theMember;
+	SInt32			theSize = 8;
 	
-	while (iterEv.Next(theMember)) {
+	*outStream << mIconType;
+	*outStream << theSize;
+
+	while (iterator.Next(theMember)) {
 		theMember->SendDataToStream(outStream);
 	}
-
-	// Classes data
-	*outStream << (UInt16) mClasses.GetCount();
-
-	TArrayIterator<CAeteClass*> iterCl( mClasses );
-	CAeteClass *	theClass;
 	
-	while (iterCl.Next(theClass)) {
-		theClass->SendDataToStream(outStream);
-	}
-
-	// CompOps data
-	*outStream << (UInt16) mCompOps.GetCount();
-
-	TArrayIterator<CAeteCompOp*> iterCo( mCompOps );
-	CAeteCompOp *	theCompOp;
-	
-	while (iterCo.Next(theCompOp)) {
-		theCompOp->SendDataToStream(outStream);
-	}
-
-	// Enumerations data
-	*outStream << (UInt16) mEnumerations.GetCount();
-
-	TArrayIterator<CAeteEnumeration*> iterEn( mEnumerations );
-	CAeteEnumeration *	theEnumeration;
-	
-	while (iterEn.Next(theEnumeration)) {
-		theEnumeration->SendDataToStream(outStream);
-	}
-}
-
-
-// ---------------------------------------------------------------------------
-//   GetName											[public, virtual]
-// ---------------------------------------------------------------------------
-
-StringPtr
-CICNS_Family::GetName(
-	Str255	outName ) const
-{
-	return LString::CopyPStr( mName, outName);
-}
-
-
-// ---------------------------------------------------------------------------
-//  GetValues												[public]
-// ---------------------------------------------------------------------------
-
-void
-CICNS_Family::GetValues(Str255 outName, Str255 outDescription, OSType & outID, 
-							  UInt16 & outLevel, UInt16 & outVersion)
-{
-	LString::CopyPStr(mName, outName);
-	LString::CopyPStr(mDescription, outDescription);
-	outID = mID;
-	outLevel = mLevel;
-	outVersion = mVersion;
-}
- 
-
-// ---------------------------------------------------------------------------
-//  SetValues												[public]
-// ---------------------------------------------------------------------------
-
-void
-CICNS_Family::SetValues(Str255 inName, Str255 inDescription, OSType inID, 
-							  UInt16 inLevel, UInt16 inVersion)
-{
-	LString::CopyPStr(inName, mName);
-	LString::CopyPStr(inDescription, mDescription);
-	mID = inID;
-	mLevel = inLevel;
-	mVersion = inVersion;
+	// Rectify the value of the total size
+	if (outStream->GetLength() > 8) {
+		outStream->SetMarker(4, streamFrom_Start);
+		*outStream << outStream->GetLength();
+	} 
 }
 
 
@@ -382,28 +213,9 @@ CICNS_Family::SetValues(Str255 inName, Str255 inDescription, OSType inID,
 // ---------------------------------------------------------------------------
 
 ArrayIndexT
-CICNS_Family::GetCurrentIndex(SInt8 inKind)
+CICNS_Family::GetCurrentIndex()
 {
-	ArrayIndexT index = LArray::index_Bad;
-	
-	switch (inKind) {
-		case kind_AeteMember:
-		index = this->GetMemberIndex();
-		break;
-		
-		case kind_AeteClass:
-		index = this->GetClassIndex();
-		break;
-		
-		case kind_AeteCompOp:
-		index = this->GetCompOpIndex();
-		break;
-		
-		case kind_AeteEnum:
-		index = this->GetEnumerationIndex();
-		break;
-	}	
-	return index;
+	return 0;
 }
  
 
@@ -412,56 +224,8 @@ CICNS_Family::GetCurrentIndex(SInt8 inKind)
 // ---------------------------------------------------------------------------
 
 void
-CICNS_Family::SetCurrentIndex(SInt8 inKind, ArrayIndexT inIndex)
-{
-	switch (inKind) {
-		case kind_AeteMember:
-		this->SetMemberIndex(inIndex);
-		break;
-		
-		case kind_AeteClass:
-		this->SetClassIndex(inIndex);
-		break;
-		
-		case kind_AeteCompOp:
-		this->SetCompOpIndex(inIndex);
-		break;
-		
-		case kind_AeteEnum:
-		this->SetEnumerationIndex(inIndex);
-		break;
-	}	
-}
- 
-
-// ---------------------------------------------------------------------------
-//  GetCurrentCount												[public]
-// ---------------------------------------------------------------------------
-
-SInt32
-CICNS_Family::GetCurrentCount(SInt8 inKind)
-{
-	SInt32 count = 0;
-	
-	switch (inKind) {
-		case kind_AeteMember:
-		count = this->CountMembers();
-		break;
-		
-		case kind_AeteClass:
-		count = this->CountClasses();
-		break;
-		
-		case kind_AeteCompOp:
-		count = this->CountCompOps();
-		break;
-		
-		case kind_AeteEnum:
-		count = this->CountEnumerations();
-		break;
-	}	
-	return count;
-}
+CICNS_Family::SetCurrentIndex(ArrayIndexT inIndex)
+{}
  
 
 // ---------------------------------------------------------------------------
@@ -469,190 +233,13 @@ CICNS_Family::GetCurrentCount(SInt8 inKind)
 // ---------------------------------------------------------------------------
 
 void
-CICNS_Family::AdjustCurrentIndex(SInt8 inKind)
+CICNS_Family::AdjustCurrentIndex()
 {
-	if ( GetCurrentIndex(inKind) == 0 ) {
-		SetCurrentIndex(inKind, (GetCurrentCount(inKind) > 0));
-	} else if ( GetCurrentIndex(inKind) > GetCurrentCount(inKind) ) {
-		SetCurrentIndex(inKind, GetCurrentCount(inKind));
+	if ( GetCurrentIndex() == 0 ) {
+		SetCurrentIndex( (CountMembers() > 0) );
+	} else if ( GetCurrentIndex() > CountMembers() ) {
+		SetCurrentIndex( CountMembers() );
 	} 
 }
  
-
-// ---------------------------------------------------------------------------
-//  NewItem															[public]
-// ---------------------------------------------------------------------------
-// Returns the new count of items after addition. This is also the index 
-// of the new item.
-
-SInt32
-CICNS_Family::NewItem(SInt8 inKind)
-{	
-	switch (inKind) {
-		case kind_AeteMember:
-		AddMember();
-		break;
-		
-		case kind_AeteClass:
-		AddClass();
-		break;
-		
-		case kind_AeteCompOp:
-		AddCompOp();
-		break;
-		
-		case kind_AeteEnum:
-		AddEnumeration();
-		break;
-	}
-	
-	return GetCurrentCount(inKind);
-}
- 
-
-// ---------------------------------------------------------------------------
-// DeleteItem 														[public]
-// ---------------------------------------------------------------------------
-// Deletes the item at current index. Returns the new count of items after
-// deletion.
-
-SInt32
-CICNS_Family::DeleteItem(SInt8 inKind)
-{
-	SInt32 count = 0;
-	
-	switch (inKind) {
-		case kind_AeteMember:
-		RemoveMember(mMemberIndex);
-		break;
-		
-		case kind_AeteClass:
-		RemoveClass(mClassIndex);
-		break;
-		
-		case kind_AeteCompOp:
-		RemoveCompOp(mCompOpIndex);
-		break;
-		
-		case kind_AeteEnum:
-		RemoveEnumeration(mEnumerationIndex);
-		break;
-	}	
-	
-	SetCurrentIndex(inKind, -1);
-	return GetCurrentCount(inKind);
-}
- 
-
-// ---------------------------------------------------------------------------
-//  GetDataFromXml												[public]
-// ---------------------------------------------------------------------------
-
-OSErr
-CICNS_Family::GetDataFromXml(CFXMLTreeRef inTreeNode)
-{
-	OSErr			error = noErr;
-	int             childCount;
-	CFXMLTreeRef    xmlTree;
-	CFXMLNodeRef    xmlNode;
-	int             index;
-	SInt32			theLong;
-	Boolean			gotArrayMembers = false, 
-					gotArrayClasses = false, 
-					gotArrayCompOps = false, 
-					gotArrayEnums = false;
-	
-	childCount = CFTreeGetChildCount(inTreeNode);
-	for (index = 0; index < childCount; index++) {
-		xmlTree = CFTreeGetChildAtIndex(inTreeNode, index);
-		if (xmlTree) {
-			xmlNode = CFXMLTreeGetNode(xmlTree);
-			if (xmlNode) {
-				if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("SuiteName"), 0) ) {
-					UMiscUtils::GetStringFromXml(xmlTree, mName);
-				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("SuiteDescription"), 0) ) {
-					UMiscUtils::GetStringFromXml(xmlTree, mDescription);
-				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("SuiteID"), 0) ) {
-					error = UMiscUtils::GetOSTypeFromXml(xmlTree, mID);
-				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("SuiteLevel"), 0) ) {
-					UMiscUtils::GetValueFromXml(xmlTree, theLong);
-					mLevel = theLong;
-				}  else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("SuiteVersion"), 0) ) {
-					UMiscUtils::GetValueFromXml(xmlTree, theLong);
-					mVersion = theLong;
-				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ArrayMembers"), 0) ) {
-					error = GetArrayFromXml(xmlTree, kind_AeteMember);
-				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ArrayClasses"), 0) ) {
-					error = GetArrayFromXml(xmlTree, kind_AeteClass);
-				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ArrayComparisonOps"), 0) ) {
-					error = GetArrayFromXml(xmlTree, kind_AeteCompOp);
-				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ArrayEnumerations"), 0) ) {
-					error = GetArrayFromXml(xmlTree, kind_AeteEnum);
-				} else {
-					CFShow(CFXMLNodeGetString(xmlNode));
-					error = err_ImportUnknownAeteSuiteTag;	
-				}
-				
-				if (error != noErr) { break; } 
-			} 
-		} 
-	}
-
-	return error;
-}
-
-
-// ---------------------------------------------------------------------------
-//  GetArrayFromXml												[public]
-// ---------------------------------------------------------------------------
-
-OSErr
-CICNS_Family::GetArrayFromXml(CFXMLTreeRef inTreeRef, SInt8 inKind)
-{
-	OSErr			error = noErr;
-	int             childCount;
-	CFXMLTreeRef    xmlTree;
-	CFXMLNodeRef    xmlNode;
-	int             index;
-
-	childCount = CFTreeGetChildCount(inTreeRef);
-	for (index = 0; index < childCount; index++) {
-		xmlTree = CFTreeGetChildAtIndex(inTreeRef, index);
-		if (xmlTree) {
-			xmlNode = CFXMLTreeGetNode(xmlTree);
-			if (xmlNode) {
-				switch (inKind) {
-					case kind_AeteMember:
-					if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("Member"), 0) ) {
-						error = AddMember(xmlTree);
-					}
-					break;
-					
-					case kind_AeteClass:
-					if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("Class"), 0) ) {
-						error = AddClass(xmlTree);
-					}
-					break;
-					
-					case kind_AeteCompOp:
-					if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ComparisonOp"), 0) ) {
-						error = AddCompOp(xmlTree);
-					}
-					break;
-					
-					case kind_AeteEnum:
-					if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("Enumeration"), 0) ) {
-						error = AddEnumeration(xmlTree);
-					}
-					break;
-				}	
-			} 			
-		} 
-		if (error != noErr) { break; } 
-	}
-	AdjustCurrentIndex(inKind);
-
-	return error;
-}
-
 

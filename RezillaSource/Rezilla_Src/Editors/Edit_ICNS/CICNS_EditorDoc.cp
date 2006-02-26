@@ -69,8 +69,8 @@ CICNS_EditorDoc::CICNS_EditorDoc(LCommander* inSuper,
 
 CICNS_EditorDoc::~CICNS_EditorDoc()
 {
-	if (mStrxEditWindow != nil) {
-		delete mStrxEditWindow;
+	if (mIcnsEditWindow != nil) {
+		delete mIcnsEditWindow;
 	} 
 }
 
@@ -84,13 +84,13 @@ CICNS_EditorDoc::Initialize()
 {
 	OSErr error = noErr;
 	
-	// Create window for our document. This sets this doc as the SuperCommander of the window.
-	mStrxEditWindow = dynamic_cast<CICNS_EditorWindow *>(LWindow::CreateWindow( PPob_StrxEditorWindow, this ));
-	Assert_( mStrxEditWindow != nil );
+	// Create a window for our document and set this doc as its SuperCommander
+	mIcnsEditWindow = dynamic_cast<CICNS_EditorWindow *>(LWindow::CreateWindow( PPob_StandardEditorWindow, this ));
+	Assert_( mIcnsEditWindow != nil );
 	
-	SetMainWindow( dynamic_cast<CEditorWindow *>(mStrxEditWindow) );
+	SetMainWindow( dynamic_cast<CEditorWindow *>(mIcnsEditWindow) );
 	NameNewEditorDoc();
-	mStrxEditWindow->FinalizeEditor(this);
+	mIcnsEditWindow->FinalizeEditor(this);
 	
 	try {
 		// Install the data
@@ -101,7 +101,7 @@ CICNS_EditorDoc::Initialize()
 				// Work with a copy of the handle
 				::HandToHand(&rezData);
 				
-				error = mStrxEditWindow->InstallResourceData(rezData);			
+				error = mIcnsEditWindow->InstallResourceData(rezData);			
 			} 
 			ThrowIfError_(error);			
 		} 
@@ -116,9 +116,9 @@ CICNS_EditorDoc::Initialize()
 	}
 	
 	// Make the window visible.
-	mStrxEditWindow->Show();
+	mIcnsEditWindow->Show();
 	// Enable all the subpanes
-	mStrxEditWindow->GetContentsView()->Enable();
+	mIcnsEditWindow->GetContentsView()->Enable();
 }
 
 
@@ -131,9 +131,9 @@ StringPtr
 CICNS_EditorDoc::GetDescriptor(
 	Str255	outDescriptor) const
 {
-	if (mStrxEditWindow != nil) {
+	if (mIcnsEditWindow != nil) {
 		// Use name of its window
-		mStrxEditWindow->GetDescriptor(outDescriptor);
+		mIcnsEditWindow->GetDescriptor(outDescriptor);
 	} else {
 		// No window, document name is empty string
 		outDescriptor[0] = 0;		
@@ -175,7 +175,7 @@ Boolean
 CICNS_EditorDoc::AllowSubRemoval(
 	LCommander*		inSub)
 {
-	if (inSub == mStrxEditWindow) {
+	if (inSub == mIcnsEditWindow) {
 		AttemptClose(false);
 		return false;
 	} else {
@@ -195,7 +195,7 @@ CICNS_EditorDoc::GetModifiedResource(Boolean &releaseIt)
 {
 #pragma unused(releaseIt)
 	
-	return mStrxEditWindow->CollectResourceData();
+	return mIcnsEditWindow->CollectResourceData();
 }
 
 

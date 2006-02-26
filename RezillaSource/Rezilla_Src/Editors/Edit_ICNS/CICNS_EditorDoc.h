@@ -49,7 +49,7 @@ public:
 	
 
 protected:
-	CICNS_EditorWindow *		mStrxEditWindow;
+	CICNS_EditorWindow *		mIcnsEditWindow;
 
 	virtual Handle		GetModifiedResource(Boolean &releaseIt);
 

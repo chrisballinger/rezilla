@@ -17,11 +17,10 @@
 
 #include <LDragAndDrop.h>
 
-class CIndexedEditField;
-class LEditText;
-class LStaticText;
-class LHandleStream;
-/* class LTabGroupView; */
+
+class LView;
+class CICNS_Stream;
+class CICNS_Family;
 
 
 class CICNS_EditorWindow :	public CEditorWindow, 
@@ -40,36 +39,19 @@ public:
 
 	virtual void	ListenToMessage( MessageT inMessage,void *ioParam);
 
-	virtual void	FindCommandStatus(
-								CommandT	inCommand,
-								Boolean&	outEnabled,
-								Boolean&	outUsesMark,
-								UInt16&		outMark,
-								Str255		outName);
-
-	virtual Boolean	ObeyCommand(
-							CommandT		inCommand,
-							void*			ioParam);
-
-	virtual Boolean	HandleKeyPress( const EventRecord& inKeyEvent );
-	
 	OSErr			InstallResourceData(Handle inHandle);
 	Handle			CollectResourceData();
 	
 	virtual void	RevertContents();
-
-	UInt16			GetFirstSelected();
 	
 	LView*			GetContentsView() const { return mContentsView;}
 	
-	static SPaneInfo 			sPaneInfo;
-	static SViewInfo			sViewInfo;
-
+	
 protected:
-	LHandleStream *				mOutStream;
-	LView *						mContentsView;
-	TArray<CIndexedEditField*>	mIndexedFields;
-	UInt16						mDropIndex;
+	CICNS_Stream *			mOutStream;
+	LView *					mContentsView;
+	CICNS_Family *			mIcnsFamily;
+	UInt16					mDropIndex;
 
 	virtual void	FinishCreateSelf();
 
@@ -83,23 +65,12 @@ protected:
 	virtual void	InsideDropArea( DragReference inDragRef);
 	virtual void	HiliteDropArea( DragReference inDragRef );
 
-	void			GetIndexFromPoint(
-							  const Point	&inPortPoint,
-							  UInt16		&outItemIndex,
-							  UInt16		&outDropRow );
-	
-	void			DrawDividingLine( UInt16 inRow );
 
+	
 private:	
-	void			AddStringItem(Str255 inString);
-	void			InsertStringItemAtIndex(UInt16 index, Str255 inString);
-	void			CreateItemAtIndex(UInt16 index, Str255 inString, SInt32 inHowMany);
-	
-	UInt16			DeleteSelectedItems();
-	
-	void			RecalcPositionsInRange(UInt16 inStart, UInt16 inEnd);
-	void			RecalcPositionAtIndex(UInt16 index);
-	void			RecalcAllPositions();
+	void			CreateIconAtIndex(UInt16 index);		
+	void			InstallIconAtIndex(UInt16 index);
+	void			DeleteIconAtIndex(UInt16 index);
 };
 
 
