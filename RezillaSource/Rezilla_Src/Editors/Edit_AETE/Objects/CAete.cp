@@ -47,7 +47,6 @@ CAete::CAete(CAeteStream * inStream)
 
 CAete::~CAete()
 {
-
 	TArrayIterator<CAeteSuite*> iteraror(mSuites, LArrayIterator::from_End);
 	CAeteSuite *	theSuite;
 	while (iteraror.Previous(theSuite)) {
