@@ -81,7 +81,7 @@ CUtxt_EditorDoc::~CUtxt_EditorDoc()
 void
 CUtxt_EditorDoc::Initialize()
 {
-	// Create window for our document. This sets this doc as the SuperCommander of the window.
+	// Create a window for our document and set this doc as its SuperCommander
 	mUtxtEditWindow = dynamic_cast<CUtxt_EditorWindow *>(LWindow::CreateWindow( PPob_UtxtEditorWindow, this ));
 	Assert_( mUtxtEditWindow != nil );
 	

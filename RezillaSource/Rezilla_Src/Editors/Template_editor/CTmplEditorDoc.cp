@@ -86,7 +86,7 @@ CTmplEditorDoc::Initialize()
 	mKind = editor_kindTmpl;
 	SetModelKind(rzom_cTmplEditDoc);
 
-	// Create window for our document. This sets this doc as the SuperCommander of the window.
+	// Create a window for our document and set this doc as its SuperCommander
 	mTmplEditWindow = dynamic_cast<CTmplEditorWindow *>(LWindow::CreateWindow( PPob_TmplEditorWindow, this ));
 	Assert_( mTmplEditWindow != nil );
 	

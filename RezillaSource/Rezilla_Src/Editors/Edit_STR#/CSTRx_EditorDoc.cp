@@ -84,7 +84,7 @@ CSTRx_EditorDoc::Initialize()
 {
 	OSErr error = noErr;
 	
-	// Create window for our document. This sets this doc as the SuperCommander of the window.
+	// Create a window for our document and set this doc as its SuperCommander
 	mStrxEditWindow = dynamic_cast<CSTRx_EditorWindow *>(LWindow::CreateWindow( PPob_StrxEditorWindow, this ));
 	Assert_( mStrxEditWindow != nil );
 	

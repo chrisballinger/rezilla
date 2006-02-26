@@ -74,7 +74,7 @@ CPICT_EditorDoc::~CPICT_EditorDoc()
 void
 CPICT_EditorDoc::Initialize()
 {
-	// Create window for our document. This sets this doc as the SuperCommander of the window.
+	// Create a window for our document and set this doc as its SuperCommander
 	mPictWindow = dynamic_cast<CPICT_EditorWindow *>(LWindow::CreateWindow( PPob_PictEditorWindow, this ));
 	Assert_( mPictWindow != nil );
 	

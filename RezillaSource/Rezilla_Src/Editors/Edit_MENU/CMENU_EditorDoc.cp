@@ -85,7 +85,7 @@ CMENU_EditorDoc::Initialize()
 {
 	OSErr error = noErr, ignoreErr;
 	
-	// Create window for our document. This sets this doc as the SuperCommander of the window.
+	// Create a window for our document and set this doc as its SuperCommander
 	mMenuEditWindow = dynamic_cast<CMENU_EditorWindow *>(LWindow::CreateWindow( PPob_MenuEditorWindow, this ));
 	Assert_( mMenuEditWindow != nil );
 	

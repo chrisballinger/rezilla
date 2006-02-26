@@ -89,7 +89,7 @@ CTEXT_EditorDoc::Initialize()
 // 	mSearchWhichPane = item_FindInHexRadio;
 // 	mIgnoreCase = true;
 	
-	// Create window for our document. This sets this doc as the SuperCommander of the window.
+	// Create a window for our document and set this doc as its SuperCommander
 	mTextEditWindow = dynamic_cast<CTEXT_EditorWindow *>(LWindow::CreateWindow( PPob_TextEditorWindow, this ));
 	Assert_( mTextEditWindow != nil );
 	
