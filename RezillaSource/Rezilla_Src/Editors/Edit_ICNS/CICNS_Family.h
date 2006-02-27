@@ -2,7 +2,7 @@
 // CICNS_Family.h
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-02-26 11:13:19
+//             Last modification: 2006-02-26 22:18:43
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -29,7 +29,7 @@ public:
 		void		AddMember(OSType inType);
 		void		AddMember(CICNS_Member * inMember);
 		void		AddMember(OSType inType, SInt32 inSize, Handle inHandle);
-		void		RemoveMember( ArrayIndexT inAtIndex );
+		void		DeleteMember( ArrayIndexT inAtIndex );
 		
 		void		InstallDataStream(CICNS_Stream * inStream);
 		void		SendDataToStream(CICNS_Stream * outStream);
@@ -38,6 +38,8 @@ public:
 		void			SetCurrentIndex(ArrayIndexT inIndex);
 		void			AdjustCurrentIndex();
 
+		CICNS_Member *	FindIconForType(OSType inType) const;
+		
 		ArrayIndexT		GetMemberIndex() { return mMemberIndex;}
 		void			SetMemberIndex(ArrayIndexT inMemberIndex) {mMemberIndex = inMemberIndex;}
 

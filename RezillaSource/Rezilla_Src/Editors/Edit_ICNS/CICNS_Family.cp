@@ -141,11 +141,11 @@ CICNS_Family::AddMember(OSType inType, SInt32 inSize, Handle inHandle)
 
 
 // ---------------------------------------------------------------------------
-//  RemoveMember												[public]
+//  DeleteMember												[public]
 // ---------------------------------------------------------------------------
 
 void
-CICNS_Family::RemoveMember( ArrayIndexT inAtIndex )
+CICNS_Family::DeleteMember( ArrayIndexT inAtIndex )
 {
 	CICNS_Member *	theMember;
 	if ( mMembers.FetchItemAt( inAtIndex, theMember) ) {
@@ -242,4 +242,26 @@ CICNS_Family::AdjustCurrentIndex()
 	} 
 }
  
+
+// ---------------------------------------------------------------------------
+//	 FindIconForType											 [public]
+// ---------------------------------------------------------------------------
+
+CICNS_Member *
+CICNS_Family::FindIconForType(OSType inType) const
+{
+	TArrayIterator<CICNS_Member*> iterator( mMembers );
+	CICNS_Member	*theMember = NULL, *currMember;
+	
+	while (iterator.Next(currMember)) {
+		if (currMember->GetType() == inType) {
+			theMember = currMember;
+			break;
+		} 
+	}
+	
+	return theMember;
+}
+
+
 
