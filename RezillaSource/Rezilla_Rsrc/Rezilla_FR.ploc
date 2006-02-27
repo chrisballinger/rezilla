@@ -1,4 +1,4 @@
-// Last modification: 2006-02-24 08:36:47
+// Last modification: 2006-02-27 06:32:12
 
 localize "French" as "Localizable.strings" 
 {
@@ -11,6 +11,7 @@ localize "French" as "Localizable.strings"
 	key "CantOpenRezFileForWriting" value string "Impossible d’ouvrir le fichier de ressources en écriture (erreur ‘%d’)."
 	key "CantSaveReadOnly" value string "Impossible de sauvegarder les modifications: le document est en lecture seule."
 	key "ConfirmCloseModifiedEditedRes" value string "Certaines ressources éditées n’ont pas été validées. Voulez-vous les fermer quand même ?"
+	key "ConfirmCreateIcnsMember" value string "Voulez-vous créer un nouvel élément de type ‘%s’ à l’intérieur de cette famille d’icones ?"
 	key "ConfirmRevert" value string "OK pour revenir à la dernière version sauvegardée ? Les modifications faites depuis la dernière sauvegarde seront perdues."
 	key "CouldNotDeleteExistingFile" value string "Impossible de supprimer le fichier existant."
 	key "CouldNotFindTemplates" value string "Impossible de trouver les ressources TMPL. L’édition par gabarits ne fonctionnera pas correctement."
@@ -18,6 +19,7 @@ localize "French" as "Localizable.strings"
 	key "CouldNotOpenTemplates" value string "Impossible d’ouvrir les ressources TMPL. L’édition par gabarits ne fonctionnera pas correctement."
 	key "CouldNotSaveEditedRez" value string "Une ressource éditée n’a pu être sauvegardée. L’opération a été annulée."
 	key "CreateUsingTemplate" value string "Création d’une ressource avec le gabarit ‘%s’"
+	key "CreatingIcnsMemberFailed" value string "Impossible de créer une icone de type ‘%s’."
 	key "DataParsingException" value string "Une erreur s’est produite au cours de l’analyse des données. Cette ressource est peut-être corrompue."
 	key "EnterFontSize" value string "Taille de la police"
 	key "ErrorImportingAeteFromXml" value string "Une erreur ‘%d’ s’est produite au cours de l’importation de la ressource ‘aete’ à partir du fichier Xml."

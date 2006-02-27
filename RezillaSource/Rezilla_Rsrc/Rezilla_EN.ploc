@@ -1,4 +1,4 @@
-// Last modification: 2006-02-24 08:36:59
+// Last modification: 2006-02-27 06:32:23
 
 localize "English" as "Localizable.strings" 
 {
@@ -11,6 +11,7 @@ localize "English" as "Localizable.strings"
 	key "CantOpenRezFileForWriting" value string "Could not open resource file for writing (error ‘%d’)."
 	key "CantSaveReadOnly" value string "Can’t save the modifications: document is read only."
 	key "ConfirmCloseModifiedEditedRes" value string "Some edited resources have not been validated. Do you want to close anyway?"
+	key "ConfirmCreateIcnsMember" value string "Do you want to create an icon member of type ‘%s’ in the ‘icns’ family?"
 	key "ConfirmRevert" value string "OK to revert to the last saved version? All unsaved modifications will be lost."
 	key "CouldNotDeleteExistingFile" value string "Couln’t delete existing file."
 	key "CouldNotFindTemplates" value string "Couln’t find the template resources. Edition via templates will not function correctly."
@@ -18,6 +19,7 @@ localize "English" as "Localizable.strings"
 	key "CouldNotOpenTemplates" value string "Couln’t open the template resources. Edition via templates will not function correctly."
 	key "CouldNotSaveEditedRez" value string "Couln’t save an edited resource. The operation has been cancelled."
 	key "CreateUsingTemplate" value string "Create resource using ‘%s’ template."
+	key "CreatingIcnsMemberFailed" value string "Couldn’t create ‘%s’ icon member."
 	key "DataParsingException" value string "Error while parsing the data. The resource may be corrupted."
 	key "EnterFontSize" value string "Enter font size"
 	key "ErrorImportingAeteFromXml" value string "An error ‘%d’ occured while importing aete date from Xml."
