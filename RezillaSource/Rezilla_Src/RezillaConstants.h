@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2006-02-24 00:11:52
+//             Last modification : 2006-02-26 19:46:57
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@users.sourceforge.net>
 // www : <http://rezilla.sourceforge.net/>
@@ -328,6 +328,7 @@ const ResIDT	PPob_AeteClassPane			= 11200;
 const ResIDT	PPob_AeteCompOpPane			= 11300;
 const ResIDT	PPob_AeteEnumPane			= 11400;
 const ResIDT	PPob_StrxEditorWindow		= 11500;
+const ResIDT	PPob_IcnsEditorWindow		= 11600;
 const ResIDT	PPob_StandardEditorWindow	= 10000;
 
 const ResIDT	ics8_Unlocked				= 1500;
@@ -345,6 +346,7 @@ const ResIDT	STRx_RegionCodes			= 1602;
 const ResIDT	STRx_ScriptCodes			= 1603;
 const ResIDT	STRx_PaintUndo				= 1700;
 const ResIDT	STRx_PaintRedo				= 1701;
+const ResIDT	STRx_IcnsMembers			= 1702;
 const ResIDT	STRx_AeteAdd				= 1710;
 const ResIDT	STRx_AeteRemove				= 1711;
 const ResIDT	STRx_MenuEditorLabels		= 1712;
@@ -882,6 +884,11 @@ const PaneIDT   item_MenuEditFontID			= 33;
 const PaneIDT   item_MenuEditGlyphField		= 34;
 const PaneIDT   item_MenuEditGlyphBox		= 35;
 const PaneIDT   item_MenuEditItemGroupVIew	= 50;
+// Icns Editor Window
+// ------------------
+const PaneIDT   item_IcnsTypeField			= 1;
+const PaneIDT   item_IcnsSizeField			= 2;
+const PaneIDT   item_IcnsIconPopup			= 3;
 // Resource Picker Window
 // ----------------------
 const PaneIDT   item_PickerResourceCount	= 1;
@@ -1074,11 +1081,11 @@ const MessageT	msg_IconShowAsMask			= PPob_IconEditorWindow + item_IconShowAsMas
 const MessageT    msg_AeteSuiteName			= PPob_AeteEditorWindow + item_AeteSuiteName;
 //   All the other edit fields broadcast a msg_EditorModifiedItem message
 // Events panel
-const MessageT    msg_AeteDirectOptions			= PPob_AeteEventPane + item_AeteDirectOptions;
-const MessageT    msg_AeteReplyOptions			= PPob_AeteEventPane + item_AeteReplyOptions;
-const MessageT    msg_AeteParamOptions			= PPob_AeteEventPane + item_AeteParamOptions;
+const MessageT    msg_AeteDirectOptions		= PPob_AeteEventPane + item_AeteDirectOptions;
+const MessageT    msg_AeteReplyOptions		= PPob_AeteEventPane + item_AeteReplyOptions;
+const MessageT    msg_AeteParamOptions		= PPob_AeteEventPane + item_AeteParamOptions;
 // Classes panel
-const MessageT    msg_AetePropertyOptions		= PPob_AeteClassPane + item_AetePropertyOptions;
+const MessageT    msg_AetePropertyOptions	= PPob_AeteClassPane + item_AetePropertyOptions;
 // MENU Editor Window
 // ------------------
 const MessageT    msg_MenuEditMenuTitle		= PPob_MenuEditorWindow + item_MenuEditMenuTitle;
@@ -1104,6 +1111,9 @@ const MessageT    msg_MenuEditGlyphField	= PPob_MenuEditorWindow + item_MenuEdit
 const MessageT    msg_MenuEditGlyphPopup	= FOUR_CHAR_CODE('Glyf');
 const MessageT    msg_MenuEditScriptPopup	= FOUR_CHAR_CODE('Scrp');
 const MessageT    msg_MenuTableClicked		= FOUR_CHAR_CODE('TClc');
+// Icns Editor Window
+// ------------------
+const MessageT    msg_IcnsIconPopup			= PPob_IcnsEditorWindow + item_IcnsIconPopup;
 // Resource Picker Window
 // ----------------------
 const MessageT    msg_RezChangedForType		= FOUR_CHAR_CODE('RChT');
