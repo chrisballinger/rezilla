@@ -85,7 +85,7 @@ CICNS_EditorDoc::Initialize()
 	OSErr error = noErr;
 	
 	// Create a window for our document and set this doc as its SuperCommander
-	mIcnsEditWindow = dynamic_cast<CICNS_EditorWindow *>(LWindow::CreateWindow( PPob_StandardEditorWindow, this ));
+	mIcnsEditWindow = dynamic_cast<CICNS_EditorWindow *>(LWindow::CreateWindow( PPob_IcnsEditorWindow, this ));
 	Assert_( mIcnsEditWindow != nil );
 	
 	SetMainWindow( dynamic_cast<CEditorWindow *>(mIcnsEditWindow) );
