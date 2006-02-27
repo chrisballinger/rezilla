@@ -2,7 +2,7 @@
 // CPickersController.cp					
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-02-25 18:26:24
+//             Last modification: 2006-02-26 17:28:51
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -21,6 +21,9 @@ PP_Begin_Namespace_PowerPlant
 #include "TPickerDoc.h"
 #include "CRezillaApp.h"
 #include "CIcon_PickerView.h"
+#include "CMENU_PickerView.h"
+#include "CSTRx_PickerView.h"
+#include "CTEXT_PickerView.h"
 #include "CRezMap.h"
 #include "CRezMapDoc.h"
 #include "CRezMapWindow.h"
@@ -31,10 +34,6 @@ PP_Begin_Namespace_PowerPlant
 #include "RezillaConstants.h"
 #include "UMiscUtils.h"
 
-// // #include "CTEXT_PickerDoc.h"
-// // #include "CPICT_PickerDoc.h"
-// // #include "CIcon_PickerDoc.h"
-// // #include "CMENU_PickerDoc.h"
 
 
 // ---------------------------------------------------------------------------
