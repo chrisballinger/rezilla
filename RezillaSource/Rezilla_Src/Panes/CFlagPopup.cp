@@ -157,7 +157,7 @@ CFlagPopup::FillPopup(ResIDT inStringListID)
 	}	
 
 	SetMinValue(0);
-	SetMaxValue(count+2);
+	SetMaxValue(count+mNumTopItems);
 	Refresh();
 }
 
