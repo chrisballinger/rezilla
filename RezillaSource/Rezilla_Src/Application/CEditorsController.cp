@@ -2,7 +2,7 @@
 // CEditorsController.cp					
 // 
 //                       Created: 2004-06-11 10:48:38
-//             Last modification: 2006-02-23 15:54:21
+//             Last modification: 2006-02-26 19:32:25
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -23,6 +23,7 @@ PP_Begin_Namespace_PowerPlant
 #include "CUtxt_EditorDoc.h"
 #include "CPICT_EditorDoc.h"
 #include "CSnd_EditorDoc.h"
+#include "CICNS_EditorDoc.h"
 #include "CIcon_EditorDoc.h"
 #include "CAete_EditorDoc.h"
 #include "CMENU_EditorDoc.h"
@@ -96,6 +97,9 @@ CEditorsController::BuildAsTypeDictionary()
 	rezHandle = ::Get1Resource('RzTA', 0);
 
 	if (rezHandle != nil) {
+		// ZPedro fix: detach the resource
+		::DetachResource(rezHandle);
+		
 		// Read its data and make a stream
 		LHandleStream * theStream = new LHandleStream(rezHandle);
 
@@ -124,7 +128,9 @@ CEditorsController::BuildAsTypeDictionary()
 			} 
 			if (theKeys) {free(theKeys);} 
 			if (theVals) {free(theVals);} 
-			::ReleaseResource(rezHandle);
+
+			// ZPedro fix: don't call ReleaseResource because the detached
+			// handle is disposed of when theStream is deleted
 			delete theStream;
 		} 
 	} 
@@ -211,6 +217,7 @@ CEditorsController::HasEditorForType(ResType inType, ResType * substType)
 		case 'MBAR':
 		case 'Mcmd':
 		case 'RidL':
+		case 'icns':
 		*substType = inType;
 		result = true;
 		break;
@@ -266,6 +273,10 @@ CEditorsController::InvokeCustomEditor(CRezMapDoc* inRezMapDoc,
 		
 		case 'MENU':
 		  new CMENU_EditorDoc( (LCommander *) inRezMapDoc, inSuperMap, inRezObj, inUseType, inReadOnly);
+		break;
+		
+		case 'icns':
+		  new CICNS_EditorDoc( (LCommander *) inRezMapDoc, inSuperMap, inRezObj, inUseType, inReadOnly);
 		break;
 		
 		case 'STR#':
