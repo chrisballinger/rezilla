@@ -1,11 +1,11 @@
 // ===========================================================================
 // Rezilla_STR#.r					
 //                       Created: 2004-02-28 22:51:23
-//             Last modification: 2006-02-24 06:21:14
+//             Last modification: 2006-02-27 09:00:06
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes 2003-2005, 2006
+// (c) Copyright: Bernard Desgraupes 2003-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -495,33 +495,33 @@ resource 'STR#' (1701, "Paint Undo", purgeable) {
 };
 
 
-resource 'STR#' (1702, "icns elements", purgeable) {
+resource 'STR#' (1702, "icns members", purgeable) {
 	{	
-/* [1] */	"'it32' (Thumbnail 32 Bit Data)",
-/* [2] */	"'t8mk' (Thumbnail 8 Bit Mask)",
-/* [3] */	"'ich#' (Huge 1 Bit Mask)",
-/* [4] */	"'ich4' (Huge 4 Bit Data)",
-/* [5] */	"'ich8' (Huge 8 Bit Data)",
-/* [6] */	"'ih32' (Huge 32 Bit Data)",
-/* [7] */	"'h8mk' (Huge 8 Bit Mask)",
-/* [8] */	"'ICN#' (Large 1 Bit Mask)",
-/* [9] */	"'icl4' (Large 4 Bit Data)",
-/* [10] */	"'icl8' (Large 8 Bit Data)",
-/* [11] */	"'il32' (Large 32 Bit Data)",
-/* [12] */	"'l8mk' (Large 8 Bit Mask)",
-/* [13] */	"'ics#' (Small 1 Bit Mask)",
-/* [14] */	"'ics4' (Small 4 Bit Data)",
-/* [15] */	"'ics8' (Small 8 Bit Data)",
-/* [16] */	"'is32' (Small 32 Bit Data)",
-/* [17] */	"'s8mk' (Small 8 Bit Mask)",
-/* [18] */	"'icm#' (Mini 1 Bit Mask)",
-/* [19] */	"'icm4' (Mini 4 Bit Data)",
-/* [20] */	"'icm8' (Mini 8 Bit Data)",
-/* [21] */	"'tile' (Tile Icon Variant)",
-/* [22] */	"'over' (Rollover Icon Variant)",
-/* [23] */	"'drop' (Drop Icon Variant)",
-/* [24] */	"'open' (Open Icon Variant)",
-/* [25] */	"'odrp' (Open Drop Icon Variant)"
+/* [1] */	"Thumbnail 32 Bit Data=it32",
+/* [2] */	"Thumbnail 8 Bit Mask=t8mk",
+/* [3] */	"Huge 1 Bit Mask=ich#",
+/* [4] */	"Huge 4 Bit Data=ich4",
+/* [5] */	"Huge 8 Bit Data=ich8",
+/* [6] */	"Huge 32 Bit Data=ih32",
+/* [7] */	"Huge 8 Bit Mask=h8mk",
+/* [8] */	"Large 1 Bit Mask=ICN#",
+/* [9] */	"Large 4 Bit Data=icl4",
+/* [10] */	"Large 8 Bit Data=icl8",
+/* [11] */	"Large 32 Bit Data=il32",
+/* [12] */	"Large 8 Bit Mask=l8mk",
+/* [13] */	"Small 1 Bit Mask=ics#",
+/* [14] */	"Small 4 Bit Data=ics4",
+/* [15] */	"Small 8 Bit Data=ics8",
+/* [16] */	"Small 32 Bit Data=is32",
+/* [17] */	"Small 8 Bit Mask=s8mk",
+/* [18] */	"Mini 1 Bit Mask=icm#",
+/* [19] */	"Mini 4 Bit Data=icm4",
+/* [20] */	"Mini 8 Bit Data=icm8",
+/* [21] */	"Tile Icon Variant=tile",
+/* [22] */	"Rollover Icon Variant=over",
+/* [23] */	"Drop Icon Variant=drop",
+/* [24] */	"Open Icon Variant=open",
+/* [25] */	"Open Drop Icon Variant=odrp"
 	}
 };
 
