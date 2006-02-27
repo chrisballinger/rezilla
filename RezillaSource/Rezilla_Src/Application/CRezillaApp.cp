@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2006-02-22 12:59:44
+//             Last modification: 2006-02-26 19:16:12
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -44,6 +44,7 @@
 #include "CFlagPopup.h"
 #include "CHexDataSubView.h"
 #include "CHexEditorWindow.h"
+#include "CICNS_EditorWindow.h"
 #include "CIcon_EditorView.h"
 #include "CIcon_EditorWindow.h"
 #include "CKeyboardGlyphBox.h"
@@ -381,6 +382,7 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(CFlagPopup);
 	RegisterClass_(CHexDataSubView);
 	RegisterClass_(CHexEditorWindow);
+	RegisterClass_(CICNS_EditorWindow);
 	RegisterClass_(CIcon_EditorView);
 	RegisterClass_(CIcon_EditorWindow);
 	RegisterClass_(CInspectorWindow);
