@@ -2,7 +2,7 @@
 // CICNS_EditorWindow.cp					
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-02-25 20:51:14
+//             Last modification: 2006-02-27 07:28:32
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -13,20 +13,41 @@
 #include "CICNS_EditorDoc.h"
 #include "CICNS_EditorWindow.h"
 #include "CICNS_Family.h"
+#include "CICNS_Member.h"
 #include "CICNS_Stream.h"
 #include "CRezObj.h"
 #include "RezillaConstants.h"
 #include "UMessageDialogs.h"
 #include "UDragAndDropUtils.h"
+#include "UMiscUtils.h"
 
-#include <LEditText.h>
+#include <LPopupButton.h>
 #include <LStaticText.h>
-#include <LTabGroupView.h>
 
 #include <stdio.h>
 
 // SPaneInfo CICNS_EditorWindow::sPaneInfo;
 // SViewInfo CICNS_EditorWindow::sViewInfo;
+
+
+// 	// View info
+// 	sViewInfo.imageSize.width	= sViewInfo.imageSize.height	= 0 ;
+// 	sViewInfo.scrollPos.h		= sViewInfo.scrollPos.v			= 0;
+// 	sViewInfo.scrollUnit.h		= sViewInfo.scrollUnit.v		= kStrxHeight;
+// 	sViewInfo.reconcileOverhang	= false;
+// 	
+// 	// Pane info
+// 	sPaneInfo.left				= 0;
+// 	sPaneInfo.height			= kStrxHeight;
+// 	sPaneInfo.visible			= true;
+// 	sPaneInfo.enabled			= true;
+// 	sPaneInfo.bindings.left		= true;
+// 	sPaneInfo.bindings.top		= false;
+// 	sPaneInfo.bindings.right	= true;
+// 	sPaneInfo.bindings.bottom 	= false;
+// 	sPaneInfo.userCon			= 0;
+// 	sPaneInfo.paneID			= 0;
+// 	sPaneInfo.superView			= mContentsView;
 
 
 // ---------------------------------------------------------------------------
@@ -38,36 +59,7 @@ CICNS_EditorWindow::CICNS_EditorWindow()
 {
 	// Initialize the drop index to a bad value
 	mDropIndex = -1;
-}
-
-
-// ---------------------------------------------------------------------------
-//  CICNS_EditorWindow				[public]
-// ---------------------------------------------------------------------------
-
-CICNS_EditorWindow::CICNS_EditorWindow(
-	const SWindowInfo &inWindowInfo )
-		: CEditorWindow( inWindowInfo ),
-		LDragAndDrop( UQDGlobals::GetCurrentWindowPort(), this )
-{
-	// Initialize the drop index to a bad value
-	mDropIndex = -1;
-}
-
-
-// ---------------------------------------------------------------------------
-//  CICNS_EditorWindow				[public]
-// ---------------------------------------------------------------------------
-
-CICNS_EditorWindow::CICNS_EditorWindow(
-	ResIDT		inWINDid,
-	UInt32		inAttributes,
-	LCommander	*inSuperCommander )
-		: CEditorWindow( inWINDid, inAttributes, inSuperCommander ),
-		LDragAndDrop( UQDGlobals::GetCurrentWindowPort(), this )
-{
-	// Initialize the drop index to a bad value
-	mDropIndex = -1;
+	mCurrentIndex = 0;
 }
 
 
@@ -80,6 +72,8 @@ CICNS_EditorWindow::CICNS_EditorWindow(
 		: CEditorWindow( inStream ),
 		LDragAndDrop( UQDGlobals::GetCurrentWindowPort(), this )
 {
+	mDropIndex = -1;
+	mCurrentIndex = 0;
 }
 
 
@@ -108,29 +102,20 @@ CICNS_EditorWindow::FinishCreateSelf()
 	mContentsView = dynamic_cast<LView *>(this->FindPaneByID(item_EditorContents));
 	ThrowIfNil_( mContentsView );
 
-	
-// 	// View info
-// 	sViewInfo.imageSize.width	= sViewInfo.imageSize.height	= 0 ;
-// 	sViewInfo.scrollPos.h		= sViewInfo.scrollPos.v			= 0;
-// 	sViewInfo.scrollUnit.h		= sViewInfo.scrollUnit.v		= kStrxHeight;
-// 	sViewInfo.reconcileOverhang	= false;
-// 	
-// 	// Pane info
-// 	sPaneInfo.left				= 0;
-// 	sPaneInfo.height			= kStrxHeight;
-// 	sPaneInfo.visible			= true;
-// 	sPaneInfo.enabled			= true;
-// 	sPaneInfo.bindings.left		= true;
-// 	sPaneInfo.bindings.top		= false;
-// 	sPaneInfo.bindings.right	= true;
-// 	sPaneInfo.bindings.bottom 	= false;
-// 	sPaneInfo.userCon			= 0;
-// 	sPaneInfo.paneID			= 0;
-// 	sPaneInfo.superView			= mContentsView;
+	mTypeField = dynamic_cast<LStaticText *>(this->FindPaneByID(item_IcnsTypeField));
+	ThrowIfNil_( mTypeField );
+
+	mSizeField = dynamic_cast<LStaticText *>(this->FindPaneByID(item_IcnsSizeField));
+	ThrowIfNil_( mSizeField );
+
+	mIconPopup = dynamic_cast<LPopupButton *>(this->FindPaneByID(item_IcnsIconPopup));
+	ThrowIfNil_( mIconPopup );
+
+	// Fill the menu
+	FillPopup();
 
 	// Link the broadcasters
-	UReanimator::LinkListenerToControls( this, this, PPob_MenuEditorWindow );
-	
+	UReanimator::LinkListenerToControls( this, this, PPob_IcnsEditorWindow );
 }
 
 
@@ -169,22 +154,19 @@ CICNS_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 {		
 	switch (inMessage) {
 						
-		case msg_MinusButton: {
-
+		case msg_IcnsIconPopup: 
+		if ( SelectIconAtIndex(mIconPopup->GetValue()) ) {
 			SetDirty(true);
 			Refresh();
-			break;
-		}
+		} 
+		break;
 		
 		
-		case msg_PlusButton: {
-
-			CreateIconAtIndex( 0 );
-			SetDirty(true);
-			break;
-		}
+		case cmd_Clear:
+		DeleteIconAtIndex(mCurrentIndex);
+		break;
 		
-
+		
 		case msg_EditorModifiedItem:
 		SetDirty(true);
 		break;
@@ -195,6 +177,208 @@ CICNS_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		break;
 				
 	}
+}
+
+
+// ---------------------------------------------------------------------------
+//	 FillPopup														[public]
+// ---------------------------------------------------------------------------
+
+void
+CICNS_EditorWindow::FillPopup() 
+{
+	SInt16	count;
+	StResource	stringListH(FOUR_CHAR_CODE('STR#'), STRx_IcnsMembers, false, false);
+	
+	// Empty the menu
+	mIconPopup->DeleteAllMenuItems();
+	
+	// First item is blank
+	mIconPopup->AppendMenu("\p ");
+	mIconTypes.AddItem( (OSType) 0);
+
+	if ((stringListH.mResourceH != nil)) {
+		count = * (SInt16*) *stringListH.mResourceH;
+
+		if ( count > 0 ) {
+			Str255		itemStr;
+			
+			for ( SInt16 i = 1; i <= count; i++ ) {
+				// Get the string from the list resource
+				::GetIndString( itemStr, STRx_IcnsMembers, i );
+				// Append it to the menu
+				AppendTypeToMenu(itemStr);
+			}
+		}
+	}	
+
+	mIconPopup->SetMinValue(0);
+	mIconPopup->SetMaxValue(count+1);
+	Refresh();
+}
+
+
+// ---------------------------------------------------------------------------
+//	 AppendTypeToMenu
+// ---------------------------------------------------------------------------
+
+void
+CICNS_EditorWindow::AppendTypeToMenu(Str255 inString)
+{
+	Str255 *	rightPtr;
+	OSType		theType;
+	
+	// Ignore empty items
+	if ( inString[0] ) {
+		if ( UMiscUtils::SplitCaseValue(inString, &rightPtr) ) {
+			UMiscUtils::PStringToOSType(*rightPtr, theType);
+			if ( ::EqualString(inString, "\p-", true, false) ) {
+				// This is a separator line
+				theType = 0;
+			}  
+			mIconTypes.AddItem(theType);
+			mIconPopup->AppendMenu(inString);
+		}
+	}
+}
+
+
+// ---------------------------------------------------------------------------
+//	 UpdatePopupStyle													  [public]
+// ---------------------------------------------------------------------------
+
+void
+CICNS_EditorWindow::UpdatePopupStyle() 
+{
+	MenuRef			theMenuH = mIconPopup->GetMacMenuH();
+	SInt32			index;
+	OSType			theType;
+	CICNS_Member *	theMember;
+	
+	UInt16 theCount = ::CountMenuItems( theMenuH );
+	
+	for (index = 1; index <= theCount; index++) {	
+		if ( mIconTypes.FetchItemAt(index, theType) && theType != 0) {
+			theMember = mIcnsFamily->FindIconForType(theType);
+			if (theMember == nil) {
+				::SetItemStyle(theMenuH, index, italic);
+			} else {
+				// Set the current index to the first existing member
+				if (mCurrentIndex == 0) {
+					mCurrentIndex = index;
+				} 
+				::SetItemStyle(theMenuH, index, normal);
+				::MacCheckMenuItem(theMenuH, index, (index == mCurrentIndex));
+			}
+		}
+	}
+}
+
+
+// ---------------------------------------------------------------------------
+//  SelectIconAtIndex												[private]
+// ---------------------------------------------------------------------------
+
+Boolean
+CICNS_EditorWindow::SelectIconAtIndex(ArrayIndexT inMenuIndex)
+{
+	OSType			theType;
+	Str255			theString;
+	CICNS_Member *	theMember = nil;
+	MenuRef			theMenuH = mIconPopup->GetMacMenuH();
+	
+	if ( mIconTypes.FetchItemAt(inMenuIndex, theType) ) {
+		theMember = mIcnsFamily->FindIconForType(theType);
+		if (theMember == nil) {
+			theMember = CreateIcon(inMenuIndex, theType);
+		} 
+	}
+	
+	if (theMember != nil) {
+		InstallIcon(inMenuIndex, theMember);
+		return true;
+	} else {
+		return false;
+	}
+}
+
+
+// ---------------------------------------------------------------------------
+//  InstallIcon														[private]
+// ---------------------------------------------------------------------------
+
+void
+CICNS_EditorWindow::InstallIcon(ArrayIndexT inMenuIndex, CICNS_Member * inMember)
+{
+	MenuRef			theMenuH = mIconPopup->GetMacMenuH();
+	::MacCheckMenuItem(theMenuH, mCurrentIndex, 0);
+	SetCurrentIndex(inMenuIndex);
+	::MacCheckMenuItem(theMenuH, inMenuIndex, 1);
+	UpdateInfoFields(inMember->GetType(), inMember->GetIconSize());
+	
+}
+
+
+// ---------------------------------------------------------------------------
+//  CreateIcon														[private]
+// ---------------------------------------------------------------------------
+
+CICNS_Member *
+CICNS_EditorWindow::CreateIcon(ArrayIndexT inMenuIndex, OSType inType)
+{
+	Str255 			theString;
+	CICNS_Member *	theMember = nil;
+	MenuRef			theMenuH = mIconPopup->GetMacMenuH();
+	
+	// Ask to create a new member
+	GetMenuItemText(theMenuH, inMenuIndex, theString);
+	if ( UMessageDialogs::AskIfWithString(CFSTR("ConfirmCreateIcnsMember"), theString) == true) {
+		theMember = new CICNS_Member(inType);
+		if (theMember) {
+			mIcnsFamily->AddMember(theMember);
+			::SetItemStyle(theMenuH, inMenuIndex, normal);
+		} else {
+			UMessageDialogs::AskIfWithString(CFSTR("CreatingIcnsMemberFailed"), theString);
+		}
+	} else {
+		// Reset the menu at its current index
+		mIconPopup->SetValue(mCurrentIndex);
+	}	
+	
+	return theMember;
+}
+
+
+
+
+// ---------------------------------------------------------------------------
+//  DeleteIconAtIndex												[private]
+// ---------------------------------------------------------------------------
+
+void
+CICNS_EditorWindow::DeleteIconAtIndex(ArrayIndexT index)
+{
+	MenuRef			theMenuH = mIconPopup->GetMacMenuH();
+	
+	mIcnsFamily->DeleteMember(index);
+	::MacCheckMenuItem(theMenuH, mCurrentIndex, 0);
+	::SetItemStyle(theMenuH, index, italic);
+	SetCurrentIndex(0);
+}
+
+
+// ---------------------------------------------------------------------------
+//  UpdateInfoFields												[private]
+// ---------------------------------------------------------------------------
+
+void
+CICNS_EditorWindow::UpdateInfoFields(OSType inType, SInt32 inSize)
+{
+	Str255 theString;
+	UMiscUtils::OSTypeToPString(inType, theString);
+	mTypeField->SetDescriptor(theString);
+	::NumToString(inSize, theString);
+	mSizeField->SetDescriptor(theString);
 }
 
 
@@ -214,12 +398,8 @@ CICNS_EditorWindow::InstallResourceData(Handle inHandle)
 	if ( theStream->GetLength() == 0 ) {
 		// We are creating a new resource
 	} else {
-		*theStream >> numItems;
-		
-		for (UInt16 i = 1; i <= numItems; i++) {
-			if ( theStream->GetMarker() < theStream->GetLength() ) {
-				mIcnsFamily = new CICNS_Family(theStream);
-			}
+		if ( theStream->GetMarker() < theStream->GetLength() ) {
+			mIcnsFamily = new CICNS_Family(theStream);
 		}
 		
 		// Check that all the data have been parsed
@@ -231,6 +411,8 @@ CICNS_EditorWindow::InstallResourceData(Handle inHandle)
 	delete theStream;
 	
 	if (error == noErr) {
+		UpdatePopupStyle();
+		
 // 		mContentsView->ResizeImageTo(0, numItems * kStrxHeight, false);
 // 		InstallIcon(1);
 	} 
@@ -243,34 +425,6 @@ CICNS_EditorWindow::InstallResourceData(Handle inHandle)
 	
 	return error;
 }
-
-
-// ---------------------------------------------------------------------------
-//  CreateIconAtIndex												[public]
-// ---------------------------------------------------------------------------
-
-void
-CICNS_EditorWindow::CreateIconAtIndex(UInt16 index)
-{
-}
-
-
-// ---------------------------------------------------------------------------
-//  InstallIconAtIndex												[private]
-// ---------------------------------------------------------------------------
-
-void
-CICNS_EditorWindow::InstallIconAtIndex(UInt16 index)
-{}
-
-
-// ---------------------------------------------------------------------------
-//  DeleteIconAtIndex												[private]
-// ---------------------------------------------------------------------------
-
-void
-CICNS_EditorWindow::DeleteIconAtIndex(UInt16 index)
-{}
 
 
 // ---------------------------------------------------------------------------
