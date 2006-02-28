@@ -9,7 +9,7 @@
 // All rights reserved.
 // ===========================================================================
 
-
+#include <Carbon/Carbon.r>
 
 resource 'MENU' (500, "Sample plugin menu") {
 	0,
