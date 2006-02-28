@@ -1,0 +1,78 @@
+// ===========================================================================
+// File: "RezillaPlugin.plc"
+//                        Created: 2006-02-17 14:39:48
+//              Last modification: 2006-02-28 11:20:50
+// Author: Bernard Desgraupes
+// e-mail: <bdesgraupes@easyconnect.fr>
+// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// (c) Copyright: Bernard Desgraupes 2006
+// All rights reserved.
+// ===========================================================================
+
+// #include "RezillaPluginInterface.h"
+#include "RezSamplePluginID.h"
+
+// Bundle identifier string
+#define kRezPluginIdentifier "net.sourceforge.rezilla.RezSamplePlugin"
+
+// Short version string
+#define kRezPluginShortInfoString __OUTPUT_FILENAME__ " "  SAMPLE_PLUGIN_VERSION
+
+// String to display in the Finder's Get Info window (\U00A9 = ©)
+#define kRezPluginLongInfo kRezPluginShortInfoString ", Copyright © " __YEAR__ " by Bernard Desgraupes. All rights reserved."
+
+// "306A0EF3-206E-11DA-8320-000A95B1FF7C"
+#define kRezillaPluginEditorTypeID "306A0EF3-206E-11DA-8320-000A95B1FF7C"
+
+plist
+{
+	dictionary
+	{
+		key "CFBundleIdentifier" value string kRezPluginIdentifier
+		
+		key "CFBundleName" value string __OUTPUT_FILENAME__
+		key "CFBundleShortVersionString" value string kRezPluginShortInfoString
+		key "CFBundleGetInfoString" value string kRezPluginLongInfo
+	
+		key "CFBundlePackageType" value string __OUTPUT_TYPE__
+		key "CFBundleSignature" value string __OUTPUT_CREATOR__
+		key "CFBundleExecutable" value string __OUTPUT_FILENAME__
+		key "CFBundleVersion" value string SAMPLE_PLUGIN_VERSION
+		key "CFBundleIconFile" value string "RezillaPlugin.icns"
+		
+		key "CFBundleDevelopmentRegion" value string "English"
+		key "CFBundleInfoDictionaryVersion" value string "6.0"
+		key "LSRequiresCarbon" value boolean true
+		
+		// CFPlugin specific keys
+		key "CFPlugInDynamicRegistration" value string "NO"
+		key "CFPlugInUnloadFunction" value string ""
+		key "CFPluginNameString" value string __OUTPUT_FILENAME__
+		key "CFPlugInTypes" value dictionary
+			{
+				key kRezillaPluginEditorTypeID value array
+				[
+					string kRezillaSampleFactoryID
+				]
+			}
+		key "CFPlugInFactories" value array 
+		[
+			dictionary
+			{
+				key kRezillaSampleFactoryID value string "RezSampleFactory"
+			}
+		]
+		
+		// Rezilla plugin specific keys
+		//   The RezillaPluginEditTypes key is required
+		key "RezillaPluginEditTypes" value array
+		[
+			string "PStr"
+			string "STR "
+			string "STR#"
+		]
+		//   The RezillaPluginRole key is optional
+		key "RezillaPluginRole" value string "Editor"
+	}
+}
+
