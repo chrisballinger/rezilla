@@ -55,13 +55,10 @@ plist
 					string kRezillaSampleFactoryID
 				]
 			}
-		key "CFPlugInFactories" value array 
-		[
-			dictionary
+		key "CFPlugInFactories" value dictionary
 			{
 				key kRezillaSampleFactoryID value string "RezSampleFactory"
 			}
-		]
 		
 		// Rezilla plugin specific keys
 		//   The RezillaPluginEditTypes key is required
