@@ -118,7 +118,7 @@ CPluginEditorWindow::FinalizeEditor(CPluginEditorDoc* inEditorDoc, void * ioPara
 	vi.scrollUnit.h			= vi.scrollUnit.v	= 10;
 	vi.reconcileOverhang	= false;
 
-	if ( theAttrs != kPlugWinHasNoAttributes && (theAttrs & kPlugWinHasNameField) != 0 ) {
+	if ( theAttrs != kPluginWinHasNoAttributes && (theAttrs & kPluginWinHasNameField) != 0 ) {
 		// Create a header
 		LWindowHeader * theHeader = new LWindowHeader(pi, vi);
 		ThrowIfNil_(theHeader);
@@ -137,7 +137,7 @@ CPluginEditorWindow::FinalizeEditor(CPluginEditorDoc* inEditorDoc, void * ioPara
 		InstallResourceNameField();
 	} 
 	
-	if ( theAttrs != kPlugWinHasNoAttributes && (theAttrs & kPlugWinStandardAttributes) != 0 ) {
+	if ( theAttrs != kPluginWinHasNoAttributes && (theAttrs & kPluginWinStandardAttributes) != 0 ) {
 		LPushButton *	thePushButton;
 		LPlacard * 		theFooter;
 		
@@ -161,7 +161,7 @@ CPluginEditorWindow::FinalizeEditor(CPluginEditorDoc* inEditorDoc, void * ioPara
 		pi.left				= frameSize.width;
 		pi.superView		= theFooter;
 
-		if ( (theAttrs & kPlugWinHasSaveButton) != 0) {
+		if ( (theAttrs & kPluginWinHasSaveButton) != 0) {
 			pi.paneID			= item_EditorSave;
 			pi.bindings.left	= false;
 			pi.bindings.right	= true;
@@ -171,7 +171,7 @@ CPluginEditorWindow::FinalizeEditor(CPluginEditorDoc* inEditorDoc, void * ioPara
 			thePushButton->SetDefaultButton(true);
 			thePushButton->AddListener(this);
 		}
-		if ( (theAttrs & kPlugWinHasCancelButton) != 0) {
+		if ( (theAttrs & kPluginWinHasCancelButton) != 0) {
 			pi.paneID			= item_EditorCancel;
 			pi.bindings.left	= false;
 			pi.bindings.right	= true;
@@ -180,7 +180,7 @@ CPluginEditorWindow::FinalizeEditor(CPluginEditorDoc* inEditorDoc, void * ioPara
 			ThrowIfNil_(thePushButton);
 			thePushButton->AddListener(this);
 		}
-		if ( (theAttrs & kPlugWinHasRevertButton) != 0) {
+		if ( (theAttrs & kPluginWinHasRevertButton) != 0) {
 			pi.paneID			= item_EditorRevert;
 			pi.bindings.left	= true;
 			pi.bindings.right	= false;
@@ -189,7 +189,7 @@ CPluginEditorWindow::FinalizeEditor(CPluginEditorDoc* inEditorDoc, void * ioPara
 			ThrowIfNil_(thePushButton);
 			thePushButton->AddListener(this);
 		}
-		if ( (theAttrs & kPlugWinHasLockIcon) != 0) {
+		if ( (theAttrs & kPluginWinHasLockIcon) != 0) {
 			pi.paneID			= item_ReadOnlyIcon;
 			pi.width			= kEditLockIconSize;
 			pi.height			= kEditLockIconSize;
@@ -297,18 +297,33 @@ CPluginEditorWindow::ObeyCommand(
 
 	switch (inCommand) {
 
-		case cmd_Copy: 
-		case cmd_Cut: {
-			break;
-		}
+		case cmd_Cut:
+		(*mInterface)->HandleCommand(mPlugRef, kPluginCommandCut);
+		break;
 
-		case cmd_Clear: {
-			break;
-		}
+		case cmd_Copy:
+		(*mInterface)->HandleCommand(mPlugRef, kPluginCommandCopy);
+		break;
+		
+		case cmd_Paste:
+		(*mInterface)->HandleCommand(mPlugRef, kPluginCommandPaste);
+		break;
 
-		case cmd_Paste: {
-			break;
-		}
+		case cmd_Clear:
+		(*mInterface)->HandleCommand(mPlugRef, kPluginCommandClear);
+		break;
+
+		case cmd_SelectAll:
+		(*mInterface)->HandleCommand(mPlugRef, kPluginCommandSelectAll);
+		break;		
+		
+		case cmd_Find:
+		(*mInterface)->HandleCommand(mPlugRef, kPluginCommandFind);
+		break;
+
+		case cmd_FindNext:
+		(*mInterface)->HandleCommand(mPlugRef, kPluginCommandFindNext);
+		break;
 
 		case cmd_ActionCut:
 		case cmd_ActionPaste:

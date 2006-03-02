@@ -15,7 +15,7 @@
 #import <Carbon/Carbon.h>
 
 #include "RezillaPluginInterface.h"
-#include "RezSamplePluginID.h"
+
 
 // The UUID for the factory function: 
 // "306B89A8-206E-11DA-8320-000A95B1FF7C"
@@ -58,6 +58,7 @@ static void			sample_ResizeBy(RezPlugRef inPlugref, SInt16 inWidthDelta, SInt16 
 static void			sample_HandleMenu(RezPlugRef inPlugref, MenuRef menu, SInt16 inMenuItem);
 static void			sample_HandleClick(RezPlugRef inPlugref, const EventRecord * inMacEvent, Point inPortCoords);
 static void			sample_HandleKeyDown(RezPlugRef inPlugref, const EventRecord * inKeyEvent);
+static Boolean		sample_HandleCommand(RezPlugRef inPlugref, SInt16 inCommand);
 
 
 // The RezillaEditorInterface function table
@@ -77,7 +78,8 @@ static SPluginEditorInterface sSamplePlugFuncTable = {
 		sample_ResizeBy,
 		sample_HandleMenu,
 		sample_HandleClick,
-		sample_HandleKeyDown
+		sample_HandleKeyDown,
+		sample_HandleCommand
 };
 
 // Statics
@@ -124,7 +126,7 @@ sample_QueryInterface(void *myInstance, REFIID iid, LPVOID *ppv )
 	CFUUIDRef interfaceID = CFUUIDCreateFromUUIDBytes( NULL, iid );
 
 	// Test the requested ID against the valid interfaces
-	if ( CFEqual( interfaceID, kRezillaEditorInterfaceID ) ) {
+	if ( CFEqual( interfaceID, kRezillaPluginEditorInterfaceID ) ) {
 		// If the RezillaPluginInterface was requested, bump the ref count,
 		// set the ppv parameter equal to the instance, and return good status
 		( (SampleRec *) myInstance )->_rezillaPlugInterface->AddRef( myInstance );
@@ -224,7 +226,7 @@ sample_AcceptResource(void *myInstance, ResType inType, short inID, Handle inDat
 		
 			// Fill the RezPlugInfo
 			outInfo->plugref			= (RezPlugRef) editInfo;
-			outInfo->winattrs			= kPlugWinStandardAttributes | kPlugWinHasNameField;
+			outInfo->attributes			= kPluginWinStandardAttributes | kPluginWinHasNameField;
 			outInfo->winbounds.top		= kSampleBoundsTop;
 			outInfo->winbounds.left		= kSampleBoundsLeft;
 			outInfo->winbounds.bottom	= kSampleBoundsBottom;
@@ -449,7 +451,62 @@ sample_HandleClick(RezPlugRef inPlugref, const EventRecord * inMacEvent, Point i
 // -------------------------------------------------------------------------------------------
 
 void
-sample_HandleKeyDown(RezPlugRef inPlugref, const EventRecord * inKeyEvent){
+sample_HandleKeyDown(RezPlugRef inPlugref, const EventRecord * inKeyEvent)
+{
+}
+
+
+// -------------------------------------------------------------------------------------------
+//
+//  The implementation by the Sample plugin of the HandleCommand function
+//  declared in the interface (SPluginEditorInterface structure)
+//
+//  A plugin could handle one of the following commands:
+// 		kPluginCommandCut
+// 		kPluginCommandCopy
+// 		kPluginCommandPaste
+// 		kPluginCommandClear
+// 		kPluginCommandSelectAll
+// 		kPluginCommandFind
+// 		kPluginCommandFindNext
+//  Which command it supports is declared in sample_AcceptResource via the 
+//  "attributes" member of the RezPlugInfo struct.
+// -------------------------------------------------------------------------------------------
+
+Boolean
+sample_HandleCommand(RezPlugRef inPlugref, SInt16 inCommand)
+{
+	Boolean cmdHandled = true;
+	
+	switch (inCommand) {
+		case kPluginCommandCut:
+		break;
+		
+		case kPluginCommandCopy:
+		break;
+		
+		case kPluginCommandPaste:
+		break;
+		
+		case kPluginCommandClear:
+		break;
+		
+		case kPluginCommandSelectAll:
+		break;
+		
+		case kPluginCommandFind:
+		break;
+		
+		case kPluginCommandFindNext:
+		break;
+		
+		default:
+		cmdHandled = false;
+		break;
+		
+	}
+	
+	return cmdHandled;
 }
 
 

@@ -2,7 +2,7 @@
 // File: "RezillaPluginInterface.h"
 // 
 //                        Created: 2005-09-08 15:49:50
-//              Last modification: 2006-02-24 09:26:05
+//              Last modification: 2006-03-02 13:56:10
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -47,21 +47,42 @@
 #define kRezillaPluginPickerInterfaceID (CFUUIDGetConstantUUIDWithBytes(NULL,0x1C,0x1E,0xC2,0x56,0xA5,0x0C,0x11,0xDA,0x81,0xFC,0x00,0x0A,0x95,0xB1,0xFF,0x7C))
 
 
+enum {
+	kPluginWinHasNoAttributes		= 0L,
+	kPluginWinHasSaveButton			= (1L << 1),
+	kPluginWinHasCancelButton		= (1L << 2),
+	kPluginWinHasRevertButton		= (1L << 3),
+	kPluginWinHasLockIcon			= (1L << 4),
+	kPluginWinHasNameField			= (1L << 5),
+	kPluginWinHasCollapseBox		= (1L << 6),
+	kPluginWinIsResizable			= (1L << 7),
+	kPluginWinStandardAttributes	= (kPluginWinHasSaveButton 
+								   | kPluginWinHasCancelButton 
+								   | kPluginWinHasRevertButton 
+								   | kPluginWinHasLockIcon),
+	kPluginSupportCut				= (1L << 10),
+	kPluginSupportCopy				= (1L << 11),
+	kPluginSupportPaste				= (1L << 12),
+	kPluginSupportClear				= (1L << 13),
+	kPluginSupportSelectAll			= (1L << 14),
+	kPluginSupportFind				= (1L << 15),
+	kPluginSupportFindNext			= (1L << 16),
+	kPluginSupportEditCommands		= (kPluginSupportCut 
+								   | kPluginSupportCopy 
+								   | kPluginSupportPaste 
+								   | kPluginSupportClear)
+};
 
 enum {
-	kPlugWinHasNoAttributes		= 0L,
-	kPlugWinHasSaveButton		= (1L << 1),
-	kPlugWinHasCancelButton		= (1L << 2),
-	kPlugWinHasRevertButton		= (1L << 3),
-	kPlugWinHasLockIcon			= (1L << 4),
-	kPlugWinHasNameField		= (1L << 5),
-	kPlugWinHasCollapseBox		= (1L << 6),
-	kPlugWinIsResizable			= (1L << 7),
-	kPlugWinStandardAttributes	= (kPlugWinHasSaveButton 
-								   | kPlugWinHasCancelButton 
-								   | kPlugWinHasRevertButton 
-								   | kPlugWinHasLockIcon)
+	kPluginCommandCut		= 1,
+	kPluginCommandCopy,
+	kPluginCommandPaste,
+	kPluginCommandClear,
+	kPluginCommandSelectAll,
+	kPluginCommandFind,
+	kPluginCommandFindNext
 };
+
 
 
 // A RezPlugRef is a pointer to plugin defined client data. All the
@@ -74,7 +95,7 @@ typedef void *	RezPlugRef;
 // initialisations
 typedef struct RezPlugInfo {
 	RezPlugRef	plugref;
-	UInt32		winattrs;
+	UInt32		attributes;
 	Rect		winbounds;
 	UInt8		menucount;
 	MenuID *	menuIDs;
@@ -105,6 +126,7 @@ typedef struct SPluginEditorInterface {
 	void	(*HandleMenu)(RezPlugRef inPlugref, MenuRef menu, SInt16 inMenuItem);
 	void	(*HandleClick)(RezPlugRef inPlugref, const EventRecord * inMacEvent, Point inPortCoords);
 	void	(*HandleKeyDown)(RezPlugRef inPlugref, const EventRecord * inKeyEvent);
+	Boolean	(*HandleCommand)(RezPlugRef inPlugref, SInt16 inCommand);
 } SPluginEditorInterface;
 
 

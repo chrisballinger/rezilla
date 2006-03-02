@@ -2,7 +2,7 @@
 // File: "RezImagePlugin.c"
 // 
 //                        Created: 2006-02-20 14:15:30
-//              Last modification: 2006-03-02 09:44:07
+//              Last modification: 2006-03-02 14:18:32
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -14,7 +14,7 @@
 #include <CoreFoundation/CoreFoundation.h>
 #include <ApplicationServices/ApplicationServices.h>
 #include <QuickTime/ImageCompression.h>			// For image loading and decompression
-#include <QuickTime/QuickTimeComponents.h>		// For PointerDataRef
+#include <QuickTime/QuickTimeComponents.h>		// For DataRef extensions
 
 #include "RezillaPluginInterface.h"
 #include "RezImagePluginID.h"
@@ -77,7 +77,7 @@ enum {
 // Image plugin error codes
 static enum {
 	err_InvalidImageSize		= 10001,
-	err_CannotAllocatePointerDataRef,
+	err_CannotAllocateHandleDataRef,
 	err_CannotGetGraphicsImporter,
 	err_RetrievingImageDescriptionFailed,
 	err_CannotOpenProfile,
@@ -119,13 +119,14 @@ static 	void		RezImg_ResizeBy(RezPlugRef inPlugref, SInt16 inWidthDelta, SInt16 
 static void			RezImg_HandleMenu(RezPlugRef inPlugref, MenuRef menu, SInt16 inMenuItem);
 static void			RezImg_HandleClick(RezPlugRef inPlugref, const EventRecord * inMacEvent, Point inPortCoords);
 static void			RezImg_HandleKeyDown(RezPlugRef inPlugref, const EventRecord * inKeyEvent);
+static Boolean		RezImg_HandleCommand(RezPlugRef inPlugref, SInt16 inCommand);
 
 
 // The Rezilla Editor Interface function table
 // -------------------------------------------
-static SPluginEditorInterface sJPEGPlugFuncTable = {
+static SPluginEditorInterface sImagePlugFuncTable = {
 		NULL,						// Required padding for COM
-		RezImg_QueryInterface,	// These three are the required COM functions
+		RezImg_QueryInterface,		// These three are the required COM functions
 		RezImg_AddRef,
 		RezImg_Release,
 		RezImg_AcceptResource,
@@ -138,7 +139,8 @@ static SPluginEditorInterface sJPEGPlugFuncTable = {
 		RezImg_ResizeBy,
 		RezImg_HandleMenu,
 		RezImg_HandleClick,
-		RezImg_HandleKeyDown
+		RezImg_HandleKeyDown,
+		RezImg_HandleCommand
 };
 
 
@@ -296,7 +298,7 @@ RezImg_AcceptResource(void *myInstance, ResType inType, short inID, Handle inDat
 			if (dataRef) {
 				error = GetGraphicsImporterForDataRef(dataRef, HandleDataHandlerSubType, &gi);
 			} else {
-				outInfo->error = err_CannotAllocatePointerDataRef;
+				outInfo->error = err_CannotAllocateHandleDataRef;
 				return false;
 			}
 			
@@ -333,7 +335,10 @@ RezImg_AcceptResource(void *myInstance, ResType inType, short inID, Handle inDat
 			
 			// Fill the RezPlugInfo
 			outInfo->plugref			= (RezPlugRef) editInfo;
-			outInfo->winattrs			= kPlugWinStandardAttributes | kPlugWinHasNameField | kPlugWinIsResizable;
+			outInfo->attributes			= kPluginWinStandardAttributes 
+											| kPluginWinHasNameField 
+											| kPluginWinIsResizable
+											| kPluginSupportEditCommands;
 			outInfo->winbounds.top		= kRezImg_WinBoundsTop;
 			outInfo->winbounds.left		= kRezImg_WinBoundsLeft;
 			outInfo->winbounds.bottom	= kRezImg_WinBoundsBottom;
@@ -584,8 +589,50 @@ RezImg_HandleClick(RezPlugRef inPlugref, const EventRecord * inMacEvent, Point i
 // -------------------------------------------------------------------------------------------
 
 void
-RezImg_HandleKeyDown(RezPlugRef inPlugref, const EventRecord * inKeyEvent){
+RezImg_HandleKeyDown(RezPlugRef inPlugref, const EventRecord * inKeyEvent)
+{
 }
+
+
+// -------------------------------------------------------------------------------------------
+//
+//  The implementation by the Image plugin of the HandleCommand function
+//  declared in the interface (SPluginEditorInterface structure)
+//
+//  The Image plugin handles the following commands:
+// 		kPluginCommandCut
+// 		kPluginCommandCopy
+// 		kPluginCommandPaste
+// 		kPluginCommandClear
+// -------------------------------------------------------------------------------------------
+
+Boolean
+RezImg_HandleCommand(RezPlugRef inPlugref, SInt16 inCommand)
+{
+	Boolean cmdHandled = true;
+	
+	switch (inCommand) {
+		case kPluginCommandCut:
+		break;
+		
+		case kPluginCommandCopy:
+		break;
+		
+		case kPluginCommandPaste:
+		break;
+		
+		case kPluginCommandClear:
+		break;
+		
+		default:
+		cmdHandled = false;
+		break;
+		
+	}
+	
+	return cmdHandled;
+}
+
 
 
 
@@ -647,7 +694,7 @@ _RezImg_allocRec( CFUUIDRef factoryID )
 	RezImg_Rec * newType = (RezImg_Rec *) malloc( sizeof(RezImg_Rec) );
 
 	// Point to the function table
-	newType->_rezillaPlugInterface = &sJPEGPlugFuncTable;
+	newType->_rezillaPlugInterface = &sImagePlugFuncTable;
 
 	// Retain and keep an open instance refcount for each factory
 	if (factoryID) {

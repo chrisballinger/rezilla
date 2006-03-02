@@ -2,7 +2,7 @@
 // CPluginEditorDoc.cp
 // 
 //                       Created: 2005-10-02 08:41:52
-//             Last modification: 2006-02-23 10:46:13
+//             Last modification: 2006-03-02 13:55:59
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -75,6 +75,7 @@ CPluginEditorDoc::Initialize()
 	
 	ThrowIfNil_(mPlugin);
 	
+	mAttributes = 0;
 	mKind = editor_kindPlug;
 	SetModelKind(rzom_cPlugEditDoc);
 
@@ -106,8 +107,10 @@ CPluginEditorDoc::Initialize()
 	plugInfo.error = noErr;
 	
 	if ( (*interface)->AcceptResource(interface, mRezObj->GetType(), mRezObj->GetID(), rezData, &plugInfo) ) {
+		mAttributes = plugInfo.attributes;
+		
 		// Create a window for our document and set this doc as its SuperCommander
-		mPluginWindow = CreatePluginWindow(plugInfo.winattrs, plugInfo.winbounds);
+		mPluginWindow = CreatePluginWindow(plugInfo.attributes, plugInfo.winbounds);
 		Assert_( mPluginWindow != nil );
 		
 		// See LWindow::CreateWindow()
@@ -118,7 +121,7 @@ CPluginEditorDoc::Initialize()
 		
 		SetMainWindow( dynamic_cast<CEditorWindow *>(mPluginWindow) );
 		NameNewEditorDoc();
-		mPluginWindow->FinalizeEditor(this, &(plugInfo.winattrs));
+		mPluginWindow->FinalizeEditor(this, &(plugInfo.attributes));
 		
 		// Create the plugin menus
 		hostInfo.menucount = mPlugin->CreateMenus(plugInfo.menucount, plugInfo.menuIDs);
@@ -188,12 +191,6 @@ CPluginEditorDoc::ObeyCommand(
 		AttemptClose(false);
 		break;
 				
-		case cmd_Find:
-		break;
-				
-		case cmd_FindNext:
-		break;
-				
 		default: 
 		cmdHandled = LDocument::ObeyCommand(inCommand, ioParam);
 		break;
@@ -220,30 +217,47 @@ CPluginEditorDoc::FindCommandStatus(
 		case cmd_Save:
 		case cmd_SaveAs:
 		case cmd_ExportMap:
-		case cmd_FindNext:
 			outEnabled = false;
 		break;
 
-		case cmd_Find:
-		LString::CopyPStr( "\pFind…", outName);
-		outEnabled = false;
+		case cmd_Revert:
+		outEnabled = HasAttribute(kPluginWinHasRevertButton);
 		break;
-
+				
 		case cmd_Close : 
 		outEnabled = true;
 		break;
 								
-		case cmd_Copy:
-		outEnabled = true;
-		break;
-		
-		case cmd_Clear:
 		case cmd_Cut:
-		case cmd_Paste:
-		outEnabled = not mReadOnly;
+		outEnabled = ( not mReadOnly && HasAttribute(kPluginSupportCut));
 		break;
 
-	  default:
+		case cmd_Copy:
+		outEnabled = HasAttribute(kPluginSupportCopy);
+		break;
+		
+		case cmd_Paste:
+		outEnabled = ( not mReadOnly && HasAttribute(kPluginSupportPaste));
+		break;
+
+		case cmd_Clear:
+		outEnabled = ( not mReadOnly && HasAttribute(kPluginSupportClear));
+		break;
+
+		case cmd_SelectAll:
+		outEnabled = ( not mReadOnly && HasAttribute(kPluginSupportSelectAll));
+		break;		
+		
+		case cmd_Find:
+		LString::CopyPStr( "\pFind…", outName);
+		outEnabled = HasAttribute(kPluginSupportFind);
+		break;
+
+		case cmd_FindNext:
+		outEnabled = HasAttribute(kPluginSupportFindNext);
+		break;
+
+		default:
 		// Call inherited.
 		LDocument::FindCommandStatus( inCommand,
 				outEnabled, outUsesMark, outMark, outName );
@@ -325,6 +339,7 @@ CPluginEditorDoc::GetModifiedResource(Boolean &releaseIt)
 //   CreatePluginWindow												[public]
 // ---------------------------------------------------------------------------
 // Create the plugin window in compositing mode
+// kWindowStandardHandlerAttribute
 
 CPluginEditorWindow *
 CPluginEditorDoc::CreatePluginWindow(SInt32 inPlugAttrs, Rect inWinbounds) 
@@ -333,11 +348,11 @@ CPluginEditorDoc::CreatePluginWindow(SInt32 inPlugAttrs, Rect inWinbounds)
 	WindowAttributes		winAttrs = kWindowCloseBoxAttribute | kWindowCompositingAttribute;
 	CPluginEditorWindow *	thePluginWindow = nil;
 
-	if (inPlugAttrs & kPlugWinHasCollapseBox) {
+	if (inPlugAttrs & kPluginWinHasCollapseBox) {
 		winAttrs |= kWindowFullZoomAttribute | kWindowCollapseBoxAttribute;
 	}
 	
-	if (inPlugAttrs & kPlugWinIsResizable) {
+	if (inPlugAttrs & kPluginWinIsResizable) {
 		winAttrs |= kWindowResizableAttribute;
 	}
 	
