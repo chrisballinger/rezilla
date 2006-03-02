@@ -40,7 +40,6 @@
 	<array>
 		<string>PStr</string>
 		<string>STR </string>
-		<string>STR#</string>
 	</array>
 	<key>RezillaPluginRole</key>
 	<string>Editor</string>
