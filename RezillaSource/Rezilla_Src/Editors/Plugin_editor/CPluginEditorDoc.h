@@ -51,7 +51,9 @@ public:
 	virtual StringPtr	GetDescriptor( Str255 outDescriptor ) const;
 
 	void				ReportPluginError(CFStringRef inCFStringRef, SInt32 inError);
-	
+
+	Boolean				HasAttribute(short inFlag) const;
+
 	// Accessors
 	CRezillaPlugin*			GetPlugin() { return mPlugin;}
 	CPluginEditorWindow*	GetPluginEditWindow() { return mPluginWindow;}
@@ -59,6 +61,7 @@ public:
 protected:
 	CRezillaPlugin *		mPlugin;
 	CPluginEditorWindow *	mPluginWindow;
+	SInt32					mAttributes;
 
 	virtual Handle			GetModifiedResource(Boolean &releaseIt);
 
@@ -68,4 +71,18 @@ private:
 		
 };
 
+
+
+//        ================== INLINES =====================
+
+// ---------------------------------------------------------------------------
+//   HasAttribute													[inline]
+// ---------------------------------------------------------------------------
+
+inline
+Boolean
+CPluginEditorDoc::HasAttribute( short inFlag ) const
+{
+	return ((mAttributes & inFlag) != 0);
+}
 
