@@ -64,7 +64,6 @@ void
 CRezillaPlugin::Initialize(CFBundleRef inBundleRef)
 {
 	CFDictionaryRef bundleInfoDict;
-// 	CFStringRef     propRef;
 	CFArrayRef		typesArray;
 	CFURLRef		plugURL = nil;
 	ResType			theType;
@@ -113,18 +112,6 @@ CRezillaPlugin::Initialize(CFBundleRef inBundleRef)
 // ---------------------------------------------------------------------------
 //  Load														[public]
 // ---------------------------------------------------------------------------
-// 			// Function pointer.
-// 			AddOneFunctionPtr addOne = NULL;
-// 			// Value returned from the loaded function.
-// 			long result;
-// 			// Get a pointer to the function.
-// 			addOne = (void*)CFBundleGetFunctionPointerForName(
-// 						myBundle, CFSTR("addOne") );
-// 				// If the function was found, call it with a test value.
-// 			if (addOne) 
-// 			{
-// 				// This should add 1 to whatever was passed in
-// 				result = addOne ( 23 );
 
 OSErr
 CRezillaPlugin::Load()
