@@ -2,7 +2,7 @@
 // CPluginEditorWindow.h				
 // 
 //                       Created: 2005-10-02 08:41:52
-//             Last modification: 2006-02-22 08:06:25
+//             Last modification: 2006-03-06 14:52:27
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -33,6 +33,10 @@ public:
 							CPluginEditorWindow( LStream *inStream );
 							~CPluginEditorWindow();
 
+	static pascal OSStatus WindowEventHandler(EventHandlerCallRef myHandler, 
+											  EventRef event, 
+											  void *userData);
+							
 	virtual void	FindCommandStatus(
 								CommandT			inCommand,
 								Boolean&			outEnabled,
@@ -54,6 +58,8 @@ public:
 
 	virtual void	FinalizeEditor(CPluginEditorDoc* inEditorDoc, void * ioParam = NULL);
 
+	void			CreateControls(SInt32 inPlugAttrs);
+	
 	virtual void	RevertContents();
 	
 	virtual	void	SpendTime( const EventRecord& inMacEvent );
