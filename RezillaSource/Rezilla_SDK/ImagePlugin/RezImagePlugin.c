@@ -414,6 +414,8 @@ RezImg_EditResource(RezPlugRef inPlugref, RezHostInfo inInfo)
 	HIViewSetVisible(theImageView, true);
 	HIViewAddSubview(theScrollView, theImageView);
 	
+	error = InstallStandardEventHandler( GetControlEventTarget(theScrollView) );
+	
 	return error;
 }
 
