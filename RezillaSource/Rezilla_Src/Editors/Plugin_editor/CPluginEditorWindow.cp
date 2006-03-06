@@ -78,6 +78,20 @@ CPluginEditorWindow::~CPluginEditorWindow()
 // ---------------------------------------------------------------------------
 //  FinalizeEditor											[public]
 // ---------------------------------------------------------------------------
+// 		OSStatus 
+// 		CreateWindowHeaderControl(
+// 		  WindowRef     window,
+// 		  const Rect *  boundsRect,
+// 		  Boolean       isListHeader,
+// 		  ControlRef *  outControl)
+// 		OSStatus 
+// 		CreateStaticTextControl(
+// 		  WindowRef                    window,           /* can be NULL */
+// 		  const Rect *                 boundsRect,
+// 		  CFStringRef                  text,             /* can be NULL */
+// 		  const ControlFontStyleRec *  style,            /* can be NULL */
+// 		  ControlRef *                 outControl)
+
 
 void
 CPluginEditorWindow::FinalizeEditor(CPluginEditorDoc* inEditorDoc, void * ioParam)
@@ -94,8 +108,6 @@ CPluginEditorWindow::FinalizeEditor(CPluginEditorDoc* inEditorDoc, void * ioPara
 	mInterface = dynamic_cast<CPluginEditorDoc *>(mOwnerDoc)->GetPlugin()->GetInterface();
 	ThrowIfNil_(mInterface);
 		
-	mHasHeader = false;
-	mHasFooter = false;
 	GetFrameSize(frameSize);
 
 	pi.paneID			= item_EditorHeader;
@@ -136,70 +148,100 @@ CPluginEditorWindow::FinalizeEditor(CPluginEditorDoc* inEditorDoc, void * ioPara
 		mHasHeader = true;
 		InstallResourceNameField();
 	} 
-	
-	if ( theAttrs != kPluginWinHasNoAttributes && (theAttrs & kPluginWinStandardAttributes) != 0 ) {
-		LPushButton *	thePushButton;
-		LPlacard * 		theFooter;
 		
+	// Add the window to the window menu.
+	gWindowMenu->InsertWindow(this);
+}
+	
+
+// ---------------------------------------------------------------------------
+//  CreateControls													[public]
+// ---------------------------------------------------------------------------
+
+void
+CPluginEditorWindow::CreateControls(SInt32 inPlugAttrs)
+{
+	SDimension16		frameSize;
+	WindowRef			winRef = GetMacWindow();
+	Rect				boundsRect;
+	ControlRef			ctrlRef, footRef;
+	ControlID			ctrlID;
+	OSStatus			error;
+	HIViewRef			contentView;
+
+	ctrlID.signature = kRezillaSig;
+	
+	mHasHeader = false;
+	mHasFooter = false;
+
+	GetFrameSize(frameSize);
+	
+	if ( inPlugAttrs != kPluginWinHasNoAttributes && (inPlugAttrs & kPluginWinStandardAttributes) != 0 ) {
 		// Create a footer
-		pi.paneID			= item_EditorFooter;
-		pi.width			= frameSize.width;
-		pi.height			= kPluginFooterHeight;
-		pi.bindings.top		= false;
-		pi.bindings.bottom	= true;
-		pi.left				= 0;
-		pi.top				= frameSize.height - kPluginFooterHeight;
-		pi.superView		= this;
+		boundsRect.top = frameSize.height - kPluginFooterHeight;
+		boundsRect.bottom = frameSize.height;
+		boundsRect.left = 0;
+		boundsRect.right = frameSize.width;
+		
+		error = CreatePlacardControl(winRef, &boundsRect, &footRef);
+		ThrowIfOSErr_(error);
+		
+		HIViewFindByID(HIViewGetRoot(winRef), kHIViewWindowContentID, &contentView);
+		HIViewAddSubview(contentView, footRef);
+		HIViewSetVisible(footRef, true);
 
-		theFooter = new LPlacard(pi, vi);
-		ThrowIfNil_(theFooter);
+		boundsRect.top = kEditButtonTop;
+		boundsRect.bottom = boundsRect.bottom + kEditButtonHeight ;
+		if ( (inPlugAttrs & kPluginWinHasSaveButton) != 0) {
+			// Create a Save button
+			boundsRect.left = frameSize.width - kEditValidButtonRight;
+			boundsRect.right = boundsRect.left + kEditButtonWidth;
 
-		pi.width			= kEditButtonWidth;
-		pi.height			= kEditButtonHeight;
-		pi.bindings.top		= true;
-		pi.top				= kEditButtonTop;
-		pi.left				= frameSize.width;
-		pi.superView		= theFooter;
-
-		if ( (theAttrs & kPluginWinHasSaveButton) != 0) {
-			pi.paneID			= item_EditorSave;
-			pi.bindings.left	= false;
-			pi.bindings.right	= true;
-			pi.left				= frameSize.width - kEditValidButtonRight;
-			thePushButton = new LPushButton(pi, msg_EditorSave, "\pSave");
-			ThrowIfNil_(thePushButton);
-			thePushButton->SetDefaultButton(true);
-			thePushButton->AddListener(this);
-		}
-		if ( (theAttrs & kPluginWinHasCancelButton) != 0) {
-			pi.paneID			= item_EditorCancel;
-			pi.bindings.left	= false;
-			pi.bindings.right	= true;
-			pi.left				= frameSize.width - kEditCancelButtonRight;
-			thePushButton = new LPushButton(pi, msg_EditorCancel, "\pCancel");
-			ThrowIfNil_(thePushButton);
-			thePushButton->AddListener(this);
-		}
-		if ( (theAttrs & kPluginWinHasRevertButton) != 0) {
-			pi.paneID			= item_EditorRevert;
-			pi.bindings.left	= true;
-			pi.bindings.right	= false;
-			pi.left				= kEditRevertButtonLeft;
-			thePushButton = new LPushButton(pi, msg_EditorRevert, "\pRevert");
-			ThrowIfNil_(thePushButton);
-			thePushButton->AddListener(this);
-		}
-		if ( (theAttrs & kPluginWinHasLockIcon) != 0) {
-			pi.paneID			= item_ReadOnlyIcon;
-			pi.width			= kEditLockIconSize;
-			pi.height			= kEditLockIconSize;
-			pi.bindings.left	= true;
-			pi.bindings.right	= false;
-			pi.left				= 9;
-			LIconPane * theLockIcon = new LIconPane(pi, 0);
-			ThrowIfNil_( theLockIcon );
+			error = CreatePushButtonControl(NULL, &boundsRect, CFSTR("Save"), &ctrlRef);
+			ThrowIfOSErr_(error);
 			
-			InstallReadOnlyIcon();
+			ctrlID.id = kHICommandOK;
+			SetControlID(ctrlRef, &ctrlID);
+			HIViewAddSubview(footRef, ctrlRef);
+			HIViewSetVisible(ctrlRef, true);
+		}
+		if ( (inPlugAttrs & kPluginWinHasCancelButton) != 0) {
+			// Create a Cancel button
+			boundsRect.left = frameSize.width - kEditCancelButtonRight;
+			boundsRect.right = boundsRect.left + kEditButtonWidth;
+
+			error = CreatePushButtonControl(NULL, &boundsRect, CFSTR("Cancel"), &ctrlRef);
+			ThrowIfOSErr_(error);
+		
+			ctrlID.id = kHICommandCancel;
+			SetControlID(ctrlRef, &ctrlID);
+			HIViewAddSubview(footRef, ctrlRef);
+			HIViewSetVisible(ctrlRef, true);
+		}
+		if ( (inPlugAttrs & kPluginWinHasRevertButton) != 0) {
+			// Create a Revert button
+			boundsRect.left = kEditRevertButtonLeft;
+			boundsRect.right = boundsRect.left + kEditButtonWidth;
+
+			error = CreatePushButtonControl(NULL, &boundsRect, CFSTR("Revert"), &ctrlRef);
+			ThrowIfOSErr_(error);
+		
+			ctrlID.id = kHICommandRevert;
+			SetControlID(ctrlRef, &ctrlID);
+			HIViewAddSubview(footRef, ctrlRef);
+			HIViewSetVisible(ctrlRef, true);
+		}
+		if ( (inPlugAttrs & kPluginWinHasLockIcon) != 0) {
+			// Create a Locked/Unlocked icon
+// 			OSStatus 
+// 			CreateIconControl(
+// 			  WindowRef                         inWindow,            /* can be NULL */
+// 			  const Rect *                      inBoundsRect,
+// 			  const ControlButtonContentInfo *  inIconContent,
+// 			  Boolean                           inDontTrack,
+// 			  ControlRef *                      outControl)
+		
+		
 		} 
 		
 		mHasFooter = true;
@@ -573,5 +615,47 @@ CPluginEditorWindow::ResizeWindowBy(
 }
 
 
+// ---------------------------------------------------------------------------
+//   WindowEventHandler										[public] [static]
+// ---------------------------------------------------------------------------
 
+pascal OSStatus 
+CPluginEditorWindow::WindowEventHandler(EventHandlerCallRef myHandler, 
+		EventRef event, void *userData)
+{
+	OSStatus 	result = eventNotHandledErr;
+	UInt32		eventKind = GetEventKind(event);
+	HICommand	command;
+	
+	CPluginEditorWindow * plugWin = (CPluginEditorWindow*) userData;
+	
+	switch (eventKind) {
+		case kEventWindowClose:
+		plugWin->ListenToMessage(msg_Close, NULL);
+		result = noErr;
+		break;
+		
+		case kEventCommandProcess:
+		GetEventParameter(event, kEventParamDirectObject, typeHICommand, NULL, sizeof(HICommand), 
+						  NULL, &command);
+		switch (command.commandID) {
+			
+			case kHICommandOK:
+			plugWin->ListenToMessage(msg_EditorSave, NULL);
+			result = noErr;
+			break;
+		
+			case kHICommandCancel:
+			plugWin->ListenToMessage(msg_EditorCancel, NULL);
+			result = noErr;
+			break;
+			
+			case kHICommandRevert:
+			plugWin->ListenToMessage(msg_EditorRevert, NULL);
+			result = noErr;
+			break;
+		}
+	}
+	return result;
+}
 
