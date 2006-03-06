@@ -2,7 +2,7 @@
 // File: "RezillaPluginInterface.h"
 // 
 //                        Created: 2005-09-08 15:49:50
-//              Last modification: 2006-03-02 13:56:10
+//              Last modification: 2006-03-04 17:17:14
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -10,9 +10,9 @@
 // All rights reserved.
 // ===========================================================================
 // From /Developer/ADC%20Reference%20Library/documentation/CoreFoundation/Conceptual/CFPlugIns/index.html?file:/Developer/ADC%20Reference%20Library/documentation/CoreFoundation/Conceptual/CFPlugIns/CFPlugIns.html
-// By passing a this pointer to each interface function, you allow the
-// plug-in writer to implement in C++ and to have access to the plug-in
-// object when the function executes in any language.
+//    "By passing a this pointer to each interface function, you allow the
+//    plug-in writer to implement in C++ and to have access to the plug-in
+//    object when the function executes in any language."
 
 
 #ifndef REZILLAPLUGININTERFACE_H
@@ -67,6 +67,7 @@ enum {
 	kPluginSupportSelectAll			= (1L << 14),
 	kPluginSupportFind				= (1L << 15),
 	kPluginSupportFindNext			= (1L << 16),
+	kPluginSupportUndo				= (1L << 17),
 	kPluginSupportEditCommands		= (kPluginSupportCut 
 								   | kPluginSupportCopy 
 								   | kPluginSupportPaste 
@@ -105,6 +106,7 @@ typedef struct RezPlugInfo {
 
 // Structure sent by the host with post-initialisation info
 typedef struct RezHostInfo {
+	short		refnum;
 	WindowRef	winref;
 	UInt8		menucount;
 	MenuRef	*	menurefs;

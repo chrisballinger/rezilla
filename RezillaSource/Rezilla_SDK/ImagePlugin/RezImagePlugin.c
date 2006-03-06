@@ -548,6 +548,9 @@ RezImg_HandleMenu(RezPlugRef inPlugref, MenuRef menu, SInt16 inMenuItem)
 	
 	switch (inMenuItem) {
 		case menu_RotateLeft:
+		// For testing
+		editInfo->modified = true;
+	
 		break;
 		
 		case menu_RotateRight:

@@ -500,6 +500,9 @@ sample_HandleCommand(RezPlugRef inPlugref, SInt16 inCommand)
 		case kPluginCommandFindNext:
 		break;
 		
+		case kPluginSupportUndo:
+		break;
+		
 		default:
 		cmdHandled = false;
 		break;

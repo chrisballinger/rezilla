@@ -2,7 +2,7 @@
 // CPluginEditorDoc.cp
 // 
 //                       Created: 2005-10-02 08:41:52
-//             Last modification: 2006-03-02 13:55:59
+//             Last modification: 2006-03-04 17:15:03
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -129,6 +129,11 @@ CPluginEditorDoc::Initialize()
 		// Fill the reply structure
 		hostInfo.winref = mPluginWindow->GetMacWindow();
 		hostInfo.readonly = IsReadOnly();
+		if (mRezObj != nil) {
+			hostInfo.refnum = mRezObj->GetOwnerRefnum();
+		} else {
+			hostInfo.refnum = kResFileNotOpened;
+		}
 		
 		MenuRef * theMenuRefs = (MenuRef *) malloc( sizeof(MenuRef) * hostInfo.menucount);
 		if (theMenuRefs != NULL) {
@@ -161,6 +166,9 @@ CPluginEditorDoc::Initialize()
 		delete this;
 		return;
 	} 
+	
+// 	// Attach an LUndoer
+// 	AddAttachment( new LUndoer );
 	
 	// Make the window visible.
 	mPluginWindow->Show();
