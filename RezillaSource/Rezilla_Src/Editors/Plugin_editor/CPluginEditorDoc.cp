@@ -2,7 +2,7 @@
 // CPluginEditorDoc.cp
 // 
 //                       Created: 2005-10-02 08:41:52
-//             Last modification: 2006-03-04 17:15:03
+//             Last modification: 2006-03-06 22:20:58
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -32,6 +32,7 @@ PP_Begin_Namespace_PowerPlant
 #include "UMessageDialogs.h"
 #include "UMiscUtils.h"
 
+#include <UCursor.h>
 
 // ---------------------------------------------------------------------------
 //   CPluginEditorDoc								Constructor		  [public]
@@ -103,6 +104,8 @@ CPluginEditorDoc::Initialize()
 	// Ask the plugin its initial requirements
 	RezPlugInfo			plugInfo;
 	RezHostInfo 		hostInfo;
+	
+	UCursor::SetWatch();		// May take a little time
 	
 	plugInfo.error = noErr;
 	
