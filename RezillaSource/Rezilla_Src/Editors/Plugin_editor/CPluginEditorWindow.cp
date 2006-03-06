@@ -2,7 +2,7 @@
 // CPluginEditorWindow.cp
 // 
 //                       Created: 2005-10-02 08:41:52
-//             Last modification: 2006-03-06 12:55:48
+//             Last modification: 2006-03-06 22:20:38
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -78,77 +78,24 @@ CPluginEditorWindow::~CPluginEditorWindow()
 // ---------------------------------------------------------------------------
 //  FinalizeEditor											[public]
 // ---------------------------------------------------------------------------
-// 		OSStatus 
-// 		CreateWindowHeaderControl(
-// 		  WindowRef     window,
-// 		  const Rect *  boundsRect,
-// 		  Boolean       isListHeader,
-// 		  ControlRef *  outControl)
-// 		OSStatus 
-// 		CreateStaticTextControl(
-// 		  WindowRef                    window,           /* can be NULL */
-// 		  const Rect *                 boundsRect,
-// 		  CFStringRef                  text,             /* can be NULL */
-// 		  const ControlFontStyleRec *  style,            /* can be NULL */
-// 		  ControlRef *                 outControl)
 
 
 void
 CPluginEditorWindow::FinalizeEditor(CPluginEditorDoc* inEditorDoc, void * ioParam)
 {
-	SInt32				theAttrs = *((SInt32*) ioParam);
-	SPaneInfo			pi;
-	SViewInfo			vi;
-	SDimension16		frameSize;
-
 	// Set mOwnerDoc
 	SetOwnerDoc(inEditorDoc);
 	SetSuperModel(inEditorDoc);
 	
 	mInterface = dynamic_cast<CPluginEditorDoc *>(mOwnerDoc)->GetPlugin()->GetInterface();
 	ThrowIfNil_(mInterface);
-		
-	GetFrameSize(frameSize);
+			
+// 	CFStringRef		theStringRef;
+// 	Str255			strPtr;
+// 	strPtr = *(theDoc->GetRezObj()->GetName());
+// 	theStringRef = CFStringCreateWithPascalString(NULL, strPtr, kCFStringEncodingMacRoman);
+// 	CFRelease(theStringRef);		
 
-	pi.paneID			= item_EditorHeader;
-	pi.width			= frameSize.width;
-	pi.height			= kPluginHeaderHeight;
-	pi.visible			= true;
-	pi.enabled			= true;
-	pi.bindings.left	= true;
-	pi.bindings.top		= true;
-	pi.bindings.right	= true;
-	pi.bindings.bottom	= false;
-	pi.left				= 0;
-	pi.top				= 0;
-	pi.userCon			= 0;
-	pi.superView		= this;
-
-	vi.imageSize.width		= pi.width;
-	vi.imageSize.height		= pi.height;
-	vi.scrollPos.h			= vi.scrollPos.v	= 0;
-	vi.scrollUnit.h			= vi.scrollUnit.v	= 10;
-	vi.reconcileOverhang	= false;
-
-	if ( theAttrs != kPluginWinHasNoAttributes && (theAttrs & kPluginWinHasNameField) != 0 ) {
-		// Create a header
-		LWindowHeader * theHeader = new LWindowHeader(pi, vi);
-		ThrowIfNil_(theHeader);
-
-		pi.paneID			= item_NameStaticText;
-		pi.width			-= 2 * kEditHorizMargin;
-		pi.height			-= kEditNameHeight;
-		pi.left				= kEditHorizMargin;
-		pi.top				= kEditVertMargin;
-		pi.superView		= theHeader;
-		
-		LStaticText * theStaticText = new LStaticText(pi, "\p", Txtr_GenevaNine);
-		ThrowIfNil_(theStaticText);
-
-		mHasHeader = true;
-		InstallResourceNameField();
-	} 
-		
 	// Add the window to the window menu.
 	gWindowMenu->InsertWindow(this);
 }
@@ -164,10 +111,10 @@ CPluginEditorWindow::CreateControls(SInt32 inPlugAttrs)
 	SDimension16		frameSize;
 	WindowRef			winRef = GetMacWindow();
 	Rect				boundsRect;
-	ControlRef			ctrlRef, footRef;
+	ControlRef			ctrlRef, headRef, footRef;
 	ControlID			ctrlID;
 	OSStatus			error;
-	HIViewRef			contentView;
+	HIViewRef			contentView = NULL;
 
 	ctrlID.signature = kRezillaSig;
 	
@@ -175,27 +122,60 @@ CPluginEditorWindow::CreateControls(SInt32 inPlugAttrs)
 	mHasFooter = false;
 
 	GetFrameSize(frameSize);
+	HIViewFindByID(HIViewGetRoot(winRef), kHIViewWindowContentID, &contentView);
+	ThrowIfNil_(contentView);
+
+	if ( inPlugAttrs != kPluginWinHasNoAttributes && (inPlugAttrs & kPluginWinHasNameField) != 0 ) {		
+		// Create a header
+		boundsRect.top		= 0;
+		boundsRect.bottom	= kPluginHeaderHeight;
+		boundsRect.left		= 0;
+		boundsRect.right	= frameSize.width;
+
+		error = CreateWindowHeaderControl(winRef, &boundsRect, false, &headRef);
+		ThrowIfOSErr_(error);
+		
+		mHasHeader = true;
+		
+		HIViewAddSubview(contentView, headRef);
+		HIViewSetVisible(headRef, true);
+		
+		// Create the name field
+		boundsRect.top		= kEditVertMargin;
+		boundsRect.bottom	= boundsRect.top + kEditNameHeight;
+		boundsRect.left		= kEditHorizMargin;
+		boundsRect.right	= frameSize.width - kEditHorizMargin;
+	
+		error = CreateStaticTextControl(NULL, &boundsRect, NULL, NULL, &ctrlRef);
+		ThrowIfOSErr_(error);
+		
+		ctrlID.id = item_NameStaticText;
+		SetControlID(ctrlRef, &ctrlID);
+		HIViewAddSubview(headRef, ctrlRef);
+		HIViewSetVisible(ctrlRef, true);			  
+	}	
 	
 	if ( inPlugAttrs != kPluginWinHasNoAttributes && (inPlugAttrs & kPluginWinStandardAttributes) != 0 ) {
 		// Create a footer
-		boundsRect.top = frameSize.height - kPluginFooterHeight;
-		boundsRect.bottom = frameSize.height;
-		boundsRect.left = 0;
-		boundsRect.right = frameSize.width;
+		boundsRect.top		= frameSize.height - kPluginFooterHeight;
+		boundsRect.bottom	= frameSize.height;
+		boundsRect.left		= 0;
+		boundsRect.right	= frameSize.width;
 		
 		error = CreatePlacardControl(winRef, &boundsRect, &footRef);
 		ThrowIfOSErr_(error);
 		
-		HIViewFindByID(HIViewGetRoot(winRef), kHIViewWindowContentID, &contentView);
+		mHasFooter = true;
+		
 		HIViewAddSubview(contentView, footRef);
 		HIViewSetVisible(footRef, true);
 
-		boundsRect.top = kEditButtonTop;
-		boundsRect.bottom = boundsRect.bottom + kEditButtonHeight ;
+		boundsRect.top			= kEditButtonTop;
+		boundsRect.bottom		= boundsRect.bottom + kEditButtonHeight ;
 		if ( (inPlugAttrs & kPluginWinHasSaveButton) != 0) {
 			// Create a Save button
-			boundsRect.left = frameSize.width - kEditValidButtonRight;
-			boundsRect.right = boundsRect.left + kEditButtonWidth;
+			boundsRect.left		= frameSize.width - kEditValidButtonRight;
+			boundsRect.right	= boundsRect.left + kEditButtonWidth;
 
 			error = CreatePushButtonControl(NULL, &boundsRect, CFSTR("Save"), &ctrlRef);
 			ThrowIfOSErr_(error);
@@ -207,8 +187,8 @@ CPluginEditorWindow::CreateControls(SInt32 inPlugAttrs)
 		}
 		if ( (inPlugAttrs & kPluginWinHasCancelButton) != 0) {
 			// Create a Cancel button
-			boundsRect.left = frameSize.width - kEditCancelButtonRight;
-			boundsRect.right = boundsRect.left + kEditButtonWidth;
+			boundsRect.left		= frameSize.width - kEditCancelButtonRight;
+			boundsRect.right	= boundsRect.left + kEditButtonWidth;
 
 			error = CreatePushButtonControl(NULL, &boundsRect, CFSTR("Cancel"), &ctrlRef);
 			ThrowIfOSErr_(error);
@@ -220,8 +200,8 @@ CPluginEditorWindow::CreateControls(SInt32 inPlugAttrs)
 		}
 		if ( (inPlugAttrs & kPluginWinHasRevertButton) != 0) {
 			// Create a Revert button
-			boundsRect.left = kEditRevertButtonLeft;
-			boundsRect.right = boundsRect.left + kEditButtonWidth;
+			boundsRect.left		= kEditRevertButtonLeft;
+			boundsRect.right	= boundsRect.left + kEditButtonWidth;
 
 			error = CreatePushButtonControl(NULL, &boundsRect, CFSTR("Revert"), &ctrlRef);
 			ThrowIfOSErr_(error);
@@ -243,8 +223,6 @@ CPluginEditorWindow::CreateControls(SInt32 inPlugAttrs)
 		
 		
 		} 
-		
-		mHasFooter = true;
 	}
 		
 	// Add the window to the window menu.
