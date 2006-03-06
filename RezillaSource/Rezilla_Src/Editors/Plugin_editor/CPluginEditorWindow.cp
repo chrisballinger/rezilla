@@ -2,7 +2,7 @@
 // CPluginEditorWindow.cp
 // 
 //                       Created: 2005-10-02 08:41:52
-//             Last modification: 2006-02-23 10:36:04
+//             Last modification: 2006-03-06 12:55:48
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -141,7 +141,7 @@ CPluginEditorWindow::FinalizeEditor(CPluginEditorDoc* inEditorDoc, void * ioPara
 		LPushButton *	thePushButton;
 		LPlacard * 		theFooter;
 		
-		// Create a header
+		// Create a footer
 		pi.paneID			= item_EditorFooter;
 		pi.width			= frameSize.width;
 		pi.height			= kPluginFooterHeight;
@@ -364,14 +364,31 @@ void
 CPluginEditorWindow::Click(
 	SMouseDownEvent	&inMouseDown)
 {
-	// Check if a SubPane of this View is hit
-	LPane * clickedPane = FindSubPaneHitBy(inMouseDown.wherePort.h, inMouseDown.wherePort.v);
+	// Check if a SubPane of this window is hit
+	LPushButton * clickedPane = dynamic_cast<LPushButton*>(FindDeepSubPaneContaining(inMouseDown.wherePort.h, inMouseDown.wherePort.v));
 
 	if (clickedPane != nil) {
-		// SubPane is hit, let it respond to the Click
-		clickedPane->Click(inMouseDown);
+		
+		switch (clickedPane->GetPaneID()) {
+			case item_EditorSave:
+			clickedPane->BroadcastMessage(msg_EditorSave);
+			break;
+			
+			case item_EditorCancel:
+			clickedPane->BroadcastMessage(msg_EditorCancel);
+			break;
+			
+			case item_EditorRevert:
+			clickedPane->BroadcastMessage(msg_EditorRevert);
+			break;
+			
+			default:
+			clickedPane->Click(inMouseDown);
+			break;
+		
+		}
 	} else {						
-		// No SubPane hit, pass to plugin.
+		// No SubPane hit, pass to plugin
 		(*mInterface)->HandleClick(mPlugRef, &inMouseDown.macEvent, inMouseDown.whereLocal);
 	}
 }
