@@ -348,13 +348,24 @@ CPluginEditorDoc::GetModifiedResource(Boolean &releaseIt)
 // ---------------------------------------------------------------------------
 // Create the plugin window in compositing mode
 // kWindowStandardHandlerAttribute
+// EventHandlerUPP
+// NewEventHandlerUPP(EventHandlerProcPtr userRoutine)
+// EventHandlerUPP thePluginEventHandler = 
+// NewEventHandlerUPP(&CPluginEditorWindow::PluginWindowEventHandler);
+// error = InstallWindowEventHandler(gMainWindow,NewEventHandlerUPP(DvngMainWindowEventHandler),
+// 								2, optionsSpec, 
+// 								(void *) gMainWindow, NULL);
+
 
 CPluginEditorWindow *
 CPluginEditorDoc::CreatePluginWindow(SInt32 inPlugAttrs, Rect inWinbounds) 
 {
 	WindowRef				winRef;
-	WindowAttributes		winAttrs = kWindowCloseBoxAttribute | kWindowCompositingAttribute;
+	WindowAttributes		winAttrs = kWindowCloseBoxAttribute | kWindowStandardHandlerAttribute | kWindowCompositingAttribute;
 	CPluginEditorWindow *	thePluginWindow = nil;
+	OSStatus				error;
+	EventTypeSpec			winSpec[] = {{kEventClassCommand, kEventCommandProcess},
+									  {kEventClassWindow, kEventWindowClose}};
 
 	if (inPlugAttrs & kPluginWinHasCollapseBox) {
 		winAttrs |= kWindowFullZoomAttribute | kWindowCollapseBoxAttribute;
@@ -369,6 +380,13 @@ CPluginEditorDoc::CreatePluginWindow(SInt32 inPlugAttrs, Rect inWinbounds)
 	// Make a CPluginEditorWindow object out of the WindowRef
 	thePluginWindow = new CPluginEditorWindow(winRef, this);
 	
+	error = InstallWindowEventHandler(winRef, 
+									  NewEventHandlerUPP(&CPluginEditorWindow::WindowEventHandler),
+									  GetEventTypeCount(winSpec), winSpec, 
+									  (void *) this, NULL);
+	
+	thePluginWindow->CreateControls(inPlugAttrs);
+									  
 	// Put the window in disabled state otherwise the subpanes won't be 
 	// enabled later
 	thePluginWindow->Disable();
