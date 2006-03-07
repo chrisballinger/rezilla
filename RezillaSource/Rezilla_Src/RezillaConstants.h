@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2006-02-26 19:46:57
+//             Last modification : 2006-03-06 23:00:03
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@users.sourceforge.net>
 // www : <http://rezilla.sourceforge.net/>
@@ -1613,17 +1613,17 @@ const OSType	ResType_ExtendedMenu			= FOUR_CHAR_CODE('xmnu');
 
 const UInt16	kPluginHeaderHeight		= 24;
 const UInt16	kPluginFooterHeight		= 40;
-const UInt16	kEditLockIconSize		= 16;
-const UInt16	kEditLockIconLeft		= 9;
-const UInt16	kEditRevertButtonLeft	= 28;
-const UInt16	kEditCancelButtonRight	= 164;
-const UInt16	kEditValidButtonRight	= 86;
-const UInt16	kEditButtonWidth		= 65;
-const UInt16	kEditButtonHeight		= 20;
-const UInt16	kEditButtonTop			= 9;
-const UInt16	kEditHorizMargin		= 10;
-const UInt16	kEditNameHeight			= 10;
-const UInt16	kEditVertMargin			= 5;
+const UInt16	kEditorLockIconSize		= 16;
+const UInt16	kEditorLockIconLeft		= 9;
+const UInt16	kEditorRevertLeftPos	= 28;
+const UInt16	kEditorCancelRightPos	= 164;
+const UInt16	kEditorSaveRightPos		= 86;
+const UInt16	kEditorButtonWidth		= 65;
+const UInt16	kEditorButtonHeight		= 20;
+const UInt16	kEditorButtonTop		= 9;
+const UInt16	kEditorHorizTextMargin	= 10;
+const UInt16	kEditorNameHeight		= 10;
+const UInt16	kEditorVertTextMargin	= 5;
 
 
 // ======================================================================
