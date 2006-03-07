@@ -240,7 +240,7 @@ CPluginEditorDoc::FindCommandStatus(
 		break;
 								
 		case cmd_Cut:
-		outEnabled = ( not mReadOnly && HasAttribute(kPluginSupportCut));
+		outEnabled = ( !mReadOnly && HasAttribute(kPluginSupportCut));
 		break;
 
 		case cmd_Copy:
@@ -248,15 +248,15 @@ CPluginEditorDoc::FindCommandStatus(
 		break;
 		
 		case cmd_Paste:
-		outEnabled = ( not mReadOnly && HasAttribute(kPluginSupportPaste));
+		outEnabled = ( !mReadOnly && HasAttribute(kPluginSupportPaste));
 		break;
 
 		case cmd_Clear:
-		outEnabled = ( not mReadOnly && HasAttribute(kPluginSupportClear));
+		outEnabled = ( !mReadOnly && HasAttribute(kPluginSupportClear));
 		break;
 
 		case cmd_SelectAll:
-		outEnabled = ( not mReadOnly && HasAttribute(kPluginSupportSelectAll));
+		outEnabled = ( !mReadOnly && HasAttribute(kPluginSupportSelectAll));
 		break;		
 		
 		case cmd_Find:

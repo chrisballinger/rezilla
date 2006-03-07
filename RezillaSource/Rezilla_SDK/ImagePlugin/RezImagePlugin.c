@@ -47,7 +47,7 @@ typedef struct RezImg_EditInfo {
 	short				id;
 	Handle				handle;
 	WindowRef			winref;
-	ControlRef			controlref;
+	ControlRef			scrollref;
 	Boolean				modified;
 	Boolean				readonly;
 	OSType				imageType;
@@ -289,7 +289,7 @@ RezImg_AcceptResource(void *myInstance, ResType inType, short inID, Handle inDat
 			editInfo->id			= inID;
 			editInfo->handle		= inDataH;
 			editInfo->winref		= NULL;
-			editInfo->controlref	= NULL;
+			editInfo->scrollref	= NULL;
 			editInfo->modified		= false;
 			editInfo->imageType		= imgType;
 			editInfo->bitmapData	= NULL;
@@ -335,7 +335,7 @@ RezImg_AcceptResource(void *myInstance, ResType inType, short inID, Handle inDat
 			
 			// Fill the RezPlugInfo
 			outInfo->plugref			= (RezPlugRef) editInfo;
-			outInfo->attributes			= kPluginWinStandardAttributes 
+			outInfo->attributes			= kPluginWinStandardControls 
 											| kPluginWinHasNameField 
 											| kPluginWinIsResizable
 											| kPluginSupportEditCommands;
@@ -364,7 +364,7 @@ RezImg_EditResource(RezPlugRef inPlugref, RezHostInfo inInfo)
 {
 	OSErr					error = noErr;
 	HIRect					theViewRect;
-	HIViewRef				theImageView, theScrollView, theContentView;
+	HIViewRef				theImageView, theContentView;
 	CGDataProviderRef		theProvider = NULL;
 	CGColorSpaceRef			theColorspace = NULL;
 	CGImageRef				theImage = NULL;
@@ -396,25 +396,25 @@ RezImg_EditResource(RezPlugRef inPlugref, RezHostInfo inInfo)
 	}
 		
 	// Create the scroll view and image view
-	HIScrollViewCreate(kHIScrollViewOptionsVertScroll | kHIScrollViewOptionsHorizScroll, &theScrollView);
-	HIViewSetVisible(theScrollView, true);
+	HIScrollViewCreate(kHIScrollViewOptionsVertScroll | kHIScrollViewOptionsHorizScroll, &(editInfo->scrollref));
+	HIViewSetVisible(editInfo->scrollref, true);
 	HIViewFindByID(HIViewGetRoot(editInfo->winref), kHIViewWindowContentID, &theContentView);
 	
-	HIViewAddSubview(theContentView, theScrollView);
+	HIViewAddSubview(theContentView, editInfo->scrollref);
 	
 	theViewRect.origin.x = inInfo.contents.left;
 	theViewRect.origin.y = inInfo.contents.top;
 	theViewRect.size.width = inInfo.contents.right - inInfo.contents.left;
 	theViewRect.size.height = inInfo.contents.bottom - inInfo.contents.top;
-	HIViewSetFrame(theScrollView, &theViewRect);
+	HIViewSetFrame(editInfo->scrollref, &theViewRect);
 	
 	HIImageViewCreate(theImage, &theImageView);
 	CGImageRelease(theImage);
 	
 	HIViewSetVisible(theImageView, true);
-	HIViewAddSubview(theScrollView, theImageView);
+	HIViewAddSubview(editInfo->scrollref, theImageView);
 	
-	error = InstallStandardEventHandler( GetControlEventTarget(theScrollView) );
+	error = InstallStandardEventHandler( GetControlEventTarget(editInfo->scrollref) );
 	
 	return error;
 }
@@ -438,15 +438,6 @@ RezImg_ReturnResource(RezPlugRef inPlugref, Boolean * releaseIt, OSErr * outErro
 	
 	RezImg_EditInfo * editInfo = (RezImg_EditInfo *) inPlugref;
 	
-	error = GetControlData(editInfo->controlref, kControlNoPart, kControlEditTextTextTag, sizeof(buffer), buffer, &theSize);
-	
-	if (error == noErr) {
-		buffer[theSize] = 0;
-		theHandle = NewHandle(theSize+1);
-		CopyCStringToPascal(buffer, theString);
-		BlockMoveData(theString, *theHandle, theSize+1);
-		*releaseIt = true;
-	} 
 	
 	*outError = error;
 	return theHandle;
@@ -493,12 +484,13 @@ RezImg_IsModified(RezPlugRef inPlugref)
 //  declared in the interface (SPluginEditorInterface structure)
 //
 // -------------------------------------------------------------------------------------------
+// Don't dispose of the scroll view. This is done when the window is
+// deleted.
 
 void
 RezImg_CleanUp(RezPlugRef inPlugref)
 {
 	RezImg_EditInfo * editInfo = (RezImg_EditInfo *) inPlugref;
-	DisposeControl(editInfo->controlref);
 	if ( editInfo->bitmapData != NULL ) {
 		free(editInfo->bitmapData);
 	}
@@ -531,6 +523,13 @@ RezImg_Refresh(RezPlugRef inPlugref)
 void
 RezImg_ResizeBy(RezPlugRef inPlugref, SInt16 inWidthDelta, SInt16 inHeightDelta)
 {
+	HIRect			hiBounds;
+	RezImg_EditInfo * editInfo = (RezImg_EditInfo *) inPlugref;
+
+	HIViewGetFrame(editInfo->scrollref, &hiBounds);
+	hiBounds.size.width		+= inWidthDelta;
+	hiBounds.size.height	+= inHeightDelta;
+	HIViewSetFrame(editInfo->scrollref, &hiBounds);
 }
 
 

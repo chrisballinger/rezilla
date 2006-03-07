@@ -2,7 +2,7 @@
 // File: "RezillaPluginInterface.h"
 // 
 //                        Created: 2005-09-08 15:49:50
-//              Last modification: 2006-03-04 17:17:14
+//              Last modification: 2006-03-07 14:52:41
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -56,7 +56,7 @@ enum {
 	kPluginWinHasNameField			= (1L << 5),
 	kPluginWinHasCollapseBox		= (1L << 6),
 	kPluginWinIsResizable			= (1L << 7),
-	kPluginWinStandardAttributes	= (kPluginWinHasSaveButton 
+	kPluginWinStandardControls		= (kPluginWinHasSaveButton 
 								   | kPluginWinHasCancelButton 
 								   | kPluginWinHasRevertButton 
 								   | kPluginWinHasLockIcon),
