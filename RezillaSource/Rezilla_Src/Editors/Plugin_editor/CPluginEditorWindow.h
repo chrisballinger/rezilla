@@ -2,7 +2,7 @@
 // CPluginEditorWindow.h				
 // 
 //                       Created: 2005-10-02 08:41:52
-//             Last modification: 2006-03-06 14:52:27
+//             Last modification: 2006-03-07 10:24:12
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -76,13 +76,18 @@ public:
 protected:
 		SPluginEditorInterface**	mInterface;
 		RezPlugRef					mPlugRef;
-		Boolean						mHasHeader;
-		Boolean						mHasFooter;
+		ControlRef					mHeaderRef,
+									mNameRef,
+									mFooterRef,
+									mSaveRef,
+									mCancelRef,
+									mRevertRef;
 
 	virtual void		PutOnDuty(LCommander *inNewTarget);
 	virtual void		TakeOffDuty();
 	void				RemovePluginMenus();
 	Boolean				IsPluginMenu(ResIDT inMenuID);
+	void				AdaptControlsToWindowBounds();
 	
 };
 
