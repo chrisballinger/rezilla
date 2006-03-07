@@ -2,7 +2,7 @@
 // CPluginEditorWindow.cp
 // 
 //                       Created: 2005-10-02 08:41:52
-//             Last modification: 2006-03-07 10:50:10
+//             Last modification: 2006-03-07 14:43:21
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -84,6 +84,8 @@ void
 CPluginEditorWindow::FinalizeEditor(CPluginEditorDoc* inEditorDoc, void * ioParam)
 {
 #pragma unused(ioParam)
+	char	theStr[256];
+	OSErr	error;
 	
 	// Set mOwnerDoc
 	SetOwnerDoc(inEditorDoc);
@@ -92,12 +94,11 @@ CPluginEditorWindow::FinalizeEditor(CPluginEditorDoc* inEditorDoc, void * ioPara
 	mInterface = dynamic_cast<CPluginEditorDoc *>(mOwnerDoc)->GetPlugin()->GetInterface();
 	ThrowIfNil_(mInterface);
 			
-// 	CFStringRef		theStringRef;
-// 	Str255			strPtr;
-// 	strPtr = *(theDoc->GetRezObj()->GetName());
-// 	theStringRef = CFStringCreateWithPascalString(NULL, strPtr, kCFStringEncodingMacRoman);
-// 	CFRelease(theStringRef);		
-
+	::CopyPascalStringToC(*(inEditorDoc->GetRezObj()->GetName()), (char*) theStr);
+	error = ::SetControlData(mNameRef, kControlNoPart, kControlStaticTextTextTag, strlen(theStr), theStr);
+// 	::Draw1Control(mNameRef);
+	::HIViewSetNeedsDisplay(mNameRef, true);
+	
 	// Add the window to the window menu.
 	gWindowMenu->InsertWindow(this);
 }
@@ -106,6 +107,16 @@ CPluginEditorWindow::FinalizeEditor(CPluginEditorDoc* inEditorDoc, void * ioPara
 // ---------------------------------------------------------------------------
 //  CreateControls													[public]
 // ---------------------------------------------------------------------------
+// // struct ControlFontStyleRec {
+// //   SInt16              flags;
+// //   SInt16              font;
+// //   SInt16              size;
+// //   SInt16              style;
+// //   SInt16              mode;
+// //   SInt16              just;
+// //   RGBColor            foreColor;
+// //   RGBColor            backColor;
+// // };
 
 void
 CPluginEditorWindow::CreateControls(SInt32 inPlugAttrs)
@@ -132,6 +143,8 @@ CPluginEditorWindow::CreateControls(SInt32 inPlugAttrs)
 	ThrowIfNil_(contentView);
 
 	if ( inPlugAttrs != kPluginWinHasNoAttributes && (inPlugAttrs & kPluginWinHasNameField) != 0 ) {		
+		ControlFontStyleRec		cfsr;
+
 		// Create a header
 		boundsRect.top		= 0;
 		boundsRect.bottom	= kPluginHeaderHeight;
@@ -153,13 +166,19 @@ CPluginEditorWindow::CreateControls(SInt32 inPlugAttrs)
 		error = CreateStaticTextControl(NULL, &boundsRect, NULL, NULL, &mNameRef);
 		ThrowIfOSErr_(error);
 		
+		cfsr.flags = kControlUseFontMask + kControlUseSizeMask;
+		::GetFNum("\pGeneva", &cfsr.font);
+		cfsr.size = 9;
+		error = ::SetControlData(mNameRef, kControlNoPart, kControlStaticTextStyleTag, 
+								 sizeof(ControlFontStyleRec), &cfsr);
+
 		ctrlID.id = item_NameStaticText;
 		SetControlID(mNameRef, &ctrlID);
 		HIViewAddSubview(mHeaderRef, mNameRef);
 		HIViewSetVisible(mNameRef, true);			  
 	}	
 	
-	if ( inPlugAttrs != kPluginWinHasNoAttributes && (inPlugAttrs & kPluginWinStandardAttributes) != 0 ) {
+	if ( inPlugAttrs != kPluginWinHasNoAttributes && (inPlugAttrs & kPluginWinStandardControls) != 0 ) {
 		
 		// Create a footer
 		boundsRect.top		= frameSize.height - kPluginFooterHeight;
@@ -264,6 +283,9 @@ CPluginEditorWindow::CreateControls(SInt32 inPlugAttrs)
 // kWindowContentRgn
 // kWindowGlobalPortRgn
 // kWindowStructureRgn
+// 			hiBounds.origin.x	= ;
+// 			hiBounds.origin.y	= ;
+// 			hiBounds.size.height	= ;
 
 void
 CPluginEditorWindow::AdaptControlsToWindowBounds()
@@ -271,7 +293,7 @@ CPluginEditorWindow::AdaptControlsToWindowBounds()
 	WindowRef		winRef = GetMacWindow();
 	SInt16			widthDelta, heightDelta;
 	Rect			oldBounds, newBounds;
-	HIRect			hiRect;
+	HIRect			hiBounds;
 	SInt16			oldWidth, newWidth;
 	SInt16			oldHeight, newHeight;
 
@@ -286,10 +308,13 @@ CPluginEditorWindow::AdaptControlsToWindowBounds()
 
 	if (mHeaderRef != NULL) {
 		if (newWidth != oldWidth) {
-			// Resize the header
-			HIViewSetFrame(mHeaderRef, &hiRect);
-// 			hiRect. = ;
-			
+			// Resize the header and the name field
+			HIViewGetFrame(mHeaderRef, &hiBounds);
+			hiBounds.size.width	+= newWidth - oldWidth;
+			HIViewSetFrame(mHeaderRef, &hiBounds);
+			HIViewGetFrame(mNameRef, &hiBounds);
+			hiBounds.size.width	+= newWidth - oldWidth;
+			HIViewSetFrame(mNameRef, &hiBounds);
 		} 
 	
 	} 
@@ -297,23 +322,24 @@ CPluginEditorWindow::AdaptControlsToWindowBounds()
 	if (mFooterRef != NULL) {
 		if (newHeight != oldHeight) {
 			// Reposition the footer
+			HIViewMoveBy(mFooterRef, 0, newHeight - oldHeight);
 		} 
 		if (newWidth != oldWidth) {
 			// Resize the footer
+			HIViewGetFrame(mFooterRef, &hiBounds);
+			hiBounds.size.width	+= newWidth - oldWidth;
+			HIViewSetFrame(mFooterRef, &hiBounds);
 
 			// Reposition the Cancel and Save buttons
-
+			HIViewMoveBy(mCancelRef, newWidth - oldWidth, 0);
+			HIViewMoveBy(mSaveRef, newWidth - oldWidth, 0);
 		} 
-		
 	} 
 
-// 	theBounds.right += inWidthDelta;
-// 	theBounds.bottom += inHeightDelta;
-// 	DoSetBounds(theBounds);
-
+	// Update the LWindow values
+	DoSetBounds(newBounds);
 	
-	
-	// Pass to the plugin
+	// Pass the deltas to the plugin so that it can adapt its own views
 	(*mInterface)->ResizeBy(mPlugRef, newWidth - oldWidth, newHeight - oldHeight);
 }
 
