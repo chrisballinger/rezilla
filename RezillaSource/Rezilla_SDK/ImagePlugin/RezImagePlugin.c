@@ -2,7 +2,7 @@
 // File: "RezImagePlugin.c"
 // 
 //                        Created: 2006-02-20 14:15:30
-//              Last modification: 2006-03-02 14:18:32
+//              Last modification: 2006-03-07 23:45:14
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -29,7 +29,7 @@
 #define kRezImg_WinBoundsBottom		600;
 #define kRezImg_WinBoundsRight		500;
 
-#define MAX_IMAGE_WIDTH		500
+#define MAX_IMAGE_WIDTH		700
 #define MAX_IMAGE_HEIGHT	600
 
 
@@ -48,6 +48,7 @@ typedef struct RezImg_EditInfo {
 	Handle				handle;
 	WindowRef			winref;
 	ControlRef			scrollref;
+	HIViewRef			imageview;
 	Boolean				modified;
 	Boolean				readonly;
 	OSType				imageType;
@@ -66,11 +67,7 @@ typedef struct RezImg_EditInfo {
 
 // Menu items
 enum {
-	menu_RotateLeft = 1,
-	menu_RotateRight = 2,
-	menu_FlipHorizontal = 4,
-	menu_FlipVertical = 5,
-	menu_Erase = 7
+	menu_ImportFromFile = 1
 } RezImg_MenuItems;
 
 
@@ -100,10 +97,13 @@ static MenuRef		RezImg_MenuRef;
 // ----------
 static RezImg_Rec*	_RezImg_allocRec( CFUUIDRef factoryID );
 static void			_RezImg_deallocRec( RezImg_Rec *myInstance );
+static OSErr		_RezImg_getImageInfo(Handle inDataH, OSType imgType, StringPtr mimeTypeString,  RezImg_EditInfo * editInfo);
 static OSErr		_RezImg_readBitmapInfo(GraphicsImportComponent gi, RezImg_EditInfo *bi);
 static OSErr		_RezImg_getBitmapData(GraphicsImportComponent gi, RezImg_EditInfo *bi);
 static void 		_RezImg_rescaleImage( size_t* imageWidthPtr, size_t* imageHeightPtr, size_t maxWidth, size_t maxHeight );
 static Handle		_RezImg_createHandleDataRef(Handle dataHandle, OSType fileType, StringPtr mimeTypeString);
+static OSStatus		_RezImg_openImageFile(CFURLRef * outURL);
+static CGImageRef	_RezImg_getImageRef(RezImg_EditInfo * editInfo);
 
 static HRESULT		RezImg_QueryInterface(void *myInstance, REFIID iid, LPVOID *ppv );
 static ULONG		RezImg_AddRef(void *myInstance );
@@ -289,49 +289,27 @@ RezImg_AcceptResource(void *myInstance, ResType inType, short inID, Handle inDat
 			editInfo->id			= inID;
 			editInfo->handle		= inDataH;
 			editInfo->winref		= NULL;
-			editInfo->scrollref	= NULL;
+			editInfo->scrollref		= NULL;
+			editInfo->imageview		= NULL;
 			editInfo->modified		= false;
 			editInfo->imageType		= imgType;
 			editInfo->bitmapData	= NULL;
+			editInfo->width			= 0;
+			editInfo->height		= 0;
+
 			
-			dataRef = _RezImg_createHandleDataRef(inDataH, imgType, NULL);
-			if (dataRef) {
-				error = GetGraphicsImporterForDataRef(dataRef, HandleDataHandlerSubType, &gi);
-			} else {
-				outInfo->error = err_CannotAllocateHandleDataRef;
-				return false;
-			}
-			
-			if (error != noErr) {
-				outInfo->error = err_CannotGetGraphicsImporter;
-				return false;
-			} 			
-			
-			// Get info about the image
-			error = _RezImg_readBitmapInfo(gi, editInfo);
-			if (error != noErr) {
-				outInfo->error = error;
-				return false;
+			if (GetHandleSize(inDataH) > 0) {
+				error = _RezImg_getImageInfo(inDataH, imgType, NULL, editInfo);
+				if (error != noErr) {
+					outInfo->error = error;
+					return false;
+				} 
+							
+				// Make sure that the image isn't too large to fit comfortably onscreen
+				if ( editInfo->width > MAX_IMAGE_WIDTH || editInfo->height > MAX_IMAGE_HEIGHT ) {
+					_RezImg_rescaleImage( &editInfo->width, &editInfo->height, MAX_IMAGE_WIDTH, MAX_IMAGE_HEIGHT );
+				}
 			} 
-			error = _RezImg_getBitmapData(gi, editInfo);
-			if (error != noErr) {
-				outInfo->error = error;
-				return false;
-			} 
-			
-			CloseComponent(gi);
-			
-			if( editInfo->width <= 0 || editInfo->width > 32767 || editInfo->height <= 0 || editInfo->height > 32767) {
-				outInfo->error = err_InvalidImageSize;
-				return false;
-			}
-			
-			//	We should check and make sure that the image isn't too large to fit comfortably onscreen
-			imageWidth = editInfo->width;
-			imageHeight = editInfo->height;
-			if ( imageWidth > MAX_IMAGE_WIDTH || imageHeight > MAX_IMAGE_HEIGHT ) {
-				_RezImg_rescaleImage( &imageWidth, &imageHeight, MAX_IMAGE_WIDTH, MAX_IMAGE_HEIGHT );
-			}
 			
 			// Fill the RezPlugInfo
 			outInfo->plugref			= (RezPlugRef) editInfo;
@@ -362,12 +340,10 @@ RezImg_AcceptResource(void *myInstance, ResType inType, short inID, Handle inDat
 OSErr
 RezImg_EditResource(RezPlugRef inPlugref, RezHostInfo inInfo)
 {
-	OSErr					error = noErr;
-	HIRect					theViewRect;
-	HIViewRef				theImageView, theContentView;
-	CGDataProviderRef		theProvider = NULL;
-	CGColorSpaceRef			theColorspace = NULL;
-	CGImageRef				theImage = NULL;
+	OSErr			error = noErr;
+	HIRect			theViewRect;
+	HIViewRef		theContentView;
+	CGImageRef		theImage = NULL;
 
 	RezImg_EditInfo * editInfo = (RezImg_EditInfo *) inPlugref;
 	
@@ -375,31 +351,17 @@ RezImg_EditResource(RezPlugRef inPlugref, RezHostInfo inInfo)
 	editInfo->readonly = inInfo.readonly;
 	RezImg_MenuRef = *inInfo.menurefs;
 	
-	// Quartz stuff to put the image into an image view
-	theProvider = CGDataProviderCreateWithData(NULL, editInfo->bitmapData, editInfo->size, NULL);
-	if (editInfo->colorSpace != NULL) {
-		theColorspace = editInfo->colorSpace;
-	} else {
-		theColorspace = CGColorSpaceCreateDeviceRGB();
-	}
-	
-	if (theProvider && theColorspace) {
-		theImage = CGImageCreate(editInfo->width, editInfo->height, editInfo->bitsPerComponent, editInfo->bitsPerPixel,
-								  editInfo->bytesPerRow, theColorspace, editInfo->alphaInfo, theProvider, NULL, 0, kCGRenderingIntentDefault);
+	if (editInfo->bitmapData != NULL) {
+		theImage = _RezImg_getImageRef(editInfo);
+		if (theImage == NULL) {
+			return err_ImageCreateFailed;
+		}
 	} 
-	
-	if (theProvider) { CGDataProviderRelease( theProvider ); } 
-	if (theColorspace) { CGColorSpaceRelease( theColorspace ); } 
-
-	if (theImage == NULL) {
-		return err_ImageCreateFailed;
-	}
 		
 	// Create the scroll view and image view
 	HIScrollViewCreate(kHIScrollViewOptionsVertScroll | kHIScrollViewOptionsHorizScroll, &(editInfo->scrollref));
 	HIViewSetVisible(editInfo->scrollref, true);
 	HIViewFindByID(HIViewGetRoot(editInfo->winref), kHIViewWindowContentID, &theContentView);
-	
 	HIViewAddSubview(theContentView, editInfo->scrollref);
 	
 	theViewRect.origin.x = inInfo.contents.left;
@@ -408,13 +370,12 @@ RezImg_EditResource(RezPlugRef inPlugref, RezHostInfo inInfo)
 	theViewRect.size.height = inInfo.contents.bottom - inInfo.contents.top;
 	HIViewSetFrame(editInfo->scrollref, &theViewRect);
 	
-	HIImageViewCreate(theImage, &theImageView);
+	HIImageViewCreate(theImage, &(editInfo->imageview));
 	CGImageRelease(theImage);
+	HIViewSetVisible(editInfo->imageview, true);
+	HIViewAddSubview(editInfo->scrollref, editInfo->imageview);
 	
-	HIViewSetVisible(theImageView, true);
-	HIViewAddSubview(editInfo->scrollref, theImageView);
-	
-	error = InstallStandardEventHandler( GetControlEventTarget(editInfo->scrollref) );
+// 	error = InstallStandardEventHandler( GetControlEventTarget(editInfo->scrollref) );
 	
 	return error;
 }
@@ -547,24 +508,50 @@ RezImg_HandleMenu(RezPlugRef inPlugref, MenuRef menu, SInt16 inMenuItem)
 	
 	RezImg_EditInfo * editInfo = (RezImg_EditInfo *) inPlugref;
 	
-	switch (inMenuItem) {
-		case menu_RotateLeft:
-		// For testing
-		editInfo->modified = true;
-	
-		break;
-		
-		case menu_RotateRight:
-		break;
-		
-		case menu_FlipHorizontal:
-		break;
-		
-		case menu_FlipVertical:
-		break;
-		
-		case menu_Erase:
-		break;
+	switch (inMenuItem) {		
+		case menu_ImportFromFile: {	
+			CFURLRef	fileURL;
+			CFDataRef	fileData = NULL;
+
+			// Ask to open a file
+			_RezImg_openImageFile(&fileURL);
+			if (fileURL == NULL) {
+				return;
+			} 
+			
+			// Load data from URL
+			CFURLCreateDataAndPropertiesFromResource( kCFAllocatorDefault, fileURL, &fileData, NULL, NULL, NULL );			
+			CFRelease(fileURL);
+			if (fileData == NULL) {
+				return;
+			} else {
+				CFIndex theSize;
+				
+				if ( editInfo->bitmapData != NULL ) {
+					free(editInfo->bitmapData);
+				}
+				if ( editInfo->handle != NULL ) {
+					DisposeHandle(editInfo->handle);
+				}
+				
+				theSize = CFDataGetLength(fileData);
+				editInfo->handle = NewHandle(theSize);
+				
+				CFDataGetBytes(fileData, CFRangeMake(0, theSize), *(editInfo->handle)); 
+				CFRelease(fileData);
+				error = _RezImg_getImageInfo(editInfo->handle, editInfo->imageType, NULL, editInfo);
+				if (error == noErr) {
+					CGImageRef theImage = _RezImg_getImageRef(editInfo);
+					
+					if (theImage != NULL) {
+						HIImageViewSetImage(editInfo->imageview, theImage);
+						CGImageRelease(theImage);
+					}
+				} 
+			}
+			
+			break;
+		}
 		
 	}
 	
@@ -737,12 +724,60 @@ _RezImg_deallocRec( RezImg_Rec *myInstance )
 // -------------------------------------------------------------------------------------------
 
 OSErr
+_RezImg_getImageInfo(
+					 Handle             inDataH,
+					 OSType             imgType,
+					 StringPtr          mimeTypeString, 
+					 RezImg_EditInfo *	editInfo)
+{
+	OSErr		error;
+	Handle		dataRef = nil;
+	GraphicsImportComponent	gi;
+
+	dataRef = _RezImg_createHandleDataRef(inDataH, imgType, mimeTypeString);
+	if (dataRef) {
+		error = GetGraphicsImporterForDataRef(dataRef, HandleDataHandlerSubType, &gi);
+	} else {
+		return err_CannotAllocateHandleDataRef;
+	}
+	
+	if (error != noErr) {
+		return err_CannotGetGraphicsImporter;
+	} 			
+	
+	// Get info about the image
+	error = _RezImg_readBitmapInfo(gi, editInfo);
+	if (error != noErr) {
+		goto bail;
+	} 
+	error = _RezImg_getBitmapData(gi, editInfo);
+	if (error != noErr) {
+		goto bail;
+	} 
+	
+	if( editInfo->width <= 0 || editInfo->width > 32767 || editInfo->height <= 0 || editInfo->height > 32767) {
+		error = err_InvalidImageSize;
+	}
+	
+bail:
+	CloseComponent(gi);
+	return error;
+}
+
+
+// -------------------------------------------------------------------------------------------
+//
+// Adapted from Apple's QTtoCG sample code
+//
+// -------------------------------------------------------------------------------------------
+
+OSErr
 _RezImg_readBitmapInfo(GraphicsImportComponent gi, RezImg_EditInfo * editInfo)
 {
-	ComponentResult result;
-	ImageDescriptionHandle imageDescH = NULL;
-	ImageDescription *desc;
-	Handle profile = NULL;
+	ComponentResult			result;
+	ImageDescriptionHandle	imageDescH = NULL;
+	ImageDescription *		desc;
+	Handle 					profile = NULL;
 	OSErr					error = noErr;
 	
 	result = GraphicsImportGetImageDescription(gi, &imageDescH);
@@ -849,6 +884,39 @@ bail:
 
 // -------------------------------------------------------------------------------------------
 //
+// Get an image ref from the bitmap data
+//
+// -------------------------------------------------------------------------------------------
+
+CGImageRef
+_RezImg_getImageRef(RezImg_EditInfo * editInfo)
+{
+	CGImageRef				theImage = NULL;
+	CGDataProviderRef		theProvider = NULL;
+	CGColorSpaceRef			theColorspace = NULL;
+	
+	// Quartz stuff to put the image into an image view
+	theProvider = CGDataProviderCreateWithData(NULL, editInfo->bitmapData, editInfo->size, NULL);
+	if (editInfo->colorSpace != NULL) {
+		theColorspace = editInfo->colorSpace;
+	} else {
+		theColorspace = CGColorSpaceCreateDeviceRGB();
+	}
+	
+	if (theProvider && theColorspace) {
+		theImage = CGImageCreate(editInfo->width, editInfo->height, editInfo->bitsPerComponent, editInfo->bitsPerPixel,
+								 editInfo->bytesPerRow, theColorspace, editInfo->alphaInfo, theProvider, NULL, 0, kCGRenderingIntentDefault);
+	} 
+	
+	if (theProvider) { CGDataProviderRelease( theProvider ); } 
+	if (theColorspace) { CGColorSpaceRelease( theColorspace ); } 
+	
+	return theImage;
+}
+
+
+// -------------------------------------------------------------------------------------------
+//
 // Adapted from Apple's QTtoCG sample code
 //
 // -------------------------------------------------------------------------------------------
@@ -941,3 +1009,57 @@ bail:
 	return nil;
 }
 
+
+//------------------------------------------------------------------------------
+//	_RezImg_openImageFile
+//------------------------------------------------------------------------------
+
+OSStatus 
+_RezImg_openImageFile(CFURLRef * outURL)
+{
+	OSStatus					error;
+	NavDialogCreationOptions	options;
+	NavDialogRef				navDialog;
+	NavReplyRecord				navReply;
+	CFURLRef					fileURL = NULL;
+	
+	error = NavGetDefaultDialogCreationOptions( &options );
+	require_noerr( error, CantGetDefaultChooseFileOptions );
+	
+	error = NavCreateChooseFileDialog( &options, NULL, NULL, NULL, NULL, NULL, &navDialog );
+	require_noerr( error, CantCreateChooseFile );
+	
+	// Choose the file
+	error = NavDialogRun( navDialog );
+	require_noerr( error, CantRunChooseFileDialog );
+	
+	error = NavDialogGetReply( navDialog, &navReply );
+	require( error == userCanceledErr || error == noErr, CantGetChooseFileReply );
+	
+	// Create url to chosen file
+	if ( navReply.validRecord && error != userCanceledErr ) {
+		FSRef			fileRef;
+		
+		error = AEGetNthPtr( &navReply.selection, 1, typeFSRef, NULL, NULL, &fileRef, sizeof( FSRef ), NULL );
+		require_noerr( error, CantGetFSRefFromChooseFileReplyDesc );
+		
+		fileURL = CFURLCreateFromFSRef( kCFAllocatorDefault, &fileRef );
+		require_action( fileURL != NULL, CantCreateOpenFileURL, error = coreFoundationUnknownErr );
+		
+	}
+	
+	NavDisposeReply( &navReply );
+	
+CantCreateOpenFileURL:
+CantGetFSRefFromChooseFileReplyDesc:
+CantGetChooseFileReply:
+CantRunChooseFileDialog:
+	
+	NavDialogDispose( navDialog );
+	
+CantCreateChooseFile:
+CantGetDefaultChooseFileOptions:
+	
+	*outURL = fileURL;
+	return error;
+}
