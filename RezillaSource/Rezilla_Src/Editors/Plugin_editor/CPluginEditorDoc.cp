@@ -124,7 +124,7 @@ CPluginEditorDoc::Initialize()
 		
 		SetMainWindow( dynamic_cast<CEditorWindow *>(mPluginWindow) );
 		NameNewEditorDoc();
-		mPluginWindow->FinalizeEditor(this, &(plugInfo.attributes));
+		mPluginWindow->FinalizeEditor(this, NULL);
 		
 		// Create the plugin menus
 		hostInfo.menucount = mPlugin->CreateMenus(plugInfo.menucount, plugInfo.menuIDs);
@@ -358,17 +358,22 @@ CPluginEditorDoc::GetModifiedResource(Boolean &releaseIt)
 // error = InstallWindowEventHandler(gMainWindow,NewEventHandlerUPP(DvngMainWindowEventHandler),
 // 								2, optionsSpec, 
 // 								(void *) gMainWindow, NULL);
-
+// kEventClassWindow / kEventWindowBoundsChanged
 
 CPluginEditorWindow *
 CPluginEditorDoc::CreatePluginWindow(SInt32 inPlugAttrs, Rect inWinbounds) 
 {
 	WindowRef				winRef;
-	WindowAttributes		winAttrs = kWindowCloseBoxAttribute | kWindowStandardHandlerAttribute | kWindowCompositingAttribute;
+	WindowAttributes		winAttrs = kWindowCloseBoxAttribute 
+									| kWindowStandardHandlerAttribute 
+									| kWindowCompositingAttribute;
 	CPluginEditorWindow *	thePluginWindow = nil;
 	OSStatus				error;
-	EventTypeSpec			winSpec[] = {{kEventClassCommand, kEventCommandProcess},
-									  {kEventClassWindow, kEventWindowClose}};
+	EventTypeSpec			winSpec[] = { {kEventClassCommand, kEventCommandProcess},
+									  {kEventClassWindow, kEventWindowClose},
+									  {kEventClassWindow, kEventWindowBoundsChanged},
+									  {kEventClassWindow, kEventWindowActivated},
+									  {kEventClassWindow, kEventWindowDeactivated} };
 
 	if (inPlugAttrs & kPluginWinHasCollapseBox) {
 		winAttrs |= kWindowFullZoomAttribute | kWindowCollapseBoxAttribute;
@@ -386,7 +391,7 @@ CPluginEditorDoc::CreatePluginWindow(SInt32 inPlugAttrs, Rect inWinbounds)
 	error = InstallWindowEventHandler(winRef, 
 									  NewEventHandlerUPP(&CPluginEditorWindow::WindowEventHandler),
 									  GetEventTypeCount(winSpec), winSpec, 
-									  (void *) this, NULL);
+									  (void *) thePluginWindow, NULL);
 	
 	thePluginWindow->CreateControls(inPlugAttrs);
 									  
