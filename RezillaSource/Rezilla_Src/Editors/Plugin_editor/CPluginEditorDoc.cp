@@ -2,7 +2,7 @@
 // CPluginEditorDoc.cp
 // 
 //                       Created: 2005-10-02 08:41:52
-//             Last modification: 2006-03-06 22:20:58
+//             Last modification: 2006-03-08 09:15:31
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -152,7 +152,7 @@ CPluginEditorDoc::Initialize()
 			hostInfo.menurefs = theMenuRefs;
 		}
 		
-		mPluginWindow->GetContentsRect(hostInfo.contents);
+		mPluginWindow->GetContentsRect(hostInfo.editrect);
 	} else {
 		error = plugInfo.error;
 	}
@@ -227,10 +227,13 @@ CPluginEditorDoc::FindCommandStatus(
 	
 		case cmd_Save:
 		case cmd_SaveAs:
-		case cmd_ExportMap:
 			outEnabled = false;
 		break;
 
+		case cmd_Export:
+		outEnabled = HasAttribute(kPluginSupportExport);
+		break;
+				
 		case cmd_Revert:
 		outEnabled = HasAttribute(kPluginWinHasRevertButton);
 		break;
@@ -260,7 +263,7 @@ CPluginEditorDoc::FindCommandStatus(
 		break;		
 		
 		case cmd_Find:
-		LString::CopyPStr( "\pFind…", outName);
+		LString::CopyPStr( "\pFind√â", outName);
 		outEnabled = HasAttribute(kPluginSupportFind);
 		break;
 
