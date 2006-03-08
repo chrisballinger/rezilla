@@ -2,7 +2,7 @@
 // File: "RezillaPluginInterface.h"
 // 
 //                        Created: 2005-09-08 15:49:50
-//              Last modification: 2006-03-07 14:52:41
+//              Last modification: 2006-03-08 09:16:15
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -30,9 +30,11 @@
 #define kRezillaPluginEditorTypeID (CFUUIDGetConstantUUIDWithBytes(NULL,0x30,0x6A,0x0E,0xF3,0x20,0x6E,0x11,0xDA,0x83,0x20,0x00,0x0A,0x95,0xB1,0xFF,0x7C))
 
 // Define the UUID for the editor interface. RezillaEditorType objects must
-// implement RezillaEditorInterface:
+// implement RezillaEditorInterface.
+// This is version 1 (Vs1) of the interface. There might be different 
+// interfaces in the future.
 // "306AE167-206E-11DA-8320-000A95B1FF7C"
-#define kRezillaPluginEditorInterfaceID (CFUUIDGetConstantUUIDWithBytes(NULL,0x30,0x6A,0xE1,0x67,0x20,0x6E,0x11,0xDA,0x83,0x20,0x00,0x0A,0x95,0xB1,0xFF,0x7C))
+#define kRezillaPluginEditorInterfaceVs1 (CFUUIDGetConstantUUIDWithBytes(NULL,0x30,0x6A,0xE1,0x67,0x20,0x6E,0x11,0xDA,0x83,0x20,0x00,0x0A,0x95,0xB1,0xFF,0x7C))
 
 
 // Picker UUIDs
@@ -49,13 +51,13 @@
 
 enum {
 	kPluginWinHasNoAttributes		= 0L,
-	kPluginWinHasSaveButton			= (1L << 1),
-	kPluginWinHasCancelButton		= (1L << 2),
-	kPluginWinHasRevertButton		= (1L << 3),
-	kPluginWinHasLockIcon			= (1L << 4),
-	kPluginWinHasNameField			= (1L << 5),
-	kPluginWinHasCollapseBox		= (1L << 6),
-	kPluginWinIsResizable			= (1L << 7),
+	kPluginWinHasSaveButton			= (1L << 0),
+	kPluginWinHasCancelButton		= (1L << 1),
+	kPluginWinHasRevertButton		= (1L << 2),
+	kPluginWinHasLockIcon			= (1L << 3),
+	kPluginWinHasNameField			= (1L << 4),
+	kPluginWinHasCollapseBox		= (1L << 5),
+	kPluginWinIsResizable			= (1L << 6),
 	kPluginWinStandardControls		= (kPluginWinHasSaveButton 
 								   | kPluginWinHasCancelButton 
 								   | kPluginWinHasRevertButton 
@@ -67,7 +69,7 @@ enum {
 	kPluginSupportSelectAll			= (1L << 14),
 	kPluginSupportFind				= (1L << 15),
 	kPluginSupportFindNext			= (1L << 16),
-	kPluginSupportUndo				= (1L << 17),
+	kPluginSupportExport			= (1L << 17),
 	kPluginSupportEditCommands		= (kPluginSupportCut 
 								   | kPluginSupportCopy 
 								   | kPluginSupportPaste 
@@ -81,7 +83,8 @@ enum {
 	kPluginCommandClear,
 	kPluginCommandSelectAll,
 	kPluginCommandFind,
-	kPluginCommandFindNext
+	kPluginCommandFindNext,
+	kPluginCommandExport
 };
 
 
@@ -110,7 +113,7 @@ typedef struct RezHostInfo {
 	WindowRef	winref;
 	UInt8		menucount;
 	MenuRef	*	menurefs;
-	Rect		contents;
+	Rect		editrect;
 	Boolean		readonly;
 } RezHostInfo;
 
@@ -124,7 +127,7 @@ typedef struct SPluginEditorInterface {
 	Boolean	(*IsModified)(RezPlugRef inPlugref);
 	void	(*CleanUp)(RezPlugRef inPlugref);
 	void	(*Refresh)(RezPlugRef inPlugref);
-	void	(*ResizeBy)(RezPlugRef inPlugref, SInt16 inWidthDelta, SInt16 inHeightDelta);
+	OSErr	(*ResizeBy)(RezPlugRef inPlugref, SInt16 inWidthDelta, SInt16 inHeightDelta);
 	void	(*HandleMenu)(RezPlugRef inPlugref, MenuRef menu, SInt16 inMenuItem);
 	void	(*HandleClick)(RezPlugRef inPlugref, const EventRecord * inMacEvent, Point inPortCoords);
 	void	(*HandleKeyDown)(RezPlugRef inPlugref, const EventRecord * inKeyEvent);
@@ -138,7 +141,7 @@ typedef struct SPluginPickerInterface {
 	OSErr	(*EditPicker)(RezPlugRef inPlugref, RezHostInfo inInfo);
 	Handle	(*UpdatePicker)(RezPlugRef inPlugref, Boolean * outRelease, OSErr * outError);
 	void	(*CleanUp)(RezPlugRef inPlugref);
-	void	(*ResizeBy)(RezPlugRef inPlugref, SInt16 inWidthDelta, SInt16 inHeightDelta);
+	OSErr	(*ResizeBy)(RezPlugRef inPlugref, SInt16 inWidthDelta, SInt16 inHeightDelta);
 	void	(*HandleMenu)(RezPlugRef inPlugref, MenuRef menu, SInt16 inMenuItem);
 	void	(*HandleDoubleClick)(RezPlugRef inPlugref, const EventRecord * inMacEvent, Point inPortCoords);
 	void	(*HandleKeyDown)(RezPlugRef inPlugref, const EventRecord * inKeyEvent);
