@@ -152,7 +152,7 @@ CRezillaPlugin::Load()
 				
 				// Query IUnknown for the RezillaEditor interface
 				if( iunknown ) {
-					(*iunknown)->QueryInterface( iunknown, ::CFUUIDGetUUIDBytes( kRezillaPluginEditorInterfaceID ),
+					(*iunknown)->QueryInterface( iunknown, ::CFUUIDGetUUIDBytes( kRezillaPluginEditorInterfaceVs1 ),
 												 (LPVOID *)( &mInterface ) );
 
 					// Now we are done with IUnknown

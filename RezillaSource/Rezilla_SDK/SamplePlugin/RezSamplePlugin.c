@@ -2,7 +2,7 @@
 // File: "RezSamplePlugin.c"
 // 
 //                        Created: 2005-09-08 18:51:53
-//              Last modification: 2006-02-24 08:52:17
+//              Last modification: 2006-03-08 09:49:46
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -54,7 +54,7 @@ static OSErr		sample_RevertResource(RezPlugRef inPlugref, Handle inDataH);
 static Boolean		sample_IsModified(RezPlugRef inPlugref);
 static void			sample_CleanUp(RezPlugRef inPlugref);
 static void			sample_Refresh(RezPlugRef inPlugref);
-static void			sample_ResizeBy(RezPlugRef inPlugref, SInt16 inWidthDelta, SInt16 inHeightDelta);
+static OSErr		sample_ResizeBy(RezPlugRef inPlugref, SInt16 inWidthDelta, SInt16 inHeightDelta);
 static void			sample_HandleMenu(RezPlugRef inPlugref, MenuRef menu, SInt16 inMenuItem);
 static void			sample_HandleClick(RezPlugRef inPlugref, const EventRecord * inMacEvent, Point inPortCoords);
 static void			sample_HandleKeyDown(RezPlugRef inPlugref, const EventRecord * inKeyEvent);
@@ -126,7 +126,7 @@ sample_QueryInterface(void *myInstance, REFIID iid, LPVOID *ppv )
 	CFUUIDRef interfaceID = CFUUIDCreateFromUUIDBytes( NULL, iid );
 
 	// Test the requested ID against the valid interfaces
-	if ( CFEqual( interfaceID, kRezillaPluginEditorInterfaceID ) ) {
+	if ( CFEqual( interfaceID, kRezillaPluginEditorInterfaceVs1 ) ) {
 		// If the RezillaPluginInterface was requested, bump the ref count,
 		// set the ppv parameter equal to the instance, and return good status
 		( (SampleRec *) myInstance )->_rezillaPlugInterface->AddRef( myInstance );
@@ -378,9 +378,11 @@ sample_Refresh(RezPlugRef inPlugref)
 //
 // -------------------------------------------------------------------------------------------
 
-void
+OSErr
 sample_ResizeBy(RezPlugRef inPlugref, SInt16 inWidthDelta, SInt16 inHeightDelta)
 {
+	// Our sample window is not resizable
+	return plugErr_CantResizeWindow;
 }
 
 
