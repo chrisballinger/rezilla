@@ -1,0 +1,18 @@
+// Last modification: 2006-03-08 10:23:35
+
+// String to display in the Finder's Get Info window (\U00A9 = ©)
+#define kRezPluginLongInfo_EN kRezPluginShortInfoString ", Copyright © " __YEAR__ " by Bernard Desgraupes. All rights reserved."
+
+// Change this to be localized for English
+localize "English"
+{
+	comment "Localized versions of Info.plist keys"
+	key "CFBundleGetInfoString" value string kRezPluginLongInfo_EN
+}
+
+
+localize "English" as "Localizable.strings" 
+{
+	key "NoRequiredTypeInScrap" value string "There is no data of type ‘%s’ in the clipboard."
+}
+
