@@ -90,6 +90,7 @@ static enum {
 // Statics
 static MenuID		RezImg_MenuID;
 static MenuRef		RezImg_MenuRef;
+static CFBundleRef	RezImg_BundleRef;
 
 
 // Prototypes
@@ -315,8 +316,8 @@ RezImg_AcceptResource(void *myInstance, ResType inType, short inID, Handle inDat
 			
 			// Fill the RezPlugInfo
 			outInfo->plugref			= (RezPlugRef) editInfo;
-			outInfo->attributes			= kPluginWinStandardControls 
-											| kPluginWinHasNameField 
+			outInfo->attributes			= kPluginEditorStandardControls 
+											| kPluginEditorHasNameField 
 											| kPluginWinIsResizable
 											| kPluginSupportEditCommands;
 			outInfo->winbounds.top		= kRezImg_WinBoundsTop;
@@ -352,6 +353,7 @@ RezImg_EditResource(RezPlugRef inPlugref, RezHostInfo inInfo)
 	editInfo->winref = inInfo.winref;
 	editInfo->readonly = inInfo.readonly;
 	RezImg_MenuRef = *inInfo.menurefs;
+	RezImg_BundleRef = inInfo.bundleref;
 	
 	if (editInfo->bitmapData != NULL) {
 		theImage = _RezImg_getImageRef(editInfo);
@@ -558,6 +560,7 @@ RezImg_HandleMenu(RezPlugRef inPlugref, MenuRef menu, SInt16 inMenuItem)
 void
 RezImg_HandleClick(RezPlugRef inPlugref, const EventRecord * inMacEvent, Point inPortCoords)
 {
+	// Do nothing
 }
 
 
@@ -571,6 +574,7 @@ RezImg_HandleClick(RezPlugRef inPlugref, const EventRecord * inMacEvent, Point i
 void
 RezImg_HandleKeyDown(RezPlugRef inPlugref, const EventRecord * inKeyEvent)
 {
+	// Do nothing
 }
 
 
@@ -589,7 +593,7 @@ RezImg_HandleKeyDown(RezPlugRef inPlugref, const EventRecord * inKeyEvent)
 Boolean
 RezImg_HandleCommand(RezPlugRef inPlugref, SInt16 inCommand)
 {
-	Boolean cmdHandled = true;
+	Boolean		cmdHandled = true;
 	OSErr		error = noErr;
 	ScrapRef	scrapref = kScrapRefNone;
 
@@ -627,6 +631,7 @@ RezImg_HandleCommand(RezPlugRef inPlugref, SInt16 inCommand)
 					}
 				}
 			} else {
+				// scrapFlavorNotFoundErr
 				_RezImg_displayMessage(CFSTR("NoRequiredTypeInScrap"), editInfo->type);
 			}
 			break;
@@ -1137,33 +1142,29 @@ _RezImg_installImageData(RezImg_EditInfo * editInfo)
 //	Display an alert message
 //	
 //------------------------------------------------------------------------------
-/* 
- * 	errorStr = CFBundleCopyLocalizedString( CFBundleGetMainBundle(), errorRef, errorRef, CFSTR("Errors") );
-* 	errorStr = CFBundleCopyLocalizedString( CFBundleGetMainBundle(), errorRef, errorRef, CFSTR("Localizable") );
- * 					
- * CFStringRef CFBundleCopyLocalizedString(CFBundleRef bundle, CFStringRef key, CFStringRef value, CFStringRef tableName);
- * 
- * #define CFCopyLocalizedString(key, comment) \
- *             CFBundleCopyLocalizedString(CFBundleGetMainBundle(), (key), (key), NULL)
- */
 
 void 
 _RezImg_displayMessage(CFStringRef inFormatStringKey, OSType inType) 
 {
-	SInt16      itemHit = 0;
 	CFStringRef formatStr = NULL, errorMsg = NULL;
-	Str255      stringBuf;
-	
-	formatStr =  CFCopyLocalizedString(inFormatStringKey, NULL); 
-	
-	if (formatStr != NULL) {
-		errorMsg = CFStringCreateWithFormat(NULL, NULL, formatStr, inType); 
-		if (errorMsg != NULL) {
-			if (CFStringGetPascalString(errorMsg, stringBuf, sizeof(stringBuf), GetApplicationTextEncoding())) {
-				StandardAlert(kAlertNoteAlert, stringBuf, NULL, NULL, &itemHit); 
+
+	if (RezImg_BundleRef != nil) {
+		formatStr = CFBundleCopyLocalizedString( RezImg_BundleRef, inFormatStringKey, inFormatStringKey, CFSTR("Localizable") );
+		if (formatStr != NULL) {
+			SInt16      itemHit = 0;
+			Str255      stringBuf;
+			char		theType[5];
+
+			theType[4] = 0;
+			*(OSType*)theType = inType;
+			errorMsg = CFStringCreateWithFormat(NULL, NULL, formatStr, theType); 
+			if (errorMsg != NULL) {
+				if (CFStringGetPascalString(errorMsg, stringBuf, sizeof(stringBuf), GetApplicationTextEncoding())) {
+					StandardAlert(kAlertNoteAlert, stringBuf, NULL, NULL, &itemHit); 
+				}
+				CFRelease(errorMsg);                      
 			}
-			CFRelease(errorMsg);                      
+			CFRelease(formatStr);                              
 		}
-		CFRelease(formatStr);                              
 	}
 }
