@@ -18,9 +18,6 @@
 // Short version string
 #define kRezPluginShortInfoString __OUTPUT_FILENAME__ " "  IMAGE_PLUGIN_VERSION
 
-// String to display in the Finder's Get Info window (\U00A9 = ©)
-#define kRezPluginLongInfo kRezPluginShortInfoString ", Copyright © " __YEAR__ " by Bernard Desgraupes. All rights reserved."
-
 // "306A0EF3-206E-11DA-8320-000A95B1FF7C"
 #define kRezillaPluginEditorTypeID "306A0EF3-206E-11DA-8320-000A95B1FF7C"
 
@@ -33,7 +30,6 @@ plist
 		
 		key "CFBundleName" value string __OUTPUT_FILENAME__
 		key "CFBundleShortVersionString" value string kRezPluginShortInfoString
-		key "CFBundleGetInfoString" value string kRezPluginLongInfo
 	
 		key "CFBundlePackageType" value string __OUTPUT_TYPE__
 		key "CFBundleSignature" value string __OUTPUT_CREATOR__
@@ -83,3 +79,6 @@ plist
 	}
 }
 
+
+#include "RezImagePlugin_EN.ploc"
+#include "RezImagePlugin_FR.ploc"
