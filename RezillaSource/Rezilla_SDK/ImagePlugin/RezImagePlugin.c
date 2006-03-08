@@ -2,7 +2,7 @@
 // File: "RezImagePlugin.c"
 // 
 //                        Created: 2006-02-20 14:15:30
-//              Last modification: 2006-03-07 23:45:14
+//              Last modification: 2006-03-08 09:58:46
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -61,7 +61,6 @@ typedef struct RezImg_EditInfo {
 	unsigned char *		bitmapData;
 	CGImageAlphaInfo	alphaInfo;
 	CGColorSpaceRef		colorSpace;
-	CMProfileRef		profileRef;
 } RezImg_EditInfo;
 
 
@@ -104,6 +103,9 @@ static void 		_RezImg_rescaleImage( size_t* imageWidthPtr, size_t* imageHeightPt
 static Handle		_RezImg_createHandleDataRef(Handle dataHandle, OSType fileType, StringPtr mimeTypeString);
 static OSStatus		_RezImg_openImageFile(CFURLRef * outURL);
 static CGImageRef	_RezImg_getImageRef(RezImg_EditInfo * editInfo);
+static void 		_RezImg_clearImageData(RezImg_EditInfo * editInfo);
+static void			_RezImg_installImageData(RezImg_EditInfo * editInfo);
+static void 		_RezImg_displayMessage(CFStringRef inFormatStringKey, OSType inType);
 
 static HRESULT		RezImg_QueryInterface(void *myInstance, REFIID iid, LPVOID *ppv );
 static ULONG		RezImg_AddRef(void *myInstance );
@@ -113,9 +115,9 @@ static OSErr		RezImg_EditResource(RezPlugRef inPlugref, RezHostInfo inInfo);
 static Handle		RezImg_ReturnResource(RezPlugRef inPlugref, Boolean * releaseIt, OSErr * outError);
 static OSErr		RezImg_RevertResource(RezPlugRef inPlugref, Handle inDataH);
 static Boolean		RezImg_IsModified(RezPlugRef inPlugref);
-static 	void		RezImg_CleanUp(RezPlugRef inPlugref);
-static 	void		RezImg_Refresh(RezPlugRef inPlugref);
-static 	void		RezImg_ResizeBy(RezPlugRef inPlugref, SInt16 inWidthDelta, SInt16 inHeightDelta);
+static void			RezImg_CleanUp(RezPlugRef inPlugref);
+static void			RezImg_Refresh(RezPlugRef inPlugref);
+static OSErr		RezImg_ResizeBy(RezPlugRef inPlugref, SInt16 inWidthDelta, SInt16 inHeightDelta);
 static void			RezImg_HandleMenu(RezPlugRef inPlugref, MenuRef menu, SInt16 inMenuItem);
 static void			RezImg_HandleClick(RezPlugRef inPlugref, const EventRecord * inMacEvent, Point inPortCoords);
 static void			RezImg_HandleKeyDown(RezPlugRef inPlugref, const EventRecord * inKeyEvent);
@@ -167,7 +169,7 @@ RezImg_QueryInterface(void *myInstance, REFIID iid, LPVOID *ppv )
 	CFUUIDRef interfaceID = CFUUIDCreateFromUUIDBytes( NULL, iid );
 
 	// Test the requested ID against the valid interfaces
-	if ( CFEqual( interfaceID, kRezillaPluginEditorInterfaceID ) ) {
+	if ( CFEqual( interfaceID, kRezillaPluginEditorInterfaceVs1 ) ) {
 		// If the RezillaPluginInterface was requested, bump the ref count,
 		// set the ppv parameter equal to the instance, and return good status
 		( (RezImg_Rec *) myInstance )->_rezillaPlugInterface->AddRef( myInstance );
@@ -364,10 +366,10 @@ RezImg_EditResource(RezPlugRef inPlugref, RezHostInfo inInfo)
 	HIViewFindByID(HIViewGetRoot(editInfo->winref), kHIViewWindowContentID, &theContentView);
 	HIViewAddSubview(theContentView, editInfo->scrollref);
 	
-	theViewRect.origin.x = inInfo.contents.left;
-	theViewRect.origin.y = inInfo.contents.top;
-	theViewRect.size.width = inInfo.contents.right - inInfo.contents.left;
-	theViewRect.size.height = inInfo.contents.bottom - inInfo.contents.top;
+	theViewRect.origin.x = inInfo.editrect.left;
+	theViewRect.origin.y = inInfo.editrect.top;
+	theViewRect.size.width = inInfo.editrect.right - inInfo.editrect.left;
+	theViewRect.size.height = inInfo.editrect.bottom - inInfo.editrect.top;
 	HIViewSetFrame(editInfo->scrollref, &theViewRect);
 	
 	HIImageViewCreate(theImage, &(editInfo->imageview));
@@ -391,17 +393,9 @@ RezImg_EditResource(RezPlugRef inPlugref, RezHostInfo inInfo)
 Handle
 RezImg_ReturnResource(RezPlugRef inPlugref, Boolean * releaseIt, OSErr * outError)
 {
-	Handle		theHandle = NULL;
-	Size		theSize;
-	Str255		theString;
-	char		buffer[256];
-	OSErr		error = noErr;
-	
 	RezImg_EditInfo * editInfo = (RezImg_EditInfo *) inPlugref;
-	
-	
-	*outError = error;
-	return theHandle;
+	*outError = noErr;
+	return editInfo->handle;
 }
 
 
@@ -418,8 +412,16 @@ RezImg_RevertResource(RezPlugRef inPlugref, Handle inDataH)
 	OSErr		error = noErr;
 	
 	RezImg_EditInfo * editInfo = (RezImg_EditInfo *) inPlugref;
-	editInfo->modified = false;
 
+	if (inDataH != NULL) {
+		_RezImg_clearImageData(editInfo);
+		editInfo->handle = inDataH;
+		_RezImg_installImageData(editInfo);
+		editInfo->modified = false;
+	} else {
+		error = plugErr_RevertResourceFailed;
+	}
+	
 	return error;
 }
 
@@ -481,16 +483,21 @@ RezImg_Refresh(RezPlugRef inPlugref)
 //
 // -------------------------------------------------------------------------------------------
 
-void
+OSErr
 RezImg_ResizeBy(RezPlugRef inPlugref, SInt16 inWidthDelta, SInt16 inHeightDelta)
 {
+	OSErr			error = noErr;
 	HIRect			hiBounds;
 	RezImg_EditInfo * editInfo = (RezImg_EditInfo *) inPlugref;
 
 	HIViewGetFrame(editInfo->scrollref, &hiBounds);
 	hiBounds.size.width		+= inWidthDelta;
 	hiBounds.size.height	+= inHeightDelta;
-	HIViewSetFrame(editInfo->scrollref, &hiBounds);
+	error = HIViewSetFrame(editInfo->scrollref, &hiBounds);
+	if (error != noErr) {
+		error = plugErr_CantResizeWindow;
+	} 
+	return error;
 }
 
 
@@ -515,9 +522,7 @@ RezImg_HandleMenu(RezPlugRef inPlugref, MenuRef menu, SInt16 inMenuItem)
 
 			// Ask to open a file
 			_RezImg_openImageFile(&fileURL);
-			if (fileURL == NULL) {
-				return;
-			} 
+			if (fileURL == NULL) {return;} 
 			
 			// Load data from URL
 			CFURLCreateDataAndPropertiesFromResource( kCFAllocatorDefault, fileURL, &fileData, NULL, NULL, NULL );			
@@ -525,37 +530,21 @@ RezImg_HandleMenu(RezPlugRef inPlugref, MenuRef menu, SInt16 inMenuItem)
 			if (fileData == NULL) {
 				return;
 			} else {
-				CFIndex theSize;
-				
-				if ( editInfo->bitmapData != NULL ) {
-					free(editInfo->bitmapData);
-				}
-				if ( editInfo->handle != NULL ) {
-					DisposeHandle(editInfo->handle);
-				}
-				
-				theSize = CFDataGetLength(fileData);
-				editInfo->handle = NewHandle(theSize);
-				
-				CFDataGetBytes(fileData, CFRangeMake(0, theSize), *(editInfo->handle)); 
-				CFRelease(fileData);
-				error = _RezImg_getImageInfo(editInfo->handle, editInfo->imageType, NULL, editInfo);
-				if (error == noErr) {
-					CGImageRef theImage = _RezImg_getImageRef(editInfo);
-					
-					if (theImage != NULL) {
-						HIImageViewSetImage(editInfo->imageview, theImage);
-						CGImageRelease(theImage);
-					}
+				CFIndex		theSize = CFDataGetLength(fileData);
+				Handle		theHandle = NewHandle(theSize);
+				if (theHandle != NULL) {
+					CFDataGetBytes(fileData, CFRangeMake(0, theSize), *theHandle); 
+					CFRelease(fileData);
+					_RezImg_clearImageData(editInfo);
+					editInfo->handle = theHandle;
+					_RezImg_installImageData(editInfo);
+					editInfo->modified = true;
 				} 
 			}
 			
 			break;
 		}
-		
 	}
-	
-	editInfo->modified = true;
 }
 
 
@@ -601,18 +590,52 @@ Boolean
 RezImg_HandleCommand(RezPlugRef inPlugref, SInt16 inCommand)
 {
 	Boolean cmdHandled = true;
-	
+	OSErr		error = noErr;
+	ScrapRef	scrapref = kScrapRefNone;
+
+	RezImg_EditInfo * editInfo = (RezImg_EditInfo *) inPlugref;
+
 	switch (inCommand) {
 		case kPluginCommandCut:
+		RezImg_HandleCommand(inPlugref, kPluginCommandCopy);
+		RezImg_HandleCommand(inPlugref, kPluginCommandClear);		
 		break;
 		
 		case kPluginCommandCopy:
+		if (editInfo->handle) {
+			error = ClearCurrentScrap();
+			error = GetCurrentScrap(&scrapref);
+			error = PutScrapFlavor(scrapref, editInfo->type, 0, GetHandleSize(editInfo->handle), *editInfo->handle); 
+		} 
 		break;
 		
-		case kPluginCommandPaste:
-		break;
+		case kPluginCommandPaste: {
+			Handle		theHandle;
+			Size		theSize;
+		
+			error = GetCurrentScrap(&scrapref);
+			error = GetScrapFlavorSize(scrapref, editInfo->type, &theSize);
+			if (error == noErr) {
+				theHandle = NewHandle(theSize);
+				if (theHandle != nil) {
+					error = GetScrapFlavorData(scrapref, editInfo->type, &theSize, *theHandle);
+					if (error == noErr) {
+						_RezImg_clearImageData(editInfo);
+						editInfo->handle = theHandle;
+						_RezImg_installImageData(editInfo);
+						editInfo->modified = true;
+					}
+				}
+			} else {
+				_RezImg_displayMessage(CFSTR("NoRequiredTypeInScrap"), editInfo->type);
+			}
+			break;
+		}
 		
 		case kPluginCommandClear:
+		_RezImg_clearImageData(editInfo);
+		HIImageViewSetImage(editInfo->imageview, NULL);
+		editInfo->modified = true;
 		break;
 		
 		default:
@@ -798,30 +821,30 @@ _RezImg_readBitmapInfo(GraphicsImportComponent gi, RezImg_EditInfo * editInfo)
 	
 	// Look for any embedded profile
 	editInfo->colorSpace = NULL;
-	editInfo->profileRef = NULL;
 	GraphicsImportGetColorSyncProfile(gi, &profile);
 	if( profile != NULL ) {
-		CMError err;
+		CMProfileRef	profileRef;
+		CMError			cmError;
 		CMProfileLocation profLoc;
-		Boolean bValid, bPreferredCMMNotFound;
+		Boolean			isValid, preferredNotFound;
 		
 		profLoc.locType = cmHandleBasedProfile;
 		profLoc.u.handleLoc.h = profile;
 		
-		err = CMOpenProfile(&editInfo->profileRef, &profLoc);
-		if( err != noErr ) {
+		cmError = CMOpenProfile(&profileRef, &profLoc);
+		if( cmError != noErr ) {
 			error = err_CannotOpenProfile;
 			goto bail;
 		}
 		
 		// Not necessary to validate profile, but good for debugging
-		err = CMValidateProfile(editInfo->profileRef, &bValid, &bPreferredCMMNotFound);
-		if( err != noErr ) {
+		cmError = CMValidateProfile(profileRef, &isValid, &preferredNotFound);
+		if( cmError != noErr ) {
 			error = err_InvalidProfile;
 			goto bail;
 		}
 		
-		editInfo->colorSpace = CGColorSpaceCreateWithPlatformColorSpace( &editInfo->profileRef );
+		editInfo->colorSpace = CGColorSpaceCreateWithPlatformColorSpace( &profileRef );
 		
 		if( editInfo->colorSpace == NULL ) {
 			error = err_CreatingEmbeddedColorSpaceWithCsyncFailed;
@@ -1011,7 +1034,9 @@ bail:
 
 
 //------------------------------------------------------------------------------
+//
 //	_RezImg_openImageFile
+//	
 //------------------------------------------------------------------------------
 
 OSStatus 
@@ -1062,4 +1087,83 @@ CantGetDefaultChooseFileOptions:
 	
 	*outURL = fileURL;
 	return error;
+}
+
+
+//------------------------------------------------------------------------------
+//
+//	Release memory allocated for our image
+//	
+//------------------------------------------------------------------------------
+
+void 
+_RezImg_clearImageData(RezImg_EditInfo * editInfo)
+{
+	editInfo->width = 0;
+	editInfo->height = 0;
+	if ( editInfo->bitmapData != NULL ) {
+		free(editInfo->bitmapData);
+	}
+	if ( editInfo->handle != NULL ) {
+		DisposeHandle(editInfo->handle);
+	}
+}
+
+
+//------------------------------------------------------------------------------
+//
+//	Install the data in memory in the image view
+//	
+//------------------------------------------------------------------------------
+
+void
+_RezImg_installImageData(RezImg_EditInfo * editInfo)
+{
+	OSErr		error = noErr;
+	error = _RezImg_getImageInfo(editInfo->handle, editInfo->imageType, NULL, editInfo);
+	if (error == noErr) {
+		CGImageRef theImage = _RezImg_getImageRef(editInfo);
+		
+		if (theImage != NULL) {
+			HIImageViewSetImage(editInfo->imageview, theImage);
+			CGImageRelease(theImage);
+		}
+	} 
+}
+
+
+//------------------------------------------------------------------------------
+//
+//	Display an alert message
+//	
+//------------------------------------------------------------------------------
+/* 
+ * 	errorStr = CFBundleCopyLocalizedString( CFBundleGetMainBundle(), errorRef, errorRef, CFSTR("Errors") );
+* 	errorStr = CFBundleCopyLocalizedString( CFBundleGetMainBundle(), errorRef, errorRef, CFSTR("Localizable") );
+ * 					
+ * CFStringRef CFBundleCopyLocalizedString(CFBundleRef bundle, CFStringRef key, CFStringRef value, CFStringRef tableName);
+ * 
+ * #define CFCopyLocalizedString(key, comment) \
+ *             CFBundleCopyLocalizedString(CFBundleGetMainBundle(), (key), (key), NULL)
+ */
+
+void 
+_RezImg_displayMessage(CFStringRef inFormatStringKey, OSType inType) 
+{
+	SInt16      itemHit = 0;
+	CFStringRef formatStr = NULL, errorMsg = NULL;
+	Str255      stringBuf;
+	
+	formatStr =  CFCopyLocalizedString(inFormatStringKey, NULL); 
+	
+	if (formatStr != NULL) {
+		errorMsg = CFStringCreateWithFormat(NULL, NULL, formatStr, inType); 
+		if (errorMsg != NULL) {
+			if (CFStringGetPascalString(errorMsg, stringBuf, sizeof(stringBuf), GetApplicationTextEncoding())) {
+				StandardAlert(kAlertNoteAlert, stringBuf, NULL, NULL, &itemHit); 
+			}
+			CFRelease(errorMsg);                      
+		}
+		CFRelease(formatStr);                              
+	}
 }
