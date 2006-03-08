@@ -529,7 +529,7 @@ const CommandT	cmd_DuplicateRez		= cmd_MenuResourceBase + 11;
 const CommandT	cmd_GetRezInfo			= cmd_MenuResourceBase + 15;
 const CommandT	cmd_TmplEditAsRez		= cmd_MenuResourceBase + 99;	// Phony Cmd used for redirection
 // File menu commands
-const CommandT	cmd_ExportMap			= cmd_MenuFileBase + 1;	
+const CommandT	cmd_Export				= cmd_MenuFileBase + 1;	
 const CommandT	cmd_RecentItems			= cmd_MenuFileBase + 2;	
 // Edit menu commands
 const CommandT	cmd_Find				= cmd_MenuEditBase + 1;	

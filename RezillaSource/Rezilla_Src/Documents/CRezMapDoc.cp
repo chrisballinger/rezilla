@@ -327,7 +327,7 @@ CRezMapDoc::ObeyCommand(
 		}
 			break;
 
-		case cmd_ExportMap: {
+		case cmd_Export: {
 			FSSpec	theFSSpec;
 			AskExportAs(theFSSpec, RecordAE_Yes);
 			break;
@@ -1343,12 +1343,12 @@ CRezMapDoc::FindCommandStatus(
 			break;
 
 		case cmd_Find:
-// 			LString::CopyPStr( "\pFind in Map…", outName);
+// 			LString::CopyPStr( "\pFind in Map√â", outName);
 // 			outEnabled = true;
 			outEnabled = false;
 			break;
 								
-		case cmd_ExportMap:
+		case cmd_Export:
 			outEnabled = true;
 			break;
 		

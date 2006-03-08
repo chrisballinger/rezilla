@@ -2,7 +2,7 @@
 // CPluginEditorWindow.cp
 // 
 //                       Created: 2005-10-02 08:41:52
-//             Last modification: 2006-03-07 14:43:21
+//             Last modification: 2006-03-08 09:14:57
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -430,6 +430,9 @@ CPluginEditorWindow::ObeyCommand(
 	}
 
 	switch (inCommand) {
+		case cmd_Export:
+		(*mInterface)->HandleCommand(mPlugRef, kPluginCommandExport);
+		break;
 
 		case cmd_Cut:
 		(*mInterface)->HandleCommand(mPlugRef, kPluginCommandCut);

@@ -191,13 +191,13 @@ CEditorDoc::FindCommandStatus(
 	
 		case cmd_Save:
 		case cmd_SaveAs:
-		case cmd_ExportMap:
+		case cmd_Export:
 		case cmd_FindNext:
 			outEnabled = false;
 		break;
 
 		case cmd_Find:
-		LString::CopyPStr( "\pFind…", outName);
+		LString::CopyPStr( "\pFind√â", outName);
 		outEnabled = false;
 		break;
 
