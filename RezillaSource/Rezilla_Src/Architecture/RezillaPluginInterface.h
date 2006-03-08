@@ -9,11 +9,6 @@
 // (c) Copyright: Bernard Desgraupes 2005-2006
 // All rights reserved.
 // ===========================================================================
-// From /Developer/ADC%20Reference%20Library/documentation/CoreFoundation/Conceptual/CFPlugIns/index.html?file:/Developer/ADC%20Reference%20Library/documentation/CoreFoundation/Conceptual/CFPlugIns/CFPlugIns.html
-//    "By passing a this pointer to each interface function, you allow the
-//    plug-in writer to implement in C++ and to have access to the plug-in
-//    object when the function executes in any language."
-
 
 #ifndef REZILLAPLUGININTERFACE_H
 #define REZILLAPLUGININTERFACE_H
@@ -49,19 +44,23 @@
 #define kRezillaPluginPickerInterfaceID (CFUUIDGetConstantUUIDWithBytes(NULL,0x1C,0x1E,0xC2,0x56,0xA5,0x0C,0x11,0xDA,0x81,0xFC,0x00,0x0A,0x95,0xB1,0xFF,0x7C))
 
 
+// Rezilla plugin flags
 enum {
-	kPluginWinHasNoAttributes		= 0L,
-	kPluginWinHasSaveButton			= (1L << 0),
-	kPluginWinHasCancelButton		= (1L << 1),
-	kPluginWinHasRevertButton		= (1L << 2),
-	kPluginWinHasLockIcon			= (1L << 3),
-	kPluginWinHasNameField			= (1L << 4),
+	kPluginNoAttributes				= 0L,
+	
+	kPluginEditorHasSaveButton		= (1L << 0),
+	kPluginEditorHasCancelButton	= (1L << 1),
+	kPluginEditorHasRevertButton	= (1L << 2),
+	kPluginEditorHasLockIcon		= (1L << 3),
+	kPluginEditorHasNameField		= (1L << 4),
+	kPluginEditorStandardControls	= (kPluginEditorHasSaveButton 
+								   | kPluginEditorHasCancelButton 
+								   | kPluginEditorHasRevertButton 
+								   | kPluginEditorHasLockIcon),
+	
 	kPluginWinHasCollapseBox		= (1L << 5),
 	kPluginWinIsResizable			= (1L << 6),
-	kPluginWinStandardControls		= (kPluginWinHasSaveButton 
-								   | kPluginWinHasCancelButton 
-								   | kPluginWinHasRevertButton 
-								   | kPluginWinHasLockIcon),
+	
 	kPluginSupportCut				= (1L << 10),
 	kPluginSupportCopy				= (1L << 11),
 	kPluginSupportPaste				= (1L << 12),
@@ -76,6 +75,8 @@ enum {
 								   | kPluginSupportClear)
 };
 
+
+// Rezilla plugin command IDs
 enum {
 	kPluginCommandCut		= 1,
 	kPluginCommandCopy,
@@ -109,6 +110,7 @@ typedef struct RezPlugInfo {
 
 // Structure sent by the host with post-initialisation info
 typedef struct RezHostInfo {
+	CFBundleRef bundleref;
 	short		refnum;
 	WindowRef	winref;
 	UInt8		menucount;
@@ -118,6 +120,7 @@ typedef struct RezHostInfo {
 } RezHostInfo;
 
 
+// The function table defining the editor interface
 typedef struct SPluginEditorInterface {
 	IUNKNOWN_C_GUTS;
 	Boolean	(*AcceptResource)(void *myInstance, ResType inType, short inID, Handle inDataH, RezPlugInfo * outInfo);
@@ -135,6 +138,7 @@ typedef struct SPluginEditorInterface {
 } SPluginEditorInterface;
 
 
+// The function table defining the picker interface
 typedef struct SPluginPickerInterface {
 	IUNKNOWN_C_GUTS;
 	Boolean	(*AcceptType)(void *myInstance, ResType inType, short inID, Handle inDataH, RezPlugInfo * outInfo);

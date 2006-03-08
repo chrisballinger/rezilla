@@ -226,7 +226,7 @@ sample_AcceptResource(void *myInstance, ResType inType, short inID, Handle inDat
 		
 			// Fill the RezPlugInfo
 			outInfo->plugref			= (RezPlugRef) editInfo;
-			outInfo->attributes			= kPluginWinStandardControls | kPluginWinHasNameField;
+			outInfo->attributes			= kPluginEditorStandardControls | kPluginEditorHasNameField;
 			outInfo->winbounds.top		= kSampleBoundsTop;
 			outInfo->winbounds.left		= kSampleBoundsLeft;
 			outInfo->winbounds.bottom	= kSampleBoundsBottom;

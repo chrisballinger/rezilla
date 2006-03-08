@@ -130,6 +130,7 @@ CPluginEditorDoc::Initialize()
 		hostInfo.menucount = mPlugin->CreateMenus(plugInfo.menucount, plugInfo.menuIDs);
 		
 		// Fill the reply structure
+		hostInfo.bundleref = ::CFPlugInGetBundle( mPlugin->GetPluginRef() );
 		hostInfo.winref = mPluginWindow->GetMacWindow();
 		hostInfo.readonly = IsReadOnly();
 		if (mRezObj != nil) {
@@ -235,7 +236,7 @@ CPluginEditorDoc::FindCommandStatus(
 		break;
 				
 		case cmd_Revert:
-		outEnabled = HasAttribute(kPluginWinHasRevertButton);
+		outEnabled = HasAttribute(kPluginEditorHasRevertButton);
 		break;
 				
 		case cmd_Close : 

@@ -142,7 +142,7 @@ CPluginEditorWindow::CreateControls(SInt32 inPlugAttrs)
 	HIViewFindByID(HIViewGetRoot(winRef), kHIViewWindowContentID, &contentView);
 	ThrowIfNil_(contentView);
 
-	if ( inPlugAttrs != kPluginWinHasNoAttributes && (inPlugAttrs & kPluginWinHasNameField) != 0 ) {		
+	if ( inPlugAttrs != kPluginNoAttributes && (inPlugAttrs & kPluginEditorHasNameField) != 0 ) {		
 		ControlFontStyleRec		cfsr;
 
 		// Create a header
@@ -178,7 +178,7 @@ CPluginEditorWindow::CreateControls(SInt32 inPlugAttrs)
 		HIViewSetVisible(mNameRef, true);			  
 	}	
 	
-	if ( inPlugAttrs != kPluginWinHasNoAttributes && (inPlugAttrs & kPluginWinStandardControls) != 0 ) {
+	if ( inPlugAttrs != kPluginNoAttributes && (inPlugAttrs & kPluginEditorStandardControls) != 0 ) {
 		
 		// Create a footer
 		boundsRect.top		= frameSize.height - kPluginFooterHeight;
@@ -194,7 +194,7 @@ CPluginEditorWindow::CreateControls(SInt32 inPlugAttrs)
 
 		boundsRect.top			= kEditorButtonTop;
 		boundsRect.bottom		= boundsRect.top + kEditorButtonHeight ;
-		if ( (inPlugAttrs & kPluginWinHasSaveButton) != 0) {
+		if ( (inPlugAttrs & kPluginEditorHasSaveButton) != 0) {
 			Boolean	flag = true;
 			
 			// Create a Save button
@@ -213,7 +213,7 @@ CPluginEditorWindow::CreateControls(SInt32 inPlugAttrs)
 			HIViewAddSubview(mFooterRef, mSaveRef);
 			HIViewSetVisible(mSaveRef, true);
 		}
-		if ( (inPlugAttrs & kPluginWinHasCancelButton) != 0) {
+		if ( (inPlugAttrs & kPluginEditorHasCancelButton) != 0) {
 			// Create a Cancel button
 			boundsRect.left		= frameSize.width - kEditorCancelRightPos;
 			boundsRect.right	= boundsRect.left + kEditorButtonWidth;
@@ -226,7 +226,7 @@ CPluginEditorWindow::CreateControls(SInt32 inPlugAttrs)
 			HIViewAddSubview(mFooterRef, mCancelRef);
 			HIViewSetVisible(mCancelRef, true);
 		}
-		if ( (inPlugAttrs & kPluginWinHasRevertButton) != 0) {
+		if ( (inPlugAttrs & kPluginEditorHasRevertButton) != 0) {
 			// Create a Revert button
 			boundsRect.left		= kEditorRevertLeftPos;
 			boundsRect.right	= boundsRect.left + kEditorButtonWidth;
@@ -239,7 +239,7 @@ CPluginEditorWindow::CreateControls(SInt32 inPlugAttrs)
 			HIViewAddSubview(mFooterRef, mRevertRef);
 			HIViewSetVisible(mRevertRef, true);
 		}
-		if ( (inPlugAttrs & kPluginWinHasLockIcon) != 0) {
+		if ( (inPlugAttrs & kPluginEditorHasLockIcon) != 0) {
 			// Create a Locked/Unlocked icon
 // 			OSStatus 
 // 			CreateIconControl(

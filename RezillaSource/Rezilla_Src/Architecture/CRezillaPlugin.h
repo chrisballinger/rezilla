@@ -2,7 +2,7 @@
 // CRezillaPlugin.h
 // 
 //                       Created: 2005-09-26 09:48:26
-//             Last modification: 2006-02-20 10:57:09
+//             Last modification: 2006-03-08 13:05:17
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://rezilla.sourceforge.net/>
@@ -43,6 +43,8 @@ public:
 
 		virtual SPluginEditorInterface**	GetInterface() {return mInterface;}
 		
+		virtual CFPlugInRef		GetPluginRef() { return mPluginRef;}
+
 		virtual short	GetRefnum() { return mRefNum;}
 		
 		TArray<LMenu*> *	GetMenusList() { return &mMenusList;}
