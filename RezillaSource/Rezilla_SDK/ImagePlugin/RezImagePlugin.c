@@ -2,7 +2,7 @@
 // File: "RezImagePlugin.c"
 // 
 //                        Created: 2006-02-20 14:15:30
-//              Last modification: 2006-03-08 09:58:46
+//              Last modification: 2006-03-09 09:44:38
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -51,6 +51,7 @@ typedef struct RezImg_EditInfo {
 	HIViewRef			imageview;
 	Boolean				modified;
 	Boolean				readonly;
+	Boolean				canrelease;
 	OSType				imageType;
 	size_t				width;
 	size_t				height;
@@ -80,6 +81,7 @@ static enum {
 	err_InvalidProfile,
 	err_CreatingEmbeddedColorSpaceWithCsyncFailed,
 	err_NoBitmapBufferAvailable,
+	err_MemoryAllocFailed,
 	err_CreatingNewGworldFailed,
 	err_SettingGworldFailed,
 	err_ImageCreateFailed,
@@ -104,8 +106,8 @@ static void 		_RezImg_rescaleImage( size_t* imageWidthPtr, size_t* imageHeightPt
 static Handle		_RezImg_createHandleDataRef(Handle dataHandle, OSType fileType, StringPtr mimeTypeString);
 static OSStatus		_RezImg_openImageFile(CFURLRef * outURL);
 static CGImageRef	_RezImg_getImageRef(RezImg_EditInfo * editInfo);
-static void 		_RezImg_clearImageData(RezImg_EditInfo * editInfo);
-static void			_RezImg_installImageData(RezImg_EditInfo * editInfo);
+static void 		_RezImg_releaseImageData(RezImg_EditInfo * editInfo);
+static OSErr		_RezImg_installImageData(Handle inHandle, RezImg_EditInfo * editInfo);
 static void 		_RezImg_displayMessage(CFStringRef inFormatStringKey, OSType inType);
 
 static HRESULT		RezImg_QueryInterface(void *myInstance, REFIID iid, LPVOID *ppv );
@@ -268,7 +270,7 @@ RezImg_AcceptResource(void *myInstance, ResType inType, short inID, Handle inDat
 		imgType = kPNGCodecType;
 	} else if (inType == 'BMP ' || inType == 'bmp ') {
 		imgType = kBMPCodecType;
-	}  else if (inType == 'kpcd') {
+	} else if (inType == 'kpcd') {
 		imgType = kPhotoCDCodecType;
 	} else {
 		outInfo->error = plugErr_UnsupportedType;
@@ -295,6 +297,7 @@ RezImg_AcceptResource(void *myInstance, ResType inType, short inID, Handle inDat
 			editInfo->scrollref		= NULL;
 			editInfo->imageview		= NULL;
 			editInfo->modified		= false;
+			editInfo->canrelease	= false;
 			editInfo->imageType		= imgType;
 			editInfo->bitmapData	= NULL;
 			editInfo->width			= 0;
@@ -378,9 +381,7 @@ RezImg_EditResource(RezPlugRef inPlugref, RezHostInfo inInfo)
 	CGImageRelease(theImage);
 	HIViewSetVisible(editInfo->imageview, true);
 	HIViewAddSubview(editInfo->scrollref, editInfo->imageview);
-	
-// 	error = InstallStandardEventHandler( GetControlEventTarget(editInfo->scrollref) );
-	
+		
 	return error;
 }
 
@@ -416,10 +417,15 @@ RezImg_RevertResource(RezPlugRef inPlugref, Handle inDataH)
 	RezImg_EditInfo * editInfo = (RezImg_EditInfo *) inPlugref;
 
 	if (inDataH != NULL) {
-		_RezImg_clearImageData(editInfo);
-		editInfo->handle = inDataH;
-		_RezImg_installImageData(editInfo);
-		editInfo->modified = false;
+		error = _RezImg_installImageData(inDataH, editInfo);
+		if (error == noErr) {
+			if (editInfo->canrelease && editInfo->handle != NULL) {
+				DisposeHandle(editInfo->handle);
+			} 
+			editInfo->handle = inDataH;
+			editInfo->canrelease = false;
+			editInfo->modified = false;
+		} 
 	} else {
 		error = plugErr_RevertResourceFailed;
 	}
@@ -456,9 +462,8 @@ void
 RezImg_CleanUp(RezPlugRef inPlugref)
 {
 	RezImg_EditInfo * editInfo = (RezImg_EditInfo *) inPlugref;
-	if ( editInfo->bitmapData != NULL ) {
-		free(editInfo->bitmapData);
-	}
+	_RezImg_releaseImageData(editInfo);
+	// Dispose of the RezImg_EditInfo instance
 	free(editInfo);
 }
 
@@ -537,10 +542,17 @@ RezImg_HandleMenu(RezPlugRef inPlugref, MenuRef menu, SInt16 inMenuItem)
 				if (theHandle != NULL) {
 					CFDataGetBytes(fileData, CFRangeMake(0, theSize), *theHandle); 
 					CFRelease(fileData);
-					_RezImg_clearImageData(editInfo);
-					editInfo->handle = theHandle;
-					_RezImg_installImageData(editInfo);
-					editInfo->modified = true;
+					error = _RezImg_installImageData(theHandle, editInfo);
+					if (error == noErr) {
+						if (editInfo->canrelease && editInfo->handle != NULL) {
+							DisposeHandle(editInfo->handle);
+						} 
+						editInfo->handle = theHandle;
+						editInfo->canrelease = true;
+						editInfo->modified = true;
+					} else {
+						DisposeHandle(theHandle);
+					}
 				} 
 			}
 			
@@ -624,10 +636,17 @@ RezImg_HandleCommand(RezPlugRef inPlugref, SInt16 inCommand)
 				if (theHandle != nil) {
 					error = GetScrapFlavorData(scrapref, editInfo->type, &theSize, *theHandle);
 					if (error == noErr) {
-						_RezImg_clearImageData(editInfo);
-						editInfo->handle = theHandle;
-						_RezImg_installImageData(editInfo);
-						editInfo->modified = true;
+						error = _RezImg_installImageData(theHandle, editInfo);
+						if (error == noErr) {
+							if (editInfo->canrelease && editInfo->handle != NULL) {
+								DisposeHandle(editInfo->handle);
+							} 
+							editInfo->handle = theHandle;
+							editInfo->canrelease = true;
+							editInfo->modified = true;
+						} else {
+							DisposeHandle(theHandle);
+						}
 					}
 				}
 			} else {
@@ -638,8 +657,10 @@ RezImg_HandleCommand(RezPlugRef inPlugref, SInt16 inCommand)
 		}
 		
 		case kPluginCommandClear:
-		_RezImg_clearImageData(editInfo);
 		HIImageViewSetImage(editInfo->imageview, NULL);
+		_RezImg_releaseImageData(editInfo);
+		editInfo->handle = NULL;
+		editInfo->canrelease = true;
 		editInfo->modified = true;
 		break;
 		
@@ -758,37 +779,46 @@ _RezImg_getImageInfo(
 					 StringPtr          mimeTypeString, 
 					 RezImg_EditInfo *	editInfo)
 {
-	OSErr		error;
+	OSErr		error = noErr;
 	Handle		dataRef = nil;
 	GraphicsImportComponent	gi;
 
-	dataRef = _RezImg_createHandleDataRef(inDataH, imgType, mimeTypeString);
-	if (dataRef) {
-		error = GetGraphicsImporterForDataRef(dataRef, HandleDataHandlerSubType, &gi);
+	// Work with a copy of the handle
+	HandToHand(&inDataH);
+	
+	if (inDataH == NULL) {
+		error = err_MemoryAllocFailed;
 	} else {
-		return err_CannotAllocateHandleDataRef;
+		dataRef = _RezImg_createHandleDataRef(inDataH, imgType, mimeTypeString);
+		if (dataRef) {
+			error = GetGraphicsImporterForDataRef(dataRef, HandleDataHandlerSubType, &gi);
+		} else {
+			return err_CannotAllocateHandleDataRef;
+		}
+		
+		if (error != noErr) {
+			return err_CannotGetGraphicsImporter;
+		} 			
+		
+		// Get info about the image
+		error = _RezImg_readBitmapInfo(gi, editInfo);
+		if (error != noErr) {
+			goto bail;
+		} 
+		error = _RezImg_getBitmapData(gi, editInfo);
+		if (error != noErr) {
+			goto bail;
+		} 
+		
+		if( editInfo->width <= 0 || editInfo->width > 32767 || editInfo->height <= 0 || editInfo->height > 32767) {
+			error = err_InvalidImageSize;
+		}
+		
+	bail:
+		DisposeHandle(inDataH);
+		CloseComponent(gi);
 	}
 	
-	if (error != noErr) {
-		return err_CannotGetGraphicsImporter;
-	} 			
-	
-	// Get info about the image
-	error = _RezImg_readBitmapInfo(gi, editInfo);
-	if (error != noErr) {
-		goto bail;
-	} 
-	error = _RezImg_getBitmapData(gi, editInfo);
-	if (error != noErr) {
-		goto bail;
-	} 
-	
-	if( editInfo->width <= 0 || editInfo->width > 32767 || editInfo->height <= 0 || editInfo->height > 32767) {
-		error = err_InvalidImageSize;
-	}
-	
-bail:
-	CloseComponent(gi);
 	return error;
 }
 
@@ -822,6 +852,10 @@ _RezImg_readBitmapInfo(GraphicsImportComponent gi, RezImg_EditInfo * editInfo)
 	editInfo->bytesPerRow = (editInfo->bitsPerPixel * editInfo->width + 7)/8;
 	editInfo->alphaInfo = (desc->depth == 32) ? kCGImageAlphaFirst : kCGImageAlphaNoneSkipFirst;
 	editInfo->size = editInfo->bytesPerRow * editInfo->height;
+	if ( editInfo->bitmapData != NULL ) {
+		free(editInfo->bitmapData);
+		editInfo->bitmapData = NULL;
+	}
 	editInfo->bitmapData = malloc(editInfo->size);
 	
 	// Look for any embedded profile
@@ -988,7 +1022,7 @@ _RezImg_createHandleDataRef(
 	 Handle		dataRef = nil;
 	 Str31		name;
 	 long		atoms[3];
-
+	 
 	// First create a data reference handle for our data
 	error = PtrToHand( &dataHandle, &dataRef, sizeof(Handle));
 	if (error) goto bail;
@@ -1102,16 +1136,17 @@ CantGetDefaultChooseFileOptions:
 //------------------------------------------------------------------------------
 
 void 
-_RezImg_clearImageData(RezImg_EditInfo * editInfo)
+_RezImg_releaseImageData(RezImg_EditInfo * editInfo)
 {
 	editInfo->width = 0;
 	editInfo->height = 0;
 	if ( editInfo->bitmapData != NULL ) {
 		free(editInfo->bitmapData);
+		editInfo->bitmapData = NULL;
 	}
-	if ( editInfo->handle != NULL ) {
+	if (editInfo->canrelease && editInfo->handle != NULL) {
 		DisposeHandle(editInfo->handle);
-	}
+	} 
 }
 
 
@@ -1121,19 +1156,23 @@ _RezImg_clearImageData(RezImg_EditInfo * editInfo)
 //	
 //------------------------------------------------------------------------------
 
-void
-_RezImg_installImageData(RezImg_EditInfo * editInfo)
+OSErr
+_RezImg_installImageData(Handle inHandle, RezImg_EditInfo * editInfo)
 {
 	OSErr		error = noErr;
-	error = _RezImg_getImageInfo(editInfo->handle, editInfo->imageType, NULL, editInfo);
+
+	error = _RezImg_getImageInfo(inHandle, editInfo->imageType, NULL, editInfo);
 	if (error == noErr) {
 		CGImageRef theImage = _RezImg_getImageRef(editInfo);
 		
 		if (theImage != NULL) {
 			HIImageViewSetImage(editInfo->imageview, theImage);
 			CGImageRelease(theImage);
+		} else {
+			error = err_ImageCreateFailed;
 		}
 	} 
+	return error;
 }
 
 
