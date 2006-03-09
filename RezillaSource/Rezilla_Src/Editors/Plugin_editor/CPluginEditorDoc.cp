@@ -176,8 +176,6 @@ CPluginEditorDoc::Initialize()
 	
 	// Make the window visible.
 	mPluginWindow->Show();
-	
-	// Enable all the subpanes
 	mPluginWindow->Enable();
 	mPluginWindow->Activate();
 
@@ -353,16 +351,8 @@ CPluginEditorDoc::GetModifiedResource(Boolean &releaseIt)
 // ---------------------------------------------------------------------------
 //   CreatePluginWindow												[public]
 // ---------------------------------------------------------------------------
-// Create the plugin window in compositing mode
-// kWindowStandardHandlerAttribute
-// EventHandlerUPP
-// NewEventHandlerUPP(EventHandlerProcPtr userRoutine)
-// EventHandlerUPP thePluginEventHandler = 
-// NewEventHandlerUPP(&CPluginEditorWindow::PluginWindowEventHandler);
-// error = InstallWindowEventHandler(gMainWindow,NewEventHandlerUPP(DvngMainWindowEventHandler),
-// 								2, optionsSpec, 
-// 								(void *) gMainWindow, NULL);
-// kEventClassWindow / kEventWindowBoundsChanged
+// Create the plugin window in compositing mode (kWindowCompositingAttribute) 
+// and enable the standard Carbon events (kWindowStandardHandlerAttribute)
 
 CPluginEditorWindow *
 CPluginEditorDoc::CreatePluginWindow(SInt32 inPlugAttrs, Rect inWinbounds) 
@@ -393,16 +383,12 @@ CPluginEditorDoc::CreatePluginWindow(SInt32 inPlugAttrs, Rect inWinbounds)
 	thePluginWindow = new CPluginEditorWindow(winRef, this);
 	
 	error = InstallWindowEventHandler(winRef, 
-									  NewEventHandlerUPP(&CPluginEditorWindow::WindowEventHandler),
+									  NewEventHandlerUPP(CPluginEditorWindow::WindowEventHandler),
 									  GetEventTypeCount(winSpec), winSpec, 
 									  (void *) thePluginWindow, NULL);
 	
 	thePluginWindow->CreateControls(inPlugAttrs);
-									  
-	// Put the window in disabled state otherwise the subpanes won't be 
-	// enabled later
-	thePluginWindow->Disable();
-	
+		
 	return thePluginWindow;
 }
 
