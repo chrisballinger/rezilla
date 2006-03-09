@@ -2,7 +2,7 @@
 // File: "RezSamplePlugin.c"
 // 
 //                        Created: 2005-09-08 18:51:53
-//              Last modification: 2006-03-08 09:49:46
+//              Last modification: 2006-03-08 14:27:53
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -502,7 +502,7 @@ sample_HandleCommand(RezPlugRef inPlugref, SInt16 inCommand)
 		case kPluginCommandFindNext:
 		break;
 		
-		case kPluginSupportUndo:
+		case kPluginCommandExport:
 		break;
 		
 		default:
