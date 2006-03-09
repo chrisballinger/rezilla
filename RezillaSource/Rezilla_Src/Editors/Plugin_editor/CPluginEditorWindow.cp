@@ -2,7 +2,7 @@
 // CPluginEditorWindow.cp
 // 
 //                       Created: 2005-10-02 08:41:52
-//             Last modification: 2006-03-08 09:14:57
+//             Last modification: 2006-03-09 09:57:19
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -107,16 +107,6 @@ CPluginEditorWindow::FinalizeEditor(CPluginEditorDoc* inEditorDoc, void * ioPara
 // ---------------------------------------------------------------------------
 //  CreateControls													[public]
 // ---------------------------------------------------------------------------
-// // struct ControlFontStyleRec {
-// //   SInt16              flags;
-// //   SInt16              font;
-// //   SInt16              size;
-// //   SInt16              style;
-// //   SInt16              mode;
-// //   SInt16              just;
-// //   RGBColor            foreColor;
-// //   RGBColor            backColor;
-// // };
 
 void
 CPluginEditorWindow::CreateControls(SInt32 inPlugAttrs)
@@ -210,6 +200,7 @@ CPluginEditorWindow::CreateControls(SInt32 inPlugAttrs)
 			
 			ctrlID.id = kHICommandOK;
 			SetControlID(mSaveRef, &ctrlID);
+			SetControlCommandID(mSaveRef, kHICommandOK);
 			HIViewAddSubview(mFooterRef, mSaveRef);
 			HIViewSetVisible(mSaveRef, true);
 		}
@@ -223,6 +214,7 @@ CPluginEditorWindow::CreateControls(SInt32 inPlugAttrs)
 		
 			ctrlID.id = kHICommandCancel;
 			SetControlID(mCancelRef, &ctrlID);
+			SetControlCommandID(mCancelRef, kHICommandCancel);
 			HIViewAddSubview(mFooterRef, mCancelRef);
 			HIViewSetVisible(mCancelRef, true);
 		}
@@ -236,6 +228,7 @@ CPluginEditorWindow::CreateControls(SInt32 inPlugAttrs)
 		
 			ctrlID.id = kHICommandRevert;
 			SetControlID(mRevertRef, &ctrlID);
+			SetControlCommandID(mRevertRef, kHICommandRevert);
 			HIViewAddSubview(mFooterRef, mRevertRef);
 			HIViewSetVisible(mRevertRef, true);
 		}
@@ -351,7 +344,6 @@ CPluginEditorWindow::AdaptControlsToWindowBounds()
 void
 CPluginEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam ) 
 {
-	
 	switch (inMessage) {
 
 		case msg_Close:
@@ -694,7 +686,8 @@ CPluginEditorWindow::GetContentsRect(
 // ---------------------------------------------------------------------------
 //   ResizeWindowBy
 // ---------------------------------------------------------------------------
-//	Change the size of a Window by the specified number of pixels
+//	Change the size of the window by the specified number of pixels and 
+//	notify the plugin
 
 void
 CPluginEditorWindow::ResizeWindowBy(
@@ -715,11 +708,6 @@ CPluginEditorWindow::ResizeWindowBy(
 // ---------------------------------------------------------------------------
 //   WindowEventHandler										[public] [static]
 // ---------------------------------------------------------------------------
-// 	LWindow*
-// 	LWindow::FetchWindowObject(
-// 		WindowPtr	inWindowP);
-// LWindow::Activate()
-// LWindow::Deactivate()
 
 pascal OSStatus 
 CPluginEditorWindow::WindowEventHandler(
@@ -759,7 +747,6 @@ CPluginEditorWindow::WindowEventHandler(
 			GetEventParameter(event, kEventParamDirectObject, typeHICommand, NULL, sizeof(HICommand), 
 							  NULL, &command);
 			switch (command.commandID) {
-				
 				case kHICommandOK:
 				plugWin->ListenToMessage(msg_EditorSave, NULL);
 				result = noErr;
