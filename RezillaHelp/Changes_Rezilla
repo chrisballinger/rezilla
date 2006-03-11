@@ -33,7 +33,14 @@ $Date$
 
 
 ================================================================================
-= 1.1b2										last update: 
+= 1.1b3										last update: 
+================================================================================
+¥ Documentation of the plugin SDK.
+¥ Completed the internal 'icns' editor.
+¥ 
+
+================================================================================
+= 1.1b2										last update: 2006-03-09 10:07:33
 ================================================================================
 ¥ Created a plugin with an image editor for resources of type:
 		'JPEG', 'jpeg', 'JPG ', 'jpg ', 'TIFF', 'tiff', 'GIF ', 'gif ', 
@@ -41,7 +48,6 @@ $Date$
 ¥ Added an internal editor for 'icns' (icon suites) resources.
 ¥ Added mechanism of Pickers, specific windows to display graphically the
   resources of a particular type.
-¥ Documentation of the plugin SDK.
 
 ================================================================================
 = 1.1b1										last update: 2006-02-28 06:53:44
