@@ -2,7 +2,7 @@
 // CICNS_EditorDoc.h				
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-02-23 15:12:20
+//             Last modification: 2006-03-11 17:15:02
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -50,11 +50,16 @@ public:
 
 protected:
 	CICNS_EditorWindow *		mIcnsEditWindow;
-
+	IconRef						mIconRef;
+	IconFamilyHandle			mIconFamilyHandle;
+	
 	virtual Handle		GetModifiedResource(Boolean &releaseIt);
 
 private:
-	void				Initialize();
+	void			Initialize();
+	OSErr			RegisterIcon();
+	OSErr			UnregisterIcon();
+	
 };
 
 

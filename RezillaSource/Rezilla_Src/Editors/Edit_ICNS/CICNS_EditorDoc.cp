@@ -2,7 +2,7 @@
 // CICNS_EditorDoc.cp
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-02-23 15:12:20
+//             Last modification: 2006-03-11 17:14:56
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -24,6 +24,7 @@ PP_Begin_Namespace_PowerPlant
 #include "CRezMap.h"
 #include "CRezMapTable.h"
 #include "CRezMapDoc.h"
+#include "CRezFile.h"
 #include "CRezObj.h"
 #include "CRezillaPrefs.h"
 #include "UCodeTranslator.h"
@@ -72,6 +73,8 @@ CICNS_EditorDoc::~CICNS_EditorDoc()
 	if (mIcnsEditWindow != nil) {
 		delete mIcnsEditWindow;
 	} 
+	// Release the icon ref
+	Unregister();
 }
 
 
@@ -84,6 +87,10 @@ CICNS_EditorDoc::Initialize()
 {
 	OSErr error = noErr;
 	
+	mIconRef = NULL;
+	RegisterIcon();
+	mIconFamilyHandle = NULL;
+
 	// Create a window for our document and set this doc as its SuperCommander
 	mIcnsEditWindow = dynamic_cast<CICNS_EditorWindow *>(LWindow::CreateWindow( PPob_IcnsEditorWindow, this ));
 	Assert_( mIcnsEditWindow != nil );
@@ -93,18 +100,13 @@ CICNS_EditorDoc::Initialize()
 	mIcnsEditWindow->FinalizeEditor(this);
 	
 	try {
+		error = IconRefToIconFamily(mIconRef, kSelectorAllAvailableData, &mIconFamilyHandle);
+		
 		// Install the data
-		if (mRezObj != nil) {
-			Handle rezData = mRezObj->GetData();
-			
-			if (rezData != nil) {
-				// Work with a copy of the handle
-				::HandToHand(&rezData);
-				
-				error = mIcnsEditWindow->InstallResourceData(rezData);			
-			} 
-			ThrowIfError_(error);			
+		if (mIconFamilyHandle != NULL) {
+			error = mIcnsEditWindow->InstallResourceData( (Handle) mIconFamilyHandle);			
 		} 
+		ThrowIfError_(error);
 	} catch (...) {
 		delete this;
 		if (error == err_MoreDataThanExpected) {
@@ -115,10 +117,44 @@ CICNS_EditorDoc::Initialize()
 		return;
 	}
 	
-	// Make the window visible.
-	mIcnsEditWindow->Show();
-	// Enable all the subpanes
-	mIcnsEditWindow->GetContentsView()->Enable();
+// 	// Make the window visible.
+// 	mIcnsEditWindow->Show();
+// 	// Enable all the subpanes
+// 	mIcnsEditWindow->GetContentsView()->Enable();
+}
+
+
+// ---------------------------------------------------------------------------
+//  RegisterIcon													  [private]
+// ---------------------------------------------------------------------------
+// From Icon.h: consider using RegisterIconRefFromResource() if possible,
+// since the data registered using RegisterIconRefFromFamily() cannot be
+// purged.
+
+OSErr
+CICNS_EditorDoc::RegisterIcon()
+{
+	OSErr error;
+	const FSSpec theFSSpec = mRezMapTable->GetOwnerDoc()->GetRezFile()->GetFileSpec();
+	error = RegisterIconRefFromResource(kRezillaSig, kIconFamilyType, &theFSSpec, mRezObj->GetID(), &mIconRef);
+
+// 	error= RegisterIconRefFromIconFamily(kRezillaSig, kIconFamilyType, mIconFamilyHandle, &mIconRef);
+	return error;	
+}
+
+
+// ---------------------------------------------------------------------------
+//  UnregisterIcon													  [private]
+// ---------------------------------------------------------------------------
+
+OSErr
+CICNS_EditorDoc::UnregisterIcon()
+{
+	OSErr error = noErr;
+	if (mIconRef != NULL) {
+		error = ReleaseIconRef(mIconRef);
+	} 
+	return error;
 }
 
 
