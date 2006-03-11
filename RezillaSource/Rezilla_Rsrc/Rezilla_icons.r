@@ -1,16 +1,105 @@
 // ===========================================================================
 // Rezilla_icns.r
 //                       Created: 2004-02-28 22:51:23
-//             Last modification: 2005-01-17 21:12:18
+//             Last modification: 2006-03-11 19:33:08
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes 2003-2004, 2005
+// (c) Copyright: Bernard Desgraupes 2003-2005, 2006
 // All rights reserved.
 // ===========================================================================
 
 #include <Icons.r>
 
+
+// Icons info
+// ==========
+// The icon family information resources are used by the
+// class constructor of the corresponding editor windows.
+
+
+// Rezilla Icon family info type
+type 'RzII' {
+	literal longint;	/* defaultPane */
+	longint = $$CountOf(EntriesList);
+	wide array EntriesList {
+		literal longint;	/* rezType */
+		longint;            /* flags */
+		longint;            /* width */
+		longint;            /* height */
+		longint;            /* depth */
+		longint;            /* rowBytes */
+		literal longint;	/* samplePaneID */
+		longint;            /* maskOffset */
+		longint;            /* maskRowBytes */
+		literal longint;	/* maskSamplePaneID */
+	};
+};
+
+// 10600 = kIconFamilyIconInfo
+resource 'RzII' (10600, "Small/medium/large icons info") {
+	'icl8',
+	{	/* array EntriesList: 9 elements */
+/* [1] */	'icl8', 0, 32, 32, 8, 32, 'icl8', 0, 0, '????',
+/* [2] */	'icl4', 0, 32, 32, 4, 16, 'icl4', 0, 0, '????',
+/* [3] */	'ICN#', 0, 32, 32, 1, 4, 'ICN#', 128, 4, 'MSK1',
+/* [4] */	'ics8', 0, 16, 16, 8, 16, 'ics8', 0, 0, '????',
+/* [5] */	'ics4', 0, 16, 16, 4, 8, 'ics4', 0, 0, '????',
+/* [6] */	'ics#', 0, 16, 16, 1, 2, 'ics#', 32, 2, 'MSK2',
+/* [7] */	'icm8', 0, 16, 12, 8, 16, 'icm8', 0, 0, '????',
+/* [8] */	'icm4', 0, 16, 12, 4, 8, 'icm4', 0, 0, '????',
+/* [9] */	'icm#', 0, 16, 12, 1, 2, 'icm#', 24, 2, 'MSK3'
+	}
+};
+
+
+resource 'RzII' (10602, "ICON info") {
+	'ICON',
+	{	/* array EntriesList: 1 elements */
+/* [1] */		'ICON', 0, 32, 32, 1, 4, 'ICON', 0, 0, '????'
+	}
+};
+
+
+// The small pane containing the visualization ('visu') is the same for all
+// members. In the case of the 'ics#', 'icm#', 'ICN#' and 'ich#' icons
+// there is a second pane (called 'mskv', mask view) since these members
+// contain two b&w bitmaps: the first one is the 1 bit icon, the second is
+// the real mask.
+resource 'RzII' (11600, "ICNS info") {
+	'it32',
+	{	/* array EntriesList: 25 elements */
+	/* [1] */	'ics#', 0, 16, 16, 1, 2, 'visu', 32, 2, 'mskv',
+	/* [2] */	'ics4', 0, 16, 16, 4, 8, 'visu', 0, 0, '????',
+	/* [3] */	'ics8', 0, 16, 16, 8, 16, 'visu', 0, 0, '????',
+	/* [4] */	'icm#', 0, 16, 12, 1, 2, 'visu', 24, 2, 'mskv',
+	/* [5] */	'icm4', 0, 16, 12, 4, 8, 'visu', 0, 0, '????',
+	/* [6] */	'icm8', 0, 16, 12, 8, 16, 'visu', 0, 0, '????',
+	/* [7] */	'ICN#', 0, 32, 32, 1, 4, 'visu', 128, 4, 'mskv',
+	/* [8] */	'icl4', 0, 32, 32, 4, 16, 'visu', 0, 0, '????',
+	/* [9] */	'icl8', 0, 32, 32, 8, 32, 'visu', 0, 0, '????',
+	/* [10] */	'ich#', 0, 48, 48, 1, 6, 'visu', 1152, 6, 'mskv',
+	/* [11] */	'ich4', 0, 48, 48, 4, 24, 'visu', 0, 0, '????',
+	/* [12] */	'ich8', 0, 48, 48, 8, 48, 'visu', 0, 0, '????',
+	/* [13] */	'is32', 0, 16, 16, 32, 64, 'visu', 0, 0, '????',
+	/* [14] */	'il32', 0, 32, 32, 32, 128, 'visu', 0, 0, '????',
+	/* [15] */	'ih32', 0, 48, 48, 32, 192, 'visu', 0, 0, '????',
+	/* [16] */	'it32', 0, 128, 128, 32, 512, 'visu', 0, 0, '????',
+	/* [17] */	's8mk', 0, 16, 16, 8, 16, 'visu', 0, 0, '????',
+	/* [18] */	'l8mk', 0, 32, 32, 8, 32, 'visu', 0, 0, '????',
+	/* [19] */	'h8mk', 0, 48, 48, 8, 48, 'visu', 0, 0, '????',
+	/* [20] */	't8mk', 0, 128, 128, 8, 128, 'visu', 0, 0, '????',
+	/* [21] */	'drop', 0, 128, 128, 32, 512, 'visu', 0, 0, '????',
+	/* [22] */	'odrp', 0, 128, 128, 32, 512, 'visu', 0, 0, '????',
+	/* [23] */	'open', 0, 128, 128, 32, 512, 'visu', 0, 0, '????',
+	/* [24] */	'over', 0, 128, 128, 32, 512, 'visu', 0, 0, '????',
+	/* [25] */	'tile', 0, 128, 128, 32, 512, 'visu', 0, 0, '????'
+	}
+};
+
+
+// Icons data
+// ==========
 
 resource 'ics#' (128, "rezilla_logo", purgeable) {
 	{	/* array: 2 elements */
