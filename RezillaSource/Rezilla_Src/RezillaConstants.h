@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2006-03-06 23:00:03
+//             Last modification : 2006-03-09 13:10:24
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@users.sourceforge.net>
 // www : <http://rezilla.sourceforge.net/>
@@ -1139,6 +1139,8 @@ const MessageT	msg_GetLastCommand				= FOUR_CHAR_CODE('LCMD');
 const MessageT	msg_IconSuiteSlider				= FOUR_CHAR_CODE('SLID');
 // Menu editor
 const MessageT	msg_MenuTitleModified			= FOUR_CHAR_CODE('MTMD');
+// Plugin editor
+const MessageT	msg_ForwardToPlugin				= FOUR_CHAR_CODE('Forw');
 
 
 // ======================================================================
@@ -1584,6 +1586,8 @@ const OSType	ResType_Region			= FOUR_CHAR_CODE('RgN ');
 const OSType	ResType_ColorCursor 	= FOUR_CHAR_CODE('crsr');
 const ResType	ResType_IconFamilyInfo	= FOUR_CHAR_CODE('RzII');
 
+const SInt16		kIconFamilyIconInfo		= PPob_IconFamilyEditor;
+
 // Three ways to redraw
 enum RedrawOptions
 {
@@ -1611,6 +1615,8 @@ const OSType	ResType_ExtendedMenu			= FOUR_CHAR_CODE('xmnu');
 // Constants for the Plugin editor
 // ======================================================================
 
+const UInt16	kPluginWindowMinWidth	= 300;
+const UInt16	kPluginWindowMinHeight	= 200;
 const UInt16	kPluginHeaderHeight		= 24;
 const UInt16	kPluginFooterHeight		= 40;
 const UInt16	kEditorLockIconSize		= 16;
@@ -1624,6 +1630,7 @@ const UInt16	kEditorButtonTop		= 9;
 const UInt16	kEditorHorizTextMargin	= 10;
 const UInt16	kEditorNameHeight		= 10;
 const UInt16	kEditorVertTextMargin	= 5;
+
 
 
 // ======================================================================
