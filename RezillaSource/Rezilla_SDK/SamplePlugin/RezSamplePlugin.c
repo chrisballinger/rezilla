@@ -2,7 +2,7 @@
 // File: "RezSamplePlugin.c"
 // 
 //                        Created: 2005-09-08 18:51:53
-//              Last modification: 2006-03-08 14:27:53
+//              Last modification: 2006-03-09 11:39:43
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -226,7 +226,7 @@ sample_AcceptResource(void *myInstance, ResType inType, short inID, Handle inDat
 		
 			// Fill the RezPlugInfo
 			outInfo->plugref			= (RezPlugRef) editInfo;
-			outInfo->attributes			= kPluginEditorStandardControls | kPluginEditorHasNameField;
+			outInfo->attributes			= kPluginEditorStandardControls | kPluginSupportEditCommands;
 			outInfo->winbounds.top		= kSampleBoundsTop;
 			outInfo->winbounds.left		= kSampleBoundsLeft;
 			outInfo->winbounds.bottom	= kSampleBoundsBottom;
@@ -265,6 +265,10 @@ sample_EditResource(RezPlugRef inPlugref, RezHostInfo inInfo)
 	CFRelease(theTextRef);
 	
 	if (error == noErr) {
+		HIViewRef		theContentView;
+		HIViewSetVisible(editInfo->controlref, true);
+		HIViewFindByID(HIViewGetRoot(editInfo->winref), kHIViewWindowContentID, &theContentView);
+		HIViewAddSubview(theContentView, editInfo->controlref);
 		EnableControl(editInfo->controlref);
 	} 
 	
@@ -315,11 +319,17 @@ sample_ReturnResource(RezPlugRef inPlugref, Boolean * releaseIt, OSErr * outErro
 OSErr
 sample_RevertResource(RezPlugRef inPlugref, Handle inDataH)
 {
-	OSErr		error = noErr;
+	OSErr	error = noErr;
 	
 	SampleEditInfo * editInfo = (SampleEditInfo *) inPlugref;
+	
+	error = SetControlData(editInfo->controlref, kControlNoPart, kControlEditTextTextTag, 
+						   GetHandleSize(inDataH), *(inDataH));
+	Draw1Control(editInfo->controlref);
+	
+	editInfo->data = inDataH;
 	editInfo->modified = false;
-
+	
 	return error;
 }
 
@@ -350,7 +360,7 @@ void
 sample_CleanUp(RezPlugRef inPlugref)
 {
 	SampleEditInfo * editInfo = (SampleEditInfo *) inPlugref;
-	DisposeControl(editInfo->controlref);
+// 	DisposeControl(editInfo->controlref);
 	
 	free(editInfo);
 }
@@ -471,6 +481,7 @@ sample_HandleKeyDown(RezPlugRef inPlugref, const EventRecord * inKeyEvent)
 // 		kPluginCommandSelectAll
 // 		kPluginCommandFind
 // 		kPluginCommandFindNext
+// 		kPluginCommandExport
 //  Which command it supports is declared in sample_AcceptResource via the 
 //  "attributes" member of the RezPlugInfo struct.
 // -------------------------------------------------------------------------------------------
@@ -494,15 +505,6 @@ sample_HandleCommand(RezPlugRef inPlugref, SInt16 inCommand)
 		break;
 		
 		case kPluginCommandSelectAll:
-		break;
-		
-		case kPluginCommandFind:
-		break;
-		
-		case kPluginCommandFindNext:
-		break;
-		
-		case kPluginCommandExport:
 		break;
 		
 		default:

@@ -51,7 +51,6 @@ typedef struct RezImg_EditInfo {
 	HIViewRef			imageview;
 	Boolean				modified;
 	Boolean				readonly;
-	Boolean				canrelease;
 	OSType				imageType;
 	size_t				width;
 	size_t				height;
@@ -297,7 +296,6 @@ RezImg_AcceptResource(void *myInstance, ResType inType, short inID, Handle inDat
 			editInfo->scrollref		= NULL;
 			editInfo->imageview		= NULL;
 			editInfo->modified		= false;
-			editInfo->canrelease	= false;
 			editInfo->imageType		= imgType;
 			editInfo->bitmapData	= NULL;
 			editInfo->width			= 0;
@@ -307,6 +305,9 @@ RezImg_AcceptResource(void *myInstance, ResType inType, short inID, Handle inDat
 			if (GetHandleSize(inDataH) > 0) {
 				error = _RezImg_getImageInfo(inDataH, imgType, NULL, editInfo);
 				if (error != noErr) {
+					// We are the owner of the inDataH handle, so we have 
+					// to release it
+					_RezImg_releaseImageData(editInfo);
 					outInfo->error = error;
 					return false;
 				} 
@@ -397,6 +398,9 @@ Handle
 RezImg_ReturnResource(RezPlugRef inPlugref, Boolean * releaseIt, OSErr * outError)
 {
 	RezImg_EditInfo * editInfo = (RezImg_EditInfo *) inPlugref;
+	// This function is called when saving the data, so we must reset the 
+	// modified flag to false
+	editInfo->modified = false;
 	*outError = noErr;
 	return editInfo->handle;
 }
@@ -419,11 +423,10 @@ RezImg_RevertResource(RezPlugRef inPlugref, Handle inDataH)
 	if (inDataH != NULL) {
 		error = _RezImg_installImageData(inDataH, editInfo);
 		if (error == noErr) {
-			if (editInfo->canrelease && editInfo->handle != NULL) {
+			if (editInfo->handle != NULL) {
 				DisposeHandle(editInfo->handle);
 			} 
 			editInfo->handle = inDataH;
-			editInfo->canrelease = false;
 			editInfo->modified = false;
 		} 
 	} else {
@@ -544,11 +547,10 @@ RezImg_HandleMenu(RezPlugRef inPlugref, MenuRef menu, SInt16 inMenuItem)
 					CFRelease(fileData);
 					error = _RezImg_installImageData(theHandle, editInfo);
 					if (error == noErr) {
-						if (editInfo->canrelease && editInfo->handle != NULL) {
+						if (editInfo->handle != NULL) {
 							DisposeHandle(editInfo->handle);
 						} 
 						editInfo->handle = theHandle;
-						editInfo->canrelease = true;
 						editInfo->modified = true;
 					} else {
 						DisposeHandle(theHandle);
@@ -568,6 +570,15 @@ RezImg_HandleMenu(RezPlugRef inPlugref, MenuRef menu, SInt16 inMenuItem)
 //  declared in the interface (SPluginEditorInterface structure)
 //
 // -------------------------------------------------------------------------------------------
+/* 
+ * RGBColor        redColor = {0xFFFF, 0x0000, 0x0000};
+ * ::PenNormal();
+ * ::PenSize(3, 3);
+ * 
+ * // Draw border around the view
+ * ::RGBForeColor(&redColor);
+ * ::FrameRoundRect( &frame, 4, 4 );
+ */
 
 void
 RezImg_HandleClick(RezPlugRef inPlugref, const EventRecord * inMacEvent, Point inPortCoords)
@@ -638,11 +649,10 @@ RezImg_HandleCommand(RezPlugRef inPlugref, SInt16 inCommand)
 					if (error == noErr) {
 						error = _RezImg_installImageData(theHandle, editInfo);
 						if (error == noErr) {
-							if (editInfo->canrelease && editInfo->handle != NULL) {
+							if (editInfo->handle != NULL) {
 								DisposeHandle(editInfo->handle);
 							} 
 							editInfo->handle = theHandle;
-							editInfo->canrelease = true;
 							editInfo->modified = true;
 						} else {
 							DisposeHandle(theHandle);
@@ -660,7 +670,6 @@ RezImg_HandleCommand(RezPlugRef inPlugref, SInt16 inCommand)
 		HIImageViewSetImage(editInfo->imageview, NULL);
 		_RezImg_releaseImageData(editInfo);
 		editInfo->handle = NULL;
-		editInfo->canrelease = true;
 		editInfo->modified = true;
 		break;
 		
@@ -832,7 +841,7 @@ _RezImg_getImageInfo(
 OSErr
 _RezImg_readBitmapInfo(GraphicsImportComponent gi, RezImg_EditInfo * editInfo)
 {
-	ComponentResult			result;
+	ComponentResult	result;
 	ImageDescriptionHandle	imageDescH = NULL;
 	ImageDescription *		desc;
 	Handle 					profile = NULL;
@@ -1144,7 +1153,7 @@ _RezImg_releaseImageData(RezImg_EditInfo * editInfo)
 		free(editInfo->bitmapData);
 		editInfo->bitmapData = NULL;
 	}
-	if (editInfo->canrelease && editInfo->handle != NULL) {
+	if ( editInfo->handle != NULL ) {
 		DisposeHandle(editInfo->handle);
 	} 
 }
