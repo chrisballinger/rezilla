@@ -2,7 +2,7 @@
 // CPluginEditorWindow.cp
 // 
 //                       Created: 2005-10-02 08:41:52
-//             Last modification: 2006-03-09 09:57:19
+//             Last modification: 2006-03-09 13:10:46
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -346,6 +346,11 @@ CPluginEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 {
 	switch (inMessage) {
 
+		case msg_ForwardToPlugin:
+		EventRef event = (EventRef) ioParam;
+//		(*mInterface)->HandleEvent(mPlugRef, event);
+		break;
+		
 		case msg_Close:
 		dynamic_cast<CPluginEditorDoc *>(GetSuperCommander())->AttemptClose(false);
 		break;
@@ -493,33 +498,7 @@ void
 CPluginEditorWindow::Click(
 	SMouseDownEvent	&inMouseDown)
 {
-	// Check if a SubPane of this window is hit
-	LPushButton * clickedPane = dynamic_cast<LPushButton*>(FindDeepSubPaneContaining(inMouseDown.wherePort.h, inMouseDown.wherePort.v));
-
-	if (clickedPane != nil) {
-		
-		switch (clickedPane->GetPaneID()) {
-			case item_EditorSave:
-			clickedPane->BroadcastMessage(msg_EditorSave);
-			break;
-			
-			case item_EditorCancel:
-			clickedPane->BroadcastMessage(msg_EditorCancel);
-			break;
-			
-			case item_EditorRevert:
-			clickedPane->BroadcastMessage(msg_EditorRevert);
-			break;
-			
-			default:
-			clickedPane->Click(inMouseDown);
-			break;
-		
-		}
-	} else {						
-		// No SubPane hit, pass to plugin
-		(*mInterface)->HandleClick(mPlugRef, &inMouseDown.macEvent, inMouseDown.whereLocal);
-	}
+	(*mInterface)->HandleClick(mPlugRef, &inMouseDown.macEvent, inMouseDown.whereLocal);
 }
 
 
@@ -699,6 +678,14 @@ CPluginEditorWindow::ResizeWindowBy(
 
 	theBounds.right += inWidthDelta;
 	theBounds.bottom += inHeightDelta;
+	
+	if (theBounds.right - theBounds.left < kPluginWindowMinWidth) {
+		theBounds.right = theBounds.left + kPluginWindowMinWidth;
+	} 
+	if (theBounds.bottom - theBounds.top < kPluginWindowMinHeight) {
+		theBounds.bottom = theBounds.top + kPluginWindowMinHeight;
+	} 
+	
 	DoSetBounds(theBounds);
 	
 	(*mInterface)->ResizeBy(mPlugRef, inWidthDelta, inHeightDelta);
@@ -759,6 +746,11 @@ CPluginEditorWindow::WindowEventHandler(
 				
 				case kHICommandRevert:
 				plugWin->ListenToMessage(msg_EditorRevert, NULL);
+				result = noErr;
+				break;
+				
+				default:
+				plugWin->ListenToMessage(msg_ForwardToPlugin, event);
 				result = noErr;
 				break;
 			}

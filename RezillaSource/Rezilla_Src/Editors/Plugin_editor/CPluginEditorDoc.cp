@@ -262,7 +262,7 @@ CPluginEditorDoc::FindCommandStatus(
 		break;		
 		
 		case cmd_Find:
-		LString::CopyPStr( "\pFindÉ", outName);
+		LString::CopyPStr( "\pFind...", outName);
 		outEnabled = HasAttribute(kPluginSupportFind);
 		break;
 
