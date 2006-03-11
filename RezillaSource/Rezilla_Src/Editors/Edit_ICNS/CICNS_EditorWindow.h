@@ -2,7 +2,7 @@
 // CICNS_EditorWindow.h
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-02-27 07:28:42
+//             Last modification: 2006-03-10 12:32:42
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -12,29 +12,30 @@
 
 #pragma once
 
-#include "CEditorWindow.h"
+#include "CIcon_EditorWindow.h"
 #include "UResources.h"
 
-#include <LDragAndDrop.h>
+// #include <LDragAndDrop.h>
 
 
 class LView;
-class CICNS_Stream;
+class LHandleStream;
 class CICNS_Family;
 class CICNS_Member;
 class LStaticText;
 class LPopupButton;
 
 
-class CICNS_EditorWindow :	public CEditorWindow, 
-							public LDragAndDrop {
+class CICNS_EditorWindow :	public CIcon_EditorWindow {
 public:
 	enum { class_ID = FOUR_CHAR_CODE('ICSW') };
 
-							CICNS_EditorWindow();
 							CICNS_EditorWindow( LStream *inStream );
 							~CICNS_EditorWindow();
 
+	static CICNS_EditorWindow *	OpenPaintWindow( ResIDT inPPobID, CRezMap *inMap, ResIDT );
+	static CICNS_EditorWindow *	CreateFromStream( LStream *inStream );
+							
 	virtual void	Click( SMouseDownEvent &inMouseDown );
 
 	virtual void	ListenToMessage( MessageT inMessage,void *ioParam);
@@ -42,6 +43,11 @@ public:
 	OSErr			InstallResourceData(Handle inHandle);
 	Handle			CollectResourceData();
 	
+	virtual void	InitializeFromResource( CRezMap *inMap, ResIDT );
+	virtual void	SaveAsResource( CRezMap *, ResIDT );
+
+	SInt32			GetZoomFactor( SInt32, SInt32, Boolean *outShowGrid );
+		
 	virtual void	RevertContents();
 	
 	LView*			GetContentsView() const { return mContentsView;}
@@ -53,7 +59,7 @@ public:
 	void			AdjustCurrentIndex();
 
 protected:
-	CICNS_Stream *			mOutStream;
+	LHandleStream *			mOutStream;
 	LView *					mContentsView;
 	LStaticText *			mTypeField;
 	LStaticText *			mSizeField;
@@ -64,18 +70,7 @@ protected:
 	TArray<OSType>			mIconTypes;
 
 	virtual void	FinishCreateSelf();
-
-	virtual Boolean	ItemIsAcceptable( DragReference inDragRef,
-							ItemReference inItemRef );
-	virtual void	ReceiveDragItem( DragReference inDragRef,
-							DragAttributes inDragAttrs, ItemReference inItemRef,
-							Rect &inItemBounds );
-	virtual void	EnterDropArea( DragReference inDragRef, Boolean inDragHasLeftSender );
-	virtual void	LeaveDropArea( DragReference inDragRef );
-	virtual void	InsideDropArea( DragReference inDragRef);
-	virtual void	HiliteDropArea( DragReference inDragRef );
-
-
+	
 	
 private:	
 	Boolean			SelectIconAtIndex(ArrayIndexT inMenuIndex);
