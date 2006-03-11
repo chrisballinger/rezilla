@@ -1,11 +1,11 @@
 // ===========================================================================
 // CWindow_IconSuite.cp
 //                       Created: 2005-01-10 21:23:57
-//             Last modification: 2005-02-17 17:51:18
+//             Last modification: 2006-03-10 22:18:20
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes 2004-2005
+// (c) Copyright: Bernard Desgraupes 2004-2005, 2006
 // All rights reserved.
 // ===========================================================================
 
@@ -157,7 +157,7 @@ CWindow_IconSuite::GetZoomFactor( SInt32, SInt32, Boolean *outShowGrid )
 // ---------------------------------------------------------------------------
 
 void
-CWindow_IconSuite::ParseBitmapSuite( Handle inHandle, COffscreen **outBW  )
+CWindow_IconSuite::ParseBitmapSuite( Handle inHandle )
 {
 	Size		theSize = GetHandleSize(inHandle);
 	SInt32		offset;	
@@ -171,14 +171,12 @@ CWindow_IconSuite::ParseBitmapSuite( Handle inHandle, COffscreen **outBW  )
 		StHandleLocker	locker( (Handle) inHandle );
 		
 		mTotalCount = theSize / 32;
-		
 		p = (SICN *) *inHandle;
 		
 		for ( offset = 0; offset < mTotalCount; offset++ ) {
 			mBitmapsArray.AddItem( *(p + offset) );
 		}
 		
-		*outBW = IconToOffscreen(p);
 	} else {
 		mTotalCount = 0;
 		AddNewBitmap();

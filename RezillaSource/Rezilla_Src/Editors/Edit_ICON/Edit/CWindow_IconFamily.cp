@@ -59,7 +59,7 @@ CWindow_IconFamily::CWindow_IconFamily( LStream *inStream )
 	OSErr	error;
 	Handle	theHandle;
 	
-	error = UResources::GetResourceInMap( CRezillaApp::GetSelfRefNum(), ResType_IconFamilyInfo, this->GetPaneID(), theHandle, true );
+	error = UResources::GetResourceInMap( CRezillaApp::GetSelfRefNum(), ResType_IconFamilyInfo, kIconFamilyIconInfo, theHandle, true );
 	ThrowIfOSErr_(error);
 	::DetachResource(theHandle);
 	mFamilyListH = (PaintFamilyListH) theHandle;

@@ -26,7 +26,7 @@ typedef SICN_Ptr *	SICN_Hand;
 
 class CWindow_IconSuite : public CSuite_Window {
 	public:
-		enum { class_ID = FOUR_CHAR_CODE('IcSV') };
+		enum { class_ID = FOUR_CHAR_CODE('SICW') };
 
 								CWindow_IconSuite( LStream * );
 		virtual					~CWindow_IconSuite();
@@ -44,7 +44,7 @@ class CWindow_IconSuite : public CSuite_Window {
 					
 		virtual void		FinishCreateSelf();
 				
-		virtual void		ParseBitmapSuite( Handle inHandle, COffscreen **outBW  );
+		virtual void		ParseBitmapSuite( Handle inHandle );
 
 		virtual ArrayIndexT	AddNewBitmap();
 		virtual ArrayIndexT	AddNewBitmap( SInt32 inAfterIndex );

@@ -1,11 +1,11 @@
 // ===========================================================================
 // CWindow_PatternSuite.h
 //                       Created: 2005-01-09 10:38:27
-//             Last modification: 2005-02-17 17:47:24
+//             Last modification: 2006-03-10 22:19:20
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes 2004-2005
+// (c) Copyright: Bernard Desgraupes 2004-2005, 2006
 // All rights reserved.
 // ===========================================================================
 
@@ -42,7 +42,7 @@ class CWindow_PatternSuite : public CSuite_Window {
 
 		virtual void		FinishCreateSelf();
 				
-		virtual void		ParseBitmapSuite( Handle inHandle, COffscreen **outBW  );
+		virtual void		ParseBitmapSuite( Handle inHandle );
 
 		virtual ArrayIndexT	AddNewBitmap();
 		virtual ArrayIndexT	AddNewBitmap( SInt32 inAfterIndex );

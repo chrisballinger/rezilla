@@ -1,11 +1,11 @@
 // ===========================================================================
 // CSuite_Window.cp
 //                       Created: 2005-01-10 21:23:57
-//             Last modification: 2005-02-15 07:01:23
+//             Last modification: 2006-03-10 22:17:39
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes 2004-2005
+// (c) Copyright: Bernard Desgraupes 2004-2005, 2006
 // All rights reserved.
 // ===========================================================================
 
@@ -107,7 +107,8 @@ CSuite_Window::InitializeFromResource(CRezObj * inRezObj)
 		ThrowIfNil_( h );
 		
 		// Parse the resource to build the patterns array
-		ParseBitmapSuite( h, &bwImage );
+// 		ParseBitmapSuite( h, &bwImage );
+		ParseBitmapSuite( h );
 		
 		SetNthBitmap(1);
 
@@ -272,7 +273,7 @@ CSuite_Window::HandleKeyPress(
 // ---------------------------------------------------------------------------
 
 void
-CSuite_Window::ParseBitmapSuite( Handle /* inHandle */, COffscreen ** /* outBW */  )
+CSuite_Window::ParseBitmapSuite( Handle /* inHandle */ )
 {
 	// Subclasses must override
 }

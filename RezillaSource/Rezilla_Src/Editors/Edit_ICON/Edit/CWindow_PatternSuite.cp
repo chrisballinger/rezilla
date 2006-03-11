@@ -1,11 +1,11 @@
 // ===========================================================================
 // CWindow_PatternSuite.cp
 //                       Created: 2005-01-09 10:38:27
-//             Last modification: 2005-02-17 17:47:31
+//             Last modification: 2006-03-10 22:18:56
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes 2004-2005
+// (c) Copyright: Bernard Desgraupes 2004-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -157,7 +157,7 @@ CWindow_PatternSuite::GetZoomFactor( SInt32, SInt32, Boolean *outShowGrid )
 // ---------------------------------------------------------------------------
 
 void
-CWindow_PatternSuite::ParseBitmapSuite( Handle inHandle, COffscreen **outBW  )
+CWindow_PatternSuite::ParseBitmapSuite( Handle inHandle )
 {
 	Size		theSize = GetHandleSize(inHandle);
 	SInt32		offset;	
@@ -177,7 +177,6 @@ CWindow_PatternSuite::ParseBitmapSuite( Handle inHandle, COffscreen **outBW  )
 			mPatternsArray.AddItem( *(p + offset) );
 		}
 		
-		*outBW = CWindow_Pattern::BWPatternToOffscreen(*p);
 	} else {
 		mTotalCount = 0;
 		AddNewBitmap();
