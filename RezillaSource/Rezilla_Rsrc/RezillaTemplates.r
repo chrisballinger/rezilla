@@ -28486,7 +28486,7 @@ resource 'TMPL' (1278, "ppat") {
 		'FLNG',
 		/* [7] */
 		"Old-style pattern",
-		'HLNG',
+		'H008',
 		/* [8] */
 		"Base address",
 		'FLNG',
