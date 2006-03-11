@@ -2,7 +2,7 @@
 // CICNS_Family.cp
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-02-25 22:16:43
+//             Last modification: 2006-03-11 17:55:55
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -56,11 +56,11 @@
 // 	    };
 
 #include "CICNS_Family.h"
-#include "CICNS_Stream.h"
 #include "CICNS_Member.h"
 #include "RezillaConstants.h"
 #include "UMiscUtils.h"
 
+#include <LHandleStream.h>
 
 // ---------------------------------------------------------------------------
 //  CICNS_Family												[public]
@@ -86,7 +86,7 @@ CICNS_Family::CICNS_Family(OSType inType)
 //  CICNS_Family												[public]
 // ---------------------------------------------------------------------------
 
-CICNS_Family::CICNS_Family(CICNS_Stream * inStream)
+CICNS_Family::CICNS_Family(LHandleStream * inStream)
 {
 	InstallDataStream(inStream);
 }
@@ -160,13 +160,18 @@ CICNS_Family::DeleteMember( ArrayIndexT inAtIndex )
 // ---------------------------------------------------------------------------
 //  InstallDataStream												[public]
 // ---------------------------------------------------------------------------
+// noIconDataAvailableErr = -2582
 
 void
-CICNS_Family::InstallDataStream(CICNS_Stream * inStream)
+CICNS_Family::InstallDataStream(LHandleStream * inStream)
 {
-	CICNS_Member *	theMember;
-	SInt32			theSize;
-	
+	OSErr				error = noErr;
+	CICNS_Member *		theMember;
+	SInt32				theSize;
+	OSType				theType;
+	Handle				theHandle;
+	IconFamilyHandle	theIconFamilyHandle = (IconFamilyHandle) inStream->GetDataHandle();
+
 	*inStream >> mIconType;
 	
 	// Next comes the total size of the resource, including the previous
@@ -175,9 +180,17 @@ CICNS_Family::InstallDataStream(CICNS_Stream * inStream)
 	// just repair silently?
 	*inStream >> theSize;
 
-	while (inStream->GetMarker() < inStream->GetLength()) {
-		theMember = new CICNS_Member(inStream);
+	while (inStream->GetMarker() < inStream->GetLength()) {		
+		*inStream >> theType;
+		*inStream >> theSize;
+		
+		theHandle = NewHandle(0);
+		error = GetIconFamilyData( theIconFamilyHandle, theType, theHandle);
+		
+		theMember = new CICNS_Member(theType, theSize, theHandle);
 		AddMember(theMember);
+		
+		inStream->SetMarker(theSize - 8, streamFrom_Marker);
 	}
 }
 
@@ -187,7 +200,7 @@ CICNS_Family::InstallDataStream(CICNS_Stream * inStream)
 // ---------------------------------------------------------------------------
 
 void
-CICNS_Family::SendDataToStream(CICNS_Stream * outStream)
+CICNS_Family::SendDataToStream(LHandleStream * outStream)
 {
 	TArrayIterator<CICNS_Member*> iterator( mMembers );
 	CICNS_Member *	theMember;
@@ -196,9 +209,9 @@ CICNS_Family::SendDataToStream(CICNS_Stream * outStream)
 	*outStream << mIconType;
 	*outStream << theSize;
 
-	while (iterator.Next(theMember)) {
-		theMember->SendDataToStream(outStream);
-	}
+// 	while (iterator.Next(theMember)) {
+// 		theMember->SendDataToStream(outStream);
+// 	}
 	
 	// Rectify the value of the total size
 	if (outStream->GetLength() > 8) {

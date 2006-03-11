@@ -2,7 +2,7 @@
 // CICNS_Family.h
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-02-26 22:18:43
+//             Last modification: 2006-03-11 17:56:01
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -15,7 +15,7 @@
 #pragma once
 
 
-class CICNS_Stream;
+class LHandleStream;
 class CICNS_Member;
 
 
@@ -23,7 +23,7 @@ class CICNS_Family {
 public:
 				CICNS_Family();
 				CICNS_Family(OSType inType);
-				CICNS_Family(CICNS_Stream * inStream);
+				CICNS_Family(LHandleStream * inStream);
 				~CICNS_Family();
 
 		void		AddMember(OSType inType);
@@ -31,8 +31,8 @@ public:
 		void		AddMember(OSType inType, SInt32 inSize, Handle inHandle);
 		void		DeleteMember( ArrayIndexT inAtIndex );
 		
-		void		InstallDataStream(CICNS_Stream * inStream);
-		void		SendDataToStream(CICNS_Stream * outStream);
+		void		InstallDataStream(LHandleStream * inStream);
+		void		SendDataToStream(LHandleStream * outStream);
 
 		ArrayIndexT		GetCurrentIndex();
 		void			SetCurrentIndex(ArrayIndexT inIndex);
