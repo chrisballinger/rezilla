@@ -26,22 +26,18 @@
 			 
 
 #include "CICNS_Member.h"
-#include "CICNS_Stream.h"
 #include "RezillaConstants.h"
 #include "UMiscUtils.h"
 
+#include <LHandleStream.h>
 
 // ---------------------------------------------------------------------------
 //  CICNS_Member													[public]
 // ---------------------------------------------------------------------------
-// The minimal size of an icon member 
-// is 8 = sizeof(OSType) + sizeof(SInt32)
 
 CICNS_Member::CICNS_Member(OSType inType)
 {
-	mType = inType;
-	mIconSize = 0;
-	mIconData = nil;	
+	SetValues(inType, 0, NULL);
 }
 
 
@@ -53,18 +49,6 @@ CICNS_Member::CICNS_Member(OSType inType)
 CICNS_Member::CICNS_Member(OSType inType, SInt32 inSize, Handle inHandle)
 {
 	SetValues(inType, inSize, inHandle);
-}
-
-
-// ---------------------------------------------------------------------------
-//  CICNS_Member													[public]
-// ---------------------------------------------------------------------------
-
-CICNS_Member::CICNS_Member(CICNS_Stream * inStream)
-{
-	mIconSize = 0;
-	mIconData = nil;	
-	InstallDataStream(inStream);
 }
 
 
@@ -81,45 +65,6 @@ CICNS_Member::~CICNS_Member()
 
 
 // ---------------------------------------------------------------------------
-//  InstallDataStream												[public]
-// ---------------------------------------------------------------------------
-
-void
-CICNS_Member::InstallDataStream(CICNS_Stream * inStream)
-{
-	SInt32 theSize;
-	
-	*inStream >> mType;
-	*inStream >> theSize;
-
-	if (theSize > 8) {
-		mIconSize = theSize - 8;
-	} 
-	
-	mIconData = NewHandle(mIconSize);
-	if (mIconData) {
-		inStream->GetBytes(*mIconData, mIconSize);
-	} 
-}
-
-
-// ---------------------------------------------------------------------------
-//  SendDataToStream												[public]
-// ---------------------------------------------------------------------------
-
-void
-CICNS_Member::SendDataToStream(CICNS_Stream * outStream)
-{
-	*outStream << mType;
-	*outStream << (mIconSize + 8);
-	
-	if (mIconData) {
-		outStream->PutBytes(*mIconData, mIconSize);
-	} 
-}
-
-
-// ---------------------------------------------------------------------------
 //  GetValues														[public]
 // ---------------------------------------------------------------------------
 
@@ -128,12 +73,7 @@ CICNS_Member::GetValues(OSType & outType, SInt32 & outSize, Handle & outHandle)
 {
 	outType = mType;
 	outSize = mIconSize;
-
-	::SetHandleSize(outHandle, mIconSize);
-	OSErr error = ::MemError();
-	if (error == noErr) {
-		::BlockMoveData(*mIconData, *outHandle, mIconSize);
-	}
+	outHandle = mIconData;
 }
  
 
@@ -148,15 +88,11 @@ CICNS_Member::SetValues(OSType inType, SInt32 inSize, Handle inHandle)
 	mIconSize = inSize;
 	
 	if (mIconData == nil) {
-		mIconData = NewHandle(mIconSize);
+		mIconData = NewHandle(0);
 	} else {
-		::SetHandleSize(mIconData, inSize);
+		mIconData = inHandle;
 	}
-	
-	OSErr error = ::MemError();
-	if (error == noErr) {
-		::BlockMoveData(*inHandle, *mIconData, inSize);
-	}
+
 }
 
 
