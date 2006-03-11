@@ -1343,7 +1343,7 @@ CRezMapDoc::FindCommandStatus(
 			break;
 
 		case cmd_Find:
-// 			LString::CopyPStr( "\pFind in MapÉ", outName);
+// 			LString::CopyPStr( "\pFind in Map...", outName);
 // 			outEnabled = true;
 			outEnabled = false;
 			break;
@@ -1611,7 +1611,7 @@ CRezMapDoc::NewResDialog()
 					case msg_NewUniqueID:
 					theTypeField->GetDescriptor(theString);
 					if (theString[0]) {
-						::StringToNum(theString, (long *) &theType);
+						UMiscUtils::PStringToOSType(theString, theType);
 						mRezMap->UniqueID(theType, theID);
 						::NumToString(theID, theString);
 						theIDField->SetDescriptor(theString);
