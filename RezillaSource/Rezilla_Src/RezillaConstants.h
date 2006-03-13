@@ -889,6 +889,7 @@ const PaneIDT   item_MenuEditItemGroupVIew	= 50;
 const PaneIDT   item_IcnsTypeField			= 1;
 const PaneIDT   item_IcnsSizeField			= 2;
 const PaneIDT   item_IcnsIconPopup			= 3;
+const PaneIDT	item_IcnsVisualize			= FOUR_CHAR_CODE('VISU');
 // Resource Picker Window
 // ----------------------
 const PaneIDT   item_PickerResourceCount	= 1;
@@ -1595,6 +1596,13 @@ enum RedrawOptions
 	redraw_Later,
 	redraw_Dont
 };
+
+
+// ======================================================================
+// Constants for the Icns editor
+// ======================================================================
+// ID of the RzII resource containing the 'icns' members info
+const SInt16		kIconSuiteIconInfo		= PPob_IcnsEditorWindow;
 
 
 // ======================================================================
