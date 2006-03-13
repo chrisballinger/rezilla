@@ -38,7 +38,7 @@ public:
 		void			SetCurrentIndex(ArrayIndexT inIndex);
 		void			AdjustCurrentIndex();
 
-		CICNS_Member *	FindIconForType(OSType inType) const;
+		CICNS_Member *	FindMember(OSType inType) const;
 		
 		ArrayIndexT		GetMemberIndex() { return mMemberIndex;}
 		void			SetMemberIndex(ArrayIndexT inMemberIndex) {mMemberIndex = inMemberIndex;}

@@ -257,11 +257,11 @@ CICNS_Family::AdjustCurrentIndex()
  
 
 // ---------------------------------------------------------------------------
-//	 FindIconForType											 [public]
+//	 FindMember											 [public]
 // ---------------------------------------------------------------------------
 
 CICNS_Member *
-CICNS_Family::FindIconForType(OSType inType) const
+CICNS_Family::FindMember(OSType inType) const
 {
 	TArrayIterator<CICNS_Member*> iterator( mMembers );
 	CICNS_Member	*theMember = NULL, *currMember;
