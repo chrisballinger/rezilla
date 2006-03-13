@@ -87,12 +87,11 @@ CICNS_Member::SetValues(OSType inType, SInt32 inSize, Handle inHandle)
 	mType = inType;
 	mIconSize = inSize;
 	
-	if (mIconData == nil) {
+	if (inHandle == nil) {
 		mIconData = NewHandle(0);
 	} else {
 		mIconData = inHandle;
 	}
-
 }
 
 
