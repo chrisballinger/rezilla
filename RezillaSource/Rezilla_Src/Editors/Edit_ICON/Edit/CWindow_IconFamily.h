@@ -19,14 +19,11 @@ class CRezMap;
 
 
 // ----------------------------------------------------------------------------
-// Structs PaintFamilyMember, PaintFamilyList
+// Structs Rez_IconMemberInfo, Rez_IconFamilyInfo
 // 	  These data structures describe how the icon family and ICON windows
 // 	  work -- which resources are displayed in which sample panes, etc.
-// 	
 // 	  This allows us to add/remove additional resource types simply by
 // 	  editing the resource rather than changing the code.
-// 	
-//    Everything is a long, so we have no alignment problems (68k vs. PowerPC)
 
 typedef struct
 {
@@ -40,15 +37,15 @@ typedef struct
 	SInt32				maskOffset;			// # bytes into resource where the mask lives
 	SInt32				maskRowBytes;
 	PaneIDT				maskSamplePaneID;
-} PaintFamilyMember;
+} Rez_IconMemberInfo;
 
 
 typedef struct
 {
 	PaneIDT				defaultPane;		// which one is the initial sample pane
 	SInt32				numEntries;			// 1..n
-	PaintFamilyMember	members[1];	
-} PaintFamilyList, **PaintFamilyListH;
+	Rez_IconMemberInfo	members[1];	
+} Rez_IconFamilyInfo, **Rez_IconFamilyInfoH;
 
 // ----------------------------------------------------------------------------
 
@@ -68,13 +65,13 @@ class CWindow_IconFamily : public CIcon_EditorWindow {
 		virtual void			InitializeFromResource( CRezMap *inMap, ResIDT );
 		virtual void			SaveAsResource( CRezMap *, ResIDT );
 	
-		SInt32					GetZoomFactor( SInt32, SInt32, Boolean *outShowGrid );
+		SInt32					GetZoomFactor( SInt32 inImageWidth, SInt32 inImageHeight, Boolean *outShowGrid );
 			
 		SInt32					GetFamilyMemberCount();
-		void					GetFamilyMemberInfo( SInt32 index, PaintFamilyMember * );
+		void					GetFamilyMemberInfo( SInt32 index, Rez_IconMemberInfo * );
 	
 	protected:
-		PaintFamilyListH		mFamilyListH;
+		Rez_IconFamilyInfoH		mFamilyInfoH;
 		
 		virtual Boolean			InitializeOneMember( 
 										CRezMap *inMap, ResType inResType, ResIDT inResID,

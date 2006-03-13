@@ -36,7 +36,7 @@ class CWindow_Pattern : public CIcon_EditorWindow {
 		virtual void				InitializeFromResource(CRezObj * inRezObj);
 		virtual void				SaveAsResource( CRezMap *, ResIDT );
 		
-		virtual SInt32				GetZoomFactor( SInt32, SInt32, Boolean *outShowGrid );
+		virtual SInt32				GetZoomFactor( SInt32 inImageWidth, SInt32 inImageHeight, Boolean *outShowGrid );
 
 		virtual void				ChangeImageSize( SInt32 inWidth, SInt32 inHeight, Boolean inStretch );
 		virtual void				ImageSizeChangeUndone( SInt32 inWidth, SInt32 inHeight );

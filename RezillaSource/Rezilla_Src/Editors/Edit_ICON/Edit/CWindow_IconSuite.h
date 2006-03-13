@@ -36,7 +36,7 @@ class CWindow_IconSuite : public CSuite_Window {
 		
 		virtual void		SaveAsResource( CRezMap *inMap, ResIDT inID);
 	
-		SInt32				GetZoomFactor( SInt32, SInt32, Boolean *outShowGrid );
+		SInt32				GetZoomFactor( SInt32 inImageWidth, SInt32 inImageHeight, Boolean *outShowGrid );
 			
 	protected:
 		TArray<SICN>			mBitmapsArray;
