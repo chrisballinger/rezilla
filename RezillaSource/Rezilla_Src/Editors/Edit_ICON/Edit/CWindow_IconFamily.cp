@@ -62,7 +62,7 @@ CWindow_IconFamily::CWindow_IconFamily( LStream *inStream )
 	error = UResources::GetResourceInMap( CRezillaApp::GetSelfRefNum(), ResType_IconFamilyInfo, kIconFamilyIconInfo, theHandle, true );
 	ThrowIfOSErr_(error);
 	::DetachResource(theHandle);
-	mFamilyListH = (PaintFamilyListH) theHandle;
+	mFamilyInfoH = (Rez_IconFamilyInfoH) theHandle;
 }
 
 
@@ -71,8 +71,8 @@ CWindow_IconFamily::CWindow_IconFamily( LStream *inStream )
 // ---------------------------------------------------------------------------
 CWindow_IconFamily::~CWindow_IconFamily()
 {
-	if (mFamilyListH != nil) {
-		::DisposeHandle( (Handle) mFamilyListH);
+	if (mFamilyInfoH != nil) {
+		::DisposeHandle( (Handle) mFamilyInfoH);
  	} 
 }
 
@@ -93,6 +93,7 @@ CWindow_IconFamily::CreateFromStream( LStream *inStream )
 void
 CWindow_IconFamily::FinishCreateSelf()
 {
+	// Call the inherited method
 	CIcon_EditorWindow::FinishCreateSelf();
 
 	// Link the broadcasters (using GetPaneID() makes the distinction
@@ -114,7 +115,7 @@ CWindow_IconFamily::InitializeFromResource( CRezMap *inMap, ResIDT inResID )
 	// Initialize each family member 
 	for ( SInt32 count = 1; count <= numTypes; count++ )
 	{
-		PaintFamilyMember	memberInfo;
+		Rez_IconMemberInfo	memberInfo;
 		
 		GetFamilyMemberInfo( count, &memberInfo );
 		
@@ -143,7 +144,7 @@ CWindow_IconFamily::InitializeFromResource( CRezMap *inMap, ResIDT inResID )
 	// indicated by the resource
 	if ( !mCurrentSamplePane )
 	{
-		mCurrentSamplePane = (CDraggableTargetView*) this->FindPaneByID( (**mFamilyListH).defaultPane );
+		mCurrentSamplePane = (CDraggableTargetView*) this->FindPaneByID( (**mFamilyInfoH).defaultPane );
 		ThrowIfNil_( mCurrentSamplePane );
 	}
 	
@@ -229,7 +230,7 @@ CWindow_IconFamily::InitializeOneMember( CRezMap *inMap, ResType inResType, ResI
 void
 CWindow_IconFamily::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 {
-	PaintFamilyMember		memberInfo;
+	Rez_IconMemberInfo		memberInfo;
 	SInt32					numIcons = this->GetFamilyMemberCount();
 	CDraggableTargetView	*mainPane, *maskPane;
 	COffscreen				*mainBuffer, *maskBuffer;
@@ -238,7 +239,7 @@ CWindow_IconFamily::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 	// Post CW11 stuff
 	SInt32					numActiveImages = 0;
 	COffscreen				*icnBuffer = nil, *icnMaskBuffer = nil;
-	PaintFamilyMember		icnInfo;
+	Rez_IconMemberInfo		icnInfo;
 	CDraggableTargetView	*icnPane = nil;
 	
 	// First create all of the resources we need to
@@ -359,7 +360,7 @@ CWindow_IconFamily::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 SInt32
 CWindow_IconFamily::GetFamilyMemberCount()
 {
-	return ( (**mFamilyListH).numEntries );
+	return ( (**mFamilyInfoH).numEntries );
 }
 
 
@@ -369,10 +370,10 @@ CWindow_IconFamily::GetFamilyMemberCount()
 // 	index is 1..n
 
 void
-CWindow_IconFamily::GetFamilyMemberInfo( SInt32 index, PaintFamilyMember *oRec )
+CWindow_IconFamily::GetFamilyMemberInfo( SInt32 index, Rez_IconMemberInfo *oRec )
 {
-	ThrowIf_( (index <= 0) || (index > (**mFamilyListH).numEntries) );
-	*oRec = (**mFamilyListH).members[ index - 1 ];
+	ThrowIf_( (index <= 0) || (index > (**mFamilyInfoH).numEntries) );
+	*oRec = (**mFamilyInfoH).members[ index - 1 ];
 }
 
 

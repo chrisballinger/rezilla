@@ -86,6 +86,7 @@ CWindow_IconSuite::CreateFromStream( LStream *inStream )
 void
 CWindow_IconSuite::FinishCreateSelf()
 {
+	// Call the inherited method
 	CSuite_Window::FinishCreateSelf();
 
 	mSample = (CDraggableTargetView *) this->FindPaneByID( ImgType_IconSuite );

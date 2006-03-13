@@ -111,6 +111,7 @@ CWindow_Cursor::~CWindow_Cursor()
 void
 CWindow_Cursor::FinishCreateSelf()
 {
+	// Call the inherited method
 	CIcon_EditorWindow::FinishCreateSelf();
 
 	// crsr - has mColorSample, mBWSample, mMaskSample

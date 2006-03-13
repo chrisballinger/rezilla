@@ -85,6 +85,7 @@ CWindow_PatternSuite::CreateFromStream( LStream *inStream )
 void
 CWindow_PatternSuite::FinishCreateSelf()
 {
+	// Call the inherited method
 	CSuite_Window::FinishCreateSelf();
 
 	mSample = (CPatternTargetView *) this->FindPaneByID( item_IconEditBWSample );

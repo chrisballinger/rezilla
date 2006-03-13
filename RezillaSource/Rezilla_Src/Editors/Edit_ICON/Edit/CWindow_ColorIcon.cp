@@ -84,6 +84,7 @@ CWindow_ColorIcon::~CWindow_ColorIcon()
 void
 CWindow_ColorIcon::FinishCreateSelf()
 {
+	// Call the inherited method
 	CIcon_EditorWindow::FinishCreateSelf();
 
 	mColorSample = (CDraggableTargetView*) this->FindPaneByID( ImgType_ColorIcon );
@@ -189,7 +190,7 @@ CWindow_ColorIcon::ParseColorIcon( CRezObj * inRezObj,
 	BitMapPtr		bwMap, maskMap;
 	SInt32			depth, width, height, handleSize;
 	UInt8			*sourceData;
-	CTabHandle		theTable = nil, oneBitTable = nil;
+	CTabHandle		theTable = nil;
 	COffscreen		*cBuffer = nil, *bwBuffer = nil, *maskBuffer = nil;
 	Handle			h = nil;
 

@@ -146,7 +146,9 @@ CSuite_Window::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 void
 CSuite_Window::FinishCreateSelf()
 {
+	// Call the inherited method
 	CIcon_EditorWindow::FinishCreateSelf();
+	
 	mTotalCount = 0;
 
 	mSlider = dynamic_cast<CSuiteSlider *>(this->FindPaneByID( item_IconSuiteSlider ));

@@ -99,6 +99,7 @@ CWindow_Pattern::~CWindow_Pattern()
 void
 CWindow_Pattern::FinishCreateSelf()
 {
+	// Call the inherited method
 	CIcon_EditorWindow::FinishCreateSelf();
 
 	mBWSample = (CPatternTargetView*) this->FindPaneByID( item_IconEditBWSample );

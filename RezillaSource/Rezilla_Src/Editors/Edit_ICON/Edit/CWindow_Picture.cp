@@ -80,6 +80,7 @@ CWindow_Picture::~CWindow_Picture()
 void
 CWindow_Picture::FinishCreateSelf()
 {
+	// Call the inherited method
 	CIcon_EditorWindow::FinishCreateSelf();
 
 	// Link the broadcasters
