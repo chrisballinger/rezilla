@@ -2,7 +2,7 @@
 // CICNS_EditorDoc.cp
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-03-11 17:14:56
+//             Last modification: 2006-03-12 22:27:25
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -19,6 +19,7 @@ PP_Begin_Namespace_PowerPlant
 
 #include "CICNS_EditorDoc.h"
 #include "CICNS_EditorWindow.h"
+#include "CIcon_EditorView.h"
 #include "CEditorsController.h"
 #include "RezillaConstants.h"
 #include "CRezMap.h"
@@ -117,10 +118,10 @@ CICNS_EditorDoc::Initialize()
 		return;
 	}
 	
-// 	// Make the window visible.
-// 	mIcnsEditWindow->Show();
-// 	// Enable all the subpanes
-// 	mIcnsEditWindow->GetContentsView()->Enable();
+	// Make the window visible.
+	mIcnsEditWindow->Show();
+	// Enable all the subpanes
+	mIcnsEditWindow->GetContentsView()->Enable();
 }
 
 

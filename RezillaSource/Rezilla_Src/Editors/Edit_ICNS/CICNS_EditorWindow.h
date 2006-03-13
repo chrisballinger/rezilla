@@ -2,7 +2,7 @@
 // CICNS_EditorWindow.h
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-03-10 12:32:42
+//             Last modification: 2006-03-13 05:38:04
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -13,15 +13,17 @@
 #pragma once
 
 #include "CIcon_EditorWindow.h"
+#include "CWindow_IconFamily.h"
 #include "UResources.h"
 
 // #include <LDragAndDrop.h>
 
 
-class LView;
-class LHandleStream;
+class CIcon_EditorView;
 class CICNS_Family;
 class CICNS_Member;
+class CDraggableTargetView;
+class LHandleStream;
 class LStaticText;
 class LPopupButton;
 
@@ -43,14 +45,16 @@ public:
 	OSErr			InstallResourceData(Handle inHandle);
 	Handle			CollectResourceData();
 	
-	virtual void	InitializeFromResource( CRezMap *inMap, ResIDT );
 	virtual void	SaveAsResource( CRezMap *, ResIDT );
 
-	SInt32			GetZoomFactor( SInt32, SInt32, Boolean *outShowGrid );
+	SInt32			GetFamilyMemberCount();
+	void			GetFamilyMemberInfo( OSType inType, Rez_IconMemberInfo *oRec );
+
+	SInt32			GetZoomFactor( SInt32 inImageWidth, SInt32 inImageHeight, Boolean *outShowGrid );
 		
 	virtual void	RevertContents();
 	
-	LView*			GetContentsView() const { return mContentsView;}
+	CIcon_EditorView *	GetContentsView() const { return mContentsView;}
 	
 	TArray<OSType> *	GetIconTypes() { return &mIconTypes;}
 	
@@ -59,29 +63,35 @@ public:
 	void			AdjustCurrentIndex();
 
 protected:
+	Rez_IconFamilyInfoH		mFamilyInfoH;
 	LHandleStream *			mOutStream;
-	LView *					mContentsView;
+	CDraggableTargetView *	mIconSample;
+	CDraggableTargetView *	mMaskSample;
 	LStaticText *			mTypeField;
 	LStaticText *			mSizeField;
 	LPopupButton *			mIconPopup;
 	CICNS_Family *			mIcnsFamily;
-	UInt16					mDropIndex;
 	ArrayIndexT				mCurrentIndex;
 	TArray<OSType>			mIconTypes;
 
 	virtual void	FinishCreateSelf();
 	
-	
 private:	
-	Boolean			SelectIconAtIndex(ArrayIndexT inMenuIndex);
-	void			DeleteIconAtIndex(ArrayIndexT inMenuIndex);
-	void			InstallIcon(ArrayIndexT inMenuIndex, CICNS_Member * inMember);
-	CICNS_Member *	CreateIcon(ArrayIndexT inMenuIndex, OSType inType);
+	Boolean			ShowIconAtIndex(ArrayIndexT inMenuIndex);
+	Boolean			ShowIconForType(OSType inType);
 	
-	void			AppendTypeToMenu(Str255 inString);
+	void			DeleteIconAtIndex(ArrayIndexT inMenuIndex);
+	void			InstallMemberIcon(CICNS_Member * inMember);
+	CICNS_Member *	CreateIcon(OSType inType);
+	
+	void			AppendTypeToPopup(Str255 inString);
 	void			FillPopup();
-	void			UpdatePopupStyle();
-	void			UpdateInfoFields(OSType inType, SInt32 inSize);
+	void			UpdatePopup();
+	void			UpdateMemberInPopup(CICNS_Member * inMember);
+	void			UpdateTypeField(OSType inType);
+	void			GetIconMemberParams(OSType inType, SInt32 &inDepth, SInt32 &inWidth, SInt32 &inHeight, 
+										SInt32 &inRowBytes, SInt32 &inMaskOffset, SInt32 &inMaskRowBytes);
+	ArrayIndexT		GetMenuIndexForType(OSType inType);
 	
 };
 

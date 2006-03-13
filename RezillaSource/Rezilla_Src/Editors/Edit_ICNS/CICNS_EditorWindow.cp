@@ -2,7 +2,7 @@
 // CICNS_EditorWindow.cp					
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-03-11 19:45:08
+//             Last modification: 2006-03-12 06:54:33
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -14,11 +14,16 @@
 #include "CICNS_EditorWindow.h"
 #include "CICNS_Family.h"
 #include "CICNS_Member.h"
+#include "CIcon_EditorView.h"
+#include "CRezillaApp.h"
+#include "CDraggableTargetView.h"
+#include "COffscreen.h"
 #include "CRezObj.h"
 #include "RezillaConstants.h"
 #include "UMessageDialogs.h"
 #include "UDragAndDropUtils.h"
 #include "UMiscUtils.h"
+#include "UColorUtils.h"
 
 #include <LHandleStream.h>
 #include <LPopupButton.h>
@@ -30,6 +35,7 @@
 // ---------------------------------------------------------------------------
 // 	OpenPaintWindow
 // ---------------------------------------------------------------------------
+
 CICNS_EditorWindow*
 CICNS_EditorWindow::OpenPaintWindow( ResIDT inPPobID, CRezMap *inMap, ResIDT inResID )
 {
@@ -38,7 +44,6 @@ CICNS_EditorWindow::OpenPaintWindow( ResIDT inPPobID, CRezMap *inMap, ResIDT inR
 	try
 	{
 		theWindow = (CICNS_EditorWindow*) CIcon_EditorWindow::CreatePaintWindow( inPPobID );
-		theWindow->InitializeFromResource( inMap, inResID );
 	}
 	catch( ... )
 	{
@@ -58,7 +63,14 @@ CICNS_EditorWindow::CICNS_EditorWindow(
 			       LStream *inStream )
 		: CIcon_EditorWindow( inStream )
 {
-	mDropIndex = -1;
+	OSErr	error;
+	Handle	theHandle = NULL;
+	
+	error = UResources::GetResourceInMap( CRezillaApp::GetSelfRefNum(), ResType_IconFamilyInfo, kIconSuiteIconInfo, theHandle, true );
+	ThrowIfOSErr_(error);
+	::DetachResource(theHandle);
+	mFamilyInfoH = (Rez_IconFamilyInfoH) theHandle;
+	
 	mCurrentIndex = 0;
 }
 
@@ -71,6 +83,9 @@ CICNS_EditorWindow::~CICNS_EditorWindow()
 {	
 	if (mOutStream != nil) {
 		delete mOutStream;
+	} 
+	if (mFamilyInfoH != nil) {
+		::DisposeHandle( (Handle) mFamilyInfoH);
 	} 
 }
 
@@ -94,18 +109,27 @@ CICNS_EditorWindow::FinishCreateSelf()
 {	
 	mOutStream = nil;
 	
-	// The main view containing the editing fields
-	mContentsView = dynamic_cast<LView *>(this->FindPaneByID(item_EditorContents));
-	ThrowIfNil_( mContentsView );
+	// Call the inherited method
+	CIcon_EditorWindow::FinishCreateSelf();
+
+	// Note: mContentsView is defined in the CIcon_EditorWindow parent class
 
 	mTypeField = dynamic_cast<LStaticText *>(this->FindPaneByID(item_IcnsTypeField));
 	ThrowIfNil_( mTypeField );
 
-	mSizeField = dynamic_cast<LStaticText *>(this->FindPaneByID(item_IcnsSizeField));
-	ThrowIfNil_( mSizeField );
+// 	mSizeField = dynamic_cast<LStaticText *>(this->FindPaneByID(item_IcnsSizeField));
+// 	ThrowIfNil_( mSizeField );
 
 	mIconPopup = dynamic_cast<LPopupButton *>(this->FindPaneByID(item_IcnsIconPopup));
 	ThrowIfNil_( mIconPopup );
+
+	mIconSample = dynamic_cast<CDraggableTargetView *>(this->FindPaneByID(item_IcnsVisualize));
+	ThrowIfNil_( mIconSample );
+	mSamplePaneList[ mNumSamplePanes++ ] = mIconSample;
+	
+	mMaskSample = dynamic_cast<CDraggableTargetView *>(this->FindPaneByID(item_IconEditMask));
+	ThrowIfNil_( mMaskSample );
+	mSamplePaneList[ mNumSamplePanes++ ] = mMaskSample;
 
 	// Fill the menu
 	FillPopup();
@@ -116,12 +140,49 @@ CICNS_EditorWindow::FinishCreateSelf()
 
 
 // ---------------------------------------------------------------------------
-// 	InitializeFromResource
+//	 InstallResourceData											[public]
 // ---------------------------------------------------------------------------
 
-void
-CICNS_EditorWindow::InitializeFromResource( CRezMap *inMap, ResIDT inResID )
+OSErr
+CICNS_EditorWindow::InstallResourceData(Handle inHandle)
 {
+	OSErr		error = noErr, ignoreErr = noErr;
+	UInt16		numItems = 0;
+	StHandleLocker	locker(inHandle);
+
+	LHandleStream * theStream = new LHandleStream(inHandle);
+	
+	if ( theStream->GetLength() == 0 ) {
+		// We are creating a new resource
+	} else {
+		if ( theStream->GetMarker() < theStream->GetLength() ) {
+			mIcnsFamily = new CICNS_Family(theStream);
+		}
+		
+		// Check that all the data have been parsed
+		if ( theStream->GetMarker() < theStream->GetLength() ) {
+			error = err_MoreDataThanExpected;
+		} 
+	}
+	
+	// This disposes of inHandle
+	delete theStream;
+	
+	if (error == noErr) {
+		UpdatePopup();
+		
+		// If the resource is not empty, install the first icon member
+		if (mIcnsFamily->CountMembers() > 0) {
+			CICNS_Member*	theMember;			
+			mIcnsFamily->GetMembers()->FetchItemAt(1, theMember);
+			InstallMemberIcon(theMember);
+			UpdateMemberInPopup(theMember);
+		} 
+		
+		SetDirty(false);
+	} 
+
+	return error;
 }
 
 
@@ -161,22 +222,22 @@ CICNS_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 	switch (inMessage) {
 						
 		case msg_IcnsIconPopup: 
-		if ( SelectIconAtIndex(mIconPopup->GetValue()) ) {
-			SetDirty(true);
-			Refresh();
+		ArrayIndexT index = mIconPopup->GetValue();
+		if (index != mCurrentIndex) {
+			if ( ShowIconAtIndex(index) ) {
+				SetDirty(true);
+				Refresh();
+			} 
 		} 
 		break;
-		
 		
 		case cmd_Clear:
 		DeleteIconAtIndex(mCurrentIndex);
 		break;
 		
-		
 		case msg_EditorModifiedItem:
 		SetDirty(true);
 		break;
-		
 		
 		default:
 		dynamic_cast<CICNS_EditorDoc *>(mOwnerDoc)->ListenToMessage(inMessage, ioParam);
@@ -208,12 +269,11 @@ CICNS_EditorWindow::FillPopup()
 
 		if ( count > 0 ) {
 			Str255		itemStr;
-			
 			for ( SInt16 i = 1; i <= count; i++ ) {
 				// Get the string from the list resource
 				::GetIndString( itemStr, STRx_IcnsMembers, i );
 				// Append it to the menu
-				AppendTypeToMenu(itemStr);
+				AppendTypeToPopup(itemStr);
 			}
 		}
 	}	
@@ -225,11 +285,11 @@ CICNS_EditorWindow::FillPopup()
 
 
 // ---------------------------------------------------------------------------
-//	 AppendTypeToMenu
+//	 AppendTypeToPopup
 // ---------------------------------------------------------------------------
 
 void
-CICNS_EditorWindow::AppendTypeToMenu(Str255 inString)
+CICNS_EditorWindow::AppendTypeToPopup(Str255 inString)
 {
 	Str255 *	rightPtr;
 	OSType		theType;
@@ -250,11 +310,11 @@ CICNS_EditorWindow::AppendTypeToMenu(Str255 inString)
 
 
 // ---------------------------------------------------------------------------
-//	 UpdatePopupStyle													  [public]
+//	 UpdatePopup													  [public]
 // ---------------------------------------------------------------------------
 
 void
-CICNS_EditorWindow::UpdatePopupStyle() 
+CICNS_EditorWindow::UpdatePopup() 
 {
 	MenuRef			theMenuH = mIconPopup->GetMacMenuH();
 	SInt32			index;
@@ -265,7 +325,7 @@ CICNS_EditorWindow::UpdatePopupStyle()
 	
 	for (index = 1; index <= theCount; index++) {	
 		if ( mIconTypes.FetchItemAt(index, theType) && theType != 0) {
-			theMember = mIcnsFamily->FindIconForType(theType);
+			theMember = mIcnsFamily->FindMember(theType);
 			if (theMember == nil) {
 				::SetItemStyle(theMenuH, index, italic);
 			} else {
@@ -282,46 +342,122 @@ CICNS_EditorWindow::UpdatePopupStyle()
 
 
 // ---------------------------------------------------------------------------
-//  SelectIconAtIndex												[private]
+//	 UpdateMemberInPopup											  [public]
 // ---------------------------------------------------------------------------
 
-Boolean
-CICNS_EditorWindow::SelectIconAtIndex(ArrayIndexT inMenuIndex)
+void
+CICNS_EditorWindow::UpdateMemberInPopup(CICNS_Member * inMember) 
 {
-	OSType			theType;
-	Str255			theString;
-	CICNS_Member *	theMember = nil;
-	MenuRef			theMenuH = mIconPopup->GetMacMenuH();
+	ArrayIndexT menuIndex = GetMenuIndexForType( inMember->GetType() );
+	MenuRef		theMenuH = mIconPopup->GetMacMenuH();
 	
-	if ( mIconTypes.FetchItemAt(inMenuIndex, theType) ) {
-		theMember = mIcnsFamily->FindIconForType(theType);
-		if (theMember == nil) {
-			theMember = CreateIcon(inMenuIndex, theType);
-		} 
-	}
-	
-	if (theMember != nil) {
-		InstallIcon(inMenuIndex, theMember);
-		return true;
-	} else {
-		return false;
-	}
+	::MacCheckMenuItem(theMenuH, mCurrentIndex, 0);
+	SetCurrentIndex(menuIndex);
+	::MacCheckMenuItem(theMenuH, menuIndex, 1);
+	mIconPopup->SetValue(menuIndex);
+	UpdateTypeField( inMember->GetType() );
 }
 
 
 // ---------------------------------------------------------------------------
-//  InstallIcon														[private]
+//  ShowIconAtIndex													[private]
 // ---------------------------------------------------------------------------
 
-void
-CICNS_EditorWindow::InstallIcon(ArrayIndexT inMenuIndex, CICNS_Member * inMember)
+Boolean
+CICNS_EditorWindow::ShowIconAtIndex(ArrayIndexT inMenuIndex)
 {
-	MenuRef			theMenuH = mIconPopup->GetMacMenuH();
-	::MacCheckMenuItem(theMenuH, mCurrentIndex, 0);
-	SetCurrentIndex(inMenuIndex);
-	::MacCheckMenuItem(theMenuH, inMenuIndex, 1);
-	UpdateInfoFields(inMember->GetType(), inMember->GetIconSize());
+	OSType		theType;
+	Boolean		result = false;
 	
+	if ( mIconTypes.FetchItemAt(inMenuIndex, theType) ) {
+		result =  ShowIconForType(theType);
+	}
+	return result;
+}
+
+
+// ---------------------------------------------------------------------------
+//  ShowIconForType													[private]
+// ---------------------------------------------------------------------------
+
+Boolean
+CICNS_EditorWindow::ShowIconForType(OSType inType)
+{
+	CICNS_Member *	theMember = nil;
+	
+	theMember = mIcnsFamily->FindMember(inType);
+	if (theMember == nil) {
+		theMember = CreateIcon(inType);
+	} 
+	
+	if (theMember != nil) {
+		InstallMemberIcon(theMember);
+		UpdateMemberInPopup(theMember);
+	}
+
+	return (theMember != nil);
+}
+
+
+// ---------------------------------------------------------------------------
+//  InstallMemberIcon												[private]
+// ---------------------------------------------------------------------------
+// 		resize_None			= 0x00,
+// 		resize_Canvas		= 0x01,
+// 		resize_MoveSamples	= 0x02,
+// 		resize_Window		= 0x04,
+// 		resize_All			= 0xFF
+
+void
+CICNS_EditorWindow::InstallMemberIcon(CICNS_Member * inMember)
+{
+	SInt32			depth, width, height, rowBytes, maskOffset, maskRowBytes;
+	COffscreen		*theImage = nil, *theMask = nil;
+	CTabHandle		theTable = nil;
+	Handle			imgDataH = inMember->GetIconData();
+	MenuRef			theMenuH = mIconPopup->GetMacMenuH();
+
+	Size sz = GetHandleSize(imgDataH);
+	
+	GetIconMemberParams(inMember->GetType(), depth, width, height, rowBytes, maskOffset, maskRowBytes);
+	
+	// Icon suites use the standard color table for their depth
+	theTable = UColorUtils::GetColorTable( depth );
+	
+	// Allocate the color bitmap
+	theImage = COffscreen::CreateBuffer( width, height, depth, theTable );
+	if ( rowBytes != 0 ) {
+		theImage->CopyFromRawData( (UInt8*) *imgDataH, rowBytes );
+	}
+	
+	if ( maskRowBytes != 0 ) {
+		theMask = COffscreen::CreateBuffer( width, height, depth, theTable );
+		theMask->CopyFromRawData( (UInt8*) *imgDataH + maskOffset, maskRowBytes );		
+	}
+	
+	// Set the image
+	this->SetImage( theImage, resize_Canvas | resize_MoveSamples );
+
+	// Setup the sample buffer. Set the image buffer to nil because it
+	// belongs to the sample pane once the call succeeds.
+	mIconSample->SetBuffer( theImage, redraw_Dont );
+	theImage = nil;
+	mIconSample->SetUsedFlag( true, redraw_Dont );		// true if the resource exists
+	mIconSample->SetTarget( true, redraw_Dont );
+	mCurrentSamplePane = mIconSample;	
+
+	if (theMask) {
+		mMaskSample->SetBuffer( theMask, redraw_Dont );
+		theMask = nil;
+		mMaskSample->Show();
+	} else {
+		mMaskSample->Hide();
+	}
+	
+	if ( theTable )
+		::DisposeCTable( theTable );
+		
+
 }
 
 
@@ -330,19 +466,20 @@ CICNS_EditorWindow::InstallIcon(ArrayIndexT inMenuIndex, CICNS_Member * inMember
 // ---------------------------------------------------------------------------
 
 CICNS_Member *
-CICNS_EditorWindow::CreateIcon(ArrayIndexT inMenuIndex, OSType inType)
+CICNS_EditorWindow::CreateIcon(OSType inType)
 {
 	Str255 			theString;
 	CICNS_Member *	theMember = nil;
 	MenuRef			theMenuH = mIconPopup->GetMacMenuH();
+	ArrayIndexT		menuIndex = GetMenuIndexForType(inType);
 	
 	// Ask to create a new member
-	GetMenuItemText(theMenuH, inMenuIndex, theString);
+	GetMenuItemText(theMenuH, menuIndex, theString);
 	if ( UMessageDialogs::AskIfWithString(CFSTR("ConfirmCreateIcnsMember"), theString) == true) {
 		theMember = new CICNS_Member(inType);
 		if (theMember) {
 			mIcnsFamily->AddMember(theMember);
-			::SetItemStyle(theMenuH, inMenuIndex, normal);
+			::SetItemStyle(theMenuH, menuIndex, normal);
 		} else {
 			UMessageDialogs::AskIfWithString(CFSTR("CreatingIcnsMemberFailed"), theString);
 		}
@@ -374,59 +511,17 @@ CICNS_EditorWindow::DeleteIconAtIndex(ArrayIndexT index)
 
 
 // ---------------------------------------------------------------------------
-//  UpdateInfoFields												[private]
+//  UpdateTypeField												[private]
 // ---------------------------------------------------------------------------
 
 void
-CICNS_EditorWindow::UpdateInfoFields(OSType inType, SInt32 inSize)
+CICNS_EditorWindow::UpdateTypeField(OSType inType)
 {
 	Str255 theString;
 	UMiscUtils::OSTypeToPString(inType, theString);
 	mTypeField->SetDescriptor(theString);
-	::NumToString(inSize, theString);
-	mSizeField->SetDescriptor(theString);
-}
-
-
-// ---------------------------------------------------------------------------
-//	 InstallResourceData											[public]
-// ---------------------------------------------------------------------------
-
-OSErr
-CICNS_EditorWindow::InstallResourceData(Handle inHandle)
-{
-	OSErr		error = noErr, ignoreErr = noErr;
-	UInt16		numItems = 0;
-	StHandleLocker	locker(inHandle);
-
-	LHandleStream * theStream = new LHandleStream(inHandle);
-	
-	if ( theStream->GetLength() == 0 ) {
-		// We are creating a new resource
-	} else {
-		if ( theStream->GetMarker() < theStream->GetLength() ) {
-			mIcnsFamily = new CICNS_Family(theStream);
-		}
-		
-		// Check that all the data have been parsed
-		if ( theStream->GetMarker() < theStream->GetLength() ) {
-			error = err_MoreDataThanExpected;
-		} 
-	}
-	
-	delete theStream;
-	
-	if (error == noErr) {
-		UpdatePopupStyle();
-	} 
-	
-	if (error == noErr) {
-		// Adjust the size of the image
-// 		mContentsView->ResizeImageTo(0, numItems * kStrxHeight, false);
-		SetDirty(false);
-	} 
-	
-	return error;
+// 	::NumToString(inSize, theString);
+// 	mSizeField->SetDescriptor(theString);
 }
 
 
@@ -460,6 +555,7 @@ CICNS_EditorWindow::CollectResourceData()
 // ---------------------------------------------------------------------------
 // 	SaveAsResource
 // ---------------------------------------------------------------------------
+// Pure virtual
 
 void
 CICNS_EditorWindow::SaveAsResource( CRezMap *inMap, ResIDT inResID )
@@ -509,16 +605,77 @@ CICNS_EditorWindow::RevertContents()
 
 
 // ---------------------------------------------------------------------------
-// 	GetZoomFactor
+// 	GetFamilyMemberCount
 // ---------------------------------------------------------------------------
-// Icon suite images are always zoomed the same amount -- for a 32x32
-// image. Otherwise, clicking on different target panes would resize the
-// canvas and change the zoom factor and that's not very pretty.
 
 SInt32
-CICNS_EditorWindow::GetZoomFactor( SInt32, SInt32, Boolean *outShowGrid )
+CICNS_EditorWindow::GetFamilyMemberCount()
 {
-	return CIcon_EditorWindow::GetZoomFactor( 32, 32, outShowGrid );
+	return ( (**mFamilyInfoH).numEntries );
+}
+
+
+// ---------------------------------------------------------------------------
+// 	GetFamilyMemberInfo
+// ---------------------------------------------------------------------------
+
+void
+CICNS_EditorWindow::GetFamilyMemberInfo( OSType inType, Rez_IconMemberInfo *oRec )
+{
+	SInt32	numIcons = this->GetFamilyMemberCount();
+	SInt32	count;
+	
+	for ( count = 0; count < numIcons; count++ ) {		
+		if ((**mFamilyInfoH).members[count].resourceType == inType) {
+			*oRec = (**mFamilyInfoH).members[count];
+			break;
+		} 
+	}
+}
+
+
+// ---------------------------------------------------------------------------
+// 	GetIconMemberParams
+// ---------------------------------------------------------------------------
+
+void
+CICNS_EditorWindow::GetIconMemberParams(OSType inType, SInt32 &inDepth, 
+										SInt32 &inWidth, SInt32 &inHeight, SInt32 &inRowBytes, 
+										SInt32 &inMaskOffset, SInt32 &inMaskRowBytes)
+{
+	Rez_IconMemberInfo	rim;
+	GetFamilyMemberInfo(inType, &rim);
+	inDepth = rim.depth;
+	inWidth = rim.width;
+	inHeight = rim.height;
+	inRowBytes = rim.rowBytes;
+	inMaskRowBytes = rim.maskRowBytes;
+	inMaskOffset = rim.maskOffset;
+}
+
+
+// ---------------------------------------------------------------------------
+//	 GetMenuIndexForType											[public]
+// ---------------------------------------------------------------------------
+
+ArrayIndexT
+CICNS_EditorWindow::GetMenuIndexForType(OSType inType) 
+{
+	ArrayIndexT	index = mIconTypes.FetchIndexOf(inType);
+	return index;
+}
+
+
+// ---------------------------------------------------------------------------
+// 	GetZoomFactor
+// ---------------------------------------------------------------------------
+// Icon suite images are zoomed depending on the image size, as defined in 
+// the CIcon_EditorWindow class
+
+SInt32
+CICNS_EditorWindow::GetZoomFactor( SInt32 inWidth, SInt32 inHeight, Boolean *outShowGrid )
+{
+	return CIcon_EditorWindow::GetZoomFactor( inWidth, inHeight, outShowGrid );
 }
 
 
