@@ -185,11 +185,10 @@ UColorUtils::NewColorTableByDepth( SInt32 depth )
 	// Direct color requires some special attention
 	if ( (depth == 16) || (depth == 32) )
 	{
-			// is this ok ???
 		theTable = (CTabHandle) ::NewHandleClear( sizeof( ColorTable ) - sizeof(ColorSpec) );
 		ThrowIfMemFail_( theTable );
 		
-		(**theTable).ctSeed = depth;		// per conversation with Dave Surovell
+		(**theTable).ctSeed = depth;
 		(**theTable).ctSize = -1;
 		return( theTable );
 	}
@@ -228,23 +227,24 @@ UColorUtils::NewColorTableByDepth( SInt32 depth )
 // 	(2) We work on 32-bit and 16-bit depths, returning dummy tables
 // 		rather than nil.
 // 	(3) We throw an error rather than returning nil.
-// 	Note: inResourceID is typically the bit-depth of the buffer you want
+// 	
+// 	Note: ctID is typically the bit-depth of the buffer you want
 // 	      a color table for.
 
 CTabHandle
-UColorUtils::GetColorTable( SInt32 inResourceID )
+UColorUtils::GetColorTable( SInt32 ctID )
 {
 	StRezRefSaver	aSaver;
 	::UseResFile( CRezillaApp::GetSelfRefNum() );
 	
 	CTabHandle	theTable = nil;
-	if ( (inResourceID == 32) || (inResourceID == 16) )
+	if ( (ctID == 32) || (ctID == 16) )
 	{
-		theTable = UColorUtils::NewColorTableByDepth( inResourceID );
+		theTable = UColorUtils::NewColorTableByDepth( ctID );
 	}
 	else
 	{
-		theTable = ::GetCTable( inResourceID );
+		theTable = ::GetCTable( ctID );
 		ThrowIfResFail_( theTable );
 	}
 	

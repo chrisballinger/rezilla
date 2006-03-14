@@ -86,32 +86,32 @@ CColorTableChoice::FindCommandStatus( SInt32 inDepth, CommandT inCommand,
 		break;	
 		
 		case cmd_ColorTableApple256:
-		outEnabled = (inDepth >= 8) && !isLocked;;
+		outEnabled = (inDepth >= 8) && !isLocked;
 		handled = true;
 		break;	
 		
 		case cmd_ColorTableApple16:
-		outEnabled = (inDepth >= 16) && !isLocked;;
+		outEnabled = (inDepth >= 16) && !isLocked;
 		handled = true;
 		break;	
 		
 		case cmd_ColorTableApple256Gray:
-		outEnabled = (inDepth >= 16) && !isLocked;;
+		outEnabled = (inDepth >= 16) && !isLocked;
 		handled = true;
 		break;	
 		
 		case cmd_ColorTableApple16Gray:
-		outEnabled = (inDepth >= 16) && !isLocked;;
+		outEnabled = (inDepth >= 16) && !isLocked;
 		handled = true;
 		break;	
 		
 		case cmd_ColorTableApple4Gray:
-		outEnabled = (inDepth >= 16) && !isLocked;;
+		outEnabled = (inDepth >= 16) && !isLocked;
 		handled = true;
 		break;	
 		
 		case cmd_ColorTablePicker:
-		outEnabled = (inDepth >= 16) && !isLocked;;
+		outEnabled = (inDepth >= 16) && !isLocked;
 		handled = true;
 		break;	
 		
