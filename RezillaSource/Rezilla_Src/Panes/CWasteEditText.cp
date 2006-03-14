@@ -225,7 +225,7 @@ CWasteEditView::ApplyTextTraits(TextTraitsPtr	inTextTraits,
 	if (inTextTraits == nil) {
 		// Use default font settings
 		theStyle.tsFont = ::GetAppFont();
-		theStyle.tsSize = ::GetDefFontSize();;
+		theStyle.tsSize = ::GetDefFontSize();
 		theStyle.tsFace = 0;
 		theMode = srcOr;  // not srcCopy otherwise hiliting is incorrect
 	} else {

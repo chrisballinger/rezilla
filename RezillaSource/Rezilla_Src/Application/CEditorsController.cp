@@ -120,7 +120,7 @@ CEditorsController::BuildAsTypeDictionary()
 					theKeys[index] = CFStringCreateWithBytes(kCFAllocatorDefault, (const UInt8 *) &theOSType, sizeof(OSType), kCFStringEncodingMacRoman, false);
 					
 					*theStream >> theOSType;
-					theVals[index] = CFStringCreateWithBytes(kCFAllocatorDefault, (const UInt8 *) &theOSType, sizeof(OSType), kCFStringEncodingMacRoman, false);;
+					theVals[index] = CFStringCreateWithBytes(kCFAllocatorDefault, (const UInt8 *) &theOSType, sizeof(OSType), kCFStringEncodingMacRoman, false);
 				}
 				
 				// Build an immutable dictionary

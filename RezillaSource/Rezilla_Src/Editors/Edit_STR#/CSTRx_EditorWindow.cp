@@ -284,7 +284,7 @@ CSTRx_EditorWindow::HandleKeyPress(
 		} else {
 			LEditText * theEditText = dynamic_cast<LEditText *>(currTabTarget);
 			if (theEditText != nil) {
-				theField = dynamic_cast<CIndexedEditField *>(theEditText->GetSuperView());;
+				theField = dynamic_cast<CIndexedEditField *>(theEditText->GetSuperView());
 				// Find the index of the field
 				index = mIndexedFields.FetchIndexOf(theField);
 				if (index != LArray::index_Bad) {
