@@ -104,9 +104,7 @@ CICNS_EditorDoc::Initialize()
 		error = IconRefToIconFamily(mIconRef, kSelectorAllAvailableData, &mIconFamilyHandle);
 		
 		// Install the data
-		if (mIconFamilyHandle != NULL) {
-			error = mIcnsEditWindow->InstallResourceData( (Handle) mIconFamilyHandle);			
-		} 
+		error = mIcnsEditWindow->InstallResourceData( (Handle) mIconFamilyHandle);			
 		ThrowIfError_(error);
 	} catch (...) {
 		delete this;
@@ -120,8 +118,6 @@ CICNS_EditorDoc::Initialize()
 	
 	// Make the window visible.
 	mIcnsEditWindow->Show();
-	// Enable all the subpanes
-	mIcnsEditWindow->GetContentsView()->Enable();
 }
 
 
