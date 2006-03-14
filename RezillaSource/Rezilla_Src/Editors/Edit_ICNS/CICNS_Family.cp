@@ -2,7 +2,7 @@
 // CICNS_Family.cp
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-03-11 17:55:55
+//             Last modification: 2006-03-13 14:51:03
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -68,7 +68,7 @@
 
 CICNS_Family::CICNS_Family()
 {
-	mIconType = 'icns';
+	mIconType = kIconFamilyType;
 }
 
 
@@ -134,9 +134,9 @@ CICNS_Family::AddMember(CICNS_Member * inMember)
 // ---------------------------------------------------------------------------
 
 void
-CICNS_Family::AddMember(OSType inType, SInt32 inSize, Handle inHandle)
+CICNS_Family::AddMember(OSType inType, Handle inHandle)
 {
-	mMembers.AddItem( new CICNS_Member(inType, inSize, inHandle) );
+	mMembers.AddItem( new CICNS_Member(inType, inHandle) );
 }
 
 
@@ -155,6 +155,23 @@ CICNS_Family::DeleteMember( ArrayIndexT inAtIndex )
 		mMembers.RemoveItemsAt(1, inAtIndex);
 	} 
 }
+
+
+// ---------------------------------------------------------------------------
+//  DeleteMember												[public]
+// ---------------------------------------------------------------------------
+
+void
+CICNS_Family::DeleteMember(CICNS_Member * inMember)
+{
+	if (inMember != NULL) {
+		ArrayIndexT	index = mMembers.FetchIndexOf(inMember);
+		delete inMember;
+		mMembers.RemoveItemsAt(1, index);
+	} 
+}
+
+
 
 
 // ---------------------------------------------------------------------------
@@ -187,7 +204,7 @@ CICNS_Family::InstallDataStream(LHandleStream * inStream)
 		theHandle = NewHandle(0);
 		error = GetIconFamilyData( theIconFamilyHandle, theType, theHandle);
 		
-		theMember = new CICNS_Member(theType, theSize, theHandle);
+		theMember = new CICNS_Member(theType, theHandle);
 		AddMember(theMember);
 		
 		inStream->SetMarker(theSize - 8, streamFrom_Marker);
@@ -202,57 +219,23 @@ CICNS_Family::InstallDataStream(LHandleStream * inStream)
 void
 CICNS_Family::SendDataToStream(LHandleStream * outStream)
 {
+	OSErr				error = noErr;
+	SInt32				theSize = 0;
+	CICNS_Member *		theMember;
+	IconFamilyHandle	theIconFamilyHandle = (IconFamilyHandle) outStream->GetDataHandle();
 	TArrayIterator<CICNS_Member*> iterator( mMembers );
-	CICNS_Member *	theMember;
-	SInt32			theSize = 8;
-	
+
 	*outStream << mIconType;
 	*outStream << theSize;
 
-// 	while (iterator.Next(theMember)) {
-// 		theMember->SendDataToStream(outStream);
-// 	}
+	while (iterator.Next(theMember)) {
+		error = SetIconFamilyData(theIconFamilyHandle, theMember->GetType(), theMember->GetIconData());
+	}
 	
 	// Rectify the value of the total size
-	if (outStream->GetLength() > 8) {
-		outStream->SetMarker(4, streamFrom_Start);
-		*outStream << outStream->GetLength();
-	} 
-}
-
-
-// ---------------------------------------------------------------------------
-//  GetCurrentIndex												[public]
-// ---------------------------------------------------------------------------
-
-ArrayIndexT
-CICNS_Family::GetCurrentIndex()
-{
-	return 0;
-}
- 
-
-// ---------------------------------------------------------------------------
-//  SetCurrentIndex												[public]
-// ---------------------------------------------------------------------------
-
-void
-CICNS_Family::SetCurrentIndex(ArrayIndexT inIndex)
-{}
- 
-
-// ---------------------------------------------------------------------------
-//  AdjustCurrentIndex												[public]
-// ---------------------------------------------------------------------------
-
-void
-CICNS_Family::AdjustCurrentIndex()
-{
-	if ( GetCurrentIndex() == 0 ) {
-		SetCurrentIndex( (CountMembers() > 0) );
-	} else if ( GetCurrentIndex() > CountMembers() ) {
-		SetCurrentIndex( CountMembers() );
-	} 
+	theSize = GetHandleSize( (Handle) theIconFamilyHandle);
+	outStream->SetMarker(4, streamFrom_Start);
+	*outStream << theSize;
 }
  
 

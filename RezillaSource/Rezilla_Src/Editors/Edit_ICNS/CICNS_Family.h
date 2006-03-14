@@ -2,7 +2,7 @@
 // CICNS_Family.h
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-03-11 17:56:01
+//             Last modification: 2006-03-14 06:35:59
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -18,7 +18,6 @@
 class LHandleStream;
 class CICNS_Member;
 
-
 class CICNS_Family {
 public:
 				CICNS_Family();
@@ -28,21 +27,15 @@ public:
 
 		void		AddMember(OSType inType);
 		void		AddMember(CICNS_Member * inMember);
-		void		AddMember(OSType inType, SInt32 inSize, Handle inHandle);
+		void		AddMember(OSType inType, Handle inHandle);
 		void		DeleteMember( ArrayIndexT inAtIndex );
-		
+		void		DeleteMember( CICNS_Member * inMember );
+
 		void		InstallDataStream(LHandleStream * inStream);
 		void		SendDataToStream(LHandleStream * outStream);
 
-		ArrayIndexT		GetCurrentIndex();
-		void			SetCurrentIndex(ArrayIndexT inIndex);
-		void			AdjustCurrentIndex();
-
 		CICNS_Member *	FindMember(OSType inType) const;
 		
-		ArrayIndexT		GetMemberIndex() { return mMemberIndex;}
-		void			SetMemberIndex(ArrayIndexT inMemberIndex) {mMemberIndex = inMemberIndex;}
-
 		SInt32			CountMembers() { return mMembers.GetCount(); }
 		
 		TArray<CICNS_Member*> *	GetMembers() { return &mMembers;}
@@ -51,8 +44,7 @@ public:
 		void			SetIconType(OSType inIconType) {mIconType = inIconType;}
 			
 protected:
-		OSType					mIconType;	// Should be 'icns'
-		ArrayIndexT				mMemberIndex;
+		OSType					mIconType;	// Should be kIconFamilyType = 'icns'
 		TArray<CICNS_Member*>	mMembers;
 
 
