@@ -2,11 +2,11 @@
 // CIcon_EditorWindow.cp
 // 
 //                       Created: 2004-12-10 17:23:05
-//             Last modification: 2005-01-19 09:27:41
+//             Last modification: 2006-03-14 15:08:12
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2004-2005
+// (c) Copyright : Bernard Desgraupes, 2004-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -411,14 +411,16 @@ CIcon_EditorWindow::FinishCreateSelf()
 	// This may or may not exist depending on the editor
 	mSampleWell = this->FindPaneByID( item_IconSampleWell );
 
-	LBevelButton * theButton = dynamic_cast<LBevelButton *>(this->FindPaneByID( mCurrentTool ));;
+	LBevelButton * theButton = dynamic_cast<LBevelButton *>(this->FindPaneByID( mCurrentTool ));
 	ThrowIfNil_( theButton );
 	theButton->SetValue(Button_On);
 	
-	// Disable the Revert button
-	LPushButton * revButton = dynamic_cast<LPushButton *>(this->FindPaneByID( item_EditorRevert ));;
-	ThrowIfNil_( revButton );
-	revButton->Hide();
+	// Don't display the Revert button (subclasses can redisplay it if 
+	// they implement this functionality)
+	LPushButton * revButton = dynamic_cast<LPushButton *>(this->FindPaneByID( item_EditorRevert ));
+	if (revButton) {
+		revButton->Hide();
+	} 
 
 	// The coords field
 	mCoordsField = dynamic_cast<LStaticText *> (this->FindPaneByID( item_IconCoords ));
@@ -1145,7 +1147,7 @@ CIcon_EditorWindow::HandleToolClick(PaneIDT inPaneID)
 			case tool_Text:
 			
 			// Release the button corresponding to the current tool
-			LBevelButton * theButton = dynamic_cast<LBevelButton *>(this->FindPaneByID( mCurrentTool ));;
+			LBevelButton * theButton = dynamic_cast<LBevelButton *>(this->FindPaneByID( mCurrentTool ));
 			ThrowIfNil_( theButton );
 			theButton->SetValue(Button_Off);
 
@@ -1704,7 +1706,9 @@ CIcon_EditorWindow::GetZoomFactor( SInt32 inWidth, SInt32 inHeight, Boolean *out
 	else if ( maxSize <= 40 )
 		result = 7;
 	else if ( maxSize <= 64 )
-		result = 4;
+		result = 5;
+	else if ( maxSize <= 128 )
+		result = 3;
 	else
 		result = 1;
 

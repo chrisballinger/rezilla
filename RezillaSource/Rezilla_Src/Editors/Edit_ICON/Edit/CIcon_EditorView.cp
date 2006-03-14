@@ -246,6 +246,7 @@ CIcon_EditorView::UserChangedBitmap()
 		
 		// Set the dirty flag.
 		mOwnerWindow->SetDirty( true );
+		mOwnerWindow->ListenToMessage( msg_UserChangedBitmap, NULL );
 	}
 }
 
