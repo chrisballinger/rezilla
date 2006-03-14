@@ -2,7 +2,7 @@
 // CICNS_EditorWindow.h
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-03-13 05:38:04
+//             Last modification: 2006-03-14 15:19:06
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -16,8 +16,6 @@
 #include "CWindow_IconFamily.h"
 #include "UResources.h"
 
-// #include <LDragAndDrop.h>
-
 
 class CIcon_EditorView;
 class CICNS_Family;
@@ -26,6 +24,7 @@ class CDraggableTargetView;
 class LHandleStream;
 class LStaticText;
 class LPopupButton;
+class LPushButton;
 
 
 class CICNS_EditorWindow :	public CIcon_EditorWindow {
@@ -54,7 +53,7 @@ public:
 		
 	virtual void	RevertContents();
 	
-	CIcon_EditorView *	GetContentsView() const { return mContentsView;}
+	CICNS_Member *	GetCurrentMember();
 	
 	TArray<OSType> *	GetIconTypes() { return &mIconTypes;}
 	
@@ -70,6 +69,7 @@ protected:
 	LStaticText *			mTypeField;
 	LStaticText *			mSizeField;
 	LPopupButton *			mIconPopup;
+	LPushButton *			mRemoveButton;
 	CICNS_Family *			mIcnsFamily;
 	ArrayIndexT				mCurrentIndex;
 	TArray<OSType>			mIconTypes;
@@ -79,10 +79,12 @@ protected:
 private:	
 	Boolean			ShowIconAtIndex(ArrayIndexT inMenuIndex);
 	Boolean			ShowIconForType(OSType inType);
+	void			ResizeWindowIfNecessary(OSType inType);
 	
-	void			DeleteIconAtIndex(ArrayIndexT inMenuIndex);
+	void			DeleteIconAtIndex(ArrayIndexT inMenuIndex, Boolean askYesNo = true);
 	void			InstallMemberIcon(CICNS_Member * inMember);
-	CICNS_Member *	CreateIcon(OSType inType);
+	void			StoreMemberIcon(CICNS_Member * inMember);
+	CICNS_Member *	CreateNewMember(OSType inType);
 	
 	void			AppendTypeToPopup(Str255 inString);
 	void			FillPopup();

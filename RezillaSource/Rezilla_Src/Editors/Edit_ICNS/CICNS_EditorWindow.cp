@@ -2,7 +2,7 @@
 // CICNS_EditorWindow.cp					
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-03-12 06:54:33
+//             Last modification: 2006-03-14 15:18:52
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -28,6 +28,7 @@
 #include <LHandleStream.h>
 #include <LPopupButton.h>
 #include <LStaticText.h>
+#include <LPushButton.h>
 
 #include <stdio.h>
 
@@ -117,11 +118,11 @@ CICNS_EditorWindow::FinishCreateSelf()
 	mTypeField = dynamic_cast<LStaticText *>(this->FindPaneByID(item_IcnsTypeField));
 	ThrowIfNil_( mTypeField );
 
-// 	mSizeField = dynamic_cast<LStaticText *>(this->FindPaneByID(item_IcnsSizeField));
-// 	ThrowIfNil_( mSizeField );
-
 	mIconPopup = dynamic_cast<LPopupButton *>(this->FindPaneByID(item_IcnsIconPopup));
 	ThrowIfNil_( mIconPopup );
+
+	mRemoveButton = dynamic_cast<LPushButton *>(this->FindPaneByID(item_RemoveButton));
+	ThrowIfNil_( mRemoveButton );
 
 	mIconSample = dynamic_cast<CDraggableTargetView *>(this->FindPaneByID(item_IcnsVisualize));
 	ThrowIfNil_( mIconSample );
@@ -136,6 +137,9 @@ CICNS_EditorWindow::FinishCreateSelf()
 
 	// Link the broadcasters
 	UReanimator::LinkListenerToControls( this, this, PPob_IcnsEditorWindow );
+
+	// We need to listen to the sample panes (click and/or drop operations)
+	this->BecomeListenerTo( mNumSamplePanes, mSamplePaneList );
 }
 
 
@@ -150,11 +154,11 @@ CICNS_EditorWindow::InstallResourceData(Handle inHandle)
 	UInt16		numItems = 0;
 	StHandleLocker	locker(inHandle);
 
-	LHandleStream * theStream = new LHandleStream(inHandle);
-	
-	if ( theStream->GetLength() == 0 ) {
+	if (inHandle == NULL) {
 		// We are creating a new resource
+		mIcnsFamily = new CICNS_Family();
 	} else {
+		LHandleStream * theStream = new LHandleStream(inHandle);
 		if ( theStream->GetMarker() < theStream->GetLength() ) {
 			mIcnsFamily = new CICNS_Family(theStream);
 		}
@@ -163,10 +167,10 @@ CICNS_EditorWindow::InstallResourceData(Handle inHandle)
 		if ( theStream->GetMarker() < theStream->GetLength() ) {
 			error = err_MoreDataThanExpected;
 		} 
+		
+		// This disposes of inHandle
+		delete theStream;
 	}
-	
-	// This disposes of inHandle
-	delete theStream;
 	
 	if (error == noErr) {
 		UpdatePopup();
@@ -182,6 +186,10 @@ CICNS_EditorWindow::InstallResourceData(Handle inHandle)
 		SetDirty(false);
 	} 
 
+	if (mCurrentIndex == 0) {
+		mRemoveButton->Disable();
+	}
+	
 	return error;
 }
 
@@ -219,19 +227,27 @@ CICNS_EditorWindow::Click(
 void
 CICNS_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam ) 
 {		
+	CICNS_Member * theMember;
+	
 	switch (inMessage) {
 						
 		case msg_IcnsIconPopup: 
 		ArrayIndexT index = mIconPopup->GetValue();
+		if (index == 1) {
+			return;
+		} 
 		if (index != mCurrentIndex) {
+			theMember = GetCurrentMember();
+			if ( theMember != NULL && theMember->IsModified() ) {
+				StoreMemberIcon(theMember);
+			} 			
 			if ( ShowIconAtIndex(index) ) {
-				SetDirty(true);
 				Refresh();
 			} 
 		} 
 		break;
 		
-		case cmd_Clear:
+		case msg_RemoveButton:
 		DeleteIconAtIndex(mCurrentIndex);
 		break;
 		
@@ -239,8 +255,16 @@ CICNS_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		SetDirty(true);
 		break;
 		
+		case msg_UserChangedBitmap:
+		theMember = GetCurrentMember();
+		if (theMember != NULL) {
+			theMember->SetModified(true);
+		} 
+		break;
+		
 		default:
-		dynamic_cast<CICNS_EditorDoc *>(mOwnerDoc)->ListenToMessage(inMessage, ioParam);
+		CIcon_EditorWindow::ListenToMessage(inMessage, ioParam);
+// 		dynamic_cast<CICNS_EditorDoc *>(mOwnerDoc)->ListenToMessage(inMessage, ioParam);
 		break;
 				
 	}
@@ -369,6 +393,12 @@ CICNS_EditorWindow::ShowIconAtIndex(ArrayIndexT inMenuIndex)
 	OSType		theType;
 	Boolean		result = false;
 	
+	if (inMenuIndex == 0) {
+		// This happens when all the members have been removed
+		
+		mRemoveButton->Disable();
+		return true;
+	} 
 	if ( mIconTypes.FetchItemAt(inMenuIndex, theType) ) {
 		result =  ShowIconForType(theType);
 	}
@@ -387,7 +417,7 @@ CICNS_EditorWindow::ShowIconForType(OSType inType)
 	
 	theMember = mIcnsFamily->FindMember(inType);
 	if (theMember == nil) {
-		theMember = CreateIcon(inType);
+		theMember = CreateNewMember(inType);
 	} 
 	
 	if (theMember != nil) {
@@ -416,8 +446,6 @@ CICNS_EditorWindow::InstallMemberIcon(CICNS_Member * inMember)
 	CTabHandle		theTable = nil;
 	Handle			imgDataH = inMember->GetIconData();
 	MenuRef			theMenuH = mIconPopup->GetMacMenuH();
-
-	Size sz = GetHandleSize(imgDataH);
 	
 	GetIconMemberParams(inMember->GetType(), depth, width, height, rowBytes, maskOffset, maskRowBytes);
 	
@@ -438,6 +466,9 @@ CICNS_EditorWindow::InstallMemberIcon(CICNS_Member * inMember)
 	// Set the image
 	this->SetImage( theImage, resize_Canvas | resize_MoveSamples );
 
+	// In the case of a 128x128 member we must resize the window
+	ResizeWindowIfNecessary( inMember->GetType() );
+	
 	// Setup the sample buffer. Set the image buffer to nil because it
 	// belongs to the sample pane once the call succeeds.
 	mIconSample->SetBuffer( theImage, redraw_Dont );
@@ -448,25 +479,54 @@ CICNS_EditorWindow::InstallMemberIcon(CICNS_Member * inMember)
 
 	if (theMask) {
 		mMaskSample->SetBuffer( theMask, redraw_Dont );
+		mMaskSample->SetUsedFlag( true, redraw_Dont );
 		theMask = nil;
 		mMaskSample->Show();
 	} else {
 		mMaskSample->Hide();
+		mMaskSample->SetUsedFlag( false, redraw_Dont );
 	}
 	
-	if ( theTable )
+	if ( theTable ) {
 		::DisposeCTable( theTable );
-		
-
+	}
 }
 
 
 // ---------------------------------------------------------------------------
-//  CreateIcon														[private]
+//  StoreMemberIcon													[private]
+// ---------------------------------------------------------------------------
+
+void
+CICNS_EditorWindow::StoreMemberIcon(CICNS_Member * inMember)
+{
+	SInt32			depth, width, height, rowBytes, maskOffset, maskRowBytes;
+	COffscreen		*theImage = nil, *theMask = nil;
+	Handle			imgDataH = inMember->GetIconData();
+	MenuRef			theMenuH = mIconPopup->GetMacMenuH();
+	
+	ThrowIf_( !mIconSample || !mMaskSample );
+
+	GetIconMemberParams(inMember->GetType(), depth, width, height, rowBytes, maskOffset, maskRowBytes);
+	
+	theImage = mIconSample->GetBuffer();
+	theImage->CopyToRawData( (UInt8*) *imgDataH, rowBytes );
+
+	if ( maskRowBytes && mMaskSample->IsUsed() ) {
+		theMask = mMaskSample->GetBuffer();
+		theMask->CopyToRawData( (UInt8*) *imgDataH + maskOffset, maskRowBytes );		
+	} 
+	
+	inMember->SetModified(false);
+}
+
+
+// ---------------------------------------------------------------------------
+//  CreateNewMember														[private]
 // ---------------------------------------------------------------------------
 
 CICNS_Member *
-CICNS_EditorWindow::CreateIcon(OSType inType)
+CICNS_EditorWindow::CreateNewMember(OSType inType)
 {
 	Str255 			theString;
 	CICNS_Member *	theMember = nil;
@@ -476,12 +536,27 @@ CICNS_EditorWindow::CreateIcon(OSType inType)
 	// Ask to create a new member
 	GetMenuItemText(theMenuH, menuIndex, theString);
 	if ( UMessageDialogs::AskIfWithString(CFSTR("ConfirmCreateIcnsMember"), theString) == true) {
-		theMember = new CICNS_Member(inType);
+		Size				theSize;
+		Handle				theHandle;
+		Rez_IconMemberInfo	rim;
+
+		GetFamilyMemberInfo(inType, &rim);
+		theSize = rim.width * rim.height * rim.depth / 8;
+		// Double the size for types with a mask ('ics#', 'icm#', 'ICN#', 'ich#')
+		if (rim.maskRowBytes) {
+			theSize *= 2;
+		} 
+		theHandle = NewHandleClear(theSize);
+		if (theHandle != NULL) {
+			theMember = new CICNS_Member(inType, theHandle);
+		} 
+		
 		if (theMember) {
 			mIcnsFamily->AddMember(theMember);
 			::SetItemStyle(theMenuH, menuIndex, normal);
+			mRemoveButton->Enable();
 		} else {
-			UMessageDialogs::AskIfWithString(CFSTR("CreatingIcnsMemberFailed"), theString);
+			UMessageDialogs::AlertWithString(CFSTR("CreatingIcnsMemberFailed"), theString);
 		}
 	} else {
 		// Reset the menu at its current index
@@ -492,21 +567,51 @@ CICNS_EditorWindow::CreateIcon(OSType inType)
 }
 
 
-
-
 // ---------------------------------------------------------------------------
 //  DeleteIconAtIndex												[private]
 // ---------------------------------------------------------------------------
 
 void
-CICNS_EditorWindow::DeleteIconAtIndex(ArrayIndexT index)
+CICNS_EditorWindow::DeleteIconAtIndex(ArrayIndexT inMenuIndex, Boolean askYesNo)
 {
+	Str255 			theString;
+	CICNS_Member *	theMember = nil;
 	MenuRef			theMenuH = mIconPopup->GetMacMenuH();
+	Boolean			removeIt = true;
 	
-	mIcnsFamily->DeleteMember(index);
-	::MacCheckMenuItem(theMenuH, mCurrentIndex, 0);
-	::SetItemStyle(theMenuH, index, italic);
-	SetCurrentIndex(0);
+	if (askYesNo) {
+		// Ask before deleting the member
+		GetMenuItemText(theMenuH, inMenuIndex, theString);
+		removeIt = UMessageDialogs::AskIfWithString(CFSTR("ConfirmRemoveIcnsMember"), theString);
+	} 
+	
+	if (removeIt == true) {
+		OSType	theType;
+		if ( mIconTypes.FetchItemAt(inMenuIndex, theType) ) {
+			theMember = mIcnsFamily->FindMember(theType);
+		}
+		
+		if (theMember) {
+			mIcnsFamily->DeleteMember(theMember);
+			::MacCheckMenuItem(theMenuH, mCurrentIndex, 0);
+			::SetItemStyle(theMenuH, inMenuIndex, italic);
+			
+			// If the resource is not empty, reinstall the first icon member
+			if (mIcnsFamily->CountMembers() > 0) {
+				mIcnsFamily->GetMembers()->FetchItemAt(1, theMember);
+				InstallMemberIcon(theMember);
+				UpdateMemberInPopup(theMember);
+			} else {
+				mCurrentIndex = 0;
+			}
+			
+			if ( ShowIconAtIndex(mCurrentIndex) ) {
+				Refresh();
+			} 
+		} else {
+			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("RemovingIcnsMemberFailed"), PPob_SimpleMessage);
+		}
+	} 
 }
 
 
@@ -532,12 +637,12 @@ CICNS_EditorWindow::UpdateTypeField(OSType inType)
 Handle
 CICNS_EditorWindow::CollectResourceData() 
 {
-	Handle	theHandle = NULL;
+	Handle	theHandle = NewHandle(0);
 	
 	try {
 		if (mOutStream != nil) {delete mOutStream;} 
-
-		mOutStream = new LHandleStream();	
+		
+		mOutStream = new LHandleStream(theHandle);	
 		ThrowIfNil_(mOutStream);
 
 		mIcnsFamily->SendDataToStream(mOutStream);
@@ -667,6 +772,23 @@ CICNS_EditorWindow::GetMenuIndexForType(OSType inType)
 
 
 // ---------------------------------------------------------------------------
+//	 GetCurrentMember											[public]
+// ---------------------------------------------------------------------------
+
+CICNS_Member *
+CICNS_EditorWindow::GetCurrentMember()
+{
+	CICNS_Member *	theMember = NULL;
+	OSType			theType;
+	
+	if ( mIconTypes.FetchItemAt(mCurrentIndex, theType) ) {
+		theMember = mIcnsFamily->FindMember(theType);
+	}
+	return theMember;
+}
+
+
+// ---------------------------------------------------------------------------
 // 	GetZoomFactor
 // ---------------------------------------------------------------------------
 // Icon suite images are zoomed depending on the image size, as defined in 
@@ -676,6 +798,30 @@ SInt32
 CICNS_EditorWindow::GetZoomFactor( SInt32 inWidth, SInt32 inHeight, Boolean *outShowGrid )
 {
 	return CIcon_EditorWindow::GetZoomFactor( inWidth, inHeight, outShowGrid );
+}
+
+
+// ---------------------------------------------------------------------------
+// 	ResizeWindowIfNecessary
+// ---------------------------------------------------------------------------
+
+void
+CICNS_EditorWindow::ResizeWindowIfNecessary(OSType inType)
+{
+	Rect	theFrame;
+	this->CalcPortFrameRect( theFrame );
+	this->PortToGlobalPoint( topLeft(theFrame) );
+	this->PortToGlobalPoint( botRight(theFrame) );
+	
+	if (inType == 'it32' || inType == 't8mk' || inType == 'drop' 
+		|| inType == 'odrp' || inType == 'open' || inType == 'over' || inType == 'tile' ) {
+		theFrame.bottom = theFrame.top + kIcnsWindowLargeHeight;
+		theFrame.right = theFrame.left + kIcnsWindowLargeWidth;
+	} else {
+		theFrame.bottom = theFrame.top + kIcnsWindowNormalHeight;
+		theFrame.right = theFrame.left + kIcnsWindowNormalWidth;
+	}
+	DoSetBounds(theFrame);
 }
 
 
