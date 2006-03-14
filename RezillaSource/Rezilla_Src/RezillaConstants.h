@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2006-03-09 13:10:24
+//             Last modification : 2006-03-14 19:03:24
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@users.sourceforge.net>
 // www : <http://rezilla.sourceforge.net/>
@@ -908,6 +908,7 @@ const PaneIDT	item_NameStaticText			= FOUR_CHAR_CODE('Name');
 const PaneIDT	item_ReadOnlyIcon			= FOUR_CHAR_CODE('Lock');
 const PaneIDT	item_PlusButton				= FOUR_CHAR_CODE('Plus');
 const PaneIDT	item_MinusButton			= FOUR_CHAR_CODE('Mins');
+const PaneIDT	item_RemoveButton			= FOUR_CHAR_CODE('Rmve');
 const PaneIDT   item_TabGroup				= FOUR_CHAR_CODE('TabG');
 
 // Misc dialog elements
@@ -1071,6 +1072,7 @@ const MessageT	msg_UtxtEditStyleMenu		= PPob_UtxtEditorWindow + item_UtxtEditSty
 // Icon Editor Window
 // ------------------
 const MessageT	msg_TextActionDied			= FOUR_CHAR_CODE('TxDi');
+const MessageT	msg_UserChangedBitmap		= FOUR_CHAR_CODE('ChBm');
 const MessageT	msg_IconEditPattern			= tool_Pattern;
 const MessageT	msg_IconEditForeColor		= tool_ForeColor;
 const MessageT	msg_IconEditBackColor		= tool_BackColor;		
@@ -1128,6 +1130,7 @@ const MessageT	msg_DualViewEdited				= FOUR_CHAR_CODE('DuEd');
 const MessageT	msg_EditorModifiedItem			= FOUR_CHAR_CODE('EdMd');
 const MessageT	msg_MinusButton					= FOUR_CHAR_CODE('Mins');
 const MessageT	msg_PlusButton					= FOUR_CHAR_CODE('Plus');
+const MessageT	msg_RemoveButton				= FOUR_CHAR_CODE('Rmve');
 const MessageT	msg_TmplCasePopup				= FOUR_CHAR_CODE('Case');
 const MessageT	msg_PopupEditField				= FOUR_CHAR_CODE('PopF');
 const MessageT	msg_DragMoveAction				= FOUR_CHAR_CODE('DMov');
@@ -1602,7 +1605,11 @@ enum RedrawOptions
 // Constants for the Icns editor
 // ======================================================================
 // ID of the RzII resource containing the 'icns' members info
-const SInt16		kIconSuiteIconInfo		= PPob_IcnsEditorWindow;
+const SInt16	kIconSuiteIconInfo		= PPob_IcnsEditorWindow;
+const SInt16	kIcnsWindowNormalWidth	= 480;
+const SInt16	kIcnsWindowNormalHeight	= 450;
+const SInt16	kIcnsWindowLargeWidth	= 750;
+const SInt16	kIcnsWindowLargeHeight	= 630;
 
 
 // ======================================================================
