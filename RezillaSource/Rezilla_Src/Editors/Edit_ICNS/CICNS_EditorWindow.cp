@@ -2,7 +2,7 @@
 // CICNS_EditorWindow.cp					
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-03-14 15:18:52
+//             Last modification: 2006-03-15 08:50:34
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -67,7 +67,8 @@ CICNS_EditorWindow::CICNS_EditorWindow(
 	OSErr	error;
 	Handle	theHandle = NULL;
 	
-	error = UResources::GetResourceInMap( CRezillaApp::GetSelfRefNum(), ResType_IconFamilyInfo, kIconSuiteIconInfo, theHandle, true );
+	// The ID is the same as the ID of the PPob itself
+	error = UResources::GetResourceInMap( CRezillaApp::GetSelfRefNum(), ResType_IconFamilyInfo, PPob_IcnsEditorWindow, theHandle, true );
 	ThrowIfOSErr_(error);
 	::DetachResource(theHandle);
 	mFamilyInfoH = (Rez_IconFamilyInfoH) theHandle;
@@ -264,7 +265,6 @@ CICNS_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		
 		default:
 		CIcon_EditorWindow::ListenToMessage(inMessage, ioParam);
-// 		dynamic_cast<CICNS_EditorDoc *>(mOwnerDoc)->ListenToMessage(inMessage, ioParam);
 		break;
 				
 	}
@@ -468,6 +468,7 @@ CICNS_EditorWindow::InstallMemberIcon(CICNS_Member * inMember)
 
 	// In the case of a 128x128 member we must resize the window
 	ResizeWindowIfNecessary( inMember->GetType() );
+	ResizeSamplesIfNecessary( width, height, (maskRowBytes != 0) );
 	
 	// Setup the sample buffer. Set the image buffer to nil because it
 	// belongs to the sample pane once the call succeeds.
@@ -650,8 +651,7 @@ CICNS_EditorWindow::CollectResourceData()
 		theHandle = mOutStream->GetDataHandle();
 	}
 	catch (...) {
-// 		UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("SaveStringsFailed"), PPob_SimpleMessage);
-	}
+		UMessageDialogs::AlertWithType(CFSTR("SavingResourceFailed"), kIconFamilyType);	}
 	
 	return theHandle;
 }
@@ -823,6 +823,25 @@ CICNS_EditorWindow::ResizeWindowIfNecessary(OSType inType)
 	}
 	DoSetBounds(theFrame);
 }
+
+
+// ---------------------------------------------------------------------------
+// 	ResizeSamplesIfNecessary
+// ---------------------------------------------------------------------------
+
+void
+CICNS_EditorWindow::ResizeSamplesIfNecessary(SInt16 inWidth, SInt16 inHeight, Boolean hasMask)
+{
+	mIconSample->ResizeFrameTo(inWidth, inHeight, false);
+	if (hasMask) {
+		SPoint32	iconLoc, maskLoc;
+		mMaskSample->ResizeFrameTo(inWidth, inHeight, false);
+		mIconSample->GetFrameLocation(iconLoc);
+		mMaskSample->GetFrameLocation(maskLoc);
+		mMaskSample->MoveBy(0, iconLoc.v + inHeight + kIcnsSampleSep - maskLoc.v, false);
+	} 
+}
+
 
 
 #pragma mark -

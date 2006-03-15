@@ -2,7 +2,7 @@
 // CICNS_EditorWindow.h
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-03-14 15:19:06
+//             Last modification: 2006-03-15 08:50:46
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -80,6 +80,7 @@ private:
 	Boolean			ShowIconAtIndex(ArrayIndexT inMenuIndex);
 	Boolean			ShowIconForType(OSType inType);
 	void			ResizeWindowIfNecessary(OSType inType);
+	void			ResizeSamplesIfNecessary(SInt16 inWidth, SInt16 inHeight, Boolean hasMask);
 	
 	void			DeleteIconAtIndex(ArrayIndexT inMenuIndex, Boolean askYesNo = true);
 	void			InstallMemberIcon(CICNS_Member * inMember);
