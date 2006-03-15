@@ -1590,7 +1590,6 @@ const OSType	ResType_Region			= FOUR_CHAR_CODE('RgN ');
 const OSType	ResType_ColorCursor 	= FOUR_CHAR_CODE('crsr');
 const ResType	ResType_IconFamilyInfo	= FOUR_CHAR_CODE('RzII');
 
-const SInt16		kIconFamilyIconInfo		= PPob_IconFamilyEditor;
 
 // Three ways to redraw
 enum RedrawOptions
@@ -1604,12 +1603,11 @@ enum RedrawOptions
 // ======================================================================
 // Constants for the Icns editor
 // ======================================================================
-// ID of the RzII resource containing the 'icns' members info
-const SInt16	kIconSuiteIconInfo		= PPob_IcnsEditorWindow;
 const SInt16	kIcnsWindowNormalWidth	= 480;
 const SInt16	kIcnsWindowNormalHeight	= 450;
-const SInt16	kIcnsWindowLargeWidth	= 750;
+const SInt16	kIcnsWindowLargeWidth	= 770;
 const SInt16	kIcnsWindowLargeHeight	= 630;
+const SInt16	kIcnsSampleSep			= 16;
 
 
 // ======================================================================
