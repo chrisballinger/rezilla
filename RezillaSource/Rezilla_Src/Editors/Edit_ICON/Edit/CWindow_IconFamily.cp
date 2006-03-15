@@ -1,11 +1,11 @@
 // ===========================================================================
 // CWindow_IconFamily.cp
 //                       Created: 2004-12-11 18:50:16
-//             Last modification: 2005-02-18 22:32:20
+//             Last modification: 2006-03-15 08:51:02
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes 2004-2005
+// (c) Copyright: Bernard Desgraupes 2004-2005, 2006
 // All rights reserved.
 // ===========================================================================
 
@@ -59,7 +59,9 @@ CWindow_IconFamily::CWindow_IconFamily( LStream *inStream )
 	OSErr	error;
 	Handle	theHandle;
 	
-	error = UResources::GetResourceInMap( CRezillaApp::GetSelfRefNum(), ResType_IconFamilyInfo, kIconFamilyIconInfo, theHandle, true );
+	// The ID is the same as the ID of the PPob itself (this is important 
+	// because the CWindow_IconFamily class also edits 'ICON' resources)
+	error = UResources::GetResourceInMap( CRezillaApp::GetSelfRefNum(), ResType_IconFamilyInfo, this->GetPaneID(), theHandle, true );
 	ThrowIfOSErr_(error);
 	::DetachResource(theHandle);
 	mFamilyInfoH = (Rez_IconFamilyInfoH) theHandle;

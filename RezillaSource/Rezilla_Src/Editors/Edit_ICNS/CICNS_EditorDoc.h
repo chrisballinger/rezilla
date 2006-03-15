@@ -56,7 +56,7 @@ protected:
 	virtual Handle		GetModifiedResource(Boolean &releaseIt);
 
 private:
-	void			Initialize();
+	virtual void	Initialize();
 	OSErr			RegisterIcon();
 	OSErr			UnregisterIcon();
 	

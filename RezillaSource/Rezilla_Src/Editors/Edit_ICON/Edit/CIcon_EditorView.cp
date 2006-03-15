@@ -689,7 +689,6 @@ CIcon_EditorView::Reinitialize( COffscreen *	inOffscreen,
 			if ( super ) {
 				super->ResizeFrameBy( dh, dv, inRedraw == redraw_Later );
 			}
-// 			this->ResizeFrameBy( dh, dv, inRedraw == redraw_Later );
 
 			if ( inResize & resize_MoveSamples )
 				this->MoveSamplePanes( dh, dv, inRedraw == redraw_Later );

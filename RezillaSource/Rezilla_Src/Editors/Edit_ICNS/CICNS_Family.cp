@@ -11,8 +11,8 @@
 // ===========================================================================
 // The data contained in an icns resource can be (see Icons.h):
 // 
-// 	    /* The following icon types can only be used as an icon element */
-// 	    /* inside a 'icns' icon family */
+// The following icon types can only be used as an icon element inside a
+// 'icns' icon family
 // 	    enum {
 // 	      kThumbnail32BitData           = FOUR_CHAR_CODE('it32'),
 // 	      kThumbnail8BitMask            = FOUR_CHAR_CODE('t8mk')
@@ -26,8 +26,8 @@
 // 	      kHuge8BitMask                 = FOUR_CHAR_CODE('h8mk')
 // 	    };
 // 
-// 	    /* The following icon types can be used as a resource type */
-// 	    /* or as an icon element type inside a 'icns' icon family */
+// The following icon types can be used as a resource type or as an icon
+// element type inside a 'icns' icon family
 // 	    enum {
 // 	      kLarge1BitMask                = FOUR_CHAR_CODE('ICN#'),
 // 	      kLarge4BitData                = FOUR_CHAR_CODE('icl4'),
@@ -44,9 +44,9 @@
 // 	      kMini8BitData                 = FOUR_CHAR_CODE('icm8')
 // 	    };
 // 
-// 	    /*  Icon Variants */
-// 	    /* These can be used as an element of an 'icns' icon family */
-// 	    /* or as a parameter to GetIconRefVariant */
+// Icon Variants
+// These can be used as an element of an 'icns' icon family or as a
+// parameter to GetIconRefVariant
 // 	    enum {
 // 	      kTileIconVariant              = FOUR_CHAR_CODE('tile'),
 // 	      kRolloverIconVariant          = FOUR_CHAR_CODE('over'),

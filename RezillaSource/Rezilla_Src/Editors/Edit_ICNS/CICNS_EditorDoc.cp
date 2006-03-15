@@ -44,10 +44,6 @@ PP_Begin_Namespace_PowerPlant
 #include <LString.h>
 #include <PP_Messages.h>
 
-// // Standard headers
-// #include <string.h>
-
-
 
 
 // ---------------------------------------------------------------------------
@@ -116,7 +112,7 @@ CICNS_EditorDoc::Initialize()
 		return;
 	}
 	
-	// Make the window visible.
+	// Make the window visible
 	mIcnsEditWindow->Show();
 }
 

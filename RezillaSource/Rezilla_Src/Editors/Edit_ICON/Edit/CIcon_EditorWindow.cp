@@ -497,13 +497,19 @@ CIcon_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 			break;
 			
 		case msg_TextActionDied:
-			if ( mTextAction == (CIconTextAction*) ioParam )
+			if ( mTextAction == (CIconTextAction*) ioParam ) {
 				mTextAction->DrawInsertionPoint( false );
+			}
 			mTextAction = nil;
 			break;
 			
 		default:
-			dynamic_cast<CIcon_EditorDoc *>(mOwnerDoc)->ListenToMessage(inMessage, ioParam);
+			CIcon_EditorDoc * iconEditorDoc = dynamic_cast<CIcon_EditorDoc *>(mOwnerDoc);
+			if (iconEditorDoc != NULL) {
+				iconEditorDoc->ListenToMessage(inMessage, ioParam);
+			} else {
+				dynamic_cast<CEditorDoc *>(mOwnerDoc)->ListenToMessage(inMessage, ioParam);
+			}
 			break;
 	}
 }
