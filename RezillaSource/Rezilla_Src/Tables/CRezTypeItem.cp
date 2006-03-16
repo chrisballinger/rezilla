@@ -178,33 +178,25 @@ CRezTypeItem::ExpandSelf()
 // ---------------------------------------------------------------------------
 //   SingleClick												   [protected]
 // ---------------------------------------------------------------------------
-// Since version 1.1, a single click on a RezTypeItem collapses/expands it 
-// (this is what a double click did previously).
+// Since version 1.1, a single click on a RezTypeItem does nothing. See 
+// double click below.
 
 void
 CRezTypeItem::SingleClick(
 	const STableCell&			/* inCell */,
-	const SMouseDownEvent&		inMouseDown,
+	const SMouseDownEvent&		/* inMouseDown */,
 	const SOutlineDrawContents&	/* inDrawContents */,
 	Boolean						/* inHitText */)
 {
-	if (IsExpanded()) {
-		Collapse();
-	} else {
-		if (inMouseDown.macEvent.modifiers & optionKey) {
-// 			DeepExpand();
-		} else {
-			Expand();
-		}
-	}
 }
 
 
 // ---------------------------------------------------------------------------
 //   DoubleClick
 // ---------------------------------------------------------------------------
-// Since version 1.1, a double click on a RezTypeItem opens a resource picker 
-// if it exists.
+// Since version 1.1, a double click on a RezTypeItem tries to open a
+// resource picker if it exists, otherwise it collapses/expands the item 
+// alternatively.
 
 void
 CRezTypeItem::DoubleClick(
@@ -214,7 +206,13 @@ CRezTypeItem::DoubleClick(
 	Boolean						/* inHitText */)
 {
 	CRezMapTable *theRezMapTable = GetOwnerRezMapTable();
-	theRezMapTable->GetOwnerDoc()->TryOpenPicker(this);
+	if (theRezMapTable->GetOwnerDoc()->TryOpenPicker(this) == false) {
+		if (IsExpanded()) {
+			Collapse();
+		} else {
+			Expand();
+		}
+	} 
 }
 
 
