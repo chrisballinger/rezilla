@@ -72,6 +72,9 @@ CPluginEditorWindow::~CPluginEditorWindow()
 	RemovePluginMenus();
 	
 	(*mInterface)->CleanUp(mPlugRef);
+
+// 	// Remove the window from the window menu.
+// 	gWindowMenu->RemoveWindow(this);
 }
 
 
@@ -245,9 +248,6 @@ CPluginEditorWindow::CreateControls(SInt32 inPlugAttrs)
 		
 		} 
 	}
-		
-	// Add the window to the window menu.
-	gWindowMenu->InsertWindow(this);
 }
 	
 
