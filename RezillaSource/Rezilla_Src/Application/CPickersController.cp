@@ -19,11 +19,12 @@ PP_Begin_Namespace_PowerPlant
 
 #include "CPickersController.h"
 #include "TPickerDoc.h"
+#include "TPickerView.h"
 #include "CRezillaApp.h"
-#include "CIcon_PickerView.h"
-#include "CMENU_PickerView.h"
-#include "CSTRx_PickerView.h"
-#include "CTEXT_PickerView.h"
+#include "CIcon_PickerStamp.h"
+#include "CMENU_PickerStamp.h"
+#include "CSTRx_PickerStamp.h"
+#include "CTEXT_PickerStamp.h"
 #include "CRezMap.h"
 #include "CRezMapDoc.h"
 #include "CRezMapWindow.h"
@@ -110,26 +111,25 @@ CPickersController::InvokeCustomPicker(CRezMapDoc* inRezMapDoc,
 	switch (theType) {
 
 		case 'TEXT':
-		  new TPickerDoc<CTEXT_PickerView>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
+		  new TPickerDoc<CTEXT_PickerStamp>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
 		break;
 
 		
 		case 'PICT':
-// 		  new TPickerDoc<CPICT_PickerView>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
+// 		  new TPickerDoc<CPICT_PickerStamp>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
 		break;
 		
 		case 'MENU':
-		  new TPickerDoc<CMENU_PickerView>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
+		  new TPickerDoc<CMENU_PickerStamp>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
 		break;
 		
 		case 'STR#':
 		case 'MBAR':
 		case 'Mcmd':
 		case 'RidL':
-		  new TPickerDoc<CSTRx_PickerView>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
+		  new TPickerDoc<CSTRx_PickerStamp>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
 		break;
 		
-
 		case 'ICN#':
 		case 'icl4':
 		case 'icl8':
@@ -140,7 +140,7 @@ CPickersController::InvokeCustomPicker(CRezMapDoc* inRezMapDoc,
 		case 'ics4':
 		case 'ics8':
 // 		new CIcon_PickerDoc( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
-		  new TPickerDoc<CIcon_PickerView>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
+		  new TPickerDoc<CIcon_PickerStamp>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
 	  break;
 	  
 	}

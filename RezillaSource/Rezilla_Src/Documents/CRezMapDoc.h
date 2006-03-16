@@ -2,7 +2,7 @@
 // CRezMapDoc.h				
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2006-02-24 06:25:48
+//             Last modification: 2006-03-16 11:55:19
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -226,7 +226,7 @@ public:
 							   ResType inType, 
 							   ResType * substTypePtr);
 	
-	void				TryOpenPicker(CRezTypeItem * inRezTypeItem);
+	Boolean				TryOpenPicker(CRezTypeItem * inRezTypeItem);
 	
 	Boolean				IsReadOnly() { return mReadOnly;}
 	void				SetReadOnly(Boolean inReadOnlyDoc) {mReadOnly = inReadOnlyDoc;}

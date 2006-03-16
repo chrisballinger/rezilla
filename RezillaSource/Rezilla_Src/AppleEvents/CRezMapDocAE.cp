@@ -793,7 +793,8 @@ CRezMapDoc::GetPositionOfSubModel(
 		case rzom_cHexWindow: 
 		case rzom_cTmplWindow:
 		case rzom_cPluginWindow:
-		case rzom_cGuiWindow: {
+		case rzom_cGuiWindow:
+		case rzom_cPickerWindow: {
 			while (windowP) {
 				ppWindow = LWindow::FetchWindowObject(windowP);
 				

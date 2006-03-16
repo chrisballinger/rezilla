@@ -2,7 +2,7 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2006-02-23 23:20:51
+//             Last modification: 2006-03-16 11:55:33
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -569,10 +569,11 @@ CRezMapDoc::WarnEdited(ResType inType, Boolean singleItem, int countEdited)
 //  TryOpenPicker															[public]
 // ---------------------------------------------------------------------------------
 
-void
+Boolean
 CRezMapDoc::TryOpenPicker(CRezTypeItem * inRezTypeItem)
 {
 	ResType		theType = inRezTypeItem->GetRezType()->GetType();
+	Boolean		result = true;
 	
 	// Does this type already have an opened picker ?
 	CPickerDoc * theRezPicker = GetTypePicker(theType);
@@ -581,7 +582,11 @@ CRezMapDoc::TryOpenPicker(CRezTypeItem * inRezTypeItem)
 	} else if ( CPickersController::HasPickerForType(theType) ) {
 		// call the appropriate picker
 		CPickersController::InvokeCustomPicker(this, inRezTypeItem);
+	} else {
+		result = false;
 	}
+	
+	return result;
 }
 
 

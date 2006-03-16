@@ -54,6 +54,7 @@
 #include "CPICT_EditorWindow.h"
 #include "CPatternPane.h"
 #include "CPatternTargetView.h"
+#include "CPickerWindow.h"
 #include "CPluginEditorWindow.h"
 #include "CPopupEditField.h"
 #include "CRangeEditText.h"
@@ -393,6 +394,7 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(CPICT_EditorWindow);
 	RegisterClass_(CPatternPane);
 	RegisterClass_(CPatternTargetView);
+	RegisterClass_(CPickerWindow);
 	RegisterClass_(CPluginEditorWindow);
 	RegisterClass_(CPopupEditField);
 	RegisterClass_(CRangeEditText);
