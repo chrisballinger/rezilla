@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2006-03-14 19:03:24
+//             Last modification : 2006-03-16 11:01:18
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@users.sourceforge.net>
 // www : <http://rezilla.sourceforge.net/>
@@ -1653,6 +1653,7 @@ const UInt16	kEditorVertTextMargin	= 5;
 #define kPickerDefaultStampWidth	32
 #define kPickerDefaultStampHeight	44
 #define kPickerViewIDFieldHeight	12
-// #define kPickerViewStampMinHeight	12
-
-
+#define kPickerViewHorizMargin		6
+#define kPickerViewVertMargin		4
+#define kPickerViewHorizSkip		12
+#define kPickerViewVertSkip			10
