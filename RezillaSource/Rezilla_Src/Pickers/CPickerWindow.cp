@@ -104,6 +104,7 @@ void
 CPickerWindow::Init()
 {
 	mOwnerDoc = nil;
+	mSelectedView = nil;
 	SetModelKind(rzom_cPickerWindow);
 	SetStampSize(kPickerDefaultStampWidth, kPickerDefaultStampHeight);
 }
@@ -152,6 +153,25 @@ CPickerWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 	switch (inMessage) {
 		
 		case msg_Close:
+		Hide();
+		break;
+				
+		case msg_PickerViewSingleClick:
+		CPickerView * theView = (CPickerView*) ioParam;
+		if (theView == NULL) {return;} 
+		if (mSelectedView == theView) {
+			mSelectedView->DrawBorder(false);
+			mSelectedView = NULL;
+		} else {
+			if (mSelectedView) {
+				mSelectedView->DrawBorder(false);
+			} 
+			mSelectedView = theView;
+			mSelectedView->DrawBorder(true);
+		}
+		break;
+				
+		case msg_PickerViewDoubleClick:
 		Hide();
 		break;
 				
