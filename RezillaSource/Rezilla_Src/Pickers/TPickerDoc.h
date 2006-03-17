@@ -2,7 +2,7 @@
 // TPickerDoc.h				
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-02-25 18:48:01
+//             Last modification: 2006-03-16 12:41:12
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -14,11 +14,11 @@
 // #define _H_TPickerDoc
 #pragma once
 
-#include "UMessageDialogs.h"
 #include "CPickerDoc.h"
-#include "TPickerWindow.h"
+#include "CPickerWindow.h"
 #include "TPickerView.h"
 #include "RezillaConstants.h"
+#include "UMessageDialogs.h"
 
 #include <LWindow.h>
 
@@ -98,7 +98,7 @@ Initialize()
 	mPickerWindow = dynamic_cast<CPickerWindow *>(LWindow::CreateWindow( PPob_RezPickerWindow, this ));
 	Assert_( mPickerWindow != nil );
 	
-	SetMainWindow(mPickerWindow);
+	SetPickerWindow(mPickerWindow);
 	NameNewPickerDoc();
 	
 	mPickerWindow->FinalizePicker(this);

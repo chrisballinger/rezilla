@@ -2,7 +2,7 @@
 // CPickerDocAE.cp
 // 
 //                       Created: 2006-02-24 06:34:27
-//             Last modification: 2006-02-24 06:47:57
+//             Last modification: 2006-03-16 12:39:40
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -213,8 +213,8 @@ CPickerDoc::GetSubModelByPosition(
 		case cWindow: 
 		case rzom_cPickerWindow: 
 		if (inPosition == 1) {
-			if (mMainWindow != nil) {
-				PutInToken(mMainWindow, outToken);
+			if (mPickerWindow != nil) {
+				PutInToken(mPickerWindow, outToken);
 			} else {
 				ThrowOSErr_(errAENoSuchObject);
 			}
@@ -244,7 +244,7 @@ CPickerDoc::GetModelProperty(DescType inProperty) const
 
 		case rzom_cPickerWindow:
 		case cWindow:
-		theModelObject = dynamic_cast<LModelObject *>(mMainWindow);
+		theModelObject = dynamic_cast<LModelObject *>(mPickerWindow);
 		break;
 		
 
