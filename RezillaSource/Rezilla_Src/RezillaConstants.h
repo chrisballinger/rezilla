@@ -1120,6 +1120,8 @@ const MessageT    msg_IcnsIconPopup			= PPob_IcnsEditorWindow + item_IcnsIconPop
 // Resource Picker Window
 // ----------------------
 const MessageT    msg_RezChangedForType		= FOUR_CHAR_CODE('RChT');
+const MessageT    msg_PickerViewSingleClick	= FOUR_CHAR_CODE('PVSC');
+const MessageT    msg_PickerViewDoubleClick	= FOUR_CHAR_CODE('PVDC');
 
 // Other general purpose messages
 // ------------------------------
