@@ -2,7 +2,7 @@
 // CPickerView.h				
 // 
 //                       Created: 2006-02-24 09:49:42
-//             Last modification: 2006-03-16 11:16:49
+//             Last modification: 2006-03-16 19:10:31
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -38,8 +38,12 @@ public:
 
 	virtual void		DrawSelf();
 
+	virtual void 		ClickSelf( const SMouseDownEvent & );
+
 	void				SetIDField(ResIDT inID);
 
+	void				DrawBorder(Boolean isSelected);
+	
 	// This is a purely virtual function. Each subclass must define it: is
 	// is used to calculate the dimensions of the CPickerView based on the
 	// dimensions of the stamp.

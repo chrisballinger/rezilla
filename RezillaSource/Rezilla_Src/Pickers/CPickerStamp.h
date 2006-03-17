@@ -37,6 +37,8 @@ public:
 
 	virtual void		DrawSelf();
 
+	virtual void 		ClickSelf( const SMouseDownEvent & );
+
 	// This is a purely virtual function. Each subclass must define it: it
 	// is used to calculate the dimensions of the PickerView.
 	static void			StampSize(ResType inType, SInt16 &outWidth, SInt16 &outHeight);

@@ -62,6 +62,17 @@ CPickerStamp::InitPickerStamp(SInt16 inWidth, SInt16 inHeight, ResIDT inID)
 
 
 // ---------------------------------------------------------------------------
+// 	ClickSelf
+// ---------------------------------------------------------------------------
+
+void
+CPickerStamp::ClickSelf( const SMouseDownEvent & inEvent)
+{
+	GetSuperView()->ClickSelf(inEvent);
+}
+
+
+// ---------------------------------------------------------------------------
 //   DrawSelf														  [public]
 // ---------------------------------------------------------------------------
 

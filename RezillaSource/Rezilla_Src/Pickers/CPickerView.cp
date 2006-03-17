@@ -55,7 +55,7 @@ CPickerView::CPickerView(ResIDT inID)
 
 
 // ---------------------------------------------------------------------------
-//     ~CPickerView							Destructor				  [public]
+//   ~CPickerView							Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CPickerView::~CPickerView()
@@ -72,14 +72,63 @@ CPickerView::SetIDField(ResIDT	inID)
 {
 	if (mIDField != nil) {
 		Str255 theString;
-		LStr255 theLine("\p- ");
-
 		::NumToString( (SInt32) inID, theString);
-		theLine.Append(theString);
-		theLine.Append("\p -");
-
-		mIDField->SetDescriptor(theLine);
+		mIDField->SetDescriptor(theString);
 	} 
+}
+
+
+// ---------------------------------------------------------------------------
+// 	ClickSelf
+// ---------------------------------------------------------------------------
+
+void
+CPickerView::ClickSelf( const SMouseDownEvent & )
+{
+	// Check if it is a double-click
+	if (LPane::GetClickCount() > 1) {
+		mOwnerWindow->ListenToMessage(msg_PickerViewDoubleClick, this);
+		return;
+	}
+	
+	mOwnerWindow->ListenToMessage(msg_PickerViewSingleClick, this);
+}
+
+
+// ---------------------------------------------------------------------------
+//   DrawBorder
+// ---------------------------------------------------------------------------
+//  Border around a CPickerView is outset from the interior by 1 pixel
+
+void
+CPickerView::DrawBorder(Boolean isSelected)
+{
+	StColorState	saveColors;			// Preserve color state
+	StGrafPortSaver	savePort;
+	Rect			frame;
+	RGBColor		redColor = Color_Red;
+	
+	FocusDraw();
+	CalcLocalFrameRect(frame);
+	
+	if (isSelected) {
+		::PenNormal();
+		::PenSize(2, 2);
+		
+		// Draw border around the view
+		::RGBForeColor(&redColor);
+		::FrameRoundRect( &frame, 4, 4 );
+
+		// Validate the drawn region so that it is not erased by the next update
+		StRegion	focusRgn(frame);
+		StRegion	borderRgn(frame);
+		focusRgn.InsetBy(3, 3);
+		borderRgn -= focusRgn;
+		DontRefreshRgn(borderRgn);
+	} else {
+		RefreshRect(frame);
+	}
+	
 }
 
 
