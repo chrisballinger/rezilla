@@ -578,7 +578,7 @@ CRezMapDoc::TryOpenPicker(CRezTypeItem * inRezTypeItem)
 	// Does this type already have an opened picker ?
 	CPickerDoc * theRezPicker = GetTypePicker(theType);
 	if (theRezPicker != nil) {
-		theRezPicker->SelectMainWindow();
+		theRezPicker->SelectPickerWindow();
 	} else if ( CPickersController::HasPickerForType(theType) ) {
 		// call the appropriate picker
 		CPickersController::InvokeCustomPicker(this, inRezTypeItem);
