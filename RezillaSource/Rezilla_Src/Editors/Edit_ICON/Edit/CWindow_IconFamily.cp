@@ -392,3 +392,4 @@ CWindow_IconFamily::GetZoomFactor( SInt32, SInt32, Boolean *outShowGrid )
 	return CIcon_EditorWindow::GetZoomFactor( 32, 32, outShowGrid );
 }
 
+

@@ -121,6 +121,8 @@ public:
 	virtual void				SetTargetView( CDraggableTargetView *, RedrawOptions = redraw_Later );
 	virtual CDraggableTargetView *GetTargetView();
 
+	void						SelectTargetView(ResType inType);
+	
 	// Misc
 	virtual void				ChangeTool( OSType toWhat );
 	

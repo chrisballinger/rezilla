@@ -1999,3 +1999,27 @@ CIcon_EditorWindow::DebugPortSelf()
 
 	SignalIf_ ( !::MacEqualRgn(testClip, afterClip) );
 }
+
+
+// ---------------------------------------------------------------------------
+// 	SelectTargetView
+// ---------------------------------------------------------------------------
+
+void
+CIcon_EditorWindow::SelectTargetView(ResType inType)
+{
+	CDraggableTargetView *theMember = NULL, *currMember;
+	
+	for ( SInt32 count = 1; count <= mNumSamplePanes; count++ )
+	{
+		currMember = this->GetNthSamplePane( count );
+		if (currMember->GetPaneID() == inType) {
+			theMember = currMember;
+			break;
+		} 
+	}
+	if (theMember != NULL) {
+		this->ObeyCommand( msg_TargetViewClicked, theMember );
+	} 
+}
+
