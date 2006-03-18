@@ -351,7 +351,7 @@ CEditorsController::OpenOrCreateWithTypeAndID(CRezMapTable* inSuperMap, ResType 
 	CRezObjItem *	theRezObjItem;
 		
 	if (theRezTypeItem == nil || ! theRezTypeItem->ExistsItemForID(inID, theRezObjItem) ) {
-		// The CreateNewRes function will take care of creating the RezTypeItem
+		// The NewResource function will take care of creating the RezTypeItem
 		theRezObjItem = inSuperMap->GetOwnerDoc()->DoCreateResource(inType, inID, NULL, 0, false);
 	}
 
