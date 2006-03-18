@@ -187,7 +187,7 @@ public:
 	
 	SInt32				GetIndexForType(ResType inType) const;
 	
-	CRezObjItem *		CreateNewRes(ResType inType, 
+	CRezObjItem *		NewResource(ResType inType, 
 									 short inID, 
 									 Str255* inName, 
 									 short inAttrs);

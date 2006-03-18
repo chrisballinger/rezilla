@@ -2,7 +2,7 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2006-03-16 11:55:33
+//             Last modification: 2006-03-18 08:51:03
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -184,8 +184,9 @@ CRezMapDoc::~CRezMapDoc()
 		CRezillaApp::sInspectorWindow->ClearValues();
 	} 
 	
-	// Delete the associated RezEditors and the array
+	// Delete the associated editors and pickers with their array
 	DeleteEditors(true);
+	DeletePickers(true);
 
 	if (mRezMapWindow != nil) {
 		// Remove the window from the window menu.
@@ -1047,9 +1048,10 @@ CRezMapDoc::DoRevert()
 	SInt16		theFork;
 	OSErr		error;
 	
-	// Delete all the editors
+	// Delete all the editors and pickers
 	DeleteEditors(false); 
-	
+	DeletePickers(false); 
+
 	// Set the changedMap attribute to false (mapChanged = 2^mapChangedBit)
 	mRezMap->UnsetFileAttrs(mapChanged);
 
@@ -1671,7 +1673,7 @@ CRezMapDoc::NewResDialog()
 						theAttrs |= resPreload;
 					} 
 					
-					theRezObjItem = CreateNewRes(theType, theID, &theString, theAttrs);
+					theRezObjItem = NewResource(theType, theID, &theString, theAttrs);
 					SetModified(true);
 
 				} else {
@@ -1689,11 +1691,11 @@ CRezMapDoc::NewResDialog()
 
 
 // ---------------------------------------------------------------------------
-//  CreateNewRes												[public]
+//  NewResource														[public]
 // ---------------------------------------------------------------------------
 
 CRezObjItem *
-CRezMapDoc::CreateNewRes(ResType inType, short inID, Str255* inName, short inAttrs)
+CRezMapDoc::NewResource(ResType inType, short inID, Str255* inName, short inAttrs)
 {
  	Boolean		replacing = false, applyToOthers = false;
 	
@@ -1771,6 +1773,12 @@ CRezMapDoc::DoCreateResource(ResType inType, short inID, Str255* inName, short i
 
 	// Install the item in the table
 	mRezMapWindow->GetRezMapTable()->InsertRezObjItem( newRezObjItem, theRezTypeItem );
+
+	// Notify the type picker
+	CPickerDoc * thePicker = GetTypePicker( theRezType->GetType() );
+	if (thePicker != NULL) {
+		thePicker->ListenToMessage(msg_RezObjCreated, &inID);
+	} 
 
 	// Redraw the window
 	mRezMapWindow->Refresh();
@@ -1867,21 +1875,26 @@ CRezMapDoc::DuplicateResource(CRezObj * inRezObj)
 void
 CRezMapDoc::RemoveResource(CRezObjItem* inRezObjItem)
 {
-	short theCount;
-	OSErr error;
-
 	if (mReadOnly) {
 		return;
 	} 
 	
+	short		theCount;
+	OSErr		error;
 	CRezObj *	theRezObj = inRezObjItem->GetRezObj();
 	ResType		theType = theRezObj->GetType();
+	short		theID = theRezObj->GetID();
 	
 	// If an editing window is opened for this resource, close it
-	CEditorDoc * theRezEditor = GetRezEditor( theType, theRezObj->GetID() );
+	CEditorDoc * theRezEditor = GetRezEditor( theType, theID );
 	if (theRezEditor != nil) {
 		theRezEditor->SetModified(false);
 		delete theRezEditor;
+	} 
+	// Notify the type picker
+	CPickerDoc * thePicker = GetTypePicker(theType);
+	if (thePicker != NULL) {
+		thePicker->ListenToMessage(msg_RezObjDeleted, &theID);
 	} 
 	
 	// Remove the resource from the rez map: if the resProtected flag is on, 
@@ -1903,6 +1916,9 @@ CRezMapDoc::RemoveResource(CRezObjItem* inRezObjItem)
 	// If there are no more resources of this type, remove the type item
 	error = mRezMap->CountForType(theType, theCount);
 	if (theCount == 0) {
+		if (thePicker != NULL) {
+			thePicker->ListenToMessage(msg_RezTypeDeleted, NULL);
+		} 
 		mRezMapWindow->GetRezMapTable()->RemoveItem(theSuperItem);
 		// Update the types count field
 		mRezMapWindow->SetCountTypeField( mRezMapWindow->GetCountTypeField() - 1 );
