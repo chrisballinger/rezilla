@@ -20,10 +20,12 @@ PP_Begin_Namespace_PowerPlant
 #include "CInspectorWindow.h"
 #include "CPickerDoc.h"
 #include "CPickerWindow.h"
+#include "CPickerView.h"
 #include "CRezMapDoc.h"
 #include "CRezFile.h"
 #include "CRezMapTable.h"
 #include "CRezTypeItem.h"
+#include "CRezObjItem.h"
 #include "CRezType.h"
 #include "RezillaConstants.h"
 #include "UMessageDialogs.h"
@@ -61,6 +63,9 @@ CPickerDoc::CPickerDoc(LCommander* inSuper,
 
 CPickerDoc::~CPickerDoc()
 {
+	if (mPickerWindow != nil) {
+		delete mPickerWindow;
+	} 
 	Unregister();
 }
 
@@ -119,7 +124,7 @@ CPickerDoc::FindCommandStatus(
 		case cmd_SaveAs:
 		case cmd_Export:
 		case cmd_FindNext:
-			outEnabled = false;
+		outEnabled = false;
 		break;
 
 		case cmd_Find:
@@ -130,24 +135,99 @@ CPickerDoc::FindCommandStatus(
 		case cmd_Close : 
 		outEnabled = true;
 		break;
-								
-		case cmd_Copy:
-		outEnabled = true;
+				
+		case cmd_Paste:
+		outEnabled = not mReadOnly;
 		break;
 		
 		case cmd_Clear:
 		case cmd_Cut:
-		case cmd_Paste:
-		outEnabled = not mReadOnly;
+		outEnabled = ( not mReadOnly && mPickerWindow->GetSelectedView() != NULL);
 		break;
 
-	  default:
+		default:
 		// Call inherited.
 		LDocument::FindCommandStatus( inCommand,
 				outEnabled, outUsesMark, outMark, outName );
 		break;
 
 	}
+}
+
+
+// ---------------------------------------------------------------------------
+//  ObeyCommand												[public, virtual]
+// ---------------------------------------------------------------------------
+
+Boolean
+CPickerDoc::ObeyCommand(
+	CommandT	inCommand,
+	void*		ioParam)
+{
+	Boolean			cmdHandled = true, sendToRezmapDoc = false;
+	CPickerView*	theView = mPickerWindow->GetSelectedView();
+	ResType			theType = mRezTypeItem->GetRezType()->GetType();
+	ResType			asType = theType;
+	CRezMapDoc *	rezmapDoc = mRezMapTable->GetOwnerDoc();
+
+	if (inCommand == cmd_Paste || inCommand == cmd_NewRez) {
+		sendToRezmapDoc = true;
+	} else if (theView != NULL) {
+		// Find the corresponding RezObjItem in the RezMapDoc
+		CRezObjItem *	theRezObjItem = mRezMapTable->GetRezObjItem(theType, theView->GetPaneID(), true);
+		ThrowIfNil_(theRezObjItem);
+		
+		switch (inCommand) {
+
+			case cmd_Copy: 
+			case cmd_Cut: 
+			STableCell	cell;
+			cell.col = 1;
+			cell.row = theRezObjItem->FindRowForItem();
+			mRezMapTable->UnselectAllCells();
+			mRezMapTable->SelectCell(cell);
+			sendToRezmapDoc = true;
+			break;
+	
+			case cmd_RemoveRez:
+			case cmd_Clear: 
+			rezmapDoc->RemoveResource( theRezObjItem );
+			break;		
+			
+			case cmd_EditRez:
+			case cmd_EditRezAsType:
+			case cmd_EditWithPlugin:
+			case cmd_TmplEditRez:
+			case cmd_HexEditRez:		
+			if (inCommand == cmd_EditRezAsType && ! UMiscUtils::SelectType(asType) ) {
+				return cmdHandled;
+			} 
+			rezmapDoc->TryEdit(theRezObjItem, inCommand, asType);
+			break;
+		
+			case cmd_GetRezInfo: 
+			CRezillaApp::sInspectorWindow->Show();
+			CRezillaApp::sInspectorWindow->InstallValues(theRezObjItem);
+			// Bring the window to the front.
+			UDesktop::SelectDeskWindow( CRezillaApp::sInspectorWindow );
+			break;		
+			
+			default:
+			cmdHandled = false;
+			break;
+
+		}
+	} 
+	
+	if (sendToRezmapDoc) {
+		// Forward to the RezMapDoc and let it handle this
+		cmdHandled = rezmapDoc->ObeyCommand(inCommand, ioParam);	
+	} 
+	if (cmdHandled == false) {
+		cmdHandled = LDocument::ObeyCommand(inCommand, ioParam);
+	} 
+
+	return cmdHandled;
 }
 
 
@@ -159,12 +239,6 @@ void
 CPickerDoc::ListenToMessage( MessageT inMessage, void * ioParam) 
 {
 	switch (inMessage) {
-		case msg_RezChangedForType:
-// 		ResType theType = *((ResType*) ioParam);
-// 		if (mRezTypeItem->GetRezType()->GetType() == theType) {
-// 			mPickerWindow->RecalcStampLayout();
-// 		} 
-		break;
 				
 		default:
 		break;
@@ -260,7 +334,6 @@ CPickerDoc::Unregister()
 {
 	mRezMapTable->GetOwnerDoc()->GetOpenedPickers()->Remove(this);
 }
-
 
 
 PP_End_Namespace_PowerPlant

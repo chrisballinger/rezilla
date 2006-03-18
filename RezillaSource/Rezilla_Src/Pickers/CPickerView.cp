@@ -29,7 +29,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//   CPickerView							Default Constructor		  [public]
+//   CPickerView								 Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CPickerView::CPickerView(ResIDT inID)
@@ -37,19 +37,11 @@ CPickerView::CPickerView(ResIDT inID)
 {
 	mIsSelected = false;
 	
-	// Use the resource ID as an ID for the PickerView
+	// Use the resource ID as paneID for the PickerView
 	mPaneID = inID;
 	
 	// Add an attachment to draw the border
-	PenState	thePenState;
-	RGBColor	theForeColor = Color_Black;
-	RGBColor	theBackColor = Color_White;
-
-	thePenState.pnLoc = Point_00;
-	thePenState.pnSize.h = 1;
-	thePenState.pnSize.v = 1;
-	thePenState.pnMode = srcOr;
-	AddAttachment( new LBorderAttachment(&thePenState, &theForeColor, &theBackColor, true) );
+	AddAttachment( new LBorderAttachment() );
 
 }
 

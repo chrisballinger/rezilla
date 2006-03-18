@@ -2,7 +2,7 @@
 // CPickerWindow.cp
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-03-16 08:38:41
+//             Last modification: 2006-03-17 07:14:13
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -91,6 +91,14 @@ CPickerWindow::CPickerWindow(
 
 CPickerWindow::~CPickerWindow()
 {
+	// Delete the Picker views
+	TArrayIterator<CPickerView*> iterator(mViewList, LArrayIterator::from_End);
+	CPickerView	* theView;
+	while (iterator.Previous(theView)) {
+		mViewList.RemoveItemsAt(1, iterator.GetCurrentIndex());
+		delete theView;
+	}
+
 	// Remove the window from the window menu.
 	gWindowMenu->RemoveWindow(this);
 }
@@ -198,6 +206,7 @@ CPickerWindow::FindCommandStatus(
 {
 	switch (inCommand) {
 		
+		case cmd_Copy:
 		case cmd_EditRez:
 		case cmd_EditRezAsType:
 		case cmd_EditWithPlugin:
@@ -205,7 +214,8 @@ CPickerWindow::FindCommandStatus(
 		case cmd_HexEditRez:
 		case cmd_RemoveRez:
 		case cmd_DuplicateRez:
-		outEnabled = false;
+		case cmd_GetRezInfo: 
+		outEnabled = (mSelectedView != NULL);
 		break;		
 		
 		default:
@@ -230,36 +240,7 @@ CPickerWindow::ObeyCommand(
 	CommandT	inCommand,
 	void*		ioParam)
 {
-	Boolean		cmdHandled = true;
-
-	switch (inCommand) {
-
-		case cmd_Copy: 
-		case cmd_Cut: {
-			break;
-		}
-
-		case cmd_Clear: {
-			break;
-		}
-
-		case cmd_Paste: {
-			break;
-		}
-
-		case cmd_ActionCut:
-		case cmd_ActionPaste:
-		case cmd_ActionClear:
-		case cmd_ActionTyping: {
-			break;
-		}
-
-		default:
-		cmdHandled = mOwnerDoc->ObeyCommand(inCommand, ioParam);
-		break;
-	}
-
-	return cmdHandled;
+	return (mOwnerDoc->ObeyCommand(inCommand, ioParam));
 }
 
 
@@ -317,12 +298,12 @@ CPickerWindow::RecalcLayout()
 	mContentsView->GetFrameSize(frameSize);
 
 	while (iterator.Next(theView)) {
-		if (currCol != 0 && (theWidth * (currCol + 1) > frameSize.width) ) {
+		if (currCol != 0 && (theWidth * (currCol + 1) + kPickerWindowHorizOffset > frameSize.width) ) {
 			currCol = 0;
 			currRow++;
 		} 
-		stampLoc.h = theWidth * currCol;
-		stampLoc.v = theHeight * currRow;
+		stampLoc.h = theWidth * currCol + kPickerWindowHorizOffset;
+		stampLoc.v = theHeight * currRow + kPickerWindowVertOffset;
 		
 		theView->PlaceInSuperFrameAt(stampLoc.h, stampLoc.v, Refresh_No);
 		currCol++;
@@ -359,4 +340,50 @@ CPickerWindow::SetStampSize(SInt16 inWidth, SInt16 inHeight)
 }
 
 
+// ---------------------------------------------------------------------------
+//   DeletePickerView
+// ---------------------------------------------------------------------------
+
+void
+CPickerWindow::DeletePickerView( short inID )
+{
+	CPickerView *	theView = FindPickerView(inID);
+	DeletePickerView(theView);
+}
+
+
+// ---------------------------------------------------------------------------
+//   DeletePickerView
+// ---------------------------------------------------------------------------
+
+void
+CPickerWindow::DeletePickerView( CPickerView* inView )
+{
+	if (inView) {
+		RemovePickerView(inView);
+		delete inView;
+		RecalcLayout();
+	}
+}
+
+
+// ---------------------------------------------------------------------------
+//   FindPickerView
+// ---------------------------------------------------------------------------
+
+CPickerView *
+CPickerWindow::FindPickerView( short inID ) 
+{
+	TArrayIterator<CPickerView*> iterator(mViewList);
+	CPickerView		*theView = NULL, *currView;
+
+	while (iterator.Next(currView)) {
+		if (currView->GetPaneID() == inID) {
+			theView = currView;
+			break;
+		} 
+	}
+	
+	return theView;
+}
 

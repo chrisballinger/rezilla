@@ -68,6 +68,12 @@ public:
 							mViewList.Remove(inView);
 						}
 
+	void			DeletePickerView( short inID );
+	void			DeletePickerView( CPickerView* inView );
+
+	CPickerView *	FindPickerView( short inID );
+	
+
 	// AppleEvents
 	virtual void    MakeSelfSpecifier(
 								AEDesc&         inSuperSpecifier,
@@ -90,6 +96,10 @@ public:
 
 	LView*				GetContentsView() { return mContentsView;}
 
+	CPickerView*		GetSelectedView() { return mSelectedView;}
+	void				SetSelectedView(CPickerView* inSelectedView) {mSelectedView = inSelectedView;}
+
+	
 protected:
 	CPickerDoc *			mOwnerDoc;
 	SInt16					mStampWidth;

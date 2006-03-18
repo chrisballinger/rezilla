@@ -31,11 +31,15 @@ public:
 					~CPickerDoc();
 
 	virtual void	FindCommandStatus(
-								CommandT			inCommand,
-								Boolean&			outEnabled,
-								Boolean&			outUsesMark,
-								UInt16&				outMark,
-								Str255				outName);
+								CommandT	inCommand,
+								Boolean&	outEnabled,
+								Boolean&	outUsesMark,
+								UInt16&		outMark,
+								Str255		outName);
+
+	virtual Boolean	ObeyCommand(
+							CommandT		inCommand,
+							void*			ioParam);
 
 	virtual void	ListenToMessage(
 							MessageT		inMessage,
@@ -107,6 +111,7 @@ protected:
 
 	void			Register();
 	void			Unregister();
+	
 };
 
 

@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2006-03-16 11:01:18
+//             Last modification : 2006-03-17 17:41:52
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@users.sourceforge.net>
 // www : <http://rezilla.sourceforge.net/>
@@ -1081,47 +1081,47 @@ const MessageT	msg_IconShowAsBitmap		= PPob_IconEditorWindow + item_IconShowAsBi
 const MessageT	msg_IconShowAsMask			= PPob_IconEditorWindow + item_IconShowAsMask;
 // // Aete Editor Window
 // // ------------------
-const MessageT    msg_AeteSuiteName			= PPob_AeteEditorWindow + item_AeteSuiteName;
+const MessageT	msg_AeteSuiteName			= PPob_AeteEditorWindow + item_AeteSuiteName;
 //   All the other edit fields broadcast a msg_EditorModifiedItem message
 // Events panel
-const MessageT    msg_AeteDirectOptions		= PPob_AeteEventPane + item_AeteDirectOptions;
-const MessageT    msg_AeteReplyOptions		= PPob_AeteEventPane + item_AeteReplyOptions;
-const MessageT    msg_AeteParamOptions		= PPob_AeteEventPane + item_AeteParamOptions;
+const MessageT	msg_AeteDirectOptions		= PPob_AeteEventPane + item_AeteDirectOptions;
+const MessageT	msg_AeteReplyOptions		= PPob_AeteEventPane + item_AeteReplyOptions;
+const MessageT	msg_AeteParamOptions		= PPob_AeteEventPane + item_AeteParamOptions;
 // Classes panel
-const MessageT    msg_AetePropertyOptions	= PPob_AeteClassPane + item_AetePropertyOptions;
+const MessageT	msg_AetePropertyOptions		= PPob_AeteClassPane + item_AetePropertyOptions;
 // MENU Editor Window
 // ------------------
-const MessageT    msg_MenuEditMenuTitle		= PPob_MenuEditorWindow + item_MenuEditMenuTitle;
-const MessageT    msg_MenuEditMenuID		= PPob_MenuEditorWindow + item_MenuEditMenuID;
-const MessageT    msg_MenuEditMDEF			= PPob_MenuEditorWindow + item_MenuEditMDEF;
-const MessageT    msg_MenuEditMenuEnabled	= PPob_MenuEditorWindow + item_MenuEditMenuEnabled;
-const MessageT    msg_MenuEditItemTitle		= PPob_MenuEditorWindow + item_MenuEditItemTitle;
-const MessageT    msg_MenuEditItemEnabled	= PPob_MenuEditorWindow + item_MenuEditItemEnabled;
-const MessageT    msg_MenuEditIconID		= PPob_MenuEditorWindow + item_MenuEditIconID;
-const MessageT    msg_MenuEditShortcut		= PPob_MenuEditorWindow + item_MenuEditShortcut;
-const MessageT    msg_MenuEditMarkChar		= PPob_MenuEditorWindow + item_MenuEditMarkChar;
-const MessageT    msg_MenuEditStylePopup	= PPob_MenuEditorWindow + item_MenuEditStylePopup;
-const MessageT    msg_MenuEditPropertyPopup	= PPob_MenuEditorWindow + item_MenuEditPropertyPopup;
-const MessageT    msg_MenuEditCmdModifier	= PPob_MenuEditorWindow + item_MenuEditCmdModifier;
-const MessageT    msg_MenuEditShiftModifier	= PPob_MenuEditorWindow + item_MenuEditShiftModifier;
-const MessageT    msg_MenuEditOptModifier	= PPob_MenuEditorWindow + item_MenuEditOptModifier;
-const MessageT    msg_MenuEditCtrlModifier	= PPob_MenuEditorWindow + item_MenuEditCtrlModifier;
-const MessageT    msg_MenuEditEncoding		= PPob_MenuEditorWindow + item_MenuEditEncoding;
-const MessageT    msg_MenuEditRefcon1		= PPob_MenuEditorWindow + item_MenuEditRefcon1;
-const MessageT    msg_MenuEditRefcon2		= PPob_MenuEditorWindow + item_MenuEditRefcon2;
-const MessageT    msg_MenuEditFontID		= PPob_MenuEditorWindow + item_MenuEditFontID;
-const MessageT    msg_MenuEditGlyphField	= PPob_MenuEditorWindow + item_MenuEditGlyphField;
-const MessageT    msg_MenuEditGlyphPopup	= FOUR_CHAR_CODE('Glyf');
-const MessageT    msg_MenuEditScriptPopup	= FOUR_CHAR_CODE('Scrp');
-const MessageT    msg_MenuTableClicked		= FOUR_CHAR_CODE('TClc');
+const MessageT	msg_MenuEditMenuTitle		= PPob_MenuEditorWindow + item_MenuEditMenuTitle;
+const MessageT	msg_MenuEditMenuID			= PPob_MenuEditorWindow + item_MenuEditMenuID;
+const MessageT	msg_MenuEditMDEF			= PPob_MenuEditorWindow + item_MenuEditMDEF;
+const MessageT	msg_MenuEditMenuEnabled		= PPob_MenuEditorWindow + item_MenuEditMenuEnabled;
+const MessageT	msg_MenuEditItemTitle		= PPob_MenuEditorWindow + item_MenuEditItemTitle;
+const MessageT	msg_MenuEditItemEnabled		= PPob_MenuEditorWindow + item_MenuEditItemEnabled;
+const MessageT	msg_MenuEditIconID			= PPob_MenuEditorWindow + item_MenuEditIconID;
+const MessageT	msg_MenuEditShortcut		= PPob_MenuEditorWindow + item_MenuEditShortcut;
+const MessageT	msg_MenuEditMarkChar		= PPob_MenuEditorWindow + item_MenuEditMarkChar;
+const MessageT	msg_MenuEditStylePopup		= PPob_MenuEditorWindow + item_MenuEditStylePopup;
+const MessageT	msg_MenuEditPropertyPopup	= PPob_MenuEditorWindow + item_MenuEditPropertyPopup;
+const MessageT	msg_MenuEditCmdModifier		= PPob_MenuEditorWindow + item_MenuEditCmdModifier;
+const MessageT	msg_MenuEditShiftModifier	= PPob_MenuEditorWindow + item_MenuEditShiftModifier;
+const MessageT	msg_MenuEditOptModifier		= PPob_MenuEditorWindow + item_MenuEditOptModifier;
+const MessageT	msg_MenuEditCtrlModifier	= PPob_MenuEditorWindow + item_MenuEditCtrlModifier;
+const MessageT	msg_MenuEditEncoding		= PPob_MenuEditorWindow + item_MenuEditEncoding;
+const MessageT	msg_MenuEditRefcon1			= PPob_MenuEditorWindow + item_MenuEditRefcon1;
+const MessageT	msg_MenuEditRefcon2			= PPob_MenuEditorWindow + item_MenuEditRefcon2;
+const MessageT	msg_MenuEditFontID			= PPob_MenuEditorWindow + item_MenuEditFontID;
+const MessageT	msg_MenuEditGlyphField		= PPob_MenuEditorWindow + item_MenuEditGlyphField;
+const MessageT	msg_MenuEditGlyphPopup		= FOUR_CHAR_CODE('Glyf');
+const MessageT	msg_MenuEditScriptPopup		= FOUR_CHAR_CODE('Scrp');
+const MessageT	msg_MenuTableClicked		= FOUR_CHAR_CODE('TClc');
 // Icns Editor Window
 // ------------------
-const MessageT    msg_IcnsIconPopup			= PPob_IcnsEditorWindow + item_IcnsIconPopup;
+const MessageT	msg_IcnsIconPopup			= PPob_IcnsEditorWindow + item_IcnsIconPopup;
 // Resource Picker Window
 // ----------------------
-const MessageT    msg_RezChangedForType		= FOUR_CHAR_CODE('RChT');
-const MessageT    msg_PickerViewSingleClick	= FOUR_CHAR_CODE('PVSC');
-const MessageT    msg_PickerViewDoubleClick	= FOUR_CHAR_CODE('PVDC');
+const MessageT	msg_PickerViewSingleClick	= FOUR_CHAR_CODE('PVSC');
+const MessageT	msg_PickerViewDoubleClick	= FOUR_CHAR_CODE('PVDC');
+
 
 // Other general purpose messages
 // ------------------------------
@@ -1137,6 +1137,9 @@ const MessageT	msg_TmplCasePopup				= FOUR_CHAR_CODE('Case');
 const MessageT	msg_PopupEditField				= FOUR_CHAR_CODE('PopF');
 const MessageT	msg_DragMoveAction				= FOUR_CHAR_CODE('DMov');
 const MessageT	msg_DragCopyAction				= FOUR_CHAR_CODE('DCpy');
+const MessageT	msg_RezObjCreated				= FOUR_CHAR_CODE('ObCr');
+const MessageT	msg_RezObjDeleted				= FOUR_CHAR_CODE('ObDe');
+const MessageT	msg_RezTypeDeleted				= FOUR_CHAR_CODE('TyDe');
 // Icon editor
 const MessageT	msg_TargetViewClicked			= FOUR_CHAR_CODE('Tclk');
 const MessageT	msg_ImageDroppedOnTargetView	= FOUR_CHAR_CODE('IDrp');
@@ -1155,20 +1158,20 @@ const MessageT	msg_ForwardToPlugin				= FOUR_CHAR_CODE('Forw');
 // AE suites
 enum
 {
-	kAERzilClass			=    FOUR_CHAR_CODE('Rzil'),
-	kAERsrcClass			=    FOUR_CHAR_CODE('Rsrc')
+	kAERzilClass			= FOUR_CHAR_CODE('Rzil'),
+	kAERsrcClass			= FOUR_CHAR_CODE('Rsrc')
 };
 
 // Various AE parameters
 enum
 {
-	kAERzilReply	 		=  FOUR_CHAR_CODE('Repl'),
-	kAERzilFilesList	 	=  FOUR_CHAR_CODE('LFil'),
-	kAERzilFromFork			=  FOUR_CHAR_CODE('From'),
-	kAERzilCreateFork		=  FOUR_CHAR_CODE('Crea'),
-	kAERzilCompareWith	 	=  FOUR_CHAR_CODE('AndF'),
-	kAERzilLike			 	=  FOUR_CHAR_CODE('Like'),
-	kAERzilFormat			=  FOUR_CHAR_CODE('Frmt')
+	kAERzilReply	 		= FOUR_CHAR_CODE('Repl'),
+	kAERzilFilesList	 	= FOUR_CHAR_CODE('LFil'),
+	kAERzilFromFork			= FOUR_CHAR_CODE('From'),
+	kAERzilCreateFork		= FOUR_CHAR_CODE('Crea'),
+	kAERzilCompareWith	 	= FOUR_CHAR_CODE('AndF'),
+	kAERzilLike			 	= FOUR_CHAR_CODE('Like'),
+	kAERzilFormat			= FOUR_CHAR_CODE('Frmt')
 };
 
 /* AE Dispatch Table constants (aedt) */
@@ -1657,5 +1660,9 @@ const UInt16	kEditorVertTextMargin	= 5;
 #define kPickerViewIDFieldHeight	12
 #define kPickerViewHorizMargin		6
 #define kPickerViewVertMargin		4
-#define kPickerViewHorizSkip		12
-#define kPickerViewVertSkip			10
+#define kPickerViewMinWidth			40
+#define kPickerViewMinHeight		50
+#define kPickerViewHorizSkip		14
+#define kPickerViewVertSkip			12
+#define kPickerWindowHorizOffset	10
+#define kPickerWindowVertOffset		10

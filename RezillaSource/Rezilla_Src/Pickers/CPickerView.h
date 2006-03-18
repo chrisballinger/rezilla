@@ -52,10 +52,13 @@ public:
 	CPickerWindow*		GetOwnerWindow() { return mOwnerWindow;}
 	void				SetOwnerWindow(CPickerWindow* inOwnerWindow) {mOwnerWindow = inOwnerWindow;}
 
+	ResIDT				GetID() { return mID;}
+
 protected:
 	CPickerWindow *		mOwnerWindow;
 	LStaticText *		mIDField;
 	Boolean				mIsSelected;
+	ResIDT				mID;
 	
 private:
 	void				InitPickerView(SInt16 inStampWidth, SInt16 inStampHeight, ResIDT inID);
