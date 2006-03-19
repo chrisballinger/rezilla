@@ -181,8 +181,8 @@ CIcon_EditorDoc::Initialize()
 	}
 			
 	// Make the window visible.
-	mIconEditWindow->Show();
 	mIconEditWindow->SelectTargetView(mSubstType);
+	mIconEditWindow->Show();
 }
 
 
