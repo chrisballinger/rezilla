@@ -33,11 +33,25 @@ $Date$
 
 
 ================================================================================
-= 1.1b3										last update: 
+= 1.1b5										last update: 
+================================================================================
+¥ Extended AppleScript terminology to plugins and pickers.
+¥ Added documentation about Pickers.
+
+================================================================================
+= 1.1b4										last update: 
+================================================================================
+¥ Completed the Pickers model.
+¥ Added pickers for several types of resources:
+		* bitmap icons family ('icl4', 'icl8', etc.)
+		* menus ('MENU')
+		* icon suites ('icns')
+
+================================================================================
+= 1.1b3										last update: 2006-03-16 12:21:43
 ================================================================================
 ¥ Documentation of the plugin SDK.
 ¥ Completed the internal 'icns' editor.
-¥ 
 
 ================================================================================
 = 1.1b2										last update: 2006-03-09 10:07:33
