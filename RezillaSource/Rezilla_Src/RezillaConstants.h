@@ -1657,7 +1657,7 @@ const UInt16	kEditorVertTextMargin	= 5;
 
 #define kPickerDefaultStampWidth	32
 #define kPickerDefaultStampHeight	44
-#define kPickerViewIDFieldHeight	12
+#define kPickerViewIDFieldHeight	10
 #define kPickerViewHorizMargin		6
 #define kPickerViewVertMargin		4
 #define kPickerViewMinWidth			40
