@@ -75,10 +75,66 @@ CPickerStamp::ClickSelf( const SMouseDownEvent & inEvent)
 // ---------------------------------------------------------------------------
 //   DrawSelf														  [public]
 // ---------------------------------------------------------------------------
+// // 		OSErr 
+// // 		PlotIconID(
+// // 		  const Rect *        theRect,
+// // 		  IconAlignmentType   align,
+// // 		  IconTransformType   transform,
+// // 		  SInt16              theResID)
+// // 		OSErr 
+// // 		PlotIconHandle(
+// // 		  const Rect *        theRect,
+// // 		  IconAlignmentType   align,
+// // 		  IconTransformType   transform,
+// // 		  Handle              theIcon)
+// // 		  extern void 
+// // 		PlotIcon(
+// // 		  const Rect *  theRect,
+// // 		  Handle        theIcon)
+// // 		  OSErr 
+// // 		PlotSICNHandle(
+// // 		  const Rect *        theRect,
+// // 		  IconAlignmentType   align,
+// // 		  IconTransformType   transform,
+// // 		  Handle              theSICN)
+// // 		OSErr 
+// // 		PlotCIconHandle(
+// // 		  const Rect *        theRect,
+// // 		  IconAlignmentType   align,
+// // 		  IconTransformType   transform,
+// // 		  CIconHandle         theCIcon)
+// 			if (mGraphicsType == ResType_IconList) {
+// 					if (mEnabled == triState_On) {
+// 						::PlotIconID(&frame, kAlignNone, kTransformNone, inGraphicID);
+// 					} else {
+// 						::PlotIconID(&frame, kAlignNone, kTransformDisabled, inGraphicID);
+// 					}
+// 
+// 				} else if (mGraphicsType == ResType_Picture) {
+// 					PicHandle	macPictureH = ::GetPicture(inGraphicID);
+// 					if (macPictureH != nil) {
+// 						::DrawPicture(macPictureH, &frame);
+// 					}
+// 
+// 				} else if (mGraphicsType == ResType_Icon) {
+// 					Handle	iconHandle = ::GetIcon(inGraphicID);
+// 					if (iconHandle != nil) {
+// 						::PlotIcon(&frame, iconHandle);
+// 					}
+// 				}
 
 void
 CPickerStamp::DrawSelf()
-{}
+{
+	short theID = GetSuperView()->GetPaneID();
+	Rect	frame;
+	CalcLocalFrameRect(frame);
+	StColorPenState::Normalize();
+	
+// 	::PlotIconID(&frame, kAlignNone, kTransformNone, inGraphicID);
+// 	::PlotIconID(&frame, kAlignNone, kTransformDisabled, inGraphicID);
+	
+}
 
 
 PP_End_Namespace_PowerPlant
