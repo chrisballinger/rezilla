@@ -2,11 +2,11 @@
 // UCompareUtils.cp	
 // 				
 //                       Created: 2005-01-02 15:16:34
-//             Last modification: 2005-01-02 15:33:09
+//             Last modification: 2006-03-18 11:49:21
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes 2005
+// (c) Copyright: Bernard Desgraupes 2005, 2006
 // All rights reserved.
 // ===========================================================================
 
@@ -16,6 +16,7 @@
 #endif
 
 #include "CRezType.h"
+#include "CPickerView.h"
 #include "CRezillaApp.h"
 #include "RezillaConstants.h"
 #include "UCompareUtils.h"
@@ -146,17 +147,40 @@ CTypeItemComparator::~CTypeItemComparator() {}
 
 SInt32
 CTypeItemComparator::Compare(
-	void*		inItemOne,
-	void*		inItemTwo,
-	UInt32		inSizeOne,
-	UInt32		inSizeTwo) const
+							 const void*	inItemOne,
+							 const void*	inItemTwo,
+							 UInt32			inSizeOne,
+							 UInt32			inSizeTwo) const
+{
+#pragma unused(inSizeOne, inSizeTwo)	
+	ResType	typeOne = (*(CRezType **) inItemOne)->GetType();
+	ResType	typeTwo = (*(CRezType **) inItemTwo)->GetType();
+	return ::CompareText( &typeOne, &typeTwo, 4, 4, nil);
+}
+
+
+// ================================================================
+//      Class CPickerViewComparator
+// ================================================================
+// String comparator class to build picker windows sorted numerically
+
+CPickerViewComparator::CPickerViewComparator() {}
+
+CPickerViewComparator::~CPickerViewComparator() {}
+
+SInt32
+CPickerViewComparator::Compare(
+							   const void*	inItemOne,
+							   const void*	inItemTwo,
+							   UInt32		inSizeOne,
+							   UInt32		inSizeTwo) const
 {
 #pragma unused(inSizeOne, inSizeTwo)
-
-	CRezType* rezTypeOne = static_cast<CRezType *>(inItemOne);
-	CRezType* rezTypeTwo = static_cast<CRezType *>(inItemTwo);
 	
-	return ::CompareText( (void*) rezTypeOne->GetType(), (void*) rezTypeTwo->GetType(), 4, 4, nil);
+	CPickerView* pickerOne = *(CPickerView **) inItemOne;
+	CPickerView* pickerTwo = *(CPickerView **) inItemTwo;
+	
+	return ( pickerOne->GetPaneID() - pickerTwo->GetPaneID() );
 }
 
 

@@ -2,11 +2,11 @@
 // UCompareUtils.h
 // 				
 //                       Created: 2005-01-02 15:16:34
-//             Last modification: 2005-01-02 15:25:34
+//             Last modification: 2006-03-18 11:49:10
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes 2005
+// (c) Copyright: Bernard Desgraupes 2005, 2006
 // All rights reserved.
 // ===========================================================================
 
@@ -74,8 +74,27 @@ public:
 	virtual				~CTypeItemComparator();
 
 	virtual SInt32		Compare(
-								void*		inItemOne,
-								void* 		inItemTwo,
+								const void*	inItemOne,
+								const void*	inItemTwo,
+								UInt32		inSizeOne,
+								UInt32		inSizeTwo) const;
+
+};
+
+
+
+// ---------------------------------------------------------------------------
+// Comparator class to build picker windows sorted numerically
+
+class CPickerViewComparator : public LComparator {
+public:
+
+						CPickerViewComparator();
+	virtual				~CPickerViewComparator();
+
+	virtual SInt32		Compare(
+								const void*	inItemOne,
+								const void*	inItemTwo,
 								UInt32		inSizeOne,
 								UInt32		inSizeTwo) const;
 
