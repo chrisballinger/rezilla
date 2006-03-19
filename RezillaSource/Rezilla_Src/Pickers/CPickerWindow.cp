@@ -16,6 +16,7 @@
 #include "CPickerView.h"
 #include "CRezObj.h"
 #include "CWindowMenu.h"
+#include "UCompareUtils.h"
 #include "RezillaConstants.h"
 
 #include <LIconPane.h>
@@ -30,7 +31,7 @@ extern CWindowMenu * gWindowMenu;
 
 CPickerWindow::CPickerWindow()
 {
-	Init();
+	Initialize();
 }
 
 
@@ -42,7 +43,7 @@ CPickerWindow::CPickerWindow(
 	const SWindowInfo &inWindowInfo )
 		: LWindow( inWindowInfo )
 {
-	Init();
+	Initialize();
 }
 
 
@@ -56,7 +57,7 @@ CPickerWindow::CPickerWindow(
 	LCommander	*inSuperCommander )
 		: LWindow( inWINDid, inAttributes, inSuperCommander )
 {
-	Init();
+	Initialize();
 }
 
 
@@ -69,7 +70,7 @@ CPickerWindow::CPickerWindow(
 					LCommander*		inSuperCommander)
 		: LWindow(inMacWindow, inSuperCommander)
 {
-	Init();
+	Initialize();
 }
 
 
@@ -81,7 +82,7 @@ CPickerWindow::CPickerWindow(
 			       LStream *inStream )
 		: LWindow( inStream )
 {
-	Init();
+	Initialize();
 }
 
 
@@ -92,12 +93,16 @@ CPickerWindow::CPickerWindow(
 CPickerWindow::~CPickerWindow()
 {
 	// Delete the Picker views
-	TArrayIterator<CPickerView*> iterator(mViewList, LArrayIterator::from_End);
+	TArrayIterator<CPickerView*> iterator(*mViewList, LArrayIterator::from_End);
 	CPickerView	* theView;
 	while (iterator.Previous(theView)) {
-		mViewList.RemoveItemsAt(1, iterator.GetCurrentIndex());
+		mViewList->RemoveItemsAt(1, iterator.GetCurrentIndex());
 		delete theView;
 	}
+	
+	if (mViewList != nil) {
+		delete mViewList;
+	} 
 
 	// Remove the window from the window menu.
 	gWindowMenu->RemoveWindow(this);
@@ -105,16 +110,21 @@ CPickerWindow::~CPickerWindow()
 
 
 // ---------------------------------------------------------------------------
-//  Init													[public]
+//  Initialize													[public]
 // ---------------------------------------------------------------------------
 
 void
-CPickerWindow::Init()
+CPickerWindow::Initialize()
 {
 	mOwnerDoc = nil;
 	mSelectedView = nil;
+	
 	SetModelKind(rzom_cPickerWindow);
 	SetStampSize(kPickerDefaultStampWidth, kPickerDefaultStampHeight);
+	
+	// Initialize the PickerViews list
+	CPickerViewComparator* theComparator = new CPickerViewComparator();
+	mViewList = new TArray<CPickerView *>( theComparator, true);
 }
 	
 
@@ -180,7 +190,7 @@ CPickerWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		break;
 				
 		case msg_PickerViewDoubleClick:
-		Hide();
+		ObeyCommand(cmd_EditRez, NULL);
 		break;
 				
 		default:
@@ -286,7 +296,7 @@ CPickerWindow::RecalcLayout()
 	SDimension16		frameSize;
 	SPoint32			stampLoc;
 	CPickerView *		theView;
-	TArrayIterator<CPickerView*> iterator(mViewList);
+	TArrayIterator<CPickerView*> iterator(*mViewList);
 	SInt16				theWidth, theHeight;
 	
 	theWidth = mStampWidth + 2 * kPickerViewHorizMargin 
@@ -341,6 +351,29 @@ CPickerWindow::SetStampSize(SInt16 inWidth, SInt16 inHeight)
 
 
 // ---------------------------------------------------------------------------
+//   AddPickerView
+// ---------------------------------------------------------------------------
+
+void
+CPickerWindow::AddPickerView( CPickerView* inView )
+{
+	mViewList->InvalidateSort();
+	mViewList->AddItem(inView);
+}
+
+
+// ---------------------------------------------------------------------------
+//   RemovePickerView
+// ---------------------------------------------------------------------------
+
+void
+CPickerWindow::RemovePickerView( CPickerView* inView )
+{
+	mViewList->Remove(inView);
+}
+
+
+// ---------------------------------------------------------------------------
 //   DeletePickerView
 // ---------------------------------------------------------------------------
 
@@ -361,6 +394,9 @@ CPickerWindow::DeletePickerView( CPickerView* inView )
 {
 	if (inView) {
 		RemovePickerView(inView);
+		if (mSelectedView == inView) {
+			mSelectedView = NULL;
+		} 
 		delete inView;
 		RecalcLayout();
 	}
@@ -374,7 +410,7 @@ CPickerWindow::DeletePickerView( CPickerView* inView )
 CPickerView *
 CPickerWindow::FindPickerView( short inID ) 
 {
-	TArrayIterator<CPickerView*> iterator(mViewList);
+	TArrayIterator<CPickerView*> iterator(*mViewList);
 	CPickerView		*theView = NULL, *currView;
 
 	while (iterator.Next(currView)) {

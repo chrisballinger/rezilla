@@ -58,16 +58,8 @@ public:
 
 	void			RecalcLayout();
 
-	void			AddPickerView( CPickerView* inView )
-						{
-							mViewList.AddItem(inView);
-						}
-						
-	void			RemovePickerView( CPickerView* inView )
-						{
-							mViewList.Remove(inView);
-						}
-
+	void			AddPickerView( CPickerView* inView );
+	void			RemovePickerView( CPickerView* inView );
 	void			DeletePickerView( short inID );
 	void			DeletePickerView( CPickerView* inView );
 
@@ -105,13 +97,13 @@ protected:
 	SInt16					mStampWidth;
 	SInt16					mStampHeight;
 	LView *					mContentsView;
-	TArray<CPickerView *>	mViewList;
+	TArray<CPickerView *>*	mViewList;
 	CPickerView *			mSelectedView;
 
 	virtual void	FinishCreateSelf();
 
 private:
-	void		Init();
+	void		Initialize();
 	
 };
 

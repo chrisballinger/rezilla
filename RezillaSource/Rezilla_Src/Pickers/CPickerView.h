@@ -2,7 +2,7 @@
 // CPickerView.h				
 // 
 //                       Created: 2006-02-24 09:49:42
-//             Last modification: 2006-03-16 19:10:31
+//             Last modification: 2006-03-19 14:48:54
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -52,13 +52,10 @@ public:
 	CPickerWindow*		GetOwnerWindow() { return mOwnerWindow;}
 	void				SetOwnerWindow(CPickerWindow* inOwnerWindow) {mOwnerWindow = inOwnerWindow;}
 
-	ResIDT				GetID() { return mID;}
-
 protected:
 	CPickerWindow *		mOwnerWindow;
 	LStaticText *		mIDField;
 	Boolean				mIsSelected;
-	ResIDT				mID;
 	
 private:
 	void				InitPickerView(SInt16 inStampWidth, SInt16 inStampHeight, ResIDT inID);

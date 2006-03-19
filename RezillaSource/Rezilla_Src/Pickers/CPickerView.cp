@@ -131,13 +131,6 @@ CPickerView::DrawBorder(Boolean isSelected)
 void
 CPickerView::DrawSelf()
 {
-// 	mStampView->Draw(nil);
-// 	mIDField->Draw(nil);
-	
-// 		// Draw a frame
-// 	if (GetOwnerWindow()->GetSelectedStamp() == this) {
-// 		
-// 	} 
 }
 
 

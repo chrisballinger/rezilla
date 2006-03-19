@@ -2,7 +2,7 @@
 // CPickerDoc.cp
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-02-26 17:35:45
+//             Last modification: 2006-03-19 11:58:46
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -170,7 +170,9 @@ CPickerDoc::ObeyCommand(
 	ResType			asType = theType;
 	CRezMapDoc *	rezmapDoc = mRezMapTable->GetOwnerDoc();
 
-	if (inCommand == cmd_Paste || inCommand == cmd_NewRez) {
+	if (inCommand == cmd_Close) {
+		AttemptClose(false);
+	} else if (inCommand == cmd_Paste || inCommand == cmd_NewRez) {
 		sendToRezmapDoc = true;
 	} else if (theView != NULL) {
 		// Find the corresponding RezObjItem in the RezMapDoc
