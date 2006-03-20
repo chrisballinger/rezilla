@@ -224,7 +224,7 @@ sample_AcceptResource(void *myInstance, ResType inType, short inID, Handle inDat
 			editInfo->controlref	= NULL;
 			editInfo->modified		= false;
 		
-			// Fill the RezPlugInfo
+			// Fill the RezPlugInfo struct
 			outInfo->plugref			= (RezPlugRef) editInfo;
 			outInfo->attributes			= kPluginEditorStandardControls | kPluginSupportEditCommands;
 			outInfo->winbounds.top		= kSampleBoundsTop;
@@ -256,9 +256,10 @@ sample_EditResource(RezPlugRef inPlugref, RezHostInfo inInfo)
 	
 	SampleEditInfo * editInfo = (SampleEditInfo *) inPlugref;
 	
-	editInfo->winref = inInfo.winref;
-	editInfo->readonly = inInfo.readonly;
-	sampleMenuRef = *inInfo.menurefs;
+	// Retreive info from the RezHostInfo struct
+	editInfo->winref	= inInfo.winref;
+	editInfo->readonly	= inInfo.readonly;
+	sampleMenuRef		= *inInfo.menurefs;
 	
 	theTextRef = CFStringCreateWithPascalString(kCFAllocatorDefault, *(editInfo->data), kCFStringEncodingMacRoman);
 	error = CreateEditTextControl(editInfo->winref, &editRect, theTextRef, false, false, NULL, &(editInfo->controlref));
