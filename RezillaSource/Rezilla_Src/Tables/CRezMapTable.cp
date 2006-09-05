@@ -1,11 +1,11 @@
 // ===========================================================================
 // CRezMapTable.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2005-06-28 17:31:14
+//             Last modification: 2006-07-14 12:09:01
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes 2003-2005
+// (c) Copyright: Bernard Desgraupes 2003-2005, 2006
 // All rights reserved.
 // ===========================================================================
 
@@ -697,9 +697,9 @@ CRezMapTable::TrackDrag(
 	// Invalidate LView's focus cache. The port may have changed during the drag.
 	LView::OutOfFocus( nil );
 	
-	// Check for a drop in the trash.
+	// Check for a drop in the trash
 	if (error == noErr && UDragAndDropUtils::DroppedInTrash( theDragRef ) ) {
-		// Delete the row and refresh the list.
+		// Delete the row and refresh the list
 		GetOwnerDoc()->RemoveResource(theRezObjItem);
 		Refresh();
 	}
@@ -796,7 +796,7 @@ CRezMapTable::ReceiveDragItem(DragReference inDragRef,
 				}
 				switch (answer) {
 					case answer_Do:
-					mRezMap->UniqueID(theType, theID);
+					mRezMap->UniqueID(theType, theID, theID + 1);
 					break;
 					
 					case answer_Dont:
@@ -820,7 +820,7 @@ CRezMapTable::ReceiveDragItem(DragReference inDragRef,
 		 
 	 } else if (::GetFlavorFlags(inDragRef, inItemRef, flavorTypeHFS, &theFlags) == noErr) {
 		 // Drag from the Finder
-		 // What to do ?
+		 // What to do ? Create an 'url ' resource ?
 	 } else {
 		 UInt16      theFlavorsCount;
 		 error = ::CountDragItemFlavors(inDragRef, inItemRef, &theFlavorsCount);

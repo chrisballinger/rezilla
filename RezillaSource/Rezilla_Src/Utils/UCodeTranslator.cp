@@ -2,11 +2,11 @@
 // UCodeTranslator.cp					
 // 
 //                       Created: 2003-05-04 16:40:47
-//             Last modification: 2004-08-16 10:51:21
+//             Last modification: 2006-07-13 17:22:49
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes 2003-2004
+// (c) Copyright: Bernard Desgraupes 2003-2004, 2006
 // All rights reserved.
 // ===========================================================================
 
@@ -37,8 +37,8 @@ PP_Begin_Namespace_PowerPlant
 // ---------------------------------------------------------------------------
 //   ConvertByteToReadable											[public]
 // ---------------------------------------------------------------------------
-// 0xF6 (246) is Ã¶ and 0xFF (255) is Ã¿.
-// 0x5E (94) is Ã¶ too.
+// 0xF6 (246) is ö and 0xFF (255) is ÿ.
+// 0x5E (94) is ö too.
 
 void
 UCodeTranslator::ConvertByteToReadable( LDataStream* srcDataStream, LDataStream* trgtDataStream, Boolean inInsertSpace)
@@ -90,8 +90,8 @@ UCodeTranslator::ConvertByteToReadable(char* srcString, char* trgtString, Boolea
 // ---------------------------------------------------------------------------
 // Similar to ConvertByteToReadable but inserts a Carriage Return (0x0D)
 // instead of a blank every mSegment input chars.
-// 0xF6 (246) is Ã¶ and 0xFF (255) is Ã¿.
-// 0x5E (94) is Ã¶ too.
+// 0xF6 (246) is ö and 0xFF (255) is ÿ.
+// 0x5E (94) is ö too.
 
 void
 UCodeTranslator::ConvertByteToSegmentedText( LDataStream* srcDataStream, LDataStream* trgtDataStream, SInt32 inSegment)
@@ -244,6 +244,61 @@ UCodeTranslator::ConvertByteToSegmentedHex(char* srcString, char* trgtString, SI
 
 
 // ---------------------------------------------------------------------------
+//   StripWhitespace										[public]
+// ---------------------------------------------------------------------------
+// ZP feature #4, part 2: this convertor just removes space symbols before
+// feeding the HexToByte convertor.
+
+SInt32
+UCodeTranslator::StripWhitespace( LDataStream* srcDataStream, LDataStream* trgtDataStream)
+{
+	UInt8 readChar;
+	SInt32 i,length = srcDataStream->GetLength(), outLen=0;
+	
+	for (i=0; i<length; i++)
+	{
+		*srcDataStream >> readChar;
+		if (readChar!='\n' && readChar!=0x0D && readChar!='\t' && readChar!=' ')
+		{ 
+			// newline, carriage return, tab, or space
+			*trgtDataStream << readChar;
+			outLen++;
+		}
+	}
+	
+	return outLen;
+}
+
+
+// ---------------------------------------------------------------------------
+//   StripWhitespace												[public]
+// ---------------------------------------------------------------------------
+// C string version of the convertor above.
+// This function supposes that the src and trgt strings are properly allocated.
+// The size of trgtString should be as much as srcString.
+
+SInt32
+UCodeTranslator::StripWhitespace(char* srcString, char* trgtString)
+{
+	UInt8 readChar;
+	UInt32 i=0,j=0;
+
+	do
+	{
+		readChar=srcString[i];
+		if (readChar!='\n' && readChar!=0x0D && readChar!='\t' && readChar!=' ')
+		{ // newline, carriage return, tab, or space
+			trgtString[j++] = readChar;
+		}
+	}
+	while (srcString[i++]);
+
+	return j; // j counts the ending NUL;
+}
+// end of ZP feature 4, part 2
+
+
+// ---------------------------------------------------------------------------
 //   ConvertByteToHex												[public]
 // ---------------------------------------------------------------------------
 // This function supposes that the src and trgt streams are properly allocated. 
@@ -362,7 +417,9 @@ UInt8
 UCodeTranslator::ConvertHexToValue(UInt8 inHex)
 {
 	UInt8 val = 0;
-	if (inHex > 48 && inHex < 59) {
+	// ZP remark: ASCII value 58 is ':' 
+	// BD: OK, replaced 59 by 58
+	if (inHex > 48 && inHex < 58) {
 		val = inHex - 48;
 	} else if (inHex > 64 && inHex < 71) {
 		val = inHex - 55;
@@ -890,13 +947,60 @@ StHexToByteTranslator::Convert()
 
 
 // =====================================
+//  CLASS StStripWhitespaceTranslator
+// =====================================
+// ZP feature #4, part 5: the convertor class for the
+// whitespace stripper
+
+// ---------------------------------------------------------------------------
+//   StStripWhitespaceTranslator				Constructor		  [public]
+// ---------------------------------------------------------------------------
+StStripWhitespaceTranslator::StStripWhitespaceTranslator(Handle inHandle)
+{
+	mInHandle = inHandle;
+	mInSize = ::GetHandleSize(inHandle);
+	mOutSize = mInSize;
+	mOutHandle = ::NewHandle(mOutSize);
+	ThrowIfNil_(mOutHandle);
+}
+
+
+// ---------------------------------------------------------------------------
+//   ~StStripWhitespaceTranslator				Destructor		  [public]
+// ---------------------------------------------------------------------------
+StStripWhitespaceTranslator::~StStripWhitespaceTranslator()
+{
+	// It should not be nil, but who knows...
+	if (mOutHandle != nil) {
+		::DisposeHandle(mOutHandle);
+	}
+}
+
+
+// ---------------------------------------------------------------------------
+//   FilterOutWhitespace											[public]
+// ---------------------------------------------------------------------------
+void
+StStripWhitespaceTranslator::FilterOutWhitespace()
+{
+	StHandleLocker locker(mInHandle);
+	LDataStream inStream(*mInHandle, mInSize);
+	LDataStream outStream(*mOutHandle, mOutSize);
+	// 	inStream.SetMarker(0L,streamFrom_Start);
+    mOutSize = UCodeTranslator::StripWhitespace(&inStream, &outStream);
+	
+	::SetHandleSize(mOutHandle, mOutSize);
+	ThrowIfMemError_();
+}
+// end of ZP feature 4, part 5
+
+
+// =====================================
 //  CLASS StByteToBase64Translator
 // =====================================
-
 // ---------------------------------------------------------------------------
 //   StByteToBase64Translator					Constructor			  [public]
 // ---------------------------------------------------------------------------
-
 StByteToBase64Translator::StByteToBase64Translator(Handle inHandle)
 {
 	mInHandle = inHandle;

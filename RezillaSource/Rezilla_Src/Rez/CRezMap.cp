@@ -2,11 +2,11 @@
 // CRezMap.cp					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2005-06-06 13:44:24
+//             Last modification: 2006-07-14 09:58:50
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2003-2005
+// (c) Copyright : Bernard Desgraupes, 2003-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -404,24 +404,59 @@ OSErr
 CRezMap::GetTypeAtIndex(short inIdx, ResType & outType)
 {
     StRezRefSaver saver(mRefNum);
-   ::Get1IndType( &outType, inIdx);
+	::Get1IndType( &outType, inIdx);
     return ::ResError();
 }
 
 
 // ---------------------------------------------------------------------------
-//   UniqueID														[public]
+// UniqueID 														[public]
 // ---------------------------------------------------------------------------
-// typedef		SInt16			ResIDT;
-// typedef unsigned short                  UInt16;
-// typedef signed short                    SInt16;
+// The Toolbox ::Unique1ID() API returns random values. The present
+// function attempts to find the first ID available immediately above the
+// given startID in the specified type. If it fails, use ::Unique1ID() as a
+// fallback.
 
 OSErr
-CRezMap::UniqueID(ResType inType, short & outID)
+CRezMap::UniqueID(ResType inType, short & outID, short startID)
 {
-    StRezRefSaver saver(mRefNum);
-    outID = ::Unique1ID(inType);
-    return ::ResError();
+	short		theID;
+	OSErr		error;
+	Boolean		useRandom = false;
+	StRezRefSaver saver(mRefNum);
+	
+	CRezType theRezType(inType, this);
+	
+	LLongComparator* theIDComparator = new LLongComparator;
+	TArray<short>* theIdArray = new TArray<short>(theIDComparator, true);
+	TArrayIterator<short>	idIterator(*theIdArray);
+	
+	error = theRezType.GetAllRezIDs(theIdArray);
+	outID = startID;
+	
+	if (error == noErr) {
+		while (idIterator.Next(theID)) {
+			if (outID < theID) {
+				break;
+			} else if (theID >= startID) {
+				if (theID == 32767) {
+					useRandom = true;
+					break;
+				} else {
+					outID = theID + 1;
+				}
+			}
+		}
+	} else {
+		useRandom = true;
+	}
+	
+	if (useRandom) {
+		outID = ::Unique1ID(inType);
+		error = ::ResError();
+	} 
+	
+	return error;
 }
 
 

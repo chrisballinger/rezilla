@@ -2,11 +2,11 @@
 // CRezType.cp					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2005-05-17 07:24:04
+//             Last modification: 2006-07-14 12:07:33
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2003-2005
+// (c) Copyright : Bernard Desgraupes, 2003-2005, 2006
 // All rights reserved.
 // ===========================================================================
 
@@ -123,24 +123,26 @@ CRezType::GetWithName(ConstStr255Param inName, Handle & outHandle) const
 OSErr
 CRezType::GetAllResources( TArray<Handle>* & outArray )
 {
-    short numResources;
-    Handle theHandle;
-    
-    StRezRefSaver saver(GetOwnerMap()->GetRefnum());
-    OSErr error = CountResources(numResources);
-   
-    if (error == noErr) {
-	for ( UInt16 i = 1; i <= numResources; i++ )
-	{
-	    theHandle = ::Get1IndResource( mType, i );
-	    error = ::ResError();
-	    if (error != noErr) {
-		break;
-	    } 
-	    outArray->AddItem(theHandle);
-	}
-    } 
-    return error;
+	short	numResources;
+	Handle	theHandle;
+	OSErr	error;
+	
+	StRezRefSaver refSaver(GetOwnerMap()->GetRefnum());
+	StRezLoadSaver loadSaver(false);
+	error = CountResources(numResources);
+	
+	if (error == noErr) {
+		for ( UInt16 i = 1; i <= numResources; i++ )
+		{
+			theHandle = ::Get1IndResource( mType, i );
+			error = ::ResError();
+			if (error != noErr) {
+				break;
+			} 
+			outArray->AddItem(theHandle);
+		}
+	} 
+	return error;
 }
 
 
@@ -151,31 +153,33 @@ CRezType::GetAllResources( TArray<Handle>* & outArray )
 OSErr
 CRezType::GetAllRezIDs( TArray<short>* & outArray ) const
 {
-    short numResources;
-    Handle theHandle;
-	short theID;
-	ResType theType;
+	short	numResources;
+	Handle	theHandle;
+	short	theID;
+	ResType	theType;
 	Str255	theName;
-    
-    StRezRefSaver saver(GetOwnerMap()->GetRefnum());
-    OSErr error = CountResources(numResources);
-   
-    if (error == noErr) {
-	for ( UInt16 i = 1; i <= numResources; i++ ) {
-	    theHandle = ::Get1IndResource( mType, i );
-	    error = ::ResError();
-	    if (error != noErr) {
-			break;
-	    } 
-		::GetResInfo(theHandle, &theID, &theType, (unsigned char *) theName);
-	    error = ::ResError();
-	    if (error != noErr) {
-			break;
-	    } 
-	    outArray->AddItem(theID);
-	}
-    } 
-    return error;
+	OSErr	error;
+	
+	StRezRefSaver refSaver(GetOwnerMap()->GetRefnum());
+	StRezLoadSaver loadSaver(false);
+	error = CountResources(numResources);
+	
+	if (error == noErr) {
+		for ( UInt16 i = 1; i <= numResources; i++ ) {
+			theHandle = ::Get1IndResource( mType, i );
+			error = ::ResError();
+			if (error != noErr) {
+				break;
+			} 
+			::GetResInfo(theHandle, &theID, &theType, (unsigned char *) theName);
+			error = ::ResError();
+			if (error != noErr) {
+				break;
+			} 
+			outArray->AddItem(theID);
+		}
+	} 
+	return error;
 }
 
 

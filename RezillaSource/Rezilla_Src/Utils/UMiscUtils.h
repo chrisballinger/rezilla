@@ -41,6 +41,9 @@ public:
 	static Boolean	GetDragFileData(DragReference inDragRef, ItemReference inItemRef, HFSFlavor& fileData);
 	static Boolean	IsValidHexadecimal(Handle inHandle);
 	static Boolean	IsValidHexadecimal(Ptr inPtr, ByteCount inByteCount);
+	static Boolean	IsValidHexadecimalAndWhitespace(Handle inHandle);
+	static Boolean	IsValidHexadecimalAndWhitespace(Ptr inPtr, ByteCount inByteCount);
+	
 	static Boolean	BuildDateString(UInt32 inTime, Str255 inString);
 	static Boolean	ParseDateString(Str255 inString, SInt32 * outAbsTime);
 	static Boolean	SplitCaseValue(Str255 inString, Str255 ** outRightPtr);
@@ -64,6 +67,7 @@ public:
 	static OSErr	GetOSTypeFromXml(CFXMLTreeRef inTreeRef, OSType & outType);
 	static OSErr	GetFlagsFromXml(CFXMLTreeRef inTreeRef, UInt16 & outFlags);
 
+	static Boolean	LookForOSTypeInString(Str255 inString, OSType& outType);
 };
 
 

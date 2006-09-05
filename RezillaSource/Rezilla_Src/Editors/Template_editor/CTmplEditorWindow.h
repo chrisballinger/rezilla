@@ -2,11 +2,11 @@
 // CTmplEditorWindow.h
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2006-01-30 12:29:49
+//             Last modification: 2006-09-05 09:39:16
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes, 2004-2005, 2006
+// (c) Copyright: Bernard Desgraupes, 2004-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -161,7 +161,7 @@ private:
 								   Str255 inLabelString, 
 								   LView * inContainer);
 
-	OSErr			RetrieveKeyedSection(ResType inType);
+	OSErr			RetrieveKeyedSection(ResType inType, PaneIDT inPaneID);
 
 	Boolean			EndOfList(ResType inType, OSErr * outError);
 	
@@ -250,6 +250,14 @@ private:
 	void			AddColorPane(LView * inContainer, 
 								RGBColor * inRGB);
 	
+	void			AddRSIDField(Str255 inValue,
+								OSType inType,
+								UInt8 inLabelLength,
+								SInt16 inMaxChars,
+								SInt16 inWidth,
+								TEKeyFilterFunc inKeyFilter,
+								LView * inContainer);
+	
 	ExceptionCode	AlignBytesRead(UInt8 inStep);
 	
 	ExceptionCode	AlignBytesWrite(UInt8 inStep);
@@ -310,7 +318,9 @@ private:
 	
 	OSErr			SkipNextKeyCases(UInt16 inPreCount);
 	
-	OSErr			WriteOutKeyValue(ResType inType, ArrayIndexT * outIndex);
+	OSErr			WriteOutKeyValue(ResType inType, 
+									 PaneIDT inPaneID, 
+									 ArrayIndexT * outIndex);
 	
 	OSErr			SelectKeyValueFromKeyCases(Str255 inLabelString,
 										   Str255 outKeyString);

@@ -2,11 +2,11 @@
 // CInspectorWindow.cp					
 // 
 //                       Created: 2003-05-02 07:33:10
-//             Last modification: 2005-06-16 09:09:45
+//             Last modification: 2006-07-13 17:49:43
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2003-2005
+// (c) Copyright : Bernard Desgraupes, 2003-2005, 2006
 // All rights reserved.
 // ===========================================================================
 
@@ -246,6 +246,35 @@ CInspectorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 
 
 // ---------------------------------------------------------------------------
+//   HandleKeyPress
+// ---------------------------------------------------------------------------
+// ZP feature #7: implement return and enter trigerring the default
+// button (code shamelessly copied from LDialogBox)
+
+Boolean
+CInspectorWindow::HandleKeyPress(
+						   const EventRecord&	inKeyEvent)
+{
+	Boolean		keyHandled	= true;
+	LControl*	keyButton	= nil;
+	UInt8		theChar		= (UInt8) (inKeyEvent.message & charCodeMask);
+
+	if ( (theChar == char_Enter) || (theChar == char_Return) ) {
+		keyButton = dynamic_cast<LControl*>(mModifyButton);
+	}
+
+	if (keyButton != nil) {
+		keyButton->SimulateHotSpotClick(kControlButtonPart);
+	} else {
+		keyHandled = LWindow::HandleKeyPress(inKeyEvent);
+	}
+
+	return keyHandled;
+}
+// End of ZP feature 7
+
+
+// ---------------------------------------------------------------------------
 //   ShowSelf
 // ---------------------------------------------------------------------------
 
@@ -253,17 +282,31 @@ void
 CInspectorWindow::ShowSelf()
 {
 	UDesktop::ShowDeskWindow(this);
+	// ZP feature #6: give focus to the ID edit text field
+	// whenever the inspector window reappears
+	SwitchTarget(mIDField);
+	// end of ZP feature 6
 }
 
 
 // ---------------------------------------------------------------------------
 //   AttemptClose
 // ---------------------------------------------------------------------------
-//	Try to close a Window as a result of direct user action
+//	Try to close the Inspector window as a result of direct user action
 
 void
 CInspectorWindow::AttemptClose()
 {
+	// ZP feature #5: save changes from the inspector when closing it
+	// BD: after confirmation...
+	if (mRezObjItem != nil && mModifyButton->IsEnabled()) {
+		SInt16 	answer = UMessageDialogs::AskYesNoFromLocalizable(CFSTR("AskSaveOnCloseInspector"), PPob_AskYesNoMessage);
+		if (answer == answer_Do) {
+			this->ListenToMessage(msg_InspModify, NULL);
+		} else if (answer == answer_Cancel) {
+			return;
+		} 
+	}
 	SendSelfAE(kAECoreSuite, kAEClose, ExecuteAE_No);
 	DoClose();
 }

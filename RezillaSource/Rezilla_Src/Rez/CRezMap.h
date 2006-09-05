@@ -2,11 +2,11 @@
 // CRezMap.h					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2005-06-06 10:38:31
+//             Last modification: 2006-07-14 12:08:35
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2003-2005
+// (c) Copyright : Bernard Desgraupes, 2003-2005, 2006
 // All rights reserved.
 // ===========================================================================
 
@@ -64,7 +64,7 @@ public:
 	
 	OSErr	Close();
 
-	OSErr	UniqueID(ResType inType, short & outID);
+	OSErr	UniqueID(ResType inType, short & outID, short startID = 128);
 
 	OSErr	UnsetFileAttrs(short inResFileAttrs);
 	

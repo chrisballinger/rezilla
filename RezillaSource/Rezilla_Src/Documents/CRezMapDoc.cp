@@ -2,7 +2,7 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2006-03-18 08:51:03
+//             Last modification: 2006-09-05 07:56:09
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -457,7 +457,7 @@ CRezMapDoc::ObeyCommand(
 		}
 
 		default: {
-			cmdHandled = LDocument::ObeyCommand(inCommand, ioParam);
+			cmdHandled = GetSuperCommander()->ObeyCommand(inCommand, ioParam);
 			break;
 		}
 	}
@@ -1618,6 +1618,7 @@ CRezMapDoc::NewResDialog()
 					case msg_NewUniqueID:
 					theTypeField->GetDescriptor(theString);
 					if (theString[0]) {
+						// ZP bugfix #3: PStringToOSType instead of StringToNum
 						UMiscUtils::PStringToOSType(theString, theType);
 						mRezMap->UniqueID(theType, theID);
 						::NumToString(theID, theString);
@@ -1705,7 +1706,7 @@ CRezMapDoc::NewResource(ResType inType, short inID, Str255* inName, short inAttr
 		switch (answer) {
 			case answer_Do:
 			// Unique ID
-			mRezMap->UniqueID(inType, inID);
+			mRezMap->UniqueID(inType, inID, inID + 1);
 			break;
 			
 			case answer_Dont:
@@ -1751,8 +1752,9 @@ CRezMapDoc::DoCreateResource(ResType inType, short inID, Str255* inName, short i
 	}
 
 	if ( theRezTypeItem->ExistsItemForID(inID, oldRezObjItem) ) {
-		// Found a rez obj item: remove it from the table (and from the map in memory)
-		RemoveResource(oldRezObjItem);
+		// Found a rez obj item: remove it from the table and from the map
+		// in memory. The second argument tells not to remove the RezTypeItem.
+		RemoveResource(oldRezObjItem, false);
 	} else {
 		if (inReplace) {
 			// Just remove the resource from memory
@@ -1808,9 +1810,9 @@ CRezMapDoc::DuplicateResource(CRezObj * inRezObj)
 	newName += "\p copy";
 	LString::CopyPStr(newName, theName);
 	
-	// Get an UID
+	// Get an UID above the current ID
 	short theID;
-	mRezMap->UniqueID(theType, theID);
+	mRezMap->UniqueID(theType, theID, inRezObj->GetType() + 1);
 	
 	// The type necessarily exists since we duplicate an existing resource. 
 	// This call finds the corresponding RezTypeItem
@@ -1873,7 +1875,7 @@ CRezMapDoc::DuplicateResource(CRezObj * inRezObj)
 // Manager updates the resource fork."
 
 void
-CRezMapDoc::RemoveResource(CRezObjItem* inRezObjItem)
+CRezMapDoc::RemoveResource(CRezObjItem* inRezObjItem, Boolean deleteTypeItem)
 {
 	if (mReadOnly) {
 		return;
@@ -1914,15 +1916,17 @@ CRezMapDoc::RemoveResource(CRezObjItem* inRezObjItem)
 	mRezMapWindow->SetCountRezField( mRezMapWindow->GetCountRezField() - 1 );
 
 	// If there are no more resources of this type, remove the type item
-	error = mRezMap->CountForType(theType, theCount);
-	if (theCount == 0) {
-		if (thePicker != NULL) {
-			thePicker->ListenToMessage(msg_RezTypeDeleted, NULL);
-		} 
-		mRezMapWindow->GetRezMapTable()->RemoveItem(theSuperItem);
-		// Update the types count field
-		mRezMapWindow->SetCountTypeField( mRezMapWindow->GetCountTypeField() - 1 );
-	}
+	if (deleteTypeItem) {
+		error = mRezMap->CountForType(theType, theCount);
+		if (theCount == 0) {
+			if (thePicker != NULL) {
+				thePicker->ListenToMessage(msg_RezTypeDeleted, NULL);
+			} 
+			mRezMapWindow->GetRezMapTable()->RemoveItem(theSuperItem);
+			// Update the types count field
+			mRezMapWindow->SetCountTypeField( mRezMapWindow->GetCountTypeField() - 1 );
+		}
+	} 
 	
 	// Document has been modified
 	SetModified(true);
@@ -1990,7 +1994,7 @@ CRezMapDoc::PasteRezMap(CRezMap * srcRezMap)
 						}
 						switch (answer) {
 							case answer_Do:
-							mRezMap->UniqueID(theType, theID);
+							mRezMap->UniqueID(theType, theID, theID + 1);
 							break;
 							
 							case answer_Dont:
@@ -2027,6 +2031,18 @@ CRezMapDoc::PasteResource(ResType inType, short inID, Handle inHandle,
 		return;
 	} 
 	
+	// Bug #10 reported by ZPedro: previously, if one attempted to paste a
+	// resource and overwrote an existing resource, the code would crash if
+	// the overwritten resource was the only one of its type, because the
+	// existing resource was first deleted, causing the CRezTypeItem to be
+	// destroyed as well, and then the code attempted to use a pointer to
+	// the deleted object to insert the new resource. Crash.
+	// 
+	// (bd 2006-09-05) fixed this by adding a second argument to
+	// RemoveResource() specifying whether or not to delete the
+	// CRezTypeItem. This fixes it also in DoCreateResource() where the
+	// same situation can occur.
+
 	// Find if there is already a CRezTypeItem for the specified type. If not, create one. 
 	if ( ! mRezMapWindow->GetRezMapTable()->TypeExists(inType, theRezTypeItem) ) {
 		// If the type does not already exist, create a new ResTypeItem
@@ -2044,7 +2060,8 @@ CRezMapDoc::PasteResource(ResType inType, short inID, Handle inHandle,
 			// Remove the corresponding entry from the table if it is visible
 			theRezObjItem = mRezMapWindow->GetRezMapTable()->GetRezObjItem(inType, inID);
 			if (theRezObjItem) {
-				RemoveResource(theRezObjItem);
+				// The second argument tells not to remove the RezTypeItem
+				RemoveResource(theRezObjItem, false);
 			} 
 		} 
 	}

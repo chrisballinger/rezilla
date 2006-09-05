@@ -2,11 +2,11 @@
 // CDualDataView.cp					
 // 
 //                       Created: 2004-06-16 20:13:56
-//             Last modification: 2005-06-15 17:58:34
+//             Last modification: 2006-07-13 17:23:46
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2004, 2005
+// (c) Copyright : Bernard Desgraupes, 2004-2005, 2006
 // All rights reserved.
 // ===========================================================================
 
@@ -381,7 +381,13 @@ CDualDataView::ObeyCommand(
 					return cmdHandled;
 				}
 				// If so, convert it to byte code
-				StHexToByteTranslator translator(scrapDataH);
+				// ZP feature #4, part 1: strip possible spaces and carriage 
+				// returns before pasting
+				StStripWhitespaceTranslator stripper(scrapDataH);
+				stripper.FilterOutWhitespace();
+				// end of ZP feature number 4, part 1
+
+				StHexToByteTranslator translator(stripper.GetOutHandle());
 				translator.Convert();
 				dataSize = translator.GetOutSize();
 				scrapDataH = translator.GetOutHandle();

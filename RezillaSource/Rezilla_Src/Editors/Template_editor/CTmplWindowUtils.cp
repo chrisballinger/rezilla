@@ -2,11 +2,11 @@
 // CTmplWindowUtils.cp
 // 
 //                       Created: 2004-08-20 16:45:08
-//             Last modification: 2005-04-13 08:20:19
+//             Last modification: 2006-07-13 20:31:10
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes, 2004-2005
+// (c) Copyright: Bernard Desgraupes, 2004-2006
 // All rights reserved.
 // ===========================================================================
 // Implements the utility functions defined in the CTmplEditorWindow 
@@ -552,12 +552,12 @@ CTmplEditorWindow::FindKeyStartForValue(ResType inType, Str255 keyString, SInt32
 // list.
 
 OSErr
-CTmplEditorWindow::WriteOutKeyValue(ResType inType, ArrayIndexT * outIndex)
+CTmplEditorWindow::WriteOutKeyValue(ResType inType, PaneIDT inPaneID, ArrayIndexT * outIndex)
 {
 	SInt32	keyValue;
 	OSErr	error = noErr;
 	
-	*outIndex = mKeyIDs.FetchIndexOf(mCurrentID);
+	*outIndex = mKeyIDs.FetchIndexOf(inPaneID);
 	
 	if (*outIndex == LArray::index_Bad) {
 		error = err_TmplCantFindKeyIndex;
@@ -1173,7 +1173,18 @@ CTmplEditorWindow::CalcTextPositions(OSType inType, SInt32 & oldPos, SInt32 & ne
 			if (inType >> 24 == 'C') {
 				// Don't count the NULL byte
 				reqLength--;
-			} 
+			}
+			// ZP bugfix #2, part 2: see part one in AddHexDumpField()
+			Str255 typeStr;
+			UMiscUtils::OSTypeToPString(inType, typeStr);
+			if (inType >> 24 == 'H' && UMiscUtils::IsValidHexadecimal( (Ptr) typeStr + 2, 3))
+			{
+				// rationale: even when creating a resource, a Hxxx hex pane has to contain
+				// the required amount of data, so I detect this case and set hasText, to
+				// indicate that data must still be fed to the hex pane, zeroes if need be.
+				hasText = true;
+			}
+			// end of ZP bugfix 2, part 2	
 		}
 	}
 	

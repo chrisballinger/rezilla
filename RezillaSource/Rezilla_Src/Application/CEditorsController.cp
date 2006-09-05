@@ -97,7 +97,7 @@ CEditorsController::BuildAsTypeDictionary()
 	rezHandle = ::Get1Resource('RzTA', 0);
 
 	if (rezHandle != nil) {
-		// ZPedro fix: detach the resource
+		// ZP bugfix #1, part 1: detach the resource
 		::DetachResource(rezHandle);
 		
 		// Read its data and make a stream
@@ -129,8 +129,8 @@ CEditorsController::BuildAsTypeDictionary()
 			if (theKeys) {free(theKeys);} 
 			if (theVals) {free(theVals);} 
 
-			// ZPedro fix: don't call ReleaseResource because the detached
-			// handle is disposed of when theStream is deleted
+			// ZP bugfix #1, part 2: don't call ReleaseResource because the
+			// detached handle is disposed of when theStream is deleted
 			delete theStream;
 		} 
 	} 

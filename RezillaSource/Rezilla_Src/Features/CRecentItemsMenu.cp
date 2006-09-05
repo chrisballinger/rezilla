@@ -293,7 +293,12 @@ CRecentItemsMenu::RebuildMenu()
 	
 	while (iterator.Next(theAlias)) {
 		if (theAlias->GetFileName(theName) == noErr) {
-			::AppendMenu( mMenuHandle, theName);
+			// ZP bugfix #8: as some chars in the filename could be
+			// interpreted as commands (for instance, files with an opening
+			// parenthesis would disable the menu item), use
+			// AppendMenuItemText() instead of AppendMenu().
+			::AppendMenuItemText( mMenuHandle, theName);
+			// end of ZP bugfix #8
 		} else {
 			mAliasArray.Remove(theAlias);
 			delete theAlias;

@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2006-03-17 17:41:52
+//             Last modification : 2006-07-14 09:35:35
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@users.sourceforge.net>
 // www : <http://rezilla.sourceforge.net/>
@@ -1140,6 +1140,8 @@ const MessageT	msg_DragCopyAction				= FOUR_CHAR_CODE('DCpy');
 const MessageT	msg_RezObjCreated				= FOUR_CHAR_CODE('ObCr');
 const MessageT	msg_RezObjDeleted				= FOUR_CHAR_CODE('ObDe');
 const MessageT	msg_RezTypeDeleted				= FOUR_CHAR_CODE('TyDe');
+// ZP feature #13
+const MessageT	msg_TmplKeyPopup				= FOUR_CHAR_CODE('KeyP');
 // Icon editor
 const MessageT	msg_TargetViewClicked			= FOUR_CHAR_CODE('Tclk');
 const MessageT	msg_ImageDroppedOnTargetView	= FOUR_CHAR_CODE('IDrp');

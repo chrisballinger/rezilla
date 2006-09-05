@@ -2,7 +2,7 @@
 // CRezMapDocAE.cp
 // 
 //                       Created: 2005-04-09 10:03:39
-//             Last modification: 2006-02-21 23:58:43
+//             Last modification: 2006-07-14 12:08:10
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -420,9 +420,9 @@ CRezMapDoc::HandleAESave(
 //   make new resource of map document 1 with properties {type:"TEXT", ID:129, attributes:8}
 //   
 // If the ID is not specified, an unique ID is attributed. If it already 
-// exists, the event fails in order to rpeserve existing resources. If no 
-// type is specified, a 'TEXT' resource is created
-//  
+// exists, the event fails in order to preserve existing resources. If no 
+// type is specified, a 'TEXT' resource is created.
+// 
 // The optional "with data" parameter is also supported. For instance:
 //   make new resource of map document 1 with data "Hello Rezilla!"
 //   

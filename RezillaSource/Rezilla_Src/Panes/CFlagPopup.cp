@@ -171,11 +171,51 @@ CFlagPopup::AppendCase(Str255 inString)
 {
 	Str255 *	rightPtr;
 	SInt32		theValue = 0;
+	UInt8 offset, rightLen;
+	int i;
 
 	// Ignore empty items
 	if ( inString[0] ) {
 		if ( UMiscUtils::SplitCaseValue(inString, &rightPtr) ) {
-			::StringToNum( *rightPtr, &theValue);
+			// ZP feature #2: make CASE tags after B/W/LORV accept
+			// hexadecimal on top of decimal, because filling templates with
+			// values like 2147483648 is NOT satisfying. As always, hex can begin
+			// by $, 0x, or 0X, all are recognised.
+			if ( ((*rightPtr)[0]>=1 && (*rightPtr)[1]=='$')
+			  || ((*rightPtr)[0]>=2 && (*rightPtr)[1]=='0' &&
+	                                  ((*rightPtr)[2]=='x' || (*rightPtr)[2]=='X') ) )
+			{
+				// Congrats, we have an hex value. Check for $ to see where it begins.
+				if ((*rightPtr)[1]=='$') offset=1; else offset=2;
+				rightLen=(*rightPtr)[0];
+				// As always, it'd be better in its own utility func, but I'm not sure of
+	            // which arguments I'd give it.
+				for (i=offset+1; i<=rightLen; i++)
+				{
+					if ( (*rightPtr)[i]>='0' && (*rightPtr)[i]<='9' )
+					{ // it's a decimal hex digit
+						theValue*=16;
+						theValue+=((*rightPtr)[i]-'0');
+					}
+					else if ( (*rightPtr)[i]>='A' && (*rightPtr)[i]<='F' )
+					{ // it's an uppercase hex digit
+						theValue*=16;
+						theValue+=((*rightPtr)[i]-'A'+10);
+					}
+					else if ( (*rightPtr)[i]>='a' && (*rightPtr)[i]<='f' )
+					{ // it's a lowercase hex digit
+						theValue*=16;
+						theValue+=((*rightPtr)[i]-'a'+10);
+					}
+					else /*it's something else, terminate hex number parsing*/ break;
+				}
+				// theValue has to right value to be given, I'm done in this case.
+			}
+			else // It's an ordinary decimal, let it be handled as it has always been.
+			{
+				::StringToNum( *rightPtr, &theValue);
+			}
+			// End of ZP feature #2.
 			mFlagValues.AddItem(theValue);
 			AppendMenu(inString);
 			if (mResetIndex == -1 && theValue == 0) {

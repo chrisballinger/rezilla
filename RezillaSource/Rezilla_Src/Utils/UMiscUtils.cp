@@ -1,11 +1,11 @@
 // ===========================================================================
 // UMiscUtils.cp					
 //                       Created: 2003-05-13 20:06:23
-//             Last modification: 2005-03-08 07:41:56
+//             Last modification: 2006-07-13 17:29:45
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes 2003-2005
+// (c) Copyright: Bernard Desgraupes 2003-2005, 2006
 // All rights reserved.
 // ===========================================================================
 
@@ -52,7 +52,10 @@ UMiscUtils::PStringToOSType(Str255 inString, OSType & outType)
 	} 
 	CopyPascalStringToC(inString, theStr);
 	for (SInt8 i = 4; i >= len; i--) {
-		theStr[i] = 0;
+		// ZP bugfix #6: if the string is three chars or less, it
+		// should be padded with spaces and not zeroes
+		theStr[i] = ' ';
+		// end of ZP bugfix 6
 	}
 	outType = *(OSType*) theStr;
 }
@@ -262,6 +265,46 @@ UMiscUtils::IsValidHexadecimal(Handle inHandle)
     
     return UMiscUtils::IsValidHexadecimal(*inHandle, ::GetHandleSize(inHandle) );
 }
+
+
+// ---------------------------------------------------------------------------
+//   IsValidHexadecimalAndWhitespace								[static]
+// ---------------------------------------------------------------------------
+// ZP feature #4, part 4: a new more tolerant checker for pasted hex data.
+// Does not bark at line feeds, carriage returns, tabs, and spaces.
+
+Boolean
+UMiscUtils::IsValidHexadecimalAndWhitespace(Ptr inPtr, ByteCount inByteCount)
+{
+    Boolean onlyHex = true;
+    UInt8 readChar;
+	LDataStream theDataStream(inPtr, inByteCount);
+	for (UInt32 i = 1; i <= inByteCount; i++) {
+		theDataStream >> readChar;
+		if ( ((readChar < 0x30)
+		      || (readChar > 0x39 && readChar < 0x41)
+			  || (readChar > 0x46 && readChar < 0x61)
+		      || (readChar > 0x66))
+	        && (readChar!='\n') && (readChar!=0x0D)
+			&& (readChar!='\t') && (readChar!=' ') ) {
+					onlyHex = false;
+					break;
+				}
+			}
+			    return onlyHex;
+}
+
+
+// ---------------------------------------------------------------------------
+//   IsValidHexadecimalAndWhitespace								[static]
+// ---------------------------------------------------------------------------
+Boolean
+UMiscUtils::IsValidHexadecimalAndWhitespace(Handle inHandle)
+{
+    StHandleLocker locker(inHandle);
+	return UMiscUtils::IsValidHexadecimalAndWhitespace(*inHandle, ::GetHandleSize(inHandle) );
+}
+// end of ZP feature 4, part 4
 
 
 // ---------------------------------------------------------------------------
@@ -901,6 +944,51 @@ void
 		::ReleaseResource( (Handle) h );
 	else
 		::DisposeHandle( (Handle) h );
+}
+
+// ---------------------------------------------------------------------------
+//  LookForOSTypeInString
+// ---------------------------------------------------------------------------
+//  Searches for a group of four chars (or less) between two quotes (') in the
+//  string.
+//  Preparation for ZP feature nine: improve RSID (not made yet). Not used
+//  right now.
+
+Boolean UMiscUtils::LookForOSTypeInString(Str255 inString, OSType& outType)
+{
+	UInt8 length=inString[0],i,len;
+	unsigned char temp[5];
+	
+	for (i=1; i<=length-2; i++) {
+		if (inString[i]=='\'') { // Yep, that's a single, escaped quote.
+			// the second quote may be anywhere from two to five chars
+			// later. Indeed, the template writer should be able to write
+			// 'snd' in the label and have it work. two- and one-char length
+			// res types are not common, but still exist too.
+			len=0;
+			if (inString[i+2]=='\'') {
+			    len=1;
+			} else if ((i<=length-3) && inString[i+3]=='\'') {
+				len=2;
+			} else if ((i<=length-4) && inString[i+4]=='\'') {
+				len=3;
+			} else if ((i<=length-5) && inString[i+5]=='\'') {
+				len=4;
+			}
+
+			if (len) { // found it
+				temp[0]=len;
+				memcpy(&(temp[1]), &(inString[i+1]), len);
+				PStringToOSType(temp,outType);
+				return true;
+			}
+		}
+	}
+	
+	// Though luck, found nothing.
+	// output a type that's known to be invalid, then return false.
+	outType=0;
+	return false;
 }
 
 

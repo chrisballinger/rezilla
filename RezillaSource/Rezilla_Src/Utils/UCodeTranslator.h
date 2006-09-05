@@ -2,11 +2,11 @@
 // UCodeTranslator.h					
 // 
 //                       Created: 2003-05-04 16:40:47
-//             Last modification: 2005-05-14 11:27:39
+//             Last modification: 2006-07-13 17:22:40
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes 2003-2005
+// (c) Copyright: Bernard Desgraupes 2003-2005, 2006
 // All rights reserved.
 // ===========================================================================
 
@@ -49,6 +49,10 @@ public:
 	static void		ConvertByteToSegmentedText( LDataStream* srcDataStream, LDataStream* trgtDataStream, SInt32 inSegment);
 
 	static void		ConvertByteToSegmentedText( char* srcString, char* trgtString, SInt32 inSegment);
+
+	static SInt32	StripWhitespace( LDataStream* srcDataStream, LDataStream* trgtDataStream);
+
+	static SInt32	StripWhitespace(char* srcString, char* trgtString);
 
 	static void		ConvertByteToHex( LDataStream* srcDataStream, LDataStream* trgtDataStream);
 
@@ -176,6 +180,30 @@ private:
 	Size	mOutSize;
 
 };
+
+// ---------------------------------------------------------------------------
+//   class StStripWhitespaceTranslator
+// ---------------------------------------------------------------------------
+// ZP feature #4, part 5
+
+class StStripWhitespaceTranslator {
+public:
+			StStripWhitespaceTranslator( Handle	inHandle );
+			virtual ~StStripWhitespaceTranslator();
+
+	void			FilterOutWhitespace();
+
+	virtual Handle	GetOutHandle() { return mOutHandle;}
+	
+	virtual Size	GetOutSize() { return mOutSize;}
+
+private:
+	Handle	mInHandle;
+	Handle	mOutHandle;
+	Size	mInSize;
+	Size	mOutSize;
+};
+// ZP out 
 
 
 // ---------------------------------------------------------------------------

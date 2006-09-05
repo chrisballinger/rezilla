@@ -2,11 +2,11 @@
 // CRezObj.cp					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2005-05-23 18:42:57
+//             Last modification: 2006-07-14 12:08:47
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2003-2005
+// (c) Copyright : Bernard Desgraupes, 2003-2005, 2006
 // All rights reserved.
 // ===========================================================================
 

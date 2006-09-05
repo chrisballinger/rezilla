@@ -2,7 +2,7 @@
 // CRezMapDoc.h				
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2006-03-16 11:55:19
+//             Last modification: 2006-09-05 07:55:48
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -198,7 +198,8 @@ public:
 									 short inAttrs, 
 									 Boolean inReplace);
 	CRezObj *			DuplicateResource(CRezObj* inRezObj);
-	void				RemoveResource(CRezObjItem* inRezObjItem);
+	void				RemoveResource(CRezObjItem* inRezObjItem, 
+									   Boolean deleteTypeItem = true);
 	void				PasteResource(ResType inType,
 									  short inID,
 									  Handle inHandle, 

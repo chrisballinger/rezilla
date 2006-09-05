@@ -1,11 +1,11 @@
 // ===========================================================================
 // CRezClipboard.cp					
 //                       Created: 2003-05-11 21:05:08
-//             Last modification: 2005-01-12 17:46:53
+//             Last modification: 2006-07-13 17:23:17
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes 2003-2005
+// (c) Copyright: Bernard Desgraupes 2003-2005, 2006
 // All rights reserved.
 // ===========================================================================
 
@@ -380,15 +380,16 @@ CRezClipboard::ExportSelf()
 //   ContentsIsValidHex										   [protected]
 // ---------------------------------------------------------------------------
 //	Check it the actual contents of the scrap are valid hexadecimal data 
-// (only 0-9, a-f, A-F).
+// (only 0-9, a-f, A-F, (ZP) and now lf, cr, tab, and space).
 
 Boolean
 CRezClipboard::ContentsIsValidHex()
 {
     Handle theHandle = ::NewHandle(0);
     UScrap::GetData('TEXT', theHandle);
-    
-    return UMiscUtils::IsValidHexadecimal(theHandle);
+	// ZP feature #4, part 3: tolerate spaces and CRs in the data
+	// received from the scrap
+	return UMiscUtils::IsValidHexadecimalAndWhitespace(theHandle);
 }
 
 

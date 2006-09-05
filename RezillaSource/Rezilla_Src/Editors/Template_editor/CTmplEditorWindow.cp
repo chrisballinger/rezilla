@@ -2,11 +2,11 @@
 // CTmplEditorWindow.cp					
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2006-02-09 11:21:43
+//             Last modification: 2006-07-13 20:31:26
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes, 2004-2005, 2006
+// (c) Copyright: Bernard Desgraupes, 2004-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -243,6 +243,12 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		
 		case msg_MinusButton: {
 			theMinusButton = (CTmplListButton *) ioParam;
+			// ZP bugfix #5: even if the minus and plus buttons are hidden
+			// in the case of a fixed count list, we can still receive this
+			// message when the user hits delete, so break out if the minus
+			// button is hidden.
+			if ( !theMinusButton->IsVisible()) break;
+
 			thePaneID = theMinusButton->GetPaneID();
 			thePlusButton = dynamic_cast<CTmplListButton *>(this->FindPaneByID(thePaneID + 1));
 			ThrowIfNil_(thePlusButton);
@@ -316,6 +322,9 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		
 		case msg_PlusButton:
 			thePlusButton = (CTmplListButton *) ioParam;
+			// ZP bugfix #5: see comment with msg_MinusButton
+			if ( !thePlusButton->IsVisible()) break;
+
 			thePaneID = thePlusButton->GetPaneID();
 			theMinusButton = dynamic_cast<CTmplListButton *>(this->FindPaneByID(thePaneID - 1));
 			ThrowIfNil_(theMinusButton);
@@ -508,7 +517,16 @@ CTmplEditorWindow::HandleKeyPress(
 		// be pressed inadvertently). IsTarget()
 		if (theKey == char_Enter) {
 			mOwnerDoc->ListenToMessage(msg_OK, NULL);
-		} 
+		} else if (theKey == '+') {
+			// ZP feature #8: if a list item is selected, let the "+" key
+			// simulate a click on the Plus Button
+			if (mSelectedListItem != NULL) {
+				PaneIDT thePaneID = (mSelectedListItem->mMinusButton)->GetPaneID();
+				CTmplListButton* thePlusButton = dynamic_cast<CTmplListButton*>(this->FindPaneByID(thePaneID + 1));
+				this->ListenToMessage(msg_PlusButton, (void *) thePlusButton);
+			}
+			// end of ZP feature 8
+		}
 		break;
 	}
 	
@@ -633,7 +651,15 @@ CTmplEditorWindow::DoParseWithTemplate(SInt32 inRecursionMark, Boolean inDrawCon
 				theID = 0;
 			}
 			error = ParseList(mTemplateStream->GetMarker(), theType, mListCount, inContainer, theID);
-		} else if (theType == 'LSTE') {
+
+			// ZP bugfix #4, part 1: when KEYE is met, this means we're done
+			// parsing the keyed section and the remainder should be
+			// handled up in the recursion, just as with LSTE. Otherwise,
+			// it doesn't work if the keyed section is in a list and there
+			// are other items in the template after the list.
+		} else if (theType == 'LSTE' || theType == 'KEYE') {
+			// end of ZP bugfix #4, part 1
+
 			break;
 		} else {
 			if (inDrawControls) {
@@ -983,7 +1009,64 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 			AddColorPane(inContainer, &theRGB);		
 			break;
 		}
-		
+
+		// ZP feature #1, part 1
+		//    15-bit (WCOL) and 32-bit (LCOL) color fields
+		case 'WCOL': {
+			// big-engian 15-bit XRRRRRGGGGGBBBBB color, that fits in a Word.
+			// This is a special field to specify a color, that's used in the
+			// Nova engine when there's only room for 16 bits, as in the ModVal
+			// field of the oŸtf resource (namely, for paint outfits).
+			// The X bit is ignored when read, and set to 0 when written.
+			// Since it is the very general 16 bit color format, it can
+			// concievably be used by other stuff.
+			RGBColor theRGB;
+			UInt16 theWord=0, redVal, greenVal, blueVal;
+			if (mRezStream->GetMarker() < mRezStream->GetLength() - 1) {
+				*mRezStream >> theWord;
+			}
+			// I need to do a few calculations on the value to turn it into
+			// a RGBColor, for it to be given to AddColorPane().
+
+			// Note: might be better to put as an utility func, perhaps later.
+			redVal=(theWord>>10)&0x1F;
+			greenVal=(theWord>>5)&0x1F;
+			blueVal=(theWord)&0x1F;
+			theRGB.red = redVal<<11 | redVal<<6 | redVal<<1 | redVal>>4;
+			theRGB.green = greenVal<<11 | greenVal<<6 | greenVal<<1 | greenVal>>4;
+			theRGB.blue = blueVal<<11 | blueVal<<6 | blueVal<<1 | blueVal>>4;
+
+			AddStaticField(inType, inLabelString, inContainer);
+			AddColorPane(inContainer, &theRGB);
+			break;
+		}
+
+		case 'LCOL': {
+			// big-engian 32-bit XXXXXXXXRRRRRRRRGGGGGGGGBBBBBBBB color.
+			// Same as above, used by Nova. The 8 X bits (the first byte) are
+			// ignored when read, and set to 0 when written.
+			RGBColor theRGB;
+			UInt8 byte1=0, byte2=0, byte3=0;
+			if (mRezStream->GetMarker() < mRezStream->GetLength() - 3) {
+				*mRezStream >> byte3; // dump it.
+				*mRezStream >> byte1;
+				*mRezStream >> byte2;
+				*mRezStream >> byte3;
+			}
+			// I need to do a few calculations on the value to turn it into
+			// a RGBColor, for it to be given to AddColorPane().
+
+			// Note: might be better to put as an utility func, perhaps later.
+			theRGB.red = byte1<<8 | byte1;
+			theRGB.green = byte2<<8 | byte2;
+			theRGB.blue = byte3<<8 | byte3;
+
+			AddStaticField(inType, inLabelString, inContainer);
+			AddColorPane(inContainer, &theRGB);
+			break;
+		}
+		// end of first part of ZP feature 1	
+
 		case 'CSTR':
 		// C string. This should be either characters followed by a null or all
 		// the chars until the end of the stream if there is no null byte.
@@ -1404,6 +1487,17 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 			break;
 		}
 
+// 		case 'RSID':
+// 		// Resource ID (SInt16), the type is either in the label or in a previous TNAM.
+// 		if (mRezStream->GetMarker() < mRezStream->GetLength() - 1) {
+// 			*mRezStream >> theSInt16;
+// 		} 
+// 		::NumToString( (long) theSInt16, numStr);
+// 		AddStaticField(inType, inLabelString, inContainer);
+// 		AddRSIDField(numStr, inType, inLabelString[0], 6, 0, 
+// 					 UKeyFilters::SelectTEKeyFilter(keyFilter_NegativeInteger), inContainer);
+// 		break;
+
 		case 'SEPA':
 		// Separator.
 		AddSeparatorLine(inContainer);
@@ -1587,6 +1681,29 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 // ---------------------------------------------------------------------------
 //   RetrieveDataWithTemplate								[public]
 // ---------------------------------------------------------------------------
+// ZP bugfix #9, part 1: 
+// here is a minimal set of actions to reproduce it:
+//  - modify something in the resource (anything, just to save)
+//  - hit the save button
+//  - insert a new list item and fill in the fields
+//  - save, close the window, reopen the resource, and check the damage.
+// Damage being namely that the data in the new list item is wrong, coming
+// from the wrong fields. It is all mCurrentID's fault. Basically it is
+// expected when creating a new list item that it is the next unused pane
+// ID, but during retrieval it is used as a local var, and when done it is
+// the ID of the last field (which may not even be the last used ID). Hence
+// the bug.
+// After some time thinking about it, I ended up deciding that I would replace
+// every occurence of mCurrentID in the retrieving part by a new local var,
+// thePaneID, and that mCurrentID would be honored as a true global (for the
+// template window) state, only modified by stuff which adds new fields, and not
+// a convenience variable.
+// I first thought mCurrentID was (illegitimately) used for retrieval only in this
+// file, but WriteOutKeyValue() used it as well, so I had to add the Pane ID as a
+// new argument (both in WriteOutKeyValue and RetrieveKeyedSection).
+// I did not bracket every search-and-replace of mCurrentID by thePaneID
+// with my usual comments. I did only for the declarations of thePaneID.
+// end of ZP bugfix #9, part 1
 
 OSErr
 CTmplEditorWindow::RetrieveDataWithTemplate()
@@ -1599,7 +1716,8 @@ CTmplEditorWindow::RetrieveDataWithTemplate()
 	mOutStream = new LHandleStream( ::NewHandle(0) );
 	
 	// Reinitialize variables
-	mCurrentID 			= 1;
+	// Removed reinitialisation of mCurrentID (see comment above)
+	// // mCurrentID 			= 1;
 	mPaneIndex 			= 1;
 	mListCount 			= 0;
 	mBitSeqInProgress	= false;
@@ -1641,7 +1759,11 @@ CTmplEditorWindow::DoRetrieveWithTemplate(SInt32 inRecursionMark, Boolean inRead
 			// Skip the count field, and the Plus and Minus buttons
 			mPaneIndex += 3;
 			error = RetrieveList(mTemplateStream->GetMarker(), theType, mListCount);
-		} else if (theType == 'LSTE') {
+
+			// ZP bugfix #4, part 2: see comment in DoParseWithTemplate()
+		} else if (theType == 'LSTE' || theType == 'KEYE') {
+			// end of ZP bugfix 4, part 2
+			
 			break;
 		} else {
 			if (inReadControls) {
@@ -1704,14 +1826,14 @@ CTmplEditorWindow::RetrieveList(SInt32 inStartMark, ResType inType, SInt32 inCou
 // ---------------------------------------------------------------------------
 
 OSErr
-CTmplEditorWindow::RetrieveKeyedSection(ResType inType)
+CTmplEditorWindow::RetrieveKeyedSection(ResType inType, PaneIDT inPaneID)
 {
 	OSErr		error = noErr;
 	SInt32		sectionStart;
 	ArrayIndexT	index;
 	
 	// Retrieve and write the key value
-	error = WriteOutKeyValue(inType, &index);
+	error = WriteOutKeyValue(inType, inPaneID, &index);
 		
 	if (error == noErr) {
 		// Get the corresponding position in the template
@@ -1760,10 +1882,13 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 	Handle			theHandle;
 	StHandleLocker	locker(nil);
 	CFStringRef		formatStr = NULL, messageStr = NULL;
+	// ZP bugfix #9, part 2: replacement of mCurrentID by thePaneID
+	PaneIDT			thePaneID;
+	// end of ZP bugfix #9, part 2
 
 	formatString[0] = 0;
 	
-	mPaneIDs.FetchItemAt(mPaneIndex, mCurrentID);
+	mPaneIDs.FetchItemAt(mPaneIndex, thePaneID);
 	
 	switch (inType) {
 		case 'ALNG':
@@ -1805,16 +1930,16 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 
 		case 'BFLG':
 		// Boolean (one byte: 0x01 for true, 0x00 for false)
-		theCheckBox = dynamic_cast<LCheckBox *>(this->FindPaneByID(mCurrentID));
+		theCheckBox = dynamic_cast<LCheckBox *>(this->FindPaneByID(thePaneID));
 		*mOutStream << (UInt8) theCheckBox->GetValue();
 		mPaneIndex++;
 		break;
 
 		case 'BOOL':
 		// Boolean (two bytes: 0x0100 for true, 0x0000 for false)
-		theRGV = dynamic_cast<LRadioGroupView *>(this->FindPaneByID(mCurrentID));
+		theRGV = dynamic_cast<LRadioGroupView *>(this->FindPaneByID(thePaneID));
 		theCurrentRadioID = theRGV->GetCurrentRadioID();
-		if ( (theCurrentRadioID - mCurrentID) % 2 ) {
+		if ( (theCurrentRadioID - thePaneID) % 2 ) {
 			*mOutStream << (UInt16) 0x0100;
 		} else {
 			*mOutStream << (UInt16) 0x0000;
@@ -1825,7 +1950,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 
 		case 'BORV':
 		// Binary byte made of the OR of base-2 values
-		theFlagPopup = dynamic_cast<CFlagPopup *>(this->FindPaneByID(mCurrentID));
+		theFlagPopup = dynamic_cast<CFlagPopup *>(this->FindPaneByID(thePaneID));
 		*mOutStream << (UInt8) theFlagPopup->GetFlagValue();
 		// Skip the CASE tags with arg 1 in order to avoid an error if
 		// there are no CASEs.
@@ -1853,7 +1978,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 
 		case 'CHAR':
 		// A single character
-		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
+		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(thePaneID));
 		theEditText->GetDescriptor(theString);
 		if (theString[0] == 0) {
 			*mOutStream << (UInt8) 0x00;
@@ -1866,7 +1991,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		case 'COLR': {
 			// QuickDraw color RGB triplet
 			RGBColor theRGB;
-			CColorWell * colorWell = dynamic_cast<CColorWell *>(this->FindPaneByID(mCurrentID));
+			CColorWell * colorWell = dynamic_cast<CColorWell *>(this->FindPaneByID(thePaneID));
 			ThrowIfNil_( colorWell );
 			colorWell->GetColor(theRGB);
 			*mOutStream << theRGB.red;
@@ -1875,10 +2000,46 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 			mPaneIndex++;
 			break;
 		}
-		
+
+		// ZP feature #1, part 2
+		case 'WCOL': {
+			// big-engian 15-bit XRRRRRGGGGGBBBBB color, that fits in a Word
+			RGBColor theRGB;
+			UInt16 theWord, redVal, greenVal, blueVal;
+			CColorWell * colorWell = dynamic_cast<CColorWell *>(this->FindPaneByID(thePaneID));
+			ThrowIfNil_( colorWell );
+			colorWell->GetColor(theRGB);
+			redVal = (theRGB.red>>11)&0x1F;
+			greenVal = (theRGB.green>>11)&0x1F;
+			blueVal = (theRGB.blue>>11)&0x1F;
+			theWord = (redVal<<10) | (greenVal<<5) | blueVal;
+			*mOutStream << theWord;
+			mPaneIndex++;
+			break;
+		}
+
+		case 'LCOL': {
+			// big-engian 32-bit XXXXXXXXRRRRRRRRGGGGGGGGBBBBBBBB color
+			RGBColor theRGB;
+			UInt8 redVal, greenVal, blueVal;
+			CColorWell * colorWell = dynamic_cast<CColorWell *>(this->FindPaneByID(thePaneID));
+			ThrowIfNil_( colorWell );
+			colorWell->GetColor(theRGB);
+			redVal = (theRGB.red>>8)&0xFF;
+			greenVal = (theRGB.green>>8)&0xFF;
+			blueVal = (theRGB.blue>>8)&0xFF;
+			*mOutStream << (UInt8)0;
+			*mOutStream << redVal;
+			*mOutStream << greenVal;
+			*mOutStream << blueVal;
+			mPaneIndex++;
+			break;
+		}
+		// End of second part of ZP feature 1
+
 		case 'CSTR':
 		// C string
-		theWasteEdit = dynamic_cast<CWasteEditView *>(this->FindPaneByID(mCurrentID));
+		theWasteEdit = dynamic_cast<CWasteEditView *>(this->FindPaneByID(thePaneID));
 		theHandle = theWasteEdit->GetTextHandle();
 		theLength = theWasteEdit->GetTextLength();
 
@@ -1891,7 +2052,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 
 		case 'DATE':
 		case 'MDAT':
-		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
+		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(thePaneID));
 		theEditText->GetDescriptor(numStr);	
 		if ( ! UMiscUtils::ParseDateString(numStr, &theSInt32)) {
 			error = err_TmplParseDateFailed;
@@ -1902,7 +2063,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		
 		case 'DBYT':
 		// Decimal byte
-		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
+		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(thePaneID));
 		theEditText->GetDescriptor(numStr);	
 		::StringToNum( numStr, &theLong);
 		*mOutStream << (SInt8) theLong;
@@ -1911,7 +2072,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 
 		case 'DLNG':
 		// Decimal long word
-		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
+		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(thePaneID));
 		theEditText->GetDescriptor(numStr);	
 		::StringToNum( numStr, &theLong);
 		*mOutStream << (SInt32) theLong;
@@ -1925,7 +2086,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		case 'DWRD':
 		case 'RSID':
 		// Decimal word
-		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
+		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(thePaneID));
 		theEditText->GetDescriptor(numStr);	
 		::StringToNum( numStr, &theLong);
 		*mOutStream << (SInt16) theLong;
@@ -1934,7 +2095,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 
 		case 'ECST':
 		// Even-padded C string (padded with nulls)
-		theWasteEdit = dynamic_cast<CWasteEditView *>(this->FindPaneByID(mCurrentID));
+		theWasteEdit = dynamic_cast<CWasteEditView *>(this->FindPaneByID(thePaneID));
 		theHandle = theWasteEdit->GetTextHandle();
 		theLength = theWasteEdit->GetTextLength();
 
@@ -1951,7 +2112,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 
 		case 'ESTR':
 		// Pascal string padded to even length (needed for DITL resources)
-		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
+		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(thePaneID));
 		theEditText->GetDescriptor(theString);	
 		*mOutStream << theString;
 		if (theString[0] % 2 == 0) {
@@ -1964,7 +2125,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		case 'FBYT':
 		case 'HBYT':
 		// Hex byte
-		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
+		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(thePaneID));
 		theEditText->GetDescriptor(numStr);	
 		CopyPascalStringToC(numStr, charString);
 		::LowercaseText(charString, strlen(charString), (ScriptCode)0);
@@ -1992,7 +2153,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		case 'WHEX':
 		case 'WSHX': {
 			// Hex dump of following bytes
-			CDualDataView * theTGB = dynamic_cast<CDualDataView *>(this->FindPaneByID(mCurrentID));
+			CDualDataView * theTGB = dynamic_cast<CDualDataView *>(this->FindPaneByID(thePaneID));
 			WEReference theWE = theTGB->GetInMemoryWE();
 			theLength = ::WEGetTextLength(theWE);
 			theHandle = static_cast<Handle>(::WEGetText(theWE));
@@ -2056,7 +2217,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		case 'FLNG':
 		case 'HLNG':
 		// Hex long word
-		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
+		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(thePaneID));
 		theEditText->GetDescriptor(numStr);	
 		CopyPascalStringToC(numStr, charString);
 		::LowercaseText(charString, strlen(charString), (ScriptCode)0);
@@ -2071,7 +2232,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		case 'FWRD':
 		case 'HWRD':
 		// Hex word
-		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
+		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(thePaneID));
 		theEditText->GetDescriptor(numStr);	
 		CopyPascalStringToC(numStr, charString);
 		::LowercaseText(charString, strlen(charString), (ScriptCode)0);
@@ -2096,7 +2257,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		case 'KULG':
 		case 'KUWD':
 		// Keyed sections switches
-		error = RetrieveKeyedSection(inType);
+		error = RetrieveKeyedSection(inType, thePaneID);
 		break;
 		
 		case 'KEYB':
@@ -2124,9 +2285,9 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		case 'LFLG':
 		// Long Boolean flag in low-order bit (four bytes: 0x00000001 for true,
 		// 0x00000000 for false)
-		theRGV = dynamic_cast<LRadioGroupView *>(this->FindPaneByID(mCurrentID));
+		theRGV = dynamic_cast<LRadioGroupView *>(this->FindPaneByID(thePaneID));
 		theCurrentRadioID = theRGV->GetCurrentRadioID();
-		if ( (theCurrentRadioID - mCurrentID) % 2 ) {
+		if ( (theCurrentRadioID - thePaneID) % 2 ) {
 			*mOutStream << (UInt32) 0x00000001;
 		} else {
 			*mOutStream << (UInt32) 0x00000000;
@@ -2137,7 +2298,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 
 		case 'LORV':
 		// Binary long made of the OR of base-2 values
-		theFlagPopup = dynamic_cast<CFlagPopup *>(this->FindPaneByID(mCurrentID));
+		theFlagPopup = dynamic_cast<CFlagPopup *>(this->FindPaneByID(thePaneID));
 		*mOutStream << (UInt32) theFlagPopup->GetFlagValue();
 		SkipNextKeyCases(1);
 		mPaneIndex++;
@@ -2156,7 +2317,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		case 'LNGC':
 		case 'RGNC':
 		case 'SCPC': 
-		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
+		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(thePaneID));
 		theEditText->GetDescriptor(numStr);	
 		::StringToNum( numStr, &theLong);
 		*mOutStream << (SInt16) theLong;
@@ -2179,7 +2340,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 
 		case 'LSTR':
 		// Long string (long  length followed by the characters)
-		theWasteEdit = dynamic_cast<CWasteEditView *>(this->FindPaneByID(mCurrentID));
+		theWasteEdit = dynamic_cast<CWasteEditView *>(this->FindPaneByID(thePaneID));
 		theHandle = theWasteEdit->GetTextHandle();
 		theLength = theWasteEdit->GetTextLength();
 		*mOutStream << (UInt32) theLength;
@@ -2212,7 +2373,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 
 		case 'OCST':
 		// Odd-padded C string (padded with nulls)
-		theWasteEdit = dynamic_cast<CWasteEditView *>(this->FindPaneByID(mCurrentID));
+		theWasteEdit = dynamic_cast<CWasteEditView *>(this->FindPaneByID(thePaneID));
 		theHandle = theWasteEdit->GetTextHandle();
 		theLength = theWasteEdit->GetTextLength();
 
@@ -2229,7 +2390,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 
 		case 'OSTR':
 		// Pascal string padded to odd length (needed for DITL resources)
-		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
+		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(thePaneID));
 		theEditText->GetDescriptor(theString);	
 		*mOutStream << theString;
 		if (theString[0] % 2) {
@@ -2242,18 +2403,18 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		case 'PNT ':
 		// An 4-byte point
 		for (i = 0; i < 2; i++) {
-			theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
+			theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(thePaneID));
 			theEditText->GetDescriptor(numStr);	
 			::StringToNum( numStr, &theLong);
 			*mOutStream << (SInt16) theLong;
 			mPaneIndex++;
-			mPaneIDs.FetchItemAt(mPaneIndex, mCurrentID);
+			mPaneIDs.FetchItemAt(mPaneIndex, thePaneID);
 		}
 		break;
 
 		case 'PPST': 
 		// Pascal string padded to even length (including the padd)
-		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
+		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(thePaneID));
 		theEditText->GetDescriptor(theString);
 		theLength = theString[0];
 		if (theLength % 2 == 0) {
@@ -2269,7 +2430,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		case 'P100':
 		case 'BSTR':
 		// Pascal string
-		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
+		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(thePaneID));
 		theEditText->GetDescriptor(theString);	
 		*mOutStream << theString;
 		if (inType == 'P100') {
@@ -2286,23 +2447,23 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		if (mRectFormat == rect_TLBR) {
 			// 'top, left, bottom, right' format
 			for (i = 0; i < 4; i++) {
-				theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
+				theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(thePaneID));
 				theEditText->GetDescriptor(numStr);	
 				::StringToNum( numStr, &theLong);
 				*mOutStream << (SInt16) theLong;
 				mPaneIndex++;
-				mPaneIDs.FetchItemAt(mPaneIndex, mCurrentID);
+				mPaneIDs.FetchItemAt(mPaneIndex, thePaneID);
 			}
 		} else {
 			// 'top, left, width, height' format
 			long theVal[4];
 			
 			for (i = 0; i < 4; i++) {
-				theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
+				theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(thePaneID));
 				theEditText->GetDescriptor(numStr);	
 				::StringToNum( numStr, &theVal[i]);
 				mPaneIndex++;
-				mPaneIDs.FetchItemAt(mPaneIndex, mCurrentID);
+				mPaneIDs.FetchItemAt(mPaneIndex, thePaneID);
 			}
 			*mOutStream << (SInt16) theVal[0];
 			*mOutStream << (SInt16) theVal[1];
@@ -2357,7 +2518,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 
 		case 'TNAM':
 		// Type name (four characters, like OSType and ResType)
-		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
+		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(thePaneID));
 		theEditText->GetDescriptor(theString);	
 		UMiscUtils::PStringToOSType(theString, theOSType);
 		*mOutStream << theOSType;
@@ -2367,7 +2528,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		case 'UBYT':
 		case 'BB08':
 		// Unsigned decimal byte
-		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
+		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(thePaneID));
 		theEditText->GetDescriptor(numStr);	
 		::StringToNum( numStr, &theLong);
 		*mOutStream << (UInt8) theLong;
@@ -2376,7 +2537,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 
 		case 'ULNG':
 		// Unsigned decimal long word
-		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
+		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(thePaneID));
 		theEditText->GetDescriptor(numStr);	
 		::StringToNum( numStr, &theLong);
 		*mOutStream << (UInt32) theLong;
@@ -2385,7 +2546,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 
 		case 'UWRD':
 		// Unsigned decimal word
-		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
+		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(thePaneID));
 		theEditText->GetDescriptor(numStr);	
 		::StringToNum( numStr, &theLong);
 		*mOutStream << (UInt16) theLong;
@@ -2399,9 +2560,9 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 
 		case 'WFLG':
 		// Word Boolean flag in low-order bit (two bytes: 0x0001 for true, 0x0000 for false)
-		theRGV = dynamic_cast<LRadioGroupView *>(this->FindPaneByID(mCurrentID));
+		theRGV = dynamic_cast<LRadioGroupView *>(this->FindPaneByID(thePaneID));
 		theCurrentRadioID = theRGV->GetCurrentRadioID();
-		if ( (theCurrentRadioID - mCurrentID) % 2 ) {
+		if ( (theCurrentRadioID - thePaneID) % 2 ) {
 			*mOutStream << (UInt16) 0x0001;
 		} else {
 			*mOutStream << (UInt16) 0x0000;
@@ -2412,7 +2573,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 
 		case 'WORV':
 		// Binary word made of the OR of base-2 values
-		theFlagPopup = dynamic_cast<CFlagPopup *>(this->FindPaneByID(mCurrentID));
+		theFlagPopup = dynamic_cast<CFlagPopup *>(this->FindPaneByID(thePaneID));
 		*mOutStream << (UInt16) theFlagPopup->GetFlagValue();
 		SkipNextKeyCases(1);
 		mPaneIndex++;
@@ -2431,7 +2592,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 
 		case 'WSTR':
 		// Same as LSTR, but a word rather than a long word
-		theWasteEdit = dynamic_cast<CWasteEditView *>(this->FindPaneByID(mCurrentID));
+		theWasteEdit = dynamic_cast<CWasteEditView *>(this->FindPaneByID(thePaneID));
 		theHandle = theWasteEdit->GetTextHandle();
 		theLength = theWasteEdit->GetTextLength();
 		*mOutStream << (UInt16) theLength;
@@ -2455,7 +2616,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 	  if (inType >> 24 == 'H') {
 		  
 		  // Hnnn: a 3-digit hex number; displays $nnn bytes in hex format
-		  CDualDataView * theTGB = dynamic_cast<CDualDataView *>(this->FindPaneByID(mCurrentID));
+		  CDualDataView * theTGB = dynamic_cast<CDualDataView *>(this->FindPaneByID(thePaneID));
 		  WEReference theWE = theTGB->GetInMemoryWE();
 		  theHandle = static_cast<Handle>(::WEGetText(theWE));
 		  theLength = ::WEGetTextLength(theWE);
@@ -2474,7 +2635,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 	  } else if (inType >> 24 == 'F') {
 		  
 		  // Fnnn: a 3-digit hex number; fills with $nnn bytes in hex format
-		  CDualDataView * theTGB = dynamic_cast<CDualDataView *>(this->FindPaneByID(mCurrentID));
+		  CDualDataView * theTGB = dynamic_cast<CDualDataView *>(this->FindPaneByID(thePaneID));
 		  WEReference theWE = theTGB->GetInMemoryWE();
 		  theHandle = static_cast<Handle>(::WEGetText(theWE));
 		  theLength = ::WEGetTextLength(theWE);
@@ -2499,7 +2660,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		  
 		  // Cnnn: a C string that is $nnn hex bytes long (the last byte is always a 0, 
 		  // so the string itself occupies the first $nnn-1 bytes).
-		  theWasteEdit = dynamic_cast<CWasteEditView *>(this->FindPaneByID(mCurrentID));
+		  theWasteEdit = dynamic_cast<CWasteEditView *>(this->FindPaneByID(thePaneID));
 		  theHandle = theWasteEdit->GetTextHandle();
 		  theLength = theWasteEdit->GetTextLength();
 		  UMiscUtils::HexNumStringToDecimal(&inType, &reqLength);
@@ -2524,7 +2685,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 	  } else if (inType >> 24 == 'T') {
 		  
 		  // Tnnn: a text string with fixed padding that is $nnn hex bytes long 
-		  theWasteEdit = dynamic_cast<CWasteEditView *>(this->FindPaneByID(mCurrentID));
+		  theWasteEdit = dynamic_cast<CWasteEditView *>(this->FindPaneByID(thePaneID));
 		  theHandle = theWasteEdit->GetTextHandle();
 		  theLength = theWasteEdit->GetTextLength();
 		  UMiscUtils::HexNumStringToDecimal(&inType, &reqLength);
@@ -2548,7 +2709,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		  
 		  // P0nn: a Pascal string that is $nn hex bytes long. The length byte 
 		  // is included in $nn, so the string itself occupies $nn-1 bytes.
-		  theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
+		  theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(thePaneID));
 		  theEditText->GetDescriptor(theString);	
 		  theLength = theString[0];
 		  UMiscUtils::HexNumStringToDecimal(&inType, &reqLength);
@@ -2592,8 +2753,11 @@ CTmplEditorWindow::RetrieveBitField(UInt16 inBitCount, UInt16 inBytesLen)
 	OSErr	error = noErr;
 	long	theLong;
 	Str255	numStr;
+	// ZP bugfix #9, part 3: replacement of mCurrentID by thePaneID
+	PaneIDT	thePaneID;
+	// end of ZP bugfix #9, part 3
 	
-	mPaneIDs.FetchItemAt(mPaneIndex, mCurrentID);
+	mPaneIDs.FetchItemAt(mPaneIndex, thePaneID);
 	
 	if (!mBitSeqInProgress) {
 		mBitSeqInProgress = true;
@@ -2603,15 +2767,18 @@ CTmplEditorWindow::RetrieveBitField(UInt16 inBitCount, UInt16 inBytesLen)
 	} 
 	
 	if (inBitCount == 1) {
-		LCheckBox * theCheckBox = dynamic_cast<LCheckBox *>(this->FindPaneByID(mCurrentID));
+		LCheckBox * theCheckBox = dynamic_cast<LCheckBox *>(this->FindPaneByID(thePaneID));
 		mBitSeqValue |= theCheckBox->GetValue() ? 1 << mBitSeqIndex : 0 ;
 		mBitSeqIndex--;
 	} else {
-		LEditText * theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(mCurrentID));
+		LEditText * theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(thePaneID));
 		theEditText->GetDescriptor(numStr);	
 		::StringToNum( numStr, &theLong);
 		
-		if (theLong >= (1 << inBitCount)) {
+		// ZP bugfix #11: when LB31 is used, inBitCount is 31 and
+		// 1<<31 evaluates to the most negative int and this inequality is
+		// always false. I fixed by forcing unsigned evaluation.
+		if ((unsigned long)theLong >= (unsigned long)(1 << inBitCount)) {
 			error = err_TmplValueTooLargeInBitsField;
 			goto DONE;
 		} 
@@ -2658,13 +2825,16 @@ CTmplEditorWindow::RetrieveCountValue()
 	UInt16	theUInt16 = 0;
 	UInt32	theUInt32 = 0;
 	LStaticText	*	theStaticText;
+	// ZP bugfix #9, part 4: replacement of mCurrentID by thePaneID
+	PaneIDT	thePaneID;
+	// end of ZP bugfix #9, part 4
 
-	mPaneIDs.FetchItemAt(mPaneIndex, mCurrentID);
+	mPaneIDs.FetchItemAt(mPaneIndex, thePaneID);
 	
 	saveMark = mOutStream->GetMarker();
 	mOutStream->SetMarker(mListCountMark, streamFrom_Start);
 	
-	theStaticText = dynamic_cast<LStaticText *>(this->FindPaneByID(mCurrentID));
+	theStaticText = dynamic_cast<LStaticText *>(this->FindPaneByID(thePaneID));
 	theStaticText->GetDescriptor(theString);	
 	::StringToNum( theString, &theLong);
 	

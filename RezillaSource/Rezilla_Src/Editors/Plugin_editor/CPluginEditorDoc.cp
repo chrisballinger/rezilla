@@ -202,7 +202,7 @@ CPluginEditorDoc::ObeyCommand(
 		break;
 				
 		default: 
-		cmdHandled = LDocument::ObeyCommand(inCommand, ioParam);
+		cmdHandled = GetSuperCommander()->ObeyCommand(inCommand, ioParam);
 		break;
 	}
 	
