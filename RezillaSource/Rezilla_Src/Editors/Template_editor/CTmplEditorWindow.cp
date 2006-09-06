@@ -2,7 +2,7 @@
 // CTmplEditorWindow.cp					
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2006-07-13 20:31:26
+//             Last modification: 2006-09-06 18:12:20
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -1986,6 +1986,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 			*mOutStream << (UInt8) theString[1];
 		}
 		mPaneIndex++;
+		IncrementIfCases(theEditText);
 		break;
 
 		case 'COLR': {
@@ -2059,6 +2060,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		} 
 		*mOutStream << theSInt32;
 		mPaneIndex++;
+		IncrementIfCases(theEditText);
 		break;
 		
 		case 'DBYT':
@@ -2068,6 +2070,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		::StringToNum( numStr, &theLong);
 		*mOutStream << (SInt8) theLong;
 		mPaneIndex++;
+		IncrementIfCases(theEditText);
 		break;
 
 		case 'DLNG':
@@ -2077,6 +2080,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		::StringToNum( numStr, &theLong);
 		*mOutStream << (SInt32) theLong;
 		mPaneIndex++;
+		IncrementIfCases(theEditText);
 		break;
 
 		case 'DVDR':
@@ -2091,6 +2095,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		::StringToNum( numStr, &theLong);
 		*mOutStream << (SInt16) theLong;
 		mPaneIndex++;
+		IncrementIfCases(theEditText);
 		break;
 
 		case 'ECST':
@@ -2120,6 +2125,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 			*mOutStream << (UInt8) 0x00;
 		} 
 		mPaneIndex++;
+		IncrementIfCases(theEditText);
 		break;
 
 		case 'FBYT':
@@ -2134,6 +2140,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 			sscanf(charString, formatString, &theLong);
 			*mOutStream << (UInt8) theLong;
 			mPaneIndex++;
+			IncrementIfCases(theEditText);
 		} 
 		break;
 
@@ -2226,6 +2233,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 			sscanf(charString, formatString, &theLong);
 			*mOutStream << (UInt32) theLong;
 			mPaneIndex++;
+			IncrementIfCases(theEditText);
 		}
 		break;
 
@@ -2241,6 +2249,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 			sscanf(charString, formatString, &theLong);
 			*mOutStream << (UInt16) theLong;
 			mPaneIndex++;
+			IncrementIfCases(theEditText);
 		}
 		break;
 
@@ -2398,6 +2407,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 			*mOutStream << (UInt8) 0x00;
 		} 
 		mPaneIndex++;
+		IncrementIfCases(theEditText);
 		break;
 
 		case 'PNT ':
@@ -2424,6 +2434,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		} 
 		*mOutStream << theString;
 		mPaneIndex++;
+		IncrementIfCases(theEditText);
 		break;
 
 		case 'PSTR':
@@ -2440,6 +2451,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 			}
 		} 
 		mPaneIndex++;
+		IncrementIfCases(theEditText);
 		break;
 
 		case 'RECT':
@@ -2523,6 +2535,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		UMiscUtils::PStringToOSType(theString, theOSType);
 		*mOutStream << theOSType;
 		mPaneIndex++;
+		IncrementIfCases(theEditText);
 		break;
 
 		case 'UBYT':
@@ -2533,6 +2546,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		::StringToNum( numStr, &theLong);
 		*mOutStream << (UInt8) theLong;
 		mPaneIndex++;
+		IncrementIfCases(theEditText);
 		break;
 
 		case 'ULNG':
@@ -2542,6 +2556,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		::StringToNum( numStr, &theLong);
 		*mOutStream << (UInt32) theLong;
 		mPaneIndex++;
+		IncrementIfCases(theEditText);
 		break;
 
 		case 'UWRD':
@@ -2551,6 +2566,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		::StringToNum( numStr, &theLong);
 		*mOutStream << (UInt16) theLong;
 		mPaneIndex++;
+		IncrementIfCases(theEditText);
 		break;
 
 		case 'WBIT':
@@ -2726,6 +2742,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 			  }
 		  } 
 		  mPaneIndex++;
+		  IncrementIfCases(theEditText);
 
 	  } else if ( IsValidBitField(inType, typeStr, bitCount, bytesLen) ) {
 		  

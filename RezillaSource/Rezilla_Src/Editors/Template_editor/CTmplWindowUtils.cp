@@ -2,7 +2,7 @@
 // CTmplWindowUtils.cp
 // 
 //                       Created: 2004-08-20 16:45:08
-//             Last modification: 2006-07-13 20:31:10
+//             Last modification: 2006-09-06 18:32:17
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -27,6 +27,7 @@
 #include "UMiscUtils.h"
 
 #include <LPopupButton.h>
+#include <LEditText.h>
 #include <LStaticText.h>
 
 #include <stdio.h>
@@ -143,6 +144,21 @@ CTmplEditorWindow::AdjustCounterField(PaneIDT inPaneID, SInt32 inDelta) {
 
 
 // ---------------------------------------------------------------------------
+//   IncrementIfCases
+// ---------------------------------------------------------------------------
+// Takes care of incrementing the mPaneIndex value for edit text panes with
+// a popup containing CASE tag values because this popup is registered in
+// mPaneIDs and must be skipped on retrieval
+
+void
+CTmplEditorWindow::IncrementIfCases(LEditText * inEditText) {
+	if ( inEditText->GetUserCon() == msg_EditFieldHasCases) {
+		mPaneIndex++;
+	} 
+}
+
+
+// ---------------------------------------------------------------------------
 //   AdjustListOfPaneIDs
 // ---------------------------------------------------------------------------
 // The mPaneIDs list must reflect the visual graphical order of the panes.
@@ -155,6 +171,16 @@ CTmplEditorWindow::AdjustCounterField(PaneIDT inPaneID, SInt32 inDelta) {
 // If a list item has been deleted, all the IDs of its subpanes must be
 // removed. They are located between inPrevLastID and inOldLastID
 // inclusive. 
+// 
+// ZP bugfix #12: uh oh. CountAllSubpanes will count
+// all subpanes (recursively if necessary) which have a non-0 ID, the
+// issue is, not all of them are registered in mPaneIDs, but the count
+// is indeed used for the number of IDs to move (or remove, if not
+// adding) in mPaneIDs. Ouch.
+//   (bd 2006-09-05) Fixed by also registering all the mCurrentID values in
+//   mPaneIDs. This concerns the popups attached to edit fields. The edit
+//   field keeps track of this in its refCon and advances the pane index
+//   accordingly on retrieval.
 
 void
 CTmplEditorWindow::AdjustListOfPaneIDs(CTmplListItemView * inView, PaneIDT inStartID, 
@@ -715,7 +741,7 @@ CTmplEditorWindow::SkipNextKeyCases(UInt16 inPreCount)
 // ---------------------------------------------------------------------------
 //   NextIsCase											[private]
 // ---------------------------------------------------------------------------
-// Look forward in the template stream to see whetehr the next tag is a 
+// Look forward in the template stream to see whether the next tag is a 
 // CASE tag, then reposition the stream's marker.
 
 Boolean

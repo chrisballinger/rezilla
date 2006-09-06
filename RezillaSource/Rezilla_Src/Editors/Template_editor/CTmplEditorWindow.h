@@ -2,7 +2,7 @@
 // CTmplEditorWindow.h
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2006-09-05 09:39:16
+//             Last modification: 2006-09-06 18:30:59
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -23,6 +23,7 @@
 class CTmplEditorDoc;
 class CTmplListButton;
 class CRezObj;
+class LEditText;
 class LStaticText;
 class LScrollerView;
 
@@ -272,6 +273,8 @@ private:
 
 	OSErr			DoRetrieveWithTemplate(SInt32 inRecursionMark, 
 										   Boolean inReadControls);
+	
+	void			IncrementIfCases(LEditText * inEditText);
 	
 	void			AdjustListOfPaneIDs(CTmplListItemView * inView,
 									PaneIDT inStartID, 

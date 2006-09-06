@@ -1,8 +1,8 @@
 // ===========================================================================
-// CTmplWindowUtils.cp					
+// CTmplWindowControls.cp
 // 
 //                       Created: 2004-08-20 16:45:08
-//             Last modification: 2006-07-13 20:31:17
+//             Last modification: 2006-09-06 18:12:06
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -334,6 +334,8 @@ CTmplEditorWindow::AddEditField(Str255 inValue,
 		theCaseField->AddListener(this);
 		// Set the paneID: if paneID is 0, clicks in ListItemViews are ignored
 		theCaseField->GetPopup()->SetPaneID(mCurrentID + 1);
+		// Leave a msg in the userCon to remember that the field has a popup
+		theCaseField->SetUserCon(msg_EditFieldHasCases);
 	} else {
 		theEditText = new LEditText(sEditPaneInfo, this, inValue, sEditTraitsID, 
 										msg_EditorModifiedItem, inMaxChars, 0, inKeyFilter);
@@ -370,6 +372,7 @@ CTmplEditorWindow::AddEditField(Str255 inValue,
 	mCurrentID++;
 	if (hasCases) {
 		// The Case popup has received ID = mCurrentID + 1 (above)
+		mPaneIDs.AddItem(mCurrentID);
 		mCurrentID++;
 	}
 }
@@ -869,7 +872,7 @@ CTmplEditorWindow::AddPointField(SInt16 inX,
 	theEditText = new LEditText(sRectPaneInfo, this, numStr, sEditTraitsID, 
 								msg_EditorModifiedItem, inMaxChars, inAttributes, inKeyFilter);
 	ThrowIfNil_(theEditText);
-	theEditText->SetUserCon(inType);
+
 	// Let the window listen to this field
 	theEditText->AddListener(this);
 	mPaneIDs.AddItem(mCurrentID);
@@ -885,7 +888,7 @@ CTmplEditorWindow::AddPointField(SInt16 inX,
 	theEditText = new LEditText(sRectPaneInfo, this, numStr, sEditTraitsID, 
 								msg_EditorModifiedItem, inMaxChars, inAttributes, inKeyFilter);
 	ThrowIfNil_(theEditText);
-	theEditText->SetUserCon(inType);
+
 	// Let the window listen to this field
 	theEditText->AddListener(this);
 	mPaneIDs.AddItem(mCurrentID);
@@ -931,7 +934,7 @@ CTmplEditorWindow::AddRectField(SInt16 inTop,
 	theEditText = new LEditText(sRectPaneInfo, this, numStr, sEditTraitsID, 
 								msg_EditorModifiedItem, inMaxChars, inAttributes, inKeyFilter);
 	ThrowIfNil_(theEditText);
-	theEditText->SetUserCon(inType);
+
 	// Let the window listen to this field
 	theEditText->AddListener(this);
 	mPaneIDs.AddItem(mCurrentID);
@@ -947,7 +950,7 @@ CTmplEditorWindow::AddRectField(SInt16 inTop,
 	theEditText = new LEditText(sRectPaneInfo, this, numStr, sEditTraitsID, 
 								msg_EditorModifiedItem, inMaxChars, inAttributes, inKeyFilter);
 	ThrowIfNil_(theEditText);
-	theEditText->SetUserCon(inType);
+
 	// Let the window listen to this field
 	theEditText->AddListener(this);
 	mPaneIDs.AddItem(mCurrentID);
@@ -970,7 +973,7 @@ CTmplEditorWindow::AddRectField(SInt16 inTop,
 	theEditText = new LEditText(sRectPaneInfo, this, numStr, sEditTraitsID, 
 								msg_EditorModifiedItem, inMaxChars, inAttributes, inKeyFilter);
 	ThrowIfNil_(theEditText);
-	theEditText->SetUserCon(inType);
+
 	// Let the window listen to this field
 	theEditText->AddListener(this);
 	mPaneIDs.AddItem(mCurrentID);
@@ -993,7 +996,7 @@ CTmplEditorWindow::AddRectField(SInt16 inTop,
 	theEditText = new LEditText(sRectPaneInfo, this, numStr, sEditTraitsID, 
 								msg_EditorModifiedItem, inMaxChars, inAttributes, inKeyFilter);
 	ThrowIfNil_(theEditText);
-	theEditText->SetUserCon(inType);
+
 	// Let the window listen to this field
 	theEditText->AddListener(this);
 	mPaneIDs.AddItem(mCurrentID);
