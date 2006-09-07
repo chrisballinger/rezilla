@@ -2,7 +2,7 @@
 // CTmplEditorWindow.cp					
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2006-09-06 18:12:20
+//             Last modification: 2006-09-07 12:36:22
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -667,6 +667,12 @@ CTmplEditorWindow::DoParseWithTemplate(SInt32 inRecursionMark, Boolean inDrawCon
 				error = ParseDataForType(theType, theString, inContainer);
 			} 
 		}
+		// ZP feature #9, part 5: for a RSID to have its type coming from a
+		// TNAM, the RSID needs to be immediately after the TNAM, therefore
+		// reset mPrevTnam if the type just handled wasn't TNAM.
+		// (bd 2006-09-07) There can be CASE tags between TNAM and RSID,
+		// but they were consumed in AddEditField.
+		if (theType != 'TNAM') mPrevTnam = NULL;
 	}
 
 	return error;
@@ -1117,7 +1123,6 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		break;
 
 		case 'DWRD':
-		case 'RSID':
 		// Signed decimal word
 		if (mRezStream->GetMarker() < mRezStream->GetLength() - 1) {
 			*mRezStream >> theSInt16;
@@ -1487,16 +1492,17 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 			break;
 		}
 
-// 		case 'RSID':
-// 		// Resource ID (SInt16), the type is either in the label or in a previous TNAM.
-// 		if (mRezStream->GetMarker() < mRezStream->GetLength() - 1) {
-// 			*mRezStream >> theSInt16;
-// 		} 
-// 		::NumToString( (long) theSInt16, numStr);
-// 		AddStaticField(inType, inLabelString, inContainer);
-// 		AddRSIDField(numStr, inType, inLabelString[0], 6, 0, 
-// 					 UKeyFilters::SelectTEKeyFilter(keyFilter_NegativeInteger), inContainer);
-// 		break;
+		case 'RSID':
+		// ZP feature #9, part 2:
+		// Resource ID (SInt16), the type is either in the label or in a previous TNAM.
+		if (mRezStream->GetMarker() < mRezStream->GetLength() - 1) {
+			*mRezStream >> theSInt16;
+		} 
+		::NumToString( (long) theSInt16, numStr);
+		AddStaticField(inType, inLabelString, inContainer);
+		AddRSIDField(numStr, inType, inLabelString, 6, 0, 
+					 UKeyFilters::SelectTEKeyFilter(keyFilter_NegativeInteger), inContainer);
+		break;
 
 		case 'SEPA':
 		// Separator.
@@ -2088,7 +2094,6 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		break;
 
 		case 'DWRD':
-		case 'RSID':
 		// Decimal word
 		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(thePaneID));
 		theEditText->GetDescriptor(numStr);	
@@ -2482,6 +2487,16 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 			*mOutStream << (SInt16) (theVal[0] + theVal[3]);
 			*mOutStream << (SInt16) (theVal[1] + theVal[2]);
 		}
+		break;
+
+		case 'RSID':
+		// Resource ID is a decimal word
+		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(thePaneID));
+		theEditText->GetDescriptor(numStr);	
+		::StringToNum( numStr, &theLong);
+		*mOutStream << (SInt16) theLong;
+		// RSID fields always have a popup
+		mPaneIndex += 2;
 		break;
 
 		case 'SEPA':

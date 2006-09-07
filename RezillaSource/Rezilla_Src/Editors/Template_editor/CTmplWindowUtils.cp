@@ -2,7 +2,7 @@
 // CTmplWindowUtils.cp
 // 
 //                       Created: 2004-08-20 16:45:08
-//             Last modification: 2006-09-06 18:32:17
+//             Last modification: 2006-09-07 12:37:39
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -1210,7 +1210,7 @@ CTmplEditorWindow::CalcTextPositions(OSType inType, SInt32 & oldPos, SInt32 & ne
 				// indicate that data must still be fed to the hex pane, zeroes if need be.
 				hasText = true;
 			}
-			// end of ZP bugfix 2, part 2	
+			// end of ZP bugfix #2, part 2	
 		}
 	}
 	

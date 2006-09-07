@@ -2,7 +2,7 @@
 // CTmplWindowControls.cp
 // 
 //                       Created: 2004-08-20 16:45:08
-//             Last modification: 2006-09-06 18:12:06
+//             Last modification: 2006-09-07 12:38:04
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -18,6 +18,7 @@
 #include "CTmplListItemView.h"
 #include "CTmplListButton.h"
 #include "CTmplCaseField.h"
+#include "CTmplRSIDField.h"
 #include "CFlagPopup.h"
 #include "CTemplatesController.h"
 #include "CRezObj.h"
@@ -33,6 +34,8 @@
 #include "UCompareUtils.h"
 #include "UMiscUtils.h"
 #include "UMessageDialogs.h"
+#include "CRezMapTable.h"
+#include "CRezMap.h"
 
 #include <LScrollBar.h>
 #include <LStaticText.h>
@@ -360,14 +363,17 @@ CTmplEditorWindow::AddEditField(Str255 inValue,
 				theEditText->Disable();
 			}
 		} 
-	} 
+	} else if (inType=='TNAM') {
+		// ZP feature #9, part 4
+		mPrevTnam = (theEditText ? theEditText : theCaseField );
+	}
 	
 	// Advance the counters
 	if (incrY) {
 		mYCoord += sEditPaneInfo.height + kTmplVertSep;
 	} 
 	// Caution: this is the ID of the Edit field, not the ID of the Case 
-	// popup. The case popup is not registered in mPaneIDs.
+	// popup
 	mPaneIDs.AddItem(mCurrentID);
 	mCurrentID++;
 	if (hasCases) {
@@ -1294,116 +1300,96 @@ CTmplEditorWindow::AddColorPane(LView * inContainer,
 // ---------------------------------------------------------------------------
 //   AddRSIDField													[public]
 // ---------------------------------------------------------------------------
-// ZP feature #9, part three: new features for RSID
+// ZP feature #9, part 3: new features for RSID
 
-// void			
-// CTmplEditorWindow::AddRSIDField(Str255 inValue,
-// 					OSType inType,
-// 					UInt8 inLabelLength,
-// 					SInt16 inMaxChars,
-// 					SInt16 inWidth,
-// 					TEKeyFilterFunc inKeyFilter,
-// 					LView * inContainer)
-// {
-// 	ResType theResType;
-// 	CTmplRSIDField *	theRSIDField;
-// 	SDimension16		theFrame;
-// 	CRezMap*			theRezMap;
-// 	Str255 theString;
-// 	
-// 	
-// 	
-// 	inContainer->GetFrameSize(theFrame);
-// 	// ZP feature number twelve, part three.
-// 	// This is here we're actually doing the interesting stuff: lay out the
-// 	// fields so that they stay together nicely in four columns.
-// 
-// 	// Oh, yes, a slight modification. Now mYCoord is going to be incremented
-// 	// only if mStuffingIndex-1 is dividible by kFieldStuffingAmount, before the
-// 	// field is created, and will be set up for the field after, assuming it's
-// 	// not a stuffed one, and therefore this field will be created at mYCoord-height
-// 
-// 	// Advance the counters
-// 	if (mStuffingIndex==0 || (mStuffingIndex % kFieldStuffingAmount)==1) {
-// 		mYCoord += sEditPaneInfo.height + kTmplVertSep;
-// 	} // Otherwise, leave it as it is.
-// 
-// 	// Move the calculation of the left side to after the width is
-// 	// computed.
-// 	sEditPaneInfo.top				= mYCoord - 3 - (sEditPaneInfo.height + kTmplVertSep);
-// 	sEditPaneInfo.paneID			= mCurrentID;
-// 	sEditPaneInfo.superView			= inContainer;
-// 	sEditPaneInfo.bindings.right	= true;
-// 
-// 	if (inWidth > 0) {
-// 		sEditPaneInfo.width = inWidth;
-// 	} else {
-// 		if (inMaxChars > kTmplEditMaxFixedChars) {
-// 			sEditPaneInfo.width = theFrame.width - kTmplLeftMargin * 2 - kTmplLabelWidth - kTmplHorizSep - kTmplHorizSkip;
-// 		} else {
-// 			// Add space for three more chars
-// 			sEditPaneInfo.width = kTmplEditUnitWidth * (((inMaxChars < kTmplEditMinFixedChars)? kTmplEditMinFixedChars : inMaxChars) + 3);
-// 			sEditPaneInfo.bindings.right = false;
-// 		}
-// 	}
-// 
-// 	// Then actually do that computation.
-// 	if (mStuffingIndex!=0) {
-// 		sEditPaneInfo.left	= kTmplLeftMargin + kTmplLabelWidth + kTmplHorizSep
-// 		+ (kTmplHorizSep + sEditPaneInfo.width + kCaseFieldWidth+kCaseFieldSep)
-// 		*((mStuffingIndex-1)%kFieldStuffingAmount);
-// 	} else {
-// 		sEditPaneInfo.left	= kTmplLeftMargin + kTmplLabelWidth + kTmplHorizSep;
-// 	}
-// 
-// 	// I don't like to do such things, but I don't have much choice.
-// 	theRezMap=(dynamic_cast<CTmplEditorDoc*>
-// 			(this->GetSuperCommander()))->GetRezMapTable()->GetRezMap();
-// 
-// 	if ( UMiscUtils::LookForOSTypeInString(inLabelString,theResType) ) {
-// 		// Got it, in the label.
-// 		theRSIDField = new CTmplRSIDField(sEditPaneInfo, this, inValue,
-// 								   sEditTraitsID, msg_EditorModifiedItem,
-// 								   msg_TmplCasePopup, inMaxChars, 0, inKeyFilter,
-// 								   mTemplateStream, mTemplateStream->GetMarker(),
-// 								   theResType, theRezMap);
-// 		// No TNAM field to set.
-// 	} else { // Look for a suitable TNAM field.
-// 		if (mTnamField) {
-// 			mTnamField->GetDescriptor(theString);
-// 			UMiscUtils::PStringToOSType(theString,theResType);
-// 			theRSIDField = new CTmplRSIDField(sEditPaneInfo, this, inValue,
-// 									 sEditTraitsID, msg_EditorModifiedItem,
-// 									 msg_TmplCasePopup, inMaxChars, 0, inKeyFilter,
-// 									 mTemplateStream, mTemplateStream->GetMarker(),
-// 									 theResType, theRezMap);
-// 			// Now set the TNAM field so that the control can listen to it.
-// 			theRSIDField->SetTnamField(mTnamField);
-// 			// No need to set mTnamField to NULL to tell not to reuse it, it will
-// 			// be done when finished handling this type.
-// 		} else { // No ResType in the label nor any active TNAM field?
-// 		   // Then for compatibility's sake act like a DWRD with a dummy
-// 		   // popup.
-// 			theRSIDField = new CTmplRSIDField(sEditPaneInfo, this, inValue,
-// 									 sEditTraitsID, msg_EditorModifiedItem,
-// 									 msg_TmplCasePopup, inMaxChars, 0, inKeyFilter,
-// 									 mTemplateStream, mTemplateStream->GetMarker(),
-// 									 '????', theRezMap);
-// 			theRSIDField->SetNoneItem("\pNo Resource Type Specified");
-// 			theRSIDField->SetResType('????'); // Rebuild the menu.
-// 		}
-// 	}
-// 	// Caution: this is the ID of the Edit field, not the ID of the Case
-// 	// popup. The case popup is not registered in mPaneIDs.
-// 	mPaneIDs.AddItem(mCurrentID);
-// 			
-// 	
-// 	// Let the window listen to this field
-// 	theRSIDField->AddListener(this);
-// 	// Set the paneID: if paneID is 0, clicks in ListItemViews are ignored
-// 	theRSIDField->GetPopup()->SetPaneID(mCurrentID + 1);
-// 	
-// 	mCurrentID+=2; // Always a popup.
-// }
-// 
+void			
+CTmplEditorWindow::AddRSIDField(
+					Str255 inValue,
+					OSType	inType,
+					Str255 inLabelString,
+					SInt16	inMaxChars,
+					SInt16	inWidth,
+					TEKeyFilterFunc inKeyFilter,
+					LView *	inContainer)
+{
+	ResType				theResType;
+	CTmplRSIDField *	theRSIDField;
+	SDimension16		theFrame;
+	CRezMap*			theRezMap;
+	Str255				theString;
+	
+	inContainer->GetFrameSize(theFrame);
+
+	sEditPaneInfo.left				= kTmplLeftMargin + kTmplLabelWidth + kTmplHorizSep;
+	sEditPaneInfo.top				= mYCoord - 3;
+	sEditPaneInfo.paneID			= mCurrentID;
+	sEditPaneInfo.superView			= inContainer;
+	sEditPaneInfo.bindings.right	= true;
+
+	if (inWidth > 0) {
+		sEditPaneInfo.width = inWidth;
+	} else {
+		if (inMaxChars > kTmplEditMaxFixedChars) {
+			sEditPaneInfo.width = theFrame.width - kTmplLeftMargin * 2 - kTmplLabelWidth - kTmplHorizSep - kTmplHorizSkip;
+		} else {
+			// Add space for three more chars
+			sEditPaneInfo.width = kTmplEditUnitWidth * (((inMaxChars < kTmplEditMinFixedChars)? kTmplEditMinFixedChars : inMaxChars) + 3);
+			sEditPaneInfo.bindings.right = false;
+		}
+	}
+
+	// I don't like to do such things, but I don't have much choice.
+	//theRezMap = (dynamic_cast<CTmplEditorDoc*>(this->GetSuperCommander()))->GetRezMapTable()->GetRezMap();
+	theRezMap = mOwnerDoc->GetRezMapTable()->GetRezMap();
+
+	if ( UMiscUtils::LookForOSTypeInString(inLabelString, theResType) ) {
+		// Got it in the label. No TNAM field to set.
+		theRSIDField = new CTmplRSIDField(sEditPaneInfo, this, inValue,
+								   sEditTraitsID, msg_EditorModifiedItem,
+								   msg_TmplCasePopup, inMaxChars, 0, inKeyFilter,
+								   mTemplateStream, mTemplateStream->GetMarker(),
+								   theResType, theRezMap);
+	} else { 
+		// Look for a suitable TNAM field
+		if (mPrevTnam) {
+			mPrevTnam->GetDescriptor(theString);
+			UMiscUtils::PStringToOSType(theString, theResType);
+			theRSIDField = new CTmplRSIDField(sEditPaneInfo, this, inValue,
+									 sEditTraitsID, msg_EditorModifiedItem,
+									 msg_TmplCasePopup, inMaxChars, 0, inKeyFilter,
+									 mTemplateStream, mTemplateStream->GetMarker(),
+									 theResType, theRezMap);
+			// Now set the TNAM field so that the control can listen to it.
+			theRSIDField->SetTnamField(mPrevTnam);
+			// No need to set mPrevTnam to NULL to tell not to reuse it, it will
+			// be done when finished handling this type.
+		} else { 
+			// No ResType in the label nor any active TNAM field? Then for
+			// compatibility's sake act like a DWRD with a dummy popup.
+			theRSIDField = new CTmplRSIDField(sEditPaneInfo, this, inValue,
+									 sEditTraitsID, msg_EditorModifiedItem,
+									 msg_TmplCasePopup, inMaxChars, 0, inKeyFilter,
+									 mTemplateStream, mTemplateStream->GetMarker(),
+									 '????', theRezMap);
+			theRSIDField->SetNoneItem("\pNo Resource Type Specified");
+			theRSIDField->SetResType('????'); // This rebuilds the menu
+		}
+	}
+	
+	// Let the window listen to this field
+	theRSIDField->AddListener(this);
+	// Set the paneID: if paneID is 0, clicks in ListItemViews are ignored
+	theRSIDField->GetPopup()->SetPaneID(mCurrentID + 1);
+
+	// Advance the counters
+	mYCoord += sEditPaneInfo.height + kTmplVertSep;
+
+	// This is the ID of the Edit field, not the ID of the popup
+	mPaneIDs.AddItem(mCurrentID);
+	mCurrentID++;
+	// Now register the popup's ID
+	mPaneIDs.AddItem(mCurrentID);
+	mCurrentID++;
+}
+
 

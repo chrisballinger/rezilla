@@ -2,7 +2,7 @@
 // CTmplEditorWindow.h
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2006-09-06 18:30:59
+//             Last modification: 2006-09-07 11:22:38
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -139,6 +139,7 @@ protected:
 	UInt32				mBitSeqValue;
 	UInt8				mBitSeqBytesLen;
 	SInt8				mBitSeqIndex;
+	LEditText*			mPrevTnam;		// ZP feature #9
 
 	virtual void	FinishCreateSelf();
 
@@ -253,7 +254,7 @@ private:
 	
 	void			AddRSIDField(Str255 inValue,
 								OSType inType,
-								UInt8 inLabelLength,
+								Str255 inLabelString,
 								SInt16 inMaxChars,
 								SInt16 inWidth,
 								TEKeyFilterFunc inKeyFilter,
