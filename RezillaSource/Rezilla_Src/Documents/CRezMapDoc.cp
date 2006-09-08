@@ -1355,10 +1355,14 @@ CRezMapDoc::FindCommandStatus(
 			outEnabled = false;
 			break;
 								
+		case cmd_Import:
+			outEnabled = false;
+			break;
+		
 		case cmd_Export:
 			outEnabled = true;
 			break;
-		
+			
 		case cmd_EditRez:
 		case cmd_EditRezAsType:
 		case cmd_EditWithPlugin:

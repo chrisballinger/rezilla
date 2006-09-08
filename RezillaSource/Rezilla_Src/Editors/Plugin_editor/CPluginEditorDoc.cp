@@ -229,6 +229,10 @@ CPluginEditorDoc::FindCommandStatus(
 			outEnabled = false;
 		break;
 
+		case cmd_Import:
+		outEnabled = HasAttribute(kPluginSupportImport);
+		break;
+				
 		case cmd_Export:
 		outEnabled = HasAttribute(kPluginSupportExport);
 		break;

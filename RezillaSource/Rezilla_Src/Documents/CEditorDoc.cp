@@ -191,6 +191,7 @@ CEditorDoc::FindCommandStatus(
 	
 		case cmd_Save:
 		case cmd_SaveAs:
+		case cmd_Import:
 		case cmd_Export:
 		case cmd_FindNext:
 			outEnabled = false;

@@ -951,87 +951,83 @@ void
 // ---------------------------------------------------------------------------
 //  Searches for a group of four chars (or less) between two quotes (') in
 //  the string. Used in ZP feature #9: improve RSID.
-//  '[^']{1,4}'
-//  ÇÈ set rg "'(\[^'\]{1,4})'"
-// '([^']{1,4})'
-// ÇÈ regexp $rg $str -> type
-// 1
-// ÇÈ set type
-// MENU
-
-Boolean UMiscUtils::LookForOSTypeInString(Str255 inString, OSType& outType)
-{
-	struct re_pattern_buffer regex;
-	struct re_registers regs;
-	const char *		comp;
-	LStr255				subString("\p");
-	const char * 		pattern = "'([^']{1,4})'";
-	int					len = inString[0], start = 0;
-	char *				buffer[256]
-	
-	::CopyPascalStringToC(inString, buffer);
-	
-	// Initialize the regex
-	memset(&regex, '\0', sizeof(regex));
-	regs.start = regs.end = NULL;
-	regs.num_regs = 0;
-	
-	// Compile the regexp. Failure if re_compile_pattern 
-	// returns non-NULL value.
-	::re_set_syntax(RE_SYNTAX_POSIX_EXTENDED);
-	comp = ::re_compile_pattern( pattern, strlen(pattern), &regex);
-
-	if (comp != NULL && ::re_search(&regex, buffer, len, start, len, &regs) >= 0 ) {
-		subString.Assign( buffer + regs.start[1], regs.end[1] - regs.start[1]);
-		PStringToOSType(subString, outType);
-		result = true;
-	} else {
-		// Though luck, found nothing. Output a type that is known 
-		// to be invalid, then return false.
-		outType = 0;
-		result = false;
-	}
-	regfree(&regex);
-	
-	return result;
-}
 
 // Boolean UMiscUtils::LookForOSTypeInString(Str255 inString, OSType& outType)
 // {
-// 	UInt8 length = inString[0], i, len;
-// 	unsigned char temp[5];
+// 	struct re_pattern_buffer regex;
+// 	struct re_registers regs;
+// 	const char *		comp;
+// 	LStr255				subString("\p");
+// 	const char * 		pattern = "'([^']{1,4})'";
+// // 	const char * 		pattern = "([0-9]+)(-[0-9]*)?";
+// 	int					len = inString[0], start = 0;
+// 	char				buffer[256];
+// 	Boolean				result;
 // 	
-// 	for (i=1; i<=length-2; i++) {
-// 		if (inString[i] == '\'') { // Yep, that's a single, escaped quote.
-// 			// the second quote may be anywhere from two to five chars
-// 			// later. Indeed, the template writer should be able to write
-// 			// 'snd' in the label and have it work. two- and one-char length
-// 			// res types are not common, but still exist too.
-// 			len = 0;
-// 			if (inString[i+2] == '\'') {
-// 				len = 1;
-// 			} else if ((i<=length-3) && inString[i+3] == '\'') {
-// 				len = 2;
-// 			} else if ((i<=length-4) && inString[i+4] == '\'') {
-// 				len = 3;
-// 			} else if ((i<=length-5) && inString[i+5] == '\'') {
-// 				len = 4;
-// 			}
+// 	::CopyPascalStringToC(inString, buffer);
+// 	
+// 	// Initialize the regex
+// 	memset(&regex, '\0', sizeof(regex));
+// 	regs.start = regs.end = NULL;
+// 	regs.num_regs = 0;
+// 	
+// 	// Compile the regexp. Failure if re_compile_pattern 
+// 	// returns non-NULL value.
+// 	::re_set_syntax(RE_SYNTAX_POSIX_EXTENDED);
+// 	comp = ::re_compile_pattern( pattern, strlen(pattern), &regex);
 // 
-// 			if (len) { // found it
-// 				temp[0]=len;
-// 				memcpy(&(temp[1]), &(inString[i+1]), len);
-// 				PStringToOSType(temp, outType);
-// 				return true;
-// 			}
-// 		}
+// 	if (comp != NULL && ::re_search(&regex, buffer, len, start, len, &regs) >= 0 ) {
+// 		subString.Assign( buffer + regs.start[1], regs.end[1] - regs.start[1]);
+// 		PStringToOSType(subString, outType);
+// 		result = true;
+// 	} else {
+// 		// Though luck, found nothing. Output a type that is known 
+// 		// to be invalid, then return false.
+// 		outType = 0;
+// 		result = false;
 // 	}
+// 	regfree(&regex);
 // 	
-// 	// Though luck, found nothing.
-// 	// output a type that's known to be invalid, then return false.
-// 	outType = 0;
-// 	return false;
+// 	return result;
 // }
+
+Boolean UMiscUtils::LookForOSTypeInString(Str255 inString, OSType& outType)
+{
+	UInt8 length = inString[0], i, len;
+	unsigned char temp[5];
+	
+	for (i=1; i<=length-2; i++) {
+		if (inString[i] == '\'') { 
+			// Yep, that's a single, escaped quote.
+			// the second quote may be anywhere from two to five chars
+			// later. Indeed, the template writer should be able to write
+			// 'snd' in the label and have it work. two- and one-char length
+			// res types are not common, but still exist too.
+			len = 0;
+			if (inString[i+2] == '\'') {
+				len = 1;
+			} else if ((i<=length-3) && inString[i+3] == '\'') {
+				len = 2;
+			} else if ((i<=length-4) && inString[i+4] == '\'') {
+				len = 3;
+			} else if ((i<=length-5) && inString[i+5] == '\'') {
+				len = 4;
+			}
+			
+			if (len) { // found it
+				temp[0]=len;
+				memcpy(&(temp[1]), &(inString[i+1]), len);
+				PStringToOSType(temp, outType);
+				return true;
+			}
+		}
+	}
+	
+	// Though luck, found nothing.
+	// output a type that's known to be invalid, then return false.
+	outType = 0;
+	return false;
+}
 
 
 PP_End_Namespace_PowerPlant

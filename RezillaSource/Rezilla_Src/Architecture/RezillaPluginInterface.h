@@ -68,7 +68,8 @@ enum {
 	kPluginSupportSelectAll			= (1L << 14),
 	kPluginSupportFind				= (1L << 15),
 	kPluginSupportFindNext			= (1L << 16),
-	kPluginSupportExport			= (1L << 17),
+	kPluginSupportImport			= (1L << 17),
+	kPluginSupportExport			= (1L << 18),
 	kPluginSupportEditCommands		= (kPluginSupportCut 
 								   | kPluginSupportCopy 
 								   | kPluginSupportPaste 
@@ -85,6 +86,7 @@ enum {
 	kPluginCommandSelectAll,
 	kPluginCommandFind,
 	kPluginCommandFindNext,
+	kPluginCommandImport,
 	kPluginCommandExport
 };
 

@@ -579,6 +579,7 @@ CRezillaApp::FindCommandStatus(
 			break;		
 		
 		case cmd_Revert:
+		case cmd_Import:
 		case cmd_Export:
 		case cmd_FindNext:
 		case cmd_NewRez:

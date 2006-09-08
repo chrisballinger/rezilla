@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2006-09-06 18:02:00
+//             Last modification : 2006-09-07 18:59:28
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@users.sourceforge.net>
 // www : <http://rezilla.sourceforge.net/>
@@ -529,8 +529,9 @@ const CommandT	cmd_DuplicateRez		= cmd_MenuResourceBase + 11;
 const CommandT	cmd_GetRezInfo			= cmd_MenuResourceBase + 15;
 const CommandT	cmd_TmplEditAsRez		= cmd_MenuResourceBase + 99;	// Phony Cmd used for redirection
 // File menu commands
-const CommandT	cmd_Export				= cmd_MenuFileBase + 1;	
-const CommandT	cmd_RecentItems			= cmd_MenuFileBase + 2;	
+const CommandT	cmd_RecentItems			= cmd_MenuFileBase + 1;	
+const CommandT	cmd_Import				= cmd_MenuFileBase + 2;	
+const CommandT	cmd_Export				= cmd_MenuFileBase + 3;	
 // Edit menu commands
 const CommandT	cmd_Find				= cmd_MenuEditBase + 1;	
 const CommandT	cmd_FindNext			= cmd_MenuEditBase + 2;	

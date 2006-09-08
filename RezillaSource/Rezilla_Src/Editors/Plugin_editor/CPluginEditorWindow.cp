@@ -427,6 +427,10 @@ CPluginEditorWindow::ObeyCommand(
 	}
 
 	switch (inCommand) {
+		case cmd_Import:
+		(*mInterface)->HandleCommand(mPlugRef, kPluginCommandImport);
+		break;
+
 		case cmd_Export:
 		(*mInterface)->HandleCommand(mPlugRef, kPluginCommandExport);
 		break;
