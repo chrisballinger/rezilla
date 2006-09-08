@@ -1,4 +1,4 @@
-// Last modification: 2006-02-27 06:32:12
+// Last modification: 2006-09-08 09:05:08
 
 localize "French" as "Localizable.strings" 
 {
@@ -6,8 +6,10 @@ localize "French" as "Localizable.strings"
 	key "AlreadyExistTypeAndID" value string "Il existe déjà une ressource ‘%s’ de numéro %d. Voulez-vous la remplacer ou en créer une avec un nouveau numéro (Unique ID) ?"
 	key "AlreadyExistingID" value string "Il existe une ressource de même numéro. Voulez-vous remplacer la ressource existante ou en créer une nouvelle avec un nouveau numéro (Unique ID) ?"
 	key "AskRemoveProtectedBit" value string "Cette ressource est protégée. Voulez-vous ôter la protection ? Vous pouvez aussi la déprotéger plus tard dans l’Inspecteur avant de sauvegarder la table."
+	key "AskSaveOnCloseInspector" value string "Voulez-voujs appliquer les modifications faites dans l'inspecteur avant de fermer ?"
 	key "BadFontSize" value string "Mauvaise taille de police ‘%d’ (doit être entre 4 et 512 pts)."
 	key "CantCreateNewRezFile" value string "Impossible de créer le nouveau fichier de ressources (erreur ‘%d’)."
+	key "CantImportOnExistingICNS" value string "Impossible d’importer sur des données existantes: créer une nouvelle ressource ‘icns’ pour importer depuis un fichier."
 	key "CantOpenRezFileForWriting" value string "Impossible d’ouvrir le fichier de ressources en écriture (erreur ‘%d’)."
 	key "CantSaveReadOnly" value string "Impossible de sauvegarder les modifications: le document est en lecture seule."
 	key "ConfirmCloseModifiedEditedRes" value string "Certaines ressources éditées n’ont pas été validées. Voulez-vous les fermer quand même ?"

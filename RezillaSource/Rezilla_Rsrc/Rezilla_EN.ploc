@@ -1,4 +1,4 @@
-// Last modification: 2006-02-27 06:32:23
+// Last modification: 2006-09-08 09:05:24
 
 localize "English" as "Localizable.strings" 
 {
@@ -6,8 +6,10 @@ localize "English" as "Localizable.strings"
 	key "AlreadyExistTypeAndID" value string "There is already a ‘%s’ resource with ID %d. Do you want to replace it or create one with a new ID (unique ID)?"
 	key "AlreadyExistingID" value string "There is already a resource with this ID. Do you want to replace the existing resource or create a new one with a new ID (unique ID)?"
 	key "AskRemoveProtectedBit" value string "This resource is protected. Do you want to remove the protection ? If not, you can remove it later in the Insoector window before saving the resource map."
+	key "AskSaveOnCloseInspector" value string "Do you want to apply the modifications before closing the inspector?"
 	key "BadFontSize" value string "Bad font size ‘%d’ (must be between 4 and 512 pts)."
 	key "CantCreateNewRezFile" value string "Could not create new resource file (error ‘%d’)."
+	key "CantImportOnExistingICNS" value string "Can’t import on already existing data: create a new ‘icns’ resource to import from file."
 	key "CantOpenRezFileForWriting" value string "Could not open resource file for writing (error ‘%d’)."
 	key "CantSaveReadOnly" value string "Can’t save the modifications: document is read only."
 	key "ConfirmCloseModifiedEditedRes" value string "Some edited resources have not been validated. Do you want to close anyway?"
