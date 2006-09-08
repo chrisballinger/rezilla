@@ -2,7 +2,7 @@
 // CICNS_EditorDoc.cp
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-03-12 22:27:25
+//             Last modification: 2006-09-08 07:16:32
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -35,6 +35,7 @@ PP_Begin_Namespace_PowerPlant
 
 #include <LWindow.h>
 #include <LFile.h>
+#include <UNavigationDialogs.h>
 #include <UStandardDialogs.h>
 #include <LRadioGroupView.h>
 #include <LCheckBox.h>
@@ -130,8 +131,6 @@ CICNS_EditorDoc::RegisterIcon()
 	OSErr error;
 	const FSSpec theFSSpec = mRezMapTable->GetOwnerDoc()->GetRezFile()->GetFileSpec();
 	error = RegisterIconRefFromResource(kRezillaSig, kIconFamilyType, &theFSSpec, mRezObj->GetID(), &mIconRef);
-
-// 	error= RegisterIconRefFromIconFamily(kRezillaSig, kIconFamilyType, mIconFamilyHandle, &mIconRef);
 	return error;	
 }
 
@@ -146,6 +145,7 @@ CICNS_EditorDoc::UnregisterIcon()
 	OSErr error = noErr;
 	if (mIconRef != NULL) {
 		error = ReleaseIconRef(mIconRef);
+		mIconRef = NULL;		
 	} 
 	return error;
 }
@@ -186,6 +186,11 @@ CICNS_EditorDoc::FindCommandStatus(
 {
 	switch ( inCommand ) {
 	
+		case cmd_Import:
+		case cmd_Export:
+			outEnabled = true;
+		break;
+
 	  default:
 			// Call inherited.
 		CEditorDoc::FindCommandStatus( inCommand,
@@ -193,6 +198,40 @@ CICNS_EditorDoc::FindCommandStatus(
 		break;
 
 	}
+}
+
+
+// ---------------------------------------------------------------------------
+//   ObeyCommand									[public, virtual]
+// ---------------------------------------------------------------------------
+
+Boolean
+CICNS_EditorDoc::ObeyCommand(
+	CommandT	inCommand,
+	void*		ioParam)
+{
+	Boolean		cmdHandled = true;	// Assume we'll handle the command
+	
+	switch (inCommand) {
+		
+		case cmd_Import:
+		if (mIconFamilyHandle != NULL) {
+			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("CantImportOnExistingICNS"), PPob_SimpleMessage);
+		} else {
+			ImportICNS();
+		}
+		break;
+
+		case cmd_Export:
+		ExportICNS();
+		break;
+				
+		default: 
+		cmdHandled = LDocument::ObeyCommand(inCommand, ioParam);
+		break;
+	}
+	
+	return cmdHandled;
 }
 
 
@@ -226,6 +265,95 @@ CICNS_EditorDoc::GetModifiedResource(Boolean &releaseIt)
 	
 	return mIcnsEditWindow->CollectResourceData();
 }
+
+
+// ---------------------------------------------------------------------------
+//  ImportICNS													  [public]
+// ---------------------------------------------------------------------------
+
+void
+CICNS_EditorDoc::ImportICNS()
+{
+	FSSpec	theFSSpec;
+	OSErr	error;
+
+	Boolean openOK = UNavigationDialogs::AskOpenOneFile(fileType_Default, theFSSpec, 
+														kNavAllFilesInPopup
+														+ kNavDontAutoTranslate
+														+ kNavSupportPackages
+														+ kNavAllowOpenPackages);
+	
+	if (openOK) {
+		UnregisterIcon();
+		error = RegisterIconRefFromIconFile(kRezillaSig, kIconFamilyType, &theFSSpec, &mIconRef);
+
+		error = IconRefToIconFamily(mIconRef, kSelectorAllAvailableData, &mIconFamilyHandle);
+
+		if (mIconFamilyHandle == NULL || error != noErr) {
+			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("InvalidIcnsData"), PPob_SimpleMessage);
+		} else {
+			error = mIcnsEditWindow->ImportData( (Handle)mIconFamilyHandle);
+		}
+	} 
+}
+
+
+// ---------------------------------------------------------------------------
+//  ExportICNS													  [public]
+// ---------------------------------------------------------------------------
+
+void
+CICNS_EditorDoc::ExportICNS()
+{
+	FSSpec	theFSSpec;
+	bool	replacing;
+	OSErr	error;
+
+	if ( PP_StandardDialogs::AskSaveFile("\pUntitled.icns", fileType_Default,
+										 theFSSpec, replacing) ) {
+		if (replacing) {
+			// Delete existing file
+			error = ::FSpDelete(&theFSSpec);
+			if (error) {
+				UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("CouldNotDeleteExistingFile"), PPob_SimpleMessage);
+				return;
+			} 
+		}
+		
+		DoExport(theFSSpec);
+	}		
+}
+
+
+// ---------------------------------------------------------------------------------
+//  DoExport
+// ---------------------------------------------------------------------------------
+
+void
+CICNS_EditorDoc::DoExport(FSSpec inFileSpec)
+{
+	short	fileID = 0;
+	OSErr	error;
+	SInt32	bytesWritten;
+	Handle dataH = mIcnsEditWindow->CollectResourceData();
+	
+	if (dataH != NULL) {
+		error = ::FSpOpenDF( &inFileSpec, fsWrPerm, &fileID );
+		
+		if (error == noErr) {
+			bytesWritten = ::GetHandleSize(dataH);
+			error = ::SetFPos(fileID, fsFromStart, 0);
+			error = ::FSWrite(fileID, &bytesWritten, *dataH);
+			::SetEOF(fileID, bytesWritten);
+		} 
+		
+		if (fileID) {
+			::FSClose( fileID );	
+		}
+	} 
+	
+}
+
 
 
 

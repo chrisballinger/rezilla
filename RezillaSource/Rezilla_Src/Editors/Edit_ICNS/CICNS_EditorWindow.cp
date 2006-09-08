@@ -2,7 +2,7 @@
 // CICNS_EditorWindow.cp					
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-03-15 08:50:34
+//             Last modification: 2006-09-08 07:25:33
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -651,7 +651,8 @@ CICNS_EditorWindow::CollectResourceData()
 		theHandle = mOutStream->GetDataHandle();
 	}
 	catch (...) {
-		UMessageDialogs::AlertWithType(CFSTR("SavingResourceFailed"), kIconFamilyType);	}
+		UMessageDialogs::AlertWithType(CFSTR("SavingResourceFailed"), kIconFamilyType);
+	}
 	
 	return theHandle;
 }
@@ -842,6 +843,24 @@ CICNS_EditorWindow::ResizeSamplesIfNecessary(SInt16 inWidth, SInt16 inHeight, Bo
 	} 
 }
 
+
+// ---------------------------------------------------------------------------
+//  ImportData													[public]
+// ---------------------------------------------------------------------------
+
+OSErr
+CICNS_EditorWindow::ImportData(Handle inHandle) 
+{
+	OSErr error;
+	
+	if (mIcnsFamily != NULL) {
+		delete mIcnsFamily;
+	} 
+	error = InstallResourceData(inHandle);			
+	SetDirty(true);
+
+	return error;
+}
 
 
 #pragma mark -

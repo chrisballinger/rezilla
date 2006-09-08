@@ -2,7 +2,7 @@
 // CICNS_EditorWindow.h
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-03-15 08:50:46
+//             Last modification: 2006-09-08 07:25:20
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -60,6 +60,8 @@ public:
 	ArrayIndexT		GetCurrentIndex() { return mCurrentIndex;}
 	void			SetCurrentIndex(ArrayIndexT inIconIndex) {mCurrentIndex = inIconIndex;}
 	void			AdjustCurrentIndex();
+
+	OSErr			ImportData(Handle inHandle);
 
 protected:
 	Rez_IconFamilyInfoH		mFamilyInfoH;
