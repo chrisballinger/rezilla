@@ -1,4 +1,4 @@
-// Last modification: 2006-09-08 09:05:24
+// Last modification: 2006-09-11 17:40:19
 
 localize "English" as "Localizable.strings" 
 {
@@ -38,6 +38,7 @@ localize "English" as "Localizable.strings"
 	key "ErrorUsingPluginEditor" value string "An error ‘%d’ occured while using the plugin editor. The original resource has been left unchanged."
 	key "ErrorWhileParsingResource" value string "An error ‘%d’ occured while parsing the resource."
 	key "ErrorWithIconEditor" value string "An error ‘%d’ occured  within the bitmap editor."
+	key "ExportError" value string "An error occured while exporting the resource data."
 	key "HaveReadPermission" value string "Couldn’t save file. Make sure you have ‘read’ permission."
 	key "HaveWritePermission" value string "Couldn’t save file. Make sure you have ‘write’ permission."
 	key "HexStringMustBeEven" value string "The number of hexadecimal digits must be even."
@@ -77,6 +78,7 @@ localize "English" as "Localizable.strings"
 	key "SaveTemplateWindow" value string "Do you want to save the changes made with the template editor?"
 	key "SaveTextEditorWindow" value string "Do you want to save the changes made with the text editor?"
 	key "SaveXmnuData" value string "Some if the data must be stored in an ‘xmnu’ resource otherwise they will be lost. Do you want Rezilla to create this resource?"
+	key "SavingIcnsMembersFailure" value string "Warning: %d icon member(s) could not be saved in the ‘icns’ resource."
 	key "SavingResourceFailed" value string "Saving ‘%s’ resource failed."
 	key "SelectKeyForTemplate" value string "This resource type can have different formats depending on the value of the property below. Select one of the following values to specify the desired format."
 	key "SolveConflictSimilarlyForNext" value string "Solve conflict similarly for next resources"
