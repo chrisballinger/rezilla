@@ -2,7 +2,7 @@
 // CICNS_EditorWindow.cp					
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-09-08 07:25:33
+//             Last modification: 2006-09-11 12:41:03
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -83,9 +83,6 @@ CICNS_EditorWindow::CICNS_EditorWindow(
 
 CICNS_EditorWindow::~CICNS_EditorWindow()
 {	
-	if (mOutStream != nil) {
-		delete mOutStream;
-	} 
 	if (mFamilyInfoH != nil) {
 		::DisposeHandle( (Handle) mFamilyInfoH);
 	} 
@@ -109,8 +106,6 @@ CICNS_EditorWindow::CreateFromStream( LStream *inStream )
 void
 CICNS_EditorWindow::FinishCreateSelf()
 {	
-	mOutStream = nil;
-	
 	// Call the inherited method
 	CIcon_EditorWindow::FinishCreateSelf();
 
@@ -155,7 +150,7 @@ CICNS_EditorWindow::InstallResourceData(Handle inHandle)
 	UInt16		numItems = 0;
 	StHandleLocker	locker(inHandle);
 
-	if (inHandle == NULL) {
+	if ( ::GetHandleSize(inHandle) == 0 ) {
 		// We are creating a new resource
 		mIcnsFamily = new CICNS_Family();
 	} else {
@@ -254,13 +249,6 @@ CICNS_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		
 		case msg_EditorModifiedItem:
 		SetDirty(true);
-		break;
-		
-		case msg_UserChangedBitmap:
-		theMember = GetCurrentMember();
-		if (theMember != NULL) {
-			theMember->SetModified(true);
-		} 
 		break;
 		
 		default:
@@ -400,7 +388,7 @@ CICNS_EditorWindow::ShowIconAtIndex(ArrayIndexT inMenuIndex)
 		return true;
 	} 
 	if ( mIconTypes.FetchItemAt(inMenuIndex, theType) ) {
-		result =  ShowIconForType(theType);
+		result = ShowIconForType(theType);
 	}
 	return result;
 }
@@ -605,7 +593,7 @@ CICNS_EditorWindow::DeleteIconAtIndex(ArrayIndexT inMenuIndex, Boolean askYesNo)
 			} else {
 				mCurrentIndex = 0;
 			}
-			
+			SetDirty(true);
 			if ( ShowIconAtIndex(mCurrentIndex) ) {
 				Refresh();
 			} 
@@ -626,8 +614,6 @@ CICNS_EditorWindow::UpdateTypeField(OSType inType)
 	Str255 theString;
 	UMiscUtils::OSTypeToPString(inType, theString);
 	mTypeField->SetDescriptor(theString);
-// 	::NumToString(inSize, theString);
-// 	mSizeField->SetDescriptor(theString);
 }
 
 
@@ -635,26 +621,17 @@ CICNS_EditorWindow::UpdateTypeField(OSType inType)
 //  CollectResourceData												[public]
 // ---------------------------------------------------------------------------
 
-Handle
-CICNS_EditorWindow::CollectResourceData() 
+OSErr
+CICNS_EditorWindow::CollectResourceData(IconFamilyHandle & outIconFamilyH) 
 {
-	Handle	theHandle = NewHandle(0);
-	
-	try {
-		if (mOutStream != nil) {delete mOutStream;} 
-		
-		mOutStream = new LHandleStream(theHandle);	
-		ThrowIfNil_(mOutStream);
-
-		mIcnsFamily->SendDataToStream(mOutStream);
-		
-		theHandle = mOutStream->GetDataHandle();
-	}
-	catch (...) {
-		UMessageDialogs::AlertWithType(CFSTR("SavingResourceFailed"), kIconFamilyType);
-	}
-	
-	return theHandle;
+	OSErr	error;
+	CICNS_Member * theMember;
+	theMember = GetCurrentMember();
+	if ( theMember != NULL && theMember->IsModified() ) {
+		StoreMemberIcon(theMember);
+	} 
+	error = mIcnsFamily->RetrieveData(outIconFamilyH);
+	return error;
 }
 
 
@@ -666,6 +643,7 @@ CICNS_EditorWindow::CollectResourceData()
 void
 CICNS_EditorWindow::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 {
+	// Does nothing in the case of 'icns' resource
 }
 
 
@@ -863,5 +841,19 @@ CICNS_EditorWindow::ImportData(Handle inHandle)
 }
 
 
-#pragma mark -
+// ---------------------------------------------------------------------------
+//  SetDirty														[public]
+// ---------------------------------------------------------------------------
+
+void
+CICNS_EditorWindow::SetDirty(Boolean inDirty) 
+{
+	CEditorWindow::SetDirty(inDirty);
+	if (inDirty) {
+		CICNS_Member * theMember = GetCurrentMember();
+		if (theMember != NULL) {
+			theMember->SetModified(true);
+		} 
+	} 
+}
 

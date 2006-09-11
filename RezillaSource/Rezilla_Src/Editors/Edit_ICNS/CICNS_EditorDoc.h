@@ -2,7 +2,7 @@
 // CICNS_EditorDoc.h				
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-09-08 07:15:14
+//             Last modification: 2006-09-11 11:32:49
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -57,7 +57,7 @@ public:
 protected:
 	CICNS_EditorWindow *		mIcnsEditWindow;
 	IconRef						mIconRef;
-	IconFamilyHandle			mIconFamilyHandle;
+	Boolean						mIconIsEmpty;
 	
 	virtual Handle		GetModifiedResource(Boolean &releaseIt);
 	void				ImportICNS();

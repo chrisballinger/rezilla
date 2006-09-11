@@ -42,7 +42,7 @@ public:
 	virtual void	ListenToMessage( MessageT inMessage,void *ioParam);
 
 	OSErr			InstallResourceData(Handle inHandle);
-	Handle			CollectResourceData();
+	OSErr			CollectResourceData(IconFamilyHandle & outIconFamilyH);
 	
 	virtual void	SaveAsResource( CRezMap *, ResIDT );
 
@@ -61,15 +61,15 @@ public:
 	void			SetCurrentIndex(ArrayIndexT inIconIndex) {mCurrentIndex = inIconIndex;}
 	void			AdjustCurrentIndex();
 
+	virtual void	SetDirty(Boolean inDirty);
+
 	OSErr			ImportData(Handle inHandle);
 
 protected:
 	Rez_IconFamilyInfoH		mFamilyInfoH;
-	LHandleStream *			mOutStream;
 	CDraggableTargetView *	mIconSample;
 	CDraggableTargetView *	mMaskSample;
 	LStaticText *			mTypeField;
-	LStaticText *			mSizeField;
 	LPopupButton *			mIconPopup;
 	LPushButton *			mRemoveButton;
 	CICNS_Family *			mIcnsFamily;

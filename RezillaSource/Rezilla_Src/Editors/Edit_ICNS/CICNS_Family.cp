@@ -2,7 +2,7 @@
 // CICNS_Family.cp
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-03-13 14:51:03
+//             Last modification: 2006-09-11 17:48:12
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -59,6 +59,7 @@
 #include "CICNS_Member.h"
 #include "RezillaConstants.h"
 #include "UMiscUtils.h"
+#include "UMessageDialogs.h"
 
 #include <LHandleStream.h>
 
@@ -189,8 +190,12 @@ CICNS_Family::InstallDataStream(LHandleStream * inStream)
 	Handle				theHandle;
 	IconFamilyHandle	theIconFamilyHandle = (IconFamilyHandle) inStream->GetDataHandle();
 
-	*inStream >> mIconType;
+	if ( inStream->GetLength() < 8 ) {
+		mIconType = kIconFamilyType;
+		return;
+	} 
 	
+	*inStream >> mIconType;
 	// Next comes the total size of the resource, including the previous
 	// OSType and this SInt32. This must be the same value as
 	// inStream->GetLength(). Should we warn if this is not the case or
@@ -213,31 +218,45 @@ CICNS_Family::InstallDataStream(LHandleStream * inStream)
 
 
 // ---------------------------------------------------------------------------
-//  SendDataToStream												[public]
+//  RetrieveData												[public]
 // ---------------------------------------------------------------------------
 
-void
-CICNS_Family::SendDataToStream(LHandleStream * outStream)
+OSErr
+CICNS_Family::RetrieveData(IconFamilyHandle & outIconFamilyH)
 {
 	OSErr				error = noErr;
-	SInt32				theSize = 0;
 	CICNS_Member *		theMember;
-	IconFamilyHandle	theIconFamilyHandle = (IconFamilyHandle) outStream->GetDataHandle();
 	TArrayIterator<CICNS_Member*> iterator( mMembers );
+	UInt32				oldSize, newSize, failures = 0;	
 
-	*outStream << mIconType;
-	*outStream << theSize;
+	// Allocate memory for the handle. It will be released in DoSaveChanges().
+	outIconFamilyH = (IconFamilyHandle) NewHandle( 8 );
+	if (outIconFamilyH == NULL) {
+		return memFullErr;
+	} 
+	
+	(**outIconFamilyH).resourceType = kIconFamilyType;
+	(**outIconFamilyH).resourceSize = 8;
+	oldSize = 8;
 
 	while (iterator.Next(theMember)) {
-		error = SetIconFamilyData(theIconFamilyHandle, theMember->GetType(), theMember->GetIconData());
+		error = ::SetIconFamilyData(outIconFamilyH, theMember->GetType(), theMember->GetIconData());
+		newSize = (**outIconFamilyH).resourceSize;		
+		if (error != noErr) {
+			break;
+		} 
+		if (oldSize == newSize) {
+			failures++;
+		} else {
+			oldSize = newSize;
+		}
 	}
-	
-	// Rectify the value of the total size
-	theSize = GetHandleSize( (Handle) theIconFamilyHandle);
-	outStream->SetMarker(4, streamFrom_Start);
-	*outStream << theSize;
+	if (failures > 0) {
+		UMessageDialogs::AlertWithValue(CFSTR("SavingIcnsMembersFailure"), failures);
+	} 
+	return error;
 }
- 
+
 
 // ---------------------------------------------------------------------------
 //	 FindMember											 [public]

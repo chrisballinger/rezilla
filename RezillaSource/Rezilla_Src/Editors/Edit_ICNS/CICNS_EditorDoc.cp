@@ -2,7 +2,7 @@
 // CICNS_EditorDoc.cp
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-09-08 07:16:32
+//             Last modification: 2006-09-11 11:32:54
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -71,8 +71,6 @@ CICNS_EditorDoc::~CICNS_EditorDoc()
 	if (mIcnsEditWindow != nil) {
 		delete mIcnsEditWindow;
 	} 
-	// Release the icon ref
-	Unregister();
 }
 
 
@@ -86,8 +84,7 @@ CICNS_EditorDoc::Initialize()
 	OSErr error = noErr;
 	
 	mIconRef = NULL;
-	RegisterIcon();
-	mIconFamilyHandle = NULL;
+	mIconIsEmpty = true;
 
 	// Create a window for our document and set this doc as its SuperCommander
 	mIcnsEditWindow = dynamic_cast<CICNS_EditorWindow *>(LWindow::CreateWindow( PPob_IcnsEditorWindow, this ));
@@ -98,11 +95,23 @@ CICNS_EditorDoc::Initialize()
 	mIcnsEditWindow->FinalizeEditor(this);
 	
 	try {
-		error = IconRefToIconFamily(mIconRef, kSelectorAllAvailableData, &mIconFamilyHandle);
-		
 		// Install the data
-		error = mIcnsEditWindow->InstallResourceData( (Handle) mIconFamilyHandle);			
-		ThrowIfError_(error);
+		if (mRezObj != nil) {
+			Handle rezData = mRezObj->GetData();
+			// Work with a copy of the handle
+			::HandToHand(&rezData);
+			
+			if (rezData != NULL) {
+				if ( ::GetHandleSize(rezData) > 8 ) {
+					mIconIsEmpty = false;
+				} 
+				error = mIcnsEditWindow->InstallResourceData(rezData);			
+			} else {
+				error = memFullErr;
+			}
+			ThrowIfError_(error);
+			
+		}		
 	} catch (...) {
 		delete this;
 		if (error == err_MoreDataThanExpected) {
@@ -144,7 +153,7 @@ CICNS_EditorDoc::UnregisterIcon()
 {
 	OSErr error = noErr;
 	if (mIconRef != NULL) {
-		error = ReleaseIconRef(mIconRef);
+		error = ::ReleaseIconRef(mIconRef);
 		mIconRef = NULL;		
 	} 
 	return error;
@@ -215,7 +224,7 @@ CICNS_EditorDoc::ObeyCommand(
 	switch (inCommand) {
 		
 		case cmd_Import:
-		if (mIconFamilyHandle != NULL) {
+		if ( !mIconIsEmpty ) {
 			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("CantImportOnExistingICNS"), PPob_SimpleMessage);
 		} else {
 			ImportICNS();
@@ -253,17 +262,16 @@ CICNS_EditorDoc::AllowSubRemoval(
 
 
 // ---------------------------------------------------------------------------
-//   GetModifiedResource										[protected]
+//   GetModifiedResource											[protected]
 // ---------------------------------------------------------------------------
-// The returned handle should not be released by the caller so leave
-// releaseIt to false (its default).
 
 Handle
 CICNS_EditorDoc::GetModifiedResource(Boolean &releaseIt) 
 {
-#pragma unused(releaseIt)
-	
-	return mIcnsEditWindow->CollectResourceData();
+	IconFamilyHandle	iconFamilyH = NULL;
+	mIcnsEditWindow->CollectResourceData(iconFamilyH);	
+	releaseIt = true;
+	return (Handle)iconFamilyH;
 }
 
 
@@ -284,15 +292,12 @@ CICNS_EditorDoc::ImportICNS()
 														+ kNavAllowOpenPackages);
 	
 	if (openOK) {
-		UnregisterIcon();
-		error = RegisterIconRefFromIconFile(kRezillaSig, kIconFamilyType, &theFSSpec, &mIconRef);
-
-		error = IconRefToIconFamily(mIconRef, kSelectorAllAvailableData, &mIconFamilyHandle);
-
-		if (mIconFamilyHandle == NULL || error != noErr) {
+		IconFamilyHandle	iconFamilyH = NULL;
+		error = ReadIconFile(&theFSSpec, &iconFamilyH);
+		if (iconFamilyH == NULL || error != noErr) {
 			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("InvalidIcnsData"), PPob_SimpleMessage);
 		} else {
-			error = mIcnsEditWindow->ImportData( (Handle)mIconFamilyHandle);
+			error = mIcnsEditWindow->ImportData( (Handle)iconFamilyH);
 		}
 	} 
 }
@@ -307,21 +312,43 @@ CICNS_EditorDoc::ExportICNS()
 {
 	FSSpec	theFSSpec;
 	bool	replacing;
+	bool	saveIt = false;
+	bool	exportIt = true;
 	OSErr	error;
-
-	if ( PP_StandardDialogs::AskSaveFile("\pUntitled.icns", fileType_Default,
-										 theFSSpec, replacing) ) {
-		if (replacing) {
-			// Delete existing file
-			error = ::FSpDelete(&theFSSpec);
-			if (error) {
-				UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("CouldNotDeleteExistingFile"), PPob_SimpleMessage);
-				return;
-			} 
+	SInt16	saveAnswer = answer_DontSave;
+	
+	if (IsModified()) {
+		saveAnswer = AskSaveChanges(SaveWhen_Closing);
+		if (saveAnswer == answer_Save) {
+			saveIt = true;
+		} else if (saveAnswer == answer_Cancel) {
+			exportIt = false;				// Abort the export
 		}
-		
-		DoExport(theFSSpec);
-	}		
+	}
+	
+	if ( saveIt ) {
+		if ( CanSaveChanges() ) {
+			DoSaveChanges();
+		} else {
+			exportIt = false;				// Abort the export
+		}		
+	}
+	
+	if (exportIt) {
+		if ( PP_StandardDialogs::AskSaveFile("\pUntitled.icns", fileType_Default,
+											 theFSSpec, replacing) ) {
+			if (replacing) {
+				// Delete existing file
+				error = ::FSpDelete(&theFSSpec);
+				if (error) {
+					UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("CouldNotDeleteExistingFile"), PPob_SimpleMessage);
+					return;
+				} 
+			}
+			
+			DoExport(theFSSpec);
+		}		
+	} 
 }
 
 
@@ -332,26 +359,15 @@ CICNS_EditorDoc::ExportICNS()
 void
 CICNS_EditorDoc::DoExport(FSSpec inFileSpec)
 {
-	short	fileID = 0;
-	OSErr	error;
-	SInt32	bytesWritten;
-	Handle dataH = mIcnsEditWindow->CollectResourceData();
-	
-	if (dataH != NULL) {
-		error = ::FSpOpenDF( &inFileSpec, fsWrPerm, &fileID );
-		
-		if (error == noErr) {
-			bytesWritten = ::GetHandleSize(dataH);
-			error = ::SetFPos(fileID, fsFromStart, 0);
-			error = ::FSWrite(fileID, &bytesWritten, *dataH);
-			::SetEOF(fileID, bytesWritten);
-		} 
-		
-		if (fileID) {
-			::FSClose( fileID );	
-		}
+	IconFamilyHandle	iconFamilyH = NULL;
+	OSErr error = mIcnsEditWindow->CollectResourceData(iconFamilyH);	
+	if (iconFamilyH != NULL && error == noErr) {
+		error = WriteIconFile(iconFamilyH, &inFileSpec);
+		::DisposeHandle( (Handle)iconFamilyH);
 	} 
-	
+	if (error != noErr) {
+		UMessageDialogs::ErrorMessageFromLocalizable(CFSTR("ExportError"), error, PPob_SimpleMessage);
+	} 
 }
 
 
