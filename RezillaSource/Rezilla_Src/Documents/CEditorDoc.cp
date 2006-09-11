@@ -67,7 +67,7 @@ CEditorDoc::CEditorDoc(LCommander* inSuper,
 	// The owner RezMapDoc is the super model
 	SetSuperModel( dynamic_cast<LModelObject *>(inSuper) );
 
-	Register();
+	RegisterDoc();
 }
 
 
@@ -77,7 +77,7 @@ CEditorDoc::CEditorDoc(LCommander* inSuper,
 
 CEditorDoc::~CEditorDoc()
 {
-	Unregister();
+	UnregisterDoc();
 	if (mRezObj != nil) {
 		mRezObj->DecrRefCount();
 		if (mRezObj->GetRefCount() == 0) {
@@ -498,7 +498,7 @@ CEditorDoc::DoRevert()
 // ---------------------------------------------------------------------------------
 
 void
-CEditorDoc::Register()
+CEditorDoc::RegisterDoc()
 {
 	mRezMapTable->GetOwnerDoc()->GetOpenedEditors()->AddItem(this);
 }
@@ -509,7 +509,7 @@ CEditorDoc::Register()
 // ---------------------------------------------------------------------------------
 
 void
-CEditorDoc::Unregister()
+CEditorDoc::UnregisterDoc()
 {
 	mRezMapTable->GetOwnerDoc()->GetOpenedEditors()->Remove(this);
 }

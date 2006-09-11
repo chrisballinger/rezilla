@@ -2,7 +2,7 @@
 // TPickerDoc.h				
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-03-18 09:35:38
+//             Last modification: 2006-09-10 13:11:51
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -38,7 +38,7 @@ public:
 							{
 								mPickerWindow = nil;
 								Initialize();
-								Register();
+								RegisterDoc();
 							}
 
 					~TPickerDoc() {}

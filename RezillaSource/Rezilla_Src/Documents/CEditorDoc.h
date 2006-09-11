@@ -121,8 +121,8 @@ protected:
 	virtual Handle	GetModifiedResource(Boolean &releaseIt) = 0;  // Purely virtual
 	void			NameNewEditorDoc();
 	void			BuildDocumentTitle(Str255 & outTitle, SInt16 whichString);
-	void			Register();
-	void			Unregister();
+	void			RegisterDoc();
+	void			UnregisterDoc();
 };
 
 

@@ -109,8 +109,8 @@ protected:
 
 	void			BuildDocumentTitle(Str255 & outTitle, SInt16 whichString);
 
-	void			Register();
-	void			Unregister();
+	void			RegisterDoc();
+	void			UnregisterDoc();
 	
 };
 

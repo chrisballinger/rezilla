@@ -66,7 +66,7 @@ CPickerDoc::~CPickerDoc()
 	if (mPickerWindow != nil) {
 		delete mPickerWindow;
 	} 
-	Unregister();
+	UnregisterDoc();
 }
 
 
@@ -322,7 +322,7 @@ CPickerDoc::SelectPickerWindow()
 // ---------------------------------------------------------------------------------
 
 void
-CPickerDoc::Register()
+CPickerDoc::RegisterDoc()
 {
 	mRezMapTable->GetOwnerDoc()->GetOpenedPickers()->AddItem(this);
 }
@@ -333,7 +333,7 @@ CPickerDoc::Register()
 // ---------------------------------------------------------------------------------
 
 void
-CPickerDoc::Unregister()
+CPickerDoc::UnregisterDoc()
 {
 	mRezMapTable->GetOwnerDoc()->GetOpenedPickers()->Remove(this);
 }
