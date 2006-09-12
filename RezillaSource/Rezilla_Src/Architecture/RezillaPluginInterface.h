@@ -45,7 +45,7 @@
 
 
 // Rezilla plugin flags
-enum {
+enum RezillaPluginFlags {
 	kPluginNoAttributes				= 0L,
 	
 	kPluginEditorHasSaveButton		= (1L << 0),
@@ -78,7 +78,7 @@ enum {
 
 
 // Rezilla plugin command IDs
-enum {
+enum RezillaPluginCmdIDs {
 	kPluginCommandCut		= 1,
 	kPluginCommandCopy,
 	kPluginCommandPaste,
@@ -155,7 +155,7 @@ typedef struct SPluginPickerInterface {
 
 
 // Rezilla plugins error codes
-enum PluginErrors {
+enum RezillaPluginErrors {
 	plugErr_Generic				= 5000,	
 	plugErr_InitializationFailed,
 	plugErr_UnsupportedType,
