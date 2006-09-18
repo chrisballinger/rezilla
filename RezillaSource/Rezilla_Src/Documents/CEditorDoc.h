@@ -2,11 +2,11 @@
 // CEditorDoc.h				
 // 
 //                       Created: 2004-02-23 17:57:59
-//             Last modification: 2005-05-14 11:01:55
+//             Last modification: 2006-09-17 08:08:09
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2003-2005
+// (c) Copyright : Bernard Desgraupes, 2003-2005, 2006
 // All rights reserved.
 // ===========================================================================
 
@@ -44,6 +44,10 @@ public:
 							void*			ioParam);
 
 	virtual Boolean	AllowSubRemoval( LCommander* inSub );
+
+	virtual bool	DesignateExportFile(FSSpec& outFileSpec, 
+										bool & outReplacing, 
+										SInt16 & outExportFormat);
 
 	virtual SInt16	AskSaveChanges( bool inQuitting );
 
@@ -123,6 +127,11 @@ protected:
 	void			BuildDocumentTitle(Str255 & outTitle, SInt16 whichString);
 	void			RegisterDoc();
 	void			UnregisterDoc();
+
+	virtual void		ImportResource();
+	virtual void		ExportResource();
+	virtual void		DoImportData(FSSpec inFileSpec);
+	virtual void		DoExportData(FSSpec inFileSpec, SInt16 inFormat);
 };
 
 

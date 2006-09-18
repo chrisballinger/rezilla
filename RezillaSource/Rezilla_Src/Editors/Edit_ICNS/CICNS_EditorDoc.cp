@@ -2,7 +2,7 @@
 // CICNS_EditorDoc.cp
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-09-11 11:32:54
+//             Last modification: 2006-09-17 12:27:40
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -194,18 +194,23 @@ CICNS_EditorDoc::FindCommandStatus(
 	Str255		outName )
 {
 	switch ( inCommand ) {
-	
+		
 		case cmd_Import:
+		LString::CopyPStr( "\pImport from Icns File...", outName);
+		outEnabled = true;
+		break;		
+		
 		case cmd_Export:
-			outEnabled = true;
-		break;
-
-	  default:
-			// Call inherited.
+		LString::CopyPStr( "\pExport to Icns File...", outName);
+		outEnabled = true;
+		break;		
+		
+		default:
+		// Call inherited.
 		CEditorDoc::FindCommandStatus( inCommand,
-				outEnabled, outUsesMark, outMark, outName );
+									  outEnabled, outUsesMark, outMark, outName );
 		break;
-
+		
 	}
 }
 
@@ -227,14 +232,10 @@ CICNS_EditorDoc::ObeyCommand(
 		if ( !mIconIsEmpty ) {
 			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("CantImportOnExistingICNS"), PPob_SimpleMessage);
 		} else {
-			ImportICNS();
+			ImportResource();
 		}
 		break;
 
-		case cmd_Export:
-		ExportICNS();
-		break;
-				
 		default: 
 		cmdHandled = LDocument::ObeyCommand(inCommand, ioParam);
 		break;
@@ -275,90 +276,37 @@ CICNS_EditorDoc::GetModifiedResource(Boolean &releaseIt)
 }
 
 
-// ---------------------------------------------------------------------------
-//  ImportICNS													  [public]
-// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------
+//  DoImportData
+// ---------------------------------------------------------------------------------
 
 void
-CICNS_EditorDoc::ImportICNS()
+CICNS_EditorDoc::DoImportData(FSSpec inFileSpec)
 {
-	FSSpec	theFSSpec;
-	OSErr	error;
+	OSErr error = noErr;
+	IconFamilyHandle    iconFamilyH = NULL;
 
-	Boolean openOK = UNavigationDialogs::AskOpenOneFile(fileType_Default, theFSSpec, 
-														kNavAllFilesInPopup
-														+ kNavDontAutoTranslate
-														+ kNavSupportPackages
-														+ kNavAllowOpenPackages);
-	
-	if (openOK) {
-		IconFamilyHandle	iconFamilyH = NULL;
-		error = ReadIconFile(&theFSSpec, &iconFamilyH);
-		if (iconFamilyH == NULL || error != noErr) {
-			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("InvalidIcnsData"), PPob_SimpleMessage);
-		} else {
-			error = mIcnsEditWindow->ImportData( (Handle)iconFamilyH);
-		}
-	} 
-}
-
-
-// ---------------------------------------------------------------------------
-//  ExportICNS													  [public]
-// ---------------------------------------------------------------------------
-
-void
-CICNS_EditorDoc::ExportICNS()
-{
-	FSSpec	theFSSpec;
-	bool	replacing;
-	bool	saveIt = false;
-	bool	exportIt = true;
-	OSErr	error;
-	SInt16	saveAnswer = answer_DontSave;
-	
-	if (IsModified()) {
-		saveAnswer = AskSaveChanges(SaveWhen_Closing);
-		if (saveAnswer == answer_Save) {
-			saveIt = true;
-		} else if (saveAnswer == answer_Cancel) {
-			exportIt = false;				// Abort the export
-		}
+	error = ReadIconFile(&inFileSpec, &iconFamilyH);
+	if (iconFamilyH == NULL || error != noErr) {
+		UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("InvalidIcnsData"), PPob_SimpleMessage);
+	} else {
+		error = mIcnsEditWindow->ImportData( (Handle)iconFamilyH);
 	}
 	
-	if ( saveIt ) {
-		if ( CanSaveChanges() ) {
-			DoSaveChanges();
-		} else {
-			exportIt = false;				// Abort the export
-		}		
-	}
-	
-	if (exportIt) {
-		if ( PP_StandardDialogs::AskSaveFile("\pUntitled.icns", fileType_Default,
-											 theFSSpec, replacing) ) {
-			if (replacing) {
-				// Delete existing file
-				error = ::FSpDelete(&theFSSpec);
-				if (error) {
-					UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("CouldNotDeleteExistingFile"), PPob_SimpleMessage);
-					return;
-				} 
-			}
-			
-			DoExport(theFSSpec);
-		}		
+	if (error != noErr) {
+		UMessageDialogs::ErrorMessageFromLocalizable(CFSTR("ImportError"), error, PPob_SimpleMessage);
 	} 
 }
 
 
 // ---------------------------------------------------------------------------------
-//  DoExport
+//  DoExportData
 // ---------------------------------------------------------------------------------
 
 void
-CICNS_EditorDoc::DoExport(FSSpec inFileSpec)
+CICNS_EditorDoc::DoExportData(FSSpec inFileSpec, SInt16 inFormat)
 {
+#pragma unused(inFormat)
 	IconFamilyHandle	iconFamilyH = NULL;
 	OSErr error = mIcnsEditWindow->CollectResourceData(iconFamilyH);	
 	if (iconFamilyH != NULL && error == noErr) {

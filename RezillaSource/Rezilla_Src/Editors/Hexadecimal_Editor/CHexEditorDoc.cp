@@ -378,7 +378,7 @@ CHexEditorDoc::FindCommandStatus(
 	  default:
 		{
 			// Call inherited.
-			LDocument::FindCommandStatus( inCommand,
+			CEditorDoc::FindCommandStatus( inCommand,
 				outEnabled, outUsesMark, outMark, outName );
 		}
 		break;

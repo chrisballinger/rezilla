@@ -2,7 +2,7 @@
 // File: "RezillaPluginInterface.h"
 // 
 //                        Created: 2005-09-08 15:49:50
-//              Last modification: 2006-03-08 09:16:15
+//              Last modification: 2006-09-13 10:50:54
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -46,48 +46,48 @@
 
 // Rezilla plugin flags
 enum RezillaPluginFlags {
-	kPluginNoAttributes				= 0L,
-	
-	kPluginEditorHasSaveButton		= (1L << 0),
-	kPluginEditorHasCancelButton	= (1L << 1),
-	kPluginEditorHasRevertButton	= (1L << 2),
-	kPluginEditorHasLockIcon		= (1L << 3),
-	kPluginEditorHasNameField		= (1L << 4),
-	kPluginEditorStandardControls	= (kPluginEditorHasSaveButton 
-								   | kPluginEditorHasCancelButton 
-								   | kPluginEditorHasRevertButton 
-								   | kPluginEditorHasLockIcon),
-	
-	kPluginWinHasCollapseBox		= (1L << 5),
-	kPluginWinIsResizable			= (1L << 6),
-	
-	kPluginSupportCut				= (1L << 10),
-	kPluginSupportCopy				= (1L << 11),
-	kPluginSupportPaste				= (1L << 12),
-	kPluginSupportClear				= (1L << 13),
-	kPluginSupportSelectAll			= (1L << 14),
-	kPluginSupportFind				= (1L << 15),
-	kPluginSupportFindNext			= (1L << 16),
-	kPluginSupportImport			= (1L << 17),
-	kPluginSupportExport			= (1L << 18),
-	kPluginSupportEditCommands		= (kPluginSupportCut 
-								   | kPluginSupportCopy 
-								   | kPluginSupportPaste 
-								   | kPluginSupportClear)
+    kPluginNoAttributes             = 0L,
+    
+    kPluginEditorHasSaveButton      = (1L << 0),
+    kPluginEditorHasCancelButton    = (1L << 1),
+    kPluginEditorHasRevertButton    = (1L << 2),
+    kPluginEditorHasLockIcon        = (1L << 3),
+    kPluginEditorHasNameField       = (1L << 4),
+    kPluginEditorStandardControls   = (kPluginEditorHasSaveButton 
+                                   | kPluginEditorHasCancelButton 
+                                   | kPluginEditorHasRevertButton 
+                                   | kPluginEditorHasLockIcon),
+    
+    kPluginWinHasCollapseBox        = (1L << 5),
+    kPluginWinIsResizable           = (1L << 6),
+    
+    kPluginSupportCut               = (1L << 10),
+    kPluginSupportCopy              = (1L << 11),
+    kPluginSupportPaste             = (1L << 12),
+    kPluginSupportClear             = (1L << 13),
+    kPluginSupportSelectAll         = (1L << 14),
+    kPluginSupportFind              = (1L << 15),
+    kPluginSupportFindNext          = (1L << 16),
+    kPluginSupportImport            = (1L << 17),
+    kPluginSupportExport            = (1L << 18),
+    kPluginSupportEditCommands      = (kPluginSupportCut 
+                                   | kPluginSupportCopy 
+                                   | kPluginSupportPaste 
+                                   | kPluginSupportClear)
 };
 
 
 // Rezilla plugin command IDs
 enum RezillaPluginCmdIDs {
-	kPluginCommandCut		= 1,
-	kPluginCommandCopy,
-	kPluginCommandPaste,
-	kPluginCommandClear,
-	kPluginCommandSelectAll,
-	kPluginCommandFind,
-	kPluginCommandFindNext,
-	kPluginCommandImport,
-	kPluginCommandExport
+    kPluginCommandCut        = 1,
+    kPluginCommandCopy,
+    kPluginCommandPaste,
+    kPluginCommandClear,
+    kPluginCommandSelectAll,
+    kPluginCommandFind,
+    kPluginCommandFindNext,
+    kPluginCommandImport,
+    kPluginCommandExport
 };
 
 
@@ -95,80 +95,80 @@ enum RezillaPluginCmdIDs {
 // A RezPlugRef is a pointer to plugin defined client data. All the
 // interface functions (except AcceptResource which defines this pointer)
 // will pass this reference number in their first argument.
-typedef void *	RezPlugRef;
+typedef void *    RezPlugRef;
 
 
 // Structure received from the plugin to define its requirements and 
 // initialisations
 typedef struct RezPlugInfo {
-	RezPlugRef	plugref;
-	UInt32		attributes;
-	Rect		winbounds;
-	UInt8		menucount;
-	MenuID *	menuIDs;
-	OSErr		error;
+    RezPlugRef    plugref;
+    UInt32        attributes;
+    Rect          winbounds;
+    UInt8         menucount;
+    MenuID *      menuIDs;
+    OSErr         error;
 } RezPlugInfo;
 
 
 // Structure sent by the host with post-initialisation info
 typedef struct RezHostInfo {
-	CFBundleRef bundleref;
-	short		refnum;
-	WindowRef	winref;
-	UInt8		menucount;
-	MenuRef	*	menurefs;
-	Rect		editrect;
-	Boolean		readonly;
+    CFBundleRef  bundleref;
+    short        refnum;
+    WindowRef    winref;
+    UInt8        menucount;
+    MenuRef *    menurefs;
+    Rect         editrect;
+    Boolean      readonly;
 } RezHostInfo;
 
 
 // The function table defining the editor interface
 typedef struct SPluginEditorInterface {
-	IUNKNOWN_C_GUTS;
-	Boolean	(*AcceptResource)(void *myInstance, ResType inType, short inID, Handle inDataH, RezPlugInfo * outInfo);
-	OSErr	(*EditResource)(RezPlugRef inPlugref, RezHostInfo inInfo);
-	Handle	(*ReturnResource)(RezPlugRef inPlugref, Boolean * outRelease, OSErr * outError);
-	OSErr	(*RevertResource)(RezPlugRef inPlugref, Handle inDataH);
-	Boolean	(*IsModified)(RezPlugRef inPlugref);
-	void	(*CleanUp)(RezPlugRef inPlugref);
-	void	(*Refresh)(RezPlugRef inPlugref);
-	OSErr	(*ResizeBy)(RezPlugRef inPlugref, SInt16 inWidthDelta, SInt16 inHeightDelta);
-	void	(*HandleMenu)(RezPlugRef inPlugref, MenuRef menu, SInt16 inMenuItem);
-	void	(*HandleClick)(RezPlugRef inPlugref, const EventRecord * inMacEvent, Point inPortCoords);
-	void	(*HandleKeyDown)(RezPlugRef inPlugref, const EventRecord * inKeyEvent);
-	Boolean	(*HandleCommand)(RezPlugRef inPlugref, SInt16 inCommand);
+    IUNKNOWN_C_GUTS;
+    Boolean  (*AcceptResource)(void *myInstance, ResType inType, short inID, Handle inDataH, RezPlugInfo * outInfo);
+    OSErr    (*EditResource)(RezPlugRef inPlugref, RezHostInfo inInfo);
+    Handle   (*ReturnResource)(RezPlugRef inPlugref, Boolean * outRelease, OSErr * outError);
+    OSErr    (*RevertResource)(RezPlugRef inPlugref, Handle inDataH);
+    Boolean  (*IsModified)(RezPlugRef inPlugref);
+    void     (*CleanUp)(RezPlugRef inPlugref);
+    void     (*Refresh)(RezPlugRef inPlugref);
+    OSErr    (*ResizeBy)(RezPlugRef inPlugref, SInt16 inWidthDelta, SInt16 inHeightDelta);
+    void     (*HandleMenu)(RezPlugRef inPlugref, MenuRef menu, SInt16 inMenuItem);
+    void     (*HandleClick)(RezPlugRef inPlugref, const EventRecord * inMacEvent, Point inPortCoords);
+    void     (*HandleKeyDown)(RezPlugRef inPlugref, const EventRecord * inKeyEvent);
+    Boolean  (*HandleCommand)(RezPlugRef inPlugref, SInt16 inCommand);
 } SPluginEditorInterface;
 
 
 // The function table defining the picker interface
 typedef struct SPluginPickerInterface {
-	IUNKNOWN_C_GUTS;
-	Boolean	(*AcceptType)(void *myInstance, ResType inType, short inID, Handle inDataH, RezPlugInfo * outInfo);
-	OSErr	(*EditPicker)(RezPlugRef inPlugref, RezHostInfo inInfo);
-	Handle	(*UpdatePicker)(RezPlugRef inPlugref, Boolean * outRelease, OSErr * outError);
-	void	(*CleanUp)(RezPlugRef inPlugref);
-	OSErr	(*ResizeBy)(RezPlugRef inPlugref, SInt16 inWidthDelta, SInt16 inHeightDelta);
-	void	(*HandleMenu)(RezPlugRef inPlugref, MenuRef menu, SInt16 inMenuItem);
-	void	(*HandleDoubleClick)(RezPlugRef inPlugref, const EventRecord * inMacEvent, Point inPortCoords);
-	void	(*HandleKeyDown)(RezPlugRef inPlugref, const EventRecord * inKeyEvent);
+    IUNKNOWN_C_GUTS;
+    Boolean  (*AcceptType)(void *myInstance, ResType inType, short inID, Handle inDataH, RezPlugInfo * outInfo);
+    OSErr    (*EditPicker)(RezPlugRef inPlugref, RezHostInfo inInfo);
+    Handle   (*UpdatePicker)(RezPlugRef inPlugref, Boolean * outRelease, OSErr * outError);
+    void     (*CleanUp)(RezPlugRef inPlugref);
+    OSErr    (*ResizeBy)(RezPlugRef inPlugref, SInt16 inWidthDelta, SInt16 inHeightDelta);
+    void     (*HandleMenu)(RezPlugRef inPlugref, MenuRef menu, SInt16 inMenuItem);
+    void     (*HandleDoubleClick)(RezPlugRef inPlugref, const EventRecord * inMacEvent, Point inPortCoords);
+    void     (*HandleKeyDown)(RezPlugRef inPlugref, const EventRecord * inKeyEvent);
 } SPluginPickerInterface;
 
 
 // Rezilla plugins error codes
 enum RezillaPluginErrors {
-	plugErr_Generic				= 5000,	
-	plugErr_InitializationFailed,
-	plugErr_UnsupportedType,
-	plugErr_UnsupportedID,
-	plugErr_InvalidData,
-	plugErr_UnsupportedResourceFormat,
-	plugErr_UnsupportedResourceVersion,
-	plugErr_EditResourceFailed,
-	plugErr_ReturnResourceFailed,
-	plugErr_RevertResourceFailed,
-	plugErr_CantResizeWindow,
-	plugErr_CantHandleMenuCommand,
-	plugErr_LastError
+    plugErr_Generic                = 5000,    
+    plugErr_InitializationFailed,
+    plugErr_UnsupportedType,
+    plugErr_UnsupportedID,
+    plugErr_InvalidData,
+    plugErr_UnsupportedResourceFormat,
+    plugErr_UnsupportedResourceVersion,
+    plugErr_EditResourceFailed,
+    plugErr_ReturnResourceFailed,
+    plugErr_RevertResourceFailed,
+    plugErr_CantResizeWindow,
+    plugErr_CantHandleMenuCommand,
+    plugErr_LastError
 };
 
 

@@ -2,11 +2,11 @@
 // CEditorDoc.cp
 // 
 //                       Created: 2003-05-04 19:16:00
-//             Last modification: 2005-06-11 15:31:17
+//             Last modification: 2006-09-17 08:08:18
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2003-2005
+// (c) Copyright : Bernard Desgraupes, 2003-2005, 2006
 // All rights reserved.
 // ===========================================================================
 
@@ -32,6 +32,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 #include <LString.h>
+#include <UNavigationDialogs.h>
 #include <UStandardDialogs.h>
 
 // // Standard headers
@@ -160,6 +161,14 @@ CEditorDoc::ObeyCommand(
 		AttemptClose(false);
 		break;
 				
+		case cmd_Import:
+		ImportResource();
+		break;
+
+		case cmd_Export:
+		ExportResource();
+		break;
+				
 		case cmd_Find:
 		break;
 				
@@ -191,11 +200,19 @@ CEditorDoc::FindCommandStatus(
 	
 		case cmd_Save:
 		case cmd_SaveAs:
-		case cmd_Import:
-		case cmd_Export:
 		case cmd_FindNext:
-			outEnabled = false;
+		outEnabled = false;
 		break;
+
+		case cmd_Import:
+		LString::CopyPStr( "\pImport...", outName);
+		outEnabled = false;
+		break;		
+
+		case cmd_Export:
+		LString::CopyPStr( "\pExport...", outName);
+		outEnabled = false;
+		break;		
 
 		case cmd_Find:
 		LString::CopyPStr( "\pFind...", outName);
@@ -527,6 +544,124 @@ CEditorDoc::SelectMainWindow()
 	} 
 }
  
+
+// ---------------------------------------------------------------------------
+//   DesignateExportFile											[public]
+// ---------------------------------------------------------------------------
+
+bool
+CEditorDoc::DesignateExportFile( FSSpec & outFileSpec, bool & outReplacing, SInt16 & outExportFormat)
+{
+#pragma unused(outExportFormat)
+	bool	askOK = PP_StandardDialogs::AskSaveFile("\pUntitled", fileType_Default,
+									outFileSpec, outReplacing);
+	return askOK;
+}
+
+
+// ---------------------------------------------------------------------------
+//  ImportResource													  [public]
+// ---------------------------------------------------------------------------
+
+void
+CEditorDoc::ImportResource()
+{
+	FSSpec	theFSSpec;
+
+	Boolean openOK = UNavigationDialogs::AskOpenOneFile(fileType_Default, theFSSpec, 
+														kNavAllFilesInPopup
+														+ kNavDontAutoTranslate
+														+ kNavSupportPackages
+														+ kNavAllowOpenPackages);
+	
+	if (openOK) {
+		DoImportData(theFSSpec);
+	} 
+}
+
+
+// ---------------------------------------------------------------------------
+//  ExportResource													  [public]
+// ---------------------------------------------------------------------------
+
+void
+CEditorDoc::ExportResource()
+{
+	FSSpec	theFSSpec;
+	bool	replacing;
+	bool	saveIt = false;
+	bool	exportIt = true;
+	OSErr	error;
+	SInt16	saveAnswer = answer_DontSave;
+	
+	if (IsModified()) {
+		saveAnswer = AskSaveChanges(SaveWhen_Closing);
+		if (saveAnswer == answer_Save) {
+			saveIt = true;
+		} else if (saveAnswer == answer_Cancel) {
+			exportIt = false;				// Abort the export
+		}
+	}
+	
+	if ( saveIt ) {
+		if ( CanSaveChanges() ) {
+			DoSaveChanges();
+		} else {
+			exportIt = false;				// Abort the export
+		}		
+	}
+	
+	if (exportIt) {
+		SInt16 exportFormat;
+
+		if ( DesignateExportFile(theFSSpec, replacing, exportFormat) ) {
+			if (replacing) {
+				// Delete existing file
+				error = ::FSpDelete(&theFSSpec);
+				if (error) {
+					UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("CouldNotDeleteExistingFile"), PPob_SimpleMessage);
+					return;
+				} 
+			}
+			
+			DoExportData(theFSSpec, exportFormat);
+		}		
+	} 
+}
+
+
+// ---------------------------------------------------------------------------------
+//  DoImportData
+// ---------------------------------------------------------------------------------
+
+void
+CEditorDoc::DoImportData(FSSpec inFileSpec)
+{
+#pragma unused(inFileSpec)
+	OSErr error = noErr;
+	
+	if (error != noErr) {
+		UMessageDialogs::ErrorMessageFromLocalizable(CFSTR("ImportError"), error, PPob_SimpleMessage);
+	} 
+}
+
+
+// ---------------------------------------------------------------------------------
+//  DoExportData
+// ---------------------------------------------------------------------------------
+
+void
+CEditorDoc::DoExportData(FSSpec inFileSpec, SInt16 inFormat)
+{
+#pragma unused(inFileSpec, inFormat)
+	OSErr error = noErr;
+	
+	if (error != noErr) {
+		UMessageDialogs::ErrorMessageFromLocalizable(CFSTR("ExportError"), error, PPob_SimpleMessage);
+	} 
+}
+
+
 
 PP_End_Namespace_PowerPlant
 

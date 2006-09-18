@@ -319,11 +319,6 @@ CAete_EditorWindow::FindCommandStatus(
 		}
 		break;
 
-		case cmd_AeteExport:
-		case cmd_AeteImport:
-		outEnabled = true;
-		break;
-
 		default:
 		CEditorWindow::FindCommandStatus(inCommand, outEnabled,
 									  outUsesMark, outMark, outName);

@@ -2,7 +2,7 @@
 // CRezMapDoc.h				
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2006-09-05 07:55:48
+//             Last modification: 2006-09-17 12:28:11
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -93,9 +93,9 @@ public:
 
 	virtual bool		AskConfirmRevert();
 
-	virtual void		DoAESave(
+	virtual void		DoAESaveMap(
 								FSSpec&			inFileSpec,
-								SInt16			inFile);
+								SInt16			inFork);
 	
 	virtual void		DoAEClose( const AppleEvent& inCloseAE );
 	

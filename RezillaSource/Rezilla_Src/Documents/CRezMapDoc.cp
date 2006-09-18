@@ -2,7 +2,7 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2006-09-05 07:56:09
+//             Last modification: 2006-09-17 12:28:00
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -851,12 +851,12 @@ CRezMapDoc::DoAEClose(
 
 
 // ---------------------------------------------------------------------------------
-//  DoAESave
+//  DoAESaveMap
 // ---------------------------------------------------------------------------------
 // Called when doing a SaveAs
 
 void
-CRezMapDoc::DoAESave(
+CRezMapDoc::DoAESaveMap(
 				FSSpec&	inFileSpec,
 				SInt16	inFork)
 {
@@ -1025,7 +1025,7 @@ CRezMapDoc::AskSaveAs(
 					} 
 				}
 
-				DoAESave(outFSSpec, mFork);
+				DoAESaveMap(outFSSpec, mFork);
 				saveOK = true;
 			}
 		}		
@@ -1342,12 +1342,12 @@ CRezMapDoc::FindCommandStatus(
 	switch ( inCommand ) {
 	
 		case cmd_Close:
-			outEnabled = true;
-			break;
+		outEnabled = true;
+		break;
 								
 		case cmd_Save:
-			outEnabled = !mReadOnly && (IsModified() or not IsSpecified());
-			break;
+		outEnabled = !mReadOnly && (IsModified() or not IsSpecified());
+		break;
 
 		case cmd_Find:
 // 			LString::CopyPStr( "\pFind in Map...", outName);
@@ -1356,12 +1356,14 @@ CRezMapDoc::FindCommandStatus(
 			break;
 								
 		case cmd_Import:
-			outEnabled = false;
-			break;
+		LString::CopyPStr( "\pImport Map...", outName);
+		outEnabled = false;
+		break;
 		
 		case cmd_Export:
-			outEnabled = true;
-			break;
+		LString::CopyPStr( "\pExport Map...", outName);
+		outEnabled = true;
+		break;
 			
 		case cmd_EditRez:
 		case cmd_EditRezAsType:
@@ -1369,12 +1371,12 @@ CRezMapDoc::FindCommandStatus(
 		case cmd_TmplEditRez:
 		case cmd_HexEditRez:
 		case cmd_GetRezInfo:
-			outEnabled = HasSelection();
-			break;		
+		outEnabled = HasSelection();
+		break;		
 		
 		case cmd_Revert:
-			outEnabled = IsModified();
-			break;
+		outEnabled = IsModified();
+		break;
 								
 		case cmd_Copy:
 			outEnabled = HasSelection();
@@ -1384,13 +1386,13 @@ CRezMapDoc::FindCommandStatus(
 		case cmd_Clear:
 		case cmd_RemoveRez:
 		case cmd_DuplicateRez:
-			outEnabled = ( !mReadOnly && HasSelection() );
-			break;
+		outEnabled = ( !mReadOnly && HasSelection() );
+		break;
 
 		case cmd_Paste:
 		case cmd_NewRez:
-			outEnabled = !mReadOnly ;
-			break;
+		outEnabled = !mReadOnly ;
+		break;
 		
 // 		case cmd_SelectAll:	{		// Check if the rezmap is not empty
 // 			short theCount;

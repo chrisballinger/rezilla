@@ -2,7 +2,7 @@
 // CICNS_EditorDoc.h				
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-09-11 11:32:49
+//             Last modification: 2006-09-17 08:12:44
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -51,23 +51,19 @@ public:
 
 	virtual Boolean		AllowSubRemoval( LCommander* inSub );
 	
-	static Boolean		DesignateExportFile(FSSpec& outFileSpec, 
-											Boolean & outReplacing);
-
 protected:
 	CICNS_EditorWindow *		mIcnsEditWindow;
 	IconRef						mIconRef;
 	Boolean						mIconIsEmpty;
 	
 	virtual Handle		GetModifiedResource(Boolean &releaseIt);
-	void				ImportICNS();
-	void				ExportICNS();
+	virtual void		DoImportData(FSSpec inFileSpec);
+	virtual void		DoExportData(FSSpec inFileSpec, SInt16 inFormat);
 	
 private:
 	virtual void		Initialize();
 	OSErr				RegisterIcon();
 	OSErr				UnregisterIcon();
-	void				DoExport(FSSpec inFileSpec);
 
 };
 

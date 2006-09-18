@@ -2,7 +2,7 @@
 // CRezMapDocAE.cp
 // 
 //                       Created: 2005-04-09 10:03:39
-//             Last modification: 2006-07-14 12:08:10
+//             Last modification: 2006-09-17 12:28:21
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -403,7 +403,7 @@ CRezMapDoc::HandleAESave(
 						
 	if (hasFileParameter) {
 		// Save using file from event
-		DoAESave(fileSpec, useFork);
+		DoAESaveMap(fileSpec, useFork);
 	} else  {
 		// Save using existing file
 		DoSave();	

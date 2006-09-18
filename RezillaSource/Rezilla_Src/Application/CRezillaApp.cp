@@ -579,8 +579,6 @@ CRezillaApp::FindCommandStatus(
 			break;		
 		
 		case cmd_Revert:
-		case cmd_Import:
-		case cmd_Export:
 		case cmd_FindNext:
 		case cmd_NewRez:
 		case cmd_EditRez:
@@ -594,6 +592,16 @@ CRezillaApp::FindCommandStatus(
 			outEnabled = false;
 			break;		
 		
+		case cmd_Import:
+			LString::CopyPStr( "\pImport...", outName);
+			outEnabled = false;
+			break;		
+
+		case cmd_Export:
+			LString::CopyPStr( "\pExport...", outName);
+			outEnabled = false;
+			break;		
+	
 		case cmd_Find:
 			LString::CopyPStr( "\pFind...", outName);
 			outEnabled = false;

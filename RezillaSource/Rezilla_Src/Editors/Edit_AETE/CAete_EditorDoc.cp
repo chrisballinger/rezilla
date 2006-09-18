@@ -191,69 +191,29 @@ CAete_EditorDoc::FindCommandStatus(
 	Str255		outName )
 {
 	switch ( inCommand ) {
-	
-	  default:
+		
+		case cmd_Import:
+		LString::CopyPStr( "\pImport Terminology...", outName);
+		outEnabled = true;
+		break;		
+		
+		case cmd_Export:
+		LString::CopyPStr( "\pExport Terminology...", outName);
+		outEnabled = true;
+		break;		
+		
+		default:
 		// Call inherited.
 		CEditorDoc::FindCommandStatus( inCommand,
-				outEnabled, outUsesMark, outMark, outName );
+					  outEnabled, outUsesMark, outMark, outName );
 		break;
-
+		
 	}
 }
 
 
 // ---------------------------------------------------------------------------
-//   ObeyCommand							[public, virtual]
-// ---------------------------------------------------------------------------
-
-Boolean
-CAete_EditorDoc::ObeyCommand(
-	CommandT	inCommand,
-	void*		ioParam)
-{
-	Boolean		cmdHandled = true;
-	OSErr		error = noErr;
-	
-	if (inCommand == cmd_AeteExport) {
-		FSSpec	theFSSpec;
-		SInt16	exportFormat;
-		Boolean	replacing;
-
-		if ( DesignateExportFile(theFSSpec, replacing, exportFormat) ) {
-			if (replacing) {
-				// Delete existing file
-				error = ::FSpDelete(&theFSSpec);
-				if (error) {
-					UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("CouldNotDeleteExistingFile"), PPob_SimpleMessage);
-					return cmdHandled;
-				} 
-			}
-
-			DoExport(theFSSpec, exportFormat);
-		}		
-	} else if (inCommand == cmd_AeteImport) {
-		FSSpec	theFSSpec;
-
-		Boolean openOK = UNavigationDialogs::AskOpenOneFile('TEXT', theFSSpec, 
-												kNavNoTypePopup 
-												+ kNavDontAutoTranslate
-												+ kNavSupportPackages
-												+ kNavAllowOpenPackages);
-		
-		if (openOK) {
-			error = mAeteEditWindow->ImportAete(theFSSpec);
-		} 
-		
-	} else {
-		cmdHandled = CEditorDoc::ObeyCommand(inCommand, ioParam);
-	}
-	
-	return cmdHandled;
-}
-	
-
-// ---------------------------------------------------------------------------
-//  GetModifiedResource										[protected]
+//  GetModifiedResource												[protected]
 // ---------------------------------------------------------------------------
 // The returned handle should be released by the caller.
 
@@ -273,11 +233,11 @@ CAete_EditorDoc::GetModifiedResource(Boolean &releaseIt)
 
 
 // ---------------------------------------------------------------------------
-//   DesignateExportFile								[public static]
+//   DesignateExportFile											[public]
 // ---------------------------------------------------------------------------
 
-Boolean
-CAete_EditorDoc::DesignateExportFile( FSSpec & outFileSpec, Boolean & outReplacing, SInt16 & outExportFormat)
+bool
+CAete_EditorDoc::DesignateExportFile( FSSpec & outFileSpec, bool & outReplacing, SInt16 & outExportFormat)
 {
 	bool	openOK = false;
 	Str255	theString;
@@ -335,19 +295,32 @@ CAete_EditorDoc::DesignateExportFile( FSSpec & outFileSpec, Boolean & outReplaci
 
 
 // ---------------------------------------------------------------------------------
-//  DoExport
+//  DoImportData
 // ---------------------------------------------------------------------------------
 
 void
-CAete_EditorDoc::DoExport(FSSpec & inFileSpec, SInt16 inFormat)
+CAete_EditorDoc::DoImportData(FSSpec inFileSpec)
+{
+	OSErr error = mAeteEditWindow->ImportAete(inFileSpec);
+
+	if (error != noErr) {
+		UMessageDialogs::ErrorMessageFromLocalizable(CFSTR("ImportError"), error, PPob_SimpleMessage);
+	} 
+}
+
+
+// ---------------------------------------------------------------------------------
+//  DoExportData
+// ---------------------------------------------------------------------------------
+
+void
+CAete_EditorDoc::DoExportData(FSSpec inFileSpec, SInt16 inFormat)
 {
 	StAeteExporter exporter(mAeteEditWindow->GetAete(), inFileSpec, inFormat);
 	
 	exporter.SetRezObj(mRezObj);
 	exporter.WriteOut();
 }
-
-
 
 
 PP_End_Namespace_PowerPlant

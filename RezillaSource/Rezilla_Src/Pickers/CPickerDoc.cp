@@ -122,12 +122,20 @@ CPickerDoc::FindCommandStatus(
 	
 		case cmd_Save:
 		case cmd_SaveAs:
-		case cmd_Import:
-		case cmd_Export:
 		case cmd_FindNext:
 		outEnabled = false;
 		break;
 
+		case cmd_Import:
+		LString::CopyPStr( "\pImport...", outName);
+		outEnabled = false;
+		break;		
+
+		case cmd_Export:
+		LString::CopyPStr( "\pExport...", outName);
+		outEnabled = false;
+		break;		
+	
 		case cmd_Find:
 		LString::CopyPStr( "\pFind...", outName);
 		outEnabled = false;

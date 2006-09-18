@@ -2,11 +2,11 @@
 // CAete_EditorDoc.h
 // 
 //                       Created: 2004-07-01 08:42:37
-//             Last modification: 2005-01-30 13:02:04
+//             Last modification: 2006-09-17 12:16:31
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2004-2005
+// (c) Copyright : Bernard Desgraupes, 2004-2005, 2006
 // All rights reserved.
 // ===========================================================================
 
@@ -41,14 +41,10 @@ public:
 									Boolean &outEnabled, Boolean &outUsesMark,
 									UInt16 &outMark, Str255 outName );
 
-	virtual Boolean			ObeyCommand(
-									CommandT	inCommand,
-									void*		ioParam);
-
 	virtual Boolean			AllowSubRemoval( LCommander* inSub );
 	
-	static Boolean			DesignateExportFile(FSSpec& outFileSpec, 
-												Boolean & outReplacing, 
+	virtual bool			DesignateExportFile(FSSpec& outFileSpec, 
+												bool & outReplacing, 
 												SInt16 & outExportFormat);
 
 	virtual StringPtr		GetDescriptor( Str255 outDescriptor ) const;
@@ -60,10 +56,11 @@ protected:
 	CAeteStream *				mOutStream;
 	
 	virtual Handle		GetModifiedResource(Boolean &releaseIt);
+	virtual void		DoImportData(FSSpec inFileSpec);
+	virtual void		DoExportData(FSSpec inFileSpec, SInt16 inFormat);
 
 private:
 	void				Initialize();
-	void				DoExport(FSSpec	&inFileSpec, SInt16 inFormat);
 
 };
 

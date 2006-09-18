@@ -234,10 +234,12 @@ CPluginEditorDoc::FindCommandStatus(
 		break;
 				
 		case cmd_Export:
+		LString::CopyPStr( "\pImport...", outName);
 		outEnabled = HasAttribute(kPluginSupportExport);
 		break;
 				
 		case cmd_Revert:
+		LString::CopyPStr( "\pExport...", outName);
 		outEnabled = HasAttribute(kPluginEditorHasRevertButton);
 		break;
 				
