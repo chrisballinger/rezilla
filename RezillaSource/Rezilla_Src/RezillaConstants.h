@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2006-09-07 18:59:28
+//             Last modification : 2006-09-17 12:09:32
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@users.sourceforge.net>
 // www : <http://rezilla.sourceforge.net/>
@@ -579,8 +579,6 @@ const CommandT	cmd_AeteAddKeyForm			= cmd_MenuAeteBase + 11;
 const CommandT	cmd_AeteRemoveKeyForm		= cmd_MenuAeteBase + 12;
 const CommandT	cmd_AeteAddEnumerator		= cmd_MenuAeteBase + 13;
 const CommandT	cmd_AeteRemoveEnumerator	= cmd_MenuAeteBase + 14;
-const CommandT	cmd_AeteImport				= cmd_MenuAeteBase + 21;
-const CommandT	cmd_AeteExport				= cmd_MenuAeteBase + 22;
 
 
 // ======================================================================
