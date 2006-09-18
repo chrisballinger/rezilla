@@ -150,7 +150,7 @@ CPICT_EditorDoc::FindCommandStatus(
 	switch ( inCommand ) {
 	
 	  default:
-		// Call inherited.
+		// Call inherited
 		CEditorDoc::FindCommandStatus( inCommand,
 				outEnabled, outUsesMark, outMark, outName );
 		break;

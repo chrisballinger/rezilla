@@ -2,7 +2,7 @@
 // CPluginEditorWindow.h				
 // 
 //                       Created: 2005-10-02 08:41:52
-//             Last modification: 2006-03-07 10:24:12
+//             Last modification: 2006-09-18 20:33:18
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -37,13 +37,6 @@ public:
 											  EventRef event, 
 											  void *userData);
 							
-	virtual void	FindCommandStatus(
-								CommandT			inCommand,
-								Boolean&			outEnabled,
-								Boolean&			outUsesMark,
-								UInt16&				outMark,
-								Str255				outName);
-
 	virtual Boolean	ObeyCommand(
 							CommandT			inCommand,
 							void*				ioParam);

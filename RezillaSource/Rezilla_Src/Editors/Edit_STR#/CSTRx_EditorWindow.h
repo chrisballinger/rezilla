@@ -2,11 +2,11 @@
 // CSTRx_EditorWindow.h
 // 
 //                       Created: 2005-08-31 18:26:24
-//             Last modification: 2005-09-21 13:43:12
+//             Last modification: 2006-09-18 19:53:21
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2005
+// (c) Copyright : Bernard Desgraupes, 2005-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -39,17 +39,6 @@ public:
 	virtual void	Click( SMouseDownEvent &inMouseDown );
 
 	virtual void	ListenToMessage( MessageT inMessage,void *ioParam);
-
-	virtual void	FindCommandStatus(
-								CommandT	inCommand,
-								Boolean&	outEnabled,
-								Boolean&	outUsesMark,
-								UInt16&		outMark,
-								Str255		outName);
-
-	virtual Boolean	ObeyCommand(
-							CommandT		inCommand,
-							void*			ioParam);
 
 	virtual Boolean	HandleKeyPress( const EventRecord& inKeyEvent );
 	

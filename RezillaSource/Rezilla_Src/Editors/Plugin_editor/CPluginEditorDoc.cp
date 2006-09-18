@@ -61,6 +61,9 @@ CPluginEditorDoc::~CPluginEditorDoc()
 	if (mPluginWindow != nil) {
 		delete mPluginWindow;
 	} 
+	if (mMenuRefs != nil) {
+		free(mMenuRefs);
+	} 
 }
 
 
@@ -77,6 +80,7 @@ CPluginEditorDoc::Initialize()
 	ThrowIfNil_(mPlugin);
 	
 	mAttributes = 0;
+	mMenuRefs = NULL;
 	mKind = editor_kindPlug;
 	SetModelKind(rzom_cPlugEditDoc);
 
@@ -92,7 +96,7 @@ CPluginEditorDoc::Initialize()
 	SPluginEditorInterface** interface = mPlugin->GetInterface();
 	ThrowIfNil_(interface);
 	
-	// Install the contents according to the TMPL
+	// Install the contents
 	if (mRezObj != nil) {
 		rezData = mRezObj->GetData();
 		if (rezData != nil) {
@@ -105,7 +109,7 @@ CPluginEditorDoc::Initialize()
 	RezPlugInfo			plugInfo;
 	RezHostInfo 		hostInfo;
 	
-	UCursor::SetWatch();		// May take a little time
+	UCursor::SetWatch();		// May take a little while
 	
 	plugInfo.error = noErr;
 	
@@ -139,20 +143,22 @@ CPluginEditorDoc::Initialize()
 			hostInfo.refnum = kResFileNotOpened;
 		}
 		
-		MenuRef * theMenuRefs = (MenuRef *) malloc( sizeof(MenuRef) * hostInfo.menucount);
-		if (theMenuRefs != NULL) {
-			TArray<LMenu*>* menusListPtr = mPlugin->GetMenusList();
+		if (hostInfo.menucount > 0) {
+			mMenuRefs = (MenuRef *) malloc( sizeof(MenuRef) * hostInfo.menucount);
+			if (mMenuRefs != NULL) {
+				TArray<LMenu*>* menusListPtr = mPlugin->GetMenusList();
 
-			TArrayIterator<LMenu*> iterator(*menusListPtr);
-			LMenu *	theMenu;
-			int 	i = 0;
-			while (iterator.Next(theMenu)) {
-				theMenuRefs[i] = theMenu->GetMacMenuH();
-				i++;
+				TArrayIterator<LMenu*> iterator(*menusListPtr);
+				LMenu *	theMenu;
+				int 	i = 0;
+				while (iterator.Next(theMenu)) {
+					mMenuRefs[i] = theMenu->GetMacMenuH();
+					i++;
+				}
 			}
-			hostInfo.menurefs = theMenuRefs;
-		}
-		
+		} 
+		hostInfo.menurefs = mMenuRefs;
+
 		mPluginWindow->GetContentsRect(hostInfo.editrect);
 	} else {
 		error = plugInfo.error;
@@ -202,7 +208,8 @@ CPluginEditorDoc::ObeyCommand(
 		break;
 				
 		default: 
-		cmdHandled = GetSuperCommander()->ObeyCommand(inCommand, ioParam);
+// 		cmdHandled = GetSuperCommander()->ObeyCommand(inCommand, ioParam);
+		cmdHandled = CEditorDoc::ObeyCommand(inCommand, ioParam);
 		break;
 	}
 	
@@ -230,16 +237,16 @@ CPluginEditorDoc::FindCommandStatus(
 		break;
 
 		case cmd_Import:
+		LString::CopyPStr( "\pImport...", outName);
 		outEnabled = HasAttribute(kPluginSupportImport);
 		break;
 				
 		case cmd_Export:
-		LString::CopyPStr( "\pImport...", outName);
+		LString::CopyPStr( "\pExport...", outName);
 		outEnabled = HasAttribute(kPluginSupportExport);
 		break;
 				
 		case cmd_Revert:
-		LString::CopyPStr( "\pExport...", outName);
 		outEnabled = HasAttribute(kPluginEditorHasRevertButton);
 		break;
 				
@@ -277,8 +284,8 @@ CPluginEditorDoc::FindCommandStatus(
 		break;
 
 		default:
-		// Call inherited.
-		LDocument::FindCommandStatus( inCommand,
+		// Call inherited
+		CEditorDoc::FindCommandStatus( inCommand,
 				outEnabled, outUsesMark, outMark, outName );
 		break;
 

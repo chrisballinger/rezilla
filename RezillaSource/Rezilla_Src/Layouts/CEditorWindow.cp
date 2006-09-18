@@ -220,8 +220,11 @@ CEditorWindow::ObeyCommand(
 		}
 
 		default:
-// 		cmdHandled = LCommander::ObeyCommand(inCommand, ioParam);
-		cmdHandled = mOwnerDoc->ObeyCommand(inCommand, ioParam);
+		if (mOwnerDoc) {
+			cmdHandled = mOwnerDoc->ObeyCommand(inCommand, ioParam);
+		} else {
+			cmdHandled = LCommander::ObeyCommand(inCommand, ioParam);
+		}		
 		break;
 	}
 

@@ -2,11 +2,11 @@
 // CMENU_EditorWindow.cp					
 // 
 //                       Created: 2005-03-09 17:16:53
-//             Last modification: 2005-07-03 16:17:10
+//             Last modification: 2006-09-18 19:52:14
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2005
+// (c) Copyright : Bernard Desgraupes, 2005-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -341,50 +341,6 @@ CMENU_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		break;
 				
 	}
-}
-
-
-// ---------------------------------------------------------------------------
-//	 FindCommandStatus
-// ---------------------------------------------------------------------------
-
-void
-CMENU_EditorWindow::FindCommandStatus(
-	CommandT	inCommand,
-	Boolean		&outEnabled,
-	Boolean		&outUsesMark,
-	UInt16		&outMark,
-	Str255		outName)
-{
-	switch (inCommand) {
-		
-		default:
-		CEditorWindow::FindCommandStatus(inCommand, outEnabled,
-									  outUsesMark, outMark, outName);
-		break;
-	}
-}
-
-
-// ---------------------------------------------------------------------------
-//	 ObeyCommand							[public, virtual]
-// ---------------------------------------------------------------------------
-
-Boolean
-CMENU_EditorWindow::ObeyCommand(
-	CommandT	inCommand,
-	void*		ioParam)
-{
-	Boolean		cmdHandled = true;
-	
-	switch (inCommand) {
-
-		default:
-			cmdHandled = LCommander::ObeyCommand(inCommand, ioParam);
-			break;
-	}
-
-	return cmdHandled;
 }
 
 

@@ -2,11 +2,11 @@
 // CMENU_EditorWindow.h
 // 
 //                       Created: 2005-03-09 17:16:53
-//             Last modification: 2005-06-10 10:18:26
+//             Last modification: 2006-09-18 19:52:06
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2005
+// (c) Copyright : Bernard Desgraupes, 2005-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -41,17 +41,6 @@ public:
 							~CMENU_EditorWindow();
 
 	virtual void	ListenToMessage( MessageT inMessage,void *ioParam);
-
-	virtual void	FindCommandStatus(
-								CommandT	inCommand,
-								Boolean&	outEnabled,
-								Boolean&	outUsesMark,
-								UInt16&		outMark,
-								Str255		outName);
-
-	virtual Boolean	ObeyCommand(
-							CommandT		inCommand,
-							void*			ioParam);
 
 	OSErr			InstallResourceData(Handle inMenuHandle, Handle inXmnuHandle);
 	

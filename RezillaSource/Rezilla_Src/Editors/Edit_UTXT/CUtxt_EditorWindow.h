@@ -33,13 +33,6 @@ public:
 
 	virtual void	ListenToMessage( MessageT inMessage,void *ioParam);
 
-	virtual void	FindCommandStatus(
-								CommandT			inCommand,
-								Boolean&			outEnabled,
-								Boolean&			outUsesMark,
-								UInt16&				outMark,
-								Str255				outName);
-
 	void			InstallText(Handle inTextHandle);
 
 	Boolean			IsDirty();

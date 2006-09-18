@@ -2,11 +2,11 @@
 // CSTRx_EditorDoc.cp
 // 
 //                       Created: 2005-08-31 18:26:24
-//             Last modification: 2005-09-01 08:04:40
+//             Last modification: 2006-09-18 18:40:08
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2005
+// (c) Copyright : Bernard Desgraupes, 2005, 2006
 // All rights reserved.
 // ===========================================================================
 
@@ -140,30 +140,6 @@ CSTRx_EditorDoc::GetDescriptor(
 	}
 
 	return outDescriptor;
-}
-
-
-// ---------------------------------------------------------------------------------
-//   FindCommandStatus
-// ---------------------------------------------------------------------------------
-
-void
-CSTRx_EditorDoc::FindCommandStatus(
-	CommandT	inCommand,
-	Boolean		&outEnabled,
-	Boolean		&outUsesMark,
-	UInt16		&outMark,
-	Str255		outName )
-{
-	switch ( inCommand ) {
-	
-	  default:
-			// Call inherited.
-		CEditorDoc::FindCommandStatus( inCommand,
-				outEnabled, outUsesMark, outMark, outName );
-		break;
-
-	}
 }
 
 

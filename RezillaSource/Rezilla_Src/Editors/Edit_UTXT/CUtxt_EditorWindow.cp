@@ -2,11 +2,11 @@
 // CUtxt_EditorWindow.cp					
 // 
 //                       Created: 2004-12-08 18:21:21
-//             Last modification: 2005-01-15 12:33:50
+//             Last modification: 2006-09-18 18:45:34
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2004-2005
+// (c) Copyright : Bernard Desgraupes, 2004-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -131,28 +131,6 @@ CUtxt_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		dynamic_cast<CUtxt_EditorDoc *>(mOwnerDoc)->ListenToMessage(inMessage, ioParam);
 		break;
 				
-	}
-}
-
-
-// ---------------------------------------------------------------------------
-//   FindCommandStatus
-// ---------------------------------------------------------------------------
-
-void
-CUtxt_EditorWindow::FindCommandStatus(
-	CommandT	inCommand,
-	Boolean		&outEnabled,
-	Boolean		&outUsesMark,
-	UInt16		&outMark,
-	Str255		outName)
-{
-	switch (inCommand) {
-		
-		default:
-		CEditorWindow::FindCommandStatus(inCommand, outEnabled,
-									  outUsesMark, outMark, outName);
-		break;
 	}
 }
 

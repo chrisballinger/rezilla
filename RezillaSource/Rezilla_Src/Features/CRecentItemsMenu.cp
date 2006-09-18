@@ -62,11 +62,12 @@ CRecentItemsMenu::~CRecentItemsMenu()
 void
 CRecentItemsMenu::ExecuteSelf( MessageT inMessage, void *ioParam )
 {
+	ResIDT	synthMenu;
+	SInt16	synthItem;
+
 	mExecuteHost = true;
 	
 	if ( inMessage == msg_CommandStatus ) {
-		ResIDT	synthMenu;
-		SInt16	synthItem;
 		SCommandStatus	*status = (SCommandStatus*)ioParam;
 		
 		if (status->command == mMenuID || (LCommander::IsSyntheticCommand( status->command, synthMenu, synthItem) && synthMenu == mMenuID)) {
@@ -75,12 +76,10 @@ CRecentItemsMenu::ExecuteSelf( MessageT inMessage, void *ioParam )
 			mExecuteHost = false;
 		}
 	} else {
-		// Handle selected item
-		ResIDT	synthMenu;
-		SInt16	synthItem;
+		// Handle selected item		
 		
 		// It is a synthetic menu selection
-		if ( LCommander::IsSyntheticCommand( inMessage, synthMenu, synthItem) && synthMenu == mMenuID) {
+		if (LCommander::IsSyntheticCommand( inMessage, synthMenu, synthItem) && synthMenu == mMenuID) {
 			FSSpec theFile;
 			
 			// Make an FSSpec out of the menu item
@@ -90,7 +89,7 @@ CRecentItemsMenu::ExecuteSelf( MessageT inMessage, void *ioParam )
 			} else {
 				::SysBeep(3);
 			}
-		}
+				} 
 	}
 }
 
@@ -297,6 +296,7 @@ CRecentItemsMenu::RebuildMenu()
 			// interpreted as commands (for instance, files with an opening
 			// parenthesis would disable the menu item), use
 			// AppendMenuItemText() instead of AppendMenu().
+			// // ::AppendMenu( mMenuHandle, theName);
 			::AppendMenuItemText( mMenuHandle, theName);
 			// end of ZP bugfix #8
 		} else {

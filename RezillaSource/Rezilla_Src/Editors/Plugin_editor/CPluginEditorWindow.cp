@@ -2,7 +2,7 @@
 // CPluginEditorWindow.cp
 // 
 //                       Created: 2005-10-02 08:41:52
-//             Last modification: 2006-03-09 13:10:46
+//             Last modification: 2006-09-18 18:55:58
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -254,31 +254,6 @@ CPluginEditorWindow::CreateControls(SInt32 inPlugAttrs)
 // ---------------------------------------------------------------------------
 //  MoveControls													[public]
 // ---------------------------------------------------------------------------
-// 		OSStatus HIViewMoveBy(
-// 		  HIViewRef   inView,
-// 		  float       inDX,
-// 		  float       inDY)
-// 
-// 
-// 		OSStatus HIViewSetFrame(
-// 		HIViewRef       inView,
-// 		const HIRect *  inRect)
-// 
-// 
-// 		OSStatus HIViewGetFrame(
-// 		  HIViewRef   inView,
-// 		  HIRect *    outRect)
-// 		OSStatus 
-// 		GetWindowBounds(
-// 		  WindowRef          window,
-// 		  WindowRegionCode   regionCode,
-// 		  Rect *             globalBounds);
-// kWindowContentRgn
-// kWindowGlobalPortRgn
-// kWindowStructureRgn
-// 			hiBounds.origin.x	= ;
-// 			hiBounds.origin.y	= ;
-// 			hiBounds.size.height	= ;
 
 void
 CPluginEditorWindow::AdaptControlsToWindowBounds()
@@ -364,46 +339,6 @@ CPluginEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 
 
 // ---------------------------------------------------------------------------
-//  FindCommandStatus
-// ---------------------------------------------------------------------------
-//	Pass back whether a Command is enabled and/or marked (in a Menu)
-
-void
-CPluginEditorWindow::FindCommandStatus(
-	CommandT	inCommand,
-	Boolean		&outEnabled,
-	Boolean		&outUsesMark,
-	UInt16		&outMark,
-	Str255		outName)
-{
-	outEnabled = true;
-
-	switch (inCommand) {
-		
-		case cmd_EditRez:
-		case cmd_EditRezAsType:
-		case cmd_EditWithPlugin:
-		case cmd_TmplEditRez:
-		case cmd_HexEditRez:
-		case cmd_RemoveRez:
-		case cmd_DuplicateRez:
-		outEnabled = false;
-		break;		
-		
-		default:
-		if (mOwnerDoc) {
-			mOwnerDoc->FindCommandStatus(inCommand, outEnabled,
-												outUsesMark, outMark, outName);
-		} else {
-			LCommander::FindCommandStatus(inCommand, outEnabled,
-												outUsesMark, outMark, outName);
-		}
-		break;
-	}
-}
-
-
-// ---------------------------------------------------------------------------
 //  ObeyCommand							[public, virtual]
 // ---------------------------------------------------------------------------
 
@@ -471,7 +406,7 @@ CPluginEditorWindow::ObeyCommand(
 		}
 
 		default:
-		cmdHandled = mOwnerDoc->ObeyCommand(inCommand, ioParam);
+		cmdHandled = CEditorWindow::ObeyCommand(inCommand, ioParam);
 		break;
 	}
 

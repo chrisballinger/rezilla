@@ -2,7 +2,7 @@
 // CTmplEditorWindow.cp					
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2006-09-07 12:36:22
+//             Last modification: 2006-09-18 18:52:35
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -423,63 +423,6 @@ CTmplEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		break;
 		
 	}
-}
-
-
-// ---------------------------------------------------------------------------
-//   FindCommandStatus
-// ---------------------------------------------------------------------------
-//	Pass back whether a Command is enabled and/or marked (in a Menu)
-
-void
-CTmplEditorWindow::FindCommandStatus(
-	CommandT	inCommand,
-	Boolean		&outEnabled,
-	Boolean		&outUsesMark,
-	UInt16		&outMark,
-	Str255		outName)
-{
-	switch (inCommand) {
-
-		default:
-		CEditorWindow::FindCommandStatus(inCommand, outEnabled,
-									outUsesMark, outMark, outName);
-		break;
-	}
-}
-
-
-// ---------------------------------------------------------------------------
-//   ObeyCommand							[public, virtual]
-// ---------------------------------------------------------------------------
-
-Boolean
-CTmplEditorWindow::ObeyCommand(
-	CommandT	inCommand,
-	void*		ioParam)
-{
-	Boolean		cmdHandled = true;
-	
-	switch (inCommand) {
-
-		case cmd_Copy: 
-		case cmd_Cut: 
-		case cmd_Clear:
-		case cmd_Paste:
-		break;
-
-		case cmd_ActionCut:
-		case cmd_ActionPaste:
-		case cmd_ActionClear:
-		case cmd_ActionTyping:
-			break;
-
-		default:
-			cmdHandled = LCommander::ObeyCommand(inCommand, ioParam);
-			break;
-	}
-
-	return cmdHandled;
 }
 
 

@@ -161,7 +161,7 @@ CMENU_EditorTable::ClickCell(
 	const TableCellT		&inCell,
 	const SMouseDownEvent	&inMouseDown )
 {
-	// Call inherited.
+	// Call inherited
 	LTable::ClickCell( inCell, inMouseDown );
 
 	if ( ::WaitMouseMoved( inMouseDown.macEvent.where ) ) {
@@ -248,7 +248,7 @@ CMENU_EditorTable::UnhiliteCell(
 {
 	if ( IsActive() ) {
 	
-		// Call inherited.
+		// Call inherited
 		LTable::UnhiliteCell( inCell );
 	
 	} else {
@@ -438,7 +438,7 @@ CMENU_EditorTable::EnterDropArea(
 	DragReference	inDragRef,
 	Boolean			inDragHasLeftSender )
 {
-	// Call inherited.
+	// Call inherited
 	LDragAndDrop::EnterDropArea( inDragRef, inDragHasLeftSender );
 
 	// Invalidate the last drop cell.
@@ -460,7 +460,7 @@ CMENU_EditorTable::LeaveDropArea(
 	// Invalidate the last drop cell.
 	mDropRow = -1;
 
-	// Call inherited.
+	// Call inherited
 	LDragAndDrop::LeaveDropArea( inDragRef );
 }
 
@@ -473,7 +473,7 @@ void
 CMENU_EditorTable::InsideDropArea(
 	DragReference	inDragRef )
 {
-	// Call inherited.
+	// Call inherited
 	LDragAndDrop::InsideDropArea( inDragRef );
 
 	// Focus.

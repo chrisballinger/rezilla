@@ -155,7 +155,7 @@ CPickerDoc::FindCommandStatus(
 		break;
 
 		default:
-		// Call inherited.
+		// Call inherited
 		LDocument::FindCommandStatus( inCommand,
 				outEnabled, outUsesMark, outMark, outName );
 		break;

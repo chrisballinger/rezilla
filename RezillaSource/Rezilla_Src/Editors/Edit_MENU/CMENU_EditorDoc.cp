@@ -164,30 +164,6 @@ CMENU_EditorDoc::GetDescriptor(
 }
 
 
-// ---------------------------------------------------------------------------------
-//   FindCommandStatus
-// ---------------------------------------------------------------------------------
-
-void
-CMENU_EditorDoc::FindCommandStatus(
-	CommandT	inCommand,
-	Boolean		&outEnabled,
-	Boolean		&outUsesMark,
-	UInt16		&outMark,
-	Str255		outName )
-{
-	switch ( inCommand ) {
-	
-	  default:
-			// Call inherited.
-		CEditorDoc::FindCommandStatus( inCommand,
-				outEnabled, outUsesMark, outMark, outName );
-		break;
-
-	}
-}
-
-
 // ---------------------------------------------------------------------------
 //  AllowSubRemoval												  [public]
 // ---------------------------------------------------------------------------

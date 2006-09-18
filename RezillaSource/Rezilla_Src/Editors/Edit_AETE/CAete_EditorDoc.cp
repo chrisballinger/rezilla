@@ -203,7 +203,7 @@ CAete_EditorDoc::FindCommandStatus(
 		break;		
 		
 		default:
-		// Call inherited.
+		// Call inherited
 		CEditorDoc::FindCommandStatus( inCommand,
 					  outEnabled, outUsesMark, outMark, outName );
 		break;

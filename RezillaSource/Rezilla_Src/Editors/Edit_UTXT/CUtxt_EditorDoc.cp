@@ -2,11 +2,11 @@
 // CUtxt_EditorDoc.cp
 // 
 //                       Created: 2004-12-08 18:21:21
-//             Last modification: 2005-09-05 06:51:51
+//             Last modification: 2006-09-18 18:44:40
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2004-2005
+// (c) Copyright : Bernard Desgraupes, 2004-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -127,30 +127,6 @@ CUtxt_EditorDoc::GetDescriptor(
 	}
 
 	return outDescriptor;
-}
-
-
-// ---------------------------------------------------------------------------------
-//   FindCommandStatus
-// ---------------------------------------------------------------------------------
-
-void
-CUtxt_EditorDoc::FindCommandStatus(
-	CommandT	inCommand,
-	Boolean		&outEnabled,
-	Boolean		&outUsesMark,
-	UInt16		&outMark,
-	Str255		outName )
-{
-	switch ( inCommand ) {
-	
-	  default:
-			// Call inherited.
-		CEditorDoc::FindCommandStatus( inCommand,
-				outEnabled, outUsesMark, outMark, outName );
-		break;
-
-	}
 }
 
 

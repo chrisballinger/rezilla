@@ -2,11 +2,11 @@
 // CTmplEditorDoc.cp					
 // 
 //                       Created: 2004-06-12 10:06:22
-//             Last modification: 2005-09-05 06:51:11
+//             Last modification: 2006-09-18 18:51:27
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2004-2005
+// (c) Copyright : Bernard Desgraupes, 2004-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -146,29 +146,6 @@ CTmplEditorDoc::GetDescriptor(
 	return outDescriptor;
 }
 
-
-// ---------------------------------------------------------------------------------
-//   FindCommandStatus
-// ---------------------------------------------------------------------------------
-
-void
-CTmplEditorDoc::FindCommandStatus(
-	CommandT	inCommand,
-	Boolean		&outEnabled,
-	Boolean		&outUsesMark,
-	UInt16		&outMark,
-	Str255		outName )
-{
-	switch ( inCommand ) {
-	
-	  default:
-			// Call inherited.
-		CEditorDoc::FindCommandStatus( inCommand,
-				outEnabled, outUsesMark, outMark, outName );
-		break;
-
-	}
-}
 
 
 // ---------------------------------------------------------------------------

@@ -2,11 +2,11 @@
 // CSTRx_EditorDoc.h				
 // 
 //                       Created: 2005-08-31 18:26:24
-//             Last modification: 2005-09-01 08:39:11
+//             Last modification: 2006-09-18 18:40:01
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2005
+// (c) Copyright : Bernard Desgraupes, 2005, 2006
 // All rights reserved.
 // ===========================================================================
 
@@ -38,10 +38,6 @@ public:
 										ResType inSubstType,
 										Boolean inReadOnly);
 						virtual ~CSTRx_EditorDoc();
-
-	virtual void		FindCommandStatus( CommandT inCommand,
-							Boolean &outEnabled, Boolean &outUsesMark,
-							UInt16 &outMark, Str255 outName );
 
 	virtual StringPtr	GetDescriptor( Str255 outDescriptor ) const;
 

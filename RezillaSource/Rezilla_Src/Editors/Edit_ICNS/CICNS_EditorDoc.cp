@@ -206,9 +206,8 @@ CICNS_EditorDoc::FindCommandStatus(
 		break;		
 		
 		default:
-		// Call inherited.
-		CEditorDoc::FindCommandStatus( inCommand,
-									  outEnabled, outUsesMark, outMark, outName );
+		// Call inherited
+		CEditorDoc::FindCommandStatus(inCommand, outEnabled, outUsesMark, outMark, outName);
 		break;
 		
 	}
@@ -237,7 +236,7 @@ CICNS_EditorDoc::ObeyCommand(
 		break;
 
 		default: 
-		cmdHandled = LDocument::ObeyCommand(inCommand, ioParam);
+		cmdHandled = CEditorDoc::ObeyCommand(inCommand, ioParam);
 		break;
 	}
 	

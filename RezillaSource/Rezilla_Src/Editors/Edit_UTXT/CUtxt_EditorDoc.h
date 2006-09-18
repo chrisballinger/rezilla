@@ -2,11 +2,11 @@
 // CUtxt_EditorDoc.h
 // 
 //                       Created: 2004-12-08 18:21:21
-//             Last modification: 2005-01-14 19:31:19
+//             Last modification: 2006-09-18 18:44:59
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2004-2005
+// (c) Copyright : Bernard Desgraupes, 2004-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -39,10 +39,6 @@ public:
 										ResType inSubstType,
 										Boolean inReadOnly);
 						virtual ~CUtxt_EditorDoc();
-
-	virtual void		FindCommandStatus( CommandT inCommand,
-							Boolean &outEnabled, Boolean &outUsesMark,
-							UInt16 &outMark, Str255 outName );
 
 // 	virtual Boolean		IsModified();
 

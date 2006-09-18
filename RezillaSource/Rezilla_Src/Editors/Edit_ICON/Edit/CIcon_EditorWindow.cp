@@ -610,7 +610,7 @@ CIcon_EditorWindow::FindCommandStatus(
 			outMark = 0;
 			outName[0] = 0;
 		} else {
-			CEditorWindow::FindCommandStatus( inCommand, outEnabled, outUsesMark, outMark, outName );
+			CEditorWindow::FindCommandStatus(inCommand, outEnabled, outUsesMark, outMark, outName);
 		}
 	}
 	catch( ... )
@@ -695,7 +695,7 @@ CIcon_EditorWindow::ObeyCommand(
 		}
 		
 		// We didn't handle it -- give it to the window
-		return( LWindow::ObeyCommand( inCommand, ioParam ) );
+		return( CEditorWindow::ObeyCommand( inCommand, ioParam ) );
 	}
 	catch( SInt32 theErr )
 	{

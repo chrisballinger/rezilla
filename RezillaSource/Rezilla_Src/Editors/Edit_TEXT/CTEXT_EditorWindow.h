@@ -2,11 +2,11 @@
 // CTEXT_EditorWindow.h
 // 
 //                       Created: 2004-06-17 12:46:55
-//             Last modification: 2005-01-27 18:11:58
+//             Last modification: 2006-09-18 18:42:44
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2004-2005
+// (c) Copyright : Bernard Desgraupes, 2004-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -38,17 +38,6 @@ public:
 							~CTEXT_EditorWindow();
 
 	virtual void	ListenToMessage( MessageT inMessage,void *ioParam);
-
-	virtual void	FindCommandStatus(
-								CommandT	inCommand,
-								Boolean&	outEnabled,
-								Boolean&	outUsesMark,
-								UInt16&		outMark,
-								Str255		outName);
-
-	virtual Boolean	ObeyCommand(
-							CommandT		inCommand,
-							void*			ioParam);
 
 	void			InstallText(Handle inTextHandle, StScrpHandle inScrapHandle);
 

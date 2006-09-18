@@ -2,11 +2,11 @@
 // CHexEditorWindow.h				
 // 
 //                       Created: 2003-05-02 07:33:06
-//             Last modification: 2005-06-14 17:10:32
+//             Last modification: 2006-09-18 20:25:44
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2003-2005
+// (c) Copyright : Bernard Desgraupes, 2003-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -43,10 +43,6 @@ public:
 								UInt16&				outMark,
 								Str255				outName);
 
-	virtual Boolean	ObeyCommand(
-							CommandT			inCommand,
-							void*				ioParam);
-	
 	virtual void	SetLineValues();
 	virtual void	SetLineRange(SInt32 inStart, SInt32 inEnd);
 	

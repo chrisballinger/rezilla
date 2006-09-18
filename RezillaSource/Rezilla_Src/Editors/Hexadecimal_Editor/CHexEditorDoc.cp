@@ -148,7 +148,7 @@ CHexEditorDoc::ObeyCommand(
 		break;
 				
 		default: {
-			cmdHandled = LDocument::ObeyCommand(inCommand, ioParam);
+			cmdHandled = CEditorDoc::ObeyCommand(inCommand, ioParam);
 			break;
 		}
 	}
@@ -377,7 +377,7 @@ CHexEditorDoc::FindCommandStatus(
 								
 	  default:
 		{
-			// Call inherited.
+			// Call inherited
 			CEditorDoc::FindCommandStatus( inCommand,
 				outEnabled, outUsesMark, outMark, outName );
 		}

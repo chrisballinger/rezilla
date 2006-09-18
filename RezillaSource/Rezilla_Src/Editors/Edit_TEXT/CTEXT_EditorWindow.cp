@@ -2,11 +2,11 @@
 // CTEXT_EditorWindow.cp					
 // 
 //                       Created: 2004-06-17 12:46:55
-//             Last modification: 2005-01-27 18:11:38
+//             Last modification: 2006-09-18 18:42:54
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2004-2005
+// (c) Copyright : Bernard Desgraupes, 2004-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -213,50 +213,6 @@ CTEXT_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		break;
 				
 	}
-}
-
-
-// ---------------------------------------------------------------------------
-//   FindCommandStatus
-// ---------------------------------------------------------------------------
-
-void
-CTEXT_EditorWindow::FindCommandStatus(
-	CommandT	inCommand,
-	Boolean		&outEnabled,
-	Boolean		&outUsesMark,
-	UInt16		&outMark,
-	Str255		outName)
-{
-	switch (inCommand) {
-		
-		default:
-		CEditorWindow::FindCommandStatus(inCommand, outEnabled,
-									  outUsesMark, outMark, outName);
-		break;
-	}
-}
-
-
-// ---------------------------------------------------------------------------
-//   ObeyCommand							[public, virtual]
-// ---------------------------------------------------------------------------
-
-Boolean
-CTEXT_EditorWindow::ObeyCommand(
-	CommandT	inCommand,
-	void*		ioParam)
-{
-	Boolean		cmdHandled = true;
-	
-	switch (inCommand) {
-
-		default:
-			cmdHandled = LCommander::ObeyCommand(inCommand, ioParam);
-			break;
-	}
-
-	return cmdHandled;
 }
 
 

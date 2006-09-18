@@ -2,7 +2,7 @@
 // CTmplEditorWindow.h
 // 
 //                       Created: 2004-06-12 15:08:01
-//             Last modification: 2006-09-07 11:22:38
+//             Last modification: 2006-09-18 18:53:00
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -52,17 +52,6 @@ public:
 	virtual void	Draw( RgnHandle inSuperDrawRgnH );
 							
 	virtual void	ListenToMessage( MessageT inMessage,void *ioParam);
-
-	virtual void	FindCommandStatus(
-								CommandT			inCommand,
-								Boolean&			outEnabled,
-								Boolean&			outUsesMark,
-								UInt16&				outMark,
-								Str255				outName);
-
-	virtual Boolean	ObeyCommand(
-							CommandT			inCommand,
-							void*				ioParam);
 
 	virtual void	RevertContents();
 

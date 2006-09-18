@@ -62,6 +62,7 @@ protected:
 	CRezillaPlugin *		mPlugin;
 	CPluginEditorWindow *	mPluginWindow;
 	SInt32					mAttributes;
+	MenuRef *				mMenuRefs;
 
 	virtual Handle			GetModifiedResource(Boolean &releaseIt);
 

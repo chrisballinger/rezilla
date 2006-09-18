@@ -41,10 +41,6 @@ public:
 										Boolean inReadOnly);
 						virtual ~CIcon_EditorDoc();
 
-	virtual void		FindCommandStatus( CommandT inCommand,
-							Boolean &outEnabled, Boolean &outUsesMark,
-							UInt16 &outMark, Str255 outName );
-
 	virtual StringPtr	GetDescriptor( Str255 outDescriptor ) const;
 
 	virtual Boolean		AllowSubRemoval( LCommander* inSub );

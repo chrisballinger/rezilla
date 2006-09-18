@@ -2,11 +2,11 @@
 // CSTRx_EditorWindow.cp					
 // 
 //                       Created: 2005-08-31 18:26:24
-//             Last modification: 2005-09-21 13:43:21
+//             Last modification: 2006-09-18 19:53:08
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2005
+// (c) Copyright : Bernard Desgraupes, 2005-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -214,50 +214,6 @@ CSTRx_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		break;
 				
 	}
-}
-
-
-// ---------------------------------------------------------------------------
-//	 FindCommandStatus
-// ---------------------------------------------------------------------------
-
-void
-CSTRx_EditorWindow::FindCommandStatus(
-	CommandT	inCommand,
-	Boolean		&outEnabled,
-	Boolean		&outUsesMark,
-	UInt16		&outMark,
-	Str255		outName)
-{
-	switch (inCommand) {
-		
-		default:
-		CEditorWindow::FindCommandStatus(inCommand, outEnabled,
-									  outUsesMark, outMark, outName);
-		break;
-	}
-}
-
-
-// ---------------------------------------------------------------------------
-//	 ObeyCommand											[public, virtual]
-// ---------------------------------------------------------------------------
-
-Boolean
-CSTRx_EditorWindow::ObeyCommand(
-	CommandT	inCommand,
-	void*		ioParam)
-{
-	Boolean		cmdHandled = true;
-	
-	switch (inCommand) {
-
-		default:
-			cmdHandled = LCommander::ObeyCommand(inCommand, ioParam);
-			break;
-	}
-
-	return cmdHandled;
 }
 
 

@@ -2,11 +2,11 @@
 // CHexEditorWindow.cp					
 // 
 //                       Created: 2003-05-02 07:33:10
-//             Last modification: 2005-06-15 10:27:13
+//             Last modification: 2006-09-18 18:51:01
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2003-2005
+// (c) Copyright : Bernard Desgraupes, 2003-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -244,32 +244,10 @@ CHexEditorWindow::FindCommandStatus(
 			break;		
 		
 		default:
-			LCommander::FindCommandStatus(inCommand, outEnabled,
+			CEditorWindow::FindCommandStatus(inCommand, outEnabled,
 									outUsesMark, outMark, outName);
 			break;
 	}
-}
-
-
-// ---------------------------------------------------------------------------
-//   ObeyCommand							[public, virtual]
-// ---------------------------------------------------------------------------
-
-Boolean
-CHexEditorWindow::ObeyCommand(
-	CommandT	inCommand,
-	void*		ioParam)
-{
-	Boolean		cmdHandled = true;
-	
-	switch (inCommand) {
-
-		default:
-			cmdHandled = LCommander::ObeyCommand(inCommand, ioParam);
-			break;
-	}
-
-	return cmdHandled;
 }
 
 

@@ -451,13 +451,12 @@ CRezMapDoc::ObeyCommand(
 		case cmd_ActionPaste:
 		case cmd_ActionClear:
 		case cmd_ActionTyping: {
-// 			if (mReadOnly) {
-// 			}
 			break;
 		}
 
 		default: {
-			cmdHandled = GetSuperCommander()->ObeyCommand(inCommand, ioParam);
+// 			cmdHandled = GetSuperCommander()->ObeyCommand(inCommand, ioParam);
+			cmdHandled = LDocument::ObeyCommand(inCommand, ioParam);
 			break;
 		}
 	}
@@ -1403,7 +1402,7 @@ CRezMapDoc::FindCommandStatus(
 
 	  default:
 		{
-			// Call inherited.
+			// Call inherited
 			LDocument::FindCommandStatus( inCommand,
 				outEnabled, outUsesMark, outMark, outName );
 		}

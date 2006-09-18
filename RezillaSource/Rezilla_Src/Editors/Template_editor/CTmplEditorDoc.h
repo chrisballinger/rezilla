@@ -2,11 +2,11 @@
 // CTmplEditorDoc.h				
 // 
 //                       Created: 2004-06-12 10:06:22
-//             Last modification: 2005-01-09 09:07:38
+//             Last modification: 2006-09-18 18:51:44
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes, 2004, 2005
+// (c) Copyright: Bernard Desgraupes, 2004-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -41,10 +41,6 @@ public:
 									   Boolean inReadOnly);
 						virtual ~CTmplEditorDoc();
 
-	virtual void		FindCommandStatus( CommandT inCommand,
-							Boolean &outEnabled, Boolean &outUsesMark,
-							UInt16 &outMark, Str255 outName );
-	
 	virtual StringPtr	GetDescriptor( Str255 outDescriptor ) const;
 
 	virtual Boolean		AllowSubRemoval( LCommander* inSub );
