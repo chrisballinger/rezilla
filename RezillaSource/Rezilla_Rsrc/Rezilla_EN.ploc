@@ -1,4 +1,4 @@
-// Last modification: 2006-09-11 17:40:19
+// Last modification: 2006-09-17 08:15:56
 
 localize "English" as "Localizable.strings" 
 {
@@ -44,6 +44,7 @@ localize "English" as "Localizable.strings"
 	key "HexStringMustBeEven" value string "The number of hexadecimal digits must be even."
 	key "HexStringWrongSize" value string "Hex string must be ‘%c’ bytes long."
 	key "HowManyItems" value string "How many items"
+	key "ImportError" value string "An error occured while attempting to import the data."
 	key "InvalidHexDataInScrap" value string "Can’t paste: scrap does not contain valid hexadecimal data."
 	key "InvalidHexDataInString" value string "This string does not contain valid hexadecimal data."
 	key "MapsNotSelected" value string "Both resource maps must be selected."

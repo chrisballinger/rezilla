@@ -1,4 +1,4 @@
-// Last modification: 2006-09-11 17:46:17
+// Last modification: 2006-09-17 08:16:44
 
 localize "French" as "Localizable.strings" 
 {
@@ -38,11 +38,13 @@ localize "French" as "Localizable.strings"
 	key "ErrorUsingPluginEditor" value string "Une erreur ‘%d’ s’est produite en utilisant le plugin. La ressource originale n’a pas été modifiée."
 	key "ErrorWhileParsingResource" value string "Une erreur ‘%d’ s’est produite au cours de l’analyse de la ressource."
 	key "ErrorWithIconEditor" value string "Une erreur ‘%d’ s’est produite dans l’éditeur d’icones."
+	key "ExportError" value string "Une erreur s’est produite lors de l’export des données."
 	key "HaveReadPermission" value string "Impossible d’enregistrer le fichier. Vérifiez que vous possédez bien les droits d’accès en lecture."
 	key "HaveWritePermission" value string "Impossible d’enregistrer le fichier. Vérifiez que vous possédez bien les droits d’accès en écriture."
 	key "HexStringMustBeEven" value string "La chaîne doit contenir un nombre pair de valeurs hexadécimales."
 	key "HexStringWrongSize" value string "Une chaîne hexadécimale n’est pas valide (devrait comporter ‘%c’ octets)."
 	key "HowManyItems" value string "Nombre d’éléments"
+	key "ImportError" value string "Une erreur s’est produite lors de l’import des données."
 	key "InvalidHexDataInScrap" value string "Impossible de coller les données du presse-papier dans ce cadre: valeurs hexadécimales non valides."
 	key "InvalidHexDataInString" value string "Chaîne hexadécimale non valide."
 	key "MapsNotSelected" value string "Les deux branches de ressources doivent être sélectionnées."
@@ -53,7 +55,6 @@ localize "French" as "Localizable.strings"
 	key "NoPictOnClipboard" value string "Il n’y a pas de ressource ‘PICT’ dans le presse-papiers."
 	key "NoRezForkAskCreate" value string "Le fichier ‘%s’ ne contient aucune branche de ressources. Souhaitez-vous en ouvrir une ?"
 	key "NoRezInAnyFork" value string "Le fichier ‘%s’ ne contient aucune ressource."
-	key "ExportError" value string "Une erreur s’est produite lors de l’export des données."
 	key "NoRezInDataFork" value string "Le fichier ‘%s’ ne contient aucune ressource dans la branche de données."
 	key "NoRezInRezFork" value string "Le fichier ‘%s’ ne contient aucune ressource dans la branche de ressources."
 	key "NoTemplateForThisType" value string "Pas de gabarit disponible pour le type ‘%s’."
