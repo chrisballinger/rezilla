@@ -2,7 +2,7 @@
 // CPluginEditorWindow.cp
 // 
 //                       Created: 2005-10-02 08:41:52
-//             Last modification: 2006-09-18 18:55:58
+//             Last modification: 2006-09-19 12:21:36
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -90,6 +90,8 @@ CPluginEditorWindow::FinalizeEditor(CPluginEditorDoc* inEditorDoc, void * ioPara
 	char	theStr[256];
 	OSErr	error;
 	
+	mEventHandler = NULL;
+	
 	// Set mOwnerDoc
 	SetOwnerDoc(inEditorDoc);
 	SetSuperModel(inEditorDoc);
@@ -99,7 +101,6 @@ CPluginEditorWindow::FinalizeEditor(CPluginEditorDoc* inEditorDoc, void * ioPara
 			
 	::CopyPascalStringToC(*(inEditorDoc->GetRezObj()->GetName()), (char*) theStr);
 	error = ::SetControlData(mNameRef, kControlNoPart, kControlStaticTextTextTag, strlen(theStr), theStr);
-// 	::Draw1Control(mNameRef);
 	::HIViewSetNeedsDisplay(mNameRef, true);
 	
 	// Add the window to the window menu.
@@ -320,12 +321,6 @@ void
 CPluginEditorWindow::ListenToMessage( MessageT inMessage, void *ioParam ) 
 {
 	switch (inMessage) {
-
-		case msg_ForwardToPlugin:
-		EventRef event = (EventRef) ioParam;
-//		(*mInterface)->HandleEvent(mPlugRef, event);
-		break;
-		
 		case msg_Close:
 		dynamic_cast<CPluginEditorDoc *>(GetSuperCommander())->AttemptClose(false);
 		break;
@@ -357,8 +352,10 @@ CPluginEditorWindow::ObeyCommand(
 			if ( theMenuH ) {
 				(*mInterface)->HandleMenu(mPlugRef, theMenuH, theMenuItem);
 			}
+		} else {
+			cmdHandled = CEditorWindow::ObeyCommand(inCommand, ioParam);
 		}
-		return true;
+		return cmdHandled;
 	}
 
 	switch (inCommand) {
@@ -415,7 +412,7 @@ CPluginEditorWindow::ObeyCommand(
 
 
 // ---------------------------------------------------------------------------
-//   HandleKeyPress							[public, virtual]
+//   HandleKeyPress											[public, virtual]
 // ---------------------------------------------------------------------------
 
 Boolean
@@ -426,6 +423,25 @@ CPluginEditorWindow::HandleKeyPress(
 	// Let the plugin handle the keystroke
 	(*mInterface)->HandleKeyDown(mPlugRef, &inKeyEvent);
 	return keyHandled;
+}
+
+
+// ---------------------------------------------------------------------------
+//   HandleMenuItem													[public]
+// ---------------------------------------------------------------------------
+
+void
+CPluginEditorWindow::HandleMenuItem(MenuRef inMenuRef, MenuItemIndex inMenuItemIndex)
+{
+	if (inMenuItemIndex > 0 && inMenuRef != NULL) {
+		MenuID		theID = ::GetMenuID(inMenuRef);
+		LMenuBar *  theBar = LMenuBar::GetCurrentMenuBar();
+		LMenu*		theMenu = theBar->FetchMenu(theID);
+		if (theMenu != NULL) {
+			CommandT	theCmd = theMenu->CommandFromIndex(inMenuItemIndex);
+			ObeyCommand(theCmd, NULL);
+		} 
+	} 
 }
 
 
@@ -474,7 +490,7 @@ CPluginEditorWindow::PutOnDuty(LCommander *inNewTarget)
 		theBar->InstallMenu( theMenu, MENU_OpenedWindows );	
 	}
 	// To query the plugin about modifications
-	this->StartIdling();
+	this->StartIdling();								  
 }
 
 
@@ -486,6 +502,10 @@ void
 CPluginEditorWindow::TakeOffDuty()
 {		
 	LWindow::TakeOffDuty();
+// 	if (mEventHandler != NULL) {
+// 		OSErr error = RemoveEventHandler(mEventHandler);
+// 		mEventHandler = NULL;
+// 	} 
 	RemovePluginMenus();
 	
 	this->StopIdling();
@@ -660,42 +680,51 @@ CPluginEditorWindow::WindowEventHandler(
 			break;
 			
 			case kEventWindowActivated:
-			plugWin->PutOnDuty(NULL);
+			LCommander::SetUpdateCommandStatus(true);
+			plugWin->Activate();
 			result = noErr;
 			break;
 			
 			case kEventWindowDeactivated:
-			plugWin->TakeOffDuty();
+			plugWin->Deactivate();
+			LCommander::SetUpdateCommandStatus(false);
 			result = noErr;
 			break;
-			
+		
 			case kEventCommandProcess:
 			GetEventParameter(event, kEventParamDirectObject, typeHICommand, NULL, sizeof(HICommand), 
 							  NULL, &command);
 			switch (command.commandID) {
 				case kHICommandOK:
 				plugWin->ListenToMessage(msg_EditorSave, NULL);
-				result = noErr;
 				break;
 			
 				case kHICommandCancel:
 				plugWin->ListenToMessage(msg_EditorCancel, NULL);
-				result = noErr;
 				break;
 				
 				case kHICommandRevert:
 				plugWin->ListenToMessage(msg_EditorRevert, NULL);
-				result = noErr;
+				break;
+				
+				case kHICommandPreferences:
+				plugWin->ObeyCommand(cmd_Preferences, NULL);
+				break;
+				
+				case kHICommandQuit:
+				plugWin->ObeyCommand(cmd_Quit, NULL);
 				break;
 				
 				default:
-				plugWin->ListenToMessage(msg_ForwardToPlugin, event);
-				result = noErr;
+				plugWin->HandleMenuItem(command.menu.menuRef, command.menu.menuItemIndex);
 				break;
 			}
+			result = noErr;
+			break;
 		}
 	} 
 
 	return result;
 }
+
 

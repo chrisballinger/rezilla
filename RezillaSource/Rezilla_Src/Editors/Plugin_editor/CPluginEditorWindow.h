@@ -2,7 +2,7 @@
 // CPluginEditorWindow.h				
 // 
 //                       Created: 2005-10-02 08:41:52
-//             Last modification: 2006-09-18 20:33:18
+//             Last modification: 2006-09-19 08:06:18
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -68,6 +68,7 @@ public:
 	
 protected:
 		SPluginEditorInterface**	mInterface;
+		EventHandlerRef				mEventHandler;
 		RezPlugRef					mPlugRef;
 		ControlRef					mHeaderRef,
 									mNameRef,
@@ -81,6 +82,7 @@ protected:
 	void				RemovePluginMenus();
 	Boolean				IsPluginMenu(ResIDT inMenuID);
 	void				AdaptControlsToWindowBounds();
+	void				HandleMenuItem(MenuRef inMenuRef, MenuItemIndex inMenuItemIndex);
 	
 };
 
