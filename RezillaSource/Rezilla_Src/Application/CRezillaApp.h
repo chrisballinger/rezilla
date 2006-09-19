@@ -1,11 +1,11 @@
 // ===========================================================================
 // CRezillaApp.h					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2006-02-19 14:22:34
+//             Last modification: 2006-09-19 10:25:27
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes 2002-2005, 2006
+// (c) Copyright: Bernard Desgraupes 2002-2006
 // All rights reserved.
 // ===========================================================================
 

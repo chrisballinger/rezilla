@@ -261,9 +261,9 @@ CRezillaApp::Initialize()
 	sPluginsController = new CPluginsController();
 #endif
 	
-	// Install the window menu.
-	InstallWindowMenu();	
-
+	// Install the window menu
+	InstallWindowMenu();
+	
 	// Create the inspector window
 	sInspectorWindow = (CInspectorWindow *)LWindow::CreateWindow(PPob_InspectorWindow, this);
 	ThrowIfNil_(sInspectorWindow);
