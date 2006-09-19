@@ -2,7 +2,7 @@
 // File: "RezImagePlugin.c"
 // 
 //                        Created: 2006-02-20 14:15:30
-//              Last modification: 2006-03-09 09:44:38
+//              Last modification: 2006-09-18 10:00:25
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -19,9 +19,6 @@
 #include "RezillaPluginInterface.h"
 #include "RezImagePluginID.h"
 
-
-// ID of the Image menu
-#define kRezJpegPluginMenuID 500
 
 // Default dimensions of the plugin window
 #define kRezImg_WinBoundsTop		50;
@@ -64,12 +61,6 @@ typedef struct RezImg_EditInfo {
 } RezImg_EditInfo;
 
 
-// Menu items
-enum {
-	menu_ImportFromFile = 1
-} RezImg_MenuItems;
-
-
 // Image plugin error codes
 static enum {
 	err_InvalidImageSize		= 10001,
@@ -89,8 +80,6 @@ static enum {
 
 
 // Statics
-static MenuID		RezImg_MenuID;
-static MenuRef		RezImg_MenuRef;
 static CFBundleRef	RezImg_BundleRef;
 
 
@@ -257,8 +246,6 @@ RezImg_AcceptResource(void *myInstance, ResType inType, short inID, Handle inDat
 	Boolean accepted = true;
 	OSType	imgType;
 	
-	RezImg_MenuID = kRezJpegPluginMenuID;
-
 	if (inType == 'JPEG' || inType == 'jpeg' || inType == 'JPG ' || inType == 'jpg ') {
 		imgType = kJPEGCodecType;
 	} else if (inType == 'TIFF' || inType == 'tiff') {
@@ -323,13 +310,14 @@ RezImg_AcceptResource(void *myInstance, ResType inType, short inID, Handle inDat
 			outInfo->attributes			= kPluginEditorStandardControls 
 											| kPluginEditorHasNameField 
 											| kPluginWinIsResizable
-											| kPluginSupportEditCommands;
+											| kPluginSupportEditCommands
+											| kPluginSupportImport;
 			outInfo->winbounds.top		= kRezImg_WinBoundsTop;
 			outInfo->winbounds.left		= kRezImg_WinBoundsLeft;
 			outInfo->winbounds.bottom	= kRezImg_WinBoundsBottom;
 			outInfo->winbounds.right	= kRezImg_WinBoundsRight;
-			outInfo->menucount			= 1;
-			outInfo->menuIDs			= &RezImg_MenuID;
+			outInfo->menucount			= 0;
+			outInfo->menuIDs			= NULL;
 		}
 	}
 	
@@ -356,7 +344,6 @@ RezImg_EditResource(RezPlugRef inPlugref, RezHostInfo inInfo)
 	
 	editInfo->winref = inInfo.winref;
 	editInfo->readonly = inInfo.readonly;
-	RezImg_MenuRef = *inInfo.menurefs;
 	RezImg_BundleRef = inInfo.bundleref;
 	
 	if (editInfo->bitmapData != NULL) {
@@ -521,46 +508,6 @@ RezImg_ResizeBy(RezPlugRef inPlugref, SInt16 inWidthDelta, SInt16 inHeightDelta)
 void
 RezImg_HandleMenu(RezPlugRef inPlugref, MenuRef menu, SInt16 inMenuItem)
 {
-	OSErr		error = noErr;
-	
-	RezImg_EditInfo * editInfo = (RezImg_EditInfo *) inPlugref;
-	
-	switch (inMenuItem) {		
-		case menu_ImportFromFile: {	
-			CFURLRef	fileURL;
-			CFDataRef	fileData = NULL;
-
-			// Ask to open a file
-			_RezImg_openImageFile(&fileURL);
-			if (fileURL == NULL) {return;} 
-			
-			// Load data from URL
-			CFURLCreateDataAndPropertiesFromResource( kCFAllocatorDefault, fileURL, &fileData, NULL, NULL, NULL );			
-			CFRelease(fileURL);
-			if (fileData == NULL) {
-				return;
-			} else {
-				CFIndex		theSize = CFDataGetLength(fileData);
-				Handle		theHandle = NewHandle(theSize);
-				if (theHandle != NULL) {
-					CFDataGetBytes(fileData, CFRangeMake(0, theSize), *theHandle); 
-					CFRelease(fileData);
-					error = _RezImg_installImageData(theHandle, editInfo);
-					if (error == noErr) {
-						if (editInfo->handle != NULL) {
-							DisposeHandle(editInfo->handle);
-						} 
-						editInfo->handle = theHandle;
-						editInfo->modified = true;
-					} else {
-						DisposeHandle(theHandle);
-					}
-				} 
-			}
-			
-			break;
-		}
-	}
 }
 
 
@@ -671,6 +618,40 @@ RezImg_HandleCommand(RezPlugRef inPlugref, SInt16 inCommand)
 		_RezImg_releaseImageData(editInfo);
 		editInfo->handle = NULL;
 		editInfo->modified = true;
+		break;
+		
+		case kPluginCommandImport: {	
+			CFURLRef	fileURL;
+			CFDataRef	fileData = NULL;
+
+			// Ask to open a file
+			_RezImg_openImageFile(&fileURL);
+			if (fileURL == NULL) {return;} 
+			
+			// Load data from URL
+			CFURLCreateDataAndPropertiesFromResource( kCFAllocatorDefault, fileURL, &fileData, NULL, NULL, NULL );			
+			CFRelease(fileURL);
+			if (fileData == NULL) {
+				return;
+			} else {
+				CFIndex		theSize = CFDataGetLength(fileData);
+				Handle		theHandle = NewHandle(theSize);
+				if (theHandle != NULL) {
+					CFDataGetBytes(fileData, CFRangeMake(0, theSize), *theHandle); 
+					CFRelease(fileData);
+					error = _RezImg_installImageData(theHandle, editInfo);
+					if (error == noErr) {
+						if (editInfo->handle != NULL) {
+							DisposeHandle(editInfo->handle);
+						} 
+						editInfo->handle = theHandle;
+						editInfo->modified = true;
+					} else {
+						DisposeHandle(theHandle);
+					}
+				} 
+			}
+		}
 		break;
 		
 		default:
