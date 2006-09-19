@@ -2,7 +2,7 @@
 // CRezillaPlugin.cp
 // 
 //                       Created: 2005-09-26 09:48:26
-//             Last modification: 2006-02-24 12:00:21
+//             Last modification: 2006-09-19 13:23:46
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://rezilla.sourceforge.net/>
@@ -179,16 +179,6 @@ CRezillaPlugin::Load()
 }
 
 
-// // ---------------------------------------------------------------------------
-// //  GetTypesList												[public]
-// // ---------------------------------------------------------------------------
-// 
-// void
-// CRezillaPlugin::GetTypesList()
-// {
-// }
-
-
 // ---------------------------------------------------------------------------
 //  GetPluginInfo												[public]
 // ---------------------------------------------------------------------------
@@ -197,22 +187,6 @@ void
 CRezillaPlugin::GetPluginInfo()
 {
 }
-
-// ---------------------------------------------------------------------------
-//  IsSupported												[public]
-// ---------------------------------------------------------------------------
-// Boolean	found = false;
-// ResType theType;
-// if ( mEditTypes.FetchItemAt(index, &theType) ) {
-// 	found = true;
-// } 
-// return found;
-
-// Boolean
-// CRezillaPlugin::IsSupported(ResType inType)
-// {
-// 	return mEditTypes.ContainsItem(inType);
-// }
 
 
 // ---------------------------------------------------------------------------
@@ -271,71 +245,75 @@ CRezillaPlugin::CreateMenus(UInt8 inMenuCount, MenuID * inMenuIDs)
 {
 	UInt8		count = 0;
 	
-	if (inMenuCount > 0 && !mMenusBuilt) {		
-		CRezMap *	theRezMap;
-		CRezObj *	theRezObj;
-		int i;
-		
-		theRezMap = OpenResources();
-		
-		if (theRezMap) {
-			for (i = 0; i < inMenuCount; i++) {
-				theRezObj = theRezMap->FindResource('MENU', inMenuIDs[i], true);
-				if (theRezObj) {
-					LHandleStream *	theStream;
-					CMenuObject *	theMenuObj;
-					LMenu *			theMenu;
-					MenuRef			theMenuRef;
-					
-					theRezObj->Detach();
-					
-					theStream = new LHandleStream(theRezObj->GetData());
-					
-					if (theStream) {
-						theMenuObj = new CMenuObject(theStream);
+	if (inMenuCount > 0) {	
+		if (mMenusBuilt) {
+			count = mMenusList.GetCount();
+		} else {
+			CRezMap *	theRezMap;
+			CRezObj *	theRezObj;
+			int i;
+			
+			theRezMap = OpenResources();
+			
+			if (theRezMap) {
+				for (i = 0; i < inMenuCount; i++) {
+					theRezObj = theRezMap->FindResource('MENU', inMenuIDs[i], true);
+					if (theRezObj) {
+						LHandleStream *	theStream;
+						CMenuObject *	theMenuObj;
+						LMenu *			theMenu;
+						MenuRef			theMenuRef;
 						
-						if (theMenuObj) {
-							theMenu = new LMenu(MENU_PluginEditor);
-							if (theMenu) {
-								Str255	theString;
-								theMenuRef = theMenu->GetMacMenuH();
+						theRezObj->Detach();
+						
+						theStream = new LHandleStream(theRezObj->GetData());
+						
+						if (theStream) {
+							theMenuObj = new CMenuObject(theStream);
+							
+							if (theMenuObj) {
+								theMenu = new LMenu(MENU_PluginEditor);
+								if (theMenu) {
+									Str255	theString;
+									theMenuRef = theMenu->GetMacMenuH();
 
-								theMenuObj->GetTitle(theString);
-								::SetMenuTitle(theMenuRef, theString);
-								
-								// Populate the new menu
-								TArrayIterator<CMenuItem*> iterator( *(theMenuObj->GetItems()) );
-								CMenuItem *	theItem;
-								short		j = 1;
-								CommandT	menuCmd;
-								
-								while (iterator.Next(theItem)) {
-									theItem->GetTitle(theString);
-									::MacInsertMenuItem(theMenuRef, theString, j);
-									theMenu->EnableItem(j);
-									// Build a synthetic command number 
-									// for this item
-									menuCmd = theMenu->SyntheticCommandFromIndex(j);
-									theMenu->SetCommand(j, menuCmd);
-									j++;
-								}
-								
-								// Add to the list of menus for this plugin
-								mMenusList.AddItem(theMenu);
-								count++;
+									theMenuObj->GetTitle(theString);
+									::SetMenuTitle(theMenuRef, theString);
+									
+									// Populate the new menu
+									TArrayIterator<CMenuItem*> iterator( *(theMenuObj->GetItems()) );
+									CMenuItem *	theItem;
+									short		j = 1;
+									CommandT	menuCmd;
+									
+									while (iterator.Next(theItem)) {
+										theItem->GetTitle(theString);
+										::MacInsertMenuItem(theMenuRef, theString, j);
+										theMenu->EnableItem(j);
+										// Build a synthetic command number 
+										// for this item
+										menuCmd = theMenu->SyntheticCommandFromIndex(j);
+										theMenu->SetCommand(j, menuCmd);
+										j++;
+									}
+									
+									// Add to the list of menus for this plugin
+									mMenusList.AddItem(theMenu);
+									count++;
+								} 
+								delete theMenuObj;
 							} 
-							delete theMenuObj;
+							delete theStream;
 						} 
-						delete theStream;
-					} 
-					delete theRezObj;
-				} 					
-			} 
-			theRezMap->Close();
-			delete theRezMap;
+						delete theRezObj;
+					} 					
+				} 
+				theRezMap->Close();
+				delete theRezMap;
+			}
+			mMenusBuilt = true;
 		}
 	} 
-	mMenusBuilt = true;
 	
 	return count;
 }
