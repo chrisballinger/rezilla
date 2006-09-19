@@ -233,7 +233,7 @@ CPluginEditorDoc::FindCommandStatus(
 	
 		case cmd_Save:
 		case cmd_SaveAs:
-			outEnabled = false;
+		outEnabled = false;
 		break;
 
 		case cmd_Import:

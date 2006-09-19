@@ -41,10 +41,6 @@ public:
 							CommandT			inCommand,
 							void*				ioParam);
 	
-// 	virtual void		ListenToMessage(
-// 							MessageT		inMessage,
-// 							void*			ioParam);
-
 	virtual Boolean		AllowSubRemoval( LCommander* inSub );
 	virtual SInt16		AskSaveChanges( bool inQuitting );
 
@@ -52,7 +48,7 @@ public:
 
 	void				ReportPluginError(CFStringRef inCFStringRef, SInt32 inError);
 
-	Boolean				HasAttribute(short inFlag) const;
+	Boolean				HasAttribute(SInt32 inFlag) const;
 
 	// Accessors
 	CRezillaPlugin*			GetPlugin() { return mPlugin;}
@@ -82,7 +78,7 @@ private:
 
 inline
 Boolean
-CPluginEditorDoc::HasAttribute( short inFlag ) const
+CPluginEditorDoc::HasAttribute(SInt32 inFlag) const
 {
 	return ((mAttributes & inFlag) != 0);
 }
