@@ -2,7 +2,7 @@
 // File: "RezSamplePlugin.c"
 // 
 //                        Created: 2005-09-08 18:51:53
-//              Last modification: 2006-03-09 11:39:43
+//              Last modification: 2006-09-19 13:31:11
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -28,7 +28,7 @@
 // Default dimensions of the plugin window
 #define kSampleBoundsTop		50;
 #define kSampleBoundsLeft		50;
-#define kSampleBoundsBottom		600;
+#define kSampleBoundsBottom		300;
 #define kSampleBoundsRight		500;
 
 
@@ -250,8 +250,9 @@ sample_AcceptResource(void *myInstance, ResType inType, short inID, Handle inDat
 OSErr
 sample_EditResource(RezPlugRef inPlugref, RezHostInfo inInfo)
 {
-	Rect			editRect = {100, 100, 160, 400};
+	Rect			theRect;
 	CFStringRef		theTextRef;
+	ControlRef		staticRef;
 	OSErr			error = noErr;
 	
 	SampleEditInfo * editInfo = (SampleEditInfo *) inPlugref;
@@ -261,8 +262,12 @@ sample_EditResource(RezPlugRef inPlugref, RezHostInfo inInfo)
 	editInfo->readonly	= inInfo.readonly;
 	sampleMenuRef		= *inInfo.menurefs;
 	
+	SetRect(&theRect, 80, 50, 300, 70);
+	error = CreateStaticTextControl(editInfo->winref, &theRect, CFSTR("Pascal string:"),  NULL, &staticRef);
+
+	SetRect(&theRect, 80, 80, 400, 170);
 	theTextRef = CFStringCreateWithPascalString(kCFAllocatorDefault, *(editInfo->data), kCFStringEncodingMacRoman);
-	error = CreateEditTextControl(editInfo->winref, &editRect, theTextRef, false, false, NULL, &(editInfo->controlref));
+	error = CreateEditTextControl(editInfo->winref, &theRect, theTextRef, false, false, NULL, &(editInfo->controlref));
 	CFRelease(theTextRef);
 	
 	if (error == noErr) {
@@ -325,7 +330,7 @@ sample_RevertResource(RezPlugRef inPlugref, Handle inDataH)
 	SampleEditInfo * editInfo = (SampleEditInfo *) inPlugref;
 	
 	error = SetControlData(editInfo->controlref, kControlNoPart, kControlEditTextTextTag, 
-						   GetHandleSize(inDataH), *(inDataH));
+						   GetHandleSize(inDataH)-1, (*inDataH) +1);
 	Draw1Control(editInfo->controlref);
 	
 	editInfo->data = inDataH;
@@ -361,7 +366,6 @@ void
 sample_CleanUp(RezPlugRef inPlugref)
 {
 	SampleEditInfo * editInfo = (SampleEditInfo *) inPlugref;
-// 	DisposeControl(editInfo->controlref);
 	
 	free(editInfo);
 }
