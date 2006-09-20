@@ -9,6 +9,10 @@
 // (c) Copyright: Bernard Desgraupes 2006
 // All rights reserved.
 // ===========================================================================
+// All the picker rectangles are automatically framed by an LBorderAttachment
+// which is attached to them in the constructor.
+// The CPickerView class is not instanciated directly: it is a base class
+// for the TPickerView template class.
 
 
 #ifdef PowerPlant_PCH

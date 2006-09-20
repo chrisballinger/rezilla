@@ -52,6 +52,9 @@ public:
 	CPickerWindow*		GetOwnerWindow() { return mOwnerWindow;}
 	void				SetOwnerWindow(CPickerWindow* inOwnerWindow) {mOwnerWindow = inOwnerWindow;}
 
+	Boolean				IsSelected() { return mIsSelected;}
+	void				SetIsSelected(Boolean inIsSelected) {mIsSelected = inIsSelected;}
+
 protected:
 	CPickerWindow *		mOwnerWindow;
 	LStaticText *		mIDField;
