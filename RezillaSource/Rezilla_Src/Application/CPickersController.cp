@@ -2,7 +2,7 @@
 // CPickersController.cp					
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-02-26 17:28:51
+//             Last modification: 2006-09-20 10:20:43
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -21,7 +21,10 @@ PP_Begin_Namespace_PowerPlant
 #include "TPickerDoc.h"
 #include "TPickerView.h"
 #include "CRezillaApp.h"
-#include "CIcon_PickerStamp.h"
+#include "CIconFamily_PickerStamp.h"
+#include "Ccicn_PickerStamp.h"
+#include "CICON_PickerStamp.h"
+#include "CSICN_PickerStamp.h"
 #include "CMENU_PickerStamp.h"
 #include "CSTRx_PickerStamp.h"
 #include "CTEXT_PickerStamp.h"
@@ -71,6 +74,9 @@ CPickersController::HasPickerForType(ResType inType)
 		case 'MBAR':
 		case 'Mcmd':
 		case 'RidL':
+		case 'cicn':
+		case 'ICON':
+		case 'SICN':
 		case 'ICN#':
 		case 'icl4':
 		case 'icl8':
@@ -130,6 +136,18 @@ CPickersController::InvokeCustomPicker(CRezMapDoc* inRezMapDoc,
 		  new TPickerDoc<CSTRx_PickerStamp>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
 		break;
 		
+		case 'cicn':
+		  new TPickerDoc<Ccicn_PickerStamp>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
+		break;
+		
+		case 'ICON':
+		  new TPickerDoc<CICON_PickerStamp>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
+		break;
+		
+		case 'SICN':
+		  new TPickerDoc<CSICN_PickerStamp>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
+		break;
+		
 		case 'ICN#':
 		case 'icl4':
 		case 'icl8':
@@ -140,7 +158,7 @@ CPickersController::InvokeCustomPicker(CRezMapDoc* inRezMapDoc,
 		case 'ics4':
 		case 'ics8':
 // 		new CIcon_PickerDoc( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
-		  new TPickerDoc<CIcon_PickerStamp>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
+		  new TPickerDoc<CIconFamily_PickerStamp>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
 	  break;
 	  
 	}
