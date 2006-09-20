@@ -236,9 +236,9 @@ CEditorsController::InvokeCustomEditor(CRezMapDoc* inRezMapDoc,
 									   CRezObjItem * inRezObjItem,
 									   ResType inUseType)
 {
-	CRezMapTable *	inSuperMap = inRezMapDoc->GetRezMapWindow()->GetRezMapTable();
-	CRezObj *		inRezObj = inRezObjItem->GetRezObj();
-	Boolean			inReadOnly = inRezMapDoc->IsReadOnly();
+	CRezMapTable *	theSuperMap = inRezMapDoc->GetRezMapWindow()->GetRezMapTable();
+	CRezObj *		theRezObj = inRezObjItem->GetRezObj();
+	Boolean			isReadOnly = inRezMapDoc->IsReadOnly();
 	ResType			theType;
 	Size			theSize;
 	
@@ -246,44 +246,44 @@ CEditorsController::InvokeCustomEditor(CRezMapDoc* inRezMapDoc,
 		case 'styl': {
 		// Check if there is an associated TEXT resource
 		CRezObj * textRezObj = NULL;
-		OpenOrCreateWithTypeAndID(inSuperMap, 'TEXT', inRezObj->GetID(), &textRezObj);
-		new CTEXT_EditorDoc( (LCommander *) inRezMapDoc, inSuperMap, textRezObj, 'TEXT', inReadOnly);
+		OpenOrCreateWithTypeAndID(theSuperMap, 'TEXT', theRezObj->GetID(), &textRezObj);
+		new CTEXT_EditorDoc( (LCommander *) inRezMapDoc, theSuperMap, textRezObj, 'TEXT', isReadOnly);
 		break;
 		}
 
 		case 'TEXT':
-		  new CTEXT_EditorDoc( (LCommander *) inRezMapDoc, inSuperMap, inRezObj, inUseType, inReadOnly);
+		  new CTEXT_EditorDoc( (LCommander *) inRezMapDoc, theSuperMap, theRezObj, inUseType, isReadOnly);
 		break;
 		
 		case 'utxt':
-		  new CUtxt_EditorDoc( (LCommander *) inRezMapDoc, inSuperMap, inRezObj, inUseType, inReadOnly);
+		  new CUtxt_EditorDoc( (LCommander *) inRezMapDoc, theSuperMap, theRezObj, inUseType, isReadOnly);
 		break;
 		
 		case 'PICT':
-		  new CPICT_EditorDoc( (LCommander *) inRezMapDoc, inSuperMap, inRezObj, inUseType, inReadOnly);
+		  new CPICT_EditorDoc( (LCommander *) inRezMapDoc, theSuperMap, theRezObj, inUseType, isReadOnly);
 		break;
 		
 		case 'snd ':
-		  new CSnd_EditorDoc( (LCommander *) inRezMapDoc, inSuperMap, inRezObj, inUseType, true);
+		  new CSnd_EditorDoc( (LCommander *) inRezMapDoc, theSuperMap, theRezObj, inUseType, true);
 		break;
 		
 		case 'aete':
-		  new CAete_EditorDoc( (LCommander *) inRezMapDoc, inSuperMap, inRezObj, inUseType, inReadOnly);
+		  new CAete_EditorDoc( (LCommander *) inRezMapDoc, theSuperMap, theRezObj, inUseType, isReadOnly);
 		break;
 		
 		case 'MENU':
-		  new CMENU_EditorDoc( (LCommander *) inRezMapDoc, inSuperMap, inRezObj, inUseType, inReadOnly);
+		  new CMENU_EditorDoc( (LCommander *) inRezMapDoc, theSuperMap, theRezObj, inUseType, isReadOnly);
 		break;
 		
 		case 'icns':
-		  new CICNS_EditorDoc( (LCommander *) inRezMapDoc, inSuperMap, inRezObj, inUseType, inReadOnly);
+		  new CICNS_EditorDoc( (LCommander *) inRezMapDoc, theSuperMap, theRezObj, inUseType, isReadOnly);
 		break;
 		
 		case 'STR#':
 		case 'MBAR':
 		case 'Mcmd':
 		case 'RidL':
-		  new CSTRx_EditorDoc( (LCommander *) inRezMapDoc, inSuperMap, inRezObj, inUseType, inReadOnly);
+		  new CSTRx_EditorDoc( (LCommander *) inRezMapDoc, theSuperMap, theRezObj, inUseType, isReadOnly);
 		break;
 		
 		case 'CURS':
@@ -303,7 +303,7 @@ CEditorsController::InvokeCustomEditor(CRezMapDoc* inRezMapDoc,
 		case 'ics4':
 		case 'ics8':
 		case 'ppat':
-		new CIcon_EditorDoc( (LCommander *) inRezMapDoc, inSuperMap, inRezObj, inUseType, inReadOnly);
+		new CIcon_EditorDoc( (LCommander *) inRezMapDoc, theSuperMap, theRezObj, inUseType, isReadOnly);
 	  break;
 
 		case 'thng':
