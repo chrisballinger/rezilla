@@ -9,7 +9,43 @@
 // (c) Copyright: Bernard Desgraupes 2006
 // All rights reserved.
 // ===========================================================================
-
+// 				
+// 				+--------------------------------------------------+
+// 				|                         ^                        |
+// 				|                kPickerViewVertMargin             |
+// 				|                         v                        |
+// 				|     +--------------------------------------+     |
+// 				|     |                               ^      |     |
+// 				|     |<           inStampWidth             >|     |
+// 				|     |                                      |     |
+// 				|     |                                      |     |
+// 				|     |                                      |     |
+// 				|     |                                      |<   >| <---  kPickerViewHorizMargin
+// 				|     |                                      |     |
+// 				|     |                                      |     |
+// 				|     |                                      |     |
+// 				|     |                                      |     |
+// 				|     |                                      |     |
+// 				|     |                                      |     |
+// 				|     |                        inStampHeight |     | 
+// 				|     |                                      |     |
+// 				|     |                                      |     |
+// 				|     |                                      |     |
+// 				|     |                                      |     |
+// 				|     |                                      |     |
+// 				|     |                                      |     |
+// 				|     |                               v      |     |
+// 				|     +--------------------------------------+     |
+// 				|                         ^                        |
+// 				|                kPickerViewVertMargin             |
+// 				|                         v                        |
+// 				| +----------------------------------------------+ |
+// 				| |                      ^                       | |
+// 				| |             kPickerViewIDFieldHeight         | |
+// 				| |                      v                       | |
+// 				| +----------------------------------------------+ |
+// 				+--------------------------------------------------+
+// 
 #pragma once
 
 #include "CPickerView.h"
@@ -89,7 +125,8 @@ InitPickerView(SInt16 inStampWidth, SInt16 inStampHeight, ResIDT inID)
 	vi.scrollUnit.v			= theHeight;
 	vi.reconcileOverhang	= false;
 
-	mStampView = new T(pi, vi);
+	// Create the picker stamp
+	mStampView = new T(this, pi, vi);
 	ThrowIfNil_(mStampView);
 
 	pi.top		= pi.height + vertMargin;

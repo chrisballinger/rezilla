@@ -227,6 +227,10 @@ CreateNewPicker(SInt16 inStampWidth, SInt16 inStampHeight, ResIDT inID)
 	mPickerWindow->AddPickerView( (CPickerView*) thePickerView);
 	thePickerView->PutInside(mPickerWindow->GetContentsView());
 	thePickerView->SetOwnerWindow(mPickerWindow);
+	
+	// Put the map's refNum in the view's userCon
+	thePickerView->SetUserCon(mRezMapTable->GetRezMap()->GetRefnum());
+	
 	return thePickerView;
 }
 

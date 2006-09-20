@@ -2,7 +2,7 @@
 // CPickerStamp.cp					
 // 
 //                       Created: 2006-02-24 09:49:42
-//             Last modification: 2006-03-15 19:15:42
+//             Last modification: 2006-09-20 08:35:48
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -32,11 +32,12 @@ PP_Begin_Namespace_PowerPlant
 // ---------------------------------------------------------------------------
 
 CPickerStamp::CPickerStamp(
-	const SPaneInfo&	inPaneInfo,
-	const SViewInfo&	inViewInfo)
+	   CPickerView *	inParent,
+	   const SPaneInfo&	inPaneInfo,
+	   const SViewInfo&	inViewInfo)
 	: LView(inPaneInfo, inViewInfo)
 {
-// 	InitPickerStamp(inWidth, inHeight, inID);
+	mParent = inParent;
 }
 
 
@@ -49,16 +50,16 @@ CPickerStamp::~CPickerStamp()
 }
 
 
-// ---------------------------------------------------------------------------
-//   InitPickerStamp
-// ---------------------------------------------------------------------------
-
-void 
-CPickerStamp::InitPickerStamp(SInt16 inWidth, SInt16 inHeight, ResIDT inID)
-{
-	ResizeFrameTo(inWidth, inHeight, false);
-	ResizeImageTo(inWidth, inHeight, false);
-}
+// // ---------------------------------------------------------------------------
+// //   InitPickerStamp
+// // ---------------------------------------------------------------------------
+// 
+// void 
+// CPickerStamp::InitPickerStamp(SInt16 inWidth, SInt16 inHeight, ResIDT inID)
+// {
+// 	ResizeFrameTo(inWidth, inHeight, false);
+// 	ResizeImageTo(inWidth, inHeight, false);
+// }
 
 
 // ---------------------------------------------------------------------------

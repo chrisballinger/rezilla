@@ -2,7 +2,7 @@
 // CPickerStamp.h				
 // 
 //                       Created: 2006-02-24 09:49:42
-//             Last modification: 2006-03-15 19:15:50
+//             Last modification: 2006-09-20 08:34:03
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -22,7 +22,7 @@
 	#pragma import on
 #endif
 
-class CPickerWindow;
+class CPickerView;
 
 PP_Begin_Namespace_PowerPlant
 
@@ -31,6 +31,7 @@ PP_Begin_Namespace_PowerPlant
 class CPickerStamp : public LView {
 public:
 							CPickerStamp(
+								CPickerView *		inParent,
 								const SPaneInfo&	inPaneInfo,
 								const SViewInfo&	inViewInfo);
 							virtual	~CPickerStamp();
@@ -44,9 +45,10 @@ public:
 	static void			StampSize(ResType inType, SInt16 &outWidth, SInt16 &outHeight);
 
 protected:
-	
+	CPickerView *		mParent;
+
 private:
-	void				InitPickerStamp(SInt16 inWidth, SInt16 inHeight, ResIDT inID);
+// 	void				InitPickerStamp(SInt16 inWidth, SInt16 inHeight, ResIDT inID);
 
 };
 
