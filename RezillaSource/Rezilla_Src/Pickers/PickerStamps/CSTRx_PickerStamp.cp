@@ -2,7 +2,7 @@
 // 	CSTRx_PickerStamp.cp
 // 
 //                       Created : 2006-02-25 17:40:43
-//             Last modification : 2006-02-25 17:55:59
+//             Last modification : 2006-09-20 08:50:41
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@users.sourceforge.net>
 // www : <http://rezilla.sourceforge.net/>
@@ -16,11 +16,9 @@
 #endif
 
 #include "CSTRx_PickerStamp.h"
+#include "CPickerView.h"
+#include "UResources.h"
 
-#include <LStream.h>
-#include <PP_Constants.h>
-
-#include <Icons.h>
 
 PP_Begin_Namespace_PowerPlant
 
@@ -30,9 +28,10 @@ PP_Begin_Namespace_PowerPlant
 // ---------------------------------------------------------------------------
 
 CSTRx_PickerStamp::CSTRx_PickerStamp(
+									CPickerView *		inParent,
 									const SPaneInfo&	inPaneInfo,
 									const SViewInfo&	inViewInfo)
-	: CPickerStamp(inPaneInfo, inViewInfo)
+	: CPickerStamp(inParent, inPaneInfo, inViewInfo)
 {
 }
 
