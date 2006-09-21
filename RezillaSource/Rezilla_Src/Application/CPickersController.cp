@@ -2,7 +2,7 @@
 // CPickersController.cp					
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-09-20 10:20:43
+//             Last modification: 2006-09-21 12:39:55
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -21,13 +21,16 @@ PP_Begin_Namespace_PowerPlant
 #include "TPickerDoc.h"
 #include "TPickerView.h"
 #include "CRezillaApp.h"
-#include "CIconFamily_PickerStamp.h"
 #include "Ccicn_PickerStamp.h"
 #include "CICON_PickerStamp.h"
 #include "CSICN_PickerStamp.h"
+#include "Cicns_PickerStamp.h"
+#include "CPICT_PickerStamp.h"
 #include "CMENU_PickerStamp.h"
 #include "CSTRx_PickerStamp.h"
 #include "CTEXT_PickerStamp.h"
+#include "CPattern_PickerStamp.h"
+#include "CIconFamily_PickerStamp.h"
 #include "CRezMap.h"
 #include "CRezMapDoc.h"
 #include "CRezMapWindow.h"
@@ -71,12 +74,14 @@ CPickersController::HasPickerForType(ResType inType)
 		case 'TEXT':
 		case 'MENU':
 		case 'STR#':
-		case 'MBAR':
-		case 'Mcmd':
-		case 'RidL':
 		case 'cicn':
 		case 'ICON':
 		case 'SICN':
+		case 'icns':
+		case 'PICT':
+		case 'PAT ':
+		case 'ppat':
+		case 'PAT#':
 		case 'ICN#':
 		case 'icl4':
 		case 'icl8':
@@ -101,8 +106,6 @@ CPickersController::HasPickerForType(ResType inType)
 // 		case 'ICON':
 // 		case 'PAT ':
 // 		case 'PAT#':
-// 		case 'SICN':
-// 		case 'cicn':
 // 		case 'crsr':
 // 		case 'ppat':
 
@@ -120,9 +123,8 @@ CPickersController::InvokeCustomPicker(CRezMapDoc* inRezMapDoc,
 		  new TPickerDoc<CTEXT_PickerStamp>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
 		break;
 
-		
 		case 'PICT':
-// 		  new TPickerDoc<CPICT_PickerStamp>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
+		  new TPickerDoc<CPICT_PickerStamp>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
 		break;
 		
 		case 'MENU':
@@ -130,9 +132,6 @@ CPickersController::InvokeCustomPicker(CRezMapDoc* inRezMapDoc,
 		break;
 		
 		case 'STR#':
-		case 'MBAR':
-		case 'Mcmd':
-		case 'RidL':
 		  new TPickerDoc<CSTRx_PickerStamp>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
 		break;
 		
@@ -148,6 +147,16 @@ CPickersController::InvokeCustomPicker(CRezMapDoc* inRezMapDoc,
 		  new TPickerDoc<CSICN_PickerStamp>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
 		break;
 		
+		case 'icns':
+		  new TPickerDoc<Cicns_PickerStamp>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
+		break;
+		
+		case 'PAT ':
+		case 'ppat':
+		case 'PAT#':
+			new TPickerDoc<CPattern_PickerStamp>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
+		  break;
+
 		case 'ICN#':
 		case 'icl4':
 		case 'icl8':
