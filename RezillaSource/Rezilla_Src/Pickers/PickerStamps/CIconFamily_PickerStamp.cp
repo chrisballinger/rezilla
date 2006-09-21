@@ -60,24 +60,24 @@ CIconFamily_PickerStamp::StampSize(ResType inType, SInt16 &outWidth, SInt16 &out
 		case 'ics4':
 		case 'ics8':
 		// 16x16 small icons
-		outWidth = 24;
-		outHeight = 24;
+		outWidth = 16;
+		outHeight = 16;
 		break;
 		
 		case 'ICN#':
 		case 'icl4':
 		case 'icl8':
 		// 32x32 large icons
-		outWidth = 48;
-		outHeight = 48;
+		outWidth = 32;
+		outHeight = 32;
 		break;
 		
 		case 'icm#':
 		case 'icm4':
 		case 'icm8':
 		// 16x12 medium icons
-		outWidth = 24;
-		outHeight = 24;
+		outWidth = 16;
+		outHeight = 12;
 		break;
 		
 		default:
@@ -97,7 +97,7 @@ CIconFamily_PickerStamp::DrawSelf()
 {
 	// The resID is the paneID of the PickerView
 	ResIDT theID = mParent->GetPaneID();
-	short theRefNum = mParent->GetUserCon();;
+	short theRefNum = mParent->GetUserCon();
 	
 	if (theRefNum != kResFileNotOpened) {
 		Rect	frame;
