@@ -50,18 +50,6 @@ CPickerStamp::~CPickerStamp()
 }
 
 
-// // ---------------------------------------------------------------------------
-// //   InitPickerStamp
-// // ---------------------------------------------------------------------------
-// 
-// void 
-// CPickerStamp::InitPickerStamp(SInt16 inWidth, SInt16 inHeight, ResIDT inID)
-// {
-// 	ResizeFrameTo(inWidth, inHeight, false);
-// 	ResizeImageTo(inWidth, inHeight, false);
-// }
-
-
 // ---------------------------------------------------------------------------
 // 	ClickSelf
 // ---------------------------------------------------------------------------
@@ -76,53 +64,17 @@ CPickerStamp::ClickSelf( const SMouseDownEvent & inEvent)
 // ---------------------------------------------------------------------------
 //   DrawSelf														  [public]
 // ---------------------------------------------------------------------------
-// // 		OSErr 
-// // 		PlotIconID(
-// // 		  const Rect *        theRect,
-// // 		  IconAlignmentType   align,
-// // 		  IconTransformType   transform,
-// // 		  SInt16              theResID)
-// // 		OSErr 
-// // 		PlotIconHandle(
-// // 		  const Rect *        theRect,
-// // 		  IconAlignmentType   align,
-// // 		  IconTransformType   transform,
-// // 		  Handle              theIcon)
-// // 		  extern void 
-// // 		PlotIcon(
-// // 		  const Rect *  theRect,
-// // 		  Handle        theIcon)
-// // 		  OSErr 
-// // 		PlotSICNHandle(
-// // 		  const Rect *        theRect,
-// // 		  IconAlignmentType   align,
-// // 		  IconTransformType   transform,
-// // 		  Handle              theSICN)
-// // 		OSErr 
-// // 		PlotCIconHandle(
-// // 		  const Rect *        theRect,
-// // 		  IconAlignmentType   align,
-// // 		  IconTransformType   transform,
-// // 		  CIconHandle         theCIcon)
-// 			if (mGraphicsType == ResType_IconList) {
-// 					if (mEnabled == triState_On) {
-// 						::PlotIconID(&frame, kAlignNone, kTransformNone, inGraphicID);
-// 					} else {
-// 						::PlotIconID(&frame, kAlignNone, kTransformDisabled, inGraphicID);
-// 					}
+// Install a generic drawing when no dedicated subclass is available: if
+// the resource has a name, display it, otherwise display a generic icon
 // 
-// 				} else if (mGraphicsType == ResType_Picture) {
-// 					PicHandle	macPictureH = ::GetPicture(inGraphicID);
-// 					if (macPictureH != nil) {
-// 						::DrawPicture(macPictureH, &frame);
-// 					}
+// 			Rect	frame;
+// 			CalcLocalFrameRect(frame);
+// 			::PenNormal();
 // 
-// 				} else if (mGraphicsType == ResType_Icon) {
-// 					Handle	iconHandle = ::GetIcon(inGraphicID);
-// 					if (iconHandle != nil) {
-// 						::PlotIcon(&frame, iconHandle);
-// 					}
-// 				}
+// 			Pattern		ltGrayPat;
+// 			::MacFillRect(&frame, UQDGlobals::GetLightGrayPat(&ltGrayPat));
+// 
+// 			::MacFrameRect(&frame);
 
 void
 CPickerStamp::DrawSelf()
@@ -132,9 +84,7 @@ CPickerStamp::DrawSelf()
 	CalcLocalFrameRect(frame);
 	StColorPenState::Normalize();
 	
-// 	::PlotIconID(&frame, kAlignNone, kTransformNone, inGraphicID);
-// 	::PlotIconID(&frame, kAlignNone, kTransformDisabled, inGraphicID);
-	
+
 }
 
 
