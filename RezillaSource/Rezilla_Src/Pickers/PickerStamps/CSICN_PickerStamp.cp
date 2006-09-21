@@ -2,7 +2,7 @@
 // 	CSICN_PickerStamp.cp
 // 
 //                       Created : 2006-02-25 17:40:43
-//             Last modification : 2006-09-20 08:18:59
+//             Last modification : 2006-09-20 18:34:45
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@users.sourceforge.net>
 // www : <http://rezilla.sourceforge.net/>
@@ -69,31 +69,41 @@ CSICN_PickerStamp::StampSize(ResType inType, SInt16 &outWidth, SInt16 &outHeight
 // PlotSICNHandle: Draws a small icon of resource type 'SICN' to which you
 // have a handle. You can obtain a handle to the icon using GetResource or
 // other Resource Manager functions.
-// Note: Only 'SICN' resources with a single memberÑor with two members,
-// the second of which is a mask for the firstÑplot correctly.
+// 
+// Note: Only 'SICN' resources with a single member Ñ- or with two members,
+// the second of which is a mask for the first Ñ- plot correctly. So the
+// strategy is to copy the first bitmap of the family in a new handle.
 
 void
 CSICN_PickerStamp::DrawSelf()
 {
 	// The resID is the paneID of the PickerView
 	ResIDT theID = mParent->GetPaneID();
-	short theRefNum = mParent->GetUserCon();;
+	short theRefNum = mParent->GetUserCon();
 	
 	if (theRefNum != kResFileNotOpened) {
 		Rect	frame;
-		Handle	theIconHandle = NULL;
-		
+		Handle	theIconHandle = ::NewHandleClear(32), theResHandle = NULL;
+		StRezRefSaver saver(theRefNum);
+
 		FocusDraw();
 		CalcLocalFrameRect(frame);
-		StRezRefSaver saver(theRefNum);
-		theIconHandle = ::Get1Resource('SICN', theID);
-		if (theIconHandle) {
+		theResHandle = ::Get1Resource('SICN', theID);
+		::HandToHand(&theResHandle);
+
+		if (theIconHandle && theResHandle) {
+			if ( ::GetHandleSize(theResHandle) >= 32) {
+				::BlockMoveData(*theResHandle, *theIconHandle, 32);
+			} 
 			::PlotSICNHandle(&frame, kAlignAbsoluteCenter, 
 					 mParent->IsSelected() ? kTransformSelected : kTransformNone, theIconHandle);
-			::ReleaseResource(theIconHandle);
 		} 
+		
+		if (theResHandle) ::ReleaseResource(theResHandle);
+		if (theIconHandle) ::DisposeHandle(theIconHandle);
 	}
 }
+
 
 
 PP_End_Namespace_PowerPlant

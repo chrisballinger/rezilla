@@ -2,7 +2,7 @@
 // CTEXT_PickerStamp.h				
 // 
 //                       Created : 2006-02-25 17:40:43
-//             Last modification : 2006-09-20 08:35:18
+//             Last modification : 2006-09-21 10:19:55
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@users.sourceforge.net>
 // www : <http://rezilla.sourceforge.net/>
@@ -22,6 +22,7 @@
 #endif
 
 class CPickerView;
+class CStaticClickThrough;
 
 PP_Begin_Namespace_PowerPlant
 
@@ -39,6 +40,9 @@ public:
 	virtual void		DrawSelf();
 
 	static void			StampSize(ResType inType, SInt16 &outWidth, SInt16 &outHeight);
+
+private:
+	CStaticClickThrough *	mStaticField;
 
 };
 

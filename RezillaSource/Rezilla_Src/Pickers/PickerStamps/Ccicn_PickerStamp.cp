@@ -74,7 +74,7 @@ Ccicn_PickerStamp::DrawSelf()
 {
 	// The resID is the paneID of the PickerView
 	ResIDT theID = mParent->GetPaneID();
-	short theRefNum = mParent->GetUserCon();;
+	short theRefNum = mParent->GetUserCon();
 	
 	if (theRefNum != kResFileNotOpened) {
 		Rect	frame;
