@@ -83,6 +83,9 @@ public:
 	CPickerDoc *		GetOwnerDoc() { return mOwnerDoc;}
 	void				SetOwnerDoc(CPickerDoc* theOwnerDoc) {mOwnerDoc = theOwnerDoc ;}
 
+	ResType				GetType() { return mType;}
+	void				SetType(ResType inType) {mType = inType;}
+
 	void				GetStampSize(SInt16 &outWidth, SInt16 &outHeight);
 	void				SetStampSize(SInt16 inWidth, SInt16 inHeight);
 
@@ -91,9 +94,9 @@ public:
 	CPickerView*		GetSelectedView() { return mSelectedView;}
 	void				SetSelectedView(CPickerView* inSelectedView) {mSelectedView = inSelectedView;}
 
-	
 protected:
 	CPickerDoc *			mOwnerDoc;
+	ResType					mType;
 	SInt16					mStampWidth;
 	SInt16					mStampHeight;
 	LView *					mContentsView;

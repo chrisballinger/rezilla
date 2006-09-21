@@ -135,6 +135,8 @@ CPickerWindow::Initialize()
 void
 CPickerWindow::FinishCreateSelf()
 {	
+	mType = 0;
+	
 	// The main view containing the CPickerViews
 	mContentsView = dynamic_cast<LView *>(this->FindPaneByID(item_EditorContents));
 	ThrowIfNil_( mContentsView );
@@ -250,7 +252,11 @@ CPickerWindow::ObeyCommand(
 	CommandT	inCommand,
 	void*		ioParam)
 {
-	return (mOwnerDoc->ObeyCommand(inCommand, ioParam));
+	if (mOwnerDoc != NULL) {
+		return (mOwnerDoc->ObeyCommand(inCommand, ioParam));
+	} else {
+		return (LCommander::ObeyCommand(inCommand, ioParam));
+	}
 }
 
 

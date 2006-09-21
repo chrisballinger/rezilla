@@ -174,6 +174,7 @@ Initialize()
 	SetPickerWindow(mPickerWindow);
 	NameNewPickerDoc();
 	
+	mPickerWindow->SetType(mRezTypeItem->GetRezType()->GetType());
 	mPickerWindow->FinalizePicker(this);
 	
 	// Retreive the stamps size
