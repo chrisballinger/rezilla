@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2006-09-17 12:09:32
+//             Last modification : 2006-09-21 18:53:08
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@users.sourceforge.net>
 // www : <http://rezilla.sourceforge.net/>
@@ -281,6 +281,7 @@ const ResIDT	DITL_SaveMap				= 10003;
 const ResIDT	PPob_RezMapWindow			= 1000;
 const ResIDT	PPob_InspectorWindow		= 2000;
 const ResIDT	PPob_NewRezDialog			= 2100;
+const ResIDT	PPob_PluginInfo				= 2200;
 const ResIDT	PPob_HexEditorWindow		= 3000;
 const ResIDT	PPob_RezPickerWindow		= 4000;
 const ResIDT	PPob_AboutWindow			= 5000;
@@ -532,6 +533,7 @@ const CommandT	cmd_TmplEditAsRez		= cmd_MenuResourceBase + 99;	// Phony Cmd used
 const CommandT	cmd_RecentItems			= cmd_MenuFileBase + 1;	
 const CommandT	cmd_Import				= cmd_MenuFileBase + 2;	
 const CommandT	cmd_Export				= cmd_MenuFileBase + 3;	
+const CommandT	cmd_Plugins				= cmd_MenuFileBase + 4;	
 // Edit menu commands
 const CommandT	cmd_Find				= cmd_MenuEditBase + 1;	
 const CommandT	cmd_FindNext			= cmd_MenuEditBase + 2;	
@@ -676,6 +678,18 @@ const PaneIDT	item_TmplKeyChooserType		= 1;
 const PaneIDT	item_TmplKeyChooserMessage	= 2;
 const PaneIDT	item_TmplKeyChooserLabel	= 3;
 const PaneIDT	item_TmplKeyChooserMenu		= 4;
+// Plugin Info Dialog
+// ------------------
+const PaneIDT	item_PluginInfoPopup		= 1;
+const PaneIDT	item_PluginInfoNameText		= 2;
+const PaneIDT	item_PluginInfoTypeText		= 3;
+const PaneIDT	item_PluginInfoCreatorText	= 4;
+const PaneIDT	item_PluginInfoSupported	= 5;
+const PaneIDT	item_PluginInfoIconPane		= 6;
+const PaneIDT	item_PluginPreferredPopup	= 10;
+const PaneIDT	item_PluginInfoScroller		= 11;
+const PaneIDT	item_PluginInfoTable		= 12;
+const PaneIDT	item_PluginInfoString		= 13;
 
 // Preferences
 // -----------
@@ -891,7 +905,7 @@ const PaneIDT   item_IcnsIconPopup			= 3;
 const PaneIDT	item_IcnsVisualize			= FOUR_CHAR_CODE('VISU');
 // Resource Picker Window
 // ----------------------
-const PaneIDT   item_PickerResourceCount	= 1;
+const PaneIDT   item_PickerRezCountField	= 1;
 
 
 // Common elements for Editor Windows
@@ -1006,6 +1020,11 @@ const MessageT	msg_TypeChooserMenu			= PPob_RezTypeChooser + item_TypeChooserMen
 // Template Option Chooser
 // -----------------------
 const MessageT	msg_TmplKeyChooserMenu		= PPob_TmplKeyChooser + item_TmplKeyChooserMenu;
+// Plugin Info Dialog
+// ------------------
+const MessageT	msg_PluginInfoPopup			= PPob_PluginInfo + item_PluginInfoPopup;
+const MessageT	msg_PluginInfoSupported		= PPob_PluginInfo + item_PluginInfoSupported;
+const MessageT	msg_PluginPreferredPopup	= PPob_PluginInfo + item_PluginPreferredPopup;
 
 // Preferences
 // -----------
