@@ -33,14 +33,14 @@ CRezMapWindow::GetAEProperty(
 	
 	switch (inProperty) {
 		case rzom_pTypesCount:
-		count = GetCountTypeField();
+		count = GetTypeCountField();
 		error = ::AECreateDesc(typeSInt32, (Ptr) &count,
 									sizeof(SInt32), &outPropertyDesc);	
 		ThrowIfOSErr_(error);
 		break;
 		
 		case rzom_pResCount:
-		count = GetCountRezField();
+		count = GetRezCountField();
 		error = ::AECreateDesc(typeSInt32, (Ptr) &count,
 									sizeof(SInt32), &outPropertyDesc);	
 		ThrowIfOSErr_(error);
