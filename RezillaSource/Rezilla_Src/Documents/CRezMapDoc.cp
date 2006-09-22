@@ -1851,8 +1851,8 @@ CRezMapDoc::DuplicateResource(CRezObj * inRezObj)
 		theRezTypeItem->Expand();
 	}
 
-	// Update the resources count field
-	mRezMapWindow->SetCountRezField( mRezMapWindow->GetCountRezField() + 1 );
+	// Update the resource count field
+	mRezMapWindow->SetRezCountField( mRezMapWindow->GetRezCountField() + 1 );
 
 	// Document has been modified
 	SetModified(true);
@@ -1917,8 +1917,8 @@ CRezMapDoc::RemoveResource(CRezObjItem* inRezObjItem, Boolean deleteTypeItem)
 	
 	//CAVEAT: from now on, don't invoke theRezObj anymore, it's just been deleted.
 	
-	// Update the resources count field
-	mRezMapWindow->SetCountRezField( mRezMapWindow->GetCountRezField() - 1 );
+	// Update the resource count field
+	mRezMapWindow->SetRezCountField( mRezMapWindow->GetRezCountField() - 1 );
 
 	// If there are no more resources of this type, remove the type item
 	if (deleteTypeItem) {
@@ -1929,7 +1929,7 @@ CRezMapDoc::RemoveResource(CRezObjItem* inRezObjItem, Boolean deleteTypeItem)
 			} 
 			mRezMapWindow->GetRezMapTable()->RemoveItem(theSuperItem);
 			// Update the types count field
-			mRezMapWindow->SetCountTypeField( mRezMapWindow->GetCountTypeField() - 1 );
+			mRezMapWindow->SetTypeCountField( mRezMapWindow->GetTypeCountField() - 1 );
 		}
 	} 
 	
@@ -2055,7 +2055,7 @@ CRezMapDoc::PasteResource(ResType inType, short inID, Handle inHandle,
 		theRezTypeItem = new CRezTypeItem( theRezType );
 		mRezMapWindow->GetRezMapTable()->InsertRezTypeItem( theRezTypeItem );
 		// Update the types count field
-		mRezMapWindow->SetCountTypeField( mRezMapWindow->GetCountTypeField() + 1 );
+		mRezMapWindow->SetTypeCountField( mRezMapWindow->GetTypeCountField() + 1 );
 	} else {
 		theRezType = theRezTypeItem->GetRezType();
 		if ( ! theRezTypeItem->IsExpanded() ) {
@@ -2100,8 +2100,8 @@ CRezMapDoc::PasteResource(ResType inType, short inID, Handle inHandle,
 	} else {
 		theRezTypeItem->Expand();
 	}
-	// Update the resources count field
-	mRezMapWindow->SetCountRezField( mRezMapWindow->GetCountRezField() + 1 );
+	// Update the resource count field
+	mRezMapWindow->SetRezCountField( mRezMapWindow->GetRezCountField() + 1 );
 	// Redraw
 	mRezMapWindow->Refresh();
 }

@@ -17,6 +17,7 @@
 #include "CRecentItemsMenu.h"
 #include "CRezClipboard.h"
 #include "CRezCompare.h"
+#include "CPluginChooser.h"
 #include "CRezFile.h"
 #include "CRezMap.h"
 #include "CRezMapDoc.h"
@@ -39,6 +40,7 @@
 #include "CCompResultWindow.h"
 #include "CDoubleClickButton.h"
 #include "CDraggableTargetView.h"
+#include "CDragTable.h"
 #include "CDropStaticText.h"
 #include "CDualDataView.h"
 #include "CFlagPopup.h"
@@ -377,6 +379,7 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(CCompResultWindow);
 	RegisterClass_(CDoubleClickButton);
 	RegisterClass_(CDraggableTargetView);
+	RegisterClass_(CDragTable);
 	RegisterClass_(CDropStaticText);
 	RegisterClass_(CDualDataView);
 	RegisterClass_(CEditorWindow);
@@ -514,6 +517,16 @@ CRezillaApp::ObeyCommand(
 			break;
 		}
 		
+		case cmd_Plugins: {
+			CPluginChooser * theChooser = new CPluginChooser();
+			ThrowIfNil_(theChooser);
+			if (theChooser->RunDialog() != noErr) {
+				UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("PluginChooserError"), PPob_SimpleMessage);
+			} 
+			delete theChooser;
+		}
+		break;
+
 		case cmd_RezCompare: {
 			CRezCompare * theComparator = new CRezCompare(this);
 			ThrowIfNil_(theComparator);
@@ -575,6 +588,7 @@ CRezillaApp::FindCommandStatus(
 		case cmd_ShowInspector:
 		case cmd_RezCompare:
 		case cmd_Preferences:
+		case cmd_Plugins:
 			outEnabled = true;
 			break;		
 		

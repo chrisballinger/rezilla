@@ -118,45 +118,45 @@ CPickersController::InvokeCustomPicker(CRezMapDoc* inRezMapDoc,
 	ResType			theType = inRezTypeItem->GetRezType()->GetType();
 	
 	switch (theType) {
-
+		
 		case 'TEXT':
-		  new TPickerDoc<CTEXT_PickerStamp>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
+		new TPickerDoc<CTEXT_PickerStamp>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
 		break;
-
+		
 		case 'PICT':
-		  new TPickerDoc<CPICT_PickerStamp>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
+		new TPickerDoc<CPICT_PickerStamp>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
 		break;
 		
 		case 'MENU':
-		  new TPickerDoc<CMENU_PickerStamp>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
+		new TPickerDoc<CMENU_PickerStamp>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
 		break;
 		
 		case 'STR#':
-		  new TPickerDoc<CSTRx_PickerStamp>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
+		new TPickerDoc<CSTRx_PickerStamp>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
 		break;
 		
 		case 'cicn':
-		  new TPickerDoc<Ccicn_PickerStamp>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
+		new TPickerDoc<Ccicn_PickerStamp>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
 		break;
 		
 		case 'ICON':
-		  new TPickerDoc<CICON_PickerStamp>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
+		new TPickerDoc<CICON_PickerStamp>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
 		break;
 		
 		case 'SICN':
-		  new TPickerDoc<CSICN_PickerStamp>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
+		new TPickerDoc<CSICN_PickerStamp>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
 		break;
 		
 		case 'icns':
-		  new TPickerDoc<Cicns_PickerStamp>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
+		new TPickerDoc<Cicns_PickerStamp>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
 		break;
 		
 		case 'PAT ':
 		case 'ppat':
 		case 'PAT#':
-			new TPickerDoc<CPattern_PickerStamp>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
-		  break;
-
+		new TPickerDoc<CPattern_PickerStamp>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
+		break;
+		
 		case 'ICN#':
 		case 'icl4':
 		case 'icl8':
@@ -166,10 +166,12 @@ CPickersController::InvokeCustomPicker(CRezMapDoc* inRezMapDoc,
 		case 'ics#':
 		case 'ics4':
 		case 'ics8':
-// 		new CIcon_PickerDoc( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
-		  new TPickerDoc<CIconFamily_PickerStamp>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
-	  break;
-	  
+		new TPickerDoc<CIconFamily_PickerStamp>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
+		break;
+		
+		default:
+		// new TPickerDoc<CDefault_PickerStamp>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
+		break;
 	}
 }
 
