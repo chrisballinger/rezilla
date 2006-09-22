@@ -89,7 +89,6 @@ CSICN_PickerStamp::DrawSelf()
 		FocusDraw();
 		CalcLocalFrameRect(frame);
 		theResHandle = ::Get1Resource('SICN', theID);
-		::HandToHand(&theResHandle);
 
 		if (theIconHandle && theResHandle) {
 			if ( ::GetHandleSize(theResHandle) >= 32) {
@@ -99,7 +98,6 @@ CSICN_PickerStamp::DrawSelf()
 					 mParent->IsSelected() ? kTransformSelected : kTransformNone, theIconHandle);
 		} 
 		
-		if (theResHandle) ::ReleaseResource(theResHandle);
 		if (theIconHandle) ::DisposeHandle(theIconHandle);
 	}
 }

@@ -100,15 +100,15 @@ CSTRx_PickerStamp::DrawSelf()
 		Handle theStrHandle = ::Get1Resource('STR#', theID);
 		::HandToHand(&theStrHandle);
 		
-		if (theStrHandle != NULL && ::GetHandleSize(theStrHandle) > 2) {
-
+		if (theStrHandle != NULL) {
 			LHandleStream * theStream = new LHandleStream(theStrHandle);
 			Boolean			truncated;
 			
-			*theStream >> theCount;
-			
-			if (theCount > 10) {
-				theCount = 10;
+			if (::GetHandleSize(theStrHandle) > 2) {
+				*theStream >> theCount;
+				if (theCount > 10) {
+					theCount = 10;
+				} 
 			} 
 			
 			for (i = 1; i <= theCount; i++) {

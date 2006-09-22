@@ -54,6 +54,7 @@ CPickerDoc::CPickerDoc(LCommander* inSuper,
 	
 	// The owner RezMapDoc is the super model
 	SetSuperModel( dynamic_cast<LModelObject *>(inSuper) );
+	
 }
 
 
@@ -326,7 +327,7 @@ CPickerDoc::SelectPickerWindow()
  
 
 // ---------------------------------------------------------------------------------
-//   Register
+//   RegisterDoc
 // ---------------------------------------------------------------------------------
 
 void
@@ -337,7 +338,7 @@ CPickerDoc::RegisterDoc()
 
 
 // ---------------------------------------------------------------------------------
-//   Unregister
+//   UnregisterDoc
 // ---------------------------------------------------------------------------------
 
 void

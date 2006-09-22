@@ -72,10 +72,6 @@ CICON_PickerStamp::StampSize(ResType inType, SInt16 &outWidth, SInt16 &outHeight
 // resource data.
 // PlotIconHandle: Draws an icon of resource type 'ICON' or 'ICN#' to which
 // you have a handle.
-// PlotIco: This function does not allow you to specify any transforms or alignment.
-// The PlotIcon function uses the QuickDraw function CopyBits with the
-// srcCopy transfer mode. To plot an icon of resource type 'ICON' with a
-// specified transform and alignment, use the PlotIconHandle function.
 
 void
 CICON_PickerStamp::DrawSelf()
@@ -87,16 +83,19 @@ CICON_PickerStamp::DrawSelf()
 	if (theRefNum != kResFileNotOpened) {
 		Rect	frame;
 		Handle	theIconHandle = NULL;
-		
+
 		FocusDraw();
 		CalcLocalFrameRect(frame);
 		StRezRefSaver saver(theRefNum);
+		// GetIcon gets the resource handle (not a copy). It is equivalent to
+		//     Get1Resource('ICON', theID)
 		theIconHandle = GetIcon(theID);
+		::HandToHand(&theIconHandle);
 		if (theIconHandle) {
-// 			::PlotIcon(&frame, theIconHandle);
 			::PlotIconHandle(&frame, kAlignAbsoluteCenter, 
 					 mParent->IsSelected() ? kTransformSelected : kTransformNone, theIconHandle);
-			::ReleaseResource(theIconHandle);
+			 ::DisposeHandle(theIconHandle);
+// 			 ::ReleaseResource(theIconHandle);
 		} 
 	}
 }

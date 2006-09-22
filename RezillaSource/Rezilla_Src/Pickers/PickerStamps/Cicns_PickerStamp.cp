@@ -86,7 +86,6 @@ Cicns_PickerStamp::DrawSelf()
 			FocusDraw();
 			CalcLocalFrameRect(frame);
 			::GetIconRefFromIconFamilyPtr(*(IconFamilyHandle)theIconHandle, ::GetHandleSize(theIconHandle), &theIconRef);
-			
 			::PlotIconRef(&frame, kAlignAbsoluteCenter, mParent->IsSelected() ? kTransformSelected : kTransformNone, kIconServicesNormalUsageFlag, theIconRef);
 			::ReleaseIconRef(theIconRef);
 			::DisposeHandle(theIconHandle);

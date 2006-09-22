@@ -2,7 +2,7 @@
 // CIconFamily_PickerStamp.h
 // 
 //                       Created : 2006-02-25 17:40:43
-//             Last modification : 2006-09-20 08:35:39
+//             Last modification : 2006-09-22 11:49:21
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@users.sourceforge.net>
 // www : <http://rezilla.sourceforge.net/>
@@ -38,10 +38,13 @@ public:
 
 	virtual void		DrawSelf();
 
-	// These are purely virtual functions. Each subclass has to define
-	// them: they are used to calculate the dimensions of
-	// the stamps.
 	static void			StampSize(ResType inType, SInt16 &outWidth, SInt16 &outHeight);
+
+
+private:	
+	void				GetTypeInfo(ResType inType, SInt32 &theWidth, SInt32 &theHeight, 
+										 SInt32 &theDepth, SInt32 &theRowBytes, SInt32 &theOffset);
+	
 
 };
 

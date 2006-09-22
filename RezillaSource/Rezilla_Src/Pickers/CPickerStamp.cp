@@ -2,7 +2,7 @@
 // CPickerStamp.cp					
 // 
 //                       Created: 2006-02-24 09:49:42
-//             Last modification: 2006-09-20 08:35:48
+//             Last modification: 2006-09-22 09:56:31
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -17,6 +17,7 @@
 
 #include "CPickerStamp.h"
 #include "CPickerWindow.h"
+#include "CPickerView.h"
 #include "RezillaConstants.h"
 
 #include <LStream.h>
@@ -65,26 +66,39 @@ CPickerStamp::ClickSelf( const SMouseDownEvent & inEvent)
 //   DrawSelf														  [public]
 // ---------------------------------------------------------------------------
 // Install a generic drawing when no dedicated subclass is available: if
-// the resource has a name, display it, otherwise display a generic icon
+// the resource has a name, display it, otherwise display a gray rectangle
 // 
-// 			Rect	frame;
-// 			CalcLocalFrameRect(frame);
-// 			::PenNormal();
-// 
-// 			Pattern		ltGrayPat;
-// 			::MacFillRect(&frame, UQDGlobals::GetLightGrayPat(&ltGrayPat));
-// 
-// 			::MacFrameRect(&frame);
+// 	StColorPenState::Normalize();
 
 void
 CPickerStamp::DrawSelf()
 {
-	short theID = GetSuperView()->GetPaneID();
-	Rect	frame;
-	CalcLocalFrameRect(frame);
-	StColorPenState::Normalize();
-	
+	short		theID = GetSuperView()->GetPaneID();
+	ResType		theType = mParent->GetOwnerWindow()->GetType();
+	short		theRefNum = mParent->GetUserCon();
+	Rect		frame;
+	Pattern		ltGrayPat;
+	Handle		theResHandle;
+	Str255		theName;
 
+	StRezRefSaver saver(theRefNum);
+	FocusDraw();
+	CalcLocalFrameRect(frame);
+	
+	theResHandle = ::Get1Resource(theType, theID);
+	::GetResInfo(theResHandle, &theID, &theType, theName);
+	
+	if (theName[0]) {
+		::TextFont(1);
+		::TextSize(9);
+		::TextFace(italic);	
+		::MoveTo(4, 4);
+		::DrawString(theName);	
+	} else {
+		::PenNormal();
+		::MacFillRect(&frame, UQDGlobals::GetLightGrayPat(&ltGrayPat));
+		::MacFrameRect(&frame);
+	}	
 }
 
 

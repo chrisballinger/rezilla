@@ -83,9 +83,8 @@ Ccicn_PickerStamp::DrawSelf()
 		FocusDraw();
 		CalcLocalFrameRect(frame);
 		StRezRefSaver saver(theRefNum);
-		theIconHandle = GetCIcon(theID);
+		theIconHandle = ::GetCIcon(theID);
 		if (theIconHandle) {
-// 			::PlotCIcon(&frame, theIconHandle);
 			::PlotCIconHandle(&frame, kAlignAbsoluteCenter, 
 					 mParent->IsSelected() ? kTransformSelected : kTransformNone, theIconHandle);
 			::DisposeCIcon(theIconHandle);

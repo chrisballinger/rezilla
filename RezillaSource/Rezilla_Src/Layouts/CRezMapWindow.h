@@ -2,11 +2,11 @@
 // CRezMapWindow.h				
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2005-05-14 12:19:40
+//             Last modification: 2006-09-22 05:10:01
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2003-2005
+// (c) Copyright : Bernard Desgraupes, 2003-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -48,10 +48,10 @@ public:
 	virtual CRezMapDoc*		GetOwnerDoc() { return mOwnerDoc;}
 	void					SetOwnerDoc(CRezMapDoc* theOwnerDoc) {mOwnerDoc = theOwnerDoc ;}
 
-	long					GetCountTypeField() const;
-	long					GetCountRezField() const;
-	void					SetCountTypeField(long inCount);
-	void					SetCountRezField(long inCount);
+	long					GetTypeCountField() const;
+	long					GetRezCountField() const;
+	void					SetTypeCountField(long inCount);
+	void					SetRezCountField(long inCount);
 
 	void					InstallWhichForkField();
 	void					InstallReadOnlyIcon();
@@ -60,8 +60,8 @@ public:
 protected:
 	CRezMapTable *		mRezMapTable;
 	CRezMapDoc *		mOwnerDoc;
-	LStaticText *		mCountTypeField;
-	LStaticText *		mCountRezField;
+	LStaticText *		mTypeCountField;
+	LStaticText *		mRezCountField;
 	
 	virtual void		FinishCreateSelf();
 };

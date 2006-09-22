@@ -35,7 +35,7 @@ class CMENU_EditorTable :	public LTable,
 							public LCommander,
 							public LDragAndDrop  {
 public:
-	enum { class_ID = FOUR_CHAR_CODE('DnDT') };
+	enum { class_ID = FOUR_CHAR_CODE('MnuT') };
 
 	static CMENU_EditorTable	*CreateDnDTableStream( LStream *inStream );
 

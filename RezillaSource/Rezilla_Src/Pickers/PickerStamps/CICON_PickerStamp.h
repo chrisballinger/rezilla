@@ -38,9 +38,6 @@ public:
 
 	virtual void		DrawSelf();
 
-	// These are purely virtual functions. Each subclass has to define
-	// them: they are used to calculate the dimensions of
-	// the stamps.
 	static void			StampSize(ResType inType, SInt16 &outWidth, SInt16 &outHeight);
 
 };

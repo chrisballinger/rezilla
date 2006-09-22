@@ -2,7 +2,7 @@
 // CPickerWindow.cp
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-03-17 07:14:13
+//             Last modification: 2006-09-22 05:10:42
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -136,10 +136,13 @@ void
 CPickerWindow::FinishCreateSelf()
 {	
 	mType = 0;
-	
+
 	// The main view containing the CPickerViews
 	mContentsView = dynamic_cast<LView *>(this->FindPaneByID(item_EditorContents));
 	ThrowIfNil_( mContentsView );
+
+	mRezCountField = dynamic_cast<LStaticText *>(this->FindPaneByID(item_PickerRezCountField));
+	ThrowIfNil_( mRezCountField );
 }
 
 
@@ -329,6 +332,35 @@ CPickerWindow::RecalcLayout()
 	mContentsView->ResizeImageTo(frameSize.width, stampLoc.v + theHeight, false);
 	
 	Refresh();
+}
+
+
+// ---------------------------------------------------------------------------
+//   GetRezCountField											[public]
+// ---------------------------------------------------------------------------
+
+long
+CPickerWindow::GetRezCountField() const
+{
+	long result;
+	Str255 theString;
+	
+	mRezCountField->GetDescriptor(theString);
+	::StringToNum(theString, &result);
+	return result;
+}
+
+
+// ---------------------------------------------------------------------------
+//   SetRezCountField											[public]
+// ---------------------------------------------------------------------------
+
+void
+CPickerWindow::SetRezCountField(long inCount) 
+{
+	Str255 theString;
+	::NumToString(inCount, theString);
+	mRezCountField->SetDescriptor(theString);
 }
 
 

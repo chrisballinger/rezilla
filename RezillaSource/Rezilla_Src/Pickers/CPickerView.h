@@ -44,11 +44,6 @@ public:
 
 	void				DrawBorder(Boolean isSelected);
 	
-	// This is a purely virtual function. Each subclass must define it: is
-	// is used to calculate the dimensions of the CPickerView based on the
-	// dimensions of the stamp.
-	static void			StampSize(ResType inType, SInt16 &outWidth, SInt16 &outHeight);
-
 	CPickerWindow*		GetOwnerWindow() { return mOwnerWindow;}
 	void				SetOwnerWindow(CPickerWindow* inOwnerWindow) {mOwnerWindow = inOwnerWindow;}
 

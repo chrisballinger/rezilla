@@ -166,6 +166,7 @@ Initialize()
 {
 	OSErr	error = noErr;
 	SInt16	theWidth, theHeight;
+	SInt32	theCount = 0;
 
 	// Create window for our document. This sets this doc as the SuperCommander of the window.
 	mPickerWindow = dynamic_cast<CPickerWindow *>(LWindow::CreateWindow( PPob_RezPickerWindow, this ));
@@ -189,6 +190,7 @@ Initialize()
 		
 		// Get a list of the resource IDs
 		mRezTypeItem->GetRezType()->GetAllRezIDs(idsArray);
+		theCount = idsArray->GetCount();
 		
 		while (iterator.Next(theID)) {
 			TPickerView<T>* thePickerView = CreateNewPicker(theWidth, theHeight, theID);
@@ -199,6 +201,9 @@ Initialize()
 		return;
 	}
 
+	// Set the resource count field
+	mPickerWindow->SetRezCountField(theCount);
+	
 	// Make the window visible.
 	mPickerWindow->RecalcLayout();
 	mPickerWindow->Show();

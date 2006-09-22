@@ -2,7 +2,7 @@
 // CPickerWindow.h				
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-03-16 08:38:32
+//             Last modification: 2006-09-22 05:10:33
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -20,6 +20,7 @@
 
 class CPickerDoc;
 class CPickerView;
+class LStaticText;
 
 
 class CPickerWindow : public LWindow, public LListener {
@@ -79,6 +80,9 @@ public:
 	virtual bool	AEPropertyExists(
 								DescType		inProperty) const;
 
+	long			GetRezCountField() const;
+	void			SetRezCountField(long inCount);
+	
 	// Accessors
 	CPickerDoc *		GetOwnerDoc() { return mOwnerDoc;}
 	void				SetOwnerDoc(CPickerDoc* theOwnerDoc) {mOwnerDoc = theOwnerDoc ;}
@@ -102,6 +106,7 @@ protected:
 	LView *					mContentsView;
 	TArray<CPickerView *>*	mViewList;
 	CPickerView *			mSelectedView;
+	LStaticText *			mRezCountField;
 
 	virtual void	FinishCreateSelf();
 

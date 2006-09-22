@@ -2,7 +2,7 @@
 // CPickerStamp.h				
 // 
 //                       Created: 2006-02-24 09:49:42
-//             Last modification: 2006-09-20 08:34:03
+//             Last modification: 2006-09-22 10:20:43
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -40,15 +40,8 @@ public:
 
 	virtual void 		ClickSelf( const SMouseDownEvent & );
 
-	// This is a purely virtual function. Each subclass must define it: it
-	// is used to calculate the dimensions of the PickerView.
-	static void			StampSize(ResType inType, SInt16 &outWidth, SInt16 &outHeight);
-
 protected:
 	CPickerView *		mParent;
-
-private:
-// 	void				InitPickerStamp(SInt16 inWidth, SInt16 inHeight, ResIDT inID);
 
 };
 

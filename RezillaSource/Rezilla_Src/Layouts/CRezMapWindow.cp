@@ -2,11 +2,11 @@
 // CRezMapWindow.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2005-05-14 12:26:16
+//             Last modification: 2006-09-22 05:10:12
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2003-2005
+// (c) Copyright : Bernard Desgraupes, 2003-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -104,18 +104,18 @@ CRezMapWindow::FinishCreateSelf()
 	// Fill in the bottom fields
 	short	theCount;
 	
-	mCountTypeField = dynamic_cast<LStaticText *>(this->FindPaneByID( item_TypesNum ));
-	ThrowIfNil_( mCountTypeField );
+	mTypeCountField = dynamic_cast<LStaticText *>(this->FindPaneByID( item_TypesNum ));
+	ThrowIfNil_( mTypeCountField );
 	
-	mCountRezField = dynamic_cast<LStaticText *>(this->FindPaneByID( item_ResourcesNum ));
-	ThrowIfNil_( mCountRezField );
+	mRezCountField = dynamic_cast<LStaticText *>(this->FindPaneByID( item_ResourcesNum ));
+	ThrowIfNil_( mRezCountField );
 
 	InstallWhichForkField();
 	
 	mOwnerDoc->GetRezMap()->CountAllTypes(theCount);
-	SetCountTypeField(theCount);
+	SetTypeCountField(theCount);
 	mOwnerDoc->GetRezMap()->CountAllResources(theCount);
-	SetCountRezField(theCount);
+	SetRezCountField(theCount);
 		
 	UReanimator::LinkListenerToControls(this, this, PPob_RezMapWindow);
 }
@@ -134,60 +134,60 @@ CRezMapWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 
 
 // ---------------------------------------------------------------------------
-//   GetCountTypeField											[public]
+//   GetTypeCountField											[public]
 // ---------------------------------------------------------------------------
 
 long
-CRezMapWindow::GetCountTypeField() const
+CRezMapWindow::GetTypeCountField() const
 {
 	long result;
 	Str255 theString;
 	
-	mCountTypeField->GetDescriptor(theString);
+	mTypeCountField->GetDescriptor(theString);
 	::StringToNum(theString, &result);
 	return result;
 }
 
 
 // ---------------------------------------------------------------------------
-//   GetCountRezField											[public]
+//   GetRezCountField											[public]
 // ---------------------------------------------------------------------------
 
 long
-CRezMapWindow::GetCountRezField() const
+CRezMapWindow::GetRezCountField() const
 {
 	long result;
 	Str255 theString;
 	
-	mCountRezField->GetDescriptor(theString);
+	mRezCountField->GetDescriptor(theString);
 	::StringToNum(theString, &result);
 	return result;
 }
 
 
 // ---------------------------------------------------------------------------
-//   SetCountTypeField											[public]
+//   SetTypeCountField											[public]
 // ---------------------------------------------------------------------------
 
 void
-CRezMapWindow::SetCountTypeField(long inCount) 
+CRezMapWindow::SetTypeCountField(long inCount) 
 {
 	Str255 theString;
 	::NumToString(inCount, theString);
-	mCountTypeField->SetDescriptor(theString);
+	mTypeCountField->SetDescriptor(theString);
 }
 
 
 // ---------------------------------------------------------------------------
-//   SetCountRezField											[public]
+//   SetRezCountField											[public]
 // ---------------------------------------------------------------------------
 
 void
-CRezMapWindow::SetCountRezField(long inCount) 
+CRezMapWindow::SetRezCountField(long inCount) 
 {
 	Str255 theString;
 	::NumToString(inCount, theString);
-	mCountRezField->SetDescriptor(theString);
+	mRezCountField->SetDescriptor(theString);
 }
 
 
@@ -202,10 +202,10 @@ CRezMapWindow::RecalcCountFields()
 	short theCount;
 	
 	mOwnerDoc->GetRezMap()->CountAllTypes(theCount);
-	SetCountTypeField(theCount);
+	SetTypeCountField(theCount);
 	
 	mOwnerDoc->GetRezMap()->CountAllResources(theCount);
-	SetCountRezField(theCount);
+	SetRezCountField(theCount);
 }
 
 

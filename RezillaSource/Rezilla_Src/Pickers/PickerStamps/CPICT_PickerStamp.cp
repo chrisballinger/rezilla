@@ -21,6 +21,7 @@
 #include "CPickerView.h"
 #include "UResources.h"
 
+#include <LPane.h>
 #include <Icons.h>
 
 PP_Begin_Namespace_PowerPlant
@@ -62,6 +63,36 @@ CPICT_PickerStamp::StampSize(ResType inType, SInt16 &outWidth, SInt16 &outHeight
 
 
 // ---------------------------------------------------------------------------
+//   AdjustStampSize												  [public]
+// ---------------------------------------------------------------------------
+
+void
+CPICT_PickerStamp::AdjustStampSize(Rect inBounds)
+{
+	SInt16			picHeight, picWidth;
+	SInt16			newHeight, newWidth;
+	SDimension16	stampSize;
+	SPoint32		stampLoc;
+	
+	picHeight = inBounds.bottom - inBounds.top;
+	picWidth = inBounds.right - inBounds.left;
+	GetFrameSize(stampSize);
+	GetFrameLocation(stampLoc);
+	
+	if (picHeight > picWidth) {
+		newWidth = stampSize.height * picWidth / picHeight;
+		ResizeFrameTo(newWidth, stampSize.height, false);
+		MoveBy((stampSize.width - newWidth)/2, 0, false);
+	} else if (picHeight < picWidth) {
+		newHeight = stampSize.width * picHeight / picWidth ;
+		ResizeFrameTo(stampSize.width, newHeight, false);
+		MoveBy(0, (stampSize.height - newHeight)/2, false);
+	} 
+}
+
+
+
+// ---------------------------------------------------------------------------
 //   DrawSelf														  [public]
 // ---------------------------------------------------------------------------
 
@@ -73,15 +104,18 @@ CPICT_PickerStamp::DrawSelf()
 	short theRefNum = mParent->GetUserCon();
 	
 	if (theRefNum != kResFileNotOpened) {
-		Rect	frame;
+		Rect	frame, bounds;
 		Handle	thePictureH = NULL;
 		StRezRefSaver saver(theRefNum);
 
 		thePictureH = (Handle) ::GetPicture(theID);
-//		thePictureH = ::Get1Resource('PICT', theID);
+		// thePictureH = ::Get1Resource('PICT', theID);
 		::HandToHand(&thePictureH);
 
 		if (thePictureH) {
+			::QDGetPictureBounds( (PicHandle) thePictureH, &bounds);
+			AdjustStampSize(bounds);
+			
 			FocusDraw();
 			CalcLocalFrameRect(frame);
 			::DrawPicture( (PicHandle)thePictureH, &frame);
@@ -89,6 +123,8 @@ CPICT_PickerStamp::DrawSelf()
 		} 
 	}
 }
+
+
 
 
 PP_End_Namespace_PowerPlant
