@@ -49,7 +49,7 @@ UIconMisc::GetDefaultBitmap(CRezObj * inResObj, ResType inType, Boolean loadIt)
 // 	GetBitmapResource
 // ---------------------------------------------------------------------------
 // This will try to find a bitmap resource in a rez map. It the resource 
-// has no data (null data size), it means that is it a newly created bitmap: 
+// has no data (null data size), it means that it is a newly created bitmap: 
 // in that case, return an empty default (blank icon).
 
 CRezObj *
