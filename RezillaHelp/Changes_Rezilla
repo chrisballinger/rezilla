@@ -33,19 +33,45 @@ $Date$
 
 
 ================================================================================
-= 1.1b5										last update: 
+= 1.1b7										last update: 
 ================================================================================
-¥ Extended AppleScript terminology to plugins and pickers.
-¥ Added documentation about Pickers.
+¥ Added documentation about resource pickers.
+¥ Implemented picker stamps for various resource types:
+		* bitmap family ('icl4', 'icl8', etc.)
+		* icon family ('icns')
+		* simple icons ('ICON', 'cicn', 'SCIN')
+		* pictures ('PICT')
+		* patterns ('PAT ', 'PAT#', 'ppat')
+		* text ('TEXT', 'STR#')
 
 ================================================================================
-= 1.1b4										last update: 
+= 1.1b6										last update: 2006-09-19 19:03:07
+================================================================================
+¥ Generalized the Import/Export commands at the EditorDoc level.
+¥ French translation of the plugin SDK documentation.
+¥ Streamlined the commanders chain among the various editors.
+¥ Completed the plugins integration and compatibility between CarbonEvents 
+handlers and the PowerPlant model for events dispatching, menus and windows.
+
+================================================================================
+= 1.1b5										last update: 2006-09-14 18:33:23
+================================================================================
+¥ Extended AppleScript terminology to plugins and pickers.
+¥ Completed documentation of the plugin SDK.
+¥ New Import command in the File menu.
+¥ Import and Export commands implemented for the 'icns' editor.
+
+================================================================================
+= 1.1b4										last update: 2006-09-07 18:29:29
 ================================================================================
 ¥ Completed the Pickers model.
 ¥ Added pickers for several types of resources:
 		* bitmap icons family ('icl4', 'icl8', etc.)
 		* menus ('MENU')
-		* icon suites ('icns')
+		* icon family ('icns')
+¥ Incorporated bug fixes from ZPedro (thanks!).
+¥ Improved interface to RSID tags in the template editor, contributed by ZPedro 
+(thanks!).
 
 ================================================================================
 = 1.1b3										last update: 2006-03-16 12:21:43
