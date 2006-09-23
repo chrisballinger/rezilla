@@ -1,11 +1,11 @@
 // ===========================================================================
 // UIconMisc.cp
 //                       Created: 2004-12-11 18:52:00
-//             Last modification: 2005-02-17 12:00:45
+//             Last modification: 2006-09-23 06:44:20
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes 2004-2005
+// (c) Copyright: Bernard Desgraupes 2004-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -64,6 +64,91 @@ UIconMisc::GetBitmapResource(CRezMap *inMap, ResType inType, short inID,
 	}
 	
 	return theRes;
+}
+
+
+// ---------------------------------------------------------------------------
+//   GetIconInfoForType										 [static, public]
+// ---------------------------------------------------------------------------
+
+void
+UIconMisc::GetIconInfoForType(ResType inType, SInt32 &outWidth, SInt32 &outHeight, 
+									 SInt32 &outDepth, SInt32 &outRowBytes, SInt32 &outOffset)
+{
+	switch (inType) {
+		case 'icl8':
+		outWidth = 32;
+		outHeight = 32;
+		outDepth = 8;
+		outRowBytes = 32;
+		outOffset = 0;
+		break;
+
+		case 'icl4':
+		outWidth = 32;
+		outHeight = 32;
+		outDepth = 4;
+		outRowBytes = 16;
+		outOffset = 0;
+		break;
+
+		case 'ICN#':
+		outWidth = 32;
+		outHeight = 32;
+		outDepth = 1;
+		outRowBytes = 4;
+		outOffset = 128;
+		break;
+
+		case 'ics8':
+		outWidth = 16;
+		outHeight = 16;
+		outDepth = 8;
+		outRowBytes = 16;
+		outOffset = 0;
+		break;
+
+		case 'ics4':
+		outWidth = 16;
+		outHeight = 16;
+		outDepth = 4;
+		outRowBytes = 8;
+		outOffset = 0;
+		break;
+
+		case 'ics#':
+		outWidth = 16;
+		outHeight = 16;
+		outDepth = 1;
+		outRowBytes = 2;
+		outOffset = 32;
+		break;
+
+		case 'icm8':
+		outWidth = 16;
+		outHeight = 12;
+		outDepth = 8;
+		outRowBytes = 16;
+		outOffset = 0;
+		break;
+
+		case 'icm4':
+		outWidth = 16;
+		outHeight = 12;
+		outDepth = 4;
+		outRowBytes = 8;
+		outOffset = 0;
+		break;
+
+		case 'icm#':
+		outWidth = 16;
+		outHeight = 12;
+		outDepth = 1;
+		outRowBytes = 2;
+		outOffset = 24;
+		break;
+		
+	}
 }
 
 

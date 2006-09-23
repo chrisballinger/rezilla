@@ -1,11 +1,11 @@
 // ===========================================================================
 // UIconMisc.h
 //                       Created: 2004-12-11 18:52:00
-//             Last modification: 2005-02-17 12:00:35
+//             Last modification: 2006-09-23 06:45:55
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes 2004-2005
+// (c) Copyright: Bernard Desgraupes 2004-2005, 2006
 // All rights reserved.
 // ===========================================================================
 
@@ -29,6 +29,9 @@ class UIconMisc {
 											   ResType inType, 
 											   short inID, 
 											   Boolean loadIt);
+
+		static void			GetIconInfoForType(ResType inType, SInt32 &outWidth, SInt32 &outHeight, 
+										 SInt32 &outDepth, SInt32 &outRowBytes, SInt32 &outOffset);
 
 		static void			GetWindowGlobalBounds( WindowPtr inWindow, Rect & );
 		
