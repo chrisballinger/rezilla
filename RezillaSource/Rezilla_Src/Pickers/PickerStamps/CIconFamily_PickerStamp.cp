@@ -2,7 +2,7 @@
 // 	CIconFamily_PickerStamp.cp
 // 
 //                       Created : 2006-02-25 17:40:43
-//             Last modification : 2006-09-22 11:55:29
+//             Last modification : 2006-09-23 07:57:58
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@users.sourceforge.net>
 // www : <http://rezilla.sourceforge.net/>
@@ -20,7 +20,10 @@
 #include "CIconFamily_PickerStamp.h"
 #include "CPickerView.h"
 #include "CPickerWindow.h"
+#include "COffscreen.h"
 #include "UResources.h"
+#include "UIconMisc.h"
+#include "UColorUtils.h"
 
 #include <Icons.h>
 
@@ -28,7 +31,7 @@ PP_Begin_Namespace_PowerPlant
 
 
 // ---------------------------------------------------------------------------
-//   CIconFamily_PickerStamp							Default Constructor		  [public]
+//   CIconFamily_PickerStamp				Default Constructor		  [public]
 // ---------------------------------------------------------------------------
 
 CIconFamily_PickerStamp::CIconFamily_PickerStamp(
@@ -41,7 +44,7 @@ CIconFamily_PickerStamp::CIconFamily_PickerStamp(
 
 
 // ---------------------------------------------------------------------------
-//   ~CIconFamily_PickerStamp							Destructor				  [public]
+//   ~CIconFamily_PickerStamp				Destructor				  [public]
 // ---------------------------------------------------------------------------
 
 CIconFamily_PickerStamp::~CIconFamily_PickerStamp()
@@ -89,86 +92,32 @@ CIconFamily_PickerStamp::StampSize(ResType inType, SInt16 &outWidth, SInt16 &out
 
 
 // ---------------------------------------------------------------------------
-//   GetTypeInfo													  [private]
+// 	DrawBuffer
 // ---------------------------------------------------------------------------
 
 void
-CIconFamily_PickerStamp::GetTypeInfo(ResType inType, SInt32 &outWidth, SInt32 &outHeight, 
-									 SInt32 &outDepth, SInt32 &outRowBytes, SInt32 &outOffset)
-{
-	switch (inType) {
-		case 'icl8':
-		outWidth = 32;
-		outHeight = 32;
-		outDepth = 8;
-		outRowBytes = 32;
-		outOffset = 0;
-		break;
+CIconFamily_PickerStamp::DrawBuffer(COffscreen * inBuffer, Rect inFrame)
+{	
+	StGWorldSaver		aSaver;
+	StColorPenState		aPenState;	
+	Rect				portRect;
+	GrafPtr				macPort = this->GetMacPort();
+	
+	if ( !macPort ) return;
 
-		case 'icl4':
-		outWidth = 32;
-		outHeight = 32;
-		outDepth = 4;
-		outRowBytes = 16;
-		outOffset = 0;
-		break;
+	portRect = inFrame;
+	LocalToPortPoint( topLeft(inFrame) );
+	LocalToPortPoint( botRight(inFrame) );
 
-		case 'ICN#':
-		outWidth = 32;
-		outHeight = 32;
-		outDepth = 1;
-		outRowBytes = 4;
-		outOffset = 128;
-		break;
-
-		case 'ics8':
-		outWidth = 16;
-		outHeight = 16;
-		outDepth = 8;
-		outRowBytes = 16;
-		outOffset = 0;
-		break;
-
-		case 'ics4':
-		outWidth = 16;
-		outHeight = 16;
-		outDepth = 4;
-		outRowBytes = 8;
-		outOffset = 0;
-		break;
-
-		case 'ics#':
-		outWidth = 16;
-		outHeight = 16;
-		outDepth = 1;
-		outRowBytes = 2;
-		outOffset = 32;
-		break;
-
-		case 'icm8':
-		outWidth = 16;
-		outHeight = 12;
-		outDepth = 8;
-		outRowBytes = 16;
-		outOffset = 0;
-		break;
-
-		case 'icm4':
-		outWidth = 16;
-		outHeight = 12;
-		outDepth = 4;
-		outRowBytes = 8;
-		outOffset = 0;
-		break;
-
-		case 'icm#':
-		outWidth = 16;
-		outHeight = 12;
-		outDepth = 1;
-		outRowBytes = 2;
-		outOffset = 24;
-		break;
+	if (inBuffer) {
+		inBuffer->CopyTo( macPort, &portRect );
+	} else {
+		Pattern aPat;
 		
+		this->FocusDraw();
+		aPenState.Normalize();
+		::PenPat( UQDGlobals::GetLightGrayPat(&aPat) );
+		::PaintRect( &inFrame );
 	}
 }
 
@@ -176,8 +125,6 @@ CIconFamily_PickerStamp::GetTypeInfo(ResType inType, SInt32 &outWidth, SInt32 &o
 // ---------------------------------------------------------------------------
 //   DrawSelf														  [public]
 // ---------------------------------------------------------------------------
-// kAlignAbsoluteCenter  kTransformSelected
-// CTabHandle		theTable = UColorUtils::GetColorTable( inDepth );
 
 void
 CIconFamily_PickerStamp::DrawSelf()
@@ -189,12 +136,33 @@ CIconFamily_PickerStamp::DrawSelf()
 	
 	if (theRefNum != kResFileNotOpened) {
 		Rect	frame;
-		FocusDraw();
+		SInt32	theWidth, theHeight, theDepth, theRowBytes, theOffset;
+		COffscreen *	theBuffer = NULL;
+		Handle			theResHandle = NULL;
+		CTabHandle		theTable;
+		
+// 		FocusDraw();
 		CalcLocalFrameRect(frame);
 		StRezRefSaver saver(theRefNum);		
 		
-// 		DrawBuffer();
+		UIconMisc::GetIconInfoForType(theType, theWidth, theHeight, theDepth, theRowBytes, theOffset);
 		
+		// Icon families use the standard color table for their depth
+		theTable = UColorUtils::GetColorTable(theDepth);
+		// Create the offscreen buffer
+		theBuffer = COffscreen::CreateBuffer( theWidth, theHeight, theDepth, theTable );
+		// Fill the buffer with the resource data
+		theResHandle = ::Get1Resource(theType, theID);
+		if (theResHandle) {
+			if (theBuffer) {
+				theBuffer->CopyFromRawData( (UInt8*) *theResHandle + theOffset, theRowBytes );	
+			} 
+			DrawBuffer(theBuffer, frame);
+		} 
+		
+		if ( theBuffer ) delete theBuffer;
+		if ( theTable ) ::DisposeCTable( theTable );
+
 	}
 }
 
