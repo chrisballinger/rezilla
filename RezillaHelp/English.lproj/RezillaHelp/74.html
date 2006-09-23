@@ -1,0 +1,77 @@
+<HTML>
+<HEAD>
+<TITLE>The plugin's UUIDsVarious elements of the Core Foundation plugin model are identified using </TITLE>
+<META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
+<META NAME=GENERATOR CONTENT="Aida Mode">
+</HEAD>
+<BODY>
+
+<A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="73.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="75.html">Next</A><HR><P>&nbsp;</P>
+<H3>The plugin's UUIDs</H3><P>Various elements of the Core Foundation plugin model are identified using 
+an UUID (<I>Universally Unique Identifier</I>). Some UUIDs are defined on the 
+main application's side, others on the plugin's side.<P>An UUID is a 128-bits value guaranteed to be unique. It can be represented
+in two forms: a byte form and a string form. The byte form is a C structure
+defined in the Core Foundations (see the <I>CFUUIDBytes</I> struct in the CFUUID.h header
+file). The string form is a convenience form: it is a hyphen-punctuated
+ASCII string which is used, for instance, in the property list of the
+plugin (see the section <A HREF="#plugplist"> The plugin's property list</A> below).<P><H4>Rezilla UUIDs</H4>
+Rezilla defines two UUIDs to refer to the type of the plugin and to the
+factory implementing the interface respectively. The values are defined in
+the <I>RezillaPluginInterface.h</I> header file using symbolic values: 
+<UL>
+	<LI> <I>kRezillaPluginEditorTypeID</I> is the UUID of the editing type. This is 
+the unique identifier which says that we are dealing with a Rezilla plugin
+and not a plugin for, say, iMovie or iDVD.<P>	<LI> <I>kRezillaPluginEditorInterfaceVs1</I> is the UUID which
+characterizes the current interface defining the editing type. Its name
+ends with <I>Vs1</I> to suggest that this is a first version of the
+interface and that there might be new interfaces in the future
+(possibly with enhanced functionalities). Anyway, as of version 1.1 of 
+Rezilla, there is only one type and one interface.
+</UL>
+These UUIDs are defined like this:
+<PRE>
+    #define kRezillaPluginEditorTypeID (CFUUIDGetConstantUUIDWithBytes(NULL,0x30,0x6A,0x0E,0xF3,0x20,0x6E,0x11,0xDA,0x83,0x20,0x00,0x0A,0x95,0xB1,0xFF,0x7C))
+    #define kRezillaPluginEditorInterfaceVs1 (CFUUIDGetConstantUUIDWithBytes(NULL,0x30,0x6A,0xE1,0x67,0x20,0x6E,0x11,0xDA,0x83,0x20,0x00,0x0A,0x95,0xB1,0xFF,0x7C))
+</PRE>
+which can be written in string form as:
+<PRE>
+    306A0EF3-206E-11DA-8320-000A95B1FF7C
+    306AE167-206E-11DA-8320-000A95B1FF7C
+</PRE><P><H4>Factory UUIDs</H4>
+The plugin will have to provide UUIDs for all the implementations of 
+interfaces it contains. The implementation is done by a <I>factory</I> 
+function. These factory functions are declared in the property list of the 
+plugin and defined in the plugin itself. The <I>RezillaImage</I> plugin for instance supports Rezilla's editing 
+type and its associated interface, so it has to define one 
+factory UUID. So its C code contains the following instruction:
+<PRE>
+    #define kRezillaImageFactoryID (CFUUIDGetConstantUUIDWithBytes(NULL,0x09,0x05,0xF8,0x36,0xA2,0x0C,0x11,0xDA,0xBC,0x6C,0x00,0x0A,0x95,0xB1,0xFF,0x7C))
+</PRE>
+and its property list declares this same value in string form as
+<PRE>
+    0905F836-A20C-11DA-BC6C-000A95B1FF7C
+</PRE>
+In case there are several interfaces, each interface must have an UUID.<P><H4>Generating an UUID</H4>
+There is a simple command line tool called <B>uuidgen</B>, provided with
+the Apple's Developers Tools, which generates UUIDs. Here is an example of
+the uuidgen usage (to execute in a Terminal window):
+<PRE>
+    shell> uuidgen
+    9A347042-427C-11DB-9237-000A95B1FF7C
+</PRE><P>The Rezilla SDK also provides a slightly more elaborate tool called 
+<B>mkuuid</B>. With mkuuid you can specify the number of UUIDs you want to generate
+and its output returns the UUIDs both in bytes form (to use in the C code)
+and in string form (to use in the property list). Here is an example of its
+usage:
+<PRE>
+    shell> mkuuid 2
+    UUID as bytes: (NULL,0xC1,0x37,0x86,0xB4,0x42,0x7C,0x11,0xDB,0xA0,0xC4,0x00,0x0A,0x95,0xB1,0xFF,0x7C)
+    UUID as string: "C13786B4-427C-11DB-A0C4-000A95B1FF7C"
+    
+    UUID as bytes: (NULL,0xC1,0x38,0x2C,0x85,0x42,0x7C,0x11,0xDB,0xA0,0xC4,0x00,0x0A,0x95,0xB1,0xFF,0x7C)
+    UUID as string: "C1382C85-427C-11DB-A0C4-000A95B1FF7C"
+</PRE><P><A NAME="plugplist"></A>
+
+
+</BODY>
+</HTML>

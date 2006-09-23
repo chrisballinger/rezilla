@@ -1,0 +1,103 @@
+<HTML>
+<HEAD>
+<TITLE>Compiling with CodeWarriorThere is nothing special about building Rezilla using the CodeWarrior's </TITLE>
+<META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
+<META NAME=GENERATOR CONTENT="Aida Mode">
+</HEAD>
+<BODY>
+
+<A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="68.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="70.html">Next</A><HR><P>&nbsp;</P>
+<H3>Compiling with CodeWarrior</H3><P>There is nothing special about building Rezilla using the CodeWarrior's 
+project file (<I>Rezilla.mcp</I>), provided you have a standard installation of 
+CodeWarrior Pro 9. The only point is to verify that the search paths are 
+correctly set on your machine. <P>These search paths are specified in 
+CodeWarrior via Source Trees. There is, in fact, only one Source Tree you
+have to declare: launch CodeWarrior, go to the Preferences and select
+Source Trees. In the corresponding panel, create a Source Tree 
+named <I>Waste</I> and let it point to the folder where your Waste library
+is located (<I>/CodeWarrior Folder/CodeWarrior/MacOS Support/(Third Party
+Support)/WASTE Distribution</I>). The other paths used by Rezilla's 
+project are relative to the
+predefined <I>{Compiler}, {Project}</I> and <I>{OS X Volume}</I> source
+trees which are automatically set by CodeWarrior, so you should not have 
+to worry about them.<P>If this is not done already, open now the <I>Rezilla.mcp</I> project. This
+project contains three targets:
+<UL>
+	<LI> the <I>Regex_Lib</I> target should be built first. It creates a static 
+library which allows Rezilla to use regular expressions internally.
+	<LI> the <I>Rezilla_Debug</I> and <I>Rezilla_Final</I> targets build a
+debugging or an optimized version of Rezilla respectively. Unless you plan
+to do some development and debugging with Rezilla, you'll be interested only
+in the <I>Rezilla_Final</I> target.
+</UL><P>In order to build any of the targets, select the <I>Make</I> command in
+the <I>Project</I> menu. The built products will be written in a subfolder
+called <I>Output</I> and located at the same level as the <I>Rezilla.mcp</I>
+project file:
+<UL>
+	<LI> the <I>Regex_Lib</I> target produces a static library called 
+RegexMachO.lib which is automatically linked to the project by the other 
+two targets.
+	<LI> the <I>Rezilla_Debug</I> and <I>Rezilla_Final</I> targets produce 
+the application itself (Rezilla_D.app and Rezilla.app respectively). 
+</UL><P>Note that, most of the time, the Finder does not display the <I>.app</I>
+extension and you'll probably see Rezilla_D and Rezilla respectively as the
+name of the application: it is a bundled application, that is to say it
+looks like a single file but it is in fact a folder containing all the
+necessary resources.<P>The CodeWarrior project has user defined actions which take care of copying
+all the necessary elements to their final destination inside the bundle:
+this includes the auxiliary files (those which are not generated
+automatically by the compiler). If the <I>Output</I> folder does not exist
+already, CodeWarrior will create one while compiling the targets and will
+also create the bundled structure inside. Provided you do not change the 
+arhitecture of the source files as found in the source distribution or 
+as retrieved directly from the CVS directory at SourceForge, the 
+CodeWarrior project will know where to find the required items.<P>It is easy to open the bundle and look what is inside: click on the icon of the 
+application while maintaining the <I>Control</I> key pressed and select 
+<I>Open the Package</I> in the contextual menu which appears after the
+click. Internally here is how the package should be organised:
+<PRE>
+    Rezilla.app
+        Contents
+            Info.plist
+            PkgInfo
+            MacOS
+                Rezilla
+            Resources
+                Rezilla.rsrc
+                RezillaTemplates.rsrc
+                RezillaDocs.icns
+                Rezilla.icns
+                Images
+                    rzil_aeteeditor.gif
+                    rezilla_logo.gif
+                    ... etc.
+				English.lproj
+					InfoPlist.strings
+					Localizable.strings
+					Errors.strings
+					RezillaHelp
+						index.html
+						1.html
+						2.html
+						3.html
+						4.html
+						... etc.
+                French.lproj
+                    InfoPlist.strings
+                    Localizable.strings
+                    Errors.strings
+                    RezillaHelp
+                        index.html
+                        1.html
+                        2.html
+                        3.html
+                        4.html
+                        ... etc.
+</PRE><P>It is crucial, in particular, that the file <I>RezillaTemplates.rsrc</I> 
+be present in the <I>Rezilla.app/Contents/Resources</I> subfolder. If it
+is not there, you'll have to copy it manually from the <I>Rezilla_Rsrc</I>
+folder in Rezilla's source distribution otherwise Rezilla won't function
+properly.<P>
+
+</BODY>
+</HTML>

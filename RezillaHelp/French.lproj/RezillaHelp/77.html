@@ -1,0 +1,231 @@
+<HTML>
+<HEAD>
+<TITLE>Le plugin SampleCette section commente le code du plugin Sample fourni avec le kit</TITLE>
+<META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
+<META NAME=GENERATOR CONTENT="Aida Mode">
+</HEAD>
+<BODY>
+
+<A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="76.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="78.html">Suiv</A><HR><P>&nbsp;</P>
+<H3>Le plugin Sample</H3><P>Cette section commente le code du plugin <B>Sample</B> fourni avec le kit
+de développement de Rezilla (<I>Rezilla SDK</I>) pour servir à la fois
+d'exemple et de modèle pour la création d'un plugin pour Rezilla. Un
+fichier de projet XCode est aussi fourni. Le plugin <B>Sample</B> met en
+relief les diverss aspects des tâches de programmation nécessaires pour la
+création d'un plugin Rezilla. Le code source lui-même contient par
+ailleurs des commentaires détaillés.<P>Pour en apprendre plus sur les plugins Rezilla, on pourra aussi consulter
+le code source du plugin <B>RezImage</B> qui est un véritable éditeur
+présent dans la version 1.1 de Rezilla. Il permet d'éditer des ressources
+d'images ('jpeg', 'tiff', 'gif ', etc.). Son code source fait partie de la
+distribution du code source de Rezilla.<P>Le plugin <B>Sample</B> a pour but d'éditer des resources de type 'PStr'
+ou 'STR '. Ce sont des ressources très simples qui contiennent uniquement
+une chaîne de Pascal. Le plugin affiche cette chaîne dans un champ
+d'édition afin de permettre à l'utilisateur de la lire et de la modifier.
+Par ailleurs le plugin installe un menu avec deux commandes qui peuvent
+aussi agir sur la chaîne (elles ne font rien de vraiment utile, il s'agit
+simplement d'un exemple).<P><H4>Les fichiers source de Sample </H4><P>Le dossier <I>SamplePlugin</I> du kit de développement de Rezilla contient
+les fichiers suivants:
+<UL>
+	<LI> <I>RezSamplePlugin.xcode</I> est le projet XCode permettant de 
+construire le plugin <P>	<LI> <I>RezSamplePlugin.c</I> est le fichier source principal définissant 
+les fonctions du plugin  <P>	<LI> <I>RezillaPluginInterface.h</I> est le fichier d'en-tête fourni par 
+Rezilla dans lequel l'interface du plugin et les données publiques sont 
+déclarées. Ce fichier ne doit pas être modifié et sera simplement inclus 
+dans le code source<P>	<LI> <I>RezSamplePlugin.rsrc</I> est le fichier de resources du plugin<P>	<LI> <I>Info.plist</I> est la liste de propriétés du plugin<P>	<LI> <I>English.lproj</I> est un dossier localisé contenant quelques 
+chaînes affichées par la commande <I>Lire les informations</I> du Finder
+</UL><P><H4>L'UUID de Sample </H4><P>Le plugin doit définir un seul UUID correspondant à l'unique fonction de 
+fabrication (<I>factory</I>). Cet UUID peut être créé avec la commande
+ <I>genuuid</I> fournie avec les <I>Developer Tools</I> d'Apple ou avec 
+l'utilitaire
+<I>mkuuid</I> fourni dans le kit de développement de Rezilla.<P>La définition de l'UUID se trouve au début du fichier source 
+<I>RezSamplePlugin.c</I>:
+<PRE>
+	#define kRezillaSampleFactoryID (CFUUIDGetConstantUUIDWithBytes(NULL,0x30,0x6B,0x89,0xA8,0x20,0x6E,0x11,0xDA,0x83,0x20,0x00,0x0A,0x95,0xB1,0xFF,0x7C))
+</PRE><P><H4>La liste de propriétés de Sample</H4><P>L'UUID mentionné au paragraphe précédent s'écrit sous forme de chaîne 
+comme ceci: 
+<PRE>
+	306B89A8-206E-11DA-8320-000A95B1FF7C 
+</PRE>
+Il est utilisé dans le fichier <I>Info.plist</I> à deux endroits: en tant
+que clé dans le dictionnaire <I>CFPlugInFactories</I> et en tant que
+valeur dans le dictionnaire <I>CFPlugInTypes</I>:
+<PRE>
+	&lt;key&gt;CFPlugInFactories&lt;/key&gt;
+	&lt;dict&gt;
+		&lt;key&gt;306B89A8-206E-11DA-8320-000A95B1FF7C&lt;/key&gt;
+		&lt;string&gt;RezSampleFactory&lt;/string&gt;
+	&lt;/dict&gt;
+	&lt;key&gt;CFPlugInTypes&lt;/key&gt;
+	&lt;dict&gt;
+		&lt;key&gt;306A0EF3-206E-11DA-8320-000A95B1FF7C&lt;/key&gt;
+		&lt;array&gt;
+			&lt;string&gt;306B89A8-206E-11DA-8320-000A95B1FF7C&lt;/string&gt;
+		&lt;/array&gt;
+	&lt;/dict&gt;
+</PRE>
+On notera que la clé (et non la valeur) dans le dictionnaire <I>CFPlugInTypes</I> est l'UUID identifiant le type de service assuré par le
+plugin (c'est la constante <I>kRezillaPluginEditorTypeID</I> définie par
+Rezilla). La valeur dans le dictionnaire <I>CFPlugInFactories</I> est le
+nom de la fabrique, fonction de fabrication à invoquer pour instancier
+l'interface du plugin: cette fonction (<I>RezSampleFactory</I>) est
+définie dans le fichier source <I>RezSamplePlugin.c</I>.<P>Le fichier <I>Info.plist</I> déclare par ailleurs les types de ressources
+supportés par le plugin ('PStr' et 'STR '):
+<PRE>
+	&lt;key&gt;RezillaPluginEditTypes&lt;/key&gt;
+	&lt;array&gt;
+		&lt;string&gt;PStr&lt;/string&gt;
+		&lt;string&gt;STR &lt;/string&gt;
+	&lt;/array&gt;
+</PRE>
+et le rôle du plugin:
+<PRE>
+	&lt;key&gt;RezillaPluginRole&lt;/key&gt;
+	&lt;string&gt;Editor&lt;/string&gt;
+</PRE><P>Les autres paires clé/valeur sont tout à fait usuelles et se comprennent
+sans difficulté.<P><H4>Le fichier de projet</H4><P>Le fichier de projet du plugin Sample <I>RezSamplePlugin.xcode</I> a été
+créé avec la version 1.5 de XCode afin d'assurer une compatibilité maximale
+avec d'anciennes versions du système OS X (Jaguar et Panther). Il
+fonctionnera aussi avec des versions plus récentes de XCode: sous système
+10.4 (Tiger), les versions 2.0 ou plus de XCode convertiront le fichier en
+un fichier appelé <I>RezSamplePlugin.xcodeproj</I>.<P><H4>Le code source </H4>
+Le code C définissant les fonctions du plugin se trouve dans le fichier 
+<I>RezSamplePlugin.c</I>.<P><H5>Les structures de Sample </H5><P>Le plugin Sample définit deux structures afin de contrôler ses sessions 
+d'édition:
+<UL>
+	<LI> la structure <B>SampleRec</B> permet de conserver des données au 
+niveau de l'interface  (un pointeur sur l'interface et l'UUID de la 
+fabrique) et de maintenir un compte de références afin de 
+contrôler les allocations de mémoire
+<PRE>
+	typedef struct _SampleRec {
+		SPluginEditorInterface *  _rezillaPlugInterface;
+		CFUUIDRef                 _factoryID;
+		UInt32                    _refCount;
+	} SampleRec;
+</PRE>
+	<LI> la structure <B>SampleEditInfo</B> est créée pour chaque ressource 
+éditée et stocke l'information associée 
+<PRE>
+	typedef struct SampleEditInfo {
+		ResType      type;
+		short        id;
+		Handle       data;
+		WindowRef    winref;
+		ControlRef   controlref;
+		Boolean      modified;
+		Boolean      readonly;
+	} SampleEditInfo;
+</PRE>
+</UL><P>Une table de fonctions est aussi créée: c'est une instance statique d'une 
+structure <I>SPluginEditorInterface</I> (autrement dit la structure 
+définie par Rezilla pour décrire l'interface) et contient le nom de toutes 
+les fonctions de l'interface définies dans le plugin:
+<PRE>
+	static SPluginEditorInterface sSamplePlugFuncTable = {
+			NULL,
+			sample_QueryInterface,
+			sample_AddRef,
+			sample_Release,
+			sample_AcceptResource,
+			sample_EditResource,
+			sample_ReturnResource,
+			sample_RevertResource,
+			sample_IsModified,
+			sample_CleanUp,
+			sample_Refresh,
+			sample_ResizeBy,
+			sample_HandleMenu,
+			sample_HandleClick,
+			sample_HandleKeyDown,
+			sample_HandleCommand
+	};
+</PRE><P>Deux variables statiques contiennent l'identificateur et la référence du menu 
+associé au plugin:
+<PRE>
+	static MenuID    sampleMenuID;
+	static MenuRef   sampleMenuRef;
+</PRE><P><H5>La fabrique Sample</H5><P>La fonction <I>RezSampleFactory()</I> est appelée par Rezilla (par le 
+biais de l'API
+CFPlugin) lorsque le plugin est chargé pour la première fois. Cette 
+fonction est connue grâce au fichier de liste de propriété <I>Info.plist</I>. Après avoir vérifié que le type du plugin est le bon 
+(<I>kRezillaPluginEditorTypeID</I>), elle alloue de la mémoire pour la structure <I>SampleRec</I> et
+l'initialise. Finalement elle déclare la fabrique par un appel à la 
+fonction <I>CFPlugInAddInstanceForFactory()</I>.<P><H5>Les fonctions COM </H5>
+Le modèle COM requiert la définition de trois fonctions: <I>QueryInterface, AddRef</I> et <I>Release</I>. Celles-ci sont représentées
+dans le plugin Sample par les fonctions <I>sample_QueryInterface(),
+sample_AddRef()</I>, et <I>sample_Release()</I>.<P><UL>
+	<LI> la fonction <I>QueryInterface</I> est l'endroit où l'interface 
+souhaitée est 
+référencée. Dans le cas de Rezilla (vs. 1.1), il y a une seule interface 
+(une situation qui pourrait changer dans le futur si l'interface subit des 
+ajouts). Cette fonction incrémente le compte de référence, et renvoie un 
+pointeur sur l'instance du plugin.
+	<LI> la fonction <I>AddRef</I> incrémente le compte de référence (<I>refcount</I>) chaque fois que l'interface est requise
+	<LI> la fonction <I>Release</I> incrémente le compte de référence (<I>refcount</I>) et annule l'allocation de mémoire de la structure <I>SampleRec</I> 
+dès que le compte atteint la valeur 0.
+</UL><P><H5>La transaction préliminaire</H5><P>La transaction préliminaire entre l'application principale et le plugin est
+réalisée par les fonctions <I>sample_AcceptResource()</I> et
+<I>sample_EditResource()</I>.<P>Dans la <I>fonction sample_AcceptResource()</I>, le plugin vérifie en premier 
+lieu que le type de la ressource est bien un  des ceux qu'il attend et il 
+alloue alors de la mémoire pour une structure  <I>SampleEditInfo</I> qui 
+restera associée à la ressource éditée.
+Le pointeur sur cette structure sera utilisé comme référence <I>RezPlugRef</I> et passé comme premier argument de toutes les autres 
+fonctions de l'interface par Rezilla. L'information stockée dans cette 
+structure sera ainsi disponible pour toutes ces fonctions.<P>La fonction <I>sample_AcceptResource()</I> remplit par ailleurs une structure 
+<I>RezPlugInfo</I> passée par Rezilla en dernier argument afin de faire 
+quelques requêtes auprès de l'application principale. En particulier, dans 
+notre exemple, elle 
+règle le champ d'attribut comme ceci:
+<PRE>
+	outInfo->attributes = kPluginEditorStandardControls | kPluginSupportEditCommands;
+</PRE><P>Le symbole <I>kPluginEditorStandardControls</I> est une constante définie
+par
+Rezilla (dans <I>RezillaPluginInterface.h</I>) demandant que les 
+contrôles standard soient présents dans la fenêtre d'édition (bouton <I>Save</I>, bouton <I>Cancel</I>, etc.). Le symbole
+<I>kPluginSupportEditCommands</I> est une constante prédéfinie
+destinée à activer les commandes du menu <I>Edit</I> de Rezilla 
+(<I>Cut, Copy,
+Paste</I>, etc.).
+La fonction émet également une requête pour obtenir un menu:
+<PRE>
+	outInfo->menucount = 1;
+	outInfo->menuIDs   = &sampleMenuID;
+</PRE>
+Le menu est défini au moyen d'une ressource 'MENU' dans le fichier de 
+ressources 
+<I>RezSamplePlugin.rsrc</I>. Il définit deux commandes
+ (dont l'utilité reste douteuse, mais après tout il ne s'agit que d'un 
+exemple): <I>Reverse string</I> et 
+<I>Rotate string</I>.<P><H5>Les fonctions de l'interface</H5><P>Les fonctions restantes, imposées par l'interface, sont:
+<P><TABLE BORDER=0 CELLPADDING=1>
+<TR><TD><I>sample_ReturnResource</I></TD></TR>
+<TR><TD><I>sample_RevertResource</I></TD></TR>
+<TR><TD><I>sample_IsModified</I></TD></TR>
+<TR><TD><I>sample_CleanUp</I></TD></TR>
+<TR><TD><I>sample_Refresh</I></TD></TR>
+<TR><TD><I>sample_ResizeBy</I></TD></TR>
+<TR><TD><I>sample_HandleMenu</I></TD></TR>
+<TR><TD><I>sample_HandleClick</I></TD></TR>
+<TR><TD><I>sample_HandleKeyDown</I></TD></TR>
+<TR><TD><I>sample_HandleCommand</I></TD></TR>
+</TABLE></P>
+Leur définition ne pose pas de difficultés. <P><UL>
+	<LI> La fonction <I>sample_HandleMenu()</I>
+implémente les deux commandes de menu: la fonction passe la référence <I>MenuRef</I>
+du menu ainsi que l'indice de la commande. <P>	<LI> La fonction <I>sample_HandleCommand()</I> 
+est celle qui traite les commandes de base de Rezilla qui ont été activées 
+à la demande du plugin au cours de la transaction préliminaire. Le code 
+actuel du plugin Sample ne fait rien et l'implémentation est laissée en 
+exercice au lecteur.<P>	<LI> La fonction <I>sample_IsModified()</I> est appelée périodiquement par 
+Rezilla afin de savoir si la ressource éditée a subi des modifications et 
+d'ajuster l'interface graphique en conséquence.<P>	<LI> La fonction <I>sample_CleanUp()</I> est appelée par Rezilla lorsque 
+l'utilisateur ferme la fenêtre. Cette fonction libère la mémoire allouée 
+initialement par le plugin pour la structure <I>SampleEditInfo</I>.<P>	<LI> La fonction <I>sample_ResizeBy()</I> est appelée lorsque l'utilisateur 
+tente de redimensionner la fenêtre. Dans l'exemple présent elle renvoie le 
+code d'erreur <I>plugErr_CantResizeWindow</I> car le drapeau <I>kPluginWinIsResizable</I>
+ne figure pas dans les attributs initiaux, ce qui signifie que la fenêtre 
+n'est pas redimensionnable.
+</UL><P>
+
+</BODY>
+</HTML>

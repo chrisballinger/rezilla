@@ -1,0 +1,117 @@
+<HTML>
+<HEAD>
+<TITLE>Rezilla plugins referenceHere is, as a reference, a summary of Rezilla's client plugins public data.A RezPlugRef is a pointer to plugin defined client data:</TITLE>
+<META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
+<META NAME=GENERATOR CONTENT="Aida Mode">
+</HEAD>
+<BODY>
+
+<A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="77.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<HR><P>&nbsp;</P>
+<H3>Rezilla plugins reference</H3><P>Here is, as a reference, a summary of Rezilla's client plugins public data.<P>A <I>RezPlugRef</I> is a pointer to plugin defined client data:
+<PRE>
+	typedef void *	RezPlugRef;
+</PRE><P><H4>Structures</H4><P><H5>SPluginEditorInterface</H5>
+<PRE>
+typedef struct SPluginEditorInterface {
+    IUNKNOWN_C_GUTS;
+    Boolean  (*AcceptResource)(void *myInstance, ResType inType, short inID, Handle inDataH, RezPlugInfo * outInfo);
+    OSErr    (*EditResource)(RezPlugRef inPlugref, RezHostInfo inInfo);
+    Handle   (*ReturnResource)(RezPlugRef inPlugref, Boolean * outRelease, OSErr * outError);
+    OSErr    (*RevertResource)(RezPlugRef inPlugref, Handle inDataH);
+    Boolean  (*IsModified)(RezPlugRef inPlugref);
+    void     (*CleanUp)(RezPlugRef inPlugref);
+    void     (*Refresh)(RezPlugRef inPlugref);
+    OSErr    (*ResizeBy)(RezPlugRef inPlugref, SInt16 inWidthDelta, SInt16 inHeightDelta);
+    void     (*HandleMenu)(RezPlugRef inPlugref, MenuRef menu, SInt16 inMenuItem);
+    void     (*HandleClick)(RezPlugRef inPlugref, const EventRecord * inMacEvent, Point inPortCoords);
+    void     (*HandleKeyDown)(RezPlugRef inPlugref, const EventRecord * inKeyEvent);
+    Boolean  (*HandleCommand)(RezPlugRef inPlugref, SInt16 inCommand);
+}
+</PRE><P><H5>RezPlugInfo</H5>
+<PRE>
+typedef struct RezPlugInfo {
+    RezPlugRef    plugref;
+    UInt32        attributes;
+    Rect          winbounds;
+    UInt8         menucount;
+    MenuID *      menuIDs;
+    OSErr         error;
+}
+</PRE><P><H5>RezHostInfo</H5>
+<PRE>
+typedef struct RezHostInfo {
+    CFBundleRef  bundleref;
+    short        refnum;
+    WindowRef    winref;
+    UInt8        menucount;
+    MenuRef *    menurefs;
+    Rect         editrect;
+    Boolean      readonly;
+}
+</PRE><P><H4>Enumerations</H4><P><H5>RezillaPluginFlags</H5>
+<PRE>
+enum RezillaPluginFlags {
+    kPluginNoAttributes             = 0L,
+    
+    kPluginEditorHasSaveButton      = (1L << 0),
+    kPluginEditorHasCancelButton    = (1L << 1),
+    kPluginEditorHasRevertButton    = (1L << 2),
+    kPluginEditorHasLockIcon        = (1L << 3),
+    kPluginEditorHasNameField       = (1L << 4),
+    kPluginEditorStandardControls   = (kPluginEditorHasSaveButton 
+                                   | kPluginEditorHasCancelButton 
+                                   | kPluginEditorHasRevertButton 
+                                   | kPluginEditorHasLockIcon),
+    
+    kPluginWinHasCollapseBox        = (1L << 5),
+    kPluginWinIsResizable           = (1L << 6),
+    
+    kPluginSupportCut               = (1L << 10),
+    kPluginSupportCopy              = (1L << 11),
+    kPluginSupportPaste             = (1L << 12),
+    kPluginSupportClear             = (1L << 13),
+    kPluginSupportSelectAll         = (1L << 14),
+    kPluginSupportFind              = (1L << 15),
+    kPluginSupportFindNext          = (1L << 16),
+    kPluginSupportImport            = (1L << 17),
+    kPluginSupportExport            = (1L << 18),
+    kPluginSupportEditCommands      = (kPluginSupportCut 
+                                   | kPluginSupportCopy 
+                                   | kPluginSupportPaste 
+                                   | kPluginSupportClear)
+}
+</PRE><P><H5>RezillaPluginCmdIDs</H5>
+<PRE>
+enum RezillaPluginCmdIDs {
+    kPluginCommandCut        = 1,
+    kPluginCommandCopy,
+    kPluginCommandPaste,
+    kPluginCommandClear,
+    kPluginCommandSelectAll,
+    kPluginCommandFind,
+    kPluginCommandFindNext,
+    kPluginCommandImport,
+    kPluginCommandExport
+}
+</PRE><P><H5>RezillaPluginErrors</H5>
+<PRE>
+enum RezillaPluginErrors {
+    plugErr_Generic                = 5000,    
+    plugErr_InitializationFailed,
+    plugErr_UnsupportedType,
+    plugErr_UnsupportedID,
+    plugErr_InvalidData,
+    plugErr_UnsupportedResourceFormat,
+    plugErr_UnsupportedResourceVersion,
+    plugErr_EditResourceFailed,
+    plugErr_ReturnResourceFailed,
+    plugErr_RevertResourceFailed,
+    plugErr_CantResizeWindow,
+    plugErr_CantHandleMenuCommand,
+    plugErr_LastError
+}
+</PRE><P><HR>
+<P> Rezilla help last updated 2006-09-16 18:12:18<P>
+
+</BODY>
+</HTML>
