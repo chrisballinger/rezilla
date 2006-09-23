@@ -1,29 +1,46 @@
 <HTML>
 <HEAD>
-<TITLE>Exporter une table de ressourcesLa commande export correspond à l'article de menu Export du</TITLE>
+<TITLE>Existence d'objetsLa commande exists permet de vérifier si un objet est connu de</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="56.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="58.html">Suiv</A><HR><P>&nbsp;</P>
-<H3>Exporter une table de ressources</H3><P>La commande <B>export</B> correspond à l'article de menu <I>Export</I> du
-menu Fichier (<I>File</I>) de Rezilla. Elle permet de générer un export
-d'une table de ressources dans divers formats. Cette commande accepte deux
-paramètres:
-<UL>
-	<LI> le paramètre <I>in</I> permet de spécifier le dossier dans lequel on 
-souhaite créer le fichier d'export. Ce paramètre est obligatoire.
-	<LI> le paramètre <I>with properties</I> permet de spécifier le nom du
-fichier d'export et le format d'export . Les valeurs possibles pour le
-format sont <I>xml</I>, <I>html</I>, <I>text</I> et <I>DeRez</I> (la
-valeur par défaut est <I>xml</I>). Si aucun nom n'est fourni, Rezilla
-utilise un nom par défaut. Ce paramètre est optionnel.
-</UL>
-Par exemple:
+<H3>Existence d'objets</H3><P>La commande <B>exists</B> permet de vérifier si un objet est connu de
+Rezilla. Voici quelques exemples:
 <PRE>
-	export map document 1 in "HD:foo:bar:" as alias ¬
-		with properties {name:"exportedMap.xml", format:xml}<P></PRE><P>
+	first window exists
+	exists second window
+	exists third window
+	exists map of document 1
+	
+	set theMap to map 1
+	exists theMap
+	exists type "TEXT" of theMap
+	exists type "XYZT" of theMap
+	
+	set theType to type "TEXT" of map 1
+	exists resource id 128 of theType
+	exists resource "Vivat" of theType
+	exists resource id 128 of type "MENU" of map 1
+	exists resource {"MENU", 128} of map document 1
+	
+	exists hexadecimal editor 1
+	exists template editor 1
+	exists interface editor 1
+	
+	exists editing window 1
+	exists hexadecimal window 1
+	exists template window 1
+	exists interface window 1
+	
+	exists window of document 1
+	exists editor 1 of document 1
+	exists second editor of document 1
+	exists window of first editor of document 1
+	
+	exists inspector<P></PRE><P>
 
 </BODY>
 </HTML>

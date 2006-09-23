@@ -1,31 +1,48 @@
 <HTML>
 <HEAD>
-<TITLE>Preferences </TITLE>
+<TITLE>External Editors (Plugins)Since version 1.1, Rezilla supports the addition of third party editors</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="30.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="32.html">Next</A><HR><P>&nbsp;</P>
-<H2>Preferences </H2>
-Rezilla allows you to set various preferences. The preferences can be
-accessed via the <I>Preferences</I> command in the application's menu or with
-the <I>Command-,</I> keyboard shortcut (hit the colon key while holding the
-command key down). This brings up a multipage dialog containing several
-panels whose contents are described in the following sections:
+<H2>External Editors (Plugins)</H2><P>Since version 1.1, Rezilla supports the addition of third party editors
+known as <I>plugins</I>. A plugin is a kind of extension which adds new
+editing capacities to Rezilla. For instance, there could be a plugin
+providing a nice user interface for 'WIND' resources so that the window
+resources can be easily viewed and manipulated: Rezilla already has a
+template to edit 'WIND' resources but a plugin could add a graphical
+interface. Rezilla provides a SDK (Software Development Kit) to allow
+developers and software publishers to write this kind of plugins.<P><P> Plugins can support several resource types. Version 1.1 of
+Rezilla comes with a plugin which lets you display and manipulate image
+resources. It supports the following image formats:
+<BLOCKQUOTE><P><I> JPEG, TIFF, GIF, PNG, BMP.
+</I></P></BLOCKQUOTE><P><P> Plugins can be added or removed. Controlling the plugins list can be done 
+very easily in the Finder as shown on the image below:
+<P><IMG SRC="../../Images/rzil_pluginsfinder.gif " ALT="Editing plugins from the Finder" ALIGN=bottom></P>
 <UL>
-	<LI> the General panel
-	<LI> the Export panel
-	<LI> the Compare panel
-	<LI> the Interface panel
-	<LI> the Templates panel
-	<LI> the Editors panel
-	<LI> the Misc panel
-</UL><P><P><IMG SRC="../../Images/rzil_preferences.gif" ALT="Preferences window" ALIGN=bottom></P>
-<P> The preferences are written on disk in the user's preferences file only
-when the application quits. They are stored in a file named 
-<I>net.sourceforge.rezilla.plist</I> located in the user's Preferences folder.<P><A NAME="generalpanel"></A>
-
+	<LI> select Rezilla in the Finder<P>	<LI> select the <I>Get Info</I> command in the File menu (or press command-I)<P>	<LI> in the <I>Get Info</I> window, there is a section named <I>Plug-ins</I> which can be opened with a disclosure triangle and displays a list of
+the plugins contained in Rezilla<P>	<LI> the <I>Add</I> and <I>Remove</I> buttons located under this list let
+you install a new plugin or uninstall an existing one respectively. Each 
+plugin has a checkbox: uncheck it when you want to disable a plugin 
+temporarily rather than removing it entirely
+</UL><P><P> When Rezilla is launched, it looks inside all the plugins to detect 
+which type(s) each of them is able to edit. This means that if you add or 
+remove a plugin, you must quit Rezilla and relaunch it to take the 
+modifications into account.<P><P> Editing a resource using an editor defined in a plugin is done
+automatically by Rezilla when one uses the <I>Edit</I> command: the
+application will first look for an internal editor corresponding to the
+type of the resource you want to edit; if no such editor is found, then it
+looks for a plugin able to edit it; if no plugin is available, Rezilla will
+attempt to use the Template editor and, in case of failure, it will invoke
+the hexadecimal editor as a last resort.<P>One can also invoke directly a plugin with the <I>Edit with Plugin</I>
+command found in the <I>Resources</I> menu, as shown in the image below:
+this command by-passes the search of an internal editor. The equivalent
+keyboard shortcut is option-control-command-E (press E while maintaining
+the option, control and command keys down).
+<P><IMG SRC="../../Images/rzil_resourcemenu.gif" ALT="The Resources menu" ALIGN=bottom></P><P>Developers interested in creating a plugin for Rezilla should read the 
+section <I>Writing a Plugin for Rezilla</I>.<P>
 
 </BODY>
 </HTML>

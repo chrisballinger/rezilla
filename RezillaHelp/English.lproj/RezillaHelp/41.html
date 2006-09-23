@@ -1,66 +1,25 @@
 <HTML>
 <HEAD>
-<TITLE>A simple example</TITLE>
+<TITLE>Misc panel</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="40.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="42.html">Next</A><HR><P>&nbsp;</P>
-<H3>A simple example</H3>
-Let's take an example. A 'FREF' resource is a standard type used by the
-Finder to associate icons to certain types of files. It contains three
-elements which are a Finder type, a decimal value corresponding to the ID
-of an icon and a string indicating the file's name. A Finder type occupies
-four bytes and is described by the TNAM tag (TNAM stands for <I>type's name</I>).
-The icon ID is an integer which occupies two bytes and is described by the
-DWRD tag (DWRD stands for <I>decimal word</I>). The file's name is represented by
-a Pascal string (which stores in memory the length of the string on one
-byte followed by the string itself): it is described by the PSTR tag (PSTR
-stands for <I>Pascal string</I>). So the template for an FREF resource could be
-schematically described this
-<PRE>
-	File type       TNAM
-	Icon local ID   DWRD
-	File name       PSTR
-</PRE>
-The first column represents the labels describing the kind of data expected, 
-the second column contains the tags describing the type of the expected data.
-The labels are just descriptive: they are the strings which you can see in 
-the template editor in front of the various fields, checkboxes etc.
-The most important information is provided by the tags which identify
-exactly the type of the data and its size.<P>Given this template, when the template editor opens a FREF resource, it
-will read it from left to right like this:
-<UL>
-	<LI> it will take the four first bytes because it expects a TNAM which always
-occupies four bytes in memory;
-	<LI> it will then take the next two bytes and interpret them as the value of the
-icon ID;
-	<LI> finally the remaining data should be a Pascal string: the first byte is the
-length of the string, and the string itself follows. If the length byte is 
-some value <I>n</I> there will be exactly <I>n</I> bytes after it unless the
-resource is corrupted.
-</UL><P>For instance, the following hypothetical data (here represented in hexadecimal notation)
-<PRE>
-	4150504c0080094e6176696761746f72
-</PRE>
-would be decomposed into
-<UL>
-	<LI> 4150504c, where the hexadecimal numbers 41 50 50 and 4c are the codes of
-the letters A, P, P, and L. So the file type is APPL.
-	<LI> 0080 which is the hexadecimal value of number 128. So the icon ID is 128.
-	<LI> 094e6176696761746f72 indicates a string which is 9 chars long (first
-byte 09). Indeed 4e6176696761746f72 is the hexadecimal representation of
-the codes of the 9 letters of the word <I>Navigator</I>.
-</UL><P>All this can also be seen in the right hand side pane of the hexadecimal
-editor. Here is how the template editor will display the resource:
-<P><IMG SRC="../../Images/rzil_FREF_Template.gif" ALT="Display a FREF resource" ALIGN=bottom></P><P>For each kind of tag, Rezilla's template editor knows how to display the
-data it has just read from the resource. There is a wealth of tags which
-allow you to describe a wide variety of data. More elaborate templates
-would involve the use of lists, of key-controlled sections, of dynamically
-computed values etc. All the tags available with Rezilla are described in
-the section <I>Template tags</I> below.<P><A NAME="tmpledit"></A>
-
+<H3>Misc panel</H3>
+<P> In the <I>Misc</I> panel, one can use the <I>Set type and creator
+when closing</I> preference to specify a type and signature to attribute to
+a resource file after it has been edited by Rezilla. The default values are
+<I>rsrc</I> and <I>Rzil</I> respectively. This is a preference
+one must be careful with because certain files, like application files,
+already have a specific creator which should not be modified. There is an
+additional checkbox called <I>Only files with .rsrc extension</I> which
+limits this functionality to files bearing an <I>.rsrc</I> extension.
+<P> The <I>Use Rezilla's signature for new maps</I> preference let's you
+decide if Rezilla should give its signature to newly created resource
+files. If they have this signature, they will be automatically opened by
+Rezilla when double-clicked.<P>
 
 </BODY>
 </HTML>

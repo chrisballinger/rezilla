@@ -1,52 +1,33 @@
 <HTML>
 <HEAD>
-<TITLE>Éditer une ressource</TITLE>
+<TITLE>Sauvegarder une table de ressourcesLes modifications faites dans un document de ressources peuvent être</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="48.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="50.html">Suiv</A><HR><P>&nbsp;</P>
-<H3>Éditer une ressource</H3>
-L'édition d'une ressource au moyen d'un éditeur particulier peut être 
-accomplie en utilisant la commande <B>edit</B>. Cette commande accepte 
-deux arguments optionnels:
+<H3>Sauvegarder une table de ressources</H3><P>Les modifications faites dans un document de ressources peuvent être
+sauvegardées directement au moyen de la commande <B>save</B>. Deux
+paramètres supplémentaires sont définis:
 <UL>
-	<LI> l'argument <B>like</B> permet de spécifier que la ressource devrait
-être éditée comme si elle était d'un autre type que son type propre. C'est
-l'équivalent de la commande de menu <I>Edit as</I> dans Rezilla.
-	<LI> l'argument <B>using</B> permet de spécifier un type particulier
-d'éditeur. Les valeurs de ce paramètre peuvent être <I>hexadecimal</I>,
-<I>template</I> ou <I>interface</I>. S'il n'existe pas d'éditeur du type
-requis, Rezilla utilise son mécanisme habituel de substitution: en dernier
-ressort, la ressource sera éditée au moyen de l'éditeur hexadécimal.
-</UL><P>Voici quelques exemples:
+	<LI> le paramètre <I>in</I> permet de spécifier le dossier dans lequel on
+souhaite créer le nouveau fichier. Ce paramètre est optionnel.
+	<LI> le paramètre <I>as</I> permet de spécifier la branche dans laquelle
+on souhaite sauvegarder la table de ressources. Les valeurs possibles sont
+<I>data fork</I>, <I>resource fork</I> ou <I>same fork</I> (cette dernière
+seulement pour la commande <I>Save As</I>). Ce paramètre est optionnel. Il
+est ignoré si le paramètre <I>in</I> n'est pas spécifié car, dans ce cas,
+Rezilla exécute une simple commande <B>save</B> sur la table de
+ressources.
+</UL>
+Par exemple:
 <PRE>
-	edit resource {"MENU", 128} of map 1 using interface<P>	edit resource {"MENU", 128} of map 1 using template<P>	edit resource {"MENU", 128} of map 1 using hexadecimal<P>	edit resource {"aeut", 128} of map 1 as "aete"<P></PRE><P>Les autres actions d'édition de base sont la duplication et la suppression 
-d'une ressource dans la 
-table de ressources. Elles sont accomplies par les 
-commandes <B>duplicate</B> et <B>delete</B> respectivement.
+	save document 1 in "HD:foo:bar:otherMap.rsrc" as resource fork<P></PRE><P>Il est aussi possible d'abandonner des modifications faites dans la table
+de ressources et de revenir à la dernière version sauvegardée en utilisant
+la commande <B>revert</B> comme ceci:
 <PRE>
-	duplicate resource {"MENU", 128} of map 1<P>	delete resource {"STR#", 128} of map 1<P></PRE><P>La commande <B>delete</B> permet aussi de supprimer toutes les ressources 
-d'un certain type simultanément, comme ceci:
-<PRE>
-delete type "MENU" of map 1<P></PRE><P>Les modifications faites dans un éditeur peuvent être sauvegardées en 
-utilisant la commande <B>save</B>:
-<PRE>
-	save first editor of map document 1<P></PRE>
-On notera que les arguments usuels <I>in</I> et <I>as</I> de la commande
-<B>save</B> sont ignorés dans ce cas (car elles n'ont pas de sens dans 
-ce contexte).<P>Un document d'édition peut être refermé par la commande <B>close</B>, comme ceci:
-<PRE>
-	close first editor of map document 1<P></PRE>
-ou, de manière équivalente, en refermant la fenêtre directement:
-<PRE>
-	set thewin to window of first editor of map document 1
-	close thewin<P></PRE><P>Certains éditeurs (mais malheureusement pas tous) comprennent la commande
-<B>revert</B>. Cela concerne l'éditeur de gabarits, l'éditeur de
-ressources de terminologie (aete) et l'éditeur de menus. Par exemple:
-<PRE>
-revert editor "somefile.rsrc - 'MENU' #128" of document 1<P></PRE><P>
+	revert map document 1<P></PRE><P>
 
 </BODY>
 </HTML>

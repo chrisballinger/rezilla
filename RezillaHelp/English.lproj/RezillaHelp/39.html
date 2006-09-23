@@ -1,91 +1,32 @@
 <HTML>
 <HEAD>
-<TITLE>Exporting</TITLE>
+<TITLE>Templates panel</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="38.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="40.html">Next</A><HR><P>&nbsp;</P>
-<H2>Exporting</H2>
-The exporting functionality lets you generate a file containing all
-the data of the resource map (all resources of all types, with their ID,
-name, attributes etc.) in various formats. Available formats are:
-<UL>
-	<LI> Text
-	<LI> HTML 
-	<LI> XML 
-	<LI> DeRez
-</UL>
-<P> In Text and XML formats, it is possible to decide to include the
-binary data for each resource or not: see the <I>Preferences</I> section.
-The binary code for each resource is encoded either in Base64 encoding
-(which is the format used on MacOSX for many other types of binary data
-stored in XML files, like for instance preferences files, property lists
-etc.), or in hexadecimal representation. This is a choice which can be
-specified in the <I>Preferences</I> too.
-<P> For XML export, there are two ways of representing the data, based on
-two different DTDs (Document Type Definitions). There is an elements-based
-DTD in which all the properties are represented by a specific key and an
-attributes-based DTD in which most of the properties are represented as
-attributes for the basic <I>type</I> and <I>resource</I> elements. 
-<P> Here are two examples of the XML output produced by the <I>Export</I>
-command:
-<UL>
-	<LI> using the elements-based DTD and Base4 encoding
-<PRE>
-	&lt;Type&gt;
-		&lt;TypeCode&gt;ALRT&lt;/TypeCode&gt;
-		&lt;ResourcesArray&gt;
-			&lt;Resource&gt;
-				&lt;ResourceID&gt;204&lt;/ResourceID&gt;
-				&lt;ResourceName&gt;Low Memory Warning&lt;/ResourceName&gt;
-				&lt;ResourceFlags&gt;20&lt;/ResourceFlags&gt;
-				&lt;ResourceSize&gt;14&lt;/ResourceSize&gt;
-				&lt;ResourceData&gt;
-				AGgAggDNAegAzEREMAo=
-				&lt;/ResourceData&gt;
-			&lt;/Resource&gt;
-		&lt;/ResourcesArray&gt;
-	&lt;/Type&gt;
-	&lt;Type&gt;
-		&lt;TypeCode&gt;DITL&lt;/TypeCode&gt;
-		&lt;ResourcesArray&gt;
-			&lt;Resource&gt;
-				&lt;ResourceID&gt;204&lt;/ResourceID&gt;
-				&lt;ResourceName&gt;&lt;/ResourceName&gt;
-				&lt;ResourceFlags&gt;20&lt;/ResourceFlags&gt;
-				&lt;ResourceSize&gt;120&lt;/ResourceSize&gt;
-				&lt;ResourceData&gt;
-				AAEAAAAAAEcBIABbAVwEAk9LAAAAAAAKAEsAOgFciFdNZW1v
-				cnkgaXMgZ2V0dGluZyBmdWxsLiBQbGVhc2UgdHJ5IHRvIGFs
-				bGV2aWF0ZSB0aGUgcHJvYmxlbSBieSBjbG9zaW5nIHNvbWUg
-				ZG9jdW1lbnRzLiDl
-				&lt;/ResourceData&gt;
-			&lt;/Resource&gt;
-		&lt;/ResourcesArray&gt;
-	&lt;/Type&gt;
-</PRE>
-	<LI> using the attributes-based DTD and hexadecimal representation<P><PRE>
-	&lt;Type code="ALRT"&gt;
-		&lt;Resource id="204" name="Low Memory Warning" flags="20"&gt;
-			&lt;ResourceSize&gt;14&lt;/ResourceSize&gt;
-			&lt;ResourceData&gt;
-				0068008200cd01e800cc4444300a
-			&lt;/ResourceData&gt;
-		&lt;/Resource&gt;
-	&lt;/Type&gt;<P>	&lt;Type code="DITL"&gt;
-		&lt;Resource id="204" name="" flags="20"&gt;
-			&lt;ResourceSize&gt;120&lt;/ResourceSize&gt;
-			&lt;ResourceData&gt;
-				00010000000000470120005b015c04024f4b00000000000a004b003a015c
-				88574d656d6f72792069732067657474696e672066756c6c2e20506c6561
-				73652074727920746f20616c6c657669617465207468652070726f626c65
-				6d20627920636c6f73696e6720736f6d6520646f63756d656e74732e20e5
-			&lt;/ResourceData&gt;
-		&lt;/Resource&gt;
-	&lt;/Type&gt;
-</PRE><P></UL><P>
+<H3>Templates panel</H3>
+<P> In the <I>Templates</I> panel, one can select the symbol to use to
+represent hexadecimal values: either <B>$</B> or <B>0x</B>. This is the
+symbol which will be used by the template editor when it displays a hex
+number. If you write an hexadecimal value in a field, you can use any of
+these symbols indifferently: the editor will accept both.
+<P> Hexadecimal letters (a to f) can be displayed in lowercase or in
+uppercase form. This is set using the <I>Hexadecimal digits</I> preference.
+<P> If the <I>Display filler fields in templates</I> checkbox is on the
+Template editor will display all the tags corresponding to filling data
+(see the subsection <I>Phantom fields</I> in the <I>Templates Syntax</I>
+section below). Otherwise these values are hidden. Furthermore, if the 
+<I>Enable filler fields in templates</I> checkbox is on, these fields will be
+editable, otherwise they will be disabled and displayed in grey.
+<P> Since version 1.0.8 of Rezilla, one can choose the format to display
+the four values of a type RECT tag: <I>top left bottom right</I>
+(coordinates of the top left and the bottom right corners) or <I>top left
+width height</I> (coordinates of the top left corner followed by width and
+height).<P><A NAME="editorspanel"></A>
+
 
 </BODY>
 </HTML>

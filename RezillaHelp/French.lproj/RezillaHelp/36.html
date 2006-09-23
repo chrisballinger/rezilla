@@ -1,34 +1,24 @@
 <HTML>
 <HEAD>
-<TITLE>Panneau Templates</TITLE>
+<TITLE>Panneau Export</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="35.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="37.html">Suiv</A><HR><P>&nbsp;</P>
-<H3>Panneau Templates</H3>
-<P> Dans le panneau <I>Templates</I>, on peut choisir le symbole à utiliser
-pour représenter les nombres hexadécimaux: <B>$</B> ou <B>0x</B>. C'est
-le symbole qui est utilisé par l'éditeur de gabarits lorsqu'il doit afficher 
-une valeur hexadécimale. Inversement si l'on doit saisir un nombre hexadécimal dans
-un champ, on peut utiliser indifféremment l'un des deux symboles. Rezilla
-accepte les deux.
-<P> Les lettres hexadécimales (a à f) peuvent être affichées en
-majuscules ou en minuscules. On fait ce choix au moyen de la préférence
-appelée <I>Hexadecimal digits</I>.
-<P> Si la case à cocher appelée <I>Display filler fields in templates</I>
-est sélectionnée, l'éditeur de gabarits affichera les données correspondant
-aux balises de remplissage (voir la sous-section <I>Champs fantômes</I>
-dans la section <I>Syntaxe des gabarits</I>). Autrement, ces
-valeurs seront cachées. De plus, si la case à cocher appelée <I>Enable
-filler fields in templates</I> est sélectionnée, ces champs seront rendus
-éditables, autrement ils sont désactivés et apparaissent en gris.
-<P> Depuis la version 1.0.8 de Rezilla, on peut choisir le format pour
-afficher les quatre valeurs d'une balise de type RECT: <I>top left bottom
-right</I> (coordonnées du coin supérieur gauche et du coin inférieur droit)
-ou <I>top left width height</I> (coordonnées du coin supérieur gauche,
-suivies de largeur et hauteur).<P><A NAME="editorspanel"></A>
+<H3>Panneau Export</H3>
+<P> Dans le panneau <I>Export</I>, on peut choisir la DTD à utiliser pour
+créer un export XML (voir à la section <I>Export</I> dans les fichiers
+d'aide). On peut également spécifier l'encodage à utiliser pour les données
+binaires: encodage Base64 ou représentation hexadécimale. La case à cocher
+<I>Include binary data in output</I> permet de spécifier si les données
+binaires de chaque ressource doivent être inclues dans les fichiers
+d'export: cela concerne pour le moment uniquement les formats Texte et XML,
+pas HTML.<P>Dans le champ appelé <I>Text editor signature</I>, on peut indiquer le
+créateur d'un éditeur de textes à attribuer aux fichiers produits afin que,
+par la suite, ceux-ci soient automatiquement ouverts dans cet éditeur
+lorsqu'on fait un double-clic sur leur icone.<P><A NAME="comparepanel"></A>
 
 
 </BODY>

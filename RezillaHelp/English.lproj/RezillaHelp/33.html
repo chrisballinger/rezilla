@@ -1,23 +1,28 @@
 <HTML>
 <HEAD>
-<TITLE>Export panel</TITLE>
+<TITLE>Drag and Drop</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="32.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="34.html">Next</A><HR><P>&nbsp;</P>
-<H3>Export panel</H3>
-<P> In the <I>Export</I> panel, one can choose the DTD used to create XML
-exports (see explanations in the <I>Exporting</I> section of the help).
-One can also choose the encoding used to store the binary data: Base64
-encoding or hexadecimal encoding. The <I>Include binary data in output</I>
-checkbox lets specify whether the data for each resource should be included
-in the export file: this currently applies only to Text and XML exports,
-not HTML. <P>In the <I>Text editor signature</I> field, you can specify the
-creator type of a text editor which will be attributed to the output file
-so that you can later edit it with this editor by a double-click.<P><A NAME="comparepanel"></A>
-
+<H2>Drag and Drop</H2>
+Rezilla provides various aspects of Drag and Drop capacity. You can
+drag a selection of resources from a resource map table to another to have
+them copied to the destination resource map. If the destination resource
+map is the same as the original one, the resources are simply duplicated.<P><P> If you drag a selection of resources from a resource map table to the trash
+in the Finder, these resources are deleted from the resource map.<P><P> If you drag a piece of text from an external text editor to a  resource
+map table, a new resource of type TEXT containing this text is created.
+More generally speaking, if you drag a  selection  of  some  "flavor"  to  a
+resource map table in Rezilla, resources of the same type as the flavor are
+created. For instance, if you drag an image selected in a program such as
+<A HREF="http://www.lemkesoft.de/en/graphcon.htm">GraphicConverter</A> 
+to Rezilla, two resources are created: one resource of type Rect will  contain
+the dimensions of the image, another resource of type PICT will  contain  a
+pict representation of the image.<P><P> In the Resource Maps Comparison dialog, one can drag and drop a file
+from the Finder onto one of the file fields to select it rather than using
+the <I>Set</I> button.<P>
 
 </BODY>
 </HTML>

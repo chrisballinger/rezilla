@@ -34,12 +34,14 @@ tous les types de ressources: les données binaires de la ressource sont
 éditées directement par leur valeur hexadécimale. C'est en quelque sorte un
 éditeur de bas niveau qui permet d'accéder directement au contenu binaire
 de la ressource (voir la section <I>Éditeur Hexadécimal</I> plus 
-loin).<P><P> Lorsque la commande <I>Edit</I> est invoquée pour une ressource 
-particulière, Rezilla recherche tout d'abord s'il existe un éditeur 
-dédié pour ce type de ressource. S'il n'en trouve aucun, il cherche 
-alors si un gabarit est disponible afin d'invoquer l'éditeur de 
-gabarits. En cas d'échec, il appellera en dernier recours l'éditeur
-hexadécimal.<P>
+loin).<P><P> Lorsque la commande <I>Edit</I> est invoquée pour une ressource
+particulière, Rezilla recherche tout d'abord s'il existe un éditeur interne
+dédié pour ce type de ressource. S'il n'en trouve aucun, il cherche alors
+s'il y a un plugin capable d'éditer la ressource (les plugins ont été
+introduits dans la version 1.1 de Rezilla). Si aucun plugin ne convient,
+Rezilla cherche alors si un gabarit est disponible afin d'invoquer
+l'éditeur de gabarits. En cas d'échec, il appellera en dernier recours
+l'éditeur hexadécimal.<P>
 
 </BODY>
 </HTML>

@@ -1,81 +1,58 @@
 <HTML>
 <HEAD>
-<TITLE>Fenêtre d'inspectionLa fenêtre d'inspection est toujours présente dans Rezilla (même si elle</TITLE>
+<TITLE>Objets de base et propriétésL'objet racine situé au-dessus de tous les objets de Rezilla est</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="54.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="56.html">Suiv</A><HR><P>&nbsp;</P>
-<H3>Fenêtre d'inspection</H3><P>La fenêtre d'inspection est toujours présente dans Rezilla (même si elle
-n'est pas affichée, elle reste présente en coulisse). Pour afficher
-l'information concernant une ressource particulière, on utilise la commande
-<B>inspect</B> comme ceci:
+<H3>Objets de base et propriétés</H3><P>L'objet racine situé au-dessus de tous les objets de Rezilla est
+l'application elle-même. Rezilla définit des propriéts de base pour les
+classes document et fenêtre, propriétés dont tous les objets plus
+spécifiques (comme les éditeurs ou les fenêtres des tables de ressources
+par exemple) héritent à leur tour.<P>Cette section décrit les propriétés des classes <I>application</I>, 
+<I>document</I> et <I>window</I>.<P><H4>Propriétés de l'application</H4><P>L'application elle-même peut fournir quelques informations. Elle possède 
+une propriété <I>version</I> qui renvoie le numéro de version courant. Par exemple:
 <PRE>
-	inspect resource {"MENU", 128} of map 1<P></PRE>
-Cette commande affiche la fenêtre d'inspection qui contient toute 
-l'information relative à la 
- ressource spécifiée. Chaque champ de la fenêtre d'inspection est 
-accessible  grâce aux propriétés de la fenêtre d'inspection:
+	get the version<P></PRE><P>La fenêtre d'inspection est aussi une propriété de l'application mais elle
+est considérée plutôt comme un objet à part entière. Ses propriétés sont
+expliquées dans la section <I>Fenêtre d'inspection</I> ci-dessous.<P><H4>Propriétés des documents</H4><P>Rezilla définit les propriétés communes suivantes dont héritent toutes les
+classes de documents (documents de ressources, documents d'édition):
 <UL>
-	<LI> <I>ID field</I>: la valeur du champ 'ID' <P>	<LI> <I>name field</I>: la valeur du champ 'Name' <P>	<LI> <I>system heap</I>: la valeur de la case 'System Heap' <P>	<LI> <I>purgeable</I>: la valeur de la case 'Purgeable' <P>	<LI> <I>locked</I>: la valeur de la case 'Locked' <P>	<LI> <I>preload</I>: la valeur de la case 'Preload' <P>	<LI> <I>protected</I>: la valeur de la case 'Protected' <P>	<LI> <I>current resource</I>: la ressource dont  l'information est 
-couramment affichée<P></UL>
+	<LI> <I>name</I>: le titre du document<P>	<LI> <I>modified</I>: une valeur booléenne indiquant si le document a été
+ modifié depuis la dernière sauvegarde
+</UL><P>Voici un exemple de script pour récupérer ces propriétés dans le cas de 
+différents types de documents:
 <PRE>
-	set a to the ID field of the inspector
-	set b to the name field of the inspector
-	set c to the system heap of the inspector
-	set d to the purgeable of the inspector
-	set e to the locked of the inspector
-	set f to the preload of the inspector
-	set g to the protected of the inspector
+	set theDoc to map document 1
+	set a to the name of theDoc
+	set b to the modified of theDoc
+	edit resource {"TEXT", 128} of theDoc
+	set theEditor to editor 1 of theDoc
+	set c to the name of theEditor
+	set d to the modified of theEditor
 	
-	(a, b, c, d, e, f, g)<P></PRE><P>Les champs du numéro d'identification et du nom, de même que toutes les 
-cases à cocher peuvent être modifiés au moyen de la commande <B>set data</B> . Par exemple:
+	{a, b, c, d}<P></PRE><P>Ce sont des propriétés en lecture seulement. Elles ne peuvent être
+modifiées au moyen de la commande <B>set</B>.<P><H4>Propriétés des fenêtres</H4><P>Toutes les fenêtres de Rezilla (tables, fenêtres d'édition, fenêtre
+d'inspection, etc.) partagent l'ensemble de propriétés suivant:
+<UL>
+	<LI> <I>name</I>: le titre de la fenêtre<P>	<LI> <I>index</I>: le numéro de la fenêtre<P>	<LI> <I>bounds</I>: les bornes du rectangle de la fenêtre<P>	<LI> <I>closeable</I>: la fenêtre a-t-elle un bouton de fermeture ?<P>	<LI> <I>titled</I>: la fenêtre a-t-elle une barre de titre ?<P>	<LI> <I>floating</I>: la fenêtre est-elle flottante ?<P>	<LI> <I>modal</I>: la fenêtre est-elle modale ?<P>	<LI> <I>resizable</I>: la fenêtre est-elle redimensionnable ?<P>	<LI> <I>zoomable</I>: la fenêtre est-elle réductible (dans le dock) ?<P>	<LI> <I>zoomed</I>: la fenêtre est-elle réduite ?<P>	<LI> <I>visible</I>: la fenêtre est-elle visible?<P>	<LI> <I>position</I>: les coordonnées du coin supérieur gauche de la 
+fenêtre<P></UL><P>Voici un exemple de code illustrant ces propriétés:
 <PRE>
-	set the name field of inspector to "Viva Rezilla!!!"
-	set the ID field of inspector to 130
-	set the system heap of inspector to false
-	set the purgeable of inspector to true
-	set the locked of inspector to true
-	set the preload of inspector to false
-	set the protected of inspector to true<P></PRE><P>La propriété <I>current resource</I> renvoie une référence à la ressource
-affichée par la fenêtre d'inspection ce qui permet d'écrire des
-instructions comme :
-<PRE>
-	get the hex data of the current resource of the inspector
-</PRE><P>Il faut cependant distinguer les propriétés réelles d'une ressource de ce
-qui peut être affiché dans la fenêtre d'inspection. Si des modifications on
-été effectuées dans l'inspecteur, elles ne seront validées dans la
-ressource elle-même que lorsque le bouton <I>Apply</I> aura été pressé.
-Dans un script AppleScript, on utilisera la commande <B>save</B> afin de
-valider le contenu de la fenêtre d'inspection, comme ceci:
-<PRE>
-	save the inspector
-</PRE>
-En revanche, si des modifications ont été faites dans la fenêtre
-d'inspection et qu'on ne souhaite pas les conserver, on utilisera la
-commande <B>revert</B> pour revenir aux dernières valeurs sauvegardées,
-comme ceci:
-<PRE>
-	revert the inspector
-</PRE><P>Pour masquer la fenêtre d'inspection, on utilise la commande <B>close</B>:
-<PRE>
-	close the inspector
-</PRE>
-De manière équivalente, on peut utiliser l'une des commandes suivantes:
-<PRE>
-	close inspector window 1
-</PRE>
-ou
-<PRE>
-	set the visible of the inspector to false
-</PRE>
-Pour rendre la fenêtre d'inspection visible, on peut utiliser la commande
-<B>inspect</B> comme expliqué précedemment ou invoquer l'instruction
-suivante:
-<PRE>
-	set the visible of the inspector to true
-</PRE><P>
+	set win2 to the second window
+	set a to the name of win2
+	set b to the bounds of win2
+	set c to the position of win2
+	set d to the visible of win2
+	set e to the closeable of win2
+	set f to the titled of win2
+	set g to the resizable of win2
+	set h to the zoomed of win2
+	
+	(a, b, c, d, e, f, g, h)<P></PRE><P>Les propriétés <I>name</I>, <I>bounds</I>, <I>zoomed</I>, <I>visible</I>
+et <I>position</I> peuvent être modifiées au moyen de la commande 
+<B>set</B>. Les autres sont des propriétés en lecture seulement.<P>
 
 </BODY>
 </HTML>

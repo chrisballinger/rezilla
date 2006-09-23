@@ -1,24 +1,93 @@
 <HTML>
 <HEAD>
-<TITLE>Éditer un gabaritBonne nouvelle ! Il existe un gabarit pour les ressources de type TMPL.</TITLE>
+<TITLE>Export des tables de ressources</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="41.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="43.html">Suiv</A><HR><P>&nbsp;</P>
-<H3>Éditer un gabarit</H3><P>Bonne nouvelle ! Il existe un gabarit pour les ressources de type TMPL.
-Cela signifie que l'on peut éditer ces ressources au moyen de... l'éditeur
-de gabarits ! Celui-ci présente une liste de paires balise/étiquette sous
-forme de chaînes de caractères, et permet d'ajouter ou de retirer
-certaines paires, de les modifier etc. La seule chose à savoir est quelle
-balise on doit utiliser pour chaque type de données. La section suivante répond à
-cette question.<P>Maintenant que la structure des gabarits a été expliquée, il est possible 
-de décrire avec davantage de précision le format d'une ressource TMPL. Il
-s'agit d'une liste de paires comportant un code de quatre caractères et une
-chaîne de Pascal ; en d'autres termes, c'est une série de données de type TNAM et
-PSTR alternativement.<P><A NAME="tmpltags"></A>
-
+<H2>Export des tables de ressources</H2>
+La fonction d'export de Rezilla permet de générer des fichiers en divers
+formats contenant
+toutes les données relatives à une table de ressources. Les formats
+disponibles sont:
+<UL>
+	<LI> Texte
+	<LI> HTML 
+	<LI> XML 
+	<LI> DeRez
+</UL>
+<P> En formats XML et texte, il est possible de décider d'inclure les
+données binaires de chaque ressource ou pas: voir la section <I>Préférences</I>.
+Celles-ci peuvent être représentées soit en encodage Base64 (qui est le
+format utilisé sous Mac OSX pour de nombreux types de fichiers XML tels que 
+les fichiers de préférences ou les fichiers de listes de propriétés), soit
+sous forme hexadécimale (comme dans un éditeur hexadécimal). Ce choix peut 
+être spécifié dans les <I>Préférences</I> également.
+<P> Pour des exports en format XML, il y a deux façons de représenter les
+données basées sur deux DTD (Définitions de Type de Document) différentes.
+La première représente chaque propriété au moyen d'une clé spécifique
+tandis que l'autre les représente comme attributs de certains éléments
+(élément <I>type</I> et élément <I>ressource</I>). 
+<P> Voici deux exemples de ce que produit, en XML, la commande <I>Export</I>:
+<UL>
+	<LI> en utilisant la DTD par éléments et l'encodage Base4
+<PRE>
+	&lt;Type&gt;
+		&lt;TypeCode&gt;ALRT&lt;/TypeCode&gt;
+		&lt;ResourcesArray&gt;
+			&lt;Resource&gt;
+				&lt;ResourceID&gt;204&lt;/ResourceID&gt;
+				&lt;ResourceName&gt;Low Memory Warning&lt;/ResourceName&gt;
+				&lt;ResourceFlags&gt;20&lt;/ResourceFlags&gt;
+				&lt;ResourceSize&gt;14&lt;/ResourceSize&gt;
+				&lt;ResourceData&gt;
+				AGgAggDNAegAzEREMAo=
+				&lt;/ResourceData&gt;
+			&lt;/Resource&gt;
+		&lt;/ResourcesArray&gt;
+	&lt;/Type&gt;
+	&lt;Type&gt;
+		&lt;TypeCode&gt;DITL&lt;/TypeCode&gt;
+		&lt;ResourcesArray&gt;
+			&lt;Resource&gt;
+				&lt;ResourceID&gt;204&lt;/ResourceID&gt;
+				&lt;ResourceName&gt;&lt;/ResourceName&gt;
+				&lt;ResourceFlags&gt;20&lt;/ResourceFlags&gt;
+				&lt;ResourceSize&gt;120&lt;/ResourceSize&gt;
+				&lt;ResourceData&gt;
+				AAEAAAAAAEcBIABbAVwEAk9LAAAAAAAKAEsAOgFciFdNZW1v
+				cnkgaXMgZ2V0dGluZyBmdWxsLiBQbGVhc2UgdHJ5IHRvIGFs
+				bGV2aWF0ZSB0aGUgcHJvYmxlbSBieSBjbG9zaW5nIHNvbWUg
+				ZG9jdW1lbnRzLiDl
+				&lt;/ResourceData&gt;
+			&lt;/Resource&gt;
+		&lt;/ResourcesArray&gt;
+	&lt;/Type&gt;
+</PRE>
+	<LI> en utilisant la DTD par attributs et une représentation hexadécimale
+<PRE>
+	&lt;Type code="ALRT"&gt;
+		&lt;Resource id="204" name="Low Memory Warning" flags="20"&gt;
+			&lt;ResourceSize&gt;14&lt;/ResourceSize&gt;
+			&lt;ResourceData&gt;
+				0068008200cd01e800cc4444300a
+			&lt;/ResourceData&gt;
+		&lt;/Resource&gt;
+	&lt;/Type&gt;<P>	&lt;Type code="DITL"&gt;
+		&lt;Resource id="204" name="" flags="20"&gt;
+			&lt;ResourceSize&gt;120&lt;/ResourceSize&gt;
+			&lt;ResourceData&gt;
+				00010000000000470120005b015c04024f4b00000000000a004b003a015c
+				88574d656d6f72792069732067657474696e672066756c6c2e20506c6561
+				73652074727920746f20616c6c657669617465207468652070726f626c65
+				6d20627920636c6f73696e6720736f6d6520646f63756d656e74732e20e5
+			&lt;/ResourceData&gt;
+		&lt;/Resource&gt;
+	&lt;/Type&gt;
+</PRE>
+</UL><P>
 
 </BODY>
 </HTML>

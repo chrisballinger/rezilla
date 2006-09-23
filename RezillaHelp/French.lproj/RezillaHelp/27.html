@@ -1,24 +1,36 @@
 <HTML>
 <HEAD>
-<TITLE>L'éditeur 'PICT'Ce n'est pas un éditeur graphique complet mais plutôt un visualisateur. Si </TITLE>
+<TITLE>L'éditeur icnsLes ressources 'icns' sont des familles d'icones: il s'agit d'un format qui</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="26.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="28.html">Suiv</A><HR><P>&nbsp;</P>
-<H3>L'éditeur 'PICT'</H3><P>Ce n'est pas un éditeur graphique complet mais plutôt un visualisateur. Si 
-l'on exécute un double-clic sur une ressource d'image (de type <I>'PICT'</I>), 
-Rezilla affiche cette image.<P>Les commandes <I>Copy</I>, <I>Cut</I> et <I>Paste</I> sont activées. Il
-est possible de copier l'image dans le presse-papier: il n'y a pas de
-sélection à faire, l'image entière est automatiquement copiée. À
-l'inverse, si le presse-papiers contient une image (techniquement parlant,
-s'il contient des données de type 'PICT'), Rezilla remplace l'image
-courante par le contenu du presse-papiers.<P>Cela permet de créer des images dans une application graphique externe et
-de les importer dans Rezilla. Notez qu'il est aussi possible de copier
-directement des données graphiques depuis le presse-papiers dans une table
-de ressource de Rezilla (voir la section <I>Copy, Cut and Paste</I> dans
-ce document).<P><A NAME="sndeditor"></A>
+<H3>L'éditeur icns</H3><P>Les ressources 'icns' sont des familles d'icones: il s'agit d'un format qui
+incorpore dans une ressource unique les divers membres (bitmaps, masques,
+variantes) d'une même famille d'icones. Ce format est utilisé sous OS X non
+seulement dans les ressources 'icns' mais aussi dans les fichiers de suites
+d'icones (fichiers ayant une extension <I>.icns</I>). Les familles
+d'icones contiennent en particulier de grandes icones (48x48 pixels) à
+différentes profondeurs et des onglets (128x128 pixels) sous forme
+compressée.<P>L'éditeur icns de Rezilla permet d'éditer tous les membres d'une famille 
+d'icones. Il les affiche dans une fenêtre analogue aux fenêtres de 
+<A HREF="#bitmapeditor">l'éditeur bitmap</A> avec des outils permettant de 
+modifier tous les pixels de ces icones avec la palette de couleurs voulue.<P>Une fenêtre typique de l'éditeur icns se présente comme ceci:
+<P><IMG SRC="../../Images/rzil_icnseditor.gif" ALT="Icns editor window" ALIGN=bottom></P><P>Il est possible d'ajouter ou de supprimer des membres dans une famille 
+d'icones. Tous les membres sont accessibles depuis un menu situé dans le 
+haut de la fenêtre. Si un membre est représenté en italiques dans ce menu, 
+cela signifie qu'il n'est pas présent dans la famille: cliquer sur cet 
+article de menu pour en créer un. Pour supprimer un membre, utiliser le 
+bouton <I>Remove</I>.<P>L'éditeur icns définit aussi les commandes <I>Import</I> et <I>Export</I>
+du menu <I>File</I>:
+<UL>
+	<LI> la commande <I>Import</I> permet d'importer une famille d'icones 
+depuis un fichier ayant l'extension <I>.icns</I> dans une ressource icns 
+nouvellement créée (mais pas dans une ressource déjà existante)<P>	<LI> la commande <I>Export</I> permet d'exporter la ressource 'icns' en cours 
+d'édition dans un fichier ayant l'extension <I>.icns</I>.
+</UL><P><A NAME="imgeditor"></A>
 
 
 </BODY>

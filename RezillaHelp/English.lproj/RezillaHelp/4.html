@@ -29,11 +29,12 @@ easily install additional templates (see the <I>Template Editor</I>
 section below). Hexadecimal editing is always available: the binary data of
 the resource are edited in an hexadecimal editor window: this is a sort of
 low-level editing mode which lets you access and modify any byte of the
-resource (see the <I>Hexadecimal Editor</I> section below).<P><P> When the <I>Edit</I> command is invoked for a particular resource, Rezilla
-will first look for an interface editor for this resource. If none is
-available, it will then look for a template corresponding to the resource's
-type and invoke the <I>Template Editor</I>. It no template is found, the
-last resort will be to call the <I>Hexadecimal Editor</I>.<P>
+resource (see the <I>Hexadecimal Editor</I> section below).<P><P> When the <I>Edit</I> command is invoked for a particular resource,
+Rezilla will first look for an internal interface editor corresponding to
+the type of this resource: if no such editor is found, then it looks for a
+plugin able to edit it (plugins have been introduced in version 1.1 of
+Rezilla). If none is available, it will then look for a template
+corresponding to the resource's type and invoke the <I>Template Editor</I>. It no template is found, the last resort will be to call the <I>Hexadecimal Editor</I>.<P>
 
 </BODY>
 </HTML>

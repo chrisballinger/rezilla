@@ -1,33 +1,28 @@
 <HTML>
 <HEAD>
-<TITLE>Version History</TITLE>
+<TITLE>Exporting resource mapsThe export command corresponds to the Export menu item in </TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="59.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="61.html">Next</A><HR><P>&nbsp;</P>
-<H2>Version History</H2>
-This project has been installed on SourceForge in June 2003: it is a work
-in progress, not all features are available yet. See the file 
-<I>Changes_Rezilla</I> for technical details concerning the development cycle.
+<H3>Exporting resource maps</H3><P>The <B>export</B> command corresponds to the <I>Export</I> menu item in 
+Rezilla's File menu. It lets you generate an export of a resource map in 
+various formats. This command accepts two parameters:
 <UL>
-	<LI> 2004-05-07 - 1.0.1a - First public alpha release. Basic features.
-	<LI> 2004-05-24 - 1.0.2a - Second public alpha release. Preferences.
-	<LI> 2004-06-09 - 1.0.3a - Third public alpha release. Resizable windows.
-Style preferences.
-	<LI> 2004-11-22 - 1.0.4a - Fourth public alpha release. Templates 
-editor. 'Text' resources editor. New preferences.
-	<LI> 2005-02-28 - 1.0.5b - First public beta release. Bitmpap editor, 
-Unicode editor, Aete editor, Pict viewer, Sound player, new preferences, 
-new templates.
-	<LI> 2005-06-16 - 1.0.6b - Second public beta release. Menu editor. Full 
-AppleScript support. New template tags for flag menus.
-	<LI> 2005-09-16 - 1.0.7 - First public final release. Added a string list
-editor, project files for XCode 1.5 and 2.1 and minor fixes.
-	<LI> 2006-02-10 - 1.0.8 - Additional format for RECT tags. Minor user
-experience improvements (read-only media, hex values format). Bug fixes.
-</UL><P>
+	<LI> the <I>in</I> parameter lets you specify the folder in which you want 
+to create the export file. This parameter is required.
+	<LI> the <I>with properties</I> parameter lets you specify the name of the
+export file and the export format. Its value is a record using the <I>name</I> 
+and <I>format</I> keywords. The possible values for the format are
+<I>xml</I>, <I>html</I>, <I>text</I> and <I>DeRez</I> (default is <I>xml</I>). If no name is provided, Rezilla will use a default name. This
+parameter is optional.
+</UL>
+For instance:
+<PRE>
+	export map document 1 in "HD:foo:bar:" as alias ¬
+		with properties {name:"exportedMap.xml", format:xml}<P></PRE><P>
 
 </BODY>
 </HTML>

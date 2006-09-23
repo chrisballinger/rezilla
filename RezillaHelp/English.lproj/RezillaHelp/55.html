@@ -1,74 +1,57 @@
 <HTML>
 <HEAD>
-<TITLE>Inspector windowThe inspector window is always present in Rezilla (it may be hidden but </TITLE>
+<TITLE>Basic objects and propertiesThe top container of all Rezilla's objects is the application itself. </TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="54.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="56.html">Next</A><HR><P>&nbsp;</P>
-<H3>Inspector window</H3><P>The inspector window is always present in Rezilla (it may be hidden but 
-still it is there lurking in the background). To display information about 
-a particular resource, one can use the <B>inspect</B> command like this:
+<H3>Basic objects and properties</H3><P>The top container of all Rezilla's objects is the application itself. 
+Rezilla also defines basic document and window classes which all the more 
+specific documents (editor documents for instance) and windows (map 
+windows for instance) inherit from.<P>This section describes the properties of the <I>application</I>, 
+<I>document</I> and <I>window</I> classes.<P><H4>Application properties</H4><P>The application itself can provide some information. It has a version property 
+which returns a string describing the version number. For instance:
 <PRE>
-	inspect resource {"MENU", 128} of map 1<P></PRE>
-This brings the Inspector window with all the information relative to the 
-specified resource. Each field of the inspector window can be accessed 
-using the properties of the inspector:
+	get the version<P></PRE><P>The inspector window is also a property of the application but it can be
+considered as an object of its own. Its properties are 
+explained in the <I>Inspector window</I> section below.<P><H4>Document properties</H4><P>There are a few properties inherited by all the document classes 
+(map documents, editor documents). Rezilla defines the following common 
+properties:
 <UL>
-	<LI> <I>ID field</I>: the value of the 'ID' field<P>	<LI> <I>name field</I>: the value of the 'Name' field<P>	<LI> <I>system heap</I>: the value of the 'System Heap' checkbox<P>	<LI> <I>purgeable</I>: the value of the 'Purgeable' checkbox<P>	<LI> <I>locked</I>: the value of the 'Locked' checkbox<P>	<LI> <I>preload</I>: the value of the 'Preload' checkbox<P>	<LI> <I>protected</I>: the value of the 'Protected' checkbox<P>	<LI> <I>current resource</I>: the resource for which info is currently displayed<P></UL>
+	<LI> <I>name</I>: the title of the document<P>	<LI> <I>modified</I>: a boolean value indicating whether the document has
+been modified since the last save
+</UL><P>Here is a sample script retrieving these properties for two different 
+kinds of documents:
 <PRE>
-	set a to the ID field of the inspector
-	set b to the name field of the inspector
-	set c to the system heap of the inspector
-	set d to the purgeable of the inspector
-	set e to the locked of the inspector
-	set f to the preload of the inspector
-	set g to the protected of the inspector
+	set theDoc to map document 1
+	set a to the name of theDoc
+	set b to the modified of theDoc
+	edit resource {"TEXT", 128} of theDoc
+	set theEditor to editor 1 of theDoc
+	set c to the name of theEditor
+	set d to the modified of theEditor
 	
-	(a, b, c, d, e, f, g)<P></PRE><P>The ID and name fields, as well as all the checkboxes, can be modified using 
-the <B>set data</B> command. For instance:
+	{a, b, c, d}<P></PRE><P>These are read only properties. They cannot be modified with
+the <B>set</B> command.<P><H4>Window properties</H4><P>All Rezilla windows (map windows, editor windows, inspector window, etc.)
+share a set of common properties:
+<UL>
+	<LI> <I>name</I>: the title of the window<P>	<LI> <I>index</I>: the number of the window<P>	<LI> <I>bounds</I>: the boundary rectangle for the window<P>	<LI> <I>closeable</I>: does the window have a close box?<P>	<LI> <I>titled</I>: does the window have a title bar?<P>	<LI> <I>floating</I>: does the window float?<P>	<LI> <I>modal</I>: is the window modal?<P>	<LI> <I>resizable</I>: is the window resizable?<P>	<LI> <I>zoomable</I>: is the window zoomable?<P>	<LI> <I>zoomed</I>: is the window zoomed?<P>	<LI> <I>visible</I>: is the window visible?<P>	<LI> <I>position</I>: upper left coordinates of the window<P></UL><P>Here is a sample code illustrating these properties:
 <PRE>
-	set the name field of inspector to "Viva Rezilla!!!"
-	set the ID field of inspector to 130
-	set the system heap of inspector to false
-	set the purgeable of inspector to true
-	set the locked of inspector to true
-	set the preload of inspector to false
-	set the protected of inspector to true<P></PRE><P>The <I>current resource</I> property gives a reference to the resource 
-currently inspected so that one can write instructions like:
-<PRE>
-	get the hex data of the current resource of the inspector
-</PRE><P>The actual properties of the resource should not be confused with what is
-displayed in the inspector window. If you make modifications in the
-inspector, they will be validated in the resource only when the <I>Apply</I> 
-button is pressed. To do this in AppleScript, use the <B>save</B> 
-command, like this:
-<PRE>
-	save the inspector
-</PRE>
-On the contrary, if you've made changes in the inspector but do not 
-want to keep them, use the <B>revert</B> command to go back to the last 
-saved modifications, like this:
-<PRE>
-	revert the inspector
-</PRE><P>To hide the inspector window, use the <B>close</B> command:
-<PRE>
-	close the inspector
-</PRE>
-Equivalently, one can hide the inspector with the following commands:
-<PRE>
-	close inspector window 1
-</PRE>
-or
-<PRE>
-	set the visible of the inspector to false
-</PRE>
-To make the inspector visible, either use the <B>inspect</B> command as explained 
-above or execute this:
-<PRE>
-	set the visible of the inspector to true
-</PRE><P>
+	set win2 to the second window
+	set a to the name of win2
+	set b to the bounds of win2
+	set c to the position of win2
+	set d to the visible of win2
+	set e to the closeable of win2
+	set f to the titled of win2
+	set g to the resizable of win2
+	set h to the zoomed of win2
+	
+	(a, b, c, d, e, f, g, h)<P></PRE><P>The <I>name</I>, <I>bounds</I>, <I>zoomed</I>, <I>visible</I>, and 
+<I>position</I> properties can be modified using the <B>set</B> command. 
+The others are read only properties. <P>
 
 </BODY>
 </HTML>

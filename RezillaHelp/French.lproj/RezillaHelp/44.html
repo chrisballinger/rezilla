@@ -1,29 +1,69 @@
 <HTML>
 <HEAD>
-<TITLE>Support AppleScriptUn support complet de scriptabilité dans le langage AppleScript a été</TITLE>
+<TITLE>Un exemple simple</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="43.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="45.html">Suiv</A><HR><P>&nbsp;</P>
-<H2>Support AppleScript</H2><P>Un support complet de scriptabilité dans le langage AppleScript a été
-introduit dans <B>Rezilla</B> à partir de la version 1.0.5b. AppleScript
-est le langage de scripts d'Apple pour l'automatisation des opérations et
-le contrôle externe des applications. <B>Rezilla</B> définit un ensemble
-de commandes et de classes afin de manipuler facilement les fichiers de
-ressources: elles permettent de simuler la plupart des actions définies par
-l'application, c'est-à-dire des commandes disponibles dans les divers
-menus.<P>Toutes les commandes expliquées dans ce tutoriel doivent être adressées à
-l'application au moyen des instructions <I>tell</I> habituelles, comme par
-exemple:
+<H3>Un exemple simple</H3>
+Prenons un exemple. Une ressource 'FREF' est un type standard de ressource
+utilisé par le Finder pour associer une icone à un certain type de fichier.
+Elle est constituée de trois éléments qui sont un type, une valeur décimale
+correspondant au numéro ID d'une icone et une chaîne indiquant un nom pour
+le fichier. Le type occupe quatre octets et est décrit par la balise TNAM
+(TNAM signifie <I>type's name</I>). Le numéro ID de l'icone est un entier
+qui occupe deux octets et est décrit par la balise DWRD (DWRD signifie <I>decimal word</I>). Le nom de fichier est représenté par une chaîne de
+Pascal (qui stocke en mémoire la longueur de la chaîne sur un octet suivi
+de la chaîne elle-même): il est décrit par la balise PSTR (PSTR signifie <I>Pascal string</I>). Le gabarit pour une ressource FREF peut donc être
+décrit schématiquement comme ceci :
 <PRE>
-	tell application "Rezilla"
-		-- ici viennent les commandes...
-	end tell
-</PRE><P>Dans la suite de ce document, nous ne répéterons pas à chaque exemple, pour
-des raisons de lisibilité, le bloc <I>tell</I> complet mais il est
-toujours implicite.<P>
+	File type       TNAM
+	Icon local ID   DWRD
+	File name       PSTR
+</PRE>
+La première colonne représente les étiquettes expliquant le genre de
+données attendu, la seconde colonne contient les balises décrivant le type
+des données attendues. Les étiquettes sont simplement descriptives : ce
+sont les chaînes que l'on peut voir dans l'éditeur de gabarits devant les
+différents champs, boîtes à cocher etc. L'information la plus importante  est
+fournie par les balises car elles identifient précisément le type des données et
+leur taille.<P>Compte-tenu de ce gabarit, lorsque l'éditeur de gabarits ouvre une ressource FREF, 
+il la lit de gauche à droite comme ceci :
+<UL>
+	<LI> il prend les quatre premiers octets car il attend une balise TNAM qui 
+occupe toujours quatre octets en mémoire;
+	<LI> il prend ensuite les deux octets suivants et les interprète comme la valeur 
+décimale de l'identificateur numérique d'une icone;
+	<LI> enfin les données restantes devraient être une chaîne de Pascal: le
+premier octet est la longueur de la chaîne, et la chaîne elle-même suit. Si
+l'octet de longueur est un nombre <I>n</I>, il devra y avoir exactement
+<I>n</I> octets à la suite à moins que la ressource ne soit corrompue.
+</UL><P>Par exemple, les données hypothétiques suivantes (représentées ici en notation
+hexadécimale)
+<PRE>
+	4150504c0080094e6176696761746f72
+</PRE>
+se décomposent de la manière suivante
+<UL>
+	<LI> 4150504c, où les nombres hexadécimaux 41 50 50 et 4c sont les codes
+des letters A, P, P, et L. Le type du fichier est ainsi APPL.
+	<LI> 0080 qui est la représentation hexadécimale du nombre 128.
+L'identificateur numérique de l'icone est donc 128.
+	<LI> 094e6176696761746f72 indique une chaîne de 9 caractères (premier
+octet 09). En effet 4e6176696761746f72 est la représentation hexadécimale
+des codes des 9 lettres du mot <I>Navigator</I>.
+</UL><P>Voici comment l'éditeur de gabarits affichera la ressource:
+<P><IMG SRC="../../Images/rzil_FREF_Template.gif" ALT="Une ressource FREF" ALIGN=bottom></P><P>Tout ceci peut être vérifié également dans les deux panneaux de l'éditeur hexadécimal. 
+Pour chaque type de balise, l'éditeur de gabarits de Rezilla sait comment
+afficher les données qu'il lit dans la ressource. Il y a de nombreuses
+balises qui permettent de décrire une grande variété de données. Des
+gabarits plus sophistiqués auront recours à des listes, des sections
+contrôlées par des valeurs-clés, des valeurs calculées dynamiquement etc.
+Toutes les balises disponibles avec Rezilla sont décrites dans la
+section <I>Balises de gabarit</I> ci-dessous.<P><A NAME="tmpledit"></A>
+
 
 </BODY>
 </HTML>

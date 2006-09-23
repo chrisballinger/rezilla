@@ -1,37 +1,27 @@
 <HTML>
 <HEAD>
-<TITLE>Creating a new resource mapOne can create a new empty resource map with the make command. This </TITLE>
+<TITLE>AppleScript supportA complete AppleScript support has been introduced in Rezilla starting </TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="46.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="48.html">Next</A><HR><P>&nbsp;</P>
-<H3>Creating a new resource map</H3><P>One can create a new empty resource map with the <B>make</B> command. This 
-command accepts three parameters. The first two are required, the other is
-optional:
-<UL>
-	<LI> the parameter <I>new</I> indicates the class of the object to create 
-(<I>map</I> or <I>map document</I>)
-	<LI> the parameter <I>in</I> is used to designate the folder containing the 
-new resource file
-	<LI> the parameter <I>with properties</I> is used to specify some 
-additional properties. It is a list containing key:value pairs (a record 
-in AppleScript parlance). The keys can be any of <I>name</I>, <I>fork</I>
-and <I>readOnly</I>. This parameter is optional.
-</UL><P>Here is a complete example:
+<H2>AppleScript support</H2><P>A complete AppleScript support has been introduced in <B>Rezilla</B> starting 
+from version 1.0.5b. AppleScript is Apple's scripting language for 
+automating operations and controlling other applications. <B>Rezilla</B> 
+defines a set of commands and classes which make it easy to automatically
+manipulate the resource documents: they let you simulate almost all the
+actions defined by the application, that is to say all the commands defined
+in the various menus.<P>All the commands explained in this tutorial have to be addressed to the 
+application using the usual <I>tell</I> statements, like for instance:
 <PRE>
-	-- ask the Finder to make the folder object
-	tell application "Finder"
-		set theFolder to folder "HD:foo:bar:" as alias
+	tell application "Rezilla"
+		-- here come the commands...
 	end tell
-	-- create the new map document in this folder
-	make new map document in theFolder with properties ¬
-		{name:"newmap.rsrc",fork:data fork,readOnly:true}<P></PRE>
-Note that the folder containing the new map document must be declared in a
-<I>tell</I> block addressed to the Finder rather than to Rezilla. This is
-because the word <I>folder</I> belongs to the Finder's terminology and not
-to Rezilla's.<P>
+</PRE><P>In the remaining of this document, we will not repeat in each example the 
+complete <I>tell</I> block for the sake of legibility but it is always 
+implied.<P>
 
 </BODY>
 </HTML>

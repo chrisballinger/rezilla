@@ -1,33 +1,55 @@
 <HTML>
 <HEAD>
-<TITLE>Préférences </TITLE>
+<TITLE>Editeurs Externes (Plugins)Depuis la version 1.1, Rezilla a mis en place un support pour l'addition</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="30.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="32.html">Suiv</A><HR><P>&nbsp;</P>
-<H2>Préférences </H2>
-Rezilla permet de fixer diverses préférences. On accède aux préférences au 
-moyen de la commande <I>Préférences</I> dans le menu de l'application
-(menu <I>Rezilla</I>) ou au moyen du raccourci clavier <I>Command-,</I> (taper la 
-touche virgule en maintenant la touche commande enfoncée). Un dialogue
-multipage s'affiche alors. Il comporte plusieurs panneaux dont le contenu 
-est détaillé dans les sections suivantes:
+<H2>Editeurs Externes (Plugins)</H2><P>Depuis la version 1.1, Rezilla a mis en place un support pour l'addition
+d'éditeurs externes appelés <I>plugins</I>. Un plugin est une sorte
+d'extension qui apporte de nouvelles capacités d'édition à Rezilla. Par
+exemple, il pourrait y avoir un plugin définissant une belle interface
+graphique pour les ressources 'WIND' permettant de les visualiser et de les
+manipuler aisément: Rezilla possède déjà un gabarit pour éditer les
+ressources 'WIND' mais un plugin permettrait d'introduire une interface
+graphique. Rezilla fournit un kit de développement (SDK, Software
+Development Kit) pour permettre à des développeurs ou des éditeurs de 
+logiciels d'écrire ce type de plugins.<P><P> Un plugin peut supporter plusieurs types de ressources. La version 
+1.1 de
+Rezilla comporte un plugin permettant d'afficher et de manipuler des 
+ressources d'image. Il supporte les formats d'images suivants:
+<BLOCKQUOTE><P><I> JPEG, TIFF, GIF, PNG, BMP.
+</I></P></BLOCKQUOTE><P><P> Un plugin peut être ajouté ou supprimé. On peut contrôler la liste des plugins 
+très facilement depuis le Finder comme le montre l'image suivante:
+<P><IMG SRC="../../Images/rzil_pluginsfinder.gif " ALT="Editing plugins from the Finder" ALIGN=bottom></P>
 <UL>
-	<LI> le panneau <I>General</I>
-	<LI> le panneau <I>Export</I>
-	<LI> le panneau <I>Compare</I>
-	<LI> le panneau <I>Interface</I>
-	<LI> le panneau <I>Templates</I>
-	<LI> le panneau <I>Editors</I>
-	<LI> le panneau <I>Misc</I>
-</UL><P><P><IMG SRC="../../Images/rzil_preferences.gif" ALT="Fenêtre de préférences" ALIGN=bottom></P>
-<P> Les préférences sont sauvegardées sur disque dans le fichier de
-préférences de l'utilisateur uniquement lorsque l'on quitte l'application. Elles
-sont stockées dans un fichier nommé <I>net.sourceforge.rezilla.plist</I> situé
-dans le dossier de préférences de l'utilisateur.<P><A NAME="generalpanel"></A>
-
+	<LI> sélectionner Rezilla dans le Finder<P>	<LI> sélectionner la commande <I>Lire les informations</I> dans le menu 
+<I>Fichier</I> (ou presser commande-I)<P>	<LI> dans la fenêtre d'informations, il y a une section appelée <I>Modules externes</I> que l'on peut ouvrir afin d'afficher la liste des 
+plugins actuellement inclus dans Rezilla<P>	<LI> les boutons <I>Ajouter</I> et <I>Supprimer</I> situés sous la liste
+permettent respectivement d'installer un nouveau plugin ou de désinstaller
+un plugin existant. Chaque plugin possède une case à cocher: on peut la
+dé-cocher si l'on souhaite désactiver un plugin temporairement plutôt que
+de le supprimer.
+</UL><P><P> Au cours du lancement de Rezilla, l'application examine les plugins
+présents afin de détecter quel(s) type(s) chacun d'eux est susceptible
+d'éditer. Cela signifie que si l'on ajoute ou supprime un plugin,il faut
+quitter Rezilla et le relancer pour que les modifications soient prises en
+compte.<P><P> L'édition d'une ressource au moyen d'un éditeur défini dans un plugin
+se fait automatiquement lorsque l'utilisateur invoque la commande <I>Edit</I>: l'application cherche tout d'abord un éditeur interne correspondant au
+type de la ressource à éditer; si aucun éditeur interne n'est trouvé, elle
+recherche si un plugin convient; si aucun plugin n'est disponible, Rezilla
+tente alors d'appeler l'éditeur de gabarits et, en cas d'échec, l'éditeur
+hexadécimal est invoqué en dernier recours.<P>On peut aussi invoquer directement l'édition par plugin avec la commande 
+<I>Edit with Plugin</I> qui se trouve dans le menu <I>Resources</I>, 
+comme on peut le voir sur l'image ci-dessous:
+la commande fait l'impasse sur la recherche d'un éditeur interne. Un 
+raccourci-clavier équivalent est option-contrôle-commande-E (presser E 
+tout en maintenant les touches option, contrôle et commande enfoncées).
+<P><IMG SRC="../../Images/rzil_resourcemenu.gif" ALT="The Resources menu" ALIGN=bottom></P><P>Les dévelopeurs souhaitant créer un plugin pour Rezilla trouveront les
+informations nécessaires dans la section 
+<I>Écrire un Plugin pour Rezilla</I>.<P>
 
 </BODY>
 </HTML>

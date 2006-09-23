@@ -1,46 +1,43 @@
 <HTML>
 <HEAD>
-<TITLE>Existence of objectsThe exists command lets you verify if an object is known in </TITLE>
+<TITLE>Creating a new resourceOne can create a new empty resource in a map document with the make</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="53.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="55.html">Next</A><HR><P>&nbsp;</P>
-<H3>Existence of objects</H3><P>The <B>exists</B> command lets you verify if an object is known in 
-Rezilla. Here are a few examples:
+<H3>Creating a new resource</H3><P>One can create a new empty resource in a map document with the <B>make</B>
+command. This command accepts four parameters. The first two are required,
+the others are optional:
+<UL>
+	<LI> the parameter <I>new</I> indicates the class of the object to create 
+(<I>resource</I>)
+	<LI> the parameter <I>in</I> is used to specify the map document containing the 
+new resource
+	<LI> the parameter <I>with properties</I> is used to specify some 
+additional properties. It is a record containing key/value pairs. The keys
+can be any of <I>ID</I>, <I>type</I>, <I>name</I>, <I>attributes</I>,
+<I>locked</I>, <I>preload</I>, <I>protected</I>, <I>purgeable</I>, and
+<I>sysHeap</I>. This parameter is optional.
+	<LI> the parameter <I>with data</I> is used to specify the contents of 
+the resource. It is optional. If it is not present, the resource is 
+created with empty data.
+</UL><P>If no ID is specified, Rezilla will attribute an unique ID. If the ID is
+specified and if there is already a resource with this ID, the creation of
+the new resource will fail: Rezilla preserves already existing resources.
+If no type is specified, Rezilla will create a TEXT resource by default.<P>Here is a complete example:
 <PRE>
-	first window exists
-	exists second window
-	exists third window
-	exists map of document 1
-	
-	set theMap to map 1
-	exists theMap
-	exists type "TEXT" of theMap
-	exists type "XYZT" of theMap
-	
-	set theType to type "TEXT" of map 1
-	exists resource id 128 of theType
-	exists resource "Vivat" of theType
-	exists resource id 128 of type "MENU" of map 1
-	exists resource {"MENU", 128} of map document 1
-	
-	exists hexadecimal editor 1
-	exists template editor 1
-	exists interface editor 1
-	
-	exists editing window 1
-	exists hexadecimal window 1
-	exists template window 1
-	exists interface window 1
-	
-	exists window of document 1
-	exists editor 1 of document 1
-	exists second editor of document 1
-	exists window of first editor of document 1
-	
-	exists inspector<P></PRE><P>
+	set theDoc to map document 1
+	-- create an empty 'MENU' resource
+	make new resource in theDoc with properties {type:"MENU"}
+	-- create an 'ALRT' resource with ID 128
+	make new resource in theDoc with properties ¬
+		{ID:128, type:"ALRT", name:"An alert", protected:true} ¬
+		with data "001400140087016800805555300a"
+	-- create a 'TEXT' resource with the specified string 
+	-- ('TEXT' is the default when no type is specified)
+	make new resource in theDoc with data "Hello Rezilla"<P></PRE><P>
 
 </BODY>
 </HTML>

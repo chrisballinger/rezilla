@@ -1,52 +1,35 @@
 <HTML>
 <HEAD>
-<TITLE>Comparer des tables de ressourcesOn peut effectuer une comparison entre deux tables de ressources (désignées</TITLE>
+<TITLE>Dénombrement des objets</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="55.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="57.html">Suiv</A><HR><P>&nbsp;</P>
-<H3>Comparer des tables de ressources</H3><P>On peut effectuer une comparison entre deux tables de ressources (désignées
-respectivement, dans ce qui suit, comme l'ancienne et la nouvelle) grâce à
-la commande <B>compare</B>. Il faut spécifier en argument les deux
-fichiers contenant les tables à comparer. La commande accepte trois
-paramètres booléens optionnels permettant de spécifier les critères de
-comparison :
-<UL>
-	<LI> si le paramètre <I>ignoreName</I> a la valeur <I>vrai</I>, les
-différences relatives au nom des ressources seront ignorées
-	<LI> si le paramètre <I>ignoreAttrs</I> a la valeur <I>vrai</I>, les
-différences relatives aux attributs des ressources seront ignorées
-	<LI> si le paramètre <I>ignoreData</I> a la valeur <I>vrai</I>, les
-différences relatives au contenu des ressources seront ignorées
-</UL>
-Le comportement par défaut consiste à iGNorer les différences relatives au 
-nom et aux attributs.<P>Cette commande renvoie un objet de comparison dont les propriétés indiquent
-quelles ressources diffèrent ou sont identiques entre les tables de
-ressources. On peut obtenir les propriétés suivantes à partir du résultat:
-<UL>
-	<LI> <I>old only resources</I>: liste des ressources qui sont seulement 
-dans l'ancienne table<P>	<LI> <I>new only resources</I>: liste des ressources qui sont seulement 
-dans la nouvelle table<P>	<LI> <I>differing resources</I>: liste des ressources qui existent dans les
-deux tables et sont différentes<P>	<LI> <I>identical resources</I>: liste des ressources qui existent dans les
-deux tables et sont identiques<P>	<LI> <I>criteria</I>: les critères qui ont été appliqués pour effectuer la
-comparison, présentés sous forme d'une liste d'éléments de type clé:valeur 
-(par exemple <I>ignoreName:true</I>)<P>	<LI> <I>ignoreName</I>: les différences relatives au nom ont-elles été 
-ignorées ?<P>	<LI> <I>ignoreAttrs</I>: les différences relatives aux attributs ont-elles été 
-ignorées ?<P>	<LI> <I>ignoreData</I>: les différences relatives au contenu ont-elles été 
-ignorées ?<P></UL><P>Voici un exemple complet:
+<H3>Dénombrement des objets</H3>
+La commande <B>count</B> peut être utilisée pour dénombrer plusieurs
+sortes d'objets. Voici quelques exemples concernant les fenêtres et les
+documents:
 <PRE>
-	set theComp to compare "HD:foo:bar:file1" as alias ¬
-		and "HD:foo:bar:file2" as alias ¬
-		with ignoreName without ignoreAttrs
-	-- get information out of the result
-	get the old only resources of theComp
-	get the new only resources of theComp
-	get the differing resources of theComp
-	get the identical resources of theComp
-	-- get the criteria
-	get the criteria of theComp<P></PRE><P>
+	-- windows count
+	set a to count windows
+	set b to count map windows
+	set c to count editing windows
+	set d to count hexadecimal windows
+	set e to count template windows
+	set f to count interface windows
+	-- documents count
+	set g to count documents
+	set h to count map documents
+	set i to count editors
+	set j to count hexadecimal editors
+	set k to count template editors
+	set l to count interface editors<P>	{a, b, c, d, e, f, g, h, i, j, k , l}<P></PRE><P>On peut aussi dénombrer les tables, les types et les ressources. Par exemple:
+<PRE>
+	set a to count maps
+	set b to count types of map 1
+	set c to count resources of type "TEXT" of map 1<P>	{a, b, c}<P></PRE><P>
 
 </BODY>
 </HTML>

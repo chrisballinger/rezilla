@@ -17,29 +17,38 @@ alors créée ne contenant aucune donnée. Noter que cette ressource est créée
 en mémoire et qu'il faudra sauvegarder le fichier pour la rendre
 définitive.</DL><P><DT><B>Edit</B><DL><DT>
 Appelle un éditeur pour la ou les ressources sélectionnées dans la table de
-ressources courante. Si Rezilla ne trouve aucun éditeur dédié, il cherche
-si un gabarit est disponible afin d'invoquer l'éditeur de gabarits. En cas
-d'échec, il appelle l'éditeur hexadécimal. C'est équivalent à
-double-cliquer sur les ressources dans la table.</DL><P><DT><B>Template Editor</B><DL><DT>
+ressources courante. Si Rezilla ne trouve aucun éditeur interne dédié pour
+une ressource particulière, il cherche un plugin capable de l'éditer (les
+plugins ont été introduits dans la version 1.1 de Rezilla). Si aucun ne
+convient,Rezilla cherche alors si un gabarit est disponible afin d'invoquer
+l'éditeur de gabarits. En cas d'échec, il appelle l'éditeur hexadécimal.
+Cette commande équivaut à double-cliquer sur les ressources dans la table.</DL><P><DT><B>Template Editor</B><DL><DT>
 Appelle l'éditeur de gabarits pour la ou les ressources sélectionnées dans
 la table de ressources courante. Si Rezilla ne trouve aucun gabarit, il
-appelle l'éditeur hexadécimal. C'est équivalent à double-cliquer sur les
-ressources dans la table avec la touche Majuscule enfoncée.</DL><P><DT><B>Hexadecimal Editor</B><DL><DT>
+appelle l'éditeur hexadécimal. Cette commande équivaut à double-cliquer sur
+les ressources dans la table avec la touche Majuscule enfoncée.</DL><P><DT><B>Hexadecimal Editor</B><DL><DT>
 Appelle l'éditeur hexadécimal pour la ou les ressources sélectionnées dans
-la table de ressources courante. C'est équivalent à double-cliquer sur les
-ressources dans la table avec la touche Option enfoncée.</DL><P><DT><B>Edit as Type...</B><DL><DT>
+la table de ressources courante. Cette commande équivaut à double-cliquer
+sur les ressources dans la table avec la touche Option enfoncée.</DL><P><DT><B>Edit as Type...</B><DL><DT>
 Force Rezilla à utiliser un type de remplaceement. Dans le dialogue
 affiché, on peut spécifier le type soit à partir d'un menu, soit en le
-tapant directement dans le champ de saisie.</DL><P><DT><B>Remove</B><DL><DT>
+tapant directement dans le champ de saisie.</DL><P><DT><B>Edit with Plugin...</B><DL><DT>
+Force Rezilla à éditer une ressource en utilisant un éditeur externe 
+défini sous forme de plugin s'il en existe un qui convient. Cette 
+copmmande est équivalent au raccourci-clavier option-contrôle-commande-E.</DL><P><DT><B>Remove</B><DL><DT>
 Supprime toutes les ressources sélectionnées de la table de ressources.</DL>
 touche Option enfoncée.</DL><P><DT><B>Duplicate</B><DL><DT>
 Duplique la ou les ressources sélectionnées dans la table de ressources.
 Cette commande attribue un numéro unique d'identification (ID) aux
 ressources dupliquées. On peut modifer ces valeurs par la suite dans
-la fenêtre <I>Inspecteur</I>.</DL><P><DT><B>Get Info</B><DL><DT>
+la fenêtre <I>Inspecteur</I>. L'algorithme calculant un identificateur 
+unique renvoie la première valeur disponible au-dessus de la valeur 
+courante.</DL><P><DT><B>Get Info</B><DL><DT>
 Appelle la fenêtre <I>Inspecteur</I> pour le première ressource
 sélectionnée dans la table de ressources courante. C'est équivalent à
-cliquer sur une ressource dans une table de ressources en maintenant la<P></DL>
+cliquer sur une ressource dans une table de ressources en maintenant la
+touche <I>Option</I> enfoncée.</DL>
+</DL>
 </UL><P>
 
 </BODY>

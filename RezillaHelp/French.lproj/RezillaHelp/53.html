@@ -1,35 +1,45 @@
 <HTML>
 <HEAD>
-<TITLE>Dénombrement des objets</TITLE>
+<TITLE>Modifications dans la fenêtre hexadécimaleLes fenêtres hexadécimales associées à l'éditeur hexadécimal possèdent </TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="52.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="54.html">Suiv</A><HR><P>&nbsp;</P>
-<H3>Dénombrement des objets</H3>
-La commande <B>count</B> peut être utilisée pour dénombrer plusieurs
-sortes d'objets. Voici quelques exemples concernant les fenêtres et les
-documents:
+<H3>Modifications dans la fenêtre hexadécimale</H3><P>Les fenêtres hexadécimales associées à l'éditeur hexadécimal possèdent 
+quelques propriétés qui peuvent servir à modifier le contenu d'une 
+ressource directement dans les panneaux de ces fenêtres. Les propriétés 
+sont les suivantes:
+<UL>
+	<LI> <I>maxPos</I>: indice de la dernière position (i-e la position après 
+le dernier caractère)<P>	<LI> <I>startPos</I>: position du début de la sélection<P>	<LI> <I>endPos</I>: position de la fin de la selection<P>	<LI> <I>hex selection</I>: contenu de la région sélectionnée dans le 
+panneau hexadécimal<P>	<LI> <I>text selection</I>: contenu de la région sélectionnée dans le 
+panneau texte<P></UL><P>Voici un exemple de script pour récupérer ces propriétés:
 <PRE>
-	-- windows count
-	set a to count windows
-	set b to count map windows
-	set c to count editing windows
-	set d to count hexadecimal windows
-	set e to count template windows
-	set f to count interface windows
-	-- documents count
-	set g to count documents
-	set h to count map documents
-	set i to count editors
-	set j to count hexadecimal editors
-	set k to count template editors
-	set l to count interface editors<P>	{a, b, c, d, e, f, g, h, i, j, k , l}<P></PRE><P>On peut aussi dénombrer les tables, les types et les ressources. Par exemple:
+edit resource {"TEXT",128} of map document 1 using hexadecimal
+set theWin to hexadecimal window 1 of map document 1
+set a to the startPos of theWin
+set b to the endPos of theWin
+set c to the maxPos of theWin
+set d to the hex selection of theWin
+set e to the text selection of theWin
+{a, b, c, d, e}<P></PRE><P>La propriété <I>maxPos</I> est en lecture seule. Toutes les autres 
+propriétés peuvent être modifiées au moyen de la commande <B>set</B>.
+Voici un court exemple:
 <PRE>
-	set a to count maps
-	set b to count types of map 1
-	set c to count resources of type "TEXT" of map 1<P>	{a, b, c}<P></PRE><P>
+set theWin to hexadecimal window 1 of map document 1
+set the startPos of win to 6
+set the endPos of win to 9
+set the hex selection of win to "52657a696c6c61"<P></PRE><P>Dans cet exemple, les octets situés entre les positions spécifées
+seront remplacés par les octets correspondant à la chaîne hexadécimale.
+On aurait pu, de manière analogue, effectuer le remplacement dans le panneau 
+texte au moyen d'une instruction comme ceci:
+<PRE>
+	set the text selection of theWin to "Rezilla"
+</PRE>
+Pour simplement supprimer des octets, il suffit de spécifier une chaîne
+vide.<P>
 
 </BODY>
 </HTML>

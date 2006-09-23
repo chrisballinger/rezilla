@@ -1,48 +1,28 @@
 <HTML>
 <HEAD>
-<TITLE>Editing a resource</TITLE>
+<TITLE>Saving a resource mapModifications made in a resource map document can be saved directly </TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="48.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="50.html">Next</A><HR><P>&nbsp;</P>
-<H3>Editing a resource</H3>
-Editing a resource with a particular editor can be done using the <B>edit</B> 
-command. This command accepts two optional arguments:
+<H3>Saving a resource map</H3><P>Modifications made in a resource map document can be saved directly 
+using the <B>save</B> command. Two additional parameters are supported:
 <UL>
-	<LI> the <B>like</B> argument lets you specify that the resource should be
-edited like resources of another type than its own type. This is the
-equivalent of the <I>Edit as</I> menu item in Rezilla.
-	<LI> the <B>using</B> argument lets you specify a particular kind of 
-editor. The values can be <I>hexadecimal</I>, <I>template</I> or
-<I>interface</I>. If there is no editor of the required kind, then 
-Rezilla uses its usual fallback mechanism: in last resort, the resource 
-would be edited in the hexadecimal editor.
-</UL><P>Here are a few examples:
+	<LI> the <I>in</I> parameter lets you specify the file in which you want 
+to create the export file. This parameter is optional.
+	<LI> the <I>as</I> parameter lets you specify the fork in which you want
+to save the resource map. The possible values are <I>data fork</I>, <I>resource fork</I>, <I>same fork</I> (the latter only for <I>Save As</I>). This parameter is optional. It is ignored if the <I>in</I> 
+parameter is not specified because, in that case, Rezilla executes a 
+simple <B>save</B> command on the resource map.
+</UL>
 <PRE>
-	edit resource {"MENU", 128} of map 1 using interface<P>	edit resource {"MENU", 128} of map 1 using template<P>	edit resource {"MENU", 128} of map 1 using hexadecimal<P>	edit resource {"aeut", 128} of map 1 as "aete"<P></PRE><P>Other basic actions are <I>duplicating</I> and <I>deleting</I> a resource in the 
-resource map. They can be achieved using the <B>duplicate</B> and 
-<B>delete</B> commands respectively.
+	save document 1 in "HD:foo:bar:otherMap.rsrc" as resource fork<P></PRE><P>It is also possible to discard changes made in a resource map and
+return to the last saved version of the map using the <B>revert</B>
+command. For instance:
 <PRE>
-	duplicate resource {"MENU", 128} of map 1<P>	delete resource {"STR#", 128} of map 1<P></PRE><P>The <B>delete</B> command can also be used to delete all the resources of a 
-certain type simultaneously, like this:
-<PRE>
-delete type "MENU" of map 1<P></PRE><P>Modifications made in an editor can be saved using the <B>save</B> command:
-<PRE>
-	save first editor of map document 1<P></PRE>
-Note that the usual <I>in</I> and <I>as</I> arguments of the <B>save</B>
-command are ignored in that case.<P>An editing document can be closed with the <B>close</B> command, like this:
-<PRE>
-	close first editor of map document 1<P></PRE>
-or, alternatively, by closing the window directly:
-<PRE>
-	set thewin to window of first editor of map document 1
-	close thewin<P></PRE><P>Some editors (but sadly not all) understand the <B>revert</B> command. As
-of version 1.0.6 of Rezilla, this concerns the template editor, the Aete
-editor, and the Menu editor. For instance:
-<PRE>
-revert editor "somefile.rsrc - 'MENU' #128" of document 1<P></PRE><P>
+	revert map document 1<P></PRE><P>
 
 </BODY>
 </HTML>

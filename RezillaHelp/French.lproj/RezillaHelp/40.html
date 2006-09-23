@@ -1,25 +1,27 @@
 <HTML>
 <HEAD>
-<TITLE>Syntaxe des gabaritsCette section explique comment écrire un gabarit pour une ressource</TITLE>
+<TITLE>Panneau Editors</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="39.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="41.html">Suiv</A><HR><P>&nbsp;</P>
-<H2>Syntaxe des gabarits</H2><P>Cette section explique comment écrire un gabarit pour une ressource
-particulière. Les gabarits sont des ressources de type TMPL qui utilisent
-une syntaxe très simple : ils consistent en une liste de paires constituées
-d'une étiquette et d'une balise décrivant le type d'une valeur particulière
-dans la ressource. Un gabarit décrit ainsi, les unes après les autres,
-toutes les valeurs d'une ressource de type donné : pour l'éditer, l'éditeur
-de gabarits lit les données de la ressource séquentiellement et les compare
-avec le gabarit.
-<UL>
-	<LI> <A HREF="#tmplexample">Un exemple simple</A>
-	<LI> <A HREF="#tmpledit">Éditer un gabarit</A>
-	<LI> <A HREF="#tmpltags">Balises de gabarit</A>
-</UL><P><A NAME="tmplexample"></A>
+<H3>Panneau Editors</H3>
+<P> Dans le panneau <I>Editors</I>, on peut spécifier des propriétés 
+concernant certains éditeurs particuliers.<P><H4>Préférences de l'éditeur d'images</H4>
+La préférence <I>Use 8-bit colors</I> est utilisée pour des conversions 
+d'images couleur. Elle force à utiliser une profondeur de couleur de 8 au 
+lieu de 32.<P>La préférence <I>Use Full Color Tables</I> indique d'utiliser des palettes
+de 256 couleurs. Autrement la palette Apple classique avec seulement 32
+couleurs est utilisée.<P><H4>Préférences de l'éditeur Unicode</H4>
+Si la préférence <I>Do Font Substitution</I> est activée, Rezilla
+affichera automatiquement le texte Unicode en se servant des polices de
+caractères appropriées correspondant aux scripts utilisés dans la
+ressource.<P>La préférence <I>Insert Byte Order Mark</I> dit s'il faut inclure la
+marque d'ordre (BOM, de code-point U+FEFF) au début de la ressource. Ce
+symbole Unicode sert souvent à identifier des données Unicode au format
+UTF-16 qui est la forme d'encodage utilisée par Rezilla.<P><A NAME="miscpanel"></A>
 
 
 </BODY>
