@@ -92,6 +92,58 @@ UMiscUtils::HexNumStringToDecimal(ResType * inTypePtr, SInt32 * outNum)
 }
 
 
+// ---------------------------------------------------------------------------
+//   VersionStringFromValue											[static]
+// ---------------------------------------------------------------------------
+// Get a string from a version number in 'vers' resource format
+
+void
+UMiscUtils::VersionStringFromValue(UInt32 inVersion, Str255 & outString)
+{
+	UInt8	ver1, ver2, ver3, ver4, ver5;
+	Str255	tempString;
+	LStr255	theString("\p");
+	
+	ver1 = ((UInt8 *)&inVersion)[0];
+	ver1 = (((ver1 & 0xF0 ) >> 4) * 10) + (ver1 & 0x0F);
+	ver2 = (((UInt8 *)&inVersion)[1] & 0xF0) >> 4;
+	ver3 = (((UInt8 *)&inVersion)[1] & 0x0F);
+	ver4 = ((UInt8 *)&inVersion)[2];
+	ver5 = ((UInt8 *)&inVersion)[3];
+	::NumToString((long) ver1, tempString);
+	theString += tempString ;
+	::NumToString((long) ver2, tempString);
+	theString += "\p." ;
+	theString += tempString ;
+	if (ver3) {
+		::NumToString((long) ver3, tempString);
+		theString += "\p." ;
+		theString += tempString ;
+	}
+	switch (ver4) {
+	  case 0x20:
+		theString += "\pd" ;
+		break;
+		
+	  case 0x40:
+	  theString += "\pa" ;
+		break;
+		
+	  case 0x60:
+	  theString += "\pb" ;
+		break;
+		
+	  default:
+		break;
+	}
+	if (ver5) {
+		::NumToString((long) ver5, tempString);
+		theString += tempString ;
+	}
+	LString::CopyPStr(theString, outString);
+}
+
+
 // ------------------------------------------------------------------------------
 //      HFSNameToUnicodeName										[static]
 // ------------------------------------------------------------------------------

@@ -33,12 +33,14 @@ class UMiscUtils {
 public:
 	static void		PStringToOSType(Str255 inString, OSType & outType);
 	static void		OSTypeToPString(OSType inType, Str255 & outString);
-	static OSErr	HFSNameToUnicodeName(ConstStr31Param hfsName, HFSUniStr255 *unicodeName);
 	static OSErr	GetTypeFromScrap(ResType & outType);
 	static void		PaddTypeIfNecessary(Str255 inTypeStr);
 	static Boolean	SelectType(ResType & outType);
+	
+	static OSErr	HFSNameToUnicodeName(ConstStr31Param hfsName, HFSUniStr255 *unicodeName);
 	static OSErr	MakePath(FSSpec* inFileSpec, Str255 outPath, short inWidth);
 	static Boolean	GetDragFileData(DragReference inDragRef, ItemReference inItemRef, HFSFlavor& fileData);
+
 	static Boolean	IsValidHexadecimal(Handle inHandle);
 	static Boolean	IsValidHexadecimal(Ptr inPtr, ByteCount inByteCount);
 	static Boolean	IsValidHexadecimalAndWhitespace(Handle inHandle);
@@ -47,6 +49,9 @@ public:
 	static Boolean	BuildDateString(UInt32 inTime, Str255 inString);
 	static Boolean	ParseDateString(Str255 inString, SInt32 * outAbsTime);
 	static Boolean	SplitCaseValue(Str255 inString, Str255 ** outRightPtr);
+	static void		HexNumStringToDecimal(ResType * inTypePtr, SInt32 * outNum);
+	static void		VersionStringFromValue(UInt32 inVersion, Str255 & outString);
+
 	static void		CopyFSSpec(FSSpec& srcFileSpec, FSSpec& trgtFileSpec);
 	static void		MetricsFromTraits(ConstTextTraitsPtr inTextTraits);
 	static void		MetricsFromTraits(ResIDT inTraitsID);
@@ -54,13 +59,15 @@ public:
 	static SInt32	FontIndexFromFontNum(LPopupButton * inPopup, SInt16 inFNum);
 	static SInt32	SizeIndexFromSizeValue(LPopupButton * inPopup, SInt16 inSize);
 	static void 	SetTypeAndCreator(FSSpec inFSSpec, OSType inType, OSType inCreator);
-	static void		HexNumStringToDecimal(ResType * inTypePtr, SInt32 * outNum);
+
 	static void		ClearMemory( void *, UInt32 inNumBytes );
 	static void		SetMemory( void *p, UInt8 toWhat, UInt32 numBytes );
 	static Handle	DuplicateHandle( Handle source );
 	static void		DisposeHandle( void *h );
+
 	static Boolean	IsShiftKey();
 	static Boolean	IsOptionKey();
+	
 	static void		GetValueFromXml(CFXMLTreeRef inTreeRef, SInt32 & outValue);
 	static Boolean	GetBooleanFromXml(CFXMLTreeRef inTreeRef);
 	static void		GetStringFromXml(CFXMLTreeRef inTreeRef, Str255 & outString);
