@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2006-02-26 19:16:12
+//             Last modification: 2006-09-25 11:50:34
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -30,6 +30,7 @@
 #include "UDialogBoxHandler.h"
 #include "UMessageDialogs.h"
 #include "UNavigationDialogs.h"
+#include "UMiscUtils.h"
 
 // Custom classes for registration
 #include "CAboutWindow.h"
@@ -229,9 +230,6 @@ CRezillaApp::~CRezillaApp()
 void
 CRezillaApp::Initialize()
 {
-	MenuRef				menuHandle;
-	MenuItemIndex		customItemIndex;
-
 	// Cache our own refnum
 	UResources::GetCurrentResFile(sSelfRefNum);
 	sSelfRezMap = new CRezMap(sSelfRefNum, NULL);
@@ -518,7 +516,7 @@ CRezillaApp::ObeyCommand(
 		}
 		
 		case cmd_Plugins: {
-			CPluginChooser * theChooser = new CPluginChooser();
+			CPluginChooser * theChooser = new CPluginChooser(this);
 			ThrowIfNil_(theChooser);
 			if (theChooser->RunDialog() != noErr) {
 				UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("PluginChooserError"), PPob_SimpleMessage);
@@ -747,56 +745,17 @@ bail:
 // ---------------------------------------------------------------------------
 // Retrieve the version number from the 'vers' resources.
 
-LStr255
-CRezillaApp::VersionFromResource()
+void
+CRezillaApp::VersionFromResource(Str255 & outVersion)
 {
-	UInt32 theVersion;
-	UInt8	ver1, ver2, ver3, ver4, ver5;
-	Str255	tempString;
-	LStr255	theString( "\p" );
-	
 	// Find the version info in the 'vers' resource
 	StResource	versH( 'vers', 1, true, true );
-	if ( versH ) {
-		theVersion = *((UInt32 *)(*((Handle)versH)));
-		ver1 = ((UInt8 *)&theVersion)[0];
-		ver1 = (((ver1 & 0xF0 ) >> 4) * 10) + (ver1 & 0x0F);
-		ver2 = (((UInt8 *)&theVersion)[1] & 0xF0) >> 4;
-		ver3 = (((UInt8 *)&theVersion)[1] & 0x0F);
-		ver4 = ((UInt8 *)&theVersion)[2];
-		ver5 = ((UInt8 *)&theVersion)[3];
-		::NumToString((long) ver1, tempString);
-		theString += tempString ;
-		::NumToString((long) ver2, tempString);
-		theString += "\p." ;
-		theString += tempString ;
-		if (ver3) {
-			::NumToString((long) ver3, tempString);
-			theString += "\p." ;
-			theString += tempString ;
-		}
-		switch (ver4) {
-		  case 0x20:
-			theString += "\pd" ;
-			break;
-			
-		  case 0x40:
-		  theString += "\pa" ;
-			break;
-			
-		  case 0x60:
-		  theString += "\pb" ;
-			break;
-			
-		  default:
-			break;
-		}
-		if (ver5) {
-			::NumToString((long) ver5, tempString);
-			theString += tempString ;
-		}
+	if ( versH && ::GetHandleSize((Handle)versH) >= 4) {
+		UInt32	theVersion = *((UInt32 *)(*((Handle)versH)));		
+		UMiscUtils::VersionStringFromValue(theVersion, outVersion);
+	} else {
+		LString::CopyPStr("\pn/a", outVersion);
 	}
-	return  theString;
 }
 
 

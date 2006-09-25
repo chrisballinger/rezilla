@@ -134,7 +134,7 @@ public:
 	virtual bool		AEPropertyExists(
 								DescType		inProperty) const;
 
-	static LStr255		VersionFromResource();
+	static void			VersionFromResource(Str255 & outVersion);
 	static void			VersionFromPlist(Str255 & outVersion);
 
 	static SInt16		GetSelfRefNum() { return sSelfRefNum;}

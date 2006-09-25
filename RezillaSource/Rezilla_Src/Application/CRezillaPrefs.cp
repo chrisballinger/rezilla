@@ -2,11 +2,11 @@
 // CRezillaPrefs.cp					
 // 
 //                       Created: 2004-05-17 08:52:16
-//             Last modification: 2006-01-30 12:29:33
+//             Last modification: 2006-09-25 06:27:28
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2004-2005, 2006
+// (c) Copyright : Bernard Desgraupes, 2004-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -112,18 +112,6 @@ CRezillaPrefs::Initialize()
 	CRezCompare::SetIgnoreNames(GetPrefValue(kPref_compare_ignoreName));
 	CRezCompare::SetIgnoreAttrs(GetPrefValue(kPref_compare_ignoreAttributes));
 	CRezCompare::SetIgnoreData(GetPrefValue(kPref_compare_ignoreData));
-}
-
-
-// ---------------------------------------------------------------------------
-//   MakePrefsWindow												  [public]
-// ---------------------------------------------------------------------------
-
-void
-CRezillaPrefs::MakePrefsWindow()
-{	
-	sPrefsWindow = (CThreeButtonsBox *) (LWindow::CreateWindow( PPob_PrefsWindow, this ));
-	ThrowIfNil_(sPrefsWindow);
 }
 
 
@@ -1028,34 +1016,34 @@ CRezillaPrefs::RunPrefsDialog()
 	
 	//    Get the elements
 	// -------------------
-	LPageController* thePageCtrl = dynamic_cast<LPageController*>(theDialog->FindPaneByID(item_PrefsPageController));
+	LPageController* thePageCtrl = dynamic_cast<LPageController*>(theDialog->FindPaneByID(item_PageController));
 	ThrowIfNil_(thePageCtrl);
 	
-	LMultiPanelView* theMPV = dynamic_cast<LMultiPanelView*>(theDialog->FindPaneByID(item_PrefsMultiPanelView));
+	LMultiPanelView* theMPV = dynamic_cast<LMultiPanelView*>(theDialog->FindPaneByID(item_MultiPanelView));
 	ThrowIfNil_(theMPV);
 	
 	// Create the panels before we call them
 	theMPV->CreateAllPanels();
 	
-	LView* theGeneralPane = theMPV->GetPanel(mpv_General);
+	LView* theGeneralPane = theMPV->GetPanel(mpv_PrefsGeneral);
 	ThrowIfNil_(theGeneralPane);
 	
-	LView* theInterfacePane = theMPV->GetPanel(mpv_Interface);
+	LView* theInterfacePane = theMPV->GetPanel(mpv_PrefsInterface);
 	ThrowIfNil_(theInterfacePane);
 	
-	LView* theTemplatesPane = theMPV->GetPanel(mpv_Templates);
+	LView* theTemplatesPane = theMPV->GetPanel(mpv_PrefsTemplates);
 	ThrowIfNil_(theTemplatesPane);
 	
-	LView* theEditorsPane = theMPV->GetPanel(mpv_Editors);
+	LView* theEditorsPane = theMPV->GetPanel(mpv_PrefsEditors);
 	ThrowIfNil_(theEditorsPane);
 	
-	LView* theComparePane = theMPV->GetPanel(mpv_Compare);
+	LView* theComparePane = theMPV->GetPanel(mpv_PrefsCompare);
 	ThrowIfNil_(theComparePane);
 	
-	LView* theExportPane = theMPV->GetPanel(mpv_Export);
+	LView* theExportPane = theMPV->GetPanel(mpv_PrefsExport);
 	ThrowIfNil_(theExportPane);
 	
-	LView* theMiscPane = theMPV->GetPanel(mpv_Misc);
+	LView* theMiscPane = theMPV->GetPanel(mpv_PrefsMisc);
 	ThrowIfNil_(theMiscPane);
 	
 	LRadioGroupView * theNewMapRGV = dynamic_cast<LRadioGroupView *>(theGeneralPane->FindPaneByID( item_GenPrefsNewMapRgbx ));

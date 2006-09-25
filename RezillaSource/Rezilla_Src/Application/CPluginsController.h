@@ -2,7 +2,7 @@
 // CPluginsController.h
 // 
 //                       Created: 2005-09-26 09:48:26
-//             Last modification: 2006-02-16 19:48:26
+//             Last modification: 2006-09-25 06:53:56
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://rezilla.sourceforge.net/>
@@ -31,10 +31,7 @@ public:
 										   ResType inUseType);
 
 		static CFMutableDictionaryRef	sPluginsDict;
-		
-protected:
 		static TArray<CRezillaPlugin*>	sPluginsList;
-
 
 private:
 		OSErr			BuildInternalPluginsDictionary();

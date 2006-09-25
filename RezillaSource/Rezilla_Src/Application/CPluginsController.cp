@@ -279,7 +279,7 @@ CPluginsController::ScanPluginsFolder(CFURLRef inPlugInsURL)
 // ---------------------------------------------------------------------------
 //	 AddPluginToDictionary										[private]
 // ---------------------------------------------------------------------------
-// It would have been also possible to retrive all the info about the
+// It would have been also possible to retrieve all the info about the
 // plugins using ::CFBundleCopyInfoDictionaryInDirectory(CFURLRef bundleURL). 
 // It allows to retrieve basic information about a bundle without having to
 // create an instance of CFBundle.

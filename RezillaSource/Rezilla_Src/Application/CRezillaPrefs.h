@@ -2,11 +2,11 @@
 // CRezillaPrefs.h					
 // 
 //                       Created: 2004-05-17 08:52:16
-//             Last modification: 2006-01-30 11:59:23
+//             Last modification: 2006-09-25 06:26:59
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2004-2005, 2006
+// (c) Copyright : Bernard Desgraupes, 2004-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -164,7 +164,7 @@ public:
 protected:
 	
 	virtual void		Initialize();
-	void                MakePrefsWindow();
+
 
 private:
 	void				SetDefaultPreferences();
