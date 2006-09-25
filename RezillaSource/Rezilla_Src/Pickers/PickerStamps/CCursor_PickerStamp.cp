@@ -55,6 +55,8 @@ CCursor_PickerStamp::~CCursor_PickerStamp()
 // ---------------------------------------------------------------------------
 //   StampSize														  [public]
 // ---------------------------------------------------------------------------
+// ImgType_Cursor				= FOUR_CHAR_CODE('CURS'),
+// ImgType_ColorCursor			= FOUR_CHAR_CODE('crsr')
 
 void
 CCursor_PickerStamp::StampSize(ResType inType, SInt16 &outWidth, SInt16 &outHeight)

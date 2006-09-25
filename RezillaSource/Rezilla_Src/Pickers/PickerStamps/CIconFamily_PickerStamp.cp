@@ -102,6 +102,8 @@ CIconFamily_PickerStamp::DrawBuffer(COffscreen * inBuffer, Rect inFrame)
 	StColorPenState		aPenState;	
 	Rect				portRect;
 	GrafPtr				macPort = this->GetMacPort();
+Point	portOrigin;
+mParent->GetOwnerWindow()->GetContentsView()->GetPortOrigin(portOrigin);
 	
 	if ( !macPort ) return;
 
@@ -125,6 +127,19 @@ CIconFamily_PickerStamp::DrawBuffer(COffscreen * inBuffer, Rect inFrame)
 // ---------------------------------------------------------------------------
 //   DrawSelf														  [public]
 // ---------------------------------------------------------------------------
+// 		this->CalcPortFrameRect(frame);
+// 		this->PortToGlobalPoint( topLeft(frame) );
+// 		this->PortToGlobalPoint( botRight(frame) );
+// this->CalcPortFrameRect(frame);
+// CalcLocalFrameRect(frame);
+// this->LocalToPortPoint( topLeft(frame) );
+// this->LocalToPortPoint( botRight(frame) );
+// 		mParent->CalcPortFrameRect(frame);
+// 		mParent->CalcLocalFrameRect(frame);
+		// 		this->CalcPortFrameRect(frame);
+				
+// 		mParent->GetOwnerWindow()->GetContentsView()->LocalToPortPoint( topLeft(frame) );
+// 		mParent->GetOwnerWindow()->GetContentsView()->LocalToPortPoint( botRight(frame) );
 
 void
 CIconFamily_PickerStamp::DrawSelf()
@@ -141,8 +156,9 @@ CIconFamily_PickerStamp::DrawSelf()
 		Handle			theResHandle = NULL;
 		CTabHandle		theTable;
 		
-// 		FocusDraw();
+		// 		FocusDraw();
 		CalcLocalFrameRect(frame);
+
 		StRezRefSaver saver(theRefNum);		
 		
 		UIconMisc::GetIconInfoForType(theType, theWidth, theHeight, theDepth, theRowBytes, theOffset);
