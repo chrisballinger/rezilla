@@ -1,4 +1,4 @@
-// Last modification: 2006-09-17 08:16:44
+// Last modification: 2006-09-25 07:49:42
 
 localize "French" as "Localizable.strings" 
 {
@@ -62,6 +62,8 @@ localize "French" as "Localizable.strings"
 	key "OpenForkError" value string "Erreur à l’ouverture de la branche de ressource."
 	key "ParseXmnuRezFailed" value string "La ressource ‘xmnu’ correspondant à cette ressource ‘MENU’ n’a pas le format attendu. Elle ne sera pas prise en compte."
 	key "PermissionError" value string "Fichier ‘%s’: erreur d’autorisation d’accès. Le fichier est peut-être utilisé en service avec une autre application."
+	key "PluginChooserError" value string "Une erreur s’est produite au cours de la validation des préférences de plugins."
+	key "PreferredPluginHelpString" value string "Pour chaque type, faire glisser le plugin préféré en tête de liste."
 	key "RemovingIcnsMemberFailed" value string "Impossible de supprimer l’icone."
 	key "RequireSystemTenTwo" value string "Rezilla requiert le système Mac OS X 10.2 ou ultérieur."
 	key "ResourceExistsWithID" value string "Il existe déjà une ressource de numéro ‘%d’."
