@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2006-09-21 18:53:08
+//             Last modification : 2006-09-25 13:54:51
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@users.sourceforge.net>
 // www : <http://rezilla.sourceforge.net/>
@@ -109,15 +109,17 @@ enum {
 	compare_displayAsTxt
 };
 
-// The indices of the MultiPanel's views
+// The indices of the MultiPanel views
 enum {
-	mpv_General = 1,
-	mpv_Interface,
-	mpv_Templates,
-	mpv_Editors,
-	mpv_Compare,
-	mpv_Export,
-	mpv_Misc
+	mpv_PrefsGeneral = 1,
+	mpv_PrefsInterface,
+	mpv_PrefsTemplates,
+	mpv_PrefsEditors,
+	mpv_PrefsCompare,
+	mpv_PrefsExport,
+	mpv_PrefsMisc,
+	mpv_PluginInfo = 1,
+	mpv_PluginOrder
 };
 
 // Pref style element constants
@@ -281,7 +283,9 @@ const ResIDT	DITL_SaveMap				= 10003;
 const ResIDT	PPob_RezMapWindow			= 1000;
 const ResIDT	PPob_InspectorWindow		= 2000;
 const ResIDT	PPob_NewRezDialog			= 2100;
-const ResIDT	PPob_PluginInfo				= 2200;
+const ResIDT	PPob_PluginDialog			= 2200;
+const ResIDT	PPob_PluginInfo				= 2210;
+const ResIDT	PPob_PluginOrder			= 2220;
 const ResIDT	PPob_HexEditorWindow		= 3000;
 const ResIDT	PPob_RezPickerWindow		= 4000;
 const ResIDT	PPob_AboutWindow			= 5000;
@@ -678,26 +682,29 @@ const PaneIDT	item_TmplKeyChooserType		= 1;
 const PaneIDT	item_TmplKeyChooserMessage	= 2;
 const PaneIDT	item_TmplKeyChooserLabel	= 3;
 const PaneIDT	item_TmplKeyChooserMenu		= 4;
-// Plugin Info Dialog
-// ------------------
-const PaneIDT	item_PluginInfoPopup		= 1;
-const PaneIDT	item_PluginInfoNameText		= 2;
-const PaneIDT	item_PluginInfoTypeText		= 3;
-const PaneIDT	item_PluginInfoCreatorText	= 4;
-const PaneIDT	item_PluginInfoSupported	= 5;
+// Plugins Dialog
+// --------------
+//     Plugin Info Pane
+//     ----------------
+const PaneIDT	item_PluginInfoPgbx			= 1;
+const PaneIDT	item_PluginInfoTypeText		= 2;
+const PaneIDT	item_PluginInfoCreatorText	= 3;
+const PaneIDT	item_PluginInfoVersionText	= 4;
+const PaneIDT	item_PluginInfoLoadedText	= 5;
 const PaneIDT	item_PluginInfoIconPane		= 6;
-const PaneIDT	item_PluginPreferredPopup	= 10;
-const PaneIDT	item_PluginInfoScroller		= 11;
-const PaneIDT	item_PluginInfoTable		= 12;
-const PaneIDT	item_PluginInfoString		= 13;
+const PaneIDT	item_PluginSupportedTypes	= 7;
+//     Plugin Order Pane
+//     -----------------
+const PaneIDT	item_PluginOrderPgbx		= 1;
+const PaneIDT	item_PluginInfoScroller		= 2;
+const PaneIDT	item_PluginOrderTable		= 3;
+const PaneIDT	item_PluginHelpString		= 4;
 
 // Preferences
 // -----------
 const PaneIDT   item_PrefsOkButton			= 1;
 const PaneIDT   item_PrefsCancelButton		= 2;
 const PaneIDT   item_RevertPrefs			= 3;
-const PaneIDT   item_PrefsPageController	= FOUR_CHAR_CODE('PCTL');
-const PaneIDT   item_PrefsMultiPanelView	= FOUR_CHAR_CODE('PMPV');
 //     General Prefs Pane
 //     ------------------
 const PaneIDT	item_GenPrefsMaxRecent		= 2;
@@ -908,8 +915,8 @@ const PaneIDT	item_IcnsVisualize			= FOUR_CHAR_CODE('VISU');
 const PaneIDT   item_PickerRezCountField	= 1;
 
 
-// Common elements for Editor Windows
-// ----------------------------------
+// Common elements for various windows
+// -----------------------------------
 const PaneIDT	item_EditorHeader			= FOUR_CHAR_CODE('Head');
 const PaneIDT	item_EditorFooter			= FOUR_CHAR_CODE('Foot');
 const PaneIDT   item_EditorContents			= FOUR_CHAR_CODE('Cnts');
@@ -923,6 +930,8 @@ const PaneIDT	item_PlusButton				= FOUR_CHAR_CODE('Plus');
 const PaneIDT	item_MinusButton			= FOUR_CHAR_CODE('Mins');
 const PaneIDT	item_RemoveButton			= FOUR_CHAR_CODE('Rmve');
 const PaneIDT   item_TabGroup				= FOUR_CHAR_CODE('TabG');
+const PaneIDT   item_PageController			= FOUR_CHAR_CODE('PCTL');
+const PaneIDT   item_MultiPanelView			= FOUR_CHAR_CODE('PMPV');
 
 // Misc dialog elements
 // --------------------
@@ -1022,9 +1031,8 @@ const MessageT	msg_TypeChooserMenu			= PPob_RezTypeChooser + item_TypeChooserMen
 const MessageT	msg_TmplKeyChooserMenu		= PPob_TmplKeyChooser + item_TmplKeyChooserMenu;
 // Plugin Info Dialog
 // ------------------
-const MessageT	msg_PluginInfoPopup			= PPob_PluginInfo + item_PluginInfoPopup;
-const MessageT	msg_PluginInfoSupported		= PPob_PluginInfo + item_PluginInfoSupported;
-const MessageT	msg_PluginPreferredPopup	= PPob_PluginInfo + item_PluginPreferredPopup;
+const MessageT	msg_PluginInfoPgbx			= PPob_PluginInfo + item_PluginInfoPgbx;
+const MessageT	msg_PluginOrderPgbx			= PPob_PluginOrder + item_PluginOrderPgbx;
 
 // Preferences
 // -----------
