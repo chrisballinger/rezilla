@@ -79,7 +79,7 @@ CRezTypeChooser::RunDialog()
 	
 	// Install the static value
 	UMiscUtils::OSTypeToPString(sChosenType, theTypeStr);
-	theEditField-> SetDescriptor(theTypeStr);
+	theEditField->SetDescriptor(theTypeStr);
 	
 	// Populate the popup button
 	CFIndex theCount = ::CFArrayGetCount(CTemplatesController::sAllTypesArray);
