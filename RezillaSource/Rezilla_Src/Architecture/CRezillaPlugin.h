@@ -25,29 +25,30 @@ public:
 				CRezillaPlugin(CFBundleRef inBundleRef);
 				virtual ~CRezillaPlugin();
 
-		void		GetPluginInfo();
-
 		OSErr		Load();
-
-		SInt32		CountEditTypes() { return mEditTypes.GetCount(); }
-	
-		TArray<OSType> *	GetEditTypes() { return &mEditTypes;}
 
 		Boolean		IsSupported(ResType inType);
 		
-		Boolean		IsLoaded() {return mIsLoaded;}
-	
 		CRezMap *	OpenResources();
 		
 		UInt8		CreateMenus(UInt8 inMenuCount, MenuID * inMenuIDs);
 
 		virtual SPluginEditorInterface**	GetInterface() {return mInterface;}
 		
-		virtual CFPlugInRef		GetPluginRef() { return mPluginRef;}
+		virtual CFPlugInRef	GetPluginRef() { return mPluginRef;}
 
-		virtual short	GetRefnum() { return mRefNum;}
+		virtual short		GetRefnum() { return mRefNum;}
 		
+		UInt32				CountEditTypes() { return mEditTypes.GetCount(); }
+	
+		TArray<OSType> *	GetEditTypes() { return &mEditTypes;}
 		TArray<LMenu*> *	GetMenusList() { return &mMenusList;}
+
+		CFStringRef			GetName() { return mName;}
+		UInt32				GetPluginType() { return mPluginType;}
+		UInt32				GetPluginCreator() { return mPluginCreator;}
+		UInt32				GetPluginVersion() { return mPluginVersion;}
+		Boolean				IsLoaded() { return mIsLoaded;}
 
 protected:
 		CFPlugInRef					mPluginRef;
@@ -57,9 +58,9 @@ protected:
 		TArray<LMenu*>				mMenusList;
 		Boolean						mMenusBuilt;
 		Boolean						mIsLoaded;		// differed loading
-		UInt32  					mPluginVersion,
-									mPluginType,
-									mPluginCreator;
+		UInt32  					mPluginType,
+									mPluginCreator,
+									mPluginVersion;
 		CFStringRef					mName;		
 
 private:
