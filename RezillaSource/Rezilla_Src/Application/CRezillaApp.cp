@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2006-09-25 11:50:34
+//             Last modification: 2006-09-26 07:49:50
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -47,6 +47,7 @@
 #include "CFlagPopup.h"
 #include "CHexDataSubView.h"
 #include "CHexEditorWindow.h"
+#include "CIconrefPane.h"
 #include "CICNS_EditorWindow.h"
 #include "CIcon_EditorView.h"
 #include "CIcon_EditorWindow.h"
@@ -215,6 +216,9 @@ CRezillaApp::~CRezillaApp()
 {
 	LMLTEPane::Terminate();
 	
+	if (sPluginsController) {
+		delete sPluginsController;
+	} 
 	// CRezClipboard is deleted with all the attachments
 // 	delete CRezClipboard::GetScrapRezFile();
 }
@@ -256,10 +260,8 @@ CRezillaApp::Initialize()
 	// Create an instance of the templates controller
 	sTemplatesController = new CTemplatesController();
 	
-#ifdef REZILLA_ENABLE_PLUGINS
 	// Create an instance of the plugins controller
 	sPluginsController = new CPluginsController();
-#endif
 	
 	// Install the window menu
 	InstallWindowMenu();
@@ -384,6 +386,7 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(CFlagPopup);
 	RegisterClass_(CHexDataSubView);
 	RegisterClass_(CHexEditorWindow);
+	RegisterClass_(CIconrefPane);
 	RegisterClass_(CICNS_EditorWindow);
 	RegisterClass_(CIcon_EditorView);
 	RegisterClass_(CIcon_EditorWindow);
