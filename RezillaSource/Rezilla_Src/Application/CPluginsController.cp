@@ -2,7 +2,7 @@
 // CPluginsController.cp
 // 
 //                       Created: 2005-09-26 09:48:26
-//             Last modification: 2006-02-16 10:30:51
+//             Last modification: 2006-09-26 10:38:28
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://rezilla.sourceforge.net/>
@@ -21,7 +21,8 @@
 #include "UMiscUtils.h"
 #include "RezillaConstants.h"
 
-CFMutableDictionaryRef		CPluginsController::sPluginsDict;
+CFMutableDictionaryRef		CPluginsController::sPluginsDict = NULL;
+CFDictionaryRef				CPluginsController::sPrefsDict = NULL;
 TArray<CRezillaPlugin*>		CPluginsController::sPluginsList;
 
 
@@ -31,7 +32,11 @@ TArray<CRezillaPlugin*>		CPluginsController::sPluginsList;
 
 CPluginsController::CPluginsController()
 {
-	BuildInternalPluginsDictionary();
+	BuildPluginsDictionary();
+	RetrieveFromPreferences();
+	if (sPrefsDict != NULL) {
+		AdjustDictionaryWithPrefs();
+	} 
 }
 
 
@@ -41,11 +46,20 @@ CPluginsController::CPluginsController()
 
 CPluginsController::~CPluginsController()
 {
+	StoreInPreferences();
+	
 	TArrayIterator<CRezillaPlugin*> iterator(sPluginsList, LArrayIterator::from_End);
 	CRezillaPlugin *	thePlugin;
 	while (iterator.Previous(thePlugin)) {
 		sPluginsList.RemoveItemsAt(1, iterator.GetCurrentIndex());
 		delete thePlugin;
+	}
+	
+	if (sPluginsDict) {
+		::CFRelease(sPluginsDict);
+	}
+	if (sPrefsDict) {
+		::CFRelease(sPrefsDict);
 	}
 }
 
@@ -128,14 +142,14 @@ CPluginsController::GetPreferredPlugin(ResType inType)
 
 
 // ---------------------------------------------------------------------------
-//	 BuildInternalPluginsDictionary							[private]
+//	 BuildPluginsDictionary							[private]
 // ---------------------------------------------------------------------------
 // Create a CFDictionary associating resource types to a CFArray of
 // pointers to CRezillaPlugin instances supporting this type. The function
 // scans the internal PlugIns subfolder inside the application bundle.
 
 OSErr
-CPluginsController::BuildInternalPluginsDictionary()
+CPluginsController::BuildPluginsDictionary()
 {
 	OSErr	error = noErr;
 	
@@ -149,72 +163,6 @@ CPluginsController::BuildInternalPluginsDictionary()
 			error = ScanPluginsFolder(pluginsURL);
 			CFRelease(pluginsURL);
 		}
-	}
-	
-	return error;
-}
-
-
-// ---------------------------------------------------------------------------
-//	 BuildExternalPluginsDictionary										[private]
-// ---------------------------------------------------------------------------
-// Create a CFDictionary associating resource types to a CFArray of
-// pointers to CRezillaPlugin instances supporting this type. The function
-// scans the PlugIns subfolders inside Rezilla's Application Support
-// folders, creating them if necessary.
-// They can reside in two domains:
-// 		kLocalDomain	---> Library/Application Support/Rezilla/PlugIns
-// 		kUserDomain		---> ~/Library/Application Support/Rezilla/PlugIns
-// 		
-// kNetworkDomain ?
-
-OSErr
-CPluginsController::BuildExternalPluginsDictionary()
-{
-	OSErr		error = noErr;
-	UInt32 		domainIndex;
-	FSRef		appSupportRef, rezillaRef, pluginsRef;
-	// kUserDomain, kNetworkDomain, kLocalDomain, kSystemDomain
-	static const SInt16 kFolderDomains[] = {kUserDomain, kLocalDomain, 0};
-		
-	// Create a mutable dictionary
-	sPluginsDict = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-	
-	if (sPluginsDict) {
-		domainIndex = 0;
-		do {
-			error = FSFindFolder(kFolderDomains[domainIndex], kApplicationSupportFolderType, kCreateFolder, &appSupportRef);
-			// If we can't find or create the folder in this domain, just ignore the domain.
-			if (error == noErr) {
-				HFSUniStr255 	unicodeName;
-				ConstStr31Param rzilName = "\pRezilla";
-				ConstStr31Param plugName = "\pPlugIns";
-				
-				// If we found the Support folder, look for a Templates subfolder
-				UMiscUtils::HFSNameToUnicodeName(rzilName, &unicodeName);
-				error = FSMakeFSRefUnicode(&appSupportRef, unicodeName.length, unicodeName.unicode, 
-										   kTextEncodingUnknown, &rezillaRef);
-				if (error != noErr) {
-					error = FSCreateDirectoryUnicode(&appSupportRef, unicodeName.length, unicodeName.unicode, 
-													 kFSCatInfoNone, NULL, &rezillaRef, NULL, NULL);
-				}
-				
-				if (error == noErr) {
-					UMiscUtils::HFSNameToUnicodeName(plugName, &unicodeName);
-					error = FSMakeFSRefUnicode(&rezillaRef, unicodeName.length, unicodeName.unicode, 
-											   kTextEncodingUnknown, &pluginsRef);
-					if (error != noErr) {
-						error = FSCreateDirectoryUnicode(&rezillaRef, unicodeName.length, unicodeName.unicode, 
-														 kFSCatInfoNone, NULL, &pluginsRef, NULL, NULL);
-					}
-					
-					if (error == noErr) {
-						ScanPluginsFolder(&pluginsRef);
-					}
-				} 			
-			}
-			domainIndex += 1;
-		} while ( kFolderDomains[domainIndex] != 0 );
 	}
 	
 	return error;
@@ -345,4 +293,235 @@ CPluginsController::AddEntriesForPlugin(CRezillaPlugin * inRezPlugin)
 		
 	return error;
 }
+
+
+// ---------------------------------------------------------------------------------
+//   StoreInPreferences 
+// ---------------------------------------------------------------------------------
+// Only the resource types corresponding to multiple plugins are stored in
+// the preferences as a dictionary of types/plugins pairs. 
+
+void
+CPluginsController::StoreInPreferences() 
+{	
+	CFMutableDictionaryRef	tempDict;
+	CFMutableArrayRef	tempArray;	
+	CFIndex 			i, j, dictCount, tempCount;
+	CFArrayRef			theArrayRef;
+	CFTypeRef *			theKeys;
+	CFTypeRef *			theVals;
+	CFNumberRef			thePlugRef;
+	CFStringRef			theNameRef, theTypeRef;
+	CRezillaPlugin *	thePlugin;
+	ResType				theType;
+	Str255				theString;
+	
+	tempDict = ::CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+
+	if (tempDict) {
+		dictCount = ::CFDictionaryGetCount(sPluginsDict);
+		// Allocate memory to store the keys and values
+		theKeys = (CFTypeRef*) NewPtrClear(sizeof(CFTypeRef) * dictCount);
+		theVals = (CFTypeRef*) NewPtrClear(sizeof(CFTypeRef) * dictCount);
+		
+		if ((theKeys != NULL) && (theVals != NULL)) {
+			// Fill the keys and values from this dictionary
+			::CFDictionaryGetKeysAndValues(sPluginsDict, (const void **) theKeys, (const void **) theVals);
+			// Loop over all the entries
+			for (i = 0; i < dictCount; i++) {
+				if (theKeys[i] && theVals[i] ) {
+					theArrayRef = (CFArrayRef) theVals[i];
+					
+					tempCount = ::CFArrayGetCount(theArrayRef);
+					if (tempCount > 1) {
+						// Create an array of plugin names
+						tempArray = ::CFArrayCreateMutable(NULL, 0, &kCFTypeArrayCallBacks);
+
+						if (tempArray) {
+							for ( j = 0; j < tempCount; j++ ) {								
+								thePlugRef = (CFNumberRef) ::CFArrayGetValueAtIndex(theArrayRef, j);
+								thePlugin = NULL;
+								
+								if (thePlugRef != nil) {
+									if (::CFNumberGetValue( (CFNumberRef) thePlugRef, kCFNumberSInt32Type, (void *) &thePlugin)) {
+										if (thePlugin) {
+											theNameRef = thePlugin->GetName();
+											if (theNameRef) {
+												::CFArrayAppendValue(tempArray, theNameRef);
+											} 
+										}
+									}
+								}
+							}
+							// Make a CFString for the type
+							if (::CFNumberGetValue( (CFNumberRef) theKeys[i], kCFNumberSInt32Type, (void *) &theType)) {
+								UMiscUtils::OSTypeToPString(theType, theString);
+								theTypeRef = ::CFStringCreateWithPascalString(NULL, theString, kCFStringEncodingMacRoman);
+								if (theTypeRef) {
+									// Write the resType/namesArray pair in the dictionary
+									::CFDictionaryAddValue(tempDict, theTypeRef, tempArray);
+									::CFRelease(theTypeRef);
+								} 
+							}
+							::CFRelease(tempArray);
+						}
+					} 
+				}
+			}
+		}
+		
+		if ( ::CFDictionaryGetCount(tempDict) > 0 ) {
+			// Write the temp dictionary in the preferences
+			::CFPreferencesSetAppValue(CFSTR("pref_PluginsOrder"), tempDict, kCFPreferencesCurrentApplication);
+		} 
+		::CFRelease(tempDict);
+	}
+		
+	if (theKeys) DisposePtr( (char *) theKeys);
+	if (theVals) DisposePtr( (char *) theVals);
+
+	
+	// Flush the prefs to disk
+	::CFPreferencesAppSynchronize( CFSTR(kRezillaIdentifier) );
+}
+
+
+// ---------------------------------------------------------------------------------
+//   RetrieveFromPreferences 
+// ---------------------------------------------------------------------------------
+// sPrefsDict is the dict of plugins preferred order stored in the
+// preferences file: the keys are resource types and the values are a list
+// of plugin names.
+
+void
+CPluginsController::RetrieveFromPreferences() 
+{	
+	CFPropertyListRef theDict = ::CFPreferencesCopyAppValue(CFSTR("pref_PluginsOrder"), CFSTR(kRezillaIdentifier));
+	
+	if (theDict) {
+		sPrefsDict = ::CFDictionaryCreateCopy(NULL, (CFDictionaryRef) theDict);
+		::CFRelease(theDict);
+	}
+}
+
+
+// ---------------------------------------------------------------------------------
+//   AdjustDictionaryWithPrefs 
+// ---------------------------------------------------------------------------------
+// Once the sPluginsDict is built, compare it with the plugins order found
+// in the preferences and reorder the plugins as necessary
+
+void
+CPluginsController::AdjustDictionaryWithPrefs() 
+{	
+	CFTypeRef *			theKeys;
+	CFTypeRef *			theVals;
+	CFIndex 			i, dictCount;
+	Str255				theString;
+	ResType				theType;
+	CFNumberRef			theKeyRef;
+	CFMutableArrayRef	oldArrayRef, newArrayRef;
+
+	dictCount = ::CFDictionaryGetCount(sPrefsDict);
+	// Allocate memory to store the keys and values
+	theKeys = (CFTypeRef*) NewPtrClear(sizeof(CFTypeRef) * dictCount);
+	theVals = (CFTypeRef*) NewPtrClear(sizeof(CFTypeRef) * dictCount);
+	
+	if ((theKeys != NULL) && (theVals != NULL)) {
+		// Fill the keys and values from this dictionary
+		::CFDictionaryGetKeysAndValues(sPrefsDict, (const void **) theKeys, (const void **) theVals);
+		// Loop over all the entries
+		for (i = 0; i < dictCount; i++) {
+			if (theKeys[i] && theVals[i] ) {
+				// Make a CFNumber out of the type
+				if ( ::CFStringGetPascalString( (CFStringRef)theKeys[i], theString, sizeof(theString), NULL) ) {
+					UMiscUtils::PStringToOSType(theString, theType);
+					theKeyRef = ::CFNumberCreate(NULL, kCFNumberSInt32Type, &theType);
+					if (theKeyRef) {
+						// Find the corresponding entry in the plugins dict
+						if ( ::CFDictionaryGetValueIfPresent( (CFDictionaryRef) sPluginsDict, theKeyRef, (const void**) &oldArrayRef) ) {
+							newArrayRef = ReorderPluginsArray((CFArrayRef) theVals[i], oldArrayRef);
+							if (newArrayRef) {
+								::CFDictionaryReplaceValue(sPluginsDict, theKeys[i], newArrayRef);
+								::CFRelease(newArrayRef);
+							} 
+						} 
+						::CFRelease(theKeyRef);
+					} 
+				}
+			}
+		}
+	}
+}
+
+
+// ---------------------------------------------------------------------------------
+//   ReorderPluginsArray 
+// ---------------------------------------------------------------------------------
+// Parse both the array from the preferences file and the array built by
+// BuildPluginsDictionary and return a new array in which:
+//     * common plugins come first and in the preferred order
+//     * plugins listed in the preferences but not existing anymore are removed
+//     * new plugins not listed in the preferences are appended
+//     
+// Note that inPrefArray is an array of plugin names and inOldArray is an
+// array of CRezillaPlugin objects.
+
+CFMutableArrayRef
+CPluginsController::ReorderPluginsArray(CFArrayRef inPrefArray, CFMutableArrayRef inOldArray) 
+{	
+	CFMutableArrayRef	newArray;
+	CFIndex				i, theCount, theIndex;
+	CFStringRef			theName;
+	CRezillaPlugin *	thePlugin;
+	CFNumberRef			thePlugRef;
+
+	newArray = ::CFArrayCreateMutable(NULL, 0, &kCFTypeArrayCallBacks);
+	if (newArray) {
+		theCount = ::CFArrayGetCount(inPrefArray);
+		// Parse the prefs array
+		for ( i = 0; i < theCount; i++ ) {								
+			theName = (CFStringRef) ::CFArrayGetValueAtIndex(inPrefArray, i);
+			thePlugin = GetPluginFromName(theName);
+			if (thePlugin != NULL) {
+				thePlugRef = ::CFNumberCreate(NULL, kCFNumberSInt32Type, &thePlugin);
+
+				if (thePlugRef) {
+					// Is it present in the old array?
+					theIndex = ::CFArrayGetFirstIndexOfValue(inOldArray, ::CFRangeMake(0, ::CFArrayGetCount(inOldArray)), thePlugRef);
+					if (theIndex != kCFNotFound) {
+						::CFArrayAppendValue(newArray, thePlugRef);
+						::CFArrayRemoveValueAtIndex(inOldArray, theIndex);
+					} 
+					::CFRelease(thePlugRef);
+				} 
+			} 
+		}
+		// Append all the elements remaining in the old array
+		CFArrayAppendArray(newArray, inOldArray, ::CFRangeMake(0, CFArrayGetCount(inOldArray)));
+	} 
+	return newArray;
+}
+
+
+// ---------------------------------------------------------------------------------
+//   GetPluginFromName 
+// ---------------------------------------------------------------------------------
+
+CRezillaPlugin *
+CPluginsController::GetPluginFromName(CFStringRef inName) 
+{
+	CRezillaPlugin		*thePlugin = NULL, *currPlugin;
+	
+	TArrayIterator<CRezillaPlugin*> iterator(sPluginsList);
+	while (iterator.Next(currPlugin)) {
+		if ( ::CFStringCompare( currPlugin->GetName(), inName, 0 ) == kCFCompareEqualTo ) {
+			thePlugin = currPlugin;
+			break;
+		} 
+	}
+	
+	return thePlugin;
+}
+
 
