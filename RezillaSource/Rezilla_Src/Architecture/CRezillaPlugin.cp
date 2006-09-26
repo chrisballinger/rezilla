@@ -2,7 +2,7 @@
 // CRezillaPlugin.cp
 // 
 //                       Created: 2005-09-26 09:48:26
-//             Last modification: 2006-09-19 13:23:46
+//             Last modification: 2006-09-26 12:55:42
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://rezilla.sourceforge.net/>
@@ -33,6 +33,7 @@ CRezillaPlugin::CRezillaPlugin(CFBundleRef inBundleRef)
 	mIsLoaded = false;
 	mMenusBuilt = false;
 	mName = NULL;
+	mIconRef = 0;
 	mPluginRef = NULL;
 	mInterface = NULL;
 	mRefNum = kResFileNotOpened;
@@ -68,6 +69,7 @@ CRezillaPlugin::Initialize(CFBundleRef inBundleRef)
 	CFURLRef		plugURL = nil;
 	ResType			theType;
 	Str255  		theString;
+	CFStringRef		iconFilenameRef;
 	
 	// Get an instance of the non-localized keys
 	bundleInfoDict = ::CFBundleGetInfoDictionary(inBundleRef);
@@ -103,6 +105,20 @@ CRezillaPlugin::Initialize(CFBundleRef inBundleRef)
 		mPluginType = 0;
 		mPluginCreator = 0;
 	}
+	
+	// Look for an icon file
+	iconFilenameRef = (CFStringRef) ::CFDictionaryGetValue( bundleInfoDict, CFSTR("CFBundleIconFile") );
+	if (iconFilenameRef) {
+		FSRef		fsRef;
+		CFURLRef	iconURL = ::CFBundleCopyResourceURL(inBundleRef, iconFilenameRef, CFSTR(""), NULL);
+		if (iconURL) {
+			if (CFURLGetFSRef(iconURL, &fsRef)) {
+				// Use the pointer to this as type for the icon
+				OSStatus error = RegisterIconRefFromFSRef(kRezillaSig, (OSType) this, &fsRef, &mIconRef);
+			} 
+			::CFRelease(iconURL);
+		} 
+	} 
 	
 	// Get version number
 	mPluginVersion = ::CFBundleGetVersionNumber(inBundleRef);
