@@ -2,7 +2,7 @@
 // CPluginChooser.h
 // 
 //                       Created: 2006-09-25 07:02:55
-//             Last modification: 2006-09-25 13:55:02
+//             Last modification: 2006-09-26 11:53:04
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -10,12 +10,12 @@
 // All rights reserved.
 // ===========================================================================
 
-
 #include "CPluginChooser.h"
 #include "CPluginsController.h"
 #include "CRezillaPlugin.h"
 #include "CThreeButtonsBox.h"
 #include "CDragTable.h"
+#include "CIconrefPane.h"
 #include "RezillaConstants.h"
 #include "UDialogBoxHandler.h"
 #include "UMessageDialogs.h"
@@ -30,6 +30,7 @@
 #include <LMultiPanelView.h>
 #include <LView.h>
 
+CFMutableDictionaryRef		CPluginChooser::sTypesDict = NULL;
 
 // ---------------------------------------------------------------------------
 //   CPluginChooser				[public]
@@ -38,6 +39,7 @@
 CPluginChooser::CPluginChooser(LCommander * inCommander)
  : LCommander(inCommander)
 {
+	sTypesDict = ::CFDictionaryCreateMutableCopy(NULL, 0, CPluginsController::sPluginsDict);
 }
 
 
@@ -47,6 +49,10 @@ CPluginChooser::CPluginChooser(LCommander * inCommander)
 
 CPluginChooser::~CPluginChooser()
 {
+	if (sTypesDict) {
+		::CFRelease(sTypesDict);
+		sTypesDict = NULL;
+	} 
 }
 
 
@@ -104,7 +110,9 @@ CPluginChooser::RunDialog()
 				itemIndex = mOrderPgbx->GetValue();
 				::GetMenuItemText( mOrderPgbx->GetMacMenuH(), mOrderPgbx->GetValue(), theString );
 				UMiscUtils::PStringToOSType( theString, theType);
+				StoreCurrentOrder();
 				UpdateOrderTableForType(theType);
+				mCurrType = theType;
 				mDialogBox->Refresh();
 				break;  // Breaks out from the inner 'while' but still in the inPickerLoop 'while'
 			}
@@ -112,8 +120,18 @@ CPluginChooser::RunDialog()
 		
 		// If the default button was hit, try to open the rezmaps
 		if (msg_OK == theMessage) {
-			// Save the preferred order in preferences
+			// Save the current order panel
+			StoreCurrentOrder();
 			
+			// Release the previous sPluginsDict and replace it by a copy of sTypesDict
+			if (sTypesDict) {
+				CFMutableDictionaryRef	newDict = ::CFDictionaryCreateMutableCopy(NULL, 0, sTypesDict);
+				if (newDict) {
+					::CFRelease(CPluginsController::sPluginsDict);
+					CPluginsController::sPluginsDict = newDict;
+				} 
+			} 
+
 			// Now get out of the outer 'while'
 			inPickerLoop = false;
 		} 
@@ -129,7 +147,6 @@ CPluginChooser::RunDialog()
 void
 CPluginChooser::FinishCreateChooser()
 {
-	mOrderTypeIndex = 0;
 	mCurrType = 0;
 	
 	mPageCtrl = dynamic_cast<LPageController*>(mDialogBox->FindPaneByID(item_PageController));
@@ -165,6 +182,9 @@ CPluginChooser::FinishCreateChooser()
 	
 	mSupportedTypes = dynamic_cast<LPopupButton *>(mInfoPane->FindPaneByID( item_PluginSupportedTypes ));
 	ThrowIfNil_(mSupportedTypes);
+
+	mIconPane = dynamic_cast<CIconrefPane *>(mInfoPane->FindPaneByID( item_PluginInfoIconPane ));
+	ThrowIfNil_(mIconPane);
 	
 	// Preferred plugins panel
 	mOrderPgbx = dynamic_cast<LPopupGroupBox *>(mOrderPane->FindPaneByID( item_PluginOrderPgbx ));
@@ -221,35 +241,38 @@ CPluginChooser::PopulateGroupBoxes()
 	}
 	
 	// All types group box popup
-	dictCount = ::CFDictionaryGetCount(CPluginsController::sPluginsDict);
-	theKeys = (CFTypeRef*) ::NewPtrClear(sizeof(CFTypeRef) * dictCount);
+	if (sTypesDict) {
+		dictCount = ::CFDictionaryGetCount(sTypesDict);
+		theKeys = (CFTypeRef*) ::NewPtrClear(sizeof(CFTypeRef) * dictCount);
+		
+		if (theKeys != NULL) {
+			CTypeComparator* theComparator = new CTypeComparator;
+			TArray<ResType>* theTypesArray = new TArray<ResType>( theComparator, true);
 
-	mOrderTypeIndex = (dictCount > 0);
-	
-	if (theKeys != NULL) {
-		CTypeComparator* theComparator = new CTypeComparator;
-		TArray<ResType>* theTypesArray = new TArray<ResType>( theComparator, true);
-
-		::CFDictionaryGetKeysAndValues(CPluginsController::sPluginsDict, (const void **) theKeys, NULL);
-		// Build a sorted array of all the types
-		for (i = 0; i < dictCount; i++) {
-			if (::CFNumberGetValue( (CFNumberRef) theKeys[i], kCFNumberSInt32Type, (void *) &theType)) {
-				theTypesArray->AddItem(theType);
+			if (theTypesArray) {
+				::CFDictionaryGetKeysAndValues(sTypesDict, (const void **) theKeys, NULL);
+				// Build a sorted array of all the types
+				for (i = 0; i < dictCount; i++) {
+					if (::CFNumberGetValue( (CFNumberRef) theKeys[i], kCFNumberSInt32Type, (void *) &theType)) {
+						theTypesArray->AddItem(theType);
+					} 
+				}
+				::DisposePtr( (char *) theKeys);
+				// Install the types in the popup menu
+				theCount = theTypesArray->GetCount();
+				for (index = 1; index <= theCount; index++) {	
+					if ( theTypesArray->FetchItemAt(index, theType) && theType != 0) {
+						UMiscUtils::OSTypeToPString(theType, theString);
+						mOrderPgbx->InsertMenuItem(theString, i+1, true);
+						if (index == 1) {
+							UpdateOrderTableForType(theType);
+							mCurrType = theType;
+						} 
+					}
+				}
+				delete theTypesArray;
 			} 
-		}
-		::DisposePtr( (char *) theKeys);
-		// Install the types in the popup menu
-		theCount = theTypesArray->GetCount();
-		for (index = 1; index <= theCount; index++) {	
-			if ( theTypesArray->FetchItemAt(index, theType) && theType != 0) {
-				UMiscUtils::OSTypeToPString(theType, theString);
-				mOrderPgbx->InsertMenuItem(theString, i+1, true);
-				if (index == 1) {
-					UpdateOrderTableForType(theType);
-				} 
-			}
-		}
-		delete theTypesArray;
+		} 
 	} 
 }
 
@@ -263,6 +286,7 @@ CPluginChooser::UpdatePluginInfo(CRezillaPlugin * inPlugin)
 {
 	Str255			theString;
 	UInt32			index, theCount;
+	IconRef			theIconRef;
 	
 	// Plugins group box popup
 	UMiscUtils::OSTypeToPString(inPlugin->GetPluginType(), theString);
@@ -277,6 +301,12 @@ CPluginChooser::UpdatePluginInfo(CRezillaPlugin * inPlugin)
 	} else {
 		mLoadedField->SetDescriptor("\pno");
 	}
+	
+	theIconRef = inPlugin->GetIconRef();
+	if (theIconRef != 0) {
+		mIconPane->SetIconRef(theIconRef);
+	} 
+	
 	// Populate the supported types popup
 	theCount = inPlugin->CountEditTypes();
 	if (theCount > 0) {
@@ -291,6 +321,7 @@ CPluginChooser::UpdatePluginInfo(CRezillaPlugin * inPlugin)
 			}
 		}
 	} 
+	mDialogBox->Refresh();
 }
 
 
@@ -311,6 +342,8 @@ CPluginChooser::UpdateOrderTableForType(ResType inType)
 	CRezillaPlugin *	thePlugin;
 	CFStringRef			theNameRef;
 
+	if (!sTypesDict) return;
+	
 	// Erase the current rows
 	mPluginOrderTable->GetTableSize(theRows, theCols);
 	mPluginOrderTable->RemoveRows(theRows, 1);
@@ -319,7 +352,7 @@ CPluginChooser::UpdateOrderTableForType(ResType inType)
 	
 	theKey = ::CFNumberCreate(NULL, kCFNumberSInt32Type, &inType);
 	if (theKey) {
-		theArray = (CFMutableArrayRef) ::CFDictionaryGetValue( CPluginsController::sPluginsDict, theKey);
+		theArray = (CFMutableArrayRef) ::CFDictionaryGetValue( sTypesDict, theKey);
 		
 		if (theArray) {
 			theCount = ::CFArrayGetCount(theArray);
@@ -348,9 +381,54 @@ CPluginChooser::UpdateOrderTableForType(ResType inType)
 			if (theCount > 1) {
 				mHelpField->Show();
 			} else {
-				mHelpField->Hide();
+// 				mHelpField->Hide();
 			}
 		} 
 		::CFRelease(theKey);
 	} 
 }
+
+
+
+
+// ---------------------------------------------------------------------------
+//   StoreCurrentOrder												[private]
+// ---------------------------------------------------------------------------
+
+void
+CPluginChooser::StoreCurrentOrder()
+{
+	CFMutableArrayRef	theArrayRef;
+	CFNumberRef			theKeyRef;
+	CFStringRef			theNameRef;
+	TableCellT			theCell;
+	TableIndexT			theRows, theCols, rowIndex;
+	Str255				theString;
+
+	if (!sTypesDict) return;
+
+	theArrayRef = ::CFArrayCreateMutable(NULL, 0, &kCFTypeArrayCallBacks);
+
+	if (theArrayRef) {
+		// Retrieve the items from the table
+		theCell.col = 1;
+		mPluginOrderTable->GetTableSize(theRows, theCols);
+		for ( rowIndex = 1; rowIndex <= theRows; rowIndex++) {
+			theCell.row = rowIndex;
+			mPluginOrderTable->GetCellData(theCell, theString);
+			theNameRef = ::CFStringCreateWithPascalString(NULL, theString, kCFStringEncodingMacRoman);
+			if (theNameRef) {
+				::CFArrayAppendValue(theArrayRef, theNameRef);
+			}
+			::CFRelease(theNameRef);
+		}
+		theKeyRef = ::CFNumberCreate(NULL, kCFNumberSInt32Type, &mCurrType);
+
+		if (theKeyRef) {
+			::CFDictionaryReplaceValue(sTypesDict, theKeyRef, theArrayRef);
+			::CFRelease(theKeyRef);
+		} 
+		::CFRelease(theArrayRef);
+	} 
+}
+

@@ -2,7 +2,7 @@
 // CPluginChooser.h
 // 
 //                       Created: 2006-09-25 07:02:55
-//             Last modification: 2006-09-25 07:09:57
+//             Last modification: 2006-09-26 11:52:55
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -24,7 +24,7 @@ class LPageController;
 class LMultiPanelView;
 class LView;
 class CRezillaPlugin;
-
+class CIconrefPane;
 
 class CPluginChooser : public LCommander {
 public:
@@ -34,6 +34,8 @@ public:
 	OSErr		RunDialog();
 	
 protected:
+	static CFMutableDictionaryRef	sTypesDict;
+
 	CThreeButtonsBox *	mDialogBox;
 	LPageController*	mPageCtrl;
 	LMultiPanelView*	mMultiPanel;
@@ -48,7 +50,7 @@ protected:
 	LStaticText *		mVersionField;
 	LStaticText *		mLoadedField;
 	LStaticText *		mHelpField;
-	SInt32 				mOrderTypeIndex;
+	CIconrefPane*		mIconPane;
 	ResType				mCurrType;	
 
 private:
@@ -56,6 +58,7 @@ private:
 	void		PopulateGroupBoxes();
 	void		UpdatePluginInfo(CRezillaPlugin * inPlugin);
 	void		UpdateOrderTableForType(ResType inType);
+	void		StoreCurrentOrder();
 	
 };
 
