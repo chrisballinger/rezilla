@@ -1,11 +1,11 @@
 // ===========================================================================
 // CRecentItemsMenu.h					
 //                       Created: 2004-03-02 13:18:30
-//             Last modification: 2004-03-02 13:13:47
+//             Last modification: 2006-09-26 06:15:50
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes 2004
+// (c) Copyright: Bernard Desgraupes 2004-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -22,11 +22,6 @@ class	CAlias;
 class CRecentItemsMenu : public LAttachment {
 	public:
 		
-		enum {
-			eRecentDocResType = 'rDoc',
-			eRecentDocMenuResID = 128
-			};		
-			
 					CRecentItemsMenu(ResIDT inMenuID, 
 									 UInt32 inMaxRecentItems, 
 									 CFStringRef inApplicationID);
