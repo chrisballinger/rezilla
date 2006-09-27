@@ -1,7 +1,7 @@
 // ===========================================================================
 // UIconMisc.cp
 //                       Created: 2004-12-11 18:52:00
-//             Last modification: 2006-09-23 06:44:20
+//             Last modification: 2006-09-27 12:09:38
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -16,6 +16,7 @@
 #include "UIconMisc.h"
 #include "UResourceMgr.h"
 #include "UResources.h"
+#include "UColorUtils.h"
 
 #include <stdio.h>
 
@@ -27,7 +28,7 @@
 // the same as the type of inResObj. 
 
 OSErr
-UIconMisc::GetDefaultBitmap(CRezObj * inResObj, ResType inType, Boolean loadIt)
+UIconMisc::GetDefaultBitmap(CRezObj * inResObj, ResType inType)
 {	
 	OSErr	error;
 	if ( inResObj ) {
@@ -60,7 +61,7 @@ UIconMisc::GetBitmapResource(CRezMap *inMap, ResType inType, short inID,
 	
 	theRes = inMap->FindResource( inType, inID, loadIt );
 	if ( theRes && theRes->GetSize() == 0 ) {
-			GetDefaultBitmap( theRes, inType, loadIt);
+			GetDefaultBitmap( theRes, inType);
 	}
 	
 	return theRes;
@@ -151,6 +152,75 @@ UIconMisc::GetIconInfoForType(ResType inType, SInt32 &outWidth, SInt32 &outHeigh
 	}
 }
 
+
+// ---------------------------------------------------------------------------
+//   GetIconInfoForType										 [static, public]
+// ---------------------------------------------------------------------------
+// ImgType_Cursor				= FOUR_CHAR_CODE('CURS'),
+// ImgType_ColorCursor			= FOUR_CHAR_CODE('crsr')
+
+Boolean
+UIconMisc::GetCursorInfoForType(ResType inType, Handle inResHandle, 
+								SInt32 &outWidth, SInt32 &outHeight, 
+								SInt32 &outDepth, SInt32 &outRowBytes, 
+								CTabHandle &outTable, UInt8* &outData)
+{
+	Boolean gotData = false;
+	
+	if (inType == ImgType_Cursor) {
+		if ( ::GetHandleSize( (Handle) inResHandle) != kBWCursorBytes ) {
+			goto done;
+		}
+		outWidth = kCursorWidth;
+		outHeight = kCursorHeight;
+		outDepth = 1;
+		outRowBytes = kBWCursorRowBytes;
+		outTable = NULL;
+		outData = (UInt8*) *inResHandle;
+		gotData = true;
+	} else if (inType == ImgType_ColorCursor) {
+		PixMapPtr		cMap;
+		CCrsrHandle		h = (CCrsrHandle) inResHandle;
+		UInt8			*p;
+
+		// Do some validity check
+		p = (UInt8*) *h;
+		
+		if ( (UInt16) (**h).crsrType != (UInt16) 0x8001 )
+			goto done;
+		
+		if ( ::GetHandleSize( (Handle) h ) < sizeof(CCrsr) )
+			goto done;
+	
+		// Get some info about the cursor
+		cMap = (PixMapPtr) (p + (SInt32) (**h).crsrMap);
+
+		if ( cMap->pixelType != 0 )
+			goto done;
+
+		outWidth = cMap->bounds.right - cMap->bounds.left;
+		outHeight = cMap->bounds.bottom - cMap->bounds.top;
+		outDepth = cMap->pixelSize;
+		outRowBytes = cMap->rowBytes & 0x3FFF;
+		outData = p + (SInt32) (**h).crsrData;
+
+		if ( (outWidth != kCursorWidth) || (outHeight != kCursorHeight) )
+			goto done;
+		
+		if ( (outDepth != 1) && (outDepth != 2) && (outDepth != 4) && (outDepth != 8) )
+			goto done;
+		
+		if ( cMap->pmTable == 0 ) {
+			outTable = UColorUtils::NewColorTableByDepth( outDepth );
+		} else {
+			outTable = UColorUtils::NewColorTableFromPtr( outDepth, p + (SInt32) cMap->pmTable );
+		}
+		gotData = true;
+	} 
+
+done:
+	return gotData;
+}
 
 // ---------------------------------------------------------------------------
 // 	GetMouseRelativeToPort

@@ -1,11 +1,11 @@
 // ===========================================================================
 // UIconMisc.h
 //                       Created: 2004-12-11 18:52:00
-//             Last modification: 2006-09-23 06:45:55
+//             Last modification: 2006-09-27 12:08:07
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes 2004-2005, 2006
+// (c) Copyright: Bernard Desgraupes 2004-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -22,8 +22,7 @@ class UIconMisc {
 	public:
 
 		static OSErr		GetDefaultBitmap(CRezObj * inResObj, 
-											 ResType inType, 
-											 Boolean loadIt);
+											 ResType inType);
 
 		static CRezObj *	GetBitmapResource(CRezMap * inMap, 
 											   ResType inType, 
@@ -32,6 +31,11 @@ class UIconMisc {
 
 		static void			GetIconInfoForType(ResType inType, SInt32 &outWidth, SInt32 &outHeight, 
 										 SInt32 &outDepth, SInt32 &outRowBytes, SInt32 &outOffset);
+
+		static Boolean		GetCursorInfoForType(ResType inType, Handle inResHandle, 
+								SInt32 &outWidth, SInt32 &outHeight, 
+								SInt32 &outDepth, SInt32 &outRowBytes, 
+								CTabHandle &outTable, UInt8* &outData);
 
 		static void			GetWindowGlobalBounds( WindowPtr inWindow, Rect & );
 		
