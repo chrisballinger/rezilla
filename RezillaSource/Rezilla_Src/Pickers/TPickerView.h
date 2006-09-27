@@ -98,7 +98,7 @@ InitPickerView(SInt16 inStampWidth, SInt16 inStampHeight, ResIDT inID)
 	} 
 	if (theHeight < kPickerViewMinHeight) {
 		theHeight = kPickerViewMinHeight;
-		vertMargin = (kPickerViewMinHeight - inStampHeight -kPickerViewIDFieldHeight)/2;
+		vertMargin = (kPickerViewMinHeight - inStampHeight - kPickerViewIDFieldHeight)/2;
 	} 
 	
 	ResizeFrameTo(theWidth, theHeight, false);
@@ -129,7 +129,7 @@ InitPickerView(SInt16 inStampWidth, SInt16 inStampHeight, ResIDT inID)
 	mStampView = new T(this, pi, vi);
 	ThrowIfNil_(mStampView);
 
-	pi.top		= pi.height + vertMargin;
+	pi.top		+= inStampHeight + vertMargin - 2;
 	pi.left		= 2;
 	pi.width	= theWidth - 4;
 	pi.height	= kPickerViewIDFieldHeight;
