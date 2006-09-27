@@ -2,7 +2,7 @@
 // CPluginsController.h
 // 
 //                       Created: 2005-09-26 09:48:26
-//             Last modification: 2006-09-26 10:38:39
+//             Last modification: 2006-09-27 08:56:19
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://rezilla.sourceforge.net/>
@@ -30,6 +30,8 @@ public:
 										   CRezObjItem * inRezObjItem,
 										   ResType inUseType);
 
+		static CRezillaPlugin *	GetPluginFromName(CFStringRef inName);
+
 		static CFMutableDictionaryRef	sPluginsDict;
 		static CFDictionaryRef			sPrefsDict;
 		static TArray<CRezillaPlugin*>	sPluginsList;
@@ -49,7 +51,6 @@ private:
 		CFMutableArrayRef	ReorderPluginsArray(CFArrayRef inPrefArray, CFMutableArrayRef inOldArray);
 
 		static CRezillaPlugin *	GetPreferredPlugin(ResType inType);
-		static CRezillaPlugin *	GetPluginFromName(CFStringRef inName);
 		
 };
 

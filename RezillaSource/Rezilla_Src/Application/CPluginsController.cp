@@ -442,7 +442,7 @@ CPluginsController::AdjustDictionaryWithPrefs()
 						if ( ::CFDictionaryGetValueIfPresent( (CFDictionaryRef) sPluginsDict, theKeyRef, (const void**) &oldArrayRef) ) {
 							newArrayRef = ReorderPluginsArray((CFArrayRef) theVals[i], oldArrayRef);
 							if (newArrayRef) {
-								::CFDictionaryReplaceValue(sPluginsDict, theKeys[i], newArrayRef);
+								::CFDictionaryReplaceValue(sPluginsDict, theKeyRef, newArrayRef);
 								::CFRelease(newArrayRef);
 							} 
 						} 
