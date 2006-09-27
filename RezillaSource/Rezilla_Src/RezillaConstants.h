@@ -371,6 +371,7 @@ const ResIDT	Txtr_UrlHyperlink			= 146;
 const ResIDT	Txtr_GenevaTenBoldLeft		= 149;
 const ResIDT	Txtr_GenevaTenBoldRight		= 150;
 const ResIDT	Txtr_GenevaTenBoldUl		= 151;
+const ResIDT	Txtr_MonacoNineBlue			= 155;
 
 // Menu resources
 	// MENU_OpenedWindows is not a resource. It is built  
