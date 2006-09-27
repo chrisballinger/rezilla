@@ -145,7 +145,7 @@ CWindow_Pattern::InitializeFromResource(CRezObj * inRezObj)
 	
 		// Get an empty default icon if the size is 0
 		if (inRezObj->GetSize() == 0) {
-			UIconMisc::GetDefaultBitmap(inRezObj, mResourceType, true );	
+			UIconMisc::GetDefaultBitmap(inRezObj, mResourceType);	
 		} 
 		
 		// Get the raw resource handle

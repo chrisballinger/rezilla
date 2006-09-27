@@ -221,7 +221,7 @@ CWindow_Cursor::ParseBWCursor( CRezObj * inRezObj,
 	{
 		// Get an empty default icon if the size is 0
 		if (inRezObj->GetSize() == 0) {
-			UIconMisc::GetDefaultBitmap(inRezObj, ImgType_Cursor, true );	
+			UIconMisc::GetDefaultBitmap(inRezObj, ImgType_Cursor);	
 		} 
 		
 		// Get the raw resource handle
@@ -283,7 +283,7 @@ CWindow_Cursor::ParseColorCursor( CRezObj * inRezObj,
 	{
 		// Get an empty default icon if the size is 0
 		if (inRezObj->GetSize() == 0) {
-			UIconMisc::GetDefaultBitmap(inRezObj, ImgType_ColorCursor, true );	
+			UIconMisc::GetDefaultBitmap(inRezObj, ImgType_ColorCursor);	
 		} 
 		
 		// Get the raw resource handle. This isn't the usual way of loading
