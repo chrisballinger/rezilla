@@ -89,7 +89,7 @@ CPICT_EditorDoc::Initialize()
 			
 			if (::GetHandleSize(rezData) < sizeof(Picture)) {
 				::DisposeHandle(rezData);
-				UIconMisc::GetDefaultBitmap(mRezObj, ImgType_Picture, true);
+				UIconMisc::GetDefaultBitmap(mRezObj, ImgType_Picture);
 				rezData = mRezObj->GetData();
 			} 
 			
