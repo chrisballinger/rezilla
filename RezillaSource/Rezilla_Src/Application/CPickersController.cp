@@ -2,7 +2,7 @@
 // CPickersController.cp					
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-09-21 12:39:55
+//             Last modification: 2006-09-27 12:42:36
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -30,6 +30,7 @@ PP_Begin_Namespace_PowerPlant
 #include "CSTRx_PickerStamp.h"
 #include "CTEXT_PickerStamp.h"
 #include "CPattern_PickerStamp.h"
+#include "CCursor_PickerStamp.h"
 #include "CIconFamily_PickerStamp.h"
 #include "CRezMap.h"
 #include "CRezMapDoc.h"
@@ -91,6 +92,8 @@ CPickersController::HasPickerForType(ResType inType)
 		case 'ics#':
 		case 'ics4':
 		case 'ics8':
+		case 'CURS':
+		case 'crsr':
 		result = true;
 		break;
 	}
@@ -102,12 +105,6 @@ CPickersController::HasPickerForType(ResType inType)
 // ---------------------------------------------------------------------------
 //   InvokeCustomPicker											[public]
 // ---------------------------------------------------------------------------
-// 		case 'CURS':
-// 		case 'ICON':
-// 		case 'PAT ':
-// 		case 'PAT#':
-// 		case 'crsr':
-// 		case 'ppat':
 
 void
 CPickersController::InvokeCustomPicker(CRezMapDoc* inRezMapDoc, 
@@ -169,6 +166,11 @@ CPickersController::InvokeCustomPicker(CRezMapDoc* inRezMapDoc,
 		new TPickerDoc<CIconFamily_PickerStamp>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
 		break;
 		
+		case 'CURS':
+		case 'crsr':
+		new TPickerDoc<CCursor_PickerStamp>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
+		break;
+
 		default:
 		// new TPickerDoc<CDefault_PickerStamp>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
 		break;
