@@ -54,7 +54,7 @@ CSTRx_PickerStamp::CSTRx_PickerStamp(
 	pi.userCon			= 0;
 	pi.superView		= this;
 
-	mStaticField = new CStaticClickThrough(pi, "\p", Txtr_MonacoNineGray);
+	mStaticField = new CStaticClickThrough(pi, "\p", Txtr_MonacoNineBlue);
 
 }
 

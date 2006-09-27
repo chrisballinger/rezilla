@@ -2,7 +2,7 @@
 // 	CTEXT_PickerStamp.cp
 // 
 //                       Created : 2006-02-25 17:40:43
-//             Last modification : 2006-09-21 10:04:06
+//             Last modification : 2006-09-27 09:15:56
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@users.sourceforge.net>
 // www : <http://rezilla.sourceforge.net/>
@@ -54,7 +54,7 @@ CTEXT_PickerStamp::CTEXT_PickerStamp(
 	pi.userCon			= 0;
 	pi.superView		= this;
 
-	mStaticField = new CStaticClickThrough(pi, "\p", Txtr_MonacoNineGray);
+	mStaticField = new CStaticClickThrough(pi, "\p", Txtr_MonacoNineBlue);
 
 }
 
