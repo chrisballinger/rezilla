@@ -2,7 +2,7 @@
 // 	CCursor_PickerStamp.cp
 // 
 //                       Created : 2006-09-23 07:56:20
-//             Last modification : 2006-09-23 07:56:43
+//             Last modification : 2006-09-27 12:44:16
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@users.sourceforge.net>
 // www : <http://rezilla.sourceforge.net/>
@@ -55,41 +55,13 @@ CCursor_PickerStamp::~CCursor_PickerStamp()
 // ---------------------------------------------------------------------------
 //   StampSize														  [public]
 // ---------------------------------------------------------------------------
-// ImgType_Cursor				= FOUR_CHAR_CODE('CURS'),
-// ImgType_ColorCursor			= FOUR_CHAR_CODE('crsr')
 
 void
 CCursor_PickerStamp::StampSize(ResType inType, SInt16 &outWidth, SInt16 &outHeight)
 {
-	switch (inType) {
-		case 'ics#':
-		case 'ics4':
-		case 'ics8':
-		// 16x16 small icons
-		outWidth = 16;
-		outHeight = 16;
-		break;
-		
-		case 'ICN#':
-		case 'icl4':
-		case 'icl8':
-		// 32x32 large icons
-		outWidth = 32;
-		outHeight = 32;
-		break;
-		
-		case 'icm#':
-		case 'icm4':
-		case 'icm8':
-		// 16x12 medium icons
-		outWidth = 16;
-		outHeight = 12;
-		break;
-		
-		default:
-		break;
-		
-	}
+#pragma unused(inType)
+	outWidth = 16;
+	outHeight = 16;
 }
 
 
@@ -100,75 +72,62 @@ CCursor_PickerStamp::StampSize(ResType inType, SInt16 &outWidth, SInt16 &outHeig
 void
 CCursor_PickerStamp::DrawBuffer(COffscreen * inBuffer, Rect inFrame)
 {	
-	StGWorldSaver		aSaver;
-	StColorPenState		aPenState;	
-	Rect				portRect;
-	GrafPtr				macPort = this->GetMacPort();
+	StGWorldSaver	aSaver;
+	GrafPtr			macPort = this->GetMacPort();
 	
-	if ( !macPort ) return;
+	if ( !macPort || !inBuffer ) return;
 
-	portRect = inFrame;
 	LocalToPortPoint( topLeft(inFrame) );
 	LocalToPortPoint( botRight(inFrame) );
-
-	if (inBuffer) {
-		inBuffer->CopyTo( macPort, &portRect );
-	} else {
-		Pattern aPat;
-		
-		this->FocusDraw();
-		aPenState.Normalize();
-		::PenPat( UQDGlobals::GetLightGrayPat(&aPat) );
-		::PaintRect( &inFrame );
-	}
+	inBuffer->CopyTo( macPort, &inFrame );
 }
 
 
 // ---------------------------------------------------------------------------
 //   DrawSelf														  [public]
 // ---------------------------------------------------------------------------
-// kAlignAbsoluteCenter  kTransformSelected
-// CTabHandle		theTable = UColorUtils::GetColorTable( inDepth );
 
 void
 CCursor_PickerStamp::DrawSelf()
 {
 	// The resID is the paneID of the PickerView
-	ResIDT theID = mParent->GetPaneID();
-	short theRefNum = mParent->GetUserCon();
+	ResIDT		theID = mParent->GetPaneID();
+	short		theRefNum = mParent->GetUserCon();
 	ResType		theType = mParent->GetOwnerWindow()->GetType();
 	
 	if (theRefNum != kResFileNotOpened) {
-		Rect	frame;
-		SInt32	theWidth, theHeight, theDepth, theRowBytes, theOffset;
+		Rect			frame;
+		SInt32			theWidth, theHeight, theDepth, theRowBytes;
 		COffscreen *	theBuffer = NULL;
 		Handle			theResHandle = NULL;
 		CTabHandle		theTable;
+		UInt8*			dataPtr;
 		
-// 		FocusDraw();
+		theResHandle = ::Get1Resource(theType, theID);
+		if (!theResHandle) return;
+		
 		CalcLocalFrameRect(frame);
 		StRezRefSaver saver(theRefNum);		
 		
-		UIconMisc::GetIconInfoForType(theType, theWidth, theHeight, theDepth, theRowBytes, theOffset);
+		if (!UIconMisc::GetCursorInfoForType(theType, theResHandle, theWidth, theHeight, 
+										   theDepth, theRowBytes, theTable, dataPtr)) {
+			return;
+		} 
 		
-		// Icon families use the standard color table for their depth
-		theTable = UColorUtils::GetColorTable(theDepth);
 		// Create the offscreen buffer
 		theBuffer = COffscreen::CreateBuffer( theWidth, theHeight, theDepth, theTable );
 		// Fill the buffer with the resource data
-		theResHandle = ::Get1Resource(theType, theID);
-		if (theResHandle) {
-			if (theBuffer) {
-				theBuffer->CopyFromRawData( (UInt8*) *theResHandle + theOffset, theRowBytes );	
-			} 
-			DrawBuffer(theBuffer, frame);
+		if (theBuffer) {
+			theBuffer->CopyFromRawData(dataPtr, theRowBytes);	
 		} 
-		
+		DrawBuffer(theBuffer, frame);
+			
 		if ( theBuffer ) delete theBuffer;
 		if ( theTable ) ::DisposeCTable( theTable );
-
 	}
 }
+
+
 
 
 PP_End_Namespace_PowerPlant
