@@ -57,7 +57,7 @@ private:
 	void		FinishCreateChooser();
 	void		PopulateGroupBoxes();
 	void		UpdatePluginInfo(CRezillaPlugin * inPlugin);
-	void		UpdateOrderTableForType(ResType inType);
+	void		UpdateOrderForType(ResType inType);
 	void		StoreCurrentOrder();
 	
 };

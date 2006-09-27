@@ -2,7 +2,7 @@
 // CPluginChooser.h
 // 
 //                       Created: 2006-09-25 07:02:55
-//             Last modification: 2006-09-26 11:53:04
+//             Last modification: 2006-09-27 08:56:34
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -111,7 +111,7 @@ CPluginChooser::RunDialog()
 				::GetMenuItemText( mOrderPgbx->GetMacMenuH(), mOrderPgbx->GetValue(), theString );
 				UMiscUtils::PStringToOSType( theString, theType);
 				StoreCurrentOrder();
-				UpdateOrderTableForType(theType);
+				UpdateOrderForType(theType);
 				mCurrType = theType;
 				mDialogBox->Refresh();
 				break;  // Breaks out from the inner 'while' but still in the inPickerLoop 'while'
@@ -265,7 +265,7 @@ CPluginChooser::PopulateGroupBoxes()
 						UMiscUtils::OSTypeToPString(theType, theString);
 						mOrderPgbx->InsertMenuItem(theString, i+1, true);
 						if (index == 1) {
-							UpdateOrderTableForType(theType);
+							UpdateOrderForType(theType);
 							mCurrType = theType;
 						} 
 					}
@@ -326,11 +326,11 @@ CPluginChooser::UpdatePluginInfo(CRezillaPlugin * inPlugin)
 
 
 // ---------------------------------------------------------------------------
-//   UpdateOrderTableForType										[private]
+//   UpdateOrderForType										[private]
 // ---------------------------------------------------------------------------
 
 void
-CPluginChooser::UpdateOrderTableForType(ResType inType)
+CPluginChooser::UpdateOrderForType(ResType inType)
 {
 	TableCellT			theCell;
 	TableIndexT			theRows, theCols;
@@ -399,10 +399,11 @@ void
 CPluginChooser::StoreCurrentOrder()
 {
 	CFMutableArrayRef	theArrayRef;
-	CFNumberRef			theKeyRef;
+	CFNumberRef			theKeyRef, thePlugRef;
 	CFStringRef			theNameRef;
 	TableCellT			theCell;
 	TableIndexT			theRows, theCols, rowIndex;
+	CRezillaPlugin *	thePlugin;
 	Str255				theString;
 
 	if (!sTypesDict) return;
@@ -418,7 +419,14 @@ CPluginChooser::StoreCurrentOrder()
 			mPluginOrderTable->GetCellData(theCell, theString);
 			theNameRef = ::CFStringCreateWithPascalString(NULL, theString, kCFStringEncodingMacRoman);
 			if (theNameRef) {
-				::CFArrayAppendValue(theArrayRef, theNameRef);
+				thePlugin = CPluginsController::GetPluginFromName(theNameRef);
+				if (thePlugin != NULL) {
+					thePlugRef = ::CFNumberCreate(NULL, kCFNumberSInt32Type, &thePlugin);
+					if (thePlugRef) {
+						::CFArrayAppendValue(theArrayRef, thePlugRef);
+						::CFRelease(thePlugRef);
+					}
+				}
 			}
 			::CFRelease(theNameRef);
 		}
