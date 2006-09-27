@@ -2,7 +2,7 @@
 // 	CIconFamily_PickerStamp.cp
 // 
 //                       Created : 2006-02-25 17:40:43
-//             Last modification : 2006-09-23 07:57:58
+//             Last modification : 2006-09-27 11:02:55
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@users.sourceforge.net>
 // www : <http://rezilla.sourceforge.net/>
@@ -98,67 +98,37 @@ CIconFamily_PickerStamp::StampSize(ResType inType, SInt16 &outWidth, SInt16 &out
 void
 CIconFamily_PickerStamp::DrawBuffer(COffscreen * inBuffer, Rect inFrame)
 {	
-	StGWorldSaver		aSaver;
-	StColorPenState		aPenState;	
-	Rect				portRect;
-	GrafPtr				macPort = this->GetMacPort();
-Point	portOrigin;
-mParent->GetOwnerWindow()->GetContentsView()->GetPortOrigin(portOrigin);
+	StGWorldSaver	aSaver;
+	GrafPtr			macPort = this->GetMacPort();
 	
-	if ( !macPort ) return;
+	if ( !macPort || !inBuffer ) return;
 
-	portRect = inFrame;
 	LocalToPortPoint( topLeft(inFrame) );
 	LocalToPortPoint( botRight(inFrame) );
-
-	if (inBuffer) {
-		inBuffer->CopyTo( macPort, &portRect );
-	} else {
-		Pattern aPat;
-		
-		this->FocusDraw();
-		aPenState.Normalize();
-		::PenPat( UQDGlobals::GetLightGrayPat(&aPat) );
-		::PaintRect( &inFrame );
-	}
+	inBuffer->CopyTo( macPort, &inFrame );
 }
 
 
 // ---------------------------------------------------------------------------
 //   DrawSelf														  [public]
 // ---------------------------------------------------------------------------
-// 		this->CalcPortFrameRect(frame);
-// 		this->PortToGlobalPoint( topLeft(frame) );
-// 		this->PortToGlobalPoint( botRight(frame) );
-// this->CalcPortFrameRect(frame);
-// CalcLocalFrameRect(frame);
-// this->LocalToPortPoint( topLeft(frame) );
-// this->LocalToPortPoint( botRight(frame) );
-// 		mParent->CalcPortFrameRect(frame);
-// 		mParent->CalcLocalFrameRect(frame);
-		// 		this->CalcPortFrameRect(frame);
-				
-// 		mParent->GetOwnerWindow()->GetContentsView()->LocalToPortPoint( topLeft(frame) );
-// 		mParent->GetOwnerWindow()->GetContentsView()->LocalToPortPoint( botRight(frame) );
 
 void
 CIconFamily_PickerStamp::DrawSelf()
 {
 	// The resID is the paneID of the PickerView
-	ResIDT theID = mParent->GetPaneID();
-	short theRefNum = mParent->GetUserCon();
-	ResType		theType = mParent->GetOwnerWindow()->GetType();
+	ResIDT	theID = mParent->GetPaneID();
+	short	theRefNum = mParent->GetUserCon();
+	ResType	theType = mParent->GetOwnerWindow()->GetType();
 	
 	if (theRefNum != kResFileNotOpened) {
-		Rect	frame;
-		SInt32	theWidth, theHeight, theDepth, theRowBytes, theOffset;
+		Rect			frame;
+		SInt32			theWidth, theHeight, theDepth, theRowBytes, theOffset;
 		COffscreen *	theBuffer = NULL;
 		Handle			theResHandle = NULL;
 		CTabHandle		theTable;
 		
-		// 		FocusDraw();
 		CalcLocalFrameRect(frame);
-
 		StRezRefSaver saver(theRefNum);		
 		
 		UIconMisc::GetIconInfoForType(theType, theWidth, theHeight, theDepth, theRowBytes, theOffset);
@@ -171,7 +141,7 @@ CIconFamily_PickerStamp::DrawSelf()
 		theResHandle = ::Get1Resource(theType, theID);
 		if (theResHandle) {
 			if (theBuffer) {
-				theBuffer->CopyFromRawData( (UInt8*) *theResHandle + theOffset, theRowBytes );	
+				theBuffer->CopyFromRawData( (UInt8*) *theResHandle, theRowBytes );	
 			} 
 			DrawBuffer(theBuffer, frame);
 		} 
