@@ -303,17 +303,24 @@ CPickerWindow::RecalcLayout()
 {
 	int					currCol = 0, currRow = 0;
 	SDimension16		frameSize;
-	SPoint32			stampLoc;
+	SPoint32			viewLoc;
 	CPickerView *		theView;
 	TArrayIterator<CPickerView*> iterator(*mViewList);
 	SInt16				theWidth, theHeight;
 	
-	theWidth = mStampWidth + 2 * kPickerViewHorizMargin 
-				+ kPickerViewHorizSkip;
-	theHeight = mStampHeight + 2 * kPickerViewVertMargin 
-				+ kPickerViewIDFieldHeight 
-				+ kPickerViewVertSkip;
+	theWidth = mStampWidth + 2 * kPickerViewHorizMargin;
+	theHeight = mStampHeight + 2 * kPickerViewVertMargin + kPickerViewIDFieldHeight;
 	
+	if (theWidth < kPickerViewMinWidth) {
+		theWidth = kPickerViewMinWidth;
+	} 
+	if (theHeight < kPickerViewMinHeight) {
+		theHeight = kPickerViewMinHeight;
+	} 
+	
+	theWidth += kPickerViewHorizSkip;
+	theHeight += kPickerViewVertSkip;
+
 	mContentsView->GetFrameSize(frameSize);
 
 	while (iterator.Next(theView)) {
@@ -321,15 +328,15 @@ CPickerWindow::RecalcLayout()
 			currCol = 0;
 			currRow++;
 		} 
-		stampLoc.h = theWidth * currCol + kPickerWindowHorizOffset;
-		stampLoc.v = theHeight * currRow + kPickerWindowVertOffset;
+		viewLoc.h = theWidth * currCol + kPickerWindowHorizOffset;
+		viewLoc.v = theHeight * currRow + kPickerWindowVertOffset;
 		
-		theView->PlaceInSuperFrameAt(stampLoc.h, stampLoc.v, Refresh_No);
+		theView->PlaceInSuperImageAt(viewLoc.h, viewLoc.v, Refresh_No);
 		currCol++;
 	}
 	
 	// Resize the contents view to get the vertical scrollbar right
-	mContentsView->ResizeImageTo(frameSize.width, stampLoc.v + theHeight, false);
+	mContentsView->ResizeImageTo(frameSize.width, viewLoc.v + theHeight, false);
 	
 	Refresh();
 }
