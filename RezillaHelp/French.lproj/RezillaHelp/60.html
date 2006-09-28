@@ -1,29 +1,52 @@
 <HTML>
 <HEAD>
-<TITLE>Exporter une table de ressourcesLa commande export correspond à l'article de menu Export du</TITLE>
+<TITLE>Comparer des tables de ressourcesOn peut effectuer une comparison entre deux tables de ressources (désignées</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="59.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="61.html">Suiv</A><HR><P>&nbsp;</P>
-<H3>Exporter une table de ressources</H3><P>La commande <B>export</B> correspond à l'article de menu <I>Export</I> du
-menu Fichier (<I>File</I>) de Rezilla. Elle permet de générer un export
-d'une table de ressources dans divers formats. Cette commande accepte deux
-paramètres:
+<H3>Comparer des tables de ressources</H3><P>On peut effectuer une comparison entre deux tables de ressources (désignées
+respectivement, dans ce qui suit, comme l'ancienne et la nouvelle) grâce à
+la commande <B>compare</B>. Il faut spécifier en argument les deux
+fichiers contenant les tables à comparer. La commande accepte trois
+paramètres booléens optionnels permettant de spécifier les critères de
+comparison :
 <UL>
-	<LI> le paramètre <I>in</I> permet de spécifier le dossier dans lequel on 
-souhaite créer le fichier d'export. Ce paramètre est obligatoire.
-	<LI> le paramètre <I>with properties</I> permet de spécifier le nom du
-fichier d'export et le format d'export . Les valeurs possibles pour le
-format sont <I>xml</I>, <I>html</I>, <I>text</I> et <I>DeRez</I> (la
-valeur par défaut est <I>xml</I>). Si aucun nom n'est fourni, Rezilla
-utilise un nom par défaut. Ce paramètre est optionnel.
+	<LI> si le paramètre <I>ignoreName</I> a la valeur <I>vrai</I>, les
+différences relatives au nom des ressources seront ignorées
+	<LI> si le paramètre <I>ignoreAttrs</I> a la valeur <I>vrai</I>, les
+différences relatives aux attributs des ressources seront ignorées
+	<LI> si le paramètre <I>ignoreData</I> a la valeur <I>vrai</I>, les
+différences relatives au contenu des ressources seront ignorées
 </UL>
-Par exemple:
+Le comportement par défaut consiste à iGNorer les différences relatives au 
+nom et aux attributs.<P>Cette commande renvoie un objet de comparison dont les propriétés indiquent
+quelles ressources diffèrent ou sont identiques entre les tables de
+ressources. On peut obtenir les propriétés suivantes à partir du résultat:
+<UL>
+	<LI> <I>old only resources</I>: liste des ressources qui sont seulement 
+dans l'ancienne table<P>	<LI> <I>new only resources</I>: liste des ressources qui sont seulement 
+dans la nouvelle table<P>	<LI> <I>differing resources</I>: liste des ressources qui existent dans les
+deux tables et sont différentes<P>	<LI> <I>identical resources</I>: liste des ressources qui existent dans les
+deux tables et sont identiques<P>	<LI> <I>criteria</I>: les critères qui ont été appliqués pour effectuer la
+comparison, présentés sous forme d'une liste d'éléments de type clé:valeur 
+(par exemple <I>ignoreName:true</I>)<P>	<LI> <I>ignoreName</I>: les différences relatives au nom ont-elles été 
+ignorées ?<P>	<LI> <I>ignoreAttrs</I>: les différences relatives aux attributs ont-elles été 
+ignorées ?<P>	<LI> <I>ignoreData</I>: les différences relatives au contenu ont-elles été 
+ignorées ?<P></UL><P>Voici un exemple complet:
 <PRE>
-	export map document 1 in "HD:foo:bar:" as alias ¬
-		with properties {name:"exportedMap.xml", format:xml}<P></PRE><P>
+	set theComp to compare "HD:foo:bar:file1" as alias ¬
+		and "HD:foo:bar:file2" as alias ¬
+		with ignoreName without ignoreAttrs
+	-- get information out of the result
+	get the old only resources of theComp
+	get the new only resources of theComp
+	get the differing resources of theComp
+	get the identical resources of theComp
+	-- get the criteria
+	get the criteria of theComp<P></PRE><P>
 
 </BODY>
 </HTML>

@@ -1,37 +1,28 @@
 <HTML>
 <HEAD>
-<TITLE>Creating a new resource mapOne can create a new empty resource map with the make command. This </TITLE>
+<TITLE>Saving a resource mapModifications made in a resource map document can be saved directly </TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="49.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="51.html">Next</A><HR><P>&nbsp;</P>
-<H3>Creating a new resource map</H3><P>One can create a new empty resource map with the <B>make</B> command. This 
-command accepts three parameters. The first two are required, the other is
-optional:
+<H3>Saving a resource map</H3><P>Modifications made in a resource map document can be saved directly 
+using the <B>save</B> command. Two additional parameters are supported:
 <UL>
-	<LI> the parameter <I>new</I> indicates the class of the object to create 
-(<I>map</I> or <I>map document</I>)
-	<LI> the parameter <I>in</I> is used to designate the folder containing the 
-new resource file
-	<LI> the parameter <I>with properties</I> is used to specify some 
-additional properties. It is a list containing key:value pairs (a record 
-in AppleScript parlance). The keys can be any of <I>name</I>, <I>fork</I>
-and <I>readOnly</I>. This parameter is optional.
-</UL><P>Here is a complete example:
+	<LI> the <I>in</I> parameter lets you specify the file in which you want 
+to create the export file. This parameter is optional.
+	<LI> the <I>as</I> parameter lets you specify the fork in which you want
+to save the resource map. The possible values are <I>data fork</I>, <I>resource fork</I>, <I>same fork</I> (the latter only for <I>Save As</I>). This parameter is optional. It is ignored if the <I>in</I> 
+parameter is not specified because, in that case, Rezilla executes a 
+simple <B>save</B> command on the resource map.
+</UL>
 <PRE>
-	-- ask the Finder to make the folder object
-	tell application "Finder"
-		set theFolder to folder "HD:foo:bar:" as alias
-	end tell
-	-- create the new map document in this folder
-	make new map document in theFolder with properties ¬
-		{name:"newmap.rsrc",fork:data fork,readOnly:true}<P></PRE>
-Note that the folder containing the new map document must be declared in a
-<I>tell</I> block addressed to the Finder rather than to Rezilla. This is
-because the word <I>folder</I> belongs to the Finder's terminology and not
-to Rezilla's.<P>
+	save document 1 in "HD:foo:bar:otherMap.rsrc" as resource fork<P></PRE><P>It is also possible to discard changes made in a resource map and
+return to the last saved version of the map using the <B>revert</B>
+command. For instance:
+<PRE>
+	revert map document 1<P></PRE><P>
 
 </BODY>
 </HTML>

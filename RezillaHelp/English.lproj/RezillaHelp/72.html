@@ -1,31 +1,23 @@
 <HTML>
 <HEAD>
-<TITLE>The plugin modelA plugin implements an interface which can be viewed as a particular</TITLE>
+<TITLE>Writing a Plugin for RezillaThis section is for developers who wish to write a plugin for Rezilla.A complete plugins support has been introduced in Rezilla starting </TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="71.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="73.html">Next</A><HR><P>&nbsp;</P>
-<H3>The plugin model</H3><P>A plugin implements an <I>interface</I> which can be viewed as a particular
-incarnation of a <I>service</I>. In the official terminology, one speaks of <I>type</I>
-to designate a kind of service: the type of an editor plugin, in the case of Rezilla, is the fact
-of editing a particular resource (the word type here should not be confused
-with the type of a resource!).
-As of version 1.1, Rezilla knows of only this plugin type: the editing service. In
-the future, Rezilla could also support external plugins defining new
-resource pickers, for instance, and this would be another type since it 
-is a different kind of service.<P>There is not necessarily one interface for a given type: there can be
-several interfaces. For instance, future versions of Rezilla, might modify
-the current interface: this would be done via the definition of a new,
-additional, interface. In that case, a Rezilla plugin would have to provide
-implementations for both the old and the new interface and the main Rezilla
-application would decide which one to use depending on the circumstances and
-the context. As of version 1.1 of Rezilla, there is only one interface for
-the editing service. An interface can be understood as a list of functions 
-corresponding to different tasks and which are expected by Rezilla to be 
-defined in the plugin.<P><A NAME="plugbundle"></A>
-
+<H2>Writing a Plugin for Rezilla</H2><P>This section is for developers who wish to write a plugin for Rezilla.<P>A complete plugins support has been introduced in <B>Rezilla</B> starting 
+from version 1.1. 
+It uses the CFPlugin API defined in the CoreFoundation framework. This 
+programming interface is based on the COM model (Microsoft?s  
+<I>Component Object Model</I> architecture). To learn more about the
+CFPlugin model and the COM architecture, refer to the Apple's developer documentation, in
+particular:
+<A HREF="http://developer.apple.com/documentation/CoreFoundation/Conceptual/CFPlugIns/index.html">http://developer.apple.com/documentation/CoreFoundation/Conceptual/CFPlugIns/index.html</A><P>The present document explains how to write a plugin for Rezilla, complying
+with this model. It is written for developers who want to bring new 
+editing capacities to Rezilla and contains the main guidelines and technical 
+information for this purpose.<P>
 
 </BODY>
 </HTML>

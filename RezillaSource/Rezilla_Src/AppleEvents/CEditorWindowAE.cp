@@ -2,11 +2,11 @@
 // CEditorWindowAE.cp
 // 
 //                       Created: 2005-04-26 10:05:20
-//             Last modification: 2005-06-12 18:45:01
+//             Last modification: 2006-09-27 14:13:09
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2005
+// (c) Copyright : Bernard Desgraupes, 2005-2006
 // All rights reserved.
 // ===========================================================================
 //  AppleEvent Object Model Support. These methods are part of the CEditorWindow 
@@ -70,6 +70,8 @@ CEditorWindow::GetAEProperty(
 
 		if (theKind == editor_kindGui) {
 			theType = rzom_eGuiEditor;
+		} else if (theKind == editor_kindPlug) {
+			theType = rzom_ePlugEditor;
 		} else if (theKind == editor_kindTmpl) {
 			theType = rzom_eTmplEditor;
 		} else if (theKind == editor_kindHex) {

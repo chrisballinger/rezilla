@@ -419,7 +419,7 @@ CPluginChooser::StoreCurrentOrder()
 			mPluginOrderTable->GetCellData(theCell, theString);
 			theNameRef = ::CFStringCreateWithPascalString(NULL, theString, kCFStringEncodingMacRoman);
 			if (theNameRef) {
-				thePlugin = CPluginsController::GetPluginFromName(theNameRef);
+				thePlugin = CPluginsController::GetPluginByName(theNameRef);
 				if (thePlugin != NULL) {
 					thePlugRef = ::CFNumberCreate(NULL, kCFNumberSInt32Type, &thePlugin);
 					if (thePlugRef) {

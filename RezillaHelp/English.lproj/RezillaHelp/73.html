@@ -1,45 +1,30 @@
 <HTML>
 <HEAD>
-<TITLE>The plugin's bundle</TITLE>
+<TITLE>The plugin modelA plugin implements an interface which can be viewed as a particular</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="72.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="74.html">Next</A><HR><P>&nbsp;</P>
-<H3>The plugin's bundle</H3>
-Technically a plugin is just a dynamic library which is loaded by the main 
-application when necessary. On OS X, this library is packaged in a bundle, 
-that is to say a directory-like structure containing the library itself 
-and a few other resources.<P>To learn more about bundles on OS X, see:
-<A HREF="http://developer.apple.com/documentation/CoreFoundation/Conceptual/CFBundles/Concepts/about.html">http://developer.apple.com/documentation/CoreFoundation/Conceptual/CFBundles/Concepts/about.html</A><P>Using this architecture makes it very easy, from the user's point of view,
-to perform the maintenance tasks related to plugins, for instance adding a 
-new plugin, removing a plugin, enabling or disabling a plugin. All these 
-actions can be performed in the Finder in a transparent manner (see the 
-<I>External Editors</I> section in Rezilla's help). The 
-user does not have to know where exactly the plugin resides inside the 
-application's bundle.<P>Here is, for instance, the internal structure of the <B>RezImagePlugin</B>, a 
-plugin provided with version 1.1 of Rezilla:
-<P><IMG SRC="../../Images/rzil_pluginanatomy.gif " ALT="Plugin anatomy" ALIGN=bottom></P><P>The plugin's bundle is named <I>RezImagePlugin.plugin</I>. It must have a <I>.plugin</I> 
-extension to make sure that Rezilla will find it. Some elements of the 
-<I>Contents</I> subfloder are required, some are optional. Required elements are:
-<UL>
-	<LI> the <I>Info.plist</I> file which is a Property List file containing information 
-about the capacities of this bundle. See the 
-section <A HREF="#plugplist"><I>The plugin's property list</I></A> below.
-	<LI> the <I>MacOS</I> subfolder with the dynamic library itself 
-(<I>RezImagePlugin</I> in the previous example).
-</UL><P>The <I>Resources</I> subfolder may contain additional data. In the previous 
-example, it contains:
-<UL>
-	<LI> a resource file named <I>RezImagePlugin.rsrc</I> which defines
-resources used by the plugin. The name of the resource file is the
-name of the executable (the library located in the MacOS subfolder of the
-bundle) followed by a <TT>.rsrc</TT> extension.
-	<LI> localized folders (<I>English.lproj, French.lproj</I>) with localizable 
-data. In the given example, two files in both folders contain localized strings used by 
-the plugin. Other languages can be added as necessary.
-</UL><P><A NAME="pluguuids"></A>
+<H3>The plugin model</H3><P>A plugin implements an <I>interface</I> which can be viewed as a particular
+incarnation of a <I>service</I>. In the official terminology, one speaks of <I>type</I>
+to designate a kind of service: the type of an editor plugin, in the case of Rezilla, is the fact
+of editing a particular resource (the word type here should not be confused
+with the type of a resource!).
+As of version 1.1, Rezilla knows of only this plugin type: the editing service. In
+the future, Rezilla could also support external plugins defining new
+resource pickers, for instance, and this would be another type since it 
+is a different kind of service.<P>There is not necessarily one interface for a given type: there can be
+several interfaces. For instance, future versions of Rezilla, might modify
+the current interface: this would be done via the definition of a new,
+additional, interface. In that case, a Rezilla plugin would have to provide
+implementations for both the old and the new interface and the main Rezilla
+application would decide which one to use depending on the circumstances and
+the context. As of version 1.1 of Rezilla, there is only one interface for
+the editing service. An interface can be understood as a list of functions 
+corresponding to different tasks and which are expected by Rezilla to be 
+defined in the plugin.<P><A NAME="plugbundle"></A>
 
 
 </BODY>

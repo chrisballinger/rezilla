@@ -27,8 +27,11 @@
 // ---------------------------------------------------------------------------
 //  CRezillaPlugin												[public]
 // ---------------------------------------------------------------------------
+// Plugin objects do not have a super model object. They are elements of the null
+// top container, the "application" object.
 
 CRezillaPlugin::CRezillaPlugin(CFBundleRef inBundleRef)
+	: LModelObject( NULL, rzom_cPlugin)
 {
 	mIsLoaded = false;
 	mMenusBuilt = false;

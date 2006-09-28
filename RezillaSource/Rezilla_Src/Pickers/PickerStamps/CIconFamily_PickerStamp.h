@@ -2,7 +2,7 @@
 // CIconFamily_PickerStamp.h
 // 
 //                       Created : 2006-02-25 17:40:43
-//             Last modification : 2006-09-23 07:18:55
+//             Last modification : 2006-09-28 18:43:54
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@users.sourceforge.net>
 // www : <http://rezilla.sourceforge.net/>
@@ -45,7 +45,7 @@ private:
 	void				GetTypeInfo(ResType inType, SInt32 &theWidth, SInt32 &theHeight, 
 										 SInt32 &theDepth, SInt32 &theRowBytes, SInt32 &theOffset);
 	
-	void				DrawBuffer(COffscreen * inBuffer, Rect inFrame);
+	void				DrawBuffer(COffscreen * inBuffer);
 	
 };
 

@@ -2,7 +2,7 @@
 // CPickerDocAE.cp
 // 
 //                       Created: 2006-02-24 06:34:27
-//             Last modification: 2006-03-16 12:39:40
+//             Last modification: 2006-09-28 12:38:15
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -13,14 +13,16 @@
 //  class (inheriting from LModelObject).
 
 #include "CRezMap.h"
+#include "RezillaConstants.h"
 #include "CPickerDoc.h"
 #include "CPickerWindow.h"
+#include "CPickerView.h"
 #include "CRezMapDoc.h"
 #include "CRezType.h"
 #include "CRezTypeItem.h"
 #include "CRezMapTable.h"
 #include "UResources.h"
-#include "RezillaConstants.h"
+#include "UMiscUtils.h"
 
 #include <LCommander.h>
 
@@ -34,12 +36,13 @@ CPickerDoc::MakeSelfSpecifier(
 	AEDesc	&inSuperSpecifier,
 	AEDesc	&outSelfSpecifier) const
 {
-	Str255		docName;
-	
-	GetDescriptor(docName);
-
+	Str255		theString;
+	ResType		theType = mRezTypeItem->GetRezType()->GetType();
+	OSErr		err;
 	StAEDescriptor	keyData;
-	OSErr	err = ::AECreateDesc(typeChar, docName + 1, docName[0], &keyData.mDesc);
+
+	UMiscUtils::OSTypeToPString(theType, theString);
+	err = ::AECreateDesc(typeChar, theString + 1, theString[0], &keyData.mDesc);
 	ThrowIfOSErr_(err);
 	
 	err = ::CreateObjSpecifier(rzom_cPickerDoc, &inSuperSpecifier, formName,
@@ -52,12 +55,14 @@ CPickerDoc::MakeSelfSpecifier(
 //   GetAEProperty
 // ---------------------------------------------------------------------------
 //	Return a descriptor for the specified Property
-//	rzom_pReadOnly		= 'pRDO';	// mapReadOnly
+//  rzom_pName			= pName;	// Name ('pnam')
+//  pIndex				= 'pidx';
+//	rzom_pReadOnly		= 'pRDO';	// Read only
+//  cWindow				= 'cwin';	// Picker's window
 // 	rzom_cRezType		= 'cTYP';	// RezType
 // 	rzom_pOwnerMapDoc	= 'pOWM';	// Document's owner rezmap doc
-// 	rzom_cRezMapDoc		= 'MapD';	// RezMap document
-//  pIndex				= 'pidx';
-//  cWindow				= 'cwin';
+// 	rzom_cRezMapDoc		= 'MapD';	// ditto
+// 	rzom_pSelectedID	= 'pSEL';	// Selected resource
 
 void
 CPickerDoc::GetAEProperty(
@@ -65,10 +70,23 @@ CPickerDoc::GetAEProperty(
 	const AEDesc&	inRequestedType,
 	AEDesc&			outPropertyDesc) const
 {
-	OSErr	error = noErr;
-	
+	OSErr		error = noErr;
+	ResType		theType;
+	Str255		theString;
+
 	switch (inProperty) {
 		
+		case rzom_pName: 
+		// The "name" of the picker is its type so that one can simply
+		// write in AppleScript:
+		//     plugin "MENU" of map document 1
+		theType = mRezTypeItem->GetRezType()->GetType();
+		UMiscUtils::OSTypeToPString(theType, theString);
+		error = ::AECreateDesc(typeChar, (Ptr) theString + 1, theString[0], &outPropertyDesc);
+		ThrowIfOSErr_(error);
+		break;
+		
+
 		case rzom_pReadOnly:
 		error = ::AECreateDesc(typeBoolean, (Ptr) &mReadOnly,
 									sizeof(Boolean), &outPropertyDesc);
@@ -77,7 +95,8 @@ CPickerDoc::GetAEProperty(
 		
 		
 		case pIndex: {
-			// Return the index of this document among the other editor docs
+			// Return the index of this document among the other pickers
+			// for the same rezmap doc
 			SInt32	position = GetAEPosition(this);
 			if (position > 0) {
 				error = ::AECreateDesc(typeSInt32, (Ptr) &position,
@@ -107,10 +126,30 @@ CPickerDoc::GetAEProperty(
 		}
 		
 		
-		// Handled in GetModelProperty
-// 		case rzom_cRezObj:
+		// Note: rzom_cRezType and rzom_cPickerWindow are handled in GetModelProperty
+// 		case rzom_cRezType:
 // 		break;
 		
+// 		case rzom_cPickerWindow:
+// 		break;
+				
+		
+		case rzom_pSelectedID: {
+			// Return the index of this document among the other pickers
+			// for the same rezmap doc
+
+			CPickerView* theSelView = mPickerWindow->GetSelectedView();
+			if (theSelView) {
+				short	theID = (short) theSelView->GetPaneID();
+				::NumToString(theID, theString);
+			} else {
+				theString[0] = 0;
+			}
+			error = ::AECreateDesc(typeChar, (Ptr) theString + 1, theString[0], &outPropertyDesc);
+			ThrowIfOSErr_(error);
+			break;
+		}
+				
 		
 		default:
 		LDocument::GetAEProperty(inProperty, inRequestedType,
@@ -131,7 +170,29 @@ CPickerDoc::SetAEProperty(
 	const AEDesc&	inValue,
 	AEDesc&			outAEReply)
 {
+	Str255		theString;
+
 	switch (inProperty) {
+		case rzom_pSelectedID: {
+			CPickerView* theSelView;
+			long		theLong;
+			short		theID;
+			
+			// Return the index of this document among the other pickers
+			// for the same rezmap doc
+			UExtractFromAEDesc::ThePString(inValue, theString, sizeof(theString));
+			if (theString[0] == 0) {
+				theSelView = NULL;
+			} else {
+				::StringToNum(theString, &theLong);
+				theID = theLong;
+				theSelView = dynamic_cast<CPickerView*>(mPickerWindow->GetContentsView()->FindPaneByID(theID));
+			}
+			mPickerWindow->SetSelectedView(NULL);
+			mPickerWindow->Refresh();
+			break;
+		}
+		
 		
 		default:
 		LDocument::SetAEProperty(inProperty, inValue, outAEReply);
@@ -175,26 +236,24 @@ CPickerDoc::AEPropertyExists(
 // ---------------------------------------------------------------------------
 
 SInt32
-CPickerDoc::GetAEPosition(const CPickerDoc * inDoc) {
-	SInt32		currPos = 0, result = 0;
-	LDocument*	theDoc = nil;
-	Boolean		found = false;
-	DescType	theKind;
+CPickerDoc::GetAEPosition(const CPickerDoc * inPicker) const
+{
+	SInt32		position = 1;
+	CPickerDoc	*thePicker = NULL, *currPicker;
+	TArray<CPickerDoc *>* pickersList = mRezMapTable->GetOwnerDoc()->GetOpenedPickers();
 
-	TArrayIterator<LDocument*> iterator( LDocument::GetDocumentList() );
-	while (iterator.Next(theDoc)) {
-		theKind = theDoc->GetModelKind();
-		if (theKind == rzom_cPickerDoc) {
-			currPos++;
-			if (theDoc == inDoc) {
-				result = currPos;
-				break;
-			} 
-		} 				
-		theDoc = nil;
+	TArrayIterator<CPickerDoc*> iterator(*pickersList);
+	while (iterator.Next(currPicker)) {
+		if (inPicker == currPicker) {
+			thePicker = currPicker;
+			break;
+		} 
+		position++;
 	}
-
-	return result;
+	if (!thePicker) {
+		ThrowOSErr_(errAENoSuchObject);
+	} 
+	return position;
 }
 
 

@@ -70,16 +70,18 @@ CCursor_PickerStamp::StampSize(ResType inType, SInt16 &outWidth, SInt16 &outHeig
 // ---------------------------------------------------------------------------
 
 void
-CCursor_PickerStamp::DrawBuffer(COffscreen * inBuffer, Rect inFrame)
+CCursor_PickerStamp::DrawBuffer(COffscreen * inBuffer)
 {	
 	StGWorldSaver	aSaver;
+	Rect			frame;
 	GrafPtr			macPort = this->GetMacPort();
 	
 	if ( !macPort || !inBuffer ) return;
 
-	LocalToPortPoint( topLeft(inFrame) );
-	LocalToPortPoint( botRight(inFrame) );
-	inBuffer->CopyTo( macPort, &inFrame );
+	CalcLocalFrameRect(frame);
+	LocalToPortPoint( topLeft(frame) );
+	LocalToPortPoint( botRight(frame) );
+	inBuffer->CopyTo( macPort, &frame );
 }
 
 
@@ -96,18 +98,16 @@ CCursor_PickerStamp::DrawSelf()
 	ResType		theType = mParent->GetOwnerWindow()->GetType();
 	
 	if (theRefNum != kResFileNotOpened) {
-		Rect			frame;
 		SInt32			theWidth, theHeight, theDepth, theRowBytes;
 		COffscreen *	theBuffer = NULL;
 		Handle			theResHandle = NULL;
 		CTabHandle		theTable;
 		UInt8*			dataPtr;
 		
+		StRezRefSaver saver(theRefNum);		
 		theResHandle = ::Get1Resource(theType, theID);
 		if (!theResHandle) return;
 		
-		CalcLocalFrameRect(frame);
-		StRezRefSaver saver(theRefNum);		
 		
 		if (!UIconMisc::GetCursorInfoForType(theType, theResHandle, theWidth, theHeight, 
 										   theDepth, theRowBytes, theTable, dataPtr)) {
@@ -119,10 +119,9 @@ CCursor_PickerStamp::DrawSelf()
 		// Fill the buffer with the resource data
 		if (theBuffer) {
 			theBuffer->CopyFromRawData(dataPtr, theRowBytes);	
+			DrawBuffer(theBuffer);
+			delete theBuffer;
 		} 
-		DrawBuffer(theBuffer, frame);
-			
-		if ( theBuffer ) delete theBuffer;
 		if ( theTable ) ::DisposeCTable( theTable );
 	}
 }

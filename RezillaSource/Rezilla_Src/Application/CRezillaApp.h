@@ -131,6 +131,11 @@ public:
 								const AEDesc&		inRequestedType,
 								AEDesc&				outPropertyDesc) const;
 
+	virtual void		SetAEProperty(
+								DescType		inProperty,
+								const AEDesc&	inValue,
+								AEDesc&			outAEReply);
+
 	virtual bool		AEPropertyExists(
 								DescType		inProperty) const;
 

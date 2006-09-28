@@ -42,7 +42,13 @@ $Date$
 		* simple icons ('ICON', 'cicn', 'SCIN')
 		* pictures ('PICT')
 		* patterns ('PAT ', 'PAT#', 'ppat')
+		* cursors ('CURS', 'crsr')
 		* text ('TEXT', 'STR#')
+¥ New "Plugins..." command and plugins window to get info about plugins and set 
+  the preferred plugin for any supported type.
+¥ Plugin settings saved in the preferences.
+¥ Implemented AppleScript support for plugins and for pickers.
+¥ Added documentation about AppleScript support for plugins and pickers.
 
 ================================================================================
 = 1.1b6										last update: 2006-09-19 19:03:07
@@ -51,7 +57,7 @@ $Date$
 ¥ French translation of the plugin SDK documentation.
 ¥ Streamlined the commanders chain among the various editors.
 ¥ Completed the plugins integration and compatibility between CarbonEvents 
-handlers and the PowerPlant model for events dispatching, menus and windows.
+  handlers and the PowerPlant model for events dispatching, menus and windows.
 
 ================================================================================
 = 1.1b5										last update: 2006-09-14 18:33:23

@@ -1,28 +1,42 @@
 <HTML>
 <HEAD>
-<TITLE>Exporting resource mapsThe export command corresponds to the Export menu item in </TITLE>
+<TITLE>Comparing resource mapsA comparison between two resource maps can be executed using the </TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="59.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="61.html">Next</A><HR><P>&nbsp;</P>
-<H3>Exporting resource maps</H3><P>The <B>export</B> command corresponds to the <I>Export</I> menu item in 
-Rezilla's File menu. It lets you generate an export of a resource map in 
-various formats. This command accepts two parameters:
+<H3>Comparing resource maps</H3><P>A comparison between two resource maps can be executed using the 
+<B>compare</B> command. One must specify the two files to compare: the
+first one is usually refered to as the old one, and the second one as the
+new one. The command also accepts three optional boolean parameters to set
+the comparison criteria:
 <UL>
-	<LI> the <I>in</I> parameter lets you specify the folder in which you want 
-to create the export file. This parameter is required.
-	<LI> the <I>with properties</I> parameter lets you specify the name of the
-export file and the export format. Its value is a record using the <I>name</I> 
-and <I>format</I> keywords. The possible values for the format are
-<I>xml</I>, <I>html</I>, <I>text</I> and <I>DeRez</I> (default is <I>xml</I>). If no name is provided, Rezilla will use a default name. This
-parameter is optional.
+	<LI> if the <I>ignoreName</I> parameter is set to true, differences 
+concerning the name of the resources will be ignored 
+	<LI> if the <I>ignoreAttrs</I> parameter is set to true, differences 
+concerning the attributes of the resources will be ignored 
+	<LI> if the <I>ignoreData</I> parameter is set to true, differences 
+concerning the contents of the resources will be ignored 
 </UL>
-For instance:
+The default is to ignore name and attributes differences.<P>This command returns a comparison object whose properties indicate which 
+resources differ or are identical between the resource maps. One can query 
+the following properties from the result:
+<UL>
+	<LI> <I>old only resources</I>: list of resources which are only in the old map<P>	<LI> <I>new only resources</I>: list of resources which are only in the new map<P>	<LI> <I>differing resources</I>: list of resources which are in both maps and are different<P>	<LI> <I>identical resources</I>: list of resources which are in both maps and are identical<P>	<LI> <I>criteria</I>: the criteria which have been used for the 
+comparison, presented as a keyworded list<P>	<LI> <I>ignoreName</I>: have name differences been ignored?<P>	<LI> <I>ignoreAttrs</I>: have attributes differences been ignored?<P>	<LI> <I>ignoreData</I>: have data differences been ignored?<P></UL><P>Here is a complete example:
 <PRE>
-	export map document 1 in "HD:foo:bar:" as alias ¬
-		with properties {name:"exportedMap.xml", format:xml}<P></PRE><P>
+	set theComp to compare "HD:foo:bar:file1" as alias ¬
+		and "HD:foo:bar:file2" as alias ¬
+		with ignoreName without ignoreAttrs
+	-- get information out of the result
+	get the old only resources of theComp
+	get the new only resources of theComp
+	get the differing resources of theComp
+	get the identical resources of theComp
+	-- get the criteria
+	get the criteria of theComp<P></PRE><P>
 
 </BODY>
 </HTML>

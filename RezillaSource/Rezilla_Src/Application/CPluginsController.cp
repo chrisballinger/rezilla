@@ -2,7 +2,7 @@
 // CPluginsController.cp
 // 
 //                       Created: 2005-09-26 09:48:26
-//             Last modification: 2006-09-26 10:38:28
+//             Last modification: 2006-09-28 11:07:01
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://rezilla.sourceforge.net/>
@@ -113,10 +113,6 @@ CPluginsController::InvokePluginEditor(CRezMapDoc* inRezMapDoc,
 // ---------------------------------------------------------------------------
 //  GetPreferredPlugin												[public]
 // ---------------------------------------------------------------------------
-// TODO: design a system for selecting the preferred plugin when several
-// plugins can edit the same type. The preferred plugin will always be put
-// in front of the list, so that GetPreferredPlugin() can just return the
-// first item.
 
 CRezillaPlugin *
 CPluginsController::GetPreferredPlugin(ResType inType)
@@ -138,6 +134,19 @@ CPluginsController::GetPreferredPlugin(ResType inType)
 	} 
 
 	return thePlugin;
+}
+
+
+// ---------------------------------------------------------------------------
+//  SetPreferredPlugin												[public]
+// ---------------------------------------------------------------------------
+
+OSErr
+CPluginsController::SetPreferredPlugin(ResType inType, CRezillaPlugin * inPlugin)
+{
+	OSErr				error = noErr;
+
+	return error;
 }
 
 
@@ -482,7 +491,7 @@ CPluginsController::ReorderPluginsArray(CFArrayRef inPrefArray, CFMutableArrayRe
 		// Parse the prefs array
 		for ( i = 0; i < theCount; i++ ) {								
 			theName = (CFStringRef) ::CFArrayGetValueAtIndex(inPrefArray, i);
-			thePlugin = GetPluginFromName(theName);
+			thePlugin = GetPluginByName(theName);
 			if (thePlugin != NULL) {
 				thePlugRef = ::CFNumberCreate(NULL, kCFNumberSInt32Type, &thePlugin);
 
@@ -505,11 +514,11 @@ CPluginsController::ReorderPluginsArray(CFArrayRef inPrefArray, CFMutableArrayRe
 
 
 // ---------------------------------------------------------------------------------
-//   GetPluginFromName 
+//   GetPluginByName 
 // ---------------------------------------------------------------------------------
 
 CRezillaPlugin *
-CPluginsController::GetPluginFromName(CFStringRef inName) 
+CPluginsController::GetPluginByName(CFStringRef inName) 
 {
 	CRezillaPlugin		*thePlugin = NULL, *currPlugin;
 	

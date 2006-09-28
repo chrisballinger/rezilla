@@ -2,7 +2,7 @@
 // CRezillaPlugin.h
 // 
 //                       Created: 2005-09-26 09:48:26
-//             Last modification: 2006-09-26 12:55:54
+//             Last modification: 2006-09-28 08:46:55
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://rezilla.sourceforge.net/>
@@ -16,10 +16,13 @@
 
 #include "RezillaPluginInterface.h"
 
+#include <LModelObject.h>
+
+
 class CRezMap;
 
 
-class CRezillaPlugin {
+class CRezillaPlugin : public LModelObject {
 
 public:
 				CRezillaPlugin(CFBundleRef inBundleRef);
@@ -40,7 +43,23 @@ public:
 		virtual short		GetRefnum() { return mRefNum;}
 		
 		UInt32				CountEditTypes() { return mEditTypes.GetCount(); }
-	
+
+		// AppleEvents
+		virtual void	MakeSelfSpecifier(
+									AEDesc&			inSuperSpecifier,
+									AEDesc&			outSelfSpecifier) const;
+
+		virtual void	GetAEProperty(
+									DescType		inProperty,
+									const AEDesc&	inRequestedType,
+									AEDesc&			outPropertyDesc) const;
+
+		virtual bool	AEPropertyExists(
+									DescType	inProperty) const;
+
+		static SInt32	GetAEPosition(const CRezillaPlugin * inPlugin);
+		
+		// Accessors
 		TArray<OSType> *	GetEditTypes() { return &mEditTypes;}
 		TArray<LMenu*> *	GetMenusList() { return &mMenusList;}
 

@@ -84,8 +84,6 @@ public:
 								DescType			inModelID,
 								SInt32				inPosition,
 								AEDesc&				outToken) const;
-
-	SInt32			GetAEPosition();
 	
 	static SInt32	GetAEPosition(const CEditorDoc * inDoc);
 	

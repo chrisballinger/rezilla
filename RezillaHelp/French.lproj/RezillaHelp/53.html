@@ -1,45 +1,52 @@
 <HTML>
 <HEAD>
-<TITLE>Modifications dans la fenêtre hexadécimaleLes fenêtres hexadécimales associées à l'éditeur hexadécimal possèdent </TITLE>
+<TITLE>Éditer une ressource</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="52.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="54.html">Suiv</A><HR><P>&nbsp;</P>
-<H3>Modifications dans la fenêtre hexadécimale</H3><P>Les fenêtres hexadécimales associées à l'éditeur hexadécimal possèdent 
-quelques propriétés qui peuvent servir à modifier le contenu d'une 
-ressource directement dans les panneaux de ces fenêtres. Les propriétés 
-sont les suivantes:
+<H3>Éditer une ressource</H3>
+L'édition d'une ressource au moyen d'un éditeur particulier peut être 
+accomplie en utilisant la commande <B>edit</B>. Cette commande accepte 
+deux arguments optionnels:
 <UL>
-	<LI> <I>maxPos</I>: indice de la dernière position (i-e la position après 
-le dernier caractère)<P>	<LI> <I>startPos</I>: position du début de la sélection<P>	<LI> <I>endPos</I>: position de la fin de la selection<P>	<LI> <I>hex selection</I>: contenu de la région sélectionnée dans le 
-panneau hexadécimal<P>	<LI> <I>text selection</I>: contenu de la région sélectionnée dans le 
-panneau texte<P></UL><P>Voici un exemple de script pour récupérer ces propriétés:
+	<LI> l'argument <B>like</B> permet de spécifier que la ressource devrait
+être éditée comme si elle était d'un autre type que son type propre. C'est
+l'équivalent de la commande de menu <I>Edit as</I> dans Rezilla.
+	<LI> l'argument <B>using</B> permet de spécifier un type particulier
+d'éditeur. Les valeurs de ce paramètre peuvent être <I>hexadecimal</I>,
+<I>template</I> ou <I>interface</I>. S'il n'existe pas d'éditeur du type
+requis, Rezilla utilise son mécanisme habituel de substitution: en dernier
+ressort, la ressource sera éditée au moyen de l'éditeur hexadécimal.
+</UL><P>Voici quelques exemples:
 <PRE>
-edit resource {"TEXT",128} of map document 1 using hexadecimal
-set theWin to hexadecimal window 1 of map document 1
-set a to the startPos of theWin
-set b to the endPos of theWin
-set c to the maxPos of theWin
-set d to the hex selection of theWin
-set e to the text selection of theWin
-{a, b, c, d, e}<P></PRE><P>La propriété <I>maxPos</I> est en lecture seule. Toutes les autres 
-propriétés peuvent être modifiées au moyen de la commande <B>set</B>.
-Voici un court exemple:
+	edit resource {"MENU", 128} of map 1 using interface<P>	edit resource {"MENU", 128} of map 1 using template<P>	edit resource {"MENU", 128} of map 1 using hexadecimal<P>	edit resource {"aeut", 128} of map 1 as "aete"<P></PRE><P>Les autres actions d'édition de base sont la duplication et la suppression 
+d'une ressource dans la 
+table de ressources. Elles sont accomplies par les 
+commandes <B>duplicate</B> et <B>delete</B> respectivement.
 <PRE>
-set theWin to hexadecimal window 1 of map document 1
-set the startPos of win to 6
-set the endPos of win to 9
-set the hex selection of win to "52657a696c6c61"<P></PRE><P>Dans cet exemple, les octets situés entre les positions spécifées
-seront remplacés par les octets correspondant à la chaîne hexadécimale.
-On aurait pu, de manière analogue, effectuer le remplacement dans le panneau 
-texte au moyen d'une instruction comme ceci:
+	duplicate resource {"MENU", 128} of map 1<P>	delete resource {"STR#", 128} of map 1<P></PRE><P>La commande <B>delete</B> permet aussi de supprimer toutes les ressources 
+d'un certain type simultanément, comme ceci:
 <PRE>
-	set the text selection of theWin to "Rezilla"
-</PRE>
-Pour simplement supprimer des octets, il suffit de spécifier une chaîne
-vide.<P>
+delete type "MENU" of map 1<P></PRE><P>Les modifications faites dans un éditeur peuvent être sauvegardées en 
+utilisant la commande <B>save</B>:
+<PRE>
+	save first editor of map document 1<P></PRE>
+On notera que les arguments usuels <I>in</I> et <I>as</I> de la commande
+<B>save</B> sont ignorés dans ce cas (car elles n'ont pas de sens dans 
+ce contexte).<P>Un document d'édition peut être refermé par la commande <B>close</B>, comme ceci:
+<PRE>
+	close first editor of map document 1<P></PRE>
+ou, de manière équivalente, en refermant la fenêtre directement:
+<PRE>
+	set thewin to window of first editor of map document 1
+	close thewin<P></PRE><P>Certains éditeurs (mais malheureusement pas tous) comprennent la commande
+<B>revert</B>. Cela concerne l'éditeur de gabarits, l'éditeur de
+ressources de terminologie (aete) et l'éditeur de menus. Par exemple:
+<PRE>
+revert editor "somefile.rsrc - 'MENU' #128" of document 1<P></PRE><P>
 
 </BODY>
 </HTML>

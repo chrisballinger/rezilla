@@ -1,34 +1,57 @@
 <HTML>
 <HEAD>
-<TITLE>Count of objects</TITLE>
+<TITLE>Basic objects and propertiesThe top container of all Rezilla's objects is the application itself. </TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="55.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="57.html">Next</A><HR><P>&nbsp;</P>
-<H3>Count of objects</H3>
-The <B>count</B> command can be used to count several kinds of objects. Here are 
-a few examples concerning windows and documents:
+<H3>Basic objects and properties</H3><P>The top container of all Rezilla's objects is the application itself. 
+Rezilla also defines basic document and window classes which all the more 
+specific documents (editor documents for instance) and windows (map 
+windows for instance) inherit from.<P>This section describes the properties of the <I>application</I>, 
+<I>document</I> and <I>window</I> classes.<P><H4>Application properties</H4><P>The application itself can provide some information. It has a version property 
+which returns a string describing the version number. For instance:
 <PRE>
-	-- windows count
-	set a to count windows
-	set b to count map windows
-	set c to count editing windows
-	set d to count hexadecimal windows
-	set e to count template windows
-	set f to count interface windows
-	-- documents count
-	set g to count documents
-	set h to count map documents
-	set i to count editors
-	set j to count hexadecimal editors
-	set k to count template editors
-	set l to count interface editors<P>	{a, b, c, d, e, f, g, h, i, j, k , l}<P></PRE><P>One can also get a count of maps, types and resources. For instance:
+	get the version<P></PRE><P>The inspector window is also a property of the application but it can be
+considered as an object of its own. Its properties are 
+explained in the <I>Inspector window</I> section below.<P><H4>Document properties</H4><P>There are a few properties inherited by all the document classes 
+(map documents, editor documents). Rezilla defines the following common 
+properties:
+<UL>
+	<LI> <I>name</I>: the title of the document<P>	<LI> <I>modified</I>: a boolean value indicating whether the document has
+been modified since the last save
+</UL><P>Here is a sample script retrieving these properties for two different 
+kinds of documents:
 <PRE>
-	set a to count maps
-	set b to count types of map 1
-	set c to count resources of type "TEXT" of map 1<P>	{a, b, c}<P></PRE><P>
+	set theDoc to map document 1
+	set a to the name of theDoc
+	set b to the modified of theDoc
+	edit resource {"TEXT", 128} of theDoc
+	set theEditor to editor 1 of theDoc
+	set c to the name of theEditor
+	set d to the modified of theEditor
+	
+	{a, b, c, d}<P></PRE><P>These are read only properties. They cannot be modified with
+the <B>set</B> command.<P><H4>Window properties</H4><P>All Rezilla windows (map windows, editor windows, inspector window, etc.)
+share a set of common properties:
+<UL>
+	<LI> <I>name</I>: the title of the window<P>	<LI> <I>index</I>: the number of the window<P>	<LI> <I>bounds</I>: the boundary rectangle for the window<P>	<LI> <I>closeable</I>: does the window have a close box?<P>	<LI> <I>titled</I>: does the window have a title bar?<P>	<LI> <I>floating</I>: does the window float?<P>	<LI> <I>modal</I>: is the window modal?<P>	<LI> <I>resizable</I>: is the window resizable?<P>	<LI> <I>zoomable</I>: is the window zoomable?<P>	<LI> <I>zoomed</I>: is the window zoomed?<P>	<LI> <I>visible</I>: is the window visible?<P>	<LI> <I>position</I>: upper left coordinates of the window<P></UL><P>Here is a sample code illustrating these properties:
+<PRE>
+	set win2 to the second window
+	set a to the name of win2
+	set b to the bounds of win2
+	set c to the position of win2
+	set d to the visible of win2
+	set e to the closeable of win2
+	set f to the titled of win2
+	set g to the resizable of win2
+	set h to the zoomed of win2
+	
+	(a, b, c, d, e, f, g, h)<P></PRE><P>The <I>name</I>, <I>bounds</I>, <I>zoomed</I>, <I>visible</I>, and 
+<I>position</I> properties can be modified using the <B>set</B> command. 
+The others are read only properties. <P>
 
 </BODY>
 </HTML>

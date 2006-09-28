@@ -2,7 +2,7 @@
 // 	CIconFamily_PickerStamp.cp
 // 
 //                       Created : 2006-02-25 17:40:43
-//             Last modification : 2006-09-27 11:02:55
+//             Last modification : 2006-09-28 18:50:02
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@users.sourceforge.net>
 // www : <http://rezilla.sourceforge.net/>
@@ -96,16 +96,18 @@ CIconFamily_PickerStamp::StampSize(ResType inType, SInt16 &outWidth, SInt16 &out
 // ---------------------------------------------------------------------------
 
 void
-CIconFamily_PickerStamp::DrawBuffer(COffscreen * inBuffer, Rect inFrame)
+CIconFamily_PickerStamp::DrawBuffer(COffscreen * inBuffer)
 {	
 	StGWorldSaver	aSaver;
+	Rect			frame;
 	GrafPtr			macPort = this->GetMacPort();
 	
 	if ( !macPort || !inBuffer ) return;
 
-	LocalToPortPoint( topLeft(inFrame) );
-	LocalToPortPoint( botRight(inFrame) );
-	inBuffer->CopyTo( macPort, &inFrame );
+	CalcLocalFrameRect(frame);
+	LocalToPortPoint( topLeft(frame) );
+	LocalToPortPoint( botRight(frame) );
+	inBuffer->CopyTo( macPort, &frame );
 }
 
 
@@ -122,14 +124,14 @@ CIconFamily_PickerStamp::DrawSelf()
 	ResType	theType = mParent->GetOwnerWindow()->GetType();
 	
 	if (theRefNum != kResFileNotOpened) {
-		Rect			frame;
 		SInt32			theWidth, theHeight, theDepth, theRowBytes, theOffset;
 		COffscreen *	theBuffer = NULL;
 		Handle			theResHandle = NULL;
 		CTabHandle		theTable;
 		
-		CalcLocalFrameRect(frame);
 		StRezRefSaver saver(theRefNum);		
+		theResHandle = ::Get1Resource(theType, theID);
+		if (!theResHandle) return;
 		
 		UIconMisc::GetIconInfoForType(theType, theWidth, theHeight, theDepth, theRowBytes, theOffset);
 		
@@ -138,17 +140,12 @@ CIconFamily_PickerStamp::DrawSelf()
 		// Create the offscreen buffer
 		theBuffer = COffscreen::CreateBuffer( theWidth, theHeight, theDepth, theTable );
 		// Fill the buffer with the resource data
-		theResHandle = ::Get1Resource(theType, theID);
-		if (theResHandle) {
-			if (theBuffer) {
-				theBuffer->CopyFromRawData( (UInt8*) *theResHandle, theRowBytes );	
-			} 
-			DrawBuffer(theBuffer, frame);
+		if (theBuffer) {
+			theBuffer->CopyFromRawData( (UInt8*) *theResHandle, theRowBytes );	
+			DrawBuffer(theBuffer);
+			delete theBuffer;
 		} 
-		
-		if ( theBuffer ) delete theBuffer;
-		if ( theTable ) ::DisposeCTable( theTable );
-
+		if (theTable) ::DisposeCTable( theTable );
 	}
 }
 

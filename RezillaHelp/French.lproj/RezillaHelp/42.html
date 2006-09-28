@@ -1,93 +1,38 @@
 <HTML>
 <HEAD>
-<TITLE>Export des tables de ressources</TITLE>
+<TITLE>Sélectionneurs de ressourcesDepuis la version 1.1, Rezilla a introduit des sélectionneurs de ressources</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="41.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="43.html">Suiv</A><HR><P>&nbsp;</P>
-<H2>Export des tables de ressources</H2>
-La fonction d'export de Rezilla permet de générer des fichiers en divers
-formats contenant
-toutes les données relatives à une table de ressources. Les formats
-disponibles sont:
-<UL>
-	<LI> Texte
-	<LI> HTML 
-	<LI> XML 
-	<LI> DeRez
-</UL>
-<P> En formats XML et texte, il est possible de décider d'inclure les
-données binaires de chaque ressource ou pas: voir la section <I>Préférences</I>.
-Celles-ci peuvent être représentées soit en encodage Base64 (qui est le
-format utilisé sous Mac OSX pour de nombreux types de fichiers XML tels que 
-les fichiers de préférences ou les fichiers de listes de propriétés), soit
-sous forme hexadécimale (comme dans un éditeur hexadécimal). Ce choix peut 
-être spécifié dans les <I>Préférences</I> également.
-<P> Pour des exports en format XML, il y a deux façons de représenter les
-données basées sur deux DTD (Définitions de Type de Document) différentes.
-La première représente chaque propriété au moyen d'une clé spécifique
-tandis que l'autre les représente comme attributs de certains éléments
-(élément <I>type</I> et élément <I>ressource</I>). 
-<P> Voici deux exemples de ce que produit, en XML, la commande <I>Export</I>:
-<UL>
-	<LI> en utilisant la DTD par éléments et l'encodage Base4
-<PRE>
-	&lt;Type&gt;
-		&lt;TypeCode&gt;ALRT&lt;/TypeCode&gt;
-		&lt;ResourcesArray&gt;
-			&lt;Resource&gt;
-				&lt;ResourceID&gt;204&lt;/ResourceID&gt;
-				&lt;ResourceName&gt;Low Memory Warning&lt;/ResourceName&gt;
-				&lt;ResourceFlags&gt;20&lt;/ResourceFlags&gt;
-				&lt;ResourceSize&gt;14&lt;/ResourceSize&gt;
-				&lt;ResourceData&gt;
-				AGgAggDNAegAzEREMAo=
-				&lt;/ResourceData&gt;
-			&lt;/Resource&gt;
-		&lt;/ResourcesArray&gt;
-	&lt;/Type&gt;
-	&lt;Type&gt;
-		&lt;TypeCode&gt;DITL&lt;/TypeCode&gt;
-		&lt;ResourcesArray&gt;
-			&lt;Resource&gt;
-				&lt;ResourceID&gt;204&lt;/ResourceID&gt;
-				&lt;ResourceName&gt;&lt;/ResourceName&gt;
-				&lt;ResourceFlags&gt;20&lt;/ResourceFlags&gt;
-				&lt;ResourceSize&gt;120&lt;/ResourceSize&gt;
-				&lt;ResourceData&gt;
-				AAEAAAAAAEcBIABbAVwEAk9LAAAAAAAKAEsAOgFciFdNZW1v
-				cnkgaXMgZ2V0dGluZyBmdWxsLiBQbGVhc2UgdHJ5IHRvIGFs
-				bGV2aWF0ZSB0aGUgcHJvYmxlbSBieSBjbG9zaW5nIHNvbWUg
-				ZG9jdW1lbnRzLiDl
-				&lt;/ResourceData&gt;
-			&lt;/Resource&gt;
-		&lt;/ResourcesArray&gt;
-	&lt;/Type&gt;
-</PRE>
-	<LI> en utilisant la DTD par attributs et une représentation hexadécimale
-<PRE>
-	&lt;Type code="ALRT"&gt;
-		&lt;Resource id="204" name="Low Memory Warning" flags="20"&gt;
-			&lt;ResourceSize&gt;14&lt;/ResourceSize&gt;
-			&lt;ResourceData&gt;
-				0068008200cd01e800cc4444300a
-			&lt;/ResourceData&gt;
-		&lt;/Resource&gt;
-	&lt;/Type&gt;<P>	&lt;Type code="DITL"&gt;
-		&lt;Resource id="204" name="" flags="20"&gt;
-			&lt;ResourceSize&gt;120&lt;/ResourceSize&gt;
-			&lt;ResourceData&gt;
-				00010000000000470120005b015c04024f4b00000000000a004b003a015c
-				88574d656d6f72792069732067657474696e672066756c6c2e20506c6561
-				73652074727920746f20616c6c657669617465207468652070726f626c65
-				6d20627920636c6f73696e6720736f6d6520646f63756d656e74732e20e5
-			&lt;/ResourceData&gt;
-		&lt;/Resource&gt;
-	&lt;/Type&gt;
-</PRE>
-</UL><P>
+<H2>Sélectionneurs de ressources</H2><P>Depuis la version 1.1, Rezilla a introduit des sélectionneurs de ressources
+(<I>pickers</I>): un sélectionneur est une fenêtre spéciale qui affiche
+graphiquement toutes les ressources appartenant à un type particulier.
+L'idée des sélectionneurs est de permettre de prévisualiser le contenu des
+ressources.<P>La manière dont les ressources sont affichées dans les fenêtres de sélectionneur
+dépend de leur type. Par exemple, un sélectionneur pour les ressources de
+type 'icns' affiche l'onglet (icone de dimensions 128x128 pixels) contenu
+dans ce type de ressources. Un sélectionneur pour les ressources 'TEXT'
+affichera le début du texte, à la manière de ce que font les dialogues de
+navigation lorsque l'on navigue dans le système pour ouvrir un fichier. Le
+numéro de la ressource est par ailleurs toujours indiqué.<P>L'image suivante montre la fenêtre du sélectionneur de ressources 'icns':
+<P><IMG SRC="../../Images/rzil_icnspicker.gif" ALT="Picker Window" ALIGN=bottom></P><P>Il n'existe pas forcément de sélectionneur pour un type de ressources
+donné. Les sélectionneurs n'ont d'intérêt que pour les ressources dont le
+contenu peut être visualisé d'une manière ou d'une autre (texte, icones,
+images, motifs, curseurs, menus, etc.).<P>Pour ouvrir un sélectionneur de ressources pour un type particulier, il
+suffit de faire un double-clic sur le nom du type dans les documents
+contenant les tables de ressources.<P>Lorsqu'une fenêtre de sélectionneur est ouverte, on peut sélectionner une
+ressource au moyen d'un simple clic de souris. La ressource ainsi
+sélectionnée est entourée d'un cadre rouge: un simple clic suffit ensuite
+pour la déselectionner. Lorsqu'une ressource est sélectionnée, les
+commandes du menu <I>Resources</I> sont activées afin de permettre
+d'éditer, de dupliquer ou de supprimer la ressource en question. Un
+double-clic sur une ressource est équivalent à la commande <I>Edit</I> du
+menu <I>Resources</I>.<P>Actuellement, Rezilla définit des sélectionneurs de ressources pour les 
+types suivants:
+'TEXT', 'MENU', 'STR#', 'cicn', 'ICON', 'SICN', 'icns', 'PICT', 'PAT ', 'ppat', 'PAT#', 'ICN#', 'icl4', 'icl8', 'icm#', 'icm4', 'icm8', 'ics#', 'ics4', 'ics8'<P>
 
 </BODY>
 </HTML>

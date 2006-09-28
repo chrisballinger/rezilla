@@ -1,46 +1,34 @@
 <HTML>
 <HEAD>
-<TITLE>Existence of objectsThe exists command lets you verify if an object is known in </TITLE>
+<TITLE>Count of objects</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="56.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="58.html">Next</A><HR><P>&nbsp;</P>
-<H3>Existence of objects</H3><P>The <B>exists</B> command lets you verify if an object is known in 
-Rezilla. Here are a few examples:
+<H3>Count of objects</H3>
+The <B>count</B> command can be used to count several kinds of objects. Here are 
+a few examples concerning windows and documents:
 <PRE>
-	first window exists
-	exists second window
-	exists third window
-	exists map of document 1
-	
-	set theMap to map 1
-	exists theMap
-	exists type "TEXT" of theMap
-	exists type "XYZT" of theMap
-	
-	set theType to type "TEXT" of map 1
-	exists resource id 128 of theType
-	exists resource "Vivat" of theType
-	exists resource id 128 of type "MENU" of map 1
-	exists resource {"MENU", 128} of map document 1
-	
-	exists hexadecimal editor 1
-	exists template editor 1
-	exists interface editor 1
-	
-	exists editing window 1
-	exists hexadecimal window 1
-	exists template window 1
-	exists interface window 1
-	
-	exists window of document 1
-	exists editor 1 of document 1
-	exists second editor of document 1
-	exists window of first editor of document 1
-	
-	exists inspector<P></PRE><P>
+	-- windows count
+	set a to count windows
+	set b to count map windows
+	set c to count editing windows
+	set d to count hexadecimal windows
+	set e to count template windows
+	set f to count interface windows
+	-- documents count
+	set g to count documents
+	set h to count map documents
+	set i to count editors
+	set j to count hexadecimal editors
+	set k to count template editors
+	set l to count interface editors<P>	{a, b, c, d, e, f, g, h, i, j, k , l}<P></PRE><P>One can also get a count of maps, types and resources. For instance:
+<PRE>
+	set a to count maps
+	set b to count types of map 1
+	set c to count resources of type "TEXT" of map 1<P>	{a, b, c}<P></PRE><P>
 
 </BODY>
 </HTML>

@@ -50,6 +50,7 @@ CRezObj::MakeSelfSpecifier(
 //   GetAEProperty
 // ---------------------------------------------------------------------------
 //	Return a descriptor for the specified Property
+//  pIndex				= 'pidx';		// Index
 //  rzom_pResID			= pID;			// ID ('ID  ')			 
 //  rzom_pName			= pName;		// Name ('pnam')
 //  rzom_pType			= 'pTYP';		// Type

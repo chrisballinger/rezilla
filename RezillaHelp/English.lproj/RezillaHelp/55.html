@@ -1,57 +1,43 @@
 <HTML>
 <HEAD>
-<TITLE>Basic objects and propertiesThe top container of all Rezilla's objects is the application itself. </TITLE>
+<TITLE>Creating a new resourceOne can create a new empty resource in a map document with the make</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="54.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="56.html">Next</A><HR><P>&nbsp;</P>
-<H3>Basic objects and properties</H3><P>The top container of all Rezilla's objects is the application itself. 
-Rezilla also defines basic document and window classes which all the more 
-specific documents (editor documents for instance) and windows (map 
-windows for instance) inherit from.<P>This section describes the properties of the <I>application</I>, 
-<I>document</I> and <I>window</I> classes.<P><H4>Application properties</H4><P>The application itself can provide some information. It has a version property 
-which returns a string describing the version number. For instance:
-<PRE>
-	get the version<P></PRE><P>The inspector window is also a property of the application but it can be
-considered as an object of its own. Its properties are 
-explained in the <I>Inspector window</I> section below.<P><H4>Document properties</H4><P>There are a few properties inherited by all the document classes 
-(map documents, editor documents). Rezilla defines the following common 
-properties:
+<H3>Creating a new resource</H3><P>One can create a new empty resource in a map document with the <B>make</B>
+command. This command accepts four parameters. The first two are required,
+the others are optional:
 <UL>
-	<LI> <I>name</I>: the title of the document<P>	<LI> <I>modified</I>: a boolean value indicating whether the document has
-been modified since the last save
-</UL><P>Here is a sample script retrieving these properties for two different 
-kinds of documents:
+	<LI> the parameter <I>new</I> indicates the class of the object to create 
+(<I>resource</I>)
+	<LI> the parameter <I>in</I> is used to specify the map document containing the 
+new resource
+	<LI> the parameter <I>with properties</I> is used to specify some 
+additional properties. It is a record containing key/value pairs. The keys
+can be any of <I>ID</I>, <I>type</I>, <I>name</I>, <I>attributes</I>,
+<I>locked</I>, <I>preload</I>, <I>protected</I>, <I>purgeable</I>, and
+<I>sysHeap</I>. This parameter is optional.
+	<LI> the parameter <I>with data</I> is used to specify the contents of 
+the resource. It is optional. If it is not present, the resource is 
+created with empty data.
+</UL><P>If no ID is specified, Rezilla will attribute an unique ID. If the ID is
+specified and if there is already a resource with this ID, the creation of
+the new resource will fail: Rezilla preserves already existing resources.
+If no type is specified, Rezilla will create a TEXT resource by default.<P>Here is a complete example:
 <PRE>
 	set theDoc to map document 1
-	set a to the name of theDoc
-	set b to the modified of theDoc
-	edit resource {"TEXT", 128} of theDoc
-	set theEditor to editor 1 of theDoc
-	set c to the name of theEditor
-	set d to the modified of theEditor
-	
-	{a, b, c, d}<P></PRE><P>These are read only properties. They cannot be modified with
-the <B>set</B> command.<P><H4>Window properties</H4><P>All Rezilla windows (map windows, editor windows, inspector window, etc.)
-share a set of common properties:
-<UL>
-	<LI> <I>name</I>: the title of the window<P>	<LI> <I>index</I>: the number of the window<P>	<LI> <I>bounds</I>: the boundary rectangle for the window<P>	<LI> <I>closeable</I>: does the window have a close box?<P>	<LI> <I>titled</I>: does the window have a title bar?<P>	<LI> <I>floating</I>: does the window float?<P>	<LI> <I>modal</I>: is the window modal?<P>	<LI> <I>resizable</I>: is the window resizable?<P>	<LI> <I>zoomable</I>: is the window zoomable?<P>	<LI> <I>zoomed</I>: is the window zoomed?<P>	<LI> <I>visible</I>: is the window visible?<P>	<LI> <I>position</I>: upper left coordinates of the window<P></UL><P>Here is a sample code illustrating these properties:
-<PRE>
-	set win2 to the second window
-	set a to the name of win2
-	set b to the bounds of win2
-	set c to the position of win2
-	set d to the visible of win2
-	set e to the closeable of win2
-	set f to the titled of win2
-	set g to the resizable of win2
-	set h to the zoomed of win2
-	
-	(a, b, c, d, e, f, g, h)<P></PRE><P>The <I>name</I>, <I>bounds</I>, <I>zoomed</I>, <I>visible</I>, and 
-<I>position</I> properties can be modified using the <B>set</B> command. 
-The others are read only properties. <P>
+	-- create an empty 'MENU' resource
+	make new resource in theDoc with properties {type:"MENU"}
+	-- create an 'ALRT' resource with ID 128
+	make new resource in theDoc with properties ¬
+		{ID:128, type:"ALRT", name:"An alert", protected:true} ¬
+		with data "001400140087016800805555300a"
+	-- create a 'TEXT' resource with the specified string 
+	-- ('TEXT' is the default when no type is specified)
+	make new resource in theDoc with data "Hello Rezilla"<P></PRE><P>
 
 </BODY>
 </HTML>

@@ -2,7 +2,7 @@
 // CRezMapDocAE.cp
 // 
 //                       Created: 2005-04-09 10:03:39
-//             Last modification: 2006-09-17 12:28:21
+//             Last modification: 2006-09-28 12:55:28
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -17,8 +17,12 @@
 #include "CRezFile.h"
 #include "CRezObj.h"
 #include "CRezObjItem.h"
+#include "CRezType.h"
+#include "CRezTypeItem.h"
 #include "CEditorDoc.h"
 #include "CEditorWindow.h"
+#include "CPickerDoc.h"
+#include "CPickerWindow.h"
 #include "CRezMapWindow.h"
 #include "UMiscUtils.h"
 #include "UResources.h"
@@ -595,18 +599,19 @@ CRezMapDoc::GetSubModelByPosition(
 	UInt16			count = 0;
 	WindowPtr		windowP = ::GetWindowList();
 	LWindow*		ppWindow = nil;
-	CEditorDoc *	theDoc = nil;
+	CEditorDoc *	theEditorDoc = nil;
+	CPickerDoc *	thePickerDoc = nil;
 
 	switch (inModelID) {
 
 		case rzom_cEditorDoc:
 		case cDocument:
 		case rzom_cEditorWindow: {
-			if ( mOpenedEditors->FetchItemAt( inPosition, theDoc) ) {
+			if ( mOpenedEditors->FetchItemAt( inPosition, theEditorDoc) ) {
 				if (inModelID == rzom_cEditorWindow) {
-					PutInToken(theDoc->GetMainWindow(), outToken);
+					PutInToken(theEditorDoc->GetMainWindow(), outToken);
 				} else {
-					PutInToken(theDoc, outToken);
+					PutInToken(theEditorDoc, outToken);
 				}
 			} else {
 				ThrowOSErr_(errAENoSuchObject);
@@ -614,7 +619,20 @@ CRezMapDoc::GetSubModelByPosition(
 			break;
 		}
 
-		
+		case rzom_cPickerDoc:
+		case rzom_cPickerWindow: {
+			if ( mOpenedPickers->FetchItemAt( inPosition, thePickerDoc) ) {
+				if (inModelID == rzom_cPickerWindow) {
+					PutInToken(thePickerDoc->GetPickerWindow(), outToken);
+				} else {
+					PutInToken(thePickerDoc, outToken);
+				}
+			} else {
+				ThrowOSErr_(errAENoSuchObject);
+			}
+			break;
+		}
+
 		case rzom_cHexEditDoc:
 		case rzom_cTmplEditDoc:
 		case rzom_cPlugEditDoc:
@@ -643,8 +661,8 @@ CRezMapDoc::GetSubModelByPosition(
 			}
 			
 			TArrayIterator<CEditorDoc *> iterEditor(*mOpenedEditors);
-			while (iterEditor.Next(theDoc)) {
-				if (theDoc != nil && theDoc->GetModelKind() == docKind) {
+			while (iterEditor.Next(theEditorDoc)) {
+				if (theEditorDoc != nil && theEditorDoc->GetModelKind() == docKind) {
 					count++;
 					if (count == inPosition) {
 						found = true;
@@ -657,9 +675,9 @@ CRezMapDoc::GetSubModelByPosition(
 					|| inModelID == rzom_cTmplWindow 
 					|| inModelID == rzom_cPluginWindow 
 					|| inModelID == rzom_cGuiWindow) {
-					PutInToken(theDoc->GetMainWindow(), outToken);
+					PutInToken(theEditorDoc->GetMainWindow(), outToken);
 				} else {
-					PutInToken(theDoc, outToken);
+					PutInToken(theEditorDoc, outToken);
 				}
 			} else {
 				ThrowOSErr_(errAENoSuchObject);
@@ -739,27 +757,54 @@ CRezMapDoc::GetSubModelByName(
 			}
 			
 			TArrayIterator<CEditorDoc *> iterator(*mOpenedEditors);
-			CEditorDoc *	theDoc = nil;
-			while (iterator.Next(theDoc)) {
-				DescType theKind = theDoc->GetModelKind();
+			CEditorDoc *	theEditorDoc = nil;
+			while (iterator.Next(theEditorDoc)) {
+				DescType theKind = theEditorDoc->GetModelKind();
 				if (theKind == docKind || inModelID == rzom_cEditorDoc || inModelID == rzom_cEditorWindow) {
 					Str255  docName;
-					theDoc->GetDescriptor(docName);
+					theEditorDoc->GetDescriptor(docName);
 					if (::IdenticalString(inName, docName, nil) == 0) {
 						break;
 					}
 				}               
- 				theDoc = nil;
+ 				theEditorDoc = nil;
 			}
-			if (theDoc != nil) {
+			if (theEditorDoc != nil) {
 				if (inModelID == rzom_cEditorDoc 
 					|| inModelID == rzom_cHexEditDoc
 					|| inModelID == rzom_cTmplEditDoc 
 					|| inModelID == rzom_cPlugEditDoc 
 					|| inModelID == rzom_cGuiEditDoc) {
-					PutInToken(theDoc, outToken);
+					PutInToken(theEditorDoc, outToken);
 				} else {
-					PutInToken(theDoc->GetMainWindow(), outToken);
+					PutInToken(theEditorDoc->GetMainWindow(), outToken);
+				}
+			} else {
+				ThrowOSErr_(errAENoSuchObject);
+			}
+			break;
+		}
+
+
+		case rzom_cPickerDoc:
+		case rzom_cPickerWindow: {
+			ResType theType, currType;
+			UMiscUtils::PStringToOSType(inName, theType);
+			
+			TArrayIterator<CPickerDoc *> iterator(*mOpenedPickers);
+			CPickerDoc *	thePickerDoc = nil;
+			while (iterator.Next(thePickerDoc)) {
+				currType = thePickerDoc->GetRezTypeItem()->GetRezType()->GetType();
+				if (currType == theType) {
+					break;
+				}               
+				thePickerDoc = nil;
+			}
+			if (thePickerDoc != nil) {
+				if (inModelID == rzom_cPickerDoc) {
+					PutInToken(thePickerDoc, outToken);
+				} else {
+					PutInToken(thePickerDoc->GetPickerWindow(), outToken);
 				}
 			} else {
 				ThrowOSErr_(errAENoSuchObject);
@@ -813,6 +858,7 @@ CRezMapDoc::GetPositionOfSubModel(
 			}
 			break;
 		}
+		
 
 		case rzom_cEditorWindow: {
 			DescType	theKind;
@@ -842,9 +888,16 @@ CRezMapDoc::GetPositionOfSubModel(
 			break;
 		}
 
+		
+		case rzom_cPickerDoc: 
+		const CPickerDoc * thePicker = dynamic_cast<const CPickerDoc *>(inSubModel);
+		position = mOpenedPickers->FetchIndexOfKey(thePicker);
+		break;		
+
+		
 		default:
-			position = LModelObject::GetPositionOfSubModel(inModelID, inSubModel);
-			break;
+		position = LModelObject::GetPositionOfSubModel(inModelID, inSubModel);
+		break;
 	}
 
 	return position;
@@ -872,16 +925,20 @@ CRezMapDoc::CountSubModels(
 		case rzom_cPlugEditDoc:
 		case rzom_cTmplEditDoc:
 		case rzom_cHexEditDoc: {
-			CEditorDoc *	theDoc = nil;
+			CEditorDoc *	theEditorDoc = nil;
 			
 			TArrayIterator<CEditorDoc *> iterEditor(*mOpenedEditors);
-			while (iterEditor.Next(theDoc)) {
-				if (theDoc != nil && theDoc->GetModelKind() == inModelID) {
+			while (iterEditor.Next(theEditorDoc)) {
+				if (theEditorDoc != nil && theEditorDoc->GetModelKind() == inModelID) {
 					count++;
 				} 
 			}
 			break;
 		}
+
+		case rzom_cPickerDoc:
+		count = (SInt32) mOpenedPickers->GetCount();
+		break;
 
 		default:
 			LModelObject::CountSubModels(inModelID);

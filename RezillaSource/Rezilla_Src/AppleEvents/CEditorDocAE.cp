@@ -2,7 +2,7 @@
 // CEditorDocAE.cp
 // 
 //                       Created: 2005-04-09 10:03:39
-//             Last modification: 2006-02-21 23:58:23
+//             Last modification: 2006-09-27 14:10:59
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -114,6 +114,8 @@ CEditorDoc::GetAEProperty(
 		ResType	theType = rzom_eEditorDoc;
 		if (mKind == editor_kindGui) {
 			theType = rzom_eGuiEditor;
+		} else if (mKind == editor_kindPlug) {
+			theType = rzom_ePlugEditor;
 		} else if (mKind == editor_kindTmpl) {
 			theType = rzom_eTmplEditor;
 		} else if (mKind == editor_kindHex) {

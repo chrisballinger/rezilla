@@ -2,7 +2,7 @@
 // CCursor_PickerStamp.h
 // 
 //                       Created : 2006-09-23 07:56:20
-//             Last modification : 2006-09-23 07:56:31
+//             Last modification : 2006-09-28 18:49:56
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@users.sourceforge.net>
 // www : <http://rezilla.sourceforge.net/>
@@ -45,7 +45,7 @@ private:
 	void				GetTypeInfo(ResType inType, SInt32 &theWidth, SInt32 &theHeight, 
 										 SInt32 &theDepth, SInt32 &theRowBytes, SInt32 &theOffset);
 	
-	void				DrawBuffer(COffscreen * inBuffer, Rect inFrame);
+	void				DrawBuffer(COffscreen * inBuffer);
 	
 };
 

@@ -1,47 +1,27 @@
 <HTML>
 <HEAD>
-<TITLE>Opening and closing a resource mapOne can open documents using the open command.To open a resource file named somefile.rsrc and located in the</TITLE>
+<TITLE>AppleScript supportA complete AppleScript support has been introduced in Rezilla starting </TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="47.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="49.html">Next</A><HR><P>&nbsp;</P>
-<H3>Opening and closing a resource map</H3><P>One can open documents using the <B>open</B> command.<P>To open a resource file named <I>somefile.rsrc</I> and located in the
-directory <I>HD:foo:bar:</I>, use the instruction:
+<H2>AppleScript support</H2><P>A complete AppleScript support has been introduced in <B>Rezilla</B> starting 
+from version 1.0.5b. AppleScript is Apple's scripting language for 
+automating operations and controlling other applications. <B>Rezilla</B> 
+defines a set of commands and classes which make it easy to automatically
+manipulate the resource documents: they let you simulate almost all the
+actions defined by the application, that is to say all the commands defined
+in the various menus.<P>All the commands explained in this tutorial have to be addressed to the 
+application using the usual <I>tell</I> statements, like for instance:
 <PRE>
-	open "HD:foo:bar:somefile.rsrc" as alias
-</PRE>
-Similarly, to choose some resource file and open it in Rezilla, just do:
-<PRE>
-	set theFile to {choose file}
-	open theFile as alias<P></PRE>
-There are three optional parameters to the <B>open</B> command:
-<UL><P>	<LI> with the <I>readOnly</I> parameter, one can force the file to be opened in 
-read-only mode in order to make all modifications impossible. For instance:
-<PRE>
-	open "HD:foo:bar:somefile.rsrc" as alias with readOnly<P></PRE>
-	<LI> with the <I>from</I> parameter, one can restrict the opening to a 
-particular fork (resource fork or data fork). By default, Rezilla looks in 
-both forks (data fork before resource fork). For instance:
-<PRE>
-	open "HD:foo:bar:somefile.rsrc" as alias from data fork<P></PRE>
-The possible values for the <I>from</I> parameter are <I>data fork</I>, 
-<I>resource fork</I>, or <I>any fork</I> (the default).
-	<LI> with the <I>createFork</I> parameter, one can specify if a resource
-fork should be created in the case where the file does not have any
-resource fork already (this is not the same thing as a file with an empty
-fork). This is possible only if the <I>from</I> parameter is not specified
-or has value <I>any fork</I>.
-For instance:
-<PRE>
-	open "HD:foo:bar:file_with_no_fork_at_all" as alias with createFork<P></PRE>
-</UL><P>A map document can be closed with the <B>close</B> command. The optional
-argument <I>saving</I> is supported in order to decide if the file should 
-be saved before closing (the possible values are <I>yes</I>,
-<I>no</I> or <I>ask</I>). For instance:
-<PRE>
-	close first map document saving no<P></PRE><P>
+	tell application "Rezilla"
+		-- here come the commands...
+	end tell
+</PRE><P>In the remaining of this document, we will not repeat in each example the 
+complete <I>tell</I> block for the sake of legibility but it is always 
+implied.<P>
 
 </BODY>
 </HTML>

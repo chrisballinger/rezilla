@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaAppAE.cp					
 //                       Created: 2004-11-30 08:44:17
-//             Last modification: 2006-02-21 23:58:55
+//             Last modification: 2006-09-28 08:31:04
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -15,7 +15,9 @@
 #include "CRezMap.h"
 #include "CRezCompare.h"
 #include "CRezFile.h"
+#include "CRezillaPlugin.h"
 #include "CInspectorWindow.h"
+#include "CPluginsController.h"
 #include "CHexEditorWindow.h"
 #include "CTmplEditorWindow.h"
 #include "CCompResultWindow.h"
@@ -138,7 +140,7 @@ CRezillaApp::HandleOpenDocsEvent(
 	// Create a list to store the files for which opening fails
 	::AECreateList(NULL, 0, false, &errorList);
 	
-	for ( UInt16 i = 1; i <= numDocs; i++ ) {
+	for ( UInt32 i = 1; i <= numDocs; i++ ) {
 	    error = ::AEGetNthPtr(&theDocList, i, typeFSS, &theKey, &returnedType,
 						      (Ptr) &theFileSpec, sizeof(FSSpec), &theSize);
 	    ThrowIfOSErr_(error);
@@ -509,6 +511,11 @@ CRezillaApp::CountSubModels(
 		}
 		
 
+		case rzom_cPlugin:
+		count = CPluginsController::sPluginsList.GetCount();
+		break;
+		
+		
 		default:
 			count = LModelObject::CountSubModels(inModelID);
 			break;
@@ -714,6 +721,17 @@ CRezillaApp::GetSubModelByPosition(
 		break;
 		
 		
+		case rzom_cPlugin: {
+			CRezillaPlugin *	thePlugin;
+			if ( CPluginsController::sPluginsList.FetchItemAt( inPosition, thePlugin) ) {
+				PutInToken(thePlugin, outToken);
+			} else {
+				ThrowOSErr_(errAENoSuchObject);
+			}
+			break;
+		}
+
+		
 		default:
 			LModelObject::GetSubModelByPosition(inModelID, inPosition,
 													outToken);
@@ -776,6 +794,24 @@ CRezillaApp::GetSubModelByName(
 			break;
 		}
 
+		case rzom_cPlugin: {
+			CRezillaPlugin * thePlugin;
+			CFStringRef		theNameRef;
+			
+			theNameRef = ::CFStringCreateWithPascalString(NULL, inName, kCFStringEncodingMacRoman);
+			if (theNameRef) {
+				thePlugin = CPluginsController::GetPluginByName(theNameRef);
+				::CFRelease(theNameRef);
+			}
+			if (thePlugin != nil) {
+				PutInToken(thePlugin, outToken);
+			} else {
+				ThrowOSErr_(errAENoSuchObject);
+			}
+			break;
+		}
+
+		
 		default:
 			LModelObject::GetSubModelByName(inModelID, inName, outToken);
 			break;
@@ -861,6 +897,10 @@ CRezillaApp::GetPositionOfSubModel(
 			break;
 		}
 
+		case rzom_cPlugin: 
+		const CRezillaPlugin * thePlugin = dynamic_cast<const CRezillaPlugin *>(inSubModel);
+		position = CRezillaPlugin::GetAEPosition(thePlugin);
+		break;		
 
 		default:
 			position = LApplication::GetPositionOfSubModel(inModelID, inSubModel);
@@ -876,6 +916,7 @@ CRezillaApp::GetPositionOfSubModel(
 //   GetAEProperty
 // ---------------------------------------------------------------------------
 //	Return a descriptor for the specified Property
+//  rzom_pVersion		= pVersion;		// Version ('vers')	
 
 void
 CRezillaApp::GetAEProperty(
@@ -890,13 +931,109 @@ CRezillaApp::GetAEProperty(
 		error = ::AECreateDesc(typeChar, (Ptr) sVersionNumber + 1, sVersionNumber[0], &outPropertyDesc);
 		break;
 
-		// Handled in GetModelProperty
-		// 		case rzom_pInspector: 
-		// 		break;
+		// The rzom_pInspector case is handled in GetModelProperty
+// 		case rzom_pInspector: 
+// 		break;
+
+		case rzom_pPrefPlugin: {
+			CRezillaPlugin *	thePlugin;
+			Str255				theString;
+			CFTypeRef *			theKeys;
+			CFIndex 			i, dictCount;
+			OSType				theType;
+			AEDescList			listDesc;
+			
+			// Third parameter must be true to create an AERecord
+			error = ::AECreateList(NULL, 0, true, &listDesc);
+			ThrowIfOSErr_(error);
+
+			if (CPluginsController::sPluginsDict) {
+				dictCount = ::CFDictionaryGetCount(CPluginsController::sPluginsDict);
+				theKeys = (CFTypeRef*) ::NewPtrClear(sizeof(CFTypeRef) * dictCount);
+				
+				if (theKeys != NULL) {
+					::CFDictionaryGetKeysAndValues(CPluginsController::sPluginsDict, (const void **) theKeys, NULL);
+					// Add a record entry for every type. The resource type is used as the key.
+					for (i = 0; i < dictCount; i++) {
+						if (theKeys[i]) {
+							if (::CFNumberGetValue( (CFNumberRef) theKeys[i], kCFNumberSInt32Type, (void *) &theType)) {
+								thePlugin = CPluginsController::GetPreferredPlugin(theType);
+								if (thePlugin != NULL) {
+									if ( ::CFStringGetPascalString( thePlugin->GetName(), theString, sizeof(theString), NULL) ) {
+										error = ::AEPutParamPtr(&listDesc, theType, typeChar, theString+1, theString[0]);
+									}
+								} 
+								ThrowIfOSErr_(error);
+							} 
+						} 
+					}
+					::DisposePtr( (char *) theKeys);
+				} 
+			} 
+			error = AECoerceDesc(&listDesc, typeAERecord, &outPropertyDesc);
+			::AEDisposeDesc(&listDesc);
+		}
+		break;
 
 		default:
 		LApplication::GetAEProperty(inProperty, inRequestedType, outPropertyDesc);
 		break;
+	}
+}
+
+
+// ---------------------------------------------------------------------------
+//   SetAEProperty
+// ---------------------------------------------------------------------------
+
+void
+CRezillaApp::SetAEProperty(
+	DescType		inProperty,
+	const AEDesc&	inValue,
+	AEDesc&			outAEReply)
+{
+	OSErr error;
+	
+	switch (inProperty) {
+
+		case rzom_pPrefPlugin: {
+			CRezillaPlugin *	thePlugin;
+			Str255				theString;
+			OSType				theType;
+// 			AEDescList			listDesc;
+			StAEDescriptor		itemDesc;
+			SInt32				i, count = 0;
+			CFStringRef			theNameRef;
+
+			// Extract the record from the AEDesc
+			if (inValue.descriptorType != typeAERecord) {
+				ThrowOSErr_(errAETypeError);
+			}
+
+			// Parse the record
+			error = ::AECountItems(&inValue, &count);
+			ThrowIfOSErr_(error);
+			for ( i = 1; i <= count; i++ ) {
+				// For each entry, the key is the type and the value is the plugin's name
+				error = ::AEGetNthDesc(&inValue, i, typeChar, &theType, itemDesc);
+				ThrowIfOSErr_(error);
+				UExtractFromAEDesc::ThePString(itemDesc.mDesc, theString, sizeof(theString));
+				theNameRef = ::CFStringCreateWithPascalString(NULL, theString, kCFStringEncodingMacRoman);
+				if (theNameRef) {
+					thePlugin = CPluginsController::GetPluginByName(theNameRef);
+					if (thePlugin != NULL) {
+						error = CPluginsController::SetPreferredPlugin(theType, thePlugin);
+					}
+					::CFRelease(theNameRef);
+				}
+			}
+			break;
+		}
+
+		
+		default:
+			LModelObject::SetAEProperty(inProperty, inValue, outAEReply);
+			break;
 	}
 }
 

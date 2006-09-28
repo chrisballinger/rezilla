@@ -1216,19 +1216,19 @@ const long	aeRzil_Export			= 5003;
 // ----------------------------
 const DescType rzom_cRezMapDoc		= 'MapD';	// RezMap document
 const DescType rzom_cEditorDoc		= 'EdiD';	// Editor document
-const DescType rzom_cPickerDoc		= 'PikD';	// Editor document
 const DescType rzom_cGuiEditDoc		= 'GuiD';	// Gui editor document
 const DescType rzom_cPlugEditDoc	= 'PluD';	// Plugin editor document
 const DescType rzom_cTmplEditDoc	= 'TmpD';	// Tmpl editor document
 const DescType rzom_cHexEditDoc		= 'HexD';	// Hex editor document
+const DescType rzom_cPickerDoc		= 'PikD';	// Picker document
 
 const DescType rzom_cRezMapWindow	= 'MapW';	// RezMap window
 const DescType rzom_cEditorWindow	= 'EdiW';	// Editor window
-const DescType rzom_cPickerWindow	= 'PikW';	// Editor window
 const DescType rzom_cPluginWindow	= 'PluW';	// Plugin window
 const DescType rzom_cGuiWindow		= 'GuiW';	// Interface editor window
 const DescType rzom_cTmplWindow		= 'TmpW';	// Tmpl editor window
 const DescType rzom_cHexWindow		= 'HexW';	// Hex editor window
+const DescType rzom_cPickerWindow	= 'PikW';	// Picker window
 
 const DescType rzom_cCompWindow		= 'CmpW';	// RezCompare window
 const DescType rzom_cInspWindow		= 'InsW';	// Inspector window
@@ -1241,6 +1241,7 @@ const DescType rzom_cRezMap			= 'cMAP';	// RezMap
 const DescType rzom_cRezType		= 'cTYP';	// RezType
 const DescType rzom_cRezObj			= 'cRSC';	// RezObj
 const DescType rzom_cMapsComp		= 'Mcmp';	// Maps comparison object
+const DescType rzom_cPlugin			= 'Plug';	// Plugin object
 
 // Properties
 // ----------
@@ -1249,6 +1250,7 @@ const DescType rzom_pVersion		= pVersion;		// Version ('vers')
 const DescType rzom_pClipboard		= pClipboard;	// PrivateClipboard ('pcli')
 const DescType rzom_pPreferences	= 'pPRF';		// Preferences
 const DescType rzom_pInspector		= 'pINS';		// Inspector
+const DescType rzom_pPrefPlugin		= 'pPPl';		// Preferred plugin
 
 //    Document
 const DescType rzom_pOwnerMapDoc	= 'pOWM';	// Editor document's owner map
@@ -1289,21 +1291,24 @@ const DescType rzom_pData			= 'pDAT';		// Data
 const DescType rzom_cRezTypeID		= 'TyId';		// Resource specifier object: 
                            			         		//   e-g {"aete", 128}
 //    Maps Comparison
-const DescType rzom_pCompCriteria		= 'pCRI';	// Comparison criteria
-const DescType rzom_pIgnoreName			= 'IgnN';	// IgnoreNameDiff
-const DescType rzom_pIgnoreAttrs		= 'IgnA';	// IgnoreAttrsDiff
-const DescType rzom_pIgnoreData			= 'IgnD';	// IgnoreDataDiff
-const DescType rzom_pOnlyInOld			= 'OldR';	// Only in old map resources (list)
-const DescType rzom_pOnlyInNew			= 'NewR';	// Only in new map resources (list)
-const DescType rzom_pDiffering			= 'Diff';	// In both but different (list)
-const DescType rzom_pIdentical			= 'Iden';	// In both and identical (list)
+const DescType rzom_pCompCriteria	= 'pCRI';	// Comparison criteria
+const DescType rzom_pIgnoreName		= 'IgnN';	// IgnoreNameDiff
+const DescType rzom_pIgnoreAttrs	= 'IgnA';	// IgnoreAttrsDiff
+const DescType rzom_pIgnoreData		= 'IgnD';	// IgnoreDataDiff
+const DescType rzom_pOnlyInOld		= 'OldR';	// Only in old map resources (list)
+const DescType rzom_pOnlyInNew		= 'NewR';	// Only in new map resources (list)
+const DescType rzom_pDiffering		= 'Diff';	// In both but different (list)
+const DescType rzom_pIdentical		= 'Iden';	// In both and identical (list)
 
 //    RezMap window
-const DescType rzom_pTypesCount			= 'Tcnt';	// Total types count
-const DescType rzom_pResCount			= 'Rcnt';	// Total resources count
+const DescType rzom_pTypesCount		= 'Tcnt';	// Total types count
+const DescType rzom_pResCount		= 'Rcnt';	// Total resources count
 
 //    Editor document
-const DescType rzom_pKind				= 'pKND';	// Kind
+const DescType rzom_pKind			= 'pKND';	// Kind
+
+//    Picker document
+const DescType rzom_pSelectedID		= 'pSEL';	// Selected resource
 
 //    Tmpl editor document
 // const DescType rzom_pTemplate		= 'pTMP';	// Template
@@ -1320,6 +1325,15 @@ const DescType rzom_pCurrResource	= 'pRSC';	// Resource for which info is displa
 const DescType rzom_pNameField		= 'pNAF';	// The 'name' field
 const DescType rzom_pIDField		= 'pIDF';	// The 'ID' field
 
+//    Plugin object
+// rzom_pName,  rzom_pType, rzom_pVersion
+const DescType rzom_pCreator			= 'pCRE';		// Creator
+const DescType rzom_pLoaded				= 'pLDD';		// Loaded
+const DescType rzom_pSupportTypes		= 'pSuT';		// Supported types
+
+
+// Enumerations
+// ------------
 // Aete Enumerator IDs
 const DescType rzom_eEditorKind		= 'EKND';
 const DescType rzom_eExportFormat	= 'EXPF';
@@ -1330,6 +1344,7 @@ const DescType rzom_eCompareDoc		= 'COMP';
 
 const DescType rzom_eHexEditor		= 'EHEX';
 const DescType rzom_eTmplEditor		= 'ETMP';
+const DescType rzom_ePlugEditor		= 'EPLG';
 const DescType rzom_eGuiEditor		= 'EGUI';
 
 const DescType rzom_eHexaData		= 'HEXA';
@@ -1442,6 +1457,7 @@ enum RezillaErrors
 	err_PluginGeneric				= 4000,	
 	err_PluginLoadFailed,
 	err_PluginGetInfoFailed,
+	err_PluginNotFound,
  	err_RezillaErrorEnd
 };
 
