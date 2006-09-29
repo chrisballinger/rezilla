@@ -11,7 +11,7 @@
 
 #include <MacTypes.r>
 
-read 'TEXT' (130 , "Licence Terms", purgeable)  "Rezilla_Licence.text";
+read 'TEXT' (130 , "Licence Terms", purgeable)  "Rezilla_License.text";
 
 data 'TEXT' (250, "About Text", purgeable) {
 $$Format("Resource map editor\n\n(c) 2003-%d", $$YEAR)
