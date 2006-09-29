@@ -45,7 +45,7 @@ public:
 	virtual CRezMapTable*	GetRezMapTable() { return mRezMapTable;}
 	void					SetRezMapTable(CRezMapTable* theRezMapTable) {mRezMapTable = theRezMapTable ;}
 
-	virtual CRezMapDoc*		GetOwnerDoc() { return mOwnerDoc;}
+	CRezMapDoc*				GetOwnerDoc() { return mOwnerDoc;}
 	void					SetOwnerDoc(CRezMapDoc* theOwnerDoc) {mOwnerDoc = theOwnerDoc ;}
 
 	long					GetTypeCountField() const;
