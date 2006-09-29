@@ -2,7 +2,7 @@
 // CPickerDoc.h				
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-03-16 12:30:49
+//             Last modification: 2006-09-29 09:25:24
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -39,10 +39,6 @@ public:
 
 	virtual Boolean	ObeyCommand(
 							CommandT		inCommand,
-							void*			ioParam);
-
-	virtual void	ListenToMessage(
-							MessageT		inMessage,
 							void*			ioParam);
 
 	virtual Boolean	AllowSubRemoval( LCommander* inSub );

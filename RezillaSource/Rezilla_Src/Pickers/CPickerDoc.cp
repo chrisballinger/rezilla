@@ -2,7 +2,7 @@
 // CPickerDoc.cp
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-03-19 11:58:46
+//             Last modification: 2006-09-29 09:25:38
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -244,22 +244,6 @@ CPickerDoc::ObeyCommand(
 
 
 // ---------------------------------------------------------------------------
-//   ListenToMessage													[public]
-// ---------------------------------------------------------------------------
-
-void
-CPickerDoc::ListenToMessage( MessageT inMessage, void * ioParam) 
-{
-	switch (inMessage) {
-				
-		default:
-		break;
-		
-	}
-}
-
-
-// ---------------------------------------------------------------------------
 //   AllowSubRemoval												  [public]
 // ---------------------------------------------------------------------------
 
@@ -333,7 +317,12 @@ CPickerDoc::SelectPickerWindow()
 void
 CPickerDoc::RegisterDoc()
 {
-	mRezMapTable->GetOwnerDoc()->GetOpenedPickers()->AddItem(this);
+	if (mRezMapTable) {
+		CRezMapDoc * theOwnerDoc = mRezMapTable->GetOwnerDoc();
+		if (theOwnerDoc && theOwnerDoc->GetOpenedPickers()) {
+			theOwnerDoc->GetOpenedPickers()->AddItem(this);
+		} 
+	} 
 }
 
 
@@ -344,7 +333,12 @@ CPickerDoc::RegisterDoc()
 void
 CPickerDoc::UnregisterDoc()
 {
-	mRezMapTable->GetOwnerDoc()->GetOpenedPickers()->Remove(this);
+	if (mRezMapTable) {
+		CRezMapDoc * theOwnerDoc = mRezMapTable->GetOwnerDoc();
+		if (theOwnerDoc && theOwnerDoc->GetOpenedPickers()) {
+			theOwnerDoc->GetOpenedPickers()->Remove(this);
+		} 
+	} 
 }
 
 

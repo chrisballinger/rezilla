@@ -2,11 +2,11 @@
 // CRezType.h					
 // 
 //                       Created: 2003-04-23 12:32:10
-//             Last modification: 2005-05-20 07:19:11
+//             Last modification: 2006-09-29 07:32:06
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2003-2005
+// (c) Copyright : Bernard Desgraupes, 2003-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -104,6 +104,11 @@ public:
 							    CRezObj *			inRezObj);
 									
 	virtual void		HandleDeleteTypeEvent(
+								const AppleEvent	&inAppleEvent,
+								AppleEvent			&outAEReply,
+								AEDesc				&outResult);
+									
+	virtual void		HandlePickTypeEvent(
 								const AppleEvent	&inAppleEvent,
 								AppleEvent			&outAEReply,
 								AEDesc				&outResult);
