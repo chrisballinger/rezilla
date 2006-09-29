@@ -1,11 +1,11 @@
 // ===========================================================================
 // RezillaErrors_FR.ploc
 //                       Created: 2004-10-05 15:00:32
-//             Last modification: 2005-09-24 14:47:01
+//             Last modification: 2006-09-29 10:27:43
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
-// (c) Copyright: Bernard Desgraupes, 2004-2005
+// (c) Copyright: Bernard Desgraupes, 2004-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -25,7 +25,11 @@ localize "French" as "Errors.strings"
 	key "1012" value string "Cet identificateur de ressource existe déjà"
 	key "1013" value string "Plus de données que prévu"
 	key "1014" value string "Données hexadécimales non valides"
-	key "1015" value string "La création d'une branche de ressources a échoué"
+	key "1015" value string "La création d’une branche de ressources a échoué"
+	key "1016" value string "Ce type n’existe pas dans la table de ressources"
+	key "1017" value string "Il n’existe pas de sélectionneur pour ce type de ressources"
+	key "1018" value string "L’ouverture du sélectionneur de ressources a échoué"
+	key "1019" value string "Données de ressource invalides"
 	key "1900" value string "Erreur générique d’importation"
 	key "1901" value string "OSType invalide. Un type doit comporter 4 caractères."
 	key "1902" value string "Impossible d’obtenir les données Xml"
@@ -91,6 +95,7 @@ localize "French" as "Errors.strings"
 	key "3017" value string "Il n’y a pas de ressource ‘PICT’ dans le presse-papiers"
 	key "4001" value string "Le chargement du plugin a échoué"
 	key "4002" value string "Impossible d’obtenir l’information sur ce plugin"
+	key "4003" value string "Plugin introuvable"
 	key "5000" value string "Erreur du plugin"
 	key "5001" value string "Erreur du plugin: l’initialisation a échoé"
 	key "5002" value string "Erreur plugin: ce type de ressource n’est pas supporté"
