@@ -573,7 +573,11 @@ CRezMapTable::CollapseAll() {
 CRezMapDoc *
 CRezMapTable::GetOwnerDoc()
 {
-	return mOwnerWindow->GetOwnerDoc();
+	CRezMapDoc * theOwnerDoc = NULL;
+	if (mOwnerWindow) {
+		theOwnerDoc = mOwnerWindow->GetOwnerDoc();
+	} 
+	return theOwnerDoc;
 }
 
 
