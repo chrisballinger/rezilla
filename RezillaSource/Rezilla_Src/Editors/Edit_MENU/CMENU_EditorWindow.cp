@@ -2,7 +2,7 @@
 // CMENU_EditorWindow.cp					
 // 
 //                       Created: 2005-03-09 17:16:53
-//             Last modification: 2006-09-18 19:52:14
+//             Last modification: 2006-09-29 10:25:48
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -355,12 +355,19 @@ CMENU_EditorWindow::InstallResourceData(Handle inMenuHandle, Handle inXmnuHandle
 	StHandleLocker	menulock(inMenuHandle);
 
 	LHandleStream * theStream = new LHandleStream(inMenuHandle);
+	ThrowIfNil_(theStream);
 	
-	if ( theStream->GetLength() == 0 ) {
-		// We are creating a new resource
-		mMenuObj = new CMenuObject();
-	} else {
-		mMenuObj = new CMenuObject(theStream);
+	try {
+		if ( theStream->GetLength() == 0 ) {
+			// We are creating a new resource
+			mMenuObj = new CMenuObject();
+		} else {
+			mMenuObj = new CMenuObject(theStream);
+		}
+	}
+	catch (...) {
+		delete theStream;
+		return err_InvalidResourceData;
 	}
 	
 	// Check that all the data have been parsed
@@ -369,6 +376,10 @@ CMENU_EditorWindow::InstallResourceData(Handle inMenuHandle, Handle inXmnuHandle
 	} 
 	delete theStream;
 	theStream = nil;
+	
+	if (error != noErr) {
+		return error;
+	} 
 	
 	if (mMenuObj->GetMDEF() != 0) {
 		UMessageDialogs::AlertWithValue(CFSTR("MenuResourceDeclaresMDEF"), mMenuObj->GetMDEF());
