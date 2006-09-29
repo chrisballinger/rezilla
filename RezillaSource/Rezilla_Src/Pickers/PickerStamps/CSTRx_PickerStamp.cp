@@ -84,6 +84,10 @@ CSTRx_PickerStamp::StampSize(ResType inType, SInt16 &outWidth, SInt16 &outHeight
 // ---------------------------------------------------------------------------
 //   DrawSelf														  [public]
 // ---------------------------------------------------------------------------
+// // case 'MBAR': DWRD
+// // case 'RID#': DWRD
+// // case 'Mcmd': DLNG
+// // case 'RidL': DLNG
 
 void
 CSTRx_PickerStamp::DrawSelf()
@@ -93,7 +97,7 @@ CSTRx_PickerStamp::DrawSelf()
 		ResIDT	theID = mParent->GetPaneID();
 		short	theRefNum = mParent->GetUserCon();
 		LStr255	theText("\p");
-		Str255	theLine;
+		Str255	theLine, theCountStr;
 		UInt16	i, theCount = 0;
 		StRezRefSaver saver(theRefNum);
 		
@@ -114,14 +118,18 @@ CSTRx_PickerStamp::DrawSelf()
 			for (i = 1; i <= theCount; i++) {
 				truncated = false;
 				*theStream >> theLine;
-				if (theLine[0] == 0) {
-					// Skip empty strings
-					continue;
-				} 
-				if (theLine[0] > 20) {
-					theLine[0] = 20;
+// 				if (theLine[0] == 0) {
+// 					// Skip empty strings
+// 					continue;
+// 				} 
+				if (theLine[0] > 17) {
+					theLine[0] = 17;
 					truncated = true;
 				} 
+				::NumToString(i, theCountStr);
+				theText += theCountStr;
+				theText += "\p- ";
+
 				theText += theLine;
 				if (truncated) {
 					theText += "\p…";
