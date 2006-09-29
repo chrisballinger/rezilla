@@ -133,7 +133,7 @@ CMENU_EditorDoc::Initialize()
 		if (error == err_MoreDataThanExpected) {
 			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("ResourceLongerThanExpected"), PPob_SimpleMessage);
 		} else if (error != userCanceledErr) {
-			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("ErrorWhileParsingResource"), error);
+			UMessageDialogs::AlertWithValue(CFSTR("ErrorWhileParsingResource"), error);
 		} 
 		return;
 	}
