@@ -2,7 +2,7 @@
 // CSTRx_EditorWindow.cp					
 // 
 //                       Created: 2005-08-31 18:26:24
-//             Last modification: 2006-09-18 19:53:08
+//             Last modification: 2006-09-29 12:00:51
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -273,11 +273,11 @@ CSTRx_EditorWindow::HandleKeyPress(
 // ---------------------------------------------------------------------------
 //	 InstallResourceData											[public]
 // ---------------------------------------------------------------------------
-//	 ITML	RSID (eq DWRD)
 //	 MBAR	DWRD
 //	 RID#	DWRD
 //	 Mcmd	DLNG
 //	 RidL	DLNG
+//	 ITML	RSID (eq DWRD)
 //	 typ#	TNAM
 
 OSErr
@@ -306,6 +306,7 @@ CSTRx_EditorWindow::InstallResourceData(Handle inHandle)
 					break;
 					
 					case 'MBAR':
+					case 'RID#':
 					*theStream >> theSInt16;
 					::NumToString( (long) theSInt16, theString);
 					break;
@@ -402,6 +403,7 @@ CSTRx_EditorWindow::InsertStringItemAtIndex(UInt16 index, Str255 inString)
 		case 'MBAR':
 		case 'Mcmd':
 		case 'RidL':
+		case 'RID#':
 		maxChar = 6;
 		filter = UKeyFilters::SelectTEKeyFilter(keyFilter_NegativeInteger);
 		break;
@@ -550,6 +552,7 @@ CSTRx_EditorWindow::CollectResourceData()
 				break;
 				
 				case 'MBAR':
+				case 'RID#':
 				::StringToNum( theString, &theLong);
 				*mOutStream << (SInt16) theLong;
 				break;

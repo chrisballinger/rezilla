@@ -217,6 +217,7 @@ CEditorsController::HasEditorForType(ResType inType, ResType * substType)
 		case 'MBAR':
 		case 'Mcmd':
 		case 'RidL':
+		case 'RID#':
 		case 'icns':
 		*substType = inType;
 		result = true;
@@ -283,6 +284,7 @@ CEditorsController::InvokeCustomEditor(CRezMapDoc* inRezMapDoc,
 		case 'MBAR':
 		case 'Mcmd':
 		case 'RidL':
+		case 'RID#':
 		  new CSTRx_EditorDoc( (LCommander *) inRezMapDoc, theSuperMap, theRezObj, inUseType, isReadOnly);
 		break;
 		
