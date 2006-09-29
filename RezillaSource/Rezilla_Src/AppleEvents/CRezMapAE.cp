@@ -2,11 +2,11 @@
 // CRezMapAE.cp					
 // 
 //                       Created: 2004-11-30 08:50:37
-//             Last modification: 2005-05-16 22:34:12
+//             Last modification: 2006-09-29 11:05:51
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2004-2005
+// (c) Copyright : Bernard Desgraupes, 2004-2005, 2006
 // All rights reserved.
 // ===========================================================================
 //  AppleEvent Object Model Support. These methods are part of the CRezMap 
@@ -357,6 +357,7 @@ CRezMap::GetSubModelByName(
 		}
 		
 		case rzom_cRezObj: 
+		// Todo: to enable the code below, define GetRezObjAtIndex()
 // 		CRezObj * theRezObj = GetRezObjAtIndex(inPosition);
 // 		if (theRezObj != nil) {
 // 			PutInToken(theRezObj, outToken);

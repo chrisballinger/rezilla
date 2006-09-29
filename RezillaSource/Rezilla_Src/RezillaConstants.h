@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2006-09-25 13:54:51
+//             Last modification : 2006-09-29 10:28:24
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@users.sourceforge.net>
 // www : <http://rezilla.sourceforge.net/>
@@ -425,6 +425,10 @@ const ResIDT	CURS_HandNoFinger	= 9010;
 const ResIDT	CURS_HotSpot		= 9011;
 const ResIDT	CURS_Square			= 9012;
 const ResIDT	CURS_Cross			= 9013;
+
+// Pictures (stored in Rezilla.ppob)
+const ResIDT	PICT_MenuPickerBar		= 131;
+const ResIDT	PICT_MenuPickerApple	= 132;
 
 // Phony ID used to indicate "the color picker" in the Icon editor
 const ResIDT	ColorTable_UsePicker		= 0;
@@ -1210,6 +1214,7 @@ const long	aeRzil_Edit				= 5000;
 const long	aeRzil_Compare			= 5001;
 const long	aeRzil_Inspect			= 5002;
 const long	aeRzil_Export			= 5003;
+const long	aeRzil_Pick				= 5004;
 
 
 // Rezilla Object Model (rzom):
@@ -1391,6 +1396,10 @@ enum RezillaErrors
 	err_MoreDataThanExpected,
 	err_InvalidHexadecimalData,
 	err_CreateForkForFileFailed,
+	err_NoSuchTypeInMap,
+	err_NoPickerForType,
+	err_OpenPickerFailed,
+	err_InvalidResourceData,
 	err_ImportGenericError			= 1900,
 	err_ImportInvalidOSType,
 	err_ImportCantGetXmlData,

@@ -2,11 +2,11 @@
 // CRezTypeAE.cp
 // 
 //                       Created: 2005-04-09 10:03:39
-//             Last modification: 2005-06-13 18:10:27
+//             Last modification: 2006-09-28 23:52:25
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2005
+// (c) Copyright : Bernard Desgraupes, 2005-2006
 // All rights reserved.
 // ===========================================================================
 //  AppleEvent Object Model Support. These methods are part of the CRezType 
@@ -21,7 +21,9 @@
 #include "CRezMapTable.h"
 #include "CRezTypeItem.h"
 #include "CRezObjItem.h"
+#include "CPickerDoc.h"
 #include "CRezillaApp.h"
+#include "CPickersController.h"
 #include "CInspectorWindow.h"
 #include "UMiscUtils.h"
 #include "RezillaConstants.h"
@@ -373,6 +375,12 @@ CRezType::HandleAppleEvent(
 		break;
 		
 		
+		case aeRzil_Pick:
+		// This is the "display" event to open a picker for this type
+		HandlePickTypeEvent(inAppleEvent, outAEReply, outResult);	
+		break;
+		
+		
 		default:
 // 		mOwnerMap->HandleAppleEvent(inAppleEvent, outAEReply, outResult, inAENumber);
 		LModelObject::HandleAppleEvent(inAppleEvent, outAEReply, outResult, inAENumber);
@@ -579,6 +587,46 @@ CRezType::HandleDeleteTypeEvent(
 	// Note: the RemoveResource() function takes care of removing the
 	// RezTypeItem itself from the map which causes this RezType to be
 	// deleted.
+}
+
+
+// ---------------------------------------------------------------------------
+//   HandlePickTypeEvent										 [public]
+// ---------------------------------------------------------------------------
+
+void
+CRezType::HandlePickTypeEvent(
+	const AppleEvent&	inAppleEvent,
+	AppleEvent&			outAEReply,
+	AEDesc&				outResult)
+{
+#pragma unused(inAppleEvent, outAEReply, outResult)
+	
+	if (  CPickersController::HasPickerForType(mType) == false) {
+		ThrowOSErr_(err_NoPickerForType);
+	} 
+	
+	// Find the corresponding RezTypeItem in the RezMap document
+	CRezTypeItem *	theRezTypeItem = nil;
+	CRezMapDoc *	theDoc = mOwnerMap->GetOwnerDoc();
+	ThrowIfNil_(theDoc);
+
+	// 'true' expands the RezTypeItem
+	theRezTypeItem = theDoc->GetRezMapWindow()->GetRezMapTable()->GetRezTypeItem(mType, true);
+	if (theRezTypeItem == NULL) {
+		ThrowOSErr_(err_NoSuchTypeInMap);
+	} 
+	if (theDoc->TryOpenPicker(theRezTypeItem) == false) {
+		ThrowOSErr_(err_OpenPickerFailed);		
+	} 
+	// Return an object specifier for the new picker in the reply
+	CPickerDoc * thePicker = theDoc->GetTypePicker(mType);
+	if (thePicker) {
+		StAEDescriptor	elementDesc;
+		thePicker->MakeSpecifier(elementDesc);
+		UAEDesc::AddKeyDesc(&outAEReply, keyAEResult, elementDesc);
+	} 
+
 }
 
 
