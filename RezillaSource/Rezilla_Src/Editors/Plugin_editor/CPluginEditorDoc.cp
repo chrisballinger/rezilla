@@ -231,7 +231,6 @@ CPluginEditorDoc::FindCommandStatus(
 {
 	switch ( inCommand ) {
 	
-		case cmd_Save:
 		case cmd_SaveAs:
 		outEnabled = false;
 		break;

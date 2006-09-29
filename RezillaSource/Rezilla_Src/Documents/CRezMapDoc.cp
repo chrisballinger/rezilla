@@ -223,6 +223,8 @@ CRezMapDoc::Initialize(FSSpec * inFileSpecPtr, short inRefnum)
 	mExportFormat = exportMap_Xml;
 	mExportStream = nil;
 	mReadOnly = false;
+	mOpenedEditors = NULL;
+	mOpenedPickers = NULL;
 	
 	SetModelKind(rzom_cRezMapDoc);
 // 	// Let's use the submodels list mechanism. The submodels of a rezmap 

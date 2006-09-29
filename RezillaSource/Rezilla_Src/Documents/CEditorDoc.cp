@@ -157,7 +157,13 @@ CEditorDoc::ObeyCommand(
 	
 	switch (inCommand) {
 		
-		case cmd_Close : 
+		case cmd_Save: 
+		if ( CanSaveChanges() ) {
+			DoSaveChanges();
+		} 
+		break;
+				
+		case cmd_Close: 
 		AttemptClose(false);
 		break;
 				
@@ -199,6 +205,9 @@ CEditorDoc::FindCommandStatus(
 	switch ( inCommand ) {
 	
 		case cmd_Save:
+		outEnabled = !mReadOnly && mMainWindow && mMainWindow->IsDirty();
+		break;
+
 		case cmd_SaveAs:
 		case cmd_FindNext:
 		outEnabled = false;
@@ -517,7 +526,12 @@ CEditorDoc::DoRevert()
 void
 CEditorDoc::RegisterDoc()
 {
-	mRezMapTable->GetOwnerDoc()->GetOpenedEditors()->AddItem(this);
+	if (mRezMapTable) {
+		CRezMapDoc * theOwnerDoc = mRezMapTable->GetOwnerDoc();
+		if (theOwnerDoc && theOwnerDoc->GetOpenedEditors()) {
+			theOwnerDoc->GetOpenedEditors()->AddItem(this);
+		} 
+	} 
 }
 
 
@@ -528,7 +542,12 @@ CEditorDoc::RegisterDoc()
 void
 CEditorDoc::UnregisterDoc()
 {
-	mRezMapTable->GetOwnerDoc()->GetOpenedEditors()->Remove(this);
+	if (mRezMapTable) {
+		CRezMapDoc * theOwnerDoc = mRezMapTable->GetOwnerDoc();
+		if (theOwnerDoc && theOwnerDoc->GetOpenedEditors()) {
+			theOwnerDoc->GetOpenedEditors()->Remove(this);
+		} 
+	} 
 }
 
 
