@@ -2,7 +2,7 @@
 // 	CMENU_PickerStamp.cp
 // 
 //                       Created : 2006-02-25 17:40:43
-//             Last modification : 2006-09-20 09:10:02
+//             Last modification : 2006-09-29 07:06:12
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@users.sourceforge.net>
 // www : <http://rezilla.sourceforge.net/>
@@ -17,8 +17,11 @@
 
 #include "CMENU_PickerStamp.h"
 #include "CPickerView.h"
+#include "CRezillaApp.h"
 #include "UResources.h"
+#include "RezillaConstants.h"
 
+#include <UDrawingState.h>
 
 PP_Begin_Namespace_PowerPlant
 
@@ -53,8 +56,8 @@ void
 CMENU_PickerStamp::StampSize(ResType inType, SInt16 &outWidth, SInt16 &outHeight)
 {
 #pragma unused(inType)
-	outWidth = 120;
-	outHeight = 120;
+	outWidth = 160;
+	outHeight = 24;
 }
 
 
@@ -65,7 +68,70 @@ CMENU_PickerStamp::StampSize(ResType inType, SInt16 &outWidth, SInt16 &outHeight
 void
 CMENU_PickerStamp::DrawSelf()
 {
+	// The resID is the paneID of the PickerView
+	ResIDT		theID = mParent->GetPaneID();
+	short		theRefNum = mParent->GetUserCon();
+	Str255		theTitle;
+	Handle		theResHandle = NULL, thePictureH = NULL;
+	Boolean		isAppleMenu = false;
+	Rect		frame;
+
+	StTextState	textSaver;
+	StRezRefSaver refSaver(theRefNum);
+	theResHandle = ::Get1Resource('MENU', theID);
+	::HandToHand(&theResHandle);
+
+	theTitle[0] = 0;
+
+	if (theResHandle != NULL) {
+		LHandleStream * theStream = new LHandleStream(theResHandle);
+		
+		if (theStream && theStream->GetLength() > 14) {
+			// The menu title is at position 14 in the resource
+			theStream->SetMarker(14, streamFrom_Start);
+			try {
+				*theStream >> theTitle;
+				
+				// Is it the Apple menu?
+				if (theTitle[1] == 0x14) {
+					isAppleMenu = true;
+					theTitle[0] = 0;
+				} 
+			} catch (...) {
+				theTitle[0] = 0;
+			}
+		} 
+		delete theStream;
+	} 
+	
+	// Now use Rezilla's refnum
+	::UseResFile(CRezillaApp::sSelfRefNum);
+	if (isAppleMenu) {
+		thePictureH = (Handle) ::GetPicture(PICT_MenuPickerApple);
+	} else {
+		thePictureH = (Handle) ::GetPicture(PICT_MenuPickerBar);
+	}
+	::HandToHand(&thePictureH);
+
+	FocusDraw();
+	CalcLocalFrameRect(frame);
+	
+	// Draw the picture
+	if (thePictureH) {
+		::DrawPicture( (PicHandle)thePictureH, &frame);
+		::DisposeHandle(thePictureH);
+	} 
+	
+	// Draw the string
+	::MoveTo(frame.left + 20, frame.top + kPickerViewVertMargin + 12);
+	::TextFont(systemFont);
+	::TextSize(0);
+	::TextFace(bold);
+	::TextMode(srcOr);
+	::DrawString(theTitle);	
+	
 }
+
 
 
 PP_End_Namespace_PowerPlant
