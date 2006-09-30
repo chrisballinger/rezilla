@@ -1819,7 +1819,7 @@ CRezMapDoc::DuplicateResource(CRezObj * inRezObj)
 	
 	// Get an UID above the current ID
 	short theID;
-	mRezMap->UniqueID(theType, theID, inRezObj->GetType() + 1);
+	mRezMap->UniqueID(theType, theID, inRezObj->GetID() + 1);
 	
 	// The type necessarily exists since we duplicate an existing resource. 
 	// This call finds the corresponding RezTypeItem
