@@ -2,7 +2,7 @@
 // CRezillaPrefs.cp					
 // 
 //                       Created: 2004-05-17 08:52:16
-//             Last modification: 2006-09-25 06:27:28
+//             Last modification: 2006-09-30 11:49:49
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -146,6 +146,7 @@ CRezillaPrefs::SetDefaultPreferences()
 	sCurrPrefs.templates.hexCase		= hex_lowercase;
 	sCurrPrefs.templates.displayFillers	= false;
 	sCurrPrefs.templates.enableFillers	= false;
+	sCurrPrefs.templates.enableTabKey	= true;
 	sCurrPrefs.templates.rectFormat		= rect_TLBR;
 
 	// Editors pane
@@ -203,6 +204,11 @@ CRezillaPrefs::StorePreferences()
 	theNumber = GetPrefValue( kPref_templates_enableFillers );
 	theValue = CFNumberCreate(NULL, kCFNumberIntType, &theNumber); 
 	CFPreferencesSetAppValue( CFSTR("pref_templates_enableFillers"), theValue, kCFPreferencesCurrentApplication);
+	if (theValue) CFRelease(theValue);
+
+	theNumber = GetPrefValue( kPref_templates_enableTabKey );
+	theValue = CFNumberCreate(NULL, kCFNumberIntType, &theNumber); 
+	CFPreferencesSetAppValue( CFSTR("pref_templates_enableTabKey"), theValue, kCFPreferencesCurrentApplication);
 	if (theValue) CFRelease(theValue);
 
 	theNumber = GetPrefValue( kPref_templates_rectFormat );
@@ -345,6 +351,10 @@ CRezillaPrefs::RetrievePreferences()
 	result = CFPreferencesGetAppBooleanValue(CFSTR("pref_templates_enableFillers"), CFSTR(kRezillaIdentifier), &valueValid);
 	if (valueValid) {
 		SetPrefValue( result, kPref_templates_enableFillers);
+	}	
+	result = CFPreferencesGetAppBooleanValue(CFSTR("pref_templates_enableTabKey"), CFSTR(kRezillaIdentifier), &valueValid);
+	if (valueValid) {
+		SetPrefValue( result, kPref_templates_enableTabKey);
 	}	
 	result = CFPreferencesGetAppIntegerValue(CFSTR("pref_templates_rectFormat"), CFSTR(kRezillaIdentifier), &valueValid);
 	if (valueValid) {
@@ -500,6 +510,14 @@ CRezillaPrefs::SetPrefValue(SInt32 inPrefValue, SInt32 inConstant, SInt32 inPref
 			sTempPrefs.templates.enableFillers = inPrefValue;
 		} else {
 			sCurrPrefs.templates.enableFillers = inPrefValue;
+		}	
+		break;
+		
+		case kPref_templates_enableTabKey:
+		if (inPrefType == prefsType_Temp) {
+			sTempPrefs.templates.enableTabKey = inPrefValue;
+		} else {
+			sCurrPrefs.templates.enableTabKey = inPrefValue;
 		}	
 		break;
 		
@@ -715,6 +733,14 @@ CRezillaPrefs::GetPrefValue(SInt32 inConstant, SInt32 inPrefType)
 			theValue = sTempPrefs.templates.enableFillers;
 		} else {
 			theValue = sCurrPrefs.templates.enableFillers;
+		}	
+		break;
+		
+		case kPref_templates_enableTabKey:
+		if (inPrefType == prefsType_Temp) {
+			theValue = sTempPrefs.templates.enableTabKey;
+		} else {
+			theValue = sCurrPrefs.templates.enableTabKey;
 		}	
 		break;
 		
@@ -1046,25 +1072,25 @@ CRezillaPrefs::RunPrefsDialog()
 	LView* theMiscPane = theMPV->GetPanel(mpv_PrefsMisc);
 	ThrowIfNil_(theMiscPane);
 	
-	LRadioGroupView * theNewMapRGV = dynamic_cast<LRadioGroupView *>(theGeneralPane->FindPaneByID( item_GenPrefsNewMapRgbx ));
+	LRadioGroupView * theNewMapRGV = dynamic_cast<LRadioGroupView *>(theGeneralPane->FindPaneByID( item_GenPrefs_newMapRgbx ));
 	ThrowIfNil_(theNewMapRGV);
 	
-	LRadioGroupView * theDtdRGV = dynamic_cast<LRadioGroupView *>(theExportPane->FindPaneByID( item_ExpPrefsDtdRgbx ));
+	LRadioGroupView * theDtdRGV = dynamic_cast<LRadioGroupView *>(theExportPane->FindPaneByID( item_ExpPrefs_dtdRgbx ));
 	ThrowIfNil_(theDtdRGV);
 	
-	LRadioGroupView * theEncodingRGV = dynamic_cast<LRadioGroupView *>(theExportPane->FindPaneByID( item_ExpPrefsEncRgbx ));
+	LRadioGroupView * theEncodingRGV = dynamic_cast<LRadioGroupView *>(theExportPane->FindPaneByID( item_ExpPrefs_encRgbx ));
 	ThrowIfNil_(theEncodingRGV);
 	
-	LRadioGroupView * theDisplayRGV = dynamic_cast<LRadioGroupView *>(theComparePane->FindPaneByID( item_CompPrefsDisplayRgbx ));
+	LRadioGroupView * theDisplayRGV = dynamic_cast<LRadioGroupView *>(theComparePane->FindPaneByID( item_CompPrefs_displayRgbx ));
 	ThrowIfNil_(theDisplayRGV);
 	
-	LRadioGroupView * theHexSymbRGV = dynamic_cast<LRadioGroupView *>(theTemplatesPane->FindPaneByID( item_TmplPrefsHexSymRgbx ));
+	LRadioGroupView * theHexSymbRGV = dynamic_cast<LRadioGroupView *>(theTemplatesPane->FindPaneByID( item_TmplPrefs_hexSymRgbx ));
 	ThrowIfNil_(theHexSymbRGV);
 	
-	LRadioGroupView * theHexCaseRGV = dynamic_cast<LRadioGroupView *>(theTemplatesPane->FindPaneByID( item_TmplPrefsHexCaseRgbx ));
+	LRadioGroupView * theHexCaseRGV = dynamic_cast<LRadioGroupView *>(theTemplatesPane->FindPaneByID( item_TmplPrefs_hexCaseRgbx ));
 	ThrowIfNil_(theHexCaseRGV);
 	
-	LRadioGroupView * theRectFormatRGV = dynamic_cast<LRadioGroupView *>(theTemplatesPane->FindPaneByID( item_TmplPrefsRectFormatRgbx ));
+	LRadioGroupView * theRectFormatRGV = dynamic_cast<LRadioGroupView *>(theTemplatesPane->FindPaneByID( item_TmplPrefs_rectFormatRgbx ));
 	ThrowIfNil_(theRectFormatRGV);
 	
 	theCurrTraits = GetStyleElement( prefsType_Curr );
@@ -1090,91 +1116,95 @@ CRezillaPrefs::RunPrefsDialog()
 		
 		//    Setup the controls values
 		// ----------------------------		
-		theNewMapRGV->SetCurrentRadioID( GetPrefValue( kPref_general_newFork ) + item_GenPrefsNewMapRgbx );
-		theDtdRGV->SetCurrentRadioID( GetPrefValue( kPref_export_formatDtd ) + item_ExpPrefsDtdRgbx );
-		theEncodingRGV->SetCurrentRadioID( GetPrefValue( kPref_export_dataEncoding ) + item_ExpPrefsEncRgbx );
-		theDisplayRGV->SetCurrentRadioID( GetPrefValue( kPref_compare_dataDisplayAs ) + item_CompPrefsDisplayRgbx );
-		theHexSymbRGV->SetCurrentRadioID( GetPrefValue( kPref_templates_hexSymbol ) + item_TmplPrefsHexSymRgbx );
-		theHexCaseRGV->SetCurrentRadioID( GetPrefValue( kPref_templates_hexCase ) + item_TmplPrefsHexCaseRgbx );
-		theRectFormatRGV->SetCurrentRadioID( GetPrefValue( kPref_templates_rectFormat ) + item_TmplPrefsRectFormatRgbx );
+		theNewMapRGV->SetCurrentRadioID( GetPrefValue( kPref_general_newFork ) + item_GenPrefs_newMapRgbx );
+		theDtdRGV->SetCurrentRadioID( GetPrefValue( kPref_export_formatDtd ) + item_ExpPrefs_dtdRgbx );
+		theEncodingRGV->SetCurrentRadioID( GetPrefValue( kPref_export_dataEncoding ) + item_ExpPrefs_encRgbx );
+		theDisplayRGV->SetCurrentRadioID( GetPrefValue( kPref_compare_dataDisplayAs ) + item_CompPrefs_displayRgbx );
+		theHexSymbRGV->SetCurrentRadioID( GetPrefValue( kPref_templates_hexSymbol ) + item_TmplPrefs_hexSymRgbx );
+		theHexCaseRGV->SetCurrentRadioID( GetPrefValue( kPref_templates_hexCase ) + item_TmplPrefs_hexCaseRgbx );
+		theRectFormatRGV->SetCurrentRadioID( GetPrefValue( kPref_templates_rectFormat ) + item_TmplPrefs_rectFormatRgbx );
 
-		theEditField = dynamic_cast<LEditText *>(theGeneralPane->FindPaneByID( item_GenPrefsMaxRecent ));
+		theEditField = dynamic_cast<LEditText *>(theGeneralPane->FindPaneByID( item_GenPrefs_maxRecent ));
 		ThrowIfNil_( theEditField );
 		theEditField->SetValue(  GetPrefValue( kPref_general_maxRecent ) );
 
-		theEditField = dynamic_cast<LEditText *>(theExportPane->FindPaneByID( item_ExpPrefsEditSig ));
+		theEditField = dynamic_cast<LEditText *>(theExportPane->FindPaneByID( item_ExpPrefs_editSig ));
 		ThrowIfNil_( theEditField );
 		UMiscUtils::OSTypeToPString( (OSType) GetPrefValue(kPref_export_editorSig), theString);
 		theEditField->SetText( theLine.Assign(theString) );
 
-		theEditField = dynamic_cast<LEditText *>(theMiscPane->FindPaneByID( item_MiscPrefsClosingType ));
+		theEditField = dynamic_cast<LEditText *>(theMiscPane->FindPaneByID( item_MiscPrefs_closingType ));
 		ThrowIfNil_( theEditField );
 		UMiscUtils::OSTypeToPString( (OSType) GetPrefValue(kPref_misc_closingType), theString);
 		theEditField->SetText( theLine.Assign(theString) );
 
-		theEditField = dynamic_cast<LEditText *>(theMiscPane->FindPaneByID( item_MiscPrefsClosingCreator ));
+		theEditField = dynamic_cast<LEditText *>(theMiscPane->FindPaneByID( item_MiscPrefs_closingCreator ));
 		ThrowIfNil_( theEditField );
 		UMiscUtils::OSTypeToPString( (OSType) GetPrefValue(kPref_misc_closingCreator), theString);
 		theEditField->SetText( theLine.Assign(theString) );
 
-		theCheckBox = dynamic_cast<LCheckBox *>(theTemplatesPane->FindPaneByID( item_TmplPrefsDisplayFillers ));
+		theCheckBox = dynamic_cast<LCheckBox *>(theTemplatesPane->FindPaneByID( item_TmplPrefs_displayFillers ));
 		ThrowIfNil_( theCheckBox );
 		theCheckBox->SetValue(  GetPrefValue( kPref_templates_displayFillers ) );
 
-		theCheckBox = dynamic_cast<LCheckBox *>(theTemplatesPane->FindPaneByID( item_TmplPrefsEnableFillers ));
+		theCheckBox = dynamic_cast<LCheckBox *>(theTemplatesPane->FindPaneByID( item_TmplPrefs_enableFillers ));
 		ThrowIfNil_( theCheckBox );
 		theCheckBox->SetValue(  GetPrefValue( kPref_templates_enableFillers ) );
 
-		theCheckBox = dynamic_cast<LCheckBox *>(theEditorsPane->FindPaneByID( item_EditPrefsUse8BitPicts ));
+		theCheckBox = dynamic_cast<LCheckBox *>(theTemplatesPane->FindPaneByID( item_TmplPrefs_enableTabKey ));
+		ThrowIfNil_( theCheckBox );
+		theCheckBox->SetValue(  GetPrefValue( kPref_templates_enableTabKey ) );
+
+		theCheckBox = dynamic_cast<LCheckBox *>(theEditorsPane->FindPaneByID( item_EditPrefs_use8BitPicts ));
 		ThrowIfNil_( theCheckBox );
 		theCheckBox->SetValue(  GetPrefValue( kPref_editors_use8BitPicts ) );
 
-		theCheckBox = dynamic_cast<LCheckBox *>(theEditorsPane->FindPaneByID( item_EditPrefsUseFullTables ));
+		theCheckBox = dynamic_cast<LCheckBox *>(theEditorsPane->FindPaneByID( item_EditPrefs_useFullTables ));
 		ThrowIfNil_( theCheckBox );
 		theCheckBox->SetValue(  GetPrefValue( kPref_editors_fullTables ) );
 		
-		theCheckBox = dynamic_cast<LCheckBox *>(theEditorsPane->FindPaneByID( item_EditPrefsDoFontSubst ));
+		theCheckBox = dynamic_cast<LCheckBox *>(theEditorsPane->FindPaneByID( item_EditPrefs_doFontSubst ));
 		ThrowIfNil_( theCheckBox );
 		theCheckBox->SetValue(  GetPrefValue( kPref_editors_doFontSubst ) );
 		
-		theCheckBox = dynamic_cast<LCheckBox *>(theEditorsPane->FindPaneByID( item_EditPrefsInsertBOM ));
+		theCheckBox = dynamic_cast<LCheckBox *>(theEditorsPane->FindPaneByID( item_EditPrefs_insertBOM ));
 		ThrowIfNil_( theCheckBox );
 		theCheckBox->SetValue(  GetPrefValue( kPref_editors_insertBOM ) );
 		
-		theCheckBox = dynamic_cast<LCheckBox *>(theExportPane->FindPaneByID( item_ExpPrefsInclBinData ));
+		theCheckBox = dynamic_cast<LCheckBox *>(theExportPane->FindPaneByID( item_ExpPrefs_inclBinData ));
 		ThrowIfNil_( theCheckBox );
 		theCheckBox->SetValue(  GetPrefValue( kPref_export_includeBinary ) );
 
-		theCheckBox = dynamic_cast<LCheckBox *>(theComparePane->FindPaneByID( item_CompPrefsIgnName ));
+		theCheckBox = dynamic_cast<LCheckBox *>(theComparePane->FindPaneByID( item_CompPrefs_ignName ));
 		ThrowIfNil_( theCheckBox );
 		theCheckBox->SetValue(  GetPrefValue( kPref_compare_ignoreName ) );
 
-		theCheckBox = dynamic_cast<LCheckBox *>(theComparePane->FindPaneByID( item_CompPrefsIgnAttr ));
+		theCheckBox = dynamic_cast<LCheckBox *>(theComparePane->FindPaneByID( item_CompPrefs_ignAttr ));
 		ThrowIfNil_( theCheckBox );
 		theCheckBox->SetValue(  GetPrefValue( kPref_compare_ignoreAttributes ) );
 
-		theCheckBox = dynamic_cast<LCheckBox *>(theComparePane->FindPaneByID( item_CompPrefsIgnData ));
+		theCheckBox = dynamic_cast<LCheckBox *>(theComparePane->FindPaneByID( item_CompPrefs_ignData ));
 		ThrowIfNil_( theCheckBox );
 		theCheckBox->SetValue(  GetPrefValue( kPref_compare_ignoreData ) );
 
-		theCheckGroupBox = dynamic_cast<LCheckBoxGroupBox *>(theMiscPane->FindPaneByID( item_MiscPrefsSetSigOnClose ));
+		theCheckGroupBox = dynamic_cast<LCheckBoxGroupBox *>(theMiscPane->FindPaneByID( item_MiscPrefs_setSigOnClose ));
 		ThrowIfNil_( theCheckGroupBox );
 		theCheckGroupBox->SetValue(  GetPrefValue( kPref_misc_setSigOnClose ) );
 
-		theCheckBox = dynamic_cast<LCheckBox *>(theMiscPane->FindPaneByID( item_MiscPrefsOnlyRsrcExt ));
+		theCheckBox = dynamic_cast<LCheckBox *>(theMiscPane->FindPaneByID( item_MiscPrefs_onlyRsrcExt ));
 		ThrowIfNil_( theCheckBox );
 		theCheckBox->SetValue(  GetPrefValue( kPref_misc_onlyRsrcExt ) );
 
-		theCheckBox = dynamic_cast<LCheckBox *>(theMiscPane->FindPaneByID( item_MiscPrefsSetSigOnCreate ));
+		theCheckBox = dynamic_cast<LCheckBox *>(theMiscPane->FindPaneByID( item_MiscPrefs_setSigOnCreate ));
 		ThrowIfNil_( theCheckBox );
 		theCheckBox->SetValue(  GetPrefValue( kPref_misc_setSigOnCreate ) );
 
-		thePopup = dynamic_cast<LPopupButton *> (theInterfacePane->FindPaneByID( item_UIPrefsFontsMenu ));
+		thePopup = dynamic_cast<LPopupButton *> (theInterfacePane->FindPaneByID( item_UIPrefs_fontsMenu ));
 		ThrowIfNil_( thePopup );
 		theFontNum = theCurrTraits.fontNumber;
 		thePopup->SetValue( UMiscUtils::FontIndexFromFontNum(thePopup, theFontNum) );
 		
-		thePopup = dynamic_cast<LPopupButton *> (theInterfacePane->FindPaneByID( item_UIPrefsSizeMenu ));
+		thePopup = dynamic_cast<LPopupButton *> (theInterfacePane->FindPaneByID( item_UIPrefs_sizeMenu ));
 		ThrowIfNil_( thePopup );
 		theSize = theCurrTraits.size;
 		thePopup->SetValue( UMiscUtils::SizeIndexFromSizeValue(thePopup, theSize) );
@@ -1202,7 +1232,7 @@ CRezillaPrefs::RunPrefsDialog()
 				  case msg_UIPrefsSizeMenu:
 					theSize = GetStyleElement().size;
 					// Get the popup menu.
-					thePopup = dynamic_cast<LPopupButton *> (theInterfacePane->FindPaneByID( item_UIPrefsSizeMenu ));
+					thePopup = dynamic_cast<LPopupButton *> (theInterfacePane->FindPaneByID( item_UIPrefs_sizeMenu ));
 					ThrowIfNil_( thePopup );
 					// Get the value of the item.
 					itemIndex = thePopup->GetValue();
@@ -1248,59 +1278,63 @@ CRezillaPrefs::RunPrefsDialog()
 			// -------------------------------		
 			
 			// EditPrefsDisplayFillers
-			theCheckBox = dynamic_cast<LCheckBox *>(theTemplatesPane->FindPaneByID( item_TmplPrefsDisplayFillers ));
+			theCheckBox = dynamic_cast<LCheckBox *>(theTemplatesPane->FindPaneByID( item_TmplPrefs_displayFillers ));
 			SetPrefValue( theCheckBox->GetValue(), kPref_templates_displayFillers, prefsType_Temp);
 			
 			// EditPrefsEnableFillers
-			theCheckBox = dynamic_cast<LCheckBox *>(theTemplatesPane->FindPaneByID( item_TmplPrefsEnableFillers ));
+			theCheckBox = dynamic_cast<LCheckBox *>(theTemplatesPane->FindPaneByID( item_TmplPrefs_enableFillers ));
 			SetPrefValue( theCheckBox->GetValue(), kPref_templates_enableFillers, prefsType_Temp);
 			
+			// EditPrefsEnableTabKey
+			theCheckBox = dynamic_cast<LCheckBox *>(theTemplatesPane->FindPaneByID( item_TmplPrefs_enableTabKey ));
+			SetPrefValue( theCheckBox->GetValue(), kPref_templates_enableTabKey, prefsType_Temp);
+			
 			// EditPrefsUse8BitPicts
-			theCheckBox = dynamic_cast<LCheckBox *>(theEditorsPane->FindPaneByID( item_EditPrefsUse8BitPicts ));
+			theCheckBox = dynamic_cast<LCheckBox *>(theEditorsPane->FindPaneByID( item_EditPrefs_use8BitPicts ));
 			SetPrefValue( theCheckBox->GetValue(), kPref_editors_use8BitPicts, prefsType_Temp);
 			
 			// EditPrefsFullTables
-			theCheckBox = dynamic_cast<LCheckBox *>(theEditorsPane->FindPaneByID( item_EditPrefsUseFullTables ));
+			theCheckBox = dynamic_cast<LCheckBox *>(theEditorsPane->FindPaneByID( item_EditPrefs_useFullTables ));
 			SetPrefValue( theCheckBox->GetValue(), kPref_editors_fullTables, prefsType_Temp);
 						
 			// EditPrefsDoFontSubst
-			theCheckBox = dynamic_cast<LCheckBox *>(theEditorsPane->FindPaneByID( item_EditPrefsDoFontSubst ));
+			theCheckBox = dynamic_cast<LCheckBox *>(theEditorsPane->FindPaneByID( item_EditPrefs_doFontSubst ));
 			SetPrefValue( theCheckBox->GetValue(), kPref_editors_doFontSubst, prefsType_Temp);
 						
 			// EditPrefsInsertBOM
-			theCheckBox = dynamic_cast<LCheckBox *>(theEditorsPane->FindPaneByID( item_EditPrefsInsertBOM ));
+			theCheckBox = dynamic_cast<LCheckBox *>(theEditorsPane->FindPaneByID( item_EditPrefs_insertBOM ));
 			SetPrefValue( theCheckBox->GetValue(), kPref_editors_insertBOM, prefsType_Temp);
 						
 			// CompPrefsIgnName
-			theCheckBox = dynamic_cast<LCheckBox *>(theComparePane->FindPaneByID( item_CompPrefsIgnName ));
+			theCheckBox = dynamic_cast<LCheckBox *>(theComparePane->FindPaneByID( item_CompPrefs_ignName ));
 			SetPrefValue( theCheckBox->GetValue(), kPref_compare_ignoreName, prefsType_Temp);
 			
 			// CompPrefsIgnAttr
-			theCheckBox = dynamic_cast<LCheckBox *>(theComparePane->FindPaneByID( item_CompPrefsIgnAttr ));
+			theCheckBox = dynamic_cast<LCheckBox *>(theComparePane->FindPaneByID( item_CompPrefs_ignAttr ));
 			SetPrefValue( theCheckBox->GetValue(), kPref_compare_ignoreAttributes, prefsType_Temp);
 			
 			// CompPrefsIgnData
-			theCheckBox = dynamic_cast<LCheckBox *>(theComparePane->FindPaneByID( item_CompPrefsIgnData ));
+			theCheckBox = dynamic_cast<LCheckBox *>(theComparePane->FindPaneByID( item_CompPrefs_ignData ));
 			SetPrefValue( theCheckBox->GetValue(), kPref_compare_ignoreData, prefsType_Temp);
 			
 			// ExpPrefsInclBinData
-			theCheckBox = dynamic_cast<LCheckBox *>(theExportPane->FindPaneByID( item_ExpPrefsInclBinData ));
+			theCheckBox = dynamic_cast<LCheckBox *>(theExportPane->FindPaneByID( item_ExpPrefs_inclBinData ));
 			SetPrefValue( theCheckBox->GetValue(), kPref_export_includeBinary, prefsType_Temp);
 			
 			// MiscPrefsSetSigOnClose
-			theCheckGroupBox = dynamic_cast<LCheckBoxGroupBox *>(theMiscPane->FindPaneByID( item_MiscPrefsSetSigOnClose ));
+			theCheckGroupBox = dynamic_cast<LCheckBoxGroupBox *>(theMiscPane->FindPaneByID( item_MiscPrefs_setSigOnClose ));
 			SetPrefValue( theCheckGroupBox->GetValue(), kPref_misc_setSigOnClose, prefsType_Temp);
 			
 			// MiscPrefsOnlyRsrcExt
-			theCheckBox = dynamic_cast<LCheckBox *>(theMiscPane->FindPaneByID( item_MiscPrefsOnlyRsrcExt ));
+			theCheckBox = dynamic_cast<LCheckBox *>(theMiscPane->FindPaneByID( item_MiscPrefs_onlyRsrcExt ));
 			SetPrefValue( theCheckBox->GetValue(), kPref_misc_onlyRsrcExt, prefsType_Temp);
 			
 			// MiscPrefsSetSigOnCreate
-			theCheckBox = dynamic_cast<LCheckBox *>(theMiscPane->FindPaneByID( item_MiscPrefsSetSigOnCreate ));
+			theCheckBox = dynamic_cast<LCheckBox *>(theMiscPane->FindPaneByID( item_MiscPrefs_setSigOnCreate ));
 			SetPrefValue( theCheckGroupBox->GetValue(), kPref_misc_setSigOnCreate, prefsType_Temp);
 			
 			// GenPrefsMaxRecent
-			theEditField = dynamic_cast<LEditText *>(theGeneralPane->FindPaneByID( item_GenPrefsMaxRecent ));
+			theEditField = dynamic_cast<LEditText *>(theGeneralPane->FindPaneByID( item_GenPrefs_maxRecent ));
 			theEditField->GetDescriptor(theString);
 			if (theString[0]) {
 				::StringToNum(theString, &theLong);
@@ -1311,35 +1345,35 @@ CRezillaPrefs::RunPrefsDialog()
 			
 			// GenPrefsDataFork / GenPrefsResourceFork
 			theCurrentRadioID = theNewMapRGV->GetCurrentRadioID();
-			SetPrefValue( theCurrentRadioID - item_GenPrefsNewMapRgbx, kPref_general_newFork, prefsType_Temp);
+			SetPrefValue( theCurrentRadioID - item_GenPrefs_newMapRgbx, kPref_general_newFork, prefsType_Temp);
 			
 			// ExpPrefsKeyDtd / ExpPrefsAttrDtd
 			theCurrentRadioID = theDtdRGV->GetCurrentRadioID();
-			SetPrefValue( theCurrentRadioID - item_ExpPrefsDtdRgbx, kPref_export_formatDtd, prefsType_Temp);
+			SetPrefValue( theCurrentRadioID - item_ExpPrefs_dtdRgbx, kPref_export_formatDtd, prefsType_Temp);
 			
 			// ExpPrefsHexEnc / ExpPrefsBase64Enc
 			theCurrentRadioID = theEncodingRGV->GetCurrentRadioID();
-			SetPrefValue( theCurrentRadioID - item_ExpPrefsEncRgbx, kPref_export_dataEncoding, prefsType_Temp);
+			SetPrefValue( theCurrentRadioID - item_ExpPrefs_encRgbx, kPref_export_dataEncoding, prefsType_Temp);
 			
 			// CompPrefsHexDisplay / CompPrefsTxtDisplay
 			theCurrentRadioID = theDisplayRGV->GetCurrentRadioID();
-			SetPrefValue( theCurrentRadioID - item_CompPrefsDisplayRgbx, kPref_compare_dataDisplayAs, prefsType_Temp);
+			SetPrefValue( theCurrentRadioID - item_CompPrefs_displayRgbx, kPref_compare_dataDisplayAs, prefsType_Temp);
 			
 			// TmplPrefsHexSym0x / TmplPrefsHexSymDollar
 			theCurrentRadioID = theHexSymbRGV->GetCurrentRadioID();
-			SetPrefValue( theCurrentRadioID - item_TmplPrefsHexSymRgbx, kPref_templates_hexSymbol, prefsType_Temp);
+			SetPrefValue( theCurrentRadioID - item_TmplPrefs_hexSymRgbx, kPref_templates_hexSymbol, prefsType_Temp);
 			
 			// TmplPrefsHexLowercase / TmplPrefsHexUppercase
 			theCurrentRadioID = theHexCaseRGV->GetCurrentRadioID();
-			SetPrefValue( theCurrentRadioID - item_TmplPrefsHexCaseRgbx, kPref_templates_hexCase, prefsType_Temp);
+			SetPrefValue( theCurrentRadioID - item_TmplPrefs_hexCaseRgbx, kPref_templates_hexCase, prefsType_Temp);
 			
 			// TmplPrefsRectFormatTLBR / TmplPrefsRectFormatTLWH
 			theCurrentRadioID = theRectFormatRGV->GetCurrentRadioID();
-			SetPrefValue( theCurrentRadioID - item_TmplPrefsRectFormatRgbx, kPref_templates_rectFormat, prefsType_Temp);
+			SetPrefValue( theCurrentRadioID - item_TmplPrefs_rectFormatRgbx, kPref_templates_rectFormat, prefsType_Temp);
 			
 			// UIPrefsFontsMenu
 			// Get the popup menu.
-			thePopup = dynamic_cast<LPopupButton *> (theInterfacePane->FindPaneByID( item_UIPrefsFontsMenu ));
+			thePopup = dynamic_cast<LPopupButton *> (theInterfacePane->FindPaneByID( item_UIPrefs_fontsMenu ));
 			ThrowIfNil_( thePopup );
 			// Get the name of the font.
 			::GetMenuItemText( thePopup->GetMacMenuH(), thePopup->GetValue(), theString );
@@ -1348,21 +1382,21 @@ CRezillaPrefs::RunPrefsDialog()
 			SetStyleElement(theFontNum, style_fontType, prefsType_Temp);
 			
 			// ExpPrefsEditSig
-			theEditField = dynamic_cast<LEditText *>(theExportPane->FindPaneByID( item_ExpPrefsEditSig ));
+			theEditField = dynamic_cast<LEditText *>(theExportPane->FindPaneByID( item_ExpPrefs_editSig ));
 			ThrowIfNil_( theEditField );
 			theEditField->GetText( theLine );
 			UMiscUtils::PStringToOSType( theLine, theType);
 			SetPrefValue(theType, kPref_export_editorSig, prefsType_Temp);
 			
 			// MiscPrefsClosingType
-			theEditField = dynamic_cast<LEditText *>(theMiscPane->FindPaneByID( item_MiscPrefsClosingType ));
+			theEditField = dynamic_cast<LEditText *>(theMiscPane->FindPaneByID( item_MiscPrefs_closingType ));
 			ThrowIfNil_( theEditField );
 			theEditField->GetText( theLine );
 			UMiscUtils::PStringToOSType( theLine, theType);
 			SetPrefValue(theType, kPref_misc_closingType, prefsType_Temp);
 			
 			// MiscPrefsClosingCreator
-			theEditField = dynamic_cast<LEditText *>(theMiscPane->FindPaneByID( item_MiscPrefsClosingCreator ));
+			theEditField = dynamic_cast<LEditText *>(theMiscPane->FindPaneByID( item_MiscPrefs_closingCreator ));
 			ThrowIfNil_( theEditField );
 			theEditField->GetText( theLine );
 			UMiscUtils::PStringToOSType( theLine, theType);

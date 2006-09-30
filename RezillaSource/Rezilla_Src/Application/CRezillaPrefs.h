@@ -2,7 +2,7 @@
 // CRezillaPrefs.h					
 // 
 //                       Created: 2004-05-17 08:52:16
-//             Last modification: 2006-09-25 06:26:59
+//             Last modification: 2006-09-30 11:50:02
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -35,6 +35,7 @@ struct STemplatesPrefs {
 	SInt32			hexCase;
 	Boolean			displayFillers;
 	Boolean			enableFillers;
+	Boolean			enableTabKey;
 	SInt32			rectFormat;
 };
 
@@ -111,6 +112,7 @@ enum {
 	kPref_templates_hexCase,
 	kPref_templates_displayFillers,
 	kPref_templates_enableFillers,
+	kPref_templates_enableTabKey,
 	kPref_templates_rectFormat
 };
 
