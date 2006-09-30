@@ -2,7 +2,7 @@
 // CPickersController.cp					
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-09-27 12:42:36
+//             Last modification: 2006-09-29 18:55:14
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -75,6 +75,10 @@ CPickersController::HasPickerForType(ResType inType)
 		case 'TEXT':
 		case 'MENU':
 		case 'STR#':
+		case 'MBAR':
+		case 'RID#':
+		case 'Mcmd':
+		case 'RidL':
 		case 'cicn':
 		case 'ICON':
 		case 'SICN':
@@ -129,6 +133,10 @@ CPickersController::InvokeCustomPicker(CRezMapDoc* inRezMapDoc,
 		break;
 		
 		case 'STR#':
+		case 'MBAR':
+		case 'RID#':
+		case 'Mcmd':
+		case 'RidL':
 		new TPickerDoc<CSTRx_PickerStamp>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
 		break;
 		
