@@ -2,7 +2,7 @@
 // CSTRx_EditorWindow.cp					
 // 
 //                       Created: 2005-08-31 18:26:24
-//             Last modification: 2006-09-29 12:00:51
+//             Last modification: 2006-09-30 13:46:02
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -401,10 +401,14 @@ CSTRx_EditorWindow::InsertStringItemAtIndex(UInt16 index, Str255 inString)
 		break;
 		
 		case 'MBAR':
-		case 'Mcmd':
-		case 'RidL':
 		case 'RID#':
 		maxChar = 6;
+		filter = UKeyFilters::SelectTEKeyFilter(keyFilter_NegativeInteger);
+		break;
+		
+		case 'Mcmd':
+		case 'RidL':
+		maxChar = 11;
 		filter = UKeyFilters::SelectTEKeyFilter(keyFilter_NegativeInteger);
 		break;
 		
