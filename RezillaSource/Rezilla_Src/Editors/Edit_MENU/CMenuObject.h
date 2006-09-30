@@ -2,11 +2,11 @@
 // CMenuObject.h
 // 
 //                       Created: 2005-03-10 09:12:57
-//             Last modification: 2005-03-21 07:18:49
+//             Last modification: 2006-09-30 06:25:04
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes, 2005
+// (c) Copyright: Bernard Desgraupes, 2005-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -30,6 +30,8 @@ public:
 					CMenuObject(LHandleStream * inStream);
 					~CMenuObject();
 
+		static Boolean	GetMenuTitle(short inID, short inRefnum, Str255 outString);
+		
 		void	AddItem();
 		void	AddItem(CMenuItem * inItem);
 		void	AddItem(Str255 inTitle,

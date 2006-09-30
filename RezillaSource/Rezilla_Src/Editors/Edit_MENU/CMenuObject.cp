@@ -2,11 +2,11 @@
 // CMenuObject.cp
 // 
 //                       Created: 2005-03-10 09:12:57
-//             Last modification: 2005-03-21 07:18:58
+//             Last modification: 2006-09-30 06:31:46
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes, 2005
+// (c) Copyright: Bernard Desgraupes, 2005-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -14,6 +14,7 @@
 #include "CMenuItem.h"
 #include "RezillaConstants.h"
 #include "UMiscUtils.h"
+#include "UResources.h"
 
 #include <LHandleStream.h>
 
@@ -66,6 +67,45 @@ CMenuObject::~CMenuObject()
 		mItems.RemoveItemsAt(1, iteraror.GetCurrentIndex());
 		delete theItem;
 	}
+}
+
+
+// ---------------------------------------------------------------------------
+//  CMenuObject												[static, public]
+// ---------------------------------------------------------------------------
+
+Boolean	
+CMenuObject::GetMenuTitle(short inID, short inRefnum, Str255 outString)
+{
+	Boolean 		result = false;
+	Str255			theTitle;
+	Handle			theResHandle = NULL;
+	
+	StRezRefSaver refSaver(inRefnum);
+	theResHandle = ::Get1Resource('MENU', inID);
+	::HandToHand(&theResHandle);
+
+	theTitle[0] = 0;
+
+	if (theResHandle != NULL) {
+		LHandleStream * theStream = new LHandleStream(theResHandle);
+		
+		if (theStream) {
+			if (theStream->GetLength() > 14) {
+				// The menu title is at position 14 in the resource
+				theStream->SetMarker(14, streamFrom_Start);
+				try {
+					*theStream >> theTitle;
+				} catch (...) {
+					theTitle[0] = 0;
+				}
+			} 
+			delete theStream;
+		}
+	}
+	LString::CopyPStr(theTitle, outString);
+
+	return (theTitle[0] != 0);
 }
 
 
