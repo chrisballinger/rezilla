@@ -14,7 +14,7 @@ providing a nice user interface for 'WIND' resources so that the window
 resources can be easily viewed and manipulated: Rezilla already has a
 template to edit 'WIND' resources but a plugin could add a graphical
 interface. Rezilla provides a SDK (Software Development Kit) to allow
-developers and software publishers to write this kind of plugins.<P><P> Plugins can support several resource types. Version 1.1 of
+developers and software publishers to write this kind of plugins.<P><H4>Description</H4><P><P> Plugins can support several resource types. Version 1.1 of
 Rezilla comes with a plugin which lets you display and manipulate image
 resources. It supports the following image formats:
 <BLOCKQUOTE><P><I> JPEG, TIFF, GIF, PNG, BMP.
@@ -42,7 +42,25 @@ this command by-passes the search of an internal editor. The equivalent
 keyboard shortcut is option-control-command-E (press E while maintaining
 the option, control and command keys down).
 <P><IMG SRC="../../Images/rzil_resourcemenu.gif" ALT="The Resources menu" ALIGN=bottom></P><P>Developers interested in creating a plugin for Rezilla should read the 
-section <I>Writing a Plugin for Rezilla</I>.<P>
+section <I>Writing a Plugin for Rezilla</I>.<P><H4>Plugins information</H4><P>The <I>Plugins...</I> command located in the <I>File</I> menu displays a
+dialog window containing two panels which can be selected using the
+corresponding thumbnails:
+<UL>
+	<LI> the <I>Plugin Info</I> panel
+	<LI> the <I>Plugin Order</I> panel
+</UL><P>The <I>Plugin Info</I> panel (see image below) gives basic information
+about the plugins: type, creator, version, supported resource types, etc.
+All the plugins detected by Rezilla are listed in the popup menu.
+<P><IMG SRC="../../Images/rzil_plugininfo.gif" ALT="The Plugin Info panel" ALIGN=bottom></P><P>The <I>Plugin Order</I> panel (see image below) lets you specify, type by
+type, an order among plugins: in the case where several plugins support the
+same resource type, Rezilla will choose, by default, the first one it
+finds: this panel lets you modify this order. For each resource type, the
+table in the <I>Plugin Order</I> panel gives a list of the plugins sorted
+by order of preference. You can drag the items of this table with the mouse
+in order to rearrange the order and Rezilla will always choose the first in
+the list. All the supported types are listed in the popup menu located
+above the table.
+<P><IMG SRC="../../Images/rzil_pluginorder.gif" ALT="The Plugin Order panel" ALIGN=bottom></P><P>
 
 </BODY>
 </HTML>

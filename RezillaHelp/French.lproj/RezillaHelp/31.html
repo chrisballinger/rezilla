@@ -16,7 +16,7 @@ manipuler aisément: Rezilla possède déjà un gabarit pour éditer les
 ressources 'WIND' mais un plugin permettrait d'introduire une interface
 graphique. Rezilla fournit un kit de développement (SDK, Software
 Development Kit) pour permettre à des développeurs ou des éditeurs de 
-logiciels d'écrire ce type de plugins.<P><P> Un plugin peut supporter plusieurs types de ressources. La version 1.1
+logiciels d'écrire ce type de plugins.<P><H4>Description</H4><P><P> Un plugin peut supporter plusieurs types de ressources. La version 1.1
 de Rezilla fournit par exemple un plugin permettant d'afficher et de
 manipuler des ressources d'image. Il supporte les formats d'images
 suivants:
@@ -49,7 +49,27 @@ raccourci-clavier équivalent est option-contrôle-commande-E (presser E
 tout en maintenant les touches option, contrôle et commande enfoncées).
 <P><IMG SRC="../../Images/rzil_resourcemenu.gif" ALT="The Resources menu" ALIGN=bottom></P><P>Les dévelopeurs souhaitant créer un plugin pour Rezilla trouveront les
 informations nécessaires dans la section 
-<I>Écrire un Plugin pour Rezilla</I>.<P>
+<I>Écrire un Plugin pour Rezilla</I>.<P><H4>Information sur les plugins</H4><P>La commande <I>Plugins...</I> située dans le menu <I>File</I> affiche une 
+fenêtre de dialogue comportant deux panneaux que l'on peut sélectionner au 
+moyen d'onglets:
+<UL>
+	<LI> le panneau <I>Plugin Info</I>
+	<LI> le panneau <I>Plugin Order</I>
+</UL><P>Le panneau <I>Plugin Info</I> (voir l'image ci-dessous) donne des 
+informations concernant les plugins: type, créateur, version, types de 
+ressources supportés, etc. Tous les plugins détectés par Rezilla sont 
+répertoriés dans le menu déroulant.
+<P><IMG SRC="../../Images/rzil_plugininfo.gif" ALT="The Plugin Info panel" ALIGN=bottom></P><P>Le panneau <I>Plugin Order</I> (voir l'image ci-dessous) permet de
+spécifier, type par type, un ordre parmi les plugins. Dans le cas où
+plusieurs plugins supportent un même type de ressource, Rezilla choisit,
+par défaut, le premier qu'il trouve: le panneau permet de modifier cet
+ordre. Pour chaque type, la table du panneau <I>Plugin Order</I> donne la
+liste des plugins acceptant ce type, triés par ordre de préférence. On peut
+faire glisser les éléments de cette table au moyen de la souris pour
+réarranger la liste et c'est donc le premier élément de la liste qui sera
+choisi par Rezilla. Tous les types sont répertoriés dans le menu déroulant 
+situé au-dessus de la table.
+<P><IMG SRC="../../Images/rzil_pluginorder.gif" ALT="The Plugin Order panel" ALIGN=bottom></P><P>
 
 </BODY>
 </HTML>

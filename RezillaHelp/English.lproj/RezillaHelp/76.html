@@ -1,125 +1,46 @@
 <HTML>
 <HEAD>
-<TITLE>The plugin's property listThe Info.plist file stores useful data and information related to the</TITLE>
+<TITLE>The plugin's bundle</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="75.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="77.html">Next</A><HR><P>&nbsp;</P>
-<H3>The plugin's property list</H3><P>The <I>Info.plist</I> file stores useful data and information related to the
-plugin. It uses an XML format: some of its keys are used by the Finder and
-the System, some are used by Rezilla itself.<P><H4>System keys</H4>
-The keys defined for the System are the usual ones found in application
-bundles. In the case of the <B>RezImage</B> plugin, for instance, we have the
-following key/value pairs:
-<P><TABLE BORDER=0 CELLPADDING=1>
-<TR><TD><B>Key</B></TD><TD><B>Value</B></TD></TR>
-<TR><TD>CFBundleIdentifier</TD><TD><I>net.sourceforge.rezilla.RezImagePlugin</I></TD></TR>
-<TR><TD>CFBundleName</TD><TD><I>RezImagePlugin</I></TD></TR>
-<TR><TD>CFBundleShortVersionString</TD><TD><I>RezImagePlugin 0.1</I></TD></TR>
-<TR><TD>CFBundlePackageType</TD><TD><I>BNDL</I></TD></TR>
-<TR><TD>CFBundleSignature</TD><TD><I>Rzil</I></TD></TR>
-<TR><TD>CFBundleExecutable</TD><TD><I>RezImagePlugin</I></TD></TR>
-<TR><TD>CFBundleVersion</TD><TD><I>0.1</I></TD></TR>
-<TR><TD>CFBundleIconFile</TD><TD><I>RezillaPlugin.icns</I></TD></TR>
-<TR><TD>CFBundleDevelopmentRegion</TD><TD><I>English</I></TD></TR>
-<TR><TD>CFBundleInfoDictionaryVersion</TD><TD><I>6.0</I></TD></TR>
-<TR><TD>LSRequiresCarbon</TD><TD><I>yes</I></TD></TR>
-</TABLE></P><P><H4>CFPlugin keys</H4>
-Some keys are required by the CFPlugin programming interface:
+<H3>The plugin's bundle</H3>
+Technically a plugin is just a dynamic library which is loaded by the main 
+application when necessary. On OS X, this library is packaged in a bundle, 
+that is to say a directory-like structure containing the library itself 
+and a few other resources.<P>To learn more about bundles on OS X, see:
+<A HREF="http://developer.apple.com/documentation/CoreFoundation/Conceptual/CFBundles/Concepts/about.html">http://developer.apple.com/documentation/CoreFoundation/Conceptual/CFBundles/Concepts/about.html</A><P>Using this architecture makes it very easy, from the user's point of view,
+to perform the maintenance tasks related to plugins, for instance adding a 
+new plugin, removing a plugin, enabling or disabling a plugin. All these 
+actions can be performed in the Finder in a transparent manner (see the 
+<I>External Editors</I> section in Rezilla's help). The 
+user does not have to know where exactly the plugin resides inside the 
+application's bundle.<P>Here is, for instance, the internal structure of the <B>RezImagePlugin</B>, a 
+plugin provided with version 1.1 of Rezilla:
+<P><IMG SRC="../../Images/rzil_pluginanatomy.gif " ALT="Plugin anatomy" ALIGN=bottom></P><P>The plugin's bundle is named <I>RezImagePlugin.plugin</I>. It must have a <I>.plugin</I> 
+extension to make sure that Rezilla will find it. Some elements of the 
+<I>Contents</I> subfloder are required, some are optional. Required elements are:
 <UL>
-	<LI> <I>CFPlugInDynamicRegistration</I> is used to determine the method of 
-registration required by the plugin (static or dynamic). Rezilla uses 
-static registration so the value should always be <I>no</I>:
-<PRE>
-    &lt;key&gt;CFPlugInDynamicRegistration&lt;/key&gt;
-    &lt;string&gt;NO&lt;/string&gt;
-</PRE><P>	<LI> <I>CFPluginNameString</I> is optional and contains the name of the plugin. 
-For instance:
-<PRE>
-    &lt;key&gt;CFPluginNameString&lt;/key&gt;
-    &lt;string&gt;RezImagePlugin&lt;/string&gt;
-</PRE><P>	<LI> <I>CFPlugInUnloadFunction</I> defines the name of a custom function to be called to when a plugin?s code is to be unloaded.
-Here you can leave the value empty:
-<PRE>
-    &lt;key&gt;CFPlugInUnloadFunction&lt;/key&gt;
-    &lt;string&gt;&lt;/string&gt;
-</PRE><P>	<LI> <I>CFPlugInTypes</I> is used for the static registration. Its value should be
-a dictionary whose keys are type UUIDs (see the <A HREF="#pluguuids"> Plugin
-UUIDs</A> section) and whose values are arrays of factory UUIDs. The type
-UUID is defined by Rezilla: for editor plugins, it is defined by the
-symbolic constant <TT>kRezillaPluginEditorTypeID</TT> in the header file
-<I>RezillaPluginInterface.h</I> and its value (as a string) is:
-<PRE>
-    306A0EF3-206E-11DA-8320-000A95B1FF7C
-</PRE>
-The functions instanciating a particular interface are called <I>factories</I>. 
-The factory UUIDs are defined by the plugin: one factory UUID for each interface.
-In the case of the <I>RezImagePlugin</I> plugin, the <I>Info.plist</I> file defines:
-<PRE>
-    &lt;key&gt;CFPlugInTypes&lt;/key&gt;
-    &lt;dict&gt;
-    	&lt;key&gt;306A0EF3-206E-11DA-8320-000A95B1FF7C&lt;/key&gt;
-    	&lt;array&gt;
-    		&lt;string&gt;0905F836-A20C-11DA-BC6C-000A95B1FF7C&lt;/string&gt;
-    	&lt;/array&gt;
-    &lt;/dict&gt;
-</PRE>
-This means that the type identified by the UUID
-306A0EF3-206E-11DA-8320-000A95B1FF7C (that is <I>kRezillaPluginEditorTypeID</I>,
-defined by Rezilla) currently has only one interface, identified by the
-UUID 0905F836-A20C-11DA-BC6C-000A95B1FF7C, attributed by the plugin.<P>	<LI> <I>CFPlugInFactories</I> is used for the static registration. Its value
-should be a dictionary whose keys are factory UUIDs expressed in the
-standard string format and whose values are function names. This key is 
-very important: it gives the name of the function to call to in order to 
-instanciate a particular interface. The dictionary is a mapping from 
-interfaces to function names. The plugin, as a dynamic library, must 
-provide the definition of the functions. 
-In the case of the <B>RezImagePlugin</B> plugin, the <I>Info.plist</I> file defines:
-<PRE>
-    &lt;key&gt;CFPlugInFactories&lt;/key&gt;
-    &lt;dict&gt;
-    	&lt;key&gt;0905F836-A20C-11DA-BC6C-000A95B1FF7C&lt;/key&gt;
-    	&lt;string&gt;RezillaImageFactory&lt;/string&gt;
-    &lt;/dict&gt;
-</PRE>
-One can here recognize the UUID (0905F836-A20C-11DA-BC6C-000A95B1FF7C) seen
-in the previous paragraph and attributed by the plugin to designate the
-factory which implements the service. The corresponding value is 
-<I>RezillaImageFactory</I>: this is the name of the function Rezilla will
-have to invoke when it is time to load the plugin. This function must be
-defined in the dynamic library.<P></UL><P><H4>Rezilla keys</H4>
-Rezilla expects to find two additional custom keys in the <I>Info.plist</I> file:
+	<LI> the <I>Info.plist</I> file which is a Property List file containing information 
+about the capacities of this bundle. See the 
+section <A HREF="#plugplist"><I>The plugin's property list</I></A> below.
+	<LI> the <I>MacOS</I> subfolder with the dynamic library itself 
+(<I>RezImagePlugin</I> in the previous example).
+</UL><P>The <I>Resources</I> subfolder may contain additional data. In the previous 
+example, it contains:
 <UL>
-	<LI> the <I>RezillaPluginEditTypes</I> key is required. This is where the
-plugin declares the resource types it is able to edit. The value is an
-array of four-character strings (the resource types). For instance, the
-<I>RezImagePlugin</I> plugin supports 12 resource types which are declared like
-this:
-<PRE>
-    &lt;key&gt;RezillaPluginEditTypes&lt;/key&gt;
-    &lt;array&gt;
-    	&lt;string&gt;JPEG&lt;/string&gt;
-    	&lt;string&gt;jpeg&lt;/string&gt;
-    	&lt;string&gt;JPG &lt;/string&gt;
-    	&lt;string&gt;jpg &lt;/string&gt;
-    	&lt;string&gt;TIFF&lt;/string&gt;
-    	&lt;string&gt;tiff&lt;/string&gt;
-    	&lt;string&gt;GIF &lt;/string&gt;
-    	&lt;string&gt;gif &lt;/string&gt;
-    	&lt;string&gt;PNG &lt;/string&gt;
-    	&lt;string&gt;png &lt;/string&gt;
-    	&lt;string&gt;BMP &lt;/string&gt;
-    	&lt;string&gt;bmp &lt;/string&gt;
-    &lt;/array&gt;
-</PRE><P>	<LI> the <I>RezillaPluginRole</I> key defines the role of the plugin. As
-of version 1.1, two values are possible: <I>Editor</I> or <I>Viewer</I>.
-<PRE>
-    &lt;key&gt;RezillaPluginRole&lt;/key&gt;
-    &lt;string&gt;Editor&lt;/string&gt;
-</PRE>
-This key is optional and is currently not used by Rezilla.<P></UL><P>
+	<LI> a resource file named <I>RezImagePlugin.rsrc</I> which defines
+resources used by the plugin. The name of the resource file is the
+name of the executable (the library located in the MacOS subfolder of the
+bundle) followed by a <TT>.rsrc</TT> extension.
+	<LI> localized folders (<I>English.lproj, French.lproj</I>) with localizable 
+data. In the given example, two files in both folders contain localized strings used by 
+the plugin. Other languages can be added as necessary.
+</UL><P><A NAME="pluguuids"></A>
+
 
 </BODY>
 </HTML>

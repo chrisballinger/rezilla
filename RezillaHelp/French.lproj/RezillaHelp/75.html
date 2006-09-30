@@ -1,89 +1,31 @@
 <HTML>
 <HEAD>
-<TITLE>Les UUIDs de pluginDivers éléments du modèle de plugins défini (l'API CFPlugin dans les Core</TITLE>
+<TITLE>Le modèle des pluginsUn plugin implémente une interface que l'on peut voir comme</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="74.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="76.html">Suiv</A><HR><P>&nbsp;</P>
-<H3>Les UUIDs de plugin</H3><P>Divers éléments du modèle de plugins défini (l'API CFPlugin dans les Core
-Foundations de OS X) sont identifiés au moyen d'un UUID (<I>Universally
-Unique Identifier</I>, identificateur universellement unique). Certains
-UUIDs sont définis par l'application principale, d'autres le sont par le
-plugin.<P>Un UUID est une valeur sur 128-bits dont l'unicité est garantie. Il peut 
-être représenté sous deux formes différentes: sous forme d'octets ou sous 
-forme de chaîne de caractères. Sous forme d'octets, il s'agit d'une structure
-C définie dans les Core Foundations (<I>CFUUIDBytes</I>
-dans le fichier d'en-tête <I>CFUUID.h</I>). L'écriture sous forme de chaîne est 
-une convention pour faciliter la lecture: il s'agit d'une chaîne ASCII 
-séparée par des tirets qui est utilisée, par exemple, dans le fichier de liste 
-de propriétés du plugin (voir la section 
-<A HREF="#plugplist"> Liste de propriétés du plugin</A> ci-dessous).<P><H4>Les UUIDs de Rezilla</H4>
-Rezilla définit deux UUIDs pour identifier respectivement le type du plugin
-et la fonction dite de fabrication (<I>factory function</I>) qui
-implémente l'interface. Ces valeurs sont définies dans le fichier d'en-tête <I>RezillaPluginInterface.h</I> au moyen de valeurs symboliques:
-<UL>
-	<LI> <I>kRezillaPluginEditorTypeID</I> est l'UUID du service d'édition de 
-ressources. 
-C'est un identificateur unique qui indique que l'on a affaire à un plugin 
-d'édition pour Rezilla plutôt qu'un plugin destiné, par exemple, à iMovie 
-ou iDVD.<P>	<LI> <I>kRezillaPluginEditorInterfaceVs1</I> est l'UUID caractérisant
-l'interface courante qui définit le type précédent. Son nom se termine en
-<I>Vs1</I> pour souligner qu'il s'agit de la première version d'interface 
-et qu'il pourrait y en avoir d'autres par la suite (sans doute pour 
-ajouter de nouvelles fonctionnalités). Quoi qu'il en soit, dans la version 
-1.1 de Rezilla, il n'y a qu'un seul type et une seule interface pour ce 
-type.
-</UL>
-Les UUIDs sont définis comme ceci:
-<PRE>
-	#define kRezillaPluginEditorTypeID (CFUUIDGetConstantUUIDWithBytes(NULL,0x30,0x6A,0x0E,0xF3,0x20,0x6E,0x11,0xDA,0x83,0x20,0x00,0x0A,0x95,0xB1,0xFF,0x7C))
-	#define kRezillaPluginEditorInterfaceVs1 (CFUUIDGetConstantUUIDWithBytes(NULL,0x30,0x6A,0xE1,0x67,0x20,0x6E,0x11,0xDA,0x83,0x20,0x00,0x0A,0x95,0xB1,0xFF,0x7C))
-</PRE>
-ce qui s'écrit, sous forme de chaîne:
-<PRE>
-	306A0EF3-206E-11DA-8320-000A95B1FF7C
-	306AE167-206E-11DA-8320-000A95B1FF7C
-</PRE><P><H4>Les UUIDs des fabriques</H4>
-Le plugin doit fournir des UUIDs pour toutes les implémentations 
-d'interfaces qu'il contient. L'implémentation est réalisée par une 
-fonction de fabrication ou fabrique (<I>factory function</I>). Ces 
-fabriques sont déclarées dans la liste de propriétés du plugin et 
-définies dans le plugin lui-même.
-Le plugin <I>RezillaImage</I>, par exemple, supporte le type d'édition de 
-ressources  de 
-Rezilla et l'interface associée, il lui faut donc définir un seul UUID de 
-fabrique. Son code source en C contient l'instruction suivante:
-<PRE>
-	#define kRezillaImageFactoryID (CFUUIDGetConstantUUIDWithBytes(NULL,0x09,0x05,0xF8,0x36,0xA2,0x0C,0x11,0xDA,0xBC,0x6C,0x00,0x0A,0x95,0xB1,0xFF,0x7C))
-</PRE>
-et sa liste de propriétés déclare la même valeur sous forme de chaîne:
-<PRE>
-	0905F836-A20C-11DA-BC6C-000A95B1FF7C
-</PRE>
-Dans le cas où il existe plusieurs interfaces, chaque interface (et donc
-chaque fabrique) doit avoir un UUID.<P><H4>Créer un UUID</H4>
-Il existe un outil de ligne de commande simple appelé <B>uuidgen</B>, 
-fourni avec les <I>Developers Tools</I> d'Apple, qui génère des UUIDs. Voici un 
-exemple de son utilisation (à exécuter dans une fenêtre de Terminal):
-<PRE>
-	shell> uuidgen
-	9A347042-427C-11DB-9237-000A95B1FF7C
-</PRE><P>Le kit de développement de Rezilla (<I>Rezilla SDK</I>) fournit aussi un
-outil un peu plus élaboré appelé <B>mkuuid</B>. Avec mkuuid, on peut
-spécifier le nombre d'UUIDs à générer et le résultat renvoie les UUIDs à la
-fois sous forme d'octets (à utiliser dans du code C) et sous forme de
-chaîne (à utiliser dans la liste de propriétés). Voici un exemple de son
-utilisation:
-<PRE>
-	shell> mkuuid 2
-	UUID as bytes: (NULL,0xC1,0x37,0x86,0xB4,0x42,0x7C,0x11,0xDB,0xA0,0xC4,0x00,0x0A,0x95,0xB1,0xFF,0x7C)
-	UUID as string: "C13786B4-427C-11DB-A0C4-000A95B1FF7C"
-	
-	UUID as bytes: (NULL,0xC1,0x38,0x2C,0x85,0x42,0x7C,0x11,0xDB,0xA0,0xC4,0x00,0x0A,0x95,0xB1,0xFF,0x7C)
-	UUID as string: "C1382C85-427C-11DB-A0C4-000A95B1FF7C"
-</PRE><P><A NAME="plugplist"></A>
+<H3>Le modèle des plugins</H3><P>Un plugin implémente une <I>interface</I> que l'on peut voir comme
+l'incarnation d'un <I>service</I>. Selon la terminologie en vigueur, on
+emploie le mot <I>type</I> pour désigner un service: le <I>type</I> d'un
+plugin d'édition, dans le cas de Rezilla, est le fait d'éditer les données
+d'une ressource particulière (le mot <I>type</I> ici peut prêter à
+confusion et ne doit pas être confondu avec le type d'une ressource !).
+Dans la version 1.1, Rezilla ne connaît que ce type de plugins: le service
+d'édition. Dans l'avenir, Rezilla pourrait aussi introduire des plugins
+permettant de définir des fenêtres de sélection de ressources (<I>resource
+pickers</I>), par exemple, et cela conduirait à introduire un nouveau type
+puisqu'il s'agit d'un service différent.<P>Il n'y a pas forcément une interface unique pour un type donné: il peut y
+en avoir plusieurs. Par exemple, de futures versions de Rezilla, pourraient
+modifier l'interface actuelle: cela se ferait par le biais d'une nouvelle
+interface. Dans ce cas, un plugin se devrait d'implémenter à la fois
+l'ancienne et la nouvelle interface et Rezilla pourrait déterminer, en
+fonction du contexte, quelle interface il faut utiliser. La version 1.1 de
+Rezilla ne définit qu'une interface pour le service d'édition. Une
+interface peut être vue comme une liste de fonctions correspondant aux
+diverses tâches à exécuter au cours de l'édition d'une ressource.<P><A NAME="plugbundle"></A>
 
 
 </BODY>

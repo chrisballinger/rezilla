@@ -1,214 +1,68 @@
 <HTML>
 <HEAD>
-<TITLE>Le dictionnaire de Rezilla Voici, pour la référence, la description formelle complète du dictionnaire</TITLE>
+<TITLE>Plugins externesDepuis la version 1.1, Rezilla supporte l'addition d'éditeurs externes</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="61.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="63.html">Suiv</A><HR><P>&nbsp;</P>
-<H2>Le dictionnaire de Rezilla </H2><P>Voici, pour la référence, la description formelle complète du dictionnaire
-de terminologie de Rezilla, telle que la rapporte (en anglais) 
-l'application <I>Éditeur de Scripts</I>.<P><PRE>
-Required Suite: Terms that every application should support<P>open: Open the specified object(s)
-	open  reference  -- Objects to open. Can be a list of files or an object specifier.
-		[from  data fork/resource fork/any fork/same fork]  -- restrict to a particular fork (default is anyFork)
-		[readOnly  boolean]  -- specify if the file should be opened in read-only mode (by default it is not)
-		[createFork  boolean]  -- specify if a resource fork should be created when the file does not have any resource fork already (by default it is not)<P>quit: Quit the application
-	quit<P>Standard Suite: Common terms for most applications<P>Class application: the application
-Elements:
-	window by numeric index, by name, as a range of elements
-	document by numeric index, by name
-	map document by numeric index, by name
-	map by ID
-Properties:
-	name  international text  [r/o]  -- Rezilla's name
-	version  international text  [r/o]  -- the version of the application
-	inspector  inspector window  [r/o]  -- the inspector<P>Class document: A document
-Plural form:
-	documents
-Properties:
-	name  international text  [r/o]  -- the title of the document
-	modified  boolean  [r/o]  -- Has the document been modified since the last save?<P>Class window: a window
-Plural form:
-	windows
-Properties:
-	name  international text  -- the title of the window
-	index  integer  [r/o]  -- the number of the window
-	bounds  bounding rectangle  -- the boundary rectangle for the window
-	closeable  boolean  [r/o]  -- does the window have a close box?
-	titled  boolean  [r/o]  -- does the window have a title bar?
-	floating  boolean  [r/o]  -- does the window float?
-	modal  boolean  [r/o]  -- is the window modal?
-	resizable  boolean  [r/o]  -- is the window resizable?
-	zoomable  boolean  [r/o]  -- is the window zoomable?
-	zoomed  boolean  -- is the window zoomed?
-	visible  boolean  -- is the window visible?
-	position  point  -- upper left coordinates of window<P>close: Close an object
-	close  reference  -- the objects to close
-		[saving  yes/no/ask]  -- specifies whether or not changes should be saved before closing<P>count: Return the number of elements of a particular class within an object
-	count  reference  -- the object whose elements are to be counted
-		each  type class  -- the class of the elements to be counted
-	Result:   integer  -- the number of elements<P>data size: Return the size in bytes of an object
-	data size  reference  -- the object whose data size is to be returned
-	Result:   integer  -- the size of the object in bytes<P>exists: Verify if an object exists
-	exists
-	Result:   boolean  -- true if it exists, false if not<P>get: Get the data for an object
-	get  reference  -- the object whose data is to be returned
-	Result:   anything  -- The data from the object<P>make: Make a new element
-	make
-		new  type class  -- the class of the new element
-		in  reference  -- the container in which to create the new element (it must already exist)
-		[with properties  record]  -- properties of the element (for instance 'name', 'readOnly', 'fork')
-		[with data  anything]  -- the initial data for the new element
-	Result:   reference  -- Object specifier for the new element<P>revert: Revert an object to the most recently saved version
-	revert  reference  -- object to revert<P>save: save an object
-	save  reference  -- object to save
-		[in  alias]  -- the file in which to save the object
-		[as  data fork/resource fork/any fork/same fork]  -- the fork in which to save the data (in a Save As operation)<P>set: Set an object's data
-	set  reference  -- the object to change
-		to  anything  -- the new value<P>Rezilla suite: Rezilla specifics<P>Class comparison window: a maps comparison window
-Plural form:
-	comparison windows
-Properties:
-	inherits  window  [r/o]  -- all properties of the 'window' class
-	result  comparison  [r/o]  -- a comparison result object<P>Class editing window: a resource editing window (hexadecimal, template or interface)
-Plural form:
-	editing windows
-Properties:
-	inherits  window  [r/o]  -- all properties of the 'window' class
-	kind  hexadecimal/template/interface  [r/o]  -- the kind of the editing window (hexadecimal, template or interface)<P>Class editor: an editor document for a single resource
-Plural form:
-	editors
-Properties:
-	inherits  document  [r/o]  -- all properties of the 'document' class
-	index  integer  [r/o]  -- the number of the document
-	kind  hexadecimal/template/interface  [r/o]  -- the kind of editor document (hexadecimal, template or interface)
-	readOnly  boolean  [r/o]  -- is this document read-only?
-	window  window  [r/o]  -- the window of the document.
-	resource  resource  [r/o]  -- the resource edited by this document
-	owner doc  map document  [r/o]  -- the rezmap document that owns this editor document<P>Class hexadecimal editor: a hexadecimal document editing a resource
-Plural form:
-	hexadecimal editors
-Properties:
-	inherits  editor  [r/o]  -- all properties of the 'editor' class<P>Class hexadecimal window: a hexadecimal editing window
-Plural form:
-	hexadecimal windows
-Properties:
-	inherits  editing window  [r/o]  -- all properties of the 'editing window' class
-	maxPos  integer  [r/o]  -- index of last position (i-e position after the last character)
-	startPos  integer  -- position of beginning of selection
-	endPos  integer  -- position of end of selection
-	hex selection  international text  -- the contents of the selected region in the hex pane
-	text selection  international text  -- the contents of the selected region in the text pane<P>Class inspector window: the inspector window
-Properties:
-	inherits  window  [r/o]  -- all properties of the 'window' class
-	ID field  small integer  -- the value of the 'ID' field
-	name field  international text  -- the value of the 'name' field
-	system heap  boolean  -- the value of the 'System Heap' checkbox
-	purgeable  boolean  -- the value of the 'Purgeable' checkbox
-	locked  boolean  -- the value of the 'Locked' checkbox
-	preload  boolean  -- the value of the 'Preload' checkbox
-	protected  boolean  -- the value of the 'Protected' checkbox
-	current resource  resource  [r/o]  -- the resource for which info is currently displayed<P>Class interface editor: a dedicated interface document editing a resource
-Plural form:
-	interface editors
-Properties:
-	inherits  editor  [r/o]  -- all properties of the 'editor' class<P>Class interface window: an interface editing window
-Plural form:
-	interface windows
-Properties:
-	inherits  editing window  [r/o]  -- all properties of the 'editing window' class<P>Class map document: a resource map document (representing the contents of an entire fork)
-Plural form:
-	map documents
-Elements:
-	editor by numeric index, by name
-Properties:
-	inherits  document  [r/o]  -- all properties of the 'document' class
-	index  integer  [r/o]  -- the number of the document among other map documents
-	readOnly  boolean  [r/o]  -- is this document read-only?
-	window  window  [r/o]  -- the window of the document.
-	refnum  small integer  [r/o]  -- the reference number of the map in memory
-	fork  DataFork/ResourceFork/UnknownFork  [r/o]  -- the fork this document is editing (data fork or resource fork)
-	map  map  [r/o]  -- the resource map associated with this document
-	file  file specification  [r/o]  -- the file on disk corresponding to this resource map document
-	format  unknown export/xml/html/text/DeRez  -- the format used for export<P>Class map window: a resource map window
-Plural form:
-	map windows
-Properties:
-	inherits  window  [r/o]  -- all properties of the 'window' class
-	types count  integer  [r/o]  -- number of types in this map as displayed at the bottom of the map window
-	resources count  integer  [r/o]  -- total number of resources in this map as displayed at the bottom of the map window<P>Class template editor: a template document editing a resource
-Plural form:
-	template editors
-Properties:
-	inherits  editor  [r/o]  -- all properties of the 'editor' class<P>Class template window: a template editing window
-Plural form:
-	template windows
-Properties:
-	inherits  editing window  [r/o]  -- all properties of the 'editing window' class<P>compare: compare two resource maps
-	compare  alias  -- first resource file for comparison
-		and  alias  -- second resource file for comparison
-		[ignoreName  boolean]  -- ignore name differences
-		[ignoreAttrs  boolean]  -- ignore attributes differences
-		[ignoreData  boolean]  -- ignore data differences
-	Result:   comparison  -- a maps comparison object<P>delete: Delete the specified object
-	delete  reference  -- the object to delete<P>duplicate: Duplicate a resource in the resource map. The duplicate is automatically attributed an unique ID.
-	duplicate  reference  -- the object to duplicate
-	Result:   reference  -- a specifier for the duplicated resource(s)<P>edit: edit one or more resources
-	edit  resource  -- resource to edit
-		[using  hexadecimal/template/interface]  -- specifies which kind of editor to use (if not specified, Rezilla tries to find successively an interface, a template or the hexadecimal editor)
-		[like  type class]  -- use an another type's editor<P>export: export a rezmap document in a specified format
-	export  map document  -- resource map document to export
-		in  alias  -- the folder in which to save the export file. This folder must already exist.
-		[with properties  record]  -- the initial values for the properties (essentially to specify a name and a format)<P>inspect: display info about the specified resource in the Inspector window
-	inspect  resource  -- Resource object to display info about.<P>Resource suite: Resource maps handling<P>Class comparison: the result of a comparison between two maps
-Properties:
-	criteria  record  [r/o]  -- the comparison criteria
-	ignoreName  boolean  [r/o]  -- have name differences been ignored?
-	ignoreAttrs  boolean  [r/o]  -- have attributes differences been ignored?
-	ignoreData  boolean  [r/o]  -- have data differences been ignored?
-	old only resources  a list of list  [r/o]  -- the list of resources which are only in the old map
-	new only resources  a list of list  [r/o]  -- the list of resources which are only in the new map
-	differing resources  a list of list  [r/o]  -- the list of resources which exist in both maps and are different
-	identical resources  a list of list  [r/o]  -- the list of resources which exist in both maps and are identical<P>Class map: a resource map
-Plural form:
-	maps
-Elements:
-	type by numeric index, by name, by ID
-Properties:
-	refnum  small integer  [r/o]  -- the reference number of the map in memory
-	all types  list  [r/o]  -- the list of all types (in alphabetical order)
-	attributes  small integer  -- the global value of the map attributes (sum of the individual flags)
-	readOnly  boolean  -- the mapReadOnly bit
-	compact  boolean  -- the mapCompact bit
-	changed  boolean  -- the mapChanged bit<P>Class resource: a single resource with specific type and ID
-Plural form:
-	resources
-Properties:
-	name  international text  -- the resource's name
-	typename  string  [r/o]  -- the type of the resource as text
-	ID  small integer  [r/o]  -- the ID of the resource
-	index  integer  [r/o]  -- the index of the resource within its type (in the order used by the resource manager)
-	attributes  small integer  -- the global value of the resource attributes (sum of the individual flags)
-	sysHeap  boolean  -- the resSysHeap bit
-	purgeable  boolean  -- the resPurgeable bit
-	locked  boolean  -- the resLocked bit
-	preload  boolean  -- the resPreload bit
-	protected  boolean  -- the resProtected bit
-	changed  boolean  -- the resChanged bit
-	size  integer  [r/o]  -- the size of the resource data (in bytes)
-	sizeOnDisc  integer  [r/o]  -- the size of the resource on disk
-	hex data  anything  -- the resource data (in hex format)<P>Class specifier: a two-elements list containing the type and the ID of a resource<P>Class type: a resource type
-Plural form:
-	types
-Elements:
-	resource by name, by ID, by numeric index
-Properties:
-	index  integer  [r/o]  -- the index of the type in the document (types are ordered alphabetically)
-	name  international text  [r/o]  -- the type's name
-	ID  unsigned integer  [r/o]  -- a type as a long unsigned integer
-	all IDs  list  [r/o]  -- the list of all IDs of resources belonging to this type<P></PRE><P>
+<H3>Plugins externes</H3><P>Depuis la version 1.1, Rezilla supporte l'addition d'éditeurs externes
+définis au moyen d'extensions (ou <I>plugins</I>). La terminologie
+<I>AppleScript</I> comporte un nouveau terme <I>plugin</I> permettant d'obtenir 
+des informations sur les extensions couramment disponibles.<P>Les objets <I>plugin</I> appartiennent directement à l'objet application.
+On peut les désigner par nom ou par indice. Voici quelques instructions
+AppleScript simples:
+<UL>
+	<LI> pour obtenir la liste des plugins
+<PRE>
+	get name of plugins<P></PRE>
+	<LI> pour dénombrer les plugins
+<PRE>
+	count plugins<P></PRE>
+</UL><P>Les objets <I>plugin</I> possèdent les propriétés suivantes:
+<UL>
+	<LI> <I>name</I>: le nom du plugin. C'est le nom du plugin 
+comme fichier, comme par exemple <I>RezImagePlugin.plugin</I>.<P>	<LI> <I>index</I>: l'indice du plugin<P>	<LI> <I>version</I>: le numéro de version courant du plugin<P>	<LI> <I>typecode</I>: le code de type du plugin<P>	<LI> <I>creator</I>: le code de créateur du plugin<P>	<LI> <I>loaded</I>: indique si le plugin est déjà chargé par Rezilla. Les 
+plugins sont chargés de façon paresseuse, autrement dit seulement lorsque 
+l'utilisateur demande l'édition d'une ressource au moyen d'un plugin.<P>	<LI> <I>supported types</I>: la liste de tous les types de ressources qui 
+peuvent être édités par le plugin<P></UL><P>Toutes ces propriétés sont en lecture seule: elles ne peuvent être 
+modifiées au moyen de la commande <B>set</B>. Voici quelques instructions 
+simples pour obtenir les informations sur un plugin:
+<PRE>
+	set a to name of plugin 1
+	set b to version of plugin 1
+	set c to typecode of plugin 1
+	set d to creator of plugin 1
+	set e to loaded of plugin 1
+	{a, b, c, d, e}<P></PRE>
+Pour obtenir la liste des types supportés:
+<PRE>
+	get supported types of plugin "RezImagePlugin.plugin"	<P></PRE><P>Dans le cas où plusieurs plugins supportent un même type de ressource,
+Rezilla permet de spécifier le plugin à utiliser de préférence pour éditer
+une ressource de ce type. Ce choix peut être réglé dans l'application dans
+le panneau <I>Plugin Order</I> du dialogue affiché lorsqu'on invoque la
+commande <I>Plugins...</I> du menu <I>File</I>. On peut aussi le
+contrôler par une instruction AppleScript. Il y a une propriété de
+l'application appelée <I>preferred plugins</I> à cet effet: elle renvoie
+un dictionnaire dont les clés sont les types de ressources et les valeurs
+sont, pour chaque type, le nom du plugin préféré associé. Par exemple, 
+le script suivant:
+<PRE>
+	get preferred plugins<P></PRE>
+renvoie des informations telles que
+<PRE>
+    {JPEG:"RezImagePlugin.plugin", PStr:"RezSamplePlugin.plugin", etc.}
+</PRE><P>Cette propriété peut être modifiée avec la commande <B>set</B> afin de
+désigner un autre plugin de prédilection pour certains types (le réglage ne
+se fait pas nécessairement pour tous les types à la fois). Ceci n'a de sens que
+pour les types supportés par plusieurs plugins. Par exemple:
+<PRE>
+	-- Assume the JPEG and TIFF resource types can be edited by several plugins
+	-- and you want Rezilla to use the RezImagePlugin plugin for them
+	set preferred plugins to {JPEG:"RezImagePlugin.plugin",TIFF:"RezImagePlugin.plugin"}<P></PRE>
+Le plugin doit par ailleurs exister effectivement pour que cette opération
+réussisse.<P>
 
 </BODY>
 </HTML>

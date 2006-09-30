@@ -1,46 +1,23 @@
 <HTML>
 <HEAD>
-<TITLE>The plugin's bundle</TITLE>
+<TITLE>Writing a Plugin for RezillaThis section is for developers who wish to write a plugin for Rezilla.A complete plugins support has been introduced in Rezilla starting </TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="73.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="75.html">Next</A><HR><P>&nbsp;</P>
-<H3>The plugin's bundle</H3>
-Technically a plugin is just a dynamic library which is loaded by the main 
-application when necessary. On OS X, this library is packaged in a bundle, 
-that is to say a directory-like structure containing the library itself 
-and a few other resources.<P>To learn more about bundles on OS X, see:
-<A HREF="http://developer.apple.com/documentation/CoreFoundation/Conceptual/CFBundles/Concepts/about.html">http://developer.apple.com/documentation/CoreFoundation/Conceptual/CFBundles/Concepts/about.html</A><P>Using this architecture makes it very easy, from the user's point of view,
-to perform the maintenance tasks related to plugins, for instance adding a 
-new plugin, removing a plugin, enabling or disabling a plugin. All these 
-actions can be performed in the Finder in a transparent manner (see the 
-<I>External Editors</I> section in Rezilla's help). The 
-user does not have to know where exactly the plugin resides inside the 
-application's bundle.<P>Here is, for instance, the internal structure of the <B>RezImagePlugin</B>, a 
-plugin provided with version 1.1 of Rezilla:
-<P><IMG SRC="../../Images/rzil_pluginanatomy.gif " ALT="Plugin anatomy" ALIGN=bottom></P><P>The plugin's bundle is named <I>RezImagePlugin.plugin</I>. It must have a <I>.plugin</I> 
-extension to make sure that Rezilla will find it. Some elements of the 
-<I>Contents</I> subfloder are required, some are optional. Required elements are:
-<UL>
-	<LI> the <I>Info.plist</I> file which is a Property List file containing information 
-about the capacities of this bundle. See the 
-section <A HREF="#plugplist"><I>The plugin's property list</I></A> below.
-	<LI> the <I>MacOS</I> subfolder with the dynamic library itself 
-(<I>RezImagePlugin</I> in the previous example).
-</UL><P>The <I>Resources</I> subfolder may contain additional data. In the previous 
-example, it contains:
-<UL>
-	<LI> a resource file named <I>RezImagePlugin.rsrc</I> which defines
-resources used by the plugin. The name of the resource file is the
-name of the executable (the library located in the MacOS subfolder of the
-bundle) followed by a <TT>.rsrc</TT> extension.
-	<LI> localized folders (<I>English.lproj, French.lproj</I>) with localizable 
-data. In the given example, two files in both folders contain localized strings used by 
-the plugin. Other languages can be added as necessary.
-</UL><P><A NAME="pluguuids"></A>
-
+<H2>Writing a Plugin for Rezilla</H2><P>This section is for developers who wish to write a plugin for Rezilla.<P>A complete plugins support has been introduced in <B>Rezilla</B> starting 
+from version 1.1. 
+It uses the CFPlugin API defined in the CoreFoundation framework. This 
+programming interface is based on the COM model (Microsoft?s  
+<I>Component Object Model</I> architecture). To learn more about the
+CFPlugin model and the COM architecture, refer to the Apple's developer documentation, in
+particular:
+<A HREF="http://developer.apple.com/documentation/CoreFoundation/Conceptual/CFPlugIns/index.html">http://developer.apple.com/documentation/CoreFoundation/Conceptual/CFPlugIns/index.html</A><P>The present document explains how to write a plugin for Rezilla, complying
+with this model. It is written for developers who want to bring new 
+editing capacities to Rezilla and contains the main guidelines and technical 
+information for this purpose.<P>
 
 </BODY>
 </HTML>
