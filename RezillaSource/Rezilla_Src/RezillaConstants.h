@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2006-09-29 10:28:24
+//             Last modification : 2006-09-30 11:49:38
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@users.sourceforge.net>
 // www : <http://rezilla.sourceforge.net/>
@@ -712,59 +712,60 @@ const PaneIDT   item_PrefsCancelButton		= 2;
 const PaneIDT   item_RevertPrefs			= 3;
 //     General Prefs Pane
 //     ------------------
-const PaneIDT	item_GenPrefsMaxRecent		= 2;
-const PaneIDT	item_GenPrefsResetRecent	= 3;
-const PaneIDT	item_GenPrefsNewMapRgbx		= 5;
-const PaneIDT	item_GenPrefsResourceFork	= 6;
-const PaneIDT	item_GenPrefsDataFork		= 7;
+const PaneIDT	item_GenPrefs_maxRecent		= 2;
+const PaneIDT	item_GenPrefs_resetRecent	= 3;
+const PaneIDT	item_GenPrefs_newMapRgbx	= 5;
+const PaneIDT	item_GenPrefs_resourceFork	= 6;
+const PaneIDT	item_GenPrefs_dataFork		= 7;
 //     Export Prefs Pane
 //     -----------------
-const PaneIDT	item_ExpPrefsDtdRgbx		= 2;
-const PaneIDT	item_ExpPrefsKeyDtd			= 3;
-const PaneIDT	item_ExpPrefsAttrDtd		= 4;
-const PaneIDT	item_ExpPrefsInclBinData	= 5;
-const PaneIDT	item_ExpPrefsEncRgbx		= 6;
-const PaneIDT	item_ExpPrefsHexEnc			= 7;
-const PaneIDT	item_ExpPrefsBase64Enc		= 8;
-const PaneIDT	item_ExpPrefsEditSig		= 9;
+const PaneIDT	item_ExpPrefs_dtdRgbx		= 2;
+const PaneIDT	item_ExpPrefs_keyDtd		= 3;
+const PaneIDT	item_ExpPrefs_attrDtd		= 4;
+const PaneIDT	item_ExpPrefs_inclBinData	= 5;
+const PaneIDT	item_ExpPrefs_encRgbx		= 6;
+const PaneIDT	item_ExpPrefs_hexEnc		= 7;
+const PaneIDT	item_ExpPrefs_base64Enc		= 8;
+const PaneIDT	item_ExpPrefs_editSig		= 9;
 //     Compare Prefs Pane
 //     ------------------
-const PaneIDT	item_CompPrefsIgnName		= 2;
-const PaneIDT	item_CompPrefsIgnAttr		= 3;
-const PaneIDT	item_CompPrefsIgnData		= 4;
-const PaneIDT	item_CompPrefsDisplayRgbx	= 5;
-const PaneIDT	item_CompPrefsHexDisplay	= 6;
-const PaneIDT	item_CompPrefsTxtDisplay	= 7;
+const PaneIDT	item_CompPrefs_ignName		= 2;
+const PaneIDT	item_CompPrefs_ignAttr		= 3;
+const PaneIDT	item_CompPrefs_ignData		= 4;
+const PaneIDT	item_CompPrefs_displayRgbx	= 5;
+const PaneIDT	item_CompPrefs_hexDisplay	= 6;
+const PaneIDT	item_CompPrefs_txtDisplay	= 7;
 //     Interface Prefs Pane
 //     --------------------
-const PaneIDT	item_UIPrefsFontsMenu		= 2;
-const PaneIDT	item_UIPrefsSizeMenu		= 3;
+const PaneIDT	item_UIPrefs_fontsMenu		= 2;
+const PaneIDT	item_UIPrefs_sizeMenu		= 3;
 //     Templates Prefs Pane
 //     --------------------
-const PaneIDT	item_TmplPrefsHexSymRgbx		= 2;
-const PaneIDT	item_TmplPrefsHexSym0x			= 3;
-const PaneIDT	item_TmplPrefsHexSymDollar		= 4;
-const PaneIDT	item_TmplPrefsHexCaseRgbx		= 5;
-const PaneIDT	item_TmplPrefsHexLowercase		= 6;
-const PaneIDT	item_TmplPrefsHexUppercase		= 7;
-const PaneIDT	item_TmplPrefsDisplayFillers	= 8;
-const PaneIDT	item_TmplPrefsEnableFillers		= 9;
-const PaneIDT	item_TmplPrefsRectFormatRgbx	= 10;
-const PaneIDT	item_TmplPrefsRectTLBR			= 11;
-const PaneIDT	item_TmplPrefsRectTLWH			= 12;
+const PaneIDT	item_TmplPrefs_hexSymRgbx		= 2;
+const PaneIDT	item_TmplPrefs_hexSym0x			= 3;
+const PaneIDT	item_TmplPrefs_hexSymDollar		= 4;
+const PaneIDT	item_TmplPrefs_hexCaseRgbx		= 5;
+const PaneIDT	item_TmplPrefs_hexLowercase		= 6;
+const PaneIDT	item_TmplPrefs_hexUppercase		= 7;
+const PaneIDT	item_TmplPrefs_displayFillers	= 8;
+const PaneIDT	item_TmplPrefs_enableFillers	= 9;
+const PaneIDT	item_TmplPrefs_rectFormatRgbx	= 10;
+const PaneIDT	item_TmplPrefs_rectTLBR			= 11;
+const PaneIDT	item_TmplPrefs_rectTLWH			= 12;
+const PaneIDT	item_TmplPrefs_enableTabKey		= 13;
 //     Editors Prefs Pane
 //     ------------------
-const PaneIDT	item_EditPrefsUse8BitPicts	= 10;
-const PaneIDT	item_EditPrefsUseFullTables	= 11;
-const PaneIDT	item_EditPrefsDoFontSubst	= 20;
-const PaneIDT	item_EditPrefsInsertBOM		= 21;
+const PaneIDT	item_EditPrefs_use8BitPicts		= 10;
+const PaneIDT	item_EditPrefs_useFullTables	= 11;
+const PaneIDT	item_EditPrefs_doFontSubst		= 20;
+const PaneIDT	item_EditPrefs_insertBOM		= 21;
 //     Misc Prefs Pane
 //     ---------------
-const PaneIDT	item_MiscPrefsSetSigOnClose		= 2;
-const PaneIDT	item_MiscPrefsClosingType		= 3;
-const PaneIDT	item_MiscPrefsClosingCreator	= 4;
-const PaneIDT	item_MiscPrefsSetSigOnCreate	= 5;
-const PaneIDT	item_MiscPrefsOnlyRsrcExt		= 6;
+const PaneIDT	item_MiscPrefs_setSigOnClose	= 2;
+const PaneIDT	item_MiscPrefs_closingType		= 3;
+const PaneIDT	item_MiscPrefs_closingCreator	= 4;
+const PaneIDT	item_MiscPrefs_setSigOnCreate	= 5;
+const PaneIDT	item_MiscPrefs_onlyRsrcExt		= 6;
 // Text Editor Window
 // ------------------
 const PaneIDT   item_TextEditLength		= 1;
@@ -1044,49 +1045,50 @@ const MessageT	msg_PluginOrderPgbx			= PPob_PluginOrder + item_PluginOrderPgbx;
 const MessageT  msg_PrefsRevert				= PPob_PrefsWindow + 3;
 //     General Prefs Pane
 //     ------------------
-const MessageT  msg_GenPrefsMaxRecent       = PPob_PrefsGeneralPane + item_GenPrefsMaxRecent;
-const MessageT	msg_GenPrefsResetRecent		= PPob_PrefsGeneralPane + item_GenPrefsResetRecent;
-const MessageT	msg_GenPrefsDataFork		= PPob_PrefsGeneralPane + item_GenPrefsDataFork;
-const MessageT	msg_GenPrefsResourceFork	= PPob_PrefsGeneralPane + item_GenPrefsResourceFork;
+const MessageT  msg_GenPrefsMaxRecent       = PPob_PrefsGeneralPane + item_GenPrefs_maxRecent;
+const MessageT	msg_GenPrefsResetRecent		= PPob_PrefsGeneralPane + item_GenPrefs_resetRecent;
+const MessageT	msg_GenPrefsDataFork		= PPob_PrefsGeneralPane + item_GenPrefs_dataFork;
+const MessageT	msg_GenPrefsResourceFork	= PPob_PrefsGeneralPane + item_GenPrefs_resourceFork;
 //     Export Prefs Pane
 //     -----------------
-const MessageT	msg_ExpPrefsKeyDtd			= PPob_PrefsExportPane + item_ExpPrefsKeyDtd;
-const MessageT	msg_ExpPrefsAttrDtd			= PPob_PrefsExportPane + item_ExpPrefsAttrDtd;
-const MessageT	msg_ExpPrefsInclBinData		= PPob_PrefsExportPane + item_ExpPrefsInclBinData;
-const MessageT	msg_ExpPrefsHexEnc			= PPob_PrefsExportPane + item_ExpPrefsHexEnc;
-const MessageT	msg_ExpPrefsBase64Enc		= PPob_PrefsExportPane + item_ExpPrefsBase64Enc;
-const MessageT	msg_ExpPrefsEditSig			= PPob_PrefsExportPane + item_ExpPrefsEditSig;
+const MessageT	msg_ExpPrefsKeyDtd			= PPob_PrefsExportPane + item_ExpPrefs_keyDtd;
+const MessageT	msg_ExpPrefsAttrDtd			= PPob_PrefsExportPane + item_ExpPrefs_attrDtd;
+const MessageT	msg_ExpPrefsInclBinData		= PPob_PrefsExportPane + item_ExpPrefs_inclBinData;
+const MessageT	msg_ExpPrefsHexEnc			= PPob_PrefsExportPane + item_ExpPrefs_hexEnc;
+const MessageT	msg_ExpPrefsBase64Enc		= PPob_PrefsExportPane + item_ExpPrefs_base64Enc;
+const MessageT	msg_ExpPrefsEditSig			= PPob_PrefsExportPane + item_ExpPrefs_editSig;
 //     Compare Prefs Pane
 //     ------------------
-const MessageT	msg_CompPrefsIgnName		= PPob_PrefsComparePane + item_CompPrefsIgnName;
-const MessageT	msg_CompPrefsIgnAttr		= PPob_PrefsComparePane + item_CompPrefsIgnAttr;
-const MessageT	msg_CompPrefsIgnData		= PPob_PrefsComparePane + item_CompPrefsIgnData;
-const MessageT	msg_CompPrefsHexDisplay		= PPob_PrefsComparePane + item_CompPrefsHexDisplay;
-const MessageT	msg_CompPrefsTxtDisplay		= PPob_PrefsComparePane + item_CompPrefsTxtDisplay;
+const MessageT	msg_CompPrefsIgnName		= PPob_PrefsComparePane + item_CompPrefs_ignName;
+const MessageT	msg_CompPrefsIgnAttr		= PPob_PrefsComparePane + item_CompPrefs_ignAttr;
+const MessageT	msg_CompPrefsIgnData		= PPob_PrefsComparePane + item_CompPrefs_ignData;
+const MessageT	msg_CompPrefsHexDisplay		= PPob_PrefsComparePane + item_CompPrefs_hexDisplay;
+const MessageT	msg_CompPrefsTxtDisplay		= PPob_PrefsComparePane + item_CompPrefs_txtDisplay;
 //     Interface Prefs Pane
 //     --------------------
-const MessageT	msg_UIPrefsFontsMenu		= PPob_PrefsInterfacePane + item_UIPrefsFontsMenu;
-const MessageT	msg_UIPrefsSizeMenu			= PPob_PrefsInterfacePane + item_UIPrefsSizeMenu;
+const MessageT	msg_UIPrefsFontsMenu		= PPob_PrefsInterfacePane + item_UIPrefs_fontsMenu;
+const MessageT	msg_UIPrefsSizeMenu			= PPob_PrefsInterfacePane + item_UIPrefs_sizeMenu;
 //     Templates Prefs Pane
 //     --------------------
-const MessageT	msg_TmplPrefsHexSym0x		= PPob_PrefsTemplatesPane + item_TmplPrefsHexSym0x;
-const MessageT	msg_TmplPrefsHexSymDollar	= PPob_PrefsTemplatesPane + item_TmplPrefsHexSymDollar;
-const MessageT	msg_TmplPrefsHexLowercase	= PPob_PrefsTemplatesPane + item_TmplPrefsHexLowercase;
-const MessageT	msg_TmplPrefsHexUppercase	= PPob_PrefsTemplatesPane + item_TmplPrefsHexUppercase;
-const MessageT	msg_TmplPrefsDisplayFillers	= PPob_PrefsTemplatesPane + item_TmplPrefsDisplayFillers;
-const MessageT	msg_TmplPrefsEnableFillers	= PPob_PrefsTemplatesPane + item_TmplPrefsEnableFillers;
+const MessageT	msg_TmplPrefsHexSym0x		= PPob_PrefsTemplatesPane + item_TmplPrefs_hexSym0x;
+const MessageT	msg_TmplPrefsHexSymDollar	= PPob_PrefsTemplatesPane + item_TmplPrefs_hexSymDollar;
+const MessageT	msg_TmplPrefsHexLowercase	= PPob_PrefsTemplatesPane + item_TmplPrefs_hexLowercase;
+const MessageT	msg_TmplPrefsHexUppercase	= PPob_PrefsTemplatesPane + item_TmplPrefs_hexUppercase;
+const MessageT	msg_TmplPrefsDisplayFillers	= PPob_PrefsTemplatesPane + item_TmplPrefs_displayFillers;
+const MessageT	msg_TmplPrefsEnableFillers	= PPob_PrefsTemplatesPane + item_TmplPrefs_enableFillers;
+const MessageT	msg_TmplPrefsEnableTabKey	= PPob_PrefsTemplatesPane + item_TmplPrefs_enableTabKey;
 //     Editors Prefs Pane
 //     ------------------
-const MessageT	msg_EditPrefsUse8BitPicts	= PPob_PrefsEditorsPane + item_EditPrefsUse8BitPicts;
-const MessageT	msg_EditPrefsUseFullTables	= PPob_PrefsEditorsPane + item_EditPrefsUseFullTables;
-const MessageT	msg_EditPrefsDoFontSubst	= PPob_PrefsEditorsPane + item_EditPrefsDoFontSubst;
+const MessageT	msg_EditPrefsUse8BitPicts	= PPob_PrefsEditorsPane + item_EditPrefs_use8BitPicts;
+const MessageT	msg_EditPrefsUseFullTables	= PPob_PrefsEditorsPane + item_EditPrefs_useFullTables;
+const MessageT	msg_EditPrefsDoFontSubst	= PPob_PrefsEditorsPane + item_EditPrefs_doFontSubst;
 //     Misc Prefs Pane
 //     ---------------
-const MessageT	msg_MiscPrefsSetSigOnClose	= PPob_PrefsMiscPane + item_MiscPrefsSetSigOnClose;
-const MessageT	msg_MiscPrefsClosingType	= PPob_PrefsMiscPane + item_MiscPrefsClosingType;
-const MessageT	msg_MiscPrefsClosingCreator	= PPob_PrefsMiscPane + item_MiscPrefsClosingCreator;
-const MessageT	msg_MiscPrefsSetSigOnCreate	= PPob_PrefsMiscPane + item_MiscPrefsSetSigOnCreate;
-const MessageT	msg_MiscPrefsOnlyRsrcExt	= PPob_PrefsMiscPane + item_MiscPrefsOnlyRsrcExt;
+const MessageT	msg_MiscPrefsSetSigOnClose	= PPob_PrefsMiscPane + item_MiscPrefs_setSigOnClose;
+const MessageT	msg_MiscPrefsClosingType	= PPob_PrefsMiscPane + item_MiscPrefs_closingType;
+const MessageT	msg_MiscPrefsClosingCreator	= PPob_PrefsMiscPane + item_MiscPrefs_closingCreator;
+const MessageT	msg_MiscPrefsSetSigOnCreate	= PPob_PrefsMiscPane + item_MiscPrefs_setSigOnCreate;
+const MessageT	msg_MiscPrefsOnlyRsrcExt	= PPob_PrefsMiscPane + item_MiscPrefs_onlyRsrcExt;
 // Tmpl Editor Window
 // ------------------
 const MessageT	msg_EditorSave				= msg_OK;
