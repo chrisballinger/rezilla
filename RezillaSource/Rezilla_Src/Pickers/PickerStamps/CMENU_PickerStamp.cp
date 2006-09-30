@@ -2,7 +2,7 @@
 // 	CMENU_PickerStamp.cp
 // 
 //                       Created : 2006-02-25 17:40:43
-//             Last modification : 2006-09-29 07:06:12
+//             Last modification : 2006-09-30 06:48:06
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@users.sourceforge.net>
 // www : <http://rezilla.sourceforge.net/>
@@ -18,6 +18,7 @@
 #include "CMENU_PickerStamp.h"
 #include "CPickerView.h"
 #include "CRezillaApp.h"
+#include "CMenuObject.h"
 #include "UResources.h"
 #include "RezillaConstants.h"
 
@@ -83,25 +84,14 @@ CMENU_PickerStamp::DrawSelf()
 
 	theTitle[0] = 0;
 
-	if (theResHandle != NULL) {
-		LHandleStream * theStream = new LHandleStream(theResHandle);
-		
-		if (theStream && theStream->GetLength() > 14) {
-			// The menu title is at position 14 in the resource
-			theStream->SetMarker(14, streamFrom_Start);
-			try {
-				*theStream >> theTitle;
-				
-				// Is it the Apple menu?
-				if (theTitle[1] == 0x14) {
-					isAppleMenu = true;
-					theTitle[0] = 0;
-				} 
-			} catch (...) {
-				theTitle[0] = 0;
-			}
-		} 
-		delete theStream;
+	if ( ! CMenuObject::GetMenuTitle(theID, theRefNum, theTitle) ) {
+		::NumToString( (long)theID, theTitle);
+	} 
+	
+	// Is it the Apple menu?
+	if (theTitle[1] == 0x14) {
+		isAppleMenu = true;
+		theTitle[0] = 0;
 	} 
 	
 	// Now use Rezilla's refnum
