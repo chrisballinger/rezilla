@@ -43,7 +43,9 @@ $Date$
 		* pictures ('PICT')
 		* patterns ('PAT ', 'PAT#', 'ppat')
 		* cursors ('CURS', 'crsr')
-		* text ('TEXT', 'STR#')
+		* text ('TEXT', )
+		* menus ('MENU')
+		* lists ('STR#', 'Mcmd', 'RID#', 'RidL', 'MBAR')
 ¥ New "Plugins..." command and plugins window to get info about plugins and set 
   the preferred plugin for any supported type.
 ¥ Plugin settings saved in the preferences.
