@@ -1218,3 +1218,89 @@ CTmplEditorWindow::CalcTextPositions(OSType inType, SInt32 & oldPos, SInt32 & ne
 }
 
 
+// ---------------------------------------------------------------------------
+//   RotateTarget													[private]
+// ---------------------------------------------------------------------------
+// ZP feature #11, part 3: actual implementation of RotateTarget, that is
+// of tabbing in the template editor
+
+void
+CTmplEditorWindow::RotateTarget( Boolean inBackwards )
+{
+	PaneIDT			theID;
+	ArrayIndexT		index;
+	LPane			*thePane, *originalPane;
+	LEditText* 		theET;
+	CWasteEditView*	theWE;
+	Rect			frameRect, visRect;
+	SInt32			scrolling;
+	SDimension32	dim1;
+	SPoint32		dim2;
+	
+	// Get the current target
+	originalPane = dynamic_cast<LPane *>(GetTarget());
+	// If it's not under our responsibility, then activate the first field.
+	if (originalPane == NULL || (GetTarget())->GetSuperCommander() != this) {
+		index = 0;
+	} else {
+		// Get its ID
+		theID = originalPane->GetPaneID();
+		// and find the index of this ID in the order we want
+		index = mPaneIDs.FetchIndexOf(theID);
+	}
+	
+	do { 
+		// As long as we don't have a Pane of satisfying type:
+		// increase/decrease this index
+		index += (inBackwards ? -1 : 1);
+		// and wrap around the edges:
+		if (index <= 0) {
+			index = mPaneIDs.GetCount();
+		} else if (index > mPaneIDs.GetCount()) {
+			index = 1;
+		}
+		// Then get the pane with the ID at that index in mPaneIDs
+		mPaneIDs.FetchItemAt(index, theID);
+		thePane = this->FindPaneByID(theID);
+		// If it is the original pane, then we did a full revolution and we
+		// should stop here
+		if (thePane == originalPane) return;
+		
+		// Then check the pane type to know if it's okay
+		if ( (theET = dynamic_cast<LEditText *>(thePane)) != NULL ) { 
+			// Also covers CTmplCaseFields and CTmplRSIDFields.
+			// We found a satisfying pane! Try to see whether it accepts having focus.
+			// If yes, we're done, break out of here.
+			if (SwitchTarget(theET)) break;
+			// If not, try another.
+		} else if ( (theWE = dynamic_cast<CWasteEditView*>(thePane)) != NULL ) {
+			if (SwitchTarget(theWE)) break;
+		}
+		// You might wish to add support for other panes such as CDualDataView here,
+		// I didn't do it yet since CDualDataView does not pass up tabs and therefore
+		// the tabbing would stop and be stuck there.
+	} while (1);
+
+	// Now handle the second responsibility of this function: make sure the
+	// new target is visible, and if not, scroll to it
+	thePane->CalcPortFrameRect(frameRect);
+	thePane->CalcPortExposedRect(visRect);
+	if (not ::EqualRect(&frameRect,&visRect)) {
+		// Scroll so that it is at window top
+		mContentsView->CalcPortFrameRect(visRect);
+		scrolling = frameRect.top-visRect.top-15; // 15 pixels of room
+		mContentsView->GetImageSize(dim1);
+		mContentsView->GetScrollPosition(dim2);
+		// Don't show parts lower than image bottom
+		if (scrolling > (dim1.height - (dim2.v + (visRect.bottom - visRect.top)))) {
+			scrolling = (dim1.height - (dim2.v + (visRect.bottom - visRect.top)));
+		}
+		// and don't go higher than image top
+		if (scrolling < -dim2.v) {
+			scrolling = -dim2.v;
+		}
+		mContentsView->ScrollImageBy(0, scrolling, true);
+	}
+}
+// ZP feature eleven part three end.
+

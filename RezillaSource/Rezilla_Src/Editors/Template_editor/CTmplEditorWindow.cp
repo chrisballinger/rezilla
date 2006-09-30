@@ -468,8 +468,20 @@ CTmplEditorWindow::HandleKeyPress(
 				CTmplListButton* thePlusButton = dynamic_cast<CTmplListButton*>(this->FindPaneByID(thePaneID + 1));
 				this->ListenToMessage(msg_PlusButton, (void *) thePlusButton);
 			}
-			// end of ZP feature 8
+			// end of ZP feature #8
 		}
+		// ZP feature #11, part 1: tabbing -- shamelessly copied from LTabGroup.cp
+		// Process Tab or Shift-Tab. Pass up if there are any other
+		// modifiers keys pressed.
+		else if ((theKey == char_Tab) &&
+		   ((inKeyEvent.modifiers & (cmdKey + optionKey + controlKey)) == 0)) {
+			   if ( CRezillaPrefs::GetPrefValue(kPref_templates_enableTabKey) ) {
+				   RotateTarget((inKeyEvent.modifiers & shiftKey) != 0);
+			   }
+		} else {
+			keyHandled = LCommander::HandleKeyPress(inKeyEvent);
+		}
+		// end of ZP feature #11, part 1
 		break;
 	}
 	

@@ -318,6 +318,10 @@ private:
 	OSErr			SelectKeyValueFromKeyCases(Str255 inLabelString,
 										   Str255 outKeyString);
 	
+	// ZP feature #11, part 2: declare the LTabGroup-like rotating
+	// function. Implemented in CTmplWindowUtils.cp.
+	void			RotateTarget( Boolean inBackward );	
+
 };
 
 
