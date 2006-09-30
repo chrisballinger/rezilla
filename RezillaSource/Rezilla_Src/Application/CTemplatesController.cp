@@ -2,7 +2,7 @@
 // CTemplatesController.cp					
 // 
 //                       Created: 2004-08-06 12:57:55
-//             Last modification: 2006-02-09 11:21:20
+//             Last modification: 2006-09-29 16:33:59
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -233,12 +233,13 @@ CTemplatesController::BuildExternalTemplatesDictionary()
 OSErr
 CTemplatesController::ScanTemplatesFolder(FSRef * inTmplFolder)
 {
-	OSErr			result = noErr;
+	OSErr			result = noErr, error;
 	ItemCount		actualObjects;
 	FSCatalogInfo	catalogInfo;
 	FSIterator		iterator;
 	FSRef			fileRef;
-	
+	Boolean			aliasFileFlag, folderFlag;
+
 	// Open FSIterator for flat access to templateRef
 	result = FSOpenIterator(inTmplFolder, kFSIterateFlat, &iterator);
 	
@@ -253,6 +254,19 @@ CTemplatesController::ScanTemplatesFolder(FSRef * inTmplFolder)
 			if ( 0 != (catalogInfo.nodeFlags & kFSNodeIsDirectoryMask) ) {
 				continue;
 			}
+			
+			// (RFE 1436868) Is it an alias?
+			error = FSIsAliasFile(&fileRef, &aliasFileFlag, &folderFlag);
+
+			if (aliasFileFlag && !folderFlag) {
+				Boolean		targetIsFolder, wasAliased;
+				error = FSResolveAliasFile(&fileRef, true, &targetIsFolder, &wasAliased);
+				// Skip if it is pointing to a directory
+				if (targetIsFolder) {
+					continue;
+				} 
+			} 
+
 			AddTemplatesToDictionary(&fileRef);
 		}
 	} while ( result == noErr );
