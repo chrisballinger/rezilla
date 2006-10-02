@@ -15,7 +15,7 @@
 #include "CRezillaApp.h"
 #include "CRezObj.h"
 #include "RezillaConstants.h"
-#include "UAeteTranslator.h"
+#include "UAeteImportExport.h"
 #include "UMessageDialogs.h"
 #include "UMiscUtils.h"
 

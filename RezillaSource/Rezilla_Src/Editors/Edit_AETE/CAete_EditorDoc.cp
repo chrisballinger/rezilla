@@ -24,7 +24,7 @@
 #include "CAeteStream.h"
 #include "CRezObj.h"
 #include "UMessageDialogs.h"
-#include "UAeteTranslator.h"
+#include "UAeteImportExport.h"
 #include "UNavigationDialogs.h"
 #include "NavServicesCallbacks.h"
 
