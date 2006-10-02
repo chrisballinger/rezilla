@@ -128,7 +128,6 @@ CRezillaPrefs::SetDefaultPreferences()
 	
 	// Exporting pane
 	sCurrPrefs.exporting.includeBinary	= true;
-	sCurrPrefs.exporting.formatDtd		= export_KeyDtd;
 	sCurrPrefs.exporting.binaryEncoding	= export_Base64Enc;
 	sCurrPrefs.exporting.editorSig		= kTextEditSig;
 
@@ -239,11 +238,6 @@ CRezillaPrefs::StorePreferences()
 	theNumber = GetPrefValue( kPref_editors_insertBOM );
 	theValue = CFNumberCreate(NULL, kCFNumberIntType, &theNumber); 
 	CFPreferencesSetAppValue( CFSTR("pref_editors_insertBOM"), theValue, kCFPreferencesCurrentApplication);
-	if (theValue) CFRelease(theValue);
-
-	theNumber = GetPrefValue( kPref_export_formatDtd );
-	theValue = CFNumberCreate(NULL, kCFNumberIntType, &theNumber); 
-	CFPreferencesSetAppValue( CFSTR("pref_export_formatDtd"), theValue, kCFPreferencesCurrentApplication);
 	if (theValue) CFRelease(theValue);
 
 	theNumber = GetPrefValue( kPref_export_includeBinary );
@@ -380,10 +374,6 @@ CRezillaPrefs::RetrievePreferences()
 	if (valueValid) {
 		SetPrefValue( result, kPref_editors_insertBOM);
 	}	
-	result = CFPreferencesGetAppIntegerValue(CFSTR("pref_export_formatDtd"), CFSTR(kRezillaIdentifier), &valueValid);
-	if (valueValid) {
-		SetPrefValue( result, kPref_export_formatDtd);
-	}
 	result = CFPreferencesGetAppBooleanValue(CFSTR("pref_export_includeBinary"), CFSTR(kRezillaIdentifier), &valueValid);
 	if (valueValid) {
 		SetPrefValue( result, kPref_export_includeBinary);
@@ -569,14 +559,6 @@ CRezillaPrefs::SetPrefValue(SInt32 inPrefValue, SInt32 inConstant, SInt32 inPref
 		}	
 		break;
 				
-		case kPref_export_formatDtd:
-		if (inPrefType == prefsType_Temp) {
-			sTempPrefs.exporting.formatDtd = inPrefValue;
-		} else {
-			sCurrPrefs.exporting.formatDtd = inPrefValue;
-		}	
-		break;
-		
 		case kPref_export_includeBinary:
 		if (inPrefType == prefsType_Temp) {
 			sTempPrefs.exporting.includeBinary = inPrefValue;
@@ -792,14 +774,6 @@ CRezillaPrefs::GetPrefValue(SInt32 inConstant, SInt32 inPrefType)
 		}	
 		break;
 				
-		case kPref_export_formatDtd:
-		if (inPrefType == prefsType_Temp) {
-			theValue = sTempPrefs.exporting.formatDtd;
-		} else {
-			theValue = sCurrPrefs.exporting.formatDtd;
-		}	
-		break;
-		
 		case kPref_export_includeBinary:
 		if (inPrefType == prefsType_Temp) {
 			theValue = sTempPrefs.exporting.includeBinary;
@@ -1075,9 +1049,6 @@ CRezillaPrefs::RunPrefsDialog()
 	LRadioGroupView * theNewMapRGV = dynamic_cast<LRadioGroupView *>(theGeneralPane->FindPaneByID( item_GenPrefs_newMapRgbx ));
 	ThrowIfNil_(theNewMapRGV);
 	
-	LRadioGroupView * theDtdRGV = dynamic_cast<LRadioGroupView *>(theExportPane->FindPaneByID( item_ExpPrefs_dtdRgbx ));
-	ThrowIfNil_(theDtdRGV);
-	
 	LRadioGroupView * theEncodingRGV = dynamic_cast<LRadioGroupView *>(theExportPane->FindPaneByID( item_ExpPrefs_encRgbx ));
 	ThrowIfNil_(theEncodingRGV);
 	
@@ -1117,7 +1088,6 @@ CRezillaPrefs::RunPrefsDialog()
 		//    Setup the controls values
 		// ----------------------------		
 		theNewMapRGV->SetCurrentRadioID( GetPrefValue( kPref_general_newFork ) + item_GenPrefs_newMapRgbx );
-		theDtdRGV->SetCurrentRadioID( GetPrefValue( kPref_export_formatDtd ) + item_ExpPrefs_dtdRgbx );
 		theEncodingRGV->SetCurrentRadioID( GetPrefValue( kPref_export_dataEncoding ) + item_ExpPrefs_encRgbx );
 		theDisplayRGV->SetCurrentRadioID( GetPrefValue( kPref_compare_dataDisplayAs ) + item_CompPrefs_displayRgbx );
 		theHexSymbRGV->SetCurrentRadioID( GetPrefValue( kPref_templates_hexSymbol ) + item_TmplPrefs_hexSymRgbx );
@@ -1346,10 +1316,6 @@ CRezillaPrefs::RunPrefsDialog()
 			// GenPrefsDataFork / GenPrefsResourceFork
 			theCurrentRadioID = theNewMapRGV->GetCurrentRadioID();
 			SetPrefValue( theCurrentRadioID - item_GenPrefs_newMapRgbx, kPref_general_newFork, prefsType_Temp);
-			
-			// ExpPrefsKeyDtd / ExpPrefsAttrDtd
-			theCurrentRadioID = theDtdRGV->GetCurrentRadioID();
-			SetPrefValue( theCurrentRadioID - item_ExpPrefs_dtdRgbx, kPref_export_formatDtd, prefsType_Temp);
 			
 			// ExpPrefsHexEnc / ExpPrefsBase64Enc
 			theCurrentRadioID = theEncodingRGV->GetCurrentRadioID();

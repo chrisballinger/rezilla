@@ -62,7 +62,6 @@ struct SComparePrefs {
 //   Export Prefs
 struct SExportPrefs {
 	Boolean			includeBinary;
-	SInt32			formatDtd;
 	SInt32			binaryEncoding;
 	OSType			editorSig;
 };
@@ -97,7 +96,6 @@ enum {
 	kPref_editors_doFontSubst,
 	kPref_editors_insertBOM,
 	kPref_export_dataEncoding,
-	kPref_export_formatDtd,
 	kPref_export_includeBinary,
 	kPref_export_editorSig,
 	kPref_interface_traitsRecord,
