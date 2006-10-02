@@ -1,11 +1,11 @@
 // ===========================================================================
 // CRezMapTable.h					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2005-05-21 08:34:42
+//             Last modification: 2006-10-02 08:30:13
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes 2003-2005
+// (c) Copyright: Bernard Desgraupes 2003-2005, 2006
 // All rights reserved.
 // ===========================================================================
 
@@ -58,6 +58,8 @@ public:
 	
 	void					RemoveAllItems();
 
+	OSErr					GetDataFromXml(CFXMLTreeRef inTreeNode);
+	
 	CRezObjItem *			CreateItemIfNecessary(ResType inType, 
 												  short inID, 
 												  Str255* inName);

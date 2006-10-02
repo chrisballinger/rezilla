@@ -1,11 +1,11 @@
 // ===========================================================================
 // CRezMapTable.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2006-07-14 12:09:01
+//             Last modification: 2006-10-02 08:30:30
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes 2003-2005, 2006
+// (c) Copyright: Bernard Desgraupes 2003-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -968,4 +968,69 @@ CRezMapTable::CreateItemIfNecessary(ResType inType, short inID, Str255* inName)
 
 	return rezObjItem;
 }
- 
+
+
+// ---------------------------------------------------------------------------
+//  GetDataFromXml													[public]
+// ---------------------------------------------------------------------------
+
+OSErr
+CRezMapTable::GetDataFromXml(CFXMLTreeRef inTreeNode)
+{
+	OSErr			error = noErr;
+// 	int             childCount, subCount;
+// 	CFXMLTreeRef    xmlTree, subTree;
+// 	CFXMLNodeRef    xmlNode, subNode;
+// 	int             index, subIndex;
+// 	SInt32			theLong;
+// 	
+// 	childCount = CFTreeGetChildCount(inTreeNode);
+// 	for (index = 0; index < childCount; index++) {
+// 		xmlTree = CFTreeGetChildAtIndex(inTreeNode, index);
+// 		if (xmlTree) {
+// 			xmlNode = CFXMLTreeGetNode(xmlTree);
+// 			if (xmlNode) {
+// 				if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("MajorVersion"), 0) ) {
+// 					UMiscUtils::GetValueFromXml(xmlTree, theLong);
+// 					mMajorVersion = theLong;			
+// 				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("MinorVersion"), 0) ) {
+// 					UMiscUtils::GetValueFromXml(xmlTree, theLong);
+// 					mMinorVersion = theLong;
+// 				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("LanguageCode"), 0) ) {
+// 					UMiscUtils::GetValueFromXml(xmlTree, theLong);
+// 					mLanguage = theLong;
+// 				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ScriptCode"), 0) ) {
+// 					UMiscUtils::GetValueFromXml(xmlTree, theLong);
+// 					mScript = theLong;
+// 				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ArraySuites"), 0) ) {
+// 					subCount = CFTreeGetChildCount(xmlTree);
+// 					for (subIndex = 0; subIndex < subCount; subIndex++) {
+// 						subTree = CFTreeGetChildAtIndex(xmlTree, subIndex);
+// 						if (subTree) {
+// 							subNode = CFXMLTreeGetNode(subTree);
+// 							if (subNode) {
+// 								if ( ! CFStringCompare( CFXMLNodeGetString(subNode), CFSTR("Suite"), 0) ) {
+// 									error = AddSuite(subTree);
+// 									if (error != noErr) { break; } 
+// 								}
+// 							} 
+// 						} 
+// 					}
+// 					AdjustSuiteIndex();
+// 				} else {
+// 					CFShow(CFXMLNodeGetString(xmlNode));
+// 					// At this level, ignore unknown tags. This allows to 
+// 					// insert AeteResID and AeteResTitle extraneous tags.
+// // 					error = err_ImportUnknownAeteResourceTag;	
+// 				} 
+// 
+// 				if (error != noErr) { break; } 
+// 			} 
+// 		} 
+// 	}
+
+	return error;
+}
+
+
+

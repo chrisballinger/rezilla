@@ -2,7 +2,7 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2006-09-17 12:28:00
+//             Last modification: 2006-10-02 07:12:21
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -28,6 +28,7 @@ PP_Begin_Namespace_PowerPlant
 #include "CTemplatesController.h"
 #include "CPluginsController.h"
 #include "CTextFileStream.h"
+#include "CXMLFileStream.h"
 #include "CRezMap.h"
 #include "CRezMapTable.h"
 #include "CRezMapWindow.h"
@@ -47,7 +48,7 @@ PP_Begin_Namespace_PowerPlant
 #include "UMessageDialogs.h"
 #include "UCompareUtils.h"
 #include "UMiscUtils.h"
-#include "URezExporter.h"
+#include "URezMapImportExport.h"
 #include "UNavigationDialogs.h"
 #include "NavServicesCallbacks.h"
 
@@ -330,9 +331,30 @@ CRezMapDoc::ObeyCommand(
 		}
 			break;
 
+		case cmd_Import: {
+			// Import must be done in an empty rezmap
+			short	theCount;
+			mRezMap->CountAllTypes(theCount);
+			
+			if (theCount > 0 ) {
+				FSSpec	theFSSpec;
+				Boolean openOK = UNavigationDialogs::AskOpenOneFile(fileType_Default, theFSSpec, 
+																	kNavAllFilesInPopup
+																	+ kNavDontAutoTranslate
+																	+ kNavSupportPackages
+																	+ kNavAllowOpenPackages);
+				
+				if (openOK) {
+					DoImport(theFSSpec);
+				} 
+			} else {
+				UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("ImportOnlyInEmptyMap"), PPob_SimpleMessage);
+			}
+			break;
+		}
+
 		case cmd_Export: {
-			FSSpec	theFSSpec;
-			AskExportAs(theFSSpec, RecordAE_Yes);
+			AskExportAs();
 			break;
 		}
 
@@ -1156,37 +1178,30 @@ CRezMapDoc::DesignateOutFile( FSSpec& outFileSpec, bool & outReplacing)
 
 
 // ---------------------------------------------------------------------------
-//   AskExportAs														  [public]
+//   AskExportAs													  [public]
 // ---------------------------------------------------------------------------
 //	Ask the user to export a Document and give it a name
 //	Returns false if the user cancels the operation
 
 Boolean
-CRezMapDoc::AskExportAs(
-	FSSpec&		outFSSpec,
-	Boolean		inRecordIt)
+CRezMapDoc::AskExportAs()
 {
 	Boolean		saveOK = false;
 	bool		replacing;
+	FSSpec		theFSSpec;
 
-	if ( DesignateExportFile(outFSSpec, replacing) ) {
-
-		if (inRecordIt) {
-			try {
-// 					SendAEExport(outFSSpec, mExportFormat, ExecuteAE_No);
-			} catch (...) { }
-		}
+	if ( DesignateExportFile(theFSSpec, replacing) ) {
 
 		if (replacing) {
 			// Delete existing file
-			OSErr error = ::FSpDelete(&outFSSpec);
+			OSErr error = ::FSpDelete(&theFSSpec);
 			if (error) {
 				UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("CouldNotDeleteExistingFile"), PPob_SimpleMessage);
 				return saveOK;
 			} 
 		}
 
-		DoExport(outFSSpec);
+		DoExport(theFSSpec);
 		saveOK = true;
 	}
 
@@ -1259,7 +1274,25 @@ CRezMapDoc::DesignateExportFile( FSSpec& outFileSpec, bool & outReplacing)
 
 
 // ---------------------------------------------------------------------------------
-//  DoAEExport
+//  DoImport
+// ---------------------------------------------------------------------------------
+
+void
+CRezMapDoc::DoImport(FSSpec inFileSpec)
+{
+	OSErr error = noErr;
+	
+	error = mRezMapWindow->ImportRezMap(inFileSpec);
+
+	if (error != noErr) {
+		UMessageDialogs::ErrorMessageFromLocalizable(CFSTR("ImportError"), error, PPob_SimpleMessage);
+	} 
+}
+
+
+
+// ---------------------------------------------------------------------------------
+//  DoExport
 // ---------------------------------------------------------------------------------
 
 void
@@ -1268,8 +1301,14 @@ CRezMapDoc::DoExport(
 {
 	OSErr	err = noErr;
 	
-	// Make a new file object.
-	mExportStream = new CTextFileStream( inFileSpec );
+	// Make a new file object
+	if (mExportFormat == exportMap_Xml || mExportFormat == exportMap_Html) {
+		// UTF-8 output and escaped entities
+		mExportStream = new CXMLFileStream(inFileSpec);
+	} else {
+		// MacRoman output
+		mExportStream = new CTextFileStream(inFileSpec, kCFStringEncodingMacRoman);
+	}
 	
 	if (mExportStream != nil) {		
 		// Make new file on disk
@@ -1298,11 +1337,10 @@ CRezMapDoc::DoExport(
 void
 CRezMapDoc::WriteOutExport(SInt16 inExportFormat)
 {	
-	StRezExporter	exporter(mExportStream);
+	StRezMapExporter	exporter(mExportStream);
 	switch ( inExportFormat ) {
 		case exportMap_Xml:
 		exporter.WriteOutXml(mRezMap, 
-							 CRezillaPrefs::GetPrefValue(kPref_export_formatDtd),
 							 CRezillaPrefs::GetPrefValue(kPref_export_includeBinary),
 							 CRezillaPrefs::GetPrefValue(kPref_export_dataEncoding));
 		break;

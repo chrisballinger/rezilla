@@ -2,7 +2,7 @@
 // CRezMapDoc.h				
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2006-09-17 12:28:11
+//             Last modification: 2006-10-02 07:12:01
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -85,9 +85,7 @@ public:
 								FSSpec			&outFSSpec,
 								Boolean			inRecordIt);
 
-	virtual Boolean		AskExportAs(
-								FSSpec			&outFSSpec,
-								Boolean			inRecordIt);
+	virtual Boolean		AskExportAs();
 
 	virtual SInt16		AskSaveChanges( bool inQuitting );
 
@@ -103,6 +101,8 @@ public:
 	
 	virtual void		DoRevert();
 	
+	virtual void		DoImport(FSSpec inFileSpec);
+
 	virtual void		DoExport( FSSpec &inFileSpec);
 	
 	virtual Boolean		AllowSubRemoval( LCommander* inSub );

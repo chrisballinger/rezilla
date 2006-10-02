@@ -2,7 +2,7 @@
 // CRezMapWindow.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2006-09-22 05:10:12
+//             Last modification: 2006-10-02 07:57:43
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -17,6 +17,8 @@
 #include "RezillaConstants.h"
 #include "CRezMapDoc.h"
 #include "CRezMap.h"
+#include "URezMapImportExport.h"
+#include "UMessageDialogs.h"
 
 #include <LWindow.h>
 #include <LFile.h>
@@ -241,6 +243,34 @@ CRezMapWindow::InstallReadOnlyIcon()
 		theIcon->SetIconID(ics8_Unlocked);
 	}
 }
+
+
+// ---------------------------------------------------------------------------
+//  ImportRezMap													[public]
+// ---------------------------------------------------------------------------
+
+OSErr
+CRezMapWindow::ImportRezMap(FSSpec inFSSpec) 
+{
+// 	StRezMapImporter importer(mRezMapTable, inFSSpec);
+// 	
+	OSErr error = noErr;
+// 	error = importer.ReadXml();
+
+	if (error == noErr) {
+// 		RebuildSuitePopup();
+// 		InstallResourceInfo();
+// 		InstallSuiteValues();
+// 		InstallPanelValues();
+// 		SetDirty(true);
+	} else {
+		UMessageDialogs::DescribeError(CFSTR("ErrorImportingRezMapFromXml"), error);
+// 		RevertContents();
+	}
+
+	return error;
+}
+
 
 
 

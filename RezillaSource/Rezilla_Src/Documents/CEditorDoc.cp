@@ -652,6 +652,7 @@ CEditorDoc::ExportResource()
 // ---------------------------------------------------------------------------------
 //  DoImportData
 // ---------------------------------------------------------------------------------
+// Subclasses must override to do something useful
 
 void
 CEditorDoc::DoImportData(FSSpec inFileSpec)

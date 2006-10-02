@@ -2,7 +2,7 @@
 // CRezMapWindow.h				
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2006-09-22 05:10:01
+//             Last modification: 2006-10-02 07:55:31
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -34,13 +34,15 @@ public:
 	virtual void		ListenToMessage( MessageT inMessage, void *ioParam);
 
 	// Apple events
-	virtual void	GetAEProperty(
+	virtual void		GetAEProperty(
 								DescType			inProperty,
 								const AEDesc&		inRequestedType,
 								AEDesc&				outPropertyDesc) const;
 
-	virtual bool	AEPropertyExists(
+	virtual bool		AEPropertyExists(
 								DescType		inProperty) const;
+
+	OSErr				ImportRezMap(FSSpec inFSSpec);
 
 	virtual CRezMapTable*	GetRezMapTable() { return mRezMapTable;}
 	void					SetRezMapTable(CRezMapTable* theRezMapTable) {mRezMapTable = theRezMapTable ;}
