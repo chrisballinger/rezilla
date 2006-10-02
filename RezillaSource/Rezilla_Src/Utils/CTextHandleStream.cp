@@ -2,11 +2,11 @@
 // CTextHandleStream.cp					
 // 
 //                       Created: 2002-06-15 10:36:17
-//             Last modification: 2004-02-22 19:48:21
+//             Last modification: 2006-10-01 12:11:49
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes 2003, 2004
+// (c) Copyright: Bernard Desgraupes 2003-2006
 // All rights reserved.
 // ===========================================================================
 //
@@ -87,29 +87,6 @@ CTextHandleStream::WritePString(
 
 
 // ---------------------------------------------------------------------------
-//   WritePStringWithTag
-// ---------------------------------------------------------------------------
-//	Write a Pascal string enclosed in an xml-like pair of tags
-//	Returns the number of bytes written
-
-SInt32
-CTextHandleStream::WritePStringWithTag(
-		ConstStringPtr	inString,
-		ConstStringPtr	inTag)
-{
-	SInt32	bytesToWrite = WritePString("\p<");
-	bytesToWrite += WritePString(inTag);
-	bytesToWrite += WritePString("\p>");
-	bytesToWrite += WritePString(inString);
-	bytesToWrite += WritePString("\p</");
-	bytesToWrite += WritePString(inTag);
-	bytesToWrite += WritePString("\p>\r");
-
-	return bytesToWrite;
-}
-
-
-// ---------------------------------------------------------------------------
 //   WriteCString
 // ---------------------------------------------------------------------------
 //	Write a C string to a Stream as a text string (ie strips the ending null-byte)
@@ -134,112 +111,33 @@ CTextHandleStream::WriteCString(
 
 
 // ---------------------------------------------------------------------------
-//   WriteCStringWithTag
-// ---------------------------------------------------------------------------
-//	Write a Pascal string enclosed in an xml-like pair of tags
-//	Returns the number of bytes written
-
-SInt32
-CTextHandleStream::WriteCStringWithTag(
-		const char *inString,
-		const char *inTag)
-{
-	SInt32	bytesToWrite = WriteCString("<");
-	bytesToWrite += WriteCString(inTag);
-	bytesToWrite += WriteCString(">");
-	bytesToWrite += WriteCString(inString);
-	bytesToWrite += WriteCString("</");
-	bytesToWrite += WriteCString(inTag);
-	bytesToWrite += WriteCString(">\r");
-
-	return bytesToWrite;
-}
-
-
-// ---------------------------------------------------------------------------
-//   WriteSInt32WithTag
+//   WriteSInt32
 // ---------------------------------------------------------------------------
 //	Write a SInt32 number enclosed in an xml-like pair of tags
 //	Returns the number of bytes written
 
 SInt32
-CTextHandleStream::WriteSInt32WithTag(
-		SInt32 inNum,
-		ConstStringPtr inTag)
+CTextHandleStream::WriteSInt32(SInt32 inNum)
 {
 	Str255	tempString;
-	::NumToString((long) inNum, tempString);
+	::NumToString(inNum, tempString);
 
-	return (WritePStringWithTag(tempString,inTag));
+	return ( WritePString(tempString) );
 }
 
 
 // ---------------------------------------------------------------------------
-//   WriteSInt32WithTag
+//   WriteSInt16
 // ---------------------------------------------------------------------------
-//	Write a SInt32 number enclosed in an xml-like pair of tags
+//	Write a SInt16 number enclosed in an xml-like pair of tags
 //	Returns the number of bytes written
 
 SInt32
-CTextHandleStream::WriteSInt32WithTag(
-		SInt32 inNum,
-		const char *inTag)
+CTextHandleStream::WriteSInt16(SInt16 inNum)
 {
-	Str255	tempString;
-	::NumToString((long) inNum, tempString);
-
-	SInt32	bytesToWrite = WriteCString("<");
-	bytesToWrite += WriteCString(inTag);
-	bytesToWrite += WriteCString(">");
-	bytesToWrite += WritePString(tempString);
-	bytesToWrite += WriteCString("</");
-	bytesToWrite += WriteCString(inTag);
-	bytesToWrite += WriteCString(">\r");
-
-	return bytesToWrite;
+	return ( WriteSInt32( (SInt32)inNum) );
 }
 
-
-// ---------------------------------------------------------------------------
-//   WriteBooleanWithTag
-// ---------------------------------------------------------------------------
-//	Write a Boolean value enclosed in an xml-like pair of tags
-//	Returns the number of bytes written
-
-SInt32
-CTextHandleStream::WriteBooleanWithTag(
-		Boolean inBool,
-		ConstStringPtr inTag)
-{
-	if (inBool) {
-		return (WritePStringWithTag("\p1",inTag));
-	} else {
-		return (WritePStringWithTag("\p0",inTag));
-	}
-}
-
-
-// ---------------------------------------------------------------------------
-//   WriteBooleanWithTag
-// ---------------------------------------------------------------------------
-//	Write a Boolean value enclosed in an xml-like pair of tags
-//	Returns the number of bytes written
-
-SInt32
-CTextHandleStream::WriteBooleanWithTag(
-		Boolean inBool,
-		const char *inTag)
-{
-	SInt32	bytesToWrite ;
-	
-	if (inBool) {
-		bytesToWrite = WriteCStringWithTag("1",inTag);
-	} else {
-		bytesToWrite = WriteCStringWithTag("0",inTag);
-	}
-
-	return bytesToWrite;
-}
 
 
 // ---------------------------------------------------------------------------
@@ -250,10 +148,20 @@ CTextHandleStream&
 CTextHandleStream::operator << (SInt32 inNum)
 {
 	Str255	thePString;
-	char * 	theCString = new char[15];
 	::NumToString( (long) inNum, thePString);
-	CopyPascalStringToC( thePString, theCString);
-	(*this) << theCString;
+	(*this) << thePString;
+	return (*this);
+}
+
+						
+// ---------------------------------------------------------------------------
+//   operator << (SInt16)
+// ---------------------------------------------------------------------------
+
+CTextHandleStream&
+CTextHandleStream::operator << (SInt16 inNum)
+{
+	(*this) << (SInt32)inNum;
 	return (*this);
 }
 

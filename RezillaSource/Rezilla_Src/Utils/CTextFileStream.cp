@@ -2,11 +2,11 @@
 // CTextFileStream.cp					
 // 
 //                       Created : 2002-06-09 19:38:34
-//             Last modification : 2005-02-08 15:24:45
+//             Last modification : 2006-10-01 12:27:46
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@users.sourceforge.net>
 // www : <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes 2002-2005
+// (c) Copyright: Bernard Desgraupes 2002-2006
 // All rights reserved.
 // ===========================================================================
 //	A text file (as opposed to binary) which uses a Stream to 
@@ -25,41 +25,34 @@ PP_Begin_Namespace_PowerPlant
 // ---------------------------------------------------------------------------
 //   CTextFileStream							Default Constructor		  [public]
 // ---------------------------------------------------------------------------
+//	Default encoding is kCFStringEncodingMacRoman
 
 CTextFileStream::CTextFileStream()
 {
+	mEncoding = kCFStringEncodingMacRoman;
 }
 
 
 // ---------------------------------------------------------------------------
 //   CTextFileStream							Constructor				  [public]
 // ---------------------------------------------------------------------------
-//	Construct a FileStream from a Toolbox File System Specification
+// From CFString.h:
+// kCFStringEncodingMacRoman		= 0,
+// kCFStringEncodingWindowsLatin1	= 0x0500,
+// kCFStringEncodingISOLatin1		= 0x0201,
+// kCFStringEncodingNextStepLatin	= 0x0B01,
+// kCFStringEncodingASCII			= 0x0600,
+// kCFStringEncodingUnicode			= 0x0100,
+// kCFStringEncodingUTF8			= 0x08000100,
+// kCFStringEncodingNonLossyASCII	= 0x0BFF
 
 CTextFileStream::CTextFileStream(
-	const FSSpec&	inFileSpec)
+								 const FSSpec&	inFileSpec,
+								 UInt32			inEncoding)
 
 	: LFileStream(inFileSpec)
 {
-}
-
-
-// ---------------------------------------------------------------------------
-//   CTextFileStream							Constructor				  [public]
-// ---------------------------------------------------------------------------
-//	Construct a FileStream from an Alias
-//
-//	outWasChanged indicates if the AliasHandle was changed during resolution
-//	inFromFile is a File Specifier for the starting point for a relative
-//		search. If nil, an absolute search is performed
-
-CTextFileStream::CTextFileStream(
-	AliasHandle		inAlias,
-	Boolean&		outWasChanged,
-	FSSpec*			inFromFile)
-
-	: LFileStream(inAlias, outWasChanged, inFromFile)
-{
+	mEncoding = inEncoding;
 }
 
 
@@ -69,6 +62,139 @@ CTextFileStream::CTextFileStream(
 
 CTextFileStream::~CTextFileStream()
 {
+}
+
+
+// ---------------------------------------------------------------------------
+//   WritePString
+// ---------------------------------------------------------------------------
+// Write a Pascal string to a file stream as a text string (of which the
+// first length byte is stripped) in UTF-8 with standard XML entities.
+// Return the number of bytes written.
+//	
+// In kCFStringEncodingMacRoman encoding, don't go through the CFString
+// stuff in order to speed things up.
+   
+SInt32
+CTextFileStream::WritePString(ConstStringPtr inString)
+{
+	SInt32		bytesToWrite = 0;
+	
+	if (mEncoding == kCFStringEncodingMacRoman) {
+		bytesToWrite = WritePStringNoEnc(inString);
+	} else {
+		CFStringRef	theStr;
+		
+		theStr = ::CFStringCreateWithPascalString(kCFAllocatorDefault, inString, kCFStringEncodingMacRoman);
+		
+		if (theStr) {
+			bytesToWrite = WriteCoreString(theStr);
+			::CFRelease(theStr);
+		} 
+	}
+	
+	return bytesToWrite;
+}
+
+
+// ---------------------------------------------------------------------------
+//   WriteCString
+// ---------------------------------------------------------------------------
+// Write a C string to a file stream as a text string (ie strips the ending
+// null-byte) in UTF-8 with standard XML entities. Return the number of
+// bytes written.
+//	
+// In kCFStringEncodingMacRoman encoding, don't go through the CFString
+// stuff in order to speed things up.
+
+SInt32
+CTextFileStream::WriteCString(
+	const char *inString)
+{
+	SInt32		bytesToWrite = 0;
+	
+	if (mEncoding == kCFStringEncodingMacRoman) {
+		bytesToWrite = WriteCStringNoEnc(inString);
+	} else {
+		CFStringRef	theStr;
+		
+		theStr = ::CFStringCreateWithCString(kCFAllocatorDefault, inString, kCFStringEncodingMacRoman);
+		
+		if (theStr) {
+			bytesToWrite = WriteCoreString(theStr);
+			::CFRelease(theStr);
+		} 
+	}
+	
+	return bytesToWrite;
+}
+
+
+// ---------------------------------------------------------------------------
+//   WriteCoreString
+// ---------------------------------------------------------------------------
+//	Write a CFString to a file stream as a text string in mEncoding.
+//	Return the number of bytes written.
+
+SInt32
+CTextFileStream::WriteCoreString(CFStringRef inStr)
+{
+	SInt32		bytesToWrite = 0;
+	UInt8 *		buffer;
+	CFIndex 	numChars, usedBufLen = 0;
+	CFIndex		theLen;
+	
+	if (inStr) {
+		theLen = ::CFStringGetLength(inStr);
+
+		// Call CFStringGetBytes with NULL buffer to get the size of the buffer
+		numChars = ::CFStringGetBytes(inStr, CFRangeMake(0, theLen),
+						 mEncoding, '?', false, NULL, 0, &usedBufLen);
+	
+		buffer = (UInt8*) malloc(usedBufLen);
+		
+		if (buffer) {
+			numChars = ::CFStringGetBytes(inStr, CFRangeMake(0, theLen),
+							 mEncoding, '?', false, buffer, usedBufLen, &usedBufLen);
+			
+			bytesToWrite += usedBufLen;
+			WriteBlock(buffer, usedBufLen);
+			free(buffer);
+		} 
+	} 
+	
+	return bytesToWrite;
+}
+
+
+// ---------------------------------------------------------------------------
+//   WritePStringNoEnc
+// ---------------------------------------------------------------------------
+// Write a Pascal string to a stream as a MacRoman text string. Return the
+// number of bytes written.
+
+SInt32
+CTextFileStream::WritePStringNoEnc(ConstStringPtr inString)
+{
+	SInt32	bytesToWrite = inString[0];
+	WriteBlock(inString + 1, bytesToWrite);
+	return bytesToWrite;
+}
+
+
+// ---------------------------------------------------------------------------
+//   WriteCStringNoEnc
+// ---------------------------------------------------------------------------
+// Write a C string to a stream as a MacRoman text string (ie strips the
+// ending null-byte). Return the number of bytes written.
+
+SInt32
+CTextFileStream::WriteCStringNoEnc(
+	const char *inString)
+{
+	SInt32	bytesToWrite = strlen(inString);
+	WriteBlock(inString, bytesToWrite);
+	return bytesToWrite;
 }
 
 
@@ -94,260 +220,48 @@ CTextFileStream::WriteOSType(OSType inType)
 
 
 // ---------------------------------------------------------------------------
-//   WriteOSTypeWithTag
+//   WriteSInt32
 // ---------------------------------------------------------------------------
-//	Write an OSType to a Stream as a text string.
-//	Return the number of bytes written.
-
-SInt32
-CTextFileStream::WriteOSTypeWithTag(
-		OSType inType,
-		ConstStringPtr inTag, 
-		UInt8 indent)
-{
-	SInt32	bytesToWrite = 0;
-	for (UInt8 i = 0; i < indent; i++) {
-		WriteBlock("\t", 1);
-	}
-	bytesToWrite += indent;
-	
-	bytesToWrite += WritePString("\p<");
-	bytesToWrite += WritePString(inTag);
-	bytesToWrite += WritePString("\p>");
-	
-	bytesToWrite += WriteOSType(inType);
-	
-	bytesToWrite += WritePString("\p</");
-	bytesToWrite += WritePString(inTag);
-	bytesToWrite += WritePString("\p>\r");
-
-	return bytesToWrite;
-}
-
-
-// ---------------------------------------------------------------------------
-//   WriteOSTypeWithTag
-// ---------------------------------------------------------------------------
-//	Write an OSType to a Stream as a text string.
-//	Return the number of bytes written.
-
-SInt32
-CTextFileStream::WriteOSTypeWithTag(
-		OSType inType,
-		const char *inTag, 
-		UInt8 indent)
-{
-	SInt32	bytesToWrite = 0;
-	for (UInt8 i = 0; i < indent; i++) {
-		WriteBlock("\t", 1);
-	}
-	bytesToWrite += indent;
-
-	bytesToWrite += WriteCString("<");
-	bytesToWrite += WriteCString(inTag);
-	bytesToWrite += WriteCString(">");
-	
-	bytesToWrite += WriteOSType(inType);
-	
-	bytesToWrite += WriteCString("</");
-	bytesToWrite += WriteCString(inTag);
-	bytesToWrite += WriteCString(">\r");
-
-	return bytesToWrite;
-}
-
-
-// ---------------------------------------------------------------------------
-//   WritePString
-// ---------------------------------------------------------------------------
-//	Write a Pascal string to a Stream as a text string (ie strips the first
-//	length byte)
+//	Write a SInt32 number as text
 //	Return the number of bytes written
 
 SInt32
-CTextFileStream::WritePString(ConstStringPtr inString)
-{
-	SInt32	bytesToWrite = 0;
-	bytesToWrite += inString[0];
-
-	WriteBlock(inString + 1, bytesToWrite);
-
-	return bytesToWrite;
-}
-
-
-// ---------------------------------------------------------------------------
-//   WritePStringWithTag
-// ---------------------------------------------------------------------------
-//	Write a Pascal string enclosed in an xml-like pair of tags
-//	Return the number of bytes written
-
-SInt32
-CTextFileStream::WritePStringWithTag(
-		ConstStringPtr inString,
-		ConstStringPtr inTag, 
-		UInt8 indent)
-{
-	SInt32	bytesToWrite = 0;
-	for (UInt8 i = 0; i < indent; i++) {
-		WriteBlock("\t", 1);
-	}
-	bytesToWrite += indent;
-	bytesToWrite += WritePString("\p<");
-	bytesToWrite += WritePString(inTag);
-	bytesToWrite += WritePString("\p>");
-	bytesToWrite += WritePString(inString);
-	bytesToWrite += WritePString("\p</");
-	bytesToWrite += WritePString(inTag);
-	bytesToWrite += WritePString("\p>\r");
-
-	return bytesToWrite;
-}
-
-
-// ---------------------------------------------------------------------------
-//   WriteCString
-// ---------------------------------------------------------------------------
-//	Write a C string to a Stream as a text string (ie strips the ending null-byte)
-//	Return the number of bytes written.
-
-SInt32
-CTextFileStream::WriteCString(
-	const char *inString)
-{
-	// Find length of C string
-	SInt32		strLen = 0;
-	const char	*s = inString;
-	while (*s++ != 0) {
-		strLen++;
-	}
-
-	WriteBlock(inString, strLen);
-
-	return strLen;
-}
-
-
-// ---------------------------------------------------------------------------
-//   WriteCStringWithTag
-// ---------------------------------------------------------------------------
-//	Write a Pascal string enclosed in an xml-like pair of tags
-//	Return the number of bytes written
-
-SInt32
-CTextFileStream::WriteCStringWithTag(
-		const char *inString,
-		const char *inTag, 
-		UInt8 indent)
-{
-	SInt32	bytesToWrite = 0;
-	for (UInt8 i = 0; i < indent; i++) {
-		WriteBlock("\t", 1);
-	}
-	bytesToWrite += indent;
-	bytesToWrite += WriteCString("<");
-	bytesToWrite += WriteCString(inTag);
-	bytesToWrite += WriteCString(">");
-	bytesToWrite += WriteCString(inString);
-	bytesToWrite += WriteCString("</");
-	bytesToWrite += WriteCString(inTag);
-	bytesToWrite += WriteCString(">\r");
-
-	return bytesToWrite;
-}
-
-
-// ---------------------------------------------------------------------------
-//   WriteSInt32WithTag
-// ---------------------------------------------------------------------------
-//	Write a SInt32 number enclosed in an xml-like pair of tags
-//	Return the number of bytes written
-
-SInt32
-CTextFileStream::WriteSInt32WithTag(
-		SInt32 inNum,
-		ConstStringPtr inTag, 
-		UInt8 indent)
+CTextFileStream::WriteSInt32(SInt32 inNum)
 {
 	Str255	tempString;
-	::NumToString((long) inNum, tempString);
+	::NumToString(inNum, tempString);
 
-	return (WritePStringWithTag(tempString, inTag, indent));
+	return ( WritePStringNoEnc(tempString) );
 }
 
 
 // ---------------------------------------------------------------------------
-//   WriteSInt32WithTag
+//   WriteSInt16
 // ---------------------------------------------------------------------------
-//	Write a SInt32 number enclosed in an xml-like pair of tags
+//	Write a SInt16 number as text
 //	Return the number of bytes written
 
 SInt32
-CTextFileStream::WriteSInt32WithTag(
-		SInt32 inNum,
-		const char *inTag, 
-		UInt8 indent)
+CTextFileStream::WriteSInt16(SInt16 inNum)
 {
-	Str255	tempString;
-	SInt32	bytesToWrite = 0;
-	for (UInt8 i = 0; i < indent; i++) {
-		WriteBlock("\t", 1);
-	}
-	bytesToWrite += indent;
-	::NumToString((long) inNum, tempString);
-	bytesToWrite += WriteCString("<");
-	bytesToWrite += WriteCString(inTag);
-	bytesToWrite += WriteCString(">");
-	bytesToWrite += WritePString(tempString);
-	bytesToWrite += WriteCString("</");
-	bytesToWrite += WriteCString(inTag);
-	bytesToWrite += WriteCString(">\r");
-
-	return bytesToWrite;
+	return ( WriteSInt32( (SInt32)inNum) );
 }
 
 
 // ---------------------------------------------------------------------------
-//   WriteBooleanWithTag
+//   WriteBoolean
 // ---------------------------------------------------------------------------
-//	Write a Boolean value enclosed in an xml-like pair of tags
+//	Write a Boolean value as text
 //	Return the number of bytes written
 
 SInt32
-CTextFileStream::WriteBooleanWithTag(
-		Boolean inBool,
-		ConstStringPtr inTag, 
-		UInt8 indent)
+CTextFileStream::WriteBoolean(Boolean inBool)
 {
 	if (inBool) {
-		return (WritePStringWithTag("\p1", inTag, indent));
+		return (WritePStringNoEnc("\p1"));
 	} else {
-		return (WritePStringWithTag("\p0", inTag, indent));
+		return (WritePStringNoEnc("\p0"));
 	}
-}
-
-
-// ---------------------------------------------------------------------------
-//   WriteBooleanWithTag
-// ---------------------------------------------------------------------------
-//	Write a Boolean value enclosed in an xml-like pair of tags
-//	Return the number of bytes written
-
-SInt32
-CTextFileStream::WriteBooleanWithTag(
-		Boolean inBool,
-		const char *inTag, 
-		UInt8 indent)
-{
-	SInt32	bytesToWrite ;
-	
-	if (inBool) {
-		bytesToWrite = WriteCStringWithTag("1", inTag, indent);
-	} else {
-		bytesToWrite = WriteCStringWithTag("0", inTag, indent);
-	}
-
-	return bytesToWrite;
 }
 
 
@@ -372,15 +286,15 @@ CTextFileStream::WriteByChunks(
 	SInt32	chunksCount = inLen / inChunkSize;
 	
 	for (SInt32 i = 0; i < chunksCount; i++) {
-		bytesToWrite += WritePString(inPrefix);
+		bytesToWrite += WritePStringNoEnc(inPrefix);
 		WriteBlock(inString + bytesOffset, inChunkSize);
-		bytesToWrite += WritePString(inSuffix);
+		bytesToWrite += WritePStringNoEnc(inSuffix);
 		bytesOffset += inChunkSize;
 	}
 	if (bytesOffset < inLen) {
-		bytesToWrite += WritePString(inPrefix);
+		bytesToWrite += WritePStringNoEnc(inPrefix);
 		WriteBlock(inString + bytesOffset, inLen - bytesOffset);
-		bytesToWrite += WritePString(inSuffix);
+		bytesToWrite += WritePStringNoEnc(inSuffix);
 	} 
 
 	return bytesToWrite;
@@ -397,6 +311,18 @@ CTextFileStream::operator << (SInt32 inNum)
 	Str255	tempString;
 	::NumToString((long) inNum, tempString);
 	(*this) << tempString;
+	return (*this);
+}
+
+						
+// ---------------------------------------------------------------------------
+//   operator << (SInt16)
+// ---------------------------------------------------------------------------
+
+CTextFileStream&
+CTextFileStream::operator << (SInt16 inNum)
+{
+	(*this) << (SInt32)inNum;
 	return (*this);
 }
 
