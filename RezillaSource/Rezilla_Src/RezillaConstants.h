@@ -53,17 +53,11 @@ enum
 {	
 	exportAete_Xml = 0,
 	exportAete_Derez,
-	exportMap_Sdef,
+	exportAete_Sdef,
 	exportAete_Text,
 	exportAete_Html
 };
 
-// DTDs
-enum
-{	
-	export_KeyDtd = 1,		// Key-based DTD
-	export_AttrDtd = 2		// Attrs-based DTD
-};
 
 // Binary encodings
 enum
@@ -719,9 +713,6 @@ const PaneIDT	item_GenPrefs_resourceFork	= 6;
 const PaneIDT	item_GenPrefs_dataFork		= 7;
 //     Export Prefs Pane
 //     -----------------
-const PaneIDT	item_ExpPrefs_dtdRgbx		= 2;
-const PaneIDT	item_ExpPrefs_keyDtd		= 3;
-const PaneIDT	item_ExpPrefs_attrDtd		= 4;
 const PaneIDT	item_ExpPrefs_inclBinData	= 5;
 const PaneIDT	item_ExpPrefs_encRgbx		= 6;
 const PaneIDT	item_ExpPrefs_hexEnc		= 7;
@@ -1051,8 +1042,6 @@ const MessageT	msg_GenPrefsDataFork		= PPob_PrefsGeneralPane + item_GenPrefs_dat
 const MessageT	msg_GenPrefsResourceFork	= PPob_PrefsGeneralPane + item_GenPrefs_resourceFork;
 //     Export Prefs Pane
 //     -----------------
-const MessageT	msg_ExpPrefsKeyDtd			= PPob_PrefsExportPane + item_ExpPrefs_keyDtd;
-const MessageT	msg_ExpPrefsAttrDtd			= PPob_PrefsExportPane + item_ExpPrefs_attrDtd;
 const MessageT	msg_ExpPrefsInclBinData		= PPob_PrefsExportPane + item_ExpPrefs_inclBinData;
 const MessageT	msg_ExpPrefsHexEnc			= PPob_PrefsExportPane + item_ExpPrefs_hexEnc;
 const MessageT	msg_ExpPrefsBase64Enc		= PPob_PrefsExportPane + item_ExpPrefs_base64Enc;
@@ -1418,6 +1407,7 @@ enum RezillaErrors
 	err_ImportUnknownAeteEnumerationTag,
 	err_ImportUnknownAeteEnumeratorTag,
 	err_ImportUnknownFlagsTag,
+	err_ImportWrongRootNode,
 	err_TmplTemplateError			= 2000,
 	err_TmplGetDataStreamFailed,
 	err_TmplUnrecognizedTag,
