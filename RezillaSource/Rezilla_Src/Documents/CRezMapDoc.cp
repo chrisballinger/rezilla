@@ -2,7 +2,7 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2006-10-02 07:12:21
+//             Last modification: 2006-10-03 09:11:28
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -1282,13 +1282,16 @@ CRezMapDoc::DoImport(FSSpec inFileSpec)
 {
 	OSErr error = noErr;
 	
-	error = mRezMapWindow->ImportRezMap(inFileSpec);
-
-	if (error != noErr) {
-		UMessageDialogs::ErrorMessageFromLocalizable(CFSTR("ImportError"), error, PPob_SimpleMessage);
-	} 
+	StRezMapImporter importer(this, inFileSpec);
+	
+	error = importer.ReadXml();
+	
+	if (error == noErr) {
+		SetModified(true);
+	} else {
+		UMessageDialogs::DescribeError(CFSTR("ErrorImportingRezMapFromXml"), error);
+	}
 }
-
 
 
 // ---------------------------------------------------------------------------------
@@ -1340,9 +1343,10 @@ CRezMapDoc::WriteOutExport(SInt16 inExportFormat)
 	StRezMapExporter	exporter(mExportStream);
 	switch ( inExportFormat ) {
 		case exportMap_Xml:
+		// In XML output, binary data are always Base64 encoded
 		exporter.WriteOutXml(mRezMap, 
 							 CRezillaPrefs::GetPrefValue(kPref_export_includeBinary),
-							 CRezillaPrefs::GetPrefValue(kPref_export_dataEncoding));
+							 export_Base64Enc);
 		break;
 		
 		case exportMap_Text:
@@ -1352,9 +1356,8 @@ CRezMapDoc::WriteOutExport(SInt16 inExportFormat)
 		break;
 		
 		case exportMap_Html:
-		exporter.WriteOutHtml(mRezMap, 
-							 CRezillaPrefs::GetPrefValue(kPref_export_includeBinary),
-							 CRezillaPrefs::GetPrefValue(kPref_export_dataEncoding));
+		// In HTML output, binary data are not included, so the encoding is irrelevant
+		exporter.WriteOutHtml(mRezMap, false, 0);
 		break;
 
 		case exportMap_Derez:
@@ -1746,6 +1749,7 @@ CRezMapDoc::NewResource(ResType inType, short inID, Str255* inName, short inAttr
  	Boolean		replacing = false, applyToOthers = false;
 	
 	if ( mRezMap->HasResourceWithTypeAndId(inType, inID) ) {
+		// Note: the applyToOthers argument is not relevant here. Ignore it.
 		SInt16 answer = UMessageDialogs::AskSolveUidConflicts(inType, inID, applyToOthers, false);
 		
 		switch (answer) {
@@ -2237,6 +2241,211 @@ CRezMapDoc::DeletePickers(Boolean deleteArray)
 			delete mOpenedPickers;
 		} 
 	} 
+}
+
+
+// ---------------------------------------------------------------------------
+//  GetRezMapFromXml													[public]
+// ---------------------------------------------------------------------------
+// // Rezilla DTD
+// // 
+// // 			<!ELEMENT RezMap (
+// // 					RezMapName,
+// // 					RezMapFlags,
+// // 					TypesArray
+// // 					)
+// // 			>
+// // 
+// // 			<!ELEMENT TypesArray (Type)*>
+// // 
+// // 			<!ELEMENT Type (
+// // 					TypeCode,
+// // 					ResourcesArray
+// // 					)
+// // 			>
+// // 
+// // 			<!ELEMENT ResourcesArray (Resource*)>
+// // 
+// // 			<!ELEMENT Resource (
+// // 					ResourceName, 
+// // 					ResourceID, 
+// // 					ResourceFlags, 
+// // 					ResourceSize?, 
+// // 					ResourceData?
+// // 					)
+// // 			>
+
+OSErr
+CRezMapDoc::GetRezMapFromXml(CFXMLTreeRef inTreeRef)
+{
+	OSErr			error = noErr;
+	int             docCount, typCount;
+	CFXMLTreeRef    docTree, typTree;
+	CFXMLNodeRef    docNode, typNode;
+	int             docIndex, typIndex;
+	SInt32			theLong;
+	short			mapAttrs;
+	
+	docCount = CFTreeGetChildCount(inTreeRef);
+	for (docIndex = 0; docIndex < docCount; docIndex++) {
+		docTree = CFTreeGetChildAtIndex(inTreeRef, docIndex);
+		if (docTree) {
+			docNode = CFXMLTreeGetNode(docTree);
+			if (docNode) {
+				if ( ! CFStringCompare( CFXMLNodeGetString(docNode), CFSTR("RezMapName"), 0) ) {
+					// Ignore			
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(docNode), CFSTR("RezMapFlags"), 0) ) {
+					// This value will be set at the end
+					UMiscUtils::GetValueFromXml(docTree, theLong);
+					mapAttrs = theLong;
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(docNode), CFSTR("TypesArray"), 0) ) {
+					typCount = CFTreeGetChildCount(docTree);
+					for (typIndex = 0; typIndex < typCount; typIndex++) {
+						typTree = CFTreeGetChildAtIndex(docTree, typIndex);
+						if (typTree) {
+							typNode = CFXMLTreeGetNode(typTree);
+							if (typNode) {
+								if ( ! CFStringCompare( CFXMLNodeGetString(typNode), CFSTR("Type"), 0) ) {
+									error = GetTypeFromXml(typTree);
+									if (error != noErr) { break; } 
+								}
+							} 
+						} 
+					}
+				} else {
+					// // CFShow(CFXMLNodeGetString(docNode));
+					error = err_ImportUnknownRezMapTag;	
+				} 
+
+				if (error != noErr) { break; } 
+			} 
+		} 
+	}
+
+	if (error == noErr) {
+		mRezMap->SetMapAttributes(mapAttrs);
+	} 
+	
+	return error;
+}
+
+
+OSErr
+CRezMapDoc::GetTypeFromXml(CFXMLTreeRef inTreeRef)
+{
+	OSErr			error = noErr;
+	int             typCount, resCount;
+	CFXMLTreeRef    typTree, resTree;
+	CFXMLNodeRef    typNode, resNode;
+	int             typIndex, resIndex;
+	Boolean			gotType = false;
+	ResType			theType;
+	
+	typCount = CFTreeGetChildCount(inTreeRef);
+	for (typIndex = 0; typIndex < typCount; typIndex++) {
+		typTree = CFTreeGetChildAtIndex(inTreeRef, typIndex);
+		if (typTree) {
+			typNode = CFXMLTreeGetNode(typTree);
+			if (typNode) {
+				if ( ! CFStringCompare( CFXMLNodeGetString(typNode), CFSTR("TypeCode"), 0) ) {
+					error = UMiscUtils::GetOSTypeFromXml(typTree, theType);
+					if (error != noErr) { break; } 
+					gotType = true;
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(typNode), CFSTR("ResourcesArray"), 0) ) {
+					// At this point, we must have the type
+					if (!gotType) {
+						error = err_ImportMissingResourceType;
+					} else {
+						resCount = CFTreeGetChildCount(typTree);
+						for (resIndex = 0; resIndex < resCount; resIndex++) {
+							resTree = CFTreeGetChildAtIndex(typTree, resIndex);
+							if (resTree) {
+								resNode = CFXMLTreeGetNode(resTree);
+								if (resNode) {
+									if ( ! CFStringCompare( CFXMLNodeGetString(resNode), CFSTR("Resource"), 0) ) {
+										error = GetResourceFromXml(resTree, theType);
+										if (error != noErr) { break; } 
+									}
+								} 
+							} 
+						}
+					}
+				} else {
+					// // CFShow(CFXMLNodeGetString(typNode));
+					error = err_ImportUnknownRezMapTag;	
+				} 
+
+				if (error != noErr) { break; } 
+			} 
+		} 
+	}
+	
+	return error;
+}
+
+
+OSErr
+CRezMapDoc::GetResourceFromXml(CFXMLTreeRef inTreeRef, ResType inType)
+{
+	OSErr			error = noErr;
+	int             theCount;
+	CFXMLTreeRef    theTree;
+	CFXMLNodeRef    theNode;
+	int             theIndex;
+	Boolean			gotID = false;
+	SInt32			theLong;
+	short			theID;
+	Str255			theName;
+	short			theAttrs;
+	Handle			theHandle = NULL;
+	
+	theCount = CFTreeGetChildCount(inTreeRef);
+	for (theIndex = 0; theIndex < theCount; theIndex++) {
+		theTree = CFTreeGetChildAtIndex(inTreeRef, theIndex);
+		if (theTree) {
+			theNode = CFXMLTreeGetNode(theTree);
+			if (theNode) {
+				if ( ! CFStringCompare( CFXMLNodeGetString(theNode), CFSTR("ResourceName"), 0) ) {
+					UMiscUtils::GetStringFromXml(theTree, theName);
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(theNode), CFSTR("ResourceID"), 0) ) {
+					UMiscUtils::GetValueFromXml(theTree, theLong);
+					theID = (short) theLong;				
+					gotID = true;
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(theNode), CFSTR("ResourceFlags"), 0) ) {
+					UMiscUtils::GetValueFromXml(theTree, theLong);
+					theAttrs = (short) theLong;				
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(theNode), CFSTR("ResourceSize"), 0) ) {
+					// Ignore
+				} else if ( ! CFStringCompare( CFXMLNodeGetString(theNode), CFSTR("ResourceData"), 0) ) {
+					error = UMiscUtils::GetBinaryFromXml(theTree, &theHandle);				
+				} else {
+					// // CFShow(CFXMLNodeGetString(theNode));
+					error = err_ImportUnknownRezMapTag;	
+				} 
+
+				if (error != noErr) { break; } 
+			} 
+		} 
+	}
+	
+	if (!gotID) {
+		error = err_ImportMissingResourceID;	
+	} else if ( mRezMap->HasResourceWithTypeAndId(inType, theID) ) {
+		error = err_ImportConflictingResourceID;	
+	} else {
+		CRezObjItem * theRezObjItem = DoCreateResource(inType, theID, &theName, theAttrs, false);
+		if (theHandle) {
+			if (theRezObjItem) {
+				CRezObj * theRezObj = theRezObjItem->GetRezObj();
+				if (theRezObj) {
+					theRezObj->SetData(theHandle);
+				} 
+			} 
+			::DisposeHandle(theHandle);
+		} 
+	}
+	
+	return error;
 }
 
 

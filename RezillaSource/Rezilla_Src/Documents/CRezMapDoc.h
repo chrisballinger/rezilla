@@ -2,7 +2,7 @@
 // CRezMapDoc.h				
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2006-10-02 07:12:01
+//             Last modification: 2006-10-03 08:25:50
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -104,6 +104,10 @@ public:
 	virtual void		DoImport(FSSpec inFileSpec);
 
 	virtual void		DoExport( FSSpec &inFileSpec);
+	
+	OSErr				GetRezMapFromXml(CFXMLTreeRef inTreeRef);
+	OSErr				GetTypeFromXml(CFXMLTreeRef inTreeRef);
+	OSErr				GetResourceFromXml(CFXMLTreeRef inTreeRef, ResType inType);
 	
 	virtual Boolean		AllowSubRemoval( LCommander* inSub );
 
