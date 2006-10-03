@@ -42,8 +42,6 @@ public:
 	virtual bool		AEPropertyExists(
 								DescType		inProperty) const;
 
-	OSErr				ImportRezMap(FSSpec inFSSpec);
-
 	virtual CRezMapTable*	GetRezMapTable() { return mRezMapTable;}
 	void					SetRezMapTable(CRezMapTable* theRezMapTable) {mRezMapTable = theRezMapTable ;}
 

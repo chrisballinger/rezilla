@@ -245,32 +245,5 @@ CRezMapWindow::InstallReadOnlyIcon()
 }
 
 
-// ---------------------------------------------------------------------------
-//  ImportRezMap													[public]
-// ---------------------------------------------------------------------------
-
-OSErr
-CRezMapWindow::ImportRezMap(FSSpec inFSSpec) 
-{
-// 	StRezMapImporter importer(mRezMapTable, inFSSpec);
-// 	
-	OSErr error = noErr;
-// 	error = importer.ReadXml();
-
-	if (error == noErr) {
-// 		RebuildSuitePopup();
-// 		InstallResourceInfo();
-// 		InstallSuiteValues();
-// 		InstallPanelValues();
-// 		SetDirty(true);
-	} else {
-		UMessageDialogs::DescribeError(CFSTR("ErrorImportingRezMapFromXml"), error);
-// 		RevertContents();
-	}
-
-	return error;
-}
-
-
 
 
