@@ -33,12 +33,19 @@ $Date$
 
 
 ================================================================================
-= 1.1b7										last update: 
+= 1.1rc1									last update: 
+================================================================================
+¥ Code freeze in view of next release. Only bug fixes.
+¥ Tests phase for 1.1 first release candidate.
+¥ 
+
+================================================================================
+= 1.1b7										last update: 2006-10-03 13:42:39
 ================================================================================
 ¥ Added documentation about resource pickers.
 ¥ Implemented picker stamps for various resource types:
-		* bitmap family ('icl4', 'icl8', etc.)
-		* icon family ('icns')
+		* bitmap families ('icl4', 'icl8', etc.)
+		* icon families ('icns')
 		* simple icons ('ICON', 'cicn', 'SCIN')
 		* pictures ('PICT')
 		* patterns ('PAT ', 'PAT#', 'ppat')
@@ -51,6 +58,17 @@ $Date$
 ¥ Plugin settings saved in the preferences.
 ¥ Implemented AppleScript support for plugins and for pickers.
 ¥ Added documentation about AppleScript support for plugins and pickers.
+¥ Installed Tab key navigation in template windows (code contribution by 
+  ZPedro. Thanks!). Added preference to disable/enable this feature.
+¥ Enabled Save command in all editor windows.
+¥ Removed double DTD format for XML output and kept only the elements-based DTD,
+  now renamed Rezilla.dtd. Modified preferences accordingly.
+¥ XML export of resource maps uses exclusively Base64 encoding (removed Hex). 
+  Only Text output offers tha choice.
+¥ Implemented Import of resource maps from XML file.
+¥ XML export now correctly escapes the standard entities and writes in utf-8.
+¥ Fixed typo with licence vs license.
+¥ Aliases are now followed for templates located in Application Support folders.
 
 ================================================================================
 = 1.1b6										last update: 2006-09-19 19:03:07
