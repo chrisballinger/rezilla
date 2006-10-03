@@ -242,9 +242,9 @@ CRezillaApp::Initialize()
 	InitMLTE();
 	
 	SInt32 theOsVersion = UEnvironment::GetOSVersion();
-	// Check that we are running on OSX 10.2 or greater
-	if ( theOsVersion < 0x01020) {
-		UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("RequireSystemTenTwo"), PPob_SimpleMessage);
+	// Check that we are running on OSX 10.3 or greater
+	if ( theOsVersion < 0x01030) {
+		UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("RequireSystemTenThree"), PPob_SimpleMessage);
 		SendAEQuit();
 	}
 	// Install an item in the Finder's Help menu
