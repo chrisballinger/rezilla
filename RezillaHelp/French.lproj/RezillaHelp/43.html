@@ -1,17 +1,16 @@
 <HTML>
 <HEAD>
-<TITLE>Export des tables de ressources</TITLE>
+<TITLE>Export et import des tables de ressources</TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="42.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="44.html">Suiv</A><HR><P>&nbsp;</P>
-<H2>Export des tables de ressources</H2>
-La fonction d'export de Rezilla permet de générer des fichiers en divers
-formats contenant
-toutes les données relatives à une table de ressources. Les formats
-disponibles sont:
+<H2>Export et import des tables de ressources</H2>
+La commande <B>Export Map</B> du menu <I>File</I> permet de générer des
+fichiers en divers formats contenant les données relatives à une table de
+ressources. Les formats disponibles sont:
 <UL>
 	<LI> Texte
 	<LI> HTML 
@@ -19,20 +18,24 @@ disponibles sont:
 	<LI> DeRez
 </UL>
 <P> En formats XML et texte, il est possible de décider d'inclure les
-données binaires de chaque ressource ou pas: voir la section <I>Préférences</I>.
-Celles-ci peuvent être représentées soit en encodage Base64 (qui est le
-format utilisé sous Mac OSX pour de nombreux types de fichiers XML tels que 
-les fichiers de préférences ou les fichiers de listes de propriétés), soit
-sous forme hexadécimale (comme dans un éditeur hexadécimal). Ce choix peut 
-être spécifié dans les <I>Préférences</I> également.
-<P> Pour des exports en format XML, il y a deux façons de représenter les
-données basées sur deux DTD (Définitions de Type de Document) différentes.
-La première représente chaque propriété au moyen d'une clé spécifique
-tandis que l'autre les représente comme attributs de certains éléments
-(élément <I>type</I> et élément <I>ressource</I>). 
-<P> Voici deux exemples de ce que produit, en XML, la commande <I>Export</I>:
-<UL>
-	<LI> en utilisant la DTD par éléments et l'encodage Base4
+données binaires de chaque ressource ou pas: voir le panneau <I>Export</I>
+des <I>Préférences</I>. En format DeRez, les données binaires sont
+toujours incluses. En format Html, elles ne le sont pas.<P><P> En format texte, les données peuvent être représentées soit en
+encodage Base64 (qui est le format utilisé sous Mac OSX pour de nombreux
+types de fichiers XML tels que les fichiers de préférences ou les fichiers
+de listes de propriétés), soit sous forme hexadécimale (comme dans un
+éditeur hexadécimal). Ce choix peut être spécifié dans le panneau 
+<I>Export</I> des <I>Préférences</I>. En format XML, les données sont
+toujours exportées dans l'encodage Base64. En format DeRez, elles le sont
+toujours en format hexadécimal.<P><P> DeRez est un format qui ne concerne que les développeurs: c'est le format
+utilisé par les outils Rez et DeRez. Les données de ressources sont
+exportées de façon identique à ce que produit l'outil DeRez lorsqu'aucun
+modèle particulier de ressources n'est spécifé (format <I>data</I>).<P><P> Pour des exports en format XML, la représentation des
+données est basée sur une DTD (<I>Définition de Type de Document</I>) 
+définie dans le fichier <I>Rezilla.dtd</I> qui fait partie de la 
+distribution de Rezilla.
+Chaque propriété est décrite au moyen d'une balise spécifique. 
+<P> Voici un exemple de ce que produit, en XML, la commande <I>Export</I>:
 <PRE>
 	&lt;Type&gt;
 		&lt;TypeCode&gt;ALRT&lt;/TypeCode&gt;
@@ -65,29 +68,9 @@ tandis que l'autre les représente comme attributs de certains éléments
 			&lt;/Resource&gt;
 		&lt;/ResourcesArray&gt;
 	&lt;/Type&gt;
-</PRE>
-	<LI> en utilisant la DTD par attributs et une représentation hexadécimale
-<PRE>
-	&lt;Type code="ALRT"&gt;
-		&lt;Resource id="204" name="Low Memory Warning" flags="20"&gt;
-			&lt;ResourceSize&gt;14&lt;/ResourceSize&gt;
-			&lt;ResourceData&gt;
-				0068008200cd01e800cc4444300a
-			&lt;/ResourceData&gt;
-		&lt;/Resource&gt;
-	&lt;/Type&gt;<P>	&lt;Type code="DITL"&gt;
-		&lt;Resource id="204" name="" flags="20"&gt;
-			&lt;ResourceSize&gt;120&lt;/ResourceSize&gt;
-			&lt;ResourceData&gt;
-				00010000000000470120005b015c04024f4b00000000000a004b003a015c
-				88574d656d6f72792069732067657474696e672066756c6c2e20506c6561
-				73652074727920746f20616c6c657669617465207468652070726f626c65
-				6d20627920636c6f73696e6720736f6d6520646f63756d656e74732e20e5
-			&lt;/ResourceData&gt;
-		&lt;/Resource&gt;
-	&lt;/Type&gt;
-</PRE>
-</UL><P>
+</PRE><P>La commande <B>Import Map</B> du menu <I>File</I> permet d'importer une 
+table de ressources préalablement exportée en format XML. Le fichier 
+d'import doit être un fichier XML valide et conforme à la DTD de Rezilla.<P>
 
 </BODY>
 </HTML>
