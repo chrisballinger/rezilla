@@ -256,6 +256,8 @@ void UGraphicConversion::SaveOffscreenAsResource(
 								COffscreen *inBuffer, SInt32 rowBytes,
 								COffscreen *inMask, SInt32 maskOffset, SInt32 maskRowBytes )
 {
+#pragma unused(inResType)
+	
 	UInt8				**h = nil;
 	SInt32				numBytes;
 	

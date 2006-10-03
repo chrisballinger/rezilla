@@ -95,7 +95,7 @@ public:
 
 	virtual				~CHexEditorTypingAction();
 
-	virtual void		InputCharacter(Boolean inOneOfTwoInserted);
+	virtual void		InsertCharacter(Boolean inOneOfTwoInserted);
 
 protected:
 	virtual void		RedoSelf();

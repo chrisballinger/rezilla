@@ -2,7 +2,7 @@
 // CPluginEditorWindow.h				
 // 
 //                       Created: 2005-10-02 08:41:52
-//             Last modification: 2006-09-19 08:06:18
+//             Last modification: 2006-10-03 15:05:35
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -49,7 +49,7 @@ public:
 						
 	virtual void	Refresh();
 
-	virtual void	FinalizeEditor(CPluginEditorDoc* inEditorDoc, void * ioParam = NULL);
+	virtual void	FinalizeEditor(CEditorDoc* inEditorDoc, void * ioParam = NULL);
 
 	void			CreateControls(SInt32 inPlugAttrs);
 	

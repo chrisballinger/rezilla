@@ -290,7 +290,7 @@ CTxtDataSubView::HandleKeyPress(
 			
 			if (mTypingAction != nil) {
 				try {
-					dynamic_cast<CHexEditorTypingAction*>(mTypingAction)->InputCharacter(false);
+					dynamic_cast<CHexEditorTypingAction*>(mTypingAction)->InsertCharacter(false);
 				} catch(...) {
 					PostAction(nil);
 				}

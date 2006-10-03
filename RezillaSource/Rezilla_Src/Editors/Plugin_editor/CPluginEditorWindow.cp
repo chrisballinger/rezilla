@@ -2,7 +2,7 @@
 // CPluginEditorWindow.cp
 // 
 //                       Created: 2005-10-02 08:41:52
-//             Last modification: 2006-09-19 12:21:36
+//             Last modification: 2006-10-03 15:05:45
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -84,7 +84,7 @@ CPluginEditorWindow::~CPluginEditorWindow()
 
 
 void
-CPluginEditorWindow::FinalizeEditor(CPluginEditorDoc* inEditorDoc, void * ioParam)
+CPluginEditorWindow::FinalizeEditor(CEditorDoc* inEditorDoc, void * ioParam)
 {
 #pragma unused(ioParam)
 	char	theStr[256];
@@ -118,7 +118,6 @@ CPluginEditorWindow::CreateControls(SInt32 inPlugAttrs)
 	SDimension16		frameSize;
 	WindowRef			winRef = GetMacWindow();
 	Rect				boundsRect;
-	ControlRef			ctrlRef;
 	ControlID			ctrlID;
 	OSStatus			error;
 	HIViewRef			contentView = NULL;
@@ -260,7 +259,6 @@ void
 CPluginEditorWindow::AdaptControlsToWindowBounds()
 {
 	WindowRef		winRef = GetMacWindow();
-	SInt16			widthDelta, heightDelta;
 	Rect			oldBounds, newBounds;
 	HIRect			hiBounds;
 	SInt16			oldWidth, newWidth;
@@ -661,6 +659,8 @@ CPluginEditorWindow::WindowEventHandler(
 					EventRef event, 
 					void * userData)
 {
+#pragma unused(myHandler)
+
 	OSStatus 	result = eventNotHandledErr;
 	UInt32		eventKind = GetEventKind(event);
 	HICommand	command;

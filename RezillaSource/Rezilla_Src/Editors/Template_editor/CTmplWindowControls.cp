@@ -858,6 +858,8 @@ CTmplEditorWindow::AddPointField(SInt16 inX,
 								TEKeyFilterFunc inKeyFilter,
 								LView * inContainer)
 {
+#pragma unused(inType)
+
 	Str255	numStr;
 	LEditText * theEditText;
 	LStaticText * theStaticText;
@@ -920,6 +922,8 @@ CTmplEditorWindow::AddRectField(SInt16 inTop,
 								TEKeyFilterFunc inKeyFilter,
 								LView * inContainer)
 {
+#pragma unused(inType)
+
 	Str255	numStr;
 	LEditText * theEditText;
 	LStaticText * theStaticText;
@@ -1312,6 +1316,8 @@ CTmplEditorWindow::AddRSIDField(
 					TEKeyFilterFunc inKeyFilter,
 					LView *	inContainer)
 {
+#pragma unused(inType)
+
 	ResType				theResType;
 	CTmplRSIDField *	theRSIDField;
 	SDimension16		theFrame;

@@ -201,7 +201,7 @@ CRezTypeItem::SingleClick(
 void
 CRezTypeItem::DoubleClick(
 	const STableCell&			/* inCell */,
-	const SMouseDownEvent&		inMouseDown,
+	const SMouseDownEvent&		/* inMouseDown */,
 	const SOutlineDrawContents&	/* inDrawContents */,
 	Boolean						/* inHitText */)
 {

@@ -104,6 +104,8 @@ void
 CRezMapDragDrop::HiliteDropArea(
 	DragReference	inDragRef)
 {
+#pragma unused(inDragRef)
+
 	StColorPenState	savePenState;
 	Rect		dropRect;
 	RGBColor	theForeColor = kRzilDragHiliteColor;
@@ -128,6 +130,8 @@ void
 CRezMapDragDrop::UnhiliteDropArea(
 	DragReference	inDragRef)
 {
+#pragma unused(inDragRef)
+
 	StColorPenState	savePenState;
 	Rect		dropRect;
 	RGBColor	theForeColor = Color_White;
@@ -153,6 +157,8 @@ CRezMapDragDrop::MySendDataProc(FlavorType theType,
 							   DragItemRef theItemRef,    
 							   DragRef theDrag)
 {
+#pragma unused(theType, dragSendRefCon, theItemRef, theDrag)
+
 	return noErr;
 }
 
@@ -179,6 +185,8 @@ StDragSendDataUPP::StDragSendDataUPP(
 	WindowPtr			inWindow,
 	void*				inRefCon)
 {
+#pragma unused(inRefCon)
+	
 	// Dispose of the previous send data proc
 	if (mSendDataUPP != nil) {
 		DisposeDragSendDataUPP(mSendDataUPP);

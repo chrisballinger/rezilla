@@ -192,6 +192,7 @@ CTmplEditorDoc::GetModifiedResource(Boolean &releaseIt)
 	Handle theHandle = NULL;
 	OSErr error = mTmplEditWindow->RetrieveDataWithTemplate();
 
+	releaseIt = false;
 	if ( error != noErr ) {
 		UMessageDialogs::DescribeError(CFSTR("ErrorSavingTemplateWindow"), error);
 	} else {

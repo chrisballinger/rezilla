@@ -2,7 +2,7 @@
 // CICNS_EditorWindow.cp					
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-09-11 12:41:03
+//             Last modification: 2006-10-03 14:41:43
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -40,6 +40,8 @@
 CICNS_EditorWindow*
 CICNS_EditorWindow::OpenPaintWindow( ResIDT inPPobID, CRezMap *inMap, ResIDT inResID )
 {
+#pragma unused(inMap, inResID)
+
 	CICNS_EditorWindow *	theWindow = nil;
 
 	try
@@ -643,6 +645,8 @@ CICNS_EditorWindow::CollectResourceData(IconFamilyHandle & outIconFamilyH)
 void
 CICNS_EditorWindow::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 {
+#pragma unused(inMap, inResID)
+
 	// Does nothing in the case of 'icns' resource
 }
 

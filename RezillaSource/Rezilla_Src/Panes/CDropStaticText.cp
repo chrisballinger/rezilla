@@ -93,6 +93,8 @@ CDropStaticText::ReceiveDragItem(DragReference inDragRef,
 								 ItemReference inItemRef, 
 								 Rect & inItemBounds)
 {
+#pragma unused(inDragAttrs, inItemBounds)
+	
 	HFSFlavor	fileData;
 	Str255		thePath;
 	

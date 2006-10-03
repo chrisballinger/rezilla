@@ -2,11 +2,11 @@
 // CAboutWindow.cp					
 // 
 //                       Created: 2005-03-08 14:22:24
-//             Last modification: 2005-03-08 15:23:13
+//             Last modification: 2006-10-03 14:39:46
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2003-2005
+// (c) Copyright : Bernard Desgraupes, 2003-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -16,18 +16,8 @@
 #include "CRezillaApp.h"
 #include "CStaticTextURL.h"
 
-// #include <LWindow.h>
 #include <LStaticText.h>
-// #include <LPushButton.h>
-// #include <LCheckBox.h>
-// #include <LEditText.h>
-// #include <UExtractFromAEDesc.h>
-// #include <UAppleEventsMgr.h>
-// #include <UCursor.h>
 
-// #include <AppleHelp.h>
-
-// #include <string.h>
 
 // ---------------------------------------------------------------------------
 //   CAboutWindow				[public]
@@ -127,6 +117,8 @@ CAboutWindow::FindCommandStatus(
 	UInt16		&outMark,
 	Str255		outName )
 {
+#pragma unused(inCommand, outUsesMark, outMark, outName)
+
 	// Disable all menu items
 	outEnabled = false;
 	return;

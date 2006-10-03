@@ -144,6 +144,8 @@ CPluginsController::GetPreferredPlugin(ResType inType)
 OSErr
 CPluginsController::SetPreferredPlugin(ResType inType, CRezillaPlugin * inPlugin)
 {
+#pragma unused(inType, inPlugin)
+
 	OSErr				error = noErr;
 
 	return error;

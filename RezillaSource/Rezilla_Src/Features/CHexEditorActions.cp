@@ -254,7 +254,7 @@ CHexEditorTypingAction::~CHexEditorTypingAction()
 
 
 // ---------------------------------------------------------------------------
-//   InputCharacter
+//   InsertCharacter
 // ---------------------------------------------------------------------------
 //	Handle an input character typing action
 //
@@ -264,7 +264,7 @@ CHexEditorTypingAction::~CHexEditorTypingAction()
 //	there is no change for the typing end.
 
 void
-CHexEditorTypingAction::InputCharacter(Boolean inOneOfTwoInserted)
+CHexEditorTypingAction::InsertCharacter(Boolean inOneOfTwoInserted)
 {
 	SInt32	selStart, selEnd;
 	

@@ -354,6 +354,8 @@ CUtxt_EditorView::TakeOffDuty()
 void
 CUtxt_EditorView::SpendTime( const EventRecord& inMacEvent)
 {	
+#pragma unused(inMacEvent)
+
 	mOwnerWindow->SetLengthField( GetDataSize() );
 	if (FocusExposed()) {
 		::TXNIdle(mTXNObject);

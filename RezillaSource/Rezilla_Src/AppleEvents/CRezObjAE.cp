@@ -204,9 +204,7 @@ CRezObj::SetAEProperty(
 	DescType		inProperty,
 	const AEDesc&	inValue,
 	AEDesc&			outAEReply)
-{
-	OSErr error;
-	
+{	
 	switch (inProperty) {
 
 		case pName: {

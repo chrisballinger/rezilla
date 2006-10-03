@@ -305,7 +305,7 @@ CHexDataSubView::HandleKeyPress(
 			
 			if (mTypingAction != nil) {
 				try {
-					dynamic_cast<CHexEditorTypingAction*>(mTypingAction)->InputCharacter(mOneOfTwoInserted);
+					dynamic_cast<CHexEditorTypingAction*>(mTypingAction)->InsertCharacter(mOneOfTwoInserted);
 				} catch(...) {
 					PostAction(nil);
 				}

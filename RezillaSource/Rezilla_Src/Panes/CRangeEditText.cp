@@ -95,15 +95,17 @@ CRangeEditText::HandleKeyPress(
 	const EventRecord&	inKeyEvent)
 {
 	UInt16 theChar = (UInt16) (inKeyEvent.message & charCodeMask);
+	Boolean result = false;
 	
 	if (theChar == '\r' || theChar == '\n') {
 		if (mValueMessage != msg_Nothing) {
 			BroadcastMessage(mValueMessage, this);
-			return true;
+			result = true;
 		}
 	} else {
-		return LEditText::HandleKeyPress(inKeyEvent);
+		result = LEditText::HandleKeyPress(inKeyEvent);
 	}
+	return result;
 }
 
 
@@ -129,7 +131,6 @@ CRangeEditText::GetRangeValues(SInt32 & outRangeStart, SInt32 & outRangeEnd)
 	struct re_pattern_buffer regex;
 	struct re_registers regs;
 	const char *		s;
-	int 				n;
 	long				theNum;
 	Str255				theString;
 	LStr255				subString("\p");

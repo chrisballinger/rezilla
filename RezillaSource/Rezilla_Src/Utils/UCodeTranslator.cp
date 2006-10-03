@@ -71,6 +71,7 @@ UCodeTranslator::ConvertByteToReadable( LDataStream* srcDataStream, LDataStream*
 void
 UCodeTranslator::ConvertByteToReadable(char* srcString, char* trgtString, Boolean inInsertSpace)
 {
+#pragma unused(srcString, trgtString, inInsertSpace)
 	// todo...
 }
 
@@ -122,6 +123,7 @@ UCodeTranslator::ConvertByteToSegmentedText( LDataStream* srcDataStream, LDataSt
 void
 UCodeTranslator::ConvertByteToSegmentedText(char* srcString, char* trgtString, SInt32 inSegment)
 {
+#pragma unused(srcString, trgtString, inSegment)
 	// todo...
 }
 
@@ -368,7 +370,6 @@ UCodeTranslator::ConvertHexToByte( LDataStream* srcDataStream, LDataStream* trgt
 	UInt8 val1;
 	UInt8 val2;
 	SInt32 length = srcDataStream->GetLength() ;
-	UInt8 result;
 	
 	// The number of hex digits must be even. If not, omit the last one.
 	if (length % 2) {
@@ -586,6 +587,7 @@ UCodeTranslator::ConvertByteToBase64(LDataStream* srcDataStream, LDataStream* tr
 void
 UCodeTranslator::ConvertByteToBase64(char* srcString, char* trgtString )
 {
+#pragma unused(srcString, trgtString)
 	// todo...
 }
 
@@ -675,6 +677,7 @@ UCodeTranslator::ConvertBase64ToByte(LDataStream* srcDataStream, LDataStream* tr
 void
 UCodeTranslator::ConvertBase64ToByte(char* srcString, char* trgtString )
 {
+#pragma unused(srcString, trgtString)
 	// todo...
 }
 
@@ -697,9 +700,9 @@ UCodeTranslator::Char64ToNumber(UInt8 inByte)
 	} else if (inByte == '/') {
 		return (63);
 	} else {
-// 		return (-1);
 		Throw_(err_InvalidBase64Data);
 	}
+	return (-1);
 }
 
 

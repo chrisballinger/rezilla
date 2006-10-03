@@ -288,6 +288,8 @@ Boolean
 CBiDataWE::HandleKeyPress(
 	const EventRecord	&inKeyEvent)
 {
+#pragma unused(inKeyEvent)
+	
 	Boolean keyHandled = true;
 	return keyHandled;
 }
