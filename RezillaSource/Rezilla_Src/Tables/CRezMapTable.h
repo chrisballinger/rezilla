@@ -58,8 +58,6 @@ public:
 	
 	void					RemoveAllItems();
 
-	OSErr					GetDataFromXml(CFXMLTreeRef inTreeNode);
-	
 	CRezObjItem *			CreateItemIfNecessary(ResType inType, 
 												  short inID, 
 												  Str255* inName);
