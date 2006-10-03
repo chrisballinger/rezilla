@@ -314,7 +314,7 @@ CHexDataSubView::HandleKeyPress(
 			char * buffer = new char[3];
 			
 			if (!mOneOfTwoInserted) {
-				sprintf(buffer, "0%.1x ", UCodeTranslator::ConvertHexToValue(theKey));
+				sprintf(buffer, "0%.1x ", UCodeTranslator::HexToValue(theKey));
 				Insert(buffer,3);
 				mEditingPos = theSelStart + 3;
 				mOneOfTwoInserted = true;
@@ -323,7 +323,7 @@ CHexDataSubView::HandleKeyPress(
 					WESetSelection( mEditingPos - 3, mEditingPos - 2, mWERef);
 					WEDelete(mWERef);
 					WESetSelection( mEditingPos - 2, mEditingPos - 2, mWERef);
-					sprintf(buffer, "%.1x", UCodeTranslator::ConvertHexToValue(theKey));
+					sprintf(buffer, "%.1x", UCodeTranslator::HexToValue(theKey));
 					Insert(buffer,1);
 					WESetSelection( mEditingPos, mEditingPos, mWERef);
 					theSelStart -= 3;
