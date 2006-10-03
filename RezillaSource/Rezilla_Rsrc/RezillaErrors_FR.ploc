@@ -1,7 +1,7 @@
 // ===========================================================================
 // RezillaErrors_FR.ploc
 //                       Created: 2004-10-05 15:00:32
-//             Last modification: 2006-09-29 10:27:43
+//             Last modification: 2006-10-03 08:34:24
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -31,7 +31,7 @@ localize "French" as "Errors.strings"
 	key "1018" value string "L’ouverture du sélectionneur de ressources a échoué"
 	key "1019" value string "Données de ressource invalides"
 	key "1900" value string "Erreur générique d’importation"
-	key "1901" value string "OSType invalide. Un type doit comporter 4 caractères."
+	key "1901" value string "Type de ressource invalide. Un type doit comporter 4 caractères."
 	key "1902" value string "Impossible d’obtenir les données Xml"
 	key "1903" value string "Impossible de construire l’arbre Xml (code Xml invalide)"
 	key "1904" value string "Impossible d’obtenir le noeud racine"
@@ -46,6 +46,11 @@ localize "French" as "Errors.strings"
 	key "1913" value string "Balise inconnue dans un objet ‘Enumeration’"
 	key "1914" value string "Balise inconnue dans un objet ‘Enumerator’"
 	key "1915" value string "Balise inconnue dans un objet ‘Flags’"
+	key "1916" value string "Noeud racine incorrect"
+	key "1917" value string "Balise inconnue pour une table de ressources. Les balises sont définies dans la DTD ‘Rezilla.dtd’."
+	key "1918" value string "Type de ressource non spécifié"
+	key "1919" value string "Numéro de ressource non spécifié"
+	key "1920" value string "Conflit de numéro de ressource: une ressource de même type et même numéro a déjà été importée."
 	key "2000" value string "Erreur de l’éditeur de gabarits"
 	key "2001" value string "Impossible d’obtenir les données de la ressource"
 	key "2002" value string "Balise inconnue"

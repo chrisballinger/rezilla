@@ -1,7 +1,7 @@
 // ===========================================================================
 // RezillaErrors_EN.ploc
 //                       Created: 2004-10-05 15:00:32
-//             Last modification: 2006-09-29 10:26:50
+//             Last modification: 2006-10-03 09:06:59
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@easyconnect.fr>
 // www: <http://webperso.easyconnect.fr/bdesgraupes/>
@@ -32,7 +32,7 @@ localize "English" as "Errors.strings"
 	key "1018" value string "Open resource picker failed"
 	key "1019" value string "Invalid resource data"
 	key "1900" value string "Import Generic error"
-	key "1901" value string "Invalid OSType. A type must have 4 characters."
+	key "1901" value string "Invalid resource type. A type must have 4 characters."
 	key "1902" value string "Can’t get Xml data"
 	key "1903" value string "Can’t build Xml tree (invalid Xml code)"
 	key "1904" value string "Can’t get top Aete node"
@@ -47,6 +47,11 @@ localize "English" as "Errors.strings"
 	key "1913" value string "Unknown Aete Enumeration tag"
 	key "1914" value string "Unknown Aete Enumerator tag"
 	key "1915" value string "Unknown Aete Flags tag"
+	key "1916" value string "Wrong root node"
+	key "1917" value string "Unknown tag for a resource map. Tags are defined in the DTD ‘Rezilla.dtd’."
+	key "1918" value string "Missing resource type"
+	key "1919" value string "Missing resource ID"
+	key "1920" value string "Conflicting resource ID: a resource with same type and ID has already been imported."
 	key "2000" value string "Template error"
 	key "2001" value string "Get data stream failed"
 	key "2002" value string "Unrecognized tag"
