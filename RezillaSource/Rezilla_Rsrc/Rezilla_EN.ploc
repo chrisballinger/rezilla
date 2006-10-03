@@ -1,4 +1,4 @@
-// Last modification: 2006-09-25 07:49:56
+// Last modification: 2006-10-03 11:07:23
 
 localize "English" as "Localizable.strings" 
 {
@@ -65,7 +65,7 @@ localize "English" as "Localizable.strings"
 	key "PluginChooserError" value string "An error occured while validating the plugins preferences."
 	key "PreferredPluginHelpString" value string "For each type, drag the preferred plugin to the top of the list."
 	key "RemovingIcnsMemberFailed" value string "Couldn’t remove the icon member."
-	key "RequireSystemTenTwo" value string "Rezilla requires system OSX 10.2 or greater."
+	key "RequireSystemTenThree" value string "This version of Rezilla requires system Mac OS X 10.3 or greater."
 	key "ResourceExistsWithID" value string "There is already a resource with ID ‘%d’."
 	key "ResourceLongerThanExpected" value string "The resource has more data than expected. Edit it with the hexadecimal editor to examine its contents."
 	key "ResourceLongerThanTemplate" value string "There is more data in the resource than expected by the template’s format. Edit with caution: the extra data will be lost if you validate your changes."

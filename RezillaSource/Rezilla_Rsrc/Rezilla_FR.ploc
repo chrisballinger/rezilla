@@ -1,4 +1,4 @@
-// Last modification: 2006-09-25 07:49:42
+// Last modification: 2006-10-03 11:07:11
 
 localize "French" as "Localizable.strings" 
 {
@@ -65,7 +65,7 @@ localize "French" as "Localizable.strings"
 	key "PluginChooserError" value string "Une erreur s’est produite au cours de la validation des préférences de plugins."
 	key "PreferredPluginHelpString" value string "Pour chaque type, faire glisser le plugin préféré en tête de liste."
 	key "RemovingIcnsMemberFailed" value string "Impossible de supprimer l’icone."
-	key "RequireSystemTenTwo" value string "Rezilla requiert le système Mac OS X 10.2 ou ultérieur."
+	key "RequireSystemTenThree" value string "Cette version de Rezilla requiert le système Mac OS X 10.3 ou ultérieur."
 	key "ResourceExistsWithID" value string "Il existe déjà une ressource de numéro ‘%d’."
 	key "ResourceLongerThanExpected" value string "La ressource contient plus de données que prévu. Utiliser l’éditeur hexadécimal pour examiner le contenu."
 	key "ResourceLongerThanTemplate" value string "Il y a plus de données dans la ressource que ce qui est prévu par le gabarit. Les données excédentaires seront perdues si vous validez les modifications."
