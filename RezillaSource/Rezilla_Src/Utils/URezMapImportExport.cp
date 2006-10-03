@@ -2,7 +2,7 @@
 // URezMapImportExport.cp					
 // 
 //                       Created : 2004-02-29 10:41:09
-//             Last modification : 2006-10-02 08:37:24
+//             Last modification : 2006-10-03 12:20:09
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@users.sourceforge.net>
 // www : <http://rezilla.sourceforge.net/>
@@ -20,7 +20,7 @@
 #include "CRezObj.h"
 #include "CTextFileStream.h"
 #include "CXMLFileStream.h"
-#include "CRezMapTable.h"
+#include "CRezMapDoc.h"
 #include "RezillaConstants.h"
 #include "URezMapImportExport.h"
 #include "UCodeTranslator.h"
@@ -55,7 +55,7 @@ StRezMapExporter::StRezMapExporter(CTextFileStream * inFileStream)
 
 
 // ---------------------------------------------------------------------------
-//     ~StRezMapExporter							Destructor			  [public]
+//     ~StRezMapExporter						Destructor			  [public]
 // ---------------------------------------------------------------------------
 
 StRezMapExporter::~StRezMapExporter()
@@ -151,7 +151,6 @@ StRezMapExporter::WriteOutText(CRezMap* inRezMap, Boolean includeData, SInt32 da
 // Written according to the Rezilla (previously Rezmap1) DTD. Resource data
 // are either Base64 or Hex encoded depending on the preference.
 // For XML format, mExportStream is a CXMLFileStream.
-// 
 
 void
 StRezMapExporter::WriteOutXml(CRezMap* inRezMap, Boolean includeData, SInt32 dataEncoding)
@@ -173,16 +172,13 @@ StRezMapExporter::WriteOutXml(CRezMap* inRezMap, Boolean includeData, SInt32 dat
 		return;
 	} 
 	
-	theStream->WriteTag("?xml version=\"1.0\" encoding=\"UTF-8\"?", tag_open);
-	theStream->WriteTag("!DOCTYPE AeteResource SYSTEM \"file://localhost/System/Library/DTDs/Rezilla.dtd\"", tag_open);
+	theStream->WriteCStringNoEnc("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+	theStream->WriteCStringNoEnc("<!DOCTYPE AeteResource SYSTEM \"file://localhost/System/Library/DTDs/Rezilla.dtd\">");
 	
 	theStream->WriteTag("Rezmap", tag_open);
-
 	theStream->WritePStringEnclosed(mName, "\pRezMapName");
-	
 	inRezMap->GetMapAttributes(theAttrs);	
 	theStream->WriteSInt16Enclosed(theAttrs, "RezMapFlags");
-	
 	theStream->WriteTag("TypesArray", tag_open);
 
 	inRezMap->GetAllTypes(theTypesArray);
@@ -216,6 +212,7 @@ StRezMapExporter::WriteOutXml(CRezMap* inRezMap, Boolean includeData, SInt32 dat
 				theStream->WriteTag("ResourceData", tag_open, false, 4);
 				theData = theRezObj->GetData();
 				if (theData != nil) {
+					// Note: since version 1.1, XML output is always Base64 encoded
 					switch (dataEncoding) {
 					  case export_Base64Enc: {
 						StByteToBase64Translator translator(theData);
@@ -386,7 +383,7 @@ StRezMapExporter::WriteOutDerez(CRezMap* inRezMap)
 			if (theRezObj->HasAttribute(resPreload)) {
 				*mFileStream << ", preload";
 			} 
-			*mFileStream << ") \{";
+			*mFileStream << ") {";
 			
 			theData = theRezObj->GetData();
 			if (theData != nil) {
@@ -396,7 +393,7 @@ StRezMapExporter::WriteOutDerez(CRezMap* inRezMap)
 											 "\p\r\t$\"", "\p\"", 
 											 translator.GetOutSize(), 48);
 			 }
-			 *mFileStream << "\r\};\r\r" ;
+			 *mFileStream << "\r};\r\r" ;
 			 
 			 delete theRezObj;
 		 }
@@ -417,10 +414,10 @@ StRezMapExporter::WriteOutDerez(CRezMap* inRezMap)
 //   StRezMapImporter							Constructor		 	 [public]
 // ---------------------------------------------------------------------------
 
-StRezMapImporter::StRezMapImporter(CRezMapTable *	inRezMapTable,
+StRezMapImporter::StRezMapImporter(CRezMapDoc *	inRezMapDoc,
 								FSSpec 	inFSSpec )
 {	
-	mRezMapTable = inRezMapTable;
+	mRezMapDoc = inRezMapDoc;
 	mFileSpec = inFSSpec;
 }
 
@@ -475,9 +472,6 @@ StRezMapImporter::ReadXml()
 // ---------------------------------------------------------------------------
 //  ParseTree														 [private]
 // ---------------------------------------------------------------------------
-//  CFShow(CFXMLNodeGetString(xmlNode));
-// 			EXTERN_API_C( CFTreeRef )
-// 			CFTreeFindRoot(CFTreeRef tree);
 
 OSErr
 StRezMapImporter::ParseTree(CFXMLTreeRef inXMLTree)
@@ -499,8 +493,7 @@ StRezMapImporter::ParseTree(CFXMLTreeRef inXMLTree)
 			if (xmlNode) {
 				if (CFXMLNodeGetTypeCode(xmlNode) == kCFXMLNodeTypeElement
 					&&  ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("RezMap"), 0) ) {
-						
-					error = mRezMapTable->GetDataFromXml(xmlTreeNode);
+					error = mRezMapDoc->GetRezMapFromXml(xmlTreeNode);
 				} 
 			}  else {
 				error = err_ImportWrongRootNode;

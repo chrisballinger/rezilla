@@ -19,7 +19,7 @@ PP_Begin_Namespace_PowerPlant
 
 class CRezMap;
 class CTextFileStream;
-class CRezMapTable;
+class CRezMapDoc;
 
 // ---------------------------------------------------------------------------
 
@@ -54,14 +54,14 @@ private:
 
 class StRezMapImporter {
 public:
-					StRezMapImporter(CRezMapTable *	inRezMapTable, 
+					StRezMapImporter(CRezMapDoc *	inRezMapDoc, 
 									 FSSpec 		inFSSpec);
 					virtual ~StRezMapImporter();	
 	
 	OSErr			ReadXml();
 		
 protected:
-	CRezMapTable *	mRezMapTable;
+	CRezMapDoc *	mRezMapDoc;
 	FSSpec			mFileSpec;
 
 private:
