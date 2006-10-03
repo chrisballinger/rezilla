@@ -1,11 +1,11 @@
 // ===========================================================================
 // UMiscUtils.h					
 //                       Created: 2003-05-13 20:06:23
-//             Last modification: 2005-03-08 07:37:41
+//             Last modification: 2006-10-03 11:03:04
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes 2003-2005
+// (c) Copyright: Bernard Desgraupes 2003-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -73,6 +73,7 @@ public:
 	static void		GetStringFromXml(CFXMLTreeRef inTreeRef, Str255 & outString);
 	static OSErr	GetOSTypeFromXml(CFXMLTreeRef inTreeRef, OSType & outType);
 	static OSErr	GetFlagsFromXml(CFXMLTreeRef inTreeRef, UInt16 & outFlags);
+	static OSErr	GetBinaryFromXml(CFXMLTreeRef inTreeRef, Handle * outHandPtr);
 
 	static Boolean	LookForOSTypeInString(Str255 inString, OSType& outType);
 };

@@ -1,7 +1,7 @@
 // ===========================================================================
 // UMiscUtils.cp					
 //                       Created: 2003-05-13 20:06:23
-//             Last modification: 2006-09-07 09:39:42
+//             Last modification: 2006-10-03 11:03:22
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -20,6 +20,7 @@
 #include "RezillaConstants.h"
 #include "UMiscUtils.h"
 #include "UMessageDialogs.h"
+#include "UCodeTranslator.h"
 
 #include <PP_KeyCodes.h>
 
@@ -410,14 +411,18 @@ UMiscUtils::GetValueFromXml(CFXMLTreeRef inTreeRef, SInt32 & outValue)
 {
 	CFXMLTreeRef    valueTree;
 	CFXMLNodeRef    valueNode;
+	CFStringRef		nodeString;
 
 	outValue = 0;
 	
-	valueTree = CFTreeGetFirstChild(inTreeRef);
+	valueTree = ::CFTreeGetFirstChild(inTreeRef);
 	if (valueTree) {
-		valueNode = CFXMLTreeGetNode(valueTree);
+		valueNode = ::CFXMLTreeGetNode(valueTree);
 		if (valueNode) {
-			outValue = CFStringGetIntValue( CFXMLNodeGetString(valueNode) );
+			nodeString = ::CFXMLNodeGetString(valueNode);
+			if (nodeString) {
+				outValue = ::CFStringGetIntValue(nodeString);
+			} 
 		} 
 	} 
 }
@@ -432,14 +437,18 @@ UMiscUtils::GetBooleanFromXml(CFXMLTreeRef inTreeRef)
 {
 	CFXMLTreeRef    valueTree;
 	CFXMLNodeRef    valueNode;
+	CFStringRef		nodeString;
 	Boolean			theBool = false;
 	SInt32			theValue = 0;
 	
-	valueTree = CFTreeGetFirstChild(inTreeRef);
+	valueTree = ::CFTreeGetFirstChild(inTreeRef);
 	if (valueTree) {
-		valueNode = CFXMLTreeGetNode(valueTree);
+		valueNode = ::CFXMLTreeGetNode(valueTree);
 		if (valueNode) {
-			theBool = ( CFStringGetIntValue( CFXMLNodeGetString(valueNode) ) != 0);
+			nodeString = ::CFXMLNodeGetString(valueNode);
+			if (nodeString) {
+				theBool = ( ::CFStringGetIntValue(nodeString) != 0);
+			} 
 		} 
 	} 
 	
@@ -456,14 +465,18 @@ UMiscUtils::GetStringFromXml(CFXMLTreeRef inTreeRef, Str255 & outString)
 {
 	CFXMLTreeRef    valueTree;
 	CFXMLNodeRef    valueNode;
+	CFStringRef		nodeString;
 
 	outString[0] = 0;
 	
-	valueTree = CFTreeGetFirstChild(inTreeRef);
+	valueTree = ::CFTreeGetFirstChild(inTreeRef);
 	if (valueTree) {
-		valueNode = CFXMLTreeGetNode(valueTree);
+		valueNode = ::CFXMLTreeGetNode(valueTree);
 		if (valueNode) {
-			CFStringGetPascalString( CFXMLNodeGetString(valueNode), outString, sizeof(outString), NULL);
+			nodeString = ::CFXMLNodeGetString(valueNode);
+			if (nodeString) {
+				::CFStringGetPascalString(nodeString, outString, sizeof(outString), NULL);
+			}
 		} 
 	} 
 }
@@ -502,6 +515,7 @@ UMiscUtils::GetFlagsFromXml(CFXMLTreeRef inTreeRef, UInt16 & outFlags)
 	int             childCount;
 	CFXMLTreeRef    xmlTree;
 	CFXMLNodeRef    xmlNode;
+	CFStringRef		nodeString;
 	int             index;
 	Boolean			theBool;
 
@@ -514,57 +528,119 @@ UMiscUtils::GetFlagsFromXml(CFXMLTreeRef inTreeRef, UInt16 & outFlags)
 			xmlNode = CFXMLTreeGetNode(xmlTree);
 			if (xmlNode) {
 				theBool = UMiscUtils::GetBooleanFromXml(xmlTree);
-				if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ChangeState"), 0) ) {
-					outFlags |= theBool ? (1 << kAEUTChangesState): 0;
-				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("DirectParamIsReference"), 0) ) {
-					outFlags |= theBool ? (1 << kAEUTDirectParamIsReference): 0;
-				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("EnumIsExclusive"), 0) ) {
-					outFlags |= theBool ? (1 << kAEUTEnumListIsExclusive): 0;
-				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("EnumsAreTypes"), 0) ) {
-					outFlags |= theBool ? (1 << kAEUTEnumsAreTypes): 0;
-				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("IsApostrophe"), 0) ) {
-					outFlags |= theBool ? (1 << kAEUTApostrophe): 0;
-				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("IsEnumerated"), 0) ) {
-					outFlags |= theBool ? (1 << kAEUTEnumerated): 0;
-				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("IsFeminine"), 0) ) {
-					outFlags |= theBool ? (1 << kAEUTFeminine): 0;
-				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("IsListOfItems"), 0) ) {
-					outFlags |= theBool ? (1 << kAEUTlistOfItems): 0;
-				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("IsMasculine"), 0) ) {
-					outFlags |= theBool ? (1 << kAEUTMasculine): 0;
-				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("IsOptional"), 0) ) {
-					outFlags |= theBool ? (1 << kAEUTOptional): 0;
-				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("IsReadWrite"), 0) ) {
-					outFlags |= theBool ? (1 << kAEUTReadWrite): 0;
-				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("LabeledParam"), 0) ) {
-					outFlags |= theBool ? (1 << aeut_LabeledParam): 0;
-				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("NonVerbEvent"), 0) ) {
-					outFlags |= theBool ? (1 << aeut_NonVerbEvent ): 0;
-				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("NotDirectParamIsTarget"), 0) ) {
-					outFlags |= theBool ? (1 << kAEUTNotDirectParamIsTarget ): 0;
-				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ParamIsReference"), 0) ) {
-					outFlags |= theBool ? (1 << kAEUTParamIsReference): 0;
-				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ParamIsTarget"), 0) ) {
-					outFlags |= theBool ? (1 << kAEUTParamIsTarget): 0;
-				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("Plural"), 0) ) {
-					outFlags |= theBool ? (1 << kAEUTPlural): 0;
-				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("PropertyIsReference"), 0) ) {
-					outFlags |= theBool ? (1 << kAEUTPropertyIsReference): 0;
-				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("ReplyIsReference"), 0) ) {
-					outFlags |= theBool ? (1 << kAEUTReplyIsReference): 0;
-				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("TightBindingFunction"), 0) ) {
-					outFlags |= theBool ? (1 << kAEUTTightBindingFunction): 0;
-				} else if ( ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("Reserved"), 0) ) {
-					// Ignore
-				} else {
-					CFShow(CFXMLNodeGetString(xmlNode));
-					error = err_ImportUnknownFlagsTag;	
-				}
-				
-				if (error != noErr) { break; } 
+				nodeString = ::CFXMLNodeGetString(xmlNode);
+				if (nodeString) {
+					if ( ! CFStringCompare( nodeString, CFSTR("ChangeState"), 0) ) {
+						outFlags |= theBool ? (1 << kAEUTChangesState): 0;
+					} else if ( ! CFStringCompare( nodeString, CFSTR("DirectParamIsReference"), 0) ) {
+						outFlags |= theBool ? (1 << kAEUTDirectParamIsReference): 0;
+					} else if ( ! CFStringCompare( nodeString, CFSTR("EnumIsExclusive"), 0) ) {
+						outFlags |= theBool ? (1 << kAEUTEnumListIsExclusive): 0;
+					} else if ( ! CFStringCompare( nodeString, CFSTR("EnumsAreTypes"), 0) ) {
+						outFlags |= theBool ? (1 << kAEUTEnumsAreTypes): 0;
+					} else if ( ! CFStringCompare( nodeString, CFSTR("IsApostrophe"), 0) ) {
+						outFlags |= theBool ? (1 << kAEUTApostrophe): 0;
+					} else if ( ! CFStringCompare( nodeString, CFSTR("IsEnumerated"), 0) ) {
+						outFlags |= theBool ? (1 << kAEUTEnumerated): 0;
+					} else if ( ! CFStringCompare( nodeString, CFSTR("IsFeminine"), 0) ) {
+						outFlags |= theBool ? (1 << kAEUTFeminine): 0;
+					} else if ( ! CFStringCompare( nodeString, CFSTR("IsListOfItems"), 0) ) {
+						outFlags |= theBool ? (1 << kAEUTlistOfItems): 0;
+					} else if ( ! CFStringCompare( nodeString, CFSTR("IsMasculine"), 0) ) {
+						outFlags |= theBool ? (1 << kAEUTMasculine): 0;
+					} else if ( ! CFStringCompare( nodeString, CFSTR("IsOptional"), 0) ) {
+						outFlags |= theBool ? (1 << kAEUTOptional): 0;
+					} else if ( ! CFStringCompare( nodeString, CFSTR("IsReadWrite"), 0) ) {
+						outFlags |= theBool ? (1 << kAEUTReadWrite): 0;
+					} else if ( ! CFStringCompare( nodeString, CFSTR("LabeledParam"), 0) ) {
+						outFlags |= theBool ? (1 << aeut_LabeledParam): 0;
+					} else if ( ! CFStringCompare( nodeString, CFSTR("NonVerbEvent"), 0) ) {
+						outFlags |= theBool ? (1 << aeut_NonVerbEvent ): 0;
+					} else if ( ! CFStringCompare( nodeString, CFSTR("NotDirectParamIsTarget"), 0) ) {
+						outFlags |= theBool ? (1 << kAEUTNotDirectParamIsTarget ): 0;
+					} else if ( ! CFStringCompare( nodeString, CFSTR("ParamIsReference"), 0) ) {
+						outFlags |= theBool ? (1 << kAEUTParamIsReference): 0;
+					} else if ( ! CFStringCompare( nodeString, CFSTR("ParamIsTarget"), 0) ) {
+						outFlags |= theBool ? (1 << kAEUTParamIsTarget): 0;
+					} else if ( ! CFStringCompare( nodeString, CFSTR("Plural"), 0) ) {
+						outFlags |= theBool ? (1 << kAEUTPlural): 0;
+					} else if ( ! CFStringCompare( nodeString, CFSTR("PropertyIsReference"), 0) ) {
+						outFlags |= theBool ? (1 << kAEUTPropertyIsReference): 0;
+					} else if ( ! CFStringCompare( nodeString, CFSTR("ReplyIsReference"), 0) ) {
+						outFlags |= theBool ? (1 << kAEUTReplyIsReference): 0;
+					} else if ( ! CFStringCompare( nodeString, CFSTR("TightBindingFunction"), 0) ) {
+						outFlags |= theBool ? (1 << kAEUTTightBindingFunction): 0;
+					} else if ( ! CFStringCompare( nodeString, CFSTR("Reserved"), 0) ) {
+						// Ignore
+					} else {
+						// CFShow(nodeString);
+						error = err_ImportUnknownFlagsTag;	
+					}
+					
+					if (error != noErr) { break; } 
+				} 
 			}
 		}
 	}
+	
+	return error;
+}
+
+
+// ---------------------------------------------------------------------------
+// 	GetBinaryFromXml
+// ---------------------------------------------------------------------------
+
+OSErr
+UMiscUtils::GetBinaryFromXml(CFXMLTreeRef inTreeRef, Handle * outHandPtr)
+{
+	OSErr			error = noErr;
+	CFXMLTreeRef    valueTree;
+	CFXMLNodeRef    valueNode;
+	CFStringRef		nodeString;
+	Handle			inHandle = NULL, outHandle = NULL;
+	
+	valueTree = ::CFTreeGetFirstChild(inTreeRef);
+	if (valueTree) {
+		valueNode = ::CFXMLTreeGetNode(valueTree);
+		if (valueNode) {
+			nodeString = ::CFXMLNodeGetString(valueNode);
+			if (nodeString) {
+				// Extract the Base64 string
+				CFIndex	theLen = ::CFStringGetLength(nodeString);
+				
+				inHandle = ::NewHandle(theLen);
+				if (inHandle != NULL) {
+					if (::CFStringGetCString(nodeString, *inHandle, theLen, kCFStringEncodingMacRoman)) {
+						// Strip the space characters
+						StStripWhitespaceTranslator stripper(inHandle);
+						stripper.FilterOutWhitespace();
+
+						// Convert the Base64 data to bytes
+						StBase64ToByteTranslator translator(stripper.GetOutHandle());
+						try {
+							translator.Convert();
+						}
+						catch (...) {
+							error = err_InvalidBase64Data;
+							goto done;
+						}
+						
+						outHandle = translator.GetOutHandle();
+						// Get a copy of the handle because the translator
+						// is a stack-based class and will be deleted when
+						// exiting this function
+						HandToHand(&outHandle);
+					} 
+				} 
+			}
+		} 
+	} 
+	
+done:
+	if (inHandle) ::DisposeHandle(inHandle);
+
+	*outHandPtr = outHandle;
 	
 	return error;
 }
