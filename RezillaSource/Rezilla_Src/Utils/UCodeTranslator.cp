@@ -2,11 +2,11 @@
 // UCodeTranslator.cp					
 // 
 //                       Created: 2003-05-04 16:40:47
-//             Last modification: 2006-07-13 17:22:49
+//             Last modification: 2006-10-03 12:00:47
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes 2003-2004, 2006
+// (c) Copyright: Bernard Desgraupes 2003-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -377,14 +377,14 @@ UCodeTranslator::ConvertHexToByte( LDataStream* srcDataStream, LDataStream* trgt
 	for (UInt32 i = 1; i <= length; i += 2) {
 		*srcDataStream >> readChar;
 		if (readChar != 0x30) {
-			val1 = ConvertHexToValue(readChar);
+			val1 = HexToValue(readChar);
 		} else {
 			val1 = 0;
 		}
 		
 		*srcDataStream >> readChar;
 		if (readChar != 0x30) {
-			val2 = ConvertHexToValue(readChar);
+			val2 = HexToValue(readChar);
 		} else {
 			val2 = 0;
 		}
@@ -410,11 +410,11 @@ UCodeTranslator::ConvertHexToByte(char* srcString, char* trgtString)
 
 
 // ---------------------------------------------------------------------------
-//   ConvertHexToValue												[public]
+//   HexToValue												[public]
 // ---------------------------------------------------------------------------
 
 UInt8
-UCodeTranslator::ConvertHexToValue(UInt8 inHex)
+UCodeTranslator::HexToValue(UInt8 inHex)
 {
 	UInt8 val = 0;
 	// ZP remark: ASCII value 58 is ':' 
@@ -613,13 +613,13 @@ UCodeTranslator::ConvertBase64ToByte(LDataStream* srcDataStream, LDataStream* tr
 	// Handle chunks of 4 chars up to the next to last.
 	for (UInt32 i = 1; i < quadrupleCount; i++) {
 		*srcDataStream >> readChar;
-		buffer[0] = ConvertToNumber(readChar);
+		buffer[0] = Char64ToNumber(readChar);
 		*srcDataStream >> readChar;
-		buffer[1] = ConvertToNumber(readChar);
+		buffer[1] = Char64ToNumber(readChar);
 		*srcDataStream >> readChar;
-		buffer[2] = ConvertToNumber(readChar);
+		buffer[2] = Char64ToNumber(readChar);
 		*srcDataStream >> readChar;
-		buffer[3] = ConvertToNumber(readChar);
+		buffer[3] = Char64ToNumber(readChar);
 		
 		outChar = (buffer[0] << 2) | (buffer[1] >> 4);
 		*trgtDataStream << outChar;
@@ -632,16 +632,16 @@ UCodeTranslator::ConvertBase64ToByte(LDataStream* srcDataStream, LDataStream* tr
 	}
 	// Handle the last chunk: it can be of the form xxxx, xxx= or xx==.
 	*srcDataStream >> readChar;
-	buffer[0] = ConvertToNumber(readChar);
+	buffer[0] = Char64ToNumber(readChar);
 	*srcDataStream >> readChar;
-	buffer[1] = ConvertToNumber(readChar);
+	buffer[1] = Char64ToNumber(readChar);
 	
 	outChar = (buffer[0] << 2) | (buffer[1] >> 4);
 	*trgtDataStream << outChar;
 	
 	*srcDataStream >> readChar;
 	if (readChar != '=') {
-		buffer[2] = ConvertToNumber(readChar);
+		buffer[2] = Char64ToNumber(readChar);
 		outChar = (buffer[1] << 4) | (buffer[2] >> 2);
 		*trgtDataStream << outChar;
 	} else {
@@ -653,7 +653,7 @@ UCodeTranslator::ConvertBase64ToByte(LDataStream* srcDataStream, LDataStream* tr
 	
 	*srcDataStream >> readChar;
 	if (readChar != '=') {
-		buffer[3] = ConvertToNumber(readChar);
+		buffer[3] = Char64ToNumber(readChar);
 		outChar = (buffer[2] << 6) | buffer[3];
 		*trgtDataStream << outChar;
 	} else {
@@ -666,7 +666,7 @@ UCodeTranslator::ConvertBase64ToByte(LDataStream* srcDataStream, LDataStream* tr
 
 
 // ---------------------------------------------------------------------------
-//   ConvertBase64ToByte												[public]
+//   ConvertBase64ToByte											[public]
 // ---------------------------------------------------------------------------
 // This function supposes that the src and trgt strings are properly allocated. 
 // The size of srcString should be a multiple of 4.
@@ -680,28 +680,26 @@ UCodeTranslator::ConvertBase64ToByte(char* srcString, char* trgtString )
 
 
 // ---------------------------------------------------------------------------
-//   ConvertToNumber												[public]
+//   Char64ToNumber													[public]
 // ---------------------------------------------------------------------------
 
 int
-UCodeTranslator::ConvertToNumber(UInt8 inByte)
+UCodeTranslator::Char64ToNumber(UInt8 inByte)
 {
-	if (inByte >= 'A' && inByte <= 'Z')
+	if (inByte >= 'A' && inByte <= 'Z') {
 		return (inByte - 'A');
-
-	if (inByte >= 'a' && inByte <= 'z')
+	} else if (inByte >= 'a' && inByte <= 'z') {
 		return (inByte - 'a' + 26);
-
-	if (inByte >= '0' && inByte <= '9')
+	} else if (inByte >= '0' && inByte <= '9') {
 		return (inByte - '0' + 52);
-
-	if (inByte == '+')
+	} else if (inByte == '+') {
 		return (62);
-
-	if (inByte == '/')
+	} else if (inByte == '/') {
 		return (63);
-
-	return (-1);
+	} else {
+// 		return (-1);
+		Throw_(err_InvalidBase64Data);
+	}
 }
 
 

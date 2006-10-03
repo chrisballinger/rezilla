@@ -2,11 +2,11 @@
 // UCodeTranslator.h					
 // 
 //                       Created: 2003-05-04 16:40:47
-//             Last modification: 2006-07-13 17:22:40
+//             Last modification: 2006-10-03 11:50:11
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes 2003-2005, 2006
+// (c) Copyright: Bernard Desgraupes 2003-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -76,9 +76,9 @@ public:
 
 	static SInt32	StripPeriodical( LDataStream* srcDataStream, LDataStream* trgtDataStream, UInt16 inPeriod);
 	
-	static UInt8	ConvertHexToValue(UInt8 inHex);
+	static UInt8	HexToValue(UInt8 inHex);
 	
-	static int		ConvertToNumber(UInt8 inByte);
+	static int		Char64ToNumber(UInt8 inByte);
 
 };
 
