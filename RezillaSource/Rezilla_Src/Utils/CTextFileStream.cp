@@ -208,14 +208,11 @@ CTextFileStream::WriteCStringNoEnc(
 SInt32
 CTextFileStream::WriteOSType(OSType inType)
 {
-	char theType[4];
-	SInt32	bytesToWrite = 4;
-
+	char theType[5];
 	*(OSType*)theType = inType;
+	theType[4] = 0;
 
-	WriteBlock(theType, 4);
-
-	return bytesToWrite;
+	return (WriteCString(theType));
 }
 
 
@@ -308,9 +305,7 @@ CTextFileStream::WriteByChunks(
 CTextFileStream&
 CTextFileStream::operator << (SInt32 inNum)
 {
-	Str255	tempString;
-	::NumToString((long) inNum, tempString);
-	(*this) << tempString;
+	this->WriteSInt32(inNum);
 	return (*this);
 }
 
@@ -322,7 +317,7 @@ CTextFileStream::operator << (SInt32 inNum)
 CTextFileStream&
 CTextFileStream::operator << (SInt16 inNum)
 {
-	(*this) << (SInt32)inNum;
+	this->WriteSInt16(inNum);
 	return (*this);
 }
 
@@ -334,11 +329,7 @@ CTextFileStream::operator << (SInt16 inNum)
 CTextFileStream&
 CTextFileStream::operator << (Boolean inBool)
 {
-	if (inBool) {
-		(*this) << '1';
-	} else {
-		(*this) << '0';
-	}
+	this->WriteBoolean(inBool);
 	return (*this);
 }
 
