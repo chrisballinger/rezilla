@@ -172,8 +172,8 @@ StRezMapExporter::WriteOutXml(CRezMap* inRezMap, Boolean includeData, SInt32 dat
 		return;
 	} 
 	
-	theStream->WriteCStringNoEnc("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-	theStream->WriteCStringNoEnc("<!DOCTYPE AeteResource SYSTEM \"file://localhost/System/Library/DTDs/Rezilla.dtd\">");
+	theStream->WriteCStringNoEnc("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r");
+	theStream->WriteCStringNoEnc("<!DOCTYPE AeteResource SYSTEM \"file://localhost/System/Library/DTDs/Rezilla.dtd\">\r");
 	
 	theStream->WriteTag("Rezmap", tag_open);
 	theStream->WritePStringEnclosed(mName, "\pRezMapName");
