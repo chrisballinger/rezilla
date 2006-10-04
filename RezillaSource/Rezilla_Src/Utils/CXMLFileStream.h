@@ -38,8 +38,9 @@ public:
 							CXMLFileStream();
 
 							CXMLFileStream( const FSSpec& inFileSpec,
-										   UInt32 inEncoding = kCFStringEncodingUTF8);
-
+										   UInt32 inEncoding = kCFStringEncodingUTF8,
+										   Boolean inEncodeTags = false);
+							
 				virtual		~CXMLFileStream();
 
 	virtual SInt32	WriteTag(const char *inName, UInt32 inKind, Boolean addNewLine = true, UInt8 indent = 0);
@@ -64,6 +65,7 @@ public:
 
 protected:
 	Boolean		mEscapeEntities;
+	Boolean		mEncodeTags;
 	
 	virtual SInt32	WriteCoreString(CFStringRef	inStr);
 

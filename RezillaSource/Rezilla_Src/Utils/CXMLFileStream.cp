@@ -31,6 +31,7 @@ PP_Begin_Namespace_PowerPlant
 CXMLFileStream::CXMLFileStream()
 {
 	mEncoding = kCFStringEncodingUTF8;
+	mEncodeTags = false;
 }
 
 
@@ -40,10 +41,12 @@ CXMLFileStream::CXMLFileStream()
 
 CXMLFileStream::CXMLFileStream(
 							   const FSSpec&	inFileSpec,
-							   UInt32			inEncoding)
+							   UInt32			inEncoding,
+							   Boolean			inEncodeTags)
 
 	: CTextFileStream(inFileSpec, inEncoding)
 {
+	mEncodeTags = inEncodeTags;
 }
 
 
@@ -76,8 +79,13 @@ CXMLFileStream::WriteTag(const char *inName, UInt32 inKind, Boolean addNewLine, 
 		bytesToWrite += WriteCStringNoEnc("</");
 	}
 	
-	bytesToWrite += WriteCString(inName);
-
+	// Don't waste time encoding tags if they are known to be Ascii
+	if (mEncodeTags) {
+		bytesToWrite += WriteCString(inName);
+	} else {
+		bytesToWrite += WriteCStringNoEnc(inName);
+	}
+	
 	if (inKind != tag_empty) {
 		bytesToWrite += WriteCStringNoEnc(">");
 	} else {
@@ -111,45 +119,53 @@ CXMLFileStream::WriteTag(ConstStringPtr inName, UInt32 inKind, Boolean addNewLin
 // ---------------------------------------------------------------------------
 // Write a CFString to a file stream as a text string in mEncoding with
 // standard XML entities. Return the number of bytes written.
+// 
+// Note: 
+// CFXMLCreateStringByEscapingEntities is a PITA. It stops converting
+// the string at the last found entity and does not return the remaining
+// characters. In particular, if the original string did not contain any
+// entities, CFXMLCreateStringByEscapingEntities returns an empty string!
+// <shame>The trick here is to add a > char at the end of the string and
+// strip it once the string is converted</shame>.
 
 SInt32
 CXMLFileStream::WriteCoreString(CFStringRef	inStr)
 {
 	SInt32		bytesToWrite = 0;
 	UInt8 *		buffer;
-	CFIndex 	numChars, usedBufLen = 0;
-	CFStringRef	escStr, outStr;
-	CFIndex		theLen;
-	
+	CFIndex 	theLen, numChars, usedBufLen = 0;
+	CFStringRef	escStr;
+	CFMutableStringRef	tmpStr;	
+
 	if (inStr) {
-		escStr = ::CFXMLCreateStringByEscapingEntities( kCFAllocatorDefault, inStr, (CFDictionaryRef)NULL );
+		tmpStr = ::CFStringCreateMutableCopy(kCFAllocatorDefault, 0, inStr);
 
-		if (escStr) {
-			// Note: if the original string did not contain any entities,
-			// CFXMLCreateStringByEscapingEntities returns an empty string
-			theLen = ::CFStringGetLength(escStr);
-			if (theLen == 0) {
-				outStr = inStr;
-			} else {
-				outStr = escStr;
-			}
-			theLen = ::CFStringGetLength(outStr);
-
-			// Call CFStringGetBytes with NULL buffer to get the size of the buffer
-			numChars = ::CFStringGetBytes(outStr, CFRangeMake(0, theLen),
-							 mEncoding, '?', false, NULL, 0, &usedBufLen);
+		if (tmpStr) {	
+			::CFStringAppendCString(tmpStr, ">", 0);
 		
-			buffer = (UInt8*) malloc(usedBufLen);
+			escStr = ::CFXMLCreateStringByEscapingEntities( kCFAllocatorDefault, tmpStr, (CFDictionaryRef)NULL );
+			::CFRelease(tmpStr);
+
+			if (escStr) {
+				theLen = ::CFStringGetLength(escStr);
+
+				// Call CFStringGetBytes with NULL buffer to get the size of the buffer
+				numChars = ::CFStringGetBytes(escStr, CFRangeMake(0, theLen),
+								 mEncoding, '?', false, NULL, 0, &usedBufLen);
 			
-			if (buffer) {
-				numChars = ::CFStringGetBytes(outStr, CFRangeMake(0, theLen),
-								 mEncoding, '?', false, buffer, usedBufLen, &usedBufLen);
+				buffer = (UInt8*) malloc(usedBufLen);
 				
-				bytesToWrite += usedBufLen;
-				WriteBlock(buffer, usedBufLen);
-				free(buffer);
+				if (buffer) {
+					// Trim the last four chars corresponding to the appended > char (converted to &gt;)
+					numChars = ::CFStringGetBytes(escStr, CFRangeMake(0, theLen),
+									 mEncoding, '?', false, buffer, usedBufLen - 4, &usedBufLen);
+					
+					bytesToWrite += usedBufLen;
+					WriteBlock(buffer, usedBufLen);
+					free(buffer);
+				} 
+				::CFRelease(escStr);
 			} 
-			::CFRelease(escStr);
 		} 
 	} 
 	
