@@ -173,9 +173,9 @@ StRezMapExporter::WriteOutXml(CRezMap* inRezMap, Boolean includeData, SInt32 dat
 	} 
 	
 	theStream->WriteCStringNoEnc("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r");
-	theStream->WriteCStringNoEnc("<!DOCTYPE AeteResource SYSTEM \"file://localhost/System/Library/DTDs/Rezilla.dtd\">\r");
+	theStream->WriteCStringNoEnc("<!DOCTYPE RezMap SYSTEM \"file://localhost/System/Library/DTDs/Rezilla.dtd\">\r");
 	
-	theStream->WriteTag("Rezmap", tag_open);
+	theStream->WriteTag("RezMap", tag_open);
 	theStream->WritePStringEnclosed(mName, "\pRezMapName");
 	inRezMap->GetMapAttributes(theAttrs);	
 	theStream->WriteSInt16Enclosed(theAttrs, "RezMapFlags");
@@ -234,14 +234,14 @@ StRezMapExporter::WriteOutXml(CRezMap* inRezMap, Boolean includeData, SInt32 dat
 					}
 				}
 				*theStream << "\r";
-				theStream->WriteTag("ResourceData", tag_close, false, 4);
-			} 
+				theStream->WriteTag("ResourceData", tag_close, true, 4);
+			} else {
+				theStream->WriteTag("ResourceData", tag_empty, true, 4);
+			}
 				
-			*theStream << "\r";
 			theStream->WriteTag("Resource", tag_close, true, 3);
 			delete theRezObj;
 		}
-		*theStream << "\r";
 		theStream->WriteTag("ResourcesArray", tag_close, true, 2);
 		theStream->WriteTag("Type", tag_close, true, 1);
 
@@ -250,7 +250,6 @@ StRezMapExporter::WriteOutXml(CRezMap* inRezMap, Boolean includeData, SInt32 dat
 		delete theRezType;
 	}
 	
-	*theStream << "\r";
 	theStream->WriteTag("TypesArray", tag_close);
 	theStream->WriteTag("Rezmap", tag_close);
 }
