@@ -160,6 +160,7 @@ public:
 	static Boolean					sCalledFromAE;
 	static short					sSelfRefNum;
 	static CRezMap *				sSelfRezMap;
+	static SInt32					sOsVersion;
 
 protected:
 	SInt16				mCreatingFork;

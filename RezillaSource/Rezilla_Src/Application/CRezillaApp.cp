@@ -157,6 +157,7 @@ Boolean					CRezillaApp::sReadOnlyNavFlag = false;
 Boolean					CRezillaApp::sCalledFromAE = false;
 CRezMap *				CRezillaApp::sSelfRezMap = nil;
 SInt16					CRezillaApp::sSelfRefNum;
+SInt32					CRezillaApp::sOsVersion;
 
 
 // ===========================================================================
@@ -241,9 +242,9 @@ CRezillaApp::Initialize()
 	// This must be done early but is used only by the 'utxt' editor
 	InitMLTE();
 	
-	SInt32 theOsVersion = UEnvironment::GetOSVersion();
+	sOsVersion = UEnvironment::GetOSVersion();
 	// Check that we are running on OSX 10.3 or greater
-	if ( theOsVersion < 0x01030) {
+	if ( sOsVersion < 0x01030) {
 		UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("RequireSystemTenThree"), PPob_SimpleMessage);
 		SendAEQuit();
 	}
