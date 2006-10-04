@@ -459,6 +459,7 @@ UMiscUtils::GetBooleanFromXml(CFXMLTreeRef inTreeRef)
 // ---------------------------------------------------------------------------
 // 	GetStringFromXml
 // ---------------------------------------------------------------------------
+// FStringRef CFXMLCreateStringByUnescapingEntities(CFAllocatorRef allocator, CFStringRef string, CFDictionaryRef entitiesDictionary)
 
 void
 UMiscUtils::GetStringFromXml(CFXMLTreeRef inTreeRef, Str255 & outString)
@@ -475,7 +476,15 @@ UMiscUtils::GetStringFromXml(CFXMLTreeRef inTreeRef, Str255 & outString)
 		if (valueNode) {
 			nodeString = ::CFXMLNodeGetString(valueNode);
 			if (nodeString) {
-				::CFStringGetPascalString(nodeString, outString, sizeof(outString), NULL);
+				CFStringRef		unString;
+	
+				unString = ::CFXMLCreateStringByUnescapingEntities(kCFAllocatorDefault, nodeString, (CFDictionaryRef)NULL );
+				::CFRelease(nodeString);
+
+				if (unString) {
+					::CFStringGetPascalString(unString, outString, sizeof(outString), kCFStringEncodingMacRoman);
+					::CFRelease(unString);
+				} 
 			}
 		} 
 	} 
