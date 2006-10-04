@@ -74,6 +74,7 @@ private:
 							CXMLFileStream( const CXMLFileStream& );
 	CXMLFileStream&			operator = ( const CXMLFileStream& );
 	
+	SInt32			WriteEscapedString(CFStringRef inEscStr, UInt8 trim);
 	
 };
 

@@ -19,6 +19,7 @@
 #endif
 
 #include "CXMLFileStream.h"
+#include "CRezillaApp.h"
 
 PP_Begin_Namespace_PowerPlant
 
@@ -121,52 +122,84 @@ CXMLFileStream::WriteTag(ConstStringPtr inName, UInt32 inKind, Boolean addNewLin
 // standard XML entities. Return the number of bytes written.
 // 
 // Note: 
-// CFXMLCreateStringByEscapingEntities is a PITA. It stops converting
-// the string at the last found entity and does not return the remaining
-// characters. In particular, if the original string did not contain any
-// entities, CFXMLCreateStringByEscapingEntities returns an empty string!
-// <shame>The trick here is to add a > char at the end of the string and
-// strip it once the string is converted</shame>.
+// on Panther, CFXMLCreateStringByEscapingEntities is buggy. It stops
+// converting the string at the last found entity and does not return the
+// remaining characters. In particular, if the original string did not
+// contain any entities, CFXMLCreateStringByEscapingEntities returns an
+// empty string! <shame>The trick here is to add a > char at the end of the
+// string and strip it once the string is converted</shame>.
+
+// #ifdef MAC_OS_X_VERSION_10_4 
+// if (CRezillaApp::sOsVersion > 0x01030) {
+// 	
+// } 
 
 SInt32
 CXMLFileStream::WriteCoreString(CFStringRef	inStr)
 {
 	SInt32		bytesToWrite = 0;
-	UInt8 *		buffer;
-	CFIndex 	theLen, numChars, usedBufLen = 0;
 	CFStringRef	escStr;
-	CFMutableStringRef	tmpStr;	
-
-	if (inStr) {
-		tmpStr = ::CFStringCreateMutableCopy(kCFAllocatorDefault, 0, inStr);
-
-		if (tmpStr) {	
-			::CFStringAppendCString(tmpStr, ">", 0);
-		
-			escStr = ::CFXMLCreateStringByEscapingEntities( kCFAllocatorDefault, tmpStr, (CFDictionaryRef)NULL );
-			::CFRelease(tmpStr);
-
-			if (escStr) {
-				theLen = ::CFStringGetLength(escStr);
-
-				// Call CFStringGetBytes with NULL buffer to get the size of the buffer
-				numChars = ::CFStringGetBytes(escStr, CFRangeMake(0, theLen),
-								 mEncoding, '?', false, NULL, 0, &usedBufLen);
+	
+	if (inStr) {			
+		if (CRezillaApp::sOsVersion >= 0x01040) {
+			// Tiger ar greater
+			escStr = ::CFXMLCreateStringByEscapingEntities( kCFAllocatorDefault, inStr, (CFDictionaryRef)NULL );
 			
-				buffer = (UInt8*) malloc(usedBufLen);
-				
-				if (buffer) {
-					// Trim the last four chars corresponding to the appended > char (converted to &gt;)
-					numChars = ::CFStringGetBytes(escStr, CFRangeMake(0, theLen),
-									 mEncoding, '?', false, buffer, usedBufLen - 4, &usedBufLen);
-					
-					bytesToWrite += usedBufLen;
-					WriteBlock(buffer, usedBufLen);
-					free(buffer);
-				} 
+			if (escStr) {
+				bytesToWrite = WriteEscapedString(escStr, 0);
 				::CFRelease(escStr);
 			} 
-		} 
+		} else {
+			// Panther
+			CFMutableStringRef tmpStr = ::CFStringCreateMutableCopy(kCFAllocatorDefault, 0, inStr);
+
+			if (tmpStr) {
+				::CFStringAppendCString(tmpStr, ">", 0);
+			
+				escStr = ::CFXMLCreateStringByEscapingEntities( kCFAllocatorDefault, tmpStr, (CFDictionaryRef)NULL );
+				::CFRelease(tmpStr);
+
+				if (escStr) {
+					// Trim the last four chars corresponding to the
+					// appended > char (converted to &gt;)
+					bytesToWrite = WriteEscapedString(escStr, 4);
+					::CFRelease(escStr);
+				} 
+			} 
+		}
+	} 
+	
+	return bytesToWrite;
+}
+
+
+// ---------------------------------------------------------------------------
+//   WriteEscapedString
+// ---------------------------------------------------------------------------
+
+SInt32
+CXMLFileStream::WriteEscapedString(CFStringRef inEscStr, UInt8 trim)
+{
+	SInt32		bytesToWrite = 0;
+	UInt8 *		buffer;
+	CFIndex 	theLen, numChars, usedBufLen = 0;
+
+	theLen = ::CFStringGetLength(inEscStr);
+
+	// Call CFStringGetBytes with NULL buffer to get the size of the buffer
+	numChars = ::CFStringGetBytes(inEscStr, CFRangeMake(0, theLen),
+					 mEncoding, '?', false, NULL, 0, &usedBufLen);
+
+	buffer = (UInt8*) malloc(usedBufLen);
+	
+	if (buffer) {
+		// Trim the last four chars corresponding to the appended > char (converted to &gt;)
+		numChars = ::CFStringGetBytes(inEscStr, CFRangeMake(0, theLen),
+						 mEncoding, '?', false, buffer, usedBufLen - trim, &usedBufLen);
+		
+		bytesToWrite += usedBufLen;
+		WriteBlock(buffer, usedBufLen);
+		free(buffer);
 	} 
 	
 	return bytesToWrite;
