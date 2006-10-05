@@ -251,7 +251,7 @@ StRezMapExporter::WriteOutXml(CRezMap* inRezMap, Boolean includeData, SInt32 dat
 	}
 	
 	theStream->WriteTag("TypesArray", tag_close);
-	theStream->WriteTag("Rezmap", tag_close);
+	theStream->WriteTag("RezMap", tag_close);
 }
 
 
@@ -440,27 +440,21 @@ StRezMapImporter::ReadXml()
 	CFURLRef		theUrl;
 	FSRef   	 	theFSRef;
 	CFXMLTreeRef    cfXMLTree;
-	CFDataRef       xmlData;
 	
 	error = FSpMakeFSRef( &mFileSpec, &theFSRef );
-	theUrl = CFURLCreateFromFSRef(kCFAllocatorDefault, &theFSRef);
+	theUrl = ::CFURLCreateFromFSRef(kCFAllocatorDefault, &theFSRef);
 	
 	// Load the XML data
 	if (theUrl) {
-		CFURLCreateDataAndPropertiesFromResource(kCFAllocatorDefault, theUrl, 
-												 &xmlData, NULL, NULL, NULL);
-		// Parse the XML and get the CFXMLTree
-		if (xmlData) {
-			cfXMLTree = CFXMLTreeCreateFromData(kCFAllocatorDefault, xmlData, theUrl, 
-												kCFXMLParserSkipWhitespace, kCFXMLNodeCurrentVersion);
-
-			if (cfXMLTree != NULL) {
-				error = ParseTree(cfXMLTree);
-			} else {
-				error = err_ImportCantBuildTree;
-			}
+		// kCFXMLParserSkipWhitespace is very important here otherwise
+		// Rezilla will complain about unknown tags (in the aete objects)
+		cfXMLTree = ::CFXMLTreeCreateWithDataFromURL(kCFAllocatorDefault, theUrl, 
+												   kCFXMLParserSkipWhitespace, kCFXMLNodeCurrentVersion);
+		
+		if (cfXMLTree != NULL) {
+			error = ParseTree(cfXMLTree);
 		} else {
-			error = err_ImportCantGetXmlData;
+			error = err_ImportCantBuildTree;
 		}
 	} 
 	
