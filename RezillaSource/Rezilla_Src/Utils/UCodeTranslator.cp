@@ -2,7 +2,7 @@
 // UCodeTranslator.cp					
 // 
 //                       Created: 2003-05-04 16:40:47
-//             Last modification: 2006-10-03 12:00:47
+//             Last modification: 2006-10-05 18:11:35
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -609,7 +609,7 @@ UCodeTranslator::ConvertBase64ToByte(LDataStream* srcDataStream, LDataStream* tr
 	UInt8 * buffer = new UInt8[4];
 	SInt32 length = srcDataStream->GetLength();
 	SInt32 quadrupleCount = length / 4;
-	UInt8 readChar, outChar;
+	UInt8 readChar, outChar, numEquals = 0;
 	SInt32 trgtLen;
 	
 	// Handle chunks of 4 chars up to the next to last.
@@ -647,23 +647,23 @@ UCodeTranslator::ConvertBase64ToByte(LDataStream* srcDataStream, LDataStream* tr
 		outChar = (buffer[1] << 4) | (buffer[2] >> 2);
 		*trgtDataStream << outChar;
 	} else {
-		// Adjust the length of the target stream
-		trgtLen = (*trgtDataStream).GetLength();
-		(*trgtDataStream).SetLength(trgtLen - 2);
-		return;
+		numEquals++;
 	}
 	
 	*srcDataStream >> readChar;
-	if (readChar != '=') {
+	if (readChar != '=' && numEquals == 0) {
+		// If the previous readChar was a "=", then the next one _must_ be
+		// a "=" too. If it is not, this is a mistake: repair by
+		// considering it is anyway
 		buffer[3] = Char64ToNumber(readChar);
 		outChar = (buffer[2] << 6) | buffer[3];
 		*trgtDataStream << outChar;
 	} else {
-		// Adjust the length of the target stream
-		trgtLen = (*trgtDataStream).GetLength();
-		(*trgtDataStream).SetLength(trgtLen - 1);
-		return;
+		numEquals++;
 	}
+	// Adjust the length of the target stream
+	trgtLen = (*trgtDataStream).GetLength();
+	(*trgtDataStream).SetLength(trgtLen - numEquals);
 }
 
 
@@ -1117,6 +1117,10 @@ StBase64ToByteTranslator::Convert()
 	LDataStream outStream(*mOutHandle, mOutSize);
 	
 	UCodeTranslator::ConvertBase64ToByte(&inStream, &outStream);
+	// Resize the outHandle if necessary
+	if (outStream.GetLength() < mOutSize) {
+		::SetHandleSize(mOutHandle, outStream.GetLength());
+	} 
 }
 
 
