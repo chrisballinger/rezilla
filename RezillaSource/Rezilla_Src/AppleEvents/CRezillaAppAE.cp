@@ -120,7 +120,7 @@ CRezillaApp::HandleOpenDocsEvent(
 	} 
 							  
 	// Extract optional "from" parameter.
-	ignoreErr = ::AEGetParamPtr(&inAppleEvent, kAERzilFromFork, typeEnumerated,
+	ignoreErr = ::AEGetParamPtr(&inAppleEvent, kAERzilFrom, typeEnumerated,
 							  &returnedType, &theKind, sizeof(ResType), &theSize);
 	if (ignoreErr == noErr) {
 		if (theKind == rzom_eDataFork) {
