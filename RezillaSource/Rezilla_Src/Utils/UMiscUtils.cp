@@ -1,7 +1,7 @@
 // ===========================================================================
-// UMiscUtils.cp					
+// UMiscUtils.cp
 //                       Created: 2003-05-13 20:06:23
-//             Last modification: 2006-10-03 11:03:22
+//             Last modification: 2006-10-05 18:16:07
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -52,12 +52,17 @@ UMiscUtils::PStringToOSType(Str255 inString, OSType & outType)
 		inString[0] = 4;
 	} 
 	CopyPascalStringToC(inString, theStr);
-	for (SInt8 i = 4; i >= len; i--) {
-		// ZP bugfix #6: if the string is three chars or less, it
-		// should be padded with spaces and not zeroes
-		theStr[i] = ' ';
-		// end of ZP bugfix 6
-	}
+	// (bd 2006-10-05) Padding should occur only if non-zero length in
+	// order to preserve the convention that an empty string means a null
+	// type. This is important in the Aete editor for instance.
+	if (len > 0) {
+		for (SInt8 i = 4; i >= len; i--) {
+			// ZP bugfix #6: if the string is three chars or less, it
+			// should be padded with spaces and not zeroes
+			theStr[i] = ' ';
+			// end of ZP bugfix 6
+		}
+	} 
 	outType = *(OSType*) theStr;
 }
 
@@ -459,34 +464,57 @@ UMiscUtils::GetBooleanFromXml(CFXMLTreeRef inTreeRef)
 // ---------------------------------------------------------------------------
 // 	GetStringFromXml
 // ---------------------------------------------------------------------------
-// FStringRef CFXMLCreateStringByUnescapingEntities(CFAllocatorRef allocator, CFStringRef string, CFDictionaryRef entitiesDictionary)
+// The XML parser splits strings at every entity. CFShow shows that the
+// entity nodes receive an ID 10 (kCFXMLNodeTypeEntityReference). So we
+// substitute entities manually here. Of course, this should be the job of
+// the parser but kCFXMLParserReplacePhysicalEntities is not implemented
+// yet (neither in Panther, nor in Tiger).
 
 void
 UMiscUtils::GetStringFromXml(CFXMLTreeRef inTreeRef, Str255 & outString)
 {
-	CFXMLTreeRef    valueTree;
-	CFXMLNodeRef    valueNode;
-	CFStringRef		nodeString;
+	CFXMLTreeRef		valueTree;
+	CFXMLNodeRef		valueNode;
+	CFStringRef			nodeString;
+	CFXMLNodeTypeCode	theCode;
+	CFIndex				theCount, theIndex;
+	CFMutableStringRef	currStr;
 
 	outString[0] = 0;
-	
-	valueTree = ::CFTreeGetFirstChild(inTreeRef);
-	if (valueTree) {
-		valueNode = ::CFXMLTreeGetNode(valueTree);
-		if (valueNode) {
-			nodeString = ::CFXMLNodeGetString(valueNode);
-			if (nodeString) {
-				CFStringRef		unString;
-	
-				unString = ::CFXMLCreateStringByUnescapingEntities(kCFAllocatorDefault, nodeString, (CFDictionaryRef)NULL );
-				::CFRelease(nodeString);
+	currStr = CFStringCreateMutable(kCFAllocatorDefault, 0);
 
-				if (unString) {
-					::CFStringGetPascalString(unString, outString, sizeof(outString), kCFStringEncodingMacRoman);
-					::CFRelease(unString);
-				} 
+	if (currStr) {
+		theCount = CFTreeGetChildCount(inTreeRef);
+		for (theIndex = 0; theIndex < theCount; theIndex++) {
+			valueTree = ::CFTreeGetChildAtIndex(inTreeRef, theIndex);
+			if (valueTree) {
+				valueNode = ::CFXMLTreeGetNode(valueTree);
+				if (valueNode) {
+					nodeString = ::CFXMLNodeGetString(valueNode);
+					if (nodeString) {
+						theCode = ::CFXMLNodeGetTypeCode(valueNode);
+						if (theCode == kCFXMLNodeTypeText) {
+							::CFStringAppend(currStr, nodeString);
+						} else if (theCode == kCFXMLNodeTypeEntityReference) {
+							if ( ! CFStringCompare( nodeString, CFSTR("amp"), 0) ) {
+								::CFStringAppendCString(currStr, "&", kCFStringEncodingUTF8);
+							} else if ( ! CFStringCompare( nodeString, CFSTR("apos"), 0) ) {
+								::CFStringAppendCString(currStr, "'", kCFStringEncodingUTF8);
+							} else if ( ! CFStringCompare( nodeString, CFSTR("gt"), 0) ) {
+								::CFStringAppendCString(currStr, ">", kCFStringEncodingUTF8);
+							} else if ( ! CFStringCompare( nodeString, CFSTR("lt"), 0) ) {
+								::CFStringAppendCString(currStr, "<", kCFStringEncodingUTF8);
+							} else if ( ! CFStringCompare( nodeString, CFSTR("quot"), 0) ) {
+								::CFStringAppendCString(currStr, "\"", kCFStringEncodingUTF8);
+							} 
+						} 
+					}
+				}
 			}
-		} 
+		}
+		
+		::CFStringGetPascalString(currStr, outString, sizeof(Str255), kCFStringEncodingMacRoman);
+		::CFRelease(currStr);
 	} 
 }
 
@@ -608,6 +636,7 @@ UMiscUtils::GetBinaryFromXml(CFXMLTreeRef inTreeRef, Handle * outHandPtr)
 	CFXMLNodeRef    valueNode;
 	CFStringRef		nodeString;
 	Handle			inHandle = NULL, outHandle = NULL;
+	CFIndex			usedBufLen;
 	
 	valueTree = ::CFTreeGetFirstChild(inTreeRef);
 	if (valueTree) {
@@ -617,30 +646,31 @@ UMiscUtils::GetBinaryFromXml(CFXMLTreeRef inTreeRef, Handle * outHandPtr)
 			if (nodeString) {
 				// Extract the Base64 string
 				CFIndex	theLen = ::CFStringGetLength(nodeString);
-				
 				inHandle = ::NewHandle(theLen);
-				if (inHandle != NULL) {
-					if (::CFStringGetCString(nodeString, *inHandle, theLen, kCFStringEncodingMacRoman)) {
-						// Strip the space characters
-						StStripWhitespaceTranslator stripper(inHandle);
-						stripper.FilterOutWhitespace();
 
-						// Convert the Base64 data to bytes
-						StBase64ToByteTranslator translator(stripper.GetOutHandle());
-						try {
-							translator.Convert();
-						}
-						catch (...) {
-							error = err_InvalidBase64Data;
-							goto done;
-						}
-						
-						outHandle = translator.GetOutHandle();
-						// Get a copy of the handle because the translator
-						// is a stack-based class and will be deleted when
-						// exiting this function
-						HandToHand(&outHandle);
-					} 
+				if (inHandle != NULL) {
+					::CFStringGetBytes(nodeString, CFRangeMake(0, theLen), kCFStringEncodingMacRoman, '?', 
+											 false, (UInt8*)*inHandle, theLen, &usedBufLen);
+					
+					// Strip the space characters
+					StStripWhitespaceTranslator stripper(inHandle);
+					stripper.FilterOutWhitespace();
+					
+					// Convert the Base64 data to bytes
+					StBase64ToByteTranslator translator(stripper.GetOutHandle());
+					try {
+						translator.Convert();
+					}
+					catch (...) {
+						error = err_InvalidBase64Data;
+						goto done;
+					}
+				
+					outHandle = translator.GetOutHandle();
+					// Get a copy of the handle because the translator is a
+					// stack-based class and the handle will be deleted
+					// when exiting this function
+					HandToHand(&outHandle);
 				} 
 			}
 		} 

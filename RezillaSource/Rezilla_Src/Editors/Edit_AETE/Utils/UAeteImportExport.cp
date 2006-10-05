@@ -2,7 +2,7 @@
 // UAeteImportExport.cp					
 // 
 //                       Created : 2004-06-10 11:41:29
-//             Last modification : 2006-10-03 18:30:28
+//             Last modification : 2006-10-05 09:39:44
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@users.sourceforge.net>
 // www : <http://rezilla.sourceforge.net/>
@@ -2214,7 +2214,7 @@ StAeteImporter::~StAeteImporter()
 
 
 // ---------------------------------------------------------------------------------
-//  ReadXml															 [public]
+//  ReadXml																	 [public]
 // ---------------------------------------------------------------------------------
 
 OSErr
@@ -2224,28 +2224,23 @@ StAeteImporter::ReadXml()
 	CFURLRef		theUrl;
 	FSRef   	 	theFSRef;
 	CFXMLTreeRef    cfXMLTree;
-	CFDataRef       xmlData;
 	
 	error = FSpMakeFSRef( &mFileSpec, &theFSRef );
 	theUrl = CFURLCreateFromFSRef(kCFAllocatorDefault, &theFSRef);
 	
 	// Load the XML data using its URL.
 	if (theUrl) {
-		CFURLCreateDataAndPropertiesFromResource(kCFAllocatorDefault, theUrl, 
-												 &xmlData, NULL, NULL, NULL);
-		// Parse the XML and get the CFXMLTree. 
-		if (xmlData) {
-			cfXMLTree = CFXMLTreeCreateFromData(kCFAllocatorDefault, xmlData, theUrl, 
-												kCFXMLParserSkipWhitespace, kCFXMLNodeCurrentVersion);
-
-			if (cfXMLTree != NULL) {
-				error = ParseTree(cfXMLTree);
-			} else {
-				error = err_ImportCantBuildTree;
-			}
+		// kCFXMLParserSkipWhitespace is very important here otherwise
+		// Rezilla will complain about unknown tags (in the aete objects)
+		cfXMLTree = CFXMLTreeCreateWithDataFromURL(kCFAllocatorDefault, theUrl, 
+												   kCFXMLParserSkipWhitespace, kCFXMLNodeCurrentVersion);
+		
+		if (cfXMLTree != NULL) {
+			error = ParseTree(cfXMLTree);
 		} else {
-			error = err_ImportCantGetXmlData;
+			error = err_ImportCantBuildTree;
 		}
+		CFRelease(theUrl);
 	} 
 	
 	return error;
