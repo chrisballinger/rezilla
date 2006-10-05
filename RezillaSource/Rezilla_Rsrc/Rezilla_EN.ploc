@@ -1,4 +1,4 @@
-// Last modification: 2006-10-03 11:07:23
+// Last modification: 2006-10-05 10:19:32
 
 localize "English" as "Localizable.strings" 
 {
@@ -26,6 +26,7 @@ localize "English" as "Localizable.strings"
 	key "DataParsingException" value string "Error while parsing the data. The resource may be corrupted."
 	key "EnterFontSize" value string "Enter font size"
 	key "ErrorImportingAeteFromXml" value string "An error ‘%d’ occured while importing aete date from Xml."
+	key "ErrorImportingRezMapFromXml" value string "An error occured while attempting to import the data from XML."
 	key "ErrorInitializingBitmapEditor" value string "An error occured during the initialization of the bitmap editor. Use the hexadecimal editor instead."
 	key "ErrorInitializingPictureViewer" value string "An error occured during the initialization of the picture viewer."
 	key "ErrorParsingWithTemplate" value string "An error ‘%d’ occured while parsing the resource with the template. Use the hexadecimal editor instead."
@@ -45,6 +46,7 @@ localize "English" as "Localizable.strings"
 	key "HexStringWrongSize" value string "Hex string must be ‘%c’ bytes long."
 	key "HowManyItems" value string "How many items"
 	key "ImportError" value string "An error occured while attempting to import the data."
+	key "ImportOnlyInEmptyMap" value string "A map can only be imported in an empty document. Create a new document and try again."
 	key "InvalidHexDataInScrap" value string "Can’t paste: scrap does not contain valid hexadecimal data."
 	key "InvalidHexDataInString" value string "This string does not contain valid hexadecimal data."
 	key "MapsNotSelected" value string "Both resource maps must be selected."

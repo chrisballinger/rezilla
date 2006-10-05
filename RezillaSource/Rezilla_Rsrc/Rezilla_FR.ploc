@@ -1,4 +1,4 @@
-// Last modification: 2006-10-03 11:07:11
+// Last modification: 2006-10-05 10:21:03
 
 localize "French" as "Localizable.strings" 
 {
@@ -26,6 +26,7 @@ localize "French" as "Localizable.strings"
 	key "DataParsingException" value string "Une erreur s’est produite au cours de l’analyse des données. Cette ressource est peut-être corrompue."
 	key "EnterFontSize" value string "Taille de la police"
 	key "ErrorImportingAeteFromXml" value string "Une erreur ‘%d’ s’est produite au cours de l’importation de la ressource ‘aete’ à partir du fichier Xml."
+	key "ErrorImportingRezMapFromXml" value string "Une erreur s’est produite en tentant d’importer les données XML."
 	key "ErrorInitializingBitmapEditor" value string "Une erreur s’est produite au cours de l’initialisation de l’éditeur d’icones. Utiliser l’éditeur hexadécimal à la place."
 	key "ErrorInitializingPictureViewer" value string "Une erreur s’est produite au cours de l’initialisation de l’image."
 	key "ErrorParsingWithTemplate" value string "Une erreur ‘%d’ s’est produite au cours de l’analyse de la ressource avec le gabarit. Utiliser l’éditeur hexadécimal à la place."
@@ -45,6 +46,7 @@ localize "French" as "Localizable.strings"
 	key "HexStringWrongSize" value string "Une chaîne hexadécimale n’est pas valide (devrait comporter ‘%c’ octets)."
 	key "HowManyItems" value string "Nombre d’éléments"
 	key "ImportError" value string "Une erreur s’est produite lors de l’import des données."
+	key "ImportOnlyInEmptyMap" value string "Une table de ressources ne peut être importée que dans un document vide. Créer un nouveau document et réessayer."
 	key "InvalidHexDataInScrap" value string "Impossible de coller les données du presse-papier dans ce cadre: valeurs hexadécimales non valides."
 	key "InvalidHexDataInString" value string "Chaîne hexadécimale non valide."
 	key "MapsNotSelected" value string "Les deux branches de ressources doivent être sélectionnées."
