@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2006-09-26 07:49:50
+//             Last modification: 2006-10-05 09:46:55
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -293,7 +293,6 @@ CRezillaApp::Initialize()
 	mCreatingFork = sPrefs->GetPrefValue(kPref_general_newFork);
 	
 }
-
 
 
 // ---------------------------------------------------------------------------
@@ -717,30 +716,24 @@ CRezillaApp::InstallWindowMenu()
 OSStatus
 CRezillaApp::RegisterHelpBook()
 {
-  CFBundleRef 	myAppsBundle;
-  CFURLRef 		myBundleURL;
-  FSRef 		myBundleRef;
+  CFBundleRef 	theAppBundle = NULL;
+  CFURLRef 		theBundleURL = NULL;
+  FSRef 		theBundleRef;
   OSStatus  	err = noErr;
   
-  myAppsBundle = NULL;
-  myBundleURL  = NULL;
-
-  myAppsBundle = CFBundleGetMainBundle();
-  if (myAppsBundle == NULL) {err = fnfErr; goto bail;}
+  theAppBundle = CFBundleGetMainBundle();
+  if (theAppBundle == NULL) {err = fnfErr; goto bail;}
   
-  myBundleURL = CFBundleCopyBundleURL(myAppsBundle);
-  if (myBundleURL == NULL) {err = fnfErr; goto bail;}
+  theBundleURL = CFBundleCopyBundleURL(theAppBundle);
+  if (theBundleURL == NULL) {err = fnfErr; goto bail;}
   
-  if (! CFURLGetFSRef(myBundleURL, &myBundleRef)) { err = fnfErr; goto bail;}
+  if (! CFURLGetFSRef(theBundleURL, &theBundleRef)) { err = fnfErr; goto bail;}
   
-  err = AHRegisterHelpBook(&myBundleRef);
+  err = AHRegisterHelpBook(&theBundleRef);
   if (err != noErr) goto bail;
   
-  CFRelease(myBundleURL);
-  return noErr;
-  
 bail:
-    if (myBundleURL != NULL) CFRelease(myBundleURL);
+    if (theBundleURL != NULL) CFRelease(theBundleURL);
     return err;
 }
 
