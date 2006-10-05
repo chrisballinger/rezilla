@@ -53,7 +53,7 @@ CAboutWindow::CAboutWindow(
 
 
 // ---------------------------------------------------------------------------
-//   CAboutWindow				[public]
+//   CAboutWindow													[public]
 // ---------------------------------------------------------------------------
 
 CAboutWindow::CAboutWindow(
@@ -64,7 +64,7 @@ CAboutWindow::CAboutWindow(
 
 
 // ---------------------------------------------------------------------------
-//     ~CAboutWindow				[public]
+//   ~CAboutWindow													[public]
 // ---------------------------------------------------------------------------
 
 CAboutWindow::~CAboutWindow()
@@ -73,7 +73,7 @@ CAboutWindow::~CAboutWindow()
 
 
 // ---------------------------------------------------------------------------
-//   FinishCreateSelf				[protected]
+//   FinishCreateSelf												[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -91,12 +91,14 @@ CAboutWindow::FinishCreateSelf()
 	for (UInt8 i = 0; i < 6; i++) {
 		theUrlCaption = dynamic_cast<CStaticTextURL *>(this->FindPaneByID( item_AboutUrlsBase + i ));
 	
-		// Retrieve strings from STR# resource
-		::GetIndString(theString, STRx_InternetUrls, 2*i+1);
-		theUrlCaption->SetDescriptor(theString);
-		
-		::GetIndString(theString, STRx_InternetUrls, 2*i+2);
-		theUrlCaption->SetUrlString(theString);
+		if (theUrlCaption != NULL) {
+			// Retrieve strings from STR# resource
+			::GetIndString(theString, STRx_InternetUrls, 2*i+1);
+			theUrlCaption->SetDescriptor(theString);
+			
+			::GetIndString(theString, STRx_InternetUrls, 2*i+2);
+			theUrlCaption->SetUrlString(theString);
+		} 
 	}
 		
 	// Let window listen to its sub panes
