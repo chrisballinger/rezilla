@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2006-09-30 11:49:38
+//             Last modification : 2006-10-05 12:16:21
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@users.sourceforge.net>
 // www : <http://rezilla.sourceforge.net/>
@@ -1193,7 +1193,7 @@ enum
 {
 	kAERzilReply	 		= FOUR_CHAR_CODE('Repl'),
 	kAERzilFilesList	 	= FOUR_CHAR_CODE('LFil'),
-	kAERzilFromFork			= FOUR_CHAR_CODE('From'),
+	kAERzilFrom				= FOUR_CHAR_CODE('From'),
 	kAERzilCreateFork		= FOUR_CHAR_CODE('Crea'),
 	kAERzilCompareWith	 	= FOUR_CHAR_CODE('AndF'),
 	kAERzilLike			 	= FOUR_CHAR_CODE('Like'),
@@ -1206,6 +1206,7 @@ const long	aeRzil_Compare			= 5001;
 const long	aeRzil_Inspect			= 5002;
 const long	aeRzil_Export			= 5003;
 const long	aeRzil_Pick				= 5004;
+const long	aeRzil_Import			= 5005;
 
 
 // Rezilla Object Model (rzom):
@@ -1413,6 +1414,7 @@ enum RezillaErrors
 	err_ImportMissingResourceType,
 	err_ImportMissingResourceID,
 	err_ImportConflictingResourceID,
+	err_ImportMapIsNotEmpty,
 	err_TmplTemplateError			= 2000,
 	err_TmplGetDataStreamFailed,
 	err_TmplUnrecognizedTag,

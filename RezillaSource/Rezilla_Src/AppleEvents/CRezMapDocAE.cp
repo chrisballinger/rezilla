@@ -256,6 +256,10 @@ CRezMapDoc::HandleAppleEvent(
 {	
 	switch (inAENumber) {
 		
+		case aeRzil_Import:
+		HandleImportEvent(inAppleEvent, outAEReply, outResult);
+		break;
+				
 		case aeRzil_Export:
 		HandleExportEvent(inAppleEvent, outAEReply, outResult);
 		break;
@@ -264,6 +268,44 @@ CRezMapDoc::HandleAppleEvent(
 		LDocument::HandleAppleEvent(inAppleEvent, outAEReply, outResult, inAENumber);
 		break;
 	}
+}
+
+
+// ---------------------------------------------------------------------------
+//   HandleImportEvent												  [public]
+// ---------------------------------------------------------------------------
+
+void
+CRezMapDoc::HandleImportEvent(
+	const AppleEvent&	inAppleEvent,
+	AppleEvent&			outAEReply,
+	AEDesc&				outResult)
+{		
+	OSErr		error = noErr;
+	DescType	returnedType;
+	Size		theSize;
+	FSSpec		fileSpec;
+
+	// Check that the rezmap doc is empty
+	short	theCount;
+	mRezMap->CountAllTypes(theCount);
+	
+	if (theCount != 0 ) {
+		error = err_ImportMapIsNotEmpty;
+	} else {
+		// Check for required 'From' parameter
+		error = ::AEGetParamPtr(&inAppleEvent, kAERzilFrom, typeFSS, &returnedType,
+						&fileSpec, sizeof(FSSpec), &theSize);
+		ThrowIfOSErr_(error);
+		
+		// Import the map
+		error = DoImport(fileSpec);
+	}
+	
+	if (error != noErr) {
+		// OSErr is SInt16
+		::AEPutParamPtr(&outAEReply, keyErrorNumber, typeSInt16, &error, sizeof(OSErr));	
+	} 
 }
 
 

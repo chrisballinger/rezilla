@@ -336,7 +336,7 @@ CRezMapDoc::ObeyCommand(
 			short	theCount;
 			mRezMap->CountAllTypes(theCount);
 			
-			if (theCount > 0 ) {
+			if (theCount == 0 ) {
 				FSSpec	theFSSpec;
 				Boolean openOK = UNavigationDialogs::AskOpenOneFile(fileType_Default, theFSSpec, 
 																	kNavAllFilesInPopup
@@ -1277,7 +1277,7 @@ CRezMapDoc::DesignateExportFile( FSSpec& outFileSpec, bool & outReplacing)
 //  DoImport
 // ---------------------------------------------------------------------------------
 
-void
+OSErr
 CRezMapDoc::DoImport(FSSpec inFileSpec)
 {
 	OSErr error = noErr;
@@ -1291,6 +1291,8 @@ CRezMapDoc::DoImport(FSSpec inFileSpec)
 	} else {
 		UMessageDialogs::DescribeError(CFSTR("ErrorImportingRezMapFromXml"), error);
 	}
+	
+	return error;
 }
 
 
@@ -1399,7 +1401,7 @@ CRezMapDoc::FindCommandStatus(
 								
 		case cmd_Import:
 		LString::CopyPStr( "\pImport Map...", outName);
-		outEnabled = false;
+		outEnabled = true;
 		break;
 		
 		case cmd_Export:

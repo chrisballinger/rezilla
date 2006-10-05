@@ -2,7 +2,7 @@
 // CRezMapDoc.h				
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2006-10-03 08:25:50
+//             Last modification: 2006-10-05 12:29:42
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -101,7 +101,7 @@ public:
 	
 	virtual void		DoRevert();
 	
-	virtual void		DoImport(FSSpec inFileSpec);
+	virtual OSErr		DoImport(FSSpec inFileSpec);
 
 	virtual void		DoExport( FSSpec &inFileSpec);
 	
@@ -132,6 +132,11 @@ public:
 								AEDesc				&outResult,
 								SInt32				inAENumber);
 									
+	void			HandleImportEvent(
+								const AppleEvent&	inAppleEvent,
+								AppleEvent&			outAEReply,
+								AEDesc&				outResult);
+
 	void			HandleExportEvent(
 								const AppleEvent&	inAppleEvent,
 								AppleEvent&			outAEReply,
