@@ -76,7 +76,7 @@ resource 'STR#' (1504, "Project URLs") {
 /* [9] */	"Subscribe to mailing list",
 /* [10] */	"http://lists.sourceforge.net/lists/listinfo/rezilla-users",
 /* [11] */	"Bernard Desgraupes",
-/* [12] */	"mailto:bdesgraupes@easyconnect.fr"
+/* [12] */	"mailto:bdesgraupes@users.sourceforge.net"
 	}
 };
 
