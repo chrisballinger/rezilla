@@ -2,7 +2,7 @@
 // CPickerStamp.h				
 // 
 //                       Created: 2006-02-24 09:49:42
-//             Last modification: 2006-09-22 10:20:43
+//             Last modification: 2006-10-08 10:29:12
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -37,7 +37,7 @@ public:
 							virtual	~CPickerStamp();
 
 	virtual void		DrawSelf();
-
+	
 	virtual void 		ClickSelf( const SMouseDownEvent & );
 
 protected:

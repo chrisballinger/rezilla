@@ -2,7 +2,7 @@
 // CPickerStamp.cp					
 // 
 //                       Created: 2006-02-24 09:49:42
-//             Last modification: 2006-09-22 09:56:31
+//             Last modification: 2006-10-08 10:29:24
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
