@@ -620,7 +620,7 @@ CRezType::HandlePickTypeEvent(
 		ThrowOSErr_(err_OpenPickerFailed);		
 	} 
 	// Return an object specifier for the new picker in the reply
-	CPickerDoc * thePicker = theDoc->GetTypePicker(mType);
+	CPickerDoc * thePicker = theDoc->GetRezPicker(mType);
 	if (thePicker) {
 		StAEDescriptor	elementDesc;
 		thePicker->MakeSpecifier(elementDesc);
