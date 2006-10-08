@@ -740,32 +740,29 @@ CIcon_EditorWindow::HandleKeyPress( const EventRecord &inKeyEvent )
 	}
 	
 	// Handle arrow keys
-	if ( !handledIt && mCurrentImage && !mCurrentSelection->IsEmpty() )
+	if ( !handledIt && mCurrentImage && mCurrentSelection && !mCurrentSelection->IsEmpty() ) {
 		switch( theChar )
 		{
 			case char_LeftArrow:
 				this->NudgeSelection( -1, 0 );
-				handledIt = true;
 				break;
 			case char_RightArrow:
 				this->NudgeSelection( 1, 0 );
-				handledIt = true;
 				break;
 			case char_UpArrow:
 				this->NudgeSelection( 0, -1 );
-				handledIt = true;
 				break;
 			case char_DownArrow:
 				this->NudgeSelection( 0, 1 );
-				handledIt = true;
 				break;
 				
 			case char_Clear:
 			case char_Backspace:
 				this->ObeyCommand( cmd_Clear, nil );
-				handledIt = true;
 				break;
 		}
+		handledIt = true;
+	}
 		
 	// Pass to parent if we didn't handle the key
 	if ( !handledIt )
