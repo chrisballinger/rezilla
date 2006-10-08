@@ -2,11 +2,11 @@
 // CInspectorWindowAE.cp
 // 
 //                       Created: 2005-04-26 09:48:48
-//             Last modification: 2005-06-16 09:07:02
+//             Last modification: 2006-10-08 09:00:28
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2005
+// (c) Copyright : Bernard Desgraupes, 2005-2006
 // All rights reserved.
 // ===========================================================================
 //  AppleEvent Object Model Support. These methods are part of the CInspectorWindow 
@@ -16,6 +16,7 @@
 #include "CRezillaApp.h"
 #include "CRezObj.h"
 #include "CRezObjItem.h"
+#include "CRezMapTable.h"
 #include "RezillaConstants.h"
 
 #include <LCommander.h>
@@ -259,10 +260,13 @@ CInspectorWindow::GetModelProperty(DescType inProperty) const
 	switch (inProperty) {
 
 		case rzom_pCurrResource:
-		if (mRezObjItem != nil) {
-			CRezObj * rezObj = mRezObjItem->GetRezObj();
-			if (rezObj != nil) {
-				theModelObject = dynamic_cast<LModelObject *>(rezObj);
+		if (mOwnerTable) {
+			CRezObjItem * theRezObjItem = mOwnerTable->GetRezObjItem( mSavedInfo.type, mSavedInfo.id, true);
+			if (theRezObjItem != nil) {
+				CRezObj * rezObj = theRezObjItem->GetRezObj();
+				if (rezObj != nil) {
+					theModelObject = dynamic_cast<LModelObject *>(rezObj);
+				} 
 			} 
 		} 
 		break;
