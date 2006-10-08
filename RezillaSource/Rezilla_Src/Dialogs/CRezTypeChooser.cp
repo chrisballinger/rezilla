@@ -44,16 +44,6 @@ CRezTypeChooser::~CRezTypeChooser()
 }
 
 
-// ---------------------------------------------------------------------------
-//   FinishCreateSelf				[protected]
-// ---------------------------------------------------------------------------
-
-void
-CRezTypeChooser::FinishCreateSelf()
-{
-}
-
-
 // ---------------------------------------------------------------------------------
 //   RunDialog
 // ---------------------------------------------------------------------------------
@@ -130,7 +120,6 @@ CRezTypeChooser::RunDialog()
 		
 		// If the default button was hit, try to open the rezmaps
 		if (msg_OK == theMessage) {
-			UMiscUtils::PaddTypeIfNecessary(theTypeStr);
 			UMiscUtils::PStringToOSType(theTypeStr, sChosenType);
 			// Now get out of the outer 'while'
 			inPickerLoop = false;

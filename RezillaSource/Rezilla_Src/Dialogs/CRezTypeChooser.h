@@ -10,7 +10,8 @@
 // All rights reserved.
 // ===========================================================================
 
-#pragma once
+#ifndef _H_CRezTypeChooser
+#define _H_CRezTypeChooser
 
 #include "UResources.h"
 
@@ -32,7 +33,8 @@ protected:
 
 	LMenu *				mTypesMenu;
 	
-	virtual void		FinishCreateSelf();
 };
 
 
+
+#endif  // _H_CRezTypeChooser
