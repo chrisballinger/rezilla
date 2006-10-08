@@ -2,7 +2,7 @@
 // CPickerView.h				
 // 
 //                       Created: 2006-02-24 09:49:42
-//             Last modification: 2006-03-19 14:48:54
+//             Last modification: 2006-10-08 11:36:14
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -20,8 +20,6 @@
 #if PP_Uses_Pragma_Import
 	#pragma import on
 #endif
-
-
 
 
 class CPickerWindow;
@@ -43,17 +41,16 @@ public:
 	void				SetIDField(ResIDT inID);
 
 	void				DrawBorder(Boolean isSelected);
-	
+	virtual void        EraseStamp();
+ 	
 	CPickerWindow*		GetOwnerWindow() { return mOwnerWindow;}
 	void				SetOwnerWindow(CPickerWindow* inOwnerWindow) {mOwnerWindow = inOwnerWindow;}
 
-	Boolean				IsSelected() { return mIsSelected;}
-	void				SetIsSelected(Boolean inIsSelected) {mIsSelected = inIsSelected;}
-
+	Boolean				IsSelected();
+	
 protected:
 	CPickerWindow *		mOwnerWindow;
 	LStaticText *		mIDField;
-	Boolean				mIsSelected;
 	
 private:
 	void				InitPickerView(SInt16 inStampWidth, SInt16 inStampHeight, ResIDT inID);

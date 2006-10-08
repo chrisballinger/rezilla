@@ -2,7 +2,7 @@
 // CPickerView.cp					
 // 
 //                       Created: 2006-02-24 09:49:42
-//             Last modification: 2006-03-16 11:16:41
+//             Last modification: 2006-10-06 08:54:16
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -38,15 +38,12 @@ PP_Begin_Namespace_PowerPlant
 
 CPickerView::CPickerView(ResIDT inID)
 	: LView()
-{
-	mIsSelected = false;
-	
+{	
 	// Use the resource ID as paneID for the PickerView
 	mPaneID = inID;
 	
 	// Add an attachment to draw the border
 	AddAttachment( new LBorderAttachment() );
-
 }
 
 
@@ -92,6 +89,21 @@ CPickerView::ClickSelf( const SMouseDownEvent & )
 
 
 // ---------------------------------------------------------------------------
+//   IsSelected
+// ---------------------------------------------------------------------------
+
+Boolean
+CPickerView::IsSelected() { 
+	Boolean result = false;
+	
+	if (mOwnerWindow) {
+		result = (mOwnerWindow->GetSelectedView() == this);
+	} 
+	return result;
+}
+
+
+// ---------------------------------------------------------------------------
 //   DrawBorder
 // ---------------------------------------------------------------------------
 //  Border around a CPickerView is outset from the interior by 1 pixel
@@ -103,7 +115,7 @@ CPickerView::DrawBorder(Boolean isSelected)
 	StGrafPortSaver	savePort;
 	Rect			frame;
 	RGBColor		redColor = Color_Red;
-	
+		
 	FocusDraw();
 	CalcLocalFrameRect(frame);
 	
@@ -136,6 +148,24 @@ void
 CPickerView::DrawSelf()
 {
 }
+
+
+// ---------------------------------------------------------------------------
+//   EraseStamp
+// ---------------------------------------------------------------------------
+
+void
+CPickerView::EraseStamp()
+{
+	Rect	frame;
+	LView *	theStamp = dynamic_cast<LView *>(this->FindPaneByID(item_PickerStampView));
+	
+	if (theStamp) {
+		theStamp->CalcPortFrameRect(frame);
+		::EraseRect(&frame);
+	} 
+}
+
 
 
 PP_End_Namespace_PowerPlant
