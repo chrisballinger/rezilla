@@ -1,7 +1,7 @@
 // ===========================================================================
 // UMiscUtils.h					
 //                       Created: 2003-05-13 20:06:23
-//             Last modification: 2006-10-03 11:03:04
+//             Last modification: 2006-10-07 07:53:36
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -34,7 +34,7 @@ public:
 	static void		PStringToOSType(Str255 inString, OSType & outType);
 	static void		OSTypeToPString(OSType inType, Str255 & outString);
 	static OSErr	GetTypeFromScrap(ResType & outType);
-	static void		PaddTypeIfNecessary(Str255 inTypeStr);
+	static void		PaddType(Str255 inTypeStr);
 	static Boolean	SelectType(ResType & outType);
 	
 	static OSErr	HFSNameToUnicodeName(ConstStr31Param hfsName, HFSUniStr255 *unicodeName);

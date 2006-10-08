@@ -50,19 +50,16 @@ UMiscUtils::PStringToOSType(Str255 inString, OSType & outType)
 	if (len > 4) {
 		len = 4;
 		inString[0] = 4;
+	} else if (len > 0 && len < 4) {
+		// ZP bugfix #6: if the string is three chars or less, it should be
+		// padded with spaces and not zeroes
+		// (bd 2006-10-05) Padding should occur only if non-zero length in
+		// order to preserve the convention that an empty string means a
+		// null type. This is important in the Aete editor for instance.
+		UMiscUtils::PaddType(inString);
+		// end of ZP bugfix 6
 	} 
 	CopyPascalStringToC(inString, theStr);
-	// (bd 2006-10-05) Padding should occur only if non-zero length in
-	// order to preserve the convention that an empty string means a null
-	// type. This is important in the Aete editor for instance.
-	if (len > 0) {
-		for (SInt8 i = 4; i >= len; i--) {
-			// ZP bugfix #6: if the string is three chars or less, it
-			// should be padded with spaces and not zeroes
-			theStr[i] = ' ';
-			// end of ZP bugfix 6
-		}
-	} 
 	outType = *(OSType*) theStr;
 }
 
@@ -241,7 +238,7 @@ UMiscUtils::SelectType(ResType & outType)
 		} 
 		delete rezChooser;
 	} else {
-		UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("RezChooserNotAvailable"), PPob_SimpleMessage);
+		UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("TypeChooserNotAvailable"), PPob_SimpleMessage);
 	}
 	
 	return result;
@@ -269,12 +266,12 @@ UMiscUtils::GetTypeFromScrap(ResType & outType)
 
 
 // ------------------------------------------------------------------------------
-//      PaddTypeIfNecessary										[static]
+//   PaddType															[static]
 // ------------------------------------------------------------------------------
 // If a type is shorter than 4 chars, padd it with spaces.
 
 void
-UMiscUtils::PaddTypeIfNecessary(Str255 inTypeStr)
+UMiscUtils::PaddType(Str255 inTypeStr)
 {
 	if (inTypeStr[0] != 4) {
 		for (UInt8 i = 4; i > inTypeStr[0]; i--) {
@@ -286,7 +283,7 @@ UMiscUtils::PaddTypeIfNecessary(Str255 inTypeStr)
 
 
 // ---------------------------------------------------------------------------
-//   IsValidHexadecimal										[static]				  
+//   IsValidHexadecimal													[static]				  
 // ---------------------------------------------------------------------------
 
 Boolean 
@@ -313,7 +310,7 @@ UMiscUtils::IsValidHexadecimal(Ptr inPtr, ByteCount inByteCount)
 
 
 // ---------------------------------------------------------------------------
-//   IsValidHexadecimal										[static]
+//   IsValidHexadecimal													[static]
 // ---------------------------------------------------------------------------
 
 Boolean 
