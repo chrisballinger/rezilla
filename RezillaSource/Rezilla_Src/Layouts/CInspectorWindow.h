@@ -2,11 +2,11 @@
 // CInspectorWindow.h				
 // 
 //                       Created: 2003-05-02 07:33:06
-//             Last modification: 2006-07-13 17:49:35
+//             Last modification: 2006-10-08 08:36:40
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2003-2005, 2006
+// (c) Copyright : Bernard Desgraupes, 2003-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -17,11 +17,11 @@
 
 class LStaticText;
 class LEditText;
-class CRezIconPane;
 class LCheckBox;
 class LPushButton;
 class CRezObjItem;
 class CRezObj;
+class CRezMapTable;
 
 class CInspectorWindow : public LWindow, public LListener {
 public:
@@ -34,7 +34,7 @@ public:
 							CInspectorWindow( LStream *inStream );
 							~CInspectorWindow();
 			
-	virtual void		FindCommandStatus( CommandT inCommand,
+	virtual void	FindCommandStatus( CommandT inCommand,
 							Boolean &outEnabled, Boolean &outUsesMark,
 							UInt16 &outMark, Str255 outName );
 
@@ -58,6 +58,9 @@ public:
 
 	void			SetValueForAttribute(short inFlag, Boolean inState);
 	
+	void			UpdateIfNecessary(CRezObj * inRezObj);
+	void			ClearIfNecessary(CRezObj * inRezObj);
+
 	// Apple events
 	virtual void	MakeSelfSpecifier(
 								AEDesc&			inSuperSpecifier,
@@ -82,21 +85,19 @@ public:
 								AEDesc&				outResult,
 								SInt32				inAENumber);
 
-
 	SResourceObjInfoPtr		GetSavedInfo() { return &mSavedInfo;}
 	void					SetSavedInfo(SResourceObjInfoPtr inRezInfoPtr);
 
-	virtual CRezObjItem*	GetRezObjItem() { return mRezObjItem;}
-	void					SetRezObjItem(CRezObjItem* inRezObjItem) {mRezObjItem = inRezObjItem;}
+	CRezMapTable*		GetOwnerTable() { return mOwnerTable;}
+	void				SetOwnerTable(CRezMapTable* inOwnerTable) {mOwnerTable = inOwnerTable;}
 
 protected:
 	SResourceObjInfo	mSavedInfo;
-	CRezObjItem *		mRezObjItem;
+	CRezMapTable *		mOwnerTable;
 	LStaticText *		mTypeField;
 	LStaticText *		mSizeField;
 	LEditText *			mIDField;
 	LEditText *			mNameField;
-	CRezIconPane *		mIconItem;
 	LCheckBox *			mSysHeapItem;
 	LCheckBox *			mPurgeableItem;
 	LCheckBox *			mLockedItem;
@@ -107,14 +108,11 @@ protected:
 	
 	virtual void		FinishCreateSelf();
 	virtual void		ShowSelf();
-	void				SaveValues();
 
-	virtual LModelObject*	GetModelProperty(
-									DescType		inProperty) const;
+	virtual LModelObject*	GetModelProperty(DescType inProperty) const;
 
 private:
 	void				InitializeRezInfo();
-// 	void				UpdateRezObj();
 	OSErr				UpdateRezMapTable();
 	
 	void				GetAEAttribute(

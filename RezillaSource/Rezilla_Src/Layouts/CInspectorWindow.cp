@@ -2,11 +2,11 @@
 // CInspectorWindow.cp					
 // 
 //                       Created: 2003-05-02 07:33:10
-//             Last modification: 2006-07-13 17:49:43
+//             Last modification: 2006-10-08 17:58:04
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2003-2005, 2006
+// (c) Copyright : Bernard Desgraupes, 2003-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -20,7 +20,6 @@
 #include "CRezMapTable.h"
 #include "CRezObj.h"
 #include "CRezObjItem.h"
-#include "CRezIconPane.h"
 #include "UMiscUtils.h"
 #include "CWindowMenu.h"
 #include "UMessageDialogs.h"
@@ -103,7 +102,7 @@ CInspectorWindow::~CInspectorWindow()
 void
 CInspectorWindow::FinishCreateSelf()
 {	
-	mRezObjItem = nil;
+	mOwnerTable = nil;
 	InitializeRezInfo();
 	
 	// Static text
@@ -120,9 +119,6 @@ CInspectorWindow::FinishCreateSelf()
 	mNameField = dynamic_cast<LEditText *>(this->FindPaneByID( item_InspEditName ));
 	ThrowIfNil_( mNameField );
 		
-	mIconItem = dynamic_cast<CRezIconPane *>(this->FindPaneByID( item_InspIcon ));
-	ThrowIfNil_( item_InspIcon );
-	
 	// CheckBoxes
 	mSysHeapItem = dynamic_cast<LCheckBox *>(this->FindPaneByID( item_InspSysHeap ));
 	ThrowIfNil_( mSysHeapItem );
@@ -184,8 +180,8 @@ CInspectorWindow::FindCommandStatus(
 		case cmd_RemoveRez:
 		case cmd_DuplicateRez:
 		case cmd_ShowInspector:
-			outEnabled = false;
-			break;		
+		outEnabled = false;
+		break;		
 		
 		default:
 			LWindow::FindCommandStatus(inCommand, outEnabled,
@@ -207,11 +203,12 @@ CInspectorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 	switch (inMessage) {
 		
 		case msg_InspModify: {
-			if (mRezObjItem == nil) {return;} 
+			if (mOwnerTable == nil) {return;} 
 			// Update the resource properties in the table and in memory 
-			OSErr err = UpdateRezMapTable();
-			if (err == noErr) {
-				SaveValues();
+			OSErr error = UpdateRezMapTable();
+			if (error == noErr) {
+				// Store the current values
+				RetrieveValues(&mSavedInfo);
 				// Disable the buttons
 				mRevertButton->Disable();
 				mModifyButton->Disable();
@@ -220,7 +217,7 @@ CInspectorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		}
 			
 		case msg_InspRevert:
-		if (mRezObjItem == nil) {return;} 
+		if (mOwnerTable == nil) {return;} 
 		InstallValues();
 		mRevertButton->Disable();
 		mModifyButton->Disable();
@@ -238,7 +235,7 @@ CInspectorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		break;
 				
 		case msg_Close:
-		CRezillaApp::sInspectorWindow->Hide();
+		this->Hide();
 		break;
 		
 	}
@@ -299,7 +296,7 @@ CInspectorWindow::AttemptClose()
 {
 	// ZP feature #5: save changes from the inspector when closing it
 	// BD: after confirmation...
-	if (mRezObjItem != nil && mModifyButton->IsEnabled()) {
+	if (mOwnerTable != nil && mModifyButton->IsEnabled()) {
 		SInt16 	answer = UMessageDialogs::AskYesNoFromLocalizable(CFSTR("AskSaveOnCloseInspector"), PPob_AskYesNoMessage);
 		if (answer == answer_Do) {
 			this->ListenToMessage(msg_InspModify, NULL);
@@ -365,7 +362,7 @@ CInspectorWindow::InstallValues(CRezObjItem * inRezObjItem)
 {
 	ThrowIfNil_(inRezObjItem);
 	
-	mRezObjItem = inRezObjItem;
+	mOwnerTable = inRezObjItem->GetOwnerRezMapTable();
 	InstallValues(inRezObjItem->GetRezObj());
 }
 
@@ -384,7 +381,7 @@ CInspectorWindow::InstallValues(CRezObj * inRezObj)
 	mSavedInfo.type = inRezObj->GetType();
 	mSavedInfo.size = inRezObj->GetSize();
 	mSavedInfo.id = inRezObj->GetID();
-	BlockMoveData(inRezObj->GetName(),&mSavedInfo.name,sizeof(Str255));
+	BlockMoveData(inRezObj->GetName(), &mSavedInfo.name, sizeof(Str255));
 	mSavedInfo.iconid = 0;
 	mSavedInfo.sysheap = inRezObj->HasAttribute(resSysHeap);
 	mSavedInfo.purge = inRezObj->HasAttribute(resPurgeable);
@@ -423,47 +420,15 @@ CInspectorWindow::InstallValues()
 	mProtectedItem->SetValue(mSavedInfo.protect);
 	mPreloadItem->SetValue(mSavedInfo.preload);
 	
-	// Icon pane
-	// To use PlotIconID(), the icon resource must be of type 
-	// 'ICN#', 'icl4', 'icl8', 'icm#', 'icm4', 'icm8', 'ics#', 'ics4', or 'ics8'.
-	mIconItem->SetIconID(mSavedInfo.id);
-	
-	switch (mSavedInfo.type) {
-		case 'ICN#':
-		case 'icl4':
-		case 'icl8':
-		case 'icm#':
-		case 'icm4':
-		case 'icm8':
-		case 'ics#':
-		case 'ics4':
-		case 'ics8':
-		mIconItem->SetCurrentRefNum(mSavedInfo.refnum);
-		mIconItem->SetVisibleState(triState_Off);
-		mIconItem->Show();
-		break;
-		
-		// 	case 'crsr':
-		// 	case 'cicn':
-		// 	case 'ICON':
-		// 	case 'PAT ':
-
-		default:
-		mIconItem->SetCurrentRefNum(UResources::refNum_Undef);
-		mIconItem->Hide();
-		break;
-		
-	}
-	
 	// Disable the buttons
 	mRevertButton->Disable();
 	mModifyButton->Disable();
 	
-	if (mRezObjItem != nil) {
+	if (mOwnerTable != nil) {
 		// Install the rez map name
 		LStaticText * theStaticText = dynamic_cast<LStaticText *>(this->FindPaneByID( item_InspMapName ));
 		ThrowIfNil_( theStaticText );
-		mRezObjItem->GetOwnerRezMapTable()->GetOwnerWindow()->GetDescriptor(theString);
+		mOwnerTable->GetOwnerWindow()->GetDescriptor(theString);
 		theStaticText->SetDescriptor(theString);
 	} 
 }
@@ -505,17 +470,6 @@ CInspectorWindow::SetValueForAttribute(short inFlag, Boolean inState)
 
 
 // ---------------------------------------------------------------------------
-//   SaveValues											[protected]
-// ---------------------------------------------------------------------------
-
-void
-CInspectorWindow::SaveValues()
-{
-	RetrieveValues(&mSavedInfo);
-}
-
-
-// ---------------------------------------------------------------------------
 //   RetrieveValues											[protected]
 // ---------------------------------------------------------------------------
 
@@ -549,40 +503,45 @@ CInspectorWindow::RetrieveValues(SResourceObjInfoPtr inRezInfoPtr)
 
 
 // ---------------------------------------------------------------------------
-//   UpdateRezMapTable											[private]
+//   UpdateRezMapTable												[private]
 // ---------------------------------------------------------------------------
 
 OSErr
 CInspectorWindow::UpdateRezMapTable()
-{
-	Assert_(mRezObjItem != nil);
-	
+{	
 	OSErr				error = noErr;
 	short				theAttrs = 0;
 	Boolean				applyToOthers = false;
 	SResourceObjInfo	currInfo;
+	CRezObj *			theRezObj;
+	CRezObjItem *		theRezObjItem;
 	
 	RetrieveValues(&currInfo);
 	
-	CRezMapTable *		theTable = mRezObjItem->GetOwnerRezMapTable();
-	CRezObj *			theRezObj = mRezObjItem->GetRezObj();
-	ResType				theType = theRezObj->GetType();
-	
-	// If the ID has been modified
-	if (theRezObj->GetID() != currInfo.id) {
-		CRezObjItem * theRezObjItem = theTable->GetRezObjItem( theType, currInfo.id, true);
-		if (theRezObjItem != nil) {
-			// There is already a resource with the new ID, cancel the operation
+	theRezObjItem = mOwnerTable->GetRezObjItem( mSavedInfo.type, mSavedInfo.id, true);
+	if (theRezObjItem == NULL) {
+		return error;
+	} 
+
+	// If the ID has been modified, check that there is not already a
+	// resource with the new ID, otherwise cancel the operation
+	if (mSavedInfo.id != currInfo.id) {
+		if ( mOwnerTable->GetRezMap()->HasResourceWithTypeAndId(mSavedInfo.type, currInfo.id) ) {
 			UMessageDialogs::AlertWithValue(CFSTR("ResourceExistsWithID"), currInfo.id);
 			return err_AlreadyExistingID;
 		} 
 	} 
 	
+	theRezObj = theRezObjItem->GetRezObj();
+	Assert_(theRezObj != nil);
+
 	theRezObj->SetID(currInfo.id);
 	theRezObj->SetName(&currInfo.name);
 	error = theRezObj->SetInfoInMap();
 
 	if (error == noErr) {
+		theRezObj->Changed();
+		
 		// Deal with the attributes
 		theAttrs |= currInfo.lock ? resLocked : 0;
 		theAttrs |= currInfo.preload ? resPreload : 0;
@@ -591,13 +550,17 @@ CInspectorWindow::UpdateRezMapTable()
 		theAttrs |= currInfo.sysheap ? resSysHeap : 0;
 		// Put the value in the rezmap
 		error = theRezObj->SetAttributesInMap(theAttrs);
-		if (error == noErr) {
-			theRezObj->Changed();
-			
-			// Refresh the rezmap table
-			theTable->Refresh();
-			theTable->GetOwnerDoc()->SetModified(true);
-		} 
+
+		// Refresh the rezmap table
+		mOwnerTable->Refresh();
+		mOwnerTable->GetOwnerDoc()->SetModified(true);
+
+		// Notify a possible picker
+		if (mSavedInfo.id != currInfo.id) {
+			// Put  the old ID in the low word an d the new ID in the high word
+			SInt32 theLong = (currInfo.id << 16) | mSavedInfo.id;
+			mOwnerTable->GetOwnerDoc()->NotifyPicker(mSavedInfo.type, msg_RezIDChanged, (void *) theLong);
+		}
 	} 
 
 	return error;
@@ -605,7 +568,49 @@ CInspectorWindow::UpdateRezMapTable()
 
 	
 // ---------------------------------------------------------------------------
-//   ClearValues											[protected]
+//   UpdateIfNecessary												[public]
+// ---------------------------------------------------------------------------
+// Updates the values displayed by the inspector if they correspond to the
+// given CRezObj
+
+void
+CInspectorWindow::UpdateIfNecessary(CRezObj * inRezObj)
+{
+	ThrowIfNil_(inRezObj);
+	
+	// Check that it is the same refnum, same type and same ID
+	if ( mOwnerTable
+		&& inRezObj->GetOwnerRefnum() == mOwnerTable->GetRezMap()->GetRefnum() 
+		&& inRezObj->GetType() == mSavedInfo.type
+		&& inRezObj->GetID() == mSavedInfo.id ) {
+			InstallValues(inRezObj);
+	} 
+}
+
+
+// ---------------------------------------------------------------------------
+//   ClearIfNecessary												[public]
+// ---------------------------------------------------------------------------
+// Clear the values displayed by the inspector if they correspond to the
+// given CRezObj
+
+void
+CInspectorWindow::ClearIfNecessary(CRezObj * inRezObj)
+{
+	ThrowIfNil_(inRezObj);
+	
+	// Check that it is the same refnum, same type and same ID
+	if ( mOwnerTable 
+		&& inRezObj->GetOwnerRefnum() == mOwnerTable->GetRezMap()->GetRefnum() 
+		&& inRezObj->GetType() == mSavedInfo.type
+		&& inRezObj->GetID() == mSavedInfo.id ) {
+			ClearValues();
+	} 
+}
+
+
+// ---------------------------------------------------------------------------
+//   ClearValues												[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -628,7 +633,7 @@ CInspectorWindow::ClearValues()
 	mIconItem->Hide();
 
 	// Invalidate the reference to the associated RezObjItem
-	mRezObjItem = nil;
+	mOwnerTable = nil;
 }
 
 
