@@ -462,12 +462,12 @@ CEditorDoc::DoSaveChanges()
 	mRezMapTable->Refresh();
 	
 	// Update the inspector if its info concerns the RezObj
-	if (CRezillaApp::sInspectorWindow != nil
-		&& CRezillaApp::sInspectorWindow->GetRezObjItem() != nil 
-		&& CRezillaApp::sInspectorWindow->GetRezObjItem()->GetRezObj() == mRezObj) {
-		CRezillaApp::sInspectorWindow->InstallValues(mRezObj);
-	} 		
+	CRezillaApp::sInspectorWindow->UpdateIfNecessary(mRezObj);
 	
+	// Notify the picker if any
+	short theID = mRezObj->GetID();
+	mRezMapTable->GetOwnerDoc()->NotifyPicker(mRezObj->GetType(), msg_RezDataChanged, &theID);
+
 }
 
 

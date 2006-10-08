@@ -2,7 +2,7 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2006-10-03 09:11:28
+//             Last modification: 2006-10-05 19:34:25
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -36,6 +36,7 @@ PP_Begin_Namespace_PowerPlant
 #include "CRezObjItem.h"
 #include "CRezType.h"
 #include "CRezTypeItem.h"
+#include "CNewRezChooser.h"
 #include "CInspectorWindow.h"
 #include "CHexEditorDoc.h"
 #include "CTmplEditorDoc.h"
@@ -178,10 +179,8 @@ CRezMapDoc::~CRezMapDoc()
 	// Note: mExportStream is deleted in DoExport() immediately after writing
 
 	// Clear the Inspector if it contains info about a resource belonging to this rezmap
-	if (CRezillaApp::sInspectorWindow != nil &&
-		CRezillaApp::sInspectorWindow->GetRezObjItem() != nil &&
-		CRezillaApp::sInspectorWindow->GetRezObjItem()->GetOwnerRezMapTable()->GetOwnerDoc() == this
-	) {
+	if ( CRezillaApp::sInspectorWindow->GetOwnerTable() &&
+		 CRezillaApp::sInspectorWindow->GetOwnerTable()->GetOwnerDoc() == this ) {
 		CRezillaApp::sInspectorWindow->ClearValues();
 	} 
 	
@@ -329,7 +328,7 @@ CRezMapDoc::ObeyCommand(
 			SendSelfAE(kAEMiscStandards, kAERevert, ExecuteAE_No);
 			DoRevert();
 		}
-			break;
+		break;
 
 		case cmd_Import: {
 			// Import must be done in an empty rezmap
@@ -346,6 +345,7 @@ CRezMapDoc::ObeyCommand(
 				
 				if (openOK) {
 					DoImport(theFSSpec);
+					mRezMapWindow->RecalcCountFields();
 				} 
 			} else {
 				UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("ImportOnlyInEmptyMap"), PPob_SimpleMessage);
@@ -359,13 +359,30 @@ CRezMapDoc::ObeyCommand(
 		}
 
 		case cmd_NewRez: {
-			CRezObjItem * theRezObjItem = NewResDialog();
-			if (theRezObjItem != NULL) {
-				mRezMapWindow->RecalcCountFields();
-				// Select the newly created item 
-				mRezMapWindow->GetRezMapTable()->UnselectAllCells();
-				TryEdit(theRezObjItem, cmd_EditRez);
-			} 
+			CNewRezChooser * rezChooser = new CNewRezChooser(mRezMap);
+			ResType		theType;
+			short		theID;
+			Str255		theName;
+			short		theAttrs;
+
+			if (rezChooser != NULL) {
+				CRezObjItem * theRezObjItem;
+				if (rezChooser->RunDialog() == noErr) {
+					rezChooser->GetChosenValues(theType, theID, theName, theAttrs);
+					theRezObjItem = CreateResource(theType, theID, &theName, theAttrs);
+					if (theRezObjItem != NULL) {
+						SetModified(true);
+						mRezMapWindow->RecalcCountFields();
+						// Select the newly created item 
+						mRezMapWindow->GetRezMapTable()->UnselectAllCells();
+						TryEdit(theRezObjItem, cmd_EditRez);
+					} 
+				} 
+				delete rezChooser;
+			} else {
+				UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("NewRezChooserFailed"), PPob_SimpleMessage);
+			}
+			
 			break;
 		}
 		
@@ -600,7 +617,7 @@ CRezMapDoc::TryOpenPicker(CRezTypeItem * inRezTypeItem)
 	Boolean		result = true;
 	
 	// Does this type already have an opened picker ?
-	CPickerDoc * theRezPicker = GetTypePicker(theType);
+	CPickerDoc * theRezPicker = GetRezPicker(theType);
 	if (theRezPicker != nil) {
 		theRezPicker->SelectPickerWindow();
 	} else if ( CPickersController::HasPickerForType(theType) ) {
@@ -1177,199 +1194,6 @@ CRezMapDoc::DesignateOutFile( FSSpec& outFileSpec, bool & outReplacing)
 }
 
 
-// ---------------------------------------------------------------------------
-//   AskExportAs													  [public]
-// ---------------------------------------------------------------------------
-//	Ask the user to export a Document and give it a name
-//	Returns false if the user cancels the operation
-
-Boolean
-CRezMapDoc::AskExportAs()
-{
-	Boolean		saveOK = false;
-	bool		replacing;
-	FSSpec		theFSSpec;
-
-	if ( DesignateExportFile(theFSSpec, replacing) ) {
-
-		if (replacing) {
-			// Delete existing file
-			OSErr error = ::FSpDelete(&theFSSpec);
-			if (error) {
-				UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("CouldNotDeleteExistingFile"), PPob_SimpleMessage);
-				return saveOK;
-			} 
-		}
-
-		DoExport(theFSSpec);
-		saveOK = true;
-	}
-
-	return saveOK;
-}
-
-
-// ---------------------------------------------------------------------------
-//   DesignateExportFile								[public static]
-// ---------------------------------------------------------------------------
-
-Boolean
-CRezMapDoc::DesignateExportFile( FSSpec& outFileSpec, bool & outReplacing)
-{
-	bool	openOK = false;
-	Str255	theString;
-	FSSpec	theFileSpec;
-	UInt8	theCount = sizeof(Rzil_MapExportItems)/sizeof(Str15);
-	
-	mExportFormat = exportMap_Xml;
-	
-	// Build the forks popup
-	NavMenuItemSpecHandle	theMenuItemHandle ;
-	NavMenuItemSpecPtr		theNavMenuItemSpecPtr;
-	
-	theMenuItemHandle = (NavMenuItemSpec**) NewHandleClear( theCount * sizeof(NavMenuItemSpec) );
-	if (theMenuItemHandle != NULL) {
-		for (SInt16 theIndex = 0; theIndex < theCount; theIndex++) {
-			theNavMenuItemSpecPtr = *theMenuItemHandle + theIndex;
-			(*theNavMenuItemSpecPtr).version = kNavMenuItemSpecVersion;
-			(*theNavMenuItemSpecPtr).menuCreator = FOUR_CHAR_CODE('Rzil');
-			(*theNavMenuItemSpecPtr).menuType = 'TEXT';
-			BlockMoveData(Rzil_MapExportItems[theIndex], (*theNavMenuItemSpecPtr).menuItemName, Rzil_MapExportItems[theIndex][0] + 1);
-		}
-	}
-
-	// Deactivate the desktop.
-	::UDesktop::Deactivate();
-	
-	// Browse for a document
-	UNavigationDialogs::CNavFileDesignator designator;
-	
-	// File designator setup
-	designator.SetEventFilterProc(Rzil_ExportMapEventFilterUPP);
-	designator.SetPopupExtension(theMenuItemHandle);
-	designator.SetOptionFlags(kNavDontAutoTranslate);
-	designator.SetUserData( (void *) &mExportFormat);
-
-	// Retrieve strings from STR# resource
-	GetIndString(theString, STRx_NavStrings, index_RezillaAppName);
-	designator.SetClientName(theString);
-	GetIndString(theString, STRx_NavStrings, index_ExportMapAs);
-	designator.SetMessage(theString);
-	// Build a default name from the name of the map
-	mRezFile->GetSpecifier(theFileSpec);
-	designator.SetSavedFileName(theFileSpec.name);
-	
-	openOK = designator.AskDesignateFile();
-
-	if (openOK) {
-		designator.GetFileSpec(outFileSpec);
-		outReplacing = designator.IsReplacing();
-	}
-
-    // Activate the desktop.
-    ::UDesktop::Activate();
-
-	return openOK;
-}
-
-
-// ---------------------------------------------------------------------------------
-//  DoImport
-// ---------------------------------------------------------------------------------
-
-OSErr
-CRezMapDoc::DoImport(FSSpec inFileSpec)
-{
-	OSErr error = noErr;
-	
-	StRezMapImporter importer(this, inFileSpec);
-	
-	error = importer.ReadXml();
-	
-	if (error == noErr) {
-		SetModified(true);
-	} else {
-		UMessageDialogs::DescribeError(CFSTR("ErrorImportingRezMapFromXml"), error);
-	}
-	
-	return error;
-}
-
-
-// ---------------------------------------------------------------------------------
-//  DoExport
-// ---------------------------------------------------------------------------------
-
-void
-CRezMapDoc::DoExport(
-	FSSpec	&inFileSpec)
-{
-	OSErr	err = noErr;
-	
-	// Make a new file object
-	if (mExportFormat == exportMap_Xml || mExportFormat == exportMap_Html) {
-		// UTF-8 output and escaped entities
-		mExportStream = new CXMLFileStream(inFileSpec);
-	} else {
-		// MacRoman output
-		mExportStream = new CTextFileStream(inFileSpec, kCFStringEncodingMacRoman);
-	}
-	
-	if (mExportStream != nil) {		
-		// Make new file on disk
-		mExportStream->CreateNewDataFile( (OSType) CRezillaPrefs::GetPrefValue(kPref_export_editorSig), 'TEXT' );
-		
-		// Open the data fork.
-		mExportStream->OpenDataFork( fsWrPerm );
-		
-		// Write out the data.
-		WriteOutExport(mExportFormat);
-		
-		// Close the data fork.
-		mExportStream->CloseDataFork();
-		
-		// Free memory which we don't need anymore
-		delete mExportStream;
-		mExportStream = nil;
-	} 
-}
-
-
-// ---------------------------------------------------------------------------------
-//  WriteOutExport
-// ---------------------------------------------------------------------------------
-
-void
-CRezMapDoc::WriteOutExport(SInt16 inExportFormat)
-{	
-	StRezMapExporter	exporter(mExportStream);
-	switch ( inExportFormat ) {
-		case exportMap_Xml:
-		// In XML output, binary data are always Base64 encoded
-		exporter.WriteOutXml(mRezMap, 
-							 CRezillaPrefs::GetPrefValue(kPref_export_includeBinary),
-							 export_Base64Enc);
-		break;
-		
-		case exportMap_Text:
-		exporter.WriteOutText(mRezMap, 
-							 CRezillaPrefs::GetPrefValue(kPref_export_includeBinary),
-							 CRezillaPrefs::GetPrefValue(kPref_export_dataEncoding));
-		break;
-		
-		case exportMap_Html:
-		// In HTML output, binary data are not included, so the encoding is irrelevant
-		exporter.WriteOutHtml(mRezMap, false, 0);
-		break;
-
-		case exportMap_Derez:
-		exporter.WriteOutDerez(mRezMap);
-		break;
-	}
-	
-}
-
-
 // ---------------------------------------------------------------------------------
 //  FindCommandStatus
 // ---------------------------------------------------------------------------------
@@ -1607,146 +1431,20 @@ CRezMapDoc::GetRezTypeByType(ResType inType) const
 }
 
 
-// ---------------------------------------------------------------------------
-//  NewResDialog												[public]
-// ---------------------------------------------------------------------------
-// Note: Linking Listeners and Broadcasters is done in the StDialogBoxHandler constructor
 
-CRezObjItem *
-CRezMapDoc::NewResDialog()
-{
-	LCheckBox *		theCheckBox;
-	LEditText *		theTypeField;
-	LEditText *		theIDField;
-	LEditText *		theNameField;
-	ResType			theType;
-	short 			theID;
-	long			theLong;
-	Boolean			isModified, inLoop;
-	Str255			theString;
-	short			theAttrs = 0;
-	CRezObjItem *	theRezObjItem = NULL;
-	
-	StDialogBoxHandler	theHandler(PPob_NewRezDialog, this);
-	CThreeButtonsBox *	theDialog = theHandler.GetDialog();
-	Assert_(theDialog != nil);
-	
-	theTypeField = dynamic_cast<LEditText *>(theDialog->FindPaneByID( item_NewType ));
-	ThrowIfNil_(theTypeField);
-	
-	theIDField = dynamic_cast<LEditText *>(theDialog->FindPaneByID( item_NewID ));
-	ThrowIfNil_(theIDField);
-	
-	theNameField = dynamic_cast<LEditText *>(theDialog->FindPaneByID( item_NewName ));
-	ThrowIfNil_(theNameField);
-	
-	inLoop = true;
-	
-	if (inLoop) {
-		theDialog->Show();
-		
-		MessageT theMessage;
-		while (true) {
-			theMessage = theHandler.DoDialog();
-			if (msg_OK == theMessage || msg_Cancel == theMessage) {
-				inLoop = false;
-				break;
-			} else {
-				switch (theMessage) {
-					
-					case msg_NewType:
-					case msg_NewID:
-					case msg_NewName:
-					case msg_NewSysHeap:
-					case msg_NewPurgeable:
-					case msg_NewLocked:
-					case msg_NewProtected:
-					case msg_NewPreload:
-					isModified = true;
-					break;
-					
-					case msg_NewUniqueID:
-					theTypeField->GetDescriptor(theString);
-					if (theString[0]) {
-						// ZP bugfix #3: PStringToOSType instead of StringToNum
-						UMiscUtils::PStringToOSType(theString, theType);
-						mRezMap->UniqueID(theType, theID);
-						::NumToString(theID, theString);
-						theIDField->SetDescriptor(theString);
-					} else {
-						UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("NoTypeSpecified"), PPob_SimpleMessage);
-					}
-					break;
-				}	
-			}
-		}
-		
-		// if Create button hit, retrieve the options
-		if (msg_OK == theMessage) {
-			theTypeField->GetDescriptor(theString);
-			// Do we really have a type
-			if (theString[0]) {
-				UMiscUtils::PStringToOSType(theString, theType);
-				
-				theIDField->GetDescriptor(theString);
-				// Do we really have an ID
-				if (theString[0]) {
-					::StringToNum(theString, &theLong);
-					theID = (short) theLong;
-					
-					// Get the name
-					theNameField->GetDescriptor(theString);
-					
-					// Retrieve the attributes
-					theCheckBox = dynamic_cast<LCheckBox *>(theDialog->FindPaneByID( item_NewSysHeap ));
-					ThrowIfNil_(theCheckBox);
-					if (theCheckBox->GetValue()) {
-						theAttrs |= resSysHeap;
-					} 
-					theCheckBox = dynamic_cast<LCheckBox *>(theDialog->FindPaneByID( item_NewPurgeable ));
-					ThrowIfNil_(theCheckBox);
-					if (theCheckBox->GetValue()) {
-						theAttrs |= resPurgeable;
-					} 
-					theCheckBox = dynamic_cast<LCheckBox *>(theDialog->FindPaneByID( item_NewLocked ));
-					ThrowIfNil_(theCheckBox);
-					if (theCheckBox->GetValue()) {
-						theAttrs |= resLocked;
-					} 
-					theCheckBox = dynamic_cast<LCheckBox *>(theDialog->FindPaneByID( item_NewProtected ));
-					ThrowIfNil_(theCheckBox);
-					if (theCheckBox->GetValue()) {
-						theAttrs |= resProtected;
-					} 
-					theCheckBox = dynamic_cast<LCheckBox *>(theDialog->FindPaneByID( item_NewPreload ));
-					ThrowIfNil_(theCheckBox);
-					if (theCheckBox->GetValue()) {
-						theAttrs |= resPreload;
-					} 
-					
-					theRezObjItem = NewResource(theType, theID, &theString, theAttrs);
-					SetModified(true);
+#pragma mark -
 
-				} else {
-					UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("NoIDSpecified"), PPob_SimpleMessage);
-					inLoop = true;
-				}
-			} else {
-				UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("NoTypeSpecified"), PPob_SimpleMessage);
-				inLoop = true;
-			}
-		}
-	}
-	return theRezObjItem;
-}
+// ====================
+// Manipulate resources
+// ====================
 
 
 // ---------------------------------------------------------------------------
-//  NewResource														[public]
+//  CreateResource													[public]
 // ---------------------------------------------------------------------------
 
 CRezObjItem *
-CRezMapDoc::NewResource(ResType inType, short inID, Str255* inName, short inAttrs)
+CRezMapDoc::CreateResource(ResType inType, short inID, Str255* inName, short inAttrs)
 {
  	Boolean		replacing = false, applyToOthers = false;
 	
@@ -1770,16 +1468,16 @@ CRezMapDoc::NewResource(ResType inType, short inID, Str255* inName, short inAttr
 		}
 	} 
 	
-	return DoCreateResource(inType, inID, inName, inAttrs, replacing);
+	return NewResource(inType, inID, inName, inAttrs, replacing);
 }
 
 
 // ---------------------------------------------------------------------------
-//  DoCreateResource												[public]
+//  NewResource														[public]
 // ---------------------------------------------------------------------------
 
 CRezObjItem *
-CRezMapDoc::DoCreateResource(ResType inType, short inID, Str255* inName, short inAttrs, Boolean inReplace)
+CRezMapDoc::NewResource(ResType inType, short inID, Str255* inName, short inAttrs, Boolean inReplace)
 {
 	CRezTypeItem *	theRezTypeItem;
 	CRezObjItem 	*oldRezObjItem, *newRezObjItem = NULL;
@@ -1827,11 +1525,8 @@ CRezMapDoc::DoCreateResource(ResType inType, short inID, Str255* inName, short i
 	// Install the item in the table
 	mRezMapWindow->GetRezMapTable()->InsertRezObjItem( newRezObjItem, theRezTypeItem );
 
-	// Notify the type picker
-	CPickerDoc * thePicker = GetTypePicker( theRezType->GetType() );
-	if (thePicker != NULL) {
-		thePicker->ListenToMessage(msg_RezObjCreated, &inID);
-	} 
+	// Notify the picker if any
+	NotifyPicker(theRezType->GetType(), msg_RezObjCreated, &inID);
 
 	// Redraw the window
 	mRezMapWindow->Refresh();
@@ -1889,6 +1584,9 @@ CRezMapDoc::DuplicateResource(CRezObj * inRezObj)
 	// Mark the resource as modified in the rez map
 	theRezObjItem->GetRezObj()->Changed();
 	
+	// Notify the picker if any
+	NotifyPicker(theType, msg_RezObjDuplicated, &theID);
+	
 	// Refresh the view
 	if ( theRezTypeItem->IsExpanded() ) {
 		// Install the item in the table
@@ -1912,7 +1610,7 @@ CRezMapDoc::DuplicateResource(CRezObj * inRezObj)
 
 
 // ---------------------------------------------------------------------------
-//  RemoveResource												[public]
+//  RemoveResource													[public]
 // ---------------------------------------------------------------------------
 // "The RemoveResource function does not dispose of the handle you  pass  into
 // it; to do so you must call the Memory Manager function DisposeHandle  after
@@ -1944,11 +1642,9 @@ CRezMapDoc::RemoveResource(CRezObjItem* inRezObjItem, Boolean deleteTypeItem)
 		theRezEditor->SetModified(false);
 		delete theRezEditor;
 	} 
-	// Notify the type picker
-	CPickerDoc * thePicker = GetTypePicker(theType);
-	if (thePicker != NULL) {
-		thePicker->ListenToMessage(msg_RezObjDeleted, &theID);
-	} 
+
+	// Notify the picker if any
+	NotifyPicker(theType, msg_RezObjDeleted, &theID);
 	
 	// Remove the resource from the rez map: if the resProtected flag is on, 
 	// turn it off (otherwise error rmvResFailed)
@@ -1970,9 +1666,7 @@ CRezMapDoc::RemoveResource(CRezObjItem* inRezObjItem, Boolean deleteTypeItem)
 	if (deleteTypeItem) {
 		error = mRezMap->CountForType(theType, theCount);
 		if (theCount == 0) {
-			if (thePicker != NULL) {
-				thePicker->ListenToMessage(msg_RezTypeDeleted, NULL);
-			} 
+			NotifyPicker(theType, msg_RezTypeDeleted, NULL);
 			mRezMapWindow->GetRezMapTable()->RemoveItem(theSuperItem);
 			// Update the types count field
 			mRezMapWindow->SetTypeCountField( mRezMapWindow->GetTypeCountField() - 1 );
@@ -2091,7 +1785,7 @@ CRezMapDoc::PasteResource(ResType inType, short inID, Handle inHandle,
 	// 
 	// (bd 2006-09-05) fixed this by adding a second argument to
 	// RemoveResource() specifying whether or not to delete the
-	// CRezTypeItem. This fixes it also in DoCreateResource() where the
+	// CRezTypeItem. This fixes it also in NewResource() where the
 	// same situation can occur.
 
 	// Find if there is already a CRezTypeItem for the specified type. If not, create one. 
@@ -2139,6 +1833,9 @@ CRezMapDoc::PasteResource(ResType inType, short inID, Handle inHandle,
 	// Document has been modified
 	SetModified(true);
 
+	// Notify the picker if any
+	NotifyPicker(inType, msg_RezObjPasted, &inID);
+	
 	// Refresh the view
 	if ( theRezTypeItem->IsExpanded() ) {
 		// Install the item in the table
@@ -2152,6 +1849,12 @@ CRezMapDoc::PasteResource(ResType inType, short inID, Handle inHandle,
 	mRezMapWindow->Refresh();
 }
 
+
+#pragma mark -
+
+// ===================
+// Editors and pickers
+// ===================
 
 // ---------------------------------------------------------------------------
 //  GetRezEditor												[public]
@@ -2202,11 +1905,11 @@ CRezMapDoc::DeleteEditors(Boolean deleteArray)
 
 
 // ---------------------------------------------------------------------------
-//  GetTypePicker												[public]
+//  GetRezPicker												[public]
 // ---------------------------------------------------------------------------
 
 CPickerDoc *
-CRezMapDoc::GetTypePicker(ResType inType)
+CRezMapDoc::GetRezPicker(ResType inType)
 {
 	CPickerDoc * result = nil;	
 	TArrayIterator<CPickerDoc *> iterator(*mOpenedPickers);
@@ -2225,7 +1928,7 @@ CRezMapDoc::GetTypePicker(ResType inType)
 
 
 // ---------------------------------------------------------------------------
-//  DeletePickers												[public]
+//  DeletePickers													[public]
 // ---------------------------------------------------------------------------
 // Delete all the picker windows depending from this rezmap and reset the array
 
@@ -2247,7 +1950,223 @@ CRezMapDoc::DeletePickers(Boolean deleteArray)
 
 
 // ---------------------------------------------------------------------------
-//  GetRezMapFromXml													[public]
+//  NotifyPicker													[private]
+// ---------------------------------------------------------------------------
+
+void
+CRezMapDoc::NotifyPicker(ResType inType, MessageT inMessage, void * ioParam)
+{
+	StGrafPortSaver	savePort;
+	CPickerDoc * thePicker = GetRezPicker(inType);
+	if (thePicker != NULL) {
+		thePicker->ListenToMessage(inMessage, ioParam);
+	} 
+}
+
+
+
+#pragma mark -
+
+// ===================
+// Import / Export
+// ===================
+
+
+// ---------------------------------------------------------------------------
+//   AskExportAs													  [public]
+// ---------------------------------------------------------------------------
+//	Ask the user to export a Document and give it a name
+//	Returns false if the user cancels the operation
+
+Boolean
+CRezMapDoc::AskExportAs()
+{
+	Boolean		saveOK = false;
+	bool		replacing;
+	FSSpec		theFSSpec;
+
+	if ( DesignateExportFile(theFSSpec, replacing) ) {
+
+		if (replacing) {
+			// Delete existing file
+			OSErr error = ::FSpDelete(&theFSSpec);
+			if (error) {
+				UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("CouldNotDeleteExistingFile"), PPob_SimpleMessage);
+				return saveOK;
+			} 
+		}
+
+		DoExport(theFSSpec);
+		saveOK = true;
+	}
+
+	return saveOK;
+}
+
+
+// ---------------------------------------------------------------------------
+//   DesignateExportFile								[public static]
+// ---------------------------------------------------------------------------
+
+Boolean
+CRezMapDoc::DesignateExportFile( FSSpec& outFileSpec, bool & outReplacing)
+{
+	bool	openOK = false;
+	Str255	theString;
+	FSSpec	theFileSpec;
+	UInt8	theCount = sizeof(Rzil_MapExportItems)/sizeof(Str15);
+	
+	mExportFormat = exportMap_Xml;
+	
+	// Build the forks popup
+	NavMenuItemSpecHandle	theMenuItemHandle ;
+	NavMenuItemSpecPtr		theNavMenuItemSpecPtr;
+	
+	theMenuItemHandle = (NavMenuItemSpec**) NewHandleClear( theCount * sizeof(NavMenuItemSpec) );
+	if (theMenuItemHandle != NULL) {
+		for (SInt16 theIndex = 0; theIndex < theCount; theIndex++) {
+			theNavMenuItemSpecPtr = *theMenuItemHandle + theIndex;
+			(*theNavMenuItemSpecPtr).version = kNavMenuItemSpecVersion;
+			(*theNavMenuItemSpecPtr).menuCreator = FOUR_CHAR_CODE('Rzil');
+			(*theNavMenuItemSpecPtr).menuType = 'TEXT';
+			BlockMoveData(Rzil_MapExportItems[theIndex], (*theNavMenuItemSpecPtr).menuItemName, Rzil_MapExportItems[theIndex][0] + 1);
+		}
+	}
+
+	// Deactivate the desktop.
+	::UDesktop::Deactivate();
+	
+	// Browse for a document
+	UNavigationDialogs::CNavFileDesignator designator;
+	
+	// File designator setup
+	designator.SetEventFilterProc(Rzil_ExportMapEventFilterUPP);
+	designator.SetPopupExtension(theMenuItemHandle);
+	designator.SetOptionFlags(kNavDontAutoTranslate);
+	designator.SetUserData( (void *) &mExportFormat);
+
+	// Retrieve strings from STR# resource
+	GetIndString(theString, STRx_NavStrings, index_RezillaAppName);
+	designator.SetClientName(theString);
+	GetIndString(theString, STRx_NavStrings, index_ExportMapAs);
+	designator.SetMessage(theString);
+	// Build a default name from the name of the map
+	mRezFile->GetSpecifier(theFileSpec);
+	designator.SetSavedFileName(theFileSpec.name);
+	
+	openOK = designator.AskDesignateFile();
+
+	if (openOK) {
+		designator.GetFileSpec(outFileSpec);
+		outReplacing = designator.IsReplacing();
+	}
+
+	// Activate the desktop.
+	::UDesktop::Activate();
+
+	return openOK;
+}
+
+
+// ---------------------------------------------------------------------------------
+//  DoImport
+// ---------------------------------------------------------------------------------
+
+OSErr
+CRezMapDoc::DoImport(FSSpec inFileSpec)
+{
+	OSErr error = noErr;
+	
+	StRezMapImporter importer(this, inFileSpec);
+	
+	error = importer.ReadXml();
+	
+	if (error == noErr) {
+		SetModified(true);
+	} else {
+		UMessageDialogs::DescribeError(CFSTR("ErrorImportingRezMapFromXml"), error);
+	}
+	
+	return error;
+}
+
+
+// ---------------------------------------------------------------------------------
+//  DoExport
+// ---------------------------------------------------------------------------------
+
+void
+CRezMapDoc::DoExport(
+	FSSpec	&inFileSpec)
+{
+	OSErr	err = noErr;
+	
+	// Make a new file object
+	if (mExportFormat == exportMap_Xml || mExportFormat == exportMap_Html) {
+		// UTF-8 output and escaped entities
+		mExportStream = new CXMLFileStream(inFileSpec);
+	} else {
+		// MacRoman output
+		mExportStream = new CTextFileStream(inFileSpec, kCFStringEncodingMacRoman);
+	}
+	
+	if (mExportStream != nil) {		
+		// Make new file on disk
+		mExportStream->CreateNewDataFile( (OSType) CRezillaPrefs::GetPrefValue(kPref_export_editorSig), 'TEXT' );
+		
+		// Open the data fork.
+		mExportStream->OpenDataFork( fsWrPerm );
+		
+		// Write out the data.
+		WriteOutExport(mExportFormat);
+		
+		// Close the data fork.
+		mExportStream->CloseDataFork();
+		
+		// Free memory which we don't need anymore
+		delete mExportStream;
+		mExportStream = nil;
+	} 
+}
+
+
+// ---------------------------------------------------------------------------------
+//  WriteOutExport
+// ---------------------------------------------------------------------------------
+
+void
+CRezMapDoc::WriteOutExport(SInt16 inExportFormat)
+{	
+	StRezMapExporter	exporter(mExportStream);
+	switch ( inExportFormat ) {
+		case exportMap_Xml:
+		// In XML output, binary data are always Base64 encoded
+		exporter.WriteOutXml(mRezMap, 
+							 CRezillaPrefs::GetPrefValue(kPref_export_includeBinary),
+							 export_Base64Enc);
+		break;
+		
+		case exportMap_Text:
+		exporter.WriteOutText(mRezMap, 
+							 CRezillaPrefs::GetPrefValue(kPref_export_includeBinary),
+							 CRezillaPrefs::GetPrefValue(kPref_export_dataEncoding));
+		break;
+		
+		case exportMap_Html:
+		// In HTML output, binary data are not included, so the encoding is irrelevant
+		exporter.WriteOutHtml(mRezMap, false, 0);
+		break;
+
+		case exportMap_Derez:
+		exporter.WriteOutDerez(mRezMap);
+		break;
+	}
+	
+}
+
+
+// ---------------------------------------------------------------------------
+//  GetRezMapFromXml												[public]
 // ---------------------------------------------------------------------------
 // // Rezilla DTD
 // // 
@@ -2435,7 +2354,7 @@ CRezMapDoc::GetResourceFromXml(CFXMLTreeRef inTreeRef, ResType inType)
 	} else if ( mRezMap->HasResourceWithTypeAndId(inType, theID) ) {
 		error = err_ImportConflictingResourceID;	
 	} else {
-		CRezObjItem * theRezObjItem = DoCreateResource(inType, theID, &theName, theAttrs, false);
+		CRezObjItem * theRezObjItem = NewResource(inType, theID, &theName, theAttrs, false);
 		if (theHandle) {
 			if (theRezObjItem) {
 				CRezObj * theRezObj = theRezObjItem->GetRezObj();
