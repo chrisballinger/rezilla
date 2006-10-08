@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2006-10-05 12:16:21
+//             Last modification : 2006-10-08 17:57:38
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@users.sourceforge.net>
 // www : <http://rezilla.sourceforge.net/>
@@ -602,7 +602,6 @@ const PaneIDT	item_InspSize				= 3;
 const PaneIDT	item_InspMapName			= 4;
 const PaneIDT	item_InspEditID				= 5;
 const PaneIDT	item_InspEditName			= 6;
-const PaneIDT	item_InspIcon				= 9;
 const PaneIDT	item_InspSysHeap			= 11;
 const PaneIDT	item_InspPurgeable			= 12;
 const PaneIDT	item_InspLocked				= 13;
@@ -910,6 +909,7 @@ const PaneIDT	item_IcnsVisualize			= FOUR_CHAR_CODE('VISU');
 // Resource Picker Window
 // ----------------------
 const PaneIDT   item_PickerRezCountField	= 1;
+const PaneIDT   item_PickerStampView		= FOUR_CHAR_CODE('StmV');
 
 
 // Common elements for various windows
@@ -1160,6 +1160,10 @@ const MessageT	msg_PopupEditField				= FOUR_CHAR_CODE('PopF');
 const MessageT	msg_DragMoveAction				= FOUR_CHAR_CODE('DMov');
 const MessageT	msg_DragCopyAction				= FOUR_CHAR_CODE('DCpy');
 const MessageT	msg_RezObjCreated				= FOUR_CHAR_CODE('ObCr');
+const MessageT	msg_RezObjDuplicated			= FOUR_CHAR_CODE('ObDu');
+const MessageT	msg_RezObjPasted				= FOUR_CHAR_CODE('ObPa');
+const MessageT	msg_RezIDChanged				= FOUR_CHAR_CODE('IdMo');
+const MessageT	msg_RezDataChanged				= FOUR_CHAR_CODE('DaMo');
 const MessageT	msg_RezObjDeleted				= FOUR_CHAR_CODE('ObDe');
 const MessageT	msg_RezTypeDeleted				= FOUR_CHAR_CODE('TyDe');
 // ZP feature #13
@@ -1409,12 +1413,13 @@ enum RezillaErrors
 	err_ImportUnknownAeteEnumerationTag,
 	err_ImportUnknownAeteEnumeratorTag,
 	err_ImportUnknownFlagsTag,
-	err_ImportWrongRootNode,
+	err_ImportWrongRootElement,
 	err_ImportUnknownRezMapTag,
 	err_ImportMissingResourceType,
 	err_ImportMissingResourceID,
 	err_ImportConflictingResourceID,
 	err_ImportMapIsNotEmpty,
+	err_ImportMissingRootElement,
 	err_TmplTemplateError			= 2000,
 	err_TmplGetDataStreamFailed,
 	err_TmplUnrecognizedTag,
