@@ -206,7 +206,7 @@ CRezTypeItem::DoubleClick(
 	Boolean						/* inHitText */)
 {
 	CRezMapTable *theRezMapTable = GetOwnerRezMapTable();
-	if (theRezMapTable->GetOwnerDoc()->TryOpenPicker(this) == false) {
+	if (theRezMapTable && theRezMapTable->GetOwnerDoc()->TryOpenPicker(this) == false) {
 		if (IsExpanded()) {
 			Collapse();
 		} else {

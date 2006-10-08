@@ -75,13 +75,11 @@ CRezObjItem::~CRezObjItem()
 	if ( mIconH != nil ) {
 		::DisposeIconSuite(mIconH, true);
 	}
-	// Clear the Inspector if it contains info about this resource item
-	if (CRezillaApp::sInspectorWindow != nil &&
-		CRezillaApp::sInspectorWindow->GetRezObjItem() == this
-	) {
-		CRezillaApp::sInspectorWindow->ClearValues();
-	} 
+
 	if (mRezObj != nil) {
+		// Clear the Inspector if it contains info about this resource item
+		CRezillaApp::sInspectorWindow->ClearIfNecessary(mRezObj);
+		
 		mRezObj->DecrRefCount();
 		if (mRezObj->GetRefCount() == 0) {
 			delete mRezObj;
