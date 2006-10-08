@@ -1234,8 +1234,8 @@ CTmplEditorWindow::RotateTarget( Boolean inBackwards )
 	CWasteEditView*	theWE;
 	Rect			frameRect, visRect;
 	SInt32			scrolling;
-	SDimension32	dim1;
-	SPoint32		dim2;
+	SDimension32	dim;
+	SPoint32		pos;
 	
 	// Get the current target
 	originalPane = dynamic_cast<LPane *>(GetTarget());
@@ -1289,15 +1289,15 @@ CTmplEditorWindow::RotateTarget( Boolean inBackwards )
 		// Scroll so that it is at window top
 		mContentsView->CalcPortFrameRect(visRect);
 		scrolling = frameRect.top-visRect.top-15; // 15 pixels of room
-		mContentsView->GetImageSize(dim1);
-		mContentsView->GetScrollPosition(dim2);
+		mContentsView->GetImageSize(dim);
+		mContentsView->GetScrollPosition(pos);
 		// Don't show parts lower than image bottom
-		if (scrolling > (dim1.height - (dim2.v + (visRect.bottom - visRect.top)))) {
-			scrolling = (dim1.height - (dim2.v + (visRect.bottom - visRect.top)));
+		if (scrolling > (dim.height - (pos.v + (visRect.bottom - visRect.top)))) {
+			scrolling = (dim.height - (pos.v + (visRect.bottom - visRect.top)));
 		}
 		// and don't go higher than image top
-		if (scrolling < -dim2.v) {
-			scrolling = -dim2.v;
+		if (scrolling < -pos.v) {
+			scrolling = -pos.v;
 		}
 		mContentsView->ScrollImageBy(0, scrolling, true);
 	}
