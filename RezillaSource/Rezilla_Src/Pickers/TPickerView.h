@@ -2,7 +2,7 @@
 // TPickerView.h
 // 
 //                       Created: 2006-02-24 09:49:42
-//             Last modification: 2006-03-16 06:05:37
+//             Last modification: 2006-10-08 11:36:22
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -75,6 +75,7 @@ public:
 protected:
 	T *					mStampView;
 	
+
 private:
 
 // ---------------------------------------------------------------------------
@@ -104,7 +105,7 @@ InitPickerView(SInt16 inStampWidth, SInt16 inStampHeight, ResIDT inID)
 	ResizeFrameTo(theWidth, theHeight, false);
 	ResizeImageTo(theWidth, theHeight, false);
 	
-	pi.paneID			= 0;
+	pi.paneID			= item_PickerStampView;
 	pi.width			= inStampWidth;
 	pi.height			= inStampHeight;
 	pi.visible			= true;

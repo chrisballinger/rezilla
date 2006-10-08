@@ -216,7 +216,11 @@ CPickerDoc::ObeyCommand(
 			} 
 			rezmapDoc->TryEdit(theRezObjItem, inCommand, asType);
 			break;
-		
+			
+			case cmd_DuplicateRez: 
+			rezmapDoc->DuplicateResource( theRezObjItem->GetRezObj() );
+			break;
+			
 			case cmd_GetRezInfo: 
 			CRezillaApp::sInspectorWindow->Show();
 			CRezillaApp::sInspectorWindow->InstallValues(theRezObjItem);
@@ -229,7 +233,10 @@ CPickerDoc::ObeyCommand(
 			break;
 
 		}
-	} 
+	} else {
+		// Not Close/Paste/New commands and no view selected
+		cmdHandled = false;
+	}
 	
 	if (sendToRezmapDoc) {
 		// Forward to the RezMapDoc and let it handle this

@@ -2,7 +2,7 @@
 // TPickerDoc.h				
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-09-10 13:11:51
+//             Last modification: 2006-10-08 10:30:09
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -76,23 +76,23 @@ ObeyCommand(
 	
 	switch (inCommand) {
 		
-		case cmd_DuplicateRez: 
-		if (theView != NULL) {
-			// Find the corresponding RezObjItem in the RezMap document
-			CRezObjItem *	theRezObjItem = mRezMapTable->GetRezObjItem(theType, theView->GetPaneID(), true);
-			ThrowIfNil_(theRezObjItem);
-			CRezMapDoc *	theDoc = mRezMapTable->GetOwnerDoc();
-			
-			CRezObj * newRezObj = theDoc->DuplicateResource( theRezObjItem->GetRezObj() );
-			if (newRezObj != NULL) {
-				// Create a picker view for the new resource
-				CPickerView *	newView = (CPickerView*) CreateNewPicker(newRezObj->GetID());
-				mPickerWindow->RecalcLayout();
-				// Make it the new current selection
-				mPickerWindow->ListenToMessage(msg_PickerViewSingleClick, newView);
-			} 
-		}
-		break;
+// 		case cmd_DuplicateRez: 
+// 		if (theView != NULL) {
+// 			// Find the corresponding RezObjItem in the RezMap document
+// 			CRezObjItem *	theRezObjItem = mRezMapTable->GetRezObjItem(theType, theView->GetPaneID(), true);
+// 			ThrowIfNil_(theRezObjItem);
+// 			CRezMapDoc *	theDoc = mRezMapTable->GetOwnerDoc();
+// 			
+// 			CRezObj * newRezObj = theDoc->DuplicateResource( theRezObjItem->GetRezObj() );
+// 			if (newRezObj != NULL) {
+// // 				// Create a picker view for the new resource
+// // 				CPickerView *	newView = (CPickerView*) CreateNewPicker(newRezObj->GetID());
+// 				mPickerWindow->RecalcLayout();
+// 				// Make it the new current selection
+// 				mPickerWindow->ListenToMessage(msg_PickerViewSingleClick, newView);
+// 			} 
+// 		}
+// 		break;
 
 		
 		default:
@@ -105,22 +105,32 @@ ObeyCommand(
 
 
 // ---------------------------------------------------------------------------
-//   ListenToMessage													[public]
+//   ListenToMessage												[public]
 // ---------------------------------------------------------------------------
 
 void
 ListenToMessage( MessageT inMessage, void * ioParam) 
 {
 	short theID;
-	
+
 	switch (inMessage) {
 				
-		case msg_RezTypeDeleted:
-		delete this;
+		case msg_RezObjCreated:
+		case msg_RezObjDuplicated:
+		case msg_RezObjPasted:
+		theID = *(short*) ioParam;
+		CreateNewPicker(theID);
+		mPickerWindow->RecalcLayout();
+		mPickerWindow->IncrRezCountField(1);
 		break;
 				
-		case msg_RezObjCreated:
-		theID = *(short*) ioParam;
+		case msg_RezIDChanged:
+		SInt32 theLong = (SInt32) ioParam;
+		// The ioParam is formatted as follows: 
+		// the low word has the old ID, the high word has the new one
+		theID = LoWord(theLong);
+		mPickerWindow->DeletePickerView(theID);
+		theID = HiWord(theLong);
 		CreateNewPicker(theID);
 		mPickerWindow->RecalcLayout();
 		break;
@@ -128,6 +138,15 @@ ListenToMessage( MessageT inMessage, void * ioParam)
 		case msg_RezObjDeleted:
 		theID = *(short*) ioParam;
 		mPickerWindow->DeletePickerView(theID);
+		mPickerWindow->IncrRezCountField(-1);
+		break;
+				
+		case msg_RezTypeDeleted:
+		delete this;
+		break;
+				
+		case msg_RezDataChanged:
+		mPickerWindow->Refresh();
 		break;
 				
 		default:

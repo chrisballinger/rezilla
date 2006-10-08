@@ -264,6 +264,108 @@ CPickerWindow::ObeyCommand(
 
 
 // ---------------------------------------------------------------------------
+//   HandleKeyPress												  [public]
+// ---------------------------------------------------------------------------
+
+Boolean
+CPickerWindow::HandleKeyPress(
+	const EventRecord&	inKeyEvent)
+{
+	Boolean		keyHandled	= true;
+	LControl*	keyButton	= nil;
+	UInt8		theChar		= (UInt8) (inKeyEvent.message & charCodeMask);
+	
+	if (inKeyEvent.modifiers & cmdKey) {
+		return keyHandled;
+	} 
+	
+	if (theChar == char_LeftArrow) {
+		this->RotateSelection( -1, 0 );
+	} else if (theChar == char_RightArrow) {
+		this->RotateSelection( 1, 0 );
+	} else if (theChar == char_UpArrow) {
+		this->RotateSelection( 0, -1 );
+	} else if (theChar == char_DownArrow) {
+		this->RotateSelection( 0, 1 );
+	} else if (theChar == char_Backspace || theChar == char_Clear) {
+		mOwnerDoc->ObeyCommand(cmd_RemoveRez, NULL);
+	} else {
+		keyHandled = LWindow::HandleKeyPress(inKeyEvent);
+	}
+	
+	return keyHandled;
+}
+
+
+// ---------------------------------------------------------------------------
+// DrawSelf
+// ---------------------------------------------------------------------------
+
+void
+CPickerWindow::DrawSelf()
+{
+	LWindow::DrawSelf();
+	if (mSelectedView) {
+		mSelectedView->DrawBorder(true);
+	} 
+}
+
+
+// ---------------------------------------------------------------------------
+// 	RotateSelection
+// ---------------------------------------------------------------------------
+
+void
+CPickerWindow::RotateSelection( SInt32 dh, SInt32 dv )
+{
+	ArrayIndexT	currIndex, trgtIndex;
+	
+	if (!mSelectedView) {
+		// If no selection, select the first view
+		trgtIndex = 1;
+	} else {
+		mSelectedView->DrawBorder(false); 
+		currIndex = mViewList->FetchIndexOf(mSelectedView);
+		
+		if (currIndex != LArray::index_Bad) {
+			if (dh == 1) {
+				trgtIndex = currIndex + 1;
+			} else if (dh == -1) {
+				trgtIndex = currIndex - 1;
+			} else {
+				SInt16	viewsPerRow = CalcViewsPerRow();
+				if (dv == 1) {
+					trgtIndex = currIndex + viewsPerRow;
+				} else if (dv == -1) {
+					trgtIndex = currIndex - viewsPerRow;
+				} 
+			}
+			if (trgtIndex <= 0) {
+				trgtIndex = mViewList->GetCount();
+			} 
+			if (trgtIndex > mViewList->GetCount()) {
+				trgtIndex = 1;
+			} 
+		}
+	}
+	if (! mViewList->FetchItemAt(trgtIndex, mSelectedView)) {
+		mSelectedView = NULL;
+	} else {
+		// Scroll the contents view if necessary
+		Rect			frameRect, visRect;
+
+		mSelectedView->CalcPortFrameRect(frameRect);
+		mSelectedView->CalcPortExposedRect(visRect);
+		if (not ::EqualRect(&frameRect,&visRect)) {
+			mContentsView->PortToLocalPoint(topLeft(frameRect));
+			mContentsView->ScrollImageTo(0, frameRect.top - kPickerWindowVertOffset, true);
+		}
+		mSelectedView->DrawBorder(true); 
+	}
+}
+
+
+// ---------------------------------------------------------------------------
 //   InstallReadOnlyIcon											[public]
 // ---------------------------------------------------------------------------
 
@@ -343,6 +445,33 @@ CPickerWindow::RecalcLayout()
 
 
 // ---------------------------------------------------------------------------
+//   CalcViewsPerRow
+// ---------------------------------------------------------------------------
+
+SInt16
+CPickerWindow::CalcViewsPerRow()
+{
+	SDimension16	frameSize;
+	SInt16			theWidth, theNum;
+	
+	theWidth = mStampWidth + 2 * kPickerViewHorizMargin;
+	if (theWidth < kPickerViewMinWidth) {
+		theWidth = kPickerViewMinWidth;
+	} 
+	theWidth += kPickerViewHorizSkip;
+
+	mContentsView->GetFrameSize(frameSize);
+
+	theNum = (frameSize.width - kPickerWindowHorizOffset) / theWidth;
+	if (theNum == 0) {
+		theNum = 1;
+	} 
+
+	return theNum;
+}
+
+
+// ---------------------------------------------------------------------------
 //   GetRezCountField											[public]
 // ---------------------------------------------------------------------------
 
@@ -368,6 +497,23 @@ CPickerWindow::SetRezCountField(long inCount)
 	Str255 theString;
 	::NumToString(inCount, theString);
 	mRezCountField->SetDescriptor(theString);
+}
+
+
+// ---------------------------------------------------------------------------
+//   IncrRezCountField											[public]
+// ---------------------------------------------------------------------------
+// in can be < 0 to decrement the RezCountField
+
+void
+CPickerWindow::IncrRezCountField(long inDelta) 
+{
+	long count = GetRezCountField();
+	count += inDelta;
+	if (count < 0) {
+		count = 0;
+	} 
+	SetRezCountField(count);
 }
 
 

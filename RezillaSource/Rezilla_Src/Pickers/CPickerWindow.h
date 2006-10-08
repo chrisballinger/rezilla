@@ -2,7 +2,7 @@
 // CPickerWindow.h				
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-09-22 05:10:33
+//             Last modification: 2006-10-06 07:33:28
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -51,8 +51,12 @@ public:
 							CommandT			inCommand,
 							void*				ioParam);
 
+	virtual Boolean	HandleKeyPress( const EventRecord&	inKeyEvent);
+
 	virtual void	FinalizePicker(CPickerDoc* inPickerDoc, void * ioParam = NULL);
 	
+	virtual void	RotateSelection( SInt32 dh, SInt32 dv );
+
 	void			InstallReadOnlyIcon();
 
 	virtual void	DoSetBounds(const Rect& inBounds);
@@ -66,6 +70,7 @@ public:
 
 	CPickerView *	FindPickerView( short inID );
 	
+	virtual void		DrawSelf();
 
 	// AppleEvents
 	virtual void    MakeSelfSpecifier(
@@ -82,6 +87,7 @@ public:
 
 	long			GetRezCountField() const;
 	void			SetRezCountField(long inCount);
+	void			IncrRezCountField(long inDelta);
 	
 	// Accessors
 	CPickerDoc *		GetOwnerDoc() { return mOwnerDoc;}
@@ -112,6 +118,7 @@ protected:
 
 private:
 	void		Initialize();
+	SInt16		CalcViewsPerRow();
 	
 };
 
