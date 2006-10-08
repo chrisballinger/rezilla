@@ -95,7 +95,6 @@ CICON_PickerStamp::DrawSelf()
 			::PlotIconHandle(&frame, kAlignAbsoluteCenter, 
 					 mParent->IsSelected() ? kTransformSelected : kTransformNone, theIconHandle);
 			 ::DisposeHandle(theIconHandle);
-// 			 ::ReleaseResource(theIconHandle);
 		} 
 	}
 }

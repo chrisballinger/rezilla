@@ -115,15 +115,16 @@ CPattern_PickerStamp::DrawSelf()
 				theResHandle = ::Get1Resource(theType, theID);
 				::HandToHand(&theResHandle);
 				if (thePatternH && theResHandle) {
-					if ( ::GetHandleSize(theResHandle) >= 8 ) {
-						::BlockMoveData(*theResHandle, *thePatternH, 8);
+					if ( ::GetHandleSize(theResHandle) >= 10 ) {
+						// The first two bytes are the list count
+						::BlockMoveData(*theResHandle + 2, *thePatternH, 8);
 					} 
 					thePattern = **(Pattern**)thePatternH;
 					::PenPat(&thePattern);
 					::PaintRect(&frame);
 					::PenNormal();
 				}
-				if (theResHandle) ::ReleaseResource(theResHandle);
+				if (theResHandle) ::DisposeHandle(theResHandle);
 			}
 			break;
 						

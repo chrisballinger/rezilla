@@ -79,8 +79,6 @@ CMENU_PickerStamp::DrawSelf()
 
 	StTextState	textSaver;
 	StRezRefSaver refSaver(theRefNum);
-	theResHandle = ::Get1Resource('MENU', theID);
-	::HandToHand(&theResHandle);
 
 	theTitle[0] = 0;
 
