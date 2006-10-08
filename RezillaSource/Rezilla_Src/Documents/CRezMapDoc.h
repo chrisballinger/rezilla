@@ -2,7 +2,7 @@
 // CRezMapDoc.h				
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2006-10-05 12:29:42
+//             Last modification: 2006-10-07 11:43:52
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -199,16 +199,11 @@ public:
 	CRezObjItem *		NewResource(ResType inType, 
 									 short inID, 
 									 Str255* inName, 
-									 short inAttrs);
-	CRezObjItem *		DoCreateResource(
-									 ResType inType, 
-									 short inID, 
-									 Str255* inName, 
 									 short inAttrs, 
 									 Boolean inReplace);
 	CRezObj *			DuplicateResource(CRezObj* inRezObj);
 	void				RemoveResource(CRezObjItem* inRezObjItem, 
-									   Boolean deleteTypeItem = true);
+									  Boolean deleteTypeItem = true);
 	void				PasteResource(ResType inType,
 									  short inID,
 									  Handle inHandle, 
@@ -221,7 +216,7 @@ public:
 									 short inID, 
 									 Boolean exact = false);
 
-	CPickerDoc *		GetTypePicker(ResType inType);
+	CPickerDoc *		GetRezPicker(ResType inType);
 	
 	TArray<CEditorDoc *>*	GetOpenedEditors() { return mOpenedEditors ;}
 
@@ -237,6 +232,8 @@ public:
 							   ResType * substTypePtr);
 	
 	Boolean				TryOpenPicker(CRezTypeItem * inRezTypeItem);
+	
+	void				NotifyPicker(ResType inType, MessageT inMessage, void * ioParam);
 	
 	Boolean				IsReadOnly() { return mReadOnly;}
 	void				SetReadOnly(Boolean inReadOnlyDoc) {mReadOnly = inReadOnlyDoc;}
@@ -267,7 +264,6 @@ protected:
 									DescType		inProperty) const;
 
 	void				NameNewDoc();
-	CRezObjItem *		NewResDialog();
 	void				WriteOutExport(SInt16 inExportFormat);
 	
 private:
@@ -275,6 +271,11 @@ private:
 	void				DeleteEditors(Boolean deleteArray);
 	void				DeletePickers(Boolean deleteArray);
 	void				WarnEdited(ResType inType, Boolean singleItem, int countEdited);
+	
+	CRezObjItem *		CreateResource(ResType inType, 
+									 short inID, 
+									 Str255* inName, 
+									 short inAttrs);
 	
 };
 
