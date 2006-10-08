@@ -2,7 +2,7 @@
 // CRezMapDocAE.cp
 // 
 //                       Created: 2005-04-09 10:03:39
-//             Last modification: 2006-09-28 12:55:28
+//             Last modification: 2006-10-05 19:37:15
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -280,7 +280,8 @@ CRezMapDoc::HandleImportEvent(
 	const AppleEvent&	inAppleEvent,
 	AppleEvent&			outAEReply,
 	AEDesc&				outResult)
-{		
+{
+#pragma unused(outResult)
 	OSErr		error = noErr;
 	DescType	returnedType;
 	Size		theSize;
@@ -300,6 +301,7 @@ CRezMapDoc::HandleImportEvent(
 		
 		// Import the map
 		error = DoImport(fileSpec);
+		mRezMapWindow->RecalcCountFields();
 	}
 	
 	if (error != noErr) {
@@ -592,7 +594,7 @@ CRezMapDoc::HandleCreateElementEvent(
 	}
 	
 	// Create the new resource
-	rezObjItem = DoCreateResource(theType, theID, &nameStr, theAttrs, false);
+	rezObjItem = NewResource(theType, theID, &nameStr, theAttrs, false);
 	ThrowIfNil_(rezObjItem);
 	
 	SetModified(true);
