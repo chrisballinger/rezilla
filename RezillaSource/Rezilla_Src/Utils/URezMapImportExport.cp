@@ -2,7 +2,7 @@
 // URezMapImportExport.cp					
 // 
 //                       Created : 2004-02-29 10:41:09
-//             Last modification : 2006-10-03 12:20:09
+//             Last modification : 2006-10-05 19:24:53
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@users.sourceforge.net>
 // www : <http://rezilla.sourceforge.net/>
@@ -179,7 +179,7 @@ StRezMapExporter::WriteOutXml(CRezMap* inRezMap, Boolean includeData, SInt32 dat
 	theStream->WritePStringEnclosed(mName, "\pRezMapName");
 	inRezMap->GetMapAttributes(theAttrs);	
 	theStream->WriteSInt16Enclosed(theAttrs, "RezMapFlags");
-	theStream->WriteTag("TypesArray", tag_open);
+	theStream->WriteTag("TypesArray", tag_open, true, 1);
 
 	inRezMap->GetAllTypes(theTypesArray);
 	while (typeIterator.Next(theType)) {
@@ -187,29 +187,29 @@ StRezMapExporter::WriteOutXml(CRezMap* inRezMap, Boolean includeData, SInt32 dat
 		TArray<short>* theIdArray = new TArray<short>(theIDComparator, true);
 		TArrayIterator<short>	idIterator(*theIdArray);
 		
-		theStream->WriteTag("Type", tag_open, true, 1);
-		theStream->WriteOSTypeEnclosed(theType, "TypeCode", 2);
+		theStream->WriteTag("Type", tag_open, true, 2);
+		theStream->WriteOSTypeEnclosed(theType, "TypeCode", 3);
 				
-		theStream->WriteTag("ResourcesArray", tag_open, true, 2);
+		theStream->WriteTag("ResourcesArray", tag_open, true, 3);
 
 		theRezType = new CRezType(theType, inRezMap);
 		theRezType->GetAllRezIDs(theIdArray);
 		
 		while (idIterator.Next(theID)) {
 			theRezObj = new CRezObj(theRezType, theID);
-			theStream->WriteTag("Resource", tag_open, true, 3);
+			theStream->WriteTag("Resource", tag_open, true, 4);
 			
-			theStream->WriteSInt16Enclosed(theRezObj->GetID(), "ResourceID", 4);
+			theStream->WriteSInt16Enclosed(theRezObj->GetID(), "ResourceID", 5);
 
-			theStream->WritePStringEnclosed( *(theRezObj->GetName()), "\pResourceName", 4);
+			theStream->WritePStringEnclosed( *(theRezObj->GetName()), "\pResourceName", 5);
 
-			theStream->WriteSInt16Enclosed(theRezObj->GetAttributes(), "ResourceFlags", 4);
+			theStream->WriteSInt16Enclosed(theRezObj->GetAttributes(), "ResourceFlags", 5);
 			
 			// Note: the ResourceSize tag is optional in the DTD. Let's skip it.
-			// theStream->WriteSInt16Enclosed(theRezObj->GetSize(), "ResourceSize", 4);
+			// theStream->WriteSInt16Enclosed(theRezObj->GetSize(), "ResourceSize", 5);
 			
 			if (includeData) {
-				theStream->WriteTag("ResourceData", tag_open, false, 4);
+				theStream->WriteTag("ResourceData", tag_open, false, 5);
 				theData = theRezObj->GetData();
 				if (theData != nil) {
 					// Note: since version 1.1, XML output is always Base64 encoded
@@ -234,23 +234,23 @@ StRezMapExporter::WriteOutXml(CRezMap* inRezMap, Boolean includeData, SInt32 dat
 					}
 				}
 				*theStream << "\r";
-				theStream->WriteTag("ResourceData", tag_close, true, 4);
+				theStream->WriteTag("ResourceData", tag_close, true, 5);
 			} else {
-				theStream->WriteTag("ResourceData", tag_empty, true, 4);
+				theStream->WriteTag("ResourceData", tag_empty, true, 5);
 			}
 				
-			theStream->WriteTag("Resource", tag_close, true, 3);
+			theStream->WriteTag("Resource", tag_close, true, 4);
 			delete theRezObj;
 		}
-		theStream->WriteTag("ResourcesArray", tag_close, true, 2);
-		theStream->WriteTag("Type", tag_close, true, 1);
+		theStream->WriteTag("ResourcesArray", tag_close, true, 3);
+		theStream->WriteTag("Type", tag_close, true, 2);
 
 		idIterator.ResetTo(0);
 		delete theIdArray;
 		delete theRezType;
 	}
 	
-	theStream->WriteTag("TypesArray", tag_close);
+	theStream->WriteTag("TypesArray", tag_close, true, 1);
 	theStream->WriteTag("RezMap", tag_close);
 }
 
@@ -469,7 +469,7 @@ StRezMapImporter::ReadXml()
 OSErr
 StRezMapImporter::ParseTree(CFXMLTreeRef inXMLTree)
 {
-	OSErr			error = noErr;
+	OSErr			error = err_ImportMissingRootElement;
 	CFXMLTreeRef    xmlTreeNode;
 	CFXMLNodeRef    xmlNode;
 	int             childCount;
@@ -484,13 +484,14 @@ StRezMapImporter::ParseTree(CFXMLTreeRef inXMLTree)
 		if (xmlTreeNode) {
 			xmlNode = CFXMLTreeGetNode(xmlTreeNode);
 			if (xmlNode) {
-				if (CFXMLNodeGetTypeCode(xmlNode) == kCFXMLNodeTypeElement
-					&&  ! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("RezMap"), 0) ) {
-					error = mRezMapDoc->GetRezMapFromXml(xmlTreeNode);
-				} 
-			}  else {
-				error = err_ImportWrongRootNode;
-			}
+				if (CFXMLNodeGetTypeCode(xmlNode) == kCFXMLNodeTypeElement) {
+					if (! CFStringCompare( CFXMLNodeGetString(xmlNode), CFSTR("RezMap"), 0)) {
+						error = mRezMapDoc->GetRezMapFromXml(xmlTreeNode);
+					} else {
+						error = err_ImportWrongRootElement;
+					}
+				}
+			} 
 		} 
 	}	
 	return error;
