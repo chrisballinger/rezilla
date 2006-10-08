@@ -1,11 +1,11 @@
 // ===========================================================================
 // CSuite_Window.cp
 //                       Created: 2005-01-10 21:23:57
-//             Last modification: 2006-03-10 22:17:39
+//             Last modification: 2006-10-06 07:28:46
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes 2004-2005, 2006
+// (c) Copyright: Bernard Desgraupes 2004-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -20,6 +20,7 @@
 #include "CRezMap.h"
 #include "CRezObj.h"
 #include "CRezillaApp.h"
+#include "CIconSelection.h"
 #include "RezillaConstants.h"
 #include "UGraphicConversion.h"
 #include "UIconMisc.h"
@@ -213,17 +214,19 @@ CSuite_Window::ListenToMessage( MessageT inMessage, void *ioParam )
 // ---------------------------------------------------------------------------
 //   HandleKeyPress												  [public]
 // ---------------------------------------------------------------------------
-// The PageUp and PageDown arrows move the slider by 1 unit (recall that
-// the simple arrow keys are used by the Text tool to nudge the selection
-// in the canvas). The Home key moves the slider to the min value, the End
-// key to the max value. Pressing the + or - key together with the Command
-// key simulate the plus and minus buttons.
+// The PageUp/RightArrow and PageDown/LeftArrow keys move the slider by 1
+// unit. But recall that the simple arrow keys are used by the paint view
+// to nudge the selection in the canvas, so RightArrow and LeftArrow move
+// the slider only when there is no selection. The Home key moves the
+// slider to the min value, the End key to the max value. Pressing the "+"
+// or the "-" key together with the Command key simulate the Plus and Minus
+// buttons respectively.
 
 Boolean
 CSuite_Window::HandleKeyPress(
 	const EventRecord&	inKeyEvent)
 {
-	Boolean		keyHandled	= true;
+	Boolean		keyHandled	= false;
 	LControl*	keyButton	= nil;
 	UInt8		theChar		= (UInt8) (inKeyEvent.message & charCodeMask);
 	
@@ -236,15 +239,17 @@ CSuite_Window::HandleKeyPress(
 			keyButton = dynamic_cast<LControl*>(mMinusButton);		
 		} 
 	} else {
+		Boolean acceptArrows = ( mCurrentImage != nil && mCurrentSelection != nil 
+								&& mCurrentSelection->IsEmpty() );		 
 		SInt32 theValue, oldValue;
 		oldValue = mSlider->GetValue();
 		theValue = oldValue;
 		
-		if (theChar == char_PageDown) {
+		if (theChar == char_PageDown || (acceptArrows && theChar == char_LeftArrow)) {
 			if (theValue > 1) {
 				--theValue;
 			} 
-		} else if (theChar == char_PageUp) {
+		} else if (theChar == char_PageUp || (acceptArrows && theChar == char_RightArrow)) {
 			if (theValue < mTotalCount) {
 				++theValue;
 			} 
@@ -252,8 +257,10 @@ CSuite_Window::HandleKeyPress(
 			theValue = 1;
 		} else if ( theChar == char_End ) {
 			theValue = mTotalCount;
-		} 
-		
+		} else {
+			keyHandled = false;
+		}
+
 		if (theValue != oldValue) {
 			mSlider->SetValue(theValue);
 			SetNthBitmap(theValue);	
@@ -262,7 +269,10 @@ CSuite_Window::HandleKeyPress(
 	
 	if (keyButton != nil) {
 		keyButton->SimulateHotSpotClick(kControlButtonPart);
-	} else {
+		keyHandled = true;
+	} 
+	
+	if (!keyHandled) {
 		keyHandled = CIcon_EditorWindow::HandleKeyPress(inKeyEvent);
 	}
 	
