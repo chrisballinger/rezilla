@@ -507,19 +507,18 @@ CRezMapDoc::ObeyCommand(
 
 
 // ---------------------------------------------------------------------------------
-//  TryEdit															[public]
+//  TryEdit																	[public]
 // ---------------------------------------------------------------------------------
 
 int
 CRezMapDoc::TryEdit(CRezObjItem * inRezObjItem, CommandT inCommand, ResType asType)
 {	
-	short		theID = inRezObjItem->GetRezObj()->GetID();
-	ResType		theType = inRezObjItem->GetRezObj()->GetType();
-	ResType		substType = theType;
+	short		rezID = inRezObjItem->GetRezObj()->GetID();
+	ResType		rezType = inRezObjItem->GetRezObj()->GetType();
 	int			countEdited = 0;
 	
 	// Is this resource already edited ?
-	CEditorDoc * theRezEditor = GetRezEditor(theType, theID);
+	CEditorDoc * theRezEditor = GetRezEditor(rezType, rezID);
 	if (theRezEditor != nil) {
 		if ((theRezEditor->GetKind() != editor_kindTmpl && inCommand == cmd_TmplEditRez) 
 			|| (theRezEditor->GetKind() != editor_kindHex && inCommand == cmd_HexEditRez)) {
@@ -528,12 +527,12 @@ CRezMapDoc::TryEdit(CRezObjItem * inRezObjItem, CommandT inCommand, ResType asTy
 		 theRezEditor->SelectMainWindow();
 		 return countEdited;
 	} else {
-		if (asType != 0) {
-			theType = asType;
-			substType = asType;
-		} 
+		ResType		editType = rezType;
 		
-		DoEdit(inRezObjItem, inCommand, theType, &substType);
+		if (asType != 0) {
+			editType = asType;
+		} 
+		DoEdit(inRezObjItem, inCommand, editType);
 	}
 	
 	return countEdited;
@@ -541,43 +540,45 @@ CRezMapDoc::TryEdit(CRezObjItem * inRezObjItem, CommandT inCommand, ResType asTy
 
 
 // ---------------------------------------------------------------------------------
-//  DoEdit															[public]
+//  DoEdit																	[public]
 // ---------------------------------------------------------------------------------
 
 void
-CRezMapDoc::DoEdit(CRezObjItem * inRezObjItem, CommandT inCommand, ResType inType, ResType * substTypePtr)
+CRezMapDoc::DoEdit(CRezObjItem * inRezObjItem, CommandT inCommand, ResType inEditType)
 {	
+	ResType		substType = inEditType;
+	
 	switch (inCommand) {		
 		case cmd_EditRez:
 		case cmd_EditRezAsType:
-		if ( CEditorsController::HasEditorForType(inType, substTypePtr) ) {
+		if ( CEditorsController::HasEditorForType(inEditType, &substType) ) {
 			// call the appropriate editor
-			CEditorsController::InvokeCustomEditor(this, inRezObjItem, *substTypePtr);
+			CEditorsController::InvokeCustomEditor(this, inRezObjItem, substType);
 			break;
 		} // else fall through to plugin editing...
 		
 		case cmd_EditWithPlugin:
-		if ( CPluginsController::HasPluginForType(inType, substTypePtr) ) {
+		if ( CPluginsController::HasPluginForType(inEditType, &substType) ) {
 			// call the right plugin
-			CPluginsController::InvokePluginEditor(this, inRezObjItem, *substTypePtr);
+			CPluginsController::InvokePluginEditor(this, inRezObjItem, substType);
 			break;
 		} // else fall through to template editing...
 		
 		case cmd_TmplEditRez:
 		case cmd_TmplEditAsRez:
-		if ( CTemplatesController::HasTemplateForType(inType, substTypePtr, mRezMap) ) {
-			new CTmplEditorDoc(this, mRezMapWindow->GetRezMapTable(), inRezObjItem->GetRezObj(), *substTypePtr, mReadOnly);
+		if ( CTemplatesController::HasTemplateForType(inEditType, &substType, mRezMap) ) {
+			new CTmplEditorDoc(this, mRezMapWindow->GetRezMapTable(), inRezObjItem->GetRezObj(), substType, mReadOnly);
 			break;
 		} else {
 			if (inCommand == cmd_TmplEditRez) {
-				UMessageDialogs::AlertWithType(CFSTR("NoTemplateForThisType"), inType);
+				UMessageDialogs::AlertWithType(CFSTR("NoTemplateForThisType"), inEditType);
 				break;
 			} 
 			// else fall through to hexadecimal editing...
 		}
 
 		case cmd_HexEditRez:
-		new CHexEditorDoc(this, mRezMapWindow->GetRezMapTable(), inRezObjItem->GetRezObj(), inType, mReadOnly);
+		new CHexEditorDoc(this, mRezMapWindow->GetRezMapTable(), inRezObjItem->GetRezObj(), inEditType, mReadOnly);
 		break;
 	}
 }

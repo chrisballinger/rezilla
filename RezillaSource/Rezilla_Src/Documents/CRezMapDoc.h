@@ -228,8 +228,7 @@ public:
 	
 	void				DoEdit(CRezObjItem * inRezObjItem, 
 							   CommandT inCommand, 
-							   ResType inType, 
-							   ResType * substTypePtr);
+							   ResType inType);
 	
 	Boolean				TryOpenPicker(CRezTypeItem * inRezTypeItem);
 	
