@@ -2,11 +2,11 @@
 // CIcon_EditorDoc.h				
 // 
 //                       Created: 2004-12-11 23:33:03
-//             Last modification: 2005-01-09 09:06:16
+//             Last modification: 2006-10-09 16:37:22
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2004, 2005
+// (c) Copyright : Bernard Desgraupes, 2004-2005, 2006
 // All rights reserved.
 // ===========================================================================
 
@@ -52,7 +52,8 @@ protected:
 	virtual Handle		GetModifiedResource(Boolean &releaseIt);
 
 private:
-	virtual void		Initialize();
+	void			Initialize();
+
 };
 
 

@@ -2,7 +2,7 @@
 // CHexEditorWindow.cp					
 // 
 //                       Created: 2003-05-02 07:33:10
-//             Last modification: 2006-09-18 18:51:01
+//             Last modification: 2006-10-09 14:34:45
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -99,7 +99,7 @@ CHexEditorWindow::~CHexEditorWindow()
 
 
 // ---------------------------------------------------------------------------
-//   FinishCreateSelf				[protected]
+//   FinishCreateSelf											[protected]
 // ---------------------------------------------------------------------------
 
 void
@@ -161,6 +161,9 @@ CHexEditorWindow::FinishCreateSelf()
 	mOffsetField->AddListener(this);	
 	mDualView->AddListener(this);	
 
+	// Link to the broadcasters
+	UReanimator::LinkListenerToControls( this, this, PPob_HexEditorWindow );
+	
 	// Make the window a listener to the prefs object
 	CRezillaApp::sPrefs->AddListener(this);
 	
@@ -211,7 +214,7 @@ CHexEditorWindow::ListenToMessage(MessageT inMessage, void *ioParam )
 		}
 		
 		default:
-		dynamic_cast<CHexEditorDoc *>(GetSuperCommander())->ListenToMessage(inMessage, ioParam);
+		CEditorWindow::ListenToMessage(inMessage, ioParam);
 		break;
 				
 	}
@@ -248,6 +251,37 @@ CHexEditorWindow::FindCommandStatus(
 									outUsesMark, outMark, outName);
 			break;
 	}
+}
+
+
+// ---------------------------------------------------------------------------
+//  RevertContents												  [public]
+// ---------------------------------------------------------------------------
+
+void
+CHexEditorWindow::RevertContents()
+{
+	CRezObj * theRezObj = mOwnerDoc->GetRezObj();
+	// Reinstall the contents
+	if (theRezObj != nil) {
+		Handle rezData = theRezObj->GetData();
+		
+		if (rezData != nil) {
+			try {
+				// Delete the current buffer in memory
+				::WESetSelection( 0, 0x7FFFFFFF, mDualView->GetInMemoryWE() ) ;
+				::WEDelete(mDualView->GetInMemoryWE());
+				
+				// Reinstall the data
+				InstallResourceData(rezData);
+			} catch (...) {
+				UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("DataParsingException"), PPob_SimpleMessage);
+				return;
+			}
+		} 
+	} 
+	
+	SetDirty(false);
 }
 
 
@@ -352,8 +386,8 @@ CHexEditorWindow::InstallResourceData(Handle inHandle)
 	InstallContentsFromLine(1);
 	// Set the positions internally to 0
 	::WESetSelection( 0, 0, mDualView->GetInMemoryWE());
-	// Mark window as dirty
-	mDualView->SetDirty( false );
+	// Mark window as not dirty
+	SetDirty( false );
 }
 
 
@@ -407,18 +441,5 @@ CHexEditorWindow::SetDirty(Boolean inDirty)
 	CEditorWindow::SetDirty(inDirty);
 	mDualView->SetDirty(inDirty);
 }
-
-
-// // ---------------------------------------------------------------------------
-// //   DoSetBounds
-// // ---------------------------------------------------------------------------
-// 
-// void
-// CHexEditorWindow::DoSetBounds(
-// 	const Rect&		inBounds)
-// {
-// 	LWindow::DoSetBounds(inBounds);
-// 	mDualView->ResetBounds();
-// }
 
 

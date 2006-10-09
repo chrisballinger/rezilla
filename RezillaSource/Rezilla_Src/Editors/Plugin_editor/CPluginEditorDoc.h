@@ -63,8 +63,8 @@ protected:
 	virtual Handle			GetModifiedResource(Boolean &releaseIt);
 
 private:
-		void					Initialize();
 		CPluginEditorWindow *	CreatePluginWindow(SInt32 inPlugAttrs, Rect inWinbounds);
+		void			Initialize();
 		
 };
 

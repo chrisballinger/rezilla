@@ -2,11 +2,11 @@
 // CSTRx_EditorDoc.h				
 // 
 //                       Created: 2005-08-31 18:26:24
-//             Last modification: 2006-09-18 18:40:01
+//             Last modification: 2006-10-09 16:35:14
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2005, 2006
+// (c) Copyright : Bernard Desgraupes, 2005-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -50,7 +50,8 @@ protected:
 	virtual Handle		GetModifiedResource(Boolean &releaseIt);
 
 private:
-	void				Initialize();
+	void			Initialize();
+	
 };
 
 

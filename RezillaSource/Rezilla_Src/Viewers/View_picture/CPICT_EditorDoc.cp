@@ -2,11 +2,11 @@
 // CPICT_EditorDoc.cp
 // 
 //                       Created: 2004-12-06 14:54:09
-//             Last modification: 2005-09-05 06:50:58
+//             Last modification: 2006-10-09 16:46:26
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2004-2005
+// (c) Copyright : Bernard Desgraupes, 2004-2005, 2006
 // All rights reserved.
 // ===========================================================================
 

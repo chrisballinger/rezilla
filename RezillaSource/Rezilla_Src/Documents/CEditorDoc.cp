@@ -2,11 +2,11 @@
 // CEditorDoc.cp
 // 
 //                       Created: 2003-05-04 19:16:00
-//             Last modification: 2006-09-17 08:08:18
+//             Last modification: 2006-10-09 16:27:48
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2003-2005, 2006
+// (c) Copyright : Bernard Desgraupes, 2003-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -35,8 +35,6 @@ PP_Begin_Namespace_PowerPlant
 #include <UNavigationDialogs.h>
 #include <UStandardDialogs.h>
 
-// // Standard headers
-// #include <string.h>
 
 
 // ---------------------------------------------------------------------------
@@ -163,6 +161,14 @@ CEditorDoc::ObeyCommand(
 		} 
 		break;
 				
+		case cmd_Revert:
+		if (mMainWindow && mMainWindow->IsDirty()) {
+			if ( UMessageDialogs::AskIfFromLocalizable(CFSTR("ConfirmRevert"), PPob_AskIfMessage) == true) {
+				DoRevert();
+			}
+		} 
+		break;
+
 		case cmd_Close: 
 		AttemptClose(false);
 		break;
@@ -213,6 +219,14 @@ CEditorDoc::FindCommandStatus(
 		outEnabled = false;
 		break;
 
+		case cmd_Revert:
+		// Enable the Revert command only if there is a Revert button and
+		// the window is ditry
+		outEnabled = ( !mReadOnly && mMainWindow != NULL 
+					  && mMainWindow->GetRevertButton() != NULL
+					  && mMainWindow->IsDirty() );
+		break;
+
 		case cmd_Import:
 		LString::CopyPStr( "\pImport...", outName);
 		outEnabled = false;
@@ -253,7 +267,7 @@ CEditorDoc::FindCommandStatus(
 
 
 // ---------------------------------------------------------------------------
-//   ListenToMessage													[public]
+//   ListenToMessage												[public]
 // ---------------------------------------------------------------------------
 
 void
@@ -261,9 +275,7 @@ CEditorDoc::ListenToMessage( MessageT inMessage, void * /* ioParam */)
 {
 	switch (inMessage) {
 		case msg_EditorSave:
-		if ( CanSaveChanges() ) {
-			DoSaveChanges();
-		} 
+		this->ObeyCommand(cmd_Save, NULL);
 		break;
 		
 		case msg_EditorCancel:
@@ -271,9 +283,7 @@ CEditorDoc::ListenToMessage( MessageT inMessage, void * /* ioParam */)
 		break;
 		
 		case msg_EditorRevert:
-		if ( UMessageDialogs::AskIfFromLocalizable(CFSTR("ConfirmRevert"), PPob_AskIfMessage) == true) {
-			DoRevert();
-		}
+		this->ObeyCommand(cmd_Revert, NULL);
 		break;
 				
 		default:
@@ -284,7 +294,7 @@ CEditorDoc::ListenToMessage( MessageT inMessage, void * /* ioParam */)
 
 
 // ---------------------------------------------------------------------------
-//   CanSaveChanges												  [public]
+//   CanSaveChanges													[public]
 // ---------------------------------------------------------------------------
 // Deals with the resProtected attribute
 

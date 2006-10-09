@@ -2,11 +2,11 @@
 // CAete_EditorDoc.h
 // 
 //                       Created: 2004-07-01 08:42:37
-//             Last modification: 2006-09-17 12:16:31
+//             Last modification: 2006-10-09 16:38:34
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2004-2005, 2006
+// (c) Copyright : Bernard Desgraupes, 2004-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -56,12 +56,12 @@ protected:
 	CAeteStream *				mOutStream;
 	
 	virtual Handle		GetModifiedResource(Boolean &releaseIt);
+
 	virtual void		DoImportData(FSSpec inFileSpec);
 	virtual void		DoExportData(FSSpec inFileSpec, SInt16 inFormat);
 
 private:
-	void				Initialize();
-
+	void			Initialize();
 };
 
 

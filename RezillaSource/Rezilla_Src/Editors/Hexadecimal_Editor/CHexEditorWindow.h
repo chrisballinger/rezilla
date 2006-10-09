@@ -2,7 +2,7 @@
 // CHexEditorWindow.h				
 // 
 //                       Created: 2003-05-02 07:33:06
-//             Last modification: 2006-09-18 20:25:44
+//             Last modification: 2006-10-09 13:59:05
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -42,6 +42,8 @@ public:
 								Boolean&			outUsesMark,
 								UInt16&				outMark,
 								Str255				outName);
+
+	virtual void	RevertContents();
 
 	virtual void	SetLineValues();
 	virtual void	SetLineRange(SInt32 inStart, SInt32 inEnd);

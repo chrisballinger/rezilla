@@ -2,11 +2,11 @@
 // CEditorDoc.h				
 // 
 //                       Created: 2004-02-23 17:57:59
-//             Last modification: 2006-09-17 08:08:09
+//             Last modification: 2006-10-09 16:27:39
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2003-2005, 2006
+// (c) Copyright : Bernard Desgraupes, 2003-2006
 // All rights reserved.
 // ===========================================================================
 
@@ -121,15 +121,17 @@ protected:
 									DescType		inProperty) const;
 
 	virtual Handle	GetModifiedResource(Boolean &releaseIt) = 0;  // Purely virtual
+
 	void			NameNewEditorDoc();
 	void			BuildDocumentTitle(Str255 & outTitle, SInt16 whichString);
 	void			RegisterDoc();
 	void			UnregisterDoc();
 
-	virtual void		ImportResource();
-	virtual void		ExportResource();
-	virtual void		DoImportData(FSSpec inFileSpec);
-	virtual void		DoExportData(FSSpec inFileSpec, SInt16 inFormat);
+	virtual void	ImportResource();
+	virtual void	ExportResource();
+	virtual void	DoImportData(FSSpec inFileSpec);
+	virtual void	DoExportData(FSSpec inFileSpec, SInt16 inFormat);
+	
 };
 
 

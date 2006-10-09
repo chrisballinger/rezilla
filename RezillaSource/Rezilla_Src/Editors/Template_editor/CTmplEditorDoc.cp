@@ -2,7 +2,7 @@
 // CTmplEditorDoc.cp					
 // 
 //                       Created: 2004-06-12 10:06:22
-//             Last modification: 2006-09-18 18:51:27
+//             Last modification: 2006-10-09 16:46:10
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>

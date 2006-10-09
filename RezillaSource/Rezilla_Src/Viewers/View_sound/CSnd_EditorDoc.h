@@ -2,11 +2,11 @@
 // CSnd_EditorDoc.h				
 // 
 //                       Created: 2004-12-07 07:22:47
-//             Last modification: 2005-02-17 07:01:56
+//             Last modification: 2006-10-09 16:30:49
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2004, 2005
+// (c) Copyright : Bernard Desgraupes, 2004-2005, 2006
 // All rights reserved.
 // ===========================================================================
 
@@ -44,10 +44,11 @@ public:
 	void				Play(Handle inSoundH);
 	
 protected:
-	
+
 private:
-	void				Initialize();
 	virtual Handle		GetModifiedResource(Boolean &releaseIt);
+	void				Initialize();
+	
 };
 
 

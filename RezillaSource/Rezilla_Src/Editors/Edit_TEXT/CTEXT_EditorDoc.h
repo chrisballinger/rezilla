@@ -2,7 +2,7 @@
 // CTEXT_EditorDoc.h				
 // 
 //                       Created: 2004-06-17 12:46:55
-//             Last modification: 2006-09-18 18:41:48
+//             Last modification: 2006-10-09 16:34:35
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -50,9 +50,10 @@ protected:
 	CTEXT_EditorWindow *		mTextEditWindow;
 	
 	virtual Handle		GetModifiedResource(Boolean &releaseIt);
-
+	
 private:
-	void				Initialize();
+	void			Initialize();
+
 };
 
 

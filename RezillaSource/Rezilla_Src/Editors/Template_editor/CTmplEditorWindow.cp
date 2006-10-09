@@ -189,7 +189,7 @@ CTmplEditorWindow::FinishCreateSelf()
 // 	Str255 * strPtr = dynamic_cast<CTmplEditorDoc *>(GetSuperCommander())->GetRezObj()->GetName();
 // 	theStaticText->SetDescriptor(*strPtr);	
 	
-	// Link the broadcasters
+	// Link to the broadcasters
 	UReanimator::LinkListenerToControls( this, this, PPob_TmplEditorWindow );
 	
 	// Make the window a listener to the prefs object
@@ -2068,7 +2068,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		mOutStream->PutBytes(*theHandle, theLength);		
 		// End with a NULL byte
 		*mOutStream << (UInt8) 0x00;
-		// Padd with a NULL byte if total length with ending NULL is odd
+		// Pad with a NULL byte if total length with ending NULL is odd
 		if (theLength % 2 == 0) {
 			*mOutStream << (UInt8) 0x00;
 		} 
@@ -2081,7 +2081,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		theEditText->GetDescriptor(theString);	
 		*mOutStream << theString;
 		if (theString[0] % 2 == 0) {
-			// if the length is even, padd the string with a NULL byte.
+			// if the length is even, pad the string with a NULL byte.
 			*mOutStream << (UInt8) 0x00;
 		} 
 		mPaneIndex++;
@@ -2350,7 +2350,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		mOutStream->PutBytes(*theHandle, theLength);		
 		// End with a NULL byte
 		*mOutStream << (UInt8) 0x00;
-		// Padd with a NULL byte if total length with ending NULL is odd
+		// Pad with a NULL byte if total length with ending NULL is odd
 		if (theLength % 2 == 1) {
 			*mOutStream << (UInt8) 0x00;
 		} 
@@ -2363,7 +2363,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		theEditText->GetDescriptor(theString);	
 		*mOutStream << theString;
 		if (theString[0] % 2) {
-			// if the length is odd, padd the string with a NULL byte.
+			// if the length is odd, pad the string with a NULL byte.
 			*mOutStream << (UInt8) 0x00;
 		} 
 		mPaneIndex++;
@@ -2383,12 +2383,12 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		break;
 
 		case 'PPST': 
-		// Pascal string padded to even length (including the padd)
+		// Pascal string padded to even length (including the pad)
 		theEditText = dynamic_cast<LEditText *>(this->FindPaneByID(thePaneID));
 		theEditText->GetDescriptor(theString);
 		theLength = theString[0];
 		if (theLength % 2 == 0) {
-			// if the length is even, padd the string with a NULL byte.
+			// if the length is even, pad the string with a NULL byte.
 			theString[0] = theLength + 1;
 			theString[theLength + 1] = 0;
 		} 
@@ -2405,7 +2405,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		theEditText->GetDescriptor(theString);	
 		*mOutStream << theString;
 		if (inType == 'P100') {
-			// Padd with null bytes
+			// Pad with null bytes
 			for (theSInt32 = 0; theSInt32 < 255 - theString[0]; theSInt32++) {
 				*mOutStream << (UInt8) 0x00;
 			}
@@ -2635,7 +2635,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		  locker.Adopt(theHandle);
 		  mOutStream->PutBytes(*theHandle, theLength);
 		  if (theLength < reqLength) {
-			  // Padd with null bytes
+			  // Pad with null bytes
 			  for (theSInt32 = 0; theSInt32 < reqLength - theLength; theSInt32++) {
 				  *mOutStream << (UInt8) 0x00;
 			  }
@@ -2659,7 +2659,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		  locker.Adopt(theHandle);
 		  mOutStream->PutBytes(*theHandle, theLength);
 		  if (theLength < reqLength) {
-			  // Padd with null bytes
+			  // Pad with null bytes
 			  for (theSInt32 = 0; theSInt32 < reqLength - theLength - 1; theSInt32++) {
 				  *mOutStream << (UInt8) 0x00;
 			  }
@@ -2684,7 +2684,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		  locker.Adopt(theHandle);
 		  mOutStream->PutBytes(*theHandle, theLength);		
 		  if (theLength < reqLength) {
-			  // Padd with null bytes
+			  // Pad with null bytes
 			  for (theSInt32 = 0; theSInt32 < reqLength - theLength; theSInt32++) {
 				  *mOutStream << (UInt8) 0x00;
 			  }
@@ -2706,7 +2706,7 @@ CTmplEditorWindow::RetrieveDataForType(ResType inType)
 		  }
 		  *mOutStream << theString;
 		  if (theLength < reqLength) {
-			  // Padd with null bytes
+			  // Pad with null bytes
 			  for (theSInt32 = 0; theSInt32 < reqLength - theLength - 1; theSInt32++) {
 				  *mOutStream << (UInt8) 0x00;
 			  }

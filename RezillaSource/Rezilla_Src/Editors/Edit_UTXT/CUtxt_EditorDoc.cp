@@ -2,7 +2,7 @@
 // CUtxt_EditorDoc.cp
 // 
 //                       Created: 2004-12-08 18:21:21
-//             Last modification: 2006-09-18 18:44:40
+//             Last modification: 2006-10-09 16:44:27
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>

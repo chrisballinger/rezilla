@@ -2,7 +2,7 @@
 // CTEXT_EditorDoc.cp
 // 
 //                       Created: 2004-06-17 12:46:55
-//             Last modification: 2006-09-18 18:43:04
+//             Last modification: 2006-10-09 16:44:14
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>

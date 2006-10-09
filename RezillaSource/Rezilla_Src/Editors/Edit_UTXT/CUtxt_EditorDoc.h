@@ -2,7 +2,7 @@
 // CUtxt_EditorDoc.h
 // 
 //                       Created: 2004-12-08 18:21:21
-//             Last modification: 2006-09-18 18:44:59
+//             Last modification: 2006-10-09 16:34:10
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -53,9 +53,10 @@ protected:
 	CUtxt_EditorWindow *		mUtxtEditWindow;
 	
 	virtual Handle		GetModifiedResource(Boolean &releaseIt);
-
+	
 private:
-	void				Initialize();
+	void			Initialize();
+	
 };
 
 

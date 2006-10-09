@@ -2,7 +2,7 @@
 // CICNS_EditorDoc.h				
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-09-17 08:12:44
+//             Last modification: 2006-10-09 16:38:02
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -57,14 +57,14 @@ protected:
 	Boolean						mIconIsEmpty;
 	
 	virtual Handle		GetModifiedResource(Boolean &releaseIt);
+
 	virtual void		DoImportData(FSSpec inFileSpec);
 	virtual void		DoExportData(FSSpec inFileSpec, SInt16 inFormat);
 	
 private:
-	virtual void		Initialize();
 	OSErr				RegisterIcon();
 	OSErr				UnregisterIcon();
-
+	void				Initialize();
 };
 
 

@@ -2,11 +2,11 @@
 // CMENU_EditorDoc.h				
 // 
 //                       Created: 2005-03-09 17:16:53
-//             Last modification: 2005-03-23 09:07:59
+//             Last modification: 2006-10-09 16:35:49
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2005
+// (c) Copyright : Bernard Desgraupes, 2005, 2006
 // All rights reserved.
 // ===========================================================================
 
@@ -50,9 +50,10 @@ protected:
 	CMENU_EditorWindow *		mMenuEditWindow;
 
 	virtual Handle		GetModifiedResource(Boolean &releaseIt);
-
+	
 private:
-	void				Initialize();
+	void			Initialize();
+	
 };
 
 

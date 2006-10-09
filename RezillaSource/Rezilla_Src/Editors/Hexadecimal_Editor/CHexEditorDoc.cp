@@ -2,11 +2,11 @@
 // CHexEditorDoc.cp					
 // 
 //                       Created: 2003-05-04 19:16:00
-//             Last modification: 2005-09-05 06:51:25
+//             Last modification: 2006-10-09 16:44:44
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2003-2005
+// (c) Copyright : Bernard Desgraupes, 2003-2005, 2006
 // All rights reserved.
 // ===========================================================================
 

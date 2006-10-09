@@ -2,11 +2,11 @@
 // CSTRx_EditorDoc.cp
 // 
 //                       Created: 2005-08-31 18:26:24
-//             Last modification: 2006-09-18 18:40:08
+//             Last modification: 2006-10-09 16:43:59
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2005, 2006
+// (c) Copyright : Bernard Desgraupes, 2005-2006
 // All rights reserved.
 // ===========================================================================
 

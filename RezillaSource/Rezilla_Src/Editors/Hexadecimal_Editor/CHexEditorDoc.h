@@ -2,11 +2,11 @@
 // CHexEditorDoc.h				
 // 
 //                       Created: 2003-05-04 19:16:00
-//             Last modification: 2005-03-23 09:10:48
+//             Last modification: 2006-10-09 16:33:41
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2003-2005
+// (c) Copyright : Bernard Desgraupes, 2003-2005, 2006
 // All rights reserved.
 // ===========================================================================
 
@@ -66,9 +66,9 @@ protected:
 	
 	virtual Handle		GetModifiedResource(Boolean &releaseIt);
 	void				RunFindDialog();
+	void				Initialize();
 
 private:
-	void				Initialize();
 	OSErr				FindInPane(PaneIDT inWhichPane, 
 									Boolean isIgnoreCase,
 									Boolean findingNext);

@@ -2,7 +2,7 @@
 // CICNS_EditorDoc.cp
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-09-17 12:27:40
+//             Last modification: 2006-10-09 16:43:01
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>

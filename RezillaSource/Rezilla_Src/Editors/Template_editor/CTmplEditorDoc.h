@@ -2,7 +2,7 @@
 // CTmplEditorDoc.h				
 // 
 //                       Created: 2004-06-12 10:06:22
-//             Last modification: 2006-09-18 18:51:44
+//             Last modification: 2006-10-09 16:32:26
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -53,7 +53,8 @@ protected:
 	virtual Handle		GetModifiedResource(Boolean &releaseIt);
 
 private:
-	void				Initialize();
+	void			Initialize();
+
 };
 
 

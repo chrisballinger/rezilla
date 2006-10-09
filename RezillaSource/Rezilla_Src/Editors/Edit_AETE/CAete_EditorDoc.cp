@@ -2,11 +2,11 @@
 // CAete_EditorDoc.cp
 // 
 //                       Created: 2004-07-01 08:42:37
-//             Last modification: 2005-09-05 06:52:57
+//             Last modification: 2006-10-09 18:31:06
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2004-2005
+// (c) Copyright : Bernard Desgraupes, 2004-2005, 2006
 // All rights reserved.
 // ===========================================================================
 
@@ -95,7 +95,7 @@ CAete_EditorDoc::~CAete_EditorDoc()
 
 
 // ---------------------------------------------------------------------------
-//   Initialize							Default Constructor		  [public]
+//   Initialize														  [public]
 // ---------------------------------------------------------------------------
 
 void
