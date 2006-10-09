@@ -2,7 +2,7 @@
 // CPickersController.cp					
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-09-29 18:55:14
+//             Last modification: 2006-10-09 17:03:54
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>

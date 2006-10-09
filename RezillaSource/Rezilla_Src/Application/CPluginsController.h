@@ -2,7 +2,7 @@
 // CPluginsController.h
 // 
 //                       Created: 2005-09-26 09:48:26
-//             Last modification: 2006-09-28 10:23:17
+//             Last modification: 2006-10-09 07:01:51
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://rezilla.sourceforge.net/>
@@ -24,7 +24,7 @@ public:
 						CPluginsController();
 				virtual	~CPluginsController();
 		
-		static Boolean	HasPluginForType(ResType inType, ResType * substType);
+		static Boolean	HasPluginForType(ResType inType, ResType * substTypePtr);
 
 		static void		InvokePluginEditor(CRezMapDoc* inRezMapDoc, 
 										   CRezObjItem * inRezObjItem,

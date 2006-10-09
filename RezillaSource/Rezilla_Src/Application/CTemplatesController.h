@@ -2,11 +2,11 @@
 // CTemplatesController.h
 // 
 //                       Created: 2004-08-06 12:57:55
-//             Last modification: 2005-09-27 12:04:52
+//             Last modification: 2006-10-09 07:02:29
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2004, 2005
+// (c) Copyright : Bernard Desgraupes, 2004-2005, 2006
 // All rights reserved.
 // ===========================================================================
 // Deals with third party templates (locating in Application Support 
@@ -36,7 +36,7 @@ public:
 			virtual			~CTemplatesController();
 	
 		static Boolean		HasTemplateForType(ResType inType, 
-											   ResType * substType, 
+											   ResType * substTypePtr, 
 											   CRezMap * inRezMap);
 		
 		static Boolean		HasLocalTemplateForType(Str255 inName, 

@@ -19,6 +19,7 @@
 
 #include <LIconPane.h>
 #include <LStaticText.h>
+#include <LPushButton.h>
 
 extern CWindowMenu * gWindowMenu;
 
@@ -127,7 +128,20 @@ CEditorWindow::FinalizeEditor(CEditorDoc* inEditorDoc, void * ioParam)
 	
 
 // ---------------------------------------------------------------------------
-//  ListenToMessage									[public]
+//   FinishCreateSelf				[protected]
+// ---------------------------------------------------------------------------
+
+void
+CEditorWindow::FinishCreateSelf()
+{		
+	mSaveButton = dynamic_cast<LPushButton *>(this->FindPaneByID( item_EditorSave ));
+	mCancelButton = dynamic_cast<LPushButton *>(this->FindPaneByID( item_EditorCancel ));
+	mRevertButton = dynamic_cast<LPushButton *>(this->FindPaneByID( item_EditorRevert ));
+}
+
+
+// ---------------------------------------------------------------------------
+//  ListenToMessage													[public]
 // ---------------------------------------------------------------------------
 
 void

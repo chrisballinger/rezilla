@@ -18,6 +18,7 @@
 
 class CEditorDoc;
 class CRezObj;
+class LPushButton;
 
 
 class CEditorWindow : public LWindow, public LListener {
@@ -82,9 +83,18 @@ public:
 	virtual CEditorDoc*		GetOwnerDoc() { return mOwnerDoc;}
 	void					SetOwnerDoc(CEditorDoc* theOwnerDoc) {mOwnerDoc = theOwnerDoc ;}
 
+	LPushButton *		GetSaveButton() { return mSaveButton;}
+	LPushButton *		GetCancelButton() { return mCancelButton;}
+	LPushButton *		GetRevertButton() { return mRevertButton;}
+
 protected:
 	CEditorDoc *		mOwnerDoc;
 	Boolean				mIsDirty;
+	LPushButton *		mSaveButton;
+	LPushButton *		mCancelButton;
+	LPushButton *		mRevertButton;
+	
+	virtual void		FinishCreateSelf();
 
 };
 

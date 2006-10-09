@@ -56,7 +56,7 @@ UMiscUtils::PStringToOSType(Str255 inString, OSType & outType)
 		// (bd 2006-10-05) Padding should occur only if non-zero length in
 		// order to preserve the convention that an empty string means a
 		// null type. This is important in the Aete editor for instance.
-		UMiscUtils::PaddType(inString);
+		UMiscUtils::PadType(inString);
 		// end of ZP bugfix 6
 	} 
 	CopyPascalStringToC(inString, theStr);
@@ -266,12 +266,12 @@ UMiscUtils::GetTypeFromScrap(ResType & outType)
 
 
 // ------------------------------------------------------------------------------
-//   PaddType															[static]
+//   PadType															[static]
 // ------------------------------------------------------------------------------
-// If a type is shorter than 4 chars, padd it with spaces.
+// If a type is shorter than 4 chars, pad it with spaces.
 
 void
-UMiscUtils::PaddType(Str255 inTypeStr)
+UMiscUtils::PadType(Str255 inTypeStr)
 {
 	if (inTypeStr[0] != 4) {
 		for (UInt8 i = 4; i > inTypeStr[0]; i--) {

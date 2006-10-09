@@ -69,7 +69,7 @@ CPluginsController::~CPluginsController()
 // ---------------------------------------------------------------------------
 
 Boolean
-CPluginsController::HasPluginForType(ResType inType, ResType * substType)
+CPluginsController::HasPluginForType(ResType inType, ResType * substTypePtr)
 {
 	Boolean hasPlugin = false;
 	
@@ -82,8 +82,8 @@ CPluginsController::HasPluginForType(ResType inType, ResType * substType)
 	
 	// If not found, check if there is a possible substitution type
 	if ( !hasPlugin ) {
-		if ( CEditorsController::FindSubstitutionType(inType, substType) ) {
-			hasPlugin = HasPluginForType(*substType, substType);
+		if ( CEditorsController::FindSubstitutionType(inType, substTypePtr) ) {
+			hasPlugin = HasPluginForType(*substTypePtr, substTypePtr);
 		} 
 	} 
 

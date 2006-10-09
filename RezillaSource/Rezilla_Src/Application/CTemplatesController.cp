@@ -2,7 +2,7 @@
 // CTemplatesController.cp					
 // 
 //                       Created: 2004-08-06 12:57:55
-//             Last modification: 2006-09-29 16:33:59
+//             Last modification: 2006-10-09 08:27:09
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -34,22 +34,21 @@
 #include <string.h>
 
 
-CFArrayRef			CTemplatesController::sAllTypesArray;
-CFArrayRef			CTemplatesController::sInternalTemplates;
-CFDictionaryRef		CTemplatesController::sExternalTemplates;
-// CFDictionaryRef		CTemplatesController::sPreferedTemplates;
+CFArrayRef			CTemplatesController::sAllTypesArray = nil;
+CFArrayRef			CTemplatesController::sInternalTemplates = nil;
+CFDictionaryRef		CTemplatesController::sExternalTemplates = nil;
 CRezMap *			CTemplatesController::sTemplatesMap = nil;
 SInt16				CTemplatesController::sTemplateKind = tmpl_none;
 FSRef				CTemplatesController::sTemplateFile;
 
 
 // ---------------------------------------------------------------------------
-//   CTemplatesController											[public]
+// CTemplatesController 											[public]
 // ---------------------------------------------------------------------------
-//  Object constructor. Takes care of building the various static 
-// arrays. The "All Types Array" contains all the types for which a 
-// template (internal or external) exists and the types stored in the 
-// static CEditorsController::sAsTypeDictionary variable.
+// Object constructor. Takes care of building the various static arrays.
+// The "All Types Array" contains all the types for which a template
+// (internal or external) exists and the types stored in the static
+// CEditorsController::sAsTypeDictionary dict.
 
 CTemplatesController::CTemplatesController()
 {
@@ -353,7 +352,7 @@ CTemplatesController::AddTemplatesToDictionary(FSRef * inFileRef)
 // ---------------------------------------------------------------------------
 
 Boolean
-CTemplatesController::HasTemplateForType(ResType inType, ResType * substType, CRezMap * inRezMap)
+CTemplatesController::HasTemplateForType(ResType inType, ResType * substTypePtr, CRezMap * inRezMap)
 {
 	Boolean hasTMPL = false;
 	Str255	theName;
@@ -381,8 +380,8 @@ CTemplatesController::HasTemplateForType(ResType inType, ResType * substType, CR
 		}
 		// If still not found, check if there is a substitution type
 		if ( !hasTMPL ) {
-			if ( CEditorsController::FindSubstitutionType(inType, substType) ) {
-				hasTMPL = HasTemplateForType(*substType, substType, inRezMap);
+			if ( CEditorsController::FindSubstitutionType(inType, substTypePtr) ) {
+				hasTMPL = HasTemplateForType(*substTypePtr, substTypePtr, inRezMap);
 			} 
 		} 
 	}
@@ -557,23 +556,30 @@ CTemplatesController::AddAsTypesToAllTypes()
 {
 	if (CEditorsController::sAsTypeDictionary != NULL) {
 		CFStringRef theStringRef;
+		ResType		theType;
+		Str255		theName;
 		
 		CFIndex dictCount = CFDictionaryGetCount( (CFDictionaryRef) CEditorsController::sAsTypeDictionary);
 		// Allocate memory to store the keys
-		CFStringRef * theKeys = (CFStringRef*) NewPtrClear(sizeof(CFStringRef) * dictCount);
+		CFNumberRef * theKeys = (CFNumberRef*) NewPtrClear(sizeof(CFNumberRef) * dictCount);
 		if (theKeys != NULL) {
-			CFDictionaryGetKeysAndValues( (CFDictionaryRef) CEditorsController::sAsTypeDictionary, (const void **) theKeys, NULL);
+			::CFDictionaryGetKeysAndValues( (CFDictionaryRef) CEditorsController::sAsTypeDictionary, (const void **) theKeys, NULL);
 			for (int i = 0; i < dictCount; i++) {
 				if (theKeys[i]) {
-					theStringRef = (CFStringRef) theKeys[i];
 					// Add to the sAllTypesArray if it is not already in
-					if ( ! CFArrayContainsValue(sAllTypesArray, CFRangeMake(0, CFArrayGetCount(sAllTypesArray)), theStringRef) ) {
-						CFArrayAppendValue( (CFMutableArrayRef) sAllTypesArray, theStringRef);
+					if ( ::CFNumberGetValue(theKeys[i], kCFNumberSInt32Type, (void*) &theType) ) {
+						UMiscUtils::OSTypeToPString(theType, theName);
+						theStringRef = ::CFStringCreateWithPascalString(NULL, theName, kCFStringEncodingMacRoman);
+						if (theStringRef) {
+							if ( ! CFArrayContainsValue(sAllTypesArray, CFRangeMake(0, CFArrayGetCount(sAllTypesArray)), theStringRef) ) {
+								::CFArrayAppendValue( (CFMutableArrayRef) sAllTypesArray, theStringRef);
+								::CFRelease(theStringRef);
+							}
+						} 
 					} 
-					CFRelease(theStringRef);
 				} 
 			}
-			DisposePtr( (char *) theKeys);
+			::DisposePtr( (char *) theKeys);
 		} 
 	} 
 }

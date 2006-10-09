@@ -34,7 +34,7 @@ public:
 	static void		PStringToOSType(Str255 inString, OSType & outType);
 	static void		OSTypeToPString(OSType inType, Str255 & outString);
 	static OSErr	GetTypeFromScrap(ResType & outType);
-	static void		PaddType(Str255 inTypeStr);
+	static void		PadType(Str255 inTypeStr);
 	static Boolean	SelectType(ResType & outType);
 	
 	static OSErr	HFSNameToUnicodeName(ConstStr31Param hfsName, HFSUniStr255 *unicodeName);
