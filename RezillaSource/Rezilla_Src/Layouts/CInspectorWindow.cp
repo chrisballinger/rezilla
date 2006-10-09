@@ -2,7 +2,7 @@
 // CInspectorWindow.cp					
 // 
 //                       Created: 2003-05-02 07:33:10
-//             Last modification: 2006-10-08 17:58:04
+//             Last modification: 2006-10-09 07:11:36
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -629,9 +629,6 @@ CInspectorWindow::ClearValues()
 	mProtectedItem->SetValue(0);
 	mPreloadItem->SetValue(0);
 	
-	// Icon
-	mIconItem->Hide();
-
 	// Invalidate the reference to the associated RezObjItem
 	mOwnerTable = nil;
 }
