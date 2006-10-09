@@ -43,7 +43,7 @@ public:
 									ResType inType2, 
 									Boolean exact);
 
-	static CFPropertyListRef	sAsTypeDictionary;
+	static CFMutableDictionaryRef	sAsTypeDictionary;
 
 protected:	
 

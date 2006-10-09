@@ -2,7 +2,7 @@
 // CEditorsController.cp					
 // 
 //                       Created: 2004-06-11 10:48:38
-//             Last modification: 2006-02-26 19:32:25
+//             Last modification: 2006-10-09 07:58:39
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -41,11 +41,7 @@ PP_Begin_Namespace_PowerPlant
 #include "UMiscUtils.h"
 
 
-// // Standard headers
-// #include <string.h>
-
-
-CFPropertyListRef	CEditorsController::sAsTypeDictionary = NULL;
+CFMutableDictionaryRef	CEditorsController::sAsTypeDictionary = NULL;
 
 
 // ---------------------------------------------------------------------------
@@ -64,6 +60,9 @@ CEditorsController::CEditorsController()
 
 CEditorsController::~CEditorsController()
 {	
+	if (sAsTypeDictionary) {
+		::CFRelease(sAsTypeDictionary);
+	}
 }
 
 
@@ -104,31 +103,33 @@ CEditorsController::BuildAsTypeDictionary()
 		LHandleStream * theStream = new LHandleStream(rezHandle);
 
 		if (theStream != NULL) {
-			CFStringRef * theKeys;
-			CFStringRef * theVals;
-			OSType theOSType;
-			SInt32 index;
-			SInt32 count = theStream->GetLength() / 8;
+			CFNumberRef		theKeyRef, theValRef;
+			OSType			theOSType;
+			SInt32			index;
+			SInt32			count = theStream->GetLength() / 8;
 
-			theKeys = (CFStringRef*) NewPtrClear(sizeof(CFStringRef) * count);
-			theVals = (CFStringRef*) NewPtrClear(sizeof(CFStringRef) * count);
-
-			if (theKeys != NULL && theVals != NULL) {
+			// Create a mutable dictionary
+			sAsTypeDictionary = ::CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+			
+			if (sAsTypeDictionary) {
 				for (index = 0; index < count; index++) {
 					// CFStringGetSystemEncoding() or kCFStringEncodingMacRoman
 					*theStream >> theOSType;
-					theKeys[index] = CFStringCreateWithBytes(kCFAllocatorDefault, (const UInt8 *) &theOSType, sizeof(OSType), kCFStringEncodingMacRoman, false);
-					
-					*theStream >> theOSType;
-					theVals[index] = CFStringCreateWithBytes(kCFAllocatorDefault, (const UInt8 *) &theOSType, sizeof(OSType), kCFStringEncodingMacRoman, false);
-				}
-				
-				// Build an immutable dictionary
-				sAsTypeDictionary = CFDictionaryCreate(kCFAllocatorDefault, (const void **) theKeys, (const void **) theVals, count, NULL, NULL);
-			} 
-			if (theKeys) {free(theKeys);} 
-			if (theVals) {free(theVals);} 
+					theKeyRef = ::CFNumberCreate(NULL, kCFNumberSInt32Type, &theOSType);
 
+					if (theKeyRef != nil) {
+						*theStream >> theOSType;
+						theValRef = ::CFNumberCreate(NULL, kCFNumberSInt32Type, &theOSType);
+						
+						if (theValRef) {
+							::CFDictionaryAddValue(sAsTypeDictionary, theKeyRef, theValRef);
+							::CFRelease(theValRef);
+						} 
+						::CFRelease(theKeyRef);
+					}
+				}			
+			}
+			
 			// ZP bugfix #1, part 2: don't call ReleaseResource because the
 			// detached handle is disposed of when theStream is deleted
 			delete theStream;
@@ -147,28 +148,21 @@ CEditorsController::FindSubstitutionType(ResType inType, ResType * outType)
 	Boolean result = false;
 	
 	if (sAsTypeDictionary != NULL) {
-		if ( CFGetTypeID(sAsTypeDictionary) == CFDictionaryGetTypeID() ) {
-			Str255		theString;
-			CFStringRef	inTypeRef = NULL;
-			CFStringRef	outTypeRef;
+		CFNumberRef	inTypeRef = NULL;
+		CFNumberRef	outTypeRef = NULL;
+		
+		inTypeRef = ::CFNumberCreate(NULL, kCFNumberSInt32Type, &inType);
+		
+		if (inTypeRef) {
+			result = ::CFDictionaryGetValueIfPresent( (CFDictionaryRef) sAsTypeDictionary, 
+													 inTypeRef, (const void**) &outTypeRef);
+			CFRelease(inTypeRef);
 			
-			UMiscUtils::OSTypeToPString(inType, theString);	
-			inTypeRef = CFStringCreateWithPascalString(NULL, theString, kCFStringEncodingMacRoman);
-			
-			if (inTypeRef) {
-				result = CFDictionaryGetValueIfPresent( (CFDictionaryRef) sAsTypeDictionary, 
-													   inTypeRef, (const void**) &outTypeRef);
-				CFRelease(inTypeRef);
-				
-				if (result && outTypeRef != nil) {
-					result = CFStringGetPascalString(outTypeRef, theString, 
-													 sizeof(theString), kCFStringEncodingMacRoman);
-					// Caveat: outTypeRef must not be released
-					
-					if (result) {
-						UMiscUtils::PStringToOSType(theString, *outType);	
-					} 
-				}
+			if (result && outTypeRef != NULL) {
+				if ( ::CFNumberGetValue(outTypeRef, kCFNumberSInt32Type, (void*) outType) ) {
+					result = true;
+				} 
+				// Caveat: outTypeRef must not be released
 			}
 		}
 	}
@@ -182,9 +176,9 @@ CEditorsController::FindSubstitutionType(ResType inType, ResType * outType)
 // ---------------------------------------------------------------------------
 
 Boolean
-CEditorsController::HasEditorForType(ResType inType, ResType * substType)
+CEditorsController::HasEditorForType(ResType inType, ResType * substTypePtr)
 {
-	Boolean result = false;
+	Boolean hasEditor = false;
 	
 	switch (inType) {
 		case 'TEXT':
@@ -219,12 +213,17 @@ CEditorsController::HasEditorForType(ResType inType, ResType * substType)
 		case 'RidL':
 		case 'RID#':
 		case 'icns':
-		*substType = inType;
-		result = true;
+		*substTypePtr = inType;
+		hasEditor = true;
 		break;
 	}
 	
-	return result;
+	if (!hasEditor) {
+		if ( FindSubstitutionType(inType, substTypePtr) ) {
+			hasEditor = HasEditorForType(*substTypePtr, substTypePtr);
+		} 
+	} 
+	return hasEditor;
 }
 
 
