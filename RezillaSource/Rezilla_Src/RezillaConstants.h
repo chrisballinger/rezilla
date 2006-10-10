@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2006-10-08 17:57:38
+//             Last modification : 2006-10-10 11:08:39
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@users.sourceforge.net>
 // www : <http://rezilla.sourceforge.net/>
@@ -1471,6 +1471,7 @@ enum RezillaErrors
 	err_PluginLoadFailed,
 	err_PluginGetInfoFailed,
 	err_PluginNotFound,
+	err_PluginIndexNotFound,
  	err_RezillaErrorEnd
 };
 
