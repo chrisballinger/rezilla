@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaAppAE.cp					
 //                       Created: 2004-11-30 08:44:17
-//             Last modification: 2006-09-28 08:31:04
+//             Last modification: 2006-10-10 11:09:39
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -992,7 +992,7 @@ CRezillaApp::SetAEProperty(
 	const AEDesc&	inValue,
 	AEDesc&			outAEReply)
 {
-	OSErr error;
+	OSErr error = noErr;
 	
 	switch (inProperty) {
 
@@ -1000,7 +1000,6 @@ CRezillaApp::SetAEProperty(
 			CRezillaPlugin *	thePlugin;
 			Str255				theString;
 			OSType				theType;
-// 			AEDescList			listDesc;
 			StAEDescriptor		itemDesc;
 			SInt32				i, count = 0;
 			CFStringRef			theNameRef;
@@ -1023,7 +1022,10 @@ CRezillaApp::SetAEProperty(
 					thePlugin = CPluginsController::GetPluginByName(theNameRef);
 					if (thePlugin != NULL) {
 						error = CPluginsController::SetPreferredPlugin(theType, thePlugin);
+					} else {
+						error = err_PluginNotFound;
 					}
+					ThrowIfOSErr_(error);
 					::CFRelease(theNameRef);
 				}
 			}
