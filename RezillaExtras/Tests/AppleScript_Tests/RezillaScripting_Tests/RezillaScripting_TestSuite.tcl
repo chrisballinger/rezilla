@@ -1,11 +1,11 @@
 # ------------------------------------------------------------
 # File: "Rezilla_TestSuite.tcl"
 #                        Created: 2005-05-22 09:54:33
-#              Last modification: 2005-06-16 15:09:18
+#              Last modification: 2006-10-09 19:36:17
 # Author: Bernard Desgraupes
 # e-mail: <bdesgraupes@easyconnect.fr>
 # www: <http://webperso.easyconnect.fr/bdesgraupes/>
-# (c) Copyright: Bernard Desgraupes, 2005
+# (c) Copyright: Bernard Desgraupes, 2005, 2006
 # All rights reserved.
 # This software is free software with BSD licence.
 # Versions history: see the Changes.Log file.
@@ -19,8 +19,6 @@
 # the tests themselves. Simply source this file in a Tcl interpreter to run
 # all the tests.
 # 
-# $Date$
-# $Revision$
 # ------------------------------------------------------------
 
 # Check that we are on OSX
@@ -41,7 +39,7 @@ package require tclAE
 # # # Configurable variables # # #
 # --------------------------------
 namespace eval ::rezilla::test {
-	variable rezillaName "Rezilla"
+	variable rezillaName "Rezilla_D"
 }
 # --------------------------------
 
@@ -92,6 +90,33 @@ namespace eval ::rezilla::test {
 	
 	proc TestFile {cmd num} {
 		return "[string totitle ${cmd}]Test${num}.rsrc"
+	}
+
+	proc getPathOfExecutable {} {
+		variable rezillaName
+		set prs [processes]
+		set path ""
+		set found 0
+		foreach p $prs {
+			if {[lindex $p 0] eq $rezillaName} {
+				set path [lindex $p 5]
+				set found 1
+				break
+			} 
+		} 
+		if {!$found} {
+			alertnote "Process not found"
+		} 
+		return $path
+	}
+
+	proc getBundleContentsFolder {} {
+		return [file dir [file dir [getPathOfExecutable]]]
+	}
+
+	proc getPluginsList {} {
+		set plugFolder [file join [getBundleContentsFolder] PlugIns]
+		return [lsort [glob -tail -dir $plugFolder *.plugin]]
 	}
 }
 
@@ -2177,6 +2202,97 @@ namespace eval ::rezilla::test {
 		DeleteIfExists exportedMap.$ext
 	} 
 	
+	
+	# "Plugin" tests
+	# --------------
+	test RezillaPlugin-1-1 {Get the list of plugins} -setup {
+	} -body {
+		set success 1
+		set getplug [ASExec "get plugins"]
+		foreach p [getPluginsList] {
+			set line "plugin [ASQuote $p] of application [ASQuote $rezillaName]"
+			if {![string match "*${line}*" $getplug]} {
+				set success 0
+				break
+			} 
+		} 
+		return $success
+	} -cleanup {
+	} -result "1"
+
+	test RezillaPlugin-1-2 {Count the plugins} -setup {
+	} -body {
+		ASExec "count plugins"
+	} -cleanup {
+	} -result "[llength [getPluginsList]]"
+
+	test RezillaPlugin-1-3 {Existence of RezImage plugin} -setup {
+	} -body {
+		ASExec "exists plugin [ASQuote RezImagePlugin.plugin] of application [ASQuote $rezillaName]"
+	} -cleanup {
+	} -result "true"
+
+	test RezillaPlugin-1-4 {Properties of the RezImage plugin} -setup {
+	} -body {
+		set cmd "set thePlug to plugin [ASQuote RezImagePlugin.plugin] of application [ASQuote $rezillaName]
+			set a to name of thePlug
+			set b to typecode of thePlug
+			set c to creator of thePlug
+			set d to loaded of thePlug
+			{a, b, c, d}"
+		ASExec $cmd
+	} -cleanup {
+	} -result "{[ASQuote RezImagePlugin.plugin], [ASQuote BNDL], [ASQuote Rzil], false}"
+
+	test RezillaPlugin-1-5 {Supported types of the RezImage plugin} -setup {
+	} -body {
+		ASExec "get supported types of plugin [ASQuote RezImagePlugin.plugin] of application [ASQuote $rezillaName]"
+	} -cleanup {
+	} -result "{[ASQuote "JPEG"], [ASQuote "jpeg"], [ASQuote "JPG "], [ASQuote "jpg "], [ASQuote "TIFF"], [ASQuote "tiff"], [ASQuote "GIF "], [ASQuote "gif "], [ASQuote "PNG "], [ASQuote "png "], [ASQuote "BMP "], [ASQuote "bmp "]}"
+
+	test RezillaPlugin-1-6 {List of preferred plugins} -setup {
+	} -body {
+		set reco [ASExec "get preferred plugin"]
+		return [string match "*JPEG picture:*" $reco"]
+	} -cleanup {
+	} -result "1"
+
+	test RezillaPlugin-1-7 {} -setup {
+	} -body {
+# 		ASExec "set preferred plugin to {\\U00ABclass tiff\\U00BB:[ASQuote RezImagePlugin.plugin], \\U00ABclass jpg \\U00BB:[ASQuote RezImagePlugin.plugin]}"
+# 		ASExec "set preferred plugin to {«class tiff»:[ASQuote RezImagePlugin.plugin], «class jpg »:[ASQuote RezImagePlugin.plugin]}"
+	} -cleanup {
+	} -result ""
+
+	test RezillaPlugin-1-8 {Version of the RezImage plugin} -setup {
+	} -body {
+		ASExec "get version of plugin [ASQuote RezImagePlugin.plugin] of application [ASQuote $rezillaName]"
+	} -cleanup {
+	} -match regexp -result "\\d+\\.\\d+"
+
+	test RezillaPlugin-1-9 {Get index by name} -setup {
+	} -body {
+		set cmd "set theName to name of plugin 1
+			get index of plugin theName"
+		ASExec $cmd
+	} -cleanup {
+	} -result "1"
+
+	test RezillaPlugin-1-10 {Name of all the plugins} -setup {
+	} -body {
+		set success 1
+		set namelist [ASExec "get name of plugins"]
+		foreach p [getPluginsList] {
+			if {![string match "*[ASQuote $p]*" $namelist]} {
+				set success 0
+				break
+			} 
+		} 
+		return $success
+	} -cleanup {
+	} -result "1"
+	
+
 
 	
 # # # Closing $rezfileRF
