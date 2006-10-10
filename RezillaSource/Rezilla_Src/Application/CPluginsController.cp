@@ -2,7 +2,7 @@
 // CPluginsController.cp
 // 
 //                       Created: 2005-09-26 09:48:26
-//             Last modification: 2006-09-28 11:07:01
+//             Last modification: 2006-10-10 10:39:33
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://rezilla.sourceforge.net/>
@@ -121,15 +121,15 @@ CPluginsController::GetPreferredPlugin(ResType inType)
 	CRezillaPlugin *	thePlugin = NULL;
 	CFArrayRef			theArray;
 	void *				valuePtr;
-	CFNumberRef 		numRef;
+	CFNumberRef 		typeRef;
 	
-	numRef = ::CFNumberCreate(NULL, kCFNumberSInt32Type, &inType);
-	theArray = (CFArrayRef) ::CFDictionaryGetValue( sPluginsDict, numRef);
-	CFRelease(numRef);
+	typeRef = ::CFNumberCreate(NULL, kCFNumberSInt32Type, &inType);
+	theArray = (CFArrayRef) ::CFDictionaryGetValue( sPluginsDict, typeRef);
+	CFRelease(typeRef);
 	
 	// Just pick the first one in the list
-	numRef = (CFNumberRef) ::CFArrayGetValueAtIndex(theArray, 0);
-	if ( ::CFNumberGetValue(numRef, kCFNumberSInt32Type, (void*) &valuePtr) ) {
+	typeRef = (CFNumberRef) ::CFArrayGetValueAtIndex(theArray, 0);
+	if ( ::CFNumberGetValue(typeRef, kCFNumberSInt32Type, (void*) &valuePtr) ) {
 		thePlugin = (CRezillaPlugin*) valuePtr;
 	} 
 
@@ -144,10 +144,27 @@ CPluginsController::GetPreferredPlugin(ResType inType)
 OSErr
 CPluginsController::SetPreferredPlugin(ResType inType, CRezillaPlugin * inPlugin)
 {
-#pragma unused(inType, inPlugin)
-
 	OSErr				error = noErr;
+	CFNumberRef 		typeRef, thePlugRef;
+	CFMutableArrayRef	theArray;
+	CFIndex				index;
 
+	typeRef = ::CFNumberCreate(NULL, kCFNumberSInt32Type, &inType);
+	theArray = (CFMutableArrayRef) ::CFDictionaryGetValue( sPluginsDict, typeRef);
+	CFRelease(typeRef);
+	
+	if (inPlugin != NULL) {
+		thePlugRef = ::CFNumberCreate(NULL, kCFNumberSInt32Type, &inPlugin);
+		if (thePlugRef) {
+			index = ::CFArrayGetFirstIndexOfValue(theArray, ::CFRangeMake(0, ::CFArrayGetCount(theArray)), thePlugRef);
+			CFRelease(thePlugRef);
+			if (index == kCFNotFound) {
+				error = err_PluginIndexNotFound;
+			} else if (index > 0) {
+				::CFArrayExchangeValuesAtIndices(theArray, 0, index);
+			} 
+		}
+	}
 	return error;
 }
 

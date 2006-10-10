@@ -60,7 +60,7 @@ CRezillaPlugin::~CRezillaPlugin()
 
 
 // ---------------------------------------------------------------------------
-//  Initialize													[public]
+//  Initialize													[private]
 // ---------------------------------------------------------------------------
 // mPluginVersion is an UInt32 in the 'vers' resource style (e-g 0x01008000 for 1.0.0)
 
