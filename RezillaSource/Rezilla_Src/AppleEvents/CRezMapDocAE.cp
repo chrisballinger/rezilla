@@ -2,7 +2,7 @@
 // CRezMapDocAE.cp
 // 
 //                       Created: 2005-04-09 10:03:39
-//             Last modification: 2006-10-05 19:37:15
+//             Last modification: 2006-10-15 06:50:42
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -646,6 +646,11 @@ CRezMapDoc::GetSubModelByPosition(
 	CEditorDoc *	theEditorDoc = nil;
 	CPickerDoc *	thePickerDoc = nil;
 
+	// Make "window" synonym of "editing window"
+	if (inModelID == cWindow) {
+		inModelID = rzom_cEditorWindow;
+	} 
+	
 	switch (inModelID) {
 
 		case rzom_cEditorDoc:
@@ -683,7 +688,7 @@ CRezMapDoc::GetSubModelByPosition(
 		case rzom_cGuiEditDoc:
 		case rzom_cHexWindow: 
 		case rzom_cTmplWindow:
-		case rzom_cPluginWindow:
+		case rzom_cPlugWindow:
 		case rzom_cGuiWindow: {
 			DescType docKind = inModelID;
 			switch (inModelID) {
@@ -695,7 +700,7 @@ CRezMapDoc::GetSubModelByPosition(
 				docKind = rzom_cTmplEditDoc;
 				break;
 				
-				case rzom_cPluginWindow:
+				case rzom_cPlugWindow:
 				docKind = rzom_cPlugEditDoc;
 				break;
 				
@@ -717,7 +722,7 @@ CRezMapDoc::GetSubModelByPosition(
 			if (found) {
 				if (inModelID == rzom_cHexWindow 
 					|| inModelID == rzom_cTmplWindow 
-					|| inModelID == rzom_cPluginWindow 
+					|| inModelID == rzom_cPlugWindow 
 					|| inModelID == rzom_cGuiWindow) {
 					PutInToken(theEditorDoc->GetMainWindow(), outToken);
 				} else {
@@ -769,8 +774,8 @@ CRezMapDoc::GetSubModelByName(
 	Str255			inName,
 	AEDesc&			outToken) const
 {
-	switch (inModelID) {
 
+	switch (inModelID) {
 		case rzom_cEditorDoc:
 		case rzom_cHexEditDoc:
 		case rzom_cTmplEditDoc:
@@ -779,7 +784,7 @@ CRezMapDoc::GetSubModelByName(
 		case rzom_cEditorWindow:
 		case rzom_cHexWindow: 
 		case rzom_cTmplWindow:
-		case rzom_cPluginWindow:
+		case rzom_cPlugWindow:
 		case rzom_cGuiWindow: {
 			DescType docKind = inModelID;
 			switch (inModelID) {
@@ -791,7 +796,7 @@ CRezMapDoc::GetSubModelByName(
 				docKind = rzom_cTmplEditDoc;
 				break;
 				
-				case rzom_cPluginWindow:
+				case rzom_cPlugWindow:
 				docKind = rzom_cPlugEditDoc;
 				break;
 				
@@ -881,7 +886,7 @@ CRezMapDoc::GetPositionOfSubModel(
 	switch (inModelID) {
 		case rzom_cHexWindow: 
 		case rzom_cTmplWindow:
-		case rzom_cPluginWindow:
+		case rzom_cPlugWindow:
 		case rzom_cGuiWindow:
 		case rzom_cPickerWindow: {
 			while (windowP) {
@@ -914,7 +919,7 @@ CRezMapDoc::GetPositionOfSubModel(
 					if (ppWindow != nil && (theKind == inModelID
 						|| theKind == rzom_cHexWindow
 						|| theKind == rzom_cTmplWindow
-						|| theKind == rzom_cPluginWindow
+						|| theKind == rzom_cPlugWindow
 						|| theKind == rzom_cGuiWindow) ) {
 						count++;
 						if (ppWindow == inSubModel) {
@@ -933,10 +938,11 @@ CRezMapDoc::GetPositionOfSubModel(
 		}
 
 		
-		case rzom_cPickerDoc: 
-		const CPickerDoc * thePicker = dynamic_cast<const CPickerDoc *>(inSubModel);
-		position = mOpenedPickers->FetchIndexOfKey(thePicker);
-		break;		
+		case rzom_cPickerDoc: {
+			const CPickerDoc * thePicker = dynamic_cast<const CPickerDoc *>(inSubModel);
+			position = mOpenedPickers->FetchIndexOfKey(thePicker);
+			break;		
+		}
 
 		
 		default:
@@ -958,6 +964,11 @@ CRezMapDoc::CountSubModels(
 {
 	SInt32	count = 0;
 
+	// Make "window" synonym of "editing window"
+	if (inModelID == cWindow) {
+		inModelID = rzom_cEditorWindow;
+	} 
+	
 	switch (inModelID) {
 
 		case rzom_cEditorDoc:
@@ -980,7 +991,25 @@ CRezMapDoc::CountSubModels(
 			break;
 		}
 
+		case rzom_cEditorWindow:
+		case rzom_cGuiWindow:
+		case rzom_cPlugWindow:
+		case rzom_cTmplWindow:
+		case rzom_cHexWindow: {
+			CEditorDoc *	theEditorDoc = nil;
+			TArrayIterator<CEditorDoc *> iterEditor(*mOpenedEditors);
+			while (iterEditor.Next(theEditorDoc)) {
+				if (theEditorDoc != nil 
+					&& theEditorDoc->GetMainWindow() != nil 
+					&& (inModelID == rzom_cEditorWindow || theEditorDoc->GetMainWindow()->GetModelKind() == inModelID) ) {
+					count++;
+				} 
+			}
+			break;
+		}
+
 		case rzom_cPickerDoc:
+		case rzom_cPickerWindow:
 		count = (SInt32) mOpenedPickers->GetCount();
 		break;
 

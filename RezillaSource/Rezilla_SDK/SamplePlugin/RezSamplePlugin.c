@@ -2,7 +2,7 @@
 // File: "RezSamplePlugin.c"
 // 
 //                        Created: 2005-09-08 18:51:53
-//              Last modification: 2006-09-19 13:31:11
+//              Last modification: 2006-10-12 06:22:17
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -59,6 +59,8 @@ static void			sample_HandleMenu(RezPlugRef inPlugref, MenuRef menu, SInt16 inMen
 static void			sample_HandleClick(RezPlugRef inPlugref, const EventRecord * inMacEvent, Point inPortCoords);
 static void			sample_HandleKeyDown(RezPlugRef inPlugref, const EventRecord * inKeyEvent);
 static Boolean		sample_HandleCommand(RezPlugRef inPlugref, SInt16 inCommand);
+
+pascal OSStatus		_sampleTextInputHandler(EventHandlerCallRef inHandler, EventRef inEvent, void *userData);
 
 
 // The RezillaEditorInterface function table
@@ -251,7 +253,7 @@ OSErr
 sample_EditResource(RezPlugRef inPlugref, RezHostInfo inInfo)
 {
 	Rect			theRect;
-	CFStringRef		theTextRef;
+	CFStringRef		theTextRef = NULL;
 	ControlRef		staticRef;
 	OSErr			error = noErr;
 	
@@ -264,19 +266,40 @@ sample_EditResource(RezPlugRef inPlugref, RezHostInfo inInfo)
 	
 	SetRect(&theRect, 80, 50, 300, 70);
 	error = CreateStaticTextControl(editInfo->winref, &theRect, CFSTR("Pascal string:"),  NULL, &staticRef);
-
-	SetRect(&theRect, 80, 80, 400, 170);
-	theTextRef = CFStringCreateWithPascalString(kCFAllocatorDefault, *(editInfo->data), kCFStringEncodingMacRoman);
-	error = CreateEditTextControl(editInfo->winref, &theRect, theTextRef, false, false, NULL, &(editInfo->controlref));
-	CFRelease(theTextRef);
 	
-	if (error == noErr) {
-		HIViewRef		theContentView;
-		HIViewSetVisible(editInfo->controlref, true);
-		HIViewFindByID(HIViewGetRoot(editInfo->winref), kHIViewWindowContentID, &theContentView);
-		HIViewAddSubview(theContentView, editInfo->controlref);
-		EnableControl(editInfo->controlref);
-	} 
+	SetRect(&theRect, 80, 80, 400, 170);
+	if ( editInfo->data == NULL || GetHandleSize(editInfo->data) == 0) {
+		theTextRef = CFSTR("");
+	} else if ( GetHandleSize(editInfo->data) == (*(editInfo->data))[0] + 1) {
+		theTextRef = CFStringCreateWithPascalString(kCFAllocatorDefault, *(editInfo->data), kCFStringEncodingMacRoman);
+	}
+	if (theTextRef) {
+		error = CreateEditTextControl(editInfo->winref, &theRect, theTextRef, false, false, NULL, &(editInfo->controlref));
+		CFRelease(theTextRef);
+		
+		if (error == noErr) {
+			HIViewRef		theContentView;
+			OSStatus		status;
+			
+			static const EventTypeSpec fieldEvents[] = {
+				{kEventClassTextInput, kEventTextInputUnicodeForKeyEvent}
+			};
+			
+			// Install a handler to be notified when text is typed in the field
+			if (editInfo->controlref) {
+				status = InstallEventHandler( GetControlEventTarget(editInfo->controlref),
+											 NewEventHandlerUPP( _sampleTextInputHandler ), GetEventTypeCount(fieldEvents),
+											 fieldEvents, inPlugref, NULL);
+			} 
+			
+			HIViewSetVisible(editInfo->controlref, true);
+			HIViewFindByID(HIViewGetRoot(editInfo->winref), kHIViewWindowContentID, &theContentView);
+			HIViewAddSubview(theContentView, editInfo->controlref);
+			EnableControl(editInfo->controlref);
+		} 
+	} else {
+		error = plugErr_InvalidData;
+	}
 	
 	return error;
 }
@@ -308,6 +331,9 @@ sample_ReturnResource(RezPlugRef inPlugref, Boolean * releaseIt, OSErr * outErro
 		CopyCStringToPascal(buffer, theString);
 		BlockMoveData(theString, *theHandle, theSize+1);
 		*releaseIt = true;
+		// This function is called when saving the data, so we must reset the 
+		// modified flag to false
+		editInfo->modified = false;
 	} 
 	
 	*outError = error;
@@ -611,6 +637,32 @@ _deallocSampleRec( SampleRec *myInstance )
 		CFPlugInRemoveInstanceForFactory( factoryID );
 		CFRelease( factoryID );
 	}
+}
+
+
+// -------------------------------------------------------------------------------------------
+//
+//  Handler for text input which simply sets the modified flag and passes
+//  the event to the default handler
+//
+// -------------------------------------------------------------------------------------------
+
+pascal OSStatus 
+_sampleTextInputHandler(EventHandlerCallRef inHandler, EventRef inEvent, void *userData)
+{
+	OSStatus 		result = eventNotHandledErr;
+	UInt32			eventClass = GetEventClass( inEvent );
+	UInt32			eventKind = GetEventKind( inEvent );
+	ControlRef		ctrlRef;
+
+	SampleEditInfo * editInfo = (SampleEditInfo *) userData;
+
+	if ( eventClass == kEventClassTextInput && eventKind == kEventTextInputUnicodeForKeyEvent ) {
+		GetEventParameter(inEvent, kEventParamDirectObject, typeControlRef, NULL, sizeof(ControlRef), NULL, &ctrlRef);
+		editInfo->modified = true;
+		result = CallNextEventHandler(inHandler, inEvent);
+	}
+	return result;
 }
 
 

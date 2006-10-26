@@ -2,7 +2,7 @@
 // CPickerDoc.cp
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-09-29 09:25:38
+//             Last modification: 2006-10-15 06:55:11
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -192,14 +192,15 @@ CPickerDoc::ObeyCommand(
 		switch (inCommand) {
 
 			case cmd_Copy: 
-			case cmd_Cut: 
-			STableCell	cell;
-			cell.col = 1;
-			cell.row = theRezObjItem->FindRowForItem();
-			mRezMapTable->UnselectAllCells();
-			mRezMapTable->SelectCell(cell);
-			sendToRezmapDoc = true;
-			break;
+			case cmd_Cut: {
+				STableCell	cell;
+				cell.col = 1;
+				cell.row = theRezObjItem->FindRowForItem();
+				mRezMapTable->UnselectAllCells();
+				mRezMapTable->SelectCell(cell);
+				sendToRezmapDoc = true;
+				break;
+			}
 	
 			case cmd_RemoveRez:
 			case cmd_Clear: 

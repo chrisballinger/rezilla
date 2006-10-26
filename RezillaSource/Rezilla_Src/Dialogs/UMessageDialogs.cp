@@ -2,7 +2,7 @@
 // UMessageDialogs.h					
 // 
 //                       Created: 2002-05-31 19:50:34
-//             Last modification: 2006-02-22 09:58:54
+//             Last modification: 2006-10-12 06:59:45
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -16,6 +16,7 @@
 #include "CRezillaApp.h"
 #include "RezillaConstants.h"
 #include "CThreeButtonsBox.h"
+#include "RezillaPluginInterface.h"
 
 #include <CFString.h>
 #include <LThemeTextBox.h>
@@ -689,7 +690,8 @@ UMessageDialogs::DescribeError(CFStringRef inCFStringRef, SInt32 inError)
 	MessageT 	hitMessage;
 	LStaticText * theStaticText;
 	
-	if (inError < err_RezillaErrorStart || inError > err_RezillaErrorEnd) {
+	if ( !(inError >= err_RezillaErrorStart && inError < err_RezillaErrorEnd)
+		&& !(inError >= plugErr_Generic && inError < plugErr_LastError)) {
 		// This is not a Rezilla error
 		UMessageDialogs::AlertWithValue(inCFStringRef, inError);
 		return;

@@ -1,10 +1,10 @@
 // ===========================================================================
 // RezillaErrors_EN.ploc
 //                       Created: 2004-10-05 15:00:32
-//             Last modification: 2006-10-06 17:15:34
+//             Last modification: 2006-10-15 07:19:43
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright: Bernard Desgraupes, 2004-2006
 // All rights reserved.
 // ===========================================================================
@@ -104,6 +104,7 @@ localize "English" as "Errors.strings"
 	key "4001" value string "Loading the plugin failed"
 	key "4002" value string "Get plugin info failed"
 	key "4003" value string "Plugin not found"
+	key "4004" value string "Plugin index not found"
 	key "5000" value string "Plugin error"
 	key "5001" value string "Plugin error: initialization failed"
 	key "5002" value string "Plugin error: this type is not supported"

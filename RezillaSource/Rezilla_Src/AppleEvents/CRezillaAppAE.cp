@@ -436,7 +436,7 @@ CRezillaApp::CountSubModels(
 					theKind = theWindow->GetModelKind();
 					if (theKind == inModelID 
 						|| theKind == rzom_cGuiWindow 
-						|| theKind == rzom_cPluginWindow 
+						|| theKind == rzom_cPlugWindow 
 						|| theKind == rzom_cTmplWindow 
 						|| theKind == rzom_cHexWindow) {
 						count++;
@@ -450,9 +450,10 @@ CRezillaApp::CountSubModels(
 		
 		case rzom_cRezMapWindow:
 		case rzom_cGuiWindow:
-		case rzom_cPluginWindow:
+		case rzom_cPlugWindow:
 		case rzom_cTmplWindow:
 		case rzom_cHexWindow:
+		case rzom_cPickerWindow:
 		case rzom_cCompWindow: {
 			windowP = ::GetWindowList();
 			while (windowP != nil) {
@@ -499,7 +500,8 @@ CRezillaApp::CountSubModels(
 		case rzom_cGuiEditDoc:
 		case rzom_cPlugEditDoc:
 		case rzom_cTmplEditDoc:
-		case rzom_cHexEditDoc: {
+		case rzom_cHexEditDoc:
+		case rzom_cPickerDoc: {
 			TArrayIterator<LDocument*> iterDoc( LDocument::GetDocumentList() );
 			theDoc = nil;
 			while (iterDoc.Next(theDoc)) {
@@ -563,7 +565,7 @@ CRezillaApp::GetSubModelByPosition(
 					theKind = theWindow->GetModelKind();
 					if (theKind == inModelID 
 						|| theKind == rzom_cGuiWindow 
-						|| theKind == rzom_cPluginWindow 
+						|| theKind == rzom_cPlugWindow 
 						|| theKind == rzom_cTmplWindow 
 						|| theKind == rzom_cHexWindow) {
 						count++;
@@ -586,9 +588,10 @@ CRezillaApp::GetSubModelByPosition(
 		
 		case rzom_cRezMapWindow:
 		case rzom_cGuiWindow:
-		case rzom_cPluginWindow:
+		case rzom_cPlugWindow:
 		case rzom_cTmplWindow:
-		case rzom_cHexWindow: {
+		case rzom_cHexWindow:
+		case rzom_cPickerWindow: {
 			windowP = ::GetWindowList();
 			while (windowP != nil) {
 				theWindow = LWindow::FetchWindowObject(windowP);
@@ -652,7 +655,8 @@ CRezillaApp::GetSubModelByPosition(
 		case rzom_cGuiEditDoc:
 		case rzom_cPlugEditDoc:
 		case rzom_cTmplEditDoc:
-		case rzom_cHexEditDoc: {
+		case rzom_cHexEditDoc:
+		case rzom_cPickerDoc: {
 			TArrayIterator<LDocument*> iterDoc( LDocument::GetDocumentList() );
 			while (iterDoc.Next(theDoc)) {
 				if (theDoc && theDoc->GetModelKind() == inModelID) {
@@ -897,10 +901,11 @@ CRezillaApp::GetPositionOfSubModel(
 			break;
 		}
 
-		case rzom_cPlugin: 
-		const CRezillaPlugin * thePlugin = dynamic_cast<const CRezillaPlugin *>(inSubModel);
-		position = CRezillaPlugin::GetAEPosition(thePlugin);
-		break;		
+		case rzom_cPlugin: {
+			const CRezillaPlugin * thePlugin = dynamic_cast<const CRezillaPlugin *>(inSubModel);
+			position = CRezillaPlugin::GetAEPosition(thePlugin);
+			break;		
+		}
 
 		default:
 			position = LApplication::GetPositionOfSubModel(inModelID, inSubModel);

@@ -2,7 +2,7 @@
 // CPickerDocAE.cp
 // 
 //                       Created: 2006-02-24 06:34:27
-//             Last modification: 2006-09-28 12:38:15
+//             Last modification: 2006-10-12 14:22:13
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -188,7 +188,7 @@ CPickerDoc::SetAEProperty(
 				theID = theLong;
 				theSelView = dynamic_cast<CPickerView*>(mPickerWindow->GetContentsView()->FindPaneByID(theID));
 			}
-			mPickerWindow->SetSelectedView(NULL);
+			mPickerWindow->SetSelectedView(theSelView);
 			mPickerWindow->Refresh();
 			break;
 		}

@@ -1225,7 +1225,7 @@ const DescType rzom_cPickerDoc		= 'PikD';	// Picker document
 
 const DescType rzom_cRezMapWindow	= 'MapW';	// RezMap window
 const DescType rzom_cEditorWindow	= 'EdiW';	// Editor window
-const DescType rzom_cPluginWindow	= 'PluW';	// Plugin window
+const DescType rzom_cPlugWindow		= 'PluW';	// Plugin window
 const DescType rzom_cGuiWindow		= 'GuiW';	// Interface editor window
 const DescType rzom_cTmplWindow		= 'TmpW';	// Tmpl editor window
 const DescType rzom_cHexWindow		= 'HexW';	// Hex editor window

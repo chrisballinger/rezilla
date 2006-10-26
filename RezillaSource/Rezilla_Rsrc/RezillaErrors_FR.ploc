@@ -1,10 +1,10 @@
 // ===========================================================================
 // RezillaErrors_FR.ploc
 //                       Created: 2004-10-05 15:00:32
-//             Last modification: 2006-10-06 17:16:16
+//             Last modification: 2006-10-15 07:19:56
 // Author: Bernard Desgraupes
-// e-mail: <bdesgraupes@easyconnect.fr>
-// www: <http://webperso.easyconnect.fr/bdesgraupes/>
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
 // (c) Copyright: Bernard Desgraupes, 2004-2006
 // All rights reserved.
 // ===========================================================================
@@ -103,13 +103,14 @@ localize "French" as "Errors.strings"
 	key "4001" value string "Le chargement du plugin a échoué"
 	key "4002" value string "Impossible d’obtenir l’information sur ce plugin"
 	key "4003" value string "Plugin introuvable"
+	key "4004" value string "Indice du plugin introuvable"
 	key "5000" value string "Erreur du plugin"
-	key "5001" value string "Erreur du plugin: l’initialisation a échoé"
+	key "5001" value string "Erreur du plugin: l’initialisation a échoué"
 	key "5002" value string "Erreur plugin: ce type de ressource n’est pas supporté"
 	key "5003" value string "Erreur plugin: cet identificateur (ID) de ressource n’est pas supporté"
 	key "5004" value string "Erreur plugin: cette ressource contient des données invalides"
-	key "5005" value string "Erreur plugin: unsupported ressource format"
-	key "5006" value string "Erreur plugin: unsupported ressource version"
+	key "5005" value string "Erreur plugin: format de ressource non supporté"
+	key "5006" value string "Erreur plugin: version de ressource non supportée"
 	key "5007" value string "Erreur plugin: l’édition de la ressource a échoué"
 	key "5008" value string "Erreur plugin: la sauvegarde des modifications de la ressource a échoué"
 	key "5009" value string "Erreur plugin: la restauration de la ressource a échoué"

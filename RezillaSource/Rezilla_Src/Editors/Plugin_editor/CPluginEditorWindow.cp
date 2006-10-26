@@ -34,7 +34,7 @@ extern CWindowMenu * gWindowMenu;
 CPluginEditorWindow::CPluginEditorWindow()
 	: CEditorWindow()
 {
-	SetModelKind(rzom_cPluginWindow);
+	SetModelKind(rzom_cPlugWindow);
 }
 
 
@@ -47,7 +47,7 @@ CPluginEditorWindow::CPluginEditorWindow(
 					LCommander*		inSuperCommander)
 		: CEditorWindow(inMacWindow, inSuperCommander)
 {
-	SetModelKind(rzom_cPluginWindow);
+	SetModelKind(rzom_cPlugWindow);
 }
 
 
@@ -59,7 +59,7 @@ CPluginEditorWindow::CPluginEditorWindow(
 				   LStream *inStream )
 		: CEditorWindow( inStream )
 {
-	SetModelKind(rzom_cPluginWindow);
+	SetModelKind(rzom_cPlugWindow);
 }
 
 
@@ -73,8 +73,7 @@ CPluginEditorWindow::~CPluginEditorWindow()
 	
 	(*mInterface)->CleanUp(mPlugRef);
 
-// 	// Remove the window from the window menu.
-// 	gWindowMenu->RemoveWindow(this);
+	// The window is removed from the window menu in the ~CEditorWindow destructor
 }
 
 
@@ -89,8 +88,6 @@ CPluginEditorWindow::FinalizeEditor(CEditorDoc* inEditorDoc, void * ioParam)
 #pragma unused(ioParam)
 	char	theStr[256];
 	OSErr	error;
-	
-	mEventHandler = NULL;
 	
 	// Set mOwnerDoc
 	SetOwnerDoc(inEditorDoc);
@@ -500,12 +497,7 @@ void
 CPluginEditorWindow::TakeOffDuty()
 {		
 	LWindow::TakeOffDuty();
-// 	if (mEventHandler != NULL) {
-// 		OSErr error = RemoveEventHandler(mEventHandler);
-// 		mEventHandler = NULL;
-// 	} 
 	RemovePluginMenus();
-	
 	this->StopIdling();
 }
 

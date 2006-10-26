@@ -2,7 +2,7 @@
 // CICNS_EditorWindow.cp					
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-10-03 14:41:43
+//             Last modification: 2006-10-15 06:53:26
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -225,12 +225,13 @@ CICNS_EditorWindow::Click(
 void
 CICNS_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam ) 
 {		
-	CICNS_Member * theMember;
+	CICNS_Member *	theMember;
+	ArrayIndexT		index;
 	
 	switch (inMessage) {
 						
 		case msg_IcnsIconPopup: 
-		ArrayIndexT index = mIconPopup->GetValue();
+		index = mIconPopup->GetValue();
 		if (index == 1) {
 			return;
 		} 

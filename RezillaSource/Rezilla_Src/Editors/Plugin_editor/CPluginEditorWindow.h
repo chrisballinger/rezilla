@@ -68,7 +68,6 @@ public:
 	
 protected:
 		SPluginEditorInterface**	mInterface;
-		EventHandlerRef				mEventHandler;
 		RezPlugRef					mPlugRef;
 		ControlRef					mHeaderRef,
 									mNameRef,

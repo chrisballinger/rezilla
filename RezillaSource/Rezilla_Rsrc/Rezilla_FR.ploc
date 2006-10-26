@@ -1,4 +1,4 @@
-// Last modification: 2006-10-07 08:28:30
+// Last modification: 2006-10-12 17:27:30
 
 localize "French" as "Localizable.strings" 
 {
@@ -36,7 +36,7 @@ localize "French" as "Localizable.strings"
 	key "ErrorSavingRezMapDoc" value string "Une erreur ‘%d’ s’est produite au cours de la sauvegarde de la table de ressource."
 	key "ErrorSavingTemplateWindow" value string "Une erreur ‘%d’ s’est produite au cours de la validation du gabarit. La ressource originale n’a pas été modifiée."
 	key "ErrorSettingSize" value string "Une erreur ‘%d’ s’est produite en fixant la taille de la police."
-	key "ErrorUsingPluginEditor" value string "Une erreur ‘%d’ s’est produite en utilisant le plugin. La ressource originale n’a pas été modifiée."
+	key "ErrorUsingPluginEditor" value string "Une erreur ‘%d’ s’est produite au cours de l’utilisation d’un plugin. La ressource originale n’a pas été modifiée."
 	key "ErrorWhileParsingResource" value string "Une erreur ‘%d’ s’est produite au cours de l’analyse de la ressource."
 	key "ErrorWithIconEditor" value string "Une erreur ‘%d’ s’est produite dans l’éditeur d’icones."
 	key "ExportError" value string "Une erreur s’est produite lors de l’export des données."

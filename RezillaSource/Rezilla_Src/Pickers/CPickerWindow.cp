@@ -2,7 +2,7 @@
 // CPickerWindow.cp
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-09-22 05:10:42
+//             Last modification: 2006-10-15 06:56:45
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -179,20 +179,21 @@ CPickerWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		Hide();
 		break;
 				
-		case msg_PickerViewSingleClick:
-		CPickerView * theView = (CPickerView*) ioParam;
-		if (theView == NULL) {return;} 
-		if (mSelectedView == theView) {
-			mSelectedView->DrawBorder(false);
-			mSelectedView = NULL;
-		} else {
-			if (mSelectedView) {
+		case msg_PickerViewSingleClick: {
+			CPickerView * theView = (CPickerView*) ioParam;
+			if (theView == NULL) {return;} 
+			if (mSelectedView == theView) {
 				mSelectedView->DrawBorder(false);
-			} 
-			mSelectedView = theView;
-			mSelectedView->DrawBorder(true);
+				mSelectedView = NULL;
+			} else {
+				if (mSelectedView) {
+					mSelectedView->DrawBorder(false);
+				} 
+				mSelectedView = theView;
+				mSelectedView->DrawBorder(true);
+			}
+			break;
 		}
-		break;
 				
 		case msg_PickerViewDoubleClick:
 		ObeyCommand(cmd_EditRez, NULL);

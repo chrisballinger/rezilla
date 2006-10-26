@@ -2,7 +2,7 @@
 // TPickerDoc.h				
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-10-08 10:30:09
+//             Last modification: 2006-10-15 06:52:05
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -15,8 +15,11 @@
 #include "CPickerDoc.h"
 #include "CPickerWindow.h"
 #include "CRezMapDoc.h"
-#include "CRezObjItem.h"
 #include "CRezObj.h"
+#include "CRezObjItem.h"
+#include "CRezType.h"
+#include "CRezTypeItem.h"
+#include "CRezMapTable.h"
 #include "TPickerView.h"
 #include "RezillaConstants.h"
 #include "UMessageDialogs.h"
@@ -71,29 +74,8 @@ ObeyCommand(
 	void*		ioParam)
 {
 	Boolean			cmdHandled = true;
-	CPickerView*	theView = mPickerWindow->GetSelectedView();
-	ResType			theType = mRezTypeItem->GetRezType()->GetType();
 	
 	switch (inCommand) {
-		
-// 		case cmd_DuplicateRez: 
-// 		if (theView != NULL) {
-// 			// Find the corresponding RezObjItem in the RezMap document
-// 			CRezObjItem *	theRezObjItem = mRezMapTable->GetRezObjItem(theType, theView->GetPaneID(), true);
-// 			ThrowIfNil_(theRezObjItem);
-// 			CRezMapDoc *	theDoc = mRezMapTable->GetOwnerDoc();
-// 			
-// 			CRezObj * newRezObj = theDoc->DuplicateResource( theRezObjItem->GetRezObj() );
-// 			if (newRezObj != NULL) {
-// // 				// Create a picker view for the new resource
-// // 				CPickerView *	newView = (CPickerView*) CreateNewPicker(newRezObj->GetID());
-// 				mPickerWindow->RecalcLayout();
-// 				// Make it the new current selection
-// 				mPickerWindow->ListenToMessage(msg_PickerViewSingleClick, newView);
-// 			} 
-// 		}
-// 		break;
-
 		
 		default:
 		cmdHandled = CPickerDoc::ObeyCommand(inCommand, ioParam);
@@ -112,7 +94,8 @@ void
 ListenToMessage( MessageT inMessage, void * ioParam) 
 {
 	short theID;
-
+	SInt32 theLong;
+	
 	switch (inMessage) {
 				
 		case msg_RezObjCreated:
@@ -125,7 +108,7 @@ ListenToMessage( MessageT inMessage, void * ioParam)
 		break;
 				
 		case msg_RezIDChanged:
-		SInt32 theLong = (SInt32) ioParam;
+		theLong = (SInt32) ioParam;
 		// The ioParam is formatted as follows: 
 		// the low word has the old ID, the high word has the new one
 		theID = LoWord(theLong);
@@ -212,7 +195,7 @@ Initialize()
 		theCount = idsArray->GetCount();
 		
 		while (iterator.Next(theID)) {
-			TPickerView<T>* thePickerView = CreateNewPicker(theWidth, theHeight, theID);
+			CreateNewPicker(theWidth, theHeight, theID);
 		}
 	} catch (...) {
 		delete this;
