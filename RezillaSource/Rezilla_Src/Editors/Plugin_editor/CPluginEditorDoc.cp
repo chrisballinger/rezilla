@@ -2,7 +2,7 @@
 // CPluginEditorDoc.cp
 // 
 //                       Created: 2005-10-02 08:41:52
-//             Last modification: 2006-10-09 16:45:17
+//             Last modification: 2006-10-27 09:52:33
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -31,6 +31,8 @@ PP_Begin_Namespace_PowerPlant
 #include "RezillaConstants.h"
 #include "UMessageDialogs.h"
 #include "UMiscUtils.h"
+
+#include "CRezMapWindow.h"
 
 #include <UCursor.h>
 
@@ -81,6 +83,7 @@ CPluginEditorDoc::Initialize()
 	
 	mAttributes = 0;
 	mMenuRefs = NULL;
+	mPluginWindow = NULL;
 	mKind = editor_kindPlug;
 	SetModelKind(rzom_cPlugEditDoc);
 
@@ -113,7 +116,8 @@ CPluginEditorDoc::Initialize()
 	
 	plugInfo.error = noErr;
 	
-	if ( (*interface)->AcceptResource(interface, mRezObj->GetType(), mRezObj->GetID(), rezData, &plugInfo) ) {
+	// Pass mSubstType, not mRezObj->GetType()
+	if ( (*interface)->AcceptResource(interface, mSubstType, mRezObj->GetID(), rezData, &plugInfo) ) {
 		mAttributes = plugInfo.attributes;
 		
 		// Create a window for our document and set this doc as its SuperCommander
@@ -177,16 +181,16 @@ CPluginEditorDoc::Initialize()
 		return;
 	} 
 	
-// 	// Attach an LUndoer
-// 	AddAttachment( new LUndoer );
-	
-	// Make the window visible.
+	// Make the window visible
 	mPluginWindow->Show();
 	mPluginWindow->Enable();
-	mPluginWindow->Activate();
-
-	SwitchTarget(mPluginWindow);
 	
+	// Artefact: there is an issue the very first time a window for this
+	// plugin is created where plugin menus are not removed correctly from
+	// the menu bar. Deactivating and reactivating the window seems to fix
+	// the problem.
+	mPluginWindow->Deactivate();
+	mPluginWindow->Activate();	
 }
 
 
@@ -379,8 +383,9 @@ CPluginEditorDoc::CreatePluginWindow(SInt32 inPlugAttrs, Rect inWinbounds)
 									  {kEventClassWindow, kEventWindowClose},
 									  {kEventClassWindow, kEventWindowBoundsChanged},
 									  {kEventClassWindow, kEventWindowActivated},
-									  {kEventClassWindow, kEventWindowDeactivated} };
-
+									  {kEventClassWindow, kEventWindowDeactivated},
+									  {kEventClassWindow, kEventWindowGetClickActivation} };
+									  
 	if (inPlugAttrs & kPluginWinHasCollapseBox) {
 		winAttrs |= kWindowFullZoomAttribute | kWindowCollapseBoxAttribute;
 	}

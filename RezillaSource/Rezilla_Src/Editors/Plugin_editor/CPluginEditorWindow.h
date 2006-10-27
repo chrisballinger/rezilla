@@ -2,7 +2,7 @@
 // CPluginEditorWindow.h				
 // 
 //                       Created: 2005-10-02 08:41:52
-//             Last modification: 2006-10-03 15:05:35
+//             Last modification: 2006-10-26 14:06:58
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -34,7 +34,7 @@ public:
 							~CPluginEditorWindow();
 
 	static pascal OSStatus WindowEventHandler(EventHandlerCallRef myHandler, 
-											  EventRef event, 
+											  EventRef inEvent, 
 											  void *userData);
 							
 	virtual Boolean	ObeyCommand(

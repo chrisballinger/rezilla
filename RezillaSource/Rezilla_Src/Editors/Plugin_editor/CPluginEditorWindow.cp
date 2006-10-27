@@ -78,9 +78,8 @@ CPluginEditorWindow::~CPluginEditorWindow()
 
 
 // ---------------------------------------------------------------------------
-//  FinalizeEditor											[public]
+//  FinalizeEditor													[public]
 // ---------------------------------------------------------------------------
-
 
 void
 CPluginEditorWindow::FinalizeEditor(CEditorDoc* inEditorDoc, void * ioParam)
@@ -95,10 +94,12 @@ CPluginEditorWindow::FinalizeEditor(CEditorDoc* inEditorDoc, void * ioParam)
 	
 	mInterface = dynamic_cast<CPluginEditorDoc *>(mOwnerDoc)->GetPlugin()->GetInterface();
 	ThrowIfNil_(mInterface);
-			
-	::CopyPascalStringToC(*(inEditorDoc->GetRezObj()->GetName()), (char*) theStr);
-	error = ::SetControlData(mNameRef, kControlNoPart, kControlStaticTextTextTag, strlen(theStr), theStr);
-	::HIViewSetNeedsDisplay(mNameRef, true);
+	
+	if (mNameRef != NULL) {
+		::CopyPascalStringToC(*(inEditorDoc->GetRezObj()->GetName()), (char*) theStr);
+		error = ::SetControlData(mNameRef, kControlNoPart, kControlStaticTextTextTag, strlen(theStr), theStr);
+		::HIViewSetNeedsDisplay(mNameRef, true);
+	} 
 	
 	// Add the window to the window menu.
 	gWindowMenu->InsertWindow(this);
@@ -498,7 +499,7 @@ CPluginEditorWindow::TakeOffDuty()
 {		
 	LWindow::TakeOffDuty();
 	RemovePluginMenus();
-	this->StopIdling();
+	this->StopIdling();	
 }
 
 
@@ -648,13 +649,13 @@ CPluginEditorWindow::ResizeWindowBy(
 pascal OSStatus 
 CPluginEditorWindow::WindowEventHandler(
 					EventHandlerCallRef myHandler, 
-					EventRef event, 
+					EventRef inEvent, 
 					void * userData)
 {
 #pragma unused(myHandler)
 
 	OSStatus 	result = eventNotHandledErr;
-	UInt32		eventKind = GetEventKind(event);
+	UInt32		eventKind = GetEventKind(inEvent);
 	HICommand	command;
 	
 	CPluginEditorWindow * plugWin = dynamic_cast<CPluginEditorWindow*>((LWindow*) userData);
@@ -675,16 +676,34 @@ CPluginEditorWindow::WindowEventHandler(
 			LCommander::SetUpdateCommandStatus(true);
 			plugWin->Activate();
 			result = noErr;
-			break;
+CFShow(CFSTR("kEventWindowActivated"));
+
+			break;			
 			
 			case kEventWindowDeactivated:
 			plugWin->Deactivate();
 			LCommander::SetUpdateCommandStatus(false);
 			result = noErr;
+CFShow(CFSTR("kEventWindowDeactivated"));
 			break;
 		
+			case kEventWindowGetClickActivation: {
+				// 	kDoNotActivateAndIgnoreClick kDoNotActivateAndHandleClick
+				// 	kActivateAndIgnoreClick kActivateAndHandleClick
+				UInt32 activationResult = kActivateAndIgnoreClick;
+				
+				result = SetEventParameter(inEvent, kEventParamClickActivation, typeClickActivationResult, 
+								  sizeof(ClickActivationResult), &activationResult);
+				result = noErr;
+				plugWin->Select();
+CFShow(CFSTR("kEventWindowGetClickActivation"));
+				
+				break;
+			}
+			
+		
 			case kEventCommandProcess:
-			GetEventParameter(event, kEventParamDirectObject, typeHICommand, NULL, sizeof(HICommand), 
+			GetEventParameter(inEvent, kEventParamDirectObject, typeHICommand, NULL, sizeof(HICommand), 
 							  NULL, &command);
 			switch (command.commandID) {
 				case kHICommandOK:
