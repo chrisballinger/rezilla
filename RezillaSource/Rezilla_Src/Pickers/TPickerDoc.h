@@ -2,7 +2,7 @@
 // TPickerDoc.h				
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-10-15 06:52:05
+//             Last modification: 2006-10-27 11:13:13
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -95,7 +95,8 @@ ListenToMessage( MessageT inMessage, void * ioParam)
 {
 	short theID;
 	SInt32 theLong;
-	
+	StGrafPortSaver	savePort( mPickerWindow->GetMacPort() );
+
 	switch (inMessage) {
 				
 		case msg_RezObjCreated:

@@ -34,7 +34,9 @@ public:
 
 	virtual				~CPickerView();
 
-	virtual void		DrawSelf();
+	/* 
+	 * virtual void        DrawSelf();
+	 */
 
 	virtual void 		ClickSelf( const SMouseDownEvent & );
 
