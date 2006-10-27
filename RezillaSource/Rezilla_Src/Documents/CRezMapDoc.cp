@@ -2,7 +2,7 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2006-10-05 19:34:25
+//             Last modification: 2006-10-27 11:13:03
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -1957,7 +1957,6 @@ CRezMapDoc::DeletePickers(Boolean deleteArray)
 void
 CRezMapDoc::NotifyPicker(ResType inType, MessageT inMessage, void * ioParam)
 {
-	StGrafPortSaver	savePort;
 	CPickerDoc * thePicker = GetRezPicker(inType);
 	if (thePicker != NULL) {
 		thePicker->ListenToMessage(inMessage, ioParam);
