@@ -99,7 +99,7 @@ CNewRezChooser::RunDialog()
 		MessageT theMessage;
 		while (true) {
 			theMessage = theHandler.DoDialog();
-			if (msg_OK == theMessage || msg_Cancel == theMessage) {
+			if (msg_OK == theMessage) {
 				inLoop = false;
 				break;
 			} else if (msg_Cancel == theMessage) {

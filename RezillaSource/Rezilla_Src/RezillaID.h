@@ -1,7 +1,7 @@
 // ===========================================================================
 // RezillaID.h		
 //                       Created: 2004-02-23 15:26:13
-//             Last modification: 2006-10-17 10:24:33
+//             Last modification: 2006-11-01 17:33:39
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -21,4 +21,4 @@
 #define REZILLA_DEVEL		0
 
 // Version number string
-#define REZILLA_PLC_VERSION "1.1rc2"
+#define REZILLA_PLC_VERSION "1.1rc3"
