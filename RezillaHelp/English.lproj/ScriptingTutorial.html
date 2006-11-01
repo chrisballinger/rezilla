@@ -1,0 +1,1062 @@
+<HTML>
+<HEAD>
+<TITLE>ScriptingTutorial</TITLE>
+<META HTTP-EQUIV="content-type" CONTENT="text/html;charset=macintosh">
+<META NAME="generator" CONTENT="Aida Mode">
+<META HTTP-EQUIV="Content-Language" CONTENT="en-GB">
+<META NAME="keywords" CONTENT="resources, AppleScript">
+</HEAD>
+<BODY>
+<P><P><IMG SRC="../Images/rezilla_logo.gif" ALT="Rezilla logo" ALIGN=bottom></P><P><HR><BLOCKQUOTE><P><I> 
+This is a tutorial about AppleScript support in <B>Rezilla</B>. It
+explains and demonstrates how to drive Rezilla using scripts written with
+the AppleScript language. It is assumed that the reader is already familiar
+with the basics of this language.
+This document corresponds to version <B>1.1</B> of 
+Rezilla.
+</I></P></BLOCKQUOTE><HR><P><UL>
+<LI><A HREF="#M1">AppleScript support</A>
+<UL><LI><A HREF="#M2">Opening and closing a resource map</A></UL>
+<UL><LI><A HREF="#M3">Saving a resource map</A></UL>
+<UL><LI><A HREF="#M4">Creating a new resource map</A></UL>
+<UL><LI><A HREF="#M5">Rezilla's object model</A></UL>
+<UL><UL><LI><A HREF="#M6">Map document properties</A></UL></UL>
+<UL><UL><LI><A HREF="#M7">Editor document properties</A></UL></UL>
+<UL><UL><LI><A HREF="#M8">Map window properties</A></UL></UL>
+<UL><UL><LI><A HREF="#M9">Editing window properties</A></UL></UL>
+<UL><UL><LI><A HREF="#M10">Map properties</A></UL></UL>
+<UL><UL><LI><A HREF="#M11">Type properties</A></UL></UL>
+<UL><UL><LI><A HREF="#M12">Resource properties</A></UL></UL>
+<UL><UL><LI><A HREF="#M13">Resource contents</A></UL></UL>
+<UL><LI><A HREF="#M14">Editing a resource</A></UL>
+<UL><LI><A HREF="#M15">Modifying in hexadecimal windows</A></UL>
+<UL><LI><A HREF="#M16">Creating a new resource</A></UL>
+<UL><LI><A HREF="#M17">Basic objects and properties</A></UL>
+<UL><UL><LI><A HREF="#M18">Application properties</A></UL></UL>
+<UL><UL><LI><A HREF="#M19">Document properties</A></UL></UL>
+<UL><UL><LI><A HREF="#M20">Window properties</A></UL></UL>
+<UL><LI><A HREF="#M21">Count of objects</A></UL>
+<UL><LI><A HREF="#M22">Existence of objects</A></UL>
+<UL><LI><A HREF="#M23">Inspector window</A></UL>
+<UL><LI><A HREF="#M24">Comparing resource maps</A></UL>
+<UL><LI><A HREF="#M25">Exporting resource maps</A></UL>
+<UL><LI><A HREF="#M26">Importing resource maps</A></UL>
+<UL><LI><A HREF="#M27">External plugins</A></UL>
+<UL><LI><A HREF="#M28">Resource pickers</A></UL>
+<LI><A HREF="#M29">Rezilla's dictionary</A>
+</UL><P><H2><A NAME="M1"></A>AppleScript support</H2><P>A complete AppleScript support has been introduced in <B>Rezilla</B> starting 
+from version 1.0.5b. AppleScript is Apple's scripting language for 
+automating operations and controlling other applications. <B>Rezilla</B> 
+defines a set of commands and classes which make it easy to automatically
+manipulate the resource documents: they let you simulate almost all the
+actions defined by the application, that is to say all the commands defined
+in the various menus.<P>All the commands explained in this tutorial have to be addressed to the 
+application using the usual <I>tell</I> statements, like for instance:
+<PRE>
+	tell application "Rezilla"
+		-- here come the commands...
+	end tell
+</PRE><P>In the remaining of this document, we will not repeat in each example the 
+complete <I>tell</I> block for the sake of legibility but it is always 
+implied.<P><H3><A NAME="M2"></A>Opening and closing a resource map</H3><P>One can open documents using the <B>open</B> command.<P>To open a resource file named <I>somefile.rsrc</I> and located in the
+directory <I>HD:foo:bar:</I>, use the instruction:
+<PRE>
+	open "HD:foo:bar:somefile.rsrc" as alias
+</PRE>
+Similarly, to choose some resource file and open it in Rezilla, just do:
+<PRE>
+	set theFile to {choose file}
+	open theFile as alias<P></PRE>
+There are three optional parameters to the <B>open</B> command:
+<UL><P>	<LI> with the <I>readOnly</I> parameter, one can force the file to be opened in 
+read-only mode in order to make all modifications impossible. For instance:
+<PRE>
+	open "HD:foo:bar:somefile.rsrc" as alias with readOnly<P></PRE>
+	<LI> with the <I>from</I> parameter, one can restrict the opening to a 
+particular fork (resource fork or data fork). By default, Rezilla looks in 
+both forks (data fork before resource fork). For instance:
+<PRE>
+	open "HD:foo:bar:somefile.rsrc" as alias from data fork<P></PRE>
+The possible values for the <I>from</I> parameter are <I>data fork</I>, 
+<I>resource fork</I>, or <I>any fork</I> (the default).
+	<LI> with the <I>createFork</I> parameter, one can specify if a resource
+fork should be created in the case where the file does not have any
+resource fork already (this is not the same thing as a file with an empty
+fork). This is possible only if the <I>from</I> parameter is not specified
+or has value <I>any fork</I>.
+For instance:
+<PRE>
+	open "HD:foo:bar:file_with_no_fork_at_all" as alias with createFork<P></PRE>
+</UL><P>A map document can be closed with the <B>close</B> command. The optional
+argument <I>saving</I> is supported in order to decide if the file should 
+be saved before closing (the possible values are <I>yes</I>,
+<I>no</I> or <I>ask</I>). For instance:
+<PRE>
+	close first map document saving no<P></PRE><P><H3><A NAME="M3"></A>Saving a resource map</H3><P>Modifications made in a resource map document can be saved directly 
+using the <B>save</B> command. Two additional parameters are supported:
+<UL>
+	<LI> the <I>in</I> parameter lets you specify the file in which you want 
+to create the export file. This parameter is optional.
+	<LI> the <I>as</I> parameter lets you specify the fork in which you want
+to save the resource map. The possible values are <I>data fork</I>, <I>resource fork</I>, <I>same fork</I> (the latter only for <I>Save As</I>). This parameter is optional. It is ignored if the <I>in</I> 
+parameter is not specified because, in that case, Rezilla executes a 
+simple <B>save</B> command on the resource map.
+</UL>
+<PRE>
+	save document 1 in "HD:foo:bar:otherMap.rsrc" as resource fork<P></PRE><P>It is also possible to discard changes made in a resource map and
+return to the last saved version of the map using the <B>revert</B>
+command. For instance:
+<PRE>
+	revert map document 1<P></PRE><P><H3><A NAME="M4"></A>Creating a new resource map</H3><P>One can create a new empty resource map with the <B>make</B> command. This 
+command accepts three parameters. The first two are required, the other is
+optional:
+<UL>
+	<LI> the parameter <I>new</I> indicates the class of the object to create 
+(<I>map</I> or <I>map document</I>)
+	<LI> the parameter <I>in</I> is used to designate the folder containing the 
+new resource file
+	<LI> the parameter <I>with properties</I> is used to specify some 
+additional properties. It is a list containing key:value pairs (a record 
+in AppleScript parlance). The keys can be any of <I>name</I>, <I>fork</I>
+and <I>readOnly</I>. This parameter is optional.
+</UL><P>Here is a complete example:
+<PRE>
+	-- ask the Finder to make the folder object
+	tell application "Finder"
+		set theFolder to folder "HD:foo:bar:" as alias
+	end tell
+	-- create the new map document in this folder
+	make new map document in theFolder with properties ¬
+		{name:"newmap.rsrc",fork:data fork,readOnly:true}<P></PRE>
+Note that the folder containing the new map document must be declared in a
+<I>tell</I> block addressed to the Finder rather than to Rezilla. This is
+because the word <I>folder</I> belongs to the Finder's terminology and not
+to Rezilla's.<P><H3><A NAME="M5"></A>Rezilla's object model</H3><P>There are basically three types of objects in Rezilla: documents, windows
+and maps. The term map is used to designate the entire contents of a
+resource fork.<P>Each map can be considered as a data base whose elements are characterized
+by a type and an ID. Rezilla's object model uses a similar structure: a 
+<I>map</I> object contains <I>type</I> objects, and these <I>type</I>
+objects themselves contain <I>resource</I> objects. A map object is always
+associated with a resource map document, just like a resource <I>belongs</I> 
+to a map.<P>There are two kinds of documents: 
+<UL>
+	<LI> resource map documents correspond to the outline window displayed 
+when a resource file is opened by Rezilla.
+	<LI> editor documents correspond to the editing windows in which 
+individual resources can be edited. An editor document necessarily <I>belongs</I> 
+to a resource map document.
+</UL><P>For instance, one can get a list of all the windows, maps or documents 
+with a command like this (the word <B>get</B> is optional):
+<PRE>
+	get windows
+	get maps
+	get documents
+</PRE><P><H4><A NAME="M6"></A>Map document properties</H4>
+Map documents can be specified by name or by index. The name is the name 
+of the file this document was opened from: it is not unique since 
+different files can have the same name (if they are in different folders). 
+On the contrary, the index is unique at a given time: it is the index of
+the document among all the other map documents opened in Rezilla. The index
+is not permanent though: it can vary as other documents get closed.<P>Besides the properties shared by all the document objects (see below), map 
+documents also have a set of specific properties:
+<UL>
+	<LI> <I>index</I>: the index of the document among other map documents<P>	<LI> <I>readOnly</I>: is this document read-only?<P>	<LI> <I>window</I>: the window associated with this document<P>	<LI> <I>refnum</I>: the reference number of the map in memory<P>	<LI> <I>fork</I>: the fork this document is editing (data fork or resource fork)<P>	<LI> <I>map</I>: the resource map associated with this document<P>	<LI> <I>file</I>: the file on disk corresponding to this resource map document<P>	<LI> <I>format</I>: the format used for export
+</UL><P>For instance, the following script lets you retrieve the values of all these 
+properties:
+<PRE>
+	set mapDoc to map document 1
+	set a to the name of mapDoc
+	set b to the refnum of mapDoc
+	set c to the fork of mapDoc
+	set d to the index of mapDoc
+	set e to the readOnly of mapDoc
+	set f to the window of mapDoc
+	set g to the file of mapDoc
+	set h to the format of mapDoc
+	
+	{a, b, c, d, e, f, g, h}<P></PRE><P>The <I>format</I> property can be modified using the <B>set</B> command. 
+All the others are read only properties. For instance:
+<PRE>
+	set the format of map document 1 to html<P></PRE><P><H4><A NAME="M7"></A>Editor document properties</H4>
+Editor documents also have properties of their own, besides the properties 
+shared by all the document objects Rezilla defines the following:
+<UL>
+	<LI> <I>index</I>: the index of the editor document among all the editor 
+documents depending from the same map document<P>	<LI> <I>kind</I>: the kind of the editor document 
+(<I>hexadecimal</I>, <I>template</I> or <I>interface</I>)<P>	<LI> <I>readOnly</I>: is this document read-only?<P>	<LI> <I>window</I>: the window associated with this document<P>	<LI> <I>resource</I>: the resource edited by this document<P>	<LI> <I>owner doc</I>: the rezmap document that owns this editor document
+</UL><P>For instance, the following script lets you retrieve the values of all these 
+properties (supposing an editor document is currently open):
+<PRE>
+	set theEd to editor 1 of map document 1
+	set a to the index of theEd
+	set b to the kind of theEd
+	set c to the readOnly of theEd
+	set d to the window of theEd
+	set e to the resource of theEd
+	set f to the owner doc of theEd
+	
+	{a, b, c, d, e, f}<P></PRE><P>All these properties are read only properties. They cannot be modified 
+using the <B>set</B> command.<P><H4><A NAME="M8"></A>Map window properties</H4>
+The <I>map window</I> class designates the window displayed by resource map 
+documents. These objects have two properties corresponding to the count 
+fields located at the bottom of the window:
+<UL> 
+	<LI> <I>types count</I>: number of types in this map, as displayed at the bottom of the map window<P>	<LI> <I>resources count</I>: total number of resources in this map, as displayed at the bottom of the map window<P></UL><P>You obtain these values like this for instance:
+<PRE>
+	set mapWin to map window 1
+	set a to the types count of mapWin
+	set b to the resources count of mapWin
+	{a, b}<P></PRE>
+These are read-only properties. <P><H4><A NAME="M9"></A>Editing window properties</H4>
+The <I>editing window</I> class designates the windows displayed by 
+editors. They have only one specific property,
+<I>kind</I>, which indicates the kind of the corresponding editor (it is 
+one of <I>hexadecimal</I>, <I>template</I> or <I>interface</I>).<P>For instance:
+<PRE>
+	set editWin to editing window 1
+	get the kind of editWin<P></PRE>
+This is a read-only property. <P>As a convenience, it is possible to designate <I>editing windows</I> 
+directly as elements of a map document. So, as a shortcut, one can write
+<PRE>
+    get editing window 1 of map document 1
+</PRE>
+instead of 
+<PRE>
+    get window of editor 1 of map document 1
+</PRE>
+Similarly
+<PRE>
+    get hexadecimal window 1 of map document 1
+</PRE>
+is equivalent to
+<PRE>
+    get window of hexadecimal editor 1 of map document 1
+</PRE>
+The same is true when designating the editing windows by name rather than 
+by index:
+<PRE>
+	get editing window "name_of_window" of map document 1
+</PRE>
+instead of 
+<PRE>
+	get window of editor "name_of_window" of map document 1
+</PRE>
+Similarly
+<PRE>
+	get template window "name_of_window" of map document 1
+</PRE>
+is equivalent to
+<PRE>
+	get window of template editor "name_of_window" of map document 1
+</PRE><P><H4><A NAME="M10"></A>Map properties</H4>
+The resource maps are considered as objects directly contained in the 
+application. They are characterized by a unique ID: this is a reference 
+number attributed by the System's Resource Manager when the map is opened. 
+For instance, the following instruction 
+<PRE>
+	get map of map document 1
+</PRE>
+would return something like:
+<P> <I>map id 22 of application "Rezilla"</I>
+<P> The map could thus be subsequently invoked in a script as <I>map id 22</I>.
+The ID of a map is guaranteed to be unique.<P>Resource maps have the following properties:
+<UL>
+	<LI> <I>refnum</I>: the reference number of the map in memory<P>	<LI> <I>all types</I>: the list of all the types contained in this map (in alphabetical order)<P>	<LI> <I>attributes</I>: the global value of the map attributes (a numeric 
+value, sum of the individual flags)<P>	<LI> <I>readOnly</I>: the map's <I>ReadOnly</I> flag (a boolean value)<P>	<LI> <I>compact</I>: the map's <I>Compact</I> flag (a boolean value)<P>	<LI> <I>changed</I>: the map's <I>Changed</I> flag (a boolean value)
+</UL><P>Here is a sample script to retrieve the properties of a resource map:
+<PRE>
+	set theMap to the map of map document 1
+	set a to the refnum of theMap
+	set b to the attributes of theMap
+	set c to the readOnly of theMap
+	set d to the compact of theMap
+	set e to the changed of theMap
+	
+	{a, b, c, d, e}<P></PRE>
+A map is a container itself: the objects it contains are types as we will 
+see in the next section. To get the list of all types (as text) within the map:
+<PRE>
+	set theMap to the map of map document 1
+	get all types of theMap<P></PRE><P>The <I>attributes</I>, <I>readOnly</I>, <I>compact</I>, and 
+<I>changed</I> properties can be modified using the <B>set</B> command. 
+The others are read only properties. For instance:
+<PRE>
+	set theMap to map document 1
+	-- 160 is mapReadOnly _and_ mapChanged (128 + 32)
+	set the attributes of theMap to 160
+	-- This unsets the mapReadOnly flag (-128)
+	set the readOnly of theMap to 0
+	-- This sets the mapCompact flag (+64)
+	set the compact of theMap to 1
+	-- This unsets the mapChanged flag (-32)
+	set the changed of theMap to 0<P></PRE><P><H4><A NAME="M11"></A>Type properties</H4>
+A type is an object containing <I>resource</I> objects. Its elements are 
+all the resources of this type. The types are elements of a map object: 
+they can be designated by index or by name. The index of a type is its 
+index in the list of all types belonging to its owner map. The name is the 
+four-characters string representing this type (like "TEXT", "icns", 
+"MENU", etc.)<P>The following properties can be obtained:
+<UL>
+	<LI> <I>index</I>: the index of the type in the document (types are ordered alphabetically)<P>	<LI> <I>name</I>: the type's string<P>	<LI> <I>all IDs</I>: the list of all IDs of the resources belonging to this type
+</UL><P>Here is a sample script to retrieve the properties of a type in a resource map:
+<PRE>
+	set theType to type "TEXT" of map 1
+	set a to the index of theType
+	set b to the name of theType
+	{a, b}<P></PRE>
+To get the list of all resources within the type:
+<PRE>
+	set theType to type "TEXT" of map 1
+	get all IDs of theType<P></PRE><P>All these properties are read only properties. They cannot be modified with
+the <B>set</B> command.<P><H4><A NAME="M12"></A>Resource properties</H4><P>A resource within a type object can be specified by index, by name or by 
+ID. The specification by ID is unique. A resource can also be specified 
+directly in a resource map using a pair made of its type name and its ID, 
+like for instance:
+<PRE>
+	resource {"TEXT", 128} of map id 22
+</PRE><P>Note that it is also possible to refer to a resource as if it were directly
+an object of the resource map document rather than an object of this
+document's map. This is a shortcut which allows to write constructs like:
+<PRE>
+	resource {"TEXT", 128} of theDoc
+</PRE>
+instead of 
+<PRE>
+	resource {"TEXT", 128} of the map of theDoc
+</PRE><P>The various properties of a resource object can be obtained using the 
+following terms:
+<UL>
+	<LI> <I>name</I>: the resource's name<P>	<LI> <I>typename</I>: the type of the resource as text<P>	<LI> <I>ID</I>: the ID of the resource<P>	<LI> <I>index</I>: the index of the resource within its type (in the order used by the resource manager)<P>	<LI> <I>attributes</I>: the global value of the resource's attributes (a 
+numeric value, sum of the individual flags)<P>	<LI> <I>sysHeap</I>: the resource's <I>SysHeap</I> flag (a boolean value)<P>	<LI> <I>purgeable</I>: the resource's <I>Purgeable</I> flag (a boolean value)<P>	<LI> <I>locked</I>: the resource's <I>Locked</I> flag (a boolean value)<P>	<LI> <I>preload</I>: the resource's <I>Preload</I> flag (a boolean value)<P>	<LI> <I>protected</I>: the resource's <I>Protected</I> flag (a boolean value)<P>	<LI> <I>changed</I>: the resource's <I>Changed</I> flag (a boolean value)<P>	<LI> <I>size</I>: the size of the resource data (in bytes)<P>	<LI> <I>sizeOnDisc</I>: the size of the resource on disk<P>	<LI> <I>hex data</I>: the resource data (in hexadecimal format)<P></UL><P>Here is a sample script to retrieve some of these values:
+<PRE>
+	set therez to resource {"TEXT", 128} of map id 22
+	set a to the name of therez
+	set b to the ID of therez
+	set c to the changed of therez
+	set d to the size of therez
+	set e to the sizeOnDisc of therez
+	set f to the attributes of therez
+	set g to the system heap of therez
+	set h to the purgeable of therez
+	set i to the locked of therez
+	set j to the preload of therez
+	set k to the protected of therez
+	
+	{a, b, c, d, e, f, g, h, i, j, k}<P></PRE><P>The <I>name</I>, <I>attributes</I>, <I>sysHeap</I>, <I>purgeable</I>, 
+<I>locked</I>, <I>preload</I>, <I>protected</I>, <I>changed</I>, <I>sizeOnDisc</I>, and <I>hex data</I> properties can be modified using 
+the <B>set</B> command. 
+The others are read only properties. For instance:
+<PRE>
+	set theRez to resource {"MENU", 128} of map document 1
+	set the name of theRez to "Apple menu"
+	-- 12 is resProtected _and_ resPreload (8 + 4):
+	set the attributes of theRez to 12
+	-- This unsets the resProtected flag:
+	set the protected of theRez to 0
+	-- This sets the resPurgeable flag:
+	set the purgeable of theRez to 1
+	-- This unsets the resLocked flag:
+	set the locked of theRez to 1
+	-- This sets the resChanged flag:
+	set the changed of theRez to 1
+	-- Modifiy the size on disc (use at your own risk):
+	set the sizeOnDisc of theRez to 512<P></PRE><P><H4><A NAME="M13"></A>Resource contents</H4><P>The data of the resource can be obtained using the <I>hex data</I> property, 
+like this:
+<PRE>
+	set theRez to resource {"ALRT", 128} of map 1
+	get the hex data of theRez<P></PRE>
+The result is returned in hexadecimal form, like, for instance: 
+<PRE>
+	"002800280096019000805555300a"
+</PRE><P>The <B>set</B> command can be used to install different data in the resource. For 
+instance:
+<PRE>
+	set theRez to resource {"ALRT", 128} of map 1
+	set the hex data of therez to "001400140087016800805555300a"<P></PRE><P>Note that there are two exceptions to the hexadecimal representation of
+resource data. They concern resources of type <I>TEXT</I> and resources of
+type <I>STR#</I>. In that case, Rezilla will use the textual 
+representation directly:
+<UL>
+	<LI> resources of type <I>TEXT</I> are represented by a text string
+	<LI> resources of type <I>STR#</I> are represented by an AppleScript 
+list of textual strings
+</UL>
+For instance, the command 
+<PRE>
+	get hex data of resource {"TEXT", 128} of map 1
+</PRE>
+would return <I>Viva Rezilla</I> instead of the equivalent hexadecimal 
+566976612052657a696c6c61 value.<P>The opposite is true. To set the value of a <I>TEXT</I> or a <I>STR#</I>
+resource, use the following syntax:
+<PRE>
+	-- simple string
+	set txtRez to resource {"TEXT", 128} of map 1
+	set the hex data of txtRez to "Viva Rezilla!!!"
+	-- list of strings
+	set strRez to resource {"STR#", 128} of map 1
+	set the hex data of strRez to {"Viva Rezilla!!!", "Rezilla is great!!!"}<P></PRE><P><H3><A NAME="M14"></A>Editing a resource</H3>
+Editing a resource with a particular editor can be done using the <B>edit</B> 
+command. This command accepts two optional arguments:
+<UL>
+	<LI> the <B>like</B> argument lets you specify that the resource should be
+edited like resources of another type than its own type. This is the
+equivalent of the <I>Edit as</I> menu item in Rezilla.
+	<LI> the <B>using</B> argument lets you specify a particular kind of 
+editor. The values can be <I>hexadecimal</I>, <I>template</I> or
+<I>interface</I>. If there is no editor of the required kind, then 
+Rezilla uses its usual fallback mechanism: in last resort, the resource 
+would be edited in the hexadecimal editor.
+</UL><P>Here are a few examples:
+<PRE>
+	edit resource {"MENU", 128} of map 1 using interface<P>	edit resource {"MENU", 128} of map 1 using template<P>	edit resource {"MENU", 128} of map 1 using hexadecimal<P>	edit resource {"aeut", 128} of map 1 as "aete"<P></PRE><P>Other basic actions are <I>duplicating</I> and <I>deleting</I> a resource in the 
+resource map. They can be achieved using the <B>duplicate</B> and 
+<B>delete</B> commands respectively.
+<PRE>
+	duplicate resource {"MENU", 128} of map 1<P>	delete resource {"STR#", 128} of map 1<P></PRE><P>The <B>delete</B> command can also be used to delete all the resources of a 
+certain type simultaneously, like this:
+<PRE>
+delete type "MENU" of map 1<P></PRE><P>Modifications made in an editor can be saved using the <B>save</B> command:
+<PRE>
+	save first editor of map document 1<P></PRE>
+Note that the usual <I>in</I> and <I>as</I> arguments of the <B>save</B>
+command are ignored in that case.<P>An editing document can be closed with the <B>close</B> command, like this:
+<PRE>
+	close first editor of map document 1<P></PRE>
+or, alternatively, by closing the window directly:
+<PRE>
+	set thewin to window of first editor of map document 1
+	close thewin<P></PRE><P>Some editors (but sadly not all) understand the <B>revert</B> command. As
+of version 1.0.6 of Rezilla, this concerns the template editor, the Aete
+editor, and the Menu editor. For instance:
+<PRE>
+revert editor "somefile.rsrc - 'MENU' #128" of document 1<P></PRE><P><H3><A NAME="M15"></A>Modifying in hexadecimal windows</H3><P>The hexadecimal windows associated with the hexadecimal editor have several 
+properties which can be used to modify directly the contents of a resource 
+displayed in the hexadecimal pane or in the text pane. The following 
+properties are defined by Rezilla:
+<UL>
+	<LI> <I>maxPos</I>: the index of the last position (i-e the position after the last character)<P>	<LI> <I>startPos</I>: the position of the beginning of selection<P>	<LI> <I>endPos</I>: the position of the end of selection<P>	<LI> <I>hex selection</I>: the contents of the selected region in the hex pane<P>	<LI> <I>text selection</I>: the contents of the selected region in the text pane<P></UL><P>Here is a sample script to retrieve these properties:
+<PRE>
+edit resource {"TEXT",128} of map document 1 using hexadecimal
+set theWin to hexadecimal window 1 of map document 1
+set a to the startPos of theWin
+set b to the endPos of theWin
+set c to the maxPos of theWin
+set d to the hex selection of theWin
+set e to the text selection of theWin
+{a, b, c, d, e}<P></PRE><P>The <I>maxPos</I> property is read-only. All the others can be set using 
+the <B>set</B> command. Here is a short example:
+<PRE>
+set theWin to hexadecimal window 1 of map document 1
+set the startPos of win to 6
+set the endPos of win to 9
+set the hex selection of win to "52657a696c6c61"<P></PRE><P>In this example, the bytes located between the specified positions would be
+replaced by the bytes corresponding to the hexadecimal string.
+Alternatively, the replacement can be achieved in the text pane with the
+following instruction:
+<PRE>
+    set the text selection of theWin to "Rezilla"
+</PRE>
+In order to erase some bytes, just specify an empty string.<P><H3><A NAME="M16"></A>Creating a new resource</H3><P>One can create a new empty resource in a map document with the <B>make</B>
+command. This command accepts four parameters. The first two are required,
+the others are optional:
+<UL>
+	<LI> the parameter <I>new</I> indicates the class of the object to create 
+(<I>resource</I>)
+	<LI> the parameter <I>in</I> is used to specify the map document containing the 
+new resource
+	<LI> the parameter <I>with properties</I> is used to specify some 
+additional properties. It is a record containing key/value pairs. The keys
+can be any of <I>ID</I>, <I>type</I>, <I>name</I>, <I>attributes</I>,
+<I>locked</I>, <I>preload</I>, <I>protected</I>, <I>purgeable</I>, and
+<I>sysHeap</I>. This parameter is optional.
+	<LI> the parameter <I>with data</I> is used to specify the contents of 
+the resource. It is optional. If it is not present, the resource is 
+created with empty data.
+</UL><P>If no ID is specified, Rezilla will attribute an unique ID. If the ID is
+specified and if there is already a resource with this ID, the creation of
+the new resource will fail: Rezilla preserves already existing resources.
+If no type is specified, Rezilla will create a TEXT resource by default.<P>Here is a complete example:
+<PRE>
+	set theDoc to map document 1
+	-- create an empty 'MENU' resource
+	make new resource in theDoc with properties {type:"MENU"}
+	-- create an 'ALRT' resource with ID 128
+	make new resource in theDoc with properties ¬
+		{ID:128, type:"ALRT", name:"An alert", protected:true} ¬
+		with data "001400140087016800805555300a"
+	-- create a 'TEXT' resource with the specified string 
+	-- ('TEXT' is the default when no type is specified)
+	make new resource in theDoc with data "Hello Rezilla"<P></PRE><P><H3><A NAME="M17"></A>Basic objects and properties</H3><P>The top container of all Rezilla's objects is the application itself. 
+Rezilla also defines basic document and window classes which all the more 
+specific documents (editor documents for instance) and windows (map 
+windows for instance) inherit from.<P>This section describes the properties of the <I>application</I>, 
+<I>document</I> and <I>window</I> classes.<P><H4><A NAME="M18"></A>Application properties</H4><P>The application itself can provide some information. It has a version property 
+which returns a string describing the version number. For instance:
+<PRE>
+	get the version<P></PRE><P>The inspector window is also a property of the application but it can be
+considered as an object of its own. Its properties are 
+explained in the <I>Inspector window</I> section below.<P><H4><A NAME="M19"></A>Document properties</H4><P>There are a few properties inherited by all the document classes 
+(map documents, editor documents). Rezilla defines the following common 
+properties:
+<UL>
+	<LI> <I>name</I>: the title of the document<P>	<LI> <I>modified</I>: a boolean value indicating whether the document has
+been modified since the last save
+</UL><P>Here is a sample script retrieving these properties for two different 
+kinds of documents:
+<PRE>
+	set theDoc to map document 1
+	set a to the name of theDoc
+	set b to the modified of theDoc
+	edit resource {"TEXT", 128} of theDoc
+	set theEditor to editor 1 of theDoc
+	set c to the name of theEditor
+	set d to the modified of theEditor
+	
+	{a, b, c, d}<P></PRE><P>These are read only properties. They cannot be modified with
+the <B>set</B> command.<P><H4><A NAME="M20"></A>Window properties</H4><P>All Rezilla windows (map windows, editor windows, inspector window, etc.)
+share a set of common properties:
+<UL>
+	<LI> <I>name</I>: the title of the window<P>	<LI> <I>index</I>: the number of the window<P>	<LI> <I>bounds</I>: the boundary rectangle for the window<P>	<LI> <I>closeable</I>: does the window have a close box?<P>	<LI> <I>titled</I>: does the window have a title bar?<P>	<LI> <I>floating</I>: does the window float?<P>	<LI> <I>modal</I>: is the window modal?<P>	<LI> <I>resizable</I>: is the window resizable?<P>	<LI> <I>zoomable</I>: is the window zoomable?<P>	<LI> <I>zoomed</I>: is the window zoomed?<P>	<LI> <I>visible</I>: is the window visible?<P>	<LI> <I>position</I>: upper left coordinates of the window<P></UL><P>Here is a sample code illustrating these properties:
+<PRE>
+	set win2 to the second window
+	set a to the name of win2
+	set b to the bounds of win2
+	set c to the position of win2
+	set d to the visible of win2
+	set e to the closeable of win2
+	set f to the titled of win2
+	set g to the resizable of win2
+	set h to the zoomed of win2
+	
+	(a, b, c, d, e, f, g, h)<P></PRE><P>The <I>name</I>, <I>bounds</I>, <I>zoomed</I>, <I>visible</I>, and 
+<I>position</I> properties can be modified using the <B>set</B> command. 
+The others are read only properties. <P><H3><A NAME="M21"></A>Count of objects</H3>
+The <B>count</B> command can be used to count several kinds of objects. Here are 
+a few examples concerning windows and documents:
+<PRE>
+	-- windows count
+	set a to count windows
+	set b to count map windows
+	set c to count editing windows
+	set d to count hexadecimal windows
+	set e to count template windows
+	set f to count interface windows
+	-- documents count
+	set g to count documents
+	set h to count map documents
+	set i to count editors
+	set j to count hexadecimal editors
+	set k to count template editors
+	set l to count interface editors<P>	{a, b, c, d, e, f, g, h, i, j, k , l}<P></PRE><P>One can also get a count of maps, types and resources. For instance:
+<PRE>
+	set a to count maps
+	set b to count types of map 1
+	set c to count resources of type "TEXT" of map 1<P>	{a, b, c}<P></PRE><P><H3><A NAME="M22"></A>Existence of objects</H3><P>The <B>exists</B> command lets you verify if an object is known in 
+Rezilla. Here are a few examples:
+<PRE>
+	first window exists
+	exists second window
+	exists third window
+	exists map of document 1
+	
+	set theMap to map 1
+	exists theMap
+	exists type "TEXT" of theMap
+	exists type "XYZT" of theMap
+	
+	set theType to type "TEXT" of map 1
+	exists resource id 128 of theType
+	exists resource "Vivat" of theType
+	exists resource id 128 of type "MENU" of map 1
+	exists resource {"MENU", 128} of map document 1
+	
+	exists hexadecimal editor 1
+	exists template editor 1
+	exists interface editor 1
+	
+	exists editing window 1
+	exists hexadecimal window 1
+	exists template window 1
+	exists interface window 1
+	
+	exists window of document 1
+	exists editor 1 of document 1
+	exists second editor of document 1
+	exists window of first editor of document 1
+	
+	exists inspector<P></PRE><P><H3><A NAME="M23"></A>Inspector window</H3><P>The inspector window is always present in Rezilla (it may be hidden but 
+still it is there lurking in the background). To display information about 
+a particular resource, one can use the <B>inspect</B> command like this:
+<PRE>
+	inspect resource {"MENU", 128} of map 1<P></PRE>
+This brings the Inspector window with all the information relative to the 
+specified resource. Each field of the inspector window can be accessed 
+using the properties of the inspector:
+<UL>
+	<LI> <I>ID field</I>: the value of the 'ID' field<P>	<LI> <I>name field</I>: the value of the 'Name' field<P>	<LI> <I>system heap</I>: the value of the 'System Heap' checkbox<P>	<LI> <I>purgeable</I>: the value of the 'Purgeable' checkbox<P>	<LI> <I>locked</I>: the value of the 'Locked' checkbox<P>	<LI> <I>preload</I>: the value of the 'Preload' checkbox<P>	<LI> <I>protected</I>: the value of the 'Protected' checkbox<P>	<LI> <I>current resource</I>: the resource for which info is currently displayed<P></UL>
+<PRE>
+	set a to the ID field of the inspector
+	set b to the name field of the inspector
+	set c to the system heap of the inspector
+	set d to the purgeable of the inspector
+	set e to the locked of the inspector
+	set f to the preload of the inspector
+	set g to the protected of the inspector
+	
+	(a, b, c, d, e, f, g)<P></PRE><P>The ID and name fields, as well as all the checkboxes, can be modified using 
+the <B>set data</B> command. For instance:
+<PRE>
+	set the name field of inspector to "Viva Rezilla!!!"
+	set the ID field of inspector to 130
+	set the system heap of inspector to false
+	set the purgeable of inspector to true
+	set the locked of inspector to true
+	set the preload of inspector to false
+	set the protected of inspector to true<P></PRE><P>The <I>current resource</I> property gives a reference to the resource 
+currently inspected so that one can write instructions like:
+<PRE>
+	get the hex data of the current resource of the inspector
+</PRE><P>The actual properties of the resource should not be confused with what is
+displayed in the inspector window. If you make modifications in the
+inspector, they will be validated in the resource only when the <I>Apply</I> 
+button is pressed. To do this in AppleScript, use the <B>save</B> 
+command, like this:
+<PRE>
+	save the inspector
+</PRE>
+On the contrary, if you've made changes in the inspector but do not 
+want to keep them, use the <B>revert</B> command to go back to the last 
+saved modifications, like this:
+<PRE>
+	revert the inspector
+</PRE><P>To hide the inspector window, use the <B>close</B> command:
+<PRE>
+	close the inspector
+</PRE>
+Equivalently, one can hide the inspector with the following commands:
+<PRE>
+	close inspector window 1
+</PRE>
+or
+<PRE>
+	set the visible of the inspector to false
+</PRE>
+To make the inspector visible, either use the <B>inspect</B> command as explained 
+above or execute this:
+<PRE>
+	set the visible of the inspector to true
+</PRE><P><H3><A NAME="M24"></A>Comparing resource maps</H3><P>A comparison between two resource maps can be executed using the 
+<B>compare</B> command. One must specify the two files to compare: the
+first one is usually refered to as the old one, and the second one as the
+new one. The command also accepts three optional boolean parameters to set
+the comparison criteria:
+<UL>
+	<LI> if the <I>ignoreName</I> parameter is set to true, differences 
+concerning the name of the resources will be ignored 
+	<LI> if the <I>ignoreAttrs</I> parameter is set to true, differences 
+concerning the attributes of the resources will be ignored 
+	<LI> if the <I>ignoreData</I> parameter is set to true, differences 
+concerning the contents of the resources will be ignored 
+</UL>
+The default is to ignore name and attributes differences.<P>This command returns a comparison object whose properties indicate which 
+resources differ or are identical between the resource maps. One can query 
+the following properties from the result:
+<UL>
+	<LI> <I>old only resources</I>: list of resources which are only in the old map<P>	<LI> <I>new only resources</I>: list of resources which are only in the new map<P>	<LI> <I>differing resources</I>: list of resources which are in both maps and are different<P>	<LI> <I>identical resources</I>: list of resources which are in both maps and are identical<P>	<LI> <I>criteria</I>: the criteria which have been used for the 
+comparison, presented as a keyworded list<P>	<LI> <I>ignoreName</I>: have name differences been ignored?<P>	<LI> <I>ignoreAttrs</I>: have attributes differences been ignored?<P>	<LI> <I>ignoreData</I>: have data differences been ignored?<P></UL><P>Here is a complete example:
+<PRE>
+	set theComp to compare "HD:foo:bar:file1" as alias ¬
+		and "HD:foo:bar:file2" as alias ¬
+		with ignoreName without ignoreAttrs
+	-- get information out of the result
+	get the old only resources of theComp
+	get the new only resources of theComp
+	get the differing resources of theComp
+	get the identical resources of theComp
+	-- get the criteria
+	get the criteria of theComp<P></PRE><P><H3><A NAME="M25"></A>Exporting resource maps</H3><P>The <B>export</B> command corresponds to the <I>Export</I> menu item in 
+Rezilla's <I>File</I> menu. It lets you generate an export of a resource map in 
+various formats. This command accepts two parameters:
+<UL>
+	<LI> the <I>in</I> parameter lets you specify the folder in which you want 
+to create the export file. This parameter is required.
+	<LI> the <I>with properties</I> parameter lets you specify the name of the
+export file and the export format. Its value is a record using the <I>name</I> 
+and <I>format</I> keywords. The possible values for the format are
+<I>xml</I>, <I>html</I>, <I>text</I> and <I>DeRez</I> (default is <I>xml</I>). If no name is provided, Rezilla will use a default name. This
+parameter is optional.
+</UL>
+For instance:
+<PRE>
+	export map document 1 in "HD:foo:bar:" as alias ¬
+		with properties {name:"exportedMap.xml", format:xml}<P></PRE><P><H3><A NAME="M26"></A>Importing resource maps</H3><P>The <B>import</B> command corresponds to the <I>Import</I> menu item in
+Rezilla's <I>File</I> menu. It lets you import a resource map from an XML
+file conforming to the Rezilla DTD (<I>Rezilla.dtd</I>). This is the case,
+for instance, of the files generated by the <B>Export</B> command in XML
+format. This command accepts two parameters:
+<UL>
+	<LI> the direct parameter designates a resource map document opened in Rezilla.
+This map must be empty (a newly created map, for instance). One cannot 
+import in a non empty resource map.<P>	<LI> the <I>from</I> parameter specifies the XML file containing the data
+to import. This parameter is required.
+</UL>
+The following example shows how to select a file and import it in the 
+first resource map document:
+<PRE>
+	set theFile to (choose file)
+	import map document 1 from theFile<P></PRE><P><H3><A NAME="M27"></A>External plugins</H3><P>Since version 1.1, Rezilla supports the addition of external editors
+defined via plugin extensions. The <I>AppleScript</I> terminology has a new <I>plugin</I> keyword to get information about the currently available
+plugins.<P>The plugin objects directly belong to the application object. They can be 
+designated by name or by index. Here are a few simple AppleScript 
+instructions:
+<UL>
+	<LI> to get the list of plugins
+<PRE>
+	get name of plugins<P></PRE>
+	<LI> to count the plugins
+<PRE>
+	count plugins<P></PRE>
+</UL><P>The plugin objects have the following properties:
+<UL>
+	<LI> <I>name</I>: the name of the plugin. This is the name of the plugin 
+bundle. For instance <I>RezImagePlugin.plugin</I>.<P>	<LI> <I>index</I>: the index of the plugin<P>	<LI> <I>version</I>: the current version number of the plugin<P>	<LI> <I>typecode</I>: the type code of the plugin<P>	<LI> <I>creator</I>: the creator code of the plugin<P>	<LI> <I>loaded</I>: is this plugin already loaded by Rezilla? Plugins are 
+loaded lazily, when the user attempts for the first time to edit a 
+resource via a plugin.<P>	<LI> <I>supported types</I>: the list of all resource types which can be
+edited by the plugin<P></UL><P>All these properties are read-only: they cannot be modified with the <B>set</B> command. Here are simple instructions to query the
+properties of a plugin:
+<PRE>
+	set a to name of plugin 1
+	set b to version of plugin 1
+	set c to typecode of plugin 1
+	set d to creator of plugin 1
+	set e to loaded of plugin 1
+	{a, b, c, d, e}<P></PRE>
+To get a list of the supported types:
+<PRE>
+	get supported types of plugin "RezImagePlugin.plugin"	<P></PRE><P>In the case where several plugins support the same resource type, Rezilla
+allows you to specify the preferred plugin to use for editing a resource of
+this type. This can be set in the application in the <I>Plugin Order</I>
+panel of the dialog window displayed when the <I>Plugins...</I> command is
+invoked in the <I>File</I> menu. This can also be controlled by the means
+of an AppleScript. There is a property of the application called <I>preferred plugins</I> for this: it returns a record (a sort of dictionary)
+where the keys are resource types and the values are the name of the
+preferred plugin associated with this type. For instance, the following 
+script:
+<PRE>
+	get preferred plugins<P></PRE>
+could return something like:
+<PRE>
+	{JPEG:"RezImagePlugin.plugin", PStr:"RezSamplePlugin.plugin", etc.}
+</PRE><P>This property can be modified using the <B>set</B> command in order
+to change the preferred plugin for some types (not necessarily all of
+them). This makes sense only for types which are supported by several
+plugins. For instance:
+<PRE>
+	-- Assume the 'jpg ' and 'tiff' resource types can be edited by several
+	-- plugins and you want Rezilla to use the RezImagePlugin plugin for them
+	set preferred plugin to {«class tiff»:"RezImagePlugin.plugin", «class jpg »:"RezImagePlugin.plugin"}<P></PRE>
+For this call to succeed the plugins must exist. <P><H3><A NAME="M28"></A>Resource pickers</H3><P>Picker documents (introduced in version 1.1) have the following properties:
+<UL>
+	<LI> <I>name</I>: the name of the picker. This is the name of the
+associated type (as a string), not the title of the picker window.
+  
+	<LI> <I>index</I>: the index of the picker
+  
+	<LI> <I>readOnly</I>: is this picker read-only?
+  
+	<LI> <I>window</I>: the window of the picker
+  
+	<LI> <I>type</I>: the type of the resources displayed by this picker
+  
+	<LI> <I>owner</I> doc: the rezmap document that owns this picker
+  
+	<LI> <I>selection</I>: the ID of the selected resource
+  
+</UL><P>The pickers, as objects, are considered elements of a map document object,
+just like editor objects. They can be designated by index or by type (the
+type is used as a name for the picker). For instance:
+<PRE>
+    set thePik to picker "icl8" of map document 1
+</PRE><P>The following script lets you retrieve the values of all these 
+properties (supposing a picker document is currently open):
+<PRE>
+	set thePik to picker 1 of map document 1
+	set a to the name of thePik
+	set b to the index of thePik
+	set c to the readOnly of thePik
+	set d to the window of thePik
+	set e to the type of thePik
+	set f to the owner doc of thePik
+	set g to the selection of thePik<P>	{a, b, c, d, e, f, g}<P></PRE><P>Only the <I>selection</I> property can be modified using the <B>set</B>
+command. All the others are read only properties. The ID of the resource 
+to select must be passed as a string. For instance:
+<PRE>
+    set the selection of picker 1 of map document 1 to "128"
+</PRE>
+To remove the selection in a picker window, use the <I>selection</I> with an empty string 
+like this:
+<PRE>
+    set the selection of picker 1 of map document 1 to ""
+</PRE><P>A picker can be opened using the <B>pick</B> command like this:
+<PRE>
+	pick type "cicn" of map 1<P></PRE>
+If there is a picker defined for the type, the command returns the object 
+specifier of the newly opened picker.<P>To close a picker, use the <B>close</B> command like this:
+<PRE>
+	close picker "cicn" of map document 1<P></PRE><P><B>Caveat:</B> the <I>pick</I> command applies to types. These are
+elements of a map object, not of a map document object. On the other hand,
+pickers are elements of the map document object, not of the map object. So
+one must carefully make the distinction between <I>map</I> and <I>map
+document</I>, as in the following code:
+<PRE>
+    pick type "TEXT" of map 1
+    count pickers of map document 1
+	close picker "TEXT" of map document 1
+</PRE><P><H2><A NAME="M29"></A>Rezilla's dictionary</H2><P>Here is, for reference, the complete formal description of Rezilla's
+scripting terminology dictionary.<P><PRE>
+Required Suite: Terms that every application should support<P>open: Open the specified object(s)
+	open  reference  -- Objects to open. Can be a list of files or an object specifier.
+		[from  data fork/resource fork/any fork/same fork]  -- restrict to a particular fork (default is anyFork)
+		[readOnly  boolean]  -- specify if the file should be opened in read-only mode (by default it is not)
+		[createFork  boolean]  -- specify if a resource fork should be created when the file does not have any resource fork already (by default it is not)<P>quit: Quit the application
+	quit<P>Standard Suite: Common terms for most applications<P>Class application: the application
+Elements:
+	window by numeric index, by name, as a range of elements
+	document by numeric index, by name
+	map document by numeric index, by name
+	map by ID
+	plugin by numeric index, by name
+Properties:
+	name  international text  [r/o]  -- Rezilla's name
+	version  international text  [r/o]  -- the version of the application
+	inspector  inspector window  [r/o]  -- the inspector
+	preferred plugin  record  -- the preferred plugin for each supported type: the property is a record whose keys are the types and the values are the plugin names.<P>Class document: A document
+Plural form:
+	documents
+Properties:
+	name  international text  [r/o]  -- the title of the document
+	modified  boolean  [r/o]  -- Has the document been modified since the last save?<P>Class window: a window
+Plural form:
+	windows
+Properties:
+	name  international text  -- the title of the window
+	index  integer  [r/o]  -- the number of the window
+	bounds  bounding rectangle  -- the boundary rectangle for the window
+	closeable  boolean  [r/o]  -- does the window have a close box?
+	titled  boolean  [r/o]  -- does the window have a title bar?
+	floating  boolean  [r/o]  -- does the window float?
+	modal  boolean  [r/o]  -- is the window modal?
+	resizable  boolean  [r/o]  -- is the window resizable?
+	zoomable  boolean  [r/o]  -- is the window zoomable?
+	zoomed  boolean  -- is the window zoomed?
+	visible  boolean  -- is the window visible?
+	position  point  -- upper left coordinates of window<P>close: Close an object
+	close  reference  -- the objects to close
+		[saving  yes/no/ask]  -- specifies whether or not changes should be saved before closing<P>count: Return the number of elements of a particular class within an object
+	count  reference  -- the object whose elements are to be counted
+		each  type class  -- the class of the elements to be counted
+	Result:   integer  -- the number of elements<P>data size: Return the size in bytes of an object
+	data size  reference  -- the object whose data size is to be returned
+	Result:   integer  -- the size of the object in bytes<P>exists: Verify if an object exists
+	exists
+	Result:   boolean  -- true if it exists, false if not<P>get: Get the data for an object
+	get  reference  -- the object whose data is to be returned
+	Result:   anything  -- The data from the object<P>make: Make a new element
+	make
+		new  type class  -- the class of the new element
+		in  reference  -- the container in which to create the new element (it must already exist)
+		[with properties  record]  -- properties of the element (for instance 'name', 'readOnly', 'fork')
+		[with data  anything]  -- the initial data for the new element
+	Result:   reference  -- Object specifier for the new element<P>revert: Revert an object to the most recently saved version
+	revert  reference  -- object to revert<P>save: save an object
+	save  reference  -- object to save
+		[in  alias]  -- the file in which to save the object
+		[as  data fork/resource fork/any fork/same fork]  -- the fork in which to save the data (in a Save As operation)<P>set: Set an object's data
+	set  reference  -- the object to change
+		to  anything  -- the new value<P>Rezilla suite: Rezilla specifics<P>Class comparison window: a maps comparison window
+Plural form:
+	comparison windows
+Properties:
+	inherits  window  [r/o]  -- all properties of the 'window' class
+	result  comparison  [r/o]  -- a comparison result object<P>Class editing window: a resource editing window (hexadecimal, template or interface)
+Plural form:
+	editing windows
+Properties:
+	inherits  window  [r/o]  -- all properties of the 'window' class
+	kind  interface/plugin/template/hexadecimal  [r/o]  -- the kind of the editing window (hexadecimal, template, plugin or interface)<P>Class editor: an editor document for a single resource
+Plural form:
+	editors
+Properties:
+	inherits  document  [r/o]  -- all properties of the 'document' class
+	index  integer  [r/o]  -- the number of the document
+	kind  interface/plugin/template/hexadecimal  [r/o]  -- the kind of editor document (hexadecimal, template, plugin or interface)
+	readOnly  boolean  [r/o]  -- is this document read-only?
+	window  window  [r/o]  -- the window of the document.
+	resource  resource  [r/o]  -- the resource edited by this document
+	owner doc  map document  [r/o]  -- the rezmap document that owns this editor document<P>Class hexadecimal editor: a hexadecimal document editing a resource
+Plural form:
+	hexadecimal editors
+Properties:
+	inherits  editor  [r/o]  -- all properties of the 'editor' class<P>Class hexadecimal window: a hexadecimal editing window
+Plural form:
+	hexadecimal windows
+Properties:
+	inherits  editing window  [r/o]  -- all properties of the 'editing window' class
+	maxPos  integer  [r/o]  -- index of last position (i-e position after the last character)
+	startPos  integer  -- position of beginning of selection
+	endPos  integer  -- position of end of selection
+	hex selection  international text  -- the contents of the selected region in the hex pane
+	text selection  international text  -- the contents of the selected region in the text pane<P>Class inspector window: the inspector window
+Properties:
+	inherits  window  [r/o]  -- all properties of the 'window' class
+	ID field  small integer  -- the value of the 'ID' field
+	name field  international text  -- the value of the 'name' field
+	system heap  boolean  -- the value of the 'System Heap' checkbox
+	purgeable  boolean  -- the value of the 'Purgeable' checkbox
+	locked  boolean  -- the value of the 'Locked' checkbox
+	preload  boolean  -- the value of the 'Preload' checkbox
+	protected  boolean  -- the value of the 'Protected' checkbox
+	current resource  resource  [r/o]  -- the resource for which info is currently displayed<P>Class interface editor: a dedicated interface document editing a resource
+Plural form:
+	interface editors
+Properties:
+	inherits  editor  [r/o]  -- all properties of the 'editor' class<P>Class interface window: an interface editing window
+Plural form:
+	interface windows
+Properties:
+	inherits  editing window  [r/o]  -- all properties of the 'editing window' class<P>Class map document: a resource map document (representing the contents of an entire fork)
+Plural form:
+	map documents
+Elements:
+	editor by numeric index, by name
+	picker by numeric index, by name
+Properties:
+	inherits  document  [r/o]  -- all properties of the 'document' class
+	index  integer  [r/o]  -- the number of the document among other map documents
+	readOnly  boolean  [r/o]  -- is this document read-only?
+	window  window  [r/o]  -- the window of the document.
+	refnum  small integer  [r/o]  -- the reference number of the map in memory
+	fork  DataFork/ResourceFork/UnknownFork  [r/o]  -- the fork this document is editing (data fork or resource fork)
+	map  map  [r/o]  -- the resource map associated with this document
+	file  file specification  [r/o]  -- the file on disk corresponding to this resource map document
+	format  unknown export/xml/html/text/DeRez  -- the format used for export<P>Class map window: a resource map window
+Plural form:
+	map windows
+Properties:
+	inherits  window  [r/o]  -- all properties of the 'window' class
+	types count  integer  [r/o]  -- number of types in this map as displayed at the bottom of the map window
+	resources count  integer  [r/o]  -- total number of resources in this map as displayed at the bottom of the map window<P>Class picker: a picker document for a given type
+Plural form:
+	pickers
+Properties:
+	name  international text  [r/o]  -- the name of the picker: this is the name of the associated type
+	index  integer  [r/o]  -- the index of the picker
+	readOnly  boolean  [r/o]  -- is this picker read-only?
+	window  window  [r/o]  -- the window of the picker
+	type  type  [r/o]  -- the type of the resources displayed by this picker
+	owner doc  map document  [r/o]  -- the rezmap document that owns this picker
+	selection  international text  -- the ID of the selected resource (use an empty string to remove the selection)<P>Class picker window: a picker window
+Plural form:
+	picker windows
+Properties:
+	inherits  window  [r/o]  -- all properties of the window class<P>Class plugin: a plugin object
+Plural form:
+	plugins
+Properties:
+	name  international text  [r/o]  -- the name of the plugin
+	index  integer  [r/o]  -- the index of the plugin
+	version  international text  [r/o]  -- the version of the plugin
+	typecode  string  [r/o]  -- the type code of the plugin
+	creator  string  [r/o]  -- the creator code of the plugin
+	loaded  boolean  [r/o]  -- is the plugin loaded?
+	supported types  a list of list  [r/o]  -- the list of types supported by the plugin<P>Class plugin editor: a plugin document editing a resource
+Plural form:
+	plugin editors
+Properties:
+	inherits  editor  [r/o]  -- all properties of the 'editor' class<P>Class plugin window: a plugin editing window
+Plural form:
+	plugin windows
+Properties:
+	inherits  editing window  [r/o]  -- all properties of the 'editing window' class<P>Class template editor: a template document editing a resource
+Plural form:
+	template editors
+Properties:
+	inherits  editor  [r/o]  -- all properties of the 'editor' class<P>Class template window: a template editing window
+Plural form:
+	template windows
+Properties:
+	inherits  editing window  [r/o]  -- all properties of the 'editing window' class<P>compare: compare two resource maps
+	compare  alias  -- first resource file for comparison
+		and  alias  -- second resource file for comparison
+		[ignoreName  boolean]  -- ignore name differences
+		[ignoreAttrs  boolean]  -- ignore attributes differences
+		[ignoreData  boolean]  -- ignore data differences
+	Result:   comparison  -- a maps comparison object<P>delete: Delete the specified object
+	delete  reference  -- the object to delete<P>duplicate: Duplicate a resource in the resource map. The duplicate is automatically attributed an unique ID.
+	duplicate  reference  -- the object to duplicate
+	Result:   reference  -- a specifier for the duplicated resource(s)<P>edit: edit one or more resources
+	edit  resource  -- resource to edit
+		[using  interface/plugin/template/hexadecimal]  -- specifies which kind of editor to use (if not specified, Rezilla tries to find successively an interface, a template or the hexadecimal editor)
+		[like  type class]  -- use an another type's editor<P>export: export a rezmap document in a specified format
+	export  map document  -- resource map document to export
+		in  alias  -- the folder in which to save the export file. This folder must already exist.
+		[with properties  record]  -- the initial values for the properties (essentially to specify a name and a format)<P>import: import a rezmap document from an XML file
+	import  map document  -- the map document into which to import the data. This must be an empty document.
+		from  alias  -- the XML file to import. It must be conform to the Rezilla DTD.<P>inspect: display info about the specified resource in the Inspector window
+	inspect  resource  -- Resource object to display info about.<P>pick: open a picker
+	pick  type  -- type of the resources to display in a picker
+	[Result:   picker]  -- an object specifier for the picker<P>Resource suite: Resource maps handling<P>Class comparison: the result of a comparison between two maps
+Properties:
+	criteria  record  [r/o]  -- the comparison criteria
+	ignoreName  boolean  [r/o]  -- have name differences been ignored?
+	ignoreAttrs  boolean  [r/o]  -- have attributes differences been ignored?
+	ignoreData  boolean  [r/o]  -- have data differences been ignored?
+	old only resources  a list of list  [r/o]  -- the list of resources which are only in the old map
+	new only resources  a list of list  [r/o]  -- the list of resources which are only in the new map
+	differing resources  a list of list  [r/o]  -- the list of resources which exist in both maps and are different
+	identical resources  a list of list  [r/o]  -- the list of resources which exist in both maps and are identical<P>Class map: a resource map
+Plural form:
+	maps
+Elements:
+	type by numeric index, by name, by ID
+Properties:
+	refnum  small integer  [r/o]  -- the reference number of the map in memory
+	all types  list  [r/o]  -- the list of all types (in alphabetical order)
+	attributes  small integer  -- the global value of the map attributes (sum of the individual flags)
+	readOnly  boolean  -- the mapReadOnly bit
+	compact  boolean  -- the mapCompact bit
+	changed  boolean  -- the mapChanged bit<P>Class resource: a single resource with specific type and ID
+Plural form:
+	resources
+Properties:
+	name  international text  -- the resource's name
+	typename  string  [r/o]  -- the type of the resource as text
+	ID  small integer  [r/o]  -- the ID of the resource
+	index  integer  [r/o]  -- the index of the resource within its type (in the order used by the resource manager)
+	attributes  small integer  -- the global value of the resource attributes (sum of the individual flags)
+	sysHeap  boolean  -- the resSysHeap bit
+	purgeable  boolean  -- the resPurgeable bit
+	locked  boolean  -- the resLocked bit
+	preload  boolean  -- the resPreload bit
+	protected  boolean  -- the resProtected bit
+	changed  boolean  -- the resChanged bit
+	size  integer  [r/o]  -- the size of the resource data (in bytes)
+	sizeOnDisc  integer  [r/o]  -- the size of the resource on disk
+	hex data  anything  -- the resource data (in hex format)<P>Class specifier: a two-elements list containing the type and the ID of a resource<P>Class type: a resource type
+Plural form:
+	types
+Elements:
+	resource by name, by ID, by numeric index
+Properties:
+	index  integer  [r/o]  -- the index of the type in the document (types are ordered alphabetically)
+	name  international text  [r/o]  -- the type's name
+	ID  unsigned integer  [r/o]  -- a type as a long unsigned integer
+	all IDs  list  [r/o]  -- the list of all IDs of resources belonging to this type<P></PRE><P><!--  logo SF -->
+<!--  ------- -->
+<HR>
+<P> Last updated 2006-11-01 15:24:27
+<HR>
+<P> <I>Rezilla is hosted by</I> 
+<A HREF="http://sourceforge.net"> <P><IMG SRC="http://sourceforge.net/sflogo.php?group_id=83267&amp;type=4 " ALT="SourceForge.net Logo" ALIGN=bottom></P></A><P>
+</BODY>
+</HTML>

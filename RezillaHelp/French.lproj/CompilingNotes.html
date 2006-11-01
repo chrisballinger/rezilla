@@ -1,0 +1,274 @@
+<HTML>
+<HEAD>
+<TITLE>CompilingNotes</TITLE>
+<META HTTP-EQUIV="content-type" CONTENT="text/html;charset=macintosh">
+<META NAME="generator" CONTENT="Aida Mode">
+<META HTTP-EQUIV="Content-Language" CONTENT="fr-FR">
+<META NAME="keywords" CONTENT="ressources, Rezilla, Mac OS">
+</HEAD>
+<BODY>
+<P><P><IMG SRC="../Images/rezilla_logo.gif" ALT="Rezilla logo" ALIGN=bottom></P><P><HR><BLOCKQUOTE><P><I> 
+<B>Rezilla</B>, éditeur de ressources pour Macintosh, est une application
+développée sous forme de projet en <B>source libre</B> <I>(Open Source)</I>. 
+Cela implique que, bien qu'elle soit couramment distribuée aux
+utilisateurs comme une application prête à fonctionner sous système MacOSX,
+son code source est également disponible pour les développeurs: il est
+actuellement hébergé sur le site de
+<A HREF="http://sourceforge.net/projects/rezilla">SourceForge.</A>
+<P> Le présent fichier donne des instructions détaillées pour aider à compiler
+l'application à partir du code source. Il correspond à la version 
+1.1 de Rezilla.
+</I></P></BLOCKQUOTE><HR><P><UL>
+<LI><A HREF="#M1">Compiler Rezilla à partir du code source</A>
+<UL><LI><A HREF="#M2">Compiler avec CodeWarrior</A></UL>
+<UL><LI><A HREF="#M3">Compiler avec XCode</A></UL>
+<UL><UL><LI><A HREF="#M4">Régler les chemins d'accès</A></UL></UL>
+<UL><UL><LI><A HREF="#M5">Compiler PowerPlant avec XCode</A></UL></UL>
+<UL><UL><LI><A HREF="#M6">Bâtir le projet</A></UL></UL>
+</UL><P><H2><A NAME="M1"></A>Compiler Rezilla à partir du code source</H2><P>La section <I>Téléchargement</I> indique où on peut se procurer une 
+distribution du code source de Rezilla (voir par exemple
+<A HREF="http://sourceforge.net/project/showfiles.php?group_id=83267">ici</A>).<P><B>Rezilla</B> est écrit en C++. Il est construit au moyen du programme 
+<A HREF="www.metrowerks.com">CodeWarrior</A> de Metrowerks et utilise
+le modèle de développement <B>PowerPlant</B> qui fait partie de la version Macintosh 
+de <B>CodeWarrior</B>.<P>Un fichier de projet CodeWarrior est fourni dans la distribution du code
+source de Rezilla: il a été créé au moyen de la version CodeWarrior Pro 9.
+La version correspondante de
+PowerPlant est 2.2.2.<P>Par ailleurs, l'éditeur hexadécimal de Rezilla est basé sur le moteur de
+traitement de texte <B>WASTE</B>. Il est donc nécessaire de lier le code
+contre la bibliothèque WASTE afin de compiler Rezilla. Cette bibliothèque
+peut être trouvée en divers endroits sur l'Internet (voir par exemple sur
+sa <A HREF="http://www.merzwaren.com/waste/"> page officielle</A> ou sur le 
+site de la
+<A HREF="http://en.wikipedia.org/wiki/WASTE_text_engine"> Wikipedia</A>). 
+Elle fait aussi normalement partie de la distribution de CodeWarrior Pro,
+autrement dit, si vous avez CodeWarrior Pro, vous avez certainement aussi
+une distribution WASTE: au sein de la hiérarchie de CodeWarrior, on l'a
+trouve habituellement dans
+<I>/CodeWarrior/MacOS Support/(Third Party Support)/WASTE Distribution</I>.
+Actuellement, Rezilla utilise la version 2.1b1 de la bibliothèque WASTE.<P>À partir de la version 1.0.7, la distribution source de Rezilla comporte
+également des fichiers de projet pour <B>XCode</B> destiné aux
+programmeurs qui préféreraient utiliser les 
+<A HREF="http://developer.apple.com"> Outils de Développement d'Apple</A> au lieu de CodeWarrior. Il y a deux
+fichiers de projet: <I>Rezilla.xcode</I> pour XCode 1.5 et <I>Rezilla.xcodeproj</I> pour XCode 2.0 ou postérieur.<P>Dans tous les cas, que vous utilisiez CodeWarrior ou XCode, vous aurez
+besoin de l'environnement PowerPlant de Metrowerks pour pouvoir compiler
+Rezilla à partir des sources. Depuis janvier 2006, <B>PowerPlant</B> est
+devenu un projet en source libre (<I>Open Source</I>); il est disponible
+sur le site de SourceForge à l'adresse suivante:
+<A HREF="http://sourceforge.net/projects/open-powerplant">http://sourceforge.net/projects/open-powerplant</A>.<P>Les deux sections qui suivent donnent des instructions spécifiques afin de
+bâtir Rezilla dans les environnements <B>CodeWarrior</B> ou <B>XCode</B>
+respectivement. Si vous rencontrez des difficultés à compiler Rezilla,
+n'hésitez pas à demander de l'aide sur la
+<A HREF="http://lists.sourceforge.net/mailman/listinfo/rezilla-users"> liste de discussion des utilisateurs de Rezilla.</A><P><H3><A NAME="M2"></A>Compiler avec CodeWarrior</H3><P>Il n'y a pas de difficulté particulière pour compiler Rezilla à partir du
+fichier de projet CodeWarrior (<I>Rezilla.mcp</I>), pourvu que vous
+disposiez d'une installation standard de CodeWarrior Pro 9. Il faut 
+simplement s'assurer que les chemins d'accès sont réglés correctement sur 
+votre machine. <P>Ces chemins d'accès sont spécifiés au moyen d'arbres sources 
+(<I>Source Trees</I>). Il y a, en réalité, un seul arbre source à 
+définir: pour cela, lancer l'application CodeWarrior, aller dans les Préférences
+et sélectionner le panneau <I>Source Trees</I>. Dans ce panneau, il faut
+créer un arbre source appelé <I>Waste</I> et le faire pointer sur le
+dossier contenant la bibliothèque Waste sur votre machine (probablement
+quelque chose comme <I>/CodeWarrior Folder/CodeWarrior/MacOS
+Support/(Third Party Support)/WASTE Distribution</I>). Les autres chemins
+d'accès utilisés par le projet de Rezilla sont relatifs aux arbres sources
+<I>{Compiler}, {Project}</I> et <I>{OS X Volume}</I> qui sont prédéfinis
+et automatiquement réglés par CodeWarrior, ce qui fait que vous ne devriez
+pas avoir à vous en préoccuper.<P>Si ce n'est pas déjà le cas, ouvrez maintenant le projet <I>Rezilla.mcp</I>. 
+Ce projet comporte trois <I>cibles</I> (en anglais <I>targets</I>):
+<UL>
+	<LI> la cible <I>Regex_Lib</I> doit être compilée en premier. Elle crée
+une bibliothèque statique qui permet à Rezilla d'interpréter des
+expressions régulières;
+	<LI> les cibles <I>Rezilla_Debug</I> et <I>Rezilla_Final</I> construisent
+une version de développement et une version optimisée de Rezilla
+respectivement. À moins que vous n'ayez l'intention de développer de 
+nouvelles fonctions pour Rezilla,
+vous ne serez intéressé que par la cible <I>Rezilla_Final</I>.
+</UL><P>Afin de construire l'une des cibles, sélectionner la commande <I>Make</I>
+dans le menu <I>Project</I> de CodeWarrior. Le fichier produit après
+compilation se trouvera dans le sous-dossier appelé <I>Output</I> qui est
+situé au même niveau que le fichier de projet <I>Rezilla.mcp</I> lui-même:
+<UL>
+	<LI> la cible <I>Regex_Lib</I> produit une bibliothèque statique appelée 
+RegexMachO.lib qui sera automatiquement liée au reste du projet par les 
+deux autres cibles;
+	<LI> les cibles <I>Rezilla_Debug</I> et <I>Rezilla_Final</I> produisent 
+l'application proprement dite (Rezilla_D.app et Rezilla.app respectivement). 
+</UL><P>Noter que, la plupart du temps, le Finder n'affiche pas l'extension <I>.app</I>
+ce qui fait que vous verrez probablement Rezilla_D et Rezilla 
+respectivement comme nom de l'application: c'est une application "empaquetée", 
+c'est-à-dire que, bien qu'elle ait l'apparence d'un fichier, il s'agit en 
+réalité d'un dossier à l'intérieur duquel se trouvent toutes les 
+ressources nécessaires.<P>Le projet définit un certain nombre d'actions qui ont pour fonction de
+copier tous les éléments nécessaires dans leur destination finale: cela
+concerne les fichiers auxiliaires (ceux qui ne sont pas générés
+automatiquement par le compilateur, tels que les fichiers d'aide). Si le
+dossier <I>Output</I> n'existe pas déjà, CodeWarrior le créera, au cours
+de la compilation, avec la structure interne requise. Pour peu que vous ne
+modifiiez pas l'architecture des fichiers sources telle qu'elle est fournie
+dans la distribution source ou bien directement depuis le serveur CVS sur
+le site de SourceForge, le projet CodeWarrior saura où trouver les éléments
+dont il a besoin.<P>Il est facile d'ouvrir l'application empaquetée et de voir ce qui se trouve
+à l'intérieur: il suffit de cliquer sur l'icone de l'application en
+maintenant la touche <I>Contrôle</I> enfoncée et de sélectionner 
+<I>Afficher le contenu du paquet</I> dans le menu contextuel qui apparaît
+après le clic. Voici quelle devrait être l'organisation interne du paquet:
+<PRE>
+	Rezilla.app
+		Contents
+			Info.plist
+			PkgInfo
+			MacOS
+				Rezilla
+			Resources
+				Rezilla.rsrc
+				RezillaTemplates.rsrc
+				RezillaDocs.icns
+				Rezilla.icns
+				Images
+					rzil_aeteeditor.gif
+					rezilla_logo.gif
+					... etc.
+				English.lproj
+					InfoPlist.strings
+					Localizable.strings
+					Errors.strings
+					RezillaHelp
+						index.html
+						1.html
+						2.html
+						3.html
+						4.html
+						... etc.
+				French.lproj
+					InfoPlist.strings
+					Localizable.strings
+					Errors.strings
+					RezillaHelp
+						index.html
+						1.html
+						2.html
+						3.html
+						4.html
+						... etc.
+</PRE><P>En particulier, il est essentiel que le fichier <I>RezillaTemplates.rsrc</I> 
+soit présent dans le sous-dossier <I>Rezilla.app/Contents/Resources</I>.
+S'il n'y est pas, il faudra le copier manuellement à partir du dossier 
+<I>Rezilla_Rsrc</I> de la distribution source de Rezilla, autrement
+l'application ne pourra fonctionner correctement.<P><H3><A NAME="M3"></A>Compiler avec XCode</H3><P><B>XCode</B> est l'environnement de développement logiciel d'Apple. Il
+fait partie des <A HREF="http://developer.apple.com"> Outils de Développement</A>. 
+Dans le code source de Rezilla (à partir de la version 1.0.7), on
+trouvera deux fichiers de projet correspondant à deux versions différentes
+de XCode: cela vient du fait que le format des fichiers de projet et
+l'environnement de programmation ont été substantiellement modifiés entre les
+versions 1.5 et 2.0 de XCode. En outre, ils n'utilisent pas le même
+compilateur: la version 1.5 (fichier de project <I>Rezilla.xcode</I>)
+utilise la version 3.3 du compilateur GNU <I>gcc</I> tandis que l'autre
+(fichier de project <I>Rezilla.xcodeproj</I>) est réglée pour utiliser 
+la version 4.0 du compilateur.<P>Compiler Rezilla avec <B>XCode</B> est très simple à partir du moment où 
+l'on a franchi les deux étapes suivantes:
+<UL>
+	<LI> il faut régler les chemins d'accès afin de les faire pointer sur les 
+bons emplacements ;
+	<LI> il est nécessaire de faire quelques petites modifications
+syntactiques dans le code source de <I>PowerPlant</I> afin d'éliminer
+certains messages d'erreur émis par le compilateur <I>gcc</I>.
+</UL><P><H4><A NAME="M4"></A>Régler les chemins d'accès</H4>
+On doit régler les chemins d'accès pour chaque cible. On procède un peu
+différemment selon qu'on travaille avec XCode 1.5 ou XCode 2.0. Le premier
+utilise le concept de styles de compilation définis au niveau du projet qui
+a été remplacé, dans le second, par le concept de configurations définies
+au niveau de la cible elle-même.<P>Le plus simple sera de créer des Arbres Sources (<I>Source Trees</I>) de
+la même manière qu'on l'a vu, dans la section précédente, avec CodeWarrior:
+choisir <I>Préférences</I> dans le menu <I>XCode</I> et sélectionner le
+panneau <I>Source Trees</I>. Dans ce panneau, on devra définir deux
+arbres sources:
+<UL>
+	<LI> l'un appelé <I>CodeWarrior</I> qui pointera sur l'emplacement du
+dossier de CodeWarrior sur votre machine. Par exemple, sur ma machine il
+correspond à
+<PRE>
+	/Users/bernardo/CodeWarrior_9.0/CodeWarrior
+</PRE>
+	<LI> l'autre appelé <I>Waste</I> qui pointera sur l'emplacement de la 
+distribution WASTE sur votre machine. Sur ma machine, elle se trouve dans
+<PRE>
+	/Users/bernardo/CodeWarrior_9.0/CodeWarrior/MacOS Support/(Third Party Support)/WASTE_2.1b1
+</PRE>
+</UL><P>On peut maintenant régler les chemins d'accès pour chaque cible:
+sélectionner une cible et appeler la fenêtre d'inspection pour cette cible
+(avec le bouton <I>Info</I> de la barre d'outils ou à partir de la
+commande <I>Info</I> du menu <I>Fichier</I>). Là, il suffit de
+sélectionner le panneau <I>Build</I> et de trouver l'article <I>Search
+Paths</I> dans le bouton-menu <I>Settings</I>. Il y a quatre sortes de 
+chemins d'accès:
+<UL>
+	<LI> <I>Header search paths</I>
+	<LI> <I>Library search paths</I>
+	<LI> <I>Framework search paths</I>
+	<LI> <I>Rez search paths</I>
+</UL><P>Grâce aux arbres sources définis précédemment, les chemins d'accès peuvent 
+être fixés comme ceci:
+<PRE>
+    HEADER_SEARCH_PATHS =   "/Developer/Headers/FlatCarbon 
+                            \"${CodeWarrior}/MacOS Support/PowerPlant/\" 
+                            ${Waste} 
+                            ${CodeWarrior}/MSL/MSL_C++/MSL_Common/Include/"
+    LIBRARY_SEARCH_PATHS =  "\"${Waste}\" 
+                            /Volumes/ib2/Devel_BD/Rezilla/RezillaSource/build"
+    FRAMEWORK_SEARCH_PATHS = /System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks
+    REZ_SEARCH_PATHS =      "/Developer/Headers/FlatCarbon ${SRCROOT}/Rezilla_Src"
+</PRE><P>Avec XCode 2.0 ou postérieur, il existe deux configurations: <I>Debug</I> et 
+<I>Release</I>. Il faut définir les chemins d'accès séparément pour les 
+deux configurations.<P><H4><A NAME="M5"></A>Compiler PowerPlant avec XCode</H4><P>Le compilateur CodeWarrior et le compilateur XCode (<I>gcc</I>) 
+présentent quelques différences
+concernant leur façon d'interpréter la syntaxe C/C++. Cela implique que 
+certaines
+instructions qui sont compilées sans problème avec CodeWarrior peuvent 
+provoquer un message d'erreur avec
+gcc (et réciproquement). Afin de compiler la bibliothèque PowerPlant avec XCode,
+quelques changements mineurs sont ainsi nécessaires: il s'agit uniquement de 
+modifier quelques instructions dans le code source de
+PowerPlant. Ces modifications sont décrites sur le site pour développeurs 
+d'Apple dans le document
+<A HREF="http://developer.apple.com/documentation/DeveloperTools/Conceptual/MovingProjectsToXcode/mig_after_importing/chapter_5_section_7.html#//apple_ref/doc/uid/20001712-TPXREF166"> Make Changes to PowerPlant.</A><P>Ce document (<I>Make Changes to PowerPlant</I>) explique précisément 
+quelles sont les  
+modifications nécessaires. Elles concernent uniquement les fichiers 
+suivants: 
+<UL>
+	<LI> LGATabsControlImp.cp
+	<LI> LStream.h
+	<LI> LException.h and LException.cp
+</UL><P>Il y a aussi des modifications dans les fichiers LDebugStream.cp et
+LCommanderTree.cp mais on peut ici les ignorer car ces fichiers ne sont 
+pas incorporés dans le projet Rezilla.<P>Ce même document explique également comment construire un fichier 
+d'en-tête afin de créer un en-tête précompilé (<I>precompiled header</I>) 
+dans XCode. Vous n'avez pas 
+à vous préoccuper de cette question car le fichier en question 
+se trouve déjà dans la distribution source de  Rezilla et qu'il est
+ automatiquement compilé par les projets XCode de Rezilla (il s'agit du fichier <I>PP_Xcode.h</I> dans le sous-dossier  <I>/Rezilla_Src/Prefix</I>).<P>Noter que tous les fichiers sources de Rezilla adoptent une syntaxe stricte
+qui fait qu'ils sont acceptés aussi bien par CodeWarrior que par XCode.<P><H4><A NAME="M6"></A>Bâtir le projet</H4><P>Quand les problèmes mentionnés précédemment sont résolus, il n'y a plus
+qu'à ouvrir le fichier projet, sélectionner la cible souhaitée et exécuter
+la commande <I>Build</I> (avec le bouton <I>Build</I> de la barre
+d'outils de la fenêtre principale du projet ou à partir de la commande du
+même nom dans le menu <I>Build</I>). De même que dans le cas du projet
+CodeWarrior, il est préférable de bâtir la cible <I>Regex_Lib</I> en
+premier. Il existe une dépendance entre les cibles qui garantit que ce sera
+bien le cas.<P>Il n'y a rien de particulier à faire pour installer les fichiers 
+auxiliaires à l'intérieur de l'application empaquetée: le projet XCode 
+prend en charge non seulement la compilation de l'application mais aussi 
+la copie des divers éléments dans leur emplacement de destination.<P>Une fois terminé le processus de compilation, le produit 
+final se trouvera dans le dossier  <I>build</I> situé au même niveau que 
+le projet XCode:
+<UL>
+	<LI> avec XCode 1.5, l'application se trouve au premier niveau du 
+sous-dossier <I>build</I> ;
+	<LI> avec XCode 2.0 ou postérieur, l'application se trouvera dans l'un des
+sous-dossiers <I>build/Debug</I> ou <I>build/Release</I> selon la
+configuration que l'on aura choisie pour compiler la cible. C'est la
+configuration dite <I>Release</I> qui permet d'obtenir la version
+distribuée de Rezilla.
+</UL><P><HR>
+<P> Dernière mise à jour 2006-11-01 15:24:16<P>
+</BODY>
+</HTML>
