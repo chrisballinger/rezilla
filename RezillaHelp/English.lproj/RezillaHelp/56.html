@@ -1,22 +1,25 @@
 <HTML>
 <HEAD>
-<TITLE>Basic objects and propertiesThe top container of all Rezilla's objects is the application itself. </TITLE>
+<TITLE></TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
-<META NAME=GENERATOR CONTENT="Aida Mode">
+<META NAME="generator" CONTENT="Aida Mode">
+<META HTTP-EQUIV="Content-Language" CONTENT="en-GB">
+<META NAME="keywords" CONTENT="resources, forks, Mac OS">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="55.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="57.html">Next</A><HR><P>&nbsp;</P>
-<H3>Basic objects and properties</H3><P>The top container of all Rezilla's objects is the application itself. 
+
+<H3><A NAME="M77"></A>Basic objects and properties</H3><P>The top container of all Rezilla's objects is the application itself. 
 Rezilla also defines basic document and window classes which all the more 
 specific documents (editor documents for instance) and windows (map 
 windows for instance) inherit from.<P>This section describes the properties of the <I>application</I>, 
-<I>document</I> and <I>window</I> classes.<P><H4>Application properties</H4><P>The application itself can provide some information. It has a version property 
+<I>document</I> and <I>window</I> classes.<P><H4><A NAME="M78"></A>Application properties</H4><P>The application itself can provide some information. It has a version property 
 which returns a string describing the version number. For instance:
 <PRE>
 	get the version<P></PRE><P>The inspector window is also a property of the application but it can be
 considered as an object of its own. Its properties are 
-explained in the <I>Inspector window</I> section below.<P><H4>Document properties</H4><P>There are a few properties inherited by all the document classes 
+explained in the <I>Inspector window</I> section below.<P><H4><A NAME="M79"></A>Document properties</H4><P>There are a few properties inherited by all the document classes 
 (map documents, editor documents). Rezilla defines the following common 
 properties:
 <UL>
@@ -34,7 +37,7 @@ kinds of documents:
 	set d to the modified of theEditor
 	
 	{a, b, c, d}<P></PRE><P>These are read only properties. They cannot be modified with
-the <B>set</B> command.<P><H4>Window properties</H4><P>All Rezilla windows (map windows, editor windows, inspector window, etc.)
+the <B>set</B> command.<P><H4><A NAME="M80"></A>Window properties</H4><P>All Rezilla windows (map windows, editor windows, inspector window, etc.)
 share a set of common properties:
 <UL>
 	<LI> <I>name</I>: the title of the window<P>	<LI> <I>index</I>: the number of the window<P>	<LI> <I>bounds</I>: the boundary rectangle for the window<P>	<LI> <I>closeable</I>: does the window have a close box?<P>	<LI> <I>titled</I>: does the window have a title bar?<P>	<LI> <I>floating</I>: does the window float?<P>	<LI> <I>modal</I>: is the window modal?<P>	<LI> <I>resizable</I>: is the window resizable?<P>	<LI> <I>zoomable</I>: is the window zoomable?<P>	<LI> <I>zoomed</I>: is the window zoomed?<P>	<LI> <I>visible</I>: is the window visible?<P>	<LI> <I>position</I>: upper left coordinates of the window<P></UL><P>Here is a sample code illustrating these properties:

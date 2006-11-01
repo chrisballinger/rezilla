@@ -1,49 +1,34 @@
 <HTML>
 <HEAD>
-<TITLE>Anatomie du plugin</TITLE>
+<TITLE></TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
-<META NAME=GENERATOR CONTENT="Aida Mode">
+<META NAME="generator" CONTENT="Aida Mode">
+<META HTTP-EQUIV="Content-Language" CONTENT="fr-FR">
+<META NAME="keywords" CONTENT="ressources, branches, Mac OS">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="75.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="77.html">Suiv</A><HR><P>&nbsp;</P>
-<H3>Anatomie du plugin</H3>
-Techniquement un plugin est simplement une bibliothèque dynamique (<I>dynamic 
-library</I>) qui est chargée par l'application principale dès que nécessaire. 
-Sous OS X, cette bibliothèque se présente sous forme de ce que l'on appelle un
-paquetage (<I>bundle</I>), c'est-à-dire une structure analogue à un répertoire
-qui contient la bibliothèque elle-même et quelques fichiers complémentaires.<P>Pour en savoir plus sur les <I>paquetages</I> sous OS X, voir:
-<A HREF="http://developer.apple.com/documentation/CoreFoundation/Conceptual/CFBundles/Concepts/about.html">http://developer.apple.com/documentation/CoreFoundation/Conceptual/CFBundles/Concepts/about.html</A><P>L'utilisation de cette architecture facilite considérablement, du point de 
-vue de l'utilisateur, les tâches de maintenance relatives aux plugins,
-comme l'ajout, la suppression, l'activation ou la désactivation.
-Toutes ces actions peuvent être accomplies depuis le Finder de façon 
-transparente (voir la section <I>Éditeurs Externes</I> dans l'aide de 
-Rezilla). L'utilisateur n'a pas à connaître la localisation exacte des 
-plugins à l'intérieur de l'application.<P>Voici, à titre d'exemple, la structure interne du plugin <B>RezImagePlugin</B>,
-fourni avec la version 1.1 de Rezilla:
-<P><IMG SRC="../../Images/rzil_pluginanatomy.gif " ALT="Plugin anatomy" ALIGN=bottom></P><P>Ce plugin s'appelle <I>RezImagePlugin.plugin</I>. Il doit avoir une
-extension <I>.plugin</I> afin que Rezilla puisse le trouver. Certains
-éléments du sous-dossier <I>Contents</I> sont obligatoires, les autres
-sont facultatifs. Les éléments obligatoires sont:
-<UL>
-	<LI> le fichier <I>Info.plist</I> qui est un fichier de liste de propriétés
-contenant des informations sur le paquetage. Voir la
-section <A HREF="#plugplist"><I>Liste de propriétés du plugin</I></A> 
-ci-dessous.
-	<LI> le sous-dossier <I>MacOS</I> qui comporte la bibliothèque dynamique 
-elle-même
-(<I>RezImagePlugin</I> dans l'exemple précédent).
-</UL><P>Le sous-dossier <I>Resources</I> peut contenir des données supplémentaires. 
-Dans l'exemple précédent, on y trouve:
-<UL>
-	<LI> un fichier de ressources appelé <I>RezImagePlugin.rsrc</I> qui définit 
-des 
-ressources utilisées par le plugin. Le nom du fichier de ressources est le 
-nom de l'exécutable (la bibliothèque située dans le sous-dossier <I>MacOS</I> 
-du plugin) suivi d'une extension <TT>.rsrc</TT>.<P>	<LI> les dossiers de localisation (<I>English.lproj, French.lproj</I>)
-avec les données localisées pour un langage particulier. Dans le présent
-exemple, deux fichiers contiennent des chaînes localisées utilisées par le
-plugin. D'autres langages peuvent bien entendu être ajoutés.<P></UL><P><A NAME="pluguuids"></A>
+
+<H3><A NAME="M103"></A>Le modèle des plugins</H3><P>Un plugin implémente une <I>interface</I> que l'on peut voir comme
+l'incarnation d'un <I>service</I>. Selon la terminologie en vigueur, on
+emploie le mot <I>type</I> pour désigner un service: le <I>type</I> d'un
+plugin d'édition, dans le cas de Rezilla, est le fait d'éditer les données
+d'une ressource particulière (le mot <I>type</I> ici peut prêter à
+confusion et ne doit pas être confondu avec le type d'une ressource !).
+Dans la version 1.1, Rezilla ne connaît que ce type de plugins: le service
+d'édition. Dans l'avenir, Rezilla pourrait aussi introduire des plugins
+permettant de définir des fenêtres de sélection de ressources (<I>resource
+pickers</I>), par exemple, et cela conduirait à introduire un nouveau type
+puisqu'il s'agit d'un service différent.<P>Il n'y a pas forcément une interface unique pour un type donné: il peut y
+en avoir plusieurs. Par exemple, de futures versions de Rezilla, pourraient
+modifier l'interface actuelle: cela se ferait par le biais d'une nouvelle
+interface. Dans ce cas, un plugin se devrait d'implémenter à la fois
+l'ancienne et la nouvelle interface et Rezilla pourrait déterminer, en
+fonction du contexte, quelle interface il faut utiliser. La version 1.1 de
+Rezilla ne définit qu'une interface pour le service d'édition. Une
+interface peut être vue comme une liste de fonctions correspondant aux
+diverses tâches à exécuter au cours de l'édition d'une ressource.<P><A NAME="plugbundle"></A>
 
 
 </BODY>

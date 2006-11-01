@@ -5,66 +5,78 @@
 <META NAME=GENERATOR CONTENT="Aida Mode">
 </HEAD>
 <BODY>
-<P><P><IMG SRC="../Images/rezilla_logo.gif" ALT="Rezilla logo" ALIGN=bottom></P><P><HR><BLOCKQUOTE><P><I> 
+<P><P><IMG SRC="Images/rezilla_logo.gif" ALT="Rezilla logo" ALIGN=bottom></P><P><HR><BLOCKQUOTE><P><I> 
 Welcome to the Home Page of <B>Rezilla</B>, a resource forks editor for
 the Macintosh.
 </I></P></BLOCKQUOTE><HR><P><UL>
 <LI><A HREF="#M1">Description</A>
-<LI><A HREF="#M2">Screenshots</A>
-<LI><A HREF="#M3">Download</A>
-<LI><A HREF="#M4">Help</A>
-<LI><A HREF="#M5">Requisites</A>
-<LI><A HREF="#M6">Runtime architecture</A>
-<LI><A HREF="#M7">Scriptability</A>
-<LI><A HREF="#M8">Source Code</A>
-<LI><A HREF="#M9">Code contributions</A>
-<LI><A HREF="#M10">Bug reports</A>
-<LI><A HREF="#M11">Mailing list</A>
+<UL><LI><A HREF="#M2">New features</A></UL>
+<UL><LI><A HREF="#M3">Basic features</A></UL>
+<UL><LI><A HREF="#M4">Good news</A></UL>
+<LI><A HREF="#M5">Screenshots</A>
+<LI><A HREF="#M6">Download</A>
+<LI><A HREF="#M7">Help</A>
+<LI><A HREF="#M8">Requisites</A>
+<LI><A HREF="#M9">Runtime architecture</A>
+<LI><A HREF="#M10">Scriptability</A>
+<LI><A HREF="#M11">Source Code</A>
+<LI><A HREF="#M12">Code contributions</A>
+<LI><A HREF="#M13">Plugins</A>
+<LI><A HREF="#M14">Bug reports</A>
+<LI><A HREF="#M15">Mailing list</A>
 </UL>
-<P><H2><A NAME="M1"></A>Description</H2><P><B>Rezilla</B> is a resource forks editor for the Macintosh:<P><UL>
+<P><H2><A NAME="M1"></A>Description</H2><P><B>Rezilla</B> is a resource forks editor for the Macintosh.<P><H3><A NAME="M2"></A>New features</H3>
+The latest version is 1.1rc1 and brings the following features:<P><UL>
+	<LI> new <B>plugin architecture</B> to support the addition of third party editors<P>	<LI> new <B>image editor</B> (implemented as a plugin) to display and manipulate
+image resources. It supports the following image formats: 
+<BLOCKQUOTE><P><I> JPEG, TIFF, GIF, PNG, BMP. </I></P></BLOCKQUOTE><P>	<LI> new <B>'icns' editor</B> to manage icon suite resources. You can create,
+modify, redraw, delete, etc. any of the bitmaps included in an 'icns'
+resource suite. Possibility of importing from or exporting to a ".icns"
+image data file.<P>	<LI> introduced <B>resource pickers</B>, that is to say special windows for
+displaying graphically all the resources of a particular type. Pickers 
+have been defined for the following types: 
+<BLOCKQUOTE><P><I> 'TEXT', 'MENU', 'STR#', 'MBAR', 'RID#', 'Mcmd', 'RidL', 'cicn', 'ICON', 'SICN', 'icns', 'PICT', 'PAT ', 'ppat', 'PAT#', 'ICN#', 'icl4', 'icl8', 'icm#', 'icm4', 'icm8', 'ics#', 'ics4', 'ics8', 'CURS', 'crsr' </I></P></BLOCKQUOTE><P>	<LI> new <I>Plugins</I> command in the <I>File</I> menu to get info about
+the plugins and rearrange their order<P>	<LI> possibility of importing a resource map from XML<P>	<LI> new <I>Import</I> command in the <I>File</I> menu to import data in 
+some resource editors<P>	<LI> XML export correctly escapes the standard entities and writes in 
+utf-8 encoding<P>	<LI> new WCOL and LCOL tags in the Template editor for RGB colors stored on
+2 or 4 bytes respectively<P>	<LI> improved Unique ID algorithm: it now returns the first available value
+(above the current one) when calculating a unique ID rather than a random
+number<P>	<LI> aliases are now followed for templates located in Application Support
+folders<P>	<LI> improved clipboard handling of hexadecimal data strings<P>	<LI> Tab key navigation in the fields of the Template editor's windows<P>	<LI> in the Template editor, the "+" key simulates a click on the Plus Button<P>	<LI> improved edition of resource ID (RSID) tags in the Template editor. A dynamic
+popup offers the currently available choices.<P>	<LI> added new templates for the Templates editor (there are now more than 
+400 templates)<P>	<LI> extended AppleScript terminology to support plugins and pickers<P>	<LI> 10 new sample AppleScript to demonstrate the new commands<P>	<LI> many interface improvements...<P>	<LI> many bug fixes...<P></UL><P><H3><A NAME="M3"></A>Basic features</H3>
+Previous versions already implemented the following features:<P><UL>
 	<LI> Rezilla lets you edit, create, modify, duplicate, remove resources
   contained in any fork (data fork or resource fork), copy, cut and paste
-  them from a resource map to the other, drag and drop resources etc.
-	<LI> Rezilla comes equipped with an <B>Hexadecimal Editor</B> and a 
+  them from a resource map to the other, drag and drop resources etc.<P>	<LI> Rezilla comes equipped with an <B>Hexadecimal Editor</B> and a 
 <B>Template Editor</B>. The template editor ships with no less than 
-  392 predefined templates and lets you easily
-  define and add more.
-	<LI> Rezilla has several dedicated editors:
+  400 predefined templates and lets you easily
+  define and add more.<P>	<LI> Rezilla has several dedicated editors:
 <UL>
-	<LI> a <B>Text Editor</B> to edit 'TEXT' and 'styl' resources
-	<LI> a <B>Bitmap Editor</B> to edit any of the following types:
+	<LI> a <B>Text Editor</B> to edit 'TEXT' and 'styl' resources<P>	<LI> a <B>Bitmap Editor</B> to edit any of the following types:
   'cicn', 'crsr', 'CURS', 'icl4', 'icl8', 'icm#', 'icm4', 'icm8', 'ICN#',
-  'ICON', 'ics#', 'ics4', 'ics8', 'PAT#', 'PAT ', 'ppat', 'SICN'
-	<LI> an <B>Unicode Editor</B> to edit 'utxt' resources containing Unicode
-  data in UTF-16 encoding form
-	<LI> a <B>List Editor</B> to edit 'STR#', 'MBAR', 'Mcmd' and 'RidL' resources
-	<LI> an <B>Aete Editor</B> to edit AppleScript terminology resources 
-  (resources with type 'aete' or 'aeut'). It can generate 
-<I>Scripting Definition</I> files (sdef) and <I>export</I> to Xml, DeRez, Html, and Text 
-  formats. It can also <I>import</I> an aete from an Xml file.
-	<LI> a <B>Pict Viewer</B> to visualize, copy, cut and paste 'PICT' resources
-	<LI> a <B>Sound Player</B> to play 'snd ' resources
-	<LI> a <B>Menu Editor</B> (which supports 'xmnu' menu extension resources)
-</UL>
-	<LI> complete scriptability to drive Rezilla from AppleScript scripts
-	<LI> Rezilla can <I>export</I> resource maps in text, HTML, XML or DeRez
-  formats
-	<LI> Rezilla can <I>compare</I> two resource maps.
-	<LI> various values and properties can be set via the <I>Preferences</I>.
-</UL><P>Another good news: Rezilla is a free software!<P><H2><A NAME="M2"></A>Screenshots</H2>
-See some screenshots of Rezilla at work : 
+  'ICON', 'ics#', 'ics4', 'ics8', 'PAT#', 'PAT ', 'ppat', 'SICN'<P>	<LI> an <B>Unicode Editor</B> to edit 'utxt' resources containing Unicode
+  data in UTF-16 encoding form<P>	<LI> a <B>List Editor</B> to edit 'STR#', 'MBAR', 'Mcmd' and 'RidL' resources<P>	<LI> an <B>Aete Editor</B> to edit AppleScript terminology resources 
+  (resources with type 'aete' or 'aeut'). It can generate <P><I>Scripting Definition</I> files (sdef) and <I>export</I> to Xml, DeRez, Html, and Text 
+  formats. It can also <I>import</I> an aete from an Xml file.<P>	<LI> a <B>Pict Viewer</B> to visualize, copy, cut and paste 'PICT' resources<P>	<LI> a <B>Sound Player</B> to play 'snd ' resources<P>	<LI> a <B>Menu Editor</B> (which supports 'xmnu' menu extension resources)
+</UL><P>	<LI> complete scriptability to drive Rezilla from AppleScript scripts<P>	<LI> Rezilla can <I>export</I> resource maps in text, HTML, XML or DeRez
+  formats<P>	<LI> Rezilla can <I>compare</I> two resource maps.<P>	<LI> various values and properties can be set via the <I>Preferences</I>.
+</UL><P><H3><A NAME="M4"></A>Good news</H3>
+Rezilla is a free software!<P><H2><A NAME="M5"></A>Screenshots</H2>
+See some screenshots of Rezilla at work: 
  <A HREF="rzil_hex_editor_img.html"> the hexadecimal editor</A>,
  <A HREF="rzil_tmpl_editor_img.html"> the template editor</A>,
  <A HREF="rzil_bitmap_editor_img.html"> the bitmap editor</A>,
  <A HREF="rzil_aete_editor_img.html"> the Aete editor</A>,
  <A HREF="rzil_menu_editor_img.html"> the Menu editor</A>,
- <A HREF="rzil_utxt_editor_img.html"> the Unicode editor</A>.
- <A HREF="rzil_icns_editor_img.html"> the Icns editor</A>.
-A few more images of Rezilla's interface can also be found in the  
-<A HREF="http://sourceforge.net/project/screenshots.php?group_id=83267"> screenshots area</A> at SourceForge.<P><H2><A NAME="M3"></A>Download</H2>
+ <A HREF="rzil_utxt_editor_img.html"> the Unicode editor</A>,
+ <A HREF="rzil_icns_editor_img.html"> the Icns editor</A>,
+ <A HREF="rzil_icns_picker_img.html"> a resource picker</A>,
+and a few more images of Rezilla's interface can also be found in the  
+<A HREF="http://sourceforge.net/project/screenshots.php?group_id=83267"> screenshots area</A> at SourceForge.<P><H2><A NAME="M6"></A>Download</H2>
 All <B>Rezilla</B> official binary releases, past and present, are available in the 
 <A HREF="http://sourceforge.net/project/showfiles.php?group_id=83267">download section</A> 
-of the project at SourceForge. The most recent version is <B>1.0.8</B>
+of the project at SourceForge. The most recent version is <B>1.1rc1</B>
 which can also be downloaded from this page: 
 click on the following links to get the
 <A HREF="../Downloads/Rezilla.hqx"> binary</A>
@@ -72,25 +84,26 @@ or the
 <A HREF="../Downloads/RezillaSrc.hqx"> sources</A>.<P>The application is bundled. You can install it anywhere on your system.
 Just double-click on its icon to launch it.<P><B>Warning</B> Rezilla is currently a project under development (aka work
 in progress).
-As usual, it comes without any warranty (see licence terms). That said, it
-has been thoroughly tested and has proven quite stable and reliable.<P><H2><A NAME="M4"></A>Help</H2>
+As usual, it comes without any warranty (see the license terms). That said, it
+has been thoroughly tested and has proven quite stable and reliable.<P><H2><A NAME="M7"></A>Help</H2>
 Help files with complete documentation are accessible via the Help menu
 while the application is running. You can also read the help online
-<A HREF="http://perso.orange.fr/bdesgraupes/DocHTML/RezillaHelp_EN/index.html"> in english</A> or 
-<A HREF="http://perso.orange.fr/bdesgraupes/DocHTML/RezillaHelp_FR/index.html"> in french</A>.<P>The scripting support comes with a detailed tutorial and a lot of sample 
-AppleScript scripts.<P><H2><A NAME="M5"></A>Requisites</H2>
-<B>Rezilla</B> is useful only on Macintosh platforms under OSX.
+<A HREF="http://perso.orange.fr/bdesgraupes/DocHTML/EN/RezillaHelp/index.html"> in english</A> or 
+<A HREF="http://perso.orange.fr/bdesgraupes/DocHTML/FR/RezillaHelp/index.html"> in french</A>.<P>The scripting support comes with a detailed tutorial and a lot of sample 
+AppleScript scripts.<P><H2><A NAME="M8"></A>Requisites</H2>
+<B>Rezilla</B> is useful only on Macintosh platforms under OS X.
 The application is developped and tested under this system.
-Version 10.2 (aka Jaguar) or greater of the system is recommended. <P><H2><A NAME="M6"></A>Runtime architecture</H2>
+Since version 1.1, the minimum requirement is OS X 10.3 (aka Panther).
+For OS X 10.2 (aka Jaguar) use version 1.0.8 of Rezilla. <P><H2><A NAME="M9"></A>Runtime architecture</H2>
 In case someone is interested, versions 1.0.1 to 1.0.5 have been built as
 carbon CFM applications, so they can probably run on system 9 but this is
 not tested and not officially supported. Starting from version 1.0.6,
-Rezilla is built as a Mach-O application.<P><H2><A NAME="M7"></A>Scriptability</H2>
+Rezilla is built as a Mach-O application.<P><H2><A NAME="M10"></A>Scriptability</H2>
 Rezilla is scriptable: it can be driven using <B>AppleScript</B> scripts and 
 possesses an extended terminology to perform all kinds of tasks. Read the 
 <B>Rezilla Scripting Tutorial</B> on this site
-<A HREF="http://perso.orange.fr/bdesgraupes/DocHTML/RezillaHelp_EN/ScriptingTutorial_EN.html"> in english</A> or 
-<A HREF="http://perso.orange.fr/bdesgraupes/DocHTML/RezillaHelp_FR/ScriptingTutorial_FR.html"> in french</A>.<P><H2><A NAME="M8"></A>Source Code</H2>
+<A HREF="http://perso.orange.fr/bdesgraupes/DocHTML/EN/ScriptingTutorial.html"> in english</A> or 
+<A HREF="http://perso.orange.fr/bdesgraupes/DocHTML/FR/ScriptingTutorial.html"> in french</A>.<P><H2><A NAME="M11"></A>Source Code</H2>
 <B>Rezilla</B> is an Open Source Project. Its source code is public and can 
 be found on the SourceForge site at the following address:
 <A HREF="http://sourceforge.net/projects/rezilla">http://sourceforge.net/projects/rezilla</A><P><P> The code is under CVS control. You can retrieve the latest stage of 
@@ -105,30 +118,40 @@ XCode 2.1 have been added for those who prefer using
 <A HREF="http://developer.apple.com"> Apple's Developer Tools</A>. In any
 case, you will need the PowerPlant library if you want to build Rezilla
 from source.<P>Detailed <B>compiling notes</B> and instructions can be found on this site  
-<A HREF="http://perso.orange.fr/bdesgraupes/DocHTML/RezillaHelp_EN/Compiling_Notes_EN.html"> in english</A> or 
-<A HREF="http://perso.orange.fr/bdesgraupes/DocHTML/RezillaHelp_FR/Compiling_Notes_FR.html"> in french</A>.<P><H2><A NAME="M9"></A>Code contributions</H2>
+<A HREF="http://perso.orange.fr/bdesgraupes/DocHTML/EN/CompilingNotes.html"> in english</A> or 
+<A HREF="http://perso.orange.fr/bdesgraupes/DocHTML/FR/CompilingNotes.html"> in french</A>.<P><H2><A NAME="M12"></A>Code contributions</H2>
 The Rezilla project is meant as a collaborative and extensible project:
 <UL>
 	<LI> <I>collaborative</I> means that all programmers who wish to collaborate
-and propose patches or code contributions are welcome. You can use for this the
-<A HREF="http://sourceforge.net/tracker/?atid=568884&group_id=83267&func=browse"> patches tracker</A> 
-at SourceForge.
-	<LI> <I>extensible</I> means that (in an unspecified future!) it will support a plugin
-architecture to allow for the addition of third party editors.
-</UL><P><H2><A NAME="M10"></A>Bug reports</H2><P><P> Bugs can be officially reported via the 
+and propose patches and code contributions are welcome. You can use for this the
+<A HREF="http://sourceforge.net/tracker/?atid=568884&group_id=83267&func=browse">patches tracker</A> 
+at SourceForge. Version 1.1 of Rezilla contains many contributions of this 
+kind.<P>	<LI> <I>extensible</I> means that it offers a plugin architecture
+(introduced in version 1.1) to support the addition of external editors.
+</UL><P><H2><A NAME="M13"></A>Plugins</H2><P>Since version 1.1, Rezilla offers support for external third-party 
+plugins. If you are a developer and wish to write a Rezilla plugin, you 
+should start reading the <B>Rezilla Plugins Howto</B>
+document which gives all the necessary informations, and get the Rezilla
+SDK which is part of the
+<A HREF="http://sourceforge.net/project/showfiles.php?group_id=83267">sources distribution</A> 
+and has a <B>Sample plugin</B> which can be used as a template to create a
+new one.
+Tthe <B>Rezilla Plugins Howto</B> can be found on this site  
+<A HREF="http://perso.orange.fr/bdesgraupes/DocHTML/EN/RezillaPluginHowto.html"> in english</A> or 
+<A HREF="http://perso.orange.fr/bdesgraupes/DocHTML/FR/RezillaPluginHowto.html"> in french</A>.<P><H2><A NAME="M14"></A>Bug reports</H2><P><P> Bugs can be officially reported via the 
 <A HREF="http://sourceforge.net/tracker/?atid=568882&group_id=83267&func=browse"> Bug Tracker</A>
 of the project.
 You can also address <A HREF="http://sourceforge.net/tracker/?atid=568885&group_id=83267&func=browse"> feature requests
-there</A>.<P><H2><A NAME="M11"></A>Mailing list</H2>
+there</A>.<P><H2><A NAME="M15"></A>Mailing list</H2>
 For any questions, problems, suggestions etc. about Rezilla, you can use the
-Rezilla-users Mailing List. 
+<B>Rezilla-users Mailing List</B>. 
 <A HREF="http://lists.sourceforge.net/lists/listinfo/rezilla-users">Click here</A> to subscribe/unsubscribe.
 To post a message to the list, send email to <A HREF="mailto:rezilla-users@lists.sourceforge.net">rezilla-users@lists.sourceforge.net</A>.
 To see the collection of prior postings to the list, visit the 
 <A HREF="http://sourceforge.net/mailarchive/forum.php?forum=rezilla-users">Rezilla-users  Archives</A>.<P>You can also e-mail me directly: <A HREF="mailto:bdesgraupes@users.sourceforge.net">bdesgraupes@users.sourceforge.net</A><P><!--  logo SF -->
 <!--  ------- -->
 <HR>
-<P> Last updated 2006-09-15 12:12:22
+<P> Last updated 2006-10-13 11:47:53
 <HR>
 <P> <I>Rezilla is hosted by</I> 
 <A HREF="http://sourceforge.net"> <P><IMG SRC="http://sourceforge.net/sflogo.php?group_id=83267&amp;type=4 " ALT="SourceForge.net Logo" ALIGN=bottom></P></A><P>

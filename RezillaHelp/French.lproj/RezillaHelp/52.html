@@ -1,13 +1,16 @@
 <HTML>
 <HEAD>
-<TITLE>Le modèle d'objets de RezillaIl y a essentiellement trois types d'objets dans Rezilla: les documents, </TITLE>
+<TITLE></TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
-<META NAME=GENERATOR CONTENT="Aida Mode">
+<META NAME="generator" CONTENT="Aida Mode">
+<META HTTP-EQUIV="Content-Language" CONTENT="fr-FR">
+<META NAME="keywords" CONTENT="ressources, branches, Mac OS">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="51.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="53.html">Suiv</A><HR><P>&nbsp;</P>
-<H3>Le modèle d'objets de Rezilla</H3><P>Il y a essentiellement trois types d'objets dans Rezilla: les documents, 
+
+<H3><A NAME="M65"></A>Le modèle d'objets de Rezilla</H3><P>Il y a essentiellement trois types d'objets dans Rezilla: les documents, 
 les fenêtres et les tables de ressources. Le terme de table est utilisé 
 pour désigner le contenu entier d'une branche de ressources.<P>Chaque table peut être considérée comme une base de données dont les
 éléments sont caractérisés par un type et un numéro d'identification. Le
@@ -32,7 +35,7 @@ commande comme ceci (le terme <B>get</B> est ici facultatif):
 	get windows
 	get maps
 	get documents
-</PRE><P><H4>Propriétés des documents de ressources</H4>
+</PRE><P><H4><A NAME="M66"></A>Propriétés des documents de ressources</H4>
 Les documents de ressources peuvent être spécifiés par nom ou par indice.
 Le nom du document est le nom du fichier à partir duquel il a été ouvert:
 il n'est donc pas unique puisque plusieurs fichiers situés dans des
@@ -64,7 +67,7 @@ propriétés:
 	{a, b, c, d, e, f, g, h}<P></PRE><P>La propriété <I>format</I> peut être modifiée au moyen de la commande <B>set</B>. 
 Les autres sont des propriétés en lecture seulement. Par exemple:
 <PRE>
-	set the format of map document 1 to html<P></PRE><P><H4>Propriétés des éditeurs</H4>
+	set the format of map document 1 to html<P></PRE><P><H4><A NAME="M67"></A>Propriétés des éditeurs</H4>
 Les éditeurs ont aussi des propriétés qui leur sont propres, en plus des propriétés 
 partagées par tous les documents:
 <UL>
@@ -82,7 +85,7 @@ propriétés (en supposant qu'un éditeur est effectivement ouvert):
 	set f to the owner doc of theEd
 	
 	{a, b, c, d, e, f}<P></PRE><P>Toutes ces propriétés sont des propriétés en lecture seulement. Elles ne
-peuvent être modifiées au moyen de la commande <B>set</B>.<P><H4>Propriétés des fenêtres de ressources</H4>
+peuvent être modifiées au moyen de la commande <B>set</B>.<P><H4><A NAME="M68"></A>Propriétés des fenêtres de ressources</H4>
 La classe <I>map window</I> désigne les fenêtres affichant le contenu des
 documents de ressources. Elles possèdent seulement deux propriétés
 particulières qui correspondent aux valeurs des champs situés au bas de ces
@@ -95,7 +98,7 @@ fenêtres:
 	set a to the types count of mapWin
 	set b to the resources count of mapWin
 	{a, b}<P></PRE>
-Ce sont des propriétés en lecture seulement. <P><H4>Propriétés des fenêtres d'édition</H4>
+Ce sont des propriétés en lecture seulement. <P><H4><A NAME="M69"></A>Propriétés des fenêtres d'édition</H4>
 La classe <I>editing window</I> représente les fenêtres affichées par les 
 éditeurs. Elles ont une seule propriété spécifique,
 <I>kind</I>, qui indique le type de l'éditeur correspondant (c'est-à-dire
@@ -137,7 +140,7 @@ De même
 est équivalent à
 <PRE>
 	get window of template editor "name_of_window" of map document 1
-</PRE><P><H4>Propriétés des tables</H4>
+</PRE><P><H4><A NAME="M70"></A>Propriétés des tables</H4>
 Les tables de ressources sont considérées comme des objets directement
 contenus dans l'application. Elles sont caractérisées par un numéro
 d'identification unique: c'est un numéro de référence attribué par le
@@ -183,13 +186,13 @@ Les autres sont des propriétés en lecture seulement. Par exemple:
 	-- This sets the mapCompact flag (+64)
 	set the compact of theMap to 1
 	-- This unsets the mapChanged flag (-32)
-	set the changed of theMap to 0<P></PRE><P><H4>Propriétés des types</H4>
+	set the changed of theMap to 0<P></PRE><P><H4><A NAME="M71"></A>Propriétés des types</H4>
 Un type est un objet contenant des objets <I>ressource</I> . Ses éléments
 sont toutes les ressources ayant ce même type. Les types sont des éléments d'un
 objet <I>table de ressources</I>: ils peuvent être spécifiés par indice ou
 par nom. L'indice d'un type est son indice dans la liste de tous les types
 appartenant à la table qui le contient. Le nom est une chaîne de quatre
-caractères représentant le type (comme "TEXT", "icns", "MENU", etc.)<P>Les propriétéssuivantes sont définies:
+caractères représentant le type (comme "TEXT", "icns", "MENU", etc.)<P>Les propriétés suivantes sont définies:
 <UL>
 	<LI> <I>index</I>: l'indice du type dans le document (les types sont 
 ordonnés alphabetiquement)<P>	<LI> <I>name</I>: la chaîne de quatre caractères représentant le type<P>	<LI> <I>all IDs</I>: la liste de tous les identificateurs (ID) des 
@@ -205,7 +208,7 @@ particulier, on écrira par exemple:
 <PRE>
 	set theType to type "TEXT" of map 1
 	get all IDs of theType<P></PRE><P>Toutes ces propriétés sont des propriétés en lecture seulement. Elles ne
-peuvent être modifiées au moyen de la commande <B>set</B>.<P><H4>Propriétés des ressources</H4><P>Une ressource à l'intérieur d'un objet type peut être spécifiée par indice,
+peuvent être modifiées au moyen de la commande <B>set</B>.<P><H4><A NAME="M72"></A>Propriétés des ressources</H4><P>Une ressource à l'intérieur d'un objet type peut être spécifiée par indice,
 par nom ou par identificateur (ID). La spécification par identificateur est
 unique. Une ressource peut aussi être désignée directement dans une table
 de ressources en utilisant une paire constituée de son type et de son
@@ -267,7 +270,7 @@ Les autres sont des propriétés en lecture seulement. Par exemple:
 	-- This sets the resChanged flag:
 	set the changed of theRez to 1
 	-- Modifiy the size on disc (use at your own risk):
-	set the sizeOnDisc of theRez to 512<P></PRE><P><H4>Contenu d'une ressource</H4><P>Les données de la ressource peuvent être obtenues au moyen de la propriété <I>hex data</I>, 
+	set the sizeOnDisc of theRez to 512<P></PRE><P><H4><A NAME="M73"></A>Contenu d'une ressource</H4><P>Les données de la ressource peuvent être obtenues au moyen de la propriété <I>hex data</I>, 
 comme ceci:
 <PRE>
 	set theRez to resource {"ALRT", 128} of map 1

@@ -1,23 +1,26 @@
 <HTML>
 <HEAD>
-<TITLE>Objets de base et propriétésL'objet racine situé au-dessus de tous les objets de Rezilla est</TITLE>
+<TITLE></TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
-<META NAME=GENERATOR CONTENT="Aida Mode">
+<META NAME="generator" CONTENT="Aida Mode">
+<META HTTP-EQUIV="Content-Language" CONTENT="fr-FR">
+<META NAME="keywords" CONTENT="ressources, branches, Mac OS">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="55.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="57.html">Suiv</A><HR><P>&nbsp;</P>
-<H3>Objets de base et propriétés</H3><P>L'objet racine situé au-dessus de tous les objets de Rezilla est
+
+<H3><A NAME="M77"></A>Objets de base et propriétés</H3><P>L'objet racine situé au-dessus de tous les objets de Rezilla est
 l'application elle-même. Rezilla définit des propriéts de base pour les
 classes document et fenêtre, propriétés dont tous les objets plus
 spécifiques (comme les éditeurs ou les fenêtres des tables de ressources
 par exemple) héritent à leur tour.<P>Cette section décrit les propriétés des classes <I>application</I>, 
-<I>document</I> et <I>window</I>.<P><H4>Propriétés de l'application</H4><P>L'application elle-même peut fournir quelques informations. Elle possède 
+<I>document</I> et <I>window</I>.<P><H4><A NAME="M78"></A>Propriétés de l'application</H4><P>L'application elle-même peut fournir quelques informations. Elle possède 
 une propriété <I>version</I> qui renvoie le numéro de version courant. Par exemple:
 <PRE>
 	get the version<P></PRE><P>La fenêtre d'inspection est aussi une propriété de l'application mais elle
 est considérée plutôt comme un objet à part entière. Ses propriétés sont
-expliquées dans la section <I>Fenêtre d'inspection</I> ci-dessous.<P><H4>Propriétés des documents</H4><P>Rezilla définit les propriétés communes suivantes dont héritent toutes les
+expliquées dans la section <I>Fenêtre d'inspection</I> ci-dessous.<P><H4><A NAME="M79"></A>Propriétés des documents</H4><P>Rezilla définit les propriétés communes suivantes dont héritent toutes les
 classes de documents (documents de ressources, documents d'édition):
 <UL>
 	<LI> <I>name</I>: le titre du document<P>	<LI> <I>modified</I>: une valeur booléenne indiquant si le document a été
@@ -34,7 +37,7 @@ différents types de documents:
 	set d to the modified of theEditor
 	
 	{a, b, c, d}<P></PRE><P>Ce sont des propriétés en lecture seulement. Elles ne peuvent être
-modifiées au moyen de la commande <B>set</B>.<P><H4>Propriétés des fenêtres</H4><P>Toutes les fenêtres de Rezilla (tables, fenêtres d'édition, fenêtre
+modifiées au moyen de la commande <B>set</B>.<P><H4><A NAME="M80"></A>Propriétés des fenêtres</H4><P>Toutes les fenêtres de Rezilla (tables, fenêtres d'édition, fenêtre
 d'inspection, etc.) partagent l'ensemble de propriétés suivant:
 <UL>
 	<LI> <I>name</I>: le titre de la fenêtre<P>	<LI> <I>index</I>: le numéro de la fenêtre<P>	<LI> <I>bounds</I>: les bornes du rectangle de la fenêtre<P>	<LI> <I>closeable</I>: la fenêtre a-t-elle un bouton de fermeture ?<P>	<LI> <I>titled</I>: la fenêtre a-t-elle une barre de titre ?<P>	<LI> <I>floating</I>: la fenêtre est-elle flottante ?<P>	<LI> <I>modal</I>: la fenêtre est-elle modale ?<P>	<LI> <I>resizable</I>: la fenêtre est-elle redimensionnable ?<P>	<LI> <I>zoomable</I>: la fenêtre est-elle réductible (dans le dock) ?<P>	<LI> <I>zoomed</I>: la fenêtre est-elle réduite ?<P>	<LI> <I>visible</I>: la fenêtre est-elle visible?<P>	<LI> <I>position</I>: les coordonnées du coin supérieur gauche de la 

@@ -1,27 +1,30 @@
 Rezilla acknowledgement
 -----------------------
 
-***  Rezilla's text editing capacity is based on the WASTE library:
+*** Rezilla's text editing capacity is based on the WASTE library:
 
-WasteLib 2.1 is © 1993-2005 by Marco Piovanelli
+WasteLib 2.0 is ©1998-2002 by Marco Piovanelli
 	"You are free to develop, use and distribute to end users binaries
 	built using the WASTE 2.0 static libraries, at no cost.  Moreover, you
 	are free to use and distribute to end users the WASTELib shared
 	library, as included in the standard distribution, at no cost.  All
 	WASTE-using applications must include the following credit line in
 	their about box and/or documentation:
-		WASTE Text Engine © 1993-2005 Marco Piovanelli
+		WASTE Text Engine © 1993-2004 Marco Piovanelli
 	Use of source code in freeware applications is free."
 
 
-***  Rezilla's icons editing capacity has taken PowerPlant's ancient bitmap
-editor sample code as starting point. This preCarbon code has been widely
-modified in order to make it both Carbon savvy and OSX savvy, and to fit 
-into Rezilla's resource editing scheme. Moreover a 'SICN' editor and a
-'PAT#' editor have been added.
+*** Rezilla's icon editing capacity is based on PowerPlant's ancient bitmap
+editor sample code. This pre-Carbon code has been widely modified in order
+to make it both Carbon savvy and OS X savvy, to adapt it to the Rezilla
+classes, and to add new 'SICN', 'PAT#', and 'icns' types editors.
 
 
-***  The Rezilla project is hosted by SourceForge:
+*** Version 1.1 of Rezilla contains many improvements contributed by ZPedro 
+(many thanks). They are clearly indicated in the source code.
+
+
+*** The Rezilla project is hosted by SourceForge:
 <http://sourceforge.net/projects/rezilla>
 				
 $Date$

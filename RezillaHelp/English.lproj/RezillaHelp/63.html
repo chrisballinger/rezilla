@@ -1,61 +1,67 @@
 <HTML>
 <HEAD>
-<TITLE>Resource pickersPicker documents (introduced in version 1.1) have the following properties:</TITLE>
+<TITLE></TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
-<META NAME=GENERATOR CONTENT="Aida Mode">
+<META NAME="generator" CONTENT="Aida Mode">
+<META HTTP-EQUIV="Content-Language" CONTENT="en-GB">
+<META NAME="keywords" CONTENT="resources, forks, Mac OS">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="62.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="64.html">Next</A><HR><P>&nbsp;</P>
-<H3>Resource pickers</H3><P>Picker documents (introduced in version 1.1) have the following properties:
+
+<H3><A NAME="M87"></A>External plugins</H3><P>Since version 1.1, Rezilla supports the addition of external editors
+defined via plugin extensions. The <I>AppleScript</I> terminology has a new <I>plugin</I> keyword to get information about the currently available
+plugins.<P>The plugin objects directly belong to the application object. They can be 
+designated by name or by index. Here are a few simple AppleScript 
+instructions:
 <UL>
-	<LI> <I>name</I>: the name of the picker. This is the name of the
-associated type (as a string), not the title of the picker window.
-  
-	<LI> <I>index</I>: the index of the picker
-  
-	<LI> <I>readOnly</I>: is this picker read-only?
-  
-	<LI> <I>window</I>: the window of the picker
-  
-	<LI> <I>type</I>: the type of the resources displayed by this picker
-  
-	<LI> <I>owner</I> doc: the rezmap document that owns this picker
-  
-	<LI> <I>selection</I>: the ID of the selected resource
-  
-</UL><P>The pickers, as objects, are considered elements of a map document object,
-just like editor objects. They can be designated by index or by type (the
-type is used as a name for the picker). For instance:
+	<LI> to get the list of plugins
 <PRE>
-    set thePik to picker "icl8" of map document 1
-</PRE><P>The following script lets you retrieve the values of all these 
-properties (supposing a picker document is currently open):
+	get name of plugins<P></PRE>
+	<LI> to count the plugins
 <PRE>
-	set thePik to picker 1 of map document 1
-	set a to the name of thePik
-	set b to the index of thePik
-	set c to the readOnly of thePik
-	set d to the window of thePik
-	set e to the type of thePik
-	set f to the owner doc of thePik
-	set g to the selection of thePik<P>	{a, b, c, d, e, f, g}<P></PRE><P>Only the <I>selection</I> property can be modified using the <B>set</B>
-command. All the others are read only properties. The ID of the resource 
-to select must be passed as a string. For instance:
+	count plugins<P></PRE>
+</UL><P>The plugin objects have the following properties:
+<UL>
+	<LI> <I>name</I>: the name of the plugin. This is the name of the plugin 
+bundle. For instance <I>RezImagePlugin.plugin</I>.<P>	<LI> <I>index</I>: the index of the plugin<P>	<LI> <I>version</I>: the current version number of the plugin<P>	<LI> <I>typecode</I>: the type code of the plugin<P>	<LI> <I>creator</I>: the creator code of the plugin<P>	<LI> <I>loaded</I>: is this plugin already loaded by Rezilla? Plugins are 
+loaded lazily, when the user attempts for the first time to edit a 
+resource via a plugin.<P>	<LI> <I>supported types</I>: the list of all resource types which can be
+edited by the plugin<P></UL><P>All these properties are read-only: they cannot be modified with the <B>set</B> command. Here are simple instructions to query the
+properties of a plugin:
 <PRE>
-    set the selection of picker 1 of map document 1 to "128"
-</PRE>
-To remove the selection in a picker window, use the <I>selection</I> with an empty string 
-like this:
+	set a to name of plugin 1
+	set b to version of plugin 1
+	set c to typecode of plugin 1
+	set d to creator of plugin 1
+	set e to loaded of plugin 1
+	{a, b, c, d, e}<P></PRE>
+To get a list of the supported types:
 <PRE>
-    set the selection of picker 1 of map document 1 to ""
-</PRE><P>A picker can be opened using the <B>pick</B> command like this:
+	get supported types of plugin "RezImagePlugin.plugin"	<P></PRE><P>In the case where several plugins support the same resource type, Rezilla
+allows you to specify the preferred plugin to use for editing a resource of
+this type. This can be set in the application in the <I>Plugin Order</I>
+panel of the dialog window displayed when the <I>Plugins...</I> command is
+invoked in the <I>File</I> menu. This can also be controlled by the means
+of an AppleScript. There is a property of the application called <I>preferred plugins</I> for this: it returns a record (a sort of dictionary)
+where the keys are resource types and the values are the name of the
+preferred plugin associated with this type. For instance, the following 
+script:
 <PRE>
-	pick type "cicn" of map 1<P></PRE>
-If there is a picker defined for the type, the command returns the object 
-specifier of the newly opened picker.<P>To close a picker, use the <B>close</B> command like this:
+	get preferred plugins<P></PRE>
+could return something like:
 <PRE>
-	close picker "cicn" of map document 1<P></PRE><P>
+	{JPEG:"RezImagePlugin.plugin", PStr:"RezSamplePlugin.plugin", etc.}
+</PRE><P>This property can be modified using the <B>set</B> command in order
+to change the preferred plugin for some types (not necessarily all of
+them). This makes sense only for types which are supported by several
+plugins. For instance:
+<PRE>
+	-- Assume the 'jpg ' and 'tiff' resource types can be edited by several
+	-- plugins and you want Rezilla to use the RezImagePlugin plugin for them
+	set preferred plugin to {«class tiff»:"RezImagePlugin.plugin", «class jpg »:"RezImagePlugin.plugin"}<P></PRE>
+For this call to succeed the plugins must exist. <P>
 
 </BODY>
 </HTML>

@@ -1,13 +1,16 @@
 <HTML>
 <HEAD>
-<TITLE>Rezilla's object modelThere are basically three types of objects in Rezilla: documents, windows</TITLE>
+<TITLE></TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
-<META NAME=GENERATOR CONTENT="Aida Mode">
+<META NAME="generator" CONTENT="Aida Mode">
+<META HTTP-EQUIV="Content-Language" CONTENT="en-GB">
+<META NAME="keywords" CONTENT="resources, forks, Mac OS">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="51.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="53.html">Next</A><HR><P>&nbsp;</P>
-<H3>Rezilla's object model</H3><P>There are basically three types of objects in Rezilla: documents, windows
+
+<H3><A NAME="M65"></A>Rezilla's object model</H3><P>There are basically three types of objects in Rezilla: documents, windows
 and maps. The term map is used to designate the entire contents of a
 resource fork.<P>Each map can be considered as a data base whose elements are characterized
 by a type and an ID. Rezilla's object model uses a similar structure: a 
@@ -27,7 +30,7 @@ with a command like this (the word <B>get</B> is optional):
 	get windows
 	get maps
 	get documents
-</PRE><P><H4>Map document properties</H4>
+</PRE><P><H4><A NAME="M66"></A>Map document properties</H4>
 Map documents can be specified by name or by index. The name is the name 
 of the file this document was opened from: it is not unique since 
 different files can have the same name (if they are in different folders). 
@@ -53,7 +56,7 @@ properties:
 	{a, b, c, d, e, f, g, h}<P></PRE><P>The <I>format</I> property can be modified using the <B>set</B> command. 
 All the others are read only properties. For instance:
 <PRE>
-	set the format of map document 1 to html<P></PRE><P><H4>Editor document properties</H4>
+	set the format of map document 1 to html<P></PRE><P><H4><A NAME="M67"></A>Editor document properties</H4>
 Editor documents also have properties of their own, besides the properties 
 shared by all the document objects Rezilla defines the following:
 <UL>
@@ -72,7 +75,7 @@ properties (supposing an editor document is currently open):
 	set f to the owner doc of theEd
 	
 	{a, b, c, d, e, f}<P></PRE><P>All these properties are read only properties. They cannot be modified 
-using the <B>set</B> command.<P><H4>Map window properties</H4>
+using the <B>set</B> command.<P><H4><A NAME="M68"></A>Map window properties</H4>
 The <I>map window</I> class designates the window displayed by resource map 
 documents. These objects have two properties corresponding to the count 
 fields located at the bottom of the window:
@@ -83,7 +86,7 @@ fields located at the bottom of the window:
 	set a to the types count of mapWin
 	set b to the resources count of mapWin
 	{a, b}<P></PRE>
-These are read-only properties. <P><H4>Editing window properties</H4>
+These are read-only properties. <P><H4><A NAME="M69"></A>Editing window properties</H4>
 The <I>editing window</I> class designates the windows displayed by 
 editors. They have only one specific property,
 <I>kind</I>, which indicates the kind of the corresponding editor (it is 
@@ -124,7 +127,7 @@ Similarly
 is equivalent to
 <PRE>
 	get window of template editor "name_of_window" of map document 1
-</PRE><P><H4>Map properties</H4>
+</PRE><P><H4><A NAME="M70"></A>Map properties</H4>
 The resource maps are considered as objects directly contained in the 
 application. They are characterized by a unique ID: this is a reference 
 number attributed by the System's Resource Manager when the map is opened. 
@@ -165,7 +168,7 @@ The others are read only properties. For instance:
 	-- This sets the mapCompact flag (+64)
 	set the compact of theMap to 1
 	-- This unsets the mapChanged flag (-32)
-	set the changed of theMap to 0<P></PRE><P><H4>Type properties</H4>
+	set the changed of theMap to 0<P></PRE><P><H4><A NAME="M71"></A>Type properties</H4>
 A type is an object containing <I>resource</I> objects. Its elements are 
 all the resources of this type. The types are elements of a map object: 
 they can be designated by index or by name. The index of a type is its 
@@ -184,7 +187,7 @@ To get the list of all resources within the type:
 <PRE>
 	set theType to type "TEXT" of map 1
 	get all IDs of theType<P></PRE><P>All these properties are read only properties. They cannot be modified with
-the <B>set</B> command.<P><H4>Resource properties</H4><P>A resource within a type object can be specified by index, by name or by 
+the <B>set</B> command.<P><H4><A NAME="M72"></A>Resource properties</H4><P>A resource within a type object can be specified by index, by name or by 
 ID. The specification by ID is unique. A resource can also be specified 
 directly in a resource map using a pair made of its type name and its ID, 
 like for instance:
@@ -236,7 +239,7 @@ The others are read only properties. For instance:
 	-- This sets the resChanged flag:
 	set the changed of theRez to 1
 	-- Modifiy the size on disc (use at your own risk):
-	set the sizeOnDisc of theRez to 512<P></PRE><P><H4>Resource contents</H4><P>The data of the resource can be obtained using the <I>hex data</I> property, 
+	set the sizeOnDisc of theRez to 512<P></PRE><P><H4><A NAME="M73"></A>Resource contents</H4><P>The data of the resource can be obtained using the <I>hex data</I> property, 
 like this:
 <PRE>
 	set theRez to resource {"ALRT", 128} of map 1

@@ -1,34 +1,124 @@
 <HTML>
 <HEAD>
-<TITLE>Version History</TITLE>
+<TITLE></TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
-<META NAME=GENERATOR CONTENT="Aida Mode">
+<META NAME="generator" CONTENT="Aida Mode">
+<META HTTP-EQUIV="Content-Language" CONTENT="en-GB">
+<META NAME="keywords" CONTENT="resources, forks, Mac OS">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Top</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="65.html">Prev</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="67.html">Next</A><HR><P>&nbsp;</P>
-<H2>Version History</H2>
-This project has been installed on SourceForge in June 2003. See the file 
-<I>Changes_Rezilla</I> for technical details concerning the development cycle.
-<UL>
-	<LI> 2004-05-07 - 1.0.1a - First public alpha release. Basic features.
-	<LI> 2004-05-24 - 1.0.2a - Second public alpha release. Preferences.
-	<LI> 2004-06-09 - 1.0.3a - Third public alpha release. Resizable windows.
-Style preferences.
-	<LI> 2004-11-22 - 1.0.4a - Fourth public alpha release. Templates 
-editor. 'Text' resources editor. New preferences.
-	<LI> 2005-02-28 - 1.0.5b - First public beta release. Bitmpap editor, 
-Unicode editor, Aete editor, Pict viewer, Sound player, new preferences, 
-new templates.
-	<LI> 2005-06-16 - 1.0.6b - Second public beta release. Menu editor. Full 
-AppleScript support. New template tags for flag menus.
-	<LI> 2005-09-16 - 1.0.7 - First public final release. Added a string list
-editor, project files for XCode 1.5 and 2.1 and minor fixes.
-	<LI> 2006-02-10 - 1.0.8 - Additional format for RECT tags. Minor user
-experience improvements (read-only media, hex values format). Bug fixes.
-	<LI> 2006-10-15 - 1.1 - Plugins, resource pickers, icns editor, images 
-editor. Import/export. Many improvements and bug fixes.
-</UL><P>
+
+<H2><A NAME="M90"></A>Error Codes</H2>
+Here is a list of the error codes specifically defined by Rezilla (it 
+does not contain codes emitted by the System).<P><P><TABLE BORDER=1 CELLPADDING=1>
+<TR><TD>1001</TD><TD>No rez in data fork</TD></TR>
+<TR><TD>1002</TD><TD>No rez in rez fork</TD></TR>
+<TR><TD>1003</TD><TD>No rez in any fork</TD></TR>
+<TR><TD>1004</TD><TD>No open permission</TD></TR>
+<TR><TD>1005</TD><TD>Open fork error</TD></TR>
+<TR><TD>1006</TD><TD>Open succeeded in read only mode</TD></TR>
+<TR><TD>1007</TD><TD>Open documents AppleEvent failed</TD></TR>
+<TR><TD>1008</TD><TD>Under version control system</TD></TR>
+<TR><TD>1009</TD><TD>Exception parsing template</TD></TR>
+<TR><TD>1010</TD><TD>No resource for type</TD></TR>
+<TR><TD>1011</TD><TD>No resource with name</TD></TR>
+<TR><TD>1012</TD><TD>Already existing ID</TD></TR>
+<TR><TD>1013</TD><TD>More data than expected</TD></TR>
+<TR><TD>1014</TD><TD>Invalid hexadecimal data</TD></TR>
+<TR><TD>1015</TD><TD>The creation of the resource fork failed</TD></TR>
+<TR><TD>1016</TD><TD>No such type in the resource map</TD></TR>
+<TR><TD>1017</TD><TD>There is no picker for this resource type</TD></TR>
+<TR><TD>1018</TD><TD>Open resource picker failed</TD></TR>
+<TR><TD>1019</TD><TD>Invalid resource data</TD></TR>
+<TR><TD>1900</TD><TD>Import Generic error</TD></TR>
+<TR><TD>1901</TD><TD>Invalid resource type. A type must have 4 characters.</TD></TR>
+<TR><TD>1902</TD><TD>Can't get Xml data</TD></TR>
+<TR><TD>1903</TD><TD>Can't build Xml tree (invalid Xml code)</TD></TR>
+<TR><TD>1904</TD><TD>Can't get top Aete node</TD></TR>
+<TR><TD>1905</TD><TD>Unknown Aete Resource tag</TD></TR>
+<TR><TD>1906</TD><TD>Unknown Aete Suite tag</TD></TR>
+<TR><TD>1907</TD><TD>Unknown Aete Event tag</TD></TR>
+<TR><TD>1908</TD><TD>Unknown Aete Parameter tag</TD></TR>
+<TR><TD>1909</TD><TD>Unknown Aete Class tag</TD></TR>
+<TR><TD>1910</TD><TD>Unknown Aete Property tag</TD></TR>
+<TR><TD>1911</TD><TD>Unknown Aete Element tag</TD></TR>
+<TR><TD>1912</TD><TD>Unknown Aete Comparison Operator tag</TD></TR>
+<TR><TD>1913</TD><TD>Unknown Aete Enumeration tag</TD></TR>
+<TR><TD>1914</TD><TD>Unknown Aete Enumerator tag</TD></TR>
+<TR><TD>1915</TD><TD>Unknown Aete Flags tag</TD></TR>
+<TR><TD>1916</TD><TD>Wrong root element</TD></TR>
+<TR><TD>1917</TD><TD>Unknown tag for a resource map. Tags are defined in the DTD 'Rezilla.dtd'.</TD></TR>
+<TR><TD>1918</TD><TD>Missing resource type</TD></TR>
+<TR><TD>1919</TD><TD>Missing resource ID</TD></TR>
+<TR><TD>1920</TD><TD>Conflicting resource ID: a resource with same type and ID has already been imported.</TD></TR>
+<TR><TD>1921</TD><TD>Can't import in non empty map.</TD></TR>
+<TR><TD>1922</TD><TD>Missing root element</TD></TR>
+<TR><TD>2000</TD><TD>Template error</TD></TR>
+<TR><TD>2001</TD><TD>Get data stream failed</TD></TR>
+<TR><TD>2002</TD><TD>Unrecognized tag</TD></TR>
+<TR><TD>2003</TD><TD>Parsing aborted</TD></TR>
+<TR><TD>2004</TD><TD>Value too large in bits field</TD></TR>
+<TR><TD>2005</TD><TD>Text overflow</TD></TR>
+<TR><TD>2006</TD><TD>Wrong fixed count</TD></TR>
+<TR><TD>2007</TD><TD>Zero list not terminated</TD></TR>
+<TR><TD>2008</TD><TD>Zero list ending with non null</TD></TR>
+<TR><TD>2009</TD><TD>List count too big</TD></TR>
+<TR><TD>2010</TD><TD>Expected even length string</TD></TR>
+<TR><TD>2011</TD><TD>Unexpected tag</TD></TR>
+<TR><TD>2012</TD><TD>Malformed hex value</TD></TR>
+<TR><TD>2013</TD><TD>Malformed date value</TD></TR>
+<TR><TD>2014</TD><TD>Can't get date format</TD></TR>
+<TR><TD>2015</TD><TD>Parse date failed</TD></TR>
+<TR><TD>2016</TD><TD>Not expected size</TD></TR>
+<TR><TD>2017</TD><TD>Create empty new aborted</TD></TR>
+<TR><TD>2018</TD><TD>No case in key section</TD></TR>
+<TR><TD>2019</TD><TD>Malformed case section</TD></TR>
+<TR><TD>2020</TD><TD>Unknown key value in resource</TD></TR>
+<TR><TD>2021</TD><TD>Isolated CASE tag</TD></TR>
+<TR><TD>2022</TD><TD>Can't find keyed section start</TD></TR>
+<TR><TD>2023</TD><TD>Can't find key start for value</TD></TR>
+<TR><TD>2024</TD><TD>Can't find key index</TD></TR>
+<TR><TD>2025</TD><TD>Can't find key value</TD></TR>
+<TR><TD>2026</TD><TD>Can't find key position</TD></TR>
+<TR><TD>2027</TD><TD>Unsupported resource id</TD></TR>
+<TR><TD>2028</TD><TD>Can't find matching key end</TD></TR>
+<TR><TD>3000</TD><TD>Unknown error</TD></TR>
+<TR><TD>3001</TD><TD>Invalid color depth</TD></TR>
+<TR><TD>3002</TD><TD>Format unknown</TD></TR>
+<TR><TD>3003</TD><TD>Size is out of range</TD></TR>
+<TR><TD>3004</TD><TD>Resource may be corrupt</TD></TR>
+<TR><TD>3005</TD><TD>File may be corrupt</TD></TR>
+<TR><TD>3006</TD><TD>The bitmap editor cannot edit the selected image</TD></TR>
+<TR><TD>3007</TD><TD>Assertion error</TD></TR>
+<TR><TD>3008</TD><TD>Nil pointer error</TD></TR>
+<TR><TD>3009</TD><TD>Out of memory</TD></TR>
+<TR><TD>3010</TD><TD>Resource not found</TD></TR>
+<TR><TD>3011</TD><TD>Disk is full</TD></TR>
+<TR><TD>3012</TD><TD>File not found</TD></TR>
+<TR><TD>3013</TD><TD>An I/O error occurred</TD></TR>
+<TR><TD>3014</TD><TD>This image must be between %ld and %ld pixels</TD></TR>
+<TR><TD>3015</TD><TD>Can't modify locked file</TD></TR>
+<TR><TD>3016</TD><TD>The font size must be between 4 and 512 pts</TD></TR>
+<TR><TD>3017</TD><TD>No 'PICT' resource on the clipboard</TD></TR>
+<TR><TD>4001</TD><TD>Loading the plugin failed</TD></TR>
+<TR><TD>4002</TD><TD>Get plugin info failed</TD></TR>
+<TR><TD>4003</TD><TD>Plugin not found</TD></TR>
+<TR><TD>4004</TD><TD>Plugin index not found</TD></TR>
+<TR><TD>5000</TD><TD>Plugin error</TD></TR>
+<TR><TD>5001</TD><TD>Plugin error: initialization failed</TD></TR>
+<TR><TD>5002</TD><TD>Plugin error: this type is not supported</TD></TR>
+<TR><TD>5003</TD><TD>Plugin error: this resource ID is not supported</TD></TR>
+<TR><TD>5004</TD><TD>Plugin error: this resource contains invalid data</TD></TR>
+<TR><TD>5005</TD><TD>Plugin error: unsupported resource format</TD></TR>
+<TR><TD>5006</TD><TD>Plugin error: unsupported resource version</TD></TR>
+<TR><TD>5007</TD><TD>Plugin error: edit resource failed</TD></TR>
+<TR><TD>5008</TD><TD>Plugin error: getting modified resource failed</TD></TR>
+<TR><TD>5009</TD><TD>Plugin error: revert resource failed</TD></TR>
+<TR><TD>5010</TD><TD>Plugin error: can't resize window</TD></TR>
+<TR><TD>5011</TD><TD>Plugin error: can't handle menu command</TD></TR>
+</TABLE></P><P>
 
 </BODY>
 </HTML>

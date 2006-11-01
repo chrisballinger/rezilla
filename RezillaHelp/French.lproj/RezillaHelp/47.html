@@ -1,13 +1,16 @@
 <HTML>
 <HEAD>
-<TITLE>Balises de gabaritLes balises sont les codes de quatre caractères qui désignent les types de</TITLE>
+<TITLE></TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
-<META NAME=GENERATOR CONTENT="Aida Mode">
+<META NAME="generator" CONTENT="Aida Mode">
+<META HTTP-EQUIV="Content-Language" CONTENT="fr-FR">
+<META NAME="keywords" CONTENT="ressources, branches, Mac OS">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="46.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="48.html">Suiv</A><HR><P>&nbsp;</P>
-<H3>Balises de gabarit</H3><P>Les balises sont les codes de quatre caractères qui désignent les types de
+
+<H3><A NAME="M50"></A>Balises de gabarit</H3><P>Les balises sont les codes de quatre caractères qui désignent les types de
 données des gabarits (comme par exemple, TNAM, DWRD et PSTR). La vénérable
 application <B>ResEdit</B>, qui était l'éditeur de ressources fourni par
 Apple sur les systèmes MacOS antérieurs au système OSX, a établi une
@@ -31,7 +34,7 @@ leur initiale (comme dans BCNT, WFLG ou LBIT).<P>Les tables ci-dessous indiquent
 occupée dans la ressource par la valeur correspondante. La lettre <I>x</I> dans la
 dernière colonne marque les balises qui font partie de la syntaxe étendue. 
 Un double x (<I>xx</I>) indique les balises qui sont définies dans Rezilla 
-uniquement.<P><H4>Valeurs numériques</H4>
+uniquement.<P><H4><A NAME="M51"></A>Valeurs numériques</H4>
 Rezilla permet de désigner les valeurs hexadécimales au moyen des symboles
 <B>$</B> ou <B>0x</B>. Le signe dollar est admis pour des raisons
 historiques: c'est ce qu'utilisent traditionnellement ResEdit et des outils
@@ -77,7 +80,7 @@ d'un bouton menu dont les éléments ne s'excluent pas mutuellement. Ce menu
 est construit à partir des balises CASE qui suivent immédiatement les
 balises BORV, WORV ou LORV. La syntaxe des balises CASE est décrite dans une
 section plus loin. L'élément du menu correspondant à la valeur 0 a pour
-effet de déselectionner tous les autres articles du menu.<P><H4>Valeurs de bits</H4>
+effet de déselectionner tous les autres articles du menu.<P><H4><A NAME="M52"></A>Valeurs de bits</H4>
 Lorsqu'un gabarit définit des valeurs de bits, il faut se souvenir que ces bits
 font toujours partie d'un octet, d'un mot ou d'un long. Ainsi le nombre total
 de bits consécutifs doit toujours être 8, 16 ou 32 (ou des multiples de ces
@@ -94,7 +97,7 @@ de gauche à droite, autrement dit en commençant par le bit le plus fort.<P><P><T
 comprise entre 0 et 7. pour WB<I>nn</I>, <I>nn</I> est compris
 entre 0 et 15. pour LB<I>nn</I>, <I>nn</I> est compris entre 0 et
 31. Exceptionnellement, Rezilla accepte également la balise BB08 comme
-synonyme de la balise UBYT (entier décimal non signé sur un octet).<P><H4>Chaînes</H4>
+synonyme de la balise UBYT (entier décimal non signé sur un octet).<P><H4><A NAME="M53"></A>Chaînes</H4>
 Dans la table suivante, <I>nn</I> ou <I>nnn</I> désignent des valeurs
 hexadécimales. Par exemple, si l'on trouve une balise C010 dans un gabarit, cela
 correspond à une chaîne de langage C contenue dans 16 octets (l'octet nul
@@ -128,7 +131,7 @@ d'occuper exactement 256 octets (en comptant l'octet initial de longueur).<P><P>
 <TR><TD>P0<I>nn</I></TD><TD>chaîne de Pascal avec complément fixe</TD><TD><I>$nn</I> octets</TD><TD></TD></TR>
 <TR><TD>C<I>nnn</I></TD><TD>chaîne C avec complément fixe</TD><TD><I>$nnn</I> octets</TD><TD>x</TD></TR>
 <TR><TD>T<I>nnn</I></TD><TD>texte avec complément fixe</TD><TD><I>$nnn</I> octets</TD><TD>x</TD></TR>
-</TABLE></P><P><H4>Champs hexadécimaux</H4>
+</TABLE></P><P><H4><A NAME="M54"></A>Champs hexadécimaux</H4>
 Dans la balise H<I>nnn</I>, <I>nnn</I> désigne une valeur hexadécimale.
 Par exemple, si l'on trouve H100 dans un gabarit, cela représente 256
 (=0x100) valeurs hexadécimales. Dans la table suivante <I>l</I> désigne la longueur de la
@@ -143,7 +146,7 @@ stockée au début de la chaîne et suivie des données hexadécimales.<P><P><TABLE B
 <TR><TD>LSHX</TD><TD>données hexadécimales avec <I>l-4</I> dans un long  </TD><TD>4 à 4MB-4</TD><TD>x</TD></TR>
 <TR><TD>H<I>nnn</I></TD><TD>données hexadécimales de longueur fixe  </TD><TD><I>$nnn</I></TD><TD></TD></TR>
 <TR><TD>HEXD</TD><TD>données hexadécimales non limitées</TD><TD></TD><TD></TD></TR>
-</TABLE></P><P><H4>Offsets</H4>
+</TABLE></P><P><H4><A NAME="M55"></A>Offsets</H4>
 Les balises suivantes sont utilisées comme marqueurs afin de calculer
 automatiquement et dynamiquement la taille d'une portion de ressource qui
 n'est pas connue par avance, par exemple lorsque la ressource contient des
@@ -165,7 +168,7 @@ peuvent être imbriquées.<P><P><TABLE BORDER=1 CELLPADDING=1>
 <TR><TD>WSIZ</TD><TD>décalage exclusif stocké dans un mot</TD><TD>2 octets</TD><TD>x</TD></TR>
 <TR><TD>LSIZ</TD><TD>décalage exclusif stocké dans un long</TD><TD>4 octets</TD><TD>x</TD></TR>
 <TR><TD>SKPE</TD><TD>fin de décalage</TD><TD>0 octet</TD><TD>x</TD></TR>
-</TABLE></P><P><H4>Listes</H4>
+</TABLE></P><P><H4><A NAME="M56"></A>Listes</H4>
 Il est possible de construire des listes avec des gabarits. Il existe deux
 sortes de listes: numérotées ou non numérotées. Dans la cas d'une liste
 numérotée (balise LSTC), le nombre d'éléments dans la liste est stocké dans
@@ -192,7 +195,7 @@ de la balise FCNT.<P><P><TABLE BORDER=1 CELLPADDING=1>
 <TR><TD>LSTB</TD><TD>début de liste non numérotée</TD><TD>0 octet</TD><TD></TD></TR>
 <TR><TD>LSTZ</TD><TD>début de liste terminée par 0x00</TD><TD>0 octet</TD><TD></TD></TR>
 <TR><TD>LSTE</TD><TD>fin d'une liste</TD><TD>0 ou 1 octet</TD><TD></TD></TR>
-</TABLE></P><P><H4>Balise CASE</H4>
+</TABLE></P><P><H4><A NAME="M57"></A>Balise CASE</H4>
 La balise CASE sert à déclarer des valeurs prédéfinies ou des choix par
 défaut. Il peut y avoir plusieurs balises CASE à la suite d'une balise
 éditable. Rezilla les utilise pour construire un menu dont les éléments
@@ -216,7 +219,7 @@ dans un nombre hexadécimal sur un octet :
 L'éditeur de gabarits construira un menu placé à côté du champ destiné à
 recevoir la valeur du style. Ce menu comportera six éléments : <I>Normal,
 Gras, Italique, Souligné, Condensé</I> et <I>Étendu</I>. Si l'utilisateur choisit
-<I>Souligné</I>, la valeur <I>$04</I> sera automatiquement insérée dans le champ.<P><H4>Sections à clés</H4>
+<I>Souligné</I>, la valeur <I>$04</I> sera automatiquement insérée dans le champ.<P><H4><A NAME="M58"></A>Sections à clés</H4>
 Le format de certaines ressources a pu changer avec le temps. Il n'est pas
 rare qu'un format de ressource prévoie un champ pour indiquer justement la version
 du format qu'elle utilise. Les sections à clé fournissent une syntaxe pour
@@ -249,7 +252,7 @@ précédente.<P><P><TABLE BORDER=1 CELLPADDING=1>
 <TR><TD>KRID</TD><TD>la clé est l'identificateur de ressource</TD><TD>0 octet</TD><TD>x</TD></TR>
 <TR><TD>KEYB</TD><TD>début de section à clé</TD><TD>0 octet</TD><TD>x</TD></TR>
 <TR><TD>KEYE</TD><TD>fin de section à clé</TD><TD>0 octet</TD><TD>x</TD></TR>
-</TABLE></P><P><H4>Champs fantômes</H4>
+</TABLE></P><P><H4><A NAME="M59"></A>Champs fantômes</H4>
 Les balises d'alignement sont utilisées pour aligner des données sur des
 positions paires. Elles permettent de compléter les données précédentes en
 décalant la position courante vers la droite sur une valeur qui est un
@@ -267,7 +270,7 @@ des préférences pour cela (voir la section <I>Préférences</I>).<P><P><TABLE BORD
 <TR><TD>FWRD</TD><TD>remplissage sur 1 mot</TD><TD>2 octets</TD><TD></TD></TR>
 <TR><TD>FLNG</TD><TD>remplissage sur 1 long</TD><TD>4 octets</TD><TD></TD></TR>
 <TR><TD>F<I>nnn</I></TD><TD>remplissage sur plusieurs octets</TD><TD><I>$nnn</I> octets</TD><TD>x</TD></TR>
-</TABLE></P><P><H4>Divers</H4>
+</TABLE></P><P><H4><A NAME="M60"></A>Divers</H4>
 La table ci-dessous réunit diverses balises qui possèdent une interface
 particulière et ne rentrent pas dans les catégories précédentes. Par
 exemple, la balise COLR affiche une couleur RVB (rouge, vert, bleu) et fait

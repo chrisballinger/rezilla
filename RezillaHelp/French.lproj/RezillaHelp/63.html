@@ -1,67 +1,71 @@
 <HTML>
 <HEAD>
-<TITLE>Sélectionneurs de ressourcesLes sélectionneurs de ressources (resource pickers, introduits dans</TITLE>
+<TITLE></TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
-<META NAME=GENERATOR CONTENT="Aida Mode">
+<META NAME="generator" CONTENT="Aida Mode">
+<META HTTP-EQUIV="Content-Language" CONTENT="fr-FR">
+<META NAME="keywords" CONTENT="ressources, branches, Mac OS">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="62.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="64.html">Suiv</A><HR><P>&nbsp;</P>
-<H3>Sélectionneurs de ressources</H3><P>Les sélectionneurs de ressources (<I>resource pickers</I>, introduits dans
-la version 1.1) ont les propriétés suivantes:
+
+<H3><A NAME="M87"></A>Plugins (éditeurs externes)</H3><P>Depuis la version 1.1, Rezilla supporte l'addition d'éditeurs externes
+définis au moyen d'extensions (ou <I>plugins</I>). La terminologie
+<I>AppleScript</I> comporte un nouveau terme <I>plugin</I> permettant d'obtenir 
+des informations sur les extensions couramment disponibles.<P>Les objets <I>plugin</I> appartiennent directement à l'objet application.
+On peut les désigner par nom ou par indice. Voici quelques instructions
+AppleScript simples:
 <UL>
-	<LI> <I>name</I>: le nom du sélectionneur. C'est le nom (sous forme de 
-chaîne) du type associé et non pas le titre de la fenêtre de sélection.
-  
-	<LI> <I>index</I>: l'indice du sélectionneur
-  
-	<LI> <I>readOnly</I>: valeur booléenne qui indique si le sélectionneur est en lecture seule
-  
-	<LI> <I>window</I>: la fenêtre du sélectionneur
-  
-	<LI> <I>type</I>: le type des ressources affichées par le sélectionneur
-  
-	<LI> <I>owner doc</I>: le document auquel le sélectionneur appartient
-  
-	<LI> <I>selection</I>: le numéro de la ressource couramment sélectionnée 
-(ou une chaîne vide si aucune ressource n'est sélectionnée)
-  
-</UL><P>Les sélectionneurs, en tant qu'objets, sont des éléments appartenant aux
-tables de ressources (<I>map document</I>). Ils peuvent être désignés par
-type (c'est le type qui tient lieu de nom) ou par indice. Par exemple, on
-peut écrire:
+	<LI> pour obtenir la liste des plugins
 <PRE>
-    set thePik to picker "icl8" of map document 1
-</PRE><P>Le script suivant permet de récupérer toutes les valeurs des propriétés 
-d'un sélectionneur:
+	get name of plugins<P></PRE>
+	<LI> pour dénombrer les plugins
 <PRE>
-	set thePik to picker 1 of map document 1
-	set a to the name of thePik
-	set b to the index of thePik
-	set c to the readOnly of thePik
-	set d to the window of thePik
-	set e to the type of thePik
-	set f to the owner doc of thePik
-	set g to the selection of thePik<P>	{a, b, c, d, e, f, g}<P></PRE><P>Seule la propriété <I>selection</I> peut être modifiée au moyen de la 
-commande <B>set</B>. Toutes les autres sont en lecture seule. Le numéro de 
-la ressource à sélectionner doit être passé sous forme de chaîne. Par 
-exemple:
+	count plugins<P></PRE>
+</UL><P>Les objets <I>plugin</I> possèdent les propriétés suivantes:
+<UL>
+	<LI> <I>name</I>: le nom du plugin. C'est le nom du plugin 
+comme fichier, comme par exemple <I>RezImagePlugin.plugin</I>.<P>	<LI> <I>index</I>: l'indice du plugin<P>	<LI> <I>version</I>: le numéro de version courant du plugin<P>	<LI> <I>typecode</I>: le code de type du plugin<P>	<LI> <I>creator</I>: le code de créateur du plugin<P>	<LI> <I>loaded</I>: indique si le plugin est déjà chargé par Rezilla. Les 
+plugins sont chargés de façon paresseuse, autrement dit seulement lorsque 
+l'utilisateur demande l'édition d'une ressource au moyen d'un plugin.<P>	<LI> <I>supported types</I>: la liste de tous les types de ressources qui 
+peuvent être édités par le plugin<P></UL><P>Toutes ces propriétés sont en lecture seule: elles ne peuvent être 
+modifiées au moyen de la commande <B>set</B>. Voici quelques instructions 
+simples pour obtenir les informations sur un plugin:
 <PRE>
-    set the selection of picker 1 of map document 1 to "128"
-</PRE>
-Pour retirer la sélection, il suffit de passer une chaîne vide dans la 
-propriété <I>selection</I>, comme ceci:
+	set a to name of plugin 1
+	set b to version of plugin 1
+	set c to typecode of plugin 1
+	set d to creator of plugin 1
+	set e to loaded of plugin 1
+	{a, b, c, d, e}<P></PRE>
+Pour obtenir la liste des types supportés:
 <PRE>
-    set the selection of picker 1 of map document 1 to ""
-</PRE><P>Un sélectionneur peut être ouvert au moyen de la commande <B>pick</B> 
-comme ceci:
+	get supported types of plugin "RezImagePlugin.plugin"	<P></PRE><P>Dans le cas où plusieurs plugins supportent un même type de ressource,
+Rezilla permet de spécifier le plugin à utiliser de préférence pour éditer
+une ressource de ce type. Ce choix peut être réglé dans l'application dans
+le panneau <I>Plugin Order</I> du dialogue affiché lorsqu'on invoque la
+commande <I>Plugins...</I> du menu <I>File</I>. On peut aussi le
+contrôler par une instruction AppleScript. Il y a une propriété de
+l'application appelée <I>preferred plugins</I> à cet effet: elle renvoie
+un dictionnaire dont les clés sont les types de ressources et les valeurs
+sont, pour chaque type, le nom du plugin préféré associé. Par exemple, 
+le script suivant:
 <PRE>
-	pick type "cicn" of map 1<P></PRE>
-Si un sélectionneur est effectivement défini pour le type spécifié, la 
-commande renvoie un spécificateur pour l'objet nouvellement créé.<P>Pour refermer un sélectionneur, on utilise la commande <B>close</B> comme 
-ceci:
+	get preferred plugins<P></PRE>
+renvoie des informations telles que
 <PRE>
-	close picker "cicn" of map document 1<P></PRE><P>
+    {JPEG:"RezImagePlugin.plugin", PStr:"RezSamplePlugin.plugin", etc.}
+</PRE><P>Cette propriété peut être modifiée avec la commande <B>set</B> afin de
+désigner un autre plugin de prédilection pour certains types (le réglage ne
+se fait pas nécessairement pour tous les types à la fois). Ceci n'a de sens que
+pour les types supportés par plusieurs plugins. Par exemple:
+<PRE>
+	-- Assume the 'jpg ' and 'tiff' resource types can be edited by several
+	-- plugins and you want Rezilla to use the RezImagePlugin plugin for them
+	set preferred plugin to {«class tiff»:"RezImagePlugin.plugin", «class jpg »:"RezImagePlugin.plugin"}<P></PRE>
+Le plugin doit par ailleurs exister effectivement pour que cette opération
+réussisse.<P>
 
 </BODY>
 </HTML>

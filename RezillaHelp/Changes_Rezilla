@@ -37,6 +37,22 @@ $Date$
 ================================================================================
 ¥ Code freeze in view of next release. Only bug fixes.
 ¥ Tests phase for 1.1 first release candidate.
+¥ Implemented arrow keys navigation in picker windows
+¥ Left and right arrows move the cursor in PAT# and SICN editor windows (but 
+  still nudge the pixels if there is a selection in the canvas).
+¥ The Import RezMap command now handles correctly the standard entities.
+¥ Added an "import" term in the AppleScript terminology.
+¥ Updated the AppleScript support documentation.
+¥ Introduced notifications between rezmap documents and pickers to keep them in synch.
+¥ Revamped internals of the inspector window.
+¥ Installed Save, Cancel, and Revert buttons in hexadecimal editor windows.
+¥ Synchronized Revert button with Revert menu item in editor windows.
+¥ Streamlined the support for substitution types. Extended to internal editors.
+¥ Fixed the TypeAs dictionary, stroing the types as CFNumbers and not CFStrings.
+¥ Enabled the "set preferred plugin" AppleScript command.
+¥ Augmented the AppleScript test suite with plugin and pickers tests.
+¥ Enabled the "get windows" plural form in the AppleScript terminology.
+¥ Added 10 new sample AppleScripts to demonstrate the new commands.
 ¥ 
 
 ================================================================================

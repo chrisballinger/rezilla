@@ -1,89 +1,52 @@
 <HTML>
 <HEAD>
-<TITLE>Les UUIDs de pluginDivers éléments du modèle de plugins défini (l'API CFPlugin dans les Core</TITLE>
+<TITLE></TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
-<META NAME=GENERATOR CONTENT="Aida Mode">
+<META NAME="generator" CONTENT="Aida Mode">
+<META HTTP-EQUIV="Content-Language" CONTENT="fr-FR">
+<META NAME="keywords" CONTENT="ressources, branches, Mac OS">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="76.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="78.html">Suiv</A><HR><P>&nbsp;</P>
-<H3>Les UUIDs de plugin</H3><P>Divers éléments du modèle de plugins défini (l'API CFPlugin dans les Core
-Foundations de OS X) sont identifiés au moyen d'un UUID (<I>Universally
-Unique Identifier</I>, identificateur universellement unique). Certains
-UUIDs sont définis par l'application principale, d'autres le sont par le
-plugin.<P>Un UUID est une valeur sur 128-bits dont l'unicité est garantie. Il peut 
-être représenté sous deux formes différentes: sous forme d'octets ou sous 
-forme de chaîne de caractères. Sous forme d'octets, il s'agit d'une structure
-C définie dans les Core Foundations (<I>CFUUIDBytes</I>
-dans le fichier d'en-tête <I>CFUUID.h</I>). L'écriture sous forme de chaîne est 
-une convention pour faciliter la lecture: il s'agit d'une chaîne ASCII 
-séparée par des tirets qui est utilisée, par exemple, dans le fichier de liste 
-de propriétés du plugin (voir la section 
-<A HREF="#plugplist"> Liste de propriétés du plugin</A> ci-dessous).<P><H4>Les UUIDs de Rezilla</H4>
-Rezilla définit deux UUIDs pour identifier respectivement le type du plugin
-et la fonction dite de fabrication (<I>factory function</I>) qui
-implémente l'interface. Ces valeurs sont définies dans le fichier d'en-tête <I>RezillaPluginInterface.h</I> au moyen de valeurs symboliques:
+
+<H3><A NAME="M104"></A>Anatomie du plugin</H3>
+Techniquement un plugin est simplement une bibliothèque dynamique (<I>dynamic 
+library</I>) qui est chargée par l'application principale dès que nécessaire. 
+Sous OS X, cette bibliothèque se présente sous forme de ce que l'on appelle un
+paquetage (<I>bundle</I>), c'est-à-dire une structure analogue à un répertoire
+qui contient la bibliothèque elle-même et quelques fichiers complémentaires.<P>Pour en savoir plus sur les <I>paquetages</I> sous OS X, voir:
+<A HREF="http://developer.apple.com/documentation/CoreFoundation/Conceptual/CFBundles/Concepts/about.html">http://developer.apple.com/documentation/CoreFoundation/Conceptual/CFBundles/Concepts/about.html</A><P>L'utilisation de cette architecture facilite considérablement, du point de 
+vue de l'utilisateur, les tâches de maintenance relatives aux plugins,
+comme l'ajout, la suppression, l'activation ou la désactivation.
+Toutes ces actions peuvent être accomplies depuis le Finder de façon 
+transparente (voir la section <I>Éditeurs Externes</I> dans l'aide de 
+Rezilla). L'utilisateur n'a pas à connaître la localisation exacte des 
+plugins à l'intérieur de l'application.<P>Voici, à titre d'exemple, la structure interne du plugin <B>RezImagePlugin</B>,
+fourni avec la version 1.1 de Rezilla:
+<P><IMG SRC="../../Images/rzil_pluginanatomy.gif " ALT="Plugin anatomy" ALIGN=bottom></P><P>Ce plugin s'appelle <I>RezImagePlugin.plugin</I>. Il doit avoir une
+extension <I>.plugin</I> afin que Rezilla puisse le trouver. Certains
+éléments du sous-dossier <I>Contents</I> sont obligatoires, les autres
+sont facultatifs. Les éléments obligatoires sont:
 <UL>
-	<LI> <I>kRezillaPluginEditorTypeID</I> est l'UUID du service d'édition de 
-ressources. 
-C'est un identificateur unique qui indique que l'on a affaire à un plugin 
-d'édition pour Rezilla plutôt qu'un plugin destiné, par exemple, à iMovie 
-ou iDVD.<P>	<LI> <I>kRezillaPluginEditorInterfaceVs1</I> est l'UUID caractérisant
-l'interface courante qui définit le type précédent. Son nom se termine en
-<I>Vs1</I> pour souligner qu'il s'agit de la première version d'interface 
-et qu'il pourrait y en avoir d'autres par la suite (sans doute pour 
-ajouter de nouvelles fonctionnalités). Quoi qu'il en soit, dans la version 
-1.1 de Rezilla, il n'y a qu'un seul type et une seule interface pour ce 
-type.
-</UL>
-Les UUIDs sont définis comme ceci:
-<PRE>
-	#define kRezillaPluginEditorTypeID (CFUUIDGetConstantUUIDWithBytes(NULL,0x30,0x6A,0x0E,0xF3,0x20,0x6E,0x11,0xDA,0x83,0x20,0x00,0x0A,0x95,0xB1,0xFF,0x7C))
-	#define kRezillaPluginEditorInterfaceVs1 (CFUUIDGetConstantUUIDWithBytes(NULL,0x30,0x6A,0xE1,0x67,0x20,0x6E,0x11,0xDA,0x83,0x20,0x00,0x0A,0x95,0xB1,0xFF,0x7C))
-</PRE>
-ce qui s'écrit, sous forme de chaîne:
-<PRE>
-	306A0EF3-206E-11DA-8320-000A95B1FF7C
-	306AE167-206E-11DA-8320-000A95B1FF7C
-</PRE><P><H4>Les UUIDs des fabriques</H4>
-Le plugin doit fournir des UUIDs pour toutes les implémentations 
-d'interfaces qu'il contient. L'implémentation est réalisée par une 
-fonction de fabrication ou fabrique (<I>factory function</I>). Ces 
-fabriques sont déclarées dans la liste de propriétés du plugin et 
-définies dans le plugin lui-même.
-Le plugin <I>RezillaImage</I>, par exemple, supporte le type d'édition de 
-ressources  de 
-Rezilla et l'interface associée, il lui faut donc définir un seul UUID de 
-fabrique. Son code source en C contient l'instruction suivante:
-<PRE>
-	#define kRezillaImageFactoryID (CFUUIDGetConstantUUIDWithBytes(NULL,0x09,0x05,0xF8,0x36,0xA2,0x0C,0x11,0xDA,0xBC,0x6C,0x00,0x0A,0x95,0xB1,0xFF,0x7C))
-</PRE>
-et sa liste de propriétés déclare la même valeur sous forme de chaîne:
-<PRE>
-	0905F836-A20C-11DA-BC6C-000A95B1FF7C
-</PRE>
-Dans le cas où il existe plusieurs interfaces, chaque interface (et donc
-chaque fabrique) doit avoir un UUID.<P><H4>Créer un UUID</H4>
-Il existe un outil de ligne de commande simple appelé <B>uuidgen</B>, 
-fourni avec les <I>Developers Tools</I> d'Apple, qui génère des UUIDs. Voici un 
-exemple de son utilisation (à exécuter dans une fenêtre de Terminal):
-<PRE>
-	shell> uuidgen
-	9A347042-427C-11DB-9237-000A95B1FF7C
-</PRE><P>Le kit de développement de Rezilla (<I>Rezilla SDK</I>) fournit aussi un
-outil un peu plus élaboré appelé <B>mkuuid</B>. Avec mkuuid, on peut
-spécifier le nombre d'UUIDs à générer et le résultat renvoie les UUIDs à la
-fois sous forme d'octets (à utiliser dans du code C) et sous forme de
-chaîne (à utiliser dans la liste de propriétés). Voici un exemple de son
-utilisation:
-<PRE>
-	shell> mkuuid 2
-	UUID as bytes: (NULL,0xC1,0x37,0x86,0xB4,0x42,0x7C,0x11,0xDB,0xA0,0xC4,0x00,0x0A,0x95,0xB1,0xFF,0x7C)
-	UUID as string: "C13786B4-427C-11DB-A0C4-000A95B1FF7C"
-	
-	UUID as bytes: (NULL,0xC1,0x38,0x2C,0x85,0x42,0x7C,0x11,0xDB,0xA0,0xC4,0x00,0x0A,0x95,0xB1,0xFF,0x7C)
-	UUID as string: "C1382C85-427C-11DB-A0C4-000A95B1FF7C"
-</PRE><P><A NAME="plugplist"></A>
+	<LI> le fichier <I>Info.plist</I> qui est un fichier de liste de propriétés
+contenant des informations sur le paquetage. Voir la
+section <A HREF="#plugplist"><I>Liste de propriétés du plugin</I></A> 
+ci-dessous.
+	<LI> le sous-dossier <I>MacOS</I> qui comporte la bibliothèque dynamique 
+elle-même
+(<I>RezImagePlugin</I> dans l'exemple précédent).
+</UL><P>Le sous-dossier <I>Resources</I> peut contenir des données supplémentaires. 
+Dans l'exemple précédent, on y trouve:
+<UL>
+	<LI> un fichier de ressources appelé <I>RezImagePlugin.rsrc</I> qui définit 
+des 
+ressources utilisées par le plugin. Le nom du fichier de ressources est le 
+nom de l'exécutable (la bibliothèque située dans le sous-dossier <I>MacOS</I> 
+du plugin) suivi d'une extension <TT>.rsrc</TT>.<P>	<LI> les dossiers de localisation (<I>English.lproj, French.lproj</I>)
+avec les données localisées pour un langage particulier. Dans le présent
+exemple, deux fichiers contiennent des chaînes localisées utilisées par le
+plugin. D'autres langages peuvent bien entendu être ajoutés.<P></UL><P><A NAME="pluguuids"></A>
 
 
 </BODY>

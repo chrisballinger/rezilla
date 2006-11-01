@@ -1,135 +1,93 @@
 <HTML>
 <HEAD>
-<TITLE>Liste de propriétés du pluginLe fichier Info.plist stocke des données et des informations utiles</TITLE>
+<TITLE></TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
-<META NAME=GENERATOR CONTENT="Aida Mode">
+<META NAME="generator" CONTENT="Aida Mode">
+<META HTTP-EQUIV="Content-Language" CONTENT="fr-FR">
+<META NAME="keywords" CONTENT="ressources, branches, Mac OS">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="77.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="79.html">Suiv</A><HR><P>&nbsp;</P>
-<H3>Liste de propriétés du plugin</H3><P>Le fichier <I>Info.plist</I> stocke des données et des informations utiles
-relatives au plugin. Il utilise un format XML: certaines clés sont
-utilisées par le Finder et le Système, d'autres sont utilisés par Rezilla
-lui-même.<P><H4>Les clés du Système</H4>
-Les clés définies par le Système sont les balises usuelles que l'on trouve 
-dans les applications construites sous forme de paquetage (<I>application bundle</I>).
-Dans le cas du plugin <I>RezImage</I>, par exemple, on trouve les paires 
-clé/valeur suivantes:
-<P><TABLE BORDER=0 CELLPADDING=1>
-<TR><TD><B>Clé</B></TD><TD><B>Valeur</B></TD></TR>
-<TR><TD>CFBundleIdentifier</TD><TD><I>net.sourceforge.rezilla.RezImagePlugin</I></TD></TR>
-<TR><TD>CFBundleName</TD><TD><I>RezImagePlugin</I></TD></TR>
-<TR><TD>CFBundleShortVersionString</TD><TD><I>RezImagePlugin 0.1</I></TD></TR>
-<TR><TD>CFBundlePackageType</TD><TD><I>BNDL</I></TD></TR>
-<TR><TD>CFBundleSignature</TD><TD><I>Rzil</I></TD></TR>
-<TR><TD>CFBundleExecutable</TD><TD><I>RezImagePlugin</I></TD></TR>
-<TR><TD>CFBundleVersion</TD><TD><I>0.1</I></TD></TR>
-<TR><TD>CFBundleIconFile</TD><TD><I>RezillaPlugin.icns</I></TD></TR>
-<TR><TD>CFBundleDevelopmentRegion</TD><TD><I>English</I></TD></TR>
-<TR><TD>CFBundleInfoDictionaryVersion</TD><TD><I>6.0</I></TD></TR>
-<TR><TD>LSRequiresCarbon</TD><TD><I>yes</I></TD></TR>
-</TABLE></P><P>Le sous-dossier <I>Resources</I>, à l'intérieur du paquetage du plugin,
-peut contenir un fichier d'icone (fichier avec l'extension <TT>.icns</TT>).
-Si ce fichier d'icone est déclaré dans la liste <I>Info.plist</I> sous la
-clé <I>CFBundleIconFile</I>, l'image sera affichée par Rezilla dans le
-panneau <I>Plugin Info</I> appelé par la commande <I>Plugins...</I> du
-menu <I>File</I>.<P><H4>Les clés de CFPlugin </H4>
-Certaines sont requises par l'interface de programmation <I>CFPlugin</I>:
+
+<H3><A NAME="M105"></A>Les UUIDs de plugin</H3><P>Divers éléments du modèle de plugins défini (l'API CFPlugin dans les Core
+Foundations de OS X) sont identifiés au moyen d'un UUID (<I>Universally
+Unique Identifier</I>, identificateur universellement unique). Certains
+UUIDs sont définis par l'application principale, d'autres le sont par le
+plugin.<P>Un UUID est une valeur sur 128-bits dont l'unicité est garantie. Il peut 
+être représenté sous deux formes différentes: sous forme d'octets ou sous 
+forme de chaîne de caractères. Sous forme d'octets, il s'agit d'une structure
+C définie dans les Core Foundations (<I>CFUUIDBytes</I>
+dans le fichier d'en-tête <I>CFUUID.h</I>). L'écriture sous forme de chaîne est 
+une convention pour faciliter la lecture: il s'agit d'une chaîne ASCII 
+séparée par des tirets qui est utilisée, par exemple, dans le fichier de liste 
+de propriétés du plugin (voir la section 
+<A HREF="#plugplist"> Liste de propriétés du plugin</A> ci-dessous).<P><H4><A NAME="M106"></A>Les UUIDs de Rezilla</H4>
+Rezilla définit deux UUIDs pour identifier respectivement le type du plugin
+et la fonction dite de fabrication (<I>factory function</I>) qui
+implémente l'interface. Ces valeurs sont définies dans le fichier d'en-tête <I>RezillaPluginInterface.h</I> au moyen de valeurs symboliques:
 <UL>
-	<LI> <I>CFPlugInDynamicRegistration</I> détermine la méthode
-d'enregistrement adoptée par le plugin (statique ou dynamique). Rezilla
-utilise l'enregistrement statique, la valeur doit donc toujours être <I>no</I>:
+	<LI> <I>kRezillaPluginEditorTypeID</I> est l'UUID du service d'édition de 
+ressources. 
+C'est un identificateur unique qui indique que l'on a affaire à un plugin 
+d'édition pour Rezilla plutôt qu'un plugin destiné, par exemple, à iMovie 
+ou iDVD.<P>	<LI> <I>kRezillaPluginEditorInterfaceVs1</I> est l'UUID caractérisant
+l'interface courante qui définit le type précédent. Son nom se termine en
+<I>Vs1</I> pour souligner qu'il s'agit de la première version d'interface 
+et qu'il pourrait y en avoir d'autres par la suite (sans doute pour 
+ajouter de nouvelles fonctionnalités). Quoi qu'il en soit, dans la version 
+1.1 de Rezilla, il n'y a qu'un seul type et une seule interface pour ce 
+type.
+</UL>
+Les UUIDs sont définis comme ceci:
 <PRE>
-	&lt;key&gt;CFPlugInDynamicRegistration&lt;/key&gt;
-	&lt;string&gt;NO&lt;/string&gt;
-</PRE><P>	<LI> <I>CFPluginNameString</I> est optionnel et contient le nom du plugin. 
-Par exemple:
-<PRE>
-	&lt;key&gt;CFPluginNameString&lt;/key&gt;
-	&lt;string&gt;RezImagePlugin&lt;/string&gt;
-</PRE><P>	<LI> <I>CFPlugInUnloadFunction</I> définit la fonction à appeler 
-lorsque le code d'un plugin doit être désinstallé.
-Cette valeur peut être laissée vide:
-<PRE>
-	&lt;key&gt;CFPlugInUnloadFunction&lt;/key&gt;
-	&lt;string&gt;&lt;/string&gt;
-</PRE><P>	<LI> <I>CFPlugInTypes</I> est utilisé pour l'enregistrement statique. Sa
-valeur est un dictionnaire dont les clés sont des UUIDs de type de plugin
-(voir la section <A HREF="#pluguuids"> Les UUIDs de plugin</A>) et dont les
-valeurs sont des tableaux d'UUIDs de fabriques. L'UUID de type du plugin
-est défini par Rezilla: il est défini par la constante symbolique ((v
-kRezillaPluginEditorTypeID</TT> dans le fichier d'en-tête <I>RezillaPluginInterface.h</I> et sa valeur sous forme de chaîne est:
+	#define kRezillaPluginEditorTypeID (CFUUIDGetConstantUUIDWithBytes(NULL,0x30,0x6A,0x0E,0xF3,0x20,0x6E,0x11,0xDA,0x83,0x20,0x00,0x0A,0x95,0xB1,0xFF,0x7C))
+	#define kRezillaPluginEditorInterfaceVs1 (CFUUIDGetConstantUUIDWithBytes(NULL,0x30,0x6A,0xE1,0x67,0x20,0x6E,0x11,0xDA,0x83,0x20,0x00,0x0A,0x95,0xB1,0xFF,0x7C))
+</PRE>
+ce qui s'écrit, sous forme de chaîne:
 <PRE>
 	306A0EF3-206E-11DA-8320-000A95B1FF7C
-</PRE>
-Les fonctions qui instancient une interface particulière sont appelées des
-<I>fabriques</I>. Les UUIDs de ces fabriques sont définis par le plugin:
-un UUID de fabrique par interface. Dans le cas du plugin <I>RezImagePlugin</I>, le fichier <I>Info.plist</I> définit ainsi:
+	306AE167-206E-11DA-8320-000A95B1FF7C
+</PRE><P><H4><A NAME="M107"></A>Les UUIDs des fabriques</H4>
+Le plugin doit fournir des UUIDs pour toutes les implémentations 
+d'interfaces qu'il contient. L'implémentation est réalisée par une 
+fonction de fabrication ou fabrique (<I>factory function</I>). Ces 
+fabriques sont déclarées dans la liste de propriétés du plugin et 
+définies dans le plugin lui-même.
+Le plugin <I>RezillaImage</I>, par exemple, supporte le type d'édition de 
+ressources  de 
+Rezilla et l'interface associée, il lui faut donc définir un seul UUID de 
+fabrique. Son code source en C contient l'instruction suivante:
 <PRE>
-	&lt;key&gt;CFPlugInTypes&lt;/key&gt;
-	&lt;dict&gt;
-		&lt;key&gt;306A0EF3-206E-11DA-8320-000A95B1FF7C&lt;/key&gt;
-		&lt;array&gt;
-			&lt;string&gt;0905F836-A20C-11DA-BC6C-000A95B1FF7C&lt;/string&gt;
-		&lt;/array&gt;
-	&lt;/dict&gt;
+	#define kRezillaImageFactoryID (CFUUIDGetConstantUUIDWithBytes(NULL,0x09,0x05,0xF8,0x36,0xA2,0x0C,0x11,0xDA,0xBC,0x6C,0x00,0x0A,0x95,0xB1,0xFF,0x7C))
 </PRE>
-Cela signifie que le type identifié par l'UUID
-306A0EF3-206E-11DA-8320-000A95B1FF7C (c'est-à-dire la constante
-<I>kRezillaPluginEditorTypeID</I> définie par Rezilla) ne possède actuellement
-qu'une seule interface, identifiée par l'UUID
-0905F836-A20C-11DA-BC6C-000A95B1FF7C, attribué par le plugin.<P>	<LI> <I>CFPlugInFactories</I> est utilisé pour l'enregistrement statique.
-Sa valeur est un dictionnaire dont les clés sont des UIIDs de fabriques
-exprimés sous forme de chaînes et dont les valeurs sont les noms des
-fabriques. Cette clé est très importante: elle indique le nom de la
-fonction à appeler pour instancier une interface particulière. Le
-dictionnaire établit une correspondance entre interfaces et noms de
-fonctions. Le plugin, en tant que bibliothèque dynamique (<I>dynamic
-library</I>), doit donner la définition de ces fonctions. Dans le cas du
-plugin <I>RezImagePlugin</I>, le fichier <I>Info.plist</I> définit ainsi:
+et sa liste de propriétés déclare la même valeur sous forme de chaîne:
 <PRE>
-	&lt;key&gt;CFPlugInFactories&lt;/key&gt;
-	&lt;dict&gt;
-		&lt;key&gt;0905F836-A20C-11DA-BC6C-000A95B1FF7C&lt;/key&gt;
-		&lt;string&gt;RezillaImageFactory&lt;/string&gt;
-	&lt;/dict&gt;
+	0905F836-A20C-11DA-BC6C-000A95B1FF7C
 </PRE>
-On reconnaît ici l'UUID (0905F836-A20C-11DA-BC6C-000A95B1FF7C) vu au 
-paragraphe précédent et attribué par le plugin pour désigner la fabrique 
-qui implémente le service d'édition. La valeur correspondante est
-<I>RezillaImageFactory</I>: c'est le nom de la fonction que Rezilla devra 
-invoquer au moment de charger le plugin. Cette fonction doit être définie 
-dans la bibliothèque dynamique.<P></UL><P><H4>Les clés de Rezilla</H4>
-Rezilla s'attend à trouver deux clés supplémentaires dans le fichier
-<I>Info.plist</I>:
-<UL>
-	<LI> la clé <I>RezillaPluginEditTypes</I> est obligatoire. C'est là que le
-plugin déclare les types de ressources qu'il est capable d'éditer. La
-valeur est un tableau de codes à quatre caractères (les types de
-ressources). Par exemple, le plugin <I>RezImagePlugin</I> reconnaît 12
-types de ressources qui sont déclarés comme ceci:<P><PRE>
-	&lt;key&gt;RezillaPluginEditTypes&lt;/key&gt;
-	&lt;array&gt;
-		&lt;string&gt;JPEG&lt;/string&gt;
-		&lt;string&gt;jpeg&lt;/string&gt;
-		&lt;string&gt;JPG &lt;/string&gt;
-		&lt;string&gt;jpg &lt;/string&gt;
-		&lt;string&gt;TIFF&lt;/string&gt;
-		&lt;string&gt;tiff&lt;/string&gt;
-		&lt;string&gt;GIF &lt;/string&gt;
-		&lt;string&gt;gif &lt;/string&gt;
-		&lt;string&gt;PNG &lt;/string&gt;
-		&lt;string&gt;png &lt;/string&gt;
-		&lt;string&gt;BMP &lt;/string&gt;
-		&lt;string&gt;bmp &lt;/string&gt;
-	&lt;/array&gt;
-</PRE><P>	<LI> la clé <I>RezillaPluginRole</I> définit le rôle du plugin. Dans
- la version 1.1, deux valeurs sont possibles: <I>Editor</I> ou <I>Viewer</I>.
+Dans le cas où il existe plusieurs interfaces, chaque interface (et donc
+chaque fabrique) doit avoir un UUID.<P><H4><A NAME="M108"></A>Créer un UUID</H4>
+Il existe un outil de ligne de commande simple appelé <B>uuidgen</B>, 
+fourni avec les <I>Developers Tools</I> d'Apple, qui génère des UUIDs. Voici un 
+exemple de son utilisation (à exécuter dans une fenêtre de Terminal):
 <PRE>
-	&lt;key&gt;RezillaPluginRole&lt;/key&gt;
-	&lt;string&gt;Editor&lt;/string&gt;
-</PRE>
-Cette clé est optionnelle et n'est actuellement pas utilisée par Rezilla.<P></UL><P>
+	shell> uuidgen
+	9A347042-427C-11DB-9237-000A95B1FF7C
+</PRE><P>Le kit de développement de Rezilla (<I>Rezilla SDK</I>) fournit aussi un
+outil un peu plus élaboré appelé <B>mkuuid</B>. Avec mkuuid, on peut
+spécifier le nombre d'UUIDs à générer et le résultat renvoie les UUIDs à la
+fois sous forme d'octets (à utiliser dans du code C) et sous forme de
+chaîne (à utiliser dans la liste de propriétés). Voici un exemple de son
+utilisation:
+<PRE>
+	shell> mkuuid 2
+	UUID as bytes: (NULL,0xC1,0x37,0x86,0xB4,0x42,0x7C,0x11,0xDB,0xA0,0xC4,0x00,0x0A,0x95,0xB1,0xFF,0x7C)
+	UUID as string: "C13786B4-427C-11DB-A0C4-000A95B1FF7C"
+	
+	UUID as bytes: (NULL,0xC1,0x38,0x2C,0x85,0x42,0x7C,0x11,0xDB,0xA0,0xC4,0x00,0x0A,0x95,0xB1,0xFF,0x7C)
+	UUID as string: "C1382C85-427C-11DB-A0C4-000A95B1FF7C"
+</PRE><P><A NAME="plugplist"></A>
+
 
 </BODY>
 </HTML>

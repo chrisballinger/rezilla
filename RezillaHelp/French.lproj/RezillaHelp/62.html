@@ -1,68 +1,32 @@
 <HTML>
 <HEAD>
-<TITLE>Plugins externesDepuis la version 1.1, Rezilla supporte l'addition d'éditeurs externes</TITLE>
+<TITLE></TITLE>
 <META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
-<META NAME=GENERATOR CONTENT="Aida Mode">
+<META NAME="generator" CONTENT="Aida Mode">
+<META HTTP-EQUIV="Content-Language" CONTENT="fr-FR">
+<META NAME="keywords" CONTENT="ressources, branches, Mac OS">
 </HEAD>
 <BODY>
 
 <A HREF="index.html">Orig</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="61.html">Prec</A>&nbsp;&nbsp;|&nbsp;&nbsp;<A HREF="63.html">Suiv</A><HR><P>&nbsp;</P>
-<H3>Plugins externes</H3><P>Depuis la version 1.1, Rezilla supporte l'addition d'éditeurs externes
-définis au moyen d'extensions (ou <I>plugins</I>). La terminologie
-<I>AppleScript</I> comporte un nouveau terme <I>plugin</I> permettant d'obtenir 
-des informations sur les extensions couramment disponibles.<P>Les objets <I>plugin</I> appartiennent directement à l'objet application.
-On peut les désigner par nom ou par indice. Voici quelques instructions
-AppleScript simples:
+
+<H3><A NAME="M86"></A>Importer une table de ressources</H3><P>La commande AppleScript <B>import</B> correspond à l'article de menu <I>Import</I> du
+menu <I>File</I> de Rezilla. Elle permet d'importer une table de
+ressources depuis un fichier XML conforme à la DTD de Rezilla (<I>Rezilla.dtd</I>). C'est le cas des fichiers générés par la commande 
+<B>Export</B> en format XML.
+Cette commande <B>import</B> accepte deux
+paramètres:
 <UL>
-	<LI> pour obtenir la liste des plugins
+	<LI> le paramètre direct est une table de ressources ouverte dans Rezilla. 
+Cette table doit être vide (comme une table nouvellement 
+créée). On ne peut importer dans une table contenant déjà des ressources.<P>	<LI> le paramètre <I>from</I> permet de spécifier le fichier XML à 
+importer. Ce paramètre est obligatoire.
+</UL>
+L'exemple suivant permet de sélectionner un fichier et de l'importer dans 
+la première table de ressources:
 <PRE>
-	get name of plugins<P></PRE>
-	<LI> pour dénombrer les plugins
-<PRE>
-	count plugins<P></PRE>
-</UL><P>Les objets <I>plugin</I> possèdent les propriétés suivantes:
-<UL>
-	<LI> <I>name</I>: le nom du plugin. C'est le nom du plugin 
-comme fichier, comme par exemple <I>RezImagePlugin.plugin</I>.<P>	<LI> <I>index</I>: l'indice du plugin<P>	<LI> <I>version</I>: le numéro de version courant du plugin<P>	<LI> <I>typecode</I>: le code de type du plugin<P>	<LI> <I>creator</I>: le code de créateur du plugin<P>	<LI> <I>loaded</I>: indique si le plugin est déjà chargé par Rezilla. Les 
-plugins sont chargés de façon paresseuse, autrement dit seulement lorsque 
-l'utilisateur demande l'édition d'une ressource au moyen d'un plugin.<P>	<LI> <I>supported types</I>: la liste de tous les types de ressources qui 
-peuvent être édités par le plugin<P></UL><P>Toutes ces propriétés sont en lecture seule: elles ne peuvent être 
-modifiées au moyen de la commande <B>set</B>. Voici quelques instructions 
-simples pour obtenir les informations sur un plugin:
-<PRE>
-	set a to name of plugin 1
-	set b to version of plugin 1
-	set c to typecode of plugin 1
-	set d to creator of plugin 1
-	set e to loaded of plugin 1
-	{a, b, c, d, e}<P></PRE>
-Pour obtenir la liste des types supportés:
-<PRE>
-	get supported types of plugin "RezImagePlugin.plugin"	<P></PRE><P>Dans le cas où plusieurs plugins supportent un même type de ressource,
-Rezilla permet de spécifier le plugin à utiliser de préférence pour éditer
-une ressource de ce type. Ce choix peut être réglé dans l'application dans
-le panneau <I>Plugin Order</I> du dialogue affiché lorsqu'on invoque la
-commande <I>Plugins...</I> du menu <I>File</I>. On peut aussi le
-contrôler par une instruction AppleScript. Il y a une propriété de
-l'application appelée <I>preferred plugins</I> à cet effet: elle renvoie
-un dictionnaire dont les clés sont les types de ressources et les valeurs
-sont, pour chaque type, le nom du plugin préféré associé. Par exemple, 
-le script suivant:
-<PRE>
-	get preferred plugins<P></PRE>
-renvoie des informations telles que
-<PRE>
-    {JPEG:"RezImagePlugin.plugin", PStr:"RezSamplePlugin.plugin", etc.}
-</PRE><P>Cette propriété peut être modifiée avec la commande <B>set</B> afin de
-désigner un autre plugin de prédilection pour certains types (le réglage ne
-se fait pas nécessairement pour tous les types à la fois). Ceci n'a de sens que
-pour les types supportés par plusieurs plugins. Par exemple:
-<PRE>
-	-- Assume the JPEG and TIFF resource types can be edited by several plugins
-	-- and you want Rezilla to use the RezImagePlugin plugin for them
-	set preferred plugins to {JPEG:"RezImagePlugin.plugin",TIFF:"RezImagePlugin.plugin"}<P></PRE>
-Le plugin doit par ailleurs exister effectivement pour que cette opération
-réussisse.<P>
+	set theFile to (choose file)
+	import map document 1 from theFile<P></PRE><P>
 
 </BODY>
 </HTML>
