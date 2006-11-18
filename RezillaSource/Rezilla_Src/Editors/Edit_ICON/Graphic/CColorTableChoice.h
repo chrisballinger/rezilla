@@ -27,6 +27,7 @@ class CColorTableChoice {
 		Boolean			ObeyCommand( SInt32 inDepth, CommandT inCommand );
 		void			ImageChanged( SInt32 inNewDepth );
 		CTabHandle		GetCurrentTable();
+		void			ChangePopupColorTables( ResIDT inResID );
 	
 	protected:
 		CommandT			mTableCommands[ 33 ];	// uses the bit depth as an index
@@ -35,7 +36,6 @@ class CColorTableChoice {
 		
 		void			InitTableCommands( Boolean inIconColors );
 		Boolean			MapCommandToTableID( CommandT, ResIDT * );
-		void			ChangePopupColorTables( ResIDT inResID );
 		void			DisposeCurrentTable();
 };
 

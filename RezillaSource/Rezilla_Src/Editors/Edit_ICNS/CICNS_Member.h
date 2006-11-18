@@ -66,7 +66,7 @@ protected:
 		OSType			mType;		// Like 'it32', 'ih32', 'tile' etc.
 		Handle			mIconData;	// A handle to the icon member 
 		      			          	// data after decompression
-		Boolean			mModified;		// Like 'it32', 'ih32', 'tile' etc.
+		Boolean			mModified;
 
 private:
 

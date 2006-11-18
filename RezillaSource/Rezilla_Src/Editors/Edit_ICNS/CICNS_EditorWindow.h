@@ -2,7 +2,7 @@
 // CICNS_EditorWindow.h
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-09-08 07:25:20
+//             Last modification: 2006-11-10 07:39:19
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -43,6 +43,7 @@ public:
 
 	OSErr			InstallResourceData(Handle inHandle);
 	OSErr			CollectResourceData(IconFamilyHandle & outIconFamilyH);
+	void			FinishInstallData();
 	
 	virtual void	SaveAsResource( CRezMap *, ResIDT );
 
@@ -64,6 +65,8 @@ public:
 	virtual void	SetDirty(Boolean inDirty);
 
 	OSErr			ImportData(Handle inHandle);
+
+	CICNS_Family*	GetIcnsFamily() { return mIcnsFamily;}
 
 protected:
 	Rez_IconFamilyInfoH		mFamilyInfoH;

@@ -61,6 +61,10 @@ UGraphicConversion::OffscreenToPicture( COffscreen *inBuffer, RgnHandle inSelect
 			::GetRegionBounds(maskRgn, &bounds);
 			::OffsetRgn( maskRgn, -bounds.left, -bounds.top );
 			sourceR = bounds;
+			// (bd 2006-11-10) Offset the rects to (0,0)
+			// cf CIconSelection::DrawInto
+			OffsetRect( &sourceR, -sourceR.left, -sourceR.top );
+			
 			destR = sourceR;
 			//OffsetRect( &destR, -destR.left, -destR.top );
 		}

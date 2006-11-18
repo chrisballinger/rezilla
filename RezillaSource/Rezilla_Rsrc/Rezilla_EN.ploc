@@ -1,4 +1,4 @@
-// Last modification: 2006-10-07 08:29:19
+// Last modification: 2006-11-10 10:06:03
 
 localize "English" as "Localizable.strings" 
 {
@@ -9,6 +9,7 @@ localize "English" as "Localizable.strings"
 	key "AskSaveOnCloseInspector" value string "Do you want to apply the modifications before closing the inspector?"
 	key "BadFontSize" value string "Bad font size ‘%d’ (must be between 4 and 512 pts)."
 	key "CantCreateNewRezFile" value string "Could not create new resource file (error ‘%d’)."
+	key "CantImplodeIntoNonEmptyICNS" value string "Can’t implode into already existing data: create a new ‘icns’ resource to implode from icon resources."
 	key "CantImportOnExistingICNS" value string "Can’t import on already existing data: create a new ‘icns’ resource to import from file."
 	key "CantOpenRezFileForWriting" value string "Could not open resource file for writing (error ‘%d’)."
 	key "CantSaveReadOnly" value string "Can’t save the modifications: document is read only."

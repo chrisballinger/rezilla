@@ -550,7 +550,7 @@ CRezillaApp::ObeyCommand(
 			FSSpec theFileSpec;
 			OSErr error;
 			if ( ChooseAFile(theFileSpec) ) {
-				error = OpenFork(theFileSpec, true, false);
+				error = OpenFork(theFileSpec, sReadOnlyNavFlag, true, false);
 				if (error != noErr) {
 					ReportOpenForkError(error, &theFileSpec);
 				} else {
@@ -768,7 +768,6 @@ CRezillaApp::VersionFromPlist(Str255 & outVersion)
 	OSErr		error = noErr;
 	CFStringRef	text;
 	CFBundleRef	appBundle;
-	LStr255		theString( "\p" );
 	
 	appBundle = ::CFBundleGetMainBundle();
 	text = (CFStringRef) ::CFBundleGetValueForInfoDictionaryKey( appBundle, CFSTR("CFBundleVersion") );           
@@ -833,7 +832,6 @@ void
 CRezillaApp::OpenDocument(
 	FSSpec* inFSSpec)
 {
-	sReadOnlyNavFlag = false;
 	OpenFork(*inFSSpec);
 }
 
@@ -843,7 +841,8 @@ CRezillaApp::OpenDocument(
 // ---------------------------------------------------------------------------
 
 OSErr
-CRezillaApp::OpenFork(FSSpec & inFileSpec, 
+CRezillaApp::OpenFork(FSSpec & inFileSpec,
+					  Boolean readOnlyMode, 
 					  Boolean askChangePerm,
 					  Boolean inhibitCreate)
 {
@@ -852,23 +851,22 @@ CRezillaApp::OpenFork(FSSpec & inFileSpec,
 	OSErr error = noErr;
 	
 	// Check if a RezMapDoc is already opened for this file
-	CRezMapDoc * theRezMapDocPtr = FetchRezMapDoc(&inFileSpec);
-	if (theRezMapDocPtr != nil) {
-		theRezMapDocPtr->GetRezMapWindow()->Select();
+	CRezMapDoc * theRezMapDoc = FetchRezMapDoc(&inFileSpec);
+	if (theRezMapDoc != nil) {
+		theRezMapDoc->GetRezMapWindow()->Select();
 		return error;
 	} 
 	
-	error = PreOpen(inFileSpec, theFork, theRefNum, mOpeningFork, askChangePerm, inhibitCreate);
+	error = PreOpen(inFileSpec, theFork, theRefNum, mOpeningFork, readOnlyMode, askChangePerm, inhibitCreate);
 	if ( error == noErr || error == err_OpenSucceededReadOnly) {
-		theRezMapDocPtr = new CRezMapDoc(this, &inFileSpec, theFork, theRefNum);
+		theRezMapDoc = new CRezMapDoc(this, &inFileSpec, theFork, theRefNum);
 		if (error == err_OpenSucceededReadOnly) {
-			sReadOnlyNavFlag = false;
-			theRezMapDocPtr->SetReadOnly(true);
+			theRezMapDoc->SetReadOnly(true);
 			error = noErr;
 		} else {
-			theRezMapDocPtr->SetReadOnly(sReadOnlyNavFlag);
+			theRezMapDoc->SetReadOnly(readOnlyMode);
 		}
-		theRezMapDocPtr->GetRezMapWindow()->InstallReadOnlyIcon();
+		theRezMapDoc->GetRezMapWindow()->InstallReadOnlyIcon();
 	} 
 	
 	return error;
@@ -883,7 +881,8 @@ OSErr
 CRezillaApp::PreOpen(FSSpec & inFileSpec, 
 					 SInt16 & outFork, 
 					 short & outRefnum, 
-					 SInt16 inWantedFork, 
+					 SInt16 inWantedFork,
+					 Boolean readOnlyMode, 
 					 Boolean askChangePerm,
 					 Boolean inhibitCreate)
 {
@@ -896,7 +895,7 @@ CRezillaApp::PreOpen(FSSpec & inFileSpec,
 		// Try to open the file as a datafork resource file
 		error = FSpMakeFSRef( &inFileSpec, &theFileRef );
 		SetResLoad( false );
-		error = FSOpenResourceFile( &theFileRef, 0, nil, sReadOnlyNavFlag ? fsRdPerm : fsRdWrPerm, &outRefnum );
+		error = FSOpenResourceFile( &theFileRef, 0, nil, readOnlyMode ? fsRdPerm : fsRdWrPerm, &outRefnum );
 		SetResLoad( true );
 		
 		if (error == noErr) {
@@ -917,7 +916,7 @@ CRezillaApp::PreOpen(FSSpec & inFileSpec,
 	if (inWantedFork != fork_datafork) {
 		// If this failed (mapReadErr), try to open as a resourcefork resource file
 		SetResLoad( false );
-		outRefnum = FSpOpenResFile( &inFileSpec, sReadOnlyNavFlag ? fsRdPerm : fsRdWrPerm);
+		outRefnum = FSpOpenResFile( &inFileSpec, readOnlyMode ? fsRdPerm : fsRdWrPerm);
 		error = ::ResError();
 		SetResLoad( true );
 		if (error == noErr) {
@@ -941,7 +940,7 @@ CRezillaApp::PreOpen(FSSpec & inFileSpec,
 					if (error == noErr) {
 						// Try to open it: this time the inhibitCreate
 						// argument is set to true.
-						error = PreOpen(inFileSpec, outFork, outRefnum, fork_rezfork, true);
+						error = PreOpen(inFileSpec, outFork, outRefnum, fork_rezfork, readOnlyMode, askChangePerm, true);
 					} else {
 						error = err_CreateForkForFileFailed;
 					}
@@ -956,13 +955,13 @@ CRezillaApp::PreOpen(FSSpec & inFileSpec,
 	
 done:
 	// Opening a file on a locked media sometimes raises permErr instead 
-	// of wrPermErr
-	if ((error == wrPermErr || error == permErr) && sReadOnlyNavFlag == false && ! sCalledFromAE) {
+	// of wrPermErr. The afpAccessDenied error means insufficient Unix permissions.
+	// && ! sCalledFromAE
+	if ((error == wrPermErr || error == permErr || error == afpAccessDenied) && readOnlyMode == false) {
 		// If opening failed with write permission, ask to try again in
 		// read-only access
 		if (!askChangePerm || UMessageDialogs::AskIfFromLocalizable(CFSTR("WritePermissionError"), PPob_AskIfMessage) == answer_Do) {
-			sReadOnlyNavFlag = true;
-			error = PreOpen(inFileSpec, outFork, outRefnum, inWantedFork);
+			error = PreOpen(inFileSpec, outFork, outRefnum, inWantedFork, true);
 			if (error == noErr) {
 				error = err_OpenSucceededReadOnly;
 			} 

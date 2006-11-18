@@ -2,7 +2,7 @@
 // CICNS_EditorWindow.cp					
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-10-15 06:53:26
+//             Last modification: 2006-11-10 08:21:58
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -24,6 +24,7 @@
 #include "UDragAndDropUtils.h"
 #include "UMiscUtils.h"
 #include "UColorUtils.h"
+#include "CColorTableChoice.h"
 
 #include <LHandleStream.h>
 #include <LPopupButton.h>
@@ -171,24 +172,35 @@ CICNS_EditorWindow::InstallResourceData(Handle inHandle)
 	}
 	
 	if (error == noErr) {
-		UpdatePopup();
-		
-		// If the resource is not empty, install the first icon member
-		if (mIcnsFamily->CountMembers() > 0) {
-			CICNS_Member*	theMember;			
-			mIcnsFamily->GetMembers()->FetchItemAt(1, theMember);
-			InstallMemberIcon(theMember);
-			UpdateMemberInPopup(theMember);
-		} 
-		
-		SetDirty(false);
+		FinishInstallData();
 	} 
+	
+	return error;
+}
+
+
+// ---------------------------------------------------------------------------
+//	 FinishInstallData											[public]
+// ---------------------------------------------------------------------------
+
+void
+CICNS_EditorWindow::FinishInstallData()
+{
+	UpdatePopup();
+	
+	// If the resource is not empty, install the first icon member
+	if (mIcnsFamily->CountMembers() > 0) {
+		CICNS_Member*	theMember;			
+		mIcnsFamily->GetMembers()->FetchItemAt(1, theMember);
+		InstallMemberIcon(theMember);
+		UpdateMemberInPopup(theMember);
+	} 
+	
+	SetDirty(false);
 
 	if (mCurrentIndex == 0) {
 		mRemoveButton->Disable();
 	}
-	
-	return error;
 }
 
 
@@ -386,7 +398,6 @@ CICNS_EditorWindow::ShowIconAtIndex(ArrayIndexT inMenuIndex)
 	
 	if (inMenuIndex == 0) {
 		// This happens when all the members have been removed
-		
 		mRemoveButton->Disable();
 		return true;
 	} 
@@ -414,6 +425,10 @@ CICNS_EditorWindow::ShowIconForType(OSType inType)
 	if (theMember != nil) {
 		InstallMemberIcon(theMember);
 		UpdateMemberInPopup(theMember);
+		
+		if (inType == 's8mk' || inType == 'l8mk' || inType == 'h8mk' || inType == 't8mk') {
+			mColorTableChoice->ChangePopupColorTables( 40 );
+		} 
 	}
 
 	return (theMember != nil);
@@ -429,6 +444,11 @@ CICNS_EditorWindow::ShowIconForType(OSType inType)
 // 		resize_Window		= 0x04,
 // 		resize_All			= 0xFF
 
+// 	's8mk'0 16  16  8 16  'VISU' 0 0 '????' 
+// 	'l8mk'0 32  32  8 32  'VISU' 0 0 '????' 
+// 	'h8mk'0 48  48  8 48  'VISU' 0 0 '????' 
+// 	't8mk'0 128 128 8 128 'VISU' 0 0 '????' 
+
 void
 CICNS_EditorWindow::InstallMemberIcon(CICNS_Member * inMember)
 {
@@ -437,11 +457,16 @@ CICNS_EditorWindow::InstallMemberIcon(CICNS_Member * inMember)
 	CTabHandle		theTable = nil;
 	Handle			imgDataH = inMember->GetIconData();
 	MenuRef			theMenuH = mIconPopup->GetMacMenuH();
+	OSType			theType = inMember->GetType();
 	
-	GetIconMemberParams(inMember->GetType(), depth, width, height, rowBytes, maskOffset, maskRowBytes);
+	GetIconMemberParams(theType, depth, width, height, rowBytes, maskOffset, maskRowBytes);
 	
 	// Icon suites use the standard color table for their depth
-	theTable = UColorUtils::GetColorTable( depth );
+	if (theType == 's8mk' || theType == 'l8mk' || theType == 'h8mk' || theType == 't8mk') {
+		theTable = UColorUtils::GetColorTable( 40 );
+	} else {
+		theTable = UColorUtils::GetColorTable( depth );
+	}
 	
 	// Allocate the color bitmap
 	theImage = COffscreen::CreateBuffer( width, height, depth, theTable );
@@ -458,7 +483,7 @@ CICNS_EditorWindow::InstallMemberIcon(CICNS_Member * inMember)
 	this->SetImage( theImage, resize_Canvas | resize_MoveSamples );
 
 	// In the case of a 128x128 member we must resize the window
-	ResizeWindowIfNecessary( inMember->GetType() );
+	ResizeWindowIfNecessary( theType );
 	ResizeSamplesIfNecessary( width, height, (maskRowBytes != 0) );
 	
 	// Setup the sample buffer. Set the image buffer to nil because it

@@ -1,11 +1,11 @@
 // ===========================================================================
 // CColorTableChoice.cp
 //                       Created: 2004-12-11 18:50:13
-//             Last modification: 2005-06-28 20:07:20
+//             Last modification: 2006-11-18 00:07:07
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes 2004-2005
+// (c) Copyright: Bernard Desgraupes 2004-2005, 2006
 // All rights reserved.
 // ===========================================================================
 // 	* Most of the color resource types are edited using 32-bit buffers.
@@ -71,8 +71,9 @@ CColorTableChoice::GetCurrentTable()
 Boolean
 CColorTableChoice::FindCommandStatus( SInt32 inDepth, CommandT inCommand, 
 										Boolean &outEnabled, Boolean &outUsesMark, 
-										UInt16 &outMark, Str255  )
+										UInt16 &outMark, Str255  outName)
 {
+#pragma unused(outName)
 	Boolean		handled = false;
 	Boolean		isLocked = mPaintWindow->GetLockFlag();
 	
@@ -91,22 +92,22 @@ CColorTableChoice::FindCommandStatus( SInt32 inDepth, CommandT inCommand,
 		break;	
 		
 		case cmd_ColorTableApple16:
-		outEnabled = (inDepth >= 16) && !isLocked;
+		outEnabled = (inDepth >= 4) && !isLocked;
 		handled = true;
 		break;	
 		
 		case cmd_ColorTableApple256Gray:
-		outEnabled = (inDepth >= 16) && !isLocked;
+		outEnabled = (inDepth >= 8) && !isLocked;
 		handled = true;
 		break;	
 		
 		case cmd_ColorTableApple16Gray:
-		outEnabled = (inDepth >= 16) && !isLocked;
+		outEnabled = (inDepth >= 4) && !isLocked;
 		handled = true;
 		break;	
 		
 		case cmd_ColorTableApple4Gray:
-		outEnabled = (inDepth >= 16) && !isLocked;
+		outEnabled = (inDepth >= 4) && !isLocked;
 		handled = true;
 		break;	
 		
@@ -117,7 +118,7 @@ CColorTableChoice::FindCommandStatus( SInt32 inDepth, CommandT inCommand,
 		
 		case cmd_IconRecolorCurrentImage:
 		Boolean usingPicker = (mTableCommands[inDepth] == cmd_ColorTablePicker);
-		outEnabled = (inDepth >=16) && !usingPicker && !isLocked;
+		outEnabled = (inDepth >= 4) && !usingPicker && !isLocked;
 		handled = true;
 		break;	
 	}

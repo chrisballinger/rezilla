@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2006-10-10 11:08:39
+//             Last modification : 2006-11-10 06:12:05
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@users.sourceforge.net>
 // www : <http://rezilla.sourceforge.net/>
@@ -142,7 +142,7 @@ enum
 
 // Bitmap editor
 // -------------
-// Supported image types
+// Supported bitmap types
 enum
 {	
 	ImgType_LargeIcon			= FOUR_CHAR_CODE('ICON'),
@@ -170,7 +170,9 @@ enum
 	ImgType_Pattern				= FOUR_CHAR_CODE('PAT '),
 	ImgType_PixPat				= FOUR_CHAR_CODE('ppat'),
 	ImgType_Cursor				= FOUR_CHAR_CODE('CURS'),
-	ImgType_ColorCursor			= FOUR_CHAR_CODE('crsr')
+	ImgType_ColorCursor			= FOUR_CHAR_CODE('crsr'),
+	
+	ImgType_IconFamily			= FOUR_CHAR_CODE('icns')
 };
 
 // Resizing flags for Icon editor
@@ -297,9 +299,10 @@ const ResIDT	PPob_PrefsMiscPane			= 7700;
 const ResIDT	PPob_GetValueDialog			= 8400;
 const ResIDT	PPob_FindDialog				= 8500;
 const ResIDT	PPob_FontSizeDialog			= 8600;
-const ResIDT	PPob_ImageResizeDialog		= 8900;
 const ResIDT	PPob_RezTypeChooser			= 8700;
+const ResIDT	PPob_RezIDChooser			= 8750;
 const ResIDT	PPob_TmplKeyChooser			= 8800;
+const ResIDT	PPob_ImageResizeDialog		= 8900;
 const ResIDT	PPob_SimpleMessage			= 9500;
 const ResIDT	PPob_AskIfMessage			= 9510;
 const ResIDT	PPob_AskYesNoMessage		= 9520;
@@ -556,6 +559,8 @@ const CommandT	cmd_IconDragImage			= FOUR_CHAR_CODE('DRAG');
 const CommandT	cmd_IconRecolorCurrentImage	= FOUR_CHAR_CODE('RWCT');  // Recolor With Current Table
 const CommandT	cmd_IconResizeImage			= FOUR_CHAR_CODE('RSZI');
 const CommandT	cmd_IconDeleteImage			= FOUR_CHAR_CODE('DELI');
+const CommandT	cmd_IconExplodeImage		= FOUR_CHAR_CODE('XPLO');
+const CommandT	cmd_IconImplodeImage		= FOUR_CHAR_CODE('IPLO');
 // 	Color Menu Command IDs
 const CommandT	cmd_ColorTableAppleIcon		= FOUR_CHAR_CODE('CLT1');
 const CommandT	cmd_ColorTableApple256		= FOUR_CHAR_CODE('CLT2');
@@ -672,8 +677,11 @@ const PaneIDT	item_CompResultTxtRadio		= 27;
 const PaneIDT	item_UidOtherConflicts		= 1;
 // Resource Type Chooser
 // ---------------------
-const PaneIDT	item_TypeChooserField		= 1;
-const PaneIDT	item_TypeChooserMenu		= 2;
+const PaneIDT	item_RezTypeChooserField	= 1;
+const PaneIDT	item_RezTypeChooserMenu		= 2;
+// Resource ID Chooser
+// -------------------
+const PaneIDT	item_RezIDChooserField		= 1;
 // Template Key Chooser
 // --------------------
 const PaneIDT	item_TmplKeyChooserType		= 1;
@@ -1021,8 +1029,8 @@ const MessageT	msg_CompResultOnlyNewTbl	= PPob_RezCompWindow + item_CompResultOn
 const MessageT	msg_UidOtherConflicts		= PPob_AskUniqueID + item_UidOtherConflicts;
 // Resource Type Chooser
 // ---------------------
-const MessageT	msg_TypeChooserField		= PPob_RezTypeChooser + item_TypeChooserField;
-const MessageT	msg_TypeChooserMenu			= PPob_RezTypeChooser + item_TypeChooserMenu;
+const MessageT	msg_RezTypeChooserField		= PPob_RezTypeChooser + item_RezTypeChooserField;
+const MessageT	msg_RezTypeChooserMenu		= PPob_RezTypeChooser + item_RezTypeChooserMenu;
 // Template Option Chooser
 // -----------------------
 const MessageT	msg_TmplKeyChooserMenu		= PPob_TmplKeyChooser + item_TmplKeyChooserMenu;

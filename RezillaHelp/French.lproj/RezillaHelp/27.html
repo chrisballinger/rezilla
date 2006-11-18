@@ -20,13 +20,32 @@ différentes profondeurs et des onglets (128x128 pixels) sous forme
 compressée.<P>L'éditeur icns de Rezilla permet d'éditer tous les membres d'une famille 
 d'icones. Il les affiche dans une fenêtre analogue aux fenêtres de 
 <A HREF="#bitmapeditor">l'éditeur bitmap</A> avec des outils permettant de 
-modifier tous les pixels de ces icones avec la palette de couleurs voulue.<P>Une fenêtre typique de l'éditeur icns se présente comme ceci:
+modifier tous les pixels de ces icones avec la palette de couleurs voulue.<P>Une fenêtre typique de l'éditeur 'icns' se présente comme ceci:
 <P><IMG SRC="../../Images/rzil_icnseditor.gif" ALT="Icns editor window" ALIGN=bottom></P><P>Il est possible d'ajouter ou de supprimer des membres dans une famille 
 d'icones. Tous les membres sont accessibles depuis un menu situé dans le 
 haut de la fenêtre. Si un membre est représenté en italiques dans ce menu, 
 cela signifie qu'il n'est pas présent dans la famille: cliquer sur cet 
 article de menu pour en créer un. Pour supprimer un membre, utiliser le 
-bouton <I>Remove</I>.<P>L'éditeur icns définit aussi les commandes <I>Import</I> et <I>Export</I>
+bouton <I>Remove</I>.<P>L'éditeur 'icns' définit les commandes <I>Explode</I> et  <I>Implode</I> dans le menu <I>Actions</I>: 
+<UL>
+	<LI> la commande <I>Explode</I> permet de scinder la ressource 'icns' en
+ressources individuelles correspondant à chacun de ses membres. Chaque
+membre possède un type (comme 'ics#', 'ics4', 'is32', 't8mk', etc.) et est
+sauvagardé sous forme d'une ressource de même type et même numéro. Si une
+ressource de mêmes type et numéro existe déjà, Rezilla affiche son dialogue
+usuel de résolution de conflits. Certains membres d'une ressource 'icns'
+sont stockés sous forme compressée: la commande <I>Explode</I> les
+décompresse, ce qui signifie que les ressources individuelles contiennent
+les données véritables de chaque bitmap.<P>	<LI> la commande <I>Implode</I> permet de construire une ressource 'icns'
+à partir de ressources bitmap individuelles. Cette fonctionnalité ne
+s'applique qu'à des ressources nouvellement créées: pour imploser des
+ressources, il faut d'abord créer une nouvelle ressource 'icns' dans la
+table de ressources et ensuite invoquer la commande <I>Implode</I> dans 
+sa fenêtre d'édition. Rezilla
+demande de spécifier un numéro de ressource (qui n'est pas nécessairement
+le même que celui de la ressource 'icns' nouvellement créée) et collecte
+ensuite toutes les ressources de la table ayant ce numéro et un des types
+possibles pour une icone membre.<P></UL><P>L'éditeur 'icns' définit aussi les commandes <I>Import</I> et <I>Export</I>
 du menu <I>File</I>:
 <UL>
 	<LI> la commande <I>Import</I> permet d'importer une famille d'icones 

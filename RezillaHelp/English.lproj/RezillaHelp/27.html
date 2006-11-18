@@ -18,12 +18,29 @@ The icon families also contain huge icons (48x48 pixels) at various depths
 and thumbnails (128x128 pixels) in compressed form.<P>Rezilla's icns editor lets you edit all the members of an icon family. It 
 displays all the bitmaps in a window similar to the windows of the 
 <A HREF="#bitmapeditor">bitmap editor</A> with tools which let you modify 
-all the pixels of these icons at the appropriate color depth.<P>A typical icns editing window looks like this:
+all the pixels of these icons at the appropriate color depth.<P>A typical 'icns' editing window looks like this:
 <P><IMG SRC="../../Images/rzil_icnseditor.gif" ALT="Icns editor window" ALIGN=bottom></P><P>It is possible to add or remove members from an icon family. All the
 members are accessed via a popup menu located at the top of the window. If
 a member is written in italics in this popup, it means that it is not
 present in the family: click on the item to create it. To
-remove a member, use the <I>Remove</I> button.<P>The icns editor also supports the <I>Import</I> and the <I>Export</I>
+remove a member, use the <I>Remove</I> button.<P>The 'icns' editor supports the <I>Explode</I> and  <I>Implode</I> 
+commands located in the <I>Actions</I> menu:
+<UL>
+	<LI> the <I>Explode</I> command lets you split the 'icns' resource into
+individual resources corresponding to all the members stored in the icon.
+Each member has a type (like 'ics#', 'ics4', 'is32', 't8mk', etc.) and is
+saved as a resource with the same type and same ID. If a resource of the
+same type or ID already exists, Rezilla will display the usual conflicts
+resolution dialog. Some members of an 'icns' resource are stored in a
+compressed format. The Explode command uncompresses them, which means that
+all the individual resources contain the real bitmap data.<P>	<LI> the <I>Implode</I> command lets you build an 'icns' resource from
+individual bitmap resources. This functionality works only on newly created
+empty resources: in order to implode resources, you must first create a new
+'icns' resource in the main document and then invoke the <I>Implode</I>
+command in its editing window. Rezilla will ask you to specify an ID (which
+is not necessarily the same as the ID of the 'icns' resource) and will
+collect all the resources found in the table with this ID and with one of
+the types allowed in 'icns' resources.<P></UL><P>The 'icns' editor also supports the <I>Import</I> and the <I>Export</I>
 commands located in the <I>File</I> menu:
 <UL>
 	<LI> the <I>Import</I> command lets you import an icon family from a file 

@@ -17,9 +17,6 @@ development using any CVS client. See instructions at:
 You can also browse the cvs repository online at
 <http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/rezilla> 
 
-Download a nightly tarball from
-<http://cvs.sourceforge.net/cvstarballs/rezilla-cvsroot.tar.bz2>
-
 Please e-mail about any problems you might encounter: 
 <bdesgraupes@users.sourceforge.net> 
 
@@ -33,7 +30,53 @@ $Date$
 
 
 ================================================================================
-= 1.1rc1									last update: 
+= 1.1										last update: 
+================================================================================
+¥ Public release of version 1.1.
+
+================================================================================
+= 1.1rc6									last update: 2006-11-18 06:57:56
+================================================================================
+¥ Correctly update the window title of Icon editor when switching from one
+  family member to the other. Update the Windows menu accordingly.
+¥ Larger window for cicn editor to display 64x64 bitmaps correctly.
+¥ Fixed bug where the Windows menu is not updated correctly after a click in the
+  contents area of a plugin window.
+
+================================================================================
+= 1.1rc5									last update: 2006-11-13 14:09:51
+================================================================================
+¥ Enabled opening a resource fork by double-click when it is on a non-writable
+  media, instead of silently ignoring. The "open" AppleScript command will 
+  automatically open the file read-only.
+
+================================================================================
+= 1.1rc4									last update: 2006-11-11 00:05:48
+================================================================================
+¥ Fixed issue with 8 bit masks inside icns resources: color map is now a table
+  of gray shades.
+¥ Fixed bug in copy/paste of partial selection in the icon editor canvas.
+
+================================================================================
+= 1.1rc3									last update: 2006-11-01 17:41:48
+================================================================================
+¥ Larger window for ppat editor to display 64x64 bitmaps correctly.
+¥ Fixed issue with negative resource IDs in some dialogs.
+¥ Fixed broken Cancel in Create New Resource dialog.
+
+================================================================================
+= 1.1rc2									last update: 2006-10-27 12:04:49
+================================================================================
+¥ Fixed lost clicks in contents area of plugin windows.
+¥ Fixed issue where the Windows menu is not updated correctly when a plugin 
+  window is active.
+¥ Fixed issue with plugin defined menus not taken off duty after a first 
+  insertion in the menu bar (due to a missing first activate event).
+¥ Made path to RezillaPluginInterface.h relative in plugin XCode projects.
+¥ Fixed "Edit As" confusion when applied to a plugin edited type.
+
+================================================================================
+= 1.1rc1									last update: 2006-10-16 07:55:42
 ================================================================================
 ¥ Code freeze in view of next release. Only bug fixes.
 ¥ Tests phase for 1.1 first release candidate.

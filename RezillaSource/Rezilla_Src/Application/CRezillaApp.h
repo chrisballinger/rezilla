@@ -63,13 +63,15 @@ public:
 	static OSErr		PreOpen(FSSpec & inFileSpec, 
 								SInt16 & outFork, 
 								short & outRefnum, 
-								SInt16 inWantedFork = fork_anyfork, 
+								SInt16 inWantedFork = fork_anyfork,
+								Boolean readOnlyMode = false, 
 								Boolean askChangePerm = false,
 								Boolean inhibitCreate = true);
 	
 	static OSErr		CreateForkForFile(FSSpec & inFileSpec);
 	
-	OSErr				OpenFork(FSSpec & inFileSpec, 
+	OSErr				OpenFork(FSSpec & inFileSpec,
+							    Boolean readOnlyMode = false, 
 								Boolean askChangePerm = false,
 								Boolean inhibitCreate = true);
 	

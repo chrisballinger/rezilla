@@ -61,10 +61,10 @@ CRezTypeChooser::RunDialog()
 	CThreeButtonsBox *	theDialog = theHandler.GetDialog();
 	Assert_(theDialog != nil);
 	
-	LEditText * theEditField = dynamic_cast<LEditText *>(theDialog->FindPaneByID( item_TypeChooserField ));
+	LEditText * theEditField = dynamic_cast<LEditText *>(theDialog->FindPaneByID( item_RezTypeChooserField ));
 	ThrowIfNil_(theEditField);
 	
-	LPopupButton * theTypesMenu = dynamic_cast<LPopupButton *>(theDialog->FindPaneByID( item_TypeChooserMenu ));
+	LPopupButton * theTypesMenu = dynamic_cast<LPopupButton *>(theDialog->FindPaneByID( item_RezTypeChooserMenu ));
 	ThrowIfNil_(theTypesMenu);
 	
 	// Install the static value
@@ -104,13 +104,13 @@ CRezTypeChooser::RunDialog()
 				error = userCanceledErr;
 				inPickerLoop = false;
 				break;
-			} else if (msg_TypeChooserMenu == theMessage) {
+			} else if (msg_RezTypeChooserMenu == theMessage) {
 				// Retrieve the menu item and write it in the edit field
 				itemIndex = theTypesMenu->GetValue();
 				::GetMenuItemText( theTypesMenu->GetMacMenuH(), theTypesMenu->GetValue(), theString );
 				theEditField->SetDescriptor(theString);
 				break;  // Breaks out from the inner 'while' but still in the inPickerLoop 'while'
-			} else if (msg_TypeChooserField == theMessage) {
+			} else if (msg_RezTypeChooserField == theMessage) {
 				// If something is typed, set the popup to its first
 				// element (the empty string).
 				theTypesMenu->SetValue(0);

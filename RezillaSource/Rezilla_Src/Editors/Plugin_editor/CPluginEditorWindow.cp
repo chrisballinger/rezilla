@@ -24,6 +24,7 @@
 #include <LWindowHeader.h>
 #include <LPlacard.h>
 #include <LScrollerView.h>
+#include <UDesktop.h>
 
 extern CWindowMenu * gWindowMenu;
 
@@ -474,11 +475,11 @@ void
 CPluginEditorWindow::PutOnDuty(LCommander *inNewTarget)
 {
 	LWindow::PutOnDuty(inNewTarget);
-
+	
 	// Put up our menus when on duty
 	LMenuBar *	theBar = LMenuBar::GetCurrentMenuBar();
 	TArray<LMenu*>* menusListPtr = dynamic_cast<CPluginEditorDoc *>(mOwnerDoc)->GetPlugin()->GetMenusList();
-
+	
 	TArrayIterator<LMenu*> iterator(*menusListPtr);
 	LMenu	*theMenu;
 	while (iterator.Next(theMenu)) {
@@ -486,7 +487,13 @@ CPluginEditorWindow::PutOnDuty(LCommander *inNewTarget)
 		theBar->InstallMenu( theMenu, MENU_OpenedWindows );	
 	}
 	// To query the plugin about modifications
-	this->StartIdling();								  
+	this->StartIdling();
+	
+	// Uncheck the current item in the windows menu and check this window.
+	// We should not have to do this but this menu is not updated correctly
+	// after a click in the contents area of the plugin window (but it
+	// works after a click in the title bar). Dunno why.
+	gWindowMenu->ForceMarkWindow( (LWindow*) this );		 
 }
 
 
@@ -676,32 +683,26 @@ CPluginEditorWindow::WindowEventHandler(
 			LCommander::SetUpdateCommandStatus(true);
 			plugWin->Activate();
 			result = noErr;
-CFShow(CFSTR("kEventWindowActivated"));
-
 			break;			
 			
 			case kEventWindowDeactivated:
 			plugWin->Deactivate();
 			LCommander::SetUpdateCommandStatus(false);
 			result = noErr;
-CFShow(CFSTR("kEventWindowDeactivated"));
 			break;
 		
 			case kEventWindowGetClickActivation: {
 				// 	kDoNotActivateAndIgnoreClick kDoNotActivateAndHandleClick
 				// 	kActivateAndIgnoreClick kActivateAndHandleClick
-				UInt32 activationResult = kActivateAndIgnoreClick;
-				
-				result = SetEventParameter(inEvent, kEventParamClickActivation, typeClickActivationResult, 
-								  sizeof(ClickActivationResult), &activationResult);
+// 				UInt32 activationResult = kActivateAndIgnoreClick;
+// 				result = SetEventParameter(inEvent, kEventParamClickActivation, typeClickActivationResult, 
+// 								  sizeof(ClickActivationResult), &activationResult);
 				result = noErr;
 				plugWin->Select();
-CFShow(CFSTR("kEventWindowGetClickActivation"));
-				
+				LCommander::SetUpdateCommandStatus(true);
 				break;
 			}
 			
-		
 			case kEventCommandProcess:
 			GetEventParameter(inEvent, kEventParamDirectObject, typeHICommand, NULL, sizeof(HICommand), 
 							  NULL, &command);

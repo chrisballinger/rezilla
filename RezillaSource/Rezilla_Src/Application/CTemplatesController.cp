@@ -295,7 +295,8 @@ CTemplatesController::AddTemplatesToDictionary(FSRef * inFileRef)
 	// Get the FSSpec from the FSRef
 	error = FSGetCatalogInfo(inFileRef, kFSCatInfoNone, NULL, NULL, &theFileSpec, NULL);
 	if (error == noErr) {
-		error = CRezillaApp::PreOpen(theFileSpec, theFork, theRefnum, fork_anyfork);
+		// Open in readOnly mode
+		error = CRezillaApp::PreOpen(theFileSpec, theFork, theRefnum, fork_anyfork, true);
 		if (error == noErr) {
 			CRezMap * rezMap = new CRezMap(theRefnum);
 			if (rezMap) {
@@ -522,7 +523,8 @@ CTemplatesController::GetTemplateHandle(ResType inType)
 			// Get the FSSpec from the FSRef
 			error = FSGetCatalogInfo(&sTemplateFile, kFSCatInfoNone, NULL, NULL, &theFileSpec, NULL);
 			if (error == noErr) {
-				error = CRezillaApp::PreOpen(theFileSpec, theFork, theRefnum, fork_anyfork);
+				// Open in readOnly mode
+				error = CRezillaApp::PreOpen(theFileSpec, theFork, theRefnum, fork_anyfork, true);
 				if (error == noErr) {
 					CRezMap * rezMap = new CRezMap(theRefnum);
 					if (rezMap) {

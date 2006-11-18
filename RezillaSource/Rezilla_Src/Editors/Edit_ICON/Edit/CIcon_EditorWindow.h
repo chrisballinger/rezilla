@@ -2,11 +2,11 @@
 // CIcon_EditorWindow.h
 // 
 //                       Created: 2004-12-10 17:23:05
-//             Last modification: 2006-10-09 16:36:16
+//             Last modification: 2006-11-17 13:27:30
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright : Bernard Desgraupes, 2004-2005, 2006
+// (c) Copyright : Bernard Desgraupes, 2004-2006
 // All rights reserved.
 // ===========================================================================
 // mScratchBuffer: this should be static since we only need one for all 
@@ -224,6 +224,7 @@ protected:
 
 private:
 	virtual void		Initialize();
+	virtual void		RebuildTitle();
 };
 
 

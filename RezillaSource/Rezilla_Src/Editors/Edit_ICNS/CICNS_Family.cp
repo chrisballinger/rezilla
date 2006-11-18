@@ -2,7 +2,7 @@
 // CICNS_Family.cp
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-09-11 17:48:12
+//             Last modification: 2006-11-09 20:01:53
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -112,10 +112,12 @@ CICNS_Family::~CICNS_Family()
 //  AddMember												[public]
 // ---------------------------------------------------------------------------
 
-void
+CICNS_Member *
 CICNS_Family::AddMember(OSType inType)
 {
-	mMembers.AddItem( new CICNS_Member(inType) );
+	CICNS_Member *	theMember = new CICNS_Member(inType);
+	mMembers.AddItem(theMember);
+	return theMember;
 }
 
 

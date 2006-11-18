@@ -2,7 +2,7 @@
 // CICNS_EditorDoc.h				
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-10-09 16:38:02
+//             Last modification: 2006-11-10 06:50:06
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -23,10 +23,12 @@
 
 PP_Begin_Namespace_PowerPlant
 
-class	CRezFile;
-class	CRezMapTable;
-class	CRezObj;
-class	CICNS_EditorWindow;
+class CRezFile;
+class CRezMapTable;
+class CRezObj;
+class CICNS_Family;
+class CICNS_EditorWindow;
+class CRezMapDoc;
 
 
 class CICNS_EditorDoc : public CEditorDoc {
@@ -50,6 +52,9 @@ public:
 	virtual StringPtr	GetDescriptor( Str255 outDescriptor ) const;
 
 	virtual Boolean		AllowSubRemoval( LCommander* inSub );
+	
+	void				Explode();
+	void				Implode(CRezMapDoc * inRezMapDoc, short inID);
 	
 protected:
 	CICNS_EditorWindow *		mIcnsEditWindow;

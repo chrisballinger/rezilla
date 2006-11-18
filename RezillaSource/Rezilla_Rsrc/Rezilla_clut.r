@@ -1,11 +1,11 @@
 // ===========================================================================
 // Rezilla_clut.r
 //                       Created: 2004-12-11 11:47:19
-//             Last modification: 2004-12-11 11:47:19
+//             Last modification: 2006-11-07 22:17:04
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes 2004
+// (c) Copyright: Bernard Desgraupes 2004-2006
 // All rights reserved.
 // ===========================================================================
 

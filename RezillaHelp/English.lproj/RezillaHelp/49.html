@@ -20,18 +20,19 @@ Similarly, to choose some resource file and open it in Rezilla, just do:
 	set theFile to {choose file}
 	open theFile as alias<P></PRE>
 There are three optional parameters to the <B>open</B> command:
-<UL><P>	<LI> with the <I>readOnly</I> parameter, one can force the file to be opened in 
+<UL>
+	<LI> with the <I>readOnly</I> parameter, one can force the file to be opened in 
 read-only mode in order to make all modifications impossible. For instance:
 <PRE>
 	open "HD:foo:bar:somefile.rsrc" as alias with readOnly<P></PRE>
-	<LI> with the <I>from</I> parameter, one can restrict the opening to a 
+If the file is on a read-only media (a CDROM for instance), this will be 
+the case anyway.<P>	<LI> with the <I>from</I> parameter, one can restrict the opening to a 
 particular fork (resource fork or data fork). By default, Rezilla looks in 
 both forks (data fork before resource fork). For instance:
 <PRE>
 	open "HD:foo:bar:somefile.rsrc" as alias from data fork<P></PRE>
 The possible values for the <I>from</I> parameter are <I>data fork</I>, 
-<I>resource fork</I>, or <I>any fork</I> (the default).
-	<LI> with the <I>createFork</I> parameter, one can specify if a resource
+<I>resource fork</I>, or <I>any fork</I> (the default).<P>	<LI> with the <I>createFork</I> parameter, one can specify if a resource
 fork should be created in the case where the file does not have any
 resource fork already (this is not the same thing as a file with an empty
 fork). This is possible only if the <I>from</I> parameter is not specified

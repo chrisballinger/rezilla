@@ -2,7 +2,7 @@
 // CRezMapDoc.cp					
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2006-10-27 11:13:03
+//             Last modification: 2006-11-09 11:46:19
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -2367,6 +2367,21 @@ CRezMapDoc::GetResourceFromXml(CFXMLTreeRef inTreeRef, ResType inType)
 	}
 	
 	return error;
+}
+
+
+// ---------------------------------------------------------------------------------
+//  AskImplode
+// ---------------------------------------------------------------------------------
+
+bool
+CRezMapDoc::AskImplode(short &outID)
+{
+	SInt32	number;
+	bool	result = UModalDialogs::AskForOneNumber(this, PPob_RezIDChooser, 
+											item_RezIDChooserField, number);
+	outID = (short) number;
+	return result;
 }
 
 

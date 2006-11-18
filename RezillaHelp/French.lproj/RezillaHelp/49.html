@@ -21,14 +21,15 @@ il suffit d'écrire:
 <PRE>
 	set theFile to {choose file}
 	open theFile as alias<P></PRE>
-Il y a deux paramètres optionnels avec la commande <B>open</B>:
+Il y a trois paramètres optionnels avec la commande <B>open</B>:
 <UL>
-	<LI> avec le paramètre <I>readOnly</I>, on peut placer le 
-fichier en mode lecture-seule afin de rendre toute modification impossible. 
+	<LI> avec le paramètre <I>readOnly</I>, on peut placer le fichier en mode
+lecture-seule afin de rendre toute modification impossible.
 Par exemple:
 <PRE>
 	open "HD:foo:bar:somefile.rsrc" as alias with readOnly<P></PRE>
-	<LI> avec le paramètre <I>from</I>, on peut restreindre l'ouverture à une 
+Si le fichier se trouve sur un support non inscriptible (CDROM par exemple), 
+ce sera le cas de toutes façons.<P>	<LI> avec le paramètre <I>from</I>, on peut restreindre l'ouverture à une 
 branche particulière (branche de ressources ou branche de données). Par
 défaut, Rezilla regarde dans les deux branches (la branche de données
 venant avant la branche de ressources). Par exemple:

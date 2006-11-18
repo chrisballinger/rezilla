@@ -2,7 +2,7 @@
 // CIcon_EditorWindow.cp
 // 
 //                       Created: 2004-12-10 17:23:05
-//             Last modification: 2006-03-14 15:08:12
+//             Last modification: 2006-11-17 16:29:43
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -36,6 +36,7 @@
 #include "CRezillaApp.h"
 #include "CRezillaPrefs.h"
 #include "CSharedPalette.h"
+#include "CWindowMenu.h"
 #include "UCodeTranslator.h"
 #include "UColorUtils.h"
 #include "UHexFilters.h"
@@ -52,6 +53,7 @@
 
 #include <stdio.h>
 
+extern CWindowMenu * gWindowMenu;
 
 // Statics
 CColorCursorCache *	CIcon_EditorWindow::sColorCursorCache = nil;
@@ -598,6 +600,11 @@ CIcon_EditorWindow::FindCommandStatus(
 							&& !fileLocked ) {
 						enableIt = true;
 					}	
+					break;
+					
+				case cmd_IconExplodeImage:
+				case cmd_IconImplodeImage:
+					enableIt = false;
 					break;
 					
 			}
@@ -1619,6 +1626,7 @@ CIcon_EditorWindow::SetTargetView( CDraggableTargetView *inBox, RedrawOptions in
 	}
 	inBox->SetTarget( true, inRedrawHow );
 	mCurrentSamplePane = inBox;
+	RebuildTitle();
 }
 
 
@@ -1626,9 +1634,50 @@ CIcon_EditorWindow::SetTargetView( CDraggableTargetView *inBox, RedrawOptions in
 // 	GetTargetView
 // ---------------------------------------------------------------------------
 
-CDraggableTargetView *CIcon_EditorWindow::GetTargetView()
+CDraggableTargetView *
+CIcon_EditorWindow::GetTargetView()
 {
 	return( mCurrentSamplePane );
+}
+
+
+// ---------------------------------------------------------------------------------
+//   RebuildTitle
+// ---------------------------------------------------------------------------------
+// Rename the document according to the currently selected icon
+
+void
+CIcon_EditorWindow::RebuildTitle()
+{
+	ResType	theType = mCurrentSamplePane->GetPaneID();
+	Str255	currTitle;
+	SInt16	theItem;
+	Ptr		thePtr = NULL;
+
+	GetDescriptor(currTitle);
+	thePtr = ::PLstrstr(currTitle,"\p'");
+	
+	if (thePtr) {
+		switch (theType) {
+			case 'MSK1':
+			theType = 'ICN#';
+			break;
+			
+			case 'MSK2':
+			theType = 'ics#';
+			break;
+			
+			case 'MSK3':
+			theType = 'icm#';
+			break;
+		}
+	
+		::BlockMoveData(&theType, thePtr + 1, 4);
+		SetDescriptor(currTitle);
+		// Update the Windows menu
+		theItem = gWindowMenu->WindowToMenuItem( (LWindow*)this);
+		::SetMenuItemText( gWindowMenu->GetMacMenuH(), theItem, currTitle );
+	} 
 }
 
 

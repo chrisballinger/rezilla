@@ -98,13 +98,12 @@ CRezillaApp::HandleOpenDocsEvent(
 	FSSpec			theFileSpec;
 	Size			theSize;
 	SInt16			saveFork;
-	Boolean 		theBool, saveReadOnly, inhibitCreate;
+	Boolean 		theBool, readOnlyMode, inhibitCreate;
 	SInt32			numDocs, errCount = 0;
 	
 	saveFork = mOpeningFork;
-	saveReadOnly = sReadOnlyNavFlag;
+	readOnlyMode = false;
 	mOpeningFork = fork_anyfork;
-	sReadOnlyNavFlag = false;
 	inhibitCreate = true;
 	
 	error = ::AEGetParamDesc(&inAppleEvent, keyDirectObject, typeAEList, &theDocList);
@@ -116,7 +115,7 @@ CRezillaApp::HandleOpenDocsEvent(
 	ignoreErr = ::AEGetParamPtr(&inAppleEvent, rzom_pReadOnly, typeBoolean,
 							  &returnedType, &theBool, sizeof(Boolean), &theSize);
 	if (ignoreErr == noErr) {
-		sReadOnlyNavFlag = theBool;
+		readOnlyMode = theBool;
 	} 
 							  
 	// Extract optional "from" parameter.
@@ -147,9 +146,9 @@ CRezillaApp::HandleOpenDocsEvent(
 		
 		// Caution: the last arg of OpenFork is inhibitCreate which is the
 		// opposite of kAERzilCreateFork. By default, Rezilla does not
-		// attemt to create a resource fork when there is no fork at all,
+		// attempt to create a resource fork when there is no fork at all,
 		// unless the kAERzilCreateFork parameter was set to true.
-		error = OpenFork(theFileSpec, false, inhibitCreate);
+		error = OpenFork(theFileSpec, readOnlyMode, false, inhibitCreate);
 		if (error == noErr) {
 			// Register to the Recent Items menu
 			sRecentItemsAttachment->AddFile(theFileSpec, true);
@@ -180,7 +179,6 @@ CRezillaApp::HandleOpenDocsEvent(
 	} 
 
 	mOpeningFork = saveFork;
-	sReadOnlyNavFlag = saveReadOnly;
 
 	if (theDocList.descriptorType != typeNull) ::AEDisposeDesc(&theDocList);
 	if (errorList.descriptorType != typeNull) ::AEDisposeDesc(&errorList);

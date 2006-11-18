@@ -232,7 +232,8 @@ CRezillaPlugin::OpenResources()
 			// Get the FSSpec from the FSRef
 			error = FSGetCatalogInfo(&fileRef, kFSCatInfoNone, NULL, NULL, &theFileSpec, NULL);
 			if (error == noErr) {
-				error = CRezillaApp::PreOpen(theFileSpec, theFork, theRefnum);
+				// Open in readOnly mode
+				error = CRezillaApp::PreOpen(theFileSpec, theFork, theRefnum, fork_anyfork, true);
 				if (error == noErr) {
 					theRezMap = new CRezMap(theRefnum);
 				}

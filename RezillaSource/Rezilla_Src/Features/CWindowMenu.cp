@@ -179,11 +179,9 @@ CWindowMenu::WindowToMenuItem(
 	theIndex = mWindowList.FetchIndexOf( &inWindow );
 	
 	if ( theIndex != LArray::index_Bad ) {
-	
 		// Calculate the menu item number.
 		theItem = mBaseItems + theIndex;
 		Assert_( theItem <= ::CountMenuItems( GetMacMenuH() ) );
-
 	}
 
 	return theItem;
@@ -202,15 +200,32 @@ CWindowMenu::SetCommandKeys()
 	SInt16	theCommand = '1';
 
 	while ( theItem <= theItemCount && theCommand <= '9' ) {
-
 		// Set the menu item command key.
-		::SetItemCmd( GetMacMenuH(), theItem, theCommand );
-		
+		::SetItemCmd( GetMacMenuH(), theItem, theCommand );		
 		// Increment the menu item index and command number.
 		++theItem;
 		++theCommand;
-
 	}
+}
+
+
+// ---------------------------------------------------------------------------------
+//   ForceMarkWindow
+// ---------------------------------------------------------------------------------
+
+void
+CWindowMenu::ForceMarkWindow(LWindow * inWindow)
+{
+	MenuRef		theMenuRef = this->GetMacMenuH();
+	SInt16		theItemCount = ::CountMenuItems(theMenuRef);
+	SInt16		theItem = 1;
+	
+	while ( theItem <= theItemCount ) {
+		::MacCheckMenuItem(theMenuRef, theItem, 0);
+		++theItem;
+	}
+	theItem = WindowToMenuItem(inWindow);		 
+	::MacCheckMenuItem(theMenuRef , theItem, 1);
 }
 
 

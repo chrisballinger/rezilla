@@ -284,8 +284,9 @@ CRezCompare::SetRezMaps(FSSpec& inOldFileSpec, FSSpec& inNewFileSpec)
 	short		oldRefNum, newRefNum;
 	OSErr		error = noErr;
 
+	// Open the forks in readOnly mode
 	if (mOldMap == nil) {
-		error = CRezillaApp::PreOpen(inOldFileSpec, returnedFork, oldRefNum);
+		error = CRezillaApp::PreOpen(inOldFileSpec, returnedFork, oldRefNum, fork_anyfork, true);
 		if (error != noErr) {
 			CRezillaApp::ReportOpenForkError(error, &inOldFileSpec);
 		} else {
@@ -293,7 +294,7 @@ CRezCompare::SetRezMaps(FSSpec& inOldFileSpec, FSSpec& inNewFileSpec)
 		}
 	} 
 	if (mNewMap == nil) {
-		error = CRezillaApp::PreOpen(inNewFileSpec, returnedFork, newRefNum);
+		error = CRezillaApp::PreOpen(inNewFileSpec, returnedFork, newRefNum, fork_anyfork, true);
 		if (error != noErr) {
 			CRezillaApp::ReportOpenForkError(error, &inNewFileSpec);
 		} else {

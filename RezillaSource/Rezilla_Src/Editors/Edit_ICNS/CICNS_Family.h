@@ -2,7 +2,7 @@
 // CICNS_Family.h
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-09-08 21:18:07
+//             Last modification: 2006-11-09 20:00:04
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -25,14 +25,14 @@ public:
 				CICNS_Family(LHandleStream * inStream);
 				~CICNS_Family();
 
-		void		AddMember(OSType inType);
-		void		AddMember(CICNS_Member * inMember);
-		void		AddMember(OSType inType, Handle inHandle);
-		void		DeleteMember( ArrayIndexT inAtIndex );
-		void		DeleteMember( CICNS_Member * inMember );
+		CICNS_Member *	AddMember(OSType inType);
+		void			AddMember(CICNS_Member * inMember);
+		void			AddMember(OSType inType, Handle inHandle);
+		void			DeleteMember( ArrayIndexT inAtIndex );
+		void			DeleteMember( CICNS_Member * inMember );
 
-		void		InstallDataStream(LHandleStream * inStream);
-		OSErr		RetrieveData(IconFamilyHandle & outIconFamilyH);
+		void			InstallDataStream(LHandleStream * inStream);
+		OSErr			RetrieveData(IconFamilyHandle & outIconFamilyH);
 
 		CICNS_Member *	FindMember(OSType inType) const;
 		

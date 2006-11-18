@@ -1,4 +1,4 @@
-// Last modification: 2006-10-12 17:27:30
+// Last modification: 2006-11-10 10:07:57
 
 localize "French" as "Localizable.strings" 
 {
@@ -9,6 +9,7 @@ localize "French" as "Localizable.strings"
 	key "AskSaveOnCloseInspector" value string "Voulez-voujs appliquer les modifications faites dans l’inspecteur avant de fermer ?"
 	key "BadFontSize" value string "Mauvaise taille de police ‘%d’ (doit être entre 4 et 512 pts)."
 	key "CantCreateNewRezFile" value string "Impossible de créer le nouveau fichier de ressources (erreur ‘%d’)."
+	key "CantImplodeIntoNonEmptyICNS" value string "Impossible d’imploser sur des données existantes: créer une nouvelle ressource ‘icns’ pour imploser des ressources d'icones."
 	key "CantImportOnExistingICNS" value string "Impossible d’importer sur des données existantes: créer une nouvelle ressource ‘icns’ pour importer depuis un fichier."
 	key "CantOpenRezFileForWriting" value string "Impossible d’ouvrir le fichier de ressources en écriture (erreur ‘%d’)."
 	key "CantSaveReadOnly" value string "Impossible de sauvegarder les modifications: le document est en lecture seule."

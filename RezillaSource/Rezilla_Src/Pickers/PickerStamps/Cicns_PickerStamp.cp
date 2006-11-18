@@ -77,7 +77,7 @@ Cicns_PickerStamp::DrawSelf()
 		Handle	theIconHandle = NULL;
 		StRezRefSaver saver(theRefNum);
 		
-		theIconHandle = ::Get1Resource('icns', theID);
+		theIconHandle = ::Get1Resource(kIconFamilyType, theID);
 		::HandToHand(&theIconHandle);
 
 		if (theIconHandle) {

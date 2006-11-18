@@ -2,7 +2,7 @@
 // CICNS_EditorDoc.cp
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-10-09 16:43:01
+//             Last modification: 2006-11-10 06:46:12
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -26,12 +26,16 @@ PP_Begin_Namespace_PowerPlant
 #include "CRezMapTable.h"
 #include "CRezMapDoc.h"
 #include "CRezFile.h"
+#include "CRezObjItem.h"
 #include "CRezObj.h"
 #include "CRezillaPrefs.h"
 #include "UCodeTranslator.h"
 #include "UDialogBoxHandler.h"
 #include "UMessageDialogs.h"
 #include "UMiscUtils.h"
+#include "CICNS_Family.h"
+#include "CICNS_Member.h"
+#include "RezillaConstants.h"
 
 #include <LWindow.h>
 #include <LFile.h>
@@ -205,6 +209,11 @@ CICNS_EditorDoc::FindCommandStatus(
 		outEnabled = true;
 		break;		
 		
+		case cmd_IconExplodeImage:
+		case cmd_IconImplodeImage:
+		outEnabled = true;
+		break;		
+		
 		default:
 		// Call inherited
 		CEditorDoc::FindCommandStatus(inCommand, outEnabled, outUsesMark, outMark, outName);
@@ -235,6 +244,22 @@ CICNS_EditorDoc::ObeyCommand(
 		}
 		break;
 
+		case cmd_IconExplodeImage:
+		Explode();
+		break;
+				
+		case cmd_IconImplodeImage:
+		if ( !mIconIsEmpty ) {
+			UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("CantImplodeIntoNonEmptyICNS"), PPob_SimpleMessage);
+		} else {
+			short theID;
+			CRezMapDoc * theRezMapDoc = mRezMapTable->GetOwnerDoc();
+			if (theRezMapDoc && theRezMapDoc->AskImplode(theID) ) {
+				Implode(theRezMapDoc, theID);
+			} 
+		}
+		break;
+				
 		default: 
 		cmdHandled = CEditorDoc::ObeyCommand(inCommand, ioParam);
 		break;
@@ -317,6 +342,122 @@ CICNS_EditorDoc::DoExportData(FSSpec inFileSpec, SInt16 inFormat)
 	} 
 }
 
+
+// ---------------------------------------------------------------------------------
+//  Explode
+// ---------------------------------------------------------------------------------
+
+void
+CICNS_EditorDoc::Explode()
+{
+	CICNS_Family *	theIcnsFamily = mIcnsEditWindow->GetIcnsFamily();
+	
+	if (theIcnsFamily) {
+		TArrayIterator<CICNS_Member*> iterator( *(theIcnsFamily->GetMembers()) );
+		CRezMapDoc * 	theRezMapDoc;
+		CICNS_Member *	theMember;
+		CRezObjItem *	theRezObjItem;
+		CRezMap*		theRezMap;
+		Str255			theName = "\pExploded 'icns' resource ";
+		Str255			numStr;
+		ResType			theType;
+		short			theID, origID;
+		Boolean			applyToOthers = false, replace = false;
+		SInt16			answer;
+		MessageT 		theAction = answer_Do;
+	
+		theRezMapDoc = mRezMapTable->GetOwnerDoc();
+		Assert_( theRezMapDoc != nil );
+		theRezMap = theRezMapDoc->GetRezMap();
+		Assert_( theRezMap != nil );
+
+		theID = mRezObj->GetID();
+		origID = theID;
+		::NumToString(theID, numStr);
+		PLstrncat(theName, numStr, numStr[0]);
+
+		while (iterator.Next(theMember)) {
+			theType = theMember->GetType();
+			theID = origID;
+
+			if ( theRezMap->HasResourceWithTypeAndId(theType, theID) ) {
+				if (!applyToOthers) {
+					answer = UMessageDialogs::AskSolveUidConflicts(theType, theID, applyToOthers);
+					theAction = answer;
+				} else {
+					answer = theAction;
+				}
+				switch (answer) {
+					case answer_Do:
+					theRezMap->UniqueID(theType, theID, theID + 1);
+					break;
+					
+					case answer_Dont:
+					replace = true;
+					break;
+					
+					case answer_Cancel:
+					return;
+				}
+			} 
+			
+			theRezObjItem = theRezMapDoc->NewResource(theType, theID, &theName, 0, replace);
+			if (theRezObjItem && theRezObjItem->GetRezObj() && theMember->GetIconData()) {
+				theRezObjItem->GetRezObj()->SetData( theMember->GetIconData() );
+			} 
+		}
+		theRezMapDoc->SetModified(true);
+	} 
+}
+
+
+// ---------------------------------------------------------------------------------
+//  Implode
+// ---------------------------------------------------------------------------------
+
+void
+CICNS_EditorDoc::Implode(CRezMapDoc * inRezMapDoc, short inID)
+{
+	CRezMap*        theRezMap;
+	CICNS_Family *  theIconFamily;
+	CICNS_Member *  theMember;
+	ResType         theType;
+	Handle          theHandle = NULL;
+	Str255          theName = "\p";
+	UInt16          count = 0;
+	OSErr           error;
+	ResType   		typeList[] = {
+						'ics#', 'ics4', 'ics8', 'icm#', 'icm4', 
+						'icm8', 'ICN#', 'icl4', 'icl8', 'ich#', 
+						'ich4', 'ich8', 'is32', 'il32', 'ih32', 
+						'it32', 's8mk', 'l8mk', 'h8mk', 't8mk', 
+						'drop', 'odrp', 'open', 'over', 'tile', NULL};
+
+	theRezMap = inRezMapDoc->GetRezMap();
+	Assert_( theRezMap != nil );
+
+	// Create an icon family
+	theIconFamily = mIcnsEditWindow->GetIcnsFamily();
+	
+	if (theIconFamily) {
+		// Create individual members out of existing resources
+		theType = typeList[0];
+		while (theType != 0) {
+			error = theRezMap->GetWithID(theType, inID, theHandle, true);
+			if (error == noErr && theHandle != NULL) {
+				theMember = theIconFamily->AddMember(theType);
+				if (theMember != NULL) {
+					HandToHand(&theHandle);
+					theMember->SetIconData(theHandle);
+					theHandle = NULL;
+				} 
+			}
+			theType = typeList[++count];
+		}
+	} 
+	mIcnsEditWindow->FinishInstallData();
+	mIcnsEditWindow->SetDirty(true);
+}
 
 
 

@@ -2,7 +2,7 @@
 // CRezMapDoc.h				
 // 
 //                       Created: 2003-04-29 07:11:00
-//             Last modification: 2006-10-07 11:43:52
+//             Last modification: 2006-11-10 06:52:08
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -90,6 +90,9 @@ public:
 	virtual SInt16		AskSaveChanges( bool inQuitting );
 
 	virtual bool		AskConfirmRevert();
+
+	virtual bool		AskImplode(short &outID);
+
 
 	virtual void		DoAESaveMap(
 								FSSpec&			inFileSpec,
@@ -196,11 +199,17 @@ public:
 	
 	SInt32				GetIndexForType(ResType inType) const;
 	
+	CRezObjItem *		CreateResource(ResType inType, 
+									 short inID, 
+									 Str255* inName, 
+									 short inAttrs);
+
 	CRezObjItem *		NewResource(ResType inType, 
 									 short inID, 
 									 Str255* inName, 
 									 short inAttrs, 
 									 Boolean inReplace);
+
 	CRezObj *			DuplicateResource(CRezObj* inRezObj);
 	void				RemoveResource(CRezObjItem* inRezObjItem, 
 									  Boolean deleteTypeItem = true);
@@ -270,11 +279,6 @@ private:
 	void				DeleteEditors(Boolean deleteArray);
 	void				DeletePickers(Boolean deleteArray);
 	void				WarnEdited(ResType inType, Boolean singleItem, int countEdited);
-	
-	CRezObjItem *		CreateResource(ResType inType, 
-									 short inID, 
-									 Str255* inName, 
-									 short inAttrs);
 	
 };
 
