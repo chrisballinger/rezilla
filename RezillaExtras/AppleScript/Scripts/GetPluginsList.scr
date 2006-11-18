@@ -1,0 +1,9 @@
+-- File: "GetPluginsList.scr"
+-- Created: 2006-10-12 16:01:53
+-- Author: Bernard Desgraupes <bdesgraupes@users.sourceforge.net>
+-- Sample AppleScript for Rezilla 1.1
+
+tell application "Rezilla"
+	get name of plugins
+
+end tell

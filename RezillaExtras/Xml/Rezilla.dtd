@@ -1,0 +1,57 @@
+<!--
+ |                Last modification: 2006-10-04 11:23:22
+ | Author: Bernard Desgraupes
+ | E-mail: bdesgraupes@users.sourceforge.net
+ | Web: http://sourceforge.net/projects/rezilla
+ | Description: DTD to formalize the structure of a resource map. 
+-->
+
+<!ELEMENT RezMap (
+		RezMapName,
+		RezMapFlags,
+		TypesArray
+		)
+>
+
+<!ELEMENT TypesArray (Type)*>
+
+<!ELEMENT Type (
+		TypeCode,
+		ResourcesArray
+		)
+>
+
+<!ELEMENT ResourcesArray (Resource*)>
+
+<!ELEMENT Resource (
+		ResourceName, 
+		ResourceID, 
+		ResourceFlags, 
+		ResourceSize?, 
+		ResourceData
+		)
+>
+
+
+<!-- ==================================================================== -->
+<!--                       Atomic elements                                -->
+<!-- ==================================================================== -->
+
+<!--String-->
+<!ELEMENT RezMapName (#PCDATA)>
+<!ELEMENT ResourceName (#PCDATA)>
+
+<!--Four char codes-->
+<!ELEMENT TypeCode (#PCDATA)>
+
+<!--Integer-->
+<!ELEMENT RezMapFlags (integer)>
+<!ELEMENT ResourceID (integer)>
+<!ELEMENT ResourceFlags (integer)>
+<!ELEMENT ResourceSize (integer)>
+
+<!--Hex bytes-->
+<!ELEMENT ResourceData (#PCDATA)>
+
+<!ELEMENT integer (#PCDATA)>
+

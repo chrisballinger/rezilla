@@ -1,0 +1,9 @@
+-- File: "OpenPicker.scr"
+-- Created: 2006-10-12 16:01:54
+-- Author: Bernard Desgraupes <bdesgraupes@users.sourceforge.net>
+-- Sample AppleScript for Rezilla 1.1
+
+tell application "Rezilla"
+	pick type "cicn" of map 1
+
+end tell

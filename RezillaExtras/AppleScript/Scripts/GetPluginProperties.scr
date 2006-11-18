@@ -1,0 +1,14 @@
+-- File: "GetPluginProperties.scr"
+-- Created: 2006-10-12 16:01:53
+-- Author: Bernard Desgraupes <bdesgraupes@users.sourceforge.net>
+-- Sample AppleScript for Rezilla 1.1
+
+tell application "Rezilla"
+	set a to name of plugin 1
+	set b to version of plugin 1
+	set c to typecode of plugin 1
+	set d to creator of plugin 1
+	set e to loaded of plugin 1
+	{a, b, c, d, e}
+
+end tell

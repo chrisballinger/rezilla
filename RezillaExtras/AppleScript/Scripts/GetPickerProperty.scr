@@ -1,0 +1,18 @@
+-- File: "GetPickerProperty.scr"
+-- Created: 2006-10-12 16:01:53
+-- Author: Bernard Desgraupes <bdesgraupes@users.sourceforge.net>
+-- Sample AppleScript for Rezilla 1.1
+
+tell application "Rezilla"
+	set thePik to picker 1 of map document 1
+	set a to the name of thePik
+	set b to the index of thePik
+	set c to the readOnly of thePik
+	set d to the window of thePik
+	set e to the type of thePik
+	set f to the owner doc of thePik
+	set g to the selection of thePik
+
+	{a, b, c, d, e, f, g}
+
+end tell
