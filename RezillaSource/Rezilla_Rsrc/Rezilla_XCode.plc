@@ -1,0 +1,89 @@
+// ===========================================================================
+// Rezilla.plc					
+//                       Created: 2006-10-15 07:15:31
+//             Last modification: 2006-10-15 07:15:34
+// Author: Bernard Desgraupes
+// e-mail: <bdesgraupes@users.sourceforge.net>
+// www: <http://rezilla.sourceforge.net/>
+// (c) Copyright: Bernard Desgraupes 2006
+// All rights reserved.
+// ===========================================================================
+
+#include "../Rezilla_Src/RezillaID.h"
+
+// Bundle identifier string
+#define kBundleIdentifier "net.sourceforge.rezilla"
+
+// Short version string
+#define kBundleShortInfoString __OUTPUT_FILENAME__ " "  REZILLA_PLC_VERSION
+
+// String to display in the Finder's Get Info window (\U00A9 = ©)
+#define kBundleLongInfo_EN kBundleShortInfoString ", Copyright \u00A9 2003-" __YEAR__ " by Bernard Desgraupes. All rights reserved."
+#define kBundleLongInfo_FR kBundleShortInfoString ", Copyright \u00A9 2003-" __YEAR__ " par Bernard Desgraupes. Tous droits réservés."
+
+plist
+{
+	dictionary
+	{
+		key "CFBundleIdentifier" value string kBundleIdentifier
+		
+		key "CFBundleName" value string __OUTPUT_FILENAME__
+		key "CFBundleShortVersionString" value string kBundleShortInfoString
+// 		key "CFBundleGetInfoString"  // See localized files
+	
+		key "CFBundlePackageType" value string __OUTPUT_TYPE__
+		key "CFBundleSignature" value string __OUTPUT_CREATOR__
+		key "CFBundleExecutable" value string __OUTPUT_FILENAME__
+		key "CFBundleVersion" value string REZILLA_PLC_VERSION
+		key "CFBundleIconFile" value string "Rezilla.icns"
+		
+		key "CFBundleHelpBookFolder" value string "RezillaHelp"
+// 		key "CFBundleHelpBookName"  // See localized files
+	
+		key "CFBundleDevelopmentRegion" value string "English"
+		key "CFBundleInfoDictionaryVersion" value string "6.0"
+		key "LSRequiresCarbon" value boolean true
+		key "CFBundleDocumentTypes" value array 
+		[
+			dictionary
+			{
+				key "CFBundleTypeName" value string "Rezilla Resource File"
+				key "CFBundleTypeIconFile" value string "RezillaDocs.icns"
+				key "CFBundleTypeRole" value string "Viewer"
+				key "CFBundleTypeOSTypes" value array
+				[
+					string 'RSRC'
+					string '****'
+				]
+				key "CFBundleTypeExtensions" value array
+				[
+					string "rsrc"
+					string "*"
+				]
+			}
+		]
+	}
+}
+
+// Change this to be localized for English
+localize "English"
+{
+	comment "Localized versions of Info.plist keys"
+	key "CFBundleGetInfoString" value string kBundleLongInfo_EN
+	key "CFBundleHelpBookName" value string "Rezilla Help"
+}
+
+localize "French"
+{
+	comment "Localized versions of Info.plist keys"
+	key "CFBundleGetInfoString" value string kBundleLongInfo_FR
+	key "CFBundleHelpBookName" value string "Aide Rezilla"
+}
+
+
+#include "Rezilla_EN.ploc"
+#include "Rezilla_FR.ploc"
+
+#include "RezillaErrors_EN.ploc"
+#include "RezillaErrors_FR.ploc"
+
