@@ -1,7 +1,7 @@
 -- File: "SetMapProperty.scr"
--- Created: 2005-06-14 07:34:57
+-- Created: 2006-10-12 16:01:54
 -- Author: Bernard Desgraupes <bdesgraupes@users.sourceforge.net>
--- Sample AppleScript for Rezilla 1.0.6b
+-- Sample AppleScript for Rezilla 1.1
 
 tell application "Rezilla"
 	set theMap to map document 1

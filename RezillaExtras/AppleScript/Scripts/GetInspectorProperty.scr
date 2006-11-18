@@ -1,7 +1,7 @@
 -- File: "GetInspectorProperty.scr"
--- Created: 2005-06-14 07:34:51
+-- Created: 2006-10-12 16:01:53
 -- Author: Bernard Desgraupes <bdesgraupes@users.sourceforge.net>
--- Sample AppleScript for Rezilla 1.0.6b
+-- Sample AppleScript for Rezilla 1.1
 
 tell application "Rezilla"
 	set a to the ID field of the inspector

@@ -1,8 +1,9 @@
--- File: "OpenDocReadOnly.scr"
--- Created: 2005-09-24 15:34:56
+-- File: "OpenDocCreateFork.scr"
+-- Created: 2006-10-12 16:01:54
 -- Author: Bernard Desgraupes <bdesgraupes@users.sourceforge.net>
--- Sample AppleScript for Rezilla 1.0.7
+-- Sample AppleScript for Rezilla 1.1
 
 tell application "Rezilla"
 	open "HD:foo:bar:file_with_no_fork_at_all" as alias with createFork
+
 end tell

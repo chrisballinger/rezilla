@@ -1,15 +1,16 @@
--- File: "ChooseDoc.scr"
--- Created: 2005-06-15 12:07:19
+-- File: "GetHexWindowProperty.scr"
+-- Created: 2006-10-12 16:01:53
 -- Author: Bernard Desgraupes <bdesgraupes@users.sourceforge.net>
--- Sample AppleScript for Rezilla 1.0.6b
+-- Sample AppleScript for Rezilla 1.1
 
 tell application "Rezilla"
-	edit resource {"TEXT",128} of map document 1 using hexadecimal
-	set theWin to hexadecimal window 1 of map document 1
-	set a to the startPos of theWin
-	set b to the endPos of theWin
-	set c to the maxPos of theWin
-	set d to the hex selection of theWin
-	set e to the text selection of theWin
-	{a, b, c, d, e}
+edit resource {"TEXT",128} of map document 1 using hexadecimal
+set theWin to hexadecimal window 1 of map document 1
+set a to the startPos of theWin
+set b to the endPos of theWin
+set c to the maxPos of theWin
+set d to the hex selection of theWin
+set e to the text selection of theWin
+{a, b, c, d, e}
+
 end tell

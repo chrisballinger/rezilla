@@ -9,6 +9,7 @@
 <AeteResource>
 <AeteResID>0</AeteResID>
 <AeteResTitle>Scripting terminology</AeteResTitle>
+
 <MajorVersion>0x1</MajorVersion>
 <MinorVersion>0x0</MinorVersion>
 <LanguageCode>0</LanguageCode>
@@ -1911,6 +1912,79 @@
 			</Event>
 
 			<Event>
+				<EventName>import</EventName>
+				<EventDescription>import a rezmap document from an XML file</EventDescription>
+				<EventClass>Rzil</EventClass>
+				<EventID>impt</EventID>
+				<ReplyType>null</ReplyType>
+				<ReplyDescription></ReplyDescription>
+				<ReplyFlags>
+				<IsOptional>replyOptional</IsOptional>
+				<IsListOfItems>singleItem</IsListOfItems>
+				<IsEnumerated>notEnumerated</IsEnumerated>
+				<TightBindingFunction>notTightBindingFunction</TightBindingFunction>
+				<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+				<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+				<ReplyIsReference>replyIsValue</ReplyIsReference>
+				<Reserved/>
+				<Reserved/>
+				<Reserved/>
+				<Reserved/>
+				<Reserved/>
+				<NonVerbEvent>verbEvent</NonVerbEvent>
+				<Reserved/>
+				<Reserved/>
+				<Reserved/>
+				</ReplyFlags>
+				<DirectParamType>MapD</DirectParamType>
+				<DirectParamDescription>the map document into which to import the data. This must be an empty document.</DirectParamDescription>
+				<DirectFlags>
+				<IsOptional>directParamRequired</IsOptional>
+				<IsListOfItems>singleItem</IsListOfItems>
+				<IsEnumerated>notEnumerated</IsEnumerated>
+				<ChangeState>changesState</ChangeState>
+				<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+				<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+				<DirectParamIsReference>directParamIsValue</DirectParamIsReference>
+				<NotDirectParamIsTarget>directParamIsTarget</NotDirectParamIsTarget>
+				<Reserved/>
+				<Reserved/>
+				<Reserved/>
+				<Reserved/>
+				<Reserved/>
+				<Reserved/>
+				<Reserved/>
+				<Reserved/>
+				</DirectFlags>
+				<ArrayOtherParams>
+					<Parameter>
+						<ParameterName>from</ParameterName>
+						<ParameterID>From</ParameterID>
+						<ParameterType>alis</ParameterType>
+						<ParameterDescription>the XML file to import. It must be conform to the Rezilla DTD.</ParameterDescription>
+						<ParameterFlags>
+							<IsOptional>required</IsOptional>
+							<IsListOfItems>singleItem</IsListOfItems>
+							<IsEnumerated>notEnumerated</IsEnumerated>
+							<Reserved/>
+							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+							<ParamIsReference>paramIsValue</ParamIsReference>
+							<ParamIsTarget>notParamIsTarget</ParamIsTarget>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<LabeledParam>prepositionParam</LabeledParam>
+							<IsFeminine>notFeminine</IsFeminine>
+							<IsMasculine>notMasculine</IsMasculine>
+							<Plural>singular</Plural>
+						</ParameterFlags>
+					</Parameter>
+				</ArrayOtherParams>
+			</Event>
+
+			<Event>
 				<EventName>inspect</EventName>
 				<EventDescription>display info about the specified resource in the Inspector window</EventDescription>
 				<EventClass>Rzil</EventClass>
@@ -1942,6 +2016,55 @@
 				<IsListOfItems>singleItem</IsListOfItems>
 				<IsEnumerated>notEnumerated</IsEnumerated>
 				<ChangeState>changesState</ChangeState>
+				<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+				<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+				<DirectParamIsReference>directParamIsValue</DirectParamIsReference>
+				<NotDirectParamIsTarget>directParamIsTarget</NotDirectParamIsTarget>
+				<Reserved/>
+				<Reserved/>
+				<Reserved/>
+				<Reserved/>
+				<Reserved/>
+				<Reserved/>
+				<Reserved/>
+				<Reserved/>
+				</DirectFlags>
+				<ArrayOtherParams>
+				</ArrayOtherParams>
+			</Event>
+
+			<Event>
+				<EventName>pick</EventName>
+				<EventDescription>open a picker</EventDescription>
+				<EventClass>Rzil</EventClass>
+				<EventID>pick</EventID>
+				<ReplyType>PikD</ReplyType>
+				<ReplyDescription>an object specifier for the picker</ReplyDescription>
+				<ReplyFlags>
+				<IsOptional>replyOptional</IsOptional>
+				<IsListOfItems>singleItem</IsListOfItems>
+				<IsEnumerated>notEnumerated</IsEnumerated>
+				<TightBindingFunction>notTightBindingFunction</TightBindingFunction>
+				<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+				<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+				<ReplyIsReference>replyIsValue</ReplyIsReference>
+				<Reserved/>
+				<Reserved/>
+				<Reserved/>
+				<Reserved/>
+				<Reserved/>
+				<NonVerbEvent>verbEvent</NonVerbEvent>
+				<Reserved/>
+				<Reserved/>
+				<Reserved/>
+				</ReplyFlags>
+				<DirectParamType>cTYP</DirectParamType>
+				<DirectParamDescription>type of the resources to display in a picker</DirectParamDescription>
+				<DirectFlags>
+				<IsOptional>directParamRequired</IsOptional>
+				<IsListOfItems>singleItem</IsListOfItems>
+				<IsEnumerated>notEnumerated</IsEnumerated>
+				<ChangeState>doesntChangeState</ChangeState>
 				<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
 				<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
 				<DirectParamIsReference>directParamIsValue</DirectParamIsReference>
@@ -2293,7 +2416,7 @@
 						<PropertyName>kind</PropertyName>
 						<PropertyID>pKND</PropertyID>
 						<PropertyClass>EKND</PropertyClass>
-						<PropertyDescription>the kind of editor document (hexadecimal, template or interface)</PropertyDescription>
+						<PropertyDescription>the kind of editor document (hexadecimal, template, plugin or interface)</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
@@ -2418,6 +2541,430 @@
 				<ClassName>editors</ClassName>
 				<ClassID>EdiD</ClassID>
 				<ClassDescription>every editor document</ClassDescription>
+				<ArrayProperties>
+					<Property>
+						<PropertyName></PropertyName>
+						<PropertyID>c@#!</PropertyID>
+						<PropertyClass>type</PropertyClass>
+						<PropertyDescription></PropertyDescription>
+						<PropertyFlags>
+							<Reserved/>
+							<IsListOfItems>singleItem</IsListOfItems>
+							<IsEnumerated>notEnumerated</IsEnumerated>
+							<IsReadWrite>readOnly</IsReadWrite>
+							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+							<PropertyIsReference>propertyIsValue</PropertyIsReference>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<IsApostrophe>noApostrophe</IsApostrophe>
+							<IsFeminine>notFeminine</IsFeminine>
+							<IsMasculine>notMasculine</IsMasculine>
+							<Plural>plural</Plural>
+						</PropertyFlags>
+					</Property>
+				</ArrayProperties>
+				<ArrayElements>
+				</ArrayElements>
+			</Class>
+
+			<Class>
+				<ClassName>plugin</ClassName>
+				<ClassID>Plug</ClassID>
+				<ClassDescription>a plugin object</ClassDescription>
+				<ArrayProperties>
+					<Property>
+						<PropertyName>name</PropertyName>
+						<PropertyID>pnam</PropertyID>
+						<PropertyClass>itxt</PropertyClass>
+						<PropertyDescription>the name of the plugin</PropertyDescription>
+						<PropertyFlags>
+							<Reserved/>
+							<IsListOfItems>singleItem</IsListOfItems>
+							<IsEnumerated>notEnumerated</IsEnumerated>
+							<IsReadWrite>readOnly</IsReadWrite>
+							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+							<PropertyIsReference>propertyIsValue</PropertyIsReference>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<IsApostrophe>noApostrophe</IsApostrophe>
+							<IsFeminine>notFeminine</IsFeminine>
+							<IsMasculine>notMasculine</IsMasculine>
+							<Plural>singular</Plural>
+						</PropertyFlags>
+					</Property>
+					<Property>
+						<PropertyName>index</PropertyName>
+						<PropertyID>pidx</PropertyID>
+						<PropertyClass>long</PropertyClass>
+						<PropertyDescription>the index of the plugin</PropertyDescription>
+						<PropertyFlags>
+							<Reserved/>
+							<IsListOfItems>singleItem</IsListOfItems>
+							<IsEnumerated>notEnumerated</IsEnumerated>
+							<IsReadWrite>readOnly</IsReadWrite>
+							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+							<PropertyIsReference>propertyIsValue</PropertyIsReference>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<IsApostrophe>noApostrophe</IsApostrophe>
+							<IsFeminine>notFeminine</IsFeminine>
+							<IsMasculine>notMasculine</IsMasculine>
+							<Plural>singular</Plural>
+						</PropertyFlags>
+					</Property>
+					<Property>
+						<PropertyName>version</PropertyName>
+						<PropertyID>vers</PropertyID>
+						<PropertyClass>itxt</PropertyClass>
+						<PropertyDescription>the version of the plugin</PropertyDescription>
+						<PropertyFlags>
+							<Reserved/>
+							<IsListOfItems>singleItem</IsListOfItems>
+							<IsEnumerated>notEnumerated</IsEnumerated>
+							<IsReadWrite>readOnly</IsReadWrite>
+							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+							<PropertyIsReference>propertyIsValue</PropertyIsReference>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<IsApostrophe>noApostrophe</IsApostrophe>
+							<IsFeminine>notFeminine</IsFeminine>
+							<IsMasculine>notMasculine</IsMasculine>
+							<Plural>singular</Plural>
+						</PropertyFlags>
+					</Property>
+					<Property>
+						<PropertyName>typecode</PropertyName>
+						<PropertyID>pTYP</PropertyID>
+						<PropertyClass>TEXT</PropertyClass>
+						<PropertyDescription>the type code of the plugin</PropertyDescription>
+						<PropertyFlags>
+							<Reserved/>
+							<IsListOfItems>singleItem</IsListOfItems>
+							<IsEnumerated>notEnumerated</IsEnumerated>
+							<IsReadWrite>readOnly</IsReadWrite>
+							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+							<PropertyIsReference>propertyIsValue</PropertyIsReference>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<IsApostrophe>noApostrophe</IsApostrophe>
+							<IsFeminine>notFeminine</IsFeminine>
+							<IsMasculine>notMasculine</IsMasculine>
+							<Plural>singular</Plural>
+						</PropertyFlags>
+					</Property>
+					<Property>
+						<PropertyName>creator</PropertyName>
+						<PropertyID>pCRE</PropertyID>
+						<PropertyClass>TEXT</PropertyClass>
+						<PropertyDescription>the creator code of the plugin</PropertyDescription>
+						<PropertyFlags>
+							<Reserved/>
+							<IsListOfItems>singleItem</IsListOfItems>
+							<IsEnumerated>notEnumerated</IsEnumerated>
+							<IsReadWrite>readOnly</IsReadWrite>
+							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+							<PropertyIsReference>propertyIsValue</PropertyIsReference>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<IsApostrophe>noApostrophe</IsApostrophe>
+							<IsFeminine>notFeminine</IsFeminine>
+							<IsMasculine>notMasculine</IsMasculine>
+							<Plural>singular</Plural>
+						</PropertyFlags>
+					</Property>
+					<Property>
+						<PropertyName>loaded</PropertyName>
+						<PropertyID>pLDD</PropertyID>
+						<PropertyClass>bool</PropertyClass>
+						<PropertyDescription>is the plugin loaded?</PropertyDescription>
+						<PropertyFlags>
+							<Reserved/>
+							<IsListOfItems>singleItem</IsListOfItems>
+							<IsEnumerated>notEnumerated</IsEnumerated>
+							<IsReadWrite>readOnly</IsReadWrite>
+							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+							<PropertyIsReference>propertyIsValue</PropertyIsReference>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<IsApostrophe>noApostrophe</IsApostrophe>
+							<IsFeminine>notFeminine</IsFeminine>
+							<IsMasculine>notMasculine</IsMasculine>
+							<Plural>singular</Plural>
+						</PropertyFlags>
+					</Property>
+					<Property>
+						<PropertyName>supported types</PropertyName>
+						<PropertyID>pSuT</PropertyID>
+						<PropertyClass>list</PropertyClass>
+						<PropertyDescription>the list of types supported by the plugin</PropertyDescription>
+						<PropertyFlags>
+							<Reserved/>
+							<IsListOfItems>listOfItems</IsListOfItems>
+							<IsEnumerated>notEnumerated</IsEnumerated>
+							<IsReadWrite>readOnly</IsReadWrite>
+							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+							<PropertyIsReference>propertyIsValue</PropertyIsReference>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<IsApostrophe>noApostrophe</IsApostrophe>
+							<IsFeminine>notFeminine</IsFeminine>
+							<IsMasculine>notMasculine</IsMasculine>
+							<Plural>singular</Plural>
+						</PropertyFlags>
+					</Property>
+				</ArrayProperties>
+				<ArrayElements>
+				</ArrayElements>
+			</Class>
+
+			<Class>
+				<ClassName>plugins</ClassName>
+				<ClassID>Plug</ClassID>
+				<ClassDescription>every plugin</ClassDescription>
+				<ArrayProperties>
+					<Property>
+						<PropertyName></PropertyName>
+						<PropertyID>c@#!</PropertyID>
+						<PropertyClass>type</PropertyClass>
+						<PropertyDescription></PropertyDescription>
+						<PropertyFlags>
+							<Reserved/>
+							<IsListOfItems>singleItem</IsListOfItems>
+							<IsEnumerated>notEnumerated</IsEnumerated>
+							<IsReadWrite>readOnly</IsReadWrite>
+							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+							<PropertyIsReference>propertyIsValue</PropertyIsReference>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<IsApostrophe>noApostrophe</IsApostrophe>
+							<IsFeminine>notFeminine</IsFeminine>
+							<IsMasculine>notMasculine</IsMasculine>
+							<Plural>plural</Plural>
+						</PropertyFlags>
+					</Property>
+				</ArrayProperties>
+				<ArrayElements>
+				</ArrayElements>
+			</Class>
+
+			<Class>
+				<ClassName>picker</ClassName>
+				<ClassID>PikD</ClassID>
+				<ClassDescription>a picker document for a given type</ClassDescription>
+				<ArrayProperties>
+					<Property>
+						<PropertyName>name</PropertyName>
+						<PropertyID>pnam</PropertyID>
+						<PropertyClass>itxt</PropertyClass>
+						<PropertyDescription>the name of the picker: this is the name of the associated type</PropertyDescription>
+						<PropertyFlags>
+							<Reserved/>
+							<IsListOfItems>singleItem</IsListOfItems>
+							<IsEnumerated>notEnumerated</IsEnumerated>
+							<IsReadWrite>readOnly</IsReadWrite>
+							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+							<PropertyIsReference>propertyIsValue</PropertyIsReference>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<IsApostrophe>noApostrophe</IsApostrophe>
+							<IsFeminine>notFeminine</IsFeminine>
+							<IsMasculine>notMasculine</IsMasculine>
+							<Plural>singular</Plural>
+						</PropertyFlags>
+					</Property>
+					<Property>
+						<PropertyName>index</PropertyName>
+						<PropertyID>pidx</PropertyID>
+						<PropertyClass>long</PropertyClass>
+						<PropertyDescription>the index of the picker</PropertyDescription>
+						<PropertyFlags>
+							<Reserved/>
+							<IsListOfItems>singleItem</IsListOfItems>
+							<IsEnumerated>notEnumerated</IsEnumerated>
+							<IsReadWrite>readOnly</IsReadWrite>
+							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+							<PropertyIsReference>propertyIsValue</PropertyIsReference>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<IsApostrophe>noApostrophe</IsApostrophe>
+							<IsFeminine>notFeminine</IsFeminine>
+							<IsMasculine>notMasculine</IsMasculine>
+							<Plural>singular</Plural>
+						</PropertyFlags>
+					</Property>
+					<Property>
+						<PropertyName>readOnly</PropertyName>
+						<PropertyID>pRDO</PropertyID>
+						<PropertyClass>bool</PropertyClass>
+						<PropertyDescription>is this picker read-only?</PropertyDescription>
+						<PropertyFlags>
+							<Reserved/>
+							<IsListOfItems>singleItem</IsListOfItems>
+							<IsEnumerated>notEnumerated</IsEnumerated>
+							<IsReadWrite>readOnly</IsReadWrite>
+							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+							<PropertyIsReference>propertyIsValue</PropertyIsReference>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<IsApostrophe>noApostrophe</IsApostrophe>
+							<IsFeminine>notFeminine</IsFeminine>
+							<IsMasculine>notMasculine</IsMasculine>
+							<Plural>singular</Plural>
+						</PropertyFlags>
+					</Property>
+					<Property>
+						<PropertyName>window</PropertyName>
+						<PropertyID>cwin</PropertyID>
+						<PropertyClass>cwin</PropertyClass>
+						<PropertyDescription>the window of the picker</PropertyDescription>
+						<PropertyFlags>
+							<Reserved/>
+							<IsListOfItems>singleItem</IsListOfItems>
+							<IsEnumerated>notEnumerated</IsEnumerated>
+							<IsReadWrite>readOnly</IsReadWrite>
+							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+							<PropertyIsReference>propertyIsValue</PropertyIsReference>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<IsApostrophe>noApostrophe</IsApostrophe>
+							<IsFeminine>notFeminine</IsFeminine>
+							<IsMasculine>notMasculine</IsMasculine>
+							<Plural>singular</Plural>
+						</PropertyFlags>
+					</Property>
+					<Property>
+						<PropertyName>type</PropertyName>
+						<PropertyID>cTYP</PropertyID>
+						<PropertyClass>cTYP</PropertyClass>
+						<PropertyDescription>the type of the resources displayed by this picker</PropertyDescription>
+						<PropertyFlags>
+							<Reserved/>
+							<IsListOfItems>singleItem</IsListOfItems>
+							<IsEnumerated>notEnumerated</IsEnumerated>
+							<IsReadWrite>readOnly</IsReadWrite>
+							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+							<PropertyIsReference>propertyIsValue</PropertyIsReference>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<IsApostrophe>noApostrophe</IsApostrophe>
+							<IsFeminine>notFeminine</IsFeminine>
+							<IsMasculine>notMasculine</IsMasculine>
+							<Plural>singular</Plural>
+						</PropertyFlags>
+					</Property>
+					<Property>
+						<PropertyName>owner doc</PropertyName>
+						<PropertyID>pOWM</PropertyID>
+						<PropertyClass>MapD</PropertyClass>
+						<PropertyDescription>the rezmap document that owns this picker</PropertyDescription>
+						<PropertyFlags>
+							<Reserved/>
+							<IsListOfItems>singleItem</IsListOfItems>
+							<IsEnumerated>notEnumerated</IsEnumerated>
+							<IsReadWrite>readOnly</IsReadWrite>
+							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+							<PropertyIsReference>propertyIsValue</PropertyIsReference>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<IsApostrophe>noApostrophe</IsApostrophe>
+							<IsFeminine>notFeminine</IsFeminine>
+							<IsMasculine>notMasculine</IsMasculine>
+							<Plural>singular</Plural>
+						</PropertyFlags>
+					</Property>
+					<Property>
+						<PropertyName>selection</PropertyName>
+						<PropertyID>pSEL</PropertyID>
+						<PropertyClass>itxt</PropertyClass>
+						<PropertyDescription>the ID of the selected resource (use an empty string to remove the selection)</PropertyDescription>
+						<PropertyFlags>
+							<Reserved/>
+							<IsListOfItems>singleItem</IsListOfItems>
+							<IsEnumerated>notEnumerated</IsEnumerated>
+							<IsReadWrite>readWrite</IsReadWrite>
+							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+							<PropertyIsReference>propertyIsValue</PropertyIsReference>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<IsApostrophe>noApostrophe</IsApostrophe>
+							<IsFeminine>notFeminine</IsFeminine>
+							<IsMasculine>notMasculine</IsMasculine>
+							<Plural>singular</Plural>
+						</PropertyFlags>
+					</Property>
+				</ArrayProperties>
+				<ArrayElements>
+				</ArrayElements>
+			</Class>
+
+			<Class>
+				<ClassName>pickers</ClassName>
+				<ClassID>PikD</ClassID>
+				<ClassDescription>every picker document</ClassDescription>
 				<ArrayProperties>
 					<Property>
 						<PropertyName></PropertyName>
@@ -2869,7 +3416,7 @@
 						<PropertyName>kind</PropertyName>
 						<PropertyID>pKND</PropertyID>
 						<PropertyClass>EKND</PropertyClass>
-						<PropertyDescription>the kind of the editing window (hexadecimal, template or interface)</PropertyDescription>
+						<PropertyDescription>the kind of the editing window (hexadecimal, template, plugin or interface)</PropertyDescription>
 						<PropertyFlags>
 							<Reserved/>
 							<IsListOfItems>singleItem</IsListOfItems>
@@ -3034,6 +3581,74 @@
 				<ClassName>plugin windows</ClassName>
 				<ClassID>PluW</ClassID>
 				<ClassDescription>every plugin window</ClassDescription>
+				<ArrayProperties>
+					<Property>
+						<PropertyName></PropertyName>
+						<PropertyID>c@#!</PropertyID>
+						<PropertyClass>type</PropertyClass>
+						<PropertyDescription></PropertyDescription>
+						<PropertyFlags>
+							<Reserved/>
+							<IsListOfItems>singleItem</IsListOfItems>
+							<IsEnumerated>notEnumerated</IsEnumerated>
+							<IsReadWrite>readOnly</IsReadWrite>
+							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+							<PropertyIsReference>propertyIsValue</PropertyIsReference>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<IsApostrophe>noApostrophe</IsApostrophe>
+							<IsFeminine>notFeminine</IsFeminine>
+							<IsMasculine>notMasculine</IsMasculine>
+							<Plural>plural</Plural>
+						</PropertyFlags>
+					</Property>
+				</ArrayProperties>
+				<ArrayElements>
+				</ArrayElements>
+			</Class>
+
+			<Class>
+				<ClassName>picker window</ClassName>
+				<ClassID>PikW</ClassID>
+				<ClassDescription>a picker window</ClassDescription>
+				<ArrayProperties>
+					<Property>
+						<PropertyName>inherits</PropertyName>
+						<PropertyID>c@#^</PropertyID>
+						<PropertyClass>cwin</PropertyClass>
+						<PropertyDescription>all properties of the window class</PropertyDescription>
+						<PropertyFlags>
+							<Reserved/>
+							<IsListOfItems>singleItem</IsListOfItems>
+							<IsEnumerated>notEnumerated</IsEnumerated>
+							<IsReadWrite>readOnly</IsReadWrite>
+							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
+							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
+							<PropertyIsReference>propertyIsValue</PropertyIsReference>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<Reserved/>
+							<IsApostrophe>noApostrophe</IsApostrophe>
+							<IsFeminine>notFeminine</IsFeminine>
+							<IsMasculine>notMasculine</IsMasculine>
+							<Plural>singular</Plural>
+						</PropertyFlags>
+					</Property>
+				</ArrayProperties>
+				<ArrayElements>
+				</ArrayElements>
+			</Class>
+
+			<Class>
+				<ClassName>picker windows</ClassName>
+				<ClassID>PikW</ClassID>
+				<ClassDescription>every picker window</ClassDescription>
 				<ArrayProperties>
 					<Property>
 						<PropertyName></PropertyName>
@@ -3638,430 +4253,6 @@
 				</ArrayElements>
 			</Class>
 
-			<Class>
-				<ClassName>plugin</ClassName>
-				<ClassID>Plug</ClassID>
-				<ClassDescription>a plugin object</ClassDescription>
-				<ArrayProperties>
-					<Property>
-						<PropertyName>name</PropertyName>
-						<PropertyID>pnam</PropertyID>
-						<PropertyClass>itxt</PropertyClass>
-						<PropertyDescription>the name of the plugin</PropertyDescription>
-						<PropertyFlags>
-							<Reserved/>
-							<IsListOfItems>singleItem</IsListOfItems>
-							<IsEnumerated>notEnumerated</IsEnumerated>
-							<IsReadWrite>readOnly</IsReadWrite>
-							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
-							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
-							<PropertyIsReference>propertyIsValue</PropertyIsReference>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<IsApostrophe>noApostrophe</IsApostrophe>
-							<IsFeminine>notFeminine</IsFeminine>
-							<IsMasculine>notMasculine</IsMasculine>
-							<Plural>singular</Plural>
-						</PropertyFlags>
-					</Property>
-					<Property>
-						<PropertyName>index</PropertyName>
-						<PropertyID>pidx</PropertyID>
-						<PropertyClass>long</PropertyClass>
-						<PropertyDescription>the index of the plugin</PropertyDescription>
-						<PropertyFlags>
-							<Reserved/>
-							<IsListOfItems>singleItem</IsListOfItems>
-							<IsEnumerated>notEnumerated</IsEnumerated>
-							<IsReadWrite>readOnly</IsReadWrite>
-							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
-							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
-							<PropertyIsReference>propertyIsValue</PropertyIsReference>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<IsApostrophe>noApostrophe</IsApostrophe>
-							<IsFeminine>notFeminine</IsFeminine>
-							<IsMasculine>notMasculine</IsMasculine>
-							<Plural>singular</Plural>
-						</PropertyFlags>
-					</Property>
-					<Property>
-						<PropertyName>version</PropertyName>
-						<PropertyID>vers</PropertyID>
-						<PropertyClass>itxt</PropertyClass>
-						<PropertyDescription>the version of the plugin</PropertyDescription>
-						<PropertyFlags>
-							<Reserved/>
-							<IsListOfItems>singleItem</IsListOfItems>
-							<IsEnumerated>notEnumerated</IsEnumerated>
-							<IsReadWrite>readOnly</IsReadWrite>
-							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
-							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
-							<PropertyIsReference>propertyIsValue</PropertyIsReference>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<IsApostrophe>noApostrophe</IsApostrophe>
-							<IsFeminine>notFeminine</IsFeminine>
-							<IsMasculine>notMasculine</IsMasculine>
-							<Plural>singular</Plural>
-						</PropertyFlags>
-					</Property>
-					<Property>
-						<PropertyName>typecode</PropertyName>
-						<PropertyID>pTYP</PropertyID>
-						<PropertyClass>TEXT</PropertyClass>
-						<PropertyDescription>the type code of the plugin</PropertyDescription>
-						<PropertyFlags>
-							<Reserved/>
-							<IsListOfItems>singleItem</IsListOfItems>
-							<IsEnumerated>notEnumerated</IsEnumerated>
-							<IsReadWrite>readOnly</IsReadWrite>
-							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
-							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
-							<PropertyIsReference>propertyIsValue</PropertyIsReference>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<IsApostrophe>noApostrophe</IsApostrophe>
-							<IsFeminine>notFeminine</IsFeminine>
-							<IsMasculine>notMasculine</IsMasculine>
-							<Plural>singular</Plural>
-						</PropertyFlags>
-					</Property>
-					<Property>
-						<PropertyName>creator</PropertyName>
-						<PropertyID>pCRE</PropertyID>
-						<PropertyClass>TEXT</PropertyClass>
-						<PropertyDescription>the creator code of the plugin</PropertyDescription>
-						<PropertyFlags>
-							<Reserved/>
-							<IsListOfItems>singleItem</IsListOfItems>
-							<IsEnumerated>notEnumerated</IsEnumerated>
-							<IsReadWrite>readOnly</IsReadWrite>
-							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
-							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
-							<PropertyIsReference>propertyIsValue</PropertyIsReference>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<IsApostrophe>noApostrophe</IsApostrophe>
-							<IsFeminine>notFeminine</IsFeminine>
-							<IsMasculine>notMasculine</IsMasculine>
-							<Plural>singular</Plural>
-						</PropertyFlags>
-					</Property>
-					<Property>
-						<PropertyName>loaded</PropertyName>
-						<PropertyID>pLDD</PropertyID>
-						<PropertyClass>bool</PropertyClass>
-						<PropertyDescription>is the plugin loaded?</PropertyDescription>
-						<PropertyFlags>
-							<Reserved/>
-							<IsListOfItems>singleItem</IsListOfItems>
-							<IsEnumerated>notEnumerated</IsEnumerated>
-							<IsReadWrite>readOnly</IsReadWrite>
-							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
-							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
-							<PropertyIsReference>propertyIsValue</PropertyIsReference>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<IsApostrophe>noApostrophe</IsApostrophe>
-							<IsFeminine>notFeminine</IsFeminine>
-							<IsMasculine>notMasculine</IsMasculine>
-							<Plural>singular</Plural>
-						</PropertyFlags>
-					</Property>
-					<Property>
-						<PropertyName>supported types</PropertyName>
-						<PropertyID>pSuT</PropertyID>
-						<PropertyClass>list</PropertyClass>
-						<PropertyDescription>the list of types supported by the plugin</PropertyDescription>
-						<PropertyFlags>
-							<Reserved/>
-							<IsListOfItems>listOfItems</IsListOfItems>
-							<IsEnumerated>notEnumerated</IsEnumerated>
-							<IsReadWrite>readOnly</IsReadWrite>
-							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
-							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
-							<PropertyIsReference>propertyIsValue</PropertyIsReference>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<IsApostrophe>noApostrophe</IsApostrophe>
-							<IsFeminine>notFeminine</IsFeminine>
-							<IsMasculine>notMasculine</IsMasculine>
-							<Plural>singular</Plural>
-						</PropertyFlags>
-					</Property>
-				</ArrayProperties>
-				<ArrayElements>
-				</ArrayElements>
-			</Class>
-
-			<Class>
-				<ClassName>plugins</ClassName>
-				<ClassID>Plug</ClassID>
-				<ClassDescription>every plugin</ClassDescription>
-				<ArrayProperties>
-					<Property>
-						<PropertyName></PropertyName>
-						<PropertyID>c@#!</PropertyID>
-						<PropertyClass>type</PropertyClass>
-						<PropertyDescription></PropertyDescription>
-						<PropertyFlags>
-							<Reserved/>
-							<IsListOfItems>singleItem</IsListOfItems>
-							<IsEnumerated>notEnumerated</IsEnumerated>
-							<IsReadWrite>readOnly</IsReadWrite>
-							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
-							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
-							<PropertyIsReference>propertyIsValue</PropertyIsReference>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<IsApostrophe>noApostrophe</IsApostrophe>
-							<IsFeminine>notFeminine</IsFeminine>
-							<IsMasculine>notMasculine</IsMasculine>
-							<Plural>plural</Plural>
-						</PropertyFlags>
-					</Property>
-				</ArrayProperties>
-				<ArrayElements>
-				</ArrayElements>
-			</Class>
-
-			<Class>
-				<ClassName>picker</ClassName>
-				<ClassID>PikD</ClassID>
-				<ClassDescription>a picker document for a given type</ClassDescription>
-				<ArrayProperties>
-					<Property>
-						<PropertyName>name</PropertyName>
-						<PropertyID>pnam</PropertyID>
-						<PropertyClass>itxt</PropertyClass>
-						<PropertyDescription>the name of the picker: this is the name of the associated type</PropertyDescription>
-						<PropertyFlags>
-							<Reserved/>
-							<IsListOfItems>singleItem</IsListOfItems>
-							<IsEnumerated>notEnumerated</IsEnumerated>
-							<IsReadWrite>readOnly</IsReadWrite>
-							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
-							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
-							<PropertyIsReference>propertyIsValue</PropertyIsReference>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<IsApostrophe>noApostrophe</IsApostrophe>
-							<IsFeminine>notFeminine</IsFeminine>
-							<IsMasculine>notMasculine</IsMasculine>
-							<Plural>singular</Plural>
-						</PropertyFlags>
-					</Property>
-					<Property>
-						<PropertyName>index</PropertyName>
-						<PropertyID>pidx</PropertyID>
-						<PropertyClass>long</PropertyClass>
-						<PropertyDescription>the index of the picker</PropertyDescription>
-						<PropertyFlags>
-							<Reserved/>
-							<IsListOfItems>singleItem</IsListOfItems>
-							<IsEnumerated>notEnumerated</IsEnumerated>
-							<IsReadWrite>readOnly</IsReadWrite>
-							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
-							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
-							<PropertyIsReference>propertyIsValue</PropertyIsReference>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<IsApostrophe>noApostrophe</IsApostrophe>
-							<IsFeminine>notFeminine</IsFeminine>
-							<IsMasculine>notMasculine</IsMasculine>
-							<Plural>singular</Plural>
-						</PropertyFlags>
-					</Property>
-					<Property>
-						<PropertyName>readOnly</PropertyName>
-						<PropertyID>pRDO</PropertyID>
-						<PropertyClass>bool</PropertyClass>
-						<PropertyDescription>is this picker read-only?</PropertyDescription>
-						<PropertyFlags>
-							<Reserved/>
-							<IsListOfItems>singleItem</IsListOfItems>
-							<IsEnumerated>notEnumerated</IsEnumerated>
-							<IsReadWrite>readOnly</IsReadWrite>
-							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
-							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
-							<PropertyIsReference>propertyIsValue</PropertyIsReference>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<IsApostrophe>noApostrophe</IsApostrophe>
-							<IsFeminine>notFeminine</IsFeminine>
-							<IsMasculine>notMasculine</IsMasculine>
-							<Plural>singular</Plural>
-						</PropertyFlags>
-					</Property>
-					<Property>
-						<PropertyName>window</PropertyName>
-						<PropertyID>cwin</PropertyID>
-						<PropertyClass>cwin</PropertyClass>
-						<PropertyDescription>the window of the picker</PropertyDescription>
-						<PropertyFlags>
-							<Reserved/>
-							<IsListOfItems>singleItem</IsListOfItems>
-							<IsEnumerated>notEnumerated</IsEnumerated>
-							<IsReadWrite>readOnly</IsReadWrite>
-							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
-							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
-							<PropertyIsReference>propertyIsValue</PropertyIsReference>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<IsApostrophe>noApostrophe</IsApostrophe>
-							<IsFeminine>notFeminine</IsFeminine>
-							<IsMasculine>notMasculine</IsMasculine>
-							<Plural>singular</Plural>
-						</PropertyFlags>
-					</Property>
-					<Property>
-						<PropertyName>type</PropertyName>
-						<PropertyID>cTYP</PropertyID>
-						<PropertyClass>cTYP</PropertyClass>
-						<PropertyDescription>the type of the resources displayed by this picker</PropertyDescription>
-						<PropertyFlags>
-							<Reserved/>
-							<IsListOfItems>singleItem</IsListOfItems>
-							<IsEnumerated>notEnumerated</IsEnumerated>
-							<IsReadWrite>readOnly</IsReadWrite>
-							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
-							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
-							<PropertyIsReference>propertyIsValue</PropertyIsReference>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<IsApostrophe>noApostrophe</IsApostrophe>
-							<IsFeminine>notFeminine</IsFeminine>
-							<IsMasculine>notMasculine</IsMasculine>
-							<Plural>singular</Plural>
-						</PropertyFlags>
-					</Property>
-					<Property>
-						<PropertyName>owner doc</PropertyName>
-						<PropertyID>pOWM</PropertyID>
-						<PropertyClass>MapD</PropertyClass>
-						<PropertyDescription>the rezmap document that owns this picker</PropertyDescription>
-						<PropertyFlags>
-							<Reserved/>
-							<IsListOfItems>singleItem</IsListOfItems>
-							<IsEnumerated>notEnumerated</IsEnumerated>
-							<IsReadWrite>readOnly</IsReadWrite>
-							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
-							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
-							<PropertyIsReference>propertyIsValue</PropertyIsReference>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<IsApostrophe>noApostrophe</IsApostrophe>
-							<IsFeminine>notFeminine</IsFeminine>
-							<IsMasculine>notMasculine</IsMasculine>
-							<Plural>singular</Plural>
-						</PropertyFlags>
-					</Property>
-					<Property>
-						<PropertyName>selection</PropertyName>
-						<PropertyID>pSEL</PropertyID>
-						<PropertyClass>itxt</PropertyClass>
-						<PropertyDescription>the ID of the selected resource (use an empty string to remove the selection)</PropertyDescription>
-						<PropertyFlags>
-							<Reserved/>
-							<IsListOfItems>singleItem</IsListOfItems>
-							<IsEnumerated>notEnumerated</IsEnumerated>
-							<IsReadWrite>readWrite</IsReadWrite>
-							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
-							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
-							<PropertyIsReference>propertyIsValue</PropertyIsReference>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<IsApostrophe>noApostrophe</IsApostrophe>
-							<IsFeminine>notFeminine</IsFeminine>
-							<IsMasculine>notMasculine</IsMasculine>
-							<Plural>singular</Plural>
-						</PropertyFlags>
-					</Property>
-				</ArrayProperties>
-				<ArrayElements>
-				</ArrayElements>
-			</Class>
-
-			<Class>
-				<ClassName>pickers</ClassName>
-				<ClassID>PikD</ClassID>
-				<ClassDescription>every picker document</ClassDescription>
-				<ArrayProperties>
-					<Property>
-						<PropertyName></PropertyName>
-						<PropertyID>c@#!</PropertyID>
-						<PropertyClass>type</PropertyClass>
-						<PropertyDescription></PropertyDescription>
-						<PropertyFlags>
-							<Reserved/>
-							<IsListOfItems>singleItem</IsListOfItems>
-							<IsEnumerated>notEnumerated</IsEnumerated>
-							<IsReadWrite>readOnly</IsReadWrite>
-							<EnumsAreTypes>enumsAreConstants</EnumsAreTypes>
-							<EnumIsExclusive>enumListCanRepeat</EnumIsExclusive>
-							<PropertyIsReference>propertyIsValue</PropertyIsReference>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<Reserved/>
-							<IsApostrophe>noApostrophe</IsApostrophe>
-							<IsFeminine>notFeminine</IsFeminine>
-							<IsMasculine>notMasculine</IsMasculine>
-							<Plural>plural</Plural>
-						</PropertyFlags>
-					</Property>
-				</ArrayProperties>
-				<ArrayElements>
-				</ArrayElements>
-			</Class>
-
 		</ArrayClasses>
 		
 		<ArrayComparisonOps>
@@ -4090,21 +4281,6 @@
 						<EnumeratorName>hexadecimal</EnumeratorName>
 						<EnumeratorID>EHEX</EnumeratorID>
 						<EnumeratorDescription>hexadecimal editor</EnumeratorDescription>
-					</Enumerator>
-				</ArrayEnumerators>
-			</Enumeration>
-			<Enumeration>
-				<EnumerationID>PKND</EnumerationID>
-				<ArrayEnumerators>
-					<Enumerator>
-						<EnumeratorName>hexadecimal</EnumeratorName>
-						<EnumeratorID>HEXA</EnumeratorID>
-						<EnumeratorDescription>hex pane</EnumeratorDescription>
-					</Enumerator>
-					<Enumerator>
-						<EnumeratorName>ascii</EnumeratorName>
-						<EnumeratorID>ASCI</EnumeratorID>
-						<EnumeratorDescription>text pane</EnumeratorDescription>
 					</Enumerator>
 				</ArrayEnumerators>
 			</Enumeration>
