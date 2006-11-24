@@ -1,4 +1,4 @@
-// Last modification: 2006-11-10 10:06:03
+// Last modification: 2006-11-24 11:03:35
 
 localize "English" as "Localizable.strings" 
 {
@@ -13,6 +13,7 @@ localize "English" as "Localizable.strings"
 	key "CantImportOnExistingICNS" value string "Can’t import on already existing data: create a new ‘icns’ resource to import from file."
 	key "CantOpenRezFileForWriting" value string "Could not open resource file for writing (error ‘%d’)."
 	key "CantSaveReadOnly" value string "Can’t save the modifications: document is read only."
+	key "CompareMapsError" value string "An error ‘%d’ occured while comparing the resource maps."
 	key "ConfirmCloseModifiedEditedRes" value string "Some edited resources have not been validated. Do you want to close anyway?"
 	key "ConfirmCreateIcnsMember" value string "Do you want to create an icon member of type ‘%s’ in the ‘icns’ family?"
 	key "ConfirmRemoveIcnsMember" value string "Do you want to remove the ‘%s’ member from the ‘icns’ family?"
@@ -57,6 +58,7 @@ localize "English" as "Localizable.strings"
 	key "NoIDSpecified" value string "You must specify a resource ID."
 	key "NoOpenWritePermission" value string "The resource fork of ‘%s’ is already opened with write permission from another application. Try to open it in Read-Only mode."
 	key "NoPictOnClipboard" value string "No ‘PICT’ resource on the clipboard."
+	key "NoPluginForThisType" value string "No plugin available for ‘%s’ type."
 	key "NoRezForkAskCreate" value string "The file ‘%s’ contains no resource fork. Do you want to open ?"
 	key "NoRezInAnyFork" value string "The file ‘%s’ contains no resources."
 	key "NoRezInDataFork" value string "The file ‘%s’ contains no resources in the data fork."

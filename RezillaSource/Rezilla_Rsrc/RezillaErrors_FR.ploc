@@ -1,7 +1,7 @@
 // ===========================================================================
 // RezillaErrors_FR.ploc
 //                       Created: 2004-10-05 15:00:32
-//             Last modification: 2006-10-15 07:19:56
+//             Last modification: 2006-11-24 10:42:12
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -30,6 +30,7 @@ localize "French" as "Errors.strings"
 	key "1017" value string "Il n’existe pas de sélectionneur pour ce type de ressources"
 	key "1018" value string "L’ouverture du sélectionneur de ressources a échoué"
 	key "1019" value string "Données de ressource invalides"
+	key "1020" value string "Table invalide pour la comparison"
 	key "1900" value string "Erreur générique d’importation"
 	key "1901" value string "Type de ressource invalide. Un type doit comporter 4 caractères."
 	key "1902" value string "Impossible d’obtenir les données Xml"

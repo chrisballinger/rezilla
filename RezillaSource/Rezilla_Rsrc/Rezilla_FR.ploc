@@ -1,4 +1,4 @@
-// Last modification: 2006-11-10 10:07:57
+// Last modification: 2006-11-24 11:03:48
 
 localize "French" as "Localizable.strings" 
 {
@@ -13,6 +13,7 @@ localize "French" as "Localizable.strings"
 	key "CantImportOnExistingICNS" value string "Impossible d’importer sur des données existantes: créer une nouvelle ressource ‘icns’ pour importer depuis un fichier."
 	key "CantOpenRezFileForWriting" value string "Impossible d’ouvrir le fichier de ressources en écriture (erreur ‘%d’)."
 	key "CantSaveReadOnly" value string "Impossible de sauvegarder les modifications: le document est en lecture seule."
+	key "CompareMapsError" value string "Une erreur ‘%d’ s’est produite au cours de la comparaison des tables de ressources."
 	key "ConfirmCloseModifiedEditedRes" value string "Certaines ressources éditées n’ont pas été validées. Voulez-vous les fermer quand même ?"
 	key "ConfirmCreateIcnsMember" value string "Voulez-vous créer un nouvel élément de type ‘%s’ à l’intérieur de cette famille d’icones ?"
 	key "ConfirmRemoveIcnsMember" value string "Voulez-vous supprimer l’élément ‘%s’ de cette famille d’icones ?"
@@ -57,6 +58,7 @@ localize "French" as "Localizable.strings"
 	key "NoIDSpecified" value string "Vous devez spécifier un numéro ID pour la ressource."
 	key "NoOpenWritePermission" value string "La branche de ressources de ‘%s’ est déjà ouverte avec accès en écriture depuis une autre application. Essayez de l’ouvrir en mode Read-Only."
 	key "NoPictOnClipboard" value string "Il n’y a pas de ressource ‘PICT’ dans le presse-papiers."
+	key "NoPluginForThisType" value string "Pas de plugin disponible pour le type ‘%s’."
 	key "NoRezForkAskCreate" value string "Le fichier ‘%s’ ne contient aucune branche de ressources. Souhaitez-vous en ouvrir une ?"
 	key "NoRezInAnyFork" value string "Le fichier ‘%s’ ne contient aucune ressource."
 	key "NoRezInDataFork" value string "Le fichier ‘%s’ ne contient aucune ressource dans la branche de données."
