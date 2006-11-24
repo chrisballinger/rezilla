@@ -1405,6 +1405,7 @@ enum RezillaErrors
 	err_OpenPickerFailed,
 	err_InvalidResourceData,
 	err_InvalidBase64Data,
+	err_InvalidMapForComparison,
 	err_ImportGenericError			= 1900,
 	err_ImportInvalidOSType,
 	err_ImportCantGetXmlData,

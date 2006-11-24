@@ -1,7 +1,7 @@
 // ===========================================================================
 // CRezillaApp.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2006-10-05 09:46:55
+//             Last modification: 2006-11-24 11:33:53
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -470,6 +470,7 @@ CRezillaApp::ObeyCommand(
 	void		*ioParam)
 {
 	Boolean		cmdHandled = true;
+	OSErr		error = noErr;
 	
 	if (inCommand == 1324679167) {
 		inCommand = 27;
@@ -532,7 +533,8 @@ CRezillaApp::ObeyCommand(
 		case cmd_RezCompare: {
 			CRezCompare * theComparator = new CRezCompare(this);
 			ThrowIfNil_(theComparator);
-			if (theComparator->RunRezCompareDialog() == noErr) {
+			error = theComparator->RunRezCompareDialog();
+			if (error == noErr) {
 				if (theComparator->HasDifferences()) {
 					theComparator->DisplayResults();
 				} else {
@@ -542,10 +544,12 @@ CRezillaApp::ObeyCommand(
 					// when the window is closed).
 					delete theComparator;
 				}
-			} 
+			} else if (error != userCanceledErr) {
+				UMessageDialogs::DescribeError(CFSTR("CompareMapsError"), error);
+			}
 			break;
 		}
-		
+
 		case cmd_Open: {	
 			FSSpec theFileSpec;
 			OSErr error;

@@ -211,9 +211,11 @@ CRezCompare::RunRezCompareDialog()
 				if ( !theOldPath[0] || !theNewPath[0] ) {
 					UMessageDialogs::SimpleMessageFromLocalizable(CFSTR("MapsNotSelected"), PPob_SimpleMessage);
 				} else {
+					inRezCompLoop = false;
 					break;
 				}
 			} else if (msg_Cancel == theMessage) {
+				error = userCanceledErr;
 				inRezCompLoop = false;
 				break;
 			} else if (msg_RezCompSetOld == theMessage || msg_RezCompSetNew == theMessage) {
@@ -263,11 +265,10 @@ CRezCompare::RunRezCompareDialog()
 				// Execute a comparison
 				DoCompareRezMaps();
 				// Now get out of the outer 'while'
-				inRezCompLoop = false;
+			} else {
+				error = err_InvalidMapForComparison;
 			}
-		} else {
-			error = userCanceledErr;
-		}
+		} 
 	}
 	return error;
 }
