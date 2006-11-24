@@ -2,7 +2,7 @@
 // File: "RezImagePlugin.c"
 // 
 //                        Created: 2006-02-20 14:15:30
-//              Last modification: 2006-09-18 10:00:25
+//              Last modification: 2006-11-24 09:06:35
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -25,9 +25,6 @@
 #define kRezImg_WinBoundsLeft		50;
 #define kRezImg_WinBoundsBottom		600;
 #define kRezImg_WinBoundsRight		500;
-
-#define MAX_IMAGE_WIDTH		700
-#define MAX_IMAGE_HEIGHT	600
 
 
 // Image plugin record
@@ -90,7 +87,6 @@ static void			_RezImg_deallocRec( RezImg_Rec *myInstance );
 static OSErr		_RezImg_getImageInfo(Handle inDataH, OSType imgType, StringPtr mimeTypeString,  RezImg_EditInfo * editInfo);
 static OSErr		_RezImg_readBitmapInfo(GraphicsImportComponent gi, RezImg_EditInfo *bi);
 static OSErr		_RezImg_getBitmapData(GraphicsImportComponent gi, RezImg_EditInfo *bi);
-static void 		_RezImg_rescaleImage( size_t* imageWidthPtr, size_t* imageHeightPtr, size_t maxWidth, size_t maxHeight );
 static Handle		_RezImg_createHandleDataRef(Handle dataHandle, OSType fileType, StringPtr mimeTypeString);
 static OSStatus		_RezImg_openImageFile(CFURLRef * outURL);
 static CGImageRef	_RezImg_getImageRef(RezImg_EditInfo * editInfo);
@@ -287,7 +283,6 @@ RezImg_AcceptResource(void *myInstance, ResType inType, short inID, Handle inDat
 			editInfo->bitmapData	= NULL;
 			editInfo->width			= 0;
 			editInfo->height		= 0;
-
 			
 			if (GetHandleSize(inDataH) > 0) {
 				error = _RezImg_getImageInfo(inDataH, imgType, NULL, editInfo);
@@ -298,11 +293,6 @@ RezImg_AcceptResource(void *myInstance, ResType inType, short inID, Handle inDat
 					outInfo->error = error;
 					return false;
 				} 
-							
-				// Make sure that the image isn't too large to fit comfortably onscreen
-				if ( editInfo->width > MAX_IMAGE_WIDTH || editInfo->height > MAX_IMAGE_HEIGHT ) {
-					_RezImg_rescaleImage( &editInfo->width, &editInfo->height, MAX_IMAGE_WIDTH, MAX_IMAGE_HEIGHT );
-				}
 			} 
 			
 			// Fill the RezPlugInfo
@@ -397,7 +387,7 @@ RezImg_ReturnResource(RezPlugRef inPlugref, Boolean * releaseIt, OSErr * outErro
 //
 //  The implementation by the Image plugin of the RevertResource function
 //  declared in the interface (SPluginEditorInterface structure)
-//
+//  
 // -------------------------------------------------------------------------------------------
 
 OSErr
@@ -964,32 +954,6 @@ _RezImg_getImageRef(RezImg_EditInfo * editInfo)
 	if (theColorspace) { CGColorSpaceRelease( theColorspace ); } 
 	
 	return theImage;
-}
-
-
-// -------------------------------------------------------------------------------------------
-//
-// Adapted from Apple's QTtoCG sample code
-//
-// -------------------------------------------------------------------------------------------
-
-void 
-_RezImg_rescaleImage( size_t* imageWidthPtr, size_t* imageHeightPtr, size_t maxWidth, size_t maxHeight )
-{
-	size_t	width = *imageWidthPtr;
-	size_t	height = *imageHeightPtr;
-	double	widthFactor = (double)width / (double)maxWidth;
-	double	heightFactor = (double)height / (double)maxHeight;
-	
-	if ( widthFactor > heightFactor ) {
-		// We're further off in the x axis than we are in the y
-		*imageWidthPtr = width / widthFactor;
-		*imageHeightPtr = height / widthFactor;
-	} else {
-		// We're further off in the y axis than we are in the x
-		*imageWidthPtr = width / heightFactor;
-		*imageHeightPtr = height / heightFactor;
-	}
 }
 
 
