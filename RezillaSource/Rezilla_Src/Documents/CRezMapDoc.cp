@@ -562,7 +562,11 @@ CRezMapDoc::DoEdit(CRezObjItem * inRezObjItem, CommandT inCommand, ResType inEdi
 			// call the right plugin
 			CPluginsController::InvokePluginEditor(this, inRezObjItem, substType);
 			break;
-		} // else fall through to template editing...
+		} else if (inCommand == cmd_EditWithPlugin) {
+			UMessageDialogs::AlertWithType(CFSTR("NoPluginForThisType"), inEditType);
+			break;
+		}
+		// else fall through to template editing...
 		
 		case cmd_TmplEditRez:
 		case cmd_TmplEditAsRez:
