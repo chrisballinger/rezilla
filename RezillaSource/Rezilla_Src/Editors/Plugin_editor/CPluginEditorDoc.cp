@@ -78,6 +78,7 @@ CPluginEditorDoc::Initialize()
 {
 	OSErr	error = noErr;
 	Handle	rezData;
+	Boolean	acceptIt = true;
 	
 	ThrowIfNil_(mPlugin);
 	
@@ -96,85 +97,90 @@ CPluginEditorDoc::Initialize()
 		}
 	} 
 	
-	SPluginEditorInterface** interface = mPlugin->GetInterface();
-	ThrowIfNil_(interface);
-	
-	// Install the contents
-	if (mRezObj != nil) {
-		rezData = mRezObj->GetData();
-		if (rezData != nil) {
-			// Work with a copy of the handle
-			::HandToHand(&rezData);
-		} 
-	} 
-	
-	// Ask the plugin its initial requirements
-	RezPlugInfo			plugInfo;
-	RezHostInfo 		hostInfo;
-	
-	UCursor::SetWatch();		// May take a little while
-	
-	plugInfo.error = noErr;
-	
-	// Pass mSubstType, not mRezObj->GetType()
-	if ( (*interface)->AcceptResource(interface, mSubstType, mRezObj->GetID(), rezData, &plugInfo) ) {
-		mAttributes = plugInfo.attributes;
+	if (error == noErr) {
+		SPluginEditorInterface** interface = mPlugin->GetInterface();
+		ThrowIfNil_(interface);
 		
-		// Create a window for our document and set this doc as its SuperCommander
-		mPluginWindow = CreatePluginWindow(plugInfo.attributes, plugInfo.winbounds);
-		Assert_( mPluginWindow != nil );
-		
-		// See LWindow::CreateWindow()
-		SetDefaultCommander(this);
-		SetDefaultAttachable(nil);
-
-		mPluginWindow->SetPlugRef(plugInfo.plugref);
-		
-		SetMainWindow( dynamic_cast<CEditorWindow *>(mPluginWindow) );
-		NameNewEditorDoc();
-		mPluginWindow->FinalizeEditor(this, NULL);
-		
-		// Create the plugin menus
-		hostInfo.menucount = mPlugin->CreateMenus(plugInfo.menucount, plugInfo.menuIDs);
-		
-		// Fill the reply structure
-		hostInfo.bundleref = ::CFPlugInGetBundle( mPlugin->GetPluginRef() );
-		hostInfo.winref = mPluginWindow->GetMacWindow();
-		hostInfo.readonly = IsReadOnly();
+		// Install the contents
 		if (mRezObj != nil) {
-			hostInfo.refnum = mRezObj->GetOwnerRefnum();
+			rezData = mRezObj->GetData();
+			if (rezData != nil) {
+				// Work with a copy of the handle
+				::HandToHand(&rezData);
+			} 
+		} 
+		
+		// Ask the plugin its initial requirements
+		RezPlugInfo			plugInfo;
+		RezHostInfo 		hostInfo;
+		
+		UCursor::SetWatch();		// May take a little while
+		
+		plugInfo.error = noErr;
+		
+		// Pass mSubstType, not mRezObj->GetType()
+		acceptIt = (*interface)->AcceptResource(interface, mSubstType, mRezObj->GetID(), rezData, &plugInfo);
+		
+		if (acceptIt) {
+			mAttributes = plugInfo.attributes;
+			
+			// Create a window for our document and set this doc as its SuperCommander
+			mPluginWindow = CreatePluginWindow(plugInfo.attributes, plugInfo.winbounds);
+			Assert_( mPluginWindow != nil );
+			
+			// See LWindow::CreateWindow()
+			SetDefaultCommander(this);
+			SetDefaultAttachable(nil);
+
+			mPluginWindow->SetPlugRef(plugInfo.plugref);
+			
+			SetMainWindow( dynamic_cast<CEditorWindow *>(mPluginWindow) );
+			NameNewEditorDoc();
+			mPluginWindow->FinalizeEditor(this, NULL);
+			
+			// Create the plugin menus
+			hostInfo.menucount = mPlugin->CreateMenus(plugInfo.menucount, plugInfo.menuIDs);
+			
+			// Fill the reply structure
+			hostInfo.bundleref = ::CFPlugInGetBundle( mPlugin->GetPluginRef() );
+			hostInfo.winref = mPluginWindow->GetMacWindow();
+			hostInfo.readonly = IsReadOnly();
+			if (mRezObj != nil) {
+				hostInfo.refnum = mRezObj->GetOwnerRefnum();
+			} else {
+				hostInfo.refnum = kResFileNotOpened;
+			}
+			
+			if (hostInfo.menucount > 0) {
+				mMenuRefs = (MenuRef *) malloc( sizeof(MenuRef) * hostInfo.menucount);
+				if (mMenuRefs != NULL) {
+					TArray<LMenu*>* menusListPtr = mPlugin->GetMenusList();
+
+					TArrayIterator<LMenu*> iterator(*menusListPtr);
+					LMenu *	theMenu;
+					int 	i = 0;
+					while (iterator.Next(theMenu)) {
+						mMenuRefs[i] = theMenu->GetMacMenuH();
+						i++;
+					}
+				}
+			} 
+			hostInfo.menurefs = mMenuRefs;
+
+			mPluginWindow->GetContentsRect(hostInfo.editrect);
 		} else {
-			hostInfo.refnum = kResFileNotOpened;
+			ReportPluginError(CFSTR("PluginEditorRefusedResource"), plugInfo.error);
+			error = err_PluginRefusedResource;
 		}
 		
-		if (hostInfo.menucount > 0) {
-			mMenuRefs = (MenuRef *) malloc( sizeof(MenuRef) * hostInfo.menucount);
-			if (mMenuRefs != NULL) {
-				TArray<LMenu*>* menusListPtr = mPlugin->GetMenusList();
+		if (error == noErr) {
+			// Now pass the info struct to the plugin for editing
+			error = (*interface)->EditResource(plugInfo.plugref, hostInfo);
+		}
+	} 
 
-				TArrayIterator<LMenu*> iterator(*menusListPtr);
-				LMenu *	theMenu;
-				int 	i = 0;
-				while (iterator.Next(theMenu)) {
-					mMenuRefs[i] = theMenu->GetMacMenuH();
-					i++;
-				}
-			}
-		} 
-		hostInfo.menurefs = mMenuRefs;
-
-		mPluginWindow->GetContentsRect(hostInfo.editrect);
-	} else {
-		error = plugInfo.error;
-	}
-	
-	if (error == noErr) {
-		// Now pass the info struct to the plugin for editing
-		error = (*interface)->EditResource(plugInfo.plugref, hostInfo);
-	}
-	
 	if (error != noErr) {
-		if (error != userCanceledErr) {
+		if (error != userCanceledErr && error != err_PluginRefusedResource) {
 			ReportPluginError(CFSTR("ErrorUsingPluginEditor"), error);
 		} 
 		delete this;
@@ -413,7 +419,6 @@ CPluginEditorDoc::CreatePluginWindow(SInt32 inPlugAttrs, Rect inWinbounds)
 // ---------------------------------------------------------------------------
 //   ReportPluginError												[public]
 // ---------------------------------------------------------------------------
-// Create the plugin window in compositing mode
 
 void
 CPluginEditorDoc::ReportPluginError(CFStringRef inCFStringRef, SInt32 inError) 
