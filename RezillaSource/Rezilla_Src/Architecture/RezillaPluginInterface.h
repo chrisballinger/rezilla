@@ -169,6 +169,7 @@ enum RezillaPluginErrors {
     plugErr_RevertResourceFailed,
     plugErr_CantResizeWindow,
     plugErr_CantHandleMenuCommand,
+	plugErr_CantEditEmptyResource,
     plugErr_LastError
 };
 
