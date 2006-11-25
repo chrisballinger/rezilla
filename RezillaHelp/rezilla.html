@@ -34,19 +34,19 @@ image resources. It supports the following image formats:
 create, modify, redraw, delete, etc. any of the bitmaps included in an
 'icns' resource suite. Possibility of importing from or exporting to a
 ".icns" image data file. Possibility of exploding or imploding the contents
-of an 'icns'.<P>	<LI> introduced <B>resource pickers</B>, that is to say special windows for
-displaying graphically all the resources of a particular type. Pickers 
+of an 'icns'.<P>	<LI> introduced <B>resource pickers</B> for
+displaying graphically and easily manipulating all the resources of a particular type. Pickers 
 have been defined for the following types: 
 <BLOCKQUOTE><P><I> 'TEXT', 'MENU', 'STR#', 'MBAR', 'RID#', 'Mcmd', 'RidL', 'cicn', 'ICON', 'SICN', 'icns', 'PICT', 'PAT ', 'ppat', 'PAT#', 'ICN#', 'icl4', 'icl8', 'icm#', 'icm4', 'icm8', 'ics#', 'ics4', 'ics8', 'CURS', 'crsr' </I></P></BLOCKQUOTE><P>	<LI> new <I>Plugins</I> command in the <I>File</I> menu to get info about
-the plugins and rearrange their order<P>	<LI> possibility of importing a resource map from XML<P>	<LI> new <I>Import</I> command in the <I>File</I> menu to import data in 
-some resource editors<P>	<LI> XML export correctly escapes the standard entities and writes in 
+the plugins and rearrange their order<P>	<LI> possibility of importing/exporting an entire resource map from/to XML<P>	<LI> new <I>Import</I> command in the <I>File</I> menu to import data in 
+some resource editors<P>	<LI> XML export now correctly escapes the standard entities and writes in 
 utf-8 encoding<P>	<LI> new WCOL and LCOL tags in the Template editor for RGB colors stored on
 2 or 4 bytes respectively<P>	<LI> improved Unique ID algorithm: it now returns the first available value
 (above the current one) when calculating a unique ID rather than a random
-number<P>	<LI> aliases are now followed for templates located in Application Support
-folders<P>	<LI> improved clipboard handling of hexadecimal data strings<P>	<LI> Tab key navigation in the fields of the Template editor's windows<P>	<LI> in the Template editor, the "+" key simulates a click on the Plus Button<P>	<LI> improved edition of resource ID (RSID) tags in the Template editor. A dynamic
+number<P>	<LI> aliases are now followed for templates located in <I>Application Support</I>
+folders<P>	<LI> improved edition of resource ID tags (RSID) in the Template editor. A dynamic
 popup offers the currently available choices.<P>	<LI> added new templates for the Templates editor (there are now more than 
-400 templates)<P>	<LI> extended AppleScript terminology to support plugins and pickers<P>	<LI> 10 new sample AppleScript to demonstrate the new commands<P>	<LI> many interface improvements...<P>	<LI> many bug fixes...<P></UL><P><H3><A NAME="M3"></A>Basic features</H3>
+400 templates)<P>	<LI> improved clipboard handling of hexadecimal data strings<P>	<LI> Tab key navigation through the fields of the Template editor's windows<P>	<LI> in the Template editor, the "+" key simulates a click on the Plus Button<P>	<LI> extended AppleScript terminology to support plugins and pickers<P>	<LI> more sample <I>AppleScript</I> scripts to demonstrate the new commands<P>	<LI> many interface improvements...<P>	<LI> many bug fixes...<P></UL><P><H3><A NAME="M3"></A>Basic features</H3>
 Previous versions already implemented the following features:<P><UL>
 	<LI> Rezilla lets you edit, create, modify, duplicate, remove resources
   contained in any fork (data fork or resource fork), copy, cut and paste
@@ -74,7 +74,7 @@ See some screenshots of Rezilla at work:
  <A HREF="rzil_utxt_editor_img.html"> the Unicode editor</A>,
  <A HREF="rzil_icns_editor_img.html"> the Icns editor</A>,
  <A HREF="rzil_icns_picker_img.html"> a resource picker</A>,
-and a few more images of Rezilla's interface can also be found in the  
+<P> A few more images of Rezilla's interface can also be found in the  
 <A HREF="http://sourceforge.net/project/screenshots.php?group_id=83267"> screenshots area</A> at SourceForge.<P><H2><A NAME="M6"></A>Download</H2>
 All <B>Rezilla</B> official binary releases, past and present, are available in the 
 <A HREF="http://sourceforge.net/project/showfiles.php?group_id=83267">download section</A> 
@@ -86,7 +86,7 @@ or the
 <A HREF="../Downloads/RezillaSrc.hqx"> sources</A>.<P>The application is bundled. You can install it anywhere on your system.
 Just double-click on its icon to launch it.<P><B>Warning</B> Rezilla is currently a project under development (aka work
 in progress).
-As usual, it comes without any warranty (see the license terms). That said, it
+It comes without any warranty (see the license terms). That said, it
 has been thoroughly tested and has proven quite stable and reliable.<P><H2><A NAME="M7"></A>Help</H2>
 Help files with complete documentation are accessible via the Help menu
 while the application is running. You can also read the help online
@@ -106,20 +106,19 @@ possesses an extended terminology to perform all kinds of tasks. Read the
 <B>Rezilla Scripting Tutorial</B> on this site
 <A HREF="http://perso.orange.fr/bdesgraupes/DocHTML/EN/ScriptingTutorial.html"> in english</A> or 
 <A HREF="http://perso.orange.fr/bdesgraupes/DocHTML/FR/ScriptingTutorial.html"> in french</A>.<P><H2><A NAME="M11"></A>Source Code</H2>
-<B>Rezilla</B> is an Open Source Project. Its source code is public and can 
+<B>Rezilla</B> is an <I>Open Source Project</I>. Its source code is public and can 
 be found on the SourceForge site at the following address:
 <A HREF="http://sourceforge.net/projects/rezilla">http://sourceforge.net/projects/rezilla</A><P><P> The code is under CVS control. You can retrieve the latest stage of 
 development using any CVS client. See 
 <A HREF="http://sourceforge.net/cvs/?group_id=83267"> instructions here</A>.<P><P> You can <A HREF="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/rezilla"> browse the cvs repository</A>
-online.<P><P> You can also get 
-<A HREF="http://cvs.sourceforge.net/cvstarballs/rezilla-cvsroot.tar.bz2"> nightly tarballs</A>.<P>Rezilla is built with 
+online.<P>Rezilla is built with 
 <A HREF="www.metrowerks.com"> Metrowerks CodeWarrior</A> and relies on their 
 PowerPlant C++ library. A project file is provided together with the Rezilla 
 source files. Starting with version 1.0.7, project files for XCode 1.5 and 
 XCode 2.1 have been added for those who prefer using 
 <A HREF="http://developer.apple.com"> Apple's Developer Tools</A>. In any
-case, you will need the PowerPlant library if you want to build Rezilla
-from source.<P>Detailed <B>compiling notes</B> and instructions can be found on this site  
+case, you will need the <A HREF="http://sourceforge.net/projects/open-powerplant"> PowerPlant library</A> if you want to build Rezilla
+from source (PowerPlant is open source since January 2006)).<P>Detailed <B>compiling notes</B> and instructions can be found on this site  
 <A HREF="http://perso.orange.fr/bdesgraupes/DocHTML/EN/CompilingNotes.html"> in english</A> or 
 <A HREF="http://perso.orange.fr/bdesgraupes/DocHTML/FR/CompilingNotes.html"> in french</A>.<P><H2><A NAME="M12"></A>Code contributions</H2>
 The Rezilla project is meant as a collaborative and extensible project:
@@ -129,16 +128,17 @@ and propose patches and code contributions are welcome. You can use for this the
 <A HREF="http://sourceforge.net/tracker/?atid=568884&group_id=83267&func=browse">patches tracker</A> 
 at SourceForge. Version 1.1 of Rezilla contains many contributions of this 
 kind.<P>	<LI> <I>extensible</I> means that it offers a plugin architecture
-(introduced in version 1.1) to support the addition of external editors.
+(introduced in version 1.1) to support the addition of external editors. 
+See the <I>Plugins</I> section below.
 </UL><P><H2><A NAME="M13"></A>Plugins</H2><P>Since version 1.1, Rezilla offers support for external third-party 
 plugins. If you are a developer and wish to write a Rezilla plugin, you 
 should start reading the <B>Rezilla Plugins Howto</B>
 document which gives all the necessary informations, and get the Rezilla
 SDK which is part of the
-<A HREF="http://sourceforge.net/project/showfiles.php?group_id=83267">sources distribution</A> 
+<A HREF="http://sourceforge.net/project/showfiles.php?group_id=83267">source distribution</A> 
 and has a <B>Sample plugin</B> which can be used as a template to create a
 new one.
-Tthe <B>Rezilla Plugins Howto</B> can be found on this site  
+The <B>Rezilla Plugins Howto</B> can be found on this site  
 <A HREF="http://perso.orange.fr/bdesgraupes/DocHTML/EN/RezillaPluginHowto.html"> in english</A> or 
 <A HREF="http://perso.orange.fr/bdesgraupes/DocHTML/FR/RezillaPluginHowto.html"> in french</A>.<P><H2><A NAME="M14"></A>Bug reports</H2><P><P> Bugs can be officially reported via the 
 <A HREF="http://sourceforge.net/tracker/?atid=568882&group_id=83267&func=browse"> Bug Tracker</A>
@@ -153,7 +153,7 @@ To see the collection of prior postings to the list, visit the
 <A HREF="http://sourceforge.net/mailarchive/forum.php?forum=rezilla-users">Rezilla-users  Archives</A>.<P>You can also e-mail me directly: <A HREF="mailto:bdesgraupes@users.sourceforge.net">bdesgraupes@users.sourceforge.net</A><P><!--  logo SF -->
 <!--  ------- -->
 <HR>
-<P> Last updated 2006-11-18 07:12:57
+<P> Last updated 2006-11-25 12:20:50
 <HR>
 <P> <I>Rezilla is hosted by</I> 
 <A HREF="http://sourceforge.net"> <P><IMG SRC="http://sourceforge.net/sflogo.php?group_id=83267&amp;type=4 " ALT="SourceForge.net Logo" ALIGN=bottom></P></A><P>

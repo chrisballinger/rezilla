@@ -75,22 +75,33 @@ structure also provided by Rezilla in the same function to make some
 requests: the plugin could ask Rezilla to provide one or several menus for 
 instance. The plugin can also attribute a <I>RezPlugRef</I>, a pointer to 
 private data which Rezilla will pass back in all its calls to interface 
-functions.<P>	<LI> after Rezilla receives acceptance and requests from the plugin, it 
-invokes the <I>EditResource</I> function. Through this function the 
-plugin receives a <I>RezHostInfo</I> structure filled by Rezilla and 
-containing basic information such as a <I>WindowRef</I> for the editing window, 
-the <I>MenuRef</I> pointers in case the plugin needs some menus, etc.
-</OL><P>At this point the plugin can do its job to edit the resource. It can 
-populate the window with controls and graphic elements, install CarbonEvents on these controls, 
-etc. Note though that the plugin is not obliged to use CarbonEvents; the basic user actions 
-are passed to it by Rezilla with an EventRecord via the following 
-functions declared in the interface: 
+functions.<P>	<LI> after Rezilla receives acceptance and requests from the plugin, it
+invokes the <I>EditResource</I> function. Through this function the plugin
+receives a <I>RezHostInfo</I> structure filled by Rezilla and containing
+basic information such as a <I>WindowRef</I> for the editing window, the
+<I>MenuRef</I> pointers in case the plugin needs some menus, etc.
+</OL><P>At this point the plugin can do its job to edit the resource. It can
+populate the window with controls and graphic elements, install
+CarbonEvents on these controls if necessary, etc. The window provided by
+Rezilla is constructed in compositing mode: this makes the HIView drawing
+model fully available.<P>Note though that the plugin is not obliged to use CarbonEvents; the basic
+user actions are passed to it by Rezilla with an EventRecord via the
+following functions declared in the interface:
 <I>HandleMenu, HandleClick, HandleKeyDown</I> and <I>HandleCommand</I>.<P>When it is time to save the modifications made in a resource (for instance
-when the user clicks on the <I>Save</I> button or attempts to close the window),
-Rezilla invokes the <I>ReturnResource</I> function so that the plugin
-returns the new data and then the <I>CleanUp</I> function so that it can
-perform any post editing tasks, like releasing allocated memory for
-instance.<P><H4><A NAME="M116"></A>Plugin requests</H4><P>This section gives more details about the requests made by the plugin in 
+when the user clicks on the <I>Save</I> button or attempts to close the
+window), Rezilla invokes the <I>ReturnResource</I> function so that the
+plugin returns the new data and then the <I>CleanUp</I> function so that
+it terminates its editing session.
+<UL>
+	<LI> the <I>ReturnResource</I> function returns a handle to the data. It
+also has a boolean argument named <I>releaseIt</I> to tell Rezilla who is
+the owner of this handle and should dispose of it. If <I>releaseIt</I> is
+set to true, Rezilla will dispose of the handle after the resource is
+saved. Otherwise the plugin assumes ownership.<P>	<LI> when the <I>CleanUp</I> function is called, the plugin should perform
+any post editing tasks, release allocated memory, etc.<P></UL><P>If the user clicks on the <I>Revert</I> button (if there is one!), Rezilla
+invokes the <I>RevertResource</I> function: the data to revert to are
+provided in the <I>inDataH</I> argument, so the plugin does not have to
+worry about keeping a copy of the original data.<P><H4><A NAME="M116"></A>Plugin requests</H4><P>This section gives more details about the requests made by the plugin in 
 the <I>AcceptResource</I> function. The <I>RezPlugInfo</I> structure is defined like this:
 <PRE>
 typedef struct RezPlugInfo {
@@ -139,10 +150,13 @@ enum RezillaPluginFlags {
                                    | kPluginSupportClear)
 }
 </PRE><P>The <I>winbounds</I> member is a Rect structure indicating the position
-and dimension of the editing window. Rezilla always provides an editing
-window which can be equiped with some basic controls such as a <I>Save</I> button,
-a <I>Cancel</I> button etc. The plugin does not have to track these controls: they
-are managed by the main application. The plugin just decides, using the
+and dimension of the editing window: it is in global coordinates and
+corresponds to the entire structure of the window, that is to say the
+dimensions that will be passed to the <I>CreateWindow</I> toolbox
+function. Rezilla always provides an editing window which can be equiped
+with some basic controls such as a <I>Save</I> button, a <I>Cancel</I>
+button etc. The plugin does not have to track these controls: they are
+managed by the main application. The plugin just decides, using the
 appropriate flags, which controls should be present in the editing window.
 For instance, add the <I>kPluginEditorHasRevertButton</I> flag to the
 attributes to get a <I>Revert</I> button.<P>The <I>menucount</I> member indicates how many menus are needed by the
@@ -225,6 +239,7 @@ enum RezillaPluginErrors {
     plugErr_RevertResourceFailed,
     plugErr_CantResizeWindow,
     plugErr_CantHandleMenuCommand,
+	plugErr_CantEditEmptyResource,
     plugErr_LastError
 }
 </PRE><P>
