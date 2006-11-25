@@ -2,7 +2,7 @@
 // CPluginChooser.h
 // 
 //                       Created: 2006-09-25 07:02:55
-//             Last modification: 2006-09-27 08:56:34
+//             Last modification: 2006-11-25 11:54:54
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -180,6 +180,9 @@ CPluginChooser::FinishCreateChooser()
 	mLoadedField = dynamic_cast<LStaticText *>(mInfoPane->FindPaneByID( item_PluginInfoLoadedText ));
 	ThrowIfNil_(mLoadedField);
 	
+	mRoleField = dynamic_cast<LStaticText *>(mInfoPane->FindPaneByID( item_PluginInfoRoleText ));
+	ThrowIfNil_(mRoleField);
+	
 	mSupportedTypes = dynamic_cast<LPopupButton *>(mInfoPane->FindPaneByID( item_PluginSupportedTypes ));
 	ThrowIfNil_(mSupportedTypes);
 
@@ -300,6 +303,25 @@ CPluginChooser::UpdatePluginInfo(CRezillaPlugin * inPlugin)
 		mLoadedField->SetDescriptor("\pyes");
 	} else {
 		mLoadedField->SetDescriptor("\pno");
+	}
+	
+	switch (inPlugin->GetPluginRole()) {
+	  case plugin_roleNone:
+	  mRoleField->SetDescriptor("\pnone");
+	  break;
+	  
+	  case plugin_roleEditor:
+	  mRoleField->SetDescriptor("\peditor");
+	  break;
+	  
+	  case plugin_roleViewer:
+	  mRoleField->SetDescriptor("\pviewer");
+	  break;
+		
+	  default:
+	  mRoleField->SetDescriptor("\pn/a");
+	  break;
+	  
 	}
 	
 	theIconRef = inPlugin->GetIconRef();

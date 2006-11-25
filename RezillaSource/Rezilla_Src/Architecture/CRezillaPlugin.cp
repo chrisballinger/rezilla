@@ -2,7 +2,7 @@
 // CRezillaPlugin.cp
 // 
 //                       Created: 2005-09-26 09:48:26
-//             Last modification: 2006-09-26 12:55:42
+//             Last modification: 2006-11-25 07:49:39
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://rezilla.sourceforge.net/>
@@ -36,6 +36,9 @@ CRezillaPlugin::CRezillaPlugin(CFBundleRef inBundleRef)
 	mIsLoaded = false;
 	mMenusBuilt = false;
 	mName = NULL;
+	mPluginType = 0;
+	mPluginCreator = 0;
+	mPluginRole = plugin_roleUnknown;
 	mIconRef = 0;
 	mPluginRef = NULL;
 	mInterface = NULL;
@@ -72,14 +75,13 @@ CRezillaPlugin::Initialize(CFBundleRef inBundleRef)
 	CFURLRef		plugURL = nil;
 	ResType			theType;
 	Str255  		theString;
-	CFStringRef		iconFilenameRef;
+	CFStringRef		iconFilenameRef, roleRef;
 	
 	// Get an instance of the non-localized keys
 	bundleInfoDict = ::CFBundleGetInfoDictionary(inBundleRef);
 
 	// If successful, look for some properties
 	if ( bundleInfoDict != NULL ) {
-// 		propRef = ::CFDictionaryGetValue( bundleInfoDict, CFSTR("RezillaPluginRole") );
 		
 		typesArray = (CFArrayRef) ::CFDictionaryGetValue( bundleInfoDict, CFSTR("RezillaPluginEditTypes") );
 		if (typesArray != nil) {
@@ -104,10 +106,7 @@ CRezillaPlugin::Initialize(CFBundleRef inBundleRef)
 		mName = ::CFURLCopyLastPathComponent(plugURL);
 		::CFRelease(plugURL);   
 		::CFRetain(mName);
-	} else {
-		mPluginType = 0;
-		mPluginCreator = 0;
-	}
+	} 
 	
 	// Look for an icon file
 	iconFilenameRef = (CFStringRef) ::CFDictionaryGetValue( bundleInfoDict, CFSTR("CFBundleIconFile") );
@@ -123,6 +122,18 @@ CRezillaPlugin::Initialize(CFBundleRef inBundleRef)
 		} 
 	} 
 	
+	// Look for the plugin role
+	roleRef = (CFStringRef) ::CFDictionaryGetValue( bundleInfoDict, CFSTR("RezillaPluginRole") );
+	if (roleRef) {
+		if ( ::CFStringCompare( roleRef, CFSTR("none"), kCFCompareCaseInsensitive ) == kCFCompareEqualTo ) {
+			mPluginRole = plugin_roleNone;
+		} else if ( ::CFStringCompare( roleRef, CFSTR("editor"), kCFCompareCaseInsensitive ) == kCFCompareEqualTo ) {
+			mPluginRole = plugin_roleEditor;
+		} else if ( ::CFStringCompare( roleRef, CFSTR("viewer"), kCFCompareCaseInsensitive ) == kCFCompareEqualTo ) {
+			mPluginRole = plugin_roleViewer;
+		} 
+	} 
+
 	// Get version number
 	mPluginVersion = ::CFBundleGetVersionNumber(inBundleRef);
 }

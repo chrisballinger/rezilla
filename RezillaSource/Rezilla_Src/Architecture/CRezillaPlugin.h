@@ -2,7 +2,7 @@
 // CRezillaPlugin.h
 // 
 //                       Created: 2005-09-26 09:48:26
-//             Last modification: 2006-09-28 08:46:55
+//             Last modification: 2006-11-25 07:31:00
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@sourceforge.users.fr>
 // www: <http://rezilla.sourceforge.net/>
@@ -67,6 +67,7 @@ public:
 		UInt32				GetPluginType() { return mPluginType;}
 		UInt32				GetPluginCreator() { return mPluginCreator;}
 		UInt32				GetPluginVersion() { return mPluginVersion;}
+		UInt32				GetPluginRole() { return mPluginRole;}
 		Boolean				IsLoaded() { return mIsLoaded;}
 		IconRef				GetIconRef() { return mIconRef;}
 
@@ -80,7 +81,8 @@ protected:
 		Boolean						mIsLoaded;		// differed loading
 		UInt32  					mPluginType,
 									mPluginCreator,
-									mPluginVersion;
+									mPluginVersion,
+									mPluginRole;
 		CFStringRef					mName;		
 		IconRef						mIconRef;
 		

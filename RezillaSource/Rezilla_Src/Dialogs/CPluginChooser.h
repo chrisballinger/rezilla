@@ -49,6 +49,7 @@ protected:
 	LStaticText *		mCreatorField;
 	LStaticText *		mVersionField;
 	LStaticText *		mLoadedField;
+	LStaticText *		mRoleField;
 	LStaticText *		mHelpField;
 	CIconrefPane*		mIconPane;
 	ResType				mCurrType;	
