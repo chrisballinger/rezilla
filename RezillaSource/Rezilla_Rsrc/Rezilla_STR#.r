@@ -70,7 +70,7 @@ resource 'STR#' (1504, "Project URLs") {
 /* [3] */	"Binary releases",
 /* [4] */	"http://sourceforge.net/project/showfiles.php?group_id=83267",
 /* [5] */	"Browse CVS repository",
-/* [6] */	"http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/rezilla",
+/* [6] */	"http://rezilla.cvs.sourceforge.net/rezilla/",
 /* [7] */	"Bug tracker",
 /* [8] */	"http://sourceforge.net/tracker/?atid=568882&group_id=83267&func=browse",
 /* [9] */	"Subscribe to mailing list",
