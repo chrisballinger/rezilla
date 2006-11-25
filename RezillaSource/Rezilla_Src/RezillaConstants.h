@@ -2,7 +2,7 @@
 // RezillaConstants.h
 // 
 //                       Created : 2003-04-16 22:52:54
-//             Last modification : 2006-11-10 06:12:05
+//             Last modification : 2006-11-25 07:38:23
 // Author : Bernard Desgraupes
 // e-mail : <bdesgraupes@users.sourceforge.net>
 // www : <http://rezilla.sourceforge.net/>
@@ -138,6 +138,15 @@ enum
 	editor_kindTmpl,
 	editor_kindHex,
 	editor_kindPlug
+};
+
+// Kind of editor
+enum
+{	
+	plugin_roleUnknown	= -1,
+	plugin_roleNone		= 0,
+	plugin_roleEditor,
+	plugin_roleViewer
 };
 
 // Bitmap editor
@@ -697,8 +706,9 @@ const PaneIDT	item_PluginInfoTypeText		= 2;
 const PaneIDT	item_PluginInfoCreatorText	= 3;
 const PaneIDT	item_PluginInfoVersionText	= 4;
 const PaneIDT	item_PluginInfoLoadedText	= 5;
-const PaneIDT	item_PluginInfoIconPane		= 6;
+const PaneIDT	item_PluginInfoRoleText		= 6;
 const PaneIDT	item_PluginSupportedTypes	= 7;
+const PaneIDT	item_PluginInfoIconPane		= 8;
 //     Plugin Order Pane
 //     -----------------
 const PaneIDT	item_PluginOrderPgbx		= 1;
@@ -1481,6 +1491,7 @@ enum RezillaErrors
 	err_PluginGetInfoFailed,
 	err_PluginNotFound,
 	err_PluginIndexNotFound,
+	err_PluginRefusedResource,
  	err_RezillaErrorEnd
 };
 
