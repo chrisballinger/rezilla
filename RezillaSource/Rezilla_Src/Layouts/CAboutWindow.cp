@@ -2,7 +2,7 @@
 // CAboutWindow.cp					
 // 
 //                       Created: 2005-03-08 14:22:24
-//             Last modification: 2006-10-03 14:39:46
+//             Last modification: 2006-11-25 19:36:16
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -15,6 +15,7 @@
 #include "RezillaConstants.h"
 #include "CRezillaApp.h"
 #include "CStaticTextURL.h"
+#include "UResources.h"
 
 #include <LStaticText.h>
 
@@ -144,8 +145,9 @@ CAboutWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		break;
 		
 		case msg_AboutLicenceButton:
-		WindowPtr theWinPtr = UWindows::FindNamedWindow("\pRezilla Licence");
+		WindowPtr theWinPtr = UWindows::FindNamedWindow("\pRezilla License");
 		if (!theWinPtr) {
+			StRezRefSaver saver( CRezillaApp::GetSelfRefNum() );
 			LWindow* theWindow = LWindow::CreateWindow( PPob_LicenceWindow, this->GetSuperCommander() );
 			ThrowIfNil_(theWindow);
 			theWinPtr = theWindow->GetMacWindow();
