@@ -13,6 +13,7 @@
 #include "CPluginEditorWindow.h"
 #include "CPluginEditorDoc.h"
 #include "CRezillaPlugin.h"
+#include "CRezillaApp.h"
 #include "CRezObj.h"
 #include "CWindowMenu.h"
 #include "RezillaConstants.h"
@@ -237,9 +238,8 @@ CPluginEditorWindow::CreateControls(SInt32 inPlugAttrs)
 			// Create a Locked/Unlocked icon
 			ControlRef	lockRef;
 			ControlButtonContentInfo  info;
-// 			const ResIDT	ics8_Unlocked	= 1500;
-// 			const ResIDT	ics8_Locked		= 1501;
-	
+			StRezRefSaver saver( CRezillaApp::GetSelfRefNum() );
+			
 			boundsRect.left		= kEditorLockIconLeft;
 			boundsRect.right	= boundsRect.left + kEditorLockIconSize;
 			boundsRect.top		= kEditorLockIconTop;
@@ -274,6 +274,7 @@ CPluginEditorWindow::InstallReadOnlyIcon()
 	HIViewRef	viewRef = NULL;
 	ControlRef	lockRef;
 	SInt16		resID;
+	StRezRefSaver saver( CRezillaApp::GetSelfRefNum() );
 	
 	error = HIViewFindByID(HIViewGetRoot( GetMacWindow() ), ctrlID, &lockRef);
 	
