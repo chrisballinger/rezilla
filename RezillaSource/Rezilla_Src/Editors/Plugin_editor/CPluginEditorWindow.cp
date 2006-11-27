@@ -2,7 +2,7 @@
 // CPluginEditorWindow.cp
 // 
 //                       Created: 2005-10-02 08:41:52
-//             Last modification: 2006-10-03 15:05:45
+//             Last modification: 2006-11-27 17:19:45
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -89,8 +89,7 @@ CPluginEditorWindow::FinalizeEditor(CEditorDoc* inEditorDoc, void * ioParam)
 	char	theStr[256];
 	OSErr	error;
 	
-	// Set mOwnerDoc
-	SetOwnerDoc(inEditorDoc);
+	// Note: mOwnerDoc has already been set in CreatePluginWindow
 	SetSuperModel(inEditorDoc);
 	
 	mInterface = dynamic_cast<CPluginEditorDoc *>(mOwnerDoc)->GetPlugin()->GetInterface();
@@ -101,7 +100,7 @@ CPluginEditorWindow::FinalizeEditor(CEditorDoc* inEditorDoc, void * ioParam)
 		error = ::SetControlData(mNameRef, kControlNoPart, kControlStaticTextTextTag, strlen(theStr), theStr);
 		::HIViewSetNeedsDisplay(mNameRef, true);
 	} 
-	
+
 	// Add the window to the window menu.
 	gWindowMenu->InsertWindow(this);
 }
@@ -236,19 +235,59 @@ CPluginEditorWindow::CreateControls(SInt32 inPlugAttrs)
 		}
 		if ( (inPlugAttrs & kPluginEditorHasLockIcon) != 0) {
 			// Create a Locked/Unlocked icon
-// 			OSStatus 
-// 			CreateIconControl(
-// 			  WindowRef                         inWindow,            /* can be NULL */
-// 			  const Rect *                      inBoundsRect,
-// 			  const ControlButtonContentInfo *  inIconContent,
-// 			  Boolean                           inDontTrack,
-// 			  ControlRef *                      outControl)
-		
-		
+			ControlRef	lockRef;
+			ControlButtonContentInfo  info;
+// 			const ResIDT	ics8_Unlocked	= 1500;
+// 			const ResIDT	ics8_Locked		= 1501;
+	
+			boundsRect.left		= kEditorLockIconLeft;
+			boundsRect.right	= boundsRect.left + kEditorLockIconSize;
+			boundsRect.top		= kEditorLockIconTop;
+			boundsRect.bottom	= boundsRect.top + kEditorLockIconSize ;
+			info.contentType	= kControlContentIconSuiteRes;
+			if (mOwnerDoc->IsReadOnly()) {
+				info.u.resID = ics8_Locked;
+			} else {
+				info.u.resID = ics8_Unlocked;
+			}
+
+			error = CreateIconControl(NULL, &boundsRect, &info, true, &lockRef);
+			ThrowIfOSErr_(error);
+			ctrlID.id = item_ReadOnlyIcon;
+			SetControlID(lockRef, &ctrlID);
+			HIViewAddSubview(mFooterRef, lockRef);
+			HIViewSetVisible(lockRef, true);
 		} 
 	}
 }
 	
+
+// ---------------------------------------------------------------------------
+//   InstallReadOnlyIcon											[public]
+// ---------------------------------------------------------------------------
+
+void
+CPluginEditorWindow::InstallReadOnlyIcon() 
+{
+	ControlID	ctrlID = {kRezillaSig, item_ReadOnlyIcon};
+	OSStatus	error;
+	HIViewRef	viewRef = NULL;
+	ControlRef	lockRef;
+	SInt16		resID;
+	
+	error = HIViewFindByID(HIViewGetRoot( GetMacWindow() ), ctrlID, &lockRef);
+	
+	if (lockRef != NULL) {
+		if (mOwnerDoc->IsReadOnly()) {
+			resID = ics8_Locked;
+		} else {
+			resID = ics8_Unlocked;
+		}
+		error = ::SetControlProperty(lockRef, kRezillaSig, kControlIconResourceIDTag, 
+									sizeof(SInt16), &resID);
+	} 
+}
+
 
 // ---------------------------------------------------------------------------
 //  MoveControls													[public]
@@ -494,6 +533,25 @@ CPluginEditorWindow::PutOnDuty(LCommander *inNewTarget)
 	// after a click in the contents area of the plugin window (but it
 	// works after a click in the title bar). Dunno why.
 	gWindowMenu->ForceMarkWindow( (LWindow*) this );		 
+	LCommander::SetUpdateCommandStatus(true);
+	// Similar issue with the Import/Export menu items. Once in a while
+	// they are not correctly updated so change them manually.
+	{
+		LMenuBar *	theBar = LMenuBar::GetCurrentMenuBar();
+		ResIDT		theMENUid;
+		MenuHandle	theMenu;
+		SInt16		theItem;
+		
+		theBar->FindMenuItem(cmd_Export, theMENUid, theMenu, theItem);
+		if (theMenu) {
+			::SetMenuItemText(theMenu, theItem, "\pExport...");
+			::DisableMenuItem(theMenu, theItem);
+		} 
+		theBar->FindMenuItem(cmd_Import, theMENUid, theMenu, theItem);
+		if (theMenu) {
+			::SetMenuItemText(theMenu, theItem, "\pImport...");
+		} 
+	}	
 }
 
 
@@ -680,8 +738,8 @@ CPluginEditorWindow::WindowEventHandler(
 			break;
 			
 			case kEventWindowActivated:
-			LCommander::SetUpdateCommandStatus(true);
 			plugWin->Activate();
+			LCommander::SetUpdateCommandStatus(true);
 			result = noErr;
 			break;			
 			
@@ -692,14 +750,15 @@ CPluginEditorWindow::WindowEventHandler(
 			break;
 		
 			case kEventWindowGetClickActivation: {
-				// 	kDoNotActivateAndIgnoreClick kDoNotActivateAndHandleClick
-				// 	kActivateAndIgnoreClick kActivateAndHandleClick
-// 				UInt32 activationResult = kActivateAndIgnoreClick;
-// 				result = SetEventParameter(inEvent, kEventParamClickActivation, typeClickActivationResult, 
-// 								  sizeof(ClickActivationResult), &activationResult);
+				// 	kDoNotActivateAndIgnoreClick, kDoNotActivateAndHandleClick,
+				// 	kActivateAndIgnoreClick, kActivateAndHandleClick
+				UInt32 activationResult = kActivateAndIgnoreClick;
+				result = SetEventParameter(inEvent, kEventParamClickActivation, typeClickActivationResult, 
+								  sizeof(ClickActivationResult), &activationResult);
 				result = noErr;
 				plugWin->Select();
 				LCommander::SetUpdateCommandStatus(true);
+				result = eventNotHandledErr;
 				break;
 			}
 			
@@ -709,29 +768,34 @@ CPluginEditorWindow::WindowEventHandler(
 			switch (command.commandID) {
 				case kHICommandOK:
 				plugWin->ListenToMessage(msg_EditorSave, NULL);
+				result = noErr;
 				break;
 			
 				case kHICommandCancel:
 				plugWin->ListenToMessage(msg_EditorCancel, NULL);
+				result = noErr;
 				break;
 				
 				case kHICommandRevert:
 				plugWin->ListenToMessage(msg_EditorRevert, NULL);
+				result = noErr;
 				break;
 				
 				case kHICommandPreferences:
 				plugWin->ObeyCommand(cmd_Preferences, NULL);
+				result = noErr;
 				break;
 				
 				case kHICommandQuit:
 				plugWin->ObeyCommand(cmd_Quit, NULL);
+				result = noErr;
 				break;
 				
 				default:
 				plugWin->HandleMenuItem(command.menu.menuRef, command.menu.menuItemIndex);
+				result = noErr;
 				break;
 			}
-			result = noErr;
 			break;
 		}
 	} 

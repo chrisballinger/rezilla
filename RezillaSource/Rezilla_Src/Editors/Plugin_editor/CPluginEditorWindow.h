@@ -2,7 +2,7 @@
 // CPluginEditorWindow.h				
 // 
 //                       Created: 2005-10-02 08:41:52
-//             Last modification: 2006-10-26 14:06:58
+//             Last modification: 2006-11-27 19:18:34
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -56,6 +56,8 @@ public:
 	virtual void	RevertContents();
 	
 	virtual	void	SpendTime( const EventRecord& inMacEvent );
+
+	void			InstallReadOnlyIcon();
 
 	void			GetContentsRect(Rect &outRect) const;
 	
