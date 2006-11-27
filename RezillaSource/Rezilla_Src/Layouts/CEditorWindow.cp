@@ -2,7 +2,7 @@
 // CEditorWindow.cp
 // 
 //                       Created: 2004-06-10 14:50:31
-//             Last modification: 2006-02-21 15:31:46
+//             Last modification: 2006-11-27 20:09:59
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
