@@ -285,8 +285,10 @@ CTEXT_EditorView::ObeyCommand(
 				::GetFNum(fontName, &theFontNum);
 				SetFont(theFontNum);
 			}
+		} else {
+			cmdHandled = mOwnerWindow->ObeyCommand(inCommand, ioParam);
 		}
-		return true;
+		return cmdHandled;
 	}
 	
 	// Now check for size menu
