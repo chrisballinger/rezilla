@@ -410,6 +410,7 @@ CPluginEditorDoc::CreatePluginWindow(SInt32 inPlugAttrs, Rect inWinbounds)
 									  GetEventTypeCount(winSpec), winSpec, 
 									  (void *) thePluginWindow, NULL);
 	
+	thePluginWindow->SetOwnerDoc(this);
 	thePluginWindow->CreateControls(inPlugAttrs);
 		
 	return thePluginWindow;
